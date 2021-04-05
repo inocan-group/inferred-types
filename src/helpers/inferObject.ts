@@ -1,4 +1,4 @@
-import { AppendToObject } from "../types";
+import { AppendToObject } from '../types';
 
 export type InferredObject<T extends {}> = T extends infer R ? R & {} : {};
 

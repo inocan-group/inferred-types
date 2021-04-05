@@ -1,6 +1,6 @@
 // import { AppendToObject } from "/~/types/append-types";
 
-export const appendTo = "not-implemented";
+export const appendTo = 'not-implemented';
 
 // /**
 //  * Appends a new key/value pair to an existing one while preserving the type

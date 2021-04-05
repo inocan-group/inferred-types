@@ -7,9 +7,9 @@
 // files: appendTo, arrayToDictionaryKeys, inferObject.
 
 // local file exports
-export * from "./appendTo";
-export * from "./arrayToDictionaryKeys";
-export * from "./inferObject";
+export * from './appendTo';
+export * from './arrayToDictionaryKeys';
+export * from './inferObject';
 
 // Note:
 // -----

@@ -7,18 +7,18 @@
 // files: CamelCase, DashToSnake, Includes, Intrinsic, KebabCase, KeyedRecord, PascalCase, Pluralize, SnakeCase, SnakeToDash, append-types, narrow.
 
 // local file exports
-export * from "./CamelCase";
-export * from "./DashToSnake";
-export * from "./Includes";
-export * from "./Intrinsic";
-export * from "./KebabCase";
-export * from "./KeyedRecord";
-export * from "./PascalCase";
-export * from "./Pluralize";
-export * from "./SnakeCase";
-export * from "./SnakeToDash";
-export * from "./append-types";
-export * from "./narrow";
+export * from './CamelCase';
+export * from './DashToSnake';
+export * from './Includes';
+export * from './Intrinsic';
+export * from './KebabCase';
+export * from './KeyedRecord';
+export * from './PascalCase';
+export * from './Pluralize';
+export * from './SnakeCase';
+export * from './SnakeToDash';
+export * from './append-types';
+export * from './narrow';
 
 // Note:
 // -----

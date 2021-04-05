@@ -2,13 +2,7 @@
   "env": {
     "es2021": true
   },
-  "extends": [
-    "@antfu/eslint-config-ts",
-    "prettier/@typescript-eslint",
-    "prettier",
-    "plugin:import/warnings",
-    "plugin:import/typescript"
-  ],
+  "extends": ["@antfu/eslint-config-ts", "plugin:import/warnings", "plugin:import/typescript"],
   "plugins": ["@typescript-eslint", "import", "promise"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {

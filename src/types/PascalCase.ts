@@ -1,8 +1,8 @@
 /* eslint @typescript-eslint/no-unused-vars: "off" */
-import { CamelCase } from "./CamelCase";
-import { Capitalize } from "./Intrinsic";
+import { CamelCase } from './CamelCase';
+import { Capitalize } from './Intrinsic';
 
-type Delimiter = "_" | "-";
+type Delimiter = '_' | '-';
 
 /** Converts a string literal type to a **PascalCase** representation */
 // @ts-ignore

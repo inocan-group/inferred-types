@@ -1,6 +1,6 @@
 import * as t from "io-ts";
-import { PascalCase } from "./types";
 import { pascalize } from "native-dash";
+import { PascalCase } from "./types";
 
 /**
  * Defines an `io-ts` based **model**.
