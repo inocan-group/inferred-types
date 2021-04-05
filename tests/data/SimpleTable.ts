@@ -8,7 +8,7 @@ export interface ISimpleTable<T extends {}, S extends Readonly<string>> {
   select: (...cols: Array<keyof T> | ["*"]) => string;
 }
 
-export const SimpleTable = <T extends { name: S }, S extends Readonly<string>>(
+export const SimpleTable = <T extends {}, S extends Readonly<string>>(
   model: IModel<T, S>
 ): ISimpleTable<T, S> => {
   return {

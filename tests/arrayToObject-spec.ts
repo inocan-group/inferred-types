@@ -1,8 +1,8 @@
-import { arrayToObjectName } from "~/arrayToObject";
 import * as t from "io-ts";
+import { Equal, Expect, ExpectExtends, NotEqual } from "@type-challenges/utils";
 import { SimpleTable } from "./data";
 import { IModel, Model } from "~/Model";
-import { Equal, Expect, ExpectExtends, NotEqual } from "@type-challenges/utils";
+import { arrayToObjectName } from "~/arrayToObject";
 
 const SongMeta = t.partial({ year: t.number, genre: t.string });
 const Song = Model(
@@ -13,7 +13,7 @@ const Song = Model(
 type SongType = t.TypeOf<typeof Song>;
 const goodSong: SongType = { name: "Highway to Hell", artist: "AC/DC" };
 const Playlist = Model("Playlist", { name: t.string, owner: t.string });
-type PlaylistType = t.TypeOf<typeof Playlist>;
+// type PlaylistType = t.TypeOf<typeof Playlist>;
 
 describe("arrayToObject => ", () => {
   it("array of relatively simple name/value objects with different types for 'value'", () => {
@@ -75,8 +75,6 @@ describe("arrayToObject => ", () => {
     // at run-time
     expect(dict.Song.is(goodSong)).toBe(true);
     expect(dict.Song.is({ id: "not-a-song" })).toBe(false);
-
-    type SimpleTableReturn = ReturnType<typeof SimpleTable>;
 
     // @ts-ignore
     type cases = [

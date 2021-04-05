@@ -2,6 +2,17 @@ import * as t from "io-ts";
 import { PascalCase } from "./types";
 import { pascalize } from "native-dash";
 
+/**
+ * Defines an `io-ts` based **model**.
+ *
+ * - `<T>` represents type of the model
+ * - `<S>` is the model's literal type
+ *
+ * Note: unlink the default `io-ts` model/codec, the
+ * `name` variable is an explicit type alias and not a string
+ * type. This helps to preserve it's type inference even though
+ * the model itself does have a runtime definition of it's type.
+ */
 export type IModel<M, N extends string> = Omit<t.Type<M>, "name"> & { name: N };
 
 /**
