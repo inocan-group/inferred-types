@@ -1,4 +1,5 @@
 import * as t from "io-ts";
+import * as D from "io-ts/Decoder";
 import { Model } from "~/Model";
 
 export const PlaylistRequired = {
@@ -12,4 +13,13 @@ export const PlaylistOptional = {
   artists: t.array(t.string),
 };
 
+export const PlaylistIoTs = t.intersection([t.type(PlaylistRequired), t.partial(PlaylistOptional)]);
+export type IPlaylistIoTs = t.TypeOf<typeof PlaylistIoTs>;
+
 export const Playlist = Model("Playlist", PlaylistRequired, PlaylistOptional);
+
+export const Person = D.struct({
+  /** a person's name */
+  name: D.string,
+  age: D.number,
+});

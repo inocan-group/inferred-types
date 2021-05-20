@@ -2,18 +2,17 @@
 
 // #region autoindexed files
 
-// index last changed at: 2nd Feb, 2021, 11:45 AM ( GMT-8 )
+// index last changed at: 5th May, 2021, 05:45 PM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: appendTo, arrayToDictionaryKeys, inferObject.
+// files: MutationFunction, MutationIdentity.
 
 // local file exports
-export * from './appendTo';
-export * from './arrayToDictionaryKeys';
-export * from './inferObject';
+export * from "./MutationFunction";
+export * from "./MutationIdentity";
 
 // Note:
 // -----
-// This file was created by running: "do devops autoindex"; it assumes you have
+// This file was created by running: "dd devops autoindex"; it assumes you have
 // the 'do-devops' pkg installed as a dev dep.
 //
 // By default it assumes that exports are named exports but this can be changed by

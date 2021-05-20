@@ -1,4 +1,4 @@
-import { AppendToObject } from '../types';
+import { AppendToObject } from "../types";
 
 export type InferredObject<T extends {}> = T extends infer R ? R & {} : {};
 
@@ -6,10 +6,10 @@ export type InferredObject<T extends {}> = T extends infer R ? R & {} : {};
 export const inferObject = <T extends object>(v: T) => {
   let obj = v;
 
-  Object.keys(v).forEach((key) => {
+  for (const key of Object.keys(v)) {
     const value = (v as any)[key];
     obj = fixup(v, key, value);
-  });
+  }
 
   return obj;
 };

@@ -2,28 +2,17 @@
 
 // #region autoindexed files
 
-// index last changed at: 5th May, 2021, 11:54 AM ( GMT-7 )
+// index last changed at: 5th May, 2021, 11:39 AM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: Configurator, FluentConfigurator, KV, M2, Model, UnwrapHof, arrayToObject, literal.
-// directories: Builder, Mutation, types, utility.
+// files: Builder, BuilderApi, BuilderProxyApi, IdentityToMutationApi, ValidateAndEnrich, builder-types.
 
 // local file exports
-export * from "./Configurator";
-export * from "./FluentConfigurator";
-export * from "./KV";
-export * from "./M2";
-export * from "./Model";
-export * from "./UnwrapHof";
-export * from "./arrayToObject";
-export * from "./literal";
-
-// directory exports
-export * from "./Builder/index";
-export * from "./Mutation/index";
-export * from "./types/index";
-export * from "./utility/index";
-
-// there were directories orphaned: shared
+export * from "./Builder";
+export * from "./BuilderApi";
+export * from "./BuilderProxyApi";
+export * from "./IdentityToMutationApi";
+export * from "./ValidateAndEnrich";
+export * from "./builder-types";
 
 // Note:
 // -----

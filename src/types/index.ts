@@ -2,27 +2,29 @@
 
 // #region autoindexed files
 
-// index last changed at: 2nd Feb, 2021, 12:33 PM ( GMT-8 )
+// index last changed at: 5th May, 2021, 12:08 PM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: CamelCase, DashToSnake, Includes, Intrinsic, KebabCase, KeyedRecord, PascalCase, Pluralize, SnakeCase, SnakeToDash, append-types, narrow.
+// files: CamelCase, DashToSnake, FluentApi, Includes, Intrinsic, KebabCase, KeyedRecord, Keys, PascalCase, Pluralize, SnakeCase, SnakeToDash, append-types, narrow.
 
 // local file exports
-export * from './CamelCase';
-export * from './DashToSnake';
-export * from './Includes';
-export * from './Intrinsic';
-export * from './KebabCase';
-export * from './KeyedRecord';
-export * from './PascalCase';
-export * from './Pluralize';
-export * from './SnakeCase';
-export * from './SnakeToDash';
-export * from './append-types';
-export * from './narrow';
+export * from "./CamelCase";
+export * from "./DashToSnake";
+export * from "./FluentApi";
+export * from "./Includes";
+export * from "./Intrinsic";
+export * from "./KebabCase";
+export * from "./KeyedRecord";
+export * from "./Keys";
+export * from "./PascalCase";
+export * from "./Pluralize";
+export * from "./SnakeCase";
+export * from "./SnakeToDash";
+export * from "./append-types";
+export * from "./narrow";
 
 // Note:
 // -----
-// This file was created by running: "do devops autoindex"; it assumes you have
+// This file was created by running: "dd devops autoindex"; it assumes you have
 // the 'do-devops' pkg installed as a dev dep.
 //
 // By default it assumes that exports are named exports but this can be changed by

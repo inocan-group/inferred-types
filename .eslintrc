@@ -1,9 +1,6 @@
 {
-  "env": {
-    "es2021": true
-  },
-  "extends": ["@antfu/eslint-config-ts", "plugin:import/warnings", "plugin:import/typescript"],
-  "plugins": ["@typescript-eslint", "import", "promise"],
+  "extends": ["plugin:import/warnings", "plugin:import/typescript", "plugin:unicorn/recommended"],
+  "plugins": ["@typescript-eslint", "import", "promise", "unicorn"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "parser": "@typescript-eslint/parser",
@@ -13,7 +10,23 @@
   "rules": {
     "prefer-const": "error",
     "semi": ["error", "always"],
+    "quotes": ["warn", "double", { "avoidEscape": true, "allowTemplateLiterals": true }],
     "no-unused-vars": "off",
+    "curly": "error",
+    "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+    // our use of `-spec` files for testing prevents us using this
+    "unicorn/filename-case": "off",
+    // reduce has been getting a bad rap lately; its true that often
+    // a filter or map would be clearer and equally as effective but
+    // there are still some legit cases to use reduce
+    "unicorn/no-array-reduce": "off",
+    "unicorn/prevent-abbreviations": "off",
+    "unicorn/no-null": "off",
+    "no-nested-ternary": "off",
+    // doesn't play well with prettier
+    "unicorn/no-nested-ternary": "off",
+    "unicorn/no-process-exit": "off",
+
     // we need exceptions to be only "warn" because
     // there are valid use cases for generic variables being
     // used before being defined
@@ -22,6 +35,19 @@
     "@typescript-eslint/no-unsafe-member-access": "off",
     "@typescript-eslint/no-unsafe-call": "off",
     "@typescript-eslint/no-unsafe-assignment": "off",
+    "@typescript-eslint/member-delimiter-style": [
+      "error",
+      {
+        "multiline": {
+          "delimiter": "semi",
+          "requireLast": true
+        },
+        "singleline": {
+          "delimiter": "semi",
+          "requireLast": false
+        }
+      }
+    ],
     // "cases" allows for graceful use of that variable
     // name in Typescript test cases
     "@typescript-eslint/no-unused-vars": [

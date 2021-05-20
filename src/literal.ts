@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /**
  * Takes an object as input --which has an `id` property and returns it as the same
  * run-time content but with the _type_ of the `id` property being forced to a literal type

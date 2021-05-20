@@ -1,41 +1,41 @@
 /* eslint @typescript-eslint/no-unused-vars: "off" */
 
 type Consonant =
-  | 'b'
-  | 'c'
-  | 'd'
-  | 'f'
-  | 'g'
-  | 'h'
-  | 'j'
-  | 'k'
-  | 'l'
-  | 'm'
-  | 'n'
-  | 'p'
-  | 'q'
-  | 'r'
-  | 's'
-  | 't'
-  | 'v'
-  | 'w'
-  | 'x'
-  | 'z'
-  | 'y';
+  | "b"
+  | "c"
+  | "d"
+  | "f"
+  | "g"
+  | "h"
+  | "j"
+  | "k"
+  | "l"
+  | "m"
+  | "n"
+  | "p"
+  | "q"
+  | "r"
+  | "s"
+  | "t"
+  | "v"
+  | "w"
+  | "x"
+  | "z"
+  | "y";
 
 type Exceptions =
-  | 'photo => photos'
-  | 'piano => pianos'
-  | 'halo => halos'
-  | 'foot => feet'
-  | 'man => men'
-  | 'woman => women'
-  | 'person => people'
-  | 'mouse => mice'
-  | 'series => series'
-  | 'sheep => sheep'
-  | 'money => monies'
-  | 'deer => deer';
+  | "photo => photos"
+  | "piano => pianos"
+  | "halo => halos"
+  | "foot => feet"
+  | "man => men"
+  | "woman => women"
+  | "person => people"
+  | "mouse => mice"
+  | "series => series"
+  | "sheep => sheep"
+  | "money => monies"
+  | "deer => deer";
 
 // @ts-ignore
 type SingularException<T = Exceptions> = T extends `${infer SINGULAR} => ${infer PLURAL}`
@@ -48,8 +48,8 @@ type PluralException<
   E extends Exceptions = Exceptions
 > = E extends `${T} => ${infer PLURAL}` ? PLURAL : never;
 
-type SingularNoun = 's' | 'sh' | 'ch' | 'x' | 'z' | 'o';
-type F = 'f' | 'fe';
+type SingularNoun = "s" | "sh" | "ch" | "x" | "z" | "o";
+type F = "f" | "fe";
 type Y = `${Consonant}y`;
 
 type RemoveTrailingY<T> = T extends `${infer HEAD}y` ? HEAD : T;

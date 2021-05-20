@@ -7,8 +7,8 @@
 // files: randomString, uuid.
 
 // local file exports
-export * from './randomString';
-export * from './uuid';
+export * from "./randomString";
+export * from "./uuid";
 
 // Note:
 // -----
