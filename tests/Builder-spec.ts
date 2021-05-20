@@ -1,7 +1,7 @@
 /* eslint-disable unicorn/consistent-function-scoping */
 import { Builder, BuilderApi, TypeGuard } from "../src/Builder";
 import { isNonNullObject } from "common-types";
-import type { Expect, ExpectExtends } from "@type-challenges/utils";
+import type { Expect, ExpectExtends, ExpectFalse } from "@type-challenges/utils";
 
 describe("Builder", () => {
   it("Api endpoints can be defined independently but work off same state object", () => {
@@ -35,23 +35,12 @@ describe("Builder", () => {
       foo: s.foo ? s.foo++ : 1,
     }));
     const f2 = endpoint("decFoo", (s) => () => ({ ...s, foo: s.foo ? s.foo-- : 0 }));
-    const tg: TypeGuard<State> = (input: unknown): input is State => {
-      return (
-        isNonNullObject(input) &&
-        typeof (input as State).foo === "number" &&
-        typeof (input as State).bar === "number"
-      );
-    };
 
     /**
      * composed dictionary of `MutationIdentity` functions representing an
      *an API _capability_ for the builder
      */
     const composed = { ...f1, ...f2 };
-    // runtime validate that "composed" can be passed into builder
-    const b = Builder(tg, composed, { foo: 1, bar: 2 });
-    const c = b.incFoo().decFoo();
-    console.log("builder", b.decFoo(), (c as any).unwrap());
 
     type BuilderApi = Parameters<typeof Builder>[1];
     type ComposedApi = typeof composed;
@@ -62,20 +51,56 @@ describe("Builder", () => {
     expect(cases).toBe(cases);
   });
 
-  it("proxy text", () => {
-    const api = {
-      sayHi() {
-        return "hi";
-      },
+  it("when state is completed, the unwrap() is exposed on API surface", () => {
+    type State = { foo: number; bar: number; baz?: string };
+    const endpoint = BuilderApi<State>();
+    /** increment the value of Foo */
+    const f1 = endpoint("incFoo", (s) => () => ({
+      ...s,
+      foo: s.foo ? s.foo++ : 1,
+    }));
+    const f2 = endpoint("decFoo", (s) => () => ({ ...s, foo: s.foo ? s.foo-- : 0 }));
+    const f3 = endpoint("incBar", (s) => () => ({
+      ...s,
+      bar: s.bar ? s.bar++ : 1,
+    }));
+    const composed = { ...f1, ...f2, ...f3 };
+    const tg: TypeGuard<State> = (input: unknown): input is State => {
+      return (
+        isNonNullObject(input) &&
+        typeof (input as State).foo === "number" &&
+        typeof (input as State).bar === "number"
+      );
     };
+    const builder = Builder(tg, composed)({ foo: 1 });
 
-    const proxy = new Proxy(api.sayHi, {
-      apply: (t, _thisArgs, _args) => {
-        return t().toUpperCase() + " there";
-      },
-    });
+    const t1 = builder.decFoo().decFoo();
+    const t2 = builder.incBar().incBar().incFoo();
+    console.log({ t1, t2 });
+  });
 
-    console.log(api.sayHi(), proxy());
+  it("Type extends Partial of itself", () => {
+    type State = { foo: number; bar: number };
+    type PState = Partial<State>;
+
+    const ident = <T extends PState>(s: T): T => s;
+
+    const ex1 = ident({ foo: 1 });
+    const ex2 = ident({ foo: 1, bar: 1 });
+
+    type cases = [
+      // value extends partial but no full state
+      Expect<ExpectExtends<PState, typeof ex1>>,
+      ExpectFalse<ExpectExtends<State, typeof ex1>>,
+      // value extends both partial and full state
+      Expect<ExpectExtends<PState, typeof ex2>>,
+      Expect<ExpectExtends<State, typeof ex2>>,
+      Expect<ExpectExtends<State, typeof ex2>>,
+      // State extends PState
+      Expect<ExpectExtends<PState, State>>
+    ];
+
+    const cases: cases = [true, false, true, true, true];
   });
   it.todo("");
   it.todo("");

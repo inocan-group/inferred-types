@@ -1,13 +1,14 @@
+import { FluentApi } from "~/types";
 import { MutationIdentity } from "../Mutation";
-import { IdentityToMutationApi } from "./IdentityToMutationApi";
-import { ProxyValidateAndEnrich } from "./ValidateAndEnrich";
+import { IdentityToMutationApi, MutationApi } from "./IdentityToMutationApi";
+import { MakeFluentApi } from "./MakeFluentApi";
 
 /* eslint-disable no-use-before-define */
 /**
- * A modifier type which indicates that some internal state has
- * achieved a _completed_ state and is ready to be _unwrapped_.
+ * Adds an _unwrap_ function -- to an existing API `A` -- which returns
+ * state of type `S`.
  */
-export type Completed<T> = T & { unwrap: () => T };
+export type Completed<A, S> = A & { unwrap: () => S };
 
 /**
  * HOF which takes _state_ -- once it has been validated with a type guard -- and passes it
@@ -33,10 +34,28 @@ export type TypeGuard<T> = (thing: unknown) => thing is T;
 export function Builder<
   TState extends object,
   TApi extends { [key: string]: MutationIdentity<Partial<TState>, any> }
->(validate: TypeGuard<TState>, apiDefinition: TApi, state: Partial<TState> = {}) {
-  // return Builder API to user
-  return ProxyValidateAndEnrich<TState>(
-    state,
-    validate
-  )(IdentityToMutationApi(state)(apiDefinition))();
+>(validate: TypeGuard<TState>, apiDefinition: TApi) {
+  // type guard and API established
+  // return function to get current state and return builder API
+  return <TCurrent extends Partial<TState>, TExclude extends string = "">(
+    state: TCurrent
+  ): TCurrent extends TState
+    ? Completed<FluentApi<MutationApi<TApi>>, TState>
+    : FluentApi<MutationApi<TApi>> => {
+    // provide state to higher order API to return mutation-based API
+    const mutationApi = IdentityToMutationApi<Partial<TState>>(state)(apiDefinition);
+    // convert to fluent API style where mutations return the API
+    const fluentApi = MakeFluentApi<TState, TApi, TExclude>(
+      state,
+      validate,
+      apiDefinition
+    )(mutationApi);
+
+    return validate(state)
+      ? ({ ...fluentApi, unwrap: () => state as TState } as Completed<
+          TState,
+          FluentApi<MutationApi<TApi>>
+        >)
+      : (fluentApi as FluentApi<MutationApi<TApi>>);
+  };
 }

@@ -28,18 +28,24 @@ export function ProxyValidateAndEnrich<TState extends object>(
   ) => {
     const proxyApi: any = {};
 
-    for (const [k, v] of entries(api)) {
-      proxyApi[k] = new Proxy(v, {
-        apply: (mutationFn, _thisArg, args) => {
-          // mutate the state
-          state = mutationFn(args);
-          // based on whether type guard validates state,
-          // reflect back the API or the API plus unwrap function
-          return validate(state)
-            ? ({ ...proxyApi, unwrap: () => state } as FluentApi<TApi>)
-            : (proxyApi as FluentApi<TApi>);
-        },
-      });
+    for (const [k, target] of entries(api)) {
+      proxyApi[k] = (...args: any[]) => {
+        state = target(args);
+        return validate(state)
+          ? ({ ...proxyApi, unwrap: () => state } as FluentApi<TApi>)
+          : (proxyApi as FluentApi<TApi>);
+      };
+      // new Proxy(target, {
+      //   apply: (mutationFn, _thisArg, args) => {
+      //     // mutate the state
+      //     state = mutationFn(args);
+      //     // based on whether type guard validates state,
+      //     // reflect back the API or the API plus unwrap function
+      //     return validate(state)
+      //       ? ({ ...proxyApi, unwrap: () => state } as FluentApi<TApi>)
+      //       : (proxyApi as FluentApi<TApi>);
+      //   },
+      // };
     }
 
     return validate(state)
