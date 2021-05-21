@@ -13,22 +13,44 @@ import { Builder, TypeGuard } from "./Builder";
 export function MakeFluentApi<
   TState extends object,
   TApiDefn extends { [key: string]: MutationIdentity<Partial<TState>, any> },
-  TExclude extends string
+  TExclude extends string,
+  TComplete extends boolean = false
 >(state: Partial<TState>, validate: TypeGuard<TState>, apiDefinition: TApiDefn) {
+  const valid = validate(state);
+
+  // return function for mutation API
   return <TMutApi extends MutationApi<{ [key: string]: MutationIdentity<Partial<TState>, any> }>>(
     // mutation api
     api: TMutApi
-  ) => {
+  ): FluentApi<TMutApi, TComplete, TExclude> => {
     const proxyApi: any = {};
 
     for (const [k, target] of entries(api)) {
       proxyApi[k] = (...args: any[]) => {
+        // mutate state
         state = target(args);
 
-        return Builder<TState, TApiDefn>(validate, apiDefinition)<typeof state, TExclude>(state);
+        return validate(state)
+          ? // completed state
+            Builder<TState, TApiDefn>(validate, apiDefinition)(state)
+          : // incomplete/partial state
+            Builder<TState, TApiDefn>(validate, apiDefinition)(state);
       };
     }
 
-    return proxyApi as FluentApi<TMutApi>;
+    return valid
+      ? { ...proxyApi, unwrap: () => state as TState }
+      : {
+          ...proxyApi,
+          unwrap: () => {
+            throw new Error(
+              `Called unwrap() before state reached a valid completion state. Current value of state is:\n${JSON.stringify(
+                state,
+                null,
+                2
+              )}`
+            );
+          },
+        };
   };
 }

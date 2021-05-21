@@ -1,6 +1,5 @@
-import { FluentApi } from "~/types";
 import { MutationIdentity } from "../Mutation";
-import { IdentityToMutationApi, MutationApi } from "./IdentityToMutationApi";
+import { IdentityToMutationApi } from "./IdentityToMutationApi";
 import { MakeFluentApi } from "./MakeFluentApi";
 
 /* eslint-disable no-use-before-define */
@@ -37,25 +36,20 @@ export function Builder<
 >(validate: TypeGuard<TState>, apiDefinition: TApi) {
   // type guard and API established
   // return function to get current state and return builder API
-  return <TCurrent extends Partial<TState>, TExclude extends string = "">(
+  return <
+    TCurrent extends Partial<TState>,
+    TExclude extends string = "",
+    TCompleted extends boolean = TCurrent extends TState ? true : false
+  >(
     state: TCurrent
-  ): TCurrent extends TState
-    ? Completed<FluentApi<MutationApi<TApi>>, TState>
-    : FluentApi<MutationApi<TApi>> => {
+  ) => {
     // provide state to higher order API to return mutation-based API
     const mutationApi = IdentityToMutationApi<Partial<TState>>(state)(apiDefinition);
     // convert to fluent API style where mutations return the API
-    const fluentApi = MakeFluentApi<TState, TApi, TExclude>(
+    return MakeFluentApi<TState, TApi, TExclude, TCompleted>(
       state,
       validate,
       apiDefinition
     )(mutationApi);
-
-    return validate(state)
-      ? ({ ...fluentApi, unwrap: () => state as TState } as Completed<
-          TState,
-          FluentApi<MutationApi<TApi>>
-        >)
-      : (fluentApi as FluentApi<MutationApi<TApi>>);
   };
 }

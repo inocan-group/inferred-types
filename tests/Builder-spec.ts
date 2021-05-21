@@ -72,15 +72,16 @@ describe("Builder", () => {
         typeof (input as State).bar === "number"
       );
     };
-    const builder = Builder(tg, composed)({ foo: 1 });
+    const builder = Builder(tg, composed)({ foo: 1, bar: 2 });
 
-    const t1 = builder.decFoo().decFoo();
+    const t1 = builder.decFoo().decFoo().decFoo().decFoo();
     const t2 = builder.incBar().incBar().incFoo();
     console.log({ t1, t2 });
   });
 
   it("Type extends Partial of itself", () => {
     type State = { foo: number; bar: number };
+    type State2 = { foo: number; bar: number };
     type PState = Partial<State>;
 
     const ident = <T extends PState>(s: T): T => s;
@@ -95,12 +96,16 @@ describe("Builder", () => {
       // value extends both partial and full state
       Expect<ExpectExtends<PState, typeof ex2>>,
       Expect<ExpectExtends<State, typeof ex2>>,
-      Expect<ExpectExtends<State, typeof ex2>>,
       // State extends PState
-      Expect<ExpectExtends<PState, State>>
+      Expect<ExpectExtends<PState, State>>,
+      ExpectFalse<ExpectExtends<State, PState>>,
+
+      // Two identical states extend one another
+      Expect<ExpectExtends<State, State2>>,
+      Expect<ExpectExtends<State2, State>>
     ];
 
-    const cases: cases = [true, false, true, true, true];
+    const cases: cases = [true, false, true, true, true, false, true, true];
   });
   it.todo("");
   it.todo("");
