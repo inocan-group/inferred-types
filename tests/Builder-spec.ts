@@ -72,9 +72,9 @@ describe("Builder", () => {
         typeof (input as State).bar === "number"
       );
     };
-    const builder = Builder(tg, composed)({ foo: 1, bar: 2 });
+    const builder = Builder(tg, composed)({ foo: 1 });
 
-    const t1 = builder.decFoo().decFoo().decFoo().decFoo();
+    const t1 = builder.decFoo().decFoo().decFoo().decFoo().decFoo().incFoo();
     const t2 = builder.incBar().incBar().incFoo();
     console.log({ t1, t2 });
   });

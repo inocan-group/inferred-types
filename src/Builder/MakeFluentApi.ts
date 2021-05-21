@@ -13,7 +13,7 @@ import { Builder, TypeGuard } from "./Builder";
 export function MakeFluentApi<
   TState extends object,
   TApiDefn extends { [key: string]: MutationIdentity<Partial<TState>, any> },
-  TExclude extends string,
+  TExclude extends string = "",
   TComplete extends boolean = false
 >(state: Partial<TState>, validate: TypeGuard<TState>, apiDefinition: TApiDefn) {
   const valid = validate(state);
@@ -22,7 +22,7 @@ export function MakeFluentApi<
   return <TMutApi extends MutationApi<{ [key: string]: MutationIdentity<Partial<TState>, any> }>>(
     // mutation api
     api: TMutApi
-  ): FluentApi<TMutApi, TComplete, TExclude> => {
+  ): FluentApi<TMutApi, TExclude, TComplete> => {
     const proxyApi: any = {};
 
     for (const [k, target] of entries(api)) {

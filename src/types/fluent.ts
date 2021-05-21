@@ -1,18 +1,18 @@
 import { Completed } from "~/Builder";
 
 /**
- * Represents a _fluent_ API structure for an API
+ * Represents a _fluent_ API structure for an API where `E` will exclude parts of
+ * API which should masked and `D` indicates whether the configuration is "done"
+ * (meaning that the current state meets the requirements for the target state)
  */
 export type FluentApi<
   T extends Record<string, (...args: any[]) => any>,
-  R extends boolean = false,
-  E extends string = ""
+  E extends string = "",
+  D extends boolean = false
 > = {
   [P in keyof T]: (
     ...args: Parameters<T[P]>
-  ) => R extends true
-    ? Completed<Omit<FluentApi<T, R>, E>, ReturnType<T[P]>>
-    : Omit<FluentApi<T, R>, E>;
+  ) => D extends true ? Completed<FluentApi<T, E, true>, ReturnType<T[P]>> : FluentApi<T, E, false>;
 };
 
 /**

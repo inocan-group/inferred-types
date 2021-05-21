@@ -2,16 +2,15 @@
 
 // #region autoindexed files
 
-// index last changed at: 5th May, 2021, 02:11 PM ( GMT-7 )
+// index last changed at: 5th May, 2021, 05:59 PM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: Builder, BuilderApi, IdentityToMutationApi, MakeFluentApi, ValidateAndEnrich.
+// files: Builder, BuilderApi, IdentityToMutationApi, MakeFluentApi.
 
 // local file exports
 export * from "./Builder";
 export * from "./BuilderApi";
 export * from "./IdentityToMutationApi";
 export * from "./MakeFluentApi";
-export * from "./ValidateAndEnrich";
 
 // Note:
 // -----

@@ -1,3 +1,4 @@
+import { FluentApi } from "~/types";
 import { MutationIdentity } from "../Mutation";
 import { IdentityToMutationApi } from "./IdentityToMutationApi";
 import { MakeFluentApi } from "./MakeFluentApi";
@@ -39,14 +40,14 @@ export function Builder<
   return <
     TCurrent extends Partial<TState>,
     TExclude extends string = "",
-    TCompleted extends boolean = TCurrent extends TState ? true : false
+    TComplete extends boolean = TCurrent extends TState ? true : false
   >(
     state: TCurrent
   ) => {
     // provide state to higher order API to return mutation-based API
     const mutationApi = IdentityToMutationApi<Partial<TState>>(state)(apiDefinition);
     // convert to fluent API style where mutations return the API
-    return MakeFluentApi<TState, TApi, TExclude, TCompleted>(
+    return MakeFluentApi<TState, TApi, TExclude, TComplete>(
       state,
       validate,
       apiDefinition
