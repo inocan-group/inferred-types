@@ -8,17 +8,33 @@ export type MutationApi<T extends Record<string, (s: any) => (...args: any[]) =>
   [P in keyof T]: ReturnType<T[P]>;
 };
 
-// { abc: s => (args1) => s,  }
-// { abc: (args1) => s, }
-
 /**
- * Converts a MutationIdentity dictionary API into a MutionApi once the
- * "state" is known.
+ * Converts an API surface of `MutationIdentity` functions into the same API surface
+ * but the functions now are just mutation functions which have an enclosed reference
+ * to the _state_ which is being managed.
+ *
+ * ```ts
+ * {
+ *    foo: s => (a, b, c) => s
+ *    bar: s => () => s
+ * }
+ * ```
+ *
+ * is converted to
+ *
+ * ```ts
+ * {
+ *    foo: (a, b, c) => s
+ *    bar: () => s
+ * }
+ * ```
  */
-export function IdentityToMutationApi<TState extends object>(state: TState) {
-  return function IdentityApi<TApi extends { [key: string]: MutationIdentity<TState, any> }>(
-    identity: TApi
-  ) {
+export function IdentityToMutationApi<TState extends object, TCurrent extends Partial<TState>>(
+  state: TCurrent
+) {
+  return function IdentityApi<
+    TApi extends { [key: string]: MutationIdentity<Partial<TState>, any> }
+  >(identity: TApi) {
     const api: any = {};
 
     for (const [k, v] of entries(identity)) {

@@ -51,7 +51,7 @@ describe("Builder", () => {
     expect(cases).toBe(cases);
   });
 
-  it("when state is completed, the unwrap() is exposed on API surface", () => {
+  it("when initial state is NOT complete, completing state leads to unwrap() being exposed", () => {
     type State = { foo: number; bar: number; baz?: string };
     const endpoint = BuilderApi<State>();
     /** increment the value of Foo */
@@ -76,6 +76,35 @@ describe("Builder", () => {
 
     const t1 = builder.decFoo().decFoo().decFoo().decFoo().decFoo().incFoo();
     const t2 = builder.incBar().incBar().incFoo();
+    console.log({ t1, t2 });
+  });
+
+  it("when initial state IS complete, unwrap() is available to start but reducing state to an incomplete state removes the unwrap() part of API", () => {
+    type State = { foo: number; bar: number; baz?: string };
+    const endpoint = BuilderApi<State>();
+    /** increment the value of Foo */
+    const f1 = endpoint("incFoo", (s) => () => ({
+      ...s,
+      foo: s.foo ? s.foo++ : 1,
+    }));
+    const f2 = endpoint("decFoo", (s) => () => ({ ...s, foo: s.foo ? s.foo-- : 0 }));
+    const f3 = endpoint("incBar", (s) => () => ({
+      ...s,
+      bar: s.bar ? s.bar++ : 1,
+    }));
+    const f4 = endpoint("clear", () => () => ({}));
+    const composed = { ...f1, ...f2, ...f3, ...f4 };
+    const tg: TypeGuard<State> = (input: unknown): input is State => {
+      return (
+        isNonNullObject(input) &&
+        typeof (input as State).foo === "number" &&
+        typeof (input as State).bar === "number"
+      );
+    };
+    const builder = Builder(tg, composed)({ foo: 1, bar: 0 });
+
+    const t1 = builder.decFoo().decFoo().decFoo().decFoo().decFoo().incFoo();
+    const t2 = builder.clear();
     console.log({ t1, t2 });
   });
 
@@ -107,7 +136,12 @@ describe("Builder", () => {
 
     const cases: cases = [true, false, true, true, true, false, true, true];
   });
-  it.todo("");
+  it.todo("Type extends true", () => {
+    const foo = true;
+    type Foo = typeof foo;
+    type cases = [Expect<ExpectExtends<true, Foo>>];
+    const cases: cases = [true];
+  });
   it.todo("");
   it.todo("");
 });

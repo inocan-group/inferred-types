@@ -1,21 +1,62 @@
-import { Completed } from "~/Builder";
+/* eslint-disable no-use-before-define */
 
 /**
- * Represents a _fluent_ API structure for an API where `E` will exclude parts of
- * API which should masked and `D` indicates whether the configuration is "done"
- * (meaning that the current state meets the requirements for the target state)
+ * **ToFluent**
+ *
+ * Converts the typing of a dictionary of functions into the same
+ * function signatures but changes the return type to be the Fluent API.
+ *
+ * **Note:** also allows a non-fluent API surface `X` to be included as
+ * well.
+ */
+export type ToFluent<
+  T extends { [key: string]: (...args: any[]) => any },
+  X extends object = {}
+> = {
+  [K in keyof T]: (...args: Parameters<T[K]>) => ToFluent<T, X> & X;
+} &
+  X;
+
+/**
+ * A _pure_ Fluent API which promotes an API surface where _every_ API endpoint must be a function
+ * which returns the same API surface.
+ *
+ * To provide value, this style of Fluent API will need to perform useful _side effects_ when functions
+ * on the API surface are called as this structure does not provide any means to maintain an internal state
+ * which can be returned later.
+ *
+ * **Note:** _if you prefer a Fluent API with means to _escape_ with an internally managed state then
+ * you should prefer the use of the `FluentApi` type._
+ */
+export type PureFluentApi<
+  TApi extends Record<string, (...args: any[]) => PureFluentApi<TApi, any>>,
+  TExclude extends string = ""
+> = { [P in keyof TApi]: (...args: Parameters<TApi[P]>) => PureFluentApi<Omit<TApi, TExclude>> };
+
+/**
+ * Represents a **Fluent API** which exposes a API as a dictionary of functions. These functions will:
+ *
+ * 1. mutate an internal state or cause useful side-effects
+ * 2. return the same API surface
+ *
+ * While in the case where the Fluent API is used to cause useful side effects, you might only
+ * need the Fluent API surface to achieve your objectives but if instead it is used to
+ * build up a useful _internal state_, then we must allow for
+ * If this were 100% pure, however, the internal state would be unreachable and this pattern would
+ * not be very valuable. Therefore, a secondary API, is expressed which allows for non-fluent
+ *
+ * At some point the internal state will be configured "enough" and the API will be extended to allow
+ * the extraction of this state. This functional goal is expressed with the following generics:
+ *
+ * - `TFluent` is the fluent API which exposes a dictionary of functions
+ * - `TEscape` is a non-fluent API used to do whatever you like but often is the means to
+ * pass out the interior state which has been configured by the fluent parts of the API
+ * - `TExclude` represents part of the API which -- due to the internal state -- should be hidden
  */
 export type FluentApi<
-  T extends Record<string, (...args: any[]) => any>,
-  E extends string = "",
-  D extends boolean = false
-> = {
-  [P in keyof T]: (
-    ...args: Parameters<T[P]>
-  ) => D extends true ? Completed<FluentApi<T, E, true>, ReturnType<T[P]>> : FluentApi<T, E, false>;
-};
-
-/**
- * Represents a specific function that sits on Fluent API surface
- */
-export type FluentFn<A, F extends (...args: any[]) => any> = (...args: Parameters<F>) => A;
+  TFluent extends {
+    [K in keyof TFluent]: (...args: Parameters<TFluent[K]>) => FluentApi<TFluent, any, any>;
+  },
+  TEscape extends { [E in keyof TEscape]: any } = {},
+  TExclude extends string & (keyof TFluent | keyof TEscape | "") = ""
+> = Omit<TFluent & TEscape, TExclude>;

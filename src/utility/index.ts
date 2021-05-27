@@ -2,12 +2,14 @@
 
 // #region autoindexed files
 
-// index last changed at: 5th May, 2021, 12:08 PM ( GMT-7 )
+// index last changed at: 5th May, 2021, 03:16 PM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: arrayToDictionaryKeys, entries, inferObject.
+// files: ExplicitFunction, arrayToDictionaryKeys, dictionaryTransform, entries, inferObject.
 
 // local file exports
+export * from "./ExplicitFunction";
 export * from "./arrayToDictionaryKeys";
+export * from "./dictionaryTransform";
 export * from "./entries";
 export * from "./inferObject";
 
