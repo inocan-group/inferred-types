@@ -2,18 +2,16 @@
 
 // #region autoindexed files
 
-// index last changed at: 5th May, 2021, 11:54 AM ( GMT-7 )
+// index last changed at: 5th May, 2021, 07:18 AM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: Configurator, FluentConfigurator, KV, M2, Model, UnwrapHof, arrayToObject, literal.
+// files: Configurator, FluentConfigurator, KV, Model, arrayToObject, literal.
 // directories: Builder, Mutation, types, utility.
 
 // local file exports
 export * from "./Configurator";
 export * from "./FluentConfigurator";
 export * from "./KV";
-export * from "./M2";
 export * from "./Model";
-export * from "./UnwrapHof";
 export * from "./arrayToObject";
 export * from "./literal";
 

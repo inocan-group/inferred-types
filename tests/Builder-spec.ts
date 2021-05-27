@@ -1,7 +1,8 @@
 /* eslint-disable unicorn/consistent-function-scoping */
-import { Builder, BuilderApi, TypeGuard } from "../src/Builder";
+import { Builder, BuilderApi } from "../src/Builder";
 import { isNonNullObject } from "common-types";
 import type { Expect, ExpectExtends, ExpectFalse } from "@type-challenges/utils";
+import { TypeGuard } from "~/types";
 
 describe("Builder", () => {
   it("Api endpoints can be defined independently but work off same state object", () => {

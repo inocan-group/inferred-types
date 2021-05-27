@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import { MutationIdentity } from "~/Mutation";
 
 export function BuilderApi<T extends object>() {

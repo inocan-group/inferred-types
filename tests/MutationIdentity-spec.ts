@@ -21,10 +21,4 @@ describe("MutationIdentity type", () => {
     const expected: cases = [true, true, true, true];
     expect(expected).toBe(expected);
   });
-
-  it("the interior Mutation function can be inferred with MutationFunction type", () => {
-    type State = { foo: number; bar: number };
-    const t1 = MutationIdentity<State>()((s) => () => s);
-    type Interior = MutationFunction<typeof t1>;
-  });
 });
