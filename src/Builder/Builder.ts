@@ -1,28 +1,10 @@
-import { FluentApi, ToFluent, Keys } from "~/types";
+import { FluentApi, ToFluent, TypeGuard } from "~/types";
 import { MutationIdentity } from "../Mutation";
-import { IdentityToMutationApi, MutationToFluentApi, CreateFluentApi, MutationApi } from "./index";
+import { IdentityToMutationApi, MutationToFluentApi, MutationApi } from "./index";
 
 /* eslint-disable no-use-before-define */
-/**
- * Adds an _unwrap_ function -- to an existing API `A` -- which returns
- * state of type `S`.
- */
-export type Completed<A, S> = A & { unwrap: () => S };
-
-/**
- * HOF which takes _state_ -- once it has been validated with a type guard -- and passes it
- * through
- */
-export const markCompleted = <T extends { unwrap: never }>(state: T) => ({
-  ...state,
-  unwrap: () => state,
-});
-
-export const ApiFn = <S extends object>() => <P extends any[]>(f: (...args: P) => S) => f;
 
 // export const BuilderFunction = <S extends object>(f: ((s: S) => <P extends any[]>(fn: ((...args: P) => S)))) => f
-
-export type TypeGuard<T> = (thing: unknown) => thing is T;
 
 /**
  * A Builder with type-guard and API definition, returns a function to set
