@@ -5,7 +5,11 @@ import { ToFluent, Transformer } from "~/types";
 
 describe("dictionaryTransform()", () => {
   type A = { foo: string; bar: string };
-  const a = { foo: "1", bar: "2" };
+  const a: A = { foo: "1", bar: "2" };
+  type F = { foo: () => string; bar: () => string };
+  const f: F = { foo: () => "1", bar: () => "2" };
+  type F2 = { foo: (n: number) => string; bar: (a: number, b: number) => string };
+  // const f2: F2 = { foo: (n: number) => `${n}`, bar: (a: number, b: number) => `${a * b}` };
 
   // B typed
   type B = { foo: number; bar: number };
@@ -18,13 +22,13 @@ describe("dictionaryTransform()", () => {
   const createMutationApi = (state: { foo: number }) => {
     const api = {
       increment() {
-        state.foo = state.foo++;
+        return { ...state, foo: state.foo + 1 };
       },
       decrement() {
-        state.foo = state.foo--;
+        return { ...state, foo: state.foo - 1 };
       },
       set(v: number) {
-        state.foo = v;
+        return { ...state, foo: v };
       },
 
       getState() {
@@ -35,12 +39,99 @@ describe("dictionaryTransform()", () => {
     return api;
   };
 
+  type State = { foo: number };
+  const state: State = { foo: 0 };
+
+  type MutApi = { inc: () => State; dec: () => State; set: (n: number) => State };
+  const mutApi: MutApi = {
+    inc() {
+      return { ...state, foo: state.foo + 1 };
+    },
+    dec() {
+      return { ...state, foo: state.foo - 1 };
+    },
+    set(n: number) {
+      return { ...state, foo: n };
+    },
+  };
+  type FluentApi = { inc: () => FluentApi; dec: () => FluentApi; set: (n: number) => FluentApi };
+  const fluentApi: FluentApi = {
+    inc() {
+      state.foo = mutApi.inc().foo;
+      return fluentApi;
+    },
+    dec() {
+      state.foo = mutApi.dec().foo;
+      return fluentApi;
+    },
+    set(n: number) {
+      state.foo = mutApi.set(n).foo;
+      return fluentApi;
+    },
+  };
+  type SyntheticFluent = ToFluent<MutApi>;
+
   it("simple dictionary with strings converted to numbers", () => {
-    const transform: Transformer<A, B> = (i) => {
-      return Number(i);
+    const transform: Transformer<A, B> = (i, k) => {
+      return Number(i[k]);
     };
 
     const t = dictionaryTransform(a, transform);
+    type T = typeof t;
+
+    type cases = [
+      // wide type of string should now be number
+      Expect<Equal<T, B>>,
+      Expect<Equal<T, BI>>,
+      Expect<ExpectExtends<T, B>>,
+      Expect<ExpectExtends<T, BI>>,
+      // literals will not be involved here
+      Expect<NotEqual<T, BL>>,
+      // the literal _does_ extend the wider type
+      Expect<ExpectExtends<T, BL>>,
+      // but not the reverse
+      ExpectFalse<ExpectExtends<BL, T>>
+    ];
+
+    const cases: cases = [true, true, true, true, true, true, false];
+    expect(cases).toBe(cases);
+  });
+
+  it("simple function based dictionary <F> converted to numbers <B>", () => {
+    const transform: Transformer<F, B> = (i, k) => {
+      return Number(i[k]());
+    };
+    const t = dictionaryTransform(f, transform);
+    type T = typeof t;
+
+    type cases = [
+      // wide type of string should now be number
+      Expect<Equal<T, B>>,
+      Expect<Equal<T, BI>>,
+      Expect<ExpectExtends<T, B>>,
+      Expect<ExpectExtends<T, BI>>,
+      // literals will not be involved here
+      Expect<NotEqual<T, BL>>,
+      // the literal _does_ extend the wider type
+      Expect<ExpectExtends<T, BL>>,
+      // but not the reverse
+      ExpectFalse<ExpectExtends<BL, T>>
+    ];
+
+    const cases: cases = [true, true, true, true, true, true, false];
+    expect(cases).toBe(cases);
+  });
+
+  it("function with variant parameters <F2> converted to numbers <B>", () => {
+    const transform: Transformer<F2, B> = (i, k) => {
+      switch (k) {
+        case "foo":
+          return Number(i[k](4));
+        case "bar":
+          return Number(i[k](1, 2));
+      }
+    };
+    const t = dictionaryTransform(f, transform);
     type T = typeof t;
 
     type cases = [
@@ -67,25 +158,26 @@ describe("dictionaryTransform()", () => {
     type A = typeof api;
     // the mutation api performs as expected
     // this includes returning the state after any call
-    expect(api.increment()).toBe({ foo: 1 });
-    expect(api.decrement()).toBe({ foo: -1 });
+    expect(api.increment().foo).toBe(1);
+    expect(api.decrement().foo).toBe(-1);
     // the one exception is getState which just returns the value
     expect(api.getState().foo).toBe(0);
 
     // transform function
-    const transform: Transformer<A, ToFluent<A>> = (fn, k) => {
+    const transform: Transformer<A, ToFluent<A>> = (i, k) => {
       switch (k) {
         case "getState":
           return () => {
-            return api;
+            return dictionaryTransform(api, transform);
           };
         case "set":
         case "decrement":
         case "increment":
+          const fn = ExplicitFunction(i[k]);
           return (...args: Parameters<typeof fn>) => {
-            const f2 = ExplicitFunction(fn);
-            f2(...args);
-            return api;
+            fn(...args);
+            // this is cheating as runtime is not updated
+            return dictionaryTransform(api, transform);
           };
       }
     };
@@ -116,5 +208,73 @@ describe("dictionaryTransform()", () => {
     ];
     const cases: cases = [true, true, true, true, true, true];
     expect(cases).toBe(cases);
+  });
+
+  it("Explicit mutation API and fluent API", () => {
+    const transform: Transformer<MutApi, FluentApi> = (i, k) => {
+      switch (k) {
+        case "dec":
+        case "inc":
+          return () => {
+            i[k](); // mutate state
+            return fluentApi;
+          };
+        case "set":
+          return (n: number) => {
+            i[k](n); // mutate state
+            return fluentApi;
+          };
+      }
+    };
+
+    const t = dictionaryTransform(mutApi, transform);
+    type T = typeof t;
+
+    type cases = [
+      // the explicit definition of the Fluent API is
+      // the same as the synthetic version created with ToFluent
+      Expect<Equal<FluentApi, SyntheticFluent>>,
+      // the fluent API derived from the dictionary transform is
+      // also the same as the explicit and synthetic
+      Expect<Equal<FluentApi, T>>
+    ];
+    const cases: cases = [true, true];
+    expect(cases).toBe(cases);
+  });
+
+  it("using dictionaryTransform recursively for fluent API works at both runtime and designtime", () => {
+    const transform: Transformer<MutApi, FluentApi> = (i, k) => {
+      switch (k) {
+        case "dec":
+        case "inc":
+          return () => {
+            state.foo = i[k]().foo; // mutate state, assign to global "state"
+            return dictionaryTransform(mutApi, transform);
+          };
+        case "set":
+          return (n: number) => {
+            state.foo = i[k](n).foo; // mutate state
+            return dictionaryTransform(mutApi, transform);
+          };
+      }
+    };
+
+    const t = dictionaryTransform(mutApi, transform);
+    type T = typeof t;
+
+    type cases = [
+      // the fluent API derived from recursive calls to dictionaryTransform
+      // is seen as the same type the explictly deinfined type.
+      Expect<Equal<FluentApi, T>>
+    ];
+    const cases: cases = [true];
+    expect(cases).toBe(cases);
+
+    t.set(0);
+    expect(state.foo).toBe(0);
+    t.set(1);
+    expect(state.foo).toBe(1);
+    t.set(0).inc().inc();
+    expect(state.foo).toBe(2);
   });
 });

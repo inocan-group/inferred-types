@@ -1,20 +1,11 @@
-import { FluentApi, ToFluent, TypeGuard } from "~/types";
+import { TypeGuard } from "~/types";
+
 import { MutationIdentity } from "../Mutation";
-import { IdentityToMutationApi, MutationToFluentApi, MutationApi } from "./index";
+import { IdentityToMutationApi, MutationToFluentApi } from "./index";
 
 /* eslint-disable no-use-before-define */
 
-// export const BuilderFunction = <S extends object>(f: ((s: S) => <P extends any[]>(fn: ((...args: P) => S)))) => f
-
-/**
- * A Builder with type-guard and API definition, returns a function to set
- * the _current state_ of the builder's internal configuration.
- */
-export type ConfiguredBuilder<
-  TState extends object,
-  TApi extends { [key: string]: MutationIdentity<Partial<TState>, any> },
-  TEscape extends { [E in keyof TEscape]: any }
-> = (state: Partial<TState>) => FluentApi<ToFluent<MutationApi<TApi>, TEscape>, TEscape>;
+export type BuilderComplete<C, S> = C extends infer U ? (U extends S ? "" : "unwrap") : never;
 
 /**
  * **Builder**
@@ -41,16 +32,14 @@ export type ConfiguredBuilder<
  */
 export function Builder<
   TState extends object,
-  TApi extends { [key: string]: MutationIdentity<Partial<TState>, any> }
+  TApi extends { [key: string]: MutationIdentity<any, any> }
 >(validate: TypeGuard<TState>, apiDefinition: TApi) {
   /**
    * The non-fluent API component of the Builder API
    */
   type IEscape = { unwrap: () => TState; current: Partial<TState> };
 
-  const builder: ConfiguredBuilder<TState, TApi, IEscape> = <TCurrent extends Partial<TState>>(
-    state: TCurrent
-  ) => {
+  return <TCurrent extends Partial<TState>>(state: TCurrent) => {
     const escapeApi: IEscape = {
       current: state,
       unwrap: () => {
@@ -69,11 +58,12 @@ export function Builder<
 
     // provide state to identity functions to make them mutation functions
     const mutationApi = IdentityToMutationApi(state)(apiDefinition);
+    // determine the exclusions
+    type Complete = BuilderComplete<TCurrent, TState>;
     // create a fluent API from both fluent endpoints and escape endpoints
-    const fluentApi = MutationToFluentApi<TState, TApi, IEscape>(mutationApi, escapeApi, builder);
-
-    return fluentApi;
+    return MutationToFluentApi<TState, TApi, IEscape, Complete>(validate, apiDefinition)(
+      mutationApi,
+      escapeApi
+    );
   };
-
-  return builder;
 }

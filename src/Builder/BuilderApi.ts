@@ -3,10 +3,10 @@ import { MutationIdentity } from "~/Mutation";
 
 export function BuilderApi<T extends object>() {
   return function BuilderKeyValue<
-    V extends MutationIdentity<Partial<T>, P>,
-    P extends any[],
+    V extends MutationIdentity<PT, any>,
     K extends string,
-    O extends Record<K, V>
+    O extends Record<K, V>,
+    PT extends T
   >(key: K, value: V): O {
     return { [key as K]: value } as O;
   };

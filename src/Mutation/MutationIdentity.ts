@@ -30,7 +30,7 @@ export type MutationIdentity<T, P extends any[]> = (state: T) => (...args: P) =>
  * ```
  */
 export function MutationIdentity<T>() {
-  return function <M extends MutationIdentity<T, P>, P extends any[]>(mutationFn: M) {
-    return mutationFn;
+  return function <M extends MutationIdentity<T, P>, P extends any[]>(m: M) {
+    return m;
   };
 }

@@ -1,12 +1,15 @@
+import { SameKeys } from "./SameKeys";
+
 /**
  * **Transformer**
  *
- * A function responsible for transforming the values of
- * dictionary `I` into dictionary `O` where all _keys_ remain
- * the same.
+ * A function responsible for transforming the _values_ of
+ * dictionary `I` into different _values_ for dictionary `O`.
+ *
+ * This type utility assumes that _keys_ of both dictionaries
+ * are the same.
  */
-export type Transformer<
-  I extends object,
-  O extends { [U in keyof I]: any },
-  K extends keyof I & keyof O = keyof I & keyof O
-> = (input: I[K], key: K) => O[K];
+export type Transformer<I extends object, O extends SameKeys<I>, K extends keyof I = keyof I> = (
+  input: I,
+  key: K
+) => O[K];

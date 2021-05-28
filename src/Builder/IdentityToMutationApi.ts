@@ -32,9 +32,7 @@ export type MutationApi<T extends Record<string, (s: any) => (...args: any[]) =>
 export function IdentityToMutationApi<TState extends object, TCurrent extends Partial<TState>>(
   state: TCurrent
 ) {
-  return function IdentityApi<
-    TApi extends { [key: string]: MutationIdentity<Partial<TState>, any> }
-  >(identity: TApi) {
+  return <TApi extends { [key: string]: MutationIdentity<any, any> }>(identity: TApi) => {
     const api: any = {};
 
     for (const [k, v] of entries(identity)) {

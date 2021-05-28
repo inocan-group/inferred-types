@@ -6,8 +6,8 @@
  * Converts the typing of a dictionary of functions into the same
  * function signatures but changes the return type to be the Fluent API.
  *
- * **Note:** also allows a non-fluent API surface `X` to be included as
- * well.
+ * **Note:** this utility also allows a non-fluent API surface `X` to be included as
+ * part of the API surface if this is desired.
  */
 export type ToFluent<
   T extends { [key: string]: (...args: any[]) => any },
@@ -55,8 +55,8 @@ export type PureFluentApi<
  */
 export type FluentApi<
   TFluent extends {
-    [K in keyof TFluent]: (...args: Parameters<TFluent[K]>) => FluentApi<TFluent, any, any>;
+    [K in keyof TFluent]: (...args: Parameters<TFluent[K]>) => FluentApi<TFluent, TEscape>;
   },
-  TEscape extends { [E in keyof TEscape]: any } = {},
-  TExclude extends string & (keyof TFluent | keyof TEscape | "") = ""
+  TEscape extends object = {},
+  TExclude extends string = ""
 > = Omit<TFluent & TEscape, TExclude>;

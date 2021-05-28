@@ -12,8 +12,7 @@
  *
  * 👉 &nbsp;where `k` is a _string literal_ value (versus just a _string_)
  */
-export function entries<T extends {}>(obj: T) {
-  type K = keyof T;
+export function entries<T extends {}, K extends keyof T = keyof T>(obj: T) {
   type KvTuple = [K, T[K]];
   const iterable: Iterable<KvTuple> = {
     *[Symbol.iterator]() {

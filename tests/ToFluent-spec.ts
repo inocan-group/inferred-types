@@ -38,7 +38,7 @@ describe("ToFluent<T,X> type utility", () => {
       Expect<Equal<FluentX, ReturnType<FluentX["bar"]>>>,
       Expect<Equal<FluentX, ReturnType<FluentX["baz"]>>>,
       // this is also true recursively
-      Expect<Equal<Fluent, ReturnType<ReturnType<Fluent["foo"]>["bar"]>>>,
+      Expect<Equal<FluentX, ReturnType<ReturnType<FluentX["foo"]>["bar"]>>>,
       // the non-fluent API also shows up
       Expect<ExpectExtends<Keys<FluentX>, "hi">>,
       // the "hi" function returns a string (and breaks out of the fluent loop)

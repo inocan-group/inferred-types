@@ -1,8 +1,9 @@
+/* eslint-disable unicorn/consistent-function-scoping */
 /* eslint-disable no-use-before-define */
 import { MutationIdentity } from "~/Mutation";
-import { FluentApi, ToFluent, Transformer } from "~/types";
+import { FluentApi, ToFluent, Transformer, TypeGuard } from "~/types";
 import { dictionaryTransform } from "~/utility";
-import { ConfiguredBuilder } from "./Builder";
+import { Builder } from "./Builder";
 import { MutationApi } from "./IdentityToMutationApi";
 
 /**
@@ -24,41 +25,37 @@ import { MutationApi } from "./IdentityToMutationApi";
  *
  * ```ts
  * {
- *    foo: (a,b,c) => { foo: ..., bar: ... },
+ *    foo: (a, b, c) => { foo: ..., bar: ... },
  *    bar: () => { foo: ..., bar: ... }
  * }
  * ```
  */
 export function MutationToFluentApi<
   TState extends object,
-  TApi extends { [key: string]: MutationIdentity<Partial<TState>, any> },
-  TEscapeApi extends { [E in keyof TEscapeApi]: any }
->(
-  mutationApi: MutationApi<TApi>,
-  escapeApi: TEscapeApi,
-  builder: ConfiguredBuilder<TState, TApi, TEscapeApi>
-) {
-  // mutate internal state and then return fluent API
-  const transform: Transformer<
-    MutationApi<TApi>,
-    FluentApi<ToFluent<MutationApi<TApi>, TEscapeApi>, TEscapeApi, "">
-  > = (fn) => {
-    return (...args: Parameters<typeof fn>) => {
-      const newState = fn(args);
-      return builder(newState);
+  TApi extends { [key: string]: MutationIdentity<any, any> },
+  TEscapeApi extends { [E in keyof TEscapeApi]: any },
+  TExclude extends string
+>(validate: TypeGuard<TState>, apiDefinition: TApi) {
+  return <R extends FluentApi<ToFluent<MutationApi<TApi>, TEscapeApi>, TEscapeApi>>(mutationApi: MutationApi<TApi>, escapeApi: TEscapeApi) => {
+    // mutate internal state and then return fluent API
+    const transform: Transformer<MutationApi<TApi>, R> = (i, k) => {
+      const fn = i[k];
+      return (...args: Parameters<typeof fn>) => {
+        const newState = { ...fn(args) };
+
+        return validate(newState)
+          ? Builder(validate, apiDefinition)(newState)
+          : Builder(validate, apiDefinition)(newState);
+      };
     };
+
+    const fluent = dictionaryTransform(mutationApi, transform);
+
+    const api: FluentApi<ToFluent<MutationApi<TApi>, TEscapeApi>, TEscapeApi, TExclude> = {
+      ...fluent,
+      ...escapeApi,
+    };
+
+    return api;
   };
-
-  const fluent: FluentApi<
-    ToFluent<MutationApi<TApi>, TEscapeApi>,
-    TEscapeApi,
-    ""
-  > = dictionaryTransform(mutationApi, transform);
-
-  const api: FluentApi<ToFluent<MutationApi<TApi>, TEscapeApi>, TEscapeApi> = {
-    ...fluent,
-    escapeApi,
-  };
-
-  return api;
 }

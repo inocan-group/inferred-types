@@ -43,7 +43,5 @@ export function FluentConfigurator<I>(initial: I = {} as I) {
     );
   }
 
-  console.log(initial);
-
   return initial ? api(initial) : api({});
 }
