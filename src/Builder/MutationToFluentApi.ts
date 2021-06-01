@@ -11,12 +11,15 @@ import { MutationApi } from "./IdentityToMutationApi";
  *
  * 1. The mutation to state is completed, and then
  * 2. returns a new call to Builder to re-establish the fluent API
+ * 
+ * **Note:** one complication is that this fluent API must include not only
+ * the fluent endpoints but the Escape endpoints as well.
  *
  * This function expects an API surface similar to this:
  *
  * ```ts
  * {
- *    foo: (a, b, c) => s
+ *    foo: (a, b, c) => s,
  *    bar: () => s
  * }
  * ```
@@ -25,8 +28,9 @@ import { MutationApi } from "./IdentityToMutationApi";
  *
  * ```ts
  * {
- *    foo: (a, b, c) => { foo: ..., bar: ... },
- *    bar: () => { foo: ..., bar: ... }
+ *    foo: (a, b, c) => { FLUENT API },
+ *    bar: () => { FLUENT API },
+ *    unwrap: () => { STATE }
  * }
  * ```
  */
@@ -34,14 +38,14 @@ export function MutationToFluentApi<
   TState extends object,
   TApi extends { [key: string]: MutationIdentity<any, any> },
   TEscapeApi extends { [E in keyof TEscapeApi]: any },
-  TExclude extends string
->(validate: TypeGuard<TState>, apiDefinition: TApi) {
-  return <R extends FluentApi<ToFluent<MutationApi<TApi>, TEscapeApi>, TEscapeApi>>(mutationApi: MutationApi<TApi>, escapeApi: TEscapeApi) => {
+  >(validate: TypeGuard<TState>, apiDefinition: TApi) {
+  // receives the two API's and merges them
+  return <TNewState extends Partial<TState>>(mutationApi: MutationApi<TApi>, escapeApi: TEscapeApi) => {
     // mutate internal state and then return fluent API
-    const transform: Transformer<MutationApi<TApi>, R> = (i, k) => {
+    const transform: Transformer<MutationApi<TApi>, ToFluent<MutationApi<TApi>, TEscapeApi>> = (i, k) => {
       const fn = i[k];
       return (...args: Parameters<typeof fn>) => {
-        const newState = { ...fn(args) };
+        const newState = fn(args) as TNewState;
 
         return validate(newState)
           ? Builder(validate, apiDefinition)(newState)
@@ -49,13 +53,6 @@ export function MutationToFluentApi<
       };
     };
 
-    const fluent = dictionaryTransform(mutationApi, transform);
-
-    const api: FluentApi<ToFluent<MutationApi<TApi>, TEscapeApi>, TEscapeApi, TExclude> = {
-      ...fluent,
-      ...escapeApi,
-    };
-
-    return api;
+    return { ...dictionaryTransform(mutationApi, transform), ...escapeApi };
   };
 }

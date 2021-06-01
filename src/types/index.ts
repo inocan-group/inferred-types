@@ -2,9 +2,9 @@
 
 // #region autoindexed files
 
-// index last changed at: 5th May, 2021, 12:36 PM ( GMT-7 )
+// index last changed at: 5th May, 2021, 06:52 PM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: CamelCase, DashToSnake, Includes, Intrinsic, KebabCase, KeyedRecord, Keys, PascalCase, Pluralize, SameKeys, SnakeCase, SnakeToDash, Transformer, TypeGuard, append-types, fluent, narrow.
+// files: CamelCase, DashToSnake, Includes, Intrinsic, KebabCase, KeyedRecord, Keys, PascalCase, Pluralize, SameKeys, SnakeCase, SnakeToDash, Transformer, TypeGuard, api, append-types, dictionaries, fluent, narrow.
 
 // local file exports
 export * from "./CamelCase";
@@ -21,7 +21,9 @@ export * from "./SnakeCase";
 export * from "./SnakeToDash";
 export * from "./Transformer";
 export * from "./TypeGuard";
+export * from "./api";
 export * from "./append-types";
+export * from "./dictionaries";
 export * from "./fluent";
 export * from "./narrow";
 

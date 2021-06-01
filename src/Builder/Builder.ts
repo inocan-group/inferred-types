@@ -1,7 +1,7 @@
-import { TypeGuard } from "~/types";
+import { FluentApi, ToFluent, TypeGuard } from "~/types";
 
 import { MutationIdentity } from "../Mutation";
-import { IdentityToMutationApi, MutationToFluentApi } from "./index";
+import { IdentityToMutationApi, MutationApi, MutationToFluentApi } from "./index";
 
 /* eslint-disable no-use-before-define */
 
@@ -61,9 +61,10 @@ export function Builder<
     // determine the exclusions
     type Complete = BuilderComplete<TCurrent, TState>;
     // create a fluent API from both fluent endpoints and escape endpoints
-    return MutationToFluentApi<TState, TApi, IEscape, Complete>(validate, apiDefinition)(
+    return MutationToFluentApi<TState, TApi, IEscape>(validate, apiDefinition)(
       mutationApi,
       escapeApi
-    );
+    ) as FluentApi<ToFluent<MutationApi<TApi>, IEscape>, IEscape, Complete>;
+
   };
 }

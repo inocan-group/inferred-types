@@ -200,11 +200,6 @@ describe("Builder", () => {
 
   it("when initial state is NOT complete, completing state leads to unwrap() being exposed", () => {
     const builder = createBuilder({ foo: 1 });
-
-    expect(builder.current.foo).toBe(1);
-    expect(builder.incFoo().current.foo).toBe(2);
-    expect(builder.decFoo().decFoo().current.foo).toBe(-1);
-
     const notDone = builder.decFoo().decFoo().decFoo().decFoo().decFoo().incFoo();
     const done = builder.incBar().incBar().incFoo();
 

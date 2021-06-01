@@ -66,18 +66,5 @@ describe("Dictionary Type Utils", () => {
     expect(cases).toBe(cases);
   });
 
-  it("PartialOf<S,T> allows through partials but keeps type info", () => {
-    type T = { foo: number; bar: number; baz?: string };
-    const s = { foo: 13 };
-    type S = typeof s;
-    type IsSubset1 = PartialOf<T, S>;
-    type NotDone = IsSubset1 extends T ? true : false;
 
-    const s2 = { foot: "invalid" };
-    type S2 = PartialOf<typeof s2, T>; // never as invalid subset
-
-    const s3 = { foo: 42, bar: 12 };
-    type S3 = PartialOf<typeof s3, T>;
-    type Done = S3 extends T ? true : false;
-  });
 });
