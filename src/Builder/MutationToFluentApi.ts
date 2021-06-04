@@ -1,7 +1,7 @@
 /* eslint-disable unicorn/consistent-function-scoping */
 /* eslint-disable no-use-before-define */
 import { MutationIdentity } from "~/Mutation";
-import { FluentApi, ToFluent, Transformer, TypeGuard } from "~/types";
+import { FluentApi, ToFluent, TypeGuard } from "~/types";
 import { dictionaryTransform } from "~/utility";
 import { Builder } from "./Builder";
 import { MutationApi } from "./IdentityToMutationApi";
@@ -38,21 +38,24 @@ export function MutationToFluentApi<
   TState extends object,
   TApi extends { [key: string]: MutationIdentity<any, any> },
   TEscapeApi extends { [E in keyof TEscapeApi]: any },
-  >(validate: TypeGuard<TState>, apiDefinition: TApi) {
+  TExclude extends string
+>(validate: TypeGuard<TState>, apiDefinition: TApi) {
   // receives the two API's and merges them
-  return <TNewState extends Partial<TState>>(mutationApi: MutationApi<TApi>, escapeApi: TEscapeApi) => {
+  return (mutationApi: MutationApi<TApi>, escapeApi: TEscapeApi) => {
     // mutate internal state and then return fluent API
-    const transform: Transformer<MutationApi<TApi>, ToFluent<MutationApi<TApi>, TEscapeApi>> = (i, k) => {
+    type Api = FluentApi<ToFluent<MutationApi<TApi>, TEscapeApi>, TEscapeApi, any>;
+    const fluent = dictionaryTransform<MutationApi<TApi>, Api>(mutationApi, (i, k) => {
       const fn = i[k];
-      return (...args: Parameters<typeof fn>) => {
+      return <TNewState extends Partial<TState>>(...args: Parameters<typeof fn>) => {
         const newState = fn(args) as TNewState;
 
+        // recurse back to Builder 
         return validate(newState)
           ? Builder(validate, apiDefinition)(newState)
           : Builder(validate, apiDefinition)(newState);
       };
-    };
+    });
 
-    return { ...dictionaryTransform(mutationApi, transform), ...escapeApi };
+    return { ...fluent, escapeApi } as FluentApi<ToFluent<MutationApi<TApi>, TEscapeApi>, TEscapeApi, TExclude>;
   };
 }

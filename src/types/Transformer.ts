@@ -13,3 +13,4 @@ export type Transformer<I extends object, O extends SameKeys<I>, K extends keyof
   input: I,
   key: K
 ) => O[K];
+

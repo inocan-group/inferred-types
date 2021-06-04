@@ -1,5 +1,7 @@
-import { Api } from "~/types";
+import { Api, FluentApi, ToFluent } from "~/types";
 import type { Expect, ExpectExtends, ExpectFalse, Equal } from "@type-challenges/utils";
+import { createStateIdentityApi } from "./data";
+import { MutationApi } from "~/Builder";
 
 type TypedApi = {
   /** says hello */
@@ -44,6 +46,15 @@ describe("Api<T> type", () => {
     ];
     const cases: cases = [true, true, false, true, true];
     expect(cases).toBe(cases);
+
+  });
+
+  it("A identity API converted to a fluent API can then be converted to an Api", () => {
+    const api = createStateIdentityApi();
+    type MutApi = MutationApi<typeof api>;
+    type Fluent = FluentApi<ToFluent<MutApi>, {}, "">;
+    type AnApi = Api<Fluent>;
+
 
   });
 
