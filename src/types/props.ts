@@ -12,22 +12,34 @@ export type OptionalKeys<T extends object> = {
   [K in keyof T]-?: {} extends { [P in K]: T[K] } ? K : never;
 }[keyof T];
 
+
+/**
+ * The _keys_ on a given object `T` which have a value of `W`
+ */
+export type KeysWithValue<W extends any, T extends object> = {
+  [K in keyof T]: T[K] extends W ? K : never
+}[keyof T];
+
+
+
 /**
  * **RequiredProps**
  *
- * Reduces an object to only key/value pairs where the key is required
+ * Reduces an object type to only key/value pairs where the key is required
  */
 export type RequiredProps<T extends object> = Pick<T, RequiredKeys<T>>;
 
 /**
- * **OptionalProps**
+ * **OptionalProps** 
  *
  * Reduces an object to only key/value pairs where the key is optional
  */
 export type OptionalProps<T extends object> = Pick<T, RequiredKeys<T>>;
 
 /**
- * Validates whether the type `S` is a valid representation of `Partial<T>`
- * but if it _is_ then it maintains the explicit type information for `S`
+ * **WithValue**
+ * 
+ * Reduces an object's type down to only those key/value pairs where the
+ * value is of type `W`.
  */
-export type PartialOf<S extends object, T extends object> = S extends Partial<T> ? S : never;
+export type WithValue<W extends any, T extends object> = Pick<T, KeysWithValue<W, T>>;

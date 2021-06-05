@@ -37,7 +37,7 @@ export function Builder<
   /**
    * The non-fluent API component of the Builder API
    */
-  type IEscape = { unwrap: () => TState; current: Partial<TState> };
+  type IEscape<T extends object = {}> = { unwrap: () => TState; current: Partial<TState> } & T;
 
   return <TCurrent extends Partial<TState>>(state: TCurrent) => {
     const escapeApi: IEscape = {
@@ -60,7 +60,7 @@ export function Builder<
     const mutationApi = IdentityToMutationApi(state)(apiDefinition);
     // determine the exclusions
     type Complete = BuilderComplete<TCurrent, TState>;
-    // transform mutation API to fluent API, still ignoring Escape API
+    // transform mutation API to fluent API
     return MutationToFluentApi<TState, TApi, IEscape, Complete>(validate, apiDefinition)(mutationApi, escapeApi);
   };
 }

@@ -2,7 +2,7 @@
 import { Builder, BuilderApi, BuilderComplete } from "../src/Builder";
 import { isNonNullObject } from "common-types";
 import type { Expect, ExpectExtends, ExpectFalse, Equal } from "@type-challenges/utils";
-import { Keys, TypeGuard } from "~/types";
+import { FluentApi, Keys, ToFluent, TypeGuard } from "~/types";
 import { createBuilder, BuilderState } from "./data";
 
 describe("Builder", () => {
@@ -132,7 +132,10 @@ describe("Builder", () => {
   });
 
   it("fluent API fully exposed to type system and ReturnType validates fluent API", () => {
-    const builder = createBuilder({ foo: 1, bar: 2 });
+    const initialState = { foo: 1, bar: 2 };
+    const builder = createBuilder(initialState);
+    type Escape<T extends object = {}> = { unwrap: () => BuilderState; current: Partial<BuilderState> } & T;
+    type ExplicitType = FluentApi<ToFluent<typeof initialState, Escape>, Escape, "" | "test">;
     type B = typeof builder;
     type RT = ReturnType<B["incFoo"]>;
 
@@ -143,15 +146,49 @@ describe("Builder", () => {
       Expect<ExpectExtends<Keys<B>, "incBar">>,
       Expect<ExpectExtends<Keys<B>, "setBar">>,
       Expect<ExpectExtends<Keys<B>, "setBaz">>,
+      // and since config is "complete" unwrap is exposed too
+      Expect<ExpectExtends<Keys<B>, "unwrap">>,
       // Endpoints return the same fluent API
       Expect<Equal<B, RT>>
     ];
-    const cases: cases = [true, true, true, true, true, true];
+    const cases: cases = [true, true, true, true, true, true, true, true];
     expect(cases).toBe(cases);
   });
 
+  it("simple omit test", () => {
+    const omit = <T extends object, K extends keyof T>(dict: T, key: K) => {
+      return dict as Omit<T, K>;
+    };
+    const obj = { foo: 1, bar: 2 };
+    const obj2 = omit(obj, "bar");
+    type O2 = typeof obj2;
+
+
+    type Start = { foo: number, bar: number };
+    const obj3: Start = { foo: 1, bar: 2 };
+    const obj4 = omit(obj3, "bar");
+    type O4 = typeof obj4;
+  });
+
   it.skip("fluent API can be partially masked with exclusions", () => {
-    //
+    const builder = createBuilder({ foo: 1 });
+    type B = typeof builder;
+    type RT = ReturnType<B["incFoo"]>;
+
+    type cases = [
+      Expect<ExpectExtends<Keys<B>, "incFoo">>,
+      Expect<ExpectExtends<Keys<B>, "decFoo">>,
+      Expect<ExpectExtends<Keys<B>, "setFoo">>,
+      Expect<ExpectExtends<Keys<B>, "incBar">>,
+      Expect<ExpectExtends<Keys<B>, "setBar">>,
+      Expect<ExpectExtends<Keys<B>, "setBaz">>,
+      // and since config is not complete, unwrap is hidden
+      ExpectFalse<ExpectExtends<Keys<B>, "unwrap">>,
+      // Endpoints return the same fluent API
+      Expect<Equal<B, RT>>
+    ];
+    const cases: cases = [true, true, true, true, true, true, false, true];
+    expect(cases).toBe(cases);
   });
 
   it("unwrap() is available when initial state is 'done'", () => {

@@ -7,13 +7,12 @@ import { Builder } from "./Builder";
 import { MutationApi } from "./IdentityToMutationApi";
 
 /**
- * Wraps a mutation function so that when a mutation function is called:
+ * Wraps a mutation API so that when a function is called:
  *
  * 1. The mutation to state is completed, and then
  * 2. returns a new call to Builder to re-establish the fluent API
  * 
- * **Note:** one complication is that this fluent API must include not only
- * the fluent endpoints but the Escape endpoints as well.
+ * Note: this also allows an `EscapeApi` to sit next to the fluent API
  *
  * This function expects an API surface similar to this:
  *
@@ -56,6 +55,6 @@ export function MutationToFluentApi<
       };
     });
 
-    return { ...fluent, escapeApi } as FluentApi<ToFluent<MutationApi<TApi>, TEscapeApi>, TEscapeApi, TExclude>;
+    return { ...fluent, escapeApi } as FluentApi<ToFluent<MutationApi<TApi>, TEscapeApi>, TEscapeApi, TExclude | "test">;
   };
 }

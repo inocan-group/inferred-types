@@ -1,5 +1,6 @@
 import type { Expect, Equal, ExpectExtends } from "@type-challenges/utils";
 import { Keys, ToFluent } from "~/types";
+import { BuilderState } from "./data";
 
 const api = {
   foo: () => 5,
@@ -46,5 +47,14 @@ describe("ToFluent<T,X> type utility", () => {
     ];
     const cases: cases = [true, true, true, true, true, true];
     expect(cases).toBe(cases);
+  });
+
+  it("using API structures similar to a builder", () => {
+    const identityApi = {
+      incFoo: <T extends Partial<BuilderState>, T2 extends Partial<BuilderState>>(s: T) => () => ({ ...s, foo: s.foo ? s.foo : 1 } as T2),
+      decBar: <T extends Partial<BuilderState>>(s: T) => () => ({ ...s, foo: s.foo ? s.foo : 1 } as T),
+    };
+    const escapeApi = {};
+    type Escape<T extends object = {}> = { unwrap: () => BuilderState; current: Partial<BuilderState> } & T;
   });
 });
