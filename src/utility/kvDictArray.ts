@@ -1,17 +1,23 @@
-import { KvDict } from "../types/key-value";
-import { Keys } from "./Keys";
+import { DictKv } from "~/types";
+import { keys } from "./Keys";
+
+function pickValue<T extends NonNullable<object>, K extends keyof T>(key: K, obj: T) {
+  return obj[key] as DictKv<T, K>;
+}
 
 /**
  * Converts a dictionary object into an array of `KeyValue` dictionaries
  * while maintaining narrow type definitions.
  */
-export function kvDictArray<T extends {}>(obj: T): KvDict<T>[] {
-  if (typeof obj !== "object" || obj === null) {
-    throw new Error("Value passed into kv() must be an object");
+export function kvDictArray<T extends NonNullable<{}>>(obj: T) {
+  const out: any[] = [];
+
+  for (const key of keys(obj)) {
+    const value = pickValue(key, obj);
+    out.push({ key, value });
   }
 
-  return Keys(obj).reduce((acc, key) => {
-    const value = obj[key];
-    return [...acc, { key, value }];
-  }, [] as KvDict<T>[]);
+  return out as DictKv<T, keyof T>[];
 }
+
+

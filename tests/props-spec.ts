@@ -1,5 +1,7 @@
+/* eslint-disable unicorn/consistent-function-scoping */
 import type { Expect, Equal } from "@type-challenges/utils";
-import { KeysWithValue, OptionalKeys, RequiredKeys, RequiredProps, WithValue } from "~/types/props";
+import { ExpandRecursively } from "~/types";
+import { KeysWithValue, KeysWithValueType, OptionalKeys, RequiredKeys, RequiredProps, WithValue, WithValueType } from "~/types/props";
 
 type T0 = { foo: number; bar: number; baz: string };
 type T1 = { foo: number; bar: number; baz?: string };
@@ -52,25 +54,66 @@ describe("Dictionary Type Utils", () => {
     expect(cases).toBe(cases);
   });
 
-  it("KeysWithValue<type, obj> identifies keys of the given object which have a value of specified type", () => {
-    type Literal = { foo: 1; bar: true; baz: false; baz2: false };
+  type LiteralType = { foo: 1; foo2: number; bar: true; baz: false; baz2: false; wide: boolean; greet: "hi" };
 
-    type S = KeysWithValue<string, T0>;
-    type N = KeysWithValue<number, T0>;
-    type LT = KeysWithValue<true, Literal>;
-    type LF = KeysWithValue<false, Literal>;
+  const narrowType = { foo: 1, foo2: 2, bar: true, baz: false, baz2: false, greet: "hi" } as const;
+  type NarrowType = typeof narrowType;
+  const wideType = { foo: 1, foo2: 2, bar: true, baz: false, baz2: false, greet: "hi" };
+  type WideType = typeof wideType;
+
+  it("KeysWithValue<type, obj> identifies keys of the given object which have a value of specified type", () => {
+
+    type SL = KeysWithValue<string, LiteralType>;
+    type SN = KeysWithValue<string, NarrowType>;
+    type SW = KeysWithValue<string, WideType>;
+
+    type StrLiteralNarrow = KeysWithValue<"hi", NarrowType>;
+    type StrLiteralWide = KeysWithValue<"hi", WideType>;
+
+    type Num = KeysWithValue<number, LiteralType>;
+    type NumNarrow = KeysWithValue<number, NarrowType>;
+    type NumWide = KeysWithValue<number, WideType>;
+
+    type LT = KeysWithValue<true, LiteralType>;
+    type LF = KeysWithValue<false, LiteralType>;
+    type LB = KeysWithValue<boolean, LiteralType>;
+
+    type TrueNarrow = KeysWithValue<true, NarrowType>;
+    type TrueWide = KeysWithValue<true, WideType>;
+
+    type BooleanNarrow = KeysWithValue<boolean, NarrowType>;
+    type BooleanWide = KeysWithValue<boolean, WideType>;
 
     type cases = [
-      Expect<Equal<S, "baz">>,
-      Expect<Equal<N, "foo" | "bar">>,
+      Expect<Equal<SL, "greet">>,
+      Expect<Equal<SN, "greet">>,
+      Expect<Equal<SW, "greet">>,
+
+      // the type "hi" IS matched with a narrow type definition
+      Expect<Equal<StrLiteralNarrow, "greet">>,
+      // the type "hi" is not matched to the wider type string
+      Expect<Equal<StrLiteralWide, never>>,
+
+      Expect<Equal<Num, "foo" | "foo2">>,
+      Expect<Equal<NumNarrow, "foo" | "foo2">>,
+      Expect<Equal<NumWide, "foo" | "foo2">>,
+
       Expect<Equal<LT, "bar">>,
-      Expect<Equal<LF, "baz" | "baz2">>
+      Expect<Equal<LF, "baz" | "baz2">>,
+      Expect<Equal<LB, "bar" | "baz" | "baz2" | "wide">>,
+
+      // the literal type "true" can be matched when dealing a literal type
+      Expect<Equal<TrueNarrow, "bar">>,
+      // but no keys are matched when the key's value has been broadened to "boolean"
+      Expect<Equal<TrueWide, never>>,
+      // regardless of whether a type is `true`, `false`, or `boolean` they all 
+      // match up with the `boolean` type
+      Expect<Equal<BooleanNarrow, "bar" | "baz" | "baz2">>,
+      Expect<Equal<BooleanWide, "bar" | "baz" | "baz2">>,
     ];
-    const cases: cases = [true, true, true, true];
+    const cases: cases = [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true];
     expect(cases).toBe(cases);
-
   });
-
 
   it("WithValue<type, obj> reduces the types on the object effectively", () => {
     type Literal = { foo: 1; bar: true; baz: false; baz2: false };
@@ -89,4 +132,40 @@ describe("Dictionary Type Utils", () => {
     const cases: cases = [true, true, true, true];
     expect(cases).toBe(cases);
   });
+
+  it("WithValue<type, obj> reduces the non-literal types from typeof", () => {
+    const t = { foo: 1, bar: true, baz: false, baz2: false, xyz: "hi" };
+    type T = typeof t;
+
+    type S = WithValue<string, T>;
+    type N = WithValue<number, T>;
+    type B = WithValue<boolean, T>;
+
+    type cases = [
+      Expect<Equal<S, { xyz: string }>>,
+      Expect<Equal<N, { foo: number }>>,
+      Expect<Equal<B, { bar: boolean; baz: boolean; baz2: boolean }>>,
+    ];
+    const cases: cases = [true, true, true];
+    expect(cases).toBe(cases);
+  });
+
+  it("WithValue<t,o> reduces to literal types when runtime var set as 'const'", () => {
+    const t = { foo: 1, bar: true, baz: false, baz2: false, xyz: "hi" } as const;
+    type T = typeof t;
+
+    type S = WithValue<string, T>;
+    type N = WithValue<number, T>;
+    type F = WithValue<false, T>;
+
+    type cases = [
+      Expect<Equal<S, { readonly xyz: "hi" }>>,
+      Expect<Equal<N, { readonly foo: 1 }>>,
+      Expect<Equal<F, { readonly baz: false; readonly baz2: false }>>,
+    ];
+    const cases: cases = [true, true, true];
+    expect(cases).toBe(cases);
+  });
+
+
 });

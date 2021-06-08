@@ -1,7 +1,11 @@
-import { kvDictArray } from "./kvDictArray";
+import { KeysWithValue, WithValue } from "~/types";
+import { arrayToDict, dictToArray } from "./dictToArray";
 
+export type RuleSet<T extends object, S extends object = {}> = { [K in keyof T]: true | ((s: S) => boolean) };
 
-export type RuleSet<S extends object = {}> = { [key: string]: true | ((s: S) => boolean) };
+// export function specifyRuleSet<T extends object = {}>(rs: T) {
+//   return rs as RuleSet<T>;
+// }
 
 /**
  * The outcome of a **RuleSet** which is union of string literals
@@ -14,7 +18,7 @@ export type RuleSetOutcome<S extends object, _R extends RuleSet<S>, O extends st
  * The ruleset is now ready to be given the current _state_ and with that it will produce
  * the final outcome (aka, a string literal union of property names)
  */
-export type RuleSetReady<S extends object, R extends RuleSet<S>> = (state: S) => RuleSetOutcome<S, R, O>;
+export type RuleSetReady<S extends object, R extends RuleSet<S>> = <O extends string>(state?: S) => RuleSetOutcome<S, R, O>;
 
 
 
@@ -25,18 +29,38 @@ export type RsBuilderWithState<S extends object = {}> = <R extends RuleSet<S>>(r
 
 export type RuleSetBuilder = <S extends object = {}>() => RsBuilderWithState<S>;
 
+export function ruleSet<T extends readonly { [K in keyof T]: Readonly<T[K]> }>(rules: T) {
+  return rules;
+}
 
 
-export const RuleSet: RuleSetBuilder =
-  <S extends object = {}>(): RsBuilderWithState<S> =>
-    <R extends RuleSet<S>>(rs: R): RuleSetReady<S, R> => {
-      return <O extends string>(s?: S): RuleSetOutcome<S, R, O> => {
-        const rules = s
-          ? kvDictArray(rs).filter(r => r.value === true || r.value(s) === true).map(i => ({ ...i, value: true as true }))
-          : kvDictArray(rs).filter(r => r.value === true);
+export const RuleSet =
+  // receive shape of "state"
+  <S extends object = {}>() =>
+    // receive the rule set
+    <R extends RuleSet<S>>(rs: R) => {
+      type StaticRules = KeysWithValue<true, R>;
+      // receive the current "state" to trigger dynamic rules
+      return (s?: S) => {
+        // const rules = s
+        //   ? kvDictArray(rs).filter(r => r.value === true || r.value(s) === true).map(i => ({ ...i, value: true as true }))
+        //   : kvDictArray(rs).filter(r => r.value === true);
+        const dynamicRules = arrayToDict(dictToArray(rs).filter(rule => {
+          const [k, v] = rule;
+          return typeof v[k] === "function";
+        }).filter(rule => {
+          const [k, v] = rule;
+          return (v[k] as Function)(s);
+        }));
 
-        type Rules = keyof typeof rules;
-        return rules as unknown as Rules;
+
+        return {
+          ruleset: rs,
+          type: "" as StaticRules & typeof dynamicRules
+        };
+
+        //   type Rules = keyof typeof rules;
+        //   return rules as unknown as Rules;
       };
     };
 

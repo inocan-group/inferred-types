@@ -1,4 +1,4 @@
-import { KvDict } from "~/types";
+import { DictKv } from "~/types";
 
 // TODO: this does not work correctly yet, needs to be fixed or removed
 
@@ -6,7 +6,7 @@ import { KvDict } from "~/types";
  * Converts an array of `KeyValue` objects into
  * a dictionary object.
  */
-export function kvToDictionary<KV extends KvDict<K, any>, K extends keyof KV, D extends { [U in keyof K]: any }>(kv: KV[]): D {
+export function kvToDictionary<KV extends DictKv<K, any>, K extends keyof KV, D extends { [U in keyof K]: any }>(kv: KV[]): D {
   const obj: any = {};
 
   for (const kvi of kv) {

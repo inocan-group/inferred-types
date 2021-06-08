@@ -1,14 +1,6 @@
 import { KV } from "~/KV";
 import { entries } from "~/utility";
 
-// export type KvIsolate = <R extends any>() => R extends [infer K, object]
-//   ? [K, object] extends [K, Record<any, infer V>] ? [K, V] : [K, unknown]
-//   : never;
-
-// export type KvIsolate<T extends {[K in keyof T]: any}> = [Readonly<K>, any];
-
-
-
 /**
  * Converts a dictionary of key/value pairs into an array of KV
  * isolates.
@@ -24,7 +16,7 @@ import { entries } from "~/utility";
  * ```
  **/
 export function isolateKv<T extends NonNullable<object>>(obj: T) {
-  const isolates = [];
+  const isolates: [string, object][] = [];
 
   for (const [k, v] of entries(obj)) {
     if (typeof k === "string") {

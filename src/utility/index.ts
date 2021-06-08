@@ -2,9 +2,9 @@
 
 // #region autoindexed files
 
-// index last changed at: 6th Jun, 2021, 02:04 PM ( GMT-7 )
+// index last changed at: 6th Jun, 2021, 11:00 AM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: ExclusionSet, ExplicitFunction, IdentityFunction, Keys, arrayToDictionaryKeys, dictionaryTransform, entries, isolateKv, kvDictArray, kvMap, kvToDictionary, kvTupleArray.
+// files: ExclusionSet, ExplicitFunction, IdentityFunction, Keys, arrayToDictionaryKeys, dictToArray, dictionaryTransform, entries, isolateKv, kvDictArray, kvMap, kvToDictionary, literal.
 
 // local file exports
 export * from "./ExclusionSet";
@@ -12,13 +12,14 @@ export * from "./ExplicitFunction";
 export * from "./IdentityFunction";
 export * from "./Keys";
 export * from "./arrayToDictionaryKeys";
+export * from "./dictToArray";
 export * from "./dictionaryTransform";
 export * from "./entries";
 export * from "./isolateKv";
 export * from "./kvDictArray";
 export * from "./kvMap";
 export * from "./kvToDictionary";
-export * from "./kvTupleArray";
+export * from "./literal";
 
 // Note:
 // -----

@@ -1,6 +1,4 @@
-export type KvDict<T extends {} = {}, K extends keyof T = keyof T> = {
+export type DictKv<T extends NonNullable<{}>, K extends keyof T> = {
   key: K;
-  value: T[K];
+  value: Pick<T, K>;
 };
-
-export type KvTuple<K extends Readonly<string>, V extends any> = [K, V];

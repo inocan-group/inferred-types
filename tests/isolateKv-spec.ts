@@ -1,4 +1,4 @@
-import { isolateKv, Keys } from "~/utility";
+import { isolateKv, keys } from "~/utility";
 
 describe("isolateKv()", () => {
   it("validation of output structure", () => {
@@ -7,7 +7,7 @@ describe("isolateKv()", () => {
 
     // should be an array of isolates
     expect(Array.isArray(iso)).toBe(true);
-    expect(iso.length).toBe(Keys(obj).length);
+    expect(iso.length).toBe(keys(obj).length);
 
     for (const i of iso) {
       // each isolate is a Tuple of [key, kv]
@@ -16,7 +16,7 @@ describe("isolateKv()", () => {
       // the key and kv are structured  -- at a high 
       // level -- as they should be
       const [key, kv] = i;
-      expect(Keys(obj)).toContain(key);
+      expect(keys(obj)).toContain(key);
       expect(typeof kv).toBe("object");
       // TODO: add type checks here for prop visibility
 

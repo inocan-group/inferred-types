@@ -14,12 +14,11 @@ export type OptionalKeys<T extends object> = {
 
 
 /**
- * The _keys_ on a given object `T` which have a value of `W`
+ * The _keys_ on a given object `T` which have a literal value of `W`
  */
 export type KeysWithValue<W extends any, T extends object> = {
-  [K in keyof T]: T[K] extends W ? K : never
+  [K in keyof T]: T[K] extends W ? Readonly<K> : never
 }[keyof T];
-
 
 
 /**
