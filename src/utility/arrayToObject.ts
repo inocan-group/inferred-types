@@ -1,3 +1,5 @@
+// TODO: look into renaming these functions
+
 /**
  * Takes a strongly typed array of objects and converts it into a dictionary
  * of objects while preserving the strong typing in the original objects.
@@ -25,16 +27,3 @@ export function arrayToObjectName<T extends { name: S }, S extends PropertyKey>(
 ) {
   return arr.reduce((acc, v) => ({ ...acc, [v.name]: v }), {} as { [V in T as V["name"]]: V });
 }
-
-// TODO: create a function which takes the unique value as a parameter instead of having static functions above
-/**
- * Takes an array of type `<T>` and spreads it out into a dictionary while preserving the type
- * literal value in `key` property.
- */
-// export function discriminatedArrayToDictionary<T extends {}>(arr: readonly T[]) {
-//   return <K extends keyof T & PropertyKey>(key: K) => {
-//     const keys = arr.map((i) => i[key]);
-
-//     return arr.reduce((acc, v) => ({ ...acc, [key]: v }), {} as { [V in T as V[K]]: V });
-//   };
-// }

@@ -1,7 +1,6 @@
 /* eslint-disable unicorn/consistent-function-scoping */
 import type { Expect, Equal } from "@type-challenges/utils";
-import { ExpandRecursively } from "~/types";
-import { KeysWithValue, KeysWithValueType, OptionalKeys, RequiredKeys, RequiredProps, WithValue, WithValueType } from "~/types/props";
+import { KeysWithValue, OptionalKeys, RequiredKeys, RequiredProps, WithValue, WithStringKeys, StringKeys, NumericKeys, NonStringKeys, WithNumericKeys } from "~/types/props";
 
 type T0 = { foo: number; bar: number; baz: string };
 type T1 = { foo: number; bar: number; baz?: string };
@@ -167,5 +166,28 @@ describe("Dictionary Type Utils", () => {
     expect(cases).toBe(cases);
   });
 
+  it("WithStringKeys<T> and WithNumericKeys<T> reduce type to appropriate subset", () => {
+    const t1 = { foo: 456, bar: "hi", 1: "a number", 2: "another pesky number" };
+    type T1 = typeof t1;
+    type SK = StringKeys<T1>;
+    type NK = NumericKeys<T1>;
+    type NonString = NonStringKeys<T1>;
+    type StringKeysOnly = WithStringKeys<T1>;
+    type NumericKeysOnly = WithNumericKeys<T1>;
+
+    type cases = [
+      // the building blocks is being able to determine the string
+      // and numeric keys on an object
+      Expect<Equal<SK, "foo" | "bar">>,
+      Expect<Equal<NK, 1 | 2>>,
+      Expect<Equal<NonString, 1 | 2>>,
+      // they key based primitives allows us to to then just ask
+      // for the object with only string-based keys represented 
+      Expect<Equal<StringKeysOnly, { foo: number; bar: string }>>,
+      Expect<Equal<NumericKeysOnly, { 1: string; 2: string }>>
+    ];
+    const cases: cases = [true, true, true, true, true];
+    expect(cases).toBe(cases);
+  });
 
 });

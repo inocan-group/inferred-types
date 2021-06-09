@@ -1,16 +1,20 @@
 import { keys } from "./Keys";
-
-export type DictArray<T> = Array<{ [K in keyof T]: [K, Pick<T, K>] }[keyof T]>;
+import { DictArray } from "~/types";
 
 /**
+ * **dictToArray**
+ * 
  * Converts a dictionary object into an array of `KeyValue` dictionaries
- * while maintaining narrow type definitions.
+ * while maintaining type definitions.
  * 
  * ```ts
  * const example = { foo: 1, bar: "hi" };
- * // [ ["foo", { foo: 1 }], [ "bar", { bar: "hi" }]  ]
+ * // [ ["foo", { foo: number }], [ "bar", { bar: string }]  ]
  * const arr = dictToArray(example);
  * ```
+ * 
+ * > If you want values to be _literal_ types be sure to leverage `literal()`
+ * > utility function.
  */
 export function dictToArray<T extends object>(obj: T): DictArray<T> {
   const out: any = [];
@@ -20,16 +24,4 @@ export function dictToArray<T extends object>(obj: T): DictArray<T> {
   }
 
   return out as DictArray<T>;
-}
-
-
-export function arrayToDict<T extends object>(arr: DictArray<T>): T {
-  const out: any = {};
-
-  for (const kv of arr) {
-    const [k, v] = kv;
-    out[k] = v[k];
-  }
-
-  return out as T;
 }

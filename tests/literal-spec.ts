@@ -63,7 +63,6 @@ describe("literal enforcement", () => {
     const nope = literal(wide);
     type Nope = typeof nope;
 
-
     type cases = [
       Expect<Equal<Wide, { foo: number; bar: boolean; baz: string }>>,
       Expect<Equal<Narrow, { foo: 1; bar: false; baz: "hi" }>>,

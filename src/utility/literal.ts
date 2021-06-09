@@ -30,13 +30,6 @@ export function kindLiteral<T extends { kind: I }, I extends PropertyKey>(
   return o;
 }
 
-// export function literal<T extends { K: S }, S extends PropertyKey, K extends keyof T = keyof T>(
-//   dictionary: T,
-//   key: K
-// ): T & { K: T[K] } {
-//   return dictionary;
-// }
-
 export function idTypeGuard<T extends { id: I }, I extends PropertyKey>(
   _o: T
 ): _o is T & { id: I } {
@@ -47,8 +40,8 @@ export function idTypeGuard<T extends { id: I }, I extends PropertyKey>(
  * Takes an object as input and infers the narrow literal types of the property
  * values on the object.
  * 
- * > Note: this addresses this [a known TS gap](https://github.com/microsoft/TypeScript/issues/30680). Hopefully at some point this will be addressed in
- * > the language.
+ * > Note: this addresses this [a known TS gap](https://github.com/microsoft/TypeScript/issues/30680). 
+ * > Hopefully at some point this will be addressed in the language.
  */
 export function literal<N extends Narrowable, T extends Record<keyof T, N>>(obj: T) {
   return obj;
