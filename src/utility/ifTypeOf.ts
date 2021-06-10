@@ -60,8 +60,3 @@ export const ifTypeOf = <N extends Narrowable, TValue extends Record<keyof TValu
     } && trueFalse;
   }
 });
-
-
-const ident = <N extends Narrowable, T extends Record<any, N> | number | string | boolean>(v: T) => v;
-
-const foo = ident({ foo: 1, bar: 2 });

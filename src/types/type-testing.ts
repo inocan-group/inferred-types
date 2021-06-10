@@ -11,4 +11,7 @@ export type AssertExtends<VALUE, EXPECTED> = EXPECTED extends VALUE ? any : neve
 
 export type IfExtends<VALUE, EXPECTED> = EXPECTED extends VALUE ? VALUE : never;
 
+/**
+ * Give a type `TValue` and a comparison type `TExtends` 
+ */
 export type IfExtendsThen<VALUE, EXPECTED, THEN> = EXPECTED extends VALUE ? THEN : never;

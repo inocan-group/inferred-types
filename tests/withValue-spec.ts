@@ -4,9 +4,9 @@ import type { Expect, Equal } from "@type-challenges/utils";
 describe("withValue()() utility", () => {
   it("reduce to just kv's with a particular type", () => {
     const obj = { foo: 1, bar: true, message: "hi there" };
-    const str = withValue<string>()(obj);
+    const str = withValue("" as string)(obj);
     type Str = typeof str;
-    const num = withValue<number>()(obj);
+    const num = withValue<number>(0)(obj);
     type Num = typeof num;
     type cases = [
       Expect<Equal<Str, { message: string }>>,

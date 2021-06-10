@@ -61,7 +61,7 @@ const receiveCurrentState = <
     //   })) : {};
 
     type DynamicRule = (s: S) => boolean;
-    const dynRules = withValue<DynamicRule>((s: S) => true)(rs);
+    const dynRules = withValue<DynamicRule>((_s: S) => true)(rs);
 
     const dynOutcomes = literal(dictionaryTransform<typeof dynRules, Record<keyof typeof dynRules, true | null>>(dynRules, (i, k) => {
       console.log({ i, k, typeof: typeof i[k] });
