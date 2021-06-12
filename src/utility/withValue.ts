@@ -17,7 +17,7 @@ import { ifTypeOf } from "./ifTypeOf";
  * Note: _often useful to provide run-time type profiles with the_ `inferredType` _utility_
  */
 export function withValue<W extends any>(type: W) {
-  return <T extends {}, K extends Array<keyof WithValue<W, T>>>(obj: T) => {
+  return <T extends object, K extends Array<keyof WithValue<W, T>>>(obj: T) => {
 
     return Object.fromEntries(
       [...entries(obj)].filter(([_key, value]) => {

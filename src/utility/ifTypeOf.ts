@@ -29,13 +29,13 @@ function runtimeExtendsCheck<
       if (val === null && base === null) {
         return true as TValue extends TBase ? true : false;
       }
-      return keys(val as object).every(i => runtimeExtendsCheck(val[i], base[i], narrow)) as TValue extends TBase ? true : false;
+      return keys(base as object).every(i => runtimeExtendsCheck(val[i], base[i], narrow)) as TValue extends TBase ? true : false;
   }
 }
 
-export const ifTypeOf = <N extends Narrowable, TValue extends Record<keyof TValue, N>>(val: TValue) => ({
+export const ifTypeOf = <N extends Narrowable, TValue extends Record<keyof TValue, N> | number | string | boolean | symbol>(val: TValue) => ({
   extends: <TBase extends any>(base: TBase) => {
-    const valid = runtimeExtendsCheck(val, base);
+    const valid = runtimeExtendsCheck(val, base, false);
     const trueFalse = (valid ? true : false) as TValue extends TBase ? true : false;
     return {
       then: <TResult extends any>(then?: TResult) => ({
@@ -47,7 +47,7 @@ export const ifTypeOf = <N extends Narrowable, TValue extends Record<keyof TValu
     } && trueFalse;
   },
 
-  narrowlyExtends: <N extends Narrowable, TBase extends Record<keyof TBase, N>>(base: TBase) => {
+  narrowlyExtends: <NB extends Narrowable, TBase extends Record<keyof TBase, NB> | number | string | boolean | symbol>(base: TBase) => {
     const valid = runtimeExtendsCheck(val, base, true);
     const trueFalse = (valid ? true : false) as TValue extends TBase ? true : false;
     return {
