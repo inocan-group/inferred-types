@@ -70,6 +70,20 @@ describe("ifTypeOf() utility", () => {
     expect(cases).toBe(cases);
   });
 
+  it("validation of function types works when expressed widely", () => {
+    const target: Function = () => "";
+    const fn = () => "hi";
+    const fnExtends = ifTypeOf(fn).extends(target);
+
+    expect(fnExtends).toBe(true);
+
+    type cases = [
+      Expect<Equal<typeof fnExtends, true>>
+    ];
+    const cases: cases = [true];
+    expect(cases).toBe(cases);
+  });
+
   it("checklist example", () => {
     const noFoodOrDrink = ifTypeOf({ wakeUp: true }).extends({ wakeUp: true, eatBreakfast: true, drinkCoffee: true });
     const ready = ifTypeOf({ wakeUp: true, eatBreakfast: true, drinkCoffee: true }).extends({ wakeUp: true, eatBreakfast: true, drinkCoffee: true });
