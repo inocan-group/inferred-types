@@ -1,5 +1,6 @@
+import { InferenceError } from "~/errors";
 import { Narrowable } from "~/types/Narrowable";
-import { keys } from "./Keys";
+import { keys } from "./keys";
 
 function runtimeExtendsCheck<
   TValue extends any,
@@ -21,10 +22,10 @@ function runtimeExtendsCheck<
     case "undefined":
       return true as TValue extends TBase ? true : false;
     case "function":
-      // narrow checking is a bit hacky for functions; is there a better way?
-      return narrow
-        ? (val.toString() === (base as Function).toString()) as TValue extends TBase ? true : false
-        : true as TValue extends TBase ? true : false;
+      if (narrow) {
+        throw new InferenceError(`Use of narrowlyExtends with a function is not possible!`, "ifTypeOf/not-allowed");
+      }
+      return true as TValue extends TBase ? true : false;
     case "object":
       if (val === null && base === null) {
         return true as TValue extends TBase ? true : false;

@@ -1,7 +1,6 @@
 /* eslint-disable unicorn/consistent-function-scoping */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Expect, Equal } from "@type-challenges/utils";
-import { ExpectExtends } from "~/types";
 import { ifTypeOf, inferredType, literal } from "~/utility";
 
 describe("ifTypeOf() utility", () => {
@@ -135,7 +134,6 @@ describe("ifTypeOf() utility", () => {
     const literal = { foo: 1 } as const;
     const wide = { bar: "hi" };
     const hybrid = { ...literal, ...wide };
-
     const toughLuck = ifTypeOf({ foo: 1, bar: "bye" }).narrowlyExtends(hybrid);
 
     // toughLuck should be TRUE because both bar's are strings
@@ -159,22 +157,23 @@ describe("ifTypeOf() utility", () => {
     const fn2 = (_c: number) => "string";
     const genericFn: Function = () => "string";
 
-    // Immediately the runtime system is wrong; the type system has no problem
-    const narrow = ifTypeOf(fn).narrowlyExtends(fn2);
-    const asWellAsGeneric = ifTypeOf(fn).narrowlyExtends(genericFn);
 
-    type Functions = [
-      Expect<Equal<typeof narrow, true>>,
-      Expect<Equal<typeof asWellAsGeneric, true>>
-    ];
-    const functions: Functions = [true, true];
-    expect(functions).toBe(functions);
+    try {
+      const narrow = ifTypeOf(fn).narrowlyExtends(fn2);
+      const asWellAsGeneric = ifTypeOf(fn).narrowlyExtends(genericFn);
+      // the type checks shows that the type system is fine
+      type Functions = [
+        Expect<Equal<typeof narrow, true>>,
+        Expect<Equal<typeof asWellAsGeneric, true>>
+      ];
+      const functions: Functions = [true, true];
+      expect(functions).toBe(functions);
+      throw new Error("The attempt to run narrowlyExtends on a function should throw an error");
+    } catch {
+      // there is no way to narrow compare functions and so it throws
+      // an error to the run time system
+    };
 
-    // the failed attempt to use `fn.toString()` immediately rears it's head
-    // this should be TRUE but is reporting FALSE due to faulty wiring.
-    expect(narrow).toBe(false);
-    // testing a explicit function against a generic function is
-    // effectively impossible at run time
   });
 });
 

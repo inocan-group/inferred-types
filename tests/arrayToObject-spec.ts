@@ -1,102 +1,112 @@
-import * as t from "io-ts";
-import { Equal, Expect, ExpectExtends, NotEqual } from "@type-challenges/utils";
-import { SimpleTable } from "./data";
-import { IModel, Model } from "~/Model";
-import { arrayToObjectName } from "~/arrayToObject";
 
-const SongMeta = t.partial({ year: t.number, genre: t.string });
-const Song = Model(
-  "Song",
-  { name: t.string, artist: t.string },
-  { album: t.string, meta: SongMeta }
-);
-type SongType = t.TypeOf<typeof Song>;
-const goodSong: SongType = { name: "Highway to Hell", artist: "AC/DC" };
-const Playlist = Model("Playlist", { name: t.string, owner: t.string });
-// type PlaylistType = t.TypeOf<typeof Playlist>;
+import { Equal, Expect, ExpectExtends } from "@type-challenges/utils";
+import { inferredType, keys } from "~/utility";
+import { ArrayConverter, arrayToObject, GeneralDictionary, UniqueDictionary } from "~/utility/arrayToObject";
+
+const foo = { name: "foo", age: 123, color: "red" } as const;
+const foo2 = { name: "foo", age: 44, color: "orange" } as const;
+const bar = { name: "bar", age: 456, color: "blue" } as const;
+const baz = { name: "baz", age: 42, color: "green" } as const;
+
 
 describe("arrayToObject => ", () => {
-  it("array of relatively simple name/value objects with different types for 'value'", () => {
-    const foo = { name: "foo", value: 123 } as const;
-    const bar = { name: "bar", value: "bar" } as const;
-    const baz = { name: "baz", value: new Date() } as const;
 
-    const arr = [foo, bar, baz];
-    const result = arrayToObjectName(arr);
+  it("partial application of arrayToObject()", () => {
+    const t1 = arrayToObject("name", false);
+    type T1 = typeof t1;
+    const t2 = arrayToObject("name", true);
+    type T2 = typeof t2;
+    const t3 = arrayToObject("name");
+    type T3 = typeof t3;
 
-    expect(typeof result).toBe("object");
-
-    expect(typeof result.foo).toBe("object");
-    expect(typeof result.foo.value).toBe("number");
-    expect(result.foo.value.toFixed(2)).toBe(foo.value.toFixed(2));
-
-    expect(typeof result.bar).toBe("object");
-    expect(typeof result.bar.value).toBe("string");
-    expect(result.bar.name).toBe("bar");
-    expect(result.bar.value.toUpperCase()).toBe(bar.value.toUpperCase());
-  });
-
-  it("array of Model's converted to dictionary without loss of type fidelity", () => {
-    const arr = [Song, Playlist];
-    const dict = arrayToObjectName(arr);
-    type Dict = typeof dict;
-    // @ts-ignore
     type cases = [
-      // dictionary is recognized as an object
-      Expect<ExpectExtends<object, Dict>>,
-      // both Song and Playlist are properties on the object of type IModel
-      Expect<ExpectExtends<IModel<any, any>, Dict["Song"]>>,
-      Expect<ExpectExtends<IModel<any, any>, Dict["Playlist"]>>,
-      // the "name" property of each model is retained as a literal type
-      Expect<Equal<Dict["Song"]["name"], "Song">>,
-      Expect<NotEqual<Dict["Song"]["name"], "string">>,
-      Expect<Equal<Dict["Playlist"]["name"], "Playlist">>,
-      Expect<NotEqual<Dict["Song"]["name"], "string">>
+      // literal statements about uniqueness are conveyed in partial application
+      Expect<Equal<T1, ArrayConverter<"name", false>>>,
+      Expect<Equal<T2, ArrayConverter<"name", true>>>,
+      // the default case is correctly set to true
+      Expect<Equal<T3, ArrayConverter<"name", true>>>,
+
+      // The response types for each type is as expected
+      Expect<ExpectExtends<GeneralDictionary<"name", any, any>, ReturnType<T1>>>,
+      Expect<ExpectExtends<UniqueDictionary<"name", any, any>, ReturnType<T2>>>,
+      Expect<ExpectExtends<UniqueDictionary<"name", any, any>, ReturnType<T3>>>,
     ];
 
-    if (dict.Song.is(goodSong)) {
-      type GoodSong = typeof goodSong;
-      // @ts-ignore
-      type cases = [Expect<Equal<SongType, GoodSong>>];
-    }
+    const cases: cases = [true, true, true, true, true, true];
+    expect(cases).toBe(cases);
   });
 
-  it("array of SimpleTable objects -- which have literal types for name -- retain not only io-ts type info but also table structure", () => {
-    const SongTable = SimpleTable(Song);
-    const PlaylistTable = SimpleTable(Playlist);
-    const arr = [SongTable, PlaylistTable];
-    const dict = arrayToObjectName(arr);
-    type Dict = typeof dict;
+  it("arrayToObject() is able to operate on unique and non-unique types", () => {
+    // first test where name is unique
+    const arr1 = [foo, bar, baz];
+    const dict1 = arrayToObject("name")(arr1);
 
-    expect(dict.Song.name).toBe("Song");
-    // type guards of the given type are preserved
-    // but this is less a test of the type system than
-    // we'd ideally like as `io-ts` stores typing info
-    // at run-time
-    expect(dict.Song.is(goodSong)).toBe(true);
-    expect(dict.Song.is({ id: "not-a-song" })).toBe(false);
+    expect(dict1.foo).toBe(foo);
+    expect(dict1.bar).toBe(bar);
+    expect(dict1.baz).toBe(baz);
 
-    // @ts-ignore
+    // now test where name is not unique
+    const arr2 = [foo, foo2, bar, baz];
+    const dict2 = arrayToObject("name")(arr2);
+
+    expect(dict2.foo).toBe(foo2);
+    expect(dict2.bar).toBe(bar);
+    expect(dict2.baz).toBe(baz);
+
+    // because we've stated that items are _not_ unique
+    // we should expect results to be an array
+    const dict3 = arrayToObject("name", false)(arr2);
+
+    expect(Array.isArray(dict3.foo)).toBe(true);
+    expect(Array.isArray(dict3.bar)).toBe(true);
+    expect(Array.isArray(dict3.baz)).toBe(true);
+
+    type SomeFoo = typeof foo | typeof foo2;
+
     type cases = [
-      // dictionary is recognized as an object
-      Expect<ExpectExtends<object, Dict>>,
-      // the "name" property should be extended from a string, but ...
-      Expect<ExpectExtends<string, Dict["Song"]["name"]>>,
-      Expect<ExpectExtends<string, Dict["Playlist"]["name"]>>,
-      // needs to be a literal type so that typing resolution is preserved
-      // this starts with the underlying model having a literal type:
-      Expect<Equal<typeof Song["name"], "Song">>,
-      // and with this established we need to be sure it still exists
-      // as a literal type when passed through the SimpleTable function
-      Expect<Equal<typeof SongTable["name"], "Song">>,
-      // with that test passed, the final test is that after having been
-      // put into an array and then converted to a dictionary, this literal
-      // type is preserved
-      Expect<Equal<Dict["Song"]["name"], "Song">>,
-      Expect<Equal<Dict["Playlist"]["name"], "Playlist">>
+      // both unique and non-unique have the same keys
+      Expect<Equal<keyof typeof dict1, "foo" | "bar" | "baz">>,
+      Expect<Equal<keyof typeof dict2, "foo" | "bar" | "baz">>,
+      // with a unique type for "foo" we get a literal definition
+      Expect<Equal<typeof dict1["foo"], typeof foo>>,
+      // however when we passed in two "types" for "foo" we get a union
+      Expect<Equal<typeof dict2["foo"], typeof foo | typeof foo2>>,
+      // once we state that foo is not unique, the type expanded to an array
+      Expect<Equal<typeof dict3["foo"], SomeFoo[]>>,
+    ];
+    const cases: cases = [true, true, true, true, true];
+    expect(cases).toBe(cases);
+  });
+
+  it("type support of wide an narrow types", () => {
+    const r1 = inferredType({ age: 45, color: "blue" })({ id: 1, slug: "bob" });
+    const r2 = inferredType({ age: 23, color: "red" })({ id: 2, slug: "chris" });
+    const arr = [r1, r2];
+
+    const id = arrayToObject("id")(arr);
+    type Id = typeof id;
+    const slug = arrayToObject("slug")(arr);
+    type Slug = typeof slug;
+
+    expect(keys(id)).toContain("1");
+    expect(keys(id)).toContain("2");
+    expect(keys(slug)).toContain("bob");
+    expect(keys(slug)).toContain("chris");
+
+    type cases = [
+      // "id" and "slug" are always expressed as literals
+      Expect<Equal<Id["1"]["id"], 1>>,
+      Expect<Equal<Id["1"]["slug"], "bob">>,
+      Expect<Equal<Slug["bob"]["id"], 1>>,
+      Expect<Equal<Slug["bob"]["slug"], "bob">>,
+      // "age" and "color" are expressed as their widened types
+      Expect<Equal<Id["1"]["age"], number>>,
+      Expect<Equal<Id["1"]["color"], string>>,
     ];
 
-    // type inference fails to provide non-io-ts properties
-    expect(dict.Song.select("*")).toBe("You did it");
+    const cases: cases = [true, true, true, true, true, true];
+    expect(cases).toBe(cases);
   });
+
+
 });

@@ -1,4 +1,4 @@
-import { keys } from "./Keys";
+import { keys } from "./keys";
 import { DictArray } from "~/types";
 
 /**

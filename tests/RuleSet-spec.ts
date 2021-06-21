@@ -2,7 +2,7 @@
 import { RuleSet } from "~/utility";
 type State = { foo: number; bar: number; baz: { a: number; b: number } };
 const rules1 = { foo: true, bar: true, yup: () => true, nope: () => false, maybe: (s: State) => s.foo > 5 } as const;
-import { Equal, NotEqual, Expect, ExpectExtends, ExpectFalse } from "@type-challenges/utils";
+import { Equal, Expect } from "@type-challenges/utils";
 
 
 describe("RuleSet", () => {

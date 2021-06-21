@@ -13,6 +13,6 @@ export function KV<V extends any, K extends string>(key: K, value: V) {
 /**
  * Build a key-value pair where the _key_ is a type literal
  */
-export const KV2 = <V extends any>() => <K extends string>(key: K, value: V) => {
+export const KV2 = <V extends any>() => <K extends string & keyof V>(key: K, value: V) => {
   return { [key]: value } as Record<K, V>;
 };
