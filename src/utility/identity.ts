@@ -5,5 +5,5 @@ import { Narrowable } from "~/types/Narrowable";
  */
 export const identity = <
   N extends Narrowable,
-  T extends Record<any, N> | number | string | boolean | symbol
+  T extends Record<any, N> | number | string | boolean | symbol | undefined | null
 >(v: T) => v;

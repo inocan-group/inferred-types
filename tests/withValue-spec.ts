@@ -1,4 +1,4 @@
-import { ifTypeOf, withValue } from "~/utility";
+import { withValue } from "~/utility";
 import type { Expect, Equal } from "@type-challenges/utils";
 import { WithValue } from "~/types";
 
@@ -16,22 +16,29 @@ describe("withValue()() utility", () => {
   });
 
 
-  it("runtime and type reduction with withValue() utility", () => {
-    const obj = { foo: 1, bar: true, message: "hi there" };
-    const str = withValue("" as string)(obj);
+  it.only("runtime and type reduction with withValue() utility", () => {
+    const obj = { foo: 1, foofoo: 2, bar: true, message: "hi there" } as const;
 
+    const str = withValue(t => t.string)(obj);
     type Str = typeof str;
-    const num = withValue(0 as number)(obj);
+    const num = withValue(t => t.number)(obj);
     type Num = typeof num;
-
+    const lit = withValue(t => t.literal(1))(obj);
+    type Lit = typeof lit;
 
     type cases = [
-      Expect<Equal<Str, { message: string }>>,
-      Expect<Equal<Num, { foo: number }>>,
+      Expect<Equal<Str, { readonly message: "hi there" }>>,
+      Expect<Equal<Num, { readonly foo: 1; readonly foofoo: 2 }>>,
+      Expect<Equal<Lit, { readonly foo: 1 }>>
     ];
+    const cases: cases = [true, true, true];
 
+    expect(str.message).toBe("hi there");
     expect((str as any).foo).toBe(undefined);
 
+    expect(num.foo).toBe(1);
+    expect(num.foofoo).toBe(2);
+    expect((num as any).message).toBe(undefined);
 
   });
 });

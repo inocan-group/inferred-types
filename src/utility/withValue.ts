@@ -2,6 +2,34 @@ import { ExpandRecursively, Narrowable, WithValue } from "~/types";
 import { entries } from "./entries";
 import { ifTypeOf } from "./ifTypeOf";
 
+const valueTypes = {
+  // WIDE
+  string: ["" as string, false] as [string, false],
+  boolean: [true as boolean, false] as [boolean, false],
+  number: [0 as number, false] as [number, false],
+  function: [(() => "") as Function, false] as [Function, false],
+  null: [null, false] as [null, false],
+  symbol: [Symbol("type") as Symbol, false] as [Symbol, false],
+  undefined: [undefined, false] as [undefined, false],
+  // NARROW
+  true: [true as true, true] as [true, true],
+  false: [false as false, true] as [false, true],
+  /** pass in a literal type */
+  literal: <
+    N extends Narrowable,
+    T extends Record<any, N> | number | string | boolean | symbol | undefined | null
+  >(v: T) => {
+    return [v as T, true] as [T, true];
+  }
+};
+
+export type ValueTypes = typeof valueTypes;
+
+export type ValueTypeFunc<N extends Narrowable, T extends Record<any, N> | number | string | boolean | symbol | null | Function> =
+  (v: ValueTypes) => [T, boolean];
+
+
+
 /**
  * **withValue**
  * 
@@ -9,23 +37,30 @@ import { ifTypeOf } from "./ifTypeOf";
  * key/value pairs which have a specified value. For instance:
  * 
  * ```ts
- * const obj = { foo: 1, message: "hi there" };
+ * const obj = { foo: 1, bar: 2, message: "hi there" };
  * // { message: "hi there" }
- * const onlyStrings = withValue("" as string)(obj);
+ * const onlyStrings = withValue(t => t.string)(obj);
+ * // { foo: 1 }
+ * const justOne = withValue(t => t.literal(1))(obj);
  * ```
  * 
  * Note: _often useful to provide run-time type profiles with the_ `inferredType` _utility_
  */
 export function withValue<
-  NW extends Narrowable,
-  W extends Record<any, NW> | number | string | boolean | symbol
->(type: W) {
+  N extends Narrowable,
+  W extends Record<any, N> | number | string | boolean | symbol | null | Function
+>(type: ValueTypeFunc<N, W>) {
+  type Type = ReturnType<typeof type>[0];
+
   return <NT extends Narrowable, T extends Record<any, NT>>(obj: T) => {
 
     return Object.fromEntries(
       [...entries(obj)].filter(([_key, value]) => {
-        return ifTypeOf(value).extends(type);
+        const [t, l] = type(valueTypes);
+        return l
+          ? ifTypeOf(value).narrowlyExtends(typeof t === "function" ? t(valueTypes) : t)
+          : ifTypeOf(value).extends(typeof t === "function" ? t(valueTypes) : t);
       })
-    ) as ExpandRecursively<WithValue<W, T>>;
+    ) as ExpandRecursively<WithValue<Type, T>>;
   };
 }
