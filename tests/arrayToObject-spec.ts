@@ -1,6 +1,6 @@
 
 import { Equal, Expect, ExpectExtends } from "@type-challenges/utils";
-import { inferredType, keys } from "~/utility";
+import { defineType, keys } from "~/utility";
 import { ArrayConverter, arrayToObject, GeneralDictionary, UniqueDictionary } from "~/utility/arrayToObject";
 
 const foo = { name: "foo", age: 123, color: "red" } as const;
@@ -79,8 +79,8 @@ describe("arrayToObject => ", () => {
   });
 
   it("type support of wide an narrow types", () => {
-    const r1 = inferredType({ age: 45, color: "blue" })({ id: 1, slug: "bob" });
-    const r2 = inferredType({ age: 23, color: "red" })({ id: 2, slug: "chris" });
+    const r1 = defineType({ id: 1, slug: "bob" })({ age: 45, color: "blue" });
+    const r2 = defineType({ id: 2, slug: "chris" })({ age: 23, color: "red" });
     const arr = [r1, r2];
 
     const id = arrayToObject("id")(arr);

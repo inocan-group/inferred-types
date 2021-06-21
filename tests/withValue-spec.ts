@@ -1,4 +1,4 @@
-import { inferredType, withValue } from "~/utility";
+import { defineType, withValue } from "~/utility";
 import type { Expect, Equal } from "@type-challenges/utils";
 import { WithValue } from "~/types";
 
@@ -51,8 +51,8 @@ describe("withValue()() utility", () => {
   });
 
   it("withValue() passes runtime and type tests with object type", () => {
-    const inner = inferredType({ color: "red", size: "large", quantity: 1 })({ id: 1 });
-    const obj = inferredType({ orders: inner })({ customer: 1 });
+    const inner = defineType({ id: 1 })({ color: "red", size: "large", quantity: 1 });
+    const obj = defineType({ customer: 1 })({ orders: inner });
 
     const o = withValue(t => t.object)(obj);
 

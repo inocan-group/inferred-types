@@ -1,10 +1,10 @@
 import type { Expect, Equal } from "@type-challenges/utils";
-import { inferredType } from "~/utility";
+import { defineType } from "~/utility";
 
 
 describe("inferredType() utility", () => {
   it("only specify a wide type", () => {
-    const t = inferredType({ foo: "", bar: 0 })({});
+    const t = defineType()({ foo: "", bar: 0 });
     type cases = [
       Expect<Equal<typeof t, { foo: string; bar: number }>>
     ];
@@ -13,7 +13,7 @@ describe("inferredType() utility", () => {
   });
 
   it("only specify a literal type", () => {
-    const t = inferredType({})({ foo: 1, bar: "hi" });
+    const t = defineType({ foo: 1, bar: "hi" })();
     type cases = [
       Expect<Equal<typeof t, { foo: 1; bar: "hi" }>>
     ];
@@ -22,7 +22,7 @@ describe("inferredType() utility", () => {
   });
 
   it("specify both wide and literal merged type", () => {
-    const t = inferredType({ foo: "" })({ bar: 1 });
+    const t = defineType({ bar: 1 })({ foo: "" });
 
     type cases = [
       Expect<Equal<typeof t, { foo: string; bar: 1 }>>
