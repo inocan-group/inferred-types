@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
 // TODO: look into renaming these functions
 
-import { MaybeTrue, Narrowable } from "~/types";
+import { Narrowable } from "~/types";
 
 /**
  * Takes a strongly typed array of objects and converts it into a dictionary
@@ -49,12 +49,19 @@ export type UniqueDictionary<S extends PropertyKey, N extends Narrowable, T exte
  */
 export type GeneralDictionary<S extends PropertyKey, N extends Narrowable, T extends Record<keyof T, N> & Record<S, any>> = { [V in T as V[S]]: V[] };
 
-/**
- * A converter function which receives an array of objects and converts to 
- */
-export type ArrayConverter<S extends PropertyKey, U extends boolean> = <N extends Narrowable, T extends Record<keyof T, N> & Record<S, any>>(
-  arr: readonly T[]
-) => U extends true ? UniqueDictionary<S, N, T> : GeneralDictionary<S, N, T>;
+
+
+
+export type ArrayConverter<S extends PropertyKey, U extends boolean> =
+  /**
+   * An `ArrayConverter` is the partial application of the `arrayToObject()`
+   * utility. At this point, the configuration is setup already and all that's
+   * left is to pass in an array of objects.
+   */
+  <N extends Narrowable, T extends Record<keyof T, N> & Record<S, any>>(
+    arr: readonly T[]
+  ) => true extends U ? UniqueDictionary<S, N, T> : GeneralDictionary<S, N, T>;
+
 
 /**
  * Converts an array of objects into a dictionary by picking a property name contained
@@ -74,10 +81,15 @@ export function arrayToObject<
   S extends PropertyKey,
   U extends boolean
 >(prop: S, unique?: U) {
-  // based on uniqueness, return appropriate data structure
-  return <N extends Narrowable, T extends Record<keyof T, N> & Record<S, any>>(
+  type X = true extends U ? true : false;
+  /**
+   * **arrayToObject** - partially applied
+   * 
+   * pass in an array of objects to complete application of arrayToObject()
+   */
+  const transform: ArrayConverter<S, X> = <N extends Narrowable, T extends Record<keyof T, N> & Record<S, any>>(
     arr: readonly T[]
-  ) => {
+  ): true extends X ? UniqueDictionary<S, N, T> : GeneralDictionary<S, N, T> => {
 
     const result = unique !== false
       ? arr.reduce(
@@ -91,7 +103,10 @@ export function arrayToObject<
       );
 
     // type cast based on `U`
-    return result as true extends U ? UniqueDictionary<S, N, T> : GeneralDictionary<S, N, T>;
+    return result as true extends X ? UniqueDictionary<S, N, T> : GeneralDictionary<S, N, T>;
   };
+
+  return transform;
+  // return converter(prop, unique);
 }
 

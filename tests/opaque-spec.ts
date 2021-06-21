@@ -35,8 +35,6 @@ describe("Opaque type from type-fest", () => {
     const p = person("Joe");
     const p2 = person2("Bob");
 
-    p.id = p2.id;
-
     console.log(p.id);
   });
 

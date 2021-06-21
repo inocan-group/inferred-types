@@ -1,4 +1,4 @@
-import { ExpandRecursively, WithValue } from "~/types";
+import { ExpandRecursively, Narrowable, WithValue } from "~/types";
 import { entries } from "./entries";
 import { ifTypeOf } from "./ifTypeOf";
 
@@ -11,18 +11,21 @@ import { ifTypeOf } from "./ifTypeOf";
  * ```ts
  * const obj = { foo: 1, message: "hi there" };
  * // { message: "hi there" }
- * const onlyStrings = withValue("")(obj);
+ * const onlyStrings = withValue("" as string)(obj);
  * ```
  * 
  * Note: _often useful to provide run-time type profiles with the_ `inferredType` _utility_
  */
-export function withValue<W extends any>(type: W) {
-  return <T extends object, K extends Array<keyof WithValue<W, T>>>(obj: T) => {
+export function withValue<
+  NW extends Narrowable,
+  W extends Record<any, NW> | number | string | boolean | symbol
+>(type: W) {
+  return <NT extends Narrowable, T extends Record<any, NT>>(obj: T) => {
 
     return Object.fromEntries(
       [...entries(obj)].filter(([_key, value]) => {
         return ifTypeOf(value).extends(type);
       })
-    ) as ExpandRecursively<Omit<WithValue<W, T>, K[number]>>;
+    ) as ExpandRecursively<WithValue<W, T>>;
   };
 }

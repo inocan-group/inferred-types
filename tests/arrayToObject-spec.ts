@@ -70,7 +70,7 @@ describe("arrayToObject => ", () => {
       // with a unique type for "foo" we get a literal definition
       Expect<Equal<typeof dict1["foo"], typeof foo>>,
       // however when we passed in two "types" for "foo" we get a union
-      Expect<Equal<typeof dict2["foo"], typeof foo | typeof foo2>>,
+      Expect<Equal<typeof dict2["foo"], SomeFoo>>,
       // once we state that foo is not unique, the type expanded to an array
       Expect<Equal<typeof dict3["foo"], SomeFoo[]>>,
     ];

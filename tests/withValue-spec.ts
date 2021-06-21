@@ -19,11 +19,11 @@ describe("withValue()() utility", () => {
   it("runtime and type reduction with withValue() utility", () => {
     const obj = { foo: 1, bar: true, message: "hi there" };
     const str = withValue("" as string)(obj);
+
     type Str = typeof str;
-    const num = withValue(0)(obj);
+    const num = withValue(0 as number)(obj);
     type Num = typeof num;
 
-    const check = ifTypeOf("hi there").extends(obj.message);
 
     type cases = [
       Expect<Equal<Str, { message: string }>>,
