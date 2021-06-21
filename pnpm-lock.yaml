@@ -36,7 +36,6 @@ specifiers:
   ts-jest: '26'
   ts-node: ^10.0.0
   ttypescript: ~1.5.12
-  type-fest: ^1.2.0
   typescript: ^4.3.4
   typescript-transform-paths: ~2.2.2
 
@@ -80,7 +79,6 @@ devDependencies:
   ts-jest: 26.5.6_jest@26.6.3+typescript@4.3.4
   ts-node: 10.0.0_e599a276c86b4d152cbe96ac82a6061e
   ttypescript: 1.5.12_ts-node@10.0.0+typescript@4.3.4
-  type-fest: 1.2.0
   typescript: 4.3.4
   typescript-transform-paths: 2.2.3_typescript@4.3.4
 
@@ -6989,11 +6987,6 @@ packages:
   /type-fest/0.8.1:
     resolution: {integrity: sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==}
     engines: {node: '>=8'}
-    dev: true
-
-  /type-fest/1.2.0:
-    resolution: {integrity: sha512-++0N6KyAj0t2webXst0PE0xuXb4Dv3z1Z+4SGzK+j/epeWBZCfkQbkW/ezscZwpinmBQ5wu/l4TqagKSVcAGCA==}
-    engines: {node: '>=10'}
     dev: true
 
   /typed-mapper/0.4.1:
