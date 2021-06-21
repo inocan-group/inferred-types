@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ExpandRecursively, Narrowable, WithValue } from "~/types";
 import { entries } from "./entries";
 import { ifTypeOf } from "./ifTypeOf";
@@ -8,6 +9,8 @@ const valueTypes = {
   boolean: [true as boolean, false] as [boolean, false],
   number: [0 as number, false] as [number, false],
   function: [(() => "") as Function, false] as [Function, false],
+  object: [{}, false] as [Record<string, any>, false],
+  array: <T extends any>(arr: T[] = [] as T[]) => [[], false] as [T[], false],
   null: [null, false] as [null, false],
   symbol: [Symbol("type") as Symbol, false] as [Symbol, false],
   undefined: [undefined, false] as [undefined, false],
@@ -20,15 +23,15 @@ const valueTypes = {
     T extends Record<any, N> | number | string | boolean | symbol | undefined | null
   >(v: T) => {
     return [v as T, true] as [T, true];
-  }
+  },
+  literalArray: <N extends Narrowable,
+    T extends Record<any, N> | number | string | boolean | symbol | undefined | null>(arr: T[]) => [arr, true],
 };
 
 export type ValueTypes = typeof valueTypes;
 
 export type ValueTypeFunc<N extends Narrowable, T extends Record<any, N> | number | string | boolean | symbol | null | Function> =
   (v: ValueTypes) => [T, boolean];
-
-
 
 /**
  * **withValue**
