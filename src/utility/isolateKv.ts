@@ -16,12 +16,13 @@ import { entries } from "~/utility";
  * ```
  **/
 export function isolateKv<T extends NonNullable<object>>(obj: T) {
-  const isolates: [string, object][] = [];
+  type Tuple = [keyof T, Record<keyof T & string, T[keyof T]>];
+  const isolates: Tuple[] = [];
 
   for (const [k, v] of entries(obj)) {
     if (typeof k === "string") {
       const kv = KV(k, v);
-      const isolate = [k, kv];
+      const isolate: Tuple = [k, kv];
       isolates.push(isolate);
     }
   }

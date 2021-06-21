@@ -1,6 +1,6 @@
 import { Api, FluentApi, ToFluent } from "~/types";
 import type { Expect, ExpectExtends, ExpectFalse, Equal } from "@type-challenges/utils";
-import { createStateIdentityApi } from "./data";
+import { createStateIdentityApi } from "../../tests/data";
 import { MutationApi } from "~/Builder";
 
 type TypedApi = {

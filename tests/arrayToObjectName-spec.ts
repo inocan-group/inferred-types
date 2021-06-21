@@ -83,6 +83,8 @@ describe("arrayToObjectName => ", () => {
       Expect<Equal<Dict["Playlist"]["name"], "Playlist">>,
       Expect<NotEqual<Dict["Song"]["name"], "string">>
     ];
+    const cases: cases = [true, true, true, true, true, true, true];
+    expect(cases).toBe(cases);
 
     if (dict.Song.is(goodSong)) {
       type GoodSong = typeof goodSong;

@@ -10,7 +10,7 @@ const valueTypes = {
   number: [0 as number, false] as [number, false],
   function: [(() => "") as Function, false] as [Function, false],
   object: [{}, false] as [Record<string, any>, false],
-  array: <T extends any>(arr: T[] = [] as T[]) => [[], false] as [T[], false],
+  array: <T extends any>(arr: T[] = [] as T[]) => [arr, false] as [T[], false],
   null: [null, false] as [null, false],
   symbol: [Symbol("type") as Symbol, false] as [Symbol, false],
   undefined: [undefined, false] as [undefined, false],
