@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/consistent-function-scoping */
 export interface IConfigurator<P = {}, C = {}> {
   set<V, K extends string, KV = { [U in K]: V }>(
     key: K,

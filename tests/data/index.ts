@@ -2,7 +2,7 @@
 
 // #region autoindexed files
 
-// index last changed at: 1st Jan, 2021, 04:42 PM ( GMT-8 )
+// index last changed at: 6th Jun, 2021, 02:46 PM ( GMT-7 )
 // export: named; exclusions: index, private.
 // files: SimpleTable, playlist, song.
 
@@ -13,7 +13,7 @@ export * from "./song";
 
 // Note:
 // -----
-// This file was created by running: "do devops autoindex"; it assumes you have
+// This file was created by running: "dd devops autoindex"; it assumes you have
 // the 'do-devops' pkg installed as a dev dep.
 //
 // By default it assumes that exports are named exports but this can be changed by

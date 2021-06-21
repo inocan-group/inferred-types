@@ -16,6 +16,8 @@
     "noImplicitReturns": true,
     "allowSyntheticDefaultImports": true,
 
+    "lib": ["ES2019"],
+
     "baseUrl": ".",
     "declaration": true,
     "outDir": "dist",

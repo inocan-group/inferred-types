@@ -22,7 +22,7 @@ export interface IFluentConfigurator<C> {
  * exclusively. If you don't the non-fluent properties set will not show up
  * in the typing or the run-time object.
  */
-export function FluentConfigurator<I>(initial?: I) {
+export function FluentConfigurator<I>(initial: I = {} as I) {
   const api = <C>(current: C): IFluentConfigurator<C> => {
     return {
       set<V, K extends string, KV = { [U in K]: V }>(key: K, value: V) {
@@ -39,11 +39,9 @@ export function FluentConfigurator<I>(initial?: I) {
 
   if (initial && typeof initial !== "object") {
     throw new Error(
-      `The FluentConfigurator was passed a non-object based value as the initial value. This is not allowed.`
+      "The FluentConfigurator was passed a non-object based value as the initial value. This is not allowed."
     );
   }
-
-  console.log(initial);
 
   return initial ? api(initial) : api({});
 }

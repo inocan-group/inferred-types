@@ -212,7 +212,9 @@ const usesGlobalVars = (mod) => {
 
   if (Object.keys(relevantModules).length > 0) {
     console.log(
-      `- While bundling will configure the following to be "external modules": ${relevantModules}.join(', ')`
+      `- While bundling will configure the following to be "external modules": ${relevantModules.join(
+        ", "
+      )}`
     );
   }
   if (moduleSystems.includes("iife") || moduleSystems.includes("umd")) {

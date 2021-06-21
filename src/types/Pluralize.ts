@@ -102,11 +102,11 @@ type PluralizeEndingIn_Y<T extends string> = T extends `${infer HEAD}${Y}`
 export type Pluralize<T extends string> = T extends isException<T>
   ? PluralException<T>
   : T extends EndsIn_IS<T>
-  ? PluralizeEndingIn_IS<T>
-  : T extends EndsInSingularNoun<T>
-  ? PluralizeEndingSingularNoun<T>
-  : T extends EndsIn_F<T>
-  ? PluralizeEnding_F<T>
-  : T extends EndsIn_Y<T>
-  ? PluralizeEndingIn_Y<T>
-  : `${T}s`;
+    ? PluralizeEndingIn_IS<T>
+    : T extends EndsInSingularNoun<T>
+      ? PluralizeEndingSingularNoun<T>
+      : T extends EndsIn_F<T>
+        ? PluralizeEnding_F<T>
+        : T extends EndsIn_Y<T>
+          ? PluralizeEndingIn_Y<T>
+          : `${T}s`;

@@ -10,9 +10,9 @@ type Snake = "_";
 export type KebabCase<S, T extends string = ""> = S extends `${infer HEAD}${Snake}${infer TAIL}`
   ? SnakeToDash<S>
   : S extends `${infer First}${infer Rest}`
-  ? First extends Uncapitalize<First>
-    ? KebabCase<Rest, `${T}${First}`>
-    : T extends ""
-    ? KebabCase<Rest, `${Uncapitalize<First>}`>
-    : KebabCase<Rest, `${T}-${Uncapitalize<First>}`>
-  : T;
+    ? First extends Uncapitalize<First>
+      ? KebabCase<Rest, `${T}${First}`>
+      : T extends ""
+        ? KebabCase<Rest, `${Uncapitalize<First>}`>
+        : KebabCase<Rest, `${T}-${Uncapitalize<First>}`>
+    : T;

@@ -2,27 +2,28 @@
 
 // #region autoindexed files
 
-// index last changed at: 2nd Feb, 2021, 02:06 PM ( GMT-8 )
+// index last changed at: 6th Jun, 2021, 02:46 PM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: Configurator, FluentConfigurator, Model, arrayToObject, literal.
-// directories: helpers, types.
+// files: Configurator, FluentConfigurator, KV, Model.
+// directories: Mutation, errors, types, utility.
 
 // local file exports
 export * from "./Configurator";
 export * from "./FluentConfigurator";
+export * from "./KV";
 export * from "./Model";
-export * from "./arrayToObject";
-export * from "./literal";
 
 // directory exports
-export * from "./helpers/index";
+export * from "./Mutation/index";
+export * from "./errors/index";
 export * from "./types/index";
+export * from "./utility/index";
 
 // there were directories orphaned: shared
 
 // Note:
 // -----
-// This file was created by running: "do devops autoindex"; it assumes you have
+// This file was created by running: "dd devops autoindex"; it assumes you have
 // the 'do-devops' pkg installed as a dev dep.
 //
 // By default it assumes that exports are named exports but this can be changed by

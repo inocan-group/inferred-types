@@ -1,4 +1,3 @@
-import { IModel, Model } from "../src/Model";
 import * as t from "io-ts";
 import { isLeft, isRight } from "fp-ts/Either";
 import {
@@ -9,6 +8,7 @@ import {
   ExpectFalse,
   ExpectTrue,
 } from "@type-challenges/utils";
+import { IModel, Model } from "~/Model";
 
 export const mySong = {
   artist: "Billy Idol",
@@ -152,7 +152,7 @@ describe("Model configurator => ", () => {
     // this will resolve to a union of Song and Playlist model structures
     type Union = SongType | PlaylistType;
 
-    arr.forEach((m) => {
+    for (const m of arr) {
       // run-time has a string for name
       expect(typeof m.name).toBe("string");
 
@@ -204,6 +204,6 @@ describe("Model configurator => ", () => {
           Expect<NotEqual<SpecificModel, Union>>
         ];
       }
-    });
+    }
   });
 });

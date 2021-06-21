@@ -1,3 +1,5 @@
 export function randomString() {
-  return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+  return Math.trunc((1 + Math.random()) * 0x10000)
+    .toString(16)
+    .slice(1);
 }
