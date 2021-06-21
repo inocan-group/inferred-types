@@ -73,10 +73,12 @@ export type ArrayConverter<S extends PropertyKey, U extends boolean> = <N extend
 export function arrayToObject<
   S extends PropertyKey,
   U extends boolean
->(prop: S, unique?: U): true extends U ? ArrayConverter<S, true> : ArrayConverter<S, false> {
+>(prop: S, unique?: U) {
+  // based on uniqueness, return appropriate data structure
   return <N extends Narrowable, T extends Record<keyof T, N> & Record<S, any>>(
     arr: readonly T[]
-  ): U extends true ? UniqueDictionary<S, N, T> : GeneralDictionary<S, N, T> => {
+  ) => {
+
     const result = unique !== false
       ? arr.reduce(
         (acc, v) => ({ ...acc, [v[prop]]: v }), {} as UniqueDictionary<S, N, T>
@@ -87,6 +89,8 @@ export function arrayToObject<
           return { ...acc, [v[prop]]: [...existing, v] };
         }, {} as GeneralDictionary<S, N, T>
       );
+
+    // type cast based on `U`
     return result as true extends U ? UniqueDictionary<S, N, T> : GeneralDictionary<S, N, T>;
   };
 }
