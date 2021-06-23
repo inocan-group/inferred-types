@@ -2,7 +2,7 @@ const { resolve } = require("path");
 
 module.exports = {
   verbose: true,
-  testMatch: ["**/tests/?(*-)+(spec|test).ts", "**/src/?(*-)+(spec|test).ts"],
+  testMatch: ["/tests/?(*-)+(spec|test).ts", "**/src/?(*-)+(spec|test).ts"],
 
   // Maps a regular expression for a "path" and maps it to a transformer
   // https://jestjs.io/docs/en/configuration#transform-objectstring-pathtotransformer--pathtotransformer-object

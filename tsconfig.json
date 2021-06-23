@@ -34,5 +34,14 @@
       { "transform": "typescript-transform-paths", "afterDeclarations": true }
     ]
   },
-  "include": ["src", "tests"]
+  "include": [
+    "src",
+    "tests",
+    "on-hold/tests/api-spec.ts",
+    "on-hold/tests/ToFluent-spec.ts",
+    "on-hold/tests/data/builder-data.ts",
+    "on-hold/RuleSet-spec.ts",
+    "on-hold/Builder-spec.ts",
+    "on-hold/Builder"
+  ]
 }

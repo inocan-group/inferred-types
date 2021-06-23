@@ -1,4 +1,4 @@
-import { entries } from "./entries";
+import { iterateDict } from "./iterateDict";
 
 /**
  * **mapValues**
@@ -13,6 +13,6 @@ import { entries } from "./entries";
  */
 export function mapValues<T extends object, V>(obj: T, valueMapper: (k: T[keyof T]) => V) {
   return Object.fromEntries(
-    [...entries(obj)].map(([k, v]) => [k, valueMapper(v)])
+    [...iterateDict(obj)].map(([k, v]) => [k, valueMapper(v)])
   ) as { [K in keyof T]: V };
 }

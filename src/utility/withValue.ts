@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ExpandRecursively, Narrowable, WithValue } from "~/types";
-import { entries } from "./entries";
+import { iterateDict } from "./iterateDict";
 import { ifTypeOf } from "./ifTypeOf";
 
 const valueTypes = {
@@ -24,8 +24,10 @@ const valueTypes = {
   >(v: T) => {
     return [v as T, true] as [T, true];
   },
-  literalArray: <N extends Narrowable,
-    T extends Record<any, N> | number | string | boolean | symbol | undefined | null>(arr: T[]) => [arr, true],
+  literalArray: <
+    N extends Narrowable,
+    T extends Record<any, N> | number | string | boolean | symbol | undefined | null
+  >(arr: T[]) => [arr, true],
 };
 
 export type ValueTypes = typeof valueTypes;
@@ -58,7 +60,7 @@ export function withValue<
   return <NT extends Narrowable, T extends Record<any, NT>>(obj: T) => {
 
     return Object.fromEntries(
-      [...entries(obj)].filter(([_key, value]) => {
+      [...iterateDict(obj)].filter(([_key, value]) => {
         const [t, l] = type(valueTypes);
         return l
           ? ifTypeOf(value).narrowlyExtends(typeof t === "function" ? t(valueTypes) : t)

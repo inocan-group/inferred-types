@@ -1,9 +1,9 @@
 /* eslint-disable unicorn/consistent-function-scoping */
-import { Builder, BuilderApi, BuilderComplete } from "../src/Builder";
+import { Builder, BuilderApi, BuilderComplete } from "../Builder";
 import { isNonNullObject } from "common-types";
 import type { Expect, ExpectExtends, ExpectFalse, Equal } from "@type-challenges/utils";
 import { FluentApi, Keys, ToFluent, TypeGuard } from "~/types";
-import { createBuilder, BuilderState } from "./data";
+import { createBuilder, BuilderState } from "../../tests/data";
 
 describe("Builder", () => {
   it("BuilderComplete utilty can detect when builder is complete", () => {

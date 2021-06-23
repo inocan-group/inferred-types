@@ -1,5 +1,6 @@
-import { KV } from "~/KV";
-import { entries } from "~/utility";
+import { KvTuple } from "~/types/KvTuple";
+import { Narrowable } from "~/types/Narrowable";
+import { iterateDict } from "~/utility";
 
 /**
  * Converts a dictionary of key/value pairs into an array of KV
@@ -15,17 +16,13 @@ import { entries } from "~/utility";
  * // ]
  * ```
  **/
-export function isolateKv<T extends NonNullable<object>>(obj: T) {
-  type Tuple = [keyof T, Record<keyof T & string, T[keyof T]>];
-  const isolates: Tuple[] = [];
+export function isolateKv<N extends Narrowable, T extends Record<keyof T & string, N>>(obj: T) {
+  const isolates = [];
 
-  for (const [k, v] of entries(obj)) {
-    if (typeof k === "string") {
-      const kv = KV(k, v);
-      const isolate: Tuple = [k, kv];
-      isolates.push(isolate);
-    }
+  for (const [k, v] of iterateDict(obj)) {
+    const isolate = [k, { [k]: v }];
+    isolates.push(isolate);
   }
 
-  return isolates;
+  return isolates as KvTuple<T, keyof T>[];
 }

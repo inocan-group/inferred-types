@@ -1,4 +1,8 @@
+import { Configurator, IConfigurator } from "~/Configurator";
+import { FluentConfigurator } from "~/FluentConfigurator";
 import { Narrowable } from "~/types";
+import { ExplicitFunction } from "./ExplicitFunction";
+
 
 export type RuleSet<T extends object, S extends object = {}> = { [K in keyof T]: true | ((s: S) => boolean) };
 
@@ -27,9 +31,9 @@ export type RulesetWithState<S extends object = {}> = <N extends Narrowable, R e
 
 export type RuleSetBuilder = <S extends object = {}>() => RulesetWithState<S>;
 
-export function ruleSet<T extends { [K in keyof T]: Readonly<T[K]> }>(rules: T) {
-  return rules;
-}
+// export function ruleSet<T extends { [K in keyof T]: Readonly<T[K]> }>(rules: T) {
+//   return rules;
+// }
 
 // const receiveCurrentState = <
 //   S extends object,
@@ -107,4 +111,13 @@ export function ruleSet<T extends { [K in keyof T]: Readonly<T[K]> }>(rules: T) 
 export function ExclusionSet<T extends { [K in keyof T]: true }>(set: T): keyof T {
   return set as any;
 }
+
+export type RuleSetValue<T extends object, F extends ExplicitFunction<any, true | false>> = true | false | F;
+
+export function ruleSet<T extends { [K in keyof T]: Readonly<RuleSetValue> }>(rules: T, state?: ) {
+  return rules;
+}
+
+const r = ruleSet({ id: true, color: () => false });
+
 

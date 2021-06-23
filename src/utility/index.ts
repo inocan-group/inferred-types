@@ -2,26 +2,27 @@
 
 // #region autoindexed files
 
-// index last changed at: 6th Jun, 2021, 02:17 PM ( GMT-7 )
+// index last changed at: 6th Jun, 2021, 05:00 PM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: ExclusionSet, ExplicitFunction, arrayToDict, arrayToDictionaryKeys, arrayToObject, defineType, dictToArray, dictionaryTransform, entries, identity, ifTypeOf, isolateKv, keys, literal, mapValues, strArrayToDict, valuesOfProp, withValue.
+// files: ExplicitFunction, arrayToDict, arrayToKeyLookup, arrayToObject, defineType, dictFilter, dictToArray, dictionaryTransform, identity, ifTypeOf, isolateKv, iterateDict, keys, literal, mapValues, ruleset, strArrayToDict, valuesOfProp, withValue.
 
 // local file exports
-export * from "./ExclusionSet";
 export * from "./ExplicitFunction";
 export * from "./arrayToDict";
-export * from "./arrayToDictionaryKeys";
+export * from "./arrayToKeyLookup";
 export * from "./arrayToObject";
 export * from "./defineType";
+export * from "./dictFilter";
 export * from "./dictToArray";
 export * from "./dictionaryTransform";
-export * from "./entries";
 export * from "./identity";
 export * from "./ifTypeOf";
 export * from "./isolateKv";
+export * from "./iterateDict";
 export * from "./keys";
 export * from "./literal";
 export * from "./mapValues";
+export * from "./ruleset";
 export * from "./strArrayToDict";
 export * from "./valuesOfProp";
 export * from "./withValue";
