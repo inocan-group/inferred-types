@@ -1,4 +1,4 @@
-import { Configurator, IConfigurator } from "../src/Configurator";
+import { Configurator, IConfigurator } from "../src/utility/state/Configurator";
 import { mySong, Playlist, SimpleTable, Song } from "./data";
 
 describe("Configurator => ", () => {

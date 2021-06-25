@@ -1,5 +1,5 @@
-import type { SnakeCase } from "../src/types";
-import type { Expect, Equal } from "@type-challenges/utils";
+import { SnakeCase } from "../src/types";
+import { Expect, Equal } from "@type-challenges/utils";
 
 type Pascal = SnakeCase<"HelloWorldWithTypes">;
 type Camel = SnakeCase<"helloWorldWithTypes">;

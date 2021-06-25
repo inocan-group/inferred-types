@@ -1,123 +1,63 @@
-import { Configurator, IConfigurator } from "~/Configurator";
-import { FluentConfigurator } from "~/FluentConfigurator";
-import { Narrowable } from "~/types";
-import { ExplicitFunction } from "./ExplicitFunction";
+/* eslint-disable no-use-before-define */
+import { Narrowable } from "~/types/Narrowable";
+import { TypeCondition } from "./runtime/ifTypeOf";
 
-
-export type RuleSet<T extends object, S extends object = {}> = { [K in keyof T]: true | ((s: S) => boolean) };
-
-// export function specifyRuleSet<T extends object = {}>(rs: T) {
-//   return rs as RuleSet<T>;
-// }
 
 /**
- * The outcome of a **RuleSet** which is union of string literals
- */
-export type RuleSetOutcome<O extends string> = O;
-
-/**
- * **RuleSetReady**
+ * **DynamicRule**
  * 
- * The ruleset is now ready to be given the current _state_ and with that it will produce
- * the final outcome (aka, a string literal union of property names)
- */
-export type RuleSetReady<S extends object, N extends Narrowable, R extends Record<keyof R, N>> = <O extends string>(state?: S) => RuleSetOutcome<O>;
-
-
-/**
- * A **RuleSet** with only the shape of "state" defined
- */
-export type RulesetWithState<S extends object = {}> = <N extends Narrowable, R extends Record<keyof R, N>>(rules: R) => RuleSetReady<S, N, R>;
-
-export type RuleSetBuilder = <S extends object = {}>() => RulesetWithState<S>;
-
-// export function ruleSet<T extends { [K in keyof T]: Readonly<T[K]> }>(rules: T) {
-//   return rules;
-// }
-
-// const receiveCurrentState = <
-//   S extends object,
-//   N extends Narrowable,
-//   R extends Record<keyof R, N>
-// >(rs: R) =>
-//   /**
-//    * Provide the current state to evaluate the dynamic rules against.
-//    * 
-//    * _The result of this function should be used by type system but has
-//    * no meaningful value to runtime._
-//    * 
-//    * > Note: using state is optional and if you pass in undefined as a
-//    * value you'll just get the static rules
-//    */
-//   (s?: S) => {
-//     // always just accept and pass through keys with value set to true
-//     type StaticRules = StringKeys<WithValue<true, typeof rs>>;
-
-//     // pass state into the dynamic rules
-//     // const dynamicRules = s
-//     //   ? arrayToDict(dictToArray(literal(rs)).map(rule => {
-//     //     const [k, v] = rule;
-//     //     // reduce further to those functions passing back a truthy value
-//     //     return (v[k] as Function)(s) ? true : null;
-//     //   })) : {};
-
-//     type DynamicRule = (s: S) => boolean;
-//     const dynRules = withValue<DynamicRule>((_s: S) => true)(rs);
-
-//     const dynOutcomes = literal(dictionaryTransform<typeof dynRules, Record<keyof typeof dynRules, true | null>>(dynRules, (i, k) => {
-//       console.log({ i, k, typeof: typeof i[k] });
-
-//       return typeof i[k] === "function" ? (i[k] as Function)(s) : undefined;
-//     }));
-
-//     console.log(dynamicRules);
-
-//     return "" as unknown as RuleSetOutcome<StaticRules | keyof typeof dynamicRules>;
-//   };
-
-
-// const receiveRuleSet = <
-//   S extends object
-// >() => <
-//   N extends Narrowable,
-//   R extends Record<keyof R, N>
-// /**
-//  * Provide the ruleset to be used
-//  */
-// >(rs: R) => {
-//     return receiveCurrentState<S, N, R>(rs);
-//   };
-
-/**
- * A function designed to build a property _ruleset_.
+ * A dynamic rule is a _function_ which recieves a partially applied `isTypeOf()` utility function
+ * which will allow a user to state the relationship they want to test relative to `TState`.
  * 
- * A ruleset is data structure built at run-time to convey a set of
- * props to the type system. This is designed as a higher-order function
- * and this first call is meant only to setup the "structure" of the state
- * structure which will be given to dynamic rules.
+ * ```ts
+ * const state = defineObject(t => t.string("id", {optional: true}));
+ * // type-safe way to check whether optional prop is actually set
+ * const rule: DynamicRule<typeof state> = s => s.has("id");
+ * ```
  */
-// export const RuleSet = <S extends object = {}>() => receiveRuleSet<S>();
-
-
+export type DynamicRule<TState extends any, TResult extends true | false> = (rule: TypeCondition<any, TState>) => TResult;
 
 /**
- * Provides a dictionary-based _exclusion-set_ intended to operate
- * with the type system to provide "exclusions" on an API surface.
+ * **DynamicRuleSet** 
  * 
- * The set is simply is a dictionary of string keys with a value of
- * true. The _type_ however is intentionally forced away from a 
- * dictionary to a union of string literal types.
+ * A function which accepts the agreed `TState` generic as input and returns a discrete
+ * `true` or `false` value.
  */
-export function ExclusionSet<T extends { [K in keyof T]: true }>(set: T): keyof T {
-  return set as any;
+export type DynamicRuleSet<TState extends any, TRules extends Record<string, TypeCondition<any, TState>>> = (rules: TRules) => true | false;
+
+const dynamicRuleState = {
+  state: <TState extends any>() => {
+    return {
+      rules: <TRules extends DynamicRuleSet<TState, TRules>>(rules: TRules) => {
+        const dynRules = rules();
+      }
+    };
+  }
+};
+
+export type DynamicRuleState = (def: typeof dynamicRuleState) => any;
+
+/**
+ * **ruleSet**
+ * 
+ * Defines a ruleset composed of _dynamic_ and _static_ boolean operators.
+ * 
+ * - the first function call defines _dynamic_ props (_optional_)
+ * - the second function call defines static values
+ * 
+ * ```ts
+ * const rs = ruleSet( 
+ *    r => r.state()( { maybe: r => r.extends({ foo: 1 }) })
+ * )( 
+ *    { color: true, age: false } 
+ * );
+ * ```
+ */
+export function ruleSet<N extends Narrowable, TState extends Record<keyof TState, N>, TRules extends DynamicRuleset<TState>>(defn?: DynamicRuleState) {
+  return <
+    TStatic extends { [K in keyof TStatic]: Readonly<true | false> },
+    >(rules: TStatic) => {
+    return rules;
+  };
 }
-
-export type RuleSetValue<T extends object, F extends ExplicitFunction<any, true | false>> = true | false | F;
-
-export function ruleSet<T extends { [K in keyof T]: Readonly<RuleSetValue> }>(rules: T, state?: ) {
-  return rules;
-}
-
-const r = ruleSet({ id: true, color: () => false });
-
 

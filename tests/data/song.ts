@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { Model } from "~/Model";
+import { IoModel } from "~/utility";
 
 export const SongMeta = t.partial({ year: t.number, genre: t.string });
 export const Song_RequiredProps = {
@@ -13,7 +13,7 @@ export const Song_OptionalProps = {
   meta: SongMeta,
 };
 
-export const Song = Model("Song", Song_RequiredProps, Song_OptionalProps);
+export const Song = IoModel("Song", Song_RequiredProps, Song_OptionalProps);
 export type ISong = t.TypeOf<typeof Song>;
 export const mySong: ISong = {
   artist: "Billy Idol",

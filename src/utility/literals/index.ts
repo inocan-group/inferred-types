@@ -1,15 +1,16 @@
-// #autoindex: orphan
-
+// #autoindex
 // #region autoindexed files
 
-// index last changed at: 6th Jun, 2021, 06:35 PM ( GMT-7 )
+// index last changed at: 6th Jun, 2021, 11:21 PM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: randomString, uuid, valueTypes.
+// files: ExplicitFunction, arrayToObject, defineType, identity, literal.
 
 // local file exports
-export * from "./randomString";
-export * from "./uuid";
-export * from "./valueTypes";
+export * from "./ExplicitFunction";
+export * from "./arrayToObject";
+export * from "./defineType";
+export * from "./identity";
+export * from "./literal";
 
 // Note:
 // -----

@@ -1,4 +1,4 @@
-import { Lowercase, Capitalize } from "./Intrinsic";
+import { Lowercase, Capitalize } from "~/types/alphabetic";
 
 type Delimiter = "_" | "-";
 

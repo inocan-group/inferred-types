@@ -1,15 +1,13 @@
-// #autoindex: orphan
-
+// #autoindex
 // #region autoindexed files
 
-// index last changed at: 6th Jun, 2021, 06:35 PM ( GMT-7 )
+// index last changed at: 6th Jun, 2021, 01:50 PM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: randomString, uuid, valueTypes.
+// files: IoModel, Model.
 
 // local file exports
-export * from "./randomString";
-export * from "./uuid";
-export * from "./valueTypes";
+export * from "./IoModel";
+export * from "./Model";
 
 // Note:
 // -----

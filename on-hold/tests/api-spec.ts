@@ -1,60 +1,78 @@
-import { Api, FluentApi, ToFluent } from "~/types";
-import type { Expect, ExpectExtends, ExpectFalse, Equal } from "@type-challenges/utils";
-import { createStateIdentityApi } from "../../tests/data";
-import { MutationApi } from "~/Builder";
+import { Equal, Expect } from "@type-challenges/utils";
+import { string } from "io-ts";
+import { Api, PrivateKeys, PublicKeys } from "~/types";
+import { defineType } from "~/utility";
+import { api } from "~/utility/api/api";
 
-type TypedApi = {
-  /** says hello */
-  hi: () => string;
-  bye: () => string;
-  luckyNumber: (n: number) => number;
-  /** the meaning of life */
-  meaningOfLife: number;
-  repeat: () => TypedApi;
-};
-
-
-const api = {
-  hi: () => "hi",
-  bye: () => "bye",
-  luckyNumber: (n) => n,
-  meaningOfLife: 42,
-  repeat: () => api
-};
 
 
 describe("Api<T> type", () => {
 
-  it("Api utility type does not change type but inferred and explicit do deviate with fluent API", () => {
+  it("PublicKeys<T> and PrivateKeys<T> type utils extract the right keys", () => {
 
-    type Untyped = typeof api;
-    type ATyped = Api<TypedApi>;
-    type AUntyped = Api<Untyped>;
+    const api = {
+      _state: 123,
+      _name: "hey ho",
+      greet: "hi",
+      age: 12
+    };
+
+    const f = string;
+
+    type Test = typeof api;
+    type Private = PrivateKeys<Test>;
+    type Public = PublicKeys<Test>;
 
     type cases = [
-      // inferred type is same as the inferred type wrapped by Api utility
-      Expect<Equal<AUntyped, Untyped>>,
-      // explicit type T is same as Api<T>
-      Expect<Equal<ATyped, TypedApi>>,
-      // the implicit and explicit types do vary because 
-      // the explicit can refer to a named type when
-      // a fluent API is employed
-      ExpectFalse<Equal<ATyped, AUntyped>>,
-      // still, the two API's are in effect the same
-      Expect<ExpectExtends<ATyped, AUntyped>>,
-      Expect<ExpectExtends<AUntyped, ATyped>>,
+      Expect<Equal<Private, "_state" | "_name">>,
+      Expect<Equal<Public, "greet" | "age">>
     ];
-    const cases: cases = [true, true, false, true, true];
+    const cases: cases = [true, true];
     expect(cases).toBe(cases);
+  });
+
+  it.skip("privateApi() creates a definition for a private API", () => {
+    const food = api({ _model: "food", _description: "let's eat" })({ category: string, stars: 5 as number });
+    const pub = food();
+
 
   });
 
-  it("A identity API converted to a fluent API can then be converted to an Api", () => {
-    const api = createStateIdentityApi();
-    type MutApi = MutationApi<typeof api>;
-    type Fluent = FluentApi<ToFluent<MutApi>, {}, "">;
-    type AnApi = Api<Fluent>;
+  it("The Api<T> utility hides all private keys while preserving type info", () => {
+    const simple = {
+      _state: 123,
+      _name: "hey ho",
+      greet: "hi",
+      age: 12
+    };
+    type Simple = Api<typeof simple>;
 
+    const midling = defineType({ id: 123 })({
+      _state: 123,
+      _name: "hey ho",
+      greet: "hi",
+      age: 12
+    });
+    type Midling = Api<typeof midling>;
+
+    const advanced = defineType({ id: 123, _exclude: ["greet"] })({ greet: "hi", age: 12 });
+    type Advanced = Api<typeof advanced>;
+
+    type cases = [
+      // a simple API with no literals doesn't need generics
+      // to preserve state
+      Expect<Equal<Simple, { greet: string; age: number }>>,
+      // if the public interface has type literals this is
+      // accommodated without any special effort
+      Expect<Equal<Midling, { greet: string; age: number; id: 123 }>>,
+      Expect<Equal<Midling, { greet: string; age: number; id: 123 }>>,
+      // in the situation where the private members have
+      // literals that need preservation, we need be assured
+      // the API implementation can preserve this strong typing
+      // However, to start the public API is quite easily preserved
+    ];
+    const cases: cases = [true, true];
+    expect(cases).toBe(cases);
 
   });
 

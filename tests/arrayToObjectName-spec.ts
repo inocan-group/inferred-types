@@ -1,18 +1,17 @@
 import * as t from "io-ts";
 import { Equal, Expect, ExpectExtends, NotEqual } from "@type-challenges/utils";
 import { SimpleTable } from "./data";
-import { Model, IModel } from "~/Model";
-import { arrayToObjectName } from "~/utility/arrayToObject";
+import { IoModel, IModel, arrayToObjectName } from "~/utility";
 
 const SongMeta = t.partial({ year: t.number, genre: t.string });
-const Song = Model(
+const Song = IoModel(
   "Song",
   { name: t.string, artist: t.string },
   { album: t.string, meta: SongMeta }
 );
 type SongType = t.TypeOf<typeof Song>;
 const goodSong: SongType = { name: "Highway to Hell", artist: "AC/DC" };
-const Playlist = Model("Playlist", { name: t.string, owner: t.string });
+const Playlist = IoModel("Playlist", { name: t.string, owner: t.string });
 // type PlaylistType = t.TypeOf<typeof Playlist>;
 
 describe("arrayToObjectName => ", () => {

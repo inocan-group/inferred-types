@@ -14,6 +14,5 @@ export function arrayToDict<T extends object>(arr: DictArray<T>): T {
     out[k] = v[k];
   }
 
-
   return out as T;
 }

@@ -1,6 +1,6 @@
 import * as t from "io-ts";
 import { pascalize } from "native-dash";
-import { PascalCase } from "./types";
+import type { PascalCase } from "~/types";
 
 /**
  * Defines an `io-ts` based **model**.
@@ -24,7 +24,7 @@ export type IModel<M, N extends string> = Omit<t.Type<M>, "name"> & { name: N };
  * **Note:** the name of a model is expected to be in _PascalCase_ and will be converted
  * to it if not passed in correctly.
  */
-export function Model<RP extends t.Props, OP extends t.Props | {}, N extends string>(
+export function IoModel<RP extends t.Props, OP extends t.Props | {}, N extends string>(
   name: N,
   req: RP,
   optional: OP = {} as OP

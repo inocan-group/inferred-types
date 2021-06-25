@@ -1,3 +1,5 @@
+import type { ExpandRecursively } from "~/types";
+
 export interface IFluentConfigurator<C> {
   /**
    * **set**
@@ -8,7 +10,7 @@ export interface IFluentConfigurator<C> {
    * @param value the value of the configuration item
    */
   set<V, K extends string, KV = { [U in K]: V }>(key: K, value: V): IFluentConfigurator<C & KV>;
-  done(): C;
+  done(): ExpandRecursively<C>;
 }
 
 /**
@@ -32,7 +34,7 @@ export function FluentConfigurator<I>(initial: I = {} as I) {
         return api<C & KV>(updated);
       },
       done() {
-        return current;
+        return current as ExpandRecursively<C>;
       },
     };
   };

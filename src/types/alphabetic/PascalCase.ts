@@ -1,6 +1,5 @@
 /* eslint @typescript-eslint/no-unused-vars: "off" */
-import { CamelCase } from "./CamelCase";
-import { Capitalize } from "./Intrinsic";
+import { CamelCase, Capitalize } from "~/types/alphabetic";
 
 type Delimiter = "_" | "-";
 

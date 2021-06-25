@@ -1,6 +1,6 @@
 import { InferenceError } from "~/errors";
 import { Narrowable } from "~/types/Narrowable";
-import { keys } from "./keys";
+import { keys } from "../keys";
 
 function runtimeExtendsCheck<
   TValue extends any,
@@ -34,7 +34,38 @@ function runtimeExtendsCheck<
   }
 }
 
-export const ifTypeOf = <N extends Narrowable, TValue extends Record<keyof TValue, N> | number | string | boolean | symbol>(val: TValue) => ({
+/**
+ * A conditional clause used in the application of the `ifTypeOf` utility
+ */
+export type ExtendsClause<
+  N extends Narrowable,
+  TValue extends Record<keyof TValue, N> | number | string | boolean | symbol
+  > = <TBase extends any>(base: TBase) => TValue extends TBase ? true : false;
+
+/**
+* A conditional clause used in the application of the `ifTypeOf` utility
+*/
+export type ExtendsNarrowlyClause<
+  N extends Narrowable,
+  TValue extends Record<keyof TValue, N> | number | string | boolean | symbol
+  > = <NB extends Narrowable, TBase extends Record<keyof TBase, NB> | number | string | boolean | symbol>(base: TBase) => TValue extends TBase ? true : false;
+
+/**
+ * **TypeCondition**
+ * 
+ * A partially applied type from the `ifTypeOf` utility where the base type has been
+ * defined and we now need to express the type which is intended to extend it.
+ * 
+ * - `extends` - compares with _wide_ types
+ * - `narrowlyExtends` - compares with _narrow_ / _literal_ types
+ */
+export type TypeCondition<N extends Narrowable, TValue extends Record<keyof TValue, N> | number | string | boolean | symbol> = {
+  extends: ExtendsClause<N, TValue>;
+  narrowlyExtends: ExtendsNarrowlyClause<N, TValue>;
+};
+
+
+export const ifTypeOf = <N extends Narrowable, TValue extends Record<keyof TValue, N> | number | string | boolean | symbol>(val: TValue): TypeCondition<N, TValue> => ({
   extends: <TBase extends any>(base: TBase) => {
     const valid = runtimeExtendsCheck(val, base, false);
     const trueFalse = (valid ? true : false) as TValue extends TBase ? true : false;

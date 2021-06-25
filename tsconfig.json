@@ -4,7 +4,7 @@
     "target": "ES2018",
     "moduleResolution": "node",
 
-    "sourceMap": false,
+    "sourceMap": true,
     "noEmit": true,
     "incremental": true,
     "resolveJsonModule": true,
@@ -34,14 +34,5 @@
       { "transform": "typescript-transform-paths", "afterDeclarations": true }
     ]
   },
-  "include": [
-    "src",
-    "tests",
-    "on-hold/tests/api-spec.ts",
-    "on-hold/tests/ToFluent-spec.ts",
-    "on-hold/tests/data/builder-data.ts",
-    "on-hold/RuleSet-spec.ts",
-    "on-hold/Builder-spec.ts",
-    "on-hold/Builder"
-  ]
+  "include": ["src", "tests"]
 }

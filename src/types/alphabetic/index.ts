@@ -1,15 +1,19 @@
-// #autoindex: orphan
-
+// #autoindex
 // #region autoindexed files
 
-// index last changed at: 6th Jun, 2021, 06:35 PM ( GMT-7 )
+// index last changed at: 6th Jun, 2021, 11:25 PM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: randomString, uuid, valueTypes.
+// files: CamelCase, DashToSnake, Intrinsic, KebabCase, PascalCase, Pluralize, SnakeCase, SnakeToDash.
 
 // local file exports
-export * from "./randomString";
-export * from "./uuid";
-export * from "./valueTypes";
+export * from "./CamelCase";
+export * from "./DashToSnake";
+export * from "./Intrinsic";
+export * from "./KebabCase";
+export * from "./PascalCase";
+export * from "./Pluralize";
+export * from "./SnakeCase";
+export * from "./SnakeToDash";
 
 // Note:
 // -----

@@ -2,28 +2,23 @@
 
 // #region autoindexed files
 
-// index last changed at: 6th Jun, 2021, 05:54 PM ( GMT-7 )
+// index last changed at: 6th Jun, 2021, 11:42 PM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: CamelCase, DashToSnake, DictArray, ExpandRecursively, Includes, Intrinsic, KebabCase, KeyedRecord, Keys, KvTuple, Length, Narrowable, PascalCase, Pluralize, SameKeys, SnakeCase, SnakeToDash, Transformer, TypeGuard, api, append-types, arrays, fluent, key-value, maybe, props, type-testing.
+// files: Api, DictArray, ExpandRecursively, Includes, KeyedRecord, Keys, KvTuple, Length, Narrowable, Opaque, SameKeys, Transformer, TypeGuard, api, append-types, arrays, fluent, key-value, maybe, props, runtime, type-testing.
+// directories: alphabetic.
 
 // local file exports
-export * from "./CamelCase";
-export * from "./DashToSnake";
+export * from "./Api";
 export * from "./DictArray";
 export * from "./ExpandRecursively";
 export * from "./Includes";
-export * from "./Intrinsic";
-export * from "./KebabCase";
 export * from "./KeyedRecord";
 export * from "./Keys";
 export * from "./KvTuple";
 export * from "./Length";
 export * from "./Narrowable";
-export * from "./PascalCase";
-export * from "./Pluralize";
+export * from "./Opaque";
 export * from "./SameKeys";
-export * from "./SnakeCase";
-export * from "./SnakeToDash";
 export * from "./Transformer";
 export * from "./TypeGuard";
 export * from "./api";
@@ -33,7 +28,11 @@ export * from "./fluent";
 export * from "./key-value";
 export * from "./maybe";
 export * from "./props";
+export * from "./runtime";
 export * from "./type-testing";
+
+// directory exports
+export * from "./alphabetic/index";
 
 // Note:
 // -----

@@ -1,4 +1,4 @@
-import { FluentConfigurator } from "../src";
+import { FluentConfigurator, keys } from "../src";
 import { mySong, Playlist, Song } from "./data/index";
 import { SimpleTable } from "./data/SimpleTable";
 
@@ -21,6 +21,8 @@ describe("Configurator => ", () => {
   it("Configurator with starting state, can have props added using fluent API style", () => {
     const start = { foo: "bar", bar: "baz" };
     const c = FluentConfigurator(start).set("b", "foobar").set("a", 5).done();
+    console.log(keys(c));
+
 
     // added state
     expect(c).toHaveProperty("a", 5);

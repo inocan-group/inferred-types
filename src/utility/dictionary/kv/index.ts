@@ -1,15 +1,14 @@
-// #autoindex: orphan
-
+// #autoindex
 // #region autoindexed files
 
-// index last changed at: 6th Jun, 2021, 06:35 PM ( GMT-7 )
+// index last changed at: 6th Jun, 2021, 12:02 AM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: randomString, uuid, valueTypes.
+// files: arrayToDict, dictToArray, kv.
 
 // local file exports
-export * from "./randomString";
-export * from "./uuid";
-export * from "./valueTypes";
+export * from "./arrayToDict";
+export * from "./dictToArray";
+export * from "./kv";
 
 // Note:
 // -----

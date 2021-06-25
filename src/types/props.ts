@@ -1,3 +1,4 @@
+import { Alpha } from "common-types";
 
 
 /**
@@ -20,6 +21,31 @@ export type OptionalKeys<T extends object> = {
  */
 export type KeysWithValue<W extends any, T extends object> = {
   [K in keyof T]: T[K] extends W ? Readonly<K> : never
+}[keyof T];
+
+/**
+ * A `PrivateKey` must start with a `_` character and then follow with
+ * an alphabetic character
+ */
+export type PrivateKey = `_${Alpha}${string}`;
+
+/**
+ * Keys on an object which have a `_` character as first part of the
+ * name are considered private and this utility will create a union
+ * of all the keys in this category.
+ */
+export type PrivateKeys<T extends object> = {
+  [K in keyof T]: K extends `_${string}` ? K : never
+}[keyof T];
+
+/**
+ * **PublicKeys**
+ * 
+ * Builds a union type of all keys which are "public" where a public
+ * key is any key which _does not_ start with the `_` character.
+ */
+export type PublicKeys<T extends object> = {
+  [K in keyof T]: K extends `_${string}` ? never : K
 }[keyof T];
 
 

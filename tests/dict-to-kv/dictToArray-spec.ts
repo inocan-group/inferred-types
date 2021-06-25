@@ -1,6 +1,6 @@
 /* eslint-disable unicorn/consistent-function-scoping */
 import { Equal, Expect } from "@type-challenges/utils";
-import { ExpandRecursively } from "~/types";
+import { DictArrayKv, ExpandRecursively } from "~/types";
 import { dictToArray, arrayToDict, literal } from "~/utility";
 
 
@@ -9,8 +9,6 @@ describe("dictionary transforms", () => {
   it("dictToArray() provides iterable array with type structure preserved (though values are broad)", () => {
     const dict = { foo: 1, bar: 2, baz: "hi" };
     const arr = dictToArray({ foo: 1, bar: 2, baz: "hi" });
-    type Arr = typeof arr;
-    type Arr2 = ExpandRecursively<Arr>;
 
     expect(Array.isArray(arr)).toBe(true);
     expect(arr.length).toBe(Object.keys(dict).length);
@@ -26,20 +24,22 @@ describe("dictionary transforms", () => {
         expect(typeof kv.foo).toBe("number");
 
         // type system checks out
+        type Tuple = typeof t;
         type KV = typeof kv;
         type V = typeof kv["foo"];
+
         type cases = [
+          // the Tuple element can be expressed as a `DictArrayKv`
+          Expect<Equal<Tuple, DictArrayKv<"foo", typeof dict>>>,
+          // or as just the tuple elements directly
+          Expect<Equal<Tuple, ["foo", { foo: number }]>>,
           // The object's definition has been reduced 
           // just to key/value of the correct type
           Expect<Equal<KV, { foo: number }>>,
           // the value of the KV is correct
           Expect<Equal<V, number>>,
-          // of note, the type presented to user in vs-code
-          // is much bulkier in "Arr" than "Arr2" but they
-          // are representations of the same thing
-          Expect<Equal<Arr, Arr2>>,
         ];
-        const cases: cases = [true, true, true];
+        const cases: cases = [true, true, true, true];
       }
 
       if (t[0] === "baz") {
@@ -120,7 +120,7 @@ describe("dictionary transforms", () => {
   });
 
 
-  it("arrayToDict() is inverse of dictToArray()", () => {
+  it("arrayToDict() is inverse of dictToArray() with wide types", () => {
     const dict = { foo: 1, bar: 2, baz: "hi" };
     const arr = dictToArray(dict);
     const back = arrayToDict(arr);

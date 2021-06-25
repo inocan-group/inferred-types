@@ -1,6 +1,6 @@
 /* eslint-disable unicorn/consistent-function-scoping */
 import { dictionaryTransform, ExplicitFunction } from "~/utility";
-import type { Expect, Equal, NotEqual, ExpectExtends, ExpectFalse } from "@type-challenges/utils";
+import { Expect, Equal, NotEqual, ExpectExtends, ExpectFalse } from "@type-challenges/utils";
 import { ToFluent, Transformer } from "~/types";
 
 describe("dictionaryTransform()", () => {
