@@ -8,6 +8,7 @@ const config: Config.InitialOptions = {
   transform: {
     "^.+\\.tsx?$": "ts-jest",
   },
+  testPathIgnorePatterns: ["/node_modules/", "/on-hold/"],
   moduleNameMapper: {
     "^[/]{0,1}~/(.*)$": resolve(process.cwd(), "src", "$1"),
   },
