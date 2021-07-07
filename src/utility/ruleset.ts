@@ -1,34 +1,10 @@
 /* eslint-disable no-use-before-define */
-import { Narrowable } from "~/types/Narrowable";
-import { TypeCondition } from "./runtime/ifTypeOf";
-
-
-/**
- * **DynamicRule**
- * 
- * A dynamic rule is a _function_ which recieves a partially applied `isTypeOf()` utility function
- * which will allow a user to state the relationship they want to test relative to `TState`.
- * 
- * ```ts
- * const state = defineObject(t => t.string("id", {optional: true}));
- * // type-safe way to check whether optional prop is actually set
- * const rule: DynamicRule<typeof state> = s => s.has("id");
- * ```
- */
-export type DynamicRule<TState extends any, TResult extends true | false> = (rule: TypeCondition<any, TState>) => TResult;
-
-/**
- * **DynamicRuleSet** 
- * 
- * A function which accepts the agreed `TState` generic as input and returns a discrete
- * `true` or `false` value.
- */
-export type DynamicRuleSet<TState extends any, TRules extends Record<string, TypeCondition<any, TState>>> = (rules: TRules) => true | false;
+import type { Narrowable, DynamicRuleSet } from "~/types";
 
 const dynamicRuleState = {
   state: <TState extends any>() => {
     return {
-      rules: <TRules extends DynamicRuleSet<TState, TRules>>(rules: TRules) => {
+      rules: <TRules extends DynamicRuleSet<TState, any>>(rules: TRules) => {
         const dynRules = rules();
       }
     };
