@@ -1,17 +1,17 @@
 /* eslint-disable no-use-before-define */
-import type { Narrowable, DynamicRuleSet } from "~/types";
+import type { Narrowable } from "~/types";
 
-const dynamicRuleState = {
-  state: <TState extends any>() => {
-    return {
-      rules: <TRules extends DynamicRuleSet<TState, any>>(rules: TRules) => {
-        const dynRules = rules();
-      }
-    };
-  }
-};
+// TODO: get ruleset functionality working!
 
-export type DynamicRuleState = (def: typeof dynamicRuleState) => any;
+// const dynamicRuleState = {
+// state: <TState extends any>() => {
+//   return {
+//     rules: <TRules extends DynamicRuleSet<TState, any>>(rules: TRules) => {
+//       const dynRules = rules();
+//     }
+//   };
+// }
+// };
 
 /**
  * **ruleSet**
@@ -29,11 +29,12 @@ export type DynamicRuleState = (def: typeof dynamicRuleState) => any;
  * );
  * ```
  */
-export function ruleSet<N extends Narrowable, TState extends Record<keyof TState, N>, TRules extends DynamicRuleset<TState>>(defn?: DynamicRuleState) {
-  return <
-    TStatic extends { [K in keyof TStatic]: Readonly<true | false> },
-    >(rules: TStatic) => {
-    return rules;
-  };
+export function ruleSet<N extends Narrowable, TState extends Record<keyof TState, N>>(defn?: TState) {
+  // return <
+  //   TStatic extends { [K in keyof TStatic]: Readonly<true | false> },
+  //   >(rules: TStatic) => {
+  //   return rules;
+  // };
+  return defn;
 }
 

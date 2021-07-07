@@ -1,8 +1,5 @@
 import { Include, Retain } from "~/types";
-import {
-  Equal,
-  Expect,
-} from "@type-challenges/utils";
+import { Equal, Expect } from "@type-challenges/utils";
 
 // INCLUDE
 describe("Include<T, U> utility", () => {

@@ -1,5 +1,4 @@
 import type { TypeCondition } from "~/utility/runtime/ifTypeOf";
-import { Keys } from "./Keys";
 import { OptionalKeys } from "./props";
 import { SameKeys } from "./SameKeys";
 

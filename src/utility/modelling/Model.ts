@@ -40,6 +40,6 @@ export function Model<TName extends string>(name: TName, description?: string) {
   return modelBuilding(model);
 }
 
-function modelBuilding<TName extends >(model: IModel) {
-  // 
+function modelBuilding<T extends object>(model: T) {
+  return model;
 }
