@@ -2,7 +2,7 @@
 
 import { ExpandRecursively } from "./ExpandRecursively";
 
-export type DictArrayFilterCallback<K extends keyof T, T extends object> = (key: K, value: Pick<T, K>) => true | false;
+export type DictArrayFilterCallback<K extends keyof T, T extends object, R extends true | false> = (key: K, value: Pick<T, K>) => R;
 
 /**
  * An element in a `DictArray` shaped as a two element tuple: `[key, kv]`.

@@ -3,12 +3,10 @@
 
 // index last changed at: 6th Jun, 2021, 04:31 PM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: Configurator, FluentConfigurator, KeyStorage.
+// files: filter.
 
 // local file exports
-export * from "./Configurator";
-export * from "./FluentConfigurator";
-export * from "./KeyStorage";
+export * from "./filter";
 
 // Note:
 // -----

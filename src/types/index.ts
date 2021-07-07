@@ -2,15 +2,17 @@
 
 // #region autoindexed files
 
-// index last changed at: 6th Jun, 2021, 11:42 PM ( GMT-7 )
+// index last changed at: 7th Jul, 2021, 11:53 AM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: Api, DictArray, ExpandRecursively, Includes, KeyedRecord, Keys, KvTuple, Length, Narrowable, Opaque, SameKeys, Transformer, TypeGuard, api, append-types, arrays, fluent, key-value, maybe, props, runtime, type-testing.
+// files: Api, DictArray, ExpandRecursively, FirstOfEach, Include, Includes, KeyedRecord, Keys, KvTuple, Length, Narrowable, Opaque, Retain, SameKeys, Transformer, TypeGuard, api, append-types, arrays, fluent, key-value, maybe, props, runtime, type-testing.
 // directories: alphabetic.
 
 // local file exports
 export * from "./Api";
 export * from "./DictArray";
 export * from "./ExpandRecursively";
+export * from "./FirstOfEach";
+export * from "./Include";
 export * from "./Includes";
 export * from "./KeyedRecord";
 export * from "./Keys";
@@ -18,6 +20,7 @@ export * from "./KvTuple";
 export * from "./Length";
 export * from "./Narrowable";
 export * from "./Opaque";
+export * from "./Retain";
 export * from "./SameKeys";
 export * from "./Transformer";
 export * from "./TypeGuard";

@@ -1,10 +1,14 @@
 /* eslint-disable unicorn/consistent-function-scoping */
-export interface IConfigurator<P = {}, C = {}> {
+
+import { omit } from "native-dash";
+import { ExpandRecursively } from "~/types";
+export interface IConfigurator<C = {}> {
   set<V, K extends string, KV = { [U in K]: V }>(
     key: K,
     value: V
-  ): asserts this is IConfigurator<P, C & KV>;
-  done(): C & Partial<P>;
+  ): asserts this is IConfigurator<ExpandRecursively<C & KV>>;
+  remove<K extends string & keyof C>(key: K): asserts this is IConfigurator<ExpandRecursively<Omit<C, K>>>;
+  done(): C;
 }
 
 /**
@@ -34,10 +38,10 @@ export interface IConfigurator<P = {}, C = {}> {
  * This configuration will ensure that `foo` and `bar` will be seen as optional
  * parameters. If you set them they will stop being optional.
  */
-export function Configurator<P extends {} = {}>() {
+export function Configurator() {
   let configuration = () => ({});
 
-  const api = <C extends {}>(): IConfigurator<P, C> => {
+  const api = <C extends {}>(): IConfigurator<C> => {
     return {
       set<V, K extends string, KV = { [U in K]: V }>(key: K, value: V) {
         const keyValue = ({ [key]: value as V } as unknown) as KV;
@@ -45,6 +49,12 @@ export function Configurator<P extends {} = {}>() {
         const updated = { ...config, ...keyValue };
 
         configuration = (): C & KV => updated;
+        return updated;
+      },
+      remove<K extends string & keyof C>(key: K) {
+        const config = configuration() as C;
+        const updated = omit(config, key) as ExpandRecursively<Omit<C, K>>;
+        configuration = (): ExpandRecursively<Omit<C, K>> => updated;
         return updated;
       },
       done() {

@@ -1,13 +1,14 @@
 // #autoindex
 // #region autoindexed files
 
-// index last changed at: 6th Jun, 2021, 12:02 AM ( GMT-7 )
+// index last changed at: 6th Jun, 2021, 02:37 PM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: arrayToDict, dictToArray, kv.
+// files: arrayToDict, dictToArray, filterDictArray, kv.
 
 // local file exports
 export * from "./arrayToDict";
 export * from "./dictToArray";
+export * from "./filterDictArray";
 export * from "./kv";
 
 // Note:

@@ -119,7 +119,6 @@ describe("dictionary transforms", () => {
     }
   });
 
-
   it("arrayToDict() is inverse of dictToArray() with wide types", () => {
     const dict = { foo: 1, bar: 2, baz: "hi" };
     const arr = dictToArray(dict);
@@ -132,7 +131,5 @@ describe("dictionary transforms", () => {
     const cases: cases = [true];
     expect(cases).toBe(cases);
   });
-
-
 });
 

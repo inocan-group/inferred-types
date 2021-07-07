@@ -1,14 +1,15 @@
-import { Equal, Expect } from "@type-challenges/utils";
+import { Equal, Expect, ExpectFalse } from "@type-challenges/utils";
 import { DictArray } from "~/types";
-import { defineType, dictToArray, filterDictArray } from "~/utility";
+import { arrayToDict, defineType, dictToArray, filterDictArray } from "~/utility";
 
 describe("filterDictArray()", () => {
+
+
 
   it("an object converted into a DictArray can be filter down to a subset", () => {
     const obj = defineType({ id: 123 })({ color: "red", favorite: true });
     type Obj = typeof obj;
     const arr = dictToArray(obj);
-    type Arr = typeof arr;
 
     const filtered = filterDictArray(arr, (k, _v) => {
       return k !== "color";
@@ -24,9 +25,27 @@ describe("filterDictArray()", () => {
 
     // type tests
     type cases = [
-      Expect<Equal<Filtered, DictArray<Exclude<Obj, "color">>>>,
+      // now that "color" has been removed from `T` the type
+      // should no longer be the same DictArray
+      ExpectFalse<Equal<Filtered, DictArray<Obj>>>,
+      Expect<Equal<Filtered, DictArray<Omit<Obj, "color">>>>,
     ];
-    const cases: cases = [true, true];
+    const cases: cases = [false, true];
+  });
+
+  it("a filtered down DictArray can be converted back to an object", () => {
+    const obj = defineType({ id: 123 })({ color: "red", favorite: true });
+    type Obj = typeof obj;
+    const arr = dictToArray(obj);
+    type Arr = typeof arr;
+
+    const filtered = filterDictArray(arr, (k, _v) => {
+      return k !== "color";
+    });
+    type Filtered = typeof filtered;
+
+    const reverted = arrayToDict(filtered);
+    type Reverted = typeof reverted;
   });
 
 });
