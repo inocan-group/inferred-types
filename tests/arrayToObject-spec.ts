@@ -1,7 +1,6 @@
 
 import { Equal, Expect, ExpectExtends } from "@type-challenges/utils";
-import { defineType, keys } from "~/utility";
-import { ArrayConverter, arrayToObject, GeneralDictionary, UniqueDictionary } from "~/utility/arrayToObject";
+import { ArrayConverter, arrayToObject, GeneralDictionary, UniqueDictionary, defineType, keys } from "~/utility";
 
 const foo = { name: "foo", age: 123, color: "red" } as const;
 const foo2 = { name: "foo", age: 44, color: "orange" } as const;
