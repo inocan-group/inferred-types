@@ -1,4 +1,4 @@
-import { IoModel } from "~/IoModel";
+import { IoModel } from "~/utility";
 
 export interface ISimpleTable<T extends {}, S extends Readonly<string>> {
   name: S;

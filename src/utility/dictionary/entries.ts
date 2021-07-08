@@ -1,4 +1,4 @@
-import { First, KeyValue, Narrowable } from "~/types";
+import { KeyValue, Narrowable } from "~/types";
 import { keys } from "../keys";
 
 /**

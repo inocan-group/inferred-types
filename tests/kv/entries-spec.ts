@@ -6,9 +6,6 @@ describe("entries() => ", () => {
     const obj = { foo: 1, bar: "hi" } as const;
     type Value = 1 | "hi";
 
-    const iterable = entries(obj);
-    type I = typeof iterable;
-
     for (const [k, v] of entries(obj)) {
       type cases = [
         // the key should extend string

@@ -1,4 +1,5 @@
-import { iterateDict } from "./iterateDict";
+import { Narrowable } from "~/types";
+import { entries } from "./entries";
 
 /**
  * **mapValues**
@@ -11,8 +12,9 @@ import { iterateDict } from "./iterateDict";
  * const twoX = mapValues(colors, v => v * 2);
  * ```
  */
-export function mapValues<T extends object, V>(obj: T, valueMapper: (k: T[keyof T]) => V) {
+export function mapValues<N extends Narrowable, T extends Record<string, N>, V>(obj: T, valueMapper: (k: T[keyof T]) => V) {
   return Object.fromEntries(
-    [...iterateDict(obj)].map(([k, v]) => [k, valueMapper(v)])
+    // TODO: fix the type error with v and valueMapper
+    [...entries(obj)].map(([k, v]) => [k, valueMapper(v as any)])
   ) as { [K in keyof T]: V };
 }

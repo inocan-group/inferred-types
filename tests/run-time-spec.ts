@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { TypeGuard } from "~/types";
-import { number, object, string } from "~/utility/runtime";
+import { number, string } from "~/utility/runtime";
 
 describe("run-time types", () => {
 
@@ -35,10 +35,8 @@ describe("run-time types", () => {
   });
 
   it("empty object()", () => {
-    const o = object();
-    type O = typeof o;
-
-
+    // const o = object();
+    // type O = typeof o;
   });
 
 
