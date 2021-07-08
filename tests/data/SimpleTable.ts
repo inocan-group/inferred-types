@@ -1,15 +1,15 @@
-import { IModel } from "~/Model";
+import { IoModel } from "~/IoModel";
 
 export interface ISimpleTable<T extends {}, S extends Readonly<string>> {
   name: S;
-  is: IModel<T, S>["is"];
-  encode: IModel<T, S>["encode"];
-  decode: IModel<T, S>["decode"];
+  is: IoModel<T, S>["is"];
+  encode: IoModel<T, S>["encode"];
+  decode: IoModel<T, S>["decode"];
   select: (...cols: Array<keyof T> | ["*"]) => string;
 }
 
 export const SimpleTable = <T extends {}, S extends Readonly<string>>(
-  model: IModel<T, S>
+  model: IoModel<T, S>
 ): ISimpleTable<T, S> => {
   return {
     name: model.name,

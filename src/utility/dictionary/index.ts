@@ -1,15 +1,16 @@
 // #autoindex
 // #region autoindexed files
 
-// index last changed at: 6th Jun, 2021, 12:02 AM ( GMT-7 )
+// index last changed at: 7th Jul, 2021, 03:46 PM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: arrayToKeyLookup, dictFilter, dictionaryTransform, iterateDict, mapValues, strArrayToDict, valuesOfProp.
+// files: arrayToKeyLookup, dictFilter, dictionaryTransform, entries, iterateDict, mapValues, strArrayToDict, valuesOfProp.
 // directories: kv.
 
 // local file exports
 export * from "./arrayToKeyLookup";
 export * from "./dictFilter";
 export * from "./dictionaryTransform";
+export * from "./entries";
 export * from "./iterateDict";
 export * from "./mapValues";
 export * from "./strArrayToDict";

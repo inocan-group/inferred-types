@@ -8,7 +8,7 @@ import {
   ExpectFalse,
   ExpectTrue,
 } from "@type-challenges/utils";
-import { IModel, IoModel } from "~/utility";
+import { IoModel } from "~/utility";
 
 export const mySong = {
   artist: "Billy Idol",
@@ -168,9 +168,9 @@ describe("Model configurator => ", () => {
         // but is a string literal (aka, narrower than a string in definition)
         Expect<NotEqual<typeof m.name, string>>,
         // the overall data structure extends from IModel
-        Expect<ExpectExtends<IModel<any, any>, typeof m>>,
+        Expect<ExpectExtends<IoModel<any, any>, typeof m>>,
         // adding in the literal name should cause no harm
-        Expect<ExpectExtends<IModel<any, typeof m.name>, typeof m>>,
+        Expect<ExpectExtends<IoModel<any, typeof m.name>, typeof m>>,
         // unfortunately, since we still don't know which of the models
         // we're dealing with, we can't test the fidelity of the underlying
         // model's TS typing

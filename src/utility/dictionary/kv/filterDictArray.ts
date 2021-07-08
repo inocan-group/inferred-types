@@ -26,6 +26,8 @@ export function filterDictArray<
     return keep;
   });
 
-  return updated as DictArray<Omit<T, ExcludedKeys>>;
+  // TODO: fix this so that typing is actualy working!
+  type ExcludedKeys = "";
+  return updated as unknown as DictArray<Omit<T, ExcludedKeys>>;
 }
 

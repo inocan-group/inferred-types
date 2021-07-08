@@ -1,4 +1,4 @@
-import { Keys } from "../src/types/Keys";
+import { Keys } from "../../src/types/Keys";
 import type { Expect, Equal } from "@type-challenges/utils";
 import { defineType, keys } from "~/utility";
 

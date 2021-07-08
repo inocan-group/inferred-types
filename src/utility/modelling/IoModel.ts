@@ -13,7 +13,7 @@ import type { PascalCase } from "~/types";
  * type. This helps to preserve it's type inference even though
  * the model itself does have a runtime definition of it's type.
  */
-export type IModel<M, N extends string> = Omit<t.Type<M>, "name"> & { name: N };
+export type IoModel<M, N extends string> = Omit<t.Type<M>, "name"> & { name: N };
 
 /**
  * **Model**
@@ -34,5 +34,5 @@ export function IoModel<RP extends t.Props, OP extends t.Props | {}, N extends s
   return {
     ...(model as t.Type<T>),
     name: pascalize(name),
-  } as IModel<T, PascalCase<N>>;
+  } as IoModel<T, PascalCase<N>>;
 }

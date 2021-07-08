@@ -1,4 +1,4 @@
-import { Opaque } from "~/types";
+
 
 /* eslint-disable no-use-before-define */
 export type ModelStage = "initialized" | "configuring" | "versioned";
@@ -10,9 +10,9 @@ export type IModel<TName extends string, TStage extends ModelStage, TStructure e
   __type__: TStructure;
 };
 
-export type ModelInitialized<TName extends string, TStage extends ModelStage> = {
-  name: Readonly<TName>;
-};
+// export type ModelInitialized<TName extends string, TStage extends ModelStage> = {
+//   name: Readonly<TName>;
+// };
 
 /**
  * Provides the API for a `Model()` which dynamically responds to the Model's state.
