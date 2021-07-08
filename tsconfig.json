@@ -4,7 +4,7 @@
     "target": "ES2018",
     "moduleResolution": "node",
 
-    "sourceMap": false,
+    "sourceMap": true,
     "noEmit": true,
     "incremental": true,
     "resolveJsonModule": true,

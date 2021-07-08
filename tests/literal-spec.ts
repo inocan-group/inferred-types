@@ -1,4 +1,4 @@
-import { idLiteral, literal } from "~/utility/literal";
+import { idLiteral, literal } from "~/utility";
 import { Equal, NotEqual, Expect, ExpectExtends, ExpectFalse } from "@type-challenges/utils";
 
 describe("literal enforcement", () => {

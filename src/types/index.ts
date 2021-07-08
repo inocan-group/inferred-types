@@ -2,36 +2,42 @@
 
 // #region autoindexed files
 
-// index last changed at: 6th Jun, 2021, 02:47 PM ( GMT-7 )
+// index last changed at: 7th Jul, 2021, 10:44 PM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: CamelCase, DashToSnake, DictArray, ExpandRecursively, Includes, Intrinsic, KebabCase, KeyedRecord, Keys, Narrowable, PascalCase, Pluralize, SameKeys, SnakeCase, SnakeToDash, Transformer, TypeGuard, api, append-types, arrays, fluent, key-value, maybe, props, type-testing.
+// files: Api, DictArray, ExpandRecursively, First, FirstKey, FirstOfEach, Include, Includes, KeyedRecord, Keys, Length, Narrowable, Opaque, Retain, SameKeys, Transformer, TypeGuard, UnionToTuple, append-types, fluent, maybe, props, ruleset-types, runtime, type-testing.
+// directories: alphabetic, dictionary, kv.
 
 // local file exports
-export * from "./CamelCase";
-export * from "./DashToSnake";
+export * from "./Api";
 export * from "./DictArray";
 export * from "./ExpandRecursively";
+export * from "./First";
+export * from "./FirstKey";
+export * from "./FirstOfEach";
+export * from "./Include";
 export * from "./Includes";
-export * from "./Intrinsic";
-export * from "./KebabCase";
 export * from "./KeyedRecord";
 export * from "./Keys";
+export * from "./Length";
 export * from "./Narrowable";
-export * from "./PascalCase";
-export * from "./Pluralize";
+export * from "./Opaque";
+export * from "./Retain";
 export * from "./SameKeys";
-export * from "./SnakeCase";
-export * from "./SnakeToDash";
 export * from "./Transformer";
 export * from "./TypeGuard";
-export * from "./api";
+export * from "./UnionToTuple";
 export * from "./append-types";
-export * from "./arrays";
 export * from "./fluent";
-export * from "./key-value";
 export * from "./maybe";
 export * from "./props";
+export * from "./ruleset-types";
+export * from "./runtime";
 export * from "./type-testing";
+
+// directory exports
+export * from "./alphabetic/index";
+export * from "./dictionary/index";
+export * from "./kv/index";
 
 // Note:
 // -----

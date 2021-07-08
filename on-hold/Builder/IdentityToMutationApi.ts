@@ -1,5 +1,5 @@
 import { MutationIdentity } from "~/Mutation";
-import { entries } from "~/utility";
+import { iterateDict } from "~/utility";
 
 /**
  * Exposes a Mutation Function when provided a Mutation Identity HO function
@@ -35,7 +35,7 @@ export function IdentityToMutationApi<TState extends object, TCurrent extends Pa
   return <TApi extends { [key: string]: MutationIdentity<any, any> }>(identity: TApi) => {
     const api: any = {};
 
-    for (const [k, v] of entries(identity)) {
+    for (const [k, v] of iterateDict(identity)) {
       api[k] = v(state);
     }
 

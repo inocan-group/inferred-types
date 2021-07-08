@@ -1,6 +1,6 @@
 import * as t from "io-ts";
 import * as D from "io-ts/Decoder";
-import { Model } from "~/Model";
+import { IoModel } from "~/utility";
 
 export const PlaylistRequired = {
   /** name of the playlist */
@@ -16,7 +16,7 @@ export const PlaylistOptional = {
 export const PlaylistIoTs = t.intersection([t.type(PlaylistRequired), t.partial(PlaylistOptional)]);
 export type IPlaylistIoTs = t.TypeOf<typeof PlaylistIoTs>;
 
-export const Playlist = Model("Playlist", PlaylistRequired, PlaylistOptional);
+export const Playlist = IoModel("Playlist", PlaylistRequired, PlaylistOptional);
 
 export const Person = D.struct({
   /** a person's name */

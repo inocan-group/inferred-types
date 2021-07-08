@@ -1,5 +1,5 @@
-import type { CamelCase } from "../src/types";
-import type { Expect, Equal } from "@type-challenges/utils";
+import { CamelCase } from "../src/types";
+import { Expect, Equal } from "@type-challenges/utils";
 
 type camelCase1 = CamelCase<"hello_world_with_types">;
 type camelCase2 = CamelCase<"HELLO_WORLD_WITH_TYPES">;

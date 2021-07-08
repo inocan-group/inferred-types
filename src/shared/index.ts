@@ -2,17 +2,18 @@
 
 // #region autoindexed files
 
-// index last changed at: 1st Jan, 2021, 01:15 PM ( GMT-8 )
+// index last changed at: 6th Jun, 2021, 06:35 PM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: randomString, uuid.
+// files: randomString, uuid, valueTypes.
 
 // local file exports
 export * from "./randomString";
 export * from "./uuid";
+export * from "./valueTypes";
 
 // Note:
 // -----
-// This file was created by running: "do devops autoindex"; it assumes you have
+// This file was created by running: "dd devops autoindex"; it assumes you have
 // the 'do-devops' pkg installed as a dev dep.
 //
 // By default it assumes that exports are named exports but this can be changed by
