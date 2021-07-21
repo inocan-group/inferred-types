@@ -24,6 +24,20 @@ describe("Keys<T>", () => {
     const cases: cases = [true];
     expect(cases).toBe(cases);
   });
+
+  it("Keys<T,W> can exclude certain keys", () => {
+    const obj = { foo: 1, bar: 3 };
+    const arr = ["foo", "bar"] as const;
+    type OKeys = Keys<typeof obj, "foo">;
+    type OArr = Keys<typeof arr, "foo">;
+
+    type cases = [
+      Expect<Equal<OKeys, "bar">>,
+      Expect<Equal<OArr, "bar">>
+    ];
+    const cases: cases = [true, true];
+    expect(cases).toBe(cases);
+  });
 });
 
 describe("keys() utility", () => {

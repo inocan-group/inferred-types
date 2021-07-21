@@ -1,3 +1,5 @@
+import { ExpandRecursively } from "./ExpandRecursively";
+
 /** 
  * A Utility class that provides the same functionality as the built-in
  * `keyof` TS operator but can also receive an array of strings and
@@ -13,7 +15,8 @@
  * ```
  */
 export type Keys<
-  T extends Record<string, any> | readonly string[]
+  T extends Record<string, any> | readonly string[],
+  W extends string | undefined = undefined
   > = T extends readonly string[]
-  ? T[number]
-  : keyof T & string;
+  ? W extends string ? Exclude<T[number], W> : T[number]
+  : W extends string ? Exclude<keyof T & string, W> : keyof T & string;
