@@ -1,5 +1,3 @@
-import { ExpandRecursively } from "./ExpandRecursively";
-
 /** 
  * A Utility class that provides the same functionality as the built-in
  * `keyof` TS operator but can also receive an array of strings and
