@@ -1,7 +1,9 @@
 /** 
  * A Utility class that provides the same functionality as the built-in
- * `keyof` TS operator but can also receive an array of strings and
- * convert that into a union type.
+ * `keyof` TS operator but can also:
+ * 
+ * - receive an array of strings and convert that into a union type.
+ * - you can exclude literal string from the returned result
  * 
  * ```ts
  * const t1 = { foo: 1, bar: 2 };
