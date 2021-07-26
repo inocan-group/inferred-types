@@ -1,18 +1,13 @@
-/* eslint @typescript-eslint/no-unused-vars: "off" */
-import { Uncapitalize, SnakeToDash } from "~/types/alphabetic";
-
-type Snake = "_";
+import type { Dasherize } from "~/types/alphabetic";
 
 /**
- * Converts a string literal type to _kebab-case_
- */
-// @ts-ignore
-export type KebabCase<S, T extends string = ""> = S extends `${infer HEAD}${Snake}${infer TAIL}`
-  ? SnakeToDash<S>
-  : S extends `${infer First}${infer Rest}`
-  ? First extends Uncapitalize<First>
-  ? KebabCase<Rest, `${T}${First}`>
-  : T extends ""
-  ? KebabCase<Rest, `${Uncapitalize<First>}`>
-  : KebabCase<Rest, `${T}-${Uncapitalize<First>}`>
-  : T;
+ * **KebabCase<T>** is an _alias_ for **Dasherize<T>**.
+ * ```ts
+ * // "foo-bar"
+ * type Kebab = KebabCase<"foo_bar">;
+ * type Kebab = KebabCase<"fooBar">;
+ * type Kebab = KebabCase<"FooBar">;
+ * // "\n  foo-bar \t"
+ * type Kebab = KebabCase<"\n  foo bar \t">;
+ * ``` */
+export type KebabCase<T extends string> = Dasherize<T>;

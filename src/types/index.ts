@@ -2,10 +2,10 @@
 
 // #region autoindexed files
 
-// index last changed at: 7th Jul, 2021, 10:44 PM ( GMT-7 )
+// index last changed at: 7th Jul, 2021, 03:22 PM ( GMT-7 )
 // export: named; exclusions: index, private.
 // files: Api, DictArray, ExpandRecursively, First, FirstKey, FirstOfEach, Include, Includes, KeyedRecord, Keys, Length, Narrowable, Opaque, Retain, SameKeys, Transformer, TypeGuard, UnionToTuple, append-types, fluent, maybe, props, ruleset-types, runtime, type-testing.
-// directories: alphabetic, dictionary, kv.
+// directories: alphabetic, dictionary, kv, string-literals.
 
 // local file exports
 export * from "./Api";
@@ -38,6 +38,7 @@ export * from "./type-testing";
 export * from "./alphabetic/index";
 export * from "./dictionary/index";
 export * from "./kv/index";
+export * from "./string-literals/index";
 
 // Note:
 // -----
