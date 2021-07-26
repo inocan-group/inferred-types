@@ -1,9 +1,9 @@
 // #autoindex, exclude: Alpha
 // #region autoindexed files
 
-// index last changed at: 7th Jul, 2021, 12:31 PM ( GMT-7 )
+// index last changed at: 7th Jul, 2021, 01:59 PM ( GMT-7 )
 // export: named; exclusions: Alpha, index, private.
-// files: AllCaps, CamelCase, CapFirstAlpha, CapitalizeWords, DashToSnake, DashUppercase, Dasherize, HasUppercase, Intrinsic, IsCapitalized, KebabCase, LowerAllCaps, PascalCase, Pluralize, SnakeCase, SnakeToDash, alpha-characters.
+// files: AllCaps, CamelCase, CapFirstAlpha, CapitalizeWords, DashToSnake, DashUppercase, Dasherize, HasUppercase, Intrinsic, IsCapitalized, KebabCase, LowerAllCaps, PascalCase, Pluralize, SnakeCase, alpha-characters.
 
 // local file exports
 export * from "./AllCaps";
@@ -21,7 +21,6 @@ export * from "./LowerAllCaps";
 export * from "./PascalCase";
 export * from "./Pluralize";
 export * from "./SnakeCase";
-export * from "./SnakeToDash";
 export * from "./alpha-characters";
 
 // Note:
