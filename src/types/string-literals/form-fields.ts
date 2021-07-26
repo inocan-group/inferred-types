@@ -1,4 +1,4 @@
-import { NumericString } from "../alphabetic/alpha";
+import { NumericString } from "../alphabetic/alpha-characters";
 
 /**
  * An email address

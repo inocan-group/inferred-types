@@ -1,5 +1,4 @@
-import { Replace } from "../string-literals";
-import { NonAlpha } from "./Alpha";
+import type { NonAlpha, Replace } from "~/types";
 
 /**
  * Strips the non-alpha characters that lead a string
@@ -9,7 +8,7 @@ export type StripLeftNonAlpha<S extends string> = S extends `${infer First}${inf
 /**
  * identifies the leading characters which are _not_ alphabetical
  */
-export type LeadingNonAlpha<S extends string> = Replace<S, StripLeftNonAlpha<S>, "">
+export type LeadingNonAlpha<S extends string> = Replace<S, StripLeftNonAlpha<S>, "">;
 
 /**
  * Capitalize the first alphabetical character in the string
@@ -17,3 +16,4 @@ export type LeadingNonAlpha<S extends string> = Replace<S, StripLeftNonAlpha<S>,
 export type CapFirstAlpha<T extends string> = LeadingNonAlpha<T> extends string
   ? `${LeadingNonAlpha<T>}${Capitalize<Replace<T, LeadingNonAlpha<T>, "">>}`
   : Capitalize<T>;
+
