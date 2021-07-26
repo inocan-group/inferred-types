@@ -53,7 +53,7 @@ describe("RightWhitespace<T> utility", () => {
     expect(c).toBe(c);
   });
 
-  it("left whitespace is captured from string literal, right whitespace ignored", () => {
+  it("right whitespace is captured from string literal, left whitespace ignored", () => {
     type T1 = RightWhitespace<"foobar ">;
     type T2 = RightWhitespace<"\n\t foobar \n">;
 
