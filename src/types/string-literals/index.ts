@@ -1,16 +1,20 @@
 // #autoindex
 // #region autoindexed files
 
-// index last changed at: 7th Jul, 2021, 12:24 PM ( GMT-7 )
+// index last changed at: 7th Jul, 2021, 02:55 PM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: Break, Concat, Replace, StringLength, Trim, form-fields.
+// files: Break, Concat, LeftWhitespace, Replace, RightWhitespace, StringLength, Trim, TrimLeft, TrimRight, form-fields.
 
 // local file exports
 export * from "./Break";
 export * from "./Concat";
+export * from "./LeftWhitespace";
 export * from "./Replace";
+export * from "./RightWhitespace";
 export * from "./StringLength";
 export * from "./Trim";
+export * from "./TrimLeft";
+export * from "./TrimRight";
 export * from "./form-fields";
 
 // Note:
