@@ -24,4 +24,3 @@ export type PascalCase<S extends string> = string extends S ? string :
   Trim<DashDelim<LowerAllCaps<S>>> extends `${infer Begin}${Delimiter}${infer Rest}`
   ? PascalCase<`${Capitalize<Begin>}${Capitalize<Rest>}`>
   : Capitalize<Trim<LowerAllCaps<S>>>;
-

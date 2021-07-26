@@ -14,7 +14,7 @@ describe("Dasherize<T> type utility", () => {
       Expect<Equal<T1, TARGET>>,
       Expect<Equal<T2, TARGET>>,
     ];
-    const c: cases = [true];
+    const c: cases = [true, true];
     expect(c).toBe(c);
   });
 
