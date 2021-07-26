@@ -12,7 +12,7 @@ const config: Config.InitialOptions = {
   moduleNameMapper: {
     "^[/]{0,1}~/(.*)$": resolve(process.cwd(), "src", "$1"),
   },
-  testMatch: ["**/?(*-)+(spec|test).ts"],
+  testMatch: ["**/?(*[-.])+(spec|test).ts"],
   setupFilesAfterEnv: ["jest-extended"],
   testEnvironment: "node",
 };
