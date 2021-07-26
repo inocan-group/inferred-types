@@ -1,25 +1,16 @@
 // #autoindex
 // #region autoindexed files
 
-// index last changed at: 7th Jul, 2021, 06:16 PM ( GMT-7 )
+// index last changed at: 7th Jul, 2021, 09:45 AM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: Alpha, CamelCase, CapFirstAlpha, CapitalizeWords, DashToSnake, Dasherize, Intrinsic, IsCapitalized, KebabCase, PascalCase, Pluralize, SnakeCase, SnakeToDash, alpha.
+// files: Break, Replace, StringLength, Trim, form-fields.
 
 // local file exports
-export * from "./Alpha";
-export * from "./CamelCase";
-export * from "./CapFirstAlpha";
-export * from "./CapitalizeWords";
-export * from "./DashToSnake";
-export * from "./Dasherize";
-export * from "./Intrinsic";
-export * from "./IsCapitalized";
-export * from "./KebabCase";
-export * from "./PascalCase";
-export * from "./Pluralize";
-export * from "./SnakeCase";
-export * from "./SnakeToDash";
-export * from "./alpha";
+export * from "./Break";
+export * from "./Replace";
+export * from "./StringLength";
+export * from "./Trim";
+export * from "./form-fields";
 
 // Note:
 // -----
