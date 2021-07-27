@@ -1,12 +1,11 @@
-// #autoindex
+// #autoindex, exclude: IoModel
 // #region autoindexed files
 
-// index last changed at: 6th Jun, 2021, 01:50 PM ( GMT-7 )
-// export: named; exclusions: index, private.
-// files: IoModel, Model.
+// index last changed at: 7th Jul, 2021, 02:32 PM ( GMT-7 )
+// export: named; exclusions: IoModel, index, private.
+// files: Model.
 
 // local file exports
-export * from "./IoModel";
 export * from "./Model";
 
 // Note:

@@ -1,12 +1,11 @@
 import * as t from "io-ts";
 import { Equal, Expect, ExpectExtends, NotEqual } from "@type-challenges/utils";
-import { IoModel, arrayToObjectName } from "~/utility";
+import { arrayToObjectName, defineType } from "~/utility";
 
 const SongMeta = t.partial({ year: t.number, genre: t.string });
-const Song = IoModel(
-  "Song",
-  { name: t.string, artist: t.string },
-  { album: t.string, meta: SongMeta }
+const Song = defineType({ name: "Song" })({ name: "", artist: "" })
+{ name: t.string, artist: t.string },
+{ album: t.string, meta: SongMeta }
 );
 type SongType = t.TypeOf<typeof Song>;
 const goodSong: SongType = { name: "Highway to Hell", artist: "AC/DC" };
