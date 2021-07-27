@@ -2,14 +2,9 @@
 
 // #region autoindexed files
 
-// index last changed at: 6th Jun, 2021, 02:46 PM ( GMT-7 )
+// index last changed at: 7th Jul, 2021, 02:40 PM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: SimpleTable, playlist, song.
 
-// local file exports
-export * from "./SimpleTable";
-export * from "./playlist";
-export * from "./song";
 
 // Note:
 // -----

@@ -2,7 +2,7 @@
 
 // #region autoindexed files
 
-// index last changed at: 6th Jun, 2021, 04:31 PM ( GMT-7 )
+// index last changed at: 7th Jul, 2021, 02:32 PM ( GMT-7 )
 // export: named; exclusions: index, private.
 // files: keys, ruleset.
 // directories: api, dictionary, literals, map-reduce, modelling, runtime, state.
