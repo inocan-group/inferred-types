@@ -1,15 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // https://github.com/type-challenges/type-challenges/issues/737
 
-/**
- * UnionToIntersection<{ foo: string } | { bar: string }> =
- *  { foo: string } & { bar: string }.
- */
-export type UnionToIntersection<U> = (
-  U extends unknown ? (arg: U) => 0 : never
-) extends (arg: infer I) => 0
-  ? I
-  : never;
+import { UnionToIntersection } from "./UnionToIntersection";
 
 /**
  * LastInUnion<1 | 2> = 2.

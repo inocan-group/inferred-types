@@ -1,43 +1,17 @@
 // #autoindex
-
 // #region autoindexed files
 
-// index last changed at: 7th Jul, 2021, 09:16 PM ( GMT-7 )
+// index last changed at: 7th Jul, 2021, 05:52 PM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: Api, ExpandRecursively, First, Include, Includes, KeyedRecord, Keys, Length, Narrowable, Opaque, Retain, SameKeys, Transformer, TypeGuard, UnionToIntersection, UnionToTuple, append-types, fluent, maybe, props, ruleset-types, runtime, type-testing.
-// directories: alphabetic, dictionary, kv, string-literals, tuples.
+// files: DictArray, FirstKey, FirstKeyValue, FirstOfEach, FromDictArray, SecondOfEach.
 
 // local file exports
-export * from "./Api";
-export * from "./ExpandRecursively";
-export * from "./First";
-export * from "./Include";
-export * from "./Includes";
-export * from "./KeyedRecord";
-export * from "./Keys";
-export * from "./Length";
-export * from "./Narrowable";
-export * from "./Opaque";
-export * from "./Retain";
-export * from "./SameKeys";
-export * from "./Transformer";
-export * from "./TypeGuard";
-export * from "./UnionToIntersection";
-export * from "./UnionToTuple";
-export * from "./append-types";
-export * from "./fluent";
-export * from "./maybe";
-export * from "./props";
-export * from "./ruleset-types";
-export * from "./runtime";
-export * from "./type-testing";
-
-// directory exports
-export * from "./alphabetic/index";
-export * from "./dictionary/index";
-export * from "./kv/index";
-export * from "./string-literals/index";
-export * from "./tuples/index";
+export * from "./DictArray";
+export * from "./FirstKey";
+export * from "./FirstKeyValue";
+export * from "./FirstOfEach";
+export * from "./FromDictArray";
+export * from "./SecondOfEach";
 
 // Note:
 // -----

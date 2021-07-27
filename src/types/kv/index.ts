@@ -1,12 +1,14 @@
 // #autoindex
 // #region autoindexed files
 
-// index last changed at: 7th Jul, 2021, 02:22 PM ( GMT-7 )
+// index last changed at: 7th Jul, 2021, 01:41 PM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: KeyValue, KvTuple.
+// files: DictFromKv, KeyValue, KvFrom, KvTuple.
 
 // local file exports
+export * from "./DictFromKv";
 export * from "./KeyValue";
+export * from "./KvFrom";
 export * from "./KvTuple";
 
 // Note:
