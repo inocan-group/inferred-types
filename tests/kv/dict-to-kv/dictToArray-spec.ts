@@ -60,8 +60,6 @@ describe("dictionary transforms", () => {
         const cases: cases = [true, true];
       }
     }
-
-
   });
   it("When combined with literal() we can get narrow type definitions", () => {
     const dict = { foo: 1, bar: 2, baz: "hi" };

@@ -11,4 +11,3 @@ import { ExpandRecursively, Narrowable } from "~/types";
 export function kv<K extends string, N extends Narrowable, V extends Record<any, N> | boolean | number | string | null | undefined>(key: K, value: V) {
   return { [key]: value } as ExpandRecursively<Record<K, V>>;
 }
-

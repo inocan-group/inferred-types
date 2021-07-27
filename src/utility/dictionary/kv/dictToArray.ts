@@ -22,3 +22,4 @@ export function dictToArray<T extends object>(obj: T): DictArray<T> {
 
   return out as DictArray<T>;
 }
+
