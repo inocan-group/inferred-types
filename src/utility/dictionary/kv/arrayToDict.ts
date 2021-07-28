@@ -13,7 +13,7 @@ import { FromDictArray } from "~/types/tuples";
  * ]);
  * ```
  */
-export function arrayToDict<T extends Array<{ [K in keyof T]: [string, Record<string, unknown>] }[keyof T]>>(arr: T): FromDictArray<T> {
+export function arrayToDict<T extends [string, Record<string, unknown>][]>(arr: T): FromDictArray<T> {
   const out: any = {};
 
   for (const kv of arr) {

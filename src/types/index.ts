@@ -1,8 +1,7 @@
 // #autoindex
-
 // #region autoindexed files
 
-// index last changed at: 7th Jul, 2021, 09:16 PM ( GMT-7 )
+// index last changed at: 7th Jul, 2021, 04:30 PM ( GMT-7 )
 // export: named; exclusions: index, private.
 // files: Api, ExpandRecursively, First, Include, Includes, KeyedRecord, Keys, Length, Narrowable, Opaque, Retain, SameKeys, Transformer, TypeGuard, UnionToIntersection, UnionToTuple, append-types, fluent, maybe, props, ruleset-types, runtime, type-testing.
 // directories: alphabetic, dictionary, kv, string-literals, tuples.
