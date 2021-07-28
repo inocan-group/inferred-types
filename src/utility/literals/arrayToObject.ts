@@ -1,3 +1,4 @@
+import { Narrowable } from "~/types/Narrowable";
 
 
 /**
@@ -15,8 +16,6 @@ export type UniqueDictionary<S extends PropertyKey, N extends Narrowable, T exte
  * array of values.
  */
 export type GeneralDictionary<S extends PropertyKey, N extends Narrowable, T extends Record<keyof T, N> & Record<S, any>> = { [V in T as V[S]]: V[] };
-
-
 
 
 export type ArrayConverter<S extends PropertyKey, U extends boolean> =
