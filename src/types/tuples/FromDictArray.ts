@@ -1,6 +1,5 @@
+import { ExpandRecursively, UnionToIntersection } from "~/types";
 
-import type { UnionToIntersection, ExpandRecursively } from "~/types";
-import { SecondOfEach } from "./SecondOfEach";
 
 /**
  * Typescript utility which recieves `T` as shape which resembles `DictArray<D>`
@@ -10,6 +9,5 @@ import { SecondOfEach } from "./SecondOfEach";
  * type Dict = FromDictArray<[["foo", { foo: 1 }], ["bar", { bar: "hi" }]]>;
  * ```
  */
-export type FromDictArray<T extends Array<{
-  [K in keyof T]: [string, Record<string, unknown>]
-}[keyof T]>> = ExpandRecursively<UnionToIntersection<Exclude<SecondOfEach<T>, string>>>;
+export type FromDictArray<T extends [string, Record<string, unknown>][]> =
+  ExpandRecursively<UnionToIntersection<T[number][1]>>;
