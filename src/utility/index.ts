@@ -2,12 +2,13 @@
 
 // #region autoindexed files
 
-// index last changed at: 8th Aug, 2021, 11:19 AM ( GMT-7 )
+// index last changed at: 8th Aug, 2021, 11:56 AM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: keys, ruleset.
+// files: createFnWithProps, keys, ruleset.
 // directories: api, dictionary, literals, map-reduce, modelling, runtime, state.
 
 // local file exports
+export * from "./createFnWithProps";
 export * from "./keys";
 export * from "./ruleset";
 

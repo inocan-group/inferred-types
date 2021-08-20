@@ -1,6 +1,5 @@
 import { Alpha } from "common-types";
 
-
 /**
  * Extracts the _required_ keys in the object's type
  */
@@ -15,12 +14,11 @@ export type OptionalKeys<T extends object> = {
   [K in keyof T]-?: {} extends { [P in K]: T[K] } ? K : never;
 }[keyof T];
 
-
 /**
  * The _keys_ on a given object `T` which have a literal value of `W`
  */
 export type KeysWithValue<W extends any, T extends object> = {
-  [K in keyof T]: T[K] extends W ? Readonly<K> : never
+  [K in keyof T]: T[K] extends W ? Readonly<K> : never;
 }[keyof T];
 
 /**
@@ -35,39 +33,37 @@ export type PrivateKey = `_${Alpha}${string}`;
  * of all the keys in this category.
  */
 export type PrivateKeys<T extends object> = {
-  [K in keyof T]: K extends `_${string}` ? K : never
+  [K in keyof T]: K extends `_${string}` ? K : never;
 }[keyof T];
 
 /**
  * **PublicKeys**
- * 
+ *
  * Builds a union type of all keys which are "public" where a public
  * key is any key which _does not_ start with the `_` character.
  */
 export type PublicKeys<T extends object> = {
-  [K in keyof T]: K extends `_${string}` ? never : K
+  [K in keyof T]: K extends `_${string}` ? never : K;
 }[keyof T];
 
-
 export type StringKeys<T extends object> = {
-  [K in keyof T]: K extends string ? Readonly<K> : never
+  [K in keyof T]: K extends string ? Readonly<K> : never;
 }[keyof T];
 
 /**
  * The keys of an object which _are not_ a string type
  */
 export type NonStringKeys<T extends object> = {
-  [K in keyof T]: K extends string ? never : Readonly<K>
+  [K in keyof T]: K extends string ? never : Readonly<K>;
 }[keyof T];
 
 export type NumericKeys<T extends object> = {
-  [K in keyof T]: K extends number ? Readonly<K> : never
+  [K in keyof T]: K extends number ? Readonly<K> : never;
 }[keyof T];
 
 export type NonNumericKeys<T extends object> = {
-  [K in keyof T]: K extends number ? never : Readonly<K>
+  [K in keyof T]: K extends number ? never : Readonly<K>;
 }[keyof T];
-
 
 /**
  * **RequiredProps**
@@ -77,7 +73,7 @@ export type NonNumericKeys<T extends object> = {
 export type RequiredProps<T extends object> = Pick<T, RequiredKeys<T>>;
 
 /**
- * **OptionalProps** 
+ * **OptionalProps**
  *
  * Reduces an object to only key/value pairs where the key is optional
  */
@@ -85,9 +81,14 @@ export type OptionalProps<T extends object> = Pick<T, RequiredKeys<T>>;
 
 /**
  * **WithValue**
- * 
+ *
  * Reduces an object's type down to only those key/value pairs where the
  * value is of type `W`.
+ * ```ts
+ * const foo = { a: 1, b: "hi", c: () => "hello" }
+ * // { c: () => "hello" }
+ * type W = WithValue<Function, typeof foo>
+ * ```
  */
 export type WithValue<W extends any, T extends object> = Pick<T, KeysWithValue<W, T>>;
 
@@ -101,4 +102,3 @@ export type WithStringKeys<T extends object> = Omit<T, NonStringKeys<T>>;
  * Reduces an object to only the key/value pairs where the key is numeric.
  */
 export type WithNumericKeys<T extends object> = Omit<T, NonNumericKeys<T>>;
-

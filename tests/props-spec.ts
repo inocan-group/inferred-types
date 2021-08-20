@@ -1,6 +1,18 @@
 /* eslint-disable unicorn/consistent-function-scoping */
 import type { Expect, Equal } from "@type-challenges/utils";
-import { KeysWithValue, OptionalKeys, RequiredKeys, RequiredProps, WithValue, WithStringKeys, StringKeys, NumericKeys, NonStringKeys, WithNumericKeys } from "~/types/props";
+import {
+  KeysWithValue,
+  OptionalKeys,
+  RequiredKeys,
+  RequiredProps,
+  WithValue,
+  WithStringKeys,
+  StringKeys,
+  NumericKeys,
+  NonStringKeys,
+  WithNumericKeys,
+} from "~/types/props";
+import { defineType } from "~/utility";
 
 type T0 = { foo: number; bar: number; baz: string };
 type T1 = { foo: number; bar: number; baz?: string };
@@ -31,7 +43,6 @@ describe("Dictionary Type Utils", () => {
   });
 
   it("OptionalKeys<T> extracts the right keys", () => {
-
     type cases = [
       Expect<Equal<OptionalKeys<T0>, never>>,
       Expect<Equal<OptionalKeys<T1>, "baz">>,
@@ -53,7 +64,15 @@ describe("Dictionary Type Utils", () => {
     expect(cases).toBe(cases);
   });
 
-  type LiteralType = { foo: 1; foo2: number; bar: true; baz: false; baz2: false; wide: boolean; greet: "hi" };
+  type LiteralType = {
+    foo: 1;
+    foo2: number;
+    bar: true;
+    baz: false;
+    baz2: false;
+    wide: boolean;
+    greet: "hi";
+  };
 
   const narrowType = { foo: 1, foo2: 2, bar: true, baz: false, baz2: false, greet: "hi" } as const;
   type NarrowType = typeof narrowType;
@@ -61,7 +80,6 @@ describe("Dictionary Type Utils", () => {
   type WideType = typeof wideType;
 
   it("KeysWithValue<type, obj> identifies keys of the given object which have a value of specified type", () => {
-
     type SL = KeysWithValue<string, LiteralType>;
     type SN = KeysWithValue<string, NarrowType>;
     type SW = KeysWithValue<string, WideType>;
@@ -105,12 +123,28 @@ describe("Dictionary Type Utils", () => {
       Expect<Equal<TrueNarrow, "bar">>,
       // but no keys are matched when the key's value has been broadened to "boolean"
       Expect<Equal<TrueWide, never>>,
-      // regardless of whether a type is `true`, `false`, or `boolean` they all 
+      // regardless of whether a type is `true`, `false`, or `boolean` they all
       // match up with the `boolean` type
       Expect<Equal<BooleanNarrow, "bar" | "baz" | "baz2">>,
-      Expect<Equal<BooleanWide, "bar" | "baz" | "baz2">>,
+      Expect<Equal<BooleanWide, "bar" | "baz" | "baz2">>
     ];
-    const cases: cases = [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true];
+    const cases: cases = [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+    ];
     expect(cases).toBe(cases);
   });
 
@@ -143,7 +177,7 @@ describe("Dictionary Type Utils", () => {
     type cases = [
       Expect<Equal<S, { xyz: string }>>,
       Expect<Equal<N, { foo: number }>>,
-      Expect<Equal<B, { bar: boolean; baz: boolean; baz2: boolean }>>,
+      Expect<Equal<B, { bar: boolean; baz: boolean; baz2: boolean }>>
     ];
     const cases: cases = [true, true, true];
     expect(cases).toBe(cases);
@@ -160,9 +194,17 @@ describe("Dictionary Type Utils", () => {
     type cases = [
       Expect<Equal<S, { readonly xyz: "hi" }>>,
       Expect<Equal<N, { readonly foo: 1 }>>,
-      Expect<Equal<F, { readonly baz: false; readonly baz2: false }>>,
+      Expect<Equal<F, { readonly baz: false; readonly baz2: false }>>
     ];
     const cases: cases = [true, true, true];
+    expect(cases).toBe(cases);
+  });
+
+  it("WithValue<Function, O> reduces to kv's with a function but retains functions signatuer", () => {
+    type T = WithValue<Function, { a: number; b: string; c: () => "hello"; d: () => "world" }>;
+
+    type cases = [Expect<Equal<T, { c: () => "hello"; d: () => "world" }>>];
+    const cases: cases = [true];
     expect(cases).toBe(cases);
   });
 
@@ -182,12 +224,11 @@ describe("Dictionary Type Utils", () => {
       Expect<Equal<NK, 1 | 2>>,
       Expect<Equal<NonString, 1 | 2>>,
       // they key based primitives allows us to to then just ask
-      // for the object with only string-based keys represented 
+      // for the object with only string-based keys represented
       Expect<Equal<StringKeysOnly, { foo: number; bar: string }>>,
       Expect<Equal<NumericKeysOnly, { 1: string; 2: string }>>
     ];
     const cases: cases = [true, true, true, true, true];
     expect(cases).toBe(cases);
   });
-
 });
