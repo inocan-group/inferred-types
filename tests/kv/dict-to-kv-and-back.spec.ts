@@ -4,9 +4,9 @@ import { keys } from "~/utility";
 import { dictToKv, kvToDict } from "~/utility/dictionary/kv";
 
 describe("dictToKv()", () => {
-  it("basic structure is correct", () => {
+  it("basic structure is correct when forcing to Tuple structure", () => {
     const obj = { id: 123, foo: "bar" } as const;
-    const val = dictToKv(obj);
+    const val = dictToKv(obj, true);
     type Val = typeof val;
 
     expect(Array.isArray(val)).toBeTruthy();
@@ -30,6 +30,26 @@ describe("dictToKv()", () => {
     const c: cases = [true, true];
     expect(c).toBe(c);
   });
+});
+
+it("basic structure is correct when using array structure", () => {
+  const obj = { id: 123, foo: "bar" } as const;
+  const val = dictToKv(obj);
+
+  expect(Array.isArray(val)).toBeTruthy();
+  expect(val).toHaveLength(2);
+  expect(val.every((i) => Object.keys(i).includes("key"))).toBeTruthy();
+  expect(val.every((i) => Object.keys(i).includes("value"))).toBeTruthy();
+
+  for (const kv of val) {
+    if (kv.key === "id") {
+      type cases = [Expect<Equal<typeof kv.key, "id">>, Expect<Equal<typeof kv.value, 123>>];
+      const c: cases = [true, true];
+      expect(c).toBe(c);
+    }
+  }
+
+  // types are a bit ugly so skipping check when not Tuple type
 });
 
 describe("kvToDict()", () => {

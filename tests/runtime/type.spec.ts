@@ -1,10 +1,13 @@
+/* eslint-disable unicorn/consistent-function-scoping */
 import type { Expect, Equal } from "@type-challenges/utils";
 import { type, createFnWithProps, isFunction } from "~/utility";
 
 describe("testing condition() utility and some pre-made conditions", () => {
   it("isFunction()", () => {
-    const t1 = isFunction(() => "hello world");
-    const t2 = isFunction(() => createFnWithProps(() => "hello world", { foo: "bar" }));
+    const fn = () => "hello world";
+    const fn2 = createFnWithProps(() => "hello world", { foo: "bar" });
+    const t1 = isFunction(fn);
+    const t2 = isFunction(fn2);
     type T1 = typeof t1;
     type T2 = typeof t2;
 
