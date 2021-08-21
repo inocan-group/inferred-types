@@ -1,20 +1,22 @@
 // #autoindex
+
 // #region autoindexed files
 
-// index last changed at: 8th Aug, 2021, 03:17 PM ( GMT-7 )
+// index last changed at: 8th Aug, 2021, 09:48 AM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: condition, ifTypeOf, type, withValue.
-// directories: conditions, types.
+// files: isBoolean, isFalse, isFunction, isLiteral, isNull, isNumber, isString, isSymbol, isTrue, isUndefined.
 
 // local file exports
-export * from "./condition";
-export * from "./ifTypeOf";
-export * from "./type";
-export * from "./withValue";
-
-// directory exports
-export * from "./conditions/index";
-export * from "./types/index";
+export * from "./isBoolean";
+export * from "./isFalse";
+export * from "./isFunction";
+export * from "./isLiteral";
+export * from "./isNull";
+export * from "./isNumber";
+export * from "./isString";
+export * from "./isSymbol";
+export * from "./isTrue";
+export * from "./isUndefined";
 
 // Note:
 // -----
