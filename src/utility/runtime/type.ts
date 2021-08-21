@@ -11,38 +11,44 @@ import {
 } from "./conditions";
 import { isLiteral } from "./conditions/isLiteral";
 
-export type TypeTuple<T> = [name: string, type: T, validator: <I extends unknown>(i: I) => boolean];
+export const typeApi = () =>
+  ({
+    string: () => ({ name: "string", type: "" as string, is: isString } as const),
+    boolean: () => ({ name: "boolean", type: true as boolean, is: isBoolean } as const),
+    number: () => ({ name: "number", type: 1 as number, is: isNumber } as const),
+    function: () => ({ name: "function", type: (() => "") as Function, is: isFunction } as const),
+    null: () => ({ name: "null", type: null, is: isNull } as const),
+    symbol: () => ({ name: "symbol", type: Symbol(), is: isSymbol } as const),
+    undefined: () => ({ name: "undefined", type: undefined, is: isUndefined } as const),
 
-export const typeApi = {
-  string: () => ["string", "" as string, isString] as const,
-  boolean: () => ["boolean", true as boolean, isBoolean] as const,
-  number: () => ["number", 1 as number, isNumber] as const,
-  function: () => ["function", (() => "") as Function, isFunction] as const,
-  null: () => ["null", null, isNull] as const,
-  symbol: () => ["symbol", Symbol(), isSymbol] as const,
-  undefined: () => ["undefined", undefined, isUndefined] as const,
+    true: () => ({ name: "true", type: true, is: isTrue } as const),
+    false: () => ({ name: "false", type: false, is: isFalse } as const),
 
-  true: () => ["true", true, isTrue] as const,
-  false: () => ["false", false, isFalse] as const,
+    literal: <T extends string | number>(...v: readonly T[]) =>
+      ["literal", v, isLiteral(v)] as const,
+  } as const);
 
-  literal: <T extends string | number>(...v: readonly T[]) => ["literal", v, isLiteral(v)] as const,
+export type TypeApi = ReturnType<typeof typeApi>;
+
+export type Type<T> = {
+  name: string;
+  type: T;
+  is: <V extends unknown>(v: V) => true | false | unknown;
 };
 
-export type TypeApi = typeof typeApi;
-
-function isTypeTuple(input: unknown) {
-  return Array.isArray(input) && input.length === 3 && typeof input[0] === "string";
+export function isType<T extends any>(t: unknown | Type<T>): t is Type<T> {
+  return (
+    typeof t === "object" && ["name", "type", "is"].every((i) => Object.keys(t as {}).includes(i))
+  );
 }
 
 export type TypeDefinition<T extends any> = (defn: TypeApi) => T;
 
 export function type<T extends any>(fn: TypeDefinition<T>) {
-  const result = fn(typeApi);
-  if (!isTypeTuple(result)) {
+  const result = fn(typeApi());
+  if (!isType(result)) {
     throw new Error(
-      `The return type of the function passed to type() was invalid! Return types should always be a TypeTuple and the function returned: ${JSON.stringify(
-        result
-      )}`
+      `When using type(), the callback passed in returned an invalid type! Make sure that you terminate your callback's with function calls.`
     );
   }
 

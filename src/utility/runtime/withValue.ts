@@ -20,17 +20,16 @@ import { type, TypeDefinition } from "~/utility/runtime";
  * Note: _often useful to provide run-time type profiles with the_ `inferredType` _utility_
  */
 export function withValue<T extends any>(td: TypeDefinition<T>) {
-  const [_name, typeOf, validator] = type<T>(td);
-  type Type = typeof typeOf;
+  const t = type(td);
   return <NT extends Narrowable, T extends Record<string | number, NT>>(obj: T) => {
     return Object.fromEntries(
       [...entries(obj)].filter(([_key, value]) => {
-        return validator(value);
+        return t.is(value);
         // const [t, l] = type(valueTypes);
         // return l
         //   ? ifTypeOf(value).narrowlyExtends(typeof t === "function" ? t(valueTypes) : t)
         //   : ifTypeOf(value).extends(typeof t === "function" ? t(valueTypes) : t);
       })
-    ) as ExpandRecursively<WithValue<Type, T>>;
+    ) as ExpandRecursively<WithValue<typeof type, T>>;
   };
 }

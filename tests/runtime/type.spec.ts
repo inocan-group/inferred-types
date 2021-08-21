@@ -1,18 +1,13 @@
+/* eslint-disable unicorn/consistent-function-scoping */
 import type { Expect, Equal } from "@type-challenges/utils";
-import {
-  type,
-  createFnWithProps,
-  isFunction,
-  IsFunction,
-  IsTrue,
-  IsBoolean,
-  IsFalse,
-} from "~/utility";
+import { type, createFnWithProps, isFunction } from "~/utility";
 
 describe("testing condition() utility and some pre-made conditions", () => {
   it("isFunction()", () => {
-    const t1 = isFunction(() => "hello world");
-    const t2 = isFunction(() => createFnWithProps(() => "hello world", { foo: "bar" }));
+    const fn = () => "hello world";
+    const fn2 = createFnWithProps(() => "hello world", { foo: "bar" });
+    const t1 = isFunction(fn);
+    const t2 = isFunction(fn2);
     type T1 = typeof t1;
     type T2 = typeof t2;
 
@@ -32,16 +27,15 @@ describe("testing condition() utility and some pre-made conditions", () => {
   });
 
   it("defining a boolean type", () => {
-    const t = type((t) => t.boolean());
+    const b = type((t) => t.boolean());
 
-    const [name, typeOf, validator] = t;
-    type TypeOf = typeof typeOf;
+    type TypeOf = typeof b.type;
 
-    expect(name).toBe("boolean");
+    expect(b.name).toBe("boolean");
 
-    const trueTest = validator(true);
-    const falseTest = validator(false);
-    const nadaTest = validator("nada");
+    const trueTest = b.is(true);
+    const falseTest = b.is(false);
+    const nadaTest = b.is("nada");
 
     expect(trueTest).toBe(true);
     expect(falseTest).toBe(true);
@@ -62,16 +56,13 @@ describe("testing condition() utility and some pre-made conditions", () => {
   it("defining true type", () => {
     const t = type((t) => t.true());
 
-    const [name, typeOf, validator] = t;
-    type TypeOf = typeof typeOf;
+    expect(t.name).toBe("true");
 
-    expect(name).toBe("true");
-
-    const trueIsTrue = validator(true);
-    const falseNotTrue = validator(false);
-    const nadaNotTrue = validator("nada");
+    const trueIsTrue = t.is(true);
+    const falseNotTrue = t.is(false);
+    const nadaNotTrue = t.is("nada");
     const b = true as boolean;
-    const booleanUnknown = validator(b);
+    const booleanUnknown = t.is(b);
 
     expect(trueIsTrue).toBe(true);
     expect(falseNotTrue).toBe(false);
@@ -83,7 +74,7 @@ describe("testing condition() utility and some pre-made conditions", () => {
 
     type cases = [
       //
-      Expect<Equal<TypeOf, true>>,
+      Expect<Equal<typeof t.type, true>>,
       Expect<Equal<typeof trueIsTrue, true>>,
       Expect<Equal<typeof falseNotTrue, false>>,
       Expect<Equal<typeof nadaNotTrue, false>>,
@@ -100,14 +91,13 @@ describe("testing condition() utility and some pre-made conditions", () => {
   it("defining a function type", () => {
     const t = type((t) => t.function());
 
-    const [name, typeOf, validator] = t;
-    type TypeOf = typeof typeOf;
+    type TypeOf = typeof t.type;
 
-    expect(name).toBe("function");
+    expect(t.name).toBe("function");
 
-    const basicFn = validator(() => "hi");
-    const fnWithProps = validator(createFnWithProps(() => "hi", { foo: "bar" }));
-    const nadaTest = validator("nada");
+    const basicFn = t.is(() => "hi");
+    const fnWithProps = t.is(createFnWithProps(() => "hi", { foo: "bar" }));
+    const nadaTest = t.is("nada");
 
     expect(basicFn).toBe(true);
     expect(fnWithProps).toBe(true);

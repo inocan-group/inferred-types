@@ -1,7 +1,5 @@
 import { TypeGuard } from "~/types";
-import { type } from "./type";
 import { TypeOptions } from "../../../types/runtime";
-
 
 export const string = (opts: TypeOptions = {}) => {
   const tg: TypeGuard<string> = (v: unknown): v is string => {
@@ -37,4 +35,3 @@ export const nullValue = (opts: TypeOptions = {}) => {
   };
   return type<null>()("null", tg, opts);
 };
-
