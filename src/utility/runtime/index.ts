@@ -1,10 +1,10 @@
 // #autoindex
 // #region autoindexed files
 
-// index last changed at: 8th Aug, 2021, 03:17 PM ( GMT-7 )
+// index last changed at: 8th Aug, 2021, 01:19 PM ( GMT-7 )
 // export: named; exclusions: index, private.
 // files: condition, ifTypeOf, type, withValue.
-// directories: conditions, types.
+// directories: conditions.
 
 // local file exports
 export * from "./condition";
@@ -14,7 +14,6 @@ export * from "./withValue";
 
 // directory exports
 export * from "./conditions/index";
-export * from "./types/index";
 
 // Note:
 // -----

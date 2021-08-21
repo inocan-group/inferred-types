@@ -1,13 +1,5 @@
 import type { Expect, Equal } from "@type-challenges/utils";
-import {
-  type,
-  createFnWithProps,
-  isFunction,
-  IsFunction,
-  IsTrue,
-  IsBoolean,
-  IsFalse,
-} from "~/utility";
+import { type, createFnWithProps, isFunction } from "~/utility";
 
 describe("testing condition() utility and some pre-made conditions", () => {
   it("isFunction()", () => {
@@ -32,15 +24,15 @@ describe("testing condition() utility and some pre-made conditions", () => {
   });
 
   it("defining a boolean type", () => {
-    const t = type((t) => t.boolean());
+    const b = type((t) => t.boolean());
 
-    type TypeOf = typeof t.type;
+    type TypeOf = typeof b.type;
 
-    expect(t.name).toBe("boolean");
+    expect(b.name).toBe("boolean");
 
-    const trueTest = t.is(true);
-    const falseTest = t.is(false);
-    const nadaTest = t.is("nada");
+    const trueTest = b.is(true);
+    const falseTest = b.is(false);
+    const nadaTest = b.is("nada");
 
     expect(trueTest).toBe(true);
     expect(falseTest).toBe(true);
@@ -79,7 +71,7 @@ describe("testing condition() utility and some pre-made conditions", () => {
 
     type cases = [
       //
-      Expect<Equal<TypeOf, true>>,
+      Expect<Equal<typeof t.type, true>>,
       Expect<Equal<typeof trueIsTrue, true>>,
       Expect<Equal<typeof falseNotTrue, false>>,
       Expect<Equal<typeof nadaNotTrue, false>>,
@@ -96,14 +88,13 @@ describe("testing condition() utility and some pre-made conditions", () => {
   it("defining a function type", () => {
     const t = type((t) => t.function());
 
-    const [name, typeOf, validator] = t;
-    type TypeOf = typeof typeOf;
+    type TypeOf = typeof t.type;
 
-    expect(name).toBe("function");
+    expect(t.name).toBe("function");
 
-    const basicFn = validator(() => "hi");
-    const fnWithProps = validator(createFnWithProps(() => "hi", { foo: "bar" }));
-    const nadaTest = validator("nada");
+    const basicFn = t.is(() => "hi");
+    const fnWithProps = t.is(createFnWithProps(() => "hi", { foo: "bar" }));
+    const nadaTest = t.is("nada");
 
     expect(basicFn).toBe(true);
     expect(fnWithProps).toBe(true);
