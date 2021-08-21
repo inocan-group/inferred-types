@@ -34,14 +34,13 @@ describe("testing condition() utility and some pre-made conditions", () => {
   it("defining a boolean type", () => {
     const t = type((t) => t.boolean());
 
-    const [name, typeOf, validator] = t;
-    type TypeOf = typeof typeOf;
+    type TypeOf = typeof t.type;
 
-    expect(name).toBe("boolean");
+    expect(t.name).toBe("boolean");
 
-    const trueTest = validator(true);
-    const falseTest = validator(false);
-    const nadaTest = validator("nada");
+    const trueTest = t.is(true);
+    const falseTest = t.is(false);
+    const nadaTest = t.is("nada");
 
     expect(trueTest).toBe(true);
     expect(falseTest).toBe(true);
@@ -62,16 +61,13 @@ describe("testing condition() utility and some pre-made conditions", () => {
   it("defining true type", () => {
     const t = type((t) => t.true());
 
-    const [name, typeOf, validator] = t;
-    type TypeOf = typeof typeOf;
+    expect(t.name).toBe("true");
 
-    expect(name).toBe("true");
-
-    const trueIsTrue = validator(true);
-    const falseNotTrue = validator(false);
-    const nadaNotTrue = validator("nada");
+    const trueIsTrue = t.is(true);
+    const falseNotTrue = t.is(false);
+    const nadaNotTrue = t.is("nada");
     const b = true as boolean;
-    const booleanUnknown = validator(b);
+    const booleanUnknown = t.is(b);
 
     expect(trueIsTrue).toBe(true);
     expect(falseNotTrue).toBe(false);
