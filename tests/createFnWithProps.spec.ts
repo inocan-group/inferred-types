@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/consistent-function-scoping */
-import { createFnWithProps } from "~/utility";
+import { createFnWithProps } from "~/index";
 
 describe("createFnWithProps()", () => {
   it("simple fn and prop are combined, type is retained", () => {

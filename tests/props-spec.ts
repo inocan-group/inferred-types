@@ -12,7 +12,6 @@ import {
   NonStringKeys,
   WithNumericKeys,
 } from "~/types/props";
-import { defineType } from "~/utility";
 
 type T0 = { foo: number; bar: number; baz: string };
 type T1 = { foo: number; bar: number; baz?: string };

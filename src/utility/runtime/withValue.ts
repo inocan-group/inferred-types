@@ -1,15 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ExpandRecursively, Narrowable, WithValue } from "~/types";
 import { entries } from "~/utility/dictionary";
-import { ifTypeOf } from "./ifTypeOf";
-import { valueTypes, ValueTypeFunc } from "~/shared/valueTypes";
+import { type, TypeDefinition } from "~/utility/runtime";
 
 /**
  * **withValue**
- * 
- * Reduces a dictionary object -- in both _type_ and _run-time_ structure -- to only those 
+ *
+ * Reduces a dictionary object -- in both _type_ and _run-time_ structure -- to only those
  * key/value pairs which have a specified value. For instance:
- * 
+ *
  * ```ts
  * const obj = { foo: 1, bar: 2, message: "hi there" };
  * // { message: "hi there" }
@@ -17,25 +16,20 @@ import { valueTypes, ValueTypeFunc } from "~/shared/valueTypes";
  * // { foo: 1 }
  * const justOne = withValue(t => t.literal(1))(obj);
  * ```
- * 
+ *
  * Note: _often useful to provide run-time type profiles with the_ `inferredType` _utility_
  */
-export function withValue<
-  N extends Narrowable,
-  W extends Record<any, N> | number | string | boolean | symbol | null | Function
->(type: ValueTypeFunc<N, W>) {
-  type Type = ReturnType<typeof type>[0];
-
-  return <NT extends Narrowable, T extends Record<any, NT>>(obj: T) => {
-
+export function withValue<T extends any>(td: TypeDefinition<T>) {
+  const t = type(td);
+  return <NT extends Narrowable, T extends Record<string | number, NT>>(obj: T) => {
     return Object.fromEntries(
       [...entries(obj)].filter(([_key, value]) => {
-        const [t, l] = type(valueTypes);
-        return l
-          ? ifTypeOf(value).narrowlyExtends(typeof t === "function" ? t(valueTypes) : t)
-          : ifTypeOf(value).extends(typeof t === "function" ? t(valueTypes) : t);
+        return t.is(value);
+        // const [t, l] = type(valueTypes);
+        // return l
+        //   ? ifTypeOf(value).narrowlyExtends(typeof t === "function" ? t(valueTypes) : t)
+        //   : ifTypeOf(value).extends(typeof t === "function" ? t(valueTypes) : t);
       })
-    ) as ExpandRecursively<WithValue<Type, T>>;
+    ) as ExpandRecursively<WithValue<typeof type, T>>;
   };
 }
-

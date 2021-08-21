@@ -1,5 +1,16 @@
 import { Narrowable } from "~/types/Narrowable";
 
+export type ValueTuple = [type: any, narrowable: boolean];
+
+/**
+ * An API surface for choosing a **type** which is defined for run-time
+ * use but is translatable to the type system as well.
+ */
+export type ValueTypes = {
+  string: [string, false];
+  boolean: [];
+};
+
 export const valueTypes = {
   // WIDE
   string: ["" as string, false] as [string, false],
@@ -18,16 +29,20 @@ export const valueTypes = {
   literal: <
     N extends Narrowable,
     T extends Record<any, N> | number | string | boolean | symbol | undefined | null
-  >(v: T) => {
+  >(
+    v: T
+  ) => {
     return [v as T, true] as [T, true];
   },
   literalArray: <
     N extends Narrowable,
     T extends Record<any, N> | number | string | boolean | symbol | undefined | null
-  >(arr: T[]) => [arr, true],
+  >(
+    arr: T[]
+  ) => [arr, true],
 };
 
-export type ValueTypes = typeof valueTypes;
-
-export type ValueTypeFunc<N extends Narrowable, T extends Record<any, N> | number | string | boolean | symbol | null | Function> =
-  (v: ValueTypes) => [T, boolean];
+export type ValueTypeFunc<
+  N extends Narrowable,
+  T extends Record<any, N> | number | string | boolean | symbol | null | Function
+> = (v: ValueTypes) => [T, boolean];

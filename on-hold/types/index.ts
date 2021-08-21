@@ -1,15 +1,14 @@
 // #autoindex
 // #region autoindexed files
 
-// index last changed at: 7th Jul, 2021, 01:53 PM ( GMT-7 )
+// index last changed at: 8th Aug, 2021, 10:48 AM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: object, prop, scalar, type.
+// files: object, prop, scalar.
 
 // local file exports
 export * from "./object";
 export * from "./prop";
 export * from "./scalar";
-export * from "./type";
 
 // Note:
 // -----
