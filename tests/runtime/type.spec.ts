@@ -1,5 +1,6 @@
 /* eslint-disable unicorn/consistent-function-scoping */
 import type { Expect, Equal } from "@type-challenges/utils";
+import { FunctionType } from "~/types";
 import { type, createFnWithProps, isFunction } from "~/utility";
 
 describe("testing condition() utility and some pre-made conditions", () => {
@@ -29,7 +30,8 @@ describe("testing condition() utility and some pre-made conditions", () => {
   it("defining a boolean type", () => {
     const b = type((t) => t.boolean());
 
-    type TypeOf = typeof b.type;
+    const tt = b.type();
+    type TypeOf = typeof tt;
 
     expect(b.name).toBe("boolean");
 
@@ -56,6 +58,9 @@ describe("testing condition() utility and some pre-made conditions", () => {
   it("defining true type", () => {
     const t = type((t) => t.true());
 
+    const typeOf = t.type();
+    type TypeOf = typeof typeOf;
+
     expect(t.name).toBe("true");
 
     const trueIsTrue = t.is(true);
@@ -74,7 +79,7 @@ describe("testing condition() utility and some pre-made conditions", () => {
 
     type cases = [
       //
-      Expect<Equal<typeof t.type, true>>,
+      Expect<Equal<TypeOf, true>>,
       Expect<Equal<typeof trueIsTrue, true>>,
       Expect<Equal<typeof falseNotTrue, false>>,
       Expect<Equal<typeof nadaNotTrue, false>>,
@@ -91,7 +96,8 @@ describe("testing condition() utility and some pre-made conditions", () => {
   it("defining a function type", () => {
     const t = type((t) => t.function());
 
-    type TypeOf = typeof t.type;
+    const typeOf = t.type();
+    type TypeOf = typeof typeOf;
 
     expect(t.name).toBe("function");
 
@@ -105,7 +111,7 @@ describe("testing condition() utility and some pre-made conditions", () => {
 
     type cases = [
       //
-      Expect<Equal<TypeOf, Function>>,
+      Expect<Equal<TypeOf, FunctionType>>,
       Expect<Equal<typeof basicFn, true>>,
       Expect<Equal<typeof fnWithProps, true>>,
       Expect<Equal<typeof nadaTest, false>>
