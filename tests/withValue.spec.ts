@@ -1,4 +1,4 @@
-import { defineType, withValue } from "~/utility";
+import { createFnWithProps, defineType, withValue } from "~/utility";
 import type { Expect, Equal } from "@type-challenges/utils";
 import { WithValue } from "~/types/props";
 
@@ -10,6 +10,37 @@ describe("withValue()() utility", () => {
 
     type cases = [Expect<Equal<Str, { message: string }>>, Expect<Equal<Num, { foo: number }>>];
     const cases: cases = [true, true];
+  });
+
+  it.only("withValue() can separate functions", () => {
+    const fnWithProps = createFnWithProps(() => "hi", { foo: "bar" });
+    const obj = {
+      foo: () => 1,
+      foofoo: 2,
+      bar: true,
+      barbar: false,
+      message: "hi there",
+      baz: fnWithProps,
+    } as const;
+    const fn = withValue((t) => t.function())(obj);
+    type Fn = typeof fn;
+    type Keys = keyof Fn;
+
+    // run-time
+    expect(Object.keys(fn)).toContain("foo");
+    expect(Object.keys(fn)).toContain("baz");
+    expect(Object.keys(fn)).not.toContain("foofoo");
+    expect(Object.keys(fn)).not.toContain("bar");
+    expect(Object.keys(fn)).not.toContain("message");
+
+    // types
+    type cases = [
+      //
+      Expect<Equal<Keys, "foo" | "baz">>
+    ];
+
+    const c: cases = [true];
+    expect(c).toBe(c);
   });
 
   it("withValue() passes runtime and type tests for scalar types", () => {
