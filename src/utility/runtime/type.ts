@@ -40,8 +40,9 @@ export const typeApi = () =>
     true: () => ({ name: "true", type: () => true as true, is: isTrue } as const),
     false: () => ({ name: "false", type: () => false as false, is: isFalse } as const),
 
-    literal: <T extends string | number>(...v: readonly T[]) =>
-      ["literal", v, isLiteral(v)] as const,
+    // TODO: fix this
+    literal: <T extends Readonly<string>>(...v: T[]) =>
+      ["literal", () => "" as T, isLiteral(...v)] as const,
   } as const);
 
 export type TypeApi = ReturnType<typeof typeApi>;

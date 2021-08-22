@@ -1,9 +1,5 @@
-import {Keys} from "~/types";
-
-export function isLiteral<V extends readonly Array<unknown>>(...allowed: V) {
-  type A = typeof allowed;
+export function isLiteral<V extends Readonly<string>>(...allowed: V[]) {
   return <T extends unknown>(i: T) => {
-    return (!allowed.every((v) => i !== v)) as T extends keyof V;
+    return !allowed.every((v) => i !== v);
   };
 }
-

@@ -1,4 +1,3 @@
-import { isFunction } from "./conditions";
 import { InferenceError } from "~/errors";
 import { Narrowable } from "~/types/Narrowable";
 import { keys } from "../keys";
@@ -30,7 +29,7 @@ function runtimeExtendsCheck<TValue extends any, TBase extends any>(
           "ifTypeOf/not-allowed"
         );
       }
-      return isFunction();
+      return true as TValue extends TBase ? true : false;
     case "object":
       if (val === null && base === null) {
         return true as TValue extends TBase ? true : false;

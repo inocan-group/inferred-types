@@ -12,6 +12,7 @@
     "about": "tokei src",
     "autoindex": "npx dd autoindex",
     "build": "run-s clean autoindex lint build:bundle",
+    "build:force": "run-s clean autoindex build:bundle",
     "build:bundle": "node devops/build esnext commonjs --closure",
     "clean": "rimraf dist/**/*",
     "lint": "eslint src/**/*.ts --fix && tsc --noEmit ",
