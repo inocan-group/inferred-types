@@ -1,7 +1,6 @@
 import { createFnWithProps, type, withValue } from "~/utility";
 import type { Expect, Equal } from "@type-challenges/utils";
 import { WithValue } from "~/types/props";
-import { FunctionType } from "~/types";
 
 describe.only("withValue()() utility", () => {
   it("type reduction with WithValue<T> works as expected", () => {

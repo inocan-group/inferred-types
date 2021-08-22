@@ -90,9 +90,9 @@ export function isType<T extends any, V extends Function>(t: unknown): t is Type
   );
 }
 
-export type TypeDefinition<T extends {}> = (defn: TypeApi) => T;
+export type TypeDefinition<T extends any, V extends Function> = (defn: TypeApi) => Type<T, V>;
 
-export function type<T extends {}>(fn: TypeDefinition<T>) {
+export function type<T extends any, V extends Function>(fn: TypeDefinition<T, V>) {
   const result = fn(typeApi());
   if (!isType(result)) {
     throw new Error(
