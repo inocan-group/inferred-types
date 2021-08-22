@@ -1,4 +1,4 @@
-import { createFnWithProps, defineType, withValue } from "~/utility";
+import { createFnWithProps, withValue } from "~/utility";
 import type { Expect, Equal } from "@type-challenges/utils";
 import { WithValue } from "~/types/props";
 

@@ -34,5 +34,5 @@
       { "transform": "typescript-transform-paths", "afterDeclarations": true }
     ]
   },
-  "include": ["src", "tests", "on-hold/types", "on-hold/tests/run-time-spec.ts"]
+  "include": ["src", "tests"]
 }
