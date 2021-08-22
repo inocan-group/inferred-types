@@ -28,10 +28,9 @@ describe("testing condition() utility and some pre-made conditions", () => {
   });
 
   it("defining a boolean type", () => {
-    const b = type((t) => t.boolean());
+    const b = type((t) => t.boolean);
 
-    const tt = b.type();
-    type TypeOf = typeof tt;
+    type TypeOf = typeof b.type;
 
     expect(b.name).toBe("boolean");
 
@@ -56,9 +55,9 @@ describe("testing condition() utility and some pre-made conditions", () => {
   });
 
   it("defining true type", () => {
-    const t = type((t) => t.true());
+    const t = type((t) => t.true);
 
-    const typeOf = t.type();
+    const typeOf = t.type;
     type TypeOf = typeof typeOf;
 
     expect(t.name).toBe("true");
@@ -94,9 +93,9 @@ describe("testing condition() utility and some pre-made conditions", () => {
   });
 
   it("defining a function type", () => {
-    const t = type((t) => t.function());
+    const t = type((t) => t.function);
 
-    const typeOf = t.type();
+    const typeOf = t.type;
     type TypeOf = typeof typeOf;
 
     expect(t.name).toBe("function");

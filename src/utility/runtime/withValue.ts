@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ExpandRecursively, Narrowable, WithValue } from "~/types";
 import { entries } from "~/utility/dictionary";
-import { type, TypeDefinition } from "~/utility/runtime";
+import { Type, type, TypeDefinition } from "~/utility/runtime";
 
 /**
  * **withValue**
@@ -19,15 +19,20 @@ import { type, TypeDefinition } from "~/utility/runtime";
  *
  * Note: _often useful to provide run-time type profiles with the_ `inferredType` _utility_
  */
-export function withValue<T extends {}>(td: TypeDefinition<T>) {
+export function withValue<TD extends Type<any, any>>(td: TypeDefinition<TD>) {
   const t = type(td);
-  type TypeOf = ReturnType<typeof t.type>;
+  type TypeDefn = typeof t;
 
-  return <NT extends Narrowable, T extends Record<string | number, NT>>(obj: T) => {
+  const outcome = <NT extends Narrowable, T extends Record<string | number, NT>>(obj: T) => {
     return Object.fromEntries(
       [...entries(obj)].filter(([_key, value]) => {
+        // runtime check
         return t.is(value);
       })
-    ) as ExpandRecursively<WithValue<TypeOf, T>>;
+    );
   };
+
+  return outcome as unknown as TypeDefn extends Type<infer K, any>
+    ? ExpandRecursively<WithValue<K, any>>
+    : never;
 }
