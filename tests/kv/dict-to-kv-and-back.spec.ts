@@ -23,11 +23,24 @@ describe("dictToKv()", () => {
     }
 
     type cases = [
-      Expect<Equal<Val[0], { key: "id"; value: 123 }>>,
-      Expect<Equal<Val[1], { key: "foo"; value: "bar" }>>
+      Expect<
+        Equal<
+          Val,
+          [
+            {
+              key: "id";
+              value: 123;
+            },
+            {
+              key: "foo";
+              value: "bar";
+            }
+          ]
+        >
+      >
     ];
 
-    const c: cases = [true, true];
+    const c: cases = [true];
     expect(c).toBe(c);
   });
 });
