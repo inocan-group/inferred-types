@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ExpandRecursively, Narrowable, WithValue } from "~/types";
 import { entries } from "~/utility/dictionary";
-import { Type, type, TypeDefinition } from "~/utility/runtime";
+import { type, TypeDefinition } from "~/utility/runtime";
 
 /**
  * **withValue**

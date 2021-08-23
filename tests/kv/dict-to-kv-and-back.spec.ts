@@ -146,7 +146,7 @@ describe("kvToDict / dictToKv inverse", () => {
         // they are equal in each key/value pair
         // Expect<ExpectExtends<Arr, Inverse>>
       ];
-      const c: cases = [true, true, true];
+      const c: cases = [true];
       expect(c).toBe(c);
     }
   });

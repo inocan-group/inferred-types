@@ -1,4 +1,4 @@
-import { FunctionType, TypeGuard } from "~/types";
+import { FunctionType, Narrowable, TypeGuard } from "~/types";
 import {
   isString,
   isBoolean,
@@ -67,7 +67,7 @@ export const typeApi = () =>
     true: {
       name: "true",
       type: true as true,
-      typeGuard: (v: unknown): v is true => isTrue(v),
+      typeGuard: (v: Narrowable): v is true => isTrue(v),
       is: isTrue,
     } as Type<true, typeof isTrue>,
     false: {
@@ -77,9 +77,13 @@ export const typeApi = () =>
       is: isFalse,
     } as Type<false, typeof isFalse>,
 
-    // TODO: fix this
-    // literal: <T extends Readonly<string>>(...v: T[]) =>
-    //   ["literal", () => "" as T, isLiteral(...v)] as const,
+    // literal: <T extends Readonly<string>>(...literalValues: T[]) =>
+    //   ({
+    //     name: "literal",
+    //     type: v as T,
+    //     typeGuard: (v: unknown): v is T => isLiteral(...literalValues)(v),
+    //     is: isLiteral(...literalValues)(v),
+    //   } as Type<T, typeof isLiteral>),
   } as const);
 
 export type TypeApi = ReturnType<typeof typeApi>;
