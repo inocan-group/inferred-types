@@ -2,17 +2,19 @@
 
 // #region autoindexed files
 
-// index last changed at: 8th Aug, 2021, 09:48 AM ( GMT-7 )
+// index last changed at: 8th Aug, 2021, 08:15 PM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: isBoolean, isFalse, isFunction, isLiteral, isNull, isNumber, isString, isSymbol, isTrue, isUndefined.
+// files: isArray, isBoolean, isFalse, isFunction, isLiteral, isNull, isNumber, isObject, isString, isSymbol, isTrue, isUndefined.
 
 // local file exports
+export * from "./isArray";
 export * from "./isBoolean";
 export * from "./isFalse";
 export * from "./isFunction";
 export * from "./isLiteral";
 export * from "./isNull";
 export * from "./isNumber";
+export * from "./isObject";
 export * from "./isString";
 export * from "./isSymbol";
 export * from "./isTrue";

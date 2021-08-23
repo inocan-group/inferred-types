@@ -1,4 +1,4 @@
-import { createFnWithProps, withValue } from "~/utility";
+import { createFnWithProps, type, withValue } from "~/utility";
 import type { Expect, Equal } from "@type-challenges/utils";
 import { WithValue } from "~/types/props";
 
@@ -12,7 +12,42 @@ describe("withValue()() utility", () => {
     const cases: cases = [true, true];
   });
 
-  it.only("withValue() can separate functions", () => {
+  it("get a type from type() and using it in WithType<T>", () => {
+    const obj = {
+      // simple function
+      foo: () => 1,
+      // function with props
+      foofoo: createFnWithProps(() => 2, { foo: "bar" }),
+      bar: true,
+      message: "hi there",
+    } as const;
+    type Obj = typeof obj;
+    const t = type((t) => t.function);
+    type Fn = typeof t.type;
+
+    type Fns = WithValue<Fn, Obj>;
+    type Keys = keyof Fns;
+
+    type cases = [
+      // keys are correct
+      Expect<Equal<Keys, "foo" | "foofoo">>,
+      // values too
+      Expect<
+        Equal<
+          Fns,
+          {
+            readonly foo: () => number;
+            readonly foofoo: (() => 2) & { foo: string };
+          }
+        >
+      >
+    ];
+
+    const c: cases = [true, true];
+    expect(c).toBe(c);
+  });
+
+  it("withValue() can separate functions", () => {
     const fnWithProps = createFnWithProps(() => "hi", { foo: "bar" });
     const obj = {
       foo: () => 1,
@@ -22,7 +57,7 @@ describe("withValue()() utility", () => {
       message: "hi there",
       baz: fnWithProps,
     } as const;
-    const fn = withValue((t) => t.function())(obj);
+    const fn = withValue((t) => t.function)(obj);
     type Fn = typeof fn;
     type Keys = keyof Fn;
 
@@ -46,25 +81,25 @@ describe("withValue()() utility", () => {
   it("withValue() passes runtime and type tests for scalar types", () => {
     const obj = { foo: 1, foofoo: 2, bar: true, barbar: false, message: "hi there" } as const;
 
-    const str = withValue((t) => t.string())(obj);
+    const str = withValue((t) => t.string)(obj);
     type Str = typeof str;
-    const num = withValue((t) => t.number())(obj);
+    const num = withValue((t) => t.number)(obj);
     type Num = typeof num;
-    const bool = withValue((t) => t.boolean())(obj);
+    const bool = withValue((t) => t.boolean)(obj);
     type Bool = typeof bool;
     // const litNum = withValue((t) => t.literal(1))(obj);
     // type LitNum = typeof litNum;
-    const truth = withValue((t) => t.true())(obj);
+    const truth = withValue((t) => t.true)(obj);
     type Truth = typeof truth;
 
     type cases = [
       Expect<Equal<Str, { readonly message: "hi there" }>>,
       Expect<Equal<Num, { readonly foo: 1; readonly foofoo: 2 }>>,
       Expect<Equal<Bool, { readonly bar: true; readonly barbar: false }>>,
-      Expect<Equal<LitNum, { readonly foo: 1 }>>,
+      // Expect<Equal<LitNum, { readonly foo: 1 }>>,
       Expect<Equal<Truth, { readonly bar: true }>>
     ];
-    const cases: cases = [true, true, true, true, true];
+    const cases: cases = [true, true, true, true];
 
     expect(str.message).toBe("hi there");
     expect((str as any).foo).toBe(undefined);

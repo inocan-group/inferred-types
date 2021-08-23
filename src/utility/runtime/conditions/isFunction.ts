@@ -1,4 +1,6 @@
-export type IsFunction<T> = T extends Function ? true : false;
+import { FunctionType } from "~/types";
+
+export type IsFunction<T> = T extends FunctionType ? true : false;
 
 /**
  * Checks whether a passed in value is a function and ensures run-time and types
