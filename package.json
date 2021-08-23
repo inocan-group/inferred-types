@@ -1,6 +1,6 @@
 {
   "name": "inferred-types",
-  "version": "0.13.2",
+  "version": "0.13.3",
   "description": "Functions which provide useful type inference on TS projects",
   "license": "MIT",
   "author": "Ken Snyder<ken@ken.net>",
@@ -27,8 +27,8 @@
     "@type-challenges/utils": "~0.1.1",
     "@types/jest": "^26.0.23",
     "@types/node": "^14.14.22",
-    "@typescript-eslint/eslint-plugin": "^4.14.1",
-    "@typescript-eslint/parser": "^4.14.1",
+    "@typescript-eslint/eslint-plugin": "^4.29.2",
+    "@typescript-eslint/parser": "^4.29.2",
     "common-types": "^1.25.0",
     "cross-env": "^7.0.3",
     "dd": "^0.11.5",
@@ -42,7 +42,6 @@
     "io-ts": "^2.2.13",
     "jest": "26",
     "jest-extended": "~0.11.5",
-    "node": "^14.15.2",
     "npm-run-all": "~4.1.5",
     "prettier": "~2.3.1",
     "rimraf": "^3.0.2",
@@ -51,9 +50,9 @@
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.30.0",
     "ts-jest": "26",
-    "ts-node": "^9.0.0",
+    "ts-node": "^10.0.0",
     "ttypescript": "~1.5.12",
-    "typescript": "^4.3.4",
+    "typescript": "^4.3.5",
     "typescript-transform-paths": "~2.2.2"
   },
   "optionalDependencies": {
