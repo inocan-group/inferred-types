@@ -1,15 +1,38 @@
 import { createFnWithProps, type, withValue } from "~/utility";
 import type { Expect, Equal } from "@type-challenges/utils";
 import { WithValue } from "~/types/props";
+import { FunctionType } from "~/types";
 
 describe("withValue()() utility", () => {
   it("type reduction with WithValue<T> works as expected", () => {
-    const obj = { foo: 1, bar: true, message: "hi there" };
+    const obj = {
+      foo: 1,
+      foo2: 2 as const,
+      foo3: 3 as const,
+      bar: true,
+      message: "hi there",
+      numericArr: [1, 2, 3],
+      fn: () => "hi",
+      fnWithProp: createFnWithProps(() => "hi", { foo: "there" }),
+      baz: { foo: 1, bar: 2 },
+    };
+
     type Str = WithValue<string, typeof obj>;
     type Num = WithValue<number, typeof obj>;
+    type NumWithExclusion = WithValue<number, typeof obj, 2>;
+    type Fn = WithValue<FunctionType, typeof obj>;
+    type Obj = WithValue<Record<string, any>, typeof obj, any[] | FunctionType>;
 
-    type cases = [Expect<Equal<Str, { message: string }>>, Expect<Equal<Num, { foo: number }>>];
-    const cases: cases = [true, true];
+    type cases = [
+      //
+      Expect<Equal<Str, { message: string }>>,
+      Expect<Equal<Num, { foo: number; foo2: 2; foo3: 3 }>>,
+      Expect<Equal<keyof Fn, "fn" | "fnWithProp">>,
+      Expect<Equal<NumWithExclusion, { foo: number; foo3: 3 }>>,
+      Expect<Equal<keyof Fn, "fn" | "fnWithProp">>,
+      Expect<Equal<keyof Obj, "baz">>
+    ];
+    const cases: cases = [true, true, true, true, true, true];
   });
 
   it("get a type from type() and using it in WithType<T>", () => {
@@ -79,7 +102,14 @@ describe("withValue()() utility", () => {
   });
 
   it("withValue() passes runtime and type tests for scalar types", () => {
-    const obj = { foo: 1, foofoo: 2, bar: true, barbar: false, message: "hi there" } as const;
+    const obj = {
+      foo: 1,
+      foofoo: 2,
+      bar: true,
+      barbar: false,
+      message: "hi there",
+      more: { a: 1, b: 3 },
+    } as const;
 
     const str = withValue((t) => t.string)(obj);
     type Str = typeof str;
@@ -113,16 +143,31 @@ describe("withValue()() utility", () => {
   });
 
   it("withValue() passes runtime and type tests with object type", () => {
-    // const inner = defineType({ id: 1 })({ color: "red", size: "large", quantity: 1 });
-    // const obj = defineType({ customer: 1 })({ orders: inner });
-    // const o = withValue((t) => t.object())(obj);
-    // expect(typeof o).toBe("object");
-    // expect(typeof o.orders).toBe("object");
-    // expect(o.orders.id).toBe(1);
-    // expect(o.orders.quantity).toBe(1);
-    // expect((o as any).customers).toBe(undefined);
-    // type cases = [Expect<Equal<typeof o, Omit<typeof obj, "customer">>>];
-    // const cases: cases = [true];
-    // expect(cases).toBe(cases);
+    const fnWithProps = createFnWithProps(() => "hi", { foo: "bar" });
+    const obj = {
+      num: 1,
+      obj: { left: "left", right: "right" },
+      arr: [1, 2, 3],
+      fnWithProps,
+    } as const;
+
+    const o = withValue((t) => t.object)(obj);
+
+    type O = typeof o;
+    type K = keyof O;
+
+    expect(typeof o).toBe("object");
+    expect(typeof o.obj).toBe("object");
+    expect(o.obj.left).toBe("left");
+    expect(o).not.toHaveProperty("num");
+    expect(o).not.toHaveProperty("arr");
+    expect(o).not.toHaveProperty("fnWithProps");
+
+    type cases = [
+      //
+      Expect<Equal<K, "obj">>
+    ];
+    const cases: cases = [true];
+    expect(cases).toBe(cases);
   });
 });

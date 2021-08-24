@@ -11,6 +11,7 @@ import {
   isUndefined,
   isObject,
   isArray,
+  ObjectType,
 } from "./conditions";
 // import { isLiteral } from "./conditions/isLiteral";
 
@@ -81,10 +82,10 @@ export const typeApi = () =>
 
     object: {
       name: "object",
-      type: {} as Object,
-      typeGuard: (v: unknown): v is Object => isObject(v),
+      type: {},
+      typeGuard: (v: unknown): v is ObjectType => isObject(v),
       is: isObject,
-    } as Type<{}, typeof isObject>,
+    } as Type<ObjectType, typeof isObject>,
 
     array: {
       name: "array",
