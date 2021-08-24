@@ -1,10 +1,10 @@
 // #autoindex
 // #region autoindexed files
 
-// index last changed at: 8th Aug, 2021, 02:34 PM ( GMT-7 )
+// index last changed at: 8th Aug, 2021, 11:51 AM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: Api, EnumValues, ExpandRecursively, First, FunctionType, Include, Includes, KeyedRecord, Keys, Length, Mutable, Narrowable, Numeric, Opaque, Retain, SameKeys, Transformer, TypeGuard, UnionToIntersection, UnionToTuple, append-types, fluent, maybe, props, ruleset-types, runtime, type-testing.
-// directories: alphabetic, dictionary, kv, string-literals, tuples.
+// files: Api, EnumValues, ExpandRecursively, First, FunctionType, If, Include, Includes, KeyedRecord, Keys, Length, Mutable, Narrowable, Not, Numeric, Opaque, Retain, SameKeys, Transformer, TypeGuard, append-types, fluent, maybe, props, ruleset-types, runtime, type-testing.
+// directories: alphabetic, dictionary, kv, string-literals, tuples, type-conversion.
 
 // local file exports
 export * from "./Api";
@@ -12,6 +12,7 @@ export * from "./EnumValues";
 export * from "./ExpandRecursively";
 export * from "./First";
 export * from "./FunctionType";
+export * from "./If";
 export * from "./Include";
 export * from "./Includes";
 export * from "./KeyedRecord";
@@ -19,14 +20,13 @@ export * from "./Keys";
 export * from "./Length";
 export * from "./Mutable";
 export * from "./Narrowable";
+export * from "./Not";
 export * from "./Numeric";
 export * from "./Opaque";
 export * from "./Retain";
 export * from "./SameKeys";
 export * from "./Transformer";
 export * from "./TypeGuard";
-export * from "./UnionToIntersection";
-export * from "./UnionToTuple";
 export * from "./append-types";
 export * from "./fluent";
 export * from "./maybe";
@@ -41,6 +41,7 @@ export * from "./dictionary/index";
 export * from "./kv/index";
 export * from "./string-literals/index";
 export * from "./tuples/index";
+export * from "./type-conversion/index";
 
 // Note:
 // -----

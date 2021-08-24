@@ -15,7 +15,14 @@ export type OptionalKeys<T extends object> = {
 }[keyof T];
 
 /**
- * The _keys_ on a given object `T` which have a literal value of `W`
+ * The _keys_ on a given object `T` which have a literal value of `W`.
+ *
+ * Optionally, you may provide a generic `E` to exclude certain keys in
+ * resultset.
+ * ```ts
+ * // "foo"
+ * type Str = KeysWithValue<{ foo: "hi"; bar: 5 }>;
+ * ```
  */
 export type KeysWithValue<W extends any, T extends object> = {
   [K in keyof T]: T[K] extends W ? Readonly<K> : never;
@@ -90,7 +97,15 @@ export type OptionalProps<T extends object> = Pick<T, RequiredKeys<T>>;
  * type W = WithValue<Function, typeof foo>
  * ```
  */
-export type WithValue<W extends any, T extends object> = Pick<T, KeysWithValue<W, T>>;
+export type WithValue<
+  W extends any,
+  T extends object,
+  E extends any = undefined
+> = undefined extends E
+  ? // no exclusion provided
+    Pick<T, KeysWithValue<W, T>>
+  : // Exclude using E
+    Omit<Pick<T, KeysWithValue<W, T>>, KeysWithValue<E, T>>;
 
 /**
  * Reduces an object to only the key/value pairs where the key is a

@@ -2,9 +2,14 @@
 
 // #region autoindexed files
 
-// index last changed at: 8th Aug, 2021, 12:16 PM ( GMT-7 )
+// index last changed at: 8th Aug, 2021, 04:13 PM ( GMT-7 )
 // export: named; exclusions: index, private.
+// files: TupleToUnion, UnionToIntersection, UnionToTuple.
 
+// local file exports
+export * from "./TupleToUnion";
+export * from "./UnionToIntersection";
+export * from "./UnionToTuple";
 
 // Note:
 // -----

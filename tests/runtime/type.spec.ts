@@ -1,9 +1,9 @@
 /* eslint-disable unicorn/consistent-function-scoping */
 import type { Expect, Equal } from "@type-challenges/utils";
 import { FunctionType } from "~/types";
-import { type, createFnWithProps, isFunction } from "~/utility";
+import { type, createFnWithProps, isFunction, isObject } from "~/utility";
 
-describe("testing condition() utility and some pre-made conditions", () => {
+describe("testing type() utility and some pre-made conditions", () => {
   it("isFunction()", () => {
     const fn = () => "hello world";
     const fn2 = createFnWithProps(() => "hello world", { foo: "bar" });
@@ -24,6 +24,73 @@ describe("testing condition() utility and some pre-made conditions", () => {
     ];
 
     const c: cases = [true, true];
+    expect(c).toBe(c);
+  });
+
+  it("isObject detects object which are not arrays and not functions with props", () => {
+    const fnWithProps = createFnWithProps(() => "hi", { foo: "bar" });
+    const obj = {
+      foo: 1,
+      bar: { left: "left", right: "right" },
+      baz: [1, 2, 3],
+      fnWithProps,
+    } as const;
+
+    const foo = isObject(obj.foo);
+    const bar = isObject(obj.bar);
+    const baz = isObject(obj.baz);
+    const fnWithProps2 = isObject(obj.fnWithProps);
+
+    // run-time
+    expect(foo).toBeFalsy();
+    expect(bar).toBeTruthy();
+    expect(baz).toBeFalsy();
+    expect(fnWithProps2).toBeFalsy();
+
+    // type checking
+    type cases = [
+      // all tests should result in a discrete, literal true/false
+      Expect<Equal<typeof foo, false>>,
+      Expect<Equal<typeof bar, true>>,
+      Expect<Equal<typeof baz, false>>,
+      Expect<Equal<typeof fnWithProps2, false>>
+    ];
+
+    const c: cases = [true, true, true, true];
+    expect(c).toBe(c);
+  });
+
+  it("an object can be detected using type() utility", () => {
+    const fnWithProps = createFnWithProps(() => "hi", { foo: "bar" });
+    const obj = {
+      foo: 1,
+      bar: { left: "left", right: "right" },
+      baz: [1, 2, 3],
+      fnWithProps,
+    } as const;
+    const o = type((t) => t.object);
+
+    const foo = o.is(obj.foo);
+    const bar = o.is(obj.bar);
+    const baz = o.is(obj.baz);
+    const fnWithProps2 = o.is(obj.fnWithProps);
+
+    // run-time
+    expect(foo).toBeFalsy();
+    expect(bar).toBeTruthy();
+    expect(baz).toBeFalsy();
+    expect(fnWithProps2).toBeFalsy();
+
+    // type checking
+    type cases = [
+      // all tests should result in a discrete, literal true/false
+      Expect<Equal<typeof foo, false>>,
+      Expect<Equal<typeof bar, true>>,
+      Expect<Equal<typeof baz, false>>,
+      Expect<Equal<typeof fnWithProps2, false>>
+    ];
+
+    const c: cases = [true, true, true, true];
     expect(c).toBe(c);
   });
 

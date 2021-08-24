@@ -6,9 +6,9 @@ import { UnionToIntersection } from "./UnionToIntersection";
 /**
  * LastInUnion<1 | 2> = 2.
  */
-export type LastInUnion<U> = UnionToIntersection<
-  U extends unknown ? (x: U) => 0 : never
-> extends (x: infer L) => 0
+export type LastInUnion<U> = UnionToIntersection<U extends unknown ? (x: U) => 0 : never> extends (
+  x: infer L
+) => 0
   ? L
   : never;
 
