@@ -15,7 +15,7 @@ describe("UniqueForProp<T, P>", () => {
       Expect<ExpectExtends<U, 123>>,
       Expect<ExpectExtends<U, 456>>,
       // but so is a lot other junk
-      Expect<Equals<U, 123 | 456>>
+      Expect<Equal<U, 123 | 456>>
     ];
 
     const c: cases = [true, true, true];
