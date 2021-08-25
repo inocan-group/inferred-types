@@ -2,9 +2,12 @@
 
 // #region autoindexed files
 
-// index last changed at: 8th Aug, 2021, 09:49 AM ( GMT-7 )
+// index last changed at: 8th Aug, 2021, 05:44 PM ( GMT-7 )
 // export: named; exclusions: index, private.
+// files: UniqueForProp.
 
+// local file exports
+export * from "./UniqueForProp";
 
 // Note:
 // -----
