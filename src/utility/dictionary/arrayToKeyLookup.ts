@@ -1,7 +1,6 @@
 /**
- * Passing in an array of strings, you are passed back a dictionary with all the keys
- * being the strings and values set to `true`.
- * 
+ * Passing in an array of strings, you are passed back a dictionary with
+ * all the keys being the strings and values set to `true`.
  * ```ts
  * // { foo: true, bar: true }
  * const fooBar = arrayToKeyLookup("foo", "bar");
