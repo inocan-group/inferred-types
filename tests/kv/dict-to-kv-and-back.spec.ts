@@ -23,10 +23,7 @@ describe("dictToKv()", () => {
     }
 
     type cases = [
-      Expect<
-        Equal<
-          Val,
-          [
+      Expect<Equal<Val, [
             {
               key: "id";
               value: 123;
@@ -35,8 +32,7 @@ describe("dictToKv()", () => {
               key: "foo";
               value: "bar";
             }
-          ]
-        >
+          ]>
       >
     ];
 

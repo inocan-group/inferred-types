@@ -8,7 +8,6 @@ const pkg = require("../package.json");
 const { builtinModules } = require("module");
 const analyze = require("rollup-plugin-analyzer");
 const typescript = require("rollup-plugin-typescript2");
-const ttypescript = require("ttypescript");
 const closure = require("@ampproject/rollup-plugin-closure-compiler");
 const { existsSync, statSync } = require("fs");
 const { exit } = require("process");
@@ -110,7 +109,6 @@ const moduleConfig = (moduleSystem, file, minimized, emitDeclaration) => {
         resolve(),
         typescript({
           tsconfig: "tsconfig.json",
-          typescript: ttypescript,
           useTsconfigDeclarationDir: true,
           tsconfigOverride,
         }),
@@ -119,7 +117,7 @@ const moduleConfig = (moduleSystem, file, minimized, emitDeclaration) => {
           ? [analyze()]
           : []),
         ...(switches.has("closure") ? [closure()] : []),
-        ...(minimized ? [terser()] : []),
+        ...(switches.has("minimize") ? [terser()] : []),
       ],
     };
   } catch (e) {

@@ -1,3 +1,3 @@
 import { createError } from "brilliant-errors";
 
-export const InferenceError = createError("InferenceError", "inferred-types");
+export const [InferenceError, isInferenceError] = createError("InferenceError", "inferred-types")()()()();
