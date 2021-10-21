@@ -1,9 +1,9 @@
 // #autoindex
 // #region autoindexed files
 
-// index last changed at: 10th Oct, 2021, 01:52 PM ( GMT-7 )
+// index last changed at: 10th Oct, 2021, 03:14 PM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: Api, Constructor, EnumValues, ExpandRecursively, First, FunctionType, If, Include, Includes, KeyedRecord, Keys, Length, Mutable, Narrowable, Not, Numeric, Opaque, Retain, SameKeys, Transformer, TypeGuard, append-types, fluent, maybe, props, ruleset-types, runtime, type-testing.
+// files: Api, Constructor, EnumValues, ExpandRecursively, First, FunctionType, If, Include, Includes, KeyedRecord, Keys, Length, Mutable, Narrowable, Not, Numeric, Opaque, Retain, SameKeys, Transformer, TypeGuard, Where, append-types, fluent, maybe, props, ruleset-types, runtime, type-testing.
 // directories: alphabetic, dictionary, kv, lists, string-literals, tuples, type-conversion.
 
 // local file exports
@@ -28,6 +28,7 @@ export * from "./Retain";
 export * from "./SameKeys";
 export * from "./Transformer";
 export * from "./TypeGuard";
+export * from "./Where";
 export * from "./append-types";
 export * from "./fluent";
 export * from "./maybe";
@@ -48,7 +49,7 @@ export * from "./type-conversion/index";
 // Note:
 // -----
 // This file was created by running: "dd devops autoindex"; it assumes you have
-// the 'do-devops' pkg installed as a dev dep.
+// the 'do-devops' pkg (that's "dd" on npm) installed as a dev dep.
 //
 // By default it assumes that exports are named exports but this can be changed by
 // adding a modifier to the '// #autoindex' syntax:
@@ -67,7 +68,12 @@ export * from "./type-conversion/index";
 //
 //    - autoindex:named, exclude: foo,bar,baz
 //
-// Also be aware that all of your content outside the defined region in this file
+// Inversely, if you state a file to be an "orphan" then autoindex files
+// below this file will not reference this autoindex file:
+//
+//    - autoindex:named, orphan
+// 
+// Also be aware that all of your content outside the "// #region" section in this file
 // will be preserved in situations where you need to do something paricularly awesome.
 // Keep on being awesome.
 
