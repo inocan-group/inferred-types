@@ -1,13 +1,14 @@
 // #autoindex
 // #region autoindexed files
 
-// index last changed at: 8th Aug, 2021, 05:44 PM ( GMT-7 )
+// index last changed at: 10th Oct, 2021, 01:52 PM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: Api, EnumValues, ExpandRecursively, First, FunctionType, If, Include, Includes, KeyedRecord, Keys, Length, Mutable, Narrowable, Not, Numeric, Opaque, Retain, SameKeys, Transformer, TypeGuard, append-types, fluent, maybe, props, ruleset-types, runtime, type-testing.
+// files: Api, Constructor, EnumValues, ExpandRecursively, First, FunctionType, If, Include, Includes, KeyedRecord, Keys, Length, Mutable, Narrowable, Not, Numeric, Opaque, Retain, SameKeys, Transformer, TypeGuard, append-types, fluent, maybe, props, ruleset-types, runtime, type-testing.
 // directories: alphabetic, dictionary, kv, lists, string-literals, tuples, type-conversion.
 
 // local file exports
 export * from "./Api";
+export * from "./Constructor";
 export * from "./EnumValues";
 export * from "./ExpandRecursively";
 export * from "./First";

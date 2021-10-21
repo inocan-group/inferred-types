@@ -1,20 +1,15 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { string } from "io-ts";
 import { Api, PrivateKeys, PublicKeys } from "~/types";
 import { defineType } from "~/utility";
 import { api } from "~/utility/api/api";
 
-
-
 describe("Api<T> type", () => {
-
   it("PublicKeys<T> and PrivateKeys<T> type utils extract the right keys", () => {
-
     const api = {
       _state: 123,
       _name: "hey ho",
       greet: "hi",
-      age: 12
+      age: 12,
     };
 
     const f = string;
@@ -32,10 +27,11 @@ describe("Api<T> type", () => {
   });
 
   it.skip("privateApi() creates a definition for a private API", () => {
-    const food = api({ _model: "food", _description: "let's eat" })({ category: string, stars: 5 as number });
+    const food = api({ _model: "food", _description: "let's eat" })({
+      category: string,
+      stars: 5 as number,
+    });
     const pub = food();
-
-
   });
 
   it("The Api<T> utility hides all private keys while preserving type info", () => {
@@ -43,7 +39,7 @@ describe("Api<T> type", () => {
       _state: 123,
       _name: "hey ho",
       greet: "hi",
-      age: 12
+      age: 12,
     };
     type Simple = Api<typeof simple>;
 
@@ -51,7 +47,7 @@ describe("Api<T> type", () => {
       _state: 123,
       _name: "hey ho",
       greet: "hi",
-      age: 12
+      age: 12,
     });
     type Midling = Api<typeof midling>;
 
@@ -65,7 +61,7 @@ describe("Api<T> type", () => {
       // if the public interface has type literals this is
       // accommodated without any special effort
       Expect<Equal<Midling, { greet: string; age: number; id: 123 }>>,
-      Expect<Equal<Midling, { greet: string; age: number; id: 123 }>>,
+      Expect<Equal<Midling, { greet: string; age: number; id: 123 }>>
       // in the situation where the private members have
       // literals that need preservation, we need be assured
       // the API implementation can preserve this strong typing
@@ -73,7 +69,5 @@ describe("Api<T> type", () => {
     ];
     const cases: cases = [true, true];
     expect(cases).toBe(cases);
-
   });
-
 });
