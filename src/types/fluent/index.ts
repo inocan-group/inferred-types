@@ -1,17 +1,12 @@
 // #autoindex
-
 // #region autoindexed files
 
-// index last changed at: 10th Oct, 2021, 08:32 PM ( GMT-7 )
+// index last changed at: 12th Dec, 2021, 12:28 PM ( GMT-8 )
 // export: named; exclusions: index, private.
-// files: SameKeys, TupleToUnion, UnionToIntersection, UnionToTuple, WrapValue.
+// files: fluent.
 
 // local file exports
-export * from "./SameKeys";
-export * from "./TupleToUnion";
-export * from "./UnionToIntersection";
-export * from "./UnionToTuple";
-export * from "./WrapValue";
+export * from "./fluent";
 
 // Note:
 // -----

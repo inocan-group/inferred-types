@@ -1,10 +1,10 @@
 // #autoindex
 // #region autoindexed files
 
-// index last changed at: 10th Oct, 2021, 03:14 PM ( GMT-7 )
+// index last changed at: 10th Oct, 2021, 08:32 PM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: Api, Constructor, EnumValues, ExpandRecursively, First, FunctionType, If, Include, Includes, KeyedRecord, Keys, Length, Mutable, Narrowable, Not, Numeric, Opaque, Retain, SameKeys, Transformer, TypeGuard, Where, append-types, fluent, maybe, props, ruleset-types, runtime, type-testing.
-// directories: alphabetic, dictionary, kv, lists, string-literals, tuples, type-conversion.
+// files: Api, Constructor, EnumValues, ExpandRecursively, First, FunctionType, If, Include, Includes, KeyedRecord, Keys, Length, Mutable, Narrowable, Not, Numeric, Opaque, Retain, Transformer, TypeGuard, Where, append-types, maybe, props, ruleset-types, runtime, type-testing.
+// directories: alphabetic, dictionary, fluent, kv, lists, string-literals, tuples, type-conversion.
 
 // local file exports
 export * from "./Api";
@@ -25,12 +25,10 @@ export * from "./Not";
 export * from "./Numeric";
 export * from "./Opaque";
 export * from "./Retain";
-export * from "./SameKeys";
 export * from "./Transformer";
 export * from "./TypeGuard";
 export * from "./Where";
 export * from "./append-types";
-export * from "./fluent";
 export * from "./maybe";
 export * from "./props";
 export * from "./ruleset-types";
@@ -40,6 +38,7 @@ export * from "./type-testing";
 // directory exports
 export * from "./alphabetic/index";
 export * from "./dictionary/index";
+export * from "./fluent/index";
 export * from "./kv/index";
 export * from "./lists/index";
 export * from "./string-literals/index";

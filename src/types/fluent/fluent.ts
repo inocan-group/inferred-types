@@ -14,8 +14,7 @@ export type ToFluent<
   X extends object = {}
 > = {
   [K in keyof T]: (...args: Parameters<T[K]>) => ToFluent<T, X> & X;
-} &
-  X;
+} & X;
 
 /**
  * A _pure_ Fluent API which promotes an API surface where _every_ API endpoint must be a function
@@ -53,10 +52,10 @@ export type PureFluentApi<
  * pass out the interior state which has been configured by the fluent parts of the API
  * - `TExclude` represents part of the API which -- due to the internal state -- should be hidden
  */
-export type FluentApi<
-  TFluent extends {
-    [K in keyof TFluent]: (...args: Parameters<TFluent[K]>) => FluentApi<TFluent, TEscape>;
-  },
-  TEscape extends object = {},
-  TExclude extends string = ""
-> = Omit<TFluent & TEscape, TExclude>;
+// export type FluentApi<
+//   TFluent extends {
+//     [K in keyof TFluent]: (...args: Parameters<TFluent[K]>) => FluentApi<TFluent, TEscape>;
+//   },
+//   TEscape extends object = {},
+//   TExclude extends string = ""
+// > = Omit<TFluent & TEscape, TExclude>;

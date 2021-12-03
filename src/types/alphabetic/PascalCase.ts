@@ -1,5 +1,5 @@
 /* eslint @typescript-eslint/no-unused-vars: "off" */
-import type { Capitalize, LowerAllCaps, Trim } from "~/types";
+import type { LowerAllCaps, Trim } from "~/types";
 
 type Delimiter = "_" | "-" | " ";
 
@@ -10,7 +10,7 @@ type DashDelim<T extends string> = T extends `${infer Begin}${" "}${infer Rest}`
   ? DashDelim<`${Begin}-${Rest}`>
   : T;
 
-/** 
+/**
  * Converts a string literal type to a **PascalCase** representation.
  * ```ts
  * // "FooBar"
@@ -20,7 +20,8 @@ type DashDelim<T extends string> = T extends `${infer Begin}${" "}${infer Rest}`
  * type T = PascalCase<"\n foo_bar \t">;
  * ```
  */
-export type PascalCase<S extends string> = string extends S ? string :
-  Trim<DashDelim<LowerAllCaps<S>>> extends `${infer Begin}${Delimiter}${infer Rest}`
+export type PascalCase<S extends string> = string extends S
+  ? string
+  : Trim<DashDelim<LowerAllCaps<S>>> extends `${infer Begin}${Delimiter}${infer Rest}`
   ? PascalCase<`${Capitalize<Begin>}${Capitalize<Rest>}`>
   : Capitalize<Trim<LowerAllCaps<S>>>;

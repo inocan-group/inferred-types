@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "ES2018",
+    "module": "ESNEXT",
+    "target": "ESNEXT",
     "moduleResolution": "node",
 
     "sourceMap": true,
@@ -16,11 +16,12 @@
     "noImplicitReturns": true,
     "allowSyntheticDefaultImports": true,
 
-    "lib": ["ES2019"],
+    "lib": ["ES2020"],
 
     "baseUrl": ".",
     "declaration": true,
     "outDir": "dist",
+    "tsBuildInfoFile": ".tsbuildinfo",
 
     "paths": {
       "~/*": ["src/*"],
