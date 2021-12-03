@@ -1,6 +1,6 @@
 import type { TypeCondition } from "~/utility/runtime/ifTypeOf";
 import { OptionalKeys } from "./props";
-import { SameKeys } from "./SameKeys";
+import { SameKeys } from "./type-conversion/SameKeys";
 
 /**
  * **RuleDefinition**

@@ -1,9 +1,9 @@
 // #autoindex, exclude: Alpha
 // #region autoindexed files
 
-// index last changed at: 7th Jul, 2021, 01:59 PM ( GMT-7 )
+// index last changed at: 12th Dec, 2021, 12:24 PM ( GMT-8 )
 // export: named; exclusions: Alpha, index, private.
-// files: AllCaps, CamelCase, CapFirstAlpha, CapitalizeWords, DashToSnake, DashUppercase, Dasherize, HasUppercase, Intrinsic, IsCapitalized, KebabCase, LowerAllCaps, PascalCase, Pluralize, SnakeCase, alpha-characters.
+// files: AllCaps, CamelCase, CapFirstAlpha, CapitalizeWords, DashToSnake, DashUppercase, Dasherize, HasUppercase, IsCapitalized, KebabCase, LowerAllCaps, PascalCase, Pluralize, SnakeCase, alpha-characters.
 
 // local file exports
 export * from "./AllCaps";
@@ -14,7 +14,6 @@ export * from "./DashToSnake";
 export * from "./DashUppercase";
 export * from "./Dasherize";
 export * from "./HasUppercase";
-export * from "./Intrinsic";
 export * from "./IsCapitalized";
 export * from "./KebabCase";
 export * from "./LowerAllCaps";
@@ -26,7 +25,7 @@ export * from "./alpha-characters";
 // Note:
 // -----
 // This file was created by running: "dd devops autoindex"; it assumes you have
-// the 'do-devops' pkg installed as a dev dep.
+// the 'do-devops' pkg (that's "dd" on npm) installed as a dev dep.
 //
 // By default it assumes that exports are named exports but this can be changed by
 // adding a modifier to the '// #autoindex' syntax:
@@ -45,7 +44,12 @@ export * from "./alpha-characters";
 //
 //    - autoindex:named, exclude: foo,bar,baz
 //
-// Also be aware that all of your content outside the defined region in this file
+// Inversely, if you state a file to be an "orphan" then autoindex files
+// below this file will not reference this autoindex file:
+//
+//    - autoindex:named, orphan
+// 
+// Also be aware that all of your content outside the "// #region" section in this file
 // will be preserved in situations where you need to do something paricularly awesome.
 // Keep on being awesome.
 
