@@ -6,7 +6,6 @@ specifiers:
   '@types/node': ^14.18.3
   '@typescript-eslint/eslint-plugin': ^5.8.0
   '@typescript-eslint/parser': ^5.8.0
-  brilliant-errors: ^0.5.4
   common-types: ^1.31.0
   cross-env: ^7.0.3
   dd: ^0.16.7
@@ -19,7 +18,6 @@ specifiers:
   eslint-plugin-unicorn: ^39.0.0
   jest: ^27.4.5
   jest-extended: ~1.2.0
-  native-dash: ^1.21.2
   npm-run-all: ~4.1.5
   prettier: ~2.5.1
   rimraf: ^3.0.2
@@ -29,9 +27,7 @@ specifiers:
   typescript: ^4.5.4
 
 dependencies:
-  brilliant-errors: 0.5.4
   common-types: 1.31.0
-  native-dash: 1.21.2
 
 devDependencies:
   '@type-challenges/utils': 0.1.1
@@ -1406,6 +1402,7 @@ packages:
       callsites: 3.1.0
       common-types: 1.31.0
       inferred-types: 0.18.1
+    dev: true
 
   /browser-process-hrtime/1.0.0:
     resolution: {integrity: sha512-9o5UecI3GhkpM6DrXr69PblIuWxPKk9Y0jHBRhdocZ2y7YECBFCsHm79Pr3OyR2AvjhDkabFJaDJMYRazHgsow==}
@@ -1487,6 +1484,7 @@ packages:
   /callsites/3.1.0:
     resolution: {integrity: sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==}
     engines: {node: '>=6'}
+    dev: true
 
   /camelcase/5.3.1:
     resolution: {integrity: sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==}
@@ -3217,6 +3215,7 @@ packages:
       brilliant-errors: 0.5.4
       common-types: 1.31.0
       native-dash: 1.21.2
+    dev: true
 
   /inflight/1.0.6:
     resolution: {integrity: sha1-Sb1jMdfQLQwJvJEKEHW6gWW1bfk=}
@@ -4483,6 +4482,7 @@ packages:
     resolution: {integrity: sha512-menLmtQJpewbIKq3UctBv+Awwo2e+cybFq6K3mtmhvsaeEHZlJQqkmV/pDYpECBm+ORz1BL+jWp8Y7jOoBtggg==}
     dependencies:
       inferred-types: 0.18.1
+    dev: true
 
   /natural-compare/1.4.0:
     resolution: {integrity: sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=}

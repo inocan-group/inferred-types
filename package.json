@@ -1,6 +1,6 @@
 {
   "name": "inferred-types",
-  "version": "0.18.2",
+  "version": "0.18.3",
   "description": "Functions which provide useful type inference on TS projects",
   "license": "MIT",
   "author": "Ken Snyder<ken@ken.net>",
@@ -46,8 +46,6 @@
     "typescript": "^4.5.4"
   },
   "dependencies": {
-    "brilliant-errors": "^0.5.4",
-    "common-types": "^1.31.0",
-    "native-dash": "^1.21.2"
+    "common-types": "^1.31.0"
   }
 }
