@@ -1,4 +1,3 @@
-import { InferenceError } from "~/errors";
 import { Narrowable } from "~/types/Narrowable";
 import { keys } from "../keys";
 
@@ -24,10 +23,7 @@ function runtimeExtendsCheck<TValue extends any, TBase extends any>(
       return true as TValue extends TBase ? true : false;
     case "function":
       if (narrow) {
-        throw new InferenceError(
-          `Use of narrowlyExtends with a function is not possible!`,
-          "ifTypeOf/not-allowed"
-        );
+        throw new Error(`Use of narrowlyExtends with a function is not possible!`);
       }
       return true as TValue extends TBase ? true : false;
     case "object":
