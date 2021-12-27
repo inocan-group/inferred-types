@@ -20,7 +20,6 @@
     "test": "jest"
   },
   "devDependencies": {
-    "@antfu/eslint-config-ts": "^0.11.0",
     "@type-challenges/utils": "~0.1.1",
     "@types/jest": "^27.0.3",
     "@types/node": "^14.18.3",
@@ -28,13 +27,14 @@
     "@typescript-eslint/parser": "^5.8.0",
     "common-types": "^1.30.0",
     "cross-env": "^7.0.3",
-    "dd": "^0.16.3",
+    "dd": "^0.16.7",
     "dotenv": "^10.0.0",
     "eslint": "^8.5.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-unicorn": "^39.0.0",
     "jest": "^27.4.5",
     "jest-extended": "~1.2.0",
     "npm-run-all": "~4.1.5",
@@ -46,8 +46,8 @@
     "typescript": "^4.5.4"
   },
   "dependencies": {
-    "common-types": "^1.31.0",
     "brilliant-errors": "^0.5.4",
-    "native-dash": "^1.21.1"
+    "common-types": "^1.31.0",
+    "native-dash": "^1.21.2"
   }
 }
