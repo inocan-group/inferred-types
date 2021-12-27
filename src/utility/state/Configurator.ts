@@ -1,13 +1,22 @@
 /* eslint-disable unicorn/consistent-function-scoping */
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+function omit<T extends {}, K extends Array<keyof T>>(obj: T, ...removals: K) {
+  const untyped = removals as Array<unknown>;
+  return Object.fromEntries(Object.entries(obj).filter(([key]) => !untyped.includes(key))) as Omit<
+    T,
+    K[number]
+  >;
+}
 
-import { omit } from "native-dash";
 import { ExpandRecursively } from "~/types";
 export interface IConfigurator<C = {}> {
   set<V, K extends string, KV = { [U in K]: V }>(
     key: K,
     value: V
   ): asserts this is IConfigurator<ExpandRecursively<C & KV>>;
-  remove<K extends string & keyof C>(key: K): asserts this is IConfigurator<ExpandRecursively<Omit<C, K>>>;
+  remove<K extends string & keyof C>(
+    key: K
+  ): asserts this is IConfigurator<ExpandRecursively<Omit<C, K>>>;
   done(): C;
 }
 
@@ -44,7 +53,7 @@ export function Configurator() {
   const api = <C extends {}>(): IConfigurator<C> => {
     return {
       set<V, K extends string, KV = { [U in K]: V }>(key: K, value: V) {
-        const keyValue = ({ [key]: value as V } as unknown) as KV;
+        const keyValue = { [key]: value as V } as unknown as KV;
         const config = configuration() as C;
         const updated = { ...config, ...keyValue };
 

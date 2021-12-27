@@ -1,11 +1,10 @@
 // #autoindex
 // #region autoindexed files
-// index last changed at: 12th Dec, 2021, 09:28 AM ( GMT-8 )
-// hash-code: 1609486729
+// index last changed at: 12th Dec, 2021, 09:39 AM ( GMT-8 )
+// hash-code: 3277353062
 
 // file exports
 export * from "./arrayToKeyLookup";
-export * from "./dictFilter";
 export * from "./dictionaryTransform";
 export * from "./entries";
 export * from "./mapValues";

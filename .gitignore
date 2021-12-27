@@ -50,3 +50,5 @@ frontend/.vite-ssg-dist/**
 
 # Local Netlify folder
 .netlify
+
+.tsbuildInfo
