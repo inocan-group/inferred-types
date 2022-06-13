@@ -2,7 +2,7 @@ import { ExpandRecursively, UnionToIntersection } from "~/types";
 
 
 /**
- * Typescript utility which recieves `T` as shape which resembles `DictArray<D>`
+ * Typescript utility which receives `T` as shape which resembles `DictArray<D>`
  * and if the type `D` can be inferred it is returned.
  * ```ts
  * // { foo: 1; bar: "hi" }
