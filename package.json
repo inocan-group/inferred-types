@@ -1,6 +1,6 @@
 {
   "name": "inferred-types",
-  "version": "0.19.0",
+  "version": "0.19.1",
   "description": "Functions which provide useful type inference on TS projects",
   "license": "MIT",
   "author": "Ken Snyder<ken@ken.net>",
@@ -14,6 +14,9 @@
     "build": "run-s clean autoindex lint build:bundle",
     "build:force": "run-s clean autoindex build:bundle",
     "build:bundle": "npx tsup src/index.ts --dts --format='esm,cjs'",
+    "watch": "run-p watch:*",
+    "watch:autoindex": "npx dd autoindex --watch",
+    "watch:bundle": "npx tsup src/index.ts --dts --format='esm,cjs' --watch",
     "clean": "rimraf dist/**/*",
     "lint": "eslint src/**/*.ts --fix && tsc --noEmit ",
     "lint:full": "eslint src/**/*.ts && eslint test/**/*.ts && tsc --noEmit",
