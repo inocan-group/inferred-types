@@ -1,10 +1,11 @@
 // #autoindex
 // #region autoindexed files
-// index last changed at: 1st Jan, 2022, 03:27 PM ( GMT-8 )
-// hash-code: fd5dfde8
+// index last changed at: 6th Jun, 2022, 04:26 PM ( GMT-7 )
+// hash-code: 1088062b
 
 // file exports
 export * from "./Configurator";
+export * from "./FluentApi";
 export * from "./FluentConfigurator";
 export * from "./KeyStorage";
 
