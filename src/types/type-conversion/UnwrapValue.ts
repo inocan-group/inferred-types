@@ -1,13 +1,34 @@
+import { ExpandRecursively } from "../ExpandRecursively";
+import { UnionToIntersection } from "./UnionToIntersection";
 
 /**
  * Given a dictionary of key/values, where the value is a function, this 
  * type utility will maintain the keys but change the values to whatever
  * the `ReturnType` of the function was.
  * ```ts
- * // { foo: string }
- * type Test = UnwrapValue<{ foo: (name: string) => name }>
+ * const api = {
+ *    val: 42,
+ *    hi: (name: string) => `hi ${name}`,
+ *    bye: (name: string) => `bye ${name}`
+ * };
+ * // { hi: string; bye: string }
+ * type Test = UnwrapValue<typeof api>
+ * // { val: number; foo: string; bar: string }
+ * type Test2 = UnwrapValue<typeof api, false>
  * ```
  */
-export type UnwrapValue<T extends Record<string, (...args: any[]) => any>> = {
-  [K in keyof T]: T[K] extends Function ? ReturnType<T[K]> : never;
-}[keyof T];
+export type UnwrapValue<
+  T extends Record<string, any>, 
+  I extends boolean = true
+> = ExpandRecursively<
+  UnionToIntersection<
+    ExpandRecursively<
+      {
+        [K in keyof T]: T[K] extends (...args: any[]) => any 
+          ? Record<K, ReturnType<T[K]>> 
+          : true extends I ? never : Record<K, T[K]>;
+      }[keyof T]
+    >
+  >
+>;
+
