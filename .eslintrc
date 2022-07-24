@@ -1,6 +1,14 @@
 {
-  "extends": ["plugin:import/warnings", "plugin:import/typescript", "plugin:unicorn/recommended"],
-  "plugins": ["@typescript-eslint", "import", "promise", "unicorn"],
+  "extends": [
+    "plugin:import/warnings",
+    "plugin:import/typescript"
+  ],
+  "plugins": [
+    "@typescript-eslint",
+    "import",
+    "promise",
+    "unicorn"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "parser": "@typescript-eslint/parser",
@@ -9,11 +17,27 @@
   },
   "rules": {
     "prefer-const": "error",
-    "semi": ["error", "always"],
-    "quotes": ["warn", "double", { "avoidEscape": true, "allowTemplateLiterals": true }],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "quotes": [
+      "warn",
+      "double",
+      {
+        "avoidEscape": true,
+        "allowTemplateLiterals": true
+      }
+    ],
     "no-unused-vars": "off",
     "curly": "error",
-    "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+    "brace-style": [
+      "error",
+      "1tbs",
+      {
+        "allowSingleLine": true
+      }
+    ],
     // our use of `-spec` files for testing prevents us using this
     "unicorn/filename-case": "off",
     // reduce has been getting a bad rap lately; its true that often
@@ -26,12 +50,16 @@
     // doesn't play well with prettier
     "unicorn/no-nested-ternary": "off",
     "unicorn/no-process-exit": "off",
-
     // we need exceptions to be only "warn" because
     // there are valid use cases for generic variables being
     // used before being defined
-    "no-use-before-define": ["warn"],
-    "@typescript-eslint/semi": ["error", "always"],
+    "no-use-before-define": [
+      "warn"
+    ],
+    "@typescript-eslint/semi": [
+      "error",
+      "always"
+    ],
     "@typescript-eslint/no-unsafe-member-access": "off",
     "@typescript-eslint/no-unsafe-call": "off",
     "@typescript-eslint/no-unsafe-assignment": "off",
