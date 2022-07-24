@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@type-challenges/utils": "~0.1.1",
-    "@types/node": "16",
+    "@types/node": "^16.11.45",
     "@typescript-eslint/eslint-plugin": "^5.30.7",
     "@typescript-eslint/parser": "^5.30.7",
     "bumpp": "^8.2.1",
