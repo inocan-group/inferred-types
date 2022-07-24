@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 import type { Expect, NotEqual, Equal, ExpectExtends } from "@type-challenges/utils";
-import { entries } from "../src/utility";
+import { entries } from "src/utility";
 
 describe("entries() => ", () => {
   it("literal types are retained", () => {

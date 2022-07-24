@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 import { Equal, Expect } from "@type-challenges/utils";
-import { Dasherize } from "../src/types";
+import { Dasherize } from "src/types";
 
 const target = "two-three-four";
 type TARGET = typeof target;

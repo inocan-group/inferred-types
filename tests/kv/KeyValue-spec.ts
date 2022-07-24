@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 import { Equal, Expect } from "@type-challenges/utils";
-import { KeyValue } from "../src/types";
+import { KeyValue } from "src/types";
 
 describe("KeyValue<T, K> type utility", () => {
   it("explicit KeyValue<T,K> definitions retain literal type info", () => {
