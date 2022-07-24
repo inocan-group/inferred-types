@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/no-thenable */
 import { Narrowable } from "src/types/Narrowable";
 import { keys } from "../keys";
 
