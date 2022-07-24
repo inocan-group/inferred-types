@@ -1,7 +1,7 @@
-import { SimplifyObject } from "~/types";
+import { SimplifyObject } from "../SimplifyObject";
 
 /**
- * Given a dictionary of key/values, where the value is a function, this 
+ * Given a dictionary of key/values, where the value is a function, this
  * type utility will maintain the keys but change the values to whatever
  * the `ReturnType` of the function was.
  * ```ts
@@ -17,13 +17,14 @@ import { SimplifyObject } from "~/types";
  * ```
  */
 export type DictPartialApplication<
-  T extends Record<string, any>, 
+  T extends Record<string, any>,
   I extends boolean = true
 > = SimplifyObject<
   {
-    [K in keyof T]: T[K] extends (...args: any[]) => any 
-      ? Record<K, ReturnType<T[K]>> 
-      : true extends I ? never : Record<K, T[K]>;
+    [K in keyof T]: T[K] extends (...args: any[]) => any
+      ? Record<K, ReturnType<T[K]>>
+      : true extends I
+      ? never
+      : Record<K, T[K]>;
   }[keyof T]
 >;
-

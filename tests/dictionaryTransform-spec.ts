@@ -1,9 +1,9 @@
 import { describe, it, expect } from "vitest";
 
 /* eslint-disable unicorn/consistent-function-scoping */
-import { dictionaryTransform, ExplicitFunction } from "~/utility";
+import { dictionaryTransform, ExplicitFunction } from "../src/utility";
 import { Expect, Equal, NotEqual, ExpectExtends, ExpectFalse } from "@type-challenges/utils";
-import { ToFluent, Transformer } from "~/types";
+import { ToFluent, Transformer } from "../src/types";
 
 describe("dictionaryTransform()", () => {
   type A = { foo: string; bar: string };

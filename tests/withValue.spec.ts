@@ -1,9 +1,8 @@
 import { describe, it, expect } from "vitest";
-
-import { createFnWithProps, type, withValue } from "~/utility";
 import type { Expect, Equal } from "@type-challenges/utils";
-import { WithValue } from "~/types/dictionary/props";
-import { FunctionType } from "~/types";
+
+import { createFnWithProps, type, withValue } from "../src/utility";
+import { FunctionType, WithValue } from "../src";
 
 describe("withValue()() utility", () => {
   it("type reduction with WithValue<T> works as expected", () => {

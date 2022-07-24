@@ -1,6 +1,8 @@
 /* eslint-disable no-use-before-define */
-import { keys } from "~/utility/keys";
-import { SameKeys, Transformer } from "~/types";
+
+import { SameKeys } from "src/types/dictionary";
+import { Transformer } from "src/types/Transformer";
+import { keys } from "../keys";
 
 /**
  * Takes a dictionary of type `I` and converts it to a dictionary of type `O` where
@@ -13,9 +15,8 @@ export function dictionaryTransform<I extends object, O extends SameKeys<I>>(
   input: I,
   transform: Transformer<I, O>
 ) {
-
   return keys(input).reduce((acc, i) => {
     const key = i as string & keyof I;
-    return {...acc, [key]: transform(input, key)};
+    return { ...acc, [key]: transform(input, key) };
   }, {} as O);
 }

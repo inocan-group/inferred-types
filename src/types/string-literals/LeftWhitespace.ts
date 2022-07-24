@@ -1,4 +1,5 @@
-import type { Replace, TrimLeft } from "~/types";
+import { Replace } from "./Replace";
+import { TrimLeft } from "./TrimLeft";
 
 /**
  * Provides the _left_ whitespace of a string
@@ -7,4 +8,6 @@ import type { Replace, TrimLeft } from "~/types";
  * type T = LeftWhitespace<"\n\t foobar">;
  * ```
  */
-export type LeftWhitespace<S extends string> = string extends S ? string : Replace<S, TrimLeft<S>, "">;
+export type LeftWhitespace<S extends string> = string extends S
+  ? string
+  : Replace<S, TrimLeft<S>, "">;

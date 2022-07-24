@@ -1,15 +1,14 @@
 import { describe, it, expect } from "vitest";
 
 import { Equal, Expect, NotEqual } from "@type-challenges/utils";
-import { DictFromKv } from "~/types/kv/DictFromKv";
-import { keys } from "~/utility";
-import { dictToKv, kvToDict } from "~/utility/dictionary/kv";
+import { dictToKv, kvToDict } from "src/utility/dictionary";
+import { DictFromKv } from "src/types/kv";
+import { keys } from "src/utility";
 
 describe("dictToKv()", () => {
   it.skip("basic structure is correct when forcing to Tuple structure", () => {
     const obj = { id: 123, foo: "bar" } as const;
     const val = dictToKv(obj, true);
-    // type Val = typeof val;
 
     expect(Array.isArray(val)).toBeTruthy();
     expect(val).toHaveLength(2);

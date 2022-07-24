@@ -1,4 +1,4 @@
-import type { TypeCondition } from "~/utility/runtime/ifTypeOf";
+import { TypeCondition } from "src/utility/runtime";
 import { OptionalKeys } from "./dictionary/props";
 import { SameKeys } from "./dictionary/SameKeys";
 

@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 /* eslint-disable unicorn/consistent-function-scoping */
-import { createFnWithProps } from "~/index";
+import { createFnWithProps } from "../src/index";
 
 describe("createFnWithProps()", () => {
   it("simple fn and prop are combined, type is retained", () => {

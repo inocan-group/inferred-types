@@ -1,5 +1,7 @@
 /* eslint @typescript-eslint/no-unused-vars: "off" */
-import type { LowerAllCaps, Trim } from "~/types";
+
+import { Trim } from "../string-literals";
+import { LowerAllCaps } from "./LowerAllCaps";
 
 type Delimiter = "_" | "-" | " ";
 

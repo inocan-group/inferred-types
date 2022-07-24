@@ -1,7 +1,7 @@
 // #autoindex
 // #region autoindexed files
-// index last changed at: 1st Jan, 2022, 03:27 PM ( GMT-8 )
-// hash-code: c3587066
+// index last changed at: 7th Jul, 2022, 01:47 PM ( GMT-7 )
+// hash-code: dd2bf50a
 
 // file exports
 export * from "./arrayToKeyLookup";
@@ -9,7 +9,6 @@ export * from "./dictionaryTransform";
 export * from "./entries";
 export * from "./mapValues";
 export * from "./strArrayToDict";
-export * from "./valuesOfProp";
 // directory exports
 export * from "./kv/index";
 

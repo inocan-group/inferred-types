@@ -1,4 +1,4 @@
-import { FunctionType } from "~/types";
+import { FunctionType } from "src/types/FunctionType";
 
 export type IsFunction<T> = T extends FunctionType ? true : false;
 
@@ -11,7 +11,7 @@ export type IsFunction<T> = T extends FunctionType ? true : false;
  * ```
  *
  * Note: the runtime `typeof [variable]` will correctly say "function" when a function is
- * encounted but if that function also has object types defined then the type will be a big
+ * encountered but if that function also has object types defined then the type will be a big
  * and ugly union type. This function will give you a proper boolean value in both cases.
  */
 export function isFunction<T extends unknown>(input: T): IsFunction<T> {

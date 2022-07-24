@@ -1,6 +1,8 @@
-import { Mutable, Narrowable, UnionToTuple } from "~/types";
-import { KvFrom } from "~/types/kv/KvFrom";
-import { keys } from "~/utility/keys";
+import { KvFrom } from "src/types/kv";
+import { Mutable } from "src/types/Mutable";
+import { Narrowable } from "src/types/Narrowable";
+import { UnionToTuple } from "src/types/type-conversion";
+import { keys } from "src/utility/keys";
 
 /**
  * Converts a dictionary object into an array of dictionaries with `key` and `value` properties

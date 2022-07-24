@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { condition, isFunction, isTrue } from "~/utility";
+import { condition, isFunction, isTrue } from "src/utility";
 
 describe("condition() utility", () => {
   it("basic type checks through condition abstraction", () => {
