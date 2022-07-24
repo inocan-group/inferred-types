@@ -12,7 +12,7 @@ specifiers:
   bumpp: ^8.2.1
   common-types: ^1.31.1
   cross-env: ^7.0.3
-  dd: ^0.19.8
+  dd: ^0.21.0
   dotenv: ^16.0.1
   eslint: ^8.20.0
   eslint-config-prettier: ^8.5.0
@@ -37,7 +37,7 @@ devDependencies:
   '@typescript-eslint/parser': 5.30.7_he2ccbldppg44uulnyq4rwocfa
   bumpp: 8.2.1
   cross-env: 7.0.3
-  dd: 0.19.8
+  dd: 0.21.0
   dotenv: 16.0.1
   eslint: 8.20.0
   eslint-config-prettier: 8.5.0_eslint@8.20.0
@@ -957,8 +957,8 @@ packages:
     engines: {node: '>=0.11'}
     dev: true
 
-  /dd/0.19.8:
-    resolution: {integrity: sha512-8LPiIvqFnnOkrQYoNtI5TZ8Kd28uz47X6mJqx46dspgPc+wp++qLjeHzO2Ga1AWeUV1tvKdV7jtbFcDMPN5ecw==}
+  /dd/0.21.0:
+    resolution: {integrity: sha512-lTh6Ult/g2KjiHczdZ/6DQzamFFmlYiosRUP6L6Yo6wjr2RCQ9kPixFjvU/Pc7FWSId3LyoO5NShmQdc/U/FBQ==}
     hasBin: true
     dependencies:
       ast-types: 0.14.2
@@ -985,6 +985,7 @@ packages:
       madge: 5.0.1
       matcher: 4.0.0
       native-dash: 1.22.1
+      pathe: 0.3.2
       play-sound: 1.1.5
       recast: 0.20.5
       sharp: 0.30.7
@@ -3060,6 +3061,10 @@ packages:
   /path-type/4.0.0:
     resolution: {integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==}
     engines: {node: '>=8'}
+    dev: true
+
+  /pathe/0.3.2:
+    resolution: {integrity: sha512-qhnmX0TOqlCvdWWTkoM83wh5J8fZ2yhbDEc9MlsnAEtEc+JCwxUKEwmd6pkY9hRe6JR1Uecbc14VcAKX2yFSTA==}
     dev: true
 
   /pathval/1.1.1:
