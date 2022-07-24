@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { Include, Retain } from "~/types";
+import { Include, Retain } from "../src/types";
 import { Equal, Expect } from "@type-challenges/utils";
 
 // INCLUDE

@@ -1,4 +1,7 @@
-import { FunctionType, Mutable, Narrowable, Not } from "~/types";
+import { FunctionType } from "src/types/FunctionType";
+import { Mutable } from "src/types/Mutable";
+import { Narrowable } from "src/types/Narrowable";
+import { Not } from "src/types/Not";
 
 export type IsObject<T> = Mutable<T> extends Record<string, any>
   ? // an object of some type

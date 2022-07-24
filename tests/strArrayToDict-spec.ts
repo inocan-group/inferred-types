@@ -1,6 +1,6 @@
 import { describe, it } from "vitest";
 
-import { literal, strArrayToDict } from "~/utility";
+import { literal, strArrayToDict } from "../src/utility";
 import type { Expect, Equal, ExpectFalse } from "@type-challenges/utils";
 
 describe("strArrayToDict() utility", () => {

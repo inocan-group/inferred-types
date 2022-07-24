@@ -1,6 +1,6 @@
 import { describe, it } from "vitest";
 
-import type { DictPartialApplication } from "~/types";
+import type { DictPartialApplication } from "../src/types";
 import type { Expect, Equal } from "@type-challenges/utils";
 
 describe("DictUnwrapValues<T>", () => {

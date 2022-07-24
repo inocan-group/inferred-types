@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { keys, kv } from "~/utility";
+import { keys, kv } from "../src/utility";
 
 describe("kv utils", () => {
   it("simple assignment works with strong literal support", () => {

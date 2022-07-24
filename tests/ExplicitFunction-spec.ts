@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 /* eslint-disable unicorn/consistent-function-scoping */
-import { ExplicitFunction } from "~/utility";
+import { ExplicitFunction } from "../src/utility";
 import type { Expect, Equal } from "@type-challenges/utils";
 
 describe("ExplicitFunction()", () => {

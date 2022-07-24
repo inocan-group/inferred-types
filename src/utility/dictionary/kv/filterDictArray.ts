@@ -1,5 +1,5 @@
-import type { DictArray, DictArrayFilterCallback } from "~/types";
-import { Configurator, IConfigurator } from "~/utility/state";
+import { DictArray, DictArrayFilterCallback } from "src/types/tuples";
+import { Configurator, IConfigurator } from "src/utility/state";
 
 export interface Array<T> {
   filter<U extends T>(pred: (a: T) => a is U): U[];
@@ -11,12 +11,11 @@ export interface Array<T> {
  */
 export function filterDictArray<
   T extends object,
-  C extends DictArrayFilterCallback<keyof T, T, true | false>,
-  >(dictArr: DictArray<T>, cb: C) {
-
+  C extends DictArrayFilterCallback<keyof T, T, true | false>
+>(dictArr: DictArray<T>, cb: C) {
   const state: IConfigurator = Configurator();
 
-  const updated = dictArr.filter(i => {
+  const updated = dictArr.filter((i) => {
     const [k, v] = i;
     const keep = cb(k, v);
     if (!keep) {
@@ -30,4 +29,3 @@ export function filterDictArray<
   type ExcludedKeys = "";
   return updated as unknown as DictArray<Omit<T, ExcludedKeys>>;
 }
-

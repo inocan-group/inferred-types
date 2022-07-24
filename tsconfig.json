@@ -20,14 +20,6 @@
     "declaration": true,
     "outDir": "dist",
     "tsBuildInfoFile": ".tsbuildinfo",
-    "paths": {
-      "~/*": [
-        "src/*"
-      ],
-      "/~/*": [
-        "src/*"
-      ]
-    },
   },
   "include": [
     "src",

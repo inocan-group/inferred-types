@@ -1,5 +1,5 @@
-import { Narrowable } from "~/types";
-import { IsBoolean } from "~/utility";
+import { Narrowable } from "src/types/Narrowable";
+import { IsBoolean } from "./isBoolean";
 
 export type IsFalse<T extends Narrowable> = IsBoolean<T> extends true
   ? // is a boolean

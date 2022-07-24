@@ -8,7 +8,7 @@ import {
   UniqueDictionary,
   defineType,
   keys,
-} from "~/utility";
+} from "../src/utility";
 
 const foo = { name: "foo", age: 123, color: "red" } as const;
 const foo2 = { name: "foo", age: 44, color: "orange" } as const;

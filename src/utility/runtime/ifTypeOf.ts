@@ -1,4 +1,4 @@
-import { Narrowable } from "~/types/Narrowable";
+import { Narrowable } from "src/types/Narrowable";
 import { keys } from "../keys";
 
 function runtimeExtendsCheck<TValue extends any, TBase extends any>(

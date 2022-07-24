@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { ExpandRecursively, Narrowable, WithValue } from "~/types";
-import { entries } from "~/utility/dictionary";
-import { type, TypeDefinition } from "~/utility/runtime";
+import { WithValue } from "src/types/dictionary";
+import { ExpandRecursively } from "src/types/ExpandRecursively";
+import { Narrowable } from "src/types/Narrowable";
+import { entries } from "../dictionary/entries";
+import { type, TypeDefinition } from "./type";
 
 /**
  * **withValue**

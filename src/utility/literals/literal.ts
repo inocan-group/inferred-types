@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 
-import { Narrowable } from "~/types";
+import { Narrowable } from "src/types/Narrowable";
 
 /**
  * Takes an object as input --which has an `id` property and returns it as the same
@@ -39,8 +39,8 @@ export function idTypeGuard<T extends { id: I }, I extends PropertyKey>(
 /**
  * Takes an object as input and infers the narrow literal types of the property
  * values on the object.
- * 
- * > Note: this addresses this [a known TS gap](https://github.com/microsoft/TypeScript/issues/30680). 
+ *
+ * > Note: this addresses this [a known TS gap](https://github.com/microsoft/TypeScript/issues/30680).
  * > Hopefully at some point this will be addressed in the language.
  */
 export function literal<N extends Narrowable, T extends Record<keyof T, N>>(obj: T) {
