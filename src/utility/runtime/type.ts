@@ -1,4 +1,6 @@
-import { FunctionType, Narrowable, TypeGuard } from "~/types";
+import { FunctionType } from "src/types/FunctionType";
+import { Narrowable } from "src/types/Narrowable";
+import { TypeGuard } from "src/types/TypeGuard";
 import {
   isString,
   isBoolean,

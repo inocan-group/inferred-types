@@ -1,5 +1,5 @@
-import { ExpandRecursively, UnionToIntersection } from "~/types";
-
+import { ExpandRecursively } from "../ExpandRecursively";
+import { UnionToIntersection } from "../type-conversion";
 
 /**
  * Typescript utility which receives `T` as shape which resembles `DictArray<D>`
@@ -9,5 +9,6 @@ import { ExpandRecursively, UnionToIntersection } from "~/types";
  * type Dict = FromDictArray<[["foo", { foo: 1 }], ["bar", { bar: "hi" }]]>;
  * ```
  */
-export type FromDictArray<T extends [string, Record<string, unknown>][]> =
-  ExpandRecursively<UnionToIntersection<T[number][1]>>;
+export type FromDictArray<T extends [string, Record<string, unknown>][]> = ExpandRecursively<
+  UnionToIntersection<T[number][1]>
+>;

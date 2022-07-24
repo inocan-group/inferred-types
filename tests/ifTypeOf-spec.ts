@@ -1,7 +1,9 @@
+import { describe, it, expect } from "vitest";
+
 /* eslint-disable unicorn/consistent-function-scoping */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Expect, Equal } from "@type-challenges/utils";
-import { ifTypeOf, defineType, literal } from "~/utility";
+import { ifTypeOf, defineType, literal } from "../src/utility";
 
 describe("ifTypeOf() utility", () => {
   it("base validation with extends() returns true/false", () => {
@@ -12,10 +14,7 @@ describe("ifTypeOf() utility", () => {
     expect(yup).toBe(true);
     expect(nope).toBe(false);
 
-    type cases = [
-      Expect<Equal<typeof yup, true>>,
-      Expect<Equal<typeof nope, false>>,
-    ];
+    type cases = [Expect<Equal<typeof yup, true>>, Expect<Equal<typeof nope, false>>];
     const cases: cases = [true, true];
     expect(cases).toBe(cases);
   });
@@ -36,7 +35,7 @@ describe("ifTypeOf() utility", () => {
       Expect<Equal<typeof yup, true>>,
       Expect<Equal<typeof yup2, true>>,
       Expect<Equal<typeof nope1, false>>,
-      Expect<Equal<typeof nope2, false>>,
+      Expect<Equal<typeof nope2, false>>
     ];
     const cases: cases = [true, true, true, true];
     expect(cases).toBe(cases);
@@ -63,7 +62,7 @@ describe("ifTypeOf() utility", () => {
       Expect<Equal<typeof wideNumCompare, true>>,
       Expect<Equal<typeof narrowEquality, true>>,
       Expect<Equal<typeof stringIsNumber, false>>,
-      Expect<Equal<typeof diffNumbersNarrowly, false>>,
+      Expect<Equal<typeof diffNumbersNarrowly, false>>
     ];
     const cases: cases = [true, true, true, true, true];
     expect(cases).toBe(cases);
@@ -76,25 +75,41 @@ describe("ifTypeOf() utility", () => {
 
     expect(fnExtends).toBe(true);
 
-    type cases = [
-      Expect<Equal<typeof fnExtends, true>>
-    ];
+    type cases = [Expect<Equal<typeof fnExtends, true>>];
     const cases: cases = [true];
     expect(cases).toBe(cases);
   });
 
   it("checklist example", () => {
-    const noFoodOrDrink = ifTypeOf({ wakeUp: true }).extends({ wakeUp: true, eatBreakfast: true, drinkCoffee: true });
-    const ready = ifTypeOf({ wakeUp: true, eatBreakfast: true, drinkCoffee: true }).extends({ wakeUp: true, eatBreakfast: true, drinkCoffee: true });
+    const noFoodOrDrink = ifTypeOf({ wakeUp: true }).extends({
+      wakeUp: true,
+      eatBreakfast: true,
+      drinkCoffee: true,
+    });
+    const ready = ifTypeOf({ wakeUp: true, eatBreakfast: true, drinkCoffee: true }).extends({
+      wakeUp: true,
+      eatBreakfast: true,
+      drinkCoffee: true,
+    });
 
     // completely wrong
-    const fullyBaked = ifTypeOf({ wakeUp: false, eatBreakfast: false, drinkCoffee: false }).extends({ wakeUp: true, eatBreakfast: true, drinkCoffee: true });
+    const fullyBaked = ifTypeOf({ wakeUp: false, eatBreakfast: false, drinkCoffee: false }).extends(
+      { wakeUp: true, eatBreakfast: true, drinkCoffee: true }
+    );
 
     // half-right
-    const halfBaked = ifTypeOf({ wakeUp: false, eatBreakfast: false, drinkCoffee: false }).extends({ wakeUp: true, eatBreakfast: true, drinkCoffee: true } as const);
+    const halfBaked = ifTypeOf({ wakeUp: false, eatBreakfast: false, drinkCoffee: false }).extends({
+      wakeUp: true,
+      eatBreakfast: true,
+      drinkCoffee: true,
+    } as const);
 
     // back to right; at the cost of being very careful
-    const lucid = ifTypeOf({ wakeUp: false, eatBreakfast: false, drinkCoffee: false }).narrowlyExtends({ wakeUp: true, eatBreakfast: true, drinkCoffee: true } as const);
+    const lucid = ifTypeOf({
+      wakeUp: false,
+      eatBreakfast: false,
+      drinkCoffee: false,
+    }).narrowlyExtends({ wakeUp: true, eatBreakfast: true, drinkCoffee: true } as const);
 
     // run-time tests of False Positives
     // ---------------------------------
@@ -157,7 +172,6 @@ describe("ifTypeOf() utility", () => {
     const fn2 = (_c: number) => "string";
     const genericFn: Function = () => "string";
 
-
     try {
       const narrow = ifTypeOf(fn).narrowlyExtends(fn2);
       const asWellAsGeneric = ifTypeOf(fn).narrowlyExtends(genericFn);
@@ -172,8 +186,6 @@ describe("ifTypeOf() utility", () => {
     } catch {
       // there is no way to narrow compare functions and so it throws
       // an error to the run time system
-    };
-
+    }
   });
 });
-

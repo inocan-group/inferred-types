@@ -1,6 +1,8 @@
+import { describe, it, expect } from "vitest";
+
 import { Equal, Expect } from "@type-challenges/utils";
-import { Get } from "~/types";
-import { defineType } from "~/utility";
+import { Get } from "src/types";
+import { defineType } from "src/utility";
 
 describe("Get<T, K> type utility", () => {
   it("Get<T,K> works with literals and wide types", () => {
@@ -17,7 +19,7 @@ describe("Get<T, K> type utility", () => {
       Expect<Equal<Id, 1234>>,
       Expect<Equal<Foo, number>>,
       Expect<Equal<Bar, string>>,
-      // non-existant props return never
+      // non-existent props return never
       Expect<Equal<Nada, never>>
     ];
     const c: cases = [true, true, true, true];

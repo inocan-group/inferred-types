@@ -1,5 +1,7 @@
+import { describe, it, expect } from "vitest";
+
 import type { Expect, NotEqual, Equal, ExpectExtends } from "@type-challenges/utils";
-import { entries } from "~/utility";
+import { entries } from "src/utility";
 
 describe("entries() => ", () => {
   it("literal types are retained", () => {
@@ -25,9 +27,9 @@ describe("entries() => ", () => {
           // inside a conditional, typescript knows as an
           // explicit type and no longer a union of keys
           Expect<Equal<typeof k, "foo">>,
-          // but the value is still a union of all KV 
-          // values which makes it far less valueable
-          Expect<Equal<typeof v, Value>>,
+          // but the value is still a union of all KV
+          // values which makes it far less valuable
+          Expect<Equal<typeof v, Value>>
         ];
         const c: cases2 = [true, true];
         expect(c).toBe(c);
@@ -43,17 +45,14 @@ describe("entries() => ", () => {
     //       // inside a conditional, typescript knows as an
     //       // explicit type and no longer a union of keys
     //       Expect<Equal<typeof entry[0], "foo">>,
-    //       // but the value is still a union of all KV 
-    //       // values which makes it far less valueable
+    //       // but the value is still a union of all KV
+    //       // values which makes it far less valuable
     //       Expect<Equal<typeof v, Value>>,
     //     ];
     //     const c: cases3 = [true, true];
     //     expect(c).toBe(c);
     //   }
     // }
-
-
-
   });
 
   it("values maintain their implicit type even when nested objects", () => {

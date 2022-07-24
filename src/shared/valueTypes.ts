@@ -1,4 +1,4 @@
-import { Narrowable } from "~/types/Narrowable";
+import { Narrowable } from "src/types/Narrowable";
 
 export type ValueTuple = [type: any, narrowable: boolean];
 

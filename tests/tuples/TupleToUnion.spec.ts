@@ -1,4 +1,6 @@
-import { TupleToUnion } from "~/types";
+import { describe, it, expect } from "vitest";
+
+import { TupleToUnion } from "src/types";
 import { Expect, Equal } from "@type-challenges/utils";
 
 describe("TupleToUnion<T> type utility", () => {

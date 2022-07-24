@@ -1,5 +1,7 @@
+import { describe, it, expect } from "vitest";
+
 import { Expect, Equal, ExpectExtends } from "@type-challenges/utils";
-import { UniqueForProp } from "~/types/lists";
+import { UniqueForProp } from "src/types/lists";
 
 describe("UniqueForProp<T, P>", () => {
   it("pull off uniques for 'id' prop", () => {

@@ -1,4 +1,4 @@
-import type { ExpandRecursively } from "~/types";
+import { ExpandRecursively } from "src/types/ExpandRecursively";
 
 export interface IFluentConfigurator<C> {
   /**
@@ -28,7 +28,7 @@ export function FluentConfigurator<I>(initial: I = {} as I) {
   const api = <C>(current: C): IFluentConfigurator<C> => {
     return {
       set<V, K extends string, KV = { [U in K]: V }>(key: K, value: V) {
-        const keyValue = ({ [key]: value as V } as unknown) as KV;
+        const keyValue = { [key]: value as V } as unknown as KV;
         const updated = { ...keyValue, ...current };
 
         return api<C & KV>(updated);

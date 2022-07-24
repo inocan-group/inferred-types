@@ -1,10 +1,11 @@
-import { KeyValue, Narrowable } from "~/types";
+import { KeyValue } from "src/types/kv";
+import { Narrowable } from "src/types/Narrowable";
 import { keys } from "../keys";
 
 /**
  * **entries**
  *
- * Provides an _interable_ over the passed in dictionary object where each iteration 
+ * Provides an _iterable_ over the passed in dictionary object where each iteration
  * provides a tuple of `[ key, value ]` which preserve type literals.
  *
  * For example:
@@ -14,8 +15,11 @@ import { keys } from "../keys";
  * for (const [k, v] of entries(obj)) { ... }
  * ```
  */
-export function entries<N extends Narrowable, T extends Record<string, N>, I extends KeyValue<T, keyof T>>(obj: T) {
-
+export function entries<
+  N extends Narrowable,
+  T extends Record<string, N>,
+  I extends KeyValue<T, keyof T>
+>(obj: T) {
   const iterable = {
     *[Symbol.iterator]() {
       for (const k of keys(obj)) {

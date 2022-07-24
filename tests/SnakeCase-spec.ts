@@ -1,3 +1,5 @@
+import { describe, it } from "vitest";
+
 import { SnakeCase } from "../src/types";
 import { Expect, Equal } from "@type-challenges/utils";
 

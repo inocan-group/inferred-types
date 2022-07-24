@@ -1,19 +1,17 @@
+import { describe, it, expect } from "vitest";
+
 import { Equal, Expect } from "@type-challenges/utils";
-import { CamelCase } from "~/types";
+import { CamelCase } from "src/types";
 
 const target = "twoThreeFour";
 type TARGET = typeof target;
 
 describe("CamelCase<T> type utility", () => {
-
   it("CamelCase<T> provides an identity to a CamelCased string", () => {
     type T1 = CamelCase<"TwoThreeFour">;
     type T2 = CamelCase<"\n TwoThreeFour ">;
 
-    type cases = [
-      Expect<Equal<T1, TARGET>>,
-      Expect<Equal<T2, TARGET>>,
-    ];
+    type cases = [Expect<Equal<T1, TARGET>>, Expect<Equal<T2, TARGET>>];
     const c: cases = [true, true];
     expect(c).toBe(c);
   });
@@ -21,9 +19,7 @@ describe("CamelCase<T> type utility", () => {
   it("CamelCase<T> transform snake_case type", () => {
     type T1 = CamelCase<"two_three_four">;
 
-    type cases = [
-      Expect<Equal<T1, TARGET>>
-    ];
+    type cases = [Expect<Equal<T1, TARGET>>];
     const c: cases = [true];
     expect(c).toBe(c);
   });
@@ -32,10 +28,7 @@ describe("CamelCase<T> type utility", () => {
     type T1 = CamelCase<"twoThreeFour">;
     type T2 = CamelCase<"  twoThreeFour \t">;
 
-    type cases = [
-      Expect<Equal<T1, TARGET>>,
-      Expect<Equal<T2, TARGET>>,
-    ];
+    type cases = [Expect<Equal<T1, TARGET>>, Expect<Equal<T2, TARGET>>];
     const c: cases = [true, true];
     expect(c).toBe(c);
   });
@@ -54,7 +47,7 @@ describe("CamelCase<T> type utility", () => {
       Expect<Equal<T3, "twoThreeFourFiveSix">>,
       Expect<Equal<T4, "twoThreeFourFiveSixSeven">>,
       Expect<Equal<T5, "twoThreeFourFiveSixSevenEight">>,
-      Expect<Equal<T6, "twoThreeFourFiveSixSevenEightNineTenEleven">>,
+      Expect<Equal<T6, "twoThreeFourFiveSixSevenEightNineTenEleven">>
     ];
     const c: cases = [true, true, true, true, true, true];
     expect(c).toBe(c);
@@ -63,9 +56,7 @@ describe("CamelCase<T> type utility", () => {
   it("CamelCase<T> transforms interior space to CamelCased type", () => {
     type T1 = CamelCase<"two three four">;
 
-    type cases = [
-      Expect<Equal<T1, TARGET>>
-    ];
+    type cases = [Expect<Equal<T1, TARGET>>];
     const c: cases = [true];
     expect(c).toBe(c);
   });
@@ -75,11 +66,7 @@ describe("CamelCase<T> type utility", () => {
     type T2 = CamelCase<"\n TWO_THREE_FOUR ">;
     type T3 = CamelCase<"\n TWO-THREE-FOUR ">;
 
-    type cases = [
-      Expect<Equal<T1, TARGET>>,
-      Expect<Equal<T2, TARGET>>,
-      Expect<Equal<T3, TARGET>>,
-    ];
+    type cases = [Expect<Equal<T1, TARGET>>, Expect<Equal<T2, TARGET>>, Expect<Equal<T3, TARGET>>];
     const c: cases = [true, true, true];
     expect(c).toBe(c);
   });
@@ -88,10 +75,7 @@ describe("CamelCase<T> type utility", () => {
     type T1 = CamelCase<"  one two three ">;
     type T2 = CamelCase<"\n  one two three ">;
 
-    type cases = [
-      Expect<Equal<T1, "oneTwoThree">>,
-      Expect<Equal<T2, "oneTwoThree">>,
-    ];
+    type cases = [Expect<Equal<T1, "oneTwoThree">>, Expect<Equal<T2, "oneTwoThree">>];
     const c: cases = [true, true];
     expect(c).toBe(c);
   });
@@ -99,9 +83,7 @@ describe("CamelCase<T> type utility", () => {
   it("CamelCase<T> returns 'string' type when passed a non-literal string", () => {
     type T1 = CamelCase<string>;
 
-    type cases = [
-      Expect<Equal<T1, string>>,
-    ];
+    type cases = [Expect<Equal<T1, string>>];
     const c: cases = [true];
     expect(c).toBe(c);
   });
@@ -119,10 +101,9 @@ describe("CamelCase<T> type utility", () => {
       Expect<Equal<T2, "oneTwoThreeFourFiveSixSevenEightNine">>,
       Expect<Equal<T3, "oneTwoThreeFourFiveSixSevenEightNine">>,
       Expect<Equal<T4, "oneTwoThreeFourFiveSixSevenEightNine">>,
-      Expect<Equal<T5, "oneTwoThreeFourFiveSixSevenEightNine">>,
+      Expect<Equal<T5, "oneTwoThreeFourFiveSixSevenEightNine">>
     ];
     const c: cases = [true, true, true, true, true];
     expect(c).toBe(c);
   });
-
 });

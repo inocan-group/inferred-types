@@ -1,3 +1,5 @@
+import { describe, it, expect } from "vitest";
+
 import { CamelCase } from "../src/types";
 import { Expect, Equal } from "@type-challenges/utils";
 

@@ -18,7 +18,7 @@ export type OptionalKeys<T extends object> = {
  * The _keys_ on a given object `T` which have a literal value of `W`.
  *
  * Optionally, you may provide a generic `E` to exclude certain keys in
- * resultset.
+ * result set.
  * ```ts
  * // "foo"
  * type Str = KeysWithValue<{ foo: "hi"; bar: 5 }>;

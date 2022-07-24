@@ -1,3 +1,5 @@
+import { describe, it, expect } from "vitest";
+
 import { Expect, Equal } from "@type-challenges/utils";
 import { Constructor } from "../src/types/Constructor";
 
