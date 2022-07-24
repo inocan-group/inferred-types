@@ -21,6 +21,7 @@
     "lint": "eslint src/**/*.ts --fix && tsc --noEmit ",
     "lint:full": "eslint src/**/*.ts && eslint test/**/*.ts && tsc --noEmit",
     "test": "vitest",
+    "test:ci": "vitest run",
     "audit:fix": "pnpm audit --fix",
     "release": "run-s lint release:latest test:ci audit:fix release:bump",
     "release:latest": "pnpm install",
@@ -51,5 +52,11 @@
   },
   "dependencies": {
     "common-types": "^1.31.1"
+  },
+  "pnpm": {
+    "overrides": {
+      "simple-git@<3.3.0": ">=3.3.0",
+      "simple-git@<3.5.0": ">=3.5.0"
+    }
   }
 }
