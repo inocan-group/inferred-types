@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 import { Equal, Expect, ExpectFalse } from "@type-challenges/utils";
-import { SameKeys } from "../src/types";
+import { SameKeys } from "src/types";
 
 describe("SameKeys<T> utility", () => {
   it("keys must be same type but value can be anything", () => {
