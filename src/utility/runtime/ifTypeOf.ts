@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-thenable */
 import { Narrowable } from "src/types/Narrowable";
 import { keys } from "../keys";
 
@@ -85,7 +86,6 @@ export const ifTypeOf = <
     const trueFalse = (valid ? true : false) as TValue extends TBase ? true : false;
     return (
       {
-        // eslint-disable-next-line unicorn/no-thenable
         then: <TResult extends any>(then?: TResult) => ({
           else: <TElse extends any>(elseVal: TElse) => {
             return (
