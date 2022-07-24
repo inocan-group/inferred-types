@@ -1,10 +1,12 @@
+import { describe, it, expect } from "vitest";
+
 import { mapValues, literal } from "../src/utility";
 import type { Expect, Equal, ExpectFalse } from "@type-challenges/utils";
 
 describe("mapValues() utility", () => {
   it("simple transform while maintaining wide type through transform", () => {
     const colors = { red: 4, blue: 2, green: 3 };
-    const x2 = mapValues(colors, v => v * 2);
+    const x2 = mapValues(colors, (v) => v * 2);
 
     expect(x2.red).toBe(colors.red * 2);
     expect(x2.blue).toBe(colors.blue * 2);
@@ -25,7 +27,7 @@ describe("mapValues() utility", () => {
 
   it("simple transform but with input type set to literals", () => {
     const colors = literal({ red: 4, blue: 2, green: 3 });
-    const x2 = mapValues(colors, v => v * 2);
+    const x2 = mapValues(colors, (v) => v * 2);
 
     expect(x2.red).toBe(colors.red * 2);
     expect(x2.blue).toBe(colors.blue * 2);

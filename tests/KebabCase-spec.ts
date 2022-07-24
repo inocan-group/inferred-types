@@ -1,3 +1,5 @@
+import { describe, it } from "vitest";
+
 import type { KebabCase } from "../src/types";
 import type { Expect, Equal } from "@type-challenges/utils";
 

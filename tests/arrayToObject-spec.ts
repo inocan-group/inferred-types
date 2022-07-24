@@ -1,15 +1,21 @@
+import { describe, it, expect } from "vitest";
 
 import { Equal, Expect, ExpectExtends } from "@type-challenges/utils";
-import { ArrayConverter, arrayToObject, GeneralDictionary, UniqueDictionary, defineType, keys } from "~/utility";
+import {
+  ArrayConverter,
+  arrayToObject,
+  GeneralDictionary,
+  UniqueDictionary,
+  defineType,
+  keys,
+} from "~/utility";
 
 const foo = { name: "foo", age: 123, color: "red" } as const;
 const foo2 = { name: "foo", age: 44, color: "orange" } as const;
 const bar = { name: "bar", age: 456, color: "blue" } as const;
 const baz = { name: "baz", age: 42, color: "green" } as const;
 
-
 describe("arrayToObject => ", () => {
-
   it("partial application of arrayToObject()", () => {
     const t1 = arrayToObject("name", false);
     type T1 = typeof t1;
@@ -28,7 +34,7 @@ describe("arrayToObject => ", () => {
       // The response types for each type is as expected
       Expect<ExpectExtends<GeneralDictionary<"name", any, any>, ReturnType<T1>>>,
       Expect<ExpectExtends<UniqueDictionary<"name", any, any>, ReturnType<T2>>>,
-      Expect<ExpectExtends<UniqueDictionary<"name", any, any>, ReturnType<T3>>>,
+      Expect<ExpectExtends<UniqueDictionary<"name", any, any>, ReturnType<T3>>>
     ];
 
     const cases: cases = [true, true, true, true, true, true];
@@ -71,7 +77,7 @@ describe("arrayToObject => ", () => {
       // however when we passed in two "types" for "foo" we get a union
       Expect<Equal<typeof dict2["foo"], SomeFoo>>,
       // once we state that foo is not unique, the type expanded to an array
-      Expect<Equal<typeof dict3["foo"], SomeFoo[]>>,
+      Expect<Equal<typeof dict3["foo"], SomeFoo[]>>
     ];
     const cases: cases = [true, true, true, true, true];
     expect(cases).toBe(cases);
@@ -100,12 +106,10 @@ describe("arrayToObject => ", () => {
       Expect<Equal<Slug["bob"]["slug"], "bob">>,
       // "age" and "color" are expressed as their widened types
       Expect<Equal<Id["1"]["age"], number>>,
-      Expect<Equal<Id["1"]["color"], string>>,
+      Expect<Equal<Id["1"]["color"], string>>
     ];
 
     const cases: cases = [true, true, true, true, true, true];
     expect(cases).toBe(cases);
   });
-
-
 });
