@@ -1,6 +1,5 @@
 import { describe, it, expect } from "vitest";
 
-/* eslint-disable unicorn/consistent-function-scoping */
 import type { Expect, Equal } from "@type-challenges/utils";
 import {
   KeysWithValue,
@@ -13,7 +12,7 @@ import {
   NumericKeys,
   NonStringKeys,
   WithNumericKeys,
-} from "../src/types/dictionary/props";
+} from "src/types/dictionary/props";
 
 type T0 = { foo: number; bar: number; baz: string };
 type T1 = { foo: number; bar: number; baz?: string };

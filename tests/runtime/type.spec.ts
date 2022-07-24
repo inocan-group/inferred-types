@@ -1,6 +1,5 @@
 import { describe, it, expect } from "vitest";
 
-/* eslint-disable unicorn/consistent-function-scoping */
 import type { Expect, Equal } from "@type-challenges/utils";
 import { FunctionType } from "src/types";
 import { type, createFnWithProps, isFunction, isObject } from "src/utility";

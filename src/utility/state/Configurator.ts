@@ -1,6 +1,5 @@
 import { ExpandRecursively } from "src/types/ExpandRecursively";
 
-/* eslint-disable unicorn/consistent-function-scoping */
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 function omit<T extends {}, K extends Array<keyof T>>(obj: T, ...removals: K) {
   const untyped = removals as Array<unknown>;

@@ -1,6 +1,5 @@
 import { describe, it, expect } from "vitest";
 
-/* eslint-disable unicorn/consistent-function-scoping */
 import { MutationIdentity } from "../src/Mutation";
 import type { Expect, Equal, ExpectExtends } from "@type-challenges/utils";
 

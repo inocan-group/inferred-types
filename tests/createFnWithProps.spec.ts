@@ -1,6 +1,4 @@
 import { describe, it, expect } from "vitest";
-
-/* eslint-disable unicorn/consistent-function-scoping */
 import { createFnWithProps } from "../src/index";
 
 describe("createFnWithProps()", () => {
