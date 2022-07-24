@@ -1,3 +1,5 @@
+import { describe, it, expect } from "vitest";
+
 import type { Includes } from "../src/types";
 import type { ExpectTrue, ExpectFalse } from "@type-challenges/utils";
 

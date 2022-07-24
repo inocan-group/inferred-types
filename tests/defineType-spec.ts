@@ -1,7 +1,8 @@
+import { describe, it, expect } from "vitest";
+
 import type { Expect, Equal } from "@type-challenges/utils";
 import { ExpectExtends } from "~/types";
 import { defineType } from "~/utility";
-
 
 describe("inferredType() utility", () => {
   it("only specify a wide type", () => {
@@ -22,7 +23,16 @@ describe("inferredType() utility", () => {
       Expect<Equal<typeof t, { foo: string; bar: number }>>,
       // for some odd reason, when we let the default value for literal
       // we get something odd
-      Expect<Equal<typeof t2, { foo: string; bar: number;[x: string]: string | number | boolean | symbol | void | object | {} | null | undefined }>>,
+      Expect<
+        Equal<
+          typeof t2,
+          {
+            foo: string;
+            bar: number;
+            [x: string]: string | number | boolean | symbol | void | object | {} | null | undefined;
+          }
+        >
+      >,
       // fortunately it does extend the intended type
       Expect<ExpectExtends<typeof t2, { foo: string; bar: number }>>
     ];
@@ -32,9 +42,7 @@ describe("inferredType() utility", () => {
 
   it("only specify a literal type", () => {
     const t = defineType({ foo: 1, bar: "hi" })();
-    type cases = [
-      Expect<Equal<typeof t, { foo: 1; bar: "hi" }>>
-    ];
+    type cases = [Expect<Equal<typeof t, { foo: 1; bar: "hi" }>>];
     const cases: cases = [true];
     expect(cases).toBe(cases);
   });
@@ -42,9 +50,7 @@ describe("inferredType() utility", () => {
   it("specify both wide and literal merged type", () => {
     const t = defineType({ bar: 1 })({ foo: "" });
 
-    type cases = [
-      Expect<Equal<typeof t, { foo: string; bar: 1 }>>
-    ];
+    type cases = [Expect<Equal<typeof t, { foo: string; bar: 1 }>>];
     const cases: cases = [true];
     expect(cases).toBe(cases);
   });

@@ -1,17 +1,13 @@
 // #autoindex
 
 // #region autoindexed files
-// index last changed at: 6th Jun, 2022, 07:51 AM ( GMT-7 )
-// hash-code: f8781dd4
+// index last changed at: 6th Jun, 2022, 10:18 AM ( GMT-7 )
+// hash-code: b346a5f3
 
 // file exports
-export * from "./FinalReturn";
-export * from "./SameKeys";
 export * from "./TupleToUnion";
 export * from "./UnionToIntersection";
 export * from "./UnionToTuple";
-export * from "./UnwrapValue";
-export * from "./WrapValue";
 
 // #endregion
 

@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { condition, isFunction, isTrue } from "~/utility";
 
 describe("condition() utility", () => {

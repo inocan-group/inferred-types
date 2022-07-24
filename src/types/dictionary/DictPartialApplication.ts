@@ -1,5 +1,4 @@
-import { ExpandRecursively } from "../ExpandRecursively";
-import { UnionToIntersection } from "./UnionToIntersection";
+import { SimplifyObject } from "~/types";
 
 /**
  * Given a dictionary of key/values, where the value is a function, this 
@@ -17,18 +16,14 @@ import { UnionToIntersection } from "./UnionToIntersection";
  * type Test2 = UnwrapValue<typeof api, false>
  * ```
  */
-export type UnwrapValue<
+export type DictPartialApplication<
   T extends Record<string, any>, 
   I extends boolean = true
-> = ExpandRecursively<
-  UnionToIntersection<
-    ExpandRecursively<
-      {
-        [K in keyof T]: T[K] extends (...args: any[]) => any 
-          ? Record<K, ReturnType<T[K]>> 
-          : true extends I ? never : Record<K, T[K]>;
-      }[keyof T]
-    >
-  >
+> = SimplifyObject<
+  {
+    [K in keyof T]: T[K] extends (...args: any[]) => any 
+      ? Record<K, ReturnType<T[K]>> 
+      : true extends I ? never : Record<K, T[K]>;
+  }[keyof T]
 >;
 

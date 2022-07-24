@@ -1,3 +1,5 @@
+import { describe, it, expect } from "vitest";
+
 import { idLiteral, literal } from "~/utility";
 import { Equal, NotEqual, Expect, ExpectExtends, ExpectFalse } from "@type-challenges/utils";
 
@@ -57,8 +59,8 @@ describe("literal enforcement", () => {
     /** but with the literal function we can force this to narrow */
     const narrow = literal({ foo: 1, bar: false, baz: "hi" });
     type Narrow = typeof narrow;
-    /** 
-     * would be nice if this worked but it doesn't; once the type is set, it's set 
+    /**
+     * would be nice if this worked but it doesn't; once the type is set, it's set
      */
     const nope = literal(wide);
     type Nope = typeof nope;

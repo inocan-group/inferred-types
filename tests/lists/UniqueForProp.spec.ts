@@ -1,3 +1,5 @@
+import { describe, it, expect } from "vitest";
+
 import { Expect, Equal, ExpectExtends } from "@type-challenges/utils";
 import { UniqueForProp } from "~/types/lists";
 

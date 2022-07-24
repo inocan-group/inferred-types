@@ -1,6 +1,8 @@
+import { describe, it, expect } from "vitest";
+
 import { createFnWithProps, type, withValue } from "~/utility";
 import type { Expect, Equal } from "@type-challenges/utils";
-import { WithValue } from "~/types/props";
+import { WithValue } from "~/types/dictionary/props";
 import { FunctionType } from "~/types";
 
 describe("withValue()() utility", () => {
