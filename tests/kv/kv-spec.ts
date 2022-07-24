@@ -1,7 +1,8 @@
-import { keys, kv } from "~/utility";
+import { describe, it, expect } from "vitest";
+
+import { keys, kv } from "src/utility";
 
 describe("kv utils", () => {
-
   it("simple assignment works with strong literal support", () => {
     const t1 = kv("foo", { a: 1, b: 2, c: "hi" });
     const t2 = kv("bar", true);
@@ -16,5 +17,4 @@ describe("kv utils", () => {
     expect(keys(t2)).toContain("bar");
     expect(t2.bar).toBe(true);
   });
-
 });

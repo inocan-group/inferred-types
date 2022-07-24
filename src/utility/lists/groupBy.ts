@@ -1,5 +1,4 @@
-import { Narrowable } from "~/types";
-// import { UniqueForProp } from "~/types/lists/UniqueForProp";
+import { Narrowable } from "src/types/Narrowable";
 
 /**
  * Groups an array of data based on the value of a property
@@ -11,12 +10,6 @@ import { Narrowable } from "~/types";
  *
  * @ignore not implemented
  */
-export function groupBy<T extends Record<string, Narrowable>, K extends keyof T & string>(
-  _data: Readonly<T[]>
-) {
+export function groupBy<T extends Record<string, Narrowable>>(_data: Readonly<T[]>) {
   throw new Error("not implemented");
-  return (_groupBy: K) => {
-    // type _GroupedBy = UniqueForProp<typeof data, K>;
-    // const _output = {} as Record<GroupedBy, Narrowable>;
-  };
 }

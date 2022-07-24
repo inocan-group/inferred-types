@@ -1,4 +1,4 @@
-import type { Dasherize } from "~/types/alphabetic";
+import { Dasherize } from "./Dasherize";
 
 /**
  * **KebabCase<T>** is an _alias_ for **Dasherize<T>**.

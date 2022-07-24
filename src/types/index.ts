@@ -1,7 +1,7 @@
 // #autoindex
 // #region autoindexed files
-// index last changed at: 1st Jan, 2022, 03:27 PM ( GMT-8 )
-// hash-code: 7e6e29a0
+// index last changed at: 7th Jul, 2022, 01:15 PM ( GMT-7 )
+// hash-code: f976e182
 
 // file exports
 export * from "./Api";
@@ -22,12 +22,12 @@ export * from "./Not";
 export * from "./Numeric";
 export * from "./Opaque";
 export * from "./Retain";
+export * from "./SimplifyObject";
 export * from "./Transformer";
 export * from "./TypeGuard";
 export * from "./Where";
 export * from "./append-types";
 export * from "./maybe";
-export * from "./props";
 export * from "./ruleset-types";
 export * from "./runtime";
 export * from "./type-testing";
@@ -35,6 +35,7 @@ export * from "./type-testing";
 export * from "./alphabetic/index";
 export * from "./dictionary/index";
 export * from "./fluent/index";
+export * from "./functions/index";
 export * from "./kv/index";
 export * from "./lists/index";
 export * from "./string-literals/index";

@@ -1,4 +1,5 @@
-import { Narrowable } from "~/types/Narrowable";
+/* eslint-disable unicorn/no-thenable */
+import { Narrowable } from "src/types/Narrowable";
 import { keys } from "../keys";
 
 function runtimeExtendsCheck<TValue extends any, TBase extends any>(

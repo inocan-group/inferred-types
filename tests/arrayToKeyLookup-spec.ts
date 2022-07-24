@@ -1,5 +1,7 @@
+import { describe, it, expect } from "vitest";
+
 import { Equal, Expect } from "@type-challenges/utils";
-import { arrayToKeyLookup } from "~/utility";
+import { arrayToKeyLookup } from "../src/utility";
 
 describe("arrayToKeyLookup()", () => {
   it("simple string array is converted", () => {
@@ -8,9 +10,7 @@ describe("arrayToKeyLookup()", () => {
     expect(lookup.bar).toBe(true);
     expect(lookup.baz).toBe(true);
 
-    type cases = [
-      Expect<Equal<typeof lookup, Record<"foo" | "bar" | "baz", true>>>
-    ];
+    type cases = [Expect<Equal<typeof lookup, Record<"foo" | "bar" | "baz", true>>>];
     const cases: cases = [true];
     expect(cases).toBe(cases);
   });

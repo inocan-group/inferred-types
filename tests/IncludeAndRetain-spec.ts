@@ -1,4 +1,6 @@
-import { Include, Retain } from "~/types";
+import { describe, it, expect } from "vitest";
+
+import { Include, Retain } from "../src/types";
 import { Equal, Expect } from "@type-challenges/utils";
 
 // INCLUDE
@@ -8,10 +10,7 @@ describe("Include<T, U> utility", () => {
     type Foo = Include<typeof str, string>;
     type NotFoo = Include<typeof str, number>;
 
-    type cases = [
-      Expect<Equal<Foo, "foo">>,
-      Expect<Equal<NotFoo, never>>
-    ];
+    type cases = [Expect<Equal<Foo, "foo">>, Expect<Equal<NotFoo, never>>];
     const c: cases = [true, true];
     expect(c).toBe(c);
   });
@@ -33,12 +32,11 @@ describe("Include<T, U> utility", () => {
       Expect<Equal<RelatedFoo, "foo">>,
       // this behavior is adjusted if you include
       // the optional `L` generic as a true value
-      Expect<Equal<NotLiteralFoo, never>>,
+      Expect<Equal<NotLiteralFoo, never>>
     ];
     const c: cases = [true, true, true, true];
     expect(c).toBe(c);
   });
-
 });
 
 // RETAIN
@@ -52,7 +50,7 @@ describe("Retain<T, U> utility", () => {
     type cases = [
       Expect<Equal<FooBar, { foo: number; bar: number }>>,
       Expect<Equal<Baz, { baz: string }>>,
-      Expect<Equal<FooBaz, { foo: number; baz: string }>>,
+      Expect<Equal<FooBaz, { foo: number; baz: string }>>
     ];
     const c: cases = [true, true, true];
     expect(c).toBe(c);
@@ -62,11 +60,8 @@ describe("Retain<T, U> utility", () => {
     type Obj = { foo: 1; bar?: number; baz: "hi" };
     type FooBar = Retain<Obj, "foo" | "bar">;
 
-    type cases = [
-      Expect<Equal<FooBar, { foo: 1; bar?: number }>>,
-    ];
+    type cases = [Expect<Equal<FooBar, { foo: 1; bar?: number }>>];
     const c: cases = [true];
     expect(c).toBe(c);
   });
-
 });

@@ -1,5 +1,6 @@
 /* eslint-disable no-use-before-define */
-import type { Narrowable } from "~/types";
+
+import { Narrowable } from "src/types/Narrowable";
 
 // TODO: get ruleset functionality working!
 
@@ -15,21 +16,23 @@ import type { Narrowable } from "~/types";
 
 /**
  * **ruleSet**
- * 
+ *
  * Defines a ruleset composed of _dynamic_ and _static_ boolean operators.
- * 
+ *
  * - the first function call defines _dynamic_ props (_optional_)
  * - the second function call defines static values
- * 
+ *
  * ```ts
- * const rs = ruleSet( 
+ * const rs = ruleSet(
  *    r => r.state()( { maybe: r => r.extends({ foo: 1 }) })
- * )( 
- *    { color: true, age: false } 
+ * )(
+ *    { color: true, age: false }
  * );
  * ```
  */
-export function ruleSet<N extends Narrowable, TState extends Record<keyof TState, N>>(defn?: TState) {
+export function ruleSet<N extends Narrowable, TState extends Record<keyof TState, N>>(
+  defn?: TState
+) {
   // return <
   //   TStatic extends { [K in keyof TStatic]: Readonly<true | false> },
   //   >(rules: TStatic) => {
@@ -37,4 +40,3 @@ export function ruleSet<N extends Narrowable, TState extends Record<keyof TState
   // };
   return defn;
 }
-

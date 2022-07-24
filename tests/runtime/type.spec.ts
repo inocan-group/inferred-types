@@ -1,7 +1,9 @@
+import { describe, it, expect } from "vitest";
+
 /* eslint-disable unicorn/consistent-function-scoping */
 import type { Expect, Equal } from "@type-challenges/utils";
-import { FunctionType } from "~/types";
-import { type, createFnWithProps, isFunction, isObject } from "~/utility";
+import { FunctionType } from "src/types";
+import { type, createFnWithProps, isFunction, isObject } from "src/utility";
 
 describe("testing type() utility and some pre-made conditions", () => {
   it("isFunction()", () => {

@@ -1,6 +1,8 @@
-import { Keys } from "../../src/types/Keys";
+import { describe, it, expect } from "vitest";
+
+import { Keys } from "src/types/Keys";
 import type { Expect, Equal } from "@type-challenges/utils";
-import { defineType, keys } from "~/utility";
+import { defineType, keys } from "src/utility";
 
 describe("Keys<T>", () => {
   it("Keys<T> is shorthand for keyof T", () => {
@@ -18,9 +20,7 @@ describe("Keys<T>", () => {
     type Arr = typeof arr;
     type MyKeys = Keys<Arr>;
 
-    type cases = [
-      Expect<Equal<MyKeys, "foo" | "bar">>
-    ];
+    type cases = [Expect<Equal<MyKeys, "foo" | "bar">>];
     const cases: cases = [true];
     expect(cases).toBe(cases);
   });
@@ -31,17 +31,13 @@ describe("Keys<T>", () => {
     type OKeys = Keys<typeof obj, "foo">;
     type OArr = Keys<typeof arr, "foo">;
 
-    type cases = [
-      Expect<Equal<OKeys, "bar">>,
-      Expect<Equal<OArr, "bar">>
-    ];
+    type cases = [Expect<Equal<OKeys, "bar">>, Expect<Equal<OArr, "bar">>];
     const cases: cases = [true, true];
     expect(cases).toBe(cases);
   });
 });
 
 describe("keys() utility", () => {
-
   it("with just object passed in, keys are extracted as expected", () => {
     const obj = defineType({ id: "123" })({ color: "red", isFavorite: false });
     const k = keys(obj);
@@ -51,9 +47,7 @@ describe("keys() utility", () => {
     expect(k).toContain("color");
     expect(k).toContain("isFavorite");
 
-    type cases = [
-      Expect<Equal<typeof k, ("color" | "id" | "isFavorite")[]>>
-    ];
+    type cases = [Expect<Equal<typeof k, ("color" | "id" | "isFavorite")[]>>];
     const cases: cases = [true];
     expect(cases).toBe(cases);
   });
@@ -65,12 +59,8 @@ describe("keys() utility", () => {
     expect(k).toHaveLength(1);
     expect(k).toContain("isFavorite");
 
-    type cases = [
-      Expect<Equal<typeof k, ("isFavorite")[]>>
-    ];
+    type cases = [Expect<Equal<typeof k, "isFavorite"[]>>];
     const cases: cases = [true];
     expect(cases).toBe(cases);
   });
-
-
 });
