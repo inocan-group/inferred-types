@@ -1,5 +1,9 @@
 lockfileVersion: 5.4
 
+overrides:
+  simple-git@<3.3.0: '>=3.3.0'
+  simple-git@<3.5.0: '>=3.5.0'
+
 specifiers:
   '@type-challenges/utils': ~0.1.1
   '@types/node': '16'
@@ -985,7 +989,7 @@ packages:
       recast: 0.20.5
       sharp: 0.30.7
       shelljs: 0.8.5
-      simple-git: 2.48.0
+      simple-git: 3.10.0
       smartwrap: 2.0.2
       table: 6.8.0
       ts-morph: 13.0.3
@@ -3561,8 +3565,8 @@ packages:
       simple-concat: 1.0.1
     dev: true
 
-  /simple-git/2.48.0:
-    resolution: {integrity: sha512-z4qtrRuaAFJS4PUd0g+xy7aN4y+RvEt/QTJpR184lhJguBA1S/LsVlvE/CM95RsYMOFJG3NGGDjqFCzKU19S/A==}
+  /simple-git/3.10.0:
+    resolution: {integrity: sha512-2w35xrS5rVtAW0g67LqtxCZN5cdddz/woQRfS0OJXaljXEoTychZ4jnE+CQgra/wX4ZvHeiChTUMenCwfIYEYw==}
     dependencies:
       '@kwsites/file-exists': 1.1.1
       '@kwsites/promise-deferred': 1.1.1
