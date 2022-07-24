@@ -1,0 +1,34 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  testing:
+    name: testing
+    uses: yankeeinlondon/gha/.github/workflows/test.yml@main
+
+  publish:
+    name: npm
+    if: ( contains(github.event.head_commit.message, 'release v') )
+    needs:
+      - testing
+    uses: yankeeinlondon/gha/.github/workflows/npm.yml@main
+    with:
+      nodeVersion: 16
+    secrets:
+      npm_token: ${{secrets.NPM_TOKEN}}
+
+  do_not_publish:
+    name: npm / no publication
+    if: ( !contains(github.event.head_commit.message, 'release v') )
+    runs-on: ubuntu-latest
+    needs:
+      - testing
+    steps:
+      - name: Done
+        run: |
+          echo "::notice ::No need to publish to NPM"

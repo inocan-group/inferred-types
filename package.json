@@ -20,13 +20,18 @@
     "clean": "rimraf dist/**/*",
     "lint": "eslint src/**/*.ts --fix && tsc --noEmit ",
     "lint:full": "eslint src/**/*.ts && eslint test/**/*.ts && tsc --noEmit",
-    "test": "vitest"
+    "test": "vitest",
+    "audit:fix": "pnpm audit --fix",
+    "release": "run-s lint release:latest test:ci audit:fix release:bump",
+    "release:latest": "pnpm install",
+    "release:bump": "bumpp"
   },
   "devDependencies": {
     "@type-challenges/utils": "~0.1.1",
     "@types/node": "16",
     "@typescript-eslint/eslint-plugin": "^5.30.7",
     "@typescript-eslint/parser": "^5.30.7",
+    "bumpp": "^8.2.1",
     "common-types": "^1.30.0",
     "cross-env": "^7.0.3",
     "dd": "^0.19.8",
