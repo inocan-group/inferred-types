@@ -35,7 +35,7 @@
     "bumpp": "^8.2.1",
     "common-types": "^1.30.0",
     "cross-env": "^7.0.3",
-    "dd": "^0.19.8",
+    "dd": "^0.21.0",
     "dotenv": "^16.0.1",
     "eslint": "^8.20.0",
     "eslint-config-prettier": "^8.5.0",
