@@ -1,13 +1,14 @@
 // #autoindex
 // #region autoindexed files
-// index last changed at: 7th Jul, 2022, 01:15 PM ( GMT-7 )
-// hash-code: 7651d44b
+// index last changed at: 7th Jul, 2022, 02:28 PM ( GMT-7 )
+// hash-code: 6e90bc78
 
 // file exports
 export * from "./DictPartialApplication";
 export * from "./DictPrependWithFn";
 export * from "./DictReturnValues";
 export * from "./Get";
+export * from "./RequireProps";
 export * from "./SameKeys";
 export * from "./props";
 
