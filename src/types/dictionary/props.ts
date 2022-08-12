@@ -1,4 +1,4 @@
-import { Alpha } from "common-types";
+import { Alpha } from "../alphabetic/alpha-characters";
 
 /**
  * Extracts the _required_ keys in the object's type
