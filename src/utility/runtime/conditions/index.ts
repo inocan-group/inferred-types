@@ -9,7 +9,6 @@ export * from "./isArray";
 export * from "./isBoolean";
 export * from "./isFalse";
 export * from "./isFunction";
-export * from "./isLiteral";
 export * from "./isNull";
 export * from "./isNumber";
 export * from "./isObject";

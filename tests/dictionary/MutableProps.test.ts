@@ -12,10 +12,17 @@ describe("MutableProps<T,M>", () => {
     type FooBaz = MutableProps<Test, "foo" | "baz">;
 
     type cases = [
-      Expect<Equal<Foo, { foo: string; bar?: Readonly<number>; baz: Readonly<boolean> }>>,
-      Expect<Equal<Bar, { foo: Readonly<string>; bar?: number; baz: Readonly<boolean> }>>,
-      Expect<Equal<FooBar, { foo: string; bar?: number; baz: Readonly<boolean> }>>,
-      Expect<Equal<FooBaz, { foo: string; bar?: Readonly<number>; baz: boolean }>>
+      Expect<Equal<Foo, { foo: string; bar?: Readonly<number>; readonly baz: Readonly<boolean> }>>,
+      Expect<
+        Equal<
+          Bar,
+          { readonly foo: Readonly<string>; bar?: number; readonly baz: Readonly<boolean> }
+        >
+      >,
+      Expect<Equal<FooBar, { foo: string; bar?: number; readonly baz: Readonly<boolean> }>>,
+      Expect<
+        Equal<FooBaz, { foo: string; readonly bar?: Readonly<number>; baz: Readonly<boolean> }>
+      >
     ];
     const cases: cases = [true, true, true, true];
     expect(cases).toBe(cases);
