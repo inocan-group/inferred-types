@@ -29,10 +29,11 @@ function runtimeExtendsCheck<TValue extends any, TBase extends any>(
     case "object":
       if (val === null && base === null) {
         return true as TValue extends TBase ? true : false;
+      } else {
+        return keys(base as object).every((i) =>
+          runtimeExtendsCheck((val as TValue)[i], base[i], narrow)
+        ) as TValue extends TBase ? true : false;
       }
-      return keys(base as object).every((i) =>
-        runtimeExtendsCheck(val[i], base[i], narrow)
-      ) as TValue extends TBase ? true : false;
   }
 }
 
