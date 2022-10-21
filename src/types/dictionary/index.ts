@@ -5,6 +5,7 @@
 
 // file exports
 export * from "./DictPartialApplication";
+export * from "./DictChangeValue";
 export * from "./DictPrependWithFn";
 export * from "./DictReturnValues";
 export * from "./Get";
