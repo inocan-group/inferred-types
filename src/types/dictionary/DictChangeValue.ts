@@ -5,6 +5,14 @@ import { SimplifyObject } from "../SimplifyObject";
  * the original object `I` so long as the original value for the KV pair extends `V`.
  *
  * If `V` is not specified then it defaults to _any_ and therefore all KVs are preserved.
+ *
+ * ```ts
+ * type Obj = { foo: "hello", bar: 42, baz: () => "world" };
+ * // { foo: number, bar: number, baz: number };
+ * type AllNumbers = DictChangeValue<Obj, number>;
+ * // { foo: number }
+ * type StringToBool = DictChangeValue<Obj, boolean, string>
+ * ```
  */
 export type DictChangeValue<
   /** the object who's value-type we're changing */
