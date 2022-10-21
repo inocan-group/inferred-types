@@ -25,7 +25,11 @@ describe("DictReturnValues<T, R, O>", () => {
       multiply: (v1: number, v2: number) => null;
     };
 
-    type cases = [Expect<Equal<T1, Expected1>>, Expect<Equal<T2, Expected2>>];
+    type cases = [
+      //
+      Expect<Equal<T1, Expected1>>, 
+      Expect<Equal<T2, Expected2>>
+    ];
 
     const cases: cases = [true, true];
   });
