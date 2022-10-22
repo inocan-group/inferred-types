@@ -11,7 +11,7 @@ import { keys } from "src/utility/keys";
  * const arr = dictToKv({ id: 123, foo: "bar" });
  * ```
  */
-export function dictToKv<N extends Narrowable, T extends Record<string, N>, U extends boolean>(
+export function dictToKv<N extends Narrowable, T extends { [key: string]: N }, U extends boolean>(
   obj: T,
   _makeTuple: U = false as U
 ) {
