@@ -1,8 +1,7 @@
 import { MapTo } from "src/types/dictionary";
 import { describe, expect, it } from "vitest";
 
-import { mapValues } from "../src/utility";
-import type { Expect, Equal, ExpectFalse } from "@type-challenges/utils";
+import type { Expect, Equal } from "@type-challenges/utils";
 import { mapTo } from "src/utility/dictionary/mapTo";
 
 type I = { title: string; color: string; products: string[] };
