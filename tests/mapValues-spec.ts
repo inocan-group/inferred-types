@@ -5,7 +5,7 @@ import type { Expect, Equal, ExpectFalse } from "@type-challenges/utils";
 
 describe("mapValues() utility", () => {
   it("simple transform while maintaining wide type through transform", () => {
-    const colors = { red: 4, blue: 2, green: 3 };
+    const colors = { red: 4, blue: 2, green: 3 } as const;
     const x2 = mapValues(colors, (v) => v * 2);
 
     expect(x2.red).toBe(colors.red * 2);
