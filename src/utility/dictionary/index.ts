@@ -9,6 +9,7 @@ export * from "./defineProperties";
 export * from "./dictionaryTransform";
 export * from "./entries";
 export * from "./mapValues";
+export * from "./mapTo";
 export * from "./strArrayToDict";
 // directory exports
 export * from "./kv/index";
