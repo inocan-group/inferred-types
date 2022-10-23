@@ -1,17 +1,27 @@
 import { Alpha } from "../alphabetic/alpha-characters";
 
 /**
- * Extracts the _required_ keys in the object's type
+ * Extracts the _required_ keys in the object's type. You also may
+ * optionally filter by the _value_ of the key.
  */
-export type RequiredKeys<T extends object> = {
-  [K in keyof T]-?: {} extends { [P in K]: T[K] } ? never : K;
+export type RequiredKeys<T extends object, V extends any = any> = {
+  [K in keyof T]-?: {} extends { [P in K]: T[K] }
+    ? never //
+    : T[K] extends V
+    ? K
+    : never;
 }[keyof T];
 
 /**
- * Extracts the _optional_ keys in the object's type
+ * Extracts the _optional_ keys in the object's type. You also may
+ * optionally filter by the _value_ of the key.
  */
-export type OptionalKeys<T extends object> = {
-  [K in keyof T]-?: {} extends { [P in K]: T[K] } ? K : never;
+export type OptionalKeys<T extends object, V extends any = any> = {
+  [K in keyof T]-?: {} extends { [P in K]: T[K] }
+    ? V extends T[K]
+      ? K
+      : never //
+    : never;
 }[keyof T];
 
 /**
