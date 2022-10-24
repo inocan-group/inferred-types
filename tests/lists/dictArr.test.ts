@@ -45,6 +45,8 @@ describe("dictArr() utility API", () => {
     type CountParam = Parameters<R["count"]>[0];
     type SumParam = Parameters<R["sum"]>[0];
 
+    // type ToLookupReturn = ReturnType<R["toLookup"]>;
+
     type cases = [
       Expect<Equal<ToLookupParam, "name" | "title">>,
       Expect<Equal<UniqueParam, "id" | "name" | "title" | "cost" | "color">>,

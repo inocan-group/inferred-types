@@ -8,6 +8,7 @@
 export * from "./TupleToUnion";
 export * from "./UnionToIntersection";
 export * from "./UnionToTuple";
+export * from "./Widen";
 
 // #endregion auto-indexed files
 

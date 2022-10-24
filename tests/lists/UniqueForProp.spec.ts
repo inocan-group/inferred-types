@@ -52,9 +52,7 @@ describe("UniqueForProp<T, P>", () => {
 
   it("wide data only knows the wide type", () => {
     type U = UniqueForProp<HybridData, "id">;
-
     type cases = [Expect<Equal<U, number>>];
-
     const c: cases = [true];
     expect(c).toBe(c);
   });
