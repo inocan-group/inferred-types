@@ -30,7 +30,7 @@ const wideArr = [
 
 describe("dictArr() utility API", () => {
   it("returns an API when passed the array", () => {
-    const r = dictArr(genericArr);
+    const r = dictArr(...genericArr);
     type R = typeof r;
     // runtime checks
     expect(typeof r.toLookup).contains("function");
@@ -47,9 +47,9 @@ describe("dictArr() utility API", () => {
 
     type cases = [
       Expect<Equal<ToLookupParam, "name" | "title">>,
-      Expect<Equal<UniqueParam, "name" | "title" | "cost" | "color">>,
+      Expect<Equal<UniqueParam, "id" | "name" | "title" | "cost" | "color">>,
       Expect<Equal<CountParam, "cost" | "color">>,
-      Expect<Equal<SumParam, "cost">>
+      Expect<Equal<SumParam, "id" | "cost">>
     ];
     const cases: cases = [true, true, true, true];
   });
