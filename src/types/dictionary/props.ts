@@ -94,7 +94,7 @@ export type RequiredProps<T extends object> = Pick<T, RequiredKeys<T>>;
  *
  * Reduces an object to only key/value pairs where the key is optional
  */
-export type OptionalProps<T extends object> = Pick<T, RequiredKeys<T>>;
+export type OptionalProps<T extends object> = Pick<T, OptionalKeys<T>>;
 
 /**
  * **WithValue**
