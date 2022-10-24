@@ -1,8 +1,6 @@
 import { describe, it, expect } from "vitest";
-
 import { Expect, Equal } from "@type-challenges/utils";
 import { UniqueForProp } from "src/types/lists";
-import { Narrowable } from "src";
 
 const narrow_data = [
   { id: 123, color: "blue" },
@@ -57,7 +55,7 @@ describe("UniqueForProp<T, P>", () => {
 
     type cases = [Expect<Equal<U, number>>];
 
-    const c: cases = [true, true, true];
+    const c: cases = [true];
     expect(c).toBe(c);
   });
 });
