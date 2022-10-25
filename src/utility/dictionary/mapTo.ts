@@ -3,17 +3,26 @@ import { MapToWithFiltering } from "src/types/dictionary";
 /**
  * **mapTo**
  *
- * A utility function which maps one dictionary structure `I` to another `O`; where:
+ * A utility function which maps one dictionary structure `I` to another `O`; which allows
+ * the transform to:
  *
- * - `I` maps to `O[ ]` so this allows a cardinality of 0:M
- * - In other words ... values from `I` can be filtered, translated 1:1 or split into multiple outputs
- * - Type constrains laid out by `I` and `O` will be enforced by type system
+ * - _split_ inputs into multiple outputs
+ * - _map_ 1:1 between input and output
+ * - _filter_ inputs which don't meet certain criteria (by returning `null`)
  *
+ * This higher order function first asks for the mapping criteria:
  * ```ts
- * type I = { title: string; color: string; products: Product[] };
- * type O = { title: string; count: number };
- * const summarize: mapTo<I,O>()
- *  .map();
+ * const mapper = mapTo<I,O>(i => i.name
+ *  ? [
+ *      { name: i.name, a: "static text", b: i.products.length }
+ *    ]
+ *  : null
+ * );
+ * ```
+ *
+ * and now you'll have a _mapper_ variable will be assigned as a mapping fn:
+ * ```ts
+ * function (source: I | I[]): O[]
  * ```
  */
 export const mapTo =
