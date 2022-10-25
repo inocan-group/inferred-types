@@ -1,18 +1,23 @@
 /**
- * Maps from one type `I` to another `O`, where:
+ * **MapTo**
  *
- * - a **null** value indicates that there is no valid mapping for the given input
- * - you can either return a 1:1 or 1:M output as `O` or `O[]` when there is a mapping
+ * Maps from one type `I` to another `O[]`
  *
- * This type utility will ensure both `I` and `O` are honoured but if the runtime only
- * uses the type utility it's worth bearing in mind that while _typing_ will be as expected
- * the output parameter can assume properties that in fact do not reside
- *
- * ```ts
- * const mapper: ModelMapper<{title: string}, {title: string, kind: string}> = i => {
- *    title: i.title,
- *    kind: "markdown"
- * }
- * ```
+ * **Note:** because the output is an array you can easily support `1:1` and `1:M` mappings
+ * but not a filtering operation (e.g., `1:0`); if you need this then use `MapToWithFiltering`
+ * instead.
  */
 export type MapTo<I extends {}, O extends {}> = (i: I) => O[];
+
+/**
+ * **MapToWithFiltering**
+ *
+ * Maps from one type `I` to another `(O | null)[]`
+ *
+ * **Note:** because the output is an array you can easily support `1:1` and `1:M` mappings
+ * and the allowance of the conversion to result in a `null` value also means that filter
+ * out an input value entirely is possible. If you don't need _filtering_ then use the
+ * `MapTo` type instead.
+ */
+
+export type MapToWithFiltering<I extends {}, O extends {}> = (i: I) => O[] | null;
