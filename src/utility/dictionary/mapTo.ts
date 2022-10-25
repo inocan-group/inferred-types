@@ -1,4 +1,4 @@
-import { MapTo } from "src/types/dictionary";
+import { MapToWithFiltering } from "src/types/dictionary";
 
 /**
  * **mapTo**
@@ -17,6 +17,12 @@ import { MapTo } from "src/types/dictionary";
  * ```
  */
 export const mapTo =
-  <I extends {}, O extends {}>(cb: MapTo<I, O>) =>
-  (source: I) =>
-    cb(source);
+  <I extends {}, O extends {}>(cb: MapToWithFiltering<I, O>) =>
+  (source: I | I[]) => {
+    if (Array.isArray(source)) {
+      return source.flatMap((i) => cb(i)).filter((i) => i !== null) as O[];
+    } else {
+      const result = cb(source);
+      return result ? result : ([] as O[]);
+    }
+  };

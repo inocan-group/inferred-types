@@ -6,6 +6,7 @@ import { mapTo } from "src/utility/dictionary/mapTo";
 
 type I = { title: string; color: string; products: string[] };
 const i: I = { title: "Test", color: "green", products: ["foo", "bar", "baz"] };
+const i2: I = { title: "i2", color: "green", products: ["foo", "bar", "baz"] };
 
 type O = { title: string; count: number; unnecessary?: number };
 
@@ -102,5 +103,22 @@ describe("mapTo() utility function", () => {
     type cases = [Expect<Equal<R, O[]>>];
     const cases: cases = [true];
     expect(cases).toBe(cases);
+  });
+
+  it("test input filtering", () => {
+    const m = mapTo<I, O>((x) => {
+      return x.title === "i2"
+        ? null
+        : [
+            {
+              title: i.title,
+              count: i.products.length,
+            },
+          ];
+    });
+    const results = m([i, i2]);
+
+    expect(results).toHaveLength(1);
+    expect(results[0].title).toBe("Test");
   });
 });
