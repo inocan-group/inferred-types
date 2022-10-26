@@ -1,3 +1,7 @@
+import { TupleToUnion } from "../type-conversion";
+import { IsLiteral } from "./IsLiteral";
+import { IsStringLiteral } from "./IsStringLiteral";
+
 /**
  * **Includes<TSource, TValue>**
  *
@@ -12,17 +16,19 @@ export type Includes<
   TSource extends string | string[],
   TValue extends string
 > = TSource extends string[]
-  ? Keys<TSource> extends TValue
-    ? true
-    : false
-  : TSource extends `${string}${TValue}${string}`
-  ? true
-  : false;
-
-type T = Includes<"hello world", "hello">;
-type T2 = Includes<"hello world", "nope">;
-
-type IsStringLiteral<T extends string> = string extends T ? false : true;
-
-type T3 = IsStringLiteral<"hello">;
-type T4 = IsStringLiteral<string>;
+  ? IsStringLiteral<TupleToUnion<TSource>> extends true
+    ? IsLiteral<TValue> extends true
+      ? TValue extends TupleToUnion<TSource>
+        ? true
+        : false
+      : boolean
+    : boolean
+  : TSource extends string
+  ? IsLiteral<TSource> extends true
+    ? IsLiteral<TValue> extends true
+      ? TSource extends `${string}${TValue}${string}`
+        ? true
+        : false
+      : boolean
+    : boolean
+  : boolean;

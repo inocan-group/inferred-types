@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
-import { IsBooleanLiteral, IsLiteral, IsStringLiteral } from "src/types";
+import { IsBooleanLiteral, IsLiteral } from "src/types";
 
 describe("IsLiteral<T> type utility", () => {
   it("string values", () => {
@@ -25,6 +25,7 @@ describe("IsLiteral<T> type utility", () => {
       Expect<Equal<IsLiteral<typeof vl>, true>>
     ];
     const cases: cases = [true, true];
+
     expect(typeof v).toBe("number");
     expect(typeof vl).toBe("number");
   });
