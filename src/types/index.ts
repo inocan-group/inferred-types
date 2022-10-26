@@ -12,7 +12,6 @@ export * from "./First";
 export * from "./FunctionType";
 export * from "./If";
 export * from "./Include";
-export * from "./Includes";
 export * from "./KeyedRecord";
 export * from "./Keys";
 export * from "./Length";
@@ -41,6 +40,7 @@ export * from "./lists/index";
 export * from "./string-literals/index";
 export * from "./tuples/index";
 export * from "./type-conversion/index";
+export * from "./TypeInfo/index";
 
 // #endregion auto-indexed files
 

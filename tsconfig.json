@@ -16,6 +16,14 @@
     "lib": [
       "ES2020"
     ],
+    "paths": {
+      "src/*": [
+        "src/*"
+      ],
+      "test/*": [
+        "test/*"
+      ]
+    },
     "baseUrl": ".",
     "declaration": true,
     "outDir": "dist",
