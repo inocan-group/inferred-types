@@ -5,6 +5,7 @@
 // hash-code: bf4a6791
 
 // file exports
+export * from "./asArray";
 export * from "./groupBy";
 
 // #endregion auto-indexed files
