@@ -9,6 +9,7 @@ export * from "./CamelCase";
 export * from "./CapitalizeWords";
 export * from "./DashToSnake";
 export * from "./DashUppercase";
+export * from "./Cardinality";
 export * from "./Dasherize";
 export * from "./HasUppercase";
 export * from "./IsCapitalized";
