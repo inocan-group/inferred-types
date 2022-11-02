@@ -37,6 +37,7 @@ export * from "./fluent/index";
 export * from "./functions/index";
 export * from "./kv/index";
 export * from "./lists/index";
+export * from "./literal-unions/index";
 export * from "./string-literals/index";
 export * from "./tuples/index";
 export * from "./type-conversion/index";
