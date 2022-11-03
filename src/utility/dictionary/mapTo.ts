@@ -1,11 +1,4 @@
-import {
-  MapDirectionVal,
-  MapFn,
-  MapFnInput,
-  MapperCardinalityIn,
-  MapperCardinalityOut,
-  MapTo,
-} from "src/types/dictionary";
+import { MapDirectionVal, MapFn, MapFnInput, MapTo } from "src/types/dictionary";
 import { OptRequired } from "src/types/literal-unions";
 import { createFnWithProps } from "../createFnWithProps";
 

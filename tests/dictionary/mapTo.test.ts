@@ -20,7 +20,7 @@ describe("MapTo<I,O> and MapToFn<I,O>", () => {
     /** userland mapping function */
     type T = (source: I) => O[];
     /** exposed via mapTo() util */
-    type WT = <S extends I | I[]>(source: S) => S extends I[] ? O[] : O | null;
+    type WT = <S extends I | I[]>(source: S) => S extends I[] ? O[] : O[] | null;
 
     type cases = [
       Expect<Equal<Fn, Fn2>>, // implicit default = explicit values
