@@ -1,61 +1,51 @@
 import { OptRequired } from "src/types/literal-unions";
+import { EnumValues } from "../EnumValues";
 
 /**
  * Expresses relationship between inputs/outputs:
- *
- * - `I -> O[]` - every input results in 0:M outputs
- * - `I[] -> O` - ever input is an array of type I and reduced to a single O
  */
-export type MapDirection = "I -> O[]" | "I[] -> O";
+export enum MapDirection {
+  /** every input results in 0:M outputs */
+  OneToMany = "I -> O[]",
+  /** every input results in 0:1 outputs */
+  OneToOne = "I -> O",
+  /** every input is an array of type I and reduced to a single O  */
+  ManyToOne = "I[] -> O",
+}
 
-/**
- * **MapToWithFiltering**
- *
- * Maps from one type `I` to another `(O | null)[]`
- *
- * **Note:** because the output is an array you can easily support `1:1` and `1:M` mappings
- * and the allowance of the conversion to result in a `null` value also means that filter
- * out an input value entirely is possible. If you don't need _filtering_ then use the
- * `MapTo` type instead.
- */
-export type MapToWithFiltering<I extends {}, O extends {}> = (i: I) => O[] | null;
+export type MapDirectionVal = EnumValues<MapDirection>;
 
-export type MapperCardinalityOut = "0:1" | "1:1" | "0:M" | "1:M" | "M:1" | "M:0";
-export type MapperCardinalityIn = "0:1" | "1:1" | "0:M" | "1:M" | "M:M";
-
-// export type MapperRtn<O, CO extends MapperCardinalityOut = "0:M"> = CardinalityIn<CO> extends "0"
-//   ? // can filter output to no output
-//     CardinalityOut<CO> extends "1"
-//     ? O | undefined // O:1
-//     : O[] // O:M
-//   : // must return at least one
-//   CardinalityIn<CO> extends "1"
-//   ? CardinalityOut<CO> extends "1"
-//     ? O // 1:1
-//     : [O] | [O, ...O[]] // 1:M
-//   : // must return at least one
-//   CardinalityIn<CO> extends "M"
-//   ? CardinalityOut<CO> extends "1"
-//     ? O // M:1
-//     : O | undefined // M:0
-//   : never;
-
-export type MapInput<I, IR, D extends MapDirection> = D extends "I -> O[]"
+export type MapInput<I, IR, D extends MapDirectionVal> = D extends
+  | MapDirection.OneToMany
+  | "I -> O[]"
   ? IR extends "opt"
     ? I | undefined
     : I
-  : IR extends "opt"
-  ? I[] | undefined
-  : I[];
+  : D extends MapDirection.OneToOne | "I -> O"
+  ? IR extends "opt"
+    ? I | undefined
+    : I
+  : D extends MapDirection.ManyToOne | "I[] -> O"
+  ? IR extends "opt"
+    ? I[] | undefined
+    : I[]
+  : never;
 
-export type MapOutput<O, OR, D extends MapDirection> = D extends "I -> O[]"
+export type MapOutput<O, OR, D extends MapDirectionVal> = D extends
+  | MapDirection.OneToMany
+  | "I -> O[]"
   ? OR extends "opt"
     ? O[]
     : [O, ...O[]]
-  : // I[] -> O
-  OR extends "opt"
-  ? O | null
-  : O;
+  : D extends MapDirection.OneToOne | "I -> O"
+  ? OR extends "opt"
+    ? O | null
+    : O
+  : D extends MapDirection.ManyToOne | "I[] -> O"
+  ? OR extends "opt"
+    ? O | null
+    : O
+  : never;
 
 /**
  * **MapTo<I, O>**
@@ -69,42 +59,55 @@ export type MapTo<
   I,
   O,
   IR extends OptRequired = "req",
-  D extends MapDirection = "I -> O[]",
+  D extends MapDirectionVal = MapDirection.OneToMany,
   OR extends OptRequired = "opt"
 > = IR extends "opt"
   ? (source?: MapInput<I, IR, D>) => MapOutput<O, OR, D>
   : (source: MapInput<I, IR, D>) => MapOutput<O, OR, D>;
 
-export type MapFnOutput<
-  I,
-  O,
-  S,
-  OR extends OptRequired,
-  D extends MapDirection
-> = D extends "I -> O[]"
-  ? OR extends "opt"
-    ? S extends I[]
+export type MapFnOutput<I, O, S, OR extends OptRequired, D extends MapDirectionVal> = D extends
+  | "I -> O[]"
+  | MapDirection.OneToMany
+  ? S extends I[]
+    ? OR extends "opt"
       ? O[]
-      : O | null
-    : S extends I[]
-    ? [O, ...O[]]
+      : [O, ...O[]]
+    : OR extends "opt"
+    ? O[] | null
+    : O[]
+  : D extends MapDirection.OneToOne | "I -> O"
+  ? S extends I[]
+    ? OR extends "opt"
+      ? O[]
+      : [O, ...O[]]
+    : OR extends "opt"
+    ? O | null
     : O
-  : // I[] -> O
-  OR extends "opt"
+  : D extends MapDirection.ManyToOne | "I[] -> O"
   ? S extends I[][]
-    ? O[]
-    : O | null
-  : S extends I[][]
-  ? [O, ...O[]]
-  : O;
+    ? OR extends "opt"
+      ? O[]
+      : [O, ...O[]]
+    : OR extends "opt"
+    ? O | null
+    : O
+  : never;
 
-export type MapFnInput<I, IR extends OptRequired, D extends MapDirection> = D extends "I -> O[]"
+export type MapFnInput<I, IR extends OptRequired, D extends MapDirectionVal> = D extends
+  | "I -> O[]"
+  | MapDirection.OneToMany
   ? IR extends "opt"
     ? I | I[] | undefined
     : I | I[]
-  : IR extends "opt"
-  ? I[] | I[][] | undefined
-  : I[] | I[][];
+  : D extends MapDirection.OneToOne | "I -> O"
+  ? IR extends "opt"
+    ? I | I[] | undefined
+    : I | I[]
+  : D extends MapDirection.ManyToOne | "I[] -> O"
+  ? IR extends "opt"
+    ? I[] | I[][] | undefined
+    : I[] | I[][]
+  : never;
 
 /**
  * The mapping function provided by the `mapFn()` utility. This _fn_
@@ -126,7 +129,7 @@ export type MapFn<
   I,
   O,
   IR extends OptRequired = "req",
-  D extends MapDirection = "I -> O[]",
+  D extends MapDirectionVal = MapDirection.OneToMany,
   OR extends OptRequired = "opt"
 > = IR extends "opt"
   ? <S extends MapFnInput<I, IR, D>>(source?: S) => MapFnOutput<I, O, S, OR, D>

@@ -1,4 +1,4 @@
-import { MapFn, MapTo } from "src/types/dictionary";
+import { MapDirection, MapFn, MapTo } from "src/types/dictionary";
 import { describe, expect, it } from "vitest";
 
 import type { Expect, Equal } from "@type-challenges/utils";
@@ -13,9 +13,9 @@ type O = { title: string; count: number; unnecessary?: number };
 describe("MapTo<I,O> and MapToFn<I,O>", () => {
   it("MapTo with 0:M, 0:M cardinality", () => {
     type Fn = MapTo<I, O>;
-    type Fn2 = MapTo<I, O, "req", "I -> O[]", "opt">;
+    type Fn2 = MapTo<I, O, "req", MapDirection.OneToMany, "opt">;
     type WFn = MapFn<I, O>;
-    type WFn2 = MapFn<I, O, "req", "I -> O[]", "opt">;
+    type WFn2 = MapFn<I, O, "req", MapDirection.OneToMany, "opt">;
 
     /** userland mapping function */
     type T = (source: I) => O[];
@@ -32,9 +32,9 @@ describe("MapTo<I,O> and MapToFn<I,O>", () => {
   });
 
   it("MapTo<X> with I -> O[] variable config", () => {
-    type Fn0 = MapTo<I, O, "req", "I -> O[]", "opt">;
-    type Fn1 = MapTo<I, O, "req", "I -> O[]", "req">;
-    type Fn2 = MapTo<I, O, "opt", "I -> O[]", "opt">;
+    type Fn0 = MapTo<I, O, "req", MapDirection.OneToMany, "opt">;
+    type Fn1 = MapTo<I, O, "req", MapDirection.OneToMany, "req">;
+    type Fn2 = MapTo<I, O, "opt", MapDirection.OneToMany, "opt">;
     type Fn3 = MapTo<I, O, "opt", "I -> O[]", "req">;
 
     type T0 = (source: I) => O[];
@@ -77,10 +77,10 @@ describe("MapTo<I,O> and MapToFn<I,O>", () => {
     type Fn2 = MapFn<I, O, "opt", "I -> O[]", "opt">;
     type Fn3 = MapFn<I, O, "opt", "I -> O[]", "req">;
 
-    type T0 = <S extends I | I[]>(source: S) => S extends I[] ? O[] : O | null;
-    type T1 = <S extends I | I[]>(source: S) => S extends I[] ? [O, ...O[]] : O;
-    type T2 = <S extends I | I[] | undefined>(source?: S) => S extends I[] ? O[] : O | null;
-    type T3 = <S extends I | I[] | undefined>(source?: S) => S extends I[] ? [O, ...O[]] : O;
+    type T0 = <S extends I | I[]>(source: S) => S extends I[] ? O[] : O[] | null;
+    type T1 = <S extends I | I[]>(source: S) => S extends I[] ? [O, ...O[]] : O[];
+    type T2 = <S extends I | I[] | undefined>(source?: S) => S extends I[] ? O[] : O[] | null;
+    type T3 = <S extends I | I[] | undefined>(source?: S) => S extends I[] ? [O, ...O[]] : O[];
 
     type cases = [
       Expect<Equal<Fn0, T0>>, //
@@ -126,8 +126,10 @@ describe("MapTo<I,O> and MapToFn<I,O>", () => {
     ];
     const cases: cases = [true, true];
   });
+});
 
-  it.only("M:1 conversion", () => {
+describe("mapTo() utility function", () => {
+  it("M:1 conversion", () => {
     const m = mapTo
       .config({
         direction: "I[] -> O",
@@ -143,101 +145,47 @@ describe("MapTo<I,O> and MapToFn<I,O>", () => {
     expect(summary.count).toBe(6);
   });
 
-  it("1:1 conversion with non-required", () => {
-    const m: MapTo<I, O> = (i) => [
-      {
-        title: i.title,
-        count: i.products.length,
-        unnecessary: 42,
-      },
-    ];
-    type M = typeof m;
-    type cases = [Expect<Equal<M, MapTo<I, O>>>];
-    const cases: cases = [true];
-    expect(cases).toBe(cases);
+  it("1:1 conversion", () => {
+    const m = mapTo
+      .config({ output: "req", direction: MapDirection.OneToOne })
+      .map<I, O>((i) => ({ title: i.title, count: i.products.length }));
+    const o = m(i);
+
+    expect(o?.title).toBe(i.title);
+    expect(o?.count).toBe(3);
   });
 
-  it("1:M conversion", () => {
-    const m: MapTo<I, O> = (i) => [
-      {
-        title: i.title,
-        count: i.products.length,
-        unnecessary: 1,
-      },
-      {
-        title: i.title,
-        count: i.products.length + 1,
-        unnecessary: 2,
-      },
-    ];
-    type M = typeof m;
-    type cases = [Expect<Equal<M, MapTo<I, O>>>];
-    const cases: cases = [true];
-    expect(cases).toBe(cases);
+  it("1:1 with 1:M conversion setting", () => {
+    const m = mapTo
+      .config({ output: "req", direction: MapDirection.OneToMany })
+      .map<I, O>((i) => [{ title: i.title, count: i.products.length }]);
+    const o = m(i);
+
+    expect(o.length).toBe(1);
+    expect(o[0]?.title).toBe(i.title);
+    expect(o[0]?.count).toBe(3);
   });
 
-  it("filter input as 1:0 cardinality", () => {
-    const m: MapTo<I, O> = (_i) => [];
-    type M = typeof m;
-    type cases = [Expect<Equal<M, MapTo<I, O>>>];
-    const cases: cases = [true];
-    expect(cases).toBe(cases);
-  });
-});
+  it("1:M conversion ", () => {
+    const m = mapTo
+      .config({ output: "req", direction: MapDirection.OneToMany })
+      .map<I, O>((i) => [{ title: i.title, count: i.products.length }]);
+    const o = m([i, i2]);
 
-describe("mapTo() utility function", () => {
-  it("test 1:1 mapping", () => {
-    const m = mapTo<I, O>((i) => [
-      {
-        title: i.title,
-        count: i.products.length,
-      },
-    ]);
-    type M = typeof m;
-    type R = ReturnType<M>;
-
-    // runtime
-    expect(m(i)).toEqual([{ title: i.title, count: i.products.length }]);
-    // types
-    type cases = [Expect<Equal<R, O[]>>];
-    const cases: cases = [true];
-    expect(cases).toBe(cases);
+    expect(o.length).toBe(2);
+    o.map((item) => expect("title" in item).toBeTruthy());
   });
 
-  it("test 1:1 mapping with extraneous prop", () => {
-    const m = mapTo<I, O>((i) => [
-      {
-        title: i.title,
-        count: i.products.length,
-        extraneous: 42,
-      },
-    ]);
-    type M = typeof m;
-    type R = ReturnType<M>;
-
-    // runtime
-    // TODO: extraneous props are cut out of the type but still allows us to return `O` values with extraneous props!
-    // expect(m(i)).toEqual([{ title: i.title, count: i.products.length }]);
-    // types
-    type cases = [Expect<Equal<R, O[]>>];
-    const cases: cases = [true];
-    expect(cases).toBe(cases);
-  });
-
-  it("test input filtering", () => {
-    const m = mapTo<I, O>((x) => {
-      return x.title === "i2"
-        ? null
-        : [
-            {
-              title: i.title,
-              count: i.products.length,
-            },
-          ];
+  it("M:1 conversion", () => {
+    const m = mapTo.config({ output: "req", direction: MapDirection.ManyToOne }).map<I, O>((i) => {
+      return {
+        title: "summary",
+        count: i.reduce((acc, i) => (acc = acc + i.products.length), 0),
+      };
     });
-    const results = m([i, i2]);
+    const o = m([i, i2]);
 
-    expect(results).toHaveLength(1);
-    expect(results[0].title).toBe("Test");
+    expect(o.title).toBe("summary");
+    expect(o.count).toBe(6);
   });
 });
