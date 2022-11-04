@@ -18,3 +18,12 @@ export type IsLiteral<T extends string | number | boolean> = [T] extends [string
   : [T] extends [number]
   ? IsNumericLiteral<T>
   : never;
+
+/**
+ * **IfLiteral**
+ *
+ * Branch type utility with return `IF` when `T` is a _literal_ value and `ELSE` otherwise
+ */
+export type IfLiteral<T extends string | number | boolean, IF, ELSE> = IsLiteral<T> extends true
+  ? IF
+  : ELSE;
