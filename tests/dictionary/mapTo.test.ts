@@ -1,8 +1,21 @@
-import { MapDirection, MapFn, MapTo } from "src/types/dictionary";
+import {
+  DecomposeMapConfig,
+  FinalizedMapConfig,
+  MapDirection,
+  MapFn,
+  MapTo,
+  ToConfiguredMap,
+  ToFinalizedConfig,
+  MapConfig,
+} from "src/types/dictionary";
 import { describe, expect, it } from "vitest";
 
 import type { Expect, Equal } from "@type-challenges/utils";
-import { mapTo } from "src/utility/dictionary/mapTo";
+import {
+  DEFAULT_MANY_TO_ONE_MAPPING,
+  DEFAULT_ONE_TO_MANY_MAPPING,
+  mapTo,
+} from "src/utility/dictionary/mapTo";
 
 type I = { title: string; color: string; products: string[] };
 const i: I = { title: "Test", color: "green", products: ["foo", "bar", "baz"] };
@@ -111,6 +124,29 @@ describe("MapTo<I,O> and MapToFn<I,O>", () => {
     const cases: cases = [true, true, true, true];
   });
 
+  it("ToConfiguredMap<U,D> type utility", () => {
+    type U1 = MapConfig<undefined, "I -> O", undefined>;
+    type D1 = typeof DEFAULT_ONE_TO_MANY_MAPPING;
+    type DecompU1 = DecomposeMapConfig<U1>;
+    type DecompD1 = DecomposeMapConfig<D1>;
+    type C1 = ToFinalizedConfig<U1, D1>;
+    type CM1 = ToConfiguredMap<U1, D1>;
+
+    type U2 = MapConfig<undefined, undefined, undefined>;
+    type D2 = typeof DEFAULT_MANY_TO_ONE_MAPPING;
+    type DecompU2 = DecomposeMapConfig<U2>;
+    type DecompD2 = DecomposeMapConfig<D2>;
+    type C2 = ToFinalizedConfig<U2, D2>;
+    type CM2 = ToConfiguredMap<U2, D2>;
+
+    type U3 = MapConfig<undefined, undefined, undefined>;
+    type D3 = typeof DEFAULT_MANY_TO_ONE_MAPPING;
+    type DecompU3 = DecomposeMapConfig<U3>;
+    type DecompD3 = DecomposeMapConfig<D3>;
+    type C3 = ToFinalizedConfig<U3, D3>;
+    type CM3 = ToConfiguredMap<U3, D3>;
+  });
+
   it("walk through of mapTo types", () => {
     const t1 = mapTo<I, O>((i) => [{ title: i.title, count: i.products.length }]);
     type T1 = typeof t1;
@@ -129,6 +165,24 @@ describe("MapTo<I,O> and MapToFn<I,O>", () => {
 });
 
 describe("mapTo() utility function", () => {
+  it("Partial application of mapTo utility", () => {
+    const m1 = mapTo.manyToOne();
+    type M1 = typeof m1;
+
+    expect(m1.input).toBe("req");
+    expect(m1.output).toBe("req");
+    expect(m1.cardinality).toBe(MapDirection.ManyToOne);
+
+    const m2 = mapTo.manyToOne({ output: "opt" });
+    const o1 = mapTo.oneToOne();
+    const o2 = mapTo.oneToOne({ output: "opt" });
+    const c1 = mapTo.config({ input: "opt" });
+
+    type cases = [
+      Expect<Equal<M1, FinalizedMapConfig<"req", "I[] -> O", "req">>> //
+    ];
+  });
+
   it("M:1 conversion", () => {
     const m = mapTo
       .config({
@@ -183,6 +237,31 @@ describe("mapTo() utility function", () => {
         count: i.reduce((acc, i) => (acc = acc + i.products.length), 0),
       };
     });
+    const o = m([i, i2]);
+
+    expect(o.title).toBe("summary");
+    expect(o.count).toBe(6);
+  });
+
+  it("1:1 conversion using oneToOne() configurator", () => {
+    const _t: FinalizedMapConfig<"req", "I -> O", "req"> = mapTo.oneToOne();
+    const m = mapTo.oneToOne().map<I, O>((i) => ({ title: i.title, count: i.products.length }));
+    const m2 = mapTo.config(_t).map<I, O>((i) => ({ title: i.title, count: i.products.length }));
+    const o = m(i);
+
+    expect(o.title).toBe(i.title);
+    expect(o.count).toBe(i.products.length);
+  });
+
+  it("M:1 conversion using manyToOne() configurator", () => {
+    const m = mapTo //
+      .manyToOne()
+      .map<I, O>((i) => {
+        return {
+          title: "summary",
+          count: i.reduce((acc, cur) => (acc = acc + cur.products.length), 0),
+        };
+      });
     const o = m([i, i2]);
 
     expect(o.title).toBe("summary");
