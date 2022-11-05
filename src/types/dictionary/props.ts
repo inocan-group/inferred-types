@@ -1,4 +1,5 @@
 import { Alpha } from "../alphabetic/alpha-characters";
+import { Keys } from "../Keys";
 
 /**
  * Extracts the _required_ keys in the object's type. You also may
@@ -10,6 +11,16 @@ export type RequiredKeys<T extends object, V extends any = any> = {
     : T[K] extends V
     ? K
     : never;
+}[keyof T];
+
+/**
+ * Extracts the intersecting/common keys to two objects
+ */
+export type IntersectingKeys<
+  T extends Record<string, any> | readonly string[],
+  U extends Record<string, any> | readonly string[]
+> = {
+  [K in keyof T]: K extends Keys<U> ? K : never;
 }[keyof T];
 
 /**

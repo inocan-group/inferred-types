@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
-import { IsBooleanLiteral, IsLiteral } from "src/types";
+import { IsBooleanLiteral, IsLiteral, IsOptionalLiteral } from "src/types";
 
 describe("IsLiteral<T> type utility", () => {
   it("string values", () => {
@@ -45,5 +45,21 @@ describe("IsLiteral<T> type utility", () => {
     const cases: cases = [true, true, true, true];
     expect(typeof v).toBe("boolean");
     expect(typeof vl).toBe("boolean");
+  });
+
+  it("union with undefined", () => {
+    const vb = true as true | undefined;
+    const vs = "foo" as "foo" | undefined;
+    const vn = 42 as 42 | undefined;
+
+    type cases = [
+      Expect<Equal<IsLiteral<Exclude<typeof vb, undefined>>, true>>, //
+      Expect<Equal<IsLiteral<Exclude<typeof vs, undefined>>, true>>, //
+      Expect<Equal<IsLiteral<Exclude<typeof vn, undefined>>, true>>, //
+      Expect<Equal<IsOptionalLiteral<typeof vb>, true>>, //
+      Expect<Equal<IsOptionalLiteral<typeof vs>, true>>, //
+      Expect<Equal<IsOptionalLiteral<typeof vn>, true>> //
+    ];
+    const cases: cases = [true, true, true, true, true, true];
   });
 });

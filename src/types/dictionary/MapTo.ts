@@ -6,11 +6,12 @@ import {
   DEFAULT_ONE_TO_ONE_MAPPING,
 } from "src/utility/dictionary/mapTo";
 import { EnumValues } from "../EnumValues";
+import { TypeDefault } from "../TypeInfo/TypeDefault";
 
 /**
  * Expresses relationship between inputs/outputs:
  */
-export enum MapDirection {
+export enum MapCardinality {
   /** every input results in 0:M outputs */
   OneToMany = "I -> O[]",
   /** every input results in 0:1 outputs */
@@ -19,7 +20,7 @@ export enum MapDirection {
   ManyToOne = "I[] -> O",
 }
 
-export type MapDirectionVal = EnumValues<MapDirection>;
+export type MapCardinalityIllustrated = EnumValues<MapCardinality>;
 
 /**
  * The _user_ configuration of a **mapTo** mapper function
@@ -28,12 +29,12 @@ export type MapDirectionVal = EnumValues<MapDirection>;
  */
 export interface MapConfig<
   IR extends OptRequired | undefined = undefined,
-  D extends MapDirectionVal | undefined = undefined,
+  D extends MapCardinalityIllustrated | undefined = undefined,
   OR extends OptRequired | undefined = undefined
 > {
   input?: IR;
   output?: OR;
-  direction?: D;
+  cardinality?: D;
 }
 
 /**
@@ -42,7 +43,7 @@ export interface MapConfig<
  */
 export type FinalizedMapConfig<
   IR extends OptRequired,
-  D extends MapDirectionVal,
+  D extends MapCardinalityIllustrated,
   OR extends OptRequired
 > = Required<MapConfig<IR, D, OR>> & { finalized: true };
 
@@ -60,37 +61,54 @@ type MapCardinalityConfig<
 };
 
 /**
+ * Internal type util which receives a finalized map config and returns a
+ * `ConfiguredMap` API surface.
+ */
+export type ConfigureMap<
+  C extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>
+> = (config: C) => ConfiguredMap<C>;
+
+/**
  * **ConfiguredMap**
  *
  * A partial application of the mapTo() utility which has expressed the
- * configuration of the _inputs_ and _outputs_ of the mapping but has not
- * yet defined the actual mapping.
+ * configuration of the _inputs_ and _outputs_ and provides a `.map()`
+ * method which allows the user configure the specifics of the mapping.
  */
 export type ConfiguredMap<
-  IR extends OptRequired,
-  D extends MapDirectionVal,
-  OR extends OptRequired
+  C extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>
 > = {
-  map: <I, O>(map: MapTo<I, O, IR, D, OR>) => MapFn<I, O, IR, D, OR>;
-  input: IR;
-  output: OR;
-  cardinality: D;
+  map: <I, O>(
+    map: MapTo<
+      I,
+      O,
+      DecomposeMapConfig<C>[0], //
+      DecomposeMapConfig<C>[1],
+      DecomposeMapConfig<C>[2]
+    >
+  ) => MapFn<
+    I,
+    O,
+    DecomposeMapConfig<C>[0], //
+    DecomposeMapConfig<C>[1],
+    DecomposeMapConfig<C>[2]
+  >;
+  input: DecomposeMapConfig<C>[0];
+  cardinality: DecomposeMapConfig<C>[1];
+  output: DecomposeMapConfig<C>[2];
 };
-
-/**
- * Takes a type `T` which _might_ be undefined and a default type `D` which
- * is assured _not_ be undefined and combines the types to preserve the default
- * type when the `T` is undefined.
- */
-export type TypeWithDefault<T, D> = T extends undefined ? D : T;
 
 export type DecomposeMapConfig<
   M extends
-    | MapConfig<OptRequired | undefined, MapDirectionVal | undefined, OptRequired | undefined>
-    | FinalizedMapConfig<OptRequired, MapDirectionVal, OptRequired>
+    | MapConfig<
+        OptRequired | undefined,
+        MapCardinalityIllustrated | undefined,
+        OptRequired | undefined
+      >
+    | FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>
 > = M extends MapConfig<infer IR, infer D, infer OR>
   ? IR extends OptRequired | undefined
-    ? D extends MapDirectionVal | undefined
+    ? D extends MapCardinalityIllustrated | undefined
       ? OR extends OptRequired | undefined
         ? [IR, D, OR]
         : never
@@ -98,7 +116,7 @@ export type DecomposeMapConfig<
     : never
   : M extends FinalizedMapConfig<infer IR, infer D, infer OR>
   ? IR extends OptRequired
-    ? D extends MapDirectionVal
+    ? D extends MapCardinalityIllustrated
       ? OR extends OptRequired
         ? [IR, D, OR]
         : never
@@ -112,15 +130,11 @@ export type DecomposeMapConfig<
 export type ToFinalizedConfig<
   U extends MapConfig<
     OptRequired | undefined,
-    MapDirectionVal | undefined,
+    MapCardinalityIllustrated | undefined,
     OptRequired | undefined
   >,
-  D extends FinalizedMapConfig<OptRequired, MapDirectionVal, OptRequired>
-> = FinalizedMapConfig<
-  TypeWithDefault<DecomposeMapConfig<U>[0], DecomposeMapConfig<D>[0]>,
-  TypeWithDefault<DecomposeMapConfig<U>[1], DecomposeMapConfig<D>[1]>,
-  TypeWithDefault<DecomposeMapConfig<U>[2], DecomposeMapConfig<D>[2]>
->;
+  D extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>
+> = TypeDefault<U, D>;
 
 /**
  * Type utility which receives both a user config and a default config
@@ -129,14 +143,14 @@ export type ToFinalizedConfig<
 export type ToConfiguredMap<
   U extends MapConfig<
     OptRequired | undefined,
-    MapDirectionVal | undefined,
+    MapCardinalityIllustrated | undefined,
     OptRequired | undefined
   >,
-  D extends FinalizedMapConfig<OptRequired, MapDirectionVal, OptRequired>
+  D extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>
 > = ConfiguredMap<
-  TypeWithDefault<DecomposeMapConfig<U>[0], DecomposeMapConfig<D>[0]>,
-  TypeWithDefault<DecomposeMapConfig<U>[1], DecomposeMapConfig<D>[1]>,
-  TypeWithDefault<DecomposeMapConfig<U>[2], DecomposeMapConfig<D>[2]>
+  TypeDefault<DecomposeMapConfig<U>[0], DecomposeMapConfig<D>[0]>,
+  TypeDefault<DecomposeMapConfig<U>[1], DecomposeMapConfig<D>[1]>,
+  TypeDefault<DecomposeMapConfig<U>[2], DecomposeMapConfig<D>[2]>
 >;
 
 export type MapperApi = {
@@ -149,7 +163,7 @@ export type MapperApi = {
    */
   config: <
     IR extends OptRequired | undefined,
-    D extends MapDirectionVal | undefined,
+    D extends MapCardinalityIllustrated | undefined,
     OR extends OptRequired | undefined
   >(
     config: MapConfig<IR, D, OR>
@@ -193,33 +207,33 @@ export type MapperApi = {
   >;
 };
 
-export type MapInput<I, IR, D extends MapDirectionVal> = D extends
-  | MapDirection.OneToMany
+export type MapInput<I, IR, D extends MapCardinalityIllustrated> = D extends
+  | MapCardinality.OneToMany
   | "I -> O[]"
   ? IR extends "opt"
     ? I | undefined
     : I
-  : D extends MapDirection.OneToOne | "I -> O"
+  : D extends MapCardinality.OneToOne | "I -> O"
   ? IR extends "opt"
     ? I | undefined
     : I
-  : D extends MapDirection.ManyToOne | "I[] -> O"
+  : D extends MapCardinality.ManyToOne | "I[] -> O"
   ? IR extends "opt"
     ? I[] | undefined
     : I[]
   : never;
 
-export type MapOutput<O, OR, D extends MapDirectionVal> = D extends
-  | MapDirection.OneToMany
+export type MapOutput<O, OR, D extends MapCardinalityIllustrated> = D extends
+  | MapCardinality.OneToMany
   | "I -> O[]"
   ? OR extends "opt"
     ? O[]
     : [O, ...O[]]
-  : D extends MapDirection.OneToOne | "I -> O"
+  : D extends MapCardinality.OneToOne | "I -> O"
   ? OR extends "opt"
     ? O | null
     : O
-  : D extends MapDirection.ManyToOne | "I[] -> O"
+  : D extends MapCardinality.ManyToOne | "I[] -> O"
   ? OR extends "opt"
     ? O | null
     : O
@@ -237,15 +251,19 @@ export type MapTo<
   I,
   O,
   IR extends OptRequired = "req",
-  D extends MapDirectionVal = MapDirection.OneToMany,
+  D extends MapCardinalityIllustrated = MapCardinality.OneToMany,
   OR extends OptRequired = "opt"
 > = IR extends "opt"
   ? (source?: MapInput<I, IR, D>) => MapOutput<O, OR, D>
   : (source: MapInput<I, IR, D>) => MapOutput<O, OR, D>;
 
-export type MapFnOutput<I, O, S, OR extends OptRequired, D extends MapDirectionVal> = D extends
-  | "I -> O[]"
-  | MapDirection.OneToMany
+export type MapFnOutput<
+  I,
+  O,
+  S,
+  OR extends OptRequired,
+  D extends MapCardinalityIllustrated
+> = D extends "I -> O[]" | MapCardinality.OneToMany
   ? S extends I[]
     ? OR extends "opt"
       ? O[]
@@ -253,7 +271,7 @@ export type MapFnOutput<I, O, S, OR extends OptRequired, D extends MapDirectionV
     : OR extends "opt"
     ? O[] | null
     : O[]
-  : D extends MapDirection.OneToOne | "I -> O"
+  : D extends MapCardinality.OneToOne | "I -> O"
   ? S extends I[]
     ? OR extends "opt"
       ? O[]
@@ -261,7 +279,7 @@ export type MapFnOutput<I, O, S, OR extends OptRequired, D extends MapDirectionV
     : OR extends "opt"
     ? O | null
     : O
-  : D extends MapDirection.ManyToOne | "I[] -> O"
+  : D extends MapCardinality.ManyToOne | "I[] -> O"
   ? S extends I[][]
     ? OR extends "opt"
       ? O[]
@@ -271,17 +289,17 @@ export type MapFnOutput<I, O, S, OR extends OptRequired, D extends MapDirectionV
     : O
   : never;
 
-export type MapFnInput<I, IR extends OptRequired, D extends MapDirectionVal> = D extends
+export type MapFnInput<I, IR extends OptRequired, D extends MapCardinalityIllustrated> = D extends
   | "I -> O[]"
-  | MapDirection.OneToMany
+  | MapCardinality.OneToMany
   ? IR extends "opt"
     ? I | I[] | undefined
     : I | I[]
-  : D extends MapDirection.OneToOne | "I -> O"
+  : D extends MapCardinality.OneToOne | "I -> O"
   ? IR extends "opt"
     ? I | I[] | undefined
     : I | I[]
-  : D extends MapDirection.ManyToOne | "I[] -> O"
+  : D extends MapCardinality.ManyToOne | "I[] -> O"
   ? IR extends "opt"
     ? I[] | I[][] | undefined
     : I[] | I[][]
@@ -307,7 +325,7 @@ export type MapFn<
   I,
   O,
   IR extends OptRequired = "req",
-  D extends MapDirectionVal = MapDirection.OneToMany,
+  D extends MapCardinalityIllustrated = MapCardinality.OneToMany,
   OR extends OptRequired = "opt"
 > = IR extends "opt"
   ? <S extends MapFnInput<I, IR, D>>(source?: S) => MapFnOutput<I, O, S, OR, D>

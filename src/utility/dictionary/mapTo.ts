@@ -1,6 +1,7 @@
+import { TypeDefault } from "src/types";
 import {
   FinalizedMapConfig,
-  MapDirectionVal,
+  MapCardinalityIllustrated,
   MapFn,
   MapFnInput,
   MapperApi,
@@ -8,6 +9,7 @@ import {
   ToConfiguredMap,
   ToFinalizedConfig,
   MapConfig,
+  ConfiguredMap,
 } from "src/types/dictionary";
 import { OptRequired } from "src/types/literal-unions";
 import { createFnWithProps } from "../createFnWithProps";
@@ -18,7 +20,7 @@ import { createFnWithProps } from "../createFnWithProps";
  */
 const toFinalizedConfig = <
   IR extends OptRequired,
-  D extends MapDirectionVal,
+  D extends MapCardinalityIllustrated,
   OR extends OptRequired
 >(
   config: MapConfig<IR, D, OR>
@@ -29,32 +31,32 @@ const toFinalizedConfig = <
 export const DEFAULT_ONE_TO_MANY_MAPPING = toFinalizedConfig({
   input: "req",
   output: "opt",
-  direction: "I -> O[]",
+  cardinality: "I -> O[]",
 });
 export const DEFAULT_ONE_TO_ONE_MAPPING = toFinalizedConfig({
   input: "req",
   output: "req",
-  direction: "I -> O[]",
+  cardinality: "I -> O[]",
 });
 export const DEFAULT_MANY_TO_ONE_MAPPING = toFinalizedConfig({
   input: "req",
   output: "req",
-  direction: "I[] -> O",
+  cardinality: "I[] -> O",
 });
 
 /**
  * The single implementation for all mapping
  */
 const mapper =
-  <IR extends OptRequired, D extends MapDirectionVal, OR extends OptRequired>(
+  <IR extends OptRequired, D extends MapCardinalityIllustrated, OR extends OptRequired>(
     config: FinalizedMapConfig<IR, D, OR>
   ) =>
   <I, O>(map: MapTo<I, O, IR, D, OR>) => {
     const fn = <S extends MapFnInput<I, IR, D>>(source?: S) => {
       const isArray =
-        config.direction === "I -> O[]" && Array.isArray(source)
+        config.cardinality === "I -> O[]" && Array.isArray(source)
           ? true
-          : config.direction === "I[] -> O" && Array.isArray(source) && Array.isArray(source[0])
+          : config.cardinality === "I[] -> O" && Array.isArray(source) && Array.isArray(source[0])
           ? true
           : false;
 
@@ -75,27 +77,27 @@ const mapper =
 const setMapper = <
   U extends MapConfig<
     OptRequired | undefined,
-    MapDirectionVal | undefined,
+    MapCardinalityIllustrated | undefined,
     OptRequired | undefined
   >,
-  D extends FinalizedMapConfig<OptRequired, MapDirectionVal, OptRequired>
+  D extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>
 >(
   defaultValue: D,
   config: U = {} as U
-): ToConfiguredMap<U, D> => ({
+): ConfiguredMap<TypeDefault<U, D>> => ({
   map: (source) => {
     const c = {
       ...defaultValue,
       ...config,
-    } as unknown as ToFinalizedConfig<U, D>;
+    } as TypeDefault<U, D>;
     return mapper(c)(source);
   },
   input: (config?.input || defaultValue.input) as ToFinalizedConfig<U, D>["input"],
   output: (config?.output || defaultValue.output) as ToFinalizedConfig<U, D>["output"],
-  cardinality: (config?.direction || defaultValue.direction) as ToFinalizedConfig<
+  cardinality: (config?.cardinality || defaultValue.cardinality) as ToFinalizedConfig<
     U,
     D
-  >["direction"],
+  >["cardinality"],
 });
 
 /**
@@ -118,17 +120,20 @@ export const mapToFn = <I, O>(map: MapTo<I, O>) => {
  * and _outputs_ to be configured.
  */
 export const mapToDict: MapperApi = {
-  config(c) {
+  config(config) {
+    const c = { DEFAULT_ONE_TO_MANY_MAPPING, ...config };
     return c
       ? setMapper(DEFAULT_ONE_TO_MANY_MAPPING, c) //
       : setMapper(DEFAULT_MANY_TO_ONE_MAPPING);
   },
-  oneToOne(c) {
+  oneToOne(config) {
+    const c = { DEFAULT_ONE_TO_MANY_MAPPING, ...config };
     return c
       ? setMapper(DEFAULT_ONE_TO_ONE_MAPPING, c) //
       : setMapper(DEFAULT_ONE_TO_ONE_MAPPING);
   },
-  manyToOne(c) {
+  manyToOne(config) {
+    const c = { DEFAULT_ONE_TO_MANY_MAPPING, ...config };
     return c
       ? setMapper(DEFAULT_MANY_TO_ONE_MAPPING, c) //
       : setMapper(DEFAULT_MANY_TO_ONE_MAPPING);
