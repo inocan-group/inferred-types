@@ -1,21 +1,6 @@
-import { FunctionType } from "src/types/FunctionType";
-import { Mutable } from "src/types/Mutable";
-import { Narrowable } from "src/types/Narrowable";
-import { Not } from "src/types/Not";
+import { IsObject } from "src/types/TypeInfo";
 
-export type IsObject<T> = Mutable<T> extends Record<string, any>
-  ? // an object of some type
-    T extends FunctionType
-    ? // when a function with props is found, categorize as a function not object
-      false
-    : Mutable<T> extends any[]
-    ? // Array's are objects too but in our narrower definition we're looking only
-      // dictionary based arrays.
-      false
-    : true
-  : false;
-
-export type ObjectType = Not<Record<string, Narrowable>, FunctionType>;
+// export type ObjectType = Not<Record<string, Narrowable>, FunctionType>;
 
 /**
  * Detects whether the passed in `v` is of type "object" where an object

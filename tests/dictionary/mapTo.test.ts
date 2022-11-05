@@ -1,21 +1,23 @@
 import {
   DecomposeMapConfig,
   FinalizedMapConfig,
-  MapDirection,
+  MapCardinality,
   MapFn,
   MapTo,
   ToConfiguredMap,
   ToFinalizedConfig,
   MapConfig,
+  ConfigureMap,
+  ConfiguredMap,
 } from "src/types/dictionary";
 import { describe, expect, it } from "vitest";
-
 import type { Expect, Equal } from "@type-challenges/utils";
 import {
   DEFAULT_MANY_TO_ONE_MAPPING,
   DEFAULT_ONE_TO_MANY_MAPPING,
   mapTo,
 } from "src/utility/dictionary/mapTo";
+import { TypeDefault } from "src/types";
 
 type I = { title: string; color: string; products: string[] };
 const i: I = { title: "Test", color: "green", products: ["foo", "bar", "baz"] };
@@ -26,9 +28,9 @@ type O = { title: string; count: number; unnecessary?: number };
 describe("MapTo<I,O> and MapToFn<I,O>", () => {
   it("MapTo with 0:M, 0:M cardinality", () => {
     type Fn = MapTo<I, O>;
-    type Fn2 = MapTo<I, O, "req", MapDirection.OneToMany, "opt">;
+    type Fn2 = MapTo<I, O, "req", MapCardinality.OneToMany, "opt">;
     type WFn = MapFn<I, O>;
-    type WFn2 = MapFn<I, O, "req", MapDirection.OneToMany, "opt">;
+    type WFn2 = MapFn<I, O, "req", MapCardinality.OneToMany, "opt">;
 
     /** userland mapping function */
     type T = (source: I) => O[];
@@ -45,9 +47,9 @@ describe("MapTo<I,O> and MapToFn<I,O>", () => {
   });
 
   it("MapTo<X> with I -> O[] variable config", () => {
-    type Fn0 = MapTo<I, O, "req", MapDirection.OneToMany, "opt">;
-    type Fn1 = MapTo<I, O, "req", MapDirection.OneToMany, "req">;
-    type Fn2 = MapTo<I, O, "opt", MapDirection.OneToMany, "opt">;
+    type Fn0 = MapTo<I, O, "req", MapCardinality.OneToMany, "opt">;
+    type Fn1 = MapTo<I, O, "req", MapCardinality.OneToMany, "req">;
+    type Fn2 = MapTo<I, O, "opt", MapCardinality.OneToMany, "opt">;
     type Fn3 = MapTo<I, O, "opt", "I -> O[]", "req">;
 
     type T0 = (source: I) => O[];
@@ -129,8 +131,9 @@ describe("MapTo<I,O> and MapToFn<I,O>", () => {
     type D1 = typeof DEFAULT_ONE_TO_MANY_MAPPING;
     type DecompU1 = DecomposeMapConfig<U1>;
     type DecompD1 = DecomposeMapConfig<D1>;
-    type C1 = ToFinalizedConfig<U1, D1>;
-    type CM1 = ToConfiguredMap<U1, D1>;
+    type C1 = TypeDefault<U1, D1>;
+    type CM1 = ConfigureMap<C1>;
+    type CM1b = ConfiguredMap<C1>;
 
     type U2 = MapConfig<undefined, undefined, undefined>;
     type D2 = typeof DEFAULT_MANY_TO_ONE_MAPPING;
@@ -145,6 +148,15 @@ describe("MapTo<I,O> and MapToFn<I,O>", () => {
     type DecompD3 = DecomposeMapConfig<D3>;
     type C3 = ToFinalizedConfig<U3, D3>;
     type CM3 = ToConfiguredMap<U3, D3>;
+
+    type cases = [
+      // userland config
+      Expect<Equal<DecompU1, [undefined, "I -> O", undefined]>>,
+      // one-to-many default config allows O to be opt to provide "filter" func
+      Expect<Equal<DecompD1, ["req", "I -> O[]", "opt"]>>,
+      // merged type
+      Expect<Equal<C1, FinalizedMapConfig<"req", "I -> O", "opt">>>
+    ];
   });
 
   it("walk through of mapTo types", () => {
@@ -171,7 +183,7 @@ describe("mapTo() utility function", () => {
 
     expect(m1.input).toBe("req");
     expect(m1.output).toBe("req");
-    expect(m1.cardinality).toBe(MapDirection.ManyToOne);
+    expect(m1.cardinality).toBe(MapCardinality.ManyToOne);
 
     const m2 = mapTo.manyToOne({ output: "opt" });
     const o1 = mapTo.oneToOne();
@@ -186,7 +198,7 @@ describe("mapTo() utility function", () => {
   it("M:1 conversion", () => {
     const m = mapTo
       .config({
-        direction: "I[] -> O",
+        cardinality: "I[] -> O",
         output: "req",
       })
       .map<I, O>((i) => ({
@@ -201,7 +213,7 @@ describe("mapTo() utility function", () => {
 
   it("1:1 conversion", () => {
     const m = mapTo
-      .config({ output: "req", direction: MapDirection.OneToOne })
+      .config({ output: "req", cardinality: MapCardinality.OneToOne })
       .map<I, O>((i) => ({ title: i.title, count: i.products.length }));
     const o = m(i);
 
@@ -211,7 +223,7 @@ describe("mapTo() utility function", () => {
 
   it("1:1 with 1:M conversion setting", () => {
     const m = mapTo
-      .config({ output: "req", direction: MapDirection.OneToMany })
+      .config({ output: "req", cardinality: MapCardinality.OneToMany })
       .map<I, O>((i) => [{ title: i.title, count: i.products.length }]);
     const o = m(i);
 
@@ -222,7 +234,7 @@ describe("mapTo() utility function", () => {
 
   it("1:M conversion ", () => {
     const m = mapTo
-      .config({ output: "req", direction: MapDirection.OneToMany })
+      .config({ output: "req", cardinality: MapCardinality.OneToMany })
       .map<I, O>((i) => [{ title: i.title, count: i.products.length }]);
     const o = m([i, i2]);
 
@@ -231,12 +243,14 @@ describe("mapTo() utility function", () => {
   });
 
   it("M:1 conversion", () => {
-    const m = mapTo.config({ output: "req", direction: MapDirection.ManyToOne }).map<I, O>((i) => {
-      return {
-        title: "summary",
-        count: i.reduce((acc, i) => (acc = acc + i.products.length), 0),
-      };
-    });
+    const m = mapTo
+      .config({ output: "req", cardinality: MapCardinality.ManyToOne })
+      .map<I, O>((i) => {
+        return {
+          title: "summary",
+          count: i.reduce((acc, i) => (acc = acc + i.products.length), 0),
+        };
+      });
     const o = m([i, i2]);
 
     expect(o.title).toBe("summary");
