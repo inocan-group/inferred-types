@@ -133,7 +133,7 @@ const setMapper = <
   input: config?.input || defaultValue.input,
   output: config?.output || defaultValue.output,
   cardinality: config?.cardinality || defaultValue.cardinality,
-  debug: config?.debug | false,
+  debug: config?.debug || false,
 });
 
 /**

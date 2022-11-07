@@ -37,7 +37,9 @@ export interface MapConfig<
   cardinality?: D;
   /**
    * Whether calls to the final `MapFn` will be logged to stderr
-   * for debugging purposes. Defaults to false.
+   * for debugging purposes. Defaults to false; if you specify
+   * a _string_ for a value that will be sent to stderr along
+   * with other debugging info.
    */
   debug?: boolean | string;
 }
@@ -53,7 +55,7 @@ export type FinalizedMapConfig<
   IR extends OptRequired = MapIR<DefaultOneToManyMapping>,
   D extends MapCardinalityIllustrated = MapCard<DefaultOneToManyMapping>,
   OR extends OptRequired = MapOR<DefaultOneToManyMapping>
-> = Required<MapConfig<IR, D, OR>> & { finalized: true };
+> = Required<Omit<MapConfig<IR, D, OR>, "debug">> & { finalized: true; debug: boolean | string };
 
 /**
  * User configuration exposed by a config function which specifies the
@@ -89,6 +91,7 @@ export type ConfiguredMap<
   input: MapIR<C>;
   cardinality: MapCard<C>;
   output: MapOR<C>;
+  debug: boolean | string;
 };
 
 /**
