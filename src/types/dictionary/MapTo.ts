@@ -39,7 +39,7 @@ export interface MapConfig<
    * Whether calls to the final `MapFn` will be logged to stderr
    * for debugging purposes. Defaults to false.
    */
-  debug?: boolean;
+  debug?: boolean | string;
 }
 
 /**
