@@ -35,6 +35,11 @@ export interface MapConfig<
   input?: IR;
   output?: OR;
   cardinality?: D;
+  /**
+   * Whether calls to the final `MapFn` will be logged to stderr
+   * for debugging purposes. Defaults to false.
+   */
+  debug?: boolean;
 }
 
 /**
@@ -58,8 +63,15 @@ type MapCardinalityConfig<
   IR extends OptRequired | undefined,
   OR extends OptRequired | undefined
 > = {
+  /** whether we the input can _optionally_ be an `undefined` value or not */
   input?: IR;
+  /** whether we the output can _optionally_ be an `undefined` value or not */
   output?: OR;
+  /**
+   * Whether calls to the final `MapFn` will be logged to stderr
+   * for debugging purposes. Defaults to false.
+   */
+  debug?: boolean;
 };
 
 /**

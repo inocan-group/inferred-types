@@ -319,6 +319,26 @@ describe("mapTo() utility function", () => {
     o.map((item) => expect("title" in item).toBeTruthy());
   });
 
+  it("1:M conversion with filtering", () => {
+    const m = mapTo<I, O>((i) =>
+      i.title === "i2" ? [{ title: i.title, count: i.products.length }] : []
+    );
+    const o = m([i, i2]);
+
+    expect(o.length).toBe(1);
+    o.map((item) => expect(item.title).toBe("i2"));
+  });
+
+  it.only("1:M conversion with filtering and debugging", () => {
+    const m = mapTo
+      .config({ debug: true })
+      .map<I, O>((i) => (i.title === "i2" ? [{ title: i.title, count: i.products.length }] : []));
+    const o = m([i, i2]);
+
+    expect(o.length).toBe(1);
+    o.map((item) => expect(item.title).toBe("i2"));
+  });
+
   it("M:1 conversion", () => {
     const m = mapTo.config({ output: "req", cardinality: "I[] -> O" }).map<I, O>((i) => {
       return {
