@@ -1,6 +1,7 @@
+import { FunctionType, Narrowable, Not } from "src/types";
 import { IsObject } from "src/types/TypeInfo";
 
-// export type ObjectType = Not<Record<string, Narrowable>, FunctionType>;
+export type ObjectType = Not<Record<string, Narrowable>, FunctionType>;
 
 /**
  * Detects whether the passed in `v` is of type "object" where an object

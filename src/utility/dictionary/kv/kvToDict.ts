@@ -1,5 +1,4 @@
 import { DictFromKv } from "src/types/kv";
-import { Mutable } from "src/types/Mutable";
 import { Narrowable } from "src/types/Narrowable";
 
 /**
@@ -21,5 +20,5 @@ export function kvToDict<
     out[kv.key as keyof DictFromKv<T>] = kv.value;
   }
 
-  return out as DictFromKv<Mutable<T>>;
+  return out as DictFromKv<T>;
 }

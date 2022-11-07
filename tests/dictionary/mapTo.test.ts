@@ -1,13 +1,10 @@
 import {
-  DecomposeMapConfig,
   FinalizedMapConfig,
   MapCardinality,
   MapFn,
   MapTo,
-  ToConfiguredMap,
-  ToFinalizedConfig,
+  AsFinalizedConfig,
   MapConfig,
-  ConfigureMap,
   ConfiguredMap,
 } from "src/types/dictionary";
 import { describe, expect, it } from "vitest";
@@ -17,7 +14,6 @@ import {
   DEFAULT_ONE_TO_MANY_MAPPING,
   mapTo,
 } from "src/utility/dictionary/mapTo";
-import { TypeDefault } from "src/types";
 
 type I = { title: string; color: string; products: string[] };
 const i: I = { title: "Test", color: "green", products: ["foo", "bar", "baz"] };
@@ -27,30 +23,29 @@ type O = { title: string; count: number; unnecessary?: number };
 
 describe("MapTo<I,O> and MapToFn<I,O>", () => {
   it("MapTo with 0:M, 0:M cardinality", () => {
-    type Fn = MapTo<I, O>;
-    type Fn2 = MapTo<I, O, "req", MapCardinality.OneToMany, "opt">;
-    type WFn = MapFn<I, O>;
-    type WFn2 = MapFn<I, O, "req", MapCardinality.OneToMany, "opt">;
+    type C = FinalizedMapConfig<"req", "I -> O[]", "opt">;
+    type Fn = MapTo<I, O, C>;
+    type WFn = MapFn<I, O, C>;
 
     /** userland mapping function */
     type T = (source: I) => O[];
     /** exposed via mapTo() util */
     type WT = <S extends I | I[]>(source: S) => S extends I[] ? O[] : O[] | null;
 
-    type cases = [
-      Expect<Equal<Fn, Fn2>>, // implicit default = explicit values
-      Expect<Equal<WFn, WFn2>>, // implicit default = explicit values
-      Expect<Equal<Fn, T>>,
-      Expect<Equal<WFn, WT>>
-    ];
-    const cases: cases = [true, true, true, true];
+    type cases = [Expect<Equal<Fn, T>>, Expect<Equal<WFn, WT>>];
+    const cases: cases = [true, true];
   });
 
   it("MapTo<X> with I -> O[] variable config", () => {
-    type Fn0 = MapTo<I, O, "req", MapCardinality.OneToMany, "opt">;
-    type Fn1 = MapTo<I, O, "req", MapCardinality.OneToMany, "req">;
-    type Fn2 = MapTo<I, O, "opt", MapCardinality.OneToMany, "opt">;
-    type Fn3 = MapTo<I, O, "opt", "I -> O[]", "req">;
+    type C0 = FinalizedMapConfig<"req", "I -> O[]", "opt">;
+    type C1 = FinalizedMapConfig<"req", "I -> O[]", "req">;
+    type C2 = FinalizedMapConfig<"opt", "I -> O[]", "opt">;
+    type C3 = FinalizedMapConfig<"opt", "I -> O[]", "req">;
+
+    type Fn0 = MapTo<I, O, C0>;
+    type Fn1 = MapTo<I, O, C1>;
+    type Fn2 = MapTo<I, O, C2>;
+    type Fn3 = MapTo<I, O, C3>;
 
     type T0 = (source: I) => O[];
     type T1 = (source: I) => [O, ...O[]];
@@ -67,10 +62,15 @@ describe("MapTo<I,O> and MapToFn<I,O>", () => {
   });
 
   it("MapTo<X> with I[] -> O variable config", () => {
-    type Fn0 = MapTo<I, O, "req", "I[] -> O", "opt">;
-    type Fn1 = MapTo<I, O, "req", "I[] -> O", "req">;
-    type Fn2 = MapTo<I, O, "opt", "I[] -> O", "opt">;
-    type Fn3 = MapTo<I, O, "opt", "I[] -> O", "req">;
+    type C0 = FinalizedMapConfig<"req", "I[] -> O", "opt">;
+    type C1 = FinalizedMapConfig<"req", "I[] -> O", "req">;
+    type C2 = FinalizedMapConfig<"opt", "I[] -> O", "opt">;
+    type C3 = FinalizedMapConfig<"opt", "I[] -> O", "req">;
+
+    type Fn0 = MapTo<I, O, C0>;
+    type Fn1 = MapTo<I, O, C1>;
+    type Fn2 = MapTo<I, O, C2>;
+    type Fn3 = MapTo<I, O, C3>;
 
     type T0 = (source: I[]) => O | null;
     type T1 = (source: I[]) => O;
@@ -87,10 +87,15 @@ describe("MapTo<I,O> and MapToFn<I,O>", () => {
   });
 
   it("MapFn<X> with I -> O[] variable config", () => {
-    type Fn0 = MapFn<I, O, "req", "I -> O[]", "opt">;
-    type Fn1 = MapFn<I, O, "req", "I -> O[]", "req">;
-    type Fn2 = MapFn<I, O, "opt", "I -> O[]", "opt">;
-    type Fn3 = MapFn<I, O, "opt", "I -> O[]", "req">;
+    type C0 = FinalizedMapConfig<"req", "I -> O[]", "opt">;
+    type C1 = FinalizedMapConfig<"req", "I -> O[]", "req">;
+    type C2 = FinalizedMapConfig<"opt", "I -> O[]", "opt">;
+    type C3 = FinalizedMapConfig<"opt", "I -> O[]", "req">;
+
+    type Fn0 = MapFn<I, O, C0>;
+    type Fn1 = MapFn<I, O, C1>;
+    type Fn2 = MapFn<I, O, C2>;
+    type Fn3 = MapFn<I, O, C3>;
 
     type T0 = <S extends I | I[]>(source: S) => S extends I[] ? O[] : O[] | null;
     type T1 = <S extends I | I[]>(source: S) => S extends I[] ? [O, ...O[]] : O[];
@@ -107,10 +112,15 @@ describe("MapTo<I,O> and MapToFn<I,O>", () => {
   });
 
   it("MapFn<X> with I[] -> O variable config", () => {
-    type Fn0 = MapFn<I, O, "req", "I[] -> O", "opt">;
-    type Fn1 = MapFn<I, O, "req", "I[] -> O", "req">;
-    type Fn2 = MapFn<I, O, "opt", "I[] -> O", "opt">;
-    type Fn3 = MapFn<I, O, "opt", "I[] -> O", "req">;
+    type C0 = FinalizedMapConfig<"req", "I[] -> O", "opt">;
+    type C1 = FinalizedMapConfig<"req", "I[] -> O", "req">;
+    type C2 = FinalizedMapConfig<"opt", "I[] -> O", "opt">;
+    type C3 = FinalizedMapConfig<"opt", "I[] -> O", "req">;
+
+    type Fn0 = MapFn<I, O, C0>;
+    type Fn1 = MapFn<I, O, C1>;
+    type Fn2 = MapFn<I, O, C2>;
+    type Fn3 = MapFn<I, O, C3>;
 
     type T0 = <S extends I[] | I[][]>(source: S) => S extends I[][] ? O[] : O | null;
     type T1 = <S extends I[] | I[][]>(source: S) => S extends I[][] ? [O, ...O[]] : O;
@@ -127,50 +137,100 @@ describe("MapTo<I,O> and MapToFn<I,O>", () => {
   });
 
   it("ToConfiguredMap<U,D> type utility", () => {
+    // userland overrides cardinality
     type U1 = MapConfig<undefined, "I -> O", undefined>;
     type D1 = typeof DEFAULT_ONE_TO_MANY_MAPPING;
-    type DecompU1 = DecomposeMapConfig<U1>;
-    type DecompD1 = DecomposeMapConfig<D1>;
-    type C1 = TypeDefault<U1, D1>;
-    type CM1 = ConfigureMap<C1>;
-    type CM1b = ConfiguredMap<C1>;
+    type CD1 = AsFinalizedConfig<U1, D1>;
+    type CM1 = ConfiguredMap<CD1>;
+    type M1 = CM1["map"];
+    type M1P = Parameters<M1>;
+    type M1R = ReturnType<M1>;
 
+    // userland provides nothing; leaves default value
     type U2 = MapConfig<undefined, undefined, undefined>;
     type D2 = typeof DEFAULT_MANY_TO_ONE_MAPPING;
-    type DecompU2 = DecomposeMapConfig<U2>;
-    type DecompD2 = DecomposeMapConfig<D2>;
-    type C2 = ToFinalizedConfig<U2, D2>;
-    type CM2 = ToConfiguredMap<U2, D2>;
+    type C2 = AsFinalizedConfig<U2, D2>;
+    type CM2 = ConfiguredMap<C2>;
+    type M2 = CM2["map"];
+    type M2P = Parameters<M2>;
+    type M2R = ReturnType<M2>;
 
-    type U3 = MapConfig<undefined, undefined, undefined>;
+    type U3 = MapConfig<undefined, undefined, "opt">;
     type D3 = typeof DEFAULT_MANY_TO_ONE_MAPPING;
-    type DecompU3 = DecomposeMapConfig<U3>;
-    type DecompD3 = DecomposeMapConfig<D3>;
-    type C3 = ToFinalizedConfig<U3, D3>;
-    type CM3 = ToConfiguredMap<U3, D3>;
+    type C3 = AsFinalizedConfig<U3, D3>;
+    type CM3 = ConfiguredMap<C3>;
+    type M3 = CM3["map"];
+    type M3P = Parameters<M3>;
+    type M3R = ReturnType<M3>;
 
     type cases = [
-      // userland config
-      Expect<Equal<DecompU1, [undefined, "I -> O", undefined]>>,
-      // one-to-many default config allows O to be opt to provide "filter" func
-      Expect<Equal<DecompD1, ["req", "I -> O[]", "opt"]>>,
-      // merged type
-      Expect<Equal<C1, FinalizedMapConfig<"req", "I -> O", "opt">>>
+      // merged configuration
+      Expect<Equal<CD1, FinalizedMapConfig<"req", "I -> O", "opt">>>,
+      // map() function's parameters (unknown is I)
+      Expect<Equal<[map: (source: unknown) => unknown], M1P>>,
+      // map() function's return value
+      Expect<
+        Equal<<S extends unknown>(source: S) => S extends unknown[] ? unknown[] : unknown, M1R>
+      >,
+
+      // merged configuration is same as default for M:1
+      Expect<Equal<C2, FinalizedMapConfig<"req", "I[] -> O", "req">>>,
+      // map() function's parameters (unknown is I)
+      Expect<Equal<[map: (source: unknown[]) => unknown], M2P>>,
+      // map() function's return value
+      Expect<
+        Equal<
+          <S extends unknown[] | unknown[][]>(
+            source: S
+          ) => S extends unknown[][] ? [unknown, ...unknown[]] : unknown,
+          M2R
+        >
+      >,
+
+      // merged configuration should be M:1 default with an "opt" for output
+      Expect<Equal<C3, FinalizedMapConfig<"req", "I[] -> O", "opt">>>,
+      // map() function's parameters (unknown is I)
+      Expect<Equal<[map: (source: unknown[]) => unknown | null], M3P>>,
+      // map() function's return value
+      Expect<
+        Equal<
+          <S extends unknown[] | unknown[][]>(
+            source: S
+          ) => S extends unknown[][] ? unknown[] : unknown,
+          M3R
+        >
+      >
     ];
+
+    const cases: cases = [true, true, true, true, true, true, true, true, true];
   });
 
-  it("walk through of mapTo types", () => {
-    const t1 = mapTo<I, O>((i) => [{ title: i.title, count: i.products.length }]);
-    type T1 = typeof t1;
+  it("config() matches cardinality configs", () => {
+    const a1 = mapTo.oneToMany();
+    const b1 = mapTo.config({
+      input: "req",
+      output: "opt",
+      cardinality: "I -> O[]",
+    });
 
-    const a1 = mapTo
-      .config({ input: "req" })
-      .map<I, O>((i) => [{ title: i.title, count: i.products.length }]);
-    type A1 = typeof a1;
+    expect(a1.input).toBe(b1.input);
+    expect(a1.output).toBe(b1.output);
+    expect(a1.cardinality).toBe(b1.cardinality);
+
+    const a2 = mapTo.oneToOne();
+    const b2 = mapTo.config({
+      input: "req",
+      output: "req",
+      cardinality: "I -> O",
+    });
+
+    expect(a2.input).toBe(b2.input);
+    expect(a2.output).toBe(b2.output);
+    expect(a2.cardinality).toBe(b2.cardinality);
 
     type cases = [
-      Expect<Equal<T1, MapFn<I, O>>>, //
-      Expect<Equal<T1, A1>>
+      Expect<Equal<typeof a1, typeof a2>>, //
+      Expect<Equal<typeof b1, typeof b2>>
     ];
     const cases: cases = [true, true];
   });
@@ -179,20 +239,34 @@ describe("MapTo<I,O> and MapToFn<I,O>", () => {
 describe("mapTo() utility function", () => {
   it("Partial application of mapTo utility", () => {
     const m1 = mapTo.manyToOne();
-    type M1 = typeof m1;
 
     expect(m1.input).toBe("req");
     expect(m1.output).toBe("req");
     expect(m1.cardinality).toBe(MapCardinality.ManyToOne);
 
     const m2 = mapTo.manyToOne({ output: "opt" });
+
+    expect(m2.input).toBe("req");
+    expect(m2.output).toBe("opt");
+    expect(m2.cardinality).toBe(MapCardinality.ManyToOne);
+
     const o1 = mapTo.oneToOne();
+
+    expect(o1.input).toBe("req");
+    expect(o1.output).toBe("req");
+    expect(o1.cardinality).toBe(MapCardinality.OneToOne);
+
     const o2 = mapTo.oneToOne({ output: "opt" });
+
+    expect(o2.input).toBe("req");
+    expect(o2.output).toBe("opt");
+    expect(o2.cardinality).toBe(MapCardinality.OneToOne);
+
     const c1 = mapTo.config({ input: "opt" });
 
-    type cases = [
-      Expect<Equal<M1, FinalizedMapConfig<"req", "I[] -> O", "req">>> //
-    ];
+    expect(c1.input).toBe("opt");
+    expect(c1.output).toBe("opt");
+    expect(c1.cardinality).toBe(MapCardinality.OneToMany);
   });
 
   it("M:1 conversion", () => {
@@ -212,9 +286,10 @@ describe("mapTo() utility function", () => {
   });
 
   it("1:1 conversion", () => {
-    const m = mapTo
-      .config({ output: "req", cardinality: MapCardinality.OneToOne })
-      .map<I, O>((i) => ({ title: i.title, count: i.products.length }));
+    const m = mapTo.oneToOne().map<I, O>((i) => ({
+      title: i.title,
+      count: i.products.length,
+    }));
     const o = m(i);
 
     expect(o?.title).toBe(i.title);
@@ -222,9 +297,11 @@ describe("mapTo() utility function", () => {
   });
 
   it("1:1 with 1:M conversion setting", () => {
-    const m = mapTo
-      .config({ output: "req", cardinality: MapCardinality.OneToMany })
-      .map<I, O>((i) => [{ title: i.title, count: i.products.length }]);
+    const mc = mapTo.config({
+      output: "req",
+      cardinality: "I -> O[]",
+    });
+    const m = mc.map<I, O>((i) => [{ title: i.title, count: i.products.length }]);
     const o = m(i);
 
     expect(o.length).toBe(1);
@@ -234,7 +311,7 @@ describe("mapTo() utility function", () => {
 
   it("1:M conversion ", () => {
     const m = mapTo
-      .config({ output: "req", cardinality: MapCardinality.OneToMany })
+      .config({ output: "req", cardinality: "I -> O[]" })
       .map<I, O>((i) => [{ title: i.title, count: i.products.length }]);
     const o = m([i, i2]);
 
@@ -243,14 +320,12 @@ describe("mapTo() utility function", () => {
   });
 
   it("M:1 conversion", () => {
-    const m = mapTo
-      .config({ output: "req", cardinality: MapCardinality.ManyToOne })
-      .map<I, O>((i) => {
-        return {
-          title: "summary",
-          count: i.reduce((acc, i) => (acc = acc + i.products.length), 0),
-        };
-      });
+    const m = mapTo.config({ output: "req", cardinality: "I[] -> O" }).map<I, O>((i) => {
+      return {
+        title: "summary",
+        count: i.reduce((acc, i) => (acc = acc + i.products.length), 0),
+      };
+    });
     const o = m([i, i2]);
 
     expect(o.title).toBe("summary");
@@ -258,9 +333,7 @@ describe("mapTo() utility function", () => {
   });
 
   it("1:1 conversion using oneToOne() configurator", () => {
-    const _t: FinalizedMapConfig<"req", "I -> O", "req"> = mapTo.oneToOne();
     const m = mapTo.oneToOne().map<I, O>((i) => ({ title: i.title, count: i.products.length }));
-    const m2 = mapTo.config(_t).map<I, O>((i) => ({ title: i.title, count: i.products.length }));
     const o = m(i);
 
     expect(o.title).toBe(i.title);
