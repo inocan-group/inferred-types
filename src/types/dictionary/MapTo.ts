@@ -45,9 +45,9 @@ export interface MapConfig<
  * configuration between the input and output._
  */
 export type FinalizedMapConfig<
-  IR extends OptRequired,
-  D extends MapCardinalityIllustrated,
-  OR extends OptRequired
+  IR extends OptRequired = MapIR<DefaultOneToManyMapping>,
+  D extends MapCardinalityIllustrated = MapCard<DefaultOneToManyMapping>,
+  OR extends OptRequired = MapOR<DefaultOneToManyMapping>
 > = Required<MapConfig<IR, D, OR>> & { finalized: true };
 
 /**
