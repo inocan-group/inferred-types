@@ -77,11 +77,30 @@ const mapper =
         // item and this approach achieves this.
         // TODO: we should check that the approach below doesn't work for M:1 here
         // as well
-        return (source as any).flatMap(map) as MapFnOutput<I, O, S, MapOR<C>, MapCard<C>>;
+        const output = (source as any).flatMap(map) as MapFnOutput<I, O, S, MapOR<C>, MapCard<C>>;
+        if (config.debug) {
+          console.error(
+            `MapFn[${config.input}, ${config.cardinality}, ${
+              config.output
+            }] received:\n\n${JSON.stringify(source)}\n\nAnd produced: ${JSON.stringify(
+              output
+            )}\n\n`
+          );
+        }
+
+        return output;
       } else {
         // receive _all_ inputs provided as pass into ; this is just a single input unless the
         // cardinality is
-        return map(source as any) as MapFnOutput<I, O, S, MapOR<C>, MapCard<C>>;
+        const output = map(source as any) as MapFnOutput<I, O, S, MapOR<C>, MapCard<C>>;
+        if (config.debug) {
+          console.error(
+            `MapFn[${config.input}, ${config.cardinality}, ${
+              config.output
+            }] received:\n\n${JSON.stringify(source)}\nAnd produced: ${JSON.stringify(output)}\n`
+          );
+        }
+        return output;
       }
     };
   };
