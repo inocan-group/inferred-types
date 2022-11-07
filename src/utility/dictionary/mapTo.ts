@@ -1,16 +1,13 @@
 import {
   FinalizedMapConfig,
   MapCardinalityIllustrated,
-  MapFnInput,
   MapperApi,
   MapTo,
   AsFinalizedConfig,
   MapConfig,
   ConfiguredMap,
-  MapFnOutput,
-  MapIR,
-  MapCard,
-  MapOR,
+  Mapper,
+  MapFn,
 } from "src/types/dictionary";
 import { OptRequired } from "src/types/literal-unions";
 import { createFnWithProps } from "../createFnWithProps";
@@ -69,11 +66,18 @@ const debugMsg = <C extends FinalizedMapConfig<any, any, any>>(
  * The single implementation for all mapping
  */
 const mapper =
-  <C extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>>(config: C) =>
-  <I, O>(map: MapTo<I, O, C>) => {
-    return <S extends MapFnInput<I, MapIR<C>, MapCard<C>>>(
-      source?: S
-    ): MapFnOutput<I, O, S, MapOR<C>, MapCard<C>> => {
+  <
+    //
+    C extends FinalizedMapConfig<
+      OptRequired, //
+      MapCardinalityIllustrated,
+      OptRequired
+    >
+  >(
+    config: C
+  ) =>
+  <I, O>(map: MapTo<I, O, C>): Mapper<I, O, C> => {
+    const fn: MapFn<I, O, C> = <S>(source: S) => {
       /**
        * Determine whether input is an array; this will be true
        */
@@ -93,18 +97,26 @@ const mapper =
         // item and this approach achieves this.
         // TODO: we should check that the approach below doesn't work for M:1 here
         // as well
-        const output = (source as any).flatMap(map) as MapFnOutput<I, O, S, MapOR<C>, MapCard<C>>;
+        const output = (source as any).flatMap(map);
         debugMsg(config, source, output);
 
         return output;
       } else {
         // receive _all_ inputs provided as pass into ; this is just a single input unless the
         // cardinality is
-        const output = map(source as any) as MapFnOutput<I, O, S, MapOR<C>, MapCard<C>>;
+        const output = map(source as any);
         debugMsg(config, source, output);
+
         return output;
       }
     };
+
+    return createFnWithProps(fn, {
+      input: config.input,
+      output: config.output,
+      cardinality: config.cardinality,
+      debug: config.debug,
+    });
   };
 
 /**

@@ -87,7 +87,7 @@ type MapCardinalityConfig<
 export type ConfiguredMap<
   C extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>
 > = {
-  map: <I, O>(map: MapTo<I, O, C>) => MapFn<I, O, C>;
+  map: <I, O>(map: MapTo<I, O, C>) => Mapper<I, O, C>;
   input: MapIR<C>;
   cardinality: MapCard<C>;
   output: MapOR<C>;
@@ -361,3 +361,25 @@ export type MapFn<
   : <S extends MapFnInput<I, MapIR<C>, MapCard<C>>>(
       source: S
     ) => MapFnOutput<I, O, S, MapOR<C>, MapCard<C>>;
+
+/**
+ * **Mapper**
+ *
+ * A fully configured _mapper_ stemming from the **mapTo()** utility. It is both a mapping
+ * function and a dictionary which describes the mapper's properties.
+ * ```ts
+ * const m = mapTo.oneToOne().map( ... );
+ * const mapped = m(inputs);
+ * const mappedOver = inputs.map(m);
+ * ```
+ */
+export type Mapper<
+  I,
+  O,
+  C extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>
+> = {
+  input: MapIR<C>;
+  output: MapOR<C>;
+  cardinality: MapCard<C>;
+  debug: boolean | string;
+} & MapFn<I, O, C>;

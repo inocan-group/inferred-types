@@ -6,6 +6,7 @@ import {
   AsFinalizedConfig,
   MapConfig,
   ConfiguredMap,
+  Mapper,
 } from "src/types/dictionary";
 import { describe, expect, it } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
@@ -169,37 +170,21 @@ describe("MapTo<I,O> and MapToFn<I,O>", () => {
       // map() function's parameters (unknown is I)
       Expect<Equal<[map: (source: unknown) => unknown], M1P>>,
       // map() function's return value
-      Expect<
-        Equal<<S extends unknown>(source: S) => S extends unknown[] ? unknown[] : unknown, M1R>
-      >,
+      Expect<Equal<Mapper<unknown, unknown, FinalizedMapConfig<"req", "I -> O", "opt">>, M1R>>,
 
       // merged configuration is same as default for M:1
       Expect<Equal<C2, FinalizedMapConfig<"req", "I[] -> O", "req">>>,
       // map() function's parameters (unknown is I)
       Expect<Equal<[map: (source: unknown[]) => unknown], M2P>>,
       // map() function's return value
-      Expect<
-        Equal<
-          <S extends unknown[] | unknown[][]>(
-            source: S
-          ) => S extends unknown[][] ? [unknown, ...unknown[]] : unknown,
-          M2R
-        >
-      >,
+      Expect<Equal<Mapper<unknown, unknown, FinalizedMapConfig<"req", "I[] -> O", "req">>, M2R>>,
 
       // merged configuration should be M:1 default with an "opt" for output
       Expect<Equal<C3, FinalizedMapConfig<"req", "I[] -> O", "opt">>>,
       // map() function's parameters (unknown is I)
       Expect<Equal<[map: (source: unknown[]) => unknown | null], M3P>>,
       // map() function's return value
-      Expect<
-        Equal<
-          <S extends unknown[] | unknown[][]>(
-            source: S
-          ) => S extends unknown[][] ? unknown[] : unknown,
-          M3R
-        >
-      >
+      Expect<Equal<Mapper<unknown, unknown, FinalizedMapConfig<"req", "I[] -> O", "opt">>, M3R>>
     ];
 
     const cases: cases = [true, true, true, true, true, true, true, true, true];
@@ -267,6 +252,16 @@ describe("mapTo() utility function", () => {
     expect(c1.input).toBe("opt");
     expect(c1.output).toBe("opt");
     expect(c1.cardinality).toBe(MapCardinality.OneToMany);
+  });
+
+  it("Mapper<I,O,C>", () => {
+    const m0 = mapTo.oneToOne();
+    const m1 = m0.map<I, I>((i) => i);
+
+    expect(m1.input).toBe("req");
+    expect(m1.output).toBe("req");
+    expect(m1.cardinality).toBe("I -> O");
+    expect(m1(i)).toEqual(i);
   });
 
   it("M:1 conversion", () => {
