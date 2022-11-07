@@ -8,6 +8,9 @@ describe("IntersectingKeys<T,U>", () => {
     type T = { foo: string; bar: number; baz: any };
     type U = { foo: string; bar: number };
     type V = IntersectingKeys<T, U>;
+
+    type cases = [Expect<Equal<V, "foo" | "bar">>];
+    const cases: cases = [true];
   });
 
   it("no overlap", () => {

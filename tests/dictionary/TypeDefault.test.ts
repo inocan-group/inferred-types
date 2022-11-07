@@ -12,8 +12,8 @@ describe("TypeDefault<T,D>", () => {
     type V1 = TypeDefault<typeof t1, D>;
     const t2 = { foo: undefined, bar: 56 };
     type V2 = TypeDefault<typeof t2, D>;
-    const t3 = { bar: 56, baz: "hello" } as const;
-    type _V3 = TypeDefault<typeof t3, D>;
+    // const t3 = { bar: 56, baz: "hello" } as const;
+    // type _V3 = TypeDefault<typeof t3, D>;
 
     type cases = [
       // D's props all extend T

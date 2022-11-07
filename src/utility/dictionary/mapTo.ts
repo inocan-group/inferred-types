@@ -1,15 +1,16 @@
-import { TypeDefault } from "src/types";
 import {
   FinalizedMapConfig,
   MapCardinalityIllustrated,
-  MapFn,
   MapFnInput,
   MapperApi,
   MapTo,
-  ToConfiguredMap,
-  ToFinalizedConfig,
+  AsFinalizedConfig,
   MapConfig,
   ConfiguredMap,
+  MapFnOutput,
+  MapIR,
+  MapCard,
+  MapOR,
 } from "src/types/dictionary";
 import { OptRequired } from "src/types/literal-unions";
 import { createFnWithProps } from "../createFnWithProps";
@@ -36,7 +37,7 @@ export const DEFAULT_ONE_TO_MANY_MAPPING = toFinalizedConfig({
 export const DEFAULT_ONE_TO_ONE_MAPPING = toFinalizedConfig({
   input: "req",
   output: "req",
-  cardinality: "I -> O[]",
+  cardinality: "I -> O",
 });
 export const DEFAULT_MANY_TO_ONE_MAPPING = toFinalizedConfig({
   input: "req",
@@ -44,15 +45,22 @@ export const DEFAULT_MANY_TO_ONE_MAPPING = toFinalizedConfig({
   cardinality: "I[] -> O",
 });
 
+export type DefaultOneToManyMapping = typeof DEFAULT_ONE_TO_MANY_MAPPING;
+export type DefaultOneToOneMapping = typeof DEFAULT_ONE_TO_ONE_MAPPING;
+export type DefaultManyToOneMapping = typeof DEFAULT_MANY_TO_ONE_MAPPING;
+
 /**
  * The single implementation for all mapping
  */
 const mapper =
-  <IR extends OptRequired, D extends MapCardinalityIllustrated, OR extends OptRequired>(
-    config: FinalizedMapConfig<IR, D, OR>
-  ) =>
-  <I, O>(map: MapTo<I, O, IR, D, OR>) => {
-    const fn = <S extends MapFnInput<I, IR, D>>(source?: S) => {
+  <C extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>>(config: C) =>
+  <I, O>(map: MapTo<I, O, C>) => {
+    return <S extends MapFnInput<I, MapIR<C>, MapCard<C>>>(
+      source?: S
+    ): MapFnOutput<I, O, S, MapOR<C>, MapCard<C>> => {
+      /**
+       * Determine whether input is an array; this will be true
+       */
       const isArray =
         config.cardinality === "I -> O[]" && Array.isArray(source)
           ? true
@@ -61,13 +69,21 @@ const mapper =
           : false;
 
       if (isArray) {
-        return (source as any).flatMap(map);
+        // iterate over inputs with flatMap to return mapped values as
+        // well as supporting filtering functionality. We could achieve
+        // the same results by simply passing in all inputs to our mapper
+        // in most cardinalities but when cardinality is M:1 we need to
+        // make sure that the first array of elements is passed as a single
+        // item and this approach achieves this.
+        // TODO: we should check that the approach below doesn't work for M:1 here
+        // as well
+        return (source as any).flatMap(map) as MapFnOutput<I, O, S, MapOR<C>, MapCard<C>>;
       } else {
-        return map(source as any);
+        // receive _all_ inputs provided as pass into ; this is just a single input unless the
+        // cardinality is
+        return map(source as any) as MapFnOutput<I, O, S, MapOR<C>, MapCard<C>>;
       }
     };
-
-    return fn as unknown as MapFn<I, O, IR, D, OR>;
   };
 
 /**
@@ -82,22 +98,20 @@ const setMapper = <
   >,
   D extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>
 >(
-  defaultValue: D,
-  config: U = {} as U
-): ConfiguredMap<TypeDefault<U, D>> => ({
+  config: U = { input: undefined, output: undefined, cardinality: undefined } as U,
+  defaultValue: D
+): ConfiguredMap<AsFinalizedConfig<U, D>> => ({
   map: (source) => {
+    // merge userland config with defaults for a cardinality
     const c = {
       ...defaultValue,
       ...config,
-    } as TypeDefault<U, D>;
+    } as unknown as AsFinalizedConfig<U, D>;
     return mapper(c)(source);
   },
-  input: (config?.input || defaultValue.input) as ToFinalizedConfig<U, D>["input"],
-  output: (config?.output || defaultValue.output) as ToFinalizedConfig<U, D>["output"],
-  cardinality: (config?.cardinality || defaultValue.cardinality) as ToFinalizedConfig<
-    U,
-    D
-  >["cardinality"],
+  input: config?.input || defaultValue.input,
+  output: config?.output || defaultValue.output,
+  cardinality: config?.cardinality || defaultValue.cardinality,
 });
 
 /**
@@ -111,8 +125,8 @@ const setMapper = <
  * }]);
  * ```
  */
-export const mapToFn = <I, O>(map: MapTo<I, O>) => {
-  return mapper(DEFAULT_ONE_TO_MANY_MAPPING)<I, O>(map);
+export const mapToFn: ConfiguredMap<DefaultOneToManyMapping>["map"] = (map) => {
+  return mapper(DEFAULT_ONE_TO_MANY_MAPPING)(map);
 };
 
 /**
@@ -121,22 +135,20 @@ export const mapToFn = <I, O>(map: MapTo<I, O>) => {
  */
 export const mapToDict: MapperApi = {
   config(config) {
-    const c = { DEFAULT_ONE_TO_MANY_MAPPING, ...config };
-    return c
-      ? setMapper(DEFAULT_ONE_TO_MANY_MAPPING, c) //
-      : setMapper(DEFAULT_MANY_TO_ONE_MAPPING);
+    const c = { ...DEFAULT_ONE_TO_MANY_MAPPING, ...config };
+    return setMapper(c, DEFAULT_ONE_TO_MANY_MAPPING);
   },
   oneToOne(config) {
-    const c = { DEFAULT_ONE_TO_MANY_MAPPING, ...config };
-    return c
-      ? setMapper(DEFAULT_ONE_TO_ONE_MAPPING, c) //
-      : setMapper(DEFAULT_ONE_TO_ONE_MAPPING);
+    const c = { ...DEFAULT_ONE_TO_ONE_MAPPING, ...config };
+    return setMapper(c, DEFAULT_ONE_TO_ONE_MAPPING);
   },
   manyToOne(config) {
-    const c = { DEFAULT_ONE_TO_MANY_MAPPING, ...config };
-    return c
-      ? setMapper(DEFAULT_MANY_TO_ONE_MAPPING, c) //
-      : setMapper(DEFAULT_MANY_TO_ONE_MAPPING);
+    const c = { ...DEFAULT_MANY_TO_ONE_MAPPING, ...config };
+    return setMapper(c, DEFAULT_MANY_TO_ONE_MAPPING);
+  },
+  oneToMany(config) {
+    const c = { ...DEFAULT_ONE_TO_MANY_MAPPING, ...config };
+    return setMapper(c, DEFAULT_ONE_TO_MANY_MAPPING);
   },
 };
 

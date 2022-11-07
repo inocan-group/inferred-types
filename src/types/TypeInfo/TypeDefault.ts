@@ -1,7 +1,6 @@
 import { IsObject } from "src/types/TypeInfo";
-import { IntersectingKeys } from "../dictionary";
 import { SimplifyObject } from "../SimplifyObject";
-import { Extends, IfExtends } from "./Extends";
+import { IfExtends } from "./Extends";
 import { IfOptionalLiteral } from "./IsLiteral";
 import { IfUndefined } from "./IsUndefined";
 
