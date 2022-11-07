@@ -252,7 +252,8 @@ export type MapOutput<
 /**
  * **MapTo<I, O>**
  *
- * A mapping function between an input type `I` and output type `O`.
+ * A mapping function between an input type `I` and output type `O`. Defaults to using
+ * the _default_ OneToMany mapping config.
  *
  * **Note:** this type is designed to guide the userland mapping; refer
  * to `MapFn` if you want the type output by the `mapFn()` utility.
@@ -260,7 +261,11 @@ export type MapOutput<
 export type MapTo<
   I,
   O,
-  C extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>
+  C extends FinalizedMapConfig<
+    OptRequired,
+    MapCardinalityIllustrated,
+    OptRequired
+  > = DefaultOneToManyMapping
 > = MapIR<C> extends "opt"
   ? (source?: MapInput<I, MapIR<C>, MapCard<C>>) => MapOutput<O, MapOR<C>, MapCard<C>>
   : (source: MapInput<I, MapIR<C>, MapCard<C>>) => MapOutput<O, MapOR<C>, MapCard<C>>;
