@@ -329,7 +329,7 @@ describe("mapTo() utility function", () => {
     o.map((item) => expect(item.title).toBe("i2"));
   });
 
-  it.only("1:M conversion with filtering and debugging", () => {
+  it("1:M conversion with filtering and debugging", () => {
     const m = mapTo
       .config({ debug: true })
       .map<I, O>((i) => (i.title === "i2" ? [{ title: i.title, count: i.products.length }] : []));
