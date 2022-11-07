@@ -49,6 +49,22 @@ export type DefaultOneToManyMapping = typeof DEFAULT_ONE_TO_MANY_MAPPING;
 export type DefaultOneToOneMapping = typeof DEFAULT_ONE_TO_ONE_MAPPING;
 export type DefaultManyToOneMapping = typeof DEFAULT_MANY_TO_ONE_MAPPING;
 
+const debugMsg = <C extends FinalizedMapConfig<any, any, any>>(
+  config: C,
+  source: any,
+  output: any
+) => {
+  if (config.debug) {
+    console.error(
+      `MapFn[${typeof config.output === "string" ? `${config.output}, ` : ""}${config.input}, ${
+        config.cardinality
+      }, ${config.output}] received:\n\n${JSON.stringify(source)}\n\nAnd produced: ${JSON.stringify(
+        output
+      )}\n\n`
+    );
+  }
+};
+
 /**
  * The single implementation for all mapping
  */
@@ -78,28 +94,14 @@ const mapper =
         // TODO: we should check that the approach below doesn't work for M:1 here
         // as well
         const output = (source as any).flatMap(map) as MapFnOutput<I, O, S, MapOR<C>, MapCard<C>>;
-        if (config.debug) {
-          console.error(
-            `MapFn[${config.input}, ${config.cardinality}, ${
-              config.output
-            }] received:\n\n${JSON.stringify(source)}\n\nAnd produced: ${JSON.stringify(
-              output
-            )}\n\n`
-          );
-        }
+        debugMsg(config, source, output);
 
         return output;
       } else {
         // receive _all_ inputs provided as pass into ; this is just a single input unless the
         // cardinality is
         const output = map(source as any) as MapFnOutput<I, O, S, MapOR<C>, MapCard<C>>;
-        if (config.debug) {
-          console.error(
-            `MapFn[${config.input}, ${config.cardinality}, ${
-              config.output
-            }] received:\n\n${JSON.stringify(source)}\nAnd produced: ${JSON.stringify(output)}\n`
-          );
-        }
+        debugMsg(config, source, output);
         return output;
       }
     };

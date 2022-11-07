@@ -69,9 +69,10 @@ type MapCardinalityConfig<
   output?: OR;
   /**
    * Whether calls to the final `MapFn` will be logged to stderr
-   * for debugging purposes. Defaults to false.
+   * for debugging purposes. Defaults to false; if you set to a string
+   * value than this will be echoed out with stderr.
    */
-  debug?: boolean;
+  debug?: boolean | string;
 };
 
 /**
