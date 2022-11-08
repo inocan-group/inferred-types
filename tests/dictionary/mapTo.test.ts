@@ -262,6 +262,12 @@ describe("mapTo() utility function", () => {
     expect(m1.output).toBe("req");
     expect(m1.cardinality).toBe("I -> O");
     expect(m1(i)).toEqual(i);
+
+    type cases = [
+      Expect<Equal<typeof m1["inputType"], I>>, //
+      Expect<Equal<typeof m1["outputType"], I>> //
+    ];
+    const cases: cases = [true, true];
   });
 
   it("M:1 conversion", () => {
@@ -309,9 +315,13 @@ describe("mapTo() utility function", () => {
       .config({ output: "req", cardinality: "I -> O[]" })
       .map<I, O>((i) => [{ title: i.title, count: i.products.length }]);
     const o = m([i, i2]);
+    type RT = ReturnType<typeof m>;
 
     expect(o.length).toBe(2);
     o.map((item) => expect("title" in item).toBeTruthy());
+
+    type cases = [Expect<Equal<RT, O[] | [O, ...O[]]>>];
+    const cases: cases = [true];
   });
 
   it("1:M conversion with filtering", () => {

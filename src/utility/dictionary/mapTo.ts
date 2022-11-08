@@ -116,6 +116,8 @@ const mapper =
       output: config.output,
       cardinality: config.cardinality,
       debug: config.debug,
+      inputType: {} as I,
+      outputType: {} as O,
     });
   };
 
