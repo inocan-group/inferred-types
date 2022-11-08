@@ -382,4 +382,6 @@ export type Mapper<
   output: MapOR<C>;
   cardinality: MapCard<C>;
   debug: boolean | string;
+  inputType: I;
+  outputType: O;
 } & MapFn<I, O, C>;
