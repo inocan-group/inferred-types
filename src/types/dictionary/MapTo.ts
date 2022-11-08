@@ -389,3 +389,28 @@ export type Mapper<
   inputType: I;
   outputType: O;
 } & MapFn<I, O, C>;
+
+/**
+ * **MapInputFrom**
+ *
+ * Type utility which extracts the `I` type from a fully configured `Mapper`
+ */
+export type MapInputFrom<T extends Mapper> = T extends Mapper<infer I> ? I : never;
+
+/**
+ * **MapOutputFrom**
+ *
+ * Type utility which extracts the output [`O`] type from a fully configured `Mapper`
+ */
+export type MapOutputFrom<T extends Mapper> = T extends Mapper<any, infer O> ? O : never;
+
+/**
+ * **MapCardinalityFrom**
+ *
+ * Type utility which extracts _cardinality_ of a `Mapper`'s inputs to outputs
+ */
+export type MapCardinalityFrom<T extends Mapper> = T extends Mapper<any, any, infer C>
+  ? C extends FinalizedMapConfig<OptRequired, infer Cardinality, OptRequired>
+    ? Cardinality
+    : never
+  : never;

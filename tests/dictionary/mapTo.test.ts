@@ -7,6 +7,8 @@ import {
   MapConfig,
   ConfiguredMap,
   Mapper,
+  MapInputFrom,
+  MapCardinalityFrom,
 } from "src/types/dictionary";
 import { describe, expect, it } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
@@ -257,6 +259,8 @@ describe("mapTo() utility function", () => {
   it("Mapper<I,O,C>", () => {
     const m0 = mapTo.oneToOne();
     const m1 = m0.map<I, I>((i) => i);
+    type M1 = MapInputFrom<typeof m1>;
+    type MC = MapCardinalityFrom<typeof m1>;
 
     expect(m1.input).toBe("req");
     expect(m1.output).toBe("req");
@@ -265,9 +269,11 @@ describe("mapTo() utility function", () => {
 
     type cases = [
       Expect<Equal<typeof m1["inputType"], I>>, //
-      Expect<Equal<typeof m1["outputType"], I>> //
+      Expect<Equal<typeof m1["outputType"], I>>, //
+      Expect<Equal<M1, I>>, //
+      Expect<Equal<MC, "I -> O">> //
     ];
-    const cases: cases = [true, true];
+    const cases: cases = [true, true, true, true];
   });
 
   it("M:1 conversion", () => {
