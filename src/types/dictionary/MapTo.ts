@@ -374,9 +374,13 @@ export type MapFn<
  * ```
  */
 export type Mapper<
-  I,
-  O,
-  C extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>
+  I = unknown,
+  O = unknown,
+  C extends FinalizedMapConfig<
+    OptRequired,
+    MapCardinalityIllustrated,
+    OptRequired
+  > = FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>
 > = {
   input: MapIR<C>;
   output: MapOR<C>;
