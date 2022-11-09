@@ -388,6 +388,13 @@ export type Mapper<
   debug: boolean | string;
   inputType: I;
   outputType: O;
+  /**
+   * Provides the _type_ information for mapper function.
+   *
+   * Note: _this is just a **type**_ not the actual function which positioned
+   * at the root of the Mapper type
+   */
+  fnSignature: MapFn<I, O, C>;
 } & MapFn<I, O, C>;
 
 /**
