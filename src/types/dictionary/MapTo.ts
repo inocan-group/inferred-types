@@ -372,6 +372,11 @@ export type MapFn<
  * const mapped = m(inputs);
  * const mappedOver = inputs.map(m);
  * ```
+ *
+ * Note: the root of a `Mapper` is the mapper function but
+ * this is combined with a dictionary of settings and types
+ * which you can use. For instance, look at the `fnSignature`
+ * property to get the _type_ signature of the map function.
  */
 export type Mapper<
   I = unknown,
