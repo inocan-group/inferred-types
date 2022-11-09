@@ -118,6 +118,7 @@ const mapper =
       debug: config.debug,
       inputType: {} as I,
       outputType: {} as O,
+      fnSignature: null as unknown as MapFn<I, O, C>,
     });
   };
 
