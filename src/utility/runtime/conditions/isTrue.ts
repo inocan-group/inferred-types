@@ -1,4 +1,4 @@
-import { Narrowable } from "src/types/Narrowable";
+import { Narrowable } from "src/types";
 import type { IsBoolean } from "./isBoolean";
 
 /**
@@ -27,7 +27,7 @@ export type IsTrue<T> = IsBoolean<T> extends true
 /**
  * Run-time and type checking of whether a variable is `true`.
  */
-export function isTrue<T>(i: T) {
+export function isTrue<T extends Narrowable>(i: T) {
   return (typeof i === "boolean" && i === true) as IsTrue<T>;
 }
 

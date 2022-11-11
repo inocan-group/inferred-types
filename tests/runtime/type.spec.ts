@@ -130,8 +130,8 @@ describe("testing type() utility and some pre-made conditions", () => {
 
     expect(t.name).toBe("true");
 
-    const trueIsTrue = t.is(true);
-    const falseNotTrue = t.is(false);
+    const trueIsTrue = t.is(true as true);
+    const falseNotTrue = t.is(false as false);
     const nadaNotTrue = t.is("nada");
     const b = true as boolean;
     const booleanUnknown = t.is(b);

@@ -1,6 +1,8 @@
+import { Narrowable } from "src/types";
+
 export type IsNull<T> = T extends null ? true : false;
 
-export function isNull<T>(i: T) {
+export function isNull<T extends Narrowable>(i: T) {
   return (i === null) as T extends null ? true : false;
 }
 
@@ -15,6 +17,6 @@ export function isNull<T>(i: T) {
  * @param ifVal the value (strongly typed) returned if val is `null`
  * @param elseVal the value (strongly typed) returned if val is NOT `null`
  */
-export function ifNull<T, IF, ELSE>(val: T, ifVal: IF, elseVal: ELSE) {
+export function ifNull<T extends Narrowable, IF, ELSE>(val: T, ifVal: IF, elseVal: ELSE) {
   return (isNull(val) ? ifVal : elseVal) as IsNull<T> extends true ? IF : ELSE;
 }
