@@ -1,3 +1,5 @@
+import { Narrowable } from "src/types";
+
 export type IsString<T> = T extends string ? true : false;
 
 export function isString<T>(i: T) {
@@ -15,6 +17,10 @@ export function isString<T>(i: T) {
  * @param ifVal the value (strongly typed) returned if val is _string_
  * @param elseVal the value (strongly typed) returned if val is NOT a _string
  */
-export function ifString<T, IF, ELSE>(val: T, ifVal: IF, elseVal: ELSE) {
+export function ifString<T extends Narrowable, IF extends Narrowable, ELSE extends Narrowable>(
+  val: T,
+  ifVal: IF,
+  elseVal: ELSE
+) {
   return (isString(val) ? ifVal : elseVal) as IsString<T> extends true ? IF : ELSE;
 }

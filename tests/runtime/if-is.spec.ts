@@ -1,7 +1,7 @@
 import { describe, it } from "vitest";
 
 import type { Expect, Equal } from "@type-challenges/utils";
-import { ifBoolean, ifNumber, ifString, ifTrue } from "src/utility";
+import { ifBoolean, ifNumber, ifString, ifTrue, ifUndefined } from "src/utility";
 
 describe("runtime if/is", () => {
   it("ifString(v,i,e)", () => {
@@ -41,6 +41,19 @@ describe("runtime if/is", () => {
     const t = ifTrue(true as true, 42, false);
     const f = ifTrue(false, "yikes", 42);
     const f2 = ifTrue(true as boolean, "yikes", 42);
+
+    type cases = [
+      Expect<Equal<typeof t, 42>>, //
+      Expect<Equal<typeof f, 42>>, //
+      Expect<Equal<typeof f2, 42>> //
+    ];
+    const cases: cases = [true, true, true];
+  });
+
+  it("ifUndefined(v,i,e)", () => {
+    const t = ifUndefined(undefined, 42, false);
+    const f = ifUndefined(false, "yikes", 42);
+    const f2 = ifUndefined("", "yikes", 42);
 
     type cases = [
       Expect<Equal<typeof t, 42>>, //
