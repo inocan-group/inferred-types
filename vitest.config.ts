@@ -6,8 +6,8 @@ import { resolve } from "pathe";
 export default defineConfig({
   resolve: {
     alias: {
-      src: resolve(__dirname, "./src"),
-      test: resolve(__dirname, "./test"),
+      src: resolve(__dirname, "./src/"),
+      test: resolve(__dirname, "./test/"),
     },
   },
   test: {
