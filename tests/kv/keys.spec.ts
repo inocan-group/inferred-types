@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 
 import { Keys } from "src/types/Keys";
 import type { Expect, Equal } from "@type-challenges/utils";
-import { defineType, keys } from "src/utility";
+import { defineType, keys } from "src/runtime";
 
 describe("Keys<T>", () => {
   it("Keys<T> is shorthand for keyof T", () => {

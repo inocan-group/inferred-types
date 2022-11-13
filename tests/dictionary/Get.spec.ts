@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 
 import { Equal, Expect } from "@type-challenges/utils";
 import { Get } from "src/types";
-import { defineType } from "src/utility";
+import { defineType } from "src/runtime";
 
 describe("Get<T, K> type utility", () => {
   it("Get<T,K> works with literals and wide types", () => {

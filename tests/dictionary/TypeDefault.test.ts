@@ -1,7 +1,7 @@
 import { describe, it } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
-import { TypeDefault } from "src/types/TypeInfo/TypeDefault";
-import { literal } from "src/utility/literals";
+import { TypeDefault } from "src/types/type-checks/TypeDefault";
+import { literal } from "src/runtime/literals";
 
 describe("TypeDefault<T,D>", () => {
   it("T/D as dictionary", () => {

@@ -1,4 +1,4 @@
-import { IfStringLiteral } from "src/types/TypeInfo";
+import { IfStringLiteral } from "src/types/type-checks";
 
 /**
  * **StartsWith**

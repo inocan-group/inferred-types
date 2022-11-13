@@ -41,7 +41,7 @@ export * from "./literal-unions/index";
 export * from "./string-literals/index";
 export * from "./tuples/index";
 export * from "./type-conversion/index";
-export * from "./TypeInfo/index";
+export * from "./type-checks/index";
 
 // #endregion auto-indexed files
 

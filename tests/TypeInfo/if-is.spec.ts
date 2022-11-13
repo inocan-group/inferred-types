@@ -1,7 +1,7 @@
 import { describe, it } from "vitest";
 
 import type { Expect, Equal } from "@type-challenges/utils";
-import { ifBoolean, ifNumber, ifString, ifTrue, ifUndefined } from "src/utility/runtime/conditions";
+import { ifBoolean, ifNumber, ifString, ifTrue, ifUndefined } from "src/runtime/type-checks";
 
 describe("runtime if/is", () => {
   it("ifString(v,i,e)", () => {

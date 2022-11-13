@@ -4,9 +4,9 @@ import {
   DefaultManyToOneMapping,
   DefaultOneToManyMapping,
   DefaultOneToOneMapping,
-} from "src/utility/dictionary/mapTo";
+} from "src/runtime/dictionary/mapTo";
 import { EnumValues } from "../EnumValues";
-import { TypeDefault } from "../TypeInfo/TypeDefault";
+import { TypeDefault } from "../type-checks/TypeDefault";
 
 /**
  * Expresses relationship between inputs/outputs:

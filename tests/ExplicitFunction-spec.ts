@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { ExplicitFunction } from "../src/utility";
+import { ExplicitFunction } from "../src/runtime";
 import type { Expect, Equal } from "@type-challenges/utils";
 
 describe("ExplicitFunction()", () => {

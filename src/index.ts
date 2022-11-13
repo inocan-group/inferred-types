@@ -8,7 +8,7 @@
 export * from "./Mutation/index";
 export * from "./shared/index";
 export * from "./types/index";
-export * from "./utility/index";
+export * from "./runtime/index";
 
 // #endregion auto-indexed files
 
