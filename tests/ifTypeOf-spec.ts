@@ -2,7 +2,8 @@ import { describe, it, expect } from "vitest";
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Expect, Equal } from "@type-challenges/utils";
-import { ifTypeOf, defineType, literal } from "../src/runtime";
+import { defineType, literal } from "../src/runtime";
+import { ifTypeOf } from "src/runtime/type-checks/ifTypeOf";
 
 describe("ifTypeOf() utility", () => {
   it("base validation with extends() returns true/false", () => {
@@ -142,7 +143,7 @@ describe("ifTypeOf() utility", () => {
     // literal types and broader types; this is not hard to express with types
     // but it makes our approach much more awkward and the API much more cumbersome
 
-    // here we see a type that represents this challange but how it fails with
+    // here we see a type that represents this challenge but how it fails with
     // with the runtime
 
     const literal = { foo: 1 } as const;

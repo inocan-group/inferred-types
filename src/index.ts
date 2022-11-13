@@ -5,8 +5,6 @@
 // hash-code: 5ddbbf55
 
 // directory exports
-export * from "./Mutation/index";
-export * from "./shared/index";
 export * from "./types/index";
 export * from "./runtime/index";
 
