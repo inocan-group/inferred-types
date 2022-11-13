@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 
 import type { Expect, Equal } from "@type-challenges/utils";
 import { FunctionType } from "src/types";
-import { type, createFnWithProps, isFunction, isObject } from "src/utility";
+import { type, createFnWithProps, isFunction, isObject } from "src/runtime";
 
 describe("testing type() utility and some pre-made conditions", () => {
   it("isFunction()", () => {

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 // import type { Equal, Expect } from "@type-challenges/utils";
-import { and, filter } from "src/utility";
+import { and, filter } from "src/runtime";
 
 describe("boolean logic", () => {
   it("AND operation", () => {

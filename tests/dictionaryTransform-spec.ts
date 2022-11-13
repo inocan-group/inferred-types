@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { dictionaryTransform, ExplicitFunction } from "../src/utility";
+import { dictionaryTransform, ExplicitFunction } from "../src/runtime";
 import { Expect, Equal, NotEqual, ExpectExtends, ExpectFalse } from "@type-challenges/utils";
 import { ToFluent, Transformer } from "../src/types";
 

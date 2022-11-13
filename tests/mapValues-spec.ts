@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { mapValues, literal } from "../src/utility";
+import { mapValues, literal } from "../src/runtime";
 import type { Expect, Equal, ExpectFalse } from "@type-challenges/utils";
 
 describe("mapValues() utility", () => {

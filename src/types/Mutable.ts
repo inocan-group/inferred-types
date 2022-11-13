@@ -1,4 +1,4 @@
-import { IsObject } from "./TypeInfo";
+import { IsObject } from "./type-checks";
 
 /**
  * Makes a readonly structure mutable

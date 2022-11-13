@@ -1,4 +1,4 @@
-import { IsObject } from "src/types/TypeInfo";
+import { IsObject } from "src/types/type-checks";
 import { SimplifyObject } from "../SimplifyObject";
 import { IfExtends } from "./Extends";
 import { IfOptionalLiteral } from "./IsLiteral";

@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { merge } from "src/utility/dictionary/merge";
+import { merge } from "src/runtime/dictionary/merge";
 import { describe, expect, it } from "vitest";
 
 describe("merge() utility", () => {

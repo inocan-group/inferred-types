@@ -1,4 +1,4 @@
-import { filter } from "src/utility";
+import { filter } from "src/runtime";
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it, expect } from "vitest";
 

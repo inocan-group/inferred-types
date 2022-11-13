@@ -14,7 +14,7 @@ import {
   isObject,
   isArray,
   ObjectType,
-} from "./conditions";
+} from "../type-checks";
 // import { isLiteral } from "./conditions/isLiteral";
 
 export type Type<T extends any, V extends Function> = {
