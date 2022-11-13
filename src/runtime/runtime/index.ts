@@ -5,7 +5,6 @@
 
 // file exports
 export * from "./condition";
-export * from "./ifTypeOf";
 export * from "./type";
 export * from "./withValue";
 // directory exports

@@ -10,12 +10,10 @@ export * from "./keys";
 export * from "./ruleset";
 // directory exports
 export * from "./api/index";
-export * from "./boolean-logic/index";
+export * from "./combinators/index";
 export * from "./dictionary/index";
-export * from "./errors/index";
 export * from "./lists/index";
 export * from "./literals/index";
-export * from "./modelling/index";
 export * from "./runtime/index";
 export * from "./state/index";
 
