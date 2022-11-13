@@ -7,3 +7,4 @@ export * from "./IsLiteral";
 export * from "./Extends";
 export * from "./TypeDefault";
 export * from "./IsObject";
+export * from "./StartsWith";

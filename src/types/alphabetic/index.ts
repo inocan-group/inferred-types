@@ -19,6 +19,7 @@ export * from "./PascalCase";
 export * from "./Pluralize";
 export * from "./SnakeCase";
 export * from "./alpha-characters";
+export * from "./Url";
 
 // #endregion auto-indexed files
 

@@ -65,9 +65,17 @@ export type NumericString = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" 
  */
 export type AlphaNumeric = Alpha | NumericString;
 
+/**
+ * Allows alphanumeric characters and some special characters typically allowed
+ * in variable names.
+ */
+export type VariableName = AlphaNumeric | "_" | "." | "-";
+
 export type SpecialCharacters = "@" | "~" | "^" | "#" | "&" | "*";
 
 /**
  * Non-alphabetic characters including whitespace, string numerals, and
  */
 export type NonAlpha = Whitespace | Punctuation | NumericString | Bracket | SpecialCharacters;
+
+export type Ipv4 = `${number}.${number}.${number}.${number}`;
