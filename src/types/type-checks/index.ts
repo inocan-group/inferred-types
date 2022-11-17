@@ -6,5 +6,6 @@ export * from "./IsStringLiteral";
 export * from "./IsLiteral";
 export * from "./Extends";
 export * from "./TypeDefault";
-export * from "./IsObject";
+export * from "./object";
 export * from "./StartsWith";
+export * from "./EndsWith";

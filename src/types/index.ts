@@ -30,6 +30,7 @@ export * from "./maybe";
 export * from "./ruleset-types";
 export * from "./runtime";
 export * from "./type-testing";
+export * from "./Wrapped";
 // directory exports
 export * from "./alphabetic/index";
 export * from "./dictionary/index";

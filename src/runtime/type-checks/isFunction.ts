@@ -14,6 +14,6 @@ export type IsFunction<T> = T extends FunctionType ? true : false;
  * encountered but if that function also has object types defined then the type will be a big
  * and ugly union type. This function will give you a proper boolean value in both cases.
  */
-export function isFunction<T extends unknown>(input: T): IsFunction<T> {
-  return (typeof input === "function") as IsFunction<T>;
+export function isFunction(input: unknown): input is FunctionType {
+  return typeof input === "function";
 }

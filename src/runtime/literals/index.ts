@@ -6,6 +6,7 @@
 // file exports
 export * from "./ExplicitFunction";
 export * from "./arrayToObject";
+export * from "./box";
 export * from "./defineType";
 export * from "./identity";
 export * from "./literal";
