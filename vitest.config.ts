@@ -12,9 +12,6 @@ export default defineConfig({
   },
   test: {
     dir: "tests",
-    api: {
-      host: "0.0.0.0",
-    },
   },
   plugins: [],
 });
