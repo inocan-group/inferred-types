@@ -1,4 +1,3 @@
-import { IsFalse } from "src/runtime/type-checks";
 import { IfStringLiteral } from "src/types/type-checks";
 import { Narrowable } from "../Narrowable";
 /**

@@ -33,31 +33,31 @@
   "devDependencies": {
     "@type-challenges/utils": "~0.1.1",
     "@types/node": "^16.18.3",
-    "@typescript-eslint/eslint-plugin": "^5.43.0",
-    "@typescript-eslint/parser": "^5.43.0",
-    "@vitest/ui": "^0.25.2",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "@vitest/ui": "^0.25.3",
     "bumpp": "^8.2.1",
     "common-types": "^1.33.2",
     "cross-env": "^7.0.3",
-    "dd": "^0.25.3",
+    "dd": "^0.25.4",
     "dotenv": "^16.0.3",
-    "eslint": "^8.27.0",
+    "eslint": "^8.28.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.1.1",
     "npm-run-all": "~4.1.5",
     "pathe": "^1.0.0",
-    "prettier": "~2.7.1",
+    "prettier": "~2.8.0",
     "rimraf": "^3.0.2",
     "sharp": "^0.31.2",
     "tsup": "^6.5.0",
     "typescript": "^4.9.3",
     "vite": "^3.2.4",
-    "vitest": "^0.25.2"
+    "vitest": "^0.25.3"
   },
   "dependencies": {
-    "brilliant-errors": "^0.6.0"
+    "brilliant-errors": "^0.6.1"
   },
   "pnpm": {
     "overrides": {
