@@ -4,6 +4,7 @@ export * from "./IsNumericLiteral";
 export * from "./IsScalar";
 export * from "./IsStringLiteral";
 export * from "./IsLiteral";
+export * from "./IsUndefined";
 export * from "./Extends";
 export * from "./TypeDefault";
 export * from "./object";
