@@ -8,9 +8,9 @@ import { Narrowable } from "../Narrowable";
 export type IsUndefined<T extends Narrowable> = T extends undefined ? true : false;
 
 /**
- * **IfUndefined**
+ * **IfUndefined**`<T, IF, ELSE>`
  *
- * Branch utility which returns `IF` type when `T` is an _undefined_ value
- * otherwise returns `ELSE` type
+ * Type utility which returns `IF` type when `T` is an _undefined_
+ * otherwise returns `ELSE` type.
  */
 export type IfUndefined<T, IF, ELSE> = IsUndefined<T> extends true ? IF : ELSE;
