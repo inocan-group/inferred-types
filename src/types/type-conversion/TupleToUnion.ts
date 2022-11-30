@@ -1,5 +1,3 @@
-import { Mutable } from "../Mutable";
-
 /**
  * Converts a Tuple type into a _union_ of the tuple elements
  * ```ts
@@ -8,4 +6,4 @@ import { Mutable } from "../Mutable";
  * type U = TupleToUnion<typeof arr>;
  * ```
  */
-export type TupleToUnion<T> = Mutable<T> extends any[] ? Mutable<T>[number] : never;
+export type TupleToUnion<T> = T extends readonly any[] ? T[number] : never;

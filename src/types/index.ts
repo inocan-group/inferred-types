@@ -8,7 +8,7 @@ export * from "./Api";
 export * from "./Constructor";
 export * from "./EnumValues";
 export * from "./ExpandRecursively";
-export * from "./First";
+export * from "./lists/First";
 export * from "./FunctionType";
 export * from "./If";
 export * from "./Include";
@@ -30,7 +30,6 @@ export * from "./maybe";
 export * from "./ruleset-types";
 export * from "./runtime";
 export * from "./type-testing";
-export * from "./Wrapped";
 // directory exports
 export * from "./alphabetic/index";
 export * from "./dictionary/index";

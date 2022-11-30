@@ -1,9 +1,17 @@
 import { describe, expect, it } from "vitest";
 
 import type { Expect, Equal } from "@type-challenges/utils";
-import { ifBoolean, ifNumber, ifString, ifTrue, ifUndefined } from "src/runtime/type-checks";
-import { EndsWith, IfStartsWith, StartsWith } from "src/types";
-import { ifStartsWith, IfStartsWithFn, startsWith } from "src/runtime/type-checks/startsWith";
+import {
+  ifBoolean,
+  ifNumber,
+  ifString,
+  ifTrue,
+  ifUndefined,
+  isTrue,
+} from "src/runtime/type-checks";
+import { EndsWith, StartsWith } from "src/types";
+import { ifStartsWith, startsWith } from "src/runtime/type-checks/startsWith";
+import { box } from "src/runtime/literals";
 
 describe("runtime if/is", () => {
   it("ifString(v,i,e)", () => {
@@ -50,6 +58,61 @@ describe("runtime if/is", () => {
       Expect<Equal<typeof f2, 42>> //
     ];
     const cases: cases = [true, true, true];
+  });
+
+  it("ifTrue(v,i,e) with boxed functions", () => {
+    const f1 = box(<T extends string>(input: T) => `Hello ${input}` as const);
+    const f2 = box(<T extends string>(input: T) => `Get out ${input}!` as const);
+    const t = <T extends string, B extends boolean>(i: T, nice: B) => {
+      return isTrue(nice) ? f1.unbox()(i) : f2.unbox()(i);
+    };
+    const t2 = <T extends string, B extends boolean>(i: T, nice: B) =>
+      ifTrue(nice, f1.unbox()(i), f2.unbox()(i));
+
+    // both approaches produce correct result
+    const r1 = t("Joe", true);
+    const r2 = t2("Joe", true);
+    expect(r1).toBe("Hello Joe");
+    expect(r2).toBe("Hello Joe");
+
+    // only the "ifTrue" approach resolves fully at design time
+    type R1 = typeof r1;
+    type R2 = typeof r2;
+
+    type cases = [
+      // still get union type with `isTrue` conditional
+      Expect<Equal<R1, "Hello Joe" | "Get out Joe!">>,
+      // but encapsulating both outcomes in `ifTrue` resolves the union
+      Expect<Equal<R2, "Hello Joe">>
+    ];
+    const cases: cases = [true, true];
+  });
+
+  it("ifTrue(v,i,e) with string literal functions", () => {
+    const f1 = <T extends string>(input: T) => `Hello ${input}` as const;
+    const f2 = <T extends string>(input: T) => `Get out ${input}!` as const;
+    const t = <T extends string, B extends boolean>(i: T, nice: B) => {
+      return isTrue(nice) ? f1(i) : f2(i);
+    };
+    const t2 = <T extends string, B extends boolean>(i: T, nice: B) => ifTrue(nice, f1(i), f2(i));
+
+    // both approaches produce correct result
+    const r1 = t("Joe", true);
+    const r2 = t2("Joe", true);
+    expect(r1).toBe("Hello Joe");
+    expect(r2).toBe("Hello Joe");
+
+    // only the "ifTrue" approach resolves fully at design time
+    type R1 = typeof r1;
+    type R2 = typeof r2;
+
+    type cases = [
+      // still get union type with `isTrue` conditional
+      Expect<Equal<R1, "Hello Joe" | "Get out Joe!">>,
+      // but encapsulating both outcomes in `ifTrue` resolves the union
+      Expect<Equal<R2, "Hello Joe">>
+    ];
+    const cases: cases = [true, true];
   });
 
   it("ifUndefined(v,i,e)", () => {
@@ -118,32 +181,38 @@ describe("runtime if/is", () => {
     const cases: cases = [true, true];
   });
 
-  it("ifStartsWith(u, cb)(v)", () => {
-    const fooStart = ifStartsWith(
+  it("ifStartsWith(start, isTrue, isFalse)(v)", () => {
+    const noSir = <T extends string>(i: T) => `no sir didn't like it ${i}` as const;
+    const startWithFoo = ifStartsWith(
+      // condition
       "foo",
+      // inline
       (i) => `welcome ${i}` as const,
-      (i) => `no sir didn't like it ${i}` as const
+      // external
+      noSir
     );
-    const t = fooStart("foobar");
+    const t = startWithFoo("foobar");
     type T = typeof t;
-    const f = fooStart("nope");
+    const f = startWithFoo("nope");
     type F = typeof f;
 
-    type FS = typeof fooStart;
+    type FS = typeof startWithFoo;
     type RFS = ReturnType<FS>;
 
     // runtime
     expect(t).toBe("welcome foobar");
     expect(f).toBe("no sir didn't like it nope");
 
+    // TODO: get the design time to be more literal
+
     type cases = [
-      Expect<Equal<T, "foobar">>,
+      Expect<Equal<T, `welcome ${string}`>>,
       Expect<Equal<F, `no sir didn't like it ${string}`>>,
       Expect<
         Equal<
           //
           RFS,
-          `welcome foo${string}` | `no sir didn't like it ${string}`
+          `welcome ${string}` | `no sir didn't like it ${string}`
         >
       >
     ];

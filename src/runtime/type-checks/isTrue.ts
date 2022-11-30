@@ -42,6 +42,6 @@ export function isTrue<T extends Narrowable>(i: T) {
  * @param ifVal the value (strongly typed) returned if val is _true_ value
  * @param elseVal the value (strongly typed) returned if val is NOT a _true_ value
  */
-export function ifTrue<T, IF, ELSE>(val: T, ifVal: IF, elseVal: ELSE) {
+export function ifTrue<T extends Narrowable, IF, ELSE>(val: T, ifVal: IF, elseVal: ELSE) {
   return (isTrue(val) ? ifVal : elseVal) as IsTrue<T> extends true ? IF : ELSE;
 }

@@ -1,6 +1,8 @@
 import { IfStartsWith, StartsWith } from "src/types/type-checks";
 import { IfUndefined } from "src/types/type-checks/IsUndefined";
+import { createFnWithProps } from "../createFnWithProps";
 import { box, Box } from "../literals";
+import { ifTrue } from "./isTrue";
 
 /**
  * **startsWith**
@@ -12,8 +14,14 @@ import { box, Box } from "../literals";
  * ```
  */
 export const startsWith =
-  <S extends string>(start: S) =>
-  <T extends string>(input: T): StartsWith<T, S> => {
+  <S extends string>(
+    /** The starting string you will test for */
+    start: S
+  ) =>
+  <T extends string>(
+    /** The text being tested */
+    input: T
+  ): StartsWith<T, S> => {
     return input.startsWith(start) as StartsWith<T, S>;
   };
 
@@ -40,21 +48,26 @@ export type IfStartsWith__Fn<
   IfUndefined<
     TElse, //
     undefined,
-    ReturnType<Exclude<TElse, undefined>>
+    Exclude<TElse, undefined>
   >
 >;
 
-export type IfStartsWith__Builder = <
-  TStartsWith extends string,
-  TIf extends <T extends string>(i: `${TStartsWith}${T}`) => any,
-  TElse extends <T extends string>(i: T) => any
->(
-  /** the string literal _start value_ which a string must begin with */
-  start: TStartsWith,
-  /** a mutation function when a value _does_ start with `TStartsWith` */
-  mutIf: TIf,
-  mutElse?: TElse
-) => IfStartsWith__Fn<TStartsWith, Box<TIf>, Box<TElse>>;
+export type NarrowFn<N extends string> = <F extends <T extends string>(input: T) => any>(
+  fn: F
+) => (input: N) => Box<F>["unbox"];
+
+export const stringLiteralFn = <F extends <T extends string>(input: T) => any>(fn: F) => {
+  const b = box(fn);
+  const api = {
+    narrow<N extends string>() {
+      return (input: N) => b.unbox()(input);
+    },
+  };
+
+  return createFnWithProps(fn, api);
+};
+
+export type StringLiteralFn<S extends string = string> = <T extends S>(input: T) => any;
 
 /**
  * **ifStartsWith**
@@ -70,22 +83,27 @@ export type IfStartsWith__Builder = <
  * // type: `foobar is a foo`
  * const outcome = mutate("foobar");
  * ```
+ *
+ * Where the variable `i` will _extend_ a string and function which this utility
+ * returns is able to
  */
-export const ifStartsWith: IfStartsWith__Builder = (
-  /** the string literal _start value_ which a string must begin with */
-  start,
-  /** a mutation function when a value _does_ start with `TStartsWith` */
-  mutIf,
-  mutElse
-) => {
-  return (input) => {
-    const bIf = box(mutIf);
-    const bElse = mutElse ? box(mutElse) : undefined;
-
-    if (startsWith(start)(input)) {
-      return bIf.unbox()(input);
-    } else {
-      return bElse ? bElse.unbox()(input) : undefined;
-    }
-  };
-};
+export const ifStartsWith =
+  <
+    TStartsWith extends string,
+    TIf extends <T extends string>(input: T) => any,
+    TElse extends <T extends string>(input: T) => any
+  >(
+    /** the string literal _start value_ which a string must begin with */
+    start: TStartsWith,
+    /** a mutation function when a value _does_ start with `TStartsWith` */
+    isTrue: TIf,
+    /** an optional mutation function */
+    isFalse: TElse
+  ) =>
+  <I extends string>(input: I) =>
+    ifTrue(
+      // condition
+      startsWith(start)(input),
+      isTrue(input),
+      isFalse(input)
+    ) as IfStartsWith<I, TStartsWith, ReturnType<TIf>, ReturnType<TElse>>;

@@ -10,6 +10,7 @@ export * from "./box";
 export * from "./defineType";
 export * from "./identity";
 export * from "./literal";
+export * from "./Suggest";
 
 // #endregion auto-indexed files
 
