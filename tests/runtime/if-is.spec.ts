@@ -11,7 +11,7 @@ import {
   ifUndefined,
   isTrue,
 } from "src/runtime/type-checks";
-import { EndsWith, Or, StartsWith } from "src/types";
+import { EndsWith, Extends, Or, StartsWith } from "src/types";
 import { ifStartsWith, startsWith } from "src/runtime/type-checks/startsWith";
 import { box } from "src/runtime/literals";
 import { or } from "src/runtime";
@@ -154,14 +154,13 @@ describe("runtime if/is", () => {
   });
 
   it("Extends<T,EXTENDS> with single clause", () => {
-    //
-  });
-  it("Extends<T,EXTENDS> with multi clause", () => {
-    type Prime = [1, 3, 7];
-    type N1 = 1;
-    type N2 = 2;
-
-    type cases = [tt];
+    type cases = [
+      //
+      Expect<Equal<Extends<1, number>, true>>,
+      Expect<Equal<Extends<2, string>, false>>,
+      Expect<Equal<Extends<2, 2 | 3>, true>>
+    ];
+    const cases: cases = [true, true, true];
   });
 
   it("IfExtends<T,EXTENDS,IF,ELSE", () => {
