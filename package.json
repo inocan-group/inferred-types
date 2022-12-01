@@ -22,11 +22,11 @@
     "watch:bundle": "npx tsup src/index.ts --dts --format=esm,cjs --watch",
     "clean": "rimraf dist/**/*",
     "lint": "eslint src/**/*.ts --fix && tsc --noEmit ",
-    "lint:full": "eslint src/**/*.ts && eslint test/**/*.ts && tsc --noEmit",
+    "lint:full": "eslint src/**/*.ts && eslint tests/**/*.ts && tsc --noEmit",
     "test": "vitest",
     "test:ci": "vitest run",
     "audit:fix": "pnpm audit --fix",
-    "release": "run-s lint release:latest test:ci audit:fix release:bump",
+    "release": "run-s lint:full release:latest test:ci audit:fix release:bump",
     "release:latest": "pnpm install",
     "release:bump": "bumpp"
   },

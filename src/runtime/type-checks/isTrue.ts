@@ -20,17 +20,13 @@ export function isTrue<T extends Narrowable>(i: T) {
  * @param elseVal the value (strongly typed) returned if val is NOT a _true_ value
  *
  * Note: at runtime there's no way to distinguish if the value was widely or loosely
- * typed so unlike the type utility there is no "MAYBE" state
+ * typed so unlike the type utility there is no "MAYBE" state but if a wide type if
+ * encountered the _type_ will the union of `IF` and `ELSE`.
  */
 export function ifTrue<T extends Narrowable, IF extends Narrowable, ELSE extends Narrowable>(
   val: T,
   ifVal: IF,
   elseVal: ELSE
 ) {
-  return (isTrue(val) ? ifVal : elseVal) as IsTrue<T> extends true ? IF : ELSE as IfTrue<
-    T,
-    IF,
-    ELSE,
-    IF | ELSE
-  >;
+  return (isTrue(val) ? ifVal : elseVal) as IfTrue<T, IF, ELSE, IF | ELSE>;
 }

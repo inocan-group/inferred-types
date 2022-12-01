@@ -1,5 +1,5 @@
 import { FunctionType, Narrowable, Not } from "src/types";
-import { IsObject } from "src/types/type-checks";
+import { IsObject } from "src/types/boolean-logic";
 
 export type ObjectType = Not<Record<string, Narrowable>, FunctionType>;
 

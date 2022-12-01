@@ -1,4 +1,4 @@
-import { IfStringLiteral } from "src/types/type-checks";
+import { IfStringLiteral } from "src/types/boolean-logic";
 
 /**
  * **EndsWith**<T,U>

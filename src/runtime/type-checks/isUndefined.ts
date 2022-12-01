@@ -1,5 +1,5 @@
 import { Narrowable } from "src/types";
-import { IsUndefined } from "src/types/type-checks/IsUndefined";
+import { IsUndefined } from "src/types/boolean-logic/IsUndefined";
 
 export function isUndefined<T extends Narrowable>(i: T) {
   return (typeof i === "undefined") as undefined extends T ? true : false;

@@ -1,5 +1,6 @@
+export * from "./array";
 export * from "./Includes";
-export * from "./IsBooleanLiteral";
+export * from "./boolean";
 export * from "./IsNumericLiteral";
 export * from "./IsScalar";
 export * from "./IsStringLiteral";
