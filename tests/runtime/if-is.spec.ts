@@ -11,9 +11,10 @@ import {
   ifUndefined,
   isTrue,
 } from "src/runtime/type-checks";
-import { EndsWith, StartsWith } from "src/types";
+import { EndsWith, Or, StartsWith } from "src/types";
 import { ifStartsWith, startsWith } from "src/runtime/type-checks/startsWith";
 import { box } from "src/runtime/literals";
+import { or } from "src/runtime";
 
 describe("runtime if/is", () => {
   it("ifString(v,i,e)", () => {
@@ -115,6 +116,41 @@ describe("runtime if/is", () => {
       Expect<Equal<R2, "Hello Joe">>
     ];
     const cases: cases = [true, true];
+  });
+
+  it("Or<T[]> type util", () => {
+    type T1 = Or<[true, true, false]>;
+    type T2 = Or<[false, false, false]>;
+    type T3 = Or<[boolean, boolean, true]>;
+    type T4 = Or<[boolean, boolean, boolean]>;
+
+    type cases = [
+      Expect<Equal<T1, true>>,
+      Expect<Equal<T2, false>>,
+      Expect<Equal<T3, true>>,
+      Expect<Equal<T4, boolean>>
+    ];
+    const cases: cases = [true, true, true, true];
+  });
+
+  it("or() runtime utility", () => {
+    const t1 = or(true, true, false);
+    const t2 = or(false, false, false);
+    const t3 = or(false as boolean, false, true);
+    const t4 = or(false as boolean, false as boolean, true as boolean);
+
+    type cases = [
+      Expect<Equal<typeof t1, true>>,
+      Expect<Equal<typeof t2, false>>,
+      Expect<Equal<typeof t3, true>>,
+      Expect<Equal<typeof t4, boolean>>
+    ];
+    const cases: cases = [true, true, true, true];
+
+    expect(t1).toBe(true);
+    expect(t2).toBe(false);
+    expect(t3).toBe(true);
+    expect(t4).toBe(true);
   });
 
   it("Extends<T,EXTENDS> with single clause", () => {
