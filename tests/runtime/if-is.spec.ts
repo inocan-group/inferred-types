@@ -11,7 +11,7 @@ import {
   ifUndefined,
   isTrue,
 } from "src/runtime/type-checks";
-import { EndsWith, Extends, Or, StartsWith } from "src/types";
+import { EndsWith, Extends, LowerAlpha, Or, StartsWith } from "src/types";
 import { ifStartsWith, startsWith } from "src/runtime/type-checks/startsWith";
 import { box } from "src/runtime/literals";
 import { or } from "src/runtime";
@@ -236,14 +236,21 @@ describe("runtime if/is", () => {
     type T4 = StartsWith<string, "foo">;
     type T5 = StartsWith<string, string>;
 
+    type T6 = StartsWith<"alpha", LowerAlpha>;
+    type T7 = StartsWith<"Alpha", LowerAlpha>;
+
     type cases = [
       Expect<Equal<T1, true>>, //
       Expect<Equal<T2, false>>,
+      // if either the "start with" or "val" props are wide then we can't resolve at design time
       Expect<Equal<T3, boolean>>,
       Expect<Equal<T4, boolean>>,
-      Expect<Equal<T5, boolean>>
+      Expect<Equal<T5, boolean>>,
+      // LowerAlpha is a string literal
+      Expect<Equal<T6, true>>,
+      Expect<Equal<T7, false>>
     ];
-    const cases: cases = [true, true, true, true, true];
+    const cases: cases = [true, true, true, true, true, true, true];
   });
 
   it("EndsWith<T,U>", () => {
@@ -288,7 +295,7 @@ describe("runtime if/is", () => {
       // condition
       "foo",
       // inline
-      (i) => `welcome ${i}` as const,
+      (i) => `welcome ${i}`,
       // external
       noSir
     );
