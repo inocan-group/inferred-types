@@ -2,6 +2,15 @@ import { Equal } from "../combinators/equivalency";
 import { AfterFirst, First } from "../lists";
 import { Narrowable } from "../Narrowable";
 
+export type IsArray<T> = [T] extends [any[]] ? true : false;
+
+/**
+ * **IfArray**`<T, IF, ELSE>`
+ *
+ * Type utility which convert to type `IF` or `ELSE` based on whether `T` is an array
+ */
+export type IfArray<T, IF, ELSE> = IsArray<T> extends true ? IF : ELSE;
+
 /**
  * **Contains**`<T, A>`
  *
