@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 
 import type { Expect, Equal } from "@type-challenges/utils";
 import {
+  ifArray,
+  ifArrayPartial,
   ifBoolean,
   ifNumber,
   ifString,
@@ -55,7 +57,7 @@ describe("runtime if/is", () => {
     type cases = [
       Expect<Equal<typeof t, 42>>, //
       Expect<Equal<typeof f, 42>>, //
-      Expect<Equal<typeof f2, 42>> //
+      Expect<Equal<typeof f2, "yikes" | 42>> //
     ];
     const cases: cases = [true, true, true];
   });
@@ -113,6 +115,67 @@ describe("runtime if/is", () => {
       Expect<Equal<R2, "Hello Joe">>
     ];
     const cases: cases = [true, true];
+  });
+
+  it("Extends<T,EXTENDS> with single clause", () => {
+    //
+  });
+  it("Extends<T,EXTENDS> with multi clause", () => {
+    type Prime = [1, 3, 7];
+    type N1 = 1;
+    type N2 = 2;
+
+    type cases = [tt];
+  });
+
+  it("IfExtends<T,EXTENDS,IF,ELSE", () => {
+    type cases = [/** type tests */];
+    const cases: cases = [];
+  });
+
+  it("ifArray(val,if,else) utility", () => {
+    const fn0 = ifArray(
+      "foobar" as string,
+      (i) => `I'm an array, my length is ${i.length}` as const,
+      (i) => `I'm not an array, I am ${i}` as const
+    );
+    const fn1 = ifArray(
+      "foobar",
+      (i) => `I'm an array, my length is ${i.length}` as const,
+      (i) => `I'm not an array, I am ${i}` as const
+    );
+    const fn2 = ifArray(
+      ["foo", "bar"] as const,
+      (i) => `I'm an array, my length is ${i.length}` as const,
+      (i) => `I'm not an array, I am ${i}` as const
+    );
+
+    const fn3 = ifArray(
+      ["foo", "bar"],
+      (i) => `I'm an array, my length is ${i.length}` as const,
+      (i) => `I'm not an array, I am ${i}` as const
+    );
+
+    type cases = [
+      Expect<Equal<typeof fn0, `I'm not an array, I am ${string}`>>,
+      Expect<Equal<typeof fn1, `I'm not an array, I am foobar`>>,
+      Expect<Equal<typeof fn2, `I'm an array, my length is 2`>>,
+      Expect<Equal<typeof fn3, `I'm an array, my length is ${number}`>>
+    ];
+    const cases: cases = [true, true, true, true];
+  });
+
+  it("ifArrayPartial()()", () => {
+    const arrTest = ifArrayPartial<string | string[]>()(
+      (i) => `I'm an array, my length is ${i.length}`,
+      (i) => `I'm not an array, I am ${i}`
+    );
+
+    const t1 = arrTest("Bob");
+    const t2 = arrTest(["foo", "bar"]);
+
+    type cases = [/** type tests */];
+    const cases: cases = [];
   });
 
   it("ifUndefined(v,i,e)", () => {
