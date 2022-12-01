@@ -1,4 +1,4 @@
-import { IfStringLiteral } from "src/types/boolean-logic";
+import { IsStringLiteral } from "src/types/boolean-logic";
 import { Narrowable } from "../Narrowable";
 /**
  * **StartsWith**<TValue, TStartsWith>
@@ -9,17 +9,16 @@ import { Narrowable } from "../Narrowable";
  * to a literal `true` or `false` but if either is not a literal that it will
  * just resolve to `boolean` as the value can not be known at design time..
  */
-export type StartsWith<TValue extends unknown, TStartsWith extends unknown> = TValue extends string
-  ? TStartsWith extends string
+export type StartsWith<
+  TValue extends string,
+  TStartsWith extends string
+> = IsStringLiteral<TStartsWith> extends true
+  ? IsStringLiteral<TValue> extends true // both literals
     ? TValue extends `${TStartsWith}${string}`
-      ? IfStringLiteral<
-          TValue, //
-          IfStringLiteral<TStartsWith, true, boolean>,
-          boolean
-        >
-      : IfStringLiteral<TValue, false, boolean>
-    : false
-  : false;
+      ? true
+      : false
+    : boolean
+  : boolean;
 
 /**
  * **IfStartsWith**<TValue, TStartsWith, IF, ELSE, MAYBE>
@@ -32,8 +31,8 @@ export type StartsWith<TValue extends unknown, TStartsWith extends unknown> = TV
  * type and therefore the type is unknown at design time.
  */
 export type IfStartsWith<
-  TValue extends unknown,
-  TStartsWith extends unknown,
+  TValue extends string,
+  TStartsWith extends string,
   IF extends Narrowable,
   ELSE extends Narrowable
 > = StartsWith<TValue, TStartsWith> extends true

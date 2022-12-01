@@ -1,3 +1,4 @@
+import { Narrowable } from "src/types";
 import { IfStartsWith, StartsWith } from "src/types/boolean-logic";
 import { IfUndefined } from "src/types/boolean-logic/IsUndefined";
 import { createFnWithProps } from "../createFnWithProps";
@@ -88,22 +89,19 @@ export type StringLiteralFn<S extends string = string> = <T extends S>(input: T)
  * returns is able to
  */
 export const ifStartsWith =
-  <
-    TStartsWith extends string,
-    TIf extends <T extends string>(input: T) => any,
-    TElse extends <T extends string>(input: T) => any
-  >(
+  <TStartsWith extends string, TIf extends Narrowable, TElse extends Narrowable>(
     /** the string literal _start value_ which a string must begin with */
     start: TStartsWith,
     /** a mutation function when a value _does_ start with `TStartsWith` */
-    isTrue: TIf,
+    isTrue: <T extends string>(input: T) => TIf,
     /** an optional mutation function */
-    isFalse: TElse
+    isFalse: <T extends string>(input: T) => TElse
   ) =>
-  <I extends string>(input: I) =>
+  <TTextValue extends string>(input: TTextValue) =>
     ifTrue(
       // condition
       startsWith(start)(input),
+      // handlers
       isTrue(input),
       isFalse(input)
-    ) as IfStartsWith<I, TStartsWith, ReturnType<TIf>, ReturnType<TElse>>;
+    );

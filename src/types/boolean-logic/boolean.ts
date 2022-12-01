@@ -41,22 +41,24 @@ export type IsFalse<T extends Narrowable> = IsBoolean<T> extends true
  * to the IF, ELSE, or MAYBE generic types passed in where _maybe_ is when T
  * is the wide type of `boolean`
  */
-export type IfTrue<T, IF, ELSE, MAYBE> = IsTrue<T> extends true
-  ? IF
-  : IsTrue<T> extends false
-  ? ELSE
-  : MAYBE;
+export type IfTrue<
+  T extends Narrowable,
+  IF extends Narrowable,
+  ELSE extends Narrowable,
+  MAYBE extends Narrowable
+> = IsTrue<T> extends true ? IF : IsTrue<T> extends false ? ELSE : MAYBE;
 
 /**
  * Type utility which checks for literal `false` value and then switches type
  * to the IF, ELSE, or MAYBE generic types passed in where _maybe_ is when T
  * is the wide type of `boolean`
  */
-export type IfFalse<T, IF, ELSE, MAYBE> = IsFalse<T> extends true
-  ? IF
-  : IsTrue<T> extends false
-  ? ELSE
-  : MAYBE;
+export type IfFalse<
+  T extends Narrowable,
+  IF extends Narrowable,
+  ELSE extends Narrowable,
+  MAYBE extends Narrowable
+> = IsFalse<T> extends true ? IF : IsTrue<T> extends false ? ELSE : MAYBE;
 
 /**
  * **IsBooleanLiteral**
@@ -64,13 +66,19 @@ export type IfFalse<T, IF, ELSE, MAYBE> = IsFalse<T> extends true
  * Type utility which returns true/false if the boolean value is a _boolean literal_ versus
  * just the wider _boolean_ type.
  */
-export type IsBooleanLiteral<T extends boolean> = boolean extends T ? false : true;
+export type IsBooleanLiteral<T extends Narrowable> = IsTrue<T> extends true
+  ? true
+  : IsFalse<T> extends true
+  ? true
+  : false;
 
 /**
  * **IfBooleanLiteral**
  *
  * Branch utility which returns `IF` type when `T` is a boolean literal and `ELSE` otherwise
  */
-export type IfBooleanLiteral<T extends boolean, IF, ELSE> = IsBooleanLiteral<T> extends true
-  ? IF
-  : ELSE;
+export type IfBooleanLiteral<
+  T extends boolean,
+  IF extends Narrowable,
+  ELSE extends Narrowable
+> = IsBooleanLiteral<T> extends true ? IF : ELSE;

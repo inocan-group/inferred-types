@@ -8,6 +8,7 @@
 export * from "./AfterFirst";
 export * from "./First";
 export * from "./FirstString";
+export * from "./FilterTuple";
 export * from "./Split";
 export * from "./UniqueForProp";
 
