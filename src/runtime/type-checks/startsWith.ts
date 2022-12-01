@@ -1,5 +1,5 @@
-import { IfStartsWith, StartsWith } from "src/types/type-checks";
-import { IfUndefined } from "src/types/type-checks/IsUndefined";
+import { IfStartsWith, StartsWith } from "src/types/boolean-logic";
+import { IfUndefined } from "src/types/boolean-logic/IsUndefined";
 import { createFnWithProps } from "../createFnWithProps";
 import { box, Box } from "../literals";
 import { ifTrue } from "./isTrue";

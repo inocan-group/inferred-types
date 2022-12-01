@@ -1,4 +1,4 @@
-export type IsBoolean<T> = T extends boolean ? true : false;
+import { IsBoolean } from "src/types/boolean-logic";
 
 /**
  * Runtime and type checks whether a variable is a boolean value.

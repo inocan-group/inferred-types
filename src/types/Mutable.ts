@@ -1,4 +1,4 @@
-import { IsObject } from "./type-checks";
+import { IsObject } from "./boolean-logic";
 
 /**
  * Makes a readonly structure mutable

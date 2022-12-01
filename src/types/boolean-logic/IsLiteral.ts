@@ -1,4 +1,4 @@
-import { IsBooleanLiteral } from "./IsBooleanLiteral";
+import { IsBooleanLiteral } from "./boolean";
 import { IsStringLiteral } from "./IsStringLiteral";
 import { IsNumericLiteral } from "./IsNumericLiteral";
 
