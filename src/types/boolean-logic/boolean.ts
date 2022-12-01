@@ -1,4 +1,3 @@
-import { IsFalse } from "src/runtime";
 import { Narrowable } from "../Narrowable";
 
 export type IsBoolean<T> = T extends boolean ? true : false;
