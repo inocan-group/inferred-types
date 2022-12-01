@@ -174,8 +174,11 @@ describe("runtime if/is", () => {
     const t1 = arrTest("Bob");
     const t2 = arrTest(["foo", "bar"]);
 
-    type cases = [/** type tests */];
-    const cases: cases = [];
+    type cases = [
+      Expect<Equal<typeof t1, `I'm not an array, I am ${string}`>>,
+      Expect<Equal<typeof t2, `I'm an array, my length is ${number}`>>
+    ];
+    const cases: cases = [true, true];
   });
 
   it("ifUndefined(v,i,e)", () => {
