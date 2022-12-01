@@ -1,15 +1,5 @@
-import { LogicFunction } from "src/types/functions";
+import { Or } from "src/types/combinators/Or";
 
-/**
- * Groups a number of "logic functions" together by combining their results using
- * the logical **OR** operator.
- *
- * **Note:** a "logic function" is any function which returns a boolean
- */
-export const or = <T extends any[]>(...ops: LogicFunction<T>[]): LogicFunction<T> => {
-  const fn: LogicFunction<T> = (...args: T) => {
-    return [...ops].some((i) => i(...args));
-  };
-
-  return fn;
-};
+export function or<O extends readonly boolean[]>(...conditions: O) {
+  return (conditions.some((v) => v === true) ? true : false) as Or<O>;
+}
