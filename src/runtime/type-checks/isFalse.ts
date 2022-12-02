@@ -20,7 +20,7 @@ export function isFalse<T>(i: T) {
  * typed so unlike the type utility there is no "MAYBE" state but if a wide type if
  * encountered the _type_ will the union of `IF` and `ELSE`.
  */
-export function ifFalse<T extends Narrowable, IF extends Narrowable, ELSE extends Narrowable>(
+export function ifFalse<T extends boolean, IF extends Narrowable, ELSE extends Narrowable>(
   val: T,
   ifVal: IF,
   elseVal: ELSE
