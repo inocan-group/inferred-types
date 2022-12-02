@@ -1,4 +1,4 @@
-import { NarrowlyContains } from "../boolean-logic";
+import { NarrowlyContains } from "./array";
 
 /**
  * **Or**`<T>`

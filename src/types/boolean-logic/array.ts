@@ -1,4 +1,4 @@
-import { Equal } from "../combinators/equivalency";
+import { Equal } from "./equivalency";
 import { AfterFirst, First } from "../lists";
 import { Narrowable } from "../Narrowable";
 

@@ -9,3 +9,5 @@ export * from "./TypeDefault";
 export * from "./object";
 export * from "./StartsWith";
 export * from "./EndsWith";
+export * from "./Or";
+export * from "./equivalency";
