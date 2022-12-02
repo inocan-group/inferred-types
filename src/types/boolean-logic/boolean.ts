@@ -42,7 +42,7 @@ export type IsFalse<T extends Narrowable> = IsBoolean<T> extends true
  * is the wide type of `boolean`
  */
 export type IfTrue<
-  T extends Narrowable,
+  T extends boolean,
   IF extends Narrowable,
   ELSE extends Narrowable,
   MAYBE extends Narrowable

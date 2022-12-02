@@ -1,5 +1,6 @@
 import { FunctionType } from "../FunctionType";
 import { Mutable } from "../Mutable";
+import { Narrowable } from "../Narrowable";
 
 /**
  * **IsObject**
@@ -24,4 +25,6 @@ export type IsObject<T> = Mutable<T> extends Record<string, any>
  * Branch type utility with return `IF` when `T` extends an object type
  * and `ELSE` otherwise
  */
-export type IfObject<T, IF, ELSE> = IsObject<T> extends true ? IF : ELSE;
+export type IfObject<T, IF extends Narrowable, ELSE extends Narrowable> = IsObject<T> extends true
+  ? IF
+  : ELSE;

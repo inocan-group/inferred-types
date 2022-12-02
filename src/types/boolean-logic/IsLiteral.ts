@@ -1,6 +1,47 @@
+import { Narrowable } from "../Narrowable";
 import { IsBooleanLiteral } from "./boolean";
-import { IsStringLiteral } from "./IsStringLiteral";
-import { IsNumericLiteral } from "./IsNumericLiteral";
+
+/**
+ * **IsStringLiteral**
+ *
+ * Type utility which returns true/false if the string a _string literal_ versus
+ * just the _string_ type.
+ */
+export type IsStringLiteral<T extends Narrowable> = [T] extends [string]
+  ? string extends T
+    ? false
+    : true
+  : false;
+
+/**
+ * **IfStringLiteral**
+ *
+ * Branch utility which returns `IF` type when `T` is a string literal and `ELSE` otherwise
+ */
+export type IfStringLiteral<T extends string, IF extends Narrowable, ELSE extends Narrowable> = [
+  IsStringLiteral<T>
+] extends [true]
+  ? IF
+  : ELSE;
+
+/**
+ * **IsNumericLiteral**
+ *
+ * Type utility which returns true/false if the numeric value a _numeric literal_ versus
+ * just the _number_ type.
+ */
+export type IsNumericLiteral<T extends number> = number extends T ? false : true;
+
+/**
+ * **IfNumericLiteral**
+ *
+ * Branch utility which returns `IF` type when `T` is a numeric literal and `ELSE` otherwise
+ */
+export type IfNumericLiteral<
+  T extends number,
+  IF extends Narrowable,
+  ELSE extends Narrowable
+> = IsNumericLiteral<T> extends true ? IF : ELSE;
 
 // [note on handling of boolean](https://stackoverflow.com/questions/74213646/detecting-type-literals-works-in-isolation-but-not-when-combined-with-other-lite/74213713#74213713)
 
@@ -43,7 +84,9 @@ export type IsOptionalLiteral<T> = [Exclude<T, undefined>] extends [string]
  *
  * Branch type utility with return `IF` when `T` is a _literal_ value and `ELSE` otherwise
  */
-export type IfLiteral<T, IF, ELSE> = IsLiteral<T> extends true ? IF : ELSE;
+export type IfLiteral<T, IF extends Narrowable, ELSE extends Narrowable> = IsLiteral<T> extends true
+  ? IF
+  : ELSE;
 
 /**
  * **IfOptionalLiteral**
@@ -51,4 +94,8 @@ export type IfLiteral<T, IF, ELSE> = IsLiteral<T> extends true ? IF : ELSE;
  * Branch type utility with return `IF` when `T` is a _literal_ value (with possibly
  * the inclusion of _undefined_); otherwise returns the type `ELSE`
  */
-export type IfOptionalLiteral<T, IF, ELSE> = IsOptionalLiteral<T> extends true ? IF : ELSE;
+export type IfOptionalLiteral<
+  T,
+  IF extends Narrowable,
+  ELSE extends Narrowable
+> = IsOptionalLiteral<T> extends true ? IF : ELSE;

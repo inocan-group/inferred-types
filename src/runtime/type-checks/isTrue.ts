@@ -12,8 +12,7 @@ export function isTrue<T extends Narrowable>(i: T) {
  * **ifTrue**
  *
  * Strongly type-aware conditional statement which checks whether a value is
- * a _true_ and returns one of two values (strongly typed) based on the evaluation
- * of this criteria.
+ * _true_.
  *
  * @param val the value being tested
  * @param ifVal the value (strongly typed) returned if val is _true_ value
@@ -23,7 +22,7 @@ export function isTrue<T extends Narrowable>(i: T) {
  * typed so unlike the type utility there is no "MAYBE" state but if a wide type if
  * encountered the _type_ will the union of `IF` and `ELSE`.
  */
-export function ifTrue<T extends Narrowable, IF extends Narrowable, ELSE extends Narrowable>(
+export function ifTrue<T extends boolean, IF extends Narrowable, ELSE extends Narrowable>(
   val: T,
   ifVal: IF,
   elseVal: ELSE

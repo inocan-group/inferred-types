@@ -1,9 +1,8 @@
 import { TupleToUnion } from "../type-conversion";
-import { IsLiteral } from "./IsLiteral";
-import { IsStringLiteral } from "./IsStringLiteral";
+import { IsLiteral, IsStringLiteral } from "./IsLiteral";
 
 /**
- * **Includes<TSource, TValue>**
+ * **Includes**`<TSource, TValue>`
  *
  * Type utility which returns `true` or `false` based on whether `TValue` is found
  * in `TSource`. Where `TSource` can be a string literal or an array of string literals.
@@ -13,7 +12,7 @@ import { IsStringLiteral } from "./IsStringLiteral";
  * a type of `boolean`.
  */
 export type Includes<
-  TSource extends string | string[],
+  TSource extends string | readonly string[],
   TValue extends string
 > = TSource extends string[]
   ? IsStringLiteral<TupleToUnion<TSource>> extends true

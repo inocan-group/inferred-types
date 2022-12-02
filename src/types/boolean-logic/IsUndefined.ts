@@ -13,4 +13,8 @@ export type IsUndefined<T extends Narrowable> = T extends undefined ? true : fal
  * Type utility which returns `IF` type when `T` is an _undefined_
  * otherwise returns `ELSE` type.
  */
-export type IfUndefined<T, IF, ELSE> = IsUndefined<T> extends true ? IF : ELSE;
+export type IfUndefined<
+  T,
+  IF extends Narrowable,
+  ELSE extends Narrowable
+> = IsUndefined<T> extends true ? IF : ELSE;

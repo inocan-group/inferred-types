@@ -18,4 +18,4 @@ export type IfString<
   T extends Narrowable, //
   IF extends Narrowable,
   ELSE extends Narrowable
-> = IsString<T> extends true ? IF : ELSE;
+> = IsString<T> extends true ? IF : IsString<T> extends false ? ELSE : IF | ELSE;
