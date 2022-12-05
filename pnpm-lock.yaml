@@ -6,7 +6,7 @@ overrides:
 
 specifiers:
   '@type-challenges/utils': ~0.1.1
-  '@types/node': ^16.18.4
+  '@types/node': ^16.18.6
   '@typescript-eslint/eslint-plugin': ^5.45.1
   '@typescript-eslint/parser': ^5.45.1
   '@vitest/ui': ^0.25.4
@@ -36,7 +36,7 @@ dependencies:
 
 devDependencies:
   '@type-challenges/utils': 0.1.1
-  '@types/node': 16.18.4
+  '@types/node': 16.18.6
   '@typescript-eslint/eslint-plugin': 5.45.1_tdm6ms4ntwhlpozn7kjqrhum74
   '@typescript-eslint/parser': 5.45.1_s5ps7njkmjlaqajutnox5ntcla
   '@vitest/ui': 0.25.4
@@ -57,7 +57,7 @@ devDependencies:
   sharp: 0.31.2
   tsup: 6.5.0_typescript@4.9.3
   typescript: 4.9.3
-  vite: 3.2.5_@types+node@16.18.4
+  vite: 3.2.5_@types+node@16.18.6
   vitest: 0.25.4_@vitest+ui@0.25.4
 
 packages:
@@ -222,7 +222,7 @@ packages:
     resolution: {integrity: sha512-l6NQsDDyQUVeoTynNpC9uRvCUint/gSUXQA2euwmTuWGvPY5LSDUu6tkCtJB2SvGQlJQzLaKqcGZP4//7EDveA==}
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 16.18.4
+      '@types/node': 16.18.6
     dev: true
 
   /@types/json-schema/7.0.11:
@@ -241,8 +241,8 @@ packages:
     resolution: {integrity: sha512-K0VQKziLUWkVKiRVrx4a40iPaxTUefQmjtkQofBkYRcoaaL/8rhwDWww9qWbrgicNOgnpIsMxyNIUM4+n6dUIA==}
     dev: true
 
-  /@types/node/16.18.4:
-    resolution: {integrity: sha512-9qGjJ5GyShZjUfx2ArBIGM+xExdfLvvaCyQR0t6yRXKPcWCVYF/WemtX/uIU3r7FYECXRXkIiw2Vnhn6y8d+pw==}
+  /@types/node/16.18.6:
+    resolution: {integrity: sha512-vmYJF0REqDyyU0gviezF/KHq/fYaUbFhkcNbQCuPGFQj6VTbXuHZoxs/Y7mutWe73C8AC6l9fFu8mSYiBAqkGA==}
     dev: true
 
   /@types/semver/7.3.13:
@@ -253,7 +253,7 @@ packages:
     resolution: {integrity: sha512-x9yaMvEh5BEaZKeVQC4vp3l+QoFj3BXcd4aYfuKSzIIyihjdVARAadYy3SMNIz0WCCdS2vB9JL/U6GQk5PaxQw==}
     dependencies:
       '@types/glob': 8.0.0
-      '@types/node': 16.18.4
+      '@types/node': 16.18.6
     dev: true
 
   /@typescript-eslint/eslint-plugin/5.45.1_tdm6ms4ntwhlpozn7kjqrhum74:
@@ -632,8 +632,8 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /aws-sdk/2.1267.0:
-    resolution: {integrity: sha512-ANTtRay26WwNRbYs6eZYN71b3DURNfWaq3AD6BtVNa8fVvnSLn+NNINw2+vLRjDLPZXMAQVHm0qH/TmyBvtjRA==}
+  /aws-sdk/2.1268.0:
+    resolution: {integrity: sha512-N2A42YrSMTDFCY5lU3QOJz+CZbGKIrAQS3We9+HjEeDP+FPE+M2H9Zzy8Mk18uC6v8bP3lbTTCpTTvtje6i+Pw==}
     engines: {node: '>= 10.0.0'}
     dependencies:
       buffer: 4.9.2
@@ -1084,7 +1084,7 @@ packages:
     dependencies:
       ast-types: 0.14.2
       async-shelljs: 0.1.4
-      aws-sdk: 2.1267.0
+      aws-sdk: 2.1268.0
       aws-ssm: 0.4.0
       bestzip: 2.2.1
       brilliant-errors: 0.6.1
@@ -1900,7 +1900,7 @@ packages:
     dev: true
 
   /events/1.1.1:
-    resolution: {integrity: sha1-nr23Y1rQmccNzEwqH1AEKI6L2SQ=}
+    resolution: {integrity: sha512-kEcvvCBByWXGnZy6JUlgAp2gBIUjfCAV6P6TgT1/aaQKcmuAEC4OZTV1I4EWQLz2gxZw76atuVyvHhTxvi0Flw==}
     engines: {node: '>=0.4.x'}
     dev: true
 
@@ -4357,7 +4357,7 @@ packages:
     dev: true
 
   /url/0.10.3:
-    resolution: {integrity: sha1-Ah5NnHcF8hu/N9A861h2dAJ3TGQ=}
+    resolution: {integrity: sha512-hzSUW2q06EqL1gKM/a+obYHLIO6ct2hwPuviqTTOcfFVc61UbfJ2Q32+uGL/HCPxKqrdGB5QUwIe7UqlDgwsOQ==}
     dependencies:
       punycode: 1.3.2
       querystring: 0.2.0
@@ -4389,7 +4389,7 @@ packages:
       spdx-expression-parse: 3.0.1
     dev: true
 
-  /vite/3.2.5_@types+node@16.18.4:
+  /vite/3.2.5_@types+node@16.18.6:
     resolution: {integrity: sha512-4mVEpXpSOgrssFZAOmGIr85wPHKvaDAcXqxVxVRZhljkJOMZi1ibLibzjLHzJvcok8BMguLc7g1W6W/GqZbLdQ==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -4414,7 +4414,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 16.18.4
+      '@types/node': 16.18.6
       esbuild: 0.15.18
       postcss: 8.4.19
       resolve: 1.22.1
@@ -4447,7 +4447,7 @@ packages:
     dependencies:
       '@types/chai': 4.3.4
       '@types/chai-subset': 1.3.3
-      '@types/node': 16.18.4
+      '@types/node': 16.18.6
       '@vitest/ui': 0.25.4
       acorn: 8.8.1
       acorn-walk: 8.2.0
@@ -4459,7 +4459,7 @@ packages:
       tinybench: 2.3.1
       tinypool: 0.3.0
       tinyspy: 1.0.2
-      vite: 3.2.5_@types+node@16.18.4
+      vite: 3.2.5_@types+node@16.18.6
     transitivePeerDependencies:
       - less
       - sass
