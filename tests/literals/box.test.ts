@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
-import { Box, box, BoxedFnParams, BoxValue } from "src/runtime";
+import { Box, box, BoxedFnParams, BoxValue, unbox } from "src/runtime";
 import { First } from "src/types/lists/First";
 
 // [Instantiation Expressions](https://devblogs.microsoft.com/typescript/announcing-typescript-4-7-beta/#instantiation-expressions)
@@ -18,12 +18,13 @@ describe("boxing / unboxing", () => {
   it("box a function with generic", () => {
     const fn = <T extends string>(i: T) => `Hello ${i}` as const;
     const b = box(fn);
-    const ub = b.unbox();
+    const ub = unbox(b);
     type UB = typeof ub;
-    const unboxedFn = b.unbox()("foo");
-    const unboxedFn2 = b.unbox()("foo" as string);
-    type UBF = typeof unboxedFn;
-    type UBF2 = typeof unboxedFn2;
+    const usingValue = b.value("foo");
+    const unboxedNarrow = b.unbox("foo");
+    const unboxedWide = b.unbox("foo" as string);
+    type UBF = typeof usingValue;
+    type UBF2 = typeof unboxedWide;
 
     const bn = box(42);
     type BN = typeof bn;
@@ -40,7 +41,7 @@ describe("boxing / unboxing", () => {
     // runtime
     expect(typeof b).toBe("object");
     expect(typeof ub).toBe("function");
-    expect(unboxedFn).toBe("Hello foo");
+    expect(usingValue).toBe("Hello foo");
 
     expect(rn).toBe(42);
     expect(rn2).toBe(42);

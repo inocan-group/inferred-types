@@ -6,6 +6,7 @@ import {
   ifArrayPartial,
   ifBoolean,
   ifNumber,
+  ifSameType,
   ifString,
   ifTrue,
   ifUndefined,
@@ -13,7 +14,7 @@ import {
 } from "src/runtime/type-checks";
 import { EndsWith, Extends, LowerAlpha, Or, StartsWith } from "src/types";
 import { ifStartsWith, startsWith } from "src/runtime/type-checks/startsWith";
-import { box } from "src/runtime/literals";
+import { box, wide } from "src/runtime/literals";
 import { or } from "src/runtime";
 
 describe("runtime if/is", () => {
@@ -325,5 +326,65 @@ describe("runtime if/is", () => {
       >
     ];
     const cases: cases = [true, true, true];
+  });
+
+  it("ifSameType", () => {
+    const t1 = ifSameType(
+      "foo",
+      wide.string,
+      (i) => `Hello ${i}`,
+      (i) => `Goodbye ${i}`
+    );
+    const t2 = ifSameType(
+      42,
+      wide.string,
+      (i) => `Hello ${i}`,
+      (i) => `Goodbye ${i}`
+    );
+    const t3 = ifSameType(
+      "foo" as string,
+      wide.string,
+      (i) => `Hello ${i}`,
+      (i) => `Goodbye ${i}`
+    );
+    const t4 = ifSameType(
+      42 as number,
+      wide.string,
+      (i) => `Hello ${i}`,
+      (i) => `Goodbye ${i}`
+    );
+
+    const nested = ifSameType(
+      false,
+      wide.string,
+      (i) => `Hello ${i}`,
+      (i) =>
+        ifSameType(
+          i,
+          wide.number,
+          (n) => n,
+          (i) =>
+            ifSameType(
+              i,
+              wide.boolean,
+              (b) => `I'm a boolean value of ${b}`,
+              () => ""
+            )
+        )
+    );
+
+    type cases = [
+      // matches (narrow)
+      Expect<Equal<typeof t1, "Hello foo">>,
+      // does not match (narrow)
+      Expect<Equal<typeof t2, `Goodbye 42`>>,
+      // matches (wide)
+      Expect<Equal<typeof t3, `Hello ${string}`>>,
+      // does not match (wide)
+      Expect<Equal<typeof t4, `Goodbye ${number}`>>,
+      // nested
+      Expect<Equal<typeof nested, `I'm a boolean value of false`>>
+    ];
+    const cases: cases = [true, true, true, true, true];
   });
 });
