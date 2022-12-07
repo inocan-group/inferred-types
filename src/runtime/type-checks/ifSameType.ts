@@ -8,7 +8,7 @@ export function ifSameType<
 >(
   value: TValue,
   comparisonType: TType,
-  ifExtends: <T extends TType>(v: T & TValue) => IF,
+  ifExtends: <T extends TType & TValue>(v: T) => IF,
   doesNotExtend: (v: Not<TValue, TType>) => ELSE
 ) {
   return (

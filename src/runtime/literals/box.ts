@@ -1,5 +1,7 @@
-import { AfterFirst, Narrowable } from "src/types";
+import { AfterFirst, HasParameters, Narrowable } from "src/types";
 import { First } from "src/types/lists/First";
+import { keys } from "../keys";
+import { AnyFunction } from "../type-checks";
 
 export interface Box<T> {
   __kind: "box";
@@ -7,22 +9,16 @@ export interface Box<T> {
   /**
    * Unbox the boxed value in the narrowest possible type.
    *
-   * **Note:** _if you want a wider type definition use `wide()`
-   * instead._
+   * **note:** if the boxed value is a function with parameters you
+   * can pass the parameters directly into the `b.unbox(params)` call.
    */
-  unbox(): T;
-  // /**
-  //  * If the boxed value is a function with generics then you have opportunity to
-  //  * _narrow_ the type definition over time. This is achieved in a type strong manner,
-  //  * so you can't change the fundamental type but this example will work as expected:
-  //  * ```ts
-  //  * const fn = <T extends string>(name: T) => `Hello ${name}` as const;
-  //  * const b = box(fn);
-  //  * // later
-  //  * const b2 = b.narrow<"foo" | "bar">();
-  //  * ```
-  //  */
-  // narrow: NarrowBox<T>;
+  unbox: HasParameters<Box<T>["value"]> extends true
+    ? Box<T>["value"] extends AnyFunction
+      ? Box<T>["value"] extends (...args: infer A) => infer R
+        ? (...args: A) => R
+        : () => ReturnType<T>
+      : () => T
+    : () => T;
 }
 
 export type BoxValue<T extends Box<any>> = T extends Box<infer V> ? V : never;
@@ -58,20 +54,34 @@ export function box<T extends Narrowable>(value: T): Box<T> {
   const rtn: Box<T> = {
     __kind: "box",
     value,
-    unbox: () => value,
+    unbox: (<P extends any[], R extends Narrowable>(...p: P): R => {
+      return typeof value === "function" ? value(...p) : value;
+    }) as Box<T>["unbox"],
   };
 
   return rtn;
 }
 
-export function isBox(thing: unknown): thing is Box<any> {
+export function isBox(thing: Narrowable): thing is Box<any> {
   return (
     typeof thing === "object" && "__kind" in (thing as object) && (thing as any).__kind === "box"
   );
 }
 
+export function boxDictionaryValues<T extends Narrowable>(dict: T & Record<string, Narrowable>) {
+  return keys(dict).reduce(
+    (acc, key) => ({ ...acc, [key]: box(dict[key]) }),
+    {} as {
+      [K in keyof T]: Box<T[K]>;
+    }
+  );
+}
+
 export type Unbox<T> = T extends Box<infer U> ? U : T;
 
-export function unbox<T>(thing: T): Unbox<T> {
-  return isBox(thing) ? thing.unbox() : thing;
+/**
+ * Unboxes a value if it was a box; otherwise it leaves as is
+ */
+export function unbox<T>(val: T): Unbox<T> {
+  return isBox(val) ? val.unbox() : val;
 }
