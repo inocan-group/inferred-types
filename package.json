@@ -16,14 +16,14 @@
     "autoindex": "npx dd autoindex",
     "build": "run-s clean autoindex lint build:bundle",
     "build:force": "run-s clean autoindex build:bundle",
-    "build:bundle": "npx tsup src/index.ts --dts --format=esm,cjs --clean",
+    "build:bundle": "npx tsup src/index.ts --dts --format=esm --clean",
     "watch": "run-p watch:*",
     "watch:autoindex": "npx dd autoindex --watch",
-    "watch:bundle": "npx tsup src/index.ts --dts --format=esm,cjs --watch",
+    "watch:bundle": "npx tsup src/index.ts --dts --format=esm --watch",
     "clean": "rimraf dist/**/*",
     "lint": "eslint src/**/*.ts --fix && tsc --noEmit ",
     "lint:full": "eslint src/**/*.ts && eslint tests/**/*.ts && tsc --noEmit",
-    "test": "vitest",
+    "test": "vitest --ui",
     "test:ci": "vitest run",
     "audit:fix": "pnpm audit --fix",
     "release": "run-s lint:full release:latest test:ci audit:fix release:bump",
@@ -35,7 +35,7 @@
     "@types/node": "^16.18.6",
     "@typescript-eslint/eslint-plugin": "^5.45.1",
     "@typescript-eslint/parser": "^5.45.1",
-    "@vitest/ui": "^0.25.4",
+    "@vitest/ui": "^0.25.5",
     "bumpp": "^8.2.1",
     "common-types": "^1.33.2",
     "cross-env": "^7.0.3",
@@ -54,10 +54,10 @@
     "tsup": "^6.5.0",
     "typescript": "^4.9.3",
     "vite": "^3.2.5",
-    "vitest": "^0.25.4"
+    "vitest": "^0.25.5"
   },
   "dependencies": {
-    "brilliant-errors": "^0.6.1"
+    "brilliant-errors": "^0.7.1"
   },
   "pnpm": {
     "overrides": {

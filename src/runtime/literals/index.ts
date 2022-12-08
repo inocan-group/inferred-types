@@ -10,9 +10,11 @@ export * from "./box";
 export * from "./defineType";
 export * from "./identity";
 export * from "./literal";
-export * from "./stripEnding";
-export * from "./stripStarting";
+export * from "./stripTrailing";
+export * from "./ensureTrailing";
+export * from "./ensureLeading";
 export * from "./Suggest";
+export * from "./wide";
 
 // #endregion auto-indexed files
 

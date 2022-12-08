@@ -15,7 +15,7 @@ export interface Box<T> {
   unbox: HasParameters<Box<T>["value"]> extends true
     ? Box<T>["value"] extends AnyFunction
       ? Box<T>["value"] extends (...args: infer A) => infer R
-        ? (...args: A) => R
+        ? <N extends A>(...args: N) => R
         : () => ReturnType<T>
       : () => T
     : () => T;
@@ -68,7 +68,12 @@ export function isBox(thing: Narrowable): thing is Box<any> {
   );
 }
 
-export function boxDictionaryValues<T extends Narrowable>(dict: T & Record<string, Narrowable>) {
+/**
+ * **boxDictionaryValues**(dict)
+ *
+ * Runtime utility which boxes each value in a dictionary
+ */
+export function boxDictionaryValues<T extends {}>(dict: T) {
   return keys(dict).reduce(
     (acc, key) => ({ ...acc, [key]: box(dict[key]) }),
     {} as {
@@ -79,9 +84,15 @@ export function boxDictionaryValues<T extends Narrowable>(dict: T & Record<strin
 
 export type Unbox<T> = T extends Box<infer U> ? U : T;
 
+//TODO: it would make sense in the future to use `b.unbox` instead
+// of `b.value` to keep consistent but currently value behaves more
+// consistently and with somewhat stronger typing
+
 /**
- * Unboxes a value if it was a box; otherwise it leaves as is
+ * **unbox**(maybeBox)
+ *
+ * Unboxes a value if it was a box; otherwise it leaves _as is_.
  */
 export function unbox<T>(val: T): Unbox<T> {
-  return isBox(val) ? val.unbox() : val;
+  return isBox(val) ? val.value : val;
 }

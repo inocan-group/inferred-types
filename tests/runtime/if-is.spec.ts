@@ -68,10 +68,10 @@ describe("runtime if/is", () => {
     const f1 = box(<T extends string>(input: T) => `Hello ${input}` as const);
     const f2 = box(<T extends string>(input: T) => `Get out ${input}!` as const);
     const t = <T extends string, B extends boolean>(i: T, nice: B) => {
-      return isTrue(nice) ? f1.unbox()(i) : f2.unbox()(i);
+      return isTrue(nice) ? f1.value(i) : f2.value(i);
     };
     const t2 = <T extends string, B extends boolean>(i: T, nice: B) =>
-      ifTrue(nice, f1.unbox()(i), f2.unbox()(i));
+      ifTrue(nice, f1.value(i), f2.value(i));
 
     // both approaches produce correct result
     const r1 = t("Joe", true);

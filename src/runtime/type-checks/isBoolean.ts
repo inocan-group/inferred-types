@@ -1,9 +1,10 @@
+import { Narrowable } from "src/types";
 import { IsBoolean } from "src/types/boolean-logic";
 
 /**
  * Runtime and type checks whether a variable is a boolean value.
  */
-export function isBoolean<T extends any>(i: T) {
+export function isBoolean<T extends Narrowable>(i: T): IsBoolean<T> {
   return (typeof i === "boolean") as IsBoolean<T>;
 }
 

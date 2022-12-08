@@ -5,6 +5,7 @@ export * from "./IsScalar";
 export * from "./IsLiteral";
 export * from "./IsUndefined";
 export * from "./Extends";
+export * from "./HasParameters";
 export * from "./TypeDefault";
 export * from "./object";
 export * from "./StartsWith";
