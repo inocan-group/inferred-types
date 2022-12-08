@@ -18,6 +18,7 @@ export * from "./IsCapitalized";
 export * from "./KebabCase";
 export * from "./LowerAllCaps";
 export * from "./PascalCase";
+export * from "./PathJoin";
 export * from "./Pluralize";
 export * from "./SnakeCase";
 export * from "./StripLeading";
