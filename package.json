@@ -4,8 +4,8 @@
   "description": "Functions which provide useful type inference on TS projects",
   "license": "MIT",
   "author": "Ken Snyder<ken@ken.net>",
-  "module": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "module": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/index.js"
