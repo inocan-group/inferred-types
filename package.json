@@ -13,9 +13,8 @@
   "sideEffects": false,
   "scripts": {
     "about": "tokei src",
-    "autoindex": "npx dd autoindex",
-    "build": "run-s clean autoindex lint build:bundle",
-    "build:force": "run-s clean autoindex build:bundle",
+    "build": "run-s clean lint build:bundle",
+    "build:force": "run-s clean build:bundle",
     "build:bundle": "npx tsup src/index.ts --dts --format=esm --clean",
     "watch": "run-p watch:*",
     "watch:autoindex": "npx dd autoindex --watch",
