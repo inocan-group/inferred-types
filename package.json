@@ -34,7 +34,8 @@
     "audit:fix": "pnpm audit --fix",
     "release": "run-s lint:full release:latest test:ci audit:fix release:bump",
     "release:latest": "pnpm install",
-    "release:bump": "bumpp"
+    "release:bump": "bumpp",
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "@type-challenges/utils": "~0.1.1",
