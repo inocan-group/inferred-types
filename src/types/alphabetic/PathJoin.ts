@@ -1,40 +1,52 @@
 import { IfLiteral } from "../boolean-logic";
-import { StripEnding } from "./StripEnding";
-import { StripStarting } from "./StripStarting";
+import { AfterFirst, First } from "../lists";
+import { StripTrailing } from "./StripTrailing";
+import { StripLeading } from "./StripLeading";
+
 /**
  * **PathJoin**`<T,U>`
  *
- * Type utility which joins two strings together with the
- * goal of making it a valid file or URI path (based on the
- * Posix standard for file paths).
+ * Type utility meant to bring 2 or more "path" strings together into
+ * a valid "path". Where a "path" is represented as nothing more than
+ * string characters delimited by a Posix `\` character.
  *
- * Primarily, this means that it ensures that both `T` and `U`
- * are separated by a single `/` character. Of course if either
- * `T` or `U` are _wide_ string types then the resulting type
- * will be more limited.
- *
- * **Note:** that in the case that both `T` and `U` are wide,
- * we opt to type the result as just a _string_ rather than
- * `${string}/${string}` which might be more precise 99% of
- * the time but where `T` is an empty string there actually
- * is no guarantee of a `/` character. Similarly we must
- * type the case where `U` is narrow but `T` is wide as
- * being `${string}${U}` instead of `${string}/${U}`.
+ * Note that the first part of the path will retain it's `\` if present
+ * and the last one will preserve it's `\` character if present. You can
+ * combine this utility with `EnsureTrailing<T>`, `StripTrailing<T>`,
+ * `EnsureStarting<T>`, and `StripStarting<T>` to further shape
+ * the type.
  */
 export type PathJoin<
   // leading string
   T extends string,
-  // trailing string
-  U extends string
-> = IfLiteral<
-  T,
-  // Literal T guaranteed
-  IfLiteral<
-    // conditional
-    U,
-    `${StripEnding<T, "/">}/${StripStarting<U, "/">}`,
-    `${StripEnding<T, "/">}/${string}`
-  >,
-  // wide `T` encountered
-  IfLiteral<U, `${string}${U}`, string>
->;
+  // trailing string or strings
+  U extends string | readonly string[]
+> = U extends readonly string[]
+  ? // eslint-disable-next-line no-use-before-define
+    PathMultiJoin<PathJoin<T, "">, [...U]>
+  : U extends string
+  ? IfLiteral<
+      T,
+      // Literal T guaranteed
+      IfLiteral<
+        // conditional
+        U,
+        `${StripTrailing<T, "/">}/${StripLeading<U, "/">}`,
+        `${StripTrailing<T, "/">}/${string}`
+      >,
+      // wide `T` encountered
+      IfLiteral<U, `${string}${U}`, string>
+    >
+  : never;
+
+type PathMultiJoin<
+  TProcessed extends string,
+  TRemaining extends readonly string[]
+> = [] extends TRemaining
+  ? TProcessed
+  : PathMultiJoin<
+      // add to the TProcessed string
+      PathJoin<TProcessed, First<TRemaining>>,
+      // remaining elements after extracting head element
+      AfterFirst<TRemaining>
+    >;

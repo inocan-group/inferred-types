@@ -13,6 +13,8 @@ describe("PathJoin<T,U>", () => {
     type T2 = PathJoin<"foo/", "bar">;
     type T3 = PathJoin<"foo", "/bar">;
     type T4 = PathJoin<"foo/", "/bar">;
+    type T5 = PathJoin<"/foo/", "/bar">;
+    type T6 = PathJoin<"foo/", "/bar/">;
 
     type cases = [
       // neither have divider
@@ -21,9 +23,27 @@ describe("PathJoin<T,U>", () => {
       Expect<Equal<T2, "foo/bar">>,
       Expect<Equal<T3, "foo/bar">>,
       // both have
-      Expect<Equal<T4, "foo/bar">>
+      Expect<Equal<T4, "foo/bar">>,
+      // leading slash
+      Expect<Equal<T5, "/foo/bar">>,
+      // trailing slash
+      Expect<Equal<T6, "foo/bar/">>
     ];
-    const cases: cases = [true, true, true, true];
+    const cases: cases = [true, true, true, true, true, true];
+  });
+
+  it("PathJoin<T,U> with U as array", () => {
+    type T1 = PathJoin<"foo", ["bar", "baz"]>;
+    type T2 = PathJoin<"/foo/", ["/bar/", "/baz/"]>;
+    type T3 = PathJoin<"/foo/", ["bar", "/baz"]>;
+
+    type cases = [
+      //
+      Expect<Equal<T1, "foo/bar/baz">>,
+      Expect<Equal<T2, "/foo/bar/baz/">>,
+      Expect<Equal<T3, "/foo/bar/baz">>
+    ];
+    const cases: cases = [true, true, true];
   });
 
   it("wide types mixed in", () => {
@@ -43,45 +63,32 @@ describe("PathJoin<T,U>", () => {
 });
 
 describe("pathJoin() runtime util", () => {
-  it("happy path", () => {
-    const t1 = pathJoin("foo", "bar" as string);
-    const t2 = pathJoin("foo/", "bar" as string);
-    const t3 = pathJoin("foo" as string, "/bar");
-    const t4 = pathJoin("foo/" as string, "/bar");
-    const t5 = pathJoin("foo/" as string, "bar");
-
-    // runtime tests
-    [t1, t2, t3, t4].forEach((test) => expect(test).toBe("foo/bar"));
-
-    // type tests
-    type cases = [
-      Expect<Equal<typeof t1, `foo/${string}`>>,
-      Expect<Equal<typeof t2, `foo/${string}`>>,
-      Expect<Equal<typeof t3, `${string}/bar`>>,
-      Expect<Equal<typeof t4, `${string}/bar`>>,
-      Expect<Equal<typeof t5, `${string}bar`>>
-    ];
-    const cases: cases = [true, true, true, true, true];
-  });
-
-  it("with wide types", () => {
+  it("no leading or trailing slashes", () => {
     const t1 = pathJoin("foo", "bar");
     const t2 = pathJoin("foo/", "bar");
     const t3 = pathJoin("foo", "/bar");
     const t4 = pathJoin("foo/", "/bar");
-    // runtime tests
-    [t1, t2, t3, t4].forEach((test) => expect(test, "runtime failure").toBe("foo/bar"));
+    // multi
+    const t5 = pathJoin("foo/", "bar", "/baz");
+    const t6 = pathJoin("foo/", "bar/", "/baz");
 
-    // type tests
-    type cases = [
-      // neither have divider
-      Expect<Equal<typeof t1, "foo/bar">>,
-      // one has, one does not
-      Expect<Equal<typeof t2, "foo/bar">>,
-      Expect<Equal<typeof t3, "foo/bar">>,
-      // both have
-      Expect<Equal<typeof t4, "foo/bar">>
-    ];
-    const cases: cases = [true, true, true, true];
+    [t1, t2, t3, t4].forEach((test) =>
+      expect(test, "no leading or trailing slash").toBe("foo/bar")
+    );
+    [t5, t6].forEach((test) =>
+      expect(test, "no leading or trailing slash (with multi U)").toBe("foo/bar/baz")
+    );
+  });
+
+  it("leading and trailing slashes", () => {
+    const t1 = pathJoin("/foo", "bar");
+    const t2 = pathJoin("foo/", "bar/");
+    const t3 = pathJoin("/foo", "bar", "/baz");
+    const t4 = pathJoin("foo/", "/bar/", "/baz/");
+    // runtime tests
+    expect(t1).toBe("/foo/bar");
+    expect(t2).toBe("foo/bar/");
+    expect(t3).toBe("/foo/bar/baz");
+    expect(t4).toBe("foo/bar/baz/");
   });
 });
