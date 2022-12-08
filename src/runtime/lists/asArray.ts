@@ -27,8 +27,12 @@ export type AsArray<T, W extends boolean = false> = T extends any[]
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const asArray = <T extends Narrowable, W extends boolean = true>(thing: T, _widen?: W) => {
-  return (isArray(thing) ? thing : typeof thing === "undefined" ? ([] as T[]) : [thing]) as AsArray<
-    T,
-    W
-  >;
+  return (
+    isArray(thing)
+      ? // proxy thing back as it's already an array
+        thing
+      : typeof thing === "undefined"
+      ? ([] as T[])
+      : [thing]
+  ) as AsArray<T, W>;
 };

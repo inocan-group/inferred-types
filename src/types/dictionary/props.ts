@@ -1,7 +1,5 @@
 import { Alpha } from "../alphabetic/alpha-characters";
-import { IsEqual } from "../boolean-logic/equivalency";
 import { Keys } from "../Keys";
-import { Narrowable } from "../Narrowable";
 
 /**
  * Extracts the _required_ keys in the object's type. You also may

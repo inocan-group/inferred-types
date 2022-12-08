@@ -109,7 +109,6 @@ export type LogicalCombinator = "AND" | "OR";
  * const onlyPrivate = filter({ startsWith: "_" });
  * const privateFiles = files.filter(onlyPrivate);
  * ```
- *
  */
 export type FilterFn<T extends StringFilter | NumericFilter> = T extends StringFilter
   ? <V extends string | undefined>(input: V) => boolean
