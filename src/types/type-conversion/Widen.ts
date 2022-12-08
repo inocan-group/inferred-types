@@ -1,4 +1,5 @@
 import { AnyFunction } from "src/runtime";
+import { TupleToUnion } from "./TupleToUnion";
 
 export type Widen<T> = T extends string
   ? string
@@ -15,7 +16,7 @@ export type Widen<T> = T extends string
   : T extends readonly AnyFunction[]
   ? AnyFunction[]
   : T extends readonly any[]
-  ? unknown[]
+  ? TupleToUnion<T>[]
   : T extends {}
   ? {}
   : T;
