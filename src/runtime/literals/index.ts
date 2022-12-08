@@ -13,6 +13,7 @@ export * from "./literal";
 export * from "./stripTrailing";
 export * from "./ensureTrailing";
 export * from "./ensureLeading";
+export * from "./pathJoin";
 export * from "./Suggest";
 export * from "./wide";
 
