@@ -1,6 +1,24 @@
 import { describe, it, expect } from "vitest";
-import { asArray } from "src/runtime";
+import { AsArray, asArray } from "src/runtime";
 import { Equal, Expect } from "@type-challenges/utils";
+
+describe("AsArray<T>", () => {
+  it("happy path", () => {
+    type T1 = AsArray<4>;
+    type T2 = AsArray<4, true>;
+    type T3 = AsArray<[4, 5, 6]>;
+    type T4 = AsArray<[4, 5, 6], true>;
+
+    type cases = [
+      //
+      Expect<Equal<T1, 4[]>>,
+      Expect<Equal<T2, number[]>>,
+      Expect<Equal<T3, [4, 5, 6]>>,
+      Expect<Equal<T4, number[]>>
+    ];
+    const cases: cases = [true, true, true, true];
+  });
+});
 
 describe("asArray() function", () => {
   it("non-array is returned as an array", () => {
