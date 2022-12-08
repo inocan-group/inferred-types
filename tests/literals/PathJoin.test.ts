@@ -91,4 +91,21 @@ describe("pathJoin() runtime util", () => {
     expect(t3).toBe("/foo/bar/baz");
     expect(t4).toBe("foo/bar/baz/");
   });
+
+  it.only("singular value", () => {
+    const t1 = pathJoin("foo");
+    const t2 = pathJoin("foo/");
+
+    // runtime
+    expect(t1).toBe("foo");
+    expect(t2).toBe("foo/");
+
+    // design time
+    type cases = [
+      //
+      Expect<Equal<typeof t1, "foo">>,
+      Expect<Equal<typeof t2, "foo/">>
+    ];
+    const cases: cases = [true, true];
+  });
 });

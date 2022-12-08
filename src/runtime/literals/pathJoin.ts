@@ -19,11 +19,12 @@ export function pathJoin<T extends string, U extends readonly string[]>(
   begin: T,
   ...rest: U
 ): PathJoin<T, U> {
-  const start = ensureTrailing(begin, "/");
-  const end = ensureLeading(rest.slice(-1)[0], "/");
-  const middle = rest
-    .slice(0, rest.length - 1)
-    .map((i) => stripLeading(stripTrailing(i, "/"), '"'));
+  const start = rest.length > 0 ? ensureTrailing(begin, "/") : begin;
+  const end = rest.length > 0 ? ensureLeading(rest.slice(-1)[0], "/") : "";
+  const middle =
+    rest.length > 1
+      ? rest.slice(0, rest.length - 1).map((i) => stripLeading(stripTrailing(i, "/"), '"'))
+      : [];
   const midString = stripTrailing(stripLeading(middle.join("/"), "/"), "/");
 
   return (

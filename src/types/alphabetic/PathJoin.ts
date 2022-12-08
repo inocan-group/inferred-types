@@ -21,7 +21,9 @@ export type PathJoin<
   T extends string,
   // trailing string or strings
   U extends string | readonly string[]
-> = U extends readonly string[]
+> = [] extends U
+  ? T
+  : U extends readonly string[]
   ? // eslint-disable-next-line no-use-before-define
     PathMultiJoin<PathJoin<T, "">, [...U]>
   : U extends string
