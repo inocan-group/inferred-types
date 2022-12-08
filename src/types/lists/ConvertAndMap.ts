@@ -94,6 +94,7 @@ export type ConverterCoverage = "string" | "number" | "boolean" | "object";
 /**
  * Extracts the coverage provided by a `StrongMap` as a Tuple
  */
+// eslint-disable-next-line no-use-before-define
 export type MapCoverage<T extends StrongMap<ConverterCoverage>> = T extends StrongMap<
   infer Coverage
 >
