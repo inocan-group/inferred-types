@@ -4,9 +4,14 @@
   "description": "Functions which provide useful type inference on TS projects",
   "license": "MIT",
   "author": "Ken Snyder<ken@ken.net>",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "module": "dist/index.js",
   "typings": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
+  "type": "module",
   "repository": {
     "url": "https://github.com/inocan-group/inferred-types"
   },
