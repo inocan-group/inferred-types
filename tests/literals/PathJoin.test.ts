@@ -92,7 +92,7 @@ describe("pathJoin() runtime util", () => {
     expect(t4).toBe("foo/bar/baz/");
   });
 
-  it.only("singular value", () => {
+  it("singular value", () => {
     const t1 = pathJoin("foo");
     const t2 = pathJoin("foo/");
 
