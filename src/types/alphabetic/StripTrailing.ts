@@ -12,7 +12,7 @@ import { IfLiteral } from "../boolean-logic/IsLiteral";
  * type R = StripEnding<T,U>;
  * ```
  */
-export type StripEnding<T extends string, U extends string> = IfLiteral<
+export type StripTrailing<T extends string, U extends string> = IfLiteral<
   // can only operate on literal strings
   T,
   // this path represents successful strip opp

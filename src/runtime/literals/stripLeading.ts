@@ -1,9 +1,9 @@
-import { StripStarting } from "src/types/alphabetic/StripStarting";
+import { StripLeading } from "src/types/alphabetic/StripLeading";
 
-export function stripStarting<T extends string, U extends string>(
+export function stripLeading<T extends string, U extends string>(
   content: T,
   strip: U
-): StripStarting<T, U> {
+): StripLeading<T, U> {
   const re = new RegExp(`^${strip}(.*)`);
   return (
     content.startsWith(strip)
@@ -11,5 +11,5 @@ export function stripStarting<T extends string, U extends string>(
         content.replace(re, "$1")
       : // does not
         content
-  ) as StripStarting<T, U>;
+  ) as StripLeading<T, U>;
 }
