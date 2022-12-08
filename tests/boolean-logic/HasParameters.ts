@@ -9,7 +9,6 @@ import { describe, it } from "vitest";
 describe("HasParameters<T>", () => {
   it("happy path", () => {
     const fn1 = (foo: string) => `${foo}bar`;
-    type X = HasParameters<typeof fn1>;
     const fn2 = (foo: string) => `${foo}bar` as const;
     const fn3 = () => `hello world`;
     const fn4 = () => `hello world` as const;
