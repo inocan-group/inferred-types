@@ -1,6 +1,6 @@
 import { Narrowable } from "../Narrowable";
 
-export type IsBoolean<T> = T extends boolean ? true : false;
+export type IsBoolean<T> = [T] extends [boolean] ? true : false;
 
 /**
  * Type utility which returns `true` or `false` based on

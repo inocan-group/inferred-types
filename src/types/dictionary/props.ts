@@ -1,5 +1,7 @@
 import { Alpha } from "../alphabetic/alpha-characters";
+import { IsEqual } from "../boolean-logic/equivalency";
 import { Keys } from "../Keys";
+import { Narrowable } from "../Narrowable";
 
 /**
  * Extracts the _required_ keys in the object's type. You also may
@@ -127,6 +129,11 @@ export type WithValue<
     Pick<T, KeysWithValue<W, T>>
   : // Exclude using E
     Omit<Pick<T, KeysWithValue<W, T>>, KeysWithValue<E, T>>;
+
+export type DictionaryWithoutValue<TDict extends object, TWithoutValue> = Omit<
+  TDict,
+  KeysWithValue<TWithoutValue, TDict>
+>;
 
 /**
  * Reduces an object to only the key/value pairs where the key is a

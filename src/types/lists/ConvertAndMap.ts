@@ -37,7 +37,7 @@ type ConverterKeys<S, N, B, O> = UnionToTuple<
   >
 >;
 
-export type ConverterInputType<T extends string> = T extends "string"
+type ConverterInputType<T extends string> = T extends "string"
   ? string
   : T extends "number"
   ? number
@@ -47,7 +47,7 @@ export type ConverterInputType<T extends string> = T extends "string"
   ? Record<string, any>
   : unknown;
 
-export type ConverterInputUnion<
+type ConverterInputUnion<
   TConverted extends readonly any[],
   TRemaining extends readonly string[]
 > = [] extends TRemaining
@@ -59,6 +59,11 @@ export type ConverterInputUnion<
       AfterFirst<TRemaining>
     >;
 
+/**
+ * **AvailableConverters**
+ *
+ * Type utility which will produce the correct union type for a "converter"
+ */
 export type AvailableConverters<S, N, B, O> = ConverterKeys<S, N, B, O> extends readonly string[]
   ? TupleToUnion<ConverterInputUnion<[], ConverterKeys<S, N, B, O>>>
   : never;

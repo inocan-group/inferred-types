@@ -5,11 +5,9 @@ export type IsFunction<T> = T extends FunctionType ? true : false;
 export type HybridFunction<TProps extends {}> = (<TArgs extends any[]>(...args: TArgs) => any) &
   TProps;
 
-export type SimpleFunction = <TArgs extends any[]>(...args: TArgs) => any;
+export type SimpleFunction = (...args: any[]) => any;
 
-export type AnyFunction<TProps extends {} | never = never> = TProps extends {}
-  ? HybridFunction<TProps>
-  : SimpleFunction;
+export type AnyFunction<TProps extends {} = {}> = SimpleFunction | HybridFunction<TProps>;
 
 /**
  * Checks whether a passed in value is a function and ensures run-time and types

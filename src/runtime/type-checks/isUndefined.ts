@@ -23,3 +23,11 @@ export function ifUndefined<T extends Narrowable, IF extends Narrowable, ELSE ex
 ) {
   return (isUndefined(val) ? ifVal : elseVal) as IsUndefined<T> extends true ? IF : ELSE;
 }
+
+export function ifDefined<T extends Narrowable, IF extends Narrowable, ELSE extends Narrowable>(
+  val: T,
+  ifVal: <V extends Exclude<T, undefined>>(v: V) => IF,
+  elseVal: ELSE
+) {
+  return (isUndefined(val) ? ifVal : elseVal) as IsUndefined<T> extends true ? IF : ELSE;
+}

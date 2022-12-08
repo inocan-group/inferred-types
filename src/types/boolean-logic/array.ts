@@ -1,4 +1,4 @@
-import { Equal } from "./equivalency";
+import { IsEqual } from "./equivalency";
 import { AfterFirst, First } from "../lists";
 import { Narrowable } from "../Narrowable";
 
@@ -47,7 +47,7 @@ export type Contains<T extends Narrowable, A extends readonly any[]> = First<A> 
  * `true` if `T` _extends_ any element in `A` making it match widely against `A`. If you
  * prefer a wider match you can use `Contains<T,A>` instead.
  */
-export type NarrowlyContains<T extends Narrowable, A extends readonly any[]> = Equal<
+export type NarrowlyContains<T extends Narrowable, A extends readonly any[]> = IsEqual<
   First<A>,
   T
 > extends true

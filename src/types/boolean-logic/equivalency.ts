@@ -3,7 +3,7 @@
  *
  * Type utility which tests whether two types -- `X` and `Y` -- are exactly the same type
  */
-export type Equal<X, Y> = (<T>() => T extends X ? 1 : 2) extends <T>() => T extends Y ? 1 : 2
+export type IsEqual<X, Y> = (<T>() => T extends X ? 1 : 2) extends <T>() => T extends Y ? 1 : 2
   ? true
   : false;
 
@@ -12,4 +12,4 @@ export type Equal<X, Y> = (<T>() => T extends X ? 1 : 2) extends <T>() => T exte
  *
  * Type utility which tests whether two types -- `X` and `Y` -- are _not_ exactly the same type
  */
-export type NotEqual<X, Y> = true extends Equal<X, Y> ? false : true;
+export type NotEqual<X, Y> = true extends IsEqual<X, Y> ? false : true;

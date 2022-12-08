@@ -27,7 +27,7 @@ export function isString<T>(i: T) {
  */
 export function ifString<T extends Narrowable, IF extends Narrowable, ELSE extends Narrowable>(
   val: T,
-  ifVal: IF,
+  ifVal: <E extends string>(t: E & T) => IF,
   elseVal: ELSE
 ) {
   return (isString(val) ? ifVal : elseVal) as IfString<T, IF, ELSE>;

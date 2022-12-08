@@ -4,4 +4,6 @@ export type Widen<T> = T extends string
   ? number
   : T extends boolean
   ? boolean
+  : T extends {}
+  ? {}
   : T;

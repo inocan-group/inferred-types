@@ -5,6 +5,7 @@
 // hash-code: 4324574d
 
 // file exports
+export * from "./ifSameType";
 export * from "./isArray";
 export * from "./isBoolean";
 export * from "./isFalse";

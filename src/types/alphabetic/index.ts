@@ -12,14 +12,16 @@ export * from "./DashUppercase";
 export * from "./Cardinality";
 export * from "./Dasherize";
 export * from "./HasUppercase";
+export * from "./EnsureLeading";
+export * from "./EnsureTrailing";
 export * from "./IsCapitalized";
 export * from "./KebabCase";
 export * from "./LowerAllCaps";
 export * from "./PascalCase";
 export * from "./Pluralize";
 export * from "./SnakeCase";
-export * from "./StripStarting";
-export * from "./StripEnding";
+export * from "./StripLeading";
+export * from "./StripTrailing";
 export * from "./alpha-characters";
 export * from "./Url";
 
