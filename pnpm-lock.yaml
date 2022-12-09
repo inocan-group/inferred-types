@@ -6,7 +6,7 @@ specifiers:
   '@typescript-eslint/eslint-plugin': ^5.46.0
   '@typescript-eslint/parser': ^5.46.0
   '@vitest/ui': ^0.25.6
-  brilliant-errors: ^0.7.1
+  brilliant-errors: ^0.7.3
   bumpp: ^8.2.1
   cross-env: ^7.0.3
   eslint: ^8.29.0
@@ -23,7 +23,7 @@ specifiers:
   vitest: ^0.25.6
 
 dependencies:
-  brilliant-errors: 0.7.1_@vitest+ui@0.25.6
+  brilliant-errors: 0.7.3_@vitest+ui@0.25.6
 
 devDependencies:
   '@type-challenges/utils': 0.1.1
@@ -404,23 +404,13 @@ packages:
     dependencies:
       fill-range: 7.0.1
 
-  /brilliant-errors/0.6.1:
-    resolution: {integrity: sha512-PciFPYWTSNUkDNPEQotMVPEKQ4TbHqzaUEYGJZkGn7MpNdqi8gsP7wb4d5mBZyA5QG7BAzoz4h9RtLNrKS7k7g==}
-    engines: {node: '>=14.0.0'}
-    dependencies:
-      callsites: 4.0.0
-      common-types: 1.33.2
-      inferred-types: 0.33.4
-    dev: false
-
-  /brilliant-errors/0.7.1_@vitest+ui@0.25.6:
-    resolution: {integrity: sha512-KtPGYbWHxybpSpbqyA8mkTm6zdQKNBjEOkaRk2lpA/vDSNGqVocqj0KbNaj+ZcMEt2BA4a7dSEklOcNqY5Y65A==}
+  /brilliant-errors/0.7.3_@vitest+ui@0.25.6:
+    resolution: {integrity: sha512-WT9BkAze4SUOJfr7LUwJWNDAvynEAvUMvMPuFKu8QQKnRq+WMx3DAtHfOBJjHmHRxf748JY3CNVytSk6HH2yGg==}
     engines: {node: '>=14.0.0'}
     dependencies:
       bumpp: 8.2.1
       callsites: 4.0.0
-      common-types: 1.33.2
-      inferred-types: 0.35.0
+      inferred-types: 0.37.2_@vitest+ui@0.25.6
       vitest: 0.25.6_@vitest+ui@0.25.6
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -554,10 +544,6 @@ packages:
     resolution: {integrity: sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA==}
     engines: {node: '>= 6'}
     dev: true
-
-  /common-types/1.33.2:
-    resolution: {integrity: sha512-jlnKm38MLr1Z4lNgyLa/koenixWZwK0hjMobdKmv9Uzpr8AJZ96yPnnrPYfmM7c/iQKw13E++NCb67zIfCR5AA==}
-    dev: false
 
   /concat-map/0.0.1:
     resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
@@ -1403,16 +1389,22 @@ packages:
     engines: {node: '>=0.8.19'}
     dev: true
 
-  /inferred-types/0.33.4:
-    resolution: {integrity: sha512-/fBPKXKtMLFzaMcW+lEomTPVWv26XVU36v8AGbhdPOK+1dQvu2SHjv/2DlS/FWbJZ4qC281DdFTl8xYo5SZKfw==}
+  /inferred-types/0.37.2_@vitest+ui@0.25.6:
+    resolution: {integrity: sha512-fnEazHdGsjhtVpuY5pbTwtY5kJiV5X6HwtV+4W1tKcZ3N1BxcbM6EBUJPTraMu9IYO3YsJka/jV9kP+T8JUIxQ==}
     dependencies:
-      brilliant-errors: 0.6.1
-    dev: false
-
-  /inferred-types/0.35.0:
-    resolution: {integrity: sha512-TZ9dprU2uGOyUeE/iBBEVAIvBsNH58MVbwwnOHE7LILID3IJR0M8QM64lAPtKbHi7k49f592Q6TpDL9SEdhlEw==}
-    dependencies:
-      brilliant-errors: 0.6.1
+      brilliant-errors: 0.7.3_@vitest+ui@0.25.6
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/browser'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
     dev: false
 
   /inflight/1.0.6:
