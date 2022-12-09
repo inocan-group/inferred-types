@@ -17,5 +17,5 @@ export function dictToKv<N extends Narrowable, T extends { [key: string]: N }, U
 ) {
   return keys(obj).map((k) => {
     return { key: k, value: obj[k] };
-  }) as unknown as U extends true ? UnionToTuple<KvFrom<Mutable<T>>[0]> : KvFrom<Mutable<T>>;
+  }) as unknown as U extends true ? UnionToTuple<KvFrom<Mutable<T>>[0]> : KvFrom<T>;
 }
