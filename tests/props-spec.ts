@@ -12,6 +12,7 @@ import {
   NumericKeys,
   NonStringKeys,
   WithNumericKeys,
+  WithoutValue,
 } from "src/types/dictionary/props";
 
 type T0 = { foo: number; bar: number; baz: string };
@@ -161,6 +162,24 @@ describe("Dictionary Type Utils", () => {
       Expect<Equal<N, { foo: number; bar: number }>>,
       Expect<Equal<LT, { bar: true }>>,
       Expect<Equal<LF, { baz: false; baz2: false }>>
+    ];
+    const cases: cases = [true, true, true, true];
+    expect(cases).toBe(cases);
+  });
+
+  it("WithoutValue<type, obj> reduces the types on the object effectively", () => {
+    type Literal = { foo: 1; bar: true; baz: false; baz2: false };
+
+    type S = WithoutValue<string, T0>;
+    type N = WithoutValue<number, T0>;
+    type LT = WithoutValue<true, Literal>;
+    type LF = WithoutValue<false, Literal>;
+
+    type cases = [
+      Expect<Equal<S, { foo: number; bar: number }>>,
+      Expect<Equal<N, { baz: string }>>,
+      Expect<Equal<LT, { baz: false; baz2: false; foo: 1 }>>,
+      Expect<Equal<LF, { foo: 1; bar: true }>>
     ];
     const cases: cases = [true, true, true, true];
     expect(cases).toBe(cases);
