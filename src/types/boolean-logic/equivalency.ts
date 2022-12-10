@@ -16,8 +16,6 @@ export type IsEqual<X, Y> = (<T>() => T extends X ? 1 : 2) extends <T>() => T ex
  */
 export type IsNotEqual<X, Y> = true extends IsEqual<X, Y> ? false : true;
 
-
-
 /**
  * **IfEqual**`<X,Y,IF,ELSE>`
  * 
