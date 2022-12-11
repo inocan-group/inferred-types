@@ -1,4 +1,7 @@
+import { AfterFirst } from "../lists";
+import { First } from "../lists/First";
 import { Narrowable } from "../Narrowable";
+import { IfFalse } from "./boolean";
 
 /**
  * **Equal**`<X extends Narrowable,Y>`
@@ -8,6 +11,8 @@ import { Narrowable } from "../Narrowable";
 export type IsEqual<X, Y> = (<T>() => T extends X ? 1 : 2) extends <T>() => T extends Y ? 1 : 2
   ? true
   : false;
+
+
 
 /**
  * **NotEqual**`<X,Y>`
@@ -46,3 +51,17 @@ export type IfNotEqual<
 > = IsNotEqual<X,Y> extends true
   ? IF
   : ELSE;
+
+  
+/**
+ * **SomeEqual**`<Value, CompareTo>`
+ * 
+ * A type utility which tests whether `Value` is exactly equal to an array of values
+ * stored in `CompareTo`. Possible results are `true`, `false`. A wide `boolean` type
+ * is not possible as equality operator can always be evaluated at design time.
+ * 
+ * **See Also:** `SomeExtends`
+ */
+export type SomeEqual<Value, CompareTo extends readonly any[]> = [] extends CompareTo
+? false
+: IfEqual<Value, First<CompareTo>, true, SomeEqual<Value, AfterFirst<CompareTo>>>;
