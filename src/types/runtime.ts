@@ -33,7 +33,3 @@ export type RuntimeProp<P extends Readonly<PropertyKey>, T extends RuntimeType<a
   is: TypeGuard<Record<P, T["type"]>>;
 };
 
-export type TypeOptions<T extends Partial<object> = {}> = {
-  /** each type has a default type guard but you can override if you need to be more specific */
-  typeGuard?: TypeGuard<T>;
-} & T;

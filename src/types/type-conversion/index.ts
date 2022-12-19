@@ -7,6 +7,7 @@
 // file exports
 export * from "./TupleToUnion";
 export * from "./UnionToIntersection";
+export * from "./ObjectFromKv";
 export * from "./UnionToTuple";
 export * from "./Widen";
 

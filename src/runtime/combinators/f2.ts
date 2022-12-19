@@ -1,6 +1,6 @@
 import { AfterFirst,  First,  SimplifyObject, TupleToUnion, UnionToTuple, WithoutValue } from "src/types";
 import { AsArray } from "../lists";
-import { withoutValue } from "../runtime";
+import { withoutValue } from "../runtime/withValue";
 
 /** ways in which an "undefined" value should be handled in a filter function */
 export type FilterUndefinedBehavior = "filter out" | "throw error" | "do not allow";
