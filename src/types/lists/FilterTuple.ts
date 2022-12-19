@@ -1,3 +1,16 @@
+
+
+type FTuple<
+  TTuple extends any[] | readonly any[],
+  TFilter,
+  Result extends any[] = []
+> =  TTuple extends [infer A, ...infer R]
+? [A] extends [TFilter]
+  ? FTuple<R, TFilter, Result>
+  : FTuple<R, TFilter, [...Result, A]>
+: Result;
+
+
 /**
  * **FilterTuple**
  *
@@ -12,9 +25,8 @@
 export type FilterTuple<
   TTuple extends any[] | readonly any[],
   TFilter,
-  Result extends any[] = []
-> = TTuple extends [infer A, ...infer R]
-  ? [A] extends [TFilter]
-    ? FilterTuple<R, TFilter, Result>
-    : FilterTuple<R, TFilter, [...Result, A]>
-  : Result;
+> = TTuple extends any[]
+  ? FTuple<TTuple, TFilter>
+  : TTuple extends readonly any[]
+    ? Readonly<FTuple<[...TTuple], TFilter>>
+    : never;
