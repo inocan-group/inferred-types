@@ -13,14 +13,16 @@ describe("ReturnValues<T>", () => {
     type T2 = ReturnValues<["foo","bar","baz"]>;
     type T3 = ReturnValues<["foo", () => false, () => true]>;
     type T4 = ReturnValues<["foo", () => false, () => boolean]>;
+    type T5 = ReturnValues<["foo", () => false, () => "blue"]>;
     
     type cases = [
       Expect<Equal<T1, []>>, //
       Expect<Equal<T2, []>>,
       Expect <Equal<T3, [false, true]>>,
       Expect <Equal<T4, [false, boolean]>>,
+      Expect <Equal<T5, [false, "blue"]>>,
     ];
-    const cases: cases = [ true, true, true, true];
+    const cases: cases = [ true, true, true, true, true];
   });
 
 });

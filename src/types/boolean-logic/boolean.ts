@@ -38,27 +38,27 @@ export type IsFalse<T extends Narrowable> = IsBoolean<T> extends true
 
 /**
  * Type utility which checks for literal `true` value and then switches type
- * to the IF, ELSE, or MAYBE generic types passed in where _maybe_ is when T
+ * to the TRUE, FALSE, or MAYBE generic types passed in where _maybe_ is when T
  * is the wide type of `boolean`
  */
 export type IfTrue<
   T extends boolean,
-  IF extends Narrowable,
-  ELSE extends Narrowable,
+  TRUE extends Narrowable,
+  FALSE extends Narrowable,
   MAYBE extends Narrowable
-> = IsTrue<T> extends true ? IF : IsTrue<T> extends false ? ELSE : MAYBE;
+> = IsTrue<T> extends true ? TRUE : IsTrue<T> extends false ? FALSE : MAYBE;
 
 /**
  * Type utility which checks for literal `false` value and then switches type
- * to the IF, ELSE, or MAYBE generic types passed in where _maybe_ is when T
+ * to the TRUE, FALSE, or MAYBE generic types passed in where _maybe_ is when T
  * is the wide type of `boolean`
  */
 export type IfFalse<
   T extends Narrowable,
-  IF extends Narrowable,
-  ELSE extends Narrowable,
-  MAYBE extends Narrowable
-> = IsFalse<T> extends true ? IF : IsTrue<T> extends false ? ELSE : MAYBE;
+  TRUE extends Narrowable,
+  FALSE extends Narrowable,
+  MAYBE extends Narrowable = FALSE
+> = IsFalse<T> extends true ? TRUE : IsTrue<T> extends false ? FALSE : MAYBE;
 
 /**
  * **IsBooleanLiteral**
@@ -72,13 +72,19 @@ export type IsBooleanLiteral<T extends Narrowable> = IsTrue<T> extends true
   ? true
   : false;
 
+export type IfBoolean<
+  T extends Narrowable, 
+  TRUE, 
+  FALSE,
+> = IsBoolean<T> extends true ? TRUE : FALSE;
+
 /**
  * **IfBooleanLiteral**
  *
- * Branch utility which returns `IF` type when `T` is a boolean literal and `ELSE` otherwise
+ * Branch utility which returns `TRUE` type when `T` is a boolean literal and `FALSE` otherwise
  */
 export type IfBooleanLiteral<
   T extends boolean,
-  IF extends Narrowable,
-  ELSE extends Narrowable
-> = IsBooleanLiteral<T> extends true ? IF : ELSE;
+  TRUE extends Narrowable,
+  FALSE extends Narrowable
+> = IsBooleanLiteral<T> extends true ? TRUE : FALSE;

@@ -6,7 +6,6 @@
 // file exports
 export * from "./condition";
 export * from "./type";
-export * from "./withValue";
 // directory exports
 export * from "../type-checks/index";
 

@@ -6,3 +6,6 @@ import { IsObject } from "./boolean-logic";
 export type Mutable<T> = {
   -readonly [K in keyof T]: IsObject<T[K]> extends true ? Mutable<T[K]> : T[K];
 };
+
+
+export type MutableArray<T extends readonly any[]> = [...T];

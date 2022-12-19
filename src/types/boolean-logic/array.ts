@@ -57,13 +57,16 @@ export type NarrowlyContains<T extends Narrowable, A extends readonly any[]> = I
   ? false
   : NarrowlyContains<T, AfterFirst<A>>;
 
-// type ReturnValuesAcc<T extends 
 
 /**
- * **ReturnValues**`<T>`
+ * **ReturnValues**`<TArray>`
  * 
  * Reduces an array of types to those which are functions and then evaluates
- * these functions return values as narrowly as possible
+ * these functions return values as narrowly as possible.
+ * ```ts
+ * // [true, "blue"]
+ * type T = ReturnValues<[true, false, () => true, () => "blue"]
+ * ```
  */
 export type ReturnValues<
   TArray extends readonly any[] | any[], 

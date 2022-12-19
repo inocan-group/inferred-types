@@ -1,5 +1,6 @@
+import { createFnWithProps } from "src/runtime/createFnWithProps";
 import { describe, it, expect } from "vitest";
-import { createFnWithProps } from "../src/index";
+
 
 describe("createFnWithProps()", () => {
   it("simple fn and prop are combined, type is retained", () => {

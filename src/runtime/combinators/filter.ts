@@ -1,3 +1,4 @@
+import { LogicalCombinator } from "src/types/boolean-logic";
 import { asArray } from "../lists/asArray";
 
 // string filters
@@ -98,7 +99,8 @@ export type UndefinedValue<U extends boolean> = true extends U
 
 export type UndefinedTreatment = "undefined treated as 'true'" | "undefined treated as 'false'";
 
-export type LogicalCombinator = "AND" | "OR";
+
+
 
 /**
  * **FilterFn**
@@ -254,10 +256,10 @@ const filterFn = <
  * to "no-impact" which means it's `false` when the logicCombinator is OR but defaults
  * to `true` when the logicCombinator is AND.
  */
-export const filter = <
+export const createFilter = <
   F extends FilterDefn | NotFilter,
+  C extends LogicalCombinator,
   U extends boolean | "no-impact",
-  C extends LogicalCombinator
 >(
   config: F,
   logicCombinator: C = "AND" as C,
