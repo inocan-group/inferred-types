@@ -1,13 +1,13 @@
-import { filter } from "src/runtime";
+import { createFilter } from "src/runtime";
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it, expect } from "vitest";
 
 describe("filter() utility function", () => {
   it("string filter built and gives proper types", () => {
-    const f = filter({ startsWith: "th" });
+    const f = createFilter({ startsWith: "th" });
     type P = Parameters<typeof f>;
     type R = ReturnType<typeof f>;
-    const notPrivate = filter({ not: { startsWith: ["_", "."] } });
+    const notPrivate = createFilter({ not: { startsWith: ["_", "."] } });
 
     // runtime
     expect(typeof f).toEqual("function");
@@ -24,15 +24,15 @@ describe("filter() utility function", () => {
   });
 
   it("numeric filter built and gives proper types", () => {
-    const f = filter({ equals: 42 });
+    const f = createFilter({ equals: 42 });
     type P = Parameters<typeof f>;
     type R = ReturnType<typeof f>;
 
     // runtime
     expect(typeof f).toEqual("function");
-    expect([1, 2, 3, 4, 5].filter(filter({ greaterThan: 3 }))) //
+    expect([1, 2, 3, 4, 5].filter(createFilter({ greaterThan: 3 }))) //
       .toEqual([4, 5]);
-    expect([1, 2, 3, 4, 5].filter(filter({ not: { greaterThan: 3 } }))) //
+    expect([1, 2, 3, 4, 5].filter(createFilter({ not: { greaterThan: 3 } }))) //
       .toEqual([1, 2, 3]);
 
     // design time
@@ -44,9 +44,27 @@ describe("filter() utility function", () => {
   });
 
   it("string filter's startsWith", () => {
-    const f = filter({ startsWith: "." });
+    const f = createFilter({ startsWith: "." });
     const remaining = ["foo", "bar", ".baz"].filter(f);
 
     expect(remaining).toEqual([".baz"]);
   });
+
+  
+  // TODO: this needs to be reworked and there is a start with f2 
+  it.skip("combining positive search condition with negative", () => {
+    const f1 = createFilter({ startsWith: "b", not: {equals: ["bar", "banana"]}}, "AND");
+    const f2 = createFilter({ startsWith: "b", notEqual: ["bar", "banana"]}, "AND");
+    const values = ["foo", "bar", "baz", "banana"] as const;
+    expect(f1("foo")).toBe(false);
+    expect(f1("bar")).toBe(false);
+    expect(f2("bar")).toBe(false);
+    expect(f1("baz")).toBe(true);
+    const r1 = values.filter(f1);
+    const r2 = values.filter(f2);
+    expect(r1).toEqual(["baz"]);
+    expect(r2).toEqual(["baz"]);
+  
+  });
+  
 });

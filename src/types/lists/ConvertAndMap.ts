@@ -4,7 +4,7 @@ import { First } from "./First";
 import { AfterFirst } from "./AfterFirst";
 import { Keys } from "../Keys";
 
-import { DictionaryWithoutValue } from "../dictionary/props";
+import {  WithoutValue } from "../dictionary/props";
 
 // [Mapped Tuple Types](https://github.com/Microsoft/TypeScript/issues/25947)
 
@@ -25,14 +25,14 @@ export type ConverterShape<
 
 type ConverterKeys<S, N, B, O> = UnionToTuple<
   Keys<
-    DictionaryWithoutValue<
+    WithoutValue<
+    undefined,
       {
         string: S;
         number: N;
         boolean: B;
         object: O;
-      },
-      undefined
+      }
     >
   >
 >;

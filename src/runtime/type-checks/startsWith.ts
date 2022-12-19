@@ -1,5 +1,5 @@
 import { Narrowable } from "src/types";
-import { IfStartsWith, StartsWith } from "src/types/boolean-logic";
+import { IfStartsWith, IfTrue, StartsWith } from "src/types/boolean-logic";
 import { IfUndefined } from "src/types/boolean-logic/IsUndefined";
 import { createFnWithProps } from "../createFnWithProps";
 import { box, Box } from "../literals";
@@ -88,20 +88,22 @@ export type StringLiteralFn<S extends string = string> = <T extends S>(input: T)
  * Where the variable `i` will _extend_ a string and function which this utility
  * returns is able to
  */
-export const ifStartsWith =
-  <TStartsWith extends string, TIf extends Narrowable, TElse extends Narrowable>(
-    /** the string literal _start value_ which a string must begin with */
-    start: TStartsWith,
-    /** a mutation function when a value _does_ start with `TStartsWith` */
-    isTrue: <T extends string>(input: T) => TIf,
-    /** an optional mutation function */
-    isFalse: <T extends string>(input: T) => TElse
-  ) =>
-  <TTextValue extends string>(input: TTextValue) =>
-    ifTrue(
-      // condition
-      startsWith(start)(input),
-      // handlers
-      isTrue(input),
-      isFalse(input)
-    );
+export const ifStartsWith =<
+TStartsWith extends string, 
+TIf extends Narrowable, 
+TElse extends Narrowable
+>(
+  /** the string literal _start value_ which a string must begin with */
+  start: TStartsWith,
+  /** a mutation function when a value _does_ start with `TStartsWith` */
+  doesStartWith: <T extends `${TStartsWith}${string}`>(input: T) => TIf,
+  /** an optional mutation function */
+  doesNotStartWith: <T extends string>(input: T) => TElse
+) => <TTextValue extends string>(input: TTextValue) =>
+  ifTrue(
+    // condition
+    startsWith(start)(input),
+    // handlers
+    () => doesStartWith(input as TTextValue & `${TStartsWith}${string}`),
+    () => doesNotStartWith(input as TTextValue)
+  ) as IfTrue<StartsWith<TTextValue, TStartsWith>, TIf, TElse, TIf | TElse>;

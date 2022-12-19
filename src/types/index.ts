@@ -14,7 +14,7 @@ export * from "./If";
 export * from "./Include";
 export * from "./KeyedRecord";
 export * from "./Keys";
-export * from "./Length";
+export * from "./lists/Length";
 export * from "./Mutable";
 export * from "./Narrowable";
 export * from "./Not";

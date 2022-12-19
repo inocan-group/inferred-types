@@ -1,5 +1,7 @@
+import { AfterFirst, First } from "../lists";
 import { Narrowable } from "../Narrowable";
-import { IfSomeEqual, SomeEqual } from "./equivalency";
+import { IfTrue } from "./boolean";
+import { IfSomeEqual } from "./equivalency";
 import { IfLiteral } from "./IsLiteral";
 
 /**
@@ -8,7 +10,7 @@ import { IfLiteral } from "./IsLiteral";
  * A type utility which evaluates `T` for _[truthiness](https://frontend.turing.edu/lessons/module-1/js-truthy-falsy-expressions.html)_ and returns `true` or `false`
  * where the state can be detected at design time; otherwise returns `boolean`.
  * 
- * **See Also:** `IfTruthy`, `IfSomeTruthy`, `IfAllTruthy`
+ * **See Also:** `IfTruthy`, `IfSomeTruthy`, `IfAllTruthy`, and `TruthyReturns`
  */
 export type Truthy<T> = //
   T extends string
@@ -20,7 +22,7 @@ export type Truthy<T> = //
       : IfSomeEqual<T, [null, undefined, typeof NaN], false, boolean>;
 
 /**
- * **IfTruthy**`<T>`
+ * **IfTruthy**`<T,IF,ELSE,MAYBE>`
  * 
  * A type utility which evaluates `T` for _[truthiness](https://frontend.turing.edu/lessons/module-1/js-truthy-falsy-expressions.html)_ and returns `IF` when true and `ELSE` if not. 
  * 
@@ -29,7 +31,30 @@ export type Truthy<T> = //
  */
 export type IfTruthy<
   T, 
+  TRUE extends Narrowable, 
+  FALSE extends Narrowable, 
+  MAYBE extends Narrowable = unknown
+> = Truthy<T> extends true ? TRUE : Truthy<T> extends false ? FALSE : MAYBE;
+
+/**
+ * **IfSomeTruthy**`<TValues,IF,ELSE,MAYBE>`
+ * 
+ * A type utility which evaluates all the values in `TValues` for _[truthiness](https://frontend.turing.edu/lessons/module-1/js-truthy-falsy-expressions.html)_ and 
+ * returns `TRUE` type when at least one is truthy, the `FALSE` type when none are, 
+ * and the `MAYBE` type when the truthiness is not known at design time.
+ */
+export type IfSomeTruthy<
+  TValues extends readonly any[],
   IF extends Narrowable, 
   ELSE extends Narrowable, 
-  MAYBE extends Narrowable = ELSE
-> = Truthy<T> extends true ? IF : Truthy<T> extends false ? ELSE : MAYBE;
+  MAYBE extends Narrowable = unknown,
+  IsUnknown extends boolean = false
+> = //
+[] extends TValues
+  ? IfTrue<IsUnknown, MAYBE, ELSE, MAYBE>
+  : IfTruthy<
+    First<TValues>, 
+    true, 
+    IfSomeTruthy<AfterFirst<TValues>, IF, ELSE, MAYBE, IsUnknown>,
+    IfSomeTruthy<AfterFirst<TValues>, IF, ELSE, MAYBE, true>
+  >;

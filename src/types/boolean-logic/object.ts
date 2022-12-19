@@ -1,4 +1,4 @@
-import { FunctionType } from "../FunctionType";
+import { AnyFunction } from "src/runtime";
 import { Mutable } from "../Mutable";
 import { Narrowable } from "../Narrowable";
 
@@ -9,7 +9,7 @@ import { Narrowable } from "../Narrowable";
  */
 export type IsObject<T> = Mutable<T> extends Record<string, any>
   ? // an object of some type
-    T extends FunctionType
+    T extends AnyFunction
     ? // when a function with props is found, categorize as a function not object
       false
     : Mutable<T> extends any[]

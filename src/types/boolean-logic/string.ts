@@ -9,13 +9,13 @@ import { Narrowable } from "src/types";
 export type IsString<T> = T extends string ? true : false;
 
 /**
- * **IfString**
+ * **IfString**`<T,TRUE,FALSE>`
  *
  * Type utility which determines if `T` is a _string_ (wide or narrow) and
- * returns `IF` type if it is, otherwise returns the type `ELSE`.
+ * returns `TRUE` type if it is, otherwise returns the type `FALSE`.
  */
 export type IfString<
   T extends Narrowable, //
-  IF extends Narrowable,
-  ELSE extends Narrowable
-> = IsString<T> extends true ? IF : IsString<T> extends false ? ELSE : IF | ELSE;
+  TRUE extends Narrowable,
+  FALSE extends Narrowable
+> = IsString<T> extends true ? TRUE : IsString<T> extends false ? FALSE : TRUE | FALSE;

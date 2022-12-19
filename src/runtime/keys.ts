@@ -1,5 +1,6 @@
 import { Keys } from "src/types/Keys";
-import { Length } from "src/types/Length";
+import { Length } from "src/types/lists/Length";
+
 
 /**
  * Provides the _keys_ of an object with the `keyof T` made explicit.

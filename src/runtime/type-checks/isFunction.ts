@@ -1,6 +1,6 @@
-import { FunctionType } from "src/types/FunctionType";
 
-export type IsFunction<T> = T extends FunctionType ? true : false;
+
+export type IsFunction<T> = T extends AnyFunction ? true : false;
 
 export type HybridFunction<TProps extends {}> = (<TArgs extends any[]>(...args: TArgs) => any) &
   TProps;

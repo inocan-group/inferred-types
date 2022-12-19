@@ -1,7 +1,6 @@
 import { AfterFirst } from "../lists";
 import { First } from "../lists/First";
 import { Narrowable } from "../Narrowable";
-import { IfFalse } from "./boolean";
 
 /**
  * **Equal**`<X extends Narrowable,Y>`
@@ -52,7 +51,7 @@ export type IfNotEqual<
   ? IF
   : ELSE;
 
-  
+
 /**
  * **SomeEqual**`<Value, CompareTo>`
  * 
@@ -60,8 +59,21 @@ export type IfNotEqual<
  * stored in `CompareTo`. Possible results are `true`, `false`. A wide `boolean` type
  * is not possible as equality operator can always be evaluated at design time.
  * 
- * **See Also:** `SomeExtends`
+ * **See Also:** `SomeExtends` and `IfSomeEqual`
  */
 export type SomeEqual<Value, CompareTo extends readonly any[]> = [] extends CompareTo
 ? false
 : IfEqual<Value, First<CompareTo>, true, SomeEqual<Value, AfterFirst<CompareTo>>>;
+
+/**
+ * **IfSomeEqual**`<Value, CompareTo, IF, ELSE>`
+ * 
+ * A type utility which evaluates whether `Value` is equal to any of the values in
+ * `CompareTo` and if so then it returns `IF` otherwise `ELSE`.
+ */
+export type IfSomeEqual<
+  Value, 
+  CompareTo extends readonly any[],
+  IF,
+  ELSE
+> = SomeEqual<Value, CompareTo> extends true ? IF : ELSE;
