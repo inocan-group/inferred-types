@@ -1,4 +1,4 @@
-import { IfTrue, IsTrue } from "src/types/boolean-logic";
+import {  IfFalse, IfTrue, IsTrue } from "src/types/boolean-logic";
 import { Narrowable } from "src/types/Narrowable";
 
 /**
@@ -24,8 +24,17 @@ export function isTrue<T extends Narrowable>(i: T) {
  */
 export function ifTrue<T extends boolean, IF extends Narrowable, ELSE extends Narrowable>(
   val: T,
-  ifVal: IF,
-  elseVal: ELSE
+  ifVal: <V extends T & true>(val: V) => IF,
+  elseVal: <V extends Exclude<T, true>>(val: V) => ELSE
 ) {
-  return (isTrue(val) ? ifVal : elseVal) as IfTrue<T, IF, ELSE, IF | ELSE>;
+  return (
+    isTrue(val) 
+    ? ifVal(val as true & T) 
+    : elseVal(val as Exclude<T, true>)
+  ) as unknown as  IfTrue<
+    T, 
+    IF, 
+    IfFalse<T, ELSE, IF | ELSE>,
+    IF | ELSE
+  >;
 }

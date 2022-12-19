@@ -1,7 +1,8 @@
-import { FunctionType, Narrowable, Not } from "src/types";
+import { Narrowable, Not } from "src/types";
 import { IfObject, IsObject } from "src/types/boolean-logic";
+import { AnyFunction } from "./isFunction";
 
-export type ObjectType = Not<Record<string, Narrowable>, FunctionType>;
+export type ObjectType = Not<Record<string, Narrowable>, AnyFunction>;
 
 /**
  * Detects whether the passed in `v` is of type "object" where an object
@@ -9,7 +10,7 @@ export type ObjectType = Not<Record<string, Narrowable>, FunctionType>;
  * arrays are excluded, as well as functions which also have properties hanging
  * off of them.
  */
-export function isObject<T extends Narrowable>(i: T) {
+export function isObject<T extends Narrowable>(i: T): IsObject<T> {
   return (typeof i === "object" && i !== null && Array.isArray(i) === false) as IsObject<T>;
 }
 
