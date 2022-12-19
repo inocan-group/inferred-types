@@ -19,8 +19,8 @@ import { or } from "src/runtime";
 
 describe("runtime if/is", () => {
   it("ifString(v,i,e)", () => {
-    const t = ifString("foo", () => 42, false);
-    const f = ifString(-1, () => "yikes", 42);
+    const t = ifString("foo", () => 42, () => false);
+    const f = ifString(-1, () => "yikes", () => 42);
 
     type cases = [
       Expect<Equal<typeof t, 42>>, //
@@ -30,8 +30,8 @@ describe("runtime if/is", () => {
   });
 
   it("ifNumber(v,i,e)", () => {
-    const t = ifNumber(42, 42, false);
-    const f = ifNumber("foo", "yikes", 42);
+    const t = ifNumber(42, () => 42, () => false);
+    const f = ifNumber("foo", () => "yikes", () => 42);
 
     type cases = [
       Expect<Equal<typeof t, 42>>, //
@@ -41,8 +41,8 @@ describe("runtime if/is", () => {
   });
 
   it("ifBoolean(v,i,e)", () => {
-    const t = ifBoolean(false, 42, false);
-    const f = ifBoolean(undefined, "yikes", 42);
+    const t = ifBoolean(false, () => 42, () => false);
+    const f = ifBoolean(undefined, () => "yikes", () => 42);
 
     type cases = [
       Expect<Equal<typeof t, 42>>, //

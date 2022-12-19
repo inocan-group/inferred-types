@@ -1,5 +1,5 @@
 import { Narrowable } from "src/types";
-import { IsBoolean } from "src/types/boolean-logic";
+import { IfBoolean, IsBoolean } from "src/types/boolean-logic";
 
 /**
  * Runtime and type checks whether a variable is a boolean value.
@@ -16,9 +16,19 @@ export function isBoolean<T extends Narrowable>(i: T): IsBoolean<T> {
  * of this criteria.
  *
  * @param val the value being tested
- * @param ifVal the value (strongly typed) returned if val is _boolean_
- * @param elseVal the value (strongly typed) returned if val is NOT a _boolean
+ * @param ifBoolean the value (strongly typed) returned if val is _boolean_
+ * @param notBoolean the value (strongly typed) returned if val is NOT a _boolean
  */
-export function ifBoolean<T, IF, ELSE>(val: T, ifVal: IF, elseVal: ELSE) {
-  return (isBoolean(val) ? ifVal : elseVal) as IsBoolean<T> extends true ? IF : ELSE;
+export function ifBoolean<
+  T, 
+  IF extends Narrowable, 
+  ELSE extends Narrowable
+>(
+  val: T, 
+  ifBoolean: <V extends Narrowable & boolean>(v: V & T) => IF, 
+  notBoolean: <V extends Exclude<T, boolean>>(v: V) => ELSE
+): IfBoolean<T,IF,ELSE> {
+  return (
+    isBoolean(val) ? ifBoolean(val as T & boolean) : notBoolean(val as Exclude<T, boolean>)
+  ) as IsBoolean<T> extends true ? IF : ELSE;
 }
