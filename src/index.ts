@@ -6,7 +6,7 @@
 
 // directory exports
 export * from "./types/index";
-
+export * from "./runtime/index";
 
 // #endregion auto-indexed files
 

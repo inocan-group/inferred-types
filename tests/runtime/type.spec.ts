@@ -1,9 +1,29 @@
 import { describe, it, expect } from "vitest";
 
 import type { Expect, Equal } from "@type-challenges/utils";
-import { createFnWithProps, isFunction, isObject } from "src/runtime";
+import { createFnWithProps, isFunction, isObject, type } from "src/runtime";
 
 describe("testing type() utility and some pre-made conditions", () => {
+  
+  it("defining scalar types", () => {
+    const s = type(d => d.string({desc: "my lucky string"}));
+    const n = type(d => d.number({desc: "my lucky number"}));
+    const b = type(d => d.boolean({desc: "my lucky coin"}));
+
+    const sl = type(d => d.stringLiteral(["foo", "bar"], {desc: "where is baz"}));
+    const nl = type(d => d.numericLiteral([1, 42, 99], {desc: "reasonable numbers"}));
+    const t = type(d => d.true({desc: "i am no liar"}));
+    const f = type(d => d.false({desc: "or am I?"}));
+
+    type cases = [
+      /** type tests */
+    ];
+    const cases: cases = [];
+    
+  });
+  
+
+
   it("isFunction()", () => {
     const fn = () => "hello world";
     const fn2 = createFnWithProps(() => "hello world", { foo: "bar" });

@@ -1,27 +1,75 @@
-import { FilterTuple, IsLiteral, TupleToUnion, UnionToTuple } from "src/types";
+/* eslint-disable no-use-before-define */
+import {  GetEach, IsLiteral, TupleToUnion, UnionToTuple } from "src/types";
 import { IfLength } from "src/types/boolean-logic/IfLength";
 import { Narrowable } from "src/types/Narrowable";
+import { ObjectFromKv } from "src/types/type-conversion/ObjectFromKv";
 import { TypeGuard } from "src/types/TypeGuard";
-import { asArray, AsArray } from "../lists/asArray";
-import {
-  AnyFunction,
-} from "../type-checks";
 
 export const NO_DEFAULT_VALUE = `no-default-value` as const;
-export type TypeKind = "string" | "number" | "boolean" | "true" | "false" | "stringLiteral" | "numericLiteral" | "object" | "function" | "objectFunction" | "objectLiteral" | "null" | "undefined" | "array" | "tuple" | "never";
+export type TypeKind = "string" | "number" | "boolean" | "true" | "false" | "stringLiteral" | "numericLiteral" | "object" | "function" | "functionLiteral" | "objectFunction" | "objectLiteral" | "null" | "undefined" | "array" | "tuple" | "never" | "union";
+
+// basic types
+export type StringType<T, TDesc extends string = ""> =  Type<"string", T, TDesc>;
+export type NumericType<T, TDesc extends string = ""> =  Type<"number", T, TDesc>;
+export type BooleanType<T, TDesc extends string = ""> =  Type<"boolean", T, TDesc>;
+export type TrueType<T, TDesc extends string = ""> = Type<"true", T, TDesc>;
+export type FalseType<TDesc extends string = ""> = Type<"false", false, TDesc>;
+export type StringLiteral<TLiteral extends string, TDesc extends string = ""> =  Type<"stringLiteral", TLiteral, TDesc>;
+export type NumericLiteral<TLiteral extends number, TDesc extends string = ""> =  Type<"numericLiteral", TLiteral, TDesc>;
+export type FunctionType<TDesc extends string = ""> =  Type<"function", Function, TDesc>;
+export type FunctionLiteral<TFn extends Narrowable, TDesc extends string = ""> =  Type<"function", Function, TDesc> & { Fn: TFn & ((...args: any[]) => any) };
+
+export type ScalarType<TLiteral extends number | string | boolean = never, TDesc extends string = ""> = StringType<TDesc> 
+  | NumericType<TDesc>
+  | BooleanType<TDesc>
+  | StringLiteral<Exclude<TLiteral, number | boolean>, TDesc>
+  | NumericLiteral<Exclude<TLiteral, string | boolean>, TDesc>
+  | TrueType<TDesc>
+  | FalseType<TDesc>
+  | FunctionType<TDesc>;
+
+
+// container types
+export type UnionType<
+  TUnderlying extends readonly Type<TypeKind, any, string>[], 
+  TDesc extends string = ""
+> = Type<"union", TupleToUnion<GetEach<TUnderlying, "type">>, TDesc> & { underlying : TUnderlying};
+
+export type ObjectType<
+  TKv extends readonly {key: string; value: Type<TypeKind, any, string>}[],
+  TDesc extends string = ""
+> = Type<"object", ObjectFromKv<TKv>, TDesc> & {kv: TKv};
+
+export type ArrayType<
+  TType extends Type<TypeKind, any, string>,
+  TDesc extends string = ""
+> = Type<"array", TType["type"][], TDesc>;
+
+export type TupleType<
+  TTuple extends readonly Type<TypeKind, any, string>[],
+  TDesc extends string = ""
+> = Type<"tuple", GetEach<TTuple, "type">, TDesc> & { underlying: TTuple };
+
+export type ContainerType<
+  TState extends readonly any[] = readonly[],
+  TType extends Type<TypeKind, any, string> = Type<TypeKind, any, string>,
+  TDesc extends string = ""
+> = UnionType<TState, TDesc>
+  | ObjectType<TState, TDesc>
+  | ArrayType<TType, TDesc>
+  | TupleType<TState, TDesc>;
 
 export type ValidationResult = [checkedForType: true, valid: boolean] | [checkedForType: false, valid: undefined];
 
-// function isValid<R extends ValidationResult>(r: R){
-//   return ifTrue(and(r[0],r[1]), true, false);
-// }
-
-export type TypeValidationFn<R extends ValidationResult> = <V extends Narrowable>(test: V) => R;
 
 /**
  * A type definition which retains valuable runtime characteristics
  */
-export type Type<K extends TypeKind, T extends Narrowable, D extends string = ""> = {
+export type Type<
+  K extends TypeKind, 
+  T extends Narrowable, 
+  D extends string = ""
+> = {
   _kind: "Type";
   /** the _kind_ or _category_ of the type (e.g., string, stringLiteral, number, etc) */
   kind: K;
@@ -34,96 +82,102 @@ export type Type<K extends TypeKind, T extends Narrowable, D extends string = ""
   /** 
    * a type guard function which uses the basic type shape to be generated automatically
    */
-  typeGuard: TypeGuard<T>;
+  is: TypeGuard<T>;
 
-  /** optional type validations/constraints beyond basic type guard */
-  validations: readonly TypeValidationFn<any>[];
+  /** runs the type-guard check plus any run-time validates which were configured */
+  validate: <V extends T>(val: V) => boolean;
   /**
-   * the "default value" of a given type
+   * the "default value" of a given type 
    */
   defaultValue: T | typeof NO_DEFAULT_VALUE;
+
+  identity: T | NotApplicable;
 
   /** Description of the type */
   description: D;
 };
 
-export type TypeOptions<T extends Narrowable> = {
-  validations?: Type<any, T>["validations"];
+export type TypeOptions<
+  T, 
+  TValidations extends readonly any[], 
+  TDefaultValue extends T | null,
+  TDesc extends string
+> = {
+  validations?: TValidations;
+  defaultValue?: TDefaultValue;
+  desc?: TDesc;
 };
 
-export type TypeApi<
-  TType extends readonly any[],
-  TExclude extends readonly TypeKind[] | []
-> = Exclude<
-  {
-    /**
-     * The type definition as it currently stands. A single call to
-     * a type function on the API will define the type and every call
-     * afterward will add another type as a _union_ to the first.
-     */
-    typeDefn: Readonly<TupleToUnion<TType>>;
-
+export interface TypeInterface {
     /** a wide string type */
-    string(options: TypeOptions<string>): TypeApi<
-      FilterTuple<[...TType, string], never>, 
-      [...TExclude, "string", "stringLiteral"]
-    >;
+    string<
+      TValidations extends readonly any[] = readonly[], 
+      TDefault extends string | null = null,
+      TDesc extends string = ""
+    >(options?: TypeOptions<string, TValidations, TDefault, TDesc>): StringType<string, TDesc>;
+
+    stringLiteral<
+      TLiteral extends readonly any[],
+      TValidations extends readonly any[] = readonly[], 
+      TDefault extends TupleToUnion<TLiteral> | null = null,
+      TDesc extends string = ""
+    >(literal: TLiteral extends readonly string[] ? TLiteral : never, options?: TypeOptions<TupleToUnion<TLiteral>, TValidations, TDefault, TDesc>): StringLiteral<TupleToUnion<TLiteral>, TDesc>;
 
     /** a wide number type */
-    number(options: TypeOptions<number>): TypeApi<
-      FilterTuple<[...TType, string], never>, 
-      [...TExclude, "number", "numericLiteral"]
-    >;
+    number<
+      TValidations extends readonly any[] = readonly[], 
+      TDefault extends number | null = null,
+      TDesc extends string = ""
+    >(options: TypeOptions<number, TValidations, TDefault, TDesc>): NumericType<number, TDesc>;
+
+    numericLiteral<
+      TLiteral extends readonly any[],
+      TValidations extends readonly any[] = readonly[], 
+      TDefault extends TupleToUnion<TLiteral> | null = null,
+      TDesc extends string = ""
+    >(
+      literal: TLiteral extends readonly number[] ? TLiteral : never, 
+      options?: TypeOptions<TupleToUnion<TLiteral>, TValidations, TDefault, TDesc>
+    ): NumericLiteral<TupleToUnion<TLiteral>, TDesc>;
 
     /** a wide boolean type */
-    boolean(options: TypeOptions<boolean>): TypeApi<
-      FilterTuple<[...TType, string], never>, 
-      [...TExclude, "boolean"]
-    >;
+    boolean<
+      TValidations extends readonly any[] = readonly[], 
+      TDefault extends boolean | null = null,
+      TDesc extends string = ""  
+    >(options: TypeOptions<boolean, TValidations, TDefault, TDesc>): BooleanType<boolean, TDesc>;
 
     /** a narrow `true` type */
-    true(options: TypeOptions<true>): TypeApi<
-      FilterTuple<[...TType, string], never>, 
-      [...TExclude, "true"]
-    >;
+    true<V extends any, D extends string>(options: TypeOptions<true, V,D>): TrueType;
 
     /** a narrow `false` type */
-    false(options: TypeOptions<false>): TypeApi<
-      FilterTuple<[...TType, string], never>, 
-      [...TExclude, "false"]
-    >;
+    false<V extends any, D extends string>(options: TypeOptions<false, V,D>): FalseType;
 
-    function(options: TypeOptions<Function>): TypeApi<
-      FilterTuple<[...TType, AnyFunction], never>, 
-      [...TExclude, "function"]
-    >;
+    function<V extends any, D extends string>(options: TypeOptions<Function, V,D>): FunctionType;
 
     /** a tuple definition */
-    tuple<T extends readonly any[]>(tuple: T, options: TypeOptions<T>): TypeApi<
-      FilterTuple<[...TType, T], never>, 
-      [...TExclude, "tuple" | "array"]
-    >;
+    tuple<T extends readonly any[], V extends any, D extends string>(tuple: T, options: TypeOptions<any, V,D>): TupleType<T>;
 
     /** an array definition */
-    array<T extends Narrowable>(arrayOf: T, options: TypeOptions<T[]>): TypeApi<
-      FilterTuple<[...TType, T[]], never>, 
-      [...TExclude, "array", "tuple"]
-    >;
+  //   array<T extends Narrowable>(arrayOf: T, options: TypeOptions<T[]>): TypeApi<
+  //     FilterTuple<[...TType, T[]], never>, 
+  //     [...TExclude, "array", "tuple"]
+  //   >;
 
-    /** a string _literal_ */
-    stringLiteral<L extends string | readonly string[]>(literal: L, options: TypeOptions<L>): TypeApi<
-      FilterTuple<[...TType, ...AsArray<L>], never>, 
-      [...TExclude, "stringLiteral", "string"]
-    >;
+  //   /** a string _literal_ */
+  //   stringLiteral<L extends string | readonly string[]>(literal: L, options: TypeOptions<L>): TypeApi<
+  //     FilterTuple<[...TType, ...AsArray<L>], never>, 
+  //     [...TExclude, "stringLiteral", "string"]
+  //   >;
 
-    /** a numeric _literal_ */
-    numericLiteral<L extends string>(literal: L, options: TypeOptions<L>): TypeApi<
-      FilterTuple<[...TType, string], never>, 
-      [...TExclude, "numericLiteral", "number"]
-    >;
-  }, 
-  TupleToUnion<TExclude>
->;
+  //   /** a numeric _literal_ */
+  //   numericLiteral<L extends string>(literal: L, options: TypeOptions<L>): TypeApi<
+  //     FilterTuple<[...TType, string], never>, 
+  //     [...TExclude, "numericLiteral", "number"]
+  //   >;
+  // }, 
+  // TupleToUnion<TExclude>
+}
 
 
 
@@ -219,42 +273,104 @@ export function isTypeDefinition<U extends Type<any, any, any>>(thing: unknown |
   );
 }
 
+export type TypeApi<E extends string = never> = Exclude<TypeInterface, E>;
+
 
 /**
- * Provides a runtime configurator which allows for expressing a type
+ * Provides a runtime configurator to specify a _type_ which is known to 
+ * both the type system and the runtime system.
  */
 export type TypeDefinition<
-  TType extends readonly any[],
-  TExclude extends readonly any[] = []
-> = (defn: TypeApi<[], []>) => TypeApi<TType, TExclude>;
-
-function updateType<
-  E extends readonly any[], 
-  T extends readonly any[]
->(existing: E, ...newType: T ) {
-  return [...existing, ...newType] as unknown as UnionToTuple<TupleToUnion<[...E,...T]>>;
-}
+  TType extends Narrowable
+> = (defn: TypeApi) => TType;
 
 
-const createTypeApi = <
-  TType extends readonly any[], 
-  TExclude extends readonly TypeKind[] | []
->(type: TType, excluding: TExclude) => {
-
-  // full API definition
-  const api: TypeApi<TType, []> = {
-    string(_o) {
-      return createTypeApi(
-        updateType(type, "" as string),
-        [...excluding, "string", "stringLiteral"]
-      );
+function baseType<
+  K extends TypeKind, 
+  T, 
+  TValidations extends readonly any[], 
+  TDefault extends T | null,
+  TDesc extends string
+>(kind: K, type: T, tg: TypeGuard<T>, o: TypeOptions<T, TValidations, TDefault, TDesc> ) {
+  return {
+    _kind: "Type",
+    kind,
+    type,
+    is: tg,
+    isUnion: false,
+    isLiteralType: false,
+    validate<V extends T>(val: V): boolean {
+      return tg(val);
     },
-    stringLiteral(literal, _o) {
-      return createTypeApi(
-        updateType(type, ...asArray(literal, false)),
-        [...excluding, "string", "stringLiteral"]
-      );
+    
+    description: o?.desc || ""
+  } as Partial<Type<K,T,TDesc>>;
+} 
+
+export const NOT_APPLICABLE = `-x-x-x- n/a -x-x-x-` as const;
+export type NotApplicable = typeof NOT_APPLICABLE;
+
+
+const createTypeApi: TypeInterface = {
+    string(o) {
+      return {
+        ...baseType(
+          "string", 
+          "" as string, 
+          (test: unknown): test is string =>  {
+            return typeof test === "string" ? true : false;
+          },
+          o
+        ),
+        identity: "",
+
+      };
     },
+    number(o) {
+      return {
+        ...baseType(
+          "number",
+          0 as number,
+          (test: unknown): test is number =>  {
+            return typeof test === "number" ? true : false;
+          },
+          o
+        ),
+        identity: 0,
+
+      }
+    },
+    boolean(o) {
+      return {
+        ...baseType(
+          "boolean",
+          true as boolean,
+          (test: unknown): test is boolean =>  {
+            return typeof test === "boolean" ? true : false;
+          },
+          o
+        ),
+        identity: NOT_APPLICABLE,
+
+      }
+    }, 
+    stringLiteral(literal, o) {
+      return {
+        ...baseType(
+          "stringLiteral",
+          literal as unknown as UnionToTuple<typeof literal>,
+          (test: unknown): test is UnionToTuple<typeof literal> =>  {
+            return typeof test === "string" 
+              ? literal.includes(test) ? true : false
+              : false;
+          },
+          o
+        ),
+        identity: "",
+        isLiteralType: true,
+        isUnion: literal.length > 1 ? true : false
+      }
+    }
     
 
   };
@@ -279,28 +395,10 @@ const createTypeApi = <
  * ```
  */
 export function type<
-  TType extends readonly any[],
-  TExclude extends readonly any[]
->(typeDefn: TypeDefinition<TType, TExclude>) {
+  TType extends Narrowable,
+>(typeDefn: TypeDefinition<TType>) {
 
-  // initialize to "never" state
-  const type = {
-    _kind: "Type",
-    kind: "never",
-    type: null as never,
-    typeGuard(thing): thing is never {
-      return true;
-    },
-    validations: [],
-    isUnion: false,
-    isLiteralType: false,
-    defaultValue: NO_DEFAULT_VALUE,
-    description: ""
-  } satisfies Type<any, any, any>;
-
-
-  const api = createTypeApi(type, []);
-  return typeDefn(api);
+  return typeDefn(createTypeApi());
 }
 
 
