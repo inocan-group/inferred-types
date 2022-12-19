@@ -1,6 +1,7 @@
 import { IsEqual } from "./equivalency";
 import { AfterFirst, First } from "../lists";
 import { Narrowable } from "../Narrowable";
+import { AnyFunction } from "src/runtime";
 
 export type IsArray<T> = [T] extends [any[]] ? true : [T] extends [readonly any[]] ? true : false;
 export type IsReadonlyArray<T> = T extends readonly any[] ? true : false;
@@ -55,3 +56,23 @@ export type NarrowlyContains<T extends Narrowable, A extends readonly any[]> = I
   : [] extends AfterFirst<A>
   ? false
   : NarrowlyContains<T, AfterFirst<A>>;
+
+// type ReturnValuesAcc<T extends 
+
+/**
+ * **ReturnValues**`<T>`
+ * 
+ * Reduces an array of types to those which are functions and then evaluates
+ * these functions return values as narrowly as possible
+ */
+export type ReturnValues<
+  TArray extends readonly any[] | any[], 
+  TResults extends readonly  any[] = []> = //
+  [] extends TArray
+    ? TResults
+    : First<TArray> extends AnyFunction
+      ? ReturnValues<AfterFirst<TArray>, [...TResults, ReturnType<First<TArray>>]>
+      : ReturnValues<AfterFirst<TArray>, TResults>;
+
+
+
