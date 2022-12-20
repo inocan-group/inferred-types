@@ -1,4 +1,6 @@
+import { AnyFunction } from "src/runtime/type-checks";
 import { Narrowable } from "../Narrowable";
+import { IsEqual } from "./equivalency";
 
 export type IsBoolean<T> = [T] extends [boolean] ? true : false;
 
@@ -88,3 +90,31 @@ export type IfBooleanLiteral<
   TRUE extends Narrowable,
   FALSE extends Narrowable
 > = IsBooleanLiteral<T> extends true ? TRUE : FALSE;
+
+/**
+ * **ReturnsTrue**`<T>`
+ * 
+ * Type utility which indicates whether the _return value_ of `T` is 
+ * a `true` value. Possible values are `true`, `false`, or `boolean`.
+ * 
+ * Note: any non-functions passed in as `T` are always a **false** value
+ */
+export type ReturnsTrue<T> = T extends AnyFunction
+  ? ReturnType<T> extends true
+    ? true
+    : IsEqual<ReturnType<T>, boolean> extends true ? boolean : false
+  : false;
+
+/**
+ * **ReturnsTrue**`<T>`
+ * 
+ * Type utility which indicates whether the _return value_ of `T` is 
+ * a `false` value. Possible values are `true`, `false`, or `boolean`.
+ * 
+ * Note: any non-functions passed in as `T` are always a **false** value
+ */
+export type ReturnsFalse<T> = T extends AnyFunction
+  ? ReturnType<T> extends false
+    ? true
+    : IsEqual<ReturnType<T>, boolean> extends true ? boolean : false
+  : false;
