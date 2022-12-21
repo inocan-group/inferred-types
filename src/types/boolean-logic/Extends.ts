@@ -44,3 +44,17 @@ export type ExtendsAll<
   V extends Narrowable,
   T extends readonly any[]
 > = ExtendAllAcc<V,T>;
+
+
+/**
+ * **IfExtendsAll**`<V,T,IF,ELSE>`
+ * 
+ * Type utility which converts the type based on whether `V` _extends_
+ * all the values in `T`.
+ */
+export type IfExtendsAll<
+  V extends Narrowable,
+  T extends readonly any[],
+  IF extends Narrowable,
+  ELSE extends Narrowable
+> = ExtendsAll<V,T> extends true ? IF : ELSE;
