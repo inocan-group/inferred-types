@@ -1,16 +1,20 @@
-import { Include } from "./Include";
 /**
- * **Retain<T, K>**
+ * **Retain**`<T, U, L>`
  * 
- * Reduces the type system to just the key/values which are represented in `K`.
- * The `L` generic can largely be ignored unless you need _literal_ equality.
+ * _Allows_ any value `T` which extends `U` otherwise sets type to `never`. Normally, you'll just ignore
+ * the `L` generic but if need the comparison to be literal you can set to `true`: 
  * 
  * ```ts
- * type Obj = { foo: 1, bar: number, baz: string };
- * // { foo: 1, bar: number }
- * type Retained = Retain<Obj, "foo" | "bar">;
+ * const foo: "foo" = "foo";
+ * // "foo"
+ * type Normal = Include<typeof foo, string>;
+ * // L1 is never, L2 is "foo"
+ * type L1 = Include<typeof foo, string, true>;
+ * type L2 = Include<typeof foo, "foo", true>;
  * ```
  * 
- * **Note:** in essence this is the _opposite_ of `Exclude<T,K>`
+ * Note: this is effectively the inverse of `Omit<T>`
  */
-export type Retain<T, K extends keyof T> = Pick<T, Include<keyof T, K>>;
+export type Retain<T, U, L extends boolean = false> = L extends true
+  ? T extends U ? U extends T ? T : never : never
+  : T extends U ? T : never;

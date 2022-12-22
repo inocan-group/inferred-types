@@ -1,14 +1,13 @@
 import { describe, it, expect } from "vitest";
 
-import { Include, Retain } from "../src/types";
+import { Retain, Include } from "../src/types";
 import { Equal, Expect } from "@type-challenges/utils";
 
-// INCLUDE
-describe("Include<T, U> utility", () => {
+describe("Retain<T, U> utility", () => {
   it(" wide type test", () => {
     const str = "foo";
-    type Foo = Include<typeof str, string>;
-    type NotFoo = Include<typeof str, number>;
+    type Foo = Retain<typeof str, string>;
+    type NotFoo = Retain<typeof str, number>;
 
     type cases = [Expect<Equal<Foo, "foo">>, Expect<Equal<NotFoo, never>>];
     const c: cases = [true, true];
@@ -17,10 +16,10 @@ describe("Include<T, U> utility", () => {
 
   it("narrow type test", () => {
     const str = "foo";
-    type Foo = Include<typeof str, "foo">;
-    type NotFoo = Include<typeof str, "bar">;
-    type RelatedFoo = Include<typeof str, string>;
-    type NotLiteralFoo = Include<typeof str, string, true>;
+    type Foo = Retain<typeof str, "foo">;
+    type NotFoo = Retain<typeof str, "bar">;
+    type RelatedFoo = Retain<typeof str, string>;
+    type NotLiteralFoo = Retain<typeof str, string, true>;
 
     type cases = [
       Expect<Equal<Foo, "foo">>,
@@ -39,13 +38,13 @@ describe("Include<T, U> utility", () => {
   });
 });
 
-// RETAIN
-describe("Retain<T, U> utility", () => {
+
+describe("Include<T, U> utility", () => {
   it("base test", () => {
     const obj = { foo: 1, bar: 2, baz: "hi" };
-    type FooBar = Retain<typeof obj, "foo" | "bar">;
-    type Baz = Retain<typeof obj, "baz">;
-    type FooBaz = Retain<typeof obj, "foo" | "baz">;
+    type FooBar = Include<typeof obj, "foo" | "bar">;
+    type Baz = Include<typeof obj, "baz">;
+    type FooBaz = Include<typeof obj, "foo" | "baz">;
 
     type cases = [
       Expect<Equal<FooBar, { foo: number; bar: number }>>,
@@ -58,7 +57,7 @@ describe("Retain<T, U> utility", () => {
 
   it("optional params and literals", () => {
     type Obj = { foo: 1; bar?: number; baz: "hi" };
-    type FooBar = Retain<Obj, "foo" | "bar">;
+    type FooBar = Include<Obj, "foo" | "bar">;
 
     type cases = [Expect<Equal<FooBar, { foo: 1; bar?: number }>>];
     const c: cases = [true];
