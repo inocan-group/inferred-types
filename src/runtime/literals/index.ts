@@ -15,6 +15,7 @@ export * from "./ensureTrailing";
 export * from "./ensureLeading";
 export * from "./pathJoin";
 export * from "./Suggest";
+export * from "./narrow";
 export * from "./wide";
 
 // #endregion auto-indexed files

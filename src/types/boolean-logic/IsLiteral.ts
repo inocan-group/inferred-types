@@ -18,7 +18,7 @@ export type IsStringLiteral<T extends Narrowable> = [T] extends [string]
  *
  * Branch utility which returns `IF` type when `T` is a string literal and `ELSE` otherwise
  */
-export type IfStringLiteral<T extends string, IF extends Narrowable, ELSE extends Narrowable> = [
+export type IfStringLiteral<T extends Narrowable, IF extends Narrowable, ELSE extends Narrowable> = [
   IsStringLiteral<T>
 ] extends [true]
   ? IF
@@ -30,15 +30,16 @@ export type IfStringLiteral<T extends string, IF extends Narrowable, ELSE extend
  * Type utility which returns true/false if the numeric value a _numeric literal_ versus
  * just the _number_ type.
  */
-export type IsNumericLiteral<T extends number> = number extends T ? false : true;
+export type IsNumericLiteral<T extends Narrowable> = number extends T ? false : true;
 
 /**
- * **IfNumericLiteral**
+ * **IfNumericLiteral**`<T,IF,ELSE>`
  *
- * Branch utility which returns `IF` type when `T` is a numeric literal and `ELSE` otherwise
+ * Branch utility which returns `IF` type when `T` is a numeric literal and `ELSE` in all
+ * other situations.
  */
 export type IfNumericLiteral<
-  T extends number,
+  T extends Narrowable,
   IF extends Narrowable,
   ELSE extends Narrowable
 > = IsNumericLiteral<T> extends true ? IF : ELSE;
@@ -84,7 +85,11 @@ export type IsOptionalLiteral<T> = [Exclude<T, undefined>] extends [string]
  *
  * Branch type utility with return `IF` when `T` is a _literal_ value and `ELSE` otherwise
  */
-export type IfLiteral<T, IF extends Narrowable, ELSE extends Narrowable> = IsLiteral<T> extends true
+export type IfLiteral<
+  T, 
+  IF extends Narrowable, 
+  ELSE extends Narrowable
+> = IsLiteral<T> extends true
   ? IF
   : ELSE;
 

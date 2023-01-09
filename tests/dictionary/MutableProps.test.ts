@@ -2,8 +2,6 @@ import { describe, it, expect } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
 
 import { MutableProps, MutablePropsExclusive } from "src/types/dictionary";
-import { WithKeys, WithoutKeys } from "src/types/dictionary/WithKeys";
-import { Mutable } from "src/types/type-conversion/Mutable";
 
 describe("MutableProp<T,M> and MutableProps<T,M>", () => {
   it("MutableProp<T,M> ", () => {

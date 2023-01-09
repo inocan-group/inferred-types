@@ -19,7 +19,7 @@ export function ifArray<
 >(
   val: T,
   isAnArray: <N extends T & readonly any[]>(arr: N) => IF,
-  isNotAnArray: <N extends Exclude<T, any[]>>(nonArr: N) => ELSE
+  isNotAnArray: <N extends Exclude<T, any[] | readonly any[]>>(nonArr: N) => ELSE
 ) {
   return (isArray(val) ? isAnArray(val as any) : isNotAnArray(val as any)) as IfArray<T, IF, ELSE>;
 }
@@ -27,8 +27,25 @@ export function ifArray<
 export function ifArrayPartial<T extends Narrowable>() {
   return <IF extends Narrowable, ELSE extends Narrowable>(
     isAnArray: <N extends T & readonly any[]>(arr: N) => IF,
-    isNotAnArray: <N extends Exclude<T, any[]>>(nonArr: N) => ELSE
+    isNotAnArray: <N extends Exclude<T, any[] | readonly any[]>>(nonArr: N) => ELSE
   ) => {
     return <V extends T>(val: V) => ifArray(val, isAnArray, isNotAnArray);
   };
+}
+
+
+export function ifReadonlyArray<
+  // value which is possibly an array
+  T extends Narrowable,
+  // functions which return a known type
+  IF extends Narrowable,
+  ELSE extends Narrowable
+>(
+  val: T,
+  isAnArray: <N extends T & readonly Narrowable[]>(arr: N) => IF,
+  isNotAnArray: <N extends Exclude<T, any[] | readonly any[]>>(nonArr: N) => ELSE
+) {
+  return (
+    isArray(val) ? isAnArray(val as any) : isNotAnArray(val as any)
+  ) as IfArray<T, IF, ELSE>;
 }

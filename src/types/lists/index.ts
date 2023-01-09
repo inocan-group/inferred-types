@@ -9,9 +9,10 @@ export * from "./AfterFirst";
 export * from "./First";
 export * from "./FirstString";
 export * from "./boolean-arrays";
-export * from "./FilterTuple";
+export * from "./TupleFilter";
 export * from "./Split";
 export * from "./Length";
+export * from "./set-ops";
 export * from "./UniqueForProp";
 
 // #endregion auto-indexed files

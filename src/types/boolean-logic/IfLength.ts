@@ -1,6 +1,20 @@
 import { Length } from "src/types";
-import { IfEqual, IsLiteral } from "src/types/boolean-logic";
+import { IfEquals, IsLiteral } from "src/types/boolean-logic";
 import { Narrowable } from "src/types/Narrowable";
+
+/**
+ * **IsLength**`<T, LEN>`
+ * 
+ * Boolean type utility which returns true/false based on whether
+ * the correct length for `T` is specified.
+ */
+export type IsLength<
+  T,
+  LEN extends number
+> = T extends readonly any[]
+  ? IfEquals<Length<T>, LEN, true, false>
+  : false;
+
 
 /**
  * **IfLength**`<TEvaluate,TLength,IF,ELSE,MAYBE>`
@@ -17,10 +31,10 @@ export type IfLength<
   TLength extends number, 
   IF extends Narrowable,
   ELSE extends Narrowable,
-  MAYBE extends Narrowable = ELSE
+  MAYBE extends Narrowable = IF | ELSE
 > = TEvaluate extends readonly any[]
   ? IsLiteral<TLength> extends true
-    ? IfEqual<Length<TEvaluate>, TLength, IF, ELSE>
+    ? IfEquals<Length<TEvaluate>, TLength, IF, ELSE>
     : MAYBE
   : TEvaluate extends any[]
     ? MAYBE

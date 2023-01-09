@@ -3,58 +3,93 @@ import { First } from "../lists/First";
 import { Narrowable } from "../Narrowable";
 import { And } from "./And";
 
+
 /**
- * **Extends**`<T, EXTENDS>`
+ * **DoesExtend**`<TValue, TExtends>`
  *
- * Boolean type utility which returns `true` if `T` _extends_ `EXTENDS`.
+ * Boolean type utility which returns `true` if `TValue` _extends_ `TExtends`.
  */
-export type Extends<T extends Narrowable, EXTENDS extends Narrowable> = T extends EXTENDS
+export type DoesExtend<
+  TValue extends Narrowable, 
+  TExtends extends Narrowable
+> = TValue extends TExtends
   ? true
   : false;
+
 /**
- * **IfExtends**
+ * **IfExtends**`<TValue,TExtends,IF,ELSE>`
  *
  * Branching type utility which returns type `IF` when `E` _extends_ `T`; otherwise
  * it will return the type `ELSE`.
  */
 export type IfExtends<
-  T extends Narrowable,
-  EXTENDS extends Narrowable,
-  IF extends Narrowable,
-  ELSE extends Narrowable
-> = Extends<T, EXTENDS> extends true ? IF : ELSE;
+  TValue extends Narrowable,
+  TExtends extends Narrowable,
+  IF extends Narrowable = true,
+  ELSE extends Narrowable = false
+> = DoesExtend<TValue, TExtends> extends true ? IF : ELSE;
 
-type ExtendAllAcc<
-  V extends Narrowable,
-  T extends readonly any[],
+type ExtendEveryAcc<
+  TValue extends Narrowable,
+  TList extends readonly any[],
   Processed extends readonly any[] = []
-> = [] extends T
-  ? And<Processed>
-  : First<T> extends V
-    ? ExtendAllAcc<V, AfterFirst<T>, readonly [...Processed, true]>
-    : ExtendAllAcc<V, AfterFirst<T>, readonly [...Processed, false]>;
+> = TList extends [infer First, ...infer Rest]
+  ? First extends TValue
+    ? ExtendEveryAcc<TValue, Rest, readonly [...Processed, true]>
+    : ExtendEveryAcc<TValue, Rest, readonly [...Processed, false]>
+  : And<Processed>;
+
 
 /**
- * **ExtendsAll**`<V,T[]>`
+ * **ExtendsEvery**`<TValue, TList>`
  * 
  * A type utility which provides a boolean response on whether the value `V`
  * extends all of the properties in the array of `T`
  */
-export type ExtendsAll<
-  V extends Narrowable,
-  T extends readonly any[]
-> = ExtendAllAcc<V,T>;
+export type ExtendsEvery<
+  TValue extends Narrowable,
+  TList extends readonly any[],
+> = ExtendEveryAcc<TValue, TList>;
+
+/**
+ * **ExtendsSome**`<TValue,TExtends[]>`
+ * 
+ * A type utility which provides a boolean response on whether the value `V`
+ * extends _any_ of the properties in the array of `T`
+ */
+export type ExtendsSome<
+  TValue extends Narrowable,
+  TExtendsSome extends readonly any[]
+> = [] extends TExtendsSome
+  ? false
+  : TValue extends First<TExtendsSome>
+    ? true // short circuit with true
+    : ExtendsSome<TValue, AfterFirst<TExtendsSome>>;
 
 
 /**
- * **IfExtendsAll**`<V,T,IF,ELSE>`
+ * **IfExtendsEvery**`<V,T,IF,ELSE>`
  * 
  * Type utility which converts the type based on whether `V` _extends_
  * all the values in `T`.
  */
-export type IfExtendsAll<
+export type IfExtendsEvery<
   V extends Narrowable,
-  T extends readonly any[],
+  TList extends readonly any[],
   IF extends Narrowable,
   ELSE extends Narrowable
-> = ExtendsAll<V,T> extends true ? IF : ELSE;
+> = ExtendsEvery<V,TList> extends true ? IF : ELSE;
+
+
+/**
+ * **IfExtendsSome**`<TList,TValue,IF,ELSE>`
+ * 
+ * Type utility which converts the type based on whether elements of `TList`
+ * extend `TValue`.
+ */
+export type IfExtendsSome<
+TValue extends Narrowable,
+TList extends readonly any[],
+IF extends Narrowable,
+ELSE extends Narrowable
+> = ExtendsSome<TValue,TList> extends true ? IF : ELSE;

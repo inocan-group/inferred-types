@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { ifString } from "src/runtime";
+import { ifString } from "src/runtime/type-checks";
 import {  Narrowable } from "src/types";
 import { LogicalReturns } from "src/types/lists/boolean-arrays";
 import { describe, expect, it } from "vitest";
@@ -13,24 +13,20 @@ describe("LogicalReturns<TValues,TParams>", () => {
   it("happy path", () => {
     const f = <A extends readonly any[]>(...args: A) => args;
     const t = f(true as const, () => true);
-    type True =  [true, () => true];
-    type False = [false, () => false];
-    type Mixed = [true, true, false, boolean, () => true, () => false ];
+    type True =  [ true, () => true];
+    type False = [ false, () => false];
+    type Mixed = [ true, true, false, boolean, () => true, () => false ];
     type T1 =  LogicalReturns<True>;
     type T2 = LogicalReturns<False>;
     type T3 = LogicalReturns<Mixed>;
-    type T = ReturnType<True[1]>;
-    type F = ReturnType<False[1]>;
     
     type cases = [
-      Expect<Equal<T, true>>,
-      Expect<Equal<F, false>>,
       Expect<Equal<T1, [true, true]>>,
       Expect<Equal<LogicalReturns<typeof t>, [true, true]>>,
       Expect<Equal<T2, [false, false]>>,
       Expect<Equal<T3, [true, true, false, boolean,true, false]>>,
     ];
-    const cases: cases = [true, true, true, true, true, true];
+    const cases: cases = [true, true, true, true ];
   });
 
   

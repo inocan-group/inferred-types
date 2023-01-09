@@ -1,5 +1,5 @@
 import { Equal, Expect, } from "@type-challenges/utils";
-import { Alphanumeric } from "src/types/alphabetic/alpha-characters";
+import { AlphaNumeric } from "src/types/alphabetic/alpha-characters";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -7,18 +7,17 @@ import { describe, it } from "vitest";
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("AlphaNumeric<T>", () => {
-  const builder = <S extends string>(input: S & Alphanumeric<S>) => input as Alphanumeric<S>;
+  const builder = <S extends string>(input: S & AlphaNumeric<S>) => input as AlphaNumeric<S>;
 
-  it("runtime happy path", () => {
+  it("happy path", () => {
     const a1 = "foobar" as const;
     const t1 = builder(a1);
-    type T1a = Alphanumeric<typeof a1>;
-    type T1t = Alphanumeric<typeof t1>;
+    type T1a = AlphaNumeric<typeof a1>;
+    type T1t = AlphaNumeric<typeof t1>;
 
-    type Valid = Alphanumeric<"foobar">;
-    type Invalid = Alphanumeric<"foo_bar">;
+    type Valid = AlphaNumeric<"foobar">;
+    type Invalid = AlphaNumeric<"foo_bar">;
 
-    
     type cases = [
       Expect<Equal<T1a, T1t>>,//
       Expect<Equal<Valid, "foobar">>,

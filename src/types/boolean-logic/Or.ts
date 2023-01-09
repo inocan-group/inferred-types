@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import { LogicFunction } from "../functions/LogicFunction";
 import { ReturnTypes } from "../lists";
 import { Narrowable } from "../Narrowable";
@@ -13,23 +14,23 @@ export type Or<
   // eslint-disable-next-line no-use-before-define
   TConditions extends readonly (boolean | LogicFunction<TParams>)[],
   TParams extends readonly any[] = []
-> = NarrowlyContains<true, TConditions> extends true
+> = NarrowlyContains<TConditions, true> extends true
     ? // if a true value is found anywhere, the result is true
       true
     : // if the return type of  LogicFunction is true anywhere, the result is true
-      NarrowlyContains<true, ReturnTypes<TConditions>> extends true
+      NarrowlyContains<ReturnTypes<TConditions>, true> extends true
         ? true
         : // if boolean value found we need to defer to runtime
-          NarrowlyContains<boolean, TConditions> extends true
+          NarrowlyContains<TConditions, boolean> extends true
           ? boolean
           : // if boolean return value found we need to defer to runtime
-            NarrowlyContains<boolean, ReturnTypes<TConditions>> extends true
+            NarrowlyContains<ReturnTypes<TConditions>, boolean> extends true
             ? boolean
             : // if false found after not finding other boolean types it is false
-              NarrowlyContains<false, TConditions> extends true
+              NarrowlyContains<TConditions, false> extends true
               ? false
               : // same applies if return value is false
-                NarrowlyContains<false,  ReturnTypes<TConditions>> extends true
+                NarrowlyContains<ReturnTypes<TConditions>, false> extends true
                 ? false
                 : // logical operation is not permitted if there are no boolean types
                   never;
@@ -44,8 +45,9 @@ export type Or<
  * param which will try to use this to help narrow types where possible.
  */
 export type IfOr<
-  TConditions extends readonly (boolean | LogicFunction<TParams>)[],
+  TConditions extends (readonly (boolean | LogicFunction<TParams>)[])
+    | (boolean | LogicFunction<TParams>)[],
   IF extends Narrowable,
   ELSE extends Narrowable,
   TParams extends readonly any[] = [],
-> = Or<TConditions> extends true ? IF : ELSE;
+> = Or<readonly [...TConditions]> extends true ? IF : ELSE;

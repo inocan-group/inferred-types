@@ -11,17 +11,17 @@ describe("Contains<T,A>", () => {
 
     type cases = [
       // "foo" extends string so true
-      Expect<Equal<Contains<string, T1>, true>>,
+      Expect<Equal<Contains<T1, string>, true>>,
       // "bar" does NOT extend "foo"
-      Expect<Equal<Contains<"bar", T1>, false>>,
+      Expect<Equal<Contains<T1, "bar">, false>>,
       // T4 has literal string but this will match the wide type string
-      Expect<Equal<Contains<string, T4>, true>>,
+      Expect<Equal<Contains<T4, string>, true>>,
       // T1 has both wide and narrow versions of "number"
-      Expect<Equal<Contains<number, T1>, true>>,
+      Expect<Equal<Contains<T1, number>, true>>,
       // T3 has narrow versions of "number"
-      Expect<Equal<Contains<number, T3>, true>>,
+      Expect<Equal<Contains<T3, number>, true>>,
       // boolean literals evaluate to wide type
-      Expect<Equal<Contains<boolean, T2>, true>>
+      Expect<Equal<Contains<T2, boolean>, true>>
     ];
     const cases: cases = [true, true, true, true, true, true];
   });
@@ -36,19 +36,19 @@ describe("NarrowlyContains<T,A>", () => {
 
     type cases = [
       // "foo" is not equal to string
-      Expect<Equal<NarrowlyContains<string, T1>, false>>,
+      Expect<Equal<NarrowlyContains<T1, string>, false>>,
       // "foo" does equal "foo"
-      Expect<Equal<NarrowlyContains<"foo", T1>, true>>,
+      Expect<Equal<NarrowlyContains<T1, "foo">, true>>,
       // T4 has literal string but this doesn't match with NarrowlyContains
-      Expect<Equal<NarrowlyContains<string, T4>, false>>,
+      Expect<Equal<NarrowlyContains<T4, string>, false>>,
       // T1 has both wide and narrow versions of "number" but match is only on wide type
-      Expect<Equal<NarrowlyContains<number, T1>, true>>,
+      Expect<Equal<NarrowlyContains<T1, number>, true>>,
       // T3 has matches on narrow number
-      Expect<Equal<NarrowlyContains<42, T3>, true>>,
+      Expect<Equal<NarrowlyContains<T3, 42>, true>>,
       // T3 identifies a non-match of narrow numbers
-      Expect<Equal<NarrowlyContains<442, T3>, false>>,
+      Expect<Equal<NarrowlyContains<T3, 442>, false>>,
       // boolean literals evaluate to wide type
-      Expect<Equal<NarrowlyContains<boolean, T2>, false>>
+      Expect<Equal<NarrowlyContains<T2, boolean>, false>>
     ];
     const cases: cases = [true, true, true, true, true, true, true];
   });

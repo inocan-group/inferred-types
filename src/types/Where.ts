@@ -1,4 +1,5 @@
-import { Include } from "./Include";
+import { Retain } from "./Retain";
+
 /**
  * Allows filtering down `T` to those which extend a given type `U`.
  *
@@ -14,7 +15,7 @@ export type Where<
   T extends Record<string, any> | readonly string[],
   U
 > = T extends readonly string[]
-  ? Include<T[number], U>
+  ? Retain<T[number], U>
   : {
       [K in keyof T]: K extends U ? K : never;
     }[keyof T];

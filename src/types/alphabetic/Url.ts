@@ -1,4 +1,4 @@
-import { AlphaNumeric, Ipv4, VariableName } from "./alpha-characters";
+import { AlphaNumericChar, Ipv4, VariableName } from "./alpha-characters";
 
 export type NetworkProtocol = "http" | "https" | "file" | "ws" | "wss";
 
@@ -7,9 +7,9 @@ export type NetworkProtocol = "http" | "https" | "file" | "ws" | "wss";
  * (e.g., `www.someplace.com`, etc.)
  */
 export type DomainName =
-  | `${AlphaNumeric}${string}.${AlphaNumeric}${string}`
-  | `${AlphaNumeric}${string}.${AlphaNumeric}${string}.${string}`
-  | `${AlphaNumeric}${string}.${AlphaNumeric}${string}.${string}.${string}`;
+  | `${AlphaNumericChar}${string}.${AlphaNumericChar}${string}`
+  | `${AlphaNumericChar}${string}.${AlphaNumericChar}${string}.${string}`
+  | `${AlphaNumericChar}${string}.${AlphaNumericChar}${string}.${string}.${string}`;
 
 export type RelativeUrl = `${VariableName | "/"}`;
 

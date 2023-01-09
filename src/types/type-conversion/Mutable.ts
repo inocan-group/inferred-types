@@ -13,3 +13,9 @@ export type Mutable<T> = ExpandRecursively<{
 
 
 export type MutableArray<T extends readonly any[]> = [...T];
+
+export type Immutable<T extends { [propName:string]: any }> ={
+  readonly [key in keyof T]: T[key] extends { [propName:string]: any }
+    ? Immutable<T[key]>
+    : T[key]
+};

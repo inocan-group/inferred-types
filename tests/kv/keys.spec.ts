@@ -47,20 +47,43 @@ describe("keys() utility", () => {
     expect(k).toContain("color");
     expect(k).toContain("isFavorite");
 
-    type cases = [Expect<Equal<typeof k, ("color" | "id" | "isFavorite")[]>>];
+    type cases = [
+      Expect<Equal<typeof k, readonly ["id", "color", "isFavorite"]>> //
+    ];
     const cases: cases = [true];
     expect(cases).toBe(cases);
   });
 
   it("with object and exclusion keys, type and run-time are correct", () => {
-    const obj = defineType({ id: "123" })({ color: "red", isFavorite: false });
+    const obj = { id: "123", color: "red" as string, isFavorite: false as boolean } as const;
     const k = keys(obj, "color", "id");
 
     expect(k).toHaveLength(1);
     expect(k).toContain("isFavorite");
+    expect(k).not.toContain("id");
+    expect(k).not.toContain("color");
 
-    type cases = [Expect<Equal<typeof k, "isFavorite"[]>>];
+    type cases = [
+      Expect<Equal<typeof k, readonly ["isFavorite"]>> //
+    ];
     const cases: cases = [true];
     expect(cases).toBe(cases);
+  });
+
+  it("empty object results in [] type", () => {
+    const t1 = keys({});
+    const t2 = keys([]);
+    const t3 = keys({} as Record<string, any>);
+
+    expect(t1).toEqual([]);
+    expect(t2).toEqual([]);
+    expect(t3).toEqual([]);
+
+    type cases = [
+      Expect<Equal<typeof t1, readonly []>>,
+      Expect<Equal<typeof t2, readonly []>>,
+      Expect<Equal<typeof t3, readonly []>>,
+    ];
+
   });
 });

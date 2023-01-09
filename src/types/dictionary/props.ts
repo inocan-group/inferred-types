@@ -1,5 +1,6 @@
 import { Alpha } from "../alphabetic/alpha-characters";
 import { Keys } from "../Keys";
+import { SimplifyObject } from "../SimplifyObject";
 
 /**
  * Extracts the _required_ keys in the object's type. You also may
@@ -179,3 +180,12 @@ export type WithStringKeys<T extends object> = Omit<T, NonStringKeys<T>>;
  * Reduces an object to only the key/value pairs where the key is numeric.
  */
 export type WithNumericKeys<T extends object> = Omit<T, NonNumericKeys<T>>;
+
+export type RemoveProps<
+  T extends {}, 
+  TExtract extends readonly (string & keyof T)[]
+> = SimplifyObject<{
+  [K in keyof T]: K extends TExtract
+    ? never
+    : T[K]
+}>;

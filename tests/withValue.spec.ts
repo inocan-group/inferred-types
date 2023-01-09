@@ -1,9 +1,10 @@
 import { describe, it } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
-import { AnyFunction, createFnWithProps,  } from "../src/runtime";
+import { createFnWithProps,  } from "../src/runtime";
 import {  WithValue } from "../src";
+import { AnyFunction } from "src/runtime/type-checks/isFunction";
 
-describe.skip("withValue()() utility", () => {
+describe("withValue()() utility", () => {
   it("type reduction with WithValue<T> works as expected", () => {
     const obj = {
       foo: 1,

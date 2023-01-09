@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { SetRemoval } from "src/types/lists/set-ops";
+import { SetInput, SetRemoval } from "src/types/lists/set-ops";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -7,6 +7,20 @@ import { describe, it } from "vitest";
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("SetRemoval<TSet, TRemoval>", () => {
+  
+  it("Set<T> basics", () => {
+    const builder = <S extends readonly string[]>(...s: S) => s as S;
+
+    const t = builder("foo");
+    const t2 = builder("foo", "bar");
+    
+    type cases = [
+      /** type tests */
+    ];
+    const cases: cases = [];
+    
+  });
+  
 
   it("happy path", () => {
     type Set1 = ["foo", "bar", "baz"];

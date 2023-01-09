@@ -1,27 +1,27 @@
 import { describe, it, expect } from "vitest";
-import { omit } from "src/runtime";
+import { removeProps } from "src/runtime";
 import { Expect, Equal, ExpectExtends, NotAny } from "@type-challenges/utils";
 describe("omit", () => {
 
   it("runtime object is reduced by stated props", () => {
     const begin = { foo: 1, bar: 2, baz: 3 };
-    const end = omit(begin, "foo", "bar");
+    const end = removeProps(begin, "foo", "bar");
     expect(Object.keys(end).length).toEqual(1);
     expect(Object.keys(end).includes("foo")).toEqual(false);
     expect(Object.keys(end).includes("bar")).toEqual(false);
     expect(Object.keys(end).includes("baz")).toEqual(true);
   
-    const end2 = omit(begin, "bar");
+    const end2 = removeProps(begin, "bar");
     expect(Object.keys(end2).includes("foo")).toEqual(true);
     expect(Object.keys(end2).includes("bar")).toEqual(false);
     expect(Object.keys(end2).includes("baz")).toEqual(true);
   
-    const end3 = omit(begin);
+    const end3 = removeProps(begin);
     expect(Object.keys(end3).includes("foo")).toEqual(true);
     expect(Object.keys(end3).includes("bar")).toEqual(true);
     expect(Object.keys(end3).includes("baz")).toEqual(true);
   
-    const end4 = omit(begin, "foo", "bar", "baz");
+    const end4 = removeProps(begin, "foo", "bar", "baz");
     expect(Object.keys(end4).includes("foo")).toEqual(false);
     expect(Object.keys(end4).includes("bar")).toEqual(false);
     expect(Object.keys(end4).includes("baz")).toEqual(false);
@@ -29,7 +29,7 @@ describe("omit", () => {
   
   it("type system is reduced by stated props", () => {
     const begin = { foo: 1, bar: 2, baz: 3 };
-    const end = omit(begin, "foo", "bar");
+    const end = removeProps(begin, "foo", "bar");
     type End = typeof end;
     type cases = [
       Expect<Equal<End["baz"], number>>,
@@ -40,7 +40,7 @@ describe("omit", () => {
     const c: cases = [true, true, true, true];
     expect(c).toEqual(c);
   
-    const end2 = omit(begin, "bar");
+    const end2 = removeProps(begin, "bar");
     type End2 = typeof end2;
     type cases2 = [
       Expect<Equal<End2["baz"], number>>,
@@ -50,6 +50,19 @@ describe("omit", () => {
     const c2: cases2 = [true, true, true];
     expect(c2).toEqual(c2);
   });
+
+  
+  it("Narrow typing with object's values when using const", () => {
+    const begin = { foo: 1, bar: 2, baz: "foobar" } as const;
+    const end = removeProps(begin, "bar");
+    expect(end).toEqual({ foo: 1, baz: "foobar"});
+    
+    type cases = [
+      Expect<Equal<typeof end, { foo: 1; baz: "foobar" }>>
+    ];
+    const cases: cases = [ true ];
+  });
+  
   
   it("", () => {
     type Shape = {
@@ -63,9 +76,9 @@ describe("omit", () => {
       baz: { id: 2, name: "baz" },
     };
   
-    omit(obj, "baz");
+    removeProps(obj, "baz");
     const excluded = ["foo", "bar"] as const;
-    omit(obj, ...excluded);
+    removeProps(obj, ...excluded);
   });
 
 });
