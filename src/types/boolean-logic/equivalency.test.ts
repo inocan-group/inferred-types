@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { IfEqual, IsEqual, IsNotEqual } from "./equivalency";
+import { IfEquals, IsEqual, IsNotEqual } from "./equivalency";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -51,8 +51,8 @@ describe("IsNotEqual", () => {
 describe("IfEqual", () => {
 
   it("happy path", () => {
-    type Eq = IfEqual<1,1, "equal", "not">;
-    type NotEq = IfEqual<1,0, "equal", "not">;
+    type Eq = IfEquals<1,1, "equal", "not">;
+    type NotEq = IfEquals<1,0, "equal", "not">;
 
     type cases = [
       //

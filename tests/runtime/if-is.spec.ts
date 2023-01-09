@@ -12,7 +12,7 @@ import {
   ifUndefined,
   isTrue,
 } from "src/runtime/type-checks";
-import { EndsWith, Extends, LowerAlpha, Or, StartsWith } from "src/types";
+import { EndsWith, DoesExtend, LowerAlpha, Or, StartsWith } from "src/types";
 import {  startsWith } from "src/runtime/type-checks/startsWith";
 import { box, wide } from "src/runtime/literals";
 import { or } from "src/runtime";
@@ -52,7 +52,7 @@ describe("runtime if/is", () => {
   });
 
   it("ifTrue(v,i,e)", () => {
-    const t = ifTrue(true as true, () => 42, () => false);
+    const t = ifTrue(true, () => 42, () => false);
     const f = ifTrue(false, () => "yikes", () => 42);
     const f2 = ifTrue(true as boolean, () => "yikes", () => 42);
 
@@ -157,9 +157,9 @@ describe("runtime if/is", () => {
   it("Extends<T,EXTENDS> with single clause", () => {
     type cases = [
       //
-      Expect<Equal<Extends<1, number>, true>>,
-      Expect<Equal<Extends<2, string>, false>>,
-      Expect<Equal<Extends<2, 2 | 3>, true>>
+      Expect<Equal<DoesExtend<1, number>, true>>,
+      Expect<Equal<DoesExtend<2, string>, false>>,
+      Expect<Equal<DoesExtend<2, 2 | 3>, true>>
     ];
     const cases: cases = [true, true, true];
   });
@@ -240,6 +240,10 @@ describe("runtime if/is", () => {
     type T6 = StartsWith<"alpha", LowerAlpha>;
     type T7 = StartsWith<"Alpha", LowerAlpha>;
 
+    type T8 = StartsWith<42, "4">;
+    type T9 = StartsWith<42, string>;
+    type T10 = StartsWith<42, "5">;
+
     type cases = [
       Expect<Equal<T1, true>>, //
       Expect<Equal<T2, false>>,
@@ -249,9 +253,13 @@ describe("runtime if/is", () => {
       Expect<Equal<T5, boolean>>,
       // LowerAlpha is a string literal
       Expect<Equal<T6, true>>,
-      Expect<Equal<T7, false>>
+      Expect<Equal<T7, false>>,
+
+      Expect<Equal<T8, true>>,
+      Expect<Equal<T9, boolean>>,
+      Expect<Equal<T10, false>>,
     ];
-    const cases: cases = [true, true, true, true, true, true, true];
+    const cases: cases = [true, true, true, true, true, true, true, true, true, true];
   });
 
   it("EndsWith<T,U>", () => {

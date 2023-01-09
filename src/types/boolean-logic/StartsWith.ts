@@ -1,24 +1,32 @@
-import { IsStringLiteral } from "src/types/boolean-logic";
+import {  IfNumericLiteral, IsStringLiteral } from "src/types/boolean-logic";
 import { Narrowable } from "../Narrowable";
+import { ToString } from "../type-conversion/ToString";
+import { IfString} from "./string";
 /**
  * **StartsWith**<TValue, TStartsWith>
  *
  * A type utility which checks whether `T` _starts with_ the string literal `U`.
  *
- * If both `T` and `U` are string literals then the type system will resolve
- * to a literal `true` or `false` but if either is not a literal that it will
- * just resolve to `boolean` as the value can not be known at design time..
+ * While `T` _can_ be passed in as a non-string value this almost always resolves
+ * to false. The one exception is where a numeric literal can be converted to a
+ * string literal.
  */
 export type StartsWith<
-  TValue extends string,
+  TValue extends Narrowable,
   TStartsWith extends string
-> = IsStringLiteral<TStartsWith> extends true
-  ? IsStringLiteral<TValue> extends true // both literals
-    ? TValue extends `${TStartsWith}${string}`
-      ? true
-      : false
-    : boolean
-  : boolean;
+> = IfString<
+  TValue, 
+  IsStringLiteral<TStartsWith> extends true
+    ? IsStringLiteral<TValue> extends true // both literals
+      ? TValue extends `${TStartsWith}${string}`
+        ? true
+        : false
+      : boolean
+    : boolean,
+  // value is not a string
+  IfNumericLiteral<TValue, TValue extends number ? StartsWith<ToString<TValue>, TStartsWith> : false, false>
+  
+>;
 
 /**
  * **IfStartsWith**<TValue, TStartsWith, IF, ELSE, MAYBE>
@@ -31,12 +39,20 @@ export type StartsWith<
  * type and therefore the type is unknown at design time.
  */
 export type IfStartsWith<
-  TValue extends string,
-  TStartsWith extends string,
+  TValue extends Narrowable,
+  TStartsWith extends Narrowable,
   IF extends Narrowable,
   ELSE extends Narrowable
-> = StartsWith<TValue, TStartsWith> extends true
-  ? IF
-  : StartsWith<TValue, TStartsWith> extends false
-  ? ELSE
-  : IF | ELSE;
+> = TStartsWith extends string
+      // TStartsWith is a string
+      ? StartsWith<TValue, TStartsWith> extends true
+        ? IF
+        : StartsWith<TValue, TStartsWith> extends false
+        ? ELSE
+        : IF | ELSE
+      : // TStartsWith not a string
+        TStartsWith extends number
+          ? number extends TStartsWith
+            ? never
+            : IfStartsWith<TValue, ToString<TStartsWith>, IF, ELSE>
+          : never;

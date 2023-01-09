@@ -1,9 +1,21 @@
 import { IsEqual } from "./equivalency";
 import { AfterFirst, First } from "../lists";
 import { Narrowable } from "../Narrowable";
-import { AnyFunction } from "src/runtime";
+import { AnyFunction } from "../functions/function-types";
 
-export type IsArray<T> = [T] extends [any[]] ? true : [T] extends [readonly any[]] ? true : false;
+/**
+ * **IsArray**
+ * 
+ * Boolean utility which tests for whether `T` is an array (
+ * both a mutable array or a readonly array)
+ */
+export type IsArray<T> = [T] extends [any[]] 
+  ? true 
+  : [T] extends [readonly any[]] 
+    ? true 
+    : false;
+
+
 export type IsReadonlyArray<T> = T extends readonly any[] ? true : false;
 
 /**
@@ -29,33 +41,50 @@ export type IfReadonlyArray<
 > = IsReadonlyArray<T> extends true ? IF : ELSE;
 
 /**
- * **Contains**`<T, A>`
+ * **Contains**`<TList,TContains>`
  *
- * Type utility which checks whether a type `T` exists within an array `A`. Result is
- * `true` if `T` _extends_ any element in `A` making it match widely against `A`. If you
- * prefer a narrower match you can use `NarrowlyContains<T,A>` instead.
+ * Type utility which checks whether a type `TContains` exists within 
+ * an array `TList`. Result is `true` if any element in the list _extends_
+ * 
+ * **Related:** `NarrowlyContains`
  */
-export type Contains<T extends Narrowable, A extends readonly any[]> = First<A> extends T
+export type Contains<
+  TList extends readonly any[],
+  TContains extends Narrowable, 
+> = First<TList> extends TContains
   ? true
-  : [] extends AfterFirst<A>
+  : [] extends AfterFirst<TList>
   ? false
-  : Contains<T, AfterFirst<A>>;
+  : Contains<AfterFirst<TList>, TContains>;
+
+
+export type IfContains<
+  TList extends readonly any[],
+  TContains extends Narrowable,
+  TDoesContain extends Narrowable,
+  TDoesNotContain extends Narrowable
+> = Contains<TList, TContains> extends true
+  ? TDoesContain
+  : TDoesNotContain;
 
 /**
- * **NarrowlyContains**`<T, A>`
+ * **NarrowlyContains**`<TList, TContains>`
  *
  * Type utility which checks whether a type `T` exists within an array `A`. Result is
  * `true` if `T` _extends_ any element in `A` making it match widely against `A`. If you
  * prefer a wider match you can use `Contains<T,A>` instead.
  */
-export type NarrowlyContains<T extends Narrowable, A extends readonly any[]> = IsEqual<
-  First<A>,
-  T
+export type NarrowlyContains<
+  TList extends readonly any[],
+  TContains extends Narrowable, 
+> = IsEqual<
+  First<TList>,
+  TContains
 > extends true
   ? true
-  : [] extends AfterFirst<A>
+  : [] extends AfterFirst<TList>
   ? false
-  : NarrowlyContains<T, AfterFirst<A>>;
+  : NarrowlyContains<AfterFirst<TList>, TContains>;
 
 
 /**

@@ -8,8 +8,10 @@
 export * from "./TupleToUnion";
 export * from "./UnionToIntersection";
 export * from "./ObjectFromKv";
+export * from "./ToString";
 export * from "./UnionToTuple";
 export * from "./Widen";
+export * from "./Mutable";
 
 // #endregion auto-indexed files
 

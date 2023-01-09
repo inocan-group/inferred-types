@@ -1,5 +1,7 @@
-import { IsStringLiteral } from "src/types/boolean-logic";
+import { IfNumericLiteral, IsStringLiteral } from "src/types/boolean-logic";
 import { Narrowable } from "../Narrowable";
+import { ToString } from "../type-conversion/ToString";
+import { IfString } from "./string";
 
 /**
  * **EndsWith**<T,U>
@@ -11,15 +13,25 @@ import { Narrowable } from "../Narrowable";
  * just resolve to `boolean` as the value can not be known at design time..
  */
 export type EndsWith<
-  TValue extends string,
+  TValue extends Narrowable,
   TEndsWith extends string
-> = IsStringLiteral<TEndsWith> extends true
-  ? IsStringLiteral<TValue> extends true // both literals
-    ? TValue extends `${string}${TEndsWith}`
-      ? true
-      : false
-    : boolean
-  : boolean;
+> = IfString<
+  TValue,
+  IsStringLiteral<TEndsWith> extends true
+    ? IsStringLiteral<TValue> extends true // both literals
+      ? TValue extends `${string}${TEndsWith}`
+        ? true
+        : false
+      : boolean
+    : boolean,
+  TValue extends number 
+    ? IfNumericLiteral<
+      TValue, 
+      EndsWith<ToString<TValue>, TEndsWith>, 
+      false
+    >
+    : false
+>;
 
 /**
  * **IfEndsWith**<TValue, TEndsWith, IF, ELSE, MAYBE>
@@ -29,12 +41,18 @@ export type EndsWith<
  * result in the union of IF and ELSE.
  */
 export type IfEndsWith<
-  TValue extends string,
-  TEndsWith extends string,
+  TValue extends Narrowable,
+  TEndsWith extends Narrowable,
   IF extends Narrowable,
   ELSE extends Narrowable
-> = EndsWith<TValue, TEndsWith> extends true
-  ? IF
-  : EndsWith<TValue, TEndsWith> extends false
-  ? ELSE
-  : IF | ELSE;
+> = TEndsWith extends string
+  ? EndsWith<TValue, TEndsWith> extends true
+    ? IF
+    : EndsWith<TValue, TEndsWith> extends false
+    ? ELSE
+    : IF | ELSE
+  : TEndsWith extends number
+    ? number extends TEndsWith
+      ? never
+      : IfEndsWith<TValue, ToString<TEndsWith>, IF, ELSE>
+    : never;

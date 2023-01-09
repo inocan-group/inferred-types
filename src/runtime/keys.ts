@@ -1,17 +1,26 @@
 import { Keys } from "src/types/Keys";
-import { Length } from "src/types/lists/Length";
-
+import { TupleFilter } from "src/types/lists";
+import { UnionToTuple } from "src/types/type-conversion/UnionToTuple";
+import { IfEquals, TupleToUnion } from "..";
 
 /**
- * Provides the _keys_ of an object with the `keyof T` made explicit.
+ * **keys**(obj, [excluding])
+ * 
+ * Provides a read-only array of the _keys_ an object contains.
+ * 
+ * Optionally, you can add property names after object to exclude
+ * those properties from the returned Tuple.
  */
-export function keys<T extends {}, W extends readonly string[]>(obj: T, ...without: W) {
-  const v =
-    without.length > 0
-      ? (Object.keys(obj).filter((k) => !without.includes(k)) as unknown as Array<
-          Exclude<keyof T, Keys<W>>
-        >)
-      : (Object.keys(obj) as unknown as Array<keyof T>);
-
-  return v as unknown as Length<W> extends 0 ? Array<keyof T> : Array<Exclude<keyof T, Keys<W>>>;
+export function keys<
+  TObj extends Record<string, any>,
+  TExcluding extends readonly (keyof TObj & string)[] = readonly[]
+>(obj: TObj, ...excluding: TExcluding) {
+  return (
+    Object
+    .keys(obj)
+    .filter(i => excluding.includes(i))
+  ) as unknown as TExcluding extends [any, ...any[]] 
+    ? Readonly<TupleFilter<UnionToTuple<Keys<TObj>>, TupleToUnion<TExcluding>>>
+    : IfEquals<Keys<TObj>, [], readonly [], Readonly<UnionToTuple<Keys<TObj>>>>;
 }
+

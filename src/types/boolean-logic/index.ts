@@ -12,4 +12,8 @@ export * from "./object";
 export * from "./StartsWith";
 export * from "./EndsWith";
 export * from "./Or";
+export * from "./IsWideType";
 export * from "./equivalency";
+export * from "./IsUnion";
+export * from "./Not";
+export * from "./never";

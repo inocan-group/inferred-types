@@ -1,10 +1,8 @@
-import { AnyFunction } from "src/runtime/type-checks/isFunction";
 import { IfBoolean } from "../boolean-logic/boolean";
 import { IfTruthy } from "../boolean-logic/Truthy";
-import { LogicFunction } from "../functions";
+import { AnyFunction, LogicFunction } from "../functions";
 import { TupleToUnion } from "../type-conversion";
 import { AfterFirst } from "./AfterFirst";
-import { FilterTuple } from "./FilterTuple";
 import { First } from "./First";
 
 
@@ -29,15 +27,10 @@ export type ReturnTypes<T extends readonly any[]> = {
 /**
  * **LogicalReturns**`<TValues, TParams>`
  * 
- * Given a known Tuple, this utility will return a _union_ type
- * that represents all boolean values _or_ any functions with a
- * boolean return type. Other values will be set to a `null` value
- * to preserve order in cases where it matters.
- * 
- * To allow finer grain resolution with generics you may state
- * a signature for the functions as `TParams` and if there is
- * a match there then the generics you pass in will refine the
- * return type.
+ * Given a known tuple of values, this utility will reduce it to
+ * another Tuple of items which are either a boolean type or a function
+ * with a boolean return. In the latter case the function's return value
+ * will be represented in the Tuple.
  * 
  * **See Also**: `ReturnTypes` and `TruthyReturns`
  */
@@ -45,7 +38,7 @@ export type LogicalReturns<
   TValues extends readonly any[],
   TParams extends readonly any[] = []
 // eslint-disable-next-line no-use-before-define
-> = ProcessLogicalReturns<FilterTuple<TValues, [string, number]>, TParams>;
+> = ProcessLogicalReturns<TValues, TParams>;
 
 type ProcessLogicalReturns<
   TValues extends readonly any[],
@@ -55,12 +48,22 @@ type ProcessLogicalReturns<
   ? TResults
   : IfBoolean<
       First<TValues>,
-      ProcessLogicalReturns<AfterFirst<TValues>, TParams, [...TResults, First<TValues>]>,
+      // boolean value
+      ProcessLogicalReturns<
+        AfterFirst<TValues>, 
+        TParams, 
+        [...TResults, First<TValues>]
+      >,
+
       LogicFunction<TParams> extends First<TValues>
         ? ProcessLogicalReturns<AfterFirst<TValues>, TParams, [...TResults, ReturnType<LogicFunction<TParams>>]>
         : ReturnType<First<TValues>> extends boolean
-          ? ProcessLogicalReturns<AfterFirst<TValues>, TParams, [...TResults, ReturnType<First<TValues>>]>
-          : ProcessLogicalReturns<AfterFirst<TValues>, TParams, [...TResults]>
+          ? ProcessLogicalReturns<
+              AfterFirst<TValues>, 
+              TParams, 
+              [...TResults, ReturnType<First<TValues>>]
+            >
+          : ProcessLogicalReturns<AfterFirst<TValues>, TParams, TResults>
     >;
 
 /**

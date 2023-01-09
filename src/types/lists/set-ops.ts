@@ -16,6 +16,8 @@ type SetRemovalAcc<
       SetRemovalAcc<AfterFirst<TSet>, TRemoval, readonly [...Processed, First<TSet>]>
     >;
 
+export type SetInput<T extends Narrowable> = T | readonly T[];
+
 /**
  * **Set**`<T>`
  * 
@@ -28,7 +30,7 @@ type SetRemovalAcc<
  * type T2 = Set<["foo", "bar", "baz"]>;
  * ```
  */
-export type Set<T extends readonly any[] | Narrowable> = IfReadonlyArray<
+export type UniqueSet<T extends readonly any[] | string | number> = IfReadonlyArray<
   T, 
   T extends readonly any[] ? readonly [...T] : never, 
   readonly [...UnionToTuple<T>]
@@ -41,8 +43,8 @@ export type Set<T extends readonly any[] | Narrowable> = IfReadonlyArray<
  * set subtraction of `TSet` minus the elements in `TRemoval`.
  */
 export type SetRemoval<
-  TSet extends readonly any[] | Narrowable,
-  TRemoval extends readonly any[] | Narrowable,
-> = SetRemovalAcc<Set<TSet>, Set<TRemoval>>;
+  TSet extends readonly any[] | string | number,
+  TRemoval extends readonly any[] | string | number,
+> = SetRemovalAcc<UniqueSet<TSet>, UniqueSet<TRemoval>>;
 
 

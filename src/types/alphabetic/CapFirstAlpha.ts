@@ -1,11 +1,11 @@
 import { Replace } from "../string-literals";
-import { NonAlpha } from "./alpha-characters";
+import { NonAlphaChar } from "./alpha-characters";
 
 /**
  * Strips the non-alpha characters that lead a string
  */
 export type StripLeftNonAlpha<S extends string> = S extends `${infer First}${infer Rest}`
-  ? First extends NonAlpha
+  ? First extends NonAlphaChar
     ? StripLeftNonAlpha<Rest>
     : S
   : never;

@@ -1,4 +1,4 @@
-import { NumericString } from "../alphabetic/alpha-characters";
+import { NumericChar } from "../alphabetic/alpha-characters";
 
 /**
  * An email address
@@ -6,8 +6,8 @@ import { NumericString } from "../alphabetic/alpha-characters";
 export type Email = `${string}@${string}.${string}`;
 
 
-type Zip5 = `${NumericString}${NumericString}${string}${NumericString}`;
-type Zip4 = `${NumericString}${string}`;
+type Zip5 = `${NumericChar}${NumericChar}${string}${NumericChar}`;
+type Zip4 = `${NumericChar}${string}`;
 
 /**
  * A relatively strong type for Zip5 or Zip5+4 zip codes

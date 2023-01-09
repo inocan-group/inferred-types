@@ -78,7 +78,7 @@ type AlphaNumericAcc<
       : never;
 
 
-export type Alphanumeric<T extends string> = IsStringLiteral<T> extends true
+export type AlphaNumeric<T extends string> = IsStringLiteral<T> extends true
   ? AlphaNumericAcc<T, T>
   /** Invalid Alphanumeric string */
   : never;

@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { WithValue } from "src/types/dictionary";
 import { ExpandRecursively } from "src/types/ExpandRecursively";
 import { Narrowable } from "src/types/Narrowable";
 import { entries } from "../dictionary/entries";
-import { type, TypeDefinition } from "./type";
+import { type, isTypeDefinition } from "./type";
 
 /**
- * **withValue**
+ * **withValue**(type, obj)
  *
  * Reduces a dictionary object -- in both _type_ and _run-time_ structure -- to only those
  * key/value pairs which have a specified value. For instance:

@@ -6,6 +6,7 @@
 // file exports
 export * from "./FinalReturn";
 export * from "./LogicFunction";
+export * from "./function-types";
 
 // #endregion auto-indexed files
 

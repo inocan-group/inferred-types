@@ -1,8 +1,8 @@
-import { Narrowable, Not } from "src/types";
-import { IfObject, IsObject } from "src/types/boolean-logic";
+import { Narrowable } from "src/types";
+import { IfExtends, IfObject, IsObject } from "src/types/boolean-logic";
 import { AnyFunction } from "./isFunction";
 
-export type ObjectType = Not<Record<string, Narrowable>, AnyFunction>;
+export type ObjectType = IfExtends<Record<string, Narrowable>, AnyFunction, false, true>;
 
 /**
  * Detects whether the passed in `v` is of type "object" where an object

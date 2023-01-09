@@ -1,5 +1,5 @@
-import { Narrowable, Widen } from "src/types";
-import { AnyFunction } from "../type-checks";
+import { AnyFunction, Narrowable, Widen } from "src/types";
+
 
 /**
  * **wide**
@@ -13,6 +13,10 @@ export const wide = {
   symbol: Symbol() as Symbol,
   null: null,
   function: (() => null) as AnyFunction,
+  anyArray: [] as any[],
+  anyObject: {} as  Record<string, any>,
+  unknownObject: {} as  Record<string, unknown>,
+  emptyObject: {} as {},
   undefined: undefined,
 } as const;
 

@@ -1,6 +1,6 @@
 import { Mutable, Narrowable, SimplifyObject, TypeDefault } from "src/types";
 import { keys } from "../keys";
-import { isObject } from "../runtime";
+import { isObject } from "../type-checks/isObject";
 
 /**
  * **merge**(val, defaultVal)

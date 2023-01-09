@@ -11,7 +11,12 @@ export type IsEqual<X, Y> = (<T>() => T extends X ? 1 : 2) extends <T>() => T ex
   ? true
   : false;
 
-
+export type IsAnyEqual<X, Y extends readonly any[]> = //
+  [] extends Y
+    ? true
+    : IsEqual<X,First<Y>> extends true
+      ? IsAnyEqual<X, readonly [...AfterFirst<Y>]>
+      : false;
 
 /**
  * **NotEqual**`<X,Y>`
@@ -26,11 +31,11 @@ export type IsNotEqual<X, Y> = true extends IsEqual<X, Y> ? false : true;
  * Type utility which returns type `IF` _if_ `X` is equivalent to `Y`; otherwise returns
  * type `ELSE`.
  */
-export type IfEqual<
+export type IfEquals<
   X extends Narrowable,
   Y extends Narrowable, 
-  IF extends Narrowable, 
-  ELSE extends Narrowable
+  IF extends Narrowable = true, 
+  ELSE extends Narrowable = false
 > = IsEqual<X,Y> extends true
   ? IF
   : ELSE;
@@ -63,7 +68,7 @@ export type IfNotEqual<
  */
 export type SomeEqual<Value, CompareTo extends readonly any[]> = [] extends CompareTo
 ? false
-: IfEqual<Value, First<CompareTo>, true, SomeEqual<Value, AfterFirst<CompareTo>>>;
+: IfEquals<Value, First<CompareTo>, true, SomeEqual<Value, AfterFirst<CompareTo>>>;
 
 /**
  * **IfSomeEqual**`<Value, CompareTo, IF, ELSE>`
