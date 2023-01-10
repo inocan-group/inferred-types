@@ -1,4 +1,4 @@
-import { Narrowable, Not, Widen } from "src/types";
+import { Narrowable,  Widen } from "src/types";
 
 export function ifSameType<
   TValue extends Narrowable,
@@ -9,7 +9,7 @@ export function ifSameType<
   value: TValue,
   comparisonType: TType,
   ifExtends: <T extends TType & TValue>(v: T) => IF,
-  doesNotExtend: (v: Not<TValue, TType>) => ELSE
+  doesNotExtend: <T extends Exclude<TValue, TType>>(v: T) => ELSE
 ) {
   return (
     // runtime values match

@@ -14,6 +14,8 @@ export * from "./Trim";
 export * from "./TrimLeft";
 export * from "./TrimRight";
 export * from "./form-fields";
+export * from "./RemoveFromStart";
+export * from "./RemoveFromEnd";
 
 // #endregion auto-indexed files
 
