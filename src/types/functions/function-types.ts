@@ -61,3 +61,5 @@ export type AnyFunction<
   TArgs extends any[] = any[],
   TReturn extends any = any
 > = <A extends TArgs>(...args: A) => TReturn & TProps;
+
+export type IdentityFunction = <T>(val: T) => T;

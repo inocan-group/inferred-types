@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { ifString } from "src/runtime/type-checks/isString";
-import { IfString } from "src/types/boolean-logic/string";
+import { identity, wide } from "src/runtime";
+import { createTypeMapper } from "src/runtime/runtime/createTypeMatcher";
 import { ConvertType, MapType } from "src/types/type-conversion/MapType";
 import { describe, it } from "vitest";
 
@@ -11,12 +11,12 @@ import { describe, it } from "vitest";
 describe("ConvertType<T,M>", () => {
 
   it("happy path", () => {
-    type M1 = ["startsWith", "f", () => `started with f`];
-    type M2 = ["extends", string];
+    const m1 = createTypeMapper("startsWith", "f", () => `started with f`);
+    const m2 = createTypeMapper("extends", wide.string);
     type M3 = ["startsWith", "4"];
 
-    type C1 = ConvertType<"foo", [M1,M2]>;
-    type C2 = ConvertType<"foo", [M2,M1]>;
+    type C1 = ConvertType<"foo", [typeof m1]>;
+    type C2 = ConvertType<"foo", [typeof m2]>;
     type C3 = ConvertType<number, [M2,M1], "huh?">;
     type C4 = ConvertType<42, [M3], "huh?">;
     type C5 = ConvertType<55, [M3], "huh?">;
@@ -40,21 +40,16 @@ describe("MapType<T,M>", () => {
     type M1 = ["startsWith", "f", () => `started with f`];
     type M2 = ["extends", string];
     type M3 = ["startsWith", "4"];
-    type M4 = ["extends", number];
-    const fn = <T extends string | number | boolean>(val: T) => ifString(
-      val, 
-      v => `string: ${v}`, 
-      v => v
-    );
-    type M5 = ["endsWith", "2", typeof fn];
+    const m4 = createTypeMapper("extends", wide.number);
+    const m5 = createTypeMapper("endsWith", "2");
 
 
     type T1 = MapType<List, [M1,M2]>;
     type T2 = MapType<List, [M2]>;
     type T3 = MapType<List, [M2], "huh?">;
     type T4 = MapType<List, [M2,M3], "huh?">;
-    type T5 = MapType<List, [M4]>;
-    type T6 = MapType<List, [M5]>;
+    type T5 = MapType<List, [typeof m4]>;
+    type T6 = MapType<List, [typeof m5]>;
 
     type cases = [
       Expect<Equal<T1, ["started with f", "bar", "42","baz"]>>,

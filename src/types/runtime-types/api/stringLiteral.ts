@@ -1,11 +1,16 @@
 import { Concat } from "src/runtime/lists/Concat";
-import {  IfLiteral, IfStartsWith } from "src/types/boolean-logic";
+import { stripLeading } from "src/runtime/literals/stripLeading";
+import { createTypeMapper } from "src/runtime/runtime/createTypeMatcher";
+import { AlphaNumericChar, LowerAlpha, UpperAlpha } from "src/types/alphabetic";
+import {  IfLiteral } from "src/types/boolean-logic";
 import { IfReadonlyArray } from "src/types/boolean-logic/array";
 import { IfString } from "src/types/boolean-logic/string";
 import { AfterFirst } from "src/types/lists";
 import { First } from "src/types/lists/First";
 import { Narrowable } from "src/types/Narrowable";
+import { Digit } from "src/types/Numeric";
 import { ToString } from "src/types/type-conversion";
+import { MapType } from "src/types/type-conversion/MapType";
 import { FromTypeDefn, Type, TypeDefaultValue } from "../Type";
 
 /**
@@ -36,24 +41,44 @@ type TokenAcc<
           : never,
         IfString<First<T>, "<string>", "<boolean>">
       >;
-          
+
+/**
+ * **TokenizeStringLiteral**`<T>`
+ * 
+ * Type utility which receives a list of _tokens_ which are intended
+ * to represent the underlying type of a string literal. This utility
+ * will ensure that known tokens -- those delimited by `<` and `>` symbols
+ * are maintained but that any _string literals_ are prefixed with "literal:".
+ * 
+ * - a wide _number_ or _boolean_ type will be converted to `${number}` and `${boolean}`
+ * - literal values for number and boolean will be converted to a string using `ToString<T>`
+ * 
+ * **Related:** `ToStringLiteral<T>`
+ */
 export type TokenizeStringLiteral<
   T extends readonly (string | number | boolean)[]
 > = TokenAcc<T>;
 
-    
-type ConcatLiteral<
-  T extends readonly (string | number | boolean)[],
-  Results extends string = ""
-> = [] extends T
-  ? Results
-  : IfStartsWith<
-      First<T>, "literal:",
-      any,
-      any
-    >;
+export type StringLiteralMapper = {
+  "<string>": `${string}`;
+  "<number>": `${number}`;
+  "<boolean>": `${boolean}`;
+  "<digit>": `${Digit}`;
+  "<letter>": `${AlphaNumericChar}`;
+  "<letter:lowercase>": `${LowerAlpha}`;
+  "<letter:uppercase>": `${UpperAlpha}`;
+};
 
-
+// const matchers = [
+//   createTypeMatcher("equals", "<number>", (v) => v as unknown as `${number}`),
+//   createTypeMatcher("equals", "<boolean>", (v) => v as unknown as `${boolean}`),
+//   createTypeMatcher("equals", "<digit>", (v) => v as unknown as `${Digit}`),
+//   createTypeMatcher("equals", "<letter>", (v) => v as unknown as `${AlphaNumericChar}`),
+//   createTypeMatcher("equals", "<letter:lowercase>", (v) => v as unknown as `${LowerAlpha}`),
+//   createTypeMatcher("equals", "<letter:uppercase>", (v) => v as unknown as `${UpperAlpha}`),
+//   createTypeMatcher("startsWith", "literal:", <V extends string>(v: V) => stripLeading(v, "literal:")),
+// ];
+  
 
 export type ToStringLiteral<
   T extends readonly (string | number | boolean)[]
@@ -68,7 +93,9 @@ export type ToStringLiteral<
 //    - `literalUnion(a,b,c)`
 //    - `tokens()` - ["string", "l:literal", "number", "l:-", "numeric-digit", "bool"]
 
-type ToUnderlying<T extends Narrowable> = IfReadonlyArray<T, T & readonly any[], readonly [T]>;
+type ToUnderlying<T extends Narrowable> = IfReadonlyArray<
+  T, T & readonly any[], readonly [T]
+>;
 
 type StringLiteralBuilderApi = {
   startsWith<T extends string>(start: T): Type<"stringLiteral">;
@@ -89,6 +116,7 @@ TValidations extends readonly any[] | "no-validations",
 ) => FromTypeDefn<{
   kind: "stringLiteral";
   isRequired: TRequired;
+  description: TDesc;
   underlying: ToUnderlying<TUnderlying>;
   defaultValue: TDefaultValue;
   validations: TValidations;

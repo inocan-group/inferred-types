@@ -1,5 +1,11 @@
 import { StripLeading } from "src/types/alphabetic/StripLeading";
 
+/**
+ * **stripLeading**(content, strip)
+ * 
+ * Runtime utility which strips of a leading substring from the
+ * primary content if it exists and leaves content unchanged otherwise.
+ */
 export function stripLeading<T extends string, U extends string>(
   content: T,
   strip: U

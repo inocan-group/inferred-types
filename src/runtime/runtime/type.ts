@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import {  NO_DEFAULT_VALUE } from "src/types/constants";
 import { isTypeDefn } from "src/types/runtime-types/runtime-type-guards";
 import { 
@@ -7,14 +8,12 @@ import {
   TypeDefaultValue, 
   TypeDefn, 
   TypeDefnValidations, 
-  TypeIsRequired, 
   TypeKind,
   TypeUnderlying, 
 } from "src/types/runtime-types/Type";
 import { TypeApi } from "src/types/runtime-types/api/index";
 import { keys } from "../keys";
 import { box } from "../literals";
-import { removeProps } from "../type-conversion/removeProps";
 import { createTypeGuard } from "./createTypeGuard";
 import { createValidator } from "./createValidator";
 import { determineIdentity } from "./determineIdentity";

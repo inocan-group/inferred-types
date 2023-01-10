@@ -155,7 +155,7 @@ describe("kvToDict / dictToKv inverse", () => {
     type Arr = typeof arr;
     type Inverse = typeof inverse[0];
 
-    if (inverse[0].key === "id") {
+    if (inverse[0]?.key === "id") {
       type cases = [
         // while not precisely equal (due to readonly)
         Expect<NotEqual<Inverse, Arr>>

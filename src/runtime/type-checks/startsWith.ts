@@ -106,4 +106,8 @@ TElse extends Narrowable
     // handlers
     () => doesStartWith(input as TTextValue & `${TStartsWith}${string}`),
     () => doesNotStartWith(input as TTextValue)
-  ) as IfTrue<StartsWith<TTextValue, TStartsWith>, TIf, TElse, TIf | TElse>;
+  ) as IfTrue<
+    StartsWith<TTextValue, TStartsWith>, 
+    TIf, 
+    TElse
+  >;

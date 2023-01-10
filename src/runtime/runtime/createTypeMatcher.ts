@@ -1,17 +1,28 @@
-import { Matcher, MatcherLogic, MatcherTransform, MatcherType } from "src/types/type-conversion/MapType";
+import { IfOr, IsEqual, Narrowable } from "src/types";
+import {  TypeMapMatcher, TypeMapRule, TypeMapTransform } from "src/types/type-conversion/MapType";
 
-export function createTypeMatcher<
-  TLogic extends MatcherLogic,
-  TType extends MatcherType,
-  TTransform extends MatcherTransform | undefined = undefined
+/**
+ * **createTypeMapper**
+ * 
+ * Runtime helper to create a type-strong "type mapper".
+ * ```ts
+ * const m = createTypeMapper("equals", "<boolean>", "AsBooleanString");
+ * ```
+ */
+export function createTypeMapper<
+  TMatch extends TypeMapMatcher,
+  TTarget extends IfOr<
+    [ IsEqual<TMatch, "startsWith">, IsEqual<TMatch, "endsWith"> ],
+    string | number,
+    Narrowable
+  >,
+  TTransform extends TypeMapTransform,
 >(
-  logic: TLogic, 
-  type: TType, 
-  transformer?: TTransform
-): Matcher<TLogic, TType, TTransform> {
+  match: TMatch, 
+  target: TTarget, 
+  transform: TTransform
+) {
   return (
-    transformer 
-    ? [logic, type, transformer]
-    : [logic, type, undefined]
-  ) as Matcher<TLogic, TType, TTransform>;
+    { match, target, transform }
+  ) as TypeMapRule<TMatch, TTarget, TTransform>;
 }

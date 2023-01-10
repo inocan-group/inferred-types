@@ -1,7 +1,6 @@
-import { AnyFunction, FnWithDict, BaseFunction } from "../functions/function-types";
-import { Keys } from "../Keys";
+import { AnyFunction,  BaseFunction } from "../functions/function-types";
 import { Narrowable } from "../Narrowable";
-import { And, IfAnd } from "./And";
+import { And } from "./And";
 import { IfEquals } from "./equivalency";
 import { IfExtends } from "./Extends";
 import { IsEmptyObject } from "./object";

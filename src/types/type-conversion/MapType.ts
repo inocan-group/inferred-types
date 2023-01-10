@@ -1,36 +1,103 @@
-import { IfEndsWith, IfEquals, IfExtends, IfStartsWith, IfUndefined } from "../boolean-logic";
-import { AnyFunction } from "../functions/function-types";
-import { ExcludeNever } from "../lists";
-import { FirstOrElse } from "../lists/First";
+import { CamelCase, KebabCase, PascalCase, StripLeading, StripTrailing } from "../alphabetic";
+import {  IfEndsWith, IfEquals, IfExtends, IfNumericLiteral, IfOr, IfStartsWith, IsEqual } from "../boolean-logic";
+import { ExcludeNever, FirstOrElse } from "../lists";
 import { Narrowable } from "../Narrowable";
+import { ToString } from "./ToString";
 
-export type MatcherLogic = "extends" | "equals" | "not-equal" | "startsWith" | "endsWith";
-export type MatcherType = string | number | boolean;
-export type MatcherTransform = <V extends string | number | boolean>(v: V) => any;
+/**
+ * **TypeMapMatcher**
+ * 
+ * Represents the _method_ you will use to match a type.
+ */
+export type TypeMapMatcher = "extends" 
+  | "equals" 
+  | "not-equal" 
+  | "startsWith" 
+  | "endsWith" 
+  | "truthy" 
+  | "any";
 
-export type Matcher<
-  TLogic extends MatcherLogic = MatcherLogic,
-  TType extends MatcherType = MatcherType,
-  TTransform extends MatcherTransform | undefined = MatcherTransform | undefined
-> = [
-  logic: TLogic, 
-  type: TType, 
-  transform: TTransform
-] | [
-  logic: TLogic, 
-  type: TType
-];
+/**
+ * The types of transformation you want to apply to matched tokens
+ */
+export type TypeMapTransform = "identity" | "Capitalized" | "PascalCase" | "CamelCase" | "KebabCase" | ["StripLeading", string] | ["StripTrailing", string] | "ToString" | "AsString" | "AsBooleanString" | "AsNumericString" | ["As", any] | "Never" | ["NumericLiteral", number] | "ToTrue" | "ToFalse";
+
+/**
+ * **TypeMapRule**`<TMatch,TTarget,TTransform>`
+ * 
+ * A type which defines how to transform a _matched_ type into a variant.
+ */
+export interface TypeMapRule<
+  TMatch extends TypeMapMatcher,
+  TTarget extends IfOr<
+    [ IsEqual<TMatch, "startsWith">, IsEqual<TMatch, "endsWith"> ],
+    string | number,
+    Narrowable
+  >,
+  TTransform extends TypeMapTransform,
+> {
+  match: TMatch;
+  target: TTarget;
+  transform: TTransform;
+};
+
+/**
+ * **ConfiguredTypeMapper**`<R>`
+ * 
+ * Represents a _mapper_ function which now expects to receive an array of tokens
+ * to be converted based on the already applied rules (`MapRule`).
+ * 
+ * Note: this is return type from the `mapType()` runtime utility.
+ */
+export type ConfiguredTypeMapper<
+  R extends readonly TypeMapRule<any, any, any>[]
+> = <T extends readonly Narrowable[]>(...tokens: T) => MapType<T,R>;
 
 
-type MatchValue<
-  T extends Narrowable, M extends Matcher
-> = IfUndefined<
-  M[2],
-  T,
-  M[2] extends AnyFunction
-    ? ReturnType<M[2]>
-    : never
->;
+
+/**
+ * facilitates deriving the "value" for map rules
+ */
+export type MappedValue<
+  TValue extends Narrowable, 
+  M extends TypeMapRule<any, any, any> 
+> = M["transform"] extends "identity"
+  ? TValue
+  : M["transform"] extends "AsString"
+  ? `${string}`
+  : M["transform"] extends "AsNumericString"
+  ? `${number}`
+  : M["transform"] extends "AsBooleanString"
+  ? `${false | true}`
+  : M["transform"] extends "AsString"
+  ? `${string}`
+  : M["transform"] extends "ToString"
+  ? ToString<TValue>
+  : M["transform"] extends "ToTrue"
+  ? true
+  : M["transform"] extends "ToFalse"
+  ? false
+  : M["transform"] extends "Capitalized"
+  ? Capitalize<`${string}`>
+  : M["transform"] extends "PascalCase"
+  ? PascalCase<`${string}`>
+  : M["transform"] extends "CamelCase"
+  ? CamelCase<`${string}`>
+  : M["transform"] extends "KebabCase"
+  ? KebabCase<`${string}`>
+
+  : M["transform"] extends [infer Command, infer Param]
+    ? Command extends "As"
+    ? Param
+    : Command extends "StripLeading"
+    ? StripLeading<TValue, Param>
+    : Command extends "StripTrailing"
+    ? StripTrailing<TValue, Param>
+    : Command extends "NumericLiteral"
+    ? IfNumericLiteral<Param, Param, ["error", "invalid-numeric-literal"]>
+    : unknown
+    : never;
+
 
 /**
  * **Convert**`<TValue,TMatchers,TElse>`
@@ -48,31 +115,28 @@ type MatchValue<
  */
 export type ConvertType<
   TValue extends Narrowable, 
-  TMatchers extends readonly Matcher[],
+  TMatchers extends readonly TypeMapRule<any, any, any>[],
   TElse extends Narrowable = never
 > = FirstOrElse<ExcludeNever<{
   [K in keyof TMatchers]: //
-    IfEquals<TMatchers[K][0], "equals",
-      IfEquals<TValue, TMatchers[K][1], MatchValue<TValue,TMatchers[K]>, never>,
-      IfEquals<TMatchers[K][0], "extends",
-        IfExtends<TValue, TMatchers[K][1], MatchValue<TValue,TMatchers[K]>, never>,
-        IfEquals<TMatchers[K][0], "startsWith",
-          IfStartsWith<TValue, TMatchers[K][1], MatchValue<TValue,TMatchers[K]>, never>,
-          IfEquals<TMatchers[K][0], "endsWith",
-            IfEndsWith<TValue, TMatchers[K][1], MatchValue<TValue,TMatchers[K]>, never>,
-            never
-          >
-        >
-      >
-    >
+    IfEquals<TMatchers[K]["match"], "equals",
+      IfEquals<TValue, TMatchers[K]["target"], MappedValue<TValue,TMatchers[K]>, never>,
+    IfEquals<TMatchers[K]["match"], "extends",
+      IfExtends<TValue, TMatchers[K]["target"], MappedValue<TValue,TMatchers[K]>, never>,
+    IfEquals<TMatchers[K]["match"], "startsWith",
+      IfStartsWith<TValue, TMatchers[K]["target"], MappedValue<TValue,TMatchers[K]>, never>,
+    IfEquals<TMatchers[K]["match"], "endsWith",
+      IfEndsWith<TValue, TMatchers[K]["target"], MappedValue<TValue,TMatchers[K]>, never>,
+    never
+    >>>>
 }>, TElse>;
 
 type MapAcc<
   TList extends readonly Narrowable[], 
-  TMatchers extends readonly Matcher[],
+  TMatchers extends readonly TypeMapRule<any,any,any>[],
   TElse extends Narrowable = never,
   TResults extends readonly any[] = []
-> = TList extends [infer First, ...infer Rest]
+> = TList extends readonly [infer First, ...infer Rest]
     ? MapAcc<
         Rest, // next
         TMatchers, // static
@@ -99,7 +163,7 @@ type MapAcc<
  */
 export type MapType<
   TList extends readonly any[], 
-  TMatchers extends readonly Matcher[],
+  TMatchers extends readonly TypeMapRule<any,any,any>[] | TypeMapRule<any,any,any>[],
   TElse extends Narrowable = never
 > = ExcludeNever<MapAcc<TList, TMatchers, TElse>>;
 
