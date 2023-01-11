@@ -1,13 +1,41 @@
-import { Dasherize } from "./Dasherize";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
+import { Concat } from "src/runtime/lists/Concat";
+import { IfTrue } from "../boolean-logic/boolean";
+import { LeftWhitespace, RightWhitespace, Trim } from "../string-literals";
+import { DashUppercase } from "./DashUppercase";
+import { LowerAllCaps } from "./LowerAllCaps";
 
 /**
- * **KebabCase<T>** is an _alias_ for **Dasherize<T>**.
+ * **KebabCase**`<TString,TPreserve>`
+ * 
+ * Converts a string literal into a `kebab-case` format while optionally
+ * allowing surrounding whitespace.
+ *
  * ```ts
  * // "foo-bar"
- * type Kebab = KebabCase<"foo_bar">;
- * type Kebab = KebabCase<"fooBar">;
- * type Kebab = KebabCase<"FooBar">;
+ * type Dash = Dasherize<"foo_bar">;
+ * type Dash = Dasherize<"fooBar">;
+ * type Dash = Dasherize<"FooBar">;
  * // "\n  foo-bar \t"
- * type Kebab = KebabCase<"\n  foo bar \t">;
- * ``` */
-export type KebabCase<T extends string> = Dasherize<T>;
+ * type Dash = Dasherize<"\n  foo bar \t">;
+ * ```
+ */
+export type KebabCase<
+  TString extends string,
+  TPreserve extends boolean = false
+> = TPreserve extends true
+  
+  ? // preserve
+    Concat<[
+      LeftWhitespace<TString>,
+      KebabCase<TString, false>,
+      RightWhitespace<TString>
+    ]>
+  
+  : // remove whitespace
+    string extends TString
+      ? string
+      : DashUppercase<Trim<LowerAllCaps<TString>>> extends `${infer Begin}${"_" | " "}${infer Rest}`
+      ? KebabCase<`${Lowercase<Begin>}-${Rest}`>
+      : Lowercase<DashUppercase<Uncapitalize<Trim<LowerAllCaps<TString>>>>>;
