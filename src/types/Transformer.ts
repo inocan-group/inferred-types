@@ -1,4 +1,4 @@
-import { SameKeys } from "./dictionary/SameKeys";
+import { SameKeys } from "./alphabetic/dictionary/SameKeys";
 
 /**
  * **Transformer**

@@ -17,6 +17,10 @@ export * from "./pathJoin";
 export * from "./Suggest";
 export * from "./narrow";
 export * from "./wide";
+export * from "./capitalize";
+export * from "./uncapitalize";
+export * from "./uppercase";
+export * from "./lowercase";
 
 // #endregion auto-indexed files
 

@@ -5,6 +5,13 @@ import { IfSomeEqual } from "./equivalency";
 import { IfLiteral } from "./IsLiteral";
 
 /**
+ * A union of all _falsy_ values.
+ * 
+ * Note: any value which is _not_ falsy is "truthy"
+ */
+export type FalsyValue = false | 0 | -0 | "" | null | undefined | typeof NaN;
+
+/**
  * **Truthy**`<T>`
  * 
  * A type utility which evaluates `T` for _[truthiness](https://frontend.turing.edu/lessons/module-1/js-truthy-falsy-expressions.html)_ and returns `true` or `false`

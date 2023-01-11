@@ -32,6 +32,8 @@ type ConcatAcc<
  * // `foo-bar-baz`
  * type T2 = Concat<"foo", "-", "bar", "-", "baz">;
  * ```
+ * 
+ * **Related:** `Join<TArr,TWith>`
  */
 export type Concat<T extends readonly ConcatElement[] | ConcatElement[], > = ConcatAcc<T>;
 

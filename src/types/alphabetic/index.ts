@@ -10,7 +10,7 @@ export * from "./CapitalizeWords";
 export * from "./DashToSnake";
 export * from "./DashUppercase";
 export * from "./Cardinality";
-export * from "./Dasherize";
+export * from "./KebabCase";
 export * from "./HasUppercase";
 export * from "./EnsureLeading";
 export * from "./EnsureTrailing";

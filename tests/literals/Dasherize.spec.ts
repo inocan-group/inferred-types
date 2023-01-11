@@ -1,15 +1,15 @@
 import { describe, it, expect } from "vitest";
 
 import { Equal, Expect } from "@type-challenges/utils";
-import { Dasherize } from "src/types";
+import { KebabCase } from "src/types";
 
 const target = "two-three-four";
 type TARGET = typeof target;
 
 describe("Dasherize<T> type utility", () => {
   it("Dasherize<T> provides an identity to a dasherized string", () => {
-    type T1 = Dasherize<"two-three-four">;
-    type T2 = Dasherize<"\n two-three-four ">;
+    type T1 = KebabCase<"two-three-four">;
+    type T2 = KebabCase<"\n two-three-four ">;
 
     type cases = [Expect<Equal<T1, TARGET>>, Expect<Equal<T2, TARGET>>];
     const c: cases = [true, true];
@@ -17,7 +17,7 @@ describe("Dasherize<T> type utility", () => {
   });
 
   it("Dasherize<T> transform snake_case type", () => {
-    type T1 = Dasherize<"two_three_four">;
+    type T1 = KebabCase<"two_three_four">;
 
     type cases = [Expect<Equal<T1, TARGET>>];
     const c: cases = [true];
@@ -25,7 +25,7 @@ describe("Dasherize<T> type utility", () => {
   });
 
   it("Dasherize<T> transforms PascalCase type", () => {
-    type T1 = Dasherize<"TwoThreeFour">;
+    type T1 = KebabCase<"TwoThreeFour">;
 
     type cases = [Expect<Equal<T1, TARGET>>];
     const c: cases = [true];
@@ -33,11 +33,11 @@ describe("Dasherize<T> type utility", () => {
   });
 
   it("Dasherize<T> transforms camelCase type up to a pretty long length", () => {
-    type T1 = Dasherize<"twoThreeFour">;
-    type T2 = Dasherize<"twoThreeFourFive">;
-    type T3 = Dasherize<"twoThreeFourFiveSix">;
-    type T4 = Dasherize<"twoThreeFourFiveSixSeven">;
-    type T5 = Dasherize<"twoThreeFourFiveSixSevenEight">;
+    type T1 = KebabCase<"twoThreeFour">;
+    type T2 = KebabCase<"twoThreeFourFive">;
+    type T3 = KebabCase<"twoThreeFourFiveSix">;
+    type T4 = KebabCase<"twoThreeFourFiveSixSeven">;
+    type T5 = KebabCase<"twoThreeFourFiveSixSevenEight">;
     // type T6 = Dasherize<"twoThreeFourFiveSixSevenEightNine">;
 
     type cases = [
@@ -53,7 +53,7 @@ describe("Dasherize<T> type utility", () => {
   });
 
   it("Dasherize<T> transforms interior space to dasherized type", () => {
-    type T1 = Dasherize<"two three four">;
+    type T1 = KebabCase<"two three four">;
 
     type cases = [Expect<Equal<T1, TARGET>>];
     const c: cases = [true];
@@ -61,9 +61,9 @@ describe("Dasherize<T> type utility", () => {
   });
 
   it("Dasherize<T> transforms ALL CAPS to dasherized type", () => {
-    type T1 = Dasherize<"TWO THREE FOUR">;
-    type T2 = Dasherize<"\n TWO_THREE_FOUR ">;
-    type T3 = Dasherize<"\n TWO-THREE-FOUR ">;
+    type T1 = KebabCase<"TWO THREE FOUR">;
+    type T2 = KebabCase<"\n TWO_THREE_FOUR ">;
+    type T3 = KebabCase<"\n TWO-THREE-FOUR ">;
 
     type cases = [Expect<Equal<T1, TARGET>>, Expect<Equal<T2, TARGET>>, Expect<Equal<T3, TARGET>>];
     const c: cases = [true, true, true];
@@ -71,8 +71,8 @@ describe("Dasherize<T> type utility", () => {
   });
 
   it("Dasherize<T> removes leading and trailing whitespace and still converts", () => {
-    type T1 = Dasherize<"  one two three ">;
-    type T2 = Dasherize<"\n  one two three ">;
+    type T1 = KebabCase<"  one two three ">;
+    type T2 = KebabCase<"\n  one two three ">;
 
     type cases = [Expect<Equal<T1, "one-two-three">>, Expect<Equal<T2, "one-two-three">>];
     const c: cases = [true, true];
@@ -80,7 +80,7 @@ describe("Dasherize<T> type utility", () => {
   });
 
   it("Dasherize<T> returns 'string' type when passed a non-literal string", () => {
-    type T1 = Dasherize<string>;
+    type T1 = KebabCase<string>;
 
     type cases = [Expect<Equal<T1, string>>];
     const c: cases = [true];
@@ -88,11 +88,11 @@ describe("Dasherize<T> type utility", () => {
   });
 
   it("Dasherize<T> can handle long strings which do not have caps (unless they're ALL CAPS)", () => {
-    type T1 = Dasherize<"one two three four five six seven eight nine ten">;
-    type T2 = Dasherize<"one_two_three_four_five_six_seven_eight_nine_ten">;
-    type T3 = Dasherize<"ONE_TWO_THREE_FOUR_FIVE_SIX_SEVEN_EIGHT_NINE_TEN">;
-    type T4 = Dasherize<"one-two-three-four_five_six_seven_eight_nine_ten">;
-    type T5 = Dasherize<"\n one-two-three-four_five_six_seven_eight_nine_ten \t">;
+    type T1 = KebabCase<"one two three four five six seven eight nine ten">;
+    type T2 = KebabCase<"one_two_three_four_five_six_seven_eight_nine_ten">;
+    type T3 = KebabCase<"ONE_TWO_THREE_FOUR_FIVE_SIX_SEVEN_EIGHT_NINE_TEN">;
+    type T4 = KebabCase<"one-two-three-four_five_six_seven_eight_nine_ten">;
+    type T5 = KebabCase<"\n one-two-three-four_five_six_seven_eight_nine_ten \t">;
 
     type cases = [
       Expect<Equal<T1, "one-two-three-four-five-six-seven-eight-nine-ten">>,

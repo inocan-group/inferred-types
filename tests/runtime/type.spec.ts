@@ -111,7 +111,7 @@ describe("testing type() utility and some pre-made conditions", () => {
     const b2 = api.boolean({ isRequired: false });
     const s1 = api.string({ description: "i am a string"});
     const s2 = api.string({ defaultValue: box("foo") });
-    const l1 = api.stringLiteral(["foo", "bar", "baz"]);
+    const l1 = api.stringLiteral("foo", "bar", "baz");
 
     type Expected<
       K extends TypeKind,

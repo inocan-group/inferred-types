@@ -1,44 +1,82 @@
+import { Join } from "src/runtime/lists/Join";
+import { TYPE_MATCHER_DESC, TYPE_TRANSFORMER_DESC } from "src/runtime/runtime";
 import { CamelCase, KebabCase, PascalCase, StripLeading, StripTrailing } from "../alphabetic";
-import {  IfEndsWith, IfEquals, IfExtends, IfNumericLiteral, IfOr, IfStartsWith, IsEqual } from "../boolean-logic";
+import {  IfEndsWith, IfEquals, IfExtends, IfNumericLiteral,  IfStartsWith, IfStringLiteral } from "../boolean-logic";
 import { ExcludeNever, FirstOrElse } from "../lists";
 import { Narrowable } from "../Narrowable";
 import { ToString } from "./ToString";
+import { TypeTuple } from "./TypeTuple";
 
 /**
  * **TypeMapMatcher**
  * 
- * Represents the _method_ you will use to match a type.
+ * Represents the _method_ you will use to match a type and any necessary
+ * parameter to fully qualify it.
  */
-export type TypeMapMatcher = "extends" 
-  | "equals" 
-  | "not-equal" 
-  | "startsWith" 
-  | "endsWith" 
-  | "truthy" 
-  | "any";
+export type TypeMapMatcher = 
+  | ["Extends", any]
+  | ["Equals", any]
+  | ["NotEqual", any]
+  | ["StartsWith", string | number]
+  | ["EndsWith", string | number]
+  | ["Truthy", any]
+  | ["Falsy", any]
+  | ["Returns", any]
+  | ["Any"];
 
 /**
  * The types of transformation you want to apply to matched tokens
  */
-export type TypeMapTransform = "identity" | "Capitalized" | "PascalCase" | "CamelCase" | "KebabCase" | ["StripLeading", string] | ["StripTrailing", string] | "ToString" | "AsString" | "AsBooleanString" | "AsNumericString" | ["As", any] | "Never" | ["NumericLiteral", number] | "ToTrue" | "ToFalse";
+export type TypeMapTransformer = 
+  | ["Identity"] 
+  | ["Capitalized"]
+  | ["PascalCase"]
+  | ["CamelCase"]
+  | ["KebabCase"]
+  | ["ToString"]
+  | ["ToTrue"]
+  | ["ToFalse"]
+  | ["ToBoolean"]
+  | ["AsString"]
+  | ["AsBooleanString"]
+  | ["AsNumericString"]
+  | ["Never"]
+  | ["StripLeading", string] 
+  | ["StripTrailing", string] 
+  | ["As", TypeTuple<any, string>] 
+  | ["NumericLiteral", number]
+  | ["StringLiteral", string];
 
 /**
- * **TypeMapRule**`<TMatch,TTarget,TTransform>`
+ * **TypeRuleDesc**
+ * 
+ * Type utility which builds a description from the matcher and transformer.
+ */
+export type TypeRuleDesc<
+  TMatch extends TypeMapMatcher,
+  TTransform extends TypeMapTransformer
+> = Join<[
+  TMatch[0] extends keyof typeof TYPE_MATCHER_DESC
+    ? Capitalize<StripTrailing<typeof TYPE_MATCHER_DESC[TMatch[0]], ".">>
+    : "Unknown matcher!",
+  TTransform[0] extends keyof typeof TYPE_TRANSFORMER_DESC
+    ? Lowercase<typeof TYPE_TRANSFORMER_DESC[TTransform[0]]>
+    : "unknown transformer!",
+], " and ">;
+
+/**
+ * **TypeMapRule**`<TMatch,TTransform,TDesc>`
  * 
  * A type which defines how to transform a _matched_ type into a variant.
  */
 export interface TypeMapRule<
   TMatch extends TypeMapMatcher,
-  TTarget extends IfOr<
-    [ IsEqual<TMatch, "startsWith">, IsEqual<TMatch, "endsWith"> ],
-    string | number,
-    Narrowable
-  >,
-  TTransform extends TypeMapTransform,
+  TTransform extends TypeMapTransformer,
+  TDesc extends TypeRuleDesc<TMatch,TTransform>
 > {
   match: TMatch;
-  target: TTarget;
   transform: TTransform;
+  desc: TDesc;
 };
 
 /**
@@ -50,9 +88,8 @@ export interface TypeMapRule<
  * Note: this is return type from the `mapType()` runtime utility.
  */
 export type ConfiguredTypeMapper<
-  R extends readonly TypeMapRule<any, any, any>[]
+  R extends readonly TypeMapRule<any, any, TypeRuleDesc<any,any>>[]
 > = <T extends readonly Narrowable[]>(...tokens: T) => MapType<T,R>;
-
 
 
 /**
@@ -60,50 +97,58 @@ export type ConfiguredTypeMapper<
  */
 export type MappedValue<
   TValue extends Narrowable, 
-  M extends TypeMapRule<any, any, any> 
-> = M["transform"] extends "identity"
+  M extends TypeMapRule<TypeMapMatcher, TypeMapTransformer, any> 
+> = M["transform"][0] extends "Identity"
   ? TValue
-  : M["transform"] extends "AsString"
+  : M["transform"][0] extends "AsString"
   ? `${string}`
-  : M["transform"] extends "AsNumericString"
+  : M["transform"][0] extends "AsNumericString"
   ? `${number}`
-  : M["transform"] extends "AsBooleanString"
+  : M["transform"][0] extends "AsBooleanString"
   ? `${false | true}`
-  : M["transform"] extends "AsString"
+  : M["transform"][0] extends "AsString"
   ? `${string}`
-  : M["transform"] extends "ToString"
+  : M["transform"][0] extends "ToString"
   ? ToString<TValue>
-  : M["transform"] extends "ToTrue"
+  : M["transform"][0] extends "ToTrue"
   ? true
-  : M["transform"] extends "ToFalse"
+  : M["transform"][0] extends "ToFalse"
   ? false
-  : M["transform"] extends "Capitalized"
+  : M["transform"][0] extends "Capitalized"
   ? Capitalize<`${string}`>
-  : M["transform"] extends "PascalCase"
+  : M["transform"][0] extends "PascalCase"
   ? PascalCase<`${string}`>
-  : M["transform"] extends "CamelCase"
+  : M["transform"][0] extends "CamelCase"
   ? CamelCase<`${string}`>
-  : M["transform"] extends "KebabCase"
+  : M["transform"][0] extends "KebabCase"
   ? KebabCase<`${string}`>
 
-  : M["transform"] extends [infer Command, infer Param]
-    ? Command extends "As"
-    ? Param
-    : Command extends "StripLeading"
-    ? StripLeading<TValue, Param>
-    : Command extends "StripTrailing"
-    ? StripTrailing<TValue, Param>
-    : Command extends "NumericLiteral"
-    ? IfNumericLiteral<Param, Param, ["error", "invalid-numeric-literal"]>
-    : unknown
-    : never;
+  : M["transform"][0] extends "As"
+  ? M["transform"][1] extends TypeTuple<infer TT,any> ? TT : never
+  : M["transform"][0] extends "StripLeading"
+  ? StripLeading<TValue, M["transform"][1]>
+  : M["transform"][0] extends "StripTrailing"
+  ? StripTrailing<TValue, M["transform"][1]>
+  : M["transform"][0] extends "NumericLiteral"
+  ? IfNumericLiteral<
+      M["transform"][1], 
+      M["transform"][1], 
+      ["error", "invalid-numeric-literal"]
+    >
+  : M["transform"][0] extends "StringLiteral"
+    ? IfStringLiteral<
+        M["transform"][1], 
+        M["transform"][1], 
+        ["error", "invalid-string-literal"]
+      >
+  : unknown;
 
 
 /**
  * **Convert**`<TValue,TMatchers,TElse>`
  * 
  * Type utility which converts the type of a single value by comparing the value
- * to an array of matchers. The first matcher which matches will convert the type
+ * to an array of matcher rules. The first matcher which matches will convert the type
  * but if no matchers match then the `TElse` generic determines the type.
  * 
  * A matcher is a tuple which extends `Matcher`:
@@ -111,24 +156,24 @@ export type MappedValue<
  * type Matcher = []
  * ```
  * 
- * **Related:** `Map<T,M,E>`
+ * **Related:** `MapType<T,M,E>`
  */
 export type ConvertType<
   TValue extends Narrowable, 
-  TMatchers extends readonly TypeMapRule<any, any, any>[],
+  TMatchers extends readonly TypeMapRule<TypeMapMatcher, TypeMapTransformer, any>[],
   TElse extends Narrowable = never
 > = FirstOrElse<ExcludeNever<{
   [K in keyof TMatchers]: //
-    IfEquals<TMatchers[K]["match"], "equals",
-      IfEquals<TValue, TMatchers[K]["target"], MappedValue<TValue,TMatchers[K]>, never>,
-    IfEquals<TMatchers[K]["match"], "extends",
-      IfExtends<TValue, TMatchers[K]["target"], MappedValue<TValue,TMatchers[K]>, never>,
-    IfEquals<TMatchers[K]["match"], "startsWith",
-      IfStartsWith<TValue, TMatchers[K]["target"], MappedValue<TValue,TMatchers[K]>, never>,
-    IfEquals<TMatchers[K]["match"], "endsWith",
-      IfEndsWith<TValue, TMatchers[K]["target"], MappedValue<TValue,TMatchers[K]>, never>,
+    IfEquals<TMatchers[K]["match"][0], "Equals",
+      IfEquals<TValue, TMatchers[K]["match"][1], MappedValue<TValue,TMatchers[K]>, never>,
+    IfEquals<TMatchers[K]["match"][0], "Extends",
+      IfExtends<TValue, TMatchers[K]["match"][1], MappedValue<TValue,TMatchers[K]>, never>,
+    IfEquals<TMatchers[K]["match"][0], "StartsWith",
+      IfStartsWith<TValue, TMatchers[K]["match"][1], MappedValue<TValue,TMatchers[K]>, never>,
+    IfEquals<TMatchers[K]["match"][0], "EndsWith",
+      IfEndsWith<TValue, TMatchers[K]["match"][1], MappedValue<TValue,TMatchers[K]>, never>,
     never
-    >>>>
+  >>>>
 }>, TElse>;
 
 type MapAcc<
@@ -158,7 +203,7 @@ type MapAcc<
  *    ["foo", "bar", "baz"],
  *    [
  *      []
- *    ]
+ *   ]
  * ```
  */
 export type MapType<

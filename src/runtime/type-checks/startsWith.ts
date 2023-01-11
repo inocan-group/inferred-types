@@ -1,57 +1,9 @@
 import { Narrowable } from "src/types";
-import { IfStartsWith, IfTrue, StartsWith } from "src/types/boolean-logic";
-import { IfUndefined } from "src/types/boolean-logic/IsUndefined";
+import { IfTrue, StartsWith } from "src/types/boolean-logic";
 import { createFnWithProps } from "../createFnWithProps";
 import { box, Box } from "../literals";
+import { startsWith } from "../type-guards/startsWith";
 import { ifTrue } from "./isTrue";
-
-/**
- * **startsWith**
- *
- * A higher-order and type strong way to checking whether a string literal `<T>` starts with
- * another known string literal `<S>`:
- * ```ts
- * const answer = startsWith("foo")("foobar");
- * ```
- */
-export const startsWith =
-  <S extends string>(
-    /** The starting string you will test for */
-    start: S
-  ) =>
-  <T extends string>(
-    /** The text being tested */
-    input: T
-  ): StartsWith<T, S> => {
-    return input.startsWith(start) as StartsWith<T, S>;
-  };
-
-/**
- * **IfStartsWithFn**
- *
- * A function which comes from a partial application of the `ifStartsWith()`
- * utility. This type will receive a value `<T>` and _if_ this values starts
- * with `<S>` then the callback function will executed in a type strong manner.
- */
-export type IfStartsWith__Fn<
-  /** The "start with" constraint */
-  TStartsWith extends string,
-  TIf extends Box<<T extends string>(i: `${TStartsWith}${T}`) => any>,
-  TElse extends Box<(<T extends string>(i: T) => any) | undefined>
-> = <T extends string>(
-  val: T
-) => IfStartsWith<
-  T, //
-  TStartsWith,
-  // Condition Passes
-  ReturnType<TIf["value"]>,
-  // Condition Fails
-  IfUndefined<
-    TElse, //
-    undefined,
-    Exclude<TElse, undefined>
-  >
->;
 
 export type NarrowFn<N extends string> = <F extends <T extends string>(input: T) => any>(
   fn: F

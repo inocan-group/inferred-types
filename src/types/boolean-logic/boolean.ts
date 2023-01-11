@@ -70,7 +70,7 @@ export type IsFalse<T extends Narrowable> = IsBoolean<T> extends true
  * if you are looking for different behavior consider `IfSoftTrue` instead.
  */
 export type IfTrue<
-  T extends boolean,
+  T extends Narrowable,
   IF extends Narrowable,
   ELSE extends Narrowable
 > = IsTrue<T> extends true ? IF : ELSE;

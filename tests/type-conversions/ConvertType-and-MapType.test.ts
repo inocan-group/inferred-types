@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { identity, wide } from "src/runtime";
-import { createTypeMapper } from "src/runtime/runtime/createTypeMatcher";
+import { createTypeMapRule } from "src/runtime/runtime/createTypeMatcher";
+import { t } from "src/runtime/runtime/type-shorthand";
 import { ConvertType, MapType } from "src/types/type-conversion/MapType";
 import { describe, it } from "vitest";
 
@@ -10,16 +10,16 @@ import { describe, it } from "vitest";
 
 describe("ConvertType<T,M>", () => {
 
-  it("happy path", () => {
-    const m1 = createTypeMapper("startsWith", "f", () => `started with f`);
-    const m2 = createTypeMapper("extends", wide.string);
-    type M3 = ["startsWith", "4"];
+  it("types map correctly", () => {
+    const m1 = createTypeMapRule(["StartsWith", "f"], ["StringLiteral", "started with f"]);
+    const m2 = createTypeMapRule(["Extends", t.string()], ["Identity"]);
+    const m3 = createTypeMapRule(["StartsWith", "4"], ["Identity"]);
 
     type C1 = ConvertType<"foo", [typeof m1]>;
     type C2 = ConvertType<"foo", [typeof m2]>;
-    type C3 = ConvertType<number, [M2,M1], "huh?">;
-    type C4 = ConvertType<42, [M3], "huh?">;
-    type C5 = ConvertType<55, [M3], "huh?">;
+    type C3 = ConvertType<number, [typeof m2, typeof m1], "huh?">;
+    type C4 = ConvertType<42, [typeof m3], "huh?">;
+    type C5 = ConvertType<55, [typeof m3], "huh?">;
     
     type cases = [
       Expect<Equal<C1, "started with f">>,
@@ -31,23 +31,28 @@ describe("ConvertType<T,M>", () => {
     const cases: cases = [true, true, true, true, true];
   });
 
+  
+  it("runtime works", () => {
+    
+  });
+  
+
 });
 
 describe("MapType<T,M>", () => {
 
-  it("happy path", () => {
+  it("types resolve", () => {
     type List = ["foo", "bar", "42", 42, 52, "baz"];
-    type M1 = ["startsWith", "f", () => `started with f`];
-    type M2 = ["extends", string];
-    type M3 = ["startsWith", "4"];
-    const m4 = createTypeMapper("extends", wide.number);
-    const m5 = createTypeMapper("endsWith", "2");
+    const m1 = createTypeMapRule(["StartsWith", "f"], ["StringLiteral", "started with f"]);
+    const m2 = createTypeMapRule(["Extends", t.string()], ["Identity"]);
+    const m3 = createTypeMapRule(["StartsWith", "4"], ["Identity"]);
+    const m4 = createTypeMapRule(["Extends", t.number()], ["Identity"]);
+    const m5 = createTypeMapRule(["EndsWith", "2"], ["Identity"]);
 
-
-    type T1 = MapType<List, [M1,M2]>;
-    type T2 = MapType<List, [M2]>;
-    type T3 = MapType<List, [M2], "huh?">;
-    type T4 = MapType<List, [M2,M3], "huh?">;
+    type T1 = MapType<List, [typeof m1,typeof m2]>;
+    type T2 = MapType<List, [typeof m2]>;
+    type T3 = MapType<List, [typeof m2], "huh?">;
+    type T4 = MapType<List, [typeof m2, typeof m3], "huh?">;
     type T5 = MapType<List, [typeof m4]>;
     type T6 = MapType<List, [typeof m5]>;
 
@@ -57,7 +62,7 @@ describe("MapType<T,M>", () => {
       Expect<Equal<T3, ["foo", "bar", "42", "huh?", "huh?", "baz"]>>,
       Expect<Equal<T4, ["foo", "bar", "42", 42, "huh?", "baz"]>>,
       Expect<Equal<T5, [42, 52]>>,
-      Expect<Equal<T6, ["two", "two", "two"]>>,
+      Expect<Equal<T6, ["42", 42, 52]>>,
     ];
     
     const cases: cases = [ true, true, true, true, true, true ];

@@ -1,4 +1,4 @@
-import { Get } from "../dictionary/Get";
+import { Get } from "../alphabetic/dictionary/Get";
 import { Narrowable } from "../Narrowable";
 
 /**

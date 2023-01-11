@@ -1,10 +1,10 @@
-import { ExpandRecursively } from "../ExpandRecursively";
-import { Keys } from "../Keys";
-import { AfterFirst } from "../lists";
-import { First } from "../lists/First";
+import { ExpandRecursively } from "../../ExpandRecursively";
+import { Keys } from "../../Keys";
+import { AfterFirst } from "../../lists";
+import { First } from "../../lists/First";
 
-import {  TupleToUnion, UnionToTuple } from "../type-conversion";
-import { Mutable } from "../type-conversion/Mutable";
+import {  TupleToUnion, UnionToTuple } from "../../type-conversion";
+import { Mutable } from "../../type-conversion/Mutable";
 import {  WithKeys, WithoutKeys } from "./WithKeys";
 
 type MutablePropAcc<
