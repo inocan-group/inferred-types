@@ -1,5 +1,5 @@
-import { Narrowable } from "../Narrowable";
-import { TypeMapRule, MapType, ConfiguredTypeMapper } from "../type-conversion/MapType";
+import { Narrowable } from "../../types/Narrowable";
+import { TypeMapRule, MapType, ConfiguredTypeMapper, TypeMapMatcher, TypeMapTransformer } from "../../types/type-conversion/MapType";
 
 function convert<
   T extends Narrowable, 
@@ -16,7 +16,7 @@ function convert<
  * a stream of "tokens" to be converted using those rules.
  */
 export function mapType<
-  R extends readonly TypeMapRule<any, any, any>[], 
+  R extends readonly TypeMapRule<TypeMapMatcher, TypeMapTransformer, any>[], 
 >(...rules: R): ConfiguredTypeMapper<R> {
   return <
     T extends readonly Narrowable[]

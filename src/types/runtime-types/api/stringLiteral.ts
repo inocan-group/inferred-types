@@ -1,6 +1,6 @@
 import { Concat } from "src/runtime/lists/Concat";
 import { stripLeading } from "src/runtime/literals/stripLeading";
-import { createTypeMapper } from "src/runtime/runtime/createTypeMatcher";
+import { createTypeMapRule } from "src/runtime/runtime/createTypeMatcher";
 import { AlphaNumericChar, LowerAlpha, UpperAlpha } from "src/types/alphabetic";
 import {  IfLiteral } from "src/types/boolean-logic";
 import { IfReadonlyArray } from "src/types/boolean-logic/array";

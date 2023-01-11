@@ -7,6 +7,8 @@
 // file exports
 export * from "./asArray";
 export * from "./groupBy";
+export * from "./Join";
+export * from "./Concat";
 export * from "./createConverter";
 
 // #endregion auto-indexed files

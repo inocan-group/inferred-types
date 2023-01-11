@@ -5,8 +5,8 @@ import {
   DefaultOneToManyMapping,
   DefaultOneToOneMapping,
 } from "src/runtime/dictionary/mapTo";
-import { EnumValues } from "../EnumValues";
-import { TypeDefault } from "../boolean-logic/TypeDefault";
+import { EnumValues } from "../../EnumValues";
+import { TypeDefault } from "../../boolean-logic/TypeDefault";
 
 /**
  * Expresses relationship between inputs/outputs:

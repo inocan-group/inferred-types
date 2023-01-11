@@ -1,6 +1,6 @@
-import { Alpha } from "../alphabetic/alpha-characters";
-import { Keys } from "../Keys";
-import { SimplifyObject } from "../SimplifyObject";
+import { Alpha } from "../alpha-characters";
+import { Keys } from "../../Keys";
+import { SimplifyObject } from "../../SimplifyObject";
 
 /**
  * Extracts the _required_ keys in the object's type. You also may

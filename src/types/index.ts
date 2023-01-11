@@ -18,7 +18,7 @@ export * from "./Narrowable";
 export * from "./Numeric";
 export * from "./Retain";
 export * from "./Opaque";
-export * from "./dictionary/WithKeys";
+export * from "./alphabetic/dictionary/WithKeys";
 export * from "./SimplifyObject";
 export * from "./Transformer";
 export * from "./TypeGuard";
@@ -30,7 +30,7 @@ export * from "./runtime";
 export * from "./type-testing";
 // directory exports
 export * from "./alphabetic/index";
-export * from "./dictionary/index";
+export * from "./alphabetic/dictionary/index";
 export * from "./fluent/index";
 export * from "./functions/index";
 export * from "./kv/index";

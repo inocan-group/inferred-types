@@ -21,4 +21,4 @@ export type ToString<T> = T extends string
   : T extends number[] ? "number[]"
   : T extends boolean[] ? "boolean[]"
   : T extends AnyFunction[] ? "Function[]"
-  : "other";
+  : "unknown";

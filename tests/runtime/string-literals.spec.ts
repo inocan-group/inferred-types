@@ -1,14 +1,14 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { Concat } from "src/runtime/lists/Concat";
 import { stripLeading } from "src/runtime/literals/stripLeading";
-import { wide } from "src/runtime/literals/wide";
-import { createTypeMapper } from "src/runtime/runtime/createTypeMatcher";
-import { Digit } from "src/types/Numeric";
+import { createTypeMapRule } from "src/runtime/runtime/createTypeMatcher";
 import { mapStringLiterals } from "src/types/runtime-types/api/literalTokens";
 import {  TokenizeStringLiteral, ToStringLiteral } from "src/types/runtime-types/api/stringLiteral";
-import { mapType } from "src/types/runtime-types/mapType";
+import { mapType } from "src/runtime/runtime/mapType";
 import { MapType } from "src/types/type-conversion/MapType";
 import { describe, it } from "vitest";
+import { typeTuples } from "src/runtime/runtime/typeTuples";
+import { t } from "src/runtime/runtime";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -16,11 +16,11 @@ import { describe, it } from "vitest";
 
 describe("String Literal testing", () => {
 
-  const opString = createTypeMapper("equals", "<string>", "AsString");
-  const opNumber = createTypeMapper("equals", "<number>", "AsNumericString");
-  const opBoolean = createTypeMapper("equals", "<boolean>", "AsBooleanString");
-  const opDigit = createTypeMapper("equals", "<digit>", ["As", "0" as `${Digit}`]);
-  const numbers = createTypeMapper("extends", wide.number, "ToString");
+  const opString = createTypeMapRule(["Equals", "<string>"], ["AsString"]);
+  const opNumber = createTypeMapRule(["Equals", "<number>"], ["AsNumericString"]);
+  const opBoolean = createTypeMapRule(["Equals", "<boolean>"], ["AsBooleanString"]);
+  const opDigit = createTypeMapRule(["Equals", "<digit>"], ["As", typeTuples.digit]);
+  const numbers = createTypeMapRule(["Extends", t.number()], ["ToString"]);
 
   type T1 = MapType<
     readonly ["<number>", number, "<string>", 42, "<boolean>"], 
@@ -54,10 +54,10 @@ describe("String Literal testing", () => {
 
   
   it("createTypeMatcher", () => {
-    const n = createTypeMapper("equals", "<number>");
-    const b = createTypeMapper("equals", "<boolean>");
-    const d = createTypeMapper("equals", "<digit>");
-    const l = createTypeMapper("startsWith", "literal:", <V extends string>(v: V) => stripLeading(v, "literal:"));
+    const n = createTypeMapRule("equals", "<number>");
+    const b = createTypeMapRule("equals", "<boolean>");
+    const d = createTypeMapRule("equals", "<digit>");
+    const l = createTypeMapRule("startsWith", "literal:", <V extends string>(v: V) => stripLeading(v, "literal:"));
 
     type List1 = ["Hello ", "<string>", ""]
 

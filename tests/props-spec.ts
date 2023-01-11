@@ -13,7 +13,7 @@ import {
   NonStringKeys,
   WithNumericKeys,
   WithoutValue,
-} from "src/types/dictionary/props";
+} from "src/types/alphabetic/dictionary/props";
 
 type T0 = { foo: number; bar: number; baz: string };
 type T1 = { foo: number; bar: number; baz?: string };

@@ -1,7 +1,7 @@
-import { SimplifyObject } from "../SimplifyObject";
+import { SimplifyObject } from "../../SimplifyObject";
 
 /**
- * Allow a dictionary have it's value's type changed to `T` while maintaining the keys in
+ * Allow a dictionary to have it's value's type changed to `T` while maintaining the keys in
  * the original object `I` so long as the original value for the KV pair extends `V`.
  *
  * If `V` is not specified then it defaults to _any_ and therefore all KVs are preserved.

@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 
-import { SameKeys } from "src/types/dictionary";
+import { SameKeys } from "src/types/alphabetic/dictionary";
 import { Transformer } from "src/types/Transformer";
 import { keys } from "../keys";
 

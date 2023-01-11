@@ -4,7 +4,7 @@ import { First } from "./First";
 import { AfterFirst } from "./AfterFirst";
 import { Keys } from "../Keys";
 
-import {  WithoutValue } from "../dictionary/props";
+import {  WithoutValue } from "../alphabetic/dictionary/props";
 
 // [Mapped Tuple Types](https://github.com/Microsoft/TypeScript/issues/25947)
 

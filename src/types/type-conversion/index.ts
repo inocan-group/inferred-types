@@ -12,6 +12,7 @@ export * from "./ToString";
 export * from "./UnionToTuple";
 export * from "./Widen";
 export * from "./Mutable";
+export * from "./TypeTuple";
 
 // #endregion auto-indexed files
 
