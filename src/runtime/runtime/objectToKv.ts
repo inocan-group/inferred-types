@@ -2,6 +2,7 @@ import { AnyObject } from "src/types/boolean-logic/object";
 import { KvPair } from "src/types/type-conversion/KvToObject";
 import { ObjectToKv } from "src/types/type-conversion/ObjectToKv";
 import { isObject } from "src/runtime/type-checks";
+import { Mutable } from "src/types/type-conversion/Mutable";
 
 /**
  * **objectToKv**(obj)

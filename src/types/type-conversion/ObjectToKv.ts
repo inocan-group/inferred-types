@@ -8,7 +8,7 @@ type Obj2Kv<
   TKeys extends readonly (keyof TObj)[],
   Results extends readonly KvPair<any,any>[] = []
 > = [] extends TKeys
-  ? Results
+  ? Readonly<Results>
   : Obj2Kv<
       TObj,
       AfterFirst<TKeys>,
@@ -20,7 +20,7 @@ type Obj2Kv<
               value: IfObject<
                 TObj[First<TKeys>], 
                 Mutable<ObjectToKv<TObj[First<TKeys>]>>, 
-                TObj[First<TKeys>]
+                Mutable<TObj[First<TKeys>]>
               >; 
             }
           ]

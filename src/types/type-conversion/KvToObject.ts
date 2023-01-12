@@ -1,9 +1,8 @@
-;
 import { AfterFirst } from "../lists";
 import { First } from "../lists/First";
-import { Narrowable } from "../Narrowable";
 import { Type } from "../runtime-types/Type";
 import { SimplifyObject } from "../SimplifyObject";
+import { Mutable } from "./Mutable";
 
 /**
  * **KvPair**`<K,V>`
@@ -19,8 +18,6 @@ export type TypeKvBase<
   K extends string, 
   T extends Type
 > = KvPair<K,T>;
-
-
 
 /**
  * **ObjectFromKv**`<KV>`
@@ -51,7 +48,13 @@ export type KvToObject<
   : First<KV> extends KvPair<infer Key, infer Value>
     ? Key extends keyof TObj
       ? ["ERROR", `Key of ${Key} already exists`]
-      : [Value] extends [KvPair<string, any>[]]
-        ? KvToObject<AfterFirst<KV>, TObj & Record<Key, KvToObject<Value>>>
-        : KvToObject<AfterFirst<KV>, TObj & Record<Key, Value>>
+      : Mutable<Value> extends KvPair<string, any>[]
+        ? KvToObject< // prop is an object
+            [...AfterFirst<KV>], 
+            TObj & Mutable<Record<Key, Readonly<KvToObject<Mutable<Value>>>>>
+          >
+        : KvToObject<
+            [...AfterFirst<KV>], 
+            TObj & Mutable<Record<Key, Value>>
+          >
     : First<KV>;

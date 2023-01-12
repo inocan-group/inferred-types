@@ -1,7 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
+import { defineType, identity, narrow } from "src/runtime";
 import { kvToObject } from "src/runtime/runtime";
 import { objectToKv } from "src/runtime/runtime/objectToKv";
 import { isKvPair } from "src/runtime/type-guards/isKvPair";
+import { isKvPairArray } from "src/runtime/type-guards/isKvPairArray";
 import { KvPair, KvToObject, Mutable } from "src/types";
 import { ObjectToKv } from "src/types/type-conversion/ObjectToKv";
 import { describe, expect, it } from "vitest";
@@ -11,7 +13,7 @@ import { describe, expect, it } from "vitest";
 // gain validation that no new type vulnerabilities have cropped up.
 
 
-describe("KV to Object", () => {
+describe("KV -> Object", () => {
   it("isKvPair() type guard works", () => {
     if(isKvPair("nope")) {
       throw new Error("string mistaken for KvPair");
@@ -20,11 +22,11 @@ describe("KV to Object", () => {
     }
 
     const kv = {key: "foo", value: 1 } as const;
+    const kv2 = narrow({key: "foo", value: 1 } as const);
+    type Explicit = KvPair<"foo", 1>;
+
     if(isKvPair(kv)) {
       expect(true, "real kv detected");
-
-      type Explicit = KvPair<"foo", 1>;
-
       type cases = [
         Expect<Equal<typeof kv["key"], "foo">>,
         Expect<Equal<typeof kv["value"], 1>>,
@@ -32,8 +34,52 @@ describe("KV to Object", () => {
       ]
       const cases: cases = [ true, true, true ];
     }
+    if(isKvPair(kv2)) {
+      expect(true, "real kv detected");
+      type cases = [
+        Expect<Equal<typeof kv["key"], "foo">>,
+        Expect<Equal<typeof kv["value"], 1>>,
+        Expect<Equal<typeof kv2, Explicit>>,
+      ]
+      const cases: cases = [ true, true, true ];
+    }
   });
+  
+  it("isKvPairArray() type guard works", () => {
+    if(isKvPairArray([{}, {}])) {
+      throw new Error("should have failed!");
+    } else {
+      expect(true, "invalid tuple rejected").toBe(true);
+    }
 
+    const kvRo = [
+      { key: "foo", value: 1 },
+      { key: "bar", value: 2 },
+    ] as const;
+
+    const kvRw = narrow([
+      { key: "foo", value: 1 },
+      { key: "bar", value: 2 },
+    ] as const)
+
+    if(isKvPairArray(kvRo)) {
+      expect(true, "valid ro KV array detected").toBe(true);
+    } else {
+      throw new Error("a valid kv array (with read-only props) was not identified as a KvPair array");
+    }
+
+    if(isKvPairArray(kvRw)) {
+      expect(true, "valid r/w KV array detected").toBe(true);
+      
+      type cases = [
+        /** type tests */
+      ];
+      const cases: cases = [];
+    } else {
+      throw new Error("a valid kv array (with read/write props) was not identified as a KvPair array");
+    }
+  });
+  
   
   it("types: KvToObject<KV>", () => {
     type Works = KvToObject<[
@@ -56,13 +102,12 @@ describe("KV to Object", () => {
         ] }
     ];
 
-    type T3 = KvToObject<DeepKv>;
+    type DeepCheck = KvToObject<DeepKv>;
 
-    
     type cases = [
       Expect<Equal<Works, {foo: 1; bar: 2}>>,
       Expect<Equal<Err, ["ERROR", "Key of foo already exists"]>>,
-      Expect<Equal<T3, { foo: 1; bar: { a: "a"; b: "b"; c: "c" }}>>
+      Expect<Equal<DeepCheck, { foo: 1; bar: { a: "a"; b: "b"; c: "c" }}>>
     ];
 
     const cases: cases = [true, true, true];
@@ -87,7 +132,7 @@ describe("KV to Object", () => {
 
 });
 
-describe("Object to KV", () => {
+describe("Object -> KV", () => {
 
   it("types: ObjectToKv<KV>", () => {
     type T1 = ObjectToKv<{foo: 1; bar: 2}>;
@@ -110,14 +155,14 @@ describe("Object to KV", () => {
   });
   
   it("object nesting", () => {
-    const deep = {
+    const deep = defineType({
       foo: 1,
       bar: {
         a: "a",
         b: "b",
         c: "c"
       }
-    } as const;
+    })();
 
     const deepKv = objectToKv(deep);
 
@@ -130,25 +175,81 @@ describe("Object to KV", () => {
       ]}
     ]);
   });
+});
 
-  it("identity property for objectToKv(kvToObject(val))", () => {
-    const deep = {
-      foo: 1,
-      bar: {
-        a: "a",
-        b: "b",
-        c: "c"
-      }
-    } as const;
+describe("Identity Checks between KV and Object", () => {
+  const deepObj = {
+    foo: 1,
+    bar: {
+      a: "a",
+      b: "b",
+      c: "c"
+    }
+  } as const;
 
-    const inverted = kvToObject(objectToKv(deep));
-    
-    expect(
-      inverted, 
-      "objectToKv() and kvToObject() are inverses of each other"
-    ).toEqual(deep);
-  });
+  const deepKv = [
+    { key: "foo", value: 1 },
+    { key: "bar", value: [
+      { key: "a", value: "a" },
+      { key: "b", value: "b" },
+      { key: "c", value: "c" },
+    ]}
+  ] as const;
   
+  type DeepObj = typeof deepObj;
+  type DeepKv = typeof deepKv;
+
+  it("type check", () => {
+    type IdentityKv = ObjectToKv<KvToObject<DeepKv>>;
+    type IdentityObj = KvToObject<ObjectToKv<DeepObj>>;
+
+    type ObjectIntermediary = KvToObject<DeepKv>;
+    type KvIntermediary = ObjectToKv<DeepObj>;
+
+    type cases = [
+      //
+      Expect<Equal<Mutable<IdentityKv>, Mutable<DeepKv>>>,
+      Expect<Equal<IdentityKv, Readonly<Mutable<DeepKv>>>>,
+      Expect<Equal<Mutable<IdentityObj>, Mutable<DeepObj>>>,
+      Expect<Equal<IdentityObj, Mutable<DeepObj>>>,
+
+      Expect<Equal<
+        ObjectIntermediary, 
+        {
+          foo: 1;
+          bar: { a: "a"; b: "b"; c: "c" }
+        }
+      >>,
+      Expect<Equal<
+        KvIntermediary,
+        readonly [
+          { key: "foo", value: 1},
+          { key: "bar", value: [
+            { key: "a", value: "a" },
+            { key: "b", value: "b" },
+            { key: "c", value: "c" },
+          ]}
+        ]
+      >>
+    ];
+    
+    const c: cases = [ true, true, true, true, true, true ];
+    expect(c).toBe(c);
+  });
+
+  
+  it("runtime check", () => {
+    const kv = objectToKv(kvToObject(deepKv));
+    expect(kv).toEqual(deepKv);
+
+    const obj = kvToObject(objectToKv(deepObj));
+    expect(obj).toEqual(deepObj);
+
+    type cases = [
+      Expect<Equal<typeof kv, Readonly<Mutable<DeepKv>>>>,
+      Expect<Equal<typeof obj, Mutable<DeepObj>>>
+    ]
+  });
   
 
 });
