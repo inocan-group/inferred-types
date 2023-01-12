@@ -1,4 +1,4 @@
-import { SimplifyObject } from "../../SimplifyObject";
+import { SimplifyObject } from "../SimplifyObject";
 
 /**
  * Given a dictionary of key/values, where the value is a function, this

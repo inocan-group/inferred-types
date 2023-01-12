@@ -8,7 +8,7 @@ import {
   ConfiguredMap,
   Mapper,
   MapFn,
-} from "src/types/alphabetic/dictionary";
+} from "src/types/dictionary";
 import { OptRequired } from "src/types/literal-unions";
 import { createFnWithProps } from "../createFnWithProps";
 

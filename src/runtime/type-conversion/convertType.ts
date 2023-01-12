@@ -4,7 +4,7 @@ import { ConvertType, TypeMapMatcher, TypeMapRule, TypeMapTransformer } from "sr
 import { toString } from "../literals/toString";
 import { t } from "../runtime";
 import { startsWith } from "../type-checks/startsWith";
-import { endsWith } from "../type-guards/endsWith";
+import { endsWith } from "../type-guards/higher-order/endsWith";
 import { isFalsy } from "../type-guards/isFalsy";
 import { isTruthy } from "../type-guards/isTruthy";
 import { isTypeTuple } from "../type-guards/isTypeTuple";

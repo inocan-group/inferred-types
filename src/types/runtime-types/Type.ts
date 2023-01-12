@@ -5,7 +5,7 @@ import { Keys } from "../Keys";
 import { TupleToUnion } from "../type-conversion/TupleToUnion";
 import { TypeGuard } from "../TypeGuard";
 import { TupleFilter } from "../lists/TupleFilter";
-import {  ObjectFromKv, UnionToIntersection } from "../type-conversion";
+import {  TypeKvToObject, UnionToIntersection } from "../type-conversion";
 import { Box } from "src/runtime/literals/box";
 import { AnyFunction } from "../functions/function-types";
 import { NotApplicable } from "../constants/NotApplicable";
@@ -143,7 +143,7 @@ type ToBaseType<
       : never
   : TKind extends "object"
     ? TUnderlying extends readonly any[]
-      ? ObjectFromKv<TUnderlying>
+      ? TypeKvToObject<TUnderlying>
       : never
   : TKind extends "union" 
     ? TUnderlying extends readonly any[]

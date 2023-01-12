@@ -7,12 +7,13 @@
 // file exports
 export * from "./TupleToUnion";
 export * from "./UnionToIntersection";
-export * from "./ObjectFromKv";
+export * from "./KvToObject";
 export * from "./ToString";
 export * from "./UnionToTuple";
 export * from "./Widen";
 export * from "./Mutable";
 export * from "./TypeTuple";
+export * from "./Merge";
 
 // #endregion auto-indexed files
 

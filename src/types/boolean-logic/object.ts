@@ -12,9 +12,10 @@ export type AnyObject = Record<string, any>;
  * **IsObject**
  *
  * Boolean type utility used to check whether a type `T` is an object
+ * (aka, it extends `Record<string, any>` or a readonly equivalent)
  */
 export type IsObject<T> = Or<[
-    IfExtends<T,Record<string, any>,true, false>,
+    IfExtends<T,Record<string, any>, true, false>,
     IfExtends<Mutable<T>,Record<string, any>,true, false>
 ]> extends true
   ? // an object of some type

@@ -1,9 +1,8 @@
-import { Narrowable } from "src/types";
+import { Narrowable } from "src/types/Narrowable";
+import { IsNull } from "src/types/boolean-logic/IsNull";
 
-export type IsNull<T> = T extends null ? true : false;
-
-export function isNull<T extends Narrowable>(i: T) {
-  return (i === null) as T extends null ? true : false;
+export function isNull(value: unknown | null): value is null {
+  return (value === null) ? true : false;
 }
 
 /**

@@ -70,7 +70,7 @@ export type TupleFilter<
 /**
  * A runtime representation of the _never_ type
  */
-export const Never = Symbol("never");
+export const Never = Symbol("never") as never;
 
 /**
  * **ExcludeNever**`<T>`

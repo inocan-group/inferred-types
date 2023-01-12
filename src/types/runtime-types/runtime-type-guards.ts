@@ -1,4 +1,4 @@
-import { TypeKvBase } from "../type-conversion/ObjectFromKv";
+import { TypeKvBase } from "../type-conversion/KvToObject";
 import { FALSY_TYPE_KINDS, LITERAL_TYPE_KINDS, Type, TypeDefaultValue, TypeDefn, TypeHasDefaultValue, TypeIsRequired, TypeKind, TypeKindContainerNarrow, TypeKindContainerWide, TypeKindFalsy, TypeKindLiteral, TypeKindWide, WIDE_TYPE_KINDS } from "./Type";
 
 

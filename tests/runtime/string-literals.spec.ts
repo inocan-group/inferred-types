@@ -54,18 +54,18 @@ describe("String Literal testing", () => {
 
   
   it("createTypeMatcher", () => {
-    const n = createTypeMapRule("equals", "<number>");
-    const b = createTypeMapRule("equals", "<boolean>");
-    const d = createTypeMapRule("equals", "<digit>");
-    const l = createTypeMapRule("startsWith", "literal:", <V extends string>(v: V) => stripLeading(v, "literal:"));
+    const n = createTypeMapRule(["Equals", "<number>"], ["Identity"]);
+    const b = createTypeMapRule(["Equals", "<boolean>"], ["Identity"]);
+    const d = createTypeMapRule(["Equals", "<digit>"], ["Identity"]);
+    const l = createTypeMapRule(["StartsWith", "literal:"], ["StripLeading", "literal:"]);
 
-    type List1 = ["Hello ", "<string>", ""]
+    type List1 = ["Hello ", "<string>", ""];
 
     type cases = [
       // identity tests for matchers
-      Expect<Equal<typeof n, Matcher<"equals", "<number>", 
+      Expect<Equal<typeof n, Matcher<["Equals", "<number>"], ["Identity"]>>>
     ];
-    const cases: cases = [];
+    const cases: cases = [true];
     
   });
   

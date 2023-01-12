@@ -19,15 +19,15 @@ type SetRemovalAcc<
 export type SetInput<T extends Narrowable> = T | readonly T[];
 
 /**
- * **Set**`<T>`
+ * **UniqueSet**`<T>`
  * 
  * Receives either a readonly array of items or union type which 
  * will be converted into the readonly array.
  * 
  * ```ts
  * // readonly ["foo", "bar", "baz"]
- * type T1 = Set<"foo" | "bar" | "baz">;
- * type T2 = Set<["foo", "bar", "baz"]>;
+ * type T1 = UniqueSet<"foo" | "bar" | "baz">;
+ * type T2 = UniqueSet<["foo", "bar", "baz"]>;
  * ```
  */
 export type UniqueSet<T extends readonly any[] | string | number> = IfReadonlyArray<

@@ -1,6 +1,6 @@
 import { TypeCondition } from "src/runtime/type-checks/ifTypeOf";
-import { OptionalKeys } from "./alphabetic/dictionary/props";
-import { SameKeys } from "./alphabetic/dictionary/SameKeys";
+import { OptionalKeys } from "./dictionary/props";
+import { SameKeys } from "./dictionary/SameKeys";
 
 /**
  * **RuleDefinition**

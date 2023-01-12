@@ -1,10 +1,10 @@
-import { Narrowable } from "src/types";
-import { IfExtends, IfObject, IsObject } from "src/types/boolean-logic";
-import { AnyFunction } from "./isFunction";
+import {  Narrowable } from "src/types";
+import { IfObject, IsObject } from "src/types/boolean-logic";
 
-export type ObjectType = IfExtends<Record<string, Narrowable>, AnyFunction, false, true>;
 
 /**
+ * **isObject**()
+ * 
  * Detects whether the passed in `v` is of type "object" where an object
  * is defined to be a string keyed dictionary style object. This means that
  * arrays are excluded, as well as functions which also have properties hanging

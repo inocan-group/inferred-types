@@ -1,7 +1,7 @@
 import { describe, it } from "vitest";
 
 import type { Expect, Equal } from "@type-challenges/utils";
-import { IntersectingKeys } from "src/types/alphabetic/dictionary";
+import { IntersectingKeys } from "src/types/dictionary";
 
 describe("IntersectingKeys<T,U>", () => {
   it("with overlap", () => {
