@@ -18,7 +18,7 @@ export function keys<
   return (
     Object
     .keys(obj)
-    .filter(i => excluding.includes(i))
+    .filter(i => !excluding.includes(i))
   ) as unknown as TExcluding extends [any, ...any[]] 
     ? Readonly<TupleFilter<UnionToTuple<Keys<TObj>>, TupleToUnion<TExcluding>>>
     : IfEquals<Keys<TObj>, [], readonly [], Readonly<UnionToTuple<Keys<TObj>>>>;

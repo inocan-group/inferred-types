@@ -2,7 +2,7 @@ import { Narrowable } from "src/types";
 import { IfTrue, StartsWith } from "src/types/boolean-logic";
 import { createFnWithProps } from "../createFnWithProps";
 import { box, Box } from "../literals";
-import { startsWith } from "../type-guards/startsWith";
+import { startsWith } from "../type-guards/higher-order/startsWith";
 import { ifTrue } from "./isTrue";
 
 export type NarrowFn<N extends string> = <F extends <T extends string>(input: T) => any>(

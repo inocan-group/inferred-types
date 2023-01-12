@@ -9,7 +9,7 @@ import {
   Mapper,
   MapInputFrom,
   MapCardinalityFrom,
-} from "src/types/alphabetic/dictionary";
+} from "src/types/dictionary";
 import { describe, expect, it } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
 import {

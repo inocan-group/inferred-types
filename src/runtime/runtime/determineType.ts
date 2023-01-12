@@ -1,4 +1,4 @@
-import { GetEach, ObjectFromKv, TupleToUnion, TypeKvBase, UnionToIntersection } from "src/types";
+import { GetEach, TypeKvToObject, TupleToUnion, TypeKvBase, UnionToIntersection } from "src/types";
 import { FromTypeDefn, TypeDefn } from "src/types/runtime-types";
 import { hasNoUnderlyingTypes, hasUnderlyingTypes, isLiteralType } from "src/types/runtime-types/runtime-type-guards";
 import { wide } from "../literals";
@@ -8,7 +8,7 @@ type GetType<U> = U extends readonly any[]
   : never;
 
 type ObjectShape<U> = U extends readonly TypeKvBase<any,any>[]
-  ? ObjectFromKv<U>
+  ? TypeKvToObject<U>
   : never;
 
 export function determineType<TD extends TypeDefn>(t: TD): FromTypeDefn<TD>["type"] {

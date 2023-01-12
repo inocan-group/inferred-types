@@ -1,3 +1,4 @@
+import { SimplifyObject } from "src/types";
 import { ExpandRecursively } from "src/types/ExpandRecursively";
 import { Narrowable } from "src/types/Narrowable";
 
@@ -15,6 +16,10 @@ export function defineType<N extends Narrowable, TLiteral extends Record<string,
    * literal types are defined already and stated above.
    */
   return <TWide extends object>(wide: TWide = {} as TWide) => {
-    return (literal ? { ...wide, ...literal } : wide) as ExpandRecursively<TWide & TLiteral>;
+    return (
+      literal 
+        ? { ...wide, ...literal } 
+        : wide
+      ) as SimplifyObject<TLiteral & ExpandRecursively<TWide>>;
   };
 }

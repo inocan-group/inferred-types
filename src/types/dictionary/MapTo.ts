@@ -5,8 +5,8 @@ import {
   DefaultOneToManyMapping,
   DefaultOneToOneMapping,
 } from "src/runtime/dictionary/mapTo";
-import { EnumValues } from "../../EnumValues";
-import { TypeDefault } from "../../boolean-logic/TypeDefault";
+import { EnumValues } from "../EnumValues";
+import { Merge } from "../type-conversion/Merge";
 
 /**
  * Expresses relationship between inputs/outputs:
@@ -144,7 +144,7 @@ export type AsFinalizedConfig<
     OptRequired | undefined
   >,
   D extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>
-> = TypeDefault<U, D> extends FinalizedMapConfig<infer IR, infer C, infer OR>
+> = Merge<U, D> extends FinalizedMapConfig<infer IR, infer C, infer OR>
   ? FinalizedMapConfig<IR, C, OR>
   : never;
 

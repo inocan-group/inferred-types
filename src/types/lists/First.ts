@@ -6,7 +6,8 @@ import { Narrowable } from "../Narrowable";
  * 
  * Returns the _first_ type in a list
  */
-export type First<T extends readonly any[]> = T[0] extends T[number] ? T[0] : never;
+export type First<T extends readonly any[]> =
+  T[0] extends T[number] ? T[0] : never;
 
 /**
  * **FirstOrElse**`<T,E>`
@@ -20,5 +21,5 @@ export type FirstOrElse<
 
 export type FirstOrUndefined<T extends unknown> = T extends [unknown, ...[unknown]]
   ? First<T>
-  : undefined;
+  : never;
 

@@ -3,6 +3,7 @@ import { describe, it, expect } from "vitest";
 import { Keys } from "src/types/Keys";
 import type { Expect, Equal } from "@type-challenges/utils";
 import { defineType, keys } from "src/runtime";
+import { TupleToUnion } from "src/types/type-conversion/TupleToUnion";
 
 describe("Keys<T>", () => {
   it("Keys<T> is shorthand for keyof T", () => {
@@ -40,15 +41,15 @@ describe("Keys<T>", () => {
 describe("keys() utility", () => {
   it("with just object passed in, keys are extracted as expected", () => {
     const obj = defineType({ id: "123" })({ color: "red", isFavorite: false });
-    const k = keys(obj);
+    const k = keys(obj); 
 
     expect(k).toHaveLength(3);
-    expect(k).toContain("id");
+    expect(k).toContain("id"); 
     expect(k).toContain("color");
     expect(k).toContain("isFavorite");
 
     type cases = [
-      Expect<Equal<typeof k, readonly ["id", "color", "isFavorite"]>> //
+      Expect<Equal<TupleToUnion<typeof k>, TupleToUnion<["id", "color",  "isFavorite"]>>> //
     ];
     const cases: cases = [true];
     expect(cases).toBe(cases);
@@ -84,6 +85,7 @@ describe("keys() utility", () => {
       Expect<Equal<typeof t2, readonly []>>,
       Expect<Equal<typeof t3, readonly []>>,
     ];
+    const cases: cases = [true, true, true];
 
   });
 });

@@ -1,6 +1,6 @@
 import { Narrowable } from "src/types";
-import { ifNumber } from "../type-checks";
-import { ifString } from "../type-checks/isString";
+import { ifNumber } from "../../type-checks";
+import { ifString } from "../../type-checks/isString";
 
 export type EndingWithTypeGuard<T extends string> = <
   V extends Narrowable

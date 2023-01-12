@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { AfterFirst, First } from "../../lists";
+import { AfterFirst, First } from "../lists";
 
 /**
  * Get the type of a property of an object:

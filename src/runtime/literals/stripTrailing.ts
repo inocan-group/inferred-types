@@ -11,5 +11,6 @@ export function stripTrailing<T extends string, U extends string>(
   strip: U
 ): StripTrailing<T, U> {
   const re = new RegExp(`(.*)${strip}$`);
-  return (content.endsWith(strip) ? content.replace(re, "$1") : content) as StripTrailing<T, U>;
+  return (content?.endsWith(strip) ? content.replace(re, "$1") : content) as StripTrailing<T, U>;
 }
+
