@@ -1,4 +1,5 @@
 import { IfEquals, IsEqual } from "src/types/boolean-logic/equivalency";
+import { AnyObject } from "./boolean-logic";
 import { IfOr } from "./boolean-logic/Or";
 
 type KeyCalc<
@@ -71,11 +72,6 @@ type KeyCalc<
  * ```
  */
 export type Keys<
-  TValue extends Record<string, any> | readonly string[],
-  TExclude extends string | undefined = undefined
-> = IfEquals<
-  KeyCalc<TValue,TExclude>, string,
-  [],
-  KeyCalc<TValue,TExclude>
->;
+  TValue extends AnyObject,
+> = readonly (keyof TValue & string)[]
 
