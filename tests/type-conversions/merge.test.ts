@@ -16,9 +16,7 @@ describe("mergeScalars", () => {
     ];
     
     const cases: cases = [ true, true, true, true, true, true ];
-
   });
-
   
   it("runtime", () => {
     expect(mergeScalars(4,5)).toBe(5);

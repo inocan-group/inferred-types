@@ -1,4 +1,4 @@
-import { Narrowable } from "src/types";
+import { IsUndefined, Narrowable } from "src/types";
 import { isDefined, isUndefined } from "../type-guards";
 
 /**
@@ -18,10 +18,12 @@ export function ifUndefined<
   ELSE extends Narrowable = Exclude<T, undefined>
 >(
   val: T,
-  ifVal: () => IF,
-  elseVal: () => ELSE
+  ifVal: (v: Exclude<T, undefined>) => IF,
+  elseVal: (v: undefined) => ELSE
 ) {
-  return isUndefined(val) ? ifVal : elseVal;
+  return (
+    isUndefined(val) ? ifVal(val as Exclude<T,undefined>) : elseVal(undefined)
+  ) as IsUndefined<T> extends true ? IF : ELSE;
 }
 
 export function ifDefined<

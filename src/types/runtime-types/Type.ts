@@ -1,7 +1,6 @@
 /* eslint-disable no-use-before-define */
 import { Narrowable } from "src/types/Narrowable";
 import {  DoesExtend, IfArray, IfEquals, IfExtends, IfFalse, IfOr, IfStringLiteral, IsEqual, IsUnion } from "../boolean-logic";
-import { Keys } from "../Keys";
 import { TupleToUnion } from "../type-conversion/TupleToUnion";
 import { TypeGuard } from "../TypeGuard";
 import { TupleFilter } from "../lists/TupleFilter";
@@ -58,11 +57,11 @@ export const TYPE_KINDS = [
   WIDE_CONTAINER_TYPE_KINDS
 ] as const;
 
-export type TypeKindLiteral = Keys<typeof LITERAL_TYPE_KINDS>;
-export type TypeKindWide = Keys<typeof WIDE_TYPE_KINDS>;
-export type TypeKindFalsy = Keys<typeof FALSY_TYPE_KINDS>;
-export type TypeKindContainerNarrow = Keys<typeof NARROW_CONTAINER_TYPE_KINDS>;
-export type TypeKindContainerWide = Keys<typeof WIDE_CONTAINER_TYPE_KINDS>;
+export type TypeKindLiteral = Readonly<TupleToUnion<typeof LITERAL_TYPE_KINDS>>;
+export type TypeKindWide = Readonly<TupleToUnion<typeof WIDE_TYPE_KINDS>>;
+export type TypeKindFalsy = Readonly<TupleToUnion<typeof FALSY_TYPE_KINDS>>;
+export type TypeKindContainerNarrow = Readonly<TupleToUnion<typeof NARROW_CONTAINER_TYPE_KINDS>>;
+export type TypeKindContainerWide = Readonly<TupleToUnion<typeof WIDE_CONTAINER_TYPE_KINDS>>;
 export type TypeKindContainer = TypeKindContainerNarrow | TypeKindContainerWide;
 
 /**

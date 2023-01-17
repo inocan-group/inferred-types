@@ -5,17 +5,17 @@ import {
   ifArray,
   ifArrayPartial,
   ifBoolean,
-  ifNumber,
   ifSameType,
-  ifString,
   ifTrue,
   ifUndefined,
-  isTrue,
 } from "src/runtime/type-checks";
 import { EndsWith, DoesExtend, LowerAlpha, Or, StartsWith } from "src/types";
-import {  startsWith } from "src/runtime/type-checks/startsWith";
 import { box, wide } from "src/runtime/literals";
 import { or } from "src/runtime";
+import { ifString } from "src/runtime/type-guards/isString";
+import { ifNumber } from "src/runtime/type-guards/isNumber";
+import { isTrue } from "src/runtime/type-guards/isTrue";
+import { startsWith } from "src/runtime/type-guards/higher-order/startsWith";
 
 describe("runtime if/is", () => {
   it("ifString(v,i,e)", () => {
@@ -218,9 +218,9 @@ describe("runtime if/is", () => {
   });
 
   it("ifUndefined(v,i,e)", () => {
-    const t = ifUndefined(undefined, 42, false);
-    const f = ifUndefined(false, "yikes", 42);
-    const f2 = ifUndefined("", "yikes", 42);
+    const t = ifUndefined(undefined, () => 42, () => false);
+    const f = ifUndefined(false, () => "yikes", () => 42);
+    const f2 = ifUndefined("", () => "yikes", () =>  42);
 
     type cases = [
       Expect<Equal<typeof t, 42>>, //

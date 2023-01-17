@@ -50,7 +50,7 @@ export type IfObject<T, IF extends Narrowable, ELSE extends Narrowable> = IsObje
  * is just to detect whether the object _part_ of the type has keys or not.
  */
 export type IsEmptyObject<T> = T extends Record<string, any>
-  ? Keys<T> extends []
+  ? [] extends Keys<T>
     ? true
     : false
   : false;

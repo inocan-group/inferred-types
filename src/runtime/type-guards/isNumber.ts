@@ -3,7 +3,7 @@ import { Narrowable } from "src/types";
 export type IsNumber<T> = T extends number ? true : false;
 
 export function isNumber<T extends number>(value: unknown): value is T {
-  return (typeof value === "number") as T extends number ? true : false;
+  return (typeof value === "number");
 }
 
 /**
@@ -26,5 +26,9 @@ export function ifNumber<
   ifVal: <V extends T & number>(v: V) => IF, 
   elseVal: <V extends Exclude<T, number>>(v:V) => ELSE
 ) {
-  return (isNumber(val) ? ifVal(val as T & number) : elseVal(val as Exclude<T, number>)) as IsNumber<T> extends true ? IF : ELSE;
+  return (
+    isNumber(val) 
+      ? ifVal(val as T & number) 
+      : elseVal(val as Exclude<T, number>)
+  ) as IsNumber<T> extends true ? IF : ELSE;
 }

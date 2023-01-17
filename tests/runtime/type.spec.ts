@@ -3,12 +3,12 @@ import { describe, it, expect } from "vitest";
 import type { Expect, Equal, ExpectExtends } from "@type-challenges/utils";
 import { box, createFnWithProps } from "src/runtime";
 import { isFunction } from "src/runtime/type-checks/isFunction";
-import { isObject } from "src/runtime/type-checks/isObject";
 import { FromTypeDefn, Type, TypeDefn,  TypeHasDefaultValue,  TypeIsRequired,  TypeKind, TypeUnderlying } from "src/types/runtime-types";
 import { NoDefaultValue } from "src/types/constants";
 import { DoesExtend } from "src/types";
 import { type } from "src/runtime/runtime/type";
 import { TypeApi } from "src/types/runtime-types/api";
+import { isObject } from "src/runtime/type-guards/isObject";
 
 describe("testing type() utility and some pre-made conditions", () => {
   
