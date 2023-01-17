@@ -1,4 +1,5 @@
-import { AnyFunction } from "src/runtime";
+import { AnyFunction } from "../functions/function-types";
+
 
 export type Widen<T> = T extends string
   ? string

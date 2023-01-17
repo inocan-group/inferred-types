@@ -62,8 +62,7 @@ export type Contains<
 /**
  * **IfContains**`<TList,TContains,IF,ELSE>`
  *
- * Type utility which checks whether a type `TContains` exists within 
- * an array `TList`. Result is `true` if any element in the list _extends_
+ * Branching utility which check 
  * 
  * **Related:** `NarrowlyContains`
  */

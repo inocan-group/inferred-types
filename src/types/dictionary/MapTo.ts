@@ -6,7 +6,9 @@ import {
   DefaultOneToOneMapping,
 } from "src/runtime/dictionary/mapTo";
 import { EnumValues } from "../EnumValues";
-import { Merge } from "../type-conversion/Merge";
+import { MergeObjects } from "../type-conversion";
+
+
 
 /**
  * Expresses relationship between inputs/outputs:
@@ -144,7 +146,7 @@ export type AsFinalizedConfig<
     OptRequired | undefined
   >,
   D extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>
-> = Merge<U, D> extends FinalizedMapConfig<infer IR, infer C, infer OR>
+> = MergeObjects<U, D> extends FinalizedMapConfig<infer IR, infer C, infer OR>
   ? FinalizedMapConfig<IR, C, OR>
   : never;
 

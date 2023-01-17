@@ -58,7 +58,7 @@ export type IfSomeTruthy<
   IsUnknown extends boolean = false
 > = //
 [] extends TValues
-  ? IfTrue<IsUnknown, MAYBE, ELSE, MAYBE>
+  ? IfTrue<IsUnknown, MAYBE, ELSE>
   : IfTruthy<
     First<TValues>, 
     true, 

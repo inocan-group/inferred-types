@@ -1,6 +1,4 @@
 import { Concat } from "src/runtime/lists/Concat";
-import { stripLeading } from "src/runtime/literals/stripLeading";
-import { createTypeMapRule } from "src/runtime/runtime/createTypeMatcher";
 import { AlphaNumericChar, LowerAlpha, UpperAlpha } from "src/types/alphabetic";
 import {  IfLiteral } from "src/types/boolean-logic";
 import { IfReadonlyArray } from "src/types/boolean-logic/array";
@@ -10,7 +8,6 @@ import { First } from "src/types/lists/First";
 import { Narrowable } from "src/types/Narrowable";
 import { Digit } from "src/types/Numeric";
 import { ToString } from "src/types/type-conversion";
-import { MapType } from "src/types/type-conversion/MapType";
 import { FromTypeDefn, Type, TypeDefaultValue } from "../Type";
 
 /**

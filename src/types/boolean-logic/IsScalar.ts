@@ -1,4 +1,4 @@
-import { IsNumber } from "src/runtime/type-checks";
+import { IsNumber } from "src/runtime/type-guards/isNumber";
 import { Narrowable } from "../Narrowable";
 import { IsBoolean } from "./boolean";
 import { IsNull } from "./IsNull";
