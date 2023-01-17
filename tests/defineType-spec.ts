@@ -4,7 +4,7 @@ import type { Expect, Equal } from "@type-challenges/utils";
 import { ExpectExtends } from "../src/types";
 import { defineType } from "../src/runtime";
 
-describe("inferredType() utility", () => {
+describe("defineType() utility", () => {
   it("only specify a wide type", () => {
     const t = defineType({})({ foo: "", bar: 0 });
 

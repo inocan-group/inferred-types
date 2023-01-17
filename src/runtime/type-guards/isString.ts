@@ -10,8 +10,8 @@ import { IfString, IsString } from "src/types/boolean-logic/string";
  * The boolean return is traceable by the type system as well as the
  * runtime system.
  */
-export function isString<T>(i: T) {
-  return (typeof i === "string") as IsString<T>;
+export function isString<T>(value: T): value is T & string {
+  return (typeof value === "string");
 }
 
 /**

@@ -97,7 +97,7 @@ export const createTypeDefn = <
   type FullType = FromTypeDefn<TD>;
 
   const type = {
-    _kind: "Type",
+    _type: "Type",
     kind: defn.kind,
     type: determineType(defn),
     isRequired: defn.isRequired ? true : false,

@@ -34,7 +34,6 @@ export type TypeKvToObject<
     ? TypeKvToObject<AfterFirst<KV>, Record<K, T["type"]> & Obj>
     : never;
 
-
 /**
  * **KvToObject**`<KV>`
  * 

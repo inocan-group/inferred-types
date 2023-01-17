@@ -1,6 +1,6 @@
-import { Mutable, Narrowable, SimplifyObject, Merge, Scalar, MergeScalars, MergeTuples } from "src/types";
+import { Mutable, Narrowable, SimplifyObject,  Scalar, MergeScalars, MergeTuples } from "src/types";
 import { keys } from "../keys";
-import { isObject } from "../type-checks/isObject";
+import { isObject } from "../type-guards/isObject";
 import { isUndefined } from "../type-guards";
 
 export function mergeScalars<

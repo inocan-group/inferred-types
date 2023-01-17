@@ -1,12 +1,6 @@
-import {  IfSoftTrue, IsTrue } from "src/types/boolean-logic";
+import {  IfSoftTrue } from "src/types/boolean-logic";
 import { Narrowable } from "src/types/Narrowable";
-
-/**
- * Run-time and type checking of whether a variable is `true`.
- */
-export function isTrue<T extends Narrowable>(i: T) {
-  return (typeof i === "boolean" && i === true) as IsTrue<T>;
-}
+import { isTrue } from "../type-guards/isTrue";
 
 /**
  * **ifTrue**

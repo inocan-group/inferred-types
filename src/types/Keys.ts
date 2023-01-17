@@ -1,51 +1,10 @@
 import { IfEquals, IsEqual } from "src/types/boolean-logic/equivalency";
-import { AnyObject } from "./boolean-logic";
+import { AnyObject, UnknownObject } from "./boolean-logic";
 import { IfOr } from "./boolean-logic/Or";
+import { AnyFunction } from "./functions";
+import { Narrowable } from "./Narrowable";
+import { UnionToTuple } from "./type-conversion/UnionToTuple";
 
-type KeyCalc<
-  TValue extends Record<string, any> | readonly string[],
-  TExclude extends string | undefined
-> = TValue extends readonly string[]
-? // if T is a readonly string[]
-  TExclude extends string
-  ? IfOr<
-      [ 
-        IsEqual<TValue, {}>,
-        IsEqual<TValue, []>,
-        IsEqual<TValue, Record<string, any>>,
-      ],
-      [],
-      Exclude<TValue[number], TExclude>
-    >
-  : IfOr<
-      [ 
-        IsEqual<TValue, {}>,
-        IsEqual<TValue, []>,
-        IsEqual<TValue, Record<string, any>>,
-      ],
-      [],
-      TValue[number]
-    > 
-: // if T is Record<string, any>
-  TExclude extends string
-    ? IfOr<
-        [ 
-          IsEqual<TValue, {}>,
-          IsEqual<TValue, []>,
-          IsEqual<TValue, Record<string, any>>,
-        ],
-        [],
-        Exclude<keyof TValue & string, TExclude>
-      >
-    : IfOr<
-        [ 
-          IsEqual<TValue, {}>,
-          IsEqual<TValue, []>,
-          IsEqual<TValue, Record<string, any>>,
-        ],
-        [],
-        keyof TValue & string
-      >;
 
 /**
  * **Keys**`<TValue, [TExclude]>`
@@ -72,6 +31,22 @@ type KeyCalc<
  * ```
  */
 export type Keys<
-  TValue extends AnyObject,
-> = readonly (keyof TValue & string)[]
+  TValue extends Narrowable,
+> = IfOr<
+  [ 
+    IsEqual<TValue, AnyFunction>, 
+    IsEqual<TValue, AnyObject>, 
+    IsEqual<TValue, UnknownObject>, 
+    IsEqual<TValue, Record<string, string>>, 
+    IsEqual<TValue, Record<string, number>>
+  ],
+  readonly [],
+  IfEquals<
+    TValue, {}, 
+    readonly [], 
+    Readonly<UnionToTuple<keyof TValue>> 
+  >
+>;
+
+
 

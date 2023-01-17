@@ -1,11 +1,16 @@
-import {  Or } from "../boolean-logic";
+import {  AnyObject, IfEquals, Or } from "../boolean-logic";
 import { And } from "../boolean-logic/And";
 import { EndsWith } from "../boolean-logic/EndsWith";
 import { StartsWith } from "../boolean-logic/StartsWith";
 import { Includes } from "../boolean-logic/string";
-import { AfterFirst } from "../lists";
+import { MaybeRef } from "../dictionary/MaybeRef";
+import { Keys } from "../Keys";
+import { AfterFirst, Length } from "../lists";
 import { First } from "../lists/First";
 import { Split } from "../lists/Split";
+import { Narrowable } from "../Narrowable";
+import { Scalar } from "../Scalar";
+import { TupleToUnion } from "../type-conversion";
 import { AlphaNumericChar } from "./alpha-characters";
 
 export type DotPathChar = AlphaNumericChar | "_" | "-";
@@ -31,8 +36,11 @@ type ValidateSegments<
 /**
  * **DotPath**`<T>`
  * 
- * Forces a string to be a "dot path" which means that it has alphanumeric
- * characters and a few symbols [`_`, `-`,  ], segmented by 
+ * Forces a string to be a "dot path" which means that:
+ * 
+ * -  alphanumeric characters and a few symbols [`_`, `-`,  ], 
+ * segmented by the `.` character.
+ * - leading and trailing `.` characters are **not** allowed
  */
 export type DotPath<T extends string> = Or<[
   StartsWith<T, ".">,
@@ -40,4 +48,23 @@ export type DotPath<T extends string> = Or<[
   Includes<T, "..">
 ]> extends true 
   ? never
-  : ValidateSegments<Segments<T>> extends true ? T : never;
+  : ValidateSegments<Segments<T>>;
+
+/**
+ * **DotPathFor**`<TValue>`
+ * 
+ * Provides an appropriate "DotPath" for any given value.
+ */
+export type DotPathFor<
+  TValue extends Narrowable,
+> = MaybeRef<TValue> extends AnyObject
+  ? Length<Keys<MaybeRef<TValue>>> extends 0
+    ? string | null
+    : `${TupleToUnion<Keys<MaybeRef<TValue>>>}${`.${string}` | ""}` | null
+  : MaybeRef<TValue> extends Scalar
+    ? null // you can't traverse any further
+    : MaybeRef<TValue> extends any[] | readonly any[]
+      ? `${number}${`.${string}` | ""}` // numeric index
+      : never;
+
+

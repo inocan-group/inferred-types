@@ -1,7 +1,7 @@
 import { Narrowable } from "src/types/Narrowable";
 import { IsNull } from "src/types/boolean-logic/IsNull";
 
-export function isNull(value: unknown | null): value is null {
+export function isNull<T extends unknown>(value: T): value is T & null {
   return (value === null) ? true : false;
 }
 

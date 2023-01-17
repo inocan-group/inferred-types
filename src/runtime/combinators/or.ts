@@ -1,5 +1,11 @@
 import { Or } from "src/types/boolean-logic/Or";
 
-export function or<O extends readonly boolean[]>(...conditions: O) {
-  return (conditions.some((v) => v === true) ? true : false) as Or<O>;
+/**
+ * **or**(conditions) -> boolean
+ * 
+ * If you have a discrete list of boolean values then you can use this
+ * function to perform a logical OR operation on them.
+ */
+export function or<TList extends readonly boolean[]>(...conditions: TList) {
+  return (conditions.some((v) => v === true) ? true : false) as Or<TList>;
 }

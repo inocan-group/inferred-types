@@ -3,7 +3,7 @@ import { IfTrue, StartsWith } from "src/types/boolean-logic";
 import { createFnWithProps } from "../createFnWithProps";
 import { box, Box } from "../literals";
 import { startsWith } from "../type-guards/higher-order/startsWith";
-import { ifTrue } from "./isTrue";
+import { ifTrue } from "./ifTrue";
 
 export type NarrowFn<N extends string> = <F extends <T extends string>(input: T) => any>(
   fn: F

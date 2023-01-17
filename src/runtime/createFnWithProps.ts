@@ -11,8 +11,7 @@ export function createFnWithProps<
   TFn extends AnyFunction, 
   TParams extends Narrowable
 >(fn: TFn, props: TParams & Record<string, any>) {
-  const incomingProps = Array.isArray(keys(fn)) ? keys(fn) : undefined;
-  const combinedProps = incomingProps ? [keys(props), ...incomingProps] : keys(props);
+  const combinedProps = Array.from(new Set([...keys(fn),...keys(props)]));
 
   if (combinedProps.length === 0) {
     throw new Error(`Can't create FN with Props; no parameters were found in the combined "fn" and "props"!`);

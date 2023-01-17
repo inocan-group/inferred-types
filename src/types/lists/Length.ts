@@ -1,3 +1,7 @@
+import { Concat } from "src/runtime/lists/Concat";
+import { ErrorCondition } from "src/runtime/literals/ErrorCondition";
+import { ToString } from "../type-conversion";
+
 /**
  * Utility type which returns the length of an array literal
  * 
@@ -9,4 +13,4 @@ export type Length<T extends any | any[] | readonly any[]> = T extends readonly 
   ? T["length"]
   : T extends any[] 
     ? number 
-    : never;
+    : ErrorCondition<Concat<["Length<T> used on non-array element: ", ToString<T>]>>;
