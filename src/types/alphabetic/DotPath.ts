@@ -1,4 +1,4 @@
-import {  AnyObject, IfEquals, Or } from "../boolean-logic";
+import {  AnyObject,  Or } from "../boolean-logic";
 import { And } from "../boolean-logic/And";
 import { EndsWith } from "../boolean-logic/EndsWith";
 import { StartsWith } from "../boolean-logic/StartsWith";

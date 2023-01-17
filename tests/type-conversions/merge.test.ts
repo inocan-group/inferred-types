@@ -1,6 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { mergeScalars, mergeTuples } from "src/runtime/dictionary/merge";
-import { MergeKvPairs, MergeObjects, MergeScalars, MergeTuples, SetRemoval, TupleToUnion, UnionToTuple } from "src/types";
+import { mergeObjects } from "src/runtime/type-conversion/mergeObjects";
+import { MergeObjects, MergeScalars, MergeTuples, SetRemoval, TupleToUnion, UnionToTuple } from "src/types";
 import { describe, expect, it } from "vitest";
 
 describe("mergeScalars", () => {

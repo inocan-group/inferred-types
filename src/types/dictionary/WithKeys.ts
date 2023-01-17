@@ -52,16 +52,3 @@ export type WithoutKeys<
     SetRemoval<keyof TObj, UnionToTuple<TKeys>> extends readonly any[]
       ? WithKeys<TObj, SetRemoval<keyof TObj, TKeys>>
       : never;
-
-
-// export type WithKeys<
-//   T extends {}, 
-//   K extends (string & keyof T) | readonly (keyof T & string)[]
-// > = ExpandRecursively<
-//   UnionToIntersection< 
-//     K extends keyof T
-//     ? Pick<T,K>
-//     : K extends readonly (keyof T & string)[]
-//       ? Pick<T, TupleToUnion<K>>
-//       : never
-//   >>;

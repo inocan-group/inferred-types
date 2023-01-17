@@ -7,5 +7,5 @@ export function isKvPairArray<
   V extends Narrowable, 
   T extends KvPair<K,V>[]
 >(value: unknown | T): value is T {
-  return Array.isArray(value) && (value as any[]).every(v => isKvPair(v))
+  return Array.isArray(value) && (value as any[]).every(v => isKvPair(v));
 }

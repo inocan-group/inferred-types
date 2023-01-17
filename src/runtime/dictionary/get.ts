@@ -7,7 +7,6 @@ import { hasDefaultValue, isFalsy, isTruthy } from "../type-guards";
 import { isRef } from "../type-guards/isRef";
 import { IsFalsy } from "src/types/boolean-logic/IsFalsy";
 import {  ReportError } from "../literals/ErrorCondition";
-import { keys } from "../keys";
 import { hasIndexOf } from "../type-guards/hasIndexOf";
 import { createErrorCondition } from "../runtime/createErrorCondition";
 
@@ -68,6 +67,28 @@ function getValue<
   ) as ReportError<Get<TValue, TDotPath>>;
 
   return current;
+}
+
+export interface GetOptions<
+  TDefVal extends Narrowable,
+  TInvalid extends Narrowable
+> {
+  /**
+   * Typically when getting a valid dotpath and the value evaluates to _undefined_
+   * then the value returned is _undefined_ but if you'd prefer to put something else
+   * in here you may.
+   */
+  defaultValue: TDefVal;
+  /**
+   * Typically when a dotpath is invalid for a given item then this item
+   * is set as a `ErrorCondition<'invalid-dot-path'>` but if you'd like
+   * to set it to something else you may.
+   * 
+   * Note: a common replacement would be the `Never` constant from this library
+   * as it "reports" as being `never` but allows for a more sophisticated 
+   * handling process to follow.
+   */
+  invalidDotPath: TInvalid;
 }
 
 

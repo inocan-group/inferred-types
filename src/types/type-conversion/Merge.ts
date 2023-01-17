@@ -6,7 +6,6 @@ import { AfterFirst } from "../lists/AfterFirst";
 import { First } from "../lists/First";
 import { UnionToTuple } from "./UnionToTuple";
 import { KvPair, KvToObject } from ".";
-import { Find } from "../lists/Find";
 import { ExpandRecursively } from "../ExpandRecursively";
 import { WithoutKeys } from "../dictionary/WithKeys";
 
@@ -54,25 +53,6 @@ export type MergeTuples<
   TKey extends string | false = false
 > = MergeTuplesAcc<[...TDefault], [...TOverride], TKey>;
 
-type KvPairsAcc<
-  TDefault extends readonly KvPair<string, any>[],
-  TOverride extends readonly KvPair<string, any>[],
-  TResults extends readonly KvPair<string, any>[] = []
-> = [] extends TOverride
-  ? TResults
-  : First<TOverride> extends KvPair<infer Key, infer Value>
-    ? Find<TDefault, "key", Key> extends KvPair<Key, infer DefVal>
-      ? KvPairsAcc<
-          TDefault,
-          AfterFirst<TOverride>, 
-          IfUndefined<
-            Value,
-            [...TResults, KvPair<Key, DefVal>],
-            [...TResults, KvPair<Key, Value>]
-          >
-        >
-      : KvPairsAcc<TDefault, AfterFirst<TOverride>, [...TResults, KvPair<Key,Value>]>
-    : never;
 
 
 /**

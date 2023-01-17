@@ -21,7 +21,7 @@ import { determineType } from "./determineType";
 
 
 
-const typeApiImplementation: TypeApi = {
+export const typeApiImplementation: TypeApi = {
   string(o) {
     return createTypeDefn({
       ...o,

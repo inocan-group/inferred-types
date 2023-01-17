@@ -81,22 +81,10 @@ export type ToStringLiteral<
   T extends readonly (string | number | boolean)[]
 > = TokenizeStringLiteral<T>;
 
-// DEF
-// 1. union of literals (or singular literal)
-// 2. builder API
-//    - `startsWith()`
-//    - `endsWith()`
-//    - `contains()`
-//    - `literalUnion(a,b,c)`
-//    - `tokens()` - ["string", "l:literal", "number", "l:-", "numeric-digit", "bool"]
-
 type ToUnderlying<T extends Narrowable> = IfReadonlyArray<
   T, T & readonly any[], readonly [T]
 >;
 
-type StringLiteralBuilderApi = {
-  startsWith<T extends string>(start: T): Type<"stringLiteral">;
-};
 
 export type TypeApiStringLiteral = <
 TRequired extends boolean,

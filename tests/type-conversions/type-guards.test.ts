@@ -1,5 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { intoSet } from "src/runtime/lists/intoSet";
+import { Never } from "src/runtime/runtime/Never";
 import { optional } from "src/runtime/type-conversion/optional";
 import { 
   isArray, 
@@ -9,7 +10,7 @@ import {
   isDefined,
  isRef 
 } from "src/runtime/type-guards";
-import { isConstant } from "src/runtime/type-guards/isConstant";
+import { isConstant, isSpecificConstant } from "src/runtime/type-guards/isConstant";
 import { NoDefaultValue, NO_DEFAULT_VALUE } from "src/types/constants";
 import { Constant } from "src/types/constants/Constant";
 import { describe, expect, it } from "vitest";
@@ -187,7 +188,7 @@ describe("hasDefaultValue(v)", () => {
   const stringy = "foobar" as string | NoDefaultValue;
   const noStringy = NO_DEFAULT_VALUE as string | NoDefaultValue;
 
-  it.only("positive tests", () => {
+  it("positive tests", () => {
     if(hasDefaultValue(numeric)) {
       expect(true).toBe(true);
       type Val = typeof numeric;
@@ -236,7 +237,7 @@ describe("hasDefaultValue(v)", () => {
 
 });
 
-describe("ifConstant()", () => {
+describe("isConstant()", () => {
   const maybe = NO_DEFAULT_VALUE as NoDefaultValue | "foobar";
   const notReally = "foobar" as NoDefaultValue | "foobar";
 
@@ -252,6 +253,29 @@ describe("ifConstant()", () => {
   });
 
   
+  it("positive test for Never type", () => {
+    // special case because the type system sees as `never` rather than as Constant
+    const maybe = Never as string | never;
+    
+    if(isConstant(maybe)) {
+      expect(true).toBe(true);
+    } else {
+      throw new Error("Never was not found to be a constant!")
+    }
+  });
+
+  it("isSpecificConstant for Never type", () => {
+    // special case because the type system sees as `never` rather than as Constant
+    const maybe = Never as string | never;
+    
+    if(isSpecificConstant("never")(maybe)) {
+      expect(true).toBe(true);
+    } else {
+      throw new Error("Never was not found to be a SpecificConstant<\"never\">!")
+    }
+  });
+
+  
   it("negative test", () => {
     if(isConstant(notReally)) {
       throw new Error("incorrect identification of constant");
@@ -263,8 +287,6 @@ describe("ifConstant()", () => {
       const cases: cases = [ true ];
     }
   });
-  
-
 });
 
 
