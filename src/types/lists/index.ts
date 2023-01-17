@@ -13,7 +13,8 @@ export * from "./TupleFilter";
 export * from "./Split";
 export * from "./Length";
 export * from "./set-ops";
-export * from "./UniqueForProp";
+export * from "./IndexOf";
+export * from "./UnionFromProp";
 
 // #endregion auto-indexed files
 
