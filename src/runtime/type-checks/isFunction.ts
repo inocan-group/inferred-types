@@ -1,7 +1,5 @@
-import {   AnyObject, FnWithDict, IfExtends, IfTrue, Keys, Narrowable, Not } from "src/types";
-import { IfAnd } from "src/types/boolean-logic/And";
-import { IsFunction, IsFunctionWithDict } from "src/types/boolean-logic/functions";
-import { IsLength } from "src/types/boolean-logic/IfLength";
+import { FnWithDict, IfExtends } from "src/types";
+import { IsFunction } from "src/types/boolean-logic/functions";
 import { keys } from "../keys";
 import { isTypeOf } from "../type-guards/higher-order/isTypeOf";
 
@@ -35,5 +33,5 @@ export function isFnWithDict<
 
   const value = isTypeOf("function", input) && keys(input)?.length > 0;
 
-  return value as IfExtends<typeof input, FnWithDict<Record<string, any>>, true, false>
+  return value as IfExtends<typeof input, FnWithDict<Record<string, any>>, true, false>;
 }

@@ -17,5 +17,5 @@ export function exclude<
       [key]: excluding.includes(key) ? undefined : obj[key]
     }),
     {} as Exclude<TObj, TupleToUnion<TExclude>>
-  )
+  );
 }

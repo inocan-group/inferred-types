@@ -21,6 +21,8 @@ type GetEachAcc<
 * - if a given element is not an object then `never` is returned
 * - if a given element is an object and `undefined` extends that properties type 
 * then `undefined` is set otherwise `never`.
+* - by default all `never` values are removed from the resultant type but you can
+* change this behavior by changing `TRetainNever` to **true**
 * 
 * ```ts
 * // ["Bob", "Wendy"]
@@ -33,9 +35,9 @@ type GetEachAcc<
 export type GetEach<
   TList extends any[] | readonly any[], 
   TKey extends string | number | null,
-  TCollapse extends boolean = false
+  TRetainNever extends boolean = false
 > = TKey extends null
   ? TList
-  : TCollapse extends true
+  : TRetainNever extends false
     ? RemoveNever<GetEachAcc<TList, TKey>>
     : GetEachAcc<TList, TKey>;

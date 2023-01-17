@@ -1,4 +1,4 @@
-import { AnyObject, IfContains, IfReadonlyArray, IfSomeEqual } from "../boolean-logic";
+import { IfContains, IfReadonlyArray, IfSomeEqual } from "../boolean-logic";
 import { Narrowable } from "../Narrowable";
 import { Mutable } from "../type-conversion/Mutable";
 import { UnionToTuple } from "../type-conversion/UnionToTuple";
@@ -14,7 +14,6 @@ import { IndexOf } from "./IndexOf";
  * into a "set" (and have set operations applied).
  */
 export type SetCandidate = readonly Narrowable[] | Narrowable;
-
 
 type SetRemovalAcc<
   TSet extends readonly any[],
@@ -66,15 +65,15 @@ export type SetRemoval<
 type IntersectionAcc<
   A extends readonly Narrowable[],
   B extends readonly Narrowable[],
+  TDeref extends string | number | null = null,
   Intersection extends readonly Narrowable[] = readonly []
 > = [] extends A
   ? Intersection
   : IfContains<
       B, First<A>, // if B tuple contains first element of A
-      IntersectionAcc<AfterFirst<A>, B, readonly [...Intersection, First<A>]>,
-      IntersectionAcc<AfterFirst<A>, B, Intersection>
+      IntersectionAcc<AfterFirst<A>, B, TDeref, readonly [...Intersection, First<A>]>,
+      IntersectionAcc<AfterFirst<A>, B, TDeref, Intersection>
     >;
-
 
 /**
  * **SetIntersection**`<A,B>`
@@ -84,7 +83,8 @@ type IntersectionAcc<
 export type Intersection<
   A extends SetCandidate,
   B extends SetCandidate,
-> = IntersectionAcc<IntoSet<A>, IntoSet<B>>;
+  TDeref extends string | number | null = null
+> = IntersectionAcc<IntoSet<A>, IntoSet<B>, TDeref>;
 
 type UniqueAcc<
   Target extends readonly Narrowable[],
@@ -119,46 +119,9 @@ type UniqueAcc<
 export type Unique<
   A extends SetCandidate,
   B extends SetCandidate,
-  Dereference extends string | number | null = null
+  TDeref extends string | number | null = null
 > = Readonly<[
-  Mutable<UniqueAcc<IntoSet<A>, IntoSet<B>, Dereference>>,
-  Mutable<UniqueAcc<IntoSet<B>, IntoSet<A>, Dereference>>
+  Mutable<UniqueAcc<IntoSet<A>, IntoSet<B>, TDeref>>,
+  Mutable<UniqueAcc<IntoSet<B>, IntoSet<A>, TDeref>>
 ]>;
 
-type UniquePropAcc<
-  Target extends readonly Narrowable[],
-  Comparison extends readonly Narrowable[],
-  Dereferencing extends string | number | null,
-  Results extends readonly Narrowable[] = readonly []
-> = [] extends Target
-  ? Results
-  : IfContains<
-      Comparison, First<Target>, // if B tuple contains first element of A
-      UniqueAcc<AfterFirst<Target>, Comparison, Dereferencing, Results>,
-      UniqueAcc<AfterFirst<Target>, Comparison, Dereferencing, readonly [...Results, First<Target>]
-    >
->;
-
-/**
- * **UniqueByProp**`<A,B> => [UA,UB]`
- * 
- * Type utility which takes two sets of objects -- `A` and `B` -- and a key `K` which
- * both sets will be compared against. The result is a tuple `readonly [UA, UB]`.
- * ```ts
- * type I1 = { id: 1, val: 1 };
- * type I2 = { id: 2, val: 5 };
- * type I3 = { id: 3, val: 10 };
- * // readonly [ [I1], [I3] ]
- * type T = UniqueInSet<[I1,I2],[I2,I3]>;
- * ```
- * 
- * **Related:** `SetIntersection`, `UniquePropInSet`
- */
-export type UniqueByProp<
-  A extends readonly AnyObject[] | AnyObject,
-  B extends readonly AnyObject[] | AnyObject,
-  TDereferencing extends string | number | null
-> = [
-  UniquePropAcc<IntoSet<A>, IntoSet<B>, TDereferencing>,
-  UniquePropAcc<IntoSet<B>, IntoSet<A>, TDereferencing>
-];

@@ -91,7 +91,7 @@ describe("Get<T, K> type utility", () => {
     const cases: cases = [true, true, true];
   });
   
-  it("runtime: get(list, prop)", () => {
+  it("runtime: happy path", () => {
     const deeperStill = ref([4,5,6] as const);
     const obj = {
       foo: 1,
@@ -125,5 +125,15 @@ describe("Get<T, K> type utility", () => {
     ];
     const cases: cases = [ true, true, true, true];
   });
+
+  
+  it("runtime: getting values with never", () => {
+    const obj = { id: 1, color: undefined as undefined | string } as const;
+    const arr = [ {id: 1} ] as const;
+
+    const shallowObj = get(obj, "color" as string);
+
+  });
+  
   
 });
