@@ -1,14 +1,9 @@
-
 import { Concat } from "src/runtime/lists/Concat";
-import { Join } from "src/runtime/lists/Join";
 import { AnyObject, IsUndefined } from "../boolean-logic";
 import { IfRef } from "../boolean-logic/IfRef";
 import { IfLiteral } from "../boolean-logic/IsLiteral";
 import { AnyFunction } from "../functions/function-types";
-import { Keys } from "../Keys";
-import { ExtractStrings } from "../lists/extractors";
 import { Narrowable } from "../Narrowable";
-
 
 /**
  * **ToString**
@@ -26,7 +21,7 @@ export type ToString<T extends Narrowable> = T extends string
   : T extends AnyObject ? IfRef<
       T,
       Concat<["Ref<", T extends { value: Narrowable } ? ToString<T["value"]> : "", ">"]>,
-      Concat<["Object: [", Join<ExtractStrings<Keys<T>>, ", ">, "]"]>
+      "Object"
     >
   : T extends string[] ? "string[]"
   : T extends number[] ? "number[]"

@@ -1,9 +1,11 @@
-import { Narrowable } from "src/types";
-import { ifNumber, ifString } from "src/runtime/type-checks";
+import { IfStartsWith, Narrowable } from "src/types";
+import { ifNumber } from "../isNumber";
+import { ifString } from "../isString";
 
-export type StartingWithTypeGuard<T extends string> = <
-  V extends Narrowable
->(val: V) => val is V & `${string}${T}`;
+
+export type StartingWithTypeGuard<TStartsWith extends string> = <
+  TValue extends Narrowable
+>(val: TValue) => val is TValue & `${TStartsWith}${string}`;
 
 /**
  * **startsWith**(startingWith) => (val)
@@ -12,15 +14,17 @@ export type StartingWithTypeGuard<T extends string> = <
  * particular string literal.
  */
 export const startsWith = <
-  T extends string
->(startingWith: T): StartingWithTypeGuard<T> => <V extends Narrowable>(val: V): val is V & `${string}${T}` => {
+  TStartsWith extends string
+>(startingWith: TStartsWith): StartingWithTypeGuard<TStartsWith> => <
+  TValue extends Narrowable
+>(val: TValue): val is TValue & `${TStartsWith}${string}`=> {
   return ifString(
     val,
     v => v.startsWith(startingWith) ? true : false,
     v => ifNumber(
       v, 
-      n => String(n).startsWith(startingWith) ? true : false,
+      () => String(v).startsWith(startingWith) ? true : false,
       () => false
-    )
-  );
+    ) as boolean
+  ) as IfStartsWith<TValue, TStartsWith, true, false>;
 };

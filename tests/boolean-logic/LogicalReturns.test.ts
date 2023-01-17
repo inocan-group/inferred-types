@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { ifString } from "src/runtime/type-checks";
+import { ifString } from "src/runtime/type-guards/isString";
 import {  Narrowable } from "src/types";
 import { LogicalReturns } from "src/types/lists/boolean-arrays";
 import { describe, expect, it } from "vitest";

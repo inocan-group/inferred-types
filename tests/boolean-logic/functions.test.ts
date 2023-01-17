@@ -1,8 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { createFnWithProps } from "src/runtime";
 import { isFnWithDict } from "src/runtime/type-checks";
-import { AnyFunction, FnWithDict, IsEmptyObject } from "src/types";
+import { AnyFunction, FnWithDict, IsEmptyObject, Keys, Not } from "src/types";
 import { IsFunction, IsFunctionWithDict } from "src/types/boolean-logic/functions";
+import { IsLength } from "src/types/boolean-logic/IfLength";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -97,10 +98,16 @@ describe("Boolean Logic for functions", () => {
       const f1 = createFnWithProps(() => `hi`, { foo: 42 });
       const f2 = createFnWithProps(() => `hi`, { foo: 42 as number });
       const f3 = createFnWithProps(() => `hi`, {});
+      type x = Not<IsLength<Keys<typeof f1>, 0>>;
 
       const t1 = isFnWithDict(f1);
       const t2 = isFnWithDict(f2);
       const t3 = isFnWithDict(f3);
+
+      if(isFnWithDict(f1)) {
+        f1
+      }
+
       expect(t1).toBe(true);
       expect(t2).toBe(true);
       expect(t3).toBe(false);

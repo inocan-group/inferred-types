@@ -10,9 +10,9 @@ describe("Find<TList, TProp, TValue>", () => {
 
   it("happy path", () => {
     type List = [ { id: 1, val: "hi" }, { id: 2, val: "bye" } ];
-    type T1 = Find<List, "id", 1>;
-    type T2 = Find<List, "id", 2>;
-    type T3 = Find<List, "id", 3>;
+    type T1 = Find<List, 1, "id">;
+    type T2 = Find<List, 2, "id">;
+    type T3 = Find<List, 3, "id">;
     
     type cases = [
       Expect<Equal<T1, { id: 1, val: "hi" }>>,

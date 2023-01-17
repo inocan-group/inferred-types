@@ -21,8 +21,8 @@
       "src/*": [
         "src/*"
       ],
-      "test/*": [
-        "test/*"
+      "tests/*": [
+        "tests/*"
       ]
     },
     "baseUrl": ".",

@@ -24,7 +24,13 @@ export type StartsWith<
       : boolean
     : boolean,
   // value is not a string
-  IfNumericLiteral<TValue, TValue extends number ? StartsWith<ToString<TValue>, TStartsWith> : false, false>
+  IfNumericLiteral<
+    TValue, 
+    TValue extends number 
+      ? StartsWith<ToString<TValue>, TStartsWith> 
+      : never, 
+    false
+  >
   
 >;
 
