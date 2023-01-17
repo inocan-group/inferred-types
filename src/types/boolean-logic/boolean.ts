@@ -1,4 +1,5 @@
-import { AnyFunction } from "src/runtime/type-checks";
+
+import { AnyFunction } from "../functions/function-types";
 import { Narrowable } from "../Narrowable";
 import { IsEqual } from "./equivalency";
 

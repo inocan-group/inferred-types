@@ -1,4 +1,5 @@
-import { AnyFunction } from "src/runtime";
+
+import { AnyFunction } from "../functions/function-types";
 import { Length } from "../lists/Length";
 import { Narrowable } from "../Narrowable";
 import { IsEqual } from "./equivalency";

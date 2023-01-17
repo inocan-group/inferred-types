@@ -4,7 +4,7 @@ import { AfterFirst } from "./AfterFirst";
 import { First } from "./First";
 
 type FindAcc<
-  TList extends readonly Record<string, any>[],
+  TList extends readonly any[],
   TProp extends string,
   TValue extends Narrowable
 > = [] extends TList
@@ -37,4 +37,4 @@ export type Find<
   TList extends readonly any[],
   TValue extends Narrowable,
   TDeref extends string | number | null = null,
-> = FindAcc<TList, TDeref extends string | number, TValue>;
+> = FindAcc<TList, TValue, TDeref>;
