@@ -6,15 +6,12 @@
 
 // file exports
 export * from "./ifSameType";
-export * from "./isArray";
-export * from "./isBoolean";
+export * from "../type-guards/isArray";
+export * from "./ifBoolean";
 export * from "./isFalse";
 export * from "./isFunction";
-export * from "./isNumber";
-export * from "./isObject";
-export * from "./isString";
 export * from "./isSymbol";
-export * from "./isTrue";
+export * from "./ifTrue";
 export * from "./ifUndefined";
 
 // #endregion auto-indexed files

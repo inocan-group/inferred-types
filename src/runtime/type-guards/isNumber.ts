@@ -2,8 +2,8 @@ import { Narrowable } from "src/types";
 
 export type IsNumber<T> = T extends number ? true : false;
 
-export function isNumber<T>(i: T) {
-  return (typeof i === "number") as T extends number ? true : false;
+export function isNumber<T extends number>(value: unknown): value is T {
+  return (typeof value === "number") as T extends number ? true : false;
 }
 
 /**

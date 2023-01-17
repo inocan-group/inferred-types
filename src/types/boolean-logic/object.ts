@@ -7,6 +7,7 @@ import { AnyFunction } from "../functions/function-types";
 import { Keys } from "../Keys";
 
 export type AnyObject = Record<string, any>;
+export type UnknownObject = Record<string, unknown>;
 
 /**
  * **IsObject**

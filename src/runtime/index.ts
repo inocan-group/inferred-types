@@ -7,7 +7,6 @@
 // file exports
 export * from "./createFnWithProps";
 export * from "./keys";
-export * from "./ruleset";
 // directory exports
 export * from "./api/index";
 export * from "./combinators/index";

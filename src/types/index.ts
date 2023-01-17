@@ -25,7 +25,6 @@ export * from "./TypeGuard";
 export * from "./Where";
 export * from "./append-types";
 export * from "./maybe";
-export * from "./ruleset-types";
 export * from "./runtime";
 export * from "./Scalar";
 export * from "./type-testing";

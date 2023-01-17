@@ -1,9 +1,21 @@
 import { LowerAlpha, UnionToTuple, UpperAlpha } from "src/types";
 
 /**
+ * **TYPE_OF**
+ * 
+ * The set of values which are possible results of the `typeof` command in Javascript.
+ */
+export const TYPE_OF = ["string", "number", "boolean", "undefined", "symbol", "bigint", "function", "object"] as const;
+
+/**
  * Values which evaluate to _falsy_ in Javascript
  */
-export const FALSY_VALUES = [false, 0, -0, "", null, undefined, Number.NaN];
+export const FALSY_VALUES = [false, 0, -0, "", null, undefined, Number.NaN] as const;
+
+/**
+ * An array of all valid numeric digits in string form
+ */
+export const NUMERIC_DIGIT = ["0","1","2","3","4","5","6","7","8","9"] as const;
 
 /**
  * Lowercase letters

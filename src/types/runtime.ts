@@ -3,14 +3,14 @@
 import { TypeGuard } from "./TypeGuard";
 
 export type RuntimeType<T> = {
-  __kind: "type";
+  __type: "type";
 
   type: T;
   is: TypeGuard<T>;
 };
 
 export type RuntimeProp<P extends Readonly<PropertyKey>, T extends RuntimeType<any>> = {
-  __kind: "prop";
+  __type: "prop";
   key: Readonly<P>;
   valueType: Readonly<T["type"]>;
   /**

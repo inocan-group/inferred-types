@@ -1,5 +1,5 @@
 import { Narrowable, Widen } from "src/types";
-import { isArray } from "../type-checks/isArray";
+import { isArray } from "../type-guards/isArray";
 
 /**
  * Type utility which converts `undefined[]` to `unknown[]`

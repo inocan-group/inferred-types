@@ -1,17 +1,20 @@
 import { Keys } from "src/types/Keys";
-import { IntoSet, TupleFilter } from "src/types/lists";
+import { Narrowable } from "..";
+import { isArray, isObject } from "./type-guards";
 
 /**
  * **keys**(obj)
  * 
- * Provides a read-only array of the _keys_ an object contains.
+ * Provides a read-only array of the _keys_ an object (or array) contains.
+ * 
+ * **Note:** it will accept any _narrowable_ value but any type other than 
+ * an array or object will return `[]`.
  */
 export function keys<
-  TObj extends Record<string, any>
+  TObj extends Narrowable
 >(obj: TObj) {
-  return (
-    Object
-    .keys(obj)
-  ) as Keys<TObj>
+  return isObject(obj) || isArray(obj)
+    ? Object.keys(obj) as Keys<TObj>
+    : [] as readonly[];
 }
 

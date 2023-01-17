@@ -67,14 +67,11 @@ export type TupleFilter<
         >
       : never;
 
-/**
- * A runtime representation of the _never_ type
- */
-export const Never = Symbol("never") as never;
+
 
 /**
  * **ExcludeNever**`<T>`
  * 
  * Filters type `T` to have no `never` types
  */
-export type ExcludeNever<T extends readonly any[]> = TupleFilter<T, typeof Never>;
+export type ExcludeNever<T extends readonly any[]> = TupleFilter<T, never>;

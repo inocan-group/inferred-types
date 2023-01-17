@@ -1,8 +1,13 @@
-import { IsArray, IfArray } from "src/types/boolean-logic/array";
+import { IfArray } from "src/types/boolean-logic/array";
 import { Narrowable } from "src/types/Narrowable";
 
-export function isArray<T>(i: T) {
-  return (Array.isArray(i) === true) as IsArray<T>;
+/**
+ * **isArray**(value)
+ * 
+ * Type guard to detect if the type is an array (readonly or regular)
+ */
+export function isArray<T>(value: T): value is T & any[] {
+  return Array.isArray(value) === true;
 }
 
 /**

@@ -51,21 +51,30 @@ export type IfReadonlyArray<
 export type Contains<
   TList extends readonly any[],
   TContains extends Narrowable, 
-> = First<TList> extends TContains
+> = [] extends TList
+  ? false
+  : First<TList> extends TContains
   ? true
   : [] extends AfterFirst<TList>
   ? false
   : Contains<AfterFirst<TList>, TContains>;
 
-
+/**
+ * **IfContains**`<TList,TContains,IF,ELSE>`
+ *
+ * Type utility which checks whether a type `TContains` exists within 
+ * an array `TList`. Result is `true` if any element in the list _extends_
+ * 
+ * **Related:** `NarrowlyContains`
+ */
 export type IfContains<
   TList extends readonly any[],
   TContains extends Narrowable,
-  TDoesContain extends Narrowable,
-  TDoesNotContain extends Narrowable
+  IF extends Narrowable,
+  ELSE extends Narrowable
 > = Contains<TList, TContains> extends true
-  ? TDoesContain
-  : TDoesNotContain;
+  ? IF
+  : ELSE;
 
 /**
  * **NarrowlyContains**`<TList, TContains>`

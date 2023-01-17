@@ -48,7 +48,7 @@ export type TypeOptions<
 
 
 /**
- * A full list of the _kinds_ of types we have within the `Type` namespace.
+ * A full list of the _types_ of types we have within the `Type` namespace.
  */
 export const TYPE_KINDS = [
   FALSY_TYPE_KINDS,
@@ -66,7 +66,7 @@ export type TypeKindContainerWide = Keys<typeof WIDE_CONTAINER_TYPE_KINDS>;
 export type TypeKindContainer = TypeKindContainerNarrow | TypeKindContainerWide;
 
 /**
- * A union of all the _kinds_ of types we have within the `Type` namespace.
+ * A union of all the _types_ of types we have within the `Type` namespace.
  */
 export type TypeKind = TypeKindLiteral | TypeKindWide | TypeKindFalsy | TypeKindContainer;
 
@@ -282,11 +282,11 @@ export type Type<
   TWithDefault extends TypeHasDefaultValue = TypeHasDefaultValue,
   TWithValidations extends TypeHasValidations = TypeHasValidations,
 > = {
-  _kind: "Type"; 
+  _type: "Type"; 
   /** 
    * **kind**
    * 
-   * The _kind_ / _category_ of the type (e.g., string, stringLiteral, number, etc).
+   * The _type_ / _category_ of the type (e.g., string, stringLiteral, number, etc).
    */
   kind: TKind;
   /** 

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { Expect, Equal } from "@type-challenges/utils";
-import { UniqueForProp } from "src/types/lists";
+import { UnionFromProp } from "src/types/lists";
 
 const narrow_data = [
   { id: 123, color: "blue" },
@@ -27,7 +27,7 @@ type HybridData = typeof hybrid_data;
 
 describe("UniqueForProp<T, P>", () => {
   it("narrow data works as expected", () => {
-    type U = UniqueForProp<NarrowData, "id">;
+    type U = UnionFromProp<NarrowData, "id">;
 
     type cases = [
       // the expected keys are part of the union
@@ -39,7 +39,7 @@ describe("UniqueForProp<T, P>", () => {
   });
 
   it("wide data only knows the wide type", () => {
-    type U = UniqueForProp<WideData, "id">;
+    type U = UnionFromProp<WideData, "id">;
 
     type cases = [
       // the keys are rolled up the wide type
@@ -51,7 +51,7 @@ describe("UniqueForProp<T, P>", () => {
   });
 
   it("wide data only knows the wide type", () => {
-    type U = UniqueForProp<HybridData, "id">;
+    type U = UnionFromProp<HybridData, "id">;
     type cases = [Expect<Equal<U, number>>];
     const c: cases = [true];
     expect(c).toBe(c);

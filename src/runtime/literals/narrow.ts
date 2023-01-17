@@ -1,4 +1,4 @@
-import { Length, Mutable } from "src/types";
+import { IntoSet, Length, Mutable } from "src/types";
 import { Narrowable } from "src/types/Narrowable";
 
 
@@ -17,12 +17,14 @@ import { Narrowable } from "src/types/Narrowable";
  * const t3 = narrow(["foo", "bar"]);
  * ```
  */
-export function narrow<T extends Narrowable[]>(...values: T) {
+export function narrow<T extends readonly Narrowable[]>(...values: T) {
   return (
     values.length === 1 
       ? values[0] 
       : values
-  ) as Length<T> extends 1 ? Mutable<T[0]> : T;
+  ) as Length<T> extends 1 
+    ? T[0] extends readonly any[]
+      ? T[0]
+      : Mutable<T[0]> 
+    : IntoSet<T>;
 }
-
-

@@ -48,13 +48,15 @@ export type IfWideString<
  * **Related:** `IncludesNarrowly`
  */
 export type Includes<
-  Source extends string,
+  Source extends Narrowable,
   LookFor extends string,
-> = Source extends `${string}${LookFor}${string}`
+> = Source extends string
+? Source extends `${string}${LookFor}${string}`
   ? true
   : And<[IsStringLiteral<Source>, IsStringLiteral<LookFor>]> extends true
     ? false
-    : boolean;
+    : boolean
+: false;
 
 
 /**

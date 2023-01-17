@@ -24,13 +24,13 @@ describe("Narrowable", () => {
       Expect<Equal<typeof stringLiteral, "foo">>,
       Expect<Equal<typeof numericLiteral, 42>>,
       
-      Expect<Equal<typeof stringTuple1, ["foo", "bar"]>>,
+      Expect<Equal<typeof stringTuple1, readonly ["foo", "bar"]>>,
       Expect<Equal<typeof stringTuple2, string[]>>,
-      Expect<Equal<typeof stringTuple3, ["foo", "bar"]>>,
+      Expect<Equal<typeof stringTuple3, readonly ["foo", "bar"]>>,
 
-      Expect<Equal<typeof mixedTuple1, ["foo", 42]>>,
+      Expect<Equal<typeof mixedTuple1, readonly ["foo", 42]>>,
       Expect<Equal<typeof mixedTuple2, (string | number)[]>>,
-      Expect<Equal<typeof mixedTuple3, ["foo", 42]>>,
+      Expect<Equal<typeof mixedTuple3, readonly ["foo", 42]>>,
 
     ];
     const cases: cases = [true, true, true, true, true, true, true, true];

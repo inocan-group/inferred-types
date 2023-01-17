@@ -17,7 +17,7 @@ export function Model<N extends string, _R extends {} = {}, _O extends {} = {}>(
     done() {
       return {
         __model__: name,
-        __kind__: "model" as const,
+        __type__: "model" as const,
         // __tg__: tg,
       };
     },

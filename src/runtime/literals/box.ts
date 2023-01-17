@@ -4,7 +4,7 @@ import { keys } from "../keys";
 import { AnyFunction } from "../type-checks";
 
 export interface Box<T> {
-  __kind: "box";
+  __type: "box";
   value: T;
   /**
    * Unbox the boxed value in the narrowest possible type.
@@ -52,7 +52,7 @@ export type NarrowBox<T> = <
  */
 export function box<T extends Narrowable>(value: T): Box<T> {
   const rtn: Box<T> = {
-    __kind: "box",
+    __type: "box",
     value,
     unbox: (<P extends any[], R extends Narrowable>(...p: P): R => {
       return typeof value === "function" ? value(...p) : value;
@@ -64,7 +64,7 @@ export function box<T extends Narrowable>(value: T): Box<T> {
 
 export function isBox(thing: Narrowable): thing is Box<any> {
   return (
-    typeof thing === "object" && "__kind" in (thing as object) && (thing as any).__kind === "box"
+    typeof thing === "object" && "__type" in (thing as object) && (thing as any).__type === "box"
   );
 }
 

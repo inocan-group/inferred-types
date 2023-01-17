@@ -33,7 +33,7 @@ export function isRuntimeType<
   U extends Type
 >(thing: unknown | U): thing is U {
   return (
-    typeof thing === "object" && "_kind" in (thing as object) && (thing as any)._kind === "Type"
+    typeof thing === "object" && "_type" in (thing as object) && (thing as any)._type === "Type"
   );
 }
 

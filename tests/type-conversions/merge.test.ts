@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { mergeScalars, mergeTuples } from "src/runtime/dictionary/merge";
-import { MergeObjects, MergeScalars, MergeTuples, WithoutKeys } from "src/types";
+import { MergeKvPairs, MergeObjects, MergeScalars, MergeTuples, SetRemoval, TupleToUnion, UnionToTuple } from "src/types";
 import { describe, expect, it } from "vitest";
 
 describe("mergeScalars", () => {
@@ -39,7 +39,7 @@ describe("Merge Tuples", () => {
     type Baz42 = typeof baz42;
     type Lengthy = typeof lengthy;
     
-    type OverrideFully = MergeTuples<Foobar,Baz42>;
+    type OverrideFully = MergeTuples<Foobar, Baz42>;
     type PartialOverride = MergeTuples<Baz42,Partial>;
     type OverExtend = MergeTuples<Lengthy, Foobar>;
     
@@ -65,17 +65,37 @@ describe("Merge Tuples", () => {
   });
 });
 
+// describe("Merge KV Pairs", () => {
+
+//   it("types", () => {
+//     type L1 = readonly [{ key: 1; value: "hi"}, {key: 2; value: "bye"}];
+//     type L2 = readonly [];
+//     type L3 = readonly [{ key: 3; value: "extra"}];
+    
+//     type SameAsOverride = MergeKvPairs<L2, L1>;
+//     type Extra = MergeKvPairs<L3, L2>;
+    
+//   });
+
+// });
+
+
 describe("Merge Objects", () => {
 
   it("type tests", () => {
-    type X = WithoutKeys<{foo: 1; bar: 2}, "bar">;
     type JustExtend = MergeObjects<{foo: 1; bar: 2}, {baz: 3}>;
+    type JustExtend2 = MergeObjects<{baz: 3}, {foo: 1; bar: 2}>;
     type FullyOverride = MergeObjects<{foo: 1; bar: 2}, { foo: 2; bar: 3}>;
+    type X = TupleToUnion<SetRemoval<
+      // all default keys
+      UnionToTuple<keyof {foo: 1; bar: 2}>, 
+      // with those defined from override removed
+      UnionToTuple<keyof { foo: 2; bar: 3}>
+    >>
     
     type cases = [
       Expect<Equal<JustExtend, {foo: 1; bar: 2; baz: 3}>>,
       Expect<Equal<FullyOverride, {foo: 2; bar: 3}>>,
-
     ];
     const cases: cases = [true, true, true];
   });

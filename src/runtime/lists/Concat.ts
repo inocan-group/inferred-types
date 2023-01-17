@@ -14,7 +14,7 @@ type ElementLiteral<T extends ConcatElement> = T extends string
       : never;
 
 type ConcatAcc<
-  T extends readonly ConcatElement[] | ConcatElement[], 
+  T extends readonly ConcatElement[], 
   Result extends string = ""
 > = [] extends T
     ? Result
@@ -35,5 +35,5 @@ type ConcatAcc<
  * 
  * **Related:** `Join<TArr,TWith>`
  */
-export type Concat<T extends readonly ConcatElement[] | ConcatElement[], > = ConcatAcc<T>;
+export type Concat<T extends readonly ConcatElement[] | ConcatElement[], > = ConcatAcc<readonly [...T]>;
 

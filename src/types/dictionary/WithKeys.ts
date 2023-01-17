@@ -34,17 +34,24 @@ export type WithKeys<
 
 
 /**
- * **WithoutKeys**`<T, K>`
+ * **WithoutKeys**`<TObj, TKeys>`
  * 
- * Removes the keys in the dictionary `T` expressed by `K` but
- * leaves the rest of the key/value pairs
+ * Removes the keys expressed by `TKeys` from `TObj`.
+ * 
+ * Note: `TKeys` can be a union of key names _or_ an array of string names
  */
 export type WithoutKeys<
-  T extends {}, 
-  TKeys extends (string & keyof T) | readonly (keyof T & string)[]
-> = SetRemoval<keyof T, TKeys> extends readonly any[]
-  ? WithKeys<T, SetRemoval<keyof T, TKeys>>
-  : never;
+  TObj extends Record<string, any>, 
+  TKeys extends (string & keyof TObj) | readonly (keyof TObj & string)[]
+> = TKeys extends readonly (keyof TObj & string)[]
+  ? // with keys being an array
+    SetRemoval<keyof TObj, TKeys> extends readonly any[]
+    ? WithKeys<TObj, SetRemoval<keyof TObj, TKeys>>
+    : never
+  : // with keys being a union
+    SetRemoval<keyof TObj, UnionToTuple<TKeys>> extends readonly any[]
+      ? WithKeys<TObj, SetRemoval<keyof TObj, TKeys>>
+      : never;
 
 
 // export type WithKeys<

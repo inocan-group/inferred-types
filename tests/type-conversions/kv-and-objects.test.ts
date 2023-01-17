@@ -1,17 +1,16 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { defineType, identity, narrow } from "src/runtime";
+import { defineType,  narrow } from "src/runtime";
 import { kvToObject } from "src/runtime/runtime";
 import { objectToKv } from "src/runtime/runtime/objectToKv";
 import { isKvPair } from "src/runtime/type-guards/isKvPair";
 import { isKvPairArray } from "src/runtime/type-guards/isKvPairArray";
-import { KvPair, KvToObject, Mutable } from "src/types";
+import { Contains, DoesExtend, GetEach, KvPair, KvToObject, Mutable } from "src/types";
 import { ObjectToKv } from "src/types/type-conversion/ObjectToKv";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
 // gain validation that no new type vulnerabilities have cropped up.
-
 
 describe("KV -> Object", () => {
   it("isKvPair() type guard works", () => {
@@ -31,7 +30,7 @@ describe("KV -> Object", () => {
         Expect<Equal<typeof kv["key"], "foo">>,
         Expect<Equal<typeof kv["value"], 1>>,
         Expect<Equal<Mutable<typeof kv>, Explicit>>,
-      ]
+      ];
       const cases: cases = [ true, true, true ];
     }
     if(isKvPair(kv2)) {
@@ -40,7 +39,7 @@ describe("KV -> Object", () => {
         Expect<Equal<typeof kv["key"], "foo">>,
         Expect<Equal<typeof kv["value"], 1>>,
         Expect<Equal<typeof kv2, Explicit>>,
-      ]
+      ];
       const cases: cases = [ true, true, true ];
     }
   });
@@ -60,7 +59,7 @@ describe("KV -> Object", () => {
     const kvRw = narrow([
       { key: "foo", value: 1 },
       { key: "bar", value: 2 },
-    ] as const)
+    ] as const);
 
     if(isKvPairArray(kvRo)) {
       expect(true, "valid ro KV array detected").toBe(true);
@@ -99,7 +98,7 @@ describe("KV -> Object", () => {
           {key: "a"; value: "a" }, 
           {key: "b"; value: "b" },
           {key: "c"; value: "c"} 
-        ] }
+        ]; }
     ];
 
     type DeepCheck = KvToObject<DeepKv>;
@@ -112,7 +111,6 @@ describe("KV -> Object", () => {
 
     const cases: cases = [true, true, true];
   });
-  
 
 
   it("runtime: kvToObject()", () => {
@@ -136,14 +134,42 @@ describe("Object -> KV", () => {
 
   it("types: ObjectToKv<KV>", () => {
     type T1 = ObjectToKv<{foo: 1; bar: 2}>;
+    type IsKvPairArr = DoesExtend<
+      T1, 
+      readonly KvPair<string, any>[]
+    >;
+
+    type V1 = readonly [{key: "foo"; value: 1}, {key: "bar"; value: 2}];
+    type V2 = readonly [{key: "bar"; value: 2}, {key: "foo"; value: 1}];
 
     type cases = [
-      Expect<Equal<T1, readonly [
-        {key: "foo"; value: 1}, 
-        {key: "bar"; value: 2}
-      ]>>,
+      // since order is not guaranteed we must 
+      // test for inclusion of keys and values
+      Expect<Equal<
+        Contains<GetEach<T1, "key">, "foo">, 
+        true
+      >>,
+      Expect<Equal<
+        Contains<GetEach<T1, "key">, "bar">, 
+        true
+      >>,
+      Expect<Equal<
+        Contains<GetEach<T1, "value">, 1>, 
+        true
+      >>,
+      Expect<Equal<
+        Contains<GetEach<T1, "value">, 2>, 
+        true
+      >>,
+      // we can test for a union type with both orders
+      Expect<Equal<
+        DoesExtend<T1, V1 | V2>,
+        true
+      >>,
+      // the result should extend a readonly array of KvPair's
+      Expect<Equal<IsKvPairArr, true>>
     ];
-    const cases:cases = [true];
+    const cases: cases = [true, true, true, true, true, true];
   });
 
   
@@ -217,18 +243,18 @@ describe("Identity Checks between KV and Object", () => {
         ObjectIntermediary, 
         {
           foo: 1;
-          bar: { a: "a"; b: "b"; c: "c" }
+          bar: { a: "a"; b: "b"; c: "c" };
         }
       >>,
       Expect<Equal<
         KvIntermediary,
         readonly [
-          { key: "foo", value: 1},
-          { key: "bar", value: [
-            { key: "a", value: "a" },
-            { key: "b", value: "b" },
-            { key: "c", value: "c" },
-          ]}
+          { key: "foo"; value: 1},
+          { key: "bar"; value: [
+            { key: "a"; value: "a" },
+            { key: "b"; value: "b" },
+            { key: "c"; value: "c" },
+          ];}
         ]
       >>
     ];
@@ -248,7 +274,7 @@ describe("Identity Checks between KV and Object", () => {
     type cases = [
       Expect<Equal<typeof kv, Readonly<Mutable<DeepKv>>>>,
       Expect<Equal<typeof obj, Mutable<DeepObj>>>
-    ]
+    ];
   });
   
 

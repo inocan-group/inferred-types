@@ -9,6 +9,7 @@
     "resolveJsonModule": true,
     "strict": true,
     "skipLibCheck": true,
+    "allowJs": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
