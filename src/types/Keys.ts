@@ -1,4 +1,4 @@
-import { IfEquals, IsEqual } from "src/types/boolean-logic/equivalency";
+import { IfEqual, IsEqual } from "src/types/boolean-logic/equivalency";
 import { AnyObject, UnknownObject } from "./boolean-logic";
 import { IfOr } from "./boolean-logic/Or";
 import { AnyFunction } from "./functions";
@@ -32,21 +32,25 @@ import { UnionToTuple } from "./type-conversion/UnionToTuple";
  */
 export type Keys<
   TValue extends Narrowable,
-> = IfOr<
-  [ 
-    IsEqual<TValue, AnyFunction>, 
-    IsEqual<TValue, AnyObject>, 
-    IsEqual<TValue, UnknownObject>, 
-    IsEqual<TValue, Record<string, string>>, 
-    IsEqual<TValue, Record<string, number>>
-  ],
-  readonly [],
-  IfEquals<
-    TValue, {}, 
-    readonly [], 
-    Readonly<UnionToTuple<keyof TValue>> 
-  >
+> = IfEqual<
+  Readonly<UnionToTuple<keyof TValue>>, readonly [string], 
+  readonly [], 
+  Readonly<UnionToTuple<keyof TValue>>
 >;
 
 
+/**
+ * **NumericKeys**<`TList`>
+ * 
+ * Will provide the valid numeric keys for a readonly array.
+ * 
+ * **Related:** `Keys`
+ */
+export type NumericKeys <
+  TList extends readonly any[]
+> = {
+  [K in keyof TList]: K
+}[number];
 
+const foo: string[] = ["foo", "bar"];
+type X = NumericKeys<typeof foo>;
