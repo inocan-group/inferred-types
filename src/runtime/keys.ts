@@ -13,8 +13,8 @@ import { isArray, isObject } from "./type-guards";
 export function keys<
   TObj extends Narrowable
 >(obj: TObj) {
-  return isObject(obj) || isArray(obj)
-    ? Object.keys(obj) as Keys<TObj>
-    : [] as readonly[];
+  return (
+    isObject(obj) || isArray(obj) ? Object.keys(obj) : [] as readonly []
+  ) as unknown as Keys<TObj>;
 }
 
