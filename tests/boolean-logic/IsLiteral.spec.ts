@@ -70,6 +70,8 @@ describe("IsLiteral<T> type utility", () => {
     type UnionArr = IsLiteral<(string | number)[]>;
     type StringTuple = IsLiteral<["foo", "bar", "baz"]>;
     type RO_StringTuple = IsLiteral<readonly ["foo", "bar", "baz"]>;
+    type TupleWithWide = IsLiteral<["foo", "bar", "baz", number, string]>;
+    type TupleWithWide_RO = IsLiteral<["foo", "bar", "baz", number, string]>;
     
     
     type cases = [
@@ -78,10 +80,33 @@ describe("IsLiteral<T> type utility", () => {
       Expect<Equal<UnionArr, false>>,
       Expect<Equal<StringTuple, true>>,
       Expect<Equal<RO_StringTuple, true>>,
+      Expect<Equal<TupleWithWide, true>>,
+      Expect<Equal<TupleWithWide_RO, true>>,
+    ];
+    const cases: cases = [ true, true, true, true, true, true, true ];
+    
+  });
+
+  
+  it("objects", () => {
+    type Generic = IsLiteral<Record<string, any>>;
+    type GenericString = IsLiteral<Record<string, string>>;
+    type GenericUnion = IsLiteral<Record<string, string | number>>;
+    type Empty = IsLiteral<{}>;
+    type Keyed = IsLiteral<{ foo: 1 }>;
+
+    
+    type cases = [
+      Expect<Equal<Generic, false>>,
+      Expect<Equal<GenericString, false>>,
+      Expect<Equal<GenericUnion, false>>,
+      Expect<Equal<Empty, true>>,
+      Expect<Equal<Keyed, true>>,
     ];
     const cases: cases = [ true, true, true, true, true ];
     
   });
+  
   
 });
 

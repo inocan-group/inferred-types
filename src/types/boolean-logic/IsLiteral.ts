@@ -1,8 +1,12 @@
+import { NotEqual } from "@type-challenges/utils";
+import { Keys } from "../Keys";
 import { Length } from "../lists/Length";
 import { Narrowable } from "../Narrowable";
+import { And, IfAnd } from "./And";
 import { IsBooleanLiteral } from "./boolean";
 import { IsEqual } from "./equivalency";
 import { IfLength } from "./IfLength";
+import { AnyObject } from "./object";
 import { IfOr } from "./Or";
 
 /**
@@ -51,11 +55,17 @@ export type IfNumericLiteral<
 // [note on handling of boolean](https://stackoverflow.com/questions/74213646/detecting-type-literals-works-in-isolation-but-not-when-combined-with-other-lite/74213713#74213713)
 
 /**
- * **IsLiteral**
+ * **IsLiteral**`<T>`
  *
- * Type utility which returns true/false if the value passed -- a form of a
- * string, number, or boolean -- is a _literal_ value of that type (true) or
- * the more generic wide type (false).
+ * Boolean type literal which tests whether `T` is a _literal_ value or not.
+ * 
+ * - ensures that strings, numbers, and boolean values are literal/narrow types
+ * - ensures that arrays (including readonly arrays) have a known set of values (length known at design time); some of the known values in the tuple _may_ be wide types
+ * - ensures that objects have a known set of keys (including no keys)
+ * - symbols, and null values will return **true** as they are always unique
+ * - _undefined_ will always return **false**
+ * - a **literal array** is one where the discrete elements are known; some of the elements _may_ be wide types
+ * 
  */
 export type IsLiteral<T> = [T] extends [string]
   ? IsStringLiteral<T>
@@ -67,7 +77,16 @@ export type IsLiteral<T> = [T] extends [string]
     ? IsEqual<Length<T>, number> extends true ?  false : true
     : [T] extends [readonly any[]]
       ? IsEqual<Length<T>, number> extends true ?  false : true
-      : false;
+      : [T] extends [AnyObject]
+        ? IfOr<
+            [
+              IsEqual<T, {}>, 
+              And<[NotEqual<Length<Keys<T>>, 0>, NotEqual<Keys<T>, readonly [string]>]>
+            ],
+            true,
+            false
+          >
+        : false;
 
 /**
  * **IsOptionalLiteral**
