@@ -62,6 +62,27 @@ describe("IsLiteral<T> type utility", () => {
     ];
     const cases: cases = [true, true, true, true, true, true];
   });
+
+  
+  it("arrays", () => {
+    type StringArr = IsLiteral<string[]>;
+    type NumericArr = IsLiteral<number[]>;
+    type UnionArr = IsLiteral<(string | number)[]>;
+    type StringTuple = IsLiteral<["foo", "bar", "baz"]>;
+    type RO_StringTuple = IsLiteral<readonly ["foo", "bar", "baz"]>;
+    
+    
+    type cases = [
+      Expect<Equal<StringArr, false>>,
+      Expect<Equal<NumericArr, false>>,
+      Expect<Equal<UnionArr, false>>,
+      Expect<Equal<StringTuple, true>>,
+      Expect<Equal<RO_StringTuple, true>>,
+    ];
+    const cases: cases = [ true, true, true, true, true ];
+    
+  });
+  
 });
 
 describe("IfLiteral<T,IF,ELSE,MAYBE>", () => {
