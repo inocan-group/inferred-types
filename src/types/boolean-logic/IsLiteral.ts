@@ -1,5 +1,9 @@
+import { Length } from "../lists/Length";
 import { Narrowable } from "../Narrowable";
 import { IsBooleanLiteral } from "./boolean";
+import { IsEqual } from "./equivalency";
+import { IfLength } from "./IfLength";
+import { IfOr } from "./Or";
 
 /**
  * **IsStringLiteral**
@@ -59,7 +63,11 @@ export type IsLiteral<T> = [T] extends [string]
   ? IsBooleanLiteral<T>
   : [T] extends [number]
   ? IsNumericLiteral<T>
-  : false;
+  : [T] extends [any[]]
+    ? IsEqual<Length<T>, number> extends true ?  false : true
+    : [T] extends [readonly any[]]
+      ? IsEqual<Length<T>, number> extends true ?  false : true
+      : false;
 
 /**
  * **IsOptionalLiteral**
