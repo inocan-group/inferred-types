@@ -1,4 +1,4 @@
-import { IfEquals } from "../boolean-logic";
+import { IfEqual, IfExtends } from "../boolean-logic";
 import { Narrowable } from "../Narrowable";
 import { AfterFirst } from "./AfterFirst";
 import { First } from "./First";
@@ -10,7 +10,7 @@ type FindAcc<
 > = [] extends TList
   ? undefined
   : TDeref extends keyof First<TList> 
-    ? IfEquals<
+    ? IfEqual<
         First<TList>[TDeref], TFind, 
         First<TList>, 
         FindAcc<AfterFirst<TList>, TFind, TDeref>
@@ -18,11 +18,14 @@ type FindAcc<
     : FindAcc<AfterFirst<TList>, TFind, TDeref>;
 
 /**
- * **Find**`<TList,TFind,TDeref>`
+ * **Find**`<TList,TFind,TIndex>`
  * 
- * Type utility that finds the **first** element in a list which 
- * extends `TFind`. You may also optionally _de-reference_ the
- * list's properties by an indexable value.
+ * Type utility used to find the first value in `TList` which _equals_ `TValue`.
+ * Will return _undefined_ if no matches found.
+ * 
+ * - use **FindExtends** if you want a more permissive match
+ * - by default, values in `TList` will be compared directly but you can _dereference_ 
+ * array and object properties with `TIndex` if you want to compare on a child property
  * 
  * ```ts
  * type List = [ { id: 1, value: "hi" }, { id: 2, value: "bye" } ]
@@ -30,11 +33,42 @@ type FindAcc<
  * type T = Find<List, 1, "id">
  * ```
  * 
- * **Note:** if a `TDeref` is set then any values in `TList` which can't
- * be indexed by this value will be ignored.
+ * **Related**: `FindExtends`
  */
 export type Find<
   TList extends readonly any[],
   TFind extends Narrowable,
   TDeref extends string | number | null = null,
 > = FindAcc<TList, TFind, TDeref>;
+
+type FindExtendsAcc<
+  TList extends readonly any[],
+  TFind extends Narrowable,
+  TDeref extends string | number | null
+> = [] extends TList
+  ? undefined
+  : TDeref extends keyof First<TList> 
+    ? IfExtends<
+        TFind, First<TList>[TDeref],
+        First<TList>, 
+        FindAcc<AfterFirst<TList>, TFind, TDeref>
+      >
+    : FindAcc<AfterFirst<TList>, TFind, TDeref>;
+
+/**
+ * **FindExtends**`<TList, TFind, TIndex>`
+ * 
+ * Type utility used to find the first value in `TList` which _extends_ `TValue`. 
+ * Will return _undefined_ if no matches found.
+ * 
+ * - use **Find** if you want a stricter match
+ * - by default, values in `TList` will be compared directly but you can _dereference_ 
+ * array and object properties with `TIndex` if you want to compare on a child property
+ * 
+ * **Related:** `Find`
+ */
+export type FindExtends<
+  TList extends readonly any[],
+  TFind extends Narrowable,
+  TDeref extends string | number | null = null,
+> = FindExtendsAcc<TList, TFind, TDeref>;
