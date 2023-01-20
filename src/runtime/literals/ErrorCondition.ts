@@ -3,11 +3,17 @@
  * 
  * A way to express a meaningful error message in type system
  */
-export interface ErrorCondition<TKind extends string, TMsg extends string, TDomain extends string = "global"> {
+export interface ErrorCondition<
+  TKind extends string, 
+  TMsg extends string = string, 
+  TDomain extends string = string,
+  TVars extends Record<string, any> = {}
+> {
   _type: "ErrorCondition";
   domain: TDomain;
   kind: TKind;
   message: TMsg;
+  variables: TVars;
 }
 
 /**

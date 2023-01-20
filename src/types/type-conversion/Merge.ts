@@ -1,4 +1,4 @@
-import {  IfObject,  IsOptionalScalar } from "src/types/boolean-logic";
+import {  AnyObject, IfObject,  IsOptionalScalar } from "src/types/boolean-logic";
 import { IfUndefined } from "../boolean-logic/IsUndefined";
 import { Narrowable } from "../Narrowable";
 import { IfAnd } from "../boolean-logic/And";
@@ -118,30 +118,30 @@ type MergeObjectsAcc<
     : never;
 
 type RemainingDefault<
-  TDefault extends Record<string, any>,
-  TOverride extends Record<string, any>
+  TDefault extends AnyObject,
+  TOverride extends AnyObject
 > = WithoutKeys<
   TDefault,
   UnionToTuple<keyof TOverride>
 >;
 
 /**
- * **MergeObjects**
+ * **MergeObjects**`<TDefault, TOverride>`
  * 
- * A type utility that merges the types of two object types. Merging rules are:
- * 
- * - 
+ * A type utility that deeply merges the types of two object types.
  */
 export type MergeObjects<
-  TDefault extends Record<string, any>,
-  TOverride extends Record<string, any>,
-> = ExpandRecursively<MergeObjectsAcc<
-TDefault,
-TOverride,
-UnionToTuple<keyof TOverride> extends readonly (keyof TOverride)[]
-  ? UnionToTuple<keyof TOverride>
-  : never
-> & RemainingDefault<TDefault, TOverride>>;
+  TDefault extends AnyObject,
+  TOverride extends AnyObject,
+> = ExpandRecursively<
+  MergeObjectsAcc<
+    TDefault,
+    TOverride,
+    UnionToTuple<keyof TOverride> extends readonly (keyof TOverride)[]
+      ? UnionToTuple<keyof TOverride>
+      : never
+  > & RemainingDefault<TDefault, TOverride>
+>;
 
 // /**
 //  * **Merge**`<TDefault,TOverride>`

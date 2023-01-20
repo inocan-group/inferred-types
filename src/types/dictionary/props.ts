@@ -100,10 +100,6 @@ export type NonStringKeys<T extends object> = {
   [K in keyof T]: K extends string ? never : Readonly<K>;
 }[keyof T];
 
-export type NumericKeys<T extends object> = {
-  [K in keyof T]: K extends number ? Readonly<K> : never;
-}[keyof T];
-
 export type NonNumericKeys<T extends object> = {
   [K in keyof T]: K extends number ? never : Readonly<K>;
 }[keyof T];

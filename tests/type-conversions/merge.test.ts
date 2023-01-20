@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { mergeScalars, mergeTuples } from "src/runtime/dictionary/merge";
 import { mergeObjects } from "src/runtime/type-conversion/mergeObjects";
-import { MergeObjects, MergeScalars, MergeTuples, SetRemoval, TupleToUnion, UnionToTuple } from "src/types";
+import { MergeObjects, MergeScalars, MergeTuples } from "src/types";
 import { describe, expect, it } from "vitest";
 
 describe("mergeScalars", () => {
@@ -85,15 +85,10 @@ describe("Merge Objects", () => {
     type JustExtend = MergeObjects<{foo: 1; bar: 2}, {baz: 3}>;
     type JustExtend2 = MergeObjects<{baz: 3}, {foo: 1; bar: 2}>;
     type FullyOverride = MergeObjects<{foo: 1; bar: 2}, { foo: 2; bar: 3}>;
-    type X = TupleToUnion<SetRemoval<
-      // all default keys
-      UnionToTuple<keyof {foo: 1; bar: 2}>, 
-      // with those defined from override removed
-      UnionToTuple<keyof { foo: 2; bar: 3}>
-    >>
     
     type cases = [
       Expect<Equal<JustExtend, {foo: 1; bar: 2; baz: 3}>>,
+      Expect<Equal<JustExtend2, {foo: 1; bar: 2; baz: 3}>>,
       Expect<Equal<FullyOverride, {foo: 2; bar: 3}>>,
     ];
     const cases: cases = [true, true, true];
@@ -101,6 +96,8 @@ describe("Merge Objects", () => {
 
   it("runtime tests", () => {
     const justExtend = mergeObjects({foo: 1, bar: 2}, {baz: 3});
+
+    
   });
 
 

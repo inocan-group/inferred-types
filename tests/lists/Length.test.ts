@@ -21,8 +21,9 @@ describe("Length<T>", () => {
       Expect<Equal<Length<string[]>, number>>,
       Expect<Equal<Length<readonly []>, 0>>,
       Expect<Equal<Length<[]>, 0>>,
+      Expect<Equal<StringArray, number>>,
       Expect<Equal<Invalid, ErrorCondition<"Length<T> used on non-array element: foo">>>,
     ];
-    const cases: cases = [true, true, true, true, true, true, true];
+    const cases: cases = [true, true, true, true, true, true, true, true ];
   });
 });

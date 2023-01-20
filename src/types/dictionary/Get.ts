@@ -1,9 +1,35 @@
+import { NotEqual } from "@type-challenges/utils";
 import { Concat } from "src/runtime";
 import { ErrorCondition } from "src/runtime/literals/ErrorCondition";
+import { NOT_DEFINED } from "src/runtime/runtime/NotDefined";
+import {  IfNotEqual, IsUndefined } from "../boolean-logic";
+import { IfAnd } from "../boolean-logic/And";
 import { IfRef } from "../boolean-logic/IfRef";
+import { NO_DEFAULT_VALUE } from "../constants/NoDefaultValue";
+import { Narrowable } from "../Narrowable";
 import { ToString } from "../type-conversion";
 
+type ResolveDefVal<
+  TValue extends Narrowable,
+  TDefVal extends Narrowable
+> = IfAnd<
+  [ IsUndefined<TValue>, NotEqual<TDefVal, typeof NO_DEFAULT_VALUE>],
+  TDefVal,
+  TValue
+>;
+
+type ResolveHandler<
+  THandler extends Narrowable,
+  TMessage extends string
+> = IfNotEqual<
+  THandler, typeof NOT_DEFINED, 
+  THandler, 
+  ErrorCondition<"invalid-dot-path", TMessage, "get(val, key)">
+>;
+
 /**
+ * **Get**`<T,K,[DevVal, Handler]>`
+ * 
  * Get the type of a property of an object:
  * ```ts
  * type Car = { make: "Chevy", model: "Malibu", colors: [
@@ -13,29 +39,57 @@ import { ToString } from "../type-conversion";
  * type T = Get<Car, "color.0">;
  * ```
  */
-export type Get<T, K> = //
-  K extends `${infer Prop}.${infer Rest}` // deep 
-    ? Prop extends keyof T // T[Prop] exists
-      ? Get<T[Prop], Rest> // recurse
-      : T extends { value: any } // T looks like a duck
-        ? IfRef< 
-            T,
-            Prop extends keyof T["value"] // T quacks like a duck
-              ? Get<T["value"][Prop], Rest>
-              : never,
-            never
+export type Get<
+  T, 
+  K,
+  DefVal extends Narrowable = typeof NO_DEFAULT_VALUE,
+  Handler extends Narrowable = typeof NOT_DEFINED
+> = //
+  K extends `${infer Prop}.${infer Rest}` 
+  // DEEP DOTPATH
+  ? Prop extends keyof T // T[Prop] exists
+    ? Get<T[Prop], Rest, DefVal, Handler> // recurse
+    : T extends { value: any } // T looks like a duck
+      ? IfRef<
+          T,
+          // T quacks like a duck
+          Prop extends keyof T["value"] 
+            ? Get<T["value"][Prop], Rest, DefVal, Handler> // recurse
+            : ResolveHandler<
+                Handler,
+                Concat<[Prop, " is not a valid index of the Ref<T> value found at the base"]>
+              >,
+          // T is not a duck
+          ResolveHandler<
+            Handler,
+            Concat<["The ", Prop, " segment of the dotpath is invalid" ]>
           >
-        : never
-    : K extends keyof T // K is final dotpath segment
-      ? T[K] extends { value: any } // finalize value but may need to unwrap
-        ? IfRef<T[K], T[K]["value"], T[K]>
-        : T[K] 
-      : T extends { value: any } // the base of `T` may be a ref/duck
-        ? K extends keyof T["value"] // if "value" is indexable by K then we may have match
-          ? IfRef<
-            T["value"],
-            T["value"][K], // unwrap ref
-            T["value"][K]
+        >
+      : ResolveHandler<
+          Handler, 
+          Concat<["The '", Prop, "' segment of the dotpath is invalid with additional segments still remaining"]>
+        >
+  // SHALLOW DOTPATH
+  : K extends keyof T
+    ? "value" extends keyof T[K]  // T is not duck, but T[K] may be
+      ? IfRef<
+          T[K], 
+          ResolveDefVal<T[K]["value"], DefVal>, // T[K] is ref
+          ResolveDefVal<T[K], DefVal> // T[K] not ref
+        >
+      : ResolveDefVal<T[K], DefVal> // T[K] not ref
+    : T extends { value: any } // K doesn't index T directly
+      ? K extends keyof T["value"] // looks like T is a ref
+        ? IfRef<
+            T[K], // see if T[K] is also a ref
+            ResolveDefVal<T["value"][K]["value"], DefVal>, 
+            ResolveDefVal<T["value"][K], DefVal>
           >
-        : ErrorCondition<"invalid-key", Concat<[ToString<K>, " is not a valid indexable dotpath"]>> // K is an invalid key
-  : never;
+        : ResolveHandler<
+            Handler, 
+            Concat<["The final segment '", ToString<K>, "' in the dotpath is invalid (base value had a 'value' property but it's not a key of final seg)"]>
+          >
+      : ResolveHandler<
+          Handler, 
+          Concat<["The final segment '", ToString<K>, "' in the dotpath is invalid"]>
+        >;

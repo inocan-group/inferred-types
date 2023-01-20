@@ -13,14 +13,18 @@ describe("Join<T,S>", () => {
     type T1 = Join<["foo", "bar"]>;
     type T2 = Join<["foo", "bar"], "\n">;
     type T3 = Join<[EnsureLeading<"foo", "- ">, EnsureLeading<"bar", "- ">], "\n">;
+    type IgnoreBlanks = Join<["foo", "", "bar", "","baz", ""], ",">;
+    type IgnoreBlanks2 = Join<["foo", ""], ",">;
 
     
     type cases = [
       Expect<Equal<T1, "foobar">>,
       Expect<Equal<T2, "foo\nbar">>,
       Expect<Equal<T3, "- foo\n- bar">>,
+      Expect<Equal<IgnoreBlanks, "foo,bar,baz">>,
+      Expect<Equal<IgnoreBlanks2, "foo">>,
     ];
-    const cases: cases = [true, true, true];
+    const cases: cases = [true, true, true, true, true];
   });
 
 });

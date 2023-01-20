@@ -1,9 +1,11 @@
-import { GetEach } from "src/types/lists/GetEach";
+import { GetEach, GetEachErrHandling } from "src/types/lists/GetEach";
 import { get } from "../dictionary/get";
-import { isSpecificConstant } from "../type-guards/isConstant";
+import { isErrorCondition } from "../type-guards/isErrorCondition";
 
-export interface GetEachOptions<N extends boolean> {
-  retainNever: N
+export interface GetEachOptions<
+  THandleErrors extends GetEachErrHandling
+> {
+  handleErrors?: THandleErrors
 }
 
 /**
@@ -13,21 +15,31 @@ export interface GetEachOptions<N extends boolean> {
  * of items.
  * 
  * - the options allow for a "default value" to be substituted for any _undefined_ or _never_ values
- * - by default `never` values will be removed from the result set but you can override in options.
+ * - errors in looking up dotpath's will -- by default -- be removed as this is typically the desired behavior but you can also choose from:
+ *    - `to-never`: converts _type_ to `never` but runtime maintains error message
+ *    - `report`: both _type_ and runtime are in the `ErrorCondition` format
  * - the dotpath is VueJS aware of possible `Ref<T>` objects and will gracefully navigate
  * over them without the need to offset by `.value`
  */
 export function getEach<
   TList extends readonly any[],
   TDotPath extends string | number | null,
-  TRetainNever extends boolean = false
+  THandleErrors extends GetEachErrHandling = "ignore",
 >(
   list: TList, 
   dotPath: TDotPath, 
-  options?: GetEachOptions<TRetainNever>
-): GetEach<TList, TDotPath, TRetainNever> {
+  options?: GetEachOptions<THandleErrors>
+): GetEach<TList, TDotPath, THandleErrors> {
+  options = {
+    handleErrors: "ignore" as THandleErrors,
+    ...options,
+  }
   
   return list
     .map(i => dotPath === null ? i : get(i, String(dotPath))) 
-    .filter(i => !isSpecificConstant("never")(i) || (options?.retainNever === true)) as GetEach<TList, TDotPath, TRetainNever>;
+    .filter(i => !isErrorCondition(i) || (options?.handleErrors !== "ignore")) as GetEach<
+      TList,
+      TDotPath, 
+      THandleErrors
+    >;
 }

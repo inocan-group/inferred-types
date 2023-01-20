@@ -1,8 +1,9 @@
 import { Join } from "src/runtime/lists/Join";
 import { TYPE_MATCHER_DESC, TYPE_TRANSFORMER_DESC } from "src/runtime/runtime";
 import { CamelCase, KebabCase, PascalCase, StripLeading, StripTrailing } from "../alphabetic";
-import {  IfEndsWith, IfEquals, IfExtends, IfNumericLiteral,  IfStartsWith, IfStringLiteral } from "../boolean-logic";
+import {  IfEndsWith, IfEqual, IfExtends, IfNumericLiteral,  IfStartsWith, IfStringLiteral } from "../boolean-logic";
 import { ExcludeNever, FirstOrElse } from "../lists";
+import { RemoveNever } from "../lists/extractors";
 import { Narrowable } from "../Narrowable";
 import { ToString } from "./ToString";
 import { TypeTuple } from "./TypeTuple";
@@ -162,15 +163,15 @@ export type ConvertType<
   TValue extends Narrowable, 
   TMatchers extends readonly TypeMapRule<TypeMapMatcher, TypeMapTransformer, any>[],
   TElse extends Narrowable = never
-> = FirstOrElse<ExcludeNever<{
+> = FirstOrElse<RemoveNever<{
   [K in keyof TMatchers]: //
-    IfEquals<TMatchers[K]["match"][0], "Equals",
-      IfEquals<TValue, TMatchers[K]["match"][1], MappedValue<TValue,TMatchers[K]>, never>,
-    IfEquals<TMatchers[K]["match"][0], "Extends",
+    IfEqual<TMatchers[K]["match"][0], "Equals",
+      IfEqual<TValue, TMatchers[K]["match"][1], MappedValue<TValue,TMatchers[K]>, never>,
+    IfEqual<TMatchers[K]["match"][0], "Extends",
       IfExtends<TValue, TMatchers[K]["match"][1], MappedValue<TValue,TMatchers[K]>, never>,
-    IfEquals<TMatchers[K]["match"][0], "StartsWith",
+    IfEqual<TMatchers[K]["match"][0], "StartsWith",
       IfStartsWith<TValue, TMatchers[K]["match"][1], MappedValue<TValue,TMatchers[K]>, never>,
-    IfEquals<TMatchers[K]["match"][0], "EndsWith",
+    IfEqual<TMatchers[K]["match"][0], "EndsWith",
       IfEndsWith<TValue, TMatchers[K]["match"][1], MappedValue<TValue,TMatchers[K]>, never>,
     never
   >>>>
@@ -210,7 +211,7 @@ export type MapType<
   TList extends readonly any[], 
   TMatchers extends readonly TypeMapRule<any,any,any>[] | TypeMapRule<any,any,any>[],
   TElse extends Narrowable = never
-> = ExcludeNever<MapAcc<TList, TMatchers, TElse>>;
+> = RemoveNever<MapAcc<TList, TMatchers, TElse>>;
 
 
 

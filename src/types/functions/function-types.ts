@@ -1,5 +1,5 @@
 
-import { IsEmptyObject } from "../boolean-logic";
+import { AnyObject, IsEmptyObject } from "../boolean-logic";
 import { Narrowable } from "../Narrowable";
 
 /**
@@ -10,7 +10,7 @@ import { Narrowable } from "../Narrowable";
  * **Related**: `SimpleFn`, `NarrowableFn`, `AnyFunction`, `IsFunctionWithDict`
  */
 export type FnWithDict<
-  TDict extends Record<string, any>,
+  TDict extends AnyObject,
 > = IsEmptyObject<TDict> extends true
   ? never
   : (<TArgs extends any[]>(...args: TArgs) => any) & TDict;

@@ -1,4 +1,4 @@
-import {  AnyObject,  Or } from "../boolean-logic";
+import {  AnyObject,  IfLiteral,  Or } from "../boolean-logic";
 import { And } from "../boolean-logic/And";
 import { EndsWith } from "../boolean-logic/EndsWith";
 import { StartsWith } from "../boolean-logic/StartsWith";
@@ -14,8 +14,6 @@ import { TupleToUnion } from "../type-conversion";
 import { AlphaNumericChar } from "./alpha-characters";
 
 export type DotPathChar = AlphaNumericChar | "_" | "-";
-
-type Segments<T extends string> = Split<T, ".">;
 
 type ValidDotChars<T extends string> = T extends `${DotPathChar}${infer REST}`
   ? ValidDotChars<REST>
@@ -36,35 +34,32 @@ type ValidateSegments<
 /**
  * **DotPath**`<T>`
  * 
- * Forces a string to be a "dot path" which means that:
+ * Validates `T` as a dotpath and returns `T` if valid, otherwise `never`.
  * 
- * -  alphanumeric characters and a few symbols [`_`, `-`,  ], 
- * segmented by the `.` character.
  * - leading and trailing `.` characters are **not** allowed
+ * - a number will be converted to a numeric string (which can be valid)
+ * - alphanumeric characters and a few symbols ()`_`, `-`, etc.) allowed
+ * - wide strings and numbers always resolve to `T` as there is no way to check
+ * - a `null` is also allowed as it's meant to express "no path"
  */
-export type DotPath<T extends string> = Or<[
-  StartsWith<T, ".">,
-  EndsWith<T, ".">,
-  Includes<T, "..">
-]> extends true 
-  ? never
-  : ValidateSegments<Segments<T>>;
-
-/**
- * **DotPathFor**`<TValue>`
- * 
- * Provides an appropriate "DotPath" for any given value.
- */
-export type DotPathFor<
-  TValue extends Narrowable,
-> = MaybeRef<TValue> extends AnyObject
-  ? Length<Keys<MaybeRef<TValue>>> extends 0
-    ? string | null
-    : `${TupleToUnion<Keys<MaybeRef<TValue>>>}${`.${string}` | ""}` | null
-  : MaybeRef<TValue> extends Scalar
-    ? null // you can't traverse any further
-    : MaybeRef<TValue> extends any[] | readonly any[]
-      ? `${number}${`.${string}` | ""}` // numeric index
-      : never;
-
+export type DotPath<T extends string | number | null> = T extends null
+  ? T
+  : T extends number 
+    ? DotPath<`${T}`> // convert to numeric string and try again
+    : IfLiteral<
+        T,
+        // T is a literal
+        Or<[
+          StartsWith<T, ".">,
+          EndsWith<T, ".">,
+          Includes<T, "..">
+        ]> extends true 
+          ? never
+          : ValidateSegments<Split<T & string, ".">> extends true
+            ? T
+            : never
+        ,
+        // T is not a literal
+        T
+      >;
 

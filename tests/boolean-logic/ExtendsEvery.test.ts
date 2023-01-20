@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { ExtendsEvery } from "src/types/boolean-logic/Extends";
+import { ExtendsAll } from "src/types/boolean-logic/Extends";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -9,13 +9,13 @@ import { describe, it } from "vitest";
 describe("ExtendsEvery<V,T>", () => {
 
   it("happy path", () => {
-    type F1 = ExtendsEvery<string, ["foo", 42, "bar"]>;
-    type F2 = ExtendsEvery<number, ["foo", 42, "bar"]>;
-    type F3 = ExtendsEvery<42, [1, 42, 99]>;
+    type F1 = ExtendsAll<string, ["foo", 42, "bar"]>;
+    type F2 = ExtendsAll<number, ["foo", 42, "bar"]>;
+    type F3 = ExtendsAll<42, [1, 42, 99]>;
 
-    type T1 = ExtendsEvery<string, ["foo", "bar", "baz"]>;
-    type T2 = ExtendsEvery<number, [1,2,3]>;
-    type T3 = ExtendsEvery<"foo" | "bar", ["foo", "bar"]>;
+    type T1 = ExtendsAll<string, ["foo", "bar", "baz"]>;
+    type T2 = ExtendsAll<number, [1,2,3]>;
+    type T3 = ExtendsAll<"foo" | "bar", ["foo", "bar"]>;
     
     type cases = [
       Expect<Equal<F1, false>>,//

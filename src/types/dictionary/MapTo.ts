@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { OptRequired } from "src/types/literal-unions";
+import { OptRequired } from "src/types/literals";
 import {
   DefaultManyToOneMapping,
   DefaultOneToManyMapping,

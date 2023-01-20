@@ -1,24 +1,27 @@
-import { AfterFirst, First } from "../lists";
 import { ToString } from "../type-conversion";
 import { EnsureLeading } from "./EnsureLeading";
 
-type CreateLeading<
+type LeadingAcc<
   TList extends readonly (string | number)[],
   TLeader extends string,
   TResults extends readonly string[] = []
-> = [] extends TList
-  ? TResults
-  : CreateLeading<
-      AfterFirst<TList>,
-      TLeader,
-      readonly [
-        ...TResults, 
-        EnsureLeading<
-          First<TList> & (string | number),
-          TLeader
+> = TList extends [infer First, ...infer Rest]
+  ? First extends string | number
+    ? Rest extends readonly (string | number)[]
+      ? LeadingAcc<
+          Rest,
+          TLeader,
+          [
+            ...TResults,
+            EnsureLeading<
+              First,
+              TLeader
+            >
+          ]
         >
-      ]
-    >;
+      : never
+    : never
+    : TResults;
 
 
 /**
@@ -35,7 +38,7 @@ type CreateLeading<
 export type EnsureLeadingEvery<
   TList extends readonly (string | number)[],
   TLeader extends string | number | boolean
-> = CreateLeading<
+> = LeadingAcc<
   TList, 
-  ToString<TLeader>
+  ToString<TLeader> & string
 >;

@@ -1,7 +1,11 @@
+import { ErrorCondition } from "src/runtime/literals/ErrorCondition";
 import { Get } from "../dictionary/Get";
 import { AfterFirst } from "./AfterFirst";
-import { RemoveNever } from "./extractors";
+import { ConvertSet } from "./ConvertSet";
+import { RemoveErrors } from "./extractors";
 import { First } from "./First";
+
+export type GetEachErrHandling = "report" | "ignore" | "to-never";
 
 type GetEachAcc<
   T extends any[] | readonly any[], 
@@ -12,8 +16,10 @@ type GetEachAcc<
   ? Processed
   : GetEachAcc<AfterFirst<T>, TKey, [...Processed, Get<First<T>, TKey>]>;
 
+type ConvertToNever = [ErrorCondition<"invalid-dot-path">, never];
+
 /**
-* **GetEach**`<TList, TKey>`
+* **GetEach**`<TList, TKey, [THandleErrors]>`
 * 
 * Type utility which receives a list of types -- `TList` -- and then _gets_ a 
 * key `TKey` (using dot syntax) from each element in the array.
@@ -35,9 +41,13 @@ type GetEachAcc<
 export type GetEach<
   TList extends any[] | readonly any[], 
   TKey extends string | number | null,
-  TRetainNever extends boolean = false
+  THandleErrors extends GetEachErrHandling = "ignore"
 > = TKey extends null
   ? TList
-  : TRetainNever extends false
-    ? RemoveNever<GetEachAcc<TList, TKey>>
-    : GetEachAcc<TList, TKey>;
+  : THandleErrors extends "ignore"
+    ? RemoveErrors<GetEachAcc<TList, TKey>, "invalid-dot-path">
+    : THandleErrors extends "report"
+      ? GetEachAcc<TList, TKey>
+      : THandleErrors extends "to-never"
+        ? ConvertSet<GetEachAcc<TList, TKey>, ConvertToNever>
+        : never;

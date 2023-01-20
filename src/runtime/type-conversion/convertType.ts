@@ -1,8 +1,9 @@
-import { Narrowable, Never } from "src/types";
+import { Narrowable } from "src/types";
 import { ConvertType, TypeMapMatcher, TypeMapRule, TypeMapTransformer } from "src/types/type-conversion/MapType";
 import { t } from "../runtime";
-import { startsWith } from "../type-checks/startsWith";
+import { Never } from "../runtime/Never";
 import { endsWith } from "../type-guards/higher-order/endsWith";
+import { startsWith } from "../type-guards/higher-order/startsWith";
 import { isFalsy } from "../type-guards/isFalsy";
 import { isTruthy } from "../type-guards/isTruthy";
 import { isTypeTuple } from "../type-guards/isTypeTuple";

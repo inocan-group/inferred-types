@@ -1,14 +1,17 @@
-import { DotPathFor } from "src/types/alphabetic/DotPath";
 import { NO_DEFAULT_VALUE } from "src/types/constants/NoDefaultValue";
 import { Narrowable } from "src/types/Narrowable";
-import { Get} from "src/types";
+import { AnyObject, Get } from "src/types";
 import { split } from "../literals/split";
 import { hasDefaultValue, isFalsy, isTruthy } from "../type-guards";
 import { isRef } from "../type-guards/isRef";
-import { IsFalsy } from "src/types/boolean-logic/IsFalsy";
 import {  ReportError } from "../literals/ErrorCondition";
 import { hasIndexOf } from "../type-guards/hasIndexOf";
 import { createErrorCondition } from "../runtime/createErrorCondition";
+import { NOT_DEFINED } from "../runtime/NotDefined";
+import { isSpecificConstant } from "../type-guards/isConstant";
+import { Suggest } from "../../types/type-conversion";
+import { DotPathFor } from "src/types/alphabetic/DotPathFor";
+import { DotPath } from "src/types/alphabetic/DotPath";
 
 /** updates based on whether segment is a Ref or not */
 function updatedDotPath<
@@ -23,13 +26,15 @@ function updatedDotPath<
 
 function getValue<
   TValue extends Narrowable, 
-  TDotPath extends DotPathFor<TValue>, 
+  TDotPath extends DotPathFor<TValue>,
   TDefVal extends Narrowable,
+  TInvalid extends Narrowable,
   TFullDotPath extends string,
 >(
   value: TValue, 
-  dotPath: TDotPath, 
+  dotPath: DotPath<TDotPath>,
   defaultValue: TDefVal,
+  handleInvalid: TInvalid,
   fullDotPath: TFullDotPath
 ) {  
   /** the remaining segments that need processing */
@@ -49,21 +54,22 @@ function getValue<
   /** whether or not the value is indexable or not */
   const valueIsIndexable = hasIndexOf(derefVal, idx);
 
+  /** has handler for invalid dotpath */
+  const hasHandler = !isSpecificConstant("not-defined")(handleInvalid);
+
   const errors = createErrorCondition(`get(value, "${updatedDotPath(value,fullDotPath, idx)}", ${hasDefaultValue(defaultValue) ? `${String(defaultValue)}` : "[defValue]"})`);
   const invalidDotPath = errors("invalid-dot-path")(`The segment "${idx}" in the dotpath "${updatedDotPath(value,fullDotPath, idx)}" was not indexable and no default value existed.`);
-
-  console.log({idx, isRef: isRef(value), valueIsIndexable, derefVal});
 
   const current = (
     hasMoreSegments
     ? valueIsIndexable
-      ? getValue(derefVal[idx], pathSegments.slice(1).join("."), defaultValue, updatedDotPath(value,fullDotPath, idx))
-      : hasDefaultValue(defaultValue) 
-        ? defaultValue 
+      ? getValue(derefVal[idx], pathSegments.slice(1).join("."), defaultValue, handleInvalid, updatedDotPath(value,fullDotPath, idx))
+      : hasHandler
+        ? handleInvalid 
         : invalidDotPath
     : valueIsIndexable
-      ? derefVal[idx]
-      : invalidDotPath
+      ? hasDefaultValue(hasDefaultValue) ? derefVal[idx] || defaultValue : derefVal[idx] 
+      : hasHandler ? handleInvalid : invalidDotPath
   ) as ReportError<Get<TValue, TDotPath>>;
 
   return current;
@@ -78,7 +84,7 @@ export interface GetOptions<
    * then the value returned is _undefined_ but if you'd prefer to put something else
    * in here you may.
    */
-  defaultValue: TDefVal;
+  defaultValue?: TDefVal;
   /**
    * Typically when a dotpath is invalid for a given item then this item
    * is set as a `ErrorCondition<'invalid-dot-path'>` but if you'd like
@@ -88,7 +94,7 @@ export interface GetOptions<
    * as it "reports" as being `never` but allows for a more sophisticated 
    * handling process to follow.
    */
-  invalidDotPath: TInvalid;
+  handleInvalidDotpath?: TInvalid;
 }
 
 
@@ -109,18 +115,31 @@ export interface GetOptions<
  */
 export function get<
   TValue extends Narrowable, 
-  TDotPath extends DotPathFor<TValue>, 
-  TDefVal extends Narrowable,
+  TDotPath extends Suggest<DotPathFor<TValue>>, 
+  TDefVal extends Narrowable = typeof NO_DEFAULT_VALUE,
+  TInvalid extends Narrowable = typeof NOT_DEFINED
 >(
     value: TValue, 
-    dotPath: TDotPath | undefined | null, 
-    defaultValue = NO_DEFAULT_VALUE as TDefVal
+    dotPath: TDotPath, 
+    options: GetOptions<TDefVal, TInvalid> = {
+      defaultValue: NO_DEFAULT_VALUE,
+      handleInvalidDotpath: NOT_DEFINED
+    } as GetOptions<TDefVal, TInvalid>
 ) {
   return (
     isFalsy(dotPath)
     ? value // if null passed in then just pass back value
-    : getValue(value, dotPath, defaultValue, dotPath) // otherwise iterate
-  ) as ReportError<
-    IsFalsy<TDotPath> extends true ? TValue : Get<TValue, TDotPath>
-  >;
+    : getValue(
+        value, dotPath, 
+        options?.defaultValue || NO_DEFAULT_VALUE, 
+        options?.handleInvalidDotpath || NOT_DEFINED,
+        dotPath
+      ) 
+  ) as Get<TValue, TDotPath>;
+};
+
+export const getPartial = <
+  TValue extends readonly any[] | AnyObject
+>(value: TValue) => <TDotPath extends DotPathFor<TValue>>(dotPath: TDotPath) => {
+  return get(value, dotPath);
 };
