@@ -1,9 +1,11 @@
-import { IfLiteral } from "../boolean-logic/IsLiteral";
+import { IsNumber } from "src/runtime/type-guards/isNumber";
+import { IfLiteral, IfStartsWith, } from "../boolean-logic";
+import { ToString } from "../type-conversion/ToString";
 
 /**
- * **EnsureLeading**`<T, U>`
+ * **EnsureLeading**`<TTarget, TLeading>`
  *
- * Will ensure that `T` ends with the _substring_ `U` when
+ * Will ensure that `TTarget` starts with the _substring_ `TLeading` when
  * both are string literals.
  *
  * ```ts
@@ -12,13 +14,28 @@ import { IfLiteral } from "../boolean-logic/IsLiteral";
  * // "Hello World"
  * type R = EnsureLeading<T,U>;
  * ```
+ * 
+ * **Related:** `EnsureLeadingEvery`, `EnsureTrailing`
  */
-export type EnsureLeading<T extends string, U extends string> = IfLiteral<
-  // can only operate on literal strings
-  T,
-  // this path represents successful strip opp
-  // but we must never accept `U` being wide
-  string extends U ? never : T extends `${U}${string}` ? T : `${U}${T}`,
-  // here we must stay wide
-  string
->;
+export type EnsureLeading<
+  TTarget extends string | number, 
+  TLeading extends string
+> = //
+  IsNumber<TTarget> extends true
+  ? EnsureLeading<ToString<TTarget>, TLeading> // convert target to string
+  : IfLiteral<
+      TTarget,
+      // target is literal
+      IfLiteral<
+        TLeading,
+        // leading is literal
+        IfStartsWith<
+          TTarget & string, TLeading, 
+          TTarget & `${TLeading}${string}`, 
+          `${TLeading}${TTarget}`
+        >,
+        string
+      >,
+      string
+    >;
+
