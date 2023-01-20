@@ -1,17 +1,14 @@
 import { NO_DEFAULT_VALUE } from "src/types/constants/NoDefaultValue";
 import { Narrowable } from "src/types/Narrowable";
-import { AnyObject, Get } from "src/types";
+import { AnyObject, DotPath, DotPathFor, Get, Suggest } from "src/types";
 import { split } from "../literals/split";
-import { hasDefaultValue, isFalsy, isTruthy } from "../type-guards";
+import { hasDefaultValue, isFalsy, isTruthy, hasIndexOf } from "src/runtime/type-guards";
 import { isRef } from "../type-guards/isRef";
 import {  ReportError } from "../literals/ErrorCondition";
-import { hasIndexOf } from "../type-guards/hasIndexOf";
 import { createErrorCondition } from "../runtime/createErrorCondition";
 import { NOT_DEFINED } from "../runtime/NotDefined";
 import { isSpecificConstant } from "../type-guards/isConstant";
-import { Suggest } from "../../types/type-conversion";
-import { DotPathFor } from "src/types/alphabetic/DotPathFor";
-import { DotPath } from "src/types/alphabetic/DotPath";
+
 
 /** updates based on whether segment is a Ref or not */
 function updatedDotPath<
@@ -26,7 +23,7 @@ function updatedDotPath<
 
 function getValue<
   TValue extends Narrowable, 
-  TDotPath extends DotPathFor<TValue>,
+  TDotPath extends string,
   TDefVal extends Narrowable,
   TInvalid extends Narrowable,
   TFullDotPath extends string,

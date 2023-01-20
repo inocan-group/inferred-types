@@ -1,6 +1,6 @@
 import { wide } from "src/runtime";
 import { createTypeMapRule } from "src/runtime/runtime/createTypeMatcher";
-import { Alpha, LowerAlpha, UpperAlpha } from "src/types/alphabetic";
+import { Alpha, LowerAlpha, UpperAlpha } from "src/types/string-literals";
 import { Digit } from "src/types/Numeric";
 
 /**

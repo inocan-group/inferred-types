@@ -29,7 +29,7 @@ export * from "./runtime";
 export * from "./Scalar";
 export * from "./type-testing";
 // directory exports
-export * from "./alphabetic/index";
+export * from "./string-literals/index";
 export * from "./dictionary/index";
 export * from "./fluent/index";
 export * from "./functions/index";

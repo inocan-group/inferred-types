@@ -10,6 +10,7 @@ export * from "./isTrue";
 export * from "./isArray";
 export * from "./isReadonlyArray";
 export * from "./hasIndex";
+export * from "./hasIndexOf";
 export * from "./isRef";
 export * from "./hasDefaultValue";
 export * from "./isNumericString";

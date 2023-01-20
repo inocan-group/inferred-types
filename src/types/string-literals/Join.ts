@@ -1,6 +1,7 @@
 import { Narrowable } from "src/types/Narrowable";
-import { ToString } from "src/types/type-conversion/ToString";
-import { IfEqual, RemoveEquals } from "src/types";
+import { ToString } from "src/types/type-conversion";
+import { IfEqual } from "src/types/boolean-logic";
+import { RemoveEquals } from "src/types/lists";
 
 type JoinAcc<
   TArr extends readonly Narrowable[],

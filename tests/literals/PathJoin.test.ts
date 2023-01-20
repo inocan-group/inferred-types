@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { pathJoin } from "src/runtime/literals/pathJoin";
-import { PathJoin } from "src/types/alphabetic/PathJoin";
+import { PathJoin } from "src/types/string-literals/PathJoin";
 import { describe, expect, it } from "vitest";
 
 // Note: type tests fail visible inspection but pass from Vitest
