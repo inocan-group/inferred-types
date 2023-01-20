@@ -14,9 +14,16 @@ describe("EnsureLeading", () => {
   it("EnsureLeading<T,U>", () => {
     type T1 = EnsureLeading<"bar", "foo">;
     type T2 = EnsureLeading<"foobar", "foo">;
+    type T3 = EnsureLeading<42, "foobar">;
+    type T4 = EnsureLeading<number, "foobar">;
 
-    type cases = [Expect<Equal<T1, "foobar">>, Expect<Equal<T2, "foobar">>];
-    const cases: cases = [true, true];
+    type cases = [
+      Expect<Equal<T1, "foobar">>, //
+      Expect<Equal<T2, "foobar">>,
+      Expect<Equal<T3, "foobar42">>,
+      Expect<Equal<T4, `foobar${number}`>>,
+    ];
+    const cases: cases = [true, true, true, true];
   });
 
   it("ensureLeading()", () => {
