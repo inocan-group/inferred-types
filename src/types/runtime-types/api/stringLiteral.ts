@@ -1,5 +1,5 @@
 import { Concat } from "src/runtime/lists/Concat";
-import { AlphaNumericChar, LowerAlpha, UpperAlpha } from "src/types/alphabetic";
+import { AlphaNumericChar, LowerAlpha, UpperAlpha } from "src/types/string-literals";
 import {  IfLiteral } from "src/types/boolean-logic";
 import { IfReadonlyArray } from "src/types/boolean-logic/array";
 import { IfString } from "src/types/boolean-logic/string";

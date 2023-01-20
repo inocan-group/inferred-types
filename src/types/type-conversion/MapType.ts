@@ -1,6 +1,6 @@
 import { Join } from "src/runtime/lists/Join";
 import { TYPE_MATCHER_DESC, TYPE_TRANSFORMER_DESC } from "src/runtime/runtime";
-import { CamelCase, KebabCase, PascalCase, StripLeading, StripTrailing } from "../alphabetic";
+import { CamelCase, KebabCase, PascalCase, StripLeading, StripTrailing } from "../string-literals";
 import {  IfEndsWith, IfEqual, IfExtends, IfNumericLiteral,  IfStartsWith, IfStringLiteral } from "../boolean-logic";
 import { ExcludeNever, FirstOrElse } from "../lists";
 import { RemoveNever } from "../lists/extractors";

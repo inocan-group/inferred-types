@@ -1,4 +1,4 @@
-import { Alpha } from "../alphabetic/alpha-characters";
+import { Alpha } from "../string-literals/alpha-characters";
 import { Keys } from "../Keys";
 import { SimplifyObject } from "../SimplifyObject";
 

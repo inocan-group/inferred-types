@@ -1,4 +1,4 @@
-import { EnsureTrailing } from "../../types/alphabetic/EnsureTrailing";
+import { EnsureTrailing } from "../../types/string-literals/EnsureTrailing";
 
 /**
  * **ensureTrailing**(content, strip)

@@ -7,8 +7,12 @@
 // file exports
 export * from "./asArray";
 export * from "./groupBy";
-export * from "./Join";
-export * from "./Concat";
+export * from "./getEach";
+export * from "./indexOf";
+export * from "./intersection";
+export * from "./unique";
+export * from "./logicalReturns";
+export * from "./intoSet";
 export * from "./createConverter";
 
 // #endregion auto-indexed files

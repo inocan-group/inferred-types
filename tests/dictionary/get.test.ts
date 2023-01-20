@@ -1,13 +1,13 @@
-import { describe, it, expect } from "vitest";
-import { Equal, Expect,  ExpectTrue } from "@type-challenges/utils";
+import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
+import { get } from "src/runtime/dictionary/get";
 import { defineType } from "src/runtime/literals/defineType";
-import { Get } from "src/types/dictionary/Get";
-import { get, } from "src/runtime/dictionary/get";
-import { ref } from "vue";
+import { ErrorCondition } from "src/runtime/literals/ErrorCondition";
 import { isErrorCondition } from "src/runtime/type-guards/isErrorCondition";
 import { DoesExtend, IsErrorCondition } from "src/types";
-import { ErrorCondition } from "src/runtime/literals/ErrorCondition";
 import { NoDefaultValue } from "src/types/constants";
+import { Get } from "src/types/dictionary/Get";
+import { describe, expect, it } from "vitest";
+import { ref } from "vue";
 
 describe("Get<T, K> type utility", () => {
   it("type: shallow path", () => {

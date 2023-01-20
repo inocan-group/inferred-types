@@ -1,4 +1,4 @@
-import { PathJoin } from "src/types/alphabetic/PathJoin";
+import { PathJoin } from "src/types/string-literals/PathJoin";
 import { ensureLeading } from "./ensureLeading";
 import { ensureTrailing } from "./ensureTrailing";
 import { stripLeading } from "./stripLeading";
