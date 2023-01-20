@@ -1,4 +1,4 @@
-import { Retain } from "./Retain";
+import { Retain } from "./lists/Retain";
 
 /**
  * Allows filtering down `T` to those which extend a given type `U`.

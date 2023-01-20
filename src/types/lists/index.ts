@@ -8,13 +8,21 @@
 export * from "./AfterFirst";
 export * from "./First";
 export * from "./FirstString";
-export * from "./boolean-arrays";
-export * from "./TupleFilter";
+export * from "./Filter";
 export * from "./Split";
 export * from "./Length";
-export * from "./set-ops";
 export * from "./IndexOf";
 export * from "./UnionFromProp";
+export * from "./Flatten";
+export * from "./TruthyReturns";
+export * from "./ReturnTypes";
+export * from "./LogicalReturns";
+export * from "./IntersectAll";
+
+export * from "./extractors/index";
+export * from "./sets/index";
+
+export * from "./GetEach";
 
 // #endregion auto-indexed files
 

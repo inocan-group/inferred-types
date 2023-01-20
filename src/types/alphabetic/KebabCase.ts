@@ -2,7 +2,7 @@
 
 import { Concat } from "src/runtime/lists/Concat";
 import { IfTrue } from "../boolean-logic/boolean";
-import { LeftWhitespace, RightWhitespace, Trim } from "../string-literals";
+import { LeftWhitespace, RightWhitespace, Trim } from "../type-conversion/string-literals";
 import { DashUppercase } from "./DashUppercase";
 import { LowerAllCaps } from "./LowerAllCaps";
 

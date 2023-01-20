@@ -1,4 +1,4 @@
-import { Replace } from "../string-literals";
+import { Replace } from "../type-conversion/string-literals";
 import { NonAlphaChar } from "./alpha-characters";
 
 /**

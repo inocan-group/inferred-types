@@ -1,9 +1,9 @@
 /* eslint-disable no-use-before-define */
 import { Narrowable } from "src/types/Narrowable";
-import {  DoesExtend, IfArray, IfEquals, IfExtends, IfFalse, IfOr, IfStringLiteral, IsEqual, IsUnion } from "../boolean-logic";
+import {  DoesExtend, IfArray, IfEqual, IfExtends, IfFalse, IfOr, IfStringLiteral, IsEqual, IsUnion } from "../boolean-logic";
 import { TupleToUnion } from "../type-conversion/TupleToUnion";
 import { TypeGuard } from "../TypeGuard";
-import { TupleFilter } from "../lists/TupleFilter";
+import { Filter } from "../lists/Filter";
 import {  TypeKvToObject, UnionToIntersection } from "../type-conversion";
 import { Box } from "src/runtime/literals/box";
 import { AnyFunction } from "../functions/function-types";
@@ -146,14 +146,14 @@ type ToBaseType<
       : never
   : TKind extends "union" 
     ? TUnderlying extends readonly any[]
-      ? TupleToUnion<TupleFilter<
+      ? TupleToUnion<Filter<
           TUnderlying, 
           { kind: TypeKind; required: TypeIsRequired; underlying: readonly any[] | "none" }
         >>
       : never
   : TKind extends "intersection"
     ? TUnderlying extends readonly any[]
-      ? UnionToIntersection<TupleToUnion<TupleFilter<
+      ? UnionToIntersection<TupleToUnion<Filter<
         TUnderlying, 
         { kind: TypeKind; required: TypeIsRequired; underlying: readonly any[] | "none" }
       >>>
@@ -238,7 +238,7 @@ export type FromTypeDefn<
 >
   ? Type<
       Kind,
-      IfEquals<
+      IfEqual<
         Required, boolean, 
         "required",
         IfFalse<Required, "not-required", "required">

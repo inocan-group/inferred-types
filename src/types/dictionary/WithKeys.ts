@@ -1,4 +1,3 @@
-import { ExtendsSome, IfArray, IfExtends, IfExtendsSome, IfReadonlyArray, IfUnion, IsEqual, IsUnion, Or } from "../boolean-logic";
 import { ExpandRecursively } from "../ExpandRecursively";
 import { Keys } from "../Keys";
 import { SetRemoval } from "../lists/set-ops";
@@ -49,6 +48,6 @@ export type WithoutKeys<
     ? WithKeys<TObj, SetRemoval<keyof TObj, TKeys>>
     : never
   : // with keys being a union
-    SetRemoval<keyof TObj, UnionToTuple<TKeys>> extends readonly any[]
-      ? WithKeys<TObj, SetRemoval<keyof TObj, TKeys>>
+    SetRemoval<Keys<TObj>, Readonly<UnionToTuple<TKeys>>> extends readonly string[]
+      ? WithKeys<TObj, SetRemoval<Keys<TObj>, Readonly<UnionToTuple<TKeys>>>>
       : never;

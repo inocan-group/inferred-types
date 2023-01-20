@@ -9,7 +9,7 @@ export * from "./ifSameType";
 export * from "../type-guards/isArray";
 export * from "./ifBoolean";
 export * from "./isFalse";
-export * from "./isFunction";
+export * from "../type-guards/isFunction";
 export * from "./isSymbol";
 export * from "./ifTrue";
 export * from "./ifUndefined";

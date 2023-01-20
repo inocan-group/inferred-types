@@ -54,6 +54,7 @@ describe("isNumericString", () => {
       type cases = [
         Expect<Equal<typeof numericString, "42">> //
       ];
+      const cases: cases = [ true ];
     } else {
       throw new Error("numeric string not identified!");
     }
@@ -63,6 +64,7 @@ describe("isNumericString", () => {
       type cases = [
         Expect<Equal<typeof numericString, "42">> //
       ];
+      const cases: cases = [ true ];
     } else {
       throw new Error("wide string not identified");
     }
@@ -101,7 +103,6 @@ describe("isDefined(value)", () => {
 });
 
 describe("isRef", () => {
-  const scalar = 45;
   const obj = { foo: 1, bar: 2 } as const;
   const refObj = ref(obj);
   const reactiveObj = reactive(obj);
@@ -144,7 +145,6 @@ describe("isRef", () => {
 describe("isArray / isReadonlyArray", () => {
   const foobar = intoSet([{foo: 1, bar: 2}]); 
   const optFoobar = optional(foobar);
-  const arr = [1,"foo", true] as const;
 
   it("positive tests", () => {
     if(isReadonlyArray(foobar)) {
@@ -260,7 +260,7 @@ describe("isConstant()", () => {
     if(isConstant(maybe)) {
       expect(true).toBe(true);
     } else {
-      throw new Error("Never was not found to be a constant!")
+      throw new Error("Never was not found to be a constant!");
     }
   });
 
@@ -271,7 +271,7 @@ describe("isConstant()", () => {
     if(isSpecificConstant("never")(maybe)) {
       expect(true).toBe(true);
     } else {
-      throw new Error("Never was not found to be a SpecificConstant<\"never\">!")
+      throw new Error("Never was not found to be a SpecificConstant<\"never\">!");
     }
   });
 

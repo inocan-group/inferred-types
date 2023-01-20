@@ -23,8 +23,10 @@ export type ToString<T extends Narrowable> = T extends string
       Concat<["Ref<", T extends { value: Narrowable } ? ToString<T["value"]> : "", ">"]>,
       "Object"
     >
+  : T extends symbol ? "symbol"
   : T extends string[] ? "string[]"
   : T extends number[] ? "number[]"
   : T extends boolean[] ? "boolean[]"
   : T extends AnyFunction[] ? "Function[]"
+  : T extends any[] ? "any[]"
   : "unknown";

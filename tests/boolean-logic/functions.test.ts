@@ -1,9 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { createFnWithProps } from "src/runtime";
-import { isFnWithDict } from "src/runtime/type-checks";
-import { AnyFunction, FnWithDict, IsEmptyObject, Keys, Not } from "src/types";
-import { IsFunction, IsFunctionWithDict } from "src/types/boolean-logic/functions";
-import { IsLength } from "src/types/boolean-logic/IfLength";
+import { isFunction } from "src/runtime/type-checks";
+import { ifFunction } from "src/runtime/type-checks/ifFunction";
+import { isFnWithParams } from "src/runtime/type-guards/isFnWithParams";
+import { AnyFunction, IsFunction } from "src/types";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -12,7 +12,7 @@ import { describe, expect, it } from "vitest";
 
 describe("Boolean Logic for functions", () => {
 
-  it("IsFunction<T>", () => {
+  it("IsFunction<T> type util", () => {
     const f1 = createFnWithProps(() => "hi", { foo: 42, bar: "baz"});
     type T1 = IsFunction<() => true>;
     type T2 = IsFunction<AnyFunction>;
@@ -37,107 +37,94 @@ describe("Boolean Logic for functions", () => {
     const cases: cases = [ true, true, true, true, true, true, true, true];
   });
 
-  it("IsFunctionWithDict<TFn, TDictMatch>", () => {
-    const f1 = createFnWithProps(() => "hi", { foo: 42, bar: "baz"});
-    const f2 = () => "hi";
-    const f3 = createFnWithProps(() => "hi", {});
-    const f4 = createFnWithProps(() => "hi", {} as {foo?: number; bar?: string});
+  describe("isFunction(val) type guard", () => {
+    const trueFn = () => true as const;
+    const falseFn = () => false as const;
+    const hybrid = createFnWithProps(trueFn, { about: "i am a function" });
+    const empty = {};
+  
+    it("basic positive test", () => {
+      if(isFunction(trueFn)) {
+        expect(true).toBe(true);
+      } else {
+        throw new Error("trueFn not detected as function");
+      }
 
-    type T1 = IsFunctionWithDict<typeof f1>;
-    type T2 = IsFunctionWithDict<typeof f1, {foo: number; bar: string}>;
-    type T3 = IsFunctionWithDict<typeof f4>;
-    type T4 = IsFunctionWithDict<typeof f1, FnWithDict<{foo: number; bar: string}>>;
+      if(isFunction(falseFn)) {
+        expect(true).toBe(true);
+      } else {
+        throw new Error("falseFn not detected as function");
+      }
+    });
 
-    type F1 = IsFunctionWithDict<typeof f2>;
-    type F2 = IsFunctionWithDict<typeof f3>;
-    type F3 = IsFunctionWithDict<"foo">;
-    type F4 = IsFunctionWithDict<typeof f1, {foo: 42; bar: "hi"}>;
     
-    type cases = [
-      Expect<Equal<T1, true>>, //
-      Expect<Equal<T2, true>>, 
-      Expect<Equal<T3, true>>, 
-      Expect<Equal<T4, true>>, 
-      Expect<Equal<F1, false>>, //
-      Expect<Equal<F2, false>>, 
-      Expect<Equal<F3, false>>, 
-      Expect<Equal<F4, false>>, 
-    ];
-    const cases: cases = [ true, true, true, true, true, true, true, true];
+    it("functions with params also pass", () => {
+      if(isFunction(hybrid)) {
+        expect(true).toBe(true);
+      } else {
+        throw new Error("hybrid not detected as function");
+      }
+    });
+
+    
+    it("non-functions not confused as fn", () => {
+      if(isFunction(empty)) {
+        throw new Error(`empty object detected as function!`);
+      } else {
+        expect(true).toBe(true);
+      }
+
+      if(isFunction(null)) {
+        throw new Error(`null detected as function!`);
+      } else {
+        expect(true).toBe(true);
+      }
+    });
   });
 
-
-  describe("isFnWithDict(input) runtime utility", () => {
-
-    
-    it("IsFunctionWithDict<TFn, TParamsMatch>", () => {
-      type F1 = IsFunctionWithDict<() => true>;
-      type F2 = IsFunctionWithDict<(() => false) & {} >;
-      type F3 = IsFunctionWithDict<"foobar">;
-
-      // eslint-disable-next-line no-use-before-define
-      type EO = IsEmptyObject<T1>;
-      type T1 = IsFunctionWithDict<(() => false) & { foo: 42}>;
-
-      type cases = [
-        Expect<Equal<F1, false>>, //
-        Expect<Equal<F2, false>>,
-        Expect<Equal<F3, false>>,
-
-        // T1 is not seen as an empty object
-        Expect<Equal<EO, false>>,
-        // Because T1 is not empty 
-        Expect<Equal<T1, true>>,
-      ];
-      const cases: cases = [true, true, true, true, true];
-      
-    });
-    
+  describe("ifFunction(fn, IF, ELSE) runtime", () => {
+    const trueFn = () => true as const;
   
-    it("happy path", () => {
-      const f1 = createFnWithProps(() => `hi`, { foo: 42 });
-      const f2 = createFnWithProps(() => `hi`, { foo: 42 as number });
-      const f3 = createFnWithProps(() => `hi`, {});
-      type x = Not<IsLength<Keys<typeof f1>, 0>>;
-
-      const t1 = isFnWithDict(f1);
-      const t2 = isFnWithDict(f2);
-      const t3 = isFnWithDict(f3);
-
-      if(isFnWithDict(f1)) {
-        f1
-      }
+    it("happy-path", () => {
+      const t1 = ifFunction(trueFn, () => true, () => false);
+      const f1 = ifFunction({foo: 1}, () => true, () => false);
 
       expect(t1).toBe(true);
-      expect(t2).toBe(true);
-      expect(t3).toBe(false);
-      type T1 = typeof t1;
-      type T2 = typeof t2;
-      type T3 = typeof t3;
+      expect(f1).toBe(false);
 
-      if(isFnWithDict(f1)) {
+      type cases = [
+        Expect<Equal<typeof t1, true>>, //
+        Expect<Equal<typeof f1, false>>
+      ];
+      const cases: cases = [ true, true ];
+    });
+  
+  });
+
+  describe("isFnWithParams() type guard", () => {  
+    const fn1 = createFnWithProps(() => `hi`, { foo: 42 });
+    const fnUnion = fn1 as typeof fn1 | undefined;
+    const fnNoParams = () => `hi`;
+
+    it("positive test, no param matching", () => {
+      if(isFnWithParams(fnUnion)) {
         expect(true).toBe(true);
-        
-        type F = typeof f1;
-        type F2 = typeof f2;
-        
+        // validate narrowing
         type cases = [
-          Expect<Equal<T1, true>>, //
-          Expect<Equal<T2, true>>,
-          Expect<Equal<T3, false>>,
-          // TODO: this should resolve to narrow types
-          Expect<Equal<F, (() => string) & { foo: number}>>,
-          // TODO: the function's return should be narrow
-          Expect<Equal<F2, (() => string) & { foo: number}>>,
+          Expect<Equal<typeof fnUnion, typeof fn1>>, //
         ];
-        const cases: cases = [true,true,true,true,true];
+        const cases: cases = [ true ];
       }
-
+    });
+    
+    it("negative test, using fn without params", () => {
+      if(isFnWithParams(fnNoParams)) {
+        throw new Error("fn without params identified as having params");
+      } else {
+        expect(true).toBe(true);
+      }
     });
   
   });
   
-
-
-
 });

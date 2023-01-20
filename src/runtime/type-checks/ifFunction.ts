@@ -1,19 +1,28 @@
-import { IfFunction } from "src/types/boolean-logic/functions";
+import { IfFunction } from "src/types/boolean-logic";
+import { AnyFunction } from "src/types/functions";
 import { Narrowable } from "src/types/Narrowable";
-import { AnyFunction } from "./isFunction";
+import { isFunction } from "../type-guards/isFunction";
 
+/**
+ * **ifFunction**(value, isFn, notFn)
+ * 
+ * Runtime utility which assesses whether `value` is a function and provides
+ * two callback hooks for both outcome.
+ * 
+ * **Related:** `isFunction`
+ */
 export function ifFunction<
-  T extends Narrowable,
-  TRUE extends Narrowable,
-  FALSE extends Narrowable
+  TValue extends Narrowable,
+  Fn extends Narrowable,
+  NotFn extends Narrowable
 >(
-  thing: T, 
-  isFn: <Fn extends Narrowable & AnyFunction>(fn: Fn & T) => TRUE, 
-  notFn: <NotFn extends Exclude<T, AnyFunction>>(fn: NotFn) => FALSE
-): IfFunction<T, TRUE, FALSE> {
+  value: TValue, 
+  isFnCallback: (fn: TValue & AnyFunction) => Fn, 
+  notFnCallback: (payload: Exclude<TValue, AnyFunction>) => NotFn
+): IfFunction<TValue, Fn, NotFn> {
   return (
-    typeof thing === "function"
-    ? isFn(thing as any)
-    : notFn(thing as any) as FALSE
-  ) as IfFunction<T, TRUE, FALSE>;
+    isFunction(value)
+    ? isFnCallback(value)
+    : notFnCallback(value as any)
+  ) as IfFunction<TValue, Fn, NotFn>;
 }

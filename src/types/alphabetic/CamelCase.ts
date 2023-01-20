@@ -1,7 +1,6 @@
-import { IfTrue } from "../boolean-logic/boolean";
-import { LeftWhitespace } from "src/types/string-literals/LeftWhitespace";
-import { RightWhitespace } from "src/types/string-literals/RightWhitespace";
-import { PascalCase } from "./PascalCase";
+import { IfTrue } from "src/types/boolean-logic";
+import { LeftWhitespace , RightWhitespace } from "src/types/type-conversion";
+import { PascalCase } from "src/types/alphabetic";
 import { Concat } from "src/runtime/lists/Concat";
 
 /**

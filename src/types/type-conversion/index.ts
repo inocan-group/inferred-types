@@ -14,6 +14,18 @@ export * from "./Widen";
 export * from "./Mutable";
 export * from "./TypeTuple";
 export * from "./Merge";
+export * from "./Break";
+export * from "./Concat";
+export * from "./LeftWhitespace";
+export * from "./Replace";
+export * from "./RightWhitespace";
+export * from "./StringLength";
+export * from "./Trim";
+export * from "./TrimLeft";
+export * from "./TrimRight";
+export * from "./form-fields";
+export * from "./RemoveFromStart";
+export * from "./RemoveFromEnd";
 
 // #endregion auto-indexed files
 

@@ -9,6 +9,8 @@ import { Narrowable } from "../Narrowable";
  * 
  * **Note:** if `TIdx` is passed in as `null` then this will act as an identity
  * function and return `TValue`.
+ * 
+ * **Related:** `Get`
  */
 export type IndexOf<
   TValue extends Narrowable | readonly any[],

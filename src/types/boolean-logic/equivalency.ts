@@ -31,7 +31,7 @@ export type IsNotEqual<X, Y> = true extends IsEqual<X, Y> ? false : true;
  * Type utility which returns type `IF` _if_ `X` is equivalent to `Y`; otherwise returns
  * type `ELSE`.
  */
-export type IfEquals<
+export type IfEqual<
   X extends Narrowable,
   Y extends Narrowable, 
   IF extends Narrowable = true, 
@@ -68,7 +68,7 @@ export type IfNotEqual<
  */
 export type SomeEqual<Value, CompareTo extends readonly any[]> = [] extends CompareTo
 ? false
-: IfEquals<Value, First<CompareTo>, true, SomeEqual<Value, AfterFirst<CompareTo>>>;
+: IfEqual<Value, First<CompareTo>, true, SomeEqual<Value, AfterFirst<CompareTo>>>;
 
 /**
  * **IfSomeEqual**`<Value, CompareTo, IF, ELSE>`
@@ -77,7 +77,7 @@ export type SomeEqual<Value, CompareTo extends readonly any[]> = [] extends Comp
  * `CompareTo` and if so then it returns `IF` otherwise `ELSE`.
  */
 export type IfSomeEqual<
-  Value, 
+  Value extends Narrowable, 
   CompareTo extends readonly any[],
   IF,
   ELSE

@@ -1,5 +1,6 @@
-import { Equal, Expect } from "@type-challenges/utils";
+import { Equal, Expect, ExpectExtends } from "@type-challenges/utils";
 import { getEach } from "src/runtime/lists/getEach";
+import { ErrorCondition } from "src/runtime/literals/ErrorCondition";
 import { GetEach } from "src/types/lists/GetEach";
 import { describe, expect, it } from "vitest";
 
@@ -19,17 +20,15 @@ describe("GetEach<T,P>", () => {
     type ID = GetEach<List, "id">;
     type Value = GetEach<List, "value">;
     type Cost = GetEach<List, "cost">;
-    type ID2 = GetEach<List, "id", true>;
-    type Value2 = GetEach<List, "value">;
-    type Cost2 = GetEach<List, "cost">;
-
+    type Cost2 = GetEach<List, "cost", "report">;
     
     type cases = [
       Expect<Equal<ID, [1,2,3]>>,
       Expect<Equal<Value, ["foo", "bar", "baz"]>>,
-      Expect<Equal<Cost, [ 5, 15 ]>>
+      Expect<Equal<Cost, [ 5, 15 ]>>,
+      Expect<ExpectExtends<[ ErrorCondition<"invalid-dot-path">, 5, 15 ], Cost2>>
     ];
-    const cases: cases = [ true, true, true ];
+    const cases: cases = [ true, true, true, true ];
   });
 
   
@@ -95,26 +94,26 @@ describe("GetEach<T,P>", () => {
 
   
   it("runtime: optional inclusion of never values", () => {
-    const shallowNoNever = getEach(objSet, "color");
-    const shallowWithNever = getEach(objSet, "color", { retainNever:  true});
+    const shallowNoErr = getEach(objSet, "color");
+    const shallowWithNever = getEach(objSet, "color", { handleErrors:  "to-never"});
 
-    expect(shallowNoNever, "shallow without never").toHaveLength(2);
+    expect(shallowNoErr, "shallow without never").toHaveLength(2);
     expect(shallowWithNever, "shallow with never").toHaveLength(3);
 
-    const objNoNever = getEach(objSet, "color.favorite", { retainNever: false });
-    const arrNoNever = getEach(arrSet, "color.0");
-    const objWithNever = getEach(objSet, "color.favorite", { retainNever: true });
-    const arrWithNever = getEach(arrSet, "color.0", { retainNever: true });
+    const objNoErr = getEach(objSet, "color.favorite", { handleErrors: "ignore" });
+    const arrNoErr = getEach(arrSet, "color.0");
+    const objWithNever = getEach(objSet, "color.favorite", { handleErrors: "to-never" });
+    const arrWithNever = getEach(arrSet, "color.0", { handleErrors: "to-never" });
 
-    expect(objNoNever, "object with nevers eliminated").toHaveLength(2);
-    expect(arrNoNever, "array with nevers eliminated").toHaveLength(2);
+    expect(objNoErr, "object with nevers eliminated").toHaveLength(2);
+    expect(arrNoErr, "array with nevers eliminated").toHaveLength(2);
     expect(objWithNever, "object with nevers included").toHaveLength(3);
     expect(objWithNever, "array with nevers included").toHaveLength(3);
 
     type cases = [
       // deep
-      Expect<Equal<typeof objNoNever, ["blue", "green"]>>,
-      Expect<Equal<typeof arrNoNever, ["blue", "purple"]>>,
+      Expect<Equal<typeof objNoErr, ["blue", "green"]>>,
+      Expect<Equal<typeof arrNoErr, ["blue", "purple"]>>,
       Expect<Equal<typeof objWithNever, ["blue", "green", never]>>,
       Expect<Equal<typeof arrWithNever, ["blue", "purple", never]>>,
     ];

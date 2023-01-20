@@ -1,4 +1,4 @@
-import { IfExtendsSome } from "./Extends";
+import { IfExtendsSome } from "./DoesExtend";
 
 export type IsFalsy<T> = IfExtendsSome<
   T, ["", false, null, undefined, 0, -0, typeof Number.NaN],

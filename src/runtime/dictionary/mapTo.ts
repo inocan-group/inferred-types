@@ -9,7 +9,7 @@ import {
   Mapper,
   MapFn,
 } from "src/types/dictionary";
-import { OptRequired } from "src/types/literal-unions";
+import { OptRequired } from "src/types/literals";
 import { createFnWithProps } from "../createFnWithProps";
 
 /**
