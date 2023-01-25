@@ -1,6 +1,6 @@
-import { TypeGuard } from "brilliant-errors";
 import { Narrowable } from "src/types/Narrowable";
 import { TypeTuple } from "src/types/type-conversion/TypeTuple";
+import { TypeGuard } from "src/types/TypeGuard";
 
 export function createTypeTuple<
   T extends Narrowable,

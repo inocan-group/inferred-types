@@ -1,5 +1,5 @@
-import { TypeGuard } from "brilliant-errors";
 import { Narrowable } from "src/types/Narrowable";
+import { TypeGuard } from "src/types/TypeGuard";
 import { isSameTypeOf } from "./isSameTypeOf";
 
 /**

@@ -1,4 +1,5 @@
-import {  AnyObject, IfObject,  IsOptionalScalar } from "src/types/boolean-logic";
+import { AnyObject, IfObject, IsOptionalScalar } from "src/types/boolean-logic";
+import { Retain, Keys } from "src/types";
 import { IfUndefined } from "../boolean-logic/IsUndefined";
 import { Narrowable } from "../Narrowable";
 import { IfAnd } from "../boolean-logic/And";
@@ -18,11 +19,11 @@ export type MergeScalars<
   TOverride extends Narrowable,
 > = IfAnd<
   [IsOptionalScalar<TDefault>, IsOptionalScalar<TOverride>],
-    IfUndefined<
-      TOverride,
-      TDefault, 
-      Exclude<TOverride, undefined>
-    >,
+  IfUndefined<
+    TOverride,
+    TDefault,
+    Exclude<TOverride, undefined>
+  >,
   never
 >;
 
@@ -33,10 +34,10 @@ type MergeTuplesAcc<
   TResults extends readonly any[] = []
 > = TOverride extends [infer Override, ...infer Rest]
   ? IfUndefined<
-      Override,
-      MergeTuplesAcc<AfterFirst<TDefault>, Rest, TKey, [...TResults, First<TDefault>]>,
-      MergeTuplesAcc<AfterFirst<TDefault>, Rest, TKey, [...TResults, Override]>
-    >
+    Override,
+    MergeTuplesAcc<AfterFirst<TDefault>, Rest, TKey, [...TResults, First<TDefault>]>,
+    MergeTuplesAcc<AfterFirst<TDefault>, Rest, TKey, [...TResults, Override]>
+  >
   : readonly [...TResults, ...TDefault];
 
 /**
@@ -53,76 +54,62 @@ export type MergeTuples<
   TKey extends string | false = false
 > = MergeTuplesAcc<[...TDefault], [...TOverride], TKey>;
 
-
-
-/**
- * **MergeKvPairs**`<TDefault,TOverride>`
- * 
- * A specialization of the `MergeTuples` utility which looks to merge
- * two arrays of `KvPair<string, any>` values. This will use the same
- * base logic as the general form but 
- */
-export type MergeKvPairs<
-  TDefault extends readonly KvPair<string, any>[],
-  TOverride extends readonly KvPair<string, any>[],
-> = MergeObjects<KvToObject<TDefault>, KvToObject<TOverride>>;
-
 type MergeObjectsAcc<
   TDefault extends Record<string, any>,
   TOverride extends Record<string, any>,
   TKeys extends readonly (keyof TOverride)[],
   TResults extends {} = {},
- > = [] extends TKeys
+> = [] extends TKeys
   ? TResults
   : First<TKeys> extends infer Key
-    ? Key extends keyof TOverride
-      ? IfUndefined<
-          TOverride[Key],
-          // override value is undefined
-          Key extends keyof TDefault
-          ? MergeObjectsAcc<
-              TDefault,TOverride,
-              AfterFirst<TKeys>,
-              ExpandRecursively<TResults & Record<Key,TDefault[Key]>>
-          >
-          : MergeObjectsAcc<
-              TDefault,TOverride,
-              AfterFirst<TKeys>, 
-              ExpandRecursively<TResults & Record<Key,undefined>>
+  ? Key extends keyof TOverride
+  ? IfUndefined<
+    TOverride[Key],
+    // override value is undefined
+    Key extends keyof TDefault
+    ? MergeObjectsAcc<
+      TDefault, TOverride,
+      AfterFirst<TKeys>,
+      ExpandRecursively<TResults & Record<Key, TDefault[Key]>>
+    >
+    : MergeObjectsAcc<
+      TDefault, TOverride,
+      AfterFirst<TKeys>,
+      ExpandRecursively<TResults & Record<Key, undefined>>
+    >,
+    // override value IS defined
+    IfObject<
+      TOverride[Key],
+      MergeObjectsAcc<
+        TDefault, TOverride,
+        AfterFirst<TKeys>,
+        Key extends keyof TDefault
+        ? IfObject<
+          TDefault[Key],
+          ExpandRecursively<
+            TResults & Record<Key, MergeObjects<TDefault[Key], TDefault[Key]>>
           >,
-          // override value IS defined
-          IfObject<
-            TOverride[Key],
-            MergeObjectsAcc<
-              TDefault,TOverride,
-              AfterFirst<TKeys>,
-              Key extends keyof TDefault
-              ? IfObject<
-                  TDefault[Key],
-                  ExpandRecursively<
-                    TResults & Record<Key, MergeObjects<TDefault[Key], TDefault[Key]>>
-                  >,
-                  ExpandRecursively<TResults & Record<Key, TOverride[Key]>>
-                >
-              : ExpandRecursively<TResults & Record<Key, TOverride[Key]>>
-            >,
-            // value is NOT an object but also not undefined
-            MergeObjectsAcc<
-              TDefault,TOverride,
-              AfterFirst<TKeys>,
-              ExpandRecursively<TResults & Record<Key, TOverride[Key]>>
-            >
-          >
+          ExpandRecursively<TResults & Record<Key, TOverride[Key]>>
         >
-      : never
-    : never;
+        : ExpandRecursively<TResults & Record<Key, TOverride[Key]>>
+      >,
+      // value is NOT an object but also not undefined
+      MergeObjectsAcc<
+        TDefault, TOverride,
+        AfterFirst<TKeys>,
+        ExpandRecursively<TResults & Record<Key, TOverride[Key]>>
+      >
+    >
+  >
+  : never
+  : never;
 
 type RemainingDefault<
   TDefault extends AnyObject,
   TOverride extends AnyObject
 > = WithoutKeys<
   TDefault,
-  UnionToTuple<keyof TOverride>
+  Retain<Keys<TOverride>, string>
 >;
 
 /**
@@ -138,11 +125,22 @@ export type MergeObjects<
     TDefault,
     TOverride,
     UnionToTuple<keyof TOverride> extends readonly (keyof TOverride)[]
-      ? UnionToTuple<keyof TOverride>
-      : never
+    ? UnionToTuple<keyof TOverride>
+    : never
   > & RemainingDefault<TDefault, TOverride>
 >;
 
+/**
+ * **MergeKvPairs**`<TDefault,TOverride>`
+ * 
+ * A specialization of the `MergeTuples` utility which looks to merge
+ * two arrays of `KvPair<string, any>` values. This will use the same
+ * base logic as the general form but 
+ */
+export type MergeKvPairs<
+  TDefault extends readonly KvPair<string, any>[],
+  TOverride extends readonly KvPair<string, any>[],
+> = MergeObjects<KvToObject<TDefault>, KvToObject<TOverride>>;
 // /**
 //  * **Merge**`<TDefault,TOverride>`
 //  *

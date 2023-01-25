@@ -1,24 +1,23 @@
 import { MergeObjects } from "src/types";
-import { exclude } from "../dictionary/exclude";
-import { keys } from "../keys";
-import { isDefined } from "../type-guards/isDefined";
+import { isDefined, keys, isString, exclude, intersection, unique } from "src/runtime";
 
 export function mergeObjects<
   TDefault extends Record<string, any>,
   TOverride extends Record<string, any>
 >(defVal: TDefault, override: TOverride) {
-  const intersect = intersection(keys(TDefault), keys(TOverride));
-  const distinct = unique(keys(TDefault), keys(TOverride));
+  const intersect = intersection(keys(defVal), keys(override));
+  const distinct = unique(keys(defVal), keys(override));
+  console.log({distinct, intersect});
   const defExtend = exclude(
-    defVal, distinctKeys(defVal, override)
+    defVal, keys(override).filter(i => isString(i))
   );
 
-  const intersection = keys(override).reduce(
+  const merged = keys(override).reduce(
     (acc, key) => isDefined(override[key])
       ? { ...acc, [key]: override[key]}
       : { ...acc, [key]: key in defVal ? defVal[key] : undefined },
     {} as Record<keyof TOverride, any>
   );
 
-  return {...defExtend, ...intersection} as MergeObjects<TDefault, TOverride>;
+  return {...defExtend, ...merged} as MergeObjects<TDefault, TOverride>;
 }

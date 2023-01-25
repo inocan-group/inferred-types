@@ -1,5 +1,5 @@
-import { IfEqual, IsLiteral } from "../boolean-logic"
-import { IfAnd } from "../boolean-logic/And"
+import { IfEqual, IsLiteral } from "../boolean-logic";
+import { IfAnd } from "../boolean-logic/And";
 
 type SplitAcc<
 T extends string,
@@ -24,4 +24,4 @@ export type Split<
   [ IsLiteral<T>, IsLiteral<SEP> ],
   IfEqual<T, SEP, [] & string[],SplitAcc<T,SEP>>,
   string[]
->
+>;

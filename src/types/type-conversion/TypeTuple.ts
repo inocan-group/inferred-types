@@ -1,5 +1,5 @@
-import { TypeGuard } from "brilliant-errors";
 import { Narrowable } from "../Narrowable";
+import { TypeGuard } from "../TypeGuard";
 
 /**
  * **TypeTuple**`<TType>`

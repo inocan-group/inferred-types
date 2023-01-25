@@ -8,9 +8,9 @@ import {
   ConfiguredMap,
   Mapper,
   MapFn,
+  OptRequired
 } from "src/types/dictionary";
-import { OptRequired } from "src/types/literals";
-import { createFnWithProps } from "../createFnWithProps";
+import { createFnWithProps } from "src/runtime/functions";
 
 /**
  * utility function to take a fully-qualified _user_ config

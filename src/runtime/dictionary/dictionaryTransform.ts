@@ -1,8 +1,6 @@
 /* eslint-disable no-use-before-define */
-
-import { SameKeys } from "src/types/dictionary";
-import { Transformer } from "src/types/Transformer";
-import { keys } from "../keys";
+import type { SameKeys , Transformer } from "src/types";
+import { keys } from "./keys";
 
 /**
  * Takes a dictionary of type `I` and converts it to a dictionary of type `O` where

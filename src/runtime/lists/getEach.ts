@@ -5,7 +5,7 @@ import { isErrorCondition } from "../type-guards/isErrorCondition";
 export interface GetEachOptions<
   THandleErrors extends GetEachErrHandling
 > {
-  handleErrors?: THandleErrors
+  handleErrors?: THandleErrors;
 }
 
 /**
@@ -33,7 +33,7 @@ export function getEach<
   options = {
     handleErrors: "ignore" as THandleErrors,
     ...options,
-  }
+  };
   
   return list
     .map(i => dotPath === null ? i : get(i, String(dotPath))) 

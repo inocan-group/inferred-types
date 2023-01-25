@@ -37,9 +37,9 @@ type UniqueAcc<
 * **Related:** `Intersection`
 */
 export type Unique<
-A extends SetCandidate,
-B extends SetCandidate,
-TDeref extends string | number | null = null
+  A extends SetCandidate,
+  B extends SetCandidate,
+  TDeref extends string | number | null = null
 > = Readonly<[
 Mutable<UniqueAcc<IntoSet<A>, IntoSet<B>, TDeref>>,
 Mutable<UniqueAcc<IntoSet<B>, IntoSet<A>, TDeref>>

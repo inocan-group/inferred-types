@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { createFnWithProps } from "src/runtime";
+import { createFnWithProps } from "src/runtime/functions";
 import { isFunction } from "src/runtime/type-checks";
 import { ifFunction } from "src/runtime/type-checks/ifFunction";
 import { isFnWithParams } from "src/runtime/type-guards/isFnWithParams";

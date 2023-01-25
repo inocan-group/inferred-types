@@ -1,4 +1,4 @@
-import { SetCandidate } from "src/types/lists/set-ops"
+import { Intersection } from "src/types";
 import { getEach } from "./getEach";
 import { indexOf } from "./indexOf";
 
@@ -15,8 +15,8 @@ import { indexOf } from "./indexOf";
 export const intersection = <
   A extends readonly any[],
   B extends readonly any[],
-  TDereference extends string | number | null = null
->(a: A, b: B, deref?: TDereference) => {
-  deref = deref || null as TDereference;
-  return a.filter(el => getEach(b, deref).includes(indexOf(a, deref)));
-}
+  TDeref extends string | number | null = null
+>(a: A, b: B, deref: TDeref = null as TDeref) => {
+  return a.filter((el: any) => [...getEach(b, deref)]
+    .includes(indexOf(el, deref))) as Intersection<A,B,TDeref>;
+};

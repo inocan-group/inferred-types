@@ -6,6 +6,7 @@
 // file exports
 export * from "./Api";
 export * from "./Constructor";
+export * from "./constants";
 export * from "./EnumValues";
 export * from "./ExpandRecursively";
 export * from "./lists/First";
@@ -31,7 +32,6 @@ export * from "./type-testing";
 // directory exports
 export * from "./string-literals/index";
 export * from "./dictionary/index";
-export * from "./fluent/index";
 export * from "./functions/index";
 export * from "./kv/index";
 export * from "./lists/index";
@@ -39,7 +39,7 @@ export * from "./literals/index";
 export * from "./tuples/index";
 export * from "./type-conversion/index";
 export * from "./boolean-logic/index";
-
+export * from "./runtime-types/index";
 // #endregion auto-indexed files
 
 // see https://github.com/inocan-group/do-devops/docs/autoindex.md

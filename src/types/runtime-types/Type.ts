@@ -32,11 +32,15 @@ export const WIDE_CONTAINER_TYPE_KINDS = [
 ] as const;
 
 export type TypeOptions<
-  TKind extends TypeKind, 
+  TKind extends TypeKind = TypeKind, 
   TRequired extends boolean = boolean,
   TDesc extends string = string,
   TUnderlying extends TypeUnderlying = TypeUnderlying,
-  TDefaultValue extends TypeDefaultValue<TKind,TRequired,TUnderlying> = TypeDefaultValue<TKind,TRequired,TUnderlying>,
+  TDefaultValue extends TypeDefaultValue<TKind,TRequired,TUnderlying> = TypeDefaultValue<
+    TKind,
+    TRequired,
+    TUnderlying
+  >,
   TValidations extends readonly any[] | "no-validations" = readonly any[] | "no-validations", 
 > = {
   isRequired?: TRequired;
