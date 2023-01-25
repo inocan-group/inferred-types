@@ -9,14 +9,14 @@ import {
   Mapper,
   MapInputFrom,
   MapCardinalityFrom,
-} from "src/types/dictionary";
+} from "types/dictionary";
 import { describe, expect, it } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
 import {
   DEFAULT_MANY_TO_ONE_MAPPING,
   DEFAULT_ONE_TO_MANY_MAPPING,
   mapTo,
-} from "src/runtime/dictionary/mapTo";
+} from "runtime/dictionary/mapTo";
 
 type I = { title: string; color: string; products: string[] };
 const i: I = { title: "Test", color: "green", products: ["foo", "bar", "baz"] };

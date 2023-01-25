@@ -1,4 +1,4 @@
-import { Narrowable } from "../../types/Narrowable";
+import { Narrowable } from "../../types/literals/Narrowable";
 import { TypeMapRule, MapType, ConfiguredTypeMapper, TypeMapMatcher, TypeMapTransformer } from "../../types/type-conversion/MapType";
 
 function convert<

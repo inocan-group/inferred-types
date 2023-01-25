@@ -1,5 +1,5 @@
-import { ExpandRecursively } from "src/types/ExpandRecursively";
-import { Narrowable } from "src/types/Narrowable";
+import { ExpandRecursively } from "types/ExpandRecursively";
+import { Narrowable } from "types/literals/Narrowable";
 
 /**
  * Build a key-value pair where both _key_ and _value_ are inferred. This

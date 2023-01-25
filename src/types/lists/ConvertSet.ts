@@ -1,4 +1,4 @@
-import { Narrowable } from "../Narrowable";
+import { Narrowable } from "../literals/Narrowable";
 import { AfterFirst } from "./AfterFirst";
 import { FindExtends } from "./Find";
 import { First } from "./First";

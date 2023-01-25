@@ -1,5 +1,5 @@
-import { DictFromKv } from "src/types/kv";
-import { Narrowable } from "src/types/Narrowable";
+import { DictFromKv } from "types/kv";
+import { Narrowable } from "types/literals/Narrowable";
 
 /**
  * Converts an array of dictionaries with `key` and `value` properties to a singular dictionary.

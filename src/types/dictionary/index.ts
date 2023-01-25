@@ -15,6 +15,7 @@ export * from "./RequireProps";
 export * from "./KnownKeys";
 export * from "./SameKeys";
 export * from "./props";
+export * from "./append-types";
 
 // #endregion auto-indexed files
 

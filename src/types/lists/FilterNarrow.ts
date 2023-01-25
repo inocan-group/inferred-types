@@ -1,8 +1,8 @@
 import { 
   IsEqual, 
   IsNever 
-} from "src/types/boolean-logic";
-import { Narrowable } from "../Narrowable";
+} from "types/boolean-logic";
+import { Narrowable } from "../literals/Narrowable";
 import { AfterFirst } from "./AfterFirst";
 import { RemoveEquals, RemoveNever } from "./extractors";
 import { First } from "./First";

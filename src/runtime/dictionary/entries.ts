@@ -1,5 +1,5 @@
-import { KeyValue } from "src/types/kv";
-import { Narrowable } from "src/types/Narrowable";
+import { KeyValue } from "types/kv";
+import { Narrowable } from "types/literals/Narrowable";
 import { keys } from "./keys";
 
 /**

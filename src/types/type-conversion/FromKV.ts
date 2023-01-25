@@ -1,5 +1,5 @@
 import { AnyObject, UnknownObject } from "../boolean-logic";
-import { ExpandRecursively } from "../ExpandRecursively";
+import { ExpandRecursively } from "../literals/ExpandRecursively";
 import { AfterFirst, First } from "../lists";
 import { KV } from "./ToKV";
 

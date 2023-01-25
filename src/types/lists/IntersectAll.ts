@@ -1,5 +1,5 @@
-import { ExpandRecursively } from "../ExpandRecursively";
-import { Narrowable } from "../Narrowable";
+import { ExpandRecursively } from "../literals/ExpandRecursively";
+import { Narrowable } from "../literals/Narrowable";
 import { AfterFirst } from "./AfterFirst";
 import { First } from "./First";
 

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { removeProps } from "src/runtime";
+import { removeProps } from "runtime";
 import { Expect, Equal, ExpectExtends, NotAny } from "@type-challenges/utils";
 describe("omit", () => {
 

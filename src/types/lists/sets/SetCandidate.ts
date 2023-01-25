@@ -1,4 +1,4 @@
-import { Narrowable } from "src/types/Narrowable";
+import { Narrowable } from "types/literals/Narrowable";
 
 /**
  * **SetCandidate**

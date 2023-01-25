@@ -1,11 +1,11 @@
 /* eslint-disable no-use-before-define */
-import { Narrowable } from "src/types/Narrowable";
+import { Narrowable } from "types/literals/Narrowable";
 import {  DoesExtend, IfArray, IfEqual, IfExtends, IfFalse, IfOr, IfStringLiteral, IsEqual, IsUnion } from "../boolean-logic";
 import { TupleToUnion } from "../type-conversion/TupleToUnion";
 import { TypeGuard } from "../TypeGuard";
 import { Filter } from "../lists/Filter";
 import {  TypeKvToObject, UnionToIntersection } from "../type-conversion";
-import { Box } from "src/runtime/literals/box";
+import { Box } from "runtime/literals/box";
 import { AnyFunction } from "../functions/function-types";
 import { NotApplicable } from "../constants/NotApplicable";
 import { NoDefaultValue } from "../constants";

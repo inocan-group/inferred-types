@@ -1,10 +1,10 @@
-import { Join } from "src/runtime/lists/Join";
-import { TYPE_MATCHER_DESC, TYPE_TRANSFORMER_DESC } from "src/runtime/runtime";
+import { Join } from "runtime/lists/Join";
+import { TYPE_MATCHER_DESC, TYPE_TRANSFORMER_DESC } from "runtime/runtime";
 import { CamelCase, KebabCase, PascalCase, StripLeading, StripTrailing } from "../string-literals";
 import {  IfEndsWith, IfEqual, IfExtends, IfNumericLiteral,  IfStartsWith, IfStringLiteral } from "../boolean-logic";
 import { ExcludeNever, FirstOrElse } from "../lists";
 import { RemoveNever } from "../lists/extractors";
-import { Narrowable } from "../Narrowable";
+import { Narrowable } from "../literals/Narrowable";
 import { ToString } from "./ToString";
 import { TypeTuple } from "./TypeTuple";
 

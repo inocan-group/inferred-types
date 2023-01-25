@@ -1,6 +1,6 @@
-import { Narrowable } from "src/types/Narrowable";
-import { TypeTuple } from "src/types/type-conversion/TypeTuple";
-import { TypeGuard } from "src/types/TypeGuard";
+import { Narrowable } from "types/literals/Narrowable";
+import { TypeTuple } from "types/type-conversion/TypeTuple";
+import { TypeGuard } from "types/TypeGuard";
 
 export function createTypeTuple<
   T extends Narrowable,

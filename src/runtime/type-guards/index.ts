@@ -16,6 +16,6 @@ export * from "./isRef";
 export * from "./hasDefaultValue";
 export * from "./isNumericString";
 export * from "./isScalar";
+export * from "./runtime-type-guards";
 
 export * from "./higher-order/index";
-export * from "./runtime-type-guards";

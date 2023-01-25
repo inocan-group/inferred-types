@@ -4,8 +4,8 @@ import type {
   HasParameters, 
   Narrowable 
 } from "src/types";
-import { First } from "src/types/lists/First";
-import { keys } from "src/runtime/dictionary/keys";
+import { First } from "types/lists/First";
+import { keys } from "runtime/dictionary/keys";
 
 
 export interface Box<T> {

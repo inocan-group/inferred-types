@@ -1,7 +1,7 @@
 import { IfAnd } from "../boolean-logic/And";
 import { IfLiteral } from "../boolean-logic/IsLiteral";
 import { IsString } from "../boolean-logic/string";
-import { Narrowable } from "../Narrowable";
+import { Narrowable } from "../literals/Narrowable";
 
 /**
  * **StripEnding**`<T, U>`

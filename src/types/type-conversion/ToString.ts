@@ -1,9 +1,9 @@
-import { Concat } from "src/runtime/lists/Concat";
+import { Concat } from "runtime/lists/Concat";
 import { AnyObject, IsUndefined } from "../boolean-logic";
 import { IfRef } from "../boolean-logic/IfRef";
 import { IfLiteral } from "../boolean-logic/IsLiteral";
 import { AnyFunction } from "../functions/function-types";
-import { Narrowable } from "../Narrowable";
+import { Narrowable } from "../literals/Narrowable";
 
 /**
  * **ToString**

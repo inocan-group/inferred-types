@@ -1,5 +1,5 @@
-import { Narrowable } from "src/types/Narrowable";
-import { keys } from "src/runtime/dictionary/keys";
+import { Narrowable } from "types/literals/Narrowable";
+import { keys } from "runtime/dictionary/keys";
 
 function runtimeExtendsCheck<TValue extends any, TBase extends any>(
   val: TValue,

@@ -1,5 +1,5 @@
 import { IsLiteral, TupleToUnion } from "src/types";
-import { FilterNarrow } from "src/types/lists/FilterNarrow";
+import { FilterNarrow } from "types/lists/FilterNarrow";
 import { IfString } from "../../boolean-logic/string";
 
 /**

@@ -1,7 +1,7 @@
 
 import { AnyFunction } from "../functions/function-types";
 import { Length } from "../lists/Length";
-import { Narrowable } from "../Narrowable";
+import { Narrowable } from "../literals/Narrowable";
 import { IsEqual } from "./equivalency";
 
 /**

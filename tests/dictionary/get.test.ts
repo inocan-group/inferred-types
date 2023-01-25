@@ -1,11 +1,11 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
-import { get } from "src/runtime/dictionary/get";
-import { defineType } from "src/runtime/literals/defineType";
-import { ErrorCondition } from "src/runtime/literals/ErrorCondition";
-import { isErrorCondition } from "src/runtime/type-guards/isErrorCondition";
+import { get } from "runtime/dictionary/get";
+import { defineType } from "runtime/literals/defineType";
+import { ErrorCondition } from "runtime/literals/ErrorCondition";
+import { isErrorCondition } from "runtime/type-guards/isErrorCondition";
 import { DoesExtend, IsErrorCondition } from "src/types";
-import { NoDefaultValue } from "src/types/constants";
-import { Get } from "src/types/dictionary/Get";
+import { NoDefaultValue } from "types/constants";
+import { Get } from "types/dictionary/Get";
 import { describe, expect, it } from "vitest";
 import { ref } from "vue";
 

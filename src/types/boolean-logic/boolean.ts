@@ -1,6 +1,6 @@
 
 import { AnyFunction } from "../functions/function-types";
-import { Narrowable } from "../Narrowable";
+import { Narrowable } from "../literals/Narrowable";
 import { IsEqual } from "./equivalency";
 
 export type IsBoolean<T> = [T] extends [boolean] ? true : false;

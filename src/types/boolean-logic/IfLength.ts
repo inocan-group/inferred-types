@@ -1,6 +1,6 @@
 import { Length } from "src/types";
-import { IfEqual, IsLiteral } from "src/types/boolean-logic";
-import { Narrowable } from "src/types/Narrowable";
+import { IfEqual, IsLiteral } from "types/boolean-logic";
+import { Narrowable } from "types/literals/Narrowable";
 
 /**
  * **IsLength**`<T, LEN>`

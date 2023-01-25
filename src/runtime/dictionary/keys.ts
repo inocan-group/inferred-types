@@ -1,6 +1,6 @@
-import { Keys } from "src/types/Keys";
-import { Narrowable } from "src/types/Narrowable";
-import { isArray, isObject } from "src/runtime/type-guards";
+import { Keys } from "types/Keys";
+import { Narrowable } from "types/literals/Narrowable";
+import { isArray, isObject } from "runtime/type-guards";
 
 /**
  * **keys**(obj)

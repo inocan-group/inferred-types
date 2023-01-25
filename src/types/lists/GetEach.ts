@@ -1,4 +1,4 @@
-import { ErrorCondition } from "src/runtime/literals/ErrorCondition";
+import { ErrorCondition } from "runtime/literals/ErrorCondition";
 import { Get } from "../dictionary/Get";
 import { AfterFirst } from "./AfterFirst";
 import { ConvertSet } from "./ConvertSet";

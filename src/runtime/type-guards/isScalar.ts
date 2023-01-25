@@ -1,4 +1,4 @@
-import { Scalar } from "src/types/Scalar";
+import { Scalar } from "types/Scalar";
 import { isTypeOf } from "./higher-order/isTypeOf";
 
 /**

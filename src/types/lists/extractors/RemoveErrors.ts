@@ -1,5 +1,5 @@
-import { ErrorCondition } from "src/runtime/literals/ErrorCondition";
-import { AnyObject } from "src/types/boolean-logic";
+import { ErrorCondition } from "runtime/literals/ErrorCondition";
+import { AnyObject } from "types/boolean-logic";
 import { ArrExtractor } from "./extractor";
 
 /**

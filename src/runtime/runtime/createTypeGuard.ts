@@ -1,7 +1,7 @@
-import { Type } from "src/types";
+import type { Type, TypeGuard } from "src/types";
 
-export function createTypeGuard<T extends Type>(defn: T) {
-  
+export function createTypeGuard<T extends Exclude<Type, "is" | "validate">>(defn: T): T & Record<"is", TypeGuard<T["type"]>> {
+
   return {
     ...defn,
     /**
@@ -10,7 +10,7 @@ export function createTypeGuard<T extends Type>(defn: T) {
      * Type guard which is able to able to identify and narrow the
      * type definition of a runtime type defined by `Type`
      */
-    is: (value: unknown): value is T => {
+    is: (value: unknown): value is T["type"] => {
       return true;
     }
   } satisfies Type;

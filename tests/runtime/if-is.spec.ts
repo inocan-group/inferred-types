@@ -2,20 +2,18 @@ import { describe, expect, it } from "vitest";
 
 import type { Expect, Equal } from "@type-challenges/utils";
 import {
-  ifArray,
-  ifArrayPartial,
   ifBoolean,
   ifSameType,
   ifTrue,
   ifUndefined,
-} from "src/runtime/type-checks";
-import { EndsWith, DoesExtend, LowerAlpha, Or, StartsWith } from "src/types";
-import { box, wide } from "src/runtime/literals";
+} from "runtime/type-checks";
 import { or } from "src/runtime";
-import { ifString } from "src/runtime/type-guards/isString";
-import { ifNumber } from "src/runtime/type-guards/isNumber";
-import { isTrue } from "src/runtime/type-guards/isTrue";
-import { startsWith } from "src/runtime/type-guards/higher-order/startsWith";
+import { EndsWith, DoesExtend, LowerAlpha, Or, StartsWith } from "src/types";
+import { box, wide } from "runtime/literals";
+import { ifString } from "runtime/type-guards/isString";
+import { ifNumber } from "runtime/type-guards/isNumber";
+import { isTrue } from "runtime/type-guards/isTrue";
+import { startsWith } from "runtime/type-guards/higher-order/startsWith";
 
 describe("runtime if/is", () => {
   it("ifString(v,i,e)", () => {

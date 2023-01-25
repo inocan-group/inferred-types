@@ -1,8 +1,8 @@
-import { NO_DEFAULT_VALUE } from "src/types/constants/NoDefaultValue";
-import { Narrowable } from "src/types/Narrowable";
+import { NO_DEFAULT_VALUE } from "types/constants/NoDefaultValue";
+import { Narrowable } from "types/literals/Narrowable";
 import { AnyObject, DotPath, DotPathFor, Get, Suggest } from "src/types";
 import { split } from "../literals/split";
-import { hasDefaultValue, isFalsy, isTruthy, hasIndexOf } from "src/runtime/type-guards";
+import { hasDefaultValue, isFalsy, isTruthy, hasIndexOf } from "runtime/type-guards";
 import { isRef } from "../type-guards/isRef";
 import {  ReportError } from "../literals/ErrorCondition";
 import { createErrorCondition } from "../runtime/createErrorCondition";

@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { Retain } from "src/types/Retain";
+import { Retain } from "types/Retain";
 import { describe, it, expect } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

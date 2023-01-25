@@ -1,5 +1,5 @@
 import { Narrowable } from "src/types";
-import { ConverterShape, AvailableConverters } from "src/types/lists/ConvertAndMap";
+import { ConverterShape, AvailableConverters } from "types/lists/ConvertAndMap";
 import { boxDictionaryValues } from "../literals/box";
 import { wide } from "../literals/wide";
 import { ifSameType } from "../type-checks";

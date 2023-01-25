@@ -1,5 +1,5 @@
-import { Narrowable } from "src/types/Narrowable";
-import { TypeTuple } from "src/types/type-conversion/TypeTuple";
+import { Narrowable } from "types/literals/Narrowable";
+import { TypeTuple } from "types/type-conversion/TypeTuple";
 
 /**
  * **isTypeTuple**(value)

@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 import { LogicFunction } from "../functions/LogicFunction";
-import { Narrowable } from "../Narrowable";
+import { Narrowable } from "../literals/Narrowable";
 import {  IfTrue, IsFalse, IsTrue, ReturnsFalse, ReturnsTrue } from "./boolean";
 import { IfOr } from "./Or";
 

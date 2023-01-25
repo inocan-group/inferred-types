@@ -1,6 +1,5 @@
-import {  Narrowable } from "src/types";
-import { AnyObject, IfObject } from "src/types/boolean-logic";
-
+import type { Narrowable } from "types/literals";
+import { AnyObject, IfObject } from "types/boolean-logic";
 
 /**
  * **isObject**(value)

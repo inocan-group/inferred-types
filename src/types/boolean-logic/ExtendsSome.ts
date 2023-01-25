@@ -1,6 +1,6 @@
 import { AfterFirst } from "../lists/AfterFirst";
 import { First } from "../lists/First";
-import { Narrowable } from "../Narrowable";
+import { Narrowable } from "../literals/Narrowable";
 
 /**
  * **ExtendsSome**`<TValue,TList>`

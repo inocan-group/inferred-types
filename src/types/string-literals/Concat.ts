@@ -1,6 +1,6 @@
-import { IfLiteral } from "src/types/boolean-logic";
-import { AfterFirst } from "src/types/lists/AfterFirst";
-import { First } from "src/types/lists/First";
+import { IfLiteral } from "types/boolean-logic";
+import { AfterFirst } from "types/lists/AfterFirst";
+import { First } from "types/lists/First";
 
 type ConcatElement = (string | number | boolean);
 type ElementLiteral<T extends ConcatElement> = T extends string

@@ -1,6 +1,6 @@
 import { IsEqual } from "./equivalency";
 import { AfterFirst, First } from "../lists";
-import { Narrowable } from "../Narrowable";
+import { Narrowable } from "../literals/Narrowable";
 import { AnyFunction } from "../functions/function-types";
 
 /**

@@ -1,6 +1,6 @@
 import { SimplifyObject } from "src/types";
-import { ExpandRecursively } from "src/types/ExpandRecursively";
-import { Narrowable } from "src/types/Narrowable";
+import { ExpandRecursively } from "types/ExpandRecursively";
+import { Narrowable } from "types/literals/Narrowable";
 
 /**
  * Build a _type_ from two run-time dictionaries.

@@ -1,5 +1,5 @@
-import { Narrowable } from "src/types/Narrowable";
-import { IsNull } from "src/types/boolean-logic/IsNull";
+import { Narrowable } from "types/literals/Narrowable";
+import { IsNull } from "types/boolean-logic/IsNull";
 
 export function isNull<T extends unknown>(value: T): value is T & null {
   return (value === null) ? true : false;

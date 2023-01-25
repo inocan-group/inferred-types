@@ -1,7 +1,7 @@
-import { IfEqual } from "src/types/boolean-logic/equivalency";
+import { IfEqual } from "types/boolean-logic/equivalency";
 import { IfLength } from "./boolean-logic/IfLength";
 import { NumericKeys } from "./lists/NumericKeys";
-import { Narrowable } from "./Narrowable";
+import { Narrowable } from "./literals/Narrowable";
 import { UnionToTuple } from "./type-conversion/UnionToTuple";
 
 /**

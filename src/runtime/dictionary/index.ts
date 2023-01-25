@@ -9,6 +9,7 @@ export * from "./defineProperties";
 export * from "./dictionaryTransform";
 export * from "./dictArr";
 export * from "./entries";
+export * from "./keys";
 export * from "./mapValues";
 export * from "./mapTo";
 export * from "./exclude";

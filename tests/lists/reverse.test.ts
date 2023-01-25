@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { reverse } from "src/runtime/lists/reverse";
-import { Reverse } from "src/types/lists/Reverse";
+import { reverse } from "runtime/lists/reverse";
+import { Reverse } from "types/lists/Reverse";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

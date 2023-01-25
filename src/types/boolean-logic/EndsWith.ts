@@ -1,5 +1,5 @@
-import { IfNumericLiteral, IsStringLiteral } from "src/types/boolean-logic";
-import { Narrowable } from "../Narrowable";
+import { IfNumericLiteral, IsStringLiteral } from "types/boolean-logic";
+import { Narrowable } from "../literals/Narrowable";
 import { ToString } from "../type-conversion/ToString";
 import { IfString } from "./string";
 

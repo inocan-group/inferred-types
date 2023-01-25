@@ -1,6 +1,6 @@
 import { Narrowable } from "src/types";
-import { IfTrue, StartsWith } from "src/types/boolean-logic";
-import { createFnWithProps } from "src/runtime/functions";
+import { IfTrue, StartsWith } from "types/boolean-logic";
+import { createFnWithProps } from "runtime/functions";
 import { box, Box } from "../literals";
 import { startsWith } from "../type-guards/higher-order/startsWith";
 import { ifTrue } from "./ifTrue";

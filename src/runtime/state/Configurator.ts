@@ -1,4 +1,4 @@
-import { ExpandRecursively } from "src/types/ExpandRecursively";
+import { ExpandRecursively } from "types/ExpandRecursively";
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 function omit<T extends {}, K extends Array<keyof T>>(obj: T, ...removals: K) {

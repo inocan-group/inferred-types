@@ -1,4 +1,4 @@
-import { Or } from "src/types/boolean-logic/Or";
+import { Or } from "types/boolean-logic/Or";
 
 /**
  * **or**(conditions) -> boolean

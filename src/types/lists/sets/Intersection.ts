@@ -1,6 +1,6 @@
-import { AfterFirst, First, GetEach, IndexOf } from "src/types/lists";
-import { IfContains, IsEqual } from "src/types/boolean-logic";
-import { Narrowable } from "src/types/Narrowable";
+import { AfterFirst, First, GetEach, IndexOf } from "types/lists";
+import { IfContains, IsEqual } from "types/boolean-logic";
+import { Narrowable } from "types/literals/Narrowable";
 import { SetCandidate } from "./SetCandidate";
 import { IntoSet } from "./IntoSet";
 import { Find } from "../Find";
