@@ -1,6 +1,6 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
-import { DotPathFor } from "src/types/string-literals/DotPathFor";
-import {  DoesExtend } from "src/types/boolean-logic";
+import { DotPathFor } from "types/string-literals/DotPathFor";
+import {  DoesExtend } from "types/boolean-logic";
 import { describe, it } from "vitest";
 import { Ref } from "vue";
 

@@ -1,6 +1,6 @@
 
 import {  IsEqual } from "..";
-import { Narrowable } from "./Narrowable";
+import { Narrowable } from "./literals/Narrowable";
 
 /**
  * **FunctionType**

@@ -1,5 +1,5 @@
 import { Narrowable } from "src/types";
-import { KvPair } from "src/types/type-conversion/KvToObject";
+import { KvPair } from "types/type-conversion/KvToObject";
 
 /**
  * **isKvPair**

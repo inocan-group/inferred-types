@@ -1,5 +1,5 @@
 import { IfEqual, IfExtends } from "../boolean-logic";
-import { Narrowable } from "../Narrowable";
+import { Narrowable } from "../literals/Narrowable";
 import { AfterFirst } from "./AfterFirst";
 import { First } from "./First";
 

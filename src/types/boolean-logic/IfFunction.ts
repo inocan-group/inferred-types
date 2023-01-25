@@ -1,5 +1,5 @@
 import { AnyFunction } from "../functions/function-types";
-import { Narrowable } from "../Narrowable";
+import { Narrowable } from "../literals/Narrowable";
 
 /**
  * **IfFunction**`<T, IsFn, NotFn>`

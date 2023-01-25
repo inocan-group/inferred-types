@@ -1,7 +1,7 @@
-import { wide } from "src/runtime";
-import { createTypeMapRule } from "src/runtime/runtime/createTypeMatcher";
-import { Alpha, LowerAlpha, UpperAlpha } from "src/types/string-literals";
-import { Digit } from "src/types/Numeric";
+import { wide } from "runtime";
+import { createTypeMapRule } from "runtime/runtime/createTypeMatcher";
+import { Alpha, LowerAlpha, UpperAlpha } from "types/string-literals";
+import { Digit } from "types/Numeric";
 
 /**
  * strip off the `literal:` tag on string literals

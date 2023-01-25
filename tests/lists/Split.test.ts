@@ -1,6 +1,6 @@
 import { describe, it } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
-import { Split } from "src/types/lists";
+import { Split } from "types/lists";
 
 describe("Split<T, SEP>", () => {
   it("Split<T, SEP> with string literals", () => {

@@ -1,5 +1,5 @@
 import { TupleToUnion, UnionToTuple } from "../type-conversion";
-import { Narrowable } from "../Narrowable";
+import { Narrowable } from "../literals/Narrowable";
 import { First } from "./First";
 import { AfterFirst } from "./AfterFirst";
 import { Keys } from "../Keys";

@@ -1,7 +1,7 @@
 import { NotEqual } from "@type-challenges/utils";
 import { Keys } from "../Keys";
 import { Length } from "../lists/Length";
-import { Narrowable } from "../Narrowable";
+import { Narrowable } from "../literals/Narrowable";
 import { And, IfAnd } from "./And";
 import { IsBooleanLiteral } from "./boolean";
 import { IsEqual } from "./equivalency";

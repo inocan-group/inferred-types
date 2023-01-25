@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { AnyObject } from "src/types";
-import { AllExtend } from "src/types/boolean-logic/AllExtend";
+import { AllExtend } from "types/boolean-logic/AllExtend";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

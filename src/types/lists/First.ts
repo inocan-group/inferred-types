@@ -1,5 +1,5 @@
 import { IfLength } from "../boolean-logic/IfLength";
-import { Narrowable } from "../Narrowable";
+import { Narrowable } from "../literals/Narrowable";
 
 /**
  * **First**`<T>`

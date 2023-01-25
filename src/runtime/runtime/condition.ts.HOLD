@@ -1,4 +1,4 @@
-import { Narrowable } from "src/types/Narrowable";
+import { Narrowable } from "types/literals/Narrowable";
 
 export type Condition<TInput extends Narrowable, TResult extends boolean> = (
   input: TInput

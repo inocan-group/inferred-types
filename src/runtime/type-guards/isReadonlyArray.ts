@@ -1,5 +1,5 @@
 import { ExpandRecursively } from "src/types";
-import { Narrowable } from "src/types/Narrowable";
+import { Narrowable } from "types/literals/Narrowable";
 
 /**
  * **isReadonlyArray**(value)

@@ -1,5 +1,5 @@
 import { Narrowable } from "src/types";
-import { ConvertType, TypeMapMatcher, TypeMapRule, TypeMapTransformer } from "src/types/type-conversion/MapType";
+import { ConvertType, TypeMapMatcher, TypeMapRule, TypeMapTransformer } from "types/type-conversion/MapType";
 import { t } from "../runtime";
 import { Never } from "../runtime/Never";
 import { endsWith } from "../type-guards/higher-order/endsWith";

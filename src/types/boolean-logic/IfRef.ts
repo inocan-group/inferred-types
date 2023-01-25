@@ -1,5 +1,5 @@
 import { Keys } from "../Keys";
-import { Narrowable } from "../Narrowable";
+import { Narrowable } from "../literals/Narrowable";
 import { IfLength } from "./IfLength";
 
 /**

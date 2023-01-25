@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { ErrorCondition } from "src/runtime/literals/ErrorCondition";
+import { ErrorCondition } from "runtime/literals/ErrorCondition";
 import { Length } from "src/types";
 import { describe, it } from "vitest";
 

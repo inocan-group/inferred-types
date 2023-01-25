@@ -1,13 +1,13 @@
-import { AnyObject, IfObject, IsOptionalScalar } from "src/types/boolean-logic";
+import { AnyObject, IfObject, IsOptionalScalar } from "types/boolean-logic";
 import { Retain, Keys } from "src/types";
 import { IfUndefined } from "../boolean-logic/IsUndefined";
-import { Narrowable } from "../Narrowable";
+import { Narrowable } from "../literals/Narrowable";
 import { IfAnd } from "../boolean-logic/And";
 import { AfterFirst } from "../lists/AfterFirst";
 import { First } from "../lists/First";
 import { UnionToTuple } from "./UnionToTuple";
 import { KvPair, KvToObject } from ".";
-import { ExpandRecursively } from "../ExpandRecursively";
+import { ExpandRecursively } from "../literals/ExpandRecursively";
 import { WithoutKeys } from "../dictionary/WithKeys";
 
 // 1. Keep all unique keys in `TValue`

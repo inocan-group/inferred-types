@@ -1,6 +1,6 @@
 import { AfterFirst } from "../lists";
 import { First } from "../lists/First";
-import { Narrowable } from "../Narrowable";
+import { Narrowable } from "../literals/Narrowable";
 
 /**
  * **Equal**`<X extends Narrowable,Y>`

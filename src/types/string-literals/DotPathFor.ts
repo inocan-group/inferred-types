@@ -7,7 +7,7 @@ import { Keys } from "../Keys";
 import { AfterFirst, First, RemoveEquals } from "../lists";
 import { Flatten } from "../lists/Flatten";
 import { Retain } from "../lists/Retain";
-import { Narrowable } from "../Narrowable";
+import { Narrowable } from "../literals/Narrowable";
 import { TupleToUnion } from "../type-conversion";
 import { ToString } from "../type-conversion/ToString";
 import { EmptyString } from "./EmptyString";

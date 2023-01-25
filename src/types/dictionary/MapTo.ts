@@ -1,10 +1,10 @@
 /* eslint-disable no-use-before-define */
-import { OptRequired } from "src/types/literals";
+import { OptRequired } from "types/literals";
 import {
   DefaultManyToOneMapping,
   DefaultOneToManyMapping,
   DefaultOneToOneMapping,
-} from "src/runtime/dictionary/mapTo";
+} from "runtime/dictionary/mapTo";
 import { EnumValues } from "../EnumValues";
 import { MergeObjects } from "../type-conversion";
 

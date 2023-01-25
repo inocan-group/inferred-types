@@ -1,4 +1,4 @@
-import { ExpandRecursively } from "../ExpandRecursively";
+import { ExpandRecursively } from "../literals/ExpandRecursively";
 
 /**
  * Provides a strongly typed _key_ and _value_ for a dictionary `T`

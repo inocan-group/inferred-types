@@ -9,8 +9,8 @@ import {
   Mapper,
   MapFn,
   OptRequired
-} from "src/types/dictionary";
-import { createFnWithProps } from "src/runtime/functions";
+} from "types/dictionary";
+import { createFnWithProps } from "runtime/functions";
 
 /**
  * utility function to take a fully-qualified _user_ config

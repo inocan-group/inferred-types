@@ -3,8 +3,8 @@ import {
   TypeOptions, 
   IfLiteral, 
   IfString, IfReadonlyArray, AlphaNumericChar, LowerAlpha, UpperAlpha, Concat, First, AfterFirst } from "src/types";
-import { Narrowable } from "src/types/Narrowable";
-import { ToString } from "src/types/type-conversion";
+import { Narrowable } from "types/literals/Narrowable";
+import { ToString } from "types/type-conversion";
 import { FromTypeDefn, Type, TypeDefaultValue } from "../Type";
 
 /**

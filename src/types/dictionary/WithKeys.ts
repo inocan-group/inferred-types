@@ -1,4 +1,4 @@
-import { ExpandRecursively } from "../ExpandRecursively";
+import { ExpandRecursively } from "../literals/ExpandRecursively";
 import { Keys } from "../Keys";
 import { SetRemoval } from "../lists/set-ops";
 import { TupleToUnion, UnionToIntersection, UnionToTuple } from "../type-conversion";

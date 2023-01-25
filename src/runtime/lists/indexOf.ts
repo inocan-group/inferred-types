@@ -1,5 +1,5 @@
-import { IndexOf } from "src/types/lists/IndexOf";
-import { Narrowable } from "src/types/Narrowable";
+import { IndexOf } from "types/lists/IndexOf";
+import { Narrowable } from "types/literals/Narrowable";
 import { Never } from "../runtime/Never";
 import { isArray, isNull, isObject } from "../type-guards";
 

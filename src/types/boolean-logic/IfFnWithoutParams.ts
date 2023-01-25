@@ -1,5 +1,5 @@
 import { BaseFunction } from "../functions/function-types";
-import { Narrowable } from "../Narrowable";
+import { Narrowable } from "../literals/Narrowable";
 import { IsFnWithParams } from "./IsFnWithParams";
 
 /**

@@ -5,10 +5,8 @@
 // hash-code: 9dd9ac96
 
 // file exports
-export * from "./dictionary/keys";
 
 // directory exports
-export * from "./api/index";
 export * from "./combinators/index";
 export * from "./dictionary/index";
 export * from "./lists/index";

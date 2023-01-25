@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { EnsureLeadingEvery } from "src/types/string-literals/EnsureLeadingEvery";
+import { EnsureLeadingEvery } from "types/string-literals/EnsureLeadingEvery";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

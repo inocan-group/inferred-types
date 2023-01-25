@@ -1,4 +1,4 @@
-import { Constant } from "src/types/constants/Constant";
+import { Constant } from "types/constants/Constant";
 import { isEqual } from "./higher-order";
 import { isTypeOf } from "./higher-order/isTypeOf";
 import { isObject } from "./isObject";

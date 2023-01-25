@@ -1,4 +1,4 @@
-import { LogicFunction } from "src/types/functions/LogicFunction";
+import { LogicFunction } from "types/functions/LogicFunction";
 import { ifBoolean } from "../type-checks";
 import { ifFunction } from "../type-checks/ifFunction";
 

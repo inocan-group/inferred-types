@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { createConverter } from "src/runtime/lists/createConverter";
+import { createConverter } from "runtime/lists/createConverter";
 import { describe, it, expect } from "vitest";
 
 // Note: while type tests fail visible inspection they pass from Vitest

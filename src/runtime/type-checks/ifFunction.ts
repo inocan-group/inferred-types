@@ -1,6 +1,6 @@
-import { IfFunction } from "src/types/boolean-logic";
-import { AnyFunction } from "src/types/functions";
-import { Narrowable } from "src/types/Narrowable";
+import { IfFunction } from "types/boolean-logic";
+import { AnyFunction } from "types/functions";
+import { Narrowable } from "types/literals/Narrowable";
 import { isFunction } from "../type-guards/isFunction";
 
 /**

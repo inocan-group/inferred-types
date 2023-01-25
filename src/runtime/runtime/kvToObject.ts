@@ -1,6 +1,6 @@
 
 import { Narrowable } from "src/types";
-import {  KvPair, KvToObject } from "src/types/type-conversion/KvToObject";
+import {  KvPair, KvToObject } from "types/type-conversion/KvToObject";
 import { isKvPairArray } from "../type-guards/isKvPairArray";
 
 /**

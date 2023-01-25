@@ -1,4 +1,4 @@
-import { EnsureLeading } from "src/types/string-literals";
+import { EnsureLeading } from "types/string-literals";
 
 /**
  * **ensureLeading**(content, strip)

@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import {  mergeObjects, mergeScalars, mergeTuples } from "src/runtime";
+import {  mergeScalars, mergeTuples } from "runtime";
 import { MergeObjects, MergeScalars, MergeTuples } from "src/types";
 import { describe, expect, it } from "vitest";
 
@@ -79,7 +79,7 @@ describe("Merge Objects", () => {
   });
 
   it("runtime tests", () => {
-    const justExtend = mergeObjects({foo: 1, bar: 2}, {baz: 3});
+    // const justExtend = mergeObjects({foo: 1, bar: 2}, {baz: 3});
 
     
   });

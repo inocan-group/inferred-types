@@ -8,7 +8,7 @@ import { Keys } from "../Keys";
 import { AfterFirst, Length } from "../lists";
 import { First } from "../lists/First";
 import { Split } from "../lists/Split";
-import { Narrowable } from "../Narrowable";
+import { Narrowable } from "../literals/Narrowable";
 import { Scalar } from "../Scalar";
 import { TupleToUnion } from "../type-conversion";
 import { AlphaNumericChar } from "./alpha-characters";

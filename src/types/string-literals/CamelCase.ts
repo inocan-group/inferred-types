@@ -1,7 +1,7 @@
-import { IfTrue } from "src/types/boolean-logic";
-import { LeftWhitespace , RightWhitespace } from "src/types/type-conversion";
-import { PascalCase } from "src/types/string-literals";
-import { Concat } from "src/runtime/lists/Concat";
+import { IfTrue } from "types/boolean-logic";
+import { LeftWhitespace , RightWhitespace } from "types/type-conversion";
+import { PascalCase } from "types/string-literals";
+import { Concat } from "runtime/lists/Concat";
 
 /**
  * **CamelCase**`<TString,TPreserveWhitespace>`

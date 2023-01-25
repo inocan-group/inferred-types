@@ -1,5 +1,7 @@
-import { AnyFunction, Narrowable } from "src/types";
-import { keys } from "src/runtime/dictionary";
+import { keys } from "runtime/dictionary";
+import { AnyFunction } from "types/functions";
+import {  Narrowable } from "types/literals/Narrowable";
+
 /**
  * **createFnWithProps**(fn, params)
  * 
@@ -17,7 +19,7 @@ export function createFnWithProps<
   const combined: any = fn;
 
   for (const i of keys(props)) {
-    combined[i] = props[i];
+    combined[i] = props[i as any];
   }
   for (const i of keys(fn)) {
     combined[i] = fn[i];
@@ -38,14 +40,3 @@ export function fnWithProps<A extends any[], R extends any, P extends {}>(fn: ((
   return combined as ((...args: A) => R) & P;
 }
 
-/**
- * Adds read-only (and narrowly typed) key/value pairs to a function
- */
-export function readonlyFnWithProps<A extends any[], R extends any, N extends Narrowable, P extends Record<keyof P, N>>(fn: ((...args: A) => R), props: P) {
-  // eslint-disable-next-line prefer-const
-  let combined: any = fn;
-  for (const prop of keys(props)) {
-    combined[prop] = props[prop];
-  }
-  return combined as ((...args: A) => R) & Readonly<P>;
-}

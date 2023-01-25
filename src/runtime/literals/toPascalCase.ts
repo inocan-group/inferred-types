@@ -1,5 +1,5 @@
-import { PascalCase } from "src/types/string-literals/PascalCase";
-import { LeftWhitespace, RightWhitespace } from "src/types/type-conversion";
+import { PascalCase } from "types/string-literals/PascalCase";
+import { LeftWhitespace, RightWhitespace } from "types/type-conversion";
 import { capitalize } from "./capitalize";
 
 /**

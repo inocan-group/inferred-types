@@ -1,4 +1,4 @@
-import { ExpandRecursively } from "../ExpandRecursively";
+import { ExpandRecursively } from "../literals/ExpandRecursively";
 
 /**
  * Given a dictionary of type `<T>`, this utility function will

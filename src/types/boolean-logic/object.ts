@@ -1,6 +1,6 @@
 
 import { Mutable } from "../type-conversion/Mutable";
-import { Narrowable } from "../Narrowable";
+import { Narrowable } from "../literals/Narrowable";
 import { Or } from "./Or";
 import { AnyFunction } from "../functions/function-types";
 import { Keys } from "../Keys";

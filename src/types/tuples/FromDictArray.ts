@@ -1,4 +1,4 @@
-import { ExpandRecursively } from "../ExpandRecursively";
+import { ExpandRecursively } from "../literals/ExpandRecursively";
 import { UnionToIntersection } from "../type-conversion";
 
 /**

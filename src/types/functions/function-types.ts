@@ -1,6 +1,6 @@
 
 import { AnyObject, IsEmptyObject } from "../boolean-logic";
-import { Narrowable } from "../Narrowable";
+import { Narrowable } from "../literals/Narrowable";
 
 /**
  * **FnWithDict**

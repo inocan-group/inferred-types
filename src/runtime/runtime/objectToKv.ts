@@ -1,6 +1,6 @@
-import { AnyObject } from "src/types/boolean-logic/object";
-import { KvPair } from "src/types/type-conversion/KvToObject";
-import { ObjectToKv } from "src/types/type-conversion/ObjectToKv";
+import { AnyObject } from "types/boolean-logic/object";
+import { KvPair } from "types/type-conversion/KvToObject";
+import { ObjectToKv } from "types/type-conversion/ObjectToKv";
 import { isObject } from "../type-guards/isObject";
 
 /**

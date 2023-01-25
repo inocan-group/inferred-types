@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
-import { dictArr, keys, literal } from "src/runtime";
+import { dictArr, keys, literal } from "runtime";
 
 type O = {
   id: number;

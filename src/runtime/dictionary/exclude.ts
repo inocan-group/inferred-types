@@ -1,5 +1,5 @@
 import { TupleToUnion } from "src/types";
-import { AnyObject } from "src/types/boolean-logic/object";
+import { AnyObject } from "types/boolean-logic/object";
 import { keys } from "./keys";
 
 /**

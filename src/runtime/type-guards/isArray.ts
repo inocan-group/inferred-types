@@ -1,5 +1,5 @@
-import { IfArray } from "src/types/boolean-logic/array";
-import { Narrowable } from "src/types/Narrowable";
+import { IfArray } from "types/boolean-logic/array";
+import { Narrowable } from "types/literals/Narrowable";
 
 /**
  * **isArray**(value)

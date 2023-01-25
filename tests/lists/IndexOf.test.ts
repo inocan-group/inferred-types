@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { indexOf } from "src/runtime/lists/indexOf";
-import { Never } from "src/runtime/runtime/Never";
-import { IndexOf } from "src/types/lists/IndexOf";
+import { indexOf } from "runtime/lists/indexOf";
+import { Never } from "runtime/runtime/Never";
+import { IndexOf } from "types/lists/IndexOf";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

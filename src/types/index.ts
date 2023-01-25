@@ -4,27 +4,19 @@
 // hash-code: fbd4603a
 
 // file exports
-export * from "./Api";
 export * from "./Constructor";
 export * from "./constants";
 export * from "./EnumValues";
-export * from "./ExpandRecursively";
-export * from "./lists/First";
 export * from "./FunctionType";
 export * from "./If";
 export * from "./KeyedRecord";
 export * from "./Keys";
-export * from "./lists/Length";
-export * from "./Narrowable";
 export * from "./Numeric";
-export * from "./lists/Retain";
 export * from "./Opaque";
-export * from "./dictionary/WithKeys";
 export * from "./SimplifyObject";
 export * from "./Transformer";
 export * from "./TypeGuard";
 export * from "./Where";
-export * from "./append-types";
 export * from "./maybe";
 export * from "./runtime";
 export * from "./Scalar";

@@ -1,4 +1,4 @@
-import { Narrowable } from "../Narrowable";
+import { Narrowable } from "../literals/Narrowable";
 import { TypeGuard } from "../TypeGuard";
 
 /**

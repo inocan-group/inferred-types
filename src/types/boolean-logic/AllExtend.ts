@@ -1,5 +1,5 @@
 import { AfterFirst, First } from "../lists";
-import { Narrowable } from "../Narrowable";
+import { Narrowable } from "../literals/Narrowable";
 import { IfExtends } from "./IfExtends";
 
 type AllAcc<

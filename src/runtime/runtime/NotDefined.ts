@@ -1,4 +1,4 @@
-import { createConstant } from "src/types/constants/createConstant";
+import { createConstant } from "types/constants/createConstant";
 
 /**
  * **NOT_DEFINED**

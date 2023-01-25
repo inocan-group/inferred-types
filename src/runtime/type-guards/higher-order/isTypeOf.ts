@@ -1,5 +1,5 @@
 import { Narrowable } from "src/types";
-import { TypeOf, ConvertTypeOf } from "src/types/runtime-types";
+import { TypeOf, ConvertTypeOf } from "types/runtime-types";
 
 /**
  * **isTypeOf**(type, value)

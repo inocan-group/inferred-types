@@ -5,8 +5,8 @@
 // hash-code: 5ddbbf55
 
 // directory exports
-export * from "./types/index";
-export * from "./runtime/index";
+export * from "types/index";
+export * from "runtime/index";
 
 // #endregion auto-indexed files
 

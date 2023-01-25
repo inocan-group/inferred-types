@@ -1,5 +1,5 @@
 import { AnyObject, DoesExtend, IfNull, IfOr } from "../boolean-logic";
-import { Narrowable } from "../Narrowable";
+import { Narrowable } from "../literals/Narrowable";
 
 /**
  * **IndexOf**<TValue, TIdx>

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { Concat } from "src/runtime/lists/Concat";
+import { Concat } from "runtime/lists/Concat";
 import { IfTrue } from "../boolean-logic/boolean";
 import { LeftWhitespace, RightWhitespace, Trim } from "../type-conversion/string-literals";
 import { DashUppercase } from "./DashUppercase";

@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
 import { LogicFunction } from "../functions/LogicFunction";
 import { ReturnTypes } from "../lists";
-import { Narrowable } from "../Narrowable";
+import { Narrowable } from "../literals/Narrowable";
 import { NarrowlyContains } from "./array";
 
 /**

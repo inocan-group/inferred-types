@@ -1,5 +1,5 @@
-import { IsNumber } from "src/runtime/type-guards/isNumber";
-import { Narrowable } from "../Narrowable";
+import { IsNumber } from "runtime/type-guards/isNumber";
+import { Narrowable } from "../literals/Narrowable";
 import { IsBoolean } from "./boolean";
 import { IsNull } from "./IsNull";
 import { IsSymbol } from "./IsSymbol";

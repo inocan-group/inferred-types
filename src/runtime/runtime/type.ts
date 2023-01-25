@@ -11,7 +11,7 @@ import {
   TypeApi,
   TypeUnderlying,
 } from "src/types";
-import {isTypeDefn} from "src/runtime";
+import {isTypeDefn} from "runtime/type-guards";
 import { keys } from "../dictionary/keys";
 import { box } from "../literals";
 import { createTypeGuard } from "./createTypeGuard";
@@ -95,10 +95,10 @@ export const createTypeDefn = <
     ),
 
     // stubs
-    validate: (_val) => true,
-    is: ((_val) => true) as FullType["is"],
+    // validate: (_val) => true,
+    // is: ((_val) => true) as FullType["is"],
 
-  } satisfies Type;
+  } satisfies Exclude<Type<TKind>, "is"| "validate">;
 
   return createValidator(createTypeGuard(type)) as FullType;
 };

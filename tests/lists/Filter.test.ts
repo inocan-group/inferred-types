@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { Contains } from "src/types";
-import { RemoveNever } from "src/types/lists/extractors";
-import { Filter } from "src/types/lists/Filter";
+import { RemoveNever } from "types/lists/extractors";
+import { Filter } from "types/lists/Filter";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

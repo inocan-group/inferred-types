@@ -1,5 +1,5 @@
-import { DictArray, DictArrayFilterCallback } from "src/types/tuples";
-import { Configurator, IConfigurator } from "src/runtime/state";
+import { DictArray, DictArrayFilterCallback } from "types/tuples";
+import { Configurator, IConfigurator } from "runtime/state";
 
 export interface Array<T> {
   filter<U extends T>(pred: (a: T) => a is U): U[];

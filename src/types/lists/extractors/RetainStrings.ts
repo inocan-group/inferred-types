@@ -1,4 +1,4 @@
-import { AnyObject } from "src/types/boolean-logic";
+import { AnyObject } from "types/boolean-logic";
 import { ArrExtractor } from "./extractor";
 
 /**
