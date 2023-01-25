@@ -1,6 +1,6 @@
 import { AnyObject } from "src/types/boolean-logic";
 import { AnyFunction } from "src/types/functions/function-types";
-import { keys } from "../keys";
+import { keys } from "../dictionary/keys";
 import { isTypeOf } from "./higher-order/isTypeOf";
 
 /**

@@ -1,4 +1,4 @@
-import { keys } from "../keys";
+import { keys } from "../dictionary/keys";
 import { isNumber } from "./isNumber";
 import { isObject } from "./isObject";
 import { isReadonlyArray } from "./isReadonlyArray";

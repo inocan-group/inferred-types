@@ -1,22 +1,26 @@
-import { IfReadonlyArray } from "src/types/boolean-logic";
-import { Narrowable } from "src/types/Narrowable";
-import { Mutable, UnionToTuple } from "src/types/type-conversion";
+import { AnyObject } from "src/types/boolean-logic";
+import { ToKV, UnionToTuple } from "src/types/type-conversion";
 import { SetCandidate } from "./SetCandidate";
 
 /**
  * **IntoSet**`<T>`
  * 
- * Receives a type that extends `SetCandidate` and turns it into a "set"; where
- * a set means it is a readonly array of _narrowable_ values.
+ * `T` is expected to _extend_ one of the following:
+ * 
+ * 1. `readonly Narrowable[]`
+ * 2. a literal `AnyObject` (which will be converted to an iterable KV)
+ * 3. a union type of values (which will be converted into a readonly array)
  * 
  * ```ts
  * // readonly ["foo", "bar", "baz"]
- * type T1 = UniqueSet<"foo" | "bar" | "baz">;
- * type T2 = UniqueSet<["foo", "bar", "baz"]>;
+ * type T1 = IntoSet<"foo" | "bar" | "baz">;
+ * type T2 = IntoSet<["foo", "bar", "baz"]>;
+ * // readonly [ [k,v], [k,v] ]
+ * type T3 = IntoSet<Obj>;
  * ```
  */
-export type IntoSet<T extends SetCandidate> = IfReadonlyArray<
-  T, 
-  T extends readonly Narrowable[] ? readonly [...T] : never, 
-  readonly [...UnionToTuple<Mutable<T>>]
->;
+export type IntoSet<T extends SetCandidate> = T extends readonly any[]
+  ? Readonly<T>
+  : T extends AnyObject
+      ? ToKV<T>
+      : T extends string | number ? Readonly<UnionToTuple<T>> : never;

@@ -18,3 +18,5 @@ export type LastInUnion<U> = UnionToIntersection<U extends unknown ? (x: U) => 0
 export type UnionToTuple<U, Last = LastInUnion<U>> = [U] extends [never]
   ? []
   : [...UnionToTuple<Exclude<U, Last>>, Last];
+
+type x = UnionToTuple<"foo" | "bar">;

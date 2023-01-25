@@ -5,8 +5,8 @@
 // hash-code: 9dd9ac96
 
 // file exports
-export * from "./createFnWithProps";
-export * from "./keys";
+export * from "./dictionary/keys";
+
 // directory exports
 export * from "./api/index";
 export * from "./combinators/index";
@@ -15,7 +15,8 @@ export * from "./lists/index";
 export * from "./literals/index";
 export * from "./state/index";
 export * from "./type-conversion/index";
-
+export * from "./type-guards/index";
+export * from "./functions/index";
 // #endregion auto-indexed files
 
 // see https://github.com/inocan-group/do-devops/docs/autoindex.md

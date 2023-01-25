@@ -1,5 +1,3 @@
-
-
 /**
  * **isDefined**(value)
  * 

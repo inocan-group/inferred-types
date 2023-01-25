@@ -1,8 +1,9 @@
-import { AfterFirst, First } from "src/types/lists";
-import { IfContains } from "src/types/boolean-logic";
+import { AfterFirst, First, GetEach, IndexOf } from "src/types/lists";
+import { IfContains, IsEqual } from "src/types/boolean-logic";
 import { Narrowable } from "src/types/Narrowable";
 import { SetCandidate } from "./SetCandidate";
 import { IntoSet } from "./IntoSet";
+import { Find } from "../Find";
 
 
 
@@ -13,14 +14,24 @@ TDeref extends string | number | null = null,
 Intersection extends readonly Narrowable[] = readonly []
 > = [] extends A
 ? Intersection
-: IfContains<
-    B, First<A>, // if B tuple contains first element of A
-    IntersectionAcc<AfterFirst<A>, B, TDeref, readonly [...Intersection, First<A>]>,
-    IntersectionAcc<AfterFirst<A>, B, TDeref, Intersection>
-  >;
+: TDeref extends null
+  ? IfContains<
+      B, First<A>, // if B tuple contains first element of A
+      IntersectionAcc<AfterFirst<A>, B, TDeref, readonly [...Intersection, First<A>]>,
+      IntersectionAcc<AfterFirst<A>, B, TDeref, Intersection>
+    >
+  : IfContains<
+      GetEach<B, TDeref>, IndexOf<First<A>, TDeref>, // Deref: if B tuple contains first element of A
+      Find<B, IndexOf<First<A>, TDeref>, TDeref> extends infer Found
+        ? IsEqual<Found, First<A>> extends true
+          ? IntersectionAcc<AfterFirst<A>, B, TDeref, readonly [...Intersection, First<A>]>
+          : IntersectionAcc<AfterFirst<A>, B, TDeref, readonly [...Intersection, First<A>, Found]>
+        : IntersectionAcc<AfterFirst<A>, B, TDeref, readonly [...Intersection, First<A>]>,
+      IntersectionAcc<AfterFirst<A>, B, TDeref, Intersection>
+    >;
 
 /**
-* **Intersection**`<A,B>`
+* **Intersection**`<A,B, [Deref]>`
 * 
 * Takes two sets `A` and `B` and returns the values which exist in both.
 */

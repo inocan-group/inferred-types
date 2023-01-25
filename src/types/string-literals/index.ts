@@ -7,6 +7,7 @@
 export * from "./AllCaps";
 export * from "./CamelCase";
 export * from "./CapitalizeWords";
+export * from "./Concat";
 export * from "./DashToSnake";
 export * from "./DotPath";
 export * from "./DotPathFor";

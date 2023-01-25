@@ -1,55 +1,23 @@
 /* eslint-disable no-use-before-define */
-import {  NO_DEFAULT_VALUE } from "src/types/constants";
-import { isTypeDefn } from "src/types/runtime-types/runtime-type-guards";
-import { 
+import {
   FromTypeDefn,
   LITERAL_TYPE_KINDS,
-  Type, 
-  TypeDefaultValue, 
-  TypeDefn, 
-  TypeDefnValidations, 
+  NO_DEFAULT_VALUE,
+  Type,
+  TypeDefaultValue,
+  TypeDefn,
+  TypeDefnValidations,
   TypeKind,
-  TypeUnderlying, 
-} from "src/types/runtime-types/Type";
-import { TypeApi } from "src/types/runtime-types/api/index";
-import { keys } from "../keys";
+  TypeApi,
+  TypeUnderlying,
+} from "src/types";
+import {isTypeDefn} from "src/runtime";
+import { keys } from "../dictionary/keys";
 import { box } from "../literals";
 import { createTypeGuard } from "./createTypeGuard";
 import { createValidator } from "./createValidator";
 import { determineIdentity } from "./determineIdentity";
 import { determineType } from "./determineType";
-
-
-
-export const typeApiImplementation: TypeApi = {
-  string(o) {
-    return createTypeDefn({
-      ...o,
-      kind: "string",
-    });
-  },
-  number(o) {
-    return createTypeDefn({
-      ...o,
-      kind: "number",
-    });
-  },
-  boolean(o) {
-    return createTypeDefn({
-      ...o,
-      kind: "boolean",
-    });
-  }, 
-  stringLiteral(literal, o) {
-    return createTypeDefn({
-      ...o,
-      underlying: literal,
-      kind: "stringLiteral",
-    });
-  },
-
-
-};
 
 /**
  * **TypeApi**
@@ -81,12 +49,13 @@ export const typeApiImplementation: TypeApi = {
 /**
  * **createTypeDefn**(td: TypeDefn): Type
  * 
- * Creates a type definition via a structured object definition
- * (defined by the `TypeDefn` type). This function then enriches
+ * 
+* (defined by the `TypeDefn` type). This function then enriches
  * this data to become a fully fledged "runtime type" as expressed
  * by the `Type` type.
  */
 export const createTypeDefn = <
+  // eslint-disable-next-line no-use-before-define
   TD extends TypeDefn<TKind, TRequired, TDesc, TUnderlying, TDefValue>,
   TKind extends TypeKind,
   TRequired extends boolean,
@@ -105,8 +74,8 @@ export const createTypeDefn = <
     description: (defn.description || "") as TDesc,
     validations: (defn.validations || []) as FullType["validations"],
     defaultValue: (
-      defn.defaultValue 
-        ? box(defn.defaultValue) 
+      defn.defaultValue
+        ? box(defn.defaultValue)
         : NO_DEFAULT_VALUE
     ) as FullType["defaultValue"],
 
@@ -134,6 +103,36 @@ export const createTypeDefn = <
   return createValidator(createTypeGuard(type)) as FullType;
 };
 
+export const typeApiImplementation: TypeApi = {
+  string(o) {
+    return createTypeDefn({
+      ...o,
+      kind: "string",
+    });
+  },
+  number(o) {
+    return createTypeDefn({
+      ...o,
+      kind: "number",
+    });
+  },
+  boolean(o) {
+    return createTypeDefn({
+      ...o,
+      kind: "boolean",
+    });
+  },
+  stringLiteral(literal, o) {
+    return createTypeDefn({
+      ...o,
+      underlying: literal,
+      kind: "stringLiteral",
+    });
+  },
+
+
+};
+
 /**
  * Creates a _run time_ type definition (`Type`).
  * 
@@ -158,21 +157,22 @@ export const type = <
   TDefValue extends TypeDefaultValue<TKind, TRequired, TUnderlying>,
   TValidations extends TypeDefnValidations
 >(t: TD) => {
+    
+
   if (isTypeDefn(t)) {
-    return createTypeDefn(t);
+    return createTypeDefn({...t, _type: "TypeDefn"} as TD);
   } else {
-    throw new Error("bad juju");
+    throw new Error(`type() received an invalid configuration. Valid types are either a "TypeDefn" dictionary or a API callback definition. Instead received: ${JSON.stringify(t)}`);
     // create type from builder API
     // const initialState = createTypeApi([], createEmptyState());
     // const returnedState = type(initialState);
-  
+
     // if (returnedState.type.kind === "empty") {
     //   throw new Error("Invalid type! When using the type() utility you must change the state from initial 'empty' state to something else. If you wanted to set to 'never' then choose that method on the API surface.");
     // }
-  
+
     // return returnedState.type;
   }
 
 };
-
 

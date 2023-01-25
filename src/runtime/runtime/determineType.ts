@@ -1,6 +1,6 @@
 import { GetEach, TypeKvToObject, TupleToUnion, TypeKvBase, UnionToIntersection } from "src/types";
 import { FromTypeDefn, TypeDefn } from "src/types/runtime-types";
-import { hasNoUnderlyingTypes, hasUnderlyingTypes, isLiteralType } from "src/types/runtime-types/runtime-type-guards";
+import { hasNoUnderlyingTypes, hasUnderlyingTypes, isLiteralType } from "src/runtime/type-guards/runtime-type-guards";
 import { wide } from "../literals";
 
 type GetType<U> = U extends readonly any[]

@@ -7,6 +7,8 @@ export default defineConfig({
   resolve: {
     alias: {
       src: resolve(__dirname, "./src/"),
+      types: resolve(__dirname, "./src/types/"),
+      runtime: resolve(__dirname, "./src/runtime/"),
       test: resolve(__dirname, "./tests/"),
     },
   },

@@ -1,6 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { mergeScalars, mergeTuples } from "src/runtime/dictionary/merge";
-import { mergeObjects } from "src/runtime/type-conversion/mergeObjects";
+import {  mergeObjects, mergeScalars, mergeTuples } from "src/runtime";
 import { MergeObjects, MergeScalars, MergeTuples } from "src/types";
 import { describe, expect, it } from "vitest";
 
@@ -64,21 +63,6 @@ describe("Merge Tuples", () => {
   });
 });
 
-// describe("Merge KV Pairs", () => {
-
-//   it("types", () => {
-//     type L1 = readonly [{ key: 1; value: "hi"}, {key: 2; value: "bye"}];
-//     type L2 = readonly [];
-//     type L3 = readonly [{ key: 3; value: "extra"}];
-    
-//     type SameAsOverride = MergeKvPairs<L2, L1>;
-//     type Extra = MergeKvPairs<L3, L2>;
-    
-//   });
-
-// });
-
-
 describe("Merge Objects", () => {
 
   it("type tests", () => {
@@ -99,8 +83,6 @@ describe("Merge Objects", () => {
 
     
   });
-
-
 });
 
 

@@ -1,5 +1,5 @@
 import { Mutable, Narrowable, SimplifyObject,  Scalar, MergeScalars, MergeTuples } from "src/types";
-import { keys } from "../keys";
+import { keys } from "src/runtime/dictionary/keys";
 import { isObject } from "../type-guards/isObject";
 import { isUndefined } from "../type-guards";
 

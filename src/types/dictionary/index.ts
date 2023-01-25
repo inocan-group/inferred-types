@@ -12,6 +12,7 @@ export * from "./Get";
 export * from "./MapTo";
 export * from "./MutableProps";
 export * from "./RequireProps";
+export * from "./KnownKeys";
 export * from "./SameKeys";
 export * from "./props";
 

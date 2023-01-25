@@ -1,7 +1,5 @@
-import { AnyFunction } from "..";
-import { Narrowable } from "../types/Narrowable";
-import { keys } from "./keys";
-
+import { AnyFunction, Narrowable } from "src/types";
+import { keys } from "src/runtime/dictionary";
 /**
  * **createFnWithProps**(fn, params)
  * 

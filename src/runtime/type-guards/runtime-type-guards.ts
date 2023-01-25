@@ -1,5 +1,20 @@
-import { TypeKvBase } from "../type-conversion/KvToObject";
-import { FALSY_TYPE_KINDS, LITERAL_TYPE_KINDS, Type, TypeDefaultValue, TypeDefn, TypeHasDefaultValue, TypeIsRequired, TypeKind, TypeKindContainerNarrow, TypeKindContainerWide, TypeKindFalsy, TypeKindLiteral, TypeKindWide, WIDE_TYPE_KINDS } from "./Type";
+import { TypeKvBase } from "../../types/type-conversion/KvToObject";
+import { 
+  FALSY_TYPE_KINDS, 
+  LITERAL_TYPE_KINDS, 
+  Type, 
+  TypeDefaultValue, 
+  TypeDefn, 
+  TypeHasDefaultValue, 
+  TypeIsRequired, 
+  TypeKind, 
+  TypeKindContainerNarrow, 
+  TypeKindContainerWide, 
+  TypeKindFalsy, 
+  TypeKindLiteral, 
+  TypeKindWide, 
+  WIDE_TYPE_KINDS 
+} from "src/types/runtime-types/Type";
 
 
 /**
@@ -18,7 +33,7 @@ export function isTypeDefn<
   TD extends TypeDefn<TKind, TRequired, TDesc, TUnderlying, TDefaultValue, TValidations> = TypeDefn<TKind, TRequired, TDesc,  TUnderlying, TDefaultValue, TValidations>
 >(thing: unknown | TD): thing is TD {
   return (
-    typeof thing === "object" && "kind" in (thing as object) && "isRequired" in (thing as object) && typeof (thing as any).isRequired === "boolean"
+    typeof thing === "object" && "kind" in (thing as object) && typeof (thing as any).isRequired === "boolean"
   )
     ? true
     : false;

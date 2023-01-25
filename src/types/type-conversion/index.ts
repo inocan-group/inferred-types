@@ -7,6 +7,7 @@
 // file exports
 export * from "./TupleToUnion";
 export * from "./UnionToIntersection";
+export * from "./ToKV";
 export * from "./KvToObject";
 export * from "./ToString";
 export * from "./UnionToTuple";
@@ -26,6 +27,7 @@ export * from "./TrimRight";
 export * from "./form-fields";
 export * from "./RemoveFromStart";
 export * from "./RemoveFromEnd";
+export * from "./RemoveIndex";
 
 // #endregion auto-indexed files
 

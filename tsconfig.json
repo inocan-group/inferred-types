@@ -23,6 +23,12 @@
       ],
       "tests/*": [
         "tests/*"
+      ],
+      "types/*": [
+        "src/types/*"
+      ],
+      "runtime/*": [
+        "src/runtime/*"
       ]
     },
     "baseUrl": ".",

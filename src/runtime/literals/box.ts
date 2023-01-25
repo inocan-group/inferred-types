@@ -1,7 +1,12 @@
-import { AfterFirst, HasParameters, Narrowable } from "src/types";
+import type { 
+  AfterFirst, 
+  AnyFunction, 
+  HasParameters, 
+  Narrowable 
+} from "src/types";
 import { First } from "src/types/lists/First";
-import { keys } from "../keys";
-import { AnyFunction } from "../type-checks";
+import { keys } from "src/runtime/dictionary/keys";
+
 
 export interface Box<T> {
   __type: "box";

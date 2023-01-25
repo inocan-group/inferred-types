@@ -1,9 +1,8 @@
 import { describe, it, expect } from "vitest";
-
 import { Equal, Expect, NotEqual } from "@type-challenges/utils";
 import { dictToKv, kvToDict } from "src/runtime/dictionary";
 import { DictFromKv } from "src/types/kv";
-import { keys } from "src/runtime";
+import { keys } from "src/runtime/dictionary/keys";
 
 describe("dictToKv()", () => {
   it.skip("basic structure is correct when forcing to Tuple structure", () => {

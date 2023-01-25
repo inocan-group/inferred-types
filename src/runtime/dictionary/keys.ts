@@ -1,6 +1,6 @@
 import { Keys } from "src/types/Keys";
-import { Narrowable } from "..";
-import { isArray, isObject } from "./type-guards";
+import { Narrowable } from "src/types/Narrowable";
+import { isArray, isObject } from "src/runtime/type-guards";
 
 /**
  * **keys**(obj)
@@ -14,7 +14,9 @@ export function keys<
   TObj extends Narrowable
 >(obj: TObj) {
   return (
-    isObject(obj) || isArray(obj) ? Object.keys(obj) : [] as readonly []
+    isObject(obj) || isArray(obj) 
+      ? Object.keys(obj) 
+      : [] as readonly []
   ) as unknown as Keys<TObj>;
 }
 

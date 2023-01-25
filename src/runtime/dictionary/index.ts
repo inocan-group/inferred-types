@@ -11,6 +11,8 @@ export * from "./dictArr";
 export * from "./entries";
 export * from "./mapValues";
 export * from "./mapTo";
+export * from "./exclude";
+export * from "./merge";
 export * from "./strArrayToDict";
 // directory exports
 export * from "./kv/index";

@@ -2,23 +2,21 @@ import { IfLiteral } from "src/types/boolean-logic";
 import { AfterFirst } from "src/types/lists/AfterFirst";
 import { First } from "src/types/lists/First";
 
-
-
-type ConcatElement =  (string | number | boolean);
-type ElementLiteral<T extends ConcatElement> = T extends string 
+type ConcatElement = (string | number | boolean);
+type ElementLiteral<T extends ConcatElement> = T extends string
   ? IfLiteral<T, T, string>
   : T extends number
-    ? IfLiteral<T, T, `${number}`>
-    : T extends boolean
-      ? IfLiteral<T, T, `${boolean}`>
-      : never;
+  ? IfLiteral<T, T, `${number}`>
+  : T extends boolean
+  ? IfLiteral<T, T, `${boolean}`>
+  : never;
 
 type ConcatAcc<
-  T extends readonly ConcatElement[], 
+  T extends readonly ConcatElement[],
   Result extends string = ""
 > = [] extends T
-    ? Result
-    : ConcatAcc<AfterFirst<T>, `${Result}${ElementLiteral<First<T>>}`>;
+  ? Result
+  : ConcatAcc<AfterFirst<T>, `${Result}${ElementLiteral<First<T>>}`>;
 
 /**
  * **Concat**`<T>`
@@ -35,5 +33,4 @@ type ConcatAcc<
  * 
  * **Related:** `Join<TArr,TWith>`
  */
-export type Concat<T extends readonly ConcatElement[] | ConcatElement[], > = ConcatAcc<readonly [...T]>;
-
+export type Concat<T extends readonly ConcatElement[] | ConcatElement[],> = ConcatAcc<readonly [...T]>;
