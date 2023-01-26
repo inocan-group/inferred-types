@@ -1,5 +1,5 @@
 import type { Narrowable } from "types/literals";
-import { AnyObject, IfObject } from "types/boolean-logic";
+import type { AnyObject, IfObject } from "types/boolean-logic";
 
 /**
  * **isObject**(value)
@@ -10,7 +10,11 @@ export function isObject<T extends AnyObject>(value: unknown): value is T  {
   return typeof value === "object" && value !== null && Array.isArray(value) === false;
 }
 
-export function ifObject<T extends Narrowable, IF extends Narrowable, ELSE extends Narrowable>(
+export function ifObject<
+  T extends Narrowable, 
+  IF extends Narrowable, 
+  ELSE extends Narrowable
+>(
   val: T,
   ifObj: IF,
   notObj: ELSE

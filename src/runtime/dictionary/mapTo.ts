@@ -7,10 +7,10 @@ import {
   MapConfig,
   ConfiguredMap,
   Mapper,
-  MapFn,
-  OptRequired
+  MapFn
 } from "types/dictionary";
 import { createFnWithProps } from "runtime/functions";
+import { OptRequired } from "types/literals";
 
 /**
  * utility function to take a fully-qualified _user_ config

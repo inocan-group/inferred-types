@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-
-import { ExpandRecursively } from "types/ExpandRecursively";
+import { keys } from "runtime/dictionary";
+import { isSameTypeOf } from "runtime/type-guards/higher-order/isSameTypeOf";
+import { AnyObject } from "types/boolean-logic";
+import { WithValue, WithoutValue } from "types/dictionary";
 import { Narrowable } from "types/literals/Narrowable";
-import { entries } from "../dictionary/entries";
-import { type, isTypeDefinition } from "./type";
 
 /**
- * **withValue**(type, obj)
+ * **withValue**(value) => (obj) => WithValue<TObj,TVal>
  *
  * Reduces a dictionary object -- in both _type_ and _run-time_ structure -- to only those
  * key/value pairs which have a specified value. For instance:
@@ -21,19 +21,14 @@ import { type, isTypeDefinition } from "./type";
  *
  * Note: _often useful to provide run-time type profiles with the_ `inferredType` _utility_
  */
-export function withValue<T extends any, V extends Function>(td: TypeDefinition<T, V>) {
-  return <N extends Narrowable, R extends Record<string, N>>(obj: R) => {
-    const t = type(td);
-    // type Type = typeof t.type;
-
-    return Object.fromEntries(
-      [...entries(obj)].filter(([_key, value]) => {
-        // runtime check
-        // const tg = <X extends { [key]: any }>(value: X): value is Extract<X, { [key]: Type }> =>
-        //   t.is(value);
-        return t.typeGuard(value);
-      })
-    ) as unknown as ExpandRecursively<WithValue<T, R>>;
+export function withValue<TVal extends Narrowable>(val: TVal) {
+  return <TObj extends AnyObject>(obj: TObj): WithValue<TVal,TObj> => {
+    return keys(obj).reduce(
+      (acc, key) => isSameTypeOf(val)(obj[key]) 
+        ? ({...acc, [key]: obj[key]})
+        : acc,
+      {} as WithValue<TVal,TObj>
+    );
   };
 }
 
@@ -53,18 +48,13 @@ export function withValue<T extends any, V extends Function>(td: TypeDefinition<
  *
  * Note: _often useful to provide run-time type profiles with the_ `inferredType` _utility_
  */
-export function withoutValue<T extends any, V extends Function>(td: TypeDefinition<T, V>) {
-  return <N extends Narrowable, R extends Record<string, N>>(obj: R) => {
-    const t = type(td);
-    // type Type = typeof t.type;
-
-    return Object.fromEntries(
-      [...entries(obj)].filter(([_key, value]) => {
-        // runtime check
-        // const tg = <X extends { [key]: any }>(value: X): value is Extract<X, { [key]: Type }> =>
-        //   t.is(value);
-        return t.typeGuard(value);
-      })
-    ) as unknown as ExpandRecursively<WithValue<T, R>>;
+export function withoutValue<TVal extends Narrowable>(val: TVal) {
+  return <TObj extends AnyObject>(obj: TObj): WithoutValue<TVal, TObj> => {
+    return keys(obj).reduce(
+      (acc,key) => isSameTypeOf(val)(obj[key])
+        ? acc
+        : ({...acc, [key]: obj[key]}),
+      {} as WithoutValue<TVal, TObj>
+    );
   };
-}
+};

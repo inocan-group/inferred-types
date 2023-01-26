@@ -1,6 +1,7 @@
-import { Keys } from "types/Keys";
-import { Narrowable } from "types/literals/Narrowable";
-import { isArray, isObject } from "runtime/type-guards";
+import { isObject } from "../type-guards/isObject";
+import { AnyObject } from "src/types/boolean-logic/object";
+import { Keys } from "src/types/Keys";
+
 
 /**
  * **keys**(obj)
@@ -11,12 +12,11 @@ import { isArray, isObject } from "runtime/type-guards";
  * an array or object will return `[]`.
  */
 export function keys<
-  TObj extends Narrowable
+  TObj extends AnyObject
 >(obj: TObj) {
   return (
-    isObject(obj) || isArray(obj) 
-      ? Object.keys(obj) 
+    isObject(obj)
+      ? Object.keys(obj)
       : [] as readonly []
   ) as unknown as Keys<TObj>;
 }
-

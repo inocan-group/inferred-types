@@ -12,12 +12,9 @@ import {
   TypeUnderlying,
 } from "src/types";
 import {isTypeDefn} from "runtime/type-guards";
-import { keys } from "../dictionary/keys";
-import { box } from "../literals";
-import { createTypeGuard } from "./createTypeGuard";
-import { createValidator } from "./createValidator";
-import { determineIdentity } from "./determineIdentity";
-import { determineType } from "./determineType";
+import { keys } from "runtime/dictionary";
+import { box } from "runtime/literals";
+import { createTypeGuard,createValidator,determineIdentity, determineType } from "./index";
 
 /**
  * **TypeApi**
@@ -78,8 +75,6 @@ export const createTypeDefn = <
         ? box(defn.defaultValue)
         : NO_DEFAULT_VALUE
     ) as FullType["defaultValue"],
-
-
     identity: determineIdentity(defn),
     underlying: (defn.underlying || "no-underlying") as FullType["underlying"],
     underlying_operand: (
@@ -95,10 +90,10 @@ export const createTypeDefn = <
     ),
 
     // stubs
-    // validate: (_val) => true,
-    // is: ((_val) => true) as FullType["is"],
+    validate: (_val) => true,
+    is: ((_val) => true) as FullType["is"],
 
-  } satisfies Exclude<Type<TKind>, "is"| "validate">;
+  } satisfies Type;
 
   return createValidator(createTypeGuard(type)) as FullType;
 };

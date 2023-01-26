@@ -1,4 +1,4 @@
-import { Whitespace } from "../../alphabetic";
+import { Whitespace } from "../string-literals/alpha-characters";
 
 /**
  * Trims off whitespace on left of string

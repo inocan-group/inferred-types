@@ -2,7 +2,7 @@ import { Narrowable } from "src/types";
 import { ConverterShape, AvailableConverters } from "types/lists/ConvertAndMap";
 import { boxDictionaryValues } from "../literals/box";
 import { wide } from "../literals/wide";
-import { ifSameType } from "../type-checks";
+import { ifSameType } from "../boolean-logic";
 
 /**
  * **createConverter**(mapper)
@@ -36,22 +36,22 @@ export function createConverter<
     const v = ifSameType(
       input,
       wide.string,
-      <T extends string>(i: T) => converter.string.unbox(i),
+      (iStr) => converter.string.unbox(iStr),
       (i) =>
         ifSameType(
           i,
           wide.number,
-          (i) => converter.number.unbox(i),
+          (iNum) => converter.number.unbox(iNum),
           (i) =>
             ifSameType(
               i,
               wide.boolean,
-              (i) => converter.boolean.unbox(i),
+              (iBool) => converter.boolean.unbox(iBool),
               (i) =>
                 ifSameType(
                   i,
                   {} as Record<string, any>,
-                  (i) => converter.object.unbox(i),
+                  (iObj) => converter.object.unbox(iObj),
                   (i) => i as unknown
                 )
             )

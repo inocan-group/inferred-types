@@ -1,8 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { createFnWithProps } from "runtime/functions";
-import { isFunction } from "runtime/type-checks";
-import { ifFunction } from "runtime/type-checks/ifFunction";
-import { isFnWithParams } from "runtime/type-guards/isFnWithParams";
+import { ifFunction } from "runtime/boolean-logic/ifFunction";
+import { isFnWithParams , isFunction } from "runtime/type-guards";
 import { AnyFunction, IsFunction } from "src/types";
 import { describe, expect, it } from "vitest";
 

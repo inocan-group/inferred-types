@@ -7,9 +7,13 @@
 // file exports
 export * from "./ifSameType";
 export * from "./ifBoolean";
+export * from "./ifArray";
+export * from "./ifArrayPartial";
+export * from "./ifReadonlyArray";
 export * from "./isFalse";
 export * from "./isSymbol";
 export * from "./ifTrue";
+export * from "./ifNumber";
 export * from "./ifUndefined";
 
 // #endregion auto-indexed files
