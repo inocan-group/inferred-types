@@ -1,6 +1,6 @@
-import { keys } from "runtime/dictionary";
-import { AnyFunction } from "types/functions";
-import {  Narrowable } from "types/literals/Narrowable";
+import { keys } from "../dictionary/keys";
+import type { AnyFunction } from "types/functions";
+import type { Narrowable } from "types/literals/Narrowable";
 
 /**
  * **createFnWithProps**(fn, params)
@@ -8,10 +8,10 @@ import {  Narrowable } from "types/literals/Narrowable";
  * Creates a function with a dictionary of key/value pairs.
  */
 export function createFnWithProps<
-  TFn extends AnyFunction, 
+  TFn extends AnyFunction,
   TParams extends Narrowable
 >(fn: TFn, props: TParams & Record<string, any>) {
-  const combinedProps = Array.from(new Set([...keys(fn),...keys(props)]));
+  const combinedProps = Array.from(new Set([...keys(fn), ...keys(props)]));
 
   if (combinedProps.length === 0) {
     throw new Error(`Can't create FN with Props; no parameters were found in the combined "fn" and "props"!`);
@@ -39,4 +39,3 @@ export function fnWithProps<A extends any[], R extends any, P extends {}>(fn: ((
   }
   return combined as ((...args: A) => R) & P;
 }
-

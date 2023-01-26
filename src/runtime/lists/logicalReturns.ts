@@ -1,6 +1,6 @@
 import { LogicFunction } from "types/functions/LogicFunction";
-import { ifBoolean } from "../type-checks";
-import { ifFunction } from "../type-checks/ifFunction";
+import { ifBoolean } from "../boolean-logic";
+import { ifFunction } from "../boolean-logic/ifFunction";
 
 export function logicalReturns<
   TConditions extends readonly (boolean | LogicFunction<TParams>)[],

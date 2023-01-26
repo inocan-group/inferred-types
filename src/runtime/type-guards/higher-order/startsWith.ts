@@ -1,5 +1,5 @@
+import { ifNumber } from "src/runtime/boolean-logic/ifNumber";
 import { IfStartsWith, Narrowable } from "src/types";
-import { ifNumber } from "../isNumber";
 import { ifString } from "../isString";
 
 

@@ -3,7 +3,7 @@ import { describe, it, expect } from "vitest";
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Expect, Equal } from "@type-challenges/utils";
 import { defineType, literal } from "../src/runtime";
-import { ifTypeOf } from "runtime/type-checks/ifTypeOf";
+import { ifTypeOf } from "runtime/boolean-logic/ifTypeOf";
 
 describe("ifTypeOf() utility", () => {
   it("base validation with extends() returns true/false", () => {

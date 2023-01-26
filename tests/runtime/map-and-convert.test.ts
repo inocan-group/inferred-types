@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { createConverter } from "runtime/lists/createConverter";
 import { describe, it, expect } from "vitest";
+import { createConverter } from "runtime/lists";
 
 // Note: while type tests fail visible inspection they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to

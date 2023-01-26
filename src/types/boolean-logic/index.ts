@@ -24,6 +24,7 @@ export * from "./IfExtends";
 export * from "./IfExtendsAll";
 export * from "./IfExtendsSome";
 export * from "./DoesExtend";
+export * from "./IfEqual";
 export * from "./SomeExtend";
 
 export * from "./IfFnWithParams";

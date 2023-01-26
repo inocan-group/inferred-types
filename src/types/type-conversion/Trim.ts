@@ -1,4 +1,4 @@
-import { Whitespace } from "../../alphabetic";
+import { Whitespace } from "../string-literals/alpha-characters";
 
 /**
  * Trims off blank spaces, `\n` and `\t` characters from both sides of a _string literal_.

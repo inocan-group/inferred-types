@@ -1,5 +1,5 @@
 import { Narrowable } from "src/types";
-import { ifNumber } from "../../type-checks";
+import { ifNumber } from "../../boolean-logic";
 import { ifString } from "../isString";
 
 export type EndingWithTypeGuard<T extends string> = <

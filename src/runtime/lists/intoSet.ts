@@ -1,4 +1,5 @@
-import { IntoSet } from "types/lists/set-ops";
+import { IntoSet } from "src/types/lists/sets";
+
 
 
 export function intoSet<T extends readonly any[]>(set: T) {

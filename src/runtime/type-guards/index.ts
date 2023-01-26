@@ -15,6 +15,9 @@ export * from "./hasIndexOf";
 export * from "./isRef";
 export * from "./hasDefaultValue";
 export * from "./isNumericString";
+export * from "./isFnWithParams";
+export * from "./isFunction";
+export * from "./isNumber";
 export * from "./isScalar";
 export * from "./runtime-type-guards";
 

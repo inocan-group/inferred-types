@@ -2,10 +2,11 @@ import {
   Digit, 
   TypeOptions, 
   IfLiteral, 
-  IfString, IfReadonlyArray, AlphaNumericChar, LowerAlpha, UpperAlpha, Concat, First, AfterFirst } from "src/types";
+   IfReadonlyArray, AlphaNumericChar, LowerAlpha, UpperAlpha, Concat, First, AfterFirst } from "src/types";
+import { IfString } from "src/types/boolean-logic/string";
 import { Narrowable } from "types/literals/Narrowable";
 import { ToString } from "types/type-conversion";
-import { FromTypeDefn, Type, TypeDefaultValue } from "../Type";
+import { FromTypeDefn, TypeDefaultValue } from "../Type";
 
 /**
  * **StringLiteralToken**
@@ -91,7 +92,7 @@ export type TypeApiStringLiteral = <
   TDefaultValue extends TypeDefaultValue<"stringLiteral", TRequired, ToUnderlying<TUnderlying>>,
   TValidations extends readonly any[] | "no-validations",
 >(
-  defn: TUnderlying
+  defn: TUnderlying,
   options?: TypeOptions<
     "stringLiteral", TRequired, TDesc, ToUnderlying<TUnderlying>, TDefaultValue, TValidations
   >

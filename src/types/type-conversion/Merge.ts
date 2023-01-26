@@ -1,5 +1,5 @@
 import { AnyObject, IfObject, IsOptionalScalar } from "types/boolean-logic";
-import { Retain, Keys } from "src/types";
+import { Keys } from "src/types";
 import { IfUndefined } from "../boolean-logic/IsUndefined";
 import { Narrowable } from "../literals/Narrowable";
 import { IfAnd } from "../boolean-logic/And";
@@ -9,6 +9,7 @@ import { UnionToTuple } from "./UnionToTuple";
 import { KvPair, KvToObject } from ".";
 import { ExpandRecursively } from "../literals/ExpandRecursively";
 import { WithoutKeys } from "../dictionary/WithKeys";
+import { Retain } from "../lists/Retain";
 
 // 1. Keep all unique keys in `TValue`
 // 2. Strip all KV's on `TValue` which are _undefined_

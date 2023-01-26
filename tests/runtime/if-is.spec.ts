@@ -1,17 +1,18 @@
 import { describe, expect, it } from "vitest";
-
 import type { Expect, Equal } from "@type-challenges/utils";
 import {
   ifBoolean,
   ifSameType,
   ifTrue,
+  ifArray,
   ifUndefined,
-} from "runtime/type-checks";
-import { or } from "src/runtime";
+  ifArrayPartial,
+  ifNumber,
+} from "runtime/boolean-logic";
+import {  or } from "runtime/combinators";
 import { EndsWith, DoesExtend, LowerAlpha, Or, StartsWith } from "src/types";
 import { box, wide } from "runtime/literals";
 import { ifString } from "runtime/type-guards/isString";
-import { ifNumber } from "runtime/type-guards/isNumber";
 import { isTrue } from "runtime/type-guards/isTrue";
 import { startsWith } from "runtime/type-guards/higher-order/startsWith";
 

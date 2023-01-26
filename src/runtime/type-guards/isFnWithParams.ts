@@ -1,7 +1,8 @@
-import { AnyObject } from "types/boolean-logic";
+
 import { AnyFunction } from "types/functions/function-types";
-import { keys } from "../dictionary/keys";
-import { isTypeOf } from "./higher-order/isTypeOf";
+import { keys } from "runtime/dictionary/keys";
+import { isTypeOf } from "runtime/type-guards/higher-order/isTypeOf";
+import { AnyObject } from "src/types/boolean-logic/object";
 
 /**
  * **isFnWithDict**(input)

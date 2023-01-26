@@ -21,6 +21,9 @@
       "tests/*": [
         "tests/*"
       ],
+      "src/*": [
+        "src/*"
+      ],
       "types/*": [
         "src/types/*"
       ],
