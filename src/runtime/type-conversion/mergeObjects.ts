@@ -1,5 +1,5 @@
-import { MergeObjects } from "src/types";
-import { isDefined, keys, isString, exclude, intersection, unique } from "src/runtime";
+import { MergeObjects } from "../../types";
+import { isDefined, keys, isString, exclude, intersection, unique } from "../runtime";
 export function mergeObjects<
   TDefault extends Record<string, any>,
   TOverride extends Record<string, any>

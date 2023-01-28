@@ -1,6 +1,8 @@
-import { IsLiteral, TupleToUnion } from "src/types";
 import { FilterNarrow } from "types/lists/FilterNarrow";
-import { IfString } from "../../boolean-logic/string";
+import { IsLiteral } from "../boolean-logic";
+import { IfString } from "../boolean-logic/IsString";
+import { TupleToUnion } from "../type-conversion";
+
 
 /**
  * **Suggest**`<T>`

@@ -1,6 +1,6 @@
 import { IfAnd } from "../boolean-logic/And";
 import { IfLiteral } from "../boolean-logic/IsLiteral";
-import { IsString } from "../boolean-logic/string";
+import { IsString } from "../boolean-logic/IsString";
 import { Narrowable } from "../literals/Narrowable";
 
 /**
@@ -22,7 +22,7 @@ export type StripTrailing<T extends Narrowable, U extends Narrowable> = IfAnd<
     T,
     // this path represents successful strip opp
     // but we must never accept `U` being wide
-    string extends U ? never : T extends `${infer Before}${U}` ? Before : T,
+    string extends U ? never : T extends `${infer Before}${U & string}` ? Before : T,
     // here we must stay wide
     string
   >,

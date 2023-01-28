@@ -4,7 +4,7 @@
 // it would be more common for native-dash to be a consumer of this repo
 // than the other way around)
 
-import { Mutable, SimplifyObject } from "src/types";
+import { Mutable, SimplifyObject } from "../../types";
 
 /**
  * **removeProps**`<T,K>`

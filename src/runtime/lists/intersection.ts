@@ -1,4 +1,4 @@
-import { Intersection } from "src/types";
+import { Intersection } from "../../types";
 import { getEach } from "./getEach";
 import { indexOf } from "./indexOf";
 

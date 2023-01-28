@@ -1,10 +1,9 @@
-import { NumericChar } from "../../alphabetic/alpha-characters";
+import { NumericChar } from "../string-literals";
 
 /**
  * An email address
  */
 export type Email = `${string}@${string}.${string}`;
-
 
 type Zip5 = `${NumericChar}${NumericChar}${string}${NumericChar}`;
 type Zip4 = `${NumericChar}${string}`;

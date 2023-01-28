@@ -1,12 +1,18 @@
-import { 
+import type { 
   Digit, 
   TypeOptions, 
   IfLiteral, 
-   IfReadonlyArray, AlphaNumericChar, LowerAlpha, UpperAlpha, Concat, First, AfterFirst } from "src/types";
-import { IfString } from "src/types/boolean-logic/string";
-import { Narrowable } from "types/literals/Narrowable";
-import { ToString } from "types/type-conversion";
-import { FromTypeDefn, TypeDefaultValue } from "../Type";
+  IfReadonlyArray, 
+  AlphaNumericChar,
+  LowerAlpha, 
+  UpperAlpha, 
+  Concat, 
+  First, 
+  AfterFirst,
+  Narrowable,
+  ToString,
+  FromTypeDefn, TypeDefaultValue
+} from "../../../types";
 
 /**
  * **StringLiteralToken**

@@ -1,4 +1,4 @@
-import { AnyFunction, Narrowable, Widen } from "src/types";
+import { AnyFunction, Narrowable, Widen } from "../../types";
 
 
 /**

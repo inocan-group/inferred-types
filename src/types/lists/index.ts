@@ -18,6 +18,7 @@ export * from "./TruthyReturns";
 export * from "./ReturnTypes";
 export * from "./LogicalReturns";
 export * from "./IntersectAll";
+export * from "./ConvertAndMap";
 
 export * from "./extractors/index";
 export * from "./sets/index";

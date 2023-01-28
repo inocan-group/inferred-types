@@ -1,5 +1,4 @@
-import { Narrowable } from "src/types";
-import { FalsyValue } from "types/boolean-logic/Truthy";
+import { Narrowable, FalsyValue } from "../../types";
 import { FALSY_VALUES } from "../runtime";
 
 

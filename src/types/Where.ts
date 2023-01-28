@@ -15,7 +15,7 @@ export type Where<
   T extends Record<string, any> | readonly string[],
   U
 > = T extends readonly string[]
-  ? Retain<T[number], U>
+  ? Retain<T, U>
   : {
       [K in keyof T]: K extends U ? K : never;
     }[keyof T];

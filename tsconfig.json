@@ -24,12 +24,6 @@
       "src/*": [
         "src/*"
       ],
-      "types/*": [
-        "src/types/*"
-      ],
-      "runtime/*": [
-        "src/runtime/*"
-      ]
     },
     "baseUrl": ".",
     "declaration": true,

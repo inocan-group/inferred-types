@@ -1,8 +1,7 @@
 /* eslint @typescript-eslint/no-unused-vars: "off" */
-
-import { Concat } from "runtime/lists/Concat";
 import { IfTrue } from "../boolean-logic/boolean";
-import { LeftWhitespace, RightWhitespace, Trim } from "../type-conversion/string-literals";
+import { LeftWhitespace, RightWhitespace, Trim } from "../type-conversion";
+import { Concat } from "./Concat";
 import { DashUppercase } from "./DashUppercase";
 import { LowerAllCaps } from "./LowerAllCaps";
 

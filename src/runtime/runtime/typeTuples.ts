@@ -1,4 +1,4 @@
-import { Alpha, Digit, LowerAlpha, UpperAlpha } from "src/types";
+import { Alpha, Digit, LowerAlpha, UpperAlpha } from "../../types";
 import { toString } from "../literals/toString";
 import { LETTER, LETTER_UPPER } from "./constants";
 import { createTypeTuple } from "./createTypeTuple";

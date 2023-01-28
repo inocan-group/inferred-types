@@ -1,5 +1,4 @@
-import { Narrowable } from "src/types";
-import { ConverterShape, AvailableConverters } from "types/lists/ConvertAndMap";
+import { Narrowable, ConverterShape, AvailableConverters } from "../../types";
 import { boxDictionaryValues } from "../literals/box";
 import { wide } from "../literals/wide";
 import { ifSameType } from "../boolean-logic";

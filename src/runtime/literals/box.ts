@@ -2,11 +2,10 @@ import type {
   AfterFirst, 
   AnyFunction, 
   HasParameters, 
-  Narrowable 
-} from "src/types";
-import { First } from "types/lists/First";
+  Narrowable,
+  First
+} from "../../types";
 import { keys } from "runtime/dictionary/keys";
-
 
 export interface Box<T> {
   __type: "box";

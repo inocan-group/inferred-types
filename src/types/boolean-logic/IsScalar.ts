@@ -5,7 +5,7 @@ import { IsNull } from "./IsNull";
 import { IsSymbol } from "./IsSymbol";
 import { IsUndefined } from "./IsUndefined";
 import { IfOr } from "./Or";
-import { IsString } from "./string";
+import { IsString } from "./IsString";
 
 /**
  * **IsScalar**`<T>`

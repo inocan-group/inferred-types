@@ -1,4 +1,4 @@
-import { Narrowable } from "src/types/literals/Narrowable";
+import { Narrowable } from "../../types/literals/Narrowable";
 import { IsNumber, isNumber } from "../type-guards/isNumber";
 
 /**

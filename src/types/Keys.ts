@@ -1,4 +1,4 @@
-import { IfEqual } from "types/boolean-logic/equivalency";
+import { IfEqual } from "./boolean-logic";
 import { IfLength } from "./boolean-logic/IfLength";
 import { NumericKeys } from "./lists/NumericKeys";
 import { Narrowable } from "./literals/Narrowable";

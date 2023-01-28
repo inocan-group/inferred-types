@@ -1,7 +1,5 @@
 import { isObject } from "../type-guards/isObject";
-import { AnyObject } from "src/types/boolean-logic/object";
-import { Keys } from "src/types/Keys";
-
+import { Keys, AnyObject } from "../../types";
 
 /**
  * **keys**(obj)
