@@ -1,13 +1,15 @@
 import { NotEqual } from "@type-challenges/utils";
-import { Concat } from "runtime";
-import { ErrorCondition } from "runtime/literals/ErrorCondition";
-import { NOT_DEFINED } from "runtime/runtime/NotDefined";
-import {  IfNotEqual, IsUndefined } from "../boolean-logic";
-import { IfAnd } from "../boolean-logic/And";
-import { IfRef } from "../boolean-logic/IfRef";
+import { ErrorCondition, NOT_DEFINED } from "../../../src/runtime";
+import { 
+  Concat, 
+  IfNotEqual, 
+  IsUndefined, 
+  IfAnd, 
+  IfRef, 
+  ToString, 
+  Narrowable 
+} from "../../types";
 import { NO_DEFAULT_VALUE } from "../constants/NoDefaultValue";
-import { Narrowable } from "../literals/Narrowable";
-import { ToString } from "../type-conversion";
 
 type ResolveDefVal<
   TValue extends Narrowable,

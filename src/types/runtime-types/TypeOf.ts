@@ -1,4 +1,4 @@
-import { TYPE_OF } from "runtime/runtime/constants";
+import { TYPE_OF } from "../../runtime/runtime/constants";
 import { AnyObject, IsUndefined } from "../boolean-logic";
 import { AnyFunction } from "../functions";
 import { TupleToUnion } from "../type-conversion/TupleToUnion";
