@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
-import { toKebabCase } from "runtime/literals/toKebabCase";
+import { toKebabCase } from "src/runtime/literals/toKebabCase";
 
 describe("toKebabCase() function", () => {
 

@@ -1,11 +1,11 @@
 import { describe, it } from "vitest";
 import type { Expect, Equal, ExpectExtends } from "@type-challenges/utils";
 import { box } from "src/runtime";
-import { FromTypeDefn, Type, TypeDefn, TypeHasDefaultValue, TypeIsRequired, TypeKind, TypeUnderlying } from "types/runtime-types";
-import { NoDefaultValue } from "types/constants";
+import { FromTypeDefn, Type, TypeDefn, TypeHasDefaultValue, TypeIsRequired, TypeKind, TypeUnderlying } from "src/types/runtime-types";
+import { NoDefaultValue } from "src/types/constants";
 import { DoesExtend } from "src/types";
-import { type } from "runtime/runtime/type";
-import { TypeApi } from "types/runtime-types/api";
+import { type } from "src/runtime/runtime/type";
+import { TypeApi } from "src/types/runtime-types/api";
 
 describe("testing type() utility and some pre-made conditions", () => {
 

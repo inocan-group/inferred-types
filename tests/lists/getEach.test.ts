@@ -1,7 +1,7 @@
 import { Equal, Expect, ExpectExtends } from "@type-challenges/utils";
-import { getEach } from "runtime/lists/getEach";
-import { ErrorCondition } from "runtime/literals/ErrorCondition";
-import { GetEach } from "types/lists/GetEach";
+import { getEach } from "src/runtime/lists/getEach";
+import { ErrorCondition } from "src/runtime/literals/ErrorCondition";
+import { GetEach } from "src/types/lists/GetEach";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

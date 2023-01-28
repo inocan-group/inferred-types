@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { And } from "types/boolean-logic/And";
+import { And } from "src/types/boolean-logic/And";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

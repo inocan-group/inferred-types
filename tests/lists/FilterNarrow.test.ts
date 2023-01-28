@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { FilterNarrow } from "types/lists/FilterNarrow";
+import { FilterNarrow } from "src/types/lists/FilterNarrow";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

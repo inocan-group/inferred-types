@@ -1,11 +1,11 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { defineType,  narrow } from "runtime";
-import { kvToObject } from "runtime/runtime";
-import { objectToKv } from "runtime/runtime/objectToKv";
-import { isKvPair } from "runtime/type-guards/isKvPair";
-import { isKvPairArray } from "runtime/type-guards/isKvPairArray";
+import { kvToObject } from "src/runtime/runtime";
+import { objectToKv } from "src/runtime/runtime/objectToKv";
+import { isKvPair } from "src/runtime/type-guards/isKvPair";
+import { isKvPairArray } from "src/runtime/type-guards/isKvPairArray";
 import { Contains, DoesExtend, GetEach, KvPair, KvToObject, Mutable } from "src/types";
-import { ObjectToKv } from "types/type-conversion/ObjectToKv";
+import { ObjectToKv } from "src/types/type-conversion/ObjectToKv";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

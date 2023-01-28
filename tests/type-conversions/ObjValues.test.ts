@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { ObjValues } from "types/type-conversion/ObjValues";
-import { Values } from "types/type-conversion/Values";
+import { ObjValues } from "src/types/type-conversion/ObjValues";
+import { Values } from "src/types/type-conversion/Values";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
