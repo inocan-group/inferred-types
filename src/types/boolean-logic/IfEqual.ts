@@ -1,5 +1,4 @@
-import { IsEqual } from "src/types/boolean-logic";
-import { Narrowable } from "src/types/literals/Narrowable";
+import { IsEqual, Narrowable } from "../../types";
 
 /**
  * **IfEqual**`<X,Y,IF,ELSE>`

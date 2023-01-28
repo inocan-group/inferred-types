@@ -1,7 +1,6 @@
-import { ifNumber } from "src/runtime/boolean-logic/ifNumber";
-import { IfStartsWith, Narrowable } from "src/types";
+import type { IfStartsWith, Narrowable } from "../../../types";
+import { ifNumber } from "src/runtime/boolean-logic";
 import { ifString } from "../isString";
-
 
 export type StartingWithTypeGuard<TStartsWith extends string> = <
   TValue extends Narrowable

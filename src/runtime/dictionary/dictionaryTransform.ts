@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import type { SameKeys , Transformer } from "src/types";
+import type { SameKeys , Transformer } from "../../types";
 import { keys } from "runtime/dictionary";
 
 /**

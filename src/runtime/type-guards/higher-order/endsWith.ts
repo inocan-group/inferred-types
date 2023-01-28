@@ -1,4 +1,4 @@
-import { Narrowable } from "src/types";
+import { Narrowable } from "../../../types";
 import { ifNumber } from "../../boolean-logic";
 import { ifString } from "../isString";
 

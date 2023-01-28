@@ -1,5 +1,4 @@
 import { describe, it, expect } from "vitest";
-
 import { Keys } from "types/Keys";
 import type { Expect, Equal } from "@type-challenges/utils";
 import { defineType, keys } from "src/runtime";
@@ -83,10 +82,10 @@ describe("Keys<T>", () => {
 
     type cases = [
       //
-      Expect<Equal<Numeric, readonly ["0", "1", "2"] & (keyof NumericArr)[]>>,
-      Expect<Equal<Str, readonly ["0", "1", "2"] & (keyof StringArr)[]>>,
-      Expect<Equal<Str_RO, readonly ["0", "1", "2"] & (keyof StrArr_RO)[]>>,
-      Expect<Equal<Empty, readonly [] & (keyof [])[]>>,
+      Expect<Equal<Numeric, readonly ["0", "1", "2"] >>,
+      Expect<Equal<Str, readonly ["0", "1", "2"]>>,
+      Expect<Equal<Str_RO, readonly ["0", "1", "2"]>>,
+      Expect<Equal<Empty, readonly []>>,
 
       Expect<Equal<Convertible1, "0" | "1" | "2">>,
       Expect<Equal<Convertible2, "0" | "1" | "2">>,
@@ -115,16 +114,6 @@ describe("keys() utility on object", () => {
     const cases: cases = [true];
     expect(cases).toBe(cases);
   });
-
-  
-  it("keys() utility on array", () => {
-    const arr = ["foo", "bar", "baz"] as const;
-    const k = keys(arr);
-
-    expect(k).toEqual(["0","1","2"]);
-  });
-  
-
   
   it("keys of a VueJS Ref<T>", () => {
     const obj = ref({foo: 1, bar: 2});

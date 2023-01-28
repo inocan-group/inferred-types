@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "brilliant-errors": "^0.7.3",
+    "dd": "^0.25.6",
     "vue": "^3.2.45"
   },
   "devDependencies": {
@@ -48,7 +49,7 @@
     "@types/node": "^16.18.11",
     "@typescript-eslint/eslint-plugin": "^5.49.0",
     "@typescript-eslint/parser": "^5.49.0",
-    "@vitest/ui": "^0.28.2",
+    "@vitest/ui": "^0.28.3",
     "bumpp": "^8.2.1",
     "cross-env": "^7.0.3",
     "eslint": "^8.32.0",
@@ -61,8 +62,8 @@
     "pathe": "^1.1.0",
     "prettier": "~2.8.3",
     "tsup": "^6.5.0",
-    "typescript": "^4.9.4",
+    "typescript": "5.0.0-beta",
     "vite": "^4.0.4",
-    "vitest": "^0.28.2"
+    "vitest": "^0.28.3"
   }
 }

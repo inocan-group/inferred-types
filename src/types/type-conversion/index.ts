@@ -28,6 +28,8 @@ export * from "./form-fields";
 export * from "./RemoveFromStart";
 export * from "./RemoveFromEnd";
 export * from "./RemoveIndex";
+export * from "./MapType";
+export * from "./FromKV";
 
 // #endregion auto-indexed files
 

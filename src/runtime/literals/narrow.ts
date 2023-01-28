@@ -1,4 +1,4 @@
-import { IntoSet, Length, Mutable } from "src/types";
+import { IntoSet, Length, Mutable } from "../../types";
 import { Narrowable } from "types/literals/Narrowable";
 
 

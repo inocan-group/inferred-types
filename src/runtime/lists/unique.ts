@@ -1,4 +1,4 @@
-import { Narrowable, Unique } from "src/types";
+import { Narrowable, Unique } from "../../types";
 import { get } from "../dictionary/get";
 import { isString } from "../type-guards/isString";
 

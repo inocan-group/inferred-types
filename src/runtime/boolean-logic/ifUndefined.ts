@@ -1,4 +1,4 @@
-import { IsUndefined, Narrowable } from "src/types";
+import { IsUndefined, Narrowable } from "../../types";
 import { isDefined, isUndefined } from "../type-guards";
 
 /**

@@ -1,6 +1,4 @@
-import { KV, SimplifyObject } from "src/types";
-import { FromKV } from "types/type-conversion/FromKV";
-import { RemoveIndex } from "types/type-conversion/RemoveIndex";
+import { KV, SimplifyObject, FromKV, RemoveIndex } from "../../types";
 
 /**
  * **toKv**(obj)

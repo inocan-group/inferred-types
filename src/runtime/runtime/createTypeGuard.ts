@@ -1,6 +1,8 @@
-import type { Type, TypeGuard } from "src/types";
+import type { Type, TypeGuard } from "../../types";
 
-export function createTypeGuard<T extends Exclude<Type, "is" | "validate">>(defn: T): T & Record<"is", TypeGuard<T["type"]>> {
+export function createTypeGuard<
+  T extends Exclude<Type, "is" | "validate">
+>(defn: T): T & Record<"is", TypeGuard<T["type"]>> {
 
   return {
     ...defn,
@@ -13,5 +15,5 @@ export function createTypeGuard<T extends Exclude<Type, "is" | "validate">>(defn
     is: (value: unknown): value is T["type"] => {
       return true;
     }
-  } satisfies Type;
+  } as T & Record<"is", TypeGuard<T["type"]>>;
 }

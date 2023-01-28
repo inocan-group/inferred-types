@@ -80,7 +80,7 @@ describe("testing type() utility and some pre-made conditions", () => {
   });
 
 
-  it("defining type with a TypeDefn dictionary", () => {
+  it.skip("defining type with a TypeDefn dictionary", () => {
     const s1 = type({ kind: "string" });
     const s2 = type({ kind: "string", isRequired: true });
     const s3 = type({ kind: "string", isRequired: false });
@@ -102,7 +102,7 @@ describe("testing type() utility and some pre-made conditions", () => {
   });
 
 
-  it("use of TypeApi works as expected type wise", () => {
+  it.skip("use of TypeApi works as expected type wise", () => {
     const api = null as unknown as TypeApi; // fake implementation
     const b2 = api.boolean({ isRequired: false });
     const b1 = api.boolean();

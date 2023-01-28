@@ -14,7 +14,7 @@ import {
   TypeKindLiteral, 
   TypeKindWide, 
   WIDE_TYPE_KINDS 
-} from "types/runtime-types/Type";
+} from "../../types";
 
 
 /**

@@ -6,14 +6,13 @@ import {
   Type,
   TypeDefaultValue,
   TypeDefn,
-  TypeDefnValidations,
   TypeKind,
-  TypeApi,
   TypeUnderlying,
-} from "src/types";
-import {isTypeDefn} from "runtime/type-guards";
-import { keys } from "runtime/dictionary";
-import { box } from "runtime/literals";
+} from "../../types";
+import { keys } from "../dictionary";
+import { box } from "../literals";
+import { isTypeDefn } from "../type-guards";
+
 import { createTypeGuard,createValidator,determineIdentity, determineType } from "./index";
 
 /**
@@ -98,35 +97,35 @@ export const createTypeDefn = <
   return createValidator(createTypeGuard(type)) as FullType;
 };
 
-export const typeApiImplementation: TypeApi = {
-  string(o) {
-    return createTypeDefn({
-      ...o,
-      kind: "string",
-    });
-  },
-  number(o) {
-    return createTypeDefn({
-      ...o,
-      kind: "number",
-    });
-  },
-  boolean(o) {
-    return createTypeDefn({
-      ...o,
-      kind: "boolean",
-    });
-  },
-  stringLiteral(literal, o) {
-    return createTypeDefn({
-      ...o,
-      underlying: literal,
-      kind: "stringLiteral",
-    });
-  },
+// export const typeApiImplementation: TypeApi = {
+//   string(o) {
+//     return createTypeDefn({
+//       ...o,
+//       kind: "string",
+//     });
+//   },
+//   number(o) {
+//     return createTypeDefn({
+//       ...o,
+//       kind: "number",
+//     });
+//   },
+//   boolean(o) {
+//     return createTypeDefn({
+//       ...o,
+//       kind: "boolean",
+//     });
+//   },
+//   stringLiteral(literal, o) {
+//     return createTypeDefn({
+//       ...o,
+//       underlying: literal,
+//       kind: "stringLiteral",
+//     });
+//   },
 
 
-};
+// };
 
 /**
  * Creates a _run time_ type definition (`Type`).
@@ -144,16 +143,8 @@ export const typeApiImplementation: TypeApi = {
  * ```
  */
 export const type = <
-  TD extends TypeDefn<TKind, TRequired, TDesc, TUnderlying, TDefValue, TValidations>,
-  TKind extends TypeKind,
-  TRequired extends boolean,
-  TDesc extends string,
-  TUnderlying extends TypeUnderlying,
-  TDefValue extends TypeDefaultValue<TKind, TRequired, TUnderlying>,
-  TValidations extends TypeDefnValidations
+  TD extends TypeDefn
 >(t: TD) => {
-    
-
   if (isTypeDefn(t)) {
     return createTypeDefn({...t, _type: "TypeDefn"} as TD);
   } else {

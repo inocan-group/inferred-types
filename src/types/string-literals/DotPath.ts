@@ -2,7 +2,7 @@ import {  AnyObject,  IfLiteral,  Or } from "../boolean-logic";
 import { And } from "../boolean-logic/And";
 import { EndsWith } from "../boolean-logic/EndsWith";
 import { StartsWith } from "../boolean-logic/StartsWith";
-import { Includes } from "../boolean-logic/string";
+import { Includes } from "../boolean-logic/IsString";
 import { MaybeRef } from "../dictionary/MaybeRef";
 import { Keys } from "../Keys";
 import { AfterFirst, Length } from "../lists";

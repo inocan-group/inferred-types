@@ -1,6 +1,5 @@
-import { ToKV } from "src/types";
-import { AnyObject } from "types/boolean-logic";
-import { keys } from "runtime/dictionary/keys";
+import { ToKV, AnyObject } from "../../types";
+import { keys } from "../dictionary";
 import { reverse } from "../lists/reverse";
 
 /**
