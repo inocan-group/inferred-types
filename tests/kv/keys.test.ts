@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 
 import { Keys } from "types/Keys";
 import type { Expect, Equal } from "@type-challenges/utils";
-import { defineType, keys } from "runtime";
+import { defineType, keys } from "src/runtime";
 import { TupleToUnion } from "types/type-conversion/TupleToUnion";
 import { ExpectExtends, UnknownObject } from "src/types";
 import { ref } from "vue";
