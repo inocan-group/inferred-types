@@ -1,4 +1,4 @@
-import { IsNumber } from "runtime/type-guards/isNumber";
+import { IsNumber } from "../../runtime/type-guards/isNumber";
 import { IfLiteral, IfStartsWith, } from "../boolean-logic";
 import { ToString } from "../type-conversion/ToString";
 

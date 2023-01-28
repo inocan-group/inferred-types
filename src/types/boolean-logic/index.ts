@@ -22,6 +22,7 @@ export * from "./IsSymbol";
 export * from "./IsErrorCondition";
 export * from "./IsNever";
 export * from "./IfExtends";
+export * from "./IfRef";
 export * from "./IfExtendsAll";
 export * from "./IfExtendsSome";
 export * from "./DoesExtend";

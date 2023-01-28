@@ -1,4 +1,3 @@
-import { IsNumber } from "runtime/type-guards/isNumber";
 import { Narrowable } from "../literals/Narrowable";
 import { IsBoolean } from "./boolean";
 import { IsNull } from "./IsNull";
@@ -6,6 +5,7 @@ import { IsSymbol } from "./IsSymbol";
 import { IsUndefined } from "./IsUndefined";
 import { IfOr } from "./Or";
 import { IsString } from "./IsString";
+import { IsNumber } from "../../runtime/type-guards";
 
 /**
  * **IsScalar**`<T>`

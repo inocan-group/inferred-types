@@ -1,5 +1,5 @@
-import { Concat } from "runtime/lists/Concat";
-import { ErrorCondition } from "runtime/literals/ErrorCondition";
+import { Concat } from "../../types";
+import { ErrorCondition } from "../../runtime";
 import { ToString } from "../type-conversion";
 
 /**
