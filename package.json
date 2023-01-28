@@ -29,7 +29,7 @@
     "lint": "run-p lint:*",
     "lint:test": "eslint_d tests/**/*.ts --fix --cache",
     "lint:src": "eslint_d src/**/*.ts --fix --cache",
-    "lint:types": "tsc --noEmit",
+    "lint:types": "npx tsc --noEmit",
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:ci": "vitest run",

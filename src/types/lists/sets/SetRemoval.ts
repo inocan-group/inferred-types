@@ -1,5 +1,4 @@
-import { IfSomeEqual } from "types/boolean-logic";
-import { AfterFirst, First, IntoSet } from "types/lists";
+import { IfSomeEqual , AfterFirst, First, IntoSet } from "../../../types";
 import { SetCandidate } from "./SetCandidate";
 
 type SetRemovalAcc<

@@ -1,16 +1,14 @@
-import { wide } from "runtime";
-import { createTypeMapRule } from "runtime/runtime/createTypeMatcher";
-import { Alpha, LowerAlpha, UpperAlpha } from "types/string-literals";
-import { Digit } from "types/Numeric";
+import { createTypeMapRule, wide } from "../../../runtime";
+import { Alpha, LowerAlpha, UpperAlpha, Digit } from "../../../types";
 
 /**
  * strip off the `literal:` tag on string literals
  */
 const stringLiteral = createTypeMapRule("startsWith", "literal:", ["StripLeading", "literal:"]);
 
-const bool = createTypeMapRule(["Extends", wide.boolean], wide.boolean,"ToString");
-const numbers = createTypeMapRule(["Extends", wide.number],wide.number,"ToString");
-const strings = createTypeMapRule(["Extends", wide.string],wide.string,"Identity");
+const bool = createTypeMapRule(["Extends", wide.boolean], [wide.boolean,"ToString"]);
+const numbers = createTypeMapRule(["Extends", wide.number],[wide.number,"ToString"]);
+const strings = createTypeMapRule(["Extends", wide.string],[wide.string,"Identity"]);
 
 const opString = createTypeMapRule("equals", "<string>", "AsString");
 const opNumber = createTypeMapRule("equals", "<number>", "AsNumericString");

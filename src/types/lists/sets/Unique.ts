@@ -1,8 +1,13 @@
-import { IfContains } from "types/boolean-logic";
-import { Narrowable } from "types/literals/Narrowable";
-import { AfterFirst, First, GetEach, IndexOf } from "types/lists";
+import { 
+  IfContains , 
+  Narrowable , 
+  AfterFirst, 
+  First, 
+  GetEach, 
+  IndexOf , 
+  Mutable 
+} from "../../../types";
 import { SetCandidate } from "./SetCandidate";
-import { Mutable } from "types/type-conversion";
 import { IntoSet } from "./IntoSet";
 
 

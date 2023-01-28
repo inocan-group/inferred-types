@@ -14,10 +14,14 @@ export * from "./Length";
 export * from "./IndexOf";
 export * from "./UnionFromProp";
 export * from "./Flatten";
+export * from "./Reverse";
+export * from "./Find";
 export * from "./TruthyReturns";
 export * from "./ReturnTypes";
 export * from "./LogicalReturns";
 export * from "./IntersectAll";
+export * from "./Filter";
+export * from "./FilterNarrow";
 export * from "./ConvertAndMap";
 
 export * from "./extractors/index";

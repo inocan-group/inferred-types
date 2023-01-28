@@ -1,5 +1,5 @@
-import { ExpandRecursively } from "types/ExpandRecursively";
-import { Narrowable } from "types/literals/Narrowable";
+import { ExpandRecursively, Narrowable } from "../../../types";
+
 
 /**
  * Build a key-value pair where both _key_ and _value_ are inferred. This

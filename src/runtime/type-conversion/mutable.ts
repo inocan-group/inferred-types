@@ -1,5 +1,4 @@
-import { Narrowable } from "types/literals/Narrowable";
-import { Mutable } from "types/type-conversion/Mutable";
+import { Narrowable , Mutable } from "../../types";
 
 export function mutable<T extends Narrowable | readonly Narrowable[]>(value: T): Mutable<T> {
   return value as Mutable<T>;

@@ -1,5 +1,4 @@
-import { Narrowable } from "types/literals/Narrowable";
-import { IfString } from "types/boolean-logic/string";
+import { Narrowable , IfString } from "../../types";
 
 /**
  * **isString**

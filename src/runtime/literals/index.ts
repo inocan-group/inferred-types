@@ -20,6 +20,7 @@ export * from "./capitalize";
 export * from "./uncapitalize";
 export * from "./uppercase";
 export * from "./lowercase";
+export * from "./wide";
 
 // #endregion auto-indexed files
 

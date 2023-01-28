@@ -1,4 +1,4 @@
-import { IfEqual, IfExtends, IfOr } from "types/boolean-logic";
+import { IfEqual, IfExtends, IfOr } from "../../types";
 import { AnyFunction } from "../functions/function-types";
 import { And } from "./And";
 import { AnyObject, IsEmptyObject } from "./object";

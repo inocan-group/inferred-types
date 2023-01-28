@@ -1,5 +1,4 @@
-import { Narrowable } from "types/literals/Narrowable";
-import { KvPair } from "types/type-conversion/KvToObject";
+import { Narrowable , KvPair } from "../../types";
 import { isKvPair } from "./isKvPair";
 
 export function isKvPairArray<

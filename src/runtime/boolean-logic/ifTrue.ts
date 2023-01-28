@@ -1,5 +1,4 @@
-import {  IfSoftTrue } from "types/boolean-logic";
-import { Narrowable } from "types/literals/Narrowable";
+import {  IfSoftTrue, Narrowable } from "../../types";
 import { isTrue } from "../type-guards/isTrue";
 
 /**

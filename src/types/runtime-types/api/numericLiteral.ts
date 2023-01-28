@@ -1,5 +1,5 @@
 
-import { NoDefaultValue } from "types/constants/NoDefaultValue";
+import { NoDefaultValue } from "../../../types";
 import { Type, TypeDefaultValue, TypeOptions, TypeUnderlying } from "../Type";
 
 export type TypeApiNumericLiteral = <

@@ -1,4 +1,4 @@
-import { Narrowable } from "types/literals/Narrowable";
+import { Narrowable } from "../../types";
 
 /**
  * Groups an array of data based on the value of a property

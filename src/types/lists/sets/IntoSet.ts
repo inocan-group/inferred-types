@@ -1,5 +1,4 @@
-import { AnyObject } from "types/boolean-logic";
-import { ToKV, UnionToTuple } from "types/type-conversion";
+import { AnyObject , ToKV, UnionToTuple } from "../../../types";
 import { SetCandidate } from "./SetCandidate";
 
 /**

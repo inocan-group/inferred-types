@@ -1,4 +1,9 @@
-import { FromTypeDefn,  TypeDefaultValue, TypeOptions, TypeUnderlying } from "types/runtime-types/Type";
+import type { 
+  FromTypeDefn,  
+  TypeDefaultValue, 
+  TypeOptions, 
+  TypeUnderlying 
+} from "../../../types";
 
 export type TypeApiBoolean = <
     TRequired extends boolean,

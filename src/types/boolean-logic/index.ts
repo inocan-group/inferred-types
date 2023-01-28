@@ -2,6 +2,7 @@ export * from "./array";
 export * from "./Includes";
 export * from "./boolean";
 export * from "./IsScalar";
+export * from "./And";
 export * from "./IsLiteral";
 export * from "./IsUndefined";
 export * from "./DoesExtend";
@@ -29,6 +30,7 @@ export * from "./SomeExtend";
 export * from "./Truthy";
 export * from "./IfWideString";
 export * from "./IsString";
+export * from "./IfString";
 
 export * from "./IfFnWithParams";
 export * from "./IfFnWithoutParams";

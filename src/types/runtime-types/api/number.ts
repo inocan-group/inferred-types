@@ -1,5 +1,4 @@
-import { NoDefaultValue } from "types/constants/NoDefaultValue";
-import { Type, TypeDefaultValue, TypeOptions, TypeUnderlying } from "types/runtime-types/Type";
+import { NoDefaultValue , Type, TypeDefaultValue, TypeOptions, TypeUnderlying } from "../../../types";
 
 export type TypeApiNumber = <
     TRequired extends boolean = true,
