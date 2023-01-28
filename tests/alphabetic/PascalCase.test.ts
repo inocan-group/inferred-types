@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { toPascalCase } from "runtime/literals/toPascalCase";
+import { toPascalCase } from "src/runtime/literals/toPascalCase";
 import { describe, it, expect } from "vitest";
 
 describe("toPascalCase() function", () => {

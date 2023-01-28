@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { Expect, Equal } from "@type-challenges/utils";
-import { UnionFromProp } from "types/lists";
+import { UnionFromProp } from "src/types/lists";
 
 const narrow_data = [
   { id: 123, color: "blue" },

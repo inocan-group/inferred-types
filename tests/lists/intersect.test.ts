@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { intersection } from "runtime/lists/intersection";
-import { intoSet } from "runtime/lists/intoSet";
-import { Intersection } from "types/lists";
+import { intersection } from "src/runtime/lists/intersection";
+import { intoSet } from "src/runtime/lists/intoSet";
+import { Intersection } from "src/types/lists";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

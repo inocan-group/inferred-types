@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { Join } from "runtime/lists/Join";
+import { Join } from "src/runtime/lists/Join";
 import { EnsureLeading } from "src/types";
 import { describe, it } from "vitest";
 

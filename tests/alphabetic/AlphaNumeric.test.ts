@@ -1,5 +1,5 @@
 import { Equal, Expect, } from "@type-challenges/utils";
-import { AlphaNumeric } from "types/string-literals/alpha-characters";
+import { AlphaNumeric } from "src/types/string-literals/alpha-characters";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

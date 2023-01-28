@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { toSnakeCase } from "runtime/literals/toSnakeCase";
-import { SnakeCase } from "types/string-literals/SnakeCase";
+import { toSnakeCase } from "src/runtime/literals/toSnakeCase";
+import { SnakeCase } from "src/types/string-literals/SnakeCase";
 import { describe, it, expect } from "vitest";
 
 describe("toSnakeCase() function", () => {
