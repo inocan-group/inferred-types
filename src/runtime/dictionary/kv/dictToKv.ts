@@ -1,7 +1,5 @@
-import { KvFrom } from "types/kv";
-import { Narrowable } from "types/literals/Narrowable";
-import { UnionToTuple } from "types/type-conversion";
-import { keys } from "runtime/dictionary/keys";
+import { KvFrom, Narrowable, UnionToTuple } from "../../../types";
+import { keys } from "../keys";
 
 /**
  * Converts a dictionary object into an array of dictionaries with `key` and `value` properties

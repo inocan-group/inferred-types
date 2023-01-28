@@ -1,9 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { keys } from "runtime/dictionary";
-import { isSameTypeOf } from "runtime/type-guards/higher-order/isSameTypeOf";
-import { AnyObject } from "types/boolean-logic";
-import { WithValue, WithoutValue } from "types/dictionary";
-import { Narrowable } from "types/literals/Narrowable";
+import { AnyObject, WithValue, WithoutValue, Narrowable } from "../../types";
 
 /**
  * **withValue**(value) => (obj) => WithValue<TObj,TVal>

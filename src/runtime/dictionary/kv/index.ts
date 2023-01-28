@@ -5,7 +5,6 @@
 
 // file exports
 export * from "./dictToKv";
-export * from "./filterDictArray";
 export * from "./kv";
 export * from "./kvToDict";
 

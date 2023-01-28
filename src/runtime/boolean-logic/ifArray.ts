@@ -1,6 +1,4 @@
-import { isArray } from "runtime/type-guards";
-import type { IfArray } from "types/boolean-logic/array";
-import type { Narrowable } from "types/literals";
+import type { IfArray, Narrowable } from "../../types";
 
 /**
  * **ifArray**(T, IF, ELSE)

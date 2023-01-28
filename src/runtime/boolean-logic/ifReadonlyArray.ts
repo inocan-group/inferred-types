@@ -1,6 +1,5 @@
-import { isArray } from "runtime/type-guards";
-import { IfArray } from "types/boolean-logic";
-import { Narrowable } from "types/literals";
+import { IfArray, Narrowable } from "../../types";
+import { isArray } from "../type-guards";
 
 export function ifReadonlyArray<
 // value which is possibly an array

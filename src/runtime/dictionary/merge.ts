@@ -1,7 +1,14 @@
-import { Mutable, Narrowable, SimplifyObject,  Scalar, MergeScalars, MergeTuples } from "../../types";
-import { keys } from "runtime/dictionary/keys";
+import { 
+  Mutable, 
+  Narrowable, 
+  SimplifyObject,  
+  Scalar, 
+  MergeScalars, 
+  MergeTuples
+} from "../../types";
 import { isObject } from "../type-guards/isObject";
 import { isUndefined } from "../type-guards";
+import { keys } from "./keys";
 
 export function mergeScalars<
   TDefault extends Scalar | undefined,
