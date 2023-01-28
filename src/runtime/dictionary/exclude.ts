@@ -20,6 +20,4 @@ export function exclude<
       },
     {} as Exclude<TObj, TupleToUnion<TExclude>> 
   );
-
-
 }

@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import {  mergeScalars, mergeTuples } from "runtime";
+import {  mergeScalars, mergeTuples } from "src/runtime";
 import { MergeObjects, MergeScalars, MergeTuples } from "src/types";
 import { describe, expect, it } from "vitest";
 
