@@ -1,7 +1,4 @@
-import { AnyObject } from "types/boolean-logic";
-import { Narrowable } from "types/literals/Narrowable";
-import { KvPair } from "types/type-conversion/KvToObject";
-import { ObjectToKv } from "types/type-conversion/ObjectToKv";
+import type { AnyObject , Narrowable , KvPair , ObjectToKv } from "../../../types";
 import { NarrowArrExtractor, NarrowObjExtractor } from "./extractor";
 
 /**

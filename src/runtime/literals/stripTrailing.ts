@@ -1,4 +1,4 @@
-import { StripTrailing } from "types/string-literals/StripTrailing";
+import { StripTrailing } from "../../types";
 
 /**
  * **stripTrailing**(content, strip)

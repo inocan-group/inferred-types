@@ -1,5 +1,4 @@
-import { IfFalse, IsFalse } from "types/boolean-logic/boolean";
-import { Narrowable } from "types/literals/Narrowable";
+import { IfFalse, IsFalse, Narrowable } from "../../types";
 
 export function isFalse<T>(i: T) {
   return (typeof i === "boolean" && !i) as IsFalse<T>;
@@ -25,5 +24,5 @@ export function ifFalse<T extends boolean, IF extends Narrowable, ELSE extends N
   ifVal: IF,
   elseVal: ELSE
 ) {
-  return (isFalse(val) ? ifVal : elseVal) as IfFalse<T, IF, ELSE, IF | ELSE>;
+  return (isFalse(val) ? ifVal : elseVal) as IfFalse<T, IF, ELSE>;
 }

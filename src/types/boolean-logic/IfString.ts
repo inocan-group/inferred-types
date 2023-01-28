@@ -1,4 +1,5 @@
 import { Narrowable } from "../literals";
+import { IsString } from "./IsString";
 
 /**
  * **IfString**`<T,TRUE,FALSE>`

@@ -1,5 +1,4 @@
-import { Find } from "types/lists/Find";
-import { Narrowable } from "types/literals/Narrowable";
+import { Find , Narrowable } from "../../types";
 import { indexOf } from "./indexOf";
 
 /**

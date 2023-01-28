@@ -1,6 +1,4 @@
-import { DoesExtend, IfEqual, IsEqual } from "types/boolean-logic";
-import { And } from "types/boolean-logic/And";
-import { KvPair, KvToObject } from "types/type-conversion/KvToObject";
+import { DoesExtend, IfEqual, IsEqual , And , KvPair, KvToObject } from "../../../types";
 import { AfterFirst } from "../AfterFirst";
 import { First } from "../First";
 

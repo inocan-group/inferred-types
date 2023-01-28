@@ -1,4 +1,4 @@
-import { Narrowable } from "types/literals/Narrowable";
+import { Narrowable } from "../../types";
 
 /**
  * **UniqueDictionary**

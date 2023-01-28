@@ -1,4 +1,4 @@
-import { GetEach } from "types/lists";
+import { GetEach } from "../../types";
 
 const NAMED_COLOR_LOOKUP = [
   {

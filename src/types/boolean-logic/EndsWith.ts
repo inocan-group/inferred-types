@@ -1,7 +1,6 @@
-import { IfNumericLiteral, IsStringLiteral } from "types/boolean-logic";
+import { IfNumericLiteral, IsStringLiteral, IfString } from "../../types";
 import { Narrowable } from "../literals/Narrowable";
 import { ToString } from "../type-conversion/ToString";
-import { IfString } from "./IsString";
 
 /**
  * **EndsWith**<T,U>

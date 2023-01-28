@@ -1,4 +1,4 @@
-import { And } from "types/boolean-logic/And";
+import { And } from "../../types";
 
 /**
  * Groups a number of "logic functions" together by combining their results using

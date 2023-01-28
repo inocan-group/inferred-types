@@ -1,4 +1,4 @@
-import { CamelCase } from "types/string-literals/CamelCase";
+import { CamelCase } from "../../types";
 import { toPascalCase } from "./toPascalCase";
 
 /**

@@ -15,6 +15,7 @@ export * from "./state/index";
 export * from "./type-conversion/index";
 export * from "./type-guards/index";
 export * from "./functions/index";
+export * from "./runtime/index";
 // #endregion auto-indexed files
 
 // see https://github.com/inocan-group/do-devops/docs/autoindex.md

@@ -1,4 +1,4 @@
-import { AnyFunction, Narrowable, Widen } from "../../types";
+import {  Narrowable, Widen } from "../../types";
 
 
 /**
@@ -12,7 +12,7 @@ export const wide = {
   number: 0 as number,
   symbol: Symbol() as Symbol,
   null: null,
-  function: (() => null) as AnyFunction,
+  function: (() => null) as Function,
   anyArray: [] as any[],
   anyObject: {} as  Record<string, any>,
   unknownObject: {} as  Record<string, unknown>,

@@ -1,14 +1,12 @@
 /* eslint-disable no-use-before-define */
-import { OptRequired } from "types/literals";
+import { OptRequired } from "../../types";
 import {
   DefaultManyToOneMapping,
   DefaultOneToManyMapping,
   DefaultOneToOneMapping,
-} from "runtime/dictionary/mapTo";
+} from "../../runtime";
 import { EnumValues } from "../EnumValues";
 import { MergeObjects } from "../type-conversion";
-
-
 
 /**
  * Expresses relationship between inputs/outputs:

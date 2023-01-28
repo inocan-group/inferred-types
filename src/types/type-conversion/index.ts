@@ -20,6 +20,7 @@ export * from "./Concat";
 export * from "./LeftWhitespace";
 export * from "./Replace";
 export * from "./RightWhitespace";
+export * from "./ObjectToKv";
 export * from "./StringLength";
 export * from "./Trim";
 export * from "./TrimLeft";

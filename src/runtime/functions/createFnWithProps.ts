@@ -1,6 +1,5 @@
 import { keys } from "../dictionary/keys";
-import type { AnyFunction } from "types/functions";
-import type { Narrowable } from "types/literals/Narrowable";
+import type { AnyFunction, Narrowable } from "../../types";
 
 /**
  * **createFnWithProps**(fn, params)

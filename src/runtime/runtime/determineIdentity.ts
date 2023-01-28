@@ -1,5 +1,4 @@
-import { TypeDefn } from "types/runtime-types/Type";
-import { Suggest } from "../literals";
+import { Suggest, TypeDefn } from "../../types";
 
 // const byKind = {
 //   string: `The `

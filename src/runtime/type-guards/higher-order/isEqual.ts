@@ -1,5 +1,4 @@
-import { Narrowable } from "types/literals/Narrowable";
-import { TypeGuard } from "types/TypeGuard";
+import { Narrowable , TypeGuard } from "../../../types";
 import { isSameTypeOf } from "./isSameTypeOf";
 
 /**

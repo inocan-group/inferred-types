@@ -1,4 +1,4 @@
-import { ConvertTypeOf, GetTypeOf } from "types/runtime-types/TypeOf";
+import { ConvertTypeOf, GetTypeOf } from "../../../types";
 
 /**
  * **isSameTypeOf**(base, compare)
