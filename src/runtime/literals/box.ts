@@ -5,7 +5,8 @@ import type {
   Narrowable,
   First
 } from "../../types";
-import { keys } from "runtime/dictionary/keys";
+import { keys } from "../dictionary";
+
 
 export interface Box<T> {
   __type: "box";

@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 import type { SameKeys , Transformer } from "../../types";
-import { keys } from "runtime/dictionary";
+import { keys } from "./keys";
 
 /**
  * Takes a dictionary of type `I` and converts it to a dictionary of type `O` where

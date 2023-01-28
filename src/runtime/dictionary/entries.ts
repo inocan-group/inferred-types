@@ -1,6 +1,5 @@
-import { KeyValue } from "types/kv";
-import { Narrowable } from "types/literals/Narrowable";
-import { keys } from "runtime/dictionary";
+import { KeyValue, Narrowable } from "../../types";
+import { keys } from "./keys";
 
 /**
  * **entries**

@@ -1,4 +1,4 @@
-import { keys } from "runtime/dictionary/keys";
+import { keys } from "src/runtime/dictionary";
 import { isArray } from "../isArray";
 import { isObject } from "../isObject";
 import { isString } from "../isString";

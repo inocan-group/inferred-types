@@ -1,5 +1,5 @@
-import { keys } from "runtime/dictionary/keys";
-import { Narrowable } from "types/literals/Narrowable";
+import { Narrowable } from "../../types";
+import { keys } from "../dictionary";
 
 /**
  * Adds read-only (and narrowly typed) key/value pairs to a function
