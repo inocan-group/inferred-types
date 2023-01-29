@@ -1,10 +1,14 @@
 import type { Expect, Equal } from "@type-challenges/utils";
 import { describe, it, expect } from "vitest";
-import type { Keys , ExpectExtends, UnknownObject, TupleToUnion } from "src/types";
-import { defineType, keys } from "src/runtime";
+import type { 
+  Keys , 
+  ExpectExtends, 
+  UnknownObject, 
+  TupleToUnion, 
+  NumericKeys 
+} from "../../src/types";
+import { defineType, keys, isRef } from "../../src/runtime";
 import { ref } from "vue";
-import { isRef } from "src/runtime/type-guards/isRef";
-import { NumericKeys } from "src/types/lists/NumericKeys";
 
 describe("NumericKeys<T>", () => {
 
