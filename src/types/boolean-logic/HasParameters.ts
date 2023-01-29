@@ -2,7 +2,7 @@
 import { AnyFunction } from "../functions/function-types";
 import { Length } from "../lists/Length";
 import { Narrowable } from "../literals/Narrowable";
-import { IsEqual } from "./equivalency";
+import { IsEqual } from "./IsEqual";
 
 /**
  * **HasParameters**`<T>`

@@ -61,7 +61,7 @@ export const createTypeDefn = <
 >(defn: TD) => {
   type FullType = FromTypeDefn<TD>;
 
-  const type = {
+  const type: FullType = {
     _type: "Type",
     kind: defn.kind,
     type: determineType(defn),
@@ -92,7 +92,7 @@ export const createTypeDefn = <
     validate: (_val) => true,
     is: ((_val) => true) as FullType["is"],
 
-  } satisfies Type;
+  };
 
   return createValidator(createTypeGuard(type)) as FullType;
 };

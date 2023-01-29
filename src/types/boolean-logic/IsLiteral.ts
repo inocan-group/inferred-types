@@ -4,7 +4,7 @@ import { Length } from "../lists/Length";
 import { Narrowable } from "../literals/Narrowable";
 import { And, IfAnd } from "./And";
 import { IsBooleanLiteral } from "./boolean";
-import { IsEqual } from "./equivalency";
+import { IsEqual } from "./IsEqual";
 import { IfLength } from "./IfLength";
 import { AnyObject } from "./object";
 import { IfOr } from "./Or";

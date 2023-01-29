@@ -1,6 +1,5 @@
-import { Intersection } from "../../types";
 import { getEach } from "./getEach";
-import { indexOf } from "./indexOf";
+import { find } from "./find";
 
 /**
  * **intersection**(a,b,[deref])
@@ -17,6 +16,16 @@ export const intersection = <
   B extends readonly any[],
   TDeref extends string | number | null = null
 >(a: A, b: B, deref: TDeref = null as TDeref) => {
-  return a.filter((el: any) => [...getEach(b, deref)]
-    .includes(indexOf(el, deref))) as Intersection<A,B,TDeref>;
+  const aKeys = deref 
+    ? [...getEach(a, deref)]
+    : a;
+
+  const sharedKeys = aKeys.filter(k => find(b,deref)(k));
+
+  return (
+    deref 
+      ? a.filter(i => find(b, deref)(i))
+      : sharedKeys
+  );
+  // TODO: setting type with `Intersection<A,B,TDeref>` fails here but works in all tests
 };

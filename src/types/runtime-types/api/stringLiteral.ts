@@ -11,7 +11,7 @@ import type {
   AfterFirst,
   Narrowable,
   ToString,
-  FromTypeDefn, TypeDefaultValue
+  FromTypeDefn, TypeDefaultValue, IfString
 } from "../../../types";
 
 /**

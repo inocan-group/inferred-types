@@ -20,7 +20,10 @@ export type Finder<
 export const find = <
   TList extends readonly any[],
   TDeref extends string | number | null = null
->(list: TList, deref: TDeref = null as TDeref ): Finder<TList, TDeref> => <
+>(
+  list: TList, 
+  deref: TDeref = null as TDeref 
+): Finder<TList, TDeref> => <
   TExtends extends Narrowable
 >(value: TExtends): Find<TList, TExtends, TDeref> => {
   return list.find(i => indexOf(i,deref) === value) as Find<TList, TExtends, TDeref>;
