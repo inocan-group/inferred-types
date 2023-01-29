@@ -9,7 +9,10 @@ import type { AnyFunction, Narrowable } from "../../types";
 export function createFnWithProps<
   TFn extends AnyFunction,
   TParams extends Narrowable
->(fn: TFn, props: TParams & Record<string, any>) {
+>(
+  fn: TFn, 
+  props: TParams & Record<string, any>
+) {
   const combinedProps = Array.from(new Set([...keys(fn), ...keys(props)]));
 
   if (combinedProps.length === 0) {

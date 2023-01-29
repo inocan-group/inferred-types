@@ -22,6 +22,7 @@ export * from "./LogicalReturns";
 export * from "./IntersectAll";
 export * from "./Filter";
 export * from "./FilterNarrow";
+export * from "./NumericKeys";
 export * from "./ConvertAndMap";
 
 export * from "./extractors/index";

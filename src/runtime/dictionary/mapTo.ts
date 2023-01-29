@@ -10,6 +10,7 @@ import {
   MapFn,
   OptRequired
 } from "../../types";
+import { createFnWithProps } from "../functions/createFnWithProps";
 
 /**
  * utility function to take a fully-qualified _user_ config
