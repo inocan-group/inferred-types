@@ -14,6 +14,8 @@ export * from "./unique";
 export * from "./logicalReturns";
 export * from "./intoSet";
 export * from "./createConverter";
+export * from "./unique";
+export * from "./reverse";
 
 // #endregion auto-indexed files
 

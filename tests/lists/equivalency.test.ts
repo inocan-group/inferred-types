@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { IfEqual, IsEqual, IsNotEqual } from "../../src/types/boolean-logic/equivalency";
+import { IfEqual, IsEqual, IsNotEqual } from "../../src/types/boolean-logic/IsEqual";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 

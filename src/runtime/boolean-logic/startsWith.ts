@@ -1,6 +1,6 @@
-import { Narrowable,IfTrue, StartsWith } from "../../types";
+import { Narrowable,IfTrue, StartsWith, Box } from "../../types";
 import { createFnWithProps } from "../functions/createFnWithProps";
-import {  box, Box } from "../literals";
+import {  box  } from "../literals";
 import { startsWith } from "../type-guards/higher-order/startsWith";
 import { ifTrue } from "./ifTrue";
 

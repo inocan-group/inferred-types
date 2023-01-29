@@ -1,4 +1,5 @@
 import { Narrowable } from "../literals/Narrowable";
+import { ExtendsSome } from "./ExtendsSome";
 
 /**
  * **IfExtendsSome**`<TList,TValue,IF,ELSE>`
