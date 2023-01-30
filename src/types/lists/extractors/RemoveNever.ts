@@ -10,9 +10,9 @@ import { ArrExtractor } from "./extractor";
 export type RemoveNever<
   T extends any[] | readonly any[] | AnyObject
 > = T extends any[]
-  ? ArrExtractor<T, never, true>
+  ? ArrExtractor<T, never, "remove">
   : T extends readonly any[]
-    ? readonly [...ArrExtractor<T, never, true>]
+    ? readonly [...ArrExtractor<T, never, "remove">]
     : T extends AnyObject
       ? any
       : never;

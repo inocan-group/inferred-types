@@ -2,16 +2,16 @@ import { AnyObject } from "../../../types";
 import { ArrExtractor } from "./extractor";
 
 /**
- * **RetainStrings**`<T>`
+ * **RemoveStrings**`<T>`
  * 
- * Retains the _string_ values from arrays an objects and discards the rest.
+ * Extracts string values from an array, retains the rest.
  */
-export type RetainStrings<
+export type RemoveStrings<
   T extends any[] | readonly any[] | AnyObject
 > = T extends any[]
-  ? ArrExtractor<T, string, "retain">
+  ? ArrExtractor<T, string>
   : T extends readonly any[]
-  ? Readonly<ArrExtractor<T, string, "retain">>
+  ? readonly [...ArrExtractor<T, string, "remove">]
   : T extends AnyObject
   ? any
   : never;
