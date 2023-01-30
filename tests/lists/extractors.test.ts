@@ -1,5 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { ExtractStrings, RemoveNever } from "src/types/lists/extractors";
+import {  RemoveNever, RemoveStrings } from "src/types/lists/extractors";
+import { RetainStrings, RetainStrings } from "src/types/lists/extractors/RetainStrings";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -29,10 +30,10 @@ describe("RemoveNever", () => {
 describe("ExtractStrings", () => {
 
   it("type", () => {
-    type FooBar = ExtractStrings<[false, boolean, 42, "foo", {}, "bar", never]>;
-    type FooBar_RO = ExtractStrings<readonly [false, boolean, 42, "foo", {}, "bar", never]>;
-    type None = ExtractStrings<[23, 43, 56]>;
-    type None_RO = ExtractStrings<readonly [23, 43, 56]>;
+    type FooBar = RetainStrings<[false, boolean, 42, "foo", {}, "bar", never]>;
+    type FooBar_RO = RetainStrings<readonly [false, boolean, 42, "foo", {}, "bar", never]>;
+    type None = RetainStrings<[23, 43, 56]>;
+    type None_RO = RetainStrings<readonly [23, 43, 56]>;
 
     type cases = [
       Expect<Equal<FooBar, ["foo","bar"]>>,
