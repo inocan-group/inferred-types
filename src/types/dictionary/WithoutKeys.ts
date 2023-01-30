@@ -1,3 +1,4 @@
+import { ExpandRecursively } from "../literals";
 import { TupleToUnion } from "../type-conversion";
 
 /** make sure keys is expressed as an array of values */
@@ -20,5 +21,5 @@ type ToKeys<
 export type WithoutKeys<
   TObj extends Record<string, any>, 
   TKeys extends string | readonly (keyof TObj & string)[]
-> = Omit<TObj, ToKeys<TObj,TKeys>>;
+> = ExpandRecursively<Omit<TObj, ToKeys<TObj,TKeys>>>;
 

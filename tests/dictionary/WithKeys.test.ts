@@ -1,10 +1,11 @@
 import { describe, it, expect } from "vitest";
 import {   WithKeys, WithoutKeys } from "../../src/types";
 import { Equal, Expect } from "@type-challenges/utils";
-
+import { withKeys } from "src/runtime/dictionary/withKeys";
+import { withoutKeys } from "src/runtime/dictionary/withoutKeys";
 
 describe("WithKeys<T, K> utility", () => {
-  it("base test", () => {
+  it("types: base test", () => {
     type O = { foo: 1; bar: 2; baz: "hi" };
     type FooBar = WithKeys<O, "foo" | "bar">;
     type FooBar2 = WithKeys<O, readonly ["foo", "bar"]>;
@@ -25,7 +26,7 @@ describe("WithKeys<T, K> utility", () => {
     expect(c).toBe(c);
   });
 
-  it("optional params and literals", () => {
+  it("types: optional params and literals", () => {
     type Obj = { foo: 1; bar?: number; baz: "hi" };
     type FooBar = WithKeys<Obj, "foo" | "bar">;
 
@@ -33,6 +34,28 @@ describe("WithKeys<T, K> utility", () => {
     const c: cases = [true];
     expect(c).toBe(c);
   });
+
+  
+  it("runtime: happy path", () => {
+    const obj = {foo: 1, bar: 42 as number | undefined, baz: "hi"} as const;
+    const t1 = withKeys(obj, "foo", "bar");
+    const t2 = withKeys(obj, "foo", "baz");
+
+    expect(t1.foo).toBe(1);
+    expect(t1.bar).toBe(42);
+    expect((t1 as any).baz).toBeUndefined();
+
+    expect(t2.foo).toBe(1);
+    expect((t2 as any).bar).toBeUndefined();
+    expect(t2.baz).toBe("hi");
+
+    type cases = [
+      Expect<Equal<typeof t1, { readonly foo: 1; readonly bar: number | undefined}>>, 
+      Expect<Equal<typeof t2, { readonly foo: 1; readonly baz: "hi"}>>
+    ];
+    const cases: cases = [ true, true ];
+  });
+  
 });
 
 describe("WithoutKeys<T, K> utility", () => {
@@ -57,6 +80,26 @@ describe("WithoutKeys<T, K> utility", () => {
     ];
     const c: cases = [true, true, true, true, true, true, true];
     expect(c).toBe(c);
+  });
+
+  it("runtime: happy path", () => {
+    const obj = {foo: 1, bar: 42 as number | undefined, baz: "hi"} as const;
+    const t1 = withoutKeys(obj, "foo", "bar");
+    const t2 = withoutKeys(obj, "foo", "baz");
+
+    expect((t1 as any).foo).toBeUndefined();
+    expect((t1 as any).bar).toBeUndefined();
+    expect(t1.baz).toBe("hi");
+
+    expect((t2 as any).foo).toBeUndefined();
+    expect(t2.bar).toBe(42);
+    expect((t2 as any).baz).toBeUndefined;
+
+    type cases = [
+      Expect<Equal<typeof t1, { readonly baz: "hi"}>>, 
+      Expect<Equal<typeof t2, { readonly bar: number | undefined}>>
+    ];
+    const cases: cases = [ true, true ];
   });
 
 });
