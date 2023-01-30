@@ -1,11 +1,11 @@
-import { Narrowable, AnyObject, DotPath, DotPathFor, Get, Suggest, NO_DEFAULT_VALUE } from "../../types";
+import { Narrowable,  DotPath, DotPathFor, Get, Suggest, NO_DEFAULT_VALUE } from "../../types";
 import { split } from "../literals/split";
-import { hasDefaultValue, isFalsy, isTruthy,  isRef, hasIndexOf } from "../type-guards";
+import { hasDefaultValue, isTruthy,  isRef, hasIndexOf } from "../type-guards";
 import {  ReportError } from "../literals/ErrorCondition";
 import { createErrorCondition } from "../runtime/createErrorCondition";
 import { NOT_DEFINED } from "../runtime/NotDefined";
 import { isSpecificConstant } from "../type-guards/isConstant";
-
+import { ifNull } from "../boolean-logic/ifNull";
 
 /** updates based on whether segment is a Ref or not */
 function updatedDotPath<
@@ -18,6 +18,9 @@ function updatedDotPath<
   : dotpath;
 }
 
+/**
+ * **getValue**(value, dotpath, defaultValue, handler, fullDotPath)
+ */
 function getValue<
   TValue extends Narrowable, 
   TDotPath extends string,
@@ -31,6 +34,7 @@ function getValue<
   handleInvalid: TInvalid,
   fullDotPath: TFullDotPath
 ) {  
+  
   /** the remaining segments that need processing */
   const pathSegments: string[] = isTruthy(dotPath)
     ? split(dotPath, ".") || []
@@ -108,8 +112,8 @@ export interface GetOptions<
  * ```
  */
 export function get<
-  TValue extends Narrowable, 
-  TDotPath extends Suggest<DotPathFor<TValue>>, 
+  TValue extends Narrowable | readonly any[], 
+  TDotPath extends Suggest<DotPathFor<TValue>> | null, 
   TDefVal extends Narrowable = typeof NO_DEFAULT_VALUE,
   TInvalid extends Narrowable = typeof NOT_DEFINED
 >(
@@ -120,20 +124,14 @@ export function get<
       handleInvalidDotpath: NOT_DEFINED
     } as GetOptions<TDefVal, TInvalid>
 ) {
-  return (
-    isFalsy(dotPath)
-    ? value // if null passed in then just pass back value
-    : getValue(
-        value, dotPath, 
+  return ifNull(
+      dotPath,
+      () => value, // if null passed in then just pass back value
+      (dp) => getValue(
+        value, dp, 
         options?.defaultValue || NO_DEFAULT_VALUE, 
         options?.handleInvalidDotpath || NOT_DEFINED,
-        dotPath
+        dp
       ) 
   ) as Get<TValue, TDotPath>;
-};
-
-export const getPartial = <
-  TValue extends readonly any[] | AnyObject
->(value: TValue) => <TDotPath extends DotPathFor<TValue>>(dotPath: TDotPath) => {
-  return get(value, dotPath);
 };

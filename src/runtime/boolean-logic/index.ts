@@ -14,6 +14,7 @@ export * from "./isFalse";
 export * from "./isSymbol";
 export * from "./ifTrue";
 export * from "./ifNumber";
+export * from "./ifNull";
 export * from "./ifUndefined";
 
 // #endregion auto-indexed files

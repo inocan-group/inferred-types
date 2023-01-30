@@ -96,7 +96,9 @@ export type DotPathFor<
   TValue extends Narrowable | readonly any[],
 > = IfScalar<
   FromMaybeRef<TValue>,
+  // if the target is a scalar value, only valid path is null
   null,
+  // non-scalar values 
   TupleToUnion<
     FromMaybeRef<TValue> extends AnyObject
     ? IfLiteral<

@@ -162,6 +162,7 @@ describe("Get<T, K> type utility", () => {
       deep: deep
     } as const;
 
+    const identity = get(42, null);
     const shallow = get(obj, "foo");
     const deepObj = get(obj, "bar.a");
     const deepArr = get(obj, "baz.1");
@@ -169,6 +170,7 @@ describe("Get<T, K> type utility", () => {
     const err1 = get(obj, "foo.not.exist");
     const handleErr = get(obj, "foo.not.exist", { handleInvalidDotpath: "foobar" });
     
+    expect(identity, `null dotpath works for scalar`).toBe(42);
     expect(shallow, `shallow get`).toBe(1);
     expect(deepObj, "deep object get").toBe("a");
     expect(deepArr, "deep array get").toBe(2);
@@ -186,7 +188,7 @@ describe("Get<T, K> type utility", () => {
   });
 
   
-  it("runtime errors", () => {
+  it("Runtime Errors", () => {
     const deeperStill = ref([4,5,6] as const);
     const obj = {
       foo: 1,
@@ -206,13 +208,13 @@ describe("Get<T, K> type utility", () => {
     const handled1 = get(obj, "bar.abc", { handleInvalidDotpath: "handled"});
     const handled2 = get(obj, "deep.notSoDeep", { handleInvalidDotpath: "handled"});
 
-    expect(isErrorCondition(err1)).toBe(true);
-    expect(isErrorCondition(err2)).toBe(true);
-    expect(handled1).toBe("handled");
-    expect(handled2).toBe("handled");
+    expect(isErrorCondition(err1), "err1 should have been an error").toBe(true);
+    expect(isErrorCondition(err2), "err2 should have been an error").toBe(true);
+    expect(handled1, "handled1 should have been handled").toBe("handled");
+    expect(handled2, "handled2 should have been handled").toBe("handled");
   });
   
-  it("runtime default values", () => {
+  it("Runtime default values", () => {
     type Obj = {
       foo: number; 
       bar: Record<string, string | undefined>; 

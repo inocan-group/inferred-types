@@ -1,7 +1,5 @@
 import { ExpandRecursively } from "../literals/ExpandRecursively";
-import { Keys } from "../Keys";
-import { SetRemoval } from "../lists/set-ops";
-import { TupleToUnion, UnionToIntersection, UnionToTuple } from "../type-conversion";
+import { TupleToUnion, UnionToIntersection } from "../type-conversion";
 /**
  * **WithKeys**`<T,K>`
  * 
@@ -30,24 +28,3 @@ export type WithKeys<
       ? Pick<T, TupleToUnion<K>>
       : never
   >>;
-
-
-/**
- * **WithoutKeys**`<TObj, TKeys>`
- * 
- * Removes the keys expressed by `TKeys` from `TObj`.
- * 
- * Note: `TKeys` can be a union of key names _or_ an array of string names
- */
-export type WithoutKeys<
-  TObj extends Record<string, any>, 
-  TKeys extends (string & keyof TObj) | readonly (keyof TObj & string)[]
-> = TKeys extends readonly (keyof TObj & string)[]
-  ? // with keys being an array
-    SetRemoval<keyof TObj, TKeys> extends readonly any[]
-    ? WithKeys<TObj, SetRemoval<keyof TObj, TKeys>>
-    : never
-  : // with keys being a union
-    SetRemoval<Keys<TObj>, Readonly<UnionToTuple<TKeys>>> extends readonly string[]
-      ? WithKeys<TObj, SetRemoval<Keys<TObj>, Readonly<UnionToTuple<TKeys>>>>
-      : never;
