@@ -1,4 +1,4 @@
-import { FilterNarrow , IfString , IsLiteral , TupleToUnion } from "../../types";
+import { FilterNarrow , IfString , IsLiteral , Narrowable, TupleToUnion } from "../../types";
 
 /**
  * **Suggest**`<T>`
@@ -13,14 +13,16 @@ import { FilterNarrow , IfString , IsLiteral , TupleToUnion } from "../../types"
  * - If T is a wide string then we must return
  * just a wide string as no suggestions are possible 
  */
-export type Suggest<T extends string | number | readonly string[] | readonly number[]> = //
-T extends readonly string[]
+export type Suggest<T extends Narrowable | readonly any[]> = //
+T extends string | number | readonly string[] | readonly number[]
+? T extends readonly string[]
   ? TupleToUnion<FilterNarrow<T, string>> | (string & {})
   : T extends readonly number[]
     ? TupleToUnion<FilterNarrow<T, number>> | (string & {})
   : IsLiteral<T> extends true
     ? IfString<T, T | (string & {}), `${T & number}` | (string & {})>
-    : IfString<T, string, `${number}`>;
+    : IfString<T, string, `${number}`>
+: never;
 
 /**
  * **SuggestNumeric**`<T>`
