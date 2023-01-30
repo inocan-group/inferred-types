@@ -22,7 +22,5 @@ export const withKeys = <
     };
   }
 
-  return output as WithKeys<TObj, TKeys> ;
+  return output as WithKeys<TObj, TKeys>;
 };
-
-

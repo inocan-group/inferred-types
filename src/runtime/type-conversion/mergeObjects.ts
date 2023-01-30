@@ -1,4 +1,4 @@
-import type { MergeObjects } from "../../types";
+// import type { MergeObjects } from "../../types";
 import { 
   keys, 
   intersection, 
@@ -7,13 +7,22 @@ import {
 } from "../index";
 export function mergeObjects<
   TDefault extends Record<string, any>,
-  TOverride extends Record<string, any>
->(defVal: TDefault, override: TOverride) {
-  const intersect = intersection(keys(defVal), keys(override));
-  const [ defUnique, overUnique ] = unique(keys(defVal), keys(override));
+  TOverride extends Record<string, any>,
+  TDeref extends (keyof TDefault & keyof TOverride & (string | number)) | null
+>(
+  defVal: TDefault, 
+  override: TOverride,
+  deref: TDeref = null as TDeref
+) {
+  /** top-level properties which are contained in both */
+  const intersect = intersection(keys(defVal), keys(override), deref);
+  /** unique properties to each  */
+  const [ defUnique, overUnique ] = unique(keys(defVal), keys(override), deref);
 
   const du = withKeys(defVal, defUnique);
   const ou = withKeys(defVal, overUnique);
+
+  return {...du, ...ou};
 
   // const defExtend = exclude(
   //   defVal, keys(override).filter(i => isString(i))
