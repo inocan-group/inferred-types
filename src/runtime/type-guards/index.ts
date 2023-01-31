@@ -18,6 +18,8 @@ export * from "./isNumericString";
 export * from "./isFnWithParams";
 export * from "./isFunction";
 export * from "./isNumber";
+export * from "./isKvTuple";
+export * from "./isKvTupleArray";
 export * from "./isScalar";
 export * from "./runtime-type-guards";
 

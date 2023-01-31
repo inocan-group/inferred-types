@@ -27,4 +27,5 @@ export type WithKeys<
     : K extends readonly (keyof T & string)[]
       ? Pick<T, TupleToUnion<K>>
       : never
-  >>;
+  >
+>;

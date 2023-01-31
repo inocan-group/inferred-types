@@ -1,10 +1,15 @@
-import { Narrowable , KvPair } from "../../types";
+import { Narrowable , KvDict } from "../../types";
 import { isKvPair } from "./isKvPair";
 
-export function isKvPairArray<
+/**
+ * **isKvDictArray**(value)
+ * 
+ * Type guard used to check whether value is an array of `KvDict` entries.
+ */
+export function isKvDictArray<
   K extends string, 
   V extends Narrowable, 
-  T extends KvPair<K,V>[]
+  T extends KvDict<K,V>[]
 >(value: unknown | T): value is T {
   return Array.isArray(value) && (value as any[]).every(v => isKvPair(v));
 }

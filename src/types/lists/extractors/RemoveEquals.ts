@@ -1,4 +1,4 @@
-import type { AnyObject , Narrowable , KvPair , ObjectToKv } from "../../../types";
+import type { AnyObject , Narrowable , KvDict , ObjectToKvDict } from "../../../types";
 import { NarrowArrExtractor, NarrowObjExtractor } from "./extractor";
 
 /**
@@ -15,7 +15,7 @@ export type RemoveEquals<
 : TIterable extends readonly any[]
   ? readonly [...NarrowArrExtractor<TIterable, TCompare, "remove">]
   : TIterable extends AnyObject
-    ? ObjectToKv<TIterable> extends readonly KvPair<any, any>[]
-      ? NarrowObjExtractor<ObjectToKv<TIterable>, "remove">
+    ? ObjectToKvDict<TIterable> extends readonly KvDict<any, any>[]
+      ? NarrowObjExtractor<ObjectToKvDict<TIterable>, "remove">
       : never
     : never;

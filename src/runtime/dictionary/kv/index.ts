@@ -6,7 +6,7 @@
 // file exports
 export * from "./dictToKv";
 export * from "./kv";
-export * from "./kvToDict";
+export * from "./kvDictArrayToObject";
 
 // #endregion auto-indexed files
 

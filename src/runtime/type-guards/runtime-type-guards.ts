@@ -1,4 +1,4 @@
-import { TypeKvBase } from "../../types/type-conversion/KvToObject";
+import { TypeKvBase } from "../../types/type-conversion/KvDict";
 import { 
   FALSY_TYPE_KINDS, 
   LITERAL_TYPE_KINDS, 

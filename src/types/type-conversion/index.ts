@@ -8,7 +8,7 @@
 export * from "./TupleToUnion";
 export * from "./UnionToIntersection";
 export * from "./ToKV";
-export * from "./KvToObject";
+export * from "./KvDict";
 export * from "./ToString";
 export * from "./UnionToTuple";
 export * from "./Widen";
@@ -20,7 +20,7 @@ export * from "./Concat";
 export * from "./LeftWhitespace";
 export * from "./Replace";
 export * from "./RightWhitespace";
-export * from "./ObjectToKv";
+export * from "./ObjectToKvDict";
 export * from "./StringLength";
 export * from "./Trim";
 export * from "./TrimLeft";

@@ -1,8 +1,12 @@
 import { Equal, Expect } from "@type-challenges/utils";
+import { isKvTupleArray } from "src/runtime";
+import { ifKvTupleArray } from "src/runtime/boolean-logic/ifKvTupleArray";
+import { fromSet } from "src/runtime/lists/fromSet";
 import { intersection } from "src/runtime/lists/intersection";
 import { intoSet } from "src/runtime/lists/intoSet";
+import { isKvDictArray } from "src/runtime/type-guards/isKvPairArray";
 import { Intersection } from "src/types/lists";
-import { describe, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -62,18 +66,32 @@ describe("Set Intersection", () => {
 
 
   describe("Runtime", () => {
-    const foo = { foo: 1 } as const;
-    const bar = { bar: 55 } as const;
-    const baz = { baz: 25 } as const;
-  
-    it("happy path", () => {
-      const t1 = intersection(intoSet([foo, bar]),intoSet([bar, baz]));
-      console.log({t1});
-      
-    });
-  
-  });
-  
-  
+    const foobar = { foo: 1, bar: 45 } as const;
+    const barBaz = { bar: 1, baz: 25 } as const;
 
+    const sFoobar = intoSet(foobar);
+    // identified as a KV array
+    const isKvTupleArray = ifKvTupleArray(sFoobar, () => true, () => false);
+    expect(isKvTupleArray).toBe(true);
+    // should be able to move back to object
+    const rFoobar = fromSet(sFoobar);
+    expect(rFoobar, "fromSet should have converted back to object").toEqual(foobar);
+
+    const sBarBaz = intoSet(barBaz);
+    
+    it("happy path", () => {
+      // the resultant KV arrays does not intersect
+      const empty = intersection(sFoobar, sBarBaz);
+      expect(empty, "no intersection expected").toEqual([]);
+      // if we deref to the second property of the KV's
+      // we then compare on the "keys" (aka, index 1)
+      const some = intersection(foobar, barBaz, 1);
+      expect(
+        some, 'the "bar" property on both arrays expected to match'
+      ).toEqual([["KV", "bar", 45], ["KV", "bar", 1]]);
+
+      const isKvArr = ifKvTupleArray(some, () => true, () => false);
+      expect(isKvArr).toBe(true);
+    });
+  });
 });

@@ -9,11 +9,11 @@ import { WithKeys } from "src/types/dictionary/WithKeys";
  */
 export const withKeys = <
   TObj extends AnyObject,
-  TKeys extends readonly (string & keyof TObj)[]
+  TKeys extends readonly (string  & keyof TObj)[]
 >(
   dict: TObj, 
   ...keys: TKeys
-) => {
+): WithKeys<TObj, TKeys> => {
   let output: Record<string, any> = {};
   for (const k of keys) {
     output = {

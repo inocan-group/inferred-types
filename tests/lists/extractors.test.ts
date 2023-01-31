@@ -1,6 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import {  RemoveNever, RemoveStrings } from "src/types/lists/extractors";
-import { RetainStrings, RetainStrings } from "src/types/lists/extractors/RetainStrings";
+import {  RemoveNever, RetainStrings } from "src/types/lists/extractors";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

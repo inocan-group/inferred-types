@@ -1,58 +1,56 @@
-import { AfterFirst } from "../lists";
-import { First } from "../lists/First";
+import { AfterFirst, First } from "../lists";
 import { Type } from "../runtime-types/Type";
 import { SimplifyObject } from "../SimplifyObject";
+import { KvDict } from "./KvDict";
 import { Mutable } from "./Mutable";
-
-/**
- * **KvPair**`<K,V>`
- * 
- * A key-value pairing of the type `{ key: K; value: V }` 
- */
-export type KvPair<
-  K extends string,
-  V
-> = {key: K; value: V};
 
 export type TypeKvBase<
   K extends string, 
   T extends Type
-> = KvPair<K,T>;
+> = KvDict<K,T>;
 
 /**
- * **ObjectFromKv**`<KV>`
+ * **ObjectFromKv**`<KvDict>`
  * 
  * A type utility designed to convert an `ObjectType`'s internal representation
  * into the actual Typescript _type_ which this run/design time structure represents.
  */
 export type TypeKvToObject<
-  KV extends readonly TypeKvBase<string,Type>[],
+  KvDict extends readonly TypeKvBase<string,Type>[],
   Obj extends {} = {}
-> = [] extends KV
+> = [] extends KvDict
   ? SimplifyObject<Obj>
-  : First<KV> extends TypeKvBase<infer K, infer T>
-    ? TypeKvToObject<AfterFirst<KV>, Record<K, T["type"]> & Obj>
+  : First<KvDict> extends TypeKvBase<infer K, infer T>
+    ? TypeKvToObject<AfterFirst<KvDict>, Record<K, T["type"]> & Obj>
     : never;
+
 
 /**
  * **KvToObject**`<KV>`
  * 
  * Type utility to convert an array of KV's to a strongly typed object.
+ * ```ts
+ * // { foo: 1; bar: 2 }
+ * type T = KvToObject<[
+ *    {key: "foo"; value: 1}, 
+ *    {key: "bar"; value: 2}
+ *  ]>;
+ * ```
  */
-export type KvToObject<
-  KV extends readonly KvPair<string,any>[],
+export type KvDictToObject<
+  KV extends readonly KvDict<string,any>[],
   TObj extends {} = {}
 > = [] extends KV
   ? SimplifyObject<TObj>
-  : First<KV> extends KvPair<infer Key, infer Value>
+  : First<KV> extends KvDict<infer Key, infer Value>
     ? Key extends keyof TObj
       ? ["ERROR", `Key of ${Key} already exists`]
-      : Mutable<Value> extends KvPair<string, any>[]
-        ? KvToObject< // prop is an object
+      : Mutable<Value> extends KvDict<string, any>[]
+        ? KvDictToObject< // prop is an object
             [...AfterFirst<KV>], 
-            TObj & Mutable<Record<Key, Readonly<KvToObject<Mutable<Value>>>>>
+            TObj & Mutable<Record<Key, Readonly<KvDictToObject<Mutable<Value>>>>>
           >
-        : KvToObject<
+        : KvDictToObject<
             [...AfterFirst<KV>], 
             TObj & Mutable<Record<Key, Value>>
           >

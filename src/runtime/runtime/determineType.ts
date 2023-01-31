@@ -2,7 +2,7 @@ import {
   FromTypeDefn, 
   TypeDefn, 
   GetEach, 
-  TypeKvToObject, 
+  KvDictToObject, 
   TupleToUnion, 
   TypeKvBase, 
   UnionToIntersection 
@@ -16,7 +16,7 @@ type GetType<U> = U extends readonly any[]
   : never;
 
 type ObjectShape<U> = U extends readonly TypeKvBase<any,any>[]
-  ? TypeKvToObject<U>
+  ? KvDictToObject<U>
   : never;
 
 export function determineType<TD extends TypeDefn>(t: TD): FromTypeDefn<TD>["type"] {

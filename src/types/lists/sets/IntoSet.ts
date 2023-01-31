@@ -1,4 +1,4 @@
-import { AnyObject , ToKV, UnionToTuple } from "../../../types";
+import { AnyObject , IfUnion,  ToKV, UnionToTuple } from "../../../types";
 import { SetCandidate } from "./SetCandidate";
 
 /**
@@ -19,7 +19,9 @@ import { SetCandidate } from "./SetCandidate";
  * ```
  */
 export type IntoSet<T extends SetCandidate> = T extends readonly any[]
-  ? Readonly<T>
+  ? readonly [...T]
   : T extends AnyObject
       ? ToKV<T>
-      : T extends string | number ? Readonly<UnionToTuple<T>> : never;
+      : T extends string | number // potential union type
+        ? IfUnion<T, Readonly<UnionToTuple<Readonly<T>>>, never>
+        : never;

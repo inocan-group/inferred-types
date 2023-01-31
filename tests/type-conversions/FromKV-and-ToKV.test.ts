@@ -52,8 +52,8 @@ describe("Convert an object to and from the KV array structure", () => {
 
   describe("Runtime", () => {
     const Obj = { foo: 1, bar: "howdy" } as const;
-    type KV = readonly [ ["KV", "foo", 1], ["KV", "bar", string ] ];
-    const kv = [ ["KV", "foo", 1], ["KV", "bar", "howdy" ] ] as KV;
+    type Example = readonly [ ["KV", "foo", 1], ["KV", "bar", string ] ];
+    const kv = [ ["KV", "foo", 1], ["KV", "bar", "howdy" ] ] as Example;
 
     it("Obj -> KV", () => {
       const t1 = toKv(Obj);

@@ -5,7 +5,7 @@ import {
   IndexOf , 
   IfContains, 
   IsEqual , 
-  Narrowable 
+  Narrowable
 } from "../../../types";
 import { SetCandidate } from "./SetCandidate";
 import { IntoSet } from "./IntoSet";
@@ -40,6 +40,9 @@ Intersection extends readonly Narrowable[] = readonly []
 * **Intersection**`<A,B, [Deref]>`
 * 
 * Takes two sets `A` and `B` and returns the values which exist in both.
+* 
+* - you may optionally provide a `deref` property which will then dereference
+* each item in the two sets for comparison.
 */
 export type Intersection<
   A extends SetCandidate,

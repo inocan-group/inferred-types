@@ -1,11 +1,12 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { defineType,  narrow } from "runtime";
-import { kvToObject } from "src/runtime/runtime";
+import { defineType, narrow } from "src/runtime/literals";
+import { kvDictToObject } from "src/runtime/runtime";
 import { objectToKv } from "src/runtime/runtime/objectToKv";
 import { isKvPair } from "src/runtime/type-guards/isKvPair";
-import { isKvPairArray } from "src/runtime/type-guards/isKvPairArray";
-import { Contains, DoesExtend, GetEach, KvPair, KvToObject, Mutable } from "src/types";
-import { ObjectToKv } from "src/types/type-conversion/ObjectToKv";
+import { isKvDictArray } from "src/runtime/type-guards/isKvPairArray";
+import { Contains, DoesExtend, GetEach, KvDict, Mutable } from "src/types";
+import { KvDictToObject } from "src/types/type-conversion/KvDictToObject";
+import { ObjectToKvDict } from "src/types/type-conversion/ObjectToKvDict";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -20,9 +21,9 @@ describe("KV -> Object", () => {
       expect(true, "nope rejected as kvPair").toBe(true);
     }
 
-    const kv = {key: "foo", value: 1 } as const;
+    const kv = { key: "foo", value: 1 } as const;
     const kv2 = narrow({key: "foo", value: 1 } as const);
-    type Explicit = KvPair<"foo", 1>;
+    type Explicit = KvDict<"foo", 1>;
 
     if(isKvPair(kv)) {
       expect(true, "real kv detected");
@@ -45,7 +46,7 @@ describe("KV -> Object", () => {
   });
   
   it("isKvPairArray() type guard works", () => {
-    if(isKvPairArray([{}, {}])) {
+    if(isKvDictArray([{}, {}])) {
       throw new Error("should have failed!");
     } else {
       expect(true, "invalid tuple rejected").toBe(true);
@@ -61,13 +62,13 @@ describe("KV -> Object", () => {
       { key: "bar", value: 2 },
     ] as const);
 
-    if(isKvPairArray(kvRo)) {
+    if(isKvDictArray(kvRo)) {
       expect(true, "valid ro KV array detected").toBe(true);
     } else {
       throw new Error("a valid kv array (with read-only props) was not identified as a KvPair array");
     }
 
-    if(isKvPairArray(kvRw)) {
+    if(isKvDictArray(kvRw)) {
       expect(true, "valid r/w KV array detected").toBe(true);
       
       type cases = [
@@ -80,13 +81,13 @@ describe("KV -> Object", () => {
   });
   
   
-  it("types: KvToObject<KV>", () => {
-    type Works = KvToObject<[
+  it("types: KvDictToObject<KV>", () => {
+    type Works = KvDictToObject<[
       {key: "foo"; value: 1}, 
       {key: "bar"; value: 2}
     ]>;
 
-    type Err = KvToObject<[
+    type Err = KvDictToObject<[
       {key: "foo"; value: 1}, 
       {key: "bar"; value: 2},
       {key: "foo"; value: 5},
@@ -101,7 +102,7 @@ describe("KV -> Object", () => {
         ]; }
     ];
 
-    type DeepCheck = KvToObject<DeepKv>;
+    type DeepCheck = KvDictToObject<DeepKv>;
 
     type cases = [
       Expect<Equal<Works, {foo: 1; bar: 2}>>,
@@ -115,8 +116,8 @@ describe("KV -> Object", () => {
 
   it("runtime: kvToObject()", () => {
     const kv = [{key: "foo", value: 1}, {key: "bar", value: 2}] as const;
-    const foobar = kvToObject([{key: "foo", value: 1}, {key: "bar", value: 2}] as const);
-    const foobar2 = kvToObject(kv);
+    const foobar = kvDictToObject([{key: "foo", value: 1}, {key: "bar", value: 2}] as const);
+    const foobar2 = kvDictToObject(kv);
 
     expect(foobar).toEqual({ foo: 1, bar: 2 });
     expect(foobar2).toEqual({ foo: 1, bar: 2 });
@@ -133,10 +134,10 @@ describe("KV -> Object", () => {
 describe("Object -> KV", () => {
 
   it("types: ObjectToKv<KV>", () => {
-    type T1 = ObjectToKv<{foo: 1; bar: 2}>;
+    type T1 = ObjectToKvDict<{foo: 1; bar: 2}>;
     type IsKvPairArr = DoesExtend<
       T1, 
-      readonly KvPair<string, any>[]
+      readonly KvDict<string, any>[]
     >;
 
     type V1 = readonly [{key: "foo"; value: 1}, {key: "bar"; value: 2}];
@@ -226,11 +227,11 @@ describe("Identity Checks between KV and Object", () => {
   type DeepKv = typeof deepKv;
 
   it("type check", () => {
-    type IdentityKv = ObjectToKv<KvToObject<DeepKv>>;
-    type IdentityObj = KvToObject<ObjectToKv<DeepObj>>;
+    type IdentityKv = ObjectToKvDict<KvDictToObject<DeepKv>>;
+    type IdentityObj = KvDictToObject<ObjectToKvDict<DeepObj>>;
 
-    type ObjectIntermediary = KvToObject<DeepKv>;
-    type KvIntermediary = ObjectToKv<DeepObj>;
+    type ObjectIntermediary = KvDictToObject<DeepKv>;
+    type KvIntermediary = ObjectToKvDict<DeepObj>;
 
     type cases = [
       //
@@ -265,10 +266,10 @@ describe("Identity Checks between KV and Object", () => {
 
   
   it("runtime check", () => {
-    const kv = objectToKv(kvToObject(deepKv));
+    const kv = objectToKv(kvDictToObject(deepKv));
     expect(kv).toEqual(deepKv);
 
-    const obj = kvToObject(objectToKv(deepObj));
+    const obj = kvDictToObject(objectToKv(deepObj));
     expect(obj).toEqual(deepObj);
 
     type cases = [

@@ -15,7 +15,7 @@ import type {
 import { TupleToUnion } from "../type-conversion/TupleToUnion";
 import { TypeGuard } from "../TypeGuard";
 import { Filter } from "../lists/Filter";
-import {  TypeKvToObject, UnionToIntersection } from "../type-conversion";
+import {  KvDictToObject, UnionToIntersection } from "../type-conversion";
 import { AnyFunction } from "../functions/function-types";
 import { NotApplicable } from "../constants/NotApplicable";
 import { NoDefaultValue } from "../constants";
@@ -156,7 +156,7 @@ type ToBaseType<
       : never
   : TKind extends "object"
     ? TUnderlying extends readonly any[]
-      ? TypeKvToObject<TUnderlying>
+      ? KvDictToObject<TUnderlying>
       : never
   : TKind extends "union" 
     ? TUnderlying extends readonly any[]

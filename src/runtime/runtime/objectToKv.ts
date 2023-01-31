@@ -1,4 +1,4 @@
-import { AnyObject , KvPair , ObjectToKv } from "../../types";
+import { AnyObject , KvDict , ObjectToKvDict } from "../../types";
 import { isObject } from "../type-guards/isObject";
 
 /**
@@ -11,7 +11,7 @@ import { isObject } from "../type-guards/isObject";
  * ```
  */
 export function objectToKv<TObj extends AnyObject>(obj: TObj) {
-  let kv: KvPair<string, any>[] = []; 
+  let kv: KvDict<string, any>[] = []; 
   Object.keys(obj).forEach(key => {
     kv = [
       ...kv, 
@@ -21,5 +21,5 @@ export function objectToKv<TObj extends AnyObject>(obj: TObj) {
     ];
   });
 
-  return kv as ObjectToKv<TObj>;
+  return kv as ObjectToKvDict<TObj>;
 }

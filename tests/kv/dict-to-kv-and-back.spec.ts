@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { Equal, Expect, NotEqual } from "@type-challenges/utils";
-import { dictToKv, kvToDict } from "src/runtime/dictionary";
+import { dictToKv, kvDictArrayToObject } from "src/runtime/dictionary";
 import { DictFromKv } from "src/types/kv";
 import { keys } from "src/runtime/dictionary/keys";
 
@@ -78,7 +78,7 @@ describe("kvToDict()", () => {
   });
 
   it("originating KeyValue array converts to strongly typed dictionary", () => {
-    const obj = kvToDict([
+    const obj = kvDictArrayToObject([
       { key: "id", value: "abcd" },
       { key: "color", value: "red" },
       { key: "favorite", value: true as boolean },
@@ -109,7 +109,7 @@ describe("kvToDict()", () => {
 describe("kvToDict / dictToKv inverse", () => {
   it("run-time inverts correctly (starting with obj)", () => {
     const obj = { id: 123, foo: "bar" } as const;
-    const inverse = kvToDict(dictToKv(obj));
+    const inverse = kvDictArrayToObject(dictToKv(obj));
 
     expect(keys(inverse).every((i) => inverse[i] === obj[i]));
   });
@@ -118,14 +118,14 @@ describe("kvToDict / dictToKv inverse", () => {
       { key: "id", value: 123 },
       { key: "foo", value: "bar" },
     ] as const;
-    const inverse = dictToKv(kvToDict(arr));
+    const inverse = dictToKv(kvDictArrayToObject(arr));
 
     expect(inverse).toEqual(arr);
   });
 
   it("typing inverts correctly (starting with obj)", () => {
     const obj = { id: 123, foo: "bar" } as const;
-    const inverse = kvToDict(dictToKv(obj));
+    const inverse = kvDictArrayToObject(dictToKv(obj));
     type Obj = typeof obj;
     type Inverse = typeof inverse;
 
@@ -146,7 +146,7 @@ describe("kvToDict / dictToKv inverse", () => {
       { key: "foo", value: "bar" },
     ] as const;
     const inverse = dictToKv(
-      kvToDict([
+      kvDictArrayToObject([
         { key: "id", value: 123 },
         { key: "foo", value: "bar" },
       ])

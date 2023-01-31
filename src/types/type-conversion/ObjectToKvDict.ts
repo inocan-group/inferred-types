@@ -1,4 +1,4 @@
-import { KvPair, Mutable, UnionToTuple } from ".";
+import { KvDict, Mutable, UnionToTuple } from ".";
 import { AnyObject, IfObject } from "../boolean-logic/object";
 import { AfterFirst } from "../lists";
 import { First } from "../lists/First";
@@ -6,7 +6,7 @@ import { First } from "../lists/First";
 type Obj2Kv<
   TObj extends AnyObject,
   TKeys extends readonly (keyof TObj)[],
-  Results extends readonly KvPair<any,any>[] = []
+  Results extends readonly KvDict<any,any>[] = []
 > = [] extends TKeys
   ? Readonly<Results>
   : Obj2Kv<
@@ -19,7 +19,7 @@ type Obj2Kv<
               key: First<TKeys>; 
               value: IfObject<
                 TObj[First<TKeys>], 
-                Mutable<ObjectToKv<TObj[First<TKeys>]>>, 
+                Mutable<ObjectToKvDict<TObj[First<TKeys>]>>, 
                 Mutable<TObj[First<TKeys>]>
               >; 
             }
@@ -31,9 +31,15 @@ type Obj2Kv<
 /**
  * **ObjectToKv**`<TObj>`
  * 
- * Type utility to convert an object to an array of key-value pairs.
+ * Type utility to convert an object to an array of object based key-value pairs.
+ * 
+ * Example:
+ * ```ts
+ * // readonly [ {key: "foo", value: 1} ]
+ * type T = ObjectToKv<{ foo: 1 }>
+ * ```
  */
-export type ObjectToKv<
+export type ObjectToKvDict<
   TObj extends Record<string, any>
 > = UnionToTuple<keyof TObj> extends readonly (keyof TObj)[]
   ? Obj2Kv<TObj, UnionToTuple<keyof TObj>>

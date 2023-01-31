@@ -13,6 +13,7 @@ export * from "./intersection";
 export * from "./unique";
 export * from "./logicalReturns";
 export * from "./intoSet";
+export * from "./fromSet";
 export * from "./createConverter";
 export * from "./unique";
 export * from "./reverse";
