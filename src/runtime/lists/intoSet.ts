@@ -1,7 +1,14 @@
-import { IntoSet } from "../../types/lists/sets";
+import {  IntoSet, SetCandidate } from "../../types/lists/sets";
+import { Never } from "../runtime";
+import { toKv } from "../type-conversion/toKv";
+import {  isArray, isObject } from "../type-guards";
 
 
 
-export function intoSet<T extends readonly any[]>(set: T) {
-  return set as unknown as IntoSet<T>;
+export function intoSet<T extends SetCandidate>(set: T) {
+  return (
+    isArray(set) 
+      ? set
+      : isObject(set) ? toKv(set) : Never
+  ) as IntoSet<T>;
 }

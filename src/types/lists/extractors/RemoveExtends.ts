@@ -1,5 +1,5 @@
-import { AnyObject , Narrowable , KvPair , ObjectToKv } from "../../../types";
-import { ArrExtractor, ObjExtractor } from "./extractor";
+import { AnyObject , Narrowable , KvDict , ObjectToKvDict } from "../../../types";
+import { ArrExtractor, KvDictExtractor } from "./extractor";
 
 /**
  * **RemoveExtends**`<TIterable, TCompare>`
@@ -15,7 +15,7 @@ export type RemoveExtends<
 : TIterable extends readonly any[]
   ? readonly [...ArrExtractor<TIterable, TCompare, "remove">]
   : TIterable extends AnyObject
-    ? ObjectToKv<TIterable> extends readonly KvPair<any, any>[]
-      ? ObjExtractor<ObjectToKv<TIterable>, "remove">
+    ? ObjectToKvDict<TIterable> extends readonly KvDict<any, any>[]
+      ? KvDictExtractor<ObjectToKvDict<TIterable>, "remove">
       : never
     : never;

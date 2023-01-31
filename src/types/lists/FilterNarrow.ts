@@ -1,6 +1,7 @@
 import { 
   IsEqual, 
-  IsNever 
+  IsNever, 
+  IsNotEqual
 } from "../../types";
 import { Narrowable } from "../literals/Narrowable";
 import { AfterFirst } from "./AfterFirst";
@@ -10,26 +11,37 @@ import { First } from "./First";
 /**
  * Iterates over each element of the Tuple
  */
-type FilterNarrowAcc<
+type NarrowSingleFilter<
   TList extends readonly any[],
   TFilter,
+  TOp extends "equals" | "not-equal" = "equals",
   Result extends readonly any[] = readonly []
 > = TList extends [infer First, ...infer Rest]
-  ? IsEqual<First, TFilter> extends true
-      ? FilterNarrowAcc<Rest, TFilter, Result> // filter out
-      : FilterNarrowAcc<Rest, TFilter, [...Result, First]>
+  ? TOp extends "equals" 
+    ? IsEqual<First, TFilter> extends true
+      ? NarrowSingleFilter<Rest, TFilter, TOp, [...Result, First]>
+      : NarrowSingleFilter<Rest, TFilter, TOp, Result> // filter out
+    : IsNotEqual<First, TFilter> extends true
+      ? NarrowSingleFilter<Rest, TFilter, TOp, [...Result, First]>
+      : NarrowSingleFilter<Rest, TFilter, TOp, Result> // filter out
   : Result;
 
-type Extraction<
+type NarrowMultiFilter<
   TList extends readonly any[],
   TExtract extends readonly any[],
+  TOp extends "equals" | "not-equal" = "equals"
 > = [] extends TExtract
   ? TList
-  : Extraction<RemoveEquals<TList, First<TExtract>>, AfterFirst<TExtract>>;
-
+  : NarrowMultiFilter<
+      RemoveEquals<
+        TList, 
+        First<TExtract>
+      >, 
+      AfterFirst<TExtract>, TOp
+    >;
 
 /**
- * **FilterNarrow**`<TList, TFilter>`
+ * **FilterNarrow**`<TList, TFilter, [TOp]>`
  *
  * Allows a known tuple `TList` to be _filtered down_ by eliminating all items
  * in the Tuple that **equal** type `TFilter`.
@@ -47,21 +59,22 @@ type Extraction<
  */
 export type FilterNarrow<
   TList extends any[] | readonly any[],
-  TFilter extends Narrowable | readonly any[]
+  TFilter extends Narrowable | readonly any[],
+  TOp extends "equals" | "not-equal" = "equals"
 > = IsNever<TFilter> extends true 
   ? RemoveNever<TList> 
   // array output
   : TList extends any[]
     ? TFilter extends readonly any[]
         // filters are an array
-        ? Extraction<TList, TFilter>
+        ? NarrowMultiFilter<TList, TFilter, TOp>
         // single filter
-        : FilterNarrowAcc<TList, TFilter>
+        : NarrowSingleFilter<TList, TFilter, TOp>
     // readonly output
     : TList extends readonly any[]
       ? Readonly<
           TFilter extends readonly any[]
-            ? Readonly<Extraction<TList, TFilter>>
-            : FilterNarrowAcc<[...TList], TFilter>
+            ? Readonly<NarrowMultiFilter<TList, TFilter, TOp>>
+            : NarrowSingleFilter<[...TList], TFilter, TOp>
         >
       : never;

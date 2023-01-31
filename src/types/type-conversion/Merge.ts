@@ -4,12 +4,12 @@ import { IfAnd } from "../boolean-logic/And";
 import { AfterFirst } from "../lists/AfterFirst";
 import { First } from "../lists/First";
 import { UnionToTuple } from "./UnionToTuple";
-import { KvPair, KvToObject } from ".";
+import { KvDict } from "./index";
 import { ExpandRecursively } from "../literals/ExpandRecursively";
-import { WithoutKeys } from "../dictionary/WithKeys";
 import { Retain } from "../lists/Retain";
 import { Keys } from "../Keys";
 import { AnyObject, IfObject, IsOptionalScalar } from "../boolean-logic";
+import { WithoutKeys } from "../dictionary/WithoutKeys";
 
 // 1. Keep all unique keys in `TValue`
 // 2. Strip all KV's on `TValue` which are _undefined_
@@ -139,9 +139,9 @@ export type MergeObjects<
  * base logic as the general form but 
  */
 export type MergeKvPairs<
-  TDefault extends readonly KvPair<string, any>[],
-  TOverride extends readonly KvPair<string, any>[],
-> = MergeObjects<KvToObject<TDefault>, KvToObject<TOverride>>;
+  _TDefault extends readonly KvDict<string, any>[],
+  _TOverride extends readonly KvDict<string, any>[],
+> = any;
 // /**
 //  * **Merge**`<TDefault,TOverride>`
 //  *

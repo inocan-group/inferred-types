@@ -1,4 +1,4 @@
-export * from "./kvToObject";
+export * from "./kvPairsToObject";
 export * from "./type";
 export * from "./withValue";
 export * from "./type-shorthand";

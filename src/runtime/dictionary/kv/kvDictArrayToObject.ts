@@ -9,7 +9,7 @@ import { DictFromKv, Narrowable } from "../../../types";
  *
  * Note: this is the inverse of `dictToKv()` function
  */
-export function kvToDict<
+export function kvDictArrayToObject<
   K extends string,
   V extends Narrowable,
   T extends readonly Readonly<{ key: K; value: V }>[]

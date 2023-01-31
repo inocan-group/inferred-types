@@ -13,7 +13,6 @@ export * from "./keys";
 export * from "./mapValues";
 export * from "./mapTo";
 export * from "./exclude";
-export * from "./merge";
 export * from "./withKeys";
 export * from "./strArrayToDict";
 // directory exports
