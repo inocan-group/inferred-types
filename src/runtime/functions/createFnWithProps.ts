@@ -1,5 +1,5 @@
-import { keys } from "../dictionary/keys";
 import type { AnyFunction, Narrowable } from "../../types";
+import { keys } from "src/runtime/dictionary";
 
 /**
  * **createFnWithProps**(fn, params)
@@ -30,14 +30,3 @@ export function createFnWithProps<
   return combined as unknown as TFn & TParams;
 }
 
-/**
- * Adds a dictionary of key/value pairs to a function.
- */
-export function fnWithProps<A extends any[], R extends any, P extends {}>(fn: ((...args: A) => R), props: P) {
-  // eslint-disable-next-line prefer-const
-  let combined: any = fn;
-  for (const prop of keys(props)) {
-    combined[prop] = props[prop];
-  }
-  return combined as ((...args: A) => R) & P;
-}

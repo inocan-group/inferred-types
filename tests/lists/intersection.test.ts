@@ -1,11 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { isKvTupleArray } from "src/runtime";
-import { ifKvTupleArray } from "src/runtime/boolean-logic/ifKvTupleArray";
-import { fromSet } from "src/runtime/lists/fromSet";
-import { intersection } from "src/runtime/lists/intersection";
-import { intoSet } from "src/runtime/lists/intoSet";
-import { isKvDictArray } from "src/runtime/type-guards/isKvPairArray";
-import { Intersection } from "src/types/lists";
+import { ifKvTupleArray } from "../../src/runtime/boolean-logic/ifKvTupleArray";
+import { fromSet } from "../../src/runtime/lists/fromSet";
+import { intersection } from "../../src/runtime/lists/intersection";
+import { intoSet } from "../../src/runtime/lists/intoSet";
+import { Intersection } from "../../src/types/lists";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

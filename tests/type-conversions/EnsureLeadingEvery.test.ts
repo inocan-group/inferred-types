@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { EnsureLeadingEvery } from "src/types/string-literals/EnsureLeadingEvery";
+import { EnsureLeadingEvery } from "../../src/types/string-literals/EnsureLeadingEvery";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -13,7 +13,7 @@ describe("EnsureLeadingEvery<TList, TLeading>", () => {
     type T1 = EnsureLeadingEvery<List, "a.">;
     
     type cases = [
-      Expect<Equal<T1, readonly ["a.foo", "a.42", "a.bar"]>>,
+      Expect<Equal<T1, ["a.foo", "a.42", "a.bar"]>>,
     ];
     const cases: cases = [ true ];
   });

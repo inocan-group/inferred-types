@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { intoSet } from "src/runtime/lists/intoSet";
-import { Never } from "src/runtime/runtime/Never";
-import { optional } from "src/runtime/type-conversion/optional";
+import { intoSet } from "../../src/runtime/lists/intoSet";
+import { Never } from "../../src/runtime/runtime/Never";
+import { optional } from "../../src/runtime/type-conversion/optional";
 import { 
   isArray, 
   isReadonlyArray,
@@ -9,10 +9,10 @@ import {
   isNumericString,
   isDefined,
   isRef 
-} from "src/runtime/type-guards";
-import { isConstant, isSpecificConstant } from "src/runtime/type-guards/isConstant";
-import { NoDefaultValue, NO_DEFAULT_VALUE } from "src/types/constants";
-import { Constant } from "src/types/constants/Constant";
+} from "../../src/runtime/type-guards";
+import { isConstant, isSpecificConstant } from "../../src/runtime/type-guards/isConstant";
+import { NoDefaultValue, NO_DEFAULT_VALUE } from "../../src/types/constants";
+import { Constant } from "../../src/types/constants/Constant";
 import { describe, expect, it } from "vitest";
 import { ref, Ref, reactive } from "vue";
 

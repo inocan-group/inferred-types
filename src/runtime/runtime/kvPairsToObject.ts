@@ -1,4 +1,4 @@
-import { KvDictToObject } from "src/types/type-conversion/KvDictToObject";
+import { KvDictToObject } from "../../types/type-conversion/KvDictToObject";
 import { Narrowable, KvDict } from "../../types";
 import { isKvDictArray } from "../type-guards/isKvPairArray";
 

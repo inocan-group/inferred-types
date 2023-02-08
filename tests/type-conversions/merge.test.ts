@@ -1,28 +1,93 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import {  mergeScalars, mergeTuples } from "src/runtime";
-import { MergeObjects, MergeScalars, MergeTuples } from "src/types";
 import { describe, expect, it } from "vitest";
+import type { 
+  MergeObjects, 
+  MergeScalars, 
+  MergeTuples 
+} from "../../src/types";
+import { mergeScalars, mergeTuples } from "../../src/runtime";
 
-describe("mergeScalars", () => {
+describe("MergeObjects<A,B>", () => {
+  it("happy path", () => {
+    type O1 = { foo: 1; bar: 2 };
+    type O2 = { bar: 3; baz: 4 };
 
-  it("type testing", () => {
+    type M1 = MergeObjects<O2,O1>;
+    type M2 = MergeObjects<O1,O2>;
+
     type cases = [
-      Expect<Equal<MergeScalars<4,5>, 5>>, // override prevails
-      Expect<Equal<MergeScalars<4,undefined>, 4>>, // no override, default prevails
-      Expect<Equal<MergeScalars<number,5>, 5>>, // wide type for default is ignored
-      Expect<Equal<MergeScalars<4, number>, number>>, // type widened to fit override
-      Expect<Equal<MergeScalars<number, 5>, 5>>, // override being wide has no bearing
-      Expect<Equal<MergeScalars<number, number>, number>>
+      Expect<Equal<M1, { foo: 1; bar: 2; baz: 4}>>, 
+      Expect<Equal<M2, { foo: 1; bar: 3; baz: 4}>>, 
     ];
+    const cases: cases = [ true, true ];
+  });
+
+  it("deep object", () => {
+    type O1 = { foo: 1; bar: 2; deep: { a: 1 } };
+    type O2 = { bar: 3; baz: 4; deep: { a: 2; b: 3} };
+
+    type M1 = MergeObjects<O2,O1>;
     
-    const cases: cases = [ true, true, true, true, true, true ];
+    type cases = [
+      Expect<Equal<M1, { foo: 1; bar: 2; baz: 4; deep: { a:2; b: 3}}>>, 
+    ];
+    const cases: cases = [ true ];
+    
   });
   
+});
+
+describe("MergeTuples<TDefault,TOverride>", () => {
+
+  it("happy path", () => {
+    type Nothing = MergeTuples<[],[]>;
+    type Unchanged = MergeTuples<["foo", "bar"], []>;
+    type Barbar = MergeTuples<["foo", "bar"], ["bar"]>;
+    type Eclipsed = MergeTuples<["foo", "bar"], ["baz", "bar", "foo"]>;
+
+    type cases = [
+      Expect<Equal<Nothing, readonly []>>,
+      Expect<Equal<Unchanged, readonly ["foo", "bar"]>>,
+      Expect<Equal<Barbar, readonly ["bar", "bar"]>>,
+      Expect<Equal<Eclipsed, readonly ["baz", "bar", "foo"]>>,
+    ];
+
+    const cases: cases = [ true, true, true, true ];
+  });
+
+  
+  it.skip("using key based comparison", () => {
+    // not currently implemented
+    type cases = [
+      /** type tests */
+    ];
+    const cases: cases = [];
+  });
+  
+});
+
+describe("MergeScalars", () => {
+
+  it("happy path", () => {
+      type cases = [
+        Expect<Equal<MergeScalars<4,5>, 5>>, // override prevails
+        Expect<Equal<MergeScalars<4,undefined>, 4>>, // no override, default prevails
+        Expect<Equal<MergeScalars<number,5>, 5>>, // wide type for default is ignored
+        Expect<Equal<MergeScalars<4, number>, number>>, // type widened to fit override
+        Expect<Equal<MergeScalars<number, 5>, 5>>, // override being wide has no bearing
+        Expect<Equal<MergeScalars<number, number>, number>>
+      ];
+      
+      const cases: cases = [ true, true, true, true, true, true ];
+  });
+});
+
+
+describe("mergeScalars(a,b)", () => {
   it("runtime", () => {
     expect(mergeScalars(4,5)).toBe(5);
     expect(mergeScalars(4, undefined)).toBe(4);
   });
-  
 });
 
 describe("Merge Tuples", () => {

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { Concat,  LeftWhitespace, RightWhitespace, Trim } from "../../types";
+import { Concat,  LeftWhitespace, LowerCase, RightWhitespace, Trim } from "../../types";
 import { DashUppercase } from "./DashUppercase";
 import { LowerAllCaps } from "./LowerAllCaps";
 
@@ -35,5 +35,5 @@ export type KebabCase<
     string extends TString
       ? string
       : DashUppercase<Trim<LowerAllCaps<TString>>> extends `${infer Begin}${"_" | " "}${infer Rest}`
-      ? KebabCase<`${Lowercase<Begin>}-${Rest}`>
-      : Lowercase<DashUppercase<Uncapitalize<Trim<LowerAllCaps<TString>>>>>;
+      ? KebabCase<`${LowerCase<Begin>}-${Rest}`>
+      : LowerCase<DashUppercase<Uncapitalize<Trim<LowerAllCaps<TString>>>>>;

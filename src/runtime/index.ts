@@ -7,6 +7,7 @@
 // file exports
 
 // directory exports
+export * from "./boolean-logic/index";
 export * from "./combinators/index";
 export * from "./dictionary/index";
 export * from "./lists/index";

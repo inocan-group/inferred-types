@@ -1,5 +1,5 @@
 import { Equal, Expect, ExpectExtends } from "@type-challenges/utils";
-import { IntoSet } from "src/types/lists/sets";
+import { IntoSet } from "../../src/types/lists/sets";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

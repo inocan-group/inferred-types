@@ -1,6 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { toPascalCase } from "src/runtime/literals/toPascalCase";
 import { describe, it, expect } from "vitest";
+
+import { toPascalCase } from "../../src/runtime";
 
 describe("toPascalCase() function", () => {
   it("camelCase is converted correctly", () => {

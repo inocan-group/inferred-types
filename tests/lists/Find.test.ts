@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { Find, FindExtends } from "src/types/lists/Find";
+import { Find, FindExtends } from "../../src/types/lists/Find";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

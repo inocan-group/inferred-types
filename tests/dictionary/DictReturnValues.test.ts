@@ -1,6 +1,6 @@
 import { describe, it } from "vitest";
 
-import type { DictReturnValues } from "src/types";
+import type { DictReturnValues } from "../../src/types";
 import type { Expect, Equal } from "@type-challenges/utils";
 
 describe("DictReturnValues<T, R, O>", () => {

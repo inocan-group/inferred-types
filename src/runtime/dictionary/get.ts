@@ -1,5 +1,5 @@
 import { Narrowable,  DotPath, DotPathFor, Get, Suggest, NO_DEFAULT_VALUE } from "../../types";
-import { split } from "../literals/split";
+import { split } from "../literals";
 import { hasDefaultValue, isTruthy,  isRef, hasIndexOf } from "../type-guards";
 import {  ReportError } from "../literals/ErrorCondition";
 import { createErrorCondition } from "../runtime/createErrorCondition";

@@ -2,7 +2,7 @@ import { TupleToUnion, UnionToTuple } from "../type-conversion";
 import { Narrowable } from "../literals/Narrowable";
 import { First } from "./First";
 import { AfterFirst } from "./AfterFirst";
-import { Keys } from "../Keys";
+import { Keys } from "../dictionary/Keys";
 
 import {  WithoutValue } from "../dictionary/props";
 

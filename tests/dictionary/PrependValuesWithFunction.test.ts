@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
-
-import type { DictPrependWithFn } from "src/types";
 import type { Expect, Equal } from "@type-challenges/utils";
+
+import type { DictPrependWithFn } from "../../src/types";
 
 describe("WrapValuesWithFunction<T, R, O>", () => {
   it("happy path", () => {

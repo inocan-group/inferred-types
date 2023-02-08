@@ -1,11 +1,11 @@
 import type { Expect, Equal } from "@type-challenges/utils";
 import { describe, it, expect } from "vitest";
 import type { 
-  Keys , 
+  Keys, 
   ExpectExtends, 
   UnknownObject, 
   TupleToUnion, 
-  NumericKeys 
+  NumericKeys
 } from "../../src/types";
 import { defineType, keys, isRef } from "../../src/runtime";
 import { ref } from "vue";
@@ -74,6 +74,7 @@ describe("Keys<T>", () => {
     type NumericArr = [1,2,3];
     type Numeric = Keys<NumericArr>;
     type Str = Keys<StringArr>;
+    type Str2 = NumericKeys<StringArr>;
     type Str_RO = Keys<StrArr_RO>;
     type Empty = Keys<[]>;
 
@@ -86,6 +87,7 @@ describe("Keys<T>", () => {
       //
       Expect<Equal<Numeric, readonly ["0", "1", "2"] >>,
       Expect<Equal<Str, readonly ["0", "1", "2"]>>,
+      Expect<Equal<Str2, readonly ["0", "1", "2"]>>,
       Expect<Equal<Str_RO, readonly ["0", "1", "2"]>>,
       Expect<Equal<Empty, readonly []>>,
 
@@ -95,7 +97,10 @@ describe("Keys<T>", () => {
       Expect<Equal<Convertible4, string>>,
     ];
     
-    const cases: cases = [ true, true, true, true, true, true, true, true  ];
+    const cases: cases = [ 
+      true, true, true, true, true, 
+      true, true, true, true  
+    ];
   });
   
 });
@@ -129,18 +134,23 @@ describe("keys() utility on object", () => {
     expect(
       (k as readonly any[]).includes("__v_isRef"),
       `VueJS ref looks like: ${k}`
-    ).toBe(true);
+    ).toBe(false);
+
+    expect(k).toEqual(["value"]);
 
     type cases = [
-      Expect<ExpectExtends<
-        (readonly [symbol, "value"]) |
-        (readonly ["value", symbol]), 
+      Expect<Equal<
+        readonly ["value"], 
         typeof k
       >>
     ];
-    const cases: cases = [ true ];
 
+    const cases: cases = [ true ];
   });
+
+  
+  
+  
   
 
   it("empty object results in [] type", () => {

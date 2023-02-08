@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 import { Equal, Expect } from "@type-challenges/utils";
-import { PascalCase } from "src/types";
+import { PascalCase } from "../../src/types";
 
 const target = "TwoThreeFour";
 type TARGET = typeof target;

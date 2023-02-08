@@ -13,6 +13,7 @@ export * from "./isReadonlyArray";
 export * from "./hasIndex";
 export * from "./hasIndexOf";
 export * from "./isRef";
+export * from "./isFalse";
 export * from "./hasDefaultValue";
 export * from "./isNumericString";
 export * from "./isFnWithParams";
@@ -21,6 +22,8 @@ export * from "./isNumber";
 export * from "./isKvTuple";
 export * from "./isKvTupleArray";
 export * from "./isScalar";
+export * from "./isErrorCondition";
 export * from "./runtime-type-guards";
+
 
 export * from "./higher-order/index";

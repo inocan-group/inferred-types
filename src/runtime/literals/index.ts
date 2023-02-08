@@ -11,17 +11,22 @@ export * from "./defineType";
 export * from "./identity";
 export * from "./literal";
 export * from "./stripTrailing";
+export * from "./stripLeading";
 export * from "./ensureTrailing";
 export * from "./ensureLeading";
 export * from "./pathJoin";
 export * from "./narrow";
-export * from "./wide";
+export * from "./split";
 export * from "./capitalize";
 export * from "./uncapitalize";
 export * from "./uppercase";
 export * from "./ErrorCondition";
 export * from "./lowercase";
 export * from "./wide";
+export * from "./toCamelCase";
+export * from "./toKebabCase";
+export * from "./toSnakeCase";
+export * from "./toPascalCase";
 
 // #endregion auto-indexed files
 

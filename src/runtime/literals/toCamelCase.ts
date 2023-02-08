@@ -1,4 +1,4 @@
-import { CamelCase } from "../../types";
+import type { CamelCase } from "../../types";
 import { toPascalCase } from "./toPascalCase";
 
 /**
@@ -13,8 +13,8 @@ import { toPascalCase } from "./toPascalCase";
  */
 export function toCamelCase<
   TString extends string, 
-  TPreserve extends boolean | undefined = undefined
->(input: TString, preserveWhitespace?: TPreserve): CamelCase<TString,TPreserve> {
+  TPreserve extends boolean = false
+>(input: TString, preserveWhitespace?: TPreserve): CamelCase<TString, TPreserve> {
   const pascal = preserveWhitespace ? toPascalCase(input, preserveWhitespace) : toPascalCase(input);
   const [_, preWhite, focus, postWhite] = /^(\s*)(.*?)(\s*)$/.exec(
     pascal

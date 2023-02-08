@@ -4,6 +4,7 @@ import { LeftWhitespace, RightWhitespace, Trim } from "../type-conversion";
 import { Concat } from "./Concat";
 import { DashUppercase } from "./DashUppercase";
 import { LowerAllCaps } from "./LowerAllCaps";
+import { LowerCase } from "./LowerCase";
 
 /** convert space to dash */
 type SpaceToDash<T extends string> = T extends `${infer Begin}${" "}${infer Rest}`
@@ -33,12 +34,12 @@ export type SnakeCase<
     > extends `${infer Begin}${"-"}${infer Rest}`
       ? Concat<[
           LeftWhitespace<S>,
-          SnakeCase<`${Lowercase<Begin>}_${Rest}`>,
+          SnakeCase<`${LowerCase<Begin>}_${Rest}`>,
           RightWhitespace<S>
       ]>
       : Concat<[
         LeftWhitespace<S>,
-        Lowercase<DashUppercase<Uncapitalize<LowerAllCaps<S>>>>,
+        LowerCase<DashUppercase<Uncapitalize<LowerAllCaps<S>>>>,
         RightWhitespace<S>,
       ]>,
   string extends S
@@ -46,6 +47,6 @@ export type SnakeCase<
     : DashUppercase<
         Uncapitalize<SpaceToDash<Trim<LowerAllCaps<S>>>>
       > extends `${infer Begin}${"-"}${infer Rest}`
-    ? SnakeCase<`${Lowercase<Begin>}_${Rest}`>
-    : Lowercase<DashUppercase<Uncapitalize<LowerAllCaps<S>>>>
+    ? SnakeCase<`${LowerCase<Begin>}_${Rest}`>
+    : LowerCase<DashUppercase<Uncapitalize<LowerAllCaps<S>>>>
 >;

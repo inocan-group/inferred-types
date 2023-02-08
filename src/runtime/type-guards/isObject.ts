@@ -1,4 +1,4 @@
-import type { Narrowable , AnyObject, IfObject } from "../../types";
+import type {  AnyObject  } from "src/types";
 
 /**
  * **isObject**(value)
@@ -7,16 +7,4 @@ import type { Narrowable , AnyObject, IfObject } from "../../types";
  */
 export function isObject<T extends AnyObject>(value: unknown): value is T  {
   return typeof value === "object" && value !== null && Array.isArray(value) === false;
-}
-
-export function ifObject<
-  T extends Narrowable, 
-  IF extends Narrowable, 
-  ELSE extends Narrowable
->(
-  val: T,
-  ifObj: IF,
-  notObj: ELSE
-): IfObject<T, IF, ELSE> {
-  return (isObject(val) ? ifObj : notObj) as IfObject<T, IF, ELSE>;
 }

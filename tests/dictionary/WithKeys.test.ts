@@ -1,8 +1,7 @@
 import { describe, it, expect } from "vitest";
-import { WithKeys, WithoutKeys } from "../../src/types";
+import { WithKeys, WithoutKeys } from "../../src//types";
 import { Equal, Expect } from "@type-challenges/utils";
-import { withKeys } from "src/runtime/dictionary/withKeys";
-import { withoutKeys } from "src/runtime/dictionary/withoutKeys";
+import { withKeys, withoutKeys } from "../../src/runtime/dictionary";
 
 describe("WithKeys<T, K> utility", () => {
   it("types: base test", () => {

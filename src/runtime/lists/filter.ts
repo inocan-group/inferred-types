@@ -1,19 +1,19 @@
-import { Filter,  FilterOps, Narrowable } from "src/types";
+import { Filter,  FilterOps, Narrowable } from "../../types";
 import { isSameTypeOf } from "../type-guards";
 
 export const filter = <
   TList extends readonly any[],
   TOp extends FilterOps,
-  TVal extends Narrowable
+  TFilter extends Narrowable
 >(
   list: TList, 
   op: TOp, 
-  value: TVal
+  value: TFilter
 ) => {
   let result: any;
 
   switch(op) {
-    case "does-not-equal":
+    case "not-equal":
       result = list.filter(i => i !== value);
       break;
     case "equals":
@@ -27,5 +27,5 @@ export const filter = <
       break;
   }
 
-  return result as Filter<TList, TVal, Top>;
+  return result as Filter<TList, TFilter, TOp>;
 };

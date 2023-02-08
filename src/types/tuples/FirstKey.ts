@@ -1,4 +1,4 @@
-import { Keys } from "../Keys";
+import { Keys } from "../dictionary/Keys";
 import { UnionToTuple } from "../type-conversion/UnionToTuple";
 
 /**
