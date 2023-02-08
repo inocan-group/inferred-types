@@ -1,4 +1,4 @@
-import { KV } from "src/types/type-conversion";
+import { KV } from "../../types/type-conversion";
 import { ifKvTupleArray } from "../boolean-logic/ifKvTupleArray";
 import { fromKv } from "../type-conversion/fromKv";
 

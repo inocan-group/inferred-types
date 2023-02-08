@@ -1,34 +1,27 @@
 {
   "compilerOptions": {
-    "module": "ESNEXT",
-    "target": "ESNEXT",
+    "module": "ES2022",
+    "target": "ESNext",
     "moduleResolution": "node",
     "sourceMap": true,
     "noEmit": true,
     "incremental": true,
-    "resolveJsonModule": true,
+    "resolveJsonModule": false,
     "strict": true,
     "skipLibCheck": true,
-    "allowJs": true,
+    "allowJs": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "allowSyntheticDefaultImports": true,
-    "lib": [
-      "ES2020"
-    ],
+    "declaration": true,
+    "tsBuildInfoFile": ".tsbuildinfo",
     "paths": {
-      "tests/*": [
-        "tests/*"
-      ],
       "src/*": [
         "src/*"
       ],
     },
     "baseUrl": ".",
-    "declaration": true,
-    "outDir": "dist",
-    "tsBuildInfoFile": ".tsbuildinfo",
   },
   "include": [
     "src",

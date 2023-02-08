@@ -1,4 +1,4 @@
-import { FilterNarrow , IfString , IsLiteral , Narrowable, TupleToUnion } from "../../types";
+import { Filter,  IfString , IsLiteral , Narrowable, TupleToUnion } from "../../types";
 
 /**
  * **Suggest**`<T>`
@@ -16,9 +16,9 @@ import { FilterNarrow , IfString , IsLiteral , Narrowable, TupleToUnion } from "
 export type Suggest<T extends Narrowable | readonly any[]> = //
 T extends string | number | readonly string[] | readonly number[]
 ? T extends readonly string[]
-  ? TupleToUnion<FilterNarrow<T, string>> | (string & {})
+  ? TupleToUnion<Filter<T, string, "equals">> | (string & {})
   : T extends readonly number[]
-    ? TupleToUnion<FilterNarrow<T, number>> | (string & {})
+    ? TupleToUnion<Filter<T, number, "equals">> | (string & {})
   : IsLiteral<T> extends true
     ? IfString<T, T | (string & {}), `${T & number}` | (string & {})>
     : IfString<T, string, `${number}`>

@@ -1,10 +1,7 @@
 import { ExpandRecursively } from "../literals/ExpandRecursively";
-import { AfterFirst } from "../lists";
-import { First } from "../lists/First";
-
-import {  TupleToUnion, UnionToTuple } from "../type-conversion";
-import { Mutable } from "../type-conversion/Mutable";
-import {  WithKeys, WithoutKeys } from "./WithKeys";
+import { AfterFirst , First } from "../lists";
+import { UnionToTuple, Mutable } from "../type-conversion";
+import { WithKeys, WithoutKeys } from "../dictionary";
 
 type MutablePropAcc<
   T extends {},

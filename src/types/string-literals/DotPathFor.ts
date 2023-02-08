@@ -3,7 +3,7 @@ import {  IfAnd } from "../boolean-logic/And";
 import { AnyObject, IfObject } from "../boolean-logic/object";
 import { FromMaybeRef } from "../dictionary/FromMaybeRef";
 import { Get } from "../dictionary/Get";
-import { Keys } from "../Keys";
+import { Keys } from "../dictionary/Keys";
 import { AfterFirst, First, RemoveEquals } from "../lists";
 import { Flatten } from "../lists/Flatten";
 import { Retain } from "../lists/Retain";

@@ -1,5 +1,4 @@
-import { IsNull } from "src/types/boolean-logic";
-import { Narrowable } from "src/types/literals/Narrowable";
+import type { IsNull, Narrowable } from "../../types";
 import { isNull } from "../type-guards/isNull";
 
 /**

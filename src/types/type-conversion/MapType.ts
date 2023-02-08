@@ -6,7 +6,7 @@ import { Narrowable } from "../literals/Narrowable";
 import { ToString } from "./ToString";
 import { TypeTuple } from "./TypeTuple";
 import { Join } from "../string-literals/Join";
-import { TYPE_MATCHER_DESC, TYPE_TRANSFORMER_DESC } from "../../../src/runtime/runtime";
+import { TYPE_MATCHER_DESC, TYPE_TRANSFORMER_DESC } from "src/runtime/runtime";
 
 /**
  * **TypeMapMatcher**
@@ -163,7 +163,7 @@ export type ConvertType<
   TValue extends Narrowable, 
   TMatchers extends readonly TypeMapRule<TypeMapMatcher, TypeMapTransformer, any>[],
   TElse extends Narrowable = never
-> = FirstOrElse<RemoveNever<{
+> = FirstOrElse<{
   [K in keyof TMatchers]: //
     IfEqual<TMatchers[K]["match"][0], "Equals",
       IfEqual<TValue, TMatchers[K]["match"][1], MappedValue<TValue,TMatchers[K]>, never>,
@@ -175,7 +175,7 @@ export type ConvertType<
       IfEndsWith<TValue, TMatchers[K]["match"][1], MappedValue<TValue,TMatchers[K]>, never>,
     never
   >>>>
-}>, TElse>;
+}, TElse>;
 
 type MapAcc<
   TList extends readonly Narrowable[], 

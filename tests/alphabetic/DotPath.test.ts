@@ -1,5 +1,5 @@
 import { Equal, Expect, } from "@type-challenges/utils";
-import { DotPath } from "src/types/string-literals/DotPath";
+import { DotPath } from "../../src/types/string-literals/DotPath";
 
 import { describe, it } from "vitest";
 

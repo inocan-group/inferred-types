@@ -1,9 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { createFnWithProps } from "src/runtime/functions";
-import { ifFunction } from "src/runtime/boolean-logic/ifFunction";
-import { isFnWithParams , isFunction } from "src/runtime/type-guards";
-import { AnyFunction, IsFunction } from "src/types";
 import { describe, expect, it } from "vitest";
+
+import { createFnWithProps } from "../../src/runtime/functions";
+import { ifFunction, isFnWithParams , isFunction } from "../../src/runtime";
+import type { AnyFunction, IsFunction } from "../../src/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { AsArray, asArray } from "runtime";
+import { AsArray, asArray } from "../../src/runtime";
 import { Equal, Expect } from "@type-challenges/utils";
 
 describe("AsArray<T>", () => {

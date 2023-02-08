@@ -1,5 +1,5 @@
 import { IfLength } from "../boolean-logic/IfLength";
-import { Keys } from "../Keys";
+import { Keys } from "../dictionary/Keys";
 
 /**
  * Converts a Tuple type into a _union_ of the tuple elements

@@ -3,7 +3,7 @@ import { Mutable } from "../type-conversion/Mutable";
 import { Narrowable } from "../literals/Narrowable";
 import { Or } from "./Or";
 import { AnyFunction } from "../functions/function-types";
-import { Keys } from "../Keys";
+import { Keys } from "../dictionary/Keys";
 import { IfExtends } from "./IfExtends";
 
 export type AnyObject = Record<string, any>;

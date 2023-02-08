@@ -1,7 +1,6 @@
 import { describe, it } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
-import { DictChangeValue } from "../../src/types/dictionary/DictChangeValue";
-import { SimplifyObject } from "../../src/types/SimplifyObject";
+import type { DictChangeValue , SimplifyObject } from "../../src/types";
 
 const test_obj = {
   foo: "hello world",

@@ -1,5 +1,5 @@
 import { NotEqual } from "@type-challenges/utils";
-import { Keys } from "../Keys";
+import { Keys } from "../dictionary/Keys";
 import { Length } from "../lists/Length";
 import { Narrowable } from "../literals/Narrowable";
 import { And, IfAnd } from "./And";

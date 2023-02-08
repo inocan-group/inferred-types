@@ -1,5 +1,5 @@
-import { AnyObject } from "../../../types";
-import { ArrExtractor } from "./extractor";
+import { AnyObject } from "../../..";
+import { RemoveFromList } from "../RemoveFromList";
 
 /**
  * **RemoveNever**`<T>`
@@ -10,9 +10,9 @@ import { ArrExtractor } from "./extractor";
 export type RemoveNever<
   T extends any[] | readonly any[] | AnyObject
 > = T extends any[]
-  ? ArrExtractor<T, never, "remove">
+  ? RemoveFromList<T, "extends", never >
   : T extends readonly any[]
-    ? readonly [...ArrExtractor<T, never, "remove">]
+    ? Readonly<RemoveFromList<T, "extends", never >>
     : T extends AnyObject
       ? any
       : never;

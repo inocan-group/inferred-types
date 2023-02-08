@@ -1,5 +1,4 @@
-import type { AnyObject } from "src/types";
-import { WithKeys } from "src/types/dictionary/WithKeys";
+import type { AnyObject, WithKeys } from "../../types";
 
 /**
  * **withKeys**(obj,keys)

@@ -9,6 +9,7 @@ export * from "./DictChangeValue";
 export * from "./DictPrependWithFn";
 export * from "./DictReturnValues";
 export * from "./Get";
+export * from "./Keys";
 export * from "./MapTo";
 export * from "./MutableProps";
 export * from "./RequireProps";
@@ -17,6 +18,7 @@ export * from "./SameKeys";
 export * from "./props";
 export * from "./append-types";
 export * from "./WithKeys";
+export * from "./SharedKeys";
 export * from "./WithoutKeys";
 
 // #endregion auto-indexed files

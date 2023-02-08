@@ -8,13 +8,13 @@ import {
   ifUndefined,
   ifArrayPartial,
   ifNumber,
-} from "src/runtime/boolean-logic";
-import {  or } from "src/runtime/combinators";
-import { EndsWith, DoesExtend, LowerAlpha, Or, StartsWith } from "src/types";
-import { box, wide } from "src/runtime/literals";
-import { ifString } from "src/runtime/type-guards/isString";
-import { isTrue } from "src/runtime/type-guards/isTrue";
-import { startsWith } from "src/runtime/type-guards/higher-order/startsWith";
+} from "../../src/runtime/boolean-logic";
+import {  or } from "../../src/runtime/combinators";
+import { EndsWith, DoesExtend, LowerAlpha, Or, StartsWith } from "../../src/types";
+import { box, wide } from "../../src/runtime/literals";
+import { ifString } from "../../src/runtime/type-guards/isString";
+import { isTrue } from "../../src/runtime/type-guards/isTrue";
+import { StartingWithTypeGuard, startsWith } from "../../src/runtime/type-guards/higher-order/startsWith";
 
 describe("runtime if/is", () => {
   it("ifString(v,i,e)", () => {
@@ -279,20 +279,17 @@ describe("runtime if/is", () => {
   });
 
   it("startsWith(t)(v)", () => {
-    const t1 = startsWith("foo")("foobar");
-    const t2 = startsWith("foot")("foobar");
-    const p1 = startsWith("foo");
+    const foo = startsWith("foo");
+    const foot = startsWith("foot");
 
     // runtime
-    expect(t1).toBe(true);
-    expect(t2).toBe(false);
-    expect(p1("foot")).toBe(true);
-    expect(p1("bart")).toBe(false);
-
+    expect(foo("foobar")).toBe(true);
+    expect(foot("foobar")).toBe(false);
+    
     // design time
     type cases = [
-      Expect<Equal<typeof t1, true>>, //
-      Expect<Equal<typeof t2, false>> //
+      Expect<Equal<typeof foo, StartingWithTypeGuard<"foo">>>, //
+      Expect<Equal<typeof foot, StartingWithTypeGuard<"foot">>> //
     ];
     const cases: cases = [true, true];
   });

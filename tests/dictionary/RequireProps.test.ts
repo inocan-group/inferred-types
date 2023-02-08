@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
 
-import { RequireProps } from "src/types/dictionary";
+import { RequireProps } from "../../src/types/dictionary";
 
 describe("RequireProps<T,R>", () => {
   it("works as expected", () => {

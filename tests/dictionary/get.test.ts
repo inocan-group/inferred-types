@@ -1,12 +1,17 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
-import { get } from "src/runtime/dictionary/get";
-import { defineType } from "src/runtime/literals/defineType";
-import { ErrorCondition } from "src/runtime/literals/ErrorCondition";
-import { isErrorCondition } from "src/runtime/type-guards/isErrorCondition";
-import { DoesExtend, IsErrorCondition } from "src/types";
-import { NoDefaultValue } from "src/types/constants";
-import { Get } from "src/types/dictionary/Get";
 import { describe, expect, it } from "vitest";
+import { 
+  get, 
+  defineType, 
+  ErrorCondition, 
+  isErrorCondition 
+} from "../../src/runtime";
+import type { 
+  DoesExtend, 
+  IsErrorCondition, 
+  NoDefaultValue, 
+  Get 
+} from "../../src/types";
 import { ref } from "vue";
 
 describe("Get<T, K> type utility", () => {

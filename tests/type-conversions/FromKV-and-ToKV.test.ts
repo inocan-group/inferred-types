@@ -1,8 +1,8 @@
 import { Equal, Expect, ExpectExtends } from "@type-challenges/utils";
-import { find } from "src/runtime/lists/find";
-import { fromKv } from "src/runtime/type-conversion/fromKv";
-import { toKv } from "src/runtime/type-conversion/toKv";
-import {  ToKV , FromKV } from "src/types/type-conversion";
+import { find } from "../../src/runtime/lists/find";
+import { fromKv } from "../../src/runtime/type-conversion/fromKv";
+import { toKv } from "../../src/runtime/type-conversion/toKv";
+import {  ToKV , FromKV } from "../../src/types/type-conversion";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

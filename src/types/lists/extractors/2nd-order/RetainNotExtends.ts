@@ -1,8 +1,8 @@
-import { AnyObject } from "src/types/boolean-logic";
-import { Narrowable } from "src/types/literals/Narrowable";
-import { KvDict } from "src/types/type-conversion/KvDict";
-import { ObjectToKvDict } from "src/types/type-conversion/ObjectToKvDict";
-import { ArrExtractor, KvDictExtractor } from "./extractor";
+import { AnyObject } from "../../../../types/boolean-logic";
+import { Narrowable } from "../../../../types/literals/Narrowable";
+import { KvDict } from "../../../../types/type-conversion/KvDict";
+import { ObjectToKvDict } from "../../../../types/type-conversion/ObjectToKvDict";
+import {  RetainFromList, KvDictExtractor } from "../RetainFromList";
 
 /**
  * **RetainNotExtends**`<TList,TCompareTo>`
@@ -14,9 +14,9 @@ export type RetainNotExtends<
   TList extends any[] | readonly any[] | AnyObject,
   TCompareTo extends Narrowable
 > = TList extends any[]
-? ArrExtractor<TList, TCompareTo, "retain">
+? RetainFromList<TList, "does-not-extend", TCompareTo>
 : TList extends readonly any[]
-  ? readonly [...ArrExtractor<TList, TCompareTo, "retain">]
+  ? Readonly<RetainFromList<TList, "does-not-extend", TCompareTo>>
   : TList extends AnyObject
     ? ObjectToKvDict<TList> extends readonly KvDict<any, any>[]
       ? KvDictExtractor<ObjectToKvDict<TList>, TCompareTo, "retain">

@@ -1,8 +1,9 @@
-import { IfEqual } from "./boolean-logic";
-import { IfLength } from "./boolean-logic/IfLength";
-import { NumericKeys } from "./lists/NumericKeys";
-import { Narrowable } from "./literals/Narrowable";
-import { UnionToTuple } from "./type-conversion/UnionToTuple";
+import { IfEqual, IfTrue } from "../boolean-logic";
+import { IfLength } from "../boolean-logic/IfLength";
+import { RetainStrings } from "../lists";
+import { NumericKeys } from "../lists/NumericKeys";
+import { Narrowable } from "../literals/Narrowable";
+import { UnionToTuple } from "../type-conversion/UnionToTuple";
 
 /**
  * **Keys**`<TValue, [TExclude]>`
@@ -19,6 +20,7 @@ exclusion property described above.
  */
 export type Keys<
   TValue extends Narrowable,
+  TOnlyString extends boolean = false
 > = TValue extends readonly any[]
   ? NumericKeys<TValue>
   : IfEqual<
@@ -27,6 +29,10 @@ export type Keys<
       IfLength<
         Readonly<UnionToTuple<keyof TValue>>, 0,
         readonly [],
-        Readonly<UnionToTuple<keyof TValue>>
+        IfTrue<
+          TOnlyString, 
+          Readonly<RetainStrings<UnionToTuple<keyof TValue>>>,
+          Readonly<UnionToTuple<keyof TValue> >
+        >
       >
     >;

@@ -4,7 +4,7 @@ import { EndsWith } from "../boolean-logic/EndsWith";
 import { StartsWith } from "../boolean-logic/StartsWith";
 import { Includes } from "../boolean-logic/IsString";
 import { MaybeRef } from "../dictionary/MaybeRef";
-import { Keys } from "../Keys";
+import { Keys } from "../dictionary/Keys";
 import { AfterFirst, Length } from "../lists";
 import { First } from "../lists/First";
 import { Split } from "../lists/Split";

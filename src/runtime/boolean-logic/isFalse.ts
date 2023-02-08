@@ -1,8 +1,5 @@
-import { IfFalse, IsFalse, Narrowable } from "../../types";
-
-export function isFalse<T>(i: T) {
-  return (typeof i === "boolean" && !i) as IsFalse<T>;
-}
+import type { IfFalse, Narrowable } from "../../types";
+import { isFalse } from "../type-guards";
 
 /**
  * **ifTrue**

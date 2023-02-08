@@ -1,6 +1,7 @@
 import { HasUppercase } from "./HasUppercase";
+import { LowerCase } from "./LowerCase";
 
-type _DU<T extends string> = T extends Lowercase<T> ? T : `-${Lowercase<T>}`;
+type _DU<T extends string> = T extends LowerCase<T> ? T : `-${LowerCase<T>}`;
 
 /**
  * Converts uppercase characters to a dash and then the lowercase equivalent

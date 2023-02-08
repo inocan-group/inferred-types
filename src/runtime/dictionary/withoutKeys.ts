@@ -1,5 +1,4 @@
-import type { AnyObject } from "src/types";
-import { WithoutKeys } from "src/types/dictionary/WithoutKeys";
+import type { AnyObject, WithoutKeys } from "../../types";
 import { keys } from "./keys";
 
 /**

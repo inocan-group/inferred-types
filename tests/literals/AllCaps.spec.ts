@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 import { Equal, Expect } from "@type-challenges/utils";
-import { AllCaps } from "src/types";
+import { AllCaps } from "../../src/types";
 
 describe("AllCaps<T> type utility", () => {
   it("finds AllCaps where it exists", () => {

@@ -1,20 +1,23 @@
-import { isObject } from "../type-guards/isObject";
-import { Keys, AnyObject } from "../../types";
+import type { Keys, AnyObject, IfRef } from "src/types";
+import { isRef, isObject } from "../type-guards";
 
 /**
  * **keys**(obj)
  * 
  * Provides a read-only array of the _keys_ an object (or array) contains.
  * 
- * **Note:** it will accept any _narrowable_ value but any type other than 
- * an array or object will return `[]`.
+ * **Note:** this function is aware of Ref<T> types from VueJS and will return
+ * `readonly ["value"]` as the keys array when detected rather than reporting
+ * on props like `__v_isRef`, etc.
  */
 export function keys<
   TObj extends AnyObject
->(obj: TObj) {
+>(obj: TObj): IfRef<TObj, Keys<TObj, true>, Keys<TObj>> {
   return (
     isObject(obj)
-      ? Object.keys(obj)
+      ? isRef(obj)
+        ? ["value"]
+        : Object.keys(obj)
       : [] as readonly []
-  ) as unknown as Keys<TObj>;
+  ) as IfRef<TObj, Keys<TObj, true>, Keys<TObj>>;
 }

@@ -1,4 +1,4 @@
-import { Keys } from "../Keys";
+import { Keys } from "../dictionary/Keys";
 import { Narrowable } from "../literals/Narrowable";
 import { IfLength } from "./IfLength";
 

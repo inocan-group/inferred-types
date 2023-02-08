@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { Flatten } from "src/types/lists/Flatten";
+import { Flatten } from "../../src/types/lists/Flatten";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

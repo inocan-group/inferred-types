@@ -1,6 +1,8 @@
 import { Alpha } from "../string-literals/alpha-characters";
-import { Keys } from "../Keys";
+import { Keys } from "./Keys";
 import { SimplifyObject } from "../SimplifyObject";
+import { AnyObject } from "../boolean-logic";
+import { ExpandRecursively, Narrowable } from "../literals";
 
 /**
  * Extracts the _required_ keys in the object's type. You also may
@@ -57,12 +59,15 @@ export type KeysWithValue<W extends any, T extends object> = {
  * result set.
  * ```ts
  * // "foo"
- * type Str = KeysWithValue<{ foo: "hi"; bar: 5 }>;
+ * type Str = KeysWithoutValue<5, { foo: "hi"; bar: 5 }>;
  * ```
  */
-export type KeysWithoutValue<W extends any, T extends object> = {
-  [K in keyof T]: T[K] extends W ? never : Readonly<K>;
-}[keyof T];
+export type KeysWithoutValue<
+  TValue extends Narrowable, 
+  TObj extends AnyObject
+> = {
+      [K in keyof TObj]: TObj[K] extends TValue ? never : Readonly<K>;
+  }[keyof TObj];
 
 /**
  * A `PrivateKey` must start with a `_` character and then follow with
@@ -156,12 +161,12 @@ export type WithValue<
  * You manually exclude keys as well by setting the optional `E` generic.
  */
 export type WithoutValue<
-  TValue extends any,
-  TObj extends object,
+  TValue extends Narrowable,
+  TObj extends AnyObject,
   TExclude extends any = undefined
 > = undefined extends TExclude
   ? // no exclusion provided
-    Pick<TObj, KeysWithoutValue<TValue, TObj>>
+    ExpandRecursively<Pick<TObj, KeysWithoutValue<TValue, TObj>>>
   : // Exclude using E
     Omit<Pick<TObj, KeysWithoutValue<TValue, TObj>>, KeysWithoutValue<TExclude, TObj>>;
 

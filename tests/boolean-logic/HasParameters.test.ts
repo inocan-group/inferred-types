@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { HasParameters } from "src/types";
+import { HasParameters } from "../../src/types";
 import { describe, it } from "vitest";
 
 // Note: type tests fail visible inspection but pass from Vitest
@@ -14,9 +14,11 @@ describe("HasParameters<T>", () => {
     const fn4 = () => `hello world` as const;
     const fn5 = (r: string, g: string, b: string) => `${r},${g},${b}` as const;
 
+    type F1 = HasParameters<typeof fn1>;
+
     type cases = [
       // single
-      Expect<Equal<HasParameters<typeof fn1>, true>>,
+      Expect<Equal<F1, true>>,
       Expect<Equal<HasParameters<typeof fn2>, true>>,
       // none
       Expect<Equal<HasParameters<typeof fn3>, false>>,

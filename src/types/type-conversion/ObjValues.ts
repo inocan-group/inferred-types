@@ -1,5 +1,5 @@
 import { AnyObject, IfEqual, IfLiteral } from "../boolean-logic";
-import { Keys } from "../Keys";
+import { Keys } from "../dictionary/Keys";
 import { AfterFirst, First } from "../lists";
 
 type ValuesAcc<

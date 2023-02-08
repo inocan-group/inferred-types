@@ -9,6 +9,7 @@ export * from "./TupleToUnion";
 export * from "./UnionToIntersection";
 export * from "./ToKV";
 export * from "./KvDict";
+export * from "./KvDictToObject";
 export * from "./ToString";
 export * from "./UnionToTuple";
 export * from "./Widen";
