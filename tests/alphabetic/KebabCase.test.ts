@@ -30,7 +30,7 @@ it("Bastar*d Case is converted correctly", () => {
 });
 
 it("Using string type, the types remain as string", () => {
-  const snake: string = "one_two_three";
+  const snake = "one_two_three";
   const aSnake = toKebabCase(snake);
   type Snake = typeof aSnake;
 

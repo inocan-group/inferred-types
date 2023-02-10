@@ -1,4 +1,4 @@
-import { ExpandRecursively, Narrowable } from "../../types";
+import { ExpandRecursively, Narrowable } from "src/types";
 
 /**
  * **isReadonlyArray**(value)

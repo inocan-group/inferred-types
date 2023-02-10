@@ -1,4 +1,4 @@
-import { Narrowable , ToString , IfEqual , RemoveEquals } from "../../types";
+import { Narrowable , ToString , IfEqual , RemoveEquals } from "src/types";
 
 type JoinAcc<
   TArr extends readonly Narrowable[],

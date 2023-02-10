@@ -6,6 +6,6 @@
  * 
  * Note: meant to be used as part of an _extends_ clause in most cases.
  */
-export type SameKeys<T extends object, A extends any = any> = {
+export type SameKeys<T extends object, A = unknown> = {
   [P in keyof T]: A;
 };

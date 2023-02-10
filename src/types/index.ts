@@ -5,11 +5,9 @@
 
 // file exports
 export * from "./Constructor";
-export * from "./constants";
+export * from "../constants";
 export * from "./EnumValues";
-export * from "./FunctionType";
 export * from "./If";
-export * from "./KeyedRecord";
 export * from "./dictionary/Keys";
 export * from "./Numeric";
 export * from "./Opaque";

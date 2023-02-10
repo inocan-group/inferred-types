@@ -1,4 +1,5 @@
-import type { SharedKeys, AnyObject } from "../../types";
+import { AnyObject } from "src/types/boolean-logic/object";
+import { SharedKeys } from "src/types/dictionary/SharedKeys";
 import { keys } from "./keys";
 
 /**

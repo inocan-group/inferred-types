@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { Equal, Expect } from "@type-challenges/utils";
 import {  RemoveFromList, RemoveNever, RemoveStrings, RetainFromList, RetainStrings } from "../../src/types/lists/extractors";
 import { describe, it } from "vitest";

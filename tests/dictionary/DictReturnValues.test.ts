@@ -14,7 +14,7 @@ describe("DictReturnValues<T, R, O>", () => {
     // convert all functions
     type T1 = DictReturnValues<Api, null>;
     // convert functions with `number` return
-    type T2 = DictReturnValues<Api, null, (...args: any[]) => number>;
+    type T2 = DictReturnValues<Api, null, (...args: unknown[]) => number>;
 
     type Expected1 = {
       foo: (name: string) => null;

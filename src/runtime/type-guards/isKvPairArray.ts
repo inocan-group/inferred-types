@@ -1,4 +1,4 @@
-import { Narrowable , KvDict } from "../../types";
+import { Narrowable , KvDict } from "src/types";
 import { isKvPair } from "./isKvPair";
 
 /**

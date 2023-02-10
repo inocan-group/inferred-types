@@ -1,4 +1,4 @@
-import { Narrowable } from "../../types";
+import { Narrowable } from "src/types";
 import { isArray } from "./isArray";
 import { isObject } from "./isObject";
 import { isString } from "./isString";

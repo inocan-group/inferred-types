@@ -1,9 +1,10 @@
-import { Equal, Expect, ExpectExtends, ExpectTrue } from "@type-challenges/utils";
-import { DotPathFor } from "../../src/types/string-literals/DotPathFor";
-import {  DoesExtend } from "../../src/types/boolean-logic";
 import { describe, it } from "vitest";
+import { Equal, Expect, ExpectExtends, ExpectTrue } from "@type-challenges/utils";
+
+import { DotPathFor } from "src/types/string-literals/DotPathFor";
+import {  DoesExtend } from "src/types/boolean-logic";
 import { Ref } from "vue";
-import { Suggest } from "../../src/types";
+import { Suggest } from "src/types/string-literals";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 

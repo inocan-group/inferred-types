@@ -1,4 +1,4 @@
-import { KV, Narrowable } from "../../types";
+import { KV, Narrowable } from "src/types";
 import { isKvTuple } from "../type-guards";
 
 /**

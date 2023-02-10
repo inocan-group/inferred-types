@@ -1,4 +1,4 @@
-import type { IfArray, Narrowable } from "../../types";
+import type { IfArray, Narrowable } from "src/types";
 import { isArray } from "../type-guards";
 
 /**

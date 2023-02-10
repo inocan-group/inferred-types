@@ -1,4 +1,4 @@
-import { TypeKvBase } from "../../types/type-conversion/KvDict";
+import { TypeKvBase } from "src/types/type-conversion/KvDict";
 import { 
   FALSY_TYPE_KINDS, 
   LITERAL_TYPE_KINDS, 
@@ -14,7 +14,7 @@ import {
   TypeKindLiteral, 
   TypeKindWide, 
   WIDE_TYPE_KINDS 
-} from "../../types";
+} from "src/types";
 
 
 /**
@@ -132,7 +132,7 @@ export function isStringLiteralType<
   return (
     isRuntimeType(thing) && thing.kind === "stringLiteral"
   );
-};
+}
 
 /** 
  * Type Guard to validate that type is a "narrow container" (e.g., object, tuple, etc.) 

@@ -1,5 +1,5 @@
 
-import type { Narrowable, IfObject } from "../../types";
+import type { Narrowable, IfObject } from "src/types";
 import { isObject } from "../type-guards";
 
 export function ifObject<

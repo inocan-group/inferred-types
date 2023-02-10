@@ -9,7 +9,7 @@ import {
   Mapper,
   MapFn,
   OptRequired
-} from "../../types";
+} from "src/types";
 
 import {createFnWithProps} from "../functions";
 

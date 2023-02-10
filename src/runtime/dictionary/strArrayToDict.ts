@@ -1,4 +1,4 @@
-import { ExpandRecursively } from "../../types";
+import { ExpandRecursively } from "src/types";
 
 /**
  * converts an array of strings `["a", "b", "c"]` into a more type friendly

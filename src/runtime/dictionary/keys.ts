@@ -1,5 +1,6 @@
 import type { Keys, AnyObject, IfRef } from "src/types";
-import { isRef, isObject } from "../type-guards";
+import { isObject } from "src/runtime/type-guards/isObject";
+import { isRef } from "src/runtime/type-guards/isRef";
 
 /**
  * **keys**(obj)

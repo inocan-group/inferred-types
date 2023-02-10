@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { Concat,  LeftWhitespace, LowerCase, RightWhitespace, Trim } from "../../types";
+import { Concat,  LeftWhitespace, LowerCase, RightWhitespace, Trim } from "src/types";
 import { DashUppercase } from "./DashUppercase";
 import { LowerAllCaps } from "./LowerAllCaps";
 

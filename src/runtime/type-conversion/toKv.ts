@@ -1,4 +1,4 @@
-import { ToKV, AnyObject } from "../../types";
+import { ToKV, AnyObject } from "src/types";
 import { keys } from "../dictionary";
 import { reverse } from "../lists/reverse";
 

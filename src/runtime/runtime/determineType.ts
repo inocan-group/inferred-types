@@ -6,7 +6,7 @@ import {
   TupleToUnion, 
   TypeKvBase, 
   UnionToIntersection 
-} from "../../types";
+} from "src/types";
 
 import { hasNoUnderlyingTypes, hasUnderlyingTypes, isLiteralType } from "../type-guards/runtime-type-guards";
 import { wide } from "../literals";

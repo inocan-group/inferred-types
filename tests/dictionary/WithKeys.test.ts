@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect } from "vitest";
 import { WithKeys, WithoutKeys } from "../../src//types";
 import { Equal, Expect } from "@type-challenges/utils";

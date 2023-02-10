@@ -1,4 +1,4 @@
-import {  IfSoftTrue, Narrowable } from "../../types";
+import {  IfSoftTrue, Narrowable } from "src/types";
 import { isTrue } from "../type-guards/isTrue";
 
 /**

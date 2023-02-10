@@ -1,4 +1,4 @@
-import { IfFunction, AnyFunction, Narrowable } from "../../types";
+import { IfFunction, AnyFunction, Narrowable } from "src/types";
 import { isFunction } from "../type-guards/isFunction";
 
 /**

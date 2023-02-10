@@ -1,4 +1,4 @@
-import { Type } from "../../types";
+import { Type } from "src/types";
 
 /**
  * Creates a `validate` function for a runtime type

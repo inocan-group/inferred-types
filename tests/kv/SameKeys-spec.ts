@@ -9,7 +9,9 @@ describe("SameKeys<T> utility", () => {
     type O = typeof origin;
     type SK = SameKeys<O>;
 
-    type cases = [Expect<Equal<SK, { id: any; favorite: any }>>];
+    type cases = [
+      Expect<Equal<SK, { id: unknown; favorite: unknown }>> //
+    ];
     const c: cases = [true];
     expect(c).toBe(c);
   });

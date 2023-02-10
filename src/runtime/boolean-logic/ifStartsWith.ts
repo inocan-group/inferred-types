@@ -1,25 +1,7 @@
-import { Narrowable,IfTrue, StartsWith, Box } from "../../types";
-import { createFnWithProps } from "../functions/createFnWithProps";
-import {  box  } from "../literals";
+import { Narrowable,IfTrue, StartsWith } from "src/types";
 import { startsWith } from "../type-guards/higher-order/startsWith";
 import { ifTrue } from "./ifTrue";
 
-export type NarrowFn<N extends string> = <F extends <T extends string>(input: T) => any>(
-  fn: F
-) => (input: N) => Box<F>["unbox"];
-
-export const stringLiteralFn = <F extends <T extends string>(input: T) => any>(fn: F) => {
-  const b = box(fn);
-  const api = {
-    narrow<N extends string>() {
-      return (input: N) => b.unbox()(input);
-    },
-  };
-
-  return createFnWithProps(fn, api);
-};
-
-export type StringLiteralFn<S extends string = string> = <T extends S>(input: T) => any;
 
 /**
  * **ifStartsWith**
@@ -57,7 +39,7 @@ TElse extends Narrowable
     // handlers
     () => doesStartWith(input as TTextValue & `${TStartsWith}${string}`),
     () => doesNotStartWith(input as TTextValue)
-  ) as IfTrue<
+  ) as unknown as IfTrue<
     StartsWith<TTextValue, TStartsWith>, 
     TIf, 
     TElse

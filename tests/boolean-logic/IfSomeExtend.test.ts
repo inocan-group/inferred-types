@@ -19,7 +19,7 @@ describe("SomeExtend<TList,TExtend> and IfSomeExtend<TList,TExtend>", () => {
 
     type F1 = SomeExtend<LiteralList, false>;
     type F2 = SomeExtend<LiteralList, AnyObject>;
-    type F3 = SomeExtend<LiteralList, any[]>;
+    type F3 = SomeExtend<LiteralList, unknown[]>;
 
     type cases = [
       Expect<Equal<T1, true>>,

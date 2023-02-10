@@ -34,9 +34,9 @@ describe("toPascalCase() function", () => {
   // type checks
   
   it(`Using wide "string" type, type is preserved`, () => {
-    const bDash: string = "one-two-three";
-    const bSnake: string = "one_two_three";
-    const bWhite: string = "  one-two-three  ";
+    const bDash = "one-two-three";
+    const bSnake = "one_two_three";
+    const bWhite = "  one-two-three  ";
     const aDash = toPascalCase(bDash);
     const aSnake = toPascalCase(bSnake);
     const aWhiteTrimmed = toPascalCase(bWhite);

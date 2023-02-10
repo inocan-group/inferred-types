@@ -1,10 +1,4 @@
-
-// NOTE: this is a copy of the tried and test implementation in `native-dash`
-// but wanted to have it here too to avoid having a circular dep (typically 
-// it would be more common for native-dash to be a consumer of this repo
-// than the other way around)
-
-import { Mutable, SimplifyObject } from "../../types";
+import { Mutable, SimplifyObject } from "src/types";
 
 /**
  * **removeProps**`<T,K>`

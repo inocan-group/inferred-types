@@ -6,6 +6,7 @@ import { AnyFunction } from "../functions/function-types";
 import { Keys } from "../dictionary/Keys";
 import { IfExtends } from "./IfExtends";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyObject = Record<string, any>;
 export type UnknownObject = Record<string, unknown>;
 
@@ -16,14 +17,14 @@ export type UnknownObject = Record<string, unknown>;
  * (aka, it extends `Record<string, any>` or a readonly equivalent)
  */
 export type IsObject<T> = Or<[
-    IfExtends<T,Record<string, any>, true, false>,
-    IfExtends<Mutable<T>,Record<string, any>,true, false>
+    IfExtends<T,Record<string, unknown>, true, false>,
+    IfExtends<Mutable<T>,Record<string, unknown>,true, false>
 ]> extends true
   ? // an object of some type
     T extends AnyFunction
     ? // when a function with props is found, categorize as a function not object
       false
-    : Mutable<T> extends any[]
+    : Mutable<T> extends unknown[]
     ? // Array's are objects too but in our narrower definition we're looking only
       // dictionary based arrays.
       false
@@ -49,7 +50,7 @@ export type IfObject<T, IF extends Narrowable, ELSE extends Narrowable> = IsObje
  * this object-like structure is intersected with a function. It's utility
  * is just to detect whether the object _part_ of the type has keys or not.
  */
-export type IsEmptyObject<T> = T extends Record<string, any>
+export type IsEmptyObject<T> = T extends Record<string, unknown>
   ? [] extends Keys<T>
     ? true
     : false

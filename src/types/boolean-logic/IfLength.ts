@@ -1,4 +1,4 @@
-import { Length, IfEqual, IsLiteral, Narrowable } from "../../types";
+import { Length, IfEqual, IsLiteral, Narrowable } from "src/types";
 
 /**
  * **IsLength**`<T, LEN>`

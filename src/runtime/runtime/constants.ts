@@ -1,4 +1,4 @@
-import { LowerAlpha, UnionToTuple, UpperAlpha } from "../../types";
+import { LowerAlpha, UnionToTuple, UpperAlpha } from "src/types";
 
 /**
  * **TYPE_OF**

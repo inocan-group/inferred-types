@@ -1,4 +1,4 @@
-import type { IfFalse, Narrowable } from "../../types";
+import type { IfFalse, Narrowable } from "src/types";
 import { isFalse } from "../type-guards";
 
 /**

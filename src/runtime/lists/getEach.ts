@@ -1,4 +1,4 @@
-import { GetEach, GetEachErrHandling } from "../../types";
+import { GetEach, GetEachErrHandling } from "src/types";
 import { get } from "../dictionary/get";
 import { isErrorCondition } from "../type-guards/isErrorCondition";
 

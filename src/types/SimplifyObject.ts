@@ -7,6 +7,6 @@ import { UnionToIntersection } from "./type-conversion/UnionToIntersection";
  *
  * This type utility will cleanup an object and return a simple dictionary definition for it.
  */
-export type SimplifyObject<T extends {}> = ExpandRecursively<
+export type SimplifyObject<T extends object> = ExpandRecursively<
   UnionToIntersection<ExpandRecursively<T>>
 >;

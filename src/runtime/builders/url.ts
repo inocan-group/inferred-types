@@ -1,4 +1,4 @@
-import { DomainName, Ipv4, NetworkProtocol, RelativeUrl } from "../../types";
+import { DomainName, Ipv4, NetworkProtocol, RelativeUrl } from "src/types";
 
 export const url = <
   Proto extends NetworkProtocol,

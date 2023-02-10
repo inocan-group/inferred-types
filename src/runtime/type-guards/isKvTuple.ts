@@ -1,4 +1,4 @@
-import { KV } from "../../types/type-conversion/ToKV";
+import { KV } from "src/types/type-conversion/ToKV";
 
 /**
  * **isKvTuple**(value)

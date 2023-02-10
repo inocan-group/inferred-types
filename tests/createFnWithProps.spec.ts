@@ -1,4 +1,4 @@
-import { createFnWithProps } from "../src/runtime";
+import { createFnWithProps } from "src/runtime/functions/createFnWithProps";
 import { describe, it, expect } from "vitest";
 
 describe("createFnWithProps()", () => {

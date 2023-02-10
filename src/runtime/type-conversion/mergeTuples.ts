@@ -1,4 +1,4 @@
-import type { MergeTuples, Narrowable } from "../../types";
+import type { MergeTuples, Narrowable } from "src/types";
 import { isDefined } from "../type-guards";
 
 /**

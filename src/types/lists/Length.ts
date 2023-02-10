@@ -1,4 +1,4 @@
-import { Concat } from "../../types";
+import { Concat } from "src/types";
 import { ErrorCondition } from "../../runtime";
 import { ToString } from "../type-conversion";
 

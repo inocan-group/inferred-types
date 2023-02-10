@@ -1,6 +1,6 @@
-import { Narrowable } from "../types";
+import { AnyFunction, Key, Narrowable } from "../types";
 
-export type ValueTuple = [type: any, narrowable: boolean];
+export type ValueTuple = [type: unknown, narrowable: boolean];
 
 /**
  * An API surface for choosing a **type** which is defined for run-time
@@ -16,19 +16,19 @@ export const valueTypes = {
   string: ["" as string, false] as [string, false],
   boolean: [true as boolean, false] as [boolean, false],
   number: [0 as number, false] as [number, false],
-  function: [(() => "") as Function, false] as [Function, false],
-  object: [{}, false] as [Record<string, any>, false],
-  array: <T extends any>(arr: T[] = [] as T[]) => [arr, false] as [T[], false],
+  function: [(() => "") as AnyFunction, false] as [AnyFunction, false],
+  object: [{}, false] as [Record<string, unknown>, false],
+  array: <T>(arr: T[] = [] as T[]) => [arr, false] as [T[], false],
   null: [null, false] as [null, false],
-  symbol: [Symbol("type") as Symbol, false] as [Symbol, false],
+  symbol: [Symbol("type") as symbol, false] as [symbol, false],
   undefined: [undefined, false] as [undefined, false],
   // NARROW
-  true: [true as true, true] as [true, true],
-  false: [false as false, true] as [false, true],
+  true: [true as const, true] as [true, true],
+  false: [false as const, true] as [false, true],
   /** pass in a literal type */
   literal: <
     N extends Narrowable,
-    T extends Record<any, N> | number | string | boolean | symbol | undefined | null
+    T extends Record<Key, N> | number | string | boolean | symbol | undefined | null
   >(
     v: T
   ) => {
@@ -36,7 +36,7 @@ export const valueTypes = {
   },
   literalArray: <
     N extends Narrowable,
-    T extends Record<any, N> | number | string | boolean | symbol | undefined | null
+    T extends Record<Key, N> | number | string | boolean | symbol | undefined | null
   >(
     arr: T[]
   ) => [arr, true],
@@ -44,5 +44,5 @@ export const valueTypes = {
 
 export type ValueTypeFunc<
   N extends Narrowable,
-  T extends Record<any, N> | number | string | boolean | symbol | null | Function
+  T extends Record<Key, N> | number | string | boolean | symbol | null | AnyFunction
 > = (v: ValueTypes) => [T, boolean];

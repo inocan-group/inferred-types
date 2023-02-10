@@ -1,4 +1,4 @@
-import { Narrowable, NoDefaultValue } from "../../types";
+import { Narrowable, NoDefaultValue } from "src/types";
 import { isSpecificConstant } from "./isConstant";
 /**
  * **hasDefaultValue**(value)

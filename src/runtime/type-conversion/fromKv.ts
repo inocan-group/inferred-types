@@ -1,4 +1,4 @@
-import { KV, SimplifyObject, FromKV, RemoveIndex } from "../../types";
+import { KV, SimplifyObject, FromKV, RemoveIndex } from "src/types";
 
 /**
  * **fromKv**(list)

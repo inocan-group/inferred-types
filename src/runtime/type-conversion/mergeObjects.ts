@@ -1,4 +1,4 @@
-// import type { MergeObjects } from "../../types";
+// import type { MergeObjects } from "src/types";
 import { 
   keys, 
   intersection, 

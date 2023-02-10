@@ -1,16 +1,10 @@
-import {  AnyObject,  IfLiteral,  Or } from "../boolean-logic";
+import {  IfLiteral,  Includes,  Or } from "../boolean-logic";
 import { And } from "../boolean-logic/And";
 import { EndsWith } from "../boolean-logic/EndsWith";
 import { StartsWith } from "../boolean-logic/StartsWith";
-import { Includes } from "../boolean-logic/IsString";
-import { MaybeRef } from "../dictionary/MaybeRef";
-import { Keys } from "../dictionary/Keys";
-import { AfterFirst, Length } from "../lists";
+import { AfterFirst } from "../lists";
 import { First } from "../lists/First";
 import { Split } from "../lists/Split";
-import { Narrowable } from "../literals/Narrowable";
-import { Scalar } from "../Scalar";
-import { TupleToUnion } from "../type-conversion";
 import { AlphaNumericChar } from "./alpha-characters";
 
 export type DotPathChar = AlphaNumericChar | "_" | "-";
@@ -52,7 +46,7 @@ export type DotPath<T extends string | number | null> = T extends null
         Or<[
           StartsWith<T, ".">,
           EndsWith<T, ".">,
-          Includes<T, "..">
+          Includes<T & string, "..">
         ]> extends true 
           ? never
           : ValidateSegments<Split<T & string, ".">> extends true

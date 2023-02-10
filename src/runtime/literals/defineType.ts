@@ -1,4 +1,4 @@
-import { ExpandRecursively, SimplifyObject, Narrowable } from "../../types";
+import { ExpandRecursively, SimplifyObject, Narrowable } from "src/types";
 
 /**
  * Build a _type_ from two run-time dictionaries.

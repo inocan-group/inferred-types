@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Expect, Equal } from "@type-challenges/utils";
 import { describe, it, expect } from "vitest";
 import type { 
@@ -36,7 +37,7 @@ describe("NumericKeys<T>", () => {
 
 describe("Keys<T>", () => {
   it("happy path", () => {
-    type Empty = {};
+    type Empty = object;
     type Obj = { foo: 1; bar: 2 };
     type Obj_RO = Readonly<Obj>;
 

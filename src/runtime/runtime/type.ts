@@ -1,14 +1,15 @@
 /* eslint-disable no-use-before-define */
-import {
+import type {
   FromTypeDefn,
-  LITERAL_TYPE_KINDS,
-  NO_DEFAULT_VALUE,
-  Type,
   TypeDefaultValue,
   TypeDefn,
   TypeKind,
   TypeUnderlying,
-} from "../../types";
+} from "src/types";
+import { 
+  LITERAL_TYPE_KINDS,
+  NO_DEFAULT_VALUE,
+} from "src/constants";
 import { keys } from "../dictionary";
 import { box } from "../literals";
 import { isTypeDefn } from "../type-guards";

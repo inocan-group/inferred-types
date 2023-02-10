@@ -78,7 +78,7 @@ export interface TypeMapRule<
   match: TMatch;
   transform: TTransform;
   desc: TDesc;
-};
+}
 
 /**
  * **ConfiguredTypeMapper**`<R>`

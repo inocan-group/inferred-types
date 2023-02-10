@@ -1,4 +1,4 @@
-import { Unique, AnyObject } from "../../types";
+import { Unique, AnyObject } from "src/types";
 import { keys } from "./keys";
 
 /**

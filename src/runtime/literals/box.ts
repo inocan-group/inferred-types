@@ -3,7 +3,7 @@ import type {
   Narrowable,
   First,
   Box
-} from "../../types";
+} from "src/types";
 import { keys } from "../dictionary";
 
 

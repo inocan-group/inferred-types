@@ -1,12 +1,15 @@
 {
-  "extends": [
-    "plugin:import/warnings",
-    "plugin:import/typescript"
-  ],
   "plugins": [
     "@typescript-eslint",
     "import",
-    "promise"
+    "promise",
+    "prettier"
+  ],
+  "root": true,
+  "extends": [
+    "plugin:import/warnings",
+    "plugin:promise/recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
