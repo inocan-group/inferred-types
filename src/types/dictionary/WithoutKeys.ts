@@ -1,10 +1,12 @@
+import { AnyObject } from "../boolean-logic";
 import { ExpandRecursively } from "../literals";
 import { TupleToUnion } from "../type-conversion";
+import { Key } from "./Key";
 
 /** make sure keys is expressed as an array of values */
 type ToKeys<
-  TObj extends Record<string, any>,
-  TKey extends string | readonly (keyof TObj & string)[]
+  TObj extends AnyObject,
+  TKey extends string | readonly (keyof TObj & Key)[]
 > = TKey extends readonly any[]
   ? TupleToUnion<TKey>
   : TKey; 
@@ -19,7 +21,7 @@ type ToKeys<
  * Note: `TKeys` can be a union of key names _or_ an array of string names
  */
 export type WithoutKeys<
-  TObj extends Record<string, any>, 
-  TKeys extends string | readonly (keyof TObj & string)[]
+  TObj extends AnyObject, 
+  TKeys extends string | readonly (keyof TObj & Key)[]
 > = ExpandRecursively<Omit<TObj, ToKeys<TObj,TKeys>>>;
 

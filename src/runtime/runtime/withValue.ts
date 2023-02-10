@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { AnyObject, WithValue, WithoutValue, Narrowable } from "../../types";
+import { AnyObject, WithValue, WithoutValue, Narrowable } from "src/types";
 import { keys } from "../dictionary";
 import { isSameTypeOf } from "../type-guards";
 

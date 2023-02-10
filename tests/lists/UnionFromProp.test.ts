@@ -16,6 +16,7 @@ const wide_data: readonly R[] = [
 type WideData = typeof wide_data;
 
 type R2<T extends string> = Readonly<{ id: number; color: T }>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const hybrid = <H extends R2<any>>(...data: H[]): readonly H[] => data;
 const hybrid_data = hybrid(
   ...[

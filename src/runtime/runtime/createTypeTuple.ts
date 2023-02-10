@@ -1,4 +1,4 @@
-import { Narrowable , TypeTuple , TypeGuard } from "../../types";
+import { Narrowable , TypeTuple , TypeGuard } from "src/types";
 
 export function createTypeTuple<
   T extends Narrowable,

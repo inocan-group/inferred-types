@@ -9,6 +9,7 @@ export * from "./DictChangeValue";
 export * from "./DictPrependWithFn";
 export * from "./DictReturnValues";
 export * from "./Get";
+export * from "./Key";
 export * from "./Keys";
 export * from "./MapTo";
 export * from "./MutableProps";

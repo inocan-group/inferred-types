@@ -1,4 +1,4 @@
-import { AnyObject , KvDict , ObjectToKvDict } from "../../types";
+import { AnyObject , KvDict , ObjectToKvDict } from "src/types";
 import { isObject } from "../type-guards/isObject";
 
 /**

@@ -4,7 +4,7 @@ import {
   TypeMapMatcher, 
   TypeMapRule, 
   TypeMapTransformer 
-} from "../../types";
+} from "src/types";
 import { t } from "../runtime";
 import { Never } from "../runtime/Never";
 import { endsWith, startsWith, isFalsy, isTruthy, isTypeTuple } from "../type-guards";

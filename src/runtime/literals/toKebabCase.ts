@@ -1,4 +1,4 @@
-import { KebabCase } from "../../types";
+import { KebabCase } from "src/types";
 
 /**
  * **toKebabCase**(str)

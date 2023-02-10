@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { OptRequired } from "../../types";
+import { OptRequired } from "src/types";
 import {
   DefaultManyToOneMapping,
   DefaultOneToManyMapping,

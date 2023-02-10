@@ -1,4 +1,4 @@
-import {  Narrowable, Widen } from "../../types";
+import {  Narrowable, Widen } from "src/types";
 
 
 /**
@@ -10,7 +10,7 @@ export const wide = {
   boolean: false as boolean,
   string: "" as string,
   number: 0 as number,
-  symbol: Symbol() as Symbol,
+  symbol: Symbol() as symbol,
   null: null,
   function: (() => null) as Function,
   anyArray: [] as any[],

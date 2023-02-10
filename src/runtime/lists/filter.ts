@@ -1,4 +1,4 @@
-import { Filter,  FilterOps, Narrowable } from "../../types";
+import { Filter,  FilterOps, Narrowable } from "src/types";
 import { isSameTypeOf } from "../type-guards";
 
 export const filter = <

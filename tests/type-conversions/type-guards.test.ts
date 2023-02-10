@@ -11,8 +11,8 @@ import {
   isRef 
 } from "../../src/runtime/type-guards";
 import { isConstant, isSpecificConstant } from "../../src/runtime/type-guards/isConstant";
-import { NoDefaultValue, NO_DEFAULT_VALUE } from "../../src/types/constants";
-import { Constant } from "../../src/types/constants/Constant";
+import { NoDefaultValue, NO_DEFAULT_VALUE } from "../../src/constants";
+import { Constant } from "../../src/constants/Constant";
 import { describe, expect, it } from "vitest";
 import { ref, Ref, reactive } from "vue";
 
@@ -160,6 +160,7 @@ describe("isArray / isReadonlyArray", () => {
     if(isArray(foobar)) {
       expect(true, "identified as array").toBe(true);
       type cases = [
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         Expect<Equal<typeof foobar, readonly {foo: number; bar: number }[] & any[]>>
       ];
       const cases: cases = [ true ];

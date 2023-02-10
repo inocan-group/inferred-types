@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
 
-import type { DictPrependWithFn } from "../../src/types";
+import type { AnyFunction, DictPrependWithFn } from "../../src/types";
 
 describe("WrapValuesWithFunction<T, R, O>", () => {
   it("happy path", () => {
@@ -13,7 +13,7 @@ describe("WrapValuesWithFunction<T, R, O>", () => {
 
     type Api = typeof api;
     type T1 = DictPrependWithFn<Api, [name: string, age: number]>;
-    type T2 = DictPrependWithFn<Api, [name: string, age: number], Function>;
+    type T2 = DictPrependWithFn<Api, [name: string, age: number], AnyFunction>;
 
     type Expected1 = {
       static: (name: string, age: number) => number;

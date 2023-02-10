@@ -1,4 +1,4 @@
-import { IfLiteral } from "../../types";
+import { IfLiteral } from "src/types";
 import { IfLiteralKind, Type } from "../runtime-types";
 
 type WideLiterals = string | number | boolean | Record<string,any>;

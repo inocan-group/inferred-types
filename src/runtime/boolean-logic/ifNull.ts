@@ -1,4 +1,4 @@
-import type { IsNull, Narrowable } from "../../types";
+import type { IsNull, Narrowable } from "src/types";
 import { isNull } from "../type-guards/isNull";
 
 /**

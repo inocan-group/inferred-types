@@ -1,4 +1,4 @@
-import { LogicalCombinator } from "../../types";
+import { LogicalCombinator } from "src/types";
 import { asArray } from "../lists/asArray";
 
 // string filters

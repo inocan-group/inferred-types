@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { Equal, Expect } from "@type-challenges/utils";
-import { Suggest } from "../../src/runtime/literals";
 import { describe, it } from "vitest";
+
+import { Suggest } from "src/types/string-literals";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 

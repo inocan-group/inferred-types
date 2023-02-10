@@ -1,4 +1,4 @@
-import { Split } from "../../types";
+import { Split } from "src/types";
 import { isNumber } from "../type-guards/isNumber";
 import { isString } from "../type-guards/isString";
 import { errorCondition } from "./ErrorCondition";

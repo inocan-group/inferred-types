@@ -1,4 +1,4 @@
-import { Narrowable, SimplifyObject, WithoutValue, AnyObject } from "../../types";
+import { Narrowable, SimplifyObject, WithoutValue, AnyObject } from "src/types";
 import { keys } from "./keys";
 
 /**

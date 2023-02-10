@@ -1,4 +1,4 @@
-import { AfterFirst,  First,  SimplifyObject, TupleToUnion, UnionToTuple, WithoutValue } from "../../types";
+import { AfterFirst,  First,  SimplifyObject, TupleToUnion, UnionToTuple, WithoutValue } from "src/types";
 import { AsArray } from "../lists";
 import { withoutValue } from "../runtime/withValue";
 

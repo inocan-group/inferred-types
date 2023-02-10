@@ -1,4 +1,4 @@
-import { IfTrue , LeftWhitespace , RightWhitespace , PascalCase , Concat } from "../../types";
+import { IfTrue , LeftWhitespace , RightWhitespace , PascalCase , Concat } from "src/types";
 
 /**
  * **CamelCase**`<TString,TPreserveWhitespace>`

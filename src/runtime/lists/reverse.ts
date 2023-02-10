@@ -1,4 +1,4 @@
-import { Reverse } from "../../types";
+import { Reverse } from "src/types";
 
 /**
  * **reverse**(list)

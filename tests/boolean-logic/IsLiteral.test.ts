@@ -91,20 +91,23 @@ describe("IsLiteral<T> type utility", () => {
 
   
   it("objects", () => {
-    type Generic = IsLiteral<Record<string, any>>;
+    type Generic = IsLiteral<Record<string, unknown>>;
     type GenericString = IsLiteral<Record<string, string>>;
     type GenericUnion = IsLiteral<Record<string, string | number>>;
+    // eslint-disable-next-line @typescript-eslint/ban-types
     type Empty = IsLiteral<{}>;
+    type Loose = IsLiteral<object>;
     type Keyed = IsLiteral<{ foo: 1 }>;
     
     type cases = [
       Expect<Equal<Generic, false>>,
       Expect<Equal<GenericString, false>>,
       Expect<Equal<GenericUnion, false>>,
-      Expect<Equal<Empty, true>>,
+      Expect<Equal<Empty, false>>,
+      Expect<Equal<Loose, false>>,
       Expect<Equal<Keyed, true>>,
     ];
-    const cases: cases = [ true, true, true, true, true ];
+    const cases: cases = [ true, true, true, true, true, true ];
     
   });
   

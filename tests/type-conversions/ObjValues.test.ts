@@ -12,7 +12,8 @@ describe("ObjValues<Obj>", () => {
   it("type: Object Literals", () => {
     type Obj = { a: "foo"; b: "bar" };
     type FooBar = ObjValues<Obj>;
-    type Empty = ObjValues<{}>;
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    type Empty = ObjValues<object>;
     type WithNarrowNumber = ObjValues<{ a: "foo"; b: "bar"; c: 42 }>;
     type WithWideNumber = ObjValues<{ a: "foo"; b: "bar"; c: number }>;
     
@@ -31,6 +32,7 @@ describe("Values<Obj | Arr>", () => {
   it("happy path", () => {
     type Obj = { a: "foo"; b: "bar" };
     type FooBar = Values<Obj>;
+    // eslint-disable-next-line @typescript-eslint/ban-types
     type Empty = Values<{}>;
     type WithNarrowNumber = Values<{ a: "foo"; b: "bar"; c: 42 }>;
     type WithWideNumber = Values<{ a: "foo"; b: "bar"; c: number }>;

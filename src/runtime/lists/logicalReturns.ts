@@ -1,4 +1,4 @@
-import { LogicFunction } from "../../types";
+import { LogicFunction } from "src/types";
 import { ifBoolean } from "../boolean-logic";
 import { ifFunction } from "../boolean-logic/ifFunction";
 

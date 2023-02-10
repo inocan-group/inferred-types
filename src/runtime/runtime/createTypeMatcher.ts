@@ -1,4 +1,4 @@
-import {  TypeMapMatcher, TypeMapRule, TypeMapTransformer, TypeRuleDesc } from "../../types";
+import {  TypeMapMatcher, TypeMapRule, TypeMapTransformer, TypeRuleDesc } from "src/types";
 import { capitalize, ensureTrailing, stripTrailing, uncapitalize } from "../literals";
 import { TYPE_MATCHER_DESC, TYPE_TRANSFORMER_DESC } from "./constants";
 

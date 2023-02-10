@@ -1,4 +1,4 @@
-import { AnyObject, AnyFunction } from "../../types";
+import { AnyObject, AnyFunction } from "src/types";
 import { keys } from "../dictionary";
 import { isTypeOf } from "./higher-order";
 

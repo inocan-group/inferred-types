@@ -1,4 +1,4 @@
-import { AnyObject, Narrowable, WithoutValue } from "../../types";
+import { AnyObject, Narrowable, WithoutValue } from "src/types";
 import { keys } from "../dictionary";
 
 /**
@@ -26,4 +26,4 @@ export function withoutValue<TVal extends Narrowable>(val: TVal) {
       {} as WithoutValue<TVal, TObj>
     );
   };
-};
+}

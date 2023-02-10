@@ -5,7 +5,7 @@ import { IntersectingKeys } from "../../src/types/dictionary";
 
 describe("IntersectingKeys<T,U>", () => {
   it("with overlap", () => {
-    type T = { foo: string; bar: number; baz: any };
+    type T = { foo: string; bar: number; baz: unknown };
     type U = { foo: string; bar: number };
     type V = IntersectingKeys<T, U>;
 
@@ -14,7 +14,7 @@ describe("IntersectingKeys<T,U>", () => {
   });
 
   it("no overlap", () => {
-    type T = { foo1: string; bar1: number; baz1: any };
+    type T = { foo1: string; bar1: number; baz1: unknown };
     type U = { foo: string; bar: number };
     type V = IntersectingKeys<T, U>;
     type VU = Exclude<U, V>;
@@ -29,7 +29,7 @@ describe("IntersectingKeys<T,U>", () => {
   });
 
   it("using string[] instead of object", () => {
-    type T = { foo: string; bar: number; baz: any };
+    type T = { foo: string; bar: number; baz: unknown };
     type U = readonly ["foo", "bart"];
     type V = IntersectingKeys<T, U>;
 

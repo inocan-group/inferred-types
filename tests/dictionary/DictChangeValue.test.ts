@@ -1,6 +1,6 @@
 import { describe, it } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
-import type { DictChangeValue , SimplifyObject } from "../../src/types";
+import type { AnyFunction, DictChangeValue , SimplifyObject } from "../../src/types";
 
 const test_obj = {
   foo: "hello world",
@@ -18,7 +18,7 @@ describe("DictChangeValue", () => {
   });
 
   it("convert functions values to boolean", () => {
-    type F = DictChangeValue<TestObj, boolean, Function>;
+    type F = DictChangeValue<TestObj, boolean, AnyFunction>;
     type S = DictChangeValue<TestObj, string, string>;
     type N = DictChangeValue<TestObj, number, number>;
     type T = SimplifyObject<F & S & N>;

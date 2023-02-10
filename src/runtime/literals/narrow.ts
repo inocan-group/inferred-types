@@ -1,4 +1,4 @@
-import { IntoSet, Length, Mutable , Narrowable } from "../../types";
+import { IntoSet, Length, Mutable , Narrowable } from "src/types";
 
 
 /**

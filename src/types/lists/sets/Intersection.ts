@@ -1,51 +1,89 @@
-import { 
-  AfterFirst, 
-  First, 
+import type { 
   GetEach, 
-  IndexOf , 
   IfContains, 
-  IsEqual , 
-  Narrowable
+  IfNull,
+  RemoveNever,
+  Get,
 } from "../../../types";
-import { SetCandidate } from "./SetCandidate";
-import { IntoSet } from "./IntoSet";
-import { Find } from "../Find";
 
+type _NoDeref<
+  A extends readonly unknown[],
+  B extends readonly unknown[],
+> = Readonly<RemoveNever<{
+  [K in keyof A]: IfContains<B, A[K], A[K], never>
+}>>;
 
-
-type IntersectionAcc<
-A extends readonly Narrowable[],
-B extends readonly Narrowable[],
-TDeref extends string | number | null = null,
-Intersection extends readonly Narrowable[] = readonly []
-> = [] extends A
-? Intersection
-: TDeref extends null
-  ? IfContains<
-      B, First<A>, // if B tuple contains first element of A
-      IntersectionAcc<AfterFirst<A>, B, TDeref, readonly [...Intersection, First<A>]>,
-      IntersectionAcc<AfterFirst<A>, B, TDeref, Intersection>
+type _WithDeref<
+  A extends readonly unknown[],
+  B extends readonly unknown[],
+  AValues extends readonly unknown[],
+  BValues extends readonly unknown[],
+  TDeref extends string | number,
+> = [
+  RemoveNever<{
+    [K in keyof A]: IfContains<
+      BValues,
+      Get<A[K], TDeref>,
+      A[K],
+      never
     >
-  : IfContains<
-      GetEach<B, TDeref>, IndexOf<First<A>, TDeref>, // Deref: if B tuple contains first element of A
-      Find<B, IndexOf<First<A>, TDeref>, TDeref> extends infer Found
-        ? IsEqual<Found, First<A>> extends true
-          ? IntersectionAcc<AfterFirst<A>, B, TDeref, readonly [...Intersection, First<A>]>
-          : IntersectionAcc<AfterFirst<A>, B, TDeref, readonly [...Intersection, First<A>, Found]>
-        : IntersectionAcc<AfterFirst<A>, B, TDeref, readonly [...Intersection, First<A>]>,
-      IntersectionAcc<AfterFirst<A>, B, TDeref, Intersection>
-    >;
+  }>,
+  RemoveNever<{
+    [K in keyof B]: IfContains<
+      AValues,
+      Get<B[K], TDeref>,
+      B[K],
+      never
+    >
+  }>,
+];
+
+type _Arr<
+A extends readonly unknown[],
+  B extends readonly unknown[],
+  TDeref extends string | number | null = null
+> = IfNull<
+  TDeref, 
+  // no dereferencing
+  _NoDeref<A,B>,
+  // dereference the array elements
+  _WithDeref<
+    A, 
+    B,
+    GetEach<A, TDeref>,
+    GetEach<B, TDeref>,
+    TDeref & (string | number)
+  >
+>;
 
 /**
-* **Intersection**`<A,B, [Deref]>`
-* 
-* Takes two sets `A` and `B` and returns the values which exist in both.
-* 
-* - you may optionally provide a `deref` property which will then dereference
-* each item in the two sets for comparison.
-*/
+  * **Intersection**`<A,B, [Deref]>`
+  * 
+  * Takes two sets `A` and `B` and returns a their _intersection_ where:
+  * 
+  * 1. if no `TDref` is set then the results are simply an array of the elements
+  * which both sets contained. In this mode, objects and sub-arrays are compared as
+  * their reference value so only those items which have a common ref will match.
+  * 
+  * 2. if a `TDeref` property is provided then _comparisons_ are made on the 
+  * dereferenced value of the elements of each set but because the full values are
+  * returned it's quite possible that `A` and `B` share a dereferenced value but other
+  * properties are _not_ the same so for this reason the resultant type is a tuple: `readonly [ AIntersect, BIntersect ]`
+  */
 export type Intersection<
-  A extends SetCandidate,
-  B extends SetCandidate,
+  A extends readonly unknown[],
+  B extends readonly unknown[],
   TDeref extends string | number | null = null
-> = IntersectionAcc<IntoSet<A>, IntoSet<B>, TDeref>;
+> = IfNull<
+  TDeref, 
+  // no dereferencing
+  _NoDeref<A,B>,
+  // dereference the array elements
+  _WithDeref<
+    A, 
+    B,
+    GetEach<A, TDeref>,
+    GetEach<B, TDeref>,
+    TDeref & (string | number)
+  >
+>;

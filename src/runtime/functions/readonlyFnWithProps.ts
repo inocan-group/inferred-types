@@ -1,4 +1,4 @@
-import { Narrowable } from "../../types";
+import { Narrowable } from "src/types";
 import { keys } from "../dictionary";
 
 /**

@@ -1,4 +1,4 @@
-import { IfNumericLiteral, IsStringLiteral, IfString } from "../../types";
+import { IfNumericLiteral, IsStringLiteral, IfString } from "src/types";
 import { Narrowable } from "../literals/Narrowable";
 import { ToString } from "../type-conversion/ToString";
 

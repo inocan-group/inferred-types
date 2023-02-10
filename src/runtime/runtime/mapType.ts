@@ -1,5 +1,5 @@
-import { Narrowable } from "../../types/literals/Narrowable";
-import { TypeMapRule, MapType, ConfiguredTypeMapper, TypeMapMatcher, TypeMapTransformer } from "../../types/type-conversion/MapType";
+import { Narrowable } from "src/types/literals/Narrowable";
+import { TypeMapRule, MapType, ConfiguredTypeMapper, TypeMapMatcher, TypeMapTransformer } from "src/types/type-conversion/MapType";
 
 function convert<
   T extends Narrowable, 

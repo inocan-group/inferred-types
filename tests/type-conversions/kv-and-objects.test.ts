@@ -137,7 +137,7 @@ describe("Object -> KV", () => {
     type T1 = ObjectToKvDict<{foo: 1; bar: 2}>;
     type IsKvPairArr = DoesExtend<
       T1, 
-      readonly KvDict<string, any>[]
+      readonly KvDict<string, unknown>[]
     >;
 
     type V1 = readonly [{key: "foo"; value: 1}, {key: "bar"; value: 2}];
@@ -276,6 +276,7 @@ describe("Identity Checks between KV and Object", () => {
       Expect<Equal<typeof kv, Readonly<Mutable<DeepKv>>>>,
       Expect<Equal<typeof obj, Mutable<DeepObj>>>
     ];
+    const cases: cases = [ true, true ];
   });
   
 

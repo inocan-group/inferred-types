@@ -1,4 +1,4 @@
-import { Narrowable , IfString } from "../../types";
+import { Narrowable , IfString } from "src/types";
 
 /**
  * **isString**

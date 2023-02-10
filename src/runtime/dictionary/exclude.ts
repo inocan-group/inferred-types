@@ -1,4 +1,4 @@
-import type { TupleToUnion, AnyObject } from "../../types";
+import type { TupleToUnion, AnyObject } from "src/types";
 import { keys } from "./keys";
 
 /**

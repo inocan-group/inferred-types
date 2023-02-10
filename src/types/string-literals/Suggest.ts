@@ -1,4 +1,11 @@
-import { Filter,  IfString , IsLiteral , Narrowable, TupleToUnion } from "../../types";
+/* eslint-disable @typescript-eslint/ban-types */
+import type { 
+  Filter,  
+  IfString , 
+  IsLiteral , 
+  Narrowable, 
+  TupleToUnion 
+} from "src/types";
 
 /**
  * **Suggest**`<T>`
@@ -13,7 +20,7 @@ import { Filter,  IfString , IsLiteral , Narrowable, TupleToUnion } from "../../
  * - If T is a wide string then we must return
  * just a wide string as no suggestions are possible 
  */
-export type Suggest<T extends Narrowable | readonly any[]> = //
+export type Suggest<T extends Narrowable | readonly unknown[]> = //
 T extends string | number | readonly string[] | readonly number[]
 ? T extends readonly string[]
   ? TupleToUnion<Filter<T, string, "equals">> | (string & {})

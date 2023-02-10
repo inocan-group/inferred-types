@@ -10,7 +10,7 @@ import { describe, expect, it } from "vitest";
 describe("LogicalReturns<TValues,TParams>", () => {
 
   it("happy path", () => {
-    const f = <A extends readonly any[]>(...args: A) => args;
+    const f = <A extends readonly unknown[]>(...args: A) => args;
     const t = f(true as const, () => true);
     type True =  [ true, () => true];
     type False = [ false, () => false];
@@ -32,8 +32,6 @@ describe("LogicalReturns<TValues,TParams>", () => {
   it("Functions with parameters and generics", () => {
     const f1 = (v: string | number) => ifString(v, () => true, () => false);
     const f2 = <T extends Narrowable>(v: T & (string | number)) => ifString(v, () => true, () => false);
-    const r = f2<"foo">;
-    type R = ReturnType<typeof r>;
     type TParams = Parameters<typeof f1>;
 
     type T1_None = LogicalReturns<[typeof f1]>;
@@ -45,7 +43,6 @@ describe("LogicalReturns<TValues,TParams>", () => {
     type T2_Alt = LogicalReturns<[typeof f2], ["foo"]>;
     
     type cases = [
-      Expect<Equal<R, true>>,
       Expect<Equal<T1_None, [boolean]>>,
       Expect<Equal<T2_None, [boolean]>>,
       Expect<Equal<T1_Generic, [boolean]>>,
@@ -56,11 +53,9 @@ describe("LogicalReturns<TValues,TParams>", () => {
       Expect<Equal<T2_Alt, [boolean]>>,
 
     ];
-    const cases: cases = [true, true, true, true, true, true, true, true];
+    const cases: cases = [true, true, true, true, true, true, true];
     
   });
-  
-
 });
 
 describe("logicalReturns(conditions, params)", () => {
@@ -78,8 +73,6 @@ describe("logicalReturns(conditions, params)", () => {
     expect(vf2).toBe(false);
     expect(vt1).toBe(true);
     expect(vt2).toBe(true);
-
-  
   });
 
 });

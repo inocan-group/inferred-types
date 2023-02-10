@@ -1,5 +1,6 @@
 import { ExpandRecursively } from "../literals/ExpandRecursively";
 import { TupleToUnion, UnionToIntersection } from "../type-conversion";
+import { Key } from "./Key";
 /**
  * **WithKeys**`<T,K>`
  * 
@@ -19,7 +20,7 @@ import { TupleToUnion, UnionToIntersection } from "../type-conversion";
  */
 export type WithKeys<
   T extends {}, 
-  K extends (string & keyof T) | readonly (keyof T & string)[]
+  K extends (Key & keyof T) | readonly (keyof T & Key)[]
 > = ExpandRecursively<
   UnionToIntersection< 
     K extends keyof T

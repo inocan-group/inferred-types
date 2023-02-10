@@ -9,7 +9,7 @@ export type RuntimeType<T> = {
   is: TypeGuard<T>;
 };
 
-export type RuntimeProp<P extends Readonly<PropertyKey>, T extends RuntimeType<any>> = {
+export type RuntimeProp<P extends Readonly<PropertyKey>, T extends RuntimeType<unknown>> = {
   __type: "prop";
   key: Readonly<P>;
   valueType: Readonly<T["type"]>;

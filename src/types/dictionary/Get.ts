@@ -8,8 +8,8 @@ import {
   IfRef, 
   ToString, 
   Narrowable 
-} from "../../types";
-import { NO_DEFAULT_VALUE } from "../constants/NoDefaultValue";
+} from "src/types";
+import { NO_DEFAULT_VALUE } from "../../constants/NoDefaultValue";
 
 type ResolveDefVal<
   TValue extends Narrowable,

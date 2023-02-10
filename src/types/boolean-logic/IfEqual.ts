@@ -1,4 +1,4 @@
-import { IsEqual, Narrowable } from "../../types";
+import { IsEqual, Narrowable } from "src/types";
 
 /**
  * **IfEqual**`<X,Y,IF,ELSE>`

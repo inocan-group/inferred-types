@@ -1,4 +1,4 @@
-import { IfLiteral , AfterFirst , First } from "../../types";
+import { IfLiteral , AfterFirst , First } from "src/types";
 
 type ConcatElement = (string | number | boolean);
 type ElementLiteral<T extends ConcatElement> = T extends string

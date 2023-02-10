@@ -1,4 +1,4 @@
-import { Narrowable, Widen } from "../../types";
+import { Narrowable, Widen } from "src/types";
 import { isArray } from "../type-guards/isArray";
 
 /**

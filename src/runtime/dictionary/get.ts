@@ -1,6 +1,21 @@
-import { Narrowable,  DotPath, DotPathFor, Get, Suggest, NO_DEFAULT_VALUE } from "../../types";
+import type { 
+  Narrowable,  
+  DotPath, 
+  DotPathFor, 
+  Get, 
+  Suggest 
+} from "src/types";
+import {
+  NO_DEFAULT_VALUE,
+  NoDefaultValue
+} from "src/constants";
 import { split } from "../literals";
-import { hasDefaultValue, isTruthy,  isRef, hasIndexOf } from "../type-guards";
+import { 
+  hasDefaultValue, 
+  isTruthy,  
+  isRef, 
+  hasIndexOf 
+} from "../type-guards";
 import {  ReportError } from "../literals/ErrorCondition";
 import { createErrorCondition } from "../runtime/createErrorCondition";
 import { NOT_DEFINED } from "../runtime/NotDefined";
@@ -112,9 +127,9 @@ export interface GetOptions<
  * ```
  */
 export function get<
-  TValue extends Narrowable | readonly any[], 
+  TValue extends Narrowable | readonly unknown[], 
   TDotPath extends Suggest<DotPathFor<TValue>> | null, 
-  TDefVal extends Narrowable = typeof NO_DEFAULT_VALUE,
+  TDefVal extends Narrowable = NoDefaultValue,
   TInvalid extends Narrowable = typeof NOT_DEFINED
 >(
     value: TValue, 
@@ -134,4 +149,4 @@ export function get<
         dp
       ) 
   ) as Get<TValue, TDotPath>;
-};
+}

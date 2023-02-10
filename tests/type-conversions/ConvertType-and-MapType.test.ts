@@ -30,11 +30,6 @@ describe("ConvertType<T,M>", () => {
     ];
     const cases: cases = [true, true, true, true, true];
   });
-
-  
-  it("runtime works", () => {
-    
-  });
   
 
 });

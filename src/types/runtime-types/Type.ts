@@ -11,35 +11,24 @@ import type {
   IfStringLiteral, 
   IsEqual, 
   IsUnion 
-} from "../../types";
+} from "src/types";
+import { 
+  LITERAL_TYPE_KINDS,  
+  WIDE_TYPE_KINDS, 
+  NARROW_CONTAINER_TYPE_KINDS,
+  WIDE_CONTAINER_TYPE_KINDS,
+  FALSY_TYPE_KINDS,
+
+} from "src/constants";
+
 import { TupleToUnion } from "../type-conversion/TupleToUnion";
 import { TypeGuard } from "../TypeGuard";
 import { Filter } from "../lists/Filter";
-import {  KvDictToObject, UnionToIntersection } from "../type-conversion";
+import {  KvDict, KvDictToObject, UnionToIntersection } from "../type-conversion";
 import { AnyFunction } from "../functions/function-types";
-import { NotApplicable } from "../constants/NotApplicable";
-import { NoDefaultValue } from "../constants";
+import { NotApplicable } from "../../constants/NotApplicable";
+import { NoDefaultValue } from "../../constants";
 
-export const FALSY_TYPE_KINDS = [
-  "undefined", "null",
-] as const;
-
-export const LITERAL_TYPE_KINDS = [
-  "true", "false", "stringLiteral", "numericLiteral",
-] as const;
-
-export const WIDE_TYPE_KINDS = [
-  "string", "number", "boolean",
-] as const;
-
-export const NARROW_CONTAINER_TYPE_KINDS = [
-  "object", "explicitFunctions", "fnType", "fnWithDict",  "tuple", 
-  "union", "intersection", "arrayOf"
-] as const;
-
-export const WIDE_CONTAINER_TYPE_KINDS = [
-  "anyArray", "anyObject", "unknownObject", "anyFunction", "emptyObject"
-] as const;
 
 export type TypeOptions<
   TKind extends TypeKind = TypeKind, 
@@ -51,25 +40,13 @@ export type TypeOptions<
     TRequired,
     TUnderlying
   >,
-  TValidations extends readonly any[] | "no-validations" = readonly any[] | "no-validations", 
+  TValidations extends readonly unknown[] | "no-validations" = readonly unknown[] | "no-validations", 
 > = {
   isRequired?: TRequired;
   validations?: TValidations;
   defaultValue?: TDefaultValue;
   description?: TDesc;
 };
-
-
-/**
- * A full list of the _types_ of types we have within the `Type` namespace.
- */
-export const TYPE_KINDS = [
-  FALSY_TYPE_KINDS,
-  WIDE_TYPE_KINDS,
-  LITERAL_TYPE_KINDS,
-  NARROW_CONTAINER_TYPE_KINDS,
-  WIDE_CONTAINER_TYPE_KINDS
-] as const;
 
 export type TypeKindLiteral = TupleToUnion<typeof LITERAL_TYPE_KINDS>;
 export type TypeKindWide = TupleToUnion<typeof WIDE_TYPE_KINDS>;
@@ -138,41 +115,41 @@ type ToBaseType<
   : TKind extends "numericLiteral" ? TupleToUnion<TUnderlying>
   : TKind extends "true" ? true
   : TKind extends "false" ? false
-  : TKind extends "anyArray" ? any[]
-  : TKind extends "anyObject" ? Record<string, any>
+  : TKind extends "anyArray" ? unknown[]
   : TKind extends "unknownObject" ? Record<string, unknown>
-  : TKind extends "anyFunction" ? AnyFunction
-  : TKind extends "anyObject" ? Record<string, any>
+  : TKind extends "unknownObject" ? Record<string, unknown>
+  : TKind extends "unknownFunction" ? AnyFunction
+  : TKind extends "unknownObject" ? Record<string, unknown>
   : TKind extends "fnWithDict" ? 
       TUnderlying extends readonly [
-        {kind: "fnType"; type: any; [key: string]: any}, 
-        {kind: "object"; type: any; [key: string]: any}
+        {kind: "fnType"; type: unknown; [key: string]: unknown}, 
+        {kind: "object"; type: unknown; [key: string]: unknown}
       ]
         ? TUnderlying[0]["type"] & TUnderlying[1]["type"]
         : never
   : TKind extends "tuple" 
-    ? TUnderlying extends readonly any[] 
+    ? TUnderlying extends readonly unknown[] 
       ? TupleToUnion<TUnderlying> 
       : never
   : TKind extends "object"
-    ? TUnderlying extends readonly any[]
+    ? TUnderlying extends readonly KvDict[]
       ? KvDictToObject<TUnderlying>
       : never
   : TKind extends "union" 
-    ? TUnderlying extends readonly any[]
+    ? TUnderlying extends readonly unknown[]
       ? TupleToUnion<Filter<
           TUnderlying, 
-          { kind: TypeKind; required: TypeIsRequired; underlying: readonly any[] | "none" }
+          { kind: TypeKind; required: TypeIsRequired; underlying: readonly unknown[] | "none" }
         >>
       : never
   : TKind extends "intersection"
-    ? TUnderlying extends readonly any[]
+    ? TUnderlying extends readonly unknown[]
       ? UnionToIntersection<TupleToUnion<Filter<
         TUnderlying, 
-        { kind: TypeKind; required: TypeIsRequired; underlying: readonly any[] | "none" }
+        { kind: TypeKind; required: TypeIsRequired; underlying: readonly unknown[] | "none" }
       >>>
     : never
-: any;
+: unknown;
 
 
 /**
@@ -183,14 +160,14 @@ type ToBaseType<
  * 
  * - `no-underlying` is used when no _underlying_ types are needed to
  * specify the type
- * - `readonly any[]` is used to host any set of values which _combine_
+ * - `readonly unknown[]` is used to host unknown set of values which _combine_
  * in some way to determine the **type** of the property
  * 
  * Note: the property `underlying_
  */
-export type TypeUnderlying =  readonly any[] | "no-underlying";
+export type TypeUnderlying =  readonly unknown[] | "no-underlying";
 
-export type TypeDefnValidations = readonly any[] | "no-validations";
+export type TypeDefnValidations = readonly unknown[] | "no-validations";
 
 /**
  * **TypeDefaultValue**

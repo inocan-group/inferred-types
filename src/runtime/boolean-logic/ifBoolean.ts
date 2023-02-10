@@ -1,4 +1,4 @@
-import { Narrowable, IfBoolean, IsBoolean } from "../../types";
+import { Narrowable, IfBoolean, IsBoolean } from "src/types";
 
 import { isBoolean } from "../type-guards/isBoolean";
 

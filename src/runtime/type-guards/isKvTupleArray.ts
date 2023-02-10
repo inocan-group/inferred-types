@@ -1,4 +1,4 @@
-import { KV } from "../../types";
+import { KV } from "src/types";
 import { isKvTuple } from "./isKvTuple";
 
 /**

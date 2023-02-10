@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Validates that a given type extends another and returns `true` or `false` type
  */

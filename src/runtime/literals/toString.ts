@@ -1,4 +1,4 @@
-import { ToString, Narrowable } from "../../types";
+import { ToString, Narrowable } from "src/types";
 
 /**
  * **toString**()

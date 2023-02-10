@@ -1,4 +1,4 @@
-import { IfArray, Narrowable } from "../../types";
+import { IfArray, Narrowable } from "src/types";
 import { isArray } from "../type-guards";
 
 export function ifReadonlyArray<

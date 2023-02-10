@@ -2,12 +2,11 @@ import { NotEqual } from "@type-challenges/utils";
 import { Keys } from "../dictionary/Keys";
 import { Length } from "../lists/Length";
 import { Narrowable } from "../literals/Narrowable";
-import { And, IfAnd } from "./And";
+import {  IfAnd } from "./And";
 import { IsBooleanLiteral } from "./boolean";
 import { IsEqual } from "./IsEqual";
-import { IfLength } from "./IfLength";
 import { AnyObject } from "./object";
-import { IfOr } from "./Or";
+
 
 /**
  * **IsStringLiteral**
@@ -73,15 +72,16 @@ export type IsLiteral<T> = [T] extends [string]
   ? IsBooleanLiteral<T>
   : [T] extends [number]
   ? IsNumericLiteral<T>
-  : [T] extends [any[]]
+  : [T] extends [unknown[]]
     ? IsEqual<Length<T>, number> extends true ?  false : true
-    : [T] extends [readonly any[]]
+    : [T] extends [readonly unknown[]]
       ? IsEqual<Length<T>, number> extends true ?  false : true
       : [T] extends [AnyObject]
-        ? IfOr<
+        ? IfAnd<
             [
-              IsEqual<T, {}>, 
-              And<[NotEqual<Length<Keys<T>>, 0>, NotEqual<Keys<T>, readonly [string]>]>
+              NotEqual<Length<Keys<T>>, 0>, 
+              NotEqual<Keys<T>, 
+              readonly [string]>
             ],
             true,
             false

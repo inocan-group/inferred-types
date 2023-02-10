@@ -1,8 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { ifKvTupleArray } from "../../src/runtime/boolean-logic/ifKvTupleArray";
-import { fromSet } from "../../src/runtime/lists/fromSet";
 import { intersection } from "../../src/runtime/lists/intersection";
-import { intoSet } from "../../src/runtime/lists/intoSet";
 import { Intersection } from "../../src/types/lists";
 import { describe, expect, it } from "vitest";
 
@@ -53,10 +50,17 @@ describe("Set Intersection", () => {
 
     
     it("Intersect<Obj,Obj>, with deref", () => {
-      type T1 = Intersection<[IdFoobar1,IdFoobar2],[IdFoobar2alt, IdFoobar1,IdFoobar3], "id">;
+      type T1 = Intersection<
+        [IdFoobar1,IdFoobar2],
+        [IdFoobar2alt, IdFoobar1,IdFoobar3], 
+        "id"
+      >;
       
       type cases = [
-        Expect<Equal<T1, readonly [IdFoobar1, IdFoobar2, IdFoobar2alt]>>
+        Expect<Equal<T1, [
+          [IdFoobar1, IdFoobar2], 
+          [IdFoobar2alt,IdFoobar1]
+        ]>>
       ];
       const cases: cases = [ true ];
     });
@@ -64,32 +68,50 @@ describe("Set Intersection", () => {
 
 
   describe("Runtime", () => {
-    const foobar = { foo: 1, bar: 45 } as const;
-    const barBaz = { bar: 1, baz: 25 } as const;
+    it("objects passed in; no deref", () => {
+      const foobar = { foo: 1, bar: 45 } as const;
+      const barBaz = { bar: 1, baz: 25 } as const;
 
-    const sFoobar = intoSet(foobar);
-    // identified as a KV array
-    const isKvTupleArray = ifKvTupleArray(sFoobar, () => true, () => false);
-    expect(isKvTupleArray).toBe(true);
-    // should be able to move back to object
-    const rFoobar = fromSet(sFoobar);
-    expect(rFoobar, "fromSet should have converted back to object").toEqual(foobar);
+      const result = intersection(foobar, barBaz);
+      expect(result).toHaveLength(2);
+      const [a,b] = result;
+      expect(a).toEqual({bar:45});
+      expect(b).toEqual({bar:1});
+    });
 
-    const sBarBaz = intoSet(barBaz);
-    
-    it("happy path", () => {
-      // the resultant KV arrays does not intersect
-      const empty = intersection(sFoobar, sBarBaz);
-      expect(empty, "no intersection expected").toEqual([]);
-      // if we deref to the second property of the KV's
-      // we then compare on the "keys" (aka, index 1)
-      const some = intersection(foobar, barBaz, 1);
-      expect(
-        some, 'the "bar" property on both arrays expected to match'
-      ).toEqual([["KV", "bar", 45], ["KV", "bar", 1]]);
+    it("scalar arrays passed in; no deref", () => {
+      const three = intersection([1,2,3],[3,4,5]);
+      const none = intersection([1,2,3],[4,5,6]);
+      console.log({result: three});
+      
+      expect(three).toHaveLength(1); // scalars return a single array
+      expect(three).toEqual([3]);
+      expect(none).toEqual([]);
+    });
 
-      const isKvArr = ifKvTupleArray(some, () => true, () => false);
-      expect(isKvArr).toBe(true);
+    it("array of objects with no deref or shallow deref", () => {
+      const one = { id: 1, foo: 1, bar: 45 } as const;
+      const oneAlt = { id: 1, bar: 1, baz: 25 } as const;
+      const two = { id: 2, foo: 123, bar: 66 } as const;
+      const three = { id: 3, foo: 123, bar: 66 } as const;
+
+      // no offset means a single array is returned and it's 
+      // comparing on the object as a whole
+      const oneTwo = intersection([one], [two]); // no overlap
+      expect(oneTwo).toEqual([]);
+      const oneOne = intersection([one, two], [one]); // single overlap
+      expect(oneOne).toHaveLength(1);
+      expect(oneOne).toEqual([ one ]);
+
+      // the more common situation is to deref by a property like
+      // "id" which then let's us see how many "id" are found in 
+      // both sets
+      const oneTwoId = intersection([one, two],[ oneAlt, three ], "id");
+      expect(oneTwoId).toHaveLength(2); // tuple
+      const [a,b] = oneTwoId;
+      expect(a).toEqual([{ id: 1, foo: 1, bar: 45 }]);
+      expect(b).toEqual([{ id: 1, bar: 1, baz: 25 }]);
+
     });
   });
 });

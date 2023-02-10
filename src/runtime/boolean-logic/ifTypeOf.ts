@@ -1,10 +1,10 @@
-import { Narrowable } from "../../types";
+import { Narrowable } from "src/types";
 import { keys } from "../dictionary";
 
 function runtimeExtendsCheck<TValue extends any, TBase extends any>(
   val: TValue,
   base: TBase,
-  narrow: boolean = false
+  narrow = false
 ): TValue extends TBase ? true : false {
   if (typeof val !== typeof base) {
     return false as TValue extends TBase ? true : false;

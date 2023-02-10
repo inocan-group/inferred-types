@@ -1,6 +1,6 @@
-import type { IfExtends } from "../../types/boolean-logic";
-import type { Narrowable } from "../../types/literals";
-import type { KV } from "../../types/type-conversion";
+import type { IfExtends } from "src/types/boolean-logic";
+import type { Narrowable } from "src/types/literals";
+import type { KV } from "src/types/type-conversion";
 import { isKvTupleArray } from "../type-guards";
 
 export function ifKvTupleArray<
