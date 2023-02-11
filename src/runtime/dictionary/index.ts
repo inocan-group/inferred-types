@@ -16,6 +16,7 @@ export * from "./exclude";
 export * from "./withKeys";
 export * from "./withoutKeys";
 export * from "./uniqueKeys";
+export * from "./sharedKeys";
 export * from "./strArrayToDict";
 // directory exports
 export * from "./kv/index";

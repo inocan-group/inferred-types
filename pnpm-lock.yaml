@@ -16,7 +16,6 @@ specifiers:
   eslint-plugin-prettier: ^4.2.1
   eslint-plugin-promise: ^6.1.1
   eslint-watch: ^8.0.0
-  eslint_d: ^12.2.1
   npm-run-all: ~4.1.5
   pathe: ^1.1.0
   prettier: ~2.8.4
@@ -43,7 +42,6 @@ devDependencies:
   eslint-plugin-prettier: 4.2.1_qa2thblfovmfepmgrc7z2owbo4
   eslint-plugin-promise: 6.1.1_eslint@8.33.0
   eslint-watch: 8.0.0_eslint@8.33.0
-  eslint_d: 12.2.1
   npm-run-all: 4.1.5
   pathe: 1.1.0
   prettier: 2.8.4
@@ -1151,12 +1149,6 @@ packages:
     resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
     dev: true
 
-  /core_d/5.0.1:
-    resolution: {integrity: sha512-37lZyhJY1hzgFbfU4LzY4zL09QPwPfV2W/3YBOtN7mkdvVaeP1OVnDZI6zxggtlPwG/BuE5wIr0xptlVJk5EPA==}
-    dependencies:
-      supports-color: 8.1.1
-    dev: true
-
   /cross-env/7.0.3:
     resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
     engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
@@ -1656,18 +1648,6 @@ packages:
       strip-ansi: 6.0.1
       strip-json-comments: 3.1.1
       text-table: 0.2.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
-  /eslint_d/12.2.1:
-    resolution: {integrity: sha512-qOJ9cTi5AaH5bOgEoCkv41DJ637mHgzffbOLojwU4wadwC6qbR+OxVJRvVzH0v2XYmQOvw4eiJK7ivrr5SvzsA==}
-    hasBin: true
-    dependencies:
-      core_d: 5.0.1
-      eslint: 8.33.0
-      nanolru: 1.0.0
-      optionator: 0.9.1
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -2450,11 +2430,6 @@ packages:
     hasBin: true
     dev: true
 
-  /nanolru/1.0.0:
-    resolution: {integrity: sha512-GyQkE8M32pULhQk7Sko5raoIbPalAk90ICG+An4fq6fCsFHsP6fB2K46WGXVdoJpy4SGMnZ/EKbo123fZJomWg==}
-    engines: {node: '>= 0.4.0'}
-    dev: true
-
   /natural-compare-lite/1.4.0:
     resolution: {integrity: sha512-Tj+HTDSJJKaZnfiuw+iaF9skdPpTo2GtEly5JHnWV/hfv2Qj/9RKsGISQtLh2ox3l5EAGw487hnBee0sIJ6v2g==}
     dev: true
@@ -3128,13 +3103,6 @@ packages:
   /supports-color/7.2.0:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}
     engines: {node: '>=8'}
-    dependencies:
-      has-flag: 4.0.0
-    dev: true
-
-  /supports-color/8.1.1:
-    resolution: {integrity: sha512-MpUEN2OodtUzxvKQl72cUF7RQ5EiHsGvSsVG0ia9c5RbWGL2CI4C7EpPS8UTBIplnlzZiNuV56w+FuNxy3ty2Q==}
-    engines: {node: '>=10'}
     dependencies:
       has-flag: 4.0.0
     dev: true

@@ -1,3 +1,4 @@
+import { AnyObject } from "../boolean-logic";
 import { ExpandRecursively } from "../literals/ExpandRecursively";
 import { TupleToUnion, UnionToIntersection } from "../type-conversion";
 import { Key } from "./Key";
@@ -19,7 +20,7 @@ import { Key } from "./Key";
  * ```
  */
 export type WithKeys<
-  T extends {}, 
+  T extends AnyObject, 
   K extends (Key & keyof T) | readonly (keyof T & Key)[]
 > = ExpandRecursively<
   UnionToIntersection< 

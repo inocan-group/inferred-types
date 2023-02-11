@@ -1,4 +1,5 @@
-import { AnyObject } from "../boolean-logic/object";
+/* eslint-disable @typescript-eslint/ban-types */
+import { AnyObject, IfEqual } from "../boolean-logic";
 import { ObjValues } from "./ObjValues";
 
 /**
@@ -12,7 +13,10 @@ import { ObjValues } from "./ObjValues";
  * **Related:** `ObjValues`
  */
 export type Values<
-  T extends AnyObject | readonly any[]
-> = T extends readonly any[]
+  T extends AnyObject | readonly unknown[]
+> = T extends readonly unknown[]
   ? readonly [...T]
-  : ObjValues<T>;
+  : T extends AnyObject
+    ? IfEqual<T, {}, readonly [],  ObjValues<T>>
+    : readonly [];
+

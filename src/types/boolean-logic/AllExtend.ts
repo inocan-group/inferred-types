@@ -3,7 +3,7 @@ import { Narrowable } from "../literals/Narrowable";
 import { IfExtends } from "./IfExtends";
 
 type AllAcc<
-  TList extends readonly any[],
+  TList extends readonly unknown[],
   TExtend extends Narrowable
 > = [] extends TList
   ? true
@@ -26,6 +26,6 @@ type AllAcc<
   * **Related:** `SomeExtend`, `DoesExtend`
   */
 export type AllExtend<
-  TList extends readonly any[],
+  TList extends readonly unknown[],
   TExtend extends Narrowable
 > = AllAcc<TList,TExtend>;

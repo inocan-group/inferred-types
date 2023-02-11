@@ -12,7 +12,7 @@ export function createTypeGuard<
      * Type guard which is able to able to identify and narrow the
      * type definition of a runtime type defined by `Type`
      */
-    is: (value: unknown): value is T["type"] => {
+    is: (_value: unknown): _value is T["type"] => {
       return true;
     }
   } as T & Record<"is", TypeGuard<T["type"]>>;

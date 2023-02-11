@@ -12,7 +12,7 @@ import type {
   Narrowable,
   ToString,
   FromTypeDefn, TypeDefaultValue, IfString
-} from "../../../types";
+} from "src/types";
 
 /**
  * **StringLiteralToken**
@@ -36,12 +36,12 @@ type TokenAcc<
   : First<T> extends StringLiteralToken
   ? TokenAcc<AfterFirst<T>, [...Results, First<T>]>
   : IfLiteral<
-    First<T>,
-    Concat<["literal:", ToString<First<T>>]> extends StringLiteralToken
-    ? TokenAcc<AfterFirst<T>, [...Results, Concat<["literal:", ToString<First<T>>]>]>
-    : never,
-    IfString<First<T>, "<string>", "<boolean>">
-  >;
+      First<T>,
+      Concat<["literal:", ToString<First<T>>]> extends StringLiteralToken
+      ? TokenAcc<AfterFirst<T>, [...Results, Concat<["literal:", ToString<First<T>>]>]>
+      : never,
+      IfString<First<T>, "<string>", "<boolean>">
+    >;
 
 /**
  * **TokenizeStringLiteral**`<T>`
@@ -86,9 +86,8 @@ export type ToStringLiteral<
 > = TokenizeStringLiteral<T>;
 
 type ToUnderlying<T extends Narrowable> = IfReadonlyArray<
-  T, T & readonly any[], readonly [T]
+  T, T & readonly unknown[], readonly [T]
 >;
-
 
 export type TypeApiStringLiteral = <
   TRequired extends boolean,

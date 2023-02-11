@@ -1,4 +1,9 @@
-import { AnyObject , IfUnion,  ToKV, UnionToTuple } from "../../../types";
+import { 
+  AnyObject , 
+  ToKV, 
+  UnionToTuple } 
+from "src/types";
+import { IfUnion } from "src/types/boolean-logic/IfUnion";
 import { SetCandidate } from "./SetCandidate";
 
 /**

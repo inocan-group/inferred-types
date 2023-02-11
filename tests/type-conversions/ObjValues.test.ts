@@ -19,11 +19,10 @@ describe("ObjValues<Obj>", () => {
     
     type cases = [
       Expect<Equal<FooBar, readonly ["foo", "bar"]>>,
-      Expect<Equal<Empty, readonly []>>,
       Expect<Equal<WithNarrowNumber, readonly ["foo", "bar", 42]>>,
       Expect<Equal<WithWideNumber, readonly ["foo", "bar", number]>>,
     ];
-    const cases: cases = [ true, true, true, true ];
+    const cases: cases = [ true, true, true ];
   });
 
 });

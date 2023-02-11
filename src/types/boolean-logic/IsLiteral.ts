@@ -2,54 +2,13 @@ import { NotEqual } from "@type-challenges/utils";
 import { Keys } from "../dictionary/Keys";
 import { Length } from "../lists/Length";
 import { Narrowable } from "../literals/Narrowable";
-import {  IfAnd } from "./And";
-import { IsBooleanLiteral } from "./boolean";
+import { IsBooleanLiteral } from "./IsBoolean";
+import { IfAnd } from "./IfAnd";
 import { IsEqual } from "./IsEqual";
+import { IsNumericLiteral } from "./IsNumericLiteral";
+import { IsStringLiteral } from "./IsStringLiteral";
 import { AnyObject } from "./object";
 
-
-/**
- * **IsStringLiteral**
- *
- * Type utility which returns true/false if the string a _string literal_ versus
- * just the _string_ type.
- */
-export type IsStringLiteral<T extends Narrowable> = [T] extends [string]
-  ? string extends T
-    ? false
-    : true
-  : false;
-
-/**
- * **IfStringLiteral**
- *
- * Branch utility which returns `IF` type when `T` is a string literal and `ELSE` otherwise
- */
-export type IfStringLiteral<T extends Narrowable, IF extends Narrowable, ELSE extends Narrowable> = [
-  IsStringLiteral<T>
-] extends [true]
-  ? IF
-  : ELSE;
-
-/**
- * **IsNumericLiteral**
- *
- * Type utility which returns true/false if the numeric value a _numeric literal_ versus
- * just the _number_ type.
- */
-export type IsNumericLiteral<T extends Narrowable> = number extends T ? false : true;
-
-/**
- * **IfNumericLiteral**`<T,IF,ELSE>`
- *
- * Branch utility which returns `IF` type when `T` is a numeric literal and `ELSE` in all
- * other situations.
- */
-export type IfNumericLiteral<
-  T extends Narrowable,
-  IF extends Narrowable,
-  ELSE extends Narrowable
-> = IsNumericLiteral<T> extends true ? IF : ELSE;
 
 // [note on handling of boolean](https://stackoverflow.com/questions/74213646/detecting-type-literals-works-in-isolation-but-not-when-combined-with-other-lite/74213713#74213713)
 

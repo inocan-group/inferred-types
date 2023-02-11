@@ -2,7 +2,7 @@ import { describe, it } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
 
 import { createFnWithProps } from "src/runtime";
-import type { AnyFunction, WithValue } from "src/types";
+import type { AnyFunction, AnyObject, WithValue } from "src/types";
 
 describe("withValue()() utility", () => {
   it("type reduction with WithValue<T> works as expected", () => {
@@ -18,22 +18,21 @@ describe("withValue()() utility", () => {
       baz: { foo: 1, bar: 2 },
     };
 
-    type Str = WithValue<string, typeof obj>;
-    type Num = WithValue<number, typeof obj>;
-    type NumWithExclusion = WithValue<number, typeof obj, 2>;
-    type Fn = WithValue<AnyFunction, typeof obj>;
-    type Obj = WithValue<Record<string, any>, typeof obj, any[] | AnyFunction>;
+    type Str = WithValue<typeof obj, string>;
+    type Num = WithValue<typeof obj, number>;
+    type Fn = WithValue<typeof obj, AnyFunction>;
+    type Obj = WithValue<typeof obj, AnyObject>;
 
     type cases = [
       //
       Expect<Equal<Str, { message: string }>>,
       Expect<Equal<Num, { foo: number; foo2: 2; foo3: 3 }>>,
       Expect<Equal<keyof Fn, "fn" | "fnWithProp">>,
-      Expect<Equal<NumWithExclusion, { foo: number; foo3: 3 }>>,
+
       Expect<Equal<keyof Fn, "fn" | "fnWithProp">>,
-      Expect<Equal<keyof Obj, "baz">>
+      Expect<Equal<keyof Obj, "baz" | "fn" | "fnWithProp">>
     ];
-    const cases: cases = [true, true, true, true, true, true];
+    const cases: cases = [true, true, true, true, true];
   });
 
   it("get a type from type() and using it in WithType<T>", () => {
@@ -171,7 +170,4 @@ describe("withValue()() utility", () => {
     // const cases: cases = [true];
     // expect(cases).toBe(cases);
   });
-
-  
-  
 });

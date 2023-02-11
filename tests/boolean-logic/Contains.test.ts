@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { Contains, NarrowlyContains } from "../../src/types/boolean-logic/array";
+import { Contains, NarrowlyContains } from "src/types/boolean-logic";
 import { describe, it } from "vitest";
 
 describe("Contains<T,A>", () => {

@@ -1,39 +1,25 @@
-// import type { MergeObjects } from "src/types";
-import { 
-  keys, 
-  intersection, 
-  withKeys,
-  unique 
-} from "../index";
+import { AnyObject } from "src/types";
+import { sharedKeys, withoutKeys } from "../dictionary";
+
 export function mergeObjects<
-  TDefault extends Record<string, any>,
-  TOverride extends Record<string, any>,
-  TDeref extends (keyof TDefault & keyof TOverride & (string | number)) | null
+  TDefault extends AnyObject,
+  TOverride extends AnyObject
 >(
   defVal: TDefault, 
-  override: TOverride,
-  deref: TDeref = null as TDeref
+  override: TOverride
 ) {
-  /** top-level properties which are contained in both */
-  const intersect = intersection(keys(defVal), keys(override), deref);
-  /** unique properties to each  */
-  const [ defUnique, overUnique ] = unique(keys(defVal), keys(override), deref);
+  const intersectingKeys = sharedKeys(defVal,override) as (string & keyof TDefault & keyof TOverride)[];
 
-  const du = withKeys(defVal, defUnique);
-  const ou = withKeys(defVal, overUnique);
+  const defUnique = withoutKeys(defVal, ...intersectingKeys);
+  const overrideUnique = withoutKeys(defVal, ...intersectingKeys);
 
-  return {...du, ...ou};
+  return {
+    ...(intersectingKeys.reduce(
+      (acc, key) => acc,
+      {}
+    )),
+    ...defUnique,
+    ...overrideUnique,
+  };
 
-  // const defExtend = exclude(
-  //   defVal, keys(override).filter(i => isString(i))
-  // );
-
-  // const merged = keys(override).reduce(
-  //   (acc, key) => isDefined(override[key])
-  //     ? { ...acc, [key]: override[key]}
-  //     : { ...acc, [key]: key in defVal ? defVal[key] : undefined },
-  //   {} as Record<keyof TOverride, any>
-  // );
-
-  // return {...defExtend, ...merged} as MergeObjects<TDefault, TOverride>;
 }

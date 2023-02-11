@@ -1,4 +1,4 @@
-import { Narrowable, Unique } from "src/types";
+import {  Unique } from "src/types";
 import { get } from "../dictionary/get";
 import { isString } from "../type-guards/isString";
 
@@ -9,8 +9,8 @@ import { isString } from "../type-guards/isString";
  * provides a unique values contained in each set.
  */
 export function unique<
-  A extends readonly Narrowable[],  
-  B extends readonly Narrowable[],
+  A extends readonly unknown[],  
+  B extends readonly unknown[],
   TIndex extends string | number | null = null
 >(a: A, b: B, index?: TIndex): Unique<A,B,TIndex> {
   const offset = index

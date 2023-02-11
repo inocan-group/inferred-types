@@ -1,4 +1,4 @@
-import type { Keys, AnyObject, IfRef } from "src/types";
+import type { Keys, AnyObject } from "src/types";
 import { isObject } from "src/runtime/type-guards/isObject";
 import { isRef } from "src/runtime/type-guards/isRef";
 
@@ -13,12 +13,12 @@ import { isRef } from "src/runtime/type-guards/isRef";
  */
 export function keys<
   TObj extends AnyObject
->(obj: TObj): IfRef<TObj, Keys<TObj, true>, Keys<TObj>> {
+>(obj: TObj): Keys<TObj> {
   return (
     isObject(obj)
       ? isRef(obj)
         ? ["value"]
         : Object.keys(obj)
       : [] as readonly []
-  ) as IfRef<TObj, Keys<TObj, true>, Keys<TObj>>;
+  ) as Keys<TObj>;
 }

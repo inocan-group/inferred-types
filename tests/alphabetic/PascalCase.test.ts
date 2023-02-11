@@ -48,10 +48,10 @@ describe("toPascalCase() function", () => {
     type AWhite = typeof aWhite;
   
     type cases = [
-      Expect<Equal<ADash, string>>,
-      Expect<Equal<ASnake, string>>,
-      Expect<Equal<AWhiteTrimmed, string>>,
-      Expect<Equal<AWhite, string>>
+      Expect<Equal<ADash, "OneTwoThree">>,
+      Expect<Equal<ASnake, "OneTwoThree">>,
+      Expect<Equal<AWhiteTrimmed, "OneTwoThree">>,
+      Expect<Equal<AWhite, "  OneTwoThree  ">>
     ];
   
     const c: cases = [true, true, true, true];

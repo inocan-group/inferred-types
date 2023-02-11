@@ -1,12 +1,12 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { defineType, narrow } from "../../src/runtime/literals";
-import { kvDictToObject } from "../../src/runtime/runtime";
-import { objectToKv } from "../../src/runtime/runtime/objectToKv";
-import { isKvPair } from "../../src/runtime/type-guards/isKvPair";
-import { isKvDictArray } from "../../src/runtime/type-guards/isKvPairArray";
-import { Contains, DoesExtend, GetEach, KvDict, Mutable } from "../../src/types";
-import { KvDictToObject } from "../../src/types/type-conversion/KvDictToObject";
-import { ObjectToKvDict } from "../../src/types/type-conversion/ObjectToKvDict";
+import { defineType, narrow } from "src/runtime/literals";
+import { kvDictToObject } from "src/runtime/runtime";
+import { objectToKv } from "src/runtime/runtime/objectToKv";
+import { isKvPair } from "src/runtime/type-guards/isKvPair";
+import { isKvDictArray } from "src/runtime/type-guards/isKvPairArray";
+import { Contains, DoesExtend, GetEach, KvDict, Mutable } from "src/types";
+import { KvDictToObject } from "src/types/type-conversion/KvDictToObject";
+import { ObjectToKvDict } from "src/types/type-conversion/ObjectToKvDict";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -228,7 +228,8 @@ describe("Identity Checks between KV and Object", () => {
 
   it("type check", () => {
     type IdentityKv = ObjectToKvDict<KvDictToObject<DeepKv>>;
-    type IdentityObj = KvDictToObject<ObjectToKvDict<DeepObj>>;
+    type IdentityObj_p1 = ObjectToKvDict<DeepObj>;
+    type IdentityObj = KvDictToObject<IdentityObj_p1>;
 
     type ObjectIntermediary = KvDictToObject<DeepKv>;
     type KvIntermediary = ObjectToKvDict<DeepObj>;

@@ -68,16 +68,6 @@ describe("Set Intersection", () => {
 
 
   describe("Runtime", () => {
-    it("objects passed in; no deref", () => {
-      const foobar = { foo: 1, bar: 45 } as const;
-      const barBaz = { bar: 1, baz: 25 } as const;
-
-      const result = intersection(foobar, barBaz);
-      expect(result).toHaveLength(2);
-      const [a,b] = result;
-      expect(a).toEqual({bar:45});
-      expect(b).toEqual({bar:1});
-    });
 
     it("scalar arrays passed in; no deref", () => {
       const three = intersection([1,2,3],[3,4,5]);

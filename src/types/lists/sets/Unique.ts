@@ -5,14 +5,8 @@ import {
   First, 
   GetEach, 
   IndexOf , 
-  Mutable, 
-  AnyObject,
-  WithoutKeys,
-  Intersection,
-  Key
-} from "../../../types";
-import { SetCandidate } from "./SetCandidate";
-import { IntoSet } from "./IntoSet";
+  Mutable
+} from "src/types";
 
 
 type UniqueAcc<
@@ -46,27 +40,22 @@ type UniqueAcc<
 * **Related:** `Intersection`
 */
 export type Unique<
-  A extends AnyObject | readonly unknown[],
-  B extends AnyObject | readonly unknown[],
+  A extends readonly unknown[],
+  B extends readonly unknown[],
   TDeref extends string | number | null = null
-> = A extends AnyObject
-  ? B extends AnyObject
-    ? Intersection<A,B> extends readonly Key[]
-
-      ? readonly [ 
-          WithoutKeys<A, Intersection<A,B>>, 
-          WithoutKeys<B, Intersection<A,B>>  
-        ]
-      : readonly [ A, B]
-    : A extends readonly unknown[]
-      ? B extends readonly unknown[]
-        ? Readonly<[
-          Mutable<UniqueAcc<A, B, TDeref>>,
-          Mutable<UniqueAcc<B, A, TDeref>>
-          ]>
-        : never
-      : never
-  : never;
+> = A extends readonly unknown []
+? Readonly<
+    [
+      Mutable<UniqueAcc<A, B, TDeref>>,
+      Mutable<UniqueAcc<B, A, TDeref>>
+    ]
+  >
+: A extends unknown []
+    ? [
+      Mutable<UniqueAcc<A, B, TDeref>>,
+      Mutable<UniqueAcc<B, A, TDeref>>
+    ]
+    : never;
 
   
   

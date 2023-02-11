@@ -1,61 +1,10 @@
 import { IsStringLiteral } from "../boolean-logic";
 
-export type LowerAlpha =
-  | "a"
-  | "b"
-  | "c"
-  | "d"
-  | "e"
-  | "f"
-  | "g"
-  | "h"
-  | "i"
-  | "j"
-  | "k"
-  | "l"
-  | "m"
-  | "n"
-  | "o"
-  | "p"
-  | "q"
-  | "r"
-  | "s"
-  | "t"
-  | "u"
-  | "v"
-  | "w"
-  | "x"
-  | "y"
-  | "z";
 
-/** Uppercase alphabetic character */
-export type UpperAlpha = Uppercase<LowerAlpha>;
 
-/**
- * Alphabetical characters (upper and lower)
- */
-export type Alpha = UpperAlpha | LowerAlpha;
 
-export type Whitespace = " " | "\n" | "\t";
 
-export type Punctuation = "." | "," | ";" | "!" | "?";
-/**
- * Characters which typically are used to separate words (but not including a space)
- */
-export type StringDelimiter = "_" | "-" | "/" | "\\";
 
-export type OpeningBracket = "(" | "[" | "{";
-export type ClosingBracket = ")" | "]" | "}";
-
-/**
- * Opening and closing parenthesis
- */
-export type Parenthesis = "(" | ")";
-
-/**
- * Opening and closing brackets
- */
-export type Bracket = OpeningBracket | ClosingBracket;
 
 /**
  * Numeric string characters

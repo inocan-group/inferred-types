@@ -11,7 +11,7 @@ import { SomeExtend } from "./SomeExtend";
  * - a closer comparison is `IfAllExtend` which requires all items to extend
  */
 export type IfSomeExtend<
-  TList extends readonly any[],
+  TList extends readonly unknown[],
   TExtend extends Narrowable,
   IF extends Narrowable,
   ELSE extends Narrowable

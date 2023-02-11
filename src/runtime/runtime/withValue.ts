@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { AnyObject, WithValue, WithoutValue, Narrowable } from "src/types";
+import { AnyObject, WithValue,  Narrowable } from "src/types";
 import { keys } from "../dictionary";
 import { isSameTypeOf } from "../type-guards";
 
@@ -20,12 +20,12 @@ import { isSameTypeOf } from "../type-guards";
  * Note: _often useful to provide run-time type profiles with the_ `inferredType` _utility_
  */
 export function withValue<TVal extends Narrowable>(val: TVal) {
-  return <TObj extends AnyObject>(obj: TObj): WithValue<TVal,TObj> => {
+  return <TObj extends AnyObject>(obj: TObj): WithValue<TObj,TVal> => {
     return keys(obj).reduce(
       (acc, key) => isSameTypeOf(val)(obj[key]) 
         ? ({...acc, [key]: obj[key]})
         : acc,
-      {} as WithValue<TVal,TObj>
+      {} as WithValue<TObj,TVal>
     );
   };
 }

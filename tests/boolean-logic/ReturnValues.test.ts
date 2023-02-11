@@ -1,5 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import type { ReturnValues } from "../../src/types";
+import { ReturnValues } from "src/types/type-conversion/ReturnValues";
+
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

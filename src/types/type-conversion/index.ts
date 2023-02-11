@@ -11,6 +11,7 @@ export * from "./ToKV";
 export * from "./KvDict";
 export * from "./KvDictToObject";
 export * from "./ToString";
+export * from "./ToNumber";
 export * from "./UnionToTuple";
 export * from "./Widen";
 export * from "./Mutable";

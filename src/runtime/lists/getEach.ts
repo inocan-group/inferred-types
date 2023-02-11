@@ -22,7 +22,7 @@ export interface GetEachOptions<
  * over them without the need to offset by `.value`
  */
 export function getEach<
-  TList extends readonly any[],
+  TList extends readonly unknown[],
   TDotPath extends string | number | null,
   THandleErrors extends GetEachErrHandling = "ignore",
 >(

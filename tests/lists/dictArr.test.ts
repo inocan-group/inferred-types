@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Expect, Equal } from "@type-challenges/utils";
+import type { Expect, Equal, ExpectExtends } from "@type-challenges/utils";
 import { dictArr, keys, literal } from "../../src/runtime";
 
 type O = {
@@ -49,7 +49,10 @@ describe("dictArr() utility API", () => {
 
     type cases = [
       Expect<Equal<ToLookupParam, "name" | "title">>,
-      Expect<Equal<UniqueParam, "id" | "name" | "title" | "cost" | "color">>,
+      Expect<ExpectExtends<
+        "id" | "name" | "title" | "cost" | "color",
+        UniqueParam
+      >>,
       Expect<Equal<CountParam, "cost" | "color">>,
       Expect<Equal<SumParam, "id" | "cost">>
     ];

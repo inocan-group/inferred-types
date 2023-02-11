@@ -1,6 +1,6 @@
-export * from "./array";
+
 export * from "./Includes";
-export * from "./boolean";
+export * from "./IsBoolean";
 export * from "./IsScalar";
 export * from "./And";
 export * from "./IsLiteral";
@@ -13,8 +13,36 @@ export * from "./StartsWith";
 export * from "./EndsWith";
 export * from "./Or";
 export * from "./IsWideType";
+
+export * from "./IsBoolean";
+export * from "./IsTrue";
+export * from "./IsFalse";
+export * from "./IsSoftTrue";
+export * from "./IfBoolean";
+export * from "./IfTrue";
+export * from "./IfFalse";
+export * from "./IfSoftTrue";
+export * from "./IfSoftFalse";
+
+export * from "./IsStringLiteral";
+export * from "./IsNumericLiteral";
+export * from "./IsBooleanLiteral";
+export * from "./IfStringLiteral";
+export * from "./IfNumericLiteral";
+export * from "./IfBooleanLiteral";
+
 export * from "./IsEqual";
 export * from "./IsUnion";
+export * from "./Contains";
+export * from "./ContainsAll";
+export * from "./NarrowlyContains";
+export * from "./IfContains";
+export * from "./IsArray";
+export * from "./IsReadonlyArray";
+export * from "./IfReadonlyArray";
+export * from "./IfStartsWith";
+export * from "./IfArray";
+export * from "./IfAnd";
 export * from "./Not";
 export * from "./never";
 export * from "./IsNull";

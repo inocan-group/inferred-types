@@ -18,5 +18,5 @@ export const createErrorCondition = <
     domain: (domain || "global") as TDomain,
     kind,
     message: message || "" as TMsg
-  };
+  } as ErrorCondition<TKind,TMsg,TDomain>;
 };

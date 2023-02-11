@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-// https://github.com/type-challenges/type-challenges/issues/737
 
 import { UnionToIntersection } from "./UnionToIntersection";
 
@@ -19,4 +18,3 @@ export type UnionToTuple<U, Last = LastInUnion<U>> = [U] extends [never]
   ? []
   : [...UnionToTuple<Exclude<U, Last>>, Last];
 
-type x = UnionToTuple<"foo" | "bar">;

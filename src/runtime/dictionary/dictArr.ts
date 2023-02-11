@@ -1,4 +1,4 @@
-import { Keys, Narrowable, OptionalKeys, RequiredKeys, UnionFromProp } from "src/types";
+import { Keys, Narrowable, OptionalKeys, RequiredKeys, TupleToUnion, UnionFromProp } from "src/types";
 
 export interface Uniqueness<T> {
   /** boolean flag to indicate whether the property was unique across all records */
@@ -16,9 +16,9 @@ export type DictArrApi<T extends Record<string, Narrowable>, A extends readonly 
   toLookup<PL extends RequiredKeys<T, string> & keyof T & string>(
     prop: PL
   ): UnionFromProp<A, PL> extends string ? Record<UnionFromProp<A, PL>, T> : Record<string, T>;
-  sum<PS extends RequiredKeys<T, number> | OptionalKeys<T, number>>(prop: PS): number;
+  sum<PS extends RequiredKeys<T, number> | OptionalKeys<T>>(prop: PS): number;
   count<PC extends OptionalKeys<T>>(prop: PC): number;
-  unique<PU extends Keys<T> & keyof T>(prop: PU): Uniqueness<T[PU]>;
+  unique<PU extends Keys<T> & keyof T>(prop: TupleToUnion<PU>): Uniqueness<T[PU]>;
 };
 
 /**

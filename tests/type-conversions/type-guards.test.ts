@@ -14,7 +14,8 @@ import { isConstant, isSpecificConstant } from "../../src/runtime/type-guards/is
 import { NoDefaultValue, NO_DEFAULT_VALUE } from "../../src/constants";
 import { Constant } from "../../src/constants/Constant";
 import { describe, expect, it } from "vitest";
-import { ref, Ref, reactive } from "vue";
+import { ref, Ref } from "vue";
+import { VueRef } from "src/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -105,23 +106,22 @@ describe("isDefined(value)", () => {
 describe("isRef", () => {
   const obj = { foo: 1, bar: 2 } as const;
   const refObj = ref(obj);
-  const reactiveObj = reactive(obj);
 
   it("positive tests", () => {
     if(isRef(refObj)) {
       expect(true, "identified as ref").toBe(true);
+      type R = typeof refObj;
       type cases = [
-        Expect<Equal<typeof refObj, Ref<Readonly<typeof obj>>>>
+        Expect<Equal<
+          R, 
+          VueRef<{readonly foo: 1; readonly bar: 2 }> & 
+          Ref<{readonly foo: 1; readonly bar: 2 }>
+        >>
       ];
-      const cases: cases = [ true  ];
+      const cases: cases = [ true ];
     } else {
       throw new Error("ref not identified!");
     }
-    
-    type cases = [
-      /** type tests */
-    ];
-    const cases: cases = [];
     
   });
   
@@ -131,12 +131,6 @@ describe("isRef", () => {
       throw new Error("false positive for isRef");
     } else {
       expect(true, "rejected value as ref").toBe(true);
-    }
-
-    if(isRef(reactiveObj)) {
-      throw new Error("false positive for isRef on reactive obj");
-    } else {
-      expect(true, "rejected reactive obj as ref").toBe(true);
     }
   });
 

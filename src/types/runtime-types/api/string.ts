@@ -6,7 +6,7 @@ export type TypeApiString = <
     TDesc extends string = "",
     TUnderlying extends TypeUnderlying = "no-underlying",
     TDefaultValue extends TypeDefaultValue<"string", TRequired, TUnderlying> = NoDefaultValue,
-    TValidations extends readonly any[] | "no-validations" = "no-validations", 
+    TValidations extends readonly unknown[] | "no-validations" = "no-validations", 
 >(
   options?: TypeOptions<"string", TRequired, TDesc, TUnderlying, TDefaultValue, TValidations>
 ) => Type<

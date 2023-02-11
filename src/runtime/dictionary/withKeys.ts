@@ -1,4 +1,4 @@
-import type { AnyObject, WithKeys } from "src/types";
+import type { AnyObject, Key, WithKeys } from "src/types";
 
 /**
  * **withKeys**(obj,keys)
@@ -8,12 +8,12 @@ import type { AnyObject, WithKeys } from "src/types";
  */
 export const withKeys = <
   TObj extends AnyObject,
-  TKeys extends readonly (string  & keyof TObj)[]
+  TKeys extends readonly (Key & keyof TObj)[]
 >(
   dict: TObj, 
   ...keys: TKeys
 ): WithKeys<TObj, TKeys> => {
-  let output: Record<string, any> = {};
+  let output: Record<string, unknown> = {};
   for (const k of keys) {
     output = {
       ...output,

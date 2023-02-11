@@ -15,11 +15,12 @@ describe("HasParameters<T>", () => {
     const fn5 = (r: string, g: string, b: string) => `${r},${g},${b}` as const;
 
     type F1 = HasParameters<typeof fn1>;
+    type F2 = HasParameters<typeof fn2>;
 
     type cases = [
       // single
       Expect<Equal<F1, true>>,
-      Expect<Equal<HasParameters<typeof fn2>, true>>,
+      Expect<Equal<F2, true>>,
       // none
       Expect<Equal<HasParameters<typeof fn3>, false>>,
       Expect<Equal<HasParameters<typeof fn4>, false>>,

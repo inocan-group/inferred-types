@@ -1,7 +1,6 @@
-import { TypeKvBase } from "src/types/type-conversion/KvDict";
+
 import { 
-  FALSY_TYPE_KINDS, 
-  LITERAL_TYPE_KINDS, 
+
   Type, 
   TypeDefaultValue, 
   TypeDefn, 
@@ -13,8 +12,14 @@ import {
   TypeKindFalsy, 
   TypeKindLiteral, 
   TypeKindWide, 
+  TypeKvBase, 
   WIDE_TYPE_KINDS 
 } from "src/types";
+
+import {
+  FALSY_TYPE_KINDS, 
+  LITERAL_TYPE_KINDS, 
+} from "src/constants";
 
 
 /**

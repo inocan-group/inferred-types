@@ -1,4 +1,4 @@
-import { Narrowable, Widen } from "src/types";
+import { AsArray } from "src/types";
 import { isArray } from "../type-guards/isArray";
 
 /**
@@ -6,13 +6,7 @@ import { isArray } from "../type-guards/isArray";
  */
 export type UndefinedArrayIsUnknown<T extends any[]> = undefined[] extends T ? unknown[] : T;
 
-export type AsArray<T, W extends boolean = false> = T extends any[]
-  ? W extends true
-    ? Widen<T>
-    : T
-  : W extends true
-  ? UndefinedArrayIsUnknown<Widen<T>[]>
-  : UndefinedArrayIsUnknown<T[]>;
+
 
 /**
  * Ensures that any input passed in is passed back as an array:
@@ -26,7 +20,7 @@ export type AsArray<T, W extends boolean = false> = T extends any[]
  * change the optional _widen_ parameter to _false_.
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const asArray = <T extends Narrowable, W extends boolean = true>(thing: T, _widen?: W) => {
+export const asArray = <T>(thing: T) => {
   return (
     isArray(thing)
       ? // proxy thing back as it's already an array
@@ -34,5 +28,5 @@ export const asArray = <T extends Narrowable, W extends boolean = true>(thing: T
       : typeof thing === "undefined"
       ? ([] as T[])
       : [thing]
-  ) as AsArray<T, W>;
+  ) as AsArray<T>;
 };

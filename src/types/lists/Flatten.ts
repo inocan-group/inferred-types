@@ -1,26 +1,40 @@
-import {  IfArray } from "../boolean-logic";
-import { IfSomeExtend } from "../boolean-logic/IfSomeExtend";
+import { Contains } from "../boolean-logic";
 import { AfterFirst } from "./AfterFirst";
 import { First } from "./First";
 
-type FlattenAcc<
-  TList extends readonly any[],
-  TResults extends readonly any[] = []
+type _Flat<
+  TList extends readonly unknown[],
+  TLevel extends 1 | 2 | 3,
+  TResults extends readonly unknown[] = []
 > = [] extends TList
-  ? TResults
-  : FlattenAcc<
+  ? TLevel extends 1
+    ? TResults
+    : Contains<TResults, unknown[]> extends true
+      ? TLevel extends 3
+        ? _Flat<TResults, 2>
+        : _Flat<TResults, 1>
+      : TResults
+  : _Flat<
       AfterFirst<TList>, 
-      IfArray<
-        First<TList>,
-        IfSomeExtend<
-          First<TList>, any[] | readonly any[], 
-          readonly [ ...TResults, ...FlattenAcc<First<TList>> ],
-          readonly [ ...TResults, ...First<TList> ]
-        >,
-        readonly [ ...TResults, First<TList> ]
-      >
+      TLevel,
+      First<TList> extends unknown[] | readonly unknown[]
+        ? [ ...TResults, ...First<TList>]
+        : [ ...TResults, First<TList> ]
     >;
 
+/**
+ * **Flatten**`<TList, [TLevel]>`
+ * 
+ * Flattens the passed in array while preserving strong types.
+ * 
+ * - by default it will only flatten _one_ level but you may
+ * optionally extend this to two or three levels.
+ */
 export type Flatten<
-  T extends readonly any[]
-> = Readonly<FlattenAcc<T>>;
+  TList extends readonly unknown[],
+  TLevel extends 1 | 2 | 3 = 1
+> = TList extends unknown[]
+  ? _Flat<TList, TLevel>
+  : TList extends readonly unknown[]
+    ? Readonly<_Flat<TList, TLevel>>
+    : never;

@@ -1,12 +1,13 @@
 import { ExpandRecursively } from "../literals/ExpandRecursively";
-import { AfterFirst , First } from "../lists";
+import { AfterFirst , AsArray, First } from "../lists";
 import { UnionToTuple, Mutable } from "../type-conversion";
-import { WithKeys, WithoutKeys } from "../dictionary";
+import { Key, WithKeys, WithoutKeys } from "../dictionary";
+import { AnyObject } from "../boolean-logic";
 
 type MutablePropAcc<
-  T extends {},
+  T extends AnyObject,
   MutableKeys extends readonly (keyof T & string)[],
-  Processed extends Readonly<{}> = Readonly<{}>
+  Processed extends Readonly<AnyObject> = Readonly<AnyObject>
 > = [] extends MutableKeys
   ?  ExpandRecursively<Processed>
   : MutablePropAcc<
@@ -34,10 +35,10 @@ type MutablePropAcc<
  * **Related:** `MutablePropsExclusive`
  */
 export type MutableProps<
-  T extends {}, 
-  M extends readonly (keyof T & string)[] | (keyof T & string)
+  T extends AnyObject, 
+  M extends readonly (keyof T & Key)[] | (keyof T & Key)
 > = ExpandRecursively<
-WithoutKeys<T, M> & MutablePropAcc<
+WithoutKeys<T, AsArray<M>> & MutablePropAcc<
   T, 
   M extends readonly (keyof T & string)[]
     ? M  
@@ -68,8 +69,8 @@ WithoutKeys<T, M> & MutablePropAcc<
  * **Related:** `MutableProps`
  */
 export type MutablePropsExclusive<
-  T extends {}, 
-  M extends (keyof T & string) | readonly (keyof T & string)[]
+  T extends AnyObject, 
+  M extends (keyof T & Key) | readonly (keyof T & Key)[]
 > = ExpandRecursively<
-  Mutable<WithKeys<T,M>> & Readonly<WithoutKeys<T, M>>
+  Mutable<WithKeys<T,M>> & Readonly<WithoutKeys<T, AsArray<M>>>
 >;

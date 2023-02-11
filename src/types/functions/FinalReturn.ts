@@ -7,6 +7,6 @@
  * type T = FinalReturn<() => (foo: string) => (bar: string) => () => number>;
  * ```
  */
-export type FinalReturn<T extends any> = T extends (...args: any[]) => any
+export type FinalReturn<T> = T extends (...args: unknown[]) => unknown
   ? FinalReturn<ReturnType<T>>
   : T;

@@ -14,7 +14,9 @@ export function ifSameType<
   return (
     // runtime values match
     (
-      typeof value === typeof comparisonType ? ifExtends(value as any) : doesNotExtend(value as any)
+      typeof value === typeof comparisonType 
+        ? ifExtends(value as TType & TValue) 
+        : doesNotExtend(value as Exclude<TValue, TType>)
     ) as Widen<TValue> extends Widen<TType> ? IF : ELSE
   );
 }

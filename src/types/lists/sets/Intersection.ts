@@ -38,23 +38,7 @@ type _WithDeref<
   }>,
 ];
 
-type _Arr<
-A extends readonly unknown[],
-  B extends readonly unknown[],
-  TDeref extends string | number | null = null
-> = IfNull<
-  TDeref, 
-  // no dereferencing
-  _NoDeref<A,B>,
-  // dereference the array elements
-  _WithDeref<
-    A, 
-    B,
-    GetEach<A, TDeref>,
-    GetEach<B, TDeref>,
-    TDeref & (string | number)
-  >
->;
+
 
 /**
   * **Intersection**`<A,B, [Deref]>`
@@ -69,6 +53,8 @@ A extends readonly unknown[],
   * dereferenced value of the elements of each set but because the full values are
   * returned it's quite possible that `A` and `B` share a dereferenced value but other
   * properties are _not_ the same so for this reason the resultant type is a tuple: `readonly [ AIntersect, BIntersect ]`
+  * 
+  * **Related:** `Unique`, `ObjIntersection`
   */
 export type Intersection<
   A extends readonly unknown[],

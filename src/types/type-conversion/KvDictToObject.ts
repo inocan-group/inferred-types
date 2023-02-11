@@ -1,3 +1,4 @@
+import { AnyObject } from "../boolean-logic";
 import { AfterFirst, First } from "../lists";
 import { Type } from "../runtime-types/Type";
 import { SimplifyObject } from "../SimplifyObject";
@@ -17,13 +18,12 @@ export type TypeKvBase<
  */
 export type TypeKvToObject<
   KvDict extends readonly TypeKvBase<string,Type>[],
-  Obj extends {} = {}
+  Obj extends AnyObject = object
 > = [] extends KvDict
   ? SimplifyObject<Obj>
   : First<KvDict> extends TypeKvBase<infer K, infer T>
     ? TypeKvToObject<AfterFirst<KvDict>, Record<K, T["type"]> & Obj>
     : never;
-
 
 /**
  * **KvToObject**`<KV>`
@@ -38,14 +38,14 @@ export type TypeKvToObject<
  * ```
  */
 export type KvDictToObject<
-  KV extends readonly KvDict<string,any>[],
-  TObj extends {} = {}
+  KV extends readonly KvDict[],
+  TObj extends AnyObject = object
 > = [] extends KV
   ? SimplifyObject<TObj>
   : First<KV> extends KvDict<infer Key, infer Value>
     ? Key extends keyof TObj
       ? ["ERROR", `Key of ${Key} already exists`]
-      : Mutable<Value> extends KvDict<string, any>[]
+      : Mutable<Value> extends KvDict[]
         ? KvDictToObject< // prop is an object
             [...AfterFirst<KV>], 
             TObj & Mutable<Record<Key, Readonly<KvDictToObject<Mutable<Value>>>>>

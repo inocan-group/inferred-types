@@ -1,27 +1,26 @@
 import { Narrowable } from "../literals/Narrowable";
 import { And } from "./And";
 
-type ExtendEveryAcc<
+type _Extends<
 TValue extends Narrowable,
-TList extends readonly any[],
-Processed extends readonly any[] = []
+TList extends readonly unknown[],
+Processed extends readonly boolean[] = []
 > = TList extends [infer First, ...infer Rest]
 ? First extends TValue
-  ? ExtendEveryAcc<TValue, Rest, readonly [...Processed, true]>
-  : ExtendEveryAcc<TValue, Rest, readonly [...Processed, false]>
+  ? _Extends<TValue, Rest, readonly [...Processed, true]>
+  : _Extends<TValue, Rest, readonly [...Processed, false]>
 : And<Processed>;
 
-
 /**
-* **ExtendsAll**`<TValue, TList>`
-* 
-* Boolean type utility which evaluates whether `TValue` extends **all** of the 
-* elements in `TList`.
-* 
-* **Related:** `ExtendsSome`, `IfExtendsAll`, `DoesExtend`
-*/
+  * **ExtendsAll**`<TValue, TList>`
+  * 
+  * Boolean type utility which evaluates whether a singular 
+  * value `TValue` extends **all** of the elements in `TList`.
+  * 
+  * **Related:** `ExtendsSome`, `IfExtendsAll`, `DoesExtend`
+  */
 export type ExtendsAll<
-TValue extends Narrowable,
-TList extends readonly any[],
-> = ExtendEveryAcc<TValue, TList>;
+  TValue extends Narrowable,
+  TList extends readonly unknown[],
+> = _Extends<TValue, TList>;
 

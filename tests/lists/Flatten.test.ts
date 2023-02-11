@@ -9,30 +9,37 @@ import { describe, it } from "vitest";
 describe("Flatten<T>", () => {
 
   it("first test", () => {
-    type A1 = ["foo", "bar"];
-    type A2 = [1,2];
-    type A3 = [A1, [A2]];
+    type F1 = Flatten<[1,2, [3,4]]>;
+    type F1a = Flatten<[1,2, [3,4]], 2>;
+    type F2 = Flatten<[1,2, readonly [3,4]]>;
+    type F2a = Flatten<[1,2, readonly [3,4]], 2>;
 
-    type R1 = readonly ["foo", "bar"];
-    type R2 = readonly [1,2];
-    type R3 = readonly [R1, [R2]];
+    type D1 = Flatten<[[1,2],[3,4],[[5],6]]>;
+    type D2 = Flatten<[[1,2],[3,4],[[5],6]], 2>;
 
-    type Flat = Flatten<[A1,A2]>;
-    type Flat_RO = Flatten<[R1,R2]>;
-
-    type DeepFlat = Flatten<[A3, A2]>;
-    type DeepFlat_RO = Flatten<[R3, R2]>;
-    
-
+    type DS = [[1,2],[3,4],[[5,6],[7,[8,9]]]];
+    type DeeperStill1 = Flatten<DS, 1>;
+    type DeeperStill2 = Flatten<DS, 2>;
+    type DeeperStill3 = Flatten<DS, 3>;
     
     type cases = [
-      Expect<Equal<Flat, readonly ["foo", "bar", 1, 2]>>,
-      Expect<Equal<Flat_RO, readonly ["foo", "bar", 1, 2]>>,
+      Expect<Equal<F1,  [1,2,3,4]>>,
+      Expect<Equal<F1a,  [1,2,3,4]>>,
+      Expect<Equal<F2,  [1,2,3,4]>>,
+      Expect<Equal<F2a,  [1,2,3,4]>>,
 
-      Expect<Equal<DeepFlat, readonly ["foo", "bar", 1, 2, 1, 2]>>,
-      Expect<Equal<DeepFlat_RO, readonly ["foo", "bar", 1, 2, 1, 2]>>,
+      Expect<Equal<D1,  [1,2,3,4, [5], 6]>>,
+      Expect<Equal<D2,  [1,2,3,4,5,6]>>,
+
+      Expect<Equal<DeeperStill1,  [1,2,3,4,[5,6], [7,[8,9]]]>>,
+      Expect<Equal<DeeperStill2,  [1,2,3,4,5,6, 7,[8,9]]>>,
+      Expect<Equal<DeeperStill3,  [1,2,3,4,5,6, 7,8,9]>>,
     ];
-    const cases: cases = [ true, true, true, true ];
+    const cases: cases = [ 
+      true, true, true, 
+      true, true, true, 
+      true, true, true  
+    ];
   });
 
 });

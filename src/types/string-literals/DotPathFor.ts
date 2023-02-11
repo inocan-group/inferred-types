@@ -1,5 +1,11 @@
-import { IfArray,  IfLiteral, IfScalar, IsArray, IsLiteral } from "../boolean-logic";
-import {  IfAnd } from "../boolean-logic/And";
+import { 
+  IfArray,  
+  IfLiteral, 
+  IfScalar, 
+  IsArray, 
+  IsLiteral,  
+  IfAnd 
+} from "../boolean-logic";
 import { AnyObject, IfObject } from "../boolean-logic/object";
 import { FromMaybeRef } from "../dictionary/FromMaybeRef";
 import { Get } from "../dictionary/Get";
@@ -15,7 +21,7 @@ import { Prepend } from "./Prepend";
 import { PrependAll } from "./PrependAll";
 
 type SubIndexes<
-  TList extends readonly any[],
+  TList extends readonly unknown[],
   TOffset extends string = ""
 > =  Flatten<{
     [K in keyof TList]: RemoveEquals<[
@@ -57,8 +63,8 @@ type Val<
 
 type Suggestions<TValue, TOffset extends string> = TValue extends number[]
   ? [ Prepend<`${number}`, TOffset> ]
-: TValue extends readonly any[]
-  ? Keys<TValue> extends readonly any[]
+: TValue extends readonly unknown[]
+  ? Keys<TValue> extends readonly unknown[]
     ? PrependAll<Retain<Keys<TValue>, string>, TOffset>
     : [ Prepend<`${number}`, TOffset> ]
   : TValue extends AnyObject
@@ -70,7 +76,7 @@ type Suggestions<TValue, TOffset extends string> = TValue extends number[]
     : [];
 
 type PrimaryIndexes<
-  TValue extends readonly any[] | AnyObject,
+  TValue extends readonly unknown[] | AnyObject,
   TKeys extends readonly (keyof TValue & string)[],
   TResults extends string[] = []
 > = [] extends TKeys
@@ -93,7 +99,7 @@ type PrimaryIndexes<
  * Provides _suggestions_ for valid dotpath's on a given value.
  */
 export type DotPathFor<
-  TValue extends Narrowable | readonly any[],
+  TValue extends Narrowable | readonly unknown[],
 > = IfScalar<
   FromMaybeRef<TValue>,
   // if the target is a scalar value, only valid path is null
@@ -107,8 +113,8 @@ export type DotPathFor<
         [string]
       >
 
-    : FromMaybeRef<TValue> extends readonly any[]
-      ? SubIndexes<FromMaybeRef<TValue>> extends readonly any[]
+    : FromMaybeRef<TValue> extends readonly unknown[]
+      ? SubIndexes<FromMaybeRef<TValue>> extends readonly unknown[]
         ? Flatten<SubIndexes<FromMaybeRef<TValue>>>
         : SubIndexes<FromMaybeRef<TValue>>
     : [string]
