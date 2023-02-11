@@ -5,8 +5,8 @@ import { Key } from "./Key";
 import { IfLength } from "../boolean-logic/IfLength";
 
 type Shared<
-  A extends readonly any[],
-  B extends readonly any[],
+  A extends readonly Key[],
+  B extends readonly Key[],
   TResults extends readonly Key[] = []
 > = [] extends A
   ? TResults
@@ -23,8 +23,8 @@ type Shared<
 /**
  * **SharedKeys**`<A,B>`
  * 
- * Given two objects `A` and `B`, this type utility will provide the _keys_
- * which both objects contain.
+ * Given two objects `A` and `B`, this type utility will provide the 
+ * _keys_ which both objects contain.
  * ```ts
  * type O1 = { foo: 1; bar: 2; baz: 88 };
  * type O2 = { bar: 5; baz: 3; nada: true };

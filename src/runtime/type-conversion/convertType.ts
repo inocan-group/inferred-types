@@ -5,6 +5,7 @@ import {
   TypeMapRule, 
   TypeMapTransformer 
 } from "src/types";
+import { toCamelCase } from "../literals/toCamelCase";
 import { t } from "../runtime";
 import { Never } from "../runtime/Never";
 import { endsWith, startsWith, isFalsy, isTruthy, isTypeTuple } from "../type-guards";
@@ -109,7 +110,7 @@ export function convertType<
           response = t.string("<string>");
           break;
         case "CamelCase":
-          response = toCamelCase(value);
+          response = toCamelCase(String(value));
           break;
         
       }

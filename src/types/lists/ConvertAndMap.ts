@@ -3,8 +3,8 @@ import { Narrowable } from "../literals/Narrowable";
 import { First } from "./First";
 import { AfterFirst } from "./AfterFirst";
 import { Keys } from "../dictionary/Keys";
+import { WithoutValue } from "../dictionary/WithoutValue";
 
-import {  WithoutValue } from "../dictionary/props";
 
 // [Mapped Tuple Types](https://github.com/Microsoft/TypeScript/issues/25947)
 
@@ -119,11 +119,11 @@ export type StrongMapTypes<K extends readonly any[]> = [] extends K
     >;
 
 export type StrongMap<TDefined = ConverterCoverage> = {
-  string: TDefined extends "string" ? <T extends string, R extends any>(v: T) => R : never;
-  number: TDefined extends "number" ? <T extends number, R extends any>(v: T) => R : never;
-  boolean: TDefined extends "boolean" ? <T extends boolean, R extends any>(v: T) => R : never;
+  string: TDefined extends "string" ? <T extends string, R>(v: T) => R : never;
+  number: TDefined extends "number" ? <T extends number, R>(v: T) => R : never;
+  boolean: TDefined extends "boolean" ? <T extends boolean, R >(v: T) => R : never;
   object: TDefined extends "object"
-    ? <T extends Record<string, any>, R extends any>(v: T) => R
+    ? <T extends Record<string, any>, R >(v: T) => R
     : never;
 };
 

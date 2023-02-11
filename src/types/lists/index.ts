@@ -7,6 +7,7 @@
 // file exports
 export * from "./AfterFirst";
 export * from "./First";
+export * from "./AsArray";
 export * from "./FirstString";
 export * from "./Filter";
 export * from "./Split";

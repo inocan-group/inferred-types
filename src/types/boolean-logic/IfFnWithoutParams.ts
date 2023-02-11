@@ -1,6 +1,8 @@
-import { BaseFunction } from "../functions/function-types";
 import { Narrowable } from "../literals/Narrowable";
 import { IsFnWithParams } from "./IsFnWithParams";
+
+// TODO: fix
+type BaseFunction = any;
 
 /**
  * **IfFnWithoutDict**`<T, IsFn, NotFn>`

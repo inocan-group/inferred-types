@@ -1,4 +1,3 @@
-import { Narrowable } from "../literals/Narrowable";
 import { UnionToTuple } from "../type-conversion/UnionToTuple";
 import { IfLength } from "./IfLength";
 
@@ -14,15 +13,3 @@ export type IsUnion<T> = IfLength<
   false, 
   IfLength<UnionToTuple<T>, 0, false, true>
 >;
-
-
-/**
- * **IfUnion**`<T,IF,ELSE>`
- * 
- * Type branching utility based on whether type `T` is a union type
- */
-export type IfUnion<
-  T,
-  IF extends Narrowable,
-  ELSE extends Narrowable
-> = IsUnion<T> extends true ? IF : ELSE;

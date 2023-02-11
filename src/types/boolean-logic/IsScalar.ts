@@ -1,5 +1,5 @@
 import { Narrowable } from "../literals/Narrowable";
-import { IsBoolean } from "./boolean";
+import { IsBoolean } from "./IsBoolean";
 import { IsNull } from "./IsNull";
 import { IsSymbol } from "./IsSymbol";
 import { IsUndefined } from "./IsUndefined";

@@ -23,9 +23,9 @@ export function toKebabCase<
   const replaceUnderscore = (i: string) => i.replace(/_/g, "-");
   const removeDupDashes = (i: string) => i.replace(/-+/g, "-");
 
-  return `${preWhite}${replaceUnderscore(
+  return removeDupDashes(`${preWhite}${replaceUnderscore(
     replaceTrailingDash(
       replaceLeadingDash(removeDupDashes(replaceWhitespace(replaceUppercase(focus))))
     )
-  )}${postWhite}` as KebabCase<S,P>;
+  )}${postWhite}`) as unknown as KebabCase<S,P>;
 }

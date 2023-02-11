@@ -1,33 +1,18 @@
-import type { 
-  AfterFirst, 
+import type {  
   Narrowable,
-  First,
-  Box
+  Box,
 } from "src/types";
 import { keys } from "../dictionary";
 
 
-export type BoxValue<T extends Box<any>> = T extends Box<infer V> ? V : never;
+export type BoxValue<T extends Box<unknown>> = T extends Box<infer V> ? V : never;
 
-export type BoxedFnParams<T extends Box<any>> = T extends Box<infer V>
-  ? V extends (...args: infer A) => any
+export type BoxedFnParams<T extends Box<unknown>> = T extends Box<infer V>
+  ? V extends (...args: infer A) => unknown
     ? A
     : []
   : [];
 
-export type BoxedReturn<T extends Box<any>> = T extends Box<infer V>
-  ? V extends Function
-    ? ReturnType<T["value"]>
-    : T["value"]
-  : never;
-
-export type NarrowBox<T> = <
-  N extends BoxedFnParams<Box<T>> | First<BoxedFnParams<Box<T>>>
->() => N extends BoxedFnParams<Box<T>>
-  ? T extends (...args: any[]) => any
-    ? (...args: N) => Box<T>["unbox"]
-    : never
-  : (first: N, ...rest: AfterFirst<BoxedFnParams<Box<T>>>) => BoxedReturn<Box<T>>;
 
 /**
  * Allows a value with an inner-type to be boxed into a dictionary
@@ -40,7 +25,7 @@ export function box<T extends Narrowable>(value: T): Box<T> {
   const rtn: Box<T> = {
     __type: "box",
     value,
-    unbox: (<P extends any[], R extends Narrowable>(...p: P): R => {
+    unbox: (<P extends unknown[], R extends Narrowable>(...p: P): R => {
       return typeof value === "function" ? value(...p) : value;
     }) as Box<T>["unbox"],
   };
@@ -48,8 +33,9 @@ export function box<T extends Narrowable>(value: T): Box<T> {
   return rtn;
 }
 
-export function isBox(thing: Narrowable): thing is Box<any> {
+export function isBox(thing: Narrowable): thing is Box<unknown> {
   return (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     typeof thing === "object" && "__type" in (thing as object) && (thing as any).__type === "box"
   );
 }
@@ -59,7 +45,7 @@ export function isBox(thing: Narrowable): thing is Box<any> {
  *
  * Runtime utility which boxes each value in a dictionary
  */
-export function boxDictionaryValues<T extends {}>(dict: T) {
+export function boxDictionaryValues<T extends object>(dict: T) {
   return keys(dict).reduce(
     (acc, key) => ({ ...acc, [key]: box(dict[key]) }),
     {} as {
@@ -80,5 +66,8 @@ export type Unbox<T> = T extends Box<infer U> ? U : T;
  * Unboxes a value if it was a box; otherwise it leaves _as is_.
  */
 export function unbox<T>(val: T): Unbox<T> {
-  return isBox(val) ? val.value : val;
+  return (isBox(val) 
+    ? val.value 
+    : val
+  ) as Unbox<T>;
 }

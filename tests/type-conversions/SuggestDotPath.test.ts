@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { describe, it } from "vitest";
-import { Equal, Expect, ExpectExtends, ExpectTrue } from "@type-challenges/utils";
+import { Equal, Expect,  ExpectTrue } from "@type-challenges/utils";
 
 import { DotPathFor } from "src/types/string-literals/DotPathFor";
 import {  DoesExtend } from "src/types/boolean-logic";
@@ -37,8 +38,14 @@ describe("Name", () => {
       // when the target is a null then the suggested dotpath is the same
       Expect<Equal<NullTarget, null>>, 
       // When an Object is the target 
-      Expect<ExpectExtends<null, ExampleObj>>,
-      Expect<ExpectExtends<null, ExampleArr>>,
+      Expect<Equal<
+        ExampleObj,
+        "foo" | "bar" | "baz" | "color" | "info" | `bar.${number}` | "baz.a" | "baz.b" | "baz.c" | "color.0" | "color.1" | "color.2" | "info.age" | "info.address" | (string & {})
+      >>,
+      Expect<Equal<
+        ExampleArr,
+        "0" | "1" | "2" | (string & {})
+      >>,
     ];
     const cases: cases = [ true, true, true ];
   });

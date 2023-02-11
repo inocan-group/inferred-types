@@ -5,13 +5,13 @@ import {
   defineType, 
   ErrorCondition, 
   isErrorCondition 
-} from "../../src/runtime";
+} from "src/runtime";
 import type { 
   DoesExtend, 
   IsErrorCondition, 
   NoDefaultValue, 
   Get 
-} from "../../src/types";
+} from "src/types";
 import { ref } from "vue";
 
 describe("Get<T, K> type utility", () => {

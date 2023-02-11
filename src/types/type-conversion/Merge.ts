@@ -1,10 +1,9 @@
 import { IfUndefined } from "../boolean-logic/IsUndefined";
 import { Narrowable } from "../literals/Narrowable";
-import { IfAnd } from "../boolean-logic/And";
 import { AfterFirst } from "../lists/AfterFirst";
 import { First } from "../lists/First";
 import { ExpandRecursively } from "../literals/ExpandRecursively";
-import { AnyObject, DoesExtend, IsOptionalScalar } from "../boolean-logic";
+import { AnyObject, DoesExtend, IfAnd, IsOptionalScalar } from "../boolean-logic";
 import { Scalar } from "../Scalar";
 
 // 1. Keep all unique keys in `TValue`

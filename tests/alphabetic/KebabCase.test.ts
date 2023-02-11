@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
-import { toKebabCase } from "../../src/runtime";
+import { toKebabCase } from "src/runtime";
 
 describe("toKebabCase() function", () => {
 
@@ -29,16 +29,30 @@ it("Bastar*d Case is converted correctly", () => {
   expect(toKebabCase(" --fooBar--batShit--Crazy-")).toEqual(" foo-bar-bat-shit-crazy");
 });
 
-it("Using string type, the types remain as string", () => {
-  const snake = "one_two_three";
-  const aSnake = toKebabCase(snake);
-  type Snake = typeof aSnake;
+it("Type and runtime both convert to kebab case", () => {
+  const kebab1 = toKebabCase("one_two_three");
+  expect(kebab1).toEqual("one-two-three");
+
+  const kebab2 = toKebabCase("OneTwoThree");
+  expect(kebab2).toEqual("one-two-three");
+
+  const kebab3 = toKebabCase("oneTwoThree");
+  expect(kebab3).toEqual("one-two-three");
+
+  const kebab4 = toKebabCase("one_two_three");
+  expect(kebab4).toEqual("one-two-three");
+  const kebab5 = toKebabCase("one_two_Three");
+  expect(kebab5).toEqual("one-two-three");
 
   type cases = [
-    Expect<Equal<Snake, string>>
+    Expect<Equal<typeof kebab1, "one-two-three">>,
+    Expect<Equal<typeof kebab2, "one-two-three">>,
+    Expect<Equal<typeof kebab3, "one-two-three">>,
+    Expect<Equal<typeof kebab4, "one-two-three">>,
+    Expect<Equal<typeof kebab5, "one-two-three">>,
   ];
-  const c: cases = [true];
-  expect(c).toEqual(c);
+  const cases: cases = [true, true, true, true, true ];
+
 });
 
 it(`Using "string literal", type is modified appropriately`, () => {

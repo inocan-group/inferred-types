@@ -11,7 +11,8 @@ export function ensureLeading<T extends string, U extends string>(
   ensure: U
 ): EnsureLeading<T, U> {
   return (
-    //
-    (content.startsWith(ensure) ? content : `${ensure}${content}`) as EnsureLeading<T, U>
-  );
+    content.startsWith(ensure) 
+      ? content : 
+      `${ensure}${content}` 
+  ) as unknown as EnsureLeading<T, U>;
 }

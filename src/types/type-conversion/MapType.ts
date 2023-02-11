@@ -1,7 +1,19 @@
-import { CamelCase, KebabCase, PascalCase, StripLeading, StripTrailing } from "../string-literals";
-import {  IfEndsWith, IfEqual, IfExtends, IfNumericLiteral,  IfStartsWith, IfStringLiteral } from "../boolean-logic";
-import {  FirstOrElse } from "../lists";
-import { RemoveNever } from "../lists/extractors";
+import type { 
+  CamelCase, 
+  KebabCase, 
+  PascalCase, 
+  StripLeading, 
+  StripTrailing 
+} from "../string-literals";
+import {  
+  IfEndsWith, 
+  IfEqual, 
+  IfExtends, 
+  IfNumericLiteral,  
+  IfStartsWith, 
+  IfStringLiteral 
+} from "../boolean-logic";
+import { FirstOrElse, RemoveNever } from "../lists";
 import { Narrowable } from "../literals/Narrowable";
 import { ToString } from "./ToString";
 import { TypeTuple } from "./TypeTuple";
@@ -15,14 +27,14 @@ import { TYPE_MATCHER_DESC, TYPE_TRANSFORMER_DESC } from "src/runtime/runtime";
  * parameter to fully qualify it.
  */
 export type TypeMapMatcher = 
-  | ["Extends", any]
-  | ["Equals", any]
-  | ["NotEqual", any]
+  | ["Extends", unknown]
+  | ["Equals", unknown]
+  | ["NotEqual", unknown]
   | ["StartsWith", string | number]
   | ["EndsWith", string | number]
-  | ["Truthy", any]
-  | ["Falsy", any]
-  | ["Returns", any]
+  | ["Truthy", unknown]
+  | ["Falsy", unknown]
+  | ["Returns", unknown]
   | ["Any"];
 
 /**
@@ -179,9 +191,10 @@ export type ConvertType<
 
 type MapAcc<
   TList extends readonly Narrowable[], 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   TMatchers extends readonly TypeMapRule<any,any,any>[],
   TElse extends Narrowable = never,
-  TResults extends readonly any[] = []
+  TResults extends readonly unknown[] = []
 > = TList extends readonly [infer First, ...infer Rest]
     ? MapAcc<
         Rest, // next
@@ -208,7 +221,8 @@ type MapAcc<
  * ```
  */
 export type MapType<
-  TList extends readonly any[], 
+  TList extends readonly unknown[], 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   TMatchers extends readonly TypeMapRule<any,any,any>[] | TypeMapRule<any,any,any>[],
   TElse extends Narrowable = never
 > = RemoveNever<MapAcc<TList, TMatchers, TElse>>;

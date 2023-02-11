@@ -1,6 +1,6 @@
 // runtime types relate to the types coming out of the runtime utilities
 
-import { TypeGuard } from "./TypeGuard";
+import { TypeGuard } from "./functions/TypeGuard";
 
 export type RuntimeType<T> = {
   __type: "type";

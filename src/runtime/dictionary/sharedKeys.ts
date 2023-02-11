@@ -10,7 +10,7 @@ import { keys } from "./keys";
 export const sharedKeys = <
   A extends AnyObject,
   B extends AnyObject
->(a: A, b: B) => {
+>(a: A, b: B): SharedKeys<A, B> => {
   const ka = keys(a);
   const kb = keys(b);
 

@@ -18,17 +18,15 @@ import {
   NARROW_CONTAINER_TYPE_KINDS,
   WIDE_CONTAINER_TYPE_KINDS,
   FALSY_TYPE_KINDS,
-
 } from "src/constants";
 
 import { TupleToUnion } from "../type-conversion/TupleToUnion";
-import { TypeGuard } from "../TypeGuard";
+import { TypeGuard } from "../functions/TypeGuard";
 import { Filter } from "../lists/Filter";
 import {  KvDict, KvDictToObject, UnionToIntersection } from "../type-conversion";
 import { AnyFunction } from "../functions/function-types";
 import { NotApplicable } from "../../constants/NotApplicable";
 import { NoDefaultValue } from "../../constants";
-
 
 export type TypeOptions<
   TKind extends TypeKind = TypeKind, 
@@ -367,7 +365,7 @@ export type Type<
    */
   validations: TWithValidations extends "no-validations"
     ? readonly []
-    : readonly any[];
+    : readonly unknown[];
 
   identity: ToType<TKind, TRequired, TUnderlying> | NotApplicable<"some types do not have an identity value for concat/sum">;
 

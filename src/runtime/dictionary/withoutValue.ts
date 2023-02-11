@@ -1,4 +1,5 @@
-import { Narrowable, SimplifyObject, WithoutValue, AnyObject } from "src/types";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Narrowable, SimplifyObject, AnyObject, WithoutValue, Key } from "src/types";
 import { keys } from "./keys";
 
 /**
@@ -14,7 +15,7 @@ export const withoutValue = <
   TObj extends AnyObject,
   TValue extends Narrowable
 >(obj: TObj, val: TValue): SimplifyObject<WithoutValue<TValue, TObj>> => {
-  const result: Record<any, any>  = {};
+  const result: Record<Key, unknown>  = {};
   for (const k of keys(obj)) {
     if (val !== obj[k as any]) {
       result[k as any] = obj[k as any];

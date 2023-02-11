@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { unique } from "../../src/runtime/lists/unique";
-import { IntoSet, Unique } from "../../src/types/lists";
+import {  Unique } from "../../src/types/lists";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -16,19 +16,16 @@ describe("Unique properties in Sets", () => {
     type Obj2 = {id: 1; bar: 10};
     type Obj3 = {id: 2; bar: 20};
   
-    type OSet1 = IntoSet<[Obj1, Obj2]>;
-    type OSet2 = IntoSet<[Obj2, Obj3]>;
-  
     it("type check: no dereferencing", () => {
       type T1 = Unique<Scalar1, Scalar2>;
       type T2 = Unique<Scalar2, Scalar1>;
-      type T3 = Unique<OSet1, OSet2>;
+      type T3 = Unique<[Obj1,Obj2], [Obj2,Obj3]>;
   
       type cases = [
         Expect<Equal<T1, readonly [ [1,2], [5,6] ]>>,
         Expect<Equal<T2, readonly [ [5,6], [1,2] ]>>,
         // object testing
-        Expect<Equal<T3, readonly [ [Obj1], [Obj2] ]>>,
+        Expect<Equal<T3, readonly [ [Obj1], [Obj3] ]>>,
       ];
       
       const cases: cases = [ true, true, true ];

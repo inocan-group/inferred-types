@@ -11,16 +11,29 @@ export * from "./DictReturnValues";
 export * from "./Get";
 export * from "./Key";
 export * from "./Keys";
+export * from "./RequiredProps";
+export * from "./OptionalProps";
+export * from "./PrivateKeys";
+export * from "./PublicKeys";
+export * from "./StringKeys";
+export * from "./NonStringKeys";
+export * from "./KeysWithValue";
+export * from "./KeysWithoutValue";
+export * from "./OptionalKeys";
+export * from "./RequiredKeys";
 export * from "./MapTo";
 export * from "./MutableProps";
 export * from "./RequireProps";
 export * from "./KnownKeys";
 export * from "./SameKeys";
-export * from "./props";
 export * from "./append-types";
 export * from "./WithKeys";
+export * from "./WithValue";
 export * from "./SharedKeys";
 export * from "./WithoutKeys";
+export * from "./WithoutValue";
+export * from "./WithNumericKeys";
+export * from "./WithStringKeys";
 
 // #endregion auto-indexed files
 

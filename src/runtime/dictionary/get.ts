@@ -143,10 +143,10 @@ export function get<
       dotPath,
       () => value, // if null passed in then just pass back value
       (dp) => getValue(
-        value, dp, 
+        value, String(dp), 
         options?.defaultValue || NO_DEFAULT_VALUE, 
         options?.handleInvalidDotpath || NOT_DEFINED,
-        dp
+        String(dp)
       ) 
   ) as Get<TValue, TDotPath>;
 }

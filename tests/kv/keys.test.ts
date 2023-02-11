@@ -149,11 +149,6 @@ describe("keys() utility on object", () => {
     const cases: cases = [ true ];
   });
 
-  
-  
-  
-  
-
   it("empty object results in [] type", () => {
     const empty = {};
     const anyObject = {} as Record<string, any>;

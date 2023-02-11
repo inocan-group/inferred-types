@@ -1,7 +1,5 @@
-
 import { AnyFunction } from "../functions/function-types";
 import { Length } from "../lists/Length";
-import { Narrowable } from "../literals/Narrowable";
 import { IsEqual } from "./IsEqual";
 
 /**
@@ -15,7 +13,7 @@ import { IsEqual } from "./IsEqual";
  * type P = HasParameters<typeof fn>;
  * ```
  */
-export type HasParameters<T extends Narrowable> = T extends AnyFunction
+export type HasParameters<T> = T extends AnyFunction
   ? IsEqual<Length<Parameters<T>>, 0> extends true
     ? false
     : true

@@ -1,8 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { createTypeMapRule } from "../../src/runtime/runtime/createTypeMatcher";
-import { t } from "../../src/runtime/runtime/type-shorthand";
-import { ConvertType, MapType } from "../../src/types/type-conversion/MapType";
 import { describe, it } from "vitest";
+
+import { createTypeMapRule } from "src/runtime/runtime/createTypeMatcher";
+import { t } from "src/runtime/runtime/type-shorthand";
+import { ConvertType, MapType } from "src/types/type-conversion";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 

@@ -1,7 +1,7 @@
 import { AfterFirst, First } from "../lists";
 import { Narrowable } from "../literals/Narrowable";
-import { IfTrue } from "./boolean";
-import { IfSomeEqual } from "./IsEqual";
+import { IfTrue } from "./IsBoolean";
+import { IfSomeEqual } from "./IfSomeEqual";
 import { IfLiteral } from "./IsLiteral";
 
 /**

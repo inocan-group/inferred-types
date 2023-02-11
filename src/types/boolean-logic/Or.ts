@@ -2,7 +2,8 @@
 import { LogicFunction } from "../functions/LogicFunction";
 import { ReturnTypes } from "../lists";
 import { Narrowable } from "../literals/Narrowable";
-import { NarrowlyContains } from "./array";
+import { NarrowlyContains } from "./NarrowlyContains";
+
 
 /**
  * **Or**`<TConditions, TParams>`
@@ -13,7 +14,7 @@ import { NarrowlyContains } from "./array";
 export type Or<
   // eslint-disable-next-line no-use-before-define
   TConditions extends readonly (boolean | LogicFunction<TParams>)[],
-  TParams extends readonly any[] = []
+  TParams extends readonly unknown[] = []
 > = NarrowlyContains<TConditions, true> extends true
     ? // if a true value is found anywhere, the result is true
       true
@@ -49,5 +50,5 @@ export type IfOr<
     | (boolean | LogicFunction<TParams>)[],
   IF extends Narrowable,
   ELSE extends Narrowable,
-  TParams extends readonly any[] = [],
+  TParams extends readonly unknown[] = [],
 > = Or<readonly [...TConditions]> extends true ? IF : ELSE;

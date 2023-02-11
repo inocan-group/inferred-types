@@ -1,8 +1,36 @@
 /* eslint-disable no-use-before-define */
+import { AnyFunction } from "../functions";
 import { LogicFunction } from "../functions/LogicFunction";
-import { Narrowable } from "../literals/Narrowable";
-import {  IfTrue, IsFalse, IsTrue, ReturnsFalse, ReturnsTrue } from "./boolean";
+import { AfterFirst, First } from "../lists";
+import { Narrowable } from "../literals";
+import { IsFalse, ReturnsFalse } from "./IsBoolean";
+import { IfNarrowlyContains } from "./IfNarrowlyContains";
 import { IfOr } from "./Or";
+
+type _And<
+  TConditions extends readonly (boolean | LogicFunction<TParams>)[], 
+  TParams extends readonly Narrowable[],
+  TResults extends readonly boolean[] = [],
+> = [] extends TConditions
+? IfNarrowlyContains<TResults, boolean, boolean, true>
+: IfOr<
+    [ 
+      IsFalse<First<TConditions>>, ReturnsFalse<First<TConditions>> 
+    ],
+    false, // false short circuits
+    _And<
+      AfterFirst<TConditions>,
+      TParams,
+      First<TConditions> extends boolean
+        ? [...TResults, First<TConditions>]
+        : First<TConditions> extends AnyFunction
+          ? ReturnType<First<TConditions>> extends boolean 
+            ? [...TResults, ReturnType<First<TConditions>>]
+            : never
+          : never
+    >
+  >;
+
 
 /**
  * **And**`<TConditions, [TParams]>`
@@ -11,43 +39,6 @@ import { IfOr } from "./Or";
  * function which evaluates to a boolean value to be logically AND'd together.
  */
 export type And<
-  // eslint-disable-next-line no-use-before-define
   TConditions extends readonly (boolean | LogicFunction<TParams>)[], 
-  TParams extends readonly any[] = [],
-  TMaybe extends boolean = false
-> = [...TConditions] extends [infer First, ...infer Rest]
-  ? IfOr<
-      [ IsTrue<First>, ReturnsTrue<First> ],
-      // good so far; recurse to test next condition
-      Rest extends readonly (boolean | LogicFunction<TParams>)[]
-        ? And<Rest, TParams, TMaybe>
-        : never,
-      // if it's false we're done but we may have a boolean type
-      IfOr<
-        [ IsFalse<First>, ReturnsFalse<First> ],
-        false,
-        // recurse but set Maybe flag
-        Rest extends readonly (boolean | LogicFunction<TParams>)[]
-          ? And<Rest, TParams, true>
-          : never,
-        TParams
-      >,
-      TParams
-    >
-  : IfTrue<TMaybe, boolean, true>;
-
-/**
- * **IfAnd**`<TConditions[], [IF], [ELSE], [TParams]>`
- * 
- * Takes an array of _conditions_ and if all of them evaluate to `true`
- * then the `IF` type is returned otherwise the `ELSE` type.
- * 
- * By default `IF` is **true** and `ELSE` is **false**.
- */
-export type IfAnd<
-  TConditions extends readonly (boolean | LogicFunction<TParams>)[],
-  IF extends Narrowable = true,
-  ELSE extends Narrowable = false,
-  TParams extends readonly any[] = readonly [],
-> = And<TConditions> extends true ? IF : ELSE; 
-  
+  TParams extends readonly unknown[] = [],
+> = _And<TConditions, TParams>;

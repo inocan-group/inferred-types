@@ -843,6 +843,4 @@ const NAMED_COLOR_LOOKUP = [
   }
 ] as const;
 
-type NameLookup = GetEach<typeof NAMED_COLOR_LOOKUP, "name">;
 
-export const namedColorLookup = (name: NameLookup) => NAMED_COLOR_LOOKUP.find(i => i.name === name);

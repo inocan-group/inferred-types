@@ -1,0 +1,4 @@
+/**
+ * **ClosingBracket**
+ */
+export type ClosingBracket = ")" | "]" | "}";

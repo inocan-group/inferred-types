@@ -1,11 +1,17 @@
-import { NoDefaultValue , Type, TypeDefaultValue, TypeOptions, TypeUnderlying } from "../../../types";
+import { 
+  NoDefaultValue, 
+  Type, 
+  TypeDefaultValue, 
+  TypeOptions, 
+  TypeUnderlying 
+} from "src/types";
 
 export type TypeApiNumber = <
     TRequired extends boolean = true,
     TDesc extends string = "",
     TUnderlying extends TypeUnderlying = "no-underlying",
     TDefaultValue extends TypeDefaultValue<"number", TRequired, TUnderlying> = NoDefaultValue,
-    TValidations extends readonly any[] | "no-validations" = "no-validations", 
+    TValidations extends readonly unknown[] | "no-validations" = "no-validations", 
 >(
   options?: TypeOptions<"number", TRequired, TDesc, TUnderlying, TDefaultValue, TValidations>
 ) => Type<

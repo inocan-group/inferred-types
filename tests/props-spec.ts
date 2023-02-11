@@ -12,7 +12,7 @@ import {
   NonStringKeys,
   WithNumericKeys,
   WithoutValue,
-} from "../src/types/dictionary";
+} from "src/types/dictionary";
 
 
 type T0 = { foo: number; bar: number; baz: string };
@@ -81,26 +81,26 @@ describe("Dictionary Type Utils", () => {
   type WideType = typeof wideType;
 
   it("KeysWithValue<type, obj> identifies keys of the given object which have a value of specified type", () => {
-    type SL = KeysWithValue<string, LiteralType>;
-    type SN = KeysWithValue<string, NarrowType>;
-    type SW = KeysWithValue<string, WideType>;
+    type SL = KeysWithValue< LiteralType, string>;
+    type SN = KeysWithValue< NarrowType, string>;
+    type SW = KeysWithValue< WideType, string>;
 
-    type StrLiteralNarrow = KeysWithValue<"hi", NarrowType>;
-    type StrLiteralWide = KeysWithValue<"hi", WideType>;
+    type StrLiteralNarrow = KeysWithValue< NarrowType, "hi">;
+    type StrLiteralWide = KeysWithValue< WideType, "hi">;
 
-    type Num = KeysWithValue<number, LiteralType>;
-    type NumNarrow = KeysWithValue<number, NarrowType>;
-    type NumWide = KeysWithValue<number, WideType>;
+    type Num = KeysWithValue<LiteralType, number>;
+    type NumNarrow = KeysWithValue<NarrowType, number>;
+    type NumWide = KeysWithValue<WideType, number>;
 
-    type LT = KeysWithValue<true, LiteralType>;
-    type LF = KeysWithValue<false, LiteralType>;
-    type LB = KeysWithValue<boolean, LiteralType>;
+    type LT = KeysWithValue<LiteralType, true>;
+    type LF = KeysWithValue< LiteralType, false>;
+    type LB = KeysWithValue< LiteralType, boolean>;
 
-    type TrueNarrow = KeysWithValue<true, NarrowType>;
-    type TrueWide = KeysWithValue<true, WideType>;
+    type TrueNarrow = KeysWithValue< NarrowType, true>;
+    type TrueWide = KeysWithValue< WideType, true>;
 
-    type BooleanNarrow = KeysWithValue<boolean, NarrowType>;
-    type BooleanWide = KeysWithValue<boolean, WideType>;
+    type BooleanNarrow = KeysWithValue<NarrowType, boolean>;
+    type BooleanWide = KeysWithValue<WideType, boolean>;
 
     type cases = [
       Expect<Equal<SL, "greet">>,
@@ -152,10 +152,10 @@ describe("Dictionary Type Utils", () => {
   it("WithValue<type, obj> reduces the types on the object effectively", () => {
     type Literal = { foo: 1; bar: true; baz: false; baz2: false };
 
-    type S = WithValue<string, T0>;
-    type N = WithValue<number, T0>;
-    type LT = WithValue<true, Literal>;
-    type LF = WithValue<false, Literal>;
+    type S = WithValue<T0, string>;
+    type N = WithValue<T0, number>;
+    type LT = WithValue<Literal, true>;
+    type LF = WithValue< Literal, false>;
 
     type cases = [
       Expect<Equal<S, { baz: string }>>,
@@ -189,9 +189,9 @@ describe("Dictionary Type Utils", () => {
     const t = { foo: 1, bar: true, baz: false, baz2: false, xyz: "hi" };
     type T = typeof t;
 
-    type S = WithValue<string, T>;
-    type N = WithValue<number, T>;
-    type B = WithValue<boolean, T>;
+    type S = WithValue<T, string>;
+    type N = WithValue<T, number>;
+    type B = WithValue< T, boolean>;
 
     type cases = [
       Expect<Equal<S, { xyz: string }>>,
@@ -206,9 +206,9 @@ describe("Dictionary Type Utils", () => {
     const t = { foo: 1, bar: true, baz: false, baz2: false, xyz: "hi" } as const;
     type T = typeof t;
 
-    type S = WithValue<string, T>;
-    type N = WithValue<number, T>;
-    type F = WithValue<false, T>;
+    type S = WithValue< T, string>;
+    type N = WithValue< T, number>;
+    type F = WithValue<T, false>;
 
     type cases = [
       Expect<Equal<S, { readonly xyz: "hi" }>>,
@@ -220,7 +220,8 @@ describe("Dictionary Type Utils", () => {
   });
 
   it("WithValue<Function, O> reduces to kv's with a function but retains functions signature", () => {
-    type T = WithValue<Function, { a: number; b: string; c: () => "hello"; d: () => "world" }>;
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    type T = WithValue<{ a: number; b: string; c: () => "hello"; d: () => "world" }, Function>;
 
     type cases = [Expect<Equal<T, { c: () => "hello"; d: () => "world" }>>];
     const cases: cases = [true];

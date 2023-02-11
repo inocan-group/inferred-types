@@ -1,4 +1,3 @@
-
 import { AnyObject, IsEmptyObject } from "../boolean-logic";
 import { Narrowable } from "../literals/Narrowable";
 
@@ -15,22 +14,6 @@ export type FnWithDict<
   ? never
   : (<TArgs extends any[]>(...args: TArgs) => any) & TDict;
 
-/**
- * **BaseFunction**
- * 
- * Represents any _simple_ function which has any number of arguments and returns
- * anything. It does **not**, however match on a function which has been combined
- * with a dictionary of key/values.
- * 
- * **Note:** _you can optionally use the generic `A` to narrow the parameters you're
- * matching for and similarly you can use `R` to limit the return._
- * 
- * **Related:** `FnWithDict`, `NarrowableFn`, `AnyFunction`
- */
-export type BaseFunction<
-  A extends any[] = any[], 
-  R extends any = any
-> = (...args: A) => R & {};
 
 /**
  * **NarrowableFn**
@@ -41,7 +24,7 @@ export type BaseFunction<
 export type NarrowableFn<
   A extends any[] = any[], 
   R extends Narrowable = Narrowable
-> = <AA extends A>(...args: AA) => R & {};
+> = <AA extends A>(...args: AA) => R;
 
 
 /**
@@ -57,9 +40,8 @@ export type NarrowableFn<
  * **Related:** `SimpleFn`, `NarrowableFn`, `FnWithDict`
  */
 export type AnyFunction<
-  TProps extends {} = Record<string, any>,
   TArgs extends any[] = any[],
-  TReturn extends any = any
-> = <A extends TArgs>(...args: A) => TReturn & TProps;
+  TReturn = any
+> = (...args: TArgs) => TReturn;
 
 export type IdentityFunction = <T>(val: T) => T;
