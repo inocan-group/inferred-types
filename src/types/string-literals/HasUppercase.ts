@@ -1,4 +1,5 @@
-import { UpperAlpha } from "./alpha-characters";
+import { UpperAlpha } from "./character-sets";
+
 
 /**
  * Indicates whether `T` has uppercase characters in it.

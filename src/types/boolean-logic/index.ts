@@ -4,6 +4,7 @@ export * from "./IsBoolean";
 export * from "./IsScalar";
 export * from "./And";
 export * from "./IsLiteral";
+export * from "./IfLiteral";
 export * from "./IsUndefined";
 export * from "./DoesExtend";
 export * from "./HasParameters";
@@ -31,6 +32,8 @@ export * from "./IfStringLiteral";
 export * from "./IfNumericLiteral";
 export * from "./IfBooleanLiteral";
 
+export * from "./HasCharacter";
+export * from "./NotCharacters";
 export * from "./IsEqual";
 export * from "./IsUnion";
 export * from "./Contains";

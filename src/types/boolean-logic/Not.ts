@@ -1,4 +1,4 @@
-import { IfSoftTrue } from "./IsBoolean";
+import { IfSoftTrue } from "./IfSoftTrue";
 
 /**
  * **Not**`<T>`

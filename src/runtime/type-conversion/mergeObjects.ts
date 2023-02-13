@@ -15,11 +15,12 @@ export function mergeObjects<
 
   return {
     ...(intersectingKeys.reduce(
-      (acc, key) => acc,
+      (acc, key) => typeof override[key] === "undefined"
+        ? {...acc, [key]: defVal[key]}
+        : {...acc, [key]: override[key]},
       {}
     )),
     ...defUnique,
     ...overrideUnique,
   };
-
 }

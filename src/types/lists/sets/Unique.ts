@@ -3,11 +3,10 @@ import {
   Narrowable , 
   AfterFirst, 
   First, 
-  GetEach, 
-  IndexOf , 
-  Mutable
+  GetEach,
+  Mutable,
+  Get
 } from "src/types";
-
 
 type UniqueAcc<
   Target extends readonly Narrowable[],
@@ -18,13 +17,13 @@ type UniqueAcc<
 ? Results
 : IfContains<
   GetEach<Compare, Dereference>,
-  IndexOf<First<Target>, Dereference>,
+  Get<First<Target>, Dereference>,
   UniqueAcc<AfterFirst<Target>, Compare, Dereference, Results>,
   UniqueAcc<AfterFirst<Target>, Compare, Dereference, readonly [...Results, First<Target>]>
 >;
 
 /**
-* **Unique**`<A,B>` => [UA,UB]
+* **Unique**`<A,B, [TDeref]>` => [UA,UB]
 * 
 * Type utility which takes two sets `A` and `B` and returns a tuple
 * containing the unique properties found in `A` and `B` respectively.
@@ -56,7 +55,3 @@ export type Unique<
       Mutable<UniqueAcc<B, A, TDeref>>
     ]
     : never;
-
-  
-  
-

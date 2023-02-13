@@ -2,8 +2,8 @@ import { NotEqual } from "@type-challenges/utils";
 import { Keys } from "../dictionary/Keys";
 import { Length } from "../lists/Length";
 import { Narrowable } from "../literals/Narrowable";
-import { IsBooleanLiteral } from "./IsBoolean";
 import { IfAnd } from "./IfAnd";
+import { IsBooleanLiteral } from "./IsBooleanLiteral";
 import { IsEqual } from "./IsEqual";
 import { IsNumericLiteral } from "./IsNumericLiteral";
 import { IsStringLiteral } from "./IsStringLiteral";
@@ -66,18 +66,7 @@ export type IsOptionalLiteral<T> = [Exclude<T, undefined>] extends [string]
   ? IsNumericLiteral<Exclude<T, undefined>>
   : false;
 
-/**
- * **IfLiteral**
- *
- * Branch type utility with return `IF` when `T` is a _literal_ value and `ELSE` otherwise
- */
-export type IfLiteral<
-  T, 
-  IF extends Narrowable, 
-  ELSE extends Narrowable
-> = IsLiteral<T> extends true
-  ? IF
-  : ELSE;
+
 
 /**
  * **IfOptionalLiteral**

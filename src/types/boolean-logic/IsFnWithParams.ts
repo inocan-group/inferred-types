@@ -1,7 +1,8 @@
 import { IfEqual, IfExtends, IfOr } from "src/types";
 import { AnyFunction } from "../functions/function-types";
 import { And } from "./And";
-import { AnyObject, IsEmptyObject } from "./object";
+import { IsEmptyObject } from "./IsEmptyObject";
+import { AnyObject } from "./object";
 
 /**
  * **IsFnWithParams**`<TFn, [TParamMatch]>`
@@ -14,7 +15,7 @@ import { AnyObject, IsEmptyObject } from "./object";
  */
 export type IsFnWithParams<
   TFn, 
-  TParamMatch extends Record<string, any> | undefined = undefined
+  TParamMatch extends Record<string, unknown> | undefined = undefined
 > = TFn extends AnyFunction
     ? IsEmptyObject<TFn> extends true 
         ? false 

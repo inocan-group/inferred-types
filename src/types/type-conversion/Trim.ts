@@ -1,4 +1,5 @@
-import { Whitespace } from "../string-literals/alpha-characters";
+import { Whitespace } from "../string-literals/character-sets";
+
 
 /**
  * Trims off blank spaces, `\n` and `\t` characters from both sides of a _string literal_.

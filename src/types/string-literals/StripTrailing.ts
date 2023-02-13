@@ -1,5 +1,4 @@
-import { IfAnd } from "../boolean-logic";
-import { IfLiteral } from "../boolean-logic/IsLiteral";
+import { IfAnd, IfLiteral } from "../boolean-logic";
 import { IsString } from "../boolean-logic/IsString";
 import { Narrowable } from "../literals/Narrowable";
 

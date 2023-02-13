@@ -5,7 +5,7 @@ import { StartsWith } from "../boolean-logic/StartsWith";
 import { AfterFirst } from "../lists";
 import { First } from "../lists/First";
 import { Split } from "../lists/Split";
-import { AlphaNumericChar } from "./alpha-characters";
+import { AlphaNumericChar } from "./character-sets/AlphaNumeric";
 
 export type DotPathChar = AlphaNumericChar | "_" | "-";
 

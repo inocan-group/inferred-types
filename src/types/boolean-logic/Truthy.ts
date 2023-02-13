@@ -1,8 +1,8 @@
 import { AfterFirst, First } from "../lists";
 import { Narrowable } from "../literals/Narrowable";
-import { IfTrue } from "./IsBoolean";
+import { IfLiteral } from "./IfLiteral";
 import { IfSomeEqual } from "./IfSomeEqual";
-import { IfLiteral } from "./IsLiteral";
+import { IfTrue } from "./IfTrue";
 
 /**
  * A union of all _falsy_ values.
@@ -51,7 +51,7 @@ export type IfTruthy<
  * and the `MAYBE` type when the truthiness is not known at design time.
  */
 export type IfSomeTruthy<
-  TValues extends readonly any[],
+  TValues extends readonly unknown[],
   IF extends Narrowable, 
   ELSE extends Narrowable, 
   MAYBE extends Narrowable = unknown,

@@ -1,5 +1,6 @@
 
-import type { Narrowable, IfObject } from "src/types";
+import type { Narrowable } from "src/types";
+import { IfObject } from "src/types/boolean-logic/IfObject";
 import { isObject } from "../type-guards";
 
 export function ifObject<

@@ -18,6 +18,8 @@ import {
   NARROW_CONTAINER_TYPE_KINDS,
   WIDE_CONTAINER_TYPE_KINDS,
   FALSY_TYPE_KINDS,
+  NoDefaultValue, 
+  NotApplicable 
 } from "src/constants";
 
 import { TupleToUnion } from "../type-conversion/TupleToUnion";
@@ -25,8 +27,7 @@ import { TypeGuard } from "../functions/TypeGuard";
 import { Filter } from "../lists/Filter";
 import {  KvDict, KvDictToObject, UnionToIntersection } from "../type-conversion";
 import { AnyFunction } from "../functions/function-types";
-import { NotApplicable } from "../../constants/NotApplicable";
-import { NoDefaultValue } from "../../constants";
+import { ErrorCondition } from "src/runtime";
 
 export type TypeOptions<
   TKind extends TypeKind = TypeKind, 
@@ -258,6 +259,11 @@ export type TypeHasDefaultValue = "no-default-value" | "with-default-value";
 export type TypeHasValidations = "no-validations" | "with-validations";
 export type TypeHasUnderlying = "no-underlying" | "literals" | "children";
 
+/**
+ * A function which is provided a value `T` and must either return
+ * `true` or an `ErrorCondition` which describes the issue.
+ */
+export type ValidationFunction = <T, E extends string>(value: T) =>  true | ErrorCondition<E>;
 
 /**
  * A type definition which retains valuable runtime characteristics
@@ -365,7 +371,7 @@ export type Type<
    */
   validations: TWithValidations extends "no-validations"
     ? readonly []
-    : readonly unknown[];
+    : readonly ValidationFunction[];
 
   identity: ToType<TKind, TRequired, TUnderlying> | NotApplicable<"some types do not have an identity value for concat/sum">;
 

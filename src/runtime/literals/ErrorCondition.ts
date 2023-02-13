@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 /**
  * **ErrorCondition**`<T>`
  * 
@@ -7,7 +8,7 @@ export interface ErrorCondition<
   TKind extends string, 
   TMsg extends string = string, 
   TDomain extends string = string,
-  TVars extends Record<string, any> = {}
+  TVars extends Record<string, unknown> = {}
 > {
   _type: "ErrorCondition";
   domain: TDomain;
@@ -23,7 +24,7 @@ export interface ErrorCondition<
  */
 export type ReportError<T> = T extends ErrorCondition<infer Kind, infer Msg>
   ? ErrorCondition<Kind, Msg>
-  : Exclude<T, ErrorCondition<any, any>>;
+  : Exclude<T, ErrorCondition<string, string>>;
 
 export function errorCondition<K extends string, T extends string>(kind: K, message: T = "" as T) {
   return {

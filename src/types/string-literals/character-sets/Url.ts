@@ -1,17 +1,12 @@
-import { AlphaNumericChar, Ipv4, VariableName } from "./alpha-characters";
+import { DomainName } from "./DomainName";
+import { Ipv4 } from "./IpAddress";
+import { VariableChar } from "./Variable";
+
 
 export type NetworkProtocol = "http" | "https" | "file" | "ws" | "wss";
 
-/**
- * A literal variant of _string_ which is meant to represent a domain name
- * (e.g., `www.someplace.com`, etc.)
- */
-export type DomainName =
-  | `${AlphaNumericChar}${string}.${AlphaNumericChar}${string}`
-  | `${AlphaNumericChar}${string}.${AlphaNumericChar}${string}.${string}`
-  | `${AlphaNumericChar}${string}.${AlphaNumericChar}${string}.${string}.${string}`;
 
-export type RelativeUrl = `${VariableName | "/"}`;
+export type RelativeUrl = `${VariableChar | "/"}`;
 
 /**
  * A literal variant of _string_ which forces a string to follow conventions

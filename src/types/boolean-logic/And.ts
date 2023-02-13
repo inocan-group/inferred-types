@@ -3,9 +3,10 @@ import { AnyFunction } from "../functions";
 import { LogicFunction } from "../functions/LogicFunction";
 import { AfterFirst, First } from "../lists";
 import { Narrowable } from "../literals";
-import { IsFalse, ReturnsFalse } from "./IsBoolean";
 import { IfNarrowlyContains } from "./IfNarrowlyContains";
+import { IsFalse } from "./IsFalse";
 import { IfOr } from "./Or";
+import { ReturnsFalse } from "./ReturnsFalse";
 
 type _And<
   TConditions extends readonly (boolean | LogicFunction<TParams>)[], 

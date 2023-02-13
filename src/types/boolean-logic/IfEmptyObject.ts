@@ -1,16 +1,11 @@
-import { Keys } from "../dictionary/Keys";
+import { IsEmptyObject } from "./IsEmptyObject";
 
 /**
- * **IsEmptyObject**`<T>`
+ * **IfEmptyObject**`<T,IF,ELSE>`
  * 
- * Type utility which detects an object type that has no keys defined.
- * 
- * Note: unlike the `IsObject<T>` utility, this utility doesn't care if
- * this object-like structure is intersected with a function. It's utility
- * is just to detect whether the object _part_ of the type has keys or not.
+ * Branching utility which returns type `IF` when `T` is an
+ * empty object; otherwise returns `ELSE` type.
  */
-export type IsEmptyObject<T> = T extends Record<string, unknown>
-  ? [] extends Keys<T>
-    ? true
-    : false
-  : false;
+export type IfEmptyObject<T,IF,ELSE> = IsEmptyObject<T> extends true 
+  ? IF
+  : ELSE;

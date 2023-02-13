@@ -1,6 +1,5 @@
-
 import { Replace } from "src/types/type-conversion";
-import { NonAlphaChar } from "../alpha-characters";
+import { NonAlphaChar } from "../character-sets/NonAlpha";
 
 /**
  * Strips the non-alpha characters that lead a string

@@ -1,4 +1,4 @@
-import { AnyObject, AnyFunction } from "src/types";
+import {  AnyFunction } from "src/types";
 import { keys } from "../dictionary";
 import { isTypeOf } from "./higher-order";
 
@@ -9,7 +9,7 @@ import { isTypeOf } from "./higher-order";
  * which _also_ contains 
  */
 export function isFnWithParams<
-  TFn extends AnyFunction<AnyObject>,
+  TFn extends AnyFunction,
 >(input: unknown): input is TFn {
 
   return isTypeOf("function", input) && keys(input)?.length > 0;
