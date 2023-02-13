@@ -1,4 +1,4 @@
-import { AsArray } from "src/types";
+import { AsArray, Narrowable } from "src/types";
 import { isArray } from "../type-guards/isArray";
 
 /**
@@ -20,7 +20,7 @@ export type UndefinedArrayIsUnknown<T extends any[]> = undefined[] extends T ? u
  * change the optional _widen_ parameter to _false_.
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const asArray = <T>(thing: T) => {
+export const asArray = <T extends Narrowable>(thing: T) => {
   return (
     isArray(thing)
       ? // proxy thing back as it's already an array

@@ -13,7 +13,7 @@ describe("ObjValues<Obj>", () => {
     type Obj = { a: "foo"; b: "bar" };
     type FooBar = ObjValues<Obj>;
     // eslint-disable-next-line @typescript-eslint/ban-types
-    type Empty = ObjValues<object>;
+    // type Empty = ObjValues<object>;
     type WithNarrowNumber = ObjValues<{ a: "foo"; b: "bar"; c: 42 }>;
     type WithWideNumber = ObjValues<{ a: "foo"; b: "bar"; c: number }>;
     

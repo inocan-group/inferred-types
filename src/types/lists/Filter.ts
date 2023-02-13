@@ -28,7 +28,7 @@ export type FilterOps = "equals" | "not-equal" | "extends" | "does-not-extend";
  * **Related:** `RetainFromList`, `RemoveFromList`
  */
 export type Filter<
-  TList extends any[] | readonly any[],
-  TFilter extends readonly any[] | Narrowable,
+  TList extends unknown[] | readonly unknown[],
+  TFilter extends readonly unknown[] | Narrowable,
   TOp extends FilterOps = "extends"
 > = RetainFromList<TList, TOp, TFilter>;

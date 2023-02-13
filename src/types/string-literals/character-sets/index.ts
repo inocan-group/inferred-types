@@ -4,6 +4,7 @@ export * from "./UpperAlpha";
 export * from "./Punctuation";
 export * from "./DomainName";
 export * from "./Url";
+export * from "./CSV";
 export * from "./IpAddress";
 export * from "./StringDelimiter";
 export * from "./Whitespace";
