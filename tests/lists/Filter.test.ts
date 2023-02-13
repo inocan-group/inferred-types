@@ -1,8 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { filter } from "../../src/runtime/lists/filter";
-import { Contains } from "../../src/types";
-import { RemoveNever } from "../../src/types/lists/extractors";
-import { Filter } from "../../src/types/lists/Filter";
+import { filter } from "src/runtime/lists/filter";
+import { Contains } from "src/types";
+import { RemoveNever,  RetainFromList } from "src/types/lists/extractors";
+import { Filter } from "src/types/lists/Filter";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -62,7 +62,6 @@ describe("Filter<Tuple, Filter, Op>", () => {
     ];
     const cases: cases = [ true, true, true, true ];
   });
-  
 
   it("read-write Tuple, multiple extends filters (OR)", () => {
     type T0 = Filter<[1,2, "foo", "bar"], ["foo", 5, 7]>; 
@@ -131,11 +130,13 @@ describe("Filter<Tuple, Filter, Op>", () => {
     type List = [1,2, "foo", "bar", never];
 
     type FooBar = Filter<List, ["foo", "bar"], "equals">;
+    type FooBar2 = RetainFromList<List, "equals", ["foo", "bar"]>;
     
     type cases = [
+      Expect<Equal<FooBar, FooBar2>>,
       Expect<Equal<FooBar, ["foo", "bar"]>>,
     ];
-    const cases: cases = [ true ];
+    const cases: cases = [ true, true ];
     
   });
   

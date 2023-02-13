@@ -19,7 +19,7 @@ import {
 import { KvDict, KvDictToObject, TupleToUnion } from "../../type-conversion";
 import { NotEqual } from "@type-challenges/utils";
 
-type Unionize<T> = T extends readonly any[] ? TupleToUnion<T> : T;
+type Unionize<T> = T extends readonly unknown[] ? TupleToUnion<T> : T;
 
 /**
  * **RetainFromList**`<TList,TComparator,TCompareTo>`
@@ -34,10 +34,10 @@ type Unionize<T> = T extends readonly any[] ? TupleToUnion<T> : T;
  * - by default `TNever` is set to "remove" but can be set to "retain" if so desired
  */
 export type RetainFromList<
-  TList extends any[] | readonly any[],
+  TList extends unknown[] | readonly unknown[],
   TComparator extends FilterOps,
   TCompareTo extends Narrowable
-> = TList extends any[]
+> = TList extends unknown[]
 // readonly list
 ? TComparator extends "extends"
   ? RetainExtends<TList, Unionize<TCompareTo>>
@@ -63,9 +63,9 @@ export type RetainFromList<
  * **RetainNotExtends**`<TList,TCompareTo>`
  */
 type RetainNotExtends<
-  TList extends any[] | readonly any[],
+  TList extends unknown[] | readonly unknown[],
   TCompareTo, // what to extract
-  TResults extends readonly any[] = []
+  TResults extends readonly unknown[] = []
 > = [] extends TList
   ? TResults
   : First<TList> extends TCompareTo
@@ -78,9 +78,9 @@ type RetainNotExtends<
  * **RetainExtends**`<TList,TCompareTo>`
  */
 type RetainExtends<
-  TList extends any[] | readonly any[],
+  TList extends unknown[] | readonly unknown[],
   TCompareTo, // what to extract
-  TResults extends readonly any[] = []
+  TResults extends readonly unknown[] = []
 > = [] extends TList
   ? TResults
   : And<[DoesExtend<First<TList>, TCompareTo>, NotEqual<First<TList>, never>]> extends true
@@ -97,18 +97,20 @@ type RetainExtends<
  * **RetainEquals**`<TList,TCompareTo>`
  */
 type RetainEquals<
-  TList extends any[] | readonly any[],
+  TList extends unknown[] | readonly unknown[],
   TCompareTo, // what to extract
-  TResults extends readonly any[] = []
+  TResults extends readonly unknown[] = []
 > = [] extends TList
   ? TResults
   : First<TList> extends never
     ? RetainEquals<AfterFirst<TList>, TCompareTo, TResults>
     : IfArray<
       TCompareTo,
-      SomeEqual<First<TList>, TCompareTo & any[]> extends true
+      // TCompareTo is an array
+      SomeEqual<First<TList>, TCompareTo & unknown[]> extends true
         ? RetainEquals<AfterFirst<TList>, TCompareTo, [...TResults, First<TList>]>
         : RetainEquals<AfterFirst<TList>, TCompareTo, TResults>,
+      // TCompareTo is not an array
       IsEqual<First<TList>, TCompareTo> extends true
         ? RetainEquals<AfterFirst<TList>, TCompareTo, [...TResults, First<TList>]>
         : RetainEquals<AfterFirst<TList>, TCompareTo, TResults>
@@ -118,9 +120,9 @@ type RetainEquals<
  * **RetainNotEqual**`<TList,TCompareTo,TOp>`
  */
 type RetainNotEqual<
-  TList extends any[] | readonly any[],
+  TList extends unknown[] | readonly unknown[],
   TCompareTo, // what to extract
-  TResults extends readonly any[] = []
+  TResults extends readonly unknown[] = []
 > = [] extends TList
   ? TResults
   : IsNotEqual<First<TList>, TCompareTo> extends true
@@ -142,10 +144,10 @@ type RetainNotEqual<
  * - `TOp` must be "remove" or "retain"
  */
 export type KvDictExtractor<
-  TKv extends readonly KvDict<any,any>[],
+  TKv extends readonly KvDict[],
   TCompareTo,
   TOp extends ExtractorOp = "remove",
-  TResults extends readonly KvDict<any, any>[] = []
+  TResults extends readonly KvDict[] = []
 > = [] extends TKv
   ? KvDictToObject<TResults>
   : IfEqual<
@@ -168,10 +170,10 @@ export type KvDictExtractor<
  * **NarrowObjExtractor**`<TKv, TExtract, TOp, TResults>`
  */
 export type NarrowObjExtractor<
-  TKv extends readonly KvDict<any,any>[],
+  TKv extends readonly KvDict[],
   TExtract,
   TOp extends ExtractorOp = "remove",
-  TResults extends readonly KvDict<any, any>[] = []
+  TResults extends readonly KvDict[] = []
 > = [] extends TKv
   ? KvDictToObject<TResults>
   : IfEqual<

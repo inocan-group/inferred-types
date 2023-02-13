@@ -21,6 +21,7 @@ export * from "./IsFalse";
 export * from "./IsSoftTrue";
 export * from "./IfBoolean";
 export * from "./IfTrue";
+export * from "./IfNumber";
 export * from "./IfFalse";
 export * from "./IfSoftTrue";
 export * from "./IfSoftFalse";

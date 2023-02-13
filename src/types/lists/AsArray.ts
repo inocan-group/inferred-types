@@ -1,3 +1,5 @@
+import { IfUndefined } from "../boolean-logic";
+
 /**
  * **AsArray**`<T>`
  * 
@@ -5,8 +7,8 @@
  * encapsulating it as a single item array if it is a
  * non-array type.
  */
-export type AsArray<T> = T extends readonly unknown[]
-  ? Readonly<T>
-  : T extends unknown[]
-    ? T
-    : [T];
+export type AsArray<T> = T extends unknown[]
+  ? T
+  : T extends readonly unknown[]
+    ? Readonly<T>
+    : IfUndefined<T, [], [T]>;

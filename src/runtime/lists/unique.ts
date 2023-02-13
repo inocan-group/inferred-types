@@ -1,6 +1,6 @@
-import {  Unique } from "src/types";
-import { get } from "../dictionary/get";
+import { Unique } from "src/types";
 import { isString } from "../type-guards/isString";
+import { indexOf } from "./indexOf";
 
 /**
  * **unique**
@@ -18,13 +18,13 @@ export function unique<
     : null;
   const bValues = offset === null
     ? b
-    : b.map(i => get(i, offset));
+    : b.map(i => indexOf(i, offset));
   const aValues = offset === null
     ? a
-    : a.map(i => get(i, offset));
+    : a.map(i => indexOf(i, offset));
 
-  const forA = a.filter(i => !bValues.includes(get(i, offset)));
-  const forB = b.filter(i => !aValues.includes(get(i, offset)));
+  const forA = a.filter(i => !bValues.includes(indexOf(i, offset)));
+  const forB = b.filter(i => !aValues.includes(indexOf(i, offset)));
 
   return [forA, forB] as unknown as Unique<A,B,TIndex>;
 }

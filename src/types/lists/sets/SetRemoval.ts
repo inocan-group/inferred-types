@@ -1,10 +1,10 @@
-import { IfSomeEqual , AfterFirst, First, IntoSet } from "../../../types";
+import { IfSomeEqual , AfterFirst, First, AsArray } from "../../../types";
 import { SetCandidate } from "./SetCandidate";
 
 type SetRemovalAcc<
-  TSet extends readonly any[],
-  TRemoval extends readonly any[],
-  Processed extends readonly any[] = [],
+  TSet extends readonly unknown[],
+  TRemoval extends readonly unknown[],
+  Processed extends readonly unknown[] = [],
 > = [] extends TSet
   ? Processed
   : IfSomeEqual<
@@ -22,6 +22,6 @@ type SetRemovalAcc<
  * **Note:** a "set" can be either an array of values, or a union of values.
  */
 export type SetRemoval<
-  TSet extends SetCandidate,
+  TSet extends readonly unknown[],
   TRemoval extends SetCandidate,
-> = Readonly<SetRemovalAcc<IntoSet<TSet>, IntoSet<TRemoval>>>;
+> = Readonly<SetRemovalAcc<TSet, AsArray<TRemoval>>>;

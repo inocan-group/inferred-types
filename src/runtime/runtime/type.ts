@@ -93,7 +93,7 @@ export const createTypeDefn = <
     validate: (_val) => true,
     is: ((_val) => true) as FullType["is"],
 
-  };
+  } as FullType;
 
   return createValidator(createTypeGuard(type)) as FullType;
 };

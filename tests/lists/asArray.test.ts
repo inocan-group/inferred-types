@@ -1,22 +1,19 @@
 import { describe, it, expect } from "vitest";
-import { AsArray, asArray } from "../../src/runtime";
+import {  asArray } from "../../src/runtime";
 import { Equal, Expect } from "@type-challenges/utils";
+import { AsArray } from "src/types";
 
 describe("AsArray<T>", () => {
   it("happy path", () => {
     type T1 = AsArray<4>;
-    type T2 = AsArray<4, true>;
-    type T3 = AsArray<[4, 5, 6]>;
-    type T4 = AsArray<[4, 5, 6], true>;
+    type T2 = AsArray<[4, 5, 6]>;
 
     type cases = [
       //
-      Expect<Equal<T1, 4[]>>,
-      Expect<Equal<T2, number[]>>,
-      Expect<Equal<T3, [4, 5, 6]>>,
-      Expect<Equal<T4, number[]>>
+      Expect<Equal<T1, [4]>>,
+      Expect<Equal<T2, [4, 5, 6]>>,
     ];
-    const cases: cases = [true, true, true, true];
+    const cases: cases = [true, true];
   });
 });
 
@@ -29,7 +26,9 @@ describe("asArray() function", () => {
     // run-time
     expect(o).toEqual(["a"]);
     // design-time
-    type cases = [Expect<Equal<O, string[]>>];
+    type cases = [
+      Expect<Equal<O,  ["a"] >>, //
+    ];
     const cases: cases = [true];
   });
 
@@ -45,23 +44,6 @@ describe("asArray() function", () => {
     const cases: cases = [true];
   });
 
-  it("non-array literal is returned as an array", () => {
-    const i = "a" as const;
-    const o = asArray(i, false);
-    const o2 = asArray(i, true);
-
-    type O = typeof o;
-    type O2 = typeof o2;
-
-    // run-time
-    expect(o).toEqual(["a"]);
-    // design-time
-    type cases = [
-      Expect<Equal<O, "a"[]>>, //
-      Expect<Equal<O2, string[]>>
-    ];
-    const cases: cases = [true, true];
-  });
 
   it("handling non-array element which presents as undefined", () => {
     type T = string | undefined;
@@ -69,22 +51,18 @@ describe("asArray() function", () => {
     const i2: T = undefined;
     const o = asArray(i);
     const o2 = asArray(i2 as T);
-    const o3 = asArray(i2 as T, false);
     type O = typeof o;
     type O2 = typeof o2;
-    type O3 = typeof o3;
 
     // run-time
     expect(o).toEqual([]);
     expect(o2).toEqual([]);
     // design-time
     type cases = [
-      Expect<Equal<O, unknown[]>>, //
-      // TODO: would be nice to extract the unknown[] part of the union
-      Expect<Equal<O2, unknown[] | string[]>>,
-      Expect<Equal<O3, unknown[] | string[]>>
+      Expect<Equal<O, []>>, //
+      Expect<Equal<O2, [] | [string]>>,
     ];
-    const cases: cases = [true, true, true];
+    const cases: cases = [true, true];
   });
 
   it("handling array element which contains undefined is unaffected", () => {
