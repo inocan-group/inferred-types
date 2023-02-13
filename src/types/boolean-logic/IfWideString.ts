@@ -1,8 +1,7 @@
 import { Narrowable } from "../literals";
-import { IsStringLiteral } from "./IsLiteral";
 import { IsString } from "./IsString";
 import { Not } from "./Not";
-import { IfAnd } from "src/types/boolean-logic";
+import { IfAnd, IsStringLiteral } from "src/types/boolean-logic";
 
 /**
  * **IfWideString**`<T,TRUE,FALSE>`

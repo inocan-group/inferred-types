@@ -1,4 +1,5 @@
-import { Alpha } from "../string-literals/alpha-characters";
+import { Alpha } from "../string-literals";
+
 
 /**
  * A `PrivateKey` must start with a `_` character and then follow with

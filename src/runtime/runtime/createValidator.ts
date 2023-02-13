@@ -4,7 +4,7 @@ import { Type } from "src/types";
  * Creates a `validate` function for a runtime type
  */
 export function createValidator<T extends Type>(defn: T): T {
-  const fn = (val: unknown): val is T["type"] => {
+  const fn = <U>(val: U): val is U & T["type"] => {
     // the first _validation_ is that it passes the type guard test
     if(defn.is(val)) {
       return defn.validations && defn.validations.length > 0

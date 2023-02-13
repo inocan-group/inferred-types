@@ -1,0 +1,5 @@
+
+/**
+ * **SpecialChar**
+ */
+export type SpecialChar = "@" | "~" | "^" | "#" | "&" | "*";

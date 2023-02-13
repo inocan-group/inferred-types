@@ -1,3 +1,3 @@
 export * from "./Brackets";
-export * from "./OpenningBrackets";
-export * from "./ClosingBrackets";
+export * from "./OpeningBracket";
+export * from "./ClosingBracket";

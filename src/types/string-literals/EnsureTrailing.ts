@@ -1,4 +1,5 @@
-import { IfLiteral } from "../boolean-logic/IsLiteral";
+import { IfLiteral } from "../boolean-logic";
+
 
 /**
  * **EnsureTrailing**`<T, U>`

@@ -20,5 +20,5 @@ export function keys<
         ? ["value"]
         : Object.keys(obj)
       : [] as readonly []
-  ) as Keys<TObj>;
+  ) as unknown as Keys<TObj>;
 }

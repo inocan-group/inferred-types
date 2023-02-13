@@ -1,4 +1,5 @@
-import { AnyObject, IsEmptyObject } from "../boolean-logic";
+import { AnyObject } from "../boolean-logic";
+import { IsEmptyObject } from "../boolean-logic/IsEmptyObject";
 import { Narrowable } from "../literals/Narrowable";
 
 /**
@@ -12,7 +13,7 @@ export type FnWithDict<
   TDict extends AnyObject,
 > = IsEmptyObject<TDict> extends true
   ? never
-  : (<TArgs extends any[]>(...args: TArgs) => any) & TDict;
+  : (<TArgs extends unknown[]>(...args: TArgs) => unknown) & TDict;
 
 
 /**

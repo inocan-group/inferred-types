@@ -1,5 +1,6 @@
 import { TupleToUnion } from "../type-conversion";
-import { IsLiteral, IsStringLiteral } from "./IsLiteral";
+import { IsLiteral } from "./IsLiteral";
+import { IsStringLiteral } from "./IsStringLiteral";
 
 /**
  * **Includes**`<TSource, TValue>`

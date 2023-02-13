@@ -6,7 +6,8 @@ import {
   IsLiteral,  
   IfAnd 
 } from "../boolean-logic";
-import { AnyObject, IfObject } from "../boolean-logic/object";
+import { IfObject } from "../boolean-logic/IfObject";
+import { AnyObject } from "../boolean-logic/object";
 import { FromMaybeRef } from "../dictionary/FromMaybeRef";
 import { Get } from "../dictionary/Get";
 import { Keys } from "../dictionary/Keys";
@@ -34,7 +35,7 @@ type SubIndexes<
           IsLiteral<FromMaybeRef<TList[K]>> 
         ],
         // literal array
-        FromMaybeRef<TList[K]> extends readonly any[] | AnyObject
+        FromMaybeRef<TList[K]> extends readonly unknown[] | AnyObject
         ? Keys<FromMaybeRef<TList[K]>> extends readonly string[]
           ? PrependAll< 
               Keys<FromMaybeRef<TList[K]>>, 
@@ -57,7 +58,7 @@ type SubIndexes<
 }>;
 
 type Val<
-  TValue extends readonly any[] | AnyObject,
+  TValue extends readonly unknown[] | AnyObject,
   TKeys extends readonly (keyof TValue & string)[]
 > = Get<TValue & AnyObject, First<TKeys>>;
 
