@@ -1,10 +1,10 @@
 import { 
   Narrowable, 
   ConvertType, 
-  TypeMapMatcher, 
-  TypeMapRule, 
-  TypeMapTransformer 
+  TypeMapRule
 } from "src/types";
+import { TypeMapMatcher } from "src/types/type-conversion/convert-and-map-support/TypeMapMatcher";
+import { TypeMapTransformer } from "src/types/type-conversion/convert-and-map-support/TypeMapTransformer";
 import { toCamelCase } from "../literals/toCamelCase";
 import { t } from "../runtime";
 import { Never } from "../runtime/Never";

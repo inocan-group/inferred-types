@@ -14,16 +14,14 @@ import { keys } from "../dictionary";
  * // { foo: 1 }
  * const justOne = withoutValue(t => t.literal(1))(obj);
  * ```
- *
- * Note: _often useful to provide run-time type profiles with the_ `inferredType` _utility_
  */
 export function withoutValue<TVal extends Narrowable>(val: TVal) {
-  return <TObj extends AnyObject>(obj: TObj): WithoutValue<TVal, TObj> => {
+  return <TObj extends AnyObject>(obj: TObj): WithoutValue<TObj,TVal> => {
     return keys(obj).reduce(
       (acc, key) => val === obj[key]
         ? acc
         : ({...acc, [key]: obj[key]}),
-      {} as WithoutValue<TVal, TObj>
+      {} as WithoutValue<TObj,TVal>
     );
   };
 }

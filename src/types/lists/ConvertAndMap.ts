@@ -20,19 +20,19 @@ export type ConverterShape<
   string: <T extends string>(v: T) => S;
   number: <T extends number>(v: T) => N;
   boolean: <T extends boolean>(v: T) => B;
-  object: <T extends Record<string, any>>(v: T) => O;
+  object: <T extends Record<string, unknown>>(v: T) => O;
 };
 
 type ConverterKeys<S, N, B, O> = UnionToTuple<
   Keys<
     WithoutValue<
-    undefined,
       {
         string: S;
         number: N;
         boolean: B;
         object: O;
-      }
+      },
+      undefined
     >
   >
 >;
@@ -44,11 +44,11 @@ type ConverterInputType<T extends string> = T extends "string"
   : T extends "boolean"
   ? boolean
   : T extends "object"
-  ? Record<string, any>
+  ? Record<string, unknown>
   : unknown;
 
 type ConverterInputUnion<
-  TConverted extends readonly any[],
+  TConverted extends readonly unknown[],
   TRemaining extends readonly string[]
 > = [] extends TRemaining
   ? // we're done iterating
@@ -101,7 +101,7 @@ export type MapCoverage<T extends StrongMap<ConverterCoverage>> = T extends Stro
   ? UnionToTuple<Coverage>
   : never;
 
-export type StrongMapTypes<K extends readonly any[]> = [] extends K
+export type StrongMapTypes<K extends readonly unknown[]> = [] extends K
   ? never
   : TupleToUnion<
       [
@@ -112,7 +112,7 @@ export type StrongMapTypes<K extends readonly any[]> = [] extends K
           : First<K> extends "boolean"
           ? TupleToUnion<[boolean, ...UnionToTuple<StrongMapTypes<AfterFirst<K>>>]>
           : First<K> extends "object"
-          ? TupleToUnion<[Record<string, any>, ...UnionToTuple<StrongMapTypes<AfterFirst<K>>>]>
+          ? TupleToUnion<[Record<string, unknown>, ...UnionToTuple<StrongMapTypes<AfterFirst<K>>>]>
           : never,
         ...UnionToTuple<StrongMapTypes<AfterFirst<K>>>
       ]
@@ -133,19 +133,19 @@ export type StrongMapTransformer<M extends StrongMap> = <
   tuple: T
 ) => {
   [K in keyof T]: T[K] extends string
-    ? M["string"] extends (...args: any[]) => any
+    ? M["string"] extends (...args: unknown[]) => unknown
       ? ReturnType<M["string"]>
       : never
     : T[K] extends number
-    ? M["number"] extends (...args: any[]) => any
+    ? M["number"] extends (...args: unknown[]) => unknown
       ? ReturnType<M["number"]>
       : never
     : T[K] extends boolean
-    ? M["boolean"] extends (...args: any[]) => any
+    ? M["boolean"] extends (...args: unknown[]) => unknown
       ? ReturnType<M["boolean"]>
       : never
-    : T[K] extends Record<string, any>
-    ? M["object"] extends (...args: any[]) => any
+    : T[K] extends Record<string, unknown>
+    ? M["object"] extends (...args: unknown[]) => unknown
       ? ReturnType<M["object"]>
       : never
     : never;

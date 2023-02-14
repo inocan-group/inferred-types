@@ -1,6 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { unique } from "src/runtime/lists/unique";
-import { Get } from "src/types";
 import { Unique } from "src/types/lists";
 import { describe, expect, it } from "vitest";
 

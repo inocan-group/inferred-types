@@ -170,10 +170,10 @@ describe("Dictionary Type Utils", () => {
   it("WithoutValue<type, obj> reduces the types on the object effectively", () => {
     type Literal = { foo: 1; bar: true; baz: false; baz2: false };
 
-    type S = WithoutValue<string, T0>;
-    type N = WithoutValue<number, T0>;
-    type LT = WithoutValue<true, Literal>;
-    type LF = WithoutValue<false, Literal>;
+    type S = WithoutValue<T0,string>;
+    type N = WithoutValue<T0, number>;
+    type LT = WithoutValue<Literal, true>;
+    type LF = WithoutValue<Literal, false>;
 
     type cases = [
       Expect<Equal<S, { foo: number; bar: number }>>,

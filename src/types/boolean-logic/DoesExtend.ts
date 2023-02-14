@@ -1,6 +1,5 @@
 import { Narrowable } from "../literals/Narrowable";
 
-
 /**
  * **DoesExtend**`<TValue, TExtends>`
  *
@@ -12,5 +11,3 @@ export type DoesExtend<
 > = TValue extends TExtends
   ? true
   : false;
-
-

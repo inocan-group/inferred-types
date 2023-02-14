@@ -21,7 +21,7 @@ exclusion property described above.
 export type Keys<
   TValue extends Narrowable,
   TOnlyString extends boolean = false
-> = TValue extends readonly any[]
+> = TValue extends readonly unknown[]
   ? NumericKeys<TValue>
   : IfEqual<
       Readonly<UnionToTuple<keyof TValue>>, readonly [string], 

@@ -97,7 +97,7 @@ type PrimaryIndexes<
 /**
  * **DotPathFor**`<TValue>`
  * 
- * Provides _suggestions_ for valid dotpath's on a given value.
+ * Provides valid `DotPath`'s for a given container `TValue`.
  */
 export type DotPathFor<
   TValue extends Narrowable | readonly unknown[],

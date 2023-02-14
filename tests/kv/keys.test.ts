@@ -7,8 +7,8 @@ import type {
   UnknownObject, 
   TupleToUnion, 
   NumericKeys
-} from "../../src/types";
-import { defineType, keys, isRef } from "../../src/runtime";
+} from "src/types";
+import { defineType, keys, isRef, isObject } from "src/runtime";
 import { ref } from "vue";
 
 describe("NumericKeys<T>", () => {
@@ -140,10 +140,7 @@ describe("keys() utility on object", () => {
     expect(k).toEqual(["value"]);
 
     type cases = [
-      Expect<Equal<
-        readonly ["value"], 
-        typeof k
-      >>
+      Expect<Equal<readonly ["value"],typeof k>>
     ];
 
     const cases: cases = [ true ];
