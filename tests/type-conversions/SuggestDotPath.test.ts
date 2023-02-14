@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { describe, it } from "vitest";
 import { Equal, Expect,  ExpectTrue } from "@type-challenges/utils";
+import { Ref } from "vue";
 
 import { DotPathFor } from "src/types/string-literals/DotPathFor";
-import {  DoesExtend } from "src/types/boolean-logic";
-import { Ref } from "vue";
+import { DoesExtend } from "src/types/boolean-logic";
 import { Suggest } from "src/types/string-literals";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -31,24 +31,50 @@ describe("Name", () => {
   
   it("null is a valid dotpath and target", () => {
     type NullTarget = DotPathFor<null>;
-    type ExampleObj = Suggest<DotPathFor<Obj>>;
-    type ExampleArr = Suggest<DotPathFor<readonly ["foo", "bar", "baz"]>>;
+    
+    
 
     type cases = [
       // when the target is a null then the suggested dotpath is the same
       Expect<Equal<NullTarget, null>>, 
-      // When an Object is the target 
-      Expect<Equal<
-        ExampleObj,
-        "foo" | "bar" | "baz" | "color" | "info" | `bar.${number}` | "baz.a" | "baz.b" | "baz.c" | "color.0" | "color.1" | "color.2" | "info.age" | "info.address" | (string & {})
-      >>,
-      Expect<Equal<
-        ExampleArr,
-        "0" | "1" | "2" | (string & {})
-      >>,
+
+      
     ];
-    const cases: cases = [ true, true, true ];
+    const cases: cases = [ true, true ];
   });
+  
+  it("using an object as target", () => {
+    type TObj = DotPathFor<Obj>;
+    type Suggestion = Suggest<TObj>;
+
+    type Expected = "foo" | "bar" | "baz" | "color" | "info" | `bar.${number}` | "baz.a" | "baz.b" | "baz.c" | "color.0" | "color.1" | "color.2" | "info.age" | "info.address";
+
+    type cases = [
+      // native return is a union type of string literals
+      Expect<Equal<TObj,Expected>>,
+      // wrapping with Suggest<T> allows a non-suggested string to be valid
+      Expect<Equal<Suggestion,Expected | (string & {})>>,
+    ];
+    const cases: cases = [ true, true ];
+  });
+
+  
+  it("using an array target", () => {
+    type ExampleArr = DotPathFor<readonly ["foo", "bar", "baz"]>;
+    type Suggestion = Suggest<ExampleArr>;
+
+    type cases = [
+      Expect<Equal<Suggestion, Expect<Equal<
+      ExampleArr,
+      "0" | "1" | "2" | (string & {})
+    >>,>>, //
+      
+    ];
+    const cases: cases = [ true ];
+
+  });
+  
+  
   
 
   it("object base", () => {

@@ -14,7 +14,7 @@ import { keys } from "./keys";
 export const withoutValue = <
   TObj extends AnyObject,
   TValue extends Narrowable
->(obj: TObj, val: TValue): SimplifyObject<WithoutValue<TValue, TObj>> => {
+>(obj: TObj, val: TValue): SimplifyObject<WithoutValue<TObj, TValue>> => {
   const result: Record<Key, unknown>  = {};
   for (const k of keys(obj)) {
     if (val !== obj[k as any]) {
@@ -22,5 +22,5 @@ export const withoutValue = <
     }
   }
 
-  return result as SimplifyObject<WithoutValue<TValue, TObj>>;
+  return result as SimplifyObject<WithoutValue<TObj, TValue>>;
 };

@@ -24,7 +24,6 @@ type ValidateSegments<
     ? ValidateSegments<AfterFirst<Segments>, readonly [...Validated, true]>
     : ValidateSegments<AfterFirst<Segments>, readonly [...Validated, false]>;
 
-
 /**
  * **DotPath**`<T>`
  * 

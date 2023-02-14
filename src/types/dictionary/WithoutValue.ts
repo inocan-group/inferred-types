@@ -18,6 +18,6 @@ import { KeysWithoutValue } from "./KeysWithoutValue";
  * You manually exclude keys as well by setting the optional `E` generic.
  */
 export type WithoutValue<
-  TValue extends Narrowable,
   TObj extends AnyObject,
+  TValue extends Narrowable,
 > = ExpandRecursively<Pick<TObj, KeysWithoutValue<TObj,TValue>>>;
