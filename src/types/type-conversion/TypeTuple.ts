@@ -13,7 +13,10 @@ import { TypeGuard } from "../functions/TypeGuard";
  * which can be used in the tooling for `Type` and `TypeDefn` but does
  * not represent a full-fledged `Type<T>`.
  */
-export type TypeTuple<TType extends Narrowable, TDesc extends string> = [
+export type TypeTuple<
+  TType extends Narrowable = Narrowable, 
+  TDesc extends string = string
+> = [
   type: TType,
   guard: TypeGuard<TType>,
   desc: TDesc

@@ -25,6 +25,9 @@ export * from "./IfNumber";
 export * from "./IfFalse";
 export * from "./IfSoftTrue";
 export * from "./IfSoftFalse";
+export * from "./IfReturns";
+export * from "./IfFalsy";
+export * from "./Returns";
 
 export * from "./IsStringLiteral";
 export * from "./IsNumericLiteral";

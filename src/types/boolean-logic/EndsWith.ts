@@ -13,8 +13,10 @@ import { ToString } from "../type-conversion/ToString";
  */
 export type EndsWith<
   TValue extends Narrowable,
-  TEndsWith extends string
-> = IfString<
+  TEndsWith extends string | number
+> = TEndsWith extends number 
+? EndsWith<TValue, ToString<TEndsWith>>
+: IfString<
   TValue,
   IsStringLiteral<TEndsWith> extends true
     ? IsStringLiteral<TValue> extends true // both literals

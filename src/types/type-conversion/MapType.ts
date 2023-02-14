@@ -1,64 +1,16 @@
 import type { 
-  CamelCase, 
-  KebabCase, 
-  PascalCase, 
-  StripLeading, 
   StripTrailing 
 } from "../string-literals";
-import {  
-  IfEndsWith, 
-  IfEqual, 
-  IfExtends, 
-  IfNumericLiteral,  
-  IfStartsWith, 
-  IfStringLiteral 
-} from "../boolean-logic";
-import { FirstOrElse, RemoveNever } from "../lists";
+
+import {  RemoveNever } from "../lists";
 import { Narrowable } from "../literals/Narrowable";
-import { ToString } from "./ToString";
-import { TypeTuple } from "./TypeTuple";
 import { Join } from "../string-literals/Join";
 import { TYPE_MATCHER_DESC, TYPE_TRANSFORMER_DESC } from "src/runtime/runtime";
+import { TypeMapMatcher } from "./convert-and-map-support/TypeMapMatcher";
+import { TypeMapTransformer } from "./convert-and-map-support/TypeMapTransformer";
+import { TypeMapRule } from "./TypeMapRule";
+import { ConvertType } from "./ConvertType";
 
-/**
- * **TypeMapMatcher**
- * 
- * Represents the _method_ you will use to match a type and any necessary
- * parameter to fully qualify it.
- */
-export type TypeMapMatcher = 
-  | ["Extends", unknown]
-  | ["Equals", unknown]
-  | ["NotEqual", unknown]
-  | ["StartsWith", string | number]
-  | ["EndsWith", string | number]
-  | ["Truthy", unknown]
-  | ["Falsy", unknown]
-  | ["Returns", unknown]
-  | ["Any"];
-
-/**
- * The types of transformation you want to apply to matched tokens
- */
-export type TypeMapTransformer = 
-  | ["Identity"] 
-  | ["Capitalized"]
-  | ["PascalCase"]
-  | ["CamelCase"]
-  | ["KebabCase"]
-  | ["ToString"]
-  | ["ToTrue"]
-  | ["ToFalse"]
-  | ["ToBoolean"]
-  | ["AsString"]
-  | ["AsBooleanString"]
-  | ["AsNumericString"]
-  | ["Never"]
-  | ["StripLeading", string] 
-  | ["StripTrailing", string] 
-  | ["As", TypeTuple<any, string>] 
-  | ["NumericLiteral", number]
-  | ["StringLiteral", string];
 
 /**
  * **TypeRuleDesc**
@@ -66,8 +18,8 @@ export type TypeMapTransformer =
  * Type utility which builds a description from the matcher and transformer.
  */
 export type TypeRuleDesc<
-  TMatch extends TypeMapMatcher,
-  TTransform extends TypeMapTransformer
+  TMatch extends TypeMapMatcher = TypeMapMatcher,
+  TTransform extends TypeMapTransformer = TypeMapTransformer
 > = Join<[
   TMatch[0] extends keyof typeof TYPE_MATCHER_DESC
     ? Capitalize<StripTrailing<typeof TYPE_MATCHER_DESC[TMatch[0]], ".">>
@@ -78,21 +30,6 @@ export type TypeRuleDesc<
 ], " and ">;
 
 /**
- * **TypeMapRule**`<TMatch,TTransform,TDesc>`
- * 
- * A type which defines how to transform a _matched_ type into a variant.
- */
-export interface TypeMapRule<
-  TMatch extends TypeMapMatcher,
-  TTransform extends TypeMapTransformer,
-  TDesc extends TypeRuleDesc<TMatch,TTransform>
-> {
-  match: TMatch;
-  transform: TTransform;
-  desc: TDesc;
-}
-
-/**
  * **ConfiguredTypeMapper**`<R>`
  * 
  * Represents a _mapper_ function which now expects to receive an array of tokens
@@ -101,98 +38,13 @@ export interface TypeMapRule<
  * Note: this is return type from the `mapType()` runtime utility.
  */
 export type ConfiguredTypeMapper<
-  R extends readonly TypeMapRule<any, any, TypeRuleDesc<any,any>>[]
+  R extends readonly TypeMapRule[]
 > = <T extends readonly Narrowable[]>(...tokens: T) => MapType<T,R>;
-
-
-/**
- * facilitates deriving the "value" for map rules
- */
-export type MappedValue<
-  TValue extends Narrowable, 
-  M extends TypeMapRule<TypeMapMatcher, TypeMapTransformer, any> 
-> = M["transform"][0] extends "Identity"
-  ? TValue
-  : M["transform"][0] extends "AsString"
-  ? `${string}`
-  : M["transform"][0] extends "AsNumericString"
-  ? `${number}`
-  : M["transform"][0] extends "AsBooleanString"
-  ? `${false | true}`
-  : M["transform"][0] extends "AsString"
-  ? `${string}`
-  : M["transform"][0] extends "ToString"
-  ? ToString<TValue>
-  : M["transform"][0] extends "ToTrue"
-  ? true
-  : M["transform"][0] extends "ToFalse"
-  ? false
-  : M["transform"][0] extends "Capitalized"
-  ? Capitalize<`${string}`>
-  : M["transform"][0] extends "PascalCase"
-  ? PascalCase<`${string}`>
-  : M["transform"][0] extends "CamelCase"
-  ? CamelCase<`${string}`>
-  : M["transform"][0] extends "KebabCase"
-  ? KebabCase<`${string}`>
-
-  : M["transform"][0] extends "As"
-  ? M["transform"][1] extends TypeTuple<infer TT,any> ? TT : never
-  : M["transform"][0] extends "StripLeading"
-  ? StripLeading<TValue, M["transform"][1]>
-  : M["transform"][0] extends "StripTrailing"
-  ? StripTrailing<TValue, M["transform"][1]>
-  : M["transform"][0] extends "NumericLiteral"
-  ? IfNumericLiteral<
-      M["transform"][1], 
-      M["transform"][1], 
-      ["error", "invalid-numeric-literal"]
-    >
-  : M["transform"][0] extends "StringLiteral"
-    ? IfStringLiteral<
-        M["transform"][1], 
-        M["transform"][1], 
-        ["error", "invalid-string-literal"]
-      >
-  : unknown;
-
-
-/**
- * **Convert**`<TValue,TMatchers,TElse>`
- * 
- * Type utility which converts the type of a single value by comparing the value
- * to an array of matcher rules. The first matcher which matches will convert the type
- * but if no matchers match then the `TElse` generic determines the type.
- * 
- * A matcher is a tuple which extends `Matcher`:
- * ```ts
- * type Matcher = []
- * ```
- * 
- * **Related:** `MapType<T,M,E>`
- */
-export type ConvertType<
-  TValue extends Narrowable, 
-  TMatchers extends readonly TypeMapRule<TypeMapMatcher, TypeMapTransformer, any>[],
-  TElse extends Narrowable = never
-> = FirstOrElse<{
-  [K in keyof TMatchers]: //
-    IfEqual<TMatchers[K]["match"][0], "Equals",
-      IfEqual<TValue, TMatchers[K]["match"][1], MappedValue<TValue,TMatchers[K]>, never>,
-    IfEqual<TMatchers[K]["match"][0], "Extends",
-      IfExtends<TValue, TMatchers[K]["match"][1], MappedValue<TValue,TMatchers[K]>, never>,
-    IfEqual<TMatchers[K]["match"][0], "StartsWith",
-      IfStartsWith<TValue, TMatchers[K]["match"][1], MappedValue<TValue,TMatchers[K]>, never>,
-    IfEqual<TMatchers[K]["match"][0], "EndsWith",
-      IfEndsWith<TValue, TMatchers[K]["match"][1], MappedValue<TValue,TMatchers[K]>, never>,
-    never
-  >>>>
-}, TElse>;
 
 type MapAcc<
   TList extends readonly Narrowable[], 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  TMatchers extends readonly TypeMapRule<any,any,any>[],
+  TMatchers extends readonly TypeMapRule[],
   TElse extends Narrowable = never,
   TResults extends readonly unknown[] = []
 > = TList extends readonly [infer First, ...infer Rest]
@@ -223,10 +75,6 @@ type MapAcc<
 export type MapType<
   TList extends readonly unknown[], 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  TMatchers extends readonly TypeMapRule<any,any,any>[] | TypeMapRule<any,any,any>[],
+  TMatchers extends readonly TypeMapRule[],
   TElse extends Narrowable = never
 > = RemoveNever<MapAcc<TList, TMatchers, TElse>>;
-
-
-
-
