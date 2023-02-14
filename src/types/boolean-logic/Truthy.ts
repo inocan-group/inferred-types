@@ -19,7 +19,7 @@ export type FalsyValue = false | 0 | -0 | "" | null | undefined | typeof NaN;
  * 
  * **See Also:** `IfTruthy`, `IfSomeTruthy`, `IfAllTruthy`, and `TruthyReturns`
  */
-export type Truthy<T> = //
+export type IsTruthy<T> = //
   T extends string
     ? T extends "" ? false : IfLiteral<T, true, boolean>
   : T extends number
@@ -41,7 +41,7 @@ export type IfTruthy<
   TRUE extends Narrowable, 
   FALSE extends Narrowable, 
   MAYBE extends Narrowable = unknown
-> = Truthy<T> extends true ? TRUE : Truthy<T> extends false ? FALSE : MAYBE;
+> = IsTruthy<T> extends true ? TRUE : IsTruthy<T> extends false ? FALSE : MAYBE;
 
 /**
  * **IfSomeTruthy**`<TValues,IF,ELSE,MAYBE>`

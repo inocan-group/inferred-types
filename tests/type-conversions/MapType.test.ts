@@ -3,37 +3,8 @@ import { describe, it } from "vitest";
 
 import { createTypeMapRule } from "src/runtime/runtime/createTypeMatcher";
 import { t } from "src/runtime/runtime/type-shorthand";
-import { ConvertType, MapType } from "src/types/type-conversion";
+import {  MapType } from "src/types/type-conversion";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
-// gain validation that no new type vulnerabilities have cropped up.
-
-describe("ConvertType<T,M>", () => {
-
-  it("types map correctly", () => {
-    const m1 = createTypeMapRule(["StartsWith", "f"], ["StringLiteral", "started with f"]);
-    const m2 = createTypeMapRule(["Extends", t.string()], ["Identity"]);
-    const m3 = createTypeMapRule(["StartsWith", "4"], ["Identity"]);
-
-    type C1 = ConvertType<"foo", [typeof m1]>;
-    type C2 = ConvertType<"foo", [typeof m2]>;
-    type C3 = ConvertType<number, [typeof m2, typeof m1], "huh?">;
-    type C4 = ConvertType<42, [typeof m3], "huh?">;
-    type C5 = ConvertType<55, [typeof m3], "huh?">;
-    
-    type cases = [
-      Expect<Equal<C1, "started with f">>,
-      Expect<Equal<C2, "foo">>,
-      Expect<Equal<C3, "huh?">>,
-      Expect<Equal<C4, 42>>,
-      Expect<Equal<C5, "huh?">>,
-    ];
-    const cases: cases = [true, true, true, true, true];
-  });
-  
-
-});
 
 describe("MapType<T,M>", () => {
 

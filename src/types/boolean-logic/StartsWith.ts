@@ -12,8 +12,10 @@ import { ToString } from "../type-conversion/ToString";
  */
 export type StartsWith<
   TValue extends Narrowable,
-  TStartsWith extends string
-> = IfString<
+  TStartsWith extends string | number
+> = TStartsWith extends number 
+? StartsWith<TValue, ToString<TStartsWith>>
+: IfString<
   TValue, 
   IsStringLiteral<TStartsWith> extends true
     ? IsStringLiteral<TValue> extends true // both literals
@@ -32,3 +34,4 @@ export type StartsWith<
   >
   
 >;
+

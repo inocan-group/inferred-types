@@ -1,9 +1,9 @@
-import type {  
-  TypeMapMatcher, 
+import type {   
   TypeMapRule, 
-  TypeMapTransformer, 
   TypeRuleDesc 
 } from "src/types";
+import { TypeMapMatcher } from "src/types/type-conversion/convert-and-map-support/TypeMapMatcher";
+import { TypeMapTransformer } from "src/types/type-conversion/convert-and-map-support/TypeMapTransformer";
 import { 
   capitalize, 
   ensureTrailing,
@@ -30,12 +30,11 @@ import { TYPE_MATCHER_DESC, TYPE_TRANSFORMER_DESC } from "./constants";
  */
 export function createTypeMapRule<
   TMatch extends TypeMapMatcher,
-  TTransform extends TypeMapTransformer,
-  TDesc extends TypeRuleDesc<TMatch,TTransform>
+  TTransform extends TypeMapTransformer
 >(
   match: TMatch,
   transform: TTransform
-) {
+): TypeMapRule<TMatch,TTransform> {
   return (
     { 
       match, 
@@ -45,6 +44,6 @@ export function createTypeMapRule<
         ensureTrailing(uncapitalize(TYPE_TRANSFORMER_DESC[transform[0]]), ".")
       ].join(" and ") as TypeRuleDesc<TMatch,TTransform>
     }
-  ) as TypeMapRule<TMatch, TTransform, TDesc>;
+  );
 }
 
