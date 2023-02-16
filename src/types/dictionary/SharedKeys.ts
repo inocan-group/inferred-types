@@ -1,24 +1,15 @@
-import { AnyObject, IfContains } from "../boolean-logic";
 import { Keys } from "./Keys";
-import { AfterFirst, First } from "../lists";
-import { Key } from "./Key";
 import { IfLength } from "../boolean-logic/IfLength";
+import { AnyObject } from "src/types/base-types";
+import { SimplifyObject } from "./SimplifyObject";
+import { WithoutValue } from "./WithoutValue";
 
 type Shared<
-  A extends readonly Key[],
-  B extends readonly Key[],
-  TResults extends readonly Key[] = []
-> = [] extends A
-  ? TResults
-  : Shared<
-      AfterFirst<A>,
-      B,
-      IfContains<
-        B, First<A>,
-        [...TResults, First<A> & Key],
-        TResults
-      >
-    >;
+  A extends AnyObject,
+  B extends AnyObject,
+> = Keys<WithoutValue<SimplifyObject<{
+  [K in keyof A]: K extends keyof B ? K : never
+}>, never>>;
 
 /**
  * **SharedKeys**`<A,B>`
@@ -39,9 +30,7 @@ export type SharedKeys<
   A extends AnyObject,
   B extends AnyObject
 > = IfLength<
-Shared<Keys<A>,Keys<B>>, 0,
-readonly [],
-Shared<
-  Keys<A>,Keys<B>
-> & readonly (Key & keyof A & keyof B)[]
+  Shared<Keys<A>,Keys<B>>, 0,
+  readonly [],
+  Shared<A,B>
 >;

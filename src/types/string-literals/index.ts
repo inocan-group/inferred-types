@@ -6,8 +6,6 @@
 // file exports
 export * from "./AllCaps";
 export * from "./Concat";
-export * from "./DotPath";
-export * from "./DotPathFor";
 export * from "./Cardinality";
 export * from "./HasUppercase";
 export * from "./EnsureLeading";

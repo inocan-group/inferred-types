@@ -1,6 +1,6 @@
 import { AfterFirst, First } from "../lists";
 import { Narrowable } from "../literals/Narrowable";
-import { And } from "./And";
+import { And } from "./combinators/And";
 import { Contains } from "./Contains";
 
 type _Contains<

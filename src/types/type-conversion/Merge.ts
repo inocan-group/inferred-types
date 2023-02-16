@@ -4,7 +4,7 @@ import { AfterFirst } from "../lists/AfterFirst";
 import { First } from "../lists/First";
 import { ExpandRecursively } from "../literals/ExpandRecursively";
 import { AnyObject, DoesExtend, IfAnd, IsOptionalScalar } from "../boolean-logic";
-import { Scalar } from "../Scalar";
+import { Scalar } from "../base-types/Scalar";
 
 // 1. Keep all unique keys in `TValue`
 // 2. Strip all KV's on `TValue` which are _undefined_

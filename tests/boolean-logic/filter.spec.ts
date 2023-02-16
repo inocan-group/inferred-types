@@ -1,6 +1,7 @@
-import { createFilter } from "../../src/runtime/";
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it, expect } from "vitest";
+
+import { createFilter } from "src/runtime";
 
 describe("filter() utility function", () => {
   it("string filter built and gives proper types", () => {

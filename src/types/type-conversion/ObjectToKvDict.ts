@@ -1,7 +1,6 @@
 /* eslint-disable no-use-before-define */
-import { KvDict, Mutable, UnionToTuple } from ".";
+import { KvDict, Mutable, UnionToTuple, AnyObject } from "src/types";
 import { IfObject } from "../boolean-logic/IfObject";
-import { AnyObject } from "../boolean-logic/object";
 import { AfterFirst } from "../lists";
 import { First } from "../lists/First";
 
@@ -21,7 +20,7 @@ type Obj2Kv<
               key: First<TKeys>; 
               value: IfObject<
                 TObj[First<TKeys>], 
-                Mutable<ObjectToKvDict<TObj[First<TKeys>]>>, 
+                Mutable<ObjectToKvDict<TObj[First<TKeys> & keyof TObj]>>, 
                 Mutable<TObj[First<TKeys>]>
               >; 
             }
@@ -42,7 +41,7 @@ type Obj2Kv<
  * ```
  */
 export type ObjectToKvDict<
-  TObj extends Record<string, unknown>
+  TObj extends AnyObject
 > = UnionToTuple<keyof TObj> extends readonly (keyof TObj)[]
   ? Obj2Kv<TObj, UnionToTuple<keyof TObj>>
   : never;

@@ -1,7 +1,4 @@
-import { Narrowable } from "../literals";
-import { IsString } from "./IsString";
-import { Not } from "./Not";
-import { IfAnd, IsStringLiteral } from "src/types/boolean-logic";
+import {  IfBoolean, IfLiteral } from "src/types/boolean-logic";
 
 /**
  * **IfWideString**`<T,TRUE,FALSE>`
@@ -10,8 +7,7 @@ import { IfAnd, IsStringLiteral } from "src/types/boolean-logic";
  * maps to `ELSE` type otherwise.
  */
 export type IfWideString<
-  T extends Narrowable, //
-  TRUE extends Narrowable,
-  FALSE extends Narrowable
-> = IfAnd<[IsString<T>, Not<IsStringLiteral<T>>], TRUE, FALSE>;
-
+  T, //
+  TRUE,
+  FALSE
+> = IfLiteral<T, FALSE, IfBoolean<T, TRUE, FALSE>>;

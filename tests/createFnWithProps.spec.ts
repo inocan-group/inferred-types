@@ -6,6 +6,8 @@ describe("createFnWithProps()", () => {
     const fn = () => "hi" as const;
     const props = { foo: "bar" };
     const combo = createFnWithProps(fn, props);
+    console.log(combo);
+    
 
     expect(combo.foo).toBe("bar");
     expect(combo()).toBe("hi");

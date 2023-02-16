@@ -5,7 +5,6 @@ import {
   DefaultOneToManyMapping,
   DefaultOneToOneMapping,
 } from "../../runtime";
-import { EnumValues } from "../EnumValues";
 import { MergeObjects } from "../type-conversion";
 
 /**
@@ -20,7 +19,7 @@ export enum MapCardinality {
   ManyToOne = "I[] -> O",
 }
 
-export type MapCardinalityIllustrated = EnumValues<MapCardinality>;
+export type MapCardinalityIllustrated = `${string | number}`;
 
 /**
  * The _user_ configuration of a **mapTo** mapper function

@@ -1,4 +1,3 @@
-import { Narrowable } from "../literals/Narrowable";
 import { IsUnion } from "./IsUnion";
 
 /**
@@ -8,6 +7,6 @@ import { IsUnion } from "./IsUnion";
  */
 export type IfUnion<
   T,
-  IF extends Narrowable,
-  ELSE extends Narrowable
+  IF,
+  ELSE
 > = IsUnion<T> extends true ? IF : ELSE;

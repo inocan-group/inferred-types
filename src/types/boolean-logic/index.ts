@@ -2,18 +2,18 @@
 export * from "./Includes";
 export * from "./IsBoolean";
 export * from "./IsScalar";
-export * from "./And";
+export * from "./combinators/And";
 export * from "./IsLiteral";
 export * from "./IfLiteral";
 export * from "./IsUndefined";
 export * from "./DoesExtend";
 export * from "./HasParameters";
 export * from "./LogicalCombinator";
-export * from "./object";
 export * from "./StartsWith";
 export * from "./EndsWith";
-export * from "./Or";
+export * from "./combinators/Or";
 export * from "./IsWideType";
+export * from "./NotEqual";
 
 export * from "./IsBoolean";
 export * from "./IsTrue";
@@ -27,6 +27,7 @@ export * from "./IfSoftTrue";
 export * from "./IfSoftFalse";
 export * from "./IfReturns";
 export * from "./IfFalsy";
+export * from "./IfObject";
 export * from "./Returns";
 
 export * from "./IsStringLiteral";
@@ -50,7 +51,7 @@ export * from "./IfReadonlyArray";
 export * from "./IfStartsWith";
 export * from "./IfArray";
 export * from "./IfAnd";
-export * from "./Not";
+export * from "./combinators/Not";
 export * from "./never";
 export * from "./IsNull";
 export * from "./IsSymbol";

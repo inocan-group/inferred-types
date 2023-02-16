@@ -1,4 +1,3 @@
-import { Narrowable } from "../literals";
 import { IsString } from "./IsString";
 
 /**
@@ -8,7 +7,7 @@ import { IsString } from "./IsString";
  * returns `TRUE` type if it is, otherwise returns the type `FALSE`.
  */
 export type IfString<
-  T extends Narrowable, //
-  TRUE extends Narrowable,
-  FALSE extends Narrowable
+  T, //
+  TRUE,
+  FALSE
 > = IsString<T> extends true ? TRUE : IsString<T> extends false ? FALSE : TRUE | FALSE;

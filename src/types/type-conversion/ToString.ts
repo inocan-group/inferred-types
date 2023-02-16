@@ -1,6 +1,6 @@
-import { AnyObject, IfLiteral, IsUndefined } from "../boolean-logic";
+import { AnyFunction, AnyObject } from "../base-types";
+import {  IfLiteral, IsUndefined } from "../boolean-logic";
 import { IfRef } from "../boolean-logic/IfRef";
-import { AnyFunction } from "../functions/function-types";
 import { Narrowable } from "../literals/Narrowable";
 import { Concat } from "../string-literals/Concat";
 

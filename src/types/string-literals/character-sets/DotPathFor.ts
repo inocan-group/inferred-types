@@ -1,25 +1,24 @@
+import { AnyObject } from "src/types/base-types";
 import { 
   IfArray,  
   IfLiteral, 
   IfScalar, 
   IsArray, 
   IsLiteral,  
-  IfAnd 
-} from "../boolean-logic";
-import { IfObject } from "../boolean-logic/IfObject";
-import { AnyObject } from "../boolean-logic/object";
-import { FromMaybeRef } from "../dictionary/FromMaybeRef";
-import { Get } from "../dictionary/Get";
-import { Keys } from "../dictionary/Keys";
-import { AfterFirst, First, RemoveEquals } from "../lists";
-import { Flatten } from "../lists/Flatten";
-import { Retain } from "../lists/Retain";
-import { Narrowable } from "../literals/Narrowable";
-import { TupleToUnion } from "../type-conversion";
-import { ToString } from "../type-conversion/ToString";
-import { EmptyString } from "./EmptyString";
-import { Prepend } from "./Prepend";
-import { PrependAll } from "./PrependAll";
+  IfAnd,
+  IfObject
+} from "src/types/boolean-logic";
+
+import { FromMaybeRef, Get, Keys } from "src/types/dictionary";
+import { AfterFirst, First, RemoveEquals } from "../../lists";
+import { Flatten } from "../../lists/Flatten";
+import { Retain } from "../../lists/Retain";
+import { Narrowable } from "../../literals/Narrowable";
+import { TupleToUnion } from "../../type-conversion";
+import { ToString } from "../../type-conversion/ToString";
+import { EmptyString } from "../EmptyString";
+import { Prepend } from "../Prepend";
+import { PrependAll } from "../PrependAll";
 
 type SubIndexes<
   TList extends readonly unknown[],
@@ -92,7 +91,6 @@ type PrimaryIndexes<
         ...Suggestions<Val<TValue,TKeys>, `${First<TKeys>}.`>
       ]
     >;
-
 
 /**
  * **DotPathFor**`<TValue>`

@@ -8,8 +8,8 @@ import { ExtendsSome } from "./ExtendsSome";
  * extend `TValue`.
  */
 export type IfExtendsSome<
-TValue extends Narrowable,
-TList extends readonly any[],
+TValue,
+TList extends readonly unknown[],
 IF extends Narrowable,
 ELSE extends Narrowable
 > = ExtendsSome<TValue,TList> extends true ? IF : ELSE;

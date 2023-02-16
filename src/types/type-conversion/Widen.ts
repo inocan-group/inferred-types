@@ -1,4 +1,5 @@
-import { AnyFunction } from "../functions/function-types";
+/* eslint-disable @typescript-eslint/ban-types */
+import { AnyFunction, IndexableObject } from "src/types/base-types";
 
 
 export type Widen<T> = T extends string
@@ -15,10 +16,14 @@ export type Widen<T> = T extends string
   ? boolean[]
   : T extends readonly AnyFunction[]
   ? AnyFunction[]
-  : T extends readonly any[]
+  : T extends readonly unknown[]
   ? {
     [K in keyof T]: Widen<T[K]>
   }
+  : T extends IndexableObject
+    ? IndexableObject
+  : T extends object
+    ? object
   : T extends {}
   ? {}
   : T;

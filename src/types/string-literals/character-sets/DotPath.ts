@@ -1,11 +1,13 @@
-import {  IfLiteral,  Includes,  Or } from "../boolean-logic";
-import { And } from "../boolean-logic/And";
-import { EndsWith } from "../boolean-logic/EndsWith";
-import { StartsWith } from "../boolean-logic/StartsWith";
-import { AfterFirst } from "../lists";
-import { First } from "../lists/First";
-import { Split } from "../lists/Split";
-import { AlphaNumericChar } from "./character-sets/AlphaNumeric";
+import { 
+  And, 
+  IfLiteral,  
+  Includes,  
+  Or, 
+  EndsWith, 
+  StartsWith 
+} from "src/types/boolean-logic";
+import { AfterFirst, First, Split } from "src/types/lists";
+import { AlphaNumericChar } from "./AlphaNumeric";
 
 export type DotPathChar = AlphaNumericChar | "_" | "-";
 

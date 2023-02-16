@@ -1,4 +1,3 @@
-import { Narrowable } from "../literals/Narrowable";
 import { IsFalse } from "./IsFalse";
 
 /**
@@ -10,7 +9,7 @@ import { IsFalse } from "./IsFalse";
  * if you are looking for different behavior consider `IfSoftTrue` instead
  */
 export type IfFalse<
-  T extends Narrowable,
-  IF extends Narrowable,
-  ELSE extends Narrowable,
+  T,
+  IF,
+  ELSE,
 > = IsFalse<T> extends true ? IF : ELSE;

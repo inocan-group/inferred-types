@@ -1,5 +1,4 @@
 import {  IfNumericLiteral, IsStringLiteral , IfString} from "src/types";
-import { Narrowable } from "../literals/Narrowable";
 import { ToString } from "../type-conversion/ToString";
 /**
  * **StartsWith**<TValue, TStartsWith>
@@ -11,12 +10,13 @@ import { ToString } from "../type-conversion/ToString";
  * string literal.
  */
 export type StartsWith<
-  TValue extends Narrowable,
+  TValue,
   TStartsWith extends string | number
 > = TStartsWith extends number 
-? StartsWith<TValue, ToString<TStartsWith>>
+? StartsWith<TValue, ToString<TStartsWith>> // convert to string representation
 : IfString<
   TValue, 
+  // is a string value
   IsStringLiteral<TStartsWith> extends true
     ? IsStringLiteral<TValue> extends true // both literals
       ? TValue extends `${TStartsWith}${string}`
@@ -32,6 +32,4 @@ export type StartsWith<
       : never, 
     false
   >
-  
 >;
-

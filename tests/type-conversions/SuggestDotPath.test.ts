@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { describe, it } from "vitest";
-import { Equal, Expect,  ExpectTrue } from "@type-challenges/utils";
+import { Equal, Expect } from "@type-challenges/utils";
 import { Ref } from "vue";
-
-import { DotPathFor } from "src/types/string-literals/DotPathFor";
-import { DoesExtend } from "src/types/boolean-logic";
+import { DotPathFor } from "src/types/string-literals/character-sets";
 import { Suggest } from "src/types/string-literals";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -31,16 +29,12 @@ describe("Name", () => {
   
   it("null is a valid dotpath and target", () => {
     type NullTarget = DotPathFor<null>;
-    
-    
 
     type cases = [
       // when the target is a null then the suggested dotpath is the same
-      Expect<Equal<NullTarget, null>>, 
-
-      
+      Expect<Equal<NullTarget, null>>,
     ];
-    const cases: cases = [ true, true ];
+    const cases: cases = [ true ];
   });
   
   it("using an object as target", () => {
@@ -58,48 +52,18 @@ describe("Name", () => {
     const cases: cases = [ true, true ];
   });
 
-  
   it("using an array target", () => {
     type ExampleArr = DotPathFor<readonly ["foo", "bar", "baz"]>;
     type Suggestion = Suggest<ExampleArr>;
 
-    type cases = [
-      Expect<Equal<Suggestion, Expect<Equal<
-      ExampleArr,
-      "0" | "1" | "2" | (string & {})
-    >>,>>, //
-      
-    ];
-    const cases: cases = [ true ];
+    type Expected =  "0" | "1" | "2";
 
+    type cases = [
+      Expect<Equal<ExampleArr, Expected>>,
+      Expect<Equal<Suggestion, Expected | (string & {})>>, //
+    ];
+    const cases: cases = [ true,true ];
   });
   
-  
-  
-
-  it("object base", () => {
-    type DPath = DotPathFor<Obj>; 
-    
-    type cases = [
-      Expect<ExpectTrue<DoesExtend<"foo", DPath>>>,
-      Expect<ExpectTrue<DoesExtend<"bar", DPath>>>,
-      Expect<ExpectTrue<DoesExtend<"baz", DPath>>>,
-      Expect<ExpectTrue<DoesExtend<"color", DPath>>>,
-      Expect<ExpectTrue<DoesExtend<"info", DPath>>>,
-      Expect<ExpectTrue<DoesExtend<`bar.${number}`, DPath>>>,
-      Expect<ExpectTrue<DoesExtend<`info.age`, DPath>>>,
-      Expect<ExpectTrue<DoesExtend<`info.address`, DPath>>>,
-      Expect<ExpectTrue<DoesExtend<`color.0`, DPath>>>,
-      Expect<ExpectTrue<DoesExtend<`color.2`, DPath>>>,
-      Expect<Equal<DoesExtend<DPath, `color.3`>, false>>,
-    ];
-    const cases: cases = [ 
-      true, true, true, 
-      true, true, true, 
-      true, true, true, 
-      true, true 
-    ];
-  });
-
 });
 

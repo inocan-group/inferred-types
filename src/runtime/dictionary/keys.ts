@@ -1,6 +1,14 @@
 import type { Keys, AnyObject, IsRef } from "src/types";
-import { isObject } from "src/runtime/type-guards/isObject";
-import { isRef } from "src/runtime/type-guards/isRef";
+import {  isRef, isObject, isString, isTrue } from "../type-guards";
+
+function keyFilter<
+  TKeys extends readonly unknown[], 
+  TOnlyString extends boolean | undefined
+>(keys: TKeys, onlyStrings: TOnlyString) {
+  return isTrue(onlyStrings)
+    ? keys.filter(isString)
+    : keys;
+}
 
 /**
  * **keys**(obj)
@@ -12,13 +20,14 @@ import { isRef } from "src/runtime/type-guards/isRef";
  * on props like `__v_isRef`, etc.
  */
 export function keys<
-  TObj extends AnyObject
->(obj: TObj): Keys<TObj, IsRef<TObj>> {
+  TObj extends AnyObject,
+  TOnlyStrings extends boolean = false
+>(obj: TObj, onlyStrings?: TOnlyStrings): Keys<TObj, IsRef<TObj>> {
   return (
     isObject(obj)
       ? isRef(obj)
         ? ["value"]
-        : Object.keys(obj)
+        : keyFilter(Object.keys(obj), onlyStrings)
       : [] as readonly []
   ) as Keys<TObj, IsRef<TObj>>;
 }

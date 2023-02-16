@@ -1,4 +1,4 @@
-import { AnyFunction } from "../functions";
+import { AnyFunction } from "../base-types/AnyFunction";
 import { AfterFirst, First } from "../lists";
 
 /**

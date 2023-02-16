@@ -5,7 +5,7 @@ import { Narrowable } from "../literals/Narrowable";
  *
  * Boolean type utility returns `true` if `T` is undefined; `false` otherwise
  */
-export type IsUndefined<T extends Narrowable> = T extends undefined ? true : false;
+export type IsUndefined<T> = T extends undefined ? true : false;
 
 /**
  * **IfUndefined**`<T, IF, ELSE>`

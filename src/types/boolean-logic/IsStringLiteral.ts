@@ -1,4 +1,3 @@
-import { Narrowable } from "../literals/Narrowable";
 
 /**
  * **IsStringLiteral**`<T>`
@@ -6,7 +5,7 @@ import { Narrowable } from "../literals/Narrowable";
  * Boolean type utility which detects whether `T` is 
  * a string literal.
  */
-export type IsStringLiteral<T extends Narrowable> = [T] extends [string]
+export type IsStringLiteral<T> = [T] extends [string]
   ? string extends T
     ? false
     : true

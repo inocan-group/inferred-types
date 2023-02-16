@@ -1,9 +1,48 @@
 /* eslint-disable brace-style */
 import { getEach } from "./getEach";
 import type {Intersection,  } from "src/types";
-import { isNotNull } from "../type-guards";
 import { get } from "../dictionary/get";
 import { ifNotNull } from "../boolean-logic";
+import { isIndexable } from "../type-guards/isIndexable";
+
+function intersectWithOffset<
+A extends readonly unknown[],
+B extends readonly unknown[],
+TDeref extends string | number | null
+>(a: A, b: B, deref: TDeref) {
+  const aIndexable = a.every(i => isIndexable(i));
+  const bIndexable = b.every(i => isIndexable(i));
+
+  if(!aIndexable || !bIndexable) {
+    if (!aIndexable) {
+      throw new Error(`The "a" array passed into intersect(a,b) was not fully composed of indexable properties: ${a.map(i => typeof i).join(", ")}`);
+    } else {
+      throw new Error(`The "b" array passed into intersect(a,b) was not fully composed of indexable properties: ${b.map(i => typeof i).join(", ")}`);
+    }
+  }
+
+  const aMatches = getEach(a, deref);
+  const bMatches = getEach(b, deref);
+
+  const sharedKeys = ifNotNull(
+    deref,
+    v => [
+      a.filter(i => Array.from(bMatches).includes(get((i as string),v))),
+      b.filter(i => Array.from(aMatches).includes(get((i as string),v)))
+    ],
+    () => a.filter(k => b.includes(k)) 
+  );
+
+  return sharedKeys as Intersection<A,B,TDeref>;
+}
+
+function intersectNoOffset<
+A extends readonly unknown[],
+B extends readonly unknown[],
+_TDeref extends string | number | null
+>(a: A, b: B) {
+  // 
+}
 
 /**
  * **intersection**(a,b,[deref])
@@ -24,21 +63,5 @@ export const intersection = <
   b: B,
   deref: TDeref = null as TDeref
 ): Intersection<A,B,TDeref>  => {
-  const aMatches = isNotNull(deref)
-    ? getEach(a, deref)
-    : a;
-  const bMatches = isNotNull(deref)
-    ? getEach(b, deref)
-    : b;  
-
-  const sharedKeys = ifNotNull(
-    deref,
-    v => [
-      a.filter(i => Array.from(bMatches).includes(get(i,String(v)))),
-      b.filter(i => Array.from(aMatches).includes(get(i,String(v))))
-    ],
-    () => a.filter(k => b.includes(k)) 
-  );
-
-  return sharedKeys as Intersection<A,B,TDeref>;
+  return ifNotNull(deref, intersectWithOffset(a,b,deref), intersectNoOffset(a,b)) as unknown as Intersection<A,B,TDeref>;
 };

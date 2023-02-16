@@ -1,3 +1,4 @@
+import { Narrowable } from "../literals";
 import { UnionToTuple } from "../type-conversion/UnionToTuple";
 
 /**
@@ -8,15 +9,15 @@ import { UnionToTuple } from "../type-conversion/UnionToTuple";
  * 
  * ```ts
  * type Arr = ["foo", "bar", "baz"];
- * // readonly ["0", "1", "2"] & (keyof Arr)[]
+ * // readonly ["0", "1", "2"]
  * type T = NumericKeys<Arr>;
  * ```
  * 
  * **Related:** `Keys`
  */
 export type NumericKeys <
-  TList extends readonly any[]
-> = Readonly<UnionToTuple<Readonly<{
+  TList extends readonly Narrowable[]
+> = Readonly<UnionToTuple<{
   [K in keyof TList]: K
-}[number]>>> ;
+}[number]>>;
 

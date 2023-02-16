@@ -1,8 +1,6 @@
-import { IfEqual, IfExtends, IfOr } from "src/types";
-import { AnyFunction } from "../functions/function-types";
-import { And } from "./And";
+import { IfEqual, IfExtends, IfOr, AnyObject, AnyFunction } from "src/types";
+import { And } from "./combinators/And";
 import { IsEmptyObject } from "./IsEmptyObject";
-import { AnyObject } from "./object";
 
 /**
  * **IsFnWithParams**`<TFn, [TParamMatch]>`

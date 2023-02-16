@@ -4,9 +4,7 @@
 // hash-code: 57dfa865
 
 // file exports
-export * from "./FinalReturn";
 export * from "./LogicFunction";
-export * from "./function-types";
 export * from "./TypeGuard";
 
 // #endregion auto-indexed files

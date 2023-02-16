@@ -1,4 +1,4 @@
-import { AnyObject } from "../boolean-logic";
+import { AnyObject } from "src/types/base-types";
 import { ExpandRecursively } from "../literals";
 import { TupleToUnion } from "../type-conversion";
 import { Key } from "./Key";

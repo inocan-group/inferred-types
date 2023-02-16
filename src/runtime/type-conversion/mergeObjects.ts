@@ -8,7 +8,7 @@ export function mergeObjects<
   defVal: TDefault, 
   override: TOverride
 ) {
-  const intersectingKeys = sharedKeys(defVal,override) as (string & keyof TDefault & keyof TOverride)[];
+  const intersectingKeys = sharedKeys(defVal,override);
 
   const defUnique = withoutKeys(defVal, ...intersectingKeys);
   const overrideUnique = withoutKeys(defVal, ...intersectingKeys);

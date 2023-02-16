@@ -1,6 +1,4 @@
-import type { AnyFunction } from "src/types/functions/function-types";
-import type { Narrowable } from "src/types/literals";
-import { keys } from "src/runtime/dictionary/keys";
+import { AnyFunction, FnWithDict, IndexableObject } from "src/types/base-types";
 
 /**
  * **createFnWithProps**(fn, params)
@@ -9,25 +7,18 @@ import { keys } from "src/runtime/dictionary/keys";
  */
 export function createFnWithProps<
   TFn extends AnyFunction,
-  TParams extends Narrowable
+  TParams extends IndexableObject
 >(
   fn: TFn, 
-  props: TParams & Record<string, any>
+  props: TParams
 ) {
-  const combinedProps = Array.from(new Set([...keys(fn), ...keys(props)]));
+  const combined = {...fn, ...props};
+  const fn2: FnWithDict<any, any, any> = fn;
 
-  if (combinedProps.length === 0) {
-    throw new Error(`Can't create FN with Props; no parameters were found in the combined "fn" and "props"!`);
-  }
-  const combined: any = fn;
-
-  for (const i of keys(props)) {
-    combined[i] = props[i as any];
-  }
-  for (const i of keys(fn)) {
-    combined[i] = fn[i];
+  for (const key of Object.keys(combined)) {
+    fn2[key] = combined[key];
   }
 
-  return combined as unknown as TFn & TParams;
+  return fn2 as unknown as TFn & TParams;
 }
 

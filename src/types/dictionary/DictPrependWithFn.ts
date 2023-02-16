@@ -1,4 +1,4 @@
-import { SimplifyObject } from "../SimplifyObject";
+import { SimplifyObject } from "./SimplifyObject";
 
 /**
  * **DictPrependWithFn**

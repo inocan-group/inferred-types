@@ -18,6 +18,7 @@ export * from "./ifTrue";
 export * from "./ifFunction";
 export * from "./ifObject";
 export * from "./ifNumber";
+export * from "./ifString";
 export * from "./ifNull";
 export * from "./ifUndefined";
 

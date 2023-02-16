@@ -26,7 +26,7 @@ import { TupleToUnion } from "../type-conversion/TupleToUnion";
 import { TypeGuard } from "../functions/TypeGuard";
 import { Filter } from "../lists/Filter";
 import {  KvDict, KvDictToObject, UnionToIntersection } from "../type-conversion";
-import { AnyFunction } from "../functions/function-types";
+import { AnyFunction } from "src/types/base-types";
 import { ErrorCondition } from "src/runtime";
 
 export type TypeOptions<

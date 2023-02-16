@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { AnyObject, WithoutKeys } from "src/types";
+import { hasIndex } from "../type-guards";
 import { keys } from "./keys";
 
 /**
@@ -9,7 +11,7 @@ import { keys } from "./keys";
  */
 export const withoutKeys = <
   TObj extends AnyObject,
-  TKeys extends readonly (string & keyof TObj)[]
+  TKeys extends readonly (string | symbol)[]
 >(
   dict: TObj, 
   ...exclude: TKeys
@@ -18,11 +20,14 @@ export const withoutKeys = <
   for (const k of keys(dict)) {
     output = exclude.includes(k)
       ? output
-      : {
+      : hasIndex(dict, k)
+        ? 
+        {
         ...output,
-        [k]: dict[k]
-      };
+        [k]: dict[k as keyof TObj]
+      }
+      : output;
   }
 
-  return output as WithoutKeys<TObj, TKeys> ;
+  return output as WithoutKeys<TObj, TKeys>;
 };
