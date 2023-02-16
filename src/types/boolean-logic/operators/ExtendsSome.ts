@@ -1,5 +1,4 @@
-import { AfterFirst } from "../lists/AfterFirst";
-import { First } from "../lists/First";
+import { AfterFirst, First } from "src/types/lists";
 
 /**
  * **ExtendsSome**`<TValue,TList>`

@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
 import { LogicFunction } from "../../functions/LogicFunction";
 import { ReturnTypes } from "../../lists";
-import { NarrowlyContains } from "../NarrowlyContains";
+import { NarrowlyContains } from "../operators/NarrowlyContains";
 
 /**
  * **Or**`<TConditions, TParams>`

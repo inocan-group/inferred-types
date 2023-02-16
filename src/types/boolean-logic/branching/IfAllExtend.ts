@@ -1,4 +1,4 @@
-import { AllExtend } from "./AllExtend";
+import { AllExtend } from "../AllExtend";
 
 /**
  * **IfAllExtend**`<TList,TExtend,IF,ELSE>`
