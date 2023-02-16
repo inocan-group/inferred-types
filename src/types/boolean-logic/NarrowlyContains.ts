@@ -1,6 +1,5 @@
-import { AfterFirst, First } from "../lists";
-import { Narrowable } from "../literals/Narrowable";
-import { IsEqual } from "./IsEqual";
+import { AfterFirst, First } from "src/types/lists";
+import { IsEqual } from "src/types/boolean-logic";
 
 /**
  * **NarrowlyContains**`<TList, TContains>`
@@ -14,7 +13,7 @@ import { IsEqual } from "./IsEqual";
  */
 export type NarrowlyContains<
   TList extends readonly unknown[],
-  TContains extends Narrowable, 
+  TContains, 
 > = IsEqual<
   First<TList>,
   TContains

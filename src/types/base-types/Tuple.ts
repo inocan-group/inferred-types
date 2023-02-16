@@ -1,4 +1,3 @@
-import { Narrowable } from "../literals";
 
 /**
  * **Tuple**`<[T]>`
@@ -7,4 +6,4 @@ import { Narrowable } from "../literals";
  * it is `readonly Narrowable[]` which serves as a very useful base for many generic
  * types. 
  */
-export type Tuple<T = Narrowable> = readonly T[];
+export type Tuple<T = unknown> = readonly T[];

@@ -1,10 +1,9 @@
 import { AfterFirst, First } from "../lists";
-import { Narrowable } from "../literals/Narrowable";
 import { IfExtends } from "./IfExtends";
 
 type AllAcc<
   TList extends readonly unknown[],
-  TExtend extends Narrowable
+  TExtend
 > = [] extends TList
   ? true
   : IfExtends<
@@ -27,5 +26,5 @@ type AllAcc<
   */
 export type AllExtend<
   TList extends readonly unknown[],
-  TExtend extends Narrowable
+  TExtend
 > = AllAcc<TList,TExtend>;

@@ -1,10 +1,9 @@
-import { AfterFirst, First } from "../lists";
-import { Narrowable } from "../literals/Narrowable";
-import { IfExtends } from "./IfExtends";
+import { AfterFirst, First } from "src/types/lists";
+import { IfExtends } from "src/types/boolean-logic";
 
 type SomeAcc<
-  TList extends readonly any[],
-  TExtend extends Narrowable
+  TList extends readonly unknown[],
+  TExtend
 > = [] extends TList
   ? false
   : IfExtends<
@@ -23,6 +22,6 @@ type SomeAcc<
  * in `TList` _extend_ `TExtend`.
  */
 export type SomeExtend<
-  TList extends readonly any[],
-  TExtend extends Narrowable
+  TList extends readonly unknown[],
+  TExtend
 > = SomeAcc<TList,TExtend>;

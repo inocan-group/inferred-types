@@ -1,4 +1,4 @@
-import { IfTruthy } from "../boolean-logic/Truthy";
+import { IfTruthy } from "../boolean-logic/IsTruthy";
 import { AnyFunction } from "src/types/base-types";
 import { TupleToUnion } from "../type-conversion/TupleToUnion";
 

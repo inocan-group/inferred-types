@@ -1,5 +1,5 @@
-import { IfEqual } from "./index";
-import { AfterFirst, First } from "../lists";
+import { IfEqual } from "src/types/boolean-logic";
+import { AfterFirst, First } from "src/types/lists";
 
 /**
  * **SomeEqual**`<TVal, TList>`

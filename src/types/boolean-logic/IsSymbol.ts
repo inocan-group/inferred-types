@@ -6,10 +6,3 @@
  */
 export type IsSymbol<T> = T extends symbol ? true : false;
 
-/**
- * **IfSymbol**`<T,IF,ELSE>`
- * 
- * Type utility which converts type `T` to `IF` or `ELSE` based on whether
- * `T` is of type **Symbol**.
- */
-export type IfSymbol<T, IF, ELSE> = IsSymbol<T> extends true ? IF : ELSE;

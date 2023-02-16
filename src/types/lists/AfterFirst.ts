@@ -3,11 +3,11 @@
  *
  * returns the elements in an array _after_ the first element
  */
-export type AfterFirst<T extends any[] | readonly any[]> = 
-  T extends readonly [any, ...any]
-  ? T extends readonly [any, ...infer Rest] ? readonly [...Rest] : never
-  : T extends any[]
+export type AfterFirst<T extends unknown[] | readonly unknown[]> = 
+  T extends readonly [unknown, ...unknown[]]
+  ? T extends readonly [unknown, ...infer Rest] ? readonly [...Rest] : never
+  : T extends unknown[]
     ? []
-    : T extends [any, ...infer Rest]
+    : T extends [unknown, ...infer Rest]
       ? Rest
       : [];

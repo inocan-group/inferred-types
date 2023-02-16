@@ -13,9 +13,9 @@ type Convert<
   : TValue;
 
 type ConvertAcc<
-  TSet extends readonly any[],
+  TSet extends readonly unknown[],
   TConversions extends readonly ConversionTuple[],
-  TResults extends readonly any[] = []
+  TResults extends readonly unknown[] = []
 > = [] extends TSet
   ? TResults
   : ConvertAcc<

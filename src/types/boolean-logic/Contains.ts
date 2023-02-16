@@ -1,5 +1,4 @@
 import { AfterFirst, First } from "../lists";
-import { Narrowable } from "../literals/Narrowable";
 
 /**
  * **Contains**`<TList,TContains>`
@@ -11,7 +10,7 @@ import { Narrowable } from "../literals/Narrowable";
  */
 export type Contains<
   TList extends readonly unknown[],
-  TContains extends Narrowable, 
+  TContains, 
 > = [] extends TList
   ? false
   : First<TList> extends TContains

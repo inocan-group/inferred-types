@@ -13,7 +13,7 @@ import { IsEmptyObject } from "./IsEmptyObject";
  */
 export type IsFnWithParams<
   TFn, 
-  TParamMatch extends Record<string, unknown> | undefined = undefined
+  TParamMatch extends AnyObject | undefined = undefined
 > = TFn extends AnyFunction
     ? IsEmptyObject<TFn> extends true 
         ? false 

@@ -1,4 +1,5 @@
 import { Narrowable } from "../literals/Narrowable";
+import { IfNever } from "./IfNever";
 
 /**
  * **IsUndefined**
@@ -17,4 +18,4 @@ export type IfUndefined<
   T,
   IF extends Narrowable,
   ELSE extends Narrowable
-> = IsUndefined<T> extends true ? IF : ELSE;
+> = IfNever<T, never, IsUndefined<T> extends true ? IF : ELSE>;
