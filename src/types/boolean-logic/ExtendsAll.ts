@@ -1,8 +1,7 @@
-import { Narrowable } from "../literals/Narrowable";
 import { And } from "./combinators/And";
 
 type _Extends<
-TValue extends Narrowable,
+TValue,
 TList extends readonly unknown[],
 Processed extends readonly boolean[] = []
 > = TList extends [infer First, ...infer Rest]
@@ -20,7 +19,7 @@ Processed extends readonly boolean[] = []
   * **Related:** `ExtendsSome`, `IfExtendsAll`, `DoesExtend`
   */
 export type ExtendsAll<
-  TValue extends Narrowable,
+  TValue,
   TList extends readonly unknown[],
 > = _Extends<TValue, TList>;
 

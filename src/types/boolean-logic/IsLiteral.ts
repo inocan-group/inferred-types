@@ -1,7 +1,6 @@
 
 import type { Keys } from "src/types/dictionary";
 import { Length } from "src/types/lists";
-import { Narrowable } from "src/types/literals";
 import { AnyObject } from "../base-types";
 import { IfAnd } from "./IfAnd";
 import { IsBooleanLiteral } from "./IsBooleanLiteral";
@@ -77,6 +76,6 @@ export type IsOptionalLiteral<T> = [Exclude<T, undefined>] extends [string]
  */
 export type IfOptionalLiteral<
   T,
-  IF extends Narrowable,
-  ELSE extends Narrowable
+  IF,
+  ELSE
 > = IsOptionalLiteral<T> extends true ? IF : ELSE;

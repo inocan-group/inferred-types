@@ -1,5 +1,9 @@
-export type IsNumber<T> = T extends number ? true : false;
 
-export function isNumber<T extends number>(value: unknown): value is T {
+/**
+ * **isNumber**(value)
+ * 
+ * Type guard to test whether passed in value is a numeric type.
+ */
+export function isNumber<T>(value: T): value is T & number {
   return (typeof value === "number");
 }

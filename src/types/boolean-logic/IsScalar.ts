@@ -2,10 +2,7 @@ import { Narrowable } from "../literals/Narrowable";
 import { IsBoolean } from "./IsBoolean";
 import { IsNull } from "./IsNull";
 import { IsSymbol } from "./IsSymbol";
-import { IsUndefined } from "./IsUndefined";
-import { IfOr } from "./combinators/Or";
-import { IsString } from "./IsString";
-import { IsNumber } from "../../runtime/type-guards";
+import { IsNumber, IfOr, IsString } from "src/types/boolean-logic";
 
 /**
  * **IsScalar**`<T>`
@@ -17,46 +14,8 @@ import { IsNumber } from "../../runtime/type-guards";
  * 
  * **Related:** `IsOptionalScalar`
  */
-export type IsScalar<T extends Narrowable> = IfOr<
+export type IsScalar<T> = IfOr<
   [IsString<T>, IsNumber<T>, IsBoolean<T>, IsNull<T>, IsSymbol<T>],
   true,
   false
 >;
-
-/**
- * **IsOptionalScalar**`<T>`
- * 
- * Boolean type utility which tests for a _scalar_ value or _undefined_.
- * 
- * **Related:** `IsScalar`
- */
-export type IsOptionalScalar<T extends Narrowable> = IfOr<
-  [IsString<T>, IsNumber<T>, IsBoolean<T>, IsNull<T>, IsSymbol<T>, IsUndefined<T>],
-  true,
-  false
->;
-
-/**
- * **IfScalar**`<T, IF, ELSE>`
- *
- * Branch type utility which returns `IF` when `T` is a scalar value 
- * (aka, string, number, or boolean) and `ELSE` otherwise
- */
-export type IfScalar<
-  T extends Narrowable,
-  IF extends Narrowable,
-  ELSE extends Narrowable
-> = IsScalar<T> extends true ? IF : ELSE;
-
-
-/**
- * **IfOptionalScalar**`<T, IF, ELSE>`
- *
- * Branch type utility which returns `IF` when `T` is a scalar value _or_ `undefined`
- * and `ELSE` otherwise
- */
-export type IfOptionalScalar<
-  T extends Narrowable,
-  IF extends Narrowable,
-  ELSE extends Narrowable
-> = IsScalar<T> extends true ? IF : ELSE;

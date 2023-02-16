@@ -1,6 +1,5 @@
-import { AnyFunction } from "../base-types/AnyFunction";
-import { IfBoolean } from "./IfBoolean";
-
+import { AnyFunction } from "src/types/base-types";
+import { IfBoolean } from "src/types/boolean-logic";
 
 /**
  * **ReturnsBoolean**`<T>`

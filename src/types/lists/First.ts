@@ -1,5 +1,4 @@
 import { IfLength } from "../boolean-logic/IfLength";
-import { Narrowable } from "../literals/Narrowable";
 
 /**
  * **First**`<T>`
@@ -16,7 +15,8 @@ export type First<T extends readonly unknown[]> =
  * it will return `E` (which defaults to _undefined_).
  */
 export type FirstOrElse<
-  T extends readonly any[], E extends Narrowable = undefined
+  T extends readonly unknown[], 
+  E = undefined
 > = IfLength<T, 0, E, First<T>>;
 
 
