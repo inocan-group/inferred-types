@@ -1,5 +1,5 @@
 import { Narrowable } from "../literals/Narrowable";
-import { And } from "./And";
+import { And } from "./combinators/And";
 
 type _Extends<
 TValue extends Narrowable,

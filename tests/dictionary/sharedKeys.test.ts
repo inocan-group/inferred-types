@@ -20,7 +20,7 @@ describe("SharedKeys", () => {
     type None2 = SharedKeys<A,object>;
 
     type cases = [
-      Expect<ExpectExtends< ["bar", "color"], Shared>>,
+      Expect<ExpectExtends< readonly ["bar", "color"], Shared>>,
       Expect<ExpectTrue<Contains<All, "foo">>>,
       Expect<Equal<None, readonly []>>,
       Expect<Equal<None2, readonly []>>,

@@ -1,12 +1,12 @@
 /* eslint-disable no-use-before-define */
-import { AnyFunction } from "../functions";
-import { LogicFunction } from "../functions/LogicFunction";
-import { AfterFirst, First } from "../lists";
-import { Narrowable } from "../literals";
-import { IfNarrowlyContains } from "./IfNarrowlyContains";
-import { IsFalse } from "./IsFalse";
+import { AnyFunction } from "src/types/base-types";
+import { LogicFunction } from "../../functions/LogicFunction";
+import { AfterFirst, First } from "../../lists";
+import { Narrowable } from "../../literals";
+import { IfNarrowlyContains } from "../IfNarrowlyContains";
+import { IsFalse } from "../IsFalse";
 import { IfOr } from "./Or";
-import { ReturnsFalse } from "./ReturnsFalse";
+import { ReturnsFalse } from "../ReturnsFalse";
 
 type _And<
   TConditions extends readonly (boolean | LogicFunction<TParams>)[], 
@@ -41,5 +41,5 @@ type _And<
  */
 export type And<
   TConditions extends readonly (boolean | LogicFunction<TParams>)[], 
-  TParams extends readonly unknown[] = [],
+  TParams extends readonly Narrowable[] = [],
 > = _And<TConditions, TParams>;

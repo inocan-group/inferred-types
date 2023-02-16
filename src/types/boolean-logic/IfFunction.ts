@@ -1,4 +1,4 @@
-import { AnyFunction } from "../functions/function-types";
+import { AnyFunction } from "src/types/base-types";
 import { Narrowable } from "../literals/Narrowable";
 
 /**

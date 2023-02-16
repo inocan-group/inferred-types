@@ -1,4 +1,4 @@
-import { SimplifyObject } from "../SimplifyObject";
+import { SimplifyObject } from "./SimplifyObject";
 
 /**
  * Allow a dictionary to have it's value's type changed to `T` while maintaining the keys in

@@ -11,3 +11,4 @@ export type DoesExtend<
 > = TValue extends TExtends
   ? true
   : false;
+

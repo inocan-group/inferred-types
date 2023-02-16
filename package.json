@@ -45,13 +45,13 @@
   "devDependencies": {
     "@type-challenges/utils": "~0.1.1",
     "@types/node": "^16.18.12",
-    "@typescript-eslint/eslint-plugin": "^5.51.0",
-    "@typescript-eslint/parser": "^5.51.0",
+    "@typescript-eslint/eslint-plugin": "^5.52.0",
+    "@typescript-eslint/parser": "^5.52.0",
     "@typescript/analyze-trace": "^0.9.1",
-    "@vitest/ui": "^0.28.4",
+    "@vitest/ui": "^0.28.5",
     "bumpp": "^8.2.1",
     "cross-env": "^7.0.3",
-    "eslint": "^8.33.0",
+    "eslint": "^8.34.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-import-resolver-typescript": "^3.5.3",
     "eslint-plugin-import": "^2.27.5",
@@ -61,11 +61,11 @@
     "npm-run-all": "~4.1.5",
     "pathe": "^1.1.0",
     "prettier": "~2.8.4",
-    "tsup": "^6.6.0",
+    "tsup": "^6.6.3",
     "typescript": "5.0.0-dev.20230210",
     "vite": "^4.1.1",
-    "vite-node": "^0.28.4",
-    "vitest": "^0.28.4",
+    "vite-node": "^0.28.5",
+    "vitest": "^0.28.5",
     "vue": "^3.2.47"
   }
 }

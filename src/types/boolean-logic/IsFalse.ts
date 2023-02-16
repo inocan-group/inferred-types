@@ -1,5 +1,5 @@
-import { Narrowable } from "../literals/Narrowable";
 import { IsBoolean } from "./IsBoolean";
+import { IsNever } from "./IsNever";
 
 /**
  * **IsFalse**`<T>`
@@ -13,7 +13,9 @@ import { IsBoolean } from "./IsBoolean";
  * type F2 = IsFalse<"foobar">;
  * ```
  */
-export type IsFalse<T extends Narrowable> = IsBoolean<T> extends true
+export type IsFalse<T> = IsNever<T> extends true
+  ? never
+  : IsBoolean<T> extends true
   ? T extends false
     ? true
     : false

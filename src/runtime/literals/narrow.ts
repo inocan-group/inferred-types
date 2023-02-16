@@ -1,5 +1,5 @@
-import { IntoSet, Length, Mutable , Narrowable } from "src/types";
-
+import { First, Key, Length, Narrowable, UnionToTuple} from "src/types";
+import { IfUnion } from "src/types/boolean-logic/IfUnion";
 
 /**
  * **narrow**(value)
@@ -16,14 +16,24 @@ import { IntoSet, Length, Mutable , Narrowable } from "src/types";
  * const t3 = narrow(["foo", "bar"]);
  * ```
  */
-export function narrow<T extends readonly Narrowable[]>(...values: T) {
+export function narrow<
+  N extends Narrowable,
+  K extends Key,
+  T extends readonly (Record<K,N> | Narrowable)[]
+>(...values: T) {
   return (
     values.length === 1 
       ? values[0] 
       : values
   ) as Length<T> extends 1 
-    ? T[0] extends readonly any[]
-      ? T[0]
-      : Mutable<T[0]> 
-    : IntoSet<T>;
+    ? T[0] extends readonly unknown[]
+      ? T[0] extends infer Arr
+        ? IfUnion<
+            First<Arr & readonly unknown[]>, 
+            Readonly<UnionToTuple<First<T[0]>>>, 
+            T[0]
+          >
+        : Readonly<T[0]>
+      : T[0]
+    : Readonly<T>;
 }

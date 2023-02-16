@@ -1,6 +1,6 @@
 import { TYPE_OF } from "../../runtime/runtime/constants";
-import { AnyObject, IsUndefined } from "../boolean-logic";
-import { AnyFunction } from "../functions";
+import {  IsUndefined } from "../boolean-logic";
+import { AnyFunction, AnyObject } from "src/types/base-types";
 import { TupleToUnion } from "../type-conversion/TupleToUnion";
 
 /**
@@ -22,7 +22,7 @@ export type GetTypeOf<T> = (T extends string
   : T extends number ? "number"
   : T extends boolean ? "boolean"
   : T extends AnyFunction ? "function"
-  : T extends AnyObject | null | any[] ? "object"
+  : T extends AnyObject | null | unknown[] ? "object"
   : T extends bigint ? "bigint"
   : IsUndefined<T> extends true ? "undefined"
   : T extends symbol ? "symbol"

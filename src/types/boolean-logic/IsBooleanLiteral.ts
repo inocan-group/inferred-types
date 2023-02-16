@@ -1,7 +1,7 @@
 import { Narrowable } from "../literals/Narrowable";
 import { IsFalse } from "./IsFalse";
 import { IsTrue } from "./IsTrue";
-import { IfOr } from "./Or";
+import { IfOr } from "./combinators/Or";
 
 /**
  * **IsBooleanLiteral**`<T>`

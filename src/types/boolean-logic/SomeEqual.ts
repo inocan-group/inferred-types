@@ -10,6 +10,6 @@ import { AfterFirst, First } from "../lists";
  * 
  * **See Also:** `SomeExtends` and `IfSomeEqual`
  */
-export type SomeEqual<TVal, TList extends readonly any[]> = [] extends TList
+export type SomeEqual<TVal, TList extends readonly unknown[]> = [] extends TList
 ? false
 : IfEqual<TVal, First<TList>, true, SomeEqual<TVal, AfterFirst<TList>>>;

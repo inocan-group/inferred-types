@@ -1,10 +1,11 @@
-/**
- * A union of types used in conjunction with the `literalValues()` function
- * to produce a _narrow_ type definition of a passed in dictionary object.
- */
-export type Narrowable = string | number | boolean | symbol | object | undefined | void | null | {};
+/* eslint-disable @typescript-eslint/ban-types */
 
 /**
- * Precisely the same as the `Narrowable` type but without _undefined_ as an option
+ * **Narrowable**
+ * 
+ * A union of types which when used as a generic's base value helps to extract
+ * the most narrow definition available.
+ * 
+ * **Related:** `NarrowableDefined`, `NarrowableScalar`
  */
-export type NarrowByNotUndefined = string | number | boolean | symbol | object | void | null | {};
+export type Narrowable = string | number | boolean | symbol | object | undefined | void | null;

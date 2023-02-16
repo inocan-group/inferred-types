@@ -8,11 +8,11 @@ import {
   ifUndefined,
   ifArrayPartial,
   ifNumber,
+  ifString 
 } from "src/runtime/boolean-logic";
 import {  or } from "src/runtime/combinators";
-import { EndsWith, DoesExtend, LowerAlpha, Or, StartsWith } from "src/types";
+import { EndsWith, DoesExtend, LowerAlpha, Or, StartsWith, IsStringLiteral } from "src/types";
 import { box, wide } from "src/runtime/literals";
-import { ifString } from "src/runtime/type-guards/isString";
 import { isTrue } from "src/runtime/type-guards/isTrue";
 import { StartingWithTypeGuard, startsWith } from "src/runtime/type-guards/higher-order/startsWith";
 
@@ -242,6 +242,7 @@ describe("runtime if/is", () => {
     type T8 = StartsWith<42, "4">;
     type T9 = StartsWith<42, string>;
     type T10 = StartsWith<42, "5">;
+    type _x = IsStringLiteral<LowerAlpha>;
 
     type cases = [
       Expect<Equal<T1, true>>, //

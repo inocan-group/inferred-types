@@ -4,17 +4,10 @@
 // hash-code: fbd4603a
 
 // file exports
-export * from "./Constructor";
-export * from "../constants";
-export * from "./EnumValues";
-export * from "./If";
-export * from "./SimplifyObject";
-export * from "./Transformer";
-export * from "./maybe";
-export * from "./runtime";
-export * from "./Scalar";
-export * from "./type-testing";
 // directory exports
+export * from "./classes/index";
+export * from "../constants/index";
+export * from "./base-types/index";
 export * from "./string-literals/index";
 export * from "./dictionary/index";
 export * from "./functions/index";

@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 import { Expect, Equal } from "@type-challenges/utils";
-import { Constructor } from "../src/types/Constructor";
+import { Constructor } from "../src/types/classes/Constructor";
 
 class TestClass {
   public foo: number;

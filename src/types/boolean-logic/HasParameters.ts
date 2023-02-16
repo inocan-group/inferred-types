@@ -1,4 +1,4 @@
-import { AnyFunction } from "../functions/function-types";
+import { AnyFunction } from "src/types/base-types";
 import { Length } from "../lists/Length";
 import { IsEqual } from "./IsEqual";
 

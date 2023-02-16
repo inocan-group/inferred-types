@@ -1,4 +1,3 @@
-import { Narrowable } from "../literals/Narrowable";
 import { IsLiteral } from "./IsLiteral";
 
 /**
@@ -8,8 +7,8 @@ import { IsLiteral } from "./IsLiteral";
  */
 export type IfLiteral<
   T, 
-  IF extends Narrowable, 
-  ELSE extends Narrowable
+  IF, 
+  ELSE
 > = IsLiteral<T> extends true
   ? IF
   : ELSE;

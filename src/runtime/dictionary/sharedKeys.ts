@@ -1,6 +1,6 @@
-import { AnyObject } from "src/types/boolean-logic/object";
+import { AnyObject } from "src/types/base-types";
+import { Key } from "src/types/dictionary/Key";
 import { SharedKeys } from "src/types/dictionary/SharedKeys";
-import { keys } from "./keys";
 
 /**
  * **sharedKeys**
@@ -11,8 +11,8 @@ export const sharedKeys = <
   A extends AnyObject,
   B extends AnyObject
 >(a: A, b: B): SharedKeys<A, B> => {
-  const ka = keys(a);
-  const kb = keys(b);
+  const ka = Object.keys(a) as Key[];
+  const kb = Object.keys(b) as Key[];
 
-  return ka.filter(k => kb.includes(k)) as SharedKeys<A, B>;
+  return ka.filter(k => kb.includes(k)) as unknown as SharedKeys<A, B>;
 };

@@ -2,7 +2,7 @@ import { ExpandRecursively } from "../literals/ExpandRecursively";
 import { AfterFirst , AsArray, First } from "../lists";
 import { UnionToTuple, Mutable } from "../type-conversion";
 import { Key, WithKeys, WithoutKeys } from "../dictionary";
-import { AnyObject } from "../boolean-logic";
+import { AnyObject } from "src/types/base-types";
 
 type MutablePropAcc<
   T extends AnyObject,

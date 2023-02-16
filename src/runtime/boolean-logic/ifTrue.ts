@@ -1,4 +1,4 @@
-import {  IfSoftTrue, Narrowable } from "src/types";
+import {  IfMaybeTrue, Narrowable } from "src/types";
 import { isTrue } from "../type-guards/isTrue";
 
 /**
@@ -21,5 +21,5 @@ export function ifTrue<T extends boolean, IF extends Narrowable, ELSE extends Na
     isTrue(val) 
     ? ifVal(val as T & true) 
     : elseVal(val as Exclude<T, true>)
-  ) as IfSoftTrue<T, IF, ELSE, IF | ELSE, IF | ELSE>;
+  ) as IfMaybeTrue<T, IF, ELSE, IF | ELSE, IF | ELSE>;
 }

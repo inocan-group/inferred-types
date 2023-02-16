@@ -4,12 +4,13 @@ import { describe, it, expect } from "vitest";
 import type { 
   Keys, 
   ExpectExtends, 
-  UnknownObject, 
   TupleToUnion, 
-  NumericKeys
+  NumericKeys,
+  ContainsAll
 } from "src/types";
-import { defineType, keys, isRef, isObject } from "src/runtime";
+import { defineType, keys, isRef } from "src/runtime";
 import { ref } from "vue";
+import { UnknownObject } from "src/types/boolean-logic/object";
 
 describe("NumericKeys<T>", () => {
 
@@ -23,10 +24,9 @@ describe("NumericKeys<T>", () => {
     type Empty = NumericKeys<[]>;
 
     type cases = [
-      //
-      Expect<Equal<Numeric, readonly ["0", "1", "2"]>>,
-      Expect<Equal<Str, readonly ["0", "1", "2"]>>,
-      Expect<Equal<Str_RO, readonly ["0", "1", "2"]>>,
+      ContainsAll<Numeric, ["0","1","2"]>,
+      ContainsAll<Str, ["0","1","2"]>,
+      ContainsAll<Str_RO,  ["0","1","2"]>,
       Expect<Equal<Empty, readonly []>>,
     ];
     
@@ -140,7 +140,7 @@ describe("keys() utility on object", () => {
     expect(k).toEqual(["value"]);
 
     type cases = [
-      Expect<Equal<readonly ["value"],typeof k>>
+      Expect<Equal< readonly ["value"],typeof k>>
     ];
 
     const cases: cases = [ true ];

@@ -5,7 +5,8 @@ import {
   IfRef, 
   ToString, 
   Narrowable, 
-  IfUndefined
+  IfUndefined,
+  AnyObject
 } from "src/types";
 import { NoDefaultValue } from "src/constants/NoDefaultValue";
 
@@ -42,7 +43,7 @@ type ResolveHandler<
  * ```
  */
 export type Get<
-  TContainer, 
+  TContainer extends AnyObject | readonly Narrowable[], 
   TDotPath extends string | number | null,
   TDefVal extends Narrowable = NoDefaultValue,
   THandler extends Narrowable = typeof NOT_DEFINED

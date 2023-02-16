@@ -1,6 +1,6 @@
+/* eslint-disable no-use-before-define */
 import { LogicFunction } from "../functions/LogicFunction";
-import { Narrowable } from "../literals/Narrowable";
-import { And } from "./And";
+import { And } from "./combinators/And";
 
 /**
  * **IfAnd**`<TConditions[], [IF], [ELSE], [TParams]>`
@@ -12,8 +12,7 @@ import { And } from "./And";
  */
 export type IfAnd<
   TConditions extends readonly (boolean | LogicFunction<TParams>)[],
-  IF extends Narrowable = true,
-  ELSE extends Narrowable = false,
-  TParams extends readonly unknown[] = readonly [],
-> = And<TConditions> extends true ? IF : ELSE; 
-  
+  IF = true,
+  ELSE = false,
+  TParams extends readonly unknown[] = readonly unknown[],
+> = And<TConditions> extends true ? IF : ELSE;

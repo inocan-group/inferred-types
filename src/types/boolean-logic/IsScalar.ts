@@ -3,7 +3,7 @@ import { IsBoolean } from "./IsBoolean";
 import { IsNull } from "./IsNull";
 import { IsSymbol } from "./IsSymbol";
 import { IsUndefined } from "./IsUndefined";
-import { IfOr } from "./Or";
+import { IfOr } from "./combinators/Or";
 import { IsString } from "./IsString";
 import { IsNumber } from "../../runtime/type-guards";
 

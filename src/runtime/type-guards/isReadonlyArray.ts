@@ -1,4 +1,4 @@
-import { ExpandRecursively, Narrowable } from "src/types";
+import { ExpandRecursively } from "src/types";
 
 /**
  * **isReadonlyArray**(value)
@@ -11,7 +11,7 @@ import { ExpandRecursively, Narrowable } from "src/types";
  * to a cleaner type.
  */
 export function isReadonlyArray<
-  T extends Narrowable
->(value: T): value is ExpandRecursively<T & readonly any[]> {
+  T
+>(value: unknown | T): value is ExpandRecursively<T & readonly unknown[]> {
   return (Array.isArray(value) === true);
 }

@@ -1,6 +1,5 @@
 import { AfterFirst } from "../lists/AfterFirst";
 import { First } from "../lists/First";
-import { Narrowable } from "../literals/Narrowable";
 
 /**
  * **ExtendsSome**`<TValue,TList>`
@@ -11,8 +10,8 @@ import { Narrowable } from "../literals/Narrowable";
  * **Related:** `ExtendsAll`, `IfExtendsSome`, `DoesExtend`
  */
 export type ExtendsSome<
-  TValue extends Narrowable,
-  TExtendsSome extends readonly any[]
+  TValue,
+  TExtendsSome extends readonly unknown[]
 > = [] extends TExtendsSome
   ? false
   : TValue extends First<TExtendsSome>

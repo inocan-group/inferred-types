@@ -1,4 +1,4 @@
-import { AnyObject, DoesExtend, IfNull, IfOr } from "../boolean-logic";
+import {  IfNull, IsScalar } from "../boolean-logic";
 import { Narrowable } from "../literals/Narrowable";
 
 /**
@@ -13,16 +13,16 @@ import { Narrowable } from "../literals/Narrowable";
  * **Related:** `Get`
  */
 export type IndexOf<
-  TValue extends Narrowable | readonly any[],
+  TValue extends Narrowable | readonly Narrowable[],
   TIdx extends string | number | null
 > = IfNull<
   TIdx,
+  // return "as is"
   TValue,
-  IfOr<
-    [DoesExtend<TValue, AnyObject>, DoesExtend<TValue, readonly any[]>],
-    TIdx extends keyof TValue
+  // dereference where valid index
+  IsScalar<TValue> extends false
+    ? TIdx extends keyof TValue
       ? TValue[TIdx]
-      : never,
-    never
-  >
+      : never
+    : never
 >;

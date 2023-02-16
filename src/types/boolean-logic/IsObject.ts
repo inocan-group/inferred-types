@@ -1,7 +1,7 @@
-import { AnyFunction } from "../functions";
+import { AnyFunction } from "src/types/base-types";
 import { Mutable } from "../type-conversion";
 import { IfExtends } from "./IfExtends";
-import { Or } from "./Or";
+import { Or } from "./combinators/Or";
 
 /**
  * **IsObject**

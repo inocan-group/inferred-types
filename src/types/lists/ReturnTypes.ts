@@ -1,4 +1,4 @@
-import { AnyFunction } from "../functions";
+import { AnyFunction } from "src/types/base-types";
 
 /**
  * **ReturnTypes**`<T>`

@@ -1,3 +1,4 @@
+import { AnyObject } from "../base-types/AnyObject";
 import { IfEqual, IfTrue } from "../boolean-logic";
 import { IfLength } from "../boolean-logic/IfLength";
 import { RetainStrings } from "../lists";
@@ -19,9 +20,9 @@ exclusion property described above.
  * ```
  */
 export type Keys<
-  TValue extends Narrowable,
+  TValue extends AnyObject | Narrowable[],
   TOnlyString extends boolean = false
-> = TValue extends readonly unknown[]
+> = TValue extends readonly Narrowable[]
   ? NumericKeys<TValue>
   : IfEqual<
       Readonly<UnionToTuple<keyof TValue>>, readonly [string], 
@@ -32,7 +33,7 @@ export type Keys<
         IfTrue<
           TOnlyString, 
           Readonly<RetainStrings<UnionToTuple<keyof TValue>>>,
-          Readonly<UnionToTuple<keyof TValue> >
+          Readonly<UnionToTuple<keyof TValue>>
         >
       >
     >;

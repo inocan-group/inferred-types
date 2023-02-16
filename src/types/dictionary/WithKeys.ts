@@ -1,7 +1,8 @@
-import { AnyObject } from "../boolean-logic";
+import { AnyObject } from "../base-types";
 import { ExpandRecursively } from "../literals/ExpandRecursively";
 import { TupleToUnion, UnionToIntersection } from "../type-conversion";
 import { Key } from "./Key";
+
 /**
  * **WithKeys**`<T,K>`
  * 

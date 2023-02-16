@@ -1,13 +1,7 @@
-
-/**
- * A function -- without parameters -- which returns a boolean value
- */
-export type LogicFunctionWithoutParams = <R extends boolean>() => R;
-
 /**
  * **LogicFunction**
  * 
  * A function -- with _optional_ parameters -- which returns a boolean value.
  */
-export type LogicFunction<TParams extends readonly any[] | readonly []> = (...args: TParams) => boolean;
+export type LogicFunction<TParams extends readonly unknown[] = unknown[]> = (...args: TParams) => boolean;
 
