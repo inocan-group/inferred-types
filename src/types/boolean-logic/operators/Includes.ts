@@ -1,4 +1,4 @@
-import { TupleToUnion } from "../type-conversion";
+import { TupleToUnion } from "../../type-conversion";
 import { IsLiteral } from "./IsLiteral";
 import { IsStringLiteral } from "./IsStringLiteral";
 

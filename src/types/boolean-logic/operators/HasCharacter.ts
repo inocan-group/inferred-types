@@ -1,5 +1,5 @@
-import { AfterFirst, First } from "../lists";
-import { AsArray } from "../lists/AsArray";
+import { AfterFirst, First } from "../../lists";
+import { AsArray } from "../../lists/AsArray";
 
 type _HasChar<
   TStr extends string,
