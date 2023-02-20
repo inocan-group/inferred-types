@@ -1,6 +1,6 @@
 import { Equal, Expect, ExpectExtends } from "@type-challenges/utils";
 import { getEach } from "../../src/runtime/lists/getEach";
-import { ErrorCondition } from "../../src/runtime/literals/ErrorCondition";
+import { ErrorCondition } from "../../src/types/errors/ErrorCondition";
 import { GetEach } from "../../src/types/lists/GetEach";
 import { describe, expect, it } from "vitest";
 

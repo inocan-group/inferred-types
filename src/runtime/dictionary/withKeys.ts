@@ -1,25 +1,20 @@
-import type { AnyObject, Key, WithKeys } from "src/types";
+import type { Key, Narrowable } from "src/types";
+import { retain } from "./retain";
 
 /**
  * **withKeys**(obj,keys)
  * 
  * Reduces the key/value pairs in an object to those keys
  * explicitly stated.
+ * 
+ * - note: this function is an alias for `retain()`
  */
 export const withKeys = <
-  TObj extends AnyObject,
+  TObj extends Record<string|symbol, N>,
+  N extends Narrowable,
   TKeys extends readonly (Key & keyof TObj)[]
 >(
   dict: TObj, 
   ...keys: TKeys
-): WithKeys<TObj, TKeys> => {
-  let output: Record<string, unknown> = {};
-  for (const k of keys) {
-    output = {
-      ...output,
-      [k]: dict[k]
-    };
-  }
-
-  return output as WithKeys<TObj, TKeys>;
-};
+) => retain(dict, ...keys);
+ 
