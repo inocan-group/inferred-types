@@ -1,4 +1,4 @@
-import { ErrorCondition } from "../literals/ErrorCondition";
+import { ErrorCondition } from "src/types/errors";
 
 /**
  * **createErrorCondition**(domain) => (kind) => (msg) => ErrorCondition

@@ -1,4 +1,4 @@
-import { ErrorCondition } from "../literals/ErrorCondition";
+import { ErrorCondition } from "../../types/errors/ErrorCondition";
 import { isEqual } from "./higher-order";
 import { isObject } from "./isObject";
 

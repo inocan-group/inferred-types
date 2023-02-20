@@ -14,6 +14,7 @@ export * from "./Returns";
 export * from "./NotEqual";
 export * from "./StartsWith";
 export * from "./HasParameters";
+export * from "./HasUnionType";
 
 export * from "./IsOptionalScalar";
 export * from "./IsObject";

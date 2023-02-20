@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect } from "vitest";
-import { WithKeys } from "../../src//types";
+import { DoesExtend, ErrorCondition, WithKeys } from "../../src//types";
 import { Equal, Expect } from "@type-challenges/utils";
-import { withKeys } from "../../src/runtime/dictionary";
+
+// NOTE: "withKeys" and "retain" are aliases of one another
+// so these tests really pertain to both
+import { retain, withKeys } from "src/runtime/dictionary";
 
 describe("WithKeys<T, K> utility", () => {
   it("types: base test", () => {
@@ -63,4 +66,18 @@ describe("WithKeys<T, K> utility", () => {
     ];
     const cases: cases = [ true, true ];
   });
+
+  
+  it("runtime: when keys includes a value which is a union the type is ErrorCondition", () => {
+    const obj = retain({foo: 1, bar: 2, baz: 3}, "bar" as "bar" | "baz");
+
+    // true runtime value is returned
+    expect(obj).toEqual({bar: 2}); 
+    // since design time type can not legitimately determined
+    type cases = [
+      DoesExtend<typeof obj, ErrorCondition<"invalid-union">>,
+    ];
+    const cases: cases = [ true ];
+  });
+  
 });

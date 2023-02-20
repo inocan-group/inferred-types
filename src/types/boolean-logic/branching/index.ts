@@ -6,6 +6,11 @@ export * from "./IfSymbol";
 export * from "./IfTruthy";
 export * from "./IfSomeTruthy";
 
+export * from "./IfError";
+export * from "./IfErrorCondition";
+export * from "./IfNotError";
+
+
 export * from "./IfBoolean";
 export * from "./IfTrue";
 export * from "./IfNumber";

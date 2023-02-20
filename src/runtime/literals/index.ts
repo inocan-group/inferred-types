@@ -20,7 +20,6 @@ export * from "./split";
 export * from "./capitalize";
 export * from "./uncapitalize";
 export * from "./uppercase";
-export * from "./ErrorCondition";
 export * from "./lowercase";
 export * from "./wide";
 export * from "./toCamelCase";

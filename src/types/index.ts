@@ -6,7 +6,6 @@
 // file exports
 // directory exports
 export * from "./classes/index";
-export * from "../constants/index";
 export * from "./base-types/index";
 export * from "./string-literals/index";
 export * from "./dictionary/index";
@@ -18,6 +17,7 @@ export * from "./tuples/index";
 export * from "./type-conversion/index";
 export * from "./boolean-logic/index";
 export * from "./runtime-types/index";
+export * from "./errors/index";
 // #endregion auto-indexed files
 
 // see https://github.com/inocan-group/do-devops/docs/autoindex.md
