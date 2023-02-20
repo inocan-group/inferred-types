@@ -1,11 +1,10 @@
 /* eslint-disable no-use-before-define */
-import { OptRequired } from "src/types";
+import type { OptRequired, MergeObjects } from "src/types";
 import {
   DefaultManyToOneMapping,
   DefaultOneToManyMapping,
   DefaultOneToOneMapping,
-} from "../../runtime";
-import { MergeObjects } from "../type-conversion";
+} from "src/runtime";
 
 /**
  * Expresses relationship between inputs/outputs:

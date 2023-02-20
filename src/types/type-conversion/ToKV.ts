@@ -1,5 +1,5 @@
+import { AnyObject } from "../base-types";
 import { IfLiteral } from "../boolean-logic";
-import { AnyObject } from "../boolean-logic/object";
 import { Keys } from "../dictionary/Keys";
 import { AfterFirst, First, IndexOf } from "../lists";
 import { Retain } from "../lists/Retain";

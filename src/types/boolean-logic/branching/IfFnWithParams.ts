@@ -1,5 +1,5 @@
 
-import { IsFnWithParams } from "./IsFnWithParams";
+import { IsFnWithParams } from "src/types/boolean-logic";
 
 
 /**

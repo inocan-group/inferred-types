@@ -19,7 +19,6 @@ export * from "./Pluralize";
 export * from "./StripLeading";
 export * from "./Suggest";
 export * from "./StripTrailing";
-export * from "./character-sets/Url";
 
 export * from "./character-sets/index";
 export * from "./casing/index";

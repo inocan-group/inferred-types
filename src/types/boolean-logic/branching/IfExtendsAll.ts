@@ -1,5 +1,5 @@
-import { Tuple } from "../base-types/Tuple";
-import { ExtendsAll } from "./ExtendsAll";
+import { Tuple } from "src/types/base-types";
+import { ExtendsAll } from "src/types/boolean-logic";
 
 /**
  * **IfExtendsAll**`<TVal,TList,IF,ELSE>`

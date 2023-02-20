@@ -6,6 +6,6 @@
  * 
  * **Related:** `ifNull`
  */
-export function isNull<T extends unknown>(value: T): value is T & null {
+export function isNull<T>(value: T): value is T & null {
   return (value === null) ? true : false;
 }

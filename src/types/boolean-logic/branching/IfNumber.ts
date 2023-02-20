@@ -1,4 +1,4 @@
-import { IsNumber } from "src/runtime";
+import { IsNumber } from "src/types/boolean-logic";
 /**
  * **IfNumber**`<T,IF,ELSE>`
  * 

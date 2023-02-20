@@ -1,4 +1,4 @@
-import { Narrowable } from "../literals";
+import { Narrowable } from "src/types/literals";
 
 /**
  * **TypeGuard**

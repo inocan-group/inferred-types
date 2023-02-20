@@ -1,5 +1,4 @@
-import { First, Key, Length, Narrowable, UnionToTuple} from "src/types";
-import { IfUnion } from "src/types/boolean-logic/IfUnion";
+import { First, Key, Length, Narrowable, UnionToTuple, IfUnion } from "src/types";
 
 /**
  * **narrow**(value)

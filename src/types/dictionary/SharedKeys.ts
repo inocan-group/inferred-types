@@ -1,8 +1,6 @@
-import { Keys } from "./Keys";
-import { IfLength } from "../boolean-logic/IfLength";
 import { AnyObject } from "src/types/base-types";
-import { SimplifyObject } from "./SimplifyObject";
-import { WithoutValue } from "./WithoutValue";
+import { WithoutValue, SimplifyObject, Keys } from "src/types/dictionary";
+import { IfLength } from "src/types/boolean-logic";
 
 type Shared<
   A extends AnyObject,

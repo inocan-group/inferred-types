@@ -1,13 +1,14 @@
-
 import type { Keys } from "src/types/dictionary";
-import { Length } from "src/types/lists";
-import { AnyObject } from "../base-types";
-import { IfAnd } from "./IfAnd";
-import { IsBooleanLiteral } from "./IsBooleanLiteral";
-import { IsEqual } from "./IsEqual";
-import { IsNumericLiteral } from "./IsNumericLiteral";
-import { IsStringLiteral } from "./IsStringLiteral";
-import { NotEqual } from "./NotEqual";
+import type { Length } from "src/types/lists";
+import type { 
+  IfAnd, 
+  IsBooleanLiteral, 
+  IsEqual, 
+  IsNumericLiteral, 
+  IsStringLiteral, 
+  NotEqual 
+} from "src/types/boolean-logic";
+import type { AnyObject } from "src/types/base-types";
 
 
 // [note on handling of boolean](https://stackoverflow.com/questions/74213646/detecting-type-literals-works-in-isolation-but-not-when-combined-with-other-lite/74213713#74213713)

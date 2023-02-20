@@ -6,8 +6,8 @@ import { t } from "./type-shorthand";
 
 const digit = createTypeTuple(
   t.literal<Digit>(),
-  function <T extends unknown>(val: T): val is Digit & T {
-    return typeof toString(val) === "string" && ["0","1","2","3","4","5","6","7","8","9"].includes(val as any);
+  function <T>(val: T): val is Digit & T {
+    return typeof toString(val) === "string" && ["0","1","2","3","4","5","6","7","8","9"].includes(val as unknown);
   },
   "A numeric digit (aka, 0-9)"
 );

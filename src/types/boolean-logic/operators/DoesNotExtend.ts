@@ -1,4 +1,4 @@
-import { Narrowable } from "../literals/Narrowable";
+
 
 /**
  * **DoesNotExtend**`<TValue, TNotExtends>`
@@ -7,8 +7,8 @@ import { Narrowable } from "../literals/Narrowable";
  * not extend_ `TNotExtends`.
  */
 export type DoesNotExtend<
-TValue extends Narrowable, 
-TNotExtends extends Narrowable
+TValue, 
+TNotExtends
 > = TValue extends TNotExtends
 ? false
 : true;

@@ -1,3 +1,3 @@
-export type AsReadonlyArray<T extends any[]> = T extends readonly[]
+export type AsReadonlyArray<T extends unknown[]> = T extends readonly[]
   ? T
-  : readonly any[];
+  : readonly unknown[];

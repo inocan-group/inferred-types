@@ -1,4 +1,5 @@
-import {  Narrowable, Widen } from "src/types";
+/* eslint-disable @typescript-eslint/ban-types */
+import {  AnyFunction, AnyObject, Narrowable, Widen } from "src/types";
 
 
 /**
@@ -12,11 +13,11 @@ export const wide = {
   number: 0 as number,
   symbol: Symbol() as symbol,
   null: null,
-  function: (() => null) as Function,
+  function: (() => null) as AnyFunction,
   anyArray: [] as any[],
-  anyObject: {} as  Record<string, any>,
-  unknownObject: {} as  Record<string, unknown>,
-  emptyObject: {} as {},
+  anyObject: {} as AnyObject,
+  unknownObject: {} as Record<string, unknown>,
+  emptyObject: {} as {} & object,
   undefined: undefined,
 } as const;
 

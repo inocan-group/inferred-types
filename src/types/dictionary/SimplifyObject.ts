@@ -1,5 +1,5 @@
-import { ExpandRecursively } from "../literals/ExpandRecursively";
-import { UnionToIntersection } from "../type-conversion/UnionToIntersection";
+import { ExpandRecursively } from "src/types/literals";
+import { UnionToIntersection } from "src/types/type-conversion";
 
 /**
  * Often when mutating the shape of an object you will end up with the union of a number of

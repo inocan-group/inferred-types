@@ -9,6 +9,8 @@ export * from "./isString";
 export * from "./isObject";
 export * from "./isTrue";
 export * from "./isArray";
+export * from "./isConstant";
+export * from "./isSpecificConstant";
 export * from "./isReadonlyArray";
 export * from "./hasIndex";
 export * from "./hasIndexOf";

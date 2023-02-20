@@ -1,10 +1,11 @@
+/* eslint-disable no-use-before-define */
 import { LogicFunction } from "src/types";
 import { ifBoolean } from "../boolean-logic";
 import { ifFunction } from "../boolean-logic/ifFunction";
 
 export function logicalReturns<
   TConditions extends readonly (boolean | LogicFunction<TParams>)[],
-  TParams extends readonly any[] = []
+  TParams extends readonly unknown[] = []
 >(conditions: TConditions, ...params: TParams) {
   
   return conditions.map(c => ifBoolean(

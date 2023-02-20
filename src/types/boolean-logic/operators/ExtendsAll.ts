@@ -1,4 +1,5 @@
-import { And } from "./combinators/And";
+import { And } from "src/types/boolean-logic";
+
 
 type _Extends<
 TValue,

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { TupleToUnion, AnyObject } from "src/types";
 import { keys } from "./keys";
 
@@ -10,12 +11,12 @@ export function exclude<
   TObj extends AnyObject,
   TExclude extends readonly (string & keyof TObj)[]
 >(obj: TObj, ...excluding: TExclude): Exclude<TObj, TupleToUnion<TExclude>> {
-  return keys(obj).reduce(
-    (acc, key) => excluding.includes(key)
+  return [...keys(obj)].reduce(
+    (acc, key) => excluding.includes(key as any)
       ? acc
       : {
         ...acc,
-        [key]: obj[key]
+        [key]: obj[key as keyof TObj]
       },
     {} as Exclude<TObj, TupleToUnion<TExclude>> 
   );

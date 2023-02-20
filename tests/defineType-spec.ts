@@ -1,7 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import type { Expect, Equal } from "@type-challenges/utils";
-import { ExpectExtends } from "../src/types";
+import type { Expect, Equal, ExpectExtends } from "@type-challenges/utils";
 import { defineType } from "../src/runtime";
 
 describe("defineType() utility", () => {

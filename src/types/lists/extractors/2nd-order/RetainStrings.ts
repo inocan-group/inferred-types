@@ -6,5 +6,5 @@ import { RetainFromList } from "../RetainFromList";
  * Retains the _string_ values from arrays and discards the rest.
  */
 export type RetainStrings<
-  T extends any[] | readonly any[]
+  T extends unknown[] | readonly unknown[]
 > = RetainFromList<T, "extends", string>;

@@ -1,7 +1,6 @@
 import { AnyFunction } from "src/types/base-types";
-import { Mutable } from "../type-conversion";
-import { IfExtends } from "./IfExtends";
-import { Or } from "./combinators/Or";
+import { Mutable } from "src/types/type-conversion";
+import { Or, IfExtends } from "src/types/boolean-logic";
 
 /**
  * **IsObject**

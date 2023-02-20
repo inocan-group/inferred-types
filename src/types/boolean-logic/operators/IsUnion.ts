@@ -1,6 +1,5 @@
-import { UnionToTuple } from "../type-conversion/UnionToTuple";
-import { IfLength } from "./IfLength";
-import { IfNever } from "./IfNever";
+import { UnionToTuple } from "src/types/type-conversion";
+import { IfLength, IfNever } from "src/types/boolean-logic";
 
 /**
  * **IsUnion**`<T>`

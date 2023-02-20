@@ -1,4 +1,4 @@
-import { IsString } from "./IsString";
+import { IsString } from "src/types/boolean-logic";
 
 /**
  * **IfString**`<T,TRUE,FALSE>`

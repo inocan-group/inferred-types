@@ -1,6 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { KvDict, Mutable, UnionToTuple, AnyObject } from "src/types";
-import { IfObject } from "../boolean-logic/IfObject";
+import { KvDict, Mutable, UnionToTuple, AnyObject, IfObject } from "src/types";
 import { AfterFirst } from "../lists";
 import { First } from "../lists/First";
 

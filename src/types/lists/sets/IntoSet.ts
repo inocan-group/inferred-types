@@ -3,7 +3,7 @@ import {
   ToKV, 
   UnionToTuple } 
 from "src/types";
-import { IfUnion } from "src/types/boolean-logic/IfUnion";
+import { IfUnion } from "src/types/boolean-logic";
 import { SetCandidate } from "./SetCandidate";
 
 /**

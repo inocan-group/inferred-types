@@ -11,5 +11,5 @@ export function isKvDictArray<
   V extends Narrowable, 
   T extends KvDict<K,V>[]
 >(value: unknown | T): value is T {
-  return Array.isArray(value) && (value as any[]).every(v => isKvPair(v));
+  return Array.isArray(value) && (value as unknown[]).every(v => isKvPair(v));
 }

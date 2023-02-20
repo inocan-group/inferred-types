@@ -1,6 +1,5 @@
-import { TupleToUnion } from "../../type-conversion";
-import { IsLiteral } from "./IsLiteral";
-import { IsStringLiteral } from "./IsStringLiteral";
+import { TupleToUnion } from "src/types/type-conversion";
+import { IsLiteral, IsStringLiteral } from "src/types/boolean-logic";
 
 /**
  * **Includes**`<TSource, TValue>`

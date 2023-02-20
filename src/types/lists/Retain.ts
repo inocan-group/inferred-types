@@ -5,9 +5,9 @@ import { First } from "./First";
  * Iterates over each element of the Tuple
  */
 type SingleFilter<
-  TList extends any[] | readonly any[],
+  TList extends unknown[] | readonly unknown[],
   TFilter,
-  Result extends any[] = []
+  Result extends unknown[] = []
 > = TList extends [infer Head, ...infer Rest]
   ? [Head] extends [TFilter]
     ? SingleFilter<Rest, TFilter, [...Result, Head]>
@@ -15,9 +15,9 @@ type SingleFilter<
   : Result;
 
 type Extraction<
-  TList extends readonly any[],
-  TExtract extends readonly any[],
-  TResults extends readonly any[] = [],
+  TList extends readonly unknown[],
+  TExtract extends readonly unknown[],
+  TResults extends readonly unknown[] = [],
 > = [] extends TExtract
   ? TResults
   : Extraction<
@@ -36,19 +36,19 @@ type Extraction<
  * - when the filter is an array then they are combined in a logical OR operation
  */
 export type Retain<
-  TList extends any[] | readonly any[],
+  TList extends unknown[] | readonly unknown[],
   TFilter
-> = TList extends any[]
+> = TList extends unknown[]
   ? // regular tuples are kept as such
-    TFilter extends readonly any[]
+    TFilter extends readonly unknown[]
       // filters are an array
       ? Extraction<TList, TFilter>
       // single filter
       : SingleFilter<TList, TFilter>
   : // readonly only tuples are maintained as such
-    TList extends readonly any[]
+    TList extends readonly unknown[]
       ? Readonly<
-          TFilter extends readonly any[]
+          TFilter extends readonly unknown[]
             ? Extraction<TList, TFilter>
             : SingleFilter<[...TList], TFilter>
         >

@@ -8,13 +8,13 @@ import {
   ifUndefined,
   ifArrayPartial,
   ifNumber,
-  ifString 
-} from "src/runtime/boolean-logic";
-import {  or } from "src/runtime/combinators";
-import { EndsWith, DoesExtend, LowerAlpha, Or, StartsWith, IsStringLiteral } from "src/types";
-import { box, wide } from "src/runtime/literals";
-import { isTrue } from "src/runtime/type-guards/isTrue";
-import { StartingWithTypeGuard, startsWith } from "src/runtime/type-guards/higher-order/startsWith";
+  ifString,
+  or,
+  isTrue,
+  StartingWithTypeGuard, startsWith, box, wide
+} from "src/runtime";
+import { EndsWith, DoesExtend, LowerAlpha, Or, StartsWith, IsStringLiteral  } from "src/types";
+
 
 describe("runtime if/is", () => {
   it("ifString(v,i,e)", () => {

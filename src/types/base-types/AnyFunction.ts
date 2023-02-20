@@ -1,11 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
-import { FnWithDict } from "./fns/FnWithDict";
-import { NarrowingFn } from "./fns/NarrowingFn";
-import { RegularFn } from "./fns/RegularFn";
-import { IndexableObject } from "./IndexableObject";
+import { AnyObject } from "./AnyObject";
 
 /**
- * **AnyFunction**`<[TArgs], [TReturn]`
+ * **AnyFunction**`<[TArgs],[TReturn],[TDict]>`
  * 
  * A type which is meant to match on _all_ types of functions which can exist.
  * This includes basic functions as well as functions which have KeyValue dictionaries
@@ -15,7 +13,9 @@ import { IndexableObject } from "./IndexableObject";
  * the optional generics provided_
  */
 export type AnyFunction<
-  TArgs extends unknown[] = unknown[],
-  TReturn = unknown,
-  TDict extends IndexableObject = {}
-> = RegularFn<TArgs,TReturn> | NarrowingFn<TArgs,TReturn> | FnWithDict<TDict,TArgs,TReturn>;
+  TArgs extends readonly any[] = any[],
+  TReturn = any,
+  TProps extends AnyObject | "no-props" = AnyObject | "no-props",
+> = TProps extends "no-props"
+  ? (...args: TArgs) => TReturn
+  : ((...args: TArgs) => TReturn) & TProps;

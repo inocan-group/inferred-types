@@ -1,4 +1,4 @@
-import { Whitespace } from "../string-literals/character-sets";
+import { Whitespace } from "src/types/string-literals";
 
 /**
  * Trims off whitespace on left of string

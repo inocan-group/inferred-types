@@ -11,7 +11,7 @@ import {
 import { hasNoUnderlyingTypes, hasUnderlyingTypes, isLiteralType } from "../type-guards/runtime-type-guards";
 import { wide } from "../literals";
 
-type GetType<U> = U extends readonly any[]
+type GetType<U> = U extends readonly unknown[]
   ? GetEach<U, "type">
   : never;
 

@@ -1,7 +1,7 @@
-import { ExpandRecursively } from "../literals/ExpandRecursively";
-import { AfterFirst , AsArray, First } from "../lists";
-import { UnionToTuple, Mutable } from "../type-conversion";
-import { Key, WithKeys, WithoutKeys } from "../dictionary";
+import { ExpandRecursively } from "src/types/literals";
+import { AfterFirst , AsArray, First } from "src/types/lists";
+import { UnionToTuple, Mutable } from "src/types/type-conversion";
+import { Key, WithKeys, WithoutKeys } from "src/types/dictionary";
 import { AnyObject } from "src/types/base-types";
 
 type MutablePropAcc<

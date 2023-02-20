@@ -1,5 +1,4 @@
-import { Keys } from "../dictionary/Keys";
-import { IfLength } from "./IfLength";
+import {IfLength, Keys} from "src/types";
 
 /**
  * **IsEmptyObject**`<T>`

@@ -10,9 +10,9 @@ import { And, DoesExtend, IsEqual, IsNotEqual } from "../../boolean-logic";
  * **RemoveNotExtends**`<TList,TCompareTo>`
  */
 type RemoveNotExtends<
-  TList extends any[] | readonly any[],
+  TList extends unknown[] | readonly unknown[],
   TCompareTo, // what to extract
-  TResults extends readonly any[] = []
+  TResults extends readonly unknown[] = []
 > = [] extends TList
   ? TResults
   : And<[ DoesExtend<First<TList>, TCompareTo>, IsNotEqual<First<TList>, never>]> extends true
@@ -23,9 +23,9 @@ type RemoveNotExtends<
  * **RemoveExtends**`<TList,TCompareTo>
  */
 type RemoveExtends<
-  TList extends any[] | readonly any[],
+  TList extends unknown[] | readonly unknown[],
   TCompareTo, // what to extract
-  TResults extends readonly any[] = []
+  TResults extends readonly unknown[] = []
 > = [] extends TList
   ? TResults
   : First<TList> extends TCompareTo
@@ -36,9 +36,9 @@ type RemoveExtends<
  * **RemoveEquals**`<TList,TCompareTo>`
  */
 type RemoveEquals<
-TList extends any[] | readonly any[],
+TList extends unknown[] | readonly unknown[],
 TCompareTo, // what to extract
-TResults extends readonly any[] = []
+TResults extends readonly unknown[] = []
 > = [] extends TList
 ? TResults
 : IsEqual<First<TList>, TCompareTo> extends true
@@ -49,9 +49,9 @@ TResults extends readonly any[] = []
  * **RemoveNotEqual**`<TList,TCompareTo,TOp>`
  */
 type RemoveNotEqual<
-  TList extends any[] | readonly any[],
+  TList extends unknown[] | readonly unknown[],
   TCompareTo, // what to extract
-  TResults extends readonly any[] = []
+  TResults extends readonly unknown[] = []
 > = [] extends TList
   ? TResults
   : IsNotEqual<First<TList>, TCompareTo> extends true
@@ -71,10 +71,10 @@ type RemoveNotEqual<
  * - by default `TNever` is set to "remove" but can be set to "retain" if so desired
  */
 export type RemoveFromList<
-  TList extends any[] | readonly any[],
+  TList extends unknown[] | readonly unknown[],
   TComparator extends FilterOps,
   TCompareTo extends Narrowable,
-> = TList extends any[]
+> = TList extends unknown[]
 // array
 ? TComparator extends "extends"
   ? RemoveExtends<TList, TCompareTo>

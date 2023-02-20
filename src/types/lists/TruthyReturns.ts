@@ -1,6 +1,6 @@
-import { IfTruthy } from "../boolean-logic/IsTruthy";
 import { AnyFunction } from "src/types/base-types";
-import { TupleToUnion } from "../type-conversion/TupleToUnion";
+import { IfTruthy } from "src/types/boolean-logic";
+import { TupleToUnion } from "src/types/type-conversion";
 
 /**
  * **TruthyReturns**`<T>`
@@ -17,7 +17,7 @@ import { TupleToUnion } from "../type-conversion/TupleToUnion";
  * 
  * **See Also**: `ReturnTypes` and `LogicalReturns`
  */
-export type TruthyReturns<T extends readonly any[]> = TupleToUnion<{
+export type TruthyReturns<T extends readonly unknown[]> = TupleToUnion<{
   [K in keyof T]: //
     T[K] extends AnyFunction
       ? IfTruthy<ReturnType<T[K]>, true, false, boolean>

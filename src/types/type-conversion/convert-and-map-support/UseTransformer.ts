@@ -1,7 +1,5 @@
-import { IsNumber } from "src/runtime";
-import { IfAnd, IfBoolean, IsString } from "src/types/boolean-logic";
-import { Narrowable } from "src/types/literals";
-import { CamelCase, KebabCase, PascalCase, StripLeading } from "src/types/string-literals";
+import { IfAnd, IfBoolean, IsNumber, IsString } from "src/types/boolean-logic";
+import { CamelCase, KebabCase, PascalCase, StripLeading, StripTrailing } from "src/types/string-literals";
 import { ToString } from "../ToString";
 import { TypeTuple } from "../TypeTuple";
 import { TypeMapTransformerOp } from "./TypeMapTransformer";
@@ -12,7 +10,7 @@ import { TypeMapTransformerOp } from "./TypeMapTransformer";
  * Converts `TValue` using the `TypeMapTransformer` in `TTransform`
  */
 export type UseTypeMapTransformer<
-  TValue extends Narrowable,
+  TValue,
   TOp extends TypeMapTransformerOp,
   TParam
 > = TOp extends "Identity"
@@ -31,6 +29,6 @@ export type UseTypeMapTransformer<
   : TOp extends "NumericLiteral" ? TParam 
   : TOp extends "StringLiteral" ? TParam
   : TOp extends "StripLeading" ? StripLeading<TValue & string, TParam>
-  : TOp extends "StripTrailing" ? StripLeading<TValue & string, TParam>
+  : TOp extends "StripTrailing" ? StripTrailing<TValue & string, TParam>
   : TOp extends "As" ? TParam extends TypeTuple ? TValue & TParam[0] : never
   : never;

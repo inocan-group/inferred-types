@@ -2,8 +2,9 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
 import { createFnWithProps } from "src/runtime/functions";
-import { ifFunction, isFnWithParams , isFunction } from "src/runtime";
+import { isFnWithParams, isFunction } from "src/runtime/type-guards";
 import type { AnyFunction, IsFunction } from "src/types";
+import { ifFunction } from "src/runtime/boolean-logic";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -12,7 +13,7 @@ import type { AnyFunction, IsFunction } from "src/types";
 describe("Boolean Logic for functions", () => {
 
   it("IsFunction<T> type util", () => {
-    const f1 = createFnWithProps(() => "hi", { foo: 42, bar: "baz"});
+    const f1 = createFnWithProps(() => "hi")({ foo: 42, bar: "baz"});
     type T1 = IsFunction<() => true>;
     type T2 = IsFunction<AnyFunction>;
     type T3 = IsFunction<typeof f1>;
@@ -39,7 +40,7 @@ describe("Boolean Logic for functions", () => {
   describe("isFunction(val) type guard", () => {
     const trueFn = () => true as const;
     const falseFn = () => false as const;
-    const hybrid = createFnWithProps(trueFn, { about: "i am a function" });
+    const hybrid = createFnWithProps(trueFn)({ about: "i am a function" });
     const empty = {};
   
     it("basic positive test", () => {
@@ -101,7 +102,7 @@ describe("Boolean Logic for functions", () => {
   });
 
   describe("isFnWithParams() type guard", () => {  
-    const fn1 = createFnWithProps(() => `hi`, { foo: 42 });
+    const fn1 = createFnWithProps(() => `hi`)({ foo: 42 });
     const fnUnion = fn1 as typeof fn1 | undefined;
     const fnNoParams = () => `hi`;
 

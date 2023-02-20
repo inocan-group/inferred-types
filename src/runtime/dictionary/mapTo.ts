@@ -11,7 +11,7 @@ import {
   OptRequired
 } from "src/types";
 
-import {createFnWithProps} from "../functions";
+import { createFnWithProps } from "src/runtime/functions";
 
 /**
  * utility function to take a fully-qualified _user_ config
@@ -112,7 +112,7 @@ const mapper =
       }
     };
 
-    return createFnWithProps(fn, {
+    const dict = {
       input: config.input,
       output: config.output,
       cardinality: config.cardinality,
@@ -120,7 +120,9 @@ const mapper =
       inputType: {} as I,
       outputType: {} as O,
       fnSignature: null as unknown as MapFn<I, O, C>,
-    });
+    };
+
+    return createFnWithProps(fn)(dict);
   };
 
 /**
@@ -204,4 +206,4 @@ export const mapToDict: MapperApi = {
  * const many2one = mapTo.manyToOne().map<I,O>( ... );
  * ```
  */
-export const mapTo = createFnWithProps(mapToFn, mapToDict);
+export const mapTo = createFnWithProps(mapToFn)(mapToDict);

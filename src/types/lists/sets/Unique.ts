@@ -1,6 +1,5 @@
 import { 
-  IfContains , 
-  Narrowable , 
+  IfContains,
   AfterFirst, 
   First, 
   GetEach,
@@ -9,10 +8,10 @@ import {
 } from "src/types";
 
 type UniqueAcc<
-  Target extends readonly Narrowable[],
-  Compare extends readonly Narrowable[],
+  Target extends readonly unknown[],
+  Compare extends readonly unknown[],
   Dereference extends string | number | null,
-  Results extends readonly Narrowable[] = readonly []
+  Results extends readonly unknown[] = readonly []
 > = [] extends Target
 ? Results
 : IfContains<

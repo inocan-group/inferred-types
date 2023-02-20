@@ -1,11 +1,11 @@
-import { AnyObject, UnknownObject } from "../boolean-logic";
 import { ExpandRecursively } from "../literals/ExpandRecursively";
 import { AfterFirst, First } from "../lists";
 import { KV } from "./ToKV";
+import { AnyObject } from "../base-types";
 
 type ConvertToObj<
   TKV extends readonly KV[],
-  TResult extends UnknownObject = {}
+  TResult extends AnyObject = AnyObject
 > = [] extends TKV
   ? TResult
   : ConvertToObj<

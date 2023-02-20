@@ -1,12 +1,14 @@
 import { ErrorCondition } from "src/runtime";
-import { AnyObject } from "../base-types";
-import { IfContains } from "../boolean-logic";
-import { Narrowable } from "../literals";
-import { SimplifyObject } from "./SimplifyObject";
-import { Concat } from "../string-literals";
-import { ToString } from "../type-conversion";
-import { Key } from "./Key";
-import { Keys } from "./Keys";
+import type { 
+  AnyObject, 
+  IfContains, 
+  Narrowable, 
+  SimplifyObject, 
+  Concat, 
+  ToString, 
+  Key, 
+  Keys 
+} from "src/types";
 
 /**
  * **AddKeyValue**`<TObj,TKey,TVal>`

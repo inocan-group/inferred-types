@@ -3,7 +3,7 @@ import { IfTrue } from "src/types/boolean-logic";
 import { 
   LeftWhitespace, 
   RightWhitespace, 
-  Trim 
+  Trim
 } from "src/types/type-conversion";
 import { Concat } from "../Concat";
 import { DashUppercase } from "./DashUppercase";

@@ -6,7 +6,6 @@
 
 // file exports
 export * from "./asArray";
-export * from "./groupBy";
 export * from "./getEach";
 export * from "./indexOf";
 export * from "./intersection";

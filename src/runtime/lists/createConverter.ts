@@ -1,6 +1,12 @@
-import { Narrowable, ConverterShape, AvailableConverters } from "src/types";
-import { boxDictionaryValues } from "../literals/box";
-import { wide } from "../literals/wide";
+import type { 
+  Narrowable, 
+  ConverterShape, 
+  AvailableConverters 
+} from "src/types";
+import { 
+  boxDictionaryValues, 
+  wide 
+} from "src/runtime/literals";
 import { ifSameType } from "../boolean-logic";
 
 /**

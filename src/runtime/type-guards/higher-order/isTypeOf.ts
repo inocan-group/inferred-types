@@ -1,10 +1,16 @@
-import { Narrowable, TypeOf, ConvertTypeOf } from "../../../types";
+import { TypeOf, ConvertTypeOf } from "src/types";
+
+export type TypeOfTypeGuard<TType extends TypeOf> = <TValue>(value: TValue)=> value is TValue & ConvertTypeOf<TType>;
 
 /**
- * **isTypeOf**(type, value)
+ * **isTypeOf**(type)(value)
  * 
- * Type guard to check if a value is of the particular type specified.
+ * Higher order type guard which matches against the runtime operator's `typeof` command.
+ * 
+ * - You first partially apply by specifying the `typeof`
+ * - The type guard is then returned based on the type.
  */
-export function isTypeOf<TType extends TypeOf, TValue extends Narrowable>(type: TType, value: TValue): value is TValue & ConvertTypeOf<TType> {
+export const isTypeOf = <TType extends TypeOf>(type: TType): TypeOfTypeGuard<TType> => 
+  <TValue>(value: TValue): value is TValue & ConvertTypeOf<TType> => {
   return typeof value === type;
-}
+};

@@ -1,4 +1,4 @@
-import { DoesExtend } from "./DoesExtend";
+import { DoesExtend } from "src/types/boolean-logic";
 
 /**
  * **IfExtends**`<TValue,TExtends,IF,ELSE>`

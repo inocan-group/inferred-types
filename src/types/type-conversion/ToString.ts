@@ -1,6 +1,5 @@
 import { AnyFunction, AnyObject } from "../base-types";
-import {  IfLiteral, IsUndefined } from "../boolean-logic";
-import { IfRef } from "../boolean-logic/IfRef";
+import {  IfLiteral, IfRef, IsUndefined } from "src/types/boolean-logic";
 import { Narrowable } from "../literals/Narrowable";
 import { Concat } from "../string-literals/Concat";
 
@@ -11,7 +10,7 @@ import { Concat } from "../string-literals/Concat";
  * This utility works as advertised but is in early stages
  * so expect it to be refined over time.
  */
-export type ToString<T extends Narrowable> = T extends string
+export type ToString<T> = T extends string
   ? T
   : T extends number ? IfLiteral<T, `${T}`, `${number}`>
   : T extends boolean ? IfLiteral<T, `${T}`, `${boolean}`>

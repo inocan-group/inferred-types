@@ -1,4 +1,4 @@
-import { IsLiteral } from "./IsLiteral";
+import { IsLiteral } from "src/types/boolean-logic";
 
 /**
  * **IfLiteral**

@@ -1,4 +1,4 @@
-import { AfterFirst, First } from "../../lists";
+import { AfterFirst, First } from "src/types/lists";
 import { IsEqual } from "./IsEqual";
 
 /**

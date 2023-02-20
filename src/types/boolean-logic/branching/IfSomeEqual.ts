@@ -1,4 +1,4 @@
-import { SomeEqual } from "./SomeEqual";
+import { SomeEqual } from "src/types/boolean-logic";
 
 /**
  * **IfSomeEqual**`<Value, CompareTo, IF, ELSE>`

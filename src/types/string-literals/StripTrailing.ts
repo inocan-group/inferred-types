@@ -1,6 +1,5 @@
-import { IfAnd, IfLiteral } from "../boolean-logic";
-import { IsString } from "../boolean-logic/IsString";
-import { Narrowable } from "../literals/Narrowable";
+import { IfAnd, IfLiteral, IsString } from "../boolean-logic";
+
 
 /**
  * **StripEnding**`<T, U>`
@@ -14,7 +13,7 @@ import { Narrowable } from "../literals/Narrowable";
  * type R = StripEnding<T,U>;
  * ```
  */
-export type StripTrailing<T extends Narrowable, U extends Narrowable> = IfAnd<
+export type StripTrailing<T, U> = IfAnd<
   [ IsString<T>, IsString<U>],
   IfLiteral<
     // can only operate on literal strings

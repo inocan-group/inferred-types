@@ -1,4 +1,4 @@
-import { IsTrue } from "./IsTrue";
+import { IsTrue } from "src/types/boolean-logic";
 
 /**
  * **IfType**`<T,IF,ELSE>`

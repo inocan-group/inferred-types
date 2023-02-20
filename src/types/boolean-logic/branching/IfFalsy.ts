@@ -1,5 +1,4 @@
-import { IfEqual } from "./IfEqual";
-import { IsTruthy } from "./IsTruthy";
+import { IfEqual , IsTruthy } from "src/types/boolean-logic";
 
 /**
  * **IfFalsy**`<T,IF,ELSE,[MAYBE]>`

@@ -1,7 +1,6 @@
 import { IfBoolean } from "../boolean-logic";
 import { LogicFunction } from "../functions/LogicFunction";
-import { AfterFirst } from "./AfterFirst";
-import { First } from "./First";
+import { AfterFirst, First } from "src/types/lists";
 
 /**
  * **LogicalReturns**`<TValues, TParams>`
@@ -14,14 +13,14 @@ import { First } from "./First";
  * **See Also**: `ReturnTypes` and `TruthyReturns`
  */
 export type LogicalReturns<
-  TValues extends readonly any[],
-  TParams extends readonly any[] = []
+  TValues extends readonly unknown[],
+  TParams extends readonly unknown[] = []
 // eslint-disable-next-line no-use-before-define
 > = ProcessLogicalReturns<TValues, TParams>;
 
 type ProcessLogicalReturns<
-  TValues extends readonly any[],
-  TParams extends readonly any[] = [],
+  TValues extends readonly unknown[],
+  TParams extends readonly unknown[] = [],
   TResults extends readonly boolean[] = []
 > = [] extends TValues
   ? TResults

@@ -1,4 +1,4 @@
-import { AnyObject } from "../../..";
+import { AnyObject } from "src/types/base-types";
 import { RemoveFromList } from "../RemoveFromList";
 
 /**
@@ -7,11 +7,11 @@ import { RemoveFromList } from "../RemoveFromList";
  * Extracts string values from an array, retains the rest.
  */
 export type RemoveStrings<
-  T extends any[] | readonly any[] | AnyObject
-> = T extends any[]
+  T extends unknown[] | readonly unknown[] | AnyObject
+> = T extends unknown[]
   ? RemoveFromList<T, "extends", string>
-  : T extends readonly any[]
+  : T extends readonly unknown[]
   ? Readonly<RemoveFromList<T, "extends", string>>
   : T extends AnyObject
-  ? any
+  ? unknown
   : never;

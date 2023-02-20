@@ -1,4 +1,4 @@
-import { SimplifyObject } from "./SimplifyObject";
+import type { SimplifyObject } from "src/types";
 
 /**
  * **DictReturnValues**
@@ -10,16 +10,16 @@ import { SimplifyObject } from "./SimplifyObject";
  */
 export type DictReturnValues<
   /** the object which we expect to have props with function values */
-  T extends Record<string, any>,
+  T extends Record<string, unknown>,
   /** the return type that functions should be modified to have */
-  R extends any,
+  R,
   /** optionally this utility can target only functions with a certain existing return value */
-  O extends (...args: any[]) => any = (...args: any[]) => any
+  O extends (...args: unknown[]) => unknown = (...args: unknown[]) => unknown
 > = SimplifyObject<
   {
     [K in keyof T]: T[K] extends O
       ? // it's a function (or at least the scoped down type of function we're looking for)
-        T[K] extends (...args: infer A) => any
+        T[K] extends (...args: infer A) => unknown
         ? Record<K, (...args: A) => R>
         : Record<K, T[K]>
       : Record<K, T[K]>;

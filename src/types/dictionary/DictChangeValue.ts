@@ -16,14 +16,14 @@ import { SimplifyObject } from "./SimplifyObject";
  */
 export type DictChangeValue<
   /** the object who's value-type we're changing */
-  I extends Record<string, any>,
+  I extends Record<string, unknown>,
   /** the return type that functions should be modified to have */
-  T extends any,
+  T,
   /**
    *The type we expect in the value; if the value extends type `V` then the value will
    * be converted to type `O`; if not then the KV pair will be discarded
    */
-  V extends any = any
+  V = unknown
 > = SimplifyObject<
   {
     [K in keyof I]: I[K] extends V

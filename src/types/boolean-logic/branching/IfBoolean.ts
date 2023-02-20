@@ -1,4 +1,4 @@
-import { IsBoolean } from "./IsBoolean";
+import { IsBoolean } from "src/types/boolean-logic";
 
 export type IfBoolean<
   T, 

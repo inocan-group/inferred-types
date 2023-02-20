@@ -1,6 +1,6 @@
 import { Narrowable,IfTrue, StartsWith } from "src/types";
-import { startsWith } from "../type-guards/higher-order/startsWith";
-import { ifTrue } from "./ifTrue";
+import { startsWith } from "src/runtime/type-guards";
+import { ifTrue } from "src/runtime";
 
 
 /**

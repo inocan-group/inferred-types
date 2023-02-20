@@ -1,10 +1,8 @@
-import { AnyObject } from "../base-types/AnyObject";
-import { IfEqual, IfTrue } from "../boolean-logic";
-import { IfLength } from "../boolean-logic/IfLength";
-import { RetainStrings } from "../lists";
-import { NumericKeys } from "../lists/NumericKeys";
-import { Narrowable } from "../literals/Narrowable";
-import { UnionToTuple } from "../type-conversion/UnionToTuple";
+import { AnyObject } from "src/types/base-types";
+import { IfLength, IfEqual, IfTrue } from "src/types/boolean-logic";
+import { RetainStrings, NumericKeys } from "src/types/lists";
+import { Narrowable } from "src/types/literals";
+import { UnionToTuple } from "src/types/type-conversion";
 
 /**
  * **Keys**`<TValue, [TExclude]>`

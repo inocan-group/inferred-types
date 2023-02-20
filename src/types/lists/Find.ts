@@ -1,11 +1,10 @@
-import { IfEqual, IfExtends } from "../boolean-logic";
-import { Narrowable } from "../literals/Narrowable";
-import { AfterFirst } from "./AfterFirst";
-import { First } from "./First";
+import { IfEqual, IfExtends } from "src/types/boolean-logic";
+import { Narrowable } from "src/types/literals";
+import { AfterFirst, First } from "src/types/lists";
 
 type FindAcc<
-  TList extends readonly any[],
-  TFind extends Narrowable,
+  TList extends readonly unknown[],
+  TFind,
   TDeref extends string | number | null
 > = [] extends TList
   ? undefined
@@ -36,14 +35,14 @@ type FindAcc<
  * **Related**: `FindExtends`
  */
 export type Find<
-  TList extends readonly any[],
-  TFind extends Narrowable,
+  TList extends readonly unknown[],
+  TFind,
   TDeref extends string | number | null = null,
 > = FindAcc<TList, TFind, TDeref>;
 
 type FindExtendsAcc<
-  TList extends readonly any[],
-  TFind extends Narrowable,
+  TList extends readonly unknown[],
+  TFind,
   TDeref extends string | number | null
 > = [] extends TList
   ? undefined
@@ -68,7 +67,7 @@ type FindExtendsAcc<
  * **Related:** `Find`
  */
 export type FindExtends<
-  TList extends readonly any[],
+  TList extends readonly unknown[],
   TFind extends Narrowable,
   TDeref extends string | number | null = null,
 > = FindExtendsAcc<TList, TFind, TDeref>;

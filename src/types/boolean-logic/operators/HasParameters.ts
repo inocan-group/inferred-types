@@ -1,6 +1,6 @@
 import { AnyFunction } from "src/types/base-types";
-import { Length } from "../lists/Length";
-import { IsEqual } from "./IsEqual";
+import { Length } from "src/types/lists";
+import { IsEqual } from "src/types/boolean-logic";
 
 /**
  * **HasParameters**`<T>`

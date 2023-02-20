@@ -19,7 +19,7 @@ export function kvDictToObject<
   V extends Narrowable, 
   KV extends readonly KvDict<K, V>[]
 >(kvPairs: KV) {
-  const obj: Record<string, any> = {};
+  const obj: Record<string, unknown> = {};
   for (const kv of kvPairs) {
     const {key, value} = kv;
     obj[key] = isKvDictArray(value) ? kvDictToObject(value) : value;
