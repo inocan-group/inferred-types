@@ -1,6 +1,6 @@
-import { AnyObject } from "../base-types";
-import { ExpandRecursively } from "../literals/ExpandRecursively";
-import { TupleToUnion, UnionToIntersection } from "../type-conversion";
+import { AnyObject } from "src/types/base-types";
+import { ExpandRecursively } from "src/types/literals";
+import { TupleToUnion, UnionToIntersection } from "src/types/type-conversion";
 import { Key } from "./Key";
 
 /**

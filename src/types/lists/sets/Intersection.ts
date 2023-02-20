@@ -4,7 +4,7 @@ import type {
   IfNull,
   RemoveNever,
   Get,
-} from "../../../types";
+} from "src/types";
 
 type _NoDeref<
   A extends readonly unknown[],

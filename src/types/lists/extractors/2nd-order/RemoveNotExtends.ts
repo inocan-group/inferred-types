@@ -5,7 +5,7 @@ import type {
   ObjectToKvDict,
   RemoveFromList,
   KvDictExtractor
-} from "../../../../types";
+} from "src/types";
 
 /**
  * **RemoveNotExtends**`<TList, TCompare>`
@@ -14,14 +14,14 @@ import type {
  * which _do not extend_ `TCompare`.
  */
 export type RemoveNotExtends<
-  TList extends any[] | readonly any[] | AnyObject,
+  TList extends unknown[] | readonly unknown[] | AnyObject,
   TCompareTo extends Narrowable
-> = TList extends any[]
+> = TList extends unknown[]
 ? RemoveFromList<TList, "does-not-extend", TCompareTo>
-: TList extends readonly any[]
+: TList extends readonly unknown[]
   ? Readonly<RemoveFromList<TList, "does-not-extend", TCompareTo>>
   : TList extends AnyObject
-    ? ObjectToKvDict<TList> extends readonly KvDict<any, any>[]
+    ? ObjectToKvDict<TList> extends readonly KvDict[]
       ? KvDictExtractor<ObjectToKvDict<TList>, TCompareTo, "remove">
       : never
     : never;

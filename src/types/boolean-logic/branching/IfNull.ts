@@ -1,4 +1,4 @@
-import { IsNull } from "../IsNull";
+import { IsNull } from "src/types/boolean-logic";
 
 /**
  * **IfNull**`<T,IF,ELSE>`

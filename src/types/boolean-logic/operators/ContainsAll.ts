@@ -1,6 +1,7 @@
-import { AfterFirst, First } from "../lists";
-import { Narrowable } from "../literals/Narrowable";
-import { And } from "./combinators/And";
+
+import { And } from "src/types/boolean-logic";
+import { AfterFirst, First } from "src/types/lists";
+import { Narrowable } from "src/types/literals";
 import { Contains } from "./Contains";
 
 type _Contains<

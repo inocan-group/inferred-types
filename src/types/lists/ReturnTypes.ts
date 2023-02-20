@@ -10,7 +10,7 @@ import { AnyFunction } from "src/types/base-types";
  * 
  * **See Also**: `LogicalReturns` and `TruthyReturns`
  */
-export type ReturnTypes<T extends readonly any[]> = {
+export type ReturnTypes<T extends readonly unknown[]> = {
   [K in keyof T]: T[K] extends AnyFunction
     ? ReturnType<T[K]> extends boolean
       ? ReturnType<T[K]>

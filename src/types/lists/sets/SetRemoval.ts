@@ -1,4 +1,4 @@
-import { IfSomeEqual , AfterFirst, First, AsArray } from "../../../types";
+import { IfSomeEqual , AfterFirst, First, AsArray } from "src/types";
 import { SetCandidate } from "./SetCandidate";
 
 type SetRemovalAcc<

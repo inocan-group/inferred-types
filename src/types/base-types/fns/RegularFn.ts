@@ -6,6 +6,6 @@
  * and then returns some type `TReturn`.
  */
 export type RegularFn<
-  TArgs extends readonly unknown[] = unknown[],
+  TArgs extends readonly any[] = any[],
   TReturn = unknown
 > = (...args: TArgs) => TReturn;

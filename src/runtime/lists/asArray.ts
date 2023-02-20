@@ -4,9 +4,7 @@ import { isArray } from "../type-guards/isArray";
 /**
  * Type utility which converts `undefined[]` to `unknown[]`
  */
-export type UndefinedArrayIsUnknown<T extends any[]> = undefined[] extends T ? unknown[] : T;
-
-
+export type UndefinedArrayIsUnknown<T extends unknown[]> = undefined[] extends T ? unknown[] : T;
 
 /**
  * Ensures that any input passed in is passed back as an array:

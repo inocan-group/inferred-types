@@ -1,5 +1,5 @@
 import { ErrorCondition, NOT_DEFINED } from "src/runtime";
-import { 
+import type { 
   Concat, 
   IfNotEqual, 
   IfRef, 
@@ -8,7 +8,7 @@ import {
   IfUndefined,
   AnyObject
 } from "src/types";
-import { NoDefaultValue } from "src/constants/NoDefaultValue";
+import { NoDefaultValue } from "src/constants";
 
 type ResolveDefVal<
   TValue extends Narrowable,

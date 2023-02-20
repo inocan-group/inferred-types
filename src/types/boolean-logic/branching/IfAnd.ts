@@ -1,6 +1,7 @@
 /* eslint-disable no-use-before-define */
-import { LogicFunction } from "../functions/LogicFunction";
-import { And } from "./combinators/And";
+import { And } from "src/types/boolean-logic";
+import { LogicFunction } from "src/types/functions";
+
 
 /**
  * **IfAnd**`<TConditions[], [IF], [ELSE], [TParams]>`

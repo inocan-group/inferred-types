@@ -1,6 +1,5 @@
-import { Contains } from "../boolean-logic";
-import { AfterFirst } from "./AfterFirst";
-import { First } from "./First";
+import { Contains } from "src/types/boolean-logic";
+import { AfterFirst, First } from "src/types/lists";
 
 type _Flat<
   TList extends readonly unknown[],

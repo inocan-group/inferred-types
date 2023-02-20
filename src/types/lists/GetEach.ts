@@ -1,16 +1,16 @@
 import { ErrorCondition } from "../../runtime/literals/ErrorCondition";
 import { Get } from "../dictionary/Get";
-import { AfterFirst } from "./AfterFirst";
+import { AfterFirst, First } from "src/types/lists";
 import { ConvertSet } from "./ConvertSet";
 import { RemoveErrors } from "./extractors";
-import { First } from "./First";
+
 
 export type GetEachErrHandling = "report" | "ignore" | "to-never";
 
 type GetEachAcc<
-  T extends any[] | readonly any[], 
+  T extends unknown[] | readonly unknown[], 
   TKey extends string | number | null, 
-  Processed extends readonly any[] = []
+  Processed extends readonly unknown[] = []
 > = //
 [] extends T
   ? Processed

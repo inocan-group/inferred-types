@@ -1,6 +1,6 @@
-import { GetEach } from "src/types";
 
-const NAMED_COLOR_LOOKUP = [
+
+const _NAMED_COLOR_LOOKUP = [
   {
     "name": "INDIANRED",
     "hex": "#CD5C5C",

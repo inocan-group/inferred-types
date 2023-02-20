@@ -1,7 +1,7 @@
 import { Narrowable } from "src/types";
-import { keys } from "../dictionary";
+import { keys } from "src/runtime/dictionary";
 
-function runtimeExtendsCheck<TValue extends any, TBase extends any>(
+function runtimeExtendsCheck<TValue extends Narrowable, TBase extends Narrowable>(
   val: TValue,
   base: TBase,
   narrow = false
@@ -81,19 +81,19 @@ export const ifTypeOf = <
 >(
   val: TValue
 ): TypeCondition<N, TValue> => ({
-  extends: <TBase extends any>(base: TBase) => {
+  extends: <TBase>(base: TBase) => {
     const valid = runtimeExtendsCheck(val, base, false);
     const trueFalse = (valid ? true : false) as TValue extends TBase ? true : false;
     return (
       {
-        then: <TResult extends any>(then?: TResult) => ({
-          else: <TElse extends any>(elseVal: TElse) => {
+        then: <TResult>(then?: TResult) => ({
+          else: <TElse>(elseVal: TElse) => {
             return (
               valid ? (typeof then === "undefined" ? val : then) : elseVal
             ) as TValue extends TBase ? (TResult extends undefined ? TValue : TResult) : TElse;
           },
         }),
-        else: <TElse extends any>(elseVal: TElse) =>
+        else: <TElse>(elseVal: TElse) =>
           valid ? val : (elseVal as TValue extends TBase ? TValue : TElse),
       } && trueFalse
     );

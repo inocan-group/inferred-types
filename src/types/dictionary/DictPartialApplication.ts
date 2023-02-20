@@ -21,7 +21,7 @@ export type DictPartialApplication<
   I extends boolean = true
 > = SimplifyObject<
   {
-    [K in keyof T]: T[K] extends (...args: any[]) => any
+    [K in keyof T]: T[K] extends (...args: unknown[]) => unknown
       ? Record<K, ReturnType<T[K]>>
       : true extends I
       ? never

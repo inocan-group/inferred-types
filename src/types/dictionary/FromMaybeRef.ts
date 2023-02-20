@@ -1,4 +1,4 @@
-import { IsRef } from "../boolean-logic/IfRef";
+import { IsRef } from "src/types/boolean-logic";
 
 /**
  * **FromMaybeRef**`<T>`

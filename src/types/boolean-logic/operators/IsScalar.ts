@@ -1,8 +1,11 @@
-import { Narrowable } from "../literals/Narrowable";
-import { IsBoolean } from "./IsBoolean";
-import { IsNull } from "./IsNull";
-import { IsSymbol } from "./IsSymbol";
-import { IsNumber, IfOr, IsString } from "src/types/boolean-logic";
+import { 
+  IsBoolean,
+  IsNull,
+  IsSymbol,
+  IsNumber, 
+  IfOr, 
+  IsString 
+} from "src/types/boolean-logic";
 
 /**
  * **IsScalar**`<T>`

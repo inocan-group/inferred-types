@@ -1,7 +1,16 @@
-import { DoesExtend, EndsWith,  IfEqual, IsEqual, IsTrue, IsTruthy, Returns, StartsWith } from "../boolean-logic";
-import { IsFalsy } from "../boolean-logic/IsFalsy";
-import { AfterFirst, AsArray, First, GetEach } from "../lists";
-import { Narrowable } from "../literals/Narrowable";
+import { 
+  DoesExtend, 
+  IsFalsy, 
+  EndsWith,  
+  IfEqual, 
+  IsEqual, 
+  IsTrue, 
+  IsTruthy, 
+  Returns, 
+  StartsWith 
+} from "src/types/boolean-logic";
+
+import { AfterFirst, AsArray, First, GetEach } from "src/types/lists";
 import { TypeMapMatcher } from "./convert-and-map-support/TypeMapMatcher";
 import { UseTypeMapTransformer } from "./convert-and-map-support/UseTransformer";
 import { TupleToUnion } from "./TupleToUnion";
@@ -16,7 +25,7 @@ type _Transformer<T extends readonly TypeMapRule[]> = First<T>["transform"][0];
 type _TransformParam<T extends readonly TypeMapRule[]> = First<T>["transform"][1];
 
 type _IfOp<
-  TValue extends Narrowable,
+  TValue,
   TMatchers extends readonly TypeMapRule[],
   TOp extends Op,
   TIf,
@@ -40,9 +49,9 @@ type _IfOp<
  * Uses first matcher to match value and recurses otherwise
  */
 type _ConvertType<
-  TValue extends Narrowable, 
+  TValue, 
   TMatchers extends readonly TypeMapRule[],
-  TElse extends Narrowable
+  TElse
 > = [] extends TMatchers
 ? TElse
 : _IfOp<TValue, TMatchers, "Equals", IsEqual<TValue, _Val<TMatchers>>,
@@ -75,7 +84,7 @@ type _ConvertType<
  * **Related:** `MapType<T,M,E>`
  */
 export type ConvertType<
-  TValue extends Narrowable, 
+  TValue, 
   TMatchers extends TypeMapRule | readonly TypeMapRule[],
-  TElse extends Narrowable = never
+  TElse = never
 > = _ConvertType<TValue, AsArray<TMatchers>, TElse>;

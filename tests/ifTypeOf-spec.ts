@@ -2,8 +2,8 @@ import { describe, it, expect } from "vitest";
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Expect, Equal } from "@type-challenges/utils";
-import { defineType, literal } from "../src/runtime";
-import { ifTypeOf } from "../src/runtime/boolean-logic/ifTypeOf";
+import { defineType, literal, ifTypeOf } from "src/runtime";
+import { AnyFunction } from "src/types";
 
 describe("ifTypeOf() utility", () => {
   it("base validation with extends() returns true/false", () => {
@@ -69,7 +69,7 @@ describe("ifTypeOf() utility", () => {
   });
 
   it("validation of function types works when expressed widely", () => {
-    const target: Function = () => "";
+    const target: AnyFunction = () => "";
     const fn = () => "hi";
     const fnExtends = ifTypeOf(fn).extends(target);
 

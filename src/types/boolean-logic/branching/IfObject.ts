@@ -1,4 +1,4 @@
-import { IsObject } from "./IsObject";
+import { IsObject } from "src/types/boolean-logic";
 
 /**
  * **IfObject**

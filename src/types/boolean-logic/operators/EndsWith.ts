@@ -1,6 +1,4 @@
-import { IfNumericLiteral, IsStringLiteral, IfString } from "src/types";
-import { Narrowable } from "../literals/Narrowable";
-import { ToString } from "../type-conversion/ToString";
+import { IfNumericLiteral, IsStringLiteral, IfString, ToString } from "src/types";
 
 /**
  * **EndsWith**<T,U>
@@ -12,7 +10,7 @@ import { ToString } from "../type-conversion/ToString";
  * just resolve to `boolean` as the value can not be known at design time..
  */
 export type EndsWith<
-  TValue extends Narrowable,
+  TValue,
   TEndsWith extends string | number
 > = TEndsWith extends number 
 ? EndsWith<TValue, ToString<TEndsWith>>
@@ -42,10 +40,10 @@ export type EndsWith<
  * result in the union of IF and ELSE.
  */
 export type IfEndsWith<
-  TValue extends Narrowable,
-  TEndsWith extends Narrowable,
-  IF extends Narrowable,
-  ELSE extends Narrowable
+  TValue,
+  TEndsWith,
+  IF,
+  ELSE
 > = TEndsWith extends string
   ? EndsWith<TValue, TEndsWith> extends true
     ? IF

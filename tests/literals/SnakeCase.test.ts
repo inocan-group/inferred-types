@@ -1,7 +1,6 @@
 import { describe, it, expect } from "vitest";
-
 import { Equal, Expect } from "@type-challenges/utils";
-import { SnakeCase } from "../../src/types";
+import type { SnakeCase } from "src/types";
 
 const target = "two_three_four";
 type TARGET = typeof target;
@@ -11,7 +10,9 @@ describe("SnakeCase<T> type utility", () => {
     type T1 = SnakeCase<"TwoThreeFour">;
     type T2 = SnakeCase<"\n TwoThreeFour ">;
 
-    type cases = [Expect<Equal<T1, TARGET>>, Expect<Equal<T2, TARGET>>];
+    type cases = [
+      Expect<Equal<T1, TARGET>>, Expect<Equal<T2, TARGET>> //
+    ];
     const c: cases = [true, true];
     expect(c).toBe(c);
   });

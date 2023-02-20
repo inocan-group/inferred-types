@@ -1,5 +1,6 @@
-import { Narrowable } from "src/types/literals/Narrowable";
-import { IsNumber, isNumber } from "../type-guards/isNumber";
+import { IsNumber } from "src/types/boolean-logic";
+import { Narrowable } from "src/types/literals";
+import { isNumber } from "../type-guards/isNumber";
 
 /**
  * **ifNumber**

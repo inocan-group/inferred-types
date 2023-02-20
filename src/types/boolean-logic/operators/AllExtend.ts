@@ -1,4 +1,4 @@
-import { AfterFirst, First } from "../../lists";
+import { AfterFirst, First } from "src/types/lists";
 import { IfExtends } from "src/types/boolean-logic";
 
 type AllAcc<

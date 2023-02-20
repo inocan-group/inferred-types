@@ -1,6 +1,5 @@
 import { AfterFirst, First } from "src/types/lists";
-import { IfTrue } from "../IfTrue";
-import { IfTruthy } from "./IfTruthy";
+import { IfTrue , IfTruthy } from "src/types/boolean-logic";
 
 /**
  * **IfSomeTruthy**`<TValues,IF,ELSE,MAYBE>`

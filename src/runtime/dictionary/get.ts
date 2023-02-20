@@ -14,13 +14,12 @@ import {
   hasDefaultValue, 
   isTruthy,  
   isRef, 
-  hasIndexOf 
-} from "../type-guards";
+  hasIndexOf, 
+  isSpecificConstant 
+} from "src/runtime/type-guards";
 import {  ReportError } from "../literals/ErrorCondition";
-import { createErrorCondition } from "../runtime/createErrorCondition";
-import { NOT_DEFINED } from "../runtime/NotDefined";
-import { isSpecificConstant } from "../type-guards/isConstant";
-import { ifNull } from "../boolean-logic/ifNull";
+import { createErrorCondition, NotDefined, NOT_DEFINED } from "src/runtime";
+import { ifNull } from "src/runtime/boolean-logic";
 
 /** updates based on whether segment is a Ref or not */
 function updatedDotPath<
@@ -130,7 +129,7 @@ export function get<
   TValue extends Narrowable | readonly unknown[], 
   TDotPath extends Suggest<DotPathFor<TValue>> | null, 
   TDefVal extends Narrowable = NoDefaultValue,
-  TInvalid extends Narrowable = typeof NOT_DEFINED
+  TInvalid extends Narrowable = NotDefined
 >(
     value: TValue, 
     dotPath: TDotPath, 

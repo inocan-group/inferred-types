@@ -1,5 +1,4 @@
-import { Narrowable } from "../literals/Narrowable";
-import { IsFnWithParams } from "./IsFnWithParams";
+import { IsFnWithParams } from "src/types/boolean-logic";
 
 // TODO: fix
 type BaseFunction = any;
@@ -17,6 +16,6 @@ type BaseFunction = any;
  */
 export type IfFnWithoutParams<
     T,
-    FnWithDict extends Narrowable = T,
-    NotFn extends Narrowable = BaseFunction & T,
+    FnWithDict = T,
+    NotFn = BaseFunction & T,
 > = T extends IsFnWithParams<T> ? FnWithDict : NotFn;

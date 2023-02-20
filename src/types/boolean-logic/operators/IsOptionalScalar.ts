@@ -1,4 +1,4 @@
-import { IfOr } from "./branching";
+import { IfOr } from "../branching";
 import { IsBoolean } from "./IsBoolean";
 import { IsNull } from "./IsNull";
 import { IsNumber } from "./IsNumber";

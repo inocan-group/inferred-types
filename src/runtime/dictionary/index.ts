@@ -5,13 +5,12 @@
 
 // file exports
 export * from "./arrayToKeyLookup";
-export * from "./defineProperties";
 export * from "./get";
 export * from "./dictArr";
 export * from "./entries";
 export * from "./keys";
 export * from "./mapValues";
-export * from "./mapTo";
+// export * from "./mapTo";
 export * from "./exclude";
 export * from "./withKeys";
 export * from "./withoutKeys";

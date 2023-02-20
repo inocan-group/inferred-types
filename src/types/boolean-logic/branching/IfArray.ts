@@ -1,4 +1,5 @@
-import { IsArray } from "./IsArray";
+import { IsArray } from "src/types/boolean-logic";
+
 
 /**
  * **IfArray**`<T, IF, ELSE>`

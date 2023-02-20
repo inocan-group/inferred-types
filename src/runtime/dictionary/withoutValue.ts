@@ -1,5 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Narrowable, SimplifyObject, AnyObject, WithoutValue, Key } from "src/types";
+import type { 
+  Narrowable, 
+  SimplifyObject, 
+  AnyObject, 
+  WithoutValue, 
+  Key 
+} from "src/types";
 import { keys } from "./keys";
 
 /**

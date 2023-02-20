@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
-
-import { TupleToUnion } from "../../src/types";
 import { Expect, Equal } from "@type-challenges/utils";
+
+import { TupleToUnion } from "src/types";
 
 describe("TupleToUnion<T> type utility", () => {
   it("an array of literals is converted ot a tuple", () => {

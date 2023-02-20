@@ -11,9 +11,9 @@ import { SimplifyObject } from "./SimplifyObject";
  * modified.
  */
 export type DictPrependWithFn<
-  T extends Record<string, any>,
-  A extends any[],
-  E extends any = any
+  T extends Record<string, unknown>,
+  A extends unknown[],
+  E = unknown
 > = SimplifyObject<
   {
     [K in keyof T]: T[K] extends E 

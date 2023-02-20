@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
-import { LogicFunction } from "src/types/functions/LogicFunction";
-import { Or } from "../combinators";
+import { LogicFunction } from "src/types/functions";
+import { Or } from "src/types/boolean-logic";
 
 /**
  * **IfOr**`<TConditions, IF, ELSE, [TParams]>`

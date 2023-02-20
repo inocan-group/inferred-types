@@ -1,4 +1,4 @@
-import { IsStringLiteral } from "./IsStringLiteral";
+import { IsStringLiteral } from "src/types/boolean-logic";
 
 /**
  * **IfStringLiteral**

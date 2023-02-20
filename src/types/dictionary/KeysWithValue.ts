@@ -12,11 +12,11 @@
  */
 export type KeysWithValue<TObj extends object, TWithValue> = {
   [K in keyof TObj]: TObj[K] extends TWithValue 
-    ? TObj[K] extends any[]
-      ? TWithValue extends any[]
+    ? TObj[K] extends unknown[]
+      ? TWithValue extends unknown[]
         ? Readonly<K>
         : never
-      : TWithValue extends any[]
+      : TWithValue extends unknown[]
         ? never
         : Readonly<K>
     : never;

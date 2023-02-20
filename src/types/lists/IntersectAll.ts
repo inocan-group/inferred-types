@@ -4,9 +4,9 @@ import { AfterFirst } from "./AfterFirst";
 import { First } from "./First";
 
 type Intersect<
-  TList extends readonly any[],
+  TList extends readonly unknown[],
   TIntersect extends Narrowable,
-  TResults extends any[] = []
+  TResults extends unknown[] = []
 > = [] extends TList
   ? TResults
   : Intersect<

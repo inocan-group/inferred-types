@@ -1,6 +1,4 @@
-import { IfEqual, IsLiteral } from "../boolean-logic";
-import { IfAnd } from "../boolean-logic/IfAnd";
-
+import { IfAnd, IfEqual, IsLiteral } from "src/types/boolean-logic";
 
 type SplitAcc<
 T extends string,

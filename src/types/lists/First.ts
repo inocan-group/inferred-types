@@ -1,4 +1,5 @@
-import { IfLength } from "../boolean-logic/IfLength";
+import { IfLength } from "../boolean-logic/branching";
+
 
 /**
  * **First**`<T>`

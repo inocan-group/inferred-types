@@ -1,5 +1,5 @@
-import { ToString } from "../type-conversion/ToString";
-import { StartsWith } from "./StartsWith";
+import { ToString } from "src/types/type-conversion";
+import { StartsWith } from "src/types/boolean-logic";
 
 /**
  * **IfStartsWith**<TValue, TStartsWith, IF, ELSE, MAYBE>

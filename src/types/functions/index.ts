@@ -6,6 +6,11 @@
 // file exports
 export * from "./LogicFunction";
 export * from "./TypeGuard";
+export * from "./Fn";
+export * from "./AsFn";
+export * from "./ToFn";
+export * from "./FnMeta";
+export * from "./FnProps";
 
 // #endregion auto-indexed files
 

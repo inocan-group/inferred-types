@@ -8,13 +8,15 @@
 export * from "./ifSameType";
 export * from "./ifBoolean";
 export * from "./ifArray";
-export * from "./ifArray";
 export * from "./ifNotNull";
 export * from "./ifArrayPartial";
 export * from "./ifReadonlyArray";
 export * from "./isFalse";
 export * from "./isSymbol";
 export * from "./ifTrue";
+export * from "./ifTypeOf";
+export * from "./ifStartsWith";
+
 export * from "./ifFunction";
 export * from "./ifObject";
 export * from "./ifNumber";

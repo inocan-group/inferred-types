@@ -1,4 +1,4 @@
-import { AllExtend } from "../AllExtend";
+import { AllExtend } from "src/types/boolean-logic";
 
 /**
  * **IfAllExtend**`<TList,TExtend,IF,ELSE>`

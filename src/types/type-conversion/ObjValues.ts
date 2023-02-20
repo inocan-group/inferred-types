@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AnyObject, IfEqual, IfLiteral } from "../boolean-logic";
-import { IfLength } from "../boolean-logic/IfLength";
-import { Key } from "../dictionary/Key";
+import { AnyObject } from "../base-types";
+import {  IfEqual, IfLength, IfLiteral } from "../boolean-logic";
 import { Keys } from "../dictionary/Keys";
 import { AfterFirst, First } from "../lists";
 
@@ -31,7 +30,7 @@ export type ObjValues<
   T extends AnyObject
 > = IfLiteral<
   T,
-  IfLength<Keys<T>, 0, readonly [], Readonly<ValuesAcc<T, Keys<T>>>>,
+  IfLength<Keys<T>, 0, readonly [], Readonly<ValuesAcc<T, Keys<T> & readonly (keyof T)[]>>>,
   IfEqual<
     Record<string, string>, 
     string[],

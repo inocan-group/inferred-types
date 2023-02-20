@@ -1,4 +1,4 @@
-import { NonStringKeys } from "./NonStringKeys";
+import { NonStringKeys } from "src/types/dictionary";
 
 /**
  * **WithStringKeys**`<T>`

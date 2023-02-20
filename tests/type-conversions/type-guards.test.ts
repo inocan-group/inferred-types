@@ -1,21 +1,23 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { intoSet } from "../../src/runtime/lists/intoSet";
-import { Never } from "../../src/runtime/runtime/Never";
-import { optional } from "../../src/runtime/type-conversion/optional";
+import { describe, expect, it } from "vitest";
+import { VueRef } from "src/types";
+
+import { narrow, intoSet, createFnWithProps } from "src/runtime";
+import { Never } from "src/runtime/runtime/Never";
+import { optional } from "src/runtime/type-conversion/optional";
 import { 
   isArray, 
   isReadonlyArray,
   hasDefaultValue, 
   isNumericString,
   isDefined,
-  isRef 
-} from "../../src/runtime/type-guards";
-import { isConstant, isSpecificConstant } from "../../src/runtime/type-guards/isConstant";
-import { NoDefaultValue, NO_DEFAULT_VALUE } from "../../src/constants";
-import { Constant } from "../../src/constants/Constant";
-import { describe, expect, it } from "vitest";
+  isRef,
+  isConstant, 
+  isSpecificConstant,
+  isFnWithParams
+} from "src/runtime/type-guards";
+import { Constant, NoDefaultValue, NO_DEFAULT_VALUE } from "src/constants";
 import { ref, Ref } from "vue";
-import { VueRef } from "src/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -236,7 +238,6 @@ describe("isConstant()", () => {
   const maybe = NO_DEFAULT_VALUE as NoDefaultValue | "foobar";
   const notReally = "foobar" as NoDefaultValue | "foobar";
 
-
   it("positive test", () => {
     if(isConstant(maybe)) {
       expect(true).toBe(true);
@@ -284,6 +285,58 @@ describe("isConstant()", () => {
   });
 });
 
+describe("isFnWithParams()", () => {
+  const fn = () => "hi" as const;
+  const obj = narrow({foo: 1, bar: 2});
+  const secretHybrid = () => "secret";
+  secretHybrid.foo = 42;
+  const typedHybrid = createFnWithProps(fn)(obj);
+  const unionHybrid = typedHybrid as typeof typedHybrid | undefined;
+  
+  it("test vars validated", () => {
+    // runtime
+    expect(secretHybrid()).toBe("secret");
+    expect(secretHybrid.foo).toBe(42);
+    expect(typedHybrid()).toBe("hi");
+    expect(typedHybrid.foo).toBe(1);
+  });
+
+  
+  it("positive test with typed hybrid", () => {
+    if(isFnWithParams(typedHybrid)) {
+      expect(true).toBe(true);
+
+      type cases = [
+        Expect<Equal<
+          typeof typedHybrid, 
+          (() => "hi") & { foo: 1; bar: 2 }
+        >>
+      ];
+      const cases: cases = [ true ];
+
+    } else {
+      throw new Error("typedHybrid should have resolved as true in type guard!");
+    }
+  });
+  
+  it("positive test with hybrid in union with undefined", () => {
+    if(isFnWithParams(unionHybrid)) {
+      expect(true).toBe(true);
+
+      type cases = [
+        Expect<Equal<
+          typeof unionHybrid, 
+          (() => "hi") & { foo: 1; bar: 2 }
+        >>
+      ];
+      const cases: cases = [ true ];
+
+    } else {
+      throw new Error("unionHybrid should have resolved as true in type guard!");
+    }
+  });
+
+});
 
 
 

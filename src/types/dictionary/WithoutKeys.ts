@@ -1,7 +1,7 @@
 import { AnyObject } from "src/types/base-types";
-import { ExpandRecursively } from "../literals";
-import { TupleToUnion } from "../type-conversion";
-import { Key } from "./Key";
+import { ExpandRecursively } from "src/types/literals";
+import { TupleToUnion } from "src/types/type-conversion";
+import { Key } from "src/types/dictionary";
 
 /**
  * **WithoutKeys**`<TObj, TKeys>`

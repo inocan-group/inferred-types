@@ -1,4 +1,4 @@
-import { IsEmptyObject } from "./IsEmptyObject";
+import { IsEmptyObject } from "src/types/boolean-logic";
 
 /**
  * **IfEmptyObject**`<T,IF,ELSE>`

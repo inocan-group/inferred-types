@@ -1,9 +1,10 @@
-import { AnyObject } from "../boolean-logic";
+
 import { AfterFirst, First } from "../lists";
 import { Type } from "../runtime-types/Type";
 import { SimplifyObject } from "../dictionary/SimplifyObject";
 import { KvDict } from "./KvDict";
 import { Mutable } from "./Mutable";
+import { AnyObject } from "../base-types";
 
 export type TypeKvBase<
   K extends string, 

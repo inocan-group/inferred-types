@@ -1,5 +1,5 @@
-import { Keys } from "../dictionary/Keys";
-import { IfLength } from "./IfLength";
+import { Keys } from "src/types/dictionary";
+import { IfLength } from "src/types/boolean-logic";
 
 /**
  * **IsRef**`<T>`

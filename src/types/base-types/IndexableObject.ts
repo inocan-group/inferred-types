@@ -1,8 +1,8 @@
-import { Key } from "../dictionary/Key";
+
 
 /**
  * **IndexableObject**
  * 
  * Meant to represent any _indexable_ object.
  */
-export type IndexableObject = Record<Exclude<Key, number>, unknown>;
+export type IndexableObject<T = unknown> = Record<string | symbol, T>;

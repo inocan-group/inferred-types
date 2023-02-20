@@ -13,7 +13,7 @@ import { fromKv } from "../type-conversion/fromKv";
  * **Related:** `toSet`
  */
 export function fromSet<
-  TSet extends readonly any[]
+  TSet extends readonly unknown[]
 >(resultSet: TSet) {
   return ifKvTupleArray(
     resultSet,

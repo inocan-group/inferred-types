@@ -1,4 +1,4 @@
-import { NumericChar } from "../string-literals/character-sets";
+import { NumericChar } from "src/types/string-literals";
 
 type MakeArray<S extends string, T extends unknown[] = []> = S extends `${T["length"]}`
   ? T

@@ -1,8 +1,10 @@
 import { PathJoin } from "src/types";
-import { ensureLeading } from "./ensureLeading";
-import { ensureTrailing } from "./ensureTrailing";
-import { stripLeading } from "./stripLeading";
-import { stripTrailing } from "./stripTrailing";
+import { 
+  ensureLeading, 
+  ensureTrailing, 
+  stripLeading, 
+  stripTrailing 
+} from "src/runtime/literals";
 
 /**
  * **pathJoin**`<T,U>(begin, ...rest)`

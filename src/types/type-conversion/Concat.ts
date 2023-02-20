@@ -1,3 +1,5 @@
+import { Tuple } from "../base-types";
+
 /**
  * Concatenates two arrays (of literals).
  * ```ts
@@ -5,5 +7,5 @@
  * type T = ArrConcat<["foo"], ["bar", "baz"]>;
  * ```
  */
-export type ArrConcat<A extends any[], B extends any[]> = [...A, ...B];
+export type ArrConcat<A extends Tuple, B extends Tuple> = [...A, ...B];
 

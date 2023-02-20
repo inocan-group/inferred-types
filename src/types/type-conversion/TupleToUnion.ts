@@ -1,4 +1,5 @@
-import { IfLength } from "../boolean-logic/IfLength";
+
+import { IfLength } from "../boolean-logic/branching";
 import { Keys } from "../dictionary/Keys";
 
 /**
@@ -12,6 +13,6 @@ import { Keys } from "../dictionary/Keys";
  * 
  * **Note:** an empty array will be converted to a `string` type.
  */
-export type TupleToUnion<T> = T extends readonly any[] 
+export type TupleToUnion<T> = T extends readonly unknown[] 
   ? IfLength<Keys<T>, 0, string, T[number]>
   : never;

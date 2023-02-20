@@ -1,5 +1,5 @@
 import { AnyObject } from "src/types/base-types";
-import { KeysWithValue } from "./KeysWithValue";
+import { KeysWithValue } from "src/types/dictionary";
 
 /**
  * **WithValue**`<TObj,TValue>`

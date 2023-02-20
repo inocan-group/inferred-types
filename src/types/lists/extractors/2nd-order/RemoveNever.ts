@@ -1,4 +1,4 @@
-import { AnyObject } from "../../..";
+import { AnyObject } from "src/types/base-types";
 import { RemoveFromList } from "../RemoveFromList";
 
 /**
@@ -8,11 +8,11 @@ import { RemoveFromList } from "../RemoveFromList";
  * object properties.
  */
 export type RemoveNever<
-  T extends any[] | readonly any[] | AnyObject
-> = T extends any[]
+  T extends unknown[] | readonly unknown[] | AnyObject
+> = T extends unknown[]
   ? RemoveFromList<T, "extends", never >
-  : T extends readonly any[]
+  : T extends readonly unknown[]
     ? Readonly<RemoveFromList<T, "extends", never >>
     : T extends AnyObject
-      ? any
+      ? unknown
       : never;
