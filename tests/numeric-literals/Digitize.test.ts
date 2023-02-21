@@ -13,15 +13,18 @@ describe("Digitize<T>", () => {
     type Num = Digitize<123>;
     type Str = Digitize<"123">;
     type Neg = Digitize<-123>;
+    type NegStr = Digitize<"-123">;
 
     type Err = Digitize<number>;
     
     type cases = [
       Expect<Equal<Num, ["+", readonly [1,2,3]]>>,
       Expect<Equal<Str, ["+", readonly ["1","2","3"]]>>,
+      Expect<Equal<Neg, ["-", readonly [1,2,3]]>>,
+      Expect<Equal<NegStr, ["-", readonly ["1","2","3"]]>>,
       DoesExtend<Err, ErrorCondition<"invalid-non-literal">>
     ];
-    const cases: cases = [true, true, true];
+    const cases: cases = [true, true, true, true, true];
   });
 
 });

@@ -2,7 +2,7 @@ import { IfLiteral, IsNegativeNumber } from "src/types/boolean-logic";
 import { ErrorCondition } from "src/types/errors";
 import { NumericChar } from "src/types/string-literals";
 import { ToString } from "src/types/type-conversion";
-import { ToNumericArray } from "src/types/numeric-literals";
+import { Abs, ToNumericArray } from "src/types/numeric-literals";
 
 type HasMoreThanOneDigit<T extends `${number}`> = T extends `${NumericChar}${NumericChar}${string}`
   ? true
@@ -52,9 +52,9 @@ type _Digitize<
 export type Digitize<T extends `${number}` | number> = IfLiteral<
   T,
   T extends number
-    ? [ Sign<T>, ToNumericArray<_Digitize<ToString<T>>> ]
+    ? [ Sign<T>, ToNumericArray<_Digitize<Abs<ToString<T> & `${number}`>>> ]
     : T extends `${number}` 
-      ? [ Sign<T>, Readonly<_Digitize<T>> ]
+      ? [ Sign<T>, Readonly<_Digitize<Abs<T>>> ]
       : never,
   ErrorCondition<"invalid-non-literal", "Digitize<T> requires that T be a literal type but the value passed in was a wide number type", "Digitize<T>">
 >;
