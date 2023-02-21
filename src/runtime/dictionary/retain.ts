@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import { ErrorCondition, HasUnionType, Narrowable } from "src/types";
 import { Key, WithKeys } from "src/types/dictionary";
 
@@ -7,7 +8,7 @@ import { Key, WithKeys } from "src/types/dictionary";
  * Reduces the key/value pairs in an object to those keys
  * explicitly stated.
  * 
- * **Related:** `omit`
+ * **Related:** `createRetainer`, `omit`
  */
 export const retain = <
   TObj extends Record<string | symbol, N>,

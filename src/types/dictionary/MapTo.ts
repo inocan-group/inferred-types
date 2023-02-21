@@ -4,7 +4,7 @@ import {
   DefaultManyToOneMapping,
   DefaultOneToManyMapping,
   DefaultOneToOneMapping,
-} from "src/runtime";
+} from "src/constants";
 
 /**
  * Expresses relationship between inputs/outputs:

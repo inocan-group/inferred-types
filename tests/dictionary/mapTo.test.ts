@@ -11,13 +11,13 @@ import {
   Mapper,
   MapInputFrom,
   MapCardinalityFrom,
-} from "../../src/types";
+} from "src/types";
 
 import {
   DEFAULT_MANY_TO_ONE_MAPPING,
   DEFAULT_ONE_TO_MANY_MAPPING,
-  mapTo,
-} from "../../src/runtime";
+} from "src/constants";
+import { mapTo } from "src/runtime/dictionary/mapTo";
 
 type I = { title: string; color: string; products: string[] };
 const i: I = { title: "Test", color: "green", products: ["foo", "bar", "baz"] };

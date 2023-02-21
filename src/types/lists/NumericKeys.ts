@@ -1,4 +1,3 @@
-import { Narrowable } from "../literals";
 import { UnionToTuple } from "../type-conversion/UnionToTuple";
 
 /**
@@ -16,7 +15,7 @@ import { UnionToTuple } from "../type-conversion/UnionToTuple";
  * **Related:** `Keys`
  */
 export type NumericKeys <
-  TList extends readonly Narrowable[]
+  TList extends readonly unknown[]
 > = Readonly<UnionToTuple<{
   [K in keyof TList]: K
 }[number]>>;

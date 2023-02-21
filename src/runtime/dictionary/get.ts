@@ -17,7 +17,7 @@ import {
   hasIndexOf, 
   isSpecificConstant 
 } from "src/runtime/type-guards";
-import {  ReportError } from "../literals/ErrorCondition";
+import {  ReportError } from "../../types/errors/ErrorCondition";
 import { createErrorCondition, NotDefined, NOT_DEFINED } from "src/runtime";
 import { ifNull } from "src/runtime/boolean-logic";
 

@@ -4,6 +4,7 @@ import { AnyFunction } from "../base-types";
 import { IfEqual } from "../boolean-logic";
 import { FnMeta } from "./FnMeta";
 import { FnProps } from "./FnProps";
+import { IfNotError } from "src/types/boolean-logic";
 
 /**
  * **ToFn**`<T>`
@@ -12,18 +13,22 @@ import { FnProps } from "./FnProps";
  * 
  *  - `AnyFunction` - is converted to as narrow a function type as possible
  *  - `FnMeta` - is converted to a precise function type
- *  - any other type is rejected as `never`
+ *  - Any non-function value -- _other than a bare `never` value or an 
+ * `ErrorCondition`_ -- will be return as a function of the form `() => T`
  * 
  * **Related:** `AsFn`
  */
-export type ToFn<T> = T extends AnyFunction
-  ? ToFn<FnMeta<
-      Parameters<T>,
-      ReturnType<T>,
-      IfEqual<FnProps<T>, {}, "no-props", FnProps<T>>
-    >>
-  : T extends FnMeta<any,any,any>
-    ? "no-props" extends  T["props"]
-      ? (...args: T["args"]) => T["returns"]
-      : ((...args: T["args"]) => T["returns"]) & T["props"]
-: never;
+export type ToFn<T> = IfNotError<
+  T,
+  T extends AnyFunction
+    ? ToFn<FnMeta<
+        Parameters<T>,
+        ReturnType<T>,
+        IfEqual<FnProps<T>, {}, "no-props", FnProps<T>>
+      >>
+    : T extends FnMeta<any,any,any>
+      ? "no-props" extends  T["props"]
+        ? (...args: T["args"]) => T["returns"]
+        : ((...args: T["args"]) => T["returns"]) & T["props"]
+  : () => T
+>;

@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { Equal, Expect } from "@type-challenges/utils";
-import { AsFn, FnMeta, ToFn } from "src/types";
+import { AsFn, ErrorCondition, FnMeta, ToFn } from "src/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -66,19 +67,28 @@ describe("AsFn<T>", () => {
 
   
   it("non function", () => {
-    type Num = AsFn<42>;
-    type Str = AsFn<"foobar">;
+    type ErrCond = ToFn<ErrorCondition<"testing">>;
+    type Never = ToFn<never>;
+    type Num = ToFn<42>;
+    type Str = ToFn<"foobar">;
 
-    type Num2 = ToFn<42>;
-    type Str2 = ToFn<"foobar">;
+    type ErrCond2 = AsFn<ErrorCondition<"testing">>;
+    type Never2 = AsFn<never>;
+    type Num2 = AsFn<42>;
+    type Str2 = AsFn<"foobar">;
     
     type cases = [
+      Expect<Equal<ErrCond, ErrorCondition<"testing", string, string, {}>>>,
+      Expect<Equal<Never, never>>,
       Expect<Equal<Num, () => 42>>,
       Expect<Equal<Str, () => "foobar">>,
+
+      Expect<Equal<ErrCond2, ErrorCondition<"testing", string, string, {}>>>,
+      Expect<Equal<Never2, never>>,
       Expect<Equal<Num2, never>>,
       Expect<Equal<Str2, never>>,
     ];
-    const cases: cases = [ true, true, true, true ];
+    const cases: cases = [ true, true, true, true, true, true, true, true ];
   });
   
   

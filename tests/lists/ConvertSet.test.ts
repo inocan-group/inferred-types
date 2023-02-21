@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { Equal, Expect } from "@type-challenges/utils";
-import { ErrorCondition } from "../../src/runtime/literals/ErrorCondition";
+import { ErrorCondition } from "../../src/types/errors/ErrorCondition";
 import { ConvertSet } from "../../src/types/lists/ConvertSet";
 import { describe, it } from "vitest";
 

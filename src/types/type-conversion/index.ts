@@ -36,6 +36,7 @@ export * from "./FromKV";
 export * from "./TypeMapRule";
 export * from "./ConvertType";
 export * from "./MapType";
+export * from "./ToContainer";
 
 // #endregion auto-indexed files
 

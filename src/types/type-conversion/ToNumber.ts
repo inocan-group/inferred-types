@@ -1,25 +1,13 @@
-import { NumericChar } from "src/types/string-literals";
-
-type MakeArray<S extends string, T extends unknown[] = []> = S extends `${T["length"]}`
-  ? T
-  : MakeArray<S, [...T, 0]>;
-type Multiply10<T extends unknown[]> = [...T, ...T, ...T, ...T, ...T, ...T, ...T, ...T, ...T, ...T];
-
 /**
- * **ToNumber**`<TStr>`
+ * **ToNumber**`<T>`
  * 
- * Converts a string literal to a numeric literal.
+ * Converts a numeric string literal to the numeric equivalent.
  * 
- * ```ts
- * // 0
- * type Zero = Numeric<"0">;
- * // 100
- * type OneHundred = Numeric<"100">;
- * ```
+ * - will also receive numbers and proxy them through "as is"
  */
-export type ToNumber<S extends string, T extends unknown[] = []> = S extends `${infer S1}${infer S2}`
-  ? S1 extends NumericChar
-    ? ToNumber<S2, [...Multiply10<T>, ...MakeArray<S1>]>
-    : never
-  : T["length"];
+export type ToNumber<S extends string | number> = S extends number
+  ? S
+  : S extends `${infer N extends number}` 
+  ? N 
+  : never;
 

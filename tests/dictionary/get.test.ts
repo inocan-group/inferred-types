@@ -3,13 +3,11 @@ import { describe, expect, it } from "vitest";
 import { 
   get, 
   defineType, 
-  ErrorCondition, 
   isErrorCondition 
 } from "src/runtime";
 import type { 
   DoesExtend, 
   IsErrorCondition, 
-  NoDefaultValue, 
   Get 
 } from "src/types";
 import { ref } from "vue";
