@@ -16,13 +16,11 @@ type _NextDigit<T> = T extends "0" ? 1
 : T extends "9" ? 0
 : never;
 
-type _OneDigit<T> = any;
-type _TwoDigit<T> = any;
+
 
 type _Inc<
-  T extends readonly number[],
-  TResults extends readonly number[] = []
-> = ;
+  T extends readonly number[]
+> = If;
 
 
 /**
@@ -46,3 +44,10 @@ export type Increment<T extends number | string> = IfLiteral<
   ErrorCondition<"invalid-wide-type", "Increment<T> requires a literal value to be able to modify the type, a wide value was passed in!", "Increment<T>">
 >;
 
+
+/**
+ * **Inc**`<T>`
+ * 
+ * Type alias for `Increment<T>` which increments a numeric literal by one.
+ */
+export type Inc<T extends number | string> = Increment<T>;

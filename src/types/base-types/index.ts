@@ -5,4 +5,5 @@ export * from "./IdentityFunction";
 export * from "./Scalar";
 export * from "./Container";
 export * from "./Tuple";
+export * from "./NumericSign";
 export * from "./fns/index";
