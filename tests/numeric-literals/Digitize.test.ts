@@ -12,11 +12,13 @@ describe("Digitize<T>", () => {
   it("happy path", () => {
     type Num = Digitize<123>;
     type Str = Digitize<"123">;
+    type Neg = Digitize<-123>;
+
     type Err = Digitize<number>;
     
     type cases = [
-      Expect<Equal<Num, readonly [1,2,3]>>,
-      Expect<Equal<Str, readonly ["1","2","3"]>>,
+      Expect<Equal<Num, ["+", readonly [1,2,3]]>>,
+      Expect<Equal<Str, ["+", readonly ["1","2","3"]]>>,
       DoesExtend<Err, ErrorCondition<"invalid-non-literal">>
     ];
     const cases: cases = [true, true, true];
