@@ -12,8 +12,8 @@ import { Concat } from "../string-literals/Concat";
  */
 export type ToString<T> = T extends string
   ? T
-  : T extends number ? IfLiteral<T, `${T}` & `${number}`, `${number}`>
-  : T extends boolean ? IfLiteral<T, `${T}` & `${boolean}`, `${boolean}`>
+  : T extends number ? IfLiteral<T, `${T}`, `${number}`>
+  : T extends boolean ? IfLiteral<T, `${T}` , `${boolean}`>
   : T extends null ? "null"
   : IsUndefined<T> extends true ? "undefined"
   : T extends AnyObject ? IfRef<

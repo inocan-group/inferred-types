@@ -1,4 +1,4 @@
-import { Digit } from "src/types";
+import { Digit, NumericChar } from "src/types";
 
 /**
  * **Digital**
@@ -8,7 +8,10 @@ import { Digit } from "src/types";
  * 
  * **Related:** `DigitalLiteral`
  */
-export type Digital = [ NumericSign, readonly [number, ...number[]] ];
+export type Digital = [ 
+  NumericSign, 
+  readonly [Digit, ...Digit[]] 
+];
 
 /**
  * **DigitalLiteral**
@@ -18,4 +21,7 @@ export type Digital = [ NumericSign, readonly [number, ...number[]] ];
  * 
  * **Related:** `Digital`
  */
-export type DigitalLiteral = [ NumericSign, readonly [`${Digit}`, ...`${Digit}`[]] ];
+export type DigitalLiteral = [ 
+  NumericSign, 
+  readonly [`${NumericChar}`, ...`${NumericChar}`[]] 
+];

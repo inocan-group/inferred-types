@@ -52,9 +52,15 @@ type _Digitize<
 export type Digitize<T extends `${number}` | number> = IfLiteral<
   T,
   T extends number
-    ? [ Sign<T>, ToNumericArray<_Digitize<Abs<ToString<T> & `${number}`>>> ]
+    ? [ 
+      Sign<T>,
+      ToNumericArray<_Digitize<ToString<Abs<T>>>>
+    ]
     : T extends `${number}` 
-      ? [ Sign<T>, Readonly<_Digitize<Abs<T>>> ]
+      ? [ 
+          Sign<T>, 
+          Readonly<_Digitize<ToString<Abs<T>>>> 
+        ]
       : never,
   ErrorCondition<"invalid-non-literal", "Digitize<T> requires that T be a literal type but the value passed in was a wide number type", "Digitize<T>">
 >;

@@ -5,3 +5,6 @@ export * from "./Digitize";
 export * from "./NextDigit";
 export * from "./PriorDigit";
 export * from "./Abs";
+export * from "./AbsMaybe";
+export * from "./Digit";
+export * from "./DigitNonZero";

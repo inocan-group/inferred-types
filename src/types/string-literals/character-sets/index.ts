@@ -11,8 +11,6 @@ export * from "./IpAddress";
 export * from "./StringDelimiter";
 export * from "./Whitespace";
 export * from "./NumericChar";
-export * from "./Digit";
-export * from "./DigitNonZero";
 export * from "./AlphaNumeric";
 export * from "./Hexadecimal";
 
