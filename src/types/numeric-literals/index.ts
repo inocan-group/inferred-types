@@ -4,3 +4,4 @@ export * from "./ToNumericArray";
 export * from "./Digitize";
 export * from "./NextDigit";
 export * from "./PriorDigit";
+export * from "./Abs";
