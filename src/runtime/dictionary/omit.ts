@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { Narrowable, WithoutKeys,  ErrorCondition, HasUnionType } from "src/types";
+import type { Narrowable, WithoutKeys,  ErrorCondition, HasUnionType, Key } from "src/types";
 import { keys } from "./keys";
 
 /**
@@ -23,7 +23,7 @@ import { keys } from "./keys";
 export function omit<
   TObj extends Record<string|symbol, N>,
   N extends Narrowable,
-  TKeys extends readonly (string & keyof TObj)[]
+  TKeys extends readonly (Key & keyof TObj)[]
 >(obj: TObj, ...removeKeys: TKeys) {
   return [...keys(obj)].reduce(
     (acc, key) => removeKeys.includes(key as any)

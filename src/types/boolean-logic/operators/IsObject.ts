@@ -9,8 +9,9 @@ import { Or, IfExtends } from "src/types/boolean-logic";
  * (aka, it extends `Record<string, any>` or a readonly equivalent)
  */
 export type IsObject<T> = Or<[
-  IfExtends<T,Record<string, unknown>, true, false>,
-  IfExtends<Mutable<T>,Record<string, unknown>,true, false>
+  IfExtends<T,Record<string|symbol, unknown>, true, false>,
+  IfExtends<Mutable<T>,Record<string|symbol, unknown>,true, false>,
+  IfExtends<T, object, true, false>
 ]> extends true
 ? // an object of some type
   T extends AnyFunction

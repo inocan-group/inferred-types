@@ -18,6 +18,7 @@ export * from "./type-conversion/index";
 export * from "./boolean-logic/index";
 export * from "./runtime-types/index";
 export * from "./errors/index";
+export * from "./numeric-literals";
 // #endregion auto-indexed files
 
 // see https://github.com/inocan-group/do-devops/docs/autoindex.md

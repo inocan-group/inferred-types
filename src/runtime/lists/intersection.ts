@@ -8,7 +8,7 @@ import { isIndexable } from "../type-guards/isIndexable";
 function intersectWithOffset<
 A extends readonly unknown[],
 B extends readonly unknown[],
-TDeref extends string | number | null
+TDeref extends string | number
 >(a: A, b: B, deref: TDeref) {
   const aIndexable = a.every(i => isIndexable(i));
   const bIndexable = b.every(i => isIndexable(i));
@@ -39,9 +39,10 @@ TDeref extends string | number | null
 function intersectNoOffset<
 A extends readonly unknown[],
 B extends readonly unknown[],
-_TDeref extends string | number | null
 >(a: A, b: B) {
-  // 
+  return a.length < b.length 
+    ? a.filter((val) => b.includes(val))
+    : b.filter((val) => a.includes(val));
 }
 
 /**
@@ -62,6 +63,11 @@ export const intersection = <
   a: A,
   b: B,
   deref: TDeref = null as TDeref
-): Intersection<A,B,TDeref>  => {
-  return ifNotNull(deref, intersectWithOffset(a,b,deref), intersectNoOffset(a,b)) as unknown as Intersection<A,B,TDeref>;
+): Intersection<A,B,TDeref> => {
+  console.log(deref);
+  return (
+    deref === null
+    ? intersectNoOffset(a,b)
+    : intersectWithOffset(a,b,deref)
+  ) as unknown as Intersection<A,B,TDeref>;
 };

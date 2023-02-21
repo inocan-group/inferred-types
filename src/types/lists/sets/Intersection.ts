@@ -4,6 +4,10 @@ import type {
   IfNull,
   RemoveNever,
   Get,
+  IfContainer,
+  ToContainer,
+  ToString,
+  Concat,
 } from "src/types";
 
 type _NoDeref<
@@ -23,7 +27,16 @@ type _WithDeref<
   RemoveNever<{
     [K in keyof A]: IfContains<
       BValues,
-      Get<A[K], TDeref>,
+      IfContainer<
+        A[K],
+        // get the dereferenced prop on A
+        Get<
+          ToContainer<A[K]>,
+          TDeref
+        >,
+        // not a container so can't be deref'ed
+        never
+      >,
       A[K],
       never
     >
@@ -31,7 +44,14 @@ type _WithDeref<
   RemoveNever<{
     [K in keyof B]: IfContains<
       AValues,
-      Get<B[K], TDeref>,
+      IfContainer<
+        B[K],
+        Get<
+          ToContainer<B[K]>,
+          TDeref
+        >,
+        never
+      >,
       B[K],
       never
     >

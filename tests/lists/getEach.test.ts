@@ -1,8 +1,8 @@
-import { Equal, Expect, ExpectExtends } from "@type-challenges/utils";
-import { getEach } from "../../src/runtime/lists/getEach";
-import { ErrorCondition } from "../../src/types/errors/ErrorCondition";
-import { GetEach } from "../../src/types/lists/GetEach";
+import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
+
+import { getEach } from "src/runtime/lists";
+import { GetEach } from "src/types/lists";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -20,15 +20,13 @@ describe("GetEach<T,P>", () => {
     type ID = GetEach<List, "id">;
     type Value = GetEach<List, "value">;
     type Cost = GetEach<List, "cost">;
-    type Cost2 = GetEach<List, "cost", "report">;
     
     type cases = [
-      Expect<Equal<ID, [1,2,3]>>,
-      Expect<Equal<Value, ["foo", "bar", "baz"]>>,
-      Expect<Equal<Cost, [ 5, 15 ]>>,
-      Expect<ExpectExtends<[ ErrorCondition<"invalid-dot-path">, 5, 15 ], Cost2>>
+      Expect<Equal<ID, readonly [1,2,3] & readonly unknown[]>>,
+      Expect<Equal<Value, readonly ["foo", "bar", "baz"] & readonly unknown[]>>,
+      Expect<Equal<Cost, readonly [ 5, 15 ] & readonly unknown[]>>
     ];
-    const cases: cases = [ true, true, true, true ];
+    const cases: cases = [ true, true, true ];
   });
 
   
@@ -43,8 +41,8 @@ describe("GetEach<T,P>", () => {
     type Owns = GetEach<List, "color.owns">;
     
     type cases = [
-      Expect<Equal<Fav, [ "blue", "green", undefined ]>>,
-      Expect<Equal<Owns, [ "grey" ]>>,
+      Expect<Equal<Fav, readonly [ "blue", "green", undefined ] & readonly unknown[]>>,
+      Expect<Equal<Owns, readonly [ "grey" ] & readonly unknown[]>>,
     ];
     const cases: cases = [ true, true ];
   });

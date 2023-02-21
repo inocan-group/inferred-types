@@ -12,40 +12,13 @@ import {
 } from "src/types";
 
 import { createFnWithProps } from "src/runtime/functions";
+import { 
+  DefaultOneToManyMapping, 
+  DEFAULT_MANY_TO_ONE_MAPPING, 
+  DEFAULT_ONE_TO_MANY_MAPPING, 
+  DEFAULT_ONE_TO_ONE_MAPPING 
+} from "src/constants/MapTo";
 
-/**
- * utility function to take a fully-qualified _user_ config
- * and make it into a FinalizedMapConfig
- */
-const toFinalizedConfig = <
-  IR extends OptRequired,
-  D extends MapCardinalityIllustrated,
-  OR extends OptRequired
->(
-  config: MapConfig<IR, D, OR>
-) => {
-  return { ...config, finalized: true } as FinalizedMapConfig<IR, D, OR>;
-};
-
-export const DEFAULT_ONE_TO_MANY_MAPPING = toFinalizedConfig({
-  input: "req",
-  output: "opt",
-  cardinality: "I -> O[]",
-});
-export const DEFAULT_ONE_TO_ONE_MAPPING = toFinalizedConfig({
-  input: "req",
-  output: "req",
-  cardinality: "I -> O",
-});
-export const DEFAULT_MANY_TO_ONE_MAPPING = toFinalizedConfig({
-  input: "req",
-  output: "req",
-  cardinality: "I[] -> O",
-});
-
-export type DefaultOneToManyMapping = typeof DEFAULT_ONE_TO_MANY_MAPPING;
-export type DefaultOneToOneMapping = typeof DEFAULT_ONE_TO_ONE_MAPPING;
-export type DefaultManyToOneMapping = typeof DEFAULT_MANY_TO_ONE_MAPPING;
 
 const debugMsg = <C extends FinalizedMapConfig<any, any, any>>(
   config: C,

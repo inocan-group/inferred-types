@@ -1,22 +1,35 @@
-import { ErrorCondition } from "../../runtime/literals/ErrorCondition";
-import { Get } from "../dictionary/Get";
-import { AfterFirst, First } from "src/types/lists";
+import { ErrorCondition } from "../errors/ErrorCondition";
+import { Get } from "src/types/dictionary";
+import { AfterFirst, First, IndexOf, IndexOf } from "src/types/lists";
 import { ConvertSet } from "./ConvertSet";
-import { RemoveErrors } from "./extractors";
+import { RemoveErrors, RemoveNever } from "./extractors";
+import { IfContainer } from "src/types/boolean-logic";
+import { ToContainer, ToString } from "src/types/type-conversion";
 
 
-export type GetEachErrHandling = "report" | "ignore" | "to-never";
+export type GetEachErrHandling = "report-errors" | "ignore-errors" | "to-never";
 
 type GetEachAcc<
-  T extends unknown[] | readonly unknown[], 
+  T extends readonly unknown[], 
   TKey extends string | number | null, 
   Processed extends readonly unknown[] = []
 > = //
 [] extends T
   ? Processed
-  : GetEachAcc<AfterFirst<T>, TKey, [...Processed, Get<First<T>, TKey>]>;
+  : GetEachAcc<
+      AfterFirst<T>, 
+      TKey, 
+      [
+        ...Processed, 
+        IfContainer<
+          T,
+          Get<ToContainer<First<T>>, TKey>,
+          // First<T> not container
+          TKey
+        >
+      ]
+    >;
 
-type ConvertToNever = [ErrorCondition<"invalid-dot-path">, never];
 
 /**
 * **GetEach**`<TList, TKey, [THandleErrors]>`
@@ -39,15 +52,24 @@ type ConvertToNever = [ErrorCondition<"invalid-dot-path">, never];
 * ```
 */
 export type GetEach<
-  TList extends any[] | readonly any[], 
+  TList extends readonly unknown[], 
   TKey extends string | number | null,
-  THandleErrors extends GetEachErrHandling = "ignore"
+  // THandleErrors extends GetEachErrHandling = "ignore-errors"
 > = TKey extends null
-  ? TList
-  : THandleErrors extends "ignore"
-    ? RemoveErrors<GetEachAcc<TList, TKey>, "invalid-dot-path">
-    : THandleErrors extends "report"
-      ? GetEachAcc<TList, TKey>
-      : THandleErrors extends "to-never"
-        ? ConvertSet<GetEachAcc<TList, TKey>, ConvertToNever>
-        : never;
+  ? TList // return list "as is"
+  : RemoveNever<{
+      [K in keyof TList]: IfContainer<
+        TList[K],
+        IndexOf<ToContainer<TList[K]>, TKey>,
+        never
+      >
+    }> & readonly unknown[];
+  
+  
+  // THandleErrors extends "ignore-errors"
+  //   ? RemoveErrors<GetEachAcc<TList, TKey>, "invalid-dot-path">
+  //   : THandleErrors extends "report-errors"
+  //     ? GetEachAcc<TList, TKey>
+  //     : THandleErrors extends "to-never"
+  //       ? ConvertSet<GetEachAcc<TList, TKey>, ConvertToNever>
+  //       : never;

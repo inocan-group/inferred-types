@@ -1,9 +1,7 @@
 /* eslint-disable no-use-before-define */
 import { Tuple } from "src/types/base-types";
 import { LogicFunction } from "src/types/functions";
-import { IfFalse } from "../IfFalse";
-import { IfTrue } from "../IfTrue";
-import { IsNever } from "../IsNever";
+import { IfFalse, IfTrue, IsErrorCondition, IsErrorCondition, IsNever } from "src/types/boolean-logic";
 
 type _Negate<
   T extends Tuple<boolean | LogicFunction>,
@@ -26,8 +24,8 @@ type _Negate<
  * type Multi = Not<[true,false,boolean]>;
  * ```
  */
-export type Not<T> = IsNever<T> extends true 
-  ? never 
+export type Not<T> = IsErrorCondition<T> extends true 
+  ? T 
   : [T] extends [boolean]
     ? IfTrue<
       T, false, // invert true value

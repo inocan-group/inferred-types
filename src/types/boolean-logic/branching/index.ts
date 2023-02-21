@@ -45,3 +45,5 @@ export * from "./IfLiteral";
 export * from "./IfLength";
 export * from "./IfNotEqual";
 export * from "./IfUnion";
+export * from "./IfNarrowlyContains";
+export * from "./IfContainer";

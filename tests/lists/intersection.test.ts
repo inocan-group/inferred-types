@@ -49,18 +49,21 @@ describe("Set Intersection", () => {
     });
 
     
-    it("Intersect<Obj,Obj>, with deref", () => {
-      type T1 = Intersection<
+    it("Intersect<Obj,Obj>, with deref property", () => {
+      type IOneAndTwo = Intersection<
         [IdFoobar1,IdFoobar2],
-        [IdFoobar2alt, IdFoobar1,IdFoobar3], 
+        [IdFoobar2alt, IdFoobar1, IdFoobar3], 
         "id"
       >;
       
       type cases = [
-        Expect<Equal<T1, [
-          [IdFoobar1, IdFoobar2], 
-          [IdFoobar2alt,IdFoobar1]
-        ]>>
+        Expect<Equal<
+          IOneAndTwo, 
+          [
+            [IdFoobar1, IdFoobar2],
+            [IdFoobar2alt, IdFoobar1]
+          ]
+        >>
       ];
       const cases: cases = [ true ];
     });
