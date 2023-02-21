@@ -7,8 +7,9 @@ import { Narrowable } from "../literals/Narrowable";
  * A type utility which _dereferences_ a property/index item on an array
  * or object.
  * 
- * **Note:** if `TIdx` is passed in as `null` then this will act as an identity
+ * - if `TIdx` is passed in as `null` then this will act as an identity
  * function and return `TValue`.
+ * - if `TIdx` is a negative number it will index in reverse
  * 
  * **Related:** `Get`
  */
