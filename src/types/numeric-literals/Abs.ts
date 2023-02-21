@@ -15,8 +15,8 @@ export type Abs<T extends number | `${number}`> = IfLiteral<
   T,
   IfString<
     T,
-    StripLeading<T,"-">,
-    ToNumber<StripLeading<ToString<T>,"-">>
+    StripLeading<T,"-"> & `${number}`,
+    ToNumber<StripLeading<ToString<T>,"-">> & `${number}`
   >,
   number
 >;

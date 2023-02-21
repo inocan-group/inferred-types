@@ -1,0 +1,21 @@
+import { Digit } from "src/types";
+
+/**
+ * **Digital**
+ * 
+ * A Tuple which represents a number as leading `NumericSign` and then 
+ * an array of numeric digits.
+ * 
+ * **Related:** `DigitalLiteral`
+ */
+export type Digital = [ NumericSign, readonly [number, ...number[]] ];
+
+/**
+ * **DigitalLiteral**
+ * 
+ * A Tuple which represents a number as a leading `NumericSign` and
+ * then an array of numeric string literals.
+ * 
+ * **Related:** `Digital`
+ */
+export type DigitalLiteral = [ NumericSign, readonly [`${Digit}`, ...`${Digit}`[]] ];
