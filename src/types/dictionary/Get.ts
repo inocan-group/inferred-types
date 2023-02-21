@@ -111,7 +111,7 @@ export type Get<
           ToString<TDotPath>, 
           TDefVal
         >
-      : _Shallow<TContainer & Container, TDotPath, TDotPath>;
+      : _Shallow<TContainer & Container, ToString<TDotPath>, ToString<TDotPath>>;
   
   
   // TDotPath extends `${infer Prop}.${infer Rest}` 
