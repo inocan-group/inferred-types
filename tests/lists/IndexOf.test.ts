@@ -26,6 +26,18 @@ describe("IndexOf<T>", () => {
   });
 
   
+  it("type tests for negative offsets", () => {
+    
+    
+    type cases = [
+      /** type tests */
+    ];
+    const cases: cases = [];
+    
+  });
+  
+
+  
   it("runtime", () => {
     const arr = indexOf([1,2,3] as const, 1);
     const obj = indexOf({foo: 1, bar: 2, baz: 3 } as const, "bar");

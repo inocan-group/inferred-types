@@ -2,6 +2,7 @@ import { IfLiteral, IfEquals, DoesExtend } from "src/types/boolean-logic";
 import { ErrorCondition } from "src/types/errors";
 import { Concat, NumericChar } from "src/types/string-literals";
 import { ToString, ToNumber } from "src/types/type-conversion";
+import { Digitize } from "./Digitize";
 
 type _NextDigit<T> = T extends "0" ? 1
 : T extends "1" ? 2
@@ -18,7 +19,10 @@ type _NextDigit<T> = T extends "0" ? 1
 type _OneDigit<T> = any;
 type _TwoDigit<T> = any;
 
-type _Inc<T> = any;
+type _Inc<
+  T extends readonly number[],
+  TResults extends readonly number[] = []
+> = ;
 
 
 /**
@@ -38,25 +42,7 @@ export type Increment<T extends number | string> = IfLiteral<
           Concat<["Increment<T> allows for string literals to be passed in but only if they are of the type `${number}` and T was ",T]>, 
           "Increment<T>"
         >
-    : _Inc<T>,
+    : T extends number ? _Inc<Digitize<T>> : never,
   ErrorCondition<"invalid-wide-type", "Increment<T> requires a literal value to be able to modify the type, a wide value was passed in!", "Increment<T>">
 >;
 
-
-
-// IfLiteral<
-//   T,
-//   ToString<T> extends `${NumericChar}`
-//     ? // single digit number
-//       IfEquals<_NextDigit<ToString<T>>, 0, 10>
-//     : ToString<T> extends `${NumericChar}${NumericChar}`
-//       ? ToString<T> extends `${infer Tens}${infer Ones}`
-//         ? IfEquals<
-//             _NextDigit<ToString<Ones>>, 0,
-//             // increment Tens
-//             ToNumber<`${_NextDigit<ToString<Tens>>}0`>,
-//             ToNumber<`${Tens}`>
-//           >
-//       : ErrorCondition<"number-too-large", "the Increment<T> utility can only increment one and two digit numbers", "Increment<T>", T>
-//   : never
-// >;
