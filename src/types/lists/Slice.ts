@@ -4,7 +4,7 @@ type NumberToArr<T extends number, R extends unknown[] = []> =
     : NumberToArr<T, [...R, 0]>;
 
 type ToPositiveIndex<
-  Arr extends unknown[],
+  Arr extends readonly unknown[],
   N extends number,
 > =
   `${N}` extends `-${infer P extends number}`
@@ -14,7 +14,7 @@ type ToPositiveIndex<
     : N;
 
 export type _Slice<
-  TList extends unknown[],
+  TList extends readonly unknown[],
   TStart extends number = 0,
   TEnd extends number = TList["length"],
   Index extends unknown[] = [],
@@ -32,7 +32,7 @@ export type _Slice<
 : R;
 
 export type Slice<
-  TList extends unknown[],
+  TList extends readonly unknown[],
   TStart extends number = 0,
   TEnd extends number = TList["length"],
 > = _Slice<TList,TStart,TEnd>;
