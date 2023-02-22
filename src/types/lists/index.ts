@@ -18,6 +18,7 @@ export * from "./Flatten";
 export * from "./Reverse";
 export * from "./Retain";
 export * from "./Find";
+export * from "./Slice";
 export * from "./TruthyReturns";
 export * from "./ReturnTypes";
 export * from "./LogicalReturns";
@@ -25,11 +26,14 @@ export * from "./IntersectAll";
 export * from "./Filter";
 export * from "./NumericKeys";
 export * from "./ConvertAndMap";
+export * from "./ConvertAndMap";
+export * from "./ExcludeLast";
+export * from "./ReplaceLast";
+export * from "./GetEach";
 
 export * from "./extractors/index";
 export * from "./sets/index";
 
-export * from "./GetEach";
 
 // #endregion auto-indexed files
 

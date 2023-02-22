@@ -1,27 +1,45 @@
-import { IfLiteral, IfEquals, DoesExtend } from "src/types/boolean-logic";
-import { ErrorCondition } from "src/types/errors";
-import { Concat, NumericChar } from "src/types/string-literals";
+import { IfEqual, IfLiteral, IsNegativeNumber } from "src/types/boolean-logic";
+import {  NumericChar } from "src/types/string-literals";
 import { ToString, ToNumber } from "src/types/type-conversion";
+import {  DigitalLiteral } from "../base-types";
+import { ExcludeLast, Length, ReplaceLast } from "../lists";
+import { Last } from "../lists/Last";
 import { Digitize } from "./Digitize";
+import { NextDigit } from "./NextDigit";
 
-type _NextDigit<T> = T extends "0" ? 1
-: T extends "1" ? 2
-: T extends "2" ? 3
-: T extends "3" ? 4
-: T extends "4" ? 5
-: T extends "5" ? 6
-: T extends "6" ? 7
-: T extends "7" ? 8
-: T extends "8" ? 9
-: T extends "9" ? 0
-: never;
 
+/**
+ * Returns null if there is no overflow,
+ * otherwise it returns the index in digits
+ * where the overflow completes.
+ */
+type _Pos<
+  TNumber extends readonly NumericChar[]
+> = [] extends TNumber
+  ? null
+  : IfEqual<
+  Last<TNumber>, "9", // look for overflow
+  _Pos<ExcludeLast<TNumber> & readonly NumericChar[]>,
+  Length<TNumber>
+>;
+
+type _Neg<
+  TNumber extends readonly NumericChar[]
+> = 0;
+
+type _Update<
+  TNumber extends readonly NumericChar[],
+  TIndex extends null | (keyof TNumber & number)
+> = TIndex extends null
+  ? ReplaceLast<TNumber, NextDigit<Last<TNumber> & NumericChar>>
+  : any;
 
 
 type _Inc<
-  T extends readonly number[]
-> = If;
-
+  TNumber extends DigitalLiteral
+> = IsNegativeNumber<TNumber> extends true 
+  ? _Neg<TNumber[1]>
+  : _Update<TNumber[1], _Pos<TNumber[1]>>;
 
 /**
  * **Increment**`<T>`
@@ -30,18 +48,17 @@ type _Inc<
  * 
  * - Note: can also receive a string literal which extends `${number}`
  */
-export type Increment<T extends number | string> = IfLiteral<
+export type Increment<T extends number | `${number}`> = IfLiteral<
   T,
-  T extends string
-    ? T extends `${number}` 
-      ? ToString<Increment<ToNumber<T>>> // increment a string literal of a number
-      : ErrorCondition<
-          "invalid-string-literal", 
-          Concat<["Increment<T> allows for string literals to be passed in but only if they are of the type `${number}` and T was ",T]>, 
-          "Increment<T>"
-        >
-    : T extends number ? _Inc<Digitize<T>> : never,
-  ErrorCondition<"invalid-wide-type", "Increment<T> requires a literal value to be able to modify the type, a wide value was passed in!", "Increment<T>">
+  T extends number
+    ? ToString<T> extends `${number}`
+      ? ToNumber<Increment<ToString<T>>>
+      : never 
+    : T extends `${number}`
+      ? _Inc<Digitize<T>>
+      : never
+  ,
+  never
 >;
 
 
@@ -50,4 +67,4 @@ export type Increment<T extends number | string> = IfLiteral<
  * 
  * Type alias for `Increment<T>` which increments a numeric literal by one.
  */
-export type Inc<T extends number | string> = Increment<T>;
+export type Inc<T extends number | `${number}`> = Increment<T>;
