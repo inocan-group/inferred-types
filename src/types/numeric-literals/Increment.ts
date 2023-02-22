@@ -2,9 +2,10 @@ import { IfEqual, IfLiteral, IsNegativeNumber } from "src/types/boolean-logic";
 import {  NumericChar } from "src/types/string-literals";
 import { ToString, ToNumber } from "src/types/type-conversion";
 import {  DigitalLiteral } from "../base-types";
-import { ExcludeLast, Length, ReplaceLast } from "../lists";
+import { ExcludeLast, Length, ReplaceLast, Slice } from "../lists";
 import { Last } from "../lists/Last";
 import { Digitize } from "./Digitize";
+import { Negative } from "./Negative";
 import { NextDigit } from "./NextDigit";
 
 
@@ -32,7 +33,7 @@ type _Update<
   TIndex extends null | (keyof TNumber & number)
 > = TIndex extends null
   ? ReplaceLast<TNumber, NextDigit<Last<TNumber> & NumericChar>>
-  : any;
+  : [ Slice<TNumber, 0, Negative<TIndex>> ];
 
 
 type _Inc<

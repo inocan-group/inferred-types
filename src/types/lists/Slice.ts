@@ -31,6 +31,16 @@ export type _Slice<
       : _Slice<Rest, PStart, PEnd, [...Index, 0], [...R, A]>
 : R;
 
+
+/**
+ * **Slice**`<TList, TStart, TEnd>`
+ * 
+ * Provides a slice of `TList`.
+ * 
+ * - negative indexes for `TEnd` can be used
+ * - `TStart` defaults to 0
+ * - `TEnd` defaults to the length of `TList`
+ */
 export type Slice<
   TList extends readonly unknown[],
   TStart extends number = 0,
