@@ -1,5 +1,8 @@
-import {  IfNull, IsScalar } from "../boolean-logic";
-import { Narrowable } from "../literals/Narrowable";
+import { AnyObject, Scalar } from "../base-types";
+import { Indexable } from "../base-types/Indexable";
+import {  IfNull, IsNegativeNumber } from "../boolean-logic";
+import { Abs } from "../numeric-literals";
+import { Reverse } from "./Reverse";
 
 /**
  * **IndexOf**<TValue, TIdx>
@@ -14,16 +17,22 @@ import { Narrowable } from "../literals/Narrowable";
  * **Related:** `Get`
  */
 export type IndexOf<
-  TValue extends Narrowable | readonly Narrowable[],
+  TValue extends Indexable | Scalar,
   TIdx extends string | number | null
 > = IfNull<
   TIdx,
   // return "as is"
   TValue,
   // dereference where valid index
-  IsScalar<TValue> extends false
-    ? TIdx extends keyof TValue
-      ? TValue[TIdx]
+  TValue extends readonly unknown[]
+      ? IsNegativeNumber<TIdx> extends true
+        ? IndexOf<Reverse<TValue & readonly unknown[]>,Abs<TIdx & number>>
+        : TIdx extends keyof TValue
+          ? TValue[TIdx]
+          : never
+    : TValue extends AnyObject
+      ? TIdx extends keyof TValue
+        ? TValue[TIdx]
+        : never
       : never
-    : never
 >;

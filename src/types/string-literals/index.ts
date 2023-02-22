@@ -18,6 +18,7 @@ export * from "./PathJoin";
 export * from "./Pluralize";
 export * from "./StripLeading";
 export * from "./Suggest";
+export * from "./Repeat";
 export * from "./StripTrailing";
 
 export * from "./character-sets/index";

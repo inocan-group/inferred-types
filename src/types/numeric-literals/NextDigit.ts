@@ -1,5 +1,6 @@
-import { Digit } from "../string-literals";
+import {  NumericChar } from "../string-literals";
 import { ToString, ToNumber } from "src/types/type-conversion";
+import { Digit } from "./Digit";
 
 /**
  * **NextDigit**`<T>`
@@ -16,7 +17,7 @@ import { ToString, ToNumber } from "src/types/type-conversion";
  * type S = NextDigit<"4">;
  * ```
  */
-export type NextDigit<T> = T extends `${Digit}`
+export type NextDigit<T extends Digit | NumericChar> = T extends `${NumericChar}`
 ? ToString<NextDigit<ToNumber<T>>>
 : T extends 0 ? 1
 : T extends 1 ? 2

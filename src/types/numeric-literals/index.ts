@@ -8,3 +8,4 @@ export * from "./Abs";
 export * from "./AbsMaybe";
 export * from "./Digit";
 export * from "./DigitNonZero";
+export * from "./AsNumericLiteral";

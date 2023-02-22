@@ -9,6 +9,7 @@ export * from "./FirstKey";
 export * from "./FirstKeyValue";
 export * from "./FirstOfEach";
 export * from "./FromDictArray";
+export * from "./FixedLengthArray";
 export * from "./SecondOfEach";
 
 // #endregion auto-indexed files

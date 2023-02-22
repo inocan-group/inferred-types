@@ -1,10 +1,11 @@
-import { Decrement } from "../numeric-literals";
-import { Length } from "./Length";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 
 /**
  * **Last**`<T>`
  * 
- * Returns the _last_ type in a list
+ * Returns the _last_ element in a list
  */
-export type Last<T extends readonly unknown[]> =
-  T[0] extends T[number] ? T[Decrement<Length<T>>]: never;
+export type Last<T extends readonly any[]> = T extends [...any[], infer Last]
+  ? Last
+  : never;

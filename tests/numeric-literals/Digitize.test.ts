@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { DoesExtend, ErrorCondition } from "src/types";
+import { Digital, DigitalLiteral, DoesExtend } from "src/types";
 import { Digitize } from "src/types/numeric-literals/Digitize";
 import { describe, it } from "vitest";
 
@@ -18,13 +18,17 @@ describe("Digitize<T>", () => {
     type Err = Digitize<number>;
     
     type cases = [
-      Expect<Equal<Num, ["+", readonly [1,2,3]]>>,
-      Expect<Equal<Str, ["+", readonly ["1","2","3"]]>>,
-      Expect<Equal<Neg, ["-", readonly [1,2,3]]>>,
-      Expect<Equal<NegStr, ["-", readonly ["1","2","3"]]>>,
-      DoesExtend<Err, ErrorCondition<"invalid-non-literal">>
+      Expect<Equal<Num, ["+", readonly [1,2,3]] & Digital>>,
+      Expect<Equal<Str, ["+", readonly ["1","2","3"]] & DigitalLiteral>>,
+      Expect<Equal<Neg, ["-", readonly [1,2,3]] & Digital>>,
+      Expect<Equal<NegStr, ["-", readonly ["1","2","3"]] & DigitalLiteral>>,
+      Expect<Equal<Err, never>>,
+
+      // extends base type
+      DoesExtend<Num, Digital>,
+      DoesExtend<Str, DigitalLiteral>
     ];
-    const cases: cases = [true, true, true, true, true];
+    const cases: cases = [true, true, true, true, true, true, true ];
   });
 
 });
