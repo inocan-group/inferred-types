@@ -13,7 +13,8 @@ describe("Slice<TList, TStart, TEnd>", () => {
     type FirstTwo = Slice<List, 0, 2>;
     type FirstThree = Slice<List, 0, 3>;
     type OneToThree = Slice<List, 1, 3>;
-    type ThreeOnward = Slice<List, 3>; 
+    type ThreeOnward = Slice<List, 3>;
+    type SkipLastTwo = Slice<List, 0, -2>;
 
     
     type cases = [
@@ -21,8 +22,9 @@ describe("Slice<TList, TStart, TEnd>", () => {
       Expect<Equal<FirstThree, [1,2,3]>>,
       Expect<Equal<OneToThree, [2,3]>>,
       Expect<Equal<ThreeOnward, [4,5,6,7,8]>>,
+      Expect<Equal<SkipLastTwo, [1,2,3,4,5,6]>>,
     ];
-    const cases: cases = [true, true, true, true];
+    const cases: cases = [true, true, true, true, true];
   });
 
 });
