@@ -47,3 +47,4 @@ export * from "./IfNotEqual";
 export * from "./IfUnion";
 export * from "./IfNarrowlyContains";
 export * from "./IfContainer";
+export * from "./IfUndefined";

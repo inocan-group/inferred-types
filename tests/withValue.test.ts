@@ -14,7 +14,7 @@ describe("withValue()() utility", () => {
       message: "hi there",
       numericArr: [1, 2, 3],
       fn: () => "hi",
-      fnWithProp: createFnWithProps(() => "hi", { foo: "there" }),
+      fnWithProp: createFnWithProps(() => "hi")({ foo: "there" }),
       baz: { foo: 1, bar: 2 },
     };
 

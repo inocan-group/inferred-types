@@ -1,7 +1,7 @@
-import { Narrowable , ToString , IfEqual , RemoveEquals } from "src/types";
+import {  ToString , IfEqual , RemoveEquals } from "src/types";
 
 type JoinAcc<
-  TArr extends readonly Narrowable[],
+  TArr extends readonly unknown[],
   TSeparator extends string,
   TResult extends string = ""
 > = TArr extends [infer First, ...infer Rest]
@@ -31,7 +31,7 @@ type JoinAcc<
  * **Related:** `Concat<TArr>`
  */
 export type Join<
-  TArr extends readonly Narrowable[],
+  TArr extends readonly unknown[],
   TSeparator extends string = ""
 > = JoinAcc<
   RemoveEquals<TArr, "">,

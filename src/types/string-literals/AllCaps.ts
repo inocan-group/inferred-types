@@ -6,10 +6,10 @@
  * type T = AllCaps<"FOOBAR">;
  * // false 
  * type T = AllCaps<"FooBar">;
- * // "unknown"
+ * // boolean
  * type T = AllCaps<string>;
  * ```
  */
 export type AllCaps<T extends string> = string extends T
-  ? "unknown"
+  ? boolean
   : T extends Uppercase<T> ? true : false;

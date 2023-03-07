@@ -1,10 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { ensureLeading } from "../../src/runtime/literals/ensureLeading";
-import { ensureTrailing } from "../../src/runtime/literals/ensureTrailing";
-import { stripLeading } from "../../src/runtime/literals/stripLeading";
-import { stripTrailing } from "../../src/runtime/literals/stripTrailing";
-import { EnsureLeading, EnsureTrailing, StripLeading, StripTrailing } from "../../src/types/string-literals";
 import { describe, expect, it } from "vitest";
+
+import { ensureLeading, ensureTrailing, stripLeading, stripTrailing } from "src/runtime";
+import { EnsureLeading, EnsureTrailing, StripLeading, StripTrailing } from "src/types/string-literals";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to

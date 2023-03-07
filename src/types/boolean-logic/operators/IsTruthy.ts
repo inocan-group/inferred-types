@@ -1,5 +1,5 @@
-import { IfLiteral } from "./IfLiteral";
-import { IfSomeEqual } from "./IfSomeEqual";
+import { IfLiteral, IfSomeEqual } from "src/types/boolean-logic";
+
 
 /**
  * **Truthy**`<T>`

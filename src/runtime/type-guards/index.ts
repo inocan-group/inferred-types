@@ -5,6 +5,7 @@ export * from "./isNotNull";
 export * from "./isTruthy";
 export * from "./isTypeTuple";
 export * from "./isUndefined";
+export * from "./isBoolean";
 export * from "./isString";
 export * from "./isObject";
 export * from "./isTrue";
@@ -25,7 +26,8 @@ export * from "./isKvTuple";
 export * from "./isKvTupleArray";
 export * from "./isScalar";
 export * from "./isErrorCondition";
+export * from "./isKvPair";
 export * from "./runtime-type-guards";
-
+export * from "./isKvDictArray";
 
 export * from "./higher-order/index";

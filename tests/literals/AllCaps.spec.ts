@@ -23,10 +23,10 @@ describe("AllCaps<T> type utility", () => {
     expect(c).toBe(c);
   });
 
-  it("when passed a non literal string, returns 'unknown'", () => {
+  it("when passed a non literal string, returns boolean", () => {
     type T1 = AllCaps<string>;
 
-    type cases = [Expect<Equal<T1, "unknown">>];
+    type cases = [Expect<Equal<T1, boolean>>];
     const c: cases = [true];
     expect(c).toBe(c);
   });

@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { Negative } from "src/types/numeric-literals/Negative";
+import { Negative } from "src/types/numeric-literals";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

@@ -12,6 +12,8 @@ describe("IndexOf<T>", () => {
 
   it("type tests", () => {
     type Arr = IndexOf<[1,2,3], 1>;
+    type Neg = IndexOf<[1,2,3], -1>;
+    
     type Obj = IndexOf<{foo: 1; bar: 2; baz: 3}, "bar">;
     type Identity = IndexOf<"foo", null>;
     type Never = IndexOf<"foo", 1>;

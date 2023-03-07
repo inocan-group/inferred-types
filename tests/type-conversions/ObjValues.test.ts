@@ -1,7 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { ObjValues } from "../../src/types/type-conversion/ObjValues";
-import { Values } from "../../src/types/type-conversion/Values";
 import { describe, it } from "vitest";
+
+import { ObjValues } from "src/types/type-conversion/ObjValues";
+import { Values } from "src/types/type-conversion/Values";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 

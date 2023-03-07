@@ -1,4 +1,4 @@
-import { And } from "src/types/boolean-logic";
+import type { And } from "src/types/boolean-logic";
 
 
 type _Extends<

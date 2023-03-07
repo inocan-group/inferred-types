@@ -1,5 +1,5 @@
 import { AfterFirst, First } from "src/types/lists";
-import { IfUnion } from "../branching";
+import { IfUnion } from "src/types/boolean-logic/branching";
 
 type _HasUnion<
   TList extends readonly unknown[]

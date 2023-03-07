@@ -10,12 +10,10 @@ import {
 } from "src/types/boolean-logic";
 
 import { FromMaybeRef, Get, Keys } from "src/types/dictionary";
-import { AfterFirst, First, RemoveEquals } from "../../lists";
-import { Flatten } from "../../lists/Flatten";
-import { Retain } from "../../lists/Retain";
-import { Narrowable } from "../../literals/Narrowable";
-import { TupleToUnion } from "../../type-conversion";
-import { ToString } from "../../type-conversion/ToString";
+import { AfterFirst, First, RemoveEquals, Flatten, Retain } from "src/types/lists";
+import { Narrowable } from "src/types/literals";
+import { TupleToUnion, ToString } from "src/types/type-conversion";
+
 import { EmptyString } from "../EmptyString";
 import { Prepend } from "../Prepend";
 import { PrependAll } from "../PrependAll";

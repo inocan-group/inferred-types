@@ -49,7 +49,7 @@ export const createFnWithProps = <
 ): FnReadyForProps<Fn<TFn>> => <
   TProps extends Record<string, N>,
   N extends Narrowable
->(props) => {
+>(props: TProps) => {
   for (const k of keys(props)) {
     (fn as any)[k] = props[k];
   }

@@ -1,7 +1,7 @@
 import { Equal, Expect, } from "@type-challenges/utils";
-import { DotPath } from "../../src/types/string-literals/character-sets/DotPath";
-
 import { describe, it } from "vitest";
+
+import { DotPath } from "src/types/string-literals";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 

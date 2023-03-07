@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 import type { Expect, Equal, ExpectExtends } from "@type-challenges/utils";
-import { defineType } from "../src/runtime";
+import { defineType } from "src/runtime";
 
 describe("defineType() utility", () => {
   it("only specify a wide type", () => {

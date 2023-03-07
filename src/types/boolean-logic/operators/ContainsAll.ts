@@ -1,8 +1,8 @@
 
-import { And } from "src/types/boolean-logic";
+import { And, Contains } from "src/types/boolean-logic";
 import { AfterFirst, First } from "src/types/lists";
 import { Narrowable } from "src/types/literals";
-import { Contains } from "./Contains";
+
 
 type _Contains<
 TList extends readonly unknown[],

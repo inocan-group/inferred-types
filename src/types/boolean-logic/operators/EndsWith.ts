@@ -1,4 +1,4 @@
-import { IfNumericLiteral, IsStringLiteral, IfString, ToString } from "src/types";
+import type { IfNumericLiteral, IsStringLiteral, IfString, ToString } from "src/types";
 
 /**
  * **EndsWith**<T,U>

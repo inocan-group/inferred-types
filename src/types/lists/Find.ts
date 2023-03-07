@@ -68,6 +68,6 @@ type FindExtendsAcc<
  */
 export type FindExtends<
   TList extends readonly unknown[],
-  TFind extends Narrowable,
+  TFind,
   TDeref extends string | number | null = null,
 > = FindExtendsAcc<TList, TFind, TDeref>;

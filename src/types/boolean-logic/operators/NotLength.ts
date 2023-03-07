@@ -1,5 +1,5 @@
+import { IfNotEqual } from "src/types/boolean-logic";
 import { Length } from "src/types/lists";
-import { IfNotEqual } from "../branching";
 
 /**
  * **NotLength**`<T>`

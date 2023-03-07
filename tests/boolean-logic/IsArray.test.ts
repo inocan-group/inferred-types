@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { IsArray } from "src/types/boolean-logic/operators";
 import { describe, it } from "vitest";
+import { IsArray } from "src/types/boolean-logic/operators";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 

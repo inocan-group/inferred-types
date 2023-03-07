@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { Concat } from "../../src/types";
 import { describe, it } from "vitest";
+import { Concat } from "src/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 

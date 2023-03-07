@@ -1,15 +1,19 @@
-import { AnyObject } from "src/types/base-types";
+import { AnyArray, AnyFunction,  AnyObject,  Scalar } from "src/types/base-types";
 import { IfNever } from "src/types/boolean-logic";
 
 /**
  * **ToContainer**`<T>`
  * 
- * Intersects `T` with `AnyObject | readonly unknown[]` to ensure that
- * resultant type is a Container but if the intersection results in a 
- * _never_ value then it will convert it to an empty object.
+ * Provides a narrowing feature for union types which _include_ the
+ * option to be a `Container` but might also be a Scalar value or 
+ * a function.
+ * 
+ * However, unlike a simple intersection with `readonly any[] | AnyObject`,
+ * this type will detect where there is no overlap and instead of returning
+ * a `never` value it will just convert to `AnyObject | AnyArray`.
  */
 export type ToContainer<T> = IfNever<
-  T & (AnyObject | readonly unknown[]), 
-  object,
-  T & (AnyObject | readonly unknown[])
+  Exclude<T, Scalar | undefined | AnyFunction>, 
+  AnyObject | AnyArray,
+  Exclude<T, Scalar | undefined | AnyFunction>
 >;

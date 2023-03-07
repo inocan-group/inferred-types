@@ -23,7 +23,7 @@ describe("SameKeys<T> utility", () => {
     type P = typeof partial;
 
     type cases = [
-      // not surprisingly appling utility to both
+      // not surprisingly applying utility to both
       // does not reach equality
       ExpectFalse<Equal<SameKeys<O>, SameKeys<P>>>,
       // but more importantly P can not be assigned to SameKeys<O>

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { AnyObject, IfEqual } from "../boolean-logic";
+import { AnyObject } from "../base-types";
+import { IfEqual } from "../boolean-logic";
 import { ObjValues } from "./ObjValues";
 
 /**

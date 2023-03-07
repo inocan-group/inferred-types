@@ -3,8 +3,7 @@ import { AfterFirst, First } from "src/types/lists";
 /**
  * **Contains**`<TList,TContains>`
  *
- * Type utility which checks whether a type `TContains` exists within 
- * an array `TList`. Result is `true` if any element in the list _extends_
+ * Checks whether a list -- `TList` -- contains a value of `TContains`.
  * 
  * **Related:** `NarrowlyContains`
  */

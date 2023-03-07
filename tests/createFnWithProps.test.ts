@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it, expect } from "vitest";
 
-import { createFnWithProps, FnReadyForProps } from "src/runtime/functions/createFnWithProps";
+import { createFnWithProps, FnReadyForProps } from "src/runtime/functions";
 import { FnMeta, FnWithDict } from "src/types";
 
 const fn = () => "hi" as const;

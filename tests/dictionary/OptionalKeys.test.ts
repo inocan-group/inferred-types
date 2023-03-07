@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
-import { OptionalKeys } from "../../src/types/dictionary";
+import { OptionalKeys } from "src/types";
+
 
 type Test = { title: string; value: number; color?: string };
 

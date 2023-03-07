@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { Equal, Expect } from "@type-challenges/utils";
-import {  RemoveFromList, RemoveNever, RemoveStrings, RetainFromList, RetainStrings } from "../../src/types/lists/extractors";
+import {  RemoveFromList, RemoveNever, RemoveStrings, RetainFromList, RetainStrings } from "src/types/lists";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

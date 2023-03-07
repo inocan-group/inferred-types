@@ -1,5 +1,5 @@
 import { IfFunction, AnyFunction, Narrowable } from "src/types";
-import { isFunction } from "../type-guards/isFunction";
+import { isFunction } from "src/runtime/type-guards";
 
 /**
  * **ifFunction**(value, isFn, notFn)

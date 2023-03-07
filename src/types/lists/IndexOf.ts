@@ -1,7 +1,7 @@
 import { AnyObject, Scalar } from "../base-types";
 import { Indexable } from "../base-types/Indexable";
 import {  IfNull, IsNegativeNumber } from "../boolean-logic";
-import { Abs } from "../numeric-literals";
+import { Abs, Decrement } from "../numeric-literals";
 import { Reverse } from "./Reverse";
 
 /**
@@ -26,7 +26,9 @@ export type IndexOf<
   // dereference where valid index
   TValue extends readonly unknown[]
       ? IsNegativeNumber<TIdx> extends true
-        ? IndexOf<Reverse<TValue & readonly unknown[]>,Abs<TIdx & number>>
+        ? IndexOf< // negative indexing
+            Reverse<TValue & readonly unknown[]>, Decrement<Abs<TIdx & number>>
+          >
         : TIdx extends keyof TValue
           ? TValue[TIdx]
           : never
