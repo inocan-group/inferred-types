@@ -1,4 +1,4 @@
-import { And } from "src/types";
+import type { And } from "src/types/boolean-logic";
 
 /**
  * Groups a number of "logic functions" together by combining their results using
@@ -6,6 +6,6 @@ import { And } from "src/types";
  */
 export const and = <
   TList extends readonly boolean[],
->(...values: TList) => {
-  return values.every(i => i === true) as And<TList>;
+>(...values: TList): And<TList, []> => {
+  return values.every(i => i === true) as And<TList, []>;
 };

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { AnyFunction, AnyObject, RegularFn } from "../base-types";
-import { IfEqual, IfLength } from "../boolean-logic/branching";
-import {  Keys } from "../dictionary";
+import { AnyFunction } from "src/types/base-types";
+import type { IfEqual } from "src/types/boolean-logic";
 import { FnMeta } from "./FnMeta";
 import { FnProps } from "./FnProps";
 

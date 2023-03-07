@@ -10,7 +10,6 @@ type Dash = KebabCase<"hello-world-with-types">;
 
 describe("KebabCase type modifier", () => {
   it("other naming conventions are converted to kebab-case", () => {
-    //@ts-ignore
     type cases = [
       Expect<Equal<Pascal, "hello-world-with-types">>,
       Expect<Equal<Camel, "hello-world-with-types">>,

@@ -1,3 +1,4 @@
+import { AnyArray } from "./AnyArray";
 import { AnyObject } from "./AnyObject";
 
 /**
@@ -5,4 +6,4 @@ import { AnyObject } from "./AnyObject";
  * 
  * A type which represents any object or array.
  */
-export type Container = AnyObject | readonly unknown[];
+export type Container = AnyObject | AnyArray;

@@ -1,5 +1,8 @@
 /* eslint @typescript-eslint/no-unused-vars: "off" */
 
+import { EnsureTrailing } from "./EnsureTrailing";
+import { StripTrailing } from "./StripTrailing";
+
 type Consonant =
   | "b"
   | "c"
@@ -37,12 +40,10 @@ type Exceptions =
   | "money => monies"
   | "deer => deer";
 
-// @ts-ignore
 type SingularException<T = Exceptions> = T extends `${infer SINGULAR} => ${infer PLURAL}`
   ? SINGULAR
   : never;
 
-// @ts-ignore
 type PluralException<
   T extends SingularException,
   E extends Exceptions = Exceptions
@@ -52,26 +53,20 @@ type SingularNoun = "s" | "sh" | "ch" | "x" | "z" | "o";
 type F = "f" | "fe";
 type Y = `${Consonant}y`;
 
-type RemoveTrailingY<T> = T extends `${infer HEAD}y` ? HEAD : T;
-
 /** validates that a word ends with a pluralization exception */
 type isException<T extends string> = T extends SingularException ? T : never;
 
 /** validates that a string literal ends in "is" */
-// @ts-ignore
-type EndsIn_IS<T extends string> = T extends `${infer HEAD}is` ? T : never;
+type EndsIn_IS<T extends string> = T extends `${string}is` ? T : never;
 
 /** validates that a string literal is a singular noun */
-// @ts-ignore
-type EndsInSingularNoun<T extends string> = T extends `${infer HEAD}${SingularNoun}` ? T : never;
+type EndsInSingularNoun<T extends string> = T extends `${string}${SingularNoun}` ? T : never;
 
 /** validates that a string literal ends in "f" or "fe" */
-// @ts-ignore
-type EndsIn_F<T extends string> = T extends `${infer HEAD}${F}` ? T : never;
+type EndsIn_F<T extends string> = T extends `${string}${F}` ? T : never;
 
 /** validates that a string literal ends a consonant followed by "y" */
-// @ts-ignore
-type EndsIn_Y<T extends string> = T extends `${infer HEAD}${Y}` ? T : never;
+type EndsIn_Y<T extends string> = T extends `${string}${Y}` ? T : never;
 
 /**
  * strings which end in the letters "is" should have an "es" added to the end
@@ -81,10 +76,7 @@ type PluralizeEndingIn_IS<T extends string> = T extends `${infer HEAD}is` ? `${H
 /**
  * singular nouns should have "es" added to the end
  */
-// @ts-ignore
-type PluralizeEndingSingularNoun<T extends string> = T extends `${infer HEAD}${SingularNoun}`
-  ? `${T}es`
-  : T;
+type PluralizeEndingSingularNoun<T extends string> = EnsureTrailing<T, "es">;
 
 /**
  * strings which end in the letters "f" or "fe" should have "ves" replace the ending
@@ -94,10 +86,8 @@ type PluralizeEnding_F<T extends string> = T extends `${infer HEAD}${F}` ? `${HE
 /**
  * singular nouns should have "es" added to the end
  */
-// @ts-ignore
-type PluralizeEndingIn_Y<T extends string> = T extends `${infer HEAD}${Y}`
-  ? `${RemoveTrailingY<T>}ies`
-  : T;
+type PluralizeEndingIn_Y<T extends string> = EnsureTrailing<StripTrailing<T,"y">, "ies">;
+
 
 export type Pluralize<T extends string> = T extends isException<T>
   ? PluralException<T>

@@ -13,3 +13,5 @@ export * from "./createErrorCondition";
 export * from "./determineIdentity";
 export * from "./NotDefined";
 export * from "./Never";
+export * from "./objectToKv";
+

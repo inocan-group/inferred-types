@@ -2,12 +2,11 @@
 import { AnyFunction } from "src/types/base-types";
 import { LogicFunction } from "src/types/functions";
 import { AfterFirst, First } from "src/types/lists";
-import { Narrowable } from "src/types/literals";
 import { IfNarrowlyContains, IfOr, IsFalse, ReturnsFalse } from "src/types/boolean-logic";
 
 type _And<
   TConditions extends readonly (boolean | LogicFunction<TParams>)[], 
-  TParams extends readonly Narrowable[],
+  TParams extends readonly unknown[],
   TResults extends readonly boolean[] = [],
 > = [] extends TConditions
 ? IfNarrowlyContains<TResults, boolean, boolean, true>
@@ -38,5 +37,5 @@ type _And<
  */
 export type And<
   TConditions extends readonly (boolean | LogicFunction<TParams>)[], 
-  TParams extends readonly Narrowable[] = [],
+  TParams extends readonly unknown[] = [],
 > = _And<TConditions, TParams>;

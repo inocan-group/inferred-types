@@ -11,7 +11,6 @@ type People = Pluralize<"person">;
 
 describe("Pluralization of a string literal", () => {
   it("test strings all converted to plural equivalent", () => {
-    // @ts-ignore
     type cases = [
       Expect<Equal<Bugs, "bugs">>,
       Expect<Equal<Cases, "cases">>,

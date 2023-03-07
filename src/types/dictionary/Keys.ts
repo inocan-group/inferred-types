@@ -1,7 +1,7 @@
 import { IfLength, IfEqual, IfTrue } from "src/types/boolean-logic";
 import { RetainStrings, NumericKeys } from "src/types/lists";
 import { UnionToTuple } from "src/types/type-conversion";
-import { AnyObject } from "../base-types";
+import { AnyObject } from "src/types/base-types";
 
 type _ObjKeys<
   TValue extends AnyObject,

@@ -1,8 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { uniqueKeys } from "../../src/runtime/dictionary";
 import { describe, expect, it } from "vitest";
-import { Keys, Unique } from "src/types";
-import { ContainsAll } from "src/types/boolean-logic/ContainsAll";
+import { ContainsAll, Keys, Unique } from "src/types";
+
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 

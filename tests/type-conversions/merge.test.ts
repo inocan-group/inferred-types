@@ -4,8 +4,8 @@ import type {
   MergeObjects, 
   MergeScalars, 
   MergeTuples 
-} from "../../src/types";
-import { mergeScalars, mergeTuples } from "../../src/runtime";
+} from "src/types";
+import { mergeScalars, mergeTuples } from "src/runtime";
 
 describe("MergeObjects<A,B>", () => {
   it("happy path", () => {

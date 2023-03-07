@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
-import { AnyFunction } from "../base-types";
-import { IfEqual } from "../boolean-logic";
+import { AnyFunction } from "src/types/base-types";
+import { IfEqual , IfNotError } from "src/types/boolean-logic";
 import { FnMeta } from "./FnMeta";
 import { FnProps } from "./FnProps";
-import { IfNotError } from "src/types/boolean-logic";
 
 /**
  * **ToFn**`<T>`

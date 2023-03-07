@@ -1,4 +1,4 @@
-import { IfOr, IsFalse, IsTrue } from "src/types/boolean-logic";
+import type { IfOr, IsFalse, IsTrue } from "src/types/boolean-logic";
 
 /**
  * **IsBooleanLiteral**`<T>`

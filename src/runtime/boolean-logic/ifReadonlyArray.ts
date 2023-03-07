@@ -1,5 +1,5 @@
 import { IfArray, Narrowable } from "src/types";
-import { isArray } from "../type-guards";
+import { isArray } from "src/runtime/type-guards";
 
 export function ifReadonlyArray<
 // value which is possibly an array

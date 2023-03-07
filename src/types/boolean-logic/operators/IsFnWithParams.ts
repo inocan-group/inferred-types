@@ -1,5 +1,5 @@
 import type { AnyObject, AnyFunction } from "src/types/base-types";
-import type { And, IsEmptyObject, IfEqual, IfExtends, IfOr } from "src/types/boolean-logic";
+import type { IsEmptyObject, IfEqual, IfAnd, DoesExtend } from "src/types/boolean-logic";
 
 /**
  * **IsFnWithParams**`<TFn, [TParamMatch]>`
@@ -17,17 +17,14 @@ export type IsFnWithParams<
     ? IsEmptyObject<TFn> extends true 
         ? false 
         : // there are some props on TFn
-          IfOr<
+          IfAnd<
             [
-                And<[
-                    // the Fn extends the param matcher
-                    IfExtends<TFn, TParamMatch>,
-                    // TParamMatch is set
-                    IfExtends<TParamMatch, AnyObject>, 
-                ]>,
-                IfEqual<TParamMatch, undefined>
-            ],
+              // the Fn extends the param matcher
+              DoesExtend<TFn, TParamMatch>,
+              // TParamMatch is set
+              DoesExtend<TParamMatch, AnyObject>, 
+            ], 
             true,
-            false
+            IfEqual<TParamMatch, undefined, true, false>
         >
     : false;

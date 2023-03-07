@@ -1,7 +1,13 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { AnyFunction, IndexableObject } from "src/types/base-types";
+import { AnyFunction, AnyObject, IsEqual } from "src/types";
+import { WidenProps } from "./WidenProps";
 
-
+/**
+ * **Widen**<T>
+ * 
+ * Makes all efforts to _widen_ the type found (though 
+ * not to the point it is "unknown" or "any").
+ */
 export type Widen<T> = T extends string
   ? string
   : T extends number
@@ -20,10 +26,8 @@ export type Widen<T> = T extends string
   ? {
     [K in keyof T]: Widen<T[K]>
   }
-  : T extends IndexableObject
-    ? IndexableObject
-  : T extends object
-    ? object
-  : T extends {}
-  ? {}
+  : IsEqual<{}, T> extends true
+  ? object
+  : T extends AnyObject
+    ? WidenProps<T>
   : T;

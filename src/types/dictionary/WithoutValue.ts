@@ -1,7 +1,6 @@
-import { AnyObject } from "src/types/base-types";
-import { ExpandRecursively } from "../literals";
-import { Narrowable } from "../literals/Narrowable";
-import { KeysWithoutValue } from "./KeysWithoutValue";
+import { AnyObject } from "src/types";
+import { Narrowable, ExpandRecursively } from "src/types/literals";
+import { KeysWithoutValue } from "src/types/dictionary";
 
 /**
  * **WithoutValue**

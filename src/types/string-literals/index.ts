@@ -9,6 +9,7 @@ export * from "./Concat";
 export * from "./Cardinality";
 export * from "./HasUppercase";
 export * from "./EnsureLeading";
+export * from "./EnsureLeadingEvery";
 export * from "./EmptyString";
 export * from "./EmptyStringOr";
 export * from "./EnsureTrailing";

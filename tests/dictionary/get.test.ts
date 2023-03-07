@@ -8,7 +8,8 @@ import {
 import type { 
   DoesExtend, 
   IsErrorCondition, 
-  Get 
+  Get, 
+  ErrorCondition
 } from "src/types";
 import { ref } from "vue";
 

@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { IfMaybeTrue, IfTrue } from "../../src/types";
+import { IfMaybeTrue, IfTrue } from "src/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -37,14 +37,14 @@ describe("IfSoftTrue", () => {
     type T2 = IfMaybeTrue<false, "bonanza", "mortality">;
     // a wide boolean results in a union of IF | ELSE
     type T3 = IfMaybeTrue<boolean, "bonanza", "mortality">;
-    // non-booleans are allowed and result in Exclude<T, boolean>
+    // non-booleans are allowed and result never
     type T4 = IfMaybeTrue<"foobar", "bonanza", "mortality">;
     
     type cases = [
       Expect<Equal<T1, "bonanza">>, //
       Expect<Equal<T2, "mortality">>,
       Expect<Equal<T3, "bonanza" | "mortality">>,
-      Expect<Equal<T4, "foobar">>,
+      Expect<Equal<T4, never>>,
     ];
     const cases: cases = [ true, true, true, true];
   });

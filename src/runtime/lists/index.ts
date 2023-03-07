@@ -13,6 +13,8 @@ export * from "./unique";
 export * from "./logicalReturns";
 export * from "./intoSet";
 export * from "./fromSet";
+export * from "./find";
+export * from "./filter";
 export * from "./createConverter";
 export * from "./unique";
 export * from "./reverse";

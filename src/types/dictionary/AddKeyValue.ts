@@ -1,4 +1,4 @@
-import { ErrorCondition } from "src/runtime";
+
 import type { 
   AnyObject, 
   IfContains, 
@@ -7,7 +7,8 @@ import type {
   Concat, 
   ToString, 
   Key, 
-  Keys 
+  Keys, 
+  ErrorCondition
 } from "src/types";
 
 /**

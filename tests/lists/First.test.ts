@@ -1,6 +1,6 @@
 import { describe, it } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
-import { AfterFirst, First } from "../../src/types/lists";
+import { AfterFirst, First } from "src/types/lists";
 
 describe("First<T>, AfterFirst<T>", () => {
   it("First<T> with literals", () => {

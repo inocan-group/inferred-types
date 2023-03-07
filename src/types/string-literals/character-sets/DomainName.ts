@@ -1,6 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { IfEqual } from "src/types/boolean-logic/IfEqual";
-import { IfLength } from "src/types/boolean-logic/IfLength";
+import { IfEqual, IfLength } from "src/types/boolean-logic";
 import { AfterFirst, AsArray, First } from "src/types/lists";
 import { TupleToUnion } from "src/types/type-conversion";
 

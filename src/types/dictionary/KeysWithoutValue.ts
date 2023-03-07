@@ -1,5 +1,5 @@
 import { AnyObject } from "src/types/base-types";
-import { Narrowable } from "../literals";
+import { Narrowable } from "src/types/literals";
 
 /**
  * **KeysWithoutValue**`<TObj, TValue>`

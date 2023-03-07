@@ -1,8 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { ErrorCondition } from "src/runtime";
-import { DoesExtend } from "src/types";
-import { AddKeyValue } from "src/types/dictionary";
 import { describe, it } from "vitest";
+
+import { AddKeyValue } from "src/types/dictionary";
+import {  DoesExtend, ErrorCondition } from "src/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -15,6 +15,7 @@ describe("AddKeyValue<TObj,K,V>", () => {
 
     type Valid = AddKeyValue<Obj, "baz", 42>;
     type Invalid = AddKeyValue<Obj, "foo", 42>;
+
     
     type cases = [
       Expect<Equal<Valid, {foo: 1; bar: 2; baz: 42}>>,

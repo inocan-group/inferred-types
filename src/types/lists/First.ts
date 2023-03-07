@@ -1,4 +1,4 @@
-import { IfLength } from "../boolean-logic/branching";
+import { IfLength } from "src/types/boolean-logic";
 
 
 /**
