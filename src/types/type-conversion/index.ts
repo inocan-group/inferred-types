@@ -33,6 +33,9 @@ export * from "./RemoveFromStart";
 export * from "./RemoveFromEnd";
 export * from "./RemoveIndex";
 export * from "./FromKV";
+export * from "./IntersectWithAll";
+export * from "./UnionWithAll";
+
 
 export * from "./TypeMapRule";
 export * from "./ConvertType";

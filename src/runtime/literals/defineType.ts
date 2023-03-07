@@ -1,4 +1,4 @@
-import { ExpandRecursively, SimplifyObject, Narrowable } from "src/types";
+import { ExpandRecursively, SimplifyObject, Narrowable, RemoveIndex } from "src/types";
 
 /**
  * Build a _type_ from two run-time dictionaries.
@@ -18,6 +18,6 @@ export function defineType<N extends Narrowable, TLiteral extends Record<string,
       literal 
         ? { ...wide, ...literal } 
         : wide
-      ) as SimplifyObject<TLiteral & ExpandRecursively<TWide>>;
+      ) as SimplifyObject<RemoveIndex<TLiteral> & ExpandRecursively<RemoveIndex<TWide>>>;
   };
 }

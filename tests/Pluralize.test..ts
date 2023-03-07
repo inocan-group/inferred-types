@@ -18,5 +18,6 @@ describe("Pluralization of a string literal", () => {
       Expect<Equal<Elves, "elves">>,
       Expect<Equal<People, "people">>
     ];
+    const cases: cases = [true, true, true, true, true];
   });
 });

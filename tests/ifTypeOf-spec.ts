@@ -170,7 +170,7 @@ describe("ifTypeOf() utility", () => {
     // cases by converting to a string but that's incomplete
     const fn = (_c: number) => "string";
     const fn2 = (_c: number) => "string";
-    const genericFn: Function = () => "string";
+    const genericFn: AnyFunction = () => "string";
 
     try {
       const narrow = ifTypeOf(fn).narrowlyExtends(fn2);

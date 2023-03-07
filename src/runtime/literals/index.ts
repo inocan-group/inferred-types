@@ -4,7 +4,6 @@
 // hash-code: 7a22bbbc
 
 // file exports
-export * from "./ExplicitFunction";
 export * from "./arrayToObject";
 export * from "./box";
 export * from "./defineType";

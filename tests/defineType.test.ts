@@ -10,8 +10,6 @@ describe("defineType() utility", () => {
     expect(t.foo).toBe("");
     expect(t.bar).toBe(0);
 
-    // TODO: see if we can eliminate this difference
-    // between t and t2 though it is not impactful
     const t2 = defineType()({ foo: "", bar: 0 });
 
     expect(t2.foo).toBe("");
@@ -20,22 +18,9 @@ describe("defineType() utility", () => {
     type cases = [
       // when we provide {} as a literal type; we get the expected type
       Expect<Equal<typeof t, { foo: string; bar: number }>>,
-      // for some odd reason, when we let the default value for literal
-      // we get something odd
-      Expect<
-        Equal<
-          typeof t2,
-          {
-            foo: string;
-            bar: number;
-            [x: string]: string | number | boolean | symbol | void | object | {} | null | undefined;
-          }
-        >
-      >,
-      // fortunately it does extend the intended type
-      Expect<ExpectExtends<typeof t2, { foo: string; bar: number }>>
+      Expect<Equal<typeof t2,{foo: string; bar: number }>>,
     ];
-    const cases: cases = [true, true, true];
+    const cases: cases = [true, true];
     expect(cases).toBe(cases);
   });
 

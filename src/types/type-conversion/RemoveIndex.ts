@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 
 /**
@@ -13,7 +14,7 @@
  * type T = RemoveIndex<Foo>;
  * ```
  */
-export type RemoveIndex<T extends Record<any,any>> = {
+export type RemoveIndex<T extends Record<any, any>> = {
   [ 
     P in keyof T as string extends P 
       ? never 
