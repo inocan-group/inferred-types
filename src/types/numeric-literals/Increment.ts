@@ -1,13 +1,10 @@
 import { IfEqual, IfLiteral, IsNegativeNumber } from "src/types/boolean-logic";
 import {  NumericChar } from "src/types/string-literals";
 import { ToString, ToNumber } from "src/types/type-conversion";
-import {  DigitalLiteral } from "../base-types";
-import { ExcludeLast, Length, ReplaceLast, Slice } from "../lists";
+import {  Digital, DigitalLiteral } from "../base-types";
+import { ExcludeLast, IndexOf, Length, ReplaceLast, Slice } from "../lists";
 import { Last } from "../lists/Last";
-import { Digitize } from "./Digitize";
-import { Negative } from "./Negative";
-import { NextDigit } from "./NextDigit";
-
+import { NextDigit, Negative, Digitize, Digit } from "src/types/numeric-literals";
 
 /**
  * Returns null if there is no overflow,
@@ -15,7 +12,7 @@ import { NextDigit } from "./NextDigit";
  * where the overflow completes.
  */
 type _Pos<
-  TNumber extends readonly NumericChar[]
+  TNumber extends readonly NumericChar[] | readonly Digit[]
 > = [] extends TNumber
   ? null
   : IfEqual<
@@ -25,19 +22,19 @@ type _Pos<
 >;
 
 type _Neg<
-  TNumber extends readonly NumericChar[]
+  _TNumber extends readonly NumericChar[]
 > = 0;
 
 type _Update<
-  TNumber extends readonly NumericChar[],
+  TNumber extends readonly NumericChar[] | readonly Digit[],
   TIndex extends null | (keyof TNumber & number)
 > = TIndex extends null
   ? ReplaceLast<TNumber, NextDigit<Last<TNumber> & NumericChar>>
-  : [ Slice<TNumber, 0, Negative<TIndex>> ];
+  : [ ...Slice<TNumber, 0, Negative<TIndex>>, NextDigit<IndexOf<TNumber,TIndex>> ];
 
 
 type _Inc<
-  TNumber extends DigitalLiteral
+  TNumber extends DigitalLiteral | Digital
 > = IsNegativeNumber<TNumber> extends true 
   ? _Neg<TNumber[1]>
   : _Update<TNumber[1], _Pos<TNumber[1]>>;
@@ -52,9 +49,7 @@ type _Inc<
 export type Increment<T extends number | `${number}`> = IfLiteral<
   T,
   T extends number
-    ? ToString<T> extends `${number}`
-      ? ToNumber<Increment<ToString<T>>>
-      : never 
+    ? ToNumber<Increment<ToString<T>>>
     : T extends `${number}`
       ? _Inc<Digitize<T>>
       : never
@@ -69,3 +64,5 @@ export type Increment<T extends number | `${number}`> = IfLiteral<
  * Type alias for `Increment<T>` which increments a numeric literal by one.
  */
 export type Inc<T extends number | `${number}`> = Increment<T>;
+
+type x = Inc<4>;
