@@ -17,6 +17,7 @@ export * from "./NotEqual";
 export * from "./StartsWith";
 export * from "./HasParameters";
 export * from "./HasUnionType";
+export * from "./HasSameValues";
 export * from "./IsNegativeNumber";
 
 export * from "./IsOptionalScalar";

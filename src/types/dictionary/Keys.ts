@@ -5,7 +5,7 @@ import { AnyObject } from "src/types/base-types";
 
 type _ObjKeys<
   TValue extends AnyObject,
-  TOnlyString extends boolean
+  TOnlyStringKeys extends boolean
 > = IfEqual<
 Readonly<UnionToTuple<keyof TValue>>, readonly [string], 
 [] & readonly ((string|symbol)& keyof TValue)[],
@@ -13,9 +13,9 @@ IfLength<
   Readonly<UnionToTuple<keyof TValue>>, 0,
   readonly [],
   IfTrue<
-    TOnlyString, 
+    TOnlyStringKeys, 
     Readonly<RetainStrings<UnionToTuple<keyof TValue>>>,
-    Readonly<UnionToTuple<keyof TValue>>
+    Readonly< UnionToTuple<keyof TValue>>
   >
 >
 >;
@@ -27,17 +27,17 @@ IfLength<
  *
  * ```ts
  * type T1 = { foo: 1, bar: 2 };
- * // readonly ["foo", "bar"] & (keyof T1)[]
- * type K = Keys<T1>;
+ * // readonly ["foo", "bar"]
+ * type K1 = Keys<T1>;
  * ```
  */
 export type Keys<
   TValue extends AnyObject | unknown[],
-  TOnlyString extends boolean = false
+  TOnlyStringKeys extends boolean = false
 > = IfLength<
   TValue extends readonly unknown[]
-    ? NumericKeys<TValue> & readonly (keyof TValue)[]
-    : _ObjKeys<TValue, TOnlyString> & readonly (keyof TValue)[]
+    ? NumericKeys<TValue>
+    : _ObjKeys<TValue, TOnlyStringKeys>
   , 0, 
   // just make readonly [] if there are no elements
   readonly []

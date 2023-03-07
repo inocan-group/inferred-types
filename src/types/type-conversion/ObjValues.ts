@@ -1,19 +1,27 @@
+/* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AnyObject } from "../base-types";
 import {  IfEqual, IfLength, IfLiteral } from "../boolean-logic";
+import { Key } from "../dictionary";
 import { Keys } from "../dictionary/Keys";
-import { AfterFirst, First } from "../lists";
+import { AfterFirst, First, Length, Reverse } from "../lists";
 
 type ValuesAcc<
   TObj extends AnyObject,
-  TKeys extends readonly (keyof TObj)[],
+  TKeys extends readonly Key[],
   TResults extends readonly any[] = []
-> = [] extends TKeys
+> = //
+Length<TKeys> extends 0
   ? TResults
   : ValuesAcc<
       TObj,
       AfterFirst<TKeys>,
-      readonly [...TResults, TObj[First<TKeys>]]
+      [
+        ...TResults, 
+        First<TKeys> extends keyof TObj
+          ? TObj[First<TKeys>]
+          : never
+      ]
     >;
 
 /**
@@ -23,25 +31,35 @@ type ValuesAcc<
  * 
  * - if the object is an object literal, it will convert to a readonly array
  * - if not a literal, type will be approximated where possible or default to `any[]`.
+ * - please note that the array's _order_ is **not** guaranteed as an object's properties
+ * has no order.
  * 
  * **Related:** `Values`
  */
 export type ObjValues<
   T extends AnyObject
-> = IfLiteral<
-  T,
-  IfLength<Keys<T>, 0, readonly [], Readonly<ValuesAcc<T, Keys<T> & readonly (keyof T)[]>>>,
-  IfEqual<
-    Record<string, string>, 
-    string[],
+> = IfEqual<
+  T, {},
+  readonly [],
+  IfLiteral<
+    T,
+    IfLength<
+      Keys<T>, 0, 
+      readonly [], 
+      Readonly<Reverse<ValuesAcc<T, Keys<T>>>>
+    >,
     IfEqual<
-      Record<string, number>,
-      number[],
+      Record<string, string>, 
+      string[],
       IfEqual<
-        Record<string, boolean>,
-        boolean[],
-        IfLength<Keys<T>, 0, readonly [], unknown[]>,
-        unknown[]
+        Record<string, number>,
+        number[],
+        IfEqual<
+          Record<string, boolean>,
+          boolean[],
+          IfLength<Keys<T>, 0, readonly [], unknown[]>,
+          unknown[]
+        >
       >
     >
   >
