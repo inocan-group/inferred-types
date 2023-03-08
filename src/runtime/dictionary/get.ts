@@ -3,7 +3,8 @@ import type {
   DotPath, 
   DotPathFor, 
   Get, 
-  Suggest 
+  Suggest, 
+  ReportError
 } from "src/types";
 import {
   NO_DEFAULT_VALUE,
@@ -17,7 +18,7 @@ import {
   hasIndexOf, 
   isSpecificConstant 
 } from "src/runtime/type-guards";
-import {  ReportError } from "../../types/errors/ErrorCondition";
+
 import { createErrorCondition, NotDefined, NOT_DEFINED } from "src/runtime";
 import { ifNull } from "src/runtime/boolean-logic";
 

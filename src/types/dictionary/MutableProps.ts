@@ -1,7 +1,7 @@
 import { ExpandRecursively } from "src/types/literals";
 import { AfterFirst , AsArray, First } from "src/types/lists";
-import { UnionToTuple, Mutable } from "src/types/type-conversion";
-import { Key, WithKeys, WithoutKeys } from "src/types/dictionary";
+import { UnionToTuple, Mutable, RemoveIndex } from "src/types/type-conversion";
+import { Key, SimplifyObject, WithKeys, WithoutKeys } from "src/types/dictionary";
 import { AnyObject } from "src/types/base-types";
 
 type MutablePropAcc<
@@ -37,16 +37,18 @@ type MutablePropAcc<
 export type MutableProps<
   T extends AnyObject, 
   M extends readonly (keyof T & Key)[] | (keyof T & Key)
-> = ExpandRecursively<
-WithoutKeys<T, AsArray<M>> & MutablePropAcc<
-  T, 
-  M extends readonly (keyof T & string)[]
-    ? M  
-    : M extends (keyof T & string) 
-      ? UnionToTuple<M> extends readonly (keyof T & string)[]
-        ? UnionToTuple<M>
-        : never
-      : never
+> = SimplifyObject<
+  RemoveIndex<
+    WithoutKeys<T, AsArray<M>> & MutablePropAcc<
+      T, 
+      M extends readonly (keyof T & string)[]
+        ? M  
+        : M extends (keyof T & string) 
+          ? UnionToTuple<M> extends readonly (keyof T & string)[]
+            ? UnionToTuple<M>
+            : never
+          : never
+    >
   >
 >;
 

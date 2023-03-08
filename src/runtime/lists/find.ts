@@ -7,7 +7,7 @@ import { indexOf } from "./indexOf";
  * A configured utility designed to find elements in a list.
  */
 export type Finder<
-  TList extends readonly any[],
+  TList extends readonly unknown[],
   TDeref extends string | number | null
 > = <TExtends extends Narrowable>(value: TExtends) => Find<TList, TExtends, TDeref>;
 
@@ -18,7 +18,7 @@ export type Finder<
  * while preserving any available type information.
  */
 export const find = <
-  TList extends readonly any[],
+  TList extends readonly unknown[],
   TDeref extends string | number | null = null
 >(
   list: TList, 

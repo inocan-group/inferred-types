@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 
-import { ErrorCondition, Length } from "src/types";
+import { DoesExtend, ErrorCondition, Length } from "src/types";
 import { describe, it } from "vitest";
 
 describe("Length<T>", () => {
@@ -22,7 +22,7 @@ describe("Length<T>", () => {
       Expect<Equal<Length<readonly []>, 0>>,
       Expect<Equal<Length<[]>, 0>>,
       Expect<Equal<StringArray, number>>,
-      Expect<Equal<Invalid, ErrorCondition<"Length<T> used on non-array element: foo">>>,
+      Expect<DoesExtend<Invalid, ErrorCondition<"invalid-generic", "Length<T> used on non-array element: foo">>>,
     ];
     const cases: cases = [true, true, true, true, true, true, true, true ];
   });

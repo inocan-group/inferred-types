@@ -1,5 +1,5 @@
-import type { Concat, ToString } from "src/types";
-import { ErrorCondition } from "src/runtime";
+import type { Concat, ErrorCondition, ToString } from "src/types";
+
 
 /**
  * Utility type which returns the length of an array literal
@@ -12,4 +12,4 @@ export type Length<T extends unknown | unknown[] | readonly unknown[]> = T exten
   ? T["length"]
   : T extends unknown[] 
     ? number 
-    : ErrorCondition<Concat<["Length<T> used on non-array element: ", ToString<T>]>>;
+    : ErrorCondition<"invalid-generic", Concat<["Length<T> used on non-array element: ", ToString<T>]>>;

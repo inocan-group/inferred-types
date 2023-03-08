@@ -1,4 +1,4 @@
-import type { IfOr, IsFalse, IsTrue } from "src/types/boolean-logic";
+import type { IfBoolean, IfEqual } from "src/types/boolean-logic";
 
 /**
  * **IsBooleanLiteral**`<T>`
@@ -6,9 +6,5 @@ import type { IfOr, IsFalse, IsTrue } from "src/types/boolean-logic";
  * Boolean type utility which detects whether `T`
  * is a boolean literal (aka, is `true` or `false`)
  */
-export type IsBooleanLiteral<T> = IfOr<
-  [IsTrue<T>, IsFalse<T>],
-  true,
-  false
->;
+export type IsBooleanLiteral<T> = IfBoolean<T, IfEqual<T, boolean, false, true>, false>;
 

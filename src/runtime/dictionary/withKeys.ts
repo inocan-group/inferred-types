@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import type { Key, Narrowable } from "src/types";
 import { retain } from "./retain";
 
