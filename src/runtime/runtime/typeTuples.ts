@@ -2,7 +2,7 @@ import { Alpha, Digit, LowerAlpha, UpperAlpha } from "src/types";
 import { toString } from "../literals/toString";
 import { LETTER, LETTER_UPPER } from "./constants";
 import { createTypeTuple } from "./createTypeTuple";
-import { t } from "./type-shorthand";
+import { t } from "./kind";
 
 const digit = createTypeTuple(
   t.literal<Digit>(),

@@ -2,7 +2,7 @@ export * from "./kvPairsToObject";
 export * from "./type";
 export * from "./withValue";
 export * from "./withoutValue";
-export * from "./type-shorthand";
+export * from "./kind";
 export * from "./constants";
 export * from "./createTypeGuard";
 export * from "./createTypeMatcher";

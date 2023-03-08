@@ -1,8 +1,7 @@
 import { IfLiteral, IsNegativeNumber } from "src/types/boolean-logic";
-import { ErrorCondition } from "src/types/errors";
 import { NumericChar } from "src/types/string-literals";
 import { ToString } from "src/types/type-conversion";
-import { Abs, Digit, ToNumericArray } from "src/types/numeric-literals";
+import { Abs, ToNumericArray } from "src/types/numeric-literals";
 import { Digital, DigitalLiteral } from "../base-types";
 
 type HasMoreThanOneDigit<T extends `${number}`> = T extends `${NumericChar}${NumericChar}${string}`
