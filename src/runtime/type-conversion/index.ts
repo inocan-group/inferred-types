@@ -6,3 +6,5 @@ export * from "./mergeScalars";
 export * from "./mergeTuples";
 export * from "./toKv";
 export * from "./fromKv";
+export * from "./unionize";
+export * from "./intersect";

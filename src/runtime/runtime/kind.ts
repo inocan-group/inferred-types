@@ -5,7 +5,7 @@
  * 
  * Note: use `type()` instead to create a runtime verifiable type
  */
-export const t = {
+export const kind = {
   string: (v?: string) => (v || "") as string,
   stringLiteralUnion: <T extends readonly string[]>(...literals: T) => literals as T,
   number: () => 0 as number,

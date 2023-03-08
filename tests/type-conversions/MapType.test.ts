@@ -2,7 +2,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
 import { createTypeMapRule } from "src/runtime/runtime/createTypeMatcher";
-import { t } from "src/runtime/runtime/type-shorthand";
+import { t } from "src/runtime/runtime/kind";
 import {  MapType } from "src/types/type-conversion";
 
 

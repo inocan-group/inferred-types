@@ -13,7 +13,6 @@ export * from "./isArray";
 export * from "./isConstant";
 export * from "./isSpecificConstant";
 export * from "./isReadonlyArray";
-export * from "./hasIndex";
 export * from "./hasIndexOf";
 export * from "./isRef";
 export * from "./isFalse";

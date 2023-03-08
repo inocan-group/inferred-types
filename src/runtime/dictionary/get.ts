@@ -76,7 +76,7 @@ function getValue<
   const current = (
     hasMoreSegments
     ? valueIsIndexable
-      ? getValue(derefVal[idx], pathSegments.slice(1).join("."), defaultValue, handleInvalid, updatedDotPath(value,fullDotPath, idx))
+      ? getValue(derefVal[idx as keyof derefVal], pathSegments.slice(1).join("."), defaultValue, handleInvalid, updatedDotPath(value,fullDotPath, idx))
       : hasHandler
         ? handleInvalid 
         : invalidDotPath
