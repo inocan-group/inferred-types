@@ -1,6 +1,8 @@
-import { Equal, Expect, ExpectExtends } from "@type-challenges/utils";
-import { IntoSet } from "../../src/types/lists/sets";
+import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
+
+import { IntoSet } from "src/types/lists";
+import { HasSameValues } from "src/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -15,10 +17,10 @@ describe("IntoSet", () => {
 
     type cases = [
       Expect<Equal<TupleSet, readonly ["foo", "bar"]>>,
-      Expect<ExpectExtends<readonly ["foo", "bar"] | readonly ["bar", "foo"], UnionSet>>,
-      Expect<ExpectExtends<
-        readonly [["KV", "bar", string], ["KV", "foo", 1]] | readonly [["KV", "foo", 1], ["KV", "bar", string]], 
-        ObjSet
+      Expect<HasSameValues<UnionSet, readonly ["foo", "bar"]>>,
+      Expect<HasSameValues<
+        ObjSet,
+        readonly [["KV", "foo", 1], ["KV", "bar", string]]
       >>
     ];
     

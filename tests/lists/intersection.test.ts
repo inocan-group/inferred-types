@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { intersection } from "../../src/runtime/lists/intersection";
-import { Intersection } from "../../src/types/lists";
+import { intersection } from "src/runtime/lists";
+import { Intersection } from "src/types/lists";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -37,7 +37,7 @@ describe("Set Intersection", () => {
       const cases: cases = [ true, true, true, true ];
     });
   
-    it("Intersect<Obj,Obj>, no offset", () => {
+    it("Intersect<Obj,Obj>, no deref", () => {
       type T1 = Intersection<[Foo,Bar], [Bar, Baz]>;
       type T2 = Intersection<[IdFoobar1,IdFoobar2],[IdFoobar2alt, IdFoobar1,IdFoobar3]>;
 

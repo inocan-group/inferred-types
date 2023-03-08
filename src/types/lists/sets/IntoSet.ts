@@ -4,7 +4,6 @@ import {
   UnionToTuple } 
 from "src/types";
 import { IfUnion } from "src/types/boolean-logic";
-import { SetCandidate } from "./SetCandidate";
 
 /**
  * **IntoSet**`<T>`
@@ -23,10 +22,12 @@ import { SetCandidate } from "./SetCandidate";
  * type T3 = IntoSet<Obj>;
  * ```
  */
-export type IntoSet<T extends SetCandidate> = T extends readonly any[]
+export type IntoSet<T> = T extends readonly unknown[]
   ? readonly [...T]
-  : T extends AnyObject
+  : IfUnion<
+    T, 
+    Readonly<UnionToTuple<T>>, 
+    T extends AnyObject
       ? ToKV<T>
-      : T extends string | number // potential union type
-        ? IfUnion<T, Readonly<UnionToTuple<Readonly<T>>>, never>
-        : never;
+      : never
+  >;

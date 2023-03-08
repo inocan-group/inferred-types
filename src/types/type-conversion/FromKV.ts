@@ -1,7 +1,9 @@
-import { ExpandRecursively } from "../literals/ExpandRecursively";
+
 import { AfterFirst, First } from "../lists";
 import { KV } from "./ToKV";
 import { AnyObject } from "../base-types";
+import { RemoveIndex } from "./RemoveIndex";
+import { SimplifyObject } from "../dictionary";
 
 type ConvertToObj<
   TKV extends readonly KV[],
@@ -29,5 +31,5 @@ export type FromKV<
   TKv extends readonly KV[],
   TTarget extends AnyObject | null = null
 > = TTarget extends null
-  ? ExpandRecursively<ConvertToObj<TKv> & AnyObject>
-  : ExpandRecursively<ConvertToObj<TKv> & TTarget>;
+  ? SimplifyObject<RemoveIndex<ConvertToObj<TKv> & AnyObject>>
+  : SimplifyObject<RemoveIndex<ConvertToObj<TKv> & TTarget>>;

@@ -1,4 +1,4 @@
-import { IndexOf , Narrowable, Scalar } from "src/types";
+import { IndexOf , Scalar } from "src/types";
 import { Indexable } from "src/types/base-types/Indexable";
 import { Never } from "../runtime/Never";
 import { isArray, isNull, isNumber, isObject } from "../type-guards";
