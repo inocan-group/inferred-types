@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Expect, Equal, ExpectExtends } from "@type-challenges/utils";
-import { dictArr, keys, literal } from "../../src/runtime";
+import { dictArr, keysOf, literal } from "../../src/runtime";
 
 type O = {
   id: number;
@@ -66,9 +66,9 @@ describe("dictArr() utility API", () => {
     const byNameG = g.toLookup("name");
     const byNameL = l.toLookup("name");
     const byNamePL = pl.toLookup("name");
-    const kg = keys(byNameG);
-    const kl = keys(byNameL);
-    const kpl = keys(byNamePL);
+    const kg = keysOf(byNameG);
+    const kl = keysOf(byNameL);
+    const kpl = keysOf(byNamePL);
     expect(kg).contains("foo");
     expect(kg).contains("bar");
     expect(kg).contains("baz");

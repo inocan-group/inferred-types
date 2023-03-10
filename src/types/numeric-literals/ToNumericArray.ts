@@ -1,17 +1,23 @@
-import { First, AfterFirst } from "src/types/lists";
-import { ToNumber } from "src/types/type-conversion";
-import { IfLength } from "../boolean-logic";
-import { Keys } from "../dictionary";
+
+import { Tuple, IfLength, IfLiteral, Keys, IfEqual, ToNumber} from "src/types";
 
 type _Convert<
-  T extends readonly (number | `${number}`)[],
-  TResults extends readonly number[] = []
-> = [] extends T
-  ? TResults
-  : _Convert<
-      AfterFirst<T>,
-      [...TResults, ToNumber<First<T>>]
-    >;
+  T extends Tuple,
+> = IfEqual<
+  T, Tuple<string>,
+  Tuple<number>,
+  IfEqual<
+    T, Tuple<boolean>,
+    readonly (0|1)[],
+    IfEqual<
+      T, Tuple<number>,
+      T,
+      {
+        [K in keyof T]: ToNumber<T[K]>
+      }
+    >
+  >
+>;
 
 
 /**
@@ -24,8 +30,15 @@ type _Convert<
  * - numeric string literals will be converted to a narrow numeric type if
  * possible
  */
-export type ToNumericArray<T extends readonly (number | `${number}`)[]> = IfLength<
+export type ToNumericArray<
+  T extends Tuple
+> = IfLength<
   Keys<T>, 0,
   readonly number[],
-  Readonly<_Convert<T>>
+  IfLiteral<
+    T,
+    Readonly<_Convert<T>>,
+    never
+  >
 >;
+

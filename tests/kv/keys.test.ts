@@ -5,10 +5,9 @@ import type {
   Keys,
   TupleToUnion, 
   NumericKeys,
-  ContainsAll,
-  DoesExtend
+  DoesExtend,
 } from "src/types";
-import { defineType, keys, isRef } from "src/runtime";
+import { defineType, keysOf, isRef, narrow } from "src/runtime";
 import { ref } from "vue";
 
 describe("NumericKeys<T>", () => {
@@ -16,17 +15,16 @@ describe("NumericKeys<T>", () => {
   it("happy path", () => {
     type StringArr = ["foo", "bar", "baz"];
     type StrArr_RO = readonly ["foo", "bar", "baz"];
-    type NumericArr = [1,2,3];
-    type Numeric = NumericKeys<NumericArr>;
+    type Numeric = NumericKeys<[1,2,3]>;
     type Str = NumericKeys<StringArr>;
     type Str_RO = NumericKeys<StrArr_RO>;
     type Empty = NumericKeys<[]>;
 
     type cases = [
-      ContainsAll<Numeric, ["0","1","2"]>,
-      ContainsAll<Str, ["0","1","2"]>,
-      ContainsAll<Str_RO,  ["0","1","2"]>,
-      Expect<Equal<Empty, readonly []>>,
+      Expect<Equal<Numeric, readonly [0,1,2]>>,
+      Expect<Equal<Str, readonly [0,1,2]>>,
+      Expect<Equal<Str_RO,  readonly [0,1,2]>>,
+      Expect<Equal<Empty, readonly number[]>>,
     ];
     
     const cases: cases = [ true, true, true, true ];
@@ -41,6 +39,7 @@ describe("Keys<T>", () => {
     type Obj_RO = Readonly<Obj>;
 
     type None = Keys<Empty>;
+    type None2 = Keys<Empty, true>;
     type Foobar = Keys<Obj>;
     type RoFoobar = Keys<Obj_RO>;
 
@@ -49,7 +48,8 @@ describe("Keys<T>", () => {
 
     type cases = [
       // any object with no keys resolves simply to an empty array
-      Expect<Equal<None, readonly []>>,
+      Expect<Equal<None, readonly (string | symbol)[]>>,
+      Expect<Equal<None2, readonly string[]>>,
       // once keys are involved we are not guaranteed ordering of keys
       DoesExtend<Foobar, readonly ["foo", "bar"]>,
       DoesExtend<RoFoobar, readonly ["foo", "bar"]>,
@@ -58,11 +58,11 @@ describe("Keys<T>", () => {
       Expect<Equal<Convertible2, "foo" | "bar">>,
     ];
     
-    const cases: cases = [ true, true, true, true, true ]; 
+    const cases: cases = [ true, true, true, true, true, true ]; 
   });
 
   
-  it("using numeric keys", () => {
+  it("Key<T> where T is an array/tuple", () => {
     type StringArr = ["foo", "bar", "baz"];
     type StrArr_RO = readonly ["foo", "bar", "baz"];
     type NumericArr = [1,2,3];
@@ -75,25 +75,23 @@ describe("Keys<T>", () => {
     type Convertible1 = TupleToUnion<Str>;
     type Convertible2 = TupleToUnion<Str_RO>;
     type Convertible3 = TupleToUnion<[]>;
-    type Convertible4 = TupleToUnion<readonly []>;
 
     type cases = [
       //
-      Expect<Equal<Numeric, readonly ["0", "1", "2"] & readonly (keyof NumericArr)[] >>,
-      Expect<Equal<Str, readonly ["0", "1", "2"] & readonly (keyof StringArr)[]>>,
-      Expect<Equal<Str2, readonly ["0", "1", "2"]>>,
-      Expect<Equal<Str_RO, readonly ["0", "1", "2"] & readonly (keyof StrArr_RO)[]>>,
-      Expect<Equal<Empty, readonly []>>,
+      Expect<Equal<Numeric, readonly [0,1,2] >>,
+      Expect<Equal<Str, readonly [0,1,2]>>,
+      Expect<Equal<Str2, readonly [0,1,2]>>,
+      Expect<Equal<Str_RO, readonly [0,1,2]>>,
+      Expect<Equal<Empty, readonly number[]>>,
 
-      Expect<Equal<Convertible1, "0" | "1" | "2">>,
-      Expect<Equal<Convertible2, "0" | "1" | "2">>,
-      Expect<Equal<Convertible3, string>>,
-      Expect<Equal<Convertible4, string>>,
+      Expect<Equal<Convertible1, 0 | 1 | 2>>,
+      Expect<Equal<Convertible2, 0 | 1 | 2>>,
+      Expect<Equal<Convertible3, never>>,
     ];
     
     const cases: cases = [ 
       true, true, true, true, true, 
-      true, true, true, true  
+      true, true, true  
     ];
   });
   
@@ -102,7 +100,7 @@ describe("Keys<T>", () => {
 describe("keys() utility on object", () => {
   it("with just object passed in, keys are extracted as expected", () => {
     const obj = defineType({ id: "123" })({ color: "red", isFavorite: false });
-    const k = keys(obj); 
+    const k = keysOf(obj); 
 
     expect(k).toHaveLength(3);
     expect(k).toContain("id"); 
@@ -115,10 +113,23 @@ describe("keys() utility on object", () => {
     const cases: cases = [true];
     expect(cases).toBe(cases);
   });
+
+  
+  it("Runtime check of keys for an array", () => {
+    const arr = narrow([1,2,3]);
+    const keys = keysOf(arr);
+    expect(keys).toEqual([1,2,3]);
+    
+    type cases = [
+      Expect<Equal<typeof keys, readonly [0,1,2]>>,
+    ];
+    const cases: cases = [ true ];
+  });
+  
   
   it("keys of a VueJS Ref<T>", () => {
     const obj = ref({foo: 1, bar: 2});
-    const k = keys(obj);
+    const k = keysOf(obj);
     
     expect("value" in obj).toBe(true);
     expect("__v_isRef" in obj).toBe(true);
@@ -133,28 +144,29 @@ describe("keys() utility on object", () => {
     expect(k).toEqual(["value"]);
 
     type cases = [
-      Expect<Equal< readonly ["value"] & readonly (keyof typeof obj)[],typeof k>>
+      Expect<Equal< readonly ["value"],typeof k>>,//
     ];
 
     const cases: cases = [ true ];
   });
 
   it("empty object results in [] type", () => {
-    const empty = {};
-    const anyObject = {} as Record<string, any>;
-    const t1 = keys(empty);
-    const t2 = keys(anyObject);
-    const t4 = keys({} as Record<string, string>);
+    const empty = keysOf({});
+    const empty2 = keysOf({}, true);
+    const anyObject = keysOf({} as Record<string, any>);
+    const recStrStr = keysOf({} as Record<string, string>);
 
-    expect(t1).toEqual([]);
-    expect(t2).toEqual([]);
+
+    expect(empty).toEqual([]);
+    expect(anyObject).toEqual([]);
 
     type cases = [
-      Expect<Equal<typeof t1, readonly []>>,
-      Expect<Equal<typeof t2, readonly []>>,
-      Expect<Equal<typeof t4, readonly []>>,
+      Expect<Equal<typeof empty, readonly (string|symbol)[]>>,
+      Expect<Equal<typeof empty2, readonly string[]>>,
+      Expect<Equal<typeof anyObject, readonly string[]>>,
+      Expect<Equal<typeof recStrStr, readonly string[]>>,
     ];
-    const cases: cases = [true, true, true];
+    const cases: cases = [true, true, true, true];
 
   });
 });

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import { keys, kv } from "../../src/runtime";
+import { keysOf, kv } from "../../src/runtime";
 
 describe("kv utils", () => {
   it("simple assignment works with strong literal support", () => {
@@ -10,11 +10,11 @@ describe("kv utils", () => {
     expect(typeof t1).toBe("object");
     expect(typeof t2).toBe("object");
 
-    expect(keys(t1)).toContain("foo");
+    expect(keysOf(t1)).toContain("foo");
     expect(t1.foo.a).toBe(1);
     expect(t1.foo.c).toBe("hi");
 
-    expect(keys(t2)).toContain("bar");
+    expect(keysOf(t2)).toContain("bar");
     expect(t2.bar).toBe(true);
   });
 });

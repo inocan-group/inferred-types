@@ -6,3 +6,5 @@ export * from "./NarrowableDefined";
 export * from "./NarrowableScalar";
 export * from "./Box";
 export * from "./VueRef";
+export * from "./ContainerKeyGuarantee";
+export * from "./ContainerBlockKey";

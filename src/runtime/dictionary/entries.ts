@@ -1,5 +1,5 @@
 import { KeyValue, Narrowable } from "src/types";
-import { keys } from "./keys";
+import { keysOf } from "./keysOf";
 
 /**
  * **entries**
@@ -21,7 +21,7 @@ export function entries<
 >(obj: T) {
   const iterable = {
     *[Symbol.iterator]() {
-      for (const k of keys(obj)) {
+      for (const k of keysOf(obj)) {
         // const [k, v] = entry as KeyValue<T, First<typeof entry>>;
         yield [k, obj[k]] as KeyValue<T, typeof k> as I;
       }

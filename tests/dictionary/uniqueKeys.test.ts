@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { uniqueKeys } from "../../src/runtime/dictionary";
+import { uniqueKeys } from "src/runtime/dictionary";
 import { describe, expect, it } from "vitest";
 import { ContainsAll, Keys, Unique } from "src/types";
 

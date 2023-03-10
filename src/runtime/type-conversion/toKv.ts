@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ToKV, AnyObject } from "src/types";
-import { keys } from "../dictionary";
+import { keysOf } from "../dictionary";
 import { reverse } from "../lists/reverse";
 
 /**
@@ -14,7 +14,7 @@ export const toKv = <
   TObj extends AnyObject
 >(obj: TObj) => {
   // typically the reverse order is more intuitive for people
-  const props = reverse(keys(obj));
+  const props = reverse(keysOf(obj));
   return [...props].reduce(
     (acc, key) => [...acc, [ "KV", key, obj[key as any] ]],
     [] as any[]

@@ -1,5 +1,5 @@
 import { KvFrom, Narrowable, UnionToTuple } from "../../../types";
-import { keys } from "../keys";
+import { keysOf } from "../keysOf";
 
 /**
  * Converts a dictionary object into an array of dictionaries with `key` and `value` properties
@@ -12,7 +12,7 @@ export function dictToKv<N extends Narrowable, T extends { [key: string]: N }, U
   obj: T,
   _makeTuple: U = false as U
 ) {
-  return keys(obj).map((k) => {
+  return keysOf(obj).map((k) => {
     return { key: k, value: obj[k] };
   }) as unknown as U extends true ? UnionToTuple<KvFrom<T>[0]> : KvFrom<T>;
 }

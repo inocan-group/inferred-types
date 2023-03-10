@@ -10,17 +10,19 @@ import {
   NO_DEFAULT_VALUE,
   NoDefaultValue
 } from "src/constants";
-import { split } from "../literals";
 import { 
   hasDefaultValue, 
   isTruthy,  
   isRef, 
   hasIndexOf, 
-  isSpecificConstant 
-} from "src/runtime/type-guards";
+  isSpecificConstant, 
+  createErrorCondition, 
+  NotDefined, 
+  ifNull,
+  split,
+  NOT_DEFINED 
+} from "src/runtime";
 
-import { createErrorCondition, NotDefined, NOT_DEFINED } from "src/runtime";
-import { ifNull } from "src/runtime/boolean-logic";
 
 /** updates based on whether segment is a Ref or not */
 function updatedDotPath<
@@ -57,15 +59,19 @@ function getValue<
   /** current index property */
   const idx = pathSegments[0];
 
-  /** dotpath will need to recurse further to reach destination */
+  /** dotpath will need to recurse further tot
+   * q reach destination */
   const hasMoreSegments = pathSegments.length > 1;
 
   /** 
    * The "value" after considering Ref<T> possibility
    */
-  const derefVal = isRef(value) ? value.value : value;
+  const derefVal = isRef(value) 
+    ? value.value 
+    : value;
+
   /** whether or not the value is indexable or not */
-  const valueIsIndexable = hasIndexOf(derefVal, idx);
+  const valueIsIndexable = hasIndexOf(derefVal)(idx);
 
   /** has handler for invalid dotpath */
   const hasHandler = !isSpecificConstant("not-defined")(handleInvalid);
@@ -75,8 +81,10 @@ function getValue<
 
   const current = (
     hasMoreSegments
-    ? valueIsIndexable
-      ? getValue(derefVal[idx as keyof derefVal], pathSegments.slice(1).join("."), defaultValue, handleInvalid, updatedDotPath(value,fullDotPath, idx))
+    ? hasIndexOf(derefVal)(idx)
+      ? getValue(
+          derefVal[idx], pathSegments.slice(1).join("."), defaultValue, handleInvalid, updatedDotPath(value,fullDotPath, idx)
+        )
       : hasHandler
         ? handleInvalid 
         : invalidDotPath

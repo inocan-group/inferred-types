@@ -1,12 +1,10 @@
-import type { Keys } from "src/types/dictionary";
 import type { Length } from "src/types/lists";
 import type { 
-  IfAnd, 
   IsBooleanLiteral, 
   IsEqual, 
   IsNumericLiteral, 
+  IsObjectLiteral, 
   IsStringLiteral, 
-  NotEqual 
 } from "src/types/boolean-logic";
 import type { AnyObject } from "src/types/base-types";
 
@@ -37,15 +35,7 @@ export type IsLiteral<T> = [T] extends [string]
     : [T] extends [readonly unknown[]]
       ? IsEqual<Length<T>, number> extends true ?  false : true
       : [T] extends [AnyObject]
-        ? IfAnd<
-            [
-              NotEqual<Length<Keys<T>>, 0>, 
-              NotEqual<Keys<T>, 
-              readonly [string]>
-            ],
-            true,
-            false
-          >
+        ? IsObjectLiteral<T>
         : false;
 
 /**

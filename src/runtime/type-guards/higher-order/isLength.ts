@@ -1,5 +1,5 @@
 
-import { keys } from "../../../runtime/dictionary";
+import { keysOf } from "../../../runtime/dictionary";
 import { isArray } from "../isArray";
 import { isObject } from "../isObject";
 import { isString } from "../isString";
@@ -26,7 +26,7 @@ export function isLength<
       : isString(value)
         ? isEqual(value.length)(len) ? true : false
         : isObject(value)
-          ? isEqual(keys(value))(len) ? true : false
+          ? isEqual(keysOf(value))(len) ? true : false
           : false;
   }
 

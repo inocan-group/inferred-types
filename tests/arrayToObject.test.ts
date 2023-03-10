@@ -7,7 +7,7 @@ import {
   GeneralDictionary,
   UniqueDictionary,
   defineType,
-  keys,
+  keysOf,
 } from "src/runtime";
 
 const foo = { name: "foo", age: 123, color: "red" } as const;
@@ -93,10 +93,10 @@ describe("arrayToObject => ", () => {
     const slug = arrayToObject("slug")(arr);
     type Slug = typeof slug;
 
-    expect(keys(id)).toContain("1");
-    expect(keys(id)).toContain("2");
-    expect(keys(slug)).toContain("bob");
-    expect(keys(slug)).toContain("chris");
+    expect(keysOf(id)).toContain("1");
+    expect(keysOf(id)).toContain("2");
+    expect(keysOf(slug)).toContain("bob");
+    expect(keysOf(slug)).toContain("chris");
 
     type cases = [
       // "id" and "slug" are always expressed as literals

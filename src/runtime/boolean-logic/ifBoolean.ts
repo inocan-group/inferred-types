@@ -13,7 +13,7 @@ import { isBoolean } from "src/runtime/type-guards";
  * @param notBoolean the value (strongly typed) returned if val is NOT a _boolean
  */
 export function ifBoolean<
-  T, 
+  T extends Narrowable, 
   IF extends Narrowable, 
   ELSE extends Narrowable
 >(

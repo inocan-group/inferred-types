@@ -1,5 +1,5 @@
 import { Unique, AnyObject } from "src/types";
-import { keys } from "./keys";
+import { keysOf } from "./keysOf";
 
 /**
  * **uniqueKeys**(a,b)
@@ -11,8 +11,8 @@ export const uniqueKeys = <
   A extends AnyObject,
   B extends AnyObject
 >(a: A, b: B) => {
-  const ka = keys(a);
-  const kb = keys(b);
+  const ka = keysOf(a);
+  const kb = keysOf(b);
 
   return [
     ka.filter(i => !kb.includes(i)), 

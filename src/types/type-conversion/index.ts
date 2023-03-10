@@ -35,6 +35,7 @@ export * from "./RemoveIndex";
 export * from "./FromKV";
 export * from "./IntersectWithAll";
 export * from "./UnionWithAll";
+export * from "./KeyFor";
 
 
 export * from "./TypeMapRule";

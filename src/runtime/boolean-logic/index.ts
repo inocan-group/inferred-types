@@ -16,10 +16,12 @@ export * from "./isSymbol";
 export * from "./ifTrue";
 export * from "./ifTypeOf";
 export * from "./ifStartsWith";
+export * from "./ifHasKey";
 
 export * from "./ifFunction";
 export * from "./ifObject";
 export * from "./ifNumber";
+export * from "./ifLength";
 export * from "./ifString";
 export * from "./ifNull";
 export * from "./ifUndefined";

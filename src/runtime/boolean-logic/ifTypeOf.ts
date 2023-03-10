@@ -1,5 +1,5 @@
 import { Narrowable } from "src/types";
-import { keys } from "src/runtime/dictionary";
+import { keysOf } from "src/runtime/dictionary";
 
 function runtimeExtendsCheck<TValue extends Narrowable, TBase extends Narrowable>(
   val: TValue,
@@ -30,7 +30,7 @@ function runtimeExtendsCheck<TValue extends Narrowable, TBase extends Narrowable
       if (val === null && base === null) {
         return true as TValue extends TBase ? true : false;
       } else {
-        return keys(base as object).every((i) =>
+        return keysOf(base as object).every((i) =>
           runtimeExtendsCheck((val as TValue)[i], base[i], narrow)
         ) as TValue extends TBase ? true : false;
       }

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-
 import { Equal, NotEqual, Expect, ExpectExtends, ExpectFalse } from "@type-challenges/utils";
+
 import { idLiteral, literal } from "src/runtime";
 
 describe("literal enforcement", () => {

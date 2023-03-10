@@ -8,7 +8,7 @@ export * from "./arrayToKeyLookup";
 export * from "./get";
 export * from "./dictArr";
 export * from "./entries";
-export * from "./keys";
+export * from "./keysOf";
 export * from "./mapValues";
 // export * from "./mapTo";
 export * from "./omit";

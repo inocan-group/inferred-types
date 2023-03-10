@@ -1,6 +1,6 @@
 import {  Expect } from "@type-challenges/utils";
-import { defineType, hasIndexOf, kind, unionize, narrow } from "src/runtime";
-import { ExpandRecursively, IsEqual } from "src/types";
+import { defineType, hasIndexOf,  narrow } from "src/runtime";
+import {  IsEqual, Keys, Scalar, TupleToUnion } from "src/types";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -8,20 +8,32 @@ import { describe, expect, it } from "vitest";
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("hasIndexOf(value)", () => {
-  const lit_arr = unionize( narrow([1,2,3]), kind.undefined() );
-  const lit_obj = unionize( defineType({id: 1})(), kind.undefined() );
+  const lit_arr = narrow([1,2,3]);
+  const num_arr = [1,2,3];
+  const lit_obj = defineType({id: 1})();
+
+  const a = hasIndexOf(lit_arr);
+  const b = hasIndexOf(num_arr);
+  const ap = a(0);
+  const bp = b(1);
+  
 
   it("Array and valid index", () => {
-    const arrIdxTrue = hasIndexOf(lit_arr, 1);
+    const idx = 1;
+    const arrIdxTrue = hasIndexOf(lit_arr)(idx);
     expect(arrIdxTrue).toBe(true);
 
-    if(hasIndexOf(lit_arr, 1)) {
+    if(hasIndexOf(lit_arr)(idx)) {
       expect(true).toBe(true);
+      type K1 = Keys<Exclude<typeof lit_arr, Scalar | undefined>>;
+      type I1 = TupleToUnion<Keys<typeof lit_arr>>;
 
+      type Idx = typeof idx;
       type Value = typeof lit_arr;
       type cases = [
         Expect<IsEqual<Value, readonly [1,2,3] & readonly[unknown, unknown, unknown]>>
       ];
+
       const cases: cases = [ true ];
     } else {
       throw new Error("lit_arr should report valid index for 1");

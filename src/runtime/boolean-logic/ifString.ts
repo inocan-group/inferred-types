@@ -16,7 +16,7 @@ import { isString } from "src/runtime/type-guards";
  */
 export function ifString<T, IF extends Narrowable, ELSE extends Narrowable>(
   val: T,
-  ifVal: <V extends string>(t: V & T) => IF,
+  ifVal: <V extends T & string>(t: V & T) => IF,
   elseVal: <V extends Exclude<T, string>>(v: V & T) => ELSE
 ) {
   return (

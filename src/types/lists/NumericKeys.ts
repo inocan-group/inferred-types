@@ -1,4 +1,19 @@
-import { UnionToTuple } from "../type-conversion/UnionToTuple";
+import { Tuple, Length, ToNumber, AfterFirst, First } from "src/types";
+
+type Convert<
+  TList extends Tuple<`${number}` | number>,
+  TResults extends Tuple<number> = []
+> = [] extends TList
+  ? TResults
+  : Convert<
+      AfterFirst<TList>,
+      [
+        ...TResults,
+        ToNumber<First<TList> >
+      ]
+    >;
+
+
 
 /**
  * **NumericKeys**<`TList`>
@@ -8,15 +23,16 @@ import { UnionToTuple } from "../type-conversion/UnionToTuple";
  * 
  * ```ts
  * type Arr = ["foo", "bar", "baz"];
- * // readonly ["0", "1", "2"]
+ * // readonly [0, 1, 2]
  * type T = NumericKeys<Arr>;
  * ```
  * 
  * **Related:** `Keys`
  */
 export type NumericKeys <
-  TList extends readonly unknown[]
-> = Readonly<UnionToTuple<{
+  TList extends Tuple
+> = Length<TList> extends 0
+? readonly number[]
+: Readonly<Convert<{
   [K in keyof TList]: K
-}[number]>>;
-
+}>>;
