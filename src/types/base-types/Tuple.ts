@@ -31,10 +31,10 @@ export type Tuple<
     ? Readonly<FixedLengthArray<TType, TLength>>
     : TLength extends TupleRange
       ? Readonly<[...FixedLengthArray<TType, TLength[0]>, ...FixedLengthArray<TType | undefined, TLength[1]>]>
-      : TLength extends `${number}+`
-        ? ToNumber<StripTrailing<TLength, "+">> extends number
+      : TLength extends `${infer Num}+`
+        ? Num extends number
           ? Readonly<[
-            ...FixedLengthArray<TType, ToNumber<StripTrailing<TLength, "+">>>, 
+            ...(FixedLengthArray<TType, Num> & any[]), 
             ...(TType[])
           ]>
           : never

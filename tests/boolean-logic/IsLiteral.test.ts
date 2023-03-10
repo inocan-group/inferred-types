@@ -1,6 +1,27 @@
 import { describe, expect, it } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
-import { IfLiteral, IsBooleanLiteral, IsLiteral, IsOptionalLiteral } from "src/types";
+import {  IfLiteral, IsBooleanLiteral, IsLiteral, IsObjectLiteral, IsOptionalLiteral, IsStringLiteral } from "src/types";
+
+describe("IsObjectLiteral<T>", () => {
+
+  it("happy path", () => {
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    type Empty = IsObjectLiteral<{}>;
+    type Foobar = IsObjectLiteral<{ foo: 1; bar: 2 }>;
+    type Obj = IsObjectLiteral<object>;
+    type Rec = IsObjectLiteral<Record<string, unknown>>;
+
+    type cases = [
+      Expect<Equal<Empty, true>>, 
+      Expect<Equal<Foobar, true>>, 
+      Expect<Equal<Obj, false>>, 
+      Expect<Equal<Rec, false>>, 
+    ];
+    const cases: cases = [ true, true, true, true ];
+  });
+
+});
+
 
 describe("IsLiteral<T> type utility", () => {
   it("string values", () => {
@@ -91,7 +112,7 @@ describe("IsLiteral<T> type utility", () => {
 
   
   it("objects", () => {
-    type Generic = IsLiteral<Record<string, unknown>>;
+    type Generic = IsStringLiteral<Record<string, unknown>>;
     type GenericString = IsLiteral<Record<string, string>>;
     type GenericUnion = IsLiteral<Record<string, string | number>>;
     // eslint-disable-next-line @typescript-eslint/ban-types

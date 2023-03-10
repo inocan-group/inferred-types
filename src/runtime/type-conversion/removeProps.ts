@@ -1,4 +1,4 @@
-import { Mutable, SimplifyObject } from "src/types";
+import { AnyObject, Mutable, SimplifyObject } from "src/types";
 
 /**
  * **removeProps**`<T,K>`
@@ -13,7 +13,7 @@ import { Mutable, SimplifyObject } from "src/types";
  * const t2 = removeProps({foo: 42, bar: 16} as const)
  * ```
  */
-export function removeProps<T extends {}, K extends Array<keyof T>>(
+export function removeProps<T extends AnyObject, K extends Array<keyof T>>(
   obj: T, 
   ...removals: K
 ) {

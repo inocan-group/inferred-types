@@ -1,24 +1,13 @@
-import { IfLength } from "src/types/boolean-logic";
-
+import { Tuple } from "../base-types";
 
 /**
  * **First**`<T>`
  * 
- * Returns the _first_ type in a list
- */
-export type First<T extends readonly unknown[]> =
-  T[0] extends T[number] ? T[0] : never;
-
-/**
- * **FirstOrElse**`<T,E>`
+ * Returns the _first_ type in a list.
  * 
- * Returns the _first_ type in a list but if there are no elements then 
- * it will return `E` (which defaults to _undefined_).
+ * Typing ensures that list has at a minimum one item in it.
  */
-export type FirstOrElse<
-  T extends readonly unknown[], 
-  E = undefined
-> = IfLength<T, 0, E, First<T>>;
-
+export type First<T extends Tuple> =
+  T[0] extends T[number] ? T[0] : never;
 
 

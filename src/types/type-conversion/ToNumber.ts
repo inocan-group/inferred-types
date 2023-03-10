@@ -1,13 +1,33 @@
+import { 
+  Scalar, 
+  Tuple, 
+  IfScalar, 
+  ToNumericArray, 
+  IfTrue, 
+  IfFalse, 
+  IfBoolean 
+} from "src/types";
+
+
+type ConvertElement<
+  TValue extends Scalar
+> = TValue extends number
+? TValue
+: TValue extends `${infer N extends number}` 
+? N
+: IfTrue<TValue, 1, IfFalse<TValue, 0, IfBoolean<TValue, 1 | 0, never>>>;
+
+
 /**
  * **ToNumber**`<T>`
  * 
- * Converts a numeric string literal to the numeric equivalent.
- * 
- * - will also receive numbers and proxy them through "as is"
+ * - Converts `T` into a numeric type:
+ *    - if `T` is a Scalar/Object it's converted to a number where possible
+ *    - if `T` is an array then each element will be converted to a number where possible
+ *    - any non-numeric content which can not be converted to a number will be convert to `never`
+ *    - a number or a numeric array will be proxied through "as is"
  */
-export type ToNumber<S extends string | number> = S extends number
-  ? S
-  : S extends `${infer N extends number}` 
-  ? N 
-  : never;
+export type ToNumber<TValue> = TValue extends Tuple
+  ? ToNumericArray<TValue>
+  : IfScalar<TValue, ConvertElement<TValue & Scalar>, never>;
 

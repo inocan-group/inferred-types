@@ -19,6 +19,9 @@ export * from "./HasParameters";
 export * from "./HasUnionType";
 export * from "./HasSameValues";
 export * from "./IsNegativeNumber";
+export * from "./IsRef";
+export * from "./IsValidKey";
+export * from "./IsObjectLiteral";
 
 export * from "./IsOptionalScalar";
 export * from "./IsObject";

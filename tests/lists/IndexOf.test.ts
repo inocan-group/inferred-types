@@ -2,7 +2,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
 import { indexOf , Never } from "src/runtime";
-import type { IndexOf } from "src/types";
+import type { DoesExtend, ErrorCondition, IndexOf } from "src/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -12,7 +12,10 @@ describe("IndexOf<T>", () => {
 
   it("type tests", () => {
     type Arr = IndexOf<[1,2,3], 1>;
-    type Neg = IndexOf<[1,2,3], -1>;
+    type ArrBadIdx = IndexOf<[1,2,3], 8>;
+    // type Err1 = IndexOf<[1,2,3], "foo">;
+
+    type Neg = IndexOf<[1,2,3], -2>;
     
     type Obj = IndexOf<{foo: 1; bar: 2; baz: 3}, "bar">;
     type Identity = IndexOf<"foo", null>;
@@ -22,7 +25,7 @@ describe("IndexOf<T>", () => {
       Expect<Equal<Obj, 2>>,
       Expect<Equal<Arr, 2>>,
       Expect<Equal<Identity, "foo">>,
-      Expect<Equal<Never, never>>,
+      Expect<DoesExtend<Never, ErrorCondition<"invalid-index">>>,
     ];
     const cases: cases = [ true, true, true, true ];
   });

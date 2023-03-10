@@ -2,7 +2,7 @@ import type {
   Narrowable,
   Box,
 } from "src/types";
-import { keys } from "../dictionary";
+import { keysOf } from "../dictionary";
 
 
 export type BoxValue<T extends Box<unknown>> = T extends Box<infer V> ? V : never;
@@ -46,7 +46,7 @@ export function isBox(thing: Narrowable): thing is Box<unknown> {
  * Runtime utility which boxes each value in a dictionary
  */
 export function boxDictionaryValues<T extends object>(dict: T) {
-  return keys(dict).reduce(
+  return keysOf(dict).reduce(
     (acc, key) => ({ ...acc, [key]: box(dict[key]) }),
     {} as {
       [K in keyof T]: Box<T[K]>;

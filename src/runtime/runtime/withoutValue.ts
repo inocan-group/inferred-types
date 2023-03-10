@@ -1,5 +1,5 @@
 import { AnyObject, Narrowable, WithoutValue } from "src/types";
-import { keys } from "../dictionary";
+import { keysOf } from "../dictionary";
 
 /**
  * **withoutValue**
@@ -17,7 +17,7 @@ import { keys } from "../dictionary";
  */
 export function withoutValue<TVal extends Narrowable>(val: TVal) {
   return <TObj extends AnyObject>(obj: TObj): WithoutValue<TObj,TVal> => {
-    return keys(obj).reduce(
+    return keysOf(obj).reduce(
       (acc, key) => val === obj[key]
         ? acc
         : ({...acc, [key]: obj[key]}),

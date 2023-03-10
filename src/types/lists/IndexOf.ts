@@ -1,8 +1,5 @@
-import { AnyObject, Scalar } from "../base-types";
-import { Indexable } from "../base-types/Indexable";
-import {  IfNull, IsNegativeNumber } from "../boolean-logic";
-import { Abs, Decrement } from "../numeric-literals";
-import { Reverse } from "./Reverse";
+import { AnyObject, IfNull, IsNegativeNumber, Abs, Decrement, Reverse, Key, ErrorCondition, Concat, ToString} from "src/types";
+import { IfValidKey } from "../boolean-logic/branching/IfValidKey";
 
 /**
  * **IndexOf**<TValue, TIdx>
@@ -17,8 +14,8 @@ import { Reverse } from "./Reverse";
  * **Related:** `Get`
  */
 export type IndexOf<
-  TValue extends Indexable | Scalar,
-  TIdx extends string | number | null
+  TValue,
+  TIdx extends Key | null
 > = IfNull<
   TIdx,
   // return "as is"
@@ -29,12 +26,16 @@ export type IndexOf<
         ? IndexOf< // negative indexing
             Reverse<TValue & readonly unknown[]>, Decrement<Abs<TIdx & number>>
           >
-        : TIdx extends keyof TValue
-          ? TValue[TIdx]
-          : never
+        : IfValidKey<TValue,Exclude<TIdx, null>>
+          
     : TValue extends AnyObject
       ? TIdx extends keyof TValue
         ? TValue[TIdx]
         : never
-      : never
+      : ErrorCondition<
+          "invalid-index", 
+          Concat<["Attempt to index [", ToString<TIdx>, "] into a non-container type!"]>,
+          "IndexOf",
+          { container: TValue; key: TIdx }
+        >
 >;

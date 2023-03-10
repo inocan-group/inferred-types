@@ -10,7 +10,7 @@ import {
   LITERAL_TYPE_KINDS,
   NO_DEFAULT_VALUE,
 } from "src/constants";
-import { keys } from "../dictionary";
+import { keysOf } from "../dictionary";
 import { box } from "../literals";
 import { isTypeDefn } from "../type-guards";
 
@@ -67,7 +67,7 @@ export const createTypeDefn = <
     kind: defn.kind,
     type: determineType(defn),
     isRequired: defn.isRequired ? true : false,
-    isLiteral: keys(LITERAL_TYPE_KINDS).includes(defn.kind as any) ? true : false,
+    isLiteral: keysOf(LITERAL_TYPE_KINDS).includes(defn.kind as any) ? true : false,
     description: (defn.description || "") as TDesc,
     validations: (defn.validations || []) as FullType["validations"],
     defaultValue: (

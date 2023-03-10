@@ -6,7 +6,7 @@ import {
   AnyObject,
   FnWithDict, 
 } from "src/types/base-types";
-import { keys } from "../dictionary/keys";
+import { keysOf } from "../dictionary/keysOf";
 
 /**
  * **FnReadyForProps**(props)
@@ -50,7 +50,7 @@ export const createFnWithProps = <
   TProps extends Record<string, N>,
   N extends Narrowable
 >(props: TProps) => {
-  for (const k of keys(props)) {
+  for (const k of keysOf(props)) {
     (fn as any)[k] = props[k];
   }
   return fn as _Returns<Fn<TFn>, TProps>;

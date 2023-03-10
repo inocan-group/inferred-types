@@ -1,9 +1,27 @@
+import { IfLength, Key, Narrowable } from "src/types";
+
 /**
  * **optional**(value)
  * 
  * A function which takes the value `T` and makes sure it
  * includes a union with _undefined_.
  */
-export function optional<T>(value: T): T | undefined {
-  return value as T | undefined;
+export function optional<
+  N extends Narrowable,
+  K extends Key,
+  T extends readonly (Record<K,N> | Narrowable)[]
+>(...values: T): IfLength<
+  T, 1,
+  T[0] | undefined,
+  T | undefined
+> {
+  return (
+    values.length === 1 
+    ? values[0] 
+    : values
+  ) as IfLength<
+      T, 1,
+      T[0] | undefined,
+      T | undefined
+    >;
 }

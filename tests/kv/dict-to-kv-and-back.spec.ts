@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { Equal, Expect, NotEqual } from "@type-challenges/utils";
 import { dictToKv, kvDictArrayToObject } from "../../src/runtime/dictionary";
 import { DictFromKv } from "../../src/types/kv";
-import { keys } from "../../src/runtime/dictionary/keys";
+import { keysOf } from "../../src/runtime/dictionary/keysOf";
 
 describe("dictToKv()", () => {
   it.skip("basic structure is correct when forcing to Tuple structure", () => {
@@ -111,7 +111,7 @@ describe("kvToDict / dictToKv inverse", () => {
     const obj = { id: 123, foo: "bar" } as const;
     const inverse = kvDictArrayToObject(dictToKv(obj));
 
-    expect(keys(inverse).every((i) => inverse[i] === obj[i]));
+    expect(keysOf(inverse).every((i) => inverse[i] === obj[i]));
   });
   it("run-time inverts correctly (starting with array)", () => {
     const arr = [

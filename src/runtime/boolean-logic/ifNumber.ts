@@ -3,7 +3,7 @@ import { Narrowable } from "src/types/literals";
 import { isNumber } from "src/runtime/type-guards";
 
 /**
- * **ifNumber**
+ * **ifNumber**(val, ifVal, elseVal)
  *
  * Strongly type-aware conditional statement which checks whether a value is
  * a _number_ and returns one of two values (strongly typed) based on the evaluation

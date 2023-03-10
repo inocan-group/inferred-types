@@ -18,11 +18,11 @@ export function ifUndefined<
   ELSE extends Narrowable = Exclude<T, undefined>
 >(
   val: T,
-  ifVal: (v: Exclude<T, undefined>) => IF,
-  elseVal: (v: undefined) => ELSE
+  ifUndefined: () => IF,
+  ifDefined: <V extends Exclude<T,undefined>>(v: V) => ELSE
 ) {
   return (
-    isUndefined(val) ? ifVal(val as Exclude<T,undefined>) : elseVal(undefined)
+    isUndefined(val) ? ifUndefined() : ifDefined(val as Exclude<T,undefined> )
   ) as IsUndefined<T> extends true ? IF : ELSE;
 }
 
