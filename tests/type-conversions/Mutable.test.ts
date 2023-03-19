@@ -1,6 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { Mutable } from "src/types/type-conversion/Mutable";
+
+import { Mutable } from "src/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -19,10 +20,11 @@ describe("Mutable<T>", () => {
         readonly literal: "foo" | "bar";
       };
     };
+    type M = Mutable<O>;
     
     type cases = [
       Expect<Equal<
-        Mutable<O>,
+        M,
         {
           foo: number;
           bar: string[];

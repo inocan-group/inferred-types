@@ -10,11 +10,19 @@ describe("Slice<TList, TStart, TEnd>", () => {
 
   it("happy path", () => {
     type List = [1,2,3,4,5,6,7,8];
+    type ListRO = [1,2,3,4,5,6,7,8];
+
     type FirstTwo = Slice<List, 0, 2>;
     type FirstThree = Slice<List, 0, 3>;
     type OneToThree = Slice<List, 1, 3>;
     type ThreeOnward = Slice<List, 3>;
     type SkipLastTwo = Slice<List, 0, -2>;
+
+    type RoFirstTwo = Slice<ListRO, 0, 2>;
+    type RoFirstThree = Slice<ListRO, 0, 3>;
+    type RoOneToThree = Slice<ListRO, 1, 3>;
+    type RoThreeOnward = Slice<ListRO, 3>;
+    type RoSkipLastTwo = Slice<ListRO, 0, -2>;
 
     
     type cases = [
@@ -23,6 +31,12 @@ describe("Slice<TList, TStart, TEnd>", () => {
       Expect<Equal<OneToThree, [2,3]>>,
       Expect<Equal<ThreeOnward, [4,5,6,7,8]>>,
       Expect<Equal<SkipLastTwo, [1,2,3,4,5,6]>>,
+
+      Expect<Equal<RoFirstTwo, [1,2]>>,
+      Expect<Equal<RoFirstThree, [1,2,3]>>,
+      Expect<Equal<RoOneToThree, [2,3]>>,
+      Expect<Equal<RoThreeOnward, [4,5,6,7,8]>>,
+      Expect<Equal<RoSkipLastTwo, [1,2,3,4,5,6]>>,
     ];
     const cases: cases = [true, true, true, true, true];
   });

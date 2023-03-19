@@ -5,3 +5,4 @@ export * from "./Constant";
 export * from "./Types";
 export * from "./Comma";
 export * from "./MapTo";
+export * from "./CommonObjProps";

@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { Last } from "src/types/lists/Last";
+import { Pop } from "src/types/lists/Last";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -8,8 +8,8 @@ import { describe, it } from "vitest";
 
 describe("Last<T>", () => {
   it("happy path", () => {
-    type Three = Last<[1,2,3]>;
-    type Empty = Last<[]>;
+    type Three = Pop<[1,2,3]>;
+    type Empty = Pop<[]>;
     
     type cases = [
       Expect<Equal<Three, 3>>,

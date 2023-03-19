@@ -1,5 +1,6 @@
 import { Scalar } from "src/types";
-import { isTypeOf } from "./higher-order/isTypeOf";
+import { isNull, isNumber, isString, isSymbol } from "src/runtime";
+
 
 /**
  * **isScalar**(value)
@@ -7,5 +8,6 @@ import { isTypeOf } from "./higher-order/isTypeOf";
  * Type guard to check whether the value passed in is a _scalar_ value.
  */
 export function isScalar<T>(value: T): value is T & Scalar {
-  return isTypeOf("string", value) || isTypeOf("number", value) || isTypeOf("bigint", value) || isTypeOf("symbol", value) || value === null;
+  return isString(value) || isNumber(value) || isSymbol(value) || isNull(value);
+
 }

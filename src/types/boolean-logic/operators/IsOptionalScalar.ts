@@ -1,10 +1,14 @@
-import { IfOr } from "../branching";
-import { IsBoolean } from "./IsBoolean";
-import { IsNull } from "./IsNull";
-import { IsNumber } from "./IsNumber";
-import { IsString } from "./IsString";
-import { IsSymbol } from "./IsSymbol";
-import { IsUndefined } from "./IsUndefined";
+import { 
+  IfNever, 
+  IfOr, 
+  IsScalar, 
+  IsUndefined,
+  IfUnion,
+  IfSomeExtend,
+  UnionToTuple,
+  Scalar
+} from "src/types";
+
 
 /**
  * **IsOptionalScalar**`<T>`
@@ -13,8 +17,17 @@ import { IsUndefined } from "./IsUndefined";
  * 
  * **Related:** `IsScalar`
  */
-export type IsOptionalScalar<T> = IfOr<
-  [IsString<T>, IsNumber<T>, IsBoolean<T>, IsNull<T>, IsSymbol<T>, IsUndefined<T>],
+export type IsOptionalScalar<T> = IfNever<T, false, IfOr<
+  [
+    IsScalar<T>, IsUndefined<T>
+  ],
   true,
-  false
->;
+  IfUnion<
+    T, 
+    IfSomeExtend<
+      UnionToTuple<T>, Scalar | undefined, 
+      boolean, false
+    >, 
+    false
+  >
+>>;

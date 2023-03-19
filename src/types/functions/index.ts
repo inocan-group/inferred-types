@@ -10,6 +10,7 @@ export * from "./Fn";
 export * from "./AsFn";
 export * from "./ToFn";
 export * from "./FnMeta";
+export * from "./PromiseAll";
 export * from "./FnProps";
 
 // #endregion auto-indexed files

@@ -1,5 +1,9 @@
-import { Digit, NumericChar } from "../string-literals";
-import { ToString, ToNumber } from "src/types/type-conversion";
+import { 
+  Digit, 
+  NumericChar, 
+  ToString, 
+  ToNumber 
+} from "src/types";
 
 /**
  * **PriorDigit**`<T>`

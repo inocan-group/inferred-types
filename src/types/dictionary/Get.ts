@@ -95,7 +95,7 @@ type _Deep<
  * ```
  */
 export type Get<
-  TContainer extends Container | Scalar,
+  TContainer,
   TDotPath extends string | number | null,
   TDefVal = NoDefaultValue,
   THandler = typeof NOT_DEFINED

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ExcludeLast } from "./ExcludeLast";
+import { Pop } from "./Pop";
 
 /**
  * **ReplaceLast**`<TList,TVal>`
@@ -9,4 +9,4 @@ import { ExcludeLast } from "./ExcludeLast";
 export type ReplaceLast<
   TList extends readonly any[],
   TVal
-> = [...ExcludeLast<TList>, TVal];
+> = [...Pop<TList>, TVal];

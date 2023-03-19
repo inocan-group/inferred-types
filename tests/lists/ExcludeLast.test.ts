@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { ExcludeLast } from "../../src/types/lists/ExcludeLast";
+import { Pop } from "../../src/types/lists/Pop";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -9,9 +9,9 @@ import { ExcludeLast } from "../../src/types/lists/ExcludeLast";
 describe("ExcludeLast<T>", () => {
 
   it("happy path", () => {
-    type T1 = ExcludeLast<[1,2,3]>;
-    type JustOne = ExcludeLast<[1]>;
-    type None = ExcludeLast<[]>;
+    type T1 = Pop<[1,2,3]>;
+    type JustOne = Pop<[1]>;
+    type None = Pop<[]>;
     
     type cases = [
       Expect<Equal<T1, [1,2]>>,

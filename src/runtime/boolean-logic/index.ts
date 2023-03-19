@@ -11,12 +11,11 @@ export * from "./ifArray";
 export * from "./ifNotNull";
 export * from "./ifArrayPartial";
 export * from "./ifReadonlyArray";
-export * from "./isFalse";
-export * from "./isSymbol";
 export * from "./ifTrue";
 export * from "./ifTypeOf";
 export * from "./ifStartsWith";
 export * from "./ifHasKey";
+export * from "./ifScalar";
 
 export * from "./ifFunction";
 export * from "./ifObject";
@@ -24,6 +23,7 @@ export * from "./ifNumber";
 export * from "./ifLength";
 export * from "./ifString";
 export * from "./ifNull";
+export * from "./ifFalse";
 export * from "./ifUndefined";
 
 // #endregion auto-indexed files

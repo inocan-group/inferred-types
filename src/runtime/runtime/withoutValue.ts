@@ -10,9 +10,9 @@ import { keysOf } from "../dictionary";
  * ```ts
  * const obj = { foo: 1, bar: 2, message: "hi there" };
  * // { message: "hi there" }
- * const onlyStrings = withoutValue(t => t.string)(obj);
+ * const onlyStrings = withoutValue(t => kind.string())(obj);
  * // { foo: 1 }
- * const justOne = withoutValue(t => t.literal(1))(obj);
+ * const justOne = withoutValue(t => kind.literal(1))(obj);
  * ```
  */
 export function withoutValue<TVal extends Narrowable>(val: TVal) {

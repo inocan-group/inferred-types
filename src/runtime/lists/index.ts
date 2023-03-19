@@ -16,7 +16,7 @@ export * from "./fromSet";
 export * from "./find";
 export * from "./filter";
 export * from "./createConverter";
-export * from "./unique";
+export * from "./slice";
 export * from "./reverse";
 
 // #endregion auto-indexed files

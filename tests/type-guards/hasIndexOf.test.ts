@@ -31,7 +31,7 @@ describe("hasIndexOf(value)", () => {
       type Idx = typeof idx;
       type Value = typeof lit_arr;
       type cases = [
-        Expect<IsEqual<Value, readonly [1,2,3] & readonly[unknown, unknown, unknown]>>
+        Expect<IsEqual<Value, readonly [1,2,3]>>
       ];
 
       const cases: cases = [ true ];
@@ -41,15 +41,15 @@ describe("hasIndexOf(value)", () => {
   });
 
   it("Object and valid index", () => {
-    const arrIdxTrue = hasIndexOf(lit_obj, "id");
+    const arrIdxTrue = hasIndexOf(lit_obj)("id");
     expect(arrIdxTrue).toBe(true);
 
-    if(hasIndexOf(lit_obj, "id")) {
+    if(hasIndexOf(lit_obj)("id")) {
       expect(true).toBe(true);
 
       type Value = typeof lit_obj;
       type cases = [
-        Expect<IsEqual<Value, {id: 1} & Record<"id", unknown>>>
+        Expect<IsEqual<Value, {id: 1}>>
       ];
       const cases: cases = [ true ];
     } else {
@@ -58,10 +58,10 @@ describe("hasIndexOf(value)", () => {
   });
 
   it("Array and invalid index", () => {
-    const val = hasIndexOf(lit_arr, 10);
+    const val = hasIndexOf(lit_arr)(10);
     expect(val).toBe(false);
 
-    if(hasIndexOf(lit_arr, 10)) {
+    if(hasIndexOf(lit_arr)(10)) {
       throw new Error("Invalid array index not caught!");
     } else {
       expect(true).toBe(true);
@@ -69,10 +69,10 @@ describe("hasIndexOf(value)", () => {
   });
 
   it("Object with invalid index", () => {
-    const val = hasIndexOf(lit_obj, "foo");
+    const val = hasIndexOf(lit_obj)("foo");
     expect(val).toBe(false);
 
-    if(hasIndexOf(lit_obj, "foo")) {
+    if(hasIndexOf(lit_obj)("foo")) {
       throw new Error("Invalid object index not caught!");
     } else {
       expect(true).toBe(true);

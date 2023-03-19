@@ -22,6 +22,8 @@ export * from "./IsNegativeNumber";
 export * from "./IsRef";
 export * from "./IsValidKey";
 export * from "./IsObjectLiteral";
+export * from "./IsTuple";
+export * from "./IsGreaterThan";
 
 export * from "./IsOptionalScalar";
 export * from "./IsObject";

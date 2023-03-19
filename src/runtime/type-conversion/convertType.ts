@@ -1,14 +1,21 @@
 import { 
   Narrowable, 
   ConvertType, 
-  TypeMapRule
+  TypeMapRule,
+  TypeMapMatcher,
+  TypeMapTransformer
 } from "src/types";
-import { TypeMapMatcher } from "src/types/type-conversion/convert-and-map-support/TypeMapMatcher";
-import { TypeMapTransformer } from "src/types/type-conversion/convert-and-map-support/TypeMapTransformer";
-import { toCamelCase } from "../literals/toCamelCase";
-import { t } from "../runtime";
-import { Never } from "../runtime/Never";
-import { endsWith, startsWith, isFalsy, isTruthy, isTypeTuple } from "../type-guards";
+import { 
+  toCamelCase,
+  Never, 
+  endsWith, 
+  startsWith, 
+  isFalsy, 
+  isTruthy, 
+  isTypeTuple,
+  kind as k
+} from "src/runtime";
+
 
 /**
  * **convertType**(rules) => (value) => [converted]
@@ -101,21 +108,19 @@ export function convertType<
           }
           break;
         case "AsBooleanString":
-          response = t.booleanString();
+          response = k.booleanString();
           break;
         case "AsNumericString":
-          response = t.numericString();
+          response = k.numericString();
           break;
         case "AsString":
-          response = t.string("<string>");
+          response = k.string("<string>");
           break;
         case "CamelCase":
           response = toCamelCase(String(value));
           break;
         
       }
-
-
     }
 
 

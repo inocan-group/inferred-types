@@ -11,6 +11,8 @@ export * from "./boolean-logic/index";
 export * from "./combinators/index";
 export * from "./dictionary/index";
 export * from "./lists/index";
+export * from "./sets/index";
+export * from "./functional/index";
 export * from "./literals/index";
 export * from "./state/index";
 export * from "./type-conversion/index";

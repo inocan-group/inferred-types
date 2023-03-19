@@ -12,6 +12,8 @@ export * from "./dictionary/index";
 export * from "./functions/index";
 export * from "./kv/index";
 export * from "./lists/index";
+export * from "./sets/index";
+export * from "./functional/index";
 export * from "./literals/index";
 export * from "./tuples/index";
 export * from "./type-conversion/index";

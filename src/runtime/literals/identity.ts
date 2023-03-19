@@ -5,7 +5,7 @@ import { Narrowable } from "src/types";
  * where ever possible.
  */
 export const identity = <
-  T extends Narrowable
+  T
 >(
   v: T
 ) => v;

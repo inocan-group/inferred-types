@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { unique } from "src/runtime/lists/unique";
-import { Unique } from "src/types/lists";
+import { Unique } from "src/types";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
