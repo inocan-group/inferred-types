@@ -15,7 +15,7 @@ describe("Relate<L,R>", () => {
     type Obj = Relate<L,R>;
     
     type cases = [
-      Expect<Equal<Obj["length"], LeftRight<2,2>>,
+      Expect<Equal<Obj["length"], LeftRight<2,2>>>,
       Expect<Equal<Obj["sharedKeys"], ["bar"]>>,
       Expect<HasSameValues<
         Obj["uniqueKeys"], 
