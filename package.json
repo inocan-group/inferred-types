@@ -44,11 +44,11 @@
   },
   "devDependencies": {
     "@type-challenges/utils": "~0.1.1",
-    "@types/node": "^16.18.14",
-    "@typescript-eslint/eslint-plugin": "^5.54.1",
-    "@typescript-eslint/parser": "^5.54.1",
+    "@types/node": "^16.18.16",
+    "@typescript-eslint/eslint-plugin": "^5.55.0",
+    "@typescript-eslint/parser": "^5.55.0",
     "@typescript/analyze-trace": "^0.10.0",
-    "@vitest/ui": "^0.29.2",
+    "@vitest/ui": "^0.29.3",
     "bumpp": "^9.0.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.36.0",
@@ -61,11 +61,11 @@
     "npm-run-all": "~4.1.5",
     "pathe": "^1.1.0",
     "prettier": "~2.8.4",
-    "tsup": "^6.6.3",
+    "tsup": "^6.7.0",
     "typescript": "5.1.0-dev.20230307",
-    "vite": "^4.1.4",
-    "vite-node": "^0.29.2",
-    "vitest": "^0.29.2",
+    "vite": "^4.2.0",
+    "vite-node": "^0.29.3",
+    "vitest": "^0.29.3",
     "vue": "^3.2.47"
   }
 }
