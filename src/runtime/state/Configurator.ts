@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { ExpandRecursively } from "src/types";
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;

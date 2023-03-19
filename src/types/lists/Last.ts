@@ -1,11 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Tuple } from "../base-types";
 
 
 /**
- * **Last**`<T>`
+ * **Last**`<TList>`
  * 
  * Returns the _last_ element in a list
  */
-export type Last<T extends readonly any[]> = T extends [...any[], infer Last]
+export type Last<TList extends Tuple> = TList extends [...unknown[], infer Last]
   ? Last
-  : never;
+  : TList extends readonly [] ? undefined : never;

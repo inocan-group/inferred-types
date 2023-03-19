@@ -1,11 +1,15 @@
+import { Scalar, UnionToTuple } from "src/types";
 import { 
   IsBoolean,
   IsNull,
   IsSymbol,
   IsNumber, 
   IfOr, 
-  IsString 
+  IsString, 
+  IfNever,
+  IfUnion
 } from "src/types/boolean-logic";
+import { IfSomeExtend } from "../branching/IfSomeExtend";
 
 /**
  * **IsScalar**`<T>`
@@ -17,8 +21,19 @@ import {
  * 
  * **Related:** `IsOptionalScalar`
  */
-export type IsScalar<T> = IfOr<
-  [IsString<T>, IsNumber<T>, IsBoolean<T>, IsNull<T>, IsSymbol<T>],
+export type IsScalar<T> = IfNever<T, false, 
+IfOr<
+  [
+    IsString<T>, 
+    IsNumber<T>, 
+    IsBoolean<T>, 
+    IsNull<T>, 
+    IsSymbol<T>
+],
   true,
-  false
->;
+  IfUnion<
+    T, 
+    IfSomeExtend<UnionToTuple<T>, Scalar, boolean, false>, 
+    false
+  >
+>>;

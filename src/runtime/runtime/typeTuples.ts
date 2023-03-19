@@ -1,11 +1,9 @@
 import { Alpha, Digit, LowerAlpha, UpperAlpha } from "src/types";
-import { toString } from "../literals/toString";
-import { LETTER, LETTER_UPPER } from "./constants";
-import { createTypeTuple } from "./createTypeTuple";
-import { t } from "./kind";
+import { LETTER, LETTER_UPPER } from "src/constants";
+import { kind, createTypeTuple, toString } from "src/runtime";
 
 const digit = createTypeTuple(
-  t.literal<Digit>(),
+  kind.literal<Digit>(),
   function <T>(val: T): val is Digit & T {
     return typeof toString(val) === "string" && ["0","1","2","3","4","5","6","7","8","9"].includes(val as unknown);
   },
@@ -13,7 +11,7 @@ const digit = createTypeTuple(
 );
 
 const letter = createTypeTuple(
-  t.literal<Alpha>(),
+  kind.literal<Alpha>(),
   function (val: unknown): val is Alpha {
     return typeof val === "string" && LETTER.includes(val as Alpha);
   },
@@ -21,7 +19,7 @@ const letter = createTypeTuple(
 );
 
 const letterLowercase = createTypeTuple(
-  t.literal<Alpha>(),
+  kind.literal<Alpha>(),
   function (val: unknown): val is LowerAlpha {
     return typeof val === "string" && LETTER.includes(val as LowerAlpha);
   },
@@ -29,7 +27,7 @@ const letterLowercase = createTypeTuple(
 );
 
 const letterUppercase = createTypeTuple(
-  t.literal<Alpha>(),
+  kind.literal<Alpha>(),
   function (val: unknown): val is UpperAlpha {
     return typeof val === "string" && LETTER_UPPER.includes(val as UpperAlpha);
   },

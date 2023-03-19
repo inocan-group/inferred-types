@@ -1,7 +1,6 @@
-import { IfLiteral , AfterFirst , First } from "src/types";
+import { IfLiteral , AfterFirst , First, Tuple } from "src/types";
 
-type ConcatElement = (string | number | boolean);
-type ElementLiteral<T extends ConcatElement> = T extends string
+type ElementLiteral<T> = T extends string
   ? IfLiteral<T, T, string>
   : T extends number
   ? IfLiteral<T, T, `${number}`>
@@ -10,11 +9,14 @@ type ElementLiteral<T extends ConcatElement> = T extends string
   : never;
 
 type ConcatAcc<
-  T extends readonly ConcatElement[],
+  T extends Tuple,
   Result extends string = ""
 > = [] extends T
   ? Result
-  : ConcatAcc<AfterFirst<T>, `${Result}${ElementLiteral<First<T>>}`>;
+  : ConcatAcc<
+      AfterFirst<T>,
+      `${Result}${ElementLiteral<First<T>>}`
+    >;
 
 /**
  * **Concat**`<T>`
@@ -31,4 +33,6 @@ type ConcatAcc<
  * 
  * **Related:** `Join<TArr,TWith>`
  */
-export type Concat<T extends readonly ConcatElement[] | ConcatElement[],> = ConcatAcc<readonly [...T]>;
+export type Concat<
+  T extends Tuple
+> = ConcatAcc<T>;

@@ -45,5 +45,5 @@ export type Slice<
   TList extends readonly unknown[],
   TStart extends number = 0,
   TEnd extends number = TList["length"],
-> = _Slice<TList,TStart,TEnd>;
+> = _Slice<[...TList],TStart,TEnd>;
   

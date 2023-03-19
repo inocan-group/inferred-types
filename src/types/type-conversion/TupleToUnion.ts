@@ -1,6 +1,4 @@
-
-import { IfLength } from "../boolean-logic/branching";
-import { Keys } from "../dictionary/Keys";
+import { IfLength,Keys } from "src/types";
 
 /**
  * Converts a Tuple type into a _union_ of the tuple elements

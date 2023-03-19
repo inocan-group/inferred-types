@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { Equal, Expect } from "@type-challenges/utils";
 
-import { DoesExtend, ErrorCondition, Length } from "src/types";
+import {  Length } from "src/types";
 import { describe, it } from "vitest";
 
 describe("Length<T>", () => {
@@ -11,7 +12,14 @@ describe("Length<T>", () => {
     type A2 = typeof a2;
 
     type StringArray = Length<string[]>;
-    type Invalid = Length<"foo">;
+    type StrLit = Length<"foo">;
+    type NumericLit = Length<1234>;
+    type WideStr = Length<string>;
+    type WideNum = Length<number>;
+
+    type ObjLit = Length<{foo: 1}>;
+    type WideObj = Length<object>;
+    type EmptyObj = Length<{}>;
 
     type cases = [
       //
@@ -22,8 +30,19 @@ describe("Length<T>", () => {
       Expect<Equal<Length<readonly []>, 0>>,
       Expect<Equal<Length<[]>, 0>>,
       Expect<Equal<StringArray, number>>,
-      Expect<DoesExtend<Invalid, ErrorCondition<"invalid-generic", "Length<T> used on non-array element: foo">>>,
+      Expect<Equal<StrLit, 3>>,
+      Expect<Equal<WideStr, number>>,
+      Expect<Equal<NumericLit, 4>>,
+      Expect<Equal<WideNum, number>>,
+      Expect<Equal<ObjLit, 1>>,
+      Expect<Equal<WideObj, number>>,
+      Expect<Equal<EmptyObj, 0>>,
     ];
-    const cases: cases = [true, true, true, true, true, true, true, true ];
+    const cases: cases = [
+      true, true, true, true, 
+      true, true, true, true, 
+      true, true, true, true,
+      true, true
+    ];
   });
 });

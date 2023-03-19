@@ -5,16 +5,17 @@ import { TupleToUnion } from "src/types";
 
 describe("TupleToUnion<T> type utility", () => {
   it("an array of literals is converted ot a tuple", () => {
-    const arr = [1, 2, 5] as const;
-    type Arr = typeof arr;
-    type Union = TupleToUnion<Arr>;
+    type Arr = TupleToUnion<[1,2,3]>;
+    type RoArr = TupleToUnion<readonly [1,2,3]>;
+    type Empty = TupleToUnion<[]>;
 
     type cases = [
-      //
-      Expect<Equal<Union, 1 | 2 | 5>>
+      Expect<Equal<Arr, 1 | 2 | 3>>,
+      Expect<Equal<RoArr, 1 | 2 | 3>>,
+      Expect<Equal<Empty, never>>
     ];
 
-    const c: cases = [true];
+    const c: cases = [true, true, true];
     expect(c).toBe(c);
   });
 });

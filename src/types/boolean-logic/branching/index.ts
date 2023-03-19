@@ -10,8 +10,10 @@ export * from "./IfError";
 export * from "./IfErrorCondition";
 export * from "./IfNotError";
 
+export * from "./IfSomeExtend";
 
 export * from "./IfBoolean";
+export * from "./IfGreaterThan";
 export * from "./IfTrue";
 export * from "./IfNumber";
 export * from "./IfFalse";

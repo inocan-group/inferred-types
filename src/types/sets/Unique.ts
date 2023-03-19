@@ -4,7 +4,12 @@ import {
   First, 
   GetEach,
   Mutable,
-  Get
+  Get,
+  Tuple,
+  AnyObject,
+  ExpandRecursively,
+  Container,
+  LeftRight
 } from "src/types";
 
 type UniqueAcc<

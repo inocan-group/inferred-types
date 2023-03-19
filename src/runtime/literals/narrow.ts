@@ -1,4 +1,10 @@
-import { First, Key, Length, Narrowable, UnionToTuple, IfUnion } from "src/types";
+import { 
+  First, 
+  Length, 
+  Narrowable, 
+  UnionToTuple, 
+  IfUnion 
+} from "src/types";
 
 /**
  * **narrow**(value)
@@ -17,7 +23,7 @@ import { First, Key, Length, Narrowable, UnionToTuple, IfUnion } from "src/types
  */
 export function narrow<
   N extends Narrowable,
-  K extends Key,
+  K extends PropertyKey,
   T extends readonly (Record<K,N> | Narrowable)[]
 >(...values: T) {
   return (

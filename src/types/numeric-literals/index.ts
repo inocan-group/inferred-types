@@ -9,3 +9,5 @@ export * from "./AbsMaybe";
 export * from "./Digit";
 export * from "./DigitNonZero";
 export * from "./Negative";
+export * from "./ToInteger";
+export * from "./GreaterThan";

@@ -1,6 +1,9 @@
-import {  NumericChar } from "../string-literals";
-import { ToString, ToNumber } from "src/types/type-conversion";
-import { Digit } from "./Digit";
+import { 
+  Digit, 
+  ToString, 
+  ToNumber, 
+  NumericChar 
+} from "src/types";
 
 /**
  * **NextDigit**`<T>`

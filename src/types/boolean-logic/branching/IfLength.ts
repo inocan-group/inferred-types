@@ -1,4 +1,4 @@
-import { Length, IfEqual, IsLiteral } from "src/types";
+import { Length, IfEqual, IsLiteral, Container } from "src/types";
 
 
 /**
@@ -14,7 +14,7 @@ import { Length, IfEqual, IsLiteral } from "src/types";
  * type.
  */
 export type IfLength<
-  TEvaluate extends unknown | unknown[] | readonly unknown[], 
+  TEvaluate extends Container, 
   TLength extends number,
   IF,
   ELSE = TEvaluate,

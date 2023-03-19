@@ -10,8 +10,8 @@ export * from "./First";
 export * from "./AsArray";
 export * from "./FirstString";
 export * from "./Filter";
-export * from "./Split";
 export * from "./Length";
+export * from "./Last";
 export * from "./IndexOf";
 export * from "./UnionFromProp";
 export * from "./Flatten";
@@ -19,6 +19,7 @@ export * from "./Reverse";
 export * from "./Retain";
 export * from "./Find";
 export * from "./Slice";
+export * from "./Last";
 export * from "./TruthyReturns";
 export * from "./ReturnTypes";
 export * from "./LogicalReturns";
@@ -27,12 +28,13 @@ export * from "./Filter";
 export * from "./NumericKeys";
 export * from "./ConvertAndMap";
 export * from "./ConvertAndMap";
-export * from "./ExcludeLast";
+export * from "./Pop";
+export * from "./Shift";
 export * from "./ReplaceLast";
+export * from "./BeforeLast";
 export * from "./GetEach";
 
 export * from "./extractors/index";
-export * from "./sets/index";
 
 
 // #endregion auto-indexed files

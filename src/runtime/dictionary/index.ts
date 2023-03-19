@@ -15,7 +15,6 @@ export * from "./omit";
 export * from "./retain";
 export * from "./withKeys";
 export * from "./withoutKeys";
-export * from "./uniqueKeys";
 export * from "./sharedKeys";
 export * from "./strArrayToDict";
 // directory exports
