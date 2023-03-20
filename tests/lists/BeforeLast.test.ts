@@ -16,15 +16,12 @@ describe("BeforeLast", () => {
     
     type cases = [
       Expect<Equal<Foobar, "fooba">>,
-      Expect<Equal<Empty, never>>,
-      Expect<Equal<Wide, never>>,
+      Expect<Equal<Empty, "">>,
+      Expect<Equal<Wide, string>>,
     ];
     const cases: cases = [true, true, true];
     
-    type cases = [
-      /** type tests */
-    ];
-    const cases: cases = [];
+
   });
 
 });

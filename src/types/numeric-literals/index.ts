@@ -10,4 +10,6 @@ export * from "./Digit";
 export * from "./DigitNonZero";
 export * from "./Negative";
 export * from "./ToInteger";
+export * from "./LessThan";
 export * from "./GreaterThan";
+export * from "./Float";

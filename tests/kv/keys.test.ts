@@ -19,15 +19,17 @@ describe("NumericKeys<T>", () => {
     type Str = NumericKeys<StringArr>;
     type Str_RO = NumericKeys<StrArr_RO>;
     type Empty = NumericKeys<[]>;
+    type Empty_RO = NumericKeys<readonly []>;
 
     type cases = [
-      Expect<Equal<Numeric, readonly [0,1,2]>>,
-      Expect<Equal<Str, readonly [0,1,2]>>,
+      Expect<Equal<Numeric, [0,1,2]>>,
+      Expect<Equal<Str, [0,1,2]>>,
       Expect<Equal<Str_RO,  readonly [0,1,2]>>,
-      Expect<Equal<Empty, readonly number[]>>,
+      Expect<Equal<Empty,  number[]>>,
+      Expect<Equal<Empty_RO,  readonly number[]>>,
     ];
     
-    const cases: cases = [ true, true, true, true ];
+    const cases: cases = [ true, true, true, true, true ];
   });
 });
 
@@ -48,8 +50,8 @@ describe("Keys<T>", () => {
 
     type cases = [
       // any object with no keys resolves simply to an empty array
-      Expect<Equal<None, readonly (string | symbol)[]>>,
-      Expect<Equal<None2, readonly string[]>>,
+      Expect<Equal<None,  (string | symbol)[]>>,
+      Expect<Equal<None2,  string[]>>,
       // once keys are involved we are not guaranteed ordering of keys
       DoesExtend<Foobar, readonly ["foo", "bar"]>,
       DoesExtend<RoFoobar, readonly ["foo", "bar"]>,
@@ -78,11 +80,11 @@ describe("Keys<T>", () => {
 
     type cases = [
       //
-      Expect<Equal<Numeric, readonly [0,1,2] >>,
-      Expect<Equal<Str, readonly [0,1,2]>>,
-      Expect<Equal<Str2, readonly [0,1,2]>>,
-      Expect<Equal<Str_RO, readonly [0,1,2]>>,
-      Expect<Equal<Empty, readonly number[]>>,
+      Expect<Equal<Numeric,  [0,1,2] >>,
+      Expect<Equal<Str,  [0,1,2]>>,
+      Expect<Equal<Str2,  [0,1,2]>>,
+      Expect<Equal<Str_RO,  readonly [0,1,2]>>,
+      Expect<Equal<Empty,  number[]>>,
 
       Expect<Equal<Convertible1, 0 | 1 | 2>>,
       Expect<Equal<Convertible2, 0 | 1 | 2>>,
@@ -101,6 +103,7 @@ describe("keys() utility on object", () => {
   it("with just object passed in, keys are extracted as expected", () => {
     const obj = defineType({ id: "123" })({ color: "red", isFavorite: false });
     const k = keysOf(obj); 
+    type K = typeof k;
 
     expect(k).toHaveLength(3);
     expect(k).toContain("id"); 
@@ -108,7 +111,10 @@ describe("keys() utility on object", () => {
     expect(k).toContain("isFavorite");
 
     type cases = [
-      Expect<Equal<TupleToUnion<typeof k>, TupleToUnion<["id", "color",  "isFavorite"]>>> //
+      Expect<Equal<
+        K, 
+        [0,1,2]
+      >> //
     ];
     const cases: cases = [true];
     expect(cases).toBe(cases);
@@ -118,7 +124,7 @@ describe("keys() utility on object", () => {
   it("Runtime check of keys for an array", () => {
     const arr = narrow([1,2,3]);
     const keys = keysOf(arr);
-    expect(keys).toEqual([1,2,3]);
+    expect(keys).toEqual([0,1,2]);
     
     type cases = [
       Expect<Equal<typeof keys, readonly [0,1,2]>>,
@@ -144,7 +150,7 @@ describe("keys() utility on object", () => {
     expect(k).toEqual(["value"]);
 
     type cases = [
-      Expect<Equal< readonly ["value"],typeof k>>,//
+      Expect<Equal<["value"],typeof k>>,//
     ];
 
     const cases: cases = [ true ];

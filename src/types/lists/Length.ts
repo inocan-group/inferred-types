@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import type { AnyObject, Concat, Container, ErrorCondition, IfEqual, IfLiteral, IsEqual, Keys, StrLen, ToString } from "src/types";
+import type { AnyObject,  Container, IfEqual, IfLiteral, IfStringLiteral, Keys, StrLen, ToString } from "src/types";
 
 
 /**
  * Utility type which returns the length of:
  * 
- * - an _array_
- * - an _object_ (where length is the number of keys)
- * - a _string_
+ * - an _array_ (provides the number of elements)
+ * - an _object_ (provides the number of keys)
+ * - a _string_ (provides the number of chars)
  * - a _number_ (it will provide the number of digits)
  * 
  * ```ts
@@ -16,7 +16,7 @@ import type { AnyObject, Concat, Container, ErrorCondition, IfEqual, IfLiteral, 
  */
 export type Length<T extends Container | string | number> = 
 T extends string 
-  ? IfLiteral<
+  ? IfStringLiteral<
       T, 
       StrLen<T>,
       number

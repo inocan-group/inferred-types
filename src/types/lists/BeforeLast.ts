@@ -1,4 +1,4 @@
-import { Concat, Pop, Split, Tuple } from "src/types";
+import {  Pop, Tuple } from "src/types";
 
 
 /**
@@ -14,7 +14,9 @@ import { Concat, Pop, Split, Tuple } from "src/types";
 export type BeforeLast<
   T extends Tuple | string
 > = T extends string 
-  ? Concat<Pop<Split<T>> & string[]>
-  : Pop<T & Tuple>;
+  ? Pop<T>
+  : T extends Tuple
+    ? Pop<T>
+    : never;
 
 

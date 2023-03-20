@@ -1,22 +1,17 @@
 
-import { Tuple, IfLength, IfLiteral, Keys, IfEqual, ToNumber} from "src/types";
+import { Tuple, ToNumber, IfTrue, HasKeys, IfReadonlyArray} from "src/types";
 
-type _Convert<
-  T extends Tuple,
-> = IfEqual<
-  T, Tuple<string>,
-  Tuple<number>,
-  IfEqual<
-    T, Tuple<boolean>,
-    readonly (0|1)[],
-    IfEqual<
-      T, Tuple<number>,
-      T,
-      {
-        [K in keyof T]: ToNumber<T[K]>
-      }
-    >
-  >
+type _Convert<T extends Tuple> = 
+IfTrue<
+  HasKeys<T>,
+  // has keys
+  {
+    [K in keyof T]: T[K] extends (`${number}` | number)
+    ? ToNumber<T[K]>
+    : never
+  },
+  // no keys
+  number[]
 >;
 
 
@@ -32,13 +27,9 @@ type _Convert<
  */
 export type ToNumericArray<
   T extends Tuple
-> = IfLength<
-  Keys<T>, 0,
-  readonly number[],
-  IfLiteral<
-    T,
-    Readonly<_Convert<T>>,
-    never
-  >
+> = IfReadonlyArray<
+  T,
+  Readonly<_Convert<T>>,
+  _Convert<T>
 >;
 

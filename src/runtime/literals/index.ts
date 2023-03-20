@@ -27,6 +27,7 @@ export * from "./toCamelCase";
 export * from "./toKebabCase";
 export * from "./toSnakeCase";
 export * from "./toPascalCase";
+export * from "./toNumericArray";
 
 // #endregion auto-indexed files
 

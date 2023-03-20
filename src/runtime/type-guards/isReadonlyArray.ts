@@ -1,4 +1,4 @@
-import { ExpandRecursively } from "src/types";
+import { Tuple } from "src/types";
 
 /**
  * **isReadonlyArray**(value)
@@ -12,6 +12,6 @@ import { ExpandRecursively } from "src/types";
  */
 export function isReadonlyArray<
   T
->(value: unknown | T): value is ExpandRecursively<T & readonly unknown[]> {
+>(value: T): value is Exclude<T, undefined | string | null | boolean | number> & Tuple {
   return (Array.isArray(value) === true);
 }

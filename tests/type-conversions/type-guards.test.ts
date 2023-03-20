@@ -145,19 +145,26 @@ describe("isArray / isReadonlyArray", () => {
   it("positive tests", () => {
     if(isReadonlyArray(foobar)) {
       expect(true, "identified as readonly array").toBe(true);
+      type Foobar = typeof foobar;
       type cases = [
-        Expect<Equal<typeof foobar, readonly {foo: number; bar: number }[]>>
+        Expect<Equal<
+          Foobar, 
+          readonly {foo: number; bar: number }[] & readonly unknown[]
+        >>
       ];
       const cases: cases = [ true ];
     } else {
       throw new Error("didn't detect readonly array");
     }
 
-    if(isArray(foobar)) {
+    if(isArray([{foo: 1, bar: 2}])) {
       expect(true, "identified as array").toBe(true);
+      type Foobar = typeof foobar;
       type cases = [
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        Expect<Equal<typeof foobar, readonly {foo: number; bar: number }[] & any[]>>
+        Expect<Equal<
+          Foobar, 
+          readonly {foo: number; bar: number }[] & readonly unknown[]
+        >>
       ];
       const cases: cases = [ true ];
     } else {
@@ -169,8 +176,13 @@ describe("isArray / isReadonlyArray", () => {
   it("positive test of union type", () => {
     if(isReadonlyArray(optFoobar)) {
       expect(true, "identified as readonly array").toBe(true);
+
+      type Foobar = typeof optFoobar;
       type cases = [
-        Expect<Equal<typeof foobar, readonly {foo: number; bar: number }[]>>
+        Expect<Equal<
+          Foobar, 
+          readonly {foo: number; bar: number }[] & readonly unknown[]
+        >>
       ];
       const cases: cases = [ true ];
     } else {

@@ -9,13 +9,21 @@ import {
 } from "src/types";
 
 
+
+
 type ConvertElement<
   TValue extends Scalar
-> = TValue extends number
-? TValue
-: TValue extends `${infer N extends number}` 
-? N
-: IfTrue<TValue, 1, IfFalse<TValue, 0, IfBoolean<TValue, 1 | 0, never>>>;
+> = 
+TValue extends number
+  ? TValue
+  : TValue extends `${infer N extends number}` 
+    ? N
+    : IfTrue<
+        TValue, 
+        1, 
+        IfFalse<TValue, 0, IfBoolean<TValue, 1 | 0, never>>
+      >;
+
 
 
 /**
@@ -27,7 +35,7 @@ type ConvertElement<
  *    - any non-numeric content which can not be converted to a number will be convert to `never`
  *    - a number or a numeric array will be proxied through "as is"
  */
-export type ToNumber<TValue> = TValue extends Tuple
+export type ToNumber<TValue> = TValue extends 1[]
   ? ToNumericArray<TValue>
   : IfScalar<TValue, ConvertElement<TValue & Scalar>, never>;
 

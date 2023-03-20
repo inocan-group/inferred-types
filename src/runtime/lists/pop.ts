@@ -1,8 +1,18 @@
-import { First, IfLength, IfUnion, Length, Narrowable, Pop, Tuple, UnionToTuple } from "src/types";
-import { ifArray } from "../boolean-logic";
-import { createFnWithProps } from "../functions";
-import { asArray } from "./asArray";
-import { last } from "./last";
+import { 
+  First, 
+  IfUnion, 
+  Length, 
+  Narrowable,  
+  Tuple, 
+  UnionToTuple 
+} from "src/types";
+
+import { 
+  createFnWithProps, 
+  asArray,
+  last,
+  slice 
+} from "src/runtime";
 
 /**
  * **pop**(list) => () => el
@@ -50,5 +60,5 @@ const provide = <T extends Tuple>(tuple: T) => {
 const a = pop([1,2,3]);
 const b = pop(1,2,3);
 const c = pop(1);
-const d = b.tuple.slice(0,-1);
+const d = slice(b.tuple, 0,-1);
 

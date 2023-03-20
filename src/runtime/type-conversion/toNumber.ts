@@ -1,20 +1,20 @@
-import { Narrowable, ToNumber } from "src/types";
-import { ifArray, ifBoolean, ifLength, ifNumber, ifString, ifTrue, never } from "src/runtime";
+import { Narrowable, Scalar, ToNumber } from "src/types";
 
-const conversion = <T extends Narrowable>(val: T) =>
-  ifNumber(
-    val,
-    (num) => num, // identity
-    () => ifString(
-      val, 
-      (str) => Number(str),
-      el => ifBoolean(
-        el,
-        <V extends boolean>(bool: V) => ifTrue(bool, () => 1, () => 0),
-        () => never(NaN)
-      )
-    )
-  ) as unknown as ToNumber<T>;
+
+
+const convertScalar = <T extends Narrowable>(val: T) => {
+  switch (typeof val) {
+    case "number":
+      return val;
+    case "string":
+      return Number(val);
+    case "boolean":
+      return val ? 1 : 0;
+    default:
+      throw Error(`${typeof val} is an invalid scalar type to convert to a number!`);
+  }
+};
+const convertList = <T extends readonly Scalar[]>(val: T) => val.map(i => convertScalar(i));
 
 /**
  * **toNumber**(value)
@@ -26,14 +26,10 @@ const conversion = <T extends Narrowable>(val: T) =>
  */
 export function toNumber<
   T extends Narrowable
->(value: T) {
-  return ifArray(
-    value,
-    v => ifLength(
-      v, 0, 
-      () => [] as readonly number[], 
-      tuple => tuple.map(i => conversion(i as Narrowable))
-    ) as unknown as ToNumber<T>,
-    () => conversion(value)
-  ); 
+>(value: T): ToNumber<T> {
+  return (
+    Array.isArray(value)
+    ? convertList(value)
+    : convertScalar(value)
+  ) as ToNumber<T>;
 }

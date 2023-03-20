@@ -1,11 +1,11 @@
-import { Tuple, Length, ToNumber, AfterFirst, First } from "src/types";
+import { Tuple, Length, ToNumber, AfterFirst, First, IfReadonlyArray } from "src/types";
 
-type Convert<
-  TList extends Tuple<`${number}` | number>,
-  TResults extends Tuple<number> = []
+type Recurse<
+  TList extends Tuple,
+  TResults extends Tuple = []
 > = [] extends TList
   ? TResults
-  : Convert<
+  : Recurse<
       AfterFirst<TList>,
       [
         ...TResults,
@@ -13,6 +13,14 @@ type Convert<
       ]
     >;
 
+type Convert<
+  TList extends Tuple
+> = Length<TList> extends 0
+    ? number[]
+    : Recurse<{
+      [K in keyof TList]: K
+    }>;
+    
 
 
 /**
@@ -31,8 +39,11 @@ type Convert<
  */
 export type NumericKeys <
   TList extends Tuple
-> = Length<TList> extends 0
-? readonly number[]
-: Readonly<Convert<{
-  [K in keyof TList]: K
-}>>;
+> = IfReadonlyArray<
+  TList,
+  TList["length"] extends 0
+    ? readonly number[]
+    : Readonly<Convert<TList>>,
+  Convert<TList>
+>;
+

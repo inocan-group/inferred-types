@@ -6,7 +6,7 @@ import { describe, it } from "vitest";
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
 // gain validation that no new type vulnerabilities have cropped up.
 
-describe("Relate<L,R>", () => {
+describe("Relate<L,R>", () => { 
 
   it("happy path", () => {
     type L = {foo: 1; bar: 2};

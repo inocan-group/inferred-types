@@ -1,4 +1,4 @@
-import {  ToString , IfEqual , RemoveEquals } from "src/types";
+import {  ToString , IfEqual , RemoveEquals, RemoveNever } from "src/types";
 
 type JoinAcc<
   TArr extends readonly unknown[],
@@ -23,10 +23,9 @@ type JoinAcc<
  * 
  * Joins together an array of items into a string.
  * 
- * - while the _separator_ between items defaults to an empty string this can be
+ * - the _separator_ between items defaults to an empty string this can be
  * changed to whatever is needed
  * - non-string types will be converted to strings as best as possible
- * - empty string still be ignored
  * 
  * **Related:** `Concat<TArr>`
  */
@@ -34,7 +33,7 @@ export type Join<
   TArr extends readonly unknown[],
   TSeparator extends string = ""
 > = JoinAcc<
-  RemoveEquals<TArr, "">,
+  RemoveNever<RemoveEquals<TArr, "">>,
   TSeparator
 >;
 

@@ -14,12 +14,11 @@ describe("IsObjectLiteral<T>", () => {
     type cases = [
       Expect<Equal<Empty, true>>, 
       Expect<Equal<Foobar, true>>, 
-      Expect<Equal<Obj, false>>, 
+      Expect<Equal<Obj, false>>,
       Expect<Equal<Rec, false>>, 
     ];
     const cases: cases = [ true, true, true, true ];
   });
-
 });
 
 
