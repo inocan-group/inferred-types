@@ -18,6 +18,7 @@ export * from "./IfTrue";
 export * from "./IfNumber";
 export * from "./IfFalse";
 export * from "./IfMaybeTrue";
+export * from "./IfReadonlyObject";
 export * from "./IfMaybeFalse";
 export * from "./IfReturns";
 export * from "./IfFalsy";

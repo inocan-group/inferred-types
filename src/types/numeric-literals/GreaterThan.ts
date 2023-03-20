@@ -3,7 +3,8 @@ type Calc<
   A extends number,
   B extends number,
   Count extends 1[] = []
-> = Count["length"] extends A
+> = 
+Count["length"] extends A
   ? false
   : Count["length"] extends B
     ? true

@@ -1,22 +1,23 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { AfterFirst } from "src/types";
+import { IfReadonlyArray } from "src/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
 // gain validation that no new type vulnerabilities have cropped up.
 
-describe("AfterFirst", () => {
-  
-  it("happy path for lists", () => {
-    type Foobar = AfterFirst<["foo", "bar"]>;
-    type Foobar2 = AfterFirst<readonly ["foo", "bar"]>;
+describe("IfReadonlyArray", () => {
+
+  it("happy path", () => {
+    type T1 = IfReadonlyArray<readonly [1,2,3], true, false>;
+
+    type F1 = IfReadonlyArray<[1,2,3], true, false>;
     
     type cases = [
-      Expect<Equal<Foobar, readonly ["bar"]>>,
-      Expect<Equal<Foobar2, readonly ["bar"]>>,
+      Expect<Equal<T1, true>>,
+      Expect<Equal<F1, false>>,
     ];
     const cases: cases = [true, true];
   });
-  
+
 });

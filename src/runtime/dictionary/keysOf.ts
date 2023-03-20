@@ -1,5 +1,5 @@
-import type { IsRef, Keys, Or } from "src/types";
-import {  isRef, isObject, isString, isTrue, isArray } from "src/runtime";
+import type {  AnyObject, IsRef, Keys, Tuple } from "src/types";
+import {  isRef, isObject, isString, isTrue, isReadonlyArray } from "src/runtime";
 
 function keyFilter<
   TKeys extends readonly unknown[], 
@@ -9,6 +9,18 @@ function keyFilter<
     ? keys.filter(isString)
     : keys;
 }
+
+type ReturnValue<
+  TContainer extends readonly PropertyKey[],
+  TOnlyStrings extends boolean
+> = Keys<
+  TContainer, 
+  TOnlyStrings extends true 
+    ? true
+    : IsRef<TContainer> extends true
+      ? true
+      : false
+>;
 
 /**
  * **keysOf**(container)
@@ -20,19 +32,22 @@ function keyFilter<
  * on props like `__v_isRef`, etc.
  */
 export function keysOf<
-  TContainer,
+  TContainer extends AnyObject | Tuple,
   TOnlyStrings extends boolean
 >(
-  container: TContainer, 
+  container: TContainer,
   onlyStrings: TOnlyStrings = false as TOnlyStrings
-): Keys<TContainer, Or<[TOnlyStrings, IsRef<TContainer>]>> {
+) {
   return (
-    isArray(container)
-      ? Object.keys(container)
+    isReadonlyArray(container)
+      ? Object.keys(container).map(i => Number(i) as number)
       : isObject(container)
-      ? isRef(container)
-        ? ["value"]
-        : keyFilter(Object.keys(container), onlyStrings || isRef(container))
-      : []
-  ) as Keys<TContainer, Or<[TOnlyStrings, IsRef<TContainer>]>>;
+        ? isRef(container)
+          ? ["value"]
+          : keyFilter(
+              Object.keys(container), 
+              (isRef(container) ? true : onlyStrings) as TOnlyStrings
+            )
+        : []
+  ) as ReturnValue<Keys<TContainer>, TOnlyStrings>;
 }

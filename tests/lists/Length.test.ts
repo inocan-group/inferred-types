@@ -18,6 +18,7 @@ describe("Length<T>", () => {
     type WideNum = Length<number>;
 
     type ObjLit = Length<{foo: 1}>;
+    type ObjLit2 = Length<{foo: 1; bar: 2}>;
     type WideObj = Length<object>;
     type EmptyObj = Length<{}>;
 
@@ -35,6 +36,7 @@ describe("Length<T>", () => {
       Expect<Equal<NumericLit, 4>>,
       Expect<Equal<WideNum, number>>,
       Expect<Equal<ObjLit, 1>>,
+      Expect<Equal<ObjLit2, 2>>,
       Expect<Equal<WideObj, number>>,
       Expect<Equal<EmptyObj, 0>>,
     ];
@@ -42,7 +44,7 @@ describe("Length<T>", () => {
       true, true, true, true, 
       true, true, true, true, 
       true, true, true, true,
-      true, true
+      true, true, true
     ];
   });
 });

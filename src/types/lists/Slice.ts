@@ -1,13 +1,12 @@
 type NumberToArr<T extends number, R extends unknown[] = []> =
-  R["length"] extends T
+R["length"] extends T
     ? R
     : NumberToArr<T, [...R, 0]>;
 
 type ToPositiveIndex<
   Arr extends readonly unknown[],
   N extends number,
-> =
-  `${N}` extends `-${infer P extends number}`
+> = `${N}` extends `-${infer P extends number}`
     ? NumberToArr<Arr["length"]> extends [...NumberToArr<P>, ...infer Rest]
       ? Rest["length"]
       : 0

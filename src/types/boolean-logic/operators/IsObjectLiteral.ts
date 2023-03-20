@@ -1,5 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { AnyObject, IfEqual, IfNever, IfOr, IsLength, Keys } from "src/types";
+import { 
+  AnyObject, 
+  IfEqual,  
+  IfNever, 
+  Length
+} from "src/types";
 
 /**
  * **IsObjectLiteral**`<T>`
@@ -9,12 +14,12 @@ import { AnyObject, IfEqual, IfNever, IfOr, IsLength, Keys } from "src/types";
  * 1. the type is `{}` (a literal indicating NO props)
  * 2. there is at least one key returned by `Keys<T>`
  */
-export type IsObjectLiteral<T extends AnyObject> = IfNever<
+export type IsObjectLiteral<T extends AnyObject> = 
+IfNever<
   T, false,
-  IfOr<
-  [  IsLength<Keys<T>, 0>, IsLength<Keys<T>, number>],
-  IfEqual<T, {}, true, false>,
-  true
->
+  IfEqual<
+    Length<T>, number, 
+    false,
+    true
+  >
 >;
-

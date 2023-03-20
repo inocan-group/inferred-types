@@ -26,4 +26,21 @@ describe("Join<T,S>", () => {
     const cases: cases = [true, true, true, true, true];
   });
 
+  
+  it("non-string types", () => {
+    type Arr1 = Join<[1,2,never,3]>;
+    type Mixed = Join<[true,false,boolean,42]>;
+    
+    type cases = [
+      Expect<Equal<Arr1, "123">>,
+      Expect<Equal<
+        Mixed, 
+        "truefalsefalse42" | "truefalsetrue42"
+      >>
+    ];
+    const cases: cases = [ true, true ];
+    
+  });
+  
+
 });

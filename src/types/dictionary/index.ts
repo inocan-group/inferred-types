@@ -25,6 +25,8 @@ export * from "./RequiredKeys";
 export * from "./MapTo";
 export * from "./MutableProps";
 export * from "./RequireProps";
+export * from "./ReadonlyKeys";
+export * from "./ReadonlyProps";
 export * from "./KnownKeys";
 export * from "./SameKeys";
 export * from "./AddKeyValue";

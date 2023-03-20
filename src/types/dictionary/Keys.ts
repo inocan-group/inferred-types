@@ -1,28 +1,42 @@
-import { IfLength, IfTrue, IfContainer, IfEqual } from "src/types/boolean-logic";
-import { RetainStrings, NumericKeys } from "src/types/lists";
-import { UnionToTuple } from "src/types/type-conversion";
-import { AnyObject } from "src/types/base-types";
-import { Key } from "./Key";
+
+import { 
+  IfLength, 
+  IfTrue, 
+  IfContainer, 
+  IfEqual, 
+  Key, 
+  AnyObject, 
+  UnionToTuple, 
+  RetainStrings, 
+  NumericKeys,
+  IfReadonlyObject,
+} from "src/types";
 
 type _ObjKeys<
   TValue extends AnyObject,
   TOnlyStringKeys extends boolean
 > = IfLength<
   Readonly<UnionToTuple<keyof TValue>>, 0,
-  IfTrue<TOnlyStringKeys, readonly string[], readonly (string | symbol)[]>,
+  IfTrue<
+    TOnlyStringKeys, 
+     string[], 
+     (string | symbol)[]
+  >,
   IfEqual<
     UnionToTuple<Readonly<keyof TValue>>,  [string], 
-    readonly string[],
+    string[],
     IfTrue<
       TOnlyStringKeys, 
-      Readonly<RetainStrings<UnionToTuple<Readonly<keyof TValue>>>>,
-      Readonly< UnionToTuple<Readonly<keyof TValue>>>
+      RetainStrings<UnionToTuple<Readonly<keyof TValue>>>,
+      UnionToTuple<Readonly<keyof TValue>>
     >
   >
 >;
 
+
+
 /**
- * **Keys**`<TValue, [TExclude]>`
+ * **Keys**`<TValue, [TOnlyStringKeys]>`
  * 
  * Provides the _keys_ of the container (aka, object or array) `TValue`.
  * 
@@ -41,20 +55,14 @@ export type Keys<
   TValue,
   // Container
   TValue extends readonly unknown[]
-    ? NumericKeys<TValue>
-    : _ObjKeys<TValue & AnyObject, TOnlyStringKeys>
-  ,
+    ? NumericKeys<TValue> // array/tuple
+    : IfReadonlyObject<
+      TValue,
+      Readonly<_ObjKeys<TValue & object, TOnlyStringKeys>>,
+      _ObjKeys<TValue & object, TOnlyStringKeys>
+    >,
   // Non-Container
   readonly Key[]
 >;
 
 
-
-// IfLength<
-//   TValue extends readonly unknown[]
-//     ? NumericKeys<TValue>
-//     : _ObjKeys<TValue, TOnlyStringKeys>
-//   , 0, 
-//   // just make readonly [] if there are no elements
-//   readonly []
-// >;

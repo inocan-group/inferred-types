@@ -11,15 +11,24 @@ describe("ToNumericArray<T>", () => {
 
   it("happy path", () => {
     type Mixed = ToNumericArray<[1,2,"3",4]>;
+    type Mixed_RO = ToNumericArray<readonly [1,2,"3",4]>;
     type AllStr = ToNumericArray<["1","2","3","4"]>;
+    type AllStr_RO = ToNumericArray<readonly ["1","2","3","4"]>;
     type None = ToNumericArray<number[]>;
+    type None_RO = ToNumericArray<readonly number[]>;
     
     type cases = [
-      Expect<Equal<Mixed, readonly [1,2,3,4]>>,
-      Expect<Equal<AllStr, readonly [1,2,3,4]>>,
-      Expect<Equal<None, readonly []>>,
+      Expect<Equal<Mixed, [1,2,3,4]>>,
+      Expect<Equal<Mixed_RO, readonly [1,2,3,4]>>,
+      Expect<Equal<AllStr, [1,2,3,4]>>,
+      Expect<Equal<AllStr_RO, readonly [1,2,3,4]>>,
+      Expect<Equal<None, number[]>>,
+      Expect<Equal<None_RO, readonly number[]>>,
     ];
-    const cases: cases = [ true, true, true ];
+    const cases: cases = [ 
+      true, true, true,
+      true, true, true,
+    ];
   });
 
 });
