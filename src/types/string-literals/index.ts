@@ -17,6 +17,8 @@ export * from "./IsCapitalized";
 export * from "./Join";
 export * from "./PathJoin";
 export * from "./Pluralize";
+export * from "./Prepend";
+export * from "./PrependAll";
 export * from "./StripLeading";
 export * from "./Suggest";
 export * from "./Repeat";

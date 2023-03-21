@@ -22,7 +22,7 @@ export function isLength<
   TLen extends number
 >(value: TValue, len: TLen) {
     return isArray(value)
-      ? isEqual(value.length)(len) ? true : false
+      ? isEqual((value as unknown[]).length)(len) ? true : false
       : isString(value)
         ? isEqual(value.length)(len) ? true : false
         : isObject(value)

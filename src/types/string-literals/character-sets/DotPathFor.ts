@@ -6,17 +6,17 @@ import {
   IsArray, 
   IsLiteral,  
   IfAnd,
-  IfObject
-} from "src/types/boolean-logic";
+  IfObject,
+  EmptyString,
+  Prepend,
+  PrependAll,
+  TupleToUnion, 
+  ToString,
+  Narrowable,
+  AfterFirst, First, RemoveEquals, Flatten, Retain,
+  FromMaybeRef, Get, Keys
+} from "src/types";
 
-import { FromMaybeRef, Get, Keys } from "src/types/dictionary";
-import { AfterFirst, First, RemoveEquals, Flatten, Retain } from "src/types/lists";
-import { Narrowable } from "src/types/literals";
-import { TupleToUnion, ToString } from "src/types/type-conversion";
-
-import { EmptyString } from "../EmptyString";
-import { Prepend } from "../Prepend";
-import { PrependAll } from "../PrependAll";
 
 type SubIndexes<
   TList extends readonly unknown[],

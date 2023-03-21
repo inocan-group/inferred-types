@@ -1,5 +1,5 @@
 import type { IfStartsWith, Narrowable } from "src/types";
-import { ifNumber, ifString } from "src/runtime/boolean-logic";
+import { isNumber, isString } from "src/runtime";
 
 export type StartingWithTypeGuard<TStartsWith extends string> = <
   TValue extends Narrowable
@@ -16,13 +16,9 @@ export const startsWith = <
 >(startingWith: TStartsWith): StartingWithTypeGuard<TStartsWith> => <
   TValue extends Narrowable
 >(val: TValue): val is TValue & `${TStartsWith}${string}`=> {
-  return ifString(
-    val,
-    v => v.startsWith(startingWith) ? true : false,
-    v => ifNumber(
-      v, 
-      () => String(v).startsWith(startingWith) ? true : false,
-      () => false
-    ) as boolean
+  return (
+    isString(val) ? val.startsWith(startingWith) ? true : false
+    : isNumber(val) ? String(val).startsWith(startingWith) ? true : false
+    : false
   ) as IfStartsWith<TValue, TStartsWith, true, false>;
 };

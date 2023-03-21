@@ -1,5 +1,4 @@
 import { AnyObject } from "src/types";
-import { keysOf } from "../dictionary";
 
 /**
  * Adds read-only (and narrowly typed) key/value pairs to a function
@@ -11,8 +10,8 @@ export function readonlyFnWithProps<
 >(fn: ((...args: A) => R), props: P) {
   // eslint-disable-next-line prefer-const
   let combined: any = fn;
-  for (const prop of keysOf(props)) {
-    combined[prop] = props[prop];
+  for (const prop of Object.keys(props)) {
+    combined[prop] = props[prop as keyof P];
   }
   return combined as ((...args: A) => R) & Readonly<P>;
 }

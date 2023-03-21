@@ -8,6 +8,7 @@ import type {
   ErrorCondition,
   IfContainer,
   Scalar,
+  Increment,
   FromMaybeRef
 } from "src/types";
 import { NoDefaultValue } from "src/constants";
@@ -71,7 +72,7 @@ type _Deep<
       TContainer[TProp],
       // possibility of using remainder of dotpath, so continue
       IsDeepPath<TRest> extends true
-        ? _Deep<GetPath<TRest>,GetRest<TRest>, TDotPath, AddOne<TDepth>, TMaxDepth>
+        ? _Deep<GetPath<TRest>,GetRest<TRest>, TDotPath, Increment<TDepth>, TMaxDepth>
         : _Shallow<TContainer, TRest>,
       // there remains dereferencing to be done but value is not
       // a container

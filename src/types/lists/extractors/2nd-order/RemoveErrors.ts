@@ -1,5 +1,4 @@
-import { ErrorCondition } from "src/runtime/literals";
-import type { AnyObject, RemoveFromList } from "src/types";
+import type { AnyObject, RemoveFromList, ErrorCondition } from "src/types";
 
 /**
  * **RemoveErrors**`<TValue, [TErrKind]>`
@@ -12,10 +11,11 @@ import type { AnyObject, RemoveFromList } from "src/types";
 export type RemoveErrors<
   TValue extends unknown[] | readonly unknown[] | AnyObject,
   TErrKind extends string = string
-> = TValue extends unknown[]
-? RemoveFromList<TValue, "extends", ErrorCondition<TErrKind>>
-: TValue extends readonly unknown[]
-? Readonly<RemoveFromList<TValue, "extends", ErrorCondition<TErrKind>>>
-: TValue extends AnyObject
-? TValue
-: never;
+> = 
+TValue extends unknown[]
+  ? RemoveFromList<TValue, "extends", ErrorCondition<TErrKind>>
+  : TValue extends readonly unknown[]
+      ? Readonly<RemoveFromList<TValue, "extends", ErrorCondition<TErrKind>>>
+      : TValue extends AnyObject
+        ? TValue
+        : never;

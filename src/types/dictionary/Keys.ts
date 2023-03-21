@@ -62,7 +62,7 @@ export type Keys<
       _ObjKeys<TValue & object, TOnlyStringKeys>
     >,
   // Non-Container
-  readonly Key[]
+  readonly PropertyKey[]
 >;
 
 

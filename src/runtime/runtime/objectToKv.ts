@@ -1,5 +1,5 @@
 import { AnyObject , KvDict , ObjectToKvDict } from "src/types";
-import { isObject } from "../type-guards/isObject";
+import { isObject } from "src/runtime";
 
 /**
  * **objectToKv**(obj)
@@ -15,9 +15,9 @@ export function objectToKv<TObj extends AnyObject>(obj: TObj) {
   Object.keys(obj).forEach(key => {
     kv = [
       ...kv, 
-      isObject(obj[key])
-        ? { key, value: objectToKv(obj[key])}
-        : { key, value: obj[key]}
+      isObject(obj[key as keyof TObj])
+        ? { key, value: objectToKv(obj)}
+        : { key, value: obj[key  as keyof TObj]}
     ];
   });
 

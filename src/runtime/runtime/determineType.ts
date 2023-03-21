@@ -8,8 +8,12 @@ import {
   UnionToIntersection 
 } from "src/types";
 
-import { hasNoUnderlyingTypes, hasUnderlyingTypes, isLiteralType } from "../type-guards/runtime-type-guards";
-import { wide } from "../literals";
+import { 
+  hasNoUnderlyingTypes, 
+  hasUnderlyingTypes, 
+  isLiteralType, 
+  wide 
+} from "src/runtime";
 
 type GetType<U> = U extends readonly unknown[]
   ? GetEach<U, "type">

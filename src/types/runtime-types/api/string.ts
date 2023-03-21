@@ -1,4 +1,5 @@
-import { NoDefaultValue } from "../../../types";
+
+import { NoDefaultValue } from "src/constants";
 import { Type, TypeDefaultValue, TypeOptions, TypeUnderlying } from "../Type";
 
 export type TypeApiString = <

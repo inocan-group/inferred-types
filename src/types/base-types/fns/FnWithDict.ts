@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable @typescript-eslint/ban-types */
-import type { ExpandRecursively, IfEqual, IndexableObject, RemoveIndex } from "src/types";
+import type { AnyObject, ExpandRecursively, IfEqual, IndexableObject, RemoveIndex } from "src/types";
 import { RegularFn } from "./RegularFn";
 /**
  * **FnWithDict**

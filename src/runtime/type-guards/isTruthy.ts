@@ -1,5 +1,5 @@
 import { Narrowable, FalsyValue } from "src/types";
-import { FALSY_VALUES } from "../runtime";
+import { FALSY_VALUES } from "src/runtime";
 
 
 /**

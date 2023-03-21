@@ -1,4 +1,4 @@
-import { IfArray, IfLength, Narrowable, Scalar, Tuple } from "src/types";
+import { Container, IfArray, IfLength, Narrowable, Scalar, Tuple } from "src/types";
 import { isArray } from "../type-guards";
 
 
@@ -14,10 +14,10 @@ import { isArray } from "../type-guards";
  * @param elseVal the value (strongly typed) returned if val is NOT of given length 
  */
 export function ifLength<
-TList extends Narrowable | Tuple, 
-TLen extends number,
-IF extends Narrowable | Tuple, 
-ELSE extends Narrowable | Tuple, 
+  TList extends Container, 
+  TLen extends number,
+  IF extends Narrowable | Tuple, 
+  ELSE extends Narrowable | Tuple, 
 >(
   value: TList, 
   length: TLen,
@@ -25,7 +25,7 @@ ELSE extends Narrowable | Tuple,
   elseVal: <V extends IfArray<TList, TList, Exclude<TList, Tuple>>>(v:V) => ELSE
 ) {
   return (
-    isArray(value) && value.length === length
+    isArray(value) && (value as unknown[]).length === length
       ? ifVal(value as Exclude<TList, Scalar | undefined> & Tuple) 
       : elseVal(value as Exclude<TList, Tuple>)
   ) as IfLength<TList, TLen, IF, ELSE>;

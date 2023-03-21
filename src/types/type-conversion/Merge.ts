@@ -1,7 +1,10 @@
-import { IfUndefined , DoesExtend, IfAnd , IsOptionalScalar } from "../boolean-logic";
-import { Narrowable , ExpandRecursively } from "src/types/literals";
-import { AfterFirst , First } from "src/types/lists";
-import { AnyObject, Scalar } from "src/types/base-types";
+import { 
+  IfUndefined , 
+  DoesExtend, 
+  IfAnd , 
+  IsOptionalScalar , 
+  Narrowable , 
+  ExpandRecursively , AfterFirst , First , AnyObject, Scalar } from "src/types";
 
 // 1. Keep all unique keys in `TValue`
 // 2. Strip all KV's on `TValue` which are _undefined_
@@ -21,11 +24,11 @@ export type MergeScalars<
 >;
 
 type MergeTuplesAcc<
-  TDefault extends readonly Narrowable[],
-  TOverride extends readonly Narrowable[],
+  TDefault extends readonly unknown[],
+  TOverride extends readonly unknown[],
   TKey extends string | false = false,
-  TResults extends readonly any[] = []
-> = TOverride extends [infer Override, ...infer Rest]
+  TResults extends readonly unknown[] = []
+> = TOverride extends [infer Override, ...infer Rest extends unknown[]]
   ? IfUndefined<
     Override,
     MergeTuplesAcc<AfterFirst<TDefault>, Rest, TKey, [...TResults, First<TDefault>]>,
