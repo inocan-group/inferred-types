@@ -1,6 +1,6 @@
 
-import { NoDefaultValue } from "../../../types";
-import { Type, TypeDefaultValue, TypeOptions, TypeUnderlying } from "../Type";
+import { NoDefaultValue } from "src/constants";
+import { Type, TypeDefaultValue, TypeOptions, TypeUnderlying } from "src/types";
 
 export type TypeApiNumericLiteral = <
 TRequired extends boolean = true,

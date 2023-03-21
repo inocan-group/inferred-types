@@ -5,9 +5,9 @@ import type {
 } from "src/types";
 import { 
   boxDictionaryValues, 
-  wide 
-} from "src/runtime/literals";
-import { ifSameType } from "../boolean-logic";
+  wide,
+  ifSameType
+} from "src/runtime";
 
 /**
  * **createConverter**(mapper)

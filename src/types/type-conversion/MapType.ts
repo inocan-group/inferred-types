@@ -1,15 +1,15 @@
 import type { 
-  StripTrailing 
-} from "../string-literals";
+  StripTrailing,
+  RemoveNever,
+  Narrowable,
+  Join,
+  ConvertType
+} from "src/types";
 
-import {  RemoveNever } from "../lists";
-import { Narrowable } from "../literals/Narrowable";
-import { Join } from "../string-literals/Join";
-import { TYPE_MATCHER_DESC, TYPE_TRANSFORMER_DESC } from "src/runtime/runtime";
+import { TYPE_MATCHER_DESC, TYPE_TRANSFORMER_DESC } from "src/runtime";
 import { TypeMapMatcher } from "./convert-and-map-support/TypeMapMatcher";
 import { TypeMapTransformer } from "./convert-and-map-support/TypeMapTransformer";
 import { TypeMapRule } from "./TypeMapRule";
-import { ConvertType } from "./ConvertType";
 
 
 /**
@@ -42,7 +42,7 @@ export type ConfiguredTypeMapper<
 > = <T extends readonly Narrowable[]>(...tokens: T) => MapType<T,R>;
 
 type MapAcc<
-  TList extends readonly Narrowable[], 
+  TList extends readonly unknown[], 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   TMatchers extends readonly TypeMapRule[],
   TElse extends Narrowable = never,

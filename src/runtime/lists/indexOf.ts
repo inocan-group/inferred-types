@@ -18,7 +18,7 @@ import { isArray, isNull, isNumber, isObject } from "../type-guards";
  */
 export function indexOf<
 TValue extends Indexable | Scalar,
-TIdx extends string | number | null
+TIdx extends PropertyKey | null
 >(val: TValue, index: TIdx) {
   const isNegative = isNumber(index) && index < 0;
   if(isNegative && !Array.isArray(val)) {

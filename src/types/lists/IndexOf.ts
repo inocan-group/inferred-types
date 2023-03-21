@@ -1,4 +1,4 @@
-import { AnyObject, IfNull, IsNegativeNumber, Abs, Decrement, Reverse, Key, ErrorCondition, Concat, ToString} from "src/types";
+import { AnyObject, IfNull, IsNegativeNumber, Abs, Decrement, Reverse,  ErrorCondition, Concat, ToString} from "src/types";
 import { IfValidKey } from "../boolean-logic/branching/IfValidKey";
 
 /**
@@ -15,7 +15,7 @@ import { IfValidKey } from "../boolean-logic/branching/IfValidKey";
  */
 export type IndexOf<
   TValue,
-  TIdx extends Key | null
+  TIdx extends PropertyKey | null
 > = IfNull<
   TIdx,
   // return "as is"

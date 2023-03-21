@@ -1,13 +1,5 @@
-import { AnyObject } from "src/types/base-types";
-import { WithoutValue, SimplifyObject, Keys } from "src/types/dictionary";
-import { IfLength } from "src/types/boolean-logic";
+import { AnyObject, IntersectingKeys } from "src/types";
 
-type Shared<
-  A extends AnyObject,
-  B extends AnyObject,
-> = Keys<WithoutValue<SimplifyObject<{
-  [K in keyof A]: K extends keyof B ? K : never
-}>, never>>;
 
 /**
  * **SharedKeys**`<A,B>`
@@ -21,14 +13,9 @@ type Shared<
  * type X = SharedKeys<O1,O2>;
  * ```
  * 
- * **Note:** intersecting with the union type allows the 
- * criteria of extending _keyof A_ and _keyof B_.
+ * **Note:** this is now just an alias to `IntersectingKeys`
  */
 export type SharedKeys<
   A extends AnyObject,
   B extends AnyObject
-> = IfLength<
-  Shared<Keys<A>,Keys<B>>, 0,
-  readonly [],
-  Shared<A,B>
->;
+> = IntersectingKeys<A,B>;

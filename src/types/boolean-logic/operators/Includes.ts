@@ -1,5 +1,5 @@
-import { TupleToUnion } from "src/types/type-conversion";
-import { IsLiteral, IsStringLiteral } from "src/types/boolean-logic";
+import {  IfNever, SomeEqual,  IfOr, IsWideType } from "src/types";
+
 
 /**
  * **Includes**`<TSource, TValue>`
@@ -14,20 +14,12 @@ import { IsLiteral, IsStringLiteral } from "src/types/boolean-logic";
 export type Includes<
   TSource extends string | readonly string[],
   TValue extends string
-> = TSource extends string[]
-  ? IsStringLiteral<TupleToUnion<TSource>> extends true
-    ? IsLiteral<TValue> extends true
-      ? TValue extends TupleToUnion<TSource>
-        ? true
-        : false
-      : boolean
-    : boolean
-  : TSource extends string
-  ? IsLiteral<TSource> extends true
-    ? IsLiteral<TValue> extends true
-      ? TSource extends `${string}${TValue}${string}`
-        ? true
-        : false
-      : boolean
-    : boolean
-  : boolean;
+> = IfNever<TValue, false,
+  IfOr<[IsWideType<TValue>, IsWideType<TSource>], boolean,
+  TSource extends string[]
+    ? SomeEqual<TValue,TSource>
+    : TSource extends `${string}${TValue}${string}`
+      ?  true
+      : false
+>>;
+

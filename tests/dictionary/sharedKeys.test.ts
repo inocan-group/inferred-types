@@ -22,8 +22,8 @@ describe("SharedKeys", () => {
     type cases = [
       Expect<ExpectExtends< readonly ["bar", "color"], Shared>>,
       Expect<ExpectTrue<Contains<All, "foo">>>,
-      Expect<Equal<None, readonly []>>,
-      Expect<Equal<None2, readonly []>>,
+      Expect<Equal<None, []>>,
+      Expect<Equal<None2,  []>>,
     ];
     const cases: cases = [ true, true, true, true ];
   });

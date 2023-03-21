@@ -1,4 +1,11 @@
-import { Keys, Narrowable, OptionalKeys, RequiredKeys, TupleToUnion, UnionFromProp } from "src/types";
+import { 
+  Keys, 
+  Narrowable, 
+  OptionalKeys, 
+  RequiredKeys, 
+  TupleToUnion, 
+  UnionFromProp 
+} from "src/types";
 
 export interface Uniqueness<T> {
   /** boolean flag to indicate whether the property was unique across all records */

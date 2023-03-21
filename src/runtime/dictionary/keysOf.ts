@@ -40,7 +40,7 @@ export function keysOf<
 ) {
   return (
     isReadonlyArray(container)
-      ? Object.keys(container).map(i => Number(i) as number)
+      ? Object.keys(container).map(i => Number(i) )as number[]
       : isObject(container)
         ? isRef(container)
           ? ["value"]

@@ -9,4 +9,6 @@ import { Pop } from "./Pop";
 export type ReplaceLast<
   TList extends readonly any[],
   TVal
-> = [...Pop<TList>, TVal];
+> = Pop<TList> extends readonly unknown[]
+  ? [...Pop<TList>, TVal]
+  : never;

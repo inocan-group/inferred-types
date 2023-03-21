@@ -40,7 +40,7 @@ type Exceptions =
   | "money => monies"
   | "deer => deer";
 
-type SingularException<T = Exceptions> = T extends `${infer SINGULAR} => ${infer PLURAL}`
+type SingularException<T = Exceptions> = T extends `${infer SINGULAR} => unknown`
   ? SINGULAR
   : never;
 

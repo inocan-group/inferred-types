@@ -1,6 +1,4 @@
-import { IfEqual, IfExtends } from "src/types/boolean-logic";
-import { Narrowable } from "src/types/literals";
-import { AfterFirst, First } from "src/types/lists";
+import { IfEqual, IfExtends , AfterFirst, First } from "src/types";
 
 type FindAcc<
   TList extends readonly unknown[],

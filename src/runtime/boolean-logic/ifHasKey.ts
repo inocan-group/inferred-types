@@ -2,16 +2,14 @@
 import { 
   Container, 
   ContainerBlockKey, 
-  IfContains, 
   IndexOf, 
-  Key, 
-  Keys, 
   Narrowable
 } from "src/types";
+import { indexOf } from "src/runtime";
 
 export const ifHasKey = <
   TContainer extends Container,
-  TKey extends Key,
+  TKey extends PropertyKey,
   IF extends Narrowable,
   ELSE extends Narrowable
 >(
@@ -19,9 +17,9 @@ export const ifHasKey = <
   key: TKey,
   hasKey: (val: IndexOf<TContainer, TKey>) => IF,
   doesNotHaveKey: <N extends ContainerBlockKey<TContainer, TKey>>(nonArr: N) => ELSE
-): IfContains<Keys<TContainer>, TKey, IF, ELSE> => ifHasKey(
-  container, key,
-  hasKey(indexOf(container, key)),
-  doesNotHaveKey(container as ContainerBlockKey<TContainer, TKey>)
-);
+) => (
+  key in container 
+  ? hasKey(indexOf(container, key))
+  : doesNotHaveKey(container as ContainerBlockKey<TContainer, TKey>)
+) as IfContains<Keys<TContainer>, TKey, IF, ELSE>;
 

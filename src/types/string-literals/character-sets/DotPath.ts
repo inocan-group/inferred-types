@@ -4,10 +4,10 @@ import {
   Includes,  
   Or, 
   EndsWith, 
-  StartsWith 
-} from "src/types/boolean-logic";
-import { AfterFirst, First, Split } from "src/types/lists";
-import { AlphaNumericChar } from "./AlphaNumeric";
+  StartsWith,
+  AfterFirst, First, Split,
+  AlphaNumericChar
+} from "src/types";
 
 export type DotPathChar = AlphaNumericChar | "_" | "-";
 

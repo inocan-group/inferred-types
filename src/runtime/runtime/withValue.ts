@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { AnyObject, WithValue,  Narrowable } from "src/types";
-import { keysOf } from "../dictionary";
-import { isSameTypeOf } from "../type-guards";
+import {  isSameTypeOf } from "src/runtime";
 
 /**
  * **withValue**(value) => (obj) => WithValue<TObj,TVal>
@@ -21,9 +20,9 @@ import { isSameTypeOf } from "../type-guards";
  */
 export function withValue<TVal extends Narrowable>(val: TVal) {
   return <TObj extends AnyObject>(obj: TObj): WithValue<TObj,TVal> => {
-    return keysOf(obj).reduce(
-      (acc, key) => isSameTypeOf(val)(obj[key]) 
-        ? ({...acc, [key]: obj[key]})
+    return Object.keys(obj).reduce(
+      (acc, key) => isSameTypeOf(val)(obj[key as keyof TObj]) 
+        ? ({...acc, [key]: obj[key as keyof TObj]})
         : acc,
       {} as WithValue<TObj,TVal>
     );
