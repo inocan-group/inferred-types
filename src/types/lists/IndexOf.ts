@@ -24,7 +24,7 @@ export type IndexOf<
   TValue extends readonly unknown[]
       ? IsNegativeNumber<TIdx> extends true
         ? IndexOf< // negative indexing
-            Reverse<TValue & readonly unknown[]>, Decrement<Abs<TIdx & number>>
+            Reverse<TValue>, Decrement<Abs<TIdx & number>>
           >
         : IfValidKey<TValue,Exclude<TIdx, null>>
           

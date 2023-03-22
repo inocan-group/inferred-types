@@ -1,4 +1,4 @@
-import { ExpandRecursively, Narrowable } from "../../../types";
+import { ExpandRecursively, Narrowable } from "src/types";
 
 
 /**
@@ -10,9 +10,9 @@ import { ExpandRecursively, Narrowable } from "../../../types";
  * > instead use `KV2` to get this capability.
  */
 export function kv<
-  K extends string,
+  K extends PropertyKey,
   N extends Narrowable,
-  V extends Record<any, N> | boolean | number | string | null | undefined
+  V extends Record<K, N> | boolean | number | string | null | undefined
 >(key: K, value: V) {
   return { [key]: value } as ExpandRecursively<Record<K, V>>;
 }

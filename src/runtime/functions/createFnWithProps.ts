@@ -6,7 +6,6 @@ import {
   AnyObject,
   FnWithDict, 
 } from "src/types/base-types";
-import { keysOf } from "../dictionary/keysOf";
 
 /**
  * **FnReadyForProps**(props)
@@ -18,7 +17,7 @@ import { keysOf } from "../dictionary/keysOf";
 export type FnReadyForProps<
   TFn extends FnMeta<any, any, any>
 > = <
-  TProps extends Record<string, N>,
+  TProps extends Record<PropertyKey, N>,
   N extends Narrowable
 >(props: TProps) => _Returns<TFn, TProps>;
 
@@ -42,16 +41,15 @@ TFn["props"] extends "no-props"
  * function and the dictionary passed into fully apply this utility will be
  * merged with the dictionary props will have precedence. 
  */
-export const createFnWithProps = <
-  TFn extends AnyFunction
->(
+export const createFnWithProps = <TFn extends AnyFunction>(
   fn: TFn
-): FnReadyForProps<Fn<TFn>> => <
-  TProps extends Record<string, N>,
+) => <
+  TProps extends Record<PropertyKey, N>,
   N extends Narrowable
 >(props: TProps) => {
-  for (const k of keysOf(props)) {
-    (fn as any)[k] = props[k];
+  for (const k of Object.keys(props)) {
+    (fn as any)[k] = props[k as keyof TProps];
   }
-  return fn as _Returns<Fn<TFn>, TProps>;
+
+  return fn as unknown as _Returns<Fn<TFn>, TProps>;
 };

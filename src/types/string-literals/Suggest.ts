@@ -3,7 +3,7 @@ import type {
   Filter,  
   IfString , 
   IsLiteral , 
-  Narrowable, 
+  ScalarNotSymbol, 
   TupleToUnion 
 } from "src/types";
 
@@ -20,7 +20,7 @@ import type {
  * - If T is a wide string then we must return
  * just a wide string as no suggestions are possible
  */
-export type Suggest<T extends Narrowable | readonly unknown[]> = //
+export type Suggest<T extends ScalarNotSymbol | readonly unknown[]> = //
 T extends string | number | readonly string[] | readonly number[]
 ? T extends readonly string[]
   ? TupleToUnion<Filter<T, string, "equals">> | (string & {})

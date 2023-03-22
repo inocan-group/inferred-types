@@ -22,9 +22,9 @@ describe("GetEach<T,P>", () => {
     type Cost = GetEach<List, "cost">;
     
     type cases = [
-      Expect<Equal<ID, readonly [1,2,3] & readonly unknown[]>>,
-      Expect<Equal<Value, readonly ["foo", "bar", "baz"] & readonly unknown[]>>,
-      Expect<Equal<Cost, readonly [ 5, 15 ] & readonly unknown[]>>
+      Expect<Equal<ID, readonly [1,2,3] >>,
+      Expect<Equal<Value, readonly ["foo", "bar", "baz"] >>,
+      Expect<Equal<Cost, readonly [ 5, 15 ] >>
     ];
     const cases: cases = [ true, true, true ];
   });
@@ -41,8 +41,8 @@ describe("GetEach<T,P>", () => {
     type Owns = GetEach<List, "color.owns">;
     
     type cases = [
-      Expect<Equal<Fav, readonly [ "blue", "green", undefined ] & readonly unknown[]>>,
-      Expect<Equal<Owns, readonly [ "grey" ] & readonly unknown[]>>,
+      Expect<Equal<Fav, readonly [ "blue", "green", undefined ] >>,
+      Expect<Equal<Owns, readonly [ "grey" ] >>,
     ];
     const cases: cases = [ true, true ];
   });
