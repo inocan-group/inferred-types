@@ -43,11 +43,11 @@ export function keysOf<
       ? Object.keys(container).map(i => Number(i) )as number[]
       : isObject(container)
         ? isRef(container)
-          ? ["value"]
+          ? ["value"] as readonly ["value"]
           : keyFilter(
               Object.keys(container), 
               (isRef(container) ? true : onlyStrings) as TOnlyStrings
             )
-        : []
-  ) as ReturnValue<Keys<TContainer>, TOnlyStrings>;
+        : [] as readonly PropertyKey[]
+  ) as unknown as ReturnValue<Keys<TContainer>, TOnlyStrings>;
 }

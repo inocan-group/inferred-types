@@ -2,8 +2,7 @@
 import { describe, it } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
 import { Ref } from "vue";
-import { DotPathFor } from "src/types/string-literals/character-sets";
-import { Suggest } from "src/types/string-literals";
+import { DotPathFor , Suggest, TupleToUnion } from "src/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -32,14 +31,14 @@ describe("Name", () => {
 
     type cases = [
       // when the target is a null then the suggested dotpath is the same
-      Expect<Equal<NullTarget, null>>,
+      Expect<Equal<NullTarget, ["", null]>>,
     ];
     const cases: cases = [ true ];
   });
   
   it("using an object as target", () => {
     type TObj = DotPathFor<Obj>;
-    type Suggestion = Suggest<TObj>;
+    type Suggestion = Suggest<TupleToUnion<TObj>>;
 
     type Expected = "foo" | "bar" | "baz" | "color" | "info" | `bar.${number}` | "baz.a" | "baz.b" | "baz.c" | "color.0" | "color.1" | "color.2" | "info.age" | "info.address";
 

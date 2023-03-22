@@ -29,7 +29,10 @@ describe("Get<T, K> type utility", () => {
       Expect<Equal<Foo, number>>,
       Expect<Equal<Bar, string>>,
       // non-existent props return never
-      Expect<Equal<DoesExtend<Nada, ErrorCondition<"invalid-dot-path">>, true>>
+      Expect<DoesExtend<
+        Nada, 
+        ErrorCondition<"invalid-dot-path">>
+      >>
     ];
     const c: cases = [true, true, true, true];
     expect(c).toBe(c);

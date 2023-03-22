@@ -15,7 +15,7 @@ describe("IndexOf<T>", () => {
     type ArrBadIdx = IndexOf<[1,2,3], 8>;
     // type Err1 = IndexOf<[1,2,3], "foo">;
 
-    type Neg = IndexOf<[1,2,3], -2>;
+    type Neg = IndexOf<[1,2,3], -1>;
     
     type Obj = IndexOf<{foo: 1; bar: 2; baz: 3}, "bar">;
     type Identity = IndexOf<"foo", null>;
@@ -24,10 +24,15 @@ describe("IndexOf<T>", () => {
     type cases = [
       Expect<Equal<Obj, 2>>,
       Expect<Equal<Arr, 2>>,
+      Expect<Equal<Neg, 3>>,
+      Expect<DoesExtend<
+        ArrBadIdx, 
+        ErrorCondition<"key-does-not-exist">
+      >>,
       Expect<Equal<Identity, "foo">>,
       Expect<DoesExtend<Never, ErrorCondition<"invalid-index">>>,
     ];
-    const cases: cases = [ true, true, true, true ];
+    const cases: cases = [ true, true, true, true, true, true ];
   });
 
   

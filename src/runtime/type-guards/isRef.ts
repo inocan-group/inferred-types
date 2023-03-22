@@ -1,5 +1,5 @@
-import { VueRef } from "src/types/literals/VueRef";
-import { isObject } from "./isObject";
+import { VueRef } from "src/types";
+import { isObject } from "src/runtime";
 
 /**
  * **isRef**(value)

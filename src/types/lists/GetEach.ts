@@ -1,34 +1,8 @@
-import { ErrorCondition } from "../errors/ErrorCondition";
-import { Get } from "src/types/dictionary";
-import { AfterFirst, First, IndexOf, IndexOf } from "src/types/lists";
-import { ConvertSet } from "./ConvertSet";
-import { RemoveErrors, RemoveNever } from "./extractors";
-import { IfContainer } from "src/types/boolean-logic";
-import { ToContainer, ToString } from "src/types/type-conversion";
 
-
-export type GetEachErrHandling = "report-errors" | "ignore-errors" | "to-never";
-
-type GetEachAcc<
-  T extends readonly unknown[], 
-  TKey extends string | number | null, 
-  Processed extends readonly unknown[] = []
-> = //
-[] extends T
-  ? Processed
-  : GetEachAcc<
-      AfterFirst<T>, 
-      TKey, 
-      [
-        ...Processed, 
-        IfContainer<
-          T,
-          Get<ToContainer<First<T>>, TKey>,
-          // First<T> not container
-          TKey
-        >
-      ]
-    >;
+import { 
+  IndexOf, 
+  RemoveNever, 
+} from "src/types";
 
 
 /**
@@ -53,23 +27,14 @@ type GetEachAcc<
 */
 export type GetEach<
   TList extends readonly unknown[], 
-  TKey extends string | number | null,
+  TKey extends PropertyKey | null,
   // THandleErrors extends GetEachErrHandling = "ignore-errors"
 > = TKey extends null
-  ? TList // return list "as is"
-  : RemoveNever<{
-      [K in keyof TList]: IfContainer<
-        TList[K],
-        IndexOf<ToContainer<TList[K]>, TKey>,
-        never
-      >
-    }> & readonly unknown[];
-  
-  
-  // THandleErrors extends "ignore-errors"
-  //   ? RemoveErrors<GetEachAcc<TList, TKey>, "invalid-dot-path">
-  //   : THandleErrors extends "report-errors"
-  //     ? GetEachAcc<TList, TKey>
-  //     : THandleErrors extends "to-never"
-  //       ? ConvertSet<GetEachAcc<TList, TKey>, ConvertToNever>
-  //       : never;
+  ? TList // return list "as is" when key is null
+  // : IsNegativeNumber<TKey> extends true
+  //   ? GetEach<Reverse<TList>, Abs<TKey & number>>
+    : RemoveNever<{
+      [K in keyof TList]: TKey extends keyof TList[K]
+        ? IndexOf<TList[K], TKey>
+        : never
+    }>;

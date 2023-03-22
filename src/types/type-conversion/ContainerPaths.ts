@@ -36,12 +36,12 @@ type GetPaths<
 
 
 /**
- * **DotPathsFor**`<T>`
+ * **ContainerPaths**`<T>`
  * 
  * Provides an array of valid _dot paths_ which point to the leaf
  * nodes of `T`.
  */
-export type DotPathFor<T> = T extends ScalarNotSymbol
+export type ContainerPaths<T> = T extends ScalarNotSymbol
   ? ["", null]
   : T extends Record<PropertyKey, unknown> | Tuple
   ? RetainStrings<UnionToTuple<GetPaths<T>>> extends string[]
