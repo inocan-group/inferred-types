@@ -2,7 +2,7 @@
 import { describe, it } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
 import { Ref } from "vue";
-import { DotPathFor , Suggest, TupleToUnion } from "src/types";
+import { DoesExtend, DotPathFor , Suggest } from "src/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -10,6 +10,7 @@ import { DotPathFor , Suggest, TupleToUnion } from "src/types";
 
 describe("Name", () => {
   type myRef = Ref<{ age: number; address: string }>;
+
   type Obj = {
     foo: 1;
     bar: number[];
@@ -30,38 +31,79 @@ describe("Name", () => {
     type NullTarget = DotPathFor<null>;
 
     type cases = [
-      // when the target is a null then the suggested dotpath is the same
-      Expect<Equal<NullTarget, ["", null]>>,
+      Expect<Equal<NullTarget, "">>,
     ];
     const cases: cases = [ true ];
   });
   
   it("using an object as target", () => {
     type TObj = DotPathFor<Obj>;
-    type Suggestion = Suggest<TupleToUnion<TObj>>;
-
-    type Expected = "foo" | "bar" | "baz" | "color" | "info" | `bar.${number}` | "baz.a" | "baz.b" | "baz.c" | "color.0" | "color.1" | "color.2" | "info.age" | "info.address";
+    type Suggestion = Suggest<TObj>;
+    
+    const takeSuggestion: Suggestion = "baz.c.ca";
+    const bespoke: Suggestion = "bespoke";
 
     type cases = [
-      // native return is a union type of string literals
-      Expect<Equal<TObj,Expected>>,
-      // wrapping with Suggest<T> allows a non-suggested string to be valid
-      Expect<Equal<Suggestion,Expected | (string & {})>>,
+      Expect<DoesExtend<"foo", TObj>>,
+      Expect<DoesExtend<`bar.${number}`, TObj>>,
+      Expect<DoesExtend<"baz.c.ca", TObj>>,
+      // aware of VueJS ref object
+      Expect<DoesExtend<"info.value.age", TObj>>,
+      // suggestions are offered but not required
+      Expect<DoesExtend<typeof takeSuggestion, Suggestion>>,
+      Expect<DoesExtend<typeof bespoke , Suggestion>>,
     ];
-    const cases: cases = [ true, true ];
+    const cases: cases = [ 
+      true, true, true, true, 
+      true, true
+    ];
   });
 
   it("using an array target", () => {
     type ExampleArr = DotPathFor<readonly ["foo", "bar", "baz"]>;
     type Suggestion = Suggest<ExampleArr>;
 
-    type Expected =  "0" | "1" | "2";
+    type Expected =  "" | "0" | "1" | "2";
 
     type cases = [
       Expect<Equal<ExampleArr, Expected>>,
       Expect<Equal<Suggestion, Expected | (string & {})>>, //
     ];
     const cases: cases = [ true,true ];
+  });
+
+  it("Container and Scalar values provide empty string offset", () => {
+    type Obj = {
+      foo: 1;
+      bar: {
+        a: "str";
+        b: "another str";
+      };
+      arr: [
+        {inside: true; outside: true},
+        1,2,3
+      ];
+      emptyArr: string[];
+      emptyObj: object;
+      deep: {
+        deeper: {
+          prop: 42;
+        };
+      };
+    };
+
+    type ScalarPaths = DotPathFor<42>;
+    type NullPaths = DotPathFor<null>;
+    type ObjPaths = DotPathFor<Obj>;
+    
+    type cases = [
+      Expect<DoesExtend<ScalarPaths, "">>,
+      Expect<DoesExtend<NullPaths, "">>,
+      Expect<DoesExtend<"", ObjPaths >>,
+    ];
+    const cases: cases = [ 
+      true, true, true, 
+    ];
   });
   
 });

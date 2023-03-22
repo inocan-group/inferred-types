@@ -1,17 +1,18 @@
 import { NOT_DEFINED } from "src/runtime";
 import type { 
   IfNotEqual, 
-  ToString, 
   Narrowable, 
   IfUndefined,
   Container,
   ErrorCondition,
   IfContainer,
-  Scalar,
   Increment,
-  FromMaybeRef
+  FromMaybeRef,
+  DotPathFor,
+  IfOptionalScalar
 } from "src/types";
 import { NoDefaultValue } from "src/constants";
+import { ValueAtDotPath } from "../string-literals/character-sets/ValueAtDotPath";
 
 type ResolveDefVal<
   TValue extends Narrowable,
@@ -97,23 +98,16 @@ type _Deep<
  */
 export type Get<
   TContainer,
-  TDotPath extends string | number | null,
+  TDotPath extends DotPathFor<TContainer>,
   TDefVal = NoDefaultValue,
   THandler = typeof NOT_DEFINED
-> = TDotPath extends null
+> = TDotPath extends ""
   ? TContainer // return "as is"
-  : TContainer extends Scalar 
-    ? never // scalar values can not be dereferenced
-    : IsDeepPath<ToString<TDotPath>> extends true
-      ? _Deep<
-          TContainer & Container, 
-          GetPath<ToString<TDotPath>>, 
-          GetRest<ToString<TDotPath>>, 
-          ToString<TDotPath>, 
-          TDefVal
-        >
-      : _Shallow<TContainer & Container, ToString<TDotPath>, ToString<TDotPath>>;
-  
+  : IfOptionalScalar<
+      TContainer,
+      ErrorCondition<"invalid-path">,
+      ValueAtDotPath<TContainer,TDotPath>
+    >;
   
   // TDotPath extends `${infer Prop}.${infer Rest}` 
   // // DEEP DOTPATH

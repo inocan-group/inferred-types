@@ -17,7 +17,6 @@ export * from "./ToNumber";
 export * from "./UnionToTuple";
 export * from "./Widen";
 export * from "./WidenProps";
-export * from "./ContainerPaths";
 export * from "./Mutable";
 export * from "./TypeTuple";
 export * from "./Merge";
