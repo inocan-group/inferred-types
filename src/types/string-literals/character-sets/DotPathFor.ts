@@ -1,36 +1,40 @@
 import { 
-  IfOptionalScalar,   
-  RetainStrings,   
+  IfOptionalScalar,
   Tuple,
   Join,
-  UnionToTuple,
-  ScalarNotSymbol, 
+  ScalarNotSymbol,
+  AnyFunction,
+  IfRef, 
 } from "src/types";
 
 
 type GetPaths<
-  TSource extends Record<PropertyKey, unknown> | Tuple,
+  TSource,
   TOffset extends readonly unknown[] = []
 > = IfOptionalScalar<
   TOffset,
   TSource,
   {
-    [K in keyof TSource]: TSource[K] extends unknown[]
-      ? GetPaths<
-          TSource[K], 
-          [...TOffset, K]
-        >
-      : TSource[K] extends Record<PropertyKey, unknown>
-        ? GetPaths<
-            TSource[K], 
-            [...TOffset, K]
+    [K in keyof TSource]: TSource[K] extends ScalarNotSymbol
+      ? Join<[
+        ...TOffset, 
+        K,
+      ], ".">
+        : IfRef<
+            TSource[K],
+            "value" extends keyof TSource[K]
+              ? GetPaths<
+                  TSource[K]["value"], 
+                  [...TOffset, K, "value"]
+                >
+              : never,
+            GetPaths<
+              TSource[K], 
+              [...TOffset, K]
+            >
           >
 
-        : // NON-CONTAINER
-          Join<[
-            ...TOffset, 
-            K,
-          ], ".">
+          
   }[keyof TSource]
 >;
 
@@ -38,15 +42,14 @@ type GetPaths<
 /**
  * **DotPathsFor**`<T>`
  * 
- * Provides an array of valid _dot paths_ which point to the leaf
- * nodes of `T`.
+ * Provides a union of valid _dot paths_ for the container
+ * `T`. If `T` is not a container then it will resolve to
+ * `""` because `T` can not be dereferenced.
  */
 export type DotPathFor<T> = T extends ScalarNotSymbol
-  ? ["", null]
+  ? ""
   : T extends Record<PropertyKey, unknown> | Tuple
-  ? RetainStrings<UnionToTuple<GetPaths<T>>> extends string[]
-    ? ["", null, ...RetainStrings<UnionToTuple<GetPaths<T>>>]
-    : ["", null]
-  : ["", null];
+  ? Exclude<GetPaths<T>, number | AnyFunction | boolean | null> | ""
+  : "";
 
 

@@ -6,7 +6,7 @@ import {
   EndsWith, 
   StartsWith,
   AfterFirst, First, Split,
-  AlphaNumericChar
+  AlphaNumericChar,
 } from "src/types";
 
 export type DotPathChar = AlphaNumericChar | "_" | "-";
@@ -37,9 +37,7 @@ type ValidateSegments<
  * - wide strings and numbers always resolve to `T` as there is no way to check
  * - a `null` is also allowed as it's meant to express "no path"
  */
-export type DotPath<T extends string | number | null> = T extends null
-  ? T
-  : T extends number 
+export type DotPath<T extends string | number> = T extends number 
     ? DotPath<`${T}`> // convert to numeric string and try again
     : IfLiteral<
         T,
@@ -55,6 +53,6 @@ export type DotPath<T extends string | number | null> = T extends null
             : never
         ,
         // T is not a literal
-        T
-      >;
+        never
+>;
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import { 
@@ -12,6 +13,7 @@ import type {
   ErrorCondition
 } from "src/types";
 import { ref } from "vue";
+import { NoDefaultValue } from "src/constants";
 
 describe("Get<T, K> type utility", () => {
   it("type: shallow path", () => {
@@ -21,6 +23,7 @@ describe("Get<T, K> type utility", () => {
     type Id = Get<Input, "id">;
     type Foo = Get<Input, "foo">;
     type Bar = Get<Input, "bar">;
+    // @ts-ignore
     type Nada = Get<Input, "nada">;
 
     type cases = [
@@ -31,7 +34,7 @@ describe("Get<T, K> type utility", () => {
       // non-existent props return never
       Expect<DoesExtend<
         Nada, 
-        ErrorCondition<"invalid-dot-path">>
+        ErrorCondition<"invalid-path-segment">
       >>
     ];
     const c: cases = [true, true, true, true];
@@ -48,9 +51,9 @@ describe("Get<T, K> type utility", () => {
     type Obj = typeof obj;
 
     type ShallowFoo = Get<Obj, "foo">;
-    type RefFoo = Get<Obj, "myRef.foo">;
-    type RefBar = Get<Obj, "myRef.bar">;
-    type RefBase = Get<Obj, "myRef">;
+    type RefFoo = Get<Obj, "myRef.value.foo">;
+    type RefBar = Get<Obj, "myRef.value.bar">;
+    type RefBase = Get<Obj, "myRef.value">;
 
     type cases = [
       Expect<Equal<ShallowFoo, 1>>,
