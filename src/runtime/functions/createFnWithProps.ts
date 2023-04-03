@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Fn, FnMeta, Narrowable } from "src/types";
+import { Concat, Fn, FnMeta, Keys, Narrowable, UniqueKeys } from "src/types";
 import { 
   AnyFunction,
   AnyObject,
@@ -21,12 +21,17 @@ export type FnReadyForProps<
   N extends Narrowable
 >(props: TProps) => _Returns<TFn, TProps>;
 
+type Dict<
+  TProps extends object,
+  TBase extends object
+> = Concat<UniqueKeys<TProps,TBase>>;
+
 type _Returns<TFn extends FnMeta<any,any,any>, TProps extends AnyObject> = FnWithDict<
-TFn["args"], 
-TFn["returns"], 
-TFn["props"] extends "no-props" 
-  ? TProps 
-  : TProps & TFn["props"]
+  TFn["args"], 
+  TFn["returns"], 
+  TFn["props"] extends "no-props" 
+    ? TProps 
+    : Dict<TProps,TFn["props"]>
 >;
 
 /**
@@ -47,6 +52,12 @@ export const createFnWithProps = <TFn extends AnyFunction>(
   TProps extends Record<PropertyKey, N>,
   N extends Narrowable
 >(props: TProps) => {
+  // any props which may exist on incoming fn
+  for (const k of Object.keys(fn)) {
+    (fn as any)[k] = fn[k as keyof TFn];
+  }
+
+  // any props from `props`
   for (const k of Object.keys(props)) {
     (fn as any)[k] = props[k as keyof TProps];
   }

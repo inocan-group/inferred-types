@@ -11,6 +11,8 @@ export * from "./IfErrorCondition";
 export * from "./IfNotError";
 
 export * from "./IfSomeExtend";
+export * from "./IfDotPath";
+export * from "./IfValidDotPath";
 
 export * from "./IfBoolean";
 export * from "./IfGreaterThan";

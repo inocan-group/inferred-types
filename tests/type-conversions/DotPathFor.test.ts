@@ -2,7 +2,7 @@
 import { describe, it } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
 import { Ref } from "vue";
-import { DoesExtend, DotPathFor , Suggest } from "src/types";
+import { DoesExtend, DotPath, DotPathFor , Suggest } from "src/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -60,10 +60,11 @@ describe("Name", () => {
   });
 
   it("using an array target", () => {
-    type ExampleArr = DotPathFor<readonly ["foo", "bar", "baz"]>;
+    type ExampleArr = DotPathFor< ["foo", "bar", "baz"]>;
+    type Expected =  "" | "0" | "1" | "2";
+
     type Suggestion = Suggest<ExampleArr>;
 
-    type Expected =  "" | "0" | "1" | "2";
 
     type cases = [
       Expect<Equal<ExampleArr, Expected>>,
@@ -104,6 +105,16 @@ describe("Name", () => {
     const cases: cases = [ 
       true, true, true, 
     ];
+  });
+
+  
+  it("Wide object type provided as container", () => {
+    type T = DotPathFor<object>;
+    
+    type cases = [
+      Expect<Equal<T, string>>,
+    ];
+    const cases: cases = [ true ];
   });
   
 });

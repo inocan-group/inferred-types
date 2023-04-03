@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it, expect } from "vitest";
 
@@ -11,14 +12,30 @@ describe("createFnWithProps()", () => {
   it("partial application", () => {
     const partial = createFnWithProps(fn);
     const partial2 = createFnWithProps(fnWithFoo);
+    // foo and bar assigned, baz missing
     const completed = partial({foo:1, bar: 2});
-    const completed2 = partial2({ baz: 3 });
+    // foo overwritten, bar inherited, and baz defined
+    const completed2 = partial2({ foo:42, baz: 3 });
 
     const ret = completed();
     const ret2 = completed2();
+    const foo = completed.foo;
+    const foo2 = completed2.foo;
+    const bar = completed.bar;
+    const bar2 = completed2.bar;
+    const baz = (completed as any).baz;
+    const baz2 = completed2.baz;
 
     expect(ret).toBe("hi");
     expect(ret2).toBe("hi");
+    expect(foo).toBe(1);
+    expect(foo2).toBe(1);
+    expect(bar).toBe(2);
+    expect(bar2).toBe(2);
+    expect(baz).toBe(undefined);
+    expect(baz2).toBe(3);
+
+    
 
     type cases = [
       Expect<Equal<
@@ -57,6 +74,7 @@ describe("createFnWithProps()", () => {
     const fn1 = createFnWithProps(() => "fn1")({ foo: 1 });
     const fn2 = createFnWithProps(fn1)({ bar: 2 });
 
+    expect(Object.keys(fn1)).toContain("foo");
     expect(fn1.foo).toBe(1);
     expect(fn2.foo).toBe(1);
     expect(fn2.bar).toBe(2);

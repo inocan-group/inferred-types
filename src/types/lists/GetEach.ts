@@ -27,7 +27,7 @@ import {
 */
 export type GetEach<
   TList extends readonly unknown[], 
-  TKey extends PropertyKey | null,
+  TKey extends string | number | null,
   // THandleErrors extends GetEachErrHandling = "ignore-errors"
 > = TKey extends null
   ? TList // return list "as is" when key is null

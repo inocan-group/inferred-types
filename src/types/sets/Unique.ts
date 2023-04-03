@@ -15,11 +15,12 @@ type UniqueAcc<
 > = [] extends Target
 ? Results
 : IfContains<
-  GetEach<Compare, Dereference>,
-  Get<First<Target>, Dereference>,
-  UniqueAcc<AfterFirst<Target>, Compare, Dereference, Results>,
-  UniqueAcc<AfterFirst<Target>, Compare, Dereference, readonly [...Results, First<Target>]>
->;
+    GetEach<Compare, Dereference>,
+    Get<First<Target>, Dereference>,
+
+    UniqueAcc<AfterFirst<Target>, Compare, Dereference, Results>,
+    UniqueAcc<AfterFirst<Target>, Compare, Dereference, readonly [...Results, First<Target>]>
+  >;
 
 /**
 * **Unique**`<A,B, [TDeref]>` => [UA,UB]

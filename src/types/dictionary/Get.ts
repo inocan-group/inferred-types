@@ -89,24 +89,34 @@ type _Deep<
  * 
  * Get the type of a property of an object:
  * ```ts
- * type Car = { make: "Chevy", model: "Malibu", colors: [
- *    "red", "blue"
- * ]}
+ * type Car = { 
+ *    make: "Chevy", 
+ *    model: "Malibu", 
+ *    colors: [ "red", "blue" ]
+ * }
  * // "red"
- * type T = Get<Car, "color.0">;
+ * type T = Get<Car, "colors.0">;
  * ```
+ * 
+ * - if a _valid_ dotpath leads to a value which is optionally
+ * undefined, you may specify a _default value_ with `TDefVal`
+ * - if you want to resolve an _invalid_ dotpath to something
+ * besides the default `ErrorCondition<"invalid-path">`
+ * you can set `THandler` to the type you'd like it to become.
  */
 export type Get<
   TContainer,
-  TDotPath extends DotPathFor<TContainer>,
+  TDotPath extends string | number | null,
   TDefVal = NoDefaultValue,
   THandler = typeof NOT_DEFINED
 > = TDotPath extends ""
   ? TContainer // return "as is"
+  : TDotPath extends null
+  ? TContainer // return "as is"
   : IfOptionalScalar<
       TContainer,
-      ErrorCondition<"invalid-path">,
-      ValueAtDotPath<TContainer,TDotPath>
+      ErrorCondition<"invalid-path", `The path of "${TDotPath}" is an invalid dotpath and can not be used!`, "Get<TContainer,TDotPath>">,
+      ValueAtDotPath<TContainer, ToString<TDotPath>>
     >;
   
   // TDotPath extends `${infer Prop}.${infer Rest}` 
