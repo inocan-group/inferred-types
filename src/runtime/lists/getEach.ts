@@ -1,4 +1,4 @@
-import type { GetEach, GetEachErrHandling } from "src/types";
+import type { Container, GetEach, GetEachErrHandling } from "src/types";
 import { get, isErrorCondition } from "src/runtime";
 
 export interface GetEachOptions<
@@ -28,17 +28,16 @@ export function getEach<
   list: TList, 
   dotPath: TDotPath, 
   options?: GetEachOptions<THandleErrors>
-): GetEach<TList, TDotPath, THandleErrors> {
+): GetEach<TList, TDotPath> {
   options = {
     handleErrors: "ignore" as THandleErrors,
     ...options,
   };
   
   return list
-    .map(i => dotPath === null ? i : get(i, String(dotPath))) 
+    .map(i => dotPath === null ? i : get((i as Container), String(dotPath))) 
     .filter(i => !isErrorCondition(i) || (options?.handleErrors !== "ignore")) as GetEach<
       TList,
-      TDotPath, 
-      THandleErrors
+      TDotPath
     >;
 }

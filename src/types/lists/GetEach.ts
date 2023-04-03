@@ -1,6 +1,10 @@
 
 import { 
+  Get,
+  IfReadonlyArray,
+  IfValidDotPath,
   IndexOf, 
+  Mutable, 
   RemoveNever, 
 } from "src/types";
 
@@ -31,10 +35,14 @@ export type GetEach<
   // THandleErrors extends GetEachErrHandling = "ignore-errors"
 > = TKey extends null
   ? TList // return list "as is" when key is null
-  // : IsNegativeNumber<TKey> extends true
-  //   ? GetEach<Reverse<TList>, Abs<TKey & number>>
     : RemoveNever<{
       [K in keyof TList]: TKey extends keyof TList[K]
         ? IndexOf<TList[K], TKey>
-        : never
+        : IfValidDotPath<
+            TList[K], TKey,
+            // valid
+            IfReadonlyArray<TList, Get<TList[K], TKey>, Mutable<Get<TList[K], TKey>> >,
+            // invalid
+            never
+          >
     }>;
