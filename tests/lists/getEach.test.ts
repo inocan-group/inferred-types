@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import { getEach } from "src/runtime/lists";
 import { GetEach } from "src/types/lists";
+import { narrow } from "src/runtime";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -41,7 +42,7 @@ describe("GetEach<T,P>", () => {
     type Owns = GetEach<List, "color.owns">;
     
     type cases = [
-      Expect<Equal<Fav, readonly [ "blue", "green", undefined ] >>,
+      Expect<Equal<Fav, readonly [ "blue", "green" ] >>,
       Expect<Equal<Owns, readonly [ "grey" ] >>,
     ];
     const cases: cases = [ true, true ];
@@ -49,7 +50,7 @@ describe("GetEach<T,P>", () => {
 
   
   it("into an array structure", () => {
-    type List = readonly [
+    type List =  [
       { id: 1; colors: ["blue", "green", "red"] },
       { id: 1; colors: ["purple", "lime", "orange", "fuchsia"] }
     ];
@@ -66,16 +67,34 @@ describe("GetEach<T,P>", () => {
     const cases: cases = [ true, true, true ];
   });
 
-  const objSet = [
+  it("into a readonly array structure", () => {
+    type List =  readonly [
+      { id: 1; colors: ["blue", "green", "red"] },
+      { id: 1; colors: ["purple", "lime", "orange", "fuchsia"] }
+    ];
+
+    type First = GetEach<List, "colors.0">;
+    type Incomplete = GetEach<List, "colors.3">;
+    type Empty = GetEach<List, "colors.5">;
+    
+    type cases = [
+      Expect<Equal<First, readonly ["blue", "purple"]>>,
+      Expect<Equal<Incomplete, readonly ["fuchsia"]>>,
+      Expect<Equal<Empty, readonly []>>,
+    ];
+    const cases: cases = [ true, true, true ];
+  });
+
+  const objSet = narrow([
     {id: 1, color: { favorite: "blue" }},
     {id: 2, color: { favorite: "green" }},
     {id: 3 },
-  ] as const;
-  const arrSet = [
-      { id: 1, color: ["blue", "green", "red"] },
-      { id: 2, color: ["purple", "lime", "orange", "fuchsia"] },
+  ]);
+  const arrSet = narrow(
+      { id: 1, color: ["blue", "green", "red"] as const },
+      { id: 2, color: ["purple", "lime", "orange", "fuchsia"] as const },
       { id: 3 },
-  ] as const;
+  );
   
   it("runtime: happy path", () => {
     const idObjSet = getEach(objSet, "id");
