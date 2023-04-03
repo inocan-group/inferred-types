@@ -13,3 +13,4 @@ export * from "./ToInteger";
 export * from "./LessThan";
 export * from "./GreaterThan";
 export * from "./Float";
+export * from "./AsNumberWhenPossible";
