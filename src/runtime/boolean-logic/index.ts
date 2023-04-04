@@ -25,6 +25,7 @@ export * from "./ifString";
 export * from "./ifNull";
 export * from "./ifFalse";
 export * from "./ifUndefined";
+export * from "./ifRef";
 
 // #endregion auto-indexed files
 

@@ -11,6 +11,7 @@ export * from "./Get";
 export * from "./Key";
 export * from "./SimplifyObject";
 export * from "./Keys";
+export * from "./MaybeRef";
 export * from "./FromMaybeRef";
 export * from "./RequiredProps";
 export * from "./OptionalProps";

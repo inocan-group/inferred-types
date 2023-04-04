@@ -1,5 +1,5 @@
-import {  Expect } from "@type-challenges/utils";
-import { defineType, hasIndexOf,  narrow } from "src/runtime";
+import {  Expect, Equal } from "@type-challenges/utils";
+import { HasIndexOfValidationFn, defineType, hasIndexOf,  narrow } from "src/runtime";
 import {  IsEqual, Keys, Scalar, TupleToUnion } from "src/types";
 import { describe, expect, it } from "vitest";
 
@@ -7,13 +7,42 @@ import { describe, expect, it } from "vitest";
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
 // gain validation that no new type vulnerabilities have cropped up.
 
-describe("hasIndexOf(value)", () => {
+describe("hasIndexOf(value)(index)", () => {
   const lit_arr = narrow([1,2,3]);
   const num_arr = [1,2,3];
   const lit_obj = defineType({id: 1})();
 
-  const a = hasIndexOf(lit_arr);
-  const b = hasIndexOf(num_arr);
+  
+  it("partial application", () => {
+    const a = hasIndexOf(lit_arr);
+    const b = hasIndexOf(num_arr);
+    const c = hasIndexOf(lit_obj);
+    
+    type cases = [
+      Expect<Equal<typeof a, HasIndexOfValidationFn<readonly [0,1,2]>>>,
+      Expect<Equal<typeof b, HasIndexOfValidationFn<[]>>>,
+      Expect<Equal<typeof c, HasIndexOfValidationFn<["id"]>>>,
+    ];
+    const cases: cases = [
+      true, true
+    ];
+  });
+
+  
+  it("used as type guard", () => {
+    const hasIdx = hasIndexOf(lit_arr);
+    if(hasIdx(1)) {
+type cases = [
+      /** type tests */
+    ];
+}
+    const cases: cases = [];
+    
+  });
+  
+  
+
+
   const ap = a(0);
   const bp = b(1);
   
