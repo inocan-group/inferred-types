@@ -8,7 +8,6 @@ import { defineType, hasIndexOf,  narrow } from "src/runtime";
 
 describe("hasIndexOf(value, index)", () => {
   const lit_arr = narrow([1,2,3]);
-  const num_arr = [1,2,3];
   const lit_obj = defineType({id: 1})();
   
   it("runtime produces correct result; type is boolean", () => {

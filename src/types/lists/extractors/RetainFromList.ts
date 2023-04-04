@@ -53,15 +53,19 @@ export type RetainFromList<
   ? RetainNotEqual<TList, TCompareTo>
   : never
 // tuple; not explicitly readonly
+: TComparator extends "extends(unionize)"
+? Readonly<RetainExtends<TList, Unionize<TCompareTo>>>
 : TComparator extends "extends"
-      ? Readonly<RetainExtends<TList, Unionize<TCompareTo>>>
-      : TComparator extends "does-not-extend"
-        ? Readonly<RetainNotExtends<TList, Unionize<TCompareTo>>>
-        : TComparator extends "equals"
-          ? Readonly<RetainEquals<TList, TCompareTo>>
-          : TComparator extends "not-equal"
-            ? Readonly<RetainNotEqual<TList, TCompareTo>>
-            : never;
+? Readonly<RetainExtends<TList, TCompareTo>>
+: TComparator extends "does-not-extend(unionize)"
+? Readonly<RetainNotExtends<TList, Unionize<TCompareTo>>>
+: TComparator extends "does-not-extend"
+? Readonly<RetainNotExtends<TList, TCompareTo>>
+: TComparator extends "equals"
+? Readonly<RetainEquals<TList, TCompareTo>>
+: TComparator extends "not-equal"
+? Readonly<RetainNotEqual<TList, TCompareTo>>
+: never;
 
 /**
  * **RetainNotExtends**`<TList,TCompareTo>`
