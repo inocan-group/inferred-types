@@ -7,6 +7,7 @@
 // file exports
 export * from "./ifSameType";
 export * from "./ifBoolean";
+export * from "./ifContainer";
 export * from "./ifArray";
 export * from "./ifNotNull";
 export * from "./ifArrayPartial";

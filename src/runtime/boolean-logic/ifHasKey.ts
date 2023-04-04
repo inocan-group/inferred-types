@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { 
   Container, 
-  ContainerBlockKey, 
-  IndexOf, 
+  IfContains, 
+  Keys, 
   Narrowable
 } from "src/types";
-import { indexOf } from "src/runtime";
+import { hasIndexOf } from "src/runtime";
 
 export const ifHasKey = <
   TContainer extends Container,
@@ -15,11 +15,11 @@ export const ifHasKey = <
 >(
   container: TContainer, 
   key: TKey,
-  hasKey: (val: IndexOf<TContainer, TKey>) => IF,
-  doesNotHaveKey: <N extends ContainerBlockKey<TContainer, TKey>>(nonArr: N) => ELSE
+  hasKey: <V extends TContainer & Record<TKey, unknown>>(val: V) => IF,
+  doesNotHaveKey: <N extends Exclude<TContainer, TKey>>(nonArr: N) => ELSE
 ) => (
-  key in container 
-  ? hasKey(indexOf(container, key))
-  : doesNotHaveKey(container as ContainerBlockKey<TContainer, TKey>)
+  hasIndexOf(container, key) 
+  ? hasKey(container as TContainer & Record<TKey, unknown>)
+  : doesNotHaveKey(container as Exclude<TContainer, TKey>)
 ) as IfContains<Keys<TContainer>, TKey, IF, ELSE>;
 

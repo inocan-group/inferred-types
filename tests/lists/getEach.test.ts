@@ -3,7 +3,6 @@ import { describe, expect, it } from "vitest";
 
 import { getEach } from "src/runtime/lists";
 import { GetEach } from "src/types/lists";
-import { narrow } from "src/runtime";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -85,16 +84,16 @@ describe("GetEach<T,P>", () => {
     const cases: cases = [ true, true, true ];
   });
 
-  const objSet = narrow([
+  const objSet = [
     {id: 1, color: { favorite: "blue" }},
     {id: 2, color: { favorite: "green" }},
     {id: 3 },
-  ]);
-  const arrSet = narrow(
+  ] as const;
+  const arrSet = [
       { id: 1, color: ["blue", "green", "red"] as const },
       { id: 2, color: ["purple", "lime", "orange", "fuchsia"] as const },
       { id: 3 },
-  );
+  ] as const;
   
   it("runtime: happy path", () => {
     const idObjSet = getEach(objSet, "id");
@@ -129,10 +128,10 @@ describe("GetEach<T,P>", () => {
 
     type cases = [
       // deep
-      Expect<Equal<typeof objNoErr, ["blue", "green"]>>,
-      Expect<Equal<typeof arrNoErr, ["blue", "purple"]>>,
-      Expect<Equal<typeof objWithNever, ["blue", "green", never]>>,
-      Expect<Equal<typeof arrWithNever, ["blue", "purple", never]>>,
+      Expect<Equal<typeof objNoErr, readonly ["blue", "green"]>>,
+      Expect<Equal<typeof arrNoErr, readonly ["blue", "purple"]>>,
+      Expect<Equal<typeof objWithNever, readonly ["blue", "green", never]>>,
+      Expect<Equal<typeof arrWithNever, readonly ["blue", "purple", never]>>,
     ];
     
     const cases: cases = [ true, true, true, true ];
