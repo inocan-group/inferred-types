@@ -1,17 +1,13 @@
-import { NOT_DEFINED, NotDefined } from "src/runtime";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { NotDefined } from "src/runtime";
 import type { 
-  IfNotEqual, 
-  Narrowable, 
+
   IfUndefined,
-  Container,
   ErrorCondition,
-  IfContainer,
-  Increment,
-  FromMaybeRef,
-  DotPathFor,
   IfOptionalScalar,
   IfExtends,
-  ErrorConditionHandler
+  ErrorConditionHandler,
+  ToString
 } from "src/types";
 import { NoDefaultValue } from "src/constants";
 import { ValueAtDotPath } from "../string-literals/character-sets/ValueAtDotPath";
@@ -41,10 +37,6 @@ type ResolveHandler<
   // not an error
   TValue
 >;
-
-
-
-
 
 
 /**
