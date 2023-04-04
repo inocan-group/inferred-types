@@ -5,7 +5,7 @@ type Calc<
   T extends readonly (Tuple | AnyObject)[],
   Acc extends readonly PropertyKey[] = []
 > = [] extends T
-  ? Unique<Acc>
+  ? Acc
   : Calc<
       AfterFirst<T>,
       [...Acc, ...Keys<First<T>>]

@@ -16,6 +16,6 @@ export type FnWithDict<
 > = IfEqual<
   TDict, "no-props", 
   RegularFn<TArgs,TReturn>,
-  ((...args: TArgs) => TReturn) &  ExpandRecursively<RemoveIndex<TDict & IndexableObject>>
+  ((...args: TArgs) => TReturn) & ExpandRecursively<RemoveIndex<TDict & IndexableObject>>
 >;
 
