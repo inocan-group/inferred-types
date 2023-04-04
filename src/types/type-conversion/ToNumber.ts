@@ -21,8 +21,6 @@ TValue extends number
         IfFalse<TValue, 0, IfBoolean<TValue, 1 | 0, never>>
       >;
 
-
-
 /**
  * **ToNumber**`<T>`
  * 
