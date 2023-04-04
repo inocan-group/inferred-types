@@ -1,6 +1,6 @@
-export * from "./Alpha";
-export * from "./LowerAlpha";
-export * from "./UpperAlpha";
+export * from "./AlphaChar";
+export * from "./LowerAlphaChar";
+export * from "./UpperAlphaChar";
 export * from "./Punctuation";
 export * from "./DomainName";
 export * from "./Url";
@@ -13,6 +13,7 @@ export * from "./Whitespace";
 export * from "./NumericChar";
 export * from "./AlphaNumeric";
 export * from "./Hexadecimal";
+export * from "./SingularNoun";
 export * from "./ValueAtDotPath";
 
 export * from "./brackets/index";

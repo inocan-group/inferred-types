@@ -1,7 +1,7 @@
 /* eslint @typescript-eslint/no-unused-vars: "off" */
 
 import { Consonant, PLURAL_EXCEPTIONS } from "src/constants";
-import { IfContains } from "../boolean-logic";
+import { IfContains, IfStringLiteral } from "../boolean-logic";
 import { Filter, GetEach } from "../lists";
 import { Mutable } from "../type-conversion";
 import { EnsureTrailing } from "./EnsureTrailing";
@@ -54,15 +54,23 @@ type PluralizeEndingIn_Y<T extends string> = EnsureTrailing<StripTrailing<T,"y">
 
 
 export type Pluralize<T extends string> = 
-IsException<T> extends true
-  ? PluralException<T>
-  : T extends EndsIn_IS<T>
-    ? PluralizeEndingIn_IS<T>
-    : T extends EndsInSingularNoun<T>
-      ? PluralizeEndingSingularNoun<T>
-      : T extends EndsIn_F<T>
-        ? PluralizeEnding_F<T>
-        : T extends EndsIn_Y<T>
-          ? PluralizeEndingIn_Y<T>
-          : `${T}s`;
+IfStringLiteral<
+  T,
+  IsException<T> extends true
+    ? PluralException<T>
+    : T extends EndsIn_IS<T>
+      ? PluralizeEndingIn_IS<T>
+      : T extends EndsInSingularNoun<T>
+        ? PluralizeEndingSingularNoun<T>
+        : T extends EndsIn_F<T>
+          ? PluralizeEnding_F<T>
+          : T extends EndsIn_Y<T>
+            ? PluralizeEndingIn_Y<T>
+            : `${T}s`,
+  string
+>
+  
+        ;
+
+
 

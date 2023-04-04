@@ -1,7 +1,5 @@
 import { errorCondition, Split } from "src/types";
-import { isNumber } from "../type-guards/isNumber";
-import { isString } from "../type-guards/isString";
-
+import { isNumber, isString } from "src/runtime";
 
 /**
  * **split**(str, sep)
@@ -13,7 +11,7 @@ import { isString } from "../type-guards/isString";
  * 
  * All are other types are disallowed.
  */
-export function split<T extends string | number, S extends string>(str: T, sep: S) {
+export function split<T extends string | number, S extends string>(str: T, sep: S = "" as S) {
   return isString(str) 
     ? str.split(sep) as Split<T & string,S> & string
     : isNumber(str)

@@ -1,11 +1,11 @@
 import { IsStringLiteral } from "src/types/boolean-logic";
-import { Alpha } from "./Alpha";
+import { AlphaChar } from "./AlphaChar";
 import { NumericChar } from "./NumericChar";
 
 /**
  * Any alphabetic or numeric string character
  */
-export type AlphaNumericChar = Alpha | NumericChar;
+export type AlphaNumericChar = AlphaChar | NumericChar;
 
 
 type AlphaNumericAcc<
@@ -18,7 +18,15 @@ type AlphaNumericAcc<
       ? AlphaNumericAcc<REST, TResult>
       : never;
 
-
+/**
+ * **AlphaNumeric**`<T>`
+ * 
+ * Type utility which tests that all characters in `T` are alpha-numeric and returns
+ * `T` "as is" in cases where this conditions is met. In cases where the condition is
+ * not met, the type is converted to `never`.
+ * 
+ * **Related:** `AlphaNumericChar`
+ */
 export type AlphaNumeric<T extends string> = IsStringLiteral<T> extends true
   ? AlphaNumericAcc<T, T>
   /** Invalid Alphanumeric string */

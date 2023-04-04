@@ -25,6 +25,7 @@ export * from "./IsObjectLiteral";
 export * from "./IsTuple";
 export * from "./IsGreaterThan";
 export * from "./IsDotPath";
+export * from "./IsSingularNoun";
 export * from "./IsValidDotPath";
 
 export * from "./IsOptionalScalar";

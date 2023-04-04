@@ -1,3 +1,6 @@
+import { NUMERIC_DIGIT } from "src/constants";
+import { Mutable, TupleToUnion } from "src/types";
+
 /**
  * **Digit**
  * 
@@ -5,4 +8,4 @@
  * 
  * **Related:** `NumericChar`
  */
-export type Digit = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+export type Digit = TupleToUnion<Mutable<typeof NUMERIC_DIGIT>>;
