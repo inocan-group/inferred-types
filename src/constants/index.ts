@@ -12,3 +12,5 @@ export * from "./SingularNounEnding";
 export * from "./CommonObjProps";
 export * from "./NumericChar";
 export * from "./NumericDigit";
+export * from "./FalsyValues";
+export * from "./TypeOf";

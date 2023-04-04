@@ -1,7 +1,5 @@
-import { TYPE_OF } from "../../runtime/runtime/constants";
-import { IsUndefined } from "src/types/boolean-logic";
-import { AnyFunction, AnyObject } from "src/types/base-types";
-import { TupleToUnion } from "src/types/type-conversion";
+import { TYPE_OF } from "src/constants";
+import { IsUndefined , AnyFunction, AnyObject , TupleToUnion } from "src/types";
 
 /**
  * **TypeOf**
