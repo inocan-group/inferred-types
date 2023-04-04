@@ -16,7 +16,7 @@ import { keysOf } from "./keysOf";
  */
 export function entries<
   N extends Narrowable,
-  T extends Record<string, N>,
+  T extends Record<PropertyKey, N>,
   I extends KeyValue<T, keyof T>
 >(obj: T) {
   const iterable = {

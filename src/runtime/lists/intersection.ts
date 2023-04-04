@@ -1,6 +1,6 @@
 /* eslint-disable brace-style */
 import { getEach } from "./getEach";
-import type {Intersection,  } from "src/types";
+import type {Container, Intersection,  } from "src/types";
 import { get } from "../dictionary/get";
 import { ifNotNull } from "../boolean-logic";
 import { isIndexable } from "../type-guards/isIndexable";
@@ -21,14 +21,14 @@ TDeref extends string | number
     }
   }
 
-  const aMatches = getEach(a, deref);
-  const bMatches = getEach(b, deref);
+  const aMatches = getEach(a, deref) as readonly unknown[];
+  const bMatches = getEach(b, deref) as readonly unknown[];
 
   const sharedKeys = ifNotNull(
     deref,
     v => [
-      a.filter(i => Array.from(bMatches).includes(get((i as string),v))),
-      b.filter(i => Array.from(aMatches).includes(get((i as string),v)))
+      a.filter(i => Array.from(bMatches).includes(get(i as Container, v as any ))),
+      b.filter(i => Array.from(aMatches).includes(get(i as Container, v as any )))
     ],
     () => a.filter(k => b.includes(k)) 
   );
@@ -64,7 +64,6 @@ export const intersection = <
   b: B,
   deref: TDeref = null as TDeref
 ): Intersection<A,B,TDeref> => {
-  console.log(deref);
   return (
     deref === null
     ? intersectNoOffset(a,b)

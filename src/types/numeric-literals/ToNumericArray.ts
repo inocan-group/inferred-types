@@ -6,9 +6,7 @@ IfTrue<
   HasKeys<T>,
   // has keys
   {
-    [K in keyof T]: T[K] extends (`${number}` | number)
-    ? ToNumber<T[K]>
-    : never
+    [K in keyof T]: ToNumber<T[K]>
   },
   // no keys
   number[]
@@ -16,7 +14,7 @@ IfTrue<
 
 
 /**
- * **ToNumericArray**`<T>`
+ * **ToNumericArray**`<TList>`
  * 
  * Type utility which accepts an array of numeric values _or_ a numeric
  * string literal and ensures that each element is made into a numeric value.
@@ -26,10 +24,10 @@ IfTrue<
  * possible
  */
 export type ToNumericArray<
-  T extends Tuple
+  TList extends Tuple
 > = IfReadonlyArray<
-  T,
-  Readonly<_Convert<T>>,
-  _Convert<T>
+  TList,
+  Readonly<_Convert<TList>>,
+  _Convert<TList>
 >;
 

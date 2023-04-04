@@ -19,6 +19,8 @@ export * from "./createConverter";
 export * from "./slice";
 export * from "./last";
 export * from "./reverse";
+export * from "./pop";
+export * from "./shift";
 
 // #endregion auto-indexed files
 

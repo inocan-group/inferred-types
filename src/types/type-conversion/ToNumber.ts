@@ -1,15 +1,12 @@
 import { 
   Scalar, 
-  Tuple, 
   IfScalar, 
   ToNumericArray, 
   IfTrue, 
   IfFalse, 
-  IfBoolean 
+  IfBoolean, 
+  Tuple
 } from "src/types";
-
-
-
 
 type ConvertElement<
   TValue extends Scalar
@@ -35,7 +32,7 @@ TValue extends number
  *    - any non-numeric content which can not be converted to a number will be convert to `never`
  *    - a number or a numeric array will be proxied through "as is"
  */
-export type ToNumber<TValue> = TValue extends 1[]
+export type ToNumber<TValue> = TValue extends Tuple
   ? ToNumericArray<TValue>
   : IfScalar<TValue, ConvertElement<TValue & Scalar>, never>;
 

@@ -1,7 +1,9 @@
-import { IndexOf , Scalar } from "src/types";
-import { Indexable } from "src/types/base-types/Indexable";
-import { Never } from "../runtime/Never";
-import { isArray, isNull, isNumber, isObject } from "../type-guards";
+import { 
+  IndexOf, 
+  Scalar, 
+  Indexable 
+} from "src/types";
+import { isArray, isNull, isNumber, isObject, Never } from "src/runtime";
 
 /**
  * **indexOf**(val, index)

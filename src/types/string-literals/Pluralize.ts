@@ -1,60 +1,24 @@
 /* eslint @typescript-eslint/no-unused-vars: "off" */
 
+import { Consonant, PLURAL_EXCEPTIONS } from "src/constants";
+import { IfContains } from "../boolean-logic";
+import { Filter, GetEach } from "../lists";
+import { Mutable } from "../type-conversion";
 import { EnsureTrailing } from "./EnsureTrailing";
 import { StripTrailing } from "./StripTrailing";
 
-type Consonant =
-  | "b"
-  | "c"
-  | "d"
-  | "f"
-  | "g"
-  | "h"
-  | "j"
-  | "k"
-  | "l"
-  | "m"
-  | "n"
-  | "p"
-  | "q"
-  | "r"
-  | "s"
-  | "t"
-  | "v"
-  | "w"
-  | "x"
-  | "z"
-  | "y";
 
-type Exceptions =
-  | "photo => photos"
-  | "piano => pianos"
-  | "halo => halos"
-  | "foot => feet"
-  | "man => men"
-  | "woman => women"
-  | "person => people"
-  | "mouse => mice"
-  | "series => series"
-  | "sheep => sheep"
-  | "money => monies"
-  | "deer => deer";
-
-type SingularException<T = Exceptions> = T extends `${infer SINGULAR} => unknown`
-  ? SINGULAR
-  : never;
-
-type PluralException<
-  T extends SingularException,
-  E extends Exceptions = Exceptions
-> = E extends `${T} => ${infer PLURAL}` ? PLURAL : never;
+type Exceptions = Mutable<typeof PLURAL_EXCEPTIONS>;
+type SingularExceptions = GetEach<Exceptions, 0>;
 
 type SingularNoun = "s" | "sh" | "ch" | "x" | "z" | "o";
 type F = "f" | "fe";
 type Y = `${Consonant}y`;
 
-/** validates that a word ends with a pluralization exception */
-type isException<T extends string> = T extends SingularException ? T : never;
+/** validates that a word `T` has an _exception_ rule defined for it */
+type IsException<T extends string> = IfContains<SingularExceptions, T, true, false>;
+
+type PluralException<T extends string> = Filter<Exceptions, [T, string], "extends">[0] extends [infer _, infer Plural] ? Plural : never;
 
 /** validates that a string literal ends in "is" */
 type EndsIn_IS<T extends string> = T extends `${string}is` ? T : never;
@@ -89,7 +53,8 @@ type PluralizeEnding_F<T extends string> = T extends `${infer HEAD}${F}` ? `${HE
 type PluralizeEndingIn_Y<T extends string> = EnsureTrailing<StripTrailing<T,"y">, "ies">;
 
 
-export type Pluralize<T extends string> = T extends isException<T>
+export type Pluralize<T extends string> = 
+IsException<T> extends true
   ? PluralException<T>
   : T extends EndsIn_IS<T>
     ? PluralizeEndingIn_IS<T>
@@ -100,3 +65,4 @@ export type Pluralize<T extends string> = T extends isException<T>
         : T extends EndsIn_Y<T>
           ? PluralizeEndingIn_Y<T>
           : `${T}s`;
+

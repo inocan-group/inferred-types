@@ -58,7 +58,7 @@ describe("Shift", () => {
       Expect<Equal<Numeric, [2,3]>>,
       Expect<Equal<Str, ["bar","baz"]>>,
       Expect<Equal<Last, []>>,
-      Expect<Equal<Empty, never>>,
+      Expect<Equal<Empty, undefined>>,
     ];
     const cases: cases = [ true, true, true, true ];
   });

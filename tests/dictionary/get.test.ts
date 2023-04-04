@@ -176,7 +176,7 @@ describe("Get<T, K> type utility", () => {
     const shallow = get(obj, "foo");
     const deepObj = get(obj, "bar.a");
     const deepArr = get(obj, "baz.1");
-    const deeperArr = get(obj, "deep.deeperStill.1");
+    const deeperArr = get(obj, "deep.value.deeperStill.1");
     const err1 = get(obj, "foo.not.exist");
     const handleErr = get(obj, "foo.not.exist", { handleInvalidDotpath: "foobar" });
     

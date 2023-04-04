@@ -8,6 +8,7 @@ type Cases = Pluralize<"case">;
 type Bunnies = Pluralize<"bunny">;
 type Elves = Pluralize<"elf">;
 type People = Pluralize<"person">;
+type Man = Pluralize<"man">;
 
 describe("Pluralization of a string literal", () => {
   it("test strings all converted to plural equivalent", () => {
@@ -16,8 +17,9 @@ describe("Pluralization of a string literal", () => {
       Expect<Equal<Cases, "cases">>,
       Expect<Equal<Bunnies, "bunnies">>,
       Expect<Equal<Elves, "elves">>,
+      Expect<Equal<Man, "men">>,
       Expect<Equal<People, "people">>
     ];
-    const cases: cases = [true, true, true, true, true];
+    const cases: cases = [true, true, true, true, true, true];
   });
 });

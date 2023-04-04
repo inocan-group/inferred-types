@@ -13,6 +13,7 @@ export * from "./Whitespace";
 export * from "./NumericChar";
 export * from "./AlphaNumeric";
 export * from "./Hexadecimal";
+export * from "./ValueAtDotPath";
 
 export * from "./brackets/index";
 export * from "./quotation-marks/index";

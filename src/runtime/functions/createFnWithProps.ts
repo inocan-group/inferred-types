@@ -12,8 +12,6 @@ import {
   FnWithDict,
 } from "src/types";
 
-import {fnMeta} from "src/runtime";
-
 
 /**
  * **FnReadyForProps**(props)

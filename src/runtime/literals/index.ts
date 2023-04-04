@@ -26,6 +26,7 @@ export * from "./wide";
 export * from "./toCamelCase";
 export * from "./toKebabCase";
 export * from "./toSnakeCase";
+export * from "./pluralize";
 export * from "./toPascalCase";
 export * from "./toNumericArray";
 

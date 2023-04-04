@@ -39,15 +39,19 @@ export type RetainFromList<
   TCompareTo extends Narrowable
 > = TList extends unknown[]
 // readonly list
-? TComparator extends "extends"
+? TComparator extends "extends(unionize)"
   ? RetainExtends<TList, Unionize<TCompareTo>>
-  : TComparator extends "does-not-extend"
-    ? RetainNotExtends<TList, Unionize<TCompareTo>>
-    : TComparator extends "equals"
-      ? RetainEquals<TList, TCompareTo>
-      : TComparator extends "not-equal"
-        ? RetainNotEqual<TList, TCompareTo>
-        : never
+: TComparator extends "extends"
+  ? RetainExtends<TList, TCompareTo>
+: TComparator extends "does-not-extend"
+  ? RetainNotExtends<TList, TCompareTo>
+: TComparator extends "does-not-extend(unionize)"
+  ? RetainNotExtends<TList, Unionize<TCompareTo>>
+: TComparator extends "equals"
+  ? RetainEquals<TList, TCompareTo>
+: TComparator extends "not-equal"
+  ? RetainNotEqual<TList, TCompareTo>
+  : never
 // tuple; not explicitly readonly
 : TComparator extends "extends"
       ? Readonly<RetainExtends<TList, Unionize<TCompareTo>>>
