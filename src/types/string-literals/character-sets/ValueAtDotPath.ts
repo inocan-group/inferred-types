@@ -1,7 +1,6 @@
 import { AfterFirst, First, Split, Tuple , ErrorCondition } from "src/types";
 import { DotPath } from "./DotPath";
 
-
 type Recurse<
   TValue,
   TSegments extends Tuple<string>,
@@ -15,7 +14,6 @@ type Recurse<
       TPath
     >
   : ErrorCondition<"invalid-path-segment", `The path segment "${First<TSegments>}" is an invalid key for the container passed into ValueAtDotPath`, `ValueAtDotPath<TValue,${TPath}>`>;
-
 
 export type ValueAtDotPath<
   TValue,

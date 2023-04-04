@@ -1,10 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { VueRef } from "src/types";
 
-import { narrow, intoSet, createFnWithProps } from "src/runtime";
-import { Never } from "src/runtime/runtime/Never";
-import { optional } from "src/runtime/type-conversion/optional";
+import { narrow,  createFnWithProps , optional , Never } from "src/runtime";
 import { 
   isArray, 
   isReadonlyArray,
@@ -51,6 +48,9 @@ describe("isNumericString", () => {
   it("positive outcomes", () => {
     const numericString = "42" as const;
     const wideString = "42" as string;
+
+    expect(isNumericString(numericString), "numericString variable not recognized:" + typeof numericString).toBe(true);
+    
 
     if(isNumericString(numericString)) {
       expect(true, "numeric string identified").toBe(true);
@@ -116,7 +116,6 @@ describe("isRef", () => {
       type cases = [
         Expect<Equal<
           R, 
-          VueRef<{readonly foo: 1; readonly bar: 2 }> & 
           Ref<{readonly foo: 1; readonly bar: 2 }>
         >>
       ];
@@ -139,7 +138,7 @@ describe("isRef", () => {
 });
 
 describe("isArray / isReadonlyArray", () => {
-  const foobar = intoSet([{foo: 1, bar: 2}]); 
+  const foobar = narrow([{foo: 1, bar: 2}]); 
   const optFoobar = optional(foobar);
 
   it("positive tests", () => {
@@ -149,7 +148,7 @@ describe("isArray / isReadonlyArray", () => {
       type cases = [
         Expect<Equal<
           Foobar, 
-          readonly {foo: number; bar: number }[] & readonly unknown[]
+          {foo: number; bar: number }[]
         >>
       ];
       const cases: cases = [ true ];
@@ -163,7 +162,7 @@ describe("isArray / isReadonlyArray", () => {
       type cases = [
         Expect<Equal<
           Foobar, 
-          readonly {foo: number; bar: number }[] & readonly unknown[]
+          {foo: number; bar: number }[]
         >>
       ];
       const cases: cases = [ true ];
@@ -181,7 +180,7 @@ describe("isArray / isReadonlyArray", () => {
       type cases = [
         Expect<Equal<
           Foobar, 
-          readonly {foo: number; bar: number }[] & readonly unknown[]
+           {foo: number; bar: number }[] 
         >>
       ];
       const cases: cases = [ true ];

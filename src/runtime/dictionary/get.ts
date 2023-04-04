@@ -17,9 +17,7 @@ import {
   hasIndexOf, 
   isSpecificConstant, 
   createErrorCondition, 
-  NotDefined, 
-  ifNull,
-  ifRef,
+  NotDefined,
   split,
   NOT_DEFINED 
 } from "src/runtime";
@@ -64,13 +62,8 @@ function getValue<
    * q reach destination */
   const hasMoreSegments = pathSegments.length > 1;
 
-  /** 
-   * The "value" after considering Ref<T> possibility
-   */
-  const derefVal = ifRef(value);
-
   /** whether or not the value is indexable or not */
-  const valueIsIndexable = hasIndexOf(derefVal,idx);
+  const valueIsIndexable = hasIndexOf(value, idx);
 
   /** has handler for invalid dotpath */
   const hasHandler = !isSpecificConstant("not-defined")(handleInvalid);
@@ -80,15 +73,15 @@ function getValue<
 
   const current = (
     hasMoreSegments
-    ? hasIndexOf(derefVal, idx)
+    ? hasIndexOf(value, idx)
       ? getValue(
-          derefVal[idx], pathSegments.slice(1).join("."), defaultValue, handleInvalid, updatedDotPath(value,fullDotPath, idx)
+          value[idx], pathSegments.slice(1).join("."), defaultValue, handleInvalid, updatedDotPath(value,fullDotPath, idx)
         )
       : hasHandler
         ? handleInvalid 
         : invalidDotPath
     : valueIsIndexable
-      ? hasDefaultValue(hasDefaultValue) ? derefVal[idx] || defaultValue : derefVal[idx] 
+      ? hasDefaultValue(hasDefaultValue) ? value[idx] || defaultValue : value[idx] 
       : hasHandler ? handleInvalid : invalidDotPath
   ) as ReportError<Get<TValue, TDotPath>>;
 
@@ -146,14 +139,16 @@ export function get<
       handleInvalidDotpath: NOT_DEFINED
     } as GetOptions<TDefVal, TInvalid>
 ) {
-  return ifNull(
-      dotPath,
-      () => value, // if null passed in then just pass back value
-      (dp) => getValue(
-        value, String(dp), 
-        options?.defaultValue || NO_DEFAULT_VALUE, 
-        options?.handleInvalidDotpath || NOT_DEFINED,
-        String(dp)
-      ) 
+  return (
+    dotPath === null || dotPath === ""
+      ? value
+      : getValue(
+          value, 
+          String(dotPath),
+          options?.defaultValue || NO_DEFAULT_VALUE, 
+          options?.handleInvalidDotpath || NOT_DEFINED,
+          String(dotPath)
+        )
   ) as Get<TValue, TDotPath>;
+
 }

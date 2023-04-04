@@ -11,8 +11,8 @@ describe("pop(list)", () => {
   it("happy path", () => {
     const arr = [1,2,3] as const;
     const [val, list] = pop(arr);
-    expect(list).toEqual([1,2]);
-    expect(val).toBe(1);
+    expect(list, "list is").toEqual([1,2]);
+    expect(val, "value is").toBe(3);
 
     const empty = pop([]);
     

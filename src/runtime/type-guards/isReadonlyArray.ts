@@ -12,6 +12,6 @@ import { Tuple } from "src/types";
  */
 export function isReadonlyArray<
   T
->(value: T): value is Exclude<T, undefined | string | null | boolean | number> & Tuple {
+>(value: T): value is Readonly<Exclude<T, undefined | string | null | boolean | number>> & Tuple {
   return (Array.isArray(value) === true);
 }

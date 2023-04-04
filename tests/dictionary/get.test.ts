@@ -23,7 +23,6 @@ describe("Get<T, K> type utility", () => {
     type Id = Get<Input, "id">;
     type Foo = Get<Input, "foo">;
     type Bar = Get<Input, "bar">;
-    // @ts-ignore
     type Nada = Get<Input, "nada">;
 
     type cases = [

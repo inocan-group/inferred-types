@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ALPHA_CHARS, CONSONANTS, PLURAL_EXCEPTIONS, SINGULAR_NOUN_ENDINGS } from "src/constants";
-import { getEach, pop, slice, split, stripTrailing } from "src/runtime";
-import { IfEndsWith, IfStartsWith, Mutable, Pluralize, TupleToUnion } from "src/types";
+import { 
+  ALPHA_CHARS, 
+  CONSONANTS, 
+  PLURAL_EXCEPTIONS, 
+  SINGULAR_NOUN_ENDINGS 
+} from "src/constants";
+import { getEach, pop,  split, stripTrailing } from "src/runtime";
+import {  Mutable, Pluralize, TupleToUnion } from "src/types";
 
 const isException = <T extends string>(word: T) => getEach(PLURAL_EXCEPTIONS,0).includes(word as any);
 
