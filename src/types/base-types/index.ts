@@ -10,6 +10,7 @@ export * from "./Tuple";
 export * from "./NumericSign";
 export * from "./Digital";
 export * from "./LeftRight";
+export * from "./Indexable";
 export * from "./FalsyValue";
 
 export * from "./fns/index";

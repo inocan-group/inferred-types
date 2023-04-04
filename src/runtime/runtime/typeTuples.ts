@@ -1,6 +1,5 @@
 import { Alpha, Digit, LowerAlpha, UpperAlpha } from "src/types";
-import { LETTER, LETTER_UPPER } from "src/constants";
-import { kind, createTypeTuple, toString } from "src/runtime";
+import { kind, createTypeTuple,  LETTER, LETTER_UPPER } from "src/runtime";
 
 const digit = createTypeTuple(
   kind.literal<Digit>(),

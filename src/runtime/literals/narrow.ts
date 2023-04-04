@@ -42,3 +42,5 @@ export function narrow<
       : T[0]
     : Readonly<T>;
 }
+
+const t = narrow([1,2,3]);

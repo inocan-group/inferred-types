@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { filter } from "src/runtime/lists/filter";
-import { Contains } from "src/types";
+import { Contains, DoesExtend } from "src/types";
 import { RemoveNever,  RetainFromList } from "src/types/lists/extractors";
 import { Filter } from "src/types/lists/Filter";
 import { describe, expect, it } from "vitest";
@@ -46,6 +46,23 @@ describe("Filter<Tuple, Filter, Op>", () => {
     ];
     const cases: cases = [true, true, true, true, true];
   });
+
+  
+  it("filter out tuples", () => {
+    type Lookup = [
+      ["man","men"],
+      ["woman","women"]
+    ];
+    type Man = Filter<Lookup, ["man", string], "extends">[0];
+    type Woman = Filter<Lookup, ["woman", string], "extends">[0];
+    
+    type cases = [
+      Expect<Equal<Man, ["man","men"]>>,
+      Expect<Equal<Woman, ["woman","women"]>>,
+    ];
+    const cases: cases = [ true, true ];
+  });
+  
 
   
   it("filter out never", () => {

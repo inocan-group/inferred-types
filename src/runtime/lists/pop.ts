@@ -1,64 +1,29 @@
-import { 
-  First, 
-  IfUnion, 
-  Length, 
-  Narrowable,  
-  Tuple, 
-  UnionToTuple 
-} from "src/types";
+import {  Narrowable, Slice, Tuple,  IfHasKeys, Last } from "src/types";
+import { last, slice } from "src/runtime";
 
-import { 
-  createFnWithProps, 
-  asArray,
-  last,
-  slice 
-} from "src/runtime";
+export type PopResult<V, L extends Tuple> = [value: V, list: L];
 
 /**
- * **pop**(list) => () => el
+ * **pop**(list)
  * 
- * A higher order function which receives a list and the allows
- * items to be popped off of it (aka, taken from end of stack).
- * 
- * **Related:** `shift`
+ * Takes a list of elements and then returns a `PopResult` unless
+ * there were no more elements in which case the value _undefined_ is returned.
+ * ```ts
+ * // [3, [1,2]]
+ * const [val, list] = pop([1,2,3]);
+ * ```
  */
 export const pop = <
-  N extends Narrowable,
-  K extends PropertyKey,
-  T extends readonly (Record<K,N> | Narrowable)[]
->(...values: T) => {
-  const data = (
-    values.length === 1 
-      ? values[0] 
-      : values
-  ) as Length<T> extends 1 
-    ? T[0] extends readonly unknown[]
-      ? T[0] extends infer Arr
-        ? IfUnion<
-            First<Arr & readonly unknown[]>, 
-            UnionToTuple<First<T[0]>>, 
-            T[0]
-          >
-        : T[0]
-      : T[0]
-    : T;
-
-  return provide(asArray(data));
-};
-
-const provide = <T extends Tuple>(tuple: T) => {
-  const fn = () => {
-    const val = last(tuple);
-    const rest = tuple.slice(0,-1);
-
-  };
-  const api = createFnWithProps(fn)({tuple});
-  return api;
+N extends Narrowable,
+K extends PropertyKey,
+T extends readonly (Record<K,N> | Narrowable)[]
+>(list: T) => {
+  return (
+    list.length > 0
+    ? [last(list), slice(list, 0, -1)] as PopResult<Last<T>, Slice<T,0,-1>>
+    : undefined
+  ) as IfHasKeys<T, PopResult<Last<T>, Slice<T,0,-1>>, undefined>;
 };
 
 
-const a = pop([1,2,3]);
-const b = pop(1,2,3);
-const c = pop(1);
-const d = slice(b.tuple, 0,-1);
 

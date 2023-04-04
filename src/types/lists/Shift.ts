@@ -3,6 +3,11 @@ import { Tuple, IfString, Concat, Split, IfStringLiteral,  IfEqual } from "src/t
 type _Shift<TList extends Tuple> = //
 TList extends [unknown, ...(infer Tail)]
   ? Tail
+  : undefined;
+
+type _ShiftChar<TList extends Tuple> = //
+TList extends [unknown, ...(infer Tail)]
+  ? Tail
   : never;
 
 
@@ -30,7 +35,9 @@ IfEqual<
     // handle string variant
     IfStringLiteral<
       T,
-      Concat<_Shift<Split<T & string>>>,
+      Concat<_ShiftChar<
+        Split<T & string>
+      >>,
       string
     >,
     // handle list variant

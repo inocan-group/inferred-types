@@ -42,6 +42,7 @@ describe("ToNumber<T>", () => {
     type NumericArray = ToNumber<[1,2,3]>;
     type RoNumericArray = ToNumber<readonly [1,2,3]>;
     type StrNum = ToNumber<["1", "2", "3"]>;
+    type RoStrNum = ToNumber<readonly ["1", "2", "3"]>;
 
     type PartBad = ToNumber<["1", 2, "foobar"]>;
     type AllBad = ToNumber<[null, undefined, "shit"]>;
@@ -51,20 +52,21 @@ describe("ToNumber<T>", () => {
     type TrueFalse = ToNumber<[true, true, false]>;
     
     type cases = [
-      Expect<Equal<NumericArray, readonly [1,2,3]>>,
+      Expect<Equal<NumericArray,  [1,2,3]>>,
       Expect<Equal<RoNumericArray, readonly [1,2,3]>>,
-      Expect<Equal<StrNum, readonly [1,2,3]>>,
+      Expect<Equal<StrNum,  [1,2,3]>>,
+      Expect<Equal<RoStrNum,  readonly [1,2,3]>>,
 
-      Expect<Equal<PartBad, readonly [1,2,never]>>,
-      Expect<Equal<AllBad, readonly [never,never,never]>>,
-      Expect<Equal<Empty, readonly []>>,
+      Expect<Equal<PartBad,  [1,2,never]>>,
+      Expect<Equal<AllBad, [never,never,never]>>,
+      Expect<Equal<Empty,  number[]>>,
 
-      Expect<Equal<Bool, readonly [0|1,0|1,0|1]>>,
-      Expect<Equal<TrueFalse, readonly [1,1,0]>>,
+      Expect<Equal<Bool,  [0|1,0|1,0|1]>>,
+      Expect<Equal<TrueFalse,  [1,1,0]>>,
 
     ];
     const cases: cases = [
-      true, true,true,
+      true, true,true, true,
       true, true,true,
       true, true
     ];
@@ -88,7 +90,7 @@ describe("ToNumber<T>", () => {
     type cases = [
       Expect<Equal<typeof str, 42>>,
       Expect<Equal<typeof passthrough, 42>>,
-      Expect<Equal<typeof emptyArr, readonly number[]>>,
+      Expect<Equal<typeof emptyArr,  number[]>>,
       Expect<Equal<typeof goodArr, readonly [1,2,3]>>,
       Expect<Equal<typeof mixedArr, readonly [1,never,2]>>,
 

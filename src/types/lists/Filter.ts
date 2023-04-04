@@ -4,7 +4,7 @@ import { RetainFromList } from "./extractors/RetainFromList";
 /**
  * Operations which can be used with the `Filter` type utility
  */
-export type FilterOps = "equals" | "not-equal" | "extends" | "does-not-extend";
+export type FilterOps = "equals" | "not-equal" | "extends" | "extends(unionize)" | "does-not-extend" | "does-not-extend(unionize)";
 
 /**
  * **Filter**`<TList, TFilter, [TOp]>`

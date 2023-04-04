@@ -17,6 +17,7 @@ export * from "./IfValidDotPath";
 export * from "./IfBoolean";
 export * from "./IfGreaterThan";
 export * from "./IfTrue";
+export * from "./IfHasKeys";
 export * from "./IfNumber";
 export * from "./IfFalse";
 export * from "./IfMaybeTrue";
