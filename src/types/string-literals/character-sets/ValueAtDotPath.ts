@@ -1,5 +1,4 @@
-import { AfterFirst, First, Tuple } from "src/types";
-import { ErrorCondition } from "src/types/errors";
+import { AfterFirst, First, Split, Tuple , ErrorCondition } from "src/types";
 import { DotPath } from "./DotPath";
 
 

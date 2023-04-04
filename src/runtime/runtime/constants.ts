@@ -2,17 +2,6 @@ import { LowerAlphaChar, UnionToTuple, UpperAlphaChar } from "src/types";
 
 // TODO: move constants into src/constants!
 
-/**
- * **TYPE_OF**
- * 
- * The set of values which are possible results of the `typeof` command in Javascript.
- */
-export const TYPE_OF = ["string", "number", "boolean", "undefined", "symbol", "bigint", "function", "object"] as const;
-
-/**
- * Values which evaluate to _falsy_ in Javascript
- */
-export const FALSY_VALUES = [false, 0, -0, "", null, undefined, Number.NaN] as const;
 
 
 /**
