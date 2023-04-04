@@ -1,14 +1,17 @@
+import { VueRef } from "src/types";
+
 /**
  * **MaybeRef**`<T>`
  * 
- * Used to represent a value that may be of type `T` or _might_ be
- * of type `Ref<T>` where the **Ref<T>** definition is from VueJS's
- * popular reference objects.
+ * Used to represent a type which is either of the two:
+ * 
+ * - `T`
+ * - `VueRef<T>`
  * 
  * **Related:** `IsRef`, `IfRef`
  * ```ts
- * // number | { value: Readonly<T> }
+ * // number | VueRef<number>
  * type T = MaybeRef<number>;
  * ```
  */
-export type MaybeRef<T> = T & { value: T };
+export type MaybeRef<T> = T | VueRef<T>;

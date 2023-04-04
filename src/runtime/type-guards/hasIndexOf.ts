@@ -1,5 +1,5 @@
-import { IfLength,  Keys,  Key, Container, Scalar, TupleToUnion, Tuple, IfContains } from "src/types";
 import { keysOf } from "src/runtime";
+import {  Keys,  Key, Container } from "src/types";
 
 // type KeyType<T> = T extends readonly number[]
 //   ?  number
@@ -10,8 +10,6 @@ import { keysOf } from "src/runtime";
 // type ToKeys<T> = Keys<Exclude<T, Scalar | undefined>> & Tuple;
 
 
-type ReturnType<TKeys extends readonly Key[]> = 
-  IfLength<TKeys, 0, never, TupleToUnion<TKeys>>;
 
 
 /**
@@ -20,9 +18,9 @@ type ReturnType<TKeys extends readonly Key[]> =
  * A partial applied type-guard to validate whether a future _index_ value is
  * valid or not.
  */
-export type HasIndexOfValidationFn<TKeys extends readonly Key[]> = <
-  TIndex extends Key
->(idx: TIndex) => idx is TIndex & ReturnType<TKeys>;
+export type HasIndexOfValidationFn<TValue, TKeys extends readonly PropertyKey[]> = <
+  TIndex extends PropertyKey
+>(idx: TIndex) => idx is TIndex & keyof TValue;
 
 
 // : value is TIndex extends number 
@@ -30,13 +28,15 @@ export type HasIndexOfValidationFn<TKeys extends readonly Key[]> = <
 //   : TValue & Record<TIndex, unknown> =>
 
 /**
- * Validate
+ * Validates that 
  */
-const validate = <TValue extends Container>(value: TValue): HasIndexOfValidationFn<Keys<TValue>> => 
-  <TIndex extends Key>(idx: TIndex): idx is TIndex & ReturnType<Keys<TValue>> => {
-  const keys = keysOf(value);
-
-  return keys.includes(idx );
+const validate = <
+  TValue, 
+  TKeys extends readonly PropertyKey[]
+>(value: TValue, keys: TKeys): HasIndexOfValidationFn<TValue,TKeys> => <
+  TIndex extends PropertyKey
+>(idx: TIndex): value is TValue & Record<typeof idx, unknown> => {
+  return keys.includes(idx);
 };
 
 
@@ -57,5 +57,8 @@ const validate = <TValue extends Container>(value: TValue): HasIndexOfValidation
  * }
  * ```
  */
-export const hasIndexOf = <TValue extends Container>(value: TValue): HasIndexOfValidationFn<Keys<TValue>> => validate(value);
-
+export const hasIndexOf = <
+  TValue
+>(value: TValue): HasIndexOfValidationFn<
+  TValue extends Container ? Keys<TValue>: readonly PropertyKey[]
+> => validate(value, keysOf(value));

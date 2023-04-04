@@ -42,6 +42,9 @@
     "watch:lint": "esw (src|tests)/**/*.ts -w --clear",
     "watch:bundle": "tsup src/index.ts --format=esm --dts"
   },
+  "dependencies": {
+    "vue": "^3.2.47"
+  },
   "devDependencies": {
     "@type-challenges/utils": "~0.1.1",
     "@types/node": "^16.18.18",
@@ -65,7 +68,6 @@
     "typescript": "^5.0.2",
     "vite": "^4.2.1",
     "vite-node": "^0.29.7",
-    "vitest": "^0.29.7",
-    "vue": "^3.2.47"
+    "vitest": "^0.29.7"
   }
 }

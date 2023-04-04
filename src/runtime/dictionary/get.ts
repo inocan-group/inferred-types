@@ -19,6 +19,7 @@ import {
   createErrorCondition, 
   NotDefined, 
   ifNull,
+  ifRef,
   split,
   NOT_DEFINED 
 } from "src/runtime";
@@ -66,9 +67,7 @@ function getValue<
   /** 
    * The "value" after considering Ref<T> possibility
    */
-  const derefVal = isRef(value) 
-    ? value.value 
-    : value;
+  const derefVal = ifRef(value);
 
   /** whether or not the value is indexable or not */
   const valueIsIndexable = hasIndexOf(derefVal)(idx);
