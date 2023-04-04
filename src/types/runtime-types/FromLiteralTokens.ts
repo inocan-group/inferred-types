@@ -1,6 +1,6 @@
 import { IfStartsWith } from "../boolean-logic";
 import { AfterFirst, First } from "../lists";
-import { Alpha, Bracket, ClosingBracket, Digit, LowerAlpha, OpeningBracket, StripLeading, UpperAlpha } from "../string-literals";
+import { AlphaChar, Bracket, ClosingBracket, Digit, LowerAlphaChar, OpeningBracket, StripLeading, UpperAlphaChar } from "../string-literals";
 import { StringLiteralToken } from "./StringLiteralToken";
 
 type _Tokenize<T extends StringLiteralToken> = //
@@ -10,9 +10,9 @@ type _Tokenize<T extends StringLiteralToken> = //
     T extends "<string>" ? `${string}`
     : T extends "<number>" ? `${number}`
     : T extends "<boolean>" ? `${boolean}`
-    : T extends "<letter>" ? `${Alpha}`
-    : T extends "<letter:lowercase>" ? `${LowerAlpha}`
-    : T extends "<letter:uppercase>" ? `${UpperAlpha}`
+    : T extends "<letter>" ? `${AlphaChar}`
+    : T extends "<letter:lowercase>" ? `${LowerAlphaChar}`
+    : T extends "<letter:uppercase>" ? `${UpperAlphaChar}`
     : T extends "<digit>" ? `${Digit}`
     : T extends "<bracket>" ? `${Bracket}`
     : T extends "<bracket:opening>" ? `${OpeningBracket}`

@@ -1,11 +1,11 @@
-import { Alpha } from "../string-literals";
+import { AlphaChar } from "../string-literals";
 
 
 /**
  * A `PrivateKey` must start with a `_` character and then follow with
  * an alphabetic character
  */
-export type PrivateKey = `_${Alpha}${string}`;
+export type PrivateKey = `_${AlphaChar}${string}`;
 
 /**
  * **PrivateKeys**`<T>`

@@ -1,4 +1,4 @@
-import { NUMERIC_DIGIT } from "../runtime";
+import { NUMERIC_DIGIT } from "src/constants";
 
 /**
  * **isNumericString**(value)

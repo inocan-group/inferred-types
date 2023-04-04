@@ -3,8 +3,8 @@ import type {
   TypeOptions, 
   IfReadonlyArray, 
   AlphaNumericChar,
-  LowerAlpha, 
-  UpperAlpha, 
+  LowerAlphaChar, 
+  UpperAlphaChar, 
   Narrowable,
   FromTypeDefn, 
   TypeDefaultValue,
@@ -16,8 +16,8 @@ export type StringLiteralMapper = {
   "<boolean>": `${boolean}`;
   "<digit>": `${Digit}`;
   "<letter>": `${AlphaNumericChar}`;
-  "<letter:lowercase>": `${LowerAlpha}`;
-  "<letter:uppercase>": `${UpperAlpha}`;
+  "<letter:lowercase>": `${LowerAlphaChar}`;
+  "<letter:uppercase>": `${UpperAlphaChar}`;
 };
 
 // const matchers = [

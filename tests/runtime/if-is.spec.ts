@@ -13,7 +13,7 @@ import {
   isTrue,
   StartingWithTypeGuard, startsWith, box, wide
 } from "src/runtime";
-import { EndsWith, DoesExtend, LowerAlpha, Or, StartsWith, IsStringLiteral  } from "src/types";
+import { EndsWith, DoesExtend, LowerAlphaChar, Or, StartsWith, IsStringLiteral  } from "src/types";
 
 
 describe("runtime if/is", () => {
@@ -236,13 +236,13 @@ describe("runtime if/is", () => {
     type T4 = StartsWith<string, "foo">;
     type T5 = StartsWith<string, string>;
 
-    type T6 = StartsWith<"alpha", LowerAlpha>;
-    type T7 = StartsWith<"Alpha", LowerAlpha>;
+    type T6 = StartsWith<"alpha", LowerAlphaChar>;
+    type T7 = StartsWith<"Alpha", LowerAlphaChar>;
 
     type T8 = StartsWith<42, "4">;
     type T9 = StartsWith<42, string>;
     type T10 = StartsWith<42, "5">;
-    type _x = IsStringLiteral<LowerAlpha>;
+    type _x = IsStringLiteral<LowerAlphaChar>;
 
     type cases = [
       Expect<Equal<T1, true>>, //

@@ -5,10 +5,12 @@ export * from "./IfNull";
 export * from "./IfSymbol";
 export * from "./IfTruthy";
 export * from "./IfSomeTruthy";
+export * from "./IfAllExtend";
 
 export * from "./IfError";
 export * from "./IfErrorCondition";
 export * from "./IfNotError";
+export * from "./IfSingularNoun";
 
 export * from "./IfSomeExtend";
 export * from "./IfDotPath";

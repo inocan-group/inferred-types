@@ -1,4 +1,6 @@
-import { LowerAlpha, UnionToTuple, UpperAlpha } from "src/types";
+import { LowerAlphaChar, UnionToTuple, UpperAlphaChar } from "src/types";
+
+// TODO: move constants into src/constants!
 
 /**
  * **TYPE_OF**
@@ -12,20 +14,16 @@ export const TYPE_OF = ["string", "number", "boolean", "undefined", "symbol", "b
  */
 export const FALSY_VALUES = [false, 0, -0, "", null, undefined, Number.NaN] as const;
 
-/**
- * An array of all valid numeric digits in string form
- */
-export const NUMERIC_DIGIT = ["0","1","2","3","4","5","6","7","8","9"] as const;
 
 /**
  * Lowercase letters
  */
-export const LETTER_LOWER = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"] as UnionToTuple<LowerAlpha>;
+export const LETTER_LOWER = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"] as UnionToTuple<LowerAlphaChar>;
 
 /**
  * Uppercase letters
  */
-export const LETTER_UPPER = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"] as UnionToTuple<UpperAlpha>;
+export const LETTER_UPPER = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"] as UnionToTuple<UpperAlphaChar>;
 
 /**
  * Letters (both upper and lowercase)

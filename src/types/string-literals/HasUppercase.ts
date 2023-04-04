@@ -1,4 +1,4 @@
-import { UpperAlpha } from "src/types/string-literals";
+import { UpperAlphaChar } from "src/types/string-literals";
 
 /**
  * Indicates whether `T` has uppercase characters in it.
@@ -13,4 +13,4 @@ import { UpperAlpha } from "src/types/string-literals";
  */
 export type HasUppercase<T extends string> = string extends T
   ? "unknown"
-  : T extends `${string}${UpperAlpha}${string}` ? true : false;
+  : T extends `${string}${UpperAlphaChar}${string}` ? true : false;

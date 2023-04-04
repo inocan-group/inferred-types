@@ -1,6 +1,11 @@
+import { NUMERIC_CHAR } from "src/constants";
+import { Mutable, TupleToUnion } from "src/types";
+
 /**
- * Numeric string characters
+ * **NumericChar**
  * 
- * **Related:** `Digit`
+ * Numeric string characters.
+ * 
+ * **Related:** `NUMERIC_CHAR`, `Digit`
  */
-export type NumericChar = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
+export type NumericChar = TupleToUnion<Mutable<typeof NUMERIC_CHAR>>;
