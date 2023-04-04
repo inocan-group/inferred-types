@@ -70,7 +70,7 @@ function getValue<
   const derefVal = ifRef(value);
 
   /** whether or not the value is indexable or not */
-  const valueIsIndexable = hasIndexOf(derefVal)(idx);
+  const valueIsIndexable = hasIndexOf(derefVal,idx);
 
   /** has handler for invalid dotpath */
   const hasHandler = !isSpecificConstant("not-defined")(handleInvalid);
@@ -80,7 +80,7 @@ function getValue<
 
   const current = (
     hasMoreSegments
-    ? hasIndexOf(derefVal)(idx)
+    ? hasIndexOf(derefVal, idx)
       ? getValue(
           derefVal[idx], pathSegments.slice(1).join("."), defaultValue, handleInvalid, updatedDotPath(value,fullDotPath, idx)
         )

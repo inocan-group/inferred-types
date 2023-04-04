@@ -190,14 +190,14 @@ describe("Object -> KV", () => {
   });
   
   it("object nesting", () => {
-    const deep = defineType({
+    const deep = {
       foo: 1,
       bar: {
         a: "a",
         b: "b",
         c: "c"
       }
-    })();
+    } as const;
 
     const deepKv = objectToKv(deep);
 
