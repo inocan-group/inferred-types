@@ -1,9 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { filter } from "src/runtime/lists/filter";
-import { Contains, DoesExtend } from "src/types";
-import { RemoveNever,  RetainFromList } from "src/types/lists/extractors";
-import { Filter } from "src/types/lists/Filter";
 import { describe, expect, it } from "vitest";
+
+import { filter } from "src/runtime";
+import { RemoveNever,  RetainFromList , Contains , Filter } from "src/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -81,26 +80,24 @@ describe("Filter<Tuple, Filter, Op>", () => {
   });
 
   it("read-write Tuple, multiple extends filters (OR)", () => {
-    type T0 = Filter<[1,2, "foo", "bar"], ["foo", 5, 7]>; 
-    type T1 = Filter<[1,2, "foo", "bar"], ["foo", 5, 7], "extends">; 
-    type T2 = Filter<[1,2, "foo", "bar"], ["foo", 5, 7], "does-not-extend">; 
-    type T3 = Filter<[1,2, "foo", "bar"], [1, "foo"]>; 
-    type T4 = Filter<[1,2, "foo", "bar", true], [string, boolean]>; 
+    type T1 = Filter<[1,2, "foo", "bar"], ["foo", 5, 7], "extends(unionize)">; 
+    type T2 = Filter<[1,2, "foo", "bar"], ["foo", 5, 7], "does-not-extend(unionize)">; 
+    type T3 = Filter<[1,2, "foo", "bar"], [1, "foo"], "extends(unionize)">; 
+    type T4 = Filter<[1,2, "foo", "bar", true], [string, boolean], "extends(unionize)">; 
       
       type cases = [
-        Expect<Equal<T0, ["foo"]>>,
         Expect<Equal<T1, ["foo"]>>,
         Expect<Equal<T2, [1,2, "bar"]>>,
        Expect<Equal<T3, [1,"foo"]>>,
        Expect<Equal<T4, ["foo", "bar", true]>>,
       ];
-      const cases: cases = [true, true, true, true, true];
+      const cases: cases = [true, true, true, true];
   });
 
   it("readonly Tuple, OR/SOME filter", () => {
-    type T1 = Filter<readonly [1,2, "foo", "bar"], ["foo", 5, 7]>; 
-    type T2 = Filter<readonly [1,2, "foo", "bar"], [1, "foo"]>; 
-    type T3 = Filter<readonly [1,2, "foo", "bar", true], [string, boolean]>; 
+    type T1 = Filter<readonly [1,2, "foo", "bar"], ["foo", 5, 7], "extends(unionize)">; 
+    type T2 = Filter<readonly [1,2, "foo", "bar"], [1, "foo"], "extends(unionize)">; 
+    type T3 = Filter<readonly [1,2, "foo", "bar", true], [string, boolean], "extends(unionize)">; 
     
     type cases = [
      Expect<Equal<T1, readonly [ "foo"]>>, 
@@ -146,8 +143,8 @@ describe("Filter<Tuple, Filter, Op>", () => {
   it("Filter array with equals", () => {
     type List = [1,2, "foo", "bar", never];
 
-    type FooBar = Filter<List, ["foo", "bar"], "equals">;
-    type FooBar2 = RetainFromList<List, "equals", ["foo", "bar"]>;
+    type FooBar = Filter<List, ["foo", "bar"], "extends(unionize)">;
+    type FooBar2 = RetainFromList<List, "extends(unionize)", ["foo", "bar"]>;
     
     type cases = [
       Expect<Equal<FooBar, FooBar2>>,

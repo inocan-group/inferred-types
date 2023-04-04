@@ -22,7 +22,6 @@ describe("AllKeys<TList>", () => {
     type cases = [
       Expect<HasSameValues<Str, ["foo","bar","baz"]>>,
       Expect<HasSameValues<Num, [0,1,2]>>,
-
     ];
     const cases: cases = [ true, true ];
   });
