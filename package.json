@@ -23,7 +23,7 @@
     "about": "tokei src",
     "build": "run-s lint build:bundle",
     "build:bundle": "tsup src/index.ts --dts --format=esm --clean",
-    "diagnostics": "tsc -b -f -diagnostics",
+    "diagnostics": "npx tsc -b -f -diagnostics",
     "clean": "rimraf dist/**/*",
     "lint": "run-p lint:*",
     "lint:test": "eslint tests/**/*.ts --fix",
