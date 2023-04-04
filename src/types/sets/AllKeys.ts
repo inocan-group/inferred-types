@@ -1,11 +1,11 @@
 import { AnyObject, Tuple } from "../base-types";
-import { Keys, AfterFirst, First } from "src/types";
+import { Keys, AfterFirst, First, Dedupe } from "src/types";
 
 type Calc<
   T extends readonly (Tuple | AnyObject)[],
   Acc extends readonly PropertyKey[] = []
 > = [] extends T
-  ? Acc
+  ? Dedupe<Acc>
   : Calc<
       AfterFirst<T>,
       [...Acc, ...Keys<First<T>>]
