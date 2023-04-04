@@ -22,8 +22,8 @@ type Intersect<
  * with `TIntersect`.
  */
 export type IntersectAll<
-  TList extends readonly any[],
+  TList extends readonly unknown[],
   TIntersect extends Narrowable
-> = TList extends readonly any[]
+> = TList extends readonly unknown[]
 ? Readonly<Intersect<TList, TIntersect>>
 : [...Intersect<TList, TIntersect>];

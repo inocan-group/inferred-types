@@ -1,30 +1,12 @@
-import { IfEqual, IfGreaterThan, StrLen } from "src/types";
+import { IfEqual, IfGreaterThan, StrLen, Slice, Split, Concat } from "src/types";
 
 type _Truncate<
   TStr extends string,
   TMaxLen extends number,
-  TEllipsis extends boolean,
-  
-> = {
-  [K in keyof TStr]: [K, TStr[K]]
-};
-
-
-// IfEqual<
-//   StrLen<TStr>, TMaxLen,
-//   // done
-//   IfTrue<
-//     TEllipsis,
-//     Concat<[TStr, "..."]>,
-//     TStr
-//   >,
-//   // recurse
-//   _Truncate<
-//     AfterFirst<TStr>,
-//     TMaxLen,
-//     TEllipsis
-//   >
-// >;
+  TEllipsis extends boolean
+> = TEllipsis extends true
+  ? Concat<[...Slice<Split<TStr>,0,TMaxLen>, "..."]>
+  : Concat<Slice<Split<TStr>,0,TMaxLen>>;
 
 /**
  * **Truncate**`<TStr,TMaxLen,[TEllipsis]>`
@@ -46,11 +28,10 @@ export type Truncate<
   never,
   IfGreaterThan<
     StrLen<TStr>, TMaxLen,
+    // truncation required
     _Truncate<TStr, TMaxLen, TEllipsis>,
     // no truncation required
     TStr
   >
 >;
 
-
-type _T = Truncate<"foobar", 2>;

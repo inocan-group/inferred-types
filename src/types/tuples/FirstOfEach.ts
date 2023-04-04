@@ -8,6 +8,6 @@
  * type F = FirstOfEach<typeof test>;
  * ```
  */
-export type FirstOfEach<T extends readonly any[][]> = T[number][0] extends T[number][number]
+export type FirstOfEach<T extends readonly unknown[][]> = T[number][0] extends T[number][number]
   ? T[number][0]
   : never;

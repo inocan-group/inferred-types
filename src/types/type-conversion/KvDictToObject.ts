@@ -7,8 +7,8 @@ import { Mutable } from "./Mutable";
 import { AnyObject } from "../base-types";
 
 export type TypeKvBase<
-  K extends string, 
-  T extends Type
+  K extends string = string, 
+  T extends Type = Type
 > = KvDict<K,T>;
 
 /**

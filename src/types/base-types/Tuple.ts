@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { StripTrailing } from "../string-literals";
-import { FixedLengthArray } from "../tuples";
-import { ToNumber } from "../type-conversion";
+import { FixedLengthArray } from "src/types";
 
 export type TupleRange = [required: number, optional: number];
 

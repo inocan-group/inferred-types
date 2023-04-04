@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { 
 
@@ -32,9 +33,9 @@ export function isTypeDefn<
   TKind extends TypeKind,
   TRequired extends boolean,
   TDesc extends string = string,
-  TUnderlying extends readonly any[] | "no-underlying" = "no-underlying",
+  TUnderlying extends readonly unknown[] | "no-underlying" = "no-underlying",
   TDefaultValue extends TypeDefaultValue<TKind, TRequired, TUnderlying> = TypeDefaultValue<TKind, TRequired, TUnderlying>,
-  TValidations extends readonly any[] | "no-validations" = readonly any[] | "no-validations",
+  TValidations extends readonly unknown[] | "no-validations" = readonly unknown[] | "no-validations",
   TD extends TypeDefn<TKind, TRequired, TDesc, TUnderlying, TDefaultValue, TValidations> = TypeDefn<TKind, TRequired, TDesc,  TUnderlying, TDefaultValue, TValidations>
 >(thing: unknown | TD): thing is TD {
   return (
@@ -122,7 +123,7 @@ export function isLiteralType<
   TKind extends TypeKindLiteral, 
   TRequired extends TypeIsRequired,
   TDesc extends string,
-  TUnderlying extends readonly any[] | readonly [],
+  TUnderlying extends readonly unknown[] | readonly [],
   TDefault extends TypeHasDefaultValue,
   U extends Type<
     TKind, TRequired, TDesc, TUnderlying, TDefault
@@ -146,7 +147,7 @@ export function isNarrowContainer<
   TKind extends TypeKindContainerNarrow, 
   TRequired extends TypeIsRequired,
   TDesc extends string,
-  TUnderlying extends readonly any[] | readonly [],
+  TUnderlying extends readonly unknown[] | readonly [],
   TDefault extends TypeHasDefaultValue,
   U extends Type<
     TKind, TRequired,  TDesc,  TUnderlying , TDefault
@@ -163,7 +164,7 @@ export function hasUnderlyingTypes<
   TKind extends TypeKindContainerNarrow | TypeKindLiteral, 
   TRequired extends TypeIsRequired,
   TDesc extends string,
-  TUnderlying extends readonly any[] | readonly [],
+  TUnderlying extends readonly unknown[] | readonly [],
   TDefault extends TypeHasDefaultValue,
   U extends Type<
     TKind, TRequired,  TDesc,  TUnderlying , TDefault
@@ -180,7 +181,7 @@ export function hasNoUnderlyingTypes<
   TKind extends TypeKindWide | TypeKindFalsy | TypeKindContainerWide, 
   TRequired extends TypeIsRequired,
   TDesc extends string,
-  TUnderlying extends readonly any[] | readonly [],
+  TUnderlying extends readonly unknown[] | readonly [],
   TDefault extends TypeHasDefaultValue,
   U extends Type<
     TKind, TRequired,  TDesc,  TUnderlying , TDefault

@@ -55,7 +55,7 @@ export function createConverter<
               (i) =>
                 ifSameType(
                   i,
-                  {} as Record<string, any>,
+                  {} as Record<string, unknown>,
                   (iObj) => converter.object.unbox(iObj),
                   (i) => i as unknown
                 )

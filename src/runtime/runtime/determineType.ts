@@ -19,7 +19,7 @@ type GetType<U> = U extends readonly unknown[]
   ? GetEach<U, "type">
   : never;
 
-type ObjectShape<U> = U extends readonly TypeKvBase<any,any>[]
+type ObjectShape<U> = U extends readonly TypeKvBase[]
   ? KvDictToObject<U>
   : never;
 

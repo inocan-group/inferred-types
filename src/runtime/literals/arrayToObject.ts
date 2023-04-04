@@ -9,7 +9,7 @@ import { Narrowable } from "src/types";
 export type UniqueDictionary<
   S extends PropertyKey,
   N extends Narrowable,
-  T extends Record<keyof T, N> & Record<S, any>
+  T extends Record<keyof T, N> & Record<S, unknown>
 > = { [V in T as V[S]]: V };
 
 /**
@@ -21,7 +21,7 @@ export type UniqueDictionary<
 export type GeneralDictionary<
   S extends PropertyKey,
   N extends Narrowable,
-  T extends Record<keyof T, N> & Record<S, any>
+  T extends Record<keyof T, N> & Record<S, unknown>
 > = { [V in T as V[S]]: V[] };
 
 export type ArrayConverter<S extends PropertyKey, U extends boolean> =
@@ -30,7 +30,7 @@ export type ArrayConverter<S extends PropertyKey, U extends boolean> =
    * utility. At this point, the configuration is setup already and all that's
    * left is to pass in an array of objects.
    */
-  <N extends Narrowable, T extends Record<keyof T, N> & Record<S, any>>(
+  <N extends Narrowable, T extends Record<keyof T, N> & Record<S, unknown>>(
     arr: readonly T[]
   ) => true extends U ? UniqueDictionary<S, N, T> : GeneralDictionary<S, N, T>;
 
@@ -57,7 +57,7 @@ export function arrayToObject<S extends PropertyKey, U extends boolean>(prop: S,
    */
   const transform: ArrayConverter<S, X> = <
     N extends Narrowable,
-    T extends Record<keyof T, N> & Record<S, any>
+    T extends Record<keyof T, N> & Record<S, unknown>
   >(
     arr: readonly T[]
   ): true extends X ? UniqueDictionary<S, N, T> : GeneralDictionary<S, N, T> => {

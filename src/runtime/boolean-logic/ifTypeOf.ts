@@ -43,7 +43,7 @@ function runtimeExtendsCheck<TValue extends Narrowable, TBase extends Narrowable
 export type ExtendsClause<
   N extends Narrowable,
   TValue extends Record<keyof TValue, N> | number | string | boolean | symbol
-> = <TBase extends any>(base: TBase) => TValue extends TBase ? true : false;
+> = <TBase>(base: TBase) => TValue extends TBase ? true : false;
 
 /**
  * A conditional clause used in the application of the `ifTypeOf` utility
@@ -109,14 +109,14 @@ export const ifTypeOf = <
     const trueFalse = (valid ? true : false) as TValue extends TBase ? true : false;
     return (
       {
-        then: <TResult extends any>(then?: TResult) => ({
-          else: <TElse extends any>(elseVal: TElse) => {
+        then: <TResult >(then?: TResult) => ({
+          else: <TElse >(elseVal: TElse) => {
             return (
               valid ? (typeof then === "undefined" ? val : then) : elseVal
             ) as TValue extends TBase ? (TResult extends undefined ? TValue : TResult) : TElse;
           },
         }),
-        else: <TElse extends any>(elseVal: TElse) =>
+        else: <TElse >(elseVal: TElse) =>
           valid ? val : (elseVal as TValue extends TBase ? TValue : TElse),
       } && trueFalse
     );

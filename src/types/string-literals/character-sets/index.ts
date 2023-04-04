@@ -1,3 +1,4 @@
+export * from "./Alpha";
 export * from "./AlphaChar";
 export * from "./LowerAlphaChar";
 export * from "./UpperAlphaChar";

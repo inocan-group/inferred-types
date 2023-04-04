@@ -25,6 +25,7 @@ export const tuple = <
     ? T[0] extends readonly unknown[]
       ? T[0] extends infer Arr
         ? IfUnion<
+            // eslint-disable-next-line no-use-before-define
             First<Arr & readonly unknown[]>, 
             UnionToTuple<First<T[0]>>, 
             T[0]

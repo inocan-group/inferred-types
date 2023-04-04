@@ -1,7 +1,7 @@
 import { IsFnWithParams } from "src/types/boolean-logic";
 
 // TODO: fix
-type BaseFunction = any;
+type BaseFunction = unknown;
 
 /**
  * **IfFnWithoutDict**`<T, IsFn, NotFn>`

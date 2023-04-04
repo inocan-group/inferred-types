@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable brace-style */
 import { getEach } from "./getEach";
 import type {Container, Intersection,  } from "src/types";

@@ -10,9 +10,10 @@ ELSE extends Narrowable
 >(
 val: T,
 isAnArray: <N extends T & readonly Narrowable[]>(arr: N) => IF,
-isNotAnArray: <N extends Exclude<T, any[] | readonly any[]>>(nonArr: N) => ELSE
+isNotAnArray: <N extends Exclude<T, unknown[] | readonly unknown[]>>(nonArr: N) => ELSE
 ) {
 return (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   isArray(val) ? isAnArray(val as any) : isNotAnArray(val as any)
 ) as IfArray<T, IF, ELSE>;
 }

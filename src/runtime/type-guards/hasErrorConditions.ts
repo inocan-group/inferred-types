@@ -1,8 +1,8 @@
-import { ErrorCondition } from "../../types/errors/ErrorCondition";
-import { isErrorCondition } from "./isErrorCondition";
+import { ErrorCondition } from "src/types";
+import { isErrorCondition } from "src/runtime";
 
 export const hasErrorConditions = <
-  T extends readonly any[]
->(list: T): list is T & readonly [...any[], ErrorCondition<string>] => {
+  T extends readonly unknown[]
+>(list: T): list is T & readonly [...unknown[], ErrorCondition<string>] => {
   return list.some(i => isErrorCondition(i));
 };

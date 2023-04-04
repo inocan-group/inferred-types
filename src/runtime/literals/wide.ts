@@ -14,6 +14,7 @@ export const wide = {
   symbol: Symbol() as symbol,
   null: null,
   function: (() => null) as AnyFunction,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   anyArray: [] as any[],
   anyObject: {} as AnyObject,
   unknownObject: {} as Record<string, unknown>,

@@ -12,9 +12,9 @@ export const fromKv = <
 >(list: TKv) => {
   return [...list].reduce(
     (acc, [_, k,v]) => {
-      acc[k as any] = v;
+      acc[k as keyof typeof acc] = v;
       return acc;
     },
-    {} as Record<any, any>
+    {} as Record<PropertyKey, unknown>
   ) as SimplifyObject<RemoveIndex<FromKV<TKv>>>;
 };

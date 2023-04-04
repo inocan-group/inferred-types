@@ -1,4 +1,5 @@
-import { DictFromKv, Narrowable } from "../../../types";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { DictFromKv, Narrowable } from "src/types";
 
 /**
  * Converts an array of dictionaries with `key` and `value` properties to a singular dictionary.

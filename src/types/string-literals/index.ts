@@ -25,6 +25,7 @@ export * from "./Repeat";
 export * from "./StripTrailing";
 export * from "./Split";
 export * from "./StrLen";
+export * from "./Truncate";
 
 export * from "./character-sets/index";
 export * from "./casing/index";

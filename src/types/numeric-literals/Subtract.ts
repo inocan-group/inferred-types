@@ -18,4 +18,3 @@ export type Subtract<M extends number, S extends number> = LengthDiff<
   Iterate<S>
 >;
 
-type T = Iterate<3>;
