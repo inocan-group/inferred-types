@@ -8,58 +8,86 @@ import { FnMeta, FnWithDict } from "src/types";
 const fn = () => "hi" as const;
 const fnWithFoo = createFnWithProps(fn)({foo: 1});
 
+const addProps = createFnWithProps(fn);
+const withFoo = createFnWithProps(fnWithFoo);
+
 describe("createFnWithProps()", () => {
   it("partial application", () => {
-    const partial = createFnWithProps(fn);
-    const partial2 = createFnWithProps(fnWithFoo);
-    // foo and bar assigned, baz missing
-    const completed = partial({foo:1, bar: 2});
-    // foo overwritten, bar inherited, and baz defined
-    const completed2 = partial2({ foo:42, baz: 3 });
-
-    const ret = completed();
-    const ret2 = completed2();
-    const foo = completed.foo;
-    const foo2 = completed2.foo;
-    const bar = completed.bar;
-    const bar2 = completed2.bar;
-    const baz = (completed as any).baz;
-    const baz2 = completed2.baz;
-
-    expect(ret).toBe("hi");
-    expect(ret2).toBe("hi");
-    expect(foo).toBe(1);
-    expect(foo2).toBe(1);
-    expect(bar).toBe(2);
-    expect(bar2).toBe(2);
-    expect(baz).toBe(undefined);
-    expect(baz2).toBe(3);
-
-    
 
     type cases = [
       Expect<Equal<
-        typeof partial, 
+        typeof addProps, 
         FnReadyForProps<FnMeta<[], "hi", "no-props">>
       >>, 
       Expect<Equal<
-        typeof completed,
-        FnWithDict<[], "hi", { foo: 1; bar: 2}>
-      >>,
-
-      Expect<Equal<
-        typeof partial2, 
+        typeof withFoo, 
         FnReadyForProps<FnMeta<[], "hi", {foo: 1}>>
-      >>, 
-      Expect<Equal<
-        typeof completed2,
-        FnWithDict<[], "hi", { foo: 1; baz: 3}>
       >>,
+    ];
+    const cases: cases = [ true, true ];
+  });
+
+  it("completed application", () => {
+    // foo and bar assigned
+    const fooBar = addProps({foo:1, bar: 2});
+    expect(fooBar.foo).toBe(1);
+    
+    // foo overwritten, baz defined
+    const fooReassigned = withFoo({ foo:42, baz: 3 });
+    // foo inherited, baz defined
+    const fooBaz = withFoo({baz: 3});
+    
+    const ret = fooBar();
+    const ret2 = fooReassigned();
+
+    expect(ret).toBe("hi");
+    expect(ret2).toBe("hi");
+
+    expect(fooBar.foo, `fooBar's foo value should have been 1 but was ${fooBar.foo}`).toBe(1);
+    expect(fooReassigned.foo).toBe(42);
+    
+    expect(fooBaz.foo).toBe(1);
+
+    expect(fooBar.bar).toBe(2);
+    expect((fooReassigned as any).bar).toBe(undefined);
+
+    expect(fooReassigned.baz).toBe(3);
+    expect(fooBaz.baz).toBe(3);
+
+    type cases = [
+      Expect<Equal<
+        typeof fooBar,
+        FnWithDict<[], "hi", { foo: 1; bar: 2 }>
+      >>,
+      Expect<Equal<
+        typeof fooReassigned,
+        (() => "hi") & { foo: 42; baz: 3 }
+      >>,
+      Expect<Equal<
+      typeof fooBaz,
+      (() => "hi") & { foo: 1; baz: 3 }
+    >>,
+
+      Expect<Equal<typeof fooBar.foo, 1>>,
+      Expect<Equal<typeof fooReassigned.foo, 42>>,
+      Expect<Equal<typeof fooBaz.foo, 1>>,
+
+      Expect<Equal<typeof fooBar.bar, 2>>,
+
+      Expect<Equal<typeof fooReassigned.baz, 3>>,
+      Expect<Equal<typeof fooBaz.baz, 3>>,
 
       Expect<Equal<typeof ret, "hi">>,
       Expect<Equal<typeof ret2, "hi">>
     ];
-    const cases: cases = [ true, true, true, true, true, true ];
+
+    const cases: cases = [ 
+      true, true, true,
+      true, true, true, 
+      true, 
+      true, true,
+      true, true 
+    ];
   });
 
   it("simple fn and prop are combined, type is retained", () => {

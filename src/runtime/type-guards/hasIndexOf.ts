@@ -1,5 +1,5 @@
 import { keysOf } from "src/runtime";
-import {  Keys,  Key, Container } from "src/types";
+import {  Keys, Container } from "src/types";
 
 // type KeyType<T> = T extends readonly number[]
 //   ?  number
@@ -18,7 +18,7 @@ import {  Keys,  Key, Container } from "src/types";
  * A partial applied type-guard to validate whether a future _index_ value is
  * valid or not.
  */
-export type HasIndexOfValidationFn<TValue, TKeys extends readonly PropertyKey[]> = <
+export type HasIndexOfValidationFn<TValue, TKeys extends readonly (PropertyKey & keyof TValue)[]> = <
   TIndex extends PropertyKey
 >(idx: TIndex) => idx is TIndex & keyof TValue;
 
@@ -32,7 +32,7 @@ export type HasIndexOfValidationFn<TValue, TKeys extends readonly PropertyKey[]>
  */
 const validate = <
   TValue, 
-  TKeys extends readonly PropertyKey[]
+  TKeys extends readonly (PropertyKey & keyof TValue)[]
 >(value: TValue, keys: TKeys): HasIndexOfValidationFn<TValue,TKeys> => <
   TIndex extends PropertyKey
 >(idx: TIndex): value is TValue & Record<typeof idx, unknown> => {

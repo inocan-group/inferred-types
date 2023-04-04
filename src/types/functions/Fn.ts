@@ -4,15 +4,6 @@ import type { IfEqual } from "src/types/boolean-logic";
 import { FnMeta } from "./FnMeta";
 import { FnProps } from "./FnProps";
 
-// export interface FnStructure<
-//   A extends readonly unknown[],
-//   R,
-//   D extends AnyObject | "no-props"
-// > {
-//   args: A;
-//   returns: R;
-//   props: D;
-// }
 
 /**
  * **Fn**`<TFn>`

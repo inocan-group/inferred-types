@@ -10,6 +10,6 @@ export type IntersectingKeys<
   R extends Container,
 > = UnionToTuple<
   (keyof L) & (keyof R)
->;
+> & PropertyKey[];
 
 

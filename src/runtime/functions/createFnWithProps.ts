@@ -1,11 +1,19 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Concat, Fn, FnMeta, Keys, Narrowable, UniqueKeys } from "src/types";
-import { 
+import {
+  Fn, 
+  FnMeta, 
+  IntersectingKeys,  
+  Narrowable, 
+  WithoutKeys, 
   AnyFunction,
   AnyObject,
-  FnWithDict, 
-} from "src/types/base-types";
+  Container,
+  FnWithDict,
+} from "src/types";
+
+import {fnMeta} from "src/runtime";
+
 
 /**
  * **FnReadyForProps**(props)
@@ -21,18 +29,19 @@ export type FnReadyForProps<
   N extends Narrowable
 >(props: TProps) => _Returns<TFn, TProps>;
 
-type Dict<
-  TProps extends object,
-  TBase extends object
-> = Concat<UniqueKeys<TProps,TBase>>;
 
 type _Returns<TFn extends FnMeta<any,any,any>, TProps extends AnyObject> = FnWithDict<
   TFn["args"], 
   TFn["returns"], 
   TFn["props"] extends "no-props" 
-    ? TProps 
-    : Dict<TProps,TFn["props"]>
+    ? TProps
+    : TFn["props"] extends Container
+        ? TProps & WithoutKeys<
+            TFn["props"], IntersectingKeys<TProps, TFn["props"]>
+          >
+        : TProps
 >;
+
 
 /**
  * **createFnWithProps**(fn)(params)
@@ -48,19 +57,19 @@ type _Returns<TFn extends FnMeta<any,any,any>, TProps extends AnyObject> = FnWit
  */
 export const createFnWithProps = <TFn extends AnyFunction>(
   fn: TFn
-) => <
-  TProps extends Record<PropertyKey, N>,
-  N extends Narrowable
->(props: TProps) => {
-  // any props which may exist on incoming fn
-  for (const k of Object.keys(fn)) {
-    (fn as any)[k] = fn[k as keyof TFn];
+): FnReadyForProps<Fn<TFn>> => (props) => {
+  
+  const clone = <
+    A extends Fn<TFn>["args"]
+  >(...args:  A) => fn(...args);
+
+  for (const k of Object.keys(fn)) {    
+    (clone as any)[k] = fn[k as keyof typeof fn];
   }
 
-  // any props from `props`
-  for (const k of Object.keys(props)) {
-    (fn as any)[k] = props[k as keyof TProps];
+  for (const k of Object.keys(props)) {    
+    (clone as any)[k] = props[k as keyof typeof props];
   }
-
-  return fn as unknown as _Returns<Fn<TFn>, TProps>;
+  
+  return clone as unknown as _Returns<Fn<TFn>, typeof props>;
 };

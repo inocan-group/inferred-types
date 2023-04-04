@@ -13,7 +13,7 @@ describe("IntersectingKeys<L,R>", () => {
     type I = IntersectingKeys<{foo:1; bar: 2}, {bar:2; baz: 3}>;
     
     type cases = [
-      Expect<Equal<I, ["bar"]>>,
+      Expect<Equal<I, ["bar"] & PropertyKey[]>>,
     ];
     const cases: cases = [true];
   });
