@@ -1,4 +1,4 @@
-import {  And,  IfStringLiteral, IsEqual, Tuple, Last, Pop } from "src/types";
+import { And, IfStringLiteral, IsEqual, Tuple, Last, Pop } from "src/types";
 
 type SplitAcc<
 T extends string,
