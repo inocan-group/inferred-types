@@ -17,7 +17,7 @@ export function mapValues<N extends Narrowable, T extends Record<string, N>, V>(
   valueMapper: (k: T[keyof T]) => V
 ) {
   return Object.fromEntries(
-    // TODO: fix the type error with v and valueMapper
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [...entries(obj)].map(([k, v]) => [k, valueMapper(v as any)])
   ) as { [K in keyof T]: V };
 }

@@ -3,14 +3,14 @@ import type {
   TypeDefaultValue, 
   TypeOptions, 
   TypeUnderlying 
-} from "../../../types";
+} from "src/types";
 
 export type TypeApiBoolean = <
     TRequired extends boolean,
     TDesc extends string,
     TUnderlying extends TypeUnderlying,
     TDefaultValue extends TypeDefaultValue<"boolean", TRequired, TUnderlying>,
-    TValidations extends readonly any[] | "no-validations", 
+    TValidations extends readonly unknown[] | "no-validations", 
 >(
   options?: TypeOptions<"boolean", TRequired, TDesc, TUnderlying, TDefaultValue, TValidations>
 ) => FromTypeDefn<{

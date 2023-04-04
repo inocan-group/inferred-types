@@ -10,11 +10,16 @@ import {
   LITERAL_TYPE_KINDS,
   NO_DEFAULT_VALUE,
 } from "src/constants";
-import { keysOf } from "../dictionary";
-import { box } from "../literals";
-import { isTypeDefn } from "../type-guards";
+import { 
+  keysOf, 
+  box, 
+  isTypeDefn, 
+  createTypeGuard,
+  createValidator,
+  determineIdentity, 
+  determineType 
+} from "src/runtime";
 
-import { createTypeGuard,createValidator,determineIdentity, determineType } from "./index";
 
 /**
  * **TypeApi**
@@ -67,6 +72,7 @@ export const createTypeDefn = <
     kind: defn.kind,
     type: determineType(defn),
     isRequired: defn.isRequired ? true : false,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     isLiteral: keysOf(LITERAL_TYPE_KINDS).includes(defn.kind as any) ? true : false,
     description: (defn.description || "") as TDesc,
     validations: (defn.validations || []) as FullType["validations"],

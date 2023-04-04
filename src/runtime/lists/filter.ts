@@ -2,7 +2,7 @@ import { Filter,  FilterOps, Narrowable } from "src/types";
 import { isSameTypeOf } from "../type-guards";
 
 export const filter = <
-  TList extends readonly any[],
+  TList extends readonly unknown[],
   TOp extends FilterOps,
   TFilter extends Narrowable
 >(
@@ -10,7 +10,7 @@ export const filter = <
   op: TOp, 
   value: TFilter
 ) => {
-  let result: any;
+  let result: unknown;
 
   switch(op) {
     case "not-equal":

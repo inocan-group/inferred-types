@@ -8,6 +8,6 @@
  * type F = SecondOfEach<[ ["foo", 1], ["bar", 2] ]>;
  * ```
  */
-export type SecondOfEach<T extends any[][]> = T[number][1] extends T[number][number]
+export type SecondOfEach<T extends unknown[][]> = T[number][1] extends T[number][number]
   ? T[number][1]
   : never;

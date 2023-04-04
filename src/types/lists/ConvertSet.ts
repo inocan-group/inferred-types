@@ -38,7 +38,7 @@ type ConvertAcc<
  * ```
  */
 export type ConvertSet<
-  TSet extends readonly any[],
+  TSet extends readonly unknown[],
   TConversions extends ConversionTuple | readonly ConversionTuple[]
 > = TConversions extends readonly ConversionTuple[]
   ? ConvertAcc<TSet, TConversions>

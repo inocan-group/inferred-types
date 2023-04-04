@@ -1,8 +1,5 @@
-import { AnyObject } from "../base-types";
-import { IfLiteral } from "../boolean-logic";
-import { Keys } from "../dictionary/Keys";
-import { AfterFirst, First, IndexOf } from "../lists";
-import { Retain } from "../lists/Retain";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { AnyObject, IfLiteral , Keys , AfterFirst, First, IndexOf , Retain } from "src/types";
 
 
 export type KV = [kind: "KV", key: string, value: any];

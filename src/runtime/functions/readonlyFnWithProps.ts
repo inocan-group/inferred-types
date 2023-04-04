@@ -8,8 +8,9 @@ export function readonlyFnWithProps<
   R, 
   P extends AnyObject
 >(fn: ((...args: A) => R), props: P) {
-  // eslint-disable-next-line prefer-const
-  let combined: any = fn;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const combined: any = fn;
   for (const prop of Object.keys(props)) {
     combined[prop] = props[prop as keyof P];
   }

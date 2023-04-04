@@ -21,6 +21,7 @@ export function ifFunction<
   return (
     isFunction(value)
     ? isFnCallback(value)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     : notFnCallback(value as any)
   ) as IfFunction<TValue, Fn, NotFn>;
 }

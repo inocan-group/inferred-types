@@ -39,6 +39,7 @@ export type TypeRuleDesc<
  */
 export type ConfiguredTypeMapper<
   R extends readonly TypeMapRule[]
+// eslint-disable-next-line no-use-before-define
 > = <T extends readonly Narrowable[]>(...tokens: T) => MapType<T,R>;
 
 type MapAcc<

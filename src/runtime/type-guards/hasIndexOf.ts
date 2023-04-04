@@ -1,5 +1,4 @@
 import {  isArray, isObject } from "src/runtime";
-import { Narrowable } from "src/types";
 
 
 /**
@@ -7,7 +6,7 @@ import { Narrowable } from "src/types";
  * 
  */
 export const hasIndexOf = <
-  TValue extends Narrowable,
+  TValue extends Container,
   TIndex extends PropertyKey
 >(value: TValue, idx: TIndex): value is TValue & Record<TIndex, unknown> => {
   return (isObject(value) || isArray(value)) && idx in value;

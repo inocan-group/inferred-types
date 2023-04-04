@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AnyFunction, AnyObject } from "../base-types";
 import {  IfLiteral, IfRef, IsUndefined } from "src/types/boolean-logic";
 import { Narrowable } from "../literals/Narrowable";

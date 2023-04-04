@@ -1,7 +1,6 @@
-import {  And, IfEquals, IfStringLiteral, IsEqual } from "src/types/boolean-logic";
+import {  And,  IfStringLiteral, IsEqual } from "src/types/boolean-logic";
 import { Tuple } from "../base-types";
 import { Last, Pop } from "../lists";
-import { BeforeLast } from "../lists/BeforeLast";
 
 type SplitAcc<
 T extends string,
