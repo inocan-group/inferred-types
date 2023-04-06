@@ -1,8 +1,4 @@
-import { TupleToUnion, UnionToTuple } from "src/types/type-conversion";
-import { Narrowable } from "src/types/literals";
-import { First } from "./First";
-import { AfterFirst } from "./AfterFirst";
-import { Keys, WithoutValue } from "src/types/dictionary";
+import { TupleToUnion, UnionToTuple , Narrowable , Keys, WithoutValue, First, AfterFirst } from "src/types";
 
 
 // [Mapped Tuple Types](https://github.com/Microsoft/TypeScript/issues/25947)

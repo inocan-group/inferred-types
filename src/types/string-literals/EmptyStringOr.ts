@@ -1,5 +1,4 @@
-import { TupleToUnion } from "../type-conversion";
-import { EmptyString } from "./EmptyString";
+import { TupleToUnion , EmptyString } from "src/types";
 
 /**
  * **EmptyStringOr**`<T>`

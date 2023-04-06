@@ -1,8 +1,4 @@
-import { ExpandRecursively } from "src/types/literals";
-import { AfterFirst , AsArray, First } from "src/types/lists";
-import { UnionToTuple, Mutable, RemoveIndex } from "src/types/type-conversion";
-import { Key, SimplifyObject, WithKeys, WithoutKeys } from "src/types/dictionary";
-import { AnyObject } from "src/types/base-types";
+import { ExpandRecursively , AfterFirst , AsArray, First , UnionToTuple, Mutable, RemoveIndex , Key, SimplifyObject, WithKeys, WithoutKeys , AnyObject } from "src/types";
 
 type MutablePropAcc<
   T extends AnyObject,

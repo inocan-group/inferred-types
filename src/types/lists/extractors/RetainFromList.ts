@@ -1,12 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { 
-  FilterOps,
-  ExtractorOp,
-  AfterFirst,
-  First
-} from "../index";
 
-import { Narrowable } from "../../literals";
 import { 
   And, 
   DoesExtend, 
@@ -14,10 +7,16 @@ import {
   IfEqual,  
   IsEqual, 
   IsNotEqual, 
-  SomeEqual 
-} from "../../boolean-logic";
-import { KvDict, KvDictToObject, TupleToUnion } from "../../type-conversion";
-import { NotEqual } from "@type-challenges/utils";
+  SomeEqual,
+  KvDict, KvDictToObject, TupleToUnion,
+  FilterOps,
+  ExtractorOp,
+  Narrowable,
+  AfterFirst,
+  First,
+  NotEqual
+  } from "src/types";
+
 
 type Unionize<T> = T extends readonly unknown[] ? TupleToUnion<T> : T;
 

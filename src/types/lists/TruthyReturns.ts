@@ -1,6 +1,4 @@
-import { AnyFunction } from "src/types/base-types";
-import { IfTruthy } from "src/types/boolean-logic";
-import { TupleToUnion } from "src/types/type-conversion";
+import { AnyFunction , IfTruthy , TupleToUnion } from "src/types";
 
 /**
  * **TruthyReturns**`<T>`

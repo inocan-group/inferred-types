@@ -4,11 +4,7 @@ import {
   LeftWhitespace, 
   RightWhitespace, 
   Trim
-} from "src/types/type-conversion";
-import { Concat } from "../Concat";
-import { DashUppercase } from "./DashUppercase";
-import { LowerAllCaps } from "./LowerAllCaps";
-import { LowerCase } from "./LowerCase";
+, Concat , DashUppercase , LowerAllCaps , LowerCase } from "src/types";
 
 /** convert space to dash */
 type SpaceToDash<T extends string> = T extends `${infer Begin}${" "}${infer Rest}`

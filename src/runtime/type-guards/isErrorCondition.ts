@@ -1,6 +1,5 @@
-import { ErrorCondition } from "../../types/errors/ErrorCondition";
-import { isEqual } from "./higher-order";
-import { isObject } from "./isObject";
+import { ErrorCondition } from "src/types";
+import { isEqual, isObject } from "src/runtime";
 
 /**
  * **isErrorCondition**(value)

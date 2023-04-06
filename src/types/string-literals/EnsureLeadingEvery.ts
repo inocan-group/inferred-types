@@ -1,5 +1,4 @@
-import { ToString } from "../type-conversion";
-import { EnsureLeading } from "./EnsureLeading";
+import { ToString , EnsureLeading } from "src/types";
 
 type LeadingAcc<
   TList extends readonly (string | number)[],

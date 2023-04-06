@@ -1,6 +1,4 @@
-import { Digital, DigitalLiteral } from "src/types/base-types";
-import { IfLiteral, IfStartsWith } from "src/types/boolean-logic";
-import { ToString } from "src/types/type-conversion";
+import { Digital, DigitalLiteral , IfLiteral, IfStartsWith , ToString } from "src/types";
 
 /**
  * **IsNegativeNumber**`<T>`

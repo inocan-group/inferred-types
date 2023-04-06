@@ -1,5 +1,4 @@
-import { Get } from "../dictionary/Get";
-import { Narrowable } from "../literals/Narrowable";
+import { Narrowable, Get } from "src/types";
 
 /**
  * **UnionFromProp**

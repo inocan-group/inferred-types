@@ -2,9 +2,7 @@ import {
   FilterOps,
   AfterFirst,
   First
-} from "../index";
-import { Narrowable } from "../../literals";
-import { And, DoesExtend, IsEqual, IsNotEqual } from "../../boolean-logic";
+, Narrowable , And, DoesExtend, IsEqual, IsNotEqual } from "src/types";
 
 /**
  * **RemoveNotExtends**`<TList,TCompareTo>`

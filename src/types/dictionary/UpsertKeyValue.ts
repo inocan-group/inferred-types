@@ -1,10 +1,5 @@
 
-import { IfContains } from "src/types/boolean-logic";
-import { Narrowable } from "src/types/literals";
-import { SimplifyObject } from "src/types/dictionary/SimplifyObject";
-import { AnyObject } from "src/types/base-types";
-import { Key } from "./Key";
-import { Keys } from "./Keys";
+import { IfContains , Narrowable , SimplifyObject , AnyObject, Keys } from "src/types";
 
 
 /**
@@ -17,7 +12,7 @@ import { Keys } from "./Keys";
  */
 export type UpsertKeyValue<
   TObj extends AnyObject,
-  K extends Key,
+  K extends PropertyKey,
   V extends Narrowable
 > = IfContains<
   Keys<TObj>, K, 

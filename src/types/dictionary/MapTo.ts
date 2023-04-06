@@ -51,7 +51,7 @@ export interface MapConfig<
  * configuration between the input and output._
  */
 export type FinalizedMapConfig<
-  IR extends OptRequired = MapIR<DefaultOneToManyMapping>,
+  IR extends OptRequired = MapIR<DefaultOneToManyMapping & string>,
   D extends MapCardinalityIllustrated = MapCard<DefaultOneToManyMapping>,
   OR extends OptRequired = MapOR<DefaultOneToManyMapping>
 > = Required<Omit<MapConfig<IR, D, OR>, "debug">> & { finalized: true; debug: boolean | string };

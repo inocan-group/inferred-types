@@ -1,5 +1,4 @@
-import { IfUnion } from "../boolean-logic";
-import { ToNumber, TupleToUnion, UnionToTuple } from "../type-conversion";
+import { IfUnion , ToNumber, TupleToUnion, UnionToTuple } from "src/types";
 
 
 type Convert<T> = T extends `${number}`

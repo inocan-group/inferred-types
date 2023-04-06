@@ -1,14 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AnyObject } from "../base-types";
-import {  IfEqual, IfLength, IfLiteral } from "../boolean-logic";
-import { Key } from "../dictionary";
-import { Keys } from "../dictionary/Keys";
-import { AfterFirst, First, Length, Reverse } from "../lists";
+import { AnyObject,IfEqual, IfLength, IfLiteral, Keys, AfterFirst, First, Length, Reverse } from "src/types";
 
 type ValuesAcc<
   TObj extends AnyObject,
-  TKeys extends readonly Key[],
+  TKeys extends readonly PropertyKey[],
   TResults extends readonly any[] = []
 > = //
 Length<TKeys> extends 0

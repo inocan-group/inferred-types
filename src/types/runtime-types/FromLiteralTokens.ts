@@ -1,7 +1,5 @@
-import { IfStartsWith } from "../boolean-logic";
-import { AfterFirst, First } from "../lists";
-import { AlphaChar, Bracket, ClosingBracket, Digit, LowerAlphaChar, OpeningBracket, StripLeading, UpperAlphaChar } from "../string-literals";
-import { StringLiteralToken } from "./StringLiteralToken";
+import { IfStartsWith, AfterFirst, First, AlphaChar, Bracket, ClosingBracket, Digit, LowerAlphaChar, OpeningBracket, StripLeading, UpperAlphaChar, StringLiteralToken } from "src/types";
+import {  } from "./StringLiteralToken";
 
 type _Tokenize<T extends StringLiteralToken> = //
   IfStartsWith<

@@ -1,5 +1,4 @@
-import { Narrowable } from "../literals";
-import { RetainFromList } from "./extractors/RetainFromList";
+import { Narrowable, RetainFromList } from "src/types";
 
 /**
  * Operations which can be used with the `Filter` type utility

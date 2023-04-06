@@ -1,6 +1,4 @@
-import { IfLiteral } from "src/types/boolean-logic";
-import { ToNumber, ToString } from "src/types/type-conversion";
-import { StripLeading } from "../string-literals";
+import { IfLiteral , ToNumber, ToString, StripLeading } from "src/types";
 
 /**
  * **AbsMaybe**`<T>`
