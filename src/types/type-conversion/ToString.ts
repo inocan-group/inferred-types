@@ -1,8 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AnyFunction, AnyObject } from "../base-types";
-import {  IfLiteral, IfRef, IsUndefined } from "src/types/boolean-logic";
-import { Narrowable } from "../literals/Narrowable";
-import { Concat } from "../string-literals/Concat";
+import { AnyFunction, AnyObject,IfLiteral, IfRef, IsUndefined, Narrowable, Concat} from "src/types";
 
 /**
  * **ToString**

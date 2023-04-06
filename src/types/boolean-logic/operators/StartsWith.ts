@@ -1,5 +1,4 @@
-import {  IfNumericLiteral, IsStringLiteral , IfString} from "src/types/boolean-logic";
-import { ToString } from "src/types/type-conversion";
+import {  IfNumericLiteral, IsStringLiteral , IfString, ToString } from "src/types";
 /**
  * **StartsWith**<TValue, TStartsWith>
  *

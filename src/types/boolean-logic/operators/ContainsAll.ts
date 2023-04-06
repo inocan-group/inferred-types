@@ -1,7 +1,5 @@
 
-import { And, Contains } from "src/types/boolean-logic";
-import { AfterFirst, First } from "src/types/lists";
-import { Narrowable } from "src/types/literals";
+import { And, Contains , Narrowable , AfterFirst, First } from "src/types";
 
 
 type _Contains<

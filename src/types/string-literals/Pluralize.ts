@@ -1,12 +1,7 @@
 /* eslint @typescript-eslint/no-unused-vars: "off" */
 
 import { PLURAL_EXCEPTIONS } from "src/constants";
-import { Consonant } from "src/types";
-import { IfContains, IfStringLiteral } from "../boolean-logic";
-import { Filter, GetEach } from "../lists";
-import { Mutable } from "../type-conversion";
-import { EnsureTrailing } from "./EnsureTrailing";
-import { StripTrailing } from "./StripTrailing";
+import { Consonant , IfContains, IfStringLiteral , Filter, GetEach , Mutable , EnsureTrailing , StripTrailing } from "src/types";
 
 
 type Exceptions = Mutable<typeof PLURAL_EXCEPTIONS>;

@@ -1,6 +1,5 @@
 
-import { IfLiteral, IfStartsWith, IsNumber, } from "../boolean-logic";
-import { ToString } from "../type-conversion";
+import { IfLiteral, IfStartsWith, IsNumber,  ToString } from "src/types";
 
 /**
  * **EnsureLeading**`<TTarget, TLeading>`

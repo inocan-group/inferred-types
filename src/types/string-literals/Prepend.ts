@@ -1,4 +1,4 @@
-import { ToString } from "../type-conversion";
+import { ToString } from "src/types";
 
 /**
  * **Prepend**`<TStr, TPrepend>`

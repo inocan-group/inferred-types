@@ -1,7 +1,5 @@
-import { IfLiteral, IfNumber, IfString } from "../boolean-logic";
-import { AfterFirst, First } from "../lists";
-import { ToString } from "../type-conversion";
-import { StringLiteralToken } from "./StringLiteralToken";
+import { IfLiteral, IfNumber, IfString, AfterFirst, First, ToString, StringLiteralToken } from "src/types";
+
 
 type _Tokenize<
   T extends readonly (string | number | boolean)[],

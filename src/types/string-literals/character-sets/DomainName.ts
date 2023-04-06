@@ -1,7 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { IfEqual, IfLength } from "src/types/boolean-logic";
-import { AfterFirst, AsArray, First } from "src/types/lists";
-import { TupleToUnion } from "src/types/type-conversion";
+import { IfEqual, IfLength, AfterFirst, AsArray, First , TupleToUnion } from "src/types";
 
 type DefaultPrefix = ["www"];
 

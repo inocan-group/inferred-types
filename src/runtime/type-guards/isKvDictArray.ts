@@ -1,5 +1,5 @@
 import { Narrowable , KvDict } from "src/types";
-import { isKvPair } from "./isKvPair";
+import { isKvPair } from "src/runtime";
 
 /**
  * **isKvDictArray**(value)

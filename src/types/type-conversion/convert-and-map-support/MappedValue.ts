@@ -1,15 +1,14 @@
-import { IfNumericLiteral, IfStringLiteral } from "src/types/boolean-logic";
-import { Narrowable } from "src/types/literals/Narrowable";
-import { 
+import { IfNumericLiteral, IfStringLiteral , Narrowable , 
   StripLeading, 
   StripTrailing, 
   CamelCase, 
   KebabCase, 
-  PascalCase 
-} from "src/types/string-literals";
-import { ToString } from "../ToString";
-import { TypeMapRule } from "../TypeMapRule";
-import { TypeTuple } from "../TypeTuple";
+  PascalCase,
+  ToString,
+  TypeMapRule,
+  TypeTuple
+} from "src/types";
+
 
 /**
  * **MappedValue**`<TValue, TRule>`

@@ -24,6 +24,8 @@ export * from "./Break";
 export * from "./Concat";
 export * from "./LeftWhitespace";
 export * from "./Replace";
+export * from "./ObjValues";
+
 export * from "./RightWhitespace";
 export * from "./ObjectToKvDict";
 export * from "./StringLength";

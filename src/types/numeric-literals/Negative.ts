@@ -1,5 +1,4 @@
-import { IsNegativeNumber } from "../boolean-logic";
-import { ToNumber, ToString } from "../type-conversion";
+import { IsNegativeNumber , ToNumber, ToString } from "src/types";
 
 /**
  * **Negative**`<T>`

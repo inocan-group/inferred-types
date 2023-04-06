@@ -1,8 +1,6 @@
 
-import { AnyObject } from "src/types/base-types";
-import { Narrowable } from "src/types/literals";
-import { KvDict, ObjectToKvDict } from "src/types/type-conversion";
-import {  RetainFromList, KvDictExtractor } from "../RetainFromList";
+import { AnyObject , Narrowable , KvDict, ObjectToKvDict, RetainFromList, KvDictExtractor } from "src/types";
+
 
 /**
  * **RetainNotExtends**`<TList,TCompareTo>`

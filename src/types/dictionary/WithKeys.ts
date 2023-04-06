@@ -1,7 +1,4 @@
-import { AnyObject } from "src/types/base-types";
-import { ExpandRecursively } from "src/types/literals";
-import { TupleToUnion, UnionToIntersection } from "src/types/type-conversion";
-import { Key } from "./Key";
+import { AnyObject , ExpandRecursively , UnionToIntersection } from "src/types";
 
 /**
  * **WithKeys**`<T,K>`
@@ -22,13 +19,11 @@ import { Key } from "./Key";
  */
 export type WithKeys<
   T extends AnyObject, 
-  K extends (Key & keyof T) | readonly (keyof T & Key)[]
+  K extends (PropertyKey & keyof T) | readonly (keyof T & PropertyKey)[]
 > = ExpandRecursively<
   UnionToIntersection< 
     K extends keyof T
     ? Pick<T,K>
-    : K extends readonly (keyof T & string)[]
-      ? Pick<T, TupleToUnion<K>>
-      : never
+    : never
   >
 >;

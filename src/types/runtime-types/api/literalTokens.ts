@@ -1,5 +1,5 @@
-import { createTypeMapRule, wide } from "../../../runtime";
-import { AlphaChar, LowerAlphaChar, UpperAlphaChar, Digit } from "../../../types";
+import { createTypeMapRule, wide } from "src/runtime";
+import { AlphaChar, LowerAlphaChar, UpperAlphaChar, Digit } from "src/types";
 
 /**
  * strip off the `literal:` tag on string literals
