@@ -1,0 +1,50 @@
+{
+    "extends": "../ts-base.json",
+    "references": [
+        {
+            "path": "../src/runtime"
+        },
+        {
+            "path": "../src/types"
+        }
+    ],
+    "compilerOptions": {
+        "noEmit": true,
+        "incremental": true,
+        "composite": true,
+        "declaration": true,
+        "declarationMap": true,
+        "tsBuildInfoFile": ".tsbuildinfo",
+        "rootDir": "..",
+        "baseUrl": ".",
+        "outDir": "../../dist/runtime",
+        "paths": {
+            "src/types": [
+                "../src/types/index.ts"
+            ],
+            "src/types/*": [
+                "../src/types/*"
+            ],
+            "src/constants": [
+                "../src/constants/index.ts"
+            ],
+            "src/constants/*": [
+                "../src/constants/*"
+            ],
+            "src/runtime": [
+                "../src/runtime/index.ts"
+            ],
+            "src/runtime/*": [
+                "../src/runtime/*"
+            ]
+        }
+    },
+    "include": [
+        ".",
+        "../src"
+    ],
+    "exclude": [
+        "**/node_modules/*",
+        "**/.*"
+    ]
+}

@@ -1,6 +1,7 @@
 /* eslint @typescript-eslint/no-unused-vars: "off" */
 
-import { Consonant, PLURAL_EXCEPTIONS } from "src/constants";
+import { PLURAL_EXCEPTIONS } from "src/constants";
+import { Consonant } from "src/types";
 import { IfContains, IfStringLiteral } from "../boolean-logic";
 import { Filter, GetEach } from "../lists";
 import { Mutable } from "../type-conversion";

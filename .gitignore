@@ -3,7 +3,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-trace/*
+**/trace/*.json
 # Runtime data
 *.pid
 *.seed

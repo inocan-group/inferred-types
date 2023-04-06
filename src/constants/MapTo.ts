@@ -1,9 +1,9 @@
 import { 
   FinalizedMapConfig, 
   MapCardinalityIllustrated, 
-  MapConfig 
-} from "src/types/dictionary";
-import { OptRequired } from "src/types/literals";
+  MapConfig, 
+  OptRequired 
+} from "src/types";
 
 /**
  * utility function to take a fully-qualified _user_ config

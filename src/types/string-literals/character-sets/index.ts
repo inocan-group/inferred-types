@@ -16,6 +16,7 @@ export * from "./AlphaNumeric";
 export * from "./Hexadecimal";
 export * from "./SingularNoun";
 export * from "./ValueAtDotPath";
+export * from "./Consonants";
 
 export * from "./brackets/index";
 export * from "./quotation-marks/index";

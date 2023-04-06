@@ -1,0 +1,45 @@
+{
+    "references": [
+        {
+            "path": "../constants"
+        },
+    ],
+    "extends": "../../ts-base.json",
+    "compilerOptions": {
+        "incremental": true,
+        "composite": true,
+        "declaration": true,
+        "declarationMap": true,
+        "tsBuildInfoFile": ".tsbuildinfo",
+        "baseUrl": ".",
+        "rootDir": "../..",
+        "outDir": "../../dist/types",
+        "paths": {
+            "src/types": [
+                "../types/index.ts"
+            ],
+            "src/types/*": [
+                "../types/*"
+            ],
+            "src/constants": [
+                "../constants/index.ts"
+            ],
+            "src/constants/*": [
+                "../constants/*"
+            ],
+            "src/runtime": [
+                "../runtime/index.ts"
+            ],
+            "src/runtime/*": [
+                "../runtime/*"
+            ]
+        }
+    },
+    "include": [
+        "./**/*.ts"
+    ],
+    "exclude": [
+        "**/node_modules/*",
+        "**/.*"
+    ]
+}
