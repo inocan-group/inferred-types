@@ -4,11 +4,15 @@ import type {
   DotPathFor, 
   Get, 
   Suggest, 
-  ReportError
+  ReportError,
+  Container,
+  AnyObject,
 } from "src/types";
 import {
   NO_DEFAULT_VALUE,
-  NoDefaultValue
+  NoDefaultValue,
+  NotDefined,
+  NOT_DEFINED 
 } from "src/constants";
 import { 
   hasDefaultValue, 
@@ -17,9 +21,7 @@ import {
   hasIndexOf, 
   isSpecificConstant, 
   createErrorCondition, 
-  NotDefined,
   split,
-  NOT_DEFINED 
 } from "src/runtime";
 
 
@@ -38,7 +40,7 @@ function updatedDotPath<
  * **getValue**(value, dotpath, defaultValue, handler, fullDotPath)
  */
 function getValue<
-  TValue extends Narrowable, 
+  TValue extends Container, 
   TDotPath extends string,
   TDefVal extends Narrowable,
   TInvalid extends Narrowable,
@@ -75,7 +77,11 @@ function getValue<
     hasMoreSegments
     ? hasIndexOf(value, idx)
       ? getValue(
-          value[idx], pathSegments.slice(1).join("."), defaultValue, handleInvalid, updatedDotPath(value,fullDotPath, idx)
+          value[idx as any],
+          pathSegments.slice(1).join("."),
+          defaultValue,
+          handleInvalid,
+          updatedDotPath(value,fullDotPath, idx)
         )
       : hasHandler
         ? handleInvalid 
@@ -143,7 +149,7 @@ export function get<
     dotPath === null || dotPath === ""
       ? value
       : getValue(
-          value, 
+          value as AnyObject | Tuple,
           String(dotPath),
           options?.defaultValue || NO_DEFAULT_VALUE, 
           options?.handleInvalidDotpath || NOT_DEFINED,

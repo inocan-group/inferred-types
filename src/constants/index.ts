@@ -13,4 +13,5 @@ export * from "./CommonObjProps";
 export * from "./NumericChar";
 export * from "./NumericDigit";
 export * from "./FalsyValues";
+export * from "./NotDefined";
 export * from "./TypeOf";

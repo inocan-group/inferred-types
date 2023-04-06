@@ -4,27 +4,20 @@
     "target": "ESNext",
     "moduleResolution": "node",
     "sourceMap": true,
-    "noEmit": true,
     "incremental": true,
     "resolveJsonModule": false,
     "strict": true,
+    // improves build performance
     "skipLibCheck": true,
     "allowJs": false,
+    "composite": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "allowSyntheticDefaultImports": true,
     "declaration": true,
+    "declarationMap": true,
     "tsBuildInfoFile": ".tsbuildinfo",
-    "paths": {
-      "src/*": [
-        "src/*"
-      ],
-    },
-    "baseUrl": ".",
-  },
-  "include": [
-    "src",
-    "tests"
-  ]
+    "types": []
+  }
 }

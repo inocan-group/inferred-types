@@ -11,6 +11,5 @@ export * from "./determineType";
 export * from "./createValidator";
 export * from "./createErrorCondition";
 export * from "./determineIdentity";
-export * from "./NotDefined";
 export * from "./Never";
 

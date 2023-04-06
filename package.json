@@ -21,8 +21,9 @@
   "sideEffects": false,
   "scripts": {
     "about": "tokei src",
-    "build": "run-s lint build:bundle",
-    "build:bundle": "tsup src/index.ts --dts --format=esm --clean",
+    "build": "run-s lint build:code build:types",
+    "build:code": "tsup src/bundle/index.ts --format=esm --clean",
+    "build:types": "cd src/bundle && npx tsc -b",
     "diagnostics": "npx tsc -b -f -diagnostics",
     "clean": "rimraf dist/**/*",
     "lint": "run-p lint:*",

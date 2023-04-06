@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NotDefined } from "src/runtime";
+
 import type { 
 
   IfUndefined,
@@ -7,10 +7,10 @@ import type {
   IfOptionalScalar,
   IfExtends,
   ErrorConditionHandler,
-  ToString
+  ToString,
+  ValueAtDotPath
 } from "src/types";
-import { NoDefaultValue } from "src/constants";
-import { ValueAtDotPath } from "../string-literals/character-sets/ValueAtDotPath";
+import { NoDefaultValue, NotDefined } from "src/constants";
 
 type ResolveDefVal<
   TValue,
