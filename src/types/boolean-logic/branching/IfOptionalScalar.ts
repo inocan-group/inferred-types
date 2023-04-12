@@ -1,4 +1,4 @@
-import { IsScalar } from "src/types/boolean-logic";
+import { IsScalar } from "src/types";
 
 /**
  * **IfOptionalScalar**`<T, IF, ELSE>`

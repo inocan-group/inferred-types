@@ -1,5 +1,5 @@
 import { KV, Narrowable } from "src/types";
-import { isKvTuple } from "src/runtime/type-guards";
+import { isKvTuple } from "src/runtime";
 
 /**
  * **ifKvTuple**(value,if_cb,not_cb)

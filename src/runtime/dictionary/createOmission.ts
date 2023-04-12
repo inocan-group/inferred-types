@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Narrowable } from "src/types/literals";
-import { omit } from "./omit";
+import { Narrowable } from "src/types";
+import { omit } from "src/runtime";
 
 /**
  * **createOmission**(...keys)(obj)

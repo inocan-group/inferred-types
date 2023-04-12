@@ -1,4 +1,4 @@
-import { LowerCase } from "src/types/string-literals";
+import { LowerCase } from "src/types";
 
 /**
  * **lowercase**()

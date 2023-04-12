@@ -1,5 +1,5 @@
 import type { IfObject, Narrowable } from "src/types";
-import { isObject } from "src/runtime/type-guards";
+import { isObject } from "src/runtime";
 
 export function ifObject<
   T extends Narrowable, 

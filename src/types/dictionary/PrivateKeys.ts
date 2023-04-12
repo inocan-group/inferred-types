@@ -1,4 +1,4 @@
-import { AlphaChar } from "../string-literals";
+import { AlphaChar } from "src/types";
 
 
 /**

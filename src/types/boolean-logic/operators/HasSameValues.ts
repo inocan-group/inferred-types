@@ -1,4 +1,4 @@
-import { AfterFirst, First, Length } from "src/types/lists";
+import { AfterFirst, First, Length } from "src/types";
 import { IfEqual, IfLength } from "../branching";
 import { Contains } from "./Contains";
 

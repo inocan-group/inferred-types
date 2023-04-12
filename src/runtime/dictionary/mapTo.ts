@@ -12,13 +12,13 @@ import {
   OptRequired
 } from "src/types";
 
-import { createFnWithProps } from "src/runtime/functions";
+import { createFnWithProps } from "src/runtime";
 import { 
   DefaultOneToManyMapping, 
   DEFAULT_MANY_TO_ONE_MAPPING, 
   DEFAULT_ONE_TO_MANY_MAPPING, 
   DEFAULT_ONE_TO_ONE_MAPPING 
-} from "src/constants/MapTo";
+} from "src/constants";
 
 
 const debugMsg = <C extends FinalizedMapConfig<any, any, any>>(

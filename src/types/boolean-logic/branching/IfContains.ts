@@ -1,4 +1,4 @@
-import { Contains } from "src/types/boolean-logic";
+import { Contains } from "src/types";
 
 /**
  * **IfContains**`<TList,TContains,IF,ELSE>`

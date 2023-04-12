@@ -11,7 +11,6 @@ export * from "./indexOf";
 export * from "./intersection";
 export * from "./unique";
 export * from "./logicalReturns";
-export * from "./fromSet";
 export * from "./find";
 export * from "./filter";
 export * from "./createConverter";

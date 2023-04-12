@@ -4,7 +4,7 @@ import {
   ensureTrailing, 
   stripLeading, 
   stripTrailing 
-} from "src/runtime/literals";
+} from "src/runtime";
 
 /**
  * **pathJoin**`<T,U>(begin, ...rest)`

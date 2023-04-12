@@ -1,4 +1,4 @@
-import {  IfBoolean, IfLiteral } from "src/types/boolean-logic";
+import {  IfBoolean, IfLiteral } from "src/types";
 
 /**
  * **IfWideString**`<T,TRUE,FALSE>`

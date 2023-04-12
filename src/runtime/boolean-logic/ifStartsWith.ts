@@ -1,6 +1,6 @@
 import { Narrowable,IfTrue, StartsWith } from "src/types";
-import { startsWith } from "src/runtime/type-guards";
-import { ifTrue } from "src/runtime/boolean-logic";
+import { startsWith } from "src/runtime";
+import { ifTrue } from "src/runtime";
 
 
 /**

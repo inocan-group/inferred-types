@@ -1,37 +1,40 @@
-import { AlphaChar, Digit, LowerAlphaChar, UpperAlphaChar } from "src/types";
-import { kind, createTypeTuple } from "src/runtime";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { IsAllCaps, AlphaChar, Digit, LowerAlphaChar, UpperAlphaChar, NumericChar } from "src/types";
+import { kind, createTypeTuple, split } from "src/runtime";
 import { ALPHA_CHARS, LOWER_ALPHA_CHARS, UPPER_ALPHA_CHARS } from "src/constants";
 
 const digit = createTypeTuple(
   kind.literal<Digit>(),
-  function <T>(val: T): val is Digit & T {
-    return typeof toString(val) === "string" && ["0","1","2","3","4","5","6","7","8","9"].includes(val as unknown);
+  <T extends string>(val: T): val is Digit & T => {
+    return typeof val === "string" && ["0","1","2","3","4","5","6","7","8","9"].includes(val as unknown);
   },
   "A numeric digit (aka, 0-9)"
 );
 
-const letter = createTypeTuple(
+const alpha = createTypeTuple(
   kind.literal<AlphaChar>(),
-  function(val: unknown): val is AlphaChar {
+  (val: unknown): val is AlphaChar => {
     return typeof val === "string" && ALPHA_CHARS.includes(val as AlphaChar);
   },
-  "A letter (upper or lowercase)"
+  "A alpha (upper or lowercase)"
 );
 
-const letterLowercase = createTypeTuple(
-  kind.literal<AlphaChar>(),
-  function (val: unknown): val is LowerAlphaChar {
-    return typeof val === "string" && LOWER_ALPHA_CHARS.includes(val as LowerAlphaChar);
-  },
-  "A lowercase letter"
+function convertToLowercase<T extends unknown>(val: T): val is T & Lowercase<T & string> {
+  return typeof val === "string" && LOWER_ALPHA_CHARS.includes(val as LowerAlphaChar);
+}
+
+const alphaLowercase = createTypeTuple(
+  kind.literal<AlphaChar[]>(),
+  convertToLowercase,
+  "A lowercase alpha"
 );
 
-const letterUppercase = createTypeTuple(
+const alphaUppercase = createTypeTuple(
   kind.literal<AlphaChar>(),
-  function (val: unknown): val is UpperAlphaChar {
-    return typeof val === "string" && UPPER_ALPHA_CHARS.includes(val as UpperAlphaChar);
+  <T>(val: T): val is T => {
+    return typeof val === "string" && split(val).every(i => LOWER_ALPHA_CHARS.includes(i as any));
   },
-  "An uppercase letter"
+  "An uppercase alpha"
 );
 
 /**
@@ -41,7 +44,7 @@ const letterUppercase = createTypeTuple(
  */
 export const typeTuples = {
   digit,
-  letter,
-  letterLowercase,
-  letterUppercase
+  alpha,
+  alphaLowercase,
+  alphaUppercase
 } as const;

@@ -1,7 +1,4 @@
-import { GetEach } from "src/types/lists";
-import { TupleToUnion } from "../TupleToUnion";
-import { TypeTuple } from "../TypeTuple";
-import { UnionToTuple } from "../UnionToTuple";
+import { GetEach , TupleToUnion , TypeTuple , UnionToTuple } from "src/types";
 
 
 /**

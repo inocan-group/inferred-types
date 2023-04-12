@@ -1,4 +1,4 @@
-import { SomeExtend } from "src/types/boolean-logic";
+import { SomeExtend } from "src/types";
 
 /**
  * **IfSomeExtend**`<TList,TExtend,IF,ELSE>`

@@ -1,4 +1,4 @@
-import { IfNever } from "src/types/boolean-logic";
+import { IfNever } from "src/types";
 
 /**
  * **IsStringLiteral**`<T>`

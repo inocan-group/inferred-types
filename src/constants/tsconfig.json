@@ -10,6 +10,9 @@
     "rootDir": "../..",
     "outDir": "../../dist/constants",
     "paths": {
+      "./*": [
+        "./*"
+      ],
       "src/types": [
         "../types/index.ts"
       ],
@@ -31,7 +34,7 @@
     }
   },
   "include": [
-    "**/*.ts"
+    "../**/*.ts"
   ],
   "exclude": [
     "**/node_modules/*",

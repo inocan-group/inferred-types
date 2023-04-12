@@ -27,6 +27,9 @@ export * from "./IsGreaterThan";
 export * from "./IsDotPath";
 export * from "./IsSingularNoun";
 export * from "./IsValidDotPath";
+export * from "./IsAllLowercase";
+export * from "./IsAllCaps";
+export * from "./IsChar";
 
 export * from "./IsOptionalScalar";
 export * from "./IsObject";

@@ -1,4 +1,4 @@
-import { IsNumericLiteral } from "src/types/boolean-logic";
+import { IsNumericLiteral } from "src/types";
 
 /**
  * **IfNumericLiteral**`<T,IF,ELSE>`

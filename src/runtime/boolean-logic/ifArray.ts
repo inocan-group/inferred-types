@@ -1,5 +1,5 @@
 import type { IfArray, Narrowable } from "src/types";
-import { isArray } from "src/runtime/type-guards";
+import { isArray } from "src/runtime";
 
 /**
  * **ifArray**(T, IF, ELSE)

@@ -1,5 +1,5 @@
 import { IsUndefined, Narrowable } from "src/types";
-import { isDefined, isUndefined } from "src/runtime/type-guards";
+import { isDefined, isUndefined } from "src/runtime";
 
 /**
  * **ifUndefined**

@@ -1,4 +1,4 @@
-import { IsFnWithParams } from "src/types/boolean-logic";
+import { IsFnWithParams } from "src/types";
 
 // TODO: fix
 type BaseFunction = unknown;

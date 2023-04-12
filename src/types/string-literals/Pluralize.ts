@@ -1,8 +1,16 @@
 /* eslint @typescript-eslint/no-unused-vars: "off" */
 
 import { PLURAL_EXCEPTIONS } from "src/constants";
-import { Consonant , IfContains, IfStringLiteral , Filter, GetEach , Mutable , EnsureTrailing , StripTrailing } from "src/types";
-
+import { 
+  Consonant, 
+  IfContains, 
+  IfStringLiteral, 
+  Filter, 
+  GetEach, 
+  Mutable, 
+  EnsureTrailing, 
+  StripTrailing
+} from "src/types";
 
 type Exceptions = Mutable<typeof PLURAL_EXCEPTIONS>;
 type SingularExceptions = GetEach<Exceptions, 0>;
@@ -64,9 +72,7 @@ IfStringLiteral<
             ? PluralizeEndingIn_Y<T>
             : `${T}s`,
   string
->
-  
-        ;
+>;
 
 
 

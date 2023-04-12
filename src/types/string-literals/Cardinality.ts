@@ -59,7 +59,6 @@ export type Cardinality =
   | ManyToZero
   | CardinalityExplicit;
 
-export type CardinalityTuple<T extends Cardinality> = UnionToTuple<T>;
 
 /**
  * The first or _input_ part of the Cardinality relationship
@@ -73,8 +72,8 @@ export type CardinalityOut<T extends Cardinality> = T extends `${string}:${infer
   ? OUT
   : never;
 
-export type CardinalityInput<T, C extends Cardinality> = CardinalityTuple<C>[0] extends 0
-  ? T | undefined
-  : CardinalityTuple<C>[0] extends 1
-  ? T
-  : T[];
+export type CardinalityInput<T, C extends Cardinality> = UnionToTuple<C> extends readonly unknown[]
+  ? UnionToTuple<C>[0] extends 1
+    ? T
+    : T[]
+  : T | undefined;

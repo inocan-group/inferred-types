@@ -1,5 +1,5 @@
 import { Narrowable, IfBoolean, IsBoolean } from "src/types";
-import { isBoolean } from "src/runtime/type-guards";
+import { isBoolean } from "src/runtime";
 
 /**
  * **ifBoolean**

@@ -1,6 +1,6 @@
-import { IsNumber } from "src/types/boolean-logic";
-import { Narrowable } from "src/types/literals";
-import { isNumber } from "src/runtime/type-guards";
+import { IsNumber } from "src/types";
+import { Narrowable } from "src/types";
+import { isNumber } from "src/runtime";
 
 /**
  * **ifNumber**(val, ifVal, elseVal)

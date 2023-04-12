@@ -1,6 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-use-before-define */
-import { KvDict, Mutable, UnionToTuple, AnyObject, IfObject, AfterFirst, First } from "src/types";
+import { 
+  KvDict, 
+  Mutable, 
+  UnionToTuple, 
+  AnyObject, 
+  IfObject, 
+  AfterFirst, 
+  First, 
+  IndexableObject 
+} from "src/types";
 
 type Obj2Kv<
   TObj extends AnyObject,
@@ -12,17 +21,19 @@ type Obj2Kv<
       TObj,
       AfterFirst<TKeys>,
       First<TKeys> extends keyof TObj
-        ? readonly [
-            ...Results, 
-            { 
-              key: First<TKeys>; 
-              value: IfObject<
-                TObj[First<TKeys>], 
-                Mutable<ObjectToKvDict<TObj[First<TKeys> & keyof TObj]>>, 
-                Mutable<TObj[First<TKeys>]>
-              >; 
-            }
-          ]
+        ? TObj extends IndexableObject
+          ? readonly [
+              ...Results, 
+              { 
+                key: First<TKeys>; 
+                value: IfObject<
+                  TObj[First<TKeys>], 
+                  Mutable<ObjectToKvDict<TObj[First<TKeys>] & IndexableObject>>, 
+                  Mutable<TObj[First<TKeys>]>
+                >; 
+              }
+            ]
+          : never
         : never
     >;
 

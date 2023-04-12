@@ -1,4 +1,4 @@
-import { IsArray } from "src/types/boolean-logic";
+import { IsArray } from "src/types";
 
 
 /**

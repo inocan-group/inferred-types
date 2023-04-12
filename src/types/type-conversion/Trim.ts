@@ -1,4 +1,4 @@
-import { Whitespace } from "src/types/string-literals";
+import { Whitespace } from "src/types";
 
 
 /**

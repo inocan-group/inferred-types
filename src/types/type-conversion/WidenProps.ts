@@ -1,5 +1,5 @@
 import { AnyObject } from "src/types/base-types";
-import { IsIndexable } from "src/types/boolean-logic";
+import { IsIndexable } from "src/types";
 import { Widen } from "./Widen";
 
 /**

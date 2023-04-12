@@ -1,4 +1,4 @@
-import { AfterFirst, First } from "src/types/lists";
+import { AfterFirst, First } from "src/types";
 import { IfUnion } from "src/types/boolean-logic/branching";
 
 type _HasUnion<

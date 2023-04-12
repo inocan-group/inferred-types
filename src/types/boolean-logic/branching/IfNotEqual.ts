@@ -1,4 +1,4 @@
-import type { IsNotEqual } from "src/types/boolean-logic";
+import type { IsNotEqual } from "src/types";
 
 /**
  * **IfEqual**`<X,Y,IF,ELSE>`

@@ -1,16 +1,16 @@
 import type {   
   TypeMapRule, 
-  TypeRuleDesc 
+  TypeRuleDesc,
+  TypeMapMatcher,
+  TypeMapTransformer
 } from "src/types";
-import { TypeMapMatcher } from "src/types/type-conversion/convert-and-map-support/TypeMapMatcher";
-import { TypeMapTransformer } from "src/types/type-conversion/convert-and-map-support/TypeMapTransformer";
 import { 
   capitalize, 
   ensureTrailing,
   stripTrailing, 
   uncapitalize 
-} from "../literals";
-import { TYPE_MATCHER_DESC, TYPE_TRANSFORMER_DESC } from "./constants";
+} from "src/runtime";
+import { TYPE_MATCHER_DESC, TYPE_TRANSFORMER_DESC } from "src/constants";
 
 /**
  * **createTypeMapper**

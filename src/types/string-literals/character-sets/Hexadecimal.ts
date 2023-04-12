@@ -1,4 +1,4 @@
-import { IsStringLiteral, NotCharacters } from "src/types/boolean-logic";
+import { IsStringLiteral, NotCharacters } from "src/types";
 import { StripLeading } from "../StripLeading";
 import { Suggest } from "../Suggest";
 import { NumericChar } from "./NumericChar";
