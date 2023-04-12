@@ -54,3 +54,4 @@ export function ifLowercaseChar<
       ? callbackForMatch(ch)
       : callbackForNoMatch(ch)
     ) as Returns<T, IF, ELSE>;
+  }
