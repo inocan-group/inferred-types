@@ -1,4 +1,4 @@
-import { isEqual, isConstant } from "src/runtime/type-guards";
+import { isEqual, isConstant } from "src/runtime";
 import { Constant } from "src/constants";
 
 /**

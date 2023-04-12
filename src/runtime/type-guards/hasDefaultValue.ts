@@ -1,5 +1,5 @@
 import { Narrowable } from "src/types";
-import { isSpecificConstant } from "src/runtime/type-guards";
+import { isSpecificConstant } from "src/runtime";
 import { NoDefaultValue } from "src/constants";
 /**
  * **hasDefaultValue**(value)

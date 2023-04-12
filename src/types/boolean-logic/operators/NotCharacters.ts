@@ -1,4 +1,4 @@
-import { AfterFirst, First, AsArray } from "src/types/lists";
+import { AfterFirst, First, AsArray } from "src/types";
 
 type _NotChar<
 TStr extends string,

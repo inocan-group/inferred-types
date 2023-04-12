@@ -8,7 +8,7 @@ import {
   IsString, 
   IfNever,
   IfUnion
-} from "src/types/boolean-logic";
+} from "src/types";
 import { IfSomeExtend } from "../branching/IfSomeExtend";
 
 /**

@@ -1,5 +1,5 @@
 import { Find , Narrowable } from "src/types";
-import { indexOf } from "./indexOf";
+import { indexOf } from "src/runtime";
 
 /**
  * **Finder**

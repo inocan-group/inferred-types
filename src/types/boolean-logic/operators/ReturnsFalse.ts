@@ -1,5 +1,5 @@
 import { AnyFunction } from "src/types/base-types";
-import { IsEqual } from "src/types/boolean-logic";
+import { IsEqual } from "src/types";
 
 /**
  * **ReturnsTrue**`<T>`

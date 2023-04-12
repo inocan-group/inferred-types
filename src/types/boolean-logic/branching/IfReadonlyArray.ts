@@ -1,4 +1,4 @@
-import { IsReadonlyArray } from "src/types/boolean-logic";
+import { IsReadonlyArray } from "src/types";
 
 /**
  * **IfReadonlyArray**`<T, IF, ELSE>`

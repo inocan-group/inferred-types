@@ -1,4 +1,4 @@
-import { IsNever } from "src/types/boolean-logic";
+import { IsNever } from "src/types";
 
 /**
  * **IfNever**`<T,IsNever,NotNever>`

@@ -1,5 +1,5 @@
 import { Filter,  FilterOps, Narrowable } from "src/types";
-import { isSameTypeOf } from "../type-guards";
+import { isSameTypeOf } from "src/runtime";
 
 export const filter = <
   TList extends readonly unknown[],

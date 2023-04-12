@@ -1,4 +1,4 @@
-import { NumericChar } from "../string-literals";
+import { NumericChar } from "src/types";
 
 /**
  * An email address

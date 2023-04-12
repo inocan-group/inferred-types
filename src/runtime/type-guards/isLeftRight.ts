@@ -1,5 +1,5 @@
 import { LeftRight, Narrowable, Tuple } from "src/types";
-import { isArray } from "./isArray";
+import { isArray } from "src/runtime";
 
 /**
  * **isLeftRight**(value)
@@ -9,7 +9,8 @@ import { isArray } from "./isArray";
 export const isLeftRight = <T extends Narrowable | Tuple>(
   value: T
 ): value is T & LeftRight<unknown,unknown> => {
-  return isArray(value) && value.length === 3 && value[0] === "LeftRight";
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return isArray(value) && (value as any).length === 3 && value[0] === "LeftRight";
 };
 
 

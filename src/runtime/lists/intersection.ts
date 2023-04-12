@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable brace-style */
-import { getEach } from "./getEach";
 import type {Container, Intersection,  } from "src/types";
-import { get } from "../dictionary/get";
-import { ifNotNull } from "../boolean-logic";
-import { isIndexable } from "../type-guards/isIndexable";
+import { get, ifNotNull, isIndexable, getEach } from "src/runtime";
+
 
 function intersectWithOffset<
 A extends readonly unknown[],

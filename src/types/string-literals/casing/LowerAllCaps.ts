@@ -1,6 +1,13 @@
-import { AllCaps } from "../AllCaps";
-import { LowerCase } from "./LowerCase";
+import { IsAllCaps } from "src/types";
+
 
 /** 
- * If **ALL CAPS** it converts to all lowercase; if not then it does nothing */
-export type LowerAllCaps<T extends string> = AllCaps<T> extends true ? LowerCase<T> : T;
+ * **LowerAllCaps**`<T>
+ * 
+ * Type utility which will convert an "all caps" string to a string where all characters are lowercase; in 
+ * all other cases it will do nothing and simply return `T` as `T`.
+ * 
+ * **Related:** `RaiseAllLowercase`
+ **/
+export type LowerAllCaps<T extends string> = IsAllCaps<T> extends true ? Lowercase<T> : T;
+

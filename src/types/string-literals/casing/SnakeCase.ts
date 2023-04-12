@@ -1,5 +1,5 @@
 /* eslint @typescript-eslint/no-unused-vars: "off" */
-import { IfTrue } from "src/types/boolean-logic";
+import { IfTrue } from "src/types";
 import { 
   LeftWhitespace, 
   RightWhitespace, 

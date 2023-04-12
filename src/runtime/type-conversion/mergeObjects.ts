@@ -1,5 +1,5 @@
 import { AnyObject } from "src/types";
-import { sharedKeys, withoutKeys } from "../dictionary";
+import { sharedKeys, withoutKeys } from "src/runtime";
 
 export function mergeObjects<
   TDefault extends AnyObject,

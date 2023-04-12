@@ -25,9 +25,11 @@ export * from "./lowercase";
 export * from "./wide";
 export * from "./toCamelCase";
 export * from "./toKebabCase";
+export * from "./ifLowercase";
 export * from "./toSnakeCase";
 export * from "./pluralize";
 export * from "./toPascalCase";
+export * from "./toUppercase";
 export * from "./toNumericArray";
 
 // #endregion auto-indexed files

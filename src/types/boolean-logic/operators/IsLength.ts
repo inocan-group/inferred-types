@@ -1,5 +1,5 @@
-import type { Length } from "src/types/lists";
-import type { IfEqual } from "src/types/boolean-logic";
+import type { Length } from "src/types";
+import type { IfEqual } from "src/types";
 
 /**
  * **IsLength**`<T, LEN>`

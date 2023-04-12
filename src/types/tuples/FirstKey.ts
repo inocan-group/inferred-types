@@ -6,4 +6,6 @@ import { Keys , UnionToTuple } from "src/types";
  * **Note:** key order is not guaranteed so typically this is used
  * for a key/value pair where only one key is expected
  */
-export type FirstKey<T extends object> = UnionToTuple<Keys<T>>[0];
+export type FirstKey<T extends object> = UnionToTuple<Keys<T>> extends readonly unknown[]
+  ? UnionToTuple<Keys<T>>[0]
+  : never;

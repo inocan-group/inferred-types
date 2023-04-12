@@ -15,3 +15,4 @@ export * from "./NumericDigit";
 export * from "./FalsyValues";
 export * from "./NotDefined";
 export * from "./TypeOf";
+export * from "./type-matcher";

@@ -15,6 +15,9 @@
         "rootDir": "../..",
         "outDir": "../../dist/types",
         "paths": {
+            "./*": [
+                "./*"
+            ],
             "src/types": [
                 "../types/index.ts"
             ],
@@ -32,11 +35,15 @@
             ],
             "src/runtime/*": [
                 "../runtime/*"
+            ],
+            "./functional/index": [
+                "functional/index.ts"
             ]
         }
     },
     "include": [
-        "./**/*.ts"
+        "./**/*.ts",
+        "../constants/**/*.ts"
     ],
     "exclude": [
         "**/node_modules/*",

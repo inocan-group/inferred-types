@@ -1,11 +1,11 @@
-import type { Length } from "src/types/lists";
+import type { Length } from "src/types";
 import type { 
   IsBooleanLiteral, 
   IsEqual, 
   IsNumericLiteral, 
   IsObjectLiteral, 
   IsStringLiteral, 
-} from "src/types/boolean-logic";
+} from "src/types";
 import type { AnyObject } from "src/types/base-types";
 
 

@@ -8,9 +8,9 @@ import {
   IsTruthy, 
   Returns, 
   StartsWith 
-} from "src/types/boolean-logic";
+} from "src/types";
 
-import { AfterFirst, AsArray, First, GetEach } from "src/types/lists";
+import { AfterFirst, AsArray, First, GetEach } from "src/types";
 import { TypeMapMatcher } from "./convert-and-map-support/TypeMapMatcher";
 import { UseTypeMapTransformer } from "./convert-and-map-support/UseTransformer";
 import { TupleToUnion } from "./TupleToUnion";

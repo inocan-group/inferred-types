@@ -1,6 +1,5 @@
 import { Unique } from "src/types";
-import { isString } from "../type-guards/isString";
-import { indexOf } from "./indexOf";
+import { isString, indexOf } from "src/runtime";
 
 /**
  * **unique**

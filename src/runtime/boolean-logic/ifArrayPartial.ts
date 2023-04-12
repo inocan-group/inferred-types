@@ -1,5 +1,5 @@
-import { Narrowable } from "src/types/literals";
-import { ifArray } from "src/runtime/boolean-logic";
+import { Narrowable } from "src/types";
+import { ifArray } from "src/runtime";
 
 export function ifArrayPartial<T extends Narrowable>() {
   return <IF extends Narrowable, ELSE extends Narrowable>(

@@ -1,4 +1,4 @@
-import { IsSymbol } from "src/types/boolean-logic";
+import { IsSymbol } from "src/types";
 
 /**
  * **IfSymbol**`<T,IF,ELSE>`

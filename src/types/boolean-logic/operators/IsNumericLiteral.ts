@@ -1,4 +1,4 @@
-import { IfNever, IfEqual, DoesExtend } from "src/types/boolean-logic";
+import { IfNever, IfEqual, DoesExtend } from "src/types";
 
 /**
  * **IsNumericLiteral**`<T>`

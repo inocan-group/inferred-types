@@ -1,8 +1,4 @@
-import { IfAnd, IfBoolean, IsNumber, IsString } from "src/types/boolean-logic";
-import { CamelCase, KebabCase, PascalCase, StripLeading, StripTrailing } from "src/types/string-literals";
-import { ToString } from "../ToString";
-import { TypeTuple } from "../TypeTuple";
-import { TypeMapTransformerOp } from "./TypeMapTransformer";
+import { IfAnd, IfBoolean, IsNumber, IsString , CamelCase, KebabCase, PascalCase, StripLeading, StripTrailing , ToString , TypeTuple , TypeMapTransformerOp } from "src/types";
 
 /**
  * **UseTypeMapTransformer**`<TValue,TTransform>`

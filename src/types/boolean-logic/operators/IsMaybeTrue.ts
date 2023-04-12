@@ -1,4 +1,4 @@
-import { IfFalse, IfTrue, IsBoolean } from "src/types/boolean-logic";
+import { IfFalse, IfTrue, IsBoolean } from "src/types";
 
 /**
  * **IsMaybeTrue**`<T>`

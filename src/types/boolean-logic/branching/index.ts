@@ -15,6 +15,8 @@ export * from "./IfSingularNoun";
 export * from "./IfSomeExtend";
 export * from "./IfDotPath";
 export * from "./IfValidDotPath";
+export * from "./IfHasCharacters";
+export * from "./IfChar";
 
 export * from "./IfBoolean";
 export * from "./IfGreaterThan";

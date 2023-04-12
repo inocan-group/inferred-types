@@ -1,4 +1,4 @@
-import { IsStringLiteral } from "src/types/boolean-logic";
+import { IsStringLiteral } from "src/types";
 import { AlphaChar } from "./AlphaChar";
 import { NumericChar } from "./NumericChar";
 

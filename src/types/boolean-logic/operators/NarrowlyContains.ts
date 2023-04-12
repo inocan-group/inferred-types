@@ -1,5 +1,5 @@
-import { AfterFirst, First } from "src/types/lists";
-import { IsEqual } from "src/types/boolean-logic";
+import { AfterFirst, First } from "src/types";
+import { IsEqual } from "src/types";
 
 /**
  * **NarrowlyContains**`<TList, TContains>`

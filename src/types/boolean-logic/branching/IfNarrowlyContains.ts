@@ -1,4 +1,4 @@
-import { NarrowlyContains } from "src/types/boolean-logic";
+import { NarrowlyContains } from "src/types";
 
 
 /**

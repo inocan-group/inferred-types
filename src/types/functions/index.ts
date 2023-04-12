@@ -12,6 +12,7 @@ export * from "./ToFn";
 export * from "./FnMeta";
 export * from "./PromiseAll";
 export * from "./FnProps";
+export * from "./ValueCallback";
 
 // #endregion auto-indexed files
 

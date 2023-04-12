@@ -1,6 +1,6 @@
 import { IfBoolean } from "../boolean-logic";
 import { LogicFunction } from "../functions/LogicFunction";
-import { AfterFirst, First } from "src/types/lists";
+import { AfterFirst, First } from "src/types";
 
 /**
  * **LogicalReturns**`<TValues, TParams>`

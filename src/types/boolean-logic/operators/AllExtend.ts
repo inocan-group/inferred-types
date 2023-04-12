@@ -1,5 +1,5 @@
-import { AfterFirst, First } from "src/types/lists";
-import { IfExtends } from "src/types/boolean-logic";
+import { AfterFirst, First } from "src/types";
+import { IfExtends } from "src/types";
 
 type AllAcc<
   TList extends readonly unknown[],

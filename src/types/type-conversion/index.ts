@@ -47,6 +47,8 @@ export * from "./ConvertType";
 export * from "./MapType";
 export * from "./ToContainer";
 
+export * from "./convert-and-map-support/index";
+
 // #endregion auto-indexed files
 
 // see https://github.com/inocan-group/do-devops/docs/autoindex.md

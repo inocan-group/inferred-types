@@ -1,5 +1,5 @@
 import type { AnyObject, AnyFunction } from "src/types/base-types";
-import type { IsEmptyObject, IfEqual, IfAnd, DoesExtend } from "src/types/boolean-logic";
+import type { IsEmptyObject, IfEqual, IfAnd, DoesExtend } from "src/types";
 
 /**
  * **IsFnWithParams**`<TFn, [TParamMatch]>`

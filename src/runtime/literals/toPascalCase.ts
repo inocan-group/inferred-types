@@ -1,5 +1,5 @@
 import { PascalCase , LeftWhitespace, RightWhitespace } from "src/types";
-import { capitalize } from "./capitalize";
+import { capitalize } from "src/runtime";
 
 /**
  * **toPascalCase**(str)

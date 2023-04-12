@@ -1,6 +1,6 @@
-import { IfString } from "src/types/boolean-logic";
-import { Narrowable } from "src/types/literals";
-import { isString } from "src/runtime/type-guards";
+import { IfString } from "src/types";
+import { Narrowable } from "src/types";
+import { isString } from "src/runtime";
 
 
 /**

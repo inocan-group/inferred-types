@@ -1,4 +1,4 @@
-import { IsUnion } from "src/types/boolean-logic";
+import { IsUnion } from "src/types";
 
 /**
  * **IfUnion**`<T,IF,ELSE>`

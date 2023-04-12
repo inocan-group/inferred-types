@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { AnyFunction } from "src/types/base-types";
-import type { IfEqual } from "src/types/boolean-logic";
+import type { IfEqual } from "src/types";
 import { FnMeta } from "./FnMeta";
 import { FnProps } from "./FnProps";
 

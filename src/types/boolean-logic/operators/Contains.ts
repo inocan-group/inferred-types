@@ -1,4 +1,4 @@
-import { AfterFirst, First } from "src/types/lists";
+import { AfterFirst, First } from "src/types";
 
 /**
  * **Contains**`<TList,TContains>`

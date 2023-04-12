@@ -1,5 +1,5 @@
 import type { IsNull, Narrowable } from "src/types";
-import { isNull } from "src/runtime/type-guards";
+import { isNull } from "src/runtime";
 
 /**
  * **ifNotNull**(val,IF,ELSE)

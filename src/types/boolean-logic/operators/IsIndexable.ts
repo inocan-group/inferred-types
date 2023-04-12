@@ -1,4 +1,4 @@
-import { IfAnd,  IsArray, IsObject, NotLength } from "src/types/boolean-logic";
+import { IfAnd,  IsArray, IsObject, NotLength } from "src/types";
 import { Keys } from "src/types/dictionary";
 
 /**

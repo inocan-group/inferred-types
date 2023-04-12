@@ -1,4 +1,4 @@
-import { AnyFunction, Key, Narrowable } from "../types";
+import { AnyFunction, Key, Narrowable } from "src/types";
 
 export type ValueTuple = [type: unknown, narrowable: boolean];
 

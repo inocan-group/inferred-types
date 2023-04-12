@@ -1,8 +1,8 @@
 /* eslint-disable no-use-before-define */
 import { AnyFunction } from "src/types/base-types";
 import { LogicFunction } from "src/types/functions";
-import { AfterFirst, First } from "src/types/lists";
-import { IfNarrowlyContains, IfOr, IsFalse, ReturnsFalse } from "src/types/boolean-logic";
+import { AfterFirst, First } from "src/types";
+import { IfNarrowlyContains, IfOr, IsFalse, ReturnsFalse } from "src/types";
 
 type _And<
   TConditions extends readonly (boolean | LogicFunction<TParams>)[], 

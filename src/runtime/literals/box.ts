@@ -2,7 +2,7 @@ import type {
   Narrowable,
   Box,
 } from "src/types";
-import { keysOf } from "../dictionary";
+import { keysOf } from "src/runtime";
 
 
 export type BoxValue<T extends Box<unknown>> = T extends Box<infer V> ? V : never;
