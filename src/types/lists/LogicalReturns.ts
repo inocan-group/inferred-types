@@ -1,12 +1,11 @@
-import { IfBoolean } from "../boolean-logic";
-import { LogicFunction } from "../functions/LogicFunction";
-import { AfterFirst, First } from "src/types";
+import { IfBoolean , AfterFirst, First, LogicFunction } from "src/types";
+
 
 /**
  * **LogicalReturns**`<TValues, TParams>`
  * 
  * Given a known tuple of values, this utility will reduce it to
- * another Tuple of items which are either a boolean type or a function
+ * another tuple of items which are either a _boolean type_ or a function
  * with a boolean return. In the latter case the function's return value
  * will be represented in the Tuple.
  * 
@@ -30,16 +29,19 @@ type ProcessLogicalReturns<
       ProcessLogicalReturns<
         AfterFirst<TValues>, 
         TParams, 
-        [...TResults, First<TValues>]
+        [...TResults, First<TValues> & boolean]
       >,
-
       LogicFunction<TParams> extends First<TValues>
-        ? ProcessLogicalReturns<AfterFirst<TValues>, TParams, [...TResults, ReturnType<LogicFunction<TParams>>]>
-        : ReturnType<First<TValues>> extends boolean
+        ? ProcessLogicalReturns<
+            AfterFirst<TValues>, 
+            TParams, 
+            [...TResults, ReturnType<LogicFunction<TParams>>]
+          >
+        : First<TValues> extends boolean
           ? ProcessLogicalReturns<
               AfterFirst<TValues>, 
               TParams, 
-              [...TResults, ReturnType<First<TValues>>]
+              [...TResults, First<TValues>]
             >
           : ProcessLogicalReturns<AfterFirst<TValues>, TParams, TResults>
     >;

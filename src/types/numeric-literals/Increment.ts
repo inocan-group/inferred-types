@@ -1,4 +1,4 @@
-import { Tuple, Length, FixedLengthArray, ToNumber } from "src/types";
+import { Tuple, Length, FixedLengthArray, ToNumber, ToString } from "src/types";
 
 type Push<T extends Tuple> = Length<
   [...T, unknown]
@@ -19,5 +19,5 @@ type Push<T extends Tuple> = Length<
 export type Increment<T extends number | `${number}`> = T extends number
   ? Push<FixedLengthArray<unknown, T>>
   : T extends `${number}`
-    ? `${Increment<ToNumber<T>>}`
+    ? ToString<Increment<ToNumber<T>>>
     : never;

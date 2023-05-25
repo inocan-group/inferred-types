@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
-import { And } from "src/types";
-import { LogicFunction } from "src/types/functions";
+import { And, LogicFunction } from "src/types";
+
 
 
 /**

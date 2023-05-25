@@ -1,4 +1,4 @@
-import type { AnyObject } from "src/types/base-types";
+import type { AnyObject } from "src/types";
 
 /**
  * **IsErrorCondition**`<T>`

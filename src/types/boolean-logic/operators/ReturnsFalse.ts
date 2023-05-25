@@ -1,5 +1,4 @@
-import { AnyFunction } from "src/types/base-types";
-import { IsEqual } from "src/types";
+import { AnyFunction , IsEqual } from "src/types";
 
 /**
  * **ReturnsTrue**`<T>`

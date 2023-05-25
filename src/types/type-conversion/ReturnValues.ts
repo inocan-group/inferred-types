@@ -1,5 +1,4 @@
-import { AnyFunction } from "../base-types/AnyFunction";
-import { AfterFirst, First } from "../lists";
+import { AnyFunction,  AfterFirst, First } from "src/types";
 
 /**
  * **ReturnValues**`<TArray>`

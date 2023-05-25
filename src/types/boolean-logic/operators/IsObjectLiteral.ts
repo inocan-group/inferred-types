@@ -2,8 +2,7 @@
 import { 
   AnyObject, 
   IfEqual,  
-  IfNever, 
-  Length
+  IfNever
 } from "src/types";
 
 /**
@@ -16,9 +15,11 @@ import {
  */
 export type IsObjectLiteral<T extends AnyObject> = 
 IfNever<
-  T, false,
+  T, 
+  false,
+
   IfEqual<
-    Length<T>, number, 
+    keyof T, string,
     false,
     true
   >

@@ -15,7 +15,7 @@ type UniqueAcc<
 > = [] extends Target
 ? Results
 : IfContains<
-    GetEach<Compare, Dereference>,
+    GetEach<Compare, Dereference> & readonly unknown[],
     Get<First<Target>, Dereference>,
 
     UniqueAcc<AfterFirst<Target>, Compare, Dereference, Results>,

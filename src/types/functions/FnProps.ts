@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { AnyFunction, AnyObject } from "src/types/base-types";
+import { AnyFunction, AnyObject } from "src/types";
 
 /**
  * **FnProps**`<T>`

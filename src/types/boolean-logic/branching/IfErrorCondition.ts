@@ -1,4 +1,4 @@
-import { IsErrorCondition } from "../operators";
+import { IsErrorCondition } from "src/types";
 
 
 /**

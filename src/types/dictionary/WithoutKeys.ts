@@ -1,5 +1,6 @@
 
-import { ExpandRecursively, AnyObject, TupleToUnion } from "src/types";
+import { ExpandRecursively, AnyObject, TupleToUnion, AsArray } from "src/types";
+
 
 /**
  * **WithoutKeys**`<TObj, TKeys>`
@@ -10,9 +11,11 @@ import { ExpandRecursively, AnyObject, TupleToUnion } from "src/types";
  */
 export type WithoutKeys<
   TObj extends AnyObject, 
-  TKeys extends readonly PropertyKey[]
-> = ExpandRecursively<Omit<
-    TObj, 
-    TupleToUnion<TKeys & keyof TObj[]>
-  >>;
+  TKeys extends PropertyKey | readonly PropertyKey[]
+> = ExpandRecursively<
+  Omit<
+      TObj, 
+      TupleToUnion<AsArray<TKeys>>
+  >
+>;
 

@@ -1,9 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
-import { AnyFunction } from "src/types/base-types";
-import { IfEqual , IfNotError } from "src/types";
-import { FnMeta } from "./FnMeta";
-import { FnProps } from "./FnProps";
+import { AnyFunction, IfEqual , IfNotError, FnMeta, FnProps } from "src/types";
 
 /**
  * **ToFn**`<T>`

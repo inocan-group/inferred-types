@@ -1,4 +1,4 @@
-import { IfLength, Keys } from "src/types";
+import { Length } from "src/types";
 
 /**
  * **IsRef**`<T>`
@@ -11,5 +11,7 @@ import { IfLength, Keys } from "src/types";
  * not.
  */
 export type IsRef<T> = T extends { value: unknown } 
-  ? IfLength<Keys<T>, 2,  true, false> // "value" and unique symbol
+  ? Length<T> extends 2
+    ? true
+    : false
   : false;

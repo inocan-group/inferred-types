@@ -1,38 +1,13 @@
-
 import { 
-  IfLength, 
-  IfTrue, 
-  IfContainer, 
-  IfEqual, 
   AnyObject, 
   UnionToTuple, 
-  RetainStrings, 
   NumericKeys,
-  IfReadonlyObject,
+  Tuple,
+  IfEqual,
+  IfNever,
+  IfRef,
+  IsRef,
 } from "src/types";
-
-type _ObjKeys<
-  TValue extends AnyObject,
-  TOnlyStringKeys extends boolean
-> = IfLength<
-  Readonly<UnionToTuple<keyof TValue>>, 0,
-  IfTrue<
-    TOnlyStringKeys, 
-     string[], 
-     (string | symbol)[]
-  >,
-  IfEqual<
-    UnionToTuple<Readonly<keyof TValue>>,  [string], 
-    string[],
-    IfTrue<
-      TOnlyStringKeys, 
-      RetainStrings<UnionToTuple<Readonly<keyof TValue>>>,
-      UnionToTuple<Readonly<keyof TValue>>
-    >
-  >
->;
-
-
 
 /**
  * **Keys**`<TValue, [TOnlyStringKeys]>`
@@ -49,19 +24,19 @@ type _ObjKeys<
  */
 export type Keys<
   TValue,
-  TOnlyStringKeys extends boolean = false
-  > = IfContainer<
-  TValue,
-  // Container
-  TValue extends readonly unknown[]
-    ? NumericKeys<TValue> // array/tuple
-    : IfReadonlyObject<
-      TValue,
-      Readonly<_ObjKeys<TValue & object, TOnlyStringKeys>>,
-      _ObjKeys<TValue & object, TOnlyStringKeys>
-    >,
-  // Non-Container
-  readonly PropertyKey[]
+  _TOnlyStringKeys extends boolean = false
+  > = IfNever<
+    keyof TValue,
+     PropertyKey[],
+    TValue extends Tuple
+      ? NumericKeys<TValue>
+      : TValue extends AnyObject
+        ? IfEqual<
+            keyof TValue, string,
+             (string | symbol)[],
+            IsRef<TValue> extends true
+              ?  ["value"]
+              : UnionToTuple<keyof TValue>
+          >
+        :  PropertyKey[]
 >;
-
-

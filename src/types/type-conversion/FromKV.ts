@@ -1,9 +1,5 @@
 
-import { AfterFirst, First } from "../lists";
-import { KV } from "./ToKV";
-import { AnyObject } from "../base-types";
-import { RemoveIndex } from "./RemoveIndex";
-import { SimplifyObject } from "../dictionary";
+import { AfterFirst, First , AnyObject , SimplifyObject , KV , RemoveIndex } from "src/types";
 
 type ConvertToObj<
   TKV extends readonly KV[],

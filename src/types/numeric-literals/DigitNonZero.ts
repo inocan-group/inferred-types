@@ -1,4 +1,4 @@
-import { Digit } from "src/types/numeric-literals";
+import { Digit } from "src/types";
 
 /**
  * **DigitNonZero**

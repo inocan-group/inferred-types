@@ -21,7 +21,7 @@ export * from "./Mutable";
 export * from "./TypeTuple";
 export * from "./Merge";
 export * from "./Break";
-export * from "./Concat";
+export * from "./ArrConcat";
 export * from "./LeftWhitespace";
 export * from "./Replace";
 export * from "./ObjValues";

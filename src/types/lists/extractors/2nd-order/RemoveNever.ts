@@ -1,5 +1,4 @@
-import { AnyObject } from "src/types/base-types";
-import { RemoveFromList } from "../RemoveFromList";
+import { AnyObject, RemoveFromList } from "src/types";
 
 /**
  * **RemoveNever**`<T>`

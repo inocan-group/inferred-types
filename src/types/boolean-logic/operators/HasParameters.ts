@@ -1,6 +1,4 @@
-import { AnyFunction } from "src/types/base-types";
-import { Length } from "src/types";
-import { IsEqual } from "src/types";
+import { AnyFunction , Length , IsEqual } from "src/types";
 
 /**
  * **HasParameters**`<T>`

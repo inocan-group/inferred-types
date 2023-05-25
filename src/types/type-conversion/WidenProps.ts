@@ -1,5 +1,4 @@
-import { AnyObject } from "src/types/base-types";
-import { IsIndexable } from "src/types";
+import { AnyObject , IsIndexable } from "src/types";
 import { Widen } from "./Widen";
 
 /**

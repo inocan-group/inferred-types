@@ -1,8 +1,5 @@
-import { Bracket } from "./brackets";
-import { NumericChar } from "./NumericChar";
-import { Punctuation } from "./Punctuation";
-import { SpecialChar } from "./SpecialChar";
-import { Whitespace } from "./Whitespace";
+import { Bracket, NumericChar, Punctuation, SpecialChar, Whitespace } from "src/types";
+
 
 /**
  * Non-alphabetic characters including whitespace, string numerals, and
