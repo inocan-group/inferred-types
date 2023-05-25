@@ -1,5 +1,5 @@
-import { IsBoolean } from "./IsBoolean";
-import { IsNever } from "./IsNever";
+import { IsBoolean, IsNever } from "src/types";
+
 
 /**
  * **IsFalse**`<T>`

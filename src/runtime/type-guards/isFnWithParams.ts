@@ -1,5 +1,4 @@
-import { Scalar } from "src/types/base-types";
-import { ToFn } from "src/types/functions";
+import { Scalar , ToFn } from "src/types";
 
 /**
  * **isFnWithDict**(input)

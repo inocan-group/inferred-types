@@ -1,5 +1,4 @@
-import { AnyArray } from "./AnyArray";
-import { AnyObject } from "./AnyObject";
+import { AnyArray , AnyObject } from "src/types";
 
 /**
  * **Container**

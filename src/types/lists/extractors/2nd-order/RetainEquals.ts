@@ -1,5 +1,4 @@
-import { AnyObject , Narrowable , KvDict , ObjectToKvDict } from "src/types";
-import { RetainFromList, NarrowObjExtractor } from "../RetainFromList";
+import { AnyObject , Narrowable , KvDict , ObjectToKvDict , RetainFromList, NarrowObjExtractor } from "src/types";
 
 /**
  * **RetainEquals**`<TIterable, TCompare>`

@@ -1,5 +1,4 @@
-import { IfSomeEqual , AfterFirst, First, AsArray } from "src/types";
-import { SetCandidate } from "./SetCandidate";
+import { IfSomeEqual , AfterFirst, First, AsArray , SetCandidate } from "src/types";
 
 type SetRemovalAcc<
   TSet extends readonly unknown[],

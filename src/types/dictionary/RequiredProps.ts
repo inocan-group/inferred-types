@@ -1,4 +1,4 @@
-import { RequiredKeys } from "./RequiredKeys";
+import { RequiredKeys } from "src/types";
 
 /**
  * **RequiredProps**`<T>`

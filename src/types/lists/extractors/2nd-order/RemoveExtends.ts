@@ -1,5 +1,4 @@
-import { AnyObject , Narrowable , KvDict , ObjectToKvDict, KvDictExtractor } from "src/types";
-import { RemoveFromList } from "../RemoveFromList";
+import { AnyObject , Narrowable , KvDict , ObjectToKvDict, KvDictExtractor , RemoveFromList } from "src/types";
 
 /**
  * **RemoveExtends**`<TIterable, TCompare>`

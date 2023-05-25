@@ -1,5 +1,4 @@
-import { AnyObject , Narrowable , KvDict , ObjectToKvDict } from "src/types";
-import { RetainFromList, KvDictExtractor } from "../RetainFromList";
+import { AnyObject , Narrowable , KvDict , ObjectToKvDict , RetainFromList, KvDictExtractor } from "src/types";
 
 /**
  * **RetainExtends**`<TIterable, TBase>`

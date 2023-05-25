@@ -5,12 +5,11 @@ import {
   Tuple,
   IfEqual,
   IfNever,
-  IfRef,
   IsRef,
 } from "src/types";
 
 /**
- * **Keys**`<TValue, [TOnlyStringKeys]>`
+ * **Keys**`<TValue>`
  * 
  * Provides the _keys_ of the container (aka, object or array) `TValue`.
  * 

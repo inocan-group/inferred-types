@@ -1,6 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { ErrorCondition, HasUnionType, Narrowable } from "src/types";
-import { Key, WithKeys } from "src/types/dictionary";
+import { ErrorCondition, HasUnionType, Narrowable, Key, WithKeys } from "src/types";
 
 /**
  * **retain**(obj,...keys)

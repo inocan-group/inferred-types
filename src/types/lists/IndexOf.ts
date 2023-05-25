@@ -1,5 +1,4 @@
-import { AnyObject, IfNull, IsNegativeNumber, Abs, Decrement, Reverse,  ErrorCondition, Concat, ToString} from "src/types";
-import { IfValidKey } from "../boolean-logic/branching/IfValidKey";
+import { AnyObject, IfNull, IsNegativeNumber, Abs, Decrement, Reverse,  ErrorCondition, Concat, ToString, IfValidKey } from "src/types";
 
 /**
  * **IndexOf**<TValue, TIdx>
