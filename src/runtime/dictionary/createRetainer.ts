@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Narrowable } from "src/types";
-import { retain } from "./retain";
+import { retain } from "src/runtime";
 
 /**
  * **createRetainer**(...keys)(obj)

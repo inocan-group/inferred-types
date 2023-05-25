@@ -1,6 +1,6 @@
 
 import { NoDefaultValue } from "src/constants";
-import { Type, TypeDefaultValue, TypeOptions, TypeUnderlying } from "../Type";
+import { Type, TypeDefaultValue, TypeOptions, TypeUnderlying } from "src/types";
 
 export type TypeApiString = <
     TRequired extends boolean = true,

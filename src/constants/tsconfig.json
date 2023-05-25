@@ -1,43 +1,23 @@
 {
-  "extends": "../../ts-base.json",
-  "compilerOptions": {
-    "incremental": true,
-    "composite": true,
-    "declaration": true,
-    "declarationMap": true,
-    "tsBuildInfoFile": ".tsbuildinfo",
-    "baseUrl": ".",
-    "rootDir": "../..",
-    "outDir": "../../dist/constants",
-    "paths": {
-      "./*": [
-        "./*"
-      ],
-      "src/types": [
-        "../types/index.ts"
-      ],
-      "src/types/*": [
-        "../types/*"
-      ],
-      "src/constants": [
-        "../constants/index.ts"
-      ],
-      "src/constants/*": [
-        "../constants/*"
-      ],
-      "src/runtime": [
-        "../runtime/index.ts"
-      ],
-      "src/runtime/*": [
-        "../runtime/*"
-      ]
+    "compilerOptions": {
+        "paths": {
+            "src/types": [
+                "../types/index.ts"
+            ],
+            "./*": [
+                "./*"
+            ],
+            "src/types/*": [
+                "../types/*"
+            ],
+            "src/constants": [
+                "../constants/index.ts"
+            ],
+        },
+        "module": "ES2022", /* Specify what module code is generated. */
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true, /* Ensure that casing is correct in imports. */
+        "strict": true,
+        "skipLibCheck": true /* Skip type checking all .d.ts files. */
     }
-  },
-  "include": [
-    "../**/*.ts"
-  ],
-  "exclude": [
-    "**/node_modules/*",
-    "**/.*"
-  ]
 }

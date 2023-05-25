@@ -4,7 +4,6 @@
 // hash-code: b32382ed
 
 // file exports
-export * from "../boolean-logic/operators/IsAllCaps";
 export * from "./Concat";
 export * from "./Cardinality";
 export * from "./HasUppercase";

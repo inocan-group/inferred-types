@@ -1,5 +1,5 @@
 import { KV } from "src/types";
-import { isKvTuple } from "./isKvTuple";
+import { isKvTuple } from "src/runtime";
 
 /**
  * **isKvTupleArray**(value)

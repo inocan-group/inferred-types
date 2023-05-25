@@ -1,4 +1,4 @@
-import { IsEqual } from "./IsEqual";
+import { IsEqual } from "src/types";
 /**
  * **NotEqual**`<X,Y>`
  *

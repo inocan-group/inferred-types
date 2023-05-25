@@ -1,5 +1,5 @@
-import { Narrowable , TypeGuard } from "../../../types";
-import { isSameTypeOf } from "./isSameTypeOf";
+import { Narrowable , TypeGuard } from "src/types";
+import { isSameTypeOf } from "src/runtime";
 
 /**
  * A TypeGuard which was generated from `isEqual()` runtime util.

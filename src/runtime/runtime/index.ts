@@ -3,7 +3,6 @@ export * from "./type";
 export * from "./withValue";
 export * from "./withoutValue";
 export * from "./kind";
-export * from "../../constants/type-matcher";
 export * from "./createTypeGuard";
 export * from "./createTypeMatcher";
 export * from "./createTypeTuple";

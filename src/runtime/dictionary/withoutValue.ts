@@ -3,10 +3,9 @@ import type {
   Narrowable, 
   SimplifyObject, 
   AnyObject, 
-  WithoutValue, 
-  Key 
+  WithoutValue
 } from "src/types";
-import { keysOf } from "./keysOf";
+import { keysOf } from "src/runtime";
 
 /**
  * **withoutValue**(obj,val, [extends|equals])
@@ -21,10 +20,11 @@ export const withoutValue = <
   TObj extends AnyObject,
   TValue extends Narrowable
 >(obj: TObj, val: TValue): SimplifyObject<WithoutValue<TObj, TValue>> => {
-  const result: Record<Key, unknown>  = {};
+  const result: Record<PropertyKey, unknown>  = {};
+
   for (const k of keysOf(obj)) {
-    if (val !== obj[k as any]) {
-      result[k as any] = obj[k as any];
+    if (val !== obj[k as keyof typeof obj]) {
+      result[k as any] = obj[k as keyof typeof obj];
     }
   }
 

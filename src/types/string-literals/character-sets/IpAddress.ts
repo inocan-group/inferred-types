@@ -1,4 +1,4 @@
-import { Suggest } from "../Suggest";
+import { Suggest } from "src/types";
 
 /**
  * **Ipv4**

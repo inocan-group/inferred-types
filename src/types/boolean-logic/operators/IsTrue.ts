@@ -1,5 +1,4 @@
-import { IsEqual } from "./IsEqual";
-import { IsNever } from "./IsNever";
+import { IsEqual , IsNever } from "src/types";
 
 /**
  * **IsTrue**`<T>`

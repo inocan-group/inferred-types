@@ -1,5 +1,5 @@
-import { IsErrorCondition } from "src/types";
-import { IfNever } from "./IfNever";
+import { IsErrorCondition, IfNever } from "src/types";
+
 
 /**
  * **IfNotError**`<T,IF,[ELSE]>`

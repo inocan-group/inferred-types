@@ -1,7 +1,4 @@
-import { IsStringLiteral, NotCharacters } from "src/types";
-import { StripLeading } from "../StripLeading";
-import { Suggest } from "../Suggest";
-import { NumericChar } from "./NumericChar";
+import { IsStringLiteral, NotCharacters , StripLeading , Suggest , NumericChar } from "src/types";
 
 /**
  * Valid hexadecimal character

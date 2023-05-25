@@ -1,8 +1,4 @@
-import { TypeApiBoolean } from "./boolean";
-import { TypeApiNumber } from "./number";
-import { TypeApiNumericLiteral } from "./numericLiteral";
-import { TypeApiString } from "./string";
-import { TypeApiStringLiteral } from "./stringLiteral";
+import { TypeApiBoolean , TypeApiNumber , TypeApiNumericLiteral , TypeApiString , TypeApiStringLiteral } from "src/types";
 
 /**
  * **TypeApi**

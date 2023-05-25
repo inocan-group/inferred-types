@@ -1,5 +1,5 @@
-import { Scalar, UnionToTuple } from "src/types";
 import { 
+  Scalar, UnionToTuple,
   IsBoolean,
   IsNull,
   IsSymbol,
@@ -7,9 +7,9 @@ import {
   IfOr, 
   IsString, 
   IfNever,
-  IfUnion
+  IfUnion,
+  IfSomeExtend
 } from "src/types";
-import { IfSomeExtend } from "../branching/IfSomeExtend";
 
 /**
  * **IsScalar**`<T>`
