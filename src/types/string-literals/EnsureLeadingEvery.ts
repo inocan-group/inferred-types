@@ -1,26 +1,4 @@
-import { ToString , EnsureLeading } from "src/types";
-
-type LeadingAcc<
-  TList extends readonly (string | number)[],
-  TLeader extends string,
-  TResults extends readonly string[] = []
-> = TList extends [infer First, ...infer Rest]
-  ? First extends string | number
-    ? Rest extends readonly (string | number)[]
-      ? LeadingAcc<
-          Rest,
-          TLeader,
-          [
-            ...TResults,
-            EnsureLeading<
-              First,
-              TLeader
-            >
-          ]
-        >
-      : never
-    : never
-    : TResults;
+import {  EnsureLeading, ToString, UnionToTuple } from "src/types";
 
 
 /**
@@ -35,9 +13,8 @@ type LeadingAcc<
  * **Related:** `EnsureLeading`, `EnsureTrailing`
  */
 export type EnsureLeadingEvery<
-  TList extends readonly (string | number)[],
-  TLeader extends string | number | boolean
-> = LeadingAcc<
-  TList, 
-  ToString<TLeader> & string
->;
+  TList extends readonly (string | number | boolean)[],
+  TLeader extends string
+> = UnionToTuple< {
+  [K in keyof TList]: EnsureLeading<ToString<TList[K]>, TLeader>
+}[number]>;

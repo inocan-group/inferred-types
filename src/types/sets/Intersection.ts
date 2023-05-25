@@ -86,8 +86,8 @@ export type Intersection<
   _WithDeref<
     A, 
     B,
-    GetEach<A, TDeref>,
-    GetEach<B, TDeref>,
+    GetEach<A, TDeref> & readonly unknown[],
+    GetEach<B, TDeref> & readonly unknown[],
     TDeref & (string | number)
   >
 >;

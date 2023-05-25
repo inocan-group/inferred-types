@@ -9,5 +9,5 @@ import { IsNever } from "src/types";
 export type IfNever<
   T,
   IF,
-  ELSE = T
+  ELSE
 > = IsNever<T> extends true ? IF : ELSE;

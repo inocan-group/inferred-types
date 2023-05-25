@@ -1,12 +1,11 @@
-import type { Length } from "src/types";
 import type { 
+  Length, 
   IsBooleanLiteral, 
   IsEqual, 
   IsNumericLiteral, 
   IsObjectLiteral, 
   IsStringLiteral, 
-} from "src/types";
-import type { AnyObject } from "src/types/base-types";
+ AnyObject } from "src/types";
 
 
 // [note on handling of boolean](https://stackoverflow.com/questions/74213646/detecting-type-literals-works-in-isolation-but-not-when-combined-with-other-lite/74213713#74213713)
@@ -35,7 +34,7 @@ export type IsLiteral<T> = [T] extends [string]
     : [T] extends [readonly unknown[]]
       ? IsEqual<Length<T>, number> extends true ?  false : true
       : [T] extends [AnyObject]
-        ? IsObjectLiteral<T>
+        ? IsObjectLiteral<T & AnyObject>
         : false;
 
 /**

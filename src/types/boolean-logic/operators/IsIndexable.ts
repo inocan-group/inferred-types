@@ -1,5 +1,4 @@
-import { IfAnd,  IsArray, IsObject, NotLength } from "src/types";
-import { Keys } from "src/types/dictionary";
+import { IfAnd,  IsArray, IsObject, NotLength ,  NotEqual } from "src/types";
 
 /**
  * **IsIndexable**`<T>`
@@ -13,7 +12,7 @@ export type IsIndexable<T> = IfAnd<
   // array is indexable
   true,
   IfAnd<
-    [ IsObject<T>, NotLength<Keys<T & object>,0> ],
+    [ IsObject<T>, NotEqual<keyof T, string> ],
     // object is indexable
     true,
     false

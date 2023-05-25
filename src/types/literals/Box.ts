@@ -1,5 +1,5 @@
-import { HasParameters } from "../boolean-logic";
-import { AnyFunction } from "src/types/base-types";
+
+import { AnyFunction,HasParameters } from "src/types";
 
 export interface Box<T> {
   __type: "box";

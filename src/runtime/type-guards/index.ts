@@ -7,6 +7,7 @@ export * from "./isTypeTuple";
 export * from "./isUndefined";
 export * from "./isBoolean";
 export * from "./isString";
+export * from "./isIndexable";
 export * from "./isObject";
 export * from "./isTrue";
 export * from "./isArray";

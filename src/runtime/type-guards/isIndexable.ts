@@ -1,6 +1,5 @@
-import { AnyObject } from "src/types";
-import { Indexable } from "src/types/base-types/Indexable";
-import { keysOf } from "../dictionary/keysOf";
+import { AnyObject, Indexable } from "src/types";
+import { keysOf } from "src/runtime";
 
 /**
  * **isIndexable**(value)

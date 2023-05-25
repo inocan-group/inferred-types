@@ -1,4 +1,4 @@
-import { IfUndefined } from "../boolean-logic";
+import { IfUndefined } from "src/types";
 
 /**
  * **AsArray**`<T>`

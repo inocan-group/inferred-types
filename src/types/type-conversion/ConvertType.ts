@@ -7,15 +7,16 @@ import {
   IsTrue, 
   IsTruthy, 
   Returns, 
-  StartsWith 
+  StartsWith, AfterFirst,
+  AsArray,
+  First, 
+  GetEach , 
+  TypeMapMatcher , 
+  UseTypeMapTransformer , 
+  TupleToUnion , 
+  TypeMapRule , 
+  UnionToTuple 
 } from "src/types";
-
-import { AfterFirst, AsArray, First, GetEach } from "src/types";
-import { TypeMapMatcher } from "./convert-and-map-support/TypeMapMatcher";
-import { UseTypeMapTransformer } from "./convert-and-map-support/UseTransformer";
-import { TupleToUnion } from "./TupleToUnion";
-import { TypeMapRule } from "./TypeMapRule";
-import { UnionToTuple } from "./UnionToTuple";
 
 type Op = TupleToUnion<GetEach<UnionToTuple<TypeMapMatcher>, 0>>;
 

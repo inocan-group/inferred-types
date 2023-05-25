@@ -42,7 +42,7 @@ export type NumericKeys <
 > = IfReadonlyArray<
   TList,
   TList["length"] extends 0
-    ? readonly number[]
+    ? number[]
     : Readonly<Convert<TList>>,
   Convert<TList>
 >;

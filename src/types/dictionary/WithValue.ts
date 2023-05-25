@@ -1,5 +1,4 @@
-import { AnyObject } from "src/types/base-types";
-import { KeysWithValue } from "src/types/dictionary";
+import { AnyObject , KeysWithValue } from "src/types";
 
 /**
  * **WithValue**`<TObj,TValue>`

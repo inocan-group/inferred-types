@@ -1,4 +1,4 @@
-import { AnyObject } from "src/types/base-types";
+import { AnyObject } from "src/types";
 
 /**
  * The meta-information around a given function. Represented as an

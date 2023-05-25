@@ -1,4 +1,5 @@
 export * from "./Alpha";
+export * from "./LowerAlpha";
 export * from "./NonAlpha";
 export * from "./AlphaChar";
 export * from "./LowerAlphaChar";
@@ -12,6 +13,7 @@ export * from "./DotPathFor";
 export * from "./IpAddress";
 export * from "./StringDelimiter";
 export * from "./Whitespace";
+export * from "./SpecialChar";
 export * from "./NumericChar";
 export * from "./AlphaNumeric";
 export * from "./Hexadecimal";

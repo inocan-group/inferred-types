@@ -1,22 +1,11 @@
-import { ExpandRecursively , AfterFirst , AsArray, First , UnionToTuple, Mutable, RemoveIndex , Key, SimplifyObject, WithKeys, WithoutKeys , AnyObject } from "src/types";
+import { ExpandRecursively , AsArray, Mutable, Key, WithKeys, WithoutKeys , AnyObject, SimplifyObject } from "src/types";
 
-type MutablePropAcc<
-  T extends AnyObject,
-  MutableKeys extends readonly (keyof T & string)[],
-  Processed extends Readonly<AnyObject> = Readonly<AnyObject>
-> = [] extends MutableKeys
-  ?  ExpandRecursively<Processed>
-  : MutablePropAcc<
-      T, 
-      AfterFirst<MutableKeys>, 
-      Processed & Mutable<Pick<T, First<MutableKeys>>>
-    >;
 
 /**
- * **MutableProps**`<T,M>`
+ * **MutableProps**`<TObj,TMutProps>`
  * 
- * Given a dictionary of type `<T>`, this utility function will
- * make the properties represented by `M` _mutable_. `M` can be
+ * Given a dictionary of type `<TObj>`, this utility function will
+ * make the properties of `TMutProps` _mutable_. `TMutProps` can be
  * a union type (as shown below) or a union.
  *
  * ```ts
@@ -31,22 +20,10 @@ type MutablePropAcc<
  * **Related:** `MutablePropsExclusive`
  */
 export type MutableProps<
-  T extends AnyObject, 
-  M extends readonly (keyof T & Key)[] | (keyof T & Key)
-> = SimplifyObject<
-  RemoveIndex<
-    WithoutKeys<T, AsArray<M>> & MutablePropAcc<
-      T, 
-      M extends readonly (keyof T & string)[]
-        ? M  
-        : M extends (keyof T & string) 
-          ? UnionToTuple<M> extends readonly (keyof T & string)[]
-            ? UnionToTuple<M>
-            : never
-          : never
-    >
-  >
->;
+  TObj extends AnyObject, 
+  TMutProps extends PropertyKey[] | PropertyKey
+> = SimplifyObject<Mutable<WithKeys<TObj, TMutProps>> 
+  & WithoutKeys<TObj, TMutProps>>;
 
 /**
  * **MutablePropsExclusive**`<T,M>`

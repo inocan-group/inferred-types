@@ -1,7 +1,5 @@
-import { IfLiteral } from "../boolean-logic";
-import { AfterFirst, First } from "../lists";
-import { StripTrailing } from "./StripTrailing";
-import { StripLeading } from "./StripLeading";
+import { IfLiteral , AfterFirst, First, StripTrailing,  StripLeading} from "src/types";
+
 
 /**
  * **PathJoin**`<T,U>`

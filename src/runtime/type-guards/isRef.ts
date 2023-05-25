@@ -6,6 +6,6 @@ import { isObject } from "src/runtime";
  * 
  * Type guard which check whether the passed in value is a VueJS `Ref<T>` value.
  */
-export function isRef<T>(value: T): value is T & VueRef {
-  return isObject(value) && ("value" in value || ("__v_isRef" in value ));
+export function isRef<T>(value: T): value is T & VueRef<T> {
+  return isObject(value) && ("value" in value) && Object.keys(value).length === 2;
 }

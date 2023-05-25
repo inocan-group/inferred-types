@@ -1,5 +1,4 @@
-import { IsNegativeNumber } from "../boolean-logic";
-import { FixedLengthArray } from "../tuples";
+import { IsNegativeNumber , FixedLengthArray } from "src/types";
 import { Concat } from "./Concat";
 
 /**

@@ -1,4 +1,4 @@
-import { DotPath, IfNever, IfStringLiteral, IsNever } from "src/types";
+import { DotPath, IfNever, IfStringLiteral } from "src/types";
 
 /**
  * **IsDotPath**`<T>`
@@ -21,7 +21,7 @@ export type IsDotPath<T> = IfNever<
   T extends string
     ? IfStringLiteral<
         T, 
-        IsNever<DotPath<T>> extends true ? false : true, 
+        DotPath<T>, 
         boolean
       >
     : false

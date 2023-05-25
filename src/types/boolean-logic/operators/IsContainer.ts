@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { AnyObject } from "src/types/base-types";
-import { IfNever } from "..";
+import type { AnyObject, IfNever } from "src/types";
 
 /**
  * **IsContainer**`<T>`

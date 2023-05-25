@@ -1,4 +1,4 @@
-import { Tuple } from "../base-types";
+import { Tuple } from "src/types";
 
 /**
  * Concatenates two arrays (of literals).

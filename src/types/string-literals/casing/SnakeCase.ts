@@ -1,10 +1,13 @@
 /* eslint @typescript-eslint/no-unused-vars: "off" */
-import { IfTrue } from "src/types";
 import { 
+  IfTrue,
   LeftWhitespace, 
   RightWhitespace, 
-  Trim
-, Concat , DashUppercase , LowerAllCaps , LowerCase } from "src/types";
+  Trim, 
+  Concat, 
+  DashUppercase, 
+  LowerAllCaps 
+} from "src/types";
 
 /** convert space to dash */
 type SpaceToDash<T extends string> = T extends `${infer Begin}${" "}${infer Rest}`
@@ -34,12 +37,12 @@ export type SnakeCase<
     > extends `${infer Begin}${"-"}${infer Rest}`
       ? Concat<[
           LeftWhitespace<S>,
-          SnakeCase<`${LowerCase<Begin>}_${Rest}`>,
+          SnakeCase<`${Lowercase<Begin>}_${Rest}`>,
           RightWhitespace<S>
       ]>
       : Concat<[
         LeftWhitespace<S>,
-        LowerCase<DashUppercase<Uncapitalize<LowerAllCaps<S>>>>,
+        Lowercase<DashUppercase<Uncapitalize<LowerAllCaps<S>>>>,
         RightWhitespace<S>,
       ]>,
   string extends S
@@ -47,6 +50,6 @@ export type SnakeCase<
     : DashUppercase<
         Uncapitalize<SpaceToDash<Trim<LowerAllCaps<S>>>>
       > extends `${infer Begin}${"-"}${infer Rest}`
-    ? SnakeCase<`${LowerCase<Begin>}_${Rest}`>
-    : LowerCase<DashUppercase<Uncapitalize<LowerAllCaps<S>>>>
+    ? SnakeCase<`${Lowercase<Begin>}_${Rest}`>
+    : Lowercase<DashUppercase<Uncapitalize<LowerAllCaps<S>>>>
 >;
