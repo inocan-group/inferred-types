@@ -53,3 +53,4 @@ frontend/.vite-ssg-dist/**
 .netlify
 
 .tsbuildinfo
+trace/*

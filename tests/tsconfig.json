@@ -2,6 +2,9 @@
     "extends": "../ts-base.json",
     "references": [
         {
+            "path": "../src/constants"
+        },
+        {
             "path": "../src/runtime"
         },
         {
@@ -22,20 +25,11 @@
             "src/types": [
                 "../src/types/index.ts"
             ],
-            "src/types/*": [
-                "../src/types/*"
-            ],
             "src/constants": [
                 "../src/constants/index.ts"
             ],
-            "src/constants/*": [
-                "../src/constants/*"
-            ],
             "src/runtime": [
                 "../src/runtime/index.ts"
-            ],
-            "src/runtime/*": [
-                "../src/runtime/*"
             ]
         }
     },

@@ -1,5 +1,14 @@
-import { SingularNounEnding } from "src/constants";
-import { AlphaChar , IfAllExtend, Split } from "src/types";
+import { SINGULAR_NOUN_ENDINGS } from "src/constants";
+import { AlphaChar , IfAllExtend, Split , TupleToUnion, Mutable } from "src/types";
+/**
+ * **SingularNounEnding**
+ * 
+ * A union of characters which when found at the end of a word are a strong
+ * indicator that the word is a singular noun.
+ * 
+ * **Related:** `SINGULAR_NOUN_ENDINGS`, `SingularNoun`, `SINGULAR_NOUN_RE`
+ */
+export type SingularNounEnding = TupleToUnion<Mutable<typeof SINGULAR_NOUN_ENDINGS>>;
 
 /**
  * **SingularNoun**`<T>`
