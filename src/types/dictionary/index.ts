@@ -25,6 +25,8 @@ export * from "./OptionalKeys";
 export * from "./RequiredKeys";
 export * from "./MapTo";
 export * from "./MutableProps";
+export * from "./NonNumericKeys";
+export * from "./NonStringKeys";
 export * from "./RequireProps";
 export * from "./ReadonlyKeys";
 export * from "./ReadonlyProps";
