@@ -4,53 +4,6 @@ import { IfChar, IfExtends, Narrowable, UpperAlphaChar, ValueCallback } from "sr
 
 type Convert<T, IF, ELSE> = IfExtends<T, UpperAlphaChar, IF, ELSE>;
 
-// type IterateChars<
-//   T extends readonly string[],
-//   IF,
-//   ELSE,
-//   Results extends readonly string[] = []
-// > = [] extends T
-//   ? Concat<Results>
-//   : IterateChars<
-//       AfterFirst<T>,
-//       IF,
-//       ELSE,
-//       [ ...Results, ToString<Convert<First<T>, IF, ELSE>>]
-//     >;
-
-// type CallbackValue<
-//   T extends string,
-//   IF,
-//   ELSE
-// > = IfLength<T,1,T, IterateChars<Split<T>, IF, ELSE>>;
-
-// type Index<
-//   T extends readonly string[],
-//   IF,
-//   ELSE,
-//   Results extends readonly string[] = []
-// > = [] extends T
-//   ? Results
-//   : Index<
-//       AfterFirst<T>,
-//       IF,
-//       ELSE,
-//       [
-//         ...Results,
-//         ToString<Convert<First<T>, IF, ELSE>>
-//       ]
-//     >;
-
-// type Returns<
-//   T extends string,
-//   IF,
-//   ELSE
-// > = IsChar<T> extends true
-//   ? Convert<T, IF, ELSE>
-//   : Index<Split<T>, IF, ELSE>;
-
-
-
 /**
  * **ifUppercaseChar**(ch, callbackForMatch, callbackForNoMatch)
  * 

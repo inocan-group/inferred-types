@@ -4,7 +4,6 @@ export * from "./createConstant";
 export * from "./Constant";
 export * from "./Types";
 export * from "./Comma";
-export * from "./MapTo";
 export * from "./Alpha";
 export * from "./Consonants";
 export * from "./PluralExceptions";

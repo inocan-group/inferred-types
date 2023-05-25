@@ -1,4 +1,15 @@
 {
+    "references": [
+        {
+            "path": "../constants"
+        },
+        {
+            "path": "../types"
+        },
+        {
+            "path": "../runtime"
+        },
+    ],
     "compilerOptions": {
         "strict": true,
         "skipLibCheck": true,
@@ -9,10 +20,16 @@
         "declarationMap": true,
         "baseUrl": ".",
         "rootDir": "../..",
-        "outDir": "../../dist/constants",
+        "outDir": "./dist",
         "composite": true,
         "forceConsistentCasingInFileNames": true,
         "paths": {
+            "src/runtime": [
+                "../runtime/index.ts"
+            ],
+            "src/types": [
+                "../types/index.ts"
+            ],
             "src/constants": [
                 "../constants/index.ts"
             ],

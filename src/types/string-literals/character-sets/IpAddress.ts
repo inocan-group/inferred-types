@@ -21,4 +21,4 @@ export type Ipv6 = `${number}:${number}:${number}:${number}:${number}:${number}:
  * suggested set of string where people need to enter an **IPv4**
  * address.
  */
-export type SuggestIpAddress = Suggest<"192.168.0.1" | "10.10.0.1" | "172.168.0.1">;
+export type SuggestIpAddress = Suggest<"192.168.1.1" | "10.10.1.1" | "172.168.1.1">;

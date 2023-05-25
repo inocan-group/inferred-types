@@ -8,7 +8,6 @@
 export * from "./Awaited";
 export * from "./TupleToUnion";
 export * from "./UnionToIntersection";
-export * from "./ToKV";
 export * from "./KvDict";
 export * from "./KvDictToObject";
 export * from "./ToString";
@@ -36,7 +35,6 @@ export * from "./form-fields";
 export * from "./RemoveFromStart";
 export * from "./RemoveFromEnd";
 export * from "./RemoveIndex";
-export * from "./FromKV";
 export * from "./IntersectWithAll";
 export * from "./UnionWithAll";
 export * from "./KeyFor";

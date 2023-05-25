@@ -1,23 +1,29 @@
 {
+    "references": [
+        {
+            "path": "../constants"
+        }
+    ],
     "compilerOptions": {
+        "strict": true,
+        "skipLibCheck": true,
+        "module": "ES2022",
+        "target": "ES2022",
+        "moduleResolution": "node",
+        "declaration": true,
+        "declarationMap": true,
+        "baseUrl": ".",
+        "rootDir": "../..",
+        "outDir": "../../dist/types",
+        "composite": true,
+        "forceConsistentCasingInFileNames": true,
         "paths": {
             "src/types": [
-                "../types/index.ts"
-            ],
-            "./*": [
-                "./*"
-            ],
-            "src/types/*": [
-                "../types/*"
+                "./index.ts"
             ],
             "src/constants": [
                 "../constants/index.ts"
             ],
         },
-        "module": "ES2022", /* Specify what module code is generated. */
-        "esModuleInterop": true,
-        "forceConsistentCasingInFileNames": true, /* Ensure that casing is correct in imports. */
-        "strict": true,
-        "skipLibCheck": true /* Skip type checking all .d.ts files. */
     }
 }
