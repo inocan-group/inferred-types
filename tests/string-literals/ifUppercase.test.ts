@@ -1,7 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { toUppercase } from "src/runtime";
-import {  ifUppercaseChar } from "src/runtime/literals/ifUppercase";
-import { describe, expect, it } from "vitest";
+import { toUppercase ,  ifUppercaseChar } from "src/runtime";
+import { describe,  it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
