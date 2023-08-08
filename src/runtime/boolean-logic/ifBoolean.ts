@@ -18,7 +18,7 @@ export function ifBoolean<
   ELSE extends Narrowable
 >(
   val: T, 
-  ifBoolean: <V extends Narrowable & boolean>(v: V & T) => IF, 
+  ifBoolean: <V extends boolean>(v: V & T) => IF, 
   notBoolean: <V extends Exclude<T, boolean>>(v: V) => ELSE
 ): IfBoolean<T,IF,ELSE> {
   return (

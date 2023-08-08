@@ -1,5 +1,6 @@
 /* eslint-disable no-use-before-define */
 import { 
+  AnyObject,
   MergeObjects,
   OptRequired 
 } from "src/types";
@@ -188,7 +189,7 @@ export type AsFinalizedConfig<
     OptRequired | undefined
   >,
   D extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>
-> = MergeObjects<U, D> extends FinalizedMapConfig<infer IR, infer C, infer OR>
+> = MergeObjects<U & AnyObject, D> extends FinalizedMapConfig<infer IR, infer C, infer OR>
   ? FinalizedMapConfig<IR, C, OR>
   : never;
 

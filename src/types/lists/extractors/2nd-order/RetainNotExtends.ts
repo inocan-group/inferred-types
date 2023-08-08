@@ -1,5 +1,5 @@
 
-import { AnyObject , Narrowable , KvDict, ObjectToKvDict, RetainFromList, KvDictExtractor } from "src/types";
+import { AnyObject , Narrowable , RetainFromList, WithoutValue } from "src/types";
 
 
 /**
@@ -16,7 +16,5 @@ export type RetainNotExtends<
 : TList extends readonly unknown[]
   ? Readonly<RetainFromList<TList, "does-not-extend", TCompareTo>>
   : TList extends AnyObject
-    ? ObjectToKvDict<TList> extends readonly KvDict[]
-      ? KvDictExtractor<ObjectToKvDict<TList>, TCompareTo, "retain">
-      : never
+    ? WithoutValue<TList, TCompareTo>
     : never;

@@ -12,8 +12,7 @@ import {
   TypeKindContainerWide, 
   TypeKindFalsy, 
   TypeKindLiteral, 
-  TypeKindWide, 
-  TypeKvBase
+  TypeKindWide
 } from "src/types";
 
 import {
@@ -59,8 +58,8 @@ export function isRuntimeType<
 }
 
 export function isObjectType<
-  U extends Type<"object", TypeIsRequired, string, readonly TypeKvBase<string, Type>[]>
->(thing: unknown | U): thing is U {
+  U extends Type<"object", TypeIsRequired, string>
+>(thing: unknown): thing is U {
   return (
     isRuntimeType(thing) && 
     thing.kind === "object" && 

@@ -6,13 +6,13 @@
 // file exports
 export * from "./LogicFunction";
 export * from "./TypeGuard";
-export * from "./Fn";
-export * from "./AsFn";
+export * from "./AsFnMeta";
+export * from "./RemoveFnProps";
 export * from "./ToFn";
 export * from "./FnMeta";
 export * from "./PromiseAll";
 export * from "./FnProps";
-export * from "./ValueCallback";
+// export * from "../numeric-literals/ValueCallback";
 
 // #endregion auto-indexed files
 

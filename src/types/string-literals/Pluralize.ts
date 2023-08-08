@@ -7,22 +7,33 @@ import {
   IfStringLiteral, 
   Filter, 
   GetEach, 
-  Mutable, 
   EnsureTrailing, 
   StripTrailing
 } from "src/types";
 
-type Exceptions = Mutable<typeof PLURAL_EXCEPTIONS>;
+type Exceptions = typeof PLURAL_EXCEPTIONS;
 type SingularExceptions = GetEach<Exceptions, 0>;
 
 type SingularNoun = "s" | "sh" | "ch" | "x" | "z" | "o";
 type F = "f" | "fe";
 type Y = `${Consonant}y`;
 
-/** validates that a word `T` has an _exception_ rule defined for it */
+/** 
+ * validates that a word `T` has an _exception_ rule defined for it 
+ */
 type IsException<T extends string> = IfContains<SingularExceptions, T, true, false>;
 
-type PluralException<T extends string> = Filter<Exceptions, [T, string], "extends">[0] extends [infer _, infer Plural] ? Plural : never;
+/**
+ * Looks up a singular word `T` as a possible singular exception and converts it
+ * to the plural equivalent. Will return `never` if `T` is not an exception.
+ */
+type PluralException<
+  T extends string
+> = IsException<T> extends true
+  ? Filter<Exceptions, [T, string], "extends"> extends [T, infer Plural]
+    ? Plural
+    : never
+  : never;
 
 /** validates that a string literal ends in "is" */
 type EndsIn_IS<T extends string> = T extends `${string}is` ? T : never;

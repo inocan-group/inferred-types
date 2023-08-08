@@ -1,4 +1,4 @@
-import { AnyObject , Narrowable , KvDict , ObjectToKvDict , RetainFromList, NarrowObjExtractor } from "src/types";
+import { AnyObject , Narrowable , RetainFromList,  Container, KeysEqualValue } from "src/types";
 
 /**
  * **RetainEquals**`<TIterable, TCompare>`
@@ -7,14 +7,12 @@ import { AnyObject , Narrowable , KvDict , ObjectToKvDict , RetainFromList, Narr
  * except those which _equal_ `TCompare`.
  */
 export type RetainEquals<
-  TIterable extends unknown[] | readonly unknown[] | AnyObject,
+  TIterable extends Container,
   TCompare extends Narrowable
 > = TIterable extends unknown[]
 ? RetainFromList<TIterable, "equals", TCompare>
 : TIterable extends readonly unknown[]
   ? Readonly<RetainFromList<TIterable, "equals", TCompare>>
   : TIterable extends AnyObject
-    ? ObjectToKvDict<TIterable> extends readonly KvDict[]
-      ? NarrowObjExtractor<ObjectToKvDict<TIterable>, "retain">
-      : never
+    ? Pick<TIterable, KeysEqualValue<TIterable, TCompare>>
     : never;

@@ -1,5 +1,4 @@
 import type { IfArray, Narrowable } from "src/types";
-import { isArray } from "src/runtime";
 
 /**
  * **ifArray**(T, IF, ELSE)
@@ -17,6 +16,7 @@ export function ifArray<
   isAnArray: <N extends T & readonly unknown[]>(arr: N) => IF,
   isNotAnArray: <N extends Exclude<T, unknown[] | readonly unknown[]>>(nonArr: N) => ELSE
 ) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return (isArray(val) ? isAnArray(val as any) : isNotAnArray(val as any)) as IfArray<T, IF, ELSE>;
+  return (
+    Array.isArray(val) ? isAnArray(val) : isNotAnArray(val as Exclude<T, unknown[] | readonly unknown[]>)
+  ) as IfArray<T, IF, ELSE>;
 }

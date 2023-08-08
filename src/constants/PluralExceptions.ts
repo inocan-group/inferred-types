@@ -1,3 +1,8 @@
+/**
+ * **PLURAL_EXCEPTIONS**
+ * 
+ * An array of tuples of the form `[singular, plural]`.
+ */
 export const PLURAL_EXCEPTIONS = [
   ["photo", "photos"],
   ["piano", "pianos"],

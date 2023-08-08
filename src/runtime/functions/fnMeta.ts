@@ -1,6 +1,6 @@
-import { AnyFunction,  Fn } from "src/types";
+import { AnyFunction,  AsFnMeta } from "src/types";
 
-type _Props<TFn extends AnyFunction> = Fn<TFn>["props"];
+type _Props<TFn extends AnyFunction> = AsFnMeta<TFn>["props"];
 
 /**
  * **fnMeta**(func)
@@ -12,7 +12,7 @@ type _Props<TFn extends AnyFunction> = Fn<TFn>["props"];
  */
 export const fnMeta = <TFn extends AnyFunction>(func: TFn) => {
   const fn = <
-    A extends Fn<TFn>["args"]
+    A extends AsFnMeta<TFn>["args"]
   >(...args:  A) => func(...args);
 
   const props = Object.keys(fn).reduce(

@@ -17,3 +17,4 @@ export type WithValue<
 TObj extends AnyObject,
 TValue,
 > = Pick<TObj, KeysWithValue<TObj, TValue>>;
+

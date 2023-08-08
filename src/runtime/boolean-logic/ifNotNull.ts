@@ -1,4 +1,4 @@
-import type { IsNull, Narrowable } from "src/types";
+import type { IfNull, Narrowable } from "src/types";
 import { isNull } from "src/runtime";
 
 /**
@@ -25,5 +25,5 @@ export function ifNotNull<
     isNull(val) 
     ? elseVal()
     : ifVal(val as Exclude<T, null>)
-  ) as IsNull<T> extends true ? IF : ELSE;
+  ) as unknown as IfNull<T, IF, ELSE>;
 }

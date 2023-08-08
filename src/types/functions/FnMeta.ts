@@ -1,6 +1,8 @@
-import { AnyObject } from "src/types";
+import {  IndexableObject } from "src/types";
 
 /**
+ * **FnMeta**<TArgs,TReturn,TProps>
+ * 
  * The meta-information around a given function. Represented as an
  * object with the following properties:
  * 
@@ -10,11 +12,11 @@ import { AnyObject } from "src/types";
  * key/values are found it will be set to `no-props`.
  */
 export type FnMeta<
-  A extends readonly unknown[],
-  R,
-  D extends AnyObject | "no-props"
+  TArgs extends readonly unknown[],
+  TReturn,
+  TProps extends IndexableObject | "no-props"
 > = {
-  args: A;
-  returns: R;
-  props: D;
+  args: TArgs;
+  returns: TReturn;
+  props: TProps;
 };

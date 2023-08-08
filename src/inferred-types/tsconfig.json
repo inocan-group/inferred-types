@@ -1,4 +1,7 @@
 {
+    // this project serves only as a means to reference all sub-projects
+    // and allow constants, types, and runtime symbols to be exported
+    // as a single NPM package.
     "references": [
         {
             "path": "../constants"
@@ -24,18 +27,18 @@
         "composite": true,
         "forceConsistentCasingInFileNames": true,
         "paths": {
+            // root export for runtime symbols
             "src/runtime": [
                 "../runtime/index.ts"
             ],
+            // root export for type symbols
             "src/types": [
                 "../types/index.ts"
             ],
+            // root export for constant symbols
             "src/constants": [
                 "../constants/index.ts"
-            ],
-            "./*": [
-                "./*"
-            ],
+            ]
         },
     }
 }

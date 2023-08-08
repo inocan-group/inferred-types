@@ -1,4 +1,4 @@
-import { Find , Narrowable } from "src/types";
+import { Container, Find , Narrowable, Tuple } from "src/types";
 import { indexOf } from "src/runtime";
 
 /**
@@ -7,7 +7,7 @@ import { indexOf } from "src/runtime";
  * A configured utility designed to find elements in a list.
  */
 export type Finder<
-  TList extends readonly unknown[],
+  TList extends Tuple,
   TDeref extends string | number | null
 > = <TExtends extends Narrowable>(value: TExtends) => Find<TList, TExtends, TDeref>;
 
@@ -18,7 +18,7 @@ export type Finder<
  * while preserving any available type information.
  */
 export const find = <
-  TList extends readonly unknown[],
+  TList extends Tuple,
   TDeref extends string | number | null = null
 >(
   list: TList, 
@@ -26,5 +26,5 @@ export const find = <
 ): Finder<TList, TDeref> => <
   TExtends extends Narrowable
 >(value: TExtends): Find<TList, TExtends, TDeref> => {
-  return list.find(i => indexOf(i,deref) === value) as Find<TList, TExtends, TDeref>;
+  return list.find(i => indexOf(i as Container,deref) === value) as Find<TList, TExtends, TDeref>;
 };

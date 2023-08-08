@@ -30,3 +30,4 @@ export function toSnakeCase<
     (preserveWhitespace ? postWhite : "")
   ).replace(/__/g, "_") as SnakeCase<S,P>;
 }
+

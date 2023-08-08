@@ -7,6 +7,7 @@ import type {
   ReportError,
   Container,
   AnyObject,
+  Tuple,
 } from "src/types";
 import {
   NO_DEFAULT_VALUE,
@@ -134,12 +135,12 @@ export interface GetOptions<
  */
 export function get<
   TValue extends Narrowable | readonly unknown[], 
-  TDotPath extends Suggest<DotPathFor<TValue>> | null, 
+  TDotPath extends Suggest<DotPathFor<TValue>>, 
   TDefVal extends Narrowable = NoDefaultValue,
   TInvalid extends Narrowable = NotDefined
 >(
     value: TValue, 
-    dotPath: TDotPath, 
+    dotPath: TDotPath | null, 
     options: GetOptions<TDefVal, TInvalid> = {
       defaultValue: NO_DEFAULT_VALUE,
       handleInvalidDotpath: NOT_DEFINED
@@ -150,11 +151,12 @@ export function get<
       ? value
       : getValue(
           value as AnyObject | Tuple,
-          String(dotPath),
+          dotPath as TDotPath & string,
           options?.defaultValue || NO_DEFAULT_VALUE, 
           options?.handleInvalidDotpath || NOT_DEFINED,
           String(dotPath)
-        )
+        ) as unknown
   ) as Get<TValue, TDotPath>;
 
 }
+

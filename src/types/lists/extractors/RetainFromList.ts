@@ -4,19 +4,16 @@ import {
   And, 
   DoesExtend, 
   IfArray, 
-  IfEqual,  
   IsEqual, 
   IsNotEqual, 
   SomeEqual,
-  KvDict, KvDictToObject, TupleToUnion,
+  TupleToUnion,
   FilterOps,
-  ExtractorOp,
   Narrowable,
   AfterFirst,
   First,
   NotEqual
-  } from "src/types";
-
+} from "src/types";
 
 type Unionize<T> = T extends readonly unknown[] ? TupleToUnion<T> : T;
 
@@ -140,61 +137,4 @@ type RetainNotEqual<
   : RetainNotEqual<
       AfterFirst<TList>, TCompareTo, 
       TResults
-    >;
-
-/**
- * **KvDictExtractor**`<TKv, TCompareTo, TOp>`
- * 
- * Receives an tuple of `KvDict` definitions and then either _removes_ or _retains_ (based
- * on `TOp`) those elements which extends `TCompareTo`.
- * 
- * - `TOp` must be "remove" or "retain"
- */
-export type KvDictExtractor<
-  TKv extends readonly KvDict[],
-  TCompareTo,
-  TOp extends ExtractorOp = "remove",
-  TResults extends readonly KvDict[] = []
-> = [] extends TKv
-  ? KvDictToObject<TResults>
-  : IfEqual<
-      TOp, "retain",
-      // retain operation
-      First<TKv>["value"] extends TCompareTo
-        ? First<TKv>["value"] extends never
-          ? KvDictExtractor<AfterFirst<TKv>, TCompareTo, TOp, TResults>
-          : KvDictExtractor<AfterFirst<TKv>, TCompareTo, TOp, [...TResults, First<TKv>]>
-        : KvDictExtractor<AfterFirst<TKv>, TCompareTo, TOp, TResults>,
-      // remove operation
-      First<TKv>["value"] extends TCompareTo
-        ? KvDictExtractor<AfterFirst<TKv>, TCompareTo, TOp, TResults>
-        : And<[DoesExtend<First<TKv>["value"], never>, DoesExtend<TCompareTo, never>]> extends true
-          ? KvDictExtractor<AfterFirst<TKv>, TCompareTo, TOp, TResults>
-          : KvDictExtractor<AfterFirst<TKv>, TCompareTo, TOp, [...TResults, First<TKv>]>
-    >;
-
-/**
- * **NarrowObjExtractor**`<TKv, TExtract, TOp, TResults>`
- */
-export type NarrowObjExtractor<
-  TKv extends readonly KvDict[],
-  TExtract,
-  TOp extends ExtractorOp = "remove",
-  TResults extends readonly KvDict[] = []
-> = [] extends TKv
-  ? KvDictToObject<TResults>
-  : IfEqual<
-      TOp, "retain",
-      // retain operation
-      IsEqual<First<TKv>["value"], TExtract> extends true
-        ? First<TKv>["value"] extends never
-          ? KvDictExtractor<AfterFirst<TKv>, TExtract, TOp, TResults>
-          : KvDictExtractor<AfterFirst<TKv>, TExtract, TOp, [...TResults, First<TKv>]>
-        : KvDictExtractor<AfterFirst<TKv>, TExtract, TOp, TResults>,
-      // remove operation
-      IsEqual<First<TKv>["value"], TExtract> extends true
-        ? KvDictExtractor<AfterFirst<TKv>, TExtract, TOp, TResults>
-        : And<[DoesExtend<First<TKv>["value"], never>, DoesExtend<TExtract, never>]> extends true
-          ? KvDictExtractor<AfterFirst<TKv>, TExtract, TOp, TResults>
-          : KvDictExtractor<AfterFirst<TKv>, TExtract, TOp, [...TResults, First<TKv>]>
     >;

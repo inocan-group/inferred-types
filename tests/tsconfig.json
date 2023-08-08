@@ -20,7 +20,7 @@
         "tsBuildInfoFile": ".tsbuildinfo",
         "rootDir": "..",
         "baseUrl": ".",
-        "outDir": "../../dist/runtime",
+        "outDir": "../../dist/none",
         "paths": {
             "src/types": [
                 "../src/types/index.ts"

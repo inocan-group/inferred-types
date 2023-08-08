@@ -37,7 +37,7 @@ export function createConverter<
   type Mapper = Required<typeof mapper>;
   const converter = boxDictionaryValues(mapper as Mapper);
 
-  return <T extends AvailableConverters<S, N, B, O>>(input: T) => {
+  return <T extends AvailableConverters<S, N, B, O> & Narrowable>(input: T) => {
     const v = ifSameType(
       input,
       wide.string,
@@ -57,7 +57,7 @@ export function createConverter<
                   i,
                   {} as Record<string, unknown>,
                   (iObj) => converter.object.unbox(iObj),
-                  (i) => i as unknown
+                  (i) => i
                 )
             )
         )

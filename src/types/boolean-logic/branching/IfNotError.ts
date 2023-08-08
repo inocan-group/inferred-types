@@ -12,6 +12,6 @@ import { IsErrorCondition, IfNever } from "src/types";
  * 
  * **Related:** `IfError`, `IfErrorCondition`
  */
-export type IfNotError<T,IF,ELSE = T> = IsErrorCondition<T> extends false 
+export type IfNotErrorCondition<T,IF,ELSE = T> = IsErrorCondition<T> extends false 
   ? IF
   : IfNever<T, IF, ELSE>;

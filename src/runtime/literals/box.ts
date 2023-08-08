@@ -67,7 +67,7 @@ export type Unbox<T> = T extends Box<infer U> ? U : T;
  *
  * Unboxes a value if it was a box; otherwise it leaves _as is_.
  */
-export function unbox<T>(val: T): Unbox<T> {
+export function unbox<T extends Narrowable>(val: T): Unbox<T> {
   return (isBox(val) 
     ? val.value 
     : val

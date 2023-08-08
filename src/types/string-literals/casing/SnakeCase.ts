@@ -53,3 +53,4 @@ export type SnakeCase<
     ? SnakeCase<`${Lowercase<Begin>}_${Rest}`>
     : Lowercase<DashUppercase<Uncapitalize<LowerAllCaps<S>>>>
 >;
+

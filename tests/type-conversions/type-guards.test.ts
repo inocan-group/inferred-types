@@ -1,8 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { narrow,  createFnWithProps , optional , Never } from "src/runtime";
 import { 
+  narrow,  createFnWithProps , optional , Never,
   isArray, 
   isReadonlyArray,
   hasDefaultValue, 
@@ -11,10 +11,12 @@ import {
   isRef,
   isConstant, 
   isSpecificConstant,
-  isFnWithParams
-} from "src/runtime/type-guards";
+  isFnWithParams,
+  defineType
+} from "src/runtime";
 import { Constant, NoDefaultValue, NO_DEFAULT_VALUE } from "src/constants";
 import { ref, Ref } from "vue";
+import { DoesExtend } from "../../src/inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -105,8 +107,8 @@ describe("isDefined(value)", () => {
 
 });
 
-describe("isRef", () => {
-  const obj = { foo: 1, bar: 2 } as const;
+describe("isRef - testing for VueJS reference types", () => {
+  const obj = defineType({ foo: 1, bar: 2 })();
   const refObj = ref(obj);
 
   it("positive tests", () => {
@@ -114,9 +116,9 @@ describe("isRef", () => {
       expect(true, "identified as ref").toBe(true);
       type R = typeof refObj;
       type cases = [
-        Expect<Equal<
+        Expect<DoesExtend<
           R, 
-          Ref<{readonly foo: 1; readonly bar: 2 }>
+          Ref<{ foo: 1;  bar: 2 }>
         >>
       ];
       const cases: cases = [ true ];

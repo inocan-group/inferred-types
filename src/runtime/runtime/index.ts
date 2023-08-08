@@ -8,7 +8,6 @@ export * from "./createTypeMatcher";
 export * from "./createTypeTuple";
 export * from "./determineType";
 export * from "./createValidator";
-export * from "./createErrorCondition";
 export * from "./determineIdentity";
-export * from "./Never";
+export * from "./typeDefn";
 

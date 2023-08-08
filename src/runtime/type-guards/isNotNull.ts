@@ -1,3 +1,4 @@
+import { NotNull } from "src/types";
 
 
 /**
@@ -5,6 +6,6 @@
  * 
  * Type guard which validates the passed in value is **not** the `null` value.
  */
-export function isNotNull<T>(value: T): value is Exclude<T, null> {
+export function isNotNull<T>(value: T): value is T & NotNull {
   return (value === null) ? true : false;
 }

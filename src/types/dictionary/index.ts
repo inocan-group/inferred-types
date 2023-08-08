@@ -6,7 +6,6 @@
 // file exports
 export * from "./AddKeyValue";
 export * from "./DictChangeValue";
-export * from "./DictReturnValues";
 export * from "./Get";
 export * from "./Key";
 export * from "./SimplifyObject";
@@ -21,6 +20,8 @@ export * from "./StringKeys";
 export * from "./NonStringKeys";
 export * from "./KeysWithValue";
 export * from "./KeysWithoutValue";
+export * from "./KeysEqualValue";
+export * from "./KeysNotEqualValue";
 export * from "./OptionalKeys";
 export * from "./RequiredKeys";
 export * from "./MapTo";
@@ -30,7 +31,7 @@ export * from "./NonStringKeys";
 export * from "./RequireProps";
 export * from "./ReadonlyKeys";
 export * from "./ReadonlyProps";
-export * from "./KnownKeys";
+export * from "./ExplicitKeys";
 export * from "./SameKeys";
 export * from "./AddKeyValue";
 export * from "./WithKeys";
@@ -39,7 +40,9 @@ export * from "./SharedKeys";
 export * from "./WithoutKeys";
 export * from "./WithoutValue";
 export * from "./WithNumericKeys";
+export * from "./RemoveIndexKeys";
 export * from "./WithStringKeys";
+export * from "./ValidKey";
 export * from "./UpsertKeyValue";
 
 

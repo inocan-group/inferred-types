@@ -1,28 +1,25 @@
 import type { 
   AnyObject , 
   Narrowable , 
-  KvDict , 
-  ObjectToKvDict, 
-  NarrowObjExtractor,
   RemoveFromList,
-  Tuple
+  Container,
+  WithoutValue
 } from "src/types";
 
 /**
- * **RemoveEquals**`<TIterable, TCompare>`
+ * **RemoveEquals**`<TContainer, TCompare>`
  * 
- * Type utility which takes an iterable `TIterable` and removes all elements
+ * Type utility which takes an iterable `TContainer` and removes all elements
  * which _equal_ `TCompare`.
  */
 export type RemoveEquals<
-  TIterable extends Tuple | AnyObject,
+  TContainer extends Container,
   TCompare extends Narrowable
-> = TIterable extends unknown[]
-? RemoveFromList<TIterable, "equals", TCompare>
-: TIterable extends readonly unknown[]
-  ? Readonly<RemoveFromList<TIterable, "equals", TCompare>>
-  : TIterable extends AnyObject
-    ? ObjectToKvDict<TIterable> extends readonly KvDict[]
-      ? NarrowObjExtractor<ObjectToKvDict<TIterable>, "remove">
-      : never
+> = TContainer extends unknown[]
+? RemoveFromList<TContainer, "equals", TCompare>
+: TContainer extends readonly unknown[]
+  ? Readonly<RemoveFromList<TContainer, "equals", TCompare>>
+  : TContainer extends AnyObject // container is an object
+    ? WithoutValue<TContainer, TCompare>
+      // TODO: this may not match in the narrow type context it is meant to
     : never;

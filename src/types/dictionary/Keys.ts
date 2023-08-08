@@ -1,41 +1,34 @@
 import { 
-  AnyObject, 
-  UnionToTuple, 
-  NumericKeys,
-  Tuple,
-  IfEqual,
   IfNever,
-  IsRef,
+  ExplicitKeys,
+  Container,
+  ValidKey,
 } from "src/types";
 
 /**
- * **Keys**`<TValue>`
+ * **Keys**`<TContainer>`
  * 
- * Provides the _keys_ of the container (aka, object or array) `TValue`.
- * 
- * - if a _non-container_ is passed as `TValue` the type will always be an empty readonly array
+ * Provides the _explicit keys_ of a container `TContainer` as an array of values.
  *
  * ```ts
- * type T1 = { foo: 1, bar: 2 };
+ * type Obj = { foo: 1, bar: 2, [key: string]: unknown };
+ * type Arr = [1,2,3];
  * // readonly ["foo", "bar"]
- * type K1 = Keys<T1>;
+ * type K1 = Keys<Obj>;
+ * // readonly [0,1,2]
+ * type K2 = Keys<Arr>;
  * ```
+ * 
+ * **Related:** `ValidKey`
  */
 export type Keys<
-  TValue,
-  _TOnlyStringKeys extends boolean = false
+  TContainer extends Container
   > = IfNever<
-    keyof TValue,
-     PropertyKey[],
-    TValue extends Tuple
-      ? NumericKeys<TValue>
-      : TValue extends AnyObject
-        ? IfEqual<
-            keyof TValue, string,
-             (string | symbol)[],
-            IsRef<TValue> extends true
-              ?  ["value"]
-              : UnionToTuple<keyof TValue>
-          >
-        :  PropertyKey[]
+  TContainer, 
+  readonly [],
+  IfNever<
+    ValidKey<TContainer>,
+    readonly [],
+    ExplicitKeys<TContainer>
+  >
 >;

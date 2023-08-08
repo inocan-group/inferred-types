@@ -1,7 +1,5 @@
-import type {  AnyObject,  Keys, Tuple } from "src/types";
-import { isObject, isReadonlyArray } from "src/runtime";
-
-
+import type {  Container,  IsRef,  Keys } from "src/types";
+import { isObject, isReadonlyArray, isRef } from "src/runtime";
 
 /**
  * **keysOf**(container)
@@ -13,17 +11,20 @@ import { isObject, isReadonlyArray } from "src/runtime";
  * on props like `__v_isRef`, etc.
  */
 export function keysOf<
-  TContainer extends AnyObject | Tuple,
+  TContainer extends Container,
 >(
   container: TContainer
-) {
+): IsRef<TContainer> extends true ? readonly ["value"] : Keys<TContainer> {
 
   return (
       isReadonlyArray(container)
         ? Object.keys(container).map(i => Number(i))
         : isObject(container)
-          ? Object.keys(container)
+          ? isRef(container)
+            ? ["value"]
+            : Object.keys(container)
           : []
-  ) as unknown as Keys<TContainer>;
-
+  ) as unknown as IsRef<TContainer> extends true 
+    ? readonly ["value"]
+    : Keys<TContainer>;
 }

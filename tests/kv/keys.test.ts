@@ -3,9 +3,9 @@ import type { Expect, Equal } from "@type-challenges/utils";
 import { describe, it, expect } from "vitest";
 import type { 
   Keys,
-  TupleToUnion, 
   NumericKeys,
   DoesExtend,
+  EmptyObject,
 } from "src/types";
 import { defineType, keysOf, isRef, narrow } from "src/runtime";
 import { ref } from "vue";
@@ -35,71 +35,36 @@ describe("NumericKeys<T>", () => {
 
 
 describe("Keys<T> ", () => {
-  it("happy path for an object value", () => {
-    type Obj = { foo: 1; bar: 2 };
-    type Obj_RO = Readonly<Obj>;
+  type OBJ = { foo: 1; bar: 2 };
+  type Foobar = Keys<OBJ>;
+  type FooBar_RO =Keys<Readonly<OBJ>>;
+  type FooBar_EXT = Keys<{ foo: 1; bar: 2; [x: string]: unknown }>;
+  type EmptyObj = Keys<EmptyObject>;
+  type Curly = Keys<{}>;
 
-    type Empty = Keys<object>;
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    type None2 = Keys<{}>;
-    type KV= Keys<Record<string, string>>;
-
-    type Foobar = Keys<Obj>;
-    type RoFoobar = Keys<Obj_RO>;
-
-    type Convertible1 = TupleToUnion<Foobar>;
-    type Convertible2 = TupleToUnion<RoFoobar>;
-
+  it("object resolution", () => {
     type cases = [
-      // any object with no keys resolves simply to an empty array
-      Expect<Equal<Empty,  PropertyKey[]>>,
-      Expect<Equal<None2,  PropertyKey[]>>,
-      Expect<Equal<KV,  (string | symbol)[]>>,
-      // once keys are involved we are not guaranteed ordering of keys
-      DoesExtend<Foobar,  ["foo", "bar"]>,
-      DoesExtend<RoFoobar,  ["foo", "bar"]>,
-
-      Expect<Equal<Convertible1, "foo" | "bar">>,
-      Expect<Equal<Convertible2, "foo" | "bar">>,
+      Expect<Equal<EmptyObj,  readonly []>>,
+      Expect<Equal<Curly,  readonly []>>,
+      Expect<DoesExtend<Foobar,  readonly ["foo", "bar"]>>,
+      Expect<DoesExtend<FooBar_RO,  readonly ["foo", "bar"]>>,
+      Expect<DoesExtend<FooBar_EXT,  readonly ["foo", "bar"]>>,
     ];
     
-    const cases: cases = [ true, true, true, true, true, true, true ]; 
+    const cases: cases = [ true, true, true, true, true ]; 
   });
 
   
-  it("Key<T> where T is an array/tuple", () => {
-    type StringArr = ["foo", "bar", "baz"];
-    type StrArr_RO = readonly ["foo", "bar", "baz"];
-    type NumericArr = [1,2,3];
-    type Numeric = Keys<NumericArr>;
-    type Str = Keys<StringArr>;
-    type Str2 = NumericKeys<StringArr>;
-    type Str_RO = Keys<StrArr_RO>;
-    type Empty = Keys<[]>;
-
-    type Convertible1 = TupleToUnion<Str>;
-    type Convertible2 = TupleToUnion<Str_RO>;
-    type Convertible3 = TupleToUnion<[]>;
-
-    type cases = [
-      //
-      Expect<Equal<Numeric,  [0,1,2] >>,
-      Expect<Equal<Str,  [0,1,2]>>,
-      Expect<Equal<Str2,  [0,1,2]>>,
-      Expect<Equal<Str_RO,  readonly [0,1,2]>>,
-      Expect<Equal<Empty,  number[]>>,
-
-      Expect<Equal<Convertible1, 0 | 1 | 2>>,
-      Expect<Equal<Convertible2, 0 | 1 | 2>>,
-      Expect<Equal<Convertible3, never>>,
-    ];
+  it("array resolution", () => {
     
-    const cases: cases = [ 
-      true, true, true, true, true, 
-      true, true, true  
+    type cases = [
+      Expect<Equal<Keys<[]>,  readonly []>>,
+      Expect<Equal<Keys<string[]>,  readonly []>>,
+      Expect<Equal<Keys<[1,2,3]>,  readonly [0,1,2]>>,
+      Expect<Equal<Keys<readonly [1,2,3]>,  readonly [0,1,2]>>,
     ];
+    const cases: cases = [true, true, true, true];
   });
-  
   
 });
 
@@ -115,7 +80,7 @@ describe("runtime keysOf() utility on object", () => {
     expect(k).toContain("isFavorite");
 
     type cases = [
-      Expect<DoesExtend<K, ["id", "color", "isFavorite" ]>> //
+      Expect<DoesExtend<K, readonly ["id", "color", "isFavorite" ]>> //
     ];
     const cases: cases = [true];
     expect(cases).toBe(cases);
@@ -139,40 +104,19 @@ describe("runtime keysOf() utility on object", () => {
     
     const k = keysOf(obj);
     
-    expect("value" in obj).toBe(true);
+    
+    
+    expect("value" in obj, "value should be a prop in a Ref<T> object").toBe(true);
     expect("__v_isRef" in obj).toBe(true);
     expect(isRef(obj)).toBe(true);
-    
-    // props at runtime not visible on type
-    expect(
-      (k as readonly any[]).includes("__v_isRef"),
-      `VueJS ref looks like: ${k}`
-    ).toBe(false);
 
-    expect(k).toEqual(["value"]);
+    expect(k, `A Ref<T> returns only the value prop from keysOf(): ${k}`).toEqual(["value"]);
 
     type cases = [
-      Expect<Equal<["value"],typeof k>>,//
+      Expect<Equal<readonly ["value"], typeof k>>,//
     ];
 
     const cases: cases = [ true ];
   });
 
-  it("empty object results in [] type", () => {
-    const empty = keysOf({});
-    const anyObject = keysOf({} as Record<string, any>);
-    const recStrStr = keysOf({} as Record<string, string>);
-
-
-    expect(empty).toEqual([]);
-    expect(anyObject).toEqual([]);
-
-    type cases = [
-      Expect<Equal<typeof empty, PropertyKey[]>>,
-      Expect<Equal<typeof anyObject, (string | symbol)[]>>,
-      Expect<Equal<typeof recStrStr, (string | symbol)[]>>,
-    ];
-    const cases: cases = [true, true, true];
-
-  });
 });

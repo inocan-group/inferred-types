@@ -4,7 +4,7 @@
  * to include any of the VueJS framework in deps.
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type VueRef<T = unknown, S extends symbol = any> = {
+export type VueRef<T = unknown, S extends symbol = symbol> = {
   RefSymbol: S;
   value: T;
 };
