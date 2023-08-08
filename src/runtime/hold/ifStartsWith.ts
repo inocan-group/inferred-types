@@ -1,5 +1,5 @@
 import { Narrowable,IfTrue, StartsWith } from "src/types";
-import { startsWith,ifTrue } from "src/runtime";
+import { startsWith, ifTrue } from "src/runtime";
 
 /**
  * **ifStartsWith**
