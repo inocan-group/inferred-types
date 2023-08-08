@@ -49,6 +49,9 @@
         "./initializers/*.ts",
         "./type-conversion/*.ts",
         "./state/*.ts",
+        "./sets/*.ts",
+        "./functional/*.ts",
+        "./runtime/*.ts",
         "./functions/*.ts"
     ],
     "exclude": [

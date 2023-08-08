@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import type {  Narrowable } from "src/types";
+import type { NarrowObject, Narrowable } from "src/types";
 import { omit } from "src/runtime";
 
 /**
@@ -13,7 +13,7 @@ import { omit } from "src/runtime";
  * **Related**: `omit`, `createOmission`
  */
 export const withoutKeys = <
-  TObj extends Record<string|symbol, N>,
+  TObj extends NarrowObject<N>,
   N extends Narrowable,
   TKeys extends readonly (string & keyof TObj)[]
 >(

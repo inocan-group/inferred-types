@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { AnyObject, WithValue,  Narrowable, ExpandRecursively, Or, IfOr } from "src/types";
-import {  isSameTypeOf, typeDefn, TypeDefn } from "src/runtime";
+import {  isSameTypeOf } from "src/runtime";
+import { RuntimeType, runtimeType } from "src/constants";
 
 /**
  * A utility created by the "withValue" runtime utility.
@@ -23,10 +24,10 @@ export type PartialWithValue<T> = <TObj extends AnyObject>(obj: TObj) => ExpandR
  *
  * Note: _often useful to provide run-time type profiles with the_ `inferredType` _utility_
  */
-export function withValue<TVal extends ((d: TypeDefn) => unknown)>(val: TVal): PartialWithValue<ReturnType<TVal>> {
+export function withValue<TVal extends ((d: RuntimeType) => unknown)>(val: TVal): PartialWithValue<ReturnType<TVal>> {
   return <TObj extends AnyObject>(obj: TObj): ExpandRecursively<WithValue<TObj,ReturnType<TVal>>> => {
     return Object.keys(obj).reduce(
-      (acc, key) => isSameTypeOf(val(typeDefn))(obj[key as keyof TObj]) 
+      (acc, key) => isSameTypeOf(val(runtimeType))(obj[key as keyof TObj]) 
         ? ({...acc, [key]: obj[key as keyof TObj]})
         : acc,
       {} as ExpandRecursively<WithValue<TObj,ReturnType<TVal>>>

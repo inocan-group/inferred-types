@@ -19,5 +19,6 @@ export * from "./LeftRight";
 export * from "./Indexable";
 export * from "./FalsyValue";
 export * from "./ObjectKey";
+export * from "./NarrowObject";
 
 export * from "./fns/index";
