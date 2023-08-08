@@ -1,4 +1,4 @@
-import { Container, ExpandRecursively, Key, Tuple } from "src/types";
+import { Container, ExpandRecursively,  Tuple } from "src/types";
 
 
 /**
@@ -18,7 +18,7 @@ import { Container, ExpandRecursively, Key, Tuple } from "src/types";
  */
 export type ContainerKeyGuarantee<
   TContainer extends Container,
-  TKey extends Key,
+  TKey extends PropertyKey,
   TType = unknown
 > = TContainer extends Tuple 
   ? TContainer & Readonly<[...Tuple<unknown, TKey & number>, TType]>

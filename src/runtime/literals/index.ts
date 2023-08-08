@@ -5,7 +5,6 @@
 
 // file exports
 export * from "./box";
-export * from "./defineType";
 export * from "./identity";
 export * from "./literal";
 export * from "./stripTrailing";

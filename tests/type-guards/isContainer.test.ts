@@ -1,18 +1,18 @@
 import {  Expect } from "@type-challenges/utils";
-import { defineType, kind, narrow, unionize } from "src/runtime";
-import { isContainer } from "src/runtime/type-guards/isContainer";
-import {  IsEqual } from "src/types";
 import { describe, expect, it } from "vitest";
+
+import { defineType, narrow, unionize , isContainer, type } from "src/runtime";
+import {  IsEqual } from "src/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("isContainer(val)", () => {
-  const lit_obj = unionize(defineType({id: 1})(), kind.undefined());
-  const wide_obj =  unionize(defineType()({id: 1}), kind.undefined());
-  const lit_arr =  unionize(narrow([1,2,3]), kind.undefined());
-  const wide_arr =  unionize([1,2,3], kind.undefined());
+  const lit_obj = unionize(defineType({id: 1})(), type.undefined());
+  const wide_obj =  unionize(defineType()({id: 1}), type.undefined());
+  const lit_arr =  unionize(narrow([1,2,3]), type.undefined());
+  const wide_arr =  unionize([1,2,3], type.undefined());
   
   it("literal object", () => {
     const v = isContainer(lit_obj);

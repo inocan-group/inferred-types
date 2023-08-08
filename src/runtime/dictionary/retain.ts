@@ -1,4 +1,4 @@
-import { ErrorCondition, HasUnionType, Narrowable, Key, WithKeys } from "src/types";
+import { ErrorCondition, HasUnionType, NarrowObject, Narrowable,  ObjectKey,  WithKeys } from "src/types";
 
 /**
  * **retain**(obj,...keys)
@@ -9,9 +9,9 @@ import { ErrorCondition, HasUnionType, Narrowable, Key, WithKeys } from "src/typ
  * **Related:** `createRetainer`, `omit`
  */
 export const retain = <
-  TObj extends Record<string | symbol, N>,
-  N extends Narrowable,
-  TKeys extends readonly (Key & keyof TObj)[]
+N extends Narrowable,
+  TObj extends NarrowObject<N>,
+  TKeys extends readonly (ObjectKey & keyof TObj)[]
 >(
   dict: TObj, 
   ...keys: TKeys

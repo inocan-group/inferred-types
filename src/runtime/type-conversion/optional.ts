@@ -1,4 +1,4 @@
-import { IfLength, Key, Narrowable } from "src/types";
+import { IfLength, Narrowable } from "src/types";
 
 /**
  * **optional**(value)
@@ -8,7 +8,7 @@ import { IfLength, Key, Narrowable } from "src/types";
  */
 export function optional<
   N extends Narrowable,
-  K extends Key,
+  K extends PropertyKey,
   T extends readonly (Record<K,N> | Narrowable)[]
 >(...values: T): IfLength<
   T, 1,

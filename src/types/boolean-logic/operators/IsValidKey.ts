@@ -1,4 +1,4 @@
-import { AnyObject, Container, IfContains, IfLiteral, Key, Keys, Tuple } from "src/types";
+import { AnyObject, Container, IfContains, IfLiteral,  Keys, Tuple } from "src/types";
 
 
 /**
@@ -10,7 +10,7 @@ import { AnyObject, Container, IfContains, IfLiteral, Key, Keys, Tuple } from "s
  */
 export type IsValidKey<
   TContainer extends Container,
-  TKey extends Key
+  TKey extends PropertyKey
 > = IfLiteral<
   TContainer,
   IfContains<Keys<TContainer>, TKey, true, false>,

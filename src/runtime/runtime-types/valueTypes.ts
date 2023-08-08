@@ -1,4 +1,4 @@
-import { AnyFunction, Key, Narrowable } from "src/types";
+import { AnyFunction, Narrowable } from "src/types";
 
 export type ValueTuple = [type: unknown, narrowable: boolean];
 
@@ -28,7 +28,7 @@ export const valueTypes = {
   /** pass in a literal type */
   literal: <
     N extends Narrowable,
-    T extends Record<Key, N> | number | string | boolean | symbol | undefined | null
+    T extends Record<PropertyKey, N> | number | string | boolean | symbol | undefined | null
   >(
     v: T
   ) => {
@@ -36,7 +36,7 @@ export const valueTypes = {
   },
   literalArray: <
     N extends Narrowable,
-    T extends Record<Key, N> | number | string | boolean | symbol | undefined | null
+    T extends Record<PropertyKey, N> | number | string | boolean | symbol | undefined | null
   >(
     arr: T[]
   ) => [arr, true],
@@ -44,5 +44,5 @@ export const valueTypes = {
 
 export type ValueTypeFunc<
   N extends Narrowable,
-  T extends Record<Key, N> | number | string | boolean | symbol | null | AnyFunction
+  T extends Record<PropertyKey, N> | number | string | boolean | symbol | null | AnyFunction
 > = (v: ValueTypes) => [T, boolean];

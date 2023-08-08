@@ -35,7 +35,9 @@
     },
     "include": [
         ".",
-        "../src"
+        "../src",
+        "../hold/mapTo.ts",
+        "../scripts/hold"
     ],
     "exclude": [
         "**/node_modules/*",

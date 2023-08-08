@@ -149,7 +149,7 @@ export const createTypeDefn = <
  * )
  * ```
  */
-export const type = <
+export const createType = <
   TD extends TypeDefn
 >(t: TD) => {
   if (isTypeDefn(t)) {

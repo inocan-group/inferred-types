@@ -1,9 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { createTypeMapRule } from "src/runtime/runtime/createTypeMatcher";
-import { kind } from "src/runtime/runtime/kind";
-import { ConvertType } from "src/types/type-conversion";
+import { createTypeMapRule } from "src/runtime";
+import { ConvertType } from "src/types";
+import { runtimeType } from "src/constants";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -13,9 +13,9 @@ describe("ConvertType<T,M>", () => {
 
   it("types map correctly", () => {
     const startWithF = createTypeMapRule(["StartsWith", "f"], ["StringLiteral", "started with f"]);
-    const extendsStr = createTypeMapRule(["Extends", kind.string()], ["Identity"]);
+    const extendsStr = createTypeMapRule(["Extends", runtimeType.string()], ["Identity"]);
     const startWith4 = createTypeMapRule(["StartsWith", "4"], ["Identity"]);
-    const camelCase = createTypeMapRule(["Extends", kind.string()], ["CamelCase"]);
+    const camelCase = createTypeMapRule(["Extends", runtimeType.string()], ["CamelCase"]);
     const fallbackKebab = createTypeMapRule(["Any"], ["KebabCase"]);
 
     // single rule can be passed in bare

@@ -1,6 +1,5 @@
 import { AnyFunction } from "src/types";
 
-
 /**
  * **Returns**`<TFn,TExpected>`
  * 

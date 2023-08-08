@@ -1,4 +1,4 @@
-import { IfAnd, IfBoolean, IsNumber, IsString , CamelCase, KebabCase, PascalCase, StripLeading, StripTrailing , ToString , TypeTuple , TypeMapTransformerOp } from "src/types";
+import { IfAnd, IfBoolean, IsNumber, IsString , CamelCase, KebabCase, PascalCase, StripLeading, StripTrailing , ToString , TypeMapTransformerOp, TypeTuple } from "src/types";
 
 /**
  * **UseTypeMapTransformer**`<TValue,TTransform>`

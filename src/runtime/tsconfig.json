@@ -37,25 +37,11 @@
     },
     "include": [
         "index.ts",
-        "./literals/*.ts",
-        "./errors/*.ts",
-        "./lists/*.ts",
-        "./dictionary/*.ts",
-        "./type-guards/*.ts",
-        "./type-guards/higher-order/*.ts",
-        "./errors/*.ts",
-        "./combinators/*.ts",
-        "./boolean-logic/*.ts",
-        "./initializers/*.ts",
-        "./type-conversion/*.ts",
-        "./state/*.ts",
-        "./sets/*.ts",
-        "./functional/*.ts",
-        "./runtime/*.ts",
-        "./functions/*.ts"
+        "**/*.ts",
+        "../../hold/mapTo.ts"
     ],
     "exclude": [
-        "./dictionary/mapTo.ts",
+        "../../hold/mapTo.ts",
         "./boolean-logic/ifTypeOf.ts"
     ]
 }

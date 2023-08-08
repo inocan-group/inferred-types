@@ -11,9 +11,10 @@ import {
   ifString,
   or,
   isTrue,
-  StartingWithTypeGuard, startsWith, box, wide
+  StartingWithTypeGuard, 
+  startsWith, box, wide,
 } from "src/runtime";
-import { EndsWith, DoesExtend, LowerAlphaChar, Or, StartsWith, IsStringLiteral  } from "src/types";
+import { EndsWith, DoesExtend, LowerAlphaChar, Or, StartsWith  } from "src/types";
 
 
 describe("runtime if/is", () => {
@@ -242,7 +243,6 @@ describe("runtime if/is", () => {
     type T8 = StartsWith<42, "4">;
     type T9 = StartsWith<42, string>;
     type T10 = StartsWith<42, "5">;
-    type _x = IsStringLiteral<LowerAlphaChar>;
 
     type cases = [
       Expect<Equal<T1, true>>, //
@@ -296,41 +296,41 @@ describe("runtime if/is", () => {
   });
 
   it.skip("ifStartsWith(start, isTrue, isFalse)(v)", () => {
-    // const noSir = <T extends string>(i: T) => `no sir didn't like it ${i}` as const;
-    // const startWithFoo = ifStartsWith(
-    //   // condition
-    //   "foo",
-    //   // inline
-    //   (i) => `welcome ${i}`,
-    //   // external
-    //   () => noSir
-    // );
-    // const t = startWithFoo("foobar");
-    // type T = typeof t;
-    // const f = startWithFoo("nope");
-    // type F = typeof f;
+    const noSir = <T extends string>(i: T) => `no sir didn't like it ${i}` as const;
+    const startWithFoo = ifStartsWith(
+      // condition
+      "foo",
+      // inline
+      (i) => `welcome ${i}`,
+      // external
+      () => noSir
+    );
+    const t = startWithFoo("foobar");
+    type T = typeof t;
+    const f = startWithFoo("nope");
+    type F = typeof f;
 
-    // type FS = typeof startWithFoo;
-    // type RFS = ReturnType<FS>;
+    type FS = typeof startWithFoo;
+    type RFS = ReturnType<FS>;
 
-    // // runtime
-    // expect(t).toBe("welcome foobar");
-    // expect(f).toBe("no sir didn't like it nope");
+    // runtime
+    expect(t).toBe("welcome foobar");
+    expect(f).toBe("no sir didn't like it nope");
 
-    // // TODO: get the design time to be more literal
+    // TODO: get the design time to be more literal
 
-    // type cases = [
-    //   Expect<Equal<T, `welcome ${string}`>>,
-    //   Expect<Equal<F, `no sir didn't like it ${string}`>>,
-    //   Expect<
-    //     Equal<
-    //       //
-    //       RFS,
-    //       `welcome ${string}` | `no sir didn't like it ${string}`
-    //     >
-    //   >
-    // ];
-    // const cases: cases = [true, true, true];
+    type cases = [
+      Expect<Equal<T, `welcome ${string}`>>,
+      Expect<Equal<F, `no sir didn't like it ${string}`>>,
+      Expect<
+        Equal<
+          //
+          RFS,
+          `welcome ${string}` | `no sir didn't like it ${string}`
+        >
+      >
+    ];
+    const cases: cases = [true, true, true];
   });
 
   it("ifSameType", () => {

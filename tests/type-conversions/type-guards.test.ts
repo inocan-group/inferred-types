@@ -2,7 +2,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
 import { 
-  narrow,  createFnWithProps , optional , Never,
+  narrow,  createFnWithProps , optional , 
   isArray, 
   isReadonlyArray,
   hasDefaultValue, 
@@ -14,9 +14,9 @@ import {
   isFnWithParams,
   defineType
 } from "src/runtime";
-import { Constant, NoDefaultValue, NO_DEFAULT_VALUE } from "src/constants";
+import { Constant, NoDefaultValue, NO_DEFAULT_VALUE, Never } from "src/constants";
 import { ref, Ref } from "vue";
-import { DoesExtend } from "../../src/inferred-types";
+import { DoesExtend } from "src/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -243,8 +243,6 @@ describe("hasDefaultValue(v)", () => {
       const cases: cases = [ true ];
     }
   });
-  
-
 });
 
 describe("isConstant()", () => {
