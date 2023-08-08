@@ -6,7 +6,8 @@ export const runtimeType = {
   boolean: () => "boolean" as unknown as boolean,
   true: (): true => true,
   false: (): false => false,
-  literal: <T extends unknown[]>(...literals: T) => literals
+  literal: <T extends unknown[]>(...literals: T) => literals,
+  explicitType: <T>() => "explicitType" as T
 } as const;
 
 export type RuntimeType = typeof runtimeType;

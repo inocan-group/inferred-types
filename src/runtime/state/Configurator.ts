@@ -63,7 +63,7 @@ export function Configurator() {
       },
       remove<K extends string & keyof C>(key: K) {
         const config = configuration() as C;
-        const updated = omit(config, key) as ExpandRecursively<Omit<C, K>>;
+        const updated = omit(config, key) as unknown as ExpandRecursively<Omit<C, K>>;
         configuration = (): ExpandRecursively<Omit<C, K>> => updated;
         return updated;
       },

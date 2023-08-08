@@ -2,9 +2,7 @@ import {
   FromTypeDefn, 
   TypeDefn, 
   GetEach, 
-  KvDictToObject, 
   TupleToUnion, 
-  TypeKvBase, 
   UnionToIntersection 
 } from "src/types";
 
@@ -19,9 +17,6 @@ type GetType<U> = U extends readonly unknown[]
   ? GetEach<U, "type">
   : never;
 
-type ObjectShape<U> = U extends readonly TypeKvBase[]
-  ? KvDictToObject<U>
-  : never;
 
 export function determineType<TD extends TypeDefn>(t: TD): FromTypeDefn<TD>["type"] {
   // literals and containers have underlying types
@@ -41,7 +36,7 @@ export function determineType<TD extends TypeDefn>(t: TD): FromTypeDefn<TD>["typ
       case "union":
         return t.underlying as TupleToUnion<GetType<TD["underlying"]>>;
       case "object":
-        return t.underlying as ObjectShape<TD["underlying"]>;
+        return t.underlying as TD["underlying"];
 
       default:
           throw new Error(`Unknown type (with underlying values): ${t.kind}`);

@@ -1,17 +1,19 @@
-import { AnyObject } from "src/types";
+import {  NarrowObject, Narrowable } from "src/types";
 import { sharedKeys, withoutKeys } from "src/runtime";
 
 export function mergeObjects<
-  TDefault extends AnyObject,
-  TOverride extends AnyObject
+  D extends Narrowable,
+  O extends Narrowable,
+  TDefault extends NarrowObject<D>,
+  TOverride extends NarrowObject<O>,
 >(
   defVal: TDefault, 
   override: TOverride
 ) {
   const intersectingKeys = sharedKeys(defVal,override);
 
-  const defUnique = withoutKeys(defVal, ...intersectingKeys);
-  const overrideUnique = withoutKeys(defVal, ...intersectingKeys);
+  const defUnique = withoutKeys(defVal, ...intersectingKeys as readonly string[]);
+  const overrideUnique = withoutKeys(defVal, ...intersectingKeys as readonly string[]);
 
   return {
     ...(intersectingKeys.reduce(
