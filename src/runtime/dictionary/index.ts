@@ -5,9 +5,10 @@
 
 // file exports
 export * from "./arrayToKeyLookup";
-export * from "./get";
 export * from "./entries";
+export * from "./get";
 export * from "./keysOf";
+
 export * from "./mapValues";
 // export * from "./mapTo";
 export * from "./omit";

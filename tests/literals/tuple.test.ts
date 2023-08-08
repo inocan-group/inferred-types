@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { tuple } from "src/runtime";
 import { describe, expect, it } from "vitest";
+import { tuple } from "src/runtime";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 

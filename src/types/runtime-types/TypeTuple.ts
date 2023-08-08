@@ -3,10 +3,10 @@ import { Narrowable , TypeGuard } from "src/types";
 /**
  * **TypeTuple**`<TType>`
  * 
- * The pairing of:
+ * The Tuple containing:
  *  - a type _representation_
  *  - a type guard to validate
- *  - a textual description of the type
+ *  - (optionally) a textual description of the type
  * 
  * This provides a simple shorthand way of defining a type in a way
  * which can be used in the tooling for `Type` and `TypeDefn` but does

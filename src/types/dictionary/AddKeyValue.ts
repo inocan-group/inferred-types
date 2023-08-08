@@ -6,7 +6,6 @@ import type {
   SimplifyObject, 
   Concat, 
   ToString, 
-  Key, 
   Keys, 
   ErrorCondition
 } from "src/types";
@@ -23,7 +22,7 @@ import type {
  */
 export type AddKeyValue<
   TObj extends AnyObject,
-  K extends Key,
+  K extends PropertyKey,
   V extends Narrowable
 > = IfContains<
   Keys<TObj>, K, 

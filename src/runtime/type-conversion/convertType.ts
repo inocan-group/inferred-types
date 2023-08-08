@@ -12,9 +12,10 @@ import {
   startsWith, 
   isFalsy, 
   isTruthy, 
-  isTypeTuple
+  isTypeTuple,
+  type
 } from "src/runtime";
-import { Never, runtimeType } from "src/constants";
+import { Never } from "src/constants";
 
 /**
  * **convertType**(rules) => (value) => [converted]
@@ -107,13 +108,13 @@ export function convertType<
           }
           break;
         case "AsBooleanString":
-          response = runtimeType.booleanString();
+          response = type.booleanString();
           break;
         case "AsNumericString":
-          response = runtimeType.numericString();
+          response = type.numericString();
           break;
         case "AsString":
-          response = runtimeType.literal("<string>");
+          response = type.literal("<string>");
           break;
         case "CamelCase":
           response = toCamelCase(String(value));

@@ -1,5 +1,5 @@
 import { Narrowable,IfTrue, StartsWith } from "src/types";
-import { startsWith, ifTrue } from "src/runtime";
+import { startsWith } from "src/runtime";
 
 /**
  * **ifStartsWith**
@@ -20,9 +20,9 @@ import { startsWith, ifTrue } from "src/runtime";
  * returns is able to
  */
 export const ifStartsWith =<
-TStartsWith extends string, 
-TIf extends Narrowable, 
-TElse extends Narrowable
+  TStartsWith extends string, 
+  TIf extends Narrowable, 
+  TElse extends Narrowable
 >(
   /** the string literal _start value_ which a string must begin with */
   start: TStartsWith,
@@ -30,13 +30,11 @@ TElse extends Narrowable
   doesStartWith: <T extends `${TStartsWith}${string}`>(input: T) => TIf,
   /** an optional mutation function */
   doesNotStartWith: <T extends string>(input: T) => TElse
-) => <TTextValue extends string>(input: TTextValue) =>
-  ifTrue(
-    // condition
-    startsWith(start)(input),
+) => <TTextValue extends string>(input: TTextValue) => (
+    startsWith(start)(input)
     // handlers
-    () => doesStartWith(input as TTextValue & `${TStartsWith}${string}`),
-    () => doesNotStartWith(input as TTextValue)
+    ? () => doesStartWith(input as TTextValue & `${TStartsWith}${string}`)
+    : () => doesNotStartWith(input as TTextValue)
   ) as unknown as IfTrue<
     StartsWith<TTextValue, TStartsWith>, 
     TIf, 

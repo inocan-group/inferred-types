@@ -16,7 +16,6 @@ export * from "./UnionToTuple";
 export * from "./Widen";
 export * from "./WidenProps";
 export * from "./Mutable";
-export * from "./TypeTuple";
 export * from "./Merge";
 export * from "./Break";
 export * from "./ArrConcat";
@@ -36,8 +35,6 @@ export * from "./RemoveFromEnd";
 export * from "./RemoveIndex";
 export * from "./IntersectWithAll";
 export * from "./UnionWithAll";
-export * from "./KeyFor";
-
 
 export * from "./TypeMapRule";
 export * from "./ConvertType";

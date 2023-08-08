@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import type { Key, Narrowable } from "src/types";
+import type { Narrowable, ObjectKey } from "src/types";
 import { retain } from "src/runtime";
 
 /**
@@ -13,7 +13,7 @@ import { retain } from "src/runtime";
 export const withKeys = <
   TObj extends Record<string|symbol, N>,
   N extends Narrowable,
-  TKeys extends readonly (Key & keyof TObj)[]
+  TKeys extends readonly (ObjectKey & keyof TObj)[]
 >(
   dict: TObj, 
   ...keys: TKeys

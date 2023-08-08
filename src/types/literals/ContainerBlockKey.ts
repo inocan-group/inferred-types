@@ -1,4 +1,4 @@
-import { Container,  Key, Tuple } from "src/types";
+import { Container,  Tuple } from "src/types";
 
 
 /**
@@ -15,7 +15,7 @@ import { Container,  Key, Tuple } from "src/types";
  */
 export type ContainerBlockKey<
   TContainer extends Container,
-  TKey extends Key
+  TKey extends PropertyKey
 > = TContainer extends Tuple 
   ? TContainer & [...Tuple<unknown, TKey & number>, never]
   : Exclude<TContainer, TKey>;

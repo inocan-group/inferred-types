@@ -1,6 +1,11 @@
 import type { Narrowable } from "src/types";
 import { isNumber, isString } from "src/runtime";
 
+/**
+ * **StartingWithTypeGuard**`<literal>`
+ * 
+ * A type guard built using the `startsWith` utility.
+ */
 export type StartingWithTypeGuard<TStartsWith extends string> = <
   TValue extends Narrowable
 >(val: TValue) => val is TValue & `${TStartsWith}${string}`;

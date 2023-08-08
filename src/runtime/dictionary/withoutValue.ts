@@ -8,7 +8,7 @@ import type {
 import { keysOf } from "src/runtime";
 
 /**
- * **withoutValue**(obj,val, [extends|equals])
+ * **withoutValue**(obj,val)
  * 
  * Runtime utility which reduces an object to only those properties which 
  * _do not have_ a particular value.

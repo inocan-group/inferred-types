@@ -1,6 +1,5 @@
 import { NotNull } from "src/types";
 
-
 /**
  * **isNotNull**(value)
  * 

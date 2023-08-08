@@ -1,8 +1,8 @@
-import { AnyObject, Concat, Container, ErrorCondition, IfFalse, IsValidKey, Key, ToString, Tuple } from "src/types";
+import { AnyObject, Concat, Container, ErrorCondition, IfFalse, IsValidKey, ToString, Tuple } from "src/types";
 
 type Err<
   TContainer extends Container,
-  TKey extends Key
+  TKey extends PropertyKey
 > = 
 TContainer extends Tuple ? TKey extends string | symbol
     ? ErrorCondition<
@@ -45,7 +45,7 @@ TContainer extends Tuple ? TKey extends string | symbol
  */
 export type IfValidKey<
   TContainer extends Container,
-  TKey extends Key,
+  TKey extends PropertyKey,
   IF = TKey extends keyof TContainer ? TContainer[TKey] : never,
   ELSE = Err<TContainer,TKey>,
   MAYBE = IF | ELSE
