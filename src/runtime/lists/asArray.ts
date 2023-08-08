@@ -1,5 +1,4 @@
 import { AsArray, Narrowable } from "src/types";
-import { isArray } from "src/runtime";
 
 /**
  * Type utility which converts `undefined[]` to `unknown[]`
@@ -20,7 +19,7 @@ export type UndefinedArrayIsUnknown<T extends unknown[]> = undefined[] extends T
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const asArray = <T extends Narrowable>(thing: T) => {
   return (
-    isArray(thing)
+    Array.isArray(thing) === true
       ? // proxy thing back as it's already an array
         thing
       : typeof thing === "undefined"

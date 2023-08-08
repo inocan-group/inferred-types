@@ -10,7 +10,7 @@ import type {
   IfOr, 
   IfStringLiteral, 
   IsEqual, 
-  IsUnion 
+  IsUnion
 } from "src/types";
 import { 
   LITERAL_TYPE_KINDS,  
@@ -22,7 +22,7 @@ import {
   NotApplicable 
 } from "src/constants";
 
-import { TupleToUnion , TypeGuard , Filter ,  KvDict, KvDictToObject, UnionToIntersection , AnyFunction , ErrorCondition } from "src/types";
+import { TupleToUnion , TypeGuard , Filter ,   UnionToIntersection , AnyFunction , ErrorCondition } from "src/types";
 
 export type TypeOptions<
   TKind extends TypeKind = TypeKind, 
@@ -124,10 +124,6 @@ type ToBaseType<
   : TKind extends "tuple" 
     ? TUnderlying extends readonly unknown[] 
       ? TupleToUnion<TUnderlying> 
-      : never
-  : TKind extends "object"
-    ? TUnderlying extends readonly KvDict[]
-      ? KvDictToObject<TUnderlying>
       : never
   : TKind extends "union" 
     ? TUnderlying extends readonly unknown[]

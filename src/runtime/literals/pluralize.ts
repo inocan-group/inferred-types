@@ -5,15 +5,16 @@ import {
   PLURAL_EXCEPTIONS, 
   SINGULAR_NOUN_ENDINGS 
 } from "src/constants";
-import { getEach, pop,  split, stripTrailing } from "src/runtime";
+import { getEach,  split, stripTrailing } from "src/runtime";
 import {  Mutable, Pluralize, TupleToUnion } from "src/types";
 
 const isException = <T extends string>(word: T) => getEach(PLURAL_EXCEPTIONS,0).includes(word as any);
 
 const exceptionLookup = <T extends string>(word: T) => {
   const found = PLURAL_EXCEPTIONS.find(i => i[0] === word);
+  
   if (found) {
-    const [plural, _] = pop(found);
+    const plural = found[1];
     return plural;
   } else {
     throw new Error(`The word "${word}" was supposed to have an exception rule but it couldn't be found!`);

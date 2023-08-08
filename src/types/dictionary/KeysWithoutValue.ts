@@ -3,10 +3,11 @@ import { AnyObject , Narrowable } from "src/types";
 /**
  * **KeysWithoutValue**`<TObj, TValue>`
  * 
- * The _keys_ on a given object `T` which _do not_ have a literal value of `W`.
+ * The _keys_ on a given object `T` which _do not_ extend the type value of `W`.
+ * 
  * ```ts
  * // "foo"
- * type Str = KeysWithoutValue<5, { foo: "hi"; bar: 5 }>;
+ * type T = KeysWithoutValue<{ foo: "hi"; bar: 5; baz: number }, number>;
  * ```
  */
 export type KeysWithoutValue<

@@ -1,4 +1,4 @@
-import { AnyObject, RemoveFromList } from "src/types";
+import { AnyObject, IfNever, RemoveFromList } from "src/types";
 
 /**
  * **RemoveNever**`<T>`
@@ -13,5 +13,7 @@ export type RemoveNever<
   : T extends readonly unknown[]
     ? Readonly<RemoveFromList<T, "extends", never >>
     : T extends AnyObject
-      ? unknown
+      ? {
+        [K in keyof T]: IfNever<T[K], never, K>
+      }
       : never;

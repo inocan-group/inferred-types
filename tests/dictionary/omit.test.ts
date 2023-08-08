@@ -2,8 +2,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { omit } from "src/runtime/dictionary";
-import { DoesExtend, ErrorCondition } from "src/types";
+import { omit } from "src/runtime";
+import { DoesExtend, EmptyObject, ErrorCondition } from "src/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -14,6 +14,7 @@ describe("omit()", () => {
   it("happy path", () => {
     const all = omit({foo: 1, bar: 2, baz: 3});
     const noFoo = omit({foo: 1, bar: 2, baz: 3}, "foo");
+    const justBar = omit({foo: 1, bar: 2, baz: 3}, "foo", "baz");
     const none = omit({foo: 1, bar: 2, baz: 3}, "foo", "bar", "baz");
 
     // this is not allowed; we can determine the type but a union 
@@ -27,15 +28,16 @@ describe("omit()", () => {
     expect(noFoo).toEqual({bar: 2, baz: 3});
     expect(none).toEqual({});
     // runtime valid value
-    expect(noUnion).toEqual({ bar: 2, baz: 3 });
+    expect(noFoo).toEqual({ bar: 2, baz: 3 });
 
     type cases = [
       Expect<Equal<typeof all, { foo: 1; bar: 2; baz: 3}>>,
       Expect<Equal<typeof noFoo, { bar: 2; baz: 3}>>,
-      Expect<Equal<typeof none, {}>>,
+      Expect<Equal<typeof justBar, { bar: 2}>>,
+      Expect<Equal<typeof none, EmptyObject>>,
       DoesExtend<typeof noUnion, ErrorCondition<"invalid-union">>
     ];
-    const cases: cases = [true, true, true, true];
+    const cases: cases = [true, true, true, true, true];
   });
 
 });

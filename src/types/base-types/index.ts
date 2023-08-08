@@ -1,5 +1,11 @@
+export * from "./CouldHaveValue";
+export * from "./Something";
+export * from "./Nothing";
+export * from "./NotNull";
 export * from "./AnyObject";
 export * from "./IndexableObject";
+export * from "./IndexedObject";
+export * from "./EmptyObject";
 export * from "./AnyFunction";
 export * from "./AnyArray";
 export * from "./IdentityFunction";
@@ -12,5 +18,6 @@ export * from "./Digital";
 export * from "./LeftRight";
 export * from "./Indexable";
 export * from "./FalsyValue";
+export * from "./ObjectKey";
 
 export * from "./fns/index";

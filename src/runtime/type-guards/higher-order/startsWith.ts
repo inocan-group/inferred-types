@@ -1,4 +1,4 @@
-import type { IfStartsWith, Narrowable } from "src/types";
+import type { Narrowable } from "src/types";
 import { isNumber, isString } from "src/runtime";
 
 export type StartingWithTypeGuard<TStartsWith extends string> = <
@@ -8,7 +8,7 @@ export type StartingWithTypeGuard<TStartsWith extends string> = <
 /**
  * **startsWith**(startingWith) => (val)
  * 
- * Creates a TypeGuard which checks whether a value _starts with_ a
+ * A TypeGuard which checks whether a value _starts with_ a
  * particular string literal.
  */
 export const startsWith = <
@@ -20,5 +20,6 @@ export const startsWith = <
     isString(val) ? val.startsWith(startingWith) ? true : false
     : isNumber(val) ? String(val).startsWith(startingWith) ? true : false
     : false
-  ) as IfStartsWith<TValue, TStartsWith, true, false>;
+  ) ;
 };
+

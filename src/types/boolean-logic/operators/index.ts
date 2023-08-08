@@ -2,7 +2,7 @@ export * from "./AllExtend";
 export * from "./Contains";
 export * from "./ContainsAll";
 export * from "./DoesExtend";
-export * from "./DoesExtend";
+export * from "./DoesNotExtend";
 export * from "./ExtendsAll";
 export * from "./ExtendsSome";
 export * from "./EndsWith";

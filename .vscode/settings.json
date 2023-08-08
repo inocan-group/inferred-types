@@ -8,6 +8,7 @@
     "basises",
     "Bastar",
     "combinators",
+    "Concat",
     "Cornsilk",
     "Dasherize",
     "dasherized",
@@ -23,5 +24,6 @@
     "ruleset",
     "tokei",
     "Uncapitalize"
-  ]
+  ],
+  "references.preferredLocation": "peek"
 }

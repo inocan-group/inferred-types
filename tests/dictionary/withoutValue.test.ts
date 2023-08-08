@@ -2,7 +2,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
 import { withoutValue } from "src/runtime";
-import { KeysWithoutValue, WithoutValue } from "src/types";
+import { KeysNotExtendingValue, WithoutValue } from "src/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -13,7 +13,7 @@ describe("WithoutValue<TVal,TObj>", () => {
   // type B = { bar: 55; baz: 66; color: undefined } ;
 
   it("happy path", () => {
-    type KeysWithoutOne = KeysWithoutValue<A,1>;
+    type KeysWithoutOne = KeysNotExtendingValue<A,1>;
     type NoFoo = WithoutValue<A,1>;
 
     type cases = [

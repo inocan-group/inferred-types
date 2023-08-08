@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { Narrowable, WithoutKeys,  ErrorCondition, HasUnionType, Key } from "src/types";
-import {keysOf } from "src/runtime";
+import type { Narrowable, WithoutKeys,  ErrorCondition, HasUnionType,  ObjectKey } from "src/types";
+import { keysOf } from "src/runtime";
 
 /**
  * **omit**(obj, excluding)
@@ -21,11 +21,11 @@ import {keysOf } from "src/runtime";
  * **Related:** `createOmission`, `withoutKeys`
  */
 export function omit<
-  TObj extends Record<string|symbol, N>,
+  TObj extends Record<ObjectKey, N>,
   N extends Narrowable,
-  TKeys extends readonly (Key & keyof TObj)[]
+  TKeys extends readonly ObjectKey[] = readonly []
 >(obj: TObj, ...removeKeys: TKeys) {
-  const keys=keysOf(obj) as (string|symbol)[];
+  const keys = keysOf(obj) as unknown as readonly ObjectKey[];
   
   return keys.reduce(
     (acc, key) => removeKeys.includes(key as any)

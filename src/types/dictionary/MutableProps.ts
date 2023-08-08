@@ -1,4 +1,4 @@
-import { ExpandRecursively , AsArray, Mutable, Key, WithKeys, WithoutKeys , AnyObject, SimplifyObject } from "src/types";
+import { ExpandRecursively , AsArray, Mutable,  WithKeys, WithoutKeys , AnyObject, SimplifyObject, ObjectKey } from "src/types";
 
 
 /**
@@ -21,7 +21,7 @@ import { ExpandRecursively , AsArray, Mutable, Key, WithKeys, WithoutKeys , AnyO
  */
 export type MutableProps<
   TObj extends AnyObject, 
-  TMutProps extends PropertyKey[] | PropertyKey
+  TMutProps extends ObjectKey[] | ObjectKey
 > = SimplifyObject<Mutable<WithKeys<TObj, TMutProps>> 
   & WithoutKeys<TObj, TMutProps>>;
 
@@ -45,7 +45,7 @@ export type MutableProps<
  */
 export type MutablePropsExclusive<
   T extends AnyObject, 
-  M extends (keyof T & Key) | readonly (keyof T & Key)[]
+  M extends (keyof T & ObjectKey) | readonly (keyof T & ObjectKey)[]
 > = ExpandRecursively<
   Mutable<WithKeys<T,M>> & Readonly<WithoutKeys<T, AsArray<M>>>
 >;

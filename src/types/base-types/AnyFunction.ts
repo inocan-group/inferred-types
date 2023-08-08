@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
-import { AnyObject } from "src/types";
+import { AnyObject, EmptyObject } from "src/types";
 
 /**
  * **AnyFunction**`<[TArgs],[TReturn],[TDict]>`
@@ -15,7 +15,7 @@ import { AnyObject } from "src/types";
 export type AnyFunction<
   TArgs extends readonly any[] = any[],
   TReturn = any,
-  TProps extends AnyObject | "no-props" = AnyObject | "no-props",
-> = TProps extends "no-props"
+  TProps extends AnyObject = AnyObject,
+> = TProps extends EmptyObject
   ? (...args: TArgs) => TReturn
   : ((...args: TArgs) => TReturn) & TProps;

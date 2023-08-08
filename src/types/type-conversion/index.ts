@@ -9,7 +9,6 @@ export * from "./Awaited";
 export * from "./TupleToUnion";
 export * from "./UnionToIntersection";
 export * from "./KvDict";
-export * from "./KvDictToObject";
 export * from "./ToString";
 export * from "./ToUnion";
 export * from "./ToNumber";

@@ -3,7 +3,6 @@
 import type {Container, Intersection,  } from "src/types";
 import { get, ifNotNull, isIndexable, getEach } from "src/runtime";
 
-
 function intersectWithOffset<
 A extends readonly unknown[],
 B extends readonly unknown[],
@@ -26,8 +25,8 @@ TDeref extends string | number
   const sharedKeys = ifNotNull(
     deref,
     v => [
-      a.filter(i => Array.from(bMatches).includes(get(i as Container, v as any ))),
-      b.filter(i => Array.from(aMatches).includes(get(i as Container, v as any )))
+      a.filter(i => Array.from(bMatches).includes(get(i as Container, v as string | null ))),
+      b.filter(i => Array.from(aMatches).includes(get(i as Container, v as string | null )))
     ],
     () => a.filter(k => b.includes(k)) 
   );

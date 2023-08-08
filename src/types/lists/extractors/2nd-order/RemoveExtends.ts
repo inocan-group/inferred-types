@@ -1,4 +1,4 @@
-import { AnyObject , Narrowable , KvDict , ObjectToKvDict, KvDictExtractor , RemoveFromList } from "src/types";
+import { AnyObject , Narrowable ,  RemoveFromList, WithoutValue } from "src/types";
 
 /**
  * **RemoveExtends**`<TIterable, TCompare>`
@@ -14,7 +14,5 @@ export type RemoveExtends<
 : TIterable extends readonly unknown[]
   ? Readonly<RemoveFromList<TIterable, "extends", TCompare>>
   : TIterable extends AnyObject
-    ? ObjectToKvDict<TIterable> extends readonly KvDict[]
-      ? KvDictExtractor<ObjectToKvDict<TIterable>, "remove">
-      : never
+    ? WithoutValue<TIterable, TCompare>
     : never;

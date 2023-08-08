@@ -17,7 +17,7 @@
         "declarationMap": true,
         "baseUrl": ".",
         "rootDir": "../..",
-        "outDir": "./dist",
+        "outDir": "../../dist/runtime",
         "composite": true,
         "forceConsistentCasingInFileNames": true,
         "paths": {
@@ -30,9 +30,26 @@
             "src/constants": [
                 "../constants/index.ts"
             ],
-            "./*": [
+            "src/runtime/*": [
                 "./*"
             ],
         },
-    }
+    },
+    "include": [
+        "index.ts",
+        "./literals/*.ts",
+        "./errors/*.ts",
+        "./lists/*.ts",
+        "./dictionary/*.ts",
+        "./type-guards/*.ts",
+        "./type-guards/higher-order/*.ts",
+        "./errors/*.ts",
+        "./combinators/*.ts",
+        "./boolean-logic/*.ts",
+        "./initializers/*.ts",
+    ],
+    "exclude": [
+        "./dictionary/mapTo.ts",
+        "./boolean-logic/ifTypeOf.ts"
+    ]
 }

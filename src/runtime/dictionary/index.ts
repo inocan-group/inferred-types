@@ -6,7 +6,6 @@
 // file exports
 export * from "./arrayToKeyLookup";
 export * from "./get";
-export * from "./dictArr";
 export * from "./entries";
 export * from "./keysOf";
 export * from "./mapValues";
@@ -17,8 +16,6 @@ export * from "./withKeys";
 export * from "./withoutKeys";
 export * from "./sharedKeys";
 export * from "./strArrayToDict";
-// directory exports
-export * from "./kv/index";
 
 // #endregion auto-indexed files
 

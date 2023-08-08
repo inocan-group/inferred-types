@@ -9,17 +9,14 @@ import {
   ConfiguredMap,
   Mapper,
   MapFn,
-  OptRequired
-} from "src/types";
-
-import { createFnWithProps } from "src/runtime";
-import { 
+  OptRequired,
   DefaultOneToManyMapping, 
   DEFAULT_MANY_TO_ONE_MAPPING, 
   DEFAULT_ONE_TO_MANY_MAPPING, 
   DEFAULT_ONE_TO_ONE_MAPPING 
-} from "src/constants";
+} from "src/types";
 
+import { createFnWithProps } from "src/runtime";
 
 const debugMsg = <C extends FinalizedMapConfig<any, any, any>>(
   config: C,
@@ -54,7 +51,7 @@ const mapper =
   <I, O>(map: MapTo<I, O, C>): Mapper<I, O, C> => {
     const fn: MapFn<I, O, C> = <S>(source: S) => {
       /**
-       * Determine whether input is an array; this will be true
+       * Determine whether input is an array
        */
       const isArray =
         config.cardinality === "I -> O[]" && Array.isArray(source)
@@ -105,9 +102,9 @@ const mapper =
  */
 const setMapper = <
   U extends MapConfig<
-    OptRequired | undefined,
-    MapCardinalityIllustrated | undefined,
-    OptRequired | undefined
+    OptRequired,
+    MapCardinalityIllustrated,
+    OptRequired
   >,
   D extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>
 >(
@@ -148,21 +145,29 @@ export const mapToFn: ConfiguredMap<DefaultOneToManyMapping>["map"] = (map) => {
  * and _outputs_ to be configured.
  */
 export const mapToDict: MapperApi = {
-  config(config) {
-    const c = { ...DEFAULT_ONE_TO_MANY_MAPPING, ...config };
-    return setMapper(c, DEFAULT_ONE_TO_MANY_MAPPING);
+  config(_config) {
+    // const c = { ...DEFAULT_ONE_TO_MANY_MAPPING, ...config };
+    // TODO: re-introduce return type once project transpiling
+    // return setMapper(c, DEFAULT_ONE_TO_MANY_MAPPING);
+    throw new Error("ONE_TO_MANY is not implemented temporarily");
   },
-  oneToOne(config) {
-    const c = { ...DEFAULT_ONE_TO_ONE_MAPPING, ...config };
-    return setMapper(c, DEFAULT_ONE_TO_ONE_MAPPING);
+  oneToOne(_config) {
+    // const c = { ...DEFAULT_ONE_TO_ONE_MAPPING, ...config };
+    // TODO: re-introduce return type once project transpiling
+    // return setMapper(c, DEFAULT_ONE_TO_ONE_MAPPING);
+    throw new Error("ONE_TO_ONE is not implemented temporarily");
   },
-  manyToOne(config) {
-    const c = { ...DEFAULT_MANY_TO_ONE_MAPPING, ...config };
-    return setMapper(c, DEFAULT_MANY_TO_ONE_MAPPING);
+  manyToOne(_config) {
+    // const c = { ...DEFAULT_MANY_TO_ONE_MAPPING, ...config };
+    // return setMapper(c, DEFAULT_MANY_TO_ONE_MAPPING);
+    throw new Error("MANY_TO_ONE is not implemented temporarily");
+
   },
-  oneToMany(config) {
-    const c = { ...DEFAULT_ONE_TO_MANY_MAPPING, ...config };
-    return setMapper(c, DEFAULT_ONE_TO_MANY_MAPPING);
+  oneToMany(_config) {
+
+    // const c = { ...DEFAULT_ONE_TO_MANY_MAPPING, ...config };
+    // return setMapper(c, DEFAULT_ONE_TO_MANY_MAPPING);
+    throw new Error("ONE_TO_MANY is not implemented temporarily");
   },
 };
 

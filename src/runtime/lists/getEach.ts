@@ -1,9 +1,9 @@
 
-import type {  GetEach, GetEachErrHandling } from "src/types";
+import type {  GetEach } from "src/types";
 import { get, isErrorCondition } from "src/runtime";
 
 export interface GetEachOptions<
-  THandleErrors extends GetEachErrHandling
+  THandleErrors
 > {
   handleErrors?: THandleErrors;
 }
@@ -24,7 +24,7 @@ export interface GetEachOptions<
 export function getEach<
   TList extends readonly unknown[],
   TDotPath extends string | number | null,
-  THandleErrors extends GetEachErrHandling = "ignore",
+  THandleErrors = "ignore",
 >(
   list: TList, 
   dotPath: TDotPath, 

@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { AnyObject, WithValue,  Narrowable } from "src/types";
-import {  isSameTypeOf } from "src/runtime";
+import { AnyObject, WithValue,  Narrowable, ExpandRecursively, Or, IfOr } from "src/types";
+import {  isSameTypeOf, typeDefn, TypeDefn } from "src/runtime";
+
+/**
+ * A utility created by the "withValue" runtime utility.
+ */
+export type PartialWithValue<T> = <TObj extends AnyObject>(obj: TObj) => ExpandRecursively< WithValue<TObj, T>>;
 
 /**
  * **withValue**(value) => (obj) => WithValue<TObj,TVal>
@@ -18,13 +23,13 @@ import {  isSameTypeOf } from "src/runtime";
  *
  * Note: _often useful to provide run-time type profiles with the_ `inferredType` _utility_
  */
-export function withValue<TVal extends Narrowable>(val: TVal) {
-  return <TObj extends AnyObject>(obj: TObj): WithValue<TObj,TVal> => {
+export function withValue<TVal extends ((d: TypeDefn) => unknown)>(val: TVal): PartialWithValue<ReturnType<TVal>> {
+  return <TObj extends AnyObject>(obj: TObj): ExpandRecursively<WithValue<TObj,ReturnType<TVal>>> => {
     return Object.keys(obj).reduce(
-      (acc, key) => isSameTypeOf(val)(obj[key as keyof TObj]) 
+      (acc, key) => isSameTypeOf(val(typeDefn))(obj[key as keyof TObj]) 
         ? ({...acc, [key]: obj[key as keyof TObj]})
         : acc,
-      {} as WithValue<TObj,TVal>
+      {} as ExpandRecursively<WithValue<TObj,ReturnType<TVal>>>
     );
   };
 }

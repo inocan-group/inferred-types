@@ -1,23 +1,20 @@
+import { AnyObject } from "src/types";
 
 /**
  * **KeysWithValue**`<TObj,TValue>`
  * 
  * The _keys_ on a given object `TObj` which extend the value 
- * of `TWithValue`.
+ * of `TValue`.
  * 
  * ```ts
- * // "foo"
- * type Str = KeysWithValue<{ foo: "hi"; bar: 5 }, string>;
+ * // "foo" | "baz"
+ * type Str = KeysWithValue<{ foo: "hi"; bar: 5; baz: "bye" }, string>;
  * ```
+ * 
+ * **Related:** `KeysEqualValue`
  */
-export type KeysWithValue<TObj extends object, TWithValue> = {
-  [K in keyof TObj]: TObj[K] extends TWithValue 
-    ? TObj[K] extends unknown[]
-      ? TWithValue extends unknown[]
-        ? Readonly<K>
-        : never
-      : TWithValue extends unknown[]
-        ? never
-        : Readonly<K>
-    : never;
+export type KeysWithValue<TObj extends AnyObject, TValue> = {
+  [K in keyof TObj]: TObj[K] extends readonly unknown[]
+    ? [TObj[K]] extends [Readonly<TValue>] ? K : never
+    : [TObj[K]] extends [TValue] ? K : never
 }[keyof TObj];

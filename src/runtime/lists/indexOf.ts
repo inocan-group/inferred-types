@@ -1,9 +1,9 @@
 import { 
   IndexOf, 
-  Scalar, 
-  Indexable 
+  Container
 } from "src/types";
-import { isArray, isNull, isNumber, isObject, Never } from "src/runtime";
+import { isArray, isNull, isNumber, isObject } from "src/runtime";
+import { Never } from "src/constants";
 
 /**
  * **indexOf**(val, index)
@@ -19,9 +19,9 @@ import { isArray, isNull, isNumber, isObject, Never } from "src/runtime";
  * off the back of the array.
  */
 export function indexOf<
-TValue extends Indexable | Scalar,
+TContainer extends Container,
 TIdx extends PropertyKey | null
->(val: TValue, index: TIdx) {
+>(val: TContainer, index: TIdx) {
   const isNegative = isNumber(index) && index < 0;
   if(isNegative && !Array.isArray(val)) {
     throw new Error(`The indexOf(val,idx) utility received a negative index value [${index}] but the value being de-references is not an array [${typeof val}]!`);
@@ -41,7 +41,7 @@ TIdx extends PropertyKey | null
     : isArray(val)
       ? Number(idx) in val ? val[Number(idx)] : Never
       : isObject(val) 
-        ? String(idx) in val ? val[String(idx) as keyof TValue] : Never
+        ? String(idx) in val ? val[String(idx) as keyof TContainer] : Never
         : Never
-  ) as IndexOf<TValue,TIdx>;
+  ) as IndexOf<TContainer,TIdx>;
 }

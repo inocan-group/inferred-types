@@ -40,3 +40,4 @@ T extends string | number | readonly string[] | readonly number[]
  * is not part of the suggestion to be typed in too.
  */
 export type SuggestNumeric<T extends number> = T | (number & {});
+

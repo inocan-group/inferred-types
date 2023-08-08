@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-define */
 import { ErrorCondition, HasUnionType, Narrowable, Key, WithKeys } from "src/types";
 
 /**

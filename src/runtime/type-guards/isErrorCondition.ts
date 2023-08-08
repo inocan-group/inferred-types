@@ -1,5 +1,5 @@
 import { ErrorCondition } from "src/types";
-import { isEqual, isObject } from "src/runtime";
+import {  isObject } from "src/runtime";
 
 /**
  * **isErrorCondition**(value)
@@ -15,6 +15,6 @@ export function isErrorCondition<
   return (
     isObject(value) && 
     "_type" in value && 
-    isEqual(value._type)("ErrorCondition")
+    value._type === "ErrorCondition"
   ) ? true : false;
 }

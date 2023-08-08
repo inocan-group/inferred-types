@@ -1,5 +1,4 @@
-import { IsNumber } from "src/types";
-import { Narrowable } from "src/types";
+import { IfNumber, Narrowable } from "src/types";
 import { isNumber } from "src/runtime";
 
 /**
@@ -26,5 +25,5 @@ export function ifNumber<
     isNumber(val) 
       ? ifVal(val as T & number) 
       : elseVal(val as Exclude<T, number>)
-  ) as IsNumber<T> extends true ? IF : ELSE;
+  ) as unknown as IfNumber<T, IF, ELSE>;
 }

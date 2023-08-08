@@ -1,4 +1,4 @@
-import { NonStringKeys } from "src/types";
+import { AnyObject, NonStringKeys } from "src/types";
 
 /**
  * **WithStringKeys**`<T>`
@@ -6,4 +6,4 @@ import { NonStringKeys } from "src/types";
  * Reduces an object to only the key/value pairs where the key is a
  * string.
  */
-export type WithStringKeys<T extends object> = Omit<T, NonStringKeys<T>>;
+export type WithStringKeys<T extends AnyObject> = Omit<T, NonStringKeys<T>>;

@@ -22,13 +22,9 @@ export * from "./isNumericString";
 export * from "./isFnWithParams";
 export * from "./isFunction";
 export * from "./isNumber";
-export * from "./isKvTuple";
-export * from "./isKvTupleArray";
 export * from "./isScalar";
 export * from "./isErrorCondition";
-export * from "./isKvPair";
 export * from "./runtime-type-guards";
-export * from "./isKvDictArray";
 export * from "./isSymbol";
 
 export * from "./higher-order/index";

@@ -1,5 +1,12 @@
-import { Narrowable,  Widen } from "src/types";
+import { Narrowable } from "src/types";
 
+/**
+ * **ifSameType**(value, comparisonType, ifExtends, doesNotExtend)
+ * 
+ * Runtime utility function which compares the variable `value` to a comparison type
+ * and based on whether they are the same type, it will call one of the two provided
+ * callback functions: `ifExtends` or `doesNotExtend`.
+ */
 export function ifSameType<
   TValue extends Narrowable,
   TType extends string | number | boolean | object,
@@ -17,6 +24,6 @@ export function ifSameType<
       typeof value === typeof comparisonType 
         ? ifExtends(value as TType & TValue) 
         : doesNotExtend(value as Exclude<TValue, TType>)
-    ) as Widen<TValue> extends Widen<TType> ? IF : ELSE
+    ) as TValue extends TType ? IF : ELSE
   );
 }
