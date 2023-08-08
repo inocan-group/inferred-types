@@ -16,10 +16,10 @@ export * from "./initializers/index";
 // export * from "./sets/index";
 // export * from "./functional/index";
 export * from "./literals/index";
-// export * from "./state/index";
-// export * from "./type-conversion/index";
+export * from "./state/index";
+export * from "./type-conversion/index";
 export * from "./type-guards/index";
-// export * from "./functions/index";
+export * from "./functions/index";
 // export * from "./runtime/index";
 // #endregion auto-indexed files
 

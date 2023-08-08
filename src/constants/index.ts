@@ -15,4 +15,5 @@ export * from "./FalsyValues";
 export * from "./NotDefined";
 export * from "./TypeOf";
 export * from "./Never";
+export * from "./RuntimeType";
 export * from "./type-matcher";

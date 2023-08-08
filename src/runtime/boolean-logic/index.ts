@@ -16,6 +16,6 @@ export * from "./ifFalse";
 export * from "./ifChar";
 export * from "./ifRef";
 // export * from "./ifStartsWith";
-// export * from "./ifUndefined";
+export * from "./ifUndefined";
 // export * from "./ifTypeOf";
 

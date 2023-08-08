@@ -8,15 +8,13 @@ import {
 } from "src/types";
 import { 
   toCamelCase,
-  Never, 
   endsWith, 
   startsWith, 
   isFalsy, 
   isTruthy, 
-  isTypeTuple,
-  kind as k
+  isTypeTuple
 } from "src/runtime";
-
+import { Never, runtimeType } from "src/constants";
 
 /**
  * **convertType**(rules) => (value) => [converted]
@@ -109,13 +107,13 @@ export function convertType<
           }
           break;
         case "AsBooleanString":
-          response = k.booleanString();
+          response = runtimeType.booleanString();
           break;
         case "AsNumericString":
-          response = k.numericString();
+          response = runtimeType.numericString();
           break;
         case "AsString":
-          response = k.string("<string>");
+          response = runtimeType.literal("<string>");
           break;
         case "CamelCase":
           response = toCamelCase(String(value));

@@ -1,4 +1,4 @@
-import { Narrowable } from "src/types";
+import { Narrowable, ObjectKey } from "src/types";
 import { keysOf } from "src/runtime";
 
 function runtimeExtendsCheck<TValue extends Narrowable, TBase extends Narrowable>(
@@ -77,7 +77,7 @@ export type TypeCondition<
 
 export const ifTypeOf = <
   N extends Narrowable,
-  TValue extends Record<keyof TValue, N> | number | string | boolean | symbol
+  TValue extends Record<ObjectKey, N> | number | string | boolean | symbol
 >(
   val: TValue
 ): TypeCondition<N, TValue> => ({

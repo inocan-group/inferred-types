@@ -47,6 +47,9 @@
         "./combinators/*.ts",
         "./boolean-logic/*.ts",
         "./initializers/*.ts",
+        "./type-conversion/*.ts",
+        "./state/*.ts",
+        "./functions/*.ts"
     ],
     "exclude": [
         "./dictionary/mapTo.ts",

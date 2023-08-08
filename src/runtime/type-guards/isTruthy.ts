@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Narrowable, FalsyValue } from "src/types";
+import { FalsyValue } from "src/types";
 import { FALSY_VALUES } from "src/constants";
 
 
@@ -9,7 +9,7 @@ import { FALSY_VALUES } from "src/constants";
  * Creates a TypeGuard which checks whether a value is considered _truthy_
  * in Javascript.
  */
-export const isTruthy = <V extends Narrowable>(val: V): val is Exclude<V, FalsyValue> => {
+export const isTruthy = <V>(val: V): val is Exclude<V, FalsyValue> => {
   return !FALSY_VALUES.includes(val as any);
 };
 
