@@ -1,26 +1,27 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { 
   AnyObject, 
-  IfEqual,  
-  IfNever
+  IfNever,
+  RemoveIndexKeys,
+  IfSomeEqual
 } from "src/types";
 
 /**
  * **IsObjectLiteral**`<T>`
  * 
- * Tests whether an object is a literal by validating that either:
+ * Tests whether an object is a literal. An object literal is any of the following:
  * 
- * 1. the type is `{}` (a literal indicating NO props)
- * 2. there is at least one key returned by `Keys<T>`
+ * - an `EmptyObject`
+ * - an `Indexable` object with at least one explicit key defined 
  */
-export type IsObjectLiteral<T extends AnyObject> = 
-IfNever<
-  T, 
-  false,
-
-  IfEqual<
-    keyof T, string,
+export type IsObjectLiteral<T> = T extends AnyObject
+? IfNever<
+    RemoveIndexKeys<T>,
     false,
-    true
+    IfSomeEqual<
+      keyof RemoveIndexKeys<T>, [string | symbol, string, symbol],
+      false,
+      true
+    >
   >
->;
+: false;

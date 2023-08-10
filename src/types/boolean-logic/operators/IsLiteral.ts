@@ -5,7 +5,8 @@ import type {
   IsNumericLiteral, 
   IsObjectLiteral, 
   IsStringLiteral, 
- AnyObject } from "src/types";
+ AnyObject, 
+ Something} from "src/types";
 
 
 // [note on handling of boolean](https://stackoverflow.com/questions/74213646/detecting-type-literals-works-in-isolation-but-not-when-combined-with-other-lite/74213713#74213713)
@@ -23,7 +24,9 @@ import type {
  * - a **literal array** is one where the discrete elements are known; some of the elements _may_ be wide types
  * 
  */
-export type IsLiteral<T> = [T] extends [string]
+export type IsLiteral<T> = IsEqual<T, Something> extends true
+  ? false
+  : [T] extends [string]
   ? IsStringLiteral<T>
   : [T] extends [boolean]
   ? IsBooleanLiteral<T>

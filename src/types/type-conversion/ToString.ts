@@ -7,6 +7,8 @@ import { AnyFunction, AnyObject,IfLiteral, IfRef, IsUndefined, Narrowable, Conca
  * Converts any type into a string representation.
  * This utility works as advertised but is in early stages
  * so expect it to be refined over time.
+ * 
+ * **Related:** `AsString`
  */
 export type ToString<T> = T extends string
   ? T

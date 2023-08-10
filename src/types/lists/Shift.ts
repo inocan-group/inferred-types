@@ -1,4 +1,15 @@
-import { Tuple, IfString, Concat, Split, IfStringLiteral,  IfEqual } from "src/types";
+import { 
+  Tuple, 
+  IfString, 
+  Concat, 
+  Split, 
+  IfStringLiteral,  
+  IfEqual, 
+  AsString,
+  AfterFirst, 
+  Chars, 
+  AsArray 
+} from "src/types";
 
 type _Shift<TList extends Tuple> = //
 TList extends [unknown, ...(infer Tail)]
@@ -25,22 +36,19 @@ TList extends [unknown, ...(infer Tail)]
  * character removed.
  */
 export type Shift<
-  T extends Tuple | string
-> = 
-IfEqual<
-  T, "", 
-  "",
-  IfString<
-    T,
-    // handle string variant
-    IfStringLiteral<
-      T,
-      Concat<_ShiftChar<
-        Split<T & string>
-      >>,
-      string
-    >,
-    // handle list variant
-    _Shift<Exclude<T, string>>
-  >
+  T extends string | Tuple
+> = IfString<
+  T,
+  // string passed in
+  IfStringLiteral<
+    AsString<T>,
+    T extends ""
+      ? ""
+      : AfterFirst< Chars<AsString<T>> >,
+    never
+  >,
+  // array passed in
+  _Shift<AsArray<T>>
 >;
+
+
