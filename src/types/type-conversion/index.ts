@@ -6,6 +6,7 @@
 
 // file exports
 export * from "./Awaited";
+export * from "./AsString";
 export * from "./TupleToUnion";
 export * from "./UnionToIntersection";
 export * from "./KvDict";

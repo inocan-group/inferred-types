@@ -6,12 +6,19 @@
 // file exports
 export * from "./Concat";
 export * from "./Cardinality";
+export * from "./Chars";
+export * from "./CaseInsensitive";
+export * from "./Date";
+export * from "./DateTime";
 export * from "./HasUppercase";
 export * from "./EnsureLeading";
 export * from "./EnsureLeadingEvery";
 export * from "./EmptyString";
 export * from "./EmptyStringOr";
 export * from "./EnsureTrailing";
+export * from "./FirstChar";
+export * from "./LastChar";
+export * from "./RemainingChars";
 export * from "./IsCapitalized";
 export * from "./Join";
 export * from "./PathJoin";
@@ -24,6 +31,8 @@ export * from "./Repeat";
 export * from "./StripTrailing";
 export * from "./Split";
 export * from "./StrLen";
+export * from "./Surround";
+export * from "./Time";
 export * from "./Truncate";
 
 export * from "./character-sets/index";

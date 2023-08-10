@@ -12,7 +12,9 @@ import {
   isConstant, 
   isSpecificConstant,
   isFnWithParams,
-  defineType
+  defineType, 
+  isTypeToken, 
+  type
 } from "src/runtime";
 import { Constant, NoDefaultValue, NO_DEFAULT_VALUE, Never } from "src/constants";
 import { ref, Ref } from "vue";
@@ -295,6 +297,23 @@ describe("isConstant()", () => {
     }
   });
 });
+
+describe("isTypeToken", () => {
+  
+  it("boolean validation", () => {
+
+    expect(isTypeToken("<<string>>")).toBe(true);
+    expect(isTypeToken(type.string())).toBe(true);
+
+    expect(isTypeToken("<<boolean>>")).toBe(true);
+    expect(isTypeToken(type.boolean())).toBe(true);
+
+    expect(isTypeToken("<<string-literal:foobar>>")).toBe(true);
+  });
+
+
+});
+
 
 describe("isFnWithParams()", () => {
   const fn = () => "hi" as const;

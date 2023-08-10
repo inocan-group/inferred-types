@@ -8,15 +8,16 @@ export * from "./arrayToKeyLookup";
 export * from "./entries";
 export * from "./get";
 export * from "./keysOf";
-
-export * from "./mapValues";
 // export * from "./mapTo";
+export * from "./mapValues";
 export * from "./omit";
 export * from "./retain";
-export * from "./withKeys";
-export * from "./withoutKeys";
 export * from "./sharedKeys";
 export * from "./strArrayToDict";
+export * from "./withKeys";
+export * from "./withoutKeys";
+export * from "./withValue";
+export * from "./withoutValue";
 
 // #endregion auto-indexed files
 
