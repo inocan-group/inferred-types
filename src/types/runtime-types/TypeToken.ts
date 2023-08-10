@@ -1,4 +1,29 @@
-import { CSV } from "src/types";
+import { 
+  Surround, 
+  Time_Simple, 
+  TupleToUnion , 
+  YMD_Simple, 
+  Date,
+  Time,
+  Date
+} from "src/types";
+import { 
+  TYPE_TOKEN_IDENTITIES, 
+  TYPE_TOKEN_PARAM_STR, 
+  TYPE_TOKEN_PARAM_NUMERIC, 
+  TYPE_TOKEN_PARAM_CSV, 
+  TYPE_TOKEN_PARAM_DATETIME,
+  TYPE_TOKEN_PARAM_DATE,
+  TYPE_TOKEN_PARAM_TIME,
+} from "src/constants";
+
+/**
+ * **GenericTypeToken**
+ * 
+ * All `TypeToken`'s are represented _generically_ as a string surrounded by
+ * "<<" and ">>" characters.
+ */
+export type GenericTypeToken = `<<${string}>>`;
 
 /**
  * TypeTokens
@@ -9,34 +34,12 @@ import { CSV } from "src/types";
  * 
  * All type tokens follow the generic pattern imposed by `GenericTypeToken`.
  */
-export type TypeToken = 
-  | "<<string>>" 
-  | "<<number>>" 
-  | "<<numeric-string>>" 
-  | "<<null>>"
-  | "<<undefined>>"
-  | "<<boolean>>" 
-  | "<<boolean-string>>" 
-  | "<<true>>" 
-  | "<<false>>" 
-  | "<<space>>"
-  | "<<whitespace>>"
-  | `<<string-literal:${string}>>`
-  | `<<numeric-literal:${number}>>`
-  | `<<object-literal:${string}>>`
-  | `<<tuple:[${string}]>>`
-  | `<<union:[${CSV}]>>`
-  | `<<explicitType:${string}>>`
-  | `<<startsWith:${string}>>`
-  | `<<endsWith:${string}>>`
-  | `<<ensureLeading:${string}>>`
-  | `<<ensureTrailing:${string}>>`
-  | `<<stripLeading:${string}>>`
-  | `<<stripTrailing:${string}>>`
-  | `<<camelCase:${string}>>`
-  | `<<pascalCase:${string}>>`
-  | `<<snakeCase:${string}>>`
-  | `<<pascalCase:${string}>>`
-  | `<<pascalCase:${string}>>`;
-
-export type GenericTypeToken = `<<${string}>>`;
+export type TypeToken = TupleToUnion<[
+  ...Surround<typeof TYPE_TOKEN_IDENTITIES, "<<", ">>">,
+  ...Surround<typeof TYPE_TOKEN_PARAM_STR, "<<", `:${string}>>`>,
+  ...Surround<typeof TYPE_TOKEN_PARAM_NUMERIC, "<<", `:${number}>>`>,
+  ...Surround<typeof TYPE_TOKEN_PARAM_CSV, "<<", `:${string}>>`>,
+  ...Surround<typeof TYPE_TOKEN_PARAM_DATETIME, "<<", `:${YMD_Simple} ${string}>>`>,
+  ...Surround<typeof TYPE_TOKEN_PARAM_DATE, "<<", `:${Date}>>`>,
+  ...Surround<typeof TYPE_TOKEN_PARAM_TIME, "<<", `:${Time}>>`>,
+]>;
