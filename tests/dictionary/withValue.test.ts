@@ -44,19 +44,19 @@ describe("WithValue<TObj,TVal> type util", () => {
 describe("withValue() runtime utility", () => {
 
   it("withValue() can separate string values", () => {
-    const str_partial = withValue(t => t.string());
-    const str = str_partial(obj);
+    const partial = withValue(t => t.string());
+    const completed = partial(obj);
     
     // run-time
-    expect(str.id).toBe("foobar");
-    expect(str.message).toBe("hi there");
-    expect(Object.keys(str)).not.toContain("foofoo");
-    expect(Object.keys(str)).not.toContain("bar");
-    expect(Object.keys(str)).not.toContain("numericArr");
+    expect(completed.id).toBe("foobar");
+    expect(completed.message).toBe("hi there");
+    expect(Object.keys(completed)).not.toContain("foofoo");
+    expect(Object.keys(completed)).not.toContain("bar");
+    expect(Object.keys(completed)).not.toContain("numericArr");
 
     // types
     type cases = [
-      Expect<Equal<typeof str, { id: "foobar"; message: string }>>
+      Expect<Equal<typeof completed, { id: "foobar"; message: string }>>
     ];
 
     const c: cases = [true];
@@ -64,20 +64,20 @@ describe("withValue() runtime utility", () => {
   });
 
   it("withValue() can separate numeric values", () => {
-    const num_partial = withValue(t => t.number());
-    const num = num_partial(obj);
+    const partial = withValue(t => t.number());
+    const completed = partial(obj);
     
     // run-time
-    expect(num.foo).toBe(1);
-    expect(num.foo2).toBe(2);
-    expect(num.foo3).toBe(3);
-    expect(Object.keys(num)).not.toContain("foofoo");
-    expect(Object.keys(num)).not.toContain("bar");
-    expect(Object.keys(num)).not.toContain("numericArr");
+    expect(completed.foo).toBe(1);
+    expect(completed.foo2).toBe(2);
+    expect(completed.foo3).toBe(3);
+    expect(Object.keys(completed)).not.toContain("foofoo");
+    expect(Object.keys(completed)).not.toContain("bar");
+    expect(Object.keys(completed)).not.toContain("numericArr");
 
     // types
     type cases = [
-      Expect<Equal<typeof num, { foo: number; foo2: 2; foo3: 3 }>>
+      Expect<Equal<typeof completed, { foo: number; foo2: 2; foo3: 3 }>>
     ];
 
     const c: cases = [true];

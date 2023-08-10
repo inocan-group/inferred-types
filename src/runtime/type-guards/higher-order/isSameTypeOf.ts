@@ -3,7 +3,10 @@ import { ConvertTypeOf, GetTypeOf } from "src/types";
 /**
  * **isSameTypeOf**(base, compare)
  * 
- * A type guard which validates that `base` and `compare` of the same type defined by the runtime `typeof` operator 
+ * A type guard which validates that `base` and `compare` are the same "type" 
+ * defined by the runtime `typeof` operator.
+ * 
+ * **Related:** `IsSameType`
  */
 export const isSameTypeOf = //
 <TBase>(base: TBase) => <TCompare>(compare: TCompare): compare is TCompare & ConvertTypeOf<GetTypeOf<TBase>>  => {

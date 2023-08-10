@@ -23,6 +23,7 @@ export * from "./isFnWithParams";
 export * from "./isFunction";
 export * from "./isNumber";
 export * from "./isScalar";
+export * from "./isTypeToken";
 export * from "./isErrorCondition";
 export * from "./runtime-type-guards";
 export * from "./isSymbol";

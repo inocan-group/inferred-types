@@ -27,6 +27,8 @@ export * from "./toKebabCase";
 export * from "./ifLowercase";
 export * from "./toSnakeCase";
 export * from "./pluralize";
+export * from "./surround";
+export * from "./trim";
 export * from "./toPascalCase";
 export * from "./toUppercase";
 export * from "./toNumericArray";
