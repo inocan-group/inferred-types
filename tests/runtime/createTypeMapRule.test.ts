@@ -1,5 +1,5 @@
 
-import { createTypeMapRule , stripLeading, type } from "src/runtime";
+import { createTypeMapRule , stripLeading, kind } from "src/runtime";
 import { describe, it } from "vitest";
 import { Concat, Digit, MapType, TokenizeStringLiteral } from "src/types";
 import { Equal, Expect } from "@type-challenges/utils";
@@ -14,7 +14,7 @@ describe.skip("String Literal testing", () => {
   const opNumber = createTypeMapRule(["Equals", "<number>"], ["AsNumericString"]);
   const opBoolean = createTypeMapRule(["Equals", "<boolean>"], ["AsBooleanString"]);
   const opDigit = createTypeMapRule(["Equals", "<digit>"], ["As", "5" as Digit]);
-  const numbers = createTypeMapRule(["Extends", type.number()], ["ToString"]);
+  const numbers = createTypeMapRule(["Extends", kind.number()], ["ToString"]);
 
   type T1 = MapType<
     readonly ["<number>", number, "<string>", 42, "<boolean>"], 

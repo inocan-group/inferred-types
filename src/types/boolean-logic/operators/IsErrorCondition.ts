@@ -1,14 +1,18 @@
-import type { AnyObject } from "src/types";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import type {  ErrorCondition, IfNull } from "src/types";
 
 /**
- * **IsErrorCondition**`<T>`
+ * **IsErrorCondition**`<TEval,[TKind]>`
  * 
- * Boolean type utility which checks whether `T` is an `ErrorCondition` type.
+ * Type utility which checks whether `TEval` is an `ErrorCondition` type.
+ * 
+ * - If you want to isolate to only a particular _kind_ of error you may
+ * also use the optional `TKind` generic.
  */
-export type IsErrorCondition<T> = T extends AnyObject
-  ? "_type" extends keyof T
-    ? T["_type"] extends "ErrorCondition"
-      ? true
-      : false
-    : false
+export type IsErrorCondition<TEval, TKind = null> = TEval extends ErrorCondition<any>
+  ? IfNull<
+      TKind, 
+      true,
+      TKind extends TEval["kind"] ? true : false
+    >
   : false;

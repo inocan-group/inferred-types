@@ -14,12 +14,21 @@ const t = <T extends Narrowable | Tuple>(token: TypeToken) => {
 };
 
 /**
- * **type** 
+ * **kind** 
  * 
- * An API surface for creating a _type_ at runtime while preserving that type
- * as a `TypeToken` as it's runtime value.
+ * An API surface for creating a `TypeToken` for the runtime and the represented _type_
+ * to the type system.
+ * 
+ * ### Example
+ * ```ts
+ * const val: string = kind.string(); // type system sees a string
+ * if (isTypeToken(val)) {
+ *    // this type guard will PASS and transform the type
+ *    // of `val` to it's actual runtime value of `<<string>>`
+ * }
+ * ```
  */
-export const type =  {
+export const kind =  {
   string: () => t<string>("<<string>>"),
   numericString: () => t<`${number}`>("<<numericString>>"),
   booleanString: () => t<`${boolean}`>("<<booleanString>>"),
@@ -37,7 +46,6 @@ export const type =  {
   union: <T extends readonly Narrowable[]>(...union: T) => `union:${union.join(",")}` as TupleToUnion<T>,
   explicitType: <T extends Narrowable>(typeName: `${UpperAlphaChar}${string}`) => t<T>(`<<explicitType:${typeName}>>`),
   timeInMinutes: <T extends TimeInMinutes>(time: T) => t<Time>(`<<timeInMinutes:${time}>>`),
-
 } as const;
 
 /**
@@ -48,5 +56,5 @@ export const type =  {
  * the runtime value will be set to an appropriate `TypeToken` as
  * well.
  */
-export type RunTypeApi = typeof type;
+export type KindApi = typeof kind;
 

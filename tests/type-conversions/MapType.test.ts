@@ -1,9 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { createTypeMapRule } from "src/runtime/runtime/createTypeMatcher";
-import { kind } from "src/runtime";
-import {  MapType } from "src/types/type-conversion";
+import { createTypeMapRule , kind } from "src/runtime";
+import {  MapType } from "src/types";
 
 
 describe("MapType<T,M>", () => {

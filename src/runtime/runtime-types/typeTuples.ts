@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ALPHA_CHARS } from "src/constants";
 import {  AlphaChar, Digit,  } from "src/types";
-import {  createTypeTuple, type } from "src/runtime";
+import {  createTypeTuple, kind } from "src/runtime";
 
 const digit = createTypeTuple(
-  type.explicitType<Digit>("Digit"),
+  kind.explicitType<Digit>("Digit"),
   <T>(val: T): val is Digit & T => {
     return typeof val === "string" && ["0","1","2","3","4","5","6","7","8","9"].includes(val);
   },
@@ -12,7 +12,7 @@ const digit = createTypeTuple(
 );
 
 const alpha = createTypeTuple(
-  type.explicitType<AlphaChar>("AlphaChar"),
+  kind.explicitType<AlphaChar>("AlphaChar"),
   <T>(val: T): val is T & AlphaChar => {
     return typeof val === "string" && ALPHA_CHARS.includes(val as AlphaChar);
   },

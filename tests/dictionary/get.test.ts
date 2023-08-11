@@ -159,7 +159,7 @@ describe("Get<T, K> type utility", () => {
     const cases: cases = [true, true, true];
   });
   
-  it("runtime: happy path", () => {
+  it("runtime happy path", () => {
     const deep = ref({deeperStill: [4,5,6]} as const);
     const obj = {
       foo: 1,
