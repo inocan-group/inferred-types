@@ -29,6 +29,8 @@ export * from "./PrependAll";
 export * from "./StripLeading";
 export * from "./Suggest";
 export * from "./Repeat";
+export * from "./RetainAfter";
+export * from "./StripAfter";
 export * from "./StripTrailing";
 export * from "./Split";
 export * from "./StrLen";

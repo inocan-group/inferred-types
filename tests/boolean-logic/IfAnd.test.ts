@@ -1,6 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { IfAnd } from "src/types/boolean-logic";
 import { describe, it } from "vitest";
+
+import { IfAnd } from "src/types";
+
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
