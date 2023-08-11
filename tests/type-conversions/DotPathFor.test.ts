@@ -108,13 +108,17 @@ describe("Name", () => {
   });
 
   
-  it("Wide object type provided as container", () => {
-    type T = DotPathFor<object>;
-    
+  it("Wide object type and scalars resolve to only root path", () => {
+    type TObj = DotPathFor<object>;
+    type TNum = DotPathFor<42>;
+    type TStr = DotPathFor<"foobar">;
+
     type cases = [
-      Expect<Equal<T, string>>,
+      Expect<Equal<TObj, "">>,
+      Expect<Equal<TNum, "">>,
+      Expect<Equal<TStr, "">>,
     ];
-    const cases: cases = [ true ];
+    const cases: cases = [ true, true, true  ];
   });
   
 });

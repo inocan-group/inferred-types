@@ -1,14 +1,12 @@
 import {  
   Narrowable, 
   TimeInMinutes, 
-  TimeInSeconds,
   TupleToUnion, 
   TypeToken, 
   UpperAlphaChar ,
-  MilitaryTime,
   Tuple,
   Time,
-  CivilianTime
+  AnyObject,
 } from "src/types";
 
 const t = <T extends Narrowable | Tuple>(token: TypeToken) => {
@@ -23,10 +21,12 @@ const t = <T extends Narrowable | Tuple>(token: TypeToken) => {
  */
 export const type =  {
   string: () => t<string>("<<string>>"),
-  numericString: () => t<`${number}`>("<<numeric-string>>"),
-  booleanString: () => t<`${boolean}`>("<<boolean-string>>"),
+  numericString: () => t<`${number}`>("<<numericString>>"),
+  booleanString: () => t<`${boolean}`>("<<booleanString>>"),
   number: () => t<number>("<<number>>"),
   boolean: () => t<boolean>("<<boolean>>"),
+  object: () => t<AnyObject>("<<object>>"),
+  objectLiteral: <T extends AnyObject>(obj: T) => t<T>(`<<objectLiteral:${JSON.stringify(obj)}>>`),
   true: () => t<true>("<<true>>"),
   false: () => t<false>("<<false>>"),
   undefined: () => t<undefined>("<<undefined>>"),
@@ -36,10 +36,8 @@ export const type =  {
   literal: <T extends Narrowable[]>(...literals: T) => literals,
   union: <T extends readonly Narrowable[]>(...union: T) => `union:${union.join(",")}` as TupleToUnion<T>,
   explicitType: <T extends Narrowable>(typeName: `${UpperAlphaChar}${string}`) => t<T>(`<<explicitType:${typeName}>>`),
-  timeInMinutes: <T extends TimeInMinutes>(time: T) => t<Time>(`<<time-in-minutes:${time}>>`),
-  timeInSeconds: <T extends TimeInSeconds>(time: T) => t<Time>(`<<time-in-seconds:${time}>>`),
-  militaryTime: <T extends MilitaryTime>(time: T) => t<Time>(`<<military-time:${time}>>`),
-  civilianTime: <T extends CivilianTime>(time: T) => t<Time>(`<<civilian-time:${time}>>`),
+  timeInMinutes: <T extends TimeInMinutes>(time: T) => t<Time>(`<<timeInMinutes:${time}>>`),
+
 } as const;
 
 /**

@@ -1,11 +1,9 @@
 import type { 
   Narrowable,  
-  DotPath, 
   DotPathFor, 
   Get, 
   Suggest, 
   ReportError,
-  Container,
   AnyObject,
   Tuple,
 } from "src/types";
@@ -23,12 +21,13 @@ import {
   isSpecificConstant, 
   createErrorCondition, 
   split,
+  isContainer,
 } from "src/runtime";
 
 
 /** updates based on whether segment is a Ref or not */
 function updatedDotPath<
-  TValue extends Narrowable, 
+  TValue, 
   TDotPath extends string,
   TSegment extends string
 >(value: TValue, dotpath: TDotPath, segment: TSegment) {
@@ -41,14 +40,14 @@ function updatedDotPath<
  * **getValue**(value, dotpath, defaultValue, handler, fullDotPath)
  */
 function getValue<
-  TValue extends Container, 
+  TValue, 
   TDotPath extends string,
   TDefVal extends Narrowable,
   TInvalid extends Narrowable,
   TFullDotPath extends string,
 >(
   value: TValue, 
-  dotPath: DotPath<TDotPath>,
+  dotPath: TDotPath,
   defaultValue: TDefVal,
   handleInvalid: TInvalid,
   fullDotPath: TFullDotPath
@@ -58,28 +57,32 @@ function getValue<
   const pathSegments: string[] = isTruthy(dotPath)
     ? split(dotPath, ".") || []
     : [];
+
   /** current index property */
   const idx = pathSegments[0];
 
-  /** dotpath will need to recurse further tot
-   * q reach destination */
+  /** 
+   * dotpath _will_ need to recurse further to
+   * reach destination
+   **/
   const hasMoreSegments = pathSegments.length > 1;
 
   /** whether or not the value is indexable or not */
-  const valueIsIndexable = hasIndexOf(value, idx);
+  const valueIsIndexable = isContainer(value) && hasIndexOf(value, idx);
 
   /** has handler for invalid dotpath */
   const hasHandler = !isSpecificConstant("not-defined")(handleInvalid);
 
   const errors = createErrorCondition(`get(value, "${updatedDotPath(value,fullDotPath, idx)}", ${hasDefaultValue(defaultValue) ? `${String(defaultValue)}` : "[defValue]"})`);
+
   const invalidDotPath = errors("invalid-dot-path")(`The segment "${idx}" in the dotpath "${updatedDotPath(value,fullDotPath, idx)}" was not indexable and no default value existed.`);
 
   const current = (
     hasMoreSegments
-    ? hasIndexOf(value, idx)
+    ? isContainer(value) && hasIndexOf(value, idx)
       ? getValue(
-          value[idx as any],
-          pathSegments.slice(1).join("."),
+          value[idx],
+          pathSegments.join("."),
           defaultValue,
           handleInvalid,
           updatedDotPath(value,fullDotPath, idx)
@@ -88,7 +91,9 @@ function getValue<
         ? handleInvalid 
         : invalidDotPath
     : valueIsIndexable
-      ? hasDefaultValue(hasDefaultValue) ? value[idx] || defaultValue : value[idx] 
+      ? hasDefaultValue(hasDefaultValue) 
+        ? value[idx] || defaultValue 
+        : value[idx] 
       : hasHandler ? handleInvalid : invalidDotPath
   ) as ReportError<Get<TValue, TDotPath>>;
 
@@ -151,7 +156,7 @@ export function get<
       ? value
       : getValue(
           value as AnyObject | Tuple,
-          dotPath as TDotPath & string,
+          dotPath,
           options?.defaultValue || NO_DEFAULT_VALUE, 
           options?.handleInvalidDotpath || NOT_DEFINED,
           String(dotPath)

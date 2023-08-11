@@ -93,7 +93,6 @@ describe("withValue() runtime utility", () => {
     expect(bool.success).toBe(true);
     expect(bool.fail).toBe(false);
     expect(Object.keys(bool)).not.toContain("foofoo");
-    expect(Object.keys(bool)).not.toContain("bar");
     expect(Object.keys(bool)).not.toContain("numericArr");
 
     // types
@@ -116,47 +115,39 @@ describe("withValue() runtime utility", () => {
     })();
 
     const str = withValue((t) => t.string())(obj);
+    expect(str).toEqual({ message: "hi there"});
     type Str = typeof str;
-    const num = withValue((t) => t.number)(obj);
+    const num = withValue((t) => t.number())(obj);
+    expect(num).toEqual({ foo: 1, foofoo: 2});
     type Num = typeof num;
-    const bool = withValue((t) => t.boolean)(obj);
+    const bool = withValue((t) => t.boolean())(obj);
     type Bool = typeof bool;
-    // const litNum = withValue((t) => t.literal(1))(obj);
+    expect(bool).toEqual({ bar: true, barbar: false });
+    // const litNum = withValue((t) => t.literal(1 as const))(obj);
     // type LitNum = typeof litNum;
-    const truth = withValue((t) => t.true)(obj);
+
+    const truth = withValue((t) => t.true())(obj);
     type Truth = typeof truth;
 
     type cases = [
-      Expect<Equal<Str, { readonly message: "hi there" }>>,
-      Expect<Equal<Num, { readonly foo: 1; readonly foofoo: 2 }>>,
-      Expect<Equal<Bool, { readonly bar: true; readonly barbar: false }>>,
+      Expect<Equal<Str, {  message: "hi there" }>>,
+      Expect<Equal<Num, {  foo: 1;  foofoo: 2 }>>,
+      Expect<Equal<Bool, {  bar: true;  barbar: false }>>,
       // Expect<Equal<LitNum, { readonly foo: 1 }>>,
-      Expect<Equal<Truth, { readonly bar: true }>>
+      Expect<Equal<Truth, { bar: true }>>
     ];
     const cases: cases = [true, true, true, true];
 
-    expect(str.message).toBe("hi there");
-    expect((str as any).foo).toBe(undefined);
-
-    expect(num.foo).toBe(1);
-    expect(num.foofoo).toBe(2);
-    expect((num as any).message).toBe(undefined);
-
-    expect(litNum.foo).toBe(1);
-    expect((litNum as any).foofoo).toBe(undefined);
   });
 
   it("withValue() passes runtime and type tests with object type", () => {
-    const fnWithProps = createFnWithProps(() => "hi", { foo: "bar" });
     const obj = {
       num: 1,
       obj: { left: "left", right: "right" },
       arr: [1, 2, 3],
-      fnWithProps,
     } as const;
 
-    const o = withValue((t) => t.object)(obj);
-
+    const o = withValue((t) => t.object())(obj);
     type O = typeof o;
     type K = keyof O;
 
@@ -165,7 +156,6 @@ describe("withValue() runtime utility", () => {
     expect(o.obj.left).toBe("left");
     expect(o).not.toHaveProperty("num");
     expect(o).not.toHaveProperty("arr");
-    expect(o).not.toHaveProperty("fnWithProps");
 
     type cases = [
       //

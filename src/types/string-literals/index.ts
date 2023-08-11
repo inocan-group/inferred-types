@@ -10,6 +10,7 @@ export * from "./Chars";
 export * from "./CaseInsensitive";
 export * from "./Date";
 export * from "./DateTime";
+export * from "./DropChars";
 export * from "./HasUppercase";
 export * from "./EnsureLeading";
 export * from "./EnsureLeadingEvery";
@@ -37,6 +38,7 @@ export * from "./Truncate";
 
 export * from "./character-sets/index";
 export * from "./casing/index";
+export * from "./options/index";
 
 
 // #endregion auto-indexed files

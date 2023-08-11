@@ -5,24 +5,24 @@
 export const TYPE_TOKEN_IDENTITIES = [
   "string",
   "number",
-  "numeric-string",
-  "boolean-string",
+  "numericString",
+  "booleanString",
   "null",
   "undefined",
   "boolean",
-  "boolean-image",
   "true",
   "false",
   "space",
-  "whitespace"
+  "whitespace",
+  "object"
 ] as const;
 
 /**
  * `TypeToken` names which need a _string_ parameter to fully qualify
  */
 export const TYPE_TOKEN_PARAM_STR = [
-  "string-literal",
-  "object-literal",
+  "stringLiteral",
+  "objectLiteral",
   "explicitClass",
   "startsWith",
   "endsWith",
@@ -41,7 +41,7 @@ export const TYPE_TOKEN_PARAM_STR = [
  * `TypeToken` names which need a _numeric string_ parameter to fully qualify
  */
 export const TYPE_TOKEN_PARAM_NUMERIC = [
-  "numeric-literal"
+  "numericLiteral"
 ] as const;
 
 /**
@@ -63,18 +63,18 @@ export const TYPE_TOKEN_PARAM_DATETIME = [
  * `TypeToken` names which need a _datetime_ parameter to fully qualify
  */
 export const TYPE_TOKEN_PARAM_DATE = [
-  "date",
-  "full-date",
-  "YMD",
-  "MonthThenDate",
-  "DateThenMonth"
+  "ymd",
+  "monthThenDate",
+  "dateThenMonth"
 ] as const;
 
 export const TYPE_TOKEN_PARAM_TIME = [
-  "time-in-minutes",
-  "time-in-seconds",
-  "military-time",
-  "civilian-time"
+  "timeInMinutes",
+  "timeInSeconds",
+  "militaryTimeInMinutes",
+  "militaryTimeInSeconds",
+  "militaryTimeInMilliseconds",
+  "civilianTimeInMinutes"
 ] as const;
 
 export const TYPE_TOKEN_ALL = [

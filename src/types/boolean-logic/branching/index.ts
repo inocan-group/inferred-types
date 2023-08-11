@@ -53,6 +53,7 @@ export * from "./IfStringLiteral";
 export * from "./IfNumericLiteral";
 export * from "./IfBooleanLiteral";
 export * from "./IfLiteral";
+export * from "./IfNotLiteral";
 export * from "./IfLength";
 export * from "./IfNotEqual";
 export * from "./IfUnion";

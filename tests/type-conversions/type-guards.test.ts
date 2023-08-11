@@ -308,7 +308,7 @@ describe("isTypeToken", () => {
     expect(isTypeToken("<<boolean>>")).toBe(true);
     expect(isTypeToken(type.boolean())).toBe(true);
 
-    expect(isTypeToken("<<string-literal:foobar>>")).toBe(true);
+    expect(isTypeToken("<<stringLiteral:foobar>>")).toBe(true);
   });
 
 

@@ -1,13 +1,42 @@
 import type { 
   Narrowable, 
-  ConverterShape, 
-  AvailableConverters 
+  ConverterDefn, 
+  Tuple,
+  Nothing,
+  AnyObject,
+  AnyFunction
 } from "src/types";
 import { 
-  boxDictionaryValues, 
-  wide,
-  ifSameType
+  isTupleType,
+  isObject,
+  isNothing
 } from "src/runtime";
+import { Never } from "src/constants";
+
+type CallIfDefined<
+  Handler
+> = Handler extends AnyFunction
+  ? ReturnType<Handler>
+  : never;
+
+type ConversionResult<
+  TConvert extends Partial<
+    ConverterDefn<any, any, any, any, any, any>
+  >,
+  TInput extends Narrowable | Tuple
+> = TInput extends string
+  ? CallIfDefined<TConvert["string"]>
+  : TInput extends number
+    ? CallIfDefined<TConvert["number"]>
+    : TInput extends boolean
+      ? CallIfDefined<TConvert["boolean"]>
+      : TInput extends AnyObject
+        ? CallIfDefined<TConvert["object"]>
+        : TInput extends Tuple
+          ? CallIfDefined<TConvert["tuple"]>
+          : TInput extends Nothing
+            ? CallIfDefined<TConvert["nothing"]>
+            : never;
 
 /**
  * **createConverter**(mapper)
@@ -29,39 +58,50 @@ import {
  * ```
  */
 export function createConverter<
-  S extends Narrowable = undefined,
-  N extends Narrowable = undefined,
-  B extends Narrowable = undefined,
-  O extends Narrowable = undefined
->(mapper: Partial<ConverterShape<S, N, B, O>>) {
-  type Mapper = Required<typeof mapper>;
-  const converter = boxDictionaryValues(mapper as Mapper);
+  TStr extends Narrowable = never,
+  TNum extends Narrowable = never,
+  TBool extends Narrowable = never,
+  TObj extends Narrowable = never,
+  TTuple extends Narrowable = never,
+  TNothing extends Narrowable = never
+>(mapper: Partial<ConverterDefn<TStr,TNum,TBool,TObj,TTuple,TNothing>>) {
+  
 
-  return <T extends AvailableConverters<S, N, B, O> & Narrowable>(input: T) => {
-    const v = ifSameType(
-      input,
-      wide.string,
-      (iStr) => converter.string.unbox(iStr),
-      (i) =>
-        ifSameType(
-          i,
-          wide.number,
-          (iNum) => converter.number.unbox(iNum),
-          (i) =>
-            ifSameType(
-              i,
-              wide.boolean,
-              (iBool) => converter.boolean.unbox(iBool),
-              (i) =>
-                ifSameType(
-                  i,
-                  {} as Record<string, unknown>,
-                  (iObj) => converter.object.unbox(iObj),
-                  (i) => i
-                )
-            )
-        )
-    );
-    return v;
+  return <TInput extends Narrowable | Tuple>(input: TInput): ConversionResult<typeof mapper, TInput> => {
+    if (isTupleType(input)) {
+      return (mapper.tuple
+        ? mapper.tuple(input as TInput & Tuple)
+        : Never
+      ) as ConversionResult<typeof mapper, TInput>;
+    } else if(isNothing(input)) {
+      return (mapper.nothing
+        ? mapper.nothing(input as TInput & Nothing)
+        : Never
+      ) as ConversionResult<typeof mapper, TInput>;
+    } else if(isObject(input)) {
+      return (mapper.object
+        ? mapper.object(input as TInput & AnyObject)
+        : Never
+      ) as ConversionResult<typeof mapper, TInput>;
+    } else {
+      switch(typeof input) {
+        case "string":
+          return (mapper.string
+            ? mapper.string(input)
+            : Never) as ConversionResult<typeof mapper, TInput>;
+        case "number":
+        case "bigint":
+          return (mapper.number
+            ? mapper.number(input)
+            : Never) as ConversionResult<typeof mapper, TInput>;
+        case "boolean":
+          return (mapper.boolean
+            ? mapper.boolean(input)
+            : Never) as ConversionResult<typeof mapper, TInput>;
+        default:
+          throw new Error(`Unhandled type: ${typeof input}`);
+      }
+    }
   };
+
 }

@@ -1,4 +1,3 @@
-import { Narrowable } from "src/types";
 
 
 /**
@@ -6,6 +5,6 @@ import { Narrowable } from "src/types";
  * 
  * Type guard which validates that type is a boolean value.
  */
-export function isBoolean<T extends Narrowable>(value: T): value is T & boolean {
+export function isBoolean<T>(value: T): value is T & boolean {
   return typeof value === "boolean";
 }

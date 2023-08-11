@@ -8,7 +8,7 @@ import {
 import { getEach,  split, stripTrailing } from "src/runtime";
 import {  Mutable, Pluralize, TupleToUnion } from "src/types";
 
-const isException = <T extends string>(word: T) => getEach(PLURAL_EXCEPTIONS,0).includes(word as any);
+const isException = <T extends string>(word: T) => getEach(PLURAL_EXCEPTIONS,"0").includes(word as any);
 
 const exceptionLookup = <T extends string>(word: T) => {
   const found = PLURAL_EXCEPTIONS.find(i => i[0] === word);

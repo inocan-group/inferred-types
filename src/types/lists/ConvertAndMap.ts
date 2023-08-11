@@ -1,21 +1,29 @@
-import { TupleToUnion, UnionToTuple , Narrowable , Keys, WithoutValue, First, AfterFirst } from "src/types";
+import { TupleToUnion, UnionToTuple , Narrowable , Keys, WithoutValue, First, AfterFirst, AnyObject, Tuple, Nothing } from "src/types";
 
 
 // [Mapped Tuple Types](https://github.com/Microsoft/TypeScript/issues/25947)
 
 /**
- * The basic shape of a `Converter`
+ * **ConverterDefn**`<TStr,TNum,TBool,TObj,TTuple,TNothing>`
+ * 
+ * A conversion definition which has wide types for keys and
+ * callback functions to call when a particular type is provided
+ * as input.
  */
-export type ConverterShape<
-  S extends Narrowable,
-  N extends Narrowable,
-  B extends Narrowable,
-  O extends Narrowable
+export type ConverterDefn<
+  TStr,
+  TNum,
+  TBool,
+  TObj,
+  TTuple,
+  TNothing
 > = {
-  string: <T extends string>(v: T) => S;
-  number: <T extends number>(v: T) => N;
-  boolean: <T extends boolean>(v: T) => B;
-  object: <T extends Record<string, unknown>>(v: T) => O;
+  string: <T extends string>(v: T) => TStr;
+  number: <T extends number>(v: T) => TNum;
+  boolean: <T extends boolean>(v: T) => TBool;
+  object: <T extends AnyObject>(v: T) => TObj;
+  tuple: <T extends Tuple>(v: T) => TTuple;
+  nothing: <T extends Nothing>(v: T) => TNothing;
 };
 
 type ConverterKeys<S, N, B, O> = UnionToTuple<
@@ -62,24 +70,7 @@ type ConverterInputUnion<
 export type AvailableConverters<S, N, B, O> = ConverterKeys<S, N, B, O> extends readonly string[]
   ? TupleToUnion<ConverterInputUnion<[], ConverterKeys<S, N, B, O>>>
   : never;
-
-/**
- * **Converter**
- *
- * A type converter coming from the `createConverter()` utility. It receives
- * one or more broad types (e.g., number, string, etc.) -- what it can take
- * is based on what is configured -- and then converts based on the value
- * passed in.
- *
- * The primary goal is to preserve as many _narrow_ types as possible in this process.
- */
-export type Converter<
-  S extends Narrowable,
-  N extends Narrowable,
-  B extends Narrowable,
-  O extends Narrowable
-> = <T extends AvailableConverters<S, N, B, O>>(input: T) => ConverterShape<S, N, B, O>;
-
+  
 export type Conversion<TInput extends Narrowable, TOutput extends Narrowable> = <T extends TInput>(
   input: T
 ) => TOutput;
