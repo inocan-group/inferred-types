@@ -3,7 +3,8 @@ import {
   TupleToUnion , 
   Date,
   Time,
-  DateTime
+  DateTime,
+  IfNull
 } from "src/types";
 import { 
   TYPE_TOKEN_IDENTITIES, 
@@ -40,7 +41,7 @@ export type GenericTypeToken = `<<${string}>>`;
  * 
  * All type tokens follow the generic pattern imposed by `GenericTypeToken`.
  */
-export type TypeToken = TupleToUnion<[
+export type TypeToken<T = null> = TupleToUnion<[
   ...Surround<typeof TYPE_TOKEN_IDENTITIES, "<<", ">>">,
   ...Surround<typeof TYPE_TOKEN_PARAM_STR, "<<", `:${string}>>`>,
   ...Surround<typeof TYPE_TOKEN_PARAM_NUMERIC, "<<", `:${number}>>`>,
@@ -48,4 +49,4 @@ export type TypeToken = TupleToUnion<[
   ...Surround<typeof TYPE_TOKEN_PARAM_DATETIME, "<<", `:${DateTime}>>`>,
   ...Surround<typeof TYPE_TOKEN_PARAM_DATE, "<<", `:${Date}>>`>,
   ...Surround<typeof TYPE_TOKEN_PARAM_TIME, "<<", `:${Time}>>`>,
-]>;
+]> & IfNull<T,unknown, unknown>;

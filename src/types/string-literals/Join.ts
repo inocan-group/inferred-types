@@ -1,4 +1,4 @@
-import {  ToString , IfEqual , RemoveEquals, RemoveNever } from "src/types";
+import {  ToString , IfEqual , RemoveEquals, RemoveNever, Tuple } from "src/types";
 
 type JoinAcc<
   TArr extends readonly unknown[],
@@ -30,10 +30,10 @@ type JoinAcc<
  * **Related:** `Concat<TArr>`
  */
 export type Join<
-  TArr extends readonly unknown[],
+  TArr extends Tuple,
   TSeparator extends string = ""
 > = JoinAcc<
-  RemoveNever<RemoveEquals<TArr, "">>,
+  RemoveNever<RemoveEquals<[...TArr], "">>,
   TSeparator
 >;
 

@@ -8,12 +8,12 @@ type ElementLiteral<T> = T extends string
   ? IfLiteral<T, T, `${boolean}`>
   : never;
 
-type ConcatAcc<
+type Process<
   T extends Tuple,
   Result extends string = ""
 > = [] extends T
   ? Result
-  : ConcatAcc<
+  : Process<
       AfterFirst<T>,
       `${Result}${ElementLiteral<First<T>>}`
     >;
@@ -35,4 +35,4 @@ type ConcatAcc<
  */
 export type Concat<
   T extends Tuple
-> = ConcatAcc<T>;
+> = Process<T>;
