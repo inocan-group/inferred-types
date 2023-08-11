@@ -1,7 +1,7 @@
 
-import { createTypeMapRule , stripLeading, typeTuples, type } from "src/runtime";
+import { createTypeMapRule , stripLeading, type } from "src/runtime";
 import { describe, it } from "vitest";
-import { Concat, MapType, TokenizeStringLiteral } from "src/types";
+import { Concat, Digit, MapType, TokenizeStringLiteral } from "src/types";
 import { Equal, Expect } from "@type-challenges/utils";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -13,7 +13,7 @@ describe.skip("String Literal testing", () => {
   const opString = createTypeMapRule(["Equals", "<string>"], ["AsString"]);
   const opNumber = createTypeMapRule(["Equals", "<number>"], ["AsNumericString"]);
   const opBoolean = createTypeMapRule(["Equals", "<boolean>"], ["AsBooleanString"]);
-  const opDigit = createTypeMapRule(["Equals", "<digit>"], ["As", typeTuples.digit]);
+  const opDigit = createTypeMapRule(["Equals", "<digit>"], ["As", "5" as Digit]);
   const numbers = createTypeMapRule(["Extends", type.number()], ["ToString"]);
 
   type T1 = MapType<

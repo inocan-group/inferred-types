@@ -1,9 +1,16 @@
-import { NumericChar, NonZeroNumericChar, TupleToUnion, FirstOfEach, FirstChar, LastChar } from "src/types";
+import { 
+  NumericChar, 
+  NonZeroNumericChar, 
+  TupleToUnion, 
+  TypeStrength 
+} from "src/types";
 import { MONTH_ABBR, MONTH_NAME}  from "src/constants";
 
-export type Year = `${"1" | "2"}${NumericChar}${NumericChar}${NumericChar}`;
-
-export type YearSimple = `${"1" | "2"}${number}`;
+export type Year<
+  T extends "strong" | "simple" = "strong"
+> = T extends "strong"
+? `${"1" | "2"}${NumericChar}${NumericChar}${NumericChar}`
+: `${"1" | "2"}${number}`;
 
 type ZeroThenDigit = `0${NumericChar}`;
 
@@ -40,21 +47,17 @@ export type DateSeparator = "-" | "/" | ".";
 
 
 /**
- * **YMD**`<S>
- * A date format for `YYYY-MM-DD`.
+ * **YMD**`<[TStrength],[TSep]>
+ * A date format for `YYYY-MM-DD` which is used as a component of the ISO8601 standard.
  * 
  * > Note: you may optionally change the DateSeparator to suit your needs
  */
-export type YMD<S extends DateSeparator = DateSeparator> = `${"1" | "2"}${number}${S}${MonthNumeric}${S}${MonthDay}`;
-
-/**
- * **YMD_Simple**`<S>
- * A date format for `YYYY-MM-DD` with a simpler type expression than `YMD`.
- * 
- * > Note: you may optionally change the DateSeparator to suit your needs
- */
-export type YMD_Simple<S extends DateSeparator = DateSeparator> = `${"1" | "2"}${number}${S}${number}${S}${number}`;
-
+export type YMD<
+  TStrength extends TypeStrength = "strong",
+  TSep extends DateSeparator = "-"
+> = TStrength extends "strong"
+? `${"1" | "2"}${number}${TSep}${MonthNumeric}${TSep}${MonthDay}`
+: `${"1" | "2"}${number}${TSep}${number}${TSep}${number}`;
 
 /**
  * **DateThenMonth**
@@ -70,7 +73,7 @@ export type DateThenMonth = `${MonthDay} ${MonthAbbr}`;
  * The day of the month followed by an abbreviated string representation
  * of the month and finishing with the year (e.g., `4 July 2021`)
  */
-export type DateThenMonthThenYear = `${MonthDay} ${MonthAbbr}${` ${YearSimple}`}`;
+export type DateThenMonthThenYear = `${MonthDay} ${MonthAbbr}${` ${Year<"simple">}`}`;
 
 
 export type MonthPostfix = "" | "st" | "rd" | "th";
@@ -81,7 +84,7 @@ export type MonthPostfix = "" | "st" | "rd" | "th";
  * The month's name -- either abbreviate or full -- followed by the 
  * day in the month (e.g., `July 28, 1970`, or `July 28th, 1970`)
  */
-export type MonthThenDateThenYear = `${MonthAbbr | MonthName} ${MonthDay}${MonthPostfix}${`, ${YearSimple}`}`;
+export type MonthThenDateThenYear = `${MonthAbbr | MonthName} ${MonthDay}${MonthPostfix}${`, ${Year<"simple">}`}`;
 
 /**
  * **MonthThenDate**
@@ -119,7 +122,7 @@ export type MonthAbbrThenDate = `${MonthAbbr} ${MonthDay}${MonthPostfix}`;
  * const date: MonthAbbrThenDateAndYear[] = ["Jun 6, 2020", "Jun 06, 2020", "Jun 6th, 2020"]
  * ```
  */
-export type MonthAbbrThenDateAndYear = `${MonthAbbr} ${MonthDay}${MonthPostfix}${`, ${YearSimple}`}`;
+export type MonthAbbrThenDateAndYear = `${MonthAbbr} ${MonthDay}${MonthPostfix}${`, ${Year<"simple">}`}`;
 
 /**
  * **FullDate**
@@ -134,7 +137,7 @@ export type MonthAbbrThenDateAndYear = `${MonthAbbr} ${MonthDay}${MonthPostfix}$
  * with just the `YMD_Simple` type. If you really need stronger typing use
  * the `FullDateStrong` type.
  */
-export type FullDate = YMD_Simple | DateThenMonthThenYear | MonthThenDateThenYear;
+export type FullDate = YMD<"simple"> | DateThenMonthThenYear | MonthThenDateThenYear;
 
 /**
  * **ShortDate**
@@ -160,4 +163,4 @@ export type ShortDate = DateThenMonth | MonthThenDate;
  * `MonthThenDateAndYear`, `MonthAbbrThenDate`, `MonthAbbrDateAndYear`
  * `DateThenMonth`, `DateThenMonthAndYear`
  */
-export type Date = YMD_Simple | `${MonthAbbr}${string}` | `${MonthDay}${string}`;
+export type Date = YMD<"simple"> | `${MonthAbbr}${string}` | `${MonthDay}${string}`;

@@ -1,8 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { indexOf , Never } from "src/runtime";
+import { indexOf, isErrorCondition } from "src/runtime";
 import type { DoesExtend, ErrorCondition, IndexOf } from "src/types";
+import { Never } from "src/constants";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -52,12 +53,12 @@ describe("IndexOf<T>", () => {
     const arr = indexOf([1,2,3] as const, 1);
     const obj = indexOf({foo: 1, bar: 2, baz: 3 } as const, "bar");
     const identity = indexOf("foo", null);
-    const never = indexOf("foo", 1);
+    const invalidIndex = indexOf("foo", 1);
 
     expect(arr).toBe(2);
     expect(obj).toBe(2);
     expect(identity).toBe("foo");
-    expect(never).toBe(Never);
+    expect(invalidIndex, `Use of an invalid index: ${JSON.stringify(invalidIndex)}`).toEqual({ _type: "Constant", kind: "never"});
   });
   
 

@@ -1,4 +1,12 @@
-import { IfLiteral, IsNegativeNumber , NumericChar , ToString , Abs, ToNumericArray, Digital, DigitalLiteral } from "src/types";
+import { 
+    IfNotLiteral, 
+    IsNegativeNumber, 
+    NumericChar, 
+    ToString, 
+    Abs, 
+    Digital, 
+    DigitalLiteral 
+} from "src/types";
 
 type HasMoreThanOneDigit<T extends `${number}`> = T extends `${NumericChar}${NumericChar}${string}`
   ? true
@@ -42,19 +50,15 @@ type _Digitize<
  * type S = Digitize<"-123">;
  * ```
  */
-export type Digitize<T extends `${number}` | number> = IfLiteral<
+export type Digitize<T extends `${number}` | number> = IfNotLiteral<
   T,
-  T extends number
+  never,
+  T extends `${number}`
     ? [ 
-      Sign<T>,
-      ToNumericArray<_Digitize<ToString<Abs<T>>>> 
-    ] & Digital
-    : T extends `${number}` 
-      ? [ 
-          Sign<T>, 
-          Readonly<_Digitize<ToString<Abs<T>>>> 
-        ] & DigitalLiteral
-      : never,
-  never
+      Sign<T>, 
+      Readonly<_Digitize<ToString<Abs<T>>>> 
+    ] & DigitalLiteral
+    : T extends number
+      ? [ Sign<T>, Readonly<_Digitize<ToString<Abs<T>>>>] & Digital
+      : never
 >;
-

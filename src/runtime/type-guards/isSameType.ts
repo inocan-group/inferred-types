@@ -1,4 +1,5 @@
 import { Narrowable } from "src/types";
+import { isBoolean, isNull, isNumber, isNumericString, isString, isTypeToken, isUndefined , extractTypeToken, toCamelCase, toPascalCase, toKebabCase, toSnakeCase, isSameTypeOf, endsWith, startsWith } from "src/runtime";
 
 
 /**
@@ -9,10 +10,61 @@ import { Narrowable } from "src/types";
  * with a type but it can also be a `TypeToken` representing a type.
  */
 export function isSameType<
-  TVal extends Narrowable, 
+  TVal, 
   TComparison extends Narrowable
->(value: TVal, comparison: TComparison) => {
+>(value: TVal, comparison: TComparison): value is TVal & TComparison {
   if (isTypeToken(comparison)) {
+    // compare value to type represented by a TypeToken
+    const [token, data] = extractTypeToken(comparison);
+
+    switch(token) {
+      case "string":
+        return isString(value) ? true : false;
+      case "number":
+        return isNumber(value) ? true : false;
+      case "boolean":
+        return isBoolean(value) ? true : false;
+      case "undefined":
+        return isUndefined(value) ? true : false;
+      case "null":
+        return isNull(value) ? true : false;
+      case "false":
+        return value === false ? true : false;
+      case "true":
+        return value === true ? true : false;
+      case "numericString":
+        return isNumericString(value) ? true : false;
+      case "booleanString":
+        return isString(value) && ["true", "false"].includes(value);
+      case "space":
+        return value === " " ? true : false;
+      // case "whitespace":
+      //   return isWhitespace(value) ? true : false;
+      case "stringLiteral":
+        return isString(value) && value === data ? true : false;
+      case "numericLiteral":
+        return isNumber(value) && value === Number(data) ? true : false;
+      case "camelCase":
+        return isString(value) && value === toCamelCase(value) ? true : false;
+      case "pascalCase":
+        return isString(value) && value === toPascalCase(value) ? true : false;
+      case "kebabCase":
+        return isString(value) && value === toKebabCase(value) ? true : false;
+      case "snakeCase":
+        return isString(value) && value === toSnakeCase(value) ? true : false;
+      case "endsWith":
+        return isString(value) && isString(data) && endsWith(data)(value) ? true : false;
+      case "startsWith":
+        return isString(value) && isString(data) && startsWith(data)(value) ? true : false;        
+      default:
+        throw new Error(`No implementation for ${token} yet!`);
+    }
+
+  } else {
+    // compare the types of two runtime values; in this scenario
+    // we only can test for "extends" relationship at best because
+    // we only have the runtime system to work with
+    return isSameTypeOf(value)(comparison);
 
   }
 }

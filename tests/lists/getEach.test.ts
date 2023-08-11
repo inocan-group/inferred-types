@@ -1,8 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { getEach } from "src/runtime/lists";
-import { GetEach } from "src/types/lists";
+import { getEach } from "src/runtime";
+import { GetEach } from "src/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -17,7 +17,7 @@ describe("GetEach<T,P>", () => {
       {id: 3; value: "baz"; cost: 15}
     ];
 
-    type ID = GetEach<List, "id">;
+    type ID =  GetEach<List, "id">;
     type Value = GetEach<List, "value">;
     type Cost = GetEach<List, "cost">;
     
@@ -130,8 +130,8 @@ describe("GetEach<T,P>", () => {
       // deep
       Expect<Equal<typeof objNoErr, readonly ["blue", "green"]>>,
       Expect<Equal<typeof arrNoErr, readonly ["blue", "purple"]>>,
-      Expect<Equal<typeof objWithNever, readonly ["blue", "green", never]>>,
-      Expect<Equal<typeof arrWithNever, readonly ["blue", "purple", never]>>,
+      Expect<Equal<typeof objWithNever, readonly ["blue", "green"]>>,
+      Expect<Equal<typeof arrWithNever, readonly ["blue", "purple"]>>,
     ];
     
     const cases: cases = [ true, true, true, true ];

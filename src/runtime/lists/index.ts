@@ -18,6 +18,7 @@ export * from "./slice";
 export * from "./last";
 export * from "./reverse";
 export * from "./pop";
+export * from "./join";
 export * from "./shift";
 
 // #endregion auto-indexed files

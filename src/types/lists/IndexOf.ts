@@ -1,4 +1,15 @@
-import { AnyObject, IfNull, IsNegativeNumber, Abs, Decrement, Reverse,  ErrorCondition, Concat, ToString, IfValidKey } from "src/types";
+import { 
+  AnyObject, 
+  IfNull, 
+  IsNegativeNumber, 
+  Abs, 
+  Decrement, 
+  Reverse,  
+  ErrorCondition, 
+  Concat, 
+  ToString, 
+  IfValidKey 
+} from "src/types";
 
 /**
  * **IndexOf**<TValue, TIdx>

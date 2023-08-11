@@ -1,6 +1,7 @@
 
-import type { GetEach } from "src/types";
-import { get, isErrorCondition, isNull } from "src/runtime";
+import type { Container, GetEach } from "src/types";
+import { get, isErrorCondition, isNull, isContainer } from "src/runtime";
+import { Never } from "src/constants";
 
 export interface GetEachOptions<
   THandleErrors
@@ -23,7 +24,7 @@ export interface GetEachOptions<
  */
 export function getEach<
   TList extends readonly unknown[],
-  TDotPath extends string | number | null,
+  TDotPath extends string | null,
   THandleErrors = "ignore",
 >(
   list: TList, 
@@ -38,7 +39,9 @@ export function getEach<
   return list
     .map(i => isNull(dotPath)
         ? i
-        : get(i, dotPath )
+        : isContainer(i)
+          ? get(i as Container, dotPath as TDotPath & string )
+          : Never
       ) 
     .filter(i => !isErrorCondition(i) || (options?.handleErrors !== "ignore")) as GetEach<
       TList,

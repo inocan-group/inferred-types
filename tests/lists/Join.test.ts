@@ -1,6 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { Join , EnsureLeading } from "../../src/types";
-import { describe, it } from "vitest";
+import { describe, expect, it } from "vitest";
+import { Joiner, join } from "src/runtime";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -41,6 +42,25 @@ describe("Join<T,S>", () => {
     const cases: cases = [ true, true ];
     
   });
-  
+});
+
+describe("join()() runtime utility", () => {
+
+  it("join happy path", () => {
+    const helloWorld = join("")("hello", " ", "world");
+    expect(helloWorld).toBe("hello world");
+    const list = join(", ")("foo","bar","baz");
+    expect(list).toBe("foo, bar, baz");
+
+    const partial = join(" | ");
+
+    type cases = [
+      Expect<Equal<typeof helloWorld, "hello world">>,
+      Expect<Equal<typeof list, "foo, bar, baz">>,
+      Expect<Equal<typeof partial, Joiner<" | ">>>
+    ];
+    const cases: cases = [ true, true, true ];
+
+  });
 
 });

@@ -1,6 +1,7 @@
 import { 
   IndexOf, 
-  Container
+  Narrowable,
+  Tuple
 } from "src/types";
 import { isArray, isNull, isNumber, isObject } from "src/runtime";
 import { Never } from "src/constants";
@@ -11,17 +12,20 @@ import { Never } from "src/constants";
  * A dereferencing utility which receives a **value** and an **index** and then
  * returns `value[idx]`. 
  * 
- * - Intended to be primarily used for arrays and objects but can receive any type
- * for the _value_ property.
  * - If the _index_ is passed in as a `null` value then no dereferencing will be done
  * and it will simply pass back the _value_.
  * - If an array is passed in, you are allowed to use negative values to dereference
  * off the back of the array.
  */
 export function indexOf<
-TContainer extends Container,
+TContainer extends Narrowable | Tuple,
 TIdx extends PropertyKey | null
 >(val: TContainer, index: TIdx) {
+  
+  if (index === null) {
+    return val as IndexOf<TContainer,TIdx>;
+  }
+
   const isNegative = isNumber(index) && index < 0;
   if(isNegative && !Array.isArray(val)) {
     throw new Error(`The indexOf(val,idx) utility received a negative index value [${index}] but the value being de-references is not an array [${typeof val}]!`);
@@ -34,14 +38,15 @@ TIdx extends PropertyKey | null
   const idx = isNegative && Array.isArray(val)
     ? val.length + 1 - Math.abs(index)
     : index;
+  
 
   return (
     isNull(idx)
     ? val
     : isArray(val)
-      ? Number(idx) in val ? val[Number(idx)] : Never
+      ? Number(idx as PropertyKey) in val ? val[Number(idx)] : Never
       : isObject(val) 
-        ? String(idx) in val ? val[String(idx) as keyof TContainer] : Never
+        ? String(idx as PropertyKey) in val ? val[String(idx) as keyof TContainer] : Never
         : Never
   ) as IndexOf<TContainer,TIdx>;
 }

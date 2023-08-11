@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable brace-style */
 import type {Container, Intersection,  } from "src/types";
-import { get, ifNotNull, isIndexable, getEach } from "src/runtime";
+import { get, ifNotNull, isIndexable, getEach, toString } from "src/runtime";
 
 function intersectWithOffset<
 A extends readonly unknown[],
@@ -19,8 +19,8 @@ TDeref extends string | number
     }
   }
 
-  const aMatches = getEach(a, deref) as readonly unknown[];
-  const bMatches = getEach(b, deref) as readonly unknown[];
+  const aMatches = getEach(a, toString(deref)) as readonly unknown[];
+  const bMatches = getEach(b, toString(deref)) as readonly unknown[];
 
   const sharedKeys = ifNotNull(
     deref,

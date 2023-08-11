@@ -11,6 +11,7 @@ export * from "./CSV";
 export * from "./DotPath";
 export * from "./DotPathFor";
 export * from "./IpAddress";
+export * from "./OptionalSpace";
 export * from "./StringDelimiter";
 export * from "./Whitespace";
 export * from "./SpecialChar";
@@ -20,6 +21,7 @@ export * from "./Hexadecimal";
 export * from "./SingularNoun";
 export * from "./ValueAtDotPath";
 export * from "./Consonants";
+export * from "./PlusMinus";
 
 export * from "./brackets/index";
 export * from "./quotation-marks/index";

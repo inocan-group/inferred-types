@@ -1,11 +1,9 @@
 import { 
   Surround, 
-  Time_Simple, 
   TupleToUnion , 
-  YMD_Simple, 
   Date,
   Time,
-  Date
+  DateTime
 } from "src/types";
 import { 
   TYPE_TOKEN_IDENTITIES, 
@@ -15,7 +13,15 @@ import {
   TYPE_TOKEN_PARAM_DATETIME,
   TYPE_TOKEN_PARAM_DATE,
   TYPE_TOKEN_PARAM_TIME,
+  TYPE_TOKEN_ALL,
 } from "src/constants";
+
+/**
+ * **TypeTokenName**
+ * 
+ * A union of all `TypeToken` types
+ */
+export type TypeTokenName = TupleToUnion<typeof TYPE_TOKEN_ALL>;
 
 /**
  * **GenericTypeToken**
@@ -39,7 +45,7 @@ export type TypeToken = TupleToUnion<[
   ...Surround<typeof TYPE_TOKEN_PARAM_STR, "<<", `:${string}>>`>,
   ...Surround<typeof TYPE_TOKEN_PARAM_NUMERIC, "<<", `:${number}>>`>,
   ...Surround<typeof TYPE_TOKEN_PARAM_CSV, "<<", `:${string}>>`>,
-  ...Surround<typeof TYPE_TOKEN_PARAM_DATETIME, "<<", `:${YMD_Simple} ${string}>>`>,
+  ...Surround<typeof TYPE_TOKEN_PARAM_DATETIME, "<<", `:${DateTime}>>`>,
   ...Surround<typeof TYPE_TOKEN_PARAM_DATE, "<<", `:${Date}>>`>,
   ...Surround<typeof TYPE_TOKEN_PARAM_TIME, "<<", `:${Time}>>`>,
 ]>;
