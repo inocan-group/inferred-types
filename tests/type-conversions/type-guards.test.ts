@@ -14,7 +14,7 @@ import {
   isFnWithParams,
   defineType, 
   isTypeToken, 
-  type
+  kind
 } from "src/runtime";
 import { Constant, NoDefaultValue, NO_DEFAULT_VALUE, Never } from "src/constants";
 import { ref, Ref } from "vue";
@@ -303,10 +303,10 @@ describe("isTypeToken", () => {
   it("boolean validation", () => {
 
     expect(isTypeToken("<<string>>")).toBe(true);
-    expect(isTypeToken(type.string())).toBe(true);
+    expect(isTypeToken(kind.string())).toBe(true);
 
     expect(isTypeToken("<<boolean>>")).toBe(true);
-    expect(isTypeToken(type.boolean())).toBe(true);
+    expect(isTypeToken(kind.boolean())).toBe(true);
 
     expect(isTypeToken("<<stringLiteral:foobar>>")).toBe(true);
   });

@@ -1,5 +1,5 @@
 import { Narrowable } from "src/types";
-import { isBoolean, isNull, isNumber, isNumericString, isString, isTypeToken, isUndefined , extractTypeToken, toCamelCase, toPascalCase, toKebabCase, toSnakeCase, isSameTypeOf, endsWith, startsWith } from "src/runtime";
+import { isBoolean, isNull, isNumber, isNumericString, isString, isTypeToken, isUndefined , extractTypeToken, toCamelCase, toPascalCase, toKebabCase, toSnakeCase, isSameTypeOf, endsWith, startsWith, isObject } from "src/runtime";
 
 
 /**
@@ -38,6 +38,8 @@ export function isSameType<
         return isString(value) && ["true", "false"].includes(value);
       case "space":
         return value === " " ? true : false;
+      case "object":
+        return isObject(value) ? true : false;
       // case "whitespace":
       //   return isWhitespace(value) ? true : false;
       case "stringLiteral":

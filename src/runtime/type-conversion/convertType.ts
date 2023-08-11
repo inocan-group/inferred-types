@@ -13,7 +13,7 @@ import {
   isFalsy, 
   isTruthy, 
   isTypeTuple,
-  type
+  kind
 } from "src/runtime";
 import { Never } from "src/constants";
 
@@ -108,13 +108,13 @@ export function convertType<
           }
           break;
         case "AsBooleanString":
-          response = type.booleanString();
+          response = kind.booleanString();
           break;
         case "AsNumericString":
-          response = type.numericString();
+          response = kind.numericString();
           break;
         case "AsString":
-          response = type.literal("<string>");
+          response = kind.literal("<string>");
           break;
         case "CamelCase":
           response = toCamelCase(String(value));

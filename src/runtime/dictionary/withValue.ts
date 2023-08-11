@@ -1,5 +1,5 @@
 import {  AnyObject, Narrowable, WithValue } from "src/types";
-import { RunTypeApi, type, isSameType } from "src/runtime";
+import { KindApi, kind, isSameType } from "src/runtime";
 
 export type WithValuePartial<TReturn> = <
   TObj extends AnyObject
@@ -21,11 +21,11 @@ export type WithValuePartial<TReturn> = <
  */
 export function withValue<
   N extends Narrowable,
-  TApi extends (t: RunTypeApi) => N
+  TApi extends (t: KindApi) => N
 >(cb: TApi): WithValuePartial<ReturnType<TApi>> {
   return <TObj extends AnyObject>(obj: TObj) => {
     return Object.keys(obj).reduce(
-      (acc, key) => isSameType(obj[key],cb(type))
+      (acc, key) => isSameType(obj[key],cb(kind))
         ? ({...acc, [key]: obj[key]})
         : acc,
       {} as  WithValue<TObj,ReturnType<TApi>>

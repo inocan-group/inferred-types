@@ -1,10 +1,10 @@
 import { ErrorCondition } from "src/types";
 
 /**
- * **createErrorCondition**(domain) => (kind) => (msg) => ErrorCondition
+ * **createErrorConditionTemplate**(domain) => (kind) => (msg) => ErrorCondition
  * 
- * A runtime utility for facilitating the creation of `ErrorCondition`
- * outcomes.
+ * A higher order runtime utility for generating reusable `ErrorCondition`'s at
+ * runtime.
  */
 export const createErrorCondition = <
   TDomain extends string = "global"
