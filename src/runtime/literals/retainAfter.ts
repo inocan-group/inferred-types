@@ -18,5 +18,5 @@ export function retainAfter<
 >(content: TContent, find: TBreak) {
   const parts = content.split(find);
   parts.shift();
-  return parts.join(find) as RetainAfter<TContent,TBreak>;
+  return parts.join(find) as unknown as RetainAfter<TContent,TBreak>;
 }
