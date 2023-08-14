@@ -1,15 +1,17 @@
-import {TypeToken, TypeTokenName} from "src/types";
-import { stripLeading, stripTrailing } from "../literals";
+
+import { isTypeToken,  stripLeading, stripTrailing } from "src/runtime";
+import { TypeTokenName } from "src/types";
 
 type ExtractedToken = [token: TypeTokenName, data: string | undefined];
 
-/**
- * **extractTypeToken**(payload)
- * 
- * Receives a TypeToken and parses this into a tuple: `[TypeTokenName, data: string | undefined]`
- */
-export function extractTypeToken(payload: TypeToken): ExtractedToken {
-  const extracted = stripTrailing(stripLeading(payload, "<<"), ">>").split(":");
+export function extractTypeToken<T>(tuple: T) {
+  if (isTypeToken(tuple)) {
+    const [name, defn] = stripTrailing(stripLeading(tuple, "<<"), ">>").split(":") as ExtractedToken;
+    // const type = tuple as TypeToken<typeof name>;
+  
+    return [name, defn];
+  } else {
+    throw new Error(`The string passed into extractTypeToken() was NOT a TypeToken type! The string was: ${tuple}`);
+  }
 
-  return extracted as ExtractedToken;
 }

@@ -2,7 +2,6 @@ import {
   IfNever,
   ExplicitKeys,
   Container,
-  ValidKey,
 } from "src/types";
 
 /**
@@ -26,9 +25,5 @@ export type Keys<
   > = IfNever<
   TContainer, 
   readonly [],
-  IfNever<
-    ValidKey<TContainer>,
-    readonly [],
-    ExplicitKeys<TContainer>
-  >
+  ExplicitKeys<TContainer>
 >;

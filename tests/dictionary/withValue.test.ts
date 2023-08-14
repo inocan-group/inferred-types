@@ -2,9 +2,9 @@ import { describe, expect, it } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
 
 import type {  AnyObject, WithValue } from "src/types";
-import { createFnWithProps, withValue, defineType } from "src/runtime";
+import { createFnWithProps, withValue, defineObj } from "src/runtime";
 
-const obj = defineType({
+const obj = defineObj({
   id: "foobar",
   foo2: 2,
   foo3: 3,
@@ -105,7 +105,7 @@ describe("withValue() runtime utility", () => {
   });
 
   it("withValue() passes runtime and type tests for scalar types", () => {
-    const obj = defineType({
+    const obj = defineObj({
       foo: 1,
       foofoo: 2,
       bar: true,
@@ -126,7 +126,7 @@ describe("withValue() runtime utility", () => {
     // const litNum = withValue((t) => t.literal(1 as const))(obj);
     // type LitNum = typeof litNum;
 
-    const truth = withValue((t) => t.true())(obj);
+    const truth = withValue((t) => t.boolean(true))(obj);
     type Truth = typeof truth;
 
     type cases = [

@@ -11,7 +11,7 @@ import { isTrue } from "src/runtime";
  * - **ELSE** - returned when T is narrowly typed as `false`
  * - **IF | ELSE** - returned when T is a `boolean` type
  */
-export function ifTrue<T extends boolean, IF extends Narrowable, ELSE extends Narrowable>(
+export function ifTrue<T extends Narrowable, IF extends Narrowable, ELSE extends Narrowable>(
   val: T,
   ifVal: <V extends T & true>(val: V) => IF,
   elseVal: <V extends Exclude<T, true>>(val: V) => ELSE

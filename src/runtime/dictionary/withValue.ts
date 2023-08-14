@@ -1,6 +1,13 @@
 import {  AnyObject, Narrowable, WithValue } from "src/types";
 import { KindApi, kind, isSameType } from "src/runtime";
 
+/**
+ * **WithValuePartial**`<TReturn>`
+ * 
+ * A runtime utility function which receives an object of some structure
+ * and then reduces this to only key/value pairs where the _values_ extend
+ * the `TReturn` type.
+ */
 export type WithValuePartial<TReturn> = <
   TObj extends AnyObject
 >(obj: TObj) => WithValue<TObj,TReturn>;
@@ -23,12 +30,16 @@ export function withValue<
   N extends Narrowable,
   TApi extends (t: KindApi) => N
 >(cb: TApi): WithValuePartial<ReturnType<TApi>> {
+
   return <TObj extends AnyObject>(obj: TObj) => {
     return Object.keys(obj).reduce(
       (acc, key) => isSameType(obj[key],cb(kind))
         ? ({...acc, [key]: obj[key]})
         : acc,
-      {} as  WithValue<TObj,ReturnType<TApi>>
-    ) as WithValue<TObj,ReturnType<TApi>>;
+      {} as unknown as WithValue<TObj,ReturnType<TApi>>
+    ) as unknown as WithValue<TObj,ReturnType<TApi>>;
   };
 }
+
+
+

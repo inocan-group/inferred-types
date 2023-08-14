@@ -7,7 +7,7 @@ import type {
   DoesExtend,
   EmptyObject,
 } from "src/types";
-import { defineType, keysOf, isRef, narrow } from "src/runtime";
+import { defineObj, keysOf, isRef, narrow } from "src/runtime";
 import { ref } from "vue";
 
 describe("NumericKeys<T>", () => {
@@ -70,7 +70,7 @@ describe("Keys<T> ", () => {
 
 describe("runtime keysOf() utility on object", () => {
   it("with just object passed in, keys are extracted as expected", () => {
-    const obj = defineType({ id: "123" })({ color: "red", isFavorite: false });
+    const obj = defineObj({ id: "123" })({ color: "red", isFavorite: false });
     const k = keysOf(obj); 
     type K = typeof k;
 

@@ -4,12 +4,12 @@ import {
   Date,
   Time,
   DateTime,
-  IfNull
+  IfNull,
+  RetainFromList
 } from "src/types";
 import { 
   TYPE_TOKEN_IDENTITIES, 
   TYPE_TOKEN_PARAM_STR, 
-  TYPE_TOKEN_PARAM_NUMERIC, 
   TYPE_TOKEN_PARAM_CSV, 
   TYPE_TOKEN_PARAM_DATETIME,
   TYPE_TOKEN_PARAM_DATE,
@@ -32,21 +32,31 @@ export type TypeTokenName = TupleToUnion<typeof TYPE_TOKEN_ALL>;
  */
 export type GenericTypeToken = `<<${string}>>`;
 
+type TT = Readonly<[
+  ...Surround<typeof TYPE_TOKEN_IDENTITIES, "<<", ">>">,
+  ...Surround<typeof TYPE_TOKEN_PARAM_STR, "<<", `:${string}>>`>,
+  ...Surround<typeof TYPE_TOKEN_PARAM_CSV, "<<", `:${string}>>`>,
+  ...Surround<typeof TYPE_TOKEN_PARAM_DATETIME, "<<", `:${DateTime}>>`>,
+  ...Surround<typeof TYPE_TOKEN_PARAM_DATE, "<<", `:${Date}>>`>,
+  ...Surround<typeof TYPE_TOKEN_PARAM_TIME, "<<", `:${Time}>>`>,
+]>;
+
 /**
- * TypeTokens
+ * **TypeTokens**`<[TFind]>`
  * 
  * A union of "type tokens" where a token is a string representation
  * of a type. These string representations fit into the following
  * categories.
  * 
- * All type tokens follow the generic pattern imposed by `GenericTypeToken`.
+ * - all type tokens follow the generic pattern imposed by `GenericTypeToken`.
+ * - if a string literal is provided to `TFind` then only the type of a particular
+ * type literal will be returned.
  */
-export type TypeToken<T = null> = TupleToUnion<[
-  ...Surround<typeof TYPE_TOKEN_IDENTITIES, "<<", ">>">,
-  ...Surround<typeof TYPE_TOKEN_PARAM_STR, "<<", `:${string}>>`>,
-  ...Surround<typeof TYPE_TOKEN_PARAM_NUMERIC, "<<", `:${number}>>`>,
-  ...Surround<typeof TYPE_TOKEN_PARAM_CSV, "<<", `:${string}>>`>,
-  ...Surround<typeof TYPE_TOKEN_PARAM_DATETIME, "<<", `:${DateTime}>>`>,
-  ...Surround<typeof TYPE_TOKEN_PARAM_DATE, "<<", `:${Date}>>`>,
-  ...Surround<typeof TYPE_TOKEN_PARAM_TIME, "<<", `:${Time}>>`>,
-]> & IfNull<T,unknown, unknown>;
+export type TypeToken<
+  TFind extends string | null = null
+> = IfNull<
+  TFind,
+  TupleToUnion<TT>, 
+  TupleToUnion<RetainFromList<TT, "extends", `<<${TFind}${">>" | `:${string}>>`}`>>
+>;
+

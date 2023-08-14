@@ -1,3 +1,4 @@
+export * from "./AllCaps";
 export * from "./CamelCase";
 export * from "./CapFirstAlpha";
 export * from "./CapitalizeWords";

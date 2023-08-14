@@ -11,11 +11,11 @@ import {
   AsArray,
   First, 
   GetEach , 
-  TypeMapMatcher , 
   UseTypeMapTransformer , 
   TupleToUnion , 
   TypeMapRule , 
-  UnionToTuple 
+  UnionToTuple,
+  TypeMapMatcher
 } from "src/types";
 
 type Op = TupleToUnion<GetEach<UnionToTuple<TypeMapMatcher>, 0>>;

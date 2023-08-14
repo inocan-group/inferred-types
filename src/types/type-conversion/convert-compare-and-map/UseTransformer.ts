@@ -1,4 +1,4 @@
-import { IfAnd, IfBoolean, IsNumber, IsString , CamelCase, KebabCase, PascalCase, StripLeading, StripTrailing , ToString , TypeMapTransformerOp, TypeTuple } from "src/types";
+import { IfAnd, IfBoolean, IsNumber, IsString , CamelCase, KebabCase, PascalCase, StripLeading, StripTrailing , ToString , TypeTransformOp, TypeTuple } from "src/types";
 
 /**
  * **UseTypeMapTransformer**`<TValue,TTransform>`
@@ -7,11 +7,10 @@ import { IfAnd, IfBoolean, IsNumber, IsString , CamelCase, KebabCase, PascalCase
  */
 export type UseTypeMapTransformer<
   TValue,
-  TOp extends TypeMapTransformerOp,
+  TOp extends TypeTransformOp,
   TParam
-> = TOp extends "Identity"
-  ? TValue
-  : TOp extends "Capitalized" ? Capitalize<TValue & string>
+> = 
+TOp extends "Capitalized" ? Capitalize<TValue & string>
   : TOp extends "PascalCase" ? PascalCase<TValue & string>
   : TOp extends "CamelCase" ? CamelCase<TValue & string>
   : TOp extends "KebabCase" ? KebabCase<TValue & string>
