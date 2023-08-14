@@ -21,8 +21,6 @@ export const TYPE_TOKEN_IDENTITIES = [
  * `TypeToken` names which need a _string_ parameter to fully qualify
  */
 export const TYPE_TOKEN_PARAM_STR = [
-  "stringLiteral",
-  "objectLiteral",
   "explicitClass",
   "startsWith",
   "endsWith",
@@ -37,17 +35,14 @@ export const TYPE_TOKEN_PARAM_STR = [
   "explicitType"
 ] as const;
 
-/**
- * `TypeToken` names which need a _numeric string_ parameter to fully qualify
- */
-export const TYPE_TOKEN_PARAM_NUMERIC = [
-  "numericLiteral"
-] as const;
 
 /**
  * `TypeToken` names which need a _CSV_ parameter to fully qualify
  */
 export const TYPE_TOKEN_PARAM_CSV = [
+  "stringLiteral",
+  "numericLiteral",
+  "objectLiteral",
   "tuple",
   "union"
 ] as const;
@@ -82,7 +77,6 @@ export const TYPE_TOKEN_ALL = [
   ...TYPE_TOKEN_PARAM_CSV,
   ...TYPE_TOKEN_PARAM_DATE,
   ...TYPE_TOKEN_PARAM_DATETIME,
-  ...TYPE_TOKEN_PARAM_NUMERIC,
   ...TYPE_TOKEN_PARAM_STR,
   ...TYPE_TOKEN_PARAM_TIME
 ] as const; 

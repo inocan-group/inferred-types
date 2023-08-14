@@ -1,4 +1,5 @@
 export * from "./api/index";
+export * from "./DescribeType";
 export * from "./Type";
 export * from "./TypeOf";
 export * from "./StringLiteralToken";

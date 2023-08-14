@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Expect, Equal } from "@type-challenges/utils";
-import { defineType, literal, ifTypeOf } from "src/runtime";
+import { defineObj, literal, ifTypeOf } from "src/runtime";
 import { AnyFunction } from "src/types";
 
 describe("ifTypeOf() utility", () => {
@@ -20,7 +20,7 @@ describe("ifTypeOf() utility", () => {
   });
 
   it("base validation of narrowlyExtends() returns true/false", () => {
-    const target = defineType({ bar: 0 })({ foo: "foo" });
+    const target = defineObj({ bar: 0 })({ foo: "foo" });
     const yup = ifTypeOf({ foo: "foo", bar: 0 }).extends(target);
     const yup2 = ifTypeOf({ foo: "foey", bar: 0 }).extends(target);
     const nope1 = ifTypeOf({ foo: "foo", bar: 42 }).narrowlyExtends(target);

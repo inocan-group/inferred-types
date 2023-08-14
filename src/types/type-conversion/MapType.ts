@@ -3,13 +3,13 @@ import type {
   RemoveNever,
   Narrowable,
   Join,
-  ConvertType
+  ConvertType,
+  TypeMapMatcher, 
+  TypeMapTransformer, 
+  TypeMapRule
 } from "src/types";
 
 import { TYPE_MATCHER_DESC, TYPE_TRANSFORMER_DESC } from "src/constants";
-import { TypeMapMatcher } from "./convert-and-map-support/TypeMapMatcher";
-import { TypeMapTransformer } from "./convert-and-map-support/TypeMapTransformer";
-import { TypeMapRule } from "./TypeMapRule";
 
 /**
  * **TypeRuleDesc**

@@ -3,7 +3,7 @@ import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import { 
   get, 
-  defineType, 
+  defineObj, 
   isErrorCondition 
 } from "src/runtime";
 import type { 
@@ -17,7 +17,7 @@ import { NoDefaultValue } from "src/constants";
 
 describe("Get<T, K> type utility", () => {
   it("type: shallow path", () => {
-    const input = defineType({ id: 1234 })({ foo: 1, bar: "hi" });
+    const input = defineObj({ id: 1234 })({ foo: 1, bar: "hi" });
     type Input = typeof input;
 
     type Id = Get<Input, "id">;

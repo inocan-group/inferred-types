@@ -1,5 +1,5 @@
-import {  Narrowable, TypeToken } from "src/types";
-import { endsWith, startsWith, stripLeading, stripTrailing } from "src/runtime";
+import {   TypeToken } from "src/types";
+import { endsWith, isString, startsWith, stripLeading, stripTrailing } from "src/runtime";
 import { TYPE_TOKEN_ALL} from "src/constants";
 
 const validTokens: readonly string[] = Array.from(TYPE_TOKEN_ALL);
@@ -9,8 +9,9 @@ const validTokens: readonly string[] = Array.from(TYPE_TOKEN_ALL);
  * 
  * Type guard which checks whether the given value is a valid `TypeToken`
  */
-export function isTypeToken<T extends Narrowable>(val: T): val is T & TypeToken {
-  if (startsWith("<<")(val) && endsWith(">>")(val)) {
+export function isTypeToken(val: unknown): val is TypeToken {
+
+  if (isString(val) && startsWith("<<")(val) && endsWith(">>")(val)) {
     const token = stripTrailing(stripLeading(val, "<<"), ">>").replace(/\:.*/, "");
     return validTokens.includes(token) ? true : false;
   } else {

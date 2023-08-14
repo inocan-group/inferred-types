@@ -15,6 +15,8 @@ export * from "./NumericDigit";
 export * from "./FalsyValues";
 export * from "./NotDefined";
 export * from "./TypeOf";
+export * from "./TypeComparisons";
+export * from "./TypeConversion";
 export * from "./Never";
 export * from "./type-matcher";
 export * from "./TypeTokens";

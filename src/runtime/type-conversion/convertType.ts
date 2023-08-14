@@ -21,8 +21,8 @@ import { Never } from "src/constants";
  * **convertType**(rules) => (value) => [converted]
  * 
  * A higher-order function which takes a set of transformation rules
- * and then _provides_ a function which will take a value which is then
- * transformed using the rules in the first step.
+ * and then provides a utility transform function which receives values
+ * and transforms using the rules provided in the firs step.
  * 
  * **Related:**: `ConvertType`, `TypeMapRule`
  */
@@ -108,7 +108,7 @@ export function convertType<
           }
           break;
         case "AsBooleanString":
-          response = kind.booleanString();
+          response = kind.boolean();
           break;
         case "AsNumericString":
           response = kind.numericString();

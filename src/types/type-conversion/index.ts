@@ -13,6 +13,7 @@ export * from "./KvDict";
 export * from "./ToString";
 export * from "./ToUnion";
 export * from "./ToNumber";
+export * from "./ToBoolean";
 export * from "./UnionToTuple";
 export * from "./Widen";
 export * from "./WidenProps";
@@ -37,12 +38,11 @@ export * from "./RemoveIndex";
 export * from "./IntersectWithAll";
 export * from "./UnionWithAll";
 
-export * from "./TypeMapRule";
 export * from "./ConvertType";
 export * from "./MapType";
 export * from "./ToContainer";
 
-export * from "./convert-and-map-support/index";
+export * from "./convert-compare-and-map/index";
 
 // #endregion auto-indexed files
 

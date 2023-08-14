@@ -1,14 +1,14 @@
 
-import { createTypeMapRule , stripLeading, kind } from "src/runtime";
 import { describe, it } from "vitest";
-import { Concat, Digit, MapType, TokenizeStringLiteral } from "src/types";
 import { Equal, Expect } from "@type-challenges/utils";
 
+import { Concat, Digit, MapType, TokenizeStringLiteral } from "src/types";
+import { createTypeMapRule , stripLeading, kind } from "src/runtime";
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
 // gain validation that no new type vulnerabilities have cropped up.
 
-describe.skip("String Literal testing", () => {
+describe("String Literal testing", () => {
 
   const opString = createTypeMapRule(["Equals", "<string>"], ["AsString"]);
   const opNumber = createTypeMapRule(["Equals", "<number>"], ["AsNumericString"]);
@@ -51,7 +51,7 @@ describe.skip("String Literal testing", () => {
   });
   
 
-  it.skip("Parse Tokens", () => {
+  it("Parse Tokens", () => {
     const builder = <T extends readonly (string | number | boolean)[]>(
       ...tokens: T
     ) => {

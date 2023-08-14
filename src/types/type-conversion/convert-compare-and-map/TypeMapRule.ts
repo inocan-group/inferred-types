@@ -1,6 +1,9 @@
-import { TypeMapMatcher } from "./convert-and-map-support/TypeMapMatcher";
-import { TypeMapTransformer } from "./convert-and-map-support/TypeMapTransformer";
-import { TypeRuleDesc } from "./MapType";
+import { 
+  TypeMapMatcher,
+  TypeRuleDesc, 
+  TypeTransformOp 
+} from "src/types";
+
 
 /**
  * **TypeMapRule**`<TMatch,TTransform,TDesc>`
@@ -9,7 +12,7 @@ import { TypeRuleDesc } from "./MapType";
  */
 export interface TypeMapRule<
   TMatch extends TypeMapMatcher = TypeMapMatcher,
-  TTransform extends TypeMapTransformer = TypeMapTransformer,
+  TTransform extends TypeTransformOp = TypeTransformOp,
   TDesc extends string = TypeRuleDesc<TMatch,TTransform>
 > {
   match: TMatch;

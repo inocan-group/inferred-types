@@ -2,13 +2,13 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
 import { AnyFunction, AnyObject, KeysWithValue } from "src/types";
-import { createFnWithProps, defineType} from "src/runtime";
+import { createFnWithProps, defineObj} from "src/runtime";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
 // gain validation that no new type vulnerabilities have cropped up.
 
-const obj = defineType({
+const obj = defineObj({
   id: "foobar",
   foo2: 2,
   foo3: 3,

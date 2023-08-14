@@ -1,6 +1,6 @@
 import {  Expect, Equal } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { defineType, hasIndexOf,  narrow } from "src/runtime";
+import { defineObj, hasIndexOf,  narrow } from "src/runtime";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -8,7 +8,7 @@ import { defineType, hasIndexOf,  narrow } from "src/runtime";
 
 describe("hasIndexOf(value, index)", () => {
   const lit_arr = narrow([1,2,3]);
-  const lit_obj = defineType({id: 1})();
+  const lit_obj = defineObj({id: 1})();
   
   it("runtime produces correct result; type is boolean", () => {
     const numIdx = hasIndexOf(lit_arr, 2);

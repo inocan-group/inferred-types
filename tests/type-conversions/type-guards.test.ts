@@ -12,7 +12,7 @@ import {
   isConstant, 
   isSpecificConstant,
   isFnWithParams,
-  defineType, 
+  defineObj, 
   isTypeToken, 
   kind
 } from "src/runtime";
@@ -110,7 +110,7 @@ describe("isDefined(value)", () => {
 });
 
 describe("isRef - testing for VueJS reference types", () => {
-  const obj = defineType({ foo: 1, bar: 2 })();
+  const obj = defineObj({ foo: 1, bar: 2 })();
   const refObj = ref(obj);
 
   it("positive tests", () => {

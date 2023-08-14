@@ -1,4 +1,4 @@
-import { Container, EmptyObject, ExplicitKeys, IfNever, NumericKeys, Tuple, UnionToTuple } from "src/types";
+import { AsArray, Container, Keys, TupleToUnion } from "src/types";
 
 
 /**
@@ -11,11 +11,6 @@ import { Container, EmptyObject, ExplicitKeys, IfNever, NumericKeys, Tuple, Unio
  */
 export type ValidKey<
   TContainer extends Container
-> = IfNever<
-TContainer,
-never,
-TContainer extends EmptyObject
-    ? never
-    : "fuck"
+> = TupleToUnion<
+  AsArray<Keys<TContainer>>
 >;
-
