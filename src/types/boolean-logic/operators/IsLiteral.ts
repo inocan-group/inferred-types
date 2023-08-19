@@ -6,7 +6,10 @@ import type {
   IsObjectLiteral, 
   IsStringLiteral, 
  AnyObject, 
- Something} from "src/types";
+ Something,
+ IfOr,
+ IsTuple,
+ IfNever} from "src/types";
 
 
 // [note on handling of boolean](https://stackoverflow.com/questions/74213646/detecting-type-literals-works-in-isolation-but-not-when-combined-with-other-lite/74213713#74213713)
@@ -24,21 +27,22 @@ import type {
  * - a **literal array** is one where the discrete elements are known; some of the elements _may_ be wide types
  * 
  */
-export type IsLiteral<T> = IsEqual<T, Something> extends true
-  ? false
-  : [T] extends [string]
-  ? IsStringLiteral<T>
-  : [T] extends [boolean]
-  ? IsBooleanLiteral<T>
-  : [T] extends [number]
-  ? IsNumericLiteral<T>
-  : [T] extends [unknown[]]
-    ? IsEqual<Length<T>, number> extends true ?  false : true
-    : [T] extends [readonly unknown[]]
-      ? IsEqual<Length<T>, number> extends true ?  false : true
-      : [T] extends [AnyObject]
-        ? IsObjectLiteral<T & AnyObject>
-        : false;
+export type IsLiteral<T> = IfNever<
+  T,
+  false,
+  IsStringLiteral<T> extends true
+    ? true
+    : IsBooleanLiteral<T> extends true
+      ? true
+      : IsNumericLiteral<T> extends true
+        ? true
+        : IsTuple<T> extends true
+          ? true
+          : IsObjectLiteral<T> extends true
+            ? true
+            : false
+>;
+
 
 /**
  * **IsOptionalLiteral**

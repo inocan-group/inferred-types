@@ -42,6 +42,24 @@ describe("Join<T,S>", () => {
     const cases: cases = [ true, true ];
     
   });
+
+  
+  it("truncation tests when using TMax generic", () => {
+    type NoTrunc = Join<[1,2,3], ", ", 4>;
+    type WithTrunc = Join<[1,2,3,4,5], ", ", 3>;
+    type CustomEllipsis = Join<[1,2,3,4,5], ", ", 3, "... more">;
+    type NoEllipsis = Join<[1,2,3,4,5], ", ", 3, false>;
+    
+    type cases = [
+      Expect<Equal<NoTrunc, "1, 2, 3">>,
+      Expect<Equal<WithTrunc, "1, 2, 3, ...">>,
+      Expect<Equal<CustomEllipsis, "1, 2, 3, ... more">>,
+      Expect<Equal<NoEllipsis, "1, 2, 3">>,
+    ];
+    const cases: cases = [ true, true, true, true ];
+    
+  });
+  
 });
 
 describe("join()() runtime utility", () => {

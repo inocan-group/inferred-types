@@ -7,6 +7,8 @@
 // file exports
 export * from "./Awaited";
 export * from "./AsString";
+export * from "./AsNumber";
+export * from "./AsFunction";
 export * from "./TupleToUnion";
 export * from "./UnionToIntersection";
 export * from "./KvDict";
@@ -23,6 +25,7 @@ export * from "./Break";
 export * from "./ArrConcat";
 export * from "./LeftWhitespace";
 export * from "./Replace";
+export * from "./ReplaceAll";
 export * from "./ObjValues";
 
 export * from "./RightWhitespace";
@@ -38,9 +41,9 @@ export * from "./RemoveIndex";
 export * from "./IntersectWithAll";
 export * from "./UnionWithAll";
 
-export * from "./ConvertType";
-export * from "./MapType";
 export * from "./ToContainer";
+export * from "./ValueOrReturnValue";
+export * from "./WithDefault";
 
 export * from "./convert-compare-and-map/index";
 

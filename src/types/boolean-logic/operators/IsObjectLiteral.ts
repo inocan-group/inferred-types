@@ -1,9 +1,12 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { 
   AnyObject, 
-  IfNever,
   RemoveIndexKeys,
-  IfSomeEqual
+  EmptyObject,
+  IsEqual,
+  Keys,
+  IndexableObject,
+  IfNotEqual
 } from "src/types";
 
 /**
@@ -15,13 +18,13 @@ import {
  * - an `Indexable` object with at least one explicit key defined 
  */
 export type IsObjectLiteral<T> = T extends AnyObject
-? IfNever<
-    RemoveIndexKeys<T>,
-    false,
-    IfSomeEqual<
-      keyof RemoveIndexKeys<T>, [string | symbol, string, symbol],
-      false,
-      true
-    >
-  >
+? IsEqual<T, EmptyObject> extends true
+  ? true
+  : RemoveIndexKeys<T> extends IndexableObject
+    ? IfNotEqual<
+        Keys<RemoveIndexKeys<T>>, readonly [],
+        true, 
+        false
+      >
+    : false
 : false;
