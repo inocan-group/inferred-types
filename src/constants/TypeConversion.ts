@@ -43,3 +43,24 @@ export const TYPE_CONVERSION =[
   ...TYPE_CONVERSION_NUMERIC,
 ] as const;
 
+
+export const TYPE_CONVERSION_DESC = {
+  Identity: "The type matched is passed through 'as is'.",
+  Capitalized: "Converts strings to a capitalized representation; passes through non-strings 'as is'.",
+  PascalCase: "Converts strings to a PascalCase representation; passes through non-strings 'as is'.",
+  CamelCase: "Converts strings to a camelCase representation; passes through non-strings 'as is'.",
+  KebabCase: "Converts strings to a kebab-case representation; passes through non-strings 'as is'.",
+  ToString: "Converts non-strings to a string representation.",
+  ToTrue: "Converts to the 'true' literal type",
+  ToFalse: "Converts to the 'false' literal type",
+  ToBoolean: "Converts to the wide 'boolean' type",
+  AsString: "Converts to the wide 'string' type",
+  AsBooleanString: "Converts strings to a capitalized representation; passes through non-strings 'as is'.",
+  AsNumericString: "Converts strings to a capitalized representation; passes through non-strings 'as is'.",
+  Never: "Converts strings to a capitalized representation; passes through non-strings 'as is'.",
+  StripLeading: "Converts strings to a capitalized representation; passes through non-strings 'as is'.",
+  StripTrailing: "Converts strings to a capitalized representation; passes through non-strings 'as is'.",
+  As: "Converts strings to a capitalized representation; passes through non-strings 'as is'.",
+  NumericLiteral: "Converts strings to a capitalized representation; passes through non-strings 'as is'.",
+  StringLiteral: "Converts strings to a capitalized representation; passes through non-strings 'as is'.",
+} as const;

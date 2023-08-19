@@ -1,17 +1,25 @@
 /**
- * Type utility which takes a string `S` and replaces the substring `W` with `P`.
+ * **Replace**`<TText,TFind,TReplace>`
+ * 
+ * Type utility which takes a string `TText` and finds the first instance of
+ * `TFind` and replaces it with `TReplace`.
+ * 
  * ```ts
  * const fooy = "fooy";
  * // "Foo"
  * type Foo = Replace<typeof fooy, "y", "">;
  * ```
  *
- * Note: _the first match is replaced and all subsequent matches are ignored_
+ * **Related:** `ReplaceAll`
  */
-export type Replace<S extends string, W extends string, P extends string> = S extends ""
+export type Replace<
+  TText extends string, 
+  TFind extends string, 
+  TReplace extends string
+> = TText extends ""
   ? ""
-  : W extends ""
-  ? S
-  : S extends `${infer F}${W}${infer E}`
-  ? `${F}${P}${E}`
-  : S;
+  : TFind extends ""
+    ? TText
+    : TText extends `${infer F}${TFind}${infer E}`
+    ? `${F}${TReplace}${E}`
+    : TText;
