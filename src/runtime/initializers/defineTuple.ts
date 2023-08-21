@@ -1,4 +1,4 @@
-import { Narrowable } from "src/types";
+import { Flatten, Narrowable } from "src/types";
 
 /**
  * **createTuple**(...values) -> (...values) -> Tuple
@@ -17,5 +17,5 @@ import { Narrowable } from "src/types";
  * ```
  */
 export const defineTuple = <
-  T extends readonly Narrowable[]
->(...values: T) => values;
+  T extends readonly Narrowable[] | readonly Narrowable[][]
+>(...values: T) => values.flat() as Flatten<T>;

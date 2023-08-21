@@ -5,6 +5,7 @@ export * from "./DoesExtend";
 export * from "./DoesNotExtend";
 export * from "./ExtendsAll";
 export * from "./ExtendsSome";
+export * from "./ExtendsNone";
 export * from "./EndsWith";
 export * from "./SomeEqual";
 export * from "./SomeExtend";

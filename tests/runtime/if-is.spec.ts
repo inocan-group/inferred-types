@@ -12,7 +12,7 @@ import {
   or,
   isTrue,
   StartingWithTypeGuard, 
-  startsWith, box, wide,
+  startsWith, box, WIDE,
 } from "src/runtime";
 import { EndsWith, DoesExtend, LowerAlphaChar, Or, StartsWith  } from "src/types";
 
@@ -336,42 +336,42 @@ describe("runtime if/is", () => {
   it("ifSameType", () => {
     const t1 = ifSameType(
       "foo",
-      wide.string,
+      WIDE.string,
       (i) => `Hello ${i}`,
       (i) => `Goodbye ${i}`
     );
     const t2 = ifSameType(
       42,
-      wide.string,
+      WIDE.string,
       (i) => `Hello ${i}`,
       (i) => `Goodbye ${i}`
     );
     const t3 = ifSameType(
       "foo" as string,
-      wide.string,
+      WIDE.string,
       (i) => `Hello ${i}`,
       (i) => `Goodbye ${i}`
     );
     const t4 = ifSameType(
       42 as number,
-      wide.string,
+      WIDE.string,
       (i) => `Hello ${i}`,
       (i) => `Goodbye ${i}`
     );
 
     const nested = ifSameType(
       false,
-      wide.string,
+      WIDE.string,
       (i) => `Hello ${i}`,
       (i) =>
         ifSameType(
           i,
-          wide.number,
+          WIDE.number,
           (n) => n,
           (i) =>
             ifSameType(
               i,
-              wide.boolean,
+              WIDE.boolean,
               (b) => `I'm a boolean value of ${b}`,
               () => ""
             )

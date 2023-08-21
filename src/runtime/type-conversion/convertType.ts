@@ -2,7 +2,7 @@
 import { 
   Narrowable, 
   ConvertType, 
-  TypeMapRule,
+  TypeTransformRule,
   TypeMapMatcher,
   TypeMapTransformer
 } from "src/types";
@@ -27,10 +27,10 @@ import { Never } from "src/constants";
  * **Related:**: `ConvertType`, `TypeMapRule`
  */
 export function convertType<
-  TRules extends readonly TypeMapRule<TypeMapMatcher, TypeMapTransformer, any>[]
+  TRules extends readonly TypeTransformRule<TypeMapMatcher, TypeMapTransformer, any>[]
 >(rules: TRules) {
   return <TValue extends Narrowable>(value: TValue): ConvertType<TValue, TRules> => {
-    let matched: TypeMapRule<TypeMapMatcher, TypeMapTransformer, any> | typeof Never = Never;
+    let matched: TypeTransformRule<TypeMapMatcher, TypeMapTransformer, any> | typeof Never = Never;
 
     for (const rule of rules) {
       if (matched !== Never) {

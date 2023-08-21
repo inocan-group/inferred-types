@@ -8,10 +8,14 @@ export default defineConfig({
   resolve: {
     alias: {
       "src/": `${resolve(fileURLToPath(new URL(".", import.meta.url)), "src")}/`,
-    }
+    },
   },
   test: {
     dir: "tests",
+    threads: true,
+    typecheck: {
+      include: ["tests/**/*.{test,spec}.ts"]
+    }
   },
   plugins: [],
 });
