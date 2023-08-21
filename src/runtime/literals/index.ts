@@ -21,7 +21,7 @@ export * from "./capitalize";
 export * from "./uncapitalize";
 export * from "./uppercase";
 export * from "./lowercase";
-export * from "./wide";
+export * from "./widen";
 export * from "./toCamelCase";
 export * from "./toKebabCase";
 export * from "./ifLowercase";

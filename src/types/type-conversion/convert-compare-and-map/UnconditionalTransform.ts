@@ -26,7 +26,7 @@ import {
   KebabCase,
   Increment,
   Decrement,
-  DescribeType, 
+  DescribeType,
 } from "src/types";
 
 export type InvalidTransformInput<
@@ -102,7 +102,6 @@ type TypeTransformAtomic<
   : UnknownTransformOperation<TOp,TInput>
 : InvalidTransformInput<TOp,TInput>;
 
-
 /**
  * **TypeTransformParameterized**`<TInput,TOp,TParam>`
  * 
@@ -156,12 +155,10 @@ ValidTransformInput<TOp, TInput> extends true
  * This utility will use these generic inputs to transform the
  * output type appropriately.
  */
-export type TypeTransform<
+export type UnconditionalTransform<
   TOp extends TypeTransformOp,
   TInput,
   TParams extends Tuple = []
 > = TypeTransformRequiresParam<TOp> extends true
 ? TypeTransformParameterized<TInput,TOp,TParams>
 : TypeTransformAtomic<TInput,TOp>;
-
-type _X = TypeTransformRequiresParam<"Identity">;

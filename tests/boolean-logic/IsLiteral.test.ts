@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
-import {  IfLiteral, IsBooleanLiteral, IsLiteral, IsObjectLiteral, IsOptionalLiteral, IsStringLiteral } from "src/types";
+import {  EmptyObject, IfLiteral, IsBooleanLiteral, IsLiteral, IsObjectLiteral, IsOptionalLiteral, IsStringLiteral } from "src/types";
 
 describe("IsObjectLiteral<T>", () => {
 
   it("happy path", () => {
     // eslint-disable-next-line @typescript-eslint/ban-types
-    type Empty = IsObjectLiteral<{}>;
+    type Empty = IsObjectLiteral<EmptyObject>;
     type Foobar = IsObjectLiteral<{ foo: 1; bar: 2 }>;
     type Obj = IsObjectLiteral<object>;
     type Rec = IsObjectLiteral<Record<string, unknown>>;

@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { createTypeMapRule, kind } from "src/runtime";
+import { createTypeRule, kind } from "src/runtime";
 import { ConvertType } from "src/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -9,13 +9,24 @@ import { ConvertType } from "src/types";
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("ConvertType<T,M>", () => {
+  
+  it("happy path with single rule", () => {
+    // type Caps = 
+    
+    // type cases = [
+    //   /** type tests */
+    // ];
+    // const cases: cases = [];
+    
+  });
+  
 
   it("types map correctly", () => {
-    const startWithF = createTypeMapRule(["StartsWith", "f"], ["StringLiteral", "started with f"]);
-    const extendsStr = createTypeMapRule(["Extends", kind.string()], ["Identity"]);
-    const startWith4 = createTypeMapRule(["StartsWith", "4"], ["Identity"]);
-    const camelCase = createTypeMapRule(["Extends", kind.string()], ["CamelCase"]);
-    const fallbackKebab = createTypeMapRule(["Any"], ["KebabCase"]);
+    const startWithF = createTypeRule(["StartsWith", "f"], ["StringLiteral", "started with f"]);
+    const extendsStr = createTypeRule(["Extends", kind.string()], ["Identity"]);
+    const startWith4 = createTypeRule(["StartsWith", "4"], ["Identity"]);
+    const camelCase = createTypeRule(["Extends", kind.string()], ["CamelCase"]);
+    const fallbackKebab = createTypeRule(["Any"], ["KebabCase"]);
 
     // single rule can be passed in bare
     type C1 = ConvertType<"foo", typeof startWithF>;

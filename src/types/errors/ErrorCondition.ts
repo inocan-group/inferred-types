@@ -5,7 +5,7 @@
  * A way to express a meaningful error message in type system
  */
 export interface ErrorCondition<
-  TKind extends string, 
+  TKind extends string = string, 
   TMsg extends string = string, 
   TDomain extends string = string,
   TVars extends Record<string, unknown> = {}

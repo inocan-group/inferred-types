@@ -12,7 +12,8 @@ import {
   IfUnion,
   UnionToTuple,
   Concat,
-  Join
+  Join,
+  IfTuple
 } from "src/types";
 
 type DescribeWide<T> = IfNever<
@@ -23,7 +24,8 @@ type DescribeWide<T> = IfNever<
   : T extends number ? "number"
   : T extends boolean ? "boolean"
   : T extends AnyFunction ? "function"
-  : T extends unknown[] | readonly unknown[] ? "array"
+  : T extends unknown[] | readonly unknown[] 
+    ? IfTuple<T, Concat<["tuple[", Join<T, ", ", 3>, "]"]>, "array">
   : T extends AnyObject | object ? "object"
   : T extends symbol ? "symbol" 
   : IsEqual<T,null> extends true  ? "null"
@@ -47,7 +49,7 @@ IsEqual<T, Nothing> extends true ? "nothing"
   >
 : T extends boolean ? IfBooleanLiteral<T, T extends true ? "true" : "false", "boolean">
 : T extends AnyFunction ? "function"
-: T extends unknown[] ? IfLiteral<T, "tuple", "array">
+: T extends unknown[] ? IfTuple<T, Concat<["tuple[", Join<T, ", ", 3>, "]"]>, "array">
 : T extends AnyObject | object ? IfLiteral<T, "object-literal", "object">
 : T extends symbol ? "symbol" 
 : IsEqual<T,null> extends true  ? "null"

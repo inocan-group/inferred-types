@@ -27,4 +27,22 @@ describe("createTuple(...values) runtime utility", () => {
     const cases: cases = [ true, true, true ];
   });
 
+  
+  it("passing a const array", () => {
+    const arr = ["foo", "bar"] as const;
+    const foobar = defineTuple(arr);
+    const foobar2 = defineTuple(...arr);
+
+    expect(foobar).toEqual(["foo", "bar"]);
+    expect(foobar2).toEqual(["foo", "bar"]);
+
+    type cases = [
+      Expect<Equal<typeof foobar, ["foo", "bar"]>>,
+      Expect<Equal<typeof foobar2, ["foo", "bar"]>>,
+    ];
+    const cases: cases = [ true, true ];
+  });
+  
+  
+
 });

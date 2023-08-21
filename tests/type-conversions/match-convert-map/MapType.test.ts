@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { createTypeMapRule , kind } from "src/runtime";
+import { createTypeRule , kind } from "src/runtime";
 import {  MapType } from "src/types";
 
 
@@ -9,11 +9,11 @@ describe("MapType<T,M>", () => {
 
   it("types resolve", () => {
     type List = ["foo", "bar", "42", 42, 52, "baz"];
-    const m1 = createTypeMapRule(["StartsWith", "f"], ["StringLiteral", "started with f"]);
-    const m2 = createTypeMapRule(["Extends", kind.string()], ["Identity"]);
-    const m3 = createTypeMapRule(["StartsWith", "4"], ["Identity"]);
-    const m4 = createTypeMapRule(["Extends", kind.number()], ["Identity"]);
-    const m5 = createTypeMapRule(["EndsWith", "2"], ["Identity"]);
+    const m1 = createTypeRule(["StartsWith", "f"], ["StringLiteral", "started with f"]);
+    const m2 = createTypeRule(["Extends", kind.string()], ["Identity"]);
+    const m3 = createTypeRule(["StartsWith", "4"], ["Identity"]);
+    const m4 = createTypeRule(["Extends", kind.number()], ["Identity"]);
+    const m5 = createTypeRule(["EndsWith", "2"], ["Identity"]);
 
     type T1 = MapType<List, [typeof m1,typeof m2]>;
     type T2 = MapType<List, [typeof m2]>;
