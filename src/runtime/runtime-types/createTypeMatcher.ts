@@ -1,49 +1,27 @@
 import type {   
-  TypeMapRule, 
-  TypeRuleDesc,
-  TypeMapMatcher,
-  TypeMapTransformer
+  TypeComparisonOp,
+  ParamsForComparison,
+  Narrowable,
+  AsMatcher,
 } from "src/types";
-import { 
-  capitalize, 
-  ensureTrailing,
-  stripTrailing, 
-  uncapitalize 
-} from "src/runtime";
-import { TYPE_MATCHER_DESC, TYPE_TRANSFORMER_DESC } from "src/constants";
 
 /**
- * **createTypeMapper**
+ * **createTypeMatcher**
  * 
- * Runtime helper to create a type-strong rule for type mapping. Consists of
- * 
- * - **Matcher** - a tuple that describes which types this rule should match on
- * - **Transformer** - a tuple that describes how the incoming type should be
- * mutated/converted.
- * 
- * ```ts
- * const m = createTypeMapper(
- *  ["Equals", "<boolean>"], 
- *  ["AsBooleanString"]
- * );
- * ```
+ * Run time utility which creates a `Matcher` type that can be utilized on
+ * type comparisons and transforms.
  */
-export function createTypeMapRule<
-  TMatch extends TypeMapMatcher,
-  TTransform extends TypeMapTransformer
+export function createTypeMatcher<
+  TOp extends TypeComparisonOp,
+  TParams extends readonly Narrowable[]
 >(
-  match: TMatch,
-  transform: TTransform
-): TypeMapRule<TMatch,TTransform> {
-  return (
-    { 
-      match, 
-      transform,
-      desc: [
-        capitalize(stripTrailing(TYPE_MATCHER_DESC[match[0]], ".")),
-        ensureTrailing(uncapitalize(TYPE_TRANSFORMER_DESC[transform[0]]), ".")
-      ].join(" and ") as TypeRuleDesc<TMatch,TTransform>
-    }
-  );
+  op: TOp,
+  ...params: TParams & ParamsForComparison<TOp>
+) {
+  return {
+    skipFailures: () => [ op, params, "skip", "" ] as unknown as AsMatcher<TOp,TParams,"skip">,
+    excludeFailures: () => [op, params, "exclude", ""] as unknown as AsMatcher<TOp,TParams, "exclude">,
+    throwErrors:() =>  [op, params, "throw", ""] as unknown as AsMatcher<TOp,TParams,"throw">
+  };
 }
 
