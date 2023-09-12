@@ -4,13 +4,18 @@ import { describe, expect, it } from "vitest";
 import { 
   get, 
   defineObj, 
-  isErrorCondition 
+  isErrorCondition, 
+  createTypeTuple,
+  startsWith,
+  ensureLeading
 } from "src/runtime";
 import type { 
   DoesExtend, 
   IsErrorCondition, 
   Get, 
-  ErrorCondition
+  ErrorCondition,
+  Something,
+  Narrowable
 } from "src/types";
 import { ref } from "vue";
 import { NoDefaultValue } from "src/constants";

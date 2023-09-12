@@ -10,6 +10,8 @@ import {
   IfTrue,
   IfFalse,
   CamelCase,
+  EmptyObject,
+  AnyFunction,
 } from "src/types";
 import { asArray, ifLength, ifUndefined, isTrue, toCamelCase } from "src/runtime";
 
@@ -110,6 +112,16 @@ export const kind =  {
    */
   object() { return t<AnyObject>("<<object>>"); },
   objectLiteral<T extends AnyObject>(obj: T) { t<T>(`<<objectLiteral:${JSON.stringify(obj)}>>`); },
+
+  emptyObject() { return t<EmptyObject>("<<emptyObject>>"); },
+
+  function: () => t<AnyFunction>("<<function>>"),
+
+  array: () => t<unknown[]>("<<array>>"),
+
+  tuple<T extends readonly Narrowable[]>(...tuple: T) {
+    return t<T>(`<<tuple:${JSON.stringify(tuple)}>>`);
+  },
   /**
    * returns the _undefined_ type
    */

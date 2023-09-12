@@ -76,7 +76,7 @@ export type Match<
         operation: Op<TMatcher>; 
         refType: RefTypeForComparison<TMatcher>;
         params: ParamsForComparison<TMatcher>;
-      }
+      } 
     >
   >;
 

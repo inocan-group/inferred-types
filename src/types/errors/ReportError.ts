@@ -9,10 +9,22 @@ export type ReportError<T> = T extends ErrorCondition<infer Kind, infer Msg>
   ? ErrorCondition<Kind, Msg>
   : Exclude<T, ErrorCondition<string, string>>;
 
-export function errorCondition<K extends string, T extends string>(kind: K, message: T = "" as T) {
+export function errorCondition<
+  TKind extends string, 
+  TDesc extends string,
+  TDomain extends string,
+  TVars extends Record<string, unknown>
+>(
+  kind: TKind, 
+  message: TDesc = "" as TDesc, 
+  domain: TDomain = "" as TDomain,
+  variables: TVars = {} as TVars
+) {
   return {
     _type: "ErrorCondition",
     kind,
-    message
-  } as ErrorCondition<K, T>;
+    message,
+    domain,
+    variables
+  } as ErrorCondition<TKind, TDesc, TDomain, TVars>;
 } 

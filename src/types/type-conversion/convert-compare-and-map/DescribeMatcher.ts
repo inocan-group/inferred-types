@@ -23,7 +23,5 @@ export type DescribeMatcher<
   TProps extends readonly unknown[],
   THandler extends TypeComparisonHandler
 > = DescForComparison<TOp> extends string
-? Interpolate<DescForComparison<TOp>, TProps> extends string
   ? Concat<["A provided input ", Desc<TOp,TProps>, ". ", HandlerDesc<THandler>]>
-  : never
 : "no description";
