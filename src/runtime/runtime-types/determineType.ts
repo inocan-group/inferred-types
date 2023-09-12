@@ -9,8 +9,8 @@ import {
 import { 
   hasNoUnderlyingTypes, 
   hasUnderlyingTypes, 
-  isLiteralType, 
-  WIDE 
+  isLiteralType,
+  kind
 } from "src/runtime";
 
 type GetType<U> = U extends readonly unknown[]
@@ -45,25 +45,23 @@ export function determineType<TD extends TypeDefn>(t: TD): FromTypeDefn<TD>["typ
     // the remaining are all static in their type
     switch(t.kind) {
       case "string":
-        return WIDE.string;
+        return kind.string();
       case "number":
-        return WIDE.number;
+        return kind.number();
       case "undefined":
-        return WIDE.undefined;
+        return kind.undefined();
       case "null":
-        return WIDE.null;
+        return kind.null();
       case "boolean":
-        return WIDE.boolean;
+        return kind.boolean();
       case "anyFunction":
-        return WIDE.function;
+        return kind.function();
       case "anyArray":
-        return WIDE.anyArray;
+        return kind.array();
       case "anyObject":
-        return WIDE.anyObject;
-      case "unknownObject":
-        return WIDE.unknownObject;
+        return kind.object();
       case "emptyObject": 
-        return WIDE.emptyObject;
+        return kind.emptyObject();
       default:
         throw new Error(`Unknown type (without underlying values): ${t.kind}`);
     }

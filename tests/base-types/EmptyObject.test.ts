@@ -52,7 +52,7 @@ describe("EmptyObject", () => {
     type Foo = typeof foo;
     type EmptyFoo = IndexedObject<Foo>;
     type Monster = IndexableObject ;
-    const a: Monster = {foo: Never}
+    const a: Monster = {foo: Never};
 
     const maybeLater: Record<string, unknown> = {};
     type MaybeLater = typeof maybeLater;

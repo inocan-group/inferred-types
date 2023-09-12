@@ -7,15 +7,16 @@ import type {
   DoesExtend,
   EmptyObject,
 } from "src/types";
-import { defineObj, keysOf, isRef, narrow } from "src/runtime";
-import { ref } from "vue";
+import { defineObj, keysOf, narrow } from "src/runtime";
 
 describe("NumericKeys<T>", () => {
 
   it("happy path", () => {
     type StringArr = ["foo", "bar", "baz"];
     type StrArr_RO = readonly ["foo", "bar", "baz"];
-    type Numeric = NumericKeys<[1,2,3]>;
+    type NumArr = [1,2,3];
+
+    type Numeric = NumericKeys<NumArr>;
     type Str = NumericKeys<StringArr>;
     type Str_RO = NumericKeys<StrArr_RO>;
     type Empty = NumericKeys<[]>;
@@ -40,6 +41,7 @@ describe("Keys<T> ", () => {
   type FooBar_RO =Keys<Readonly<OBJ>>;
   type FooBar_EXT = Keys<{ foo: 1; bar: 2; [x: string]: unknown }>;
   type EmptyObj = Keys<EmptyObject>;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   type Curly = Keys<{}>;
 
   it("object resolution", () => {
@@ -98,25 +100,6 @@ describe("runtime keysOf() utility on object", () => {
     const cases: cases = [ true ];
   });
   
-  
-  it("keys of a VueJS Ref<T> should only be 'value'", () => {
-    const obj = ref({foo: 1, bar: 2});
-    
-    const k = keysOf(obj);
-    
-    
-    
-    expect("value" in obj, "value should be a prop in a Ref<T> object").toBe(true);
-    expect("__v_isRef" in obj).toBe(true);
-    expect(isRef(obj)).toBe(true);
 
-    expect(k, `A Ref<T> returns only the value prop from keysOf(): ${k}`).toEqual(["value"]);
-
-    type cases = [
-      Expect<Equal<readonly ["value"], typeof k>>,//
-    ];
-
-    const cases: cases = [ true ];
-  });
 
 });

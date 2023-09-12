@@ -14,7 +14,10 @@ export const TYPE_TOKEN_IDENTITIES = [
   "false",
   "space",
   "whitespace",
-  "object"
+  "object",
+  "emptyObject",
+  "function",
+  "array"
 ] as const;
 
 /**

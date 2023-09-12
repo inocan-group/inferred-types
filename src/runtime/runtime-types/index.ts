@@ -4,6 +4,7 @@ export * from "./matchType";
 export * from "./createTypeMatcher";
 export * from "./determineIdentity";
 export * from "./determineType";
+export * from "./describeType";
 export * from "./extractTypeToken";
 export * from "./kind";
 export * from "./extractTypeToken";
