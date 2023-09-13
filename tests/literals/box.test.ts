@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
 import { box, BoxedFnParams, BoxValue, unbox } from "src/runtime";
 import { First } from "src/types/lists/First";
-import { Box } from "src/types";
+import { Box } from "../../src/types/base";
 
 // [Instantiation Expressions](https://devblogs.microsoft.com/typescript/announcing-typescript-4-7-beta/#instantiation-expressions)
 

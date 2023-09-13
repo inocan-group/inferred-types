@@ -1,3 +1,3 @@
 export * from "src/constants";
-export * from "src/types";
+export * from "../types/base";
 export * from "src/runtime";

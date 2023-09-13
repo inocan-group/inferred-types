@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
 
-import type {  AnyObject, WithValue } from "src/types";
+import type {  AnyObject, WithValue } from "../../src/types/base";
 import { createFnWithProps, withValue, defineObj } from "src/runtime";
 
 const obj = defineObj({

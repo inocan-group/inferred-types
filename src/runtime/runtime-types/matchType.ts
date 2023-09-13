@@ -8,7 +8,7 @@ import {
   MatchAllResponse,
   errorCondition,
   Match
-} from "src/types";
+} from "../../types/base";
 import { describeType, isArray, isBoolean, isFalsy, isNothing, isNumber, isString } from "src/runtime";
 import { FALSY_VALUES } from "src/constants";
 

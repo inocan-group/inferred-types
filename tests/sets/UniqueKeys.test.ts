@@ -2,7 +2,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { LeftRight, UniqueKeys, Left, Right, HasSameValues } from "src/types";
+import { LeftRight, UniqueKeys, Left, Right, HasSameValues } from "../../src/types/base";
 import { uniqueKeys } from "src/runtime";
 import { UniqueKeysUnion } from "src/types/sets/UniqueKeysUnion";
 

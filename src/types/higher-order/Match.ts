@@ -9,7 +9,7 @@ import {
   RefTypeForComparison, 
   TypeComparison, 
   WithDefault
-} from "src/types";
+} from "../base";
 
 type Op<T extends Matcher> = T[0];
 type Handler<T extends Matcher> = WithDefault<T[2], "throw">;

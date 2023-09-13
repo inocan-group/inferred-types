@@ -5,7 +5,7 @@ import {
   TypeTransformRule,
   TypeMapMatcher,
   TypeMapTransformer
-} from "src/types";
+} from "../../types/base";
 import { 
   toCamelCase,
   endsWith, 

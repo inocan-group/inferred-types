@@ -25,7 +25,7 @@ import {
   StartsWith, 
   Matcher,
   First
-} from "src/types";
+} from "../base";
 
 export type TypeComparisonHandler = "skip" | "throw" | "narrow";
 

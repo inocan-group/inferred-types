@@ -16,7 +16,7 @@ import type {
   ErrorCondition,
   Something,
   Narrowable
-} from "src/types";
+} from "../../src/types/base";
 import { ref } from "vue";
 import { NoDefaultValue } from "src/constants";
 

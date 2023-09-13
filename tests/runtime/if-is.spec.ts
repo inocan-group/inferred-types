@@ -14,7 +14,7 @@ import {
   StartingWithTypeGuard, 
   startsWith, box, WIDE,
 } from "src/runtime";
-import { EndsWith, DoesExtend, LowerAlphaChar, Or, StartsWith  } from "src/types";
+import { EndsWith, DoesExtend, LowerAlphaChar, Or, StartsWith  } from "../../src/types/base";
 
 
 describe("runtime if/is", () => {

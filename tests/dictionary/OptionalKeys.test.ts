@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
-import { OptionalKeys } from "src/types";
+import { OptionalKeys } from "../../src/types/base";
 
 
 describe("OptionalKeys<T, V>", () => {

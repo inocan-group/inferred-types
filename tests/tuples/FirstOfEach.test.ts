@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { FirstOfEach, Split, Chars, IsLiteral } from "src/types";
+import { FirstOfEach, Split, Chars, IsLiteral } from "../../src/types/base";
 
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

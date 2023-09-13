@@ -1,4 +1,4 @@
-import { StripLeading } from "src/types";
+import { StripLeading } from "../../types/base";
 
 /**
  * **stripLeading**(content, strip)

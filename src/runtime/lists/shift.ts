@@ -1,4 +1,4 @@
-import {  Narrowable, Slice, Tuple,  IfHasKeys } from "src/types";
+import {  Narrowable, Slice, Tuple,  IfHasKeys } from "../../types/base";
 
 export type ShiftResult<V, L extends Tuple> = [value: V, list: L];
 

@@ -4,7 +4,7 @@ import {
   IfContains, 
   Keys, 
   Narrowable
-} from "src/types";
+} from "../../types/base";
 import { hasIndexOf } from "src/runtime";
 
 export const ifHasKey = <

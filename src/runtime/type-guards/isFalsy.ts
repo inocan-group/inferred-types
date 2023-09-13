@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FalsyValue, Narrowable } from "src/types";
+import { FalsyValue, Narrowable } from "../../types/base";
 import { FALSY_VALUES } from "src/constants";
 
 /**

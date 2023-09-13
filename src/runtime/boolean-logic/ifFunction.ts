@@ -1,4 +1,4 @@
-import { IfFunction, AnyFunction, Narrowable } from "src/types";
+import { IfFunction, AnyFunction, Narrowable } from "../../types/base";
 import { isFunction } from "src/runtime";
 
 /**

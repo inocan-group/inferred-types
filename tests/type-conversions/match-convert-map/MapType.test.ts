@@ -2,7 +2,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
 import { createTypeRule , kind } from "src/runtime";
-import {  MapType } from "src/types";
+import {  MapType } from "../../../src/types/base";
 
 
 describe("MapType<T,M>", () => {

@@ -2,7 +2,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
 import { ifRef } from "src/runtime";
-import { MaybeRef, VueRef } from "src/types";
+import { MaybeRef, VueRef } from "../../src/types/base";
 import { ref } from "vue";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

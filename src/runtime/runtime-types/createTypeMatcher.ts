@@ -3,7 +3,7 @@ import type {
   ParamsForComparison,
   Narrowable,
   AsMatcher,
-} from "src/types";
+} from "../../types/base";
 
 /**
  * **createTypeMatcher**

@@ -1,4 +1,4 @@
-import { Narrowable, Scalar, ToNumber } from "src/types";
+import { Narrowable, Scalar, ToNumber } from "../../types/base";
 
 
 

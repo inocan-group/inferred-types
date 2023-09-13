@@ -1,4 +1,4 @@
-import { EnsureLeading, ToString } from "src/types";
+import { EnsureLeading, ToString } from "../../types/base";
 import { toString } from "src/runtime";
 
 /**

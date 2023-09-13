@@ -1,7 +1,7 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { ConditionalTransform, ErrorCondition, IsErrorCondition } from "src/types";
+import { ConditionalTransform, ErrorCondition, IsErrorCondition } from "../../../src/types/base";
 import { Constant } from "src/constants";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

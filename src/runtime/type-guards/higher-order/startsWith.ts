@@ -1,4 +1,4 @@
-import type { Narrowable } from "src/types";
+import type { Narrowable } from "../../../types/base";
 import { isNumber, isString } from "src/runtime";
 
 /**

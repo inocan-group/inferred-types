@@ -1,4 +1,4 @@
-import { Narrowable } from "src/types";
+import { Narrowable } from "../../../types/base";
 import { ifNumber, ifString } from "src/runtime";
 
 export type EndingWithTypeGuard<T extends string> = <

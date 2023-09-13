@@ -1,5 +1,5 @@
 
-import type { Container, GetEach } from "src/types";
+import type { Container, GetEach } from "../../types/base";
 import { get, isErrorCondition, isNull, isContainer } from "src/runtime";
 import { Never } from "src/constants";
 

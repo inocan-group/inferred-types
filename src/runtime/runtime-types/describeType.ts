@@ -1,4 +1,4 @@
-import { DescribeType, Narrowable, TypeToken } from "src/types";
+import { DescribeType, Narrowable, TypeToken } from "../../types/base";
 import { isArray, isBoolean, isFunction, isNull, isNumber, isObject, isString, isSymbol, isTypeToken, isUndefined } from "../type-guards";
 
 

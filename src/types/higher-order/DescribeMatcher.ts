@@ -1,4 +1,4 @@
-import { Concat, DescForComparison, Interpolate,  TypeComparisonHandler, TypeComparisonOp } from "src/types";
+import { Concat, DescForComparison, Interpolate,  TypeComparisonHandler, TypeComparisonOp } from "../base";
 
 type Desc<
   TOp extends TypeComparisonOp,

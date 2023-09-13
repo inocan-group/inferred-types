@@ -7,7 +7,7 @@ import {
    UnconditionalTransform,
    AsArray,
    WithDefault,
-} from "src/types";
+} from "../base";
 
 /** extract the transform Operation from an element */
 type TrfOp<

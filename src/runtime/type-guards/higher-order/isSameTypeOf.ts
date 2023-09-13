@@ -1,4 +1,4 @@
-import { ConvertTypeOf, GetTypeOf } from "src/types";
+import { ConvertTypeOf, GetTypeOf } from "../../../types/base";
 
 /**
  * **isSameTypeOf**(base, compare)

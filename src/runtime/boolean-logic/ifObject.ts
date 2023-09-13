@@ -1,4 +1,4 @@
-import type { IfObject, Narrowable } from "src/types";
+import type { IfObject, Narrowable } from "../../types/base";
 import { isObject } from "src/runtime";
 
 export function ifObject<

@@ -5,7 +5,7 @@ import type {
   TypeDefn,
   TypeKind,
   TypeUnderlying,
-} from "src/types";
+} from "../../types/base";
 import { 
   LITERAL_TYPE_KINDS,
   NO_DEFAULT_VALUE,

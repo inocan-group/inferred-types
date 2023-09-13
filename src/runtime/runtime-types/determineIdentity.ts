@@ -1,4 +1,4 @@
-import { Suggest, TypeDefn } from "src/types";
+import { Suggest, TypeDefn } from "../../types/base";
 
 // const byKind = {
 //   string: `The `

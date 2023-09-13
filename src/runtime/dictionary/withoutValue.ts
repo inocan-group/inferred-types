@@ -1,4 +1,4 @@
-import { AnyObject, Narrowable, WithoutValue } from "src/types";
+import { AnyObject, Narrowable, WithoutValue } from "../../types/base";
 
 /**
  * **withoutValue**

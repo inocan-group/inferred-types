@@ -3,7 +3,7 @@ import {
   TYPE_CONVERSION_NUMERIC, 
   TYPE_CONVERSION_STRING 
 } from "src/constants";
-import { TupleToUnion } from "src/types";
+import { TupleToUnion } from "../base";
 
 /**
  * **TypeTransformOp_Atomic**

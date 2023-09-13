@@ -2,7 +2,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { IsScalar, Scalar, UnionToTuple } from "src/types";
+import { IsScalar, Scalar, UnionToTuple } from "../../../src/types/base";
 import { isScalar} from "src/runtime";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

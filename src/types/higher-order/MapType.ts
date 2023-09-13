@@ -4,7 +4,7 @@ import type {
   Matcher,
   Transform,
   IfMatchAll
-} from "src/types";
+} from "../base";
 
 /**
  * **ConfiguredTypeMapper**`<R>`

@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import {  Transform } from "src/types";
+import {  Transform } from "../../../src/types/base";
 import {  createTypeTransform } from "src/runtime";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

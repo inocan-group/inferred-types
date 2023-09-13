@@ -5,7 +5,7 @@ import type {
   Nothing,
   AnyObject,
   AnyFunction
-} from "src/types";
+} from "../../types/base";
 import { 
   isTupleType,
   isObject,

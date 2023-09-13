@@ -1,4 +1,4 @@
-import { RetainAfter } from "src/types";
+import { RetainAfter } from "../../types/base";
 
 /**
  * **RetainAfter**(content, find)

@@ -2,7 +2,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
 import { indexOf, isErrorCondition } from "src/runtime";
-import type { DoesExtend, ErrorCondition, IndexOf } from "src/types";
+import type { DoesExtend, ErrorCondition, IndexOf } from "../../src/types/base";
 import { Never } from "src/constants";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

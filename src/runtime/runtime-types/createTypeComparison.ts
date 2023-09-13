@@ -1,4 +1,4 @@
-import {   Matcher, TypeComparisonHandler, TypeComparisonOp } from "src/types";
+import {   Matcher, TypeComparisonHandler, TypeComparisonOp } from "../../types/base";
 import { KindApi, kind} from "src/runtime";
 
 export const createTypeComparison = <

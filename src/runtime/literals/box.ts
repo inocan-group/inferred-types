@@ -2,7 +2,7 @@ import type {
   Narrowable,
   Box,
   AnyObject,
-} from "src/types";
+} from "../../types/base";
 
 
 export type BoxValue<T extends Box<unknown>> = T extends Box<infer V> ? V : never;

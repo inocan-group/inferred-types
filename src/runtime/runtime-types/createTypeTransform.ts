@@ -1,4 +1,4 @@
-import { IfNull, Narrowable, ParamsForComparison, RefTypeForComparison, TransformElement, TypeComparisonHandler, TypeComparisonOp, TypeTransformOp } from "src/types";
+import { IfNull, Narrowable, ParamsForComparison, RefTypeForComparison, TransformElement, TypeComparisonHandler, TypeComparisonOp, TypeTransformOp } from "../../types/base";
 import { KindApi, omit } from "src/runtime";
 
 

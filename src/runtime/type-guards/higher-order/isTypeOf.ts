@@ -1,4 +1,4 @@
-import { TypeOf, ConvertTypeOf } from "src/types";
+import { TypeOf, ConvertTypeOf } from "../../../types/base";
 
 export type TypeOfTypeGuard<TType extends TypeOf> = <TValue>(value: TValue)=> value is TValue & ConvertTypeOf<TType>;
 

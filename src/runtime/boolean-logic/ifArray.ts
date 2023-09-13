@@ -1,4 +1,4 @@
-import type { IfArray, Narrowable } from "src/types";
+import type { IfArray, Narrowable } from "../../types/base";
 
 /**
  * **ifArray**(T, IF, ELSE)
