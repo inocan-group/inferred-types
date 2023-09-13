@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 import { Equal, Expect } from "@type-challenges/utils";
-import { LeftWhitespace, RightWhitespace } from "src/types";
+import { LeftWhitespace, RightWhitespace } from "../../src/types/base";
 
 describe("LeftWhitespace<T> utility", () => {
   it("no whitespace results in empty string literal", () => {

@@ -1,4 +1,4 @@
-import { VueRef } from "src/types";
+import { VueRef } from "../../types/base";
 import { isObject } from "src/runtime";
 
 /**

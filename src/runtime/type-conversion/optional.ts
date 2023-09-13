@@ -1,4 +1,4 @@
-import { IfLength, Narrowable } from "src/types";
+import { IfLength, Narrowable } from "../../types/base";
 
 /**
  * **optional**(value)

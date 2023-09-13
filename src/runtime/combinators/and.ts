@@ -1,4 +1,4 @@
-import type { And } from "src/types";
+import type { And } from "../../types/base";
 
 /**
  * Groups a number of "logic functions" together by combining their results using

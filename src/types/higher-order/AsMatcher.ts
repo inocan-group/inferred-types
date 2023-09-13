@@ -4,7 +4,7 @@ import {
   Matcher,
   TypeComparisonHandler,
   TypeComparisonOp,
-} from "src/types";
+} from "../base";
 
 type Handler<T extends TypeComparisonHandler | never> = IfEqual<T, TypeComparisonHandler | never, "throw", T>;
 

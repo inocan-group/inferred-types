@@ -18,7 +18,7 @@ import {
 } from "src/runtime";
 import { Constant, NoDefaultValue, NO_DEFAULT_VALUE, Never } from "src/constants";
 import { ref, Ref } from "vue";
-import { DoesExtend } from "src/types";
+import { DoesExtend } from "../../src/types/base";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 

@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import type { Equal, Expect } from "@type-challenges/utils";
 
-import type { Includes } from "src/types";
+import type { Includes } from "../../src/types/base";
 
 describe("Includes type check", () => {
   it("Includes works on a string source", () => {

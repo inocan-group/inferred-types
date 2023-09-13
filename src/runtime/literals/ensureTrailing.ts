@@ -1,4 +1,4 @@
-import { EnsureTrailing } from "src/types";
+import { EnsureTrailing } from "../../types/base";
 
 /**
  * **ensureTrailing**(content, strip)

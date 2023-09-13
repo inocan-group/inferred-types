@@ -1,4 +1,4 @@
-import { Narrowable } from "src/types";
+import { Narrowable } from "../../types/base";
 import { isSpecificConstant } from "src/runtime";
 import { NoDefaultValue } from "src/constants";
 /**

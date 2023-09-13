@@ -1,4 +1,4 @@
-import { Filter,  FilterOps, Narrowable } from "src/types";
+import { Filter,  FilterOps, Narrowable } from "../../types/base";
 import { isSameTypeOf } from "src/runtime";
 
 export const filter = <

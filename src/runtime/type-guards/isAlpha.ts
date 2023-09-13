@@ -1,5 +1,5 @@
 // import { isStringLiteral } from "typescript"
-import { Alpha, AlphaChar, Narrowable } from "src/types";
+import { Alpha, AlphaChar, Narrowable } from "../../types/base";
 import { ALPHA_CHARS } from "src/constants";
 import { isString, split} from "src/runtime";
 

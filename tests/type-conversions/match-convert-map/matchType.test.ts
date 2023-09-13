@@ -2,7 +2,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
 import { MatchTypeComparison, createTypeMatcher, matchType } from "src/runtime";
-import {   ErrorCondition, DoesExtend, AsMatcher, Match, MatchAll } from "src/types";
+import {   ErrorCondition, DoesExtend, AsMatcher, Match, MatchAll } from "../../../src/types/base";
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
 // gain validation that no new type vulnerabilities have cropped up.

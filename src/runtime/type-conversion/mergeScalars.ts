@@ -1,4 +1,4 @@
-import type { MergeScalars, Scalar } from "src/types";
+import type { MergeScalars, Scalar } from "../../types/base";
 import { isUndefined } from "src/runtime";
 
 /**

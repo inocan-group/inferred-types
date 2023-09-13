@@ -27,7 +27,7 @@ import {
   Increment,
   Decrement,
   DescribeType,
-} from "src/types";
+} from "../base";
 
 export type InvalidTransformInput<
   TOp extends TypeTransformOp, 

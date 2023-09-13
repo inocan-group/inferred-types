@@ -25,7 +25,7 @@
                 "./index.ts"
             ],
             "src/types": [
-                "../types/index.ts"
+                "../types/base/index.ts"
             ],
             "src/constants": [
                 "../constants/index.ts"

@@ -1,4 +1,4 @@
-import { Matcher, ErrorCondition } from "src/types";
+import { Matcher, ErrorCondition } from "../base";
 
 type Success<
   TInput,

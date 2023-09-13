@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { LogicFunction } from "src/types";
+import { LogicFunction } from "../../types/base";
 import { ifBoolean, ifFunction } from "src/runtime";
 
 export function logicalReturns<

@@ -1,4 +1,4 @@
-import { KeyValue, Narrowable } from "src/types";
+import { KeyValue, Narrowable } from "../../types/base";
 import { keysOf } from "src/runtime";
 
 /**

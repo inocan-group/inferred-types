@@ -2,7 +2,7 @@
 import { describe, expect, it } from "vitest";
 import {  Expect } from "@type-challenges/utils";
 
-import { DoesExtend, Matcher } from "src/types";
+import { DoesExtend, Matcher } from "../../src/types/base";
 import { createTypeMatcher, isArray } from "src/runtime";
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 

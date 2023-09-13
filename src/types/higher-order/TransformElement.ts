@@ -1,7 +1,7 @@
 import { 
   Matcher,
   TypeTransformOp,
-} from "src/types";
+} from "../base";
 
 /**
  * **TransformElement**`<TOp,TParam,[TMatcher]>`

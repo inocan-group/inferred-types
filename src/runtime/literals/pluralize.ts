@@ -6,7 +6,7 @@ import {
   SINGULAR_NOUN_ENDINGS 
 } from "src/constants";
 import { getEach,  split, stripTrailing } from "src/runtime";
-import {  Mutable, Pluralize, TupleToUnion } from "src/types";
+import {  Mutable, Pluralize, TupleToUnion } from "../../types/base";
 
 const isException = <T extends string>(word: T) => getEach(PLURAL_EXCEPTIONS,"0").includes(word as any);
 

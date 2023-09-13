@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { IfLength,  Length } from "src/types";
+import { IfLength,  Length } from "../../src/types/base";
 import { ifLength, narrow } from "src/runtime";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

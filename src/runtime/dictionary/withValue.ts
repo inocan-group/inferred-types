@@ -1,4 +1,4 @@
-import {  AnyObject, Narrowable, WithValue } from "src/types";
+import {  AnyObject, Narrowable, WithValue } from "../../types/base";
 import { KindApi, kind, isSameType } from "src/runtime";
 
 /**

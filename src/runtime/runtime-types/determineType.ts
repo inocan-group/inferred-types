@@ -4,7 +4,7 @@ import {
   GetEach, 
   TupleToUnion, 
   UnionToIntersection 
-} from "src/types";
+} from "../../types/base";
 
 import { 
   hasNoUnderlyingTypes, 

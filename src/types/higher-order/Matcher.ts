@@ -1,7 +1,7 @@
 import { 
   TypeComparisonHandler,
   TypeComparisonOp,
-} from "src/types";
+} from "../base";
 
 /**
  * **Matcher**`<TOp,TRefType,[THandler]>`

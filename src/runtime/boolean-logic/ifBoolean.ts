@@ -1,4 +1,4 @@
-import { Narrowable, IfBoolean, IsBoolean } from "src/types";
+import { Narrowable, IfBoolean, IsBoolean } from "../../types/base";
 import { isBoolean } from "src/runtime";
 
 /**

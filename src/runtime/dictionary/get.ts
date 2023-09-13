@@ -6,7 +6,7 @@ import type {
   ReportError,
   AnyObject,
   Tuple,
-} from "src/types";
+} from "../../types/base";
 import {
   NO_DEFAULT_VALUE,
   NoDefaultValue,

@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import type { NarrowObject, Narrowable } from "src/types";
+import type { NarrowObject, Narrowable } from "../../types/base";
 import { omit } from "src/runtime";
 
 /**

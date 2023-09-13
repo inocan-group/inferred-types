@@ -1,4 +1,4 @@
-import { Flatten, Narrowable } from "src/types";
+import { Flatten, Narrowable } from "../../types/base";
 
 /**
  * **createTuple**(...values) -> (...values) -> Tuple

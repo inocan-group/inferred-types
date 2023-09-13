@@ -10,7 +10,7 @@ import {
   Nothing, 
   ExpandRecursively, 
   Scalar 
-} from "src/types";
+} from "../../src/types/base";
 import { Never } from "../../src/inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

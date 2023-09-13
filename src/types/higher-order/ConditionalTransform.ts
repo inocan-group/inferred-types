@@ -8,7 +8,7 @@ import {
   UnconditionalTransform, 
   TypeComparison, 
   MatchResponse 
-} from "src/types";
+} from "../base";
 
 export type SkipType<T> = Constant<"Skip", T>;
 

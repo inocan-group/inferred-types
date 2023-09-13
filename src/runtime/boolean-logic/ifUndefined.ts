@@ -1,4 +1,4 @@
-import { IsUndefined, Narrowable } from "src/types";
+import { IsUndefined, Narrowable } from "../../types/base";
 import { isDefined, isUndefined } from "src/runtime";
 
 /**

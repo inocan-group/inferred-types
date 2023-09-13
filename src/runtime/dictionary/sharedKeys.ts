@@ -1,4 +1,4 @@
-import { AnyObject, ObjectKey, SharedKeys } from "src/types";
+import { AnyObject, ObjectKey, SharedKeys } from "../../types/base";
 
 /**
  * **sharedKeys**

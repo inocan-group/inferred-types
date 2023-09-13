@@ -12,7 +12,7 @@ import {
   CamelCase,
   EmptyObject,
   AnyFunction,
-} from "src/types";
+} from "../../types/base";
 import { asArray, ifLength, ifUndefined, isTrue, toCamelCase } from "src/runtime";
 
 const t = <T extends Narrowable | Tuple>(token: TypeToken) => {

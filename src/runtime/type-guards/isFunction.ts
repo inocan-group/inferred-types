@@ -1,4 +1,4 @@
-import { AnyFunction } from "src/types";
+import { AnyFunction } from "../../types/base";
 
 /**
  * **isFunction**(value)
