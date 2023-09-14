@@ -1,4 +1,5 @@
 export * from "./AllExtend";
+export * from "./AllLiteral";
 export * from "./Contains";
 export * from "./ContainsAll";
 export * from "./DoesExtend";
@@ -70,3 +71,4 @@ export * from "./IsIndexable";
 export * from "./HasCharacters";
 export * from "./HasKeys";
 export * from "./IsReadonlyObject";
+export * from "./OfSameLength";

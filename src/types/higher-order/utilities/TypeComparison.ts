@@ -23,11 +23,9 @@ import {
   IsTruthy, 
   NotEqual, 
   StartsWith, 
-  Matcher,
   First
-} from "../base";
+} from "src/types";
 
-export type TypeComparisonHandler = "skip" | "throw" | "narrow";
 
 type Op<T extends Matcher> = T[0];
 type Params<T extends Matcher> = T[1];

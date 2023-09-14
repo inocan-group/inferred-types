@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /**
- * **ErrorCondition**`<T>`
+ * **ErrorCondition**`<TKind,[TMsg],[TDomain],[TVars]>`
  * 
  * A way to express a meaningful error message in type system
  */

@@ -44,7 +44,7 @@ type Handle<
  * 
  * Compares an input `TInput` using a `Matcher` expression.
  */
-export type Match<
+export type MatchOld<
   TInput,
   TMatcher extends Matcher
 > = TInput extends RefTypeForComparison<TMatcher>
@@ -115,15 +115,15 @@ type Pipeline<
     TMatchers extends readonly Matcher[]
 > = [] extends TMatchers
 ? MatchAllResponse<"success", TInput>
-: TransformInput<Match<TInput, First<TMatchers>>, First<TMatchers>> extends ErrorCondition
+: TransformInput<MatchOld<TInput, First<TMatchers>>, First<TMatchers>> extends ErrorCondition
   ? // exit early if an error is returned
     MatchAllResponse<
       "throw",
-      TransformInput<Match<TInput, First<TMatchers>>, First<TMatchers>>
+      TransformInput<MatchOld<TInput, First<TMatchers>>, First<TMatchers>>
     >
   : // continue iterating through pipeline
     Pipeline<
-      TransformInput<Match<TInput, First<TMatchers>>, First<TMatchers>>,
+      TransformInput<MatchOld<TInput, First<TMatchers>>, First<TMatchers>>,
       AfterFirst<TMatchers>
     >;
 

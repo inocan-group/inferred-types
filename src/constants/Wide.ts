@@ -23,6 +23,7 @@ export const WideAssignment = {
   null: () => "<<null>>" as unknown as null,
   function:() =>  "<<function>>" as unknown as AnyFunction,
   tuple:() => "<<tuple>>" as unknown as readonly unknown[],
+  singularTuple: () => ["<<tuple>>"] as unknown as [readonly unknown[]],
   object: () =>  "<<object>>" as AnyObject,
   emptyObject:() => "<<empty-object>>" as Record<never,unknown>,
   undefined: () => "<<undefined>>" as unknown as undefined,
