@@ -21,7 +21,7 @@
         "paths": {
             // allow importing from the root export of the types sub project
             "src/types": [
-                "base/index.ts"
+                "./index.ts"
             ],
             // allow importing all constants to the static "src/constants" path
             "src/constants": [
@@ -35,6 +35,5 @@
     },
     "include": [
         "./**/*.ts",
-        "../../hold/ValidateTypeTransform.ts"
     ]
 }

@@ -23,7 +23,7 @@
         "outDir": "../../dist/none",
         "paths": {
             "src/types": [
-                "../src/types/base/index.ts"
+                "../src/types/index.ts"
             ],
             "src/constants": [
                 "../src/constants/index.ts"
