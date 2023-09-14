@@ -3,7 +3,7 @@ import {
   TypeTransformOp_CrossType, 
   TypeTransformOp_Numeric, 
   TypeTransformOp_String,
-} from "../base";
+} from "src/types";
 
 /**
  * **TypeConversionParams**

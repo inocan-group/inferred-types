@@ -6,6 +6,7 @@
 
 // file exports
 export * from "./AfterFirst";
+export * from "./AllowNonTupleWhenSingular";
 export * from "./First";
 export * from "./AsArray";
 export * from "./FirstString";

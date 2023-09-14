@@ -1,3 +1,4 @@
+export * from "./IfAllLiteral";
 export * from "./IfScalar";
 export * from "./IfOr";
 export * from "./IfOptionalScalar";
@@ -12,6 +13,7 @@ export * from "./IfErrorCondition";
 export * from "./IfNotError";
 export * from "./IfSingularNoun";
 
+export * from "./IfEqualLength";
 export * from "./IfSomeExtend";
 export * from "./IfDotPath";
 export * from "./IfValidDotPath";
