@@ -1,4 +1,11 @@
-
+import {  
+  Concat, 
+  DescribeType, 
+  ErrorCondition, 
+  TransformDef, 
+  TransformOp, 
+  TransformRefType 
+} from "src/types";
 
 type Identity = 0;
 type Op = 1;
@@ -8,7 +15,7 @@ type Handler = 3;
 type InvalidTypeForOp<
   TExpects,
   TType,
-  TTransform extends TransformDef<ComparisonOp>
+  TTransform extends TransformDef<TransformOp>
 > = ErrorCondition<
   "invalid-type-for-operation",
   Concat<[
@@ -26,8 +33,8 @@ type InvalidTypeForOp<
 
 
 type IfOp<
-  TTransform extends TransformDef<ComparisonOp>,
-  TOp extends ComparisonOp,
+  TTransform extends TransformDef<TransformOp>,
+  TOp extends TransformOp,
 > = TTransform[Op] extends TOp ? true : false;
 
 /**
@@ -41,7 +48,7 @@ type Attempt<
 > = TVal extends TransformRefType<TTransform[Op]>
 ? TType
 : InvalidTypeForOp<
-    ComparisonRefType<TTransform[Op]>, 
+    TransformRefType<TTransform[Op]>, 
     TVal, 
     TTransform
   >;
@@ -49,8 +56,17 @@ type Attempt<
 type Process<
   TVal, 
   TTransform extends TransformDef<TransformOp>
-> = any;
-
+> = 
+IfOp<TTransform, "Identity"> extends true ? TVal
+: IfOp<TTransform, "Identity"> extends true ? TVal
+: IfOp<TTransform, "Identity"> extends true ? TVal
+: IfOp<TTransform, "Identity"> extends true ? TVal
+: IfOp<TTransform, "Identity"> extends true ? TVal
+: IfOp<TTransform, "Identity"> extends true ? TVal
+: IfOp<TTransform, "Identity"> extends true ? TVal
+: IfOp<TTransform, "Identity"> extends true ? TVal
+: IfOp<TTransform, "Identity"> extends true ? TVal
+: never;
 
 /**
  * **ApplyMatch**`<TVal, TTransform>`

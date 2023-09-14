@@ -11,7 +11,7 @@ type Desc = 1;
 type Params = 2;
 
 /**
- * **TypeComparison**
+ * **MathOp**
  * 
  * A union type of comparison operations which can be done between two
  * known typed data structures.
