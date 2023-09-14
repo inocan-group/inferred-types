@@ -1,20 +1,36 @@
 import { describe, it, expect } from "vitest";
-import {  asArray } from "../../src/runtime";
 import { Equal, Expect } from "@type-challenges/utils";
-import { AsArray } from "../../src/types/base";
+
+import { AsArray } from "src/types";
+import {  asArray } from "src/runtime";
 
 describe("AsArray<T>", () => {
   it("happy path", () => {
     type T1 = AsArray<4>;
     type T2 = AsArray<[4, 5, 6]>;
+    type T3 = AsArray<T2>;
 
     type cases = [
       //
       Expect<Equal<T1, [4]>>,
       Expect<Equal<T2, [4, 5, 6]>>,
+      Expect<Equal<T3, [4, 5, 6]>>,
     ];
-    const cases: cases = [true, true];
+    const cases: cases = [true, true, true];
   });
+
+  
+  it("using with a union tuple type", () => {
+    type X = (readonly unknown[] | [readonly unknown[]]);
+    type T1 = AsArray<X>;
+    
+    type cases = [
+      Expect<Equal<T1,  [readonly unknown[]]>>
+    ];
+    const cases: cases = [ true ];
+    
+  });
+  
 });
 
 describe("asArray() function", () => {

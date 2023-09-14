@@ -5,7 +5,7 @@ type WideApi = typeof WideAssignment;
 const wide = WideAssignment as unknown as WideApi;
 
 const entry = <
-  TRefType extends (kb: WideApi) => unknown,
+  TRefType extends ((kb: WideApi) => unknown),
   TDesc extends string,
   TParams extends readonly (Scalar | ((kb: WideApi) => unknown))[],
 >(
@@ -22,12 +22,12 @@ const entry = <
 ] as [ReturnType<TRefType>, TDesc, TParams];
 
 /**
- * **TYPE_COMPARISONS_DICT**
+ * **TYPE_COMPARISONS**
  * 
  * A dictionary of all _comparison_ operations along with their `RefType`, description,
  * and `Params`.
  */
-export const TYPE_COMPARISONS_DICT = {
+export const TYPE_COMPARISONS = {
   "Extends": entry(t => t.unknown(), "extends the type", t => t.unknown() ),
   "NotExtends": entry(t => t.unknown(), "does not extent the type", t => t.unknown() ),
   "Equals": entry(t => t.unknown(), "equals the type", t => t.unknown()),
@@ -56,5 +56,8 @@ export const TYPE_COMPARISONS_DICT = {
   "ReturnsExtends": entry(t => t.unknown(), "must be a function which returns a value which extends [[0]]", t => t.unknown()),
   "ReturnsEquals": entry(t => t.unknown(), "must be a function which returns a value which equals [[0]]", t => t.unknown()),
   "Contains": entry(t => t.tuple(), "must be a tuple and have elements that extends the value [[0]]", t => t.unknown()),
+  // TODO: get the below working`
+  "ContainsSome": entry(t => t.tuple(), "must be a tuple and have elements that extends the value [[0]]", t => t.singularTuple()),
+
 
 } as const;
