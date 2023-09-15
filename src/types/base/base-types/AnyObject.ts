@@ -9,5 +9,5 @@ import { EmptyObject, IndexableObject, NarrowObject, Narrowable } from "..";
  * 
  * Meant to represent any valid object type (both indexable and not).
  */
-export type AnyObject = IndexableObject | EmptyObject | NarrowObject<Narrowable>;
+export type AnyObject = IndexableObject | EmptyObject | NarrowObject<Narrowable> | object;
 

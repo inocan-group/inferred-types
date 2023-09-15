@@ -20,6 +20,7 @@ export * from "./UnionToTuple";
 export * from "./Widen";
 export * from "./WidenProps";
 export * from "./Mutable";
+export * from "./MergeObjects";
 export * from "./Merge";
 export * from "./Break";
 export * from "./ArrConcat";
