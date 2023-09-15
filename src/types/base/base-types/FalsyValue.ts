@@ -5,4 +5,4 @@
  * 
  * Note: any value which is _not_ falsy is "truthy"
  */
-export type FalsyValue = false | 0 | -0 | "" | null | undefined | typeof Number.NaN;
+export type FalsyValue = false | 0 | -0 |  "" | null | undefined ;

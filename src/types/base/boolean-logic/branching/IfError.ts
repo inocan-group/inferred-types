@@ -1,17 +1,22 @@
-import { IsErrorCondition , IfNever } from "../..";
+import {  IsErrorOptions, ErrorCondition, IsError } from "src/types";
 
 /**
- * **IfError**`<T,IF,[ELSE]>`
+ * **IfError**`<TType,TOptions,IF,[ELSE]>`
  * 
- * Branching utility which returns type `IF` when `T` is either an 
+ * Branching utility which returns type `IF` when `TType` is either an 
  * `ErrorCondition` or the type of `never`. In all other cases the
  * type `ELSE` is returned.
  * 
- * - type of `ELSE` is defaulted to `T` for convenience but can be set
+ * - type of `ELSE` is defaulted to `TType` for convenience but can be set
  * to any type which is appropriate.
  * 
  * **Related:** `IfNotError`, `IfErrorCondition`
  */
-export type IfError<T,IF,ELSE = T> = IsErrorCondition<T> extends true 
-  ? IF
-  : IfNever<T, IF, ELSE>;
+export type IfError<
+TType,
+TOptions extends IsErrorOptions,
+IF,
+ELSE = Exclude<TType, ErrorCondition>
+> = IsError<TType,TOptions> extends true
+? IF
+: ELSE;
