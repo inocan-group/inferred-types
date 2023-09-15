@@ -50,29 +50,6 @@ export type MergeTuples<
   TKey extends string | false = false // TODO: not currently being used
 > = MergeTuplesAcc<[...TDefault], [...TOverride], TKey>;
 
-/**
- * **MergeObjects**`<TDefault,TOverride>`
- * 
- * A type utility that deeply merges two object types.
- * In cases where property values overlap, the values of `TOverride` will 
- * override `TDefault`.
- */
-export type MergeObjects<
-  TDefault extends AnyObject,
-  TOverride extends AnyObject,
-> = {
-  [P in keyof TOverride | keyof TDefault]: P extends keyof TOverride 
-    ? TOverride[P] extends AnyObject
-      ? P extends keyof TDefault
-        ? TDefault[P] extends AnyObject
-          ? ExpandRecursively<MergeObjects<TOverride[P], TDefault[P]>>
-          : TOverride[P]
-      : TOverride[P]
-    : TOverride[P]
-    : P extends keyof TDefault 
-      ? TDefault[P] 
-      : never;
-};
 
 
 // /**
