@@ -1,7 +1,7 @@
 import {  
   AsArray, 
-  ComparisonOp, 
-  ComparisonParams, 
+  MatchOp, 
+  MatchParams, 
   Concat, 
   ErrorCondition,
   IfAllLiteral,
@@ -13,7 +13,7 @@ import {
 } from "src/types";
 
 type WrongLength<
-  TOp extends ComparisonOp,
+  TOp extends MatchOp,
   TRequirements extends Tuple,
   TGot extends Tuple
 > = ErrorCondition<
@@ -30,7 +30,7 @@ type WrongLength<
 >;
 
 type WrongTypes<
-  TOp extends ComparisonOp,
+  TOp extends MatchOp,
   TRequirements extends Tuple,
   TGot extends Tuple
 > = ErrorCondition<
@@ -48,7 +48,7 @@ type WrongTypes<
 >;
 
 type NotLiteral<
-  TOp extends ComparisonOp,
+  TOp extends MatchOp,
   TGot extends Tuple
 > = ErrorCondition<
   "non-literal-params",
@@ -65,9 +65,9 @@ type NotLiteral<
 >;
 
 type IfReqIsArray<
-  TOp extends ComparisonOp,
-  TParams extends ComparisonParams<TOp> | []
-> = IsEqual<ComparisonParams<TOp>, (readonly unknown[] | [readonly unknown[]])> extends true
+  TOp extends MatchOp,
+  TParams extends MatchParams<TOp> | []
+> = IsEqual<MatchParams<TOp>, (readonly unknown[] | [readonly unknown[]])> extends true
 ? TParams extends readonly unknown[]
     ? [readonly [...TParams]]
     : TParams
@@ -79,14 +79,14 @@ type IfReqIsArray<
  * A tuple definition of a future matching operation.
  */
 export type ToMatchDef<
-  TOp extends ComparisonOp, 
-  TParams extends ComparisonParams<TOp> | [] = [],
+  TOp extends MatchOp, 
+  TParams extends MatchParams<TOp> | [] = [],
   H extends OpHandler = "throw"
 > = IfEqualLength<
-  AsArray<ComparisonParams<TOp>>, AsArray<IfReqIsArray<TOp,TParams>>,
+  AsArray<MatchParams<TOp>>, AsArray<IfReqIsArray<TOp,TParams>>,
   // right number of params
   IfExtends<
-    IfReqIsArray<TOp,TParams>, AsArray<ComparisonParams<TOp>>,
+    IfReqIsArray<TOp,TParams>, AsArray<MatchParams<TOp>>,
     // does extend
     IfAllLiteral<
       AsArray<IfReqIsArray<TOp,TParams>>,
@@ -105,12 +105,12 @@ export type ToMatchDef<
     // does not extend
     WrongTypes<
       TOp,
-      AsArray<ComparisonParams<TOp>>, AsArray<IfReqIsArray<TOp,TParams>>
+      AsArray<MatchParams<TOp>>, AsArray<IfReqIsArray<TOp,TParams>>
     >
   >,
   // wrong length
   WrongLength<
     TOp,
-    AsArray<ComparisonParams<TOp>>, AsArray<IfReqIsArray<TOp,TParams>>
+    AsArray<MatchParams<TOp>>, AsArray<IfReqIsArray<TOp,TParams>>
   >
 >;

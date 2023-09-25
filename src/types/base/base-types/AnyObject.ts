@@ -2,7 +2,7 @@
 
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { EmptyObject, IndexableObject, NarrowObject, Narrowable } from "..";
+import { EmptyObject, IndexableObject, NarrowObject, Narrowable } from "src/types";
 
 /**
  * **AnyObject**

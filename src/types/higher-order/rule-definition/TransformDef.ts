@@ -1,5 +1,5 @@
 
-import { AsArray, ComparisonOp, ErrorCondition, MatchDef, NotEqual, OpHandler, TransformOp, TransformParams, Tuple  } from "src/types";
+import { AsArray, MatchOp, ErrorCondition, MatchDef,  OpHandler, TransformOp, TransformParams, Tuple  } from "src/types";
 
 type Identity = "transform-def";
 type Op = 1;
@@ -8,16 +8,23 @@ type Handler = 3;
 type Conditions = 4;
 
 /**
- * **TransformDef**`<TOp>`
- * 
- * A tuple definition of a future transform operation.
- * 
- * - these transforms _can be_ conditional but do not need to be
- */
+  * **TransformDef**`<TOp>`
+  * 
+  * A tuple definition of a _future_ transform operation.
+  * 
+  * Structure includes:
+  * - **Identity:** a string literal to identify the structure
+  * - **Op:** the named operation
+  * - **Params:** any parameters needed for the operation
+  * - **Handler:** ways in which to handle any errors which are encountered in the transform
+  * - **Conditions:** a tuple of `MatchDef` conditions which must be met before the
+  * transform is attempted; if any of these matches fail then the transform operation's
+  * handler will be given a `ErrorCondition<"match-failed">` as input.
+  */
 export type TransformDef<
   TOp extends TransformOp,
   TParams extends AsArray<TransformParams<TOp>> = AsArray<TransformParams<TOp>>,
-  TCond extends readonly MatchDef<ComparisonOp>[] = []
+  TCond extends readonly MatchDef<MatchOp>[] = []
 > = [
   identity: Identity,
   op: TOp,
@@ -29,7 +36,7 @@ export type TransformDef<
 /**
  * **IsTransformDef**`<T>`
  * 
- * Boolean checker on whether the provided `T` is a `TransformDef`
+ * Boolean checker on whether the provided `T` is a `TransformDef`.
  */
 export type IsTransformDef<T extends Tuple> = T["length"] extends 5
   ? T[Op] extends TransformOp

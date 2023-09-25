@@ -1,4 +1,4 @@
-import {Something} from "..";
+import {Something} from "src/types";
 
 /**
  * **NotNull**

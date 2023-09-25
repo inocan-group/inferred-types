@@ -5,6 +5,7 @@ import {
   IfAllLiteral,
   IfEqualLength,  
   IfExtends,  
+  MatchDef,  
   OpHandler, 
   TransformOp, 
   TransformParams, 
@@ -66,12 +67,27 @@ type NotLiteral<
 /**
  * **ToTransformDef**`<TOp,[TParam],[THandler]>`
  * 
- * A tuple definition of a future matching operation.
+ * Helper to create a `TransformDef` tuple:
+ * 
+ * - **Op:** you must always provide _transform_ operation
+ * - **Params:** if the transform has any parameters then these must be given
+ * - **Handler:** you can choose a `OpHandler` explicitly or the "throw" handler will be
+ * chosen as a default; the scope of this handler is just for the transform function and
+ * not any conditional evaluation you have set.
+ * - **Conditions:** optionally add one or more conditions. 
+ *    If conditions are included they must all evaluate to `true` for this transform 
+ * to be executed. 
+ *    - matches which result in a `ShouldIgnore` will be ignored; if all conditions are 
+ * _ignored_ however it will still fail
+ *    - in the case of any match failure above, this operations handler will be given
+ * the error `ErrorCondition<"conditions-failed">`
+ * 
  */
 export type ToTransformDef<
   TOp extends TransformOp, 
   TParams extends TransformParams<TOp> | [] = [],
-  H extends OpHandler = "throw"
+  THandler extends OpHandler = "throw",
+  TCond extends readonly MatchDef[]
 > = IfEqualLength<
   AsArray<TransformParams<TOp>>, AsArray<TParams>,
   // right number of params
@@ -85,7 +101,7 @@ export type ToTransformDef<
         identity: "match-def",
         op: TOp,
         params: AsArray<TParams>,
-        handler: H
+        handler: THandler
       ],
       NotLiteral<
         TOp,

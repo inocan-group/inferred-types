@@ -11,10 +11,7 @@ describe("AsPropertyKey<T,[C]>", () => {
   it("without container", () => {
     type Foo = AsPropertyKey<"foo">;
     type One = AsPropertyKey<1>;
-
     type Err = AsPropertyKey<true>;
-
-    
     type cases = [
       Expect<Equal<Foo, "foo">>,
       Expect<Equal<One, 1>>,
@@ -32,7 +29,6 @@ describe("AsPropertyKey<T,[C]>", () => {
 
     type Foo = AsPropertyKey<"foo", EmptyObject>;
     type Foo2 = AsPropertyKey<"foo", Base>;
-
     type FromNothing = AsPropertyKey<false, EmptyObject>;
     type FromBase = AsPropertyKey<false, Base>;
     
@@ -48,8 +44,5 @@ describe("AsPropertyKey<T,[C]>", () => {
       true, true,
       true, true
     ];
-    
   });
-  
-
 });

@@ -1,20 +1,21 @@
-import { IfAnd,  IsArray, IsObject, NotLength ,  NotEqual } from "../..";
+import { AnyObject, Container, IfEqual, Keys } from "src/types";
 
 /**
  * **IsIndexable**`<T>`
  * 
- * Boolean operator which detects if `T` is _indexable_ which means that it
- * is either an array or object and that at least one "key" is known to the
- * type system.
+ * Boolean operator which returns whether the true when 
+ * T is a container and has _at least_ **one** key known at design
+ * time.
  */
-export type IsIndexable<T> = IfAnd<
-  [ IsArray<T>, NotLength<T & readonly unknown[],0> ],
-  // array is indexable
-  true,
-  IfAnd<
-    [ IsObject<T>, NotEqual<keyof T, string> ],
-    // object is indexable
-    true,
-    false
-  >
->;
+export type IsIndexable<T> = 
+T extends Container
+  ? T extends unknown[]
+    ? IfEqual<
+        T["length"], number, 
+        false, 
+        IfEqual<T["length"], 0, false, true>
+      >
+    : T extends AnyObject
+      ? IfEqual<Keys<T>, number, false, true>
+      : false
+  : false;

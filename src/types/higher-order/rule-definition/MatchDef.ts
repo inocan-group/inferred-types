@@ -1,5 +1,5 @@
 
-import { OpHandler , ComparisonOp, ComparisonParams, AsArray } from "src/types";
+import { OpHandler , MatchOp, MatchParams, AsArray } from "src/types";
 
 /**
  * **MatchDef**`<TOp>`
@@ -7,8 +7,8 @@ import { OpHandler , ComparisonOp, ComparisonParams, AsArray } from "src/types";
  * A tuple definition of a future matching operation.
  */
 export type MatchDef<
-  TOp extends ComparisonOp,
-  TParams extends AsArray<ComparisonParams<TOp>> = AsArray<ComparisonParams<TOp>>
+  TOp extends MatchOp,
+  TParams extends AsArray<MatchParams<TOp>> = AsArray<MatchParams<TOp>>
 > = [
   "match-def",
   TOp,

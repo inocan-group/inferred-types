@@ -10,8 +10,8 @@ import {
   RemoveFnProps,
   EmptyObject,
   RemoveIndexKeys,
-  ToFn,
-} from "../../types/base";
+  ToFn
+} from "src/types";
 
 
 type Returns<TFn extends AnyFunction, TProps extends AnyObject> = 
@@ -36,7 +36,7 @@ export type FnReadyForProps<
 
 
 const finalize = <
-  TFn extends AnyFunction,
+  TFn extends <TArgs extends readonly Narrowable[]>(...args: TArgs) => unknown,
 >(fn: TFn): FnReadyForProps<TFn> => <
   TProps extends Record<ObjectKey, N>,
   N extends Narrowable
@@ -69,10 +69,7 @@ const finalize = <
  * merged with the dictionary props will have precedence. 
  */
 export const createFnWithProps = <
-  TArgs extends readonly unknown[],
-  TReturn extends Narrowable,
-  TProps extends AnyObject,
-  TFn extends AnyFunction<TArgs, TReturn, TProps>
+  TFn extends <TArgs extends readonly Narrowable[]>(...args: TArgs) => unknown
 >(fn: TFn ) => finalize(fn);
 
 

@@ -1,4 +1,4 @@
-import { MatchDef , ComparisonOp, IsEqual, NotEqual, DoesExtend, IsTruthy, DoesNotExtend, IsFalsy, Something, Nothing, IfExtends, GreaterThan, AsNumber, LessThan, StartsWith, AsString, EndsWith, Includes, AnyFunction, AsFunction, First, Contains, AsArray, Tuple, ErrorCondition, DescribeType, Concat, Last, ShouldFlatten, ShouldIgnore, IsString, IsNumber, IsBoolean, ComparisonRefType } from "src/types";
+import { MatchDef , MatchOp, IsEqual, NotEqual, DoesExtend, IsTruthy, DoesNotExtend, IsFalsy, Something, Nothing, IfExtends, GreaterThan, AsNumber, LessThan, StartsWith, AsString, EndsWith, Includes, AnyFunction, AsFunction, First, Contains, AsArray, Tuple, ErrorCondition, DescribeType, Concat, Last, ShouldFlatten, ShouldIgnore, IsString, IsNumber, IsBoolean, MatchRefType } from "src/types";
 
 type Identity = 0;
 type Op = 1;
@@ -8,7 +8,7 @@ type Handler = 3;
 type InvalidTypeForOp<
 TExpects,
 TType,
-TMatch extends MatchDef<ComparisonOp>
+TMatch extends MatchDef<MatchOp>
 > = ErrorCondition<
   "invalid-type-for-operation",
   Concat<[
@@ -25,8 +25,8 @@ TMatch extends MatchDef<ComparisonOp>
 >;
 
 type IfOp<
-  TMatch extends MatchDef<ComparisonOp>,
-  TOp extends ComparisonOp,
+  TMatch extends MatchDef<MatchOp>,
+  TOp extends MatchOp,
 > = TMatch[Op] extends TOp ? true : false;
 
 /**
@@ -35,12 +35,12 @@ type IfOp<
  */
 type Attempt<
   TVal,
-  TMatch extends MatchDef<ComparisonOp>,
+  TMatch extends MatchDef<MatchOp>,
   TType
-> = TVal extends ComparisonRefType<TMatch[Op]>
+> = TVal extends MatchRefType<TMatch[Op]>
 ? TType
 : InvalidTypeForOp<
-    ComparisonRefType<TMatch[Op]>, 
+    MatchRefType<TMatch[Op]>, 
     TVal, 
     TMatch
   >;
@@ -48,7 +48,7 @@ type Attempt<
 
 type Process<
   TVal, 
-  TMatch extends MatchDef<ComparisonOp>
+  TMatch extends MatchDef<MatchOp>
 > = TMatch[Identity] extends "match-def"
   ? TMatch[Op] extends "Equals" ? IsEqual<TVal, TMatch[Params]>
   : TMatch[Op] extends "NotEqual" ? NotEqual<TVal, TMatch[Params]>
@@ -141,8 +141,8 @@ type Process<
  */
 export type ApplyMatch<
   TVal, 
-  TMatch extends MatchDef<ComparisonOp>
-> = TMatch extends MatchDef<ComparisonOp>
+  TMatch extends MatchDef<MatchOp>
+> = TMatch extends MatchDef<MatchOp>
 ? TMatch[Handler] extends "throw"
   ? Process<TVal,TMatch>
 : TMatch[Handler] extends "use-else"
