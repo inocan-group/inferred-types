@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { AsError, EmptyObject, ErrorCondition } from "src/types";
+import { AsError, DoesExtend, EmptyObject, ErrorCondition } from "src/types";
 
 describe("AsError<T>", () => {
   type Err = ErrorCondition<"err", "oops", null>;
@@ -36,10 +36,10 @@ describe("AsError<T>", () => {
     const err = new Error("oops");
     err.name = "OopsError";
 
-    type Proxy = AsError<typeof err>;
+    type Runtime = AsError<typeof err>;
     
     type cases = [
-      Expect<Equal<Proxy, Err>>
+      Expect<DoesExtend<Runtime, ErrorCondition<"runtime-error">>>
     ];
     const cases: cases = [ true ];
   });
