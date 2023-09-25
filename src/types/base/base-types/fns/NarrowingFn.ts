@@ -1,3 +1,5 @@
+import { AnyFunction } from "../AnyFunction";
+
 /**
  * **NarrowingFn**`<TParams, TReturn>`
  * 
@@ -5,6 +7,12 @@
  * characteristics.
  */
 export type NarrowingFn<
-  TParams extends readonly unknown[] = unknown[], 
+  TParams extends readonly unknown[] = readonly unknown[], 
   TReturn = unknown
 > = <AA extends TParams>(...args: AA) => TReturn;
+
+export type AsNarrowingFn<
+  TFn extends AnyFunction
+> = TFn extends NarrowingFn
+? TFn
+: <T extends readonly unknown[]>(...args: T & Parameters<TFn>) => ReturnType<TFn>;

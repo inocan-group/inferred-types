@@ -1,4 +1,5 @@
 export * from "./CouldHaveValue";
+export * from "./Defined";
 export * from "./Something";
 export * from "./Nothing";
 export * from "./NotNull";
@@ -15,10 +16,10 @@ export * from "./Container";
 export * from "./Tuple";
 export * from "./NumericSign";
 export * from "./Digital";
-export * from "./LeftRight";
 export * from "./Indexable";
 export * from "./FalsyValue";
 export * from "./ObjectKey";
 export * from "./NarrowObject";
 
 export * from "./fns/index";
+export * from "./functional/index";

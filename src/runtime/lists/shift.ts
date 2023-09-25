@@ -1,4 +1,4 @@
-import {  Narrowable, Slice, Tuple,  IfHasKeys } from "../../types/base";
+import {  Narrowable, Slice, Tuple,  IfIndexable } from "../../types/base";
 
 export type ShiftResult<V, L extends Tuple> = [value: V, list: L];
 
@@ -17,5 +17,5 @@ T extends readonly (Record<K,N> | Narrowable)[]
     list.length > 0
     ? [list[0], list.slice(1)] as ShiftResult<T[0], Slice<T,1>>
     : undefined
-  ) as IfHasKeys<T, ShiftResult<T[0], Slice<T,1>>, undefined>;
+  ) as IfIndexable<T, ShiftResult<T[0], Slice<T,1>>, undefined>;
 };

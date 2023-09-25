@@ -38,9 +38,7 @@ type Process<
 /**
  * **MergeObjects**`<TDefault,TOverride>`
  * 
- * A type utility that deeply merges two object types.
- * In cases where property values overlap, the values of `TOverride` will 
- * override `TDefault`.
+ * A type utility that _shallowly merges_ two object types.
  */
 export type MergeObjects<
   TDefObj extends AnyObject,

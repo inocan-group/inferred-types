@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
-import { AnyFunction, IfNotErrorCondition, FnMeta } from "..";
+import { AnyFunction, IfNotError, FnMeta } from "..";
 
 /**
  * **ToFn**`<T>`
@@ -14,7 +14,7 @@ import { AnyFunction, IfNotErrorCondition, FnMeta } from "..";
  * 
  * **Related:** `AsFn`
  */
-export type ToFn<T> = IfNotErrorCondition<
+export type ToFn<T> = IfNotError<
   T,
   T extends AnyFunction
     ? T

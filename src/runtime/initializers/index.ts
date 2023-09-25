@@ -1,3 +1,5 @@
+export * from "./addFnToProps";
+export * from "./addPropsToFn";
 export * from "./createTypeGuard";
 export * from "./createTypeTuple";
 export * from "./createValidator";

@@ -64,7 +64,9 @@ IfOp<TTransform, "Identity"> extends true ? TVal
 : IfOp<TTransform, "Identity"> extends true ? TVal
 : IfOp<TTransform, "Identity"> extends true ? TVal
 : IfOp<TTransform, "Identity"> extends true ? TVal
-: IfOp<TTransform, "Identity"> extends true ? TVal
+: IfOp<TTransform, "StripLeading"> extends true ? Attempt<
+    
+  >
 : IfOp<TTransform, "Identity"> extends true ? TVal
 : never;
 

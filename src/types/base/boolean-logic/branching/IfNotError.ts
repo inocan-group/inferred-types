@@ -1,4 +1,4 @@
-import { ErrorCondition, IsError, IsErrorOptions } from "src/types";
+import { ErrorCondition, IsError, IsErrorOptions , AsError } from "src/types";
 
 
 /**
@@ -17,5 +17,5 @@ export type IfNotError<
   TType,
   TOptions extends IsErrorOptions,
   IF = Exclude<TType, ErrorCondition>,
-  ELSE = TType & ErrorCondition
+  ELSE = AsError<TType>
 > = IsError<TType, TOptions> extends false ? IF : ELSE;

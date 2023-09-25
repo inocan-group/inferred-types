@@ -1,6 +1,11 @@
 import { Constant } from "src/constants";
 import { Concat, Container, ErrorCondition, IfEqual, ToString } from "src/types";
 
+/**
+ * **AsIndexOf**`<T,K,[ERR]>`
+ * 
+ * Validates that `K` is a keyof `T` and 
+ */
 export type AsIndexOf<
   T extends Container, 
   K extends PropertyKey, 

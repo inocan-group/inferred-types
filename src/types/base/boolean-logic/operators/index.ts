@@ -70,6 +70,6 @@ export * from "./IsContainer";
 export * from "./NotLength";
 export * from "./IsIndexable";
 export * from "./HasCharacters";
-export * from "./HasKeys";
+export * from "./IsIndexable";
 export * from "./IsReadonlyObject";
 export * from "./OfSameLength";

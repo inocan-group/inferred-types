@@ -2,9 +2,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { LeftRight, UniqueKeys, Left, Right, HasSameValues } from "../../src/types/base";
+import { LeftRight, UniqueKeys, Left, Right, HasSameValues , UniqueKeysUnion } from "src/types";
 import { uniqueKeys } from "src/runtime";
-import { UniqueKeysUnion } from "src/types/sets/UniqueKeysUnion";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -17,7 +16,6 @@ describe("UniqueKeys<L,R>", () => {
     type LeftEmpty = UniqueKeysUnion<{}, {bar: 5; baz: 42}>;
     type RightEmpty = UniqueKeysUnion<{bar: 5; baz: 42}, object>;
     type Tup = UniqueKeysUnion<[1,2,3], [3,4,5,6]>;
-    
     
     type cases = [
       Expect<Equal<Obj, LeftRight<"foo", "baz">>>,
