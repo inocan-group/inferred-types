@@ -1,4 +1,4 @@
-import { AfterFirst, AnyObject, Container, EmptyObject, First, IfLiteral, IfNever, RemoveIndex, ToNumber, Tuple, UnionToTuple } from "..";
+import {  AnyObject, Container, EmptyObject,  IfLiteral,  RemoveIndex, ToNumber, Tuple, UnionToTuple } from "..";
 
 
 type _Keys<
@@ -11,24 +11,7 @@ type _Keys<
   > 
 };
 
-// type _IntoArr<
-//   T extends AnyObject,
-//   V extends readonly unknown[] = []
-// > 
 
-type _Values<
-  TObj extends AnyObject, 
-  TKeys extends readonly unknown[] = readonly UnionToTuple<keyof TObj>[],
-  TResult extends readonly unknown[] = readonly unknown[]
-> = [] extends TKeys
-  ? TKeys
-  : First<TKeys> extends keyof TObj
-    ? IfNever<
-          TObj[First<TKeys>],
-          _Values<TObj, AfterFirst<TKeys>, TResult>,
-          _Values<TObj, AfterFirst<TKeys>, [...TResult, First<TKeys>]>
-    >
-    : never;
 
 /**
  * **ExplicitKeys**`<T> -> union`

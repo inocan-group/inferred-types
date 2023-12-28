@@ -44,31 +44,31 @@
     "watch:bundle": "tsup src/index.ts --format=esm --dts"
   },
   "dependencies": {
-    "vue": "^3.3.4"
+    "vue": "^3.3.13"
   },
   "devDependencies": {
     "@type-challenges/utils": "~0.1.1",
-    "@types/node": "^18.17.15",
-    "@typescript-eslint/eslint-plugin": "^6.7.0",
-    "@typescript-eslint/parser": "^6.7.0",
+    "@types/node": "^18.19.3",
+    "@typescript-eslint/eslint-plugin": "^6.16.0",
+    "@typescript-eslint/parser": "^6.16.0",
     "@typescript/analyze-trace": "^0.10.1",
-    "@vitest/ui": "^0.34.4",
-    "bumpp": "^9.2.0",
+    "@vitest/ui": "^1.1.0",
+    "bumpp": "^9.2.1",
     "cross-env": "^7.0.3",
-    "eslint": "^8.49.0",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-import-resolver-typescript": "^3.6.0",
-    "eslint-plugin-import": "^2.28.1",
-    "eslint-plugin-prettier": "^5.0.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-prettier": "^5.1.2",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-watch": "^8.0.0",
     "npm-run-all": "~4.1.5",
     "pathe": "^1.1.1",
-    "prettier": "^3.0.3",
-    "tsup": "^7.2.0",
-    "typescript": "5.2.2",
-    "vite": "^4.4.9",
-    "vite-node": "^0.34.4",
-    "vitest": "^0.34.4"
+    "prettier": "^3.1.1",
+    "tsup": "^8.0.1",
+    "typescript": "5.3.3",
+    "vite": "^5.0.10",
+    "vite-node": "^1.1.0",
+    "vitest": "^1.1.0"
   }
 }

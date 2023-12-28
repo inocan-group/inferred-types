@@ -1,5 +1,5 @@
 import {TYPE_TRANSFORMS} from "src/constants";
-import { OpHandler , ElseOperation , ValueOrReturnValue, RemoveNever } from "src/types";
+import { OpHandler , ElseOperation , ValueOrReturnValue, RemoveNever, AsArray } from "src/types";
 
 /** lookup table */
 type Transforms = typeof TYPE_TRANSFORMS;
@@ -28,8 +28,8 @@ export type TransformParams<
   TOp extends TransformOp, 
   THandler extends OpHandler = "throw"
 > = Transforms[TOp][Params] extends readonly unknown[]
-? RemoveNever<[...Transforms[TOp][Params], ElseOperation<THandler>]>
-: never;
+? AsArray<RemoveNever<[...Transforms[TOp][Params], ElseOperation<THandler>]>>
+: AsArray<[]>;
 
 /**
  * **TransformRefType**`<T>`

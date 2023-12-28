@@ -1,5 +1,6 @@
-import type { IsNull, Narrowable } from "../../types/base";
+import type { IsNull, Narrowable } from "src/types";
 import { isNull } from "src/runtime";
+
 
 /**
  * **ifNull**(val,IF,ELSE)

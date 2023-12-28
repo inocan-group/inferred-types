@@ -1,5 +1,4 @@
-import { EnsureLeading, ToString } from "../../types/base";
-import { toString } from "src/runtime";
+import { EnsureLeading, ToString } from "src/types";
 
 /**
  * **ensureLeading**(content, strip)
@@ -12,8 +11,8 @@ export function ensureLeading<T extends string | number, U extends string>(
   ensure: U
 ): EnsureLeading<T, U> {
   return (
-    content.startsWith(toString(content))
-      ? content : 
-      `${ensure}${content}` 
+    String(content).startsWith(ensure)
+      ? content 
+      : `${ensure}${content}` 
   ) as unknown as EnsureLeading<ToString<T>, U>;
 }

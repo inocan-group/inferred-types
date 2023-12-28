@@ -1,7 +1,18 @@
 
-import { AsArray, MatchOp, ErrorCondition, MatchDef,  OpHandler, TransformOp, TransformParams, Tuple  } from "src/types";
+import { 
+  AsArray, 
+  MatchOp, 
+  ErrorCondition, 
+  MatchDef,  
+  OpHandler, 
+  TransformOp, 
+  TransformParams, 
+  Tuple  
+} from "src/types";
 
-type Identity = "transform-def";
+export type TransformDefIdentity = "transform-def";
+
+type Identity = TransformDefIdentity;
 type Op = 1;
 type Params = 2;
 type Handler = 3;
@@ -17,14 +28,15 @@ type Conditions = 4;
   * - **Op:** the named operation
   * - **Params:** any parameters needed for the operation
   * - **Handler:** ways in which to handle any errors which are encountered in the transform
-  * - **Conditions:** a tuple of `MatchDef` conditions which must be met before the
-  * transform is attempted; if any of these matches fail then the transform operation's
-  * handler will be given a `ErrorCondition<"match-failed">` as input.
+  * - **Conditions:** a tuple of `MatchDef` conditions which must be 
+  * met before the transform is attempted; if any of these matches 
+  * fail then the transform operation's handler will be given a 
+  * `ErrorCondition<"match-failed">` as input.
   */
 export type TransformDef<
   TOp extends TransformOp,
   TParams extends AsArray<TransformParams<TOp>> = AsArray<TransformParams<TOp>>,
-  TCond extends readonly MatchDef<MatchOp>[] = []
+  TCond extends readonly MatchDef<MatchOp>[] = readonly MatchDef<MatchOp>[]
 > = [
   identity: Identity,
   op: TOp,

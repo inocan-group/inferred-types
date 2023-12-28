@@ -249,8 +249,3 @@ TOp extends "extends"
   ? LeftContains<TEval, TLeftRight> extends true ? IF : ELSE 
 : never;
 
-
-export type HandleRight<
-  TLeftRight extends LeftRight,
-
->

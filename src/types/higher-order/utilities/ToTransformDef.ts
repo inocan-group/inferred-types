@@ -6,7 +6,11 @@ import {
   IfEqualLength,  
   IfExtends,  
   MatchDef,  
+  MatchOp,  
   OpHandler, 
+  Surround, 
+  ToCSV, 
+  TransformDefIdentity, 
   TransformOp, 
   TransformParams, 
   Tuple 
@@ -26,7 +30,10 @@ type WrongLength<
     " parameters but got ",
     `${TGot["length"]}!`
   ]>,
-  "ToMatchDef"
+  {
+    library: "inferred-types";
+    utility: "ToTransformDef";
+  }
 >;
 
 type WrongTypes<
@@ -40,10 +47,13 @@ type WrongTypes<
     TOp,
     "' operation were incorrect!",
   ]>,
-  "ToMatchDef",
   {
+    library: "inferred-types";
+    utility: "ToTransformDef";
+    context: {
       required: TRequirements;
       received: TGot;
+    };
   }
 >;
 
@@ -57,10 +67,13 @@ type NotLiteral<
     TOp,
     "' operation are expected to be literal types ",
   ]>,
-  "ToMatchDef",
   {
-    operation: TOp;
-    received: TGot;
+    library: "inferred-types";
+    utility: "ToTransformDef";
+    context: {
+      operation: TOp;
+      received: TGot;
+    };
   }
 >;
 
@@ -85,38 +98,52 @@ type NotLiteral<
  */
 export type ToTransformDef<
   TOp extends TransformOp, 
-  TParams extends TransformParams<TOp> | [] = [],
+  TParams extends readonly unknown[] = [],
   THandler extends OpHandler = "throw",
-  TCond extends readonly MatchDef[]
-> = IfEqualLength<
-  AsArray<TransformParams<TOp>>, AsArray<TParams>,
-  // right number of params
-  IfExtends<
-    AsArray<TParams>, AsArray<TransformParams<TOp>>,
-    // does extend
-    IfAllLiteral<
-      AsArray<TParams>,
-      // success
-      [
-        identity: "match-def",
-        op: TOp,
-        params: AsArray<TParams>,
-        handler: THandler
-      ],
-      NotLiteral<
+  TCond extends MatchDef<MatchOp> | readonly MatchDef<MatchOp>[] = []
+> = 
+TParams extends TransformParams<TOp,THandler>
+? IfEqualLength<
+    AsArray<TransformParams<TOp, THandler>>, AsArray<TParams>,
+    // right number of params
+    IfExtends<
+      AsArray<TParams>, AsArray<TransformParams<TOp, THandler>>,
+      // does extend
+      IfAllLiteral<
+        AsArray<TParams>,
+        // success
+        [
+          identity: TransformDefIdentity,
+          op: TOp,
+          params: AsArray<TParams>,
+          handler: THandler,
+          conditions: TCond extends MatchDef<MatchOp> ? [TCond] : TCond
+        ],
+        NotLiteral<
+          TOp,
+          AsArray<TParams>
+        >
+      >,
+      // does not extend
+      WrongTypes<
         TOp,
-        AsArray<TParams>
+        AsArray<TransformParams<TOp, THandler>>, AsArray<TParams>
       >
     >,
-    // does not extend
-    WrongTypes<
+    // wrong length
+    WrongLength<
       TOp,
-      AsArray<TransformParams<TOp>>, AsArray<TParams>
+      AsArray<TransformParams<TOp, THandler>>, AsArray<TParams>
     >
-  >,
-  // wrong length
-  WrongLength<
-    TOp,
-    AsArray<TransformParams<TOp>>, AsArray<TParams>
   >
->;
+: ErrorCondition<
+    "invalid-params",
+    `The parameters passed into ToTransformDef were invalid for the '${TOp}' operation!`,
+    {
+      library: "inferred-types";
+      utility: "ToTransformDef";
+      params: TParams;
+      paramsLength: TParams["length"];
+      expected: TransformParams<TOp, THandler>;
+    }
+  >;
