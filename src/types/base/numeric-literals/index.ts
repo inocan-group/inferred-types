@@ -11,6 +11,7 @@ export * from "./DigitNonZero";
 export * from "./Negative";
 export * from "./ToInteger";
 export * from "./LessThan";
+export * from "./LessThanOrEqual";
 export * from "./NumericRange";
 export * from "./GreaterThan";
 export * from "./Float";

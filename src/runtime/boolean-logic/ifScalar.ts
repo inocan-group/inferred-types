@@ -1,4 +1,4 @@
-import { AnyObject, IfScalar, Narrowable, Scalar } from "../../types/base";
+import { AnyObject, IfScalar, Narrowable, Scalar } from "src/types";
 import { isScalar } from "src/runtime";
 
 /**

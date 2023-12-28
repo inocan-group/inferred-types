@@ -34,6 +34,7 @@ export * from "./Shift";
 export * from "./ReplaceLast";
 export * from "./BeforeLast";
 export * from "./GetEach";
+export * from "./ToCSV";
 
 export * from "./extractors/index";
 

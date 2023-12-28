@@ -1,4 +1,4 @@
-import { AnyObject } from "..";
+import { AnyObject } from "src/types";
 
 type MutableObject<T> = {
   -readonly [K in keyof T]: T[K] extends AnyObject

@@ -20,8 +20,11 @@ TMatch extends MatchDef<MatchOp>
     DescribeType<TType>,
     "' instead."
   ]>,
-  "TypeComparison",
-  { type: TType; expected: TExpects; operation: TMatch[Op] }
+  {
+    library: "inferred-types";
+    utility: "ApplyMatch";
+    context: { type: TType; expected: TExpects; operation: TMatch[Op] };
+  }
 >;
 
 type IfOp<
@@ -124,13 +127,20 @@ type Process<
           TMatch[Op],
           "' is not recognized"
       ]>,
-      "ApplyMatch"
+      {
+        context: { operation: TMatch[Op] };
+        library: "inferred-types";
+        utility: "ApplyMatch";
+      }
     >
 : ErrorCondition<
     "invalid-match-definition", 
     "The structure of the MatchDef passed into ApplyMatch is invalid!",
-    "ApplyMatch",
-    { match: TMatch }
+    {
+      library: "inferred-types";
+      utility: "ApplyMatch";
+      context: { match: TMatch };
+    }
   >;
 
 
@@ -164,12 +174,18 @@ export type ApplyMatch<
       TMatch[Handler],
       "' is not known!"
     ]>,
-    "ApplyMatch",
-    { match: TMatch }
+    {
+      library: "inferred-types";
+      utility: "ApplyMatch";
+      context: { match: TMatch };
+    }
   >
 : ErrorCondition<
     "invalid-match-definition", 
     "The structure of the MatchDef passed into ApplyMatch is invalid!",
-    "ApplyMatch",
-    { match: TMatch }
+    {
+      library: "inferred-types";
+      utility: "ApplyMatch";
+      context: { match: TMatch };
+    }
   >;

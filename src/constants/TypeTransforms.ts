@@ -41,7 +41,6 @@ export const TYPE_TRANSFORMS = {
   Append: [ t_union_string_tuple, [t_unknown], "Takes a string or tuple and appends a value to the end."],
   Increment: [ t_number, [], "Increments a numeric value by one"],
   Decrement: [ t_number, [], "Decrements a numeric value by one"],
-  Sum: [ t_numeric_array, [], "Sums a numeric array into a single number (will accept string numeric too)."]
 } as const; // satisfies Record<TransformOp, 
 
 

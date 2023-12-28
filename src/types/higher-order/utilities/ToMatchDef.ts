@@ -26,7 +26,10 @@ type WrongLength<
     " parameters but got ",
     `${TGot["length"]}!`
   ]>,
-  "ToMatchDef"
+  {
+    library: "inferred-types";
+    utility: "ToMatchDef";
+}
 >;
 
 type WrongTypes<
@@ -40,11 +43,15 @@ type WrongTypes<
     TOp,
     "' operation were incorrect!",
   ]>,
-  "ToMatchDef",
   {
+    library: "inferred-types";
+    utility: "ToMatchDef";
+    context: {
       required: TRequirements;
       received: TGot;
+    };
   }
+  
 >;
 
 type NotLiteral<
@@ -52,15 +59,15 @@ type NotLiteral<
   TGot extends Tuple
 > = ErrorCondition<
   "non-literal-params",
-  Concat<[
-    "Parameters passed into the '",
-    TOp,
-    "' operation are expected to be literal types ",
-  ]>,
-  "ToMatchDef",
+  `Parameters passed into the '${TOp}' operation are expected to be literal types`
+  ,
   {
-    operation: TOp;
-    received: TGot;
+    library: "inferred-types";
+    utility: "ToMatchDef";
+    context: {
+      operation: TOp;
+      received: TGot;
+    };
   }
 >;
 
@@ -76,7 +83,11 @@ type IfReqIsArray<
 /**
  * **ToMatchDef**`<TOp,[TParam],[THandler]>`
  * 
- * A tuple definition of a future matching operation.
+ * A helper utility which helps form a `MatchDef` tuple.
+ * 
+ * - **TOp** - the matching operation
+ * - **TParams** - the parameters the operation requires; can be left off if there are none
+ * - **THandler** - the error handler regime that should be used; by default uses `throw`
  */
 export type ToMatchDef<
   TOp extends MatchOp, 

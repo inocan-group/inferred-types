@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { ComparisonParams, ComparisonRefType, TransformDesc, TransformParams, TransformRefType } from "src/types";
+import {  MatchParams, MatchRefType, TransformDesc, TransformParams, TransformRefType } from "src/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -56,13 +56,11 @@ describe("Transform Lookups", () => {
 
 });
 
-describe("Comparison Lookups", () => {
-
-  
+describe("Match Lookups", () => {
   it("happy path for ref type", () => {    
-    type U = ComparisonRefType<"Falsy">;
-    type S = ComparisonRefType<"StartsWith">;
-    type N = ComparisonRefType<"GreaterThan">;
+    type U = MatchRefType<"Falsy">;
+    type S = MatchRefType<"Includes">;
+    type N = MatchRefType<"GreaterThan">;
     
     type cases = [
       Expect<Equal<U, unknown>>,
@@ -75,10 +73,10 @@ describe("Comparison Lookups", () => {
 
 
   it("happy path for params", () => {
-    type None = ComparisonParams<"Falsy">;
-    type NoneElse = ComparisonParams<"Falsy", "use-else">;
-    type Surround = ComparisonParams<"EndsWith">;
-    type SurroundElse = ComparisonParams<"EndsWith", "use-else">;
+    type None = MatchParams<"Falsy">;
+    type NoneElse = MatchParams<"Falsy", "use-else">;
+    type Surround = MatchParams<"EndsWith">;
+    type SurroundElse = MatchParams<"EndsWith", "use-else">;
     
     type cases = [
       Expect<Equal<None, []>>,
