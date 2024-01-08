@@ -1,4 +1,4 @@
-import { StripAfter } from "../../types/base";
+import { StripAfter } from "src/types";
 
 /**
  * **stripAfter**(content, find)

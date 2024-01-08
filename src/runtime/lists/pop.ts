@@ -1,4 +1,4 @@
-import {  Narrowable, Slice, Tuple,  IfIndexable, Last } from "../../types/base";
+import {  Narrowable, Slice, Tuple,  IfIndexable, Last } from "src/types";
 import { last, slice } from "src/runtime";
 
 export type PopResult<V, L extends Tuple> = [value: V, list: L];

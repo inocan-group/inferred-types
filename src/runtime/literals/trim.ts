@@ -1,4 +1,4 @@
-import { Trim, TrimLeft, TrimRight } from "../../types/base";
+import { Trim, TrimLeft, TrimRight } from "src/types";
 
 /**
  * **trim**(input)

@@ -1,4 +1,4 @@
-import { ErrorCondition } from "../../types/base";
+import { ErrorCondition } from "src/types";
 import {  isObject } from "src/runtime";
 
 /**
@@ -10,7 +10,7 @@ export function isErrorCondition<
   Domain extends string,
   Kind extends string,
   Message extends string,
-  T extends ErrorCondition<Kind, Message, Domain>
+  T extends ErrorCondition<Kind, Message, {library: Domain}>
 >(value: unknown | T): value is T {
   return (
     isObject(value) && 

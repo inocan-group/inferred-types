@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable brace-style */
-import type {Container, Intersection,  } from "../../types/base";
+import type {Container, Intersection,  } from "src/types";
 import { get, ifNotNull, isIndexable, getEach, toString } from "src/runtime";
 
 function intersectWithOffset<

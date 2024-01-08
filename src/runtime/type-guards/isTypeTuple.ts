@@ -1,4 +1,4 @@
-import { Narrowable , TypeTuple } from "../../types/base";
+import { Narrowable , TypeTuple } from "src/types";
 
 /**
  * **isTypeTuple**(value)

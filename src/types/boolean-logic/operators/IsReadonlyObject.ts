@@ -1,4 +1,4 @@
-import { AnyObject, HasKeys, IfEqual,  ReadonlyProps } from "../..";
+import { AnyObject,  IfEqual,  NonEmptyContainer,  ReadonlyProps } from "src/types";
 
 /**
  * **IsReadonlyObject**`<T>`
@@ -11,7 +11,7 @@ import { AnyObject, HasKeys, IfEqual,  ReadonlyProps } from "../..";
  */
 export type IsReadonlyObject<T> = 
 T extends AnyObject
-  ? HasKeys<T> extends true
+  ? NonEmptyContainer<T> extends true
     ? IfEqual<ReadonlyProps<T>, T, true, false>
     : false
   : false;

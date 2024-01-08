@@ -1,4 +1,4 @@
-import { AnyObject, Indexable } from "../../types/base";
+import { AnyObject, Indexable } from "src/types";
 import { keysOf } from "src/runtime";
 
 /**

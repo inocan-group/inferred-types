@@ -1,4 +1,4 @@
-import type { MergeTuples, Narrowable } from "../../types/base";
+import type { MergeTuples, Narrowable } from "src/types";
 
 /**
  * **mergeTuples**(a,b)

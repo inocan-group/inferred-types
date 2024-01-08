@@ -1,4 +1,4 @@
-import { ErrorCondition } from "../../types/base";
+import { ErrorCondition } from "src/types";
 import { isErrorCondition } from "src/runtime";
 
 export const hasErrorConditions = <

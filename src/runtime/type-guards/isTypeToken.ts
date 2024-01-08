@@ -1,4 +1,4 @@
-import {   TypeToken } from "../../types/base";
+import {   TypeToken } from "src/types";
 import { endsWith, isString, startsWith, stripLeading, stripTrailing } from "src/runtime";
 import { TYPE_TOKEN_ALL} from "src/constants";
 

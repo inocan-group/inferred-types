@@ -1,4 +1,4 @@
-import { ErrorCondition, HasUnionType, NarrowObject, Narrowable,  ObjectKey,  WithKeys } from "../../types/base";
+import { ErrorCondition, HasUnionType, NarrowObject, Narrowable,  ObjectKey,  WithKeys } from "src/types";
 
 /**
  * **retain**(obj,...keys)
@@ -25,6 +25,10 @@ N extends Narrowable,
   }
 
   return output as unknown as HasUnionType<TKeys> extends true
-  ? ErrorCondition<"invalid-union", "the retain(obj, keys) function was called with keys which included a value which was a union type; this would make the typing inconsistent with the runtime type and should be avoided. Note that at runtime this will not produce an error but rather produce the valid runtime value.", "retain", {keys: typeof keys}>
+  ? ErrorCondition<
+      "invalid-union", 
+      "the retain(obj, keys) function was called with keys which included a value which was a union type; this would make the typing inconsistent with the runtime type and should be avoided. Note that at runtime this will not produce an error but rather produce the valid runtime value.", 
+      {context: {keys: typeof keys}, library: "retain" }
+    >
   : WithKeys<TObj, TKeys>;
 };

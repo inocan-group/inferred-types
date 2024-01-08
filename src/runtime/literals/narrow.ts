@@ -4,7 +4,7 @@ import {
   Narrowable, 
   UnionToTuple, 
   IfUnion 
-} from "../../types/base";
+} from "src/types";
 
 /**
  * **narrow**(value)

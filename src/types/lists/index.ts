@@ -7,6 +7,7 @@
 // file exports
 export * from "./AfterFirst";
 export * from "./AllowNonTupleWhenSingular";
+export * from "./ArrayElementType";
 export * from "./First";
 export * from "./AsArray";
 export * from "./FirstString";

@@ -1,4 +1,4 @@
-import { Narrowable } from "../../types/base";
+import { Narrowable } from "src/types";
 import { isBoolean, isNull, isNumber, isNumericString, isString, isTypeToken, isUndefined , extractTypeToken, toCamelCase, toPascalCase, toKebabCase, toSnakeCase, isSameTypeOf, endsWith, startsWith, isObject } from "src/runtime";
 
 

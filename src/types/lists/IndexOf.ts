@@ -45,7 +45,6 @@ export type IndexOf<
       : ErrorCondition<
           "invalid-index", 
           Concat<["Attempt to index [", ToString<TIdx>, "] into a non-container type!"]>,
-          "IndexOf",
-          { container: TValue; key: TIdx }
+          { container: TValue; key: TIdx; library: "IndexOf" }
         >
 >;

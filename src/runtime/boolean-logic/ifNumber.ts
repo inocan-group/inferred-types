@@ -1,4 +1,4 @@
-import { IfNumber, Narrowable } from "../../types/base";
+import { IfNumber, Narrowable } from "src/types";
 import { isNumber } from "src/runtime";
 
 /**

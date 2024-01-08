@@ -1,4 +1,4 @@
-import { Scalar } from "../../types/base";
+import { Scalar } from "src/types";
 import { isNull, isNumber, isString, isSymbol } from "src/runtime";
 
 

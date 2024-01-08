@@ -1,4 +1,4 @@
-import type { CamelCase } from "../../types/base";
+import type { CamelCase } from "src/types";
 import { toPascalCase } from "src/runtime";
 
 /**

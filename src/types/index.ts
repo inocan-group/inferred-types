@@ -8,6 +8,7 @@
 export * from "./base-types/index";
 export * from "./boolean-logic/index";
 export * from "./classes/index";
+export * from "./containers/index";
 export * from "./dictionary/index";
 export * from "./errors/index";
 export * from "./functional/index";

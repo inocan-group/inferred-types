@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { LOWER_ALPHA_CHARS } from "src/constants";
-import { AfterFirst, IfExtends, LowerAlphaChar } from "../../types/base";
+import { AfterFirst, IfExtends, LowerAlphaChar } from "src/types";
 
 
 type _Index<

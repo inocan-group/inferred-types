@@ -1,4 +1,4 @@
-import { PascalCase , LeftWhitespace, RightWhitespace } from "../../types/base";
+import { PascalCase , LeftWhitespace, RightWhitespace } from "src/types";
 import { capitalize } from "src/runtime";
 
 /**

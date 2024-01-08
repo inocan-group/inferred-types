@@ -1,4 +1,4 @@
-import { LeftRight } from "../../types/base";
+import { LeftRight } from "src/types";
 
 /**
  * **left**(value)

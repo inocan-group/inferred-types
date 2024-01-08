@@ -1,4 +1,4 @@
-import { Narrowable, TupleToUnion } from "../../types/base";
+import { Narrowable, TupleToUnion } from "src/types";
 
 /**
  * **union**(options) => (value)

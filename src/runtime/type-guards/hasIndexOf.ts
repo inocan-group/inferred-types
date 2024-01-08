@@ -1,5 +1,5 @@
-import {  isArray, isObject } from "src/runtime";
-import { Container } from "../../types/base";
+import {  isObject } from "src/runtime";
+import { Container } from "src/types";
 
 
 /**
@@ -12,5 +12,5 @@ export const hasIndexOf = <
   TContainer extends Container,
   TIndex extends PropertyKey
 >(value: TContainer, idx: TIndex): value is TContainer & Record<TIndex, unknown> => {
-  return (isObject(value) || isArray(value)) && idx in value;
+  return (isObject(value) || Array.isArray(value)) && idx in value;
 };

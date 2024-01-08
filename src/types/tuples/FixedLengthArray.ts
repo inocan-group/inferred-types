@@ -17,4 +17,3 @@ type MapItemType<T, I> = { [K in keyof T]: I };
  */
 export type FixedLengthArray<T, N extends number> = 
   N extends 0 ? [] : MapItemType<GrowExp<[0], N, []>, T>;
-

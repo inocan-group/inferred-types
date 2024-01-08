@@ -1,4 +1,4 @@
-import {  IfMaybeTrue, Narrowable } from "../../types/base";
+import {  IfMaybeTrue, Narrowable } from "src/types";
 import { isTrue } from "src/runtime";
 
 /**

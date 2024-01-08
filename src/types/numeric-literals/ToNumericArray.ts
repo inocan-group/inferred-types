@@ -1,9 +1,9 @@
 
-import { Tuple, ToNumber, IfTrue,  IfReadonlyArray, HasKeys} from "src/types";
+import { Tuple, ToNumber, IfTrue,  IfReadonlyArray, NonEmptyContainer} from "src/types";
 
 type _Convert<T extends Tuple> = 
 IfTrue<
-  HasKeys<T>,
+  NonEmptyContainer<T>,
   // has keys
   {
     [K in keyof T]: ToNumber<T[K]>

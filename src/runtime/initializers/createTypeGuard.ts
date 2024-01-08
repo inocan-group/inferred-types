@@ -1,4 +1,4 @@
-import type { Type, TypeGuard } from "../../types/base";
+import type { Type, TypeGuard } from "src/types";
 
 export function createTypeGuard<
   T extends Exclude<Type, "is" | "validate">

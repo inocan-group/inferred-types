@@ -1,4 +1,4 @@
-import { Narrowable } from "../../types/base";
+import { Narrowable } from "src/types";
 import { ifArray } from "src/runtime";
 
 export function ifArrayPartial<T extends Narrowable>() {

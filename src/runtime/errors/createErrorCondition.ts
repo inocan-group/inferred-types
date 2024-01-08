@@ -1,4 +1,4 @@
-import { ErrorCondition } from "../../types/base";
+import { ErrorCondition } from "src/types";
 
 /**
  * **createErrorConditionTemplate**(domain) => (kind) => (msg) => ErrorCondition
@@ -7,16 +7,16 @@ import { ErrorCondition } from "../../types/base";
  * runtime.
  */
 export const createErrorCondition = <
-  TDomain extends string = "global"
->(domain?: TDomain) => <
+  TLibrary extends string = "undefined"
+>(library?: TLibrary) => <
   TKind extends string
 >(kind: TKind) => <
   TMsg extends string = ""
->(message: TMsg): ErrorCondition<TKind,TMsg,TDomain> => {
+>(message: TMsg): ErrorCondition<TKind,TMsg,{library: TLibrary}> => {
   return {
     _type: "ErrorCondition",
-    domain: (domain || "global") as TDomain,
+    library,
     kind,
     message: message || "" as TMsg
-  } as ErrorCondition<TKind,TMsg,TDomain>;
+  } as ErrorCondition<TKind,TMsg,{library: TLibrary}>;
 };
