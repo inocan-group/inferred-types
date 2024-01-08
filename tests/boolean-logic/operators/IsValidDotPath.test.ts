@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { IsValidDotPath } from "../../../src/types/base";
+import { IsValidDotPath } from "src/types";
 import { Ref } from "vue";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
