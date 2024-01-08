@@ -3,7 +3,7 @@ const t_unknown = "<<unknown>>" as unknown;
 const t_string = "<<string>>" as string;
 const t_number = "<<number>>" as unknown as number;
 const t_union_string_tuple = "<<union:string,tuple>>" as string | readonly unknown[];
-const t_numeric_array = "<<numeric-array>>" as unknown as readonly (number | `${number}`)[];
+// const t_numeric_array = "<<numeric-array>>" as unknown as readonly (number | `${number}`)[];
 
 /**
  * **TYPE_TRANSFORMS**
