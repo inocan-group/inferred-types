@@ -1,4 +1,4 @@
-import { NotNull } from "../../types/base";
+import { NotNull } from "src/types";
 
 /**
  * **isNotNull**(value)

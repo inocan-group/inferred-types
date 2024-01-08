@@ -1,6 +1,6 @@
 
-import {  addFnToProps, addPropsToFn, narrowFn } from "src/runtime";
-import {  AnyFunction,   AnyObject,   AsFnMeta,   EmptyObject,   ExplicitKeys,   Narrowable,  NarrowableScalar, } from "src/types";
+import {  addFnToProps } from "src/runtime";
+import {   AnyObject,   EmptyObject,  Narrowable,  } from "src/types";
 
 export interface TypedError<
   TKind extends string = string,

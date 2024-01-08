@@ -13,7 +13,7 @@ import {
   TypeKindFalsy, 
   TypeKindLiteral, 
   TypeKindWide
-} from "../../types/base";
+} from "src/types";
 
 import {
   FALSY_TYPE_KINDS, 

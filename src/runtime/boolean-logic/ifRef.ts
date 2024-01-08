@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IfRef,  Narrowable,  VueRef } from "../../types/base";
+import { IfRef,  Narrowable,  VueRef } from "src/types";
 import { isRef } from "src/runtime";
 
 /**

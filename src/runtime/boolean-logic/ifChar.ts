@@ -1,4 +1,4 @@
-import { IfChar, Narrowable } from "../../types/base";
+import { IfChar, Narrowable } from "src/types";
 import { Never } from "src/constants";
 
 type Callback<T extends string, R> = <V extends T>(v: V) => R;

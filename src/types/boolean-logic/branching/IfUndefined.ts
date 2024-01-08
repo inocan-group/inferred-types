@@ -13,4 +13,8 @@ export type IfUndefined<
   T,
   IF,
   ELSE = T
-> = IfNever<T, never, IsUndefined<T> extends true ? IF : ELSE>;
+> = IfNever<
+  T, 
+  never, 
+  IsUndefined<T> extends true ? IF : ELSE
+>;

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { LOWER_ALPHA_CHARS } from "src/constants";
-import { IfChar, IfExtends, Narrowable, UpperAlphaChar, ValueCallback } from "../../types/base";
+import { IfChar, IfExtends, Narrowable, UpperAlphaChar, ValueCallback } from "src/types";
 
 type Convert<T, IF, ELSE> = IfExtends<T, UpperAlphaChar, IF, ELSE>;
 

@@ -1,4 +1,4 @@
-import { DescribeType, Narrowable, TypeToken } from "../../types/base";
+import { DescribeType, TypeToken } from "src/types";
 import { isArray, isBoolean, isFunction, isNull, isNumber, isObject, isString, isSymbol, isTypeToken, isUndefined } from "../type-guards";
 
 
@@ -7,7 +7,7 @@ const tokenDesc = <T extends TypeToken>(token: T) => {
   return token;
 };
 
-const runtimeDesc = <T extends Narrowable>(type: T) => {
+const runtimeDesc = <T>(type: T) => {
   return (
     isString(type) ? "string"
     : isNumber(type) ? "number"
@@ -41,3 +41,5 @@ export const describeType = <T>(type: T): DescribeType<T> => {
   ) as DescribeType<T>;
 
 };
+
+

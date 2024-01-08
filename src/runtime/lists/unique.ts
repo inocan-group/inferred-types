@@ -1,4 +1,4 @@
-import { Container, Tuple, Unique } from "../../types/base";
+import { Container, Tuple, Unique } from "src/types";
 import { isString, indexOf } from "src/runtime";
 
 /**

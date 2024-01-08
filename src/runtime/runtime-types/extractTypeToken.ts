@@ -1,6 +1,6 @@
 
 import { isTypeToken,  stripLeading, stripTrailing } from "src/runtime";
-import { TypeTokenName } from "../../types/base";
+import { TypeTokenName } from "src/types";
 
 type ExtractedToken = [token: TypeTokenName, data: string | undefined];
 

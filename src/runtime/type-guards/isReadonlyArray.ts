@@ -1,4 +1,4 @@
-import { Tuple } from "../../types/base";
+import { Tuple } from "src/types";
 
 /**
  * **isReadonlyArray**(value)

@@ -1,4 +1,4 @@
-import type { IfNull, Narrowable } from "../../types/base";
+import type { IfNull, Narrowable } from "src/types";
 import { isNull } from "src/runtime";
 
 /**

@@ -1,4 +1,4 @@
-import { Narrowable } from "../../types/base";
+import { Narrowable } from "src/types";
 
 /**
  * **ifSameType**(value, comparisonType, ifExtends, doesNotExtend)

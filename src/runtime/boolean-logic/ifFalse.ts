@@ -1,4 +1,4 @@
-import type { IfFalse, Narrowable } from "../../types/base";
+import type { IfFalse, Narrowable } from "src/types";
 import { isFalse } from "src/runtime";
 
 /**

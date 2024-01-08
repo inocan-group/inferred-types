@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import type { Narrowable, ObjectKey } from "../../types/base";
+import type { Narrowable, ObjectKey } from "src/types";
 import { retain } from "src/runtime";
 
 /**

@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 
-import { Narrowable } from "../../types/base";
+import { Narrowable } from "src/types";
 
 /**
  * Takes an object as input --which has an `id` property and returns it as the same

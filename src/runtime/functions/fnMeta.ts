@@ -1,4 +1,4 @@
-import { AnyFunction,  AsFnMeta } from "../../types/base";
+import { AnyFunction,  AsFnMeta } from "src/types";
 
 type _Props<TFn extends AnyFunction> = AsFnMeta<TFn>["props"];
 

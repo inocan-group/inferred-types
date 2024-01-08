@@ -1,4 +1,4 @@
-import { errorCondition, Split } from "../../types/base";
+import { errorCondition, Split } from "src/types";
 import { isNumber, isString } from "src/runtime";
 
 /**

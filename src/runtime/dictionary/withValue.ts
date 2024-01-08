@@ -1,4 +1,4 @@
-import {  AnyObject, Narrowable, WithValue } from "../../types/base";
+import {  AnyObject, Narrowable, WithValue } from "src/types";
 import { KindApi, kind, isSameType } from "src/runtime";
 
 /**
@@ -26,20 +26,22 @@ export type WithValuePartial<TReturn> = <
  * const justOne = withoutValue(t => t.literal(1))(obj);
  * ```
  */
-export function withValue<
+export const withValue = <
   N extends Narrowable,
   TApi extends (t: KindApi) => N
->(cb: TApi): WithValuePartial<ReturnType<TApi>> {
+>(cb: TApi) => <
+  TObj extends AnyObject
+>(obj: TObj) => {
+    const newObj = Object.keys(obj).reduce(
+      (acc, key) => key in obj && isSameType(obj[key as keyof typeof obj],cb(kind))
+          ? ({...acc, [key]: obj[key as keyof typeof obj]})
+          : acc,
+      {} 
+    );
 
-  return <TObj extends AnyObject>(obj: TObj) => {
-    return Object.keys(obj).reduce(
-      (acc, key) => isSameType(obj[key],cb(kind))
-        ? ({...acc, [key]: obj[key]})
-        : acc,
-      {} as unknown as WithValue<TObj,ReturnType<TApi>>
-    ) as unknown as WithValue<TObj,ReturnType<TApi>>;
+    return newObj as unknown as WithValue<TObj,ReturnType<TApi>>;
   };
-}
+
 
 
 

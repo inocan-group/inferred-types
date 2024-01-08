@@ -43,7 +43,7 @@ const finalize = <
 >(props: TProps) => {
   const clone = <
     A extends AsFnMeta<TFn>["args"]
-  >(...args:  A) => fn(...args);
+  >(...args:  A) => fn(...(args as A & readonly any[]));
 
   for (const k of Object.keys(fn)) {    
     (clone as any)[k] = fn[k as keyof typeof fn];

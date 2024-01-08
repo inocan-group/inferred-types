@@ -1,4 +1,4 @@
-import { AnyObject, Concat, Container, ErrorCondition, IfFalse, IsValidKey, ToString, Tuple } from "../..";
+import { AnyObject, Concat, Container, ErrorCondition, IfFalse, IsValidKey, ToString, Tuple } from "src/types";
 
 type Err<
   TContainer extends Container,
@@ -8,27 +8,23 @@ TContainer extends Tuple ? TKey extends string | symbol
     ? ErrorCondition<
         "invalid-key-type", 
         Concat<["An array can only have numeric keys and we found the key: '", ToString<TKey>, "'."]>,
-        "IfValidKey",
-        { container: TContainer; key: TKey }
+        { container: TContainer; key: TKey; library: "IfValidKey" }
       >
     : ErrorCondition<
         "key-does-not-exist", 
         Concat<["An index of ", ToString<TKey>, " is beyond the length of the array!"]>,
-        "IfValidKey",
-        { container: TContainer; key: TKey }
+        { container: TContainer; key: TKey; library: "IfValidKey" }
       >
 : TContainer extends AnyObject ? TKey extends number
     ? ErrorCondition<
         "invalid-key-type", 
         "",
-        "IfValidKey",
-        { container: TContainer; key: TKey }
+        { container: TContainer; key: TKey; library: "IfValidKey" }
       >
     : ErrorCondition<
         "key-does-not-exist", 
         Concat<["An attempt to index an object with '", ToString<TKey>, "' is not a valid key on the object!"]>,
-        "IfValidKey",
-        { container: TContainer; key: TKey }
+        { container: TContainer; key: TKey; library: "IfValidKey" }
       >
 : never;
 

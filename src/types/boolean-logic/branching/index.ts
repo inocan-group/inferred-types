@@ -1,5 +1,6 @@
 export * from "./IfAllLiteral";
 export * from "./IfScalar";
+export * from "./IfDefined";
 export * from "./IfOr";
 export * from "./IfOptionalScalar";
 export * from "./IfNull";

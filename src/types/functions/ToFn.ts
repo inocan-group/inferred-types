@@ -9,13 +9,15 @@ import { AnyFunction, IfNotError, FnMeta } from "..";
  * 
  *  - `AnyFunction` - function signature maintained
  *  - `FnMeta` - is converted to a precise function type
- *  - Any non-function value -- _other than a bare `never` value or an 
- * `ErrorCondition`_ -- will be return as a function of the form `() => T`
+ *  - `never` _or_ `ErrorCondition` - returned "as is"
+ *  
+ * All other values will return a function of the form `() => T`
  * 
  * **Related:** `AsFn`
  */
 export type ToFn<T> = IfNotError<
   T,
+  {},
   T extends AnyFunction
     ? T
     : T extends FnMeta<infer Args, infer Returns, infer Props>

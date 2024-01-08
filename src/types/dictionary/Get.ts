@@ -9,7 +9,7 @@ import type {
   ErrorConditionHandler,
   ToString,
   ValueAtDotPath
-} from "..";
+} from "src/types";
 import { NoDefaultValue, NotDefined } from "src/constants";
 
 type ResolveDefVal<
@@ -71,7 +71,11 @@ export type Get<
   : IfOptionalScalar<
       TContainer,
       ResolveHandler<
-        ErrorCondition<"invalid-path", `The path of "${TDotPath}" is an invalid dotpath and can not be used!`, "Get<TContainer,TDotPath>">,
+        ErrorCondition<
+          "invalid-path", 
+          `The path of "${TDotPath}" is an invalid dotpath and can not be used!`, 
+          { library: "Get<TContainer,TDotPath>"}
+        >,
         THandler
       >,
       // get value

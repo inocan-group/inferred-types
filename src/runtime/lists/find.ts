@@ -1,4 +1,4 @@
-import { Container, Find , Narrowable, Tuple } from "../../types/base";
+import { Container, Find , Narrowable, Tuple } from "src/types";
 import { indexOf } from "src/runtime";
 
 /**

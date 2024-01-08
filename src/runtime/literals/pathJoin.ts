@@ -1,4 +1,4 @@
-import { PathJoin } from "../../types/base";
+import { PathJoin } from "src/types";
 import { 
   ensureLeading, 
   ensureTrailing, 

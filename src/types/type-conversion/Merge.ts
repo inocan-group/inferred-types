@@ -7,7 +7,8 @@ import {
   AfterFirst , 
   First , 
   AnyObject, 
-  Scalar 
+  Scalar, 
+  MergeObjects
 } from "src/types";
 
 // 1. Keep all unique keys in `TValue`

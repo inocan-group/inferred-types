@@ -2,7 +2,7 @@ import {
   IndexOf, 
   Narrowable,
   Tuple
-} from "../../types/base";
+} from "src/types";
 import { isArray, isNull, isNumber, isObject } from "src/runtime";
 import { Never } from "src/constants";
 

@@ -12,7 +12,11 @@ type Process<
 type MixedType<
   A extends Tuple | string,
   B extends Tuple | string
-> = ErrorCondition<"invalid-use", "OfEqualLength<A,B> expects either two strings or two Tuples but not a combination!","OfEqualLength", {A: A; B: B}>;
+> = ErrorCondition<
+  "invalid-use",
+  "invalid use of mixed type",
+  {context: {A: A; B: B}; library: "OfEqualLength"}
+>;
 
 type NonLiteral<
 A extends Tuple | string,
@@ -20,8 +24,7 @@ B extends Tuple | string
 > = ErrorCondition<
   "non-literal",
   "OfEqualLength<A,B> expects both strings -- when passed strings -- to be literal strings not WIDE string types!",
-  "OfEqualLength",
-  { A: A; B: B}
+  {context: { A: A; B: B}; library: "OfEqualLength"}
 >;
 
 

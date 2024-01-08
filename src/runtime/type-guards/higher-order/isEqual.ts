@@ -1,4 +1,4 @@
-import { Narrowable , TypeGuard } from "../../../types/base";
+import { Narrowable , TypeGuard } from "src/types";
 import { isSameTypeOf } from "src/runtime";
 
 /**

@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { Narrowable, WithoutKeys,  ErrorCondition, HasUnionType,  ObjectKey } from "../../types/base";
+import type { Narrowable, WithoutKeys,  ErrorCondition, HasUnionType,  ObjectKey } from "src/types";
 import { keysOf } from "src/runtime";
 
 /**
@@ -36,6 +36,10 @@ export function omit<
       },
     {}
   ) as unknown as HasUnionType<TKeys> extends true
-    ? ErrorCondition<"invalid-union", "the omit(obj, keys) function was called with keys which included a value which was a union type; this would make the typing inconsistent with the runtime type and should be avoided. Note that at runtime this will not produce an error but rather produce the valid runtime value.", "omit", {keys: typeof removeKeys}>
+    ? ErrorCondition<
+        "invalid-union", 
+        "the omit(obj, keys) function was called with keys which included a value which was a union type; this would make the typing inconsistent with the runtime type and should be avoided. Note that at runtime this will not produce an error but rather produce the valid runtime value.", 
+        {context: { keys: typeof removeKeys}; library: "omit" }
+      >
     : WithoutKeys<TObj, TKeys>;
 }

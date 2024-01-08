@@ -1,4 +1,4 @@
-import { LogicalCombinator } from "../../types/base";
+import { LogicalCombinator } from "src/types";
 import { asArray } from "src/runtime";
 
 // string filters

@@ -1,4 +1,4 @@
-import { LeftRight, Narrowable, Tuple } from "../../types/base";
+import { LeftRight, Narrowable, Tuple } from "src/types";
 import { isArray } from "src/runtime";
 
 /**

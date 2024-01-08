@@ -1,4 +1,4 @@
-import { IfString, Narrowable } from "../../types/base";
+import { IfString, Narrowable } from "src/types";
 import { isString } from "src/runtime";
 
 /**

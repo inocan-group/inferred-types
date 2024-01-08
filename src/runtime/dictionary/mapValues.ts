@@ -1,4 +1,4 @@
-import { Narrowable } from "../../types/base";
+import { Narrowable } from "src/types";
 import { entries } from "src/runtime";
 
 /**
