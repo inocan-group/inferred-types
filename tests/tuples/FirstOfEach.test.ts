@@ -1,7 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-
-import { FirstOfEach, Split, Chars, IsLiteral } from "../../src/types/base";
+import { FirstOfEach,  Chars } from "src/types";
 
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -12,16 +11,14 @@ describe("FirstOfEach<TList>", () => {
 
   it("with an Tuple of array elements", () => {
     type Arr = FirstOfEach<[ ["foo", 1], ["bar", 2] ]>;
-    type FooBar = Chars<"FooBar">;
-    type X = IsLiteral<FooBar>;
-    type Foo = FirstOfEach<FooBar>;
+    type Foo = FirstOfEach<[Chars<"Foo">, Chars<"Bar">]>;
     
     
     type cases = [
       Expect<Equal<Arr, "foo" | "bar">>,
-      Expect<Equal<Foo, "F" | "o" | "B" | "a" | "r" >>,
+      Expect<Equal<Foo, "F" | "B" >>,
     ];
-    const cases: cases = [ true ];
+    const cases: cases = [ true, true  ];
   });
 
 });

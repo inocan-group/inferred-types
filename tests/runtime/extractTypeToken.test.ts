@@ -1,4 +1,4 @@
-import { Equal, Expect } from "@type-challenges/utils";
+// import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
 import { extractTypeToken, kind } from "src/runtime";
@@ -10,13 +10,13 @@ import { extractTypeToken, kind } from "src/runtime";
 describe("extractTypeToken", () => {
 
   it("extracting identity types", () => {
-    const kinds = {
+    const _kinds = {
       str: kind.string(),
       num: kind.number(),
       true: kind.boolean(true),
       stringLiteral: kind.string("foo", "bar")
     };
-    const str = extractTypeToken(kind.string());
+    const _str = extractTypeToken(kind.string());
     
     type cases = [
       /** type tests */
