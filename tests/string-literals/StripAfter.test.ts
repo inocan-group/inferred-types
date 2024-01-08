@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { StripAfter } from "../../src/types/base";
+import { StripAfter } from "src/types";
 import { stripAfter } from "src/runtime";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

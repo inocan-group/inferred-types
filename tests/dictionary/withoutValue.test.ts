@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { KeysNotExtendingValue, WithoutValue } from "../../src/types/base";
+import { KeysNotExtendingValue, WithoutValue } from "src/types";
 import { withoutValue } from "src/runtime";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

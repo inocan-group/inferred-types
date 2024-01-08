@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { Digital, DigitalLiteral, DoesExtend } from "../../src/types/base";
+import { Digital, DigitalLiteral, DoesExtend } from "src/types";
 import { Digitize } from "src/types/numeric-literals/Digitize";
 import { describe, it } from "vitest";
 

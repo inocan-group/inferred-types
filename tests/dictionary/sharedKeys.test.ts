@@ -2,7 +2,7 @@
 import { Equal, Expect, ExpectExtends, ExpectTrue } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import type { Contains, SharedKeys } from "../../src/types/base";
+import type { Contains, SharedKeys } from "src/types";
 import { sharedKeys } from "src/runtime/dictionary/sharedKeys";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

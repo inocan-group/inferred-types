@@ -4,7 +4,7 @@ import type {
   MergeObjects, 
   MergeScalars, 
   MergeTuples 
-} from "../../src/types/base";
+} from "src/types";
 import { mergeScalars, mergeTuples } from "src/runtime";
 
 describe("MergeObjects<A,B>", () => {

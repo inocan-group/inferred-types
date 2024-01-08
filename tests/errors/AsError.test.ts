@@ -47,12 +47,13 @@ describe("AsError<T>", () => {
   
   it("tuple errors", () => {
     type SimpleErr = AsError<["err","oops"]>;
-    type WithContext = AsError<["err","oops", { foo: 1; bar: 2}]>;
+    type WithContext = AsError<["err","oops", { context: { foo: 1; bar: 2}}]>;
     
     type cases = [
-      /** type tests */
+      Expect<Equal<SimpleErr, ErrorCondition<"err","oops",null>>>,
+      Expect<DoesExtend<WithContext, ErrorCondition<"err","oops",{context: {foo: 1; bar: 2}}>>>,
     ];
-    const cases: cases = [];
+    const cases: cases = [ true, true ];
     
   });
   

@@ -5,18 +5,13 @@ import {
   get, 
   defineObj, 
   isErrorCondition, 
-  createTypeTuple,
-  startsWith,
-  ensureLeading
 } from "src/runtime";
 import type { 
   DoesExtend, 
   IsErrorCondition, 
   Get, 
   ErrorCondition,
-  Something,
-  Narrowable
-} from "../../src/types/base";
+} from "src/types";
 import { ref } from "vue";
 import { NoDefaultValue } from "src/constants";
 

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { Equal, Expect } from "@type-challenges/utils";
 
-import {  Length } from "../../src/types/base";
+import {  Length } from "src/types";
 import { describe, it } from "vitest";
 
 describe("Length<T>", () => {

@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { Surround } from "../../src/types/base";
+import { Surround } from "src/types";
 import { SurroundWith, surround } from "src/runtime";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
