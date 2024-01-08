@@ -1,0 +1,124 @@
+import { 
+  AnyObject, 
+  AsIndexOf, 
+  Concat, 
+  IfNever, 
+  IsEqual, 
+  ToString,
+  ErrorCondition, 
+  EmptyObject,
+  IfNoIndexAt,
+  ErrorCondition__Props,
+  IfWide,
+} from "src/types/index";
+
+interface Error<
+  TName extends string = string, 
+  TMsg extends string = string
+> {
+  name: TName;
+  message: TMsg;
+  stack?: string;
+}
+
+
+export type AsError__Meta<C extends ErrorCondition__Props = ErrorCondition__Props> = [
+  kind: string,
+  msg: string,
+  context: C
+] | [
+  kind: string,
+  msg: string
+];
+
+type Props<T extends AnyObject | undefined> = T extends AnyObject
+? T
+: EmptyObject;
+
+type ContextFrom<T extends AnyObject> = AsIndexOf<T,"context",EmptyObject>;
+type UtilityFrom<T extends AnyObject> = AsIndexOf<T,"utility",never>;
+type StackFrom<T extends AnyObject> = AsIndexOf<T,"stack",readonly []>;
+type IdFrom<T extends AnyObject> = AsIndexOf<T,"id",never>;
+type LibraryFrom<T extends AnyObject> = AsIndexOf<T,"library",never>;
+
+type Process<
+  T extends AsError__Meta
+> = IsEqual<T, [string, string]> extends true
+? ErrorCondition<T[0], T[1], null >
+: T[3] extends AnyObject
+  ? ErrorCondition<
+    T[0], 
+    T[1],
+    {
+      context: ContextFrom<Props<T[3]>>;
+      utility: UtilityFrom<Props<T[3]>>;
+      stack: StackFrom<Props<T[3]>>;
+      id: IdFrom<Props<T[3]>>; 
+      library: LibraryFrom<Props<T[3]>>;
+    }
+  >
+  : ErrorCondition<
+      T[0], 
+      T[1],
+      null
+    >;
+
+/**
+ * **AsError**`<T>`
+ * 
+ * Proxies through all `T`'s which are already extended from `ErrorCondition`
+ * unchanged but converts all other types into 
+ * 
+ * If no known formula's are found to convert to an ErrorCondition then a
+ * `ErrorCondition<"failed-to-wrap">` error will be produced:
+ * 
+ * #### Known Formulas:
+ * - `never` - converted to `ErrorCondition<"never-value">`
+ * - `Error` - a JS `Error` type is converted to `ErrorCondition<"runtime-error"> and it's properties are available in the error conditions hash storage as `error`
+ * - `ErrorCondition` - any pre-existing `ErrorCondition` will just be proxied through
+ * - `[kind, msg, [context]]` - it will:
+ *    - the first two parameters will map directly into the error condition properties of the same name
+ *    - the optional `context` object is a dictionary of key value pairs; where:
+ *      - when the keys match one of the root properties of `ErrorCondition` it will be
+ *        mapped onto that property (assuming that the _type_ is appropriate)
+ *      - otherwise it will be added to the `context` dictionary appearing as a prop on 
+ *        `ErrorCondition`.
+ * 
+ * **Related:** `Throw`
+ */
+export type AsError<
+  TType,
+> = TType extends ErrorCondition ? TType : IfNever<
+  TType,
+  ErrorCondition<
+    "never-value", 
+    "a 'never' type was encountered which is not allowed in this context!" 
+  >,
+  TType extends Error<string>
+  ? ErrorCondition<
+      "runtime-error", 
+      Concat<[
+        "the JS runtime's Error class was found with the message: '",
+        TType["message"],
+        "'"
+      ]>,
+      { 
+        library: "inferred-types"; 
+        utility: "AsError"; 
+        context: {
+          error_name: IfWide<TType["name"], "unknown; use TypedError in inferred-types instead of Error for more info">;
+        }; 
+      }
+    >
+  : TType extends AsError__Meta
+      ? Process<TType>
+      : ErrorCondition<
+          "failed-to-wrap",
+          Concat<[
+            "An unexpected value -- ",
+            ToString<TType>,
+            " -- was passed into the AsError<T> type utility!"
+          ]>,
+          { library: "inferred-types"; utility: "AsError" }
+        >
+>;
