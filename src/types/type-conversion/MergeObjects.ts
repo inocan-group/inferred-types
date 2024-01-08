@@ -1,4 +1,4 @@
-import { AfterFirst, AnyObject, AsIndexOf, EmptyObject, ExpandRecursively, ExplicitKeys, First, Flatten, Tuple, Unique } from "src/types/index";
+import { AfterFirst, AnyObject, AsIndexOf, ExpandRecursively, ExplicitKeys, First, Flatten, Tuple, Unique } from "src/types/index";
 
 type MergedKeys<
   A extends AnyObject, 
