@@ -1,5 +1,6 @@
 ;import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
+
 import { WithKey } from "src/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -24,7 +25,7 @@ describe("WithKey<T>", () => {
       Expect<Equal<O2, { foo: 42 } >>,
 
       Expect<Equal<A, [number, number, number, number]>>,
-      Expect<Equal<A1, [0,1,2,number]>>,
+      Expect<Equal<A1, [0,1,2, number]>>,
       Expect<Equal<A2, [0,1,2]>>
     ];
     const cases: cases = [
