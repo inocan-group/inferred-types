@@ -1,4 +1,4 @@
-import { ErrorCondition } from "..";
+import { ErrorCondition, TypeErrorInfo } from "..";
 
 /**
  * **ReportError**
@@ -12,19 +12,20 @@ export type ReportError<T> = T extends ErrorCondition<infer Kind, infer Msg>
 export function errorCondition<
   TKind extends string, 
   TDesc extends string,
-  TDomain extends string,
-  TVars extends Record<string, unknown>
+  TInfo extends TypeErrorInfo | null,
 >(
   kind: TKind, 
   message: TDesc = "" as TDesc, 
-  domain: TDomain = "" as TDomain,
-  variables: TVars = {} as TVars
+  info: TInfo = null as TInfo,
 ) {
   return {
     _type: "ErrorCondition",
     kind,
     message,
-    domain,
-    variables
-  } as ErrorCondition<TKind, TDesc, TDomain, TVars>;
+    context: info?.context || {},
+    utility: info?.utility,
+    stack: info?.stack || [],
+    id: info?.id || kind,
+    library: info?.library,
+  } as ErrorCondition<TKind, TDesc, TInfo>;
 } 

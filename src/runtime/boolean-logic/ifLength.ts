@@ -1,4 +1,4 @@
-import { Container, IfArray, IfLength, Narrowable, Scalar, Tuple } from "../../types/base";
+import { Container, IfArray, IfLength, Narrowable, Scalar, Tuple } from "src/types";
 
 
 /**
