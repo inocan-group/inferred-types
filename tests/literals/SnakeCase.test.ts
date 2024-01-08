@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
-import type { SnakeCase } from "../../src/types/base";
+import type { SnakeCase } from "src/types";
 
 const target = "two_three_four";
 type TARGET = typeof target;

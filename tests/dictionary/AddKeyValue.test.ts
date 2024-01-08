@@ -2,7 +2,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
 import { AddKeyValue } from "src/types/dictionary";
-import {  DoesExtend, ErrorCondition } from "../../src/types/base";
+import {  DoesExtend, ErrorCondition } from "src/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 

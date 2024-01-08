@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { HasParameters } from "../../src/types/base";
+import { HasParameters } from "src/types";
 import { describe, it } from "vitest";
 
 // Note: type tests fail visible inspection but pass from Vitest

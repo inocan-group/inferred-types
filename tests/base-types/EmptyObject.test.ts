@@ -3,15 +3,13 @@ import { describe, it } from "vitest";
 import { 
   DoesExtend, 
   IndexableObject, 
-  IndexedObject,
   EmptyObject, 
   DoesNotExtend, 
   Something, 
   Nothing, 
   ExpandRecursively, 
   Scalar 
-} from "../../src/types/base";
-import { Never } from "../../src/inferred-types";
+} from "src/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -31,7 +29,7 @@ describe("EmptyObject", () => {
       // an empty object still must be "something"
       Expect<DoesExtend<EmptyObject, Something>>,
       // in fact, it must extends the "Object" interface
-      Expect<DoesExtend<EmptyObject, Object>>,
+      Expect<DoesExtend<EmptyObject, object>>,
       // it also extends an object with only string keys but with `never` as the value
       Expect<DoesExtend<EmptyObject, StringKeyed>>,
       // same applies to a symbol keyed object
@@ -46,16 +44,10 @@ describe("EmptyObject", () => {
   });
   
   it("negative tests", () => {
-    type StringKeyedSomething = Record<string, Something>;
 
     const foo = { foo: 42 };
     type Foo = typeof foo;
-    type EmptyFoo = IndexedObject<Foo>;
-    type Monster = IndexableObject ;
-    const a: Monster = {foo: Never};
 
-    const maybeLater: Record<string, unknown> = {};
-    type MaybeLater = typeof maybeLater;
     type FooBar = ExpandRecursively<{ foo: string; bar: string } & EmptyObject>;
 
     type cases = [
@@ -74,7 +66,7 @@ describe("EmptyObject", () => {
       Expect<DoesNotExtend<FooBar, EmptyObject>>,
       
       // an Object is a superset of 
-      Expect<DoesNotExtend<Object, EmptyObject>>,
+      Expect<DoesNotExtend<object, EmptyObject>>,
 
       // compared to an indexable object
       Expect<DoesNotExtend<IndexableObject, EmptyObject>>,

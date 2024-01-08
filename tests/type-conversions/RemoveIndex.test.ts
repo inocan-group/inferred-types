@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Equal, Expect } from "@type-challenges/utils";
-import { Narrowable, RemoveIndex } from "../../src/types/base";
+import { Narrowable, RemoveIndex } from "src/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

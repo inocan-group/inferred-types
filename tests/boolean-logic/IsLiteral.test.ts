@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
-import {  EmptyObject, IfLiteral, IsBooleanLiteral, IsLiteral, IsObjectLiteral, IsOptionalLiteral, IsStringLiteral } from "../../src/types/base";
+import {  EmptyObject, IfLiteral, IsBooleanLiteral, IsLiteral, IsObjectLiteral, IsOptionalLiteral, IsStringLiteral } from "src/types";
 
 describe("IsObjectLiteral<T>", () => {
 

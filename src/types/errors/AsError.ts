@@ -7,9 +7,9 @@ import {
   ToString,
   ErrorCondition, 
   EmptyObject,
-  IfNoIndexAt,
   ErrorCondition__Props,
   IfWide,
+  TypeErrorInfo,
 } from "src/types/index";
 
 interface Error<
@@ -22,10 +22,10 @@ interface Error<
 }
 
 
-export type AsError__Meta<C extends ErrorCondition__Props = ErrorCondition__Props> = [
+export type AsError__Meta = [
   kind: string,
   msg: string,
-  context: C
+  context: TypeErrorInfo
 ] | [
   kind: string,
   msg: string
@@ -45,16 +45,16 @@ type Process<
   T extends AsError__Meta
 > = IsEqual<T, [string, string]> extends true
 ? ErrorCondition<T[0], T[1], null >
-: T[3] extends AnyObject
+: T extends [string, string, TypeErrorInfo]
   ? ErrorCondition<
     T[0], 
     T[1],
     {
-      context: ContextFrom<Props<T[3]>>;
-      utility: UtilityFrom<Props<T[3]>>;
-      stack: StackFrom<Props<T[3]>>;
-      id: IdFrom<Props<T[3]>>; 
-      library: LibraryFrom<Props<T[3]>>;
+      context: ContextFrom<Props<T[2]>>;
+      utility: UtilityFrom<Props<T[2]>>;
+      stack: StackFrom<Props<T[2]>>;
+      id: IdFrom<Props<T[2]>>; 
+      library: LibraryFrom<Props<T[2]>>;
     }
   >
   : ErrorCondition<

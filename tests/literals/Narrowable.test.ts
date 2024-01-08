@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 import { narrow } from "src/runtime/literals";
-import { Narrowable } from "../../src/types/base";
+import { Narrowable } from "src/types";
 
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

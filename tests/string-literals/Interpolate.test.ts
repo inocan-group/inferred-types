@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { Interpolate } from "../../src/types/base";
+import { Interpolate } from "src/types";
 
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

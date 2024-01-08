@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { ToNumber } from "../../src/types/base";
+import { ToNumber } from "src/types";
 import { narrow, toNumber } from "src/runtime";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
