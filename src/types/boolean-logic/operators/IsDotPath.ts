@@ -1,4 +1,4 @@
-import { DotPath, IfNever, IfStringLiteral } from "../..";
+import {  HasCharacters, IfNever, IfStringLiteral } from "../..";
 
 /**
  * **IsDotPath**`<T>`
@@ -21,7 +21,7 @@ export type IsDotPath<T> = IfNever<
   T extends string
     ? IfStringLiteral<
         T, 
-        DotPath<T>, 
+        HasCharacters<T, ["/", "*", "!", "&", "$", "\\"]> extends true ? false : true,
         boolean
       >
     : false

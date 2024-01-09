@@ -4,7 +4,7 @@ import { describe, it } from "vitest";
 
 import { ObjValues } from "src/types/type-conversion/ObjValues";
 import { Values } from "src/types/type-conversion/Values";
-import { HasSameValues } from "src/types/boolean-logic";
+import { HasSameValues } from "src/types";
 
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

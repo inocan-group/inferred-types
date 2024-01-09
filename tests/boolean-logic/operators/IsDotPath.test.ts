@@ -13,14 +13,16 @@ describe("IsDotPath<T>", () => {
     type SingleOffset = IsDotPath<"foo">;
     type MultiOffset = IsDotPath<"foo.bar">;
     type InvalidChar = IsDotPath<"foo/bar">;
+    type InvalidChar2 = IsDotPath<"foo\\bar">;
     
     type cases = [
       Expect<Equal<Root, true>>,
       Expect<Equal<SingleOffset, true>>,
       Expect<Equal<MultiOffset, true>>,
       Expect<Equal<InvalidChar, false>>,
+      Expect<Equal<InvalidChar2, false>>,
     ];
-    const cases: cases = [ true, true, true, true ];
+    const cases: cases = [ true, true, true, true, true ];
   });
 
 });

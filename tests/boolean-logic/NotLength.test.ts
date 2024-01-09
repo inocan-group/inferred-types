@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { NotLength } from "src/types/boolean-logic/operators";
+import { NotLength } from "src/types/operators";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

@@ -24,6 +24,7 @@ export * from "./KeysNotEqualValue";
 export * from "./OptionalKeys";
 export * from "./RequiredKeys";
 export * from "./MapTo";
+export * from "./MakePropsMutable";
 export * from "./MutableProps";
 export * from "./NonNumericKeys";
 export * from "./NonStringKeys";
