@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { Or } from "../../../src/types/boolean-logic/combinators/Or";
+import { Or } from "../../../src/types/combinators/Or";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

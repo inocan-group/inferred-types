@@ -1,4 +1,4 @@
-import { AnyObject,  IfEqual,  NonEmptyContainer,  ReadonlyProps } from "src/types";
+import {  MutableProps,  EmptyContainer, Container } from "src/types";
 
 /**
  * **IsReadonlyObject**`<T>`
@@ -9,10 +9,9 @@ import { AnyObject,  IfEqual,  NonEmptyContainer,  ReadonlyProps } from "src/typ
  * 
  * - Note: objects with no properties return `false`
  */
-export type IsReadonlyObject<T> = 
-T extends AnyObject
-  ? NonEmptyContainer<T> extends true
-    ? IfEqual<ReadonlyProps<T>, T, true, false>
+export type IsReadonlyObject<T> = T extends Container
+  ? EmptyContainer<MutableProps<T>> extends true
+    ? EmptyContainer<T> extends true ? false :true
     : false
   : false;
 

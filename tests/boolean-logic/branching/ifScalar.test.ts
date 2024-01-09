@@ -20,15 +20,17 @@ describe("ifScalar(value)", () => {
     const t2 = ifScalar(narrow, v => v, () => "no");
 
     expect(t1).toBe("42 is the meaning of life");
+    expect(t2).toBe(42);
     
     type cases = [
       Expect<Equal<
         typeof t1, 
-        `${number} is the meaning of life` | 
         "no array for you!"
       >>,
+      Expect<Equal<typeof t2, 42>>
     ];
-    const cases: cases = [ true ];
+    const cases: cases = [ true, true ];
+
   });
 
 });

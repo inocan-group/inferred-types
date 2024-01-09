@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { IsNumericLiteral } from "src/types/boolean-logic";
+import { IsNumericLiteral } from "src/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

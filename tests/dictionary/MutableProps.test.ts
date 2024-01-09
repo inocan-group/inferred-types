@@ -1,16 +1,16 @@
 import { describe, it, expect } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
-import type { MutableProps, MutablePropsExclusive } from "src/types";
+import type { MakePropsMutable, MutablePropsExclusive } from "src/types";
 
 describe("MutableProp<T,M> and MutableProps<T,M>", () => {
   it("MutableProp<T,M> ", () => {
     type Test = { foo: string; bar?: number; readonly baz: boolean };
-    type Foo = MutableProps<Test, ["foo", "bar"]>;
-    type FooAlt = MutableProps<Test, "foo"| "bar">;
-    type Bar = MutableProps<Test, "bar">;
-    type Bar2 = MutableProps<Test, ["bar"]>;
-    type FooBar = MutableProps<Test, "foo" | "bar">;
-    type FooBaz = MutableProps<Test, "foo" | "baz">;
+    type Foo = MakePropsMutable<Test, ["foo", "bar"]>;
+    type FooAlt = MakePropsMutable<Test, "foo"| "bar">;
+    type Bar = MakePropsMutable<Test, "bar">;
+    type Bar2 = MakePropsMutable<Test, ["bar"]>;
+    type FooBar = MakePropsMutable<Test, "foo" | "bar">;
+    type FooBaz = MakePropsMutable<Test, "foo" | "baz">;
 
     type cases = [
       Expect<Equal<
