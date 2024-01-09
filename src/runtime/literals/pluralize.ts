@@ -45,6 +45,15 @@ const endingIn = <T extends string, U extends EndsIn>(word: T, postfix: U): stri
   }
 };
 
+/**
+ * **pluralize(** word **)**
+ * 
+ * Pluralizes the word using _language rules_ on pluralization for English as well as
+ * leveraging many known exceptions to the linguistic rules. 
+ * 
+ * **Note:** _if the string passed into this function is a literal string then the **type** 
+ * will be pluralized along with the runtime value._
+ */
 export const pluralize = <T extends string>(word: T): Pluralize<T> => {
   return (
     isException(word)

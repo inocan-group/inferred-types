@@ -66,7 +66,8 @@ type PluralizeEndingIn_Y<T extends string> = EnsureTrailing<StripTrailing<T,"y">
 /**
  * **Pluralize**`<T>`
  * 
- * Expects `T` to be a _singular_ word and pluralizes it.
+ * Pluralizes the word `T`, using _language rules_ on pluralization for English as well as
+ * leveraging many known exceptions to the linguistic rules. 
  */
 export type Pluralize<
   T extends string
