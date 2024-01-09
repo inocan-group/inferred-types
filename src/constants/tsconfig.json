@@ -9,7 +9,7 @@
         "declarationMap": true,
         "baseUrl": ".",
         "rootDir": "../..",
-        "outDir": "../../dist/constants",
+        "outDir": "../../dist",
         "composite": true,
         "forceConsistentCasingInFileNames": true,
         "paths": {

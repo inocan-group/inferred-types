@@ -17,7 +17,7 @@
         "declarationMap": true,
         "baseUrl": ".",
         "rootDir": "../..",
-        "outDir": "../../dist/runtime",
+        "outDir": "../../dist",
         "composite": true,
         "forceConsistentCasingInFileNames": true,
         "paths": {

@@ -15,7 +15,7 @@
         "declarationMap": true,
         "baseUrl": ".",
         "rootDir": "../..",
-        "outDir": "../../dist/types",
+        "outDir": "../../dist",
         "composite": true,
         "forceConsistentCasingInFileNames": true,
         "paths": {
