@@ -11,7 +11,6 @@ export * from "./stripTrailing";
 export * from "./stripLeading";
 export * from "./ensureTrailing";
 export * from "./ensureLeading";
-export * from "./expandRecursively";
 export * from "./ifUppercase";
 export * from "./pathJoin";
 export * from "./narrow";
