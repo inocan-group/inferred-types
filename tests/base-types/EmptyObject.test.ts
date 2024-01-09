@@ -7,8 +7,7 @@ import {
   DoesNotExtend, 
   Something, 
   Nothing, 
-  ExpandRecursively, 
-  Scalar 
+  Scalar,
 } from "src/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -48,7 +47,7 @@ describe("EmptyObject", () => {
     const foo = { foo: 42 };
     type Foo = typeof foo;
 
-    type FooBar = ExpandRecursively<{ foo: string; bar: string } & EmptyObject>;
+    type FooBar = IndexableObject<{ foo: string; bar: string }>;
 
     type cases = [
       // must be Something, therefore can not extend Nothing
@@ -70,11 +69,11 @@ describe("EmptyObject", () => {
 
       // compared to an indexable object
       Expect<DoesNotExtend<IndexableObject, EmptyObject>>,
-      Expect<DoesNotExtend<EmptyObject, IndexableObject>>,
     ];
 
     const cases: cases = [
-      true, true, true, true, 
+      true, true, true, 
+      true, true, true, true, true,
       true, true
     ];
   });

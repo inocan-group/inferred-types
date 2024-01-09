@@ -1,25 +1,25 @@
-import { ObjectKey, AnyObject, ExpandRecursively, IfNever } from "..";
+import { ObjectKey,  ExpandRecursively, IfNever, Keys, AnyObject } from "..";
 
+export type GenericIndexableObject = {
+  [key: string | symbol]: unknown;
+};
 
 /**
  * **IndexableObject**`<[TObj]>`
  * 
- * Represents any object which can be indexed by a valid key
- * for a JS object/dictionary. This kind of object _may_ or _may not_ have 
- * any explicit types defined but it does allow for any property to be added 
- * later without that resulting in an error to the type's definition.
- * 
- * The optional generic `T` allows you to express _known_ keys in addition
- * to the runtime option of adding more.
- * 
- * This kind of type definition is _flexible_ for runtime code but may not
- * be what you want for the most type literal definitions.
+ * Represents any object which _can_ be indexed by a valid key
+ * for a JS object/dictionary. These keys may be explicitly defined
+ * or can be generically allowed via a generic index like `{[key: string]: unknown}`.
  * 
  * **Related:** `EmptyObject`, `IndexedObject`
  */
-export type IndexableObject<TObj extends AnyObject | never = never> = 
+export type IndexableObject<TObj extends AnyObject = GenericIndexableObject> = 
 IfNever<
   TObj,
-  Record<ObjectKey, unknown>,
-  ExpandRecursively< Record<ObjectKey, unknown> & TObj >
+  never,
+  IfNever<
+    Keys<TObj>["length"],
+    GenericIndexableObject,
+    ExpandRecursively< Record<ObjectKey, unknown> & TObj >
+  >
 >;

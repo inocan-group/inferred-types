@@ -7,7 +7,6 @@ import {
   ToString,
   ErrorCondition, 
   EmptyObject,
-  ErrorCondition__Props,
   IfWide,
   TypeErrorInfo,
 } from "src/types/index";
