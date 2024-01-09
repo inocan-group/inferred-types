@@ -8,20 +8,17 @@ import {
   Filter, 
   GetEach, 
   EnsureTrailing, 
-  StripTrailing
+  StripTrailing,
+  Mutable
 } from "..";
 
-type Exceptions = typeof PLURAL_EXCEPTIONS;
-type SingularExceptions = GetEach<Exceptions, 0>;
+type ExceptionLookup = Mutable<typeof PLURAL_EXCEPTIONS>;
 
 type SingularNoun = "s" | "sh" | "ch" | "x" | "z" | "o";
 type F = "f" | "fe";
 type Y = `${Consonant}y`;
 
-/** 
- * validates that a word `T` has an _exception_ rule defined for it 
- */
-type IsException<T extends string> = IfContains<SingularExceptions, T, true, false>;
+type IsException<T extends string> = T extends keyof ExceptionLookup ? true : false;
 
 /**
  * Looks up a singular word `T` as a possible singular exception and converts it
@@ -29,10 +26,8 @@ type IsException<T extends string> = IfContains<SingularExceptions, T, true, fal
  */
 type PluralException<
   T extends string
-> = IsException<T> extends true
-  ? Filter<Exceptions, [T, string], "extends"> extends [T, infer Plural]
-    ? Plural
-    : never
+> = T extends keyof ExceptionLookup
+  ? ExceptionLookup[T]
   : never;
 
 /** validates that a string literal ends in "is" */
@@ -68,7 +63,14 @@ type PluralizeEnding_F<T extends string> = T extends `${infer HEAD}${F}` ? `${HE
 type PluralizeEndingIn_Y<T extends string> = EnsureTrailing<StripTrailing<T,"y">, "ies">;
 
 
-export type Pluralize<T extends string> = 
+/**
+ * **Pluralize**`<T>`
+ * 
+ * Expects `T` to be a _singular_ word and pluralizes it.
+ */
+export type Pluralize<
+  T extends string
+> = 
 IfStringLiteral<
   T,
   IsException<T> extends true

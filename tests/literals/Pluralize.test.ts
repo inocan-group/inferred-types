@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
-
 import type { Pluralize } from "src/types";
 import { pluralize } from "src/runtime";
 
@@ -62,8 +61,8 @@ describe("pluralize(word)", () => {
     expect(oasis).toBe("oasises");
     
     type cases = [
-      Expect<Equal<typeof basis, "basises">>,
-      Expect<Equal<typeof oasis, "oasises">>,
+      Expect<Equal<typeof basis, "bases">>,
+      Expect<Equal<typeof oasis, "oases">>,
     ];
     const cases: cases = [ true, true];
   });
