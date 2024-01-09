@@ -22,7 +22,7 @@
         "declaration": true,
         "declarationMap": true,
         "baseUrl": ".",
-        "rootDir": "../..",
+        "rootDir": "..",
         "outDir": "../../dist",
         "composite": true,
         "forceConsistentCasingInFileNames": true,

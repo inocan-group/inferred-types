@@ -5,13 +5,13 @@
   "license": "MIT",
   "author": "Ken Snyder<ken@ken.net>",
   "type": "module",
-  "module": "./dist/src/inferred-types/index.js",
-  "typings": "./dist/src/inferred-types/index.d.ts",
+  "module": "./dist/inferred-types/index.js",
+  "typings": "./dist/inferred-types/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/src/inferred-types/index.js",
-      "types": "./dist/src/inferred-types/index.d.ts",
-      "default": "./dist/src/inferred-types/index.js"
+      "import": "./dist/inferred-types/index.js",
+      "types": "./dist/inferred-types/index.d.ts",
+      "default": "./dist/inferred-types/index.js"
     }
   },
   "files": [
