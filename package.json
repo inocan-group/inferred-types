@@ -24,8 +24,9 @@
   "scripts": {
     "about": "tokei src",
     "build": "tsc -b --verbose src/inferred-types",
+    "build:types": "tsc -b --verbose src/types",
     "build:force": "tsc -b -f --verbose src/inferred-types",
-    "diagnostics": "npx tsc -b -f -diagnostics",
+    "diagnostics": "npx tsc -b -f -diagnostics src/inferred-types",
     "clean": "rimraf dist/**/*",
     "lint": "run-p lint:*",
     "lint:test": "eslint tests/**/*.ts --fix",
