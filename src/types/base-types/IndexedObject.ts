@@ -1,4 +1,4 @@
-import { EmptyObject, IfLength, IndexableObject, Length } from "..";
+import { EmptyObject,  IndexableObject, Length } from "..";
 
 export type IndexedObject<
   T extends EmptyObject | IndexableObject = EmptyObject | IndexableObject
