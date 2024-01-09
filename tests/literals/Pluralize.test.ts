@@ -57,8 +57,8 @@ describe("pluralize(word)", () => {
     const basis = pluralize("basis");
     const oasis = pluralize("oasis");
 
-    expect(basis).toBe("basises");
-    expect(oasis).toBe("oasises");
+    expect(basis).toBe("bases");
+    expect(oasis).toBe("oases");
     
     type cases = [
       Expect<Equal<typeof basis, "bases">>,

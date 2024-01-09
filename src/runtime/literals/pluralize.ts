@@ -5,21 +5,10 @@ import {
   PLURAL_EXCEPTIONS, 
   SINGULAR_NOUN_ENDINGS 
 } from "src/constants";
-import { getEach,  split, stripTrailing } from "src/runtime";
+import {  split, stripTrailing } from "src/runtime";
 import {  Mutable, Pluralize, TupleToUnion } from "src/types";
 
-const isException = <T extends string>(word: T) => getEach(PLURAL_EXCEPTIONS,"0").includes(word as any);
-
-const exceptionLookup = <T extends string>(word: T) => {
-  const found = PLURAL_EXCEPTIONS.find(i => i[0] === word);
-  
-  if (found) {
-    const plural = found[1];
-    return plural;
-  } else {
-    throw new Error(`The word "${word}" was supposed to have an exception rule but it couldn't be found!`);
-  }
-};
+const isException = <T extends string>(word: T) => Object.keys(PLURAL_EXCEPTIONS).includes(word);
 
 const END_IN = [
   "is",
@@ -59,7 +48,7 @@ const endingIn = <T extends string, U extends EndsIn>(word: T, postfix: U): stri
 export const pluralize = <T extends string>(word: T): Pluralize<T> => {
   return (
     isException(word)
-    ? exceptionLookup(word)
+    ? PLURAL_EXCEPTIONS[word as keyof typeof PLURAL_EXCEPTIONS]
     : endingIn(word, "is") || 
       endingIn(word, "singular-noun") || 
       endingIn(word, "f") ||
