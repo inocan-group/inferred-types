@@ -40,6 +40,11 @@ describe("pluralize(word)", () => {
   it("exception rules are utilized", () => {
     const man = pluralize("man");
     const person = pluralize("person");
+    const basis = pluralize("basis");
+    const oasis = pluralize("oasis");
+
+    expect(basis).toBe("bases");
+    expect(oasis).toBe("oases");
 
     expect(man).toBe("men");
     expect(person).toBe("people");
@@ -54,17 +59,14 @@ describe("pluralize(word)", () => {
 
   
   it("ending in 'is' is treated appropriately", () => {
-    const basis = pluralize("basis");
-    const oasis = pluralize("oasis");
+    const miss = pluralize("miss");
 
-    expect(basis).toBe("bases");
-    expect(oasis).toBe("oases");
+    expect(miss).toBe("misses");
     
     type cases = [
-      Expect<Equal<typeof basis, "bases">>,
-      Expect<Equal<typeof oasis, "oases">>,
+      Expect<Equal<typeof miss, "misses">>,
     ];
-    const cases: cases = [ true, true];
+    const cases: cases = [ true];
   });
   
   
