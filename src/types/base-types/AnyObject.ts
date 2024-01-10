@@ -9,5 +9,5 @@ import { EmptyObject, IndexableObject, NarrowObject, Narrowable } from "src/type
  * 
  * Meant to represent any valid object type (both indexable and not).
  */
-export type AnyObject = IndexableObject | EmptyObject | NarrowObject<Narrowable> | Record<string|symbol, unknown>;
+export type AnyObject = IndexableObject | EmptyObject | NarrowObject<Narrowable> | Record<string|symbol, unknown> | object;
 
