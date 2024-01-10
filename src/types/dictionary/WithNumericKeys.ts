@@ -1,4 +1,4 @@
-import { NonNumericKeys } from "..";
+import { NonNumericKeys } from "src/types";
 
 /**
  * **WithNumericKeys**`<T>`

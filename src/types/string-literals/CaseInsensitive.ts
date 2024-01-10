@@ -10,7 +10,7 @@ import {
   Split, 
   Tuple, 
   UpperAlphaChar 
-} from "..";
+} from "src/types";
 
 /**
  * Make the first character of the string case insensitive which 

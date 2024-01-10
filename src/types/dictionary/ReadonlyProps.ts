@@ -1,4 +1,4 @@
-import { ReadonlyKeys } from "..";
+import { ReadonlyKeys } from "src/types";
 
 /**
  * **ReadonlyProps**`<T>`

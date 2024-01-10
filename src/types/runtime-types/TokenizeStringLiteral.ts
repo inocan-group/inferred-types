@@ -1,4 +1,4 @@
-import { IfLiteral, IfNumber, IfString, AfterFirst, First, ToString, StringLiteralToken } from "..";
+import { IfLiteral, IfNumber, IfString, AfterFirst, First, ToString, StringLiteralToken } from "src/types";
 
 
 type _Tokenize<

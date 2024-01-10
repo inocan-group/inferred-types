@@ -1,5 +1,5 @@
-import { Contains } from "..";
-import { AfterFirst, First } from "..";
+import { Contains } from "src/types";
+import { AfterFirst, First } from "src/types";
 
 type _Flat<
   TList extends readonly unknown[],

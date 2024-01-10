@@ -6,7 +6,7 @@ import {
   Scalar, 
   IfEqual, 
   IfNever 
-} from "..";
+} from "src/types";
 
 /**
  * **ToContainer**`<T>`

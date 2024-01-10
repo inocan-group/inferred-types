@@ -1,4 +1,4 @@
-import { AsNumberWhenPossible, Container, LeftRight, UnionToTuple } from "..";
+import { AsNumberWhenPossible, Container, LeftRight, UnionToTuple } from "src/types";
 
 /**
  * **UniqueKeys**`<L,R>`

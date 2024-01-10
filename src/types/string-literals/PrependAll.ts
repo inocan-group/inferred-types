@@ -1,4 +1,4 @@
-import { AfterFirst, First , ToString } from "..";
+import { AfterFirst, First , ToString } from "src/types";
 
 type PrependAcc<
   TList extends readonly string[],

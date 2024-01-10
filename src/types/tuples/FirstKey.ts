@@ -1,4 +1,4 @@
-import { AnyObject, Keys , UnionToTuple } from "..";
+import { AnyObject, Keys , UnionToTuple } from "src/types";
 
 /**
  * Returns the _first_ key in an object.

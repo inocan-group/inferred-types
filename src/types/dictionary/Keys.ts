@@ -2,7 +2,7 @@ import {
   IfNever,
   ExplicitKeys,
   Container,
-} from "..";
+} from "src/types";
 
 /**
  * **Keys**`<TContainer>`

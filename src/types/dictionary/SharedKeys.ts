@@ -1,4 +1,4 @@
-import { AnyObject, IntersectingKeys } from "..";
+import { AnyObject, IntersectingKeys } from "src/types";
 
 
 /**

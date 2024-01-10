@@ -1,4 +1,4 @@
-import { RemoveNever } from "..";
+import { RemoveNever } from "src/types";
 
 /**
  * **IntersectWithAll**`<TList,TIntersection>`

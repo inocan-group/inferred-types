@@ -1,4 +1,4 @@
-import { Whitespace } from "..";
+import { Whitespace } from "src/types";
 
 /**
  * Trims off whitespace on left of string

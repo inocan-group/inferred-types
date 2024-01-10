@@ -1,4 +1,4 @@
-import { AnyObject , IsIndexable } from "..";
+import { AnyObject , IsIndexable } from "src/types";
 import { Widen } from "./Widen";
 
 /**

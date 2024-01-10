@@ -1,4 +1,4 @@
-import { ErrorCondition, TypeErrorInfo } from "..";
+import { ErrorCondition, TypeErrorInfo } from "src/types";
 
 /**
  * **ReportError**

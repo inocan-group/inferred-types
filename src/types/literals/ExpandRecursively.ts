@@ -1,4 +1,4 @@
-import { AfterFirst, Decrement, First, Tuple } from "..";
+import { AfterFirst, Decrement, First, Tuple } from "src/types";
 
 type ExpandTuple<
   TLength extends number,

@@ -1,4 +1,4 @@
-import { IfLiteral , ToNumber, ToString, StripLeading } from "..";
+import { IfLiteral , ToNumber, ToString, StripLeading } from "src/types";
 
 /**
  * **AbsMaybe**`<T>`

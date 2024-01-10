@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AnyObject,IfEqual, IfLength, IfLiteral, Keys, AfterFirst, First, Length, Reverse } from "..";
+import { AnyObject,IfEqual, IfLength, IfLiteral, Keys, AfterFirst, First, Length, Reverse } from "src/types";
 
 type ValuesAcc<
   TObj extends AnyObject,

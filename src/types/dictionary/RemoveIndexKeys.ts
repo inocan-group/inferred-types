@@ -1,4 +1,4 @@
-import { AnyObject, Keys, TupleToUnion, IfNever } from "..";
+import { AnyObject, Keys, TupleToUnion, IfNever } from "src/types";
 
 
 /**

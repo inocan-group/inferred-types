@@ -1,4 +1,4 @@
-import { UnionToTuple } from "..";
+import { UnionToTuple } from "src/types";
 
 export type OneToOne = `1:1`;
 export type OneToMany = `1:M`;

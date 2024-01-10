@@ -9,7 +9,7 @@ import {
   ReplaceAll, 
   ToString,  
   WithDefault 
-} from "..";
+} from "src/types";
 
 type Left<T extends readonly [ string, string ]> = T[0];
 type Right<T extends readonly [ string, string ]> = T[1];

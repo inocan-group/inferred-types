@@ -1,4 +1,4 @@
-import { AsArray, First, Split } from "..";
+import { AsArray, First, Split } from "src/types";
 
 /**
  * **StripAfter**`<TStr, TBreak>`

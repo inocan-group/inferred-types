@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import type { AnyObject,  Container, IfEqual, IfLiteral, IfStringLiteral, Keys, StrLen, ToString } from "..";
+import type { AnyObject,  Container, IfEqual, IfLiteral, IfStringLiteral, Keys, StrLen, ToString } from "src/types";
 
 
 /**

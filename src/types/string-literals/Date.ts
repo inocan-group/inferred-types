@@ -3,7 +3,7 @@ import {
   NonZeroNumericChar, 
   TupleToUnion, 
   TypeStrength 
-} from "..";
+} from "src/types";
 import { MONTH_ABBR, MONTH_NAME}  from "src/constants";
 
 export type Year<

@@ -6,7 +6,7 @@ import {
     Abs, 
     Digital, 
     DigitalLiteral 
-} from "..";
+} from "src/types";
 
 type HasMoreThanOneDigit<T extends `${number}`> = T extends `${NumericChar}${NumericChar}${string}`
   ? true

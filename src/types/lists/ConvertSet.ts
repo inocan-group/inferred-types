@@ -1,4 +1,4 @@
-import { Narrowable , AfterFirst , FindExtends , First } from "..";
+import { Narrowable , AfterFirst , FindExtends , First } from "src/types";
 
 export type ConversionTuple = [from: Narrowable, to: Narrowable];
 

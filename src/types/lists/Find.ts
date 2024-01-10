@@ -1,4 +1,4 @@
-import { IfEqual, IfExtends , AfterFirst, First } from "..";
+import { IfEqual, IfExtends , AfterFirst, First } from "src/types";
 
 type FindAcc<
   TList extends readonly unknown[],

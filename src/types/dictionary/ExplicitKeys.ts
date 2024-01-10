@@ -1,4 +1,4 @@
-import {  AnyObject, Container, EmptyObject,  IfLiteral,  RemoveIndex, ToNumber, Tuple, UnionToTuple } from "..";
+import {  AnyObject, Container, EmptyObject,  IfLiteral,  RemoveIndex, ToNumber, Tuple, UnionToTuple } from "src/types";
 
 
 type _Keys<

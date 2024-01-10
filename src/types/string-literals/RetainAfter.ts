@@ -1,4 +1,4 @@
-import { AfterFirst, AsArray, Join,  Split } from "..";
+import { AfterFirst, AsArray, Join,  Split } from "src/types";
 
 /**
  * **RetainAfter**`<TStr, TBreak>`

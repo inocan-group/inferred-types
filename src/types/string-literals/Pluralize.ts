@@ -10,7 +10,7 @@ import {
   EnsureTrailing, 
   StripTrailing,
   Mutable
-} from "..";
+} from "src/types";
 
 type ExceptionLookup = Mutable<typeof PLURAL_EXCEPTIONS>;
 

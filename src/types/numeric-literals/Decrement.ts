@@ -1,4 +1,4 @@
-import { Tuple, Length, FixedLengthArray, ToNumber } from "..";
+import { Tuple, Length, FixedLengthArray, ToNumber } from "src/types";
 
 type Pop<T extends Tuple> = Length<T> extends 0
   ? 0

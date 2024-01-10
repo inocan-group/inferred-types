@@ -1,5 +1,5 @@
 
-import { IfContains , Narrowable , SimplifyObject , AnyObject, Keys } from "..";
+import { IfContains , Narrowable , SimplifyObject , AnyObject, Keys } from "src/types";
 
 
 /**

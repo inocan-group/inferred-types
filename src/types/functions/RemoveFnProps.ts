@@ -1,4 +1,4 @@
-import { AnyFunction, AsFnMeta } from "..";
+import { AnyFunction, AsFnMeta } from "src/types";
 
 /**
  * **RemoveFnProps**`<T>`

@@ -11,7 +11,7 @@ import {
   Minutes,
   TimeNomenclature,
   TimeResolution
-} from "..";
+} from "src/types";
 
 
 /**

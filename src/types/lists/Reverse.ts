@@ -1,4 +1,4 @@
-import { AfterFirst , First } from "..";
+import { AfterFirst , First } from "src/types";
 
 type RevAcc<
   TInput extends readonly unknown[],

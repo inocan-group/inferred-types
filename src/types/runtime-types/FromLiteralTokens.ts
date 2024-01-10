@@ -1,4 +1,4 @@
-import { IfStartsWith, AfterFirst, First, AlphaChar, Bracket, ClosingBracket, Digit, LowerAlphaChar, OpeningBracket, StripLeading, UpperAlphaChar, StringLiteralToken } from "..";
+import { IfStartsWith, AfterFirst, First, AlphaChar, Bracket, ClosingBracket, Digit, LowerAlphaChar, OpeningBracket, StripLeading, UpperAlphaChar, StringLiteralToken } from "src/types";
 
 type _Tokenize<T extends StringLiteralToken> = //
   IfStartsWith<

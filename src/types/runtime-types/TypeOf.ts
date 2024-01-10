@@ -1,5 +1,5 @@
 import { TYPE_OF } from "src/constants";
-import { IsUndefined , AnyFunction, AnyObject , TupleToUnion } from "..";
+import { IsUndefined , AnyFunction, AnyObject , TupleToUnion } from "src/types";
 
 /**
  * **TypeOf**
