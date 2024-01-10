@@ -76,6 +76,9 @@ devDependencies:
   typescript-transform-paths:
     specifier: ^3.4.6
     version: 3.4.6(typescript@5.3.3)
+  typescript-transformer-esm:
+    specifier: ^1.1.0
+    version: 1.1.0(typescript@5.3.3)
   vite:
     specifier: ^5.0.11
     version: 5.0.11(@types/node@18.19.5)
@@ -3633,6 +3636,15 @@ packages:
       typescript: '>=3.6.5'
     dependencies:
       minimatch: 3.1.2
+      typescript: 5.3.3
+    dev: true
+
+  /typescript-transformer-esm@1.1.0(typescript@5.3.3):
+    resolution: {integrity: sha512-MHLIjH9Oa/NJycV1jEyw//3CsLoncqn4ZlURAwqO5TuRQK5rbVklKQJ8dbeBJKgYA6zV8Q7QrKA3Kt9+kk38DQ==}
+    engines: {node: '>=16.0.0'}
+    peerDependencies:
+      typescript: ^4.9.0 || ^5.0.0
+    dependencies:
       typescript: 5.3.3
     dev: true
 
