@@ -1,4 +1,4 @@
-import { AfterFirst , First } from "..";
+import { AfterFirst , First } from "src/types";
 
 /**
  * Iterates over each element of the Tuple

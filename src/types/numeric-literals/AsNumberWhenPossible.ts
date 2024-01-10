@@ -1,4 +1,4 @@
-import { IfUnion , ToNumber, TupleToUnion, UnionToTuple } from "..";
+import { IfUnion , ToNumber, TupleToUnion, UnionToTuple } from "src/types";
 
 
 type Convert<T> = T extends `${number}`

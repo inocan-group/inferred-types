@@ -1,4 +1,4 @@
-import { CSV, Digit } from "..";
+import { CSV, Digit } from "src/types";
 
 export type OptModifier = `|opt`;
 

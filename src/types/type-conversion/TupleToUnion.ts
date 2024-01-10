@@ -1,4 +1,4 @@
-import { IfLength,Keys } from "..";
+import { IfLength,Keys } from "src/types";
 
 /**
  * Converts a Tuple type into a _union_ of the tuple elements

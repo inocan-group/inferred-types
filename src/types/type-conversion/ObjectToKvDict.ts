@@ -9,7 +9,7 @@ import {
   AfterFirst, 
   First, 
   IndexableObject 
-} from "..";
+} from "src/types";
 
 type Obj2Kv<
   TObj extends AnyObject,

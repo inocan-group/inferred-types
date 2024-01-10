@@ -1,4 +1,4 @@
-import { AnyObject } from "..";
+import { AnyObject } from "src/types";
 
 /**
  * Extracts the _required_ keys in the object's type. You also may

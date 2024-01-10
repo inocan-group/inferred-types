@@ -1,4 +1,4 @@
-import { VueRef } from "..";
+import { VueRef } from "src/types";
 
 /**
  * **MaybeRef**`<T>`

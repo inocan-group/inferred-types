@@ -1,4 +1,4 @@
-import { Digit, NumericChar, NumericSign } from "..";
+import { Digit, NumericChar, NumericSign } from "src/types";
 
 /**
  * **Digital**

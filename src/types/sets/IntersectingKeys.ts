@@ -1,4 +1,4 @@
-import { Container, UnionToTuple } from "..";
+import { Container, UnionToTuple } from "src/types";
 
 
 /**

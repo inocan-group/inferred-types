@@ -1,4 +1,4 @@
-import { IsNegativeNumber , ToNumber, ToString } from "..";
+import { IsNegativeNumber , ToNumber, ToString } from "src/types";
 
 /**
  * **Negative**`<T>`

@@ -1,4 +1,4 @@
-import { AnyObject , Narrowable, ExpandRecursively, KeysWithoutValue } from "..";
+import { AnyObject , Narrowable, ExpandRecursively, KeysWithoutValue } from "src/types";
 
 /**
  * **WithoutValue**

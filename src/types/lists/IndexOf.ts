@@ -9,7 +9,7 @@ import {
   Concat, 
   ToString, 
   IfValidKey 
-} from "..";
+} from "src/types";
 
 /**
  * **IndexOf**<TValue, TIdx>

@@ -1,5 +1,5 @@
 
-import { IfLiteral, IfStartsWith, IsNumber,  ToString } from "..";
+import { IfLiteral, IfStartsWith, IsNumber,  ToString } from "src/types";
 
 /**
  * **EnsureLeading**`<TTarget, TLeading>`

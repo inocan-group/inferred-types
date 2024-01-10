@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FixedLengthArray } from "..";
+import { FixedLengthArray } from "src/types";
 
 export type TupleRange = [required: number, optional: number];
 

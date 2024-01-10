@@ -1,4 +1,4 @@
-import { Container,  IntersectingKeys, LeftRight, Length, UniqueKeys } from "..";
+import { Container,  IntersectingKeys, LeftRight, Length, UniqueKeys } from "src/types";
 
 /**
  * **Relate**`<L,R>`

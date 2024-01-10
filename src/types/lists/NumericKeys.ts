@@ -1,4 +1,4 @@
-import { Tuple, Length, ToNumber, AfterFirst, First, IfReadonlyArray } from "..";
+import { Tuple, Length, ToNumber, AfterFirst, First, IfReadonlyArray } from "src/types";
 
 type Recurse<
   TList extends Tuple,

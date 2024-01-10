@@ -1,4 +1,4 @@
-import { IfEqual } from "..";
+import { IfEqual } from "src/types";
 
 /**
  * **KeysEqualValue**`<TObj,TValue>`

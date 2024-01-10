@@ -1,4 +1,4 @@
-import { AnyFunction,  AfterFirst, First } from "..";
+import { AnyFunction,  AfterFirst, First } from "src/types";
 
 /**
  * **ReturnValues**`<TArray>`

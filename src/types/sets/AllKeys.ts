@@ -1,4 +1,4 @@
-import { Keys, AfterFirst, First, Dedupe, AnyObject, Tuple } from "..";
+import { Keys, AfterFirst, First, Dedupe, AnyObject, Tuple } from "src/types";
 
 type Calc<
   T extends readonly (Tuple | AnyObject)[],

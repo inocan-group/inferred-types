@@ -10,7 +10,7 @@ import {
   AfterFirst, 
   First, 
   Shift
-} from "..";
+} from "src/types";
 
 type _Split<
   T extends string,

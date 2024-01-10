@@ -1,4 +1,4 @@
-import { LeftRight } from "..";
+import { LeftRight } from "src/types";
 
 /**
  * **Right**<T>

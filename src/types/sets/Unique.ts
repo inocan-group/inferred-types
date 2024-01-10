@@ -5,7 +5,7 @@ import {
   GetEach,
   Mutable,
   Get,
-} from "..";
+} from "src/types";
 
 type UniqueAcc<
   Target extends readonly unknown[],

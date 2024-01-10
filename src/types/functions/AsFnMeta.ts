@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import type { AnyFunction, IfEqual, FnMeta, FnProps, EmptyObject, IndexableObject } from "..";
+import type { AnyFunction, IfEqual, FnMeta, FnProps, EmptyObject, IndexableObject } from "src/types";
 
 /**
  * **AsFnMeta**`<TFn>`

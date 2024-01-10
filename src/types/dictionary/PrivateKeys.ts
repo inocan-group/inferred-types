@@ -1,4 +1,4 @@
-import { AlphaChar } from "..";
+import { AlphaChar } from "src/types";
 
 
 /**

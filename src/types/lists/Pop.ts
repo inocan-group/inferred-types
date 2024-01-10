@@ -1,4 +1,4 @@
-import { Concat, Tuple, Split, Slice, IfEqual, IfStringLiteral } from "..";
+import { Concat, Tuple, Split, Slice, IfEqual, IfStringLiteral } from "src/types";
 
 type _Pop<
   TVal extends Tuple

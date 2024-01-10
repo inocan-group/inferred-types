@@ -1,4 +1,4 @@
-import { ExpandRecursively, Narrowable, AfterFirst, First } from "..";
+import { ExpandRecursively, Narrowable, AfterFirst, First } from "src/types";
 
 type Intersect<
   TList extends readonly unknown[],

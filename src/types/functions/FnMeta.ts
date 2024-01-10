@@ -1,4 +1,4 @@
-import {  IndexableObject } from "..";
+import {  IndexableObject } from "src/types";
 
 /**
  * **FnMeta**<TArgs,TReturn,TProps>

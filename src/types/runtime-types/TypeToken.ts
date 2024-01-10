@@ -6,7 +6,7 @@ import {
   DateTime,
   IfNull,
   RetainFromList
-} from "..";
+} from "src/types";
 import { 
   TYPE_TOKEN_IDENTITIES, 
   TYPE_TOKEN_PARAM_STR, 

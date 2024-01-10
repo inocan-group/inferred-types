@@ -1,4 +1,4 @@
-import { IfLiteral, Split } from "..";
+import { IfLiteral, Split } from "src/types";
 
 
 /**

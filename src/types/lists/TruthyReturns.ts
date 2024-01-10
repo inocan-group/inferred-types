@@ -1,4 +1,4 @@
-import { AnyFunction , IfTruthy , TupleToUnion } from "..";
+import { AnyFunction , IfTruthy , TupleToUnion } from "src/types";
 
 /**
  * **TruthyReturns**`<T>`

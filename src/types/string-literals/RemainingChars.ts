@@ -1,4 +1,4 @@
-import { Split, AsArray, AfterFirst, AsString,  Concat } from "..";
+import { Split, AsArray, AfterFirst, AsString,  Concat } from "src/types";
 
 type Iterate<
   TInput extends readonly string[]

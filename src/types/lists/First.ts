@@ -1,4 +1,4 @@
-import { Tuple } from "..";
+import { Tuple } from "src/types";
 
 /**
  * **First**`<T>`

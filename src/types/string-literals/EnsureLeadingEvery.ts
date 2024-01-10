@@ -1,4 +1,4 @@
-import {  EnsureLeading, ToString, UnionToTuple } from "..";
+import {  EnsureLeading, ToString, UnionToTuple } from "src/types";
 
 
 /**

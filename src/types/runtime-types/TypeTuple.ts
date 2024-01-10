@@ -1,4 +1,4 @@
-import { Narrowable , TypeGuard } from "..";
+import { Narrowable , TypeGuard } from "src/types";
 
 /**
  * **TypeTuple**`<TType>`

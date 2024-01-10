@@ -1,4 +1,4 @@
-import { AnyFunction } from "..";
+import { AnyFunction } from "src/types";
 
 /**
  * **ReturnTypes**`<T>`
