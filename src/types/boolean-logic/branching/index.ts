@@ -10,6 +10,11 @@ export * from "./IfSomeTruthy";
 export * from "./IfAllExtend";
 export * from "./IfEmptyContainer";
 
+export * from "./IfLessThan";
+export * from "./IfNegative";
+export * from "./IfPositive";
+
+
 export * from "./IfError";
 export * from "./IfErrorCondition";
 export * from "./IfNotError";
