@@ -1,4 +1,17 @@
-import { AnyObject } from "..";
+import { AfterFirst, AnyObject, First, IfEmptyContainer, Keys } from "src/types";
+
+type _process<
+  TKeys extends readonly (string|symbol)[],
+  TObj extends AnyObject,
+  TValue,
+  TResults extends readonly (string|symbol)[] = []
+> = [] extends TKeys
+? TResults
+: First<TKeys> extends keyof TObj 
+  ? TObj[First<TKeys>] extends TValue
+    ? _process<AfterFirst<TKeys>, TObj, TValue, [...TResults, First<TKeys>]>
+    : _process<AfterFirst<TKeys>, TObj, TValue, TResults>
+  : _process<AfterFirst<TKeys>, TObj, TValue, TResults>;
 
 /**
  * **KeysWithValue**`<TObj,TValue>`
@@ -7,14 +20,14 @@ import { AnyObject } from "..";
  * of `TValue`.
  * 
  * ```ts
- * // "foo" | "baz"
+ * // ["foo",  "baz"]
  * type Str = KeysWithValue<{ foo: "hi"; bar: 5; baz: "bye" }, string>;
  * ```
  * 
  * **Related:** `KeysEqualValue`
  */
-export type KeysWithValue<TObj extends AnyObject, TValue> = {
-  [K in keyof TObj]: TObj[K] extends readonly unknown[]
-    ? [TObj[K]] extends [Readonly<TValue>] ? K : never
-    : [TObj[K]] extends [TValue] ? K : never
-}[keyof TObj];
+export type KeysWithValue<TObj extends AnyObject, TValue> = IfEmptyContainer<
+  TObj,
+   (string | symbol)[],
+  _process<Keys<TObj>, TObj, TValue>
+>;
