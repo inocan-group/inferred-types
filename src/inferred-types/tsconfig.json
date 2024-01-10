@@ -28,16 +28,16 @@
         "forceConsistentCasingInFileNames": true,
         "paths": {
             // root export for runtime symbols
-            "src/runtime": [
-                "../runtime/index.ts"
+            "src/runtime/*": [
+                "../runtime/*"
             ],
             // root export for type symbols
-            "src/types": [
-                "../types/index.ts"
+            "src/types/*": [
+                "../types/*"
             ],
             // root export for constant symbols
-            "src/constants": [
-                "../constants/index.ts"
+            "src/constants/*": [
+                "../constants/*"
             ]
         },
         "plugins": [

@@ -12,7 +12,6 @@ export default defineConfig({
   },
   test: {
     dir: "tests",
-    threads: true,
     typecheck: {
       include: ["tests/**/*.{test,spec}.ts"]
     }

@@ -10,8 +10,7 @@
   "exports": {
     ".": {
       "import": "./dist/inferred-types/index.js",
-      "types": "./dist/inferred-types/index.d.ts",
-      "default": "./dist/inferred-types/index.js"
+      "types": "./dist/inferred-types/index.d.ts"
     }
   },
   "files": [
