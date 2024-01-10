@@ -22,10 +22,10 @@
   },
   "sideEffects": false,
   "scripts": {
+    "prepare": "ts-patch install -s",
     "about": "tokei src",
     "build": "tsc -b --verbose src/inferred-types",
-    "build:types": "tsc -b --verbose src/types",
-    "build:force": "tsc -b -f --verbose src/inferred-types",
+    "build:force": "rimraf dist && tsc -b -f --verbose src/inferred-types",
     "diagnostics": "npx tsc -b -f -diagnostics src/inferred-types",
     "clean": "rimraf dist/**/*",
     "lint": "run-p lint:*",
@@ -66,8 +66,10 @@
     "npm-run-all": "~4.1.5",
     "pathe": "^1.1.1",
     "prettier": "^3.1.1",
+    "ts-patch": "^3.1.1",
     "tsup": "^8.0.1",
     "typescript": "5.3.3",
+    "typescript-transform-paths": "^3.4.6",
     "vite": "^5.0.11",
     "vite-node": "^1.1.3",
     "vitest": "^1.1.3"
