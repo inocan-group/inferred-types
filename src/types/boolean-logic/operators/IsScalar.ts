@@ -9,7 +9,7 @@ import {
   IfNever,
   IfUnion,
   IfSomeExtend
-} from "../..";
+} from "src/types";
 
 /**
  * **IsScalar**`<T>`

@@ -1,4 +1,4 @@
-import { AlphaChar, IfAllExtend,  IfStringLiteral, Split } from "../..";
+import { AlphaChar, IfAllExtend,  IfStringLiteral, Split } from "src/types";
 
 /**
  * **Alpha**`<T>`

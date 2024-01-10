@@ -1,4 +1,4 @@
-import { Mutable, TupleToUnion } from "../..";
+import { Mutable, TupleToUnion } from "src/types";
 import { CONSONANTS } from "src/constants";
 
 /**

@@ -1,4 +1,4 @@
-import type { IfBoolean, IfEqual } from "../..";
+import type { IfBoolean, IfEqual } from "src/types";
 
 /**
  * **IsBooleanLiteral**`<T>`

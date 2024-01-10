@@ -1,4 +1,4 @@
-import type { AfterFirst, First } from "../..";
+import type { AfterFirst, First } from "src/types";
 
 /**
  * **ExtendsSome**`<TValue,TList>`

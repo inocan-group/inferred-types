@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IfLiteral, IfLiteralKind, Type } from "../..";
+import { IfLiteral, IfLiteralKind, Type } from "src/types";
 
 
 type WideLiterals = string | number | boolean | Record<string,any>;

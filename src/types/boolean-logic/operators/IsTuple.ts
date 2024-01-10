@@ -1,4 +1,4 @@
-import { IfNever, Tuple } from "../..";
+import { IfNever, Tuple } from "src/types";
 
 /**
  * **IfTuple**`<T>`

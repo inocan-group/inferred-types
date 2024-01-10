@@ -1,4 +1,4 @@
-import type { AnyFunction } from "../..";
+import type { AnyFunction } from "src/types";
 
 
 /**

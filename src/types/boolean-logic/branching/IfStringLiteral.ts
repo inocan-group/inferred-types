@@ -1,4 +1,4 @@
-import { IsStringLiteral } from "../..";
+import { IsStringLiteral } from "src/types";
 
 /**
  * **IfStringLiteral**

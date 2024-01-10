@@ -1,4 +1,4 @@
-import {  IfNumericLiteral, IsStringLiteral , IfString, ToString } from "../..";
+import {  IfNumericLiteral, IsStringLiteral , IfString, ToString } from "src/types";
 /**
  * **StartsWith**<TValue, TStartsWith>
  *

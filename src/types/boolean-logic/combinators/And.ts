@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { AnyFunction, AfterFirst, First , IfNarrowlyContains, IfOr, IsFalse, ReturnsFalse, LogicFunction } from "../..";
+import { AnyFunction, AfterFirst, First , IfNarrowlyContains, IfOr, IsFalse, ReturnsFalse, LogicFunction } from "src/types";
 
 type _And<
   TConditions extends readonly (boolean | LogicFunction<TParams>)[], 

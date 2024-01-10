@@ -1,4 +1,4 @@
-import { IsReadonlyArray } from "../..";
+import { IsReadonlyArray } from "src/types";
 
 /**
  * **IfReadonlyArray**`<T, IF, ELSE>`

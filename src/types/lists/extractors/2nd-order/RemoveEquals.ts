@@ -4,7 +4,7 @@ import type {
   RemoveFromList,
   Container,
   WithoutValue
-} from "../../..";
+} from "src/types";
 
 /**
  * **RemoveEquals**`<TContainer, TCompare>`

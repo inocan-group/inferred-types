@@ -1,7 +1,7 @@
+import type { Expect, Equal, ExpectFalse } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { literal, strArrayToDict } from "../src/runtime";
-import type { Expect, Equal, ExpectFalse } from "@type-challenges/utils";
+import { literal, strArrayToDict } from "src/runtime";
 
 describe("strArrayToDict() utility", () => {
   it("", () => {
@@ -30,7 +30,7 @@ describe("strArrayToDict() utility", () => {
       // TODO: see if there's a way to force input to be literal
       ExpectFalse<Equal<R4, { a: true; b: true; c: true }>>,
       // and unfortunately it's lost all track of the keys
-      // which are involved; just knowning that they are
+      // which are involved; just knowing that they are
       // string based keys
       Expect<Equal<keyof R4, string>>
     ];

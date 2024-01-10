@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import {  SetRemoval } from "../../src/types/sets";
+import {  SetRemoval } from "src/types";
 import {  describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

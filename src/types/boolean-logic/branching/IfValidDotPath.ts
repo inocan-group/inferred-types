@@ -1,4 +1,4 @@
-import { IsValidDotPath } from "../..";
+import { IsValidDotPath } from "src/types";
 
 /**
  * **IfValidDotPath**`<TContainer,TDotPath,IF,ELSE,[MAYBE]>`

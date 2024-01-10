@@ -1,4 +1,4 @@
-import { AfterFirst, First, IsEqual } from "../..";
+import { AfterFirst, First, IsEqual } from "src/types";
 
 /**
  * **IsAnyEqual**`<TVal,TList>`

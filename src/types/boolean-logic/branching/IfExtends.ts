@@ -1,4 +1,4 @@
-import { DoesExtend } from "../..";
+import { DoesExtend } from "src/types";
 
 /**
  * **IfExtends**`<TValue,TExtends,IF,ELSE>`

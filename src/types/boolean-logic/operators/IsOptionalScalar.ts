@@ -7,7 +7,7 @@ import {
   IfSomeExtend,
   UnionToTuple,
   Scalar
-} from "../..";
+} from "src/types";
 
 
 /**

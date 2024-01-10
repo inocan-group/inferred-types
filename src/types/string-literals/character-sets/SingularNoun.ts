@@ -1,5 +1,5 @@
 import { SINGULAR_NOUN_ENDINGS } from "src/constants";
-import { AlphaChar , IfAllExtend, Split , TupleToUnion, Mutable } from "../..";
+import { AlphaChar , IfAllExtend, Split , TupleToUnion, Mutable } from "src/types";
 /**
  * **SingularNounEnding**
  * 

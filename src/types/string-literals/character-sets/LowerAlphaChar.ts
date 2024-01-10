@@ -1,5 +1,5 @@
 import { LOWER_ALPHA_CHARS } from "src/constants";
-import { Mutable, TupleToUnion } from "../..";
+import { Mutable, TupleToUnion } from "src/types";
 
 /** 
  * **LowerAlphaChar**

@@ -1,4 +1,4 @@
-import type { And } from "../..";
+import type { And } from "src/types";
 
 
 type _Extends<

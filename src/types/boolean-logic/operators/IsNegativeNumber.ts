@@ -1,4 +1,4 @@
-import { Digital, DigitalLiteral , IfLiteral, IfStartsWith , ToString } from "../..";
+import { Digital, DigitalLiteral , IfLiteral, IfStartsWith , ToString } from "src/types";
 
 /**
  * **IsNegativeNumber**`<T>`

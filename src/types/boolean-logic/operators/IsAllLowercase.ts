@@ -1,4 +1,4 @@
-import { UpperAlphaChar, IfHasCharacters } from "../..";
+import { UpperAlphaChar, IfHasCharacters } from "src/types";
 
 /**
  * **IsAllLowercase**`<T>`

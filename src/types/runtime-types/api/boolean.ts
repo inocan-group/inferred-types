@@ -3,7 +3,7 @@ import type {
   TypeDefaultValue, 
   TypeOptions, 
   TypeUnderlying 
-} from "../..";
+} from "src/types";
 
 export type TypeApiBoolean = <
     TRequired extends boolean,

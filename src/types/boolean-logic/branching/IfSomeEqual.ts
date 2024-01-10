@@ -1,4 +1,4 @@
-import { SomeEqual } from "../..";
+import { SomeEqual } from "src/types";
 
 /**
  * **IfSomeEqual**`<Value, CompareTo, IF, ELSE>`

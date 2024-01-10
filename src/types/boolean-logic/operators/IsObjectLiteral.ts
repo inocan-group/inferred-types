@@ -7,7 +7,7 @@ import {
   Keys,
   IndexableObject,
   IfNotEqual
-} from "../..";
+} from "src/types";
 
 /**
  * **IsObjectLiteral**`<T>`

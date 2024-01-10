@@ -1,4 +1,4 @@
-import { IsScalar } from "../..";
+import { IsScalar } from "src/types";
 
 /**
  * **IfScalar**`<T, IF, ELSE>`

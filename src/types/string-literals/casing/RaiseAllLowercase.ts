@@ -1,4 +1,4 @@
-import { IsAllLowercase } from "../..";
+import { IsAllLowercase } from "src/types";
 
 /** 
  * **RaiseAllLowercase**`<T>`

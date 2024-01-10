@@ -1,4 +1,4 @@
-import { IsBoolean, IsNever } from "../..";
+import { IsBoolean, IsNever } from "src/types";
 
 
 /**

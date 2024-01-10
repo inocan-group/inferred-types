@@ -1,4 +1,4 @@
-import { AnyObject , Narrowable ,  RetainFromList, WithValue,  } from "../../..";
+import { AnyObject , Narrowable ,  RetainFromList, WithValue,  } from "src/types";
 
 /**
  * **RetainExtends**`<TIterable, TBase>`
