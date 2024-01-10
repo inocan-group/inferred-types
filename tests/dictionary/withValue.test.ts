@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
 
-import type {  AnyObject, WithValue } from "src/types";
+import type {   WithValue } from "src/types";
 import { createFnWithProps, withValue, defineObj } from "src/runtime";
 
 const obj = defineObj({
@@ -27,7 +27,7 @@ describe("WithValue<TObj,TVal> type util", () => {
   it("WithValue<T> type utility works as expected", () => {
     type Str = WithValue<typeof obj, string>;
     type Num = WithValue<typeof obj, number>;
-    type Obj = WithValue<typeof obj, AnyObject>;
+    type Obj = WithValue<typeof obj, object>;
 
     type cases = [
       //

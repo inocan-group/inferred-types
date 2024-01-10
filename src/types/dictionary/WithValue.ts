@@ -1,4 +1,4 @@
-import { AnyObject , KeysWithValue } from "..";
+import { AnyObject , KeysWithValue, TupleToUnion } from "src/types";
 
 /**
  * **WithValue**`<TObj,TValue>`
@@ -16,5 +16,10 @@ import { AnyObject , KeysWithValue } from "..";
 export type WithValue<
 TObj extends AnyObject,
 TValue,
-> = Pick<TObj, KeysWithValue<TObj, TValue>>;
+> = Pick<
+  TObj, 
+  TupleToUnion<KeysWithValue<TObj, TValue>> extends keyof TObj
+    ? TupleToUnion<KeysWithValue<TObj, TValue>>
+    : never
+>;
 
