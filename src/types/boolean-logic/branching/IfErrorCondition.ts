@@ -1,4 +1,4 @@
-import { IsErrorCondition } from "../..";
+import { IsErrorCondition } from "src/types";
 
 
 /**

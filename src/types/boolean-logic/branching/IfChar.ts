@@ -1,4 +1,4 @@
-import { IsChar , IfFalse , IfTrue } from "../..";
+import { IsChar , IfFalse , IfTrue } from "src/types";
 
 /**
  * **IfChar**`<T,IF,ELSE,[MAYBE]>`

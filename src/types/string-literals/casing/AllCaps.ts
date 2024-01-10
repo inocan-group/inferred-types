@@ -1,4 +1,4 @@
-import { Tuple, Chars, Concat, AsArray} from "../..";
+import { Tuple, Chars, Concat, AsArray} from "src/types";
 
 
 type Process<

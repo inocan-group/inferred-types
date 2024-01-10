@@ -1,4 +1,4 @@
-import { AllExtend } from "../..";
+import { AllExtend } from "src/types";
 
 /**
  * **IfAllExtend**`<TList,TExtend,IF,ELSE>`

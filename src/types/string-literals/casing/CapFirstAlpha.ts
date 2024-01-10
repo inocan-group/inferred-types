@@ -1,4 +1,4 @@
-import { Replace , NonAlphaChar } from "../..";
+import { Replace , NonAlphaChar } from "src/types";
 
 /**
  * Strips the non-alpha characters that lead a string

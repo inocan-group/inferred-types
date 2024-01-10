@@ -2,7 +2,7 @@ import {
   FilterOps,
   AfterFirst,
   First
-, Narrowable , And, DoesExtend, IsEqual, IsNotEqual } from "../..";
+, Narrowable , And, DoesExtend, IsEqual, IsNotEqual } from "src/types";
 
 /**
  * **RemoveNotExtends**`<TList,TCompareTo>`

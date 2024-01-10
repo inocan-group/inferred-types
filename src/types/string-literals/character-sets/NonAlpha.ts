@@ -1,4 +1,4 @@
-import { Bracket, NumericChar, Punctuation, SpecialChar, Whitespace } from "../..";
+import { Bracket, NumericChar, Punctuation, SpecialChar, Whitespace } from "src/types";
 
 
 /**

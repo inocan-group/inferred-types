@@ -1,4 +1,4 @@
-import {  IfStringLiteral } from "../boolean-logic";
+import {  IfStringLiteral } from "src/types";
 import { Replace } from "./Replace";
 
 

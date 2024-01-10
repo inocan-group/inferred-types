@@ -1,4 +1,4 @@
-import { IsReadonlyObject } from "../..";
+import { IsReadonlyObject } from "src/types";
 
 export type IfReadonlyObject<
   T,

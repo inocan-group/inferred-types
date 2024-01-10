@@ -1,5 +1,5 @@
 import { DescribeType, TypeToken } from "src/types";
-import { isArray, isBoolean, isFunction, isNull, isNumber, isObject, isString, isSymbol, isTypeToken, isUndefined } from "../type-guards";
+import { isArray, isBoolean, isFunction, isNull, isNumber, isObject, isString, isSymbol, isTypeToken, isUndefined } from "src/runtime";
 
 
 const tokenDesc = <T extends TypeToken>(token: T) => {

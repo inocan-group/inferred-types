@@ -9,7 +9,7 @@ import type {
  Something,
  IfOr,
  IsTuple,
- IfNever} from "../..";
+ IfNever} from "src/types";
 
 
 // [note on handling of boolean](https://stackoverflow.com/questions/74213646/detecting-type-literals-works-in-isolation-but-not-when-combined-with-other-lite/74213713#74213713)

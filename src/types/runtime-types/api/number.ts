@@ -4,7 +4,7 @@ import {
   TypeDefaultValue, 
   TypeOptions, 
   TypeUnderlying 
-} from "../..";
+} from "src/types";
 
 export type TypeApiNumber = <
     TRequired extends boolean = true,

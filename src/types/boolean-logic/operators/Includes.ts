@@ -1,4 +1,4 @@
-import {  IfNever, SomeEqual,  IfOr, IsWideType } from "../..";
+import {  IfNever, SomeEqual,  IfOr, IsWideType } from "src/types";
 
 
 /**

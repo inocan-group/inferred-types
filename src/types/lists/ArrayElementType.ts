@@ -1,5 +1,4 @@
-import { EmptyContainer } from "../containers";
-import { TupleToUnion, Widen } from "../type-conversion";
+import { EmptyContainer, TupleToUnion, Widen } from "src/types";
 
 /**
  * **ArrayElementType**`<T>`

@@ -1,4 +1,4 @@
-import { IsNumber } from "../..";
+import { IsNumber } from "src/types";
 /**
  * **IfNumber**`<T,IF,ELSE>`
  * 

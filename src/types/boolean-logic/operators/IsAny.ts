@@ -1,4 +1,4 @@
-import { IfNever } from "../..";
+import { IfNever } from "src/types";
 
 /**
  * **IsAny**`<T>`

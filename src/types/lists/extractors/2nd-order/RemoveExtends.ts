@@ -1,4 +1,4 @@
-import { AnyObject , Narrowable ,  RemoveFromList, WithoutValue } from "../../..";
+import { AnyObject , Narrowable ,  RemoveFromList, WithoutValue } from "src/types";
 
 /**
  * **RemoveExtends**`<TIterable, TCompare>`

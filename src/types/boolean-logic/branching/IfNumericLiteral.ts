@@ -1,4 +1,4 @@
-import { IsNumericLiteral } from "../..";
+import { IsNumericLiteral } from "src/types";
 
 /**
  * **IfNumericLiteral**`<T,IF,ELSE>`

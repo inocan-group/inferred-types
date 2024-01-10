@@ -1,4 +1,4 @@
-import { IsBooleanLiteral } from "../..";
+import { IsBooleanLiteral } from "src/types";
 
 /**
  * **IfBooleanLiteral**

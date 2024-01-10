@@ -1,4 +1,4 @@
-import { Length, IfEqual, IsLiteral, Container } from "../..";
+import { Length, IfEqual, IsLiteral, Container } from "src/types";
 
 
 /**

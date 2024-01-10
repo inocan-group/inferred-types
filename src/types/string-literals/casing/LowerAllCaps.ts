@@ -1,4 +1,4 @@
-import { IsAllCaps } from "../..";
+import { IsAllCaps } from "src/types";
 
 
 /** 

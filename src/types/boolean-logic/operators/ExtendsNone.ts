@@ -1,4 +1,4 @@
-import type { Not, ExtendsSome } from "../..";
+import type { Not, ExtendsSome } from "src/types";
 
 
 /**

@@ -4,7 +4,7 @@ import type {
   RemoveFromList,
   Container,
   KeysWithoutValue
-} from "../../..";
+} from "src/types";
 
 /**
  * **RemoveNotExtends**`<TList, TCompare>`

@@ -1,4 +1,4 @@
-import { IfNever, IfEqual, DoesExtend } from "../..";
+import { IfNever, IfEqual, DoesExtend } from "src/types";
 
 /**
  * **IsNumericLiteral**`<T>`

@@ -1,4 +1,4 @@
-import { ToString , StartsWith } from "../..";
+import { ToString , StartsWith } from "src/types";
 
 /**
  * **IfStartsWith**<TValue, TStartsWith, IF, ELSE, MAYBE>

@@ -8,7 +8,7 @@ import type {
   Narrowable,
   FromTypeDefn, 
   TypeDefaultValue,
-} from "../..";
+} from "src/types";
 
 export type StringLiteralMapper = {
   "<string>": `${string}`;

@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { Tuple, LogicFunction, IfFalse, IfTrue, IsErrorCondition } from "../..";
+import { Tuple, LogicFunction, IfFalse, IfTrue, IsErrorCondition } from "src/types";
 
 type _Negate<
   T extends Tuple<boolean | LogicFunction>,

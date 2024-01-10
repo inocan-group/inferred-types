@@ -1,4 +1,4 @@
-import { IsRef } from "../..";
+import { IsRef } from "src/types";
 
 /**
  * **IfRef**`<T,IF,ELSE,[MAYBE]>`

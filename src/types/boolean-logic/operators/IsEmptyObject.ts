@@ -1,4 +1,4 @@
-import type {AnyObject, IfLength, Keys} from "../..";
+import type {AnyObject, IfLength, Keys} from "src/types";
 
 /**
  * **IsEmptyObject**`<T>`

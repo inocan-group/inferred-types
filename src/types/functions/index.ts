@@ -12,7 +12,7 @@ export * from "./ToFn";
 export * from "./FnMeta";
 export * from "./PromiseAll";
 export * from "./FnProps";
-// export * from "../numeric-literals/ValueCallback";
+// export * from "src/types";
 
 // #endregion auto-indexed files
 

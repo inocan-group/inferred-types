@@ -1,5 +1,5 @@
 import { AnyObject, AsNumber, Container, EmptyContainer, FixedLengthArray, Increment, Tuple, AsString, ExpandRecursively, ArrayElementType, IfDefined, Decrement } from "src/types";
-import { Subtract } from "../numeric-literals/Subtract";
+import { Subtract } from "src/types";
 
 /**
  * **WithKey**`<T, K>`

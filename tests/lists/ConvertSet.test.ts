@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { Equal, Expect } from "@type-challenges/utils";
-import { ErrorCondition } from "../../src/types/errors/ErrorCondition";
-import { ConvertSet } from "../../src/types/lists/ConvertSet";
+import { ErrorCondition } from "src/types";
+import { ConvertSet } from "src/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

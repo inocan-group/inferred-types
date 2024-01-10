@@ -1,5 +1,5 @@
-import type { Length } from "../..";
-import type { IfEqual } from "../..";
+import type { Length } from "src/types";
+import type { IfEqual } from "src/types";
 
 /**
  * **IsLength**`<T, LEN>`

@@ -1,4 +1,4 @@
-import { IsObject } from "../..";
+import { IsObject } from "src/types";
 
 /**
  * **IfObject**

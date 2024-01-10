@@ -1,4 +1,4 @@
-import { Length } from "../..";
+import { Length } from "src/types";
 
 /**
  * **IsRef**`<T>`

@@ -1,5 +1,5 @@
-import { IfEqual } from "../..";
-import { AfterFirst, First } from "../..";
+import { IfEqual } from "src/types";
+import { AfterFirst, First } from "src/types";
 
 /**
  * **SomeEqual**`<TVal, TList>`

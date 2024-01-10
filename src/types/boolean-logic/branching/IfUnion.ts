@@ -1,4 +1,4 @@
-import { IsUnion } from "../..";
+import { IsUnion } from "src/types";
 
 /**
  * **IfUnion**`<T,IF,ELSE>`

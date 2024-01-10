@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type {  ErrorCondition, IfNull } from "../..";
+import type {  ErrorCondition, IfNull } from "src/types";
 
 /**
  * **IsErrorCondition**`<TEval,[TKind]>`

@@ -1,4 +1,4 @@
-import { AnyObject, IfNever, RemoveFromList } from "../../..";
+import { AnyObject, IfNever, RemoveFromList } from "src/types";
 
 /**
  * **RemoveNever**`<T>`

@@ -1,5 +1,5 @@
-import { Tuple } from "../../base-types";
-import { AllLiteral } from "../operators";
+import { Tuple,AllLiteral } from "src/types";
+
 
 /**
  * **IfAllLiteral**`<TTuple,IF,ELSE>`

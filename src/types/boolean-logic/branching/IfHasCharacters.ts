@@ -1,4 +1,4 @@
-import { HasCharacters } from "../..";
+import { HasCharacters } from "src/types";
 
 /**
  * **IfHasCharacters**<TVal,TChars,IF,ELSE,[MAYBE]>

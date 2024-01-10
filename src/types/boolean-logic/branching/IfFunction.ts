@@ -1,4 +1,4 @@
-import { AnyFunction } from "../..";
+import { AnyFunction } from "src/types";
 
 /**
  * **IfFunction**`<T, IsFn, NotFn>`
