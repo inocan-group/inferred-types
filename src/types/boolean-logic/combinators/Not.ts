@@ -1,13 +1,28 @@
 /* eslint-disable no-use-before-define */
-import { Tuple, LogicFunction, IfFalse, IfTrue, IsErrorCondition } from "src/types";
+import { Tuple, LogicFunction, IfFalse, IfTrue, IsErrorCondition, AfterFirst, First } from "src/types";
 
-type _Negate<
-  T extends Tuple<boolean | LogicFunction>,
-> = {
-  [K in keyof T]: T[K] extends LogicFunction
-    ? Not<ReturnType<T[K]>>
-    : Not<T[K]>
-};
+
+
+type Negate <
+  TVal, 
+  TParams extends Tuple
+> = TVal extends boolean
+? IfTrue<TVal, false, IfFalse<TVal, true, boolean>>  
+: TVal extends LogicFunction<TParams>
+  ? ReturnType<LogicFunction<TParams>>
+  : never;
+
+type NegateTuple<
+  TTuple extends readonly (boolean | LogicFunction)[],
+  TParams extends Tuple,
+  TResults extends readonly (boolean | LogicFunction)[] = []
+> = [] extends TTuple
+? TResults
+: NegateTuple<
+    AfterFirst<TTuple>,
+    TParams,
+    [...TResults, Negate<First<TTuple>, TParams> ]
+  >;
 
 /**
  * **Not**`<T>`
@@ -22,16 +37,13 @@ type _Negate<
  * type Multi = Not<[true,false,boolean]>;
  * ```
  */
-export type Not<T> = IsErrorCondition<T> extends true 
-  ? T 
-  : [T] extends [boolean]
-    ? IfTrue<
-      T, false, // invert true value
-      IfFalse<T, true, boolean>
-    >
-: [T] extends [LogicFunction]
-  ? Not<ReturnType<T>>
-    : [T] extends [Tuple<boolean | LogicFunction>]
-      ? _Negate<T>
+export type Not<
+  TVal, 
+  TParams extends Tuple = []
+> = IsErrorCondition<TVal> extends true 
+  ? TVal
+  : TVal extends boolean
+    ? Negate<TVal,TParams>
+    : TVal extends readonly (boolean | LogicFunction)[] 
+      ? NegateTuple<TVal, TParams>
       : never;
-
