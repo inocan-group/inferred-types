@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { Abs } from "src/types/numeric-literals";
 import { describe, it } from "vitest";
+import { Abs } from "src/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -9,7 +9,7 @@ import { describe, it } from "vitest";
 describe("Abs<T>", () => {
 
   it("happy path", () => {
-    type Neg = Abs<-123>;
+    type Neg = Abs< -123 >;
     type Pos = Abs<123>;
     type NegStr = Abs<"-123">;
     type PosStr = Abs<"123">;
