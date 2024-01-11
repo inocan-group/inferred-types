@@ -1,4 +1,4 @@
-import { IfLiteral , ToNumber, ToString, StripLeading } from "src/types";
+import { IfLiteral,  NumberLike, AsNumber, StripLeading } from "src/types";
 
 
 /**
@@ -11,11 +11,10 @@ import { IfLiteral , ToNumber, ToString, StripLeading } from "src/types";
  * - wide numeric types are not allowed and will resolve to `never`; use `AbsMaybe`
  * if you want to allow wide types through
  */
-export type Abs<T extends number | `${number}`> = IfLiteral<
+export type Abs<T extends NumberLike> = IfLiteral<
   T,
-  T extends string
-    ? StripLeading<T,"-">
-    : ToNumber<StripLeading<ToString<T>,"-">>
-  ,
-  never
+  T extends `${number}`
+  ? StripLeading<`${T}`, "-">
+  : AsNumber<StripLeading<`${T}`, "-">>,
+  number
 >;
