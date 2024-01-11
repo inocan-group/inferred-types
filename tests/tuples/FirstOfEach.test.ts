@@ -1,6 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 import { FirstOfEach,  Chars } from "src/types";
+import { LastOfEach } from "../../src/types/tuples/LastOfEach";
 
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -17,6 +18,23 @@ describe("FirstOfEach<TList>", () => {
     type cases = [
       Expect<Equal<Arr, "foo" | "bar">>,
       Expect<Equal<Foo, "F" | "B" >>,
+    ];
+    const cases: cases = [ true, true  ];
+  });
+
+});
+
+
+describe("LastOfEach<TList>", () => {
+
+  it("with a Tuple of array elements", () => {
+    type Arr = LastOfEach<[ ["foo", 1], ["bar", 2] ]>;
+    type Foo = LastOfEach<[Chars<"Foo">, Chars<"Bar">]>;
+    
+    
+    type cases = [
+      Expect<Equal<Arr, 1 | 2>>,
+      Expect<Equal<Foo, "o" | "r" >>,
     ];
     const cases: cases = [ true, true  ];
   });
