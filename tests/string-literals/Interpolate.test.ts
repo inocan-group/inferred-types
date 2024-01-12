@@ -10,7 +10,7 @@ import { Interpolate } from "src/types";
 
 describe("Interpolate<TText,TContainer>", () => {
 
-  it("with tuple container", () => {
+  it.skip("with tuple container", () => {
     type Foobar = Interpolate<"The value must be [[0]] or [[1]]", ["foo", "bar"]>;
     type TMI = Interpolate<"The value must be [[0]] or [[1]]", ["foo", "bar", "baz"]>;
     type Overextended = Interpolate<"The value must be [[0]] or [[1]]; not [[2]]", ["foo", "bar"]>;

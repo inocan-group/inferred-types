@@ -86,7 +86,7 @@ type Process<
 export type Interpolate<
   TText extends string,
   TContainer extends Container,
-  TOpt extends { delimiters?: readonly [string, string][]; missing?: string }
+  TOpt extends { delimiters?: readonly [string, string][]; missing?: string } = object
 > = IfStringLiteral<
   TText,
   Process<
