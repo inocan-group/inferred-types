@@ -15,14 +15,10 @@
   "parserOptions": {
     "parser": "@typescript-eslint/parser",
     "sourceType": "module",
-    "ecmaVersion": 12
+    "ecmaVersion": 13
   },
   "rules": {
     "prefer-const": "error",
-    "semi": [
-      "error",
-      "always"
-    ],
     "quotes": [
       "warn",
       "double",
@@ -47,10 +43,10 @@
     "no-use-before-define": [
       "warn"
     ],
-    "@typescript-eslint/semi": [
-      "error",
-      "always"
-    ],
+    // "@typescript-eslint/semi": [
+    //   "error",
+    //   "always"
+    // ],
     "@typescript-eslint/no-unsafe-member-access": "off",
     "@typescript-eslint/no-unsafe-call": "off",
     "@typescript-eslint/no-unsafe-assignment": "off",
@@ -67,6 +63,8 @@
         }
       }
     ],
+    "semi": "off",
+    "@typescript-eslint/semi": "off",
     // "cases" allows for graceful use of that variable
     // name in Typescript test cases
     "@typescript-eslint/no-unused-vars": [
