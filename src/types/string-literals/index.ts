@@ -7,7 +7,6 @@
 export * from "./Concat";
 export * from "./Cardinality";
 export * from "./Chars";
-export * from "./CaseInsensitive";
 export * from "./Date";
 export * from "./DateTime";
 export * from "./DropChars";

@@ -23,5 +23,5 @@ export type ValueAtDotPath<
   TValue,
   TPath extends string
 > = DotPath<TPath> extends string 
-  ? Recurse<TValue, Split<TPath, ".">, TPath>
+  ? Recurse<TValue, Split<TPath, "."> & readonly string[], TPath>
   : ErrorCondition<"invalid-dot-path", `The dot path of "${TPath}" is not valid and therefore we can not use it to determine type information at design time.`, {utility: "ValueAtDotPath"}>;
