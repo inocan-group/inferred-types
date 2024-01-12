@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { isTypeToken, kind } from "src/runtime";
+import { isTypeToken } from "src/runtime";
 import { TypeToken } from "src/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -11,7 +11,7 @@ import { TypeToken } from "src/types";
 describe("isTypeToken(val)", () => {
 
   it("positive test", () => {
-    const str = kind.string();
+    const str = "" as string;
     
     type cases = [
       // the `TypeToken` is seen as a string

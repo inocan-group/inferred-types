@@ -8,10 +8,8 @@ import {
   IsString, 
   IfNever,
   IfUnion,
-  IfSomeExtend,
-  DoesExtend,
   IfExtends,
-  SomeExtend
+  IfSomeExtend
 } from "src/types";
 
 
@@ -25,7 +23,9 @@ import {
  * means if it's a string, number, boolean, null, or symbol then it is
  * a **scalar**. Arrays and records of any type are _not_ scalars.
  * 
- * - in most cases 
+ * - Typically this resolves at design-time to true/false, however, in some
+ * cases a union type can not resolve until runtime and a `boolean` value will
+ * be returned. 
  * 
  * **Related:** `IsOptionalScalar`
  */
@@ -44,12 +44,13 @@ IfOr<
     IfExtends<
       T, Scalar, 
       true, 
-      UnionToTuple<T> extends readonly unknown[]
-      ? SomeExtend<UnionToTuple<T>, Scalar> extends true
-          ? boolean
-          : false
-      : false
+      IfSomeExtend<
+        UnionToTuple<T>, Scalar,
+        boolean,
+        false
+      >
     >,
     false
   >
 >>;
+

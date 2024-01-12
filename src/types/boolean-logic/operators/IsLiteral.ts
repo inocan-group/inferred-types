@@ -1,13 +1,8 @@
 import type { 
-  Length, 
   IsBooleanLiteral, 
-  IsEqual, 
   IsNumericLiteral, 
   IsObjectLiteral, 
   IsStringLiteral, 
- AnyObject, 
- Something,
- IfOr,
  IsTuple,
  IfNever} from "src/types";
 
