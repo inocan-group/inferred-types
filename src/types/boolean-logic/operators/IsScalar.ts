@@ -44,11 +44,7 @@ IfOr<
     IfExtends<
       T, Scalar, 
       true, 
-      IfSomeExtend<
-        UnionToTuple<T>, Scalar,
-        boolean,
-        false
-      >
+      boolean
     >,
     false
   >

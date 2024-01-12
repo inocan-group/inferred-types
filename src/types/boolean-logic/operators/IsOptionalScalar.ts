@@ -4,9 +4,6 @@ import {
   IsScalar, 
   IsUndefined,
   IfUnion,
-  IfSomeExtend,
-  UnionToTuple,
-  Scalar
 } from "src/types";
 
 
@@ -24,10 +21,7 @@ export type IsOptionalScalar<T> = IfNever<T, false, IfOr<
   true,
   IfUnion<
     T, 
-    IfSomeExtend<
-      UnionToTuple<T>, Scalar | undefined, 
-      boolean, false
-    >, 
+    boolean, 
     false
   >
 >>;

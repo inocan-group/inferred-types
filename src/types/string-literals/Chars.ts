@@ -9,5 +9,5 @@ import { IfNotStringLiteral, Split } from "src/types";
 export type Chars<TStr extends string> = IfNotStringLiteral<
   TStr, 
   readonly string[],
-  Split<TStr,"">
+  Split<TStr,""> & readonly string[]
 >;

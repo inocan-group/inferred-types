@@ -1,4 +1,4 @@
-import { UnionToTuple } from "src/types";
+import { First, UnionToTuple } from "src/types";
 
 export type OneToOne = `1:1`;
 export type OneToMany = `1:M`;
@@ -72,8 +72,11 @@ export type CardinalityOut<T extends Cardinality> = T extends `${string}:${infer
   ? OUT
   : never;
 
-export type CardinalityInput<T, C extends Cardinality> = UnionToTuple<C> extends readonly unknown[]
-  ? UnionToTuple<C>[0] extends 1
+export type CardinalityInput<
+  T, 
+  C extends Cardinality
+> = UnionToTuple<C> extends readonly unknown[]
+  ? First<UnionToTuple<C>> extends 1
     ? T
     : T[]
   : T | undefined;
