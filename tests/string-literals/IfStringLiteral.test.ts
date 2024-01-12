@@ -26,8 +26,6 @@ describe("IfStringLiteral<T,IF,ELSE>", () => {
       false, false
     ];
   });
-  
-
 
   it("happy path", () => {
     type T1 = IfStringLiteral<"foo",true, false>;

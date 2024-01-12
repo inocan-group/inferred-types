@@ -1,5 +1,4 @@
-import { AfterFirst, First } from "src/types";
-import { IfExtends } from "src/types";
+import { AfterFirst, First, IfExtends } from "src/types";
 
 type SomeAcc<
   TList extends readonly unknown[],
@@ -18,7 +17,7 @@ type SomeAcc<
 /**
  * **SomeExtend**`<TList, TExtend>`
  * 
- * Boolean type util which checks whether **some** of the elements
+ * Boolean util which checks whether **some** of the elements
  * in `TList` _extend_ `TExtend`.
  */
 export type SomeExtend<

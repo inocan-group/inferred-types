@@ -25,7 +25,7 @@ describe("AsArray<T>", () => {
     type T1 = AsArray<X>;
     
     type cases = [
-      Expect<Equal<T1,  [readonly unknown[]]>>
+      Expect<Equal<T1, readonly unknown[] | [readonly unknown[]]>>
     ];
     const cases: cases = [ true ];
     

@@ -24,7 +24,6 @@ describe("IsScalar<T>", () => {
     type F5 = IsScalar<object>;
     type F6 = IsScalar<never>;
     
-    
     type cases = [
       Expect<Equal<T1, true>>,
       Expect<Equal<T2, true>>,
