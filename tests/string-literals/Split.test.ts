@@ -56,7 +56,7 @@ describe("Split<T,SEP>", () => {
     const str = "hello world, 42 nice to meet you" as string;
     type S = Split<typeof str, ",">;
 
-    type cases = [Expect<Equal<S, string[]>>];
+    type cases = [Expect<Equal<S, readonly string[]>>];
     const cases: cases = [true];
   });
   

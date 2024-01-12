@@ -1,7 +1,7 @@
 import {  ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import {  IfStringLiteral, IsStringLiteral } from "src/types";
+import {  IfStringLiteral, IsStringLiteral, Not } from "src/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -15,6 +15,16 @@ describe("IfStringLiteral<T,IF,ELSE>", () => {
     type F1 = IsStringLiteral<string>;
     type NT1 = Not<T1>;
 
+
+    type cases = [
+      ExpectTrue<T1>,
+      ExpectFalse<F1>,
+      ExpectFalse<NT1>,
+    ];
+    const cases: cases = [
+      true, 
+      false, false
+    ];
   });
   
 
