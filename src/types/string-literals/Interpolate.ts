@@ -1,82 +1,101 @@
 import { 
   AfterFirst, 
-  AnyObject, 
   Container, 
   First, 
-  IfObjectLiteral, 
+  FirstOfEach, 
   IfStringLiteral, 
-  Keys, 
-  ReplaceAll, 
-  ToString,  
-  WithDefault 
+  IndexOf, 
+  Split,
+  StripAfter,
+  StripBefore,
+  Trim,  
 } from "src/types";
+import { LastOfEach } from "../tuples/LastOfEach";
 
-type Left<T extends readonly [ string, string ]> = T[0];
-type Right<T extends readonly [ string, string ]> = T[1];
+type DefaultDelimiters = [["[[","]]"], ["{{","}}"]];
+/**
+ * A union type of all the valid _opening_ delimiters
+ */
+type OpenDelimiters<T extends readonly [string, string][] | undefined> = T extends readonly [string, string][]
+  ? FirstOfEach<T>
+  : FirstOfEach<DefaultDelimiters>;
 
-type IterateKeys<
-  TText extends string,
+/** A union type of all the valid _closing_ delimiters */
+type CloseDelimiters<T extends readonly [string, string][] | undefined> = T extends readonly [string, string][]
+? LastOfEach<T>
+: LastOfEach<DefaultDelimiters>;
+
+type ContainerId<
+  TContent extends string,
+  TClosing extends string,
+> = Trim<StripAfter<TContent, TClosing>>;
+
+type Replacement<
+  TContent extends string,
   TContainer extends Container,
-  TDelimiters extends readonly [string, string],
-  TKeys extends readonly PropertyKey[],
-> = [] extends TKeys
-? TText
-: IterateKeys<
-    First<TKeys> extends keyof TContainer
-      ? ReplaceAll<
-          TText, 
-          `${Left<TDelimiters>}${ToString<First<TKeys>>}${Right<TDelimiters>}`, ToString<TContainer[First<TKeys>]>
-        >
-      : TText,
+  TClosing extends string,
+> = ContainerId<TContent, TClosing> extends keyof TContainer
+? `${IndexOf<TContainer, ContainerId<TContent, TClosing>>}${StripBefore<TContent, TClosing>}`
+: "";
+
+
+/**
+ * **Process**
+ * 
+ * Process the text value; making replacement using delimiters and container's
+ * key/values.
+ */
+type Process<
+  // blocks of text broken up by starting interpolation string
+  TBlocks extends readonly string[],
+  TContainer extends Container,
+  TClosing extends string,
+  TResults extends readonly string[] = []
+> = [] extends TBlocks
+? TResults
+: Process<
+    AfterFirst<TBlocks>,
     TContainer,
-    TDelimiters,
-    AfterFirst<TKeys>
+    TClosing,
+    [
+      ...TResults,
+      Replacement<First<TBlocks>, TContainer, TClosing>
+    ]
   >;
 
-type InterpolateTuple<
-  TText extends string,
-  TTuple extends readonly unknown[],
-  TDelimiters extends readonly [string, string]
-> = TText extends `${string}${Left<TDelimiters>}${number}${Right<TDelimiters>}${string}`
-? IterateKeys<TText,TTuple,TDelimiters,Keys<TTuple>>
-: TText;
 
-type InterpolateObject<
-  TText extends string,
-  TObj extends AnyObject,
-  TDelimiters extends readonly [string, string]
-> = IfObjectLiteral<
-  TObj,
-  IfStringLiteral<
-    TText,
-    TText extends `${string}${Left<TDelimiters>}${string}${Right<TDelimiters>}${string}`
-      ? IterateKeys<TText,TObj,TDelimiters,Keys<TObj>>
-      : TText,
-      string
-    >,
-  string
->;
 
+/**
+ * **Interpolate**`<TText,TContainer,[TOpt]>`
+ * 
+ * Text based type utility which updates the type of `TText` based
+ * on replacing _delimited text_ with a true value found in the `TContainer`
+ * passed in. 
+ * ```ts
+ * // Hello World
+ * type T = Interpolate<"{{0}} {{1}}", ["Hello", "World"]>;
+ * type O  = Interpolate<"[[h]] [[w]]", { h: "Hello"; w: "World" } >;
+ * ``` 
+ * 
+ * - by default text is delimited by double square and curly braces
+ * -- as is shown in the examples above -- but you can add in your own delimiters
+ * with `TDelimiters` if  you choose.
+ * - interpolated blocks which do not match _data_ found in the container will be left
+ * as interpolated blocks unless you pass in a value for `TMissing`
+ */
 export type Interpolate<
   TText extends string,
   TContainer extends Container,
-  TDelimiters extends readonly [string, string] = ["",""]
-> = TContainer extends readonly unknown[]
-? InterpolateTuple<
-    TText, 
-    TContainer,
-    [
-      WithDefault<TDelimiters[0], "[[", "falsy">,
-      WithDefault<TDelimiters[1], "]]", "falsy">
-    ]
-  >
-: TContainer extends AnyObject
-  ? InterpolateObject<
+  TOpt extends { delimiters?: readonly [string, string][]; missing?: string }
+> = IfStringLiteral<
+  TText,
+  Process<
+    Split<
       TText, 
-      TContainer, 
-      [
-        WithDefault<TDelimiters[0], "{{", "falsy">,
-        WithDefault<TDelimiters[1], "}}", "falsy">
-      ]
-    >
-  : never;
+      OpenDelimiters<TOpt["delimiters"]>
+    > & readonly string[],
+    TContainer,
+    CloseDelimiters<TOpt["delimiters"]>
+  >,
+  string
+>;

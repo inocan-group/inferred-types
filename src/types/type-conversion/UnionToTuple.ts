@@ -18,6 +18,8 @@ export type UnionToTuple<T, Result extends unknown[] = [], Last = GetUnionLast<T
   T,
 ] extends [never]
   ? // return result
-    Result
+    Result extends readonly unknown[] ? Result : never
   : // remove last element of T and push it into Result
-    UnionToTuple<Exclude<T, Last>, Prepend<Result, Last>>;
+    UnionToTuple<Exclude<T, Last>, Prepend<Result, Last>> extends readonly unknown[]
+      ? UnionToTuple<Exclude<T, Last>, Prepend<Result, Last>>
+      : never;

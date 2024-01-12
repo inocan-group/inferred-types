@@ -1,3 +1,4 @@
+;export * from "./Add";
 export * from "./Abs";
 export * from "./AbsMaybe";
 export * from "./AsNumberWhenPossible";
@@ -17,4 +18,5 @@ export * from "./Subtract";
 export * from "./ToInteger";
 export * from "./ToNumericArray";
 export * from "./NextDigit";
+export * from "./NumberLike";
 export * from "./ValueCallback";

@@ -1,5 +1,22 @@
-import { AnyObject, AsNumber, Container, EmptyContainer, FixedLengthArray, Increment, Tuple, AsString, ExpandRecursively, ArrayElementType, IfDefined, Decrement } from "src/types";
-import { Subtract } from "src/types";
+
+import { AnyObject, IfAnd, First, AsNumber, Container, EmptyContainer, FixedLengthArray, Increment, Tuple, AsString, ExpandRecursively, ArrayElementType, IfDefined,   IsUndefined, AfterFirst, Not  } from "src/types";
+
+type MergeTuples<
+  TDefaults extends Tuple,
+  TOverrides extends Tuple,
+  TResults extends Tuple = []
+> = [] extends TDefaults
+? [...TResults, ...TOverrides]
+: MergeTuples<
+    AfterFirst<TDefaults>,
+    AfterFirst<TOverrides>,
+    IfAnd<
+      [ IsUndefined<First<TDefaults>>, Not<IsUndefined<First<TOverrides>>>  ],
+      [...TResults, First<TDefaults>],
+      [...TResults, First<TOverrides>]
+    >
+  >;
+
 
 /**
  * **WithKey**`<T, K>`
@@ -17,17 +34,17 @@ export type WithKey<
   K extends string | number, 
 > = T extends Tuple
   ? EmptyContainer<T> extends true
+    // add K in position and insert necessary prior elements
     ? FixedLengthArray<ArrayElementType<T>, Increment<AsNumber<K>>>
     : IfDefined<
         T[AsNumber<K>],
+        // the key K already is known
         T,
-        [
-          ...T, 
-          ...FixedLengthArray<
-            ArrayElementType<T>, 
-            Subtract<AsNumber<K>, Decrement<T["length"]>>
-          >
-        ]
+        // the key K is not known so we'll merge it in
+        MergeTuples<
+          [...FixedLengthArray<undefined, AsNumber<K>>, K],
+          T
+        >
       >
   : T extends AnyObject
     ? EmptyContainer<T> extends true

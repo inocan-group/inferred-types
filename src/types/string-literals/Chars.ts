@@ -1,4 +1,4 @@
-import { IfLiteral, Split } from "src/types";
+import { IfNotStringLiteral, Split } from "src/types";
 
 
 /**
@@ -6,8 +6,8 @@ import { IfLiteral, Split } from "src/types";
  * 
  * Takes a literal string and converts it to an array of characters.
  */
-export type Chars<TStr extends string> = IfLiteral<
-  TStr,
-  Split<TStr,"">,
-  never
+export type Chars<TStr extends string> = IfNotStringLiteral<
+  TStr, 
+  readonly string[],
+  Split<TStr,"">
 >;

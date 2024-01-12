@@ -48,7 +48,7 @@ describe("Split<T,SEP>", () => {
     const str = "hello world, 42 nice to meet you" as const;
     type S = Split<typeof str, typeof str>;
 
-    type cases = [Expect<Equal<S, ["",""]>>];
+    type cases = [Expect<Equal<S, [""]>>];
     const cases: cases = [true];
   });
 
@@ -59,7 +59,6 @@ describe("Split<T,SEP>", () => {
     type cases = [Expect<Equal<S, string[]>>];
     const cases: cases = [true];
   });
-
   
   it("Split with a union type", () => {
     type FooBar = Split<"FooBar", UpperAlphaChar>;

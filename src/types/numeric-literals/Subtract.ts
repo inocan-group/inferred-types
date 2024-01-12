@@ -1,3 +1,5 @@
+import {  Abs, IfGreaterThan, IfNegativeNumber, Negative, Add } from "src/types";
+
 type Iterate<T extends number, A extends number[] = []> = A["length"] extends T
   ? A
   : Iterate<T, [...A, A["length"]]>;
@@ -13,7 +15,24 @@ type LengthDiff<A extends unknown[], B extends unknown[]> = A extends [
   ? 0
   : never;
 
-export type Subtract<M extends number, S extends number> = LengthDiff<
-  Iterate<M>,
-  Iterate<S>
+
+export type Subtract<
+  A extends number , 
+  B extends number 
+> = 
+IfNegativeNumber<
+  B,  // second operand is negative so switch to addition
+  Add<A,Abs<B>>,
+
+  IfGreaterThan<
+    A, B,
+    LengthDiff<
+      Iterate<A>,
+      Iterate<B>
+    >,
+    Negative<LengthDiff<
+      Iterate<B>,
+      Iterate<A>
+    >>
+  >
 >;
