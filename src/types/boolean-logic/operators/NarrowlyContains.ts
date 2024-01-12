@@ -1,5 +1,4 @@
-import { AfterFirst, First } from "src/types";
-import { IsEqual } from "src/types";
+import { AfterFirst, First , IsEqual } from "src/types";
 
 /**
  * **NarrowlyContains**`<TList, TContains>`

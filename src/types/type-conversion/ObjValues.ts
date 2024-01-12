@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AnyObject,IfEqual, IfLength, IfLiteral, Keys, AfterFirst, First, Length, Reverse, IfEmptyContainer, IsEqual, IfOr } from "src/types";
+import { AnyObject, Keys, AfterFirst, First, Length, IsEqual, IfOr, IsEmptyObject, IfObjectLiteral } from "src/types";
 
-type ValuesAcc<
+type Values<
   TObj extends AnyObject,
-  TKeys extends readonly PropertyKey[],
+  TKeys extends PropertyKey,
   TResults extends readonly any[] = []
-> = //
+> = 
+
+//
 Length<TKeys> extends 0
   ? TResults
   : ValuesAcc<
@@ -20,44 +22,31 @@ Length<TKeys> extends 0
       ]
     >;
 
+
+
+
+
 /**
  * **ObjValues**`<T>`
  * 
- * Type utility which converts an object to an array of values.
+ * Type utility which converts an object to a tuple of _values_.
  * 
  * - if the object is an object literal, it will convert to a readonly array
  * - if not a literal, type will be approximated where possible or default to `any[]`.
  * - please note that the array's _order_ is **not** guaranteed as an object's properties
  * has no order.
- * 
- * **Related:** `Values`
  */
 export type ObjValues<
   T extends AnyObject
 > = IfOr<
-  [IsEqual<T,{}>, IsEqual<T,[]>],
+  [IsEqual<T,{}>, IsEqual<T,[]>, IsEmptyObject<T>],
   readonly [],
-  IfLiteral<
+  IfObjectLiteral<
     T,
-    // 
-    IfEmptyContainer<
+    Values<
       T, 
-      readonly [],
-      Readonly<Reverse<ValuesAcc<T, Keys<T>>>>
+      AsPropertyKeyK<Keys<T>>
     >,
-    IfEqual<
-      Record<string, string>, 
-      string[],
-      IfEqual<
-        Record<string, number>,
-        number[],
-        IfEqual<
-          Record<string, boolean>,
-          boolean[],
-          IfLength<Keys<T>, 0, readonly [], unknown[]>,
-          unknown[]
-        >
-      >
-    >
+    T
   >
 >;
