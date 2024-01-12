@@ -24,7 +24,6 @@ export type Keys<
   TContainer extends Container
   > = IfNever<
   TContainer, 
-  readonly [],
-  ExplicitKeys<TContainer>
-
+  readonly PropertyKey[],
+  ExplicitKeys<TContainer> & readonly PropertyKey[]
 >;

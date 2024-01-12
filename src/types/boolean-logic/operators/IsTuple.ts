@@ -1,4 +1,5 @@
-import { IfNever, Tuple } from "src/types";
+import { IfNever } from "../branching/IfNever"
+
 
 /**
  * **IfTuple**`<T>`
@@ -13,10 +14,11 @@ import { IfNever, Tuple } from "src/types";
  * do not discretely specify a length of elements
  */
 export type IsTuple<T> = IfNever<
-  T, false,
-  T extends Tuple
-    ? number extends T["length"]
-      ? false
-      : true
-    : false
->;
+  T,
+  never,
+  T extends readonly unknown[]
+  ? number extends T["length"]
+    ? false
+    : true
+  : false
+>
