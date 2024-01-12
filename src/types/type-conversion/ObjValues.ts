@@ -1,26 +1,13 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AnyObject, Keys, AfterFirst, First, Length, IsEqual, IfOr, IsEmptyObject, IfObjectLiteral } from "src/types";
+import { AnyObject, Keys,  IsEqual, IfOr, IsEmptyObject, IfObjectLiteral } from "src/types";
 
 type Values<
   TObj extends AnyObject,
-  TKeys extends PropertyKey,
-  TResults extends readonly any[] = []
-> = 
-
-//
-Length<TKeys> extends 0
-  ? TResults
-  : ValuesAcc<
-      TObj,
-      AfterFirst<TKeys>,
-      [
-        ...TResults, 
-        First<TKeys> extends keyof TObj
-          ? TObj[First<TKeys>]
-          : never
-      ]
-    >;
+  TKeys extends readonly PropertyKey[]
+> = {
+  [K in keyof TKeys]: K extends keyof TObj ? TObj[K] : never
+}
 
 
 
@@ -45,7 +32,7 @@ export type ObjValues<
     T,
     Values<
       T, 
-      AsPropertyKeyK<Keys<T>>
+      Keys<T>
     >,
     T
   >
