@@ -28,7 +28,7 @@ N extends Narrowable,
   ? ErrorCondition<
       "invalid-union", 
       "the retain(obj, keys) function was called with keys which included a value which was a union type; this would make the typing inconsistent with the runtime type and should be avoided. Note that at runtime this will not produce an error but rather produce the valid runtime value.", 
-      {context: {keys: typeof keys}, library: "retain" }
+      {context: {keys: typeof keys}; library: "retain" }
     >
   : WithKeys<TObj, TKeys>;
 };

@@ -21,5 +21,3 @@ export type ObjectToKvDict<
 > = {
   [K in keyof TObj]: {key: K; value: TObj[K]}
 };
-
-

@@ -19,4 +19,6 @@ export type IfAnd<
   TParams extends readonly unknown[] = readonly unknown[],
 > = [And<TConditions>] extends [true] 
 ? IF 
-: [And<TConditions>] extends [false] ? ELSE : IF | ELSE;
+: [And<TConditions>] extends [false] 
+  ? ELSE 
+  : [And<TConditions>] extends [boolean] ? IF | ELSE : ELSE ;

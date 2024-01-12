@@ -23,3 +23,4 @@ export type UnionToTuple<T, Result extends unknown[] = [], Last = GetUnionLast<T
     UnionToTuple<Exclude<T, Last>, Prepend<Result, Last>> extends readonly unknown[]
       ? UnionToTuple<Exclude<T, Last>, Prepend<Result, Last>>
       : never;
+

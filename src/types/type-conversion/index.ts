@@ -10,6 +10,7 @@ export * from "./AsString";
 export * from "./AsNumber";
 export * from "./AsBoolean";
 export * from "./AsFunction";
+export * from "./AsPropertyKey";
 export * from "./TupleToUnion";
 export * from "./UnionToIntersection";
 export * from "./KvDict";

@@ -1,5 +1,4 @@
-import { AfterFirst, First } from "src/types";
-import { IfExtends } from "src/types";
+import { AfterFirst, First , IfExtends } from "src/types";
 
 type AllAcc<
   TList extends readonly unknown[],
