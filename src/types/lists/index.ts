@@ -10,6 +10,7 @@ export * from "./AllowNonTupleWhenSingular";
 export * from "./ArrayElementType";
 export * from "./First";
 export * from "./AsArray";
+export * from "./AsTuple";
 export * from "./FirstString";
 export * from "./Filter";
 export * from "./Length";

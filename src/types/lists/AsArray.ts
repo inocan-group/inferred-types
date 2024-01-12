@@ -11,4 +11,4 @@ export type AsArray<T> = T extends Tuple
     ? T
     : T extends unknown[]
       ? readonly [...T]
-      : IfUndefined<T, readonly [], readonly [T]>;
+      : IfUndefined<T,  [],  [T]>;
