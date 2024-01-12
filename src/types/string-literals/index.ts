@@ -32,6 +32,7 @@ export * from "./Suggest";
 export * from "./Repeat";
 export * from "./RetainAfter";
 export * from "./StripAfter";
+export * from "./StripBefore";
 export * from "./StripTrailing";
 export * from "./Split";
 export * from "./StrLen";

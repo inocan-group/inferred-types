@@ -8,6 +8,7 @@
 export * from "./Awaited";
 export * from "./AsString";
 export * from "./AsNumber";
+export * from "./AsBoolean";
 export * from "./AsFunction";
 export * from "./TupleToUnion";
 export * from "./UnionToIntersection";

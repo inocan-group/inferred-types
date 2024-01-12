@@ -30,6 +30,7 @@ export * from "./pluralize";
 export * from "./retainAfter";
 export * from "./surround";
 export * from "./stripAfter";
+export * from "./stripBefore";
 export * from "./trim";
 export * from "./toPascalCase";
 export * from "./toUppercase";

@@ -11,7 +11,7 @@ export * from "./IfAllExtend";
 export * from "./IfEmptyContainer";
 
 export * from "./IfLessThan";
-export * from "./IfNegative";
+export * from "./IfNegativeNumber";
 export * from "./IfPositive";
 
 

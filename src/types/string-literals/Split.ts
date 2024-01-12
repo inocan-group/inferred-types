@@ -1,16 +1,26 @@
 import {  
-  IfStringLiteral, 
-  IsEqual, 
-  Tuple, 
-  Last, 
-  Pop, 
-  IfAnd, 
-  IfEqual, 
-  IfUnion, 
-  AfterFirst, 
-  First, 
-  Shift
+  AfterFirst,
+  First,
+  IfAllLiteral,
+  IfEqual,
+  IfUnion,
+  Last,
+  Pop,
+  Shift,
+  Slice,
 } from "src/types";
+
+type SplitOnce<
+  TRemaining extends string,
+  TSep extends string,
+  TAnswer extends readonly string[] = []
+> = TRemaining extends `${infer HEAD}${TSep}${infer TAIL}`
+? SplitOnce<
+    TAIL,
+    TSep,
+    [...TAnswer, HEAD]
+  >
+: [...TAnswer, TRemaining];
 
 type _Split<
   T extends string,
@@ -57,16 +67,12 @@ type _SplitOnUnion<
         : AppendToLastBlock<First<TContent>,TBlocks>
     >;
 
-type Cleanup<
-  TList extends Tuple<string>,
-  TSep extends string,
-> = IfAnd<[
-      IsEqual<Last<TList>, "">,
-      IsEqual<TSep, "">
-    ],
-    Pop<TList>,
-    IfEqual<TList, [""], [], TList>
-  >;
+export type Cleanup<T extends readonly string[]> = IfEqual<
+  Last<T>, "",
+  Slice<T,0,-1>,
+  T
+>;
+
 
 
 /**
@@ -87,28 +93,20 @@ export type Split<
   TStr extends string,
   TSep extends string = "",
   TUnionPolicy extends "retain" | "omit" = "omit"
-> = IfStringLiteral<
-  TStr,
+> = IfAllLiteral<
+  [ TStr, TSep ],
+  // Both TStr and TSep are literals so we _can_ split type
   IfUnion<
     TSep,
-    // separator is a union type
     _SplitOnUnion<
-      Cleanup<_Split<TStr, "">, "">, 
+      SplitOnce<TStr, "">, 
       TSep,
       TUnionPolicy
     >,
-    IfStringLiteral<
-      TSep,
-      // separator is a literal so split
-      Cleanup<_Split<TStr,TSep>, TSep>,
-      // a wide separator can not determine the letters at design time
-      string[]
+    Cleanup<
+      SplitOnce<TStr,TSep>
     >
   >,
-  // while the separator may have been a literal, the evaluated string
-  // is not and a wide `TStr` is not able to be split at design time
-  // and therefore can only return a generic type
-  string[]
+  // We must resort to a wide type since either TStr or TSep are wide
+  readonly string[]
 >;
-
-

@@ -15,8 +15,6 @@ export type IfEqual<
   ? IF
   : ELSE;
 
-
-
 /**
  * **IfEqual**`<X,Y,[IF],[ELSE]>`
  * 

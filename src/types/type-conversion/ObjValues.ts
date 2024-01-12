@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AnyObject,IfEqual, IfLength, IfLiteral, Keys, AfterFirst, First, Length, Reverse } from "src/types";
+import { AnyObject,IfEqual, IfLength, IfLiteral, Keys, AfterFirst, First, Length, Reverse, IfEmptyContainer, IsEqual, IfOr } from "src/types";
 
 type ValuesAcc<
   TObj extends AnyObject,
@@ -34,14 +34,15 @@ Length<TKeys> extends 0
  */
 export type ObjValues<
   T extends AnyObject
-> = IfEqual<
-  T, {},
+> = IfOr<
+  [IsEqual<T,{}>, IsEqual<T,[]>],
   readonly [],
   IfLiteral<
     T,
-    IfLength<
-      Keys<T>, 0, 
-      readonly [], 
+    // 
+    IfEmptyContainer<
+      T, 
+      readonly [],
       Readonly<Reverse<ValuesAcc<T, Keys<T>>>>
     >,
     IfEqual<
