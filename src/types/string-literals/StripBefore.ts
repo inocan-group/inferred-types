@@ -1,4 +1,4 @@
-import {  Slice, Split, Join, IfAllLiteral } from "src/types";
+import {  Slice, Split, Join, IfAllLiteral, Tuple } from "src/types";
 
 /**
  * **StripBefore**`<TStr, TBreak>`
@@ -18,10 +18,12 @@ export type StripBefore<
 > = IfAllLiteral<
   [ TStr, TBreak ],
   // TStr and TBreak are both string literals
-  Join<
+  Split<TStr, TBreak> extends Tuple
+  ? Join<
     Slice< Split<TStr, TBreak>, 1 >,
     TBreak
-  >,
+  >
+  : TStr,
   // TStr or TBreak is wide
   string
 >;

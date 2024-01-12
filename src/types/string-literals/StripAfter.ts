@@ -1,4 +1,4 @@
-import { AsArray, First, Split } from "src/types";
+import {  AsTuple, First, Split } from "src/types";
 
 /**
  * **StripAfter**`<TStr, TBreak>`
@@ -15,4 +15,4 @@ import { AsArray, First, Split } from "src/types";
 export type StripAfter<
   TStr extends string,
   TBreak extends string
-> = First< AsArray<Split<TStr, TBreak>> >;
+> = First< AsTuple<Split<TStr, TBreak>> >;

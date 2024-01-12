@@ -48,7 +48,9 @@ export type DotPath<T extends string | number> = T extends number
           Includes<T & string, "..">
         ]> extends true 
           ? never
-          : ValidateSegments<Split<T & string, ".">> extends true
+          : ValidateSegments<
+              Split<T & string, "."> & readonly string[]
+            > extends true
             ? T
             : never
         ,
