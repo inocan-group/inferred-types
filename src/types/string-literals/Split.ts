@@ -98,11 +98,13 @@ export type Split<
   // Both TStr and TSep are literals so we _can_ split type
   IfUnion<
     TSep,
+    // union type
     _SplitOnUnion<
       SplitOnce<TStr, "">, 
       TSep,
       TUnionPolicy
     >,
+    // not a union type
     Cleanup<
       SplitOnce<TStr,TSep>
     >
