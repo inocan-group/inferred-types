@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import {  unique } from "src/runtime";
-import { Unique } from "src/types";
 import { describe, expect, it } from "vitest";
+import { Unique } from "src/types";
+import {  unique } from "src/runtime";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -33,14 +33,19 @@ describe("Unique properties in Sets", () => {
   });
 
   describe("unique(a,b,deref)", () => {
-    const t1 = unique(1,2,3,4,4,5,6,6,8);
-
-    expect(t1).toEqual([1,2,3,4,5,6,8]);
-
-    type cases = [
-      Expect<Equal<typeof t1, [1,2,3,4,5,6,8]>>
-    ];
-    const cases: cases = [ true ];
+    
+    it("runtime", () => {
+      
+      const t1 = unique(1,2,3,4,4,5,6,6,8);
+  
+      expect(t1).toEqual([1,2,3,4,5,6,8]);
+  
+      type cases = [
+        Expect<Equal<typeof t1, [1,2,3,4,5,6,8]>>
+      ];
+      const cases: cases = [ true ];
+    });
+    
   });
   
 });
