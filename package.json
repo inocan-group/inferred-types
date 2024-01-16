@@ -1,6 +1,6 @@
 {
   "name": "inferred-types",
-  "version": "0.40.8",
+  "version": "0.41.0",
   "description": "Functions which provide useful type inference on TS projects",
   "license": "MIT",
   "author": "Ken Snyder<ken@ken.net>",
