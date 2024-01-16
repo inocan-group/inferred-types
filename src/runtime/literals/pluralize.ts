@@ -18,13 +18,16 @@ const END_IN = [
 ] as const;
 type EndsIn = TupleToUnion<Mutable<typeof END_IN>>;
 
-const endingIn = <T extends string, U extends EndsIn>(word: T, postfix: U): string | undefined => {
+const endingIn = <
+  T extends string, 
+  U extends EndsIn
+>(word: T, postfix: U) => {
   switch(postfix) {
     case "is":
       return word.endsWith(postfix) ? `${word}es` : undefined;
     case "singular-noun":
       return SINGULAR_NOUN_ENDINGS.some(i => word.endsWith(i))
-        ? split(word).every((i: string) => ALPHA_CHARS.includes(i as any))
+        ? split(word).every((i) => [...ALPHA_CHARS].includes(i as any))
           ? `${word}es`
           : undefined
         : undefined;

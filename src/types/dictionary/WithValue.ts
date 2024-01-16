@@ -1,4 +1,17 @@
-import { AnyObject , KeysWithValue, TupleToUnion } from "src/types";
+import { AfterFirst, AnyObject , ExpandRecursively, First, KeysWithValue } from "src/types";
+
+type Process<
+  TKeys extends readonly unknown[],
+  TObj extends AnyObject,
+  TResult extends object = object
+> = [] extends TKeys
+? ExpandRecursively<TResult>
+: Process<
+    AfterFirst<TKeys>,
+    TObj,
+    TResult & Record<First<TKeys>, First<TKeys> extends keyof TObj ? TObj[First<TKeys>] : never>
+  >;
+
 
 /**
  * **WithValue**`<TObj,TValue>`
@@ -14,12 +27,11 @@ import { AnyObject , KeysWithValue, TupleToUnion } from "src/types";
  * **Related:** `WithoutValue`, `WithKeys`, `WithoutKeys`
  */
 export type WithValue<
-TObj extends AnyObject,
-TValue,
-> = Pick<
-  TObj, 
-  TupleToUnion<KeysWithValue<TObj, TValue>> extends keyof TObj
-    ? TupleToUnion<KeysWithValue<TObj, TValue>>
-    : never
+  TObj extends AnyObject,
+  TValue,
+> = Process<
+  KeysWithValue<TObj, TValue>,
+  TObj
 >;
+
 

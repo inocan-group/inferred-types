@@ -37,6 +37,10 @@
         ".",
         "../src",
         "../hold/ValidateTypeTransform.ts",
+        "../hold/Interpolate.hold",
+        "../hold/extractTypeToken.hold",
+        "../hold/isSameType.hold",
+        "../hold/withValue.ts.hold",
     ],
     "exclude": [
         "**/node_modules/*",

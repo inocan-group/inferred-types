@@ -29,6 +29,5 @@ export * from "./isTypeToken";
 export * from "./isErrorCondition";
 export * from "./runtime-type-guards";
 export * from "./isSymbol";
-export * from "./isSameType";
 
 export * from "./higher-order/index";

@@ -53,6 +53,9 @@
     "include": [
         "index.ts",
         "**/*.ts",
+        "../../hold/extractTypeToken.hold",
+        "../../hold/isSameType.hold",
+        "../../hold/withValue.ts.hold",
     ],
     "exclude": [
         "./boolean-logic/ifTypeOf.ts"

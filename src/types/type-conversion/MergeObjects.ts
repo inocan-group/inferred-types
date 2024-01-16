@@ -1,38 +1,27 @@
-import { AfterFirst, AnyObject, AsIndexOf, ExpandRecursively, ExplicitKeys, First, Flatten, Tuple, Unique } from "src/types/index";
-
-type MergedKeys<
-  A extends AnyObject, 
-  B extends AnyObject
-> = Flatten<Unique<[...ExplicitKeys<A>],[...ExplicitKeys<B>]>>;
-
-type IfOverrideHasKeyValue<
-  TKey extends PropertyKey,
-  TOverride extends AnyObject,
-  ELSE
-> = AsIndexOf<TOverride,TKey,ELSE>;
-
-
-type SetValue<
-  TKey extends PropertyKey,
-  TDefObj extends AnyObject,
-  TOverride extends AnyObject,
-> = IfOverrideHasKeyValue<TKey, TOverride, AsIndexOf<TDefObj, TKey>>;
+import { AfterFirst, CombinedKeys, ExpandRecursively, First, IsDefined,  } from "src/types";
 
 type Process<
-  TIndex extends Tuple,
-  TDefObj extends AnyObject,
-  TOverride extends AnyObject,
-  TResult extends AnyObject = object
-> = [] extends TIndex
+  TKeys extends readonly unknown[],
+  TDef extends object,
+  TOverride extends object,
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  TResult extends Record<string|symbol, unknown> = {}
+> = [] extends TKeys
 ? ExpandRecursively<TResult>
-: TIndex extends readonly PropertyKey[]
-  ? Process<
-    AfterFirst<TIndex>,
-    TDefObj,
+: Process<
+    AfterFirst<TKeys>,
+    TDef,
     TOverride,
-    TResult & Record<First<TIndex>, SetValue<First<TIndex>, TDefObj, TOverride>>
-  >
-  : never;
+    First<TKeys> extends keyof TOverride
+      ? IsDefined<TOverride[First<TKeys>]> extends true
+          ? TResult & Record<First<TKeys>, TOverride[First<TKeys>]>
+          : First<TKeys> extends keyof TDef
+            ? TResult & Record<First<TKeys>, TDef[First<TKeys>]>
+            : TResult & Record<First<TKeys>, undefined>
+      : First<TKeys> extends keyof TDef
+      ? TResult & Record<First<TKeys>, TDef[First<TKeys>]>
+      : TResult & Record<First<TKeys>, undefined>
+  >;
 
 
 /**
@@ -41,13 +30,10 @@ type Process<
  * A type utility that _shallowly merges_ two object types.
  */
 export type MergeObjects<
-  TDefObj extends AnyObject,
-  TOverride extends AnyObject,
+  TDef extends object,
+  TOverride extends object,
 > = Process<
-  MergedKeys<TDefObj, TOverride> extends Tuple
-    ? MergedKeys<TDefObj, TOverride>
-    : [], 
-  TDefObj,TOverride
+  CombinedKeys<TDef,TOverride>,
+  TDef,
+  TOverride
 >;
-
-

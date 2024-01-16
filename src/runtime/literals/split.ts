@@ -1,5 +1,4 @@
-import { errorCondition, Split } from "src/types";
-import { isNumber, isString } from "src/runtime";
+import {  Split } from "src/types";
 
 /**
  * **split**(str, sep)
@@ -11,11 +10,10 @@ import { isNumber, isString } from "src/runtime";
  * 
  * All are other types are disallowed.
  */
-export function split<T extends string | number, S extends string>(str: T, sep: S = "" as S) {
-  return isString(str) 
-    ? str.split(sep) as Split<T & string,S> & string
-    : isNumber(str)
-      ? String(str).split(sep) as Split<T & `${number}`,S> as Split<T & `${number}`, S>
-      : errorCondition("invalid-type", `split() function allows string, numbers, and the null value but found a type of ${typeof str}.`) as never;
+export function split<
+  T extends string, 
+  S extends string
+>(str: T, sep: S = "" as S) {
+  return str.split(sep) as unknown as Split<T,S>
 }
 

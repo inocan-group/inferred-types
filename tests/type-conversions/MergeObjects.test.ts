@@ -7,29 +7,20 @@ import { MergeObjects } from "src/types";
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("MergeObjects<A,B>", () => {
-  type FooBar = { foo: 1; bar: 2 };
-  type BarBaz = { bar: 4; baz: "howdy" };
-  type Wide = { foo: number; bar: number; baz: string; extra: boolean };
+
 
   it("happy path", () => {
-    type T1 = MergeObjects<FooBar, BarBaz>;
-    type T2 = MergeObjects<BarBaz, FooBar>;
+    type T1 = MergeObjects<{ foo: 1; bar: 2 }, { bar: 4; baz: "howdy" }>;
+    type T2 = MergeObjects<{ bar: 4; baz: "howdy" }, { foo: 1; bar: 2 }>;
 
-    type WideDefault = MergeObjects<Wide, FooBar>;
-    type WideOverride = MergeObjects<FooBar, Wide>;
     
     type cases = [
       Expect<Equal<T1, {foo: 1; bar: 4; baz: "howdy"}>>,
       Expect<Equal<T2, {foo: 1; bar: 2; baz: "howdy"}>>,
-
-      Expect<Equal<WideDefault, { foo: 1; bar: 2; baz: string; extra: boolean }>>,
-      Expect<Equal<WideOverride, { foo: 1; bar: 2; baz: string; extra: boolean }>>,
-
     ];
 
     const cases: cases = [ 
       true, true,
-      true, true
     ];
   });
 

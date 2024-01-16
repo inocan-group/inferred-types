@@ -20,7 +20,6 @@ import {
   hasIndexOf, 
   isSpecificConstant, 
   createErrorCondition, 
-  split,
   isContainer,
 } from "src/runtime";
 
@@ -55,7 +54,7 @@ function getValue<
   
   /** the remaining segments that need processing */
   const pathSegments: string[] = isTruthy(dotPath)
-    ? split(dotPath, ".") || []
+    ? dotPath.split(".")
     : [];
 
   /** current index property */
