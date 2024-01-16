@@ -53,7 +53,7 @@ const finalize = <
     (clone as any)[k] = props[k as keyof typeof props];
   }
   
-  return clone as Returns<TFn, TProps>;
+  return clone as unknown as Returns<TFn, TProps>;
 };
 
 /**
