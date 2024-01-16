@@ -5,6 +5,7 @@
 
 // file exports
 export * from "./AddKeyValue";
+export * from "./CombinedKeys";
 export * from "./DictChangeValue";
 export * from "./Get";
 export * from "./SimplifyObject";

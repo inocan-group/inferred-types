@@ -22,9 +22,7 @@ TContainer extends Narrowable | Tuple,
 TIdx extends PropertyKey | null
 >(val: TContainer, index: TIdx) {
   
-  if (index === null) {
-    return val as IndexOf<TContainer,TIdx>;
-  }
+
 
   const isNegative = isNumber(index) && index < 0;
   if(isNegative && !Array.isArray(val)) {
@@ -38,10 +36,11 @@ TIdx extends PropertyKey | null
   const idx = isNegative && Array.isArray(val)
     ? val.length + 1 - Math.abs(index)
     : index;
-  
 
   return (
-    isNull(idx)
+    index === null
+    ? val
+    : isNull(idx)
     ? val
     : isArray(val)
       ? Number(idx as PropertyKey) in val ? val[Number(idx)] : Never

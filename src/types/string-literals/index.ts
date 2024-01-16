@@ -20,7 +20,6 @@ export * from "./FirstChar";
 export * from "./LastChar";
 export * from "./RemainingChars";
 export * from "./IsCapitalized";
-export * from "./Interpolate";
 export * from "./Join";
 export * from "./PathJoin";
 export * from "./Pluralize";

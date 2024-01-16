@@ -1,26 +1,25 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
-type UnionToIntersectionFn<T> = (
-  T extends T ? (x: () => T) => unknown : never
-) extends (x: infer R) => unknown
-  ? R
+/**
+ * UnionToIntersection<{ foo: string } | { bar: string }> =
+ *  { foo: string } & { bar: string }.
+ */
+type UnionToIntersection<U> = (
+  U extends unknown ? (arg: U) => 0 : never
+) extends (arg: infer I) => 0
+  ? I
   : never;
 
-type GetUnionLast<T> = UnionToIntersectionFn<T> extends () => infer R
-  ? R
+/**
+ * LastInUnion<1 | 2> = 2.
+ */
+type LastInUnion<U> = UnionToIntersection<
+  U extends unknown ? (x: U) => 0 : never
+> extends (x: infer L) => 0
+  ? L
   : never;
-type Prepend<Arr extends unknown[], Item> = [Item, ...Arr];
 
 /**
  * UnionToTuple<1 | 2> = [1, 2].
  */
-export type UnionToTuple<T, Result extends unknown[] = [], Last = GetUnionLast<T>> = [
-  T,
-] extends [never]
-  ? // return result
-    Result extends readonly unknown[] ? Result : never
-  : // remove last element of T and push it into Result
-    UnionToTuple<Exclude<T, Last>, Prepend<Result, Last>> extends readonly unknown[]
-      ? UnionToTuple<Exclude<T, Last>, Prepend<Result, Last>>
-      : never;
-
+export type UnionToTuple<U, Last = LastInUnion<U>> = [U] extends [never]
+  ? []
+  : [...UnionToTuple<Exclude<U, Last>>, Last];

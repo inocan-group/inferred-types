@@ -1,5 +1,5 @@
-import { Container, Find , Narrowable, Tuple } from "src/types";
-import { indexOf } from "src/runtime";
+import {  Find , Narrowable, Tuple } from "src/types";
+import {  isContainer } from "src/runtime";
 
 /**
  * **Finder**
@@ -26,5 +26,13 @@ export const find = <
 ): Finder<TList, TDeref> => <
   TExtends extends Narrowable
 >(value: TExtends): Find<TList, TExtends, TDeref> => {
-  return list.find(i => indexOf(i as Container,deref) === value) as Find<TList, TExtends, TDeref>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return list.find((i: any) => {
+    const comparator = deref 
+      ? isContainer(i) 
+        ? deref in i ? i[deref] : undefined
+        : i
+      : i;
+    return comparator === value;
+  }) as Find<TList, TExtends, TDeref>;
 };

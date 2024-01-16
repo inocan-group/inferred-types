@@ -10,7 +10,7 @@ import {
   StripBefore,
   Trim,  
 } from "src/types";
-import { LastOfEach } from "../tuples/LastOfEach";
+import { LastOfEach } from "../src/types/tuples/LastOfEach";
 
 type DefaultDelimiters = [["[[","]]"], ["{{","}}"]];
 /**

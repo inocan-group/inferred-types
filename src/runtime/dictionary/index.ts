@@ -13,10 +13,8 @@ export * from "./mapValues";
 export * from "./omit";
 export * from "./retain";
 export * from "./sharedKeys";
-export * from "./strArrayToDict";
 export * from "./withKeys";
 export * from "./withoutKeys";
-export * from "./withValue";
 export * from "./withoutValue";
 
 // #endregion auto-indexed files

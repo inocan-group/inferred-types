@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import type { AnyObject,  Container, IfEqual, IfLiteral, IfStringLiteral, Keys, StrLen, ToString } from "src/types";
+import type { Container, IfLiteral, IfStringLiteral, Keys, StrLen, ToString } from "src/types";
 
 
 /**
@@ -27,7 +27,7 @@ T extends string
       ? T["length"]
       : T extends unknown[] 
         ? number 
-        : T extends AnyObject
-          ? IfEqual<T, {}, 0, Keys<T>["length"]>
+        : T extends object
+          ? Keys<T>["length"]
           : number;
 

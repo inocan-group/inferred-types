@@ -1,5 +1,5 @@
 import {  AnyObject, Narrowable, WithValue } from "src/types";
-import { KindApi, kind, isSameType } from "src/runtime";
+import { KindApi, kind } from "src/runtime";
 
 /**
  * **WithValuePartial**`<TReturn>`
@@ -33,7 +33,7 @@ export const withValue = <
   TObj extends AnyObject
 >(obj: TObj) => {
     const newObj = Object.keys(obj).reduce(
-      (acc, key) => key in obj && isSameType(obj[key as keyof typeof obj],cb(kind))
+      (acc, key) => key in obj
           ? ({...acc, [key]: obj[key as keyof typeof obj]})
           : acc,
       {} 

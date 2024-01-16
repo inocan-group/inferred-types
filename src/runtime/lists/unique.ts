@@ -1,5 +1,5 @@
-import { Container, Tuple, Unique } from "src/types";
-import { isString, indexOf } from "src/runtime";
+import {  First,  Narrowable,  UnionToTuple, Unique } from "src/types";
+
 
 /**
  * **unique**
@@ -7,23 +7,20 @@ import { isString, indexOf } from "src/runtime";
  * Runtime utility which removes intersecting values from two sets and
  * provides a unique values contained in each set.
  */
-export function unique<
-  A extends Tuple,  
-  B extends Tuple,
-  TIndex extends string | number | null = null
->(a: A, b: B, index?: TIndex): Unique<A,B,TIndex> {
-  const offset = index
-    ? isString(index) ? index : String(index)
-    : null;
-  const bValues = offset === null
-    ? b
-    : b.map(i => indexOf(i as Container, offset as PropertyKey));
-  const aValues = offset === null
-    ? a
-    : a.map(i => indexOf(i as Container, offset as PropertyKey));
+export const unique = <
+N extends Narrowable,
+K extends number,
+T extends readonly (Record<K,N> | Narrowable)[]
+>(...values: T) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const u: any[] = [];
+  for (const i of values.flat()) {
+    if(u.includes(i)) {
+      u.push(i);
+    }
+  }
 
-  const forA = a.filter(i => !bValues.includes(indexOf(i as Container, offset as PropertyKey)));
-  const forB = b.filter(i => !aValues.includes(indexOf(i as Container, offset as PropertyKey)));
-
-  return [forA, forB] as unknown as Unique<A,B,TIndex>;
+  return u as First<T> extends readonly (Record<K,N> | Narrowable)[]
+      ? Unique<UnionToTuple<First<T>>>
+    : Unique<T>;
 }

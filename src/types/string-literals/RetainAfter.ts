@@ -1,4 +1,4 @@
-import { AfterFirst, AsArray, Join,  Split } from "src/types";
+import { IfAllLiteral } from "src/types";
 
 /**
  * **RetainAfter**`<TStr, TBreak>`
@@ -8,18 +8,17 @@ import { AfterFirst, AsArray, Join,  Split } from "src/types";
  * 
  * ### Example
  * ```ts
- * // "hello"
- * type T = StripAfter<"hello world", " ">;
+ * // "world"
+ * type T = RetainAfter<"hello world", " ">;
  * ```
  */
 export type RetainAfter<
   TStr extends string,
   TBreak extends string
-> = string extends TStr
-  ? string
-  : string extends TBreak
-    ? string
-    : Join<
-        AfterFirst< AsArray<Split<TStr, TBreak>> >,
-        TBreak
-      >;
+> = IfAllLiteral<
+  [TStr, TBreak],
+  TStr extends `${string}${TBreak}${infer REST}`
+    ? `${REST}`
+    : TStr,
+  string
+>

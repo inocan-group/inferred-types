@@ -1,4 +1,4 @@
-import { AfterFirst, AnyObject, First, IfEmptyContainer, Keys } from "src/types";
+import { AfterFirst, AnyObject, ExplicitKeys, First, IfEmptyContainer } from "src/types";
 
 type _process<
   TKeys extends readonly (string|symbol)[],
@@ -29,5 +29,5 @@ type _process<
 export type KeysWithValue<TObj extends AnyObject, TValue> = IfEmptyContainer<
   TObj,
    (string | symbol)[],
-  _process<Keys<TObj>, TObj, TValue>
+  _process<ExplicitKeys<TObj>, TObj, TValue>
 >;

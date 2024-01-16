@@ -1,5 +1,5 @@
 import { 
-  Scalar, UnionToTuple,
+  Scalar,
   IsBoolean,
   IsNull,
   IsSymbol,
@@ -9,7 +9,6 @@ import {
   IfNever,
   IfUnion,
   IfExtends,
-  IfSomeExtend
 } from "src/types";
 
 

@@ -1,4 +1,4 @@
-import { AnyObject, Keys, TupleToUnion, IfNever } from "src/types";
+import { AnyObject, TupleToUnion, IfNever, ExplicitKeys } from "src/types";
 
 
 /**
@@ -14,7 +14,7 @@ import { AnyObject, Keys, TupleToUnion, IfNever } from "src/types";
  * ```
  */
 export type RemoveIndexKeys<T extends AnyObject> = IfNever<
-  Pick<T, TupleToUnion<Keys<T>>>,
+  Pick<T, TupleToUnion<ExplicitKeys<T>>>,
   never,
-  Pick<T, TupleToUnion<Keys<T>>>
+  Pick<T, TupleToUnion<ExplicitKeys<T>>>
 >;
