@@ -35,7 +35,7 @@ describe("Unique properties in Sets", () => {
   describe("unique(a,b,deref)", () => {
     const t1 = unique(1,2,3,4,4,5,6,6,8);
 
-    expect(t1).toBe([1,2,3,4,5,6,8]);
+    expect(t1).toEqual([1,2,3,4,5,6,8]);
 
     type cases = [
       Expect<Equal<typeof t1, [1,2,3,4,5,6,8]>>

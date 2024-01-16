@@ -15,7 +15,7 @@ T extends readonly (Record<K,N> | Narrowable)[]
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const u: any[] = [];
   for (const i of values.flat()) {
-    if(u.includes(i)) {
+    if(!u.includes(i)) {
       u.push(i);
     }
   }
