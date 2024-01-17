@@ -1,5 +1,5 @@
-import { NUMERIC_DIGIT } from "src/constants";
-import { Mutable, TupleToUnion } from "src/types";
+import { NUMERIC_DIGIT } from "src/constants/index";
+import { Mutable, TupleToUnion } from "src/types/index";
 
 /**
  * **Digit**

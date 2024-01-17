@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { Join , EnsureLeading } from "src/types";
+import { Join , EnsureLeading } from "src/types/index";
 import { describe, expect, it } from "vitest";
-import { Joiner, join } from "src/runtime";
+import { Joiner, join } from "src/runtime/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 

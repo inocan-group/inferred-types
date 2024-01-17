@@ -1,4 +1,4 @@
-import { LowerAlphaChar , UpperAlphaChar } from "src/types";
+import { LowerAlphaChar , UpperAlphaChar } from "src/types/index";
 
 /**
  * **AlphaChar**

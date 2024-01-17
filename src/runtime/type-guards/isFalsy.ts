@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FalsyValue, Narrowable } from "src/types";
-import { FALSY_VALUES } from "src/constants";
+import { FalsyValue, Narrowable } from "src/types/index";
+import { FALSY_VALUES } from "src/constants/index";
 
 /**
  * **isFalsy**()

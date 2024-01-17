@@ -1,4 +1,4 @@
-import { createConstant } from "src/constants";
+import { createConstant } from "src/constants/index";
 
 /**
  * **Never**

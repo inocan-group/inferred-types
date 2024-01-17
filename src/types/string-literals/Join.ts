@@ -1,4 +1,4 @@
-import {  ToString , IfEqual , RemoveEquals, RemoveNever,  Truncate, IfNever, IsGreaterThan, AsNumber } from "src/types";
+import {  ToString , IfEqual , RemoveEquals, RemoveNever,  Truncate, IfNever, IsGreaterThan, AsNumber } from "src/types/index";
 
 type JoinAcc<
   TArr extends readonly unknown[],

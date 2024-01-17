@@ -1,4 +1,4 @@
-import { Narrowable, RetainFromList } from "src/types";
+import { Narrowable, RetainFromList } from "src/types/index";
 
 /**
  * Operations which can be used with the `Filter` type utility

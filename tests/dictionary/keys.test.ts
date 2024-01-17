@@ -6,8 +6,8 @@ import type {
   NumericKeys,
   DoesExtend,
   EmptyObject,
-} from "src/types";
-import { defineObj, keysOf, narrow } from "src/runtime";
+} from "src/types/index";
+import { defineObj, keysOf, narrow } from "src/runtime/index";
 
 describe("NumericKeys<T>", () => {
 

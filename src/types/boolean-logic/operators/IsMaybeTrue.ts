@@ -1,4 +1,4 @@
-import { IfFalse, IfTrue, IsBoolean } from "src/types";
+import { IfFalse, IfTrue, IsBoolean } from "src/types/index";
 
 /**
  * **IsMaybeTrue**`<T>`

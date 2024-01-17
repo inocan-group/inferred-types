@@ -1,4 +1,4 @@
-import { IsString } from "src/types";
+import { IsString } from "src/types/index";
 
 /**
  * **IfString**`<T,TRUE,FALSE>`

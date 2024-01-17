@@ -2,9 +2,9 @@ import {
   IndexOf, 
   Narrowable,
   Tuple
-} from "src/types";
-import { isArray, isNull, isNumber, isObject } from "src/runtime";
-import { Never } from "src/constants";
+} from "src/types/index";
+import { isArray, isNull, isNumber, isObject } from "src/runtime/index";
+import { Never } from "src/constants/index";
 
 /**
  * **indexOf**(val, index)

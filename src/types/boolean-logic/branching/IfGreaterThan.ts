@@ -1,4 +1,4 @@
-import { IsGreaterThan } from "src/types";
+import { IsGreaterThan } from "src/types/index";
 
 /**
  * **IfGreaterThan**`<A,B,IF,ELSE>`

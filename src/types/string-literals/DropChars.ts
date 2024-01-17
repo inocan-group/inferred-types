@@ -1,4 +1,4 @@
-import { IfContains, Chars, RemoveNever, Concat } from "src/types";
+import { IfContains, Chars, RemoveNever, Concat } from "src/types/index";
 
 type Process<
   TContent extends readonly string[],

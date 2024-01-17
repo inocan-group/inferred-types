@@ -1,5 +1,5 @@
-import { Mutable, TupleToUnion } from "src/types";
-import { CONSONANTS } from "src/constants";
+import { Mutable, TupleToUnion } from "src/types/index";
+import { CONSONANTS } from "src/constants/index";
 
 /**
  * **Consonants**

@@ -1,4 +1,4 @@
-import { ExpandRecursively, SimplifyObject, Narrowable, RemoveIndex } from "src/types";
+import { ExpandRecursively, SimplifyObject, Narrowable, RemoveIndex } from "src/types/index";
 
 /**
  * **defineObj**(literal) -> (wide) -> object

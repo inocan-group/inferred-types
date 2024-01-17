@@ -1,4 +1,4 @@
-import { Container,  Tuple } from "src/types";
+import { Container,  Tuple } from "src/types/index";
 
 
 /**

@@ -1,4 +1,4 @@
-import { IsSymbol } from "src/types";
+import { IsSymbol } from "src/types/index";
 
 /**
  * **IfSymbol**`<T,IF,ELSE>`

@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { FirstOfEach,  Chars } from "src/types";
+import { FirstOfEach,  Chars } from "src/types/index";
 import { LastOfEach } from "../../src/types/tuples/LastOfEach";
 
 

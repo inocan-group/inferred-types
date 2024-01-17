@@ -1,4 +1,4 @@
-import { NarrowlyContains } from "src/types";
+import { NarrowlyContains } from "src/types/index";
 
 
 /**

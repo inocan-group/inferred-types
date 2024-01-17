@@ -1,4 +1,4 @@
-import { LeftRight } from "src/types";
+import { LeftRight } from "src/types/index";
 
 /**
  * **left**(value)

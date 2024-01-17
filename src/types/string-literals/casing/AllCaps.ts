@@ -1,4 +1,4 @@
-import {  Chars,  IfStringLiteral, Concat} from "src/types";
+import {  Chars,  IfStringLiteral, Concat} from "src/types/index";
 
 
 type Process<

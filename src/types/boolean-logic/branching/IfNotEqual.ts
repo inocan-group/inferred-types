@@ -1,4 +1,4 @@
-import type { IsNotEqual } from "src/types";
+import type { IsNotEqual } from "src/types/index";
 
 /**
  * **IfEqual**`<X,Y,IF,ELSE>`

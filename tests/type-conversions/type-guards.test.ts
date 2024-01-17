@@ -15,10 +15,10 @@ import {
   defineObj, 
   isTypeToken, 
   kind
-} from "src/runtime";
-import { Constant, NoDefaultValue, NO_DEFAULT_VALUE, Never } from "src/constants";
+} from "src/runtime/index";
+import { Constant, NoDefaultValue, NO_DEFAULT_VALUE, Never } from "src/constants/index";
 import { ref, Ref } from "vue";
-import { DoesExtend } from "src/types";
+import { DoesExtend } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 

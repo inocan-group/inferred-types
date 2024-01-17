@@ -1,10 +1,10 @@
-import { PathJoin } from "src/types";
+import { PathJoin } from "src/types/index";
 import { 
   ensureLeading, 
   ensureTrailing, 
   stripLeading, 
   stripTrailing 
-} from "src/runtime";
+} from "src/runtime/index";
 
 /**
  * **pathJoin**`<T,U>(begin, ...rest)`

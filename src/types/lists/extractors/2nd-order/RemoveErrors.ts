@@ -1,4 +1,4 @@
-import type { AnyObject, RemoveFromList, ErrorCondition } from "src/types";
+import type { AnyObject, RemoveFromList, ErrorCondition } from "src/types/index";
 
 /**
  * **RemoveErrors**`<TValue, [TErrKind]>`

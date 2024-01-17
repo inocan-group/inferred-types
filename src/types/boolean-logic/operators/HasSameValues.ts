@@ -1,4 +1,4 @@
-import { AfterFirst, First, Length , IfEqual, IfLength , Contains } from "src/types";
+import { AfterFirst, First, Length , IfEqual, IfLength , Contains } from "src/types/index";
 
 type Compare<
 TList extends readonly unknown[],

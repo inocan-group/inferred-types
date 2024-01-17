@@ -1,4 +1,4 @@
-import { EmptyContainer, TupleToUnion, Widen } from "src/types";
+import { EmptyContainer, TupleToUnion, Widen } from "src/types/index";
 
 /**
  * **ArrayElementType**`<T>`

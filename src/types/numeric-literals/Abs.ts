@@ -1,4 +1,4 @@
-import { IfLiteral,  NumberLike, AsNumber, StripLeading } from "src/types";
+import { IfLiteral,  NumberLike, AsNumber, StripLeading } from "src/types/index";
 
 
 /**

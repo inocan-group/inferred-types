@@ -1,4 +1,4 @@
-import { IsNull } from "src/types";
+import { IsNull } from "src/types/index";
 
 /**
  * **IfNull**`<T,IF,ELSE>`

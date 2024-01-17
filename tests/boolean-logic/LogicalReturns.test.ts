@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { ifString } from "src/runtime";
-import {  Narrowable , LogicalReturns } from "src/types";
+import { ifString } from "src/runtime/index";
+import {  Narrowable , LogicalReturns } from "src/types/index";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

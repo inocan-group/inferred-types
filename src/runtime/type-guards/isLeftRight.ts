@@ -1,5 +1,5 @@
-import { LeftRight, Narrowable, Tuple } from "src/types";
-import { isArray } from "src/runtime";
+import { LeftRight, Narrowable, Tuple } from "src/types/index";
+import { isArray } from "src/runtime/index";
 
 /**
  * **isLeftRight**(value)

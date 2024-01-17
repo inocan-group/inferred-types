@@ -1,4 +1,4 @@
-import { ObjectKey,  ExpandRecursively, IfNever, Keys, AnyObject } from "src/types";
+import { ObjectKey,  ExpandRecursively, IfNever, Keys, AnyObject } from "src/types/index";
 
 export type GenericIndexableObject = {
   [key: string | symbol]: unknown;

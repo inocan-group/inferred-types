@@ -1,5 +1,5 @@
-import { AnyObject, IfScalar, Narrowable, Scalar } from "src/types";
-import { isScalar } from "src/runtime";
+import { AnyObject, IfScalar, Narrowable, Scalar } from "src/types/index";
+import { isScalar } from "src/runtime/index";
 
 /**
  * **ifScalar**(value, ifCallback, notCallback)

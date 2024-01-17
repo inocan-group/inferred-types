@@ -1,4 +1,4 @@
-import { AnyObject, RemoveFromList } from "src/types";
+import { AnyObject, RemoveFromList } from "src/types/index";
 
 /**
  * **RemoveStrings**`<T>`

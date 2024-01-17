@@ -4,14 +4,14 @@ import {
   GetEach, 
   TupleToUnion, 
   UnionToIntersection 
-} from "src/types";
+} from "src/types/index";
 
 import { 
   hasNoUnderlyingTypes, 
   hasUnderlyingTypes, 
   isLiteralType,
   kind
-} from "src/runtime";
+} from "src/runtime/index";
 
 type GetType<U> = U extends readonly unknown[]
   ? GetEach<U, "type">

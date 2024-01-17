@@ -1,4 +1,4 @@
-import {  IfStringLiteral } from "src/types";
+import {  IfStringLiteral } from "src/types/index";
 import { Replace } from "./Replace";
 
 

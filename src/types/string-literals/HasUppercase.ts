@@ -1,4 +1,4 @@
-import { UpperAlphaChar } from "src/types";
+import { UpperAlphaChar } from "src/types/index";
 
 /**
  * Indicates whether `T` has uppercase characters in it.

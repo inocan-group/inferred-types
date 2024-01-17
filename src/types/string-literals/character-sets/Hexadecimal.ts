@@ -1,4 +1,4 @@
-import { IsStringLiteral, NotCharacters , StripLeading , Suggest , NumericChar } from "src/types";
+import { IsStringLiteral, NotCharacters , StripLeading , Suggest , NumericChar } from "src/types/index";
 
 /**
  * Valid hexadecimal character

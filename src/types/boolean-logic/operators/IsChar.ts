@@ -1,4 +1,4 @@
-import {  IfStringLiteral, Length } from "src/types";
+import {  IfStringLiteral, Length } from "src/types/index";
 
 /**
  * **IsChar**`<T>`

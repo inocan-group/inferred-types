@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { DoesExtend, ErrorCondition, IsValidKey } from "src/types";
+import { DoesExtend, ErrorCondition, IsValidKey } from "src/types/index";
 import { IfValidKey } from "src/types/branching/IfValidKey";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

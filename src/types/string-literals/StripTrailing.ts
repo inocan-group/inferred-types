@@ -1,4 +1,4 @@
-import { IfAnd, IfLiteral, IsString } from "src/types";
+import { IfAnd, IfLiteral, IsString } from "src/types/index";
 
 
 /**

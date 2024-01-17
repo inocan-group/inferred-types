@@ -1,6 +1,6 @@
-import {   TypeToken } from "src/types";
-import { endsWith, isString, startsWith, stripLeading, stripTrailing } from "src/runtime";
-import { TYPE_TOKEN_ALL} from "src/constants";
+import {   TypeToken } from "src/types/index";
+import { endsWith, isString, startsWith, stripLeading, stripTrailing } from "src/runtime/index";
+import { TYPE_TOKEN_ALL} from "src/constants/index";
 
 const validTokens: readonly string[] = Array.from(TYPE_TOKEN_ALL);
 

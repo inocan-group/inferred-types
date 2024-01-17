@@ -1,5 +1,5 @@
-import { Container, UniqueKeys } from "src/types";
-import { isArray, toNumber } from "src/runtime";
+import { Container, UniqueKeys } from "src/types/index";
+import { isArray, toNumber } from "src/runtime/index";
 
 /**
  * **uniqueKeys**(left, right)

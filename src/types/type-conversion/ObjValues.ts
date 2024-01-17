@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AnyObject, Keys,  IsEqual, IfOr, IsEmptyObject, IfObjectLiteral } from "src/types";
+import { AnyObject, Keys,  IsEqual, IfOr, IsEmptyObject, IfObjectLiteral } from "src/types/index";
 
 type Values<
   TObj extends AnyObject,

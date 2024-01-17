@@ -6,7 +6,7 @@ import {
   DateTime,
   IfNull,
   RetainFromList
-} from "src/types";
+} from "src/types/index";
 import { 
   TYPE_TOKEN_IDENTITIES, 
   TYPE_TOKEN_PARAM_STR, 
@@ -15,7 +15,7 @@ import {
   TYPE_TOKEN_PARAM_DATE,
   TYPE_TOKEN_PARAM_TIME,
   TYPE_TOKEN_ALL,
-} from "src/constants";
+} from "src/constants/index";
 
 /**
  * **TypeTokenName**

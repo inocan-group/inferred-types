@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { And, LogicFunction } from "src/types";
+import { And, LogicFunction } from "src/types/index";
 
 /**
  * **IfAnd**`<TConditions[], [IF], [ELSE], [TParams]>`

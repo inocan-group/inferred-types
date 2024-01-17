@@ -1,10 +1,10 @@
-import { NoDefaultValue } from "src/constants";
+import { NoDefaultValue } from "src/constants/index";
 import { 
   Type, 
   TypeDefaultValue, 
   TypeOptions, 
   TypeUnderlying 
-} from "src/types";
+} from "src/types/index";
 
 export type TypeApiNumber = <
     TRequired extends boolean = true,

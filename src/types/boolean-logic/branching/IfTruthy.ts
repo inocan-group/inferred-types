@@ -1,4 +1,4 @@
-import { IsTruthy } from "src/types";
+import { IsTruthy } from "src/types/index";
 
 /**
  * **IfTruthy**`<T,IF,ELSE,MAYBE>`

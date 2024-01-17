@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { AnyFunction,  ExpandRecursively, IfNever } from "src/types";
+import { AnyFunction,  ExpandRecursively, IfNever } from "src/types/index";
 
 /**
  * **FnProps**`<T>`

@@ -1,4 +1,4 @@
-import { AfterFirst, First, IfUnion } from "src/types";
+import { AfterFirst, First, IfUnion } from "src/types/index";
 
 type _HasUnion<
   TList extends readonly unknown[]

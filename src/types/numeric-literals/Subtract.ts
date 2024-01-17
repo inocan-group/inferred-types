@@ -1,4 +1,4 @@
-import {  Abs, IfGreaterThan, IfNegativeNumber, Negative, Add } from "src/types";
+import {  Abs, IfGreaterThan, IfNegativeNumber, Negative, Add } from "src/types/index";
 
 type Iterate<T extends number, A extends number[] = []> = A["length"] extends T
   ? A

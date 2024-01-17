@@ -1,4 +1,4 @@
-import {  HasCharacters, IfNever, IfStringLiteral } from "src/types";
+import {  HasCharacters, IfNever, IfStringLiteral } from "src/types/index";
 
 /**
  * **IsDotPath**`<T>`

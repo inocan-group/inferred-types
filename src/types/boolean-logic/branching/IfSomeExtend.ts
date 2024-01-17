@@ -1,4 +1,4 @@
-import { SomeExtend } from "src/types";
+import { SomeExtend } from "src/types/index";
 
 /**
  * **IfSomeExtend**`<TList,TExtend,IF,ELSE>`

@@ -1,4 +1,4 @@
-import { Decrement } from "src/types";
+import { Decrement } from "src/types/index";
 
 /**
  * **LastOfEach**`<TList>`

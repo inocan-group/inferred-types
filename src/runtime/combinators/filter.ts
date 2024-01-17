@@ -1,5 +1,5 @@
-import { LogicalCombinator } from "src/types";
-import { asArray } from "src/runtime";
+import { LogicalCombinator } from "src/types/index";
+import { asArray } from "src/runtime/index";
 
 // string filters
 export type FilterStarts = {

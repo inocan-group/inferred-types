@@ -1,4 +1,4 @@
-import { IsFalse } from "src/types";
+import { IsFalse } from "src/types/index";
 
 /**
  * **IfFalse**`<T, IF, ELSE>`

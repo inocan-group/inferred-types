@@ -1,4 +1,4 @@
-import { IfLiteral , AfterFirst, First, StripTrailing,  StripLeading} from "src/types";
+import { IfLiteral , AfterFirst, First, StripTrailing,  StripLeading} from "src/types/index";
 
 
 /**

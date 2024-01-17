@@ -7,7 +7,7 @@ import {
   StartsWith,
   AfterFirst, First, Split,
   AlphaNumericChar,
-} from "src/types";
+} from "src/types/index";
 
 export type DotPathChar = AlphaNumericChar | "_" | "-";
 

@@ -1,5 +1,5 @@
-import { isEqual, isConstant } from "src/runtime";
-import { Constant } from "src/constants";
+import { isEqual, isConstant } from "src/runtime/index";
+import { Constant } from "src/constants/index";
 
 /**
  * **isSpecificConstant**(kind)

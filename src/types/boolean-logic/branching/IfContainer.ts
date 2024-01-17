@@ -1,4 +1,4 @@
-import { IsContainer } from "src/types";
+import { IsContainer } from "src/types/index";
 
 /**
  * **IfContainer<T,IF,ELSE>**

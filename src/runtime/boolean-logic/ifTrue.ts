@@ -1,5 +1,5 @@
-import {  IfMaybeTrue, Narrowable } from "src/types";
-import { isTrue } from "src/runtime";
+import {  IfMaybeTrue, Narrowable } from "src/types/index";
+import { isTrue } from "src/runtime/index";
 
 /**
  * **ifTrue**

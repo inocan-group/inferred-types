@@ -1,4 +1,4 @@
-import { Narrowable , TypeTuple , TypeGuard } from "src/types";
+import { Narrowable , TypeTuple , TypeGuard } from "src/types/index";
 
 /**
  * **createTypeTuple**(type, guard, desc)

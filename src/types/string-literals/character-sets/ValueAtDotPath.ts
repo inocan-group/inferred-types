@@ -1,4 +1,4 @@
-import { AfterFirst, First, Split, Tuple , ErrorCondition } from "src/types";
+import { AfterFirst, First, Split, Tuple , ErrorCondition } from "src/types/index";
 import { DotPath } from "./DotPath";
 
 type Recurse<

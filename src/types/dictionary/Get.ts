@@ -9,8 +9,8 @@ import type {
   ErrorConditionHandler,
   ToString,
   ValueAtDotPath
-} from "src/types";
-import { NoDefaultValue, NotDefined } from "src/constants";
+} from "src/types/index";
+import { NoDefaultValue, NotDefined } from "src/constants/index";
 
 type ResolveDefVal<
   TValue,

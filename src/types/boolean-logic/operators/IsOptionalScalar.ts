@@ -4,7 +4,7 @@ import {
   IsScalar, 
   IsUndefined,
   IfUnion,
-} from "src/types";
+} from "src/types/index";
 
 
 /**

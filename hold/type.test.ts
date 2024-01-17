@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it } from "vitest";
 import type { Expect, Equal, ExpectExtends } from "@type-challenges/utils";
-import { box , type } from "src/runtime";
-import { FromTypeDefn, Type, TypeDefn, TypeHasDefaultValue, TypeIsRequired, TypeKind, TypeUnderlying , DoesExtend , TypeApi } from "src/types";
-import { NoDefaultValue } from "src/constants";
+import { box , type } from "src/runtime/index";
+import { FromTypeDefn, Type, TypeDefn, TypeHasDefaultValue, TypeIsRequired, TypeKind, TypeUnderlying , DoesExtend , TypeApi } from "src/types/index";
+import { NoDefaultValue } from "src/constants/index";
 
 describe("testing type() utility and some pre-made conditions", () => {
 

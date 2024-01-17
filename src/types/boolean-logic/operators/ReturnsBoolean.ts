@@ -1,4 +1,4 @@
-import { AnyFunction , IfBoolean } from "src/types";
+import { AnyFunction , IfBoolean } from "src/types/index";
 
 /**
  * **ReturnsBoolean**`<T>`

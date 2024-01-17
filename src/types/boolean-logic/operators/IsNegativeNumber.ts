@@ -1,4 +1,4 @@
-import { IfLiteral, IfNegativeNumber, IfNever, NumberLike } from "src/types";
+import { IfLiteral, IfNegativeNumber, IfNever, NumberLike } from "src/types/index";
 
 /**
  * **IsNegativeNumber**`<T>`

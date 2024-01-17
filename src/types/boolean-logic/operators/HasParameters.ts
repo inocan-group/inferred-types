@@ -1,4 +1,4 @@
-import { AnyFunction , Length , IsEqual } from "src/types";
+import { AnyFunction , Length , IsEqual } from "src/types/index";
 
 /**
  * **HasParameters**`<T>`

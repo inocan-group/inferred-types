@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { Narrowable, WithoutKeys,  ErrorCondition, HasUnionType,  ObjectKey } from "src/types";
-import { keysOf } from "src/runtime";
+import type { Narrowable, WithoutKeys,  ErrorCondition, HasUnionType,  ObjectKey } from "src/types/index";
+import { keysOf } from "src/runtime/index";
 
 /**
  * **omit**(obj, excluding)

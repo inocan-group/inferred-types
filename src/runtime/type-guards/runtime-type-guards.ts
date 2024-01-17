@@ -13,13 +13,13 @@ import {
   TypeKindFalsy, 
   TypeKindLiteral, 
   TypeKindWide
-} from "src/types";
+} from "src/types/index";
 
 import {
   FALSY_TYPE_KINDS, 
   LITERAL_TYPE_KINDS,
   WIDE_TYPE_KINDS, 
-} from "src/constants";
+} from "src/constants/index";
 
 
 /**

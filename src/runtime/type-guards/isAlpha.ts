@@ -1,7 +1,7 @@
 // import { isStringLiteral } from "typescript"
-import { Alpha, AlphaChar, Narrowable } from "src/types";
-import { ALPHA_CHARS } from "src/constants";
-import { isString, split} from "src/runtime";
+import { Alpha, AlphaChar, Narrowable } from "src/types/index";
+import { ALPHA_CHARS } from "src/constants/index";
+import { isString, split} from "src/runtime/index";
 
 /**
  * **isAlpha**(value)

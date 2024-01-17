@@ -1,5 +1,5 @@
-import type { IfFalse, Narrowable } from "src/types";
-import { isFalse } from "src/runtime";
+import type { IfFalse, Narrowable } from "src/types/index";
+import { isFalse } from "src/runtime/index";
 
 /**
  * **ifTrue**

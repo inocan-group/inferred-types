@@ -1,4 +1,4 @@
-import { AnyObject, Concat, Container, ErrorCondition, IfFalse, IsValidKey, ToString, Tuple } from "src/types";
+import { AnyObject, Concat, Container, ErrorCondition, IfFalse, IsValidKey, ToString, Tuple } from "src/types/index";
 
 type Err<
   TContainer extends Container,

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AnyFunction,  FnWithDict, Narrowable,  } from "src/types";
+import { AnyFunction,  FnWithDict, Narrowable,  } from "src/types/index";
 
 /**
  * **addPropsToFn**(fn, [clone]) => (props) => FnWithProps

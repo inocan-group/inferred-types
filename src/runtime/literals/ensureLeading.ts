@@ -1,4 +1,4 @@
-import { EnsureLeading, ToString } from "src/types";
+import { EnsureLeading, ToString } from "src/types/index";
 
 /**
  * **ensureLeading**(content, strip)

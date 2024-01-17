@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { AnyFunction, AnyObject, IsEqual, WidenProps } from "src/types";
+import { AnyFunction, AnyObject, IsEqual, WidenProps } from "src/types/index";
 
 /**
  * **Widen**<T>

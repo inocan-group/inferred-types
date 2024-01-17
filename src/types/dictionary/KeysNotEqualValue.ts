@@ -1,4 +1,4 @@
-import { AnyObject, Narrowable, IfEqual } from "src/types";
+import { AnyObject, Narrowable, IfEqual } from "src/types/index";
 
 /**
  * **KeysNotEqualValue**`<TObj, TValue>`

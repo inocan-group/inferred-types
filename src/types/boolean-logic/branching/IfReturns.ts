@@ -1,4 +1,4 @@
-import { AnyFunction } from "src/types";
+import { AnyFunction } from "src/types/index";
 
 
 

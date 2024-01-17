@@ -1,4 +1,4 @@
-import { OptionalKeys } from "src/types";
+import { OptionalKeys } from "src/types/index";
 
 /**
  * **OptionalProps**

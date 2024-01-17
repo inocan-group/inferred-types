@@ -1,4 +1,4 @@
-import type { Narrowable, ObjectKey } from "src/types";
+import type { Narrowable, ObjectKey } from "src/types/index";
 
 /**
  * **NarrowObject**`<N>`

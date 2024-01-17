@@ -3,7 +3,7 @@ import {
   AnyObject,
   MergeObjects,
   OptRequired 
-} from "src/types";
+} from "src/types/index";
 
 /**
  * utility function to take a fully-qualified _user_ config

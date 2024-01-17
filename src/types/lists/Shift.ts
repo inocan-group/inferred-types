@@ -6,7 +6,7 @@ import {
   AfterFirst, 
   Chars, 
   AsArray 
-} from "src/types";
+} from "src/types/index";
 
 type _Shift<TList extends Tuple> = //
 TList extends [unknown, ...(infer Tail)]

@@ -1,4 +1,4 @@
-import type { AnyObject  } from "src/types";
+import type { AnyObject  } from "src/types/index";
 
 /**
  * **isObject**(value)

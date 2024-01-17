@@ -1,4 +1,4 @@
-import { IfNotEqual, Length } from "src/types";
+import { IfNotEqual, Length } from "src/types/index";
 
 /**
  * **NotLength**`<T>`

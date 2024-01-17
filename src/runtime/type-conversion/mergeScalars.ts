@@ -1,5 +1,5 @@
-import type { MergeScalars, Scalar } from "src/types";
-import { isUndefined } from "src/runtime";
+import type { MergeScalars, Scalar } from "src/types/index";
+import { isUndefined } from "src/runtime/index";
 
 /**
  * **mergeScalars**(a,b)

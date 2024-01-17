@@ -1,4 +1,4 @@
-import { AnyObject , Narrowable , RetainFromList,  Container, KeysEqualValue } from "src/types";
+import { AnyObject , Narrowable , RetainFromList,  Container, KeysEqualValue } from "src/types/index";
 
 /**
  * **RetainEquals**`<TIterable, TCompare>`

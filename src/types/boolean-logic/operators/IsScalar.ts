@@ -9,7 +9,7 @@ import {
   IfNever,
   IfUnion,
   IfExtends,
-} from "src/types";
+} from "src/types/index";
 
 
 

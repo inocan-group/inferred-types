@@ -4,8 +4,8 @@ import {
   IfContains, 
   Keys, 
   Narrowable
-} from "src/types";
-import { hasIndexOf } from "src/runtime";
+} from "src/types/index";
+import { hasIndexOf } from "src/runtime/index";
 
 export const ifHasKey = <
   TContainer extends Container,

@@ -2,8 +2,8 @@
 import { describe, it, expect } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
 
-import {  UnionToTuple, WithoutKeys } from "src/types";
-import { withoutKeys } from "src/runtime";
+import {  UnionToTuple, WithoutKeys } from "src/types/index";
+import { withoutKeys } from "src/runtime/index";
 
 describe("WithoutKeys<T, K> utility", () => {
   it("base test", () => {

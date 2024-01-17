@@ -1,4 +1,4 @@
-import { ErrorCondition} from "src/types";
+import { ErrorCondition} from "src/types/index";
 
 export type AsBoolean<T> = T extends boolean
   ? T

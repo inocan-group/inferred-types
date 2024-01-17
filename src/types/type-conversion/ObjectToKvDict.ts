@@ -2,7 +2,7 @@
 /* eslint-disable no-use-before-define */
 import { 
   AnyObject, 
-} from "src/types";
+} from "src/types/index";
 
 
 /**

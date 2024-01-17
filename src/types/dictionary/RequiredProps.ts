@@ -1,4 +1,4 @@
-import { AnyObject, RequiredKeys } from "src/types";
+import { AnyObject, RequiredKeys } from "src/types/index";
 
 /**
  * **RequiredProps**`<T>`

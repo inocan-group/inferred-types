@@ -1,4 +1,4 @@
-import type { Or } from "src/types";
+import type { Or } from "src/types/index";
 
 /**
  * **or**(conditions) -> boolean

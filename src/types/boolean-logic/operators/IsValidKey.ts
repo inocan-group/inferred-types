@@ -1,4 +1,4 @@
-import { AnyObject, Container, IfContains, IfLiteral,  Keys, Tuple } from "src/types";
+import { AnyObject, Container, IfContains, IfLiteral,  Keys, Tuple } from "src/types/index";
 
 
 /**

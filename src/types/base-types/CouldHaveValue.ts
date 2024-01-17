@@ -1,4 +1,4 @@
-import { Something, Nothing } from "src/types";
+import { Something, Nothing } from "src/types/index";
 
 /**
  * **CouldHaveValue**

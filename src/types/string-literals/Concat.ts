@@ -1,4 +1,4 @@
-import { IfLiteral , AfterFirst , First, Tuple } from "src/types";
+import { IfLiteral , AfterFirst , First, Tuple } from "src/types/index";
 
 type ElementLiteral<T> = T extends string
   ? IfLiteral<T, T, string>

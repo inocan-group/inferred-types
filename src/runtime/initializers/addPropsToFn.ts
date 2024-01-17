@@ -1,4 +1,4 @@
-import { AnyFunction,  FnWithDict, Narrowable } from "src/types";
+import { AnyFunction,  FnWithDict, Narrowable } from "src/types/index";
 
 /**
  * **addFnToProps**(props, [clone]) => (fn) => FnWithProps

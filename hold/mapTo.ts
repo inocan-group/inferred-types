@@ -14,9 +14,9 @@ import {
   DEFAULT_MANY_TO_ONE_MAPPING, 
   DEFAULT_ONE_TO_MANY_MAPPING, 
   DEFAULT_ONE_TO_ONE_MAPPING 
-} from "src/types";
+} from "src/types/index";
 
-import { createFnWithProps } from "src/runtime";
+import { createFnWithProps } from "src/runtime/index";
 
 const debugMsg = <C extends FinalizedMapConfig<any, any, any>>(
   config: C,

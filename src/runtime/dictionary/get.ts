@@ -6,13 +6,13 @@ import type {
   ReportError,
   AnyObject,
   Tuple,
-} from "src/types";
+} from "src/types/index";
 import {
   NO_DEFAULT_VALUE,
   NoDefaultValue,
   NotDefined,
   NOT_DEFINED 
-} from "src/constants";
+} from "src/constants/index";
 import { 
   hasDefaultValue, 
   isTruthy,  
@@ -21,7 +21,7 @@ import {
   isSpecificConstant, 
   createErrorCondition, 
   isContainer,
-} from "src/runtime";
+} from "src/runtime/index";
 
 
 /** updates based on whether segment is a Ref or not */

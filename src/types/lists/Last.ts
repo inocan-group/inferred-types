@@ -1,4 +1,4 @@
-import { AfterFirst, IfLength, Length,  Tuple } from "src/types";
+import { AfterFirst, IfLength, Length,  Tuple } from "src/types/index";
 
 /**
  * **Last**`<TList>`

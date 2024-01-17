@@ -1,4 +1,4 @@
-import {  Chars, First, IfLiteral,  NumberLike } from "src/types";
+import {  Chars, First, IfLiteral,  NumberLike } from "src/types/index";
 
 /**
  * **IfNegative**`<TVal,TIf,[TElse]>`

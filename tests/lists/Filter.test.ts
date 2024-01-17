@@ -1,8 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { filter } from "src/runtime";
-import { RemoveNever,  RetainFromList , Contains , Filter } from "src/types";
+import { filter } from "src/runtime/index";
+import { RemoveNever,  RetainFromList , Contains , Filter } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 

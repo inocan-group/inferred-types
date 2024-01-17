@@ -1,5 +1,5 @@
-import { NON_ZERO_NUMERIC_CHAR, NUMERIC_CHAR } from "src/constants";
-import { Mutable, TupleToUnion } from "src/types";
+import { NON_ZERO_NUMERIC_CHAR, NUMERIC_CHAR } from "src/constants/index";
+import { Mutable, TupleToUnion } from "src/types/index";
 
 /**
  * **NumericChar**

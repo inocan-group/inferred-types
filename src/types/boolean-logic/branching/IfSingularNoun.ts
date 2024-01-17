@@ -1,4 +1,4 @@
-import { IfFalse, IfTrue, IsSingularNoun } from "src/types";
+import { IfFalse, IfTrue, IsSingularNoun } from "src/types/index";
 
 /**
  * **IfSingularNoun**`<T,IF,ELSE,[MAYBE]>`

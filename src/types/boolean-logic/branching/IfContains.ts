@@ -1,4 +1,4 @@
-import { Contains } from "src/types";
+import { Contains } from "src/types/index";
 
 /**
  * **IfContains**`<TList,TContains,IF,ELSE>`

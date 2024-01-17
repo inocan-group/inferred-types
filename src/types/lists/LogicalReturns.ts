@@ -1,4 +1,4 @@
-import { IfBoolean , AfterFirst, First, LogicFunction } from "src/types";
+import { IfBoolean , AfterFirst, First, LogicFunction } from "src/types/index";
 
 
 

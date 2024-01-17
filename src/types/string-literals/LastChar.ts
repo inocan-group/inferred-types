@@ -9,7 +9,7 @@ import {
   IfString, 
   Chars,
   IfNever
-} from "src/types";
+} from "src/types/index";
 
 type Iterate<
   TInput extends readonly string[],

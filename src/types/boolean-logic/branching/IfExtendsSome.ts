@@ -1,4 +1,4 @@
-import { Tuple , ExtendsSome } from "src/types";
+import { Tuple , ExtendsSome } from "src/types/index";
 
 /**
  * **IfExtendsSome**`<TList,TValue,IF,ELSE>`

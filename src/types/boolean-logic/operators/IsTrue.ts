@@ -1,4 +1,4 @@
-import { IsEqual , IsNever } from "src/types";
+import { IsEqual , IsNever } from "src/types/index";
 
 /**
  * **IsTrue**`<T>`

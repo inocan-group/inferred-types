@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { trim, trimEnd, trimLeft, trimRight, trimStart } from "src/runtime";
-import { Trim, TrimLeft, TrimRight } from "src/types";
+import { trim, trimEnd, trimLeft, trimRight, trimStart } from "src/runtime/index";
+import { Trim, TrimLeft, TrimRight } from "src/types/index";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

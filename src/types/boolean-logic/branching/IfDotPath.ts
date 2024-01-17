@@ -1,4 +1,4 @@
-import { IsDotPath } from "src/types";
+import { IsDotPath } from "src/types/index";
 
 /**
  * **IfDotPath**`<TDotPath,IF,ELSE,[MAYBE]>`

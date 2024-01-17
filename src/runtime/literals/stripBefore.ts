@@ -1,4 +1,4 @@
-import { StripBefore } from "src/types";
+import { StripBefore } from "src/types/index";
 
 /**
  * **stripBefore**(content, find)

@@ -1,4 +1,4 @@
-import { Tuple,AllLiteral } from "src/types";
+import { Tuple,AllLiteral } from "src/types/index";
 
 
 /**

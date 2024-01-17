@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IndexableObject } from "src/types";
+import { IndexableObject } from "src/types/index";
 
 /**
  * **Indexable**

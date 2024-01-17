@@ -1,4 +1,4 @@
-import { Tuple, Join } from "src/types";
+import { Tuple, Join } from "src/types/index";
 
 export type Joiner<TJoin extends string> = <TContent extends Tuple<string>>(...tuple: TContent) => Join<TContent,TJoin>;
 

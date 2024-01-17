@@ -1,5 +1,5 @@
-import { DescribeType, TypeToken } from "src/types";
-import { isArray, isBoolean, isFunction, isNull, isNumber, isObject, isString, isSymbol, isTypeToken, isUndefined } from "src/runtime";
+import { DescribeType, TypeToken } from "src/types/index";
+import { isArray, isBoolean, isFunction, isNull, isNumber, isObject, isString, isSymbol, isTypeToken, isUndefined } from "src/runtime/index";
 
 
 const tokenDesc = <T extends TypeToken>(token: T) => {

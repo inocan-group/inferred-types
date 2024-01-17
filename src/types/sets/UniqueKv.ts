@@ -1,4 +1,4 @@
-import { AnyObject, LeftRight } from "src/types";
+import { AnyObject, LeftRight } from "src/types/index";
 
 /**
  * **UniqueKv**`<L,R>`

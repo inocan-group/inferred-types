@@ -11,7 +11,7 @@ import type {
   IfStringLiteral, 
   IsEqual, 
   IsUnion
-} from "src/types";
+} from "src/types/index";
 import { 
   LITERAL_TYPE_KINDS,  
   WIDE_TYPE_KINDS, 
@@ -20,9 +20,9 @@ import {
   FALSY_TYPE_KINDS,
   NoDefaultValue, 
   NotApplicable 
-} from "src/constants";
+} from "src/constants/index";
 
-import { TupleToUnion , TypeGuard , Filter ,   UnionToIntersection , AnyFunction , ErrorCondition } from "src/types";
+import { TupleToUnion , TypeGuard , Filter ,   UnionToIntersection , AnyFunction , ErrorCondition } from "src/types/index";
 
 export type TypeOptions<
   TKind extends TypeKind = TypeKind, 

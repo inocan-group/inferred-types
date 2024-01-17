@@ -1,4 +1,4 @@
-import { IfUndefined, Tuple } from "src/types";
+import { IfUndefined, Tuple } from "src/types/index";
 
 /**
  * **AsTuple**`<T>`

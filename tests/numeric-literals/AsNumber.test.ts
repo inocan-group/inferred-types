@@ -1,5 +1,5 @@
 ;import { Equal, Expect } from "@type-challenges/utils";
-import { AsNumber, IsNever } from "src/types";
+import { AsNumber, IsNever } from "src/types/index";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

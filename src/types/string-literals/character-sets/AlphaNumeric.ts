@@ -1,4 +1,4 @@
-import { IsStringLiteral , NumericChar , AlphaChar } from "src/types";
+import { IsStringLiteral , NumericChar , AlphaChar } from "src/types/index";
 
 /**
  * Any alphabetic or numeric string character

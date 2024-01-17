@@ -1,4 +1,4 @@
-import { TupleToUnion , EmptyString } from "src/types";
+import { TupleToUnion , EmptyString } from "src/types/index";
 
 /**
  * **EmptyStringOr**`<T>`

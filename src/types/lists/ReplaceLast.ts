@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Pop } from "src/types";
+import { Pop } from "src/types/index";
 
 /**
  * **ReplaceLast**`<TList,TVal>`

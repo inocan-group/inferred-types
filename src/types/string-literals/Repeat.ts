@@ -1,4 +1,4 @@
-import { IsNegativeNumber , FixedLengthArray , Concat } from "src/types";
+import { IsNegativeNumber , FixedLengthArray , Concat } from "src/types/index";
 
 /**
  * **Repeat**`<TStr,TCount>`

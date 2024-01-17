@@ -1,4 +1,4 @@
-import type { HasUppercase } from "src/types";
+import type { HasUppercase } from "src/types/index";
 
 type _DU<T extends string> = T extends Lowercase<T> ? T : `-${Lowercase<T>}`;
 

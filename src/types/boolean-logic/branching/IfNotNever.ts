@@ -1,4 +1,4 @@
-import { IsNever } from "src/types";
+import { IsNever } from "src/types/index";
 
 /**
  * **IfNotNever**`<T,IF,ELSE>`

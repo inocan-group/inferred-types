@@ -2,7 +2,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it, expect } from "vitest";
 
-import { createFnWithProps, FnReadyForProps } from "src/runtime";
+import { createFnWithProps, FnReadyForProps } from "src/runtime/index";
 
 const fn = () => "hi" as const;
 

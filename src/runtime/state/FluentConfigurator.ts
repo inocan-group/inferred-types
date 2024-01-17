@@ -1,4 +1,4 @@
-import { ExpandRecursively } from "src/types";
+import { ExpandRecursively } from "src/types/index";
 
 export interface IFluentConfigurator<C> {
   /**

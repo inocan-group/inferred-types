@@ -12,8 +12,8 @@ import {
   CamelCase,
   EmptyObject,
   AnyFunction,
-} from "src/types";
-import { asArray, ifLength, ifUndefined, isTrue, toCamelCase } from "src/runtime";
+} from "src/types/index";
+import { asArray, ifLength, ifUndefined, isTrue, toCamelCase } from "src/runtime/index";
 
 const t = <T extends Narrowable | Tuple>(token: TypeToken) => {
   return token as unknown as T;

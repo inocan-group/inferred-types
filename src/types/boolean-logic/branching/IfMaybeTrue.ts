@@ -1,4 +1,4 @@
-import { IfBoolean , IfFalse , IfTrue } from "src/types";
+import { IfBoolean , IfFalse , IfTrue } from "src/types/index";
 
 /**
  * **IfMaybeTrue**`<T, IF, ELSE, MAYBE>`

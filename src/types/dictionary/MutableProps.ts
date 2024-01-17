@@ -1,4 +1,4 @@
-import { ReadonlyKeys } from "src/types";
+import { ReadonlyKeys } from "src/types/index";
 
 /**
  * **MutableProps**`<T>`

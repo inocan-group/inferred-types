@@ -8,7 +8,7 @@ import {
   Pop,
   Shift,
   Slice,
-} from "src/types";
+} from "src/types/index";
 
 type SplitOnce<
   TRemaining extends string,

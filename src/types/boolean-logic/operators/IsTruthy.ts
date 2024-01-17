@@ -1,4 +1,4 @@
-import { IfLiteral, IfSomeEqual } from "src/types";
+import { IfLiteral, IfSomeEqual } from "src/types/index";
 
 
 /**

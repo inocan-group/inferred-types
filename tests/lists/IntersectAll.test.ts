@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { IntersectAll } from "src/types";
+import { IntersectAll } from "src/types/index";
 
 import { describe, it } from "vitest";
 

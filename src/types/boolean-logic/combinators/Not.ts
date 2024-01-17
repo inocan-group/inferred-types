@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { Tuple, LogicFunction, IfFalse, IfTrue, IsErrorCondition, AfterFirst, First } from "src/types";
+import { Tuple, LogicFunction, IfFalse, IfTrue, IsErrorCondition, AfterFirst, First } from "src/types/index";
 
 
 

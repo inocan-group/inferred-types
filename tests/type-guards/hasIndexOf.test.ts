@@ -1,6 +1,6 @@
 import {  Expect, Equal } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { defineObj, hasIndexOf,  narrow } from "src/runtime";
+import { defineObj, hasIndexOf,  narrow } from "src/runtime/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 

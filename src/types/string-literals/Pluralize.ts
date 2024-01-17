@@ -1,6 +1,6 @@
 /* eslint @typescript-eslint/no-unused-vars: "off" */
 
-import { PLURAL_EXCEPTIONS } from "src/constants";
+import { PLURAL_EXCEPTIONS } from "src/constants/index";
 import { 
   Consonant, 
   IfContains, 
@@ -10,7 +10,7 @@ import {
   EnsureTrailing, 
   StripTrailing,
   Mutable
-} from "src/types";
+} from "src/types/index";
 
 type ExceptionLookup = Mutable<typeof PLURAL_EXCEPTIONS>;
 
