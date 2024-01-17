@@ -5,11 +5,13 @@
   "license": "MIT",
   "author": "Ken Snyder<ken@ken.net>",
   "type": "module",
+  "main": "./dist/inferred-types/index.cjs",
   "module": "./dist/inferred-types/index.js",
   "typings": "./dist/inferred-types/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/inferred-types/index.js",
+      "require": "./dist/inferred-types/index.cjs",
       "types": "./dist/inferred-types/index.d.ts"
     }
   },
@@ -23,7 +25,9 @@
   "scripts": {
     "prepare": "ts-patch install -s",
     "about": "tokei src",
-    "build": "tsc -b --verbose src/inferred-types",
+    "build": "run-s build:esm build:cjs",
+    "build:esm": "tsc -b --verbose src/inferred-types",
+    "build:cjs": "tsup dist/inferred-types/index.js --format cjs -d dist/inferred-types",
     "build:force": "rimraf dist && tsc -b -f --verbose src/inferred-types",
     "diagnostics": "npx tsc -b -f -diagnostics src/inferred-types",
     "clean": "rimraf dist/**/*",
