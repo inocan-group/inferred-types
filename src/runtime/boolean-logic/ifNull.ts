@@ -1,5 +1,5 @@
-import type { IsNull, Narrowable } from "src/types";
-import { isNull } from "src/runtime";
+import type { IsNull, Narrowable } from "src/types/index";
+import { isNull } from "src/runtime/index";
 
 
 /**

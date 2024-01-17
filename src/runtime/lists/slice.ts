@@ -1,4 +1,4 @@
-import { Slice, Tuple } from "src/types";
+import { Slice, Tuple } from "src/types/index";
 
 /**
  * **slice**(list, start, end)

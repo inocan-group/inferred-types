@@ -1,4 +1,4 @@
-import { AnyObject , Narrowable } from "src/types";
+import { AnyObject , Narrowable } from "src/types/index";
 
 /**
  * **KeysWithoutValue**`<TObj, TValue>`

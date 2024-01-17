@@ -14,7 +14,7 @@ import {
   Concat,
   Join,
   IfTuple
-} from "src/types";
+} from "src/types/index";
 
 type DescribeWide<T> = IfNever<
   T, 

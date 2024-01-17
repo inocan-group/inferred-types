@@ -1,4 +1,4 @@
-import { IfExtends, Increment, ToNumber } from "src/types";
+import { IfExtends, Increment, ToNumber } from "src/types/index";
 
 export type ToIntegerOp = "truncate" | "round";
 

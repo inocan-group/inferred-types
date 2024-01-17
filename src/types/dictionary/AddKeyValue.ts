@@ -8,7 +8,7 @@ import type {
   ToString, 
   Keys, 
   ErrorCondition
-} from "src/types";
+} from "src/types/index";
 
 /**
  * **AddKeyValue**`<TObj,TKey,TVal>`

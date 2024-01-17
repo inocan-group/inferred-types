@@ -1,4 +1,4 @@
-import {  AsTuple, First, Split } from "src/types";
+import {  AsTuple, First, Split } from "src/types/index";
 
 /**
  * **StripAfter**`<TStr, TBreak>`

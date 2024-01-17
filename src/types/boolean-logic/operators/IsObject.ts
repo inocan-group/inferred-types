@@ -1,4 +1,4 @@
-import { AnyFunction , Mutable , Or, IfExtends } from "src/types";
+import { AnyFunction , Mutable , Or, IfExtends } from "src/types/index";
 
 /**
  * **IsObject**

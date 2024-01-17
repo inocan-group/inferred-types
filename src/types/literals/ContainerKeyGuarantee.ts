@@ -1,4 +1,4 @@
-import { Container, ExpandRecursively,  Tuple } from "src/types";
+import { Container, ExpandRecursively,  Tuple } from "src/types/index";
 
 
 /**

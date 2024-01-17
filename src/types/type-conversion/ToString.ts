@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AnyFunction, AnyObject,IfLiteral, IfRef, IsUndefined, Narrowable, Concat} from "src/types";
+import { AnyFunction, AnyObject,IfLiteral, IfRef, IsUndefined, Narrowable, Concat} from "src/types/index";
 
 /**
  * **ToString**

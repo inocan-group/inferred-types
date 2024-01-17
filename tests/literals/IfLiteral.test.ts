@@ -1,7 +1,7 @@
 import { ExpectTrue, ExpectFalse } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { IsLiteral,  EmptyObject, IndexableObject, IsObjectLiteral } from "src/types";
+import { IsLiteral,  EmptyObject, IndexableObject, IsObjectLiteral } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 

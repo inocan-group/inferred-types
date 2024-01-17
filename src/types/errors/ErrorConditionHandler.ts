@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {ErrorCondition} from "src/types";
+import {ErrorCondition} from "src/types/index";
 
 /**
  * **ErrorConditionHandler**

@@ -9,7 +9,7 @@ import {
   AnyObject, 
   Scalar, 
   MergeObjects
-} from "src/types";
+} from "src/types/index";
 
 // 1. Keep all unique keys in `TValue`
 // 2. Strip all KV's on `TValue` which are _undefined_

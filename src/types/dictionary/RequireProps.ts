@@ -1,4 +1,4 @@
-import { ExpandRecursively } from "src/types";
+import { ExpandRecursively } from "src/types/index";
 
 /**
  * Given a dictionary of type `<T>`, this utility function will

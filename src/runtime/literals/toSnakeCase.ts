@@ -1,4 +1,4 @@
-import { SnakeCase } from "src/types";
+import { SnakeCase } from "src/types/index";
 
 /**
  * **toSnakeCase**(str)

@@ -1,4 +1,4 @@
-import { AsArray, Container, Keys, TupleToUnion } from "src/types";
+import { AsArray, Container, Keys, TupleToUnion } from "src/types/index";
 
 
 /**

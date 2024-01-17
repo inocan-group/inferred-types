@@ -1,5 +1,5 @@
-import {  NarrowObject, Narrowable } from "src/types";
-import { sharedKeys, withoutKeys } from "src/runtime";
+import {  NarrowObject, Narrowable } from "src/types/index";
+import { sharedKeys, withoutKeys } from "src/runtime/index";
 
 export function mergeObjects<
   D extends Narrowable,

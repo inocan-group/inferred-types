@@ -1,4 +1,4 @@
-import { NonZeroNumericChar, NumericChar, PlusMinus, TypeRequired, TypeStrength } from "src/types";
+import { NonZeroNumericChar, NumericChar, PlusMinus, TypeRequired, TypeStrength } from "src/types/index";
 
 type CivilianTwoDigitHour = "10" | "11" | "12";
 type CivilianOneDigitHour = NonZeroNumericChar | `0${NonZeroNumericChar}`;

@@ -1,4 +1,4 @@
-import { IsObject } from "src/types";
+import { IsObject } from "src/types/index";
 
 /**
  * **IfObject**

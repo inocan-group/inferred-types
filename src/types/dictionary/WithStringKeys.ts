@@ -1,4 +1,4 @@
-import { AnyObject, NonStringKeys } from "src/types";
+import { AnyObject, NonStringKeys } from "src/types/index";
 
 /**
  * **WithStringKeys**`<T>`

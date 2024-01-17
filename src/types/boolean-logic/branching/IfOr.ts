@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { LogicFunction, Or } from "src/types";
+import { LogicFunction, Or } from "src/types/index";
 
 
 /**

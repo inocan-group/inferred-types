@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { Equal, NotEqual, Expect, ExpectExtends, ExpectFalse } from "@type-challenges/utils";
 
-import { idLiteral, literal } from "src/runtime";
+import { idLiteral, literal } from "src/runtime/index";
 
 describe("literal enforcement", () => {
   it("idLiteral forces 'id' to literal number", () => {

@@ -1,4 +1,4 @@
-import { AfterFirst, CombinedKeys, ExpandRecursively, First, IsDefined,  } from "src/types";
+import { AfterFirst, CombinedKeys, ExpandRecursively, First, IsDefined,  } from "src/types/index";
 
 type Process<
   TKeys extends readonly unknown[],

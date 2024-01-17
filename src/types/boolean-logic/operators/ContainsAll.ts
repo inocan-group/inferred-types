@@ -1,5 +1,5 @@
 
-import { And, Contains , Narrowable , AfterFirst, First } from "src/types";
+import { And, Contains , Narrowable , AfterFirst, First } from "src/types/index";
 
 
 type _Contains<

@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { HasSameValues, LeftRight, Relate } from "src/types";
+import { HasSameValues, LeftRight, Relate } from "src/types/index";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

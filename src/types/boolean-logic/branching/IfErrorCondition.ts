@@ -1,4 +1,4 @@
-import { IsErrorCondition } from "src/types";
+import { IsErrorCondition } from "src/types/index";
 
 
 /**

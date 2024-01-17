@@ -1,4 +1,4 @@
-import { Narrowable, Get } from "src/types";
+import { Narrowable, Get } from "src/types/index";
 
 /**
  * **UnionFromProp**

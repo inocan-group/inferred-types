@@ -1,5 +1,5 @@
 
-import { AnyFunction,HasParameters } from "src/types";
+import { AnyFunction,HasParameters } from "src/types/index";
 
 export interface Box<T> {
   __type: "box";

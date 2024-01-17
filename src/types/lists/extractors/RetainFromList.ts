@@ -13,7 +13,7 @@ import {
   AfterFirst,
   First,
   NotEqual
-} from "src/types";
+} from "src/types/index";
 
 type Unionize<T> = T extends readonly unknown[] ? TupleToUnion<T> : T;
 

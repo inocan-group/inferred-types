@@ -1,4 +1,4 @@
-import {  Pop, Tuple } from "src/types";
+import {  Pop, Tuple } from "src/types/index";
 
 
 /**

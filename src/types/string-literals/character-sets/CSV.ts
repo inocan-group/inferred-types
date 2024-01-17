@@ -1,4 +1,4 @@
-import { Digit } from "src/types";
+import { Digit } from "src/types/index";
 
 
 /**

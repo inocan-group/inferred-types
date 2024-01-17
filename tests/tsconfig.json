@@ -22,13 +22,13 @@
         "baseUrl": ".",
         "outDir": "../../dist/none",
         "paths": {
-            "src/types": [
+            "src/types/index": [
                 "../src/types/index.ts"
             ],
-            "src/constants": [
+            "src/constants/index": [
                 "../src/constants/index.ts"
             ],
-            "src/runtime": [
+            "src/runtime/index": [
                 "../src/runtime/index.ts"
             ]
         }

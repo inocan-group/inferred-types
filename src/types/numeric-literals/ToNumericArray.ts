@@ -1,5 +1,5 @@
 
-import { Tuple, ToNumber, IfTrue,  IfReadonlyArray, NonEmptyContainer} from "src/types";
+import { Tuple, ToNumber, IfTrue,  IfReadonlyArray, NonEmptyContainer} from "src/types/index";
 
 type _Convert<T extends Tuple> = 
 IfTrue<

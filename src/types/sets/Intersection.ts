@@ -6,7 +6,7 @@ import type {
   Get,
   IfContainer,
   ToContainer,
-} from "src/types";
+} from "src/types/index";
 
 type _NoDeref<
   A extends readonly unknown[],

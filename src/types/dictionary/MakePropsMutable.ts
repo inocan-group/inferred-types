@@ -1,4 +1,4 @@
-import { ExpandRecursively , AsArray, Mutable,  WithKeys, WithoutKeys , AnyObject, SimplifyObject, ObjectKey } from "src/types";
+import { ExpandRecursively , AsArray, Mutable,  WithKeys, WithoutKeys , AnyObject, SimplifyObject, ObjectKey } from "src/types/index";
 
 
 /**

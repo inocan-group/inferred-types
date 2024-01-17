@@ -1,4 +1,4 @@
-import { IsFnWithParams } from "src/types";
+import { IsFnWithParams } from "src/types/index";
 
 // TODO: fix
 type BaseFunction = unknown;

@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { AsError, DoesExtend, EmptyObject, ErrorCondition } from "src/types";
+import { AsError, DoesExtend, EmptyObject, ErrorCondition } from "src/types/index";
 
 describe("AsError<T>", () => {
   type Err = ErrorCondition<"err", "oops", null>;

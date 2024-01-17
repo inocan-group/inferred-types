@@ -1,4 +1,4 @@
-import { RetainFromList } from "src/types";
+import { RetainFromList } from "src/types/index";
 
 /**
  * **RetainStrings**`<T>`

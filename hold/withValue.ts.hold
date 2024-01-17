@@ -1,5 +1,5 @@
-import {  AnyObject, Narrowable, WithValue } from "src/types";
-import { KindApi, kind } from "src/runtime";
+import {  AnyObject, Narrowable, WithValue } from "src/types/index";
+import { KindApi, kind } from "src/runtime/index";
 
 /**
  * **WithValuePartial**`<TReturn>`

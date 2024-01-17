@@ -11,7 +11,7 @@ import {
   EmptyObject,
   RemoveIndexKeys,
   ToFn
-} from "src/types";
+} from "src/types/index";
 
 
 type Returns<TFn extends AnyFunction, TProps extends AnyObject> = 

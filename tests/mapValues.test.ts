@@ -1,6 +1,6 @@
 import type { Expect, Equal, ExpectFalse } from "@type-challenges/utils";
 import { describe, it, expect } from "vitest";
-import { mapValues, literal } from "src/runtime";
+import { mapValues, literal } from "src/runtime/index";
 
 describe("mapValues() utility", () => {
   it("simple transform while maintaining wide type through transform", () => {

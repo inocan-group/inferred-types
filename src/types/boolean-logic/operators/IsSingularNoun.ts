@@ -1,4 +1,4 @@
-import { IfNever, IfStringLiteral, SingularNoun } from "src/types";
+import { IfNever, IfStringLiteral, SingularNoun } from "src/types/index";
 
 
 /**

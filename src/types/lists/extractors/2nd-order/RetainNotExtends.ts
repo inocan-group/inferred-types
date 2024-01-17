@@ -1,5 +1,5 @@
 
-import { AnyObject , Narrowable , RetainFromList, WithoutValue } from "src/types";
+import { AnyObject , Narrowable , RetainFromList, WithoutValue } from "src/types/index";
 
 
 /**

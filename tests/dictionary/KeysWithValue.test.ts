@@ -1,8 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { AnyFunction, AnyObject, KeysWithValue } from "src/types";
-import { createFnWithProps, defineObj} from "src/runtime";
+import { AnyFunction, AnyObject, KeysWithValue } from "src/types/index";
+import { createFnWithProps, defineObj} from "src/runtime/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 

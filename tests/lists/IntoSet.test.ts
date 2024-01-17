@@ -2,7 +2,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
 import { IntoSet } from "src/types/lists";
-import { HasSameValues } from "src/types";
+import { HasSameValues } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 

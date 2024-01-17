@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { IfEqual, IfLength, AfterFirst, AsArray, First , TupleToUnion } from "src/types";
+import { IfEqual, IfLength, AfterFirst, AsArray, First , TupleToUnion } from "src/types/index";
 
 type DefaultPrefix = ["www"];
 

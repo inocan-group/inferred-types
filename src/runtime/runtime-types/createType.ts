@@ -5,11 +5,11 @@ import type {
   TypeDefn,
   TypeKind,
   TypeUnderlying,
-} from "src/types";
+} from "src/types/index";
 import { 
   LITERAL_TYPE_KINDS,
   NO_DEFAULT_VALUE,
-} from "src/constants";
+} from "src/constants/index";
 import { 
   keysOf, 
   box, 
@@ -18,7 +18,7 @@ import {
   createValidator,
   determineIdentity, 
   determineType 
-} from "src/runtime";
+} from "src/runtime/index";
 
 
 /**

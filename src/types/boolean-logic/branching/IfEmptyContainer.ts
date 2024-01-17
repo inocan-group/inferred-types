@@ -1,4 +1,4 @@
-import { Container, EmptyContainer } from "src/types";
+import { Container, EmptyContainer } from "src/types/index";
 
 /**
  * **IfEmptyContainer**`<TContainer,TIf,TElse>`

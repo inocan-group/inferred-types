@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { ExtendsAll } from "src/types";
+import { ExtendsAll } from "src/types/index";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

@@ -1,4 +1,4 @@
-import { IsObjectLiteral } from "src/types";
+import { IsObjectLiteral } from "src/types/index";
 
 /**
  * **IfObjectLiteral**`<T,IF,ELSE>`

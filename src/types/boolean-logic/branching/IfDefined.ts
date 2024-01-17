@@ -1,4 +1,4 @@
-import { IfNever, IfUndefined } from "src/types";
+import { IfNever, IfUndefined } from "src/types/index";
 
 /**
  * **IfDefined**`<T>`

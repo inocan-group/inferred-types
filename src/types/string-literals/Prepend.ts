@@ -1,4 +1,4 @@
-import { ToString } from "src/types";
+import { ToString } from "src/types/index";
 
 /**
  * **Prepend**`<TStr, TPrepend>`

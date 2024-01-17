@@ -1,4 +1,4 @@
-import { Narrowable, Type } from "src/types";
+import { Narrowable, Type } from "src/types/index";
 
 /**
  * Creates a `validate` function for a runtime type

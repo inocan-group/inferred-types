@@ -9,7 +9,7 @@ import {
   StripAfter,
   StripBefore,
   Trim,  
-} from "src/types";
+} from "src/types/index";
 import { LastOfEach } from "../src/types/tuples/LastOfEach";
 
 type DefaultDelimiters = [["[[","]]"], ["{{","}}"]];

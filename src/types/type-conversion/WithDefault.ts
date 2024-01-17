@@ -1,4 +1,4 @@
-import { IfExtends, IfFalsy, Nothing } from "src/types";
+import { IfExtends, IfFalsy, Nothing } from "src/types/index";
 
 /**
  * **WithDefault**`<TVal,TDef>`

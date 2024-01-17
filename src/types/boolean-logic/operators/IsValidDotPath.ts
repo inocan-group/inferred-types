@@ -1,4 +1,4 @@
-import { Container, DotPathFor, IfNever, IfExtends, IfLiteral, IfStringLiteral } from "src/types";
+import { Container, DotPathFor, IfNever, IfExtends, IfLiteral, IfStringLiteral } from "src/types/index";
 
 /**
  * **IsValidDotPath**`<TContainer, TKey>`

@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { HasCharacters } from "src/types";
+import { HasCharacters } from "src/types/index";
 
 import { describe, it } from "vitest";
 

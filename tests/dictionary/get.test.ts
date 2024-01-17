@@ -5,15 +5,15 @@ import {
   get, 
   defineObj, 
   isErrorCondition, 
-} from "src/runtime";
+} from "src/runtime/index";
 import type { 
   DoesExtend, 
   IsErrorCondition, 
   Get, 
   ErrorCondition,
-} from "src/types";
+} from "src/types/index";
 import { ref } from "vue";
-import { NoDefaultValue } from "src/constants";
+import { NoDefaultValue } from "src/constants/index";
 
 describe("Get<T, K> type utility", () => {
   it("type: shallow path", () => {

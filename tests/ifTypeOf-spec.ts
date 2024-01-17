@@ -2,8 +2,8 @@ import { describe, it, expect } from "vitest";
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Expect, Equal } from "@type-challenges/utils";
-import { defineObj, literal, ifTypeOf } from "src/runtime";
-import { AnyFunction } from "src/types";
+import { defineObj, literal, ifTypeOf } from "src/runtime/index";
+import { AnyFunction } from "src/types/index";
 
 describe("ifTypeOf() utility", () => {
   it("base validation with extends() returns true/false", () => {

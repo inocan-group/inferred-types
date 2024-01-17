@@ -1,5 +1,5 @@
 import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { DoesExtend, ErrorCondition, OfSameLength } from "src/types";
+import { DoesExtend, ErrorCondition, OfSameLength } from "src/types/index";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

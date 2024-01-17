@@ -5,7 +5,7 @@ import type {
   IsLiteral , 
   ScalarNotSymbol, 
   TupleToUnion 
-} from "src/types";
+} from "src/types/index";
 
 /**
  * **Suggest**`<T>`

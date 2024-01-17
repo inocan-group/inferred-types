@@ -6,7 +6,7 @@ import {
   AnyFunction,
   IfRef,
   AnyObject, 
-} from "src/types";
+} from "src/types/index";
 
 
 type GetPaths<

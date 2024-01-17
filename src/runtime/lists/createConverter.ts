@@ -5,13 +5,13 @@ import type {
   Nothing,
   AnyObject,
   AnyFunction
-} from "src/types";
+} from "src/types/index";
 import { 
   isTupleType,
   isObject,
   isNothing
-} from "src/runtime";
-import { Never } from "src/constants";
+} from "src/runtime/index";
+import { Never } from "src/constants/index";
 
 type CallIfDefined<
   Handler

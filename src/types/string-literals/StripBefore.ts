@@ -1,4 +1,4 @@
-import { IfAllLiteral } from "src/types";
+import { IfAllLiteral } from "src/types/index";
 
 /**
  * **StripBefore**`<TStr, TBreak>`

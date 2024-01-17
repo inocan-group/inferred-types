@@ -1,4 +1,4 @@
-import { Scalar, IfFalsy, IfLength, IfTruthy, Keys, AnyObject, IfNever, IfExtends } from "src/types";
+import { Scalar, IfFalsy, IfLength, IfTruthy, Keys, AnyObject, IfNever, IfExtends } from "src/types/index";
 
 
 /**

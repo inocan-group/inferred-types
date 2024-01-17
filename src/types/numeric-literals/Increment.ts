@@ -1,4 +1,4 @@
-import { Tuple, Length, FixedLengthArray, ToNumber, ToString } from "src/types";
+import { Tuple, Length, FixedLengthArray, ToNumber, ToString } from "src/types/index";
 
 type Push<T extends Tuple> = Length<
   [...T, unknown]

@@ -1,5 +1,5 @@
-import { First, IfUnion, Length, Narrowable, UnionToTuple } from "src/types";
-import { asArray } from "src/runtime";
+import { First, IfUnion, Length, Narrowable, UnionToTuple } from "src/types/index";
+import { asArray } from "src/runtime/index";
 
 
 /**

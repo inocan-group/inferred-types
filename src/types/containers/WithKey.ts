@@ -1,5 +1,5 @@
 
-import { AnyObject, IfAnd, First, AsNumber, Container, EmptyContainer, FixedLengthArray, Increment, Tuple, AsString, ExpandRecursively, ArrayElementType, IfDefined,   IsUndefined, AfterFirst, Not  } from "src/types";
+import { AnyObject, IfAnd, First, AsNumber, Container, EmptyContainer, FixedLengthArray, Increment, Tuple, AsString, ExpandRecursively, ArrayElementType, IfDefined,   IsUndefined, AfterFirst, Not  } from "src/types/index";
 
 type MergeTuples<
   TDefaults extends Tuple,

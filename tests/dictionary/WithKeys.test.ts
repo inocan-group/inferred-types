@@ -5,8 +5,8 @@ import { Equal, Expect } from "@type-challenges/utils";
 // NOTE: "withKeys" and "retain" are aliases of one another
 // so these tests really pertain to both
 
-import { retain, withKeys } from "src/runtime";
-import { DoesExtend, ErrorCondition, WithKeys } from "src/types";
+import { retain, withKeys } from "src/runtime/index";
+import { DoesExtend, ErrorCondition, WithKeys } from "src/types/index";
 
 describe("WithKeys<T, K> utility", () => {
   it("types: base test", () => {

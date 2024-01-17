@@ -1,4 +1,4 @@
-import { Contains , AfterFirst, First } from "src/types";
+import { Contains , AfterFirst, First } from "src/types/index";
 
 type _Flat<
   TList extends readonly unknown[],

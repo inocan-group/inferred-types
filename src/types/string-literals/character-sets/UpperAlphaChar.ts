@@ -1,5 +1,5 @@
-import { UPPER_ALPHA_CHARS } from "src/constants";
-import { Mutable, TupleToUnion } from "src/types";
+import { UPPER_ALPHA_CHARS } from "src/constants/index";
+import { Mutable, TupleToUnion } from "src/types/index";
 
 /** 
  * **UpperAlphaChar**

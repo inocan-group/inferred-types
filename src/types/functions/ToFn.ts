@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
-import { AnyFunction, IfNotError, FnMeta } from "src/types";
+import { AnyFunction, IfNotError, FnMeta } from "src/types/index";
 
 /**
  * **ToFn**`<T>`

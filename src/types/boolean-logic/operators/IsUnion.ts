@@ -1,4 +1,4 @@
-import { UnionToTuple , IfLength, IfNever } from "src/types";
+import { UnionToTuple , IfLength, IfNever } from "src/types/index";
 
 /**
  * **IsUnion**`<T>`

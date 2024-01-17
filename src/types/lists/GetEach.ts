@@ -6,7 +6,7 @@ import {
   IndexOf, 
   Mutable, 
   RemoveNever, 
-} from "src/types";
+} from "src/types/index";
 
 
 /**

@@ -1,4 +1,4 @@
-import { IsTuple } from "src/types";
+import { IsTuple } from "src/types/index";
 
 /**
  * **IfTuple**`<T,IF,ELSE>`

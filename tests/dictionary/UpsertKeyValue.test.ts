@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { DoesExtend } from "src/types";
+import { DoesExtend } from "src/types/index";
 import { UpsertKeyValue } from "src/types/dictionary";
 import { describe, it } from "vitest";
 

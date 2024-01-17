@@ -1,4 +1,4 @@
-import { AfterFirst, AsArray, Concat, First } from "src/types";
+import { AfterFirst, AsArray, Concat, First } from "src/types/index";
 
 type _Surround<
   TContent extends readonly string[],

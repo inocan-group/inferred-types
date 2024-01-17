@@ -1,4 +1,4 @@
-import type { AnyObject, AnyFunction , IsEmptyObject, IfEqual, IfAnd, DoesExtend } from "src/types";
+import type { AnyObject, AnyFunction , IsEmptyObject, IfEqual, IfAnd, DoesExtend } from "src/types/index";
 
 /**
  * **IsFnWithParams**`<TFn, [TParamMatch]>`

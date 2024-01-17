@@ -1,4 +1,4 @@
-import {  Narrowable, Slice, Tuple,  IfIndexable } from "src/types";
+import {  Narrowable, Slice, Tuple,  IfIndexable } from "src/types/index";
 
 export type ShiftResult<V, L extends Tuple> = [value: V, list: L];
 

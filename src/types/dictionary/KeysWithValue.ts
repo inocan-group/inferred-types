@@ -1,4 +1,4 @@
-import { AfterFirst, AnyObject, ExplicitKeys, First, IfEmptyContainer } from "src/types";
+import { AfterFirst, AnyObject, ExplicitKeys, First, IfEmptyContainer } from "src/types/index";
 
 type _process<
   TKeys extends readonly (string|symbol)[],

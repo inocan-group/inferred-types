@@ -1,5 +1,5 @@
-import { Scalar } from "src/types";
-import { isNull, isNumber, isString, isSymbol } from "src/runtime";
+import { Scalar } from "src/types/index";
+import { isNull, isNumber, isString, isSymbol } from "src/runtime/index";
 
 
 /**

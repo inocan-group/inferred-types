@@ -4,7 +4,7 @@ import type {
   IsObjectLiteral, 
   IsStringLiteral, 
  IsTuple,
- IfNever} from "src/types";
+ IfNever} from "src/types/index";
 
 
 // [note on handling of boolean](https://stackoverflow.com/questions/74213646/detecting-type-literals-works-in-isolation-but-not-when-combined-with-other-lite/74213713#74213713)

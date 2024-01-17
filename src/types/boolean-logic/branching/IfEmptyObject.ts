@@ -1,4 +1,4 @@
-import { IsEmptyObject } from "src/types";
+import { IsEmptyObject } from "src/types/index";
 
 /**
  * **IfEmptyObject**`<T,IF,ELSE>`

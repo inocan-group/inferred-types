@@ -1,4 +1,4 @@
-import { IsAllLowercase } from "src/types";
+import { IsAllLowercase } from "src/types/index";
 
 /** 
  * **RaiseAllLowercase**`<T>`

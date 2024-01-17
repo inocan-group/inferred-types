@@ -1,5 +1,5 @@
-import { IfString, Narrowable } from "src/types";
-import { isString } from "src/runtime";
+import { IfString, Narrowable } from "src/types/index";
+import { isString } from "src/runtime/index";
 
 /**
  * **ifString**

@@ -1,5 +1,5 @@
-import { ErrorCondition } from "src/types";
-import {  isObject } from "src/runtime";
+import { ErrorCondition } from "src/types/index";
+import {  isObject } from "src/runtime/index";
 
 /**
  * **isErrorCondition**(value)

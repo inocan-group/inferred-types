@@ -1,5 +1,5 @@
 
-import { ExpandRecursively, AnyObject, TupleToUnion, AsArray, EmptyObject, IfLength, ObjectKey } from "src/types";
+import { ExpandRecursively, AnyObject, TupleToUnion, AsArray, EmptyObject, IfLength, ObjectKey } from "src/types/index";
 
 
 /**

@@ -1,4 +1,4 @@
-import { IsBoolean } from "src/types";
+import { IsBoolean } from "src/types/index";
 
 export type IfBoolean<
   T, 

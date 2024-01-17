@@ -1,4 +1,4 @@
-import { GreaterThan , ToNumber } from "src/types";
+import { GreaterThan , ToNumber } from "src/types/index";
 
 /**
  * **IsGreaterThan**`<A,B>`

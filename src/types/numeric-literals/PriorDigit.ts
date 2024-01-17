@@ -3,7 +3,7 @@ import {
   NumericChar, 
   ToString, 
   ToNumber 
-} from "src/types";
+} from "src/types/index";
 
 /**
  * **PriorDigit**`<T>`

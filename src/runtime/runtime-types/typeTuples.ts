@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ALPHA_CHARS } from "src/constants";
-import {  AlphaChar, Digit,  } from "src/types";
-import {  createTypeTuple, kind } from "src/runtime";
+import { ALPHA_CHARS } from "src/constants/index";
+import {  AlphaChar, Digit,  } from "src/types/index";
+import {  createTypeTuple, kind } from "src/runtime/index";
 
 const digit = createTypeTuple(
   kind.explicitType<Digit>("Digit"),

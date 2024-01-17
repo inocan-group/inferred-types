@@ -1,5 +1,5 @@
 
-import { IsFnWithParams } from "src/types";
+import { IsFnWithParams } from "src/types/index";
 
 
 /**

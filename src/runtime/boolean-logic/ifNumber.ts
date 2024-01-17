@@ -1,5 +1,5 @@
-import { IfNumber, Narrowable } from "src/types";
-import { isNumber } from "src/runtime";
+import { IfNumber, Narrowable } from "src/types/index";
+import { isNumber } from "src/runtime/index";
 
 /**
  * **ifNumber**(val, ifVal, elseVal)

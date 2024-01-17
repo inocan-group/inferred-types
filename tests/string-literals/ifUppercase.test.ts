@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { toUppercase ,  ifUppercaseChar } from "src/runtime";
+import { toUppercase ,  ifUppercaseChar } from "src/runtime/index";
 import { describe,  it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

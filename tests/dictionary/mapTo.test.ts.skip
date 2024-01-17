@@ -13,9 +13,9 @@ import {
   MapCardinalityFrom,
   DEFAULT_MANY_TO_ONE_MAPPING,
   DEFAULT_ONE_TO_MANY_MAPPING,
-} from "src/types";
+} from "src/types/index";
 
-import { mapTo } from "src/runtime";
+import { mapTo } from "src/runtime/index";
 
 type I = { title: string; color: string; products: string[] };
 const i: I = { title: "Test", color: "green", products: ["foo", "bar", "baz"] };

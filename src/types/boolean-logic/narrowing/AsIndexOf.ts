@@ -1,4 +1,4 @@
-import { Constant } from "src/constants";
+import { Constant } from "src/constants/index";
 import { Concat, Container, ErrorCondition, IfEqual, ToString } from "src/types/index";
 
 /**

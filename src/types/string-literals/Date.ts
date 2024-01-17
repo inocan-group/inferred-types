@@ -3,8 +3,8 @@ import {
   NonZeroNumericChar, 
   TupleToUnion, 
   TypeStrength 
-} from "src/types";
-import { MONTH_ABBR, MONTH_NAME}  from "src/constants";
+} from "src/types/index";
+import { MONTH_ABBR, MONTH_NAME}  from "src/constants/index";
 
 export type Year<
   T extends "strong" | "simple" = "strong"

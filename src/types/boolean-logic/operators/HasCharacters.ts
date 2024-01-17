@@ -1,4 +1,4 @@
-import type { AfterFirst, First, AsArray } from "src/types";
+import type { AfterFirst, First, AsArray } from "src/types/index";
 
 type _HasChar<
   TStr extends string,

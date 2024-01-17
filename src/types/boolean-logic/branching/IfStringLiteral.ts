@@ -1,4 +1,4 @@
-import { IfNever, IsStringLiteral } from "src/types";
+import { IfNever, IsStringLiteral } from "src/types/index";
 
 /**
  * **IfStringLiteral**

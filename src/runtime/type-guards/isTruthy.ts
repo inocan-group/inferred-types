@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FalsyValue } from "src/types";
-import { FALSY_VALUES } from "src/constants";
+import { FalsyValue } from "src/types/index";
+import { FALSY_VALUES } from "src/constants/index";
 
 
 /**

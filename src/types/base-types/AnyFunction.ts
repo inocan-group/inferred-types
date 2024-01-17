@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
-import { AnyObject, EmptyObject } from "src/types";
+import { AnyObject, EmptyObject } from "src/types/index";
 
 /**
  * **AnyFunction**`<[TArgs],[TReturn],[TDict]>`

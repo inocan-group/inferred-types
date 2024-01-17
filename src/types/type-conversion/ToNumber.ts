@@ -6,7 +6,7 @@ import {
   IfFalse, 
   IfBoolean, 
   Tuple
-} from "src/types";
+} from "src/types/index";
 
 type ConvertElement<
   TValue extends Scalar

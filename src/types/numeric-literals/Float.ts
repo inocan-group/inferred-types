@@ -1,4 +1,4 @@
-import { IfEqual, ToNumber } from "src/types";
+import { IfEqual, ToNumber } from "src/types/index";
 
 /**
  * **Float**`<TVal>`

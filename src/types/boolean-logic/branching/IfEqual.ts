@@ -1,4 +1,4 @@
-import { IsEqual } from "src/types";
+import { IsEqual } from "src/types/index";
 
 /**
  * **IfEqual**`<X,Y,[IF],[ELSE]>`

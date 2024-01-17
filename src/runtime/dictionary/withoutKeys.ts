@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
-import type { NarrowObject, Narrowable } from "src/types";
-import { omit } from "src/runtime";
+import type { NarrowObject, Narrowable } from "src/types/index";
+import { omit } from "src/runtime/index";
 
 /**
  * **withoutKeys**(obj,...keys)

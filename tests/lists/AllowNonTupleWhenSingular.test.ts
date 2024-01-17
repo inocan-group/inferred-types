@@ -1,6 +1,6 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { AllowNonTupleWhenSingular, AsArray, ErrorCondition, IsEqual } from "src/types";
+import { AllowNonTupleWhenSingular, AsArray, ErrorCondition, IsEqual } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 

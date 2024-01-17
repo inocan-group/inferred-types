@@ -1,4 +1,4 @@
-import { Container, LeftRight } from "src/types";
+import { Container, LeftRight } from "src/types/index";
 
 /**
  * **UniqueKeysUnion**`<L,R>`

@@ -1,4 +1,4 @@
-import {  Split } from "src/types";
+import {  Split } from "src/types/index";
 
 /**
  * **split**(str, sep)

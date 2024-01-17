@@ -1,4 +1,4 @@
-import { IsArray } from "src/types";
+import { IsArray } from "src/types/index";
 
 
 /**

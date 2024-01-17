@@ -1,4 +1,4 @@
-import { AfterFirst, First , IfTrue , IfTruthy } from "src/types";
+import { AfterFirst, First , IfTrue , IfTruthy } from "src/types/index";
 
 /**
  * **IfSomeTruthy**`<TValues,IF,ELSE,MAYBE>`

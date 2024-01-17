@@ -1,4 +1,4 @@
-import { IsTuple, Tuple } from "src/types";
+import { IsTuple, Tuple } from "src/types/index";
 
 /**
  * **IfNotTuple**`<T,[TIf],[TElse]>`

@@ -1,4 +1,4 @@
-import { IfNotStringLiteral, Split } from "src/types";
+import { IfNotStringLiteral, Split } from "src/types/index";
 
 
 /**

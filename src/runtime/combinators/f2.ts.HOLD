@@ -1,6 +1,6 @@
-import { AfterFirst,  First,  SimplifyObject, TupleToUnion, UnionToTuple, WithoutValue } from "src/types";
-import { AsArray } from "src/types";
-import { withoutValue } from "src/types";
+import { AfterFirst,  First,  SimplifyObject, TupleToUnion, UnionToTuple, WithoutValue } from "src/types/index";
+import { AsArray } from "src/types/index";
+import { withoutValue } from "src/types/index";
 
 /** ways in which an "undefined" value should be handled in a filter function */
 export type FilterUndefinedBehavior = "filter out" | "throw error" | "do not allow";

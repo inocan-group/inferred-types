@@ -1,4 +1,4 @@
-import { IsRef } from "src/types";
+import { IsRef } from "src/types/index";
 
 /**
  * **FromMaybeRef**`<T>`

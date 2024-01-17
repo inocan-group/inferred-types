@@ -1,4 +1,4 @@
-import { ErrorCondition, HasUnionType, NarrowObject, Narrowable,  ObjectKey,  WithKeys } from "src/types";
+import { ErrorCondition, HasUnionType, NarrowObject, Narrowable,  ObjectKey,  WithKeys } from "src/types/index";
 
 /**
  * **retain**(obj,...keys)

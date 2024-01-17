@@ -21,14 +21,11 @@
         "composite": true,
         "forceConsistentCasingInFileNames": true,
         "paths": {
-            "src/runtime": [
-                "./index.ts"
+            "src/types/*": [
+                "../types/*"
             ],
-            "src/types": [
-                "../types/index.ts"
-            ],
-            "src/constants": [
-                "../constants/index.ts"
+            "src/constants/*": [
+                "../constants/*"
             ],
             "src/runtime/*": [
                 "./*"
@@ -51,13 +48,9 @@
         ]
     },
     "include": [
-        "index.ts",
         "**/*.ts",
-        "../../hold/extractTypeToken.hold",
-        "../../hold/isSameType.hold",
-        "../../hold/withValue.ts.hold",
     ],
     "exclude": [
-        "./boolean-logic/ifTypeOf.ts"
+        "node_modules"
     ]
 }

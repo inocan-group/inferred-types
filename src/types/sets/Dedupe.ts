@@ -1,4 +1,4 @@
-import { Tuple, AfterFirst, First, IfContains } from "src/types";
+import { Tuple, AfterFirst, First, IfContains } from "src/types/index";
 
 
 type _Dedupe<

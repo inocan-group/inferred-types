@@ -1,5 +1,5 @@
-import type { IfObject, Narrowable } from "src/types";
-import { isObject } from "src/runtime";
+import type { IfObject, Narrowable } from "src/types/index";
+import { isObject } from "src/runtime/index";
 
 export function ifObject<
   T extends Narrowable, 

@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
 
-import { arrayToKeyLookup } from "src/runtime";
+import { arrayToKeyLookup } from "src/runtime/index";
 
 describe("arrayToKeyLookup()", () => {
   it("simple string array is converted", () => {

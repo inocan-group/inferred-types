@@ -1,4 +1,4 @@
-import { Constant } from "src/constants";
+import { Constant } from "src/constants/index";
 
 /**
  * **createConstant**(kind)

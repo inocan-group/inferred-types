@@ -1,4 +1,4 @@
-import {  First,  Narrowable,  UnionToTuple, Unique } from "src/types";
+import {  First,  Narrowable,  UnionToTuple, Unique } from "src/types/index";
 
 
 /**

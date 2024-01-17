@@ -1,4 +1,4 @@
-import { AnyObject , ExpandRecursively , TupleToUnion, UnionToIntersection } from "src/types";
+import { AnyObject , ExpandRecursively , TupleToUnion, UnionToIntersection } from "src/types/index";
 
 type MakeIntoUnion<K extends PropertyKey | readonly PropertyKey[]> = 
   K extends readonly PropertyKey[] ? TupleToUnion<K> : K;

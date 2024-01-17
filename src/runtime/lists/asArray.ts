@@ -1,4 +1,4 @@
-import { AsArray, Narrowable } from "src/types";
+import { AsArray, Narrowable } from "src/types/index";
 
 /**
  * Type utility which converts `undefined[]` to `unknown[]`

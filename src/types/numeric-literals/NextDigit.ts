@@ -3,7 +3,7 @@ import {
   ToString, 
   ToNumber, 
   NumericChar 
-} from "src/types";
+} from "src/types/index";
 
 /**
  * **NextDigit**`<T>`

@@ -13,8 +13,8 @@ import {
   isTrue,
   StartingWithTypeGuard, 
   startsWith, box
-} from "src/runtime";
-import { EndsWith, DoesExtend, LowerAlphaChar, Or, StartsWith  } from "src/types";
+} from "src/runtime/index";
+import { EndsWith, DoesExtend, LowerAlphaChar, Or, StartsWith  } from "src/types/index";
 
 
 describe("runtime if/is", () => {
