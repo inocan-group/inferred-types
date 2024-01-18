@@ -8,7 +8,9 @@ import * as LessThan from "./LessThan";
 import * as GreaterThan from "./GreaterThan";
 import chalk from "chalk";
 
-const tests = {First, AfterFirst, Get,Keys,AsArray,Pluralize, LessThan, GreaterThan};
+const tests = {
+  First, AfterFirst, Get,Keys,AsArray,Pluralize, LessThan, GreaterThan
+};
 
 // function t(name: string, target: number) {
 //   return <F extends (() => unknown)>(fn: F) => {
