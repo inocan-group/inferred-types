@@ -1,7 +1,7 @@
 import { bench } from "@arktype/attest";
 import { Get } from "../dist/inferred-types/index";
 
-const TARGET = 32000;
+export const TARGET = 32000;
 
 export const test = () => {
 
