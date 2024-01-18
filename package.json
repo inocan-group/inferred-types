@@ -48,7 +48,7 @@
     "watch:bundle": "tsup src/index.ts --format=esm --dts"
   },
   "dependencies": {
-    "vue": "^3.4.14"
+    "vue": "^3.4.15"
   },
   "devDependencies": {
     "@arktype/attest": "^0.5.0",
