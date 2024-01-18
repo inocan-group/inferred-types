@@ -58,6 +58,9 @@ devDependencies:
   eslint-watch:
     specifier: ^8.0.0
     version: 8.0.0(eslint@8.56.0)
+  glob:
+    specifier: ^10.3.10
+    version: 10.3.10
   npm-run-all:
     specifier: ~4.1.5
     version: 4.1.5
@@ -1273,7 +1276,7 @@ packages:
     dev: true
 
   /concat-map@0.0.1:
-    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
+    resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
     dev: true
 
   /consola@3.2.3:
