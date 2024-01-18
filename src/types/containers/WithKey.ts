@@ -1,5 +1,5 @@
 
-import { AnyObject, IfAnd, First, AsNumber, Container, EmptyContainer, FixedLengthArray, Increment, Tuple, AsString, ExpandRecursively, ArrayElementType, IfDefined,   IsUndefined, AfterFirst, Not  } from "src/types/index";
+import { AnyObject, IfAnd, First, AsNumber, Container, EmptyContainer, FixedLengthArray, Increment, Tuple, AsString, ExpandRecursively, ArrayElementType, IfDefined,   IsUndefined, AfterFirst, Not, IfUndefined, IfNever  } from "src/types/index";
 
 type MergeTuples<
   TDefaults extends Tuple,
@@ -11,9 +11,9 @@ type MergeTuples<
     AfterFirst<TDefaults>,
     AfterFirst<TOverrides>,
     IfAnd<
-      [ IsUndefined<First<TDefaults>>, Not<IsUndefined<First<TOverrides>>>  ],
+      [ Not<IsUndefined<First<TDefaults>>>, IsUndefined<First<TOverrides>>  ],
       [...TResults, First<TDefaults>],
-      [...TResults, First<TOverrides>]
+      [...TResults, IfNever<First<TOverrides>, unknown, First<TOverrides>>]
     >
   >;
 
@@ -28,6 +28,10 @@ type MergeTuples<
  * - If `T[K]`'s type is unknown then the type is set to _unknown_
  * 
  * This is intended to be used with tuples, arrays, and object types.
+ * 
+ * **Note:** for numeric arrays, a contiguous set of numeric keys is always 
+ * provided so all elements/keys added by this utility which were not
+ * present in `T` will have a type of _unknown_.
  */
 export type WithKey<
   T extends Container,
@@ -42,7 +46,7 @@ export type WithKey<
         T,
         // the key K is not known so we'll merge it in
         MergeTuples<
-          [...FixedLengthArray<undefined, AsNumber<K>>, K],
+          [...FixedLengthArray<unknown, AsNumber<K>>, K],
           T
         >
       >

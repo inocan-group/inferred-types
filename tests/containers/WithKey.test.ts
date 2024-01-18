@@ -24,8 +24,11 @@ describe("WithKey<T>", () => {
       Expect<Equal<O1, {foo: 42; bar: unknown}>>,
       Expect<Equal<O2, { foo: 42 } >>,
 
+      // a length independent type like number[] can easily
+      // be given a length that extends to the index value
+      // requested
       Expect<Equal<A, [number, number, number, number]>>,
-      Expect<Equal<A1, [0,1,2, number]>>,
+      Expect<Equal<A1, [0,1,2, unknown]>>,
       Expect<Equal<A2, [0,1,2]>>
     ];
     const cases: cases = [
