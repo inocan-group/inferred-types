@@ -122,10 +122,12 @@ const people = pluralize("person");
 
 ## Contributing
 
-If you are using this library and would like to take the next step of contributing that effort is welcome but please do make sure to always provide both runtime and _type_ tests for any code changes which you submit as a pull request.
+If you are using this library and would like to take the next step of _contributing_; that effort is welcome but please do make sure to always provide both runtime and type tests for any code changes which you submit as a pull request.
 
 See the plentiful examples that exist under the `tests/` folder for inspiration.
 
+**Note:** as of 2024 I'm also starting to add "type performance" tests; not an absolute requirement but in general adding something like you'll find in the `benches/` folder for any new type utility would be appreciated.
+
 ## Licensing
 
-This repo is offered under the permissive MIT license for anyone interested.
+This repo is offered under the highly permissive MIT license.
