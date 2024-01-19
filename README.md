@@ -17,6 +17,12 @@ Under the `src/` folder you'll find the the following subdirectories:
 - `types` - this folder represents the heart of the repo in the form of _type utilities_ and is further broken down by an attempt at functional classification that hopefully aides somewhat in feature discovery.
 - `runtime` - this is where you'll find runtime functions which mutate state while taking care to provide as much as type information that compliments the runtime environment as is possible.
 
+## Runtime synchronization with Types
+
+You will find many runtime functions like `ensureleading(str, substring)` which have a similarly named type (in this case `EnsureLeading<TStr, TSubstring>`). This is no accident and at some future point there may even be something approximating 1:1 parity.
+
+This connection between the type system and the runtime environment allows both a harmonization of variables across both environments and helps to ensure their consistency but it the runtime environment also often really needs strong type utilities to extract out narrow type definitions in the runtime environment.
+
 ## Examples
 
 What follows is not meant to be comprehensive set of examples but rather just a sampling that hopefully gives some perspective on the breadth of scope of this library.
