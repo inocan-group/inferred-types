@@ -33,15 +33,15 @@ describe("StripBefore<TStr,TBreak>", () => {
 describe("StripBefore(contend,find) runtime utility", () => {
 
   it("happy path", () => {
-    const hello = stripBefore("hello world", " ");
-    const foo = stripBefore("foo, bar, baz", ", ");
+    const world = stripBefore("hello world", " ");
+    const barBaz = stripBefore("foo, bar, baz", ", ");
 
-    expect(hello).toBe("world");
-    expect(foo).toBe("bar, baz");
+    expect(world).toBe("world");
+    expect(barBaz).toBe("bar, baz");
 
     type cases = [
-      Expect<Equal<typeof hello, "world">>, //
-      Expect<Equal<typeof foo, "bar, baz">>, //
+      Expect<Equal<typeof world, "world">>, //
+      Expect<Equal<typeof barBaz, "bar, baz">>, //
       
     ];
     const cases: cases = [ true, true ];

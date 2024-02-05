@@ -35,9 +35,15 @@ describe("stripAfter(contend,find) runtime utility", () => {
   it("happy path", () => {
     const hello = stripAfter("hello world", " ");
     const foo = stripAfter("foo, bar, baz", ", ");
+    const bracket = stripAfter("foo[bar]","[");
+    const twice = stripAfter("foo[[bar]]", "[");
+    const multi = stripAfter("foo[{bar}]", "[{");
 
     expect(hello).toBe("hello");
     expect(foo).toBe("foo");
+    expect(bracket).toBe("foo");
+    expect(twice).toBe("foo");
+    expect(multi).toBe("foo");
 
     type cases = [
       Expect<Equal<typeof hello, "hello">>, //
