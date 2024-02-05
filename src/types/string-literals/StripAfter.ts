@@ -1,4 +1,4 @@
-import {  AsTuple, First, Split } from "src/types/index";
+import {  IfStringLiteral, Split } from "src/types/index";
 
 /**
  * **StripAfter**`<TStr, TBreak>`
@@ -15,4 +15,14 @@ import {  AsTuple, First, Split } from "src/types/index";
 export type StripAfter<
   TStr extends string,
   TBreak extends string
-> = First< AsTuple<Split<TStr, TBreak>> >;
+> = IfStringLiteral<
+  TStr,
+  IfStringLiteral<
+    TBreak,
+    TStr extends `${infer Before}${TBreak}${string}`
+      ? Before
+      : TStr,
+    string
+  >,
+  string
+>;

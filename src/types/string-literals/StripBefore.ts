@@ -1,4 +1,4 @@
-import { IfAllLiteral } from "src/types/index";
+import {  IfStringLiteral } from "src/types/index";
 
 /**
  * **StripBefore**`<TStr, TBreak>`
@@ -15,12 +15,14 @@ import { IfAllLiteral } from "src/types/index";
 export type StripBefore<
   TStr extends string,
   TBreak extends string
-> = IfAllLiteral<
-  [ TStr, TBreak ],
-  // TStr and TBreak are both string literals
-  TStr extends `${string}${TBreak}${infer REST}`
-  ? `${REST}`
-  : TStr,
-  // TStr or TBreak is wide
+> = IfStringLiteral<
+  TStr,
+  IfStringLiteral<
+    TBreak, 
+    TStr extends `${string}${TBreak}${infer REST}`
+      ? `${REST}`
+      : TStr,
+    string
+  >,
   string
->;
+>
