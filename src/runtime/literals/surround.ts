@@ -11,6 +11,8 @@ TPostfix extends string
  * A higher order runtime utility which receives a prefix and postfix string
  * on it's first call. This returns a secondary function which will _surround_
  * the given input with the prefix and postfix strings.
+ * 
+ * **Related:** `ensureSurround()`
  */
 export function surround<
   TPrefix extends string,
