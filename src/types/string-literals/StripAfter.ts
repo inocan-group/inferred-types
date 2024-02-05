@@ -1,4 +1,4 @@
-import {  IfStringLiteral, Split } from "src/types/index";
+import {  IfStringLiteral } from "src/types/index";
 
 /**
  * **StripAfter**`<TStr, TBreak>`
