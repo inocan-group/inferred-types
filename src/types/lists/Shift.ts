@@ -5,7 +5,10 @@ import {
   AsString,
   AfterFirst, 
   Chars, 
-  AsArray 
+  AsArray, 
+  Join,
+  Split,
+  Concat
 } from "src/types/index";
 
 type _Shift<TList extends Tuple> = //
@@ -34,18 +37,8 @@ TList extends [unknown, ...(infer Tail)]
  */
 export type Shift<
   T extends string | Tuple
-> = IfString<
-  T,
-  // string passed in
-  IfStringLiteral<
-    AsString<T>,
-    T extends ""
-      ? ""
-      : AfterFirst< Chars<AsString<T>> >,
-    never
-  >,
-  // array passed in
-  _Shift<AsArray<T>>
->;
-
-
+> = T extends Tuple
+? _Shift<AsArray<T>>
+: _Shift<AsArray<Split<AsString<T>>>> extends readonly string[]
+  ? Concat<_Shift<AsArray<Split<AsString<T>>>>>
+  : never;
