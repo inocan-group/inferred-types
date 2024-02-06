@@ -1,77 +1,95 @@
 import {  
   AfterFirst,
   First,
+  Flatten,
   IfAllLiteral,
   IfEqual,
+  IfLength,
+  IfStringLiteral,
   IfUnion,
   Last,
-  Pop,
-  Shift,
   Slice,
+  UnionToTuple,
 } from "src/types/index";
 
 type SplitOnce<
-  TRemaining extends string,
+  TStr extends string,
   TSep extends string,
+  TPolicy extends "retain" | "omit" = "omit",
   TAnswer extends readonly string[] = []
-> = TRemaining extends `${infer HEAD}${TSep}${infer TAIL}`
+> = TStr extends `${infer HEAD}${TSep}${infer TAIL}`
 ? SplitOnce<
     TAIL,
     TSep,
-    [...TAnswer, HEAD]
+    TPolicy,
+    TPolicy extends "retain"
+    ? [...TAnswer, HEAD]
+    : [...TAnswer, HEAD]
   >
-: [...TAnswer, TRemaining];
+: [...TAnswer, TStr];
 
-type _Split<
-  T extends string,
-  SEP extends string,
-  ANSWER extends readonly string[] = []
-> = T extends `${infer HEAD}${SEP}${infer TAIL}`
-  ? _Split<TAIL, SEP, [...ANSWER, HEAD]>
-  : [...ANSWER, T];
-
-type AppendToLastBlock<
-  TContent extends string,
-  TBlocks extends readonly string[]
-> = Pop<TBlocks> extends readonly string[]
-  ? Last<TBlocks> extends string
-    ? [...Pop<TBlocks>, `${Last<TBlocks>}${TContent}`]
-    : TBlocks
-  : TBlocks;
-
-type AddNewBlock<
-  TSep extends string,
-  TBlocks extends readonly string[],
-  TUnionPolicy extends "retain" | "omit"
-> = TUnionPolicy extends "retain"
-  ? [...TBlocks, TSep]
-  : [...TBlocks, ""];
-
-type _SplitOnUnion<
-  TContent extends readonly string[],
-  TSep extends string,
-  TUnionPolicy extends "retain" | "omit",
-  TBlocks extends readonly string[] = [""]
-> = [] extends TContent
-  ? Shift<TBlocks>
-  : _SplitOnUnion<
-      AfterFirst<TContent>,
-      TSep,
-      TUnionPolicy,
-      First<TContent> extends TSep
-        ? AddNewBlock<
-            First<TContent>, 
-            TBlocks, 
-            TUnionPolicy
-          >
-        : AppendToLastBlock<First<TContent>,TBlocks>
-    >;
-
-export type Cleanup<T extends readonly string[]> = IfEqual<
+type Cleanup<T extends readonly string[]> = IfEqual<
   Last<T>, "",
   Slice<T,0,-1>,
   T
 >;
+
+type SplitChars<
+  TStr extends string,
+  TResult extends readonly string[] = []
+> = IfStringLiteral<
+  TStr,
+  IfLength<
+    TStr, 0, 
+    TResult,
+    TStr extends `${infer Char}${infer Rest}`
+      ? SplitChars<
+          Rest,
+        [...TResult, Char]
+      >
+      : never
+  >,
+  string
+>;
+
+type ReSplitEachResult<
+  TInputs extends readonly string[],
+  TSep extends string,
+  TPolicy extends "retain" | "omit",
+  TOutputs extends readonly string[] = []
+> = [] extends TInputs
+? TOutputs
+: ReSplitEachResult<
+    AfterFirst<TInputs>,
+    TSep,
+    TPolicy,
+    [
+      ...TOutputs,
+      ...SplitOnce<First<TInputs>, TSep>,
+    ]
+  >;
+
+type UnionSplit<
+  TResults extends readonly string[],
+  TSeparators extends readonly string[],
+  TPolicy extends "retain" | "omit" = "omit",
+> = [] extends TSeparators
+? TResults
+: UnionSplit<
+    ReSplitEachResult<
+      TResults,
+      First<TSeparators>,
+      TPolicy
+    > extends readonly string[]
+    ? ReSplitEachResult<
+        TResults,
+        First<TSeparators>,
+        TPolicy
+      >
+    : never,
+    AfterFirst<TSeparators>,
+    TPolicy
+  >
 
 
 
@@ -93,17 +111,19 @@ export type Split<
   TStr extends string,
   TSep extends string = "",
   TUnionPolicy extends "retain" | "omit" = "omit"
-> = IfAllLiteral<
+> = TSep extends ""
+? SplitChars<TStr>
+: IfAllLiteral<
   [ TStr, TSep ],
   // Both TStr and TSep are literals so we _can_ split type
   IfUnion<
     TSep,
     // union type
-    _SplitOnUnion<
-      SplitOnce<TStr, "">, 
-      TSep,
-      TUnionPolicy
-    >,
+    // TODO: this is not currently working
+    UnionToTuple<TSep> extends readonly string[]
+     ? UnionSplit<[TStr],UnionToTuple<TSep>,TUnionPolicy>
+     : never
+    ,
     // not a union type
     Cleanup<
       SplitOnce<TStr,TSep>
