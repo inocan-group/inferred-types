@@ -11,9 +11,9 @@ describe("Split<T,SEP>", () => {
 
   it("happy path", () => {
     type CommaFooBar = Split<"foo,bar", ",">;
-    type Characters = Split<"hello","">;
     type Empty = Split<"">;
     type Empty2 = Split<"",",">;
+    type Characters = Split<"hello","">;
     
     type cases = [
       Expect<Equal<CommaFooBar, ["foo", "bar"]>>,
@@ -61,6 +61,7 @@ describe("Split<T,SEP>", () => {
   });
   
   it("Split with a union type", () => {
+    // TODO: fix split's implementation for union types
     type FooBar = Split<"FooBar", UpperAlphaChar>;
     type FooBarOmit = Split<"FooBar", UpperAlphaChar, "omit">;
     type FooBarRetain = Split<"FooBar", UpperAlphaChar, "retain">;
