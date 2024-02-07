@@ -8,7 +8,7 @@ import { describe, it } from "vitest";
 
 describe("Slice<TList, TStart, TEnd>", () => {
 
-  it("happy path", () => {
+  it("slicing a tuple/list", () => {
     type List = [1,2,3,4,5,6,7,8];
     type ListRO = [1,2,3,4,5,6,7,8];
 
@@ -38,7 +38,25 @@ describe("Slice<TList, TStart, TEnd>", () => {
       Expect<Equal<RoThreeOnward, [4,5,6,7,8]>>,
       Expect<Equal<RoSkipLastTwo, [1,2,3,4,5,6]>>,
     ];
-    const cases: cases = [true, true, true, true, true];
+    const cases: cases = [
+      true, true, true, true, true,
+      true, true, true, true, true,
+    ];
+  });
+
+  
+  it("slicing a string", () => {
+    type Foo = Slice<"FooBar", 0, 3>;
+    type Bar = Slice<"FooBar", 3>;
+    
+    type cases = [
+      Expect<Equal<Foo, "Foo">>,
+      Expect<Equal<Bar, "Bar">>,
+
+    ];
+    const cases: cases = [
+      true, true
+    ];
   });
 
 });
