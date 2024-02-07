@@ -1,3 +1,7 @@
+/* eslint-disable no-use-before-define */
+import { Concat, Split } from "../string-literals";
+import { Length } from "./Length";
+
 type NumberToArr<T extends number, R extends unknown[] = []> =
 R["length"] extends T
     ? R
@@ -41,8 +45,14 @@ export type _Slice<
  * - `TEnd` defaults to the length of `TList`
  */
 export type Slice<
-  TList extends readonly unknown[],
+  TList extends readonly unknown[] | string,
   TStart extends number = 0,
-  TEnd extends number = TList["length"],
-> = _Slice<[...TList],TStart,TEnd>;
-  
+  TEnd extends number = Length<TList>,
+> = TList extends readonly unknown[] 
+? _Slice<[...TList],TStart,TEnd>
+: TList extends string
+  ? Split<TList> extends readonly string[]
+    ? Concat<_Slice<Split<TList>, TStart, TEnd>>
+    : never
+  : never;
+
