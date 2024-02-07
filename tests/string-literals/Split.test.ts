@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { Split, UpperAlphaChar } from "src/types/index";
+import { IsUnion, Split, UpperAlphaChar } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -12,7 +12,7 @@ describe("Split<T,SEP>", () => {
   it("happy path", () => {
     type CommaFooBar = Split<"foo,bar", ",">;
     type Empty = Split<"">;
-    type Empty2 = Split<"",",">;
+    type AlmostEmpty = Split<"",",">;
     type Characters = Split<"hello","">;
     
     type cases = [
@@ -22,7 +22,7 @@ describe("Split<T,SEP>", () => {
         ["h", "e", "l", "l", "o"]
       >>,
       Expect<Equal<Empty, []>>,
-      Expect<Equal<Empty2, []>>,
+      Expect<Equal<AlmostEmpty, [""]>>,
     ];
 
     const cases: cases = [
@@ -48,7 +48,7 @@ describe("Split<T,SEP>", () => {
     const str = "hello world, 42 nice to meet you" as const;
     type S = Split<typeof str, typeof str>;
 
-    type cases = [Expect<Equal<S, [""]>>];
+    type cases = [Expect<Equal<S, ["",""]>>];
     const cases: cases = [true];
   });
 
@@ -56,12 +56,13 @@ describe("Split<T,SEP>", () => {
     const str = "hello world, 42 nice to meet you" as string;
     type S = Split<typeof str, ",">;
 
-    type cases = [Expect<Equal<S, readonly string[]>>];
+    type cases = [Expect<Equal<S, string[]>>];
     const cases: cases = [true];
   });
   
   it("Split with a union type", () => {
     // TODO: fix split's implementation for union types
+    type _X = IsUnion<UpperAlphaChar>;
     type FooBar = Split<"FooBar", UpperAlphaChar>;
     type FooBarOmit = Split<"FooBar", UpperAlphaChar, "omit">;
     type FooBarRetain = Split<"FooBar", UpperAlphaChar, "retain">;
@@ -77,3 +78,4 @@ describe("Split<T,SEP>", () => {
   
 
 });
+
