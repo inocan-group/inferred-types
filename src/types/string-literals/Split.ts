@@ -1,14 +1,12 @@
 import {  
   AfterFirst,
+  And,
   First,
-  Flatten,
-  IfAllLiteral,
-  IfEqual,
+  HasWideValues,
   IfLength,
   IfStringLiteral,
   IfUnion,
-  Last,
-  Slice,
+  IsStringLiteral,
   UnionToTuple,
 } from "src/types/index";
 
@@ -17,7 +15,7 @@ type SplitOnce<
   TSep extends string,
   TPolicy extends "retain" | "omit" = "omit",
   TAnswer extends readonly string[] = []
-> = TStr extends `${infer HEAD}${TSep}${infer TAIL}`
+> = [TStr] extends [`${infer HEAD}${TSep}${infer TAIL}`]
 ? SplitOnce<
     TAIL,
     TSep,
@@ -27,12 +25,6 @@ type SplitOnce<
     : [...TAnswer, HEAD]
   >
 : [...TAnswer, TStr];
-
-type Cleanup<T extends readonly string[]> = IfEqual<
-  Last<T>, "",
-  Slice<T,0,-1>,
-  T
->;
 
 type SplitChars<
   TStr extends string,
@@ -92,6 +84,27 @@ type UnionSplit<
   >
 
 
+type _Split<
+TStr extends string,
+TSep extends string = "",
+TUnionPolicy extends "retain" | "omit" = "omit"
+> = IfUnion<
+TSep,
+// union type
+UnionToTuple<TSep> extends readonly string[]
+? UnionSplit<[TStr],UnionToTuple<TSep>,TUnionPolicy>
+: never
+,
+// not a union type
+  And<[IsStringLiteral<TStr>, IsStringLiteral<TSep>]> extends true
+  ? SplitOnce<TStr,TSep>
+  : HasWideValues<SplitOnce<TStr,TSep>> extends true
+      ? string[]
+      : SplitOnce<TStr,TSep>
+>;
+
+
+
 
 /**
  * **Split**`<TStr, [SEP]>`
@@ -113,22 +126,27 @@ export type Split<
   TUnionPolicy extends "retain" | "omit" = "omit"
 > = TSep extends ""
 ? SplitChars<TStr>
-: IfAllLiteral<
-  [ TStr, TSep ],
-  // Both TStr and TSep are literals so we _can_ split type
-  IfUnion<
-    TSep,
-    // union type
-    // TODO: this is not currently working
-    UnionToTuple<TSep> extends readonly string[]
-     ? UnionSplit<[TStr],UnionToTuple<TSep>,TUnionPolicy>
-     : never
-    ,
-    // not a union type
-    Cleanup<
-      SplitOnce<TStr,TSep>
-    >
-  >,
-  // We must resort to a wide type since either TStr or TSep are wide
-  readonly string[]
->;
+: _Split<TStr,TSep,TUnionPolicy>;
+
+
+// IfAllLiteral<
+//   [ TStr, TSep ],
+//   // Both TStr and TSep are literals so we _can_ split type
+//   IfUnion<
+//     TSep,
+//     // union type
+//     // TODO: this is not currently working
+//     UnionToTuple<TSep> extends readonly string[]
+//      ? UnionSplit<[TStr],UnionToTuple<TSep>,TUnionPolicy>
+//      : never
+//     ,
+//     // not a union type
+//     Cleanup<
+//       SplitOnce<TStr,TSep>
+//     >
+//   >,
+//   // We must resort to a wide type since either TStr or TSep are wide
+//   readonly string[]
+// >;
+
+
