@@ -10,20 +10,37 @@ import { ifLength, narrow } from "src/runtime/index";
 
 describe("IfLength<TCompareTo,TVal,IF,ELSE>", () => {
 
-  it("happy path", () => {
+  it("evaluating a tuple", () => {
     type Tup1 = [1,2,3];
     type Tup2 = [3,4,5];
 
-    type Equality = IfLength<Tup1, Length<Tup2>, "yes", "no">;
+    type E1 = IfLength<Tup1, Length<Tup2>, "yes", "no">;
+    type E2 = IfLength<Tup1, 3, "yes", "no">;
+    type NE1 = IfLength<Tup1, 5, "yes", "no">;
 
     type cases = [
-      Expect<Equal<Equality, "yes">>, //
-      
+      Expect<Equal<E1, "yes">>, //
+      Expect<Equal<E2, "yes">>, //
+      Expect<Equal<NE1, "no">>, //
     ];
-    const cases: cases = [ true ];
+    const cases: cases = [ true, true, true ];
   });
 
 });
+
+
+it("evaluating a string", () => {
+  type E1 = IfLength<"Foobar", 6, "yes", "no">;
+  type NE1 = IfLength<"Foobar", 3, "yes", "no">;
+
+  type cases = [
+    Expect<Equal<E1, "yes">>, //
+    Expect<Equal<NE1, "no">>, //Expect<Equal<E1, "yes">>, //
+  ];
+  const cases: cases = [ true, true ];
+  
+});
+
 
 
 describe("ifLength(val,len,if,else)", () => {

@@ -1,4 +1,4 @@
-import { Length, IfEqual, IsLiteral, Container } from "src/types/index";
+import { Length, IfEqual, IsLiteral, Tuple, IfStringLiteral } from "src/types/index";
 
 
 /**
@@ -14,7 +14,7 @@ import { Length, IfEqual, IsLiteral, Container } from "src/types/index";
  * type.
  */
 export type IfLength<
-  TEvaluate extends Container, 
+  TEvaluate extends Tuple | string,
   TLength extends number,
   IF,
   ELSE = TEvaluate,
@@ -25,4 +25,10 @@ export type IfLength<
     : MAYBE
   : TEvaluate extends unknown[]
     ? MAYBE
-    : ELSE;
+    : TEvaluate extends string
+      ? IfStringLiteral<
+          TEvaluate,
+          IfEqual<Length<TEvaluate>, TLength, IF, ELSE>,
+          MAYBE
+        >
+      : MAYBE;
