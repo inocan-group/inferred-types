@@ -1,30 +1,47 @@
 import {  
   AfterFirst,
-  And,
   First,
-  HasWideValues,
+  IfEqual,
   IfLength,
   IfStringLiteral,
   IfUnion,
-  IsStringLiteral,
   UnionToTuple,
 } from "src/types/index";
+
+type UnionPolicy = "omit" | "leading" | "trailing";
+
+type Take<
+  TStr extends string,
+  TSep extends string,
+> = TStr extends `${infer Content}${TSep}${infer Rest}`
+? { content: Content; separator: TSep; rest: Rest}
+: null;
 
 type SplitOnce<
   TStr extends string,
   TSep extends string,
-  TPolicy extends "retain" | "omit" = "omit",
-  TAnswer extends readonly string[] = []
-> = [TStr] extends [`${infer HEAD}${TSep}${infer TAIL}`]
-? SplitOnce<
-    TAIL,
-    TSep,
-    TPolicy,
-    TPolicy extends "retain"
-    ? [...TAnswer, HEAD]
-    : [...TAnswer, HEAD]
+  TPolicy extends UnionPolicy = "omit",
+  TOutputs extends readonly string[] = []
+> = Take<TStr, TSep> extends null
+// finish up
+? IfEqual<
+    TStr, "",
+    TOutputs,
+    [...TOutputs, TStr]
   >
-: [...TAnswer, TStr];
+// work to be done
+: Take<TStr, TSep> extends { content: string; separator: string; rest: string}
+  ? SplitOnce<
+      Take<TStr, TSep>["rest"],
+      TSep,
+      TPolicy,
+      [
+        ...TOutputs,
+        Take<TStr, TSep>["content"]
+      ]
+    >
+  : never;
+
 
 type SplitChars<
   TStr extends string,
@@ -44,67 +61,48 @@ type SplitChars<
   string
 >;
 
-type ReSplitEachResult<
-  TInputs extends readonly string[],
-  TSep extends string,
-  TPolicy extends "retain" | "omit",
-  TOutputs extends readonly string[] = []
-> = [] extends TInputs
-? TOutputs
-: ReSplitEachResult<
-    AfterFirst<TInputs>,
-    TSep,
-    TPolicy,
+type MutateSplitResults<
+    TInput extends readonly string[],
+    TSplit extends string,
+    TUnionPolicy extends UnionPolicy,
+    TOutput extends readonly string[] = []
+> = [] extends TInput 
+? TOutput
+: MutateSplitResults<
+    AfterFirst<TInput>,
+    TSplit,
+    TUnionPolicy,
     [
-      ...TOutputs,
-      ...SplitOnce<First<TInputs>, TSep>,
+      ...TOutput,
+      // First<TInput> extends string
+      ...(SplitOnce<First<TInput>,TSplit, TUnionPolicy> extends readonly string[]
+        ? SplitOnce<First<TInput>,TSplit, TUnionPolicy>
+        : []
+      )
+      // ? ...SplitOnce<First<TInput>,TSplit, TUnionPolicy>
+      // : []
     ]
   >;
 
-type UnionSplit<
-  TResults extends readonly string[],
-  TSeparators extends readonly string[],
-  TPolicy extends "retain" | "omit" = "omit",
-> = [] extends TSeparators
-? TResults
-: UnionSplit<
-    ReSplitEachResult<
-      TResults,
-      First<TSeparators>,
-      TPolicy
-    > extends readonly string[]
-    ? ReSplitEachResult<
-        TResults,
-        First<TSeparators>,
-        TPolicy
-      >
-    : never,
-    AfterFirst<TSeparators>,
-    TPolicy
-  >
-
-
-type _Split<
-TStr extends string,
-TSep extends string = "",
-TUnionPolicy extends "retain" | "omit" = "omit"
-> = IfUnion<
-TSep,
-// union type
-UnionToTuple<TSep> extends readonly string[]
-? UnionSplit<[TStr],UnionToTuple<TSep>,TUnionPolicy>
-: never
-,
-// not a union type
-  And<[IsStringLiteral<TStr>, IsStringLiteral<TSep>]> extends true
-  ? SplitOnce<TStr,TSep>
-  : HasWideValues<SplitOnce<TStr,TSep>> extends true
-      ? string[]
-      : SplitOnce<TStr,TSep>
->;
-
-
-
+/**
+ * Iterates over all of the separators provided
+ */
+type ProcessSeparators<
+  TInputs extends readonly string[],
+  TIndexBy extends readonly string[],
+  TUnionPolicy extends UnionPolicy = "omit",
+  TResults extends readonly string[] = [],
+> = [] extends TIndexBy
+?  TResults
+:  ProcessSeparators<
+      MutateSplitResults<TInputs, First<TIndexBy>,TUnionPolicy>,
+      AfterFirst<TIndexBy>,
+      TUnionPolicy,
+      [
+        ...TResults,
+        
+      ]
+    >;
 
 /**
  * **Split**`<TStr, [SEP]>`
@@ -123,30 +121,16 @@ UnionToTuple<TSep> extends readonly string[]
 export type Split<
   TStr extends string,
   TSep extends string = "",
-  TUnionPolicy extends "retain" | "omit" = "omit"
-> = TSep extends ""
-? SplitChars<TStr>
-: _Split<TStr,TSep,TUnionPolicy>;
-
-
-// IfAllLiteral<
-//   [ TStr, TSep ],
-//   // Both TStr and TSep are literals so we _can_ split type
-//   IfUnion<
-//     TSep,
-//     // union type
-//     // TODO: this is not currently working
-//     UnionToTuple<TSep> extends readonly string[]
-//      ? UnionSplit<[TStr],UnionToTuple<TSep>,TUnionPolicy>
-//      : never
-//     ,
-//     // not a union type
-//     Cleanup<
-//       SplitOnce<TStr,TSep>
-//     >
-//   >,
-//   // We must resort to a wide type since either TStr or TSep are wide
-//   readonly string[]
-// >;
-
+  TUnionPolicy extends UnionPolicy = "omit"
+> = IfUnion<
+  TSep,
+  UnionToTuple<TSep> extends readonly string[]
+  ? ProcessSeparators<[TStr], UnionToTuple<TSep>, TUnionPolicy>
+  : string
+  ,
+  IfEqual<TSep, "",
+    SplitChars<TStr>,
+    SplitOnce<TStr,TSep, TUnionPolicy>
+  >
+>
 
