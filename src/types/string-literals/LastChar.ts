@@ -36,6 +36,8 @@ export type LastChar<
 > = IfString<
   TContent,
   Last<AsArray<Split<AsString<TContent>>>>,
-  Iterate<AsArray<TContent>>
+  TContent extends readonly string[]
+    ? Iterate<TContent>
+    : never
 >;
 
