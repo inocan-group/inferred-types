@@ -1,4 +1,4 @@
-import { Container, IfArray, IfLength, Narrowable, Scalar, Tuple } from "src/types/index";
+import {  IfArray, IfLength, Narrowable, Scalar, Tuple } from "src/types/index";
 
 
 /**
@@ -13,7 +13,7 @@ import { Container, IfArray, IfLength, Narrowable, Scalar, Tuple } from "src/typ
  * @param elseVal the value (strongly typed) returned if val is NOT of given length 
  */
 export function ifLength<
-  TList extends Container, 
+  TList extends readonly unknown[], 
   TLen extends number,
   IF extends Narrowable | Tuple, 
   ELSE extends Narrowable | Tuple, 
@@ -25,7 +25,8 @@ export function ifLength<
 ) {
   return (
     Array.isArray(value) && (value as unknown[]).length === length
-      ? ifVal(value as Exclude<TList, Scalar | undefined> & Tuple) 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ? ifVal(value as any) 
       : elseVal(value as Exclude<TList, Tuple>)
   ) as IfLength<TList, TLen, IF, ELSE>;
 }

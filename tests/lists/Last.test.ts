@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { Pop } from "src/types/lists/Last";
 import { describe, it } from "vitest";
+import { Last } from "../../src/inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -8,8 +8,8 @@ import { describe, it } from "vitest";
 
 describe("Last<T>", () => {
   it("happy path", () => {
-    type Three = Pop<[1,2,3]>;
-    type Empty = Pop<[]>;
+    type Three = Last<[1,2,3]>;
+    type Empty = Last<[]>;
     
     type cases = [
       Expect<Equal<Three, 3>>,

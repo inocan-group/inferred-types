@@ -1,5 +1,5 @@
 import { SINGULAR_NOUN_ENDINGS } from "src/constants/index";
-import { AlphaChar , IfAllExtend, Split , TupleToUnion, Mutable } from "src/types/index";
+import { AlphaChar , IfAllExtend, Split , TupleToUnion, Mutable, AsArray } from "src/types/index";
 /**
  * **SingularNounEnding**
  * 
@@ -27,5 +27,5 @@ export type SingularNounEnding = TupleToUnion<Mutable<typeof SINGULAR_NOUN_ENDIN
  * ```
  */
 export type SingularNoun<T extends string> = T extends `${infer Prelude}${SingularNounEnding}`
-  ? IfAllExtend<Split<Prelude>, AlphaChar, T, never>
+  ? IfAllExtend<AsArray<Split<Prelude>>, AlphaChar, T, never>
   : never;

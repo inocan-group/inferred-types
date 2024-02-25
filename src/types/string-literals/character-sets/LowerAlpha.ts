@@ -1,4 +1,4 @@
-import {  IfAllExtend,  IfStringLiteral, LowerAlphaChar, Split } from "src/types/index";
+import {  AsArray, IfAllExtend,  IfStringLiteral, LowerAlphaChar, Split } from "src/types/index";
 
 /**
  * **LowerAlpha**`<T>`
@@ -12,7 +12,7 @@ import {  IfAllExtend,  IfStringLiteral, LowerAlphaChar, Split } from "src/types
 export type LowerAlpha<T> = T extends string
   ? IfStringLiteral<
       T,
-      IfAllExtend<Split<T>, LowerAlphaChar, T, never>,
+      IfAllExtend<AsArray<Split<T>>, LowerAlphaChar, T, never>,
       string
     >
   : never;

@@ -1,10 +1,10 @@
 import {  
   AfterFirst,
-  First,
   IfEqual,
   IfLength,
   IfStringLiteral,
   IfUnion,
+  IsLiteral,
   UnionToTuple,
 } from "src/types/index";
 
@@ -23,13 +23,11 @@ type SplitOnce<
   TPolicy extends UnionPolicy = "omit",
   TOutputs extends readonly string[] = []
 > = Take<TStr, TSep> extends null
-// finish up
 ? IfEqual<
     TStr, "",
     TOutputs,
     [...TOutputs, TStr]
   >
-// work to be done
 : Take<TStr, TSep> extends { content: string; separator: string; rest: string}
   ? SplitOnce<
       Take<TStr, TSep>["rest"],
@@ -61,48 +59,48 @@ type SplitChars<
   string
 >;
 
-type MutateSplitResults<
-    TInput extends readonly string[],
-    TSplit extends string,
-    TUnionPolicy extends UnionPolicy,
-    TOutput extends readonly string[] = []
-> = [] extends TInput 
-? TOutput
-: MutateSplitResults<
-    AfterFirst<TInput>,
-    TSplit,
-    TUnionPolicy,
-    [
-      ...TOutput,
-      // First<TInput> extends string
-      ...(SplitOnce<First<TInput>,TSplit, TUnionPolicy> extends readonly string[]
-        ? SplitOnce<First<TInput>,TSplit, TUnionPolicy>
-        : []
-      )
-      // ? ...SplitOnce<First<TInput>,TSplit, TUnionPolicy>
-      // : []
-    ]
-  >;
 
-/**
- * Iterates over all of the separators provided
- */
-type ProcessSeparators<
+type ProcessEach<
+  TContent extends readonly string[],
+  TIndexBy extends readonly string[],
+  TUnionPolicy extends UnionPolicy
+> = {
+[KIndex in keyof TIndexBy]: {
+  [KOut in keyof TContent]: TContent[KOut] extends string
+  ? TIndexBy[KIndex] extends string
+    ? SplitOnce<
+        TContent[KOut],
+        TIndexBy[KIndex],
+        TUnionPolicy
+      >
+    : never
+  : never
+}[number]
+}[number];
+
+
+type Process<
   TInputs extends readonly string[],
   TIndexBy extends readonly string[],
   TUnionPolicy extends UnionPolicy = "omit",
-  TResults extends readonly string[] = [],
-> = [] extends TIndexBy
-?  TResults
-:  ProcessSeparators<
-      MutateSplitResults<TInputs, First<TIndexBy>,TUnionPolicy>,
-      AfterFirst<TIndexBy>,
-      TUnionPolicy,
-      [
-        ...TResults,
-        
-      ]
-    >;
+  TOutputs extends readonly string[] = [],
+> = [] extends TInputs
+? TOutputs
+: Process<
+    AfterFirst<TInputs>,
+    TIndexBy,
+    TUnionPolicy,
+    [
+      ...TOutputs,
+      ...(
+        ProcessEach<TOutputs,TIndexBy,TUnionPolicy> extends readonly string[] 
+          ? ProcessEach<TOutputs,TIndexBy,TUnionPolicy> 
+          : []
+      )
+    ]
+  >
+;
+
 
 /**
  * **Split**`<TStr, [SEP]>`
@@ -125,12 +123,20 @@ export type Split<
 > = IfUnion<
   TSep,
   UnionToTuple<TSep> extends readonly string[]
-  ? ProcessSeparators<[TStr], UnionToTuple<TSep>, TUnionPolicy>
+  ? Process<[TStr], UnionToTuple<TSep>, TUnionPolicy>
   : string
   ,
-  IfEqual<TSep, "",
+  IfEqual<
+    TSep, "",
     SplitChars<TStr>,
-    SplitOnce<TStr,TSep, TUnionPolicy>
+    IfEqual<
+      TSep, TStr, ["",""],
+      IsLiteral<TStr> extends true
+      ? IsLiteral<TSep> extends true
+        ? SplitOnce<TStr,TSep, TUnionPolicy>
+        : string[]
+      : string[]
+    >
   >
 >
 
