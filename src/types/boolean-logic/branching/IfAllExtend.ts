@@ -10,7 +10,8 @@ import { AllExtend } from "src/types/index";
  * - a closer comparison is `IfSomeExtend` which requires all items to extend
  */
 export type IfAllExtend<
-  TList extends readonly unknown[], TExtend,
+  TList extends readonly unknown[], 
+  TExtend,
   IF,
   ELSE
 > = AllExtend<TList,TExtend> extends true ? IF : ELSE;

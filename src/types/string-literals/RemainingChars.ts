@@ -4,7 +4,7 @@ type Iterate<
   TInput extends readonly string[]
 > = {
   [K in keyof TInput]: TInput[K] extends string 
-    ? Concat<AfterFirst<Split<TInput[K]>>>
+    ? Concat<AfterFirst<AsArray<Split<TInput[K]>>>>
     : never
 };
 
@@ -28,5 +28,5 @@ export type RemainingChars<
   TContent extends string | readonly string[]
 > = TContent extends readonly string[]
   ? Iterate<AsArray<TContent>>
-  : Concat<AfterFirst<Split<AsString<TContent>>>>;
+  : Concat<AfterFirst<AsArray<Split<AsString<TContent>>>>>;
 

@@ -1,4 +1,4 @@
-import { AsString, ErrorCondition, IfAllLiteral, IfEqual, Split, Tuple } from "src/types/index";
+import { AsArray, AsString, ErrorCondition, IfAllLiteral, IfEqual, Split, Tuple } from "src/types/index";
 
 type Process<
   A extends Tuple,
@@ -42,7 +42,7 @@ A extends string
   ? B extends string
     ? IfAllLiteral<
         [A,B],
-        Process<Split<AsString<A>>,Split<AsString<B>>>,
+        Process<AsArray<Split<AsString<A>>>,AsArray<Split<AsString<B>>>>,
         NonLiteral<A,B>
       >
     : MixedType<A,B>

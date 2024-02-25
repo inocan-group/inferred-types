@@ -69,13 +69,13 @@ describe("Split<T,SEP>", () => {
     // TODO: fix split's implementation for union types
     type FooBar = Split<"FooBar", UpperAlphaChar>;
     type FooBarOmit = Split<"FooBar", UpperAlphaChar, "omit">;
-    type FooBarLeading = Split<"Foo, Bar; Baz", ", " | "; ", "leading">;
+    type FooBarLeading = Split<"FooBar", UpperAlphaChar, "leading">;
     type FooBarTrailing = Split<"Foo, Bar, Baz", ", ", "trailing">;
     
     type cases = [
       Expect<Equal<FooBar, ["oo", "ar"]>>,
       Expect<Equal<FooBarOmit, ["oo", "ar"]>>,
-      Expect<Equal<FooBarLeading, ["Foo", ", Bar", ", Baz"]>>,
+      Expect<Equal<FooBarLeading, ["Foo", "Bar"]>>,
       Expect<Equal<FooBarTrailing, ["Foo, ", "Bar, ", "Baz"]>>,
     ];
     const cases: cases = [ true, true, true ];

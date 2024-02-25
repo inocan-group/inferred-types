@@ -74,3 +74,4 @@ export * from "./HasCharacters";
 export * from "./IsIndexable";
 export * from "./IsReadonlyObject";
 export * from "./OfSameLength";
+export * from "./HasWideValues";

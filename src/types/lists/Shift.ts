@@ -1,20 +1,16 @@
 import { 
   Tuple, 
-  IfString, 
-  IfStringLiteral,  
   AsString,
-  AfterFirst, 
-  Chars, 
   AsArray, 
-  Join,
   Split,
-  Concat
+  Concat,
+  IfStringLiteral
 } from "src/types/index";
 
 type _Shift<TList extends Tuple> = //
 TList extends [unknown, ...(infer Tail)]
   ? Tail
-  : undefined;
+  : "";
 
 type _ShiftChar<TList extends Tuple> = //
 TList extends [unknown, ...(infer Tail)]
@@ -39,6 +35,8 @@ export type Shift<
   T extends string | Tuple
 > = T extends Tuple
 ? _Shift<AsArray<T>>
-: _Shift<AsArray<Split<AsString<T>>>> extends readonly string[]
+: IfStringLiteral<T, _Shift<AsArray<Split<AsString<T>>>> extends readonly string[]
   ? Concat<_Shift<AsArray<Split<AsString<T>>>>>
-  : never;
+  : "",
+  string
+  >;

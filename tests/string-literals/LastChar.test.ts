@@ -22,7 +22,7 @@ describe("LastChar<T>", () => {
 
   
   it("with array input", () => {
-    type FooBarBaz = LastChar<["foo", "bar", "baz"]>;
+    type FooBarBaz = LastChar<[ "foo", "bar", "baz"]>;
     
     type cases = [
       Expect<Equal<FooBarBaz, ["o","r","z"]>>

@@ -1,4 +1,4 @@
-import { IfEqual, IfGreaterThan, StrLen, Slice, Split, Concat, Tuple,  Length } from "src/types/index";
+import { IfEqual, IfGreaterThan, StrLen, Slice, Split, Concat, Tuple,  Length, AsArray } from "src/types/index";
 
 type Ellipsis<T extends boolean | string> = T extends string ? T : "...";
 
@@ -7,8 +7,8 @@ type _Truncate<
   TMaxLen extends number,
   TEllipsis extends boolean | string
 > = TEllipsis extends false
-  ? Concat<Slice<Split<TStr>,0,TMaxLen>>
-  : Concat<[...Slice<Split<TStr>,0,TMaxLen>, Ellipsis<TEllipsis>]>;
+  ? Concat<AsArray<Slice<Split<TStr>,0,TMaxLen>>>
+  : Concat<[...AsArray<Slice<Split<TStr>,0,TMaxLen>>, Ellipsis<TEllipsis>]>;
 
 /**
  * **Truncate**`<TStr,TMaxLen,[TEllipsis]>`
