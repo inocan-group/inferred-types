@@ -5,6 +5,7 @@ export * from "./Constant";
 export * from "./DateTime";
 export * from "./Types";
 export * from "./Comma";
+export * from "./Functional";
 export * from "./Alpha";
 export * from "./Consonants";
 export * from "./PluralExceptions";
