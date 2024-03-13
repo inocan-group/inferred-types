@@ -1,4 +1,6 @@
-import { KebabCase, PascalCase } from "../string-literals";
+import { KindError, KindErrorDefn } from "src/types/errors/KindError";
+import { toKebabCase, toPascalCase } from "../literals";
+import { IfUndefined } from "src/types/boolean-logic/branching/IfUndefined";
 
 /**
  * **KindError**
@@ -24,26 +26,28 @@ import { KebabCase, PascalCase } from "../string-literals";
  * BadJuju("oh my god!", { flavor: "strawberry"})
  * ```
  */
-export interface KindError<
-  K extends string, 
+export const kindError = <
+  K extends string,
   C extends Record<string, unknown> = NonNullable<unknown>
-> extends Error  {
-  __kind: "KindError";
-  name: PascalCase<K>;
-  kind: KebabCase<K>;
-  context: C;
-}
-
-/**
- * **KindErrorDefn**`<K,C>`
- * 
- * A definition for a `KindError`. Simply call this function to
- * turn it into a `KindError` as specified by this definition.
- */
-export type KindErrorDefn<
-  K extends string, 
-  C extends Record<string, unknown> = NonNullable<unknown>
-> = (
-  msg: string,
+>(
+  kind: K, 
+  _defineContext?: C
+): KindErrorDefn<K,C> => 
+(
+  msg: string, 
   context?: C
-) => KindError<K,C>;
+) => {
+
+  const err = new Error(msg) as Partial<
+    KindError<
+      typeof kind, 
+      IfUndefined<C, NonNullable<unknown>>
+    >
+  >;
+  err.name = toPascalCase(kind);
+  err.kind = toKebabCase(kind);
+  err.__kind = "KindError";
+  err.context = context as IfUndefined<C, NonNullable<unknown>>;
+
+  return err as KindError<K,C>
+}
