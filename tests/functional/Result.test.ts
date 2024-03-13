@@ -24,7 +24,7 @@ describe("Result<T,E> and Utils", () => {
     type SimpleKind = ErrKind<SimpleErr>;
     type ObjKind = ErrKind<ObjErr>;
 
-    type x = GetErr<{state: typeof RESULT.Err }>;
+    type x = GetErr<{state: typeof RESULT.Err; err: {msg: "hi"}}>;
     
     type cases = [
       ExpectTrue<IsResult<R>>,

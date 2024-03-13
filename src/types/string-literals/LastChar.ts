@@ -13,8 +13,6 @@ type Iterate<
   [K in keyof TInput]: Last<AsArray<Split<AsString<TInput[K]>>>>
 }[number]>
 
-
-
 /**
  * **LastChar**`<TContent>`
  * 

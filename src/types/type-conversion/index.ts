@@ -9,6 +9,7 @@ export * from "./Awaited";
 export * from "./AsString";
 export * from "./AsNumber";
 export * from "./AsBoolean";
+export * from "./AsDefined";
 export * from "./AsFunction";
 export * from "./AsPropertyKey";
 export * from "./TupleToUnion";

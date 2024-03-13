@@ -2,7 +2,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { omit } from "src/runtime/index";
+import { narrow, omit } from "src/runtime/index";
 import { DoesExtend, EmptyObject, ErrorCondition } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -39,5 +39,36 @@ describe("omit()", () => {
     ];
     const cases: cases = [true, true, true, true, true];
   });
+
+  
+  it("Narrowing a typed object", () => {
+    const input: { foo: 1; bar: 2; baz: 3} = {foo:1, bar: 2, baz: 3};
+    const test = omit(input, "foo");
+    
+    type cases = [
+      Expect<Equal<typeof test, {bar: 2; baz: 3}>>
+    ];
+    const cases: cases = [ true ];
+
+    expect(test).toEqual({bar: 2, baz: 3});
+  });
+
+  it("Narrowing a typed object with an array property", () => {
+    const input: { foo: 1; bar: 2; baz: ["testing", "something"]} = {
+      foo:1, 
+      bar: 2, 
+      baz: ["testing", "something"]
+    };
+
+    const test = omit(input, "foo");
+    
+    type cases = [
+      Expect<Equal<typeof test, {bar: 2; baz: readonly ["testing", "something"]}>>
+    ];
+    const cases: cases = [ true ];
+
+    expect(test).toEqual({bar: 2, baz: ["testing","something"]});
+  });
+  
 
 });

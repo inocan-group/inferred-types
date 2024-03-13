@@ -1,13 +1,11 @@
 import { AnyFunction } from "src/types/index";
 
 /**
- * **AsString**<T>
+ * **AsFunction**<T>
  * 
  * Attempts to narrow `T` to a string type where possible.
  * 
  * **Related:** `ToString`
  */
-export type AsFunction<T> = T extends AnyFunction
-  ? T & AnyFunction
-  : never;
+export type AsFunction<T> = T & AnyFunction;
 

@@ -75,3 +75,4 @@ export * from "./IsIndexable";
 export * from "./IsReadonlyObject";
 export * from "./OfSameLength";
 export * from "./HasWideValues";
+export * from "./HasProp";
