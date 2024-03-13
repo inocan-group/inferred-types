@@ -1,6 +1,5 @@
 import {  IfArray, IfLength, Narrowable, Scalar, Tuple } from "src/types/index";
 
-
 /**
  * **ifLength**(val,length, ifVal, elseVal)
  * 

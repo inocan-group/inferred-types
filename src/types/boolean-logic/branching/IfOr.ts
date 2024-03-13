@@ -14,7 +14,7 @@ import { LogicFunction, Or } from "src/types/index";
 export type IfOr<
   TConditions extends (readonly (boolean | LogicFunction<TParams>)[])
     | (boolean | LogicFunction<TParams>)[],
-  IF,
-  ELSE,
+  IF = true,
+  ELSE = false,
   TParams extends readonly unknown[] = [],
 > = Or<readonly [...TConditions]> extends true ? IF : ELSE;

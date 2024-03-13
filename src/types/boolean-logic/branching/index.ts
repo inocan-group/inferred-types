@@ -9,6 +9,7 @@ export * from "./IfTruthy";
 export * from "./IfSomeTruthy";
 export * from "./IfAllExtend";
 export * from "./IfEmptyContainer";
+export * from "./If";
 
 export * from "./IfLessThan";
 export * from "./IfNegativeNumber";
