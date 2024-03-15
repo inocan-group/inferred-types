@@ -6,4 +6,4 @@ import { Narrowable } from "src/types/index";
  * a typing for a **TS** type-guard which evaluates an _unknown_ input
  * and determines if it is of type `T`.
  */
-export type TypeGuard<T> = <U extends Narrowable>(value: U) => value is T & U;
+export type TypeGuard<T, U = Narrowable> = <UU extends U>(value: UU) => value is T & UU;

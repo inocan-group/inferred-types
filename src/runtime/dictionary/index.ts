@@ -13,6 +13,7 @@ export * from "./mapValues";
 export * from "./omit";
 export * from "./retain";
 export * from "./sharedKeys";
+export * from "./takeProp";
 export * from "./withKeys";
 export * from "./withoutKeys";
 export * from "./withoutValue";

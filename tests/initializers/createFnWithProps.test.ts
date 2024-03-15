@@ -2,75 +2,65 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it, expect } from "vitest";
 
-import { createFnWithProps, FnReadyForProps } from "src/runtime/index";
+import { createFnWithProps } from "src/runtime/index";
 
 const fn = () => "hi" as const;
+const fnWithParam = (name: string) => `hi ${name}` as const;
+const fnWithTwoParam = (name: string, age: number) => `hi ${name}, you are ${age}` as const;
+const fnNarrowing = <T extends string>(name: T) => `hi ${name}` as const;
 
 describe("createFnWithProps()", () => {
-  it("partial application", () => {
-    const partial = createFnWithProps(fn);
-    const completed = partial({ foo: 1, bar: 2});
-    type Part = typeof partial;
-
-    type cases = [
-      Expect<Equal<
-        Part,
-        FnReadyForProps<() => "hi">
-      >>,
-      Expect<Equal<typeof completed, (() => "hi") & { foo: 1; bar: 2 }>>
-    ];
-    const cases: cases = [ true, true ];
-  });
-
-  it("empty props added", () => {
-    const justFn = createFnWithProps(fn)({});
-    const rtn = justFn();
-
-    expect(rtn).toBe("hi");
-    
-    type cases = [
-      Expect<Equal<
-        typeof justFn,
-        () => "hi"
-      >>,
-    ];
-
-    const cases: cases = [ true ];
-  });
-
-  it("simple fn and prop are combined, type is retained", () => {
-    const props = { foo: "bar" };
-    const combo = createFnWithProps(fn)(props);
-
-    expect(combo.foo).toBe("bar");
-    expect(combo()).toBe("hi");
-
-    type cases = [
-      Expect<Equal<
-        typeof combo,
-        (() => "hi") & { foo: string }
-      >>,
-    ];
-    const cases: cases = [ true ];
-  });
   
-  it("a fn with params is additive to those from dictionary passed in", () => {
-    const foo = createFnWithProps(fn)({foo: 1});
-    const foobar = createFnWithProps(foo)({bar: 42});
-    const rtn = foobar();
 
-    expect(rtn).toBe("hi");
-    expect(foobar.foo).toBe(1);
-    expect(foobar.bar).toBe(42);
+  it("happy path", () => {
+    const foo = createFnWithProps(fn, {foo: 42});
+    const fooWithParam = createFnWithProps(fnWithParam, {foo: 42});
+    const fooWithTwo = createFnWithProps(fnWithTwoParam, {foo: 42});
+    const fooNarrowing = createFnWithProps(fnNarrowing, {foo: 42});
+
+    const n_foo = createFnWithProps(fn, {foo: 42}, true);
+    const n_fooWithParam = createFnWithProps(fnWithParam, {foo: 42}, true);
+    const n_fooWithTwo = createFnWithProps(fnWithTwoParam, {foo: 42}, true);
+    const n_fooNarrowing = createFnWithProps(fnNarrowing, {foo: 42}, true);
 
     type cases = [
+      Expect<Equal<typeof foo, (() => "hi") & { foo: number }>>,
       Expect<Equal<
-        typeof foobar,
-        (() => "hi") & { foo: 1; bar: 42 }
+        typeof fooWithParam, 
+        ((name: string) => `hi ${string}`) & { foo: number }
+      >>,
+      Expect<Equal<
+        typeof fooWithTwo, 
+        ((name: string, age: number) => `hi ${string}, you are ${number}`) & { foo: number }
+      >>,      
+      Expect<Equal<
+        typeof fooNarrowing, 
+        ((name: string) => `hi ${string}`) & { foo: number }
+      >>,
+
+
+      Expect<Equal<
+        typeof n_foo, 
+        (<A extends []>(...args: A) => "hi") & { foo: number }
+      >>,
+      Expect<Equal<
+        typeof n_fooWithParam,
+        (<A extends [name: string]>(...args: A) => `hi ${string}`) & { foo: number }
+      >>,
+      Expect<Equal<
+        typeof n_fooWithTwo, 
+        (<A extends [name: string, age: number]>(...args: A) => `hi ${string}, you are ${number}`) & { foo: number }
+      >>,      
+      Expect<Equal<
+        typeof n_fooNarrowing,
+        (<A extends [name: string]>(...args: A) => `hi ${string}`) & { foo: number }
       >>,
     ];
-    const cases: cases = [ true ];
-    
+    const cases: cases = [ 
+      true, true, true, true,
+      true, true, true, true,
+    ];
   });
+
   
 });

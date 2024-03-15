@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
-import { AnyObject, EmptyObject } from "src/types/index";
+import {  EmptyObject, ObjectKey } from "src/types/index";
 
 /**
  * **AnyFunction**`<[TArgs],[TReturn],[TDict]>`
@@ -15,7 +15,7 @@ import { AnyObject, EmptyObject } from "src/types/index";
 export type AnyFunction<
   TArgs extends readonly any[] = any[],
   TReturn = any,
-  TProps extends AnyObject = AnyObject,
+  TProps extends Record<ObjectKey, unknown> = Record<ObjectKey, unknown>,
 > = TProps extends EmptyObject
   ? (...args: TArgs) => TReturn
   : ((...args: TArgs) => TReturn) & TProps;

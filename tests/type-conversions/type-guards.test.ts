@@ -320,7 +320,7 @@ describe("isFnWithParams()", () => {
   const obj = narrow({foo: 1, bar: 2});
   const secretHybrid = () => "secret";
   secretHybrid.foo = 42;
-  const typedHybrid = createFnWithProps(fn)(obj);
+  const typedHybrid = createFnWithProps(fn,obj);
   const unionHybrid = typedHybrid as typeof typedHybrid | undefined;
   
   it("test vars validated", () => {

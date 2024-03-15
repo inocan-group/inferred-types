@@ -11,6 +11,8 @@ export * from "./AsNumber";
 export * from "./AsBoolean";
 export * from "./AsDefined";
 export * from "./AsFunction";
+export * from "./AsRecord";
+export * from "./AsObjectKeys"
 export * from "./AsPropertyKey";
 export * from "./TupleToUnion";
 export * from "./UnionToIntersection";

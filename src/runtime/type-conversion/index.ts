@@ -9,3 +9,4 @@ export * from "./never";
 export * from "./union";
 export * from "./toNumber";
 export * from "./asUnion";
+export * from "./asRecord";

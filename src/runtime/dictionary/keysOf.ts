@@ -1,4 +1,4 @@
-import type {  Container,  IsRef,  Keys } from "src/types/index";
+import type {  AsRecord, Container,  IsRef,  Keys } from "src/types/index";
 import { isObject, isReadonlyArray, isRef } from "src/runtime/index";
 
 /**
@@ -11,10 +11,10 @@ import { isObject, isReadonlyArray, isRef } from "src/runtime/index";
  * on props like `__v_isRef`, etc.
  */
 export function keysOf<
-  TContainer extends Container,
+  TContainer extends Container | object,
 >(
   container: TContainer
-): IsRef<TContainer> extends true ? readonly ["value"] : Keys<TContainer> {
+): IsRef<TContainer> extends true ? readonly ["value"] : Keys<AsRecord<TContainer>> {
 
   return (
       isReadonlyArray(container)
@@ -26,5 +26,5 @@ export function keysOf<
           : []
   ) as unknown as IsRef<TContainer> extends true 
     ? readonly ["value"]
-    : Keys<TContainer>;
+    : Keys<AsRecord<TContainer>>;
 }
