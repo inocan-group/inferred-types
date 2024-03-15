@@ -14,7 +14,8 @@ export const asUnion = <
   const fn: any = () => "union" as unknown as UnionToTuple<T>;
   fn.kind = "Union";
   fn.members = members;
-  fn.includes = (v: unknown) => members.includes(v);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  fn.includes = (v: any) => members.includes(v);
 
   return fn as RuntimeUnion<T>;
 }

@@ -1,7 +1,11 @@
 import { 
   IfNever,
-  ExplicitKeys,
   Container,
+  ObjectKey,
+  UnionToTuple,
+  NumericKeys,
+  RemoveIndexKeys,
+  IsEqual,
 } from "src/types/index";
 
 /**
@@ -24,6 +28,15 @@ export type Keys<
   TContainer extends Container
   > = IfNever<
   TContainer, 
-  readonly PropertyKey[],
-  ExplicitKeys<TContainer> & readonly PropertyKey[]
->;
+  PropertyKey[],
+  TContainer extends Record<ObjectKey, unknown>
+    ? IsEqual<TContainer, Record<ObjectKey, unknown>> extends true
+      ? ObjectKey[]
+      : UnionToTuple<keyof RemoveIndexKeys<TContainer>> extends readonly ObjectKey[]
+        ? UnionToTuple<keyof RemoveIndexKeys<TContainer>>
+        : never
+    : TContainer extends readonly unknown[]
+      ? NumericKeys<TContainer>
+      : never
+    >;
+

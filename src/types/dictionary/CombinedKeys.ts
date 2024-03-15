@@ -1,6 +1,6 @@
-import { AnyObject } from "../base-types/AnyObject";
+import { ObjectKey } from "../base-types";
 import { Unique } from "../sets/Unique";
-import { ExplicitKeys } from "./ExplicitKeys";
+import { Keys } from "./Keys";
 
 /**
  * **CombinedKeys**`<A,B>`
@@ -14,9 +14,9 @@ import { ExplicitKeys } from "./ExplicitKeys";
  * ```
  */
 export type CombinedKeys<
-  A extends AnyObject, 
-  B extends AnyObject
+  A extends Record<ObjectKey, unknown>, 
+  B extends Record<ObjectKey, unknown>
 > = Unique<[
-  ...ExplicitKeys<A>,
-  ...ExplicitKeys<B> 
+  ...Keys<A>,
+  ...Keys<B> 
 ]>;

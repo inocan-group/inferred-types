@@ -30,7 +30,9 @@ describe("NumericKeys<T>", () => {
       Expect<Equal<Empty_RO,  number[]>>,
     ];
     
-    const cases: cases = [ true, true, true, true, true ];
+    const cases: cases = [ 
+      true, true, true, true, true 
+    ];
   });
 });
 
@@ -46,11 +48,11 @@ describe("Keys<T> ", () => {
 
   it("object resolution", () => {
     type cases = [
-      Expect<Equal<EmptyObj,  readonly []>>,
-      Expect<Equal<Curly,  readonly []>>,
-      Expect<DoesExtend<Foobar,  readonly ["foo", "bar"]>>,
-      Expect<DoesExtend<FooBar_RO,  readonly ["foo", "bar"]>>,
-      Expect<DoesExtend<FooBar_EXT,  readonly ["foo", "bar"]>>,
+      Expect<Equal<EmptyObj, []>>,
+      Expect<Equal<Curly, []>>,
+      Expect<DoesExtend<Foobar, ["foo", "bar"]>>,
+      Expect<DoesExtend<FooBar_RO, ["foo", "bar"]>>,
+      Expect<DoesExtend<FooBar_EXT, ["foo", "bar"]>>,
     ];
     
     const cases: cases = [ true, true, true, true, true ]; 
@@ -60,10 +62,10 @@ describe("Keys<T> ", () => {
   it("array resolution", () => {
     
     type cases = [
-      Expect<Equal<Keys<[]>,  readonly []>>,
-      Expect<Equal<Keys<string[]>,  readonly []>>,
-      Expect<Equal<Keys<[1,2,3]>,  readonly [0,1,2]>>,
-      Expect<Equal<Keys<readonly [1,2,3]>,  readonly [0,1,2]>>,
+      Expect<Equal<Keys<[]>, number[]>>,
+      Expect<Equal<Keys<string[]>,  []>>,
+      Expect<Equal<Keys<[1,2,3]>,  [0,1,2]>>,
+      Expect<Equal<Keys< [1,2,3]>,   [0,1,2]>>,
     ];
     const cases: cases = [true, true, true, true];
   });
@@ -74,6 +76,7 @@ describe("runtime keysOf() utility on object", () => {
   it("with just object passed in, keys are extracted as expected", () => {
     const obj = defineObj({ id: "123" })({ color: "red", isFavorite: false });
     const k = keysOf(obj); 
+    const k2 = keysOf({} as object);
     type K = typeof k;
 
     expect(k).toHaveLength(3);
@@ -81,10 +84,13 @@ describe("runtime keysOf() utility on object", () => {
     expect(k).toContain("color");
     expect(k).toContain("isFavorite");
 
+    expect(k2).toEqual([]);
+
     type cases = [
-      Expect<DoesExtend<K, readonly ["id", "color", "isFavorite" ]>> //
+      Expect<DoesExtend<K, readonly ["id", "color", "isFavorite" ]>>,
+      Expect<Equal<typeof k2, []>>
     ];
-    const cases: cases = [true];
+    const cases: cases = [true, true];
     expect(cases).toBe(cases);
   });
 

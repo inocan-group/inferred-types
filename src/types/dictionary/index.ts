@@ -32,7 +32,6 @@ export * from "./NonStringKeys";
 export * from "./RequireProps";
 export * from "./ReadonlyKeys";
 export * from "./ReadonlyProps";
-export * from "./ExplicitKeys";
 export * from "./SameKeys";
 export * from "./AddKeyValue";
 export * from "./WithKeys";
@@ -45,6 +44,7 @@ export * from "./RemoveIndexKeys";
 export * from "./WithStringKeys";
 export * from "./ValidKey";
 export * from "./UpsertKeyValue";
+export * from "./HasKeys";
 
 
 // #endregion auto-indexed files

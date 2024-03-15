@@ -93,7 +93,7 @@ const mapper =
       fnSignature: null as unknown as MapFn<I, O, C>,
     };
 
-    return createFnWithProps(fn)(dict);
+    return createFnWithProps(fn,dict);
   };
 
 /**
@@ -185,4 +185,4 @@ export const mapToDict: MapperApi = {
  * const many2one = mapTo.manyToOne().map<I,O>( ... );
  * ```
  */
-export const mapTo = createFnWithProps(mapToFn)(mapToDict);
+export const mapTo = createFnWithProps(mapToFn,mapToDict);
