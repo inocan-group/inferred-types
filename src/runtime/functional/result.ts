@@ -15,6 +15,8 @@ import {
   ResultTuple,
   TupleToUnion,
   ResultApi,
+  IsEqual,
+  IfEqual,
 } from "src/types/index"
 import { isFunction, isObject, isString } from "../type-guards";
 import { toKebabCase } from "../literals/toKebabCase";
@@ -46,7 +48,7 @@ function resultTuple<
 
 export const asResult = <
   T,
-  E extends Narrowable
+  E extends ErrInput
 >(val: T, err: E): ResultApi<T,E> => ({
   kind: "Result API",
   result: null as unknown as Result<T,E>,
@@ -90,8 +92,11 @@ export const asResult = <
  * 
  * Note: if you need/want the value to be narrowly typed then use `okN()` instead.
  */
-export function ok<T extends ResultTuple, E extends ErrInput>(val: T, _err: E = errInputs as E): Ok<T,E> {
-  const tuple = resultTuple(val) as unknown as ResultTuple<T,E>;
+export function ok<
+  T, 
+  E extends ErrInput
+>(val: T, _err: E = errInputs as E): IfEqual<E, ErrInput, Ok<T>, Ok<T,E>> {
+  const tuple = resultTuple(val, _err) as unknown as ResultTuple<T,E>;
   return { ...tuple, state: RESULT.Ok, val }
 }
 
@@ -109,7 +114,7 @@ export function okN<
   T extends Narrowable, 
   E extends ErrInput
 >(val: T, _err: E = errInputs as E): Ok<T> {
-  const tuple = resultTuple(val) as unknown as ResultTuple<T,E>;
+  const tuple = resultTuple(val, "unknown") as unknown as ResultTuple<T,E>;
   return { ...tuple, state: RESULT.Ok, val }
 }
 
@@ -142,7 +147,7 @@ const transformErrInput = <
 }
 
 /**
- * **createErr**(e) → `Partial<ResultErr>`
+ * **createErr**(e) → `<ResultErr>`
  * 
  * Creates a reusable error template which will allow for:
  * 
@@ -161,7 +166,7 @@ export const createErr = <
     msg: "" as string,
     kind,
     context: (defaultContext || {}) as Partial<TContextDefn>
-  } as Partial<ResultErr<TKind, TContextDefn>>
+  } as ResultErr<TKind, TContextDefn>
 }
 
 /**
@@ -170,17 +175,17 @@ export const createErr = <
  * Creates a `Err` error for use inside a `Result<T,E>` block.
  */
 export function err<
-  TErr extends Partial<ResultErr> | string,
+  TErr extends ErrInput,
   TVal = unknown
 >(
   err: TErr,
-  _val: TVal = "unknown" as unknown as TVal
-): Err<AsErr<TErr>> {
+  _val: TVal = ErrInput as TVal
+): IfEqual<TVal, unknown, Err<TErr>, Err<TErr,TVal>> {
   return {
     ...(resultTuple(_val, err)),
     state: RESULT.Err,
     err: transformErrInput(err)
-  } as Err<AsErr<TErr>>
+  } as unknown as IfEqual<TVal, unknown, Err<TErr>, Err<TErr,TVal>>
 }
 
 

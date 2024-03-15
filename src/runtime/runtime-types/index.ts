@@ -6,3 +6,4 @@ export * from "./describeType";
 export * from "./kind";
 // export * from "./typeTuples";
 export * from "./valueTypes";
+export * from "./shape";

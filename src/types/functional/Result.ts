@@ -45,7 +45,7 @@ export type ResultErr<
    * The `context` property is a dictionary of key/value pairs that allows for
    * deeper context to be provided when an error is encountered. 
    */
-  context: C;
+  context?: C;
 
   /**
    * **stack**
@@ -53,7 +53,7 @@ export type ResultErr<
    * Allows a user to express whether a stack trace should be generated for
    * a given error.
    */
-  stack: S;
+  stack?: S;
 }
 
 /**
@@ -62,9 +62,9 @@ export type ResultErr<
  * The types which can _represent_ an error within an `Err` block.
  */
 export type ErrInput = string 
-  | Partial<ResultErr>
-  | Partial<ResultErr>[] 
-  | RuntimeUnion<Partial<ResultErr>[]>;
+  | ResultErr
+  | ResultErr[] 
+  | RuntimeUnion<ResultErr[]>;
 
 /**
  * **AsErr**`<T>`
@@ -76,14 +76,14 @@ T extends RuntimeUnion<ResultErr[]>
   ? T["type"]
   : T extends string
   ? [{ msg: T; kind: KebabCase<T>; context: NonNullable<unknown>; stack: false }]
-  : T extends Partial<ResultErr>
+  : T extends ResultErr
   ? [{
     kind: TakeProp<T, "kind", "undefined">;
     msg: TakeProp<T, "msg", "undefined">;
     context: TakeProp<T, "context", NonNullable<unknown>>;
     stack: TakeProp<T, "stack", false>;
   }]
-  : T extends readonly ResultErr[]
+  : T extends readonly Required<ResultErr>[]
   ? T
   : never
 >;;
@@ -182,14 +182,13 @@ export type ErrFrom<
  */
 export type KindFrom<
   TResult extends Result
-> = ErrFrom<TResult>["kind"];
+> = AsErr<TResult["__kind"][2]>["kind"];
 
 export type OkFrom<
   TResult extends Result
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 > = TResult["__kind"][1];
 
-// TODO: figure out why we're getting _never_ sometimes for OkFrom/KindFrom
 type _IsResult<
 TTest extends Something,
 TVal = unknown,

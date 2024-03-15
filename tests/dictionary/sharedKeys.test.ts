@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { Equal, Expect, ExpectExtends, ExpectTrue } from "@type-challenges/utils";
+import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import type { Contains, SharedKeys } from "src/types/index";
-import { sharedKeys } from "src/runtime/dictionary/sharedKeys";
+import type { Contains, SameElements, SharedKeys } from "src/types/index";
+import { sharedKeys } from "src/runtime/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -15,17 +15,18 @@ describe("SharedKeys", () => {
     type A = { foo:1; bar: 23; color: "blue" };
     type B = { bar: 55; baz: 66; color: "red" };
     type Shared = SharedKeys<A,B>;
-    type All = SharedKeys<A,A>;
+    type Identity = SharedKeys<A,A>;
     type None = SharedKeys<A,{}>;
     type None2 = SharedKeys<A,object>;
 
     type cases = [
-      Expect<ExpectExtends< readonly ["bar", "color"], Shared>>,
-      Expect<ExpectTrue<Contains<All, "foo">>>,
+      Expect<SameElements<Shared,  ["bar", "color"]>>,
+      Expect<SameElements<Identity,  ["foo", "bar", "color"]>>,
+      Expect<ExpectTrue<Contains<Identity, "foo">>>,
       Expect<Equal<None, []>>,
       Expect<Equal<None2,  []>>,
     ];
-    const cases: cases = [ true, true, true, true ];
+    const cases: cases = [ true, true, true, true, true ];
   });
 
 });

@@ -11,3 +11,4 @@ export type NarrowableScalar = string
   | undefined 
   | void 
   | null;
+

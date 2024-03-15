@@ -73,3 +73,4 @@ export * from "./IfNarrowlyContains";
 export * from "./IfContainer";
 export * from "./IfUndefined";
 export * from "./IfTuple";
+export * from "./HasDoneFn"

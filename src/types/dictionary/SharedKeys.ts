@@ -1,4 +1,4 @@
-import { AnyObject, IntersectingKeys } from "src/types/index";
+import {  IntersectingKeys, ObjectKey } from "src/types/index";
 
 
 /**
@@ -9,13 +9,13 @@ import { AnyObject, IntersectingKeys } from "src/types/index";
  * ```ts
  * type O1 = { foo: 1; bar: 2; baz: 88 };
  * type O2 = { bar: 5; baz: 3; nada: true };
- * // readonly ["bar", "baz"] & readonly ("bar" | "baz")[]
+ * //  ["bar", "baz"]
  * type X = SharedKeys<O1,O2>;
  * ```
  * 
  * **Note:** this is now just an alias to `IntersectingKeys`
  */
 export type SharedKeys<
-  A extends AnyObject,
-  B extends AnyObject
+  A extends Record<ObjectKey, unknown> | object,
+  B extends Record<ObjectKey, unknown> | object
 > = IntersectingKeys<A,B>;

@@ -1,4 +1,4 @@
-import { AfterFirst, CombinedKeys, ExpandRecursively, First, IsDefined,  } from "src/types/index";
+import { AfterFirst, AsRecord, CombinedKeys, ExpandRecursively, First, IsDefined, ObjectKey,  } from "src/types/index";
 
 type Process<
   TKeys extends readonly unknown[],
@@ -23,17 +23,16 @@ type Process<
       : TResult & Record<First<TKeys>, undefined>
   >;
 
-
 /**
  * **MergeObjects**`<TDefault,TOverride>`
  * 
  * A type utility that _shallowly merges_ two object types.
  */
 export type MergeObjects<
-  TDef extends object,
-  TOverride extends object,
+  TDef extends Record<ObjectKey,unknown> | object,
+  TOverride extends Record<ObjectKey,unknown>,
 > = Process<
-  CombinedKeys<TDef,TOverride>,
+  CombinedKeys<AsRecord<TDef>,TOverride>,
   TDef,
   TOverride
 >;

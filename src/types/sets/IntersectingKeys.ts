@@ -1,15 +1,17 @@
-import { Container, UnionToTuple } from "src/types/index";
+import { AsRecord, Container, UnionToTuple } from "src/types/index";
 
 
 /**
+ * **IntersectingKeys**`<A,B>`
+ * 
  * Provides a tuple of keys which are shared between the two 
- * tuples passed in [`L`,`R`].
+ * containers passed in `A` and `B`.
  */
 export type IntersectingKeys<
-  L extends Container,
-  R extends Container,
+  L extends Container | object,
+  R extends Container | object,
 > = UnionToTuple<
-  (keyof L) & (keyof R)
-> & PropertyKey[];
+  (keyof AsRecord<L>) & (keyof AsRecord<R>)
+>;
 
 
