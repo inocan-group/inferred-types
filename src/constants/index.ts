@@ -21,3 +21,4 @@ export * from "./TypeTransforms";
 export * from "./Never";
 export * from "./TypeTokens";
 export * from "./Wide";
+export * from "./Shape";

@@ -72,7 +72,7 @@ type _WithDeref<
   * returned it's quite possible that `A` and `B` share a dereferenced value but other
   * properties are _not_ the same so for this reason the resultant type is a tuple: `readonly [ AIntersect, BIntersect ]`
   * 
-  * **Related:** `Unique`, `ObjIntersection`
+  * **Related:** `Unique`, `IntersectingKeys`
   */
 export type Intersection<
   A extends readonly unknown[],

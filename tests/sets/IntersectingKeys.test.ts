@@ -9,13 +9,15 @@ import { IntersectingKeys } from "src/types/index";
 
 describe("IntersectingKeys<L,R>", () => {
 
-  it("happy path", () => {
-    type I = IntersectingKeys<{foo:1; bar: 2}, {bar:2; baz: 3}>;
+  it("happy path (with objects)", () => {
+    type Bar = IntersectingKeys<{foo:1; bar: 2}, {bar:2; baz: 3}>;
+    type None = IntersectingKeys<{foo:1; bar: 2}, {baz:2; bax: 3}>;
     
     type cases = [
-      Expect<Equal<I, ["bar"] & PropertyKey[]>>,
+      Expect<Equal<Bar, ["bar"]>>,
+      Expect<Equal<None, []>>,
     ];
-    const cases: cases = [true];
+    const cases: cases = [true, true];
   });
 
 });

@@ -17,6 +17,7 @@ export * from "./takeProp";
 export * from "./withKeys";
 export * from "./withoutKeys";
 export * from "./withoutValue";
+export * from "./withDefaults";
 
 // #endregion auto-indexed files
 

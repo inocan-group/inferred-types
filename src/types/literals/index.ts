@@ -9,3 +9,4 @@ export * from "./VueRef";
 export * from "./ContainerKeyGuarantee";
 export * from "./ContainerBlockKey";
 export * from "./RuntimeUnion"
+export * from "./Shape";
