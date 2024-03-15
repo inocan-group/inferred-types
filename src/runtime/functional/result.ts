@@ -3,19 +3,85 @@
 import { RESULT } from "src/constants/Functional"
 import { 
   Ok, 
-  AsErr, 
-  BaseErr, 
   Result,  
-  IsOk, 
   IfFunction, 
   AsFunction, 
   Narrowable, 
-  IsErr, 
-  ResultErr, 
-  Err, 
-  ErrorContext, 
+  Err,
+  ResultErr,
+  ErrInputs as ErrInput,
+  AsErr,
+  ObjectKey,
+  ResultTuple,
+  TupleToUnion,
+  ResultApi,
 } from "src/types/index"
-import { isFunction } from "../type-guards";
+import { isFunction, isObject, isString } from "../type-guards";
+import { toKebabCase } from "../literals/toKebabCase";
+import { Never } from "src/constants/Never";
+import { asUnion } from "../type-conversion/asUnion";
+import { isRuntimeUnion } from "../type-guards/isRuntimeUnion";
+import { takeProp } from "../dictionary";
+import { kindError } from "../errors";
+import { toPascalCase } from "../literals";
+
+const errInputs: ErrInput = "undefined" as const;
+
+export const isResult = (val: unknown): val is Result => {
+  return typeof val === "object" && 
+    "__kind" in (val as object) && 
+    "state" in (val as object) &&
+    [RESULT.Err, RESULT.Ok].includes((val as any).state)
+}
+
+
+function resultTuple<
+  T, 
+  E extends ErrInput
+>(val: T, err: E) {
+  return {
+    __kind: ["Result", val, err]
+  } as ResultTuple<T,E>;
+}
+
+export const asResult = <
+  T,
+  E extends Narrowable
+>(val: T, err: E): ResultApi<T,E> => ({
+  kind: "Result API",
+  result: null as unknown as Result<T,E>,
+  ok: (v) => {
+    return {
+      ...resultTuple(val,err), state: RESULT.Ok, val: v 
+    } as Ok<T>
+  },
+  err: (e) => {
+    return {
+      ...resultTuple(val,err), state: RESULT.Err, err: transformErrInput(e)
+    } as unknown as Err<E>
+  },
+  isErr: (v) => {
+    return isResult(v) && v.state === RESULT.Err;
+  },
+  isOk: (v) => {
+    return isResult(v) && v.state === RESULT.Ok;
+  },
+  okOrElse: (result, otherwise) => {
+    return result.state === RESULT.Ok
+      ? result.val
+      : typeof otherwise === "function"
+        ? otherwise(result)
+        : otherwise
+  },
+  okOrThrow: (result) => {
+    if (isErr(result)) {
+      const { msg, kind, context } = result.err;
+      throw kindError(kind)(msg, context);
+    }
+  }
+}) as ResultApi<T,E>;
+
+
 
 /**
  * **ok**(val)
@@ -24,9 +90,11 @@ import { isFunction } from "../type-guards";
  * 
  * Note: if you need/want the value to be narrowly typed then use `okN()` instead.
  */
-export function ok<T>(val: T): Ok<T> {
-  return { state: RESULT.Ok, val }
+export function ok<T extends ResultTuple, E extends ErrInput>(val: T, _err: E = errInputs as E): Ok<T,E> {
+  const tuple = resultTuple(val) as unknown as ResultTuple<T,E>;
+  return { ...tuple, state: RESULT.Ok, val }
 }
+
 
 /**
  * **ok**(val)
@@ -37,52 +105,93 @@ export function ok<T>(val: T): Ok<T> {
  * narrowest type possible for `T` but if you don't need this then use the
  * `ok(val)` function instead.
  */
-export function okN<T extends Narrowable>(val: T): Ok<T> {
-  return { state: RESULT.Ok, val }
-}
-
-function to_result_error<
-  TMsg extends string,
-  TKind extends string,
-  TContext extends ErrorContext
->(b: BaseErr<TMsg,TKind,TContext>): AsErr<BaseErr<TMsg,TKind,TContext>> {
-  return {
-    context: null,
-    kind: "undefined",
-    ...(typeof b === "string" 
-      ? { msg: b } 
-      : {
-          ...(b as object)
-      }
-    )
-  } as AsErr<BaseErr<TMsg,TKind,TContext>>
+export function okN<
+  T extends Narrowable, 
+  E extends ErrInput
+>(val: T, _err: E = errInputs as E): Ok<T> {
+  const tuple = resultTuple(val) as unknown as ResultTuple<T,E>;
+  return { ...tuple, state: RESULT.Ok, val }
 }
 
 /**
- * **err**(val)
+ * Used to convert an `ErrInput` into `ResultErr[]`
+ */
+const transformErrInput = <
+  T extends ErrInput
+>(input: T): TupleToUnion<Err<T>> => {
+  const members = (
+    isRuntimeUnion(input)
+    ? input.members
+    : typeof input === "string"
+    ? [{ msg: input, kind: toKebabCase(input as string), context: {} }]
+    : typeof input === "object"
+    ? [{ 
+      msg: takeProp((input as Record<ObjectKey, unknown>), "msg", "" as string), 
+      kind: toKebabCase(takeProp((input as Record<ObjectKey, unknown>), "kind", "unspecified-kind") as string),
+      context: takeProp((input as Record<ObjectKey, unknown>), "context", {} as NonNullable<unknown>), 
+      trace: takeProp((input as Record<ObjectKey, unknown>), "trace", false), 
+    }]
+    : Array.isArray(input)
+    ? input
+    : Never
+  ) as ResultErr[];
+
+  const union =  asUnion(...members);
+
+  return union as unknown as TupleToUnion<Err<T>>;
+}
+
+/**
+ * **createErr**(e) → `Partial<ResultErr>`
  * 
- * Places a value into the `Err` state of a `Result` error structure.
+ * Creates a reusable error template which will allow for:
+ * 
+ * - a strict `kind` definition
+ * - a _shape_ and default values for the `context` property
+ * - a strict `stack` definition (default is false)
+ * 
+ * The `msg` property will be left as `string` allowing each variant of
+ * this type of error to add their own.
+ */
+export const createErr = <
+  TKind extends string,
+  TContextDefn extends Record<string, unknown> = NonNullable<unknown>
+>(kind: TKind, contextDefn?: TContextDefn, defaultContext?: Partial<TContextDefn>) => {
+  return {
+    msg: "" as string,
+    kind,
+    context: (defaultContext || {}) as Partial<TContextDefn>
+  } as Partial<ResultErr<TKind, TContextDefn>>
+}
+
+/**
+ * **err**(input) -> Err`<E>`
+ * 
+ * Creates a `Err` error for use inside a `Result<T,E>` block.
  */
 export function err<
-  TMsg extends string,
-  TKind extends string = "undefined",
-  TContext extends ErrorContext = null
->(msg: TMsg, kind?: TKind, context?: TContext): Err<[TMsg,TKind,TContext]> {
-  return { 
-    state: RESULT.Err, 
-    err: to_result_error({msg, kind: kind || "undefined", context: context || null}) 
-  } 
+  TErr extends Partial<ResultErr> | string,
+  TVal = unknown
+>(
+  err: TErr,
+  _val: TVal = "unknown" as unknown as TVal
+): Err<AsErr<TErr>> {
+  return {
+    ...(resultTuple(_val, err)),
+    state: RESULT.Err,
+    err: transformErrInput(err)
+  } as Err<AsErr<TErr>>
 }
+
 
 /**
  * **isOk**(result)
  * 
  * Type guard which tests whether the `Result<T,E>` is in the **Ok** state.
  */
-export function isOk<
+export const isOk = <
   T,
-  E extends BaseErr
->(result: Result<T,E>): result is Ok<T> {
+>(result: Result<T>): result is T & Ok<T> => {
   return result.state === RESULT.Ok;
 }
 
@@ -96,7 +205,7 @@ export function isOk<
 export function okOrThrow<
   R extends Result<T,E>,
   T = undefined,
-  E extends BaseErr = BaseErr
+  E extends ErrInput = ErrInput
 >(result: R): IsOk<R> extends true ? T : never {
   if(result.state === RESULT.Err) {
     if (typeof result.err === "string") {
@@ -141,17 +250,33 @@ export function okOrElse<
 
 export function isErr<
   T,
-  E extends BaseErr
+  E extends ErrInput
 >(result: Result<T,E>): result is Err<E> {
   return (
-    typeof result === "object" &&
-    (result as any).state === RESULT.Err && "err" in (result as object) && (
-      typeof (result as any).err === "string" ||
-      typeof (result as any).err === "object"
+      isString(result)
+      ? { 
+          state: RESULT.Err, 
+          err:{ 
+            msg: result, 
+            kind: toPascalCase(result), 
+            context: {}, 
+            stack: false 
+          } 
+        }
+      : isObject(result)
+        ? {
+          state: RESULT.Err,
+          err: {
+            msg: result.err.msg || "no message",
+            kind: takeProp(result, "kind", "no-kind"),
+            context: takeProp(result, "context", {}),
+            stack: takeProp(result, "stack", false)
+          }
+        }
+        : false
     )
     ? true 
     : false
-  ) as IsErr<typeof result>;
 }
 
 /**

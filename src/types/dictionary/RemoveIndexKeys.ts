@@ -1,5 +1,3 @@
-import { AnyObject, TupleToUnion, IfNever, ExplicitKeys } from "src/types/index";
-
 
 /**
  * **RemoveIndexKeys**`<T>`
@@ -13,8 +11,6 @@ import { AnyObject, TupleToUnion, IfNever, ExplicitKeys } from "src/types/index"
  * type Obj2 = RemoveIndexKeys<Obj>;
  * ```
  */
-export type RemoveIndexKeys<T extends AnyObject> = IfNever<
-  Pick<T, TupleToUnion<ExplicitKeys<T>>>,
-  never,
-  Pick<T, TupleToUnion<ExplicitKeys<T>>>
->;
+export type RemoveIndexKeys<T> = {
+  [K in keyof T as string extends K ? never : number extends K ? never : K]: T[K]
+};

@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { DoesExtend, Err, ErrKind, ErrMsg, GetErr, IsErr, IsOk, IsResult, Ok, Result } from "src/types/index";
-import { RESULT } from "src/constants/index"
-import { ok, err, okN, assertErr } from "src/runtime/index"
-import { describe, it } from "vitest";
+import {  AsErrKind, Err, ErrFrom, IsErr, IsOk, IsResult, KindFrom, Ok, Result, OkFrom,  } from "src/types/index";
+import { ok, err, okN, assertErr, isOk, asResult, createErr } from "src/runtime/index"
+import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -11,68 +11,72 @@ import { describe, it } from "vitest";
 describe("Result<T,E> and Utils", () => {
 
   it("happy path", () => {
-    type R = Result<number, "oops">;
-    type R2 = Result<string, ["help!",  "string-error"]>;
-    type R3 = Result<string, {msg: "help!"; context: { foo: 1; bar: 2}}>;
+    type EFoo = AsErrKind<"foo">;
+    type EDire = AsErrKind<{ 
+      kind: "dire-straights"; 
+      context: {foo: 1; bar: 2};
+    }>;
+    type EShit = AsErrKind<"shit gone crazy">;
+
+    type R1 = Result<number, EFoo>;
+    type R2 = Result<string, EDire>;
+    type R3 = Result<{foo: number; bar: string}, EShit>;
+    type RM = Result<string, [EFoo, EDire]>;
 
     type Five = Ok<5>;
-    type SimpleErr = Err<"Oops">;
+    type FiveIsOk = IsOk<Five>;
+    type FiveIsOk2 = IsOk<Five, number>;
+    type SomethingsWrongWithFive = IsOk<Five, string>;
 
-    type ObjErr = Err<[ "Oops", "uh-oh", {expected: 5; got: 42} ]>;
-    type SimpleMsg = ErrMsg<SimpleErr>;
-    type ObjMsg = ErrMsg<ObjErr>;
-    type SimpleKind = ErrKind<SimpleErr>;
-    type ObjKind = ErrKind<ObjErr>;
+    type SimpleErr = Err<"UhOh">;
 
-    type x = GetErr<{state: typeof RESULT.Err; err: {msg: "hi"}}>;
-    
     type cases = [
-      ExpectTrue<IsResult<R>>,
+      Expect<Equal<EFoo, {kind: "foo"; msg: string; context: {}; stack: false}>>,
+      Expect<Equal<EDire, {
+        kind: "dire-straights"; msg: string; context: { foo: number; bar: number}; stack: false;
+      }>>,
+      Expect<Equal<EShit, {kind: "shit-gone-crazy"; msg: string; context: {}; stack: false }>>,
+
+      ExpectTrue<IsResult<R1>>,
       ExpectTrue<IsResult<R2>>,
       ExpectTrue<IsResult<R3>>,
+      ExpectTrue<IsResult<RM>>,
+
+      Expect<Equal<ErrFrom<R1>, EFoo>>,
+      Expect<Equal<KindFrom<R1>, "foo">>,
+      Expect<Equal<OkFrom<R1>, number>>,
+
+      ExpectTrue<IsResult<R1, number, EFoo>>,
+      ExpectTrue<IsResult<R2, string, EDire>>,
+      ExpectTrue<IsResult<R3, {foo: number; bar: string}, EShit>>,
+      ExpectTrue<IsResult<RM, string, EFoo | EDire>>,
+
+      ExpectFalse<IsResult<R1, string, EFoo>>, // wrong val
+      ExpectFalse<IsResult<R1, number, EShit>>, // wrong err
+
+      Expect<Equal<Five["val"], 5>>,
+      Expect<Equal<FiveIsOk, true>>,
+      Expect<Equal<FiveIsOk2, true>>,
+      Expect<Equal<SomethingsWrongWithFive, false>>,
+      Expect<Equal<IsErr<Five>, false>>,
 
       Expect<Equal<
-        GetErr<R3>,
-        {
-          msg: "help!";
-          kind: "undefined";
-          context: {
-            foo: 1;
-            bar: 2;
-          };
-        }
+        SimpleErr["err"], 
+        { msg: "UhOh"; kind: "uh-oh"; context: {}; stack: false }
       >>,
-
-      ExpectTrue<IsOk<Five>>,
-      Expect<Equal<Five, { state: typeof RESULT.Ok; val: 5}>>,
-      ExpectTrue<IsResult<Five>>,
-
-      Expect<Equal<SimpleMsg, "Oops">>,
-      Expect<Equal<SimpleKind, "undefined">>,
       ExpectTrue<IsErr<SimpleErr>>,
-      ExpectTrue<IsResult<SimpleErr>>,
-      ExpectTrue<IsErr<SimpleErr>>,
-      Expect<Equal<SimpleErr["err"], { msg: "Oops"; kind: "undefined"; context: null}>>,
-
-      Expect<Equal<ObjMsg, "Oops">>,
-      Expect<Equal<ObjKind, "uh-oh">>,
-      ExpectTrue<IsErr<ObjErr, [ "Oops", "uh-oh", {expected: 5; got: 42} ]>>,
-      ExpectTrue<IsResult<ObjErr>>,
-      Expect<Equal<ObjErr["err"], { 
-        kind: "uh-oh";
-        msg: "Oops";
-        context: {
-          expected: 5; 
-          got: 42;
-        };
-      }>>,
+      ExpectTrue<IsErr<SimpleErr, "UhOh">>,
+      ExpectFalse<IsErr<SimpleErr, "HoHum">>,
     ];
+
     const cases: cases = [
       true,true,true,
-      true,
-      true,true,true,
-      true,true,true,true, true, true, 
-      true,true, true,true, true
+      true,true,true,true,
+      true, true, true,
+      true,true,true,true,
+      false, false,
+      true, true,true,true, true,
+      true, true, true, false
     ];
   });
 
@@ -84,59 +88,68 @@ describe("ok(), err(), isOk() and other Result runtime utils", () => {
 it("runtime happy path", () => {
   const five = ok(5);
   const five_n = okN(5);
+  const simple = createErr("Oops");
 
-  const simple = err("oops");
+  const r1 = asResult(1, "oops");
+
+  const {result, ok, err } = asResult("", "UhOh");
+
 
   const asserted_err = assertErr(simple);
-
   const err_result: Result<number, "oops"> = err("oops");
   const ok_result: Result<number, "oops"> = ok(5);
-  
-  const expected = err(
-    "oops", 
-    "invalid-value", 
-    { expected: 5, got: 42 }
-  );
 
-  type Expected = Err<[
-    "oops", 
-    "invalid-value", 
-    {
-      expected: number;
-      got: number;
-    }
-  ]>;
+  type _Oo = OkFrom<typeof ok_result>;
+  type _Oe = OkFrom<typeof err_result>;
+  type _Eo = ErrFrom<typeof ok_result>;
+  type _Ee = ErrFrom<typeof err_result>;
+  
+  const expected = err({
+    msg: "oops", 
+    kind: "invalid-value", 
+    context: { expected: 5, got: 42 }
+  });
+
+
+  if (isOk(ok_result)) {
+    expect(ok_result.val).toEqual(5);
+  } else {
+    throw new Error(`ok_result was supposed to have an OK value of 5!`)
+  }
   
   type cases = [
     Expect<Equal<typeof five, Ok<number>>>,
     Expect<Equal<typeof five_n, Ok<5>>>,
 
-    Expect<Equal<typeof simple, Err<["oops", "undefined", null]>>>,
-
     ExpectTrue<typeof asserted_err>,
 
     ExpectTrue<IsResult<typeof err_result>>,
     ExpectTrue<IsResult<typeof err_result, number, "oops">>,
+    Expect<Equal<OkFrom<typeof err_result>, number>>,
+    Expect<Equal<KindFrom<typeof err_result>, Err<"oops">>>,
     // string is the wrong value type so this does not pass
     ExpectFalse<IsResult<typeof err_result, string>>,
+
     ExpectTrue<IsResult<typeof ok_result, number>>,
     ExpectFalse<IsResult<typeof ok_result, string>>,
     ExpectTrue<IsResult<typeof ok_result>>,
     // we've masked it's value so we'll need to determine at runtime
     // whether it's a 
-    Expect<Equal<IsErr<typeof err_result, "oops">, boolean>>, 
+    ExpectTrue<IsErr<typeof err_result, "oops">>, 
     // because the error type doesn't match we can determine
     // that it is NOT the expected error at design time.
     Expect<Equal<IsErr<typeof err_result, "nada">, false>>, 
     ExpectTrue<IsOk<typeof ok_result>>,
 
-    Expect<Equal<typeof expected, Expected>>
+    Expect<Equal<typeof expected["err"], {
+
+    }>>
   ];
   const cases: cases = [
     true, true,
     true,
-    true,
-    true, true, false, true, false, true, true,true,true,
+    true, true, false,
+    true, false, true, true,true,
     true
   ];
   
@@ -144,4 +157,5 @@ it("runtime happy path", () => {
 
 
 });
+
 

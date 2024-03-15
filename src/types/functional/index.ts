@@ -1,3 +1,3 @@
 export * from "./Left";
 export * from "./Right";
-export * from "./Result2";
+export * from "./Result";

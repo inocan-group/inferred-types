@@ -1,7 +1,7 @@
-import { AfterFirst, AnyObject, ExplicitKeys, First, IfEmptyContainer } from "src/types/index";
+import { AfterFirst, AnyObject, First, IfEmptyContainer, Keys, ObjectKey } from "src/types/index";
 
 type _process<
-  TKeys extends readonly (string|symbol)[],
+  TKeys extends readonly PropertyKey[],
   TObj extends AnyObject,
   TValue,
   TResults extends readonly (string|symbol)[] = []
@@ -16,7 +16,7 @@ type _process<
 /**
  * **KeysWithValue**`<TObj,TValue>`
  * 
- * The _keys_ on a given object `TObj` which extend the value 
+ * The _keys_ on a given object `TObj` which _extend_ the value 
  * of `TValue`.
  * 
  * ```ts
@@ -26,8 +26,11 @@ type _process<
  * 
  * **Related:** `KeysEqualValue`
  */
-export type KeysWithValue<TObj extends AnyObject, TValue> = IfEmptyContainer<
+export type KeysWithValue<
+  TObj extends Record<ObjectKey, unknown>,
+  TValue
+> = IfEmptyContainer<
   TObj,
    (string | symbol)[],
-  _process<ExplicitKeys<TObj>, TObj, TValue>
+  _process<Keys<TObj>, TObj, TValue>
 >;

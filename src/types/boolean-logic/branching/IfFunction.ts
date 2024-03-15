@@ -1,4 +1,4 @@
-import { AnyFunction } from "src/types/index";
+import { AnyFunction, AsFunction } from "src/types/index";
 
 /**
  * **IfFunction**`<T, IsFn, NotFn>`
@@ -13,6 +13,6 @@ import { AnyFunction } from "src/types/index";
  */
 export type IfFunction<
     T,
-    IsFn,
-    NotFn,
+    IsFn = ReturnType<AsFunction<T>>,
+    NotFn = T,
 > = T extends AnyFunction ? IsFn : NotFn;
