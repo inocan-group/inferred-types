@@ -1,75 +1,40 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-  AsFnMeta, 
-  Narrowable, 
-  AnyFunction,
-  AnyObject,
+  IfTrue,
   ObjectKey,
-  FnProps,
-  RemoveFnProps,
-  EmptyObject,
-  RemoveIndexKeys,
-  ToFn
 } from "src/types/index";
+import { keysOf } from "../dictionary/keysOf";
+import { isTrue } from "../type-guards";
 
-
-type Returns<TFn extends AnyFunction, TProps extends AnyObject> = 
-TProps extends EmptyObject
-  ? TFn
-  : ToFn<AsFnMeta<RemoveFnProps<TFn> & RemoveIndexKeys<FnProps<TFn> & TProps>>>;
 
 /**
- * **FnReadyForProps**(props)
+ * **createFnWithProps**(fn, props)
  * 
- * This type is the result of a partial application of the `createFnWithProps()`
- * utility and is expecting a dictionary of key/value pairs that will be combined
- * with the function which was already provided.
- */
-export type FnReadyForProps<
-  TFn extends AnyFunction
-> = <
-  TProps extends Record<ObjectKey, N>,
-  N extends Narrowable
->(props: TProps) => Returns<TFn, TProps>;
-
-
-
-const finalize = <
-  TFn extends <TArgs extends readonly Narrowable[]>(...args: TArgs) => unknown,
->(fn: TFn): FnReadyForProps<TFn> => <
-  TProps extends Record<ObjectKey, N>,
-  N extends Narrowable
->(props: TProps) => {
-  const clone = <
-    A extends AsFnMeta<TFn>["args"]
-  >(...args:  A) => fn(...(args as A & readonly any[]));
-
-  for (const k of Object.keys(fn)) {    
-    (clone as any)[k] = fn[k as keyof typeof fn];
-  }
-
-  for (const k of Object.keys(props)) {    
-    (clone as any)[k] = props[k as keyof typeof props];
-  }
-  
-  return clone as unknown as Returns<TFn, TProps>;
-};
-
-/**
- * **createFnWithProps**(fn)(params)
- * 
- * A higher order function which builds a type strong combination of
- * a function and a dictionary.
- * 
- * - The preliminary passed into the partial application of this utility
- * _can_ contain key/value pairs and they will be preserved
- * - Any keys which overlap between those on the
- * function and the dictionary passed into fully apply this utility will be
- * merged with the dictionary props will have precedence. 
+ * creates a strongly typed function along with properties.
  */
 export const createFnWithProps = <
-  TFn extends <TArgs extends readonly Narrowable[]>(...args: TArgs) => unknown
->(fn: TFn ) => finalize(fn);
+TArgs extends readonly unknown[],
+TReturn,
+TProps extends Record<ObjectKey, unknown>,
+TNarrowing extends boolean = false
+>(
+  fn: (...args: TArgs) => TReturn, 
+  props: TProps, 
+  narrowing: TNarrowing = false as TNarrowing
+) => {
+  const fnWithProps: any = fn;
+  for (const prop of keysOf(props)) {
+    fnWithProps[prop] = props[prop];
+  }
 
-
+  return (
+    isTrue(narrowing) 
+    ? fnWithProps as (<A extends Readonly<TArgs>>(...args: A) => TReturn) & TProps
+    : fnWithProps as ((...args: TArgs) => TReturn) & TProps
+  ) as IfTrue<
+    TNarrowing,
+    (<A extends TArgs>(...args: A) => TReturn) & TProps,
+    ((...args: TArgs) => TReturn) & TProps
+  >;
+}

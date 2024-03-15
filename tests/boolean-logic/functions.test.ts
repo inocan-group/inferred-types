@@ -11,7 +11,7 @@ import type { AnyFunction, IsFunction } from "src/types/index";
 describe("Boolean Logic for functions", () => {
 
   it("IsFunction<T> type util", () => {
-    const f1 = createFnWithProps(() => "hi")({ foo: 42, bar: "baz"});
+    const f1 = createFnWithProps(() => "hi",{ foo: 42, bar: "baz"});
     type T1 = IsFunction<() => true>;
     type T2 = IsFunction<AnyFunction>;
     type T3 = IsFunction<typeof f1>;
@@ -38,7 +38,7 @@ describe("Boolean Logic for functions", () => {
   describe("isFunction(val) type guard", () => {
     const trueFn = () => true as const;
     const falseFn = () => false as const;
-    const hybrid = createFnWithProps(trueFn)({ about: "i am a function" });
+    const hybrid = createFnWithProps(trueFn,{ about: "i am a function" });
     const empty = {};
   
     it("basic positive test", () => {
@@ -100,7 +100,7 @@ describe("Boolean Logic for functions", () => {
   });
 
   describe("isFnWithParams() type guard", () => {  
-    const fn1 = createFnWithProps(() => `hi`)({ foo: 42 });
+    const fn1 = createFnWithProps(() => `hi`,{ foo: 42 });
     const fnUnion = fn1 as typeof fn1 | undefined;
     const fnNoParams = () => `hi`;
 

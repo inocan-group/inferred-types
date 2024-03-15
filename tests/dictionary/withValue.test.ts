@@ -17,7 +17,7 @@ const obj = defineObj({
   numericArr: [1, 2, 3],
   strArr: ["foo", "bar"],
   fn: () => "hi",
-  fnWithProp: createFnWithProps(() => "hi")({ foo: "there" }),
+  fnWithProp: createFnWithProps(() => "hi",{ foo: "there" }),
   baz: { foo: 1, bar: 2 },
   emptyBaz: {}
 });

@@ -21,8 +21,6 @@ export function indexOf<
 TContainer extends Narrowable | Tuple,
 TIdx extends PropertyKey | null
 >(val: TContainer, index: TIdx) {
-  
-
 
   const isNegative = isNumber(index) && index < 0;
   if(isNegative && !Array.isArray(val)) {
