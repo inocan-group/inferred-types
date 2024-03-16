@@ -45,7 +45,8 @@ export * from "./WithStringKeys";
 export * from "./ValidKey";
 export * from "./UpsertKeyValue";
 export * from "./HasKeys";
-
+export * from "./KvFn";
+export * from "./CreateLookup";
 
 // #endregion auto-indexed files
 
