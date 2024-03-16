@@ -10,6 +10,7 @@ export * from "./DictChangeValue";
 export * from "./Get";
 export * from "./SimplifyObject";
 export * from "./Keys";
+export * from "./Values";
 export * from "./MaybeRef";
 export * from "./FromMaybeRef";
 export * from "./RequiredProps";

@@ -18,6 +18,7 @@ export * from "./withKeys";
 export * from "./withoutKeys";
 export * from "./withoutValue";
 export * from "./withDefaults";
+export * from "./valuesOf";
 
 // #endregion auto-indexed files
 
