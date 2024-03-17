@@ -12,6 +12,7 @@ export * from "./isObject";
 export * from "./isTrue";
 export * from "./isArray";
 export * from "./isConstant";
+export * from "./isNever";
 export * from "./isContainer";
 export * from "./isSpecificConstant";
 export * from "./isReadonlyArray";
@@ -30,5 +31,6 @@ export * from "./isErrorCondition";
 export * from "./runtime-type-guards";
 export * from "./isSymbol";
 export * from "./hasKeys";
+export * from "./isDoneFn";
 
 export * from "./higher-order/index";

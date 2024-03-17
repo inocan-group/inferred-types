@@ -1,4 +1,4 @@
-import { ObjectKey,  ExpandRecursively, IfNever, Keys, AnyObject } from "src/types/index";
+import { ObjectKey,  ExpandRecursively, IfNever, Keys, AnyObject, AsRecord } from "src/types/index";
 
 export type GenericIndexableObject = {
   [key: string | symbol]: unknown;
@@ -18,7 +18,7 @@ IfNever<
   TObj,
   never,
   IfNever<
-    Keys<TObj>["length"],
+    Keys<AsRecord<TObj>>["length"],
     GenericIndexableObject,
     ExpandRecursively< Record<ObjectKey, unknown> & TObj >
   >

@@ -1,4 +1,4 @@
-import type {AnyObject, IfLength, Keys} from "src/types/index";
+import type {AnyObject, AsRecord, IfLength, Keys} from "src/types/index";
 
 /**
  * **IsEmptyObject**`<T>`
@@ -7,5 +7,5 @@ import type {AnyObject, IfLength, Keys} from "src/types/index";
  * but _has no properties_.
  */
 export type IsEmptyObject<T> = T extends AnyObject
-  ? IfLength<Keys<T>, 0, true, false>
+  ? IfLength<Keys<AsRecord<T>>, 0, true, false>
   : false;

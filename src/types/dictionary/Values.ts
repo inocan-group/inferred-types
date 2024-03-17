@@ -1,6 +1,6 @@
-import { ObjectKey } from "../base-types";
+import { KV, ObjectKey } from "../base-types";
 import { AfterFirst, First } from "../lists";
-import { AsObjectKeys, AsRecord } from "../type-conversion";
+import { AsObjectKeys } from "../type-conversion";
 import { Keys } from "./Keys";
 
 
@@ -29,8 +29,8 @@ type Process<
  * keys.
  */
 export type Values<
-  T extends Record<ObjectKey, unknown> | object
+  T extends KV
 > = Process<
-  AsObjectKeys<Keys<AsRecord<T>>>,
-  AsRecord<T>
+  AsObjectKeys<Keys<T>>,
+  T
 >;

@@ -6,10 +6,32 @@ type Process<
 > = RemoveNever<{
   [K in keyof TContent]: IfContains<
     TDrop, TContent[K],
-    never,
+    never, // filter out
     TContent[K]
   >
 }>;
+
+type P2<
+  TContent extends string,
+  TDrop extends string
+> = Process<
+Chars<TContent> extends readonly string[]
+? Chars<TContent>
+: never, 
+Chars<TDrop> extends readonly string[]
+? Chars<TDrop>
+: never
+> extends readonly string[]
+? 
+Process<
+  Chars<TContent> extends readonly string[]
+  ? Chars<TContent>
+  : never, 
+  Chars<TDrop> extends readonly string[]
+  ? Chars<TDrop>
+  : never
+>
+: "";
 
 /**
  * **DropChars**`<TContent,TDrop>`
@@ -20,8 +42,11 @@ type Process<
 export type DropChars<
   TContent extends string,
   TDrop extends string
-> = Process<Chars<TContent>, Chars<TDrop>> extends readonly string[]
-? Concat<Process<Chars<TContent>, Chars<TDrop>>>
-: "";
+> = Concat<
+  P2<TContent, TDrop> extends readonly unknown[]
+  ? P2<TContent, TDrop>
+  : never
+>;
+  
 
 

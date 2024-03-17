@@ -4,7 +4,7 @@ import { DoesExtend, If, IfAnd, IfEqual, IfEquals, IfFunction, IfNever } from ".
 import { TakeProp } from "../dictionary/TakeProp";
 import { StackTrace } from "../errors/StackTrace";
 import { TypeGuard } from "../functions";
-import { Narrowable } from "../literals";
+import { Narrowable, ShapeCallback } from "../literals";
 import { RuntimeUnion } from "../literals/RuntimeUnion";
 import { KebabCase } from "../string-literals";
 import { AsString, TupleToUnion, Widen } from "../type-conversion";
@@ -257,7 +257,7 @@ export type IsErr<
 >
 
 export type ResultApi<
-  T = unknown,
+  T extends ShapeCallback,
   E extends ErrInput = ErrInput
 > = {
   kind: "Result API";

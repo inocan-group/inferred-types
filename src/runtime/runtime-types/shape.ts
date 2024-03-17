@@ -1,74 +1,69 @@
-import { HasDoneFn, IfTrue } from "src/types/boolean-logic";
-import { Narrowable, Shape } from "src/types/literals";
+import { IfDoneFn, IfTrue, IfUndefined } from "src/types/boolean-logic";
+import { Narrow, Shape, ShapeTupleOrUnion, ShapeApi, ShapeCallback, WideTypeName } from "src/types/literals";
 import { TupleToUnion } from "src/types/type-conversion";
 import { isString } from "../type-guards/isString";
-import { SHAPE_PREFIXES } from "src/constants/Shape";
-import { hasKeys, isObject } from "../type-guards";
+import { SHAPE_DELIMITER, SHAPE_PREFIXES } from "src/constants/Shape";
+import { hasKeys, isObject, isUndefined } from "../type-guards";
+import { IndexableObject, ObjectKey } from "src/types/index";
 
-type Narrow = Exclude<Narrowable, symbol>;
-
-type AddOrDone<
-  TTuple extends readonly Narrow[] = Narrow[],
-  TMakeUnion extends boolean = boolean,
-> = {
-  add: <
-    TAdd extends Narrow
-  >(a: TAdd) => AddOrDone<[...TTuple, TAdd], TMakeUnion>;
-  done: () => IfTrue<TMakeUnion, TupleToUnion<TTuple>, TTuple>;
-}
-
-const isAddOrDone = <T>(val: T): val is AddOrDone & T => {
+const isAddOrDone = <T>(val: T): val is ShapeTupleOrUnion & T => {
   return isObject(val) && hasKeys("add","done") && typeof val.done === "function" && typeof val.add === "function"
 }
 
-const addOrDone = <
+const shapeTupleOrUnion = <
   TTuple extends readonly Narrow[],
   TMakeUnion extends boolean,
 >(state: TTuple, makeUnion: TMakeUnion) => {
-  const api:  AddOrDone<TTuple,TMakeUnion> = {
-    add: <TAdd extends Narrow>(a: TAdd) => addOrDone([...state, a], makeUnion),
+  const api:  ShapeTupleOrUnion<TTuple,TMakeUnion> = {
+    add: <TAdd extends Narrow>(a: TAdd) => shapeTupleOrUnion([...state, a], makeUnion),
     done: () => (
       makeUnion
-        ? `<<union::${state.join(",")}>>` as unknown as TupleToUnion<TTuple>
-        : `<<tuple::${state.join(",")}>>` as unknown as TTuple
+        ? `<<union::${state.join(SHAPE_DELIMITER)}>>` as unknown as TupleToUnion<TTuple>
+        : `<<tuple::${state.join(SHAPE_DELIMITER)}>>` as unknown as TTuple
     ) as IfTrue<TMakeUnion, TupleToUnion<TTuple>, TTuple>
   };
 
   return api;
 }
 
-export type ShapeApi = {
-  string: () => string;
-  number: () => number;
-  boolean: () => boolean;
-  object: () => object;
-  literals: <T extends Narrow>(literal: T) => AddOrDone<[T], true>;
-  tuple: <T extends Narrow>(literal: T) => AddOrDone<[T], false>;
-  null: () => null;
-  undefined: () => undefined;
-  optional: {
-    string: () => string | undefined;
-    number: () => number | undefined;
-    boolean: () => boolean | undefined;
-  };
-}
-
-export type ShapeCallback = (api: ShapeApi) => unknown;
-
-const api: ShapeApi = {
+export const ShapeApiImplementation: ShapeApi = {
   string: () => "<<string>>" as string,
   number: () => "<<number>>" as unknown as number,
   boolean: () => "<<boolean>>" as unknown as boolean,
-  object: () => "<<object>>" as unknown as object,
-  literals: <T extends Narrow>(literal: T) => addOrDone([literal], true),
-  tuple: <T extends Narrow>(item: T) => addOrDone([item], false),
-  null: () => "<<null>>" as unknown as null,
+  unknown: () => "<<unknown>>" as unknown,
   undefined: () => "<<undefined>>" as unknown as undefined,
-  optional: {
+  null: () => "<<null>>" as unknown as null,
+  object: <I extends boolean>(indexable?: I) => (
+    indexable 
+      ? "<<object::indexable>>" as unknown as IndexableObject
+      : "<<object>>" as unknown as object
+    ) as IfTrue<I, IndexableObject, object>,
+  record: {
+    string: () => "<<record::string>>" as unknown as Record<ObjectKey, string>,
+    number: () => "<<record::number>>" as unknown as Record<ObjectKey, number>,
+    boolean: () => "<<record::boolean>>" as unknown as Record<ObjectKey, boolean>,  
+    unknown: () => "<<record::unknown>>" as unknown as Record<ObjectKey, unknown>,
+    union: <
+      U extends readonly WideTypeName[]
+    >(...members: U) => (
+      `<<union:${isUndefined(members) ? [] : members}.join(SHAPE_DELIMITER)>>`
+    ) as unknown as IfUndefined<U,NonNullable<unknown>, Record<ObjectKey, TupleToUnion<U>>>
+  },
+  array: {
+    string: () => "<<array::string>>" as unknown as string[],
+    number: () => "<<array::number>>" as unknown as number[],
+    boolean: () => "<<array::boolean>>" as unknown as boolean[],  
+    unknown: () => "<<array::unknown>>" as unknown as unknown[],  
+  },
+  literals: <T extends readonly Narrow[]>(...literals: T) => shapeTupleOrUnion(literals, true),
+  tuple: <T extends Narrow>(item: T) => shapeTupleOrUnion([item], false),
+  opt: {
     string: () => "<<opt::string>>" as string | undefined,
     number: () => "<<opt::number>>" as unknown as number | undefined,
     boolean: () => "<<opt::boolean>>" as unknown as boolean | undefined,  
-  }
+    unknown: () => "<<opt::boolean>>" as unknown as unknown | undefined,  
+    null: () => "<<opt::boolean>>" as unknown as null | undefined,  
+  },
 }
 
 /**
@@ -81,11 +76,11 @@ const api: ShapeApi = {
  */
 export const shape = <
   T extends ShapeCallback
->(cb: T): HasDoneFn<ReturnType<T>> => {
-  const rtn = cb(api);
+>(cb: T): IfDoneFn<ReturnType<T>> => {
+  const rtn = cb(ShapeApiImplementation);
   return (
     isAddOrDone(rtn) ? rtn.done() : rtn
-  ) as unknown as HasDoneFn<ReturnType<T>>;
+  ) as unknown as IfDoneFn<ReturnType<T>>;
 }
 
 /**

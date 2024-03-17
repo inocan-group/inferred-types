@@ -7,7 +7,8 @@ import type {
   Concat, 
   ToString, 
   Keys, 
-  ErrorCondition
+  ErrorCondition,
+  AsRecord
 } from "src/types/index";
 
 /**
@@ -25,7 +26,7 @@ export type AddKeyValue<
   K extends PropertyKey,
   V extends Narrowable
 > = IfContains<
-  Keys<TObj>, K, 
+  Keys<AsRecord<TObj>>, K, 
   ErrorCondition<"duplicate-key", Concat<["The object passed into AddKeyValue already has the key '", ToString<K>, "'. This is not allowed. If you intended this then consider using UpsertKeyValue instead."]>>,
   SimplifyObject<TObj & Record<K, V>>
 >;

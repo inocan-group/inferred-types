@@ -1,4 +1,4 @@
-import { Scalar, IfFalsy, IfLength, IfTruthy, Keys, AnyObject, IfNever, IfExtends } from "src/types/index";
+import { Scalar, IfFalsy, IfLength, IfTruthy, Keys, AnyObject, IfNever, IfExtends, AsRecord } from "src/types/index";
 
 
 /**
@@ -27,6 +27,6 @@ T extends boolean
   : T extends readonly unknown[]
     ? IfLength<Keys<T>, 0, false, true>
     : T extends AnyObject 
-      ? IfLength<Keys<T>, 0, false, true>
+      ? IfLength<Keys<AsRecord<T>>, 0, false, true>
       : IfExtends<T, undefined, false, boolean>
 >;

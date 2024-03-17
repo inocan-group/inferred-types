@@ -1,4 +1,4 @@
-import { AfterFirst, AnyObject , ExpandRecursively, First, KeysWithValue } from "src/types/index";
+import { AfterFirst, AnyObject , AsRecord, ExpandRecursively, First, KV, KeysWithValue } from "src/types/index";
 
 type Process<
   TKeys extends readonly unknown[],
@@ -27,7 +27,7 @@ type Process<
  * **Related:** `WithoutValue`, `WithKeys`, `WithoutKeys`
  */
 export type WithValue<
-  TObj extends AnyObject,
+  TObj extends KV,
   TValue,
 > = Process<
   KeysWithValue<TObj, TValue>,

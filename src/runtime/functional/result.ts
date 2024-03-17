@@ -10,12 +10,10 @@ import {
   Err,
   ResultErr,
   ErrInputs as ErrInput,
-  AsErr,
   ObjectKey,
   ResultTuple,
   TupleToUnion,
   ResultApi,
-  IsEqual,
   IfEqual,
 } from "src/types/index"
 import { isFunction, isObject, isString } from "../type-guards";
@@ -161,11 +159,11 @@ const transformErrInput = <
 export const createErr = <
   TKind extends string,
   TContextDefn extends Record<string, unknown> = NonNullable<unknown>
->(kind: TKind, contextDefn?: TContextDefn, defaultContext?: Partial<TContextDefn>) => {
+>(kind: TKind, contextDefn?: TContextDefn) => {
   return {
     msg: "" as string,
     kind,
-    context: (defaultContext || {}) as Partial<TContextDefn>
+    context: (contextDefn || {}) as TContextDefn
   } as ResultErr<TKind, TContextDefn>
 }
 
@@ -175,10 +173,10 @@ export const createErr = <
  * Creates a `Err` error for use inside a `Result<T,E>` block.
  */
 export function err<
-  TErr extends ErrInput,
+  TErr extends string | ResultErr,
   TVal = unknown
 >(
-  err: TErr,
+  err: TErr,  
   _val: TVal = ErrInput as TVal
 ): IfEqual<TVal, unknown, Err<TErr>, Err<TErr,TVal>> {
   return {

@@ -1,4 +1,4 @@
-import { ObjectKey } from "../base-types";
+import { KV, ObjectKey } from "../base-types";
 import { AfterFirst, First } from "../lists";
 import { ExpandRecursively } from "../literals";
 import { AsRecord } from "../type-conversion/AsRecord";
@@ -68,15 +68,17 @@ type GetKeys<
  * - otherwise, the optional `TType` (set to `unknown` by default) is used.
  */
 export type HasKeys<
-  TObj extends Record<ObjectKey, unknown> | object,
-  TKeys extends readonly string[] | Record<ObjectKey, unknown> | [Record<ObjectKey, unknown>],
+  TObj,
+  TKeys extends readonly string[] | KV | [KV],
   TType = unknown
-> = Process<
+> = TObj extends KV
+? Process<
     Keys<AsRecord<TObj>> extends ObjectKey[]
     ? [...Keys<AsRecord<TObj>>, ...GetKeys<TKeys>]
     : never,
-    AsRecord<TObj>,
+    TObj,
     TKeys,
     TType
-  >;
+  >
+: TType;
 

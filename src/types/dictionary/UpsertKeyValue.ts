@@ -1,5 +1,5 @@
 
-import { IfContains , Narrowable , SimplifyObject , AnyObject, Keys } from "src/types/index";
+import { IfContains , Narrowable , SimplifyObject , AnyObject, Keys, AsRecord } from "src/types/index";
 
 
 /**
@@ -15,7 +15,7 @@ export type UpsertKeyValue<
   K extends PropertyKey,
   V extends Narrowable
 > = IfContains<
-  Keys<TObj>, K, 
+  Keys<AsRecord<TObj>>, K, 
   SimplifyObject<Omit<TObj, K> & Record<K, V>>, 
   SimplifyObject<TObj & Record<K, V>>
 >;

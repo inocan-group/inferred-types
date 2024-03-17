@@ -1,4 +1,5 @@
-import { AsRecord, Narrow, Narrowable, ObjectKey, Values } from "src/types/index";
+/* eslint-disable no-use-before-define */
+import { AsRecord,  Narrowable, ObjectKey, Values } from "src/types/index";
 
 /**
  * **valuesOf**(obj) -> readonly values[]

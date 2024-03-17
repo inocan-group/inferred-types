@@ -33,8 +33,8 @@ export type Keys<
     ? IsEqual<TContainer, Record<ObjectKey, unknown>> extends true
       ? ObjectKey[]
       : UnionToTuple<keyof RemoveIndexKeys<TContainer>> extends readonly ObjectKey[]
-        ? UnionToTuple<keyof RemoveIndexKeys<TContainer>>
-        : never
+          ? UnionToTuple<keyof RemoveIndexKeys<TContainer>>
+          : never
     : TContainer extends readonly unknown[]
       ? NumericKeys<TContainer>
       : never

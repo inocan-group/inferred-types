@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import {  AsErrKind, Err, ErrFrom, IsErr, IsOk, IsResult, KindFrom, Ok, Result, OkFrom,  } from "src/types/index";
+import {  AsErrKind, Err, ErrFrom, IsErr, IsOk, IsResult, KindFrom, Ok, Result, OkFrom, IsFunction,  } from "src/types/index";
 import { ok, err, okN, assertErr, isOk, asResult, createErr } from "src/runtime/index"
 import { describe, expect, it } from "vitest";
 
@@ -82,10 +82,28 @@ describe("Result<T,E> and Utils", () => {
 });
 
 describe("ok(), err(), isOk() and other Result runtime utils", () => {
-  it("runtime happy path", () => {
+  
+  it("runtime using higher order fn", () => {
+    const {ok, err, result} = asResult("", "oops")
+    
+    type cases = [
+      ExpectTrue<IsFunction<typeof ok>>,
+      ExpectTrue<IsFunction<typeof err>>,
+      Expect<Equal<typeof result, Result<string, "oops">>>,
+    ];
+    const cases: cases = [
+      true, true, true
+    ];
+    
+  });
+  
+
+  it("runtime base happy path", () => {
     const five = ok(5);
     const five_n = okN(5);
-    const simple = createErr("Oops");
+    const bad_juju = err("bad-juju");
+
+    const simple_err = createErr("Oops");
     const withContext = createErr("with-context", {foo: 1});
 
 

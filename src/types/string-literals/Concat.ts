@@ -34,5 +34,5 @@ type Process<
  * **Related:** `Join<TArr,TWith>`
  */
 export type Concat<
-  T extends Tuple
+  T extends readonly unknown[]
 > = Process<T>;

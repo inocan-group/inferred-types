@@ -1,5 +1,5 @@
 import { Constant } from "src/constants/index";
-import { Concat, Container, ErrorCondition, IfEqual, ToString } from "src/types/index";
+import { Concat, ErrorCondition, IfEqual, KV, ToString, Tuple } from "src/types/index";
 
 /**
  * **AsIndexOf**`<T,K,[ERR]>`
@@ -7,7 +7,7 @@ import { Concat, Container, ErrorCondition, IfEqual, ToString } from "src/types/
  * Validates that `K` is a keyof `T` and 
  */
 export type AsIndexOf<
-  T extends Container, 
+  T extends KV | object | Tuple, 
   K extends PropertyKey, 
   ERR = Constant<"NoErr">
 > = K extends keyof T

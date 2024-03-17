@@ -1,4 +1,4 @@
-import { Tuple, Length, FixedLengthArray, ToNumber } from "src/types/index";
+import { Tuple, Length, FixedLengthArray } from "src/types/index";
 
 type Pop<T extends Tuple> = Length<T> extends 0
   ? 0
@@ -16,6 +16,6 @@ type Pop<T extends Tuple> = Length<T> extends 0
  */
 export type Decrement<T extends number | `${number}`> = T extends number
   ? Pop<FixedLengthArray<unknown, T>>
-  : T extends `${number}`
-    ? `${Decrement<ToNumber<T>>}`
+  : T extends `${infer Num extends number}`
+    ? `${Decrement<Num>}`
     : never;

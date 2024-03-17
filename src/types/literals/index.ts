@@ -2,6 +2,7 @@ export * from "./OptRequired";
 export * from "./Color";
 export * from "./ExpandRecursively";
 export * from "./Narrowable";
+export * from "./Narrow";
 export * from "./NarrowableDefined";
 export * from "./NarrowableScalar";
 export * from "./Box";
@@ -10,3 +11,5 @@ export * from "./ContainerKeyGuarantee";
 export * from "./ContainerBlockKey";
 export * from "./RuntimeUnion"
 export * from "./Shape";
+export * from "./DoneFnTuple";
+export * from "./Choices";

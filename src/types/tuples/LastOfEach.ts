@@ -1,4 +1,4 @@
-import { Decrement } from "src/types/index";
+import {  Last } from "src/types/index";
 
 /**
  * **LastOfEach**`<TList>`
@@ -13,6 +13,9 @@ import { Decrement } from "src/types/index";
  */
 export type LastOfEach<
   T extends readonly unknown[][]
-> = T[number][Decrement<T[number]["length"]>] extends T[number][number]
-  ? T[number][Decrement<T[number]["length"]>]
-  : never;
+> = {
+  [K in keyof T]: T[K] extends readonly unknown[]
+    ? Last<T[K]>
+    : never
+}
+
