@@ -18,5 +18,4 @@ export * from "./ifRef";
 export * from "./ifUndefined";
 export * from "./ifArrayPartial";
 export * from "./handleDoneFn";
-// export * from "./ifTypeOf";
 

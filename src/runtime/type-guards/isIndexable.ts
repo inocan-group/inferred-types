@@ -1,5 +1,6 @@
 import { AnyObject, Indexable } from "src/types/index";
-import { keysOf } from "src/runtime/index";
+import { keysOf } from "../dictionary/keysOf";
+
 
 /**
  * **isIndexable**(value)

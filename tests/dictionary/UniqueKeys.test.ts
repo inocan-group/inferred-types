@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { Equal, Expect } from "@type-challenges/utils";
 import { LeftRight, UniqueKeys } from "src/types/index";
-import { describe, it } from "vitest";
+import { describe, expect, it } from "vitest";
+import { uniqueKeys } from "../../src/inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -29,6 +30,17 @@ describe("UniqueKeys<A,B>", () => {
       true, true, true, true,
       true
     ];
+  });
+
+});
+
+describe("uniqueKeys(a,b)", () => {
+
+  it("Happy Path", () => {
+    const noOverlap = uniqueKeys({foo: 1}, {bar: 2, baz: 3});
+
+    expect(noOverlap).toEqual(["LeftRight", {foo: 1}, {bar: 2, baz: 3}])
+
   });
 
 });

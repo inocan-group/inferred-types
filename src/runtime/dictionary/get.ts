@@ -13,15 +13,14 @@ import {
   NotDefined,
   NOT_DEFINED 
 } from "src/constants/index";
-import { 
-  hasDefaultValue, 
-  isTruthy,  
-  isRef, 
-  hasIndexOf, 
-  isSpecificConstant, 
-  createErrorCondition, 
-  isContainer,
-} from "src/runtime/index";
+import { createErrorCondition } from "../errors/createErrorCondition";
+import { isTruthy } from "../type-guards/isTruthy";
+import { hasIndexOf } from "../type-guards/hasIndexOf";
+import { isSpecificConstant } from "../type-guards/isSpecificConstant";
+import { hasDefaultValue } from "../type-guards/hasDefaultValue";
+import { isContainer } from "../type-guards/isContainer";
+import { isRef } from "../type-guards/isRef";
+
 
 
 /** updates based on whether segment is a Ref or not */
@@ -150,7 +149,7 @@ export function get<
       handleInvalidDotpath: NOT_DEFINED
     } as GetOptions<TDefVal, TInvalid>
 ) {
-  return (
+  const outcome: unknown = (
     dotPath === null || dotPath === ""
       ? value
       : getValue(
@@ -160,7 +159,8 @@ export function get<
           options?.handleInvalidDotpath || NOT_DEFINED,
           String(dotPath)
         ) as unknown
-  ) as Get<TValue, TDotPath>;
+  );
 
+  return outcome as unknown as Get<TValue,TDotPath>
 }
 

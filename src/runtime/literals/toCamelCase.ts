@@ -1,5 +1,5 @@
 import type { CamelCase } from "src/types/index";
-import { toPascalCase } from "src/runtime/index";
+import { toPascalCase } from "./toPascalCase";
 
 /**
  * **toCamelCase**(str)

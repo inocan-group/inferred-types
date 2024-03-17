@@ -1,5 +1,9 @@
 import { Scalar } from "src/types/index";
-import { isNull, isNumber, isString, isSymbol } from "src/runtime/index";
+import { isString } from "./isString";
+import { isNumber } from "./isNumber";
+import { isSymbol } from "./isSymbol";
+import { isNull } from "./isNull";
+
 
 
 /**

@@ -1,5 +1,6 @@
 import {  Find , Narrowable, Tuple } from "src/types/index";
-import {  isContainer } from "src/runtime/index";
+import { isContainer } from "../type-guards/isContainer";
+
 
 /**
  * **Finder**

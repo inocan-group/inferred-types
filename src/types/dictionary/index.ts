@@ -49,6 +49,7 @@ export * from "./HasKeys";
 export * from "./KvFn";
 export * from "./CreateLookup";
 export * from "./MergeKVs"
+export * from "./TakeProp"
 
 // #endregion auto-indexed files
 

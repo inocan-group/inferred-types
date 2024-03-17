@@ -1,6 +1,5 @@
 import { First, IfUnion, Length, Narrowable, UnionToTuple } from "src/types/index";
-import { asArray } from "src/runtime/index";
-
+import { asArray } from "../lists/asArray";
 
 /**
  * **tuple**(value)

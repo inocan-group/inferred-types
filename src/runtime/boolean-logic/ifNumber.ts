@@ -1,5 +1,6 @@
 import { IfNumber, Narrowable } from "src/types/index";
-import { isNumber } from "src/runtime/index";
+import { isNumber } from "../type-guards/isNumber";
+
 
 /**
  * **ifNumber**(val, ifVal, elseVal)

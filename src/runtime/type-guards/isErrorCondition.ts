@@ -1,5 +1,6 @@
 import { ErrorCondition } from "src/types/index";
-import {  isObject } from "src/runtime/index";
+import { isObject } from "./isObject";
+
 
 /**
  * **isErrorCondition**(value)

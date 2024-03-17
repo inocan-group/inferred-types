@@ -1,7 +1,9 @@
 
 import type { Container, GetEach } from "src/types/index";
-import { get, isErrorCondition, isNull, isContainer } from "src/runtime/index";
+
 import { Never } from "src/constants/index";
+import { isContainer, isErrorCondition, isNull } from "../type-guards/index";
+import { get } from "../dictionary/get";
 
 export interface GetEachOptions<
   THandleErrors

@@ -5,7 +5,6 @@ export * from "./Nothing";
 export * from "./NotNull";
 export * from "./AnyObject";
 export * from "./IndexableObject";
-export * from "./IndexedObject";
 export * from "./EmptyObject";
 export * from "./AnyFunction";
 export * from "./AnyArray";

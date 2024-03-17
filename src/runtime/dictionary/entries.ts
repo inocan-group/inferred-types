@@ -1,5 +1,6 @@
 import { KeyValue, Narrowable } from "src/types/index";
-import { keysOf } from "src/runtime/index";
+import { keysOf } from "./keysOf";
+
 
 /**
  * **entries**

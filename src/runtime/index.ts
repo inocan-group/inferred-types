@@ -18,7 +18,6 @@ export * from "./lists/index";
 export * from "./literals/index";
 export * from "./runtime-types/index";
 export * from "./sets/index";
-export * from "./state/index";
 export * from "./type-conversion/index";
 export * from "./type-guards/index";
 // #endregion auto-indexed files

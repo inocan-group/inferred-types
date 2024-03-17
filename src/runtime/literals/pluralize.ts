@@ -5,8 +5,9 @@ import {
   PLURAL_EXCEPTIONS, 
   SINGULAR_NOUN_ENDINGS 
 } from "src/constants/index";
-import {  split, stripTrailing } from "src/runtime/index";
 import {  Mutable, Pluralize, TupleToUnion } from "src/types/index";
+import { stripTrailing } from "./stripTrailing";
+import { split } from "./split";
 
 const isException = <T extends string>(word: T) => Object.keys(PLURAL_EXCEPTIONS).includes(word);
 

@@ -1,5 +1,5 @@
 import { ErrorCondition } from "src/types/index";
-import { isErrorCondition } from "src/runtime/index";
+import { isErrorCondition } from "./isErrorCondition";
 
 export const hasErrorConditions = <
   T extends readonly unknown[]

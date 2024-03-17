@@ -6,12 +6,10 @@ import type {
   AnyObject,
   AnyFunction
 } from "src/types/index";
-import { 
-  isTupleType,
-  isObject,
-  isNothing
-} from "src/runtime/index";
+
 import { Never } from "src/constants/index";
+import { isNothing } from "../type-guards/isNothing";
+import { isObject } from "../type-guards/isObject";
 
 type CallIfDefined<
   Handler
@@ -69,12 +67,7 @@ export function createConverter<
   
 
   return <TInput extends Narrowable | Tuple>(input: TInput): ConversionResult<typeof mapper, TInput> => {
-    if (isTupleType(input)) {
-      return (mapper.tuple
-        ? mapper.tuple(input as TInput & Tuple)
-        : Never
-      ) as ConversionResult<typeof mapper, TInput>;
-    } else if(isNothing(input)) {
+    if(isNothing(input)) {
       return (mapper.nothing
         ? mapper.nothing(input as TInput & Nothing)
         : Never

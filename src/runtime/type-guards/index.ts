@@ -28,7 +28,6 @@ export * from "./isNothing";
 export * from "./isScalar";
 export * from "./isTypeToken";
 export * from "./isErrorCondition";
-export * from "./runtime-type-guards";
 export * from "./isSymbol";
 export * from "./hasKeys";
 export * from "./isDoneFn";

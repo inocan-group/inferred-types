@@ -1,5 +1,6 @@
 import { AnyObject, IfScalar, Narrowable, Scalar } from "src/types/index";
-import { isScalar } from "src/runtime/index";
+import { isScalar } from "../type-guards/isScalar";
+
 
 /**
  * **ifScalar**(value, ifCallback, notCallback)
