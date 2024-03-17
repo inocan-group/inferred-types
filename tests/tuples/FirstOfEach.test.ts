@@ -33,8 +33,8 @@ describe("LastOfEach<TList>", () => {
     
     
     type cases = [
-      Expect<Equal<Arr, 1 | 2>>,
-      Expect<Equal<Foo, "o" | "r" >>,
+      Expect<Equal<Arr, [1,2]>>,
+      Expect<Equal<Foo, ["o","r"] >>,
     ];
     const cases: cases = [ true, true  ];
   });

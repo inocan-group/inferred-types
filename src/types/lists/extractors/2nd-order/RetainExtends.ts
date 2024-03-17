@@ -1,4 +1,4 @@
-import { AnyObject , Narrowable ,  RetainFromList, WithValue,  } from "src/types/index";
+import {  KV, Narrowable ,  RetainFromList, WithValue,  } from "src/types/index";
 
 /**
  * **RetainExtends**`<TIterable, TBase>`
@@ -7,13 +7,13 @@ import { AnyObject , Narrowable ,  RetainFromList, WithValue,  } from "src/types
  * except those which _extend_ `TBase`.
  */
 export type RetainExtends<
-TIterable extends unknown[] | readonly unknown[] | AnyObject,
+TIterable extends unknown[] | readonly unknown[] | KV,
 TCompare extends Narrowable
 > = TIterable extends unknown[]
 ? RetainFromList<TIterable, "extends", TCompare>
 : TIterable extends readonly unknown[]
 ? Readonly<RetainFromList<TIterable, "extends", TCompare>>
-  : TIterable extends AnyObject
+  : TIterable extends KV
     ? WithValue<TIterable, TCompare>
     : never;
   

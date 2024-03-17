@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { AnyObject, Keys,  IsEqual, IfOr, IsEmptyObject, IfObjectLiteral } from "src/types/index";
+import { AnyObject, Keys,  IsEqual, IfOr, IsEmptyObject, IfObjectLiteral, AsRecord } from "src/types/index";
 
 type Values<
   TObj extends AnyObject,
@@ -8,9 +7,6 @@ type Values<
 > = {
   [K in keyof TKeys]: K extends keyof TObj ? TObj[K] : never
 }
-
-
-
 
 
 /**
@@ -32,7 +28,7 @@ export type ObjValues<
     T,
     Values<
       T, 
-      Keys<T>
+      Keys<AsRecord<T>>
     >,
     T
   >

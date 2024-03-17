@@ -7,5 +7,5 @@ import { ObjectKey } from "./ObjectKey";
  * 
  * Meant to represent any valid object type (both indexable and not).
  */
-export type AnyObject = Record<ObjectKey, unknown>;
+export type AnyObject = Record<ObjectKey, unknown> | NonNullable<unknown>;
 

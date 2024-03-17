@@ -1,5 +1,30 @@
-import { IfLiteral , AfterFirst, First, StripTrailing,  StripLeading} from "src/types/index";
+import { 
+  StripTrailing,  
+  StripLeading,
+  Join,
+  StartsWith,
+  Concat,
+  EndsWith
+} from "src/types/index";
 
+
+
+type StripSlashes<
+  T extends readonly string[]
+> = {
+  [K in keyof T]: T[K] extends string
+    ? StripLeading<StripTrailing<T[K], "/">, "/">
+    : never
+}
+
+type Finalize<
+  TSegments extends readonly string[],
+  TPath extends string
+> = Concat<[
+  StartsWith<Concat<TSegments>, "/"> extends true ? "/" : "",
+  TPath,
+  EndsWith<Concat<TSegments>, "/"> extends true ? "/" : ""
+]>
 
 /**
  * **PathJoin**`<T,U>`
@@ -15,38 +40,8 @@ import { IfLiteral , AfterFirst, First, StripTrailing,  StripLeading} from "src/
  * the type.
  */
 export type PathJoin<
-  // leading string
-  T extends string,
-  // trailing string or strings
-  U extends string | readonly string[]
-> = [] extends U
-  ? T
-  : U extends readonly string[]
-  ? // eslint-disable-next-line no-use-before-define
-    PathMultiJoin<PathJoin<T, "">, [...U]>
-  : U extends string
-  ? IfLiteral<
-      T,
-      // Literal T guaranteed
-      IfLiteral<
-        // conditional
-        U,
-        `${StripTrailing<T, "/">}/${StripLeading<U, "/">}`,
-        `${StripTrailing<T, "/">}/${string}`
-      >,
-      // wide `T` encountered
-      IfLiteral<U, `${string}${U}`, string>
-    >
-  : never;
-
-type PathMultiJoin<
-  TProcessed extends string,
-  TRemaining extends readonly string[]
-> = [] extends TRemaining
-  ? TProcessed
-  : PathMultiJoin<
-      // add to the TProcessed string
-      PathJoin<TProcessed, First<TRemaining>>,
-      // remaining elements after extracting head element
-      AfterFirst<TRemaining>
-    >;
+  TSegments extends readonly string[]
+> = Finalize<
+  TSegments,
+  Join<StripSlashes<TSegments>, "/">
+>

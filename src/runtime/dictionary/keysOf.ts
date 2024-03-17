@@ -1,5 +1,5 @@
 import type {  AsRecord, Container,  IsRef,  Keys } from "src/types/index";
-import { isObject, isReadonlyArray, isRef } from "src/runtime/index";
+import { isObject, isRef } from "src/runtime/index";
 
 /**
  * **keysOf**(container)
@@ -17,7 +17,7 @@ export function keysOf<
 ): IsRef<TContainer> extends true ? readonly ["value"] : Keys<AsRecord<TContainer>> {
 
   return (
-      isReadonlyArray(container)
+      Array.isArray(container)
         ? Object.keys(container).map(i => Number(i))
         : isObject(container)
           ? isRef(container)

@@ -48,6 +48,7 @@ export * from "./UpsertKeyValue";
 export * from "./HasKeys";
 export * from "./KvFn";
 export * from "./CreateLookup";
+export * from "./MergeKVs"
 
 // #endregion auto-indexed files
 

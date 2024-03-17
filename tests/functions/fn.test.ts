@@ -1,0 +1,39 @@
+import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
+import { AnyFunction, DoesExtend, Fn } from "src/types/index";
+import { describe, it } from "vitest";
+
+// Note: while type tests clearly fail visible inspection, they pass from Vitest
+// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// gain validation that no new type vulnerabilities have cropped up.
+
+describe("Fn<T> test", () => {
+
+  it("happy path", () => {
+    type Basic = Fn<[
+      <N extends string, A extends number>(name: N, age: A) => `Hello ${N}, you are ${A}.`
+    ]>;
+    type WithDesc = Fn<[
+      <N extends string, A extends number>(name: N, age: A) => `Hello ${N}, you are ${A}.`,
+      "greet a person with their age"
+    ]>;
+    type WithProps = Fn<[
+      <N extends string, A extends number>(name: N, age: A) => `Hello ${N}, you are ${A}.`,
+      { foo: 1; bar: 2}
+    ]>;
+    
+    type cases = [
+      ExpectTrue<DoesExtend<Basic, AnyFunction>>,
+      ExpectTrue<DoesExtend<WithDesc, AnyFunction>>,
+      ExpectTrue<DoesExtend<WithProps, AnyFunction>>,
+
+      Expect<Equal<WithDesc["desc"], "greet a person with their age">>,
+      Expect<Equal<WithProps["foo"], 1>>,
+      Expect<Equal<WithProps["bar"], 2>>,
+    ];
+    const cases: cases = [
+      true, true, true,
+      true, true, true
+    ];
+  });
+
+});

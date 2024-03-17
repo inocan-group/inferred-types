@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { hasKeys } from "src/runtime/index";
+import { choice, hasKeys } from "src/runtime/index";
 import { EmptyObject, HasKeys } from "src/types/index";
 import { describe, expect, it } from "vitest";
 
@@ -45,6 +45,7 @@ describe("hasKeys() runtime", () => {
   it("happy path", () => {
     const hasFooBar = hasKeys({ foo: 1 as number, bar: 1 as number});
     const hasFooBarArr = hasKeys("foo","bar");
+    const choice1 = choice()
 
     const foobar = { foo: 1, bar: 3} as {foo: 1};
     const obj = { foo: 1, bar: 3} as object;

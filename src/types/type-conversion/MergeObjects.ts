@@ -1,9 +1,9 @@
-import { AfterFirst, AsRecord, CombinedKeys, ExpandRecursively, First, IsDefined, ObjectKey,  } from "src/types/index";
+import { AfterFirst, AsRecord, CombinedKeys, ExpandRecursively, First, IsDefined, KV  } from "src/types/index";
 
 type Process<
   TKeys extends readonly unknown[],
-  TDef extends object,
-  TOverride extends object,
+  TDef extends KV,
+  TOverride extends KV,
   // eslint-disable-next-line @typescript-eslint/ban-types
   TResult extends Record<string|symbol, unknown> = {}
 > = [] extends TKeys
@@ -29,10 +29,10 @@ type Process<
  * A type utility that _shallowly merges_ two object types.
  */
 export type MergeObjects<
-  TDef extends Record<ObjectKey,unknown> | object,
-  TOverride extends Record<ObjectKey,unknown>,
+  TDef extends KV,
+  TOverride extends KV,
 > = Process<
-  CombinedKeys<AsRecord<TDef>,TOverride>,
-  TDef,
+  CombinedKeys<TDef,TOverride>,
+  AsRecord<TDef>,
   TOverride
 >;

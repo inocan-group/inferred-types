@@ -2,14 +2,13 @@ export const SHAPE_PREFIXES = [
   "string", 
   "number",
   "boolean",
-  "true",
-  "false",
   "null",
   "undefined", 
   "unknown",
   "opt::", 
   "union::", 
   "tuple::", 
+  "array::",
   "object", 
   "record::"
 ] as const;

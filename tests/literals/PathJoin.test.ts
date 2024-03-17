@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { pathJoin } from "src/runtime/literals/pathJoin";
-import { PathJoin } from "src/types/string-literals/PathJoin";
+import { pathJoin } from "src/runtime/index";
+import { PathJoin } from "src/types/index";
 import { describe, expect, it } from "vitest";
 
 // Note: type tests fail visible inspection but pass from Vitest
@@ -9,12 +9,12 @@ import { describe, expect, it } from "vitest";
 
 describe("PathJoin<T,U>", () => {
   it("only literals / happy path", () => {
-    type T1 = PathJoin<"foo", "bar">;
-    type T2 = PathJoin<"foo/", "bar">;
-    type T3 = PathJoin<"foo", "/bar">;
-    type T4 = PathJoin<"foo/", "/bar">;
-    type T5 = PathJoin<"/foo/", "/bar">;
-    type T6 = PathJoin<"foo/", "/bar/">;
+    type T1 = PathJoin<["foo", "bar"]>;
+    type T2 = PathJoin<["foo/", "bar"]>;
+    type T3 = PathJoin<["foo", "/bar"]>;
+    type T4 = PathJoin<["foo/", "/bar"]>;
+    type T5 = PathJoin<["/foo/", "/bar"]>;
+    type T6 = PathJoin<["foo/", "/bar/"]>;
 
     type cases = [
       // neither have divider
@@ -33,9 +33,9 @@ describe("PathJoin<T,U>", () => {
   });
 
   it("PathJoin<T,U> with U as array", () => {
-    type T1 = PathJoin<"foo", ["bar", "baz"]>;
-    type T2 = PathJoin<"/foo/", ["/bar/", "/baz/"]>;
-    type T3 = PathJoin<"/foo/", ["bar", "/baz"]>;
+    type T1 = PathJoin<["foo", "bar", "baz"]>;
+    type T2 = PathJoin<["/foo/","/bar/", "/baz/"]>;
+    type T3 = PathJoin<["/foo/","bar", "/baz"]>;
 
     type cases = [
       //
@@ -47,16 +47,16 @@ describe("PathJoin<T,U>", () => {
   });
 
   it("wide types mixed in", () => {
-    type T1 = PathJoin<"foo", string>;
-    type T2 = PathJoin<"foo/", string>;
-    type T3 = PathJoin<string, "/bar">;
-    type T4 = PathJoin<string, "bar">;
+    type T1 = PathJoin<["foo", string]>;
+    type T2 = PathJoin<["foo/", string]>;
+    type T3 = PathJoin<[string, "/bar"]>;
+    type T4 = PathJoin<[string, "bar"]>;
 
     type cases = [
       Expect<Equal<T1, `foo/${string}`>>,
       Expect<Equal<T2, `foo/${string}`>>,
       Expect<Equal<T3, `${string}/bar`>>,
-      Expect<Equal<T4, `${string}bar`>>
+      Expect<Equal<T4, `${string}/bar`>>
     ];
     const cases: cases = [true, true, true, true];
   });

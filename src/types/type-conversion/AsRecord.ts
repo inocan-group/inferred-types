@@ -1,5 +1,4 @@
-import { Tuple } from "../base-types";
-import { ObjectKey } from "../base-types/ObjectKey";
+import { KV, Tuple } from "../base-types";
 
 /**
  * **AsRecord**`<T>`
@@ -9,11 +8,14 @@ import { ObjectKey } from "../base-types/ObjectKey";
  * Tuples through "as is".
  */
 export type AsRecord<
-  T extends Record<ObjectKey, unknown> | object | Tuple
+  T extends KV | object
 > = T extends Tuple
 ? T
-: T extends Record<ObjectKey, unknown>
+: T extends KV
 ? T
 : T extends object
-  ? NonNullable<unknown>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ? T extends any[]
+    ? never
+    : NonNullable<unknown>
   : never;

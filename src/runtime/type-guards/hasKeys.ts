@@ -1,4 +1,5 @@
-import {  HasKeys, ObjectKey } from "src/types/index"
+import {   HasKeys, IfNotNever, } from "src/types/index"
+import { isObject } from "./isObject";
 
 /**
  * **hasKeys**(props) => (obj) => `HasKeys<O,P>`
@@ -21,8 +22,12 @@ export const hasKeys = <
  * runtime will provide the type support for them.
  */
 <
-  T extends Record<ObjectKey,unknown> | object
->(val: T): val is T & HasKeys<T,P> => {
-  const keys = Array.isArray(props) ? props : Object.keys(props).filter(i => typeof i === "string") as string[];
-  return keys.every(k => k in val) ? true : false
+  T
+>(val: T): val is T & IfNotNever<HasKeys<T, ["name"], never>, HasKeys<T,P>>  => {
+  const keys = Array.isArray(props) 
+    ? props 
+    : Object.keys(props).filter(i => typeof i === "string") as string[];
+  
+
+  return isObject(keys) && keys.every(k => k in (val as object)) ? true : false
 }

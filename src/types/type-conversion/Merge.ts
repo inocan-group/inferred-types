@@ -8,7 +8,8 @@ import {
   First , 
   AnyObject, 
   Scalar, 
-  MergeObjects
+  MergeObjects,
+  KV
 } from "src/types/index";
 
 // 1. Keep all unique keys in `TValue`
@@ -71,8 +72,8 @@ export type Merge<
   TDefault, 
   TOverride
 > = IfAnd<
-  [DoesExtend<TDefault, AnyObject>, DoesExtend<TOverride, AnyObject>],
-  MergeObjects<TDefault & AnyObject,TOverride & AnyObject>,
+  [DoesExtend<TDefault, KV>, DoesExtend<TOverride, KV>],
+  MergeObjects<TDefault & KV,TOverride & KV>,
   IfAnd<
     [ DoesExtend<TDefault, Scalar>, DoesExtend<TOverride, Scalar> ],
     MergeScalars<TDefault & Scalar, TOverride & Scalar>,

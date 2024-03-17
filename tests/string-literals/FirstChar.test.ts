@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { FirstChar } from "src/types/index";
+import { FirstChar, FirstCharOfEach } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -22,7 +22,7 @@ describe("FirstChar<T>", () => {
 
   
   it("with array input", () => {
-    type FooBarBaz = FirstChar<["foo", "bar", "baz"]>;
+    type FooBarBaz = FirstCharOfEach<["foo", "bar", "baz"]>;
     
     type cases = [
       Expect<Equal<FooBarBaz, ["f","b","b"]>>

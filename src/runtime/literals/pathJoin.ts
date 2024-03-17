@@ -1,7 +1,5 @@
-import { PathJoin } from "src/types/index";
+import {  PathJoin } from "src/types/index";
 import { 
-  ensureLeading, 
-  ensureTrailing, 
   stripLeading, 
   stripTrailing 
 } from "src/runtime/index";
@@ -17,19 +15,13 @@ import {
  * is now the ability to add a tuple of paths into the _rest_
  * parameter
  */
-export function pathJoin<T extends string, U extends readonly string[]>(
-  begin: T,
-  ...rest: U
-): PathJoin<T, U> {
-  const start = rest.length > 0 ? ensureTrailing(begin, "/") : begin;
-  const end = rest.length > 0 ? ensureLeading(rest.slice(-1)[0], "/") : "";
-  const middle =
-    rest.length > 1
-      ? rest.slice(0, rest.length - 1).map((i) => stripLeading(stripTrailing(i, "/"), '"'))
-      : [];
-  const midString = stripTrailing(stripLeading(middle.join("/"), "/"), "/");
+export function pathJoin<T extends readonly string[]>(
+  ...segments: T
+): PathJoin<T> {
+  const clean_path = segments.map(i => stripTrailing(stripLeading(i, "/"), "/")).join("/");
+  const original_path = segments.join("/");
+  const pre = original_path.startsWith("/") ? "/" : "";
+  const post = original_path.endsWith("/") ? "/" : "";
 
-  return (
-    rest.length > 1 ? `${start}${midString}${end}` : `${start}${stripLeading(end, "/")}`
-  ) as PathJoin<T, U>;
+  return `${pre}${clean_path}${post}` as PathJoin<T>
 }
