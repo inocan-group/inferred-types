@@ -1,5 +1,6 @@
 import type { IsNull, Narrowable } from "src/types/index";
-import { isNull } from "src/runtime/index";
+import { isNull } from "../type-guards/isNull";
+
 
 
 /**

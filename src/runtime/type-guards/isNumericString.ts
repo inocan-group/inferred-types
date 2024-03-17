@@ -1,5 +1,6 @@
 import { NUMERIC_CHAR } from "src/constants/index";
-import { split } from "src/runtime/index";
+import { split } from "../literals/split";
+
 
 /**
  * **isNumericString**(value)

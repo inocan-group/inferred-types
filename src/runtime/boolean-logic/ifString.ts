@@ -1,5 +1,6 @@
 import { IfString, Narrowable } from "src/types/index";
-import { isString } from "src/runtime/index";
+import { isString } from "../type-guards/isString";
+
 
 /**
  * **ifString**

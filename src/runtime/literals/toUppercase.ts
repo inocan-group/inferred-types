@@ -1,4 +1,6 @@
-import { capitalize, ifLowercaseChar } from "src/runtime/index";
+import { capitalize } from "./capitalize";
+import { ifLowercaseChar } from "./ifLowercase";
+
 
 /**
  * Converts a string to the "all caps" equivalent.

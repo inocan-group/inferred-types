@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
+import { describe, expect, it } from "vitest";
 import {  AsErrKind, Err, ErrFrom, IsErr, IsOk, IsResult, KindFrom, Ok, Result, OkFrom, IsFunction,  } from "src/types/index";
 import { ok, err, okN, assertErr, isOk, asResult, createErr } from "src/runtime/index"
-import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -101,10 +101,11 @@ describe("ok(), err(), isOk() and other Result runtime utils", () => {
   it("runtime base happy path", () => {
     const five = ok(5);
     const five_n = okN(5);
-    const bad_juju = err("bad-juju");
+    const _bad_juju = err("bad-juju");
 
     const simple_err = createErr("Oops");
-    const withContext = createErr("with-context", {foo: 1});
+    const simple = err(simple_err);
+    // const withContext = createErr("with-context", {foo: 1});
 
 
     const r1 = asResult(1, "oops");

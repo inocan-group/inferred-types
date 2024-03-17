@@ -1,5 +1,7 @@
-import {  NarrowObject, Narrowable } from "src/types/index";
-import { sharedKeys, withoutKeys } from "src/runtime/index";
+import {  KV, MergeObjects, NarrowObject, Narrowable } from "src/types/index";
+import { sharedKeys } from "../dictionary/sharedKeys";
+import { withoutKeys } from "../dictionary/withoutKeys";
+
 
 export function mergeObjects<
   D extends Narrowable,
@@ -10,19 +12,20 @@ export function mergeObjects<
   defVal: TDefault, 
   override: TOverride
 ) {
-  const intersectingKeys = sharedKeys(defVal,override);
-
-  const defUnique = withoutKeys(defVal, ...intersectingKeys as readonly string[]);
+  const intersectingKeys = sharedKeys(defVal,override) as string[];
+  const defUnique = withoutKeys(defVal, ...intersectingKeys as readonly string[]) as string[];
   const overrideUnique = withoutKeys(defVal, ...intersectingKeys as readonly string[]);
 
-  return {
+  const merged = {
     ...(intersectingKeys.reduce(
       (acc, key) => typeof override[key] === "undefined"
         ? {...acc, [key]: defVal[key]}
         : {...acc, [key]: override[key]},
-      {}
+      {} as KV
     )),
     ...defUnique,
     ...overrideUnique,
   };
+
+  return merged as MergeObjects<TDefault,TOverride>
 }

@@ -2,7 +2,7 @@
 /* eslint-disable no-use-before-define */
 import {   ChoiceRepresentation, ChoiceBuilder, MultipleChoice, Choice, Narrowable, KV, MergeKVs } from "src/types/index";
 import { isString } from "../type-guards/isString";
-import {  isObject } from "../type-guards";
+import {  isObject } from "../type-guards/index";
 import { Never } from "src/constants/Never";
 import { createFnWithProps } from "../initializers";
 import { handleDoneFn } from "../boolean-logic";

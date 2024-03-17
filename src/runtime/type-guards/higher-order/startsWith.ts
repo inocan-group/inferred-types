@@ -1,5 +1,7 @@
 import type { Narrowable } from "src/types/index";
-import { isNumber, isString } from "src/runtime/index";
+import { isString } from "../isString";
+import { isNumber } from "../isNumber";
+
 
 /**
  * **StartingWithTypeGuard**`<literal>`

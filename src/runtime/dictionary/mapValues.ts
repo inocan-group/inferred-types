@@ -1,5 +1,5 @@
 import { Narrowable } from "src/types/index";
-import { entries } from "src/runtime/index";
+import { entries } from "./entries";
 
 /**
  * **mapValues**

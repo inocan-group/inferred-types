@@ -1,5 +1,6 @@
-import {  isObject } from "src/runtime/index";
+
 import { Container } from "src/types/index";
+import { isObject } from "./isObject";
 
 
 /**

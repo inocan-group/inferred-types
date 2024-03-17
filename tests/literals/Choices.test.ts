@@ -34,8 +34,6 @@ describe("Choice<T>, Choices<T>", () => {
         bar: 42;
         baz: "baz";
       }>>,
-
-
     ];
     const cases: cases = [
       true, true, true,

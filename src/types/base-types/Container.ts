@@ -1,8 +1,8 @@
-import {KV, Tuple } from "src/types/index";
+import {KV, ObjectKey } from "src/types/index";
 
 /**
- * **Container**
+ * **Container**`<V=unknown>`
  * 
- * A type which represents any object or array.
+ * A type which represents any `KV<ObjectKey,V>` or tuple of `readonly V[]`.
  */
-export type Container = KV | Tuple;
+export type Container<V = unknown> = KV<ObjectKey, V> | readonly V[];

@@ -1,6 +1,7 @@
 /* eslint-disable no-use-before-define */
 import { LogicFunction } from "src/types/index";
-import { ifBoolean, ifFunction } from "src/runtime/index";
+import { ifBoolean, ifFunction } from "../boolean-logic";
+
 
 export function logicalReturns<
   TConditions extends readonly (boolean | LogicFunction<TParams>)[],

@@ -257,7 +257,7 @@ export type IsErr<
 >
 
 export type ResultApi<
-  T extends ShapeCallback,
+  T,
   E extends ErrInput = ErrInput
 > = {
   kind: "Result API";

@@ -3,8 +3,8 @@ import {
   Narrowable,
   Tuple
 } from "src/types/index";
-import { isArray, isNull, isNumber, isObject } from "src/runtime/index";
 import { Never } from "src/constants/index";
+import { isArray, isNull, isNumber, isObject } from "../type-guards/index";
 
 /**
  * **indexOf**(val, index)

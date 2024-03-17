@@ -13,7 +13,12 @@ import {
   EmptyObject,
   AnyFunction,
 } from "src/types/index";
-import { asArray, ifLength, ifUndefined, isTrue, toCamelCase } from "src/runtime/index";
+import { ifLength } from "../boolean-logic/ifLength";
+import { asArray } from "../lists/asArray";
+import { ifUndefined } from "../boolean-logic/ifUndefined";
+import { toCamelCase } from "../literals/toCamelCase";
+import { isTrue } from "../type-guards/isTrue";
+
 
 const t = <T extends Narrowable | Tuple>(token: TypeToken) => {
   return token as unknown as T;

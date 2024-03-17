@@ -1,7 +1,6 @@
-import {  Something } from "src/types/base-types";
-import { TakeProp } from "src/types/dictionary/TakeProp";
-import { Narrowable } from "src/types/literals";
-import { isArray, isObject } from "../type-guards";
+
+import { Narrowable, TakeProp, Something } from "src/types/index";
+import { isArray, isObject } from "../type-guards/index";
 
 /**
  * **takeProp**(val, prop, otherwise)

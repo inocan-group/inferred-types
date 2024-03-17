@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Constant } from "src/constants/index";
-import { isEqual, isTypeOf, isObject } from "src/runtime/index";
+import { isObject } from "./isObject";
+import { isEqual } from "./higher-order/isEqual";
+import { isTypeOf } from "./higher-order/isTypeOf";
+
 
 export function isConstant<
   K extends string

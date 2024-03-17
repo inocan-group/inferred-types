@@ -1,5 +1,7 @@
 import { Narrowable } from "src/types/index";
-import { ifNumber, ifString } from "src/runtime/index";
+import { ifString } from "../../boolean-logic/ifString";
+import { ifNumber } from "../../boolean-logic/ifNumber";
+
 
 export type EndingWithTypeGuard<T extends string> = <
   V extends Narrowable

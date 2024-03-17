@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IfRef,  Narrowable,  VueRef } from "src/types/index";
-import { isRef } from "src/runtime/index";
+import { isRef } from "../type-guards/isRef";
+
 
 /**
  * **ifRef**(value, if, else)

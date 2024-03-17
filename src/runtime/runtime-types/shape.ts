@@ -1,10 +1,20 @@
-import { IfDoneFn, IfTrue, IfUndefined } from "src/types/boolean-logic";
-import { Narrow, Shape, ShapeTupleOrUnion, ShapeApi, ShapeCallback, WideTypeName } from "src/types/literals";
-import { TupleToUnion } from "src/types/type-conversion";
-import { isString } from "../type-guards/isString";
 import { SHAPE_DELIMITER, SHAPE_PREFIXES } from "src/constants/Shape";
-import { hasKeys, isObject, isUndefined } from "../type-guards";
-import { IndexableObject, ObjectKey } from "src/types/index";
+import { 
+  IndexableObject, 
+  ObjectKey,
+  IfDoneFn, 
+  IfTrue, 
+  IfUndefined,
+  Narrow, 
+  Shape, 
+  ShapeTupleOrUnion, 
+  ShapeApi, 
+  ShapeCallback, 
+  WideTypeName, 
+  TupleToUnion
+} from "src/types/index";
+import { isString } from "../type-guards/isString";
+import { hasKeys, isObject, isUndefined } from "../type-guards/index";
 
 const isAddOrDone = <T>(val: T): val is ShapeTupleOrUnion & T => {
   return isObject(val) && hasKeys("add","done") && typeof val.done === "function" && typeof val.add === "function"

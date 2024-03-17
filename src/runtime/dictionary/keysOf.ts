@@ -1,5 +1,7 @@
 import type {  AsRecord, Container,  IsRef,  Keys } from "src/types/index";
-import { isObject, isRef } from "src/runtime/index";
+import { isObject } from "../type-guards/isObject";
+import { isRef } from "../type-guards/isRef";
+
 
 /**
  * **keysOf**(container)

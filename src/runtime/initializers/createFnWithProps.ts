@@ -5,7 +5,7 @@ import {
   ObjectKey,
 } from "src/types/index";
 import { keysOf } from "../dictionary/keysOf";
-import { isTrue } from "../type-guards";
+import { isTrue } from "../type-guards/index";
 
 
 /**

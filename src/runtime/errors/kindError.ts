@@ -1,6 +1,5 @@
-import { KindError, KindErrorDefn } from "src/types/errors/KindError";
 import { toKebabCase, toPascalCase } from "../literals";
-import { IfUndefined } from "src/types/boolean-logic/branching/IfUndefined";
+import { IfUndefined, KindError, KindErrorDefn } from "src/types/index";
 
 /**
  * **KindError**

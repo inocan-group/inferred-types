@@ -2,7 +2,7 @@
 import { KV } from "../base-types/KV";
 import { IfFunction, IfTrue } from "../boolean-logic";
 import { Fn } from "../functions/Fn";
-import { AfterFirst, First } from "../lists";
+import { AfterFirst, First } from "../lists/index";
 import { AsFunction } from "../type-conversion/AsFunction";
 import { ExpandRecursively } from "./ExpandRecursively";
 import { ShapeCallback } from "./Shape";

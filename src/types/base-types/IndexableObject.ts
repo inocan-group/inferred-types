@@ -1,25 +1,34 @@
-import { ObjectKey,  ExpandRecursively, IfNever, Keys, AnyObject, AsRecord } from "src/types/index";
-
-export type GenericIndexableObject = {
-  [key: string | symbol]: unknown;
-};
+import {  EmptyObject, ExpandRecursively, IfEqual, IfNever, Keys,KV, RemoveIndex } from "src/types/index";
 
 /**
- * **IndexableObject**`<[TObj]>`
+ * **IndexableObject**`<[TObj], [TIndex]>`
  * 
- * Represents any object which _can_ be indexed by a valid key
- * for a JS object/dictionary. These keys may be explicitly defined
- * or can be generically allowed via a generic index like `{[key: string]: unknown}`.
+ * Type utility which receives a `KV` object and and adds an _index signature_
+ * so that other properties may be added in the runtime.
+ * 
+ * - by default the index signature is `{ [key: string]: unknown; [key: symbol]: unknown }`
+ * but this can be changed by changing `TIndex`
+ * 
+ * ```ts
+ * // { [x: string]: unknown; foo: 1; bar: 2 }
+ * type FooBarIdx = IndexableObject<{foo: 1; bar: 2}, KV<string>>;
+ * ```
  * 
  * **Related:** `EmptyObject`, `IndexedObject`
  */
-export type IndexableObject<TObj extends AnyObject = GenericIndexableObject> = 
-IfNever<
+export type IndexableObject<
+  TObj extends KV = KV,
+  TIndex extends KV = KV
+> = IfNever<
   TObj,
   never,
-  IfNever<
-    Keys<AsRecord<TObj>>["length"],
-    GenericIndexableObject,
-    ExpandRecursively< Record<ObjectKey, unknown> & TObj >
+  IfEqual<
+    TObj,EmptyObject,
+    KV,
+    IfNever<
+      Keys<TObj>["length"],
+      KV,
+      ExpandRecursively<TIndex & RemoveIndex<TObj>>
+    >
   >
 >;

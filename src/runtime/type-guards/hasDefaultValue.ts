@@ -1,6 +1,6 @@
 import { Narrowable } from "src/types/index";
-import { isSpecificConstant } from "src/runtime/index";
 import { NoDefaultValue } from "src/constants/index";
+import { isSpecificConstant } from "./isSpecificConstant";
 /**
  * **hasDefaultValue**(value)
  * 

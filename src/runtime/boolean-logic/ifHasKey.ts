@@ -5,7 +5,8 @@ import {
   Keys, 
   Narrowable
 } from "src/types/index";
-import { hasIndexOf } from "src/runtime/index";
+import { hasIndexOf } from "../type-guards/hasIndexOf";
+
 
 export const ifHasKey = <
   TContainer extends Container,

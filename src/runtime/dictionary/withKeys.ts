@@ -1,6 +1,7 @@
 /* eslint-disable no-use-before-define */
 import type { Narrowable, ObjectKey } from "src/types/index";
-import { retain } from "src/runtime/index";
+import { retain } from "./retain";
+
 
 /**
  * **withKeys**(obj,keys)

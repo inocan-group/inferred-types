@@ -9,7 +9,6 @@ import {
   Narrowable, 
   Err,
   ResultErr,
-  ErrInputs as ErrInput,
   ObjectKey,
   ResultTuple,
   TupleToUnion,
@@ -17,10 +16,11 @@ import {
   IfEqual,
   IsOk,
   IsErr,
+  ErrInput,
 } from "src/types/index"
-import { isFunction, isObject, isString } from "../type-guards";
+import { Never } from "src/constants/index";
+import { isFunction, isObject, isString } from "../type-guards/index";
 import { toKebabCase } from "../literals/toKebabCase";
-import { Never } from "src/constants/Never";
 import { asUnion } from "../type-conversion/asUnion";
 import { isRuntimeUnion } from "../type-guards/isRuntimeUnion";
 import { takeProp } from "../dictionary";
@@ -175,11 +175,11 @@ export const createErr = <
  * Creates a `Err` error for use inside a `Result<T,E>` block.
  */
 export function err<
-  TErr extends string | ResultErr,
+  TErr extends string | ResultErr<any, any>,
   TVal = unknown
 >(
   err: TErr,  
-  _val: TVal = ErrInput as TVal
+  _val: TVal = null as unknown as ErrInput as TVal
 ): IfEqual<TVal, unknown, Err<TErr>, Err<TErr,TVal>> {
   return {
     ...(resultTuple(_val, err)),

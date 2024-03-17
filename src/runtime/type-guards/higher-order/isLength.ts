@@ -1,5 +1,10 @@
+import { keysOf } from "../../index";
+import { isArray } from "../isArray";
+import { isObject } from "../isObject";
+import { isString } from "../isString";
+import { isEqual } from "./isEqual";
 
-import { keysOf,isArray,isObject,isString,isEqual } from "src/runtime/index";
+
 
 /**
  * **ifLength**(len) => (value) => boolean

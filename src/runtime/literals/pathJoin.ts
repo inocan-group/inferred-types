@@ -1,8 +1,7 @@
 import {  PathJoin } from "src/types/index";
-import { 
-  stripLeading, 
-  stripTrailing 
-} from "src/runtime/index";
+import { stripTrailing } from "./stripTrailing";
+import { stripLeading } from "./stripLeading";
+
 
 /**
  * **pathJoin**`<T,U>(begin, ...rest)`

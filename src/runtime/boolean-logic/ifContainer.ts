@@ -1,5 +1,7 @@
-import { isArray, isObject } from "src/runtime/index";
+
 import { Container, IfContainer, Narrowable } from "src/types/index";
+import { isObject } from "../type-guards/isObject";
+import { isArray } from "../type-guards/isArray";
 
 export function ifContainer<
   TVal extends Narrowable,

@@ -1,18 +1,51 @@
-import { Expect } from "@type-challenges/utils";
+import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { DoesExtend, IndexableObject, EmptyObject, DoesNotExtend, IndexedObject,  Not, IsNever } from "src/types/index";
+import { DoesExtend, IndexableObject, EmptyObject, DoesNotExtend, HasIndex,  Not, IsNever, KV} from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
 // gain validation that no new type vulnerabilities have cropped up.
+type FooBar = { foo: 42; bar: number };
+type FooBarExt = { foo: 42; bar: number; [key: string]: unknown };
 
 describe("IndexableObject and IndexedObject", () => {
   type Generic = { [key: string]: unknown };
-  type FooBar = { foo: 42; bar: number };
-  type FooBarExt = { foo: 42; bar: number; [key: string]: unknown };
 
-  type IdxFooBar = IndexedObject<FooBar>;
-  type IdxFooBarExt = IndexedObject<FooBarExt>;
+  type IdxFooBar = HasIndex<FooBar>;
+  type IdxFooBarExt = HasIndex<FooBarExt>;
+
+  
+  it("IndexableObject Basics", () => {
+    type FooBarIdx = IndexableObject<FooBar>;
+    type FooBarIdxStr = IndexableObject<FooBar, KV<string>>;
+    
+    type Identity = IndexableObject<KV>;
+
+    type cases = [
+      Expect<Equal<
+        FooBarIdx, 
+        {
+          foo: 42; 
+          bar: number; 
+          [x:string]: unknown; 
+          [x:symbol]: unknown;
+        }
+      >>,
+      Expect<Equal<
+        FooBarIdxStr, 
+        {
+          foo: 42; 
+          bar: number; 
+          [x:string]: unknown; 
+        }
+      >>,
+      Expect<Equal<Identity, KV>>,
+    ];
+    const cases: cases = [
+      true, true, true
+    ];
+  });
+  
 
   it("positive tests", () => {
     type cases = [
@@ -34,11 +67,11 @@ describe("IndexableObject and IndexedObject", () => {
   });
   
   it("negative tests", () => {
-    type IdxEmpty = IndexedObject<EmptyObject>;
-    type IdxGeneric = IndexedObject<Generic>;
+    type IdxEmpty = HasIndex<EmptyObject>;
+    type IdxGeneric = HasIndex<Generic>;
   
     type cases = [
-      Expect<DoesNotExtend<IndexableObject, EmptyObject>>,
+      Expect<DoesNotExtend<IndexableObject, EmptyObject >>,
       // Object's with no explicit props defined are not 
       // considered an IndexedObject
       Expect<IsNever<IdxEmpty>>,
