@@ -7,7 +7,6 @@ import { AsFunction } from "../type-conversion/AsFunction";
 import { ExpandRecursively } from "./ExpandRecursively";
 import { ShapeCallback } from "./Shape";
 
-
 /**
  * **ChoiceRepresentation**
  * 
