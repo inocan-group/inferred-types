@@ -2,10 +2,10 @@
  * **FirstOfEach**`<TList>`
  * 
  * Expects `TList` to consist of an array of arrays and then this utility will reduce
- * this to a _union_ of all the first elements in `TList`
+ * this to a _tuple_ of all the first elements in `TList`.
  *
  * ```ts
- * // "foo" | "bar"
+ * // ["foo", "bar"]
  * type A = FirstOfEach<[ ["foo", 1], ["bar", 2] ]>;
  * ```
  */
