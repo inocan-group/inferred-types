@@ -15,6 +15,8 @@ import {
   TupleToUnion,
   ResultApi,
   IfEqual,
+  IsOk,
+  IsErr,
 } from "src/types/index"
 import { isFunction, isObject, isString } from "../type-guards";
 import { toKebabCase } from "../literals/toKebabCase";
@@ -238,7 +240,7 @@ export function okOrThrow<
 export function okOrElse<
   R extends Result<T,E>,
   T,
-  E extends BaseErr,
+  E extends ResultErr,
   Els
 >(
   result: R, 
@@ -254,7 +256,7 @@ export function okOrElse<
 export function isErr<
   T,
   E extends ErrInput
->(result: Result<T,E>): result is Err<E> {
+>(result: Result<T,E>): result is Err<E,T> {
   return (
       isString(result)
       ? { 
