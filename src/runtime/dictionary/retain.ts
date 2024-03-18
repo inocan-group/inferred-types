@@ -9,7 +9,7 @@ import { ErrorCondition, HasUnionType, NarrowObject, Narrowable,  ObjectKey,  Wi
  * **Related:** `createRetainer`, `omit`
  */
 export const retain = <
-N extends Narrowable,
+  N extends Narrowable,
   TObj extends NarrowObject<N>,
   TKeys extends readonly (ObjectKey & keyof TObj)[]
 >(

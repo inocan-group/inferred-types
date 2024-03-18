@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { isShape, shape } from "src/runtime/index";
 import { describe, expect, it } from "vitest";
-import { IndexableObject } from "../../src/inferred-types";
+import { IndexableObject, ObjectKey } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -43,6 +43,8 @@ describe("shape(s => s.[api])", () => {
       Expect<Equal<typeof optStr, string | undefined>>,
       Expect<Equal<typeof obj, object>>,
       Expect<Equal<typeof obj_indexable, IndexableObject>>,
+      Expect<Equal<typeof rec_union, Record<ObjectKey, number | boolean> >>,
+      Expect<Equal<typeof rec_union_dup, Record<ObjectKey, number | boolean> >>
     ];
     const cases: cases = [
       true, true, true, true, true, true, true, true, true

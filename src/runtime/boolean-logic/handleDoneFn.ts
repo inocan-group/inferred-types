@@ -19,7 +19,7 @@ export const handleDoneFn = <
   val: TVal, 
   call_bare_fn: TBareFn = false as TBareFn
 ) => {
-  return isObject(val)
+  return isObject(val) || isFunction(val)
     ? isDoneFn(val)
       ? val.done()
       : isFunction(val)

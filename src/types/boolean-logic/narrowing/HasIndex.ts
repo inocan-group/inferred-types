@@ -3,7 +3,8 @@ import {
   IfEqual,   
   IfObjectLiteral,  
   IndexableObject,  
-  Keys 
+  Keys, 
+  Tuple
 } from "src/types/index";
 
 /**
@@ -17,9 +18,13 @@ import {
  * - if `T` _does not_ then `TElse` is return (which is **never** by default)
  */
 export type HasIndex<
-  TTest extends IndexableObject,
+  TTest extends IndexableObject | Tuple,
   TElse = never
-> = IfEqual<
+> = TTest extends Tuple
+? TTest["length"] extends 0
+  ? false
+  : true
+:IfEqual<
   TTest, EmptyObject,
   TElse,
   IfObjectLiteral<

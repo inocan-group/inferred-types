@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import type { Narrowable, ObjectKey } from "src/types/index";
+import type { KV, Narrowable, ObjectKey } from "src/types/index";
 import { retain } from "./retain";
 
 
@@ -12,7 +12,7 @@ import { retain } from "./retain";
  * - note: this function is an alias for `retain()`
  */
 export const withKeys = <
-  TObj extends Record<string|symbol, N>,
+  TObj extends KV<string | symbol, N>,
   N extends Narrowable,
   TKeys extends readonly (ObjectKey & keyof TObj)[]
 >(

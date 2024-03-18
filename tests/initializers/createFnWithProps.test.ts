@@ -14,6 +14,7 @@ describe("createFnWithProps()", () => {
 
   it("happy path", () => {
     const foo = createFnWithProps(fn, {foo: 42});
+    expect(foo.foo).toBe(42);
     const fooWithParam = createFnWithProps(fnWithParam, {foo: 42});
     const fooWithTwo = createFnWithProps(fnWithTwoParam, {foo: 42});
     const fooNarrowing = createFnWithProps(fnNarrowing, {foo: 42});

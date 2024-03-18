@@ -5,7 +5,7 @@ import { IfNever, IfTrue, IfUndefined } from "../boolean-logic";
 import { IndexableObject } from "../base-types/IndexableObject";
 import { ObjectKey } from "../base-types/ObjectKey";
 import { Narrowable } from "./Narrowable";
-import { Unique } from "../sets";
+import { HandleDoneFn } from "../functions/HandleDoneFn";
 
 type Narrow = Exclude<Narrowable, symbol>;
 
@@ -32,7 +32,11 @@ export type ShapeTupleOrUnion<
   add: <
     TAdd extends Narrow
   >(a: TAdd) => ShapeTupleOrUnion<[...TTuple, TAdd], TMakeUnion>;
-  done: () => IfTrue<TMakeUnion, TupleToUnion<TTuple>, TTuple>;
+  done: () => IfTrue<
+    TMakeUnion, 
+    TupleToUnion<TTuple>, 
+    TTuple
+  >;
 }
 
 export type WideTypeName = "string" | "number" | "boolean" | "null" | "undefined" | "unknown" | "object";
@@ -87,7 +91,15 @@ export type ShapeApi = ShapeApi__Wide & {
     boolean: () => boolean[];
     unknown: () => unknown[];
   };
+  /**
+   * Add one or more literal values which will be combined into a _union type_.
+   */
   literals: <T extends readonly Narrow[]>(...literal: T) => ShapeTupleOrUnion<T, true>;
+  /**
+   * **tuple**
+   * 
+   * Add one or more literal values to create a **tuple** type
+   */
   tuple: <T extends Narrow>(literal: T) => ShapeTupleOrUnion<[T], false>;
   /**
    * **Optional**

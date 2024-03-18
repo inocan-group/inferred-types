@@ -1,7 +1,9 @@
+/* eslint-disable no-use-before-define */
 
 import { KV } from "../base-types/KV";
 import { IfFunction, IfTrue } from "../boolean-logic";
 import { Fn } from "../functions/Fn";
+import { HandleDoneFn } from "../functions/HandleDoneFn";
 import { AfterFirst, First } from "../lists/index";
 import { AsFunction } from "../type-conversion/AsFunction";
 import { ExpandRecursively } from "./ExpandRecursively";
@@ -74,24 +76,44 @@ export type AsChoices<
 > = ToLookup<TInput>;
 
 export type MultipleChoice<
-  TChoices extends KV<string>,
-  TForceUnique extends boolean,
+  TChoices extends KV<string> = KV<string>,
+  TForceUnique extends boolean = boolean,
   TState extends readonly unknown[] = [],
   TExclude extends string = never
 > = {
   selected: TState;
   forceUnique: TForceUnique;
   choices: TChoices;
-  <T extends Exclude<keyof TChoices, TExclude>>(s: T): 
+  <T extends string & Exclude<keyof TChoices, TExclude>>(s: T ): 
     MultipleChoice<
       TChoices,
       TForceUnique,
-      [...TState, T extends keyof TChoices ? TChoices[T] : never],
-      IfTrue<TForceUnique, TExclude & T, TExclude>
+      [
+        ...TState, 
+        T extends keyof TChoices 
+          ? TChoices[T] 
+          : never
+      ],
+      IfTrue<TForceUnique, TExclude | T, TExclude>
     >;
   /** return the selected choices */
   done: () => TState;
 };
+
+/**
+ * **MultiChoiceCallback**`<TApi>`
+ * 
+ * Provides the typing so that you can easily incorporate a "choice"
+ * as a parameter to your functions. 
+ * 
+ * It is intended to be used with the runtime utility `handleDoneFn()` 
+ * so that if a user doesn't terminate their callback with a call to
+ * `.done()` then this is done for them.
+ */
+export type MultiChoiceCallback<TApi extends MultipleChoice> = <
+  CB extends ((c: TApi) => unknown)
+>(cb: CB) =>  HandleDoneFn<ReturnType<CB>>; 
+
 
 type MergeKVs<
   TInput extends readonly {[key: string]: unknown}[],
@@ -119,7 +141,10 @@ export type ChoiceBuilder= <
     TForce extends boolean
   >(force: TForce) => 
   MultipleChoice<
-    MergeKVs<TChoices> & KV<string>,
+     MergeKVs<TChoices> extends KV<string>
+     ? MergeKVs<TChoices>
+     : never,
     TForce
   >;
 });
+

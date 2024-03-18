@@ -1,6 +1,5 @@
 import { AsDoneFn } from "src/types/boolean-logic"
 import { hasKeys } from "./hasKeys"
-import { isObject } from "./isObject"
 
 /**
  * **isDoneFn**(val)
@@ -9,5 +8,7 @@ import { isObject } from "./isObject"
  * property which is a function.
  */
 export const isDoneFn = <T>(val: T): val is AsDoneFn<T> => {
-  return isObject(val) && hasKeys("done")(val) && typeof val.done === "function"
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return hasKeys("done")(val) && typeof (val as any).done === "function"
 }
