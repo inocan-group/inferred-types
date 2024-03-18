@@ -19,7 +19,7 @@ export type ToString<T> = T extends string
   : T extends AnyObject ? IfRef<
       T,
       Concat<["Ref<", T extends { value: Narrowable } ? ToString<T["value"]> : "", ">"]>,
-      "Object"
+      T extends { name: string} ? `Object(${T["name"]})` : "Object"
     >
   : T extends symbol ? "symbol"
   : T extends string[] ? "string[]"
