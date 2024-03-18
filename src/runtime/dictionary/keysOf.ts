@@ -16,7 +16,7 @@ export function keysOf<
   TContainer extends Container | object,
 >(
   container: TContainer
-): IsRef<TContainer> extends true ? readonly ["value"] : Keys<AsRecord<TContainer>> {
+): IsRef<TContainer> extends true ? ["value"] : Keys<AsRecord<TContainer>> {
 
   return (
       Array.isArray(container)
@@ -27,6 +27,6 @@ export function keysOf<
             : Object.keys(container)
           : []
   ) as unknown as IsRef<TContainer> extends true 
-    ? readonly ["value"]
+    ?  ["value"]
     : Keys<AsRecord<TContainer>>;
 }

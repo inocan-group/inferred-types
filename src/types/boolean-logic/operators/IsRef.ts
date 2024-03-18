@@ -5,13 +5,11 @@ import { Length } from "src/types/index";
  * 
  * Boolean type utility that detects whether the type passed in
  * is a VueJS `Ref<...>` type.
- * 
- * **Note:** if `T` is a _wide_ Object type then `boolean` will be returned
- * as we can't make enough of a judgement on whether it is reference or
- * not.
  */
 export type IsRef<T> = T extends { value: unknown } 
-  ? Length<T> extends 2
+  ? Length<T> extends 2 // this is a "real" Ref<T>
     ? true
-    : false
+    : Length<T> extends 1 // this ia a "fake" Ref<T>, aka VueRef<T>
+      ? true
+      : false
   : false;

@@ -7,6 +7,7 @@ export * from "./NarrowableDefined";
 export * from "./NarrowableScalar";
 export * from "./Box";
 export * from "./VueRef";
+export * from "./VueComputedRef";
 export * from "./ContainerKeyGuarantee";
 export * from "./ContainerBlockKey";
 export * from "./RuntimeUnion"

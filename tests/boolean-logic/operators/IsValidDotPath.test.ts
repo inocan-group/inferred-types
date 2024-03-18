@@ -1,7 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { IsValidDotPath } from "src/types/index";
-import { Ref } from "vue";
+import { IsValidDotPath, VueRef } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -13,7 +12,7 @@ describe("IsValidDotPath<T>", () => {
     type Obj = {
       foo: 1;
       bar: [1,2,3];
-      baz: Ref<{happy: "path"}>;
+      baz: VueRef<{happy: "path"}>;
     };
     type Root = IsValidDotPath<Obj, "">;
     type SingleOffset = IsValidDotPath<Obj, "foo">;
