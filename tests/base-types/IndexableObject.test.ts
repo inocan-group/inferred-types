@@ -45,7 +45,6 @@ describe("IndexableObject and IndexedObject", () => {
       true, true, true
     ];
   });
-  
 
   it("positive tests", () => {
     type cases = [

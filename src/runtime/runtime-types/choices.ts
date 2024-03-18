@@ -8,12 +8,15 @@ import { createFnWithProps } from "../initializers";
 import { handleDoneFn } from "../boolean-logic";
 
 const chooseMany = <
-  TChoices extends KV<"string">,
+  TChoices extends KV<string>,
   TForceUnique extends boolean,
   TState extends readonly unknown[] = [],
   TExclude extends string = ""
->(choices: TChoices, forceUnique: TForceUnique, state: TState = [] as unknown as TState): MultipleChoice<TChoices, TForceUnique, TState, TExclude> => {
-
+>(
+  choices: TChoices, 
+  forceUnique: TForceUnique, 
+  state: TState = [] as unknown as TState
+): MultipleChoice<TChoices, TForceUnique, TState, TExclude> => {
   const result = createFnWithProps(
     <I extends Exclude<keyof TChoices, TExclude>>(item: I) => chooseMany(
           choices,
@@ -52,6 +55,10 @@ export const choice = <
         : "value" in choice
           ? { [(choice as any).name as string]: choice.value }
           : Never
+    : Array.isArray(choice)
+      ? choice.length === 2
+        ? { [String(choice[0])]: choice[1]}
+        : Never
     : Never
   ) as Choice<TChoice>;
 }
@@ -81,13 +88,7 @@ export const choices: ChoiceBuilder = (...choices) => ({
 });
 
 
-const multi = choices(
-  choice({name: "one", value: 1}),
-  choice({name: "two", value: 2}),
-  choice({name: "three", value: 3}),
-).chooseMany(true); 
 
-const _my_val = multi("one")
 
 
 

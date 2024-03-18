@@ -1,7 +1,7 @@
 ;import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { WithKey } from "src/types/index";
+import { KV, WithKey } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -10,7 +10,7 @@ import { WithKey } from "src/types/index";
 describe("WithKey<T>", () => {
 
   it("happy path", () => {
-    type O = WithKey<object, "bar">;
+    type O = WithKey<KV, "bar">;
     type O1 = WithKey<{foo: 42}, "bar">;
     type O2 = WithKey<{foo: 42}, "foo">;
 

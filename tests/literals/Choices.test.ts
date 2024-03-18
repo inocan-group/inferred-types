@@ -1,6 +1,6 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
-import { choice, choices, mergeChoices } from "src/runtime/index";
-import { Choice, AsChoices, DoesExtend } from "src/types/index";
+import { choice, choices, handleDoneFn, isDoneFn, mergeChoices } from "src/runtime/index";
+import { Choice, AsChoices, DoesExtend, SameElements,  MultiChoiceCallback } from "src/types/index";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -82,27 +82,82 @@ describe("choices()", () => {
     })
     
     type cases = [
-      /** type tests */
+      Expect<Equal<typeof foo, { foo: "foo" }>>,
+      Expect<Equal<typeof bar, { bar: "bar" }>>,
+      Expect<Equal<typeof baz, { baz: "baz" }>>,
+      
     ];
-    const cases: cases = [];
+    const cases: cases = [
+      true, true, true
+    ];
     
   });
-
   
   it("Building Multi Choice API", () => {
     const api  = choices(
       choice("yes"),
-      choice("no"),
+      choice(["no", "nope"]),
       choice("maybe")
     ).chooseMany(true);
 
+    expect(typeof api).toEqual("function");
+    expect(isDoneFn(api)).toEqual(true); 
+
+    const all = api("yes")("maybe")("no").done();
+    const yes = api("yes").done();
+    const partial = api("yes")("no");
+    type AvailableChoices = Parameters<typeof partial>
+
+    expect(all).toEqual(["yes","maybe","nope"]);
+    expect(yes).toEqual(["yes"])
+
+    const api2  = choices(
+      choice("yes"),
+      choice(["no", "nope"]),
+      choice("maybe")
+    ).chooseMany(false);
+
+    const partial2 = api2("yes")("no");
+    type AvailableChoices2 = Parameters<typeof partial2>;
+
     
     type cases = [
-      /** type tests */
+      ExpectTrue<SameElements<typeof all, ["yes","nope","maybe"]>>,
+      ExpectTrue<SameElements<typeof yes, ["yes"]>>,
+      Expect<Equal<AvailableChoices, ["maybe"]>>,
+      Expect<Equal<AvailableChoices2, ["yes" | "no" | "maybe"]>>,
     ];
-    const cases: cases = [];
+    const cases: cases = [
+      true, true, true, true
+    ];
     
   });
+  
+  it("Using Multi Choice API as Callback", () => {
+    const api  = choices(
+      choice("yes"),
+      choice(["no", "nope"]),
+      choice("maybe")
+    ).chooseMany(true);
+
+    const fn: MultiChoiceCallback<typeof api> = (cb) => handleDoneFn(cb(api)); 
+
+    const yesNo = fn(cb => cb("yes")("no").done());
+    const yesNo2 = fn(cb => cb("yes")("no"));
+
+    expect(yesNo).toEqual(["yes","nope"]);
+    expect(yesNo2).toEqual(["yes","nope"]);
+    
+    type cases = [
+      ExpectTrue<SameElements<typeof yesNo, ["yes", "nope"]>>,
+      ExpectTrue<SameElements<typeof yesNo2, ["yes", "nope"]>>,
+    ];
+    const cases: cases = [
+      true, true
+    ];
+    
+  });
+  
 
 });
 

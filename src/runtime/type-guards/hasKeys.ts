@@ -1,5 +1,6 @@
 import {   HasKeys, IfNotNever, } from "src/types/index"
 import { isObject } from "./isObject";
+import { isFunction } from "./isFunction";
 
 /**
  * **hasKeys**(props) => (obj) => `HasKeys<O,P>`
@@ -29,5 +30,5 @@ export const hasKeys = <
     : Object.keys(props).filter(i => typeof i === "string") as string[];
   
 
-  return isObject(keys) && keys.every(k => k in (val as object)) ? true : false
+  return (isFunction(val) || isObject(val)) && keys.every(k => k in (val as object)) ? true : false
 }

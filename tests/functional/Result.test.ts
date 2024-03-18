@@ -108,7 +108,6 @@ describe("ok(), err(), isOk() and other Result runtime utils", () => {
     // const withContext = createErr("with-context", {foo: 1});
 
 
-    const r1 = asResult(1, "oops");
 
     // const {result, ok, err } = asResult("", "UhOh");
 

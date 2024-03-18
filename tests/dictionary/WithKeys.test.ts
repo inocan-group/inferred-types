@@ -8,7 +8,21 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { retain, withKeys } from "src/runtime/index";
 import { DoesExtend, ErrorCondition, WithKeys } from "src/types/index";
 
-describe("WithKeys<T, K> utility", () => {
+describe("WithKeys<T, K> utility with tuples", () => {
+  
+  it.skip("happy path", () => {
+    // type FooBaz = WithKeys<["foo","bar","baz"], [0,2]>;
+    
+    type cases = [
+      // Expect<Equal<FooBaz, ["foo", "baz"]>>
+    ];
+    const cases: cases = [];
+    
+  });
+  
+})
+
+describe("WithKeys<T, K> utility with objects", () => {
   it("types: base test", () => {
     type O = { foo: 1; bar: 2; baz: "hi" };
     type FooBar = WithKeys<O, "foo" | "bar">;
@@ -38,6 +52,10 @@ describe("WithKeys<T, K> utility", () => {
     const c: cases = [true];
     expect(c).toBe(c);
   });
+
+});
+
+describe("withKeys() runtime with objects", () => {
 
   it("runtime: happy path", () => {
     const literalObj = {foo: 1, bar: 42 as number | undefined, baz: "hi"} as const;

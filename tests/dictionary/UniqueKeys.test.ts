@@ -2,7 +2,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { LeftRight, UniqueKeys } from "src/types/index";
 import { describe, expect, it } from "vitest";
-import { uniqueKeys } from "../../src/inferred-types";
+import { uniqueKeys } from "src/runtime/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -36,11 +36,32 @@ describe("UniqueKeys<A,B>", () => {
 
 describe("uniqueKeys(a,b)", () => {
 
-  it("Happy Path", () => {
+  it("no overlap", () => {
     const noOverlap = uniqueKeys({foo: 1}, {bar: 2, baz: 3});
-
-    expect(noOverlap).toEqual(["LeftRight", {foo: 1}, {bar: 2, baz: 3}])
-
+    expect(noOverlap[0]).toBe("LeftRight");
+    expect(noOverlap[1]).toEqual(["foo"]);
+    expect(noOverlap[2]).toEqual(["bar", "baz"]);
   });
+  it("override", () => {
+    const override = uniqueKeys({foo: 1}, {foo:42, bar: 2, baz: 3});
+    expect(override[0]).toBe("LeftRight");
+    expect(override[1]).toEqual([]);
+    expect(override[2]).toEqual(["bar", "baz"]);
+  });
+  
+  it("empty left", () => {
+    const emptyLeft = uniqueKeys({}, {bar: 2, baz: 3});
+    expect(emptyLeft[0]).toBe("LeftRight");
+    expect(emptyLeft[1]).toEqual([]);
+    expect(emptyLeft[2]).toEqual(["bar", "baz"]);
+  });
+
+  it("empty right", () => {
+    const emptyLeft = uniqueKeys({foo: 1}, {});
+    expect(emptyLeft[0]).toBe("LeftRight");
+    expect(emptyLeft[1]).toEqual(["foo"]);
+    expect(emptyLeft[2]).toEqual([]);
+  });
+  
 
 });

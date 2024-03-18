@@ -1,4 +1,4 @@
-import { Container, Keys } from "src/types/index";
+import { Container, HasIndex } from "src/types/index";
 
 /**
  * **EmptyContainer**`<T>`
@@ -10,4 +10,6 @@ import { Container, Keys } from "src/types/index";
  */
 export type EmptyContainer<
   T extends Container
-> = Keys<T>["length"] extends 0 ? true : false;
+> = HasIndex<T, false> extends false
+? false
+: true

@@ -11,10 +11,12 @@ import {
   ShapeApi, 
   ShapeCallback, 
   WideTypeName, 
-  TupleToUnion
+  TupleToUnion,
+  HandleDoneFn
 } from "src/types/index";
 import { isString } from "../type-guards/isString";
 import { hasKeys, isObject, isUndefined } from "../type-guards/index";
+import { handleDoneFn } from "../boolean-logic";
 
 const isAddOrDone = <T>(val: T): val is ShapeTupleOrUnion & T => {
   return isObject(val) && hasKeys("add","done") && typeof val.done === "function" && typeof val.add === "function"
@@ -30,7 +32,7 @@ const shapeTupleOrUnion = <
       makeUnion
         ? `<<union::${state.join(SHAPE_DELIMITER)}>>` as unknown as TupleToUnion<TTuple>
         : `<<tuple::${state.join(SHAPE_DELIMITER)}>>` as unknown as TTuple
-    ) as IfTrue<TMakeUnion, TupleToUnion<TTuple>, TTuple>
+    ) as unknown as IfTrue<TMakeUnion, TupleToUnion<TTuple>, TTuple>
   };
 
   return api;
@@ -86,11 +88,11 @@ export const ShapeApiImplementation: ShapeApi = {
  */
 export const shape = <
   T extends ShapeCallback
->(cb: T): IfDoneFn<ReturnType<T>> => {
+>(cb: T): HandleDoneFn<ReturnType<T>> => {
   const rtn = cb(ShapeApiImplementation);
-  return (
+  return handleDoneFn(
     isAddOrDone(rtn) ? rtn.done() : rtn
-  ) as unknown as IfDoneFn<ReturnType<T>>;
+  ) as unknown as HandleDoneFn<ReturnType<T>>;
 }
 
 /**
