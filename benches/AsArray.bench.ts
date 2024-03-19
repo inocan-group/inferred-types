@@ -1,5 +1,5 @@
 import { bench } from "@arktype/attest";
-import { AsArray } from "../dist/inferred-types/index";
+import { AsArray } from "../dist/types/index";
 
 export const test = () => {
   bench("AsArray<['hi']>", () => {

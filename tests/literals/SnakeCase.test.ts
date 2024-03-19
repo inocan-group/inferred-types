@@ -80,7 +80,10 @@ describe("SnakeCase<T> type utility", () => {
     type T1 = SnakeCase<"  one two three ">;
     type T2 = SnakeCase<"\n  one two three ">;
 
-    type cases = [Expect<Equal<T1, "one_two_three">>, Expect<Equal<T2, "one_two_three">>];
+    type cases = [
+      Expect<Equal<T1, "one_two_three">>, 
+      Expect<Equal<T2, "one_two_three">>
+    ];
     const c: cases = [true, true];
     expect(c).toBe(c);
   });

@@ -1,5 +1,5 @@
 import { bench } from "@arktype/attest";
-import { GreaterThan } from "../dist/inferred-types/index";
+import { GreaterThan } from "../dist/types/index";
 
 export const TARGET = 125;
 

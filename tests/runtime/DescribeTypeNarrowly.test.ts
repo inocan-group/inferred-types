@@ -47,7 +47,7 @@ describe("DescribeTypeNarrowly<T>", () => {
       Expect<Equal<ObjLiteral, "object-literal">>,
 
       Expect<Equal<Arr, "array">>,
-      Expect<Equal<ArrLiteral, "tuple">>,
+      Expect<Equal<ArrLiteral, "tuple[1, 2, 3]">>,
 
       Expect<Equal<Nada, "nothing">>,
       Expect<Equal<Null, "null">>,

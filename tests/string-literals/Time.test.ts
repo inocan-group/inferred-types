@@ -8,9 +8,12 @@ import {
   HoursMinutes12, 
   HoursMinutesSeconds, 
   HoursMinutesSeconds12, 
+  HoursMinutesSecondsMilliseconds, 
+  HoursMinutesSecondsMilliseconds12, 
   MilitaryTime, 
   Mutable, 
   Time, 
+  TimeInMilliseconds, 
   TimeInMinutes, 
   TimeInSeconds 
 } from "src/types/index";

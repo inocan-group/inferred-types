@@ -1,5 +1,5 @@
 import { bench } from "@arktype/attest";
-import { AfterFirst } from "../dist/inferred-types/index";
+import { AfterFirst } from "../dist/types/index";
 
 export const TARGET = 64;
 

@@ -1,16 +1,7 @@
-import { EnsureTrailing } from "src/types/string-literals";
-import { EnsureLeading } from "src/types/string-literals/EnsureLeading";
+
+import { EnsureSurround } from "src/types/string-literals/EnsureSurround";
 import { ensureLeading } from "./ensureLeading";
 import { ensureTrailing } from "./ensureTrailing";
-
-
-export type EnsureSurround<
-  TPrefix extends string,
-  TPostfix extends string
-> = <TInput extends string>(input: TInput) => EnsureTrailing<
-  EnsureLeading<TInput, TPrefix>, 
-  TPostfix
->;
 
 /**
  * **ensureSurround**(prefix, postfix) -> (input) -> `${prefix}${input}${postfix}`

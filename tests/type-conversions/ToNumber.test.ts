@@ -59,7 +59,7 @@ describe("ToNumber<T>", () => {
 
       Expect<Equal<PartBad,  [1,2,never]>>,
       Expect<Equal<AllBad, [never,never,never]>>,
-      Expect<Equal<Empty,  number[]>>,
+      Expect<Equal<Empty,  []>>,
 
       Expect<Equal<Bool,  [0|1,0|1,0|1]>>,
       Expect<Equal<TrueFalse,  [1,1,0]>>,

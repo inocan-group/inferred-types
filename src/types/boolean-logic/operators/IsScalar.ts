@@ -1,14 +1,6 @@
 import { 
-  Scalar,
-  IsBoolean,
-  IsNull,
-  IsSymbol,
-  IsNumber, 
-  IfOr, 
-  IsString, 
   IfNever,
-  IfUnion,
-  IfExtends,
+  Scalar,
 } from "src/types/index";
 
 
@@ -28,24 +20,6 @@ import {
  * 
  * **Related:** `IsOptionalScalar`
  */
-export type IsScalar<T> = IfNever<T, false, 
-IfOr<
-  [
-    IsString<T>, 
-    IsNumber<T>, 
-    IsBoolean<T>, 
-    IsNull<T>, 
-    IsSymbol<T>
-],
-  true,
-  IfUnion<
-    T, 
-    IfExtends<
-      T, Scalar, 
-      true, 
-      boolean
-    >,
-    false
-  >
->>;
+export type IsScalar<T> = IfNever<T, false, T extends Scalar ? true : false>;
+
 

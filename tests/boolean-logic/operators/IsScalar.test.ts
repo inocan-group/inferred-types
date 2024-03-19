@@ -48,7 +48,7 @@ describe("IsScalar<T>", () => {
     type MixedUnion = IsScalar<number | number[]>;
     type AllScalarUnion = IsScalar<44 | 55>;
     type None = IsScalar<string[] | number[]>;
-    
+
     type cases = [
       Expect<Equal<MixedUnion, boolean>>,
       Expect<Equal<AllScalarUnion, true>>,

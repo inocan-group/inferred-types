@@ -1,5 +1,6 @@
 import { bench } from "@arktype/attest";
-import { Pluralize,pluralize } from "../dist/inferred-types/index";
+import { Pluralize } from "../dist/types/index";
+import { pluralize} from "../dist/runtime/index";
 
 export const TARGET = 450;
 

@@ -8,6 +8,7 @@ export * from "./DictArray";
 export * from "./FirstKey";
 export * from "./FirstKeyValue";
 export * from "./FirstOfEach";
+export * from "./LastOfEach";
 export * from "./FromDictArray";
 export * from "./FixedLengthArray";
 export * from "./SecondOfEach";

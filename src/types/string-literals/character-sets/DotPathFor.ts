@@ -1,6 +1,5 @@
 import { 
   IfOptionalScalar,
-  Tuple,
   Join,
   ScalarNotSymbol,
   AnyFunction,
@@ -51,9 +50,11 @@ type GetPaths<
  * - If `T` is a _wide_ container than it will resolve to `string` as
  * nothing can be determined at design time
  */
-export type DotPathFor<T> = T extends ScalarNotSymbol
+export type DotPathFor<T> = 
+
+T extends ScalarNotSymbol
   ? ""
-  : T extends Record<PropertyKey, unknown> | Tuple // test for container
+  : T extends Record<PropertyKey, unknown> | readonly unknown[] // test for container
     ? Exclude<GetPaths<T>, number | AnyFunction | boolean | null | AnyObject> | ""
     : T extends AnyObject
       ? string

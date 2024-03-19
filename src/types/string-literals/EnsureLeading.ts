@@ -1,5 +1,24 @@
 
-import { IfLiteral, IfStartsWith, IsNumber,  ToString } from "src/types/index";
+import { IfLiteral, IfStartsWith,  ToString } from "src/types/index";
+
+type Process<
+  TTarget extends string | number, 
+  TLeading extends string
+>= IfLiteral<
+    TTarget,
+    // target is literal
+    IfLiteral<
+      TLeading,
+      // leading is literal
+      IfStartsWith<
+        TTarget & string, TLeading, 
+        TTarget & `${TLeading}${string}`, 
+        `${TLeading}${TTarget}`
+      >,
+      string
+    >,
+    string
+  >
 
 /**
  * **EnsureLeading**`<TTarget, TLeading>`
@@ -8,33 +27,18 @@ import { IfLiteral, IfStartsWith, IsNumber,  ToString } from "src/types/index";
  * both are string literals.
  *
  * ```ts
- * type T = " World";
- * type U = "Hello";
+ * type T = "World";
+ * type U = "Hello ";
  * // "Hello World"
  * type R = EnsureLeading<T,U>;
  * ```
  * 
- * **Related:** `EnsureLeadingEvery`, `EnsureTrailing`
+ * **Related:** `EnsureLeadingEvery`, `EnsureTrailing`, `EnsureSurround`, `Surround`
  */
 export type EnsureLeading<
   TTarget extends string | number, 
   TLeading extends string
-> = //
-  IsNumber<TTarget> extends true
-  ? EnsureLeading<ToString<TTarget>, TLeading> // convert target to string
-  : IfLiteral<
-      TTarget,
-      // target is literal
-      IfLiteral<
-        TLeading,
-        // leading is literal
-        IfStartsWith<
-          TTarget & string, TLeading, 
-          TTarget & `${TLeading}${string}`, 
-          `${TLeading}${TTarget}`
-        >,
-        string
-      >,
-      string
-    >;
+> = TTarget extends number
+? Process<ToString<TTarget>, TLeading>
+: Process<TTarget, TLeading>;
 

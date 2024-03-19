@@ -1,6 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { DoesExtend } from "src/types/index";
-import { UpsertKeyValue } from "src/types/dictionary";
+import { DoesExtend, UpsertKeyValue } from "src/types/index";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

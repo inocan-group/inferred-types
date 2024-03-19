@@ -6,6 +6,7 @@ import type {
   NumericKeys,
   DoesExtend,
   EmptyObject,
+  ObjectKey,
 } from "src/types/index";
 import { defineObj, keysOf, narrow } from "src/runtime/index";
 
@@ -48,8 +49,8 @@ describe("Keys<T> ", () => {
 
   it("object resolution", () => {
     type cases = [
-      Expect<Equal<EmptyObj, []>>,
-      Expect<Equal<Curly, []>>,
+      Expect<Equal<EmptyObj, ObjectKey[]>>,
+      Expect<Equal<Curly, ObjectKey[]>>,
       Expect<DoesExtend<Foobar, ["foo", "bar"]>>,
       Expect<DoesExtend<FooBar_RO, ["foo", "bar"]>>,
       Expect<DoesExtend<FooBar_EXT, ["foo", "bar"]>>,
@@ -88,7 +89,7 @@ describe("runtime keysOf() utility on object", () => {
 
     type cases = [
       Expect<DoesExtend<K, readonly ["id", "color", "isFavorite" ]>>,
-      Expect<Equal<typeof k2, []>>
+      Expect<Equal<typeof k2, ObjectKey[]>>
     ];
     const cases: cases = [true, true];
     expect(cases).toBe(cases);

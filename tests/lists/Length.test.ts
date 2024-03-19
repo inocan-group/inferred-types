@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { Equal, Expect } from "@type-challenges/utils";
 
-import {  Length } from "src/types/index";
+import {  KV, Length } from "src/types/index";
 import { describe, it } from "vitest";
 
 describe("Length<T>", () => {
@@ -19,7 +19,7 @@ describe("Length<T>", () => {
 
     type ObjLit = Length<{foo: 1}>;
     type ObjLit2 = Length<{foo: 1; bar: 2}>;
-    type WideObj = Length<object>;
+    type WideObj = Length<KV>;
     type EmptyObj = Length<{}>;
 
     type cases = [

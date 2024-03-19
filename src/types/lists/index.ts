@@ -31,6 +31,7 @@ export * from "./Filter";
 export * from "./NumericKeys";
 export * from "./ConvertAndMap";
 export * from "./ConvertAndMap";
+export * from "./ConvertSet";
 export * from "./Pop";
 export * from "./Shift";
 export * from "./ReplaceLast";

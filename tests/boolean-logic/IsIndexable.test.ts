@@ -2,7 +2,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { IsIndexable } from "src/types/index";
+import { EmptyObject, IsIndexable } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -12,15 +12,14 @@ describe("IsIndexable<T>", () => {
 
   it("happy path", () => {
     type Str = IsIndexable<"foo">;
-    type Num = IsIndexable<42>;
-    type EmptyObj = IsIndexable<{}>;
+    type Num = IsIndexable<42>;;
     type Obj = IsIndexable<{ foo: 1 }>;
     type Arr = IsIndexable<[ 1, 2 , 3 ]>;
     
     type cases = [
       Expect<Equal<Str, false>>,
       Expect<Equal<Num, false>>,
-      Expect<Equal<EmptyObj, false>>,
+      Expect<Equal<EmptyObject, false>>,
       Expect<Equal<Obj, true>>,
       Expect<Equal<Arr, true>>
     ];

@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { TokenizeStringLiteral } from "src/types/runtime-types";
-import { FromLiteralTokens } from "src/types/runtime-types/FromLiteralTokens";
+import { FromLiteralTokens, TokenizeStringLiteral } from "src/types/index";
+
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

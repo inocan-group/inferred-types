@@ -13,7 +13,7 @@ describe("IsContainer<T>", () => {
   it("happy path for object", () => {
     type ObjLit = IsContainer<{ foo: "bar" }>;
     type Empty = IsContainer<{}>;
-    type GenericObj = IsContainer<object>;
+    type GenericObj = IsContainer<NonNullable<unknown>>;
     type Rec = IsContainer<Record<string, string>>;
 
     
