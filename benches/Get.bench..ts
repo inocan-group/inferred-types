@@ -1,5 +1,5 @@
 import { bench } from "@arktype/attest";
-import { Get } from "../dist/inferred-types/index";
+import { Get } from "../dist/types/index";
 
 export const TARGET = 32000;
 

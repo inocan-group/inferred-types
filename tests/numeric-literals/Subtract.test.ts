@@ -34,10 +34,10 @@ describe("Subtract<A,B>", () => {
 
   
   it("Negative B Results in Addition Operation", () => {
-    type Three = Subtract<1,-1>;
+    type Two = Subtract<1,-1>;
     
     type cases = [
-      Expect<Equal<Three, 3>>,
+      Expect<Equal<Two, 2>>,
 
     ];
     const cases: cases = [ true ];

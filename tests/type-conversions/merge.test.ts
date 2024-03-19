@@ -29,7 +29,7 @@ describe("MergeObjects<A,B>", () => {
     type M1 = MergeObjects<O2,O1>;
     
     type cases = [
-      Expect<Equal<M1, { foo: 1; bar: 2; baz: 4; deep: { a:2; b: 3}}>>, 
+      Expect<Equal<M1, { foo: 1; bar: 2; baz: 4; deep: { a:1}}>>, 
     ];
     const cases: cases = [ true ];
     

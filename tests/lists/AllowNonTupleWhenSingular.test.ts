@@ -36,7 +36,7 @@ describe("AllowNonTupleWhenSingular<TTuple>", () => {
     
     type cases = [
       Expect<Equal<T, readonly unknown[] | [readonly unknown[]]>>,
-      Expect<Equal<T2, [readonly unknown[]]>>
+      Expect<Equal<T2, readonly unknown[] |[readonly unknown[]]>>
     ];
     const cases: cases = [ true, true ];
     

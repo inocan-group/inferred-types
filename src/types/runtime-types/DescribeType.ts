@@ -25,7 +25,7 @@ type DescribeWide<T> = IfNever<
   : T extends boolean ? "boolean"
   : T extends AnyFunction ? "function"
   : T extends unknown[] | readonly unknown[] 
-    ? IfTuple<T, Concat<["tuple[", Join<T, ", ", 3>, "]"]>, "array">
+    ? IfTuple<T, Concat<["tuple [", Join<T, ", ", 3>, "]"]>, "array">
   : T extends AnyObject | object ? "object"
   : T extends symbol ? "symbol" 
   : IsEqual<T,null> extends true  ? "null"

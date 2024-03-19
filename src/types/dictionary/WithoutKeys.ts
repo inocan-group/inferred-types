@@ -1,5 +1,5 @@
 
-import { ExpandRecursively, AnyObject, TupleToUnion, AsArray, EmptyObject, IfLength, ObjectKey } from "src/types/index";
+import { ExpandRecursively,  TupleToUnion, AsArray, EmptyObject, IfLength, ObjectKey,  KV } from "src/types/index";
 
 
 /**
@@ -10,7 +10,7 @@ import { ExpandRecursively, AnyObject, TupleToUnion, AsArray, EmptyObject, IfLen
  * taking a union type it takes an array of keys.
  */
 export type WithoutKeys<
-  TObj extends AnyObject, 
+  TObj extends KV, 
   TKeys extends ObjectKey | readonly ObjectKey[]
 > = IfLength<
   AsArray<TKeys>, 0,

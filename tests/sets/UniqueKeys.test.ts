@@ -14,7 +14,7 @@ describe("UniqueKeys<L,R>", () => {
   it("happy path for UniqueKeysUnion<L,R>", () => {
     type Obj = UniqueKeysUnion<{foo: 1; bar: 2}, {bar: 5; baz: 42}>;
     type LeftEmpty = UniqueKeysUnion<{}, {bar: 5; baz: 42}>;
-    type RightEmpty = UniqueKeysUnion<{bar: 5; baz: 42}, object>;
+    type RightEmpty = UniqueKeysUnion<{bar: 5; baz: 42}, NonNullable<unknown>>;
     type Tup = UniqueKeysUnion<[1,2,3], [3,4,5,6]>;
     
     type cases = [
@@ -30,7 +30,7 @@ describe("UniqueKeys<L,R>", () => {
   it("happy path for UniqueKey<L,R>", () => {
     type Obj = UniqueKeys<{foo: 1; bar: 2}, {bar: 5; baz: 42}>;
     type LeftEmpty = UniqueKeys<{}, {bar: 5; baz: 42}>; // order not assured
-    type RightEmpty = UniqueKeys<{bar: 5; baz: 42}, object>;
+    type RightEmpty = UniqueKeys<{bar: 5; baz: 42}, NonNullable<unknown>>;
     type Tup = UniqueKeys<[1,2,3], [3,4,5,6]>;
     
     type cases = [
@@ -42,7 +42,7 @@ describe("UniqueKeys<L,R>", () => {
       Expect<Equal<Right<RightEmpty>, []>>,
       Expect<HasSameValues<Left<RightEmpty>, ["bar", "baz"]>>,
 
-      Expect<Equal<Tup, LeftRight<[], ["3"]>>>,
+      Expect<Equal<Tup, LeftRight<[], [3]>>>,
     ];
     const cases: cases = [ true, true, true, true, true, true ];
   });

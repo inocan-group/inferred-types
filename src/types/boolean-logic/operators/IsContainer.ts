@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { AnyObject, IfNever } from "src/types/index";
+import type {  IfNever, KV } from "src/types/index";
 
 /**
  * **IsContainer**`<T>`
@@ -7,10 +7,12 @@ import type { AnyObject, IfNever } from "src/types/index";
  * Boolean operator which detects whether `T` is a "container" where a
  * container is any object or array.
  */
-export type IsContainer<T> = IfNever<T, false,
-[T] extends [AnyObject]
+export type IsContainer<T> = IfNever<
+T, 
+false,
+[T] extends [KV]
   ? true
-  : [T] extends [any[]]
+  : [T] extends [readonly any[]]
     ? true
     : false
 >;

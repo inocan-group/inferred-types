@@ -8,9 +8,13 @@ import { ifScalar } from "src/runtime/index";
 
 describe("ifScalar(value)", () => {
 
+
+  
+
   it("happy path for runtime and types", () => {
-    const wide: number | number[] = 42 as number | number[];
+    const wide: number = 42 as number;
     const narrow = 42;
+    const arr:  number[] = [42,56] as number[];
 
     const t1 = ifScalar(
         wide, 
@@ -18,18 +22,17 @@ describe("ifScalar(value)", () => {
         () => "no array for you!"
     );
     const t2 = ifScalar(narrow, v => v, () => "no");
+    const t3 = ifScalar(arr, v=> v, () => "no")
 
     expect(t1).toBe("42 is the meaning of life");
     expect(t2).toBe(42);
     
     type cases = [
-      Expect<Equal<
-        typeof t1, 
-        "no array for you!"
-      >>,
-      Expect<Equal<typeof t2, 42>>
+      Expect<Equal<typeof t1, `${number} is the meaning of life`>>,
+      Expect<Equal<typeof t2, 42>>,
+      Expect<Equal<typeof t3, "no">>,
     ];
-    const cases: cases = [ true, true ];
+    const cases: cases = [ true, true, true ];
 
   });
 

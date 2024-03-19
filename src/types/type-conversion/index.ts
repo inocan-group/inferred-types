@@ -49,6 +49,7 @@ export * from "./UnionWithAll";
 
 export * from "./ToContainer";
 export * from "./ValueOrReturnValue";
+export * from "./ReturnValues";
 export * from "./WithDefault";
 
 // #endregion auto-indexed files

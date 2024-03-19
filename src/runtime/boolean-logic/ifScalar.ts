@@ -1,4 +1,4 @@
-import { AnyObject, IfScalar, Narrowable, Scalar } from "src/types/index";
+import {  IfScalar, KV, Narrowable, Scalar } from "src/types/index";
 import { isScalar } from "../type-guards/isScalar";
 
 
@@ -17,19 +17,19 @@ import { isScalar } from "../type-guards/isScalar";
  */
 export function ifScalar<
   T extends Narrowable,
-  IF extends Narrowable,
-  ELSE extends Narrowable
+  TIf extends Narrowable,
+  TElse extends Narrowable
 >(
   value: T, 
   ifCallback: <
-    V extends Exclude<T, undefined | AnyObject | unknown[]>
-  >(v: V) => IF,
-  notCallback: <V extends Exclude<T, Scalar>>(v: V) => ELSE
+    V extends Exclude<T, undefined | KV | unknown[]>
+  >(v: V) => TIf,
+  notCallback: <V extends Exclude<T, Scalar>>(v: V) => TElse
 ) {
   const result = isScalar(value) 
     ? ifCallback(
-        value as Exclude<T, undefined | AnyObject | unknown[]>
+        value as Exclude<T, undefined | KV | unknown[]>
       )
     : notCallback(value as Exclude<T, Scalar>);
-  return result as typeof result & IfScalar<T, IF, ELSE>;
+  return result as typeof result & IfScalar<T, TIf, TElse>;
 }

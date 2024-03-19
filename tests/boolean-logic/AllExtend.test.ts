@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { AnyObject , AllExtend } from "src/types/index";
+import {  AllExtend, KV } from "src/types/index";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -16,7 +16,7 @@ describe("AllExtend<TList,TExtend> and IfAllExtend<TList,TExtend>", () => {
     type T2 = AllExtend<StrBool, string | boolean>;
 
     type F1 = AllExtend<StringLiterals, number>;
-    type F2 = AllExtend<StringLiterals, AnyObject>;
+    type F2 = AllExtend<StringLiterals, KV>;
 
     type cases = [
       Expect<Equal<T1, true>>,

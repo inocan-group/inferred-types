@@ -33,7 +33,8 @@ export type SnakeCase<
   string extends S
     ? string
     : DashUppercase<
-        Uncapitalize<SpaceToDash<Trim<LowerAllCaps<S>>>>
+        Uncapitalize<SpaceToDash<Trim<LowerAllCaps<S>>>
+      >
     > extends `${infer Begin}${"-"}${infer Rest}`
       ? Concat<[
           LeftWhitespace<S>,
@@ -50,7 +51,7 @@ export type SnakeCase<
     : DashUppercase<
         Uncapitalize<SpaceToDash<Trim<LowerAllCaps<S>>>>
       > extends `${infer Begin}${"-"}${infer Rest}`
-    ? SnakeCase<`${Lowercase<Begin>}_${Rest}`>
-    : Lowercase<DashUppercase<Uncapitalize<LowerAllCaps<S>>>>
+    ? Trim<SnakeCase<`${Lowercase<Begin>}_${Rest}`>>
+    : Trim<Lowercase<DashUppercase<Uncapitalize<LowerAllCaps<S>>>>>
 >;
 

@@ -1,5 +1,5 @@
 import { bench } from "@arktype/attest";
-import { Keys } from "../dist/inferred-types/index";
+import { Keys } from "../dist/types/index";
 
 export const test = () => {
   bench(`Keys<{foo: 1; bar: 2; baz: 3}>`, () => {

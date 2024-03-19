@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { ReturnValues } from "src/types/type-conversion/ReturnValues";
+import { ReturnValues } from "src/types/index";
 
 import { describe, it } from "vitest";
 

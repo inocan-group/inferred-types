@@ -1,7 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { FirstOfEach,  Chars } from "src/types/index";
-import { LastOfEach } from "../../src/types/tuples/LastOfEach";
+import { FirstOfEach,  Chars, LastOfEach } from "src/types/index";
 
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

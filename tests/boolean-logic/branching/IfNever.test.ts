@@ -1,7 +1,7 @@
 import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { IsNever, IfNever, Something, Nothing, IsObjectLiteral, IndexableObject } from "src/types/index";
+import { IsNever, IfNever, Something, Nothing } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -31,24 +31,22 @@ describe("IsNever<T>", () => {
   
   it("positive tests", () => {
     type T1 = IsNever<never>;
-    type T2 = IsNever<IsObjectLiteral<IndexableObject>>;
     
     type cases = [
       ExpectTrue<T1>,
-      ExpectTrue<T2>,
     ];
-    const cases: cases = [ true, true ];
+    const cases: cases = [ true ];
   });
   
 
   
   it("IfTrue<T,IF,ELSE> branching", () => {
     type B1 = IfNever<never, "yup", "nope">;
-    type B2 = IfNever<IsObjectLiteral<IndexableObject>, "yup", "nope">;
+    type B2 = IfNever<true, "yup", "nope">;
     
     type cases = [
       Expect<Equal<B1, "yup">>,
-      Expect<Equal<B2, "yup">>,
+      Expect<Equal<B2, "nope">>,
     ];
     const cases: cases = [ true, true ];
     

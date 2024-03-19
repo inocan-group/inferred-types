@@ -1,4 +1,4 @@
-import {  MutableProps,  EmptyContainer, Container } from "src/types/index";
+import {  MutableProps,  EmptyContainer,  KV } from "src/types/index";
 
 /**
  * **IsReadonlyObject**`<T>`
@@ -9,7 +9,7 @@ import {  MutableProps,  EmptyContainer, Container } from "src/types/index";
  * 
  * - Note: objects with no properties return `false`
  */
-export type IsReadonlyObject<T> = T extends Container
+export type IsReadonlyObject<T> = T extends KV
   ? EmptyContainer<MutableProps<T>> extends true
     ? EmptyContainer<T> extends true ? false :true
     : false

@@ -12,7 +12,7 @@ import {
   NonStringKeys,
   WithNumericKeys,
   WithoutValue,
-} from "src/types/dictionary";
+} from "src/types/index";
 
 
 type T0 = { foo: number; bar: number; baz: string };
@@ -103,9 +103,9 @@ describe("Dictionary Type Utils", () => {
     type BooleanWide = KeysWithValue<WideType, boolean>;
 
     type cases = [
-      Expect<Equal<SL, "greet">>,
-      Expect<Equal<SN, "greet">>,
-      Expect<Equal<SW, "greet">>,
+      Expect<Equal<SL, ["greet"]>>,
+      Expect<Equal<SN, ["greet"]>>,
+      Expect<Equal<SW, ["greet"]>>,
 
       // the type "hi" IS matched with a narrow type definition
       Expect<Equal<StrLiteralNarrow, "greet">>,

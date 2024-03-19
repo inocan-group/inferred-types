@@ -1,4 +1,4 @@
-import { AnyObject, Container, IfEqual, Keys } from "src/types/index";
+import { AnyObject, Container, IfEqual, KV, Keys } from "src/types/index";
 
 /**
  * **IsIndexable**`<T>`
@@ -15,7 +15,7 @@ T extends Container
         false, 
         IfEqual<T["length"], 0, false, true>
       >
-    : T extends AnyObject
+    : T extends  KV
       ? IfEqual<Keys<T>, number, false, true>
       : false
   : false;

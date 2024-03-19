@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { AnyObject , SomeExtend } from "src/types/index";
+import {  KV, SomeExtend } from "src/types/index";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -18,7 +18,7 @@ describe("SomeExtend<TList,TExtend> and IfSomeExtend<TList,TExtend>", () => {
     type T3 = SomeExtend<LiteralList, WideUnion>;
 
     type F1 = SomeExtend<LiteralList, false>;
-    type F2 = SomeExtend<LiteralList, AnyObject>;
+    type F2 = SomeExtend<LiteralList, KV>;
     type F3 = SomeExtend<LiteralList, unknown[]>;
 
     type cases = [

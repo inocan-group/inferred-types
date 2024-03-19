@@ -1,8 +1,8 @@
-import { AfterFirst, AnyObject, First, IfEmptyContainer, Keys, ObjectKey } from "src/types/index";
+import { AfterFirst,  First, IfEmptyContainer, KV, Keys, ObjectKey } from "src/types/index";
 
 type _process<
   TKeys extends readonly PropertyKey[],
-  TObj extends AnyObject,
+  TObj extends KV,
   TValue,
   TResults extends readonly (string|symbol)[] = []
 > = [] extends TKeys

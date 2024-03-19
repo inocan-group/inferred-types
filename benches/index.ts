@@ -1,11 +1,11 @@
-import * as Get from "./Get";
-import * as Keys from "./Keys";
-import * as AsArray from "./AsArray";
-import * as Pluralize from "./Pluralize";
-import * as First from "./First";
-import * as AfterFirst from "./AfterFirst";
-import * as LessThan from "./LessThan";
-import * as GreaterThan from "./GreaterThan";
+import * as Get from "./Get.bench.";
+import * as Keys from "./Keys.bench";
+import * as AsArray from "./AsArray.bench";
+import * as Pluralize from "./Pluralize.bench";
+import * as First from "./First.bench";
+import * as AfterFirst from "./AfterFirst.bench";
+import * as LessThan from "./LessThan.bench";
+import * as GreaterThan from "./GreaterThan.bench";
 import chalk from "chalk";
 
 const tests = {

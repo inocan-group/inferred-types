@@ -1,16 +1,17 @@
 
-import { Tuple, ToNumber, IfTrue,  IfReadonlyArray, NonEmptyContainer} from "src/types/index";
+import { Tuple,  IfReadonlyArray, NonEmptyContainer, If, ToNumber} from "src/types/index";
 
-type _Convert<T extends Tuple> = 
-IfTrue<
-  NonEmptyContainer<T>,
-  // has keys
+type _Convert<
+  TInput extends Tuple
+> = If<
+  NonEmptyContainer<TInput>,
   {
-    [K in keyof T]: ToNumber<T[K]>
+    [K in keyof TInput]: ToNumber<TInput[K]>
   },
-  // no keys
   number[]
 >;
+
+
 
 
 /**
