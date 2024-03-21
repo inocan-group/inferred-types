@@ -1,6 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { describe, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { Truncate } from "src/types/index";
+import { truncate } from "src/runtime/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -37,7 +38,23 @@ describe("Truncate<T>", () => {
 
     ];
     const cases: cases = [true, true, true, true ];
-    
   });
   
+});
+
+describe("truncate()", () => {
+
+  it("Happy Path", () => {
+    const noTrunc = truncate("Foobar", 10);
+    const trunc = truncate("Foobar", 3);
+    const truncWithEllipsis = truncate("Foobar", 3, true);
+    const customEllipsis = truncate("Foobar", 3, "... more");
+
+    expect(noTrunc).toEqual("Foobar");
+    expect(trunc).toEqual("Foo");
+    expect(truncWithEllipsis).toEqual("Foo...");
+    expect(customEllipsis).toEqual("Foo... more");
+
+  });
+
 });
