@@ -1,5 +1,4 @@
-import { EnsureLeading } from "./EnsureLeading";
-import { EnsureTrailing } from "./EnsureTrailing";
+import { EnsureLeading, EnsureTrailing } from "src/types/index";
 
 /**
  * **EnsureSurround**
