@@ -7,4 +7,3 @@ import {  KV, ReadonlyKeys } from "src/types/index";
  * are mutable.
  */
 export type MutableProps<T extends KV> = Omit<T, ReadonlyKeys<T>>;
-;

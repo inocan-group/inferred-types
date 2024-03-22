@@ -1,7 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import { shift } from "src/runtime/index";
-import { Shift } from "../../src/types/lists/Shift";
+import { Shift } from "src/types/index";
+
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 

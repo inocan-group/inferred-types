@@ -1,5 +1,5 @@
 
-import { AnyObject, IfAnd, First, AsNumber, Container, EmptyContainer, FixedLengthArray, Increment, Tuple, AsString, ExpandRecursively, ArrayElementType, IfDefined,   IsUndefined, AfterFirst, Not,  IfNever  } from "src/types/index";
+import { AnyObject, IfAnd, First, AsNumber, Container, EmptyContainer, FixedLengthArray, Increment, Tuple, AsString, ExpandRecursively, ArrayElementType, IfDefined,   IsUndefined, AfterFirst, Not,  IfNever, KV  } from "src/types/index";
 
 type MergeTuples<
   TDefaults extends Tuple,
@@ -50,7 +50,7 @@ export type WithKey<
           T
         >
       >
-  : T extends AnyObject
+  : T extends KV
     ? EmptyContainer<T> extends true
       ? Record<K, unknown>
       : K extends keyof T

@@ -1,5 +1,5 @@
 
-import { ExpandRecursively,  TupleToUnion, AsArray, EmptyObject, IfLength, ObjectKey,  KV } from "src/types/index";
+import { ExpandRecursively,  TupleToUnion, AsArray, IfLength, ObjectKey,  KV, ExplicitlyEmptyObject } from "src/types/index";
 
 
 /**
@@ -20,8 +20,8 @@ export type WithoutKeys<
         TObj, 
         TupleToUnion<AsArray<TKeys>>
     >
-  > extends EmptyObject
-    ? EmptyObject
+  > extends ExplicitlyEmptyObject
+    ? ExplicitlyEmptyObject
     : ExpandRecursively<
         Omit<
             TObj, 
