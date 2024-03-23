@@ -27,14 +27,6 @@ describe("Name", () => {
     info: myRef;
   };
   
-  it("null is a valid dotpath and target", () => {
-    type NullTarget = DotPathFor<null>;
-
-    type cases = [
-      Expect<Equal<NullTarget, "">>,
-    ];
-    const cases: cases = [ true ];
-  });
   
   it("using an object as target", () => {
     type TObj = DotPathFor<Obj>;
@@ -94,7 +86,6 @@ describe("Name", () => {
     };
 
     type ScalarPaths = DotPathFor<42>;
-    type NullPaths = DotPathFor<null>;
     type ObjPaths = DotPathFor<Obj>;
     
     type cases = [

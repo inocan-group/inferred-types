@@ -38,16 +38,20 @@ describe("shape(s => s.[api])", () => {
       Expect<Equal<typeof bool, boolean>>,
       Expect<Equal<typeof lit, 1 | 2 | 3>>,
       Expect<Equal<typeof lit_undone, 1 | 2 | 3>>,
+
       Expect<Equal<typeof lit_multi, 1 | 2 | 3>>,
       Expect<Equal<typeof tup, [1 , 2 , 3]>>,
       Expect<Equal<typeof optStr, string | undefined>>,
       Expect<Equal<typeof obj, object>>,
+
       Expect<Equal<typeof obj_indexable, IndexableObject>>,
       Expect<Equal<typeof rec_union, Record<ObjectKey, number | boolean> >>,
       Expect<Equal<typeof rec_union_dup, Record<ObjectKey, number | boolean> >>
     ];
     const cases: cases = [
-      true, true, true, true, true, true, true, true, true
+      true, true, true, true, 
+      true, true, true, true, 
+      true, true, true
     ];
   });
 

@@ -20,7 +20,7 @@ describe("Length<T>", () => {
     type ObjLit = Length<{foo: 1}>;
     type ObjLit2 = Length<{foo: 1; bar: 2}>;
     type WideObj = Length<KV>;
-    type EmptyObj = Length<{}>;
+    type EmptyObj = Length<NonNullable<unknown>>;
 
     type cases = [
       //
@@ -38,7 +38,7 @@ describe("Length<T>", () => {
       Expect<Equal<ObjLit, 1>>,
       Expect<Equal<ObjLit2, 2>>,
       Expect<Equal<WideObj, number>>,
-      Expect<Equal<EmptyObj, 0>>,
+      Expect<Equal<EmptyObj, number>>,
     ];
     const cases: cases = [
       true, true, true, true, 

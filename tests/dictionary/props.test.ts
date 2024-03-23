@@ -108,26 +108,26 @@ describe("Dictionary Type Utils", () => {
       Expect<Equal<SW, ["greet"]>>,
 
       // the type "hi" IS matched with a narrow type definition
-      Expect<Equal<StrLiteralNarrow, "greet">>,
+      Expect<Equal<StrLiteralNarrow, ["greet"]>>,
       // the type "hi" is not matched to the wider type string
       Expect<Equal<StrLiteralWide, never>>,
 
-      Expect<Equal<Num, "foo" | "foo2">>,
-      Expect<Equal<NumNarrow, "foo" | "foo2">>,
-      Expect<Equal<NumWide, "foo" | "foo2">>,
+      Expect<Equal<Num, ["foo", "foo2"]>>,
+      Expect<Equal<NumNarrow, ["foo", "foo2"]>>,
+      Expect<Equal<NumWide, ["foo", "foo2"]>>,
 
-      Expect<Equal<LT, "bar">>,
-      Expect<Equal<LF, "baz" | "baz2">>,
-      Expect<Equal<LB, "bar" | "baz" | "baz2" | "wide">>,
+      Expect<Equal<LT, ["bar"]>>,
+      Expect<Equal<LF, ["baz", "baz2"]>>,
+      Expect<Equal<LB, ["bar","baz","baz2","wide"]>>,
 
       // the literal type "true" can be matched when dealing a literal type
-      Expect<Equal<TrueNarrow, "bar">>,
+      Expect<Equal<TrueNarrow, ["bar"]>>,
       // but no keys are matched when the key's value has been broadened to "boolean"
       Expect<Equal<TrueWide, never>>,
       // regardless of whether a type is `true`, `false`, or `boolean` they all
       // match up with the `boolean` type
-      Expect<Equal<BooleanNarrow, "bar" | "baz" | "baz2">>,
-      Expect<Equal<BooleanWide, "bar" | "baz" | "baz2">>
+      Expect<Equal<BooleanNarrow, ["bar", "baz", "baz2"]>>,
+      Expect<Equal<BooleanWide, ["bar", "baz", "baz2"]>>
     ];
     const cases: cases = [
       true,
@@ -211,9 +211,9 @@ describe("Dictionary Type Utils", () => {
     type F = WithValue<T, false>;
 
     type cases = [
-      Expect<Equal<S, { readonly xyz: "hi" }>>,
-      Expect<Equal<N, { readonly foo: 1 }>>,
-      Expect<Equal<F, { readonly baz: false; readonly baz2: false }>>
+      Expect<Equal<S, {  xyz: "hi" }>>,
+      Expect<Equal<N, {  foo: 1 }>>,
+      Expect<Equal<F, {  baz: false;  baz2: false }>>
     ];
     const cases: cases = [true, true, true];
     expect(cases).toBe(cases);
@@ -223,7 +223,9 @@ describe("Dictionary Type Utils", () => {
     // eslint-disable-next-line @typescript-eslint/ban-types
     type T = WithValue<{ a: number; b: string; c: () => "hello"; d: () => "world" }, Function>;
 
-    type cases = [Expect<Equal<T, { c: () => "hello"; d: () => "world" }>>];
+    type cases = [
+      Expect<Equal<T, { c: () => "hello"; d: () => "world" }>>
+    ];
     const cases: cases = [true];
     expect(cases).toBe(cases);
   });

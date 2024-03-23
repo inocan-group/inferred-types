@@ -1,9 +1,12 @@
-import {  Narrowable, Slice, Tuple,  IfIndexable, Last } from "src/types/index";
+import {  Narrowable, Slice, Tuple,  Last, IfNever } from "src/types/index";
 import { last } from "./last";
 import { slice } from "./slice";
 
 
-export type PopResult<V, L extends Tuple> = [value: V, list: L];
+export type PopResult<V, L extends Tuple> = [
+  value: IfNever<V, undefined>, 
+  list: L
+];
 
 /**
  * **pop**(list)
@@ -24,7 +27,7 @@ T extends readonly (Record<K,N> | Narrowable)[]
     list.length > 0
     ? [last(list), slice(list, 0, -1)] as PopResult<Last<T>, Slice<T,0,-1>>
     : undefined
-  ) as IfIndexable<T, PopResult<Last<T>, Slice<T,0,-1>>, undefined>;
+  ) as PopResult<Last<T>, Slice<T,0,-1>>;
 };
 
 

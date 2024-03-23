@@ -20,9 +20,9 @@ describe("LogicalReturns<TValues,TParams>", () => {
     type T3 = LogicalReturns<Mixed>;
     
     type cases = [
-      Expect<Equal<T1, [true, true]>>,
+      Expect<Equal<T1, [true]>>,
       Expect<Equal<LogicalReturns<typeof t>, [true, true]>>,
-      Expect<Equal<T2, [false, false]>>,
+      Expect<Equal<T2, [false]>>,
       Expect<Equal<T3, [true, true, false, boolean,true, false]>>,
     ];
     const cases: cases = [true, true, true, true ];

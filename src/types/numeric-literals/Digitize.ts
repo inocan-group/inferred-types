@@ -5,7 +5,10 @@ import {
     ToString, 
     Abs, 
     Digital, 
-    DigitalLiteral 
+    DigitalLiteral, 
+    AfterFirst,
+    AsNumber,
+    First
 } from "src/types/index";
 
 type HasMoreThanOneDigit<T extends `${number}`> = T extends `${NumericChar}${NumericChar}${string}`
@@ -38,6 +41,16 @@ type _Digitize<
     >
   : [...TResults, MostSignificantDigit<TNumber>];
 
+type AsNumericElements<
+  TIn extends readonly `${number}`[],
+  TOut extends readonly number[] = []
+> = [] extends TIn
+? TOut
+: AsNumericElements<
+    AfterFirst<TIn>,
+    [...TOut, AsNumber<First<TIn>>]
+  >;
+
 /**
  * **Digitize**`<T>`
  * 
@@ -50,7 +63,9 @@ type _Digitize<
  * type S = Digitize<"-123">;
  * ```
  */
-export type Digitize<T extends `${number}` | number> = IfNotLiteral<
+export type Digitize<
+  T extends `${number}` | number
+> = IfNotLiteral<
   T,
   never,
   T extends `${number}`
@@ -59,6 +74,11 @@ export type Digitize<T extends `${number}` | number> = IfNotLiteral<
       Readonly<_Digitize<ToString<Abs<T>>>> 
     ] & DigitalLiteral
     : T extends number
-      ? [ Sign<T>, Readonly<_Digitize<ToString<Abs<T>>>>] & Digital
+      ? [ 
+          Sign<T>,
+          _Digitize<ToString<Abs<T>>> extends readonly `${number}`[]
+          ? Readonly<AsNumericElements<_Digitize<ToString<Abs<T>>>>>
+          : never
+        ] & Digital
       : never
 >;

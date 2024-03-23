@@ -6,6 +6,7 @@ import { IndexableObject } from "../base-types/IndexableObject";
 import { ObjectKey } from "../base-types/ObjectKey";
 import { Narrowable } from "./Narrowable";
 import { HandleDoneFn } from "../functions/HandleDoneFn";
+import { Choice } from "./Choices";
 
 type Narrow = Exclude<Narrowable, symbol>;
 
@@ -52,6 +53,15 @@ export type ShapeApi__Wide<
   undefined: () => IfNever<TUnion, undefined, undefined | TUnion>;
   unknown: () => IfNever<TUnion, unknown, unknown | TUnion>;
 }, TExclude>
+
+// export type RecordUnion = [
+//   Choice<["string", string]>,
+//   Choice<["number", number]>,
+//   Choice<["boolean", boolean]>,
+//   Choice<["undefined", undefined]>,
+//   Choice<["null", null]>,
+
+// ]
 
 /**
  * The `ShapeApi` is an API surface for defining types which have a runtime aspect

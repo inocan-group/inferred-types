@@ -14,8 +14,7 @@ import type { Container, IfLiteral, IfStringLiteral, Keys, StrLen, ToString } fr
  * type Three = Length<[ "a", "b", "c" ]>;
  * ```
  */
-export type Length<T extends Container | string | number> = 
-T extends string 
+export type Length<T extends Container | string | number> = T extends string 
   ? IfStringLiteral<
       T, 
       StrLen<T>,

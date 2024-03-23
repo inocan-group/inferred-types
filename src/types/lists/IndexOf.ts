@@ -8,7 +8,8 @@ import {
   ErrorCondition, 
   Concat, 
   ToString, 
-  IfValidKey 
+  IfValidKey, 
+  KV
 } from "src/types/index";
 
 /**
@@ -38,7 +39,7 @@ export type IndexOf<
           >
         : IfValidKey<TValue,Exclude<TIdx, null>>
           
-    : TValue extends AnyObject
+    : TValue extends KV
       ? TIdx extends keyof TValue
         ? TValue[TIdx]
         : never
