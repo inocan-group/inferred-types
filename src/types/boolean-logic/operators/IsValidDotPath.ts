@@ -1,4 +1,4 @@
-import { Container, DotPathFor, IfNever, IfExtends, IfLiteral, IfStringLiteral } from "src/types/index";
+import { Container, DotPathFor, IfNever, IfExtends, IfLiteral, IfStringLiteral, IfEqual } from "src/types/index";
 
 /**
  * **IsValidDotPath**`<TContainer, TKey>`
@@ -17,7 +17,7 @@ import { Container, DotPathFor, IfNever, IfExtends, IfLiteral, IfStringLiteral }
  * 
  * Note: this utility not only validates that `TKey` is a valid key in principle but that it is a valid key for `TContainer`; if you prefer a simpler check then use `IsDotPath<T>` instead.
  */
-export type IsValidDotPath<TContainer,TKey> = 
+export type IsValidDotPath<TContainer, TKey> = 
 IfNever<
   TKey,
   false,
@@ -33,7 +33,7 @@ IfNever<
               IfExtends<
                 TKey, DotPathFor<TContainer>, 
                 true,
-                false
+                IfEqual<TKey, "", true, false>
                 >,
                 boolean // TContainer not a literal (but is a container)
               >,

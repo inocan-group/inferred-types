@@ -10,16 +10,17 @@ describe("pop(list)", () => {
 
   it("happy path", () => {
     const arr = [1,2,3] as const;
-    const [val, list] = pop(arr);
-    expect(list, "list is").toEqual([1,2]);
+    const [val, remaining] = pop(arr);
+
+    expect(remaining).toEqual([1,2]);
     expect(val, "value is").toBe(3);
 
     const empty = pop([]);
     
     type cases = [
       Expect<Equal<typeof val, 3>>,
-      Expect<Equal<typeof list, [1,2]>>,
-      Expect<Equal<typeof empty, undefined>>,
+      Expect<Equal<typeof remaining, [1,2]>>,
+      Expect<Equal<typeof empty, [undefined, []]>>,
     ];
     const cases: cases = [ true, true, true ];
   });

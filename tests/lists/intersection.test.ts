@@ -58,7 +58,7 @@ describe("Set Intersection", () => {
       
       type cases = [
         Expect<Equal<
-          IOneAndTwo, 
+          IOneAndTwo,
           [
             [IdFoobar1, IdFoobar2],
             [IdFoobar2alt, IdFoobar1]

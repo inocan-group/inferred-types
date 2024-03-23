@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
+import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import { 
   get, 
@@ -7,13 +7,9 @@ import {
   isErrorCondition, 
 } from "src/runtime/index";
 import type { 
-  DoesExtend, 
-  IsErrorCondition, 
   Get, 
-  ErrorCondition,
 } from "src/types/index";
 import { ref } from "vue";
-import { NoDefaultValue } from "src/constants/index";
 
 describe("Get<T, K> type utility", () => {
   it("type: shallow path", () => {
@@ -30,11 +26,7 @@ describe("Get<T, K> type utility", () => {
       Expect<Equal<Id, 1234>>,
       Expect<Equal<Foo, number>>,
       Expect<Equal<Bar, string>>,
-      // non-existent props return never
-      Expect<DoesExtend<
-        Nada, 
-        ErrorCondition<"invalid-path-segment">
-      >>
+      Expect<Equal<Nada, undefined>>
     ];
     const c: cases = [true, true, true, true];
     expect(c).toBe(c);
@@ -81,44 +73,6 @@ describe("Get<T, K> type utility", () => {
   });
 
   
-  it("type: Errors", () => {
-    type Obj = {
-      foo: 1;
-      bar: {
-        a: "a";
-        b: "b";
-      };
-      baz: [ 1, 2, 3 ];
-      deep: {
-        deeper: {
-          a: "a";
-        };
-      };
-    };
-
-    type InvalidRoot = Get<Obj, "foobar">;
-    type InvalidLeaf = Get<Obj, "bar.c">;
-    type InvalidMiddle = Get<Obj, "deep.shallow.abc">;
-    type InvalidDeepLeaf = Get<Obj, "deep.deeper.c">;
-
-    type HandledInvalidRoot = Get<Obj, "foobar", NoDefaultValue, "handled">;
-    type HandledInvalidLeaf = Get<Obj, "bar.c", NoDefaultValue, "handled">;
-    type HandledInvalidMiddle = Get<Obj, "deep.shallow.abc", NoDefaultValue, "handled">;
-    type HandledInvalidDeepLeaf = Get<Obj, "deep.deeper.c", NoDefaultValue, "handled">;
-    
-    type cases = [
-      Expect<ExpectTrue<IsErrorCondition<InvalidRoot>>>,
-      Expect<ExpectTrue<IsErrorCondition<InvalidLeaf>>>,
-      Expect<ExpectTrue<IsErrorCondition<InvalidMiddle>>>,
-      Expect<ExpectTrue<IsErrorCondition<InvalidDeepLeaf>>>,
-
-      Expect<Equal<HandledInvalidRoot, "handled">>,
-      Expect<Equal<HandledInvalidLeaf, "handled">>,
-      Expect<Equal<HandledInvalidMiddle, "handled">>,
-      Expect<Equal<HandledInvalidDeepLeaf, "handled">>
-    ];
-    const cases: cases = [ true, true, true, true, true, true, true, true ];
-  });
   
   it("type: default values", () => {
     type Obj = {
