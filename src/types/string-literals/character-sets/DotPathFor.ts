@@ -1,9 +1,32 @@
+import { Container, IsArray } from "src/types/index";
 
 
 type GenNode<
   K extends string | number,
-  IsRoot extends boolean
-> = IsRoot extends true? `${K}`: `.${K}` | (K extends number? `[${K}]` | `.[${K}]`:never)
+  IsRoot extends boolean,
+  IsArray extends boolean
+> = IsArray extends true
+? K extends `${number}` 
+  ? IsRoot extends true
+    ? `${K}`
+    : `.${K}` 
+  : never
+: IsRoot extends true
+  ? `${K}`
+  : `.${K}` 
+
+
+type GenList<
+  TContainer,
+  IsRoot extends boolean = true,
+  K extends keyof TContainer = keyof TContainer
+> = K extends string | number 
+? GenNode<K,IsRoot, IsArray<TContainer>> | (
+  TContainer[K] extends object 
+    ? `${GenNode<K,IsRoot, IsArray<TContainer>>}${GenList<TContainer[K],false>}`
+    : never
+  )
+: never;
 
 /**
  * **DotPathFor**`<T>`
@@ -17,11 +40,7 @@ type GenNode<
  * nothing can be determined at design time
  */
 export type DotPathFor<
-  T extends object,
-  IsRoot extends boolean = true,
-  K extends keyof T = keyof T
-> = K extends string | number 
-? GenNode<K,IsRoot> | (T[K] extends object 
-  ? `${GenNode<K,IsRoot>}${DotPathFor<T[K],false>}`
-  :never)
-:never;
+  TContainer
+> = TContainer extends Container
+? "" | GenList<TContainer, true>
+: "";

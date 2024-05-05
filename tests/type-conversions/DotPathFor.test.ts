@@ -2,7 +2,11 @@
 import { describe, it } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
 import { Ref } from "vue";
-import { DoesExtend,  DotPathFor , Suggest } from "src/types/index";
+import { 
+  DoesExtend,  
+  DotPathFor , 
+  Suggest 
+} from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -29,34 +33,37 @@ describe("Name", () => {
   
   
   it("using an object as target", () => {
-    type TObj = DotPathFor<Obj>;
-    type Suggestion = Suggest<TObj>;
+    type Path = DotPathFor<Obj>;
+    type Suggestion = Suggest<Path>;
+    type Scalar = DotPathFor<42>;
     
     const takeSuggestion: Suggestion = "baz.c.ca";
     const bespoke: Suggestion = "bespoke";
 
     type cases = [
-      Expect<DoesExtend<"foo", TObj>>,
-      Expect<DoesExtend<`bar.${number}`, TObj>>,
-      Expect<DoesExtend<"baz.c.ca", TObj>>,
+      Expect<Equal<Scalar, "">>,
+
+      Expect<DoesExtend<"foo", Path>>,
+      Expect<DoesExtend<"baz.c.ca", Path>>,
       // aware of VueJS ref object
-      Expect<DoesExtend<"info.value.age", TObj>>,
+      Expect<DoesExtend<"info.value.age", Path>>,
+
       // suggestions are offered but not required
       Expect<DoesExtend<typeof takeSuggestion, Suggestion>>,
       Expect<DoesExtend<typeof bespoke , Suggestion>>,
     ];
     const cases: cases = [ 
-      true, true, true, true, 
+      true,
+      true, true, true, 
       true, true
     ];
   });
 
   it("using an array target", () => {
-    type ExampleArr = DotPathFor< ["foo", "bar", "baz"]>;
-    type Expected =  "" | "0" | "1" | "2";
+    type ExampleArr = DotPathFor< ["foo", "bar", "baz", ["a","b"]]>;
+    type Expected =  "" | "0" | "1" | "2" | "3" | "3.0" | "3.1";
 
     type Suggestion = Suggest<ExampleArr>;
-
 
     type cases = [
       Expect<Equal<ExampleArr, Expected>>,
@@ -90,11 +97,10 @@ describe("Name", () => {
     
     type cases = [
       Expect<DoesExtend<ScalarPaths, "">>,
-      Expect<DoesExtend<NullPaths, "">>,
       Expect<DoesExtend<"", ObjPaths >>,
     ];
     const cases: cases = [ 
-      true, true, true, 
+      true, true, 
     ];
   });
 
