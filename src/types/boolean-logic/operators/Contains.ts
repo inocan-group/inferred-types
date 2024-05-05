@@ -1,19 +1,49 @@
-import { AfterFirst, First } from "src/types/index";
+import { 
+  AfterFirst, 
+  AsString, 
+  First, 
+  IfAnd, 
+  IfStringLiteral, 
+  IfUnion, 
+  IsString, 
+  Narrowable,
+} from "src/types/index";
 
 /**
- * **Contains**`<TList,TContains>`
+ * **Contains**`<TContent, TContains>`
  *
- * Checks whether a list -- `TList` -- contains a value of `TContains`.
+ * Checks whether a list -- `TContent` -- contains a value of `TContains`.
  * 
  * **Related:** `NarrowlyContains`
  */
 export type Contains<
-  TList extends readonly unknown[],
+  TContent extends (readonly unknown[]) | Narrowable,
   TContains, 
-> = [] extends TList
+> = TContent extends readonly unknown[]
+? [] extends TContent
   ? false
-  : First<TList> extends TContains
+  : First<TContent> extends TContains
   ? true
-  : [] extends AfterFirst<TList>
+  : [] extends AfterFirst<TContent>
   ? false
-  : Contains<AfterFirst<TList>, TContains>;
+  : Contains<AfterFirst<TContent>, TContains>
+: IfUnion<
+    TContent,
+    // treat a union for TContent in same manner as Tuple value
+    "union",
+    // not a union type
+    IfAnd<
+      // when we have string literals for both generics we can
+      // look for a substring
+      [IsString<TContent>, IsString<TContains>],
+      IfStringLiteral<
+        TContent,
+        AsString<TContent> extends `${string}${AsString<TContains>}${string}`
+          ? true
+          : TContent extends TContains
+            ? true
+            : false,
+        boolean
+      >
+    >
+>

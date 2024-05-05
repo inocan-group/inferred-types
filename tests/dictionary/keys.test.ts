@@ -7,8 +7,10 @@ import type {
   DoesExtend,
   EmptyObject,
   ObjectKey,
+  VueRef
 } from "src/types/index";
 import { defineObj, keysOf, narrow } from "src/runtime/index";
+import { Ref } from "vue";
 
 describe("NumericKeys<T>", () => {
 
@@ -70,6 +72,29 @@ describe("Keys<T> ", () => {
     ];
     const cases: cases = [true, true, true, true];
   });
+
+  
+  // we need the "real" Ref<T> and the "fake" VueRef<T>
+  // to perform exactly the same
+  it("VueRef<T> and Ref<T> key resolution", () => {
+    type Obj = Keys<Ref<{foo: 1; bar: 2}>>;
+    type Obj2 = Keys<VueRef<{foo: 1; bar: 2}>>;
+    type Arr = Keys<Ref<[1,2,3]>>;
+    type Arr2 = Keys<VueRef<[1,2,3]>>;
+    type Str = Keys<Ref<"hi">>;
+    type Str2 = Keys<VueRef<"hi">>;
+
+    type cases = [
+      Expect<Equal<Obj, ["value"]>>, 
+      Expect<Equal<Obj2, ["value"]>>, 
+      Expect<Equal<Arr, ["value"]>>, 
+      Expect<Equal<Arr2, ["value"]>>, 
+      Expect<Equal<Str, ["value"]>>, 
+      Expect<Equal<Str2, ["value"]>>, 
+    ];
+    const cases: cases = [ true, true, true, true, true, true ];
+  });
+  
   
 });
 

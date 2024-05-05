@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { IsValidDotPath, VueRef } from "src/types/index";
+import {  IsValidDotPath, VueRef } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -23,6 +23,9 @@ describe("IsValidDotPath<T>", () => {
     type WideContainer = IsValidDotPath<object, "foo">;
     type WideKey = IsValidDotPath<Obj, string>;
     
+    type ImplicitRef = IsValidDotPath<Obj, "baz.happy">;
+    type ExplicitRef = IsValidDotPath<Obj, "baz.value.happy">;
+    
     type cases = [
       Expect<Equal<Root, true>>,
       Expect<Equal<SingleOffset, true>>,
@@ -30,11 +33,16 @@ describe("IsValidDotPath<T>", () => {
       Expect<Equal<BadMultiOffset, false>>,
       Expect<Equal<InvalidChar, false>>,
 
+      Expect<Equal<ImplicitRef, true>>,
+      Expect<Equal<ExplicitRef, true>>,
+
+
       Expect<Equal<WideContainer, boolean>>,
       Expect<Equal<WideKey, boolean>>,
     ];
     const cases: cases = [ 
       true, true, true, true, true,
+      true, true,
       true, true
     ];
   });

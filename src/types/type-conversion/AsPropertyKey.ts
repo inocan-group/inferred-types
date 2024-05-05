@@ -1,11 +1,11 @@
 import { Tuple } from "../base-types";
 
 
-export type Process<T> = T extends string | number | symbol 
+type Process<T> = T extends string | number | symbol 
 ? T & PropertyKey
 : never;
 
-export type ProcessEach<T extends Tuple> = {
+type ProcessEach<T extends Tuple> = {
   [K in keyof T]: Process<T[K]>
 }
 /**

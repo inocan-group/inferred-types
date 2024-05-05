@@ -7,13 +7,25 @@ import { describe, it } from "vitest";
 
 describe("UnionToIntersection<U>", () => {
 
-  it("happy path", () => {
+  it("Intersecting KVs", () => {
     type Foobar = UnionToIntersection<{foo: string} | {bar: string}>;
     
     type cases = [
       Expect<Equal<Foobar, {foo: string} & {bar: string}>>
     ];
-    const cases: cases = [true ];
+    const cases: cases = [ true ];
   });
+
+  
+  it("Intersecting unions", () => {
+    type OneTwo = UnionToIntersection<1 | 2>;
+    
+    type cases = [
+      /** type tests */
+    ];
+    const cases: cases = [];
+    
+  });
+  
 
 });

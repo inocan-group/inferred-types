@@ -1,17 +1,37 @@
 import type { IsNotEqual } from "src/types/index";
 
 /**
- * **IfEqual**`<X,Y,IF,ELSE>`
+ * **IfNotEqual**`<X,Y,IF,ELSE>`
  * 
- * Type utility which returns type `IF` _if_ `X` is equivalent to `Y`; otherwise returns
- * type `ELSE`.
+ * Type utility which returns:
+ * 
+ * - `IF` _if_ `X` is **not** equal to `Y`; 
+ * - otherwise returns type `ELSE`
+ * - `ELSE` will _default_ to being the intersection of `X` and `Y`
  */
 export type IfNotEqual<
   X,
   Y, 
   IF, 
-  ELSE
+  ELSE = X&Y
 > = IsNotEqual<X,Y> extends true
   ? IF
   : ELSE;
 
+/**
+ * **IfNotEquals**`<X,Y,IF,ELSE>`
+ * 
+ * Type utility which returns:
+ * 
+ * - `IF` _if_ `X` is **not** equal to `Y`; 
+ * - otherwise returns type `ELSE`
+ * - `ELSE` will _default_ to being the intersection of `X` and `Y`
+ */
+export type IfNotEquals<
+  X,
+  Y, 
+  IF, 
+  ELSE = X&Y
+> = IsNotEqual<X,Y> extends true
+  ? IF
+  : ELSE;

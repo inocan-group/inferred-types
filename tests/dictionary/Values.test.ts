@@ -15,7 +15,7 @@ describe("Values<T>", () => {
     baz: true;
   }
 
-  it("Happy Path", () => {
+  it("Values<T> where T is an object", () => {
     type VObj = Values<Obj>;
     type VEmpty = Values<KV>;
     type VRecord = Values<Record<ObjectKey, unknown>>;
@@ -30,6 +30,25 @@ describe("Values<T>", () => {
     ];
   });
 
+  it("Values<T> where T is a tuple or array", () => {
+    type VArr = Values<[1,2,3]>;
+    type VEmpty = Values<[]>;
+    type VStrArr = Values<string[]>;
+    type VMixedTuple = Values<[number,string,boolean]>;
+    type VUnion = Values<(string | number)[]>
+    
+    type cases = [
+      Expect<Equal<VArr, [1,2,3]>>,
+      Expect<Equal<VEmpty, []>>,
+      Expect<Equal<VStrArr, string[]>>,
+      Expect<Equal<VMixedTuple, [number,string,boolean]>>,
+      Expect<Equal<VUnion, (string | number)[]>>,
+    ];
+    const cases: cases = [
+      true, true, true,
+      true, true, 
+    ];
+  });
 });
 
 describe("valuesOf()", () => {

@@ -1,14 +1,26 @@
-import { NonZeroNumericChar, NumericChar, PlusMinus, TypeRequired, TypeStrength } from "src/types/index";
+import { Digit, NonZeroNumericChar, NumericChar, PlusMinus, TypeRequired, TypeStrength } from "src/types/index";
 
 type CivilianTwoDigitHour = "10" | "11" | "12";
-type CivilianOneDigitHour = NonZeroNumericChar | `0${NonZeroNumericChar}`;
-type CivilianHour = CivilianTwoDigitHour | CivilianOneDigitHour;
+
 
 export type TimeResolution = "HH:MM" | "HH:MM:SS" | "HH:MM:SS.ms";
 export type TimeNomenclature = "military" | "civilian" | "either";
 export type AmPmCase = "lower" | "upper" | "bare";
 
 type ZeroToFive = "0" | "1" | "2" | "3" | "4" | "5";
+
+/**
+ * **CivilianHours**
+ * 
+ * The _hours_ used in the civilian clock (aka, 1-12)
+ */
+export type CivilianHours<
+  TFixedLengthHours extends boolean = false
+> = TFixedLengthHours extends true
+? `0${Exclude<NumericChar, "0">}` | CivilianTwoDigitHour
+: Exclude<NumericChar | CivilianTwoDigitHour, "0"> | `0${NumericChar}`;
+
+
 
 /**
  * **Minutes**`<[TStr]>`
@@ -71,15 +83,16 @@ export type TZ<
     : `${PlusMinus}:${number}:${number}`;
 
 
-type MilitaryTwoDigit = `1${NumericChar}` | "20" | "21" | "22" | "23";
-type MilitarySingleDigit = NumericChar | `0${NumericChar}`;
-
 /**
  * **MilitaryHours**
  * 
  * The _hours_ component of Time when using military nomenclature.
  */
-export type MilitaryHours = MilitaryTwoDigit | MilitarySingleDigit;
+export type MilitaryHours<
+  TFixedLengthHours extends boolean = true
+> = TFixedLengthHours extends true
+? `${"0" | "1"}${NumericChar}` | "20" | "21" | "22" | "23"
+: `${""|"0" | "1"}${NumericChar}` | "20" | "21" | "22" | "23";
 
 /**
  * **HoursMinutes**`<[TStr], [TTimezone]>`
@@ -91,9 +104,10 @@ export type MilitaryHours = MilitaryTwoDigit | MilitarySingleDigit;
  */
 export type HoursMinutes<
   TStr extends TypeStrength = "strong",
+  TFixedLengthHours extends boolean = false,
   TTimezone extends TypeRequired = "exclude"
 > = TStr extends "strong"
-  ? `${MilitaryHours}:${Minutes}${TZ<"strong", TTimezone>}`
+  ? `${MilitaryHours<TFixedLengthHours>}:${Minutes}${TZ<"strong", TTimezone>}`
   : `${number}:${number}${TZ<"simple", TTimezone>}`;
 
 /**
@@ -106,11 +120,12 @@ export type HoursMinutes<
  * are the expected markers for the 12 hour clock you are in.
  */
 export type HoursMinutes12<
-TCase extends AmPmCase = "lower",
-TStr extends TypeStrength = "strong",
-TTimezone extends TypeRequired = "exclude",
+  TCase extends AmPmCase = "lower",
+  TStr extends TypeStrength = "strong",
+  TFixedLengthHours extends boolean = false,
+  TTimezone extends TypeRequired = "exclude",
 > = TStr extends "strong"
-? `${CivilianHour}:${ZeroToFive}${NumericChar}${AmPm<TCase>}${TZ<"strong", TTimezone>}`
+? `${CivilianHours<TFixedLengthHours>}:${ZeroToFive}${NumericChar}${AmPm<TCase>}${TZ<"strong", TTimezone>}`
 : `${number}:${number}${AmPm<TCase>}${TZ<"simple", TTimezone>}`;
 
 /**
@@ -125,6 +140,8 @@ export type HoursMinutesSeconds<
 > = TStr extends "strong"
   ? `${HoursMinutes}:${Seconds<"simple">}${TZ<"simple", TTimezone>}`
   : `${number}:${number}:${number}${TZ<"simple", TTimezone>}`;
+
+type _X = HoursMinutesSeconds;
 
 export type HoursMinutesSecondsMilliseconds<
   TStr extends TypeStrength = "strong",
@@ -165,6 +182,7 @@ export type HoursMinutesSecondsMilliseconds12<
  */
 export type TimeInMinutes<
   TNomenclature extends TimeNomenclature = "either",
+  TFixedLengthHours extends boolean = true,
   TStr extends TypeStrength = "strong",
   TTimezone extends TypeRequired = "exclude",
   TCase extends AmPmCase = "lower"
@@ -246,19 +264,15 @@ export type MilitaryTime<
  * Allows time resolution of HH:MM or HH:MM:SS in civilian time (aka, 12 hour time with AM/PM).
  */
 export type CivilianTime<
-  TResolution extends TimeResolution | "all",
+  TResolution extends TimeResolution,
   TStr extends TypeStrength = "strong",
   TTimezone extends TypeRequired = "exclude",
   TCase extends AmPmCase = "lower"
-> = TResolution extends "all"
-? HoursMinutes12<TCase, "simple",TTimezone> 
-  | HoursMinutesSeconds12<TCase,"simple",TTimezone>
-  | HoursMinutesSeconds12<TCase,"simple",TTimezone>
-: TResolution extends "HH:MM"
+> = TResolution extends "HH:MM"
   ? HoursMinutes12<TCase, TStr, TTimezone>
   : TResolution extends "HH:MM:SS"
     ? HoursMinutesSeconds12<TCase, TStr, TTimezone>
-    : TResolution extends "HH:MM:SS:ms"
+    : TResolution extends "HH:MM:SS.ms"
       ? HoursMinutesSecondsMilliseconds12<TCase, TStr, TTimezone>
       : never;
 

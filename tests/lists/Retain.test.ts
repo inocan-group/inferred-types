@@ -45,6 +45,6 @@ describe("Retain", () => {
      Expect<Equal<T3, ["foo", "bar", true]>>,
     ];
     const cases: cases = [true, true, true];
-});
+  });
 
 });

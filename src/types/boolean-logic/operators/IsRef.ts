@@ -1,15 +1,21 @@
-import { Length } from "src/types/index";
+import { If, Keys,  Retain, SameElements } from "src/types/index";
+
+
 
 /**
  * **IsRef**`<T>`
  * 
  * Boolean type utility that detects whether the type passed in
- * is a VueJS `Ref<...>` type.
+ * is a VueJS `Ref<...>` type or this library's `VueRef<...>`
+ * (which serves as a lightweight proxy type for Vue's `Ref`).
  */
-export type IsRef<T> = T extends { value: unknown } 
-  ? Length<T> extends 2 // this is a "real" Ref<T>
-    ? true
-    : Length<T> extends 1 // this ia a "fake" Ref<T>, aka VueRef<T>
-      ? true
-      : false
+export type IsRef<T> = T extends object 
+  ? If<
+      SameElements<
+        Retain<Keys<T>, string>,
+        ["value"]
+      >,
+      true,
+      false
+    >
   : false;
