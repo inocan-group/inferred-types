@@ -1,6 +1,6 @@
 import {  Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import {  DoesExtend, IsRef,VueRef } from "src/types/index";
+import {  DoesExtend,  IsRef,VueRef } from "src/types/index";
 import { asVueRef, isRef, keysOf } from "src/runtime/index";
 import { Ref, ref } from "vue";
 
@@ -9,6 +9,36 @@ import { Ref, ref } from "vue";
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("VueRef, isRef(), and IsRef<T>", () => {
+
+  
+  it("IsRef<T> on real Ref<T> and fake VueRef<T>", () => {
+    type Str = IsRef<Ref<"hi">>;
+    type Str2 = IsRef<VueRef<"hi">>;
+
+    type cases = [
+      ExpectTrue<Str>,
+      ExpectTrue<Str2>,
+    ];
+    const cases: cases = [ true, true ];
+    
+  });
+
+  
+  it("Negative tests of IsRef<T> on non-reference types", () => {
+    type Str = IsRef<"hi">;
+    type Num = IsRef<42>;
+    type Obj = IsRef<object>;
+    
+    type cases = [
+      ExpectFalse<Str>,
+      ExpectFalse<Num>,
+      ExpectFalse<Obj>,
+    ];
+    const cases: cases = [ false, false, false ];
+    
+  });
+  
+  
 
   it("VueRef and IsRef<T>", () => {
     const test_ref = ref("foobar");
@@ -70,7 +100,5 @@ describe("VueRef, isRef(), and IsRef<T>", () => {
       throw new Error("incorrectly evaluated fake_ref")
     }
   });
-  
-
 
 });

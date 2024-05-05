@@ -9,7 +9,7 @@ import { IsEqual } from "src/types/index";
 export type IfEqual<
   X,
   Y, 
-  IF = X, 
+  IF = X & Y, 
   ELSE = Exclude<X,Y>
 > = IsEqual<X,Y> extends true
   ? IF

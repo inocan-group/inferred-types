@@ -7,6 +7,6 @@ import { IsUnion } from "src/types/index";
  */
 export type IfUnion<
   T,
-  IF,
-  ELSE
-> = IsUnion<T> extends true ? IF : ELSE;
+  IF = true,
+  ELSE = false
+> = [IsUnion<T>] extends [true] ? IF : ELSE;

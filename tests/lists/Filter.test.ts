@@ -2,7 +2,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
 import { filter } from "src/runtime/index";
-import { RemoveNever,  RetainFromList , Contains , Filter } from "src/types/index";
+import { RemoveNever,  RetainFromList , Contains , Filter, IsUnion } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -153,6 +153,23 @@ describe("Filter<Tuple, Filter, Op>", () => {
     const cases: cases = [ true, true ];
     
   });
+
+  
+  it("Filter list can be a union type instead and will be treated as tuple", () => {
+    type Union =  1 | 2 | "foo" | "bar";
+
+    type One = Filter<Union, 1, "equals">; 
+    type NoFoo = Filter<Union, "foo", "not-equal">;
+    type NoFoo2 = Filter<L2, "foo", "not-equal">;
+
+    type cases = [
+      Expect<Equal<One, readonly [1,1]>>,
+      Expect<Equal<NoFoo, readonly [1,2,"bar",never, 1]>>,
+      Expect<Equal<NoFoo2, readonly [1,2,"bar"]>>,
+    ];
+    const cases: cases = [ true, true, true ];
+  });
+  
   
   
   it("runtime: extends / does-not-extend", () => {

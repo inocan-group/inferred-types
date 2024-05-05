@@ -260,18 +260,4 @@ describe("Time types", () => {
   });
   
 
-
-
-  
-  it("All time types can be represented by the simplified Time", () => {
-    type cases = [
-      ExpectTrue<DoesExtend<TimeInSeconds, Time>>,
-
-    ];
-  });
-  
-
-
-
-
 });

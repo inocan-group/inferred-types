@@ -1,9 +1,9 @@
-import { Equal, Expect } from "@type-challenges/utils";
+import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { Contains, NarrowlyContains } from "src/types/index";
 import { describe, it } from "vitest";
 
 describe("Contains<T,A>", () => {
-  it("happy-path", () => {
+  it("Content is a tuple", () => {
     type T1 = [number, 32, 64, "foo"];
     type T2 = [false, true];
     type T3 = [42, 64, 128];
@@ -25,6 +25,42 @@ describe("Contains<T,A>", () => {
     ];
     const cases: cases = [true, true, true, true, true, true];
   });
+
+  // Union content should be converted to a Tuple
+  it("Content is a union", () => {
+    type Foo = Contains<32 | 64 | "foo", "foo">;
+    type NotFoo = Contains<32 | 64 | "bar", "foo">;
+    
+
+    type cases = [
+      Expect<Equal<Foo, true>>,
+      Expect<Equal<NotFoo, false>>,
+    ];
+    const cases: cases = [true, true, true, true, true, true];
+  });
+
+  
+  it("Content is a string", () => {
+    type HasBar = Contains<"FooBar", "Bar">;
+    type NoBar = Contains<"FooBaz", "Bar">;
+    type WideContent = Contains<string, "Bar">;
+    type WideContains = Contains<"FooBar", string>;
+    
+    type cases = [
+      ExpectTrue<HasBar>,
+      ExpectFalse<NoBar>,
+      Expect<Equal<WideContent, boolean>>,
+      ExpectTrue<WideContains>
+    ];
+    const cases: cases = [
+      true, false, true, true
+    ];
+  });
+
+  
+  
+
+
 });
 
 describe("NarrowlyContains<T,A>", () => {

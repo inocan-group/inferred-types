@@ -8,7 +8,13 @@ import {
   IsEqual,
   KV,
   EmptyObject,
+  Filter,
+  IfLength,
 } from "src/types/index";
+
+type HandleVueRefType<
+  T extends readonly ObjectKey[]
+> = IfLength<Filter<T,string>,1,["value"], T>
 
 /**
  * **Keys**`<TContainer>`
@@ -31,16 +37,16 @@ export type Keys<
   > = IfNever<
   TContainer, 
   PropertyKey[],
-  TContainer extends KV
-    ? IsEqual<TContainer, KV> extends true
-      ? ObjectKey[]
-      : IsEqual<TContainer, EmptyObject> extends true
-        ? ObjectKey[]
-        : UnionToTuple<keyof RemoveIndexKeys<TContainer>> extends readonly ObjectKey[]
-            ? UnionToTuple<keyof RemoveIndexKeys<TContainer>>
-            : never
-    : TContainer extends readonly unknown[]
+  TContainer extends readonly unknown[]
       ? NumericKeys<TContainer>
-      : never
+      : TContainer extends object
+        ? IsEqual<TContainer, KV> extends true
+          ? ObjectKey[]
+          : IsEqual<TContainer, EmptyObject> extends true
+            ? ObjectKey[]
+            : UnionToTuple<keyof RemoveIndexKeys<TContainer>> extends readonly ObjectKey[]
+                ? HandleVueRefType<UnionToTuple<keyof RemoveIndexKeys<TContainer>>>
+                : never
+        : never // doesn't extend object
     >;
 

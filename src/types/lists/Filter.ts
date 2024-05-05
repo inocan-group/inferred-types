@@ -1,4 +1,4 @@
-import { Narrowable, RetainFromList } from "src/types/index";
+import { Narrowable, RetainFromList, UnionToTuple } from "src/types/index";
 
 /**
  * Operations which can be used with the `Filter` type utility
@@ -27,7 +27,11 @@ export type FilterOps = "equals" | "not-equal" | "extends" | "extends(unionize)"
  * **Related:** `RetainFromList`, `RemoveFromList`
  */
 export type Filter<
-  TList extends unknown[] | readonly unknown[],
+  TList,
   TFilter extends readonly unknown[] | Narrowable,
   TOp extends FilterOps = "extends"
-> = RetainFromList<TList, TOp, TFilter>;
+> = TList extends readonly unknown[]
+? RetainFromList<TList, TOp, TFilter>
+: UnionToTuple<TList> extends readonly unknown[]
+  ? RetainFromList<UnionToTuple<TList>, TOp, TFilter>
+  : never;

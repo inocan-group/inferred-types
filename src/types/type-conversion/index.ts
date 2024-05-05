@@ -7,6 +7,7 @@
 // file exports
 export * from "./Awaited";
 export * from "./AsString";
+export * from "./AsRef";
 export * from "./AsNumber";
 export * from "./AsBoolean";
 export * from "./AsDefined";
@@ -22,6 +23,8 @@ export * from "./ToUnion";
 export * from "./ToNumber";
 export * from "./ToBoolean";
 export * from "./UnionToTuple";
+export * from "./UnionShift";
+export * from "./UnionFilter";
 export * from "./Widen";
 export * from "./WidenProps";
 export * from "./Mutable";
@@ -48,6 +51,7 @@ export * from "./IntersectWithAll";
 export * from "./UnionWithAll";
 
 export * from "./ToContainer";
+export * from "./ToStringArray";
 export * from "./ValueOrReturnValue";
 export * from "./ReturnValues";
 export * from "./WithDefault";
