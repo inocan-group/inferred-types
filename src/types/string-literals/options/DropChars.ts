@@ -1,6 +1,10 @@
-import { IfContains, Chars, RemoveNever, Concat } from "src/types/index";
+import { IfContains, Chars, RemoveNever, Concat, AsArray, IfUnion } from "src/types/index";
 
-type Process<
+/**
+ * Handles dropping a non-union type which can be a single
+ * character OR a sequence of characters
+ */
+type DropSequence<
   TContent extends readonly string[],
   TDrop extends readonly string[],
 > = RemoveNever<{
@@ -11,42 +15,49 @@ type Process<
   >
 }>;
 
-type P2<
+/**
+ * Handles dropping a union of single characters
+ */
+type DropUnion<
+  TContent extends readonly string[],
+  TDrop extends string,
+> = RemoveNever<{
+  [K in keyof TContent]: TContent[K] extends TDrop
+    ? never
+    : TContent[K]
+}>;
+
+type Process<
   TContent extends string,
   TDrop extends string
-> = Process<
-Chars<TContent> extends readonly string[]
-? Chars<TContent>
-: never, 
-Chars<TDrop> extends readonly string[]
-? Chars<TDrop>
-: never
-> extends readonly string[]
-? 
-Process<
-  Chars<TContent> extends readonly string[]
-  ? Chars<TContent>
-  : never, 
-  Chars<TDrop> extends readonly string[]
-  ? Chars<TDrop>
-  : never
+> = IfUnion<
+  TDrop,
+  DropUnion<AsArray<Chars<TContent>>, TDrop>,
+  DropSequence<AsArray<Chars<TContent>>, AsArray<Chars<TDrop>>>
 >
-: "";
 
 /**
  * **DropChars**`<TContent,TDrop>`
  * 
- * Removes all characters found in `TDrop` from the string content
- * in `TContent`.
+ * Removes all character sequences found in `TDrop` from the string content
+ * in `TContent`. If you use a _union_ type for `TDrop` then each of the
+ * union members will be extracted (but union member must only be a single
+ * character).
+ * 
+ * ```ts
+ * // "foobarbaz"
+ * DropChars<"foo, bar, baz", ", ">;
+ * // "oo, ar, az"
+ * DropChars<"foo, bar, baz", "f" | "b">;
+ * ```
  */
 export type DropChars<
   TContent extends string,
   TDrop extends string
 > = Concat<
-  P2<TContent, TDrop> extends readonly unknown[]
-  ? P2<TContent, TDrop>
-  : never
+  Process<TContent, TDrop> extends readonly unknown[]
+    ? Process<TContent, TDrop>
+    : never
 >;
-  
 
 
