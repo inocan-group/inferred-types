@@ -1,10 +1,10 @@
-import { AfterFirst, First, IsLiteral } from "src/types/index";
+import { AfterFirst, First, IsWideType } from "src/types/index";
 
 type Validate<T extends readonly unknown[]> = [] extends T
 ? false
-: IsLiteral<First<T>> extends true
-  ? Validate<AfterFirst<T>>
-  : true;
+: IsWideType<First<T>> extends true
+  ? true
+  : Validate<AfterFirst<T>>;
 
 /**
  * **HasWideValues**`<T>`

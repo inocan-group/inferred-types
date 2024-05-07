@@ -26,4 +26,6 @@ export type WithDefault<
   TPolicy extends "nothing" | "falsy" = "nothing"
 > = TPolicy extends "nothing"
 ? IfExtends<TVal, Nothing, TDef, TVal>
-: IfFalsy<TVal,TDef, TVal>;
+: TPolicy extends "falsy"
+  ? IfFalsy<TVal,TDef, TVal>
+  : never;

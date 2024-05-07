@@ -110,7 +110,7 @@ describe("Dictionary Type Utils", () => {
       // the type "hi" IS matched with a narrow type definition
       Expect<Equal<StrLiteralNarrow, ["greet"]>>,
       // the type "hi" is not matched to the wider type string
-      Expect<Equal<StrLiteralWide, never>>,
+      Expect<Equal<StrLiteralWide, []>>,
 
       Expect<Equal<Num, ["foo", "foo2"]>>,
       Expect<Equal<NumNarrow, ["foo", "foo2"]>>,
@@ -123,7 +123,7 @@ describe("Dictionary Type Utils", () => {
       // the literal type "true" can be matched when dealing a literal type
       Expect<Equal<TrueNarrow, ["bar"]>>,
       // but no keys are matched when the key's value has been broadened to "boolean"
-      Expect<Equal<TrueWide, never>>,
+      Expect<Equal<TrueWide, []>>,
       // regardless of whether a type is `true`, `false`, or `boolean` they all
       // match up with the `boolean` type
       Expect<Equal<BooleanNarrow, ["bar", "baz", "baz2"]>>,

@@ -1,15 +1,59 @@
-import { Narrowable, RetainFromList, UnionToTuple } from "src/types/index";
+import { 
+  AfterFirst, 
+  ComparatorOperation, 
+  Compare, 
+  First, 
+  IfArray, 
+  IfNever, 
+  TupleToUnion 
+} from "src/types/index";
+
 
 /**
- * Operations which can be used with the `Filter` type utility
+ * Iterates over each element of the Tuple
  */
-export type FilterOps = "equals" | "not-equal" | "extends" | "extends(unionize)" | "does-not-extend" | "does-not-extend(unionize)";
+type SingleFilter<
+  TList extends readonly unknown[],
+  TFilter,
+  TOp extends ComparatorOperation,
+  Result extends unknown[] = []
+> = TList extends [infer Head, ...infer Rest]
+  ? Compare<Head,TOp, TFilter> extends true
+    ? SingleFilter<Rest, TFilter, TOp, Result> // filter out
+    : SingleFilter<Rest, TFilter, TOp, [...Result, Head]>
+  : Result;
+
+type RemoveNever<
+  TList extends readonly unknown[],
+  TResult extends readonly unknown[] = []
+> = [] extends TList
+? TResult
+: IfNever<
+    First<TList>,
+    RemoveNever<AfterFirst<TList>, TResult>,
+    RemoveNever<AfterFirst<TList>, [...TResult, First<TList>]>
+  >;
+
+type Process<
+  TList extends unknown[] | readonly unknown[],
+  TFilter,
+  TOp extends ComparatorOperation 
+> = TList extends unknown[]
+? SingleFilter<TList, TFilter, TOp>
+: // readonly only tuples 
+  TList extends readonly unknown[]
+    ? Readonly<
+        SingleFilter<[...TList], TFilter, TOp>
+      >
+    : never;
 
 /**
- * **Filter**`<TList, TFilter, [TOp]>`
+ * **Filter**`<TList, TComparator, [TOp]>`
  *
- * Allows a known tuple `TList` to be reduced to a subset with the value `TFilter`
- * and a comparison operator represented by `TOp`. 
+ * Allows a known tuple `TList` to be reduced to a subset with the value `TFilter`:
+ * 
+ * - How the list is reduced depends on `TOp` which defaults to "extends"
+ * - other values include "equals", "does-not-extend", "does-not-equal"
  * 
  * By default `TOp` is set to _extends_ which ensures that those values in the list which
  * _extend_ `TValue` are retained but the remaining filtered out.
@@ -17,7 +61,7 @@ export type FilterOps = "equals" | "not-equal" | "extends" | "extends(unionize)"
  * ```ts
  * type T = [1,"foo",3];
  * // [1,3]
- * type T2 = Filter<T, number>;
+ * type T2 = Filter<T, string>;
  * ```
  * - `TFilter` can be single value or a Tuple of values
  * - in the case of a Tuple of values, an "OR" operation will be used ... meaning that 
@@ -27,11 +71,15 @@ export type FilterOps = "equals" | "not-equal" | "extends" | "extends(unionize)"
  * **Related:** `RetainFromList`, `RemoveFromList`
  */
 export type Filter<
-  TList,
-  TFilter extends readonly unknown[] | Narrowable,
-  TOp extends FilterOps = "extends"
-> = TList extends readonly unknown[]
-? RetainFromList<TList, TOp, TFilter>
-: UnionToTuple<TList> extends readonly unknown[]
-  ? RetainFromList<UnionToTuple<TList>, TOp, TFilter>
-  : never;
+  TList extends readonly unknown[],
+  TComparator,
+  TOp extends ComparatorOperation = "extends"
+> = IfNever<
+  TComparator,
+  RemoveNever<TList>,
+  IfArray<
+    TComparator, 
+    Process<TList,TupleToUnion<TComparator>,TOp>, 
+    Process<TList,TComparator,TOp>
+  >
+>

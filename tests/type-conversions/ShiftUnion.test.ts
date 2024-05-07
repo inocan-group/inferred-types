@@ -1,5 +1,5 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { Contains, DoesExtend, UnionShift } from "src/types/index";
+import {  Expect } from "@type-challenges/utils";
+import {  DoesExtend, UnionShift } from "src/types/index";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -14,7 +14,7 @@ describe("ShiftUnion<T>", () => {
     
     type cases = [
       Expect<DoesExtend<Once[0], OneTwoThree>>,
-      Expect<DoesExtend<Once[0], OneTwoThree>>,
+      Expect<DoesExtend<Once[1], OneTwoThree>>,
     ];
     const cases: cases = [
       true, true

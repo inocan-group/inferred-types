@@ -1,16 +1,19 @@
-import { Keys, AfterFirst, First, Dedupe, AnyObject, Tuple } from "src/types/index";
+import { Keys,  Container, Flatten } from "src/types/index";
 
-type Calc<
-  T extends readonly (Tuple | AnyObject)[],
-  Acc extends readonly PropertyKey[] = []
-> = [] extends T
-  ? Dedupe<Acc>
-  : Calc<
-      AfterFirst<T>,
-      [...Acc, ...Keys<First<T>>]
-    >;
+
 
 /**
- * **AllKeys**<TContainers>
+ * **AllKeys**`<TList>`
+ * 
+ * Receives a list of _containers_ and produces a deduplicated list
+ * of the _keys_ found across all of them.
  */
-export type AllKeys<TContainers extends readonly (Tuple | AnyObject)[]> = Calc<TContainers>;
+export type AllKeys<
+  TContainers extends readonly Container[]
+> = 
+Flatten<{
+  [K in keyof TContainers]: TContainers[K] extends Container
+    ? Keys<TContainers[K]>
+    : []
+}>
+

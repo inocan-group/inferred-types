@@ -13,6 +13,7 @@ describe("AllLiteral<T>", () => {
     type T1 = AllLiteral<[1,2,3]>;
     type T2 = AllLiteral<["foo", "bar", "baz"]>;
     type T3 = AllLiteral<[{foo: 1; bar: number}]>;
+    type T4 = AllLiteral<[true, false, 42]>;
 
     type F1 = AllLiteral<[1,2,number]>;
     type F2 = AllLiteral<[string, string, string]>;
@@ -21,11 +22,12 @@ describe("AllLiteral<T>", () => {
       ExpectTrue<T1>,
       ExpectTrue<T2>,
       ExpectTrue<T3>,
+      ExpectTrue<T4>,
       ExpectFalse<F1>,
       ExpectFalse<F2>,
     ];
     const cases: cases = [
-      true,true,true,
+      true,true,true,true,
       false,false
     ];
   });

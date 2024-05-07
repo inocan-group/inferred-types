@@ -31,8 +31,6 @@ describe("Shift<T>", () => {
 
 });
 
-
-
 describe("shift()", () => {
 
   it("happy path", () => {
@@ -46,7 +44,7 @@ describe("shift()", () => {
     type cases = [
       Expect<Equal<typeof val, 1>>,
       Expect<Equal<typeof list, [2,3]>>,
-      Expect<Equal<typeof empty, undefined>>,
+      Expect<Equal<typeof empty, [never, []]>>,
     ];
     const cases: cases = [ true, true, true ];
   });

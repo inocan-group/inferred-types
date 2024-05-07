@@ -10,11 +10,13 @@ describe("CombinedKeys<A,B>", () => {
 
   it("Happy Path", () => {
     type T1 = CombinedKeys<{foo: 1; bar: 2; baz: 3}, {bar: 4; baz: 5; bax: 6}>;
+    type FooBarBaz = CombinedKeys<{foo: 1; bar: 2}, {baz: 3}>;
     
     type cases = [
-      Expect<Equal<T1, ["foo","bar","baz", "bax"]>>
+      Expect<Equal<T1, ["foo","bar","baz", "bax"]>>,
+      Expect<Equal<FooBarBaz, ["foo","bar","baz"]>>,
     ];
-    const cases: cases = [ true ];
+    const cases: cases = [ true, true ];
   });
 
 });

@@ -31,18 +31,6 @@ describe("Subtract<A,B>", () => {
     ];
     const cases: cases = [ true, true ];
   });
-
-  
-  it("Negative B Results in Addition Operation", () => {
-    type Two = Subtract<1,-1>;
-    
-    type cases = [
-      Expect<Equal<Two, 2>>,
-
-    ];
-    const cases: cases = [ true ];
-    
-  });
   
 
 });

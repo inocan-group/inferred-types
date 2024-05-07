@@ -1,4 +1,4 @@
-import { ErrorCondition, OfSameLength, Tuple } from "src/types/index";
+import { ErrorCondition, AreSameLength, Tuple } from "src/types/index";
 
 /**
  * **IfEqualLength**`<A,B,IF,ELSE,[ERR]>`
@@ -10,11 +10,11 @@ export type IfEqualLength<
   B extends Tuple | string,
   IF,
   ELSE,
-  ERR = OfSameLength<A,B>
-> = OfSameLength<A,B> extends true
+  ERR = AreSameLength<A,B>
+> = AreSameLength<A,B> extends true
 ? IF
-: OfSameLength<A,B> extends false 
+: AreSameLength<A,B> extends false 
 ? ELSE
-: OfSameLength<A,B> extends ErrorCondition<string>
+: AreSameLength<A,B> extends ErrorCondition<string>
   ? ERR
   : never;

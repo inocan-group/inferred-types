@@ -1,5 +1,5 @@
-import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { DoesExtend, ErrorCondition, OfSameLength } from "src/types/index";
+import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
+import {  AreSameLength } from "src/types/index";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -9,11 +9,11 @@ import { describe, it } from "vitest";
 describe("OfEqualLength<A,B>", () => {
 
   it("tuple test", () => {
-    type T1 = OfSameLength<[1,2,3],["foo","bar","baz"]>;
-    type T2 = OfSameLength<[],[]>;
-    type T3 = OfSameLength<[never],[1]>;
+    type T1 = AreSameLength<[1,2,3],["foo","bar","baz"]>;
+    type T2 = AreSameLength<[],[]>;
+    type T3 = AreSameLength<[never],[1]>;
 
-    type F1 = OfSameLength<[1,2,3],[1,2]>;
+    type F1 = AreSameLength<[1,2,3],[1,2]>;
     
     type cases = [
       ExpectTrue<T1>,
@@ -28,17 +28,17 @@ describe("OfEqualLength<A,B>", () => {
   });
 
   it("string test", () => {
-    type T1 = OfSameLength<"foo","bar">;
-    type F1 = OfSameLength<"foey","bar">;
-    type E1 = OfSameLength<"foo", string>;
-    type E2 = OfSameLength<"foo", [1,2,3]>;
+    type T1 = AreSameLength<"foo","bar">;
+    type F1 = AreSameLength<"foey","bar">;
+    type B1 = AreSameLength<"foo", string>;
+    type B2 = AreSameLength<number[], [1,2,3]>;
     
     type cases = [
       ExpectTrue<T1>,
       ExpectFalse<F1>,
 
-      ExpectTrue<DoesExtend<E1, ErrorCondition<"non-literal">>>,
-      ExpectTrue<DoesExtend<E2, ErrorCondition<"invalid-use">>>,
+      Expect<Equal<B1, boolean>>,
+      Expect<Equal<B2, boolean>>,
     ];
     const cases: cases = [
       true, false,

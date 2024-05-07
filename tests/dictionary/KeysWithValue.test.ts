@@ -1,7 +1,7 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { AnyObject, KeysWithValue, SameElements } from "src/types/index";
+import { AnyObject, KeysWithValue, SameKeys } from "src/types/index";
 import { createFnWithProps, defineObj} from "src/runtime/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -41,16 +41,16 @@ describe("KeysWithValue<T> utility", () => {
     type Obj = KeysWithValue<typeof obj, AnyObject>;
 
     type cases = [
-      ExpectTrue<SameElements<Num, ["foo", "foo2", "foo3"]>>,
-      ExpectTrue<SameElements<Str, ["message", "id"]>>,
-      ExpectTrue<SameElements<Arr, ["numericArr" ,"strArr"]>>,
-      ExpectTrue<SameElements<RoArr, ["numericArr", "strArr"]>>,
-      ExpectTrue<SameElements<Bool, ["bar", "success", "fail"]>>,
+      ExpectTrue<SameKeys<Num, ["foo", "foo2", "foo3"]>>,
+      ExpectTrue<SameKeys<Str, ["message", "id"]>>,
+      ExpectTrue<SameKeys<Arr, ["numericArr" ,"strArr"]>>,
+      ExpectTrue<SameKeys<RoArr, ["numericArr", "strArr"]>>,
+      ExpectTrue<SameKeys<Bool, ["bar", "success", "fail"]>>,
       
       Expect<Equal<ObjOfType, ["baz"]>>,
       // an object also includes a function (TODO: try and exclude this)
-      ExpectTrue<SameElements<Obj, ["baz", "emptyBaz" , "fn" , "fnWithProp"]>>,
-      ExpectTrue<SameElements<AFn, ["fn" , "fnWithProp"] >>,
+      ExpectTrue<SameKeys<Obj, ["baz", "emptyBaz" , "fn" , "fnWithProp"]>>,
+      ExpectTrue<SameKeys<AFn, ["fn" , "fnWithProp"] >>,
     ];
     const cases: cases = [
       true,true,true,true,true,
@@ -64,7 +64,7 @@ describe("KeysWithValue<T> utility", () => {
     type False = KeysWithValue<typeof obj, false>;
     
     type cases = [
-      ExpectTrue<SameElements<Num, ["foo2", "foo3"]>>,
+      ExpectTrue<SameKeys<Num, ["foo2", "foo3"]>>,
       Expect<Equal<True, ["success"]>>,
       Expect<Equal<False, ["fail"]>>,
     ];

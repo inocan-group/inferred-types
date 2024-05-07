@@ -5,16 +5,36 @@ import {
   UnionToTuple,
   NumericKeys,
   RemoveIndexKeys,
-  IsEqual,
-  KV,
-  EmptyObject,
-  Filter,
-  IfLength,
+  IfTuple,
+  IsRef,
 } from "src/types/index";
 
-type HandleVueRefType<
-  T extends readonly ObjectKey[]
-> = IfLength<Filter<T,string>,1,["value"], T>
+
+type GetKeys<
+  T extends object
+> = IsRef<T> extends true
+? ["value"]
+: UnionToTuple<keyof RemoveIndexKeys<T>> extends [symbol]
+  ? ObjectKey[]
+  : UnionToTuple<keyof RemoveIndexKeys<T>> extends []
+    ? UnionToTuple<keyof T> extends [ObjectKey]
+      ? (keyof T)[]
+      : IfNever<keyof T, ObjectKey[], never[]>
+    : UnionToTuple<keyof RemoveIndexKeys<T>>
+
+type Process<
+  TContainer extends Container
+> = 
+IfNever<
+  TContainer, 
+  never[],
+  TContainer extends readonly unknown[]
+    ? NumericKeys<TContainer>
+    : TContainer extends object
+      ? GetKeys<TContainer>
+      : never[]
+>;
+
 
 /**
  * **Keys**`<TContainer>`
@@ -34,19 +54,17 @@ type HandleVueRefType<
  */
 export type Keys<
   TContainer extends Container
-  > = IfNever<
-  TContainer, 
-  PropertyKey[],
-  TContainer extends readonly unknown[]
-      ? NumericKeys<TContainer>
-      : TContainer extends object
-        ? IsEqual<TContainer, KV> extends true
-          ? ObjectKey[]
-          : IsEqual<TContainer, EmptyObject> extends true
-            ? ObjectKey[]
-            : UnionToTuple<keyof RemoveIndexKeys<TContainer>> extends readonly ObjectKey[]
-                ? HandleVueRefType<UnionToTuple<keyof RemoveIndexKeys<TContainer>>>
-                : never
-        : never // doesn't extend object
-    >;
+  > = TContainer extends readonly unknown[]
+  ? Process<TContainer> extends readonly number[]
+    ? IfTuple<
+        Process<TContainer>, 
+        Process<TContainer>, 
+        number[]
+      >
+    : never
+  : TContainer extends object
+    ? Process<TContainer> extends ObjectKey[]
+      ? Process<TContainer>
+      : ObjectKey[]
+    : never[]
 

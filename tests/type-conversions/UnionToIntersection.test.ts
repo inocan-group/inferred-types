@@ -17,15 +17,7 @@ describe("UnionToIntersection<U>", () => {
   });
 
   
-  it("Intersecting unions", () => {
-    type OneTwo = UnionToIntersection<1 | 2>;
-    
-    type cases = [
-      /** type tests */
-    ];
-    const cases: cases = [];
-    
-  });
+
   
 
 });

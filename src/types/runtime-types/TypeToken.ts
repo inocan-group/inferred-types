@@ -5,7 +5,7 @@ import {
   Time,
   DateTime,
   IfNull,
-  RetainFromList
+  Retain
 } from "src/types/index";
 import { 
   TYPE_TOKEN_IDENTITIES, 
@@ -57,6 +57,8 @@ export type TypeToken<
 > = IfNull<
   TFind,
   TupleToUnion<TT>, 
-  TupleToUnion<RetainFromList<TT, "extends", `<<${TFind}${">>" | `:${string}>>`}`>>
+  TupleToUnion<
+    Retain<TT, `<<${TFind}${">>" | `:${string}>>`}`>
+  >
 >;
 

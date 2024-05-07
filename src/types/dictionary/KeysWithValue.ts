@@ -1,23 +1,24 @@
 import { AfterFirst,  First, IfEmptyContainer, KV, Keys, ObjectKey } from "src/types/index";
 
-type _process<
-  TKeys extends readonly PropertyKey[],
+type Process<
+  TKeys extends readonly ObjectKey[],
   TObj extends KV,
   TValue,
-  TResults extends readonly (string|symbol)[] = []
+  TResults extends readonly ObjectKey[] = []
 > = [] extends TKeys
 ? TResults
 : First<TKeys> extends keyof TObj 
-  ? TObj[First<TKeys>] extends TValue
-    ? _process<AfterFirst<TKeys>, TObj, TValue, [...TResults, First<TKeys>]>
-    : _process<AfterFirst<TKeys>, TObj, TValue, TResults>
-  : _process<AfterFirst<TKeys>, TObj, TValue, TResults>;
+  ? [TObj[First<TKeys>]] extends [TValue]
+    ? Process<AfterFirst<TKeys>, TObj, TValue, [...TResults, First<TKeys>]>
+    : Process<AfterFirst<TKeys>, TObj, TValue, TResults>
+  : never;
+
 
 /**
  * **KeysWithValue**`<TObj,TValue>`
  * 
- * The _keys_ on a given object `TObj` which _extend_ the value 
- * of `TValue`.
+ * Filter's the key/values found on `TObj` to only those whose
+ * values _extend_ `TValue`.
  * 
  * ```ts
  * // ["foo",  "baz"]
@@ -31,6 +32,6 @@ export type KeysWithValue<
   TValue
 > = IfEmptyContainer<
   TObj,
-   (string | symbol)[],
-  _process<Keys<TObj>, TObj, TValue>
+  ObjectKey[],
+  Process<Keys<TObj>, TObj, TValue>
 >;

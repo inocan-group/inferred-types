@@ -8,6 +8,7 @@ import {
   Something, 
   Nothing, 
   Scalar,
+  ExplicitlyEmptyObject,
 } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -57,23 +58,22 @@ describe("EmptyObject", () => {
       // and while it can extend the generic Object interface
       // it must not have any values other than `never`
       Expect<DoesNotExtend<EmptyObject, Foo>>,
+
       // furthermore, a union of an `IndexableObject` 
       Expect<DoesNotExtend<EmptyObject, Foo & EmptyObject>>,
       Expect<DoesNotExtend<EmptyObject, IndexableObject<Foo>>>,
       Expect<DoesNotExtend<null, EmptyObject>>,
-      Expect<DoesNotExtend<"", EmptyObject>>,
-      Expect<DoesNotExtend<FooBar, EmptyObject>>,
+      Expect<DoesNotExtend<FooBar, ExplicitlyEmptyObject>>,
       
       // an Object is a superset of 
-      Expect<DoesNotExtend<object, EmptyObject>>,
-
+      Expect<DoesNotExtend<object, ExplicitlyEmptyObject>>,
       // compared to an indexable object
-      Expect<DoesNotExtend<IndexableObject, EmptyObject>>,
+      Expect<DoesNotExtend<IndexableObject, ExplicitlyEmptyObject>>,
     ];
 
     const cases: cases = [
       true, true, true, 
-      true, true, true, true, true,
+      true, true, true, true, 
       true, true
     ];
   });

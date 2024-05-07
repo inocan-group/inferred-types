@@ -1,11 +1,12 @@
-import { IfAnd, IfLiteral, IsString } from "src/types/index";
+import { AsString, IfAnd, IsLiteral, IsString } from "src/types/index";
 
 
 /**
- * **StripEnding**`<T, U>`
+ * **StripEnding**`<TContent, TStrip>`
  *
- * Will strip off of `T` the ending defined by `U` when
- * both are string literals.
+ * Will strip off `TStrip` from the ending of `TContent` when
+ * it is found.
+ * 
  * ```ts
  * type T = "Hello World";
  * type U = " World";
@@ -13,16 +14,21 @@ import { IfAnd, IfLiteral, IsString } from "src/types/index";
  * type R = StripEnding<T,U>;
  * ```
  */
-export type StripTrailing<T, U> = IfAnd<
-  [ IsString<T>, IsString<U>],
-  IfLiteral<
-    // can only operate on literal strings
-    T,
-    // this path represents successful strip opp
-    // but we must never accept `U` being wide
-    string extends U ? never : T extends `${infer Before}${U & string}` ? Before : T,
-    // here we must stay wide
+export type StripTrailing<
+  TContent, 
+  TStrip
+> = TContent extends number
+? StripTrailing<AsString<TContent>, TStrip>
+: TStrip extends number
+  ? StripTrailing<TContent, AsString<TStrip>>
+  : IfAnd<
+  [ IsString<TContent>, IsString<TStrip> ],
+  IfAnd<
+    [ IsLiteral<TContent>, IsLiteral<TStrip>],
+    TContent extends `${infer Before}${AsString<TStrip>}` 
+      ? Before 
+      : TContent,
     string
   >,
-  T
+  never
 >;

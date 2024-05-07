@@ -1,5 +1,3 @@
-
-
 /**
  * **AsString**<T>
  * 
@@ -18,7 +16,7 @@ export type AsString<T> = T extends string
     : T extends boolean
       ? `${T}`
       : string extends T
-        ? string & T
-        : never
+        ? string
+        :  never
   ;
 

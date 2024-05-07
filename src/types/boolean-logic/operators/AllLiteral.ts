@@ -1,14 +1,12 @@
-import { AfterFirst, First, IfLiteral, Tuple } from "src/types/index";
-
-type Process<
-  TRemaining extends Tuple,
-> = [] extends TRemaining
-? true
-: IfLiteral<
-    First<TRemaining>,
-    Process<AfterFirst<TRemaining>>,
-    false
-  >;
+import { 
+  And,  
+  IsStringLiteral, 
+  IsNumericLiteral,   
+  IsTuple, 
+  IsBooleanLiteral, 
+  IsObjectLiteral, 
+  Or 
+} from "src/types/index";
 
 /**
  * **AllLiteral**`<TTuple>`
@@ -16,4 +14,14 @@ type Process<
  * A boolean operator which tests whether all properties in
  * the tuple `TTuple` are _literal_ types.
  */
-export type AllLiteral<T extends Tuple> = Process<T>;
+export type AllLiteral<T extends readonly unknown[]> = And<{
+  [K in keyof T]: Or<[
+      IsStringLiteral<T[K]>,
+      IsNumericLiteral<T[K]>,
+      IsTuple<T[K]>,
+      IsBooleanLiteral<T[K]>,
+      IsObjectLiteral<T[K]>,
+    ]>
+}>;
+
+// [1,2,3] -> [true,true,true]

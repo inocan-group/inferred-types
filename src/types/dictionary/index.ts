@@ -33,7 +33,6 @@ export * from "./NonStringKeys";
 export * from "./RequireProps";
 export * from "./ReadonlyKeys";
 export * from "./ReadonlyProps";
-export * from "./SameKeys";
 export * from "./AddKeyValue";
 export * from "./WithKeys";
 export * from "./WithValue";

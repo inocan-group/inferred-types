@@ -5,7 +5,8 @@ import {
   IfTrue, 
   IfFalse, 
   IfBoolean, 
-  Tuple
+  Tuple,
+  IfEqual
 } from "src/types/index";
 
 type ConvertElement<
@@ -21,6 +22,10 @@ TValue extends number
         IfFalse<TValue, 0, IfBoolean<TValue, 1 | 0, never>>
       >;
 
+type Process<TValue> = TValue extends Tuple
+? ToNumericArray<TValue>
+: IfScalar<TValue, ConvertElement<TValue & Scalar>, never>;
+
 /**
  * **ToNumber**`<T>`
  * 
@@ -30,7 +35,9 @@ TValue extends number
  *    - any non-numeric content which can not be converted to a number will be convert to `never`
  *    - a number or a numeric array will be proxied through "as is"
  */
-export type ToNumber<TValue> = TValue extends Tuple
-  ? ToNumericArray<TValue>
-  : IfScalar<TValue, ConvertElement<TValue & Scalar>, never>;
+export type ToNumber<TValue> = IfEqual<
+  Process<TValue>, never[],
+  number[],
+  Process<TValue>
+>
 

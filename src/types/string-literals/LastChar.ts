@@ -1,16 +1,16 @@
 import {  
-  Split,  
   AsArray,
   Last,
   AsString, 
   IfString,
-  UnionToTuple, 
+  UnionToTuple,
+  Chars, 
 } from "src/types/index";
 
 type Iterate<
   TInput extends readonly string[],
 > = UnionToTuple<{
-  [K in keyof TInput]: Last<AsArray<Split<AsString<TInput[K]>>>>
+  [K in keyof TInput]: Last<AsArray<Chars<AsString<TInput[K]>>>>
 }[number]>
 
 /**
@@ -33,7 +33,7 @@ export type LastChar<
   TContent extends string | readonly string[]
 > = IfString<
   TContent,
-  Last<AsArray<Split<AsString<TContent>>>>,
+  Last<AsArray<Chars<AsString<TContent>>>>,
   TContent extends readonly string[]
     ? Iterate<TContent>
     : never

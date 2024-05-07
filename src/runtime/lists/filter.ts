@@ -1,32 +1,33 @@
-import { Filter,  FilterOps, Narrowable } from "src/types/index";
+import { Filter,  ComparatorOperation, Narrowable } from "src/types/index";
 import { isSameTypeOf } from "../type-guards/higher-order/isSameTypeOf";
+import {  startsWith } from "../type-guards";
 
 
 export const filter = <
   TList extends readonly unknown[],
-  TOp extends FilterOps,
-  TFilter extends Narrowable
+  TComparator extends Narrowable | readonly unknown[],
+  TOp extends ComparatorOperation
 >(
   list: TList, 
-  op: TOp, 
-  value: TFilter
+  comparator: TComparator,
+  op: TOp = "extends" as TOp
 ) => {
   let result: unknown;
 
   switch(op) {
-    case "not-equal":
-      result = list.filter(i => i !== value);
-      break;
     case "equals":
-      result = list.filter(i => i === value);
+      result = list.filter(i => i === comparator);
       break;
     case "extends":
-      result = list.filter(i => isSameTypeOf(i)(value));
+      result = list.filter(i => isSameTypeOf(i)(comparator));
       break;
-    case "does-not-extend":
-      result = list.filter(i => !isSameTypeOf(i)(value));
+    case "startsWith":
+      result =  list.filter(
+        i => startsWith(Array.isArray(comparator) ? comparator : String(comparator))(String(i))
+      );
+
       break;
   }
 
-  return result as Filter<TList, TFilter, TOp>;
+  return result as Filter<TList, TComparator, TOp>;
 };

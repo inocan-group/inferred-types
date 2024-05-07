@@ -2,7 +2,7 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import type { Contains, SameElements, SharedKeys } from "src/types/index";
+import type { Contains, SameKeys, SharedKeys } from "src/types/index";
 import { sharedKeys } from "src/runtime/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -20,8 +20,8 @@ describe("SharedKeys", () => {
     type None2 = SharedKeys<A,object>;
 
     type cases = [
-      Expect<SameElements<Shared,  ["bar", "color"]>>,
-      Expect<SameElements<Identity,  ["foo", "bar", "color"]>>,
+      Expect<SameKeys<Shared,  ["bar", "color"]>>,
+      Expect<SameKeys<Identity,  ["foo", "bar", "color"]>>,
       Expect<ExpectTrue<Contains<Identity, "foo">>>,
       Expect<Equal<None, []>>,
       Expect<Equal<None2,  []>>,

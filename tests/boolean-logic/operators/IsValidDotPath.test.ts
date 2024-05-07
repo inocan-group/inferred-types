@@ -37,7 +37,7 @@ describe("IsValidDotPath<T>", () => {
       Expect<Equal<ExplicitRef, true>>,
 
 
-      Expect<Equal<WideContainer, boolean>>,
+      Expect<Equal<WideContainer, false>>,
       Expect<Equal<WideKey, boolean>>,
     ];
     const cases: cases = [ 

@@ -1,4 +1,4 @@
-import { IfContains, Chars, RemoveNever, Concat, AsArray, IfUnion } from "src/types/index";
+import { IfContains, Chars,  Concat,  IfUnion, Filter } from "src/types/index";
 
 /**
  * Handles dropping a non-union type which can be a single
@@ -7,13 +7,13 @@ import { IfContains, Chars, RemoveNever, Concat, AsArray, IfUnion } from "src/ty
 type DropSequence<
   TContent extends readonly string[],
   TDrop extends readonly string[],
-> = RemoveNever<{
+> = Filter<{
   [K in keyof TContent]: IfContains<
     TDrop, TContent[K],
     never, // filter out
     TContent[K]
   >
-}>;
+}, never>;
 
 /**
  * Handles dropping a union of single characters
@@ -21,19 +21,19 @@ type DropSequence<
 type DropUnion<
   TContent extends readonly string[],
   TDrop extends string,
-> = RemoveNever<{
+> = Filter<{
   [K in keyof TContent]: TContent[K] extends TDrop
     ? never
     : TContent[K]
-}>;
+}, never>;
 
 type Process<
   TContent extends string,
   TDrop extends string
 > = IfUnion<
   TDrop,
-  DropUnion<AsArray<Chars<TContent>>, TDrop>,
-  DropSequence<AsArray<Chars<TContent>>, AsArray<Chars<TDrop>>>
+  DropUnion<Chars<TContent>, TDrop>,
+  DropSequence<Chars<TContent>, Chars<TDrop>>
 >
 
 /**
@@ -55,7 +55,7 @@ export type DropChars<
   TContent extends string,
   TDrop extends string
 > = Concat<
-  Process<TContent, TDrop> extends readonly unknown[]
+  Process<TContent, TDrop> extends readonly string[]
     ? Process<TContent, TDrop>
     : never
 >;

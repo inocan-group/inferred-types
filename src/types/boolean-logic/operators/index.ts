@@ -1,5 +1,7 @@
 export * from "./AllExtend";
 export * from "./AllLiteral";
+export * from "./AllStringLiterals";
+export * from "./AllNumericLiterals";
 export * from "./Contains";
 export * from "./ContainsAll";
 export * from "./DoesExtend";
@@ -73,6 +75,6 @@ export * from "./IsIndexable";
 export * from "./HasCharacters";
 export * from "./IsIndexable";
 export * from "./IsReadonlyObject";
-export * from "./OfSameLength";
+export * from "./AreSameLength";
 export * from "./HasWideValues";
 export * from "./HasProp";

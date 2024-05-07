@@ -9,4 +9,4 @@ export type IfUnion<
   T,
   IF = true,
   ELSE = false
-> = [IsUnion<T>] extends [true] ? IF : ELSE;
+> = IsUnion<T> extends true ? IF : ELSE;

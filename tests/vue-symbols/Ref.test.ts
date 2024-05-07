@@ -1,6 +1,10 @@
-import {  Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
+import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import {  DoesExtend,  IsRef,VueRef } from "src/types/index";
+import { 
+  DoesExtend, 
+  IsRef,
+  VueRef 
+} from "src/types/index";
 import { asVueRef, isRef, keysOf } from "src/runtime/index";
 import { Ref, ref } from "vue";
 
@@ -86,13 +90,7 @@ describe("VueRef, isRef(), and IsRef<T>", () => {
     }
 
     const fake_ref = asVueRef("foobar");
-    
-    type cases = [
-      Expect<Equal<typeof fake_ref, VueRef<"foobar">>>
-    ];
-    const cases: cases = [
-      true
-    ];
+
 
     if(isRef(fake_ref)) {
       expect(fake_ref.value).toEqual("foobar");

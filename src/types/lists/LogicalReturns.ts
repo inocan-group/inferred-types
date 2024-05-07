@@ -1,36 +1,4 @@
-import { IfBoolean , AfterFirst, First, LogicFunction } from "src/types/index";
-
-
-
-type ProcessLogicalReturns<
-  TValues extends readonly unknown[],
-  TParams extends readonly unknown[] = [],
-  TResults extends readonly boolean[] = []
-> = [] extends TValues
-  ? TResults
-  : IfBoolean<
-      First<TValues>,
-      // boolean value
-      ProcessLogicalReturns<
-        AfterFirst<TValues>, 
-        TParams, 
-        [...TResults, First<TValues> & boolean]
-      >,
-      LogicFunction<TParams> extends First<TValues>
-        ? ProcessLogicalReturns<
-            AfterFirst<TValues>, 
-            TParams, 
-            [...TResults, ReturnType<LogicFunction<TParams>>]
-          >
-        : First<TValues> extends boolean
-          ? ProcessLogicalReturns<
-              AfterFirst<TValues>, 
-              TParams, 
-              [...TResults, First<TValues>]
-            >
-          : ProcessLogicalReturns<AfterFirst<TValues>, TParams, TResults>
-    >;
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 /**
  * **LogicalReturns**`<TValues, TParams>`
@@ -43,7 +11,10 @@ type ProcessLogicalReturns<
  * **See Also**: `ReturnTypes` and `TruthyReturns`
  */
 export type LogicalReturns<
-  TValues extends readonly unknown[],
-  TParams extends readonly unknown[] = []
-// eslint-disable-next-line no-use-before-define
-> = ProcessLogicalReturns<TValues, TParams>;
+  TValues extends readonly (boolean | ((...args: any[]) => boolean))[],
+  _TParams extends readonly unknown[] = []
+> = {
+  [K in keyof TValues]: TValues[K] extends ((...args: any[]) => boolean)
+    ? ReturnType<TValues[K]>
+    : TValues[K]
+}

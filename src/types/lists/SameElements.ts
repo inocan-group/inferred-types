@@ -1,25 +1,42 @@
-import { First, AfterFirst, Contains, If } from "src/types/index"
+import {  And, AsObject, AsTuple, Container, IfAnd, IfEqual,  IsObjectLiteral, IsTuple, Keys, ObjectKey, TupleToUnion } from "src/types/index"
 
-type Process<
+type ProcessTuple<
   A extends readonly unknown[],
   B extends readonly unknown[],
-> = [] extends A
-? true
-: If<
-    Contains<B,First<A>>,
-    Process<AfterFirst<A>,B>,
-    false
-  >;
+> = IfEqual<
+  TupleToUnion<A>,
+  TupleToUnion<B>,
+  true,
+  false
+>;
 
+type ProcessObj<
+  A extends readonly ObjectKey[],
+  B extends readonly ObjectKey[],
+> = A["length"] extends B["length"]
+? And<{
+  [K in keyof A]: K extends keyof B
+    ? true
+    : false
+}>
+: false;
 
 /**
- * **SameElements**`<A,B>`
+ * **SameKeys**`<A,B>`
  * 
- * Compares two lists to see if they have the same elements.
+ * Compares two lists to see if they have the same keys.
  */
-export type SameElements<
-  A extends readonly unknown[],
-  B extends readonly unknown[]
-> = A["length"] extends B["length"]
-? Process<A,B>
-: false;
+export type SameKeys<
+  A extends Container,
+  B extends Container
+> = IfAnd<
+  [IsTuple<A>,IsTuple<B>],
+  AsTuple<A>["length"] extends AsTuple<B>["length"]
+    ? ProcessTuple<AsTuple<A>,AsTuple<B>>
+    : false,
+  IfAnd<
+    [ IsObjectLiteral<A>, IsObjectLiteral<B> ],
+    ProcessObj<Keys<AsObject<A>>,Keys<AsObject<B>>>,
+    false
+  >
+>;

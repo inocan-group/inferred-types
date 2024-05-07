@@ -12,7 +12,8 @@ describe("AllKeys<TList>", () => {
     type Str = AllKeys<[
       {foo: 1},
       {bar: 2},
-      {baz: 3}
+      {baz: 3},
+      {baz: 54; foo:2}
     ]>;
     type Num = AllKeys<[
       [1,2],

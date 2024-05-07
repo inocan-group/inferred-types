@@ -36,6 +36,7 @@ describe("AsString<T>", () => {
       Expect<Equal<BU, "true" | "false">>,
 
       Expect<Equal<AsString<string[]>, never>>,
+      Expect<Equal<AsString<string[] | string>, string>>,
       Expect<Equal<AsString<null>, never>>,
       Expect<Equal<AsString<undefined>, never>>,
 
@@ -45,7 +46,7 @@ describe("AsString<T>", () => {
       true, true, true,
       true, true,
       true, true,
-      true, true, true
+      true, true, true, true
    ];
   });
 

@@ -22,9 +22,9 @@ describe("GetEach<T,P>", () => {
     type Cost = GetEach<List, "cost">;
     
     type cases = [
-      Expect<Equal<ID, readonly [1,2,3] >>,
-      Expect<Equal<Value, readonly ["foo", "bar", "baz"] >>,
-      Expect<Equal<Cost, readonly [ 5, 15 ] >>
+      Expect<Equal<ID,  [1,2,3] >>,
+      Expect<Equal<Value,  ["foo", "bar", "baz"] >>,
+      Expect<Equal<Cost,  [ 5, 15 ] >>
     ];
     const cases: cases = [ true, true, true ];
   });
@@ -41,8 +41,8 @@ describe("GetEach<T,P>", () => {
     type Owns = GetEach<List, "color.owns">;
     
     type cases = [
-      Expect<Equal<Fav, readonly [ "blue", "green" ] >>,
-      Expect<Equal<Owns, readonly [ "grey" ] >>,
+      Expect<Equal<Fav,  [ "blue", "green" ] >>,
+      Expect<Equal<Owns,  [ "grey" ] >>,
     ];
     const cases: cases = [ true, true ];
   });
@@ -77,9 +77,9 @@ describe("GetEach<T,P>", () => {
     type Empty = GetEach<List, "colors.5">;
     
     type cases = [
-      Expect<Equal<First, readonly ["blue", "purple"]>>,
-      Expect<Equal<Incomplete, readonly ["fuchsia"]>>,
-      Expect<Equal<Empty, readonly []>>,
+      Expect<Equal<First,  ["blue", "purple"]>>,
+      Expect<Equal<Incomplete,  ["fuchsia"]>>,
+      Expect<Equal<Empty,  []>>,
     ];
     const cases: cases = [ true, true, true ];
   });
@@ -128,10 +128,10 @@ describe("GetEach<T,P>", () => {
 
     type cases = [
       // deep
-      Expect<Equal<typeof objNoErr, readonly ["blue", "green"]>>,
-      Expect<Equal<typeof arrNoErr, readonly ["blue", "purple"]>>,
-      Expect<Equal<typeof objWithNever, readonly ["blue", "green"]>>,
-      Expect<Equal<typeof arrWithNever, readonly ["blue", "purple"]>>,
+      Expect<Equal<typeof objNoErr,  ["blue", "green"]>>,
+      Expect<Equal<typeof arrNoErr,  ["blue", "purple"]>>,
+      Expect<Equal<typeof objWithNever,  ["blue", "green"]>>,
+      Expect<Equal<typeof arrWithNever,  ["blue", "purple"]>>,
     ];
     
     const cases: cases = [ true, true, true, true ];

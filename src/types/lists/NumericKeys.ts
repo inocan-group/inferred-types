@@ -4,7 +4,9 @@ type Recurse<
   TList extends Tuple,
   TResults extends Tuple = []
 > = [] extends TList
-  ? TResults
+  ? [] extends TResults
+    ? number[]
+    : TResults
   : Recurse<
       AfterFirst<TList>,
       [
@@ -21,8 +23,6 @@ type Convert<
       [K in keyof TList]: K
     }>;
     
-
-
 /**
  * **NumericKeys**<`TList`>
  * 

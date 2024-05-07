@@ -1,9 +1,11 @@
-import { Equal, Expect } from "@type-challenges/utils";
+import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import type { 
+  CombinedKeys,
   MergeObjects, 
   MergeScalars, 
-  MergeTuples 
+  MergeTuples, 
+  SameKeys
 } from "src/types/index";
 import { mergeScalars, mergeTuples } from "src/runtime/index";
 
@@ -130,6 +132,18 @@ describe("Merge Tuples", () => {
 });
 
 describe("Merge Objects", () => {
+
+  
+  it("CombinedKeys<A,B>", () => {
+    type FooBarBaz = CombinedKeys<{foo: 1; bar: 2}, {baz: 3}>;
+    
+    type cases = [
+      ExpectTrue<SameKeys<FooBarBaz, ["foo","bar","baz"]>>
+    ];
+    const cases: cases = [ true ];
+    
+  });
+  
 
   it("type tests", () => {
     type JustExtend = MergeObjects<{foo: 1; bar: 2}, {baz: 3}>;

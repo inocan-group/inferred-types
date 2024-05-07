@@ -8,10 +8,11 @@ import { LogicFunction, ReturnTypes , NarrowlyContains  } from "src/types/index"
  * function which evaluates to a boolean value to be logically AND'd together.
  */
 export type Or<
-  // eslint-disable-next-line no-use-before-define
-  TConditions extends readonly (boolean | LogicFunction<TParams>)[],
+  TConditions ,
   TParams extends readonly unknown[] = []
-> = NarrowlyContains<TConditions, true> extends true
+> = TConditions extends readonly (boolean | LogicFunction<TParams>)[]
+
+? NarrowlyContains<TConditions, true> extends true
     ? // if a true value is found anywhere, the result is true
       true
     : // if the return type of  LogicFunction is true anywhere, the result is true
@@ -30,6 +31,7 @@ export type Or<
                 NarrowlyContains<ReturnTypes<TConditions>, false> extends true
                 ? false
                 : // logical operation is not permitted if there are no boolean types
-                  never;
+                  never
+: never;
 
 

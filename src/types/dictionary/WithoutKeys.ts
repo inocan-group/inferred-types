@@ -1,5 +1,35 @@
 
-import { ExpandRecursively,  TupleToUnion, AsArray, IfLength, ObjectKey,  KV, ExplicitlyEmptyObject } from "src/types/index";
+import { 
+  ExpandRecursively,  
+  TupleToUnion, 
+  AsArray, 
+  IfLength, 
+  ObjectKey,  
+  KV, 
+  ExplicitlyEmptyObject, 
+  RemoveIndexKeys
+} from "src/types/index";
+
+type Process<
+  TObj extends KV, 
+  TKeys extends ObjectKey | readonly ObjectKey[]
+> = IfLength<
+  AsArray<TKeys>, 0,
+  TObj,
+  ExpandRecursively<
+    Omit<
+        TObj, 
+        TupleToUnion<AsArray<TKeys>>
+    >
+> extends ExplicitlyEmptyObject
+  ? ExplicitlyEmptyObject
+  : ExpandRecursively<
+      Omit<
+          TObj, 
+          TupleToUnion<AsArray<TKeys>>
+      >
+    >
+>;
 
 
 /**
@@ -12,21 +42,7 @@ import { ExpandRecursively,  TupleToUnion, AsArray, IfLength, ObjectKey,  KV, Ex
 export type WithoutKeys<
   TObj extends KV, 
   TKeys extends ObjectKey | readonly ObjectKey[]
-> = IfLength<
-  AsArray<TKeys>, 0,
-  TObj,
-  ExpandRecursively<
-    Omit<
-        TObj, 
-        TupleToUnion<AsArray<TKeys>>
-    >
-  > extends ExplicitlyEmptyObject
-    ? ExplicitlyEmptyObject
-    : ExpandRecursively<
-        Omit<
-            TObj, 
-            TupleToUnion<AsArray<TKeys>>
-        >
-      >
-  >;
+> = ExpandRecursively<RemoveIndexKeys<
+  Process<TObj,TKeys>
+>>
 

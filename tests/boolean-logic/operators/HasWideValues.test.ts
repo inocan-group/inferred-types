@@ -12,7 +12,7 @@ describe("HasWideValues<T>", () => {
     type T1 = HasWideValues<["foo", 42, string]>;
 
     type F1 = HasWideValues<[]>;
-    type F2 = HasWideValues<["foo", "bar"]>;
+    type F2 = HasWideValues<["foo", "bar", 42]>;
     
     type cases = [
       ExpectTrue<T1>,

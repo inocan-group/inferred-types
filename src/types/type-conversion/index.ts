@@ -10,6 +10,7 @@ export * from "./AsString";
 export * from "./AsRef";
 export * from "./AsNumber";
 export * from "./AsBoolean";
+export * from "./AsObject";
 export * from "./AsDefined";
 export * from "./AsFunction";
 export * from "./AsRecord";
@@ -35,7 +36,6 @@ export * from "./ArrConcat";
 export * from "./LeftWhitespace";
 export * from "./Replace";
 export * from "./ReplaceAll";
-export * from "./ObjValues";
 
 export * from "./RightWhitespace";
 export * from "./ObjectToKvDict";
