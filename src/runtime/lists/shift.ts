@@ -1,4 +1,4 @@
-import {  Narrowable, Slice, Tuple,  IfIndexable } from "src/types/index";
+import {  Narrowable, Slice, Tuple } from "src/types/index";
 
 export type ShiftResult<V, L extends Tuple> = [value: V, list: L];
 
@@ -9,13 +9,13 @@ export type ShiftResult<V, L extends Tuple> = [value: V, list: L];
  * there were no more elements in which case the value _undefined_ is returned.
  */
 export const shift = <
-N extends Narrowable,
-K extends PropertyKey,
-T extends readonly (Record<K,N> | Narrowable)[]
+  N extends Narrowable,
+  K extends PropertyKey,
+  T extends readonly (Record<K,N> | Narrowable)[]
 >(list: T) => {
   return (
     list.length > 0
     ? [list[0], list.slice(1)] as ShiftResult<T[0], Slice<T,1>>
     : undefined
-  ) as IfIndexable<T, ShiftResult<T[0], Slice<T,1>>, undefined>;
+  ) as ShiftResult<T[0], Slice<T,1>>;
 };

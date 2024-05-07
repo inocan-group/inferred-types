@@ -15,8 +15,19 @@ export type StartingWithTypeGuard<TStartsWith extends string> = <
 /**
  * **startsWith**(startingWith) => (val)
  * 
- * A TypeGuard which checks whether a value _starts with_ a
- * particular string literal.
+ * A higher-level builder pattern which is used to create a TypeGuard
+ * which checks whether a string _starts with_ another substring.
+ * 
+ * ```ts
+ * // StartingWithTypeGuard<"foo">
+ * const foo = startsWith("foo");
+ * // true
+ * const yup = foo("foobar");
+ * // false
+ * const nope = foo("bar");
+ * // boolean
+ * const weWillSee = foo(string);
+ * ```
  */
 export const startsWith = <
   TStartsWith extends string

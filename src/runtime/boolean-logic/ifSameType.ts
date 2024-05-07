@@ -1,11 +1,11 @@
 import { Narrowable } from "src/types/index";
 
 /**
- * **ifSameType**(value, comparisonType, ifExtends, doesNotExtend)
+ * **ifSameType**(value, comparator, same, notSame)
  * 
  * Runtime utility function which compares the variable `value` to a comparison type
  * and based on whether they are the same type, it will call one of the two provided
- * callback functions: `ifExtends` or `doesNotExtend`.
+ * callback functions: `same` or `notSame`.
  */
 export function ifSameType<
   TValue extends Narrowable,
@@ -14,16 +14,16 @@ export function ifSameType<
   ELSE extends Narrowable
 >(
   value: TValue,
-  comparisonType: TType,
-  ifExtends: <T extends TType & TValue>(v: T) => IF,
-  doesNotExtend: <T extends Exclude<TValue, TType>>(v: T) => ELSE
+  comparator: TType,
+  same: <T extends TType & TValue>(v: T) => IF,
+  notSame: <T extends Exclude<TValue, TType>>(v: T) => ELSE
 ) {
   return (
     // runtime values match
     (
-      typeof value === typeof comparisonType 
-        ? ifExtends(value as TType & TValue) 
-        : doesNotExtend(value as Exclude<TValue, TType>)
+      typeof value === typeof comparator 
+        ? same(value as TType & TValue) 
+        : notSame(value as Exclude<TValue, TType>)
     ) as TValue extends TType ? IF : ELSE
   );
 }

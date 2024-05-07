@@ -1,22 +1,24 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { RemoveWide } from "../../src/types/index";
+import { StripTrailing } from "../../src/inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
 // gain validation that no new type vulnerabilities have cropped up.
 
-describe("RemoveWide<TList>", () => {
+describe("StripTrailing", () => {
 
   it("happy path", () => {
-    type Answer = RemoveWide<[string, "42", number, 42]>;
-    type None = RemoveWide<[number, string, boolean]>;
+    type RemoveBar = StripTrailing<"FooBar","Bar">;
+    type SameAsItEverWas = StripTrailing<"Foo","Bar">;
     
     type cases = [
-      Expect<Equal<Answer, ["42",42]>>,
-      Expect<Equal<None, []>>
+      Expect<Equal<RemoveBar, "Foo">>,
+      Expect<Equal<SameAsItEverWas, "Foo">>,
     ];
-    const cases: cases = [ true, true  ];
+    const cases: cases = [
+      true, true
+    ];
   });
 
 });

@@ -1,4 +1,22 @@
-import { IfNotStringLiteral, Split } from "src/types/index";
+import { IfLength, IfNotStringLiteral, IfStringLiteral } from "src/types/index";
+
+type Process<
+  TStr extends string,
+  TResult extends readonly string[] = []
+> = IfStringLiteral<
+  TStr,
+  IfLength<
+    TStr, 0, 
+    TResult,
+    TStr extends `${infer Char}${infer Rest}`
+      ? Process<
+          Rest,
+          [...TResult, Char]
+        >
+      : never
+  >,
+  string
+>;
 
 
 /**
@@ -9,5 +27,7 @@ import { IfNotStringLiteral, Split } from "src/types/index";
 export type Chars<TStr extends string> = IfNotStringLiteral<
   TStr, 
   readonly string[],
-  Split<TStr,""> 
+  Process<TStr> extends readonly string[]
+    ? Process<TStr>
+    : never
 >;

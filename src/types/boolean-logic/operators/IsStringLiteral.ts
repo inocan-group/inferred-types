@@ -1,4 +1,4 @@
-import { IfNever } from "src/types/index";
+import { IfEqual, IfNever } from "src/types/index";
 
 /**
  * **IsStringLiteral**`<T>`
@@ -6,10 +6,11 @@ import { IfNever } from "src/types/index";
  * Boolean type utility which detects whether `T` is 
  * a string literal.
  */
-export type IsStringLiteral<T> = IfNever<T, never,
-[T] extends [string]
-  ? string extends T
-    ? false
-    : true
+export type IsStringLiteral<T> = IfNever<
+  T, 
+  false,
+  T extends string
+  ? IfEqual<T,string, false, true>
   : false
 >;
+

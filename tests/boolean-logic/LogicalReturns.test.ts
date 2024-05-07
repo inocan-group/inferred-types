@@ -12,17 +12,15 @@ describe("LogicalReturns<TValues,TParams>", () => {
   it("happy path", () => {
     const f = <A extends readonly unknown[]>(...args: A) => args;
     const t = f(true as const, () => true);
-    type True =  [ true, () => true];
-    type False = [ false, () => false];
-    type Mixed = [ true, true, false, boolean, () => true, () => false ];
-    type T1 =  LogicalReturns<True>;
-    type T2 = LogicalReturns<False>;
-    type T3 = LogicalReturns<Mixed>;
+
+    type T1 =  LogicalReturns<[ true, () => true]>;
+    type T2 = LogicalReturns<[ false, () => false]>;
+    type T3 = LogicalReturns<[ true, true, false, boolean, () => true, () => false ]>;
     
     type cases = [
-      Expect<Equal<T1, [true]>>,
+      Expect<Equal<T1, [true, true]>>,
       Expect<Equal<LogicalReturns<typeof t>, [true, true]>>,
-      Expect<Equal<T2, [false]>>,
+      Expect<Equal<T2, [false, false]>>,
       Expect<Equal<T3, [true, true, false, boolean,true, false]>>,
     ];
     const cases: cases = [true, true, true, true ];

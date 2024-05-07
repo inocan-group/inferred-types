@@ -1,4 +1,4 @@
-import { AfterFirst, AsRecord, CombinedKeys, ExpandRecursively, First, IsDefined, KV  } from "src/types/index";
+import { AfterFirst, AsRecord, CombinedKeys, ExpandRecursively, First, IsDefined, KV, ObjectKey  } from "src/types/index";
 
 type Process<
   TKeys extends readonly unknown[],
@@ -20,7 +20,9 @@ type Process<
             : TResult & Record<First<TKeys>, undefined>
       : First<TKeys> extends keyof TDef
       ? TResult & Record<First<TKeys>, TDef[First<TKeys>]>
-      : TResult & Record<First<TKeys>, undefined>
+      : First<TKeys> extends ObjectKey
+        ? TResult & Record<First<TKeys>, undefined>
+        : never
   >;
 
 /**

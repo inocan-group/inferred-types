@@ -1,13 +1,14 @@
 import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { Contains, NarrowlyContains } from "src/types/index";
+import {  Contains, NarrowlyContains } from "src/types/index";
 import { describe, it } from "vitest";
 
 describe("Contains<T,A>", () => {
   it("Content is a tuple", () => {
     type T1 = [number, 32, 64, "foo"];
-    type T2 = [false, true];
+    type T2 = ["foo",false, true];
     type T3 = [42, 64, 128];
     type T4 = ["foo", "bar"];
+    type T5 = ["foo", "bar", null, undefined];
 
     type cases = [
       // "foo" extends string so true
@@ -20,25 +21,38 @@ describe("Contains<T,A>", () => {
       Expect<Equal<Contains<T1, number>, true>>,
       // T3 has narrow versions of "number"
       Expect<Equal<Contains<T3, number>, true>>,
+      // T3 has the numeric literal 128
+      Expect<Equal<Contains<T3, 128>, true>>,
       // boolean literals evaluate to wide type
-      Expect<Equal<Contains<T2, boolean>, true>>
+      Expect<Equal<Contains<T2, boolean>, true>>,
+      Expect<Equal<Contains<T5, null>, true>>,
     ];
-    const cases: cases = [true, true, true, true, true, true];
+    const cases: cases = [true, true, true, true, true, true, true, true];
   });
 
-  // Union content should be converted to a Tuple
-  it("Content is a union", () => {
-    type Foo = Contains<32 | 64 | "foo", "foo">;
-    type NotFoo = Contains<32 | 64 | "bar", "foo">;
+  
+  it("Using numeric literals", () => {
+    type Found = Contains<2000, 2>;
+    type Found2 = Contains<2000, "2">;
+    type Found3 = Contains<"2000", 2>;
+
+    type NotFound = Contains<2000, 1>;
+    type NotFound2 = Contains<2000, "1">;
+    type NotFound3 = Contains<"2000", 1>;
     
-
     type cases = [
-      Expect<Equal<Foo, true>>,
-      Expect<Equal<NotFoo, false>>,
+      ExpectTrue<Found>,
+      ExpectTrue<Found2>,
+      ExpectTrue<Found3>,
+      ExpectFalse<NotFound>,
+      ExpectFalse<NotFound2>,
+      ExpectFalse<NotFound3>,
     ];
-    const cases: cases = [true, true, true, true, true, true];
+    const cases: cases = [
+      true, true, true,
+      false, false, false
+    ];
   });
-
   
   it("Content is a string", () => {
     type HasBar = Contains<"FooBar", "Bar">;
@@ -58,8 +72,20 @@ describe("Contains<T,A>", () => {
   });
 
   
+  it("Comparator is a union", () => {
+    type Foo = Contains<["foo", "bar"], "foo" | 42>;
+    type Nada = Contains<["foo", "bar"], boolean | 42>;
+    
+    type cases = [
+      ExpectTrue<Foo>,
+      ExpectFalse<Nada>,
+    ];
+    const cases: cases = [
+      true, false
+    ];
+    
+  });
   
-
 
 });
 

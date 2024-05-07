@@ -31,13 +31,22 @@ describe("ValueAtDotPath", () => {
     type Foo = ValueAtDotPath<Obj, "foo">;
     type Bar = ValueAtDotPath<Obj, "bar">;
     type Baz_c_ca = ValueAtDotPath<Obj, "baz.c.ca">;
+    type ExplicitInfo = ValueAtDotPath<Obj, "info.value.age">;
+    type ImplicitInfo = ValueAtDotPath<Obj, "info.age">;
     
     type cases = [
       Expect<Equal<Foo, 1>>,
       Expect<Equal<Bar, number[]>>,
       Expect<Equal<Baz_c_ca, 1>>,
+      
+      Expect<Equal<ExplicitInfo, number>>,
+      Expect<Equal<ImplicitInfo, number>>,
+      
     ];
-    const cases: cases = [ true, true, true ];
+    const cases: cases = [ 
+      true, true, true,
+      true, true
+    ];
   });
 
 

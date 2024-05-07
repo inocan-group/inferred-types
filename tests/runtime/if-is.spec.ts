@@ -295,43 +295,6 @@ describe("runtime if/is", () => {
     const cases: cases = [true, true];
   });
 
-  it.skip("ifStartsWith(start, isTrue, isFalse)(v)", () => {
-    const noSir = <T extends string>(i: T) => `no sir didn't like it ${i}` as const;
-    const startWithFoo = ifStartsWith(
-      // condition
-      "foo",
-      // inline
-      (i) => `welcome ${i}`,
-      // external
-      () => noSir
-    );
-    const t = startWithFoo("foobar");
-    type T = typeof t;
-    const f = startWithFoo("nope");
-    type F = typeof f;
-
-    type FS = typeof startWithFoo;
-    type RFS = ReturnType<FS>;
-
-    // runtime
-    expect(t).toBe("welcome foobar");
-    expect(f).toBe("no sir didn't like it nope");
-
-    // TODO: get the design time to be more literal
-
-    type cases = [
-      Expect<Equal<T, `welcome ${string}`>>,
-      Expect<Equal<F, `no sir didn't like it ${string}`>>,
-      Expect<
-        Equal<
-          //
-          RFS,
-          `welcome ${string}` | `no sir didn't like it ${string}`
-        >
-      >
-    ];
-    const cases: cases = [true, true, true];
-  });
 
   it("ifSameType", () => {
     const t1 = ifSameType(

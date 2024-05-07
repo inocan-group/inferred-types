@@ -1,45 +1,31 @@
 import { Tuple } from "../base-types";
-import { IfNever } from "../boolean-logic/branching/IfNever";
 import { IfUnion } from "../boolean-logic/branching/IfUnion";
-import { RemoveNever } from "../lists";
-import { First } from "../lists/First";
-import { Second } from "../lists/Second";
+import { Filter } from "../lists/Filter";
 import { TupleToUnion } from "./TupleToUnion";
-import { UnionShift } from "./UnionShift";
 import { UnionToTuple } from "./UnionToTuple";
 
-// type Process<
-//     U,
-//     E,
-//     TTuple extends Tuple = []
-// > = [U] extends [never]
-// ? never
-// : IfNever<
-//     First<UnionShift<U>>,
-//     // we have processed all elements of `U`
-//     TupleToUnion<TTuple>,
-//     Process<Second<UnionShift<U>>, E, [...TTuple,First<UnionShift<U>>]>
-// >
 
-type Filter<
+type Reduce<
     T extends Tuple,
     E
 > = TupleToUnion<
-RemoveNever<{
-    [K in keyof T]: T[K] extends E
-        ? never
-        : T[K]
-}>>;
+    Filter<{
+        [K in keyof T]: T[K] extends E
+            ? never
+            : T[K]
+    }, never>
+>;
 
 type Isolate<
     T extends Tuple,
     E
 > = TupleToUnion<
-RemoveNever<{
-    [K in keyof T]: T[K] extends E
-        ? T[K]
-        : never
-}>>;
+    Filter<{
+        [K in keyof T]: T[K] extends E
+            ? T[K]
+            : never
+    }, never>
+>;
 
 /**
  * **UnionFilter**`<U, E>`
@@ -53,7 +39,7 @@ export type UnionFilter<U, E> = [U] extends [never]
 ? never
 : IfUnion<
     U,
-    Filter<UnionToTuple<U>,E>,
+    Reduce<UnionToTuple<U>,E>,
     U extends E
         ? never
         : U

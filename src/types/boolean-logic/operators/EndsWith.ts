@@ -1,4 +1,23 @@
-import type { IfNumericLiteral, IsStringLiteral, IfString, ToString } from "src/types/index";
+import type { IsStringLiteral, ToString, Or } from "src/types/index";
+
+type Process<
+  TValue,
+  TComparator
+> = TComparator extends number 
+  ? Process<ToString<TValue>, ToString<TComparator>>
+  : TComparator extends string
+    ? IsStringLiteral<TComparator> extends true
+      ? IsStringLiteral<TValue> extends true // both literals
+        ? TValue extends `${string}${TComparator}`
+          ? true
+          : false
+        : boolean
+      : boolean
+    : TComparator extends readonly (string|number)[]
+      ? Or<{
+          [K in keyof TComparator]: Process<TValue,TComparator[K]>
+        }>
+      : never;
 
 /**
  * **EndsWith**<T,U>
@@ -11,47 +30,5 @@ import type { IfNumericLiteral, IsStringLiteral, IfString, ToString } from "src/
  */
 export type EndsWith<
   TValue,
-  TEndsWith extends string | number
-> = TEndsWith extends number 
-? EndsWith<TValue, ToString<TEndsWith>>
-: IfString<
-  TValue,
-  IsStringLiteral<TEndsWith> extends true
-    ? IsStringLiteral<TValue> extends true // both literals
-      ? TValue extends `${string}${TEndsWith}`
-        ? true
-        : false
-      : boolean
-    : boolean,
-  TValue extends number 
-    ? IfNumericLiteral<
-      TValue, 
-      EndsWith<ToString<TValue>, TEndsWith>, 
-      false
-    >
-    : false
->;
-
-/**
- * **IfEndsWith**<TValue, TEndsWith, IF, ELSE, MAYBE>
- *
- * Type utility which converts type to `IF` type _if_ `TValue` _ends with_ `TEndsWith` but
- * otherwise converts type to `ELSE`. If there are wide types in the mix then the type will
- * result in the union of IF and ELSE.
- */
-export type IfEndsWith<
-  TValue,
-  TEndsWith,
-  IF,
-  ELSE
-> = TEndsWith extends string
-  ? EndsWith<TValue, TEndsWith> extends true
-    ? IF
-    : EndsWith<TValue, TEndsWith> extends false
-    ? ELSE
-    : IF | ELSE
-  : TEndsWith extends number
-    ? number extends TEndsWith
-      ? never
-      : IfEndsWith<TValue, ToString<TEndsWith>, IF, ELSE>
-    : never;
+  TEndsWith
+> = Process<TValue,TEndsWith>

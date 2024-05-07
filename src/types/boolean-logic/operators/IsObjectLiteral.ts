@@ -1,29 +1,37 @@
-/* eslint-disable @typescript-eslint/ban-types */
+
 import { 
-  RemoveIndexKeys,
-  EmptyObject,
-  IsEqual,
   Keys,
-  IfNotEqual,
-  KV
+  KV,
+  IsEqual,
+  If,
+  IsWideType,
+  DoesExtend,
+  ObjectKey,
+  IfNever,
 } from "src/types/index";
+
+type CheckIt<T extends KV> = If<
+    IsEqual<Keys<T>["length"], 0>,
+    If<
+      IsWideType<DoesExtend<keyof T, ObjectKey>>,
+      false,
+      IfNever<keyof T, false, true>
+    >,
+    If<
+      IsEqual<Keys<T>["length"], number>,
+      false,
+      true
+    >
+>
 
 /**
  * **IsObjectLiteral**`<T>`
  * 
  * Tests whether an object is a literal. An object literal is any of the following:
  * 
- * - an `EmptyObject`
- * - an `Indexable` object with at least one explicit key defined 
+ * - any KV-like type which has an **explicit** number of keys
+ * - if `Keys<T>["length"]` translates to `number` than this is **not** a literal.
  */
 export type IsObjectLiteral<T> = T extends KV
-? IsEqual<T, EmptyObject> extends true
-  ? true
-  : RemoveIndexKeys<T> extends KV
-    ? IfNotEqual<
-        Keys<RemoveIndexKeys<T>>, readonly [],
-        true, 
-        false
-      >
-    : false
-: false;
+? CheckIt<T>
+: false

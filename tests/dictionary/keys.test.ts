@@ -7,7 +7,11 @@ import type {
   DoesExtend,
   EmptyObject,
   ObjectKey,
-  VueRef
+  VueRef,
+  SameKeys,
+  KV,
+  UnionToTuple,
+  RemoveIndexKeys,
 } from "src/types/index";
 import { defineObj, keysOf, narrow } from "src/runtime/index";
 import { Ref } from "vue";
@@ -40,33 +44,44 @@ describe("NumericKeys<T>", () => {
 });
 
 
-describe("Keys<T> ", () => {
+describe("Keys<T> with object targets", () => {
   type OBJ = { foo: 1; bar: 2 };
+
   type Foobar = Keys<OBJ>;
   type FooBar_RO =Keys<Readonly<OBJ>>;
   type FooBar_EXT = Keys<{ foo: 1; bar: 2; [x: string]: unknown }>;
   type EmptyObj = Keys<EmptyObject>;
+  type Uno = Keys<{baz: 3}>;
+  type StrRec = Keys<Record<string, string>>;
+  type KeyVal = Keys<KV>;
+
   // eslint-disable-next-line @typescript-eslint/ban-types
   type Curly = Keys<{}>;
-
+  
   it("object resolution", () => {
     type cases = [
       Expect<Equal<EmptyObj, ObjectKey[]>>,
       Expect<Equal<Curly, ObjectKey[]>>,
-      Expect<DoesExtend<Foobar, ["foo", "bar"]>>,
-      Expect<DoesExtend<FooBar_RO, ["foo", "bar"]>>,
-      Expect<DoesExtend<FooBar_EXT, ["foo", "bar"]>>,
+      Expect<SameKeys<Foobar, ["foo", "bar"]>>,
+      Expect<SameKeys<FooBar_RO, ["foo", "bar"]>>,
+      Expect<SameKeys<FooBar_EXT, ["foo", "bar"]>>,
+      Expect<Equal<Uno, ["baz"]>>,
+
+      Expect<Equal<StrRec, string[]>>,
+      Expect<Equal<KeyVal, ObjectKey[]>>,
     ];
     
-    const cases: cases = [ true, true, true, true, true ]; 
+    const cases: cases = [ 
+      true, true, true, true, true, true,
+      true, true
+    ]; 
   });
 
   
   it("array resolution", () => {
-    
     type cases = [
       Expect<Equal<Keys<[]>, number[]>>,
-      Expect<Equal<Keys<string[]>,  []>>,
+      Expect<Equal<Keys<string[]>,  number[]>>,
       Expect<Equal<Keys<[1,2,3]>,  [0,1,2]>>,
       Expect<Equal<Keys< [1,2,3]>,   [0,1,2]>>,
     ];
@@ -77,6 +92,10 @@ describe("Keys<T> ", () => {
   // we need the "real" Ref<T> and the "fake" VueRef<T>
   // to perform exactly the same
   it("VueRef<T> and Ref<T> key resolution", () => {
+    type R = VueRef<{foo: 1; bar: 2}>;
+    type T = "value" extends keyof R ? true : false;
+    type X = UnionToTuple<keyof RemoveIndexKeys<R>>
+
     type Obj = Keys<Ref<{foo: 1; bar: 2}>>;
     type Obj2 = Keys<VueRef<{foo: 1; bar: 2}>>;
     type Arr = Keys<Ref<[1,2,3]>>;

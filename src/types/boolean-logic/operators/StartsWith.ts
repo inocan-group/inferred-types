@@ -1,34 +1,51 @@
-import {  IfNumericLiteral, IsStringLiteral , IfString, ToString } from "src/types/index";
+import {  IfUnion, IsStringLiteral, Or, ToString, UnionToTuple } from "src/types/index";
+
+type Process<
+  TValue,
+  TComparator
+> = TComparator extends number 
+  ? Process<ToString<TValue>, ToString<TComparator>>
+  : TComparator extends string
+    ? IsStringLiteral<TComparator> extends true
+      ? IsStringLiteral<TValue> extends true // both literals
+        ? TValue extends `${TComparator}${string}`
+          ? true
+          : false
+        : boolean
+      : boolean
+    : TComparator extends readonly unknown[]
+      ? Or<{
+          [K in keyof TComparator]: Process<TValue,TComparator[K]>
+        }>
+      : never;
+
+type Unionize<
+TValue,
+  TComparator
+> = IfUnion<
+  TComparator,
+  Process<TValue,UnionToTuple<TComparator>>,
+  Process<TValue,TComparator>
+>;
+
 /**
- * **StartsWith**<TValue, TStartsWith>
+ * **StartsWith**<TValue, TComparator>
  *
- * A type utility which checks whether `T` _starts with_ the string literal `U`.
+ * A type utility which checks whether `TValue` _starts with_ the 
+ * value of `TComparator`.
  *
- * While `T` _can_ be passed in as a non-string value this almost always resolves
- * to false. The one exception is where a numeric literal can be converted to a
- * string literal.
+ * - if a tuple is passed in for `TValue` then all values will be logically
+ * OR'd together
+ * - numeric values for `TValue` will be converted into string literals
+ * prior to comparison
+ * - a tuple value in `TComparator` is converted to a union type
  */
 export type StartsWith<
   TValue,
-  TStartsWith extends string | number
-> = TStartsWith extends number 
-? StartsWith<TValue, ToString<TStartsWith>> // convert to string representation
-: IfString<
-  TValue, 
-  // is a string value
-  IsStringLiteral<TStartsWith> extends true
-    ? IsStringLiteral<TValue> extends true // both literals
-      ? TValue extends `${TStartsWith}${string}`
-        ? true
-        : false
-      : boolean
-    : boolean,
-  // value is not a string
-  IfNumericLiteral<
-    TValue, 
-    TValue extends number 
-      ? StartsWith<ToString<TValue>, TStartsWith> 
-      : never, 
-    false
-  >
->;
+  TComparator
+> = TValue extends number | boolean
+? Unionize<ToString<TValue>, TComparator>
+: TValue extends string
+  ? Unionize<TValue,TComparator>
+  : never;
+

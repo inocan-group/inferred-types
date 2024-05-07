@@ -1,27 +1,53 @@
-import { AfterFirst, First, Split, Tuple , ErrorCondition } from "src/types/index";
-import { DotPath } from "./DotPath";
+import { 
+  AfterFirst, 
+  First, 
+  Split, 
+  IsValidDotPath, 
+  Container, 
+  IsRef, 
+  AsRef 
+} from "src/types/index";
 
-type Recurse<
-  TValue,
-  TSegments extends Tuple<string>,
-  TPath extends string
-> = [] extends TSegments
-? TValue
-: First<TSegments> extends keyof TValue
-  ? Recurse<
-      TValue[First<TSegments>],
-      AfterFirst<TSegments>,
-      TPath
-    >
-  : ErrorCondition<
-      "invalid-path-segment", 
-      `The path segment "${First<TSegments>}" is an invalid key for the container passed into ValueAtDotPath`,
-      { utility: `ValueAtDotPath<TValue,${TPath}>` }
-    >;
+
+type Process<
+    TContainer extends Container,
+    TIndexes extends readonly string[]
+> = [] extends TIndexes
+  ? TContainer
+  : First<TIndexes> extends keyof TContainer
+    ? TContainer[First<TIndexes>] extends Container
+      ? Process<
+          TContainer[First<TIndexes>],
+          AfterFirst<TIndexes>
+        >
+      : AfterFirst<TIndexes>["length"] extends 0
+        ? TContainer[First<TIndexes>]
+        : false
+    : IsRef<TContainer> extends true
+      ? First<TIndexes> extends keyof AsRef<TContainer>["value"]
+        ? TIndexes["length"] extends 1
+          ? AsRef<TContainer>["value"][First<TIndexes>]
+          : AsRef<TContainer>["value"][First<TIndexes>] extends Container
+            ? Process<
+                AsRef<TContainer>["value"][First<TIndexes>],
+                AfterFirst<TIndexes>
+              >
+            : AfterFirst<TIndexes>["length"] extends 0
+              ? AsRef<TContainer>["value"][First<TIndexes>]
+              : false
+        : false
+      : false; // not a ref
+
 
 export type ValueAtDotPath<
-  TValue,
+  TValue extends Container,
   TPath extends string
-> = DotPath<TPath> extends string 
-  ? Recurse<TValue, Split<TPath, "."> & readonly string[], TPath>
-  : ErrorCondition<"invalid-dot-path", `The dot path of "${TPath}" is not valid and therefore we can not use it to determine type information at design time.`, {utility: "ValueAtDotPath"}>;
+> = IsValidDotPath<TValue,TPath> extends true
+? Process<
+    TValue,
+    Split<TPath,".">
+  >
+: never;
+
+
+

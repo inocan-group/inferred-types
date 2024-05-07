@@ -31,8 +31,4 @@ type _Flat<
 export type Flatten<
   TList extends readonly unknown[],
   TLevel extends 1 | 2 | 3 = 1
-> = TList extends unknown[]
-  ? _Flat<TList, TLevel>
-  : TList extends readonly unknown[]
-    ? Readonly<_Flat<TList, TLevel>>
-    : never;
+> = _Flat<TList, TLevel>

@@ -1,23 +1,25 @@
 import { describe, expect, it } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
-import {  EmptyObject, IfLiteral, IsBooleanLiteral, IsLiteral, IsObjectLiteral, IsOptionalLiteral, IsStringLiteral } from "src/types/index";
+import {  EmptyObject, ExplicitlyEmptyObject, IfLiteral, IsBooleanLiteral, IsLiteral, IsObjectLiteral, IsOptionalLiteral} from "src/types/index";
 
 describe("IsObjectLiteral<T>", () => {
 
   it("happy path", () => {
     // eslint-disable-next-line @typescript-eslint/ban-types
-    type Empty = IsObjectLiteral<EmptyObject>;
-    type Foobar = IsObjectLiteral<{ foo: 1; bar: 2 }>;
-    type Obj = IsObjectLiteral<object>;
-    type Rec = IsObjectLiteral<Record<string, unknown>>;
 
     type cases = [
-      Expect<Equal<Empty, true>>, 
-      Expect<Equal<Foobar, true>>, 
-      Expect<Equal<Obj, false>>,
-      Expect<Equal<Rec, false>>, 
+      // an empty object is still allowed to take on keys after it is
+      // defined without error. The type will remain showing as empty
+      // but there is no typing error when more characters are added
+      Expect<Equal<IsObjectLiteral<EmptyObject>, false>>, 
+      // when we explicitly strip out the index keys then this 
+      // becomes an explicit literal type with zero keys
+      Expect<Equal<IsObjectLiteral<ExplicitlyEmptyObject>, true>>, 
+      Expect<Equal<IsObjectLiteral<{ foo: 1; bar: 2 }>, true>>, 
+      Expect<Equal<IsObjectLiteral<object>, false>>,
+      Expect<Equal<IsObjectLiteral<Record<string, unknown>>, false>>, 
     ];
-    const cases: cases = [ true, true, true, true ];
+    const cases: cases = [ true, true, true, true, true ];
   });
 });
 
@@ -51,20 +53,15 @@ describe("IsLiteral<T> type utility", () => {
   });
 
   it("boolean values", () => {
-    const v = true as boolean;
-    const vl = false as const;
-
     type cases = [
       // wide
-      Expect<Equal<IsBooleanLiteral<typeof v>, false>>,
-      Expect<Equal<IsLiteral<typeof v>, false>>,
+      Expect<Equal<IsBooleanLiteral<boolean>, false>>,
+      Expect<Equal<IsLiteral<boolean>, false>>,
       // literal
-      Expect<Equal<IsBooleanLiteral<typeof vl>, true>>,
-      Expect<Equal<IsLiteral<typeof vl>, true>>
+      Expect<Equal<IsBooleanLiteral<false>, true>>,
+      Expect<Equal<IsLiteral<false>, true>>
     ];
     const cases: cases = [true, true, true, true];
-    expect(typeof v).toBe("boolean");
-    expect(typeof vl).toBe("boolean");
   });
 
   it("union with undefined", () => {
@@ -111,7 +108,6 @@ describe("IsLiteral<T> type utility", () => {
 
   
   it("objects", () => {
-    type Generic = IsStringLiteral<Record<string, unknown>>;
     type GenericString = IsLiteral<Record<string, string>>;
     type GenericUnion = IsLiteral<Record<string, string | number>>;
     // eslint-disable-next-line @typescript-eslint/ban-types
@@ -120,7 +116,7 @@ describe("IsLiteral<T> type utility", () => {
     type Keyed = IsLiteral<{ foo: 1 }>;
     
     type cases = [
-      Expect<Equal<Generic, false>>,
+      Expect<Equal<IsLiteral<Record<string, unknown>>, false>>,
       Expect<Equal<GenericString, false>>,
       Expect<Equal<GenericUnion, false>>,
       Expect<Equal<Empty, false>>,

@@ -1,5 +1,12 @@
 import { IsNever } from "./IsNever";
 
+type Process<T> = IsNever<T> extends true
+? false
+: T extends readonly unknown[]
+  ? number extends T["length"]
+    ? false
+    : true
+  : false;
 
 
 /**
@@ -14,11 +21,4 @@ import { IsNever } from "./IsNever";
  * - types such as `string[]`, etc. are _not_ tuples as they
  * do not discretely specify a length of elements
  */
-export type IsTuple<T> = IsNever<T> extends true
-? false
-: T extends readonly unknown[]
-  ? number extends T["length"]
-    ? false
-    : true
-  : false;
-
+export type IsTuple<T> = Process<T>;

@@ -1,29 +1,36 @@
-import { AfterFirst , First } from "src/types/index";
+import { 
+  Compare, 
+  ComparatorOperation, 
+  IfArray,
+  TupleToUnion
+} from "src/types/index";
 
 /**
  * Iterates over each element of the Tuple
  */
 type SingleFilter<
-  TList extends unknown[] | readonly unknown[],
+  TList extends readonly unknown[],
   TFilter,
+  TOp extends ComparatorOperation,
   Result extends unknown[] = []
 > = TList extends [infer Head, ...infer Rest]
-  ? [Head] extends [TFilter]
-    ? SingleFilter<Rest, TFilter, [...Result, Head]>
-    : SingleFilter<Rest, TFilter, Result> // filter out
+  ? Compare<Head,TOp, TFilter> extends true
+    ? SingleFilter<Rest, TFilter, TOp, [...Result, Head]>
+    : SingleFilter<Rest, TFilter, TOp, Result> // filter out
   : Result;
 
-type Extraction<
+type Process<
   TList extends readonly unknown[],
-  TExtract extends readonly unknown[],
-  TResults extends readonly unknown[] = [],
-> = [] extends TExtract
-  ? TResults
-  : Extraction<
-      TList, 
-      AfterFirst<TExtract>, 
-      [...TResults, ...SingleFilter<TList, First<TExtract>>]
-    >;
+  TFilter,
+  TOp extends ComparatorOperation 
+> = TList extends unknown[]
+? SingleFilter<TList, TFilter, TOp>
+: // readonly only tuples 
+  TList extends readonly unknown[]
+    ? Readonly<
+        SingleFilter<[...TList], TFilter, TOp>
+      >
+    : never;
 
 /**
  * **Retain**`<TList, TFilter>`
@@ -33,22 +40,15 @@ type Extraction<
  * 
  * - `TFilter` can be single value or a array of values
  * - when the filter is an array then they are combined in a logical OR operation
+ * 
+ * **Related:** `Filter`
  */
 export type Retain<
-  TList extends unknown[] | readonly unknown[],
-  TFilter
-> = TList extends unknown[]
-  ? // regular tuples are kept as such
-    TFilter extends readonly unknown[]
-      // filters are an array
-      ? Extraction<TList, TFilter>
-      // single filter
-      : SingleFilter<TList, TFilter>
-  : // readonly only tuples are maintained as such
-    TList extends readonly unknown[]
-      ? Readonly<
-          TFilter extends readonly unknown[]
-            ? Extraction<TList, TFilter>
-            : SingleFilter<[...TList], TFilter>
-        >
-      : never;
+  TList extends readonly unknown[],
+  TComparator,
+  TOp extends ComparatorOperation = "extends"
+> = IfArray<
+  TComparator, 
+  Process<TList,TupleToUnion<TComparator>,TOp>, 
+  Process<TList,TComparator,TOp>
+>;

@@ -1,5 +1,30 @@
-import { AnyObject, Container, IfContains, IfLiteral,  Keys, Tuple } from "src/types/index";
+import {  
+  AllNumericLiterals, 
+  AllStringLiterals, 
+  Container, 
+  Contains, 
+  If,  
+  IfLiteral,     
+  KV,  
+  Keys, 
+  ObjectKey, 
+  Or, 
+  Tuple 
+} from "src/types/index";
 
+
+type WideGenerics<
+  TContainer extends Container,
+  TKey extends PropertyKey
+> = TContainer extends Tuple
+? TKey extends number
+  ? boolean
+  : false
+: TContainer extends object | KV
+  ? TKey extends ObjectKey
+    ? false
+    : boolean
+: never;
 
 /**
  * **IsValidKey**`<TContainer,TKey>`
@@ -13,14 +38,15 @@ export type IsValidKey<
   TKey extends PropertyKey
 > = IfLiteral<
   TContainer,
-  IfContains<Keys<TContainer>, TKey, true, false>,
-  TContainer extends Tuple
-    ? TKey extends number
-      ? boolean
-      : false
-    : TContainer extends AnyObject
-      ? TKey extends number
-        ? false
-        : boolean
-    : never
+  If<
+    Or<[AllStringLiterals<Keys<TContainer>>, AllNumericLiterals<Keys<TContainer>>]>,
+    If<
+      Contains<Keys<TContainer>, TKey>,
+      true,
+      false
+    >,
+    WideGenerics<TContainer, TKey>
+  >,
+  WideGenerics<TContainer, TKey>
 >;
+

@@ -40,8 +40,7 @@ export * from "./BeforeLast";
 export * from "./GetEach";
 export * from "./ToCSV";
 export * from "./SameElements";
-
-export * from "./extractors/index";
+export * from "./Push"
 
 
 

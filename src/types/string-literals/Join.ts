@@ -1,4 +1,4 @@
-import {  ToString , IfEqual , RemoveEquals, RemoveNever,  Truncate, IfNever, IsGreaterThan, AsNumber } from "src/types/index";
+import {  ToString , IfEqual , Truncate, IfNever, IsGreaterThan, AsNumber, Filter } from "src/types/index";
 
 type JoinAcc<
   TArr extends readonly unknown[],
@@ -23,8 +23,8 @@ type Trunc<
   TMax extends number,
   TEllipsis extends string | false
 > = IsGreaterThan<TArr["length"], TMax> extends true
-? Truncate<RemoveNever<TArr>, TMax, TEllipsis>
-: RemoveNever<TArr>;
+? Truncate<Filter<TArr, never>, TMax, TEllipsis>
+: Filter<TArr, never>;
 
 /**
  * **Join**`<TArr,[TSeparator],[TMax]>`
@@ -47,7 +47,7 @@ export type Join<
 > = IfNever<
   TMax,
   JoinAcc<
-    RemoveNever<RemoveEquals<[...TTuple], "">>,
+    Filter<Filter<[...TTuple], "">, never>,
     TSeparator
   >,
   JoinAcc<

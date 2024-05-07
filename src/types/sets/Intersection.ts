@@ -2,18 +2,18 @@ import type {
   GetEach, 
   IfContains, 
   IfNull,
-  RemoveNever,
   Get,
   IfContainer,
   ToContainer,
+  Filter,
 } from "src/types/index";
 
 type _NoDeref<
   A extends readonly unknown[],
   B extends readonly unknown[],
-> = Readonly<RemoveNever<{
+> = Readonly<Filter<{
   [K in keyof A]: IfContains<B, A[K], A[K], never>
-}>>;
+}, never>>;
 
 type _WithDeref<
   A extends readonly unknown[],
@@ -22,7 +22,7 @@ type _WithDeref<
   BValues extends readonly unknown[],
   TDeref extends string | number,
 > = [
-  RemoveNever<{
+  Filter<{
     [K in keyof A]: IfContains<
       BValues,
       IfContainer<
@@ -38,8 +38,8 @@ type _WithDeref<
       A[K],
       never
     >
-  }>,
-  RemoveNever<{
+  }, never>,
+  Filter<{
     [K in keyof B]: IfContains<
       AValues,
       IfContainer<
@@ -53,7 +53,7 @@ type _WithDeref<
       B[K],
       never
     >
-  }>,
+  }, never>,
 ];
 
 

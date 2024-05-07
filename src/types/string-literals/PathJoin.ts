@@ -7,16 +7,6 @@ import {
   EndsWith
 } from "src/types/index";
 
-
-
-type StripSlashes<
-  T extends readonly string[]
-> = {
-  [K in keyof T]: T[K] extends string
-    ? StripLeading<StripTrailing<T[K], "/">, "/">
-    : never
-}
-
 type Finalize<
   TSegments extends readonly string[],
   TPath extends string
@@ -43,5 +33,9 @@ export type PathJoin<
   TSegments extends readonly string[]
 > = Finalize<
   TSegments,
-  Join<StripSlashes<TSegments>, "/">
+  Join<{
+    [K in keyof TSegments]: StripLeading<StripTrailing<TSegments[K], "/">, "/">
+  }, "/">
 >
+  
+

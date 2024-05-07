@@ -16,7 +16,7 @@ const validTokens: readonly string[] = Array.from(TYPE_TOKEN_ALL);
 export function isTypeToken(val: unknown): val is TypeToken {
 
   if (isString(val) && startsWith("<<")(val) && endsWith(">>")(val)) {
-    const token = stripTrailing(stripLeading(val, "<<"), ">>").replace(/\:.*/, "");
+    const token = stripTrailing(stripLeading(val, "<<"), ">>").replace(/\:.*/, "") as any;
     return validTokens.includes(token) ? true : false;
   } else {
     return false;

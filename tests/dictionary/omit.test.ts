@@ -12,7 +12,7 @@ import { DoesExtend, EmptyObject, ErrorCondition } from "src/types/index";
 describe("omit()", () => {
 
   it("happy path", () => {
-    const all = omit({foo: 1, bar: 2, baz: 3});
+    const all = omit({foo: 1, bar: 2, baz: 3}, "");
     const noFoo = omit({foo: 1, bar: 2, baz: 3}, "foo");
     const justBar = omit({foo: 1, bar: 2, baz: 3}, "foo", "baz");
     const none = omit({foo: 1, bar: 2, baz: 3}, "foo", "bar", "baz");

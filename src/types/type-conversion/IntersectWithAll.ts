@@ -1,4 +1,4 @@
-import { RemoveNever } from "src/types/index";
+import { Filter } from "src/types/index";
 
 /**
  * **IntersectWithAll**`<TList,TIntersection>`
@@ -16,6 +16,6 @@ import { RemoveNever } from "src/types/index";
 export type IntersectWithAll<
   TList extends readonly unknown[],
   TIntersection
-> = RemoveNever<{
+> = Filter<{
   [K in keyof TList]: TList[K] & TIntersection
-}>;
+}, never>;

@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { DoesExtend, ErrorCondition, IsValidKey, IfValidKey, KV } from "src/types/index";
+import { DoesExtend, ErrorCondition, IsValidKey, IfValidKey, KV, Keys, AllNumericLiterals } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -13,6 +13,9 @@ describe("IsValidKey<T>", () => {
     type T1 = IsValidKey<[1,2,3], 0>;
     type T2 = IsValidKey<[1,2,3], 2>;
     type T3 = IsValidKey<{foo: 1; bar: 2}, "foo">;
+
+    type k = Keys<[1,2,3]>
+    type v = AllNumericLiterals<k>;
 
     type F1 = IsValidKey<[1,2,3], 10>;
     type F2 = IsValidKey<{foo: 1; bar: 2}, "baz">;

@@ -1,4 +1,4 @@
-import { IfEqual , IsTruthy } from "src/types/index";
+import { If, IsEqual, IsFalsy } from "src/types/index";
 
 /**
  * **IfFalsy**`<T,IF,ELSE,[MAYBE]>`
@@ -7,8 +7,12 @@ import { IfEqual , IsTruthy } from "src/types/index";
  * a _falsy_ value.
  */
 export type IfFalsy<T,IF,ELSE,MAYBE = IF | ELSE> = //
-IfEqual<
-  IsTruthy<T>,false,IF, // falsy
-  IfEqual<IsTruthy<T>,true, ELSE, // truthy 
-  MAYBE
->>;
+If<
+  IsEqual<IsFalsy<T>, true>,
+  IF,
+  If<
+    IsEqual<IsFalsy<T>, false>,
+    ELSE,
+    MAYBE
+  >
+>

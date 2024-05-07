@@ -31,5 +31,5 @@ export function toNumber<
     Array.isArray(value)
     ? convertList(value)
     : convertScalar(value)
-  ) as ToNumber<T>;
+  ) as unknown as ToNumber<T>;
 }

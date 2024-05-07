@@ -1,59 +1,58 @@
 {
-    // this project serves only as a means to reference all sub-projects
-    // and allow constants, types, and runtime symbols to be exported
-    // as a single NPM package.
-    "references": [
-        {
-            "path": "../constants"
-        },
-        {
-            "path": "../types"
-        },
-        {
-            "path": "../runtime"
-        },
-    ],
-    "compilerOptions": {
-        "strict": true,
-        "skipLibCheck": true,
-        "module": "ESNext",
-        "target": "ESNext",
-        "moduleResolution": "Bundler",
-        "declaration": true,
-        "declarationMap": true,
-        "baseUrl": ".",
-        "rootDir": "..",
-        "outDir": "../../dist",
-        "composite": true,
-        "forceConsistentCasingInFileNames": true,
-        "paths": {
-            // root export for runtime symbols
-            "src/runtime/*": [
-                "../runtime/*"
-            ],
-            // root export for type symbols
-            "src/types/*": [
-                "../types/*"
-            ],
-            // root export for constant symbols
-            "src/constants/*": [
-                "../constants/*"
-            ]
-        },
-        "plugins": [
-            // Transform paths in output .js files
-            {
-                "transform": "typescript-transform-paths"
-            },
-            // Transform paths in output .d.ts files (Include this line if you output declarations files)
-            {
-                "transform": "typescript-transform-paths",
-                "afterDeclarations": true
-            },
-            {
-                "transform": "typescript-transformer-esm",
-                "after": true
-            }
-        ]
+  // this project serves only as a means to reference all sub-projects
+  // and allow constants, types, and runtime symbols to be exported
+  // as a single NPM package.
+  "references": [
+    {
+      "path": "../constants"
+    },
+    {
+      "path": "../types"
+    },
+    {
+      "path": "../runtime"
     }
+  ],
+  "compilerOptions": {
+    "strict": true,
+    "skipLibCheck": true,
+    "target": "ESNext",
+    "moduleResolution": "Bundler",
+    "declaration": true,
+    "declarationMap": true,
+    "baseUrl": ".",
+    "rootDir": "..",
+    "outDir": "../../dist",
+    "composite": true,
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      // root export for runtime symbols
+      "src/runtime/*": [
+        "../runtime/*"
+      ],
+      // root export for type symbols
+      "src/types/*": [
+        "../types/*"
+      ],
+      // root export for constant symbols
+      "src/constants/*": [
+        "../constants/*"
+      ]
+    },
+    "plugins": [
+      // Transform paths in output .js files
+      {
+        "transform": "typescript-transform-paths"
+      },
+      // Transform paths in output .d.ts files (Include this line if you output declarations files)
+      {
+        "transform": "typescript-transform-paths",
+        "afterDeclarations": true
+      },
+      {
+        "transform": "typescript-transformer-esm",
+        "after": true
+      }
+    ]
+  }
 }

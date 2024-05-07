@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { Retain } from "src/types/index";
+import { Retain, UpperAlphaChar } from "src/types/index";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -24,7 +24,7 @@ describe("Retain", () => {
   it("readonly Tuple, single filter", () => {
     type T1 = Retain<readonly [1,2, "foo", "bar"], string>; 
     type T2 = Retain<readonly [1,2, "foo", "bar"], number>; 
-    type T3 = Retain<readonly [1,2, "foo", "bar"], 1>; 
+    type T3 = Retain<readonly [1,2, "foo", "bar"], 1>;
     
     type cases = [
      Expect<Equal<T1, readonly ["foo", "bar"]>>,
@@ -40,11 +40,57 @@ describe("Retain", () => {
     type T3 = Retain<[ 1, 2, "foo", "bar", true], [string, boolean]>; 
     
     type cases = [
-     Expect<Equal<T1, [ "foo", 1 ]>>, 
+     Expect<Equal<T1, [ 1, "foo" ]>>, 
      Expect<Equal<T2, [1,2, "foo", "bar"]>>,
      Expect<Equal<T3, ["foo", "bar", true]>>,
     ];
     const cases: cases = [true, true, true];
   });
 
+  it("Pick out a Tuple to retain", () => {
+    type Lookup = [
+      ["man","men"],
+      ["woman","women"]
+    ];
+    type Man = Retain<Lookup, "man", "contains">[0];
+    type Woman = Retain<Lookup, "woman", "contains">[0];
+    
+    type cases = [
+      Expect<Equal<Man, ["man","men"]>>,
+      Expect<Equal<Woman, ["woman","women"]>>,
+    ];
+    const cases: cases = [ true, true ];
+  });
+  
+  it("Retain using a tuple comparator", () => {
+    type T1 = Retain<[1,2, "foo", "bar", 1], [1, "foo"]>; 
+    type T2 = Retain<[ 1,2, "foo", "bar", false ], [number, string]>; 
+    type T3 = Retain<[ 1, 2, "foo", "bar", true], [string, boolean]>; 
+    
+    type cases = [
+      Expect<Equal<T1,[1,"foo", 1]>>,
+      Expect<Equal<T2,[1,2,"foo","bar"]>>,
+      Expect<Equal<T3,["foo","bar", true]>>,
+    ];
+    const cases: cases = [
+      true, true, true
+    ];
+  });
+
+  
+  it("Using operators other than extends", () => {
+    type One = Retain<[1,2, "foo", "bar", 1], 1, "equals">;
+    type FooBar = Retain<[1, "foo", 42, false, "foobar"], "foo", "contains">;
+    type Cappy = Retain<["foo", "Bar", "Baz"], UpperAlphaChar, "startsWith">;
+    
+    type cases = [
+      Expect<Equal<One, [1,1]>>,
+      Expect<Equal<FooBar, ["foo","foobar"]>>,
+      Expect<Equal<Cappy, ["Bar", "Baz"]>>,
+    ];
+    const cases: cases = [
+      true, true, true
+    ];
+    
+  });
 });

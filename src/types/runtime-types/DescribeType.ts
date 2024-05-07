@@ -16,25 +16,24 @@ import {
   IfTuple
 } from "src/types/index";
 
-type DescribeWide<T> = IfNever<
-  T, 
-  "never",
-  IsEqual<T, Nothing> extends true ? "nothing"
-  : T extends string ? "string"
-  : T extends number ? "number"
-  : T extends boolean ? "boolean"
-  : T extends AnyFunction ? "function"
-  : T extends unknown[] | readonly unknown[] 
-    ? IfTuple<T, Concat<["tuple [", Join<T, ", ", 3>, "]"]>, "array">
-  : T extends AnyObject | object ? "object"
-  : T extends symbol ? "symbol" 
-  : IsEqual<T,null> extends true  ? "null"
-  : IsEqual<T,undefined> extends true  ? "undefined"
-  : T extends unknown ? "unknown"
-  : "never"
->;
+/**
+ * **TypeFormat**
+ * 
+ * Options for how you'd like to parse a type at runtime.
+ * 
+ * - `normal` represents like you'd typically see them in your editor:
+ *    - a _wide string_ type would just show as `string`
+ *    - a _string literal_ would show like `"foo"`, `"42"`, etc 
+ *    - whereas a numeric literal would show like `42` (without quotes)
+ * - `tokenized` representation is the type as it would be defined by
+ * the runtime utility `type()`.
+ */
+export type TypeFormat = "normal" | "tokenized"
 
-type DescribeNarrow<T> = IfNever<
+type Describe<
+  T,
+  TFormat extends TypeFormat
+> = IfNever<
 T, "never",
 IsEqual<T, Nothing> extends true ? "nothing"
 : T extends string ? IfStringLiteral<
@@ -58,26 +57,35 @@ IsEqual<T, Nothing> extends true ? "nothing"
 : "never"
 >;
 
+type HandleUnion<
+  T extends readonly unknown[]
+> = {
+  [K in keyof T]: Describe<T[K]>
+}
+
 
 /**
  * **DescribeType**`<T>`
  * 
- * Describes the type in string form. The type match
- * it is looking for is only _wide types_.
+ * Describes the type of `T`.
  * 
- * **Related:** `DescribeTypeNarrowly` 
+ * - this includes being able to identify "runtime types" like those
+ * defined from the `type()` runtime utility in this library as the
+ * underlying type
  */
 export type DescribeType<T> = IfNever<
   T,
   "never",
   IfUnion<
-    DescribeWide<T>,
-    Concat<[
-      "union(",
-      Join<UnionToTuple<DescribeWide<T>>, " | ">,
-      ")" 
-    ]>,
-    DescribeWide<T>
+    T,
+    UnionToTuple<T> extends readonly unknown[]
+      ? Concat<[
+          "union(",
+          HandleUnion<UnionToTuple<T>>,
+          ")"
+        ]>
+      : never,
+    Describe<T>
   >
 >;
 

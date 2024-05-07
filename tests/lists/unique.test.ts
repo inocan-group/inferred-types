@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { Unique } from "src/types/index";
+import {  SameKeys, Unique } from "src/types/index";
 import {  unique } from "src/runtime/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -16,19 +16,33 @@ describe("Unique properties in Sets", () => {
     type Obj3 = {id: 3; bar: 20};
   
     it("type check: no dereferencing", () => {
+      type T0 = Unique<[2,3,2,1]>;
       type T1 = Unique<[...Scalar1, ...Scalar2]>;
       type T2 = Unique<[...Scalar2, ...Scalar1]>;
       type T3 = Unique<[...[Obj1,Obj2], ...[Obj2,Obj3]]>;
   
       type cases = [
-        Expect<Equal<T1, [1,2, 3,4,5,6 ]>>,
-        Expect<Equal<T2, [ 3,4,5,6,1,2 ]>>,
+        Expect<SameKeys<T0, [2,3,1]>>,
+        Expect<SameKeys<T1, [1,2, 3,4,5,6 ]>>,
+        Expect<SameKeys<T2, [ 3,4,5,6,1,2 ]>>,
         // object testing
         Expect<Equal<T3, [ Obj1, Obj2, Obj3 ]>>,
       ];
       
-      const cases: cases = [ true, true, true ];
+      const cases: cases = [ true, true, true, true ];
     });
+
+    
+    it("using dereferencing", () => {
+      type T = Unique<[...[Obj1,Obj2], ...[Obj2,Obj3]], "id">;
+      
+      type cases = [
+        /** type tests */
+      ];
+      const cases: cases = [];
+      
+    });
+    
 
   });
 

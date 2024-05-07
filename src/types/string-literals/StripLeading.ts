@@ -27,5 +27,5 @@ export type StripLeading<T, U> = IfAnd<
     // here we must stay wide
     string
   >,
-  T
+  never
 >;
