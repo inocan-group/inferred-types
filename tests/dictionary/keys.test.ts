@@ -8,10 +8,7 @@ import type {
   EmptyObject,
   ObjectKey,
   VueRef,
-  SameKeys,
   KV,
-  UnionToTuple,
-  RemoveIndexKeys,
 } from "src/types/index";
 import { defineObj, keysOf, narrow } from "src/runtime/index";
 import { Ref } from "vue";
@@ -92,10 +89,6 @@ describe("Keys<T> with object targets", () => {
   // we need the "real" Ref<T> and the "fake" VueRef<T>
   // to perform exactly the same
   it("VueRef<T> and Ref<T> key resolution", () => {
-    type R = VueRef<{foo: 1; bar: 2}>;
-    type T = "value" extends keyof R ? true : false;
-    type X = UnionToTuple<keyof RemoveIndexKeys<R>>
-
     type Obj = Keys<Ref<{foo: 1; bar: 2}>>;
     type Obj2 = Keys<VueRef<{foo: 1; bar: 2}>>;
     type Arr = Keys<Ref<[1,2,3]>>;

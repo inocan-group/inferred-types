@@ -6,6 +6,7 @@
 // file exports
 export * from "./AddKeyValue";
 export * from "./CombinedKeys";
+export * from "./CreateKV";
 export * from "./DictChangeValue";
 export * from "./Get";
 export * from "./SimplifyObject";
@@ -44,7 +45,7 @@ export * from "./RemoveIndexKeys";
 export * from "./WithStringKeys";
 export * from "./ValidKey";
 export * from "./UpsertKeyValue";
-export * from "./HasKeys";
+export * from "./EnsureKeys";
 export * from "./KvFn";
 export * from "./CreateLookup";
 export * from "./MergeKVs"

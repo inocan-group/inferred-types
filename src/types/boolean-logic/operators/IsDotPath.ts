@@ -1,4 +1,4 @@
-import {  HasCharacters, IfNever, IfStringLiteral } from "src/types/index";
+import {  HasCharacters, IfNever, If,  StartsWith, IsStringLiteral, Or, EndsWith,  Contains } from "src/types/index";
 
 /**
  * **IsDotPath**`<T>`
@@ -15,14 +15,29 @@ import {  HasCharacters, IfNever, IfStringLiteral } from "src/types/index";
  * container; only that it is a valid looking dotpath. If you want this validation use
  * `IsValidDotPath<TContainer, TKey>` instead.
  */
-export type IsDotPath<T> = IfNever<
+export type IsDotPath<
+  T,
+  IF = true,
+  ELSE = false,
+  MAYBE = IF | ELSE
+> = IfNever<
   T,
   false,
   T extends string
-    ? IfStringLiteral<
-        T, 
-        HasCharacters<T, ["/", "*", "!", "&", "$", "\\"]> extends true ? false : true,
-        boolean
-      >
-    : false
->;
+  ? If<
+      IsStringLiteral<T>,
+      If<
+        Or<[
+          HasCharacters<T, ["/", "*", "!", "&", "$", "\\"]>,
+          StartsWith<T,".">,
+          EndsWith<T,".">,
+          Contains<T,"..">
+        ]>,
+        ELSE,
+        IF
+      >,
+      MAYBE
+    >
+  : false
+>
+

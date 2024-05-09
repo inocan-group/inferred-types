@@ -1,14 +1,16 @@
 import { SomeEqual } from "src/types/index";
 
 /**
- * **IfSomeEqual**`<Value, CompareTo, IF, ELSE>`
+ * **IfSomeEqual**`<TList, TValue, IF, ELSE>`
  * 
- * A type utility which evaluates whether `Value` is equal to any of the values in
- * `CompareTo` and if so then it returns `IF` otherwise `ELSE`.
+ * A type utility which evaluates whether `TValue` is equal to any of the values in
+ * `TList` and if so then it returns `IF` otherwise `ELSE`.
+ * 
+ * - by default `IF` is **true** and `ELSE` is **false**
  */
 export type IfSomeEqual<
-  Value, 
-  CompareTo extends readonly unknown[],
-  IF,
-  ELSE
-> = SomeEqual<Value, CompareTo> extends true ? IF : ELSE;
+  TList extends readonly unknown[],
+  TValue, 
+  IF = true,
+  ELSE = false
+> = SomeEqual<TList, TValue> extends true ? IF : ELSE;

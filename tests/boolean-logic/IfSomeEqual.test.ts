@@ -17,24 +17,23 @@ describe("IfSomeEqual & SomeEqual", () => {
     
     type cases = [
       // numeric literals
-      Expect<Equal<SomeEqual<1, OneTwo>, true>>,
-      Expect<Equal<SomeEqual<2, OneTwo>, true>>,
-      Expect<Equal<SomeEqual<3, OneTwo>, false>>,
-
-      // string literals
-      Expect<Equal<SomeEqual<"foo", FooBar>, true>>,
-      Expect<Equal<SomeEqual<"bar", FooBar>, true>>,
-      Expect<Equal<SomeEqual<"baz", FooBar>, false>>,
+      Expect<Equal<SomeEqual< OneTwo,1>, true>>,
+      Expect<Equal<SomeEqual< OneTwo,2>, true>>,
+      Expect<Equal<SomeEqual< OneTwo,3>, false>>,
+     //,
+      Expect<Equal<SomeEqual<FooBar, "foo">, true>>,
+      Expect<Equal<SomeEqual<FooBar, "bar">, true>>,
+      Expect<Equal<SomeEqual<FooBar, "baz">, false>>,
 
       // never
-      Expect<Equal<SomeEqual<"foo", NeverFoo>, true>>,
-      Expect<Equal<SomeEqual<never, Never>, true>>,
-      Expect<Equal<SomeEqual<"foo", Never>, false>>,
+      Expect<Equal<SomeEqual<NeverFoo, "foo">, true>>,
+      Expect<Equal<SomeEqual<Never, never >, true>>,
+      Expect<Equal<SomeEqual<Never, "foo" >, false>>,
 
       // wide types
-      Expect<Equal<SomeEqual<"foo", Wide>, false>>,
-      Expect<Equal<SomeEqual<42, Wide>, false>>,
-      Expect<Equal<SomeEqual<number, Wide>, true>>,
+      Expect<Equal<SomeEqual<Wide,"foo">, false>>,
+      Expect<Equal<SomeEqual<Wide, 42>, false>>,
+      Expect<Equal<SomeEqual<Wide,number>, true>>,
 
     ];
     const cases: cases = [
@@ -47,8 +46,8 @@ describe("IfSomeEqual & SomeEqual", () => {
 
   
   it("SomeEqual<TVal,TCompareTo> edge cases", () => {
-    type UnionMatch = SomeEqual<string | symbol, [string | symbol, string, symbol]>;
-    type UnionNotMatch = SomeEqual<string | symbol, [string, symbol]>;
+    type UnionMatch = SomeEqual<[string | symbol, string, symbol], string | symbol>;
+    type UnionNotMatch = SomeEqual<[string, symbol], string | symbol>;
     
     type cases = [
       ExpectTrue<UnionMatch>,

@@ -1,4 +1,4 @@
-import { IsNegativeNumber , ToNumber, ToString } from "src/types/index";
+import { AsNumber, AsString, IsNegativeNumber } from "src/types/index";
 
 /**
  * **Negative**`<T>`
@@ -6,7 +6,7 @@ import { IsNegativeNumber , ToNumber, ToString } from "src/types/index";
  * Ensures that the number represented by `T` is a _negative_ number.
  */
 export type Negative<T extends number | `${number}`> = T extends `${number}`
-  ? ToString<Negative<ToNumber<T>>>
+  ? AsString<Negative<AsNumber<T>>>
   : IsNegativeNumber<T> extends true
     ? T
-    : ToNumber<ToString<`-${T}`>>;
+    : AsNumber<AsString<`-${T}`>>;

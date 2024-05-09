@@ -1,11 +1,10 @@
 import { 
-  AfterFirst, 
   ComparatorOperation, 
   Compare, 
-  First, 
   IfArray, 
   IfNever, 
-  TupleToUnion 
+  TupleToUnion,
+  RemoveNever
 } from "src/types/index";
 
 
@@ -23,16 +22,6 @@ type SingleFilter<
     : SingleFilter<Rest, TFilter, TOp, [...Result, Head]>
   : Result;
 
-type RemoveNever<
-  TList extends readonly unknown[],
-  TResult extends readonly unknown[] = []
-> = [] extends TList
-? TResult
-: IfNever<
-    First<TList>,
-    RemoveNever<AfterFirst<TList>, TResult>,
-    RemoveNever<AfterFirst<TList>, [...TResult, First<TList>]>
-  >;
 
 type Process<
   TList extends unknown[] | readonly unknown[],

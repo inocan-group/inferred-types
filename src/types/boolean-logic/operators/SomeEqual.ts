@@ -7,8 +7,11 @@ import { IfEqual , AfterFirst, First } from "src/types/index";
  * stored in `TList`. Possible results are `true`, `false`. A wide `boolean` type
  * is not possible as equality operator can always be evaluated at design time.
  * 
- * **See Also:** `SomeExtends` and `IfSomeEqual`
+ * **See Also:** `SomeExtend` and `IfSomeEqual`
  */
-export type SomeEqual<TVal, TList extends readonly unknown[]> = [] extends TList
+export type SomeEqual<
+TList extends readonly unknown[],
+  TVal, 
+> = [] extends TList
 ? false
-: IfEqual<TVal, First<TList>, true, SomeEqual<TVal, AfterFirst<TList>>>;
+: IfEqual<TVal, First<TList>, true, SomeEqual<AfterFirst<TList>, TVal>>;

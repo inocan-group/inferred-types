@@ -17,7 +17,7 @@ describe("Compare<TVal,TOp,TComparator", () => {
     type F1 = Compare<number, "extends", 42>;
     type F2 = Compare<["foo","bar"], "contains", "baz">;
 
-    
+
     type cases = [
       ExpectTrue<T1>,
       ExpectTrue<T2>,

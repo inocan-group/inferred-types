@@ -6,7 +6,6 @@ export * from "./Decrement";
 export * from "./Digit";
 export * from "./Digitize";
 export * from "./DigitNonZero";
-export * from "./Float";
 export * from "./GreaterThan";
 export * from "./Increment";
 export * from "./LessThan";

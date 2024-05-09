@@ -13,11 +13,10 @@ import { And, LogicFunction } from "src/types/index";
  * parameters passed into the function.
  */
 export type IfAnd<
-  TConditions extends (readonly (boolean | LogicFunction<TParams>)[])
-| (boolean | LogicFunction<TParams>)[],
+  TConditions extends (readonly (boolean | LogicFunction)[]),
   IF = true,
   ELSE = false,
-  TParams extends readonly unknown[] = readonly unknown[],
+  _TParams extends readonly unknown[] = readonly unknown[],
 > = [And<TConditions>] extends [true] 
 ? IF 
 : [And<TConditions>] extends [false] 

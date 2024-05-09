@@ -1,4 +1,4 @@
-import {  IfLiteral } from "src/types/index";
+import {  AllLiteral, If } from "src/types/index";
 
 /**
  * **IfWide**`<T,TRUE,FALSE>`
@@ -9,8 +9,8 @@ export type IfWide<
   T, //
   TRUE,
   FALSE = T
-> = IfLiteral<
-  T,
+> = If<
+  AllLiteral<[T]>,
   FALSE, 
   TRUE
 >;

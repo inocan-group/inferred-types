@@ -1,6 +1,5 @@
 
 import { 
-  Keys,
   KV,
   IsEqual,
   If,
@@ -8,20 +7,32 @@ import {
   DoesExtend,
   ObjectKey,
   IfNever,
+  UnionToTuple,
+  RemoveIndexKeys,
 } from "src/types/index";
 
-type CheckIt<T extends KV> = If<
-    IsEqual<Keys<T>["length"], 0>,
-    If<
-      IsWideType<DoesExtend<keyof T, ObjectKey>>,
-      false,
-      IfNever<keyof T, false, true>
-    >,
-    If<
-      IsEqual<Keys<T>["length"], number>,
-      false,
-      true
+type _Keys<
+  T extends KV
+> = UnionToTuple<keyof RemoveIndexKeys<T>>;
+
+type CheckIt<T extends KV> = IfNever<
+  keyof T,
+  false,
+  "length" extends keyof _Keys<T>
+  ? If<
+      IsEqual<_Keys<T>["length"], 0>,
+      If<
+        IsWideType<DoesExtend<keyof T, ObjectKey>>,
+        false,
+        IfNever<keyof T, false, true>
+      >,
+      If<
+        IsEqual<_Keys<T>["length"], number>,
+        false,
+        true
+      >
     >
+  : false
 >
 
 /**

@@ -1,4 +1,4 @@
-import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
+import {  ExpectTrue } from "@type-challenges/utils";
 import { IsLiteral } from "src/types/index";
 import { describe, it } from "vitest";
 

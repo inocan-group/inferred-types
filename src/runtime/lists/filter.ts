@@ -1,6 +1,6 @@
 import { Filter,  ComparatorOperation, Narrowable } from "src/types/index";
 import { isSameTypeOf } from "../type-guards/higher-order/isSameTypeOf";
-import {  startsWith } from "../type-guards";
+import {  isString, startsWith } from "../type-guards";
 
 
 export const filter = <
@@ -23,9 +23,10 @@ export const filter = <
       break;
     case "startsWith":
       result =  list.filter(
-        i => startsWith(Array.isArray(comparator) ? comparator : String(comparator))(String(i))
+        i => isString(i)
+        ? startsWith(String(comparator))(String(i))
+        : false
       );
-
       break;
   }
 

@@ -54,6 +54,16 @@ describe("Add<A,B>", () => {
     const cases: cases = [ true, true ];
   });
   
+  it("Second operand is negative", () => {
+    type Three = Add< 5, -2>;
+    type ThreeStr = Add<"5",-2>;
+    
+    type cases = [
+      Expect<Equal<Three, 3>>,
+      Expect<Equal<ThreeStr, "3">>
+    ];
+    const cases: cases = [ true, true ];
+  });
 
   it("adding two negative operands", () => {
     type NegThree = Add< -1, -2 >;

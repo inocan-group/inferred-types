@@ -39,7 +39,6 @@ export * from "./ReplaceLast";
 export * from "./BeforeLast";
 export * from "./GetEach";
 export * from "./ToCSV";
-export * from "./SameElements";
 export * from "./Push"
 
 

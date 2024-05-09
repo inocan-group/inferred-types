@@ -1,4 +1,4 @@
-import { IfLiteral, IfNumber, IfString, AfterFirst, First, ToString, StringLiteralToken } from "src/types/index";
+import {  IfNumber, IfString, AfterFirst, First, ToString, StringLiteralToken, AllLiteral, If } from "src/types/index";
 
 
 type _Tokenize<
@@ -8,8 +8,8 @@ type _Tokenize<
   ? Results
   : First<T> extends StringLiteralToken
   ? _Tokenize<AfterFirst<T>, [...Results, First<T>]>
-  : IfLiteral<
-      First<T>,
+  : If<
+      AllLiteral<[First<T>]>,
       // literal value
       _Tokenize<
         AfterFirst<T>,

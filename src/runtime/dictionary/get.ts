@@ -21,8 +21,6 @@ import { hasDefaultValue } from "../type-guards/hasDefaultValue";
 import { isContainer } from "../type-guards/isContainer";
 import { isRef } from "../type-guards/isRef";
 
-
-
 /** updates based on whether segment is a Ref or not */
 function updatedDotPath<
   TValue, 

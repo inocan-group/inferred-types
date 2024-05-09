@@ -1,4 +1,4 @@
-import type {  AsRecord, Container,  IsRef,  Keys } from "src/types/index";
+import type {  Container,   Keys } from "src/types/index";
 import { isObject } from "../type-guards/isObject";
 import { isRef } from "../type-guards/isRef";
 
@@ -12,21 +12,18 @@ import { isRef } from "../type-guards/isRef";
  * `readonly ["value"]` as the keys array when detected rather than reporting
  * on props like `__v_isRef`, etc.
  */
-export function keysOf<
-  TContainer extends Container | object,
->(
+export function keysOf<TContainer extends Container >(
   container: TContainer
-): IsRef<TContainer> extends true ? ["value"] : Keys<AsRecord<TContainer>> {
+) {
 
-  return (
-      Array.isArray(container)
-        ? Object.keys(container).map(i => Number(i))
-        : isObject(container)
-          ? isRef(container)
-            ? ["value"]
-            : Object.keys(container)
-          : []
-  ) as unknown as IsRef<TContainer> extends true 
-    ?  ["value"]
-    : Keys<AsRecord<TContainer>>;
+  const keys: unknown =  (
+    Array.isArray(container)
+      ? Object.keys(container).map(i => Number(i))
+      : isObject(container)
+        ? isRef(container)
+          ? ["value"]
+          : Object.keys(container)
+        : []
+  );
+  return keys as Keys<TContainer>
 }

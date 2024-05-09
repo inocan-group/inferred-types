@@ -1,4 +1,4 @@
-import { 
+import type { 
   IfNever,
   Container,
   ObjectKey,
@@ -6,21 +6,25 @@ import {
   NumericKeys,
   RemoveIndexKeys,
   IfTuple,
-  IsRef,
+  IsVueRef,
 } from "src/types/index";
+
+type _Keys<
+T extends object
+> = UnionToTuple<keyof RemoveIndexKeys<T>>;
 
 
 type GetKeys<
   T extends object
-> = IsRef<T> extends true
+> = IsVueRef<T> extends true
 ? ["value"]
-: UnionToTuple<keyof RemoveIndexKeys<T>> extends [symbol]
+: _Keys<T> extends [symbol]
   ? ObjectKey[]
-  : UnionToTuple<keyof RemoveIndexKeys<T>> extends []
+  : _Keys<T> extends []
     ? UnionToTuple<keyof T> extends [ObjectKey]
       ? (keyof T)[]
       : IfNever<keyof T, ObjectKey[], never[]>
-    : UnionToTuple<keyof RemoveIndexKeys<T>>
+    : _Keys<T>;
 
 type Process<
   TContainer extends Container

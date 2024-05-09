@@ -1,5 +1,5 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { HasCharacters } from "src/types/index";
+import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
+import {  HasCharacters } from "src/types/index";
 
 import { describe, it } from "vitest";
 
@@ -37,5 +37,19 @@ describe("HasCharacter", () => {
       true, true, true
     ];
   });
+
+  
+  it("Union type for characters", () => {
+    type With = HasCharacters<"hi", "h" | "i">;
+    type Without = HasCharacters<"42", "h" | "i">;
+    
+    type cases = [
+      ExpectTrue<With>,
+      ExpectFalse<Without>
+    ];
+    const cases: cases = [ true, false ];
+    
+  });
+  
 
 });

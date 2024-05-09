@@ -1,6 +1,14 @@
-import { TupleToUnion } from "../..";
-import { Contains, EndsWith, IsEqual, StartsWith } from "../operators";
-import { DoesExtend } from "../operators/DoesExtend";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import { 
+  Contains, 
+  DoesExtend, 
+  IsEqual, 
+  StartsWith, 
+  TupleToUnion, 
+  EndsWith 
+} from "src/types/index";
+
 
 /**
  * **ComparatorOperation**
@@ -13,7 +21,9 @@ export type ComparatorOperation =
 | "equals"
 | "contains"
 | "startsWith"
-| "endsWith";
+| "endsWith"
+| "returnEquals"
+| "returnExtends";
 
 type Unionize<T> = T extends readonly unknown[]
   ? TupleToUnion<T>
@@ -39,4 +49,8 @@ export type Compare<
 ? StartsWith<TVal, Unionize<TComparator>>
 : TOp extends "endsWith"
 ? EndsWith<TVal, Unionize<TComparator>>
+: TOp extends "returnEquals"
+? TVal extends ((...args: any[]) => any) ? IsEqual<ReturnType<TVal>,TComparator> : false
+: TOp extends "returnExtends"
+? TVal extends ((...args: any[]) => any) ? IsEqual<ReturnType<TVal>,TComparator> : false
 : never;

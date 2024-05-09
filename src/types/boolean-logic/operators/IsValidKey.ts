@@ -1,10 +1,10 @@
 import {  
+  AllLiteral,
   AllNumericLiterals, 
   AllStringLiterals, 
   Container, 
   Contains, 
   If,  
-  IfLiteral,     
   KV,  
   Keys, 
   ObjectKey, 
@@ -36,8 +36,8 @@ type WideGenerics<
 export type IsValidKey<
   TContainer extends Container,
   TKey extends PropertyKey
-> = IfLiteral<
-  TContainer,
+> = If<
+  AllLiteral<[TContainer]>,
   If<
     Or<[AllStringLiterals<Keys<TContainer>>, AllNumericLiterals<Keys<TContainer>>]>,
     If<
@@ -47,6 +47,6 @@ export type IsValidKey<
     >,
     WideGenerics<TContainer, TKey>
   >,
-  WideGenerics<TContainer, TKey>
+  boolean
 >;
 

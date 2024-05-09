@@ -5,7 +5,7 @@ import type {
   MergeObjects, 
   MergeScalars, 
   MergeTuples, 
-  SameKeys
+  HasSameKeys
 } from "src/types/index";
 import { mergeScalars, mergeTuples } from "src/runtime/index";
 
@@ -138,7 +138,7 @@ describe("Merge Objects", () => {
     type FooBarBaz = CombinedKeys<{foo: 1; bar: 2}, {baz: 3}>;
     
     type cases = [
-      ExpectTrue<SameKeys<FooBarBaz, ["foo","bar","baz"]>>
+      ExpectTrue<HasSameKeys<FooBarBaz, ["foo","bar","baz"]>>
     ];
     const cases: cases = [ true ];
     

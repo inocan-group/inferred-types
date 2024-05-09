@@ -1,4 +1,4 @@
-import {  Chars, First, IfLiteral,  NumberLike } from "src/types/index";
+import {  Chars, First, If,   IsNumericLiteral,  IsStringLiteral,  NumberLike, Or } from "src/types/index";
 
 /**
  * **IfNegative**`<TVal,TIf,[TElse]>`
@@ -11,8 +11,8 @@ export type IfNegativeNumber<
   TVal extends NumberLike,
   TIf,
   TElse = TVal
-> = IfLiteral<
-  TVal,
+> = If<
+  Or<[IsStringLiteral<TVal>, IsNumericLiteral<TVal>]>,
   First<Chars<`${TVal}`>> extends "-"
   ? TIf
   : TElse,

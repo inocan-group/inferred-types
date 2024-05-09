@@ -1,4 +1,4 @@
-import { IfLiteral, IfSomeEqual } from "src/types/index";
+import { IfBooleanLiteral, IfNumericLiteral, IfSomeEqual, IfStringLiteral } from "src/types/index";
 
 
 /**
@@ -11,9 +11,9 @@ import { IfLiteral, IfSomeEqual } from "src/types/index";
  */
 export type IsTruthy<T> = //
   T extends string
-    ? T extends "" ? false : IfLiteral<T, true, boolean>
+    ? T extends "" ? false : IfStringLiteral<T, true, boolean>
   : T extends number
-    ? IfLiteral<T, IfSomeEqual<T, [0, -0], false, true>, boolean>
+    ? IfNumericLiteral<T, IfSomeEqual<[0, -0],T,  false, true>, boolean>
     : T extends boolean
-      ? T extends false ? false : IfLiteral<T, true, boolean>
-      : IfSomeEqual<T, [null, undefined, typeof NaN], false, boolean>;
+      ? T extends false ? false : IfBooleanLiteral<T, true, boolean>
+      : IfSomeEqual<[null, undefined, typeof NaN],T, false, boolean>;

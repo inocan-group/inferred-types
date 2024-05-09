@@ -1,4 +1,4 @@
-import {  IfNever, SomeEqual,  IfOr, IsWideType } from "src/types/index";
+import {  IfNever, SomeEqual, IsStringLiteral, IfAnd } from "src/types/index";
 
 
 /**
@@ -15,11 +15,14 @@ export type Includes<
   TSource extends string | readonly string[],
   TValue extends string
 > = IfNever<TValue, false,
-  IfOr<[IsWideType<TValue>, IsWideType<TSource>], boolean,
   TSource extends string[]
-    ? SomeEqual<TValue,TSource>
-    : TSource extends `${string}${TValue}${string}`
-      ?  true
-      : false
->>;
+    ? SomeEqual<TSource, TValue>
+    : IfAnd<
+        [IsStringLiteral<TValue>, IsStringLiteral<TSource>], 
+        [TSource] extends [`${string}${TValue}${string}`]
+          ? true
+          : false,
+        boolean
+      >
+>;
 

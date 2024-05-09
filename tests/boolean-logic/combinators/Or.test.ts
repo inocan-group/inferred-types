@@ -11,18 +11,20 @@ describe("Or<T>", () => {
   it("boolean literals", () => {
     type T1 = Or<[true, false, true]>; // true
     type T2 = Or<[false, false, false]>; //false
-    type T3 = Or<[]>; // never
+    type T3 = Or<[]>; // false
     type T4 = Or<[true, false, boolean]>; // true
     type T5 = Or<[false, false, boolean]>; // boolean
+    type T6 = Or<never>;
     
     type cases = [
       Expect<Equal<T1, true>>, //
       Expect<Equal<T2, false>>,
-      Expect<Equal<T3, never>>,
+      Expect<Equal<T3, false>>,
       Expect<Equal<T4, true>>,
       Expect<Equal<T5, boolean>>,
+      Expect<Equal<T6, false>>,
     ];
-    const cases: cases = [true, true, true, true, true];
+    const cases: cases = [true, true, true, true, true, true];
   });
 
   it("functions no params", () => {

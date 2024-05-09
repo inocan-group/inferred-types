@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import {  hasKeys } from "src/runtime/index";
-import {  HasKeys } from "src/types/index";
+import { EnsureKeys, SameKeys } from "src/types/index";
 import { describe, expect, it } from "vitest";
 
 
@@ -8,23 +8,23 @@ import { describe, expect, it } from "vitest";
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
 // gain validation that no new type vulnerabilities have cropped up.
 
-describe("HasKeys<TContainer,TKeys,TType>", () => {
+describe("EnsureKeys<TContainer,TKeys,TType>", () => {
 
   it("happy path", () => {
     type BASE = { foo: 1 };
-    type FooBar = HasKeys<BASE, {bar: 3}>;
-    type Overlap = HasKeys<BASE, {foo: 5; bar: 3}>;
-    type Overlap2 = HasKeys<BASE, [{foo: 5; bar: 3}]>;
+    type FooBar = EnsureKeys<BASE, {bar: 3}>;
+    type Overlap = EnsureKeys<BASE, {foo: number; bar: 3}>;
+    type Overlap2 = EnsureKeys<BASE, [{foo: number; bar: 3}]>;
 
-    type A_FooBar = HasKeys<BASE, ["foo", "bar"]>
+    type A_FooBar = EnsureKeys<BASE, ["foo", "bar"]>
 
-    type Obj = HasKeys<NonNullable<unknown>, ["foo"]>;
-    type Obj2 = HasKeys<object, ["foo"]>;
+    type Obj = EnsureKeys<NonNullable<unknown>, ["foo"]>;
+    type Obj2 = EnsureKeys<object, ["foo"]>;
     
     type cases = [
-      Expect<Equal<FooBar, {foo: 1; bar: 3}>>,
-      Expect<Equal<Overlap, {foo: 5; bar: 3}>>,
-      Expect<Equal<Overlap2, {foo: 5; bar: 3}>>,
+      Expect<SameKeys<FooBar, {foo: 1; bar: 3}>>,
+      Expect<SameKeys<Overlap, {foo: 5; bar: 3}>>,
+      Expect<SameKeys<Overlap2, {foo: 5; bar: 3}>>,
 
       Expect<Equal<A_FooBar, { foo: 1; bar: unknown }>>,
 

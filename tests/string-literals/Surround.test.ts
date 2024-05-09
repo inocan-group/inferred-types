@@ -11,27 +11,31 @@ import { SurroundWith, surround } from "src/runtime/index";
 describe("Surround<TContent,TPre,TPost>", () => {
 
   it("with singular content", () => {
-    type Bracket1 = Surround<"foobar", "[", "]">;
-    type Bracket2 = Surround<"foobar", "<", ">">;
-    
-    type cases = [
-      Expect<Equal<Bracket1, "[foobar]">>,
-      Expect<Equal<Bracket2, "<foobar>">>,
-    ];
-    const cases: cases = [ true, true ];
-  });
+    type Bracket = Surround<"foobar", "[", "]">;
+    type Angles = Surround<"foobar", "<", ">">;
+    type NumBracket = Surround<42, "[", "]">;
+    type NumAngles = Surround<42, "<", ">">;
 
+    type cases = [
+      Expect<Equal<Bracket, "[foobar]">>,
+      Expect<Equal<Angles, "<foobar>">>,
+      Expect<Equal<NumBracket, "[42]">>,
+      Expect<Equal<NumAngles, "<42>">>,
+    ];
+    const cases: cases = [ true, true, true, true ];
+  });
   
   it("with array content", () => {
     type FooBar = Surround<["foo", "bar"], "(", ")">;
+    type OneTwo = Surround<[1,2], "(", ")">;
     
     type cases = [
-      Expect<Equal<FooBar, ["(foo)", "(bar)"]>>
+      Expect<Equal<FooBar, ["(foo)", "(bar)"]>>,
+      Expect<Equal<OneTwo, ["(1)", "(2)"]>>,
     ];
-    const cases: cases = [ true ];
+    const cases: cases = [ true, true ];
   });
   
-
 });
 
 describe("surround() runtime utility", () => {

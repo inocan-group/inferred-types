@@ -2,7 +2,7 @@
 import type { 
   Filter,  
   IfString , 
-  IsLiteral , 
+  IsStringLiteral, 
   ScalarNotSymbol, 
   TupleToUnion 
 } from "src/types/index";
@@ -26,7 +26,7 @@ T extends string | number | readonly string[] | readonly number[]
   ? TupleToUnion<Filter<T, string, "equals">> | (string & {})
   : T extends readonly number[]
     ? TupleToUnion<Filter<T, number, "equals">> | (string & {})
-  : IsLiteral<T> extends true
+  : IsStringLiteral<T> extends true
     ? IfString<T, T | (string & {}), `${T & number}` | (string & {})>
     : IfString<T, string, `${number}`>
 : never;

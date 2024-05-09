@@ -14,3 +14,4 @@ type Process<L, C extends unknown[] = [], R = L> =
  * ```
  */
 export type NumericRange<TLow, THigh> = TLow | Exclude<Process<THigh>, Process<TLow>>;
+

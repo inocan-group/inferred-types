@@ -1,6 +1,12 @@
-import { Keys,  Container, Flatten } from "src/types/index";
+import { Keys,  Container, Flatten, Unique } from "src/types/index";
 
-
+type Process<
+TContainers extends readonly Container[]
+> = Flatten<{
+[K in keyof TContainers]: TContainers[K] extends Container
+  ? Keys<TContainers[K]>
+  : []
+}>
 
 /**
  * **AllKeys**`<TList>`
@@ -10,10 +16,5 @@ import { Keys,  Container, Flatten } from "src/types/index";
  */
 export type AllKeys<
   TContainers extends readonly Container[]
-> = 
-Flatten<{
-  [K in keyof TContainers]: TContainers[K] extends Container
-    ? Keys<TContainers[K]>
-    : []
-}>
+> = Unique<Process<TContainers>>
 

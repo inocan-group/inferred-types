@@ -1,4 +1,4 @@
-import { IsRef } from "src/types/index";
+import { IsVueRef } from "src/types/index";
 
 /**
  * **IfRef**`<T,IF,ELSE,[MAYBE]>`
@@ -11,4 +11,4 @@ export type IfRef<
   IF,
   ELSE,
   MAYBE = IF | ELSE
-> = IsRef<T> extends true ? IF : IsRef<T> extends false ? ELSE : MAYBE;
+> = IsVueRef<T> extends true ? IF : IsVueRef<T> extends false ? ELSE : MAYBE;

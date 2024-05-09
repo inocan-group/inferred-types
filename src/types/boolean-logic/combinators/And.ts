@@ -1,31 +1,17 @@
 /* eslint-disable no-use-before-define */
-import { AnyFunction, AfterFirst, First , IfNarrowlyContains, IfOr, IsFalse, ReturnsFalse, LogicFunction } from "src/types/index";
+import {  AfterFirst, First, IfEqual,  LogicFunction, LogicalReturns, NarrowlyContains } from "src/types/index";
 
-type _And<
-  TConditions, 
-  TParams extends readonly unknown[],
-  TResults extends readonly boolean[] = [],
-> = TConditions extends readonly (boolean | LogicFunction<TParams>)[]
-  ? [] extends TConditions
-  ? IfNarrowlyContains<TResults, boolean, boolean, true>
-  : IfOr<
-      [ 
-        IsFalse<First<TConditions>>, ReturnsFalse<First<TConditions>> 
-      ],
-      false, // false short circuits
-      _And<
-        AfterFirst<TConditions>,
-        TParams,
-        First<TConditions> extends boolean
-          ? [...TResults, First<TConditions>]
-          : First<TConditions> extends AnyFunction
-            ? ReturnType<First<TConditions>> extends boolean 
-              ? [...TResults, ReturnType<First<TConditions>>]
-              : never
-            : never
-      >
-    >
-  : never;
+type Process<
+  TConditions extends readonly boolean[], 
+  TBooleanSeen extends boolean,
+> = [] extends TConditions
+? IfEqual<TBooleanSeen, true, boolean, true>
+: [First<TConditions>] extends [false]
+  ? false
+  : Process<
+      AfterFirst<TConditions>,
+      TBooleanSeen
+    >;
 
 
 /**
@@ -35,6 +21,12 @@ type _And<
  * function which evaluates to a boolean value to be logically AND'd together.
  */
 export type And<
-  TConditions extends readonly (boolean | LogicFunction<TParams>)[], 
-  TParams extends readonly unknown[] = [],
-> = _And<TConditions, TParams>;
+  TConditions extends readonly (boolean | LogicFunction)[], 
+  _TParams extends readonly unknown[] = [],
+> = LogicalReturns<TConditions> extends readonly boolean[]
+  ? Process<
+      LogicalReturns<TConditions>,
+      NarrowlyContains<LogicalReturns<TConditions>,boolean>
+    >
+  : never;
+

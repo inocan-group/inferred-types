@@ -1,4 +1,4 @@
-import { And, If, IsEqual, IsLiteral, Length } from "src/types/index";
+import {  IsEqual,  IsStringLiteral, IsTuple, Length } from "src/types/index";
 
 
 
@@ -11,10 +11,14 @@ import { And, If, IsEqual, IsLiteral, Length } from "src/types/index";
 export type AreSameLength<
   A extends string | readonly unknown[],
   B extends string | readonly unknown[]
-> = If<
-  And<[IsLiteral<A>, IsLiteral<B>]>,
-  IsEqual<Length<A>, Length<B>>,
-  boolean
->
-
-
+> = 
+IsStringLiteral<A> extends true
+? IsStringLiteral<B> extends true 
+  ? IsEqual<Length<A>, Length<B>> : IsTuple<B> extends true ? IsEqual<Length<A>, Length<B>>
+: boolean
+: IsTuple<A> extends true
+    ? IsTuple<B> extends true 
+        ? IsEqual<Length<A>, Length<B>> 
+        : IsStringLiteral<B> extends true ? IsEqual<Length<A>, Length<B>>
+        : boolean
+: boolean;

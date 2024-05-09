@@ -1,4 +1,4 @@
-import {  Expect } from "@type-challenges/utils";
+import {   ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 import { AllKeys, HasSameValues } from "src/types/index";
 
@@ -21,8 +21,8 @@ describe("AllKeys<TList>", () => {
     ]>;
     
     type cases = [
-      Expect<HasSameValues<Str, ["foo","bar","baz"]>>,
-      Expect<HasSameValues<Num, [0,1,2]>>,
+      ExpectTrue<HasSameValues<Str, ["foo","bar","baz"]>>,
+      ExpectTrue<HasSameValues<Num, [0,1,2]>>,
     ];
     const cases: cases = [ true, true ];
   });

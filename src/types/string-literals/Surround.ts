@@ -1,19 +1,18 @@
-import { AfterFirst, AsArray, Concat, First } from "src/types/index";
+import { AsString, ToStringArray } from "src/types/index";
 
-type _Surround<
-  TContent extends readonly string[],
+type Process<
+  TContent extends string,
   TPrefix extends string,
   TPostfix extends string,
-  TResults extends readonly string[] = []
-> = [] extends TContent
-? TResults
-: _Surround<
-    AfterFirst<TContent>, 
-    TPrefix, 
-    TPostfix, 
-    [...TResults, Concat<[TPrefix, First<TContent>, TPostfix]>]
-  >;
+> = `${TPrefix}${TContent}${TPostfix}`
 
+type ProcessEach<
+  TContent extends readonly string[],
+  TPrefix extends string,
+  TPostfix extends string
+> = {
+  [K in keyof TContent]: Process<TContent[K], TPrefix, TPostfix>
+}
 
 /**
  * **Surround**`<TContent,TPrefix,TPostfix>`
@@ -29,9 +28,21 @@ type _Surround<
  * ```
  */
 export type Surround<
-  TContent extends string | readonly string[],
+  TContent extends string | number | readonly (string| number)[],
   TPrefix extends string,
   TPostfix extends string
-> = TContent extends readonly string[]
-? _Surround<AsArray<TContent>, TPrefix, TPostfix>
-: First<_Surround<AsArray<TContent>, TPrefix, TPostfix>>;
+> = TContent extends number
+? Surround<AsString<TContent>, TPrefix, TPostfix>
+: TContent extends readonly unknown[]
+  ? TContent extends readonly string[]
+    ? ProcessEach<TContent, TPrefix, TPostfix>
+    : ProcessEach<
+        ToStringArray<TContent> extends readonly string[]
+          ? ToStringArray<TContent>
+          : never,
+        TPrefix,
+        TPostfix
+      >
+  : TContent extends string
+    ? Process<TContent, TPrefix, TPostfix>
+    : never;
