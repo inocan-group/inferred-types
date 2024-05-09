@@ -17,14 +17,3 @@ export type Fn<
     ? TFn[0] & TFn[1]
     : never;
 
-
-
-// IsEqual<
-//   TProps, NonNullable<unknown>, 
-//   Fn,
-//   TProps extends string
-//   ? Record<TKey, TFn & { desc: TProps }>
-//   : Record<TKey, IfEqual<TProps, NonNullable<unknown>, TFn, TFn & TProps>>
-// >;
-
-

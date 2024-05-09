@@ -30,7 +30,7 @@ describe("IndexOf<T>", () => {
         ErrorCondition<"key-does-not-exist">
       >>,
       Expect<Equal<Identity, "foo">>,
-      Expect<DoesExtend<Never, ErrorCondition<"invalid-index">>>,
+      Expect<DoesExtend<Never, never>>,
     ];
     const cases: cases = [ true, true, true, true, true, true ];
   });

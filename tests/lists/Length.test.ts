@@ -12,7 +12,7 @@ describe("Length<T>", () => {
     type A2 = typeof a2;
 
     type StringArray = Length<string[]>;
-    type StrLit = Length<"foo">;
+    type Foo = Length<"foo">;
     type NumericLit = Length<1234>;
     type WideStr = Length<string>;
     type WideNum = Length<number>;
@@ -31,14 +31,14 @@ describe("Length<T>", () => {
       Expect<Equal<Length<readonly []>, 0>>,
       Expect<Equal<Length<[]>, 0>>,
       Expect<Equal<StringArray, number>>,
-      Expect<Equal<StrLit, 3>>,
+      Expect<Equal<Foo, 3>>,
       Expect<Equal<WideStr, number>>,
       Expect<Equal<NumericLit, 4>>,
       Expect<Equal<WideNum, number>>,
       Expect<Equal<ObjLit, 1>>,
       Expect<Equal<ObjLit2, 2>>,
       Expect<Equal<WideObj, number>>,
-      Expect<Equal<EmptyObj, number>>,
+      Expect<Equal<EmptyObj, 0>>,
     ];
     const cases: cases = [
       true, true, true, true, 

@@ -1,4 +1,30 @@
-import { IfLiteral, IfNegativeNumber, IfNever, NumberLike } from "src/types/index";
+import { 
+  AsString,
+  If, 
+  IfNever,  
+  IsStringLiteral, 
+  IsWideType, 
+  NumberLike, 
+  StartsWith
+} from "src/types/index";
+
+type Process<
+  T extends `${number}`
+> = IfNever<
+  T, 
+  false,
+  If<
+    IsStringLiteral<T>,
+    T extends `${number}`
+      ? If<
+          StartsWith<AsString<T>,"-">,
+          true,
+          false
+        >
+      : false,
+      boolean
+  >
+>;
 
 /**
  * **IsNegativeNumber**`<T>`
@@ -7,14 +33,15 @@ import { IfLiteral, IfNegativeNumber, IfNever, NumberLike } from "src/types/inde
  * negative value. This includes string literal representations of
  * a number.
  */
-export type IsNegativeNumber<T> = IfNever<
-  T, 
-  false,
-  IfLiteral<
-    T, 
-    T extends NumberLike
-      ? IfNegativeNumber<T,true,false>
-      : false,
-    boolean
-  >
->;
+export type IsNegativeNumber<
+  T extends NumberLike
+> = IsWideType<T> extends true
+? boolean
+: NumberLike extends T
+? boolean
+: T extends number
+? Process<AsString<T>>
+: T extends string
+  ? Process<T>
+  : never
+

@@ -6,7 +6,7 @@ import {  Handle, Pop, Tuple } from "src/types/index";
  *
  * Returns:
  * 
- * - the _elements_ in an **array** but excluding the last element
+ * - the _elements_ in an **array**; _excluding_ the last element
  * - the _characters_ in a **string** excluding the last character
  * 
  * This behavior is _very_ much like `Pop<T>` but where `Pop<T>` will 

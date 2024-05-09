@@ -1,14 +1,15 @@
-import { IfAnd, IfOr, IsString, IsNegativeNumber } from "../boolean-logic";
+import { IsString, IsNegativeNumber, If, Or, And, IsWideType } from "../boolean-logic";
+import { AfterFirst } from "../lists/AfterFirst";
 import { NumericChar } from "../string-literals";
+import { FixedLengthArray } from "../tuples/FixedLengthArray";
 import { AsNumber } from "../type-conversion/AsNumber";
+import { AsString } from "../type-conversion/AsString";
 import { Abs } from "./Abs";
-import { Negative } from "./Negative";
+import { Decrement } from "./Decrement";
 import { NumberLike } from "./NumberLike";
 
-type Or<left extends boolean, right extends boolean> =
+type Either<left extends boolean, right extends boolean> =
   left extends true ? true : right extends true ? true : false;
-
-type CoalesceToString<n extends string | number | bigint> = n extends string ? n : `${n}`;
 
 type DecrementDigit<digit extends NumericChar> = 
   digit extends "1" ? "0"
@@ -46,7 +47,7 @@ type SumSingleDigits<left extends NumericChar, right extends NumericChar, carryI
     : right extends "0" 
       ? { result: left; carry: carryOut }
       : IncrementDigit<left> extends SingleDigitSumResult<infer leftIncremented, infer carryOutFromIncrement> 
-        ? SumSingleDigits<leftIncremented, DecrementDigit<right>, false, Or<carryOut, carryOutFromIncrement>>
+        ? SumSingleDigits<leftIncremented, DecrementDigit<right>, false, Either<carryOut, carryOutFromIncrement>>
         : never;
   
 type RightMostDigitResult<rest extends string, digit extends NumericChar> = { rest: rest; digit: digit };
@@ -58,7 +59,12 @@ type RightMostDigit<s extends string> =
       : never
     : never;
 
-type SumStrings<left extends string, right extends string, accumulatedResultDigits extends string = "", carry extends boolean = false, > = 
+type SumStrings<
+  left extends string, 
+  right extends string, 
+  accumulatedResultDigits extends string = "", 
+  carry extends boolean = false
+> = 
   "" extends left 
     // Left is empty
     ? "" extends right
@@ -87,6 +93,42 @@ type SumStrings<left extends string, right extends string, accumulatedResultDigi
           : never
         : never;
 
+type _Subtract<
+  TValue extends `${number}`,
+  TCountArr extends readonly unknown[]
+> = [] extends TCountArr
+? TValue
+: _Subtract<Decrement<TValue>, AfterFirst<TCountArr>>;
+
+
+type Process<
+  A extends `${number}`,
+  B extends `${number}`
+> = If<
+  And<[ IsNegativeNumber<A>, IsNegativeNumber<B> ]>,
+  // Both operands are negative
+  Abs<A> extends `${number}`
+    ? Abs<B> extends `${number}`
+      ? `-${SumStrings<Abs<A>, Abs<B>>}`
+      : never
+    : never,
+  If<
+    // right operand is negative
+    IsNegativeNumber<B>,
+    FixedLengthArray<unknown, AsNumber<Abs<B>>> extends readonly unknown[]
+    ? _Subtract<A,FixedLengthArray<unknown, AsNumber<Abs<B>>>>
+    : never,
+    If<
+      // left operand is negative
+      IsNegativeNumber<A>,
+      FixedLengthArray<unknown, AsNumber<Abs<A>>> extends readonly unknown[]
+        ? _Subtract<B,FixedLengthArray<unknown, AsNumber<Abs<A>>>>
+        : never,
+      SumStrings<A,B>
+    >
+  >
+>;
+
 /**
  * **Add**`<A,B>`
  * 
@@ -96,25 +138,17 @@ type SumStrings<left extends string, right extends string, accumulatedResultDigi
  * - if both are numeric values than the type is `number`.
  */
 export type Add<
-  A extends NumberLike,
-  B extends NumberLike
-> = IfAnd<
-  [ IsNegativeNumber<A>, IsNegativeNumber<B> ],
-  // Both operands are negative
-  IfOr<
-    [ IsString<A>, IsString<B> ],
-    // return string literal
-    `-${SumStrings<CoalesceToString<Abs<A>>, CoalesceToString<Abs<B>>>}`,
-    // return numeric literal
-    Negative<AsNumber<
-      SumStrings<CoalesceToString<Abs<A>>, CoalesceToString<Abs<B>>>
-    >>
-  >,
-  // Both operands are positive
-  IfOr<
-    [ IsString<A>, IsString<B> ],
-    SumStrings<CoalesceToString<A>, CoalesceToString<B>>,
-    AsNumber<SumStrings<CoalesceToString<A>, CoalesceToString<B>>>
+A extends NumberLike,
+B extends NumberLike
+> = If<
+  Or<[IsWideType<A>,IsWideType<B>]>,
+  // wide types found
+  If<Or<[IsString<A>,IsString<A>]>, string, number>,
+  // both are literals
+  If<
+    Or<[IsString<A>,IsString<B>]>,
+    Process<AsString<A>,AsString<B>>,
+    AsNumber<Process<AsString<A>,AsString<B>>>
   >
 >;
 

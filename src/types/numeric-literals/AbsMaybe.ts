@@ -1,4 +1,4 @@
-import { IfLiteral , ToNumber, ToString, StripLeading } from "src/types/index";
+import {  ToNumber,  StripLeading, If, Or, IsNumericLiteral, IsStringLiteral, AsString } from "src/types/index";
 
 /**
  * **AbsMaybe**`<T>`
@@ -11,11 +11,11 @@ import { IfLiteral , ToNumber, ToString, StripLeading } from "src/types/index";
  * as the absolute value can not be known at design time; if you'd prefer to 
  * block any wide types then use `Abs` instead
  */
-export type AbsMaybe<T extends number | `${number}`> = IfLiteral<
-  T,
+export type AbsMaybe<T extends number | `${number}`> = If<
+  Or<[IsNumericLiteral<T>, IsStringLiteral<T>]>,
   T extends string
     ? StripLeading<T,"-">
-    : ToNumber<StripLeading<ToString<T>,"-">>
+    : ToNumber<StripLeading<AsString<T>,"-">>
   ,
   number
 >;

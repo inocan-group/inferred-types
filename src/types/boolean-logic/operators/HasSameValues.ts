@@ -1,16 +1,18 @@
-import { AfterFirst, First, Length , IfEqual, IfLength , Contains } from "src/types/index";
+import { And, Or } from "src/types/index";
+
+type Find<
+  TList extends readonly unknown[],
+  TComparator
+> = Or<{
+  [K in keyof TList]: TList[K] extends TComparator ? true : false
+}>;
 
 type Compare<
-TList extends readonly unknown[],
-TComparator extends readonly unknown[]
-> = [] extends TComparator
-? true
-: Contains<TList, First<TComparator>> extends true
-  ? Compare<
-      TList,
-      AfterFirst<TComparator>
-    >
-  : false;
+  TList extends readonly unknown[],
+  TComparator extends readonly unknown[]
+> = And<{
+  [K in keyof TList]: Find<TComparator, TList[K]>
+}>
 
 /**
  * **HasSameValues**`<TList,TComparator>`
@@ -22,12 +24,10 @@ TComparator extends readonly unknown[]
 export type HasSameValues<
   TList extends readonly unknown[],
   TComparator extends readonly unknown[]
-> = IfEqual<
-  Length<TList>, Length<TComparator>,
-  IfLength<
-    TList, 0, // lengths are both 0
-    true, 
-    Compare<TList,TComparator>
-  >,
-  false
->;
+> = TList["length"] extends TComparator["length"]
+? Compare<
+  TList,
+  TComparator
+>
+: false;
+  

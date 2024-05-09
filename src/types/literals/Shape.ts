@@ -5,8 +5,6 @@ import { IfNever, IfTrue, IfUndefined } from "../boolean-logic";
 import { IndexableObject } from "../base-types/IndexableObject";
 import { ObjectKey } from "../base-types/ObjectKey";
 import { Narrowable } from "./Narrowable";
-import { HandleDoneFn } from "../functions/HandleDoneFn";
-import { Choice } from "./Choices";
 
 type Narrow = Exclude<Narrowable, symbol>;
 

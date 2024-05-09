@@ -1,5 +1,16 @@
-import { AsString, IfAnd, IsLiteral, IsString } from "src/types/index";
+import type { AsString, IfAnd,  IsStringLiteral } from "src/types/index";
 
+
+type Process<
+TContent extends string, 
+TStrip extends string
+> = IfAnd<
+  [ IsStringLiteral<TContent>, IsStringLiteral<TStrip>],
+  TContent extends `${infer Before}${AsString<TStrip>}` 
+    ? Before 
+    : TContent,
+  string
+>
 
 /**
  * **StripEnding**`<TContent, TStrip>`
@@ -10,25 +21,11 @@ import { AsString, IfAnd, IsLiteral, IsString } from "src/types/index";
  * ```ts
  * type T = "Hello World";
  * type U = " World";
- * // "Hello"
+ * // "Hello"re
  * type R = StripEnding<T,U>;
  * ```
  */
 export type StripTrailing<
   TContent, 
   TStrip
-> = TContent extends number
-? StripTrailing<AsString<TContent>, TStrip>
-: TStrip extends number
-  ? StripTrailing<TContent, AsString<TStrip>>
-  : IfAnd<
-  [ IsString<TContent>, IsString<TStrip> ],
-  IfAnd<
-    [ IsLiteral<TContent>, IsLiteral<TStrip>],
-    TContent extends `${infer Before}${AsString<TStrip>}` 
-      ? Before 
-      : TContent,
-    string
-  >,
-  never
->;
+> = Process<AsString<TContent>, AsString<TStrip>>;

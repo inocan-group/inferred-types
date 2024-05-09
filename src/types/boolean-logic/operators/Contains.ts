@@ -3,9 +3,10 @@ import {
   DoesExtend, 
   If, 
   IfAnd,
-  IfUnion,  
-  IsLiteral, 
   IsString, 
+  IsStringLiteral, 
+  IsTuple, 
+  IsUnion, 
   IsWideType, 
   Narrowable,
   Or,
@@ -13,23 +14,46 @@ import {
 } from "src/types/index";
 
 
+type IsWide<
+  TContent,
+  TComparator
+> = IsWideType<TContent> extends true
+? IsWideType<TComparator> extends true
+  ? true
+  : false
+: false;
+
+type _IsLiteral<
+  T
+> = IsStringLiteral<T> extends true
+? true
+: IsTuple<T> extends true
+? true
+: false;
+
 type Process<
   TContent,
   TComparator, 
 > = TComparator extends readonly unknown[]
 ? Or<{
-    [K in keyof TComparator]: Process<TContent, TComparator[K]>
-  }>
-: IfAnd<
-    [IsWideType<TContent>,IsWideType<TComparator>],
+  [K in keyof TComparator]: Process<TContent, TComparator[K]>
+}>
+: If<
+    IsWide<TContent,TComparator>,
     boolean,
     IfAnd<
-      [IsLiteral<TContent>, IsLiteral<TComparator>], 
+      [
+        _IsLiteral<TContent>, 
+        _IsLiteral<TComparator>
+      ], 
         AsString<TContent> extends `${string}${AsString<TComparator>}${string}`
           ? true
           : false,
         IfAnd<
-          [IsLiteral<TComparator>, IsLiteral<TContent>],
+          [
+            _IsLiteral<TContent>,
+            _IsLiteral<TComparator>
+          ],
           If<DoesExtend<TContent,TComparator>, true, false>,
           IfAnd<
             [ IsString<TContent>, IsWideType<TContent> ],
@@ -44,6 +68,28 @@ type Process<
     >
 >
 
+/**
+ * Processes each node of the tuple
+ * and then `or` the result to reach
+ * single consensus
+ */
+type ProcessTuple<
+  TContent extends readonly unknown[],
+  TComparator, 
+> = {
+  [K in keyof TContent]: [TContent[K]] extends [TComparator]
+    ? true
+    : false
+};
+
+type PreProcess<
+TContent,
+TComparator, 
+> = TContent extends readonly unknown[]
+  ? ProcessTuple<TContent, TComparator>
+  : TContent extends (string | number)
+    ? ProcessStr<AsString<TContent>, TComparator>
+    : false;
 
 /**
  * **Contains**`<TContent, TComparator>`
@@ -57,18 +103,6 @@ type Process<
  * **Related:** `NarrowlyContains`
  */
 export type Contains<
-  TContent,
+  TContent extends string | number | readonly unknown[],
   TComparator, 
-> = TContent extends (readonly unknown[])
-? Or<{
-    [K in keyof TContent]: Process<
-      TContent[K],
-      IfUnion<TComparator, UnionToTuple<TComparator>, TComparator>
-    >
-  }>
-: TContent extends Narrowable
-  ? Process<
-      TContent,
-      IfUnion<TComparator, UnionToTuple<TComparator>, TComparator>
-    >
-  : false;
+> = PreProcess<TContent, TComparator>;

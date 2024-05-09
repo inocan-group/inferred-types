@@ -2,7 +2,7 @@ import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import { 
   DoesExtend, 
-  IsRef,
+  IsVueRef,
   VueRef 
 } from "src/types/index";
 import { asVueRef, isRef, keysOf } from "src/runtime/index";
@@ -16,22 +16,24 @@ describe("VueRef, isRef(), and IsRef<T>", () => {
 
   
   it("IsRef<T> on real Ref<T> and fake VueRef<T>", () => {
-    type Str = IsRef<Ref<"hi">>;
-    type Str2 = IsRef<VueRef<"hi">>;
+    type Str = IsVueRef<Ref<"hi">>;
+    type Str2 = IsVueRef<VueRef<"hi">>;
+    type NotRef = IsVueRef<{baz: 3}>;
 
     type cases = [
       ExpectTrue<Str>,
       ExpectTrue<Str2>,
+      ExpectFalse<NotRef>
     ];
-    const cases: cases = [ true, true ];
+    const cases: cases = [ true, true, false ];
     
   });
 
   
   it("Negative tests of IsRef<T> on non-reference types", () => {
-    type Str = IsRef<"hi">;
-    type Num = IsRef<42>;
-    type Obj = IsRef<object>;
+    type Str = IsVueRef<"hi">;
+    type Num = IsVueRef<42>;
+    type Obj = IsVueRef<object>;
     
     type cases = [
       ExpectFalse<Str>,
@@ -73,8 +75,8 @@ describe("VueRef, isRef(), and IsRef<T>", () => {
       ExpectTrue<DoesExtend<Ref, VueRef>>,
       ExpectFalse<DoesExtend<VueRef,Ref>>,
       // IsRef provides safe way to test for both
-      ExpectTrue<IsRef<typeof test_ref>>,
-      ExpectTrue<IsRef<VueRef>>,
+      ExpectTrue<IsVueRef<typeof test_ref>>,
+      ExpectTrue<IsVueRef<VueRef>>,
     ];
     const cases: cases = [
       true,  false, true, true

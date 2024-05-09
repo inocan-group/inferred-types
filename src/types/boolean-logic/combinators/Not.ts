@@ -5,23 +5,23 @@ import { Tuple, LogicFunction, IfFalse, IfTrue, IsErrorCondition, AfterFirst, Fi
 
 type Negate <
   TVal, 
-  TParams extends Tuple
+  _TParams extends Tuple = []
 > = TVal extends boolean
 ? IfTrue<TVal, false, IfFalse<TVal, true, boolean>>  
-: TVal extends LogicFunction<TParams>
-  ? ReturnType<LogicFunction<TParams>>
+: TVal extends LogicFunction
+  ? ReturnType<LogicFunction>
   : never;
 
 type NegateTuple<
   TTuple extends readonly (boolean | LogicFunction)[],
-  TParams extends Tuple,
+  _TParams extends Tuple = [],
   TResults extends readonly (boolean | LogicFunction)[] = []
 > = [] extends TTuple
 ? TResults
 : NegateTuple<
     AfterFirst<TTuple>,
-    TParams,
-    [...TResults, Negate<First<TTuple>, TParams> ]
+    _TParams,
+    [...TResults, Negate<First<TTuple>, _TParams> ]
   >;
 
 /**
@@ -39,11 +39,11 @@ type NegateTuple<
  */
 export type Not<
   TVal, 
-  TParams extends Tuple = []
+  _TParams extends Tuple = []
 > = IsErrorCondition<TVal> extends true 
   ? TVal
   : TVal extends boolean
-    ? Negate<TVal,TParams>
+    ? Negate<TVal>
     : TVal extends readonly (boolean | LogicFunction)[] 
-      ? NegateTuple<TVal, TParams>
+      ? NegateTuple<TVal>
       : never;

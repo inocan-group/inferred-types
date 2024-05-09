@@ -4,7 +4,7 @@ import {
   Split, 
   IsValidDotPath, 
   Container, 
-  IsRef, 
+  IsVueRef, 
   AsRef 
 } from "src/types/index";
 
@@ -23,7 +23,7 @@ type Process<
       : AfterFirst<TIndexes>["length"] extends 0
         ? TContainer[First<TIndexes>]
         : false
-    : IsRef<TContainer> extends true
+    : IsVueRef<TContainer> extends true
       ? First<TIndexes> extends keyof AsRef<TContainer>["value"]
         ? TIndexes["length"] extends 1
           ? AsRef<TContainer>["value"][First<TIndexes>]

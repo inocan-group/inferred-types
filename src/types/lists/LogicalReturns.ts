@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { LogicFunction } from "../functions";
+
 /**
  * **LogicalReturns**`<TValues, TParams>`
  * 
@@ -11,7 +13,7 @@
  * **See Also**: `ReturnTypes` and `TruthyReturns`
  */
 export type LogicalReturns<
-  TValues extends readonly (boolean | ((...args: any[]) => boolean))[],
+  TValues extends readonly (boolean | LogicFunction)[],
   _TParams extends readonly unknown[] = []
 > = {
   [K in keyof TValues]: TValues[K] extends ((...args: any[]) => boolean)

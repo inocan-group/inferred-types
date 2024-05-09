@@ -8,7 +8,6 @@ export * from "./Punctuation";
 export * from "./DomainName";
 export * from "./Url";
 export * from "./CSV";
-export * from "./DotPath";
 export * from "./DotPathFor";
 export * from "./IpAddress";
 export * from "./OptionalSpace";

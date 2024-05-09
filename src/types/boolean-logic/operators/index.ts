@@ -23,19 +23,17 @@ export * from "./HasParameters";
 export * from "./HasUnionType";
 export * from "./HasSameValues";
 export * from "./IsNegativeNumber";
-export * from "./IsRef";
+export * from "./IsVueRef";
 export * from "./IsValidKey";
 export * from "./IsObjectLiteral";
 export * from "./IsTuple";
 export * from "./IsGreaterThan";
 export * from "./IsDotPath";
 export * from "./IsSingularNoun";
-export * from "./IsValidDotPath";
 export * from "./IsAllLowercase";
 export * from "./IsAllCaps";
 export * from "./IsChar";
 export * from "./IsDefined";
-
 export * from "./IsOptionalScalar";
 export * from "./IsObject";
 export * from "./Includes";
@@ -78,3 +76,5 @@ export * from "./IsReadonlyObject";
 export * from "./AreSameLength";
 export * from "./HasWideValues";
 export * from "./HasProp";
+export * from "./Validate"
+export * from "./HasSameKeys"

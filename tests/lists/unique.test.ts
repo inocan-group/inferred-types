@@ -32,16 +32,7 @@ describe("Unique properties in Sets", () => {
       const cases: cases = [ true, true, true, true ];
     });
 
-    
-    it("using dereferencing", () => {
-      type T = Unique<[...[Obj1,Obj2], ...[Obj2,Obj3]], "id">;
-      
-      type cases = [
-        /** type tests */
-      ];
-      const cases: cases = [];
-      
-    });
+  
     
 
   });

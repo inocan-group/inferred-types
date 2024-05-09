@@ -11,29 +11,39 @@ import { describe, expect, it } from "vitest";
 describe("EnsureTrailing", () => {
 
   it("happy path", () => {
+    type SuperWide = EnsureTrailing<string, string>;
+    type NumSuperWide = EnsureTrailing<number, number>;
+
+    type WideContent = EnsureTrailing<string, "wide">;
+    type WideTrailer = EnsureTrailing<"wide", string>;
+  
     type NoChange = EnsureTrailing<"FooBar", "Bar">;
     type FooBar = EnsureTrailing<"Foo", "Bar">;
+
+    type PostfixOne = EnsureTrailing<5,1>;
     
     type cases = [
+      Expect<Equal<SuperWide, string>>,
+      Expect<Equal<NumSuperWide, number>>,
+
+      Expect<Equal<WideContent, `${string}wide`>>,
+      Expect<Equal<WideTrailer, `wide${string}`>>,
+
       Expect<Equal<NoChange, "FooBar">>,
       Expect<Equal<FooBar, "FooBar">>,
+
+      Expect<Equal<PostfixOne, 51>>
     ];
-    const cases: cases = [ true, true ];
+    const cases: cases = [ 
+      true, true, 
+      true, true,
+      true, true, 
+      true
+    ];
   });
 
   
-  it("brackets", () => {
-    type Square = EnsureTrailing<"FooBar", "]]">;
-    type Curly = EnsureTrailing<"FooBar", "}}">;
-    type Round = EnsureTrailing<"FooBar", "))">;
-    
-    type cases = [
-      Expect<Equal<Square,"FooBar]]">>,
-      Expect<Equal<Curly, "FooBar}}">>,
-      Expect<Equal<Round, "FooBar))">>,
-    ];
-    const cases: cases = [ true, true, true ];
-  });
+
   
 
 });

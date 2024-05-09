@@ -1,6 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { Concat,  LeftWhitespace,  Replace, RightWhitespace, Trim , DashUppercase , LowerAllCaps } from "src/types/index";
+import { 
+  Concat,  
+  LeftWhitespace,  
+  Replace, 
+  RightWhitespace, 
+  Trim , 
+  DashUppercase , 
+  LowerAllCaps 
+} from "src/types/index";
 
 /**
  * **KebabCase**`<TString,TPreserve>`
@@ -21,7 +29,6 @@ export type KebabCase<
   TString extends string,
   TPreserve extends boolean = false
 > = TPreserve extends true
-  
   ? // preserve
     Concat<[
       LeftWhitespace<TString>,

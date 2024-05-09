@@ -1,4 +1,10 @@
-import { IfLiteral,  NumberLike, AsNumber, StripLeading } from "src/types/index";
+import {   NumberLike, AsNumber, StripLeading, IsStringLiteral, If, Or,  AsString } from "src/types/index";
+
+type Process<T extends `${number}`> = If<
+  IsStringLiteral<T>,
+  StripLeading<T, "-">,
+  string
+>;
 
 
 /**
@@ -9,10 +15,9 @@ import { IfLiteral,  NumberLike, AsNumber, StripLeading } from "src/types/index"
  * - you can pass in a numeric string literal and it perform ABS func while
  * preserving string literal type
  */
-export type Abs<T extends NumberLike> = IfLiteral<
-  T,
-  T extends `${number}`
-  ? StripLeading<`${T}`, "-">
-  : AsNumber<StripLeading<`${T}`, "-">>,
-  number
->;
+export type Abs<T extends NumberLike> = T extends number
+? AsNumber<Process<AsString<T>>>
+: T extends `${number}`
+  ? Process<T>
+  : never;
+

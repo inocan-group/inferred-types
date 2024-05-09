@@ -1,6 +1,18 @@
 
-import { IfContains , Narrowable , SimplifyObject , AnyObject, Keys, AsRecord } from "src/types/index";
+import {   
+  AnyObject, 
+  ExpandRecursively, 
+  ObjectKey, 
+} from "src/types/index";
 
+
+type Process<  
+TObj extends AnyObject,
+K extends ObjectKey,
+V
+> = K extends keyof TObj
+? Omit<TObj, K> & Record<K,V>
+: TObj & Record<K,V>;
 
 /**
  * **UpsertKeyValue**`<TObj,TKey,TVal>`
@@ -12,10 +24,6 @@ import { IfContains , Narrowable , SimplifyObject , AnyObject, Keys, AsRecord } 
  */
 export type UpsertKeyValue<
   TObj extends AnyObject,
-  K extends PropertyKey,
-  V extends Narrowable
-> = IfContains<
-  Keys<AsRecord<TObj>>, K, 
-  SimplifyObject<Omit<TObj, K> & Record<K, V>>, 
-  SimplifyObject<TObj & Record<K, V>>
->;
+  K extends ObjectKey,
+  V
+> = ExpandRecursively<Process<TObj, K, V>>;

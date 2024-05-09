@@ -12,9 +12,8 @@ import { LogicFunction, Or } from "src/types/index";
  * param which will try to use this to help narrow types where possible.
  */
 export type IfOr<
-  TConditions extends (readonly (boolean | LogicFunction<TParams>)[])
-    | (boolean | LogicFunction<TParams>)[],
+  TConditions extends (readonly (boolean | LogicFunction)[]),
   IF = true,
   ELSE = false,
-  TParams extends readonly unknown[] = [],
+  _TParams extends readonly unknown[] = [],
 > = Or<readonly [...TConditions]> extends true ? IF : ELSE;

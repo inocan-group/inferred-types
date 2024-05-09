@@ -1,8 +1,8 @@
 import { 
   Digit, 
   ToString, 
-  ToNumber, 
-  NumericChar 
+  NumericChar, 
+  AsNumber
 } from "src/types/index";
 
 /**
@@ -21,7 +21,7 @@ import {
  * ```
  */
 export type NextDigit<T extends Digit | NumericChar> = T extends `${NumericChar}`
-? ToString<NextDigit<ToNumber<T>>>
+? ToString<NextDigit<AsNumber<T>>>
 : T extends 0 ? 1
 : T extends 1 ? 2
 : T extends 2 ? 3

@@ -5,7 +5,6 @@ import {
   IsTuple, 
   IsBooleanLiteral, 
   IsObjectLiteral, 
-  Or 
 } from "src/types/index";
 
 /**
@@ -15,13 +14,16 @@ import {
  * the tuple `TTuple` are _literal_ types.
  */
 export type AllLiteral<T extends readonly unknown[]> = And<{
-  [K in keyof T]: Or<[
-      IsStringLiteral<T[K]>,
-      IsNumericLiteral<T[K]>,
-      IsTuple<T[K]>,
-      IsBooleanLiteral<T[K]>,
-      IsObjectLiteral<T[K]>,
-    ]>
+  [K in keyof T]: IsStringLiteral<T[K]> extends true
+  ? true    
+  : IsNumericLiteral<T[K]> extends true
+  ? true
+  : IsTuple<T[K]> extends true
+  ? true
+  : IsBooleanLiteral<T[K]> extends true
+  ? true
+  : IsObjectLiteral<T[K]> extends true
+  ? true
+  : false
 }>;
 
-// [1,2,3] -> [true,true,true]

@@ -1,37 +1,25 @@
 import { describe, it, expect } from "vitest";
 
-import { Equal, Expect, ExpectFalse } from "@type-challenges/utils";
-import type { SameKeys } from "src/types/index";
+import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
+import type { HasSameKeys } from "src/types/index";
 
 describe("SameKeys<T> utility", () => {
-  it("keys must be same type but value can be anything", () => {
-    const origin = { id: "abc", favorite: false };
-    type O = typeof origin;
-    type SK = SameKeys<O>;
+ 
 
+  it("happy path", () => {
+
+    
     type cases = [
-      Expect<Equal<SK, { id: unknown; favorite: unknown }>> //
-    ];
-    const c: cases = [true];
-    expect(c).toBe(c);
-  });
+      ExpectFalse<HasSameKeys<{ id: "abc" },{ id: "abc"; favorite: false }>>,
+      ExpectTrue<HasSameKeys<{ id: "abc" },{ id: "syz" }>>,
 
-  it("explicit assignment does enforce exhaustion of all keys", () => {
-    const origin = { id: "abc", favorite: false };
-    const partial = { id: "abc" };
-    type O = typeof origin;
-    type P = typeof partial;
-
-    type cases = [
-      // not surprisingly applying utility to both
-      // does not reach equality
-      ExpectFalse<Equal<SameKeys<O>, SameKeys<P>>>,
-      // but more importantly P can not be assigned to SameKeys<O>
-      // this ensures that you'd get a type error with:
-      // `const p: SameKeys<O> = { id: "abc" }`
-      ExpectFalse<Equal<SameKeys<O>, P>>
+      ExpectFalse<HasSameKeys<[1,2],[1,2,3]>>,
+      ExpectTrue<HasSameKeys<[1,2], [3,4]>>
     ];
-    const c: cases = [false, false];
-    expect(c).toBe(c);
+    const cases: cases = [
+      false, true,
+      false, true,
+    ];
+    expect(cases).toBe(cases);
   });
 });

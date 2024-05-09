@@ -1,30 +1,57 @@
-import type { AfterFirst, First, AsArray } from "src/types/index";
+import type {  IsUnion, UnionToTuple, If, ToStringArray, IsStringLiteral, ErrorCondition,  AllStringLiterals, AsArray, Or, And } from "src/types/index";
 
 type _HasChar<
   TStr extends string,
   TChars extends readonly string[],
-> = [] extends TChars
-? false
-: TStr extends `${string}${First<TChars>}${string}`
-  ? true
-  : _HasChar<
-      TStr,
-      AfterFirst<TChars>
-    >;
+  TOp extends "any" | "all"
+> = TOp extends "any"
+? Or<{
+    [K in keyof TChars]: TStr extends `${string}${TChars[K]}${string}` ? true : false
+  }>
+: And<{
+    [K in keyof TChars]: TStr extends `${string}${TChars[K]}${string}` ? true : false
+  }>;
+
+
+type Process<
+TStr extends string,
+TChars extends string | readonly string[],
+TOp extends "any" | "all"
+> = TChars extends string
+? If<
+  IsUnion<TChars>,
+  UnionToTuple<TChars> extends readonly string[]
+    ? Process<TStr, UnionToTuple<TChars>,TOp>
+    : Process<TStr, ToStringArray<UnionToTuple<TChars>>, TOp> extends readonly string[]
+      ? Process<TStr, ToStringArray<UnionToTuple<TChars>>, TOp>
+      : ErrorCondition<"non-string-union">,
+  If<IsStringLiteral<TChars>, _HasChar<TStr,[TChars],TOp>, never >
+>
+: TChars extends readonly string[]
+  ? _HasChar<TStr, TChars,TOp>
+  : never;
+
 
 /**
- * **HasCharacter**`<TStr,TChars>`
+ * **HasCharacters**`<TStr,TChars>`
  * 
- * Boolean type utility which tests whether `TStr` has the
- * character `TChars` in it. 
+ * Boolean type utility which tests whether `TStr` has _any_ of the
+ * characters in `TChars`. 
  * 
- * - If more than one character is provided in `TChars` then
- * the result will return **true** if _any_ of the characters
- * are present.
+ * - If you would prefer to test for ALL characters matching then 
+ * you can change `TOp` to "all".
  * 
  * **Related:** `NotCharacters`
  */
 export type HasCharacters<
   TStr extends string,
-  TChars extends string | readonly string[]
-> = _HasChar<TStr, AsArray<TChars>>;
+  TChars extends string | readonly string[],
+  TOp extends "any" | "all" = "any"
+> = If<
+  IsStringLiteral<TStr>,
+  If<
+    TChars extends string ? IsStringLiteral<TChars> : AllStringLiterals<AsArray<TChars>>,
+    Process<TStr,TChars,TOp>,
+    boolean
+  >
+>

@@ -1,4 +1,4 @@
-import {   HasKeys, IfNotNever, } from "src/types/index"
+import {   EnsureKeys, IfNotNever, } from "src/types/index"
 import { isObject } from "./isObject";
 import { isFunction } from "./isFunction";
 
@@ -24,7 +24,7 @@ export const hasKeys = <
  */
 <
   T
->(val: T): val is T & IfNotNever<HasKeys<T, ["name"], never>, HasKeys<T,P>>  => {
+>(val: T): val is T & IfNotNever<EnsureKeys<T, ["name"], never>, EnsureKeys<T,P>>  => {
   const keys = Array.isArray(props) 
     ? props 
     : Object.keys(props).filter(i => typeof i === "string") as string[];

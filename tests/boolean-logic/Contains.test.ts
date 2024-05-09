@@ -4,7 +4,7 @@ import { describe, it } from "vitest";
 
 describe("Contains<T,A>", () => {
   it("Content is a tuple", () => {
-    type T1 = [number, 32, 64, "foo"];
+    type T1 = Contains<[number, 32, 64, "foo"], string>;
     type T2 = ["foo",false, true];
     type T3 = [42, 64, 128];
     type T4 = ["foo", "bar"];

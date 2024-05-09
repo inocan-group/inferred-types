@@ -1,5 +1,12 @@
 /* eslint-disable no-use-before-define */
-import { LogicFunction, ReturnTypes , NarrowlyContains  } from "src/types/index";
+import { LogicFunction, NarrowlyContains, LogicalReturns, IfNever, IfEqual  } from "src/types/index";
+
+type Process<
+  TConditions extends readonly boolean[],
+  TBooleanSean extends boolean
+> = NarrowlyContains<TConditions, true> extends true
+? true
+: IfEqual<TBooleanSean, true, boolean, false>;
 
 /**
  * **Or**`<TConditions, TParams>`
@@ -9,29 +16,14 @@ import { LogicFunction, ReturnTypes , NarrowlyContains  } from "src/types/index"
  */
 export type Or<
   TConditions ,
-  TParams extends readonly unknown[] = []
-> = TConditions extends readonly (boolean | LogicFunction<TParams>)[]
-
-? NarrowlyContains<TConditions, true> extends true
-    ? // if a true value is found anywhere, the result is true
-      true
-    : // if the return type of  LogicFunction is true anywhere, the result is true
-      NarrowlyContains<ReturnTypes<TConditions>, true> extends true
-        ? true
-        : // if boolean value found we need to defer to runtime
-          NarrowlyContains<TConditions, boolean> extends true
-          ? boolean
-          : // if boolean return value found we need to defer to runtime
-            NarrowlyContains<ReturnTypes<TConditions>, boolean> extends true
-            ? boolean
-            : // if false found after not finding other boolean types it is false
-              NarrowlyContains<TConditions, false> extends true
-              ? false
-              : // same applies if return value is false
-                NarrowlyContains<ReturnTypes<TConditions>, false> extends true
-                ? false
-                : // logical operation is not permitted if there are no boolean types
-                  never
-: never;
-
-
+  _TParams extends readonly unknown[] = []
+> = IfNever<TConditions extends readonly (boolean | LogicFunction)[]
+? LogicalReturns<TConditions> extends readonly boolean[]
+  ? Process<
+      LogicalReturns<TConditions>,
+      NarrowlyContains<LogicalReturns<TConditions>, boolean>
+    >
+  : never
+: false,
+false
+>

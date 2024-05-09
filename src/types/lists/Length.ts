@@ -1,5 +1,37 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import type { Container, IfLiteral, IfStringLiteral, Keys, StrLen, ToString } from "src/types/index";
+import type {  
+  AsString, 
+  Container, 
+  ExpandRecursively, 
+  If, 
+  IfNever, 
+  IsEqual, 
+  IsObjectLiteral, 
+  IsWideType, 
+  KV, 
+  NotEqual, 
+  ObjectKey, 
+  Or, 
+  RemoveIndexKeys, 
+  StrLen,  
+  UnionToTuple 
+} from "src/types/index";
+
+type _Keys<
+T extends object
+> = UnionToTuple<keyof RemoveIndexKeys<T>>;
+
+type ProcessString<T extends string> = If<
+  IsEqual<T,string>,
+  number,
+  StrLen<T> extends number
+  ? StrLen<T>
+  : never
+>
+
+type ProcessTuple<T extends readonly unknown[]> = T["length"] extends number
+? T["length"]
+: never;
 
 
 /**
@@ -14,19 +46,31 @@ import type { Container, IfLiteral, IfStringLiteral, Keys, StrLen, ToString } fr
  * type Three = Length<[ "a", "b", "c" ]>;
  * ```
  */
-export type Length<T extends Container | string | number> = T extends string 
-  ? IfStringLiteral<
-      T, 
-      StrLen<T>,
-      number
-    >
-  : T extends number
-    ? IfLiteral<T, StrLen<ToString<T>>, number>
-    : T extends readonly unknown[] 
-      ? T["length"]
-      : T extends unknown[] 
-        ? number 
-        : T extends object
-          ? Keys<T>["length"]
-          : number;
+export type Length<
+  T extends Container | string | number
+  > = T extends number
+? number extends T
+  ? number
+  : ProcessString<AsString<T>>
+: T extends string
+  ? ProcessString<T>
+  : T extends readonly unknown[]
+    ? ProcessTuple<T>
+    : T extends object
+    ? If<
+        Or<[
+          IsEqual<T, string[]>,
+          IsEqual<T, number[]>,
+          IsEqual<T, boolean[]>,
+          IsEqual<T, unknown[]>,
+          IsEqual<keyof T, string | symbol>,
+          IsEqual<keyof T, string>,
+        ]>,
+        number,
+        _Keys<T> extends readonly ObjectKey[]
+          ? _Keys<T>["length"]
+          : never
+      >
+      
+    : never;
 

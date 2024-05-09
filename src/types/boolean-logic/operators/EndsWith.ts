@@ -1,34 +1,56 @@
-import type { IsStringLiteral, ToString, Or } from "src/types/index";
+import {  AsString, IsStringLiteral, Or } from "src/types/index";
+
+type Test<
+  TValue extends string,
+  TComparator extends string
+> = TValue extends `${string}${TComparator}`
+? true
+: false;
 
 type Process<
-  TValue,
-  TComparator
-> = TComparator extends number 
-  ? Process<ToString<TValue>, ToString<TComparator>>
+  TValue extends string,
+  TComparator extends string
+> = IsStringLiteral<TComparator> extends true
+  ? IsStringLiteral<TValue> extends true // both literals
+    ? Test<TValue,TComparator>
+    : boolean
+  : boolean;
+
+type ProcessEach<
+    TValue extends string,
+    TComparator extends readonly string[]
+> = Or<{
+  [K in keyof TComparator]: Process<TValue,TComparator[K]>
+}>;
+
+
+type PreProcess<
+  TValue extends string,
+  TComparator extends string | readonly string[]
+> = TComparator extends readonly string[]
+  ? ProcessEach<TValue, TComparator>
   : TComparator extends string
-    ? IsStringLiteral<TComparator> extends true
-      ? IsStringLiteral<TValue> extends true // both literals
-        ? TValue extends `${string}${TComparator}`
-          ? true
-          : false
-        : boolean
-      : boolean
-    : TComparator extends readonly (string|number)[]
-      ? Or<{
-          [K in keyof TComparator]: Process<TValue,TComparator[K]>
-        }>
+      ? Process<TValue,AsString<TComparator>>
       : never;
 
 /**
- * **EndsWith**<T,U>
+ * **EndsWith**<TValue, TComparator>
  *
- * A type utility which checks whether `T` _ends with_ the string literal `U`.
+ * A type utility which checks whether `TValue` _ends with_ the 
+ * value of `TComparator`.
  *
- * If both `T` and `U` are string literals then the type system will resolve
- * to a literal `true` or `false` but if either is not a literal that it will
- * just resolve to `boolean` as the value can not be known at design time..
+ * - numeric values for `TValue` will be converted into string literals
+ * prior to comparison
+ * - a tuple value in `TComparator` is allowed and will test whether
+ * _at least one_ type Ends the sequence for TValue
  */
 export type EndsWith<
-  TValue,
-  TEndsWith
-> = Process<TValue,TEndsWith>
+  TValue extends string | number,
+  TComparator extends string | number | readonly string[]
+> = PreProcess<
+  AsString<TValue>, 
+  TComparator extends readonly string[] 
+    ? TComparator 
+    : AsString<TComparator>
+>;
+

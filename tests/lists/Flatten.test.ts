@@ -18,6 +18,7 @@ describe("Flatten<T>", () => {
     type D2 = Flatten<[[1,2],[3,4],[[5],6]], 2>;
 
     type DS = [[1,2],[3,4],[[5,6],[7,[8,9]]]];
+    
     type DeeperStill1 = Flatten<DS, 1>;
     type DeeperStill2 = Flatten<DS, 2>;
     type DeeperStill3 = Flatten<DS, 3>;

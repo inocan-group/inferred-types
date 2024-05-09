@@ -1,6 +1,5 @@
 import { Container, KV, ObjectKey, Tuple } from "../base-types";
 import { AfterFirst, First } from "../lists";
-import { AsObjectKeys } from "../type-conversion";
 import { Keys } from "./Keys";
 
 
@@ -36,7 +35,9 @@ export type Values<
 ? T
 : T extends KV
   ? Process<
-      AsObjectKeys<Keys<T>>,
+      Keys<T> extends readonly ObjectKey[]
+        ? Keys<T>
+        : never,
       T
     >
   : [];

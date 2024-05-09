@@ -12,4 +12,3 @@ export type ValueCallback<
   TVal, 
   TReturn
 > = <V extends TVal>(v: V) => TReturn;
-

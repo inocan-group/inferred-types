@@ -1,4 +1,4 @@
-import { IfAnd, IfLiteral, IsString } from "src/types/index";
+import {  IfStringLiteral } from "src/types/index";
 
 /**
  * **StripStarting**`<T, U>`
@@ -16,9 +16,9 @@ import { IfAnd, IfLiteral, IsString } from "src/types/index";
  *   - if `T` is a non-string type then no transformation will be done
  *   - same applies to `U`
  */
-export type StripLeading<T, U> = IfAnd<
-  [ IsString<T>, IsString<U>],
-  IfLiteral<
+export type StripLeading<T, U> = T extends string
+? U extends string
+  ? IfStringLiteral<
     // can only operate on literal strings
     T,
     // this path represents successful strip opp
@@ -26,6 +26,6 @@ export type StripLeading<T, U> = IfAnd<
     string extends U ? never : T extends `${U & string}${infer After}` ? After : T,
     // here we must stay wide
     string
-  >,
-  never
->;
+  >
+  : never
+: never;
