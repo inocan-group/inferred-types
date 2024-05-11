@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import {  RemainingChars } from "src/types/index";
+import {  AfterFirstChar } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -10,8 +10,8 @@ import {  RemainingChars } from "src/types/index";
 describe("LastChar<T>", () => {
 
   it("with string input", () => {
-    type Foobar = RemainingChars<"Foobar">;
-    type EmptyStr = RemainingChars<"">;
+    type Foobar = AfterFirstChar<"Foobar">;
+    type EmptyStr = AfterFirstChar<"">;
     
     type cases = [
       Expect<Equal<Foobar, "oobar">>,
@@ -22,7 +22,7 @@ describe("LastChar<T>", () => {
 
   
   it("with array input", () => {
-    type FooBarBaz = RemainingChars<["foo", "bar", "baz"]>;
+    type FooBarBaz = AfterFirstChar<["foo", "bar", "baz"]>;
     
     type cases = [
       Expect<Equal<FooBarBaz, ["oo","ar","az"]>>

@@ -1,41 +1,35 @@
 import {  
-  AsArray,
   Last,
-  AsString, 
-  IfString,
-  UnionToTuple,
   Chars, 
 } from "src/types/index";
 
-type Iterate<
-  TInput extends readonly string[],
-> = UnionToTuple<{
-  [K in keyof TInput]: Last<AsArray<Chars<AsString<TInput[K]>>>>
-}[number]>
+type Process<TContent extends string> = Last<Chars<TContent>>;
+
+type Iterate<TContent extends readonly string[]> = {
+  [K in keyof TContent]: Process<TContent[K]>
+}
+
+
 
 /**
  * **LastChar**`<TContent>`
  * 
- * Receives either a string or a tuple of strings. Based on the input
- * it is converted to:
+ * When `TContent` extends a _string_:
+ *   - will return the last character in a string literal
+ *   - returns `string` when a wide type is encountered
+ *   - returns `never` when an empty string is passed in
  * 
- * - **String:** 
- *    - when a string is received it will return the last character
- * in that string as a string literal. 
- *    - when a wide string type is provided it will return the _never_ type.
- * - **Tuple<string>:** 
- *    - when a tuple of strings is received it will process
- * each element in the array independently and return each element's last
- * character
- *    - any wide strings encountered will be ignored in the returned array
+ * When `TContent` is a tuple of strings:
+ *   - each item will be processed as described above
+ * 
+ * **Related:** `FirstChar`, `AfterFirstChar`
  */
 export type LastChar<
   TContent extends string | readonly string[]
-> = IfString<
-  TContent,
-  Last<AsArray<Chars<AsString<TContent>>>>,
-  TContent extends readonly string[]
-    ? Iterate<TContent>
-    : never
->;
-
+> = TContent extends readonly string[]
+  ? Iterate<TContent>
+  : TContent extends string
+    ? string extends TContent
+      ? string
+      : Process<TContent>
+    : never;

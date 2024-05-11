@@ -1,11 +1,11 @@
 
 import { 
-  Filter,
   Get,
   IfReadonlyArray,
   IfValidDotPath,
   IndexOf, 
-  Mutable, 
+  Mutable,
+  RemoveNever, 
 } from "src/types/index";
 
 
@@ -28,21 +28,21 @@ import {
 */
 export type GetEach<
   TList extends readonly unknown[], 
-  TKey extends string | number,
-> = Filter<{
-      [K in keyof TList]: TKey extends keyof TList[K]
-        ? IndexOf<TList[K], TKey> extends undefined
-          ? never
-          : IndexOf<TList[K], TKey>
-        : IfValidDotPath<
-            TList[K], TKey,
-            // valid
-            IfReadonlyArray<
-              TList, 
-              Get<TList[K], TKey, never>, 
-              Mutable<Get<TList[K], TKey, never>> 
-            >,
-            // invalid
-            never
-          >
-    }, never>;
+  TKey extends PropertyKey,
+> = RemoveNever<{
+  [K in keyof TList]: TKey extends keyof TList[K]
+    ? IndexOf<TList[K], TKey> extends undefined
+      ? never
+      : IndexOf<TList[K], TKey>
+    : IfValidDotPath<
+        TList[K], TKey,
+        // valid
+        IfReadonlyArray<
+          TList, 
+          Get<TList[K], TKey, never>, 
+          Mutable<Get<TList[K], TKey, never>> 
+        >,
+        // invalid
+        never
+      >
+}>;

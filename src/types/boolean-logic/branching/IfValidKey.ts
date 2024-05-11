@@ -5,7 +5,7 @@ import {
   Container, 
   ErrorCondition, 
   IfFalse, 
-  IsValidKey, 
+  IsValidIndex, 
   Tuple 
 } from "src/types/index";
 
@@ -54,10 +54,10 @@ export type IfValidKey<
   IF = TKey extends keyof TContainer ? TContainer[TKey] : never,
   ELSE = Err<TContainer,TKey>,
   MAYBE = IF | ELSE
-> = IsValidKey<TContainer, TKey> extends true 
+> = IsValidIndex<TContainer, TKey> extends true 
   ? IF 
   : IfFalse<
-      IsValidKey<TContainer, TKey>, 
+      IsValidIndex<TContainer, TKey>, 
       ELSE, 
       MAYBE
     >;

@@ -15,7 +15,7 @@ type BuildObj<
 
 
 /**
- * **EnsureKeys**`<TObj,TKeys,[TType]`
+ * **EnsureKeys**`<TObj,TKeys,[TType]>`
  * 
  * Receives an object `TObj` and a specifier `TKeys` which
  * ensures that the specified _keys_ exist on the object. 

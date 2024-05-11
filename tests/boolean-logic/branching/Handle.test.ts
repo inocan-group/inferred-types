@@ -1,4 +1,4 @@
-import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
+import { Equal, Expect, ExpectFalse } from "@type-challenges/utils";
 import { Handle } from "src/types/index";
 import { describe, it } from "vitest";
 
@@ -9,29 +9,35 @@ import { describe, it } from "vitest";
 describe("Handle<TContent,TPass,THandle,TSpecificity>", () => {
 
   it("extends specificity", () => {
-    type Foo = Handle<"foo", number, false>;
-    type Foo2 = Handle<"foo", number, false, "extends">;
+    type Foo = Handle<"bar", string, "foo">;
+
+    type StillFoo = Handle<"foo", number, false>;
+    type StillFoo2 = Handle<"foo", number, false, "extends">;
     type UFoo = Handle<"foo", boolean | number, false>;
     type NarrowFoo = Handle<"foo", "foo" | number, false>;
 
-    type Union = Handle<"foo" | 42 | "bar", number, false>;
-    type Removal = Handle<"foo" | 42 | "bar", number, never>;
+    type UnionHandler = Handle<42, "foo" | number | "bar", "union">;
+    // content should narrow based on handler
+    type UnionContent = Handle<"foo" | 42 | "bar", number , never>;
 
     type Nope = Handle<"foo", string, false>;
     
     type cases = [
       Expect<Equal<Foo, "foo">>,
-      Expect<Equal<Foo2, "foo">>,
+
+      Expect<Equal<StillFoo, "foo">>,
+      Expect<Equal<StillFoo2, "foo">>,
       Expect<Equal<UFoo, "foo">>,
       ExpectFalse<NarrowFoo>,
 
-      Expect<Equal<Union, "foo" | "bar" | false>>,
-      Expect<Equal<Removal, "foo" | "bar">>,
+      Expect<Equal<UnionHandler, "union">>,
+      Expect<Equal<UnionContent, "foo" | "bar">>,
 
       ExpectFalse<Nope>
     ];
     const cases: cases = [
-      true, true, true,false,
+      true, 
+      true, true, true, false,
       true, true,
       false
     ];

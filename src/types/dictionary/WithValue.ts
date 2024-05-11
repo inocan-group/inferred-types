@@ -1,17 +1,27 @@
-import { AfterFirst, AnyObject , AsRecord, ExpandRecursively, First, KV, KeysWithValue } from "src/types/index";
+import { MARKED } from "src/constants/index";
+import { 
+  Compare,
+  ExpandRecursively,
+  If, 
+  KV,
+  IsEqual,
+  EmptyObject
+} from "src/types/index";
+import { RemoveMarked } from "../containers/RemoveMarked";
+
+type Marked = typeof MARKED;
 
 type Process<
-  TKeys extends readonly unknown[],
-  TObj extends AnyObject,
-  TResult extends object = object
-> = [] extends TKeys
-? ExpandRecursively<TResult>
-: Process<
-    AfterFirst<TKeys>,
-    TObj,
-    TResult & Record<First<TKeys>, First<TKeys> extends keyof TObj ? TObj[First<TKeys>] : never>
-  >;
-
+  TObj extends KV,
+  TValue,
+  TOp extends "equals" | "extends"
+> = RemoveMarked<{
+    [K in keyof TObj]: If<
+      Compare<TObj[K], TOp, TValue>,
+      TObj[K],
+      Marked
+    >
+}>;
 
 /**
  * **WithValue**`<TObj,TValue>`
@@ -29,9 +39,13 @@ type Process<
 export type WithValue<
   TObj extends KV,
   TValue,
-> = Process<
-  KeysWithValue<TObj, TValue>,
-  TObj
+  TOp extends "equals" | "extends" = "extends"
+> = If<
+  IsEqual<
+    ExpandRecursively<Process<TObj,TValue,TOp>>, 
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    {}
+  >,
+  EmptyObject,
+  ExpandRecursively<Process<TObj,TValue,TOp>>
 >;
-
-

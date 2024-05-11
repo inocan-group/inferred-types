@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { Retain, UpperAlphaChar } from "src/types/index";
 import { describe, it } from "vitest";
+import { Retain, UpperAlphaChar } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -47,7 +47,7 @@ describe("Retain", () => {
     const cases: cases = [true, true, true];
   });
 
-  it("Pick out a Tuple to retain", () => {
+  it("Pick out a value of a value using containsSome", () => {
     type Lookup = [
       ["man","men"],
       ["woman","women"]

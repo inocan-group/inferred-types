@@ -1,40 +1,28 @@
-import { IfContains, Chars,  Concat,  IfUnion, Filter } from "src/types/index";
+import { 
+  Chars, 
+  ReplaceAll,
+  AfterFirst,
+  First,
+  IsUnion,
+  UnionToTuple
+} from "src/types/index";
 
 /**
  * Handles dropping a non-union type which can be a single
  * character OR a sequence of characters
  */
 type DropSequence<
-  TContent extends readonly string[],
-  TDrop extends readonly string[],
-> = Filter<{
-  [K in keyof TContent]: IfContains<
-    TDrop, TContent[K],
-    never, // filter out
-    TContent[K]
-  >
-}, never>;
-
-/**
- * Handles dropping a union of single characters
- */
-type DropUnion<
-  TContent extends readonly string[],
-  TDrop extends string,
-> = Filter<{
-  [K in keyof TContent]: TContent[K] extends TDrop
-    ? never
-    : TContent[K]
-}, never>;
-
-type Process<
   TContent extends string,
-  TDrop extends string
-> = IfUnion<
-  TDrop,
-  DropUnion<Chars<TContent>, TDrop>,
-  DropSequence<Chars<TContent>, Chars<TDrop>>
->
+  TDrop extends readonly string[],
+> = 
+
+[] extends TDrop
+? TContent
+: DropSequence<
+    ReplaceAll<TContent, First<TDrop>, "">,
+    AfterFirst<TDrop>
+  >;
+  
 
 /**
  * **DropChars**`<TContent,TDrop>`
@@ -54,10 +42,9 @@ type Process<
 export type DropChars<
   TContent extends string,
   TDrop extends string
-> = Concat<
-  Process<TContent, TDrop> extends readonly string[]
-    ? Process<TContent, TDrop>
-    : never
->;
-
+> = IsUnion<TDrop> extends true
+    ? UnionToTuple<TDrop> extends string[]
+      ? DropSequence<TContent,UnionToTuple<TDrop>>
+      : never
+    : DropSequence<TContent, Chars<TDrop>>;
 

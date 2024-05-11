@@ -1,7 +1,7 @@
 import { ExpectTrue, ExpectFalse } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { IsLiteral,  EmptyObject, IndexableObject, IsObjectLiteral } from "src/types/index";
+import { IsLiteral,  EmptyObject, IndexableObject, IsObjectLiteral, ExplicitlyEmptyObject, KV } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -52,18 +52,22 @@ describe("IsLiteral<T>", () => {
   
   it("Edge Cases", () => {
     type Empty = IsLiteral<EmptyObject>;
-    type IndexableButNotExplicit = IsObjectLiteral<IndexableObject>;
+    type Explicit = IsLiteral<ExplicitlyEmptyObject>;
+    type BaseKV = IsObjectLiteral<KV>;
     type IndexableWithExplicit = IsObjectLiteral<IndexableObject< {foo: 42 }>>;
     // eslint-disable-next-line @typescript-eslint/ban-types
     type Curly = IsLiteral<{}>;
     
     type cases = [
-      // an empty object is explicitly EMPTY ... meaning that
-      // it has no keys and this is known at design time.
-      ExpectTrue<Empty>,
-      // an indexable object _can_ have properties
-      // but we do not know what they are at design time
-      ExpectFalse<IndexableButNotExplicit>,
+      // an empty object still allows key/value pairs to be added after it
+      // is declared so it is NOT a literal
+      ExpectFalse<Empty>,
+      // an explicitly empty object -- which has it's index keys set to _never_
+      // -- can never have any key/values and therefore IS a literal
+      ExpectTrue<Explicit>,
+      // a type marked at `KV` is generic; it can take any normal key/value
+      // pair that an object is allowed so therefore it is NOT literal
+      ExpectFalse<BaseKV>,
       // an indexable object with at least one _known_ key is
       // now considered a literal type even though we may not
       // know all the keys at design time.
@@ -74,7 +78,7 @@ describe("IsLiteral<T>", () => {
       ExpectFalse<Curly>,
       
     ];
-    const cases: cases = [ true, false, true, false ];
+    const cases: cases = [ false, true, false, true, false ];
     
   });
   

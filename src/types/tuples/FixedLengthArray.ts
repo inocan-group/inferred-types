@@ -10,10 +10,19 @@ type GrowExp<A extends any[], N extends number, P extends any[][], L extends num
 
 type MapItemType<T, I> = { [K in keyof T]: I };
 
+type Process<
+  T,
+  N extends number
+> = N extends 0 
+? [] 
+: MapItemType<GrowExp<[0], N, []>, T>;
+
 /**
  * **FixedLengthArray**`<T,N>`
  * 
  * Creates a fixed length `<N>` array of a given type `<T>`
  */
 export type FixedLengthArray<T, N extends number> = 
-  N extends 0 ? [] : MapItemType<GrowExp<[0], N, []>, T>;
+Process<T,N> extends readonly unknown[]
+  ? Process<T,N>
+  : never;

@@ -1,4 +1,4 @@
-import { ExpandRecursively, SimplifyObject, Narrowable, RemoveIndex } from "src/types/index";
+import { ExpandRecursively, Narrowable, RemoveIndex, KV, Widen } from "src/types/index";
 
 /**
  * **defineObj**(literal) -> (wide) -> object
@@ -15,17 +15,23 @@ import { ExpandRecursively, SimplifyObject, Narrowable, RemoveIndex } from "src/
  * ```
  */
 export function defineObj<N extends Narrowable, TLiteral extends Record<string, N>>(
-  literal: TLiteral = {} as TLiteral
+  literal: TLiteral = {} as KV<string> as TLiteral
 ) {
   /**
    * Add any key/value pairs which you want to have _wide_ types associated;
    * literal types are defined already and stated above.
    */
-  return <TWide extends object>(wide: TWide = {} as TWide) => {
+  return <
+    TWide extends KV<string,N>,
+  >(wide: TWide = {} as KV as TWide) => {
     return (
       literal 
         ? { ...wide, ...literal } 
         : wide
-      ) as SimplifyObject<RemoveIndex<TLiteral> & ExpandRecursively<RemoveIndex<TWide>>>;
+      ) as unknown as ExpandRecursively<
+        RemoveIndex<TLiteral> & 
+        Widen<TWide>
+      >;
   };
 }
+

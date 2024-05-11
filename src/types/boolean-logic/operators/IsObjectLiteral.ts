@@ -9,7 +9,11 @@ import {
   IfNever,
   UnionToTuple,
   RemoveIndexKeys,
+  Or,
+  IsNonLiteralUnion,
+  ExplicitlyEmptyObject,
 } from "src/types/index";
+
 
 type _Keys<
   T extends KV
@@ -22,8 +26,12 @@ type CheckIt<T extends KV> = IfNever<
   ? If<
       IsEqual<_Keys<T>["length"], 0>,
       If<
-        IsWideType<DoesExtend<keyof T, ObjectKey>>,
-        false,
+        Or<[
+          IsWideType<DoesExtend<keyof T, ObjectKey>>,
+          IsNonLiteralUnion<keyof T>,
+          IsWideType<keyof T>
+        ]>,
+        If<IsEqual<T, ExplicitlyEmptyObject>, true, false>,
         IfNever<keyof T, false, true>
       >,
       If<
@@ -46,3 +54,4 @@ type CheckIt<T extends KV> = IfNever<
 export type IsObjectLiteral<T> = T extends KV
 ? CheckIt<T>
 : false
+

@@ -1,20 +1,14 @@
-import {  AsString, IsStringLiteral, Or } from "src/types/index";
+import {  AsString,  Handle,  If,   IfFalse, IsEqual, IsTuple, IsUnion, Or } from "src/types/index";
 
-type Test<
+type TestThatExtends<
   TValue extends string,
   TComparator extends string
-> = TValue extends `${TComparator}${string}`
-? true
-: false;
+> = [TValue] extends [`${TComparator}${string}`] ? true : false
 
 type Process<
   TValue extends string,
   TComparator extends string
-> = IsStringLiteral<TComparator> extends true
-  ? IsStringLiteral<TValue> extends true // both literals
-    ? Test<TValue,TComparator>
-    : boolean
-  : boolean;
+> = IfFalse<TestThatExtends<TValue,TComparator>,false, true>
 
 type ProcessEach<
     TValue extends string,
@@ -24,14 +18,15 @@ type ProcessEach<
 }>;
 
 
+
 type PreProcess<
   TValue extends string,
   TComparator extends string | readonly string[]
 > = TComparator extends readonly string[]
   ? ProcessEach<TValue, TComparator>
   : TComparator extends string
-      ? Process<TValue,AsString<TComparator>>
-      : never;
+    ? Process<TValue,AsString<TComparator>>
+    : never;
 
 /**
  * **StartsWith**<TValue, TComparator>
@@ -42,15 +37,39 @@ type PreProcess<
  * - numeric values for `TValue` will be converted into string literals
  * prior to comparison
  * - a tuple value in `TComparator` is allowed and will test whether
- * _at least one_ type starts the sequence for TValue
+ * _any_ of the patterns start `TValue`
+ * - a union type for `TComparator` is allowed so long as it's only for a single character
+ *    - this can be much more type efficient for unions with lots of characters
+ *    - if you need larger pattern matches then use a Tuple for `TComparator`
  */
 export type StartsWith<
   TValue extends string | number,
   TComparator extends string | number | readonly string[]
-> = PreProcess<
-  AsString<TValue>, 
-  TComparator extends readonly string[] 
-    ? TComparator 
-    : AsString<TComparator>
+> = If<
+  Or<[
+    IsEqual<AsString<TValue>, string>,
+    IsEqual<AsString<TComparator>, string>
+  ]>,
+  boolean,
+  If<
+    IsUnion<TComparator>,
+    IfFalse<
+      PreProcess<
+        AsString<TValue>,
+        TComparator extends number
+          ? AsString<TComparator>
+          : TComparator
+        >,
+      false,
+      true
+    >,
+    PreProcess<
+      AsString<TValue>,
+      TComparator extends number
+        ? AsString<TComparator>
+        : TComparator
+    >
+  >
 >;
+
 

@@ -28,12 +28,15 @@ export type Tuple<
   : TLength extends number
     ? Readonly<FixedLengthArray<TType, TLength>>
     : TLength extends TupleRange
-      ? Readonly<[...FixedLengthArray<TType, TLength[0]>, ...FixedLengthArray<TType | undefined, TLength[1]>]>
-      : TLength extends `${infer Num}+`
-        ? Num extends number
+      ? Readonly<[
+          ...FixedLengthArray<TType, TLength[0]>, 
+          ...FixedLengthArray<TType | undefined, TLength[1]>
+        ]>
+  : TLength extends `${infer Num extends number}+`
+    ? Num extends number
           ? Readonly<[
-            ...(FixedLengthArray<TType, Num> & any[]), 
-            ...(TType[])
+            ...FixedLengthArray<TType, Num>, 
+            ...TType[]
           ]>
           : never
-        : never;
+    : never;

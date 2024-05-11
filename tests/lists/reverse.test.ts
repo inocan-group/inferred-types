@@ -16,8 +16,8 @@ describe("Reverse a Readonly Array", () => {
       type Counting = Reverse<[1,2,3,4,5]>;
 
       type cases = [
-        Expect<Equal<FooBarBaz, readonly ["baz", "bar", "foo"]>>, //
-        Expect<Equal<Counting, readonly [5,4,3,2,1]>>
+        Expect<Equal<FooBarBaz,  ["baz", "bar", "foo"]>>, //
+        Expect<Equal<Counting,  [5,4,3,2,1]>>
       ];
       const cases: cases = [ true, true ];
     });
@@ -32,7 +32,7 @@ describe("Reverse a Readonly Array", () => {
 
       expect(counting).toEqual([5,4,3,2,1]);
       type cases = [
-        Expect<Equal<typeof counting, readonly [5,4,3,2,1]>>, //
+        Expect<Equal<typeof counting,  [5,4,3,2,1]>>, //
         
       ];
       const cases: cases = [ true ];

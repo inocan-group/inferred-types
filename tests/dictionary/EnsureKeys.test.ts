@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import {  hasKeys } from "src/runtime/index";
-import { EnsureKeys, SameKeys } from "src/types/index";
+import { EnsureKeys, HasSameKeys } from "src/types/index";
 import { describe, expect, it } from "vitest";
 
 
@@ -22,9 +22,9 @@ describe("EnsureKeys<TContainer,TKeys,TType>", () => {
     type Obj2 = EnsureKeys<object, ["foo"]>;
     
     type cases = [
-      Expect<SameKeys<FooBar, {foo: 1; bar: 3}>>,
-      Expect<SameKeys<Overlap, {foo: 5; bar: 3}>>,
-      Expect<SameKeys<Overlap2, {foo: 5; bar: 3}>>,
+      Expect<HasSameKeys<FooBar, {foo: 1; bar: 3}>>,
+      Expect<HasSameKeys<Overlap, {foo: 5; bar: 3}>>,
+      Expect<HasSameKeys<Overlap2, {foo: 5; bar: 3}>>,
 
       Expect<Equal<A_FooBar, { foo: 1; bar: unknown }>>,
 

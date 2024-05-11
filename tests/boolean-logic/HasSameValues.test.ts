@@ -8,7 +8,7 @@ import { describe, it } from "vitest";
 
 describe("HasSameValues<TList,TComparator", () => {
 
-  it("happy path", () => {
+  it("testing with tuples", () => {
     type T1 = HasSameValues<[], []>;
     type T2 = HasSameValues<[1,2,3], [3,2,1]>;
     type T3 = HasSameValues<[1,2,3], [3,1,2]>;
@@ -38,5 +38,8 @@ describe("HasSameValues<TList,TComparator", () => {
       true, true
     ];
   });
+
+
+  
 
 });

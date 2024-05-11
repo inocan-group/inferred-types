@@ -1,4 +1,4 @@
-import {  And,  AsTuple, Container, DoesExtend,   IsTuple, ObjectKey,RemoveIndexKeys,  UnionToTuple } from "src/types/index"
+import {  And,  AsTuple, Container, DoesExtend,   HasSameValues,   IsTuple, ObjectKey,RemoveIndexKeys,  UnionToTuple } from "src/types/index"
 
 
 
@@ -15,22 +15,6 @@ type _Keys<T extends object> = UnionToTuple<keyof RemoveIndexKeys<T>> extends re
 ? UnionToTuple<keyof RemoveIndexKeys<T>>
 : never
 
-type ObjWrapper<
-  A extends Container,
-  B extends Container
-> = 
-A extends object
-? B extends object
-    ? Process<
-      _Keys<A> extends readonly ObjectKey[]
-        ? _Keys<A>
-        : never,
-      _Keys<B> extends readonly ObjectKey[]
-        ? _Keys<B>
-        : never
-      >
-  : false
-: false;
 
 
 /**
@@ -51,7 +35,7 @@ IsTuple<A> extends true
 : DoesExtend<A,object> extends true
   ? DoesExtend<B,object> extends true
     ? _Keys<A>["length"] extends _Keys<B>["length"]
-      ? ObjWrapper<A,B>
+      ? HasSameValues< _Keys<A>, _Keys<B>>
       : false
     : false
   : false;

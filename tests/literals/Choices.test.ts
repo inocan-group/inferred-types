@@ -1,6 +1,6 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { choice, choices, handleDoneFn, isDoneFn, mergeChoices } from "src/runtime/index";
-import { Choice, AsChoices, DoesExtend, SameKeys,  MultiChoiceCallback } from "src/types/index";
+import { Choice, AsChoices, DoesExtend,  MultiChoiceCallback } from "src/types/index";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

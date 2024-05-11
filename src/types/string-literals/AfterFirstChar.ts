@@ -1,10 +1,10 @@
-import { Split, AsArray, AfterFirst, AsString,  Concat } from "src/types/index";
+import { AsArray, AfterFirst, AsString,  Concat, Chars } from "src/types/index";
 
 type Iterate<
   TInput extends readonly string[]
 > = {
   [K in keyof TInput]: TInput[K] extends string 
-    ? Concat<AfterFirst<AsArray<Split<TInput[K]>>>>
+    ? Concat<AfterFirst<AsArray<Chars<TInput[K]>>>>
     : never
 };
 
@@ -24,9 +24,11 @@ type Iterate<
  * after the first character has been removed
  *    - any wide strings encountered will be ignored in the returned array
  */
-export type RemainingChars<
+export type AfterFirstChar<
   TContent extends string | readonly string[]
 > = TContent extends readonly string[]
   ? Iterate<AsArray<TContent>>
-  : Concat<AfterFirst<AsArray<Split<AsString<TContent>>>>>;
+  : TContent extends string
+    ? Concat<AfterFirst<AsArray<Chars<AsString<TContent>>>>>
+    : never;
 

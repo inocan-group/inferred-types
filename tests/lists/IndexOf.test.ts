@@ -13,7 +13,7 @@ describe("IndexOf<T>", () => {
   it("type tests", () => {
     type Arr = IndexOf<[1,2,3], 1>;
     type ArrBadIdx = IndexOf<[1,2,3], 8>;
-    // type Err1 = IndexOf<[1,2,3], "foo">;
+    type InvalidStrIdx = IndexOf<[1,2,3], "foo">;
 
     type Neg = IndexOf<[1,2,3], -1>;
     
@@ -24,15 +24,19 @@ describe("IndexOf<T>", () => {
     type cases = [
       Expect<Equal<Obj, 2>>,
       Expect<Equal<Arr, 2>>,
+      Expect<DoesExtend<InvalidStrIdx, ErrorCondition<"invalid-index">>>,
+
       Expect<Equal<Neg, 3>>,
-      Expect<DoesExtend<
-        ArrBadIdx, 
-        ErrorCondition<"key-does-not-exist">
-      >>,
+
+      Expect<DoesExtend<ArrBadIdx, ErrorCondition<"invalid-index">>>,
       Expect<Equal<Identity, "foo">>,
-      Expect<DoesExtend<Never, never>>,
+      Expect<DoesExtend<Never, ErrorCondition<"invalid-index">>>,
     ];
-    const cases: cases = [ true, true, true, true, true, true ];
+    const cases: cases = [ 
+      true, true, true, 
+      true, 
+      true, true, true
+     ];
   });
 
   

@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   IfTrue,
+  Narrowable,
   ObjectKey,
 } from "src/types/index";
 import { keysOf } from "../dictionary/keysOf";
@@ -15,8 +16,9 @@ import { isTrue } from "../type-guards/index";
  */
 export const createFnWithProps = <
 TArgs extends readonly unknown[],
-TReturn,
-TProps extends Record<ObjectKey, unknown>,
+TReturn extends Narrowable,
+N extends Narrowable,
+TProps extends Record<ObjectKey, N>,
 TNarrowing extends boolean = false
 >(
   fn: (...args: TArgs) => TReturn, 

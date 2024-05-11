@@ -1,5 +1,13 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { AnyFunction,  ExpandRecursively, IfNever } from "src/types/index";
+import { 
+  AnyFunction,  
+  EmptyObject,  
+  ExpandRecursively, 
+  IfNever, 
+  ObjectKey 
+} from "src/types/index";
+
+
 
 /**
  * **FnProps**`<T>`
@@ -7,10 +15,21 @@ import { AnyFunction,  ExpandRecursively, IfNever } from "src/types/index";
  * Return a dictionary of key/value pairs from a function. If no key/value
  * pairs are assigned to the function base then an empty object is returned.
  */
-export type FnProps<T extends AnyFunction> = 
-IfNever<
+export type FnProps<
+  T extends AnyFunction
+> = IfNever<
   ExpandRecursively<keyof T>,
-  {},
-  ExpandRecursively<Pick<T, ExpandRecursively<keyof T>>>
->;
+  EmptyObject,
+  keyof T extends ObjectKey
+    ? Pick<T, keyof T>
+  : never
+> extends Record<keyof T, unknown>
+  ? IfNever<
+      keyof T,
+      EmptyObject,
+      keyof T extends ObjectKey
+        ? Pick<T, keyof T>
+        : never
+    >
+: never;
 

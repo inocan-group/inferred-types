@@ -5,6 +5,7 @@ export * from "./AllNumericLiterals";
 export * from "./Contains";
 export * from "./ContainsAll";
 export * from "./DoesExtend";
+export * from "./Extends";
 export * from "./DoesNotExtend";
 export * from "./ExtendsAll";
 export * from "./ExtendsSome";
@@ -24,7 +25,7 @@ export * from "./HasUnionType";
 export * from "./HasSameValues";
 export * from "./IsNegativeNumber";
 export * from "./IsVueRef";
-export * from "./IsValidKey";
+export * from "./IsValidIndex";
 export * from "./IsObjectLiteral";
 export * from "./IsTuple";
 export * from "./IsGreaterThan";
@@ -78,3 +79,7 @@ export * from "./HasWideValues";
 export * from "./HasProp";
 export * from "./Validate"
 export * from "./HasSameKeys"
+export * from "./HasIndex"
+export * from "./IsWideUnion";
+export * from "./IsLiteralUnion";
+export * from "./IsNonLiteralUnion";

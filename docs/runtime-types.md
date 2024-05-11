@@ -18,7 +18,7 @@ Let's explore what we mean by both:
 In Typescript the _types_ live in a sort of unholy alliance with the runtime system. Don't get me wrong, I'm a big fan of Typescript but it can be awkward -- particular for library authors -- when the type understanding deviates between the runtime system and the type system.
 
 A few examples of this are:
- 
+
 1. Functions
 
     In the type system we can be very explicit about both the parameters and the return types of a function yet at runtime all we can tell is that some **x** _is_ a function but nothing about it's characteristics.

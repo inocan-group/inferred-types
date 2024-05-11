@@ -22,3 +22,4 @@ export * from "./Never";
 export * from "./TypeTokens";
 export * from "./Wide";
 export * from "./Shape";
+export * from "./Marked";

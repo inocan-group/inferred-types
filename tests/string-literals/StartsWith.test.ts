@@ -1,5 +1,5 @@
-import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import {  StartsWith, UpperAlphaChar } from "src/types/index";
+import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
+import { AsString, IsStringLiteral, IsTuple, IsUnion, Slice, StartsWith, UpperAlphaChar } from "src/types/index";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -20,6 +20,9 @@ describe("StartsWith<TValue,TTest>", () => {
 
     type Upper = StartsWith<"Bar", UpperAlphaChar>;
     type NotUpper = StartsWith<"bar", UpperAlphaChar>;
+
+    type WideComparator = StartsWith<"Foo", string>;
+    type WideContent = StartsWith<string, "foo">;
     
     type cases = [
       ExpectTrue<Foo>,
@@ -33,13 +36,19 @@ describe("StartsWith<TValue,TTest>", () => {
 
       ExpectTrue<Upper>,
       ExpectFalse<NotUpper>,
+
+      Expect<Equal<WideComparator, boolean>>,
+      Expect<Equal<WideContent, boolean>>,
     ];
     const cases: cases = [ 
       true, false, 
       true, false,
       true, false,
       true, false,
+      true, true
     ];
   });
 
 });
+
+

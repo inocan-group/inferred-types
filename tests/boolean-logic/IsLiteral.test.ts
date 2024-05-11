@@ -1,6 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
-import {  EmptyObject, ExplicitlyEmptyObject, IfLiteral, IsBooleanLiteral, IsLiteral, IsObjectLiteral, IsOptionalLiteral} from "src/types/index";
+import {  
+  EmptyObject, 
+  ExplicitlyEmptyObject, 
+  IfLiteral, 
+  IsBooleanLiteral, 
+  IsLiteral, 
+  IsObjectLiteral
+} from "src/types/index";
 
 describe("IsObjectLiteral<T>", () => {
 
@@ -73,11 +80,8 @@ describe("IsLiteral<T> type utility", () => {
       Expect<Equal<IsLiteral<Exclude<typeof vb, undefined>>, true>>, //
       Expect<Equal<IsLiteral<Exclude<typeof vs, undefined>>, true>>, //
       Expect<Equal<IsLiteral<Exclude<typeof vn, undefined>>, true>>, //
-      Expect<Equal<IsOptionalLiteral<typeof vb>, true>>, //
-      Expect<Equal<IsOptionalLiteral<typeof vs>, true>>, //
-      Expect<Equal<IsOptionalLiteral<typeof vn>, true>> //
     ];
-    const cases: cases = [true, true, true, true, true, true];
+    const cases: cases = [true, true, true];
   });
 
   

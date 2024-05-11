@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { DoesExtend, ErrorCondition, IsValidKey, IfValidKey, KV } from "src/types/index";
+import { DoesExtend, ErrorCondition, IsValidIndex, IfValidKey, KV, ExplicitlyEmptyObject, EmptyObject } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -10,17 +10,19 @@ import { DoesExtend, ErrorCondition, IsValidKey, IfValidKey, KV } from "src/type
 describe("IsValidKey<T>", () => {
 
   it("happy path", () => {
-    type T1 = IsValidKey<[1,2,3], 0>;
-    type T2 = IsValidKey<[1,2,3], 2>;
-    type T3 = IsValidKey<{foo: 1; bar: 2}, "foo">;
+    type T1 = IsValidIndex<[1,2,3], 0>;
+    type T2 = IsValidIndex<[1,2,3], 2>;
+    type T3 = IsValidIndex<{foo: 1; bar: 2}, "foo">;
 
-    type F1 = IsValidKey<[1,2,3], 10>;
-    type F2 = IsValidKey<{foo: 1; bar: 2}, "baz">;
-
-    type B1 = IsValidKey<string[], 0>;
-    type BF1 = IsValidKey<string[], "foo">;
-    type B2 = IsValidKey<KV, "foo">;
-    type BF2 = IsValidKey<KV, 0>;
+    type F1 = IsValidIndex<[1,2,3], 10>;
+    type F2 = IsValidIndex<{foo: 1; bar: 2}, "baz">;
+    type F3 = IsValidIndex<ExplicitlyEmptyObject, "foo">;
+    
+    type B1 = IsValidIndex<string[], 0>;
+    type BF1 = IsValidIndex<string[], "foo">;
+    type B2 = IsValidIndex<KV, "foo">;
+    type BF2 = IsValidIndex<KV, 0>;
+    type BF3 = IsValidIndex<EmptyObject, "foo">;
     
     type cases = [
       Expect<Equal<T1, true>>,
@@ -29,17 +31,20 @@ describe("IsValidKey<T>", () => {
 
       Expect<Equal<F1, false>>,
       Expect<Equal<F2, false>>,
+      Expect<Equal<F3, false>>,
 
       Expect<Equal<B1, boolean>>,
-      Expect<Equal<BF1, false>>,
+      Expect<Equal<BF1, boolean>>,
 
       Expect<Equal<B2, boolean>>,
-      Expect<Equal<BF2, false>>,
+      Expect<Equal<BF2, boolean>>,
+      Expect<Equal<BF3, boolean>>,
     ];
     const cases: cases = [
       true, true, true,
-      true, true,
-      true, true, true, true
+      true, true,true,
+      true, true, 
+      true, true, true
     ];
   });
 

@@ -40,7 +40,7 @@
     "test:ci": "vitest run",
     "test:types": "ts-type-tester tests tests/tsconfig.json --warn 6133 -v",
     "audit:fix": "pnpm audit --fix",
-    "audit:types": "ts-type-tester src/types src/types/tsconfig.json --warn 6133",
+    "audit:types": "ts-type-tester src/types src/types/tsconfig.json --warn 6133 -v",
     "audit:runtime": "ts-type-tester src/runtime src/runtime/tsconfig.json --warn 6133",
     "audit:constants": "ts-type-tester src/constants src/constants/tsconfig.json --warn 6133",
     "release": "run-s lint release:latest test:ci audit:fix release:bump",

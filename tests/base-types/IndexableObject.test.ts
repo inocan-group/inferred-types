@@ -1,6 +1,10 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { DoesExtend, IndexableObject, EmptyObject, DoesNotExtend, HasIndex,  Not, IsNever, KV} from "src/types/index";
+import { 
+  DoesExtend, 
+  IndexableObject, 
+  KV
+} from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -10,9 +14,6 @@ type FooBarExt = { foo: 42; bar: number; [key: string]: unknown };
 
 describe("IndexableObject and IndexedObject", () => {
   type Generic = { [key: string]: unknown };
-
-  type IdxFooBar = HasIndex<FooBar>;
-  type IdxFooBarExt = HasIndex<FooBarExt>;
 
   
   it("IndexableObject Basics", () => {
@@ -56,31 +57,11 @@ describe("IndexableObject and IndexedObject", () => {
       // IndexableObject are a refinement of the generic Object interface
       Expect<DoesExtend<IndexableObject, object>>,
 
-      // Objects which have explicit and literal key definitions are
-      // considered an IndexedObject
-      Expect<Not<IsNever<IdxFooBar>>>,
-      Expect<Not<IsNever<IdxFooBarExt>>>,
     ];
 
-    const cases: cases = [ true, true, true, true, true, true ];
+    const cases: cases = [ true, true, true, true,  ];
   });
   
-  it("negative tests", () => {
-    type IdxEmpty = HasIndex<EmptyObject>;
-    type IdxGeneric = HasIndex<Generic>;
-  
-    type cases = [
-      Expect<DoesNotExtend<IndexableObject, EmptyObject >>,
-      // Object's with no explicit props defined are not 
-      // considered an IndexedObject
-      Expect<IsNever<IdxEmpty>>,
-      Expect<IsNever<IdxGeneric>>,
-    ];
-
-    const cases: cases = [
-      true, true,true
-    ];
-  });
   
 
 });

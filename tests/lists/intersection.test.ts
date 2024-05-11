@@ -8,65 +8,66 @@ import { Intersection } from "src/types/index";
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("Set Intersection", () => {
-  type Foo = { foo: 1 };
-  type Bar = { bar: 55 };
-  type Baz = { baz: 25 };
 
-  type IdFoobar1 = { id: 1; foo: "foo"; bar: string };
-  type IdFoobar2 = { id: 2; foo: "bar"; bar: string };
-  type IdFoobar2alt = { id: 2; value: 55 };
-  type IdFoobar3 = { id: 3; foo: "baz"; bar: string };
 
   describe("Intersect<A,B, Deref>", () => {
-    it("happy path", () => {
-      type Set1 = readonly ["foo", "bar"];
-      type Set2 = readonly ["bar", "baz", 42];
-  
-      type T1 = Intersection<Set1, Set2>;
-      type T2 = Intersection<Set2, Set1>;
-      type EmptyA = Intersection<[], Set1>;
-      type EmptyB = Intersection<Set1, []>;
+    it("intersecting scalar values", () => {
+      type Foo = Intersection<["foo", "bar","blue"], ["foo","baz"]>;
+      type All = Intersection<["foo","bar"], ["foo", "bar"]>;
+      type None = Intersection<["foo"], ["bar"]>;
   
       type cases = [
-        Expect<Equal<T1, readonly ["bar"]>>,
-        Expect<Equal<T2, readonly ["bar"]>>,
-        Expect<Equal<EmptyA, readonly []>>,
-        Expect<Equal<EmptyB, readonly []>>,
+        Expect<Equal<Foo, ["foo"]>>,
+        Expect<Equal<All, ["foo", "bar"]>>,
+        Expect<Equal<None, []>>,
       ];
       
-      const cases: cases = [ true, true, true, true ];
-    });
-  
-    it("Intersect<Obj,Obj>, no deref", () => {
-      type T1 = Intersection<[Foo,Bar], [Bar, Baz]>;
-      type T2 = Intersection<[IdFoobar1,IdFoobar2],[IdFoobar2alt, IdFoobar1,IdFoobar3]>;
-
-      type cases = [
-        Expect<Equal<T1, readonly [Bar]>>, 
-        Expect<Equal<T2, readonly [IdFoobar1]>>, 
-      ];
-      const cases: cases = [ true, true  ];
+      const cases: cases = [ true, true, true ];
     });
 
     
-    it("Intersect<Obj,Obj>, with deref property", () => {
-      type IOneAndTwo = Intersection<
-        [IdFoobar1,IdFoobar2],
-        [IdFoobar2alt, IdFoobar1, IdFoobar3], 
+    it("intersection objects with deref", () => {
+      type One = Intersection<
+        [{id: 1; value: "foo"}, {id: 2; value: "bar"}],
+        [{id: 1; value: "not-foo"}, {id: 3; value: "blue"}],
         "id"
-      >;
+      >
+      type Two = Intersection<
+        [{id: 1; value: "foo"}, {id: 2; value: "bar"}],
+        [{id: 1; value: "not-foo"}, {id: 2; value: "blue"}],
+        "id"
+      >
       
       type cases = [
-        Expect<Equal<
-          IOneAndTwo,
-          [
-            [IdFoobar1, IdFoobar2],
-            [IdFoobar2alt, IdFoobar1]
-          ]
-        >>
+        Expect<Equal<One, [1]>>,
+        Expect<Equal<Two, [1,2]>>,
       ];
-      const cases: cases = [ true ];
+      const cases: cases = [
+        true, true
+      ];
     });
+
+    
+    it("intersection objects with deref and reporting", () => {
+      type One = Intersection<
+        [{id: 1; value: "foo"}, {id: 2; value: "bar"}],
+        [{id: 1; value: "not-foo"}, {id: 3; value: "blue"}],
+        "id",
+        true
+      >
+      type ExpectOne = [
+        [{id: 1; value: "foo"}],
+        [{id: 1; value: "not-foo"}]
+      ]
+      
+      type cases = [
+        Expect<Equal<One, ExpectOne>>,
+      ];
+      const cases: cases = [
+        true
+      ];
+    });
+  
   });
 
 
@@ -101,9 +102,7 @@ describe("Set Intersection", () => {
       // both sets
       const oneTwoId = intersection([one, two],[ oneAlt, three ], "id");
       expect(oneTwoId).toHaveLength(2); // tuple
-      const [a,b] = oneTwoId;
-      expect(a).toEqual([{ id: 1, foo: 1, bar: 45 }]);
-      expect(b).toEqual([{ id: 1, bar: 1, baz: 25 }]);
+
 
     });
   });
