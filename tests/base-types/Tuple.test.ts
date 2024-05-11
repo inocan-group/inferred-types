@@ -22,7 +22,10 @@ describe("Tuple<T,N>", () => {
         FixedWithOptional, 
         readonly [string, string, string, string, string|undefined, string|undefined]
       >>,
-      Expect<Equal<Expandable,readonly [string, string, string, ...string[]]>>,
+      Expect<Equal<
+        Expandable,
+        readonly [string, string, string, ...string[]]
+      >>,
       Expect<Equal<Explicit, readonly [string, number, boolean]>>,
     ];
     const cases: cases = [ true, true, true, true, true ];

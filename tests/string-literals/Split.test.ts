@@ -67,6 +67,7 @@ describe("Split<T,SEP>", () => {
   });
   
   it("Split with a union type", () => {
+    // type LongText = Split<"Hello world, Nice to meet you", UpperAlphaChar>;
     type FooBar = Split<"FooBar", UpperAlphaChar>;
     type FooBarOmitExplicit = Split<"FooBar", UpperAlphaChar, "omit">;
     type FooBarIncluded = Split<"FooBar", UpperAlphaChar, "include">;

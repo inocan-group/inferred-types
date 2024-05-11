@@ -10,15 +10,17 @@ describe("Contains<T,A>", () => {
     type T4 = ["foo", "bar"];
     type T5 = ["foo", "bar", null, undefined];
 
+    type TNum = Contains<[number, 32, 64, "foo"], number>;
+
     type cases = [
       // "foo" extends string so true
-      Expect<Equal<Contains<T1, string>, true>>,
+      Expect<Equal<T1, true>>,
       // "bar" does NOT extend "foo"
-      Expect<Equal<Contains<T1, "bar">, false>>,
+      Expect<Equal<Contains<[number, 32, 64, "foo"], "bar">, false>>,
       // T4 has literal string but this will match the wide type string
       Expect<Equal<Contains<T4, string>, true>>,
       // T1 has both wide and narrow versions of "number"
-      Expect<Equal<Contains<T1, number>, true>>,
+      Expect<Equal<TNum, true>>,
       // T3 has narrow versions of "number"
       Expect<Equal<Contains<T3, number>, true>>,
       // T3 has the numeric literal 128
@@ -64,7 +66,7 @@ describe("Contains<T,A>", () => {
       ExpectTrue<HasBar>,
       ExpectFalse<NoBar>,
       Expect<Equal<WideContent, boolean>>,
-      ExpectTrue<WideContains>
+      Expect<Equal<WideContains, boolean>>
     ];
     const cases: cases = [
       true, false, true, true

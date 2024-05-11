@@ -23,6 +23,16 @@ type Convert<
       [K in keyof TList]: K
     }>;
     
+type Process<
+  TList extends Tuple
+> = IfReadonlyArray<
+  TList,
+  TList["length"] extends 0
+    ? number[]
+    : Readonly<Convert<TList>>,
+  Convert<TList>
+>;
+
 /**
  * **NumericKeys**<`TList`>
  * 
@@ -39,11 +49,7 @@ type Convert<
  */
 export type NumericKeys <
   TList extends Tuple
-> = IfReadonlyArray<
-  TList,
-  TList["length"] extends 0
-    ? number[]
-    : Readonly<Convert<TList>>,
-  Convert<TList>
->;
+> = Process<TList> extends readonly number[]
+  ? Process<TList>
+  : never;
 

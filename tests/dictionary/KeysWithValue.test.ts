@@ -1,7 +1,7 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { AnyObject, KeysWithValue, SameKeys } from "src/types/index";
+import { KeysWithValue, HasSameKeys, KV, AnyFunction } from "src/types/index";
 import { createFnWithProps, defineObj} from "src/runtime/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -27,6 +27,7 @@ const obj = defineObj({
 });
 
 
+
 describe("KeysWithValue<T> utility", () => {
 
   it("happy path", () => {
@@ -36,21 +37,21 @@ describe("KeysWithValue<T> utility", () => {
     type RoArr = KeysWithValue<typeof obj, readonly unknown[]>;
     type Bool = KeysWithValue<typeof obj, boolean>;
 
-    type AFn = KeysWithValue<typeof obj, (args: unknown[]) => unknown>;
+    type Fn = KeysWithValue<typeof obj, AnyFunction>;
     type ObjOfType = KeysWithValue<typeof obj, {foo: unknown; bar: unknown }>;
-    type Obj = KeysWithValue<typeof obj, AnyObject>;
+    type Obj = KeysWithValue<typeof obj, KV>;
 
     type cases = [
-      ExpectTrue<SameKeys<Num, ["foo", "foo2", "foo3"]>>,
-      ExpectTrue<SameKeys<Str, ["message", "id"]>>,
-      ExpectTrue<SameKeys<Arr, ["numericArr" ,"strArr"]>>,
-      ExpectTrue<SameKeys<RoArr, ["numericArr", "strArr"]>>,
-      ExpectTrue<SameKeys<Bool, ["bar", "success", "fail"]>>,
+      ExpectTrue<HasSameKeys<Num, ["foo", "foo2", "foo3"]>>,
+      ExpectTrue<HasSameKeys<Str, ["message", "id"]>>,
+      ExpectTrue<HasSameKeys<Arr, ["numericArr" ,"strArr"]>>,
+      ExpectTrue<HasSameKeys<RoArr, ["numericArr", "strArr"]>>,
+      ExpectTrue<HasSameKeys<Bool, ["bar", "success", "fail"]>>,
       
       Expect<Equal<ObjOfType, ["baz"]>>,
       // an object also includes a function (TODO: try and exclude this)
-      ExpectTrue<SameKeys<Obj, ["baz", "emptyBaz" , "fn" , "fnWithProp"]>>,
-      ExpectTrue<SameKeys<AFn, ["fn" , "fnWithProp"] >>,
+      ExpectTrue<HasSameKeys<Obj, ["baz", "emptyBaz" , "fn" , "fnWithProp"]>>,
+      ExpectTrue<HasSameKeys<Fn, ["fn" , "fnWithProp"] >>,
     ];
     const cases: cases = [
       true,true,true,true,true,
@@ -64,7 +65,7 @@ describe("KeysWithValue<T> utility", () => {
     type False = KeysWithValue<typeof obj, false>;
     
     type cases = [
-      ExpectTrue<SameKeys<Num, ["foo2", "foo3"]>>,
+      ExpectTrue<HasSameKeys<Num, ["foo2", "foo3"]>>,
       Expect<Equal<True, ["success"]>>,
       Expect<Equal<False, ["fail"]>>,
     ];

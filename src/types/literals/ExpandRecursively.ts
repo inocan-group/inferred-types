@@ -1,4 +1,4 @@
-import { AfterFirst, Decrement, First, Tuple } from "src/types/index";
+import { AfterFirst, AnyFunction, Decrement, First, Tuple } from "src/types/index";
 
 type ExpandTuple<
   TLength extends number,
@@ -21,5 +21,8 @@ export type ExpandRecursively<T> = T extends Tuple
     ? ExpandTuple<T["length"], T>
     : T
   : T extends object
-  ? { [K in keyof T]: ExpandRecursively<T[K]> }
+  ? { [K in keyof T]: T[K] extends AnyFunction
+      ? T[K]
+      : ExpandRecursively<T[K]> 
+    }
   : T;

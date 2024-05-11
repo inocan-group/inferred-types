@@ -1,21 +1,23 @@
 import type { 
-
  IsStringLiteral,
  IsNumericLiteral,
  IsTuple,
  IsBooleanLiteral,
  IsObjectLiteral,
  IfEqual,
- Or,
 } from "src/types/index";
 
-type Validations<T> = Or<[
-  IsStringLiteral<T>,
-  IsNumericLiteral<T>,
-  IsTuple<T>,
-  IsBooleanLiteral<T>,
-  IsObjectLiteral<T>,
-]>;
+type Validations<T> = IsStringLiteral<T> extends true
+? true
+: IsNumericLiteral<T> extends true
+? true
+: IsTuple<T> extends true
+? true
+: IsBooleanLiteral<T> extends true
+? true
+: IsObjectLiteral<T> extends true
+? true
+: false;
 
 /**
  * **IsLiteral**`<T>`

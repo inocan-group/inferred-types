@@ -12,12 +12,14 @@ describe("LastChar<T>", () => {
   it("with string input", () => {
     type Foobar = LastChar<"Foobar">;
     type EmptyStr = LastChar<"">;
+    type WideStr = LastChar<string>;
     
     type cases = [
       Expect<Equal<Foobar, "r">>,
       Expect<Equal<EmptyStr, never>>,
+      Expect<Equal<WideStr, string>>
     ];
-    const cases: cases = [ true, true ];
+    const cases: cases = [ true, true, true ];
   });
 
   

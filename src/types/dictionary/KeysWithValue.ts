@@ -1,4 +1,11 @@
-import { AfterFirst,  First, IfEmptyContainer, KV, Keys, ObjectKey } from "src/types/index";
+import { 
+  AfterFirst, 
+  First, 
+  IfEmptyContainer, 
+  KV, 
+  Keys, 
+  ObjectKey 
+} from "src/types/index";
 
 type Process<
   TKeys extends readonly ObjectKey[],
@@ -28,10 +35,10 @@ type Process<
  * **Related:** `KeysEqualValue`
  */
 export type KeysWithValue<
-  TObj extends Record<ObjectKey, unknown>,
+  TObj extends KV,
   TValue
 > = IfEmptyContainer<
   TObj,
   ObjectKey[],
-  Process<Keys<TObj>, TObj, TValue>
+  Process<Keys<TObj>, TObj, Readonly<TValue>>
 >;

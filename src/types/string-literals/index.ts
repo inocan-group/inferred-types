@@ -18,7 +18,7 @@ export * from "./EmptyStringOr";
 export * from "./EnsureTrailing";
 export * from "./FirstChar";
 export * from "./LastChar";
-export * from "./RemainingChars";
+export * from "./AfterFirstChar";
 export * from "./IsCapitalized";
 export * from "./Join";
 export * from "./PathJoin";

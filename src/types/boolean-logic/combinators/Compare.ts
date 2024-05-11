@@ -6,7 +6,13 @@ import {
   IsEqual, 
   StartsWith, 
   TupleToUnion, 
-  EndsWith 
+  EndsWith, 
+  Tuple,
+  Or,
+  If,
+  And,
+  IsFalse,
+  IsUnion,
 } from "src/types/index";
 
 
@@ -20,6 +26,8 @@ export type ComparatorOperation =
 | "extends"
 | "equals"
 | "contains"
+| "containsSome"
+| "containsAll"
 | "startsWith"
 | "endsWith"
 | "returnEquals"
@@ -29,6 +37,48 @@ type Unionize<T> = T extends readonly unknown[]
   ? TupleToUnion<T>
   : T;
 
+type Process<
+TVal,
+TOp extends ComparatorOperation, 
+TComparator
+> = TOp extends "extends"
+? DoesExtend<TVal, Unionize<TComparator>>
+: TOp extends "equals"
+? IsEqual<TVal, Unionize<TComparator>>
+: TOp extends "contains"
+? TVal extends string | number | Tuple
+? Contains<TVal,Unionize<TComparator>>
+: never
+: TOp extends "containsSome"
+? TVal extends Tuple
+? Or<Contains<TVal,Unionize<TComparator>>>
+: never
+: TOp extends "containsAll"
+? TVal extends Tuple
+  ? TComparator extends string | number | readonly string[]
+    ? Contains<TVal,TComparator>
+    : never
+  : never
+: TOp extends "startsWith"
+? TVal extends string | number
+? TComparator extends string | number | readonly string[]
+  ? StartsWith<TVal, TComparator>
+  : never
+: never
+: TOp extends "endsWith"
+? TVal extends string | number
+? TComparator extends string | number | readonly string[]
+  ? EndsWith<TVal, Unionize<TComparator>>
+  : never
+: never
+: TOp extends "returnEquals"
+? TVal extends ((...args: any[]) => any) ? IsEqual<ReturnType<TVal>,TComparator> : false
+: TOp extends "returnExtends"
+? TVal extends ((...args: any[]) => any) ? IsEqual<ReturnType<TVal>,TComparator> : false
+: never;
+
+
+
 /**
  * **Compare**`<TVal,TOp,TComparator>`
  * 
@@ -36,21 +86,7 @@ type Unionize<T> = T extends readonly unknown[]
  * the `TOp` _operator_.
  */
 export type Compare<
-  TVal,
-  TOp extends ComparatorOperation, 
-  TComparator
-> = TOp extends "extends"
-? DoesExtend<TVal, Unionize<TComparator>>
-: TOp extends "equals"
-? IsEqual<TVal, Unionize<TComparator>>
-: TOp extends "contains"
-? Contains<TVal,Unionize<TComparator>>
-: TOp extends "startsWith"
-? StartsWith<TVal, Unionize<TComparator>>
-: TOp extends "endsWith"
-? EndsWith<TVal, Unionize<TComparator>>
-: TOp extends "returnEquals"
-? TVal extends ((...args: any[]) => any) ? IsEqual<ReturnType<TVal>,TComparator> : false
-: TOp extends "returnExtends"
-? TVal extends ((...args: any[]) => any) ? IsEqual<ReturnType<TVal>,TComparator> : false
-: never;
+TVal,
+TOp extends ComparatorOperation, 
+TComparator
+> = Process<TVal, TOp, TComparator>;

@@ -1,34 +1,44 @@
+import { Filter, If, IsUnion, TupleToUnion, UnionToTuple } from "../..";
 import { IfEquals } from "./IfEqual";
 import { IfNever } from "./IfNever";
 
+type Narrow<
+  TContent,
+  THandle
+> = If<
+  IsUnion<TContent>,
+  TupleToUnion<Filter<UnionToTuple<TContent>, THandle>>,
+  TContent
+>
+
+
 /**
- * **Handle**`<TContent,TIf,THandle,[TSpecificity]>`
+ * **Handle**`<TContent,THandle,TMapTo,[TSpecificity]>`
  * 
- * Redirects `TContent` when it _extends_ the type
- * of `TIf` to `THandle`, otherwise it just proxies the value through.
+ * Maps `TContent` when it _extends_ / _equals (based on `TSpecificity`) the type
+ * of `THandle` to `TMapTo`, otherwise it just proxies the value through.
  * 
- * - if you want a narrower _comparison specificity_ you can set `TSpecificity`
- * to "equals"
+ * - `TSpecificity` defaults to _extends_ but can be set to _equals_
  * 
  * **Related:** `THandle`
  */
 export type Handle<
   TContent,
-  TIf,
   THandle,
+  TMapTo,
   TSpecificity extends "extends" | "equals" = "extends"
 > = IfNever<
-  TIf,
-  IfNever<TContent, THandle, TContent>,
+  THandle,
+  IfNever<TContent, TMapTo, TContent>,
   IfEquals<
     TSpecificity, "extends",
-    TContent extends TIf
-      ? THandle
-      : TContent,
+    [TContent] extends [THandle]
+      ? TMapTo
+      : Narrow<TContent,THandle>,
     IfEquals<
-      TContent, TIf,
-      THandle,
-      TContent
+      [TContent], [THandle],
+      TMapTo,
+      Narrow<TContent,THandle>
     >
   >
 >

@@ -54,7 +54,6 @@ export interface ErrorCondition<
   TMsg extends string = string, 
   TInfo extends TypeErrorInfo | null = TypeErrorInfo | null
 > {
-  _type: "ErrorCondition";
   /** the kind/category of error this is */
   kind: TKind;
   /** an error about the message */

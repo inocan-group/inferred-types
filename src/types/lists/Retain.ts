@@ -2,7 +2,7 @@ import {
   Compare, 
   ComparatorOperation, 
   IfArray,
-  TupleToUnion
+  TupleToUnion,
 } from "src/types/index";
 
 /**
@@ -52,3 +52,4 @@ export type Retain<
   Process<TList,TupleToUnion<TComparator>,TOp>, 
   Process<TList,TComparator,TOp>
 >;
+

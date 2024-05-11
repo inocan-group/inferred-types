@@ -65,20 +65,16 @@ type LiteralSplit<
 : Filter<[...TResults, TContent], "">;
 
 type Process<
-TContent extends string,
-TSep extends string | readonly string[],
-TUnionPolicy extends UnionPolicy = "omit"
+  TContent extends string,
+  TSep extends string | readonly string[],
+  TUnionPolicy extends UnionPolicy = "omit"
 > = IfOr<
   [IsWideType<TContent>, IsWideType<TSep>],
   string,
 
   TSep extends readonly string[]
     ? UnionSplit<Chars<TContent>,TupleToUnion<TSep>,TUnionPolicy>
-    : IfLength<
-        TSep, 1, 
-        UnionSplit<Chars<TContent>,AsString<TSep>,TUnionPolicy>,
-        LiteralSplit<TContent,AsString<TSep>,TUnionPolicy>
-      >
+    : LiteralSplit<TContent,AsString<TSep>,TUnionPolicy>
 >;
 
 type PreProcess<TContent extends string,
@@ -91,6 +87,7 @@ TUnionPolicy extends UnionPolicy = "omit"
   : never,
   Process<TContent,TSep,TUnionPolicy>
 >
+
 
 /**
  * **Split**`<TContent,TSep,[TPolicy]>`

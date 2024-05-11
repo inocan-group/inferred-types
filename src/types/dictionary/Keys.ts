@@ -64,11 +64,19 @@ export type Keys<
         Process<TContainer>, 
         Process<TContainer>, 
         number[]
-      >
+      > extends readonly (number & keyof TContainer)[]
+        ? IfTuple<
+            Process<TContainer>, 
+            Process<TContainer>, 
+            number[]
+          >
+      : never
     : never
   : TContainer extends object
     ? Process<TContainer> extends ObjectKey[]
-      ? Process<TContainer>
+      ? Process<TContainer> extends readonly (ObjectKey & keyof TContainer)[]
+        ? Process<TContainer>
+        : never
       : ObjectKey[]
     : never[]
 
