@@ -105,21 +105,9 @@ describe("ok(), err(), isOk() and other Result runtime utils", () => {
 
     const simple_err = createErr("Oops");
     const simple = err(simple_err);
-    // const withContext = createErr("with-context", {foo: 1});
-
-
-
-    // const {result, ok, err } = asResult("", "UhOh");
-
-
     const asserted_err = assertErr(simple);
     const err_result: Result<number, "oops"> = err("oops");
     const ok_result: Result<number, "oops"> = ok(5);
-
-    type _Oo = OkFrom<typeof ok_result>;
-    type _Oe = OkFrom<typeof err_result>;
-    type _Eo = ErrFrom<typeof ok_result>;
-    type _Ee = ErrFrom<typeof err_result>;
     
     const expected = err({
       msg: "oops", 

@@ -1,4 +1,5 @@
-import { ErrorCondition } from "src/types/index";
+import { EmptyObject,  Throw, TypeErrorInfo } from "src/types/index";
+import { Never } from "src/constants/index"
 
 /**
  * **createErrorConditionTemplate**(domain) => (kind) => (msg) => ErrorCondition
@@ -7,16 +8,21 @@ import { ErrorCondition } from "src/types/index";
  * runtime.
  */
 export const createErrorCondition = <
-  TLibrary extends string = "undefined"
->(library?: TLibrary) => <
-  TKind extends string
->(kind: TKind) => <
-  TMsg extends string = ""
->(message: TMsg): ErrorCondition<TKind,TMsg,{library: TLibrary}> => {
+  TUtility extends string = never
+>(utility: TUtility = Never) => <
+  TKind extends string,
+  TMsg extends string = never,
+  TOpts extends TypeErrorInfo = EmptyObject
+>(
+  kind: TKind, 
+  msg: TMsg = Never, 
+  opts: TOpts = {} as EmptyObject as TOpts 
+) => {
   return {
-    _type: "ErrorCondition",
-    library,
+    __kind: "ErrorCondition",
     kind,
-    message: message || "" as TMsg
-  } as ErrorCondition<TKind,TMsg,{library: TLibrary}>;
+    msg,
+    utility,
+    ...opts
+  } as Throw<TKind, TMsg, TUtility,TOpts>;
 };

@@ -1,5 +1,11 @@
-
-import { AsNumber, AsString, If,  IsWideType, EndsWith } from "src/types/index";
+import { 
+  AsNumber, 
+  AsString, 
+  If,  
+  IsWideType, 
+  ToStringArray,
+  IfNever
+} from "src/types/index";
 
 type Process<
   TContent extends string, 
@@ -10,13 +16,11 @@ type Process<
   If<
     IsWideType<TTrailing>,
     `${TContent}${string}`,
-    If<
-      EndsWith<TContent, TTrailing>,
-      TContent,
-      `${TContent}${TTrailing}`
+    TContent extends `${string}${TTrailing}`
+      ? TContent
+      : `${TContent}${TTrailing}`
     >
-  >
->
+  >;
 
 type PreProcess<
   TContent extends string | number, 
@@ -41,10 +45,10 @@ If<
 >
 
 type IterateOver<
-  TContent extends readonly (string | number)[],
-  TLeading extends string | number
+  TContent extends readonly string[],
+  TTrailing extends string
 > = {
-  [K in keyof TContent]: PreProcess<TContent[K], TLeading>
+  [K in keyof TContent]: PreProcess<TContent[K], TTrailing>
 }
 
 /**
@@ -64,7 +68,16 @@ export type EnsureTrailing<
   TContent extends string | number | readonly (string|number)[], 
   TTrailing extends string | number
 > = TContent extends readonly (string|number)[]
-? IterateOver<TContent,TTrailing>
-: TContent extends string | number
-  ? PreProcess<TContent,TTrailing>
+? ToStringArray<TContent> extends readonly string[]
+  ? IterateOver<ToStringArray<TContent>, AsString<TTrailing>>
+  : never
+: TContent extends string 
+  ? PreProcess<AsString<TContent>,AsString<TTrailing>>
+  : TContent extends number 
+      ? IfNever<
+          AsNumber<
+            PreProcess<AsString<TContent>,AsString<TTrailing>>
+          >,
+          number
+        >
   : never;

@@ -1,13 +1,10 @@
 import {  
   AfterFirst,
-  AsString,
   BeforeLast,
   Chars,
   Filter,
   First,
   If,
-  IfLength,
-  IfOr,
   IfUnion,
   IsStringLiteral,
   IsWideType,
@@ -68,14 +65,15 @@ type Process<
   TContent extends string,
   TSep extends string | readonly string[],
   TUnionPolicy extends UnionPolicy = "omit"
-> = IfOr<
-  [IsWideType<TContent>, IsWideType<TSep>],
-  string,
-
-  TSep extends readonly string[]
-    ? UnionSplit<Chars<TContent>,TupleToUnion<TSep>,TUnionPolicy>
-    : LiteralSplit<TContent,AsString<TSep>,TUnionPolicy>
->;
+> = IsWideType<TContent> extends true
+? string
+: TSep extends readonly string[]
+    ? TupleToUnion<TSep> extends string
+      ? UnionSplit<Chars<TContent>,TupleToUnion<TSep>,TUnionPolicy>
+      : never
+    : TSep extends string
+      ? LiteralSplit<TContent,TSep,TUnionPolicy>
+      : never;
 
 type PreProcess<TContent extends string,
 TSep extends string | readonly string[],

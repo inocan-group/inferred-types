@@ -1,13 +1,18 @@
-import { RESULT } from "../../constants/Functional";
-import { Something } from "../base-types";
-import { DoesExtend, If, IfAnd, IfEqual, IfEquals, IfFunction, IfNever } from "../boolean-logic";
-import { TakeProp } from "../dictionary/TakeProp";
-import { StackTrace } from "../errors/StackTrace";
-import { TypeGuard } from "../functions";
-import { Narrowable, ShapeCallback } from "../literals";
-import { RuntimeUnion } from "../literals/RuntimeUnion";
-import { KebabCase } from "../string-literals";
-import { AsString, TupleToUnion, Widen } from "../type-conversion";
+import { 
+  AsString, 
+  TupleToUnion, 
+  Widen, 
+  KebabCase, 
+  RuntimeUnion,
+  Narrowable,
+  TypeGuard,
+  StackTrace,
+  TakeProp,
+  DoesExtend, IfAnd, IfEqual, IfEquals, IfFunction,
+  Something
+} from "src/types/index";
+
+import { RESULT } from "src/constants/index";
 
 type OK = typeof RESULT.Ok;
 type ERR = typeof RESULT.Err;

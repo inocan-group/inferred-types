@@ -1,4 +1,14 @@
-import { IfEqual, IfGreaterThan, StrLen, Slice, Split, Concat, Tuple,  Length, AsArray, Chars } from "src/types/index";
+import { 
+  IfEqual, 
+  IfGreaterThan, 
+  StrLen, 
+  Slice, 
+  Concat, 
+  Tuple,  
+  Length, 
+  AsArray, 
+  Chars 
+} from "src/types/index";
 
 type Ellipsis<T extends boolean | string> = T extends string ? T : "...";
 

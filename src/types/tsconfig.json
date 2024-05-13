@@ -49,7 +49,6 @@
         ]
     },
     "include": [
-        "./**/*.ts",
-        "../../hold/Interpolate.hold",
+        "./**/*.ts"
     ]
 }

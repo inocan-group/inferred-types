@@ -7,8 +7,8 @@ import {
   ToString,
   ErrorCondition, 
   EmptyObject,
-  IfWide,
   TypeErrorInfo,
+  Throw,
 } from "src/types/index";
 
 interface Error<
@@ -34,24 +34,19 @@ type Props<T extends AnyObject | undefined> = T extends AnyObject
 ? T
 : EmptyObject;
 
-type ContextFrom<T extends AnyObject> = AsIndexOf<T,"context",EmptyObject>;
-type UtilityFrom<T extends AnyObject> = AsIndexOf<T,"utility",never>;
-type StackFrom<T extends AnyObject> = AsIndexOf<T,"stack",readonly []>;
 type IdFrom<T extends AnyObject> = AsIndexOf<T,"id",never>;
 type LibraryFrom<T extends AnyObject> = AsIndexOf<T,"library",never>;
 
 type Process<
   T extends AsError__Meta
 > = IsEqual<T, [string, string]> extends true
-? ErrorCondition<T[0], T[1], null >
+? ErrorCondition<T[0], T[1], never >
 : T extends [string, string, TypeErrorInfo]
-  ? ErrorCondition<
+  ? Throw<
     T[0], 
     T[1],
+    "AsError",
     {
-      context: ContextFrom<Props<T[2]>>;
-      utility: UtilityFrom<Props<T[2]>>;
-      stack: StackFrom<Props<T[2]>>;
       id: IdFrom<Props<T[2]>>; 
       library: LibraryFrom<Props<T[2]>>;
     }
@@ -59,7 +54,7 @@ type Process<
   : ErrorCondition<
       T[0], 
       T[1],
-      null
+      never
     >;
 
 /**
@@ -94,30 +89,22 @@ export type AsError<
     "a 'never' type was encountered which is not allowed in this context!" 
   >,
   TType extends Error<string>
-  ? ErrorCondition<
+  ? Throw<
       "runtime-error", 
-      Concat<[
-        "the JS runtime's Error class was found with the message: '",
-        TType["message"],
-        "'"
-      ]>,
-      { 
-        library: "inferred-types"; 
-        utility: "AsError"; 
-        context: {
-          error_name: IfWide<TType["name"], "unknown; use TypedError in inferred-types instead of Error for more info">;
-        }; 
-      }
+      `the JS runtime's Error class was found with the message: '${TType["message"]}'`,
+      "AsError",
+      { library: "inferred-types" }
     >
   : TType extends AsError__Meta
       ? Process<TType>
-      : ErrorCondition<
+      : Throw<
           "failed-to-wrap",
           Concat<[
             "An unexpected value -- ",
             ToString<TType>,
             " -- was passed into the AsError<T> type utility!"
           ]>,
-          { library: "inferred-types"; utility: "AsError" }
+          "AsError",
+          { library: "inferred-types" }
         >
 >;

@@ -54,27 +54,25 @@ type WidenObj<
   T extends object,
   TKeys extends readonly (keyof T)[],
   TResults extends KV = EmptyObject
-> = If<
-  IsObjectLiteral<T>,
-  [] extends TKeys
-  ? ExpandRecursively<TResults>
+> = [] extends TKeys
+  ? TResults
   : WidenObj<
       T,
       AfterFirst<TKeys>,
       TResults & 
-      Record<First<TKeys>,  If<
+      Record<
+        First<TKeys>,  
+        If<
           IsObjectLiteral<T[First<TKeys>]>,
           Record<keyof T[First<TKeys>],unknown>,
           Process<T[First<TKeys>]>
         >
       >
-    >,
-  RemoveIndexKeys<T>
->
+    >
 
 
 type WidenTuple<
-T extends readonly unknown[]
+  T extends readonly unknown[]
 > = {
   [K in keyof T]: Process<T[K]>
 };
@@ -94,6 +92,12 @@ export type Widen<T> = IsUnion<T> extends true
   : T extends readonly unknown[]
   ? WidenTuple<T>
   : T extends object
-  ? WidenObj<T, Keys<T> extends readonly (keyof T)[] ? Keys<T> : never>
+  ? IsObjectLiteral<T> extends true
+    ? Keys<T> extends readonly (keyof T)[]
+      ? ExpandRecursively<WidenObj<T, Keys<T>>>
+      : never
+    
+    : RemoveIndexKeys<T>
   : Process<T>;
+
 

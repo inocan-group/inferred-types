@@ -17,27 +17,25 @@ import {  HasCharacters, IfNever, If,  StartsWith, IsStringLiteral, Or, EndsWith
  */
 export type IsDotPath<
   T,
-  IF = true,
-  ELSE = false,
-  MAYBE = IF | ELSE
+  TIf = true,
+  TElse = false,
+  TMaybe = TIf | TElse
 > = IfNever<
   T,
   false,
   T extends string
-  ? If<
-      IsStringLiteral<T>,
-      If<
-        Or<[
-          HasCharacters<T, ["/", "*", "!", "&", "$", "\\"]>,
-          StartsWith<T,".">,
-          EndsWith<T,".">,
-          Contains<T,"..">
-        ]>,
-        ELSE,
-        IF
-      >,
-      MAYBE
-    >
+  ? IsStringLiteral<T> extends true
+      ? If<
+          Or<[
+            HasCharacters<T, ["/", "*", "!", "&", "$", "\\"]>,
+            StartsWith<T,".">,
+            EndsWith<T,".">,
+            Contains<T,"..">
+          ]>,
+          TElse,
+          TIf
+        >
+      : TMaybe
   : false
 >
 

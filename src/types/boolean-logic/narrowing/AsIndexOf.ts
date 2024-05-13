@@ -1,5 +1,5 @@
 import { Constant } from "src/constants/index";
-import { Concat, ErrorCondition, IfEqual, KV, ToString, Tuple } from "src/types/index";
+import { IfEqual, KV, Throw, ToString, Tuple } from "src/types/index";
 
 /**
  * **AsIndexOf**`<T,K,[ERR]>`
@@ -14,13 +14,10 @@ export type AsIndexOf<
 ? T[K]
 : IfEqual<
     ERR, Constant<"NoErr">,
-    ErrorCondition<
+    Throw<
       "invalid-key",
-      Concat<[
-        "the key '",
-        ToString<K>,
-        "' is not a valid key of the passed container"
-      ]>
+      `the key '${ToString<K>}' is not a valid key of the passed container`,
+      "AsIndexOf"
     >,
     ERR
   >;

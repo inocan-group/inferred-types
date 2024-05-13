@@ -10,4 +10,10 @@ import { TrimLeft } from "./TrimLeft";
  */
 export type LeftWhitespace<S extends string> = string extends S
   ? string
-  : Replace<S, TrimLeft<S>, "">;
+  : Replace<
+      S, 
+      TrimLeft<S> extends string
+        ? TrimLeft<S>
+        : never, 
+      ""
+    >;

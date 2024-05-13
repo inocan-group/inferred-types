@@ -45,26 +45,6 @@ describe("Or<T>", () => {
     const cases: cases = [true, true, true, true];
   });
 
-  it.skip("functions with params", () => {
-    // const fn = <V extends boolean>(v: V) => v;
-    // type T0 = Or<[typeof fn]>; // boolean
-    // type T1 = Or<[typeof fn], [true]>; // true
-    // type T2 = Or<[typeof fn], [false]>; // false
-    // // type T3 = Or<() => readonly boolean[] >; // never
-    // // type T4 = Or<[() => true, () => false, () => boolean]>; // true
-    // // type T5 = Or<[() => false, () => false, () => boolean]>; // boolean
-    
-  
-    // type cases = [
-    //   // TODO: try to get these types narrowed
-    //   Expect<Equal<T1, boolean>>, //
-    //   Expect<Equal<T2, boolean>>,
-    //   // Expect<Equal<T3, never>>,
-    //   // Expect<Equal<T4, true>>,
-    //   // Expect<Equal<T5, boolean>>,
-    // ];
-    // const cases: cases = [true, true];
-  });
 
 });
 describe("IfOr<T>", () => {

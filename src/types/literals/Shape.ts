@@ -5,6 +5,8 @@ import { IfNever, IfTrue, IfUndefined } from "../boolean-logic";
 import { IndexableObject } from "../base-types/IndexableObject";
 import { ObjectKey } from "../base-types/ObjectKey";
 import { Narrowable } from "./Narrowable";
+import { EmptyObject, KV } from "../base-types";
+import { UnionToTuple } from "../type-conversion";
 
 type Narrow = Exclude<Narrowable, symbol>;
 
@@ -52,14 +54,27 @@ export type ShapeApi__Wide<
   unknown: () => IfNever<TUnion, unknown, unknown | TUnion>;
 }, TExclude>
 
-// export type RecordUnion = [
-//   Choice<["string", string]>,
-//   Choice<["number", number]>,
-//   Choice<["boolean", boolean]>,
-//   Choice<["undefined", undefined]>,
-//   Choice<["null", null]>,
+type LookupWideName<T extends WideTypeName> =T extends "string"
+? string
+: T extends "number"
+? number
+: T extends "boolean"
+? boolean
+: T extends "null"
+? null
+: T extends "undefined"
+? undefined
+: T extends "unknown"
+? unknown
+: T extends "object"
+? object
+: never;
 
-// ]
+type LookupWideTypeNames<
+  T extends readonly WideTypeName[]
+> = {
+  [K in keyof T]: LookupWideName<T[K]>
+}
 
 /**
  * The `ShapeApi` is an API surface for defining types which have a runtime aspect
@@ -91,7 +106,16 @@ export type ShapeApi = ShapeApi__Wide & {
     unknown: () => Record<ObjectKey, unknown>;
     union: <
       U extends readonly WideTypeName[]
-    >(...members: U) => IfUndefined<U,NonNullable<unknown>, Record<ObjectKey, TupleToUnion<U>>>;
+    >(...members: U) => IfUndefined<
+      U,
+      EmptyObject, 
+      Record<
+        ObjectKey, 
+        TupleToUnion<
+          LookupWideTypeNames<U>
+        >
+      >
+    >;
   };
   array:  {
     string: () => string[];

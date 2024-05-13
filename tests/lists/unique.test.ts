@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import {  SameKeys, Unique } from "src/types/index";
+import {  HasSameValues, Unique } from "src/types/index";
 import {  unique } from "src/runtime/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -22,18 +22,15 @@ describe("Unique properties in Sets", () => {
       type T3 = Unique<[...[Obj1,Obj2], ...[Obj2,Obj3]]>;
   
       type cases = [
-        Expect<SameKeys<T0, [2,3,1]>>,
-        Expect<SameKeys<T1, [1,2, 3,4,5,6 ]>>,
-        Expect<SameKeys<T2, [ 3,4,5,6,1,2 ]>>,
+        Expect<HasSameValues<T0, [2,3,1]>>,
+        Expect<HasSameValues<T1, [1,2, 3,4,5,6 ]>>,
+        Expect<HasSameValues<T2, [ 3,4,5,6,1,2 ]>>,
         // object testing
         Expect<Equal<T3, [ Obj1, Obj2, Obj3 ]>>,
       ];
       
       const cases: cases = [ true, true, true, true ];
     });
-
-  
-    
 
   });
 

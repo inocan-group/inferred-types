@@ -1,4 +1,4 @@
-import { Truncate } from "src/types/string-literals/Truncate";
+import { Truncate } from "../../types/sets/string-literals/Truncate";
 
 
 export const truncate = <

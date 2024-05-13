@@ -3,9 +3,9 @@ import {
   AsString, 
   Concat, 
   Container, 
-  ErrorCondition, 
   IfFalse, 
   IsValidIndex, 
+  Throw, 
   Tuple 
 } from "src/types/index";
 
@@ -14,26 +14,30 @@ type Err<
   TKey extends PropertyKey
 > = 
 TContainer extends Tuple ? TKey extends string | symbol
-    ? ErrorCondition<
+    ? Throw<
         "invalid-key-type", 
         Concat<["An array can only have numeric keys and we found the key: '", AsString<TKey>, "'."]>,
-        { container: TContainer; key: TKey; library: "IfValidKey" }
+        "IfValidKey",
+        { container: TContainer; key: TKey; library: "inferred-types" }
       >
-    : ErrorCondition<
+    : Throw<
         "key-does-not-exist", 
         Concat<["An index of ", AsString<TKey>, " is beyond the length of the array!"]>,
-        { container: TContainer; key: TKey; library: "IfValidKey" }
+        "IfValidKey",
+        { container: TContainer; key: TKey; library: "inferred-types" }
       >
 : TContainer extends AnyObject ? TKey extends number
-    ? ErrorCondition<
+    ? Throw<
         "invalid-key-type", 
-        "",
-        { container: TContainer; key: TKey; library: "IfValidKey" }
+        `Received a numeric key for an object based container!`,
+        "IfValidKey",
+        { container: TContainer; key: TKey; library: "inferred-types" }
       >
-    : ErrorCondition<
+    : Throw<
         "key-does-not-exist", 
         Concat<["An attempt to index an object with '", AsString<TKey>, "' is not a valid key on the object!"]>,
-        { container: TContainer; key: TKey; library: "IfValidKey" }
+        "IfValidKey",
+        { container: TContainer; key: TKey; library: "inferred-types" }
       >
 : never;
 

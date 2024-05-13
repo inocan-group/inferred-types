@@ -1,7 +1,7 @@
 import { 
   AfterFirst, 
   First, 
-  IfEmptyContainer, 
+  IsObjectLiteral,
   KV, 
   Keys, 
   ObjectKey 
@@ -37,8 +37,6 @@ type Process<
 export type KeysWithValue<
   TObj extends KV,
   TValue
-> = IfEmptyContainer<
-  TObj,
-  ObjectKey[],
-  Process<Keys<TObj>, TObj, Readonly<TValue>>
->;
+> = IsObjectLiteral<TObj> extends true
+? Process<Keys<TObj>, TObj, Readonly<TValue>>
+: ObjectKey[];

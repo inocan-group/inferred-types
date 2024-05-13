@@ -3,6 +3,9 @@ import {
   Compare, 
   IfArray, 
   IfNever, 
+  Or,
+  If,
+  IsEqual,
   TupleToUnion,
   RemoveNever
 } from "src/types/index";
@@ -17,7 +20,7 @@ type SingleFilter<
   TOp extends ComparatorOperation,
   Result extends unknown[] = []
 > = TList extends [infer Head, ...infer Rest]
-  ? Compare<Head,TOp, TFilter> extends true
+  ? [Compare<Head,TOp, TFilter>] extends [true]
     ? SingleFilter<Rest, TFilter, TOp, Result> // filter out
     : SingleFilter<Rest, TFilter, TOp, [...Result, Head]>
   : Result;
@@ -35,6 +38,23 @@ type Process<
         SingleFilter<[...TList], TFilter, TOp>
       >
     : never;
+
+type PrepList<
+    T extends readonly unknown[],
+    O extends ComparatorOperation
+  > = If<
+    Or<[
+      IsEqual<O, "contains">,
+      IsEqual<O, "startsWith">,
+      IsEqual<O, "endsWith">,
+    ]>,
+    RemoveNever<{
+      [K in keyof T]: T[K] extends string | number
+        ? T[K]
+        : never
+    }>,
+    T
+  >
 
 /**
  * **Filter**`<TList, TComparator, [TOp]>`
@@ -63,12 +83,22 @@ export type Filter<
   TList extends readonly unknown[],
   TComparator,
   TOp extends ComparatorOperation = "extends"
-> = IfNever<
-  TComparator,
-  RemoveNever<TList>,
-  IfArray<
-    TComparator, 
-    Process<TList,TupleToUnion<TComparator>,TOp>, 
-    Process<TList,TComparator,TOp>
+> = PrepList<TList, TOp> extends readonly unknown[]
+? IfNever<
+    TComparator,
+    RemoveNever<TList>,
+    IfArray<
+      TComparator, 
+      Process<
+        PrepList<TList, TOp>,
+        TupleToUnion<TComparator>,
+        TOp
+      >,
+      Process<
+        PrepList<TList, TOp>,
+        TComparator,
+        TOp
+      >
+    >
   >
->
+: never;

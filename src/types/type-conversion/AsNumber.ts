@@ -16,7 +16,7 @@ type ParseInt<T> = T extends `${infer N extends number}` ? N : never;
 export type AsNumber<T> = T extends number
   ? T & number
   : number extends T
-    ? T & number
+    ? number
     : T extends `${number}` 
       ? ParseInt<T>
       : never;

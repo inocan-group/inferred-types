@@ -1,5 +1,4 @@
-import {  If, IsUnion, RetainWideTypes, UnionToTuple } from "../..";
-
+import {  IsUnion, RetainWideTypes, UnionToTuple } from "../..";
 
 type Process<T> = UnionToTuple<T> extends readonly unknown[]
 ? RetainWideTypes<UnionToTuple<T>>["length"] extends UnionToTuple<T>["length"]
@@ -15,9 +14,6 @@ type Process<T> = UnionToTuple<T> extends readonly unknown[]
  * 
  * **Related:** `IsNonLiteralUnion`
  */
-export type IsWideUnion<
-  T> = If<
-  IsUnion<T>,
-  Process<T>,
-  false
->
+export type IsWideUnion<T> = IsUnion<T> extends true
+  ? Process<T>
+  : false;
