@@ -4,20 +4,30 @@ import {
   Abs, 
   Decrement, 
   Reverse,  
-  ErrorCondition, 
-  Concat, 
   ToString, 
   KV,
   ObjectKey,
-  Tuple,
   Container,
   If,
   AsString,
-
   IsValidIndex,
   DescribeType,
   AsPropertyKey,
+  Throw,
+  ErrorCondition,
+  TypeDefaultValue,
 } from "src/types/index";
+import { Concat } from "../string-literals/Concat";
+import { Constant } from "../../constants/Constant";
+
+type Override<
+  TValue,
+  TOverride
+> = TOverride extends Constant<"no-override">
+? TValue
+: TValue extends ErrorCondition<"invalid-index">
+  ? TOverride
+  : TValue;
 
 
 type IsKey<
@@ -29,23 +39,20 @@ type IsKey<
     false
   >;
 
-
-
 type NegativeIndex<
   TValue extends readonly unknown[],
   TIdx extends number
-> = Reverse<TValue> extends Tuple
-? Decrement<Abs<TIdx>> extends number
+> = Decrement<Abs<TIdx>> extends number
   ? If<
-      IsValidIndex<Reverse<TValue>, Decrement<Abs<TIdx>>>,
-      Reverse<TValue>[Decrement<Abs<TIdx>>],
-      ErrorCondition<
+      IsValidIndex<TValue, Decrement<Abs<TIdx>>>,
+      TValue[Decrement<Abs<TIdx>>],
+      Throw<
         "invalid-index",
         `Use of a negative index [${AsString<TIdx>}] was unsuccessful in matching a valid index`,
+        "IndexOf",
         { 
           container: TValue; 
           key: TIdx; 
-          library: "IndexOf"; 
           context: {
             revIndex: Decrement<Abs<TIdx>>;
             revContainer: Reverse<TValue>;
@@ -53,8 +60,7 @@ type NegativeIndex<
         }
       >
     >
-  : never
-: never;
+  : never;
 
 
 type HandleArr<
@@ -62,28 +68,72 @@ type HandleArr<
   TIdx extends PropertyKey
 > = TIdx extends number
 ? IsNegativeNumber<TIdx> extends true
-  ? NegativeIndex<TValue,TIdx>
+  ? NegativeIndex<Reverse<TValue>,TIdx>
   : If<
       IsKey<TValue,TIdx>,
       TValue[TIdx],
-      ErrorCondition<
+      Throw<
         "invalid-index", 
         Concat<["Attempt to index [", ToString<TIdx>, "] into a non-container type!"]>,
-        { container: TValue; key: TIdx; library: "IndexOf" }
+        "IndexOf",
+        { container: TValue; key: TIdx; library: "inferred-types" }
       >
     >
-  : never;
+: Throw<
+    "invalid-index",
+    `IndexOf<Tuple,${ToString<TIdx>}> failed because a tuple container must use numeric indexes!`,
+    "IndexOf",
+    { container: TValue; key: TIdx; library: "inferred-types" }
+  >;
 
 type HandleObj<
 TValue extends KV,
 TIdx extends PropertyKey
 > = TIdx extends keyof TValue
 ? TValue[TIdx]
-: ErrorCondition<
+: Throw<
   "invalid-index", 
   Concat<["Attempt to index [", ToString<TIdx>, "] into a non-container type!"]>,
-  { container: TValue; key: TIdx; library: "IndexOf" }
+  "IndexOf",
+  { container: TValue; key: TIdx; library: "inferred-types" }
 >;
+
+type Process<
+TValue,
+TIdx extends PropertyKey | null
+> = IfNull<
+TIdx,
+// return "as is"
+TValue,
+// dereference where valid index
+TValue extends readonly unknown[]
+  ? If<
+      IsValidIndex<TValue, AsPropertyKey<TIdx>>,
+      HandleArr<TValue, AsPropertyKey<TIdx>>,
+      Throw<
+      "invalid-index",
+        `Call to IndexOf<${DescribeType<TValue>},${AsString<TIdx>}> is not allowed as an tuple based container must receive either null or numeric index value.`,
+        "IndexOf",
+        { library: "inferred-types"; container: TValue; key: TIdx }
+      >
+    >
+  : TValue extends KV
+    ? TIdx extends ObjectKey
+      ? HandleObj<TValue,TIdx>
+      : Throw<
+          "invalid-index",
+          `Call to IndexOf<${DescribeType<TValue>},${AsString<TIdx>}> is not allowed as an object based container must receive either null, a string, or a symbol index value.`,
+          "IndexOf",
+          {library: "inferred-types"; container: TValue; key: TIdx }
+        >
+    : Throw<
+        "invalid-index",
+        `IndexOf<${ToString<TValue>},${ToString<TIdx>}> was called but the a non-null value was used to index a non-container which will never work!`,
+        "IndexOf",
+        { library: "inferred-types"; container: TValue; key: TIdx }
+      >
+>;
+
 
 
 /**
@@ -104,33 +154,9 @@ TIdx extends PropertyKey
  */
 export type IndexOf<
   TValue,
-  TIdx extends PropertyKey | null
-> = IfNull<
-  TIdx,
-  // return "as is"
-  TValue,
-  // dereference where valid index
-  TValue extends readonly unknown[]
-    ? If<
-        IsValidIndex<TValue, AsPropertyKey<TIdx>>,
-        HandleArr<TValue, AsPropertyKey<TIdx>>,
-        ErrorCondition<
-        "invalid-index",
-          `Call to IndexOf<${DescribeType<TValue>},${AsString<TIdx>}> is not allowed as an tuple based container must receive either null or numeric index value.`,
-          { library: "IndexOf"; container: TValue; key: TIdx }
-        >
-      >
-    : TValue extends KV
-      ? TIdx extends ObjectKey
-        ? HandleObj<TValue,TIdx>
-        : ErrorCondition<
-            "invalid-index",
-            `Call to IndexOf<${DescribeType<TValue>},${AsString<TIdx>}> is not allowed as an object based container must receive either null, a string, or a symbol index value.`,
-            { library: "IndexOf"; container: TValue; key: TIdx }
-          >
-      : ErrorCondition<
-          "invalid-index",
-          `IndexOf<${ToString<TValue>},${ToString<TIdx>}> was called but the a non-null value was used to index a non-container which will never work!`,
-          { library: "IndexOf"; container: TValue; key: TIdx }
-        >
->;
+  TIdx extends PropertyKey | null,
+  TOverride = Constant<"no-override">
+> = Override<
+  Process<TValue,TIdx>,
+  TOverride
+>

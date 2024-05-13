@@ -1,85 +1,121 @@
-import { EmptyObject, NotNull } from "src/types/index";
-
-export type ErrorCondition__Props = {
-  context?: Record<string, unknown>;
-  utility?: string;
-  stack?: readonly string[];
-  id?: string | number;
-  library?: string;
-};
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { 
+  Container,
+  EmptyObject, 
+  ExpandRecursively, 
+  RemoveNever
+} from "src/types/index";
 
 export interface TypeErrorInfo<
-  TContext extends object = object,
-  TUtility extends string | never = string | never,
-  TStack extends readonly string[] = readonly string[],
-  TId extends string | number | never = string | number | never,
-  TLibrary extends string | never = string | never
+  TContext extends Record<string, unknown> = EmptyObject,
 > {
-  /**
-   * A place to add a dictionary of key/value pairs specifically related 
-   * to the error.
-   */
-  context?: TContext;
-  /**
-   * the name of the type utility which generated the error
-   */
-  utility?: TUtility;
-  /**
-   * An array of known type utilities which were involved to get to this error
-   */
-  stack?: TStack;
-
   /**
    * if there is a particular "id" value which is useful to separate from the error message
    * you can add it here.
    */
-  id?: TId;
+  id?: string | number;
+
+  /**
+   * a _key_ involved in the ErrorCondition
+   */
+  key?: unknown;
+
+  keys?: readonly unknown[];
+  /**
+   * a _value_ involved in the ErrorCondition
+   */
+  value?: any | readonly any[];
+
+  values?: readonly unknown[];
+
+  offset?: unknown;
+
+  index?: unknown;
+
   /**
    * If this error condition is originating in a library/repo then you can
    * mark this as being the case.
    */
-  library?: TLibrary;
+  library?: string;
+  /**
+   * used typically for boolean operators to indicate the value
+   * being tested
+   */
+  test?: unknown;
+  /**
+   * used typically for boolean operators to indicate the value
+   * if the test is `true`
+   */
+  if?: unknown;
+  /**
+   * used typically for boolean operators to indicate the value
+   * if the test is `false`
+   */  
+  else?: unknown;
+  /**
+   * used typically for boolean operators to indicate the value
+   * if the test is `boolean`
+   */
+  maybe?: unknown;
+  /**
+   * an underlying ErrorCondition for which this ErrorCondition
+   * is based
+   */
+  // eslint-disable-next-line no-use-before-define
+  underlying?: ErrorCondition;
+  /**
+   * In cases where a utility provides a means to handle the "never" value
+   * then this indicates what type _never_ would be mapped to.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  handleNever?: any;
+
+  container?: any | readonly any[];
+
+  /**
+   * A place to add a dictionary of key/value pairs specifically related 
+   * to the error which don't fit into the other props provided.
+   */
+  ctx?: TContext;
 }
 
 
+/**
+ * **ErrorConditionShape**
+ * 
+ * Represents the basic shape of any `ErrorCondition`
+ */
+export interface ErrorConditionShape extends TypeErrorInfo {
+  __kind: "ErrorCondition";
+  kind: string;
+  msg: string;
+}
 
 /**
  * **ErrorCondition**`<TKind,[TMsg],[TDomain],[TVars]>`
  * 
- * A way to express a meaningful error message in type system
+ * A way to express a meaningful error message in type system.
+ * 
+ * **Related:** `Throw`, `ProxyError`, `MapError`, `IsErrorCondition`
  */
-export interface ErrorCondition<
+export type ErrorCondition<
+  // identifier for this type of error
   TKind extends string = string, 
-  TMsg extends string = string, 
-  TInfo extends TypeErrorInfo | null = TypeErrorInfo | null
-> {
+  // unique description for this instance of the condition
+  TMsg extends string = never, 
+  TUtility extends string = never,
+  TStack extends readonly string[] = never,
+  TRest extends TypeErrorInfo = EmptyObject
+> = ExpandRecursively<
+RemoveNever<{
+  __kind: "ErrorCondition";
   /** the kind/category of error this is */
   kind: TKind;
   /** an error about the message */
-  message: TMsg;
-  /** Error specific context */
-  context: TInfo extends NotNull ? TInfo["context"] : EmptyObject;
+  msg: TMsg;
   /** the originating type utility which threw the error */
-  utility: TInfo extends NotNull ? TInfo["utility"] : never;
+  utility: TUtility;
   /** the stack of utility types which were used to get to this error */
-  stack: TInfo extends NotNull ? TInfo["stack"] : [];
-  /** a unique id important to this error */
-  id: TInfo extends NotNull ? TInfo["id"] : never;
-  /** the library this error came from */
-  library: TInfo extends NotNull ? TInfo["library"] : never;
-
-
-  // from: <
-  //   TKind2 extends string = string, 
-  //   TMsg2 extends string = string, 
-  //   TContext2 extends Record<string, unknown> = EmptyObject,
-  //   TStack2 extends readonly string[] = [],
-  //   TLibrary2 extends string = string,
-  //   TCategory2 extends string = string,
-  //   TSubcategory2 extends string = string
-  // >() => ErrorCondition<
-
-  //   >;
-}
+  stack: TStack;
+}> & TRest>
 

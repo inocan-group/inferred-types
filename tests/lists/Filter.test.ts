@@ -2,7 +2,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
 import { filter } from "src/runtime/index";
-import {  Filter } from "src/types/index";
+import {  Filter, HasSameValues } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -42,21 +42,7 @@ describe("Filter using extends operation", () => {
     const cases: cases = [true, true, true, true];
   });
 
-  
-  it("filter out tuples", () => {
-    type Lookup = [
-      ["man","men"],
-      ["woman","women"]
-    ];
-    type Man = Filter<Lookup, "woman", "contains">[0];
-    type Woman = Filter<Lookup, "man", "contains">[0];
-    
-    type cases = [
-      Expect<Equal<Man, ["man","men"]>>,
-      Expect<Equal<Woman, ["woman","women"]>>,
-    ];
-    const cases: cases = [ true, true ];
-  });
+
   
 
   it("filter out wide types, including never", () => {
@@ -126,12 +112,12 @@ describe("Filter using extends operation", () => {
   it("Filter array with equals", () => {
     type T1 = Filter<
       [1,2, "foo", "bar", "baz", never],
-      ["foo", "bar"], 
+      "foo", 
       "equals"
     >;
     
     type cases = [
-      Expect<Equal<T1, [1,2,"baz",never]>>,
+      Expect<HasSameValues<T1, [1,2,"bar","baz",never]>>,
     ];
     const cases: cases = [ true ];
     

@@ -7,6 +7,8 @@ import type {
   RemoveIndexKeys,
   IfTuple,
   IsVueRef,
+  IsTuple,
+  IsObjectLiteral,
 } from "src/types/index";
 
 type _Keys<
@@ -23,22 +25,32 @@ type GetKeys<
   : _Keys<T> extends []
     ? UnionToTuple<keyof T> extends [ObjectKey]
       ? (keyof T)[]
-      : IfNever<keyof T, ObjectKey[], never[]>
+      : ObjectKey[]
     : _Keys<T>;
 
-type Process<
-  TContainer extends Container
-> = 
-IfNever<
-  TContainer, 
-  never[],
-  TContainer extends readonly unknown[]
-    ? NumericKeys<TContainer>
-    : TContainer extends object
-      ? GetKeys<TContainer>
-      : never[]
->;
+type ProcessObj<
+  TContainer extends object
+> = GetKeys<TContainer>
 
+type ProcessTuple<
+  TContainer extends readonly unknown[]
+> = NumericKeys<TContainer> extends readonly number[]
+? NumericKeys<TContainer>
+: never;
+
+type Process<
+TContainer extends Container
+> = TContainer extends readonly unknown[]
+? IsTuple<TContainer> extends true
+  ? ProcessTuple<TContainer>
+  : number[]
+: TContainer extends object
+  ? [IsObjectLiteral<RemoveIndexKeys<TContainer>>] extends [true]
+    ? ProcessObj<RemoveIndexKeys<TContainer>> extends readonly (keyof TContainer)[]
+      ? ProcessObj<RemoveIndexKeys<TContainer>>
+      : ProcessObj<RemoveIndexKeys<TContainer>>
+    : ObjectKey[]
+  : never[];
 
 /**
  * **Keys**`<TContainer>`
@@ -58,25 +70,5 @@ IfNever<
  */
 export type Keys<
   TContainer extends Container
-  > = TContainer extends readonly unknown[]
-  ? Process<TContainer> extends readonly number[]
-    ? IfTuple<
-        Process<TContainer>, 
-        Process<TContainer>, 
-        number[]
-      > extends readonly (number & keyof TContainer)[]
-        ? IfTuple<
-            Process<TContainer>, 
-            Process<TContainer>, 
-            number[]
-          >
-      : never
-    : never
-  : TContainer extends object
-    ? Process<TContainer> extends ObjectKey[]
-      ? Process<TContainer> extends readonly (ObjectKey & keyof TContainer)[]
-        ? Process<TContainer>
-        : never
-      : ObjectKey[]
-    : never[]
-
+> = Process<TContainer>;
+  

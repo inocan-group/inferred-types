@@ -1,5 +1,5 @@
 
-import { EnsureSurround } from "src/types/string-literals/EnsureSurround";
+import { EnsureSurround } from "../../types/sets/string-literals/EnsureSurround";
 import { ensureLeading } from "./ensureLeading";
 import { ensureTrailing } from "./ensureTrailing";
 

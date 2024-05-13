@@ -1,6 +1,6 @@
 import { IsString, IsNegativeNumber, If, Or, And, IsWideType } from "../boolean-logic";
 import { AfterFirst } from "../lists/AfterFirst";
-import { NumericChar } from "../string-literals";
+import { NumericChar } from "../string-literals/character-sets/NumericChar";
 import { FixedLengthArray } from "../tuples/FixedLengthArray";
 import { AsNumber } from "../type-conversion/AsNumber";
 import { AsString } from "../type-conversion/AsString";

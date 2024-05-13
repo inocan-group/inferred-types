@@ -35,6 +35,11 @@ type Process<
     >
   : never
 
+/**
+ * **RemoveNever**`<T>`
+ * 
+ * Removes all of the elements from `T` which are typed as _never_.
+ */
 export type RemoveNever<
   T extends Container
 > = Process<

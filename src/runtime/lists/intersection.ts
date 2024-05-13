@@ -35,7 +35,7 @@ TDeref extends string | number
     () => a.filter(k => b.includes(k)) 
   );
 
-  return sharedKeys as Intersection<A,B,TDeref>;
+  return sharedKeys;
 }
 
 function intersectNoOffset<
@@ -68,7 +68,7 @@ export const intersection = <
 ): Intersection<A,B,TDeref> => {
   return (
     deref === null
-    ? intersectNoOffset(a,b)
-    : intersectWithOffset(a,b,deref)
+    ? intersectNoOffset(a,b) as unknown
+    : intersectWithOffset(a,b,deref) as unknown
   ) as unknown as Intersection<A,B,TDeref>;
 };

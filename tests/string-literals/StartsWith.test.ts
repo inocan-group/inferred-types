@@ -1,5 +1,5 @@
 import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { AsString, IsStringLiteral, IsTuple, IsUnion, Slice, StartsWith, UpperAlphaChar } from "src/types/index";
+import {  StartsWith, UpperAlphaChar } from "src/types/index";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

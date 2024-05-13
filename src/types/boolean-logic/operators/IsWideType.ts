@@ -1,38 +1,41 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {   AfterFirst, And, DoesExtend, First, If, IfNever, IfOr,  IsArray,  IsBoolean,  IsBooleanLiteral,  IsEqual, IsTuple, IsUnion, KV,  Not,  ObjectKey,  Or,  UnionToTuple } from "src/types/index";
+import {  ErrorCondition,   IfNever,  IsArray,    IsEqual,   IsObjectLiteral, IsTuple, IsWideUnion,  KV, ProxyError, Throw } from "src/types/index";
+
+type IsWide<T> = 
+[IsEqual<T, boolean>] extends [true]
+    ? true
+  : [IsEqual<T, object>] extends [true]
+    ? true
+  : [IsEqual<T, KV>] extends [true]
+    ? true
+  : [IsEqual<T, string>] extends [true]
+    ? true
+  : [IsEqual<T, number>] extends [true]
+    ? true
+  : [IsEqual<T, symbol>] extends [true]
+    ? true
+  : [IsArray<T>] extends [true]
+    ? [IsTuple<T>] extends [false]
+      ? true
+      : false
+  : T extends KV
+    ? IsObjectLiteral<T> extends true
+      ? false
+      : true
+  : IsWideUnion<T> extends true
+      ? true
+  : false;
 
 
-type IsWide<T> = IfNever<
-  T,
-  false,
-  IfOr<
-    [
-      IsEqual<T,string>, IsEqual<T,number>, IsEqual<T,object>,
-      And<[ IsBoolean<T>, Not<IsBooleanLiteral<T>>]>,
-      And<[ IsArray<T>, Not<IsTuple<T>>]>, 
-      And<[ 
-        DoesExtend<T,KV>, 
-        Or<[ IsEqual<keyof T, never>, DoesExtend<ObjectKey, keyof T> ]> 
-      ]>
-    ],
-    true,
-    false
-  >
->
-
-
-type IsWideUnion<
-  T extends readonly unknown[],
-> = [] extends T
-? true
-: If<
-  IsWide<First<T>>,
-  IsWideUnion<AfterFirst<T>>,
-  false
+type InvalidNever = Throw<
+  "invalid-never",
+  `The value of T when calling IsWideType<T> was "never" which makes the comparison invalid! If you want prefer to instead allow this condition then set the TNever generic to true or false depending on your preferred outcome`,
+  "IsWideType",
+  { library: "inferred-types"}
 >
 
 /**
- * **IsWideType**`<T>`
+ * **IsWideType**`<T, [TNever]>`
  * 
  * Identifies types which are "wide" (and have a narrow variant):
  * 
@@ -40,18 +43,27 @@ type IsWideUnion<
  * - `string[]`, `number[]` array types
  * - union types who's elements are all wide too
  * 
- * **Note:** types such as `null` and `undefined` are **not** considered
+ * **Note:** 
+ * - types such as `null` and `undefined` are **not** considered
  * wide.
+ * - If the `T` passed in is _never_ the result of this operation is
+ * ErrorCondition<"invalid-never"> but this can be made into whatever
+ * you like by setting the `TNever` generic.
+ * - If an ErrorCondition is in `T` then it will be bubbled up
  */
-export type IsWideType<T> = 
-IfNever<
+export type IsWideType<
   T,
-  false,
-  IsUnion<T> extends true
-    ? IsWideUnion<UnionToTuple<T>> extends true
+  TNever = InvalidNever
+> = IfNever<
+  T,
+  TNever,
+  IsWideUnion<T> extends true
+    ? true
+    : [IsWide<T>] extends [true]
       ? true
-      : false
-    : IsWide<T>
+      : [T] extends [ErrorCondition]
+        ? ProxyError<T, "IsWideType">
+        : false
 >;
 
 

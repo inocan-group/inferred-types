@@ -9,10 +9,6 @@ import {
   EndsWith, 
   Tuple,
   Or,
-  If,
-  And,
-  IsFalse,
-  IsUnion,
 } from "src/types/index";
 
 
@@ -26,7 +22,6 @@ export type ComparatorOperation =
 | "extends"
 | "equals"
 | "contains"
-| "containsSome"
 | "containsAll"
 | "startsWith"
 | "endsWith"
@@ -46,29 +41,25 @@ TComparator
 : TOp extends "equals"
 ? IsEqual<TVal, Unionize<TComparator>>
 : TOp extends "contains"
-? TVal extends string | number | Tuple
-? Contains<TVal,Unionize<TComparator>>
-: never
-: TOp extends "containsSome"
-? TVal extends Tuple
-? Or<Contains<TVal,Unionize<TComparator>>>
-: never
+  ? [TVal] extends [string | number | Tuple]
+    ? Contains<TVal,TComparator>
+    : never
 : TOp extends "containsAll"
-? TVal extends Tuple
-  ? TComparator extends string | number | readonly string[]
+? [TVal] extends [Tuple]
+  ? [TComparator] extends [string | number | readonly string[]]
     ? Contains<TVal,TComparator>
     : never
   : never
 : TOp extends "startsWith"
-? TVal extends string | number
-? TComparator extends string | number | readonly string[]
+? [TVal] extends [string | number]
+? [TComparator] extends [string | number | readonly string[]]
   ? StartsWith<TVal, TComparator>
   : never
 : never
 : TOp extends "endsWith"
-? TVal extends string | number
-? TComparator extends string | number | readonly string[]
-  ? EndsWith<TVal, Unionize<TComparator>>
+? [TVal] extends [string | number]
+? [TComparator] extends [string | number | readonly string[]]
+  ? EndsWith<TVal, TComparator>
   : never
 : never
 : TOp extends "returnEquals"

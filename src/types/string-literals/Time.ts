@@ -1,4 +1,4 @@
-import { Digit, NonZeroNumericChar, NumericChar, PlusMinus, TypeRequired, TypeStrength } from "src/types/index";
+import {  NumericChar, PlusMinus, TypeRequired, TypeStrength } from "src/types/index";
 
 type CivilianTwoDigitHour = "10" | "11" | "12";
 
@@ -182,7 +182,6 @@ export type HoursMinutesSecondsMilliseconds12<
  */
 export type TimeInMinutes<
   TNomenclature extends TimeNomenclature = "either",
-  TFixedLengthHours extends boolean = true,
   TStr extends TypeStrength = "strong",
   TTimezone extends TypeRequired = "exclude",
   TCase extends AmPmCase = "lower"

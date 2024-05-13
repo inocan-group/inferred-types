@@ -1,5 +1,5 @@
 import {  ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import {  IsWideType } from "src/types/index";
+import {  IsErrorCondition, IsWideType, Throw } from "src/types/index";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -22,6 +22,12 @@ describe("IsWideType<T>", () => {
     // union with literal values
     type F2 = IsWideType<string | 42>;
     type F3 = IsWideType<{foo: 1; bar: 2}>;
+
+    // never with and without modification of TNever
+    type E1 = IsWideType<never>;
+    type E2 = IsWideType<never, false>;
+    // proxy errors passed in
+    type E3 = IsWideType<Throw<"testing">>
     
     type cases = [
       ExpectTrue<T1>,
@@ -35,11 +41,19 @@ describe("IsWideType<T>", () => {
       ExpectFalse<F1>,
       ExpectFalse<F2>,
       ExpectFalse<F3>,
+
+      ExpectTrue<IsErrorCondition<E1, "invalid-never">>,
+      ExpectFalse<E2>,
+
+      ExpectTrue<IsErrorCondition<E3, "testing">>
     ];
     const cases: cases = [
       true, true, true, true, true, true, true,
-      false, false, false
+      false, false, false,
+      true, false,
+      true
     ];
   });
 
 });
+

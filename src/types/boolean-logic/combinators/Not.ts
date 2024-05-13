@@ -1,31 +1,30 @@
 /* eslint-disable no-use-before-define */
-import { Tuple, LogicFunction, IfFalse, IfTrue, IsErrorCondition, AfterFirst, First } from "src/types/index";
+import {  LogicFunction, IfFalse, IfTrue, IsErrorCondition, AfterFirst, First, IsEqual, IsNever } from "src/types/index";
 
 
 
 type Negate <
   TVal, 
-  _TParams extends Tuple = []
-> = TVal extends boolean
-? IfTrue<TVal, false, IfFalse<TVal, true, boolean>>  
-: TVal extends LogicFunction
-  ? ReturnType<LogicFunction>
-  : never;
+> = IsNever<TVal> extends true
+? never
+: [TVal] extends [boolean]
+  ? IfTrue<TVal, false, IfFalse<TVal, true, boolean>>  
+  : [TVal] extends [LogicFunction]
+    ? ReturnType<LogicFunction>
+    : never;
 
 type NegateTuple<
   TTuple extends readonly (boolean | LogicFunction)[],
-  _TParams extends Tuple = [],
   TResults extends readonly (boolean | LogicFunction)[] = []
 > = [] extends TTuple
-? TResults
+? IsEqual<TResults, [], false, TResults>
 : NegateTuple<
     AfterFirst<TTuple>,
-    _TParams,
-    [...TResults, Negate<First<TTuple>, _TParams> ]
+    [...TResults, Negate<First<TTuple>> ]
   >;
 
 /**
- * **Not**`<T>`
+ * **Not**`<T,[TError]>`
  * 
  * A boolean negation that can work on both a single value or an
  * array of values.
@@ -39,11 +38,13 @@ type NegateTuple<
  */
 export type Not<
   TVal, 
-  _TParams extends Tuple = []
+  TError = never
 > = IsErrorCondition<TVal> extends true 
-  ? TVal
-  : TVal extends boolean
-    ? Negate<TVal>
-    : TVal extends readonly (boolean | LogicFunction)[] 
-      ? NegateTuple<TVal>
-      : never;
+  ? TError
+  : [IsNever<TVal>] extends [true]
+    ? never
+    : [TVal] extends [boolean]
+      ? Negate<TVal>
+      :TVal extends readonly (boolean | LogicFunction)[] 
+        ? NegateTuple<TVal>
+        : never;

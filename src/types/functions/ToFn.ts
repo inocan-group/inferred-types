@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
-import { AnyFunction, IfNotError, FnMeta } from "src/types/index";
+import { AnyFunction, FnMeta } from "src/types/index";
 
 /**
  * **ToFn**`<T>`
@@ -15,15 +15,12 @@ import { AnyFunction, IfNotError, FnMeta } from "src/types/index";
  * 
  * **Related:** `AsFn`
  */
-export type ToFn<T> = IfNotError<
-  T,
-  {},
-  T extends AnyFunction
+export type ToFn<T> = T extends AnyFunction
     ? T
     : T extends FnMeta<infer Args, infer Returns, infer Props>
       ? "no-props" extends Props
         ? (...args: Args) => Returns
         : ((...args: Args) => Returns) & Props
   : () => T
->;
+
 

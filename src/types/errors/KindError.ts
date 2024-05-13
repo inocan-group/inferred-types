@@ -1,4 +1,4 @@
-import { KebabCase, PascalCase } from "../string-literals";
+import { KebabCase, PascalCase } from "../sets/string-literals";
 
 /**
  * **KindError**

@@ -1,8 +1,8 @@
-import { Equal, Expect } from "@type-challenges/utils";
+import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
 import { indexOf } from "src/runtime/index";
-import type { DoesExtend, ErrorCondition, IndexOf } from "src/types/index";
+import type {  IndexOf, IsErrorCondition } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -24,13 +24,13 @@ describe("IndexOf<T>", () => {
     type cases = [
       Expect<Equal<Obj, 2>>,
       Expect<Equal<Arr, 2>>,
-      Expect<DoesExtend<InvalidStrIdx, ErrorCondition<"invalid-index">>>,
+      ExpectTrue<IsErrorCondition<InvalidStrIdx, "invalid-index">>,
 
       Expect<Equal<Neg, 3>>,
 
-      Expect<DoesExtend<ArrBadIdx, ErrorCondition<"invalid-index">>>,
+      ExpectTrue<IsErrorCondition<ArrBadIdx, "invalid-index">>,
       Expect<Equal<Identity, "foo">>,
-      Expect<DoesExtend<Never, ErrorCondition<"invalid-index">>>,
+      ExpectTrue<IsErrorCondition<Never, "invalid-index">>,
     ];
     const cases: cases = [ 
       true, true, true, 
@@ -38,6 +38,22 @@ describe("IndexOf<T>", () => {
       true, true, true
      ];
   });
+
+  
+  it("using Override feature", () => {
+    type Arr = IndexOf<[1,2,3],8, "oops">
+    type Obj = IndexOf<{foo: 1}, "bar", "oops">;
+    
+    type cases = [
+      Expect<Equal<Arr, "oops">>,
+      Expect<Equal<Obj, "oops">>,
+    ];
+    const cases: cases = [
+      true, true
+    ];
+    
+  });
+  
 
   
   it("type tests for negative offsets", () => {
@@ -49,7 +65,6 @@ describe("IndexOf<T>", () => {
     const cases: cases = [];
     
   });
-  
 
   
   it("runtime", () => {

@@ -16,9 +16,7 @@ export * from "./IfNegativeNumber";
 export * from "./IfPositive";
 
 
-export * from "./IfError";
 export * from "./IfErrorCondition";
-export * from "./IfNotError";
 export * from "./IfSingularNoun";
 
 export * from "./IfEqualLength";
@@ -32,7 +30,6 @@ export * from "./IfValidKey";
 export * from "./IfBoolean";
 export * from "./IfGreaterThan";
 export * from "./IfTrue";
-export * from "./IfIndexable";
 export * from "./IfIndexAt";
 export * from "./IfNumber";
 export * from "./IfFalse";
@@ -76,3 +73,4 @@ export * from "./IfTuple";
 export * from "./IfDoneFn"
 export * from "./Passthrough"
 export * from "./Handle"
+export * from "./Iff";

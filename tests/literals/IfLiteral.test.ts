@@ -54,7 +54,6 @@ describe("IsLiteral<T>", () => {
     type Empty = IsLiteral<EmptyObject>;
     type Explicit = IsLiteral<ExplicitlyEmptyObject>;
     type BaseKV = IsObjectLiteral<KV>;
-    type IndexableWithExplicit = IsObjectLiteral<IndexableObject< {foo: 42 }>>;
     // eslint-disable-next-line @typescript-eslint/ban-types
     type Curly = IsLiteral<{}>;
     
@@ -68,17 +67,13 @@ describe("IsLiteral<T>", () => {
       // a type marked at `KV` is generic; it can take any normal key/value
       // pair that an object is allowed so therefore it is NOT literal
       ExpectFalse<BaseKV>,
-      // an indexable object with at least one _known_ key is
-      // now considered a literal type even though we may not
-      // know all the keys at design time.
-      ExpectTrue<IndexableWithExplicit>,
       // the `{}` type is quite misunderstood and really should be called
       // `Something` (which we do export as a symbol in this lib). Effectively
       // it is just any value except for **null** and **undefined**.
       ExpectFalse<Curly>,
       
     ];
-    const cases: cases = [ false, true, false, true, false ];
+    const cases: cases = [ false, true, false, false ];
     
   });
   

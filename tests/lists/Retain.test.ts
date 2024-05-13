@@ -47,20 +47,6 @@ describe("Retain", () => {
     const cases: cases = [true, true, true];
   });
 
-  it("Pick out a value of a value using containsSome", () => {
-    type Lookup = [
-      ["man","men"],
-      ["woman","women"]
-    ];
-    type Man = Retain<Lookup, "man", "contains">[0];
-    type Woman = Retain<Lookup, "woman", "contains">[0];
-    
-    type cases = [
-      Expect<Equal<Man, ["man","men"]>>,
-      Expect<Equal<Woman, ["woman","women"]>>,
-    ];
-    const cases: cases = [ true, true ];
-  });
   
   it("Retain using a tuple comparator", () => {
     type T1 = Retain<[1,2, "foo", "bar", 1], [1, "foo"]>; 

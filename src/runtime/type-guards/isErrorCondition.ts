@@ -8,10 +8,8 @@ import { isObject } from "./isObject";
  * Type guard which checks whether the given value is a `ErrorCondition` type.
  */
 export function isErrorCondition<
-  Domain extends string,
-  Kind extends string,
-  Message extends string,
-  T extends ErrorCondition<Kind, Message, {library: Domain}>
+  TKind extends string,
+  T extends ErrorCondition<TKind>
 >(value: unknown | T): value is T {
   return (
     isObject(value) && 

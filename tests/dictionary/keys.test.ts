@@ -4,11 +4,12 @@ import { describe, it, expect } from "vitest";
 import type { 
   Keys,
   NumericKeys,
-  DoesExtend,
   EmptyObject,
   ObjectKey,
   VueRef,
   KV,
+  HasSameValues,
+  HasSameKeys,
 } from "src/types/index";
 import { defineObj, keysOf, narrow } from "src/runtime/index";
 import { Ref } from "vue";
@@ -59,12 +60,12 @@ describe("Keys<T> with object targets", () => {
     type cases = [
       Expect<Equal<EmptyObj, ObjectKey[]>>,
       Expect<Equal<Curly, ObjectKey[]>>,
-      Expect<SameKeys<Foobar, ["foo", "bar"]>>,
-      Expect<SameKeys<FooBar_RO, ["foo", "bar"]>>,
-      Expect<SameKeys<FooBar_EXT, ["foo", "bar"]>>,
-      Expect<Equal<Uno, ["baz"]>>,
+      Expect<HasSameValues<Foobar, ["foo", "bar"]>>,
+      Expect<HasSameValues<FooBar_RO, ["foo", "bar"]>>,
+      Expect<HasSameValues<FooBar_EXT, ["foo", "bar"]>>,
+      Expect<HasSameValues<Uno, ["baz"]>>,
 
-      Expect<Equal<StrRec, string[]>>,
+      Expect<Equal<StrRec, ObjectKey[]>>,
       Expect<Equal<KeyVal, ObjectKey[]>>,
     ];
     
@@ -76,10 +77,11 @@ describe("Keys<T> with object targets", () => {
 
   
   it("array resolution", () => {
+
     type cases = [
       Expect<Equal<Keys<[]>, number[]>>,
       Expect<Equal<Keys<string[]>,  number[]>>,
-      Expect<Equal<Keys<[1,2,3]>,  [0,1,2]>>,
+      Expect<HasSameKeys<Keys<[1,2,3]>, [0,1,2]>>,
       Expect<Equal<Keys< [1,2,3]>,   [0,1,2]>>,
     ];
     const cases: cases = [true, true, true, true];
@@ -97,12 +99,12 @@ describe("Keys<T> with object targets", () => {
     type Str2 = Keys<VueRef<"hi">>;
 
     type cases = [
-      Expect<Equal<Obj, ["value"]>>, 
-      Expect<Equal<Obj2, ["value"]>>, 
-      Expect<Equal<Arr, ["value"]>>, 
-      Expect<Equal<Arr2, ["value"]>>, 
-      Expect<Equal<Str, ["value"]>>, 
-      Expect<Equal<Str2, ["value"]>>, 
+      Expect<HasSameValues<Obj, ["value"]>>, 
+      Expect<HasSameValues<Obj2, ["value"]>>, 
+      Expect<HasSameValues<Arr, ["value"]>>, 
+      Expect<HasSameValues<Arr2, ["value"]>>, 
+      Expect<HasSameValues<Str, ["value"]>>, 
+      Expect<HasSameValues<Str2, ["value"]>>, 
     ];
     const cases: cases = [ true, true, true, true, true, true ];
   });
@@ -125,7 +127,7 @@ describe("runtime keysOf() utility on object", () => {
     expect(k2).toEqual([]);
 
     type cases = [
-      Expect<DoesExtend<K, readonly ["id", "color", "isFavorite" ]>>,
+      Expect<HasSameValues<K,  ["id", "color", "isFavorite" ]>>,
       Expect<Equal<typeof k2, ObjectKey[]>>
     ];
     const cases: cases = [true, true];

@@ -1,30 +1,30 @@
-import {  ToString , IfEqual , Truncate, IfNever, IsGreaterThan, AsNumber, Filter } from "src/types/index";
+import {  
+  IsGreaterThan, 
+  AfterFirst, 
+  First,
+  ToStringArray, 
+  Slice
+} from "src/types/index";
 
-type JoinAcc<
-  TArr extends readonly unknown[],
+
+type Process<
+  TTuple extends readonly string[],
   TSeparator extends string,
   TResult extends string = ""
-> = TArr extends [infer First, ...infer Rest]
-  ? First extends string
-      ? JoinAcc<Rest, TSeparator, IfEqual<
-        TResult, "", 
-        `${TResult}${First}`,
-        `${TResult}${TSeparator}${First}`
-      >>
-      : JoinAcc<Rest, TSeparator, IfEqual<
-          TResult, "", 
-          `${TResult}${ToString<First>}`,
-          `${TResult}${TSeparator}${ToString<First>}`
-      >>
-  : TResult;
+> = [] extends TTuple
+? TResult
+: Process<
+    AfterFirst<TTuple>,
+    TSeparator,
+    TResult extends ""
+    ? First<TTuple> extends ""
+      ? TResult
+      : `${First<TTuple>}`
+    : First<TTuple> extends ""
+      ? TResult
+      : `${TResult}${TSeparator}${First<TTuple>}`
+  >;
 
-type Trunc<
-  TArr extends readonly unknown[],
-  TMax extends number,
-  TEllipsis extends string | false
-> = IsGreaterThan<TArr["length"], TMax> extends true
-? Truncate<Filter<TArr, never>, TMax, TEllipsis>
-: Filter<TArr, never>;
 
 /**
  * **Join**`<TArr,[TSeparator],[TMax]>`
@@ -42,19 +42,19 @@ type Trunc<
 export type Join<
   TTuple extends readonly unknown[],
   TSeparator extends string = "",
-  TMax extends number | never = never,
+  TMax extends number | null = null,
   TEllipsis extends string | false = "..."
-> = IfNever<
-  TMax,
-  JoinAcc<
-    Filter<Filter<[...TTuple], "">, never>,
-    TSeparator
-  >,
-  JoinAcc<
-    Trunc<TTuple, AsNumber<TMax>, TEllipsis> extends readonly unknown[]
-      ? Trunc<TTuple, AsNumber<TMax>, TEllipsis>
-      : never,
-    TSeparator
-  >
->;
+> = ToStringArray<TTuple> extends readonly string[]
+? TMax extends number
+  ? IsGreaterThan<ToStringArray<TTuple>["length"], TMax> extends true
+    ? Slice<ToStringArray<TTuple>, 0, TMax> extends readonly string[]
+      ? TEllipsis extends false
+        ? `${Process<Slice<ToStringArray<TTuple>, 0, TMax>, TSeparator>}`
+        : `${Process<Slice<ToStringArray<TTuple>, 0, TMax>, TSeparator>}${TSeparator}${TEllipsis}`
+      : never
+    : Process<ToStringArray<TTuple>, TSeparator>
+  : Process<ToStringArray<TTuple>, TSeparator>
+: never;
+
+
 

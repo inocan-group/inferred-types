@@ -56,6 +56,7 @@ export * from "./ToStringArray";
 export * from "./ValueOrReturnValue";
 export * from "./ReturnValues";
 export * from "./WithDefault";
+export * from "./AsContainer";
 
 // #endregion auto-indexed files
 

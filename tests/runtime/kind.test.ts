@@ -89,7 +89,4 @@ describe("kind API surface", () => {
     const cases: cases = [ true, true, true ];
     
   });
-  
-  
-
 });

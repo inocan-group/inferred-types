@@ -1,4 +1,4 @@
-import type {  IsUnion, UnionToTuple, If, ToStringArray, IsStringLiteral, ErrorCondition,  AllStringLiterals, AsArray, Or, And } from "src/types/index";
+import type {  IsUnion, UnionToTuple, If, ToStringArray, IsStringLiteral,  AllStringLiterals, AsArray, Or, And, Throw } from "src/types/index";
 
 type _HasChar<
   TStr extends string,
@@ -24,7 +24,12 @@ TOp extends "any" | "all"
     ? Process<TStr, UnionToTuple<TChars>,TOp>
     : Process<TStr, ToStringArray<UnionToTuple<TChars>>, TOp> extends readonly string[]
       ? Process<TStr, ToStringArray<UnionToTuple<TChars>>, TOp>
-      : ErrorCondition<"non-string-union">,
+      : Throw<
+          "non-string-union", 
+          `HasCharacters<TStr,TChars,TOp> did not return a string array as expected`,
+          "HasCharacters",
+          { value: Process<TStr, ToStringArray<UnionToTuple<TChars>>, TOp> }
+        >,
   If<IsStringLiteral<TChars>, _HasChar<TStr,[TChars],TOp>, never >
 >
 : TChars extends readonly string[]
@@ -50,7 +55,9 @@ export type HasCharacters<
 > = If<
   IsStringLiteral<TStr>,
   If<
-    TChars extends string ? IsStringLiteral<TChars> : AllStringLiterals<AsArray<TChars>>,
+    TChars extends string 
+      ? IsStringLiteral<TChars> 
+      : AllStringLiterals<AsArray<TChars>>,
     Process<TStr,TChars,TOp>,
     boolean
   >

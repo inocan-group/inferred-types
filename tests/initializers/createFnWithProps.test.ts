@@ -25,36 +25,36 @@ describe("createFnWithProps()", () => {
     const n_fooNarrowing = createFnWithProps(fnNarrowing, {foo: 42}, true);
 
     type cases = [
-      Expect<Equal<typeof foo, (() => "hi") & { foo: number }>>,
+      Expect<Equal<typeof foo, (() => "hi") & { foo: 42 }>>,
       Expect<Equal<
         typeof fooWithParam, 
-        ((name: string) => `hi ${string}`) & { foo: number }
+        ((name: string) => `hi ${string}`) & { foo: 42 }
       >>,
       Expect<Equal<
         typeof fooWithTwo, 
-        ((name: string, age: number) => `hi ${string}, you are ${number}`) & { foo: number }
+        ((name: string, age: number) => `hi ${string}, you are ${number}`) & { foo: 42 }
       >>,      
       Expect<Equal<
         typeof fooNarrowing, 
-        ((name: string) => `hi ${string}`) & { foo: number }
+        ((name: string) => `hi ${string}`) & { foo: 42 }
       >>,
 
 
       Expect<Equal<
         typeof n_foo, 
-        (<A extends []>(...args: A) => "hi") & { foo: number }
+        (<A extends []>(...args: A) => "hi") & { foo: 42 }
       >>,
       Expect<Equal<
         typeof n_fooWithParam,
-        (<A extends [name: string]>(...args: A) => `hi ${string}`) & { foo: number }
+        (<A extends [name: string]>(...args: A) => `hi ${string}`) & { foo: 42 }
       >>,
       Expect<Equal<
         typeof n_fooWithTwo, 
-        (<A extends [name: string, age: number]>(...args: A) => `hi ${string}, you are ${number}`) & { foo: number }
+        (<A extends [name: string, age: number]>(...args: A) => `hi ${string}, you are ${number}`) & { foo: 42 }
       >>,      
       Expect<Equal<
         typeof n_fooNarrowing,
-        (<A extends [name: string]>(...args: A) => `hi ${string}`) & { foo: number }
+        (<A extends [name: string]>(...args: A) => `hi ${string}`) & { foo: 42 }
       >>,
     ];
     const cases: cases = [ 

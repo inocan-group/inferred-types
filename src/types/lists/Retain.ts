@@ -1,8 +1,11 @@
 import { 
   Compare, 
   ComparatorOperation, 
-  IfArray,
   TupleToUnion,
+  If,
+  Or,
+  IsEqual,
+  RemoveNever,
 } from "src/types/index";
 
 /**
@@ -14,23 +17,41 @@ type SingleFilter<
   TOp extends ComparatorOperation,
   Result extends unknown[] = []
 > = TList extends [infer Head, ...infer Rest]
-  ? Compare<Head,TOp, TFilter> extends true
+  ? [Compare<Head,TOp, TFilter>] extends [true]
     ? SingleFilter<Rest, TFilter, TOp, [...Result, Head]>
     : SingleFilter<Rest, TFilter, TOp, Result> // filter out
   : Result;
 
+
 type Process<
   TList extends readonly unknown[],
-  TFilter,
+  TComparator,
   TOp extends ComparatorOperation 
 > = TList extends unknown[]
-? SingleFilter<TList, TFilter, TOp>
+? SingleFilter<TList, TComparator, TOp>
 : // readonly only tuples 
   TList extends readonly unknown[]
     ? Readonly<
-        SingleFilter<[...TList], TFilter, TOp>
+        SingleFilter<[...TList], TComparator, TOp>
       >
     : never;
+
+type PrepList<
+  T extends readonly unknown[],
+  O extends ComparatorOperation
+> = If<
+  Or<[
+    IsEqual<O, "contains">,
+    IsEqual<O, "startsWith">,
+    IsEqual<O, "endsWith">,
+  ]>,
+  RemoveNever<{
+    [K in keyof T]: T[K] extends string | number
+      ? T[K]
+      : never
+  }>,
+  T
+>
 
 /**
  * **Retain**`<TList, TFilter>`
@@ -47,9 +68,17 @@ export type Retain<
   TList extends readonly unknown[],
   TComparator,
   TOp extends ComparatorOperation = "extends"
-> = IfArray<
-  TComparator, 
-  Process<TList,TupleToUnion<TComparator>,TOp>, 
-  Process<TList,TComparator,TOp>
->;
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+> = PrepList<TList, TOp> extends readonly unknown[]
+? [TComparator] extends [unknown[]]
+  ? Process<
+      PrepList<TList, TOp>,
+      TupleToUnion<TComparator>,
+      TOp
+    >
+  : Process<
+      PrepList<TList, TOp>,
+      TComparator,
+      TOp
+    >
+: never;

@@ -1,6 +1,6 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { choice, choices, handleDoneFn, isDoneFn, mergeChoices } from "src/runtime/index";
-import { Choice, AsChoices, DoesExtend,  MultiChoiceCallback } from "src/types/index";
+import { Choice, AsChoices, DoesExtend,  MultiChoiceCallback, HasSameValues } from "src/types/index";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -122,8 +122,8 @@ describe("choices()", () => {
 
     
     type cases = [
-      ExpectTrue<SameKeys<typeof all, ["yes","nope","maybe"]>>,
-      ExpectTrue<SameKeys<typeof yes, ["yes"]>>,
+      ExpectTrue<HasSameValues<typeof all, ["yes","nope","maybe"]>>,
+      ExpectTrue<HasSameValues<typeof yes, ["yes"]>>,
       Expect<Equal<AvailableChoices, ["maybe"]>>,
       Expect<Equal<AvailableChoices2, ["yes" | "no" | "maybe"]>>,
     ];
@@ -149,8 +149,8 @@ describe("choices()", () => {
     expect(yesNo2).toEqual(["yes","nope"]);
     
     type cases = [
-      ExpectTrue<SameKeys<typeof yesNo, ["yes", "nope"]>>,
-      ExpectTrue<SameKeys<typeof yesNo2, ["yes", "nope"]>>,
+      ExpectTrue<HasSameValues<typeof yesNo, ["yes", "nope"]>>,
+      ExpectTrue<HasSameValues<typeof yesNo2, ["yes", "nope"]>>,
     ];
     const cases: cases = [
       true, true

@@ -1,4 +1,4 @@
-import { IsErrorCondition } from "src/types/index";
+import { ErrorConditionShape, IsErrorCondition } from "src/types/index";
 
 
 /**
@@ -9,6 +9,12 @@ import { IsErrorCondition } from "src/types/index";
  * 
  * **Related:** `IfError`
  */
-export type IfErrorCondition<T,IF,ELSE = T> = IsErrorCondition<T> extends true
-  ? IF 
+export type IfErrorCondition<
+  T,
+  IF,
+  ELSE = T
+> = IsErrorCondition<T> extends true
+  ? T extends ErrorConditionShape
+    ? IF 
+    : never
   : ELSE;

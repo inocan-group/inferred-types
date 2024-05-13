@@ -1,4 +1,4 @@
-import { ErrorCondition, HasUnionType, NarrowObject, Narrowable,  ObjectKey,  WithKeys } from "src/types/index";
+import { Throw, HasUnionType, NarrowObject, Narrowable,  ObjectKey,  WithKeys } from "src/types/index";
 
 /**
  * **retain**(obj,...keys)
@@ -25,10 +25,11 @@ export const retain = <
   }
 
   return output as unknown as HasUnionType<TKeys> extends true
-  ? ErrorCondition<
+  ? Throw<
       "invalid-union", 
       "the retain(obj, keys) function was called with keys which included a value which was a union type; this would make the typing inconsistent with the runtime type and should be avoided. Note that at runtime this will not produce an error but rather produce the valid runtime value.", 
-      {context: {keys: typeof keys}; library: "retain" }
+      "retain()",
+      { keys: TKeys }
     >
   : WithKeys<TObj, TKeys>;
 };

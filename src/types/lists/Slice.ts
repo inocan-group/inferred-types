@@ -1,5 +1,6 @@
 /* eslint-disable no-use-before-define */
-import { Chars, Concat, Split } from "../string-literals";
+
+import { Chars, Concat } from "../string-literals";
 import { Length } from "./Length";
 
 type NumberToArr<T extends number, R extends unknown[] = []> =

@@ -1,20 +1,18 @@
-import { AsError, Concat, Container } from "src/types/index";
+import { Concat, Container, Throw, ToString } from "src/types/index";
 
-type InvalidOp<TIndex extends PropertyKey, TUtility extends string> = AsError<[
+type InvalidOp<TIndex extends PropertyKey, TUtility extends string> = Throw<
   "invalid-operation", 
   Concat<["Attempt to index a non-container with ", TIndex]>,
-  { library: "inferred-types"; utility: TUtility }
-]>;
+  TUtility,
+  { library: "inferred-types"; key: TIndex }
+>;
 
-type NotFound<TIndex extends PropertyKey, TUtility extends string> = AsError<[
+type NotFound<TIndex extends PropertyKey, TUtility extends string> = Throw<
   "index-not-found",
-  Concat<[
-    "The index '", 
-    TIndex, 
-    "' was not found on the container"
-  ]>,
-  { library: "inferred-types"; utility: TUtility; id: TIndex }
-]>;
+  `The index '${ToString<TIndex>}' was not found on the container`,
+  TUtility,
+  { library: "inferred-types"; key: TIndex }
+>;
 
 
 

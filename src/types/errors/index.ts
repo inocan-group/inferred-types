@@ -4,3 +4,8 @@ export * from "./ErrorConditionHandler";
 export * from "./ReportError";
 export * from "./StackTrace";
 export * from "./KindError";
+export * from "./ProxyError";
+export * from "./MapError";
+export * from "./Throw";
+export * from "./PartialError";
+export * from "./CompleteError";

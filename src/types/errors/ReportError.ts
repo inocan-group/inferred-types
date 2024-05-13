@@ -22,7 +22,7 @@ export function errorCondition<
     _type: "ErrorCondition",
     kind,
     message,
-    context: info?.context || {},
+    context: info?.ctx || {},
     utility: info?.utility,
     stack: info?.stack || [],
     id: info?.id || kind,
