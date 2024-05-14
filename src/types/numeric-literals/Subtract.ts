@@ -1,4 +1,4 @@
-import {  Abs, IfGreaterThan, IfNegativeNumber, Negative, Add } from "src/types/index";
+import {  Abs, IsGreaterThan, If, Negative, Add, IsNegativeNumber } from "src/types/index";
 
 type Iterate<T extends number, A extends number[] = []> = A["length"] extends T
   ? A
@@ -20,12 +20,12 @@ export type Subtract<
   A extends number , 
   B extends number 
 > = 
-IfNegativeNumber<
-  B,  // second operand is negative so switch to addition
+If<
+  IsNegativeNumber<B>,  // second operand is negative so switch to addition
   Add<A,Abs<B>>,
 
-  IfGreaterThan<
-    A, B,
+  If<
+    IsGreaterThan<A, B>,
     LengthDiff<
       Iterate<A>,
       Iterate<B>

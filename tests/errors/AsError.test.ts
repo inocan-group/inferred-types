@@ -1,25 +1,19 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { AsError, DoesExtend, EmptyObject, ErrorCondition } from "src/types/index";
+import { AsError, DoesExtend,  ErrorCondition, Throw } from "src/types/index";
 
 describe("AsError<T>", () => {
-  type Err = ErrorCondition<"err", "oops", null>;
+  type Err = Throw<"err", "oops", "Utility">;
 
   it("raw property check on ErrorCondition", () => {
     type cases = [
       Expect<Equal<Err["kind"], "err">>,
-      Expect<Equal<Err["message"], "oops">>,
-      Expect<Equal<Err["context"], EmptyObject>>,
-      Expect<Equal<Err["stack"], []>>,
-
-      Expect<Equal<Err["id"], never>>,
-      Expect<Equal<Err["utility"], never>>,
-      Expect<Equal<Err["library"], never>>,
+      Expect<Equal<Err["msg"], "oops">>,
+      Expect<Equal<Err["stack"], ["Utility"]>>,
     ];
     const cases: cases = [
-      true, true, true, true,
-      true, true, true
+      true, true, true,
     ];
   });
   
@@ -47,11 +41,11 @@ describe("AsError<T>", () => {
   
   it("tuple errors", () => {
     type SimpleErr = AsError<["err","oops"]>;
-    type WithContext = AsError<["err","oops", { context: { foo: 1; bar: 2}}]>;
+    type WithContext = AsError<["err","oops", { ctx: { foo: 1; bar: 2}}]>;
     
     type cases = [
-      Expect<Equal<SimpleErr, ErrorCondition<"err","oops",null>>>,
-      Expect<DoesExtend<WithContext, ErrorCondition<"err","oops",{context: {foo: 1; bar: 2}}>>>,
+      Expect<Equal<SimpleErr, ErrorCondition<"err","oops">>>,
+      Expect<DoesExtend<WithContext, ErrorCondition<"err","oops">>>,
     ];
     const cases: cases = [ true, true ];
     

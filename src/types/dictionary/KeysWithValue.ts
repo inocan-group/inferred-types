@@ -1,6 +1,7 @@
 import { 
   AfterFirst, 
   First, 
+  IsFunction, 
   IsObjectLiteral,
   KV, 
   Keys, 
@@ -14,10 +15,14 @@ type Process<
   TResults extends readonly ObjectKey[] = []
 > = [] extends TKeys
 ? TResults
-: First<TKeys> extends keyof TObj 
-  ? [TObj[First<TKeys>]] extends [TValue]
-    ? Process<AfterFirst<TKeys>, TObj, TValue, [...TResults, First<TKeys>]>
-    : Process<AfterFirst<TKeys>, TObj, TValue, TResults>
+: [First<TKeys>] extends [keyof TObj ]
+  ? [IsFunction<TValue>] extends [true]
+    ? [IsFunction<TObj[First<TKeys>]>] extends [true]
+      ? Process<AfterFirst<TKeys>, TObj, TValue, [...TResults, First<TKeys>]>
+      : Process<AfterFirst<TKeys>, TObj, TValue, TResults>
+    : [TObj[First<TKeys>]] extends [TValue]
+      ? Process<AfterFirst<TKeys>, TObj, TValue, [...TResults, First<TKeys>]>
+      : Process<AfterFirst<TKeys>, TObj, TValue, TResults>
   : never;
 
 
@@ -37,6 +42,10 @@ type Process<
 export type KeysWithValue<
   TObj extends KV,
   TValue
-> = IsObjectLiteral<TObj> extends true
-? Process<Keys<TObj>, TObj, Readonly<TValue>>
+> = [IsObjectLiteral<TObj>] extends [true]
+? Process<
+    Keys<TObj>, 
+    TObj, 
+    TValue
+  >
 : ObjectKey[];

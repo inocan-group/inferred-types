@@ -1,7 +1,8 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-  IfTrue,
+  If,
+  IsTrue,
   Narrowable,
   ObjectKey,
 } from "src/types/index";
@@ -34,8 +35,8 @@ TNarrowing extends boolean = false
     isTrue(narrowing) 
     ? fnWithProps as (<A extends Readonly<TArgs>>(...args: A) => TReturn) & TProps
     : fnWithProps as ((...args: TArgs) => TReturn) & TProps
-  ) as IfTrue<
-    TNarrowing,
+  ) as If<
+    IsTrue<TNarrowing>,
     (<A extends TArgs>(...args: A) => TReturn) & TProps,
     ((...args: TArgs) => TReturn) & TProps
   >;

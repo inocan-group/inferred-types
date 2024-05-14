@@ -1,4 +1,4 @@
-import { IfExtends, Increment, ToNumber } from "src/types/index";
+import { If, Extends, Increment, ToNumber } from "src/types/index";
 
 export type ToIntegerOp = "truncate" | "round";
 
@@ -11,8 +11,8 @@ T extends `${number}.${number}`
 
 type Round<T extends `${number}`> = T extends `${number}.${number}`
   ? T extends `${infer Q}.${infer D}${number}`
-    ? IfExtends<
-        D, "0" | "1" | "2" | "3" | "4",
+    ? If<
+        Extends<D, "0" | "1" | "2" | "3" | "4">,
         Q & `${number}`,
         Increment<Q & `${number}`>
       >

@@ -1,8 +1,8 @@
-import { IfStartsWith, AfterFirst, First, AlphaChar, Bracket, ClosingBracket, Digit, LowerAlphaChar, OpeningBracket, StripLeading, UpperAlphaChar, StringLiteralToken } from "src/types/index";
+import { If, StartsWith, AfterFirst, First, AlphaChar, Bracket, ClosingBracket, Digit, LowerAlphaChar, OpeningBracket, StripLeading, UpperAlphaChar, StringLiteralToken } from "src/types/index";
 
 type _Tokenize<T extends StringLiteralToken> = //
-  IfStartsWith<
-    T, "literal:", 
+  If<
+    StartsWith<T, "literal:">, 
     StripLeading<T, "literal:">,
     T extends "<string>" ? `${string}`
     : T extends "<number>" ? `${number}`

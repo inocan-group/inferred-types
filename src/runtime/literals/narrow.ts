@@ -1,9 +1,9 @@
 import { 
   First, 
+  IsUnion, 
   Length, 
   Narrowable, 
-  UnionToTuple, 
-  IfUnion 
+  UnionToTuple,
 } from "src/types/index";
 
 /**
@@ -24,7 +24,7 @@ import {
 export function narrow<
   N extends Narrowable,
   K extends PropertyKey,
-  T extends readonly (Record<K,N> | Narrowable)[]
+  T extends readonly (Record<K,N> | N)[]
 >(...values: T) {
   return (
     values.length === 1 
@@ -33,11 +33,10 @@ export function narrow<
   ) as Length<T> extends 1 
     ? T[0] extends readonly unknown[]
       ? T[0] extends infer Arr
-        ? IfUnion<
-            First<Arr & readonly unknown[]>, 
-            Readonly<UnionToTuple<First<T[0]>>>, 
-            T[0]
-          >
+        ? [IsUnion<First<Arr & readonly unknown[]>>] extends [true] 
+            ? Readonly<UnionToTuple<First<T[0]>>>
+            : T[0]
+
         : Readonly<T[0]>
       : T[0]
     : Readonly<T>;

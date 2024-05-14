@@ -1,20 +1,20 @@
 
-import { Container, IfContainer, Narrowable } from "src/types/index";
+import { Container, If, IsContainer, Narrowable } from "src/types/index";
 import { isObject } from "../type-guards/isObject";
 import { isArray } from "../type-guards/isArray";
 
 export function ifContainer<
   TVal extends Narrowable,
-  IF extends Narrowable,
-  ELSE extends Narrowable
+  TIf extends Narrowable,
+  TElse extends Narrowable
 >(
   value: TVal,
-  ifContainer: <V extends TVal & Container>(val: V) => IF,
-  notContainer: <V extends Exclude<TVal, Container>>(val: V) => ELSE
-): IfContainer<TVal, IF, ELSE>  {
+  ifContainer: <V extends TVal & Container>(val: V) => TIf,
+  notContainer: <V extends Exclude<TVal, Container>>(val: V) => TElse
+): If<IsContainer<TVal>, TIf, TElse>  {
   return (
     isObject(value) || isArray(value)
     ? ifContainer(value)
     : notContainer(value as Exclude<TVal, Container>)
-  ) as IfContainer<TVal, IF, ELSE>;
+  ) as unknown as If<IsContainer<TVal>, TIf, TElse>;
 }

@@ -1,17 +1,16 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { IfReadonlyArray } from "src/types/index";
+import { IsReadonlyArray } from "src/types/index";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
 // gain validation that no new type vulnerabilities have cropped up.
 
-describe("IfReadonlyArray", () => {
+describe("IsReadonlyArray", () => {
 
   it("happy path", () => {
-    type T1 = IfReadonlyArray<readonly [1,2,3], true, false>;
-
-    type F1 = IfReadonlyArray<[1,2,3], true, false>;
+    type T1 = IsReadonlyArray<readonly [1,2,3]>;
+    type F1 = IsReadonlyArray<[1,2,3]>;
     
     type cases = [
       Expect<Equal<T1, true>>,

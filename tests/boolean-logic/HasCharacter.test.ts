@@ -39,6 +39,20 @@ describe("HasCharacter", () => {
   });
 
   
+  it("Tuple for character patterns", () => {
+    type With = HasCharacters<"hi", ["h", "i"]>;
+    type Without = HasCharacters<"42", ["h", "i"]>;
+
+    type cases = [
+      ExpectTrue<With>,
+      ExpectFalse<Without>
+    ];
+    const cases: cases = [
+      true, false
+    ];
+    
+  });
+  
   it("Union type for characters", () => {
     type With = HasCharacters<"hi", "h" | "i">;
     type Without = HasCharacters<"42", "h" | "i">;

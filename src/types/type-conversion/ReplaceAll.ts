@@ -1,4 +1,4 @@
-import {  IfStringLiteral } from "src/types/index";
+import {  IsStringLiteral } from "src/types/index";
 import { Replace } from "./Replace";
 
 
@@ -20,18 +20,14 @@ export type ReplaceAll<
   TText extends string, 
   TFind extends string, 
   TReplace extends string
-> = IfStringLiteral<
-  TText,
-  IfStringLiteral<
-    TFind,
-    Replace<TText,TFind,TReplace> extends `${string}${TFind}${string}`
+> = IsStringLiteral<TText> extends true
+  ? IsStringLiteral<TFind> extends true
+    ? Replace<TText,TFind,TReplace> extends `${string}${TFind}${string}`
       ? ReplaceAll<
           Replace<TText,TFind,TReplace>,
           TFind,
           TReplace
         >
-      : Replace<TText,TFind,TReplace>,
-    string
-  >,
-  string
->;
+      : Replace<TText,TFind,TReplace>
+    : string
+ : string;

@@ -1,4 +1,4 @@
-import {  AsArray, IfAllExtend,  IfStringLiteral, LowerAlphaChar, Split } from "src/types/index";
+import {  AsArray, IfAllExtend,  If, IsStringLiteral, LowerAlphaChar,  Chars } from "src/types/index";
 
 /**
  * **LowerAlpha**`<T>`
@@ -10,9 +10,9 @@ import {  AsArray, IfAllExtend,  IfStringLiteral, LowerAlphaChar, Split } from "
  * - `never` - all other types of `T` are converted to never
  */
 export type LowerAlpha<T> = T extends string
-  ? IfStringLiteral<
-      T,
-      IfAllExtend<AsArray<Split<T>>, LowerAlphaChar, T, never>,
+  ? If<
+      IsStringLiteral<T>,
+      IfAllExtend<AsArray<Chars<T>>, LowerAlphaChar, T, never>,
       string
     >
   : never;

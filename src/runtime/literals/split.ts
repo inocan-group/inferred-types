@@ -1,4 +1,4 @@
-import {  Split } from "src/types/index";
+import {  Chars, IsEqual } from "src/types/index";
 
 /**
  * **split**(str, sep)
@@ -14,6 +14,6 @@ export function split<
   T extends string, 
   S extends string
 >(str: T, sep: S = "" as S) {
-  return str.split(sep) as unknown as Split<T,S>
+  return str.split(sep) as unknown as IsEqual<S,""> extends true  ? Chars<T> : readonly string[];
 }
 

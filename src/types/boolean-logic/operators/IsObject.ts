@@ -1,4 +1,4 @@
-import { AnyFunction , Mutable , Or, IfExtends } from "src/types/index";
+import { AnyFunction , Mutable , Or, If, Extends } from "src/types/index";
 
 /**
  * **IsObject**
@@ -7,9 +7,9 @@ import { AnyFunction , Mutable , Or, IfExtends } from "src/types/index";
  * (aka, it extends `Record<string, any>` or a readonly equivalent)
  */
 export type IsObject<T> = Or<[
-  IfExtends<T,Record<string|symbol, unknown>, true, false>,
-  IfExtends<Mutable<T>,Record<string|symbol, unknown>,true, false>,
-  IfExtends<T, object, true, false>
+  If<Extends<T,Record<string|symbol, unknown>>, true, false>,
+  If<Extends<Mutable<T>,Record<string|symbol, unknown>>,true, false>,
+  If<Extends<T, object>, true, false>
 ]> extends true
 ? // an object of some type
   T extends AnyFunction

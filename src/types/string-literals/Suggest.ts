@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import type { 
   Filter,  
-  IfString , 
+  IsString , 
+  If,
   IsStringLiteral, 
   ScalarNotSymbol, 
   TupleToUnion 
@@ -27,8 +28,8 @@ T extends string | number | readonly string[] | readonly number[]
   : T extends readonly number[]
     ? TupleToUnion<Filter<T, number, "equals">> | (string & {})
   : IsStringLiteral<T> extends true
-    ? IfString<T, T | (string & {}), `${T & number}` | (string & {})>
-    : IfString<T, string, `${number}`>
+    ? If<IsString<T>, T | (string & {}), `${T & number}` | (string & {})>
+    : If<IsString<T>, string, `${number}`>
 : never;
 
 /**

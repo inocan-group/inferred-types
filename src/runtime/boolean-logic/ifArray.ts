@@ -1,4 +1,4 @@
-import type { IfArray, Narrowable } from "src/types/index";
+import type {  IsArray, Narrowable } from "src/types/index";
 
 /**
  * **ifArray**(T, IF, ELSE)
@@ -18,5 +18,5 @@ export function ifArray<
 ) {
   return (
     Array.isArray(val) ? isAnArray(val) : isNotAnArray(val as Exclude<T, unknown[] | readonly unknown[]>)
-  ) as IfArray<T, IF, ELSE>;
+  ) as IsArray<T> extends true ? IF : ELSE;
 }

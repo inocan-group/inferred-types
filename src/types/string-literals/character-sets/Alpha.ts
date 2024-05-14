@@ -1,4 +1,4 @@
-import { AlphaChar, AsArray, IfAllExtend,  IfStringLiteral, Split } from "src/types/index";
+import { AlphaChar, AsArray, IfAllExtend,  If, IsStringLiteral,  Chars } from "src/types/index";
 
 /**
  * **Alpha**`<T>`
@@ -10,9 +10,9 @@ import { AlphaChar, AsArray, IfAllExtend,  IfStringLiteral, Split } from "src/ty
  * - `never` - all other types of `T` are converted to never
  */
 export type Alpha<T> = T extends string
-  ? IfStringLiteral<
-      T,
-      IfAllExtend<AsArray<Split<T>>, AlphaChar, T, never>,
+  ? If<
+      IsStringLiteral<T>,
+      IfAllExtend<AsArray<Chars<T>>, AlphaChar, T, never>,
       string
     >
   : never;

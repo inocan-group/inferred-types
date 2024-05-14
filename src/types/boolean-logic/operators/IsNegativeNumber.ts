@@ -1,7 +1,5 @@
 import { 
-  AsString,
-  If, 
-  IfNever,  
+  AsString, 
   IsStringLiteral, 
   IsWideType, 
   NumberLike, 
@@ -10,21 +8,13 @@ import {
 
 type Process<
   T extends `${number}`
-> = IfNever<
-  T, 
-  false,
-  If<
-    IsStringLiteral<T>,
-    T extends `${number}`
-      ? If<
-          StartsWith<AsString<T>,"-">,
-          true,
-          false
-        >
-      : false,
-      boolean
-  >
->;
+> = [IsStringLiteral<T>] extends [true]
+? T extends `${number}`
+  ? [StartsWith<T,"-">] extends [true]
+    ? true
+    : false
+: false
+: boolean;
 
 /**
  * **IsNegativeNumber**`<T>`

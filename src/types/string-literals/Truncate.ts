@@ -1,6 +1,7 @@
 import { 
-  IfEqual, 
-  IfGreaterThan, 
+  IsEqual, 
+  IsGreaterThan, 
+  If,
   StrLen, 
   Slice, 
   Concat, 
@@ -17,8 +18,12 @@ type _Truncate<
   TMaxLen extends number,
   TEllipsis extends boolean | string
 > = TEllipsis extends false
-  ? Concat<AsArray<Slice<Chars<TStr>,0,TMaxLen>>>
-  : Concat<[...AsArray<Slice<Chars<TStr>,0,TMaxLen>>, Ellipsis<TEllipsis>]>;
+  ? Chars<TStr> extends readonly string[]
+    ? Concat<AsArray<Slice<Chars<TStr>,0,TMaxLen>>>
+    : never
+  : Chars<TStr> extends readonly string[]
+    ? Concat<[...AsArray<Slice<Chars<TStr>,0,TMaxLen>>, Ellipsis<TEllipsis>]>
+    : never;
 
 /**
  * **Truncate**`<TStr,TMaxLen,[TEllipsis]>`
@@ -37,12 +42,12 @@ export type Truncate<
   TMaxLen extends number,
   TEllipsis extends boolean | string = false
 > = TContent extends string
-? IfEqual<
-    TMaxLen, number, 
+? If<
+    IsEqual<TMaxLen, number>, 
     // non-literal value for max
     never,
-    IfGreaterThan<
-      StrLen<TContent>, TMaxLen,
+    If<
+      IsGreaterThan<StrLen<TContent>, TMaxLen>,
       // truncation required
       _Truncate<TContent, TMaxLen, TEllipsis>,
       // no truncation required
@@ -50,8 +55,8 @@ export type Truncate<
     >
   >
 : TContent extends unknown[]
-  ? IfGreaterThan<
-      Length<TContent & readonly unknown[]>,TMaxLen,
+  ? If<
+      IsGreaterThan<Length<TContent & readonly unknown[]>,TMaxLen>,
       TEllipsis extends false
         ? Slice<TContent,0,TMaxLen>
         : [...Slice<TContent,0,TMaxLen>, Ellipsis<TEllipsis>],

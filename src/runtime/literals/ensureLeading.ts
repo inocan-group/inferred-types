@@ -9,7 +9,7 @@ import { EnsureLeading, ToString } from "src/types/index";
 export function ensureLeading<T extends string | number, U extends string>(
   content: T,
   ensure: U
-): EnsureLeading<T, U> {
+) {
   return (
     String(content).startsWith(ensure)
       ? content 

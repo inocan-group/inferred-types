@@ -1,44 +1,38 @@
 
-import { AsNumber, AsString, If, StartsWith, IsWideType } from "src/types/index";
+import { AsNumber, AsString, StartsWith, IsWideType } from "src/types/index";
 
 type Process<
   TContent extends string, 
   TLeading extends string
->= If<
-  IsWideType<TLeading>,
-  `${string}${TContent}`,
-  If<
-    IsWideType<TContent>,
-    `${TLeading}${string}`,
-    If<
-      StartsWith<TContent, TLeading>,
-      TContent,
-      `${TLeading}${TContent}`
-    >
-  >
->
+>= IsWideType<TLeading> extends true
+  ? `${string}${TContent}`
+  : IsWideType<TContent> extends true
+    ? `${TLeading}${string}`
+    :  StartsWith<TContent, TLeading> extends true
+      ? TContent
+      : `${TLeading}${TContent}`;
+
+
 
 type PreProcess<
   TContent extends string | number, 
   TLeading extends string | number
-> = If<
-IsWideType<TContent>,
-If<
-  IsWideType<TLeading>,
+> = IsWideType<TContent> extends true
+? IsWideType<TLeading> extends true
   // string | number
-  TContent,
-  TLeading extends number
+  ? TContent
+  : TLeading extends number
     ? TContent extends number
       ? AsNumber<Process<AsString<TContent>,AsString<TLeading>>>
       : Process<AsString<TContent>,AsString<TLeading>>
     : Process<AsString<TContent>,AsString<TLeading>>
-  >,
-  TContent extends number
+
+: TContent extends number
     ? AsNumber<
         Process<AsString<TContent>, AsString<TLeading>>
       >
     : Process<AsString<TContent>, AsString<TLeading>>
->
+
 
 type IterateOver<
   TContent extends readonly (string | number)[],

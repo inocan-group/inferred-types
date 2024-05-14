@@ -1,28 +1,23 @@
 
 import { 
   KV,
-  IsWideType,
-  IfNever,
   UnionToTuple,
   RemoveIndexKeys,
   ExplicitlyEmptyObject,
-  If,
   IsEqual,
+  IsNever,
 } from "src/types/index";
 
 type _Keys<
   T extends KV
 > = UnionToTuple<keyof RemoveIndexKeys<T>>;
 
-type CheckIt<T extends KV> = IfNever<
-  keyof T,
-  false,
-  "length" extends keyof _Keys<T>
-  ? IsWideType<keyof T> extends true
+type CheckIt<T extends KV> = IsNever<keyof T> extends true
+  ? false
+  : IsEqual<_Keys<T>, []> extends true
     ? false
-    : true
-  : false
->
+    : true;
+
 
 /**
  * **IsObjectLiteral**`<T>`
@@ -33,10 +28,8 @@ type CheckIt<T extends KV> = IfNever<
  * - if `Keys<T>["length"]` translates to `number` than this is **not** a literal.
  */
 export type IsObjectLiteral<T> = T extends KV
-? If<
-    IsEqual<T, ExplicitlyEmptyObject>,
-    true,
-    CheckIt<T>
-  >
+? IsEqual<T, ExplicitlyEmptyObject> extends true
+  ? true
+  : CheckIt<T>
 : false
 

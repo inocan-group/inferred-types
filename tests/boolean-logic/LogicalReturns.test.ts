@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
+import { describe, expect, it } from "vitest";
 import { ifString } from "src/runtime/index";
 import {  Narrowable , LogicalReturns } from "src/types/index";
-import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -29,29 +29,20 @@ describe("LogicalReturns<TValues,TParams>", () => {
   
   it("Functions with parameters and generics", () => {
     const f1 = (v: string | number) => ifString(v, () => true, () => false);
-    const f2 = <T extends Narrowable>(v: T & (string | number)) => ifString(v, () => true, () => false);
-    type TParams = Parameters<typeof f1>;
+    const f1t = ifString("foo", () => true, () => false);
+    const f1n = ifString(42, () => true, () => false);
 
-    type T1_None = LogicalReturns<[typeof f1]>;
-    type T2_None = LogicalReturns<[typeof f2]>;
-    type T1_Generic = LogicalReturns<[typeof f1], TParams>;
-    type T2_Generic = LogicalReturns<[typeof f2], TParams>;
-    type T1_Narrow = LogicalReturns<[typeof f1], [42]>;
-    type T2_Narrow = LogicalReturns<[typeof f2], [42]>;
-    type T2_Alt = LogicalReturns<[typeof f2], ["foo"]>;
+
+    type T1 = LogicalReturns<[typeof f1, typeof f1t, typeof f1n]>;
+
     
     type cases = [
-      Expect<Equal<T1_None, [boolean]>>,
-      Expect<Equal<T2_None, [boolean]>>,
-      Expect<Equal<T1_Generic, [boolean]>>,
-      Expect<Equal<T2_Generic, [boolean]>>,
-      Expect<Equal<T1_Narrow, [boolean]>>,
-      // TODO: would like to find to resolve the next two narrowly
-      Expect<Equal<T2_Narrow, [boolean]>>,
-      Expect<Equal<T2_Alt, [boolean]>>,
+      Expect<Equal<T1[0], boolean>>,
+      Expect<Equal<T1[1], true>>,
+      Expect<Equal<T1[2], false>>,
 
     ];
-    const cases: cases = [true, true, true, true, true, true, true];
+    const cases: cases = [true, true, true];
     
   });
 });

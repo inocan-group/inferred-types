@@ -1,4 +1,4 @@
-import {  IfStringLiteral } from "src/types/index";
+import {  If, IsStringLiteral } from "src/types/index";
 
 /**
  * **StripStarting**`<T, U>`
@@ -18,9 +18,9 @@ import {  IfStringLiteral } from "src/types/index";
  */
 export type StripLeading<T, U> = T extends string
 ? U extends string
-  ? IfStringLiteral<
+  ? If<
     // can only operate on literal strings
-    T,
+    IsStringLiteral<T>,
     // this path represents successful strip opp
     // but we must never accept `U` being wide
     string extends U ? never : T extends `${U & string}${infer After}` ? After : T,

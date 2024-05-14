@@ -50,7 +50,7 @@ describe("KeysWithValue<T> utility", () => {
       
       Expect<Equal<ObjOfType, ["baz"]>>,
       // an object also includes a function (TODO: try and exclude this)
-      ExpectTrue<HasSameValues<Obj, ["baz", "emptyBaz" , "fn" , "fnWithProp"]>>,
+      ExpectTrue<HasSameValues<Obj, ["baz", "emptyBaz" ]>>,
       ExpectTrue<HasSameValues<Fn, ["fn" , "fnWithProp"] >>,
     ];
     const cases: cases = [

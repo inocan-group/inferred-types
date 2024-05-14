@@ -67,5 +67,5 @@ export const pluralize = <T extends string>(word: T): Pluralize<T> => {
       endingIn(word, "f") ||
       endingIn(word, "y") ||
       `${word}s` // add "s" if no other patterns match
-  ) as Pluralize<T>;
+  ) as unknown as Pluralize<T>;
 };

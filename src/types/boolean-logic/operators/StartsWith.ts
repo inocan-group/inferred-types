@@ -1,4 +1,10 @@
-import {  AsString,  Handle,  If,   IfFalse, IsEqual, IsTuple, IsUnion, Or } from "src/types/index";
+import { 
+  AsString,  
+  IsFalse, 
+  IsEqual, 
+  IsUnion, 
+  Or 
+} from "src/types/index";
 
 type TestThatExtends<
   TValue extends string,
@@ -8,14 +14,16 @@ type TestThatExtends<
 type Process<
   TValue extends string,
   TComparator extends string
-> = IfFalse<TestThatExtends<TValue,TComparator>,false, true>
+> = [IsFalse<TestThatExtends<TValue,TComparator>>] extends [true]
+? false
+: true;
 
 type ProcessEach<
     TValue extends string,
     TComparator extends readonly string[]
-> = Or<{
+> = {
   [K in keyof TComparator]: Process<TValue,TComparator[K]>
-}>;
+};
 
 
 
@@ -23,10 +31,21 @@ type PreProcess<
   TValue extends string,
   TComparator extends string | readonly string[]
 > = TComparator extends readonly string[]
-  ? ProcessEach<TValue, TComparator>
+  ? ProcessEach<TValue, TComparator> extends readonly boolean[]
+    ? Or<ProcessEach<TValue, TComparator>>
+    : never
   : TComparator extends string
     ? Process<TValue,AsString<TComparator>>
     : never;
+
+type IsWide<
+  TValue extends string | number,
+  TComparator extends string | number | readonly string[]
+> = [IsEqual<AsString<TValue>,string>] extends [true]
+? true
+: [IsEqual<AsString<TComparator>,string>] extends [true]
+? true
+: false;
 
 /**
  * **StartsWith**<TValue, TComparator>
@@ -45,31 +64,24 @@ type PreProcess<
 export type StartsWith<
   TValue extends string | number,
   TComparator extends string | number | readonly string[]
-> = If<
-  Or<[
-    IsEqual<AsString<TValue>, string>,
-    IsEqual<AsString<TComparator>, string>
-  ]>,
-  boolean,
-  If<
-    IsUnion<TComparator>,
-    IfFalse<
+> = [IsWide<TValue,TComparator>] extends [true]
+? boolean
+: [IsUnion<TComparator>] extends [true]
+  ? IsFalse<
       PreProcess<
-        AsString<TValue>,
+        `${TValue}`,
         TComparator extends number
           ? AsString<TComparator>
           : TComparator
-        >,
-      false,
-      true
-    >,
-    PreProcess<
+      >
+    > extends true
+    ? false
+    : true
+  : PreProcess<
       AsString<TValue>,
       TComparator extends number
-        ? AsString<TComparator>
+        ? `${TComparator}`
         : TComparator
-    >
-  >
->;
+    >;
 
 

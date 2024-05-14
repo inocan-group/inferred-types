@@ -1,30 +1,15 @@
-import { 
-  Scalar, 
-  IfScalar, 
+import {  
+  If,
   ToNumericArray, 
-  IfTrue, 
-  IfFalse, 
-  IfBoolean, 
-  Tuple,
-  IfEqual
+  IsTrue, 
+  IsFalse, 
+  IsEqual,
+  IsArray,
+  IsTuple,
+  Throw,
+  Or
 } from "src/types/index";
 
-type ConvertElement<
-  TValue extends Scalar
-> = 
-TValue extends number
-  ? TValue
-  : TValue extends `${infer N extends number}` 
-    ? N
-    : IfTrue<
-        TValue, 
-        1, 
-        IfFalse<TValue, 0, IfBoolean<TValue, 1 | 0, never>>
-      >;
-
-type Process<TValue> = TValue extends Tuple
-? ToNumericArray<TValue>
-: IfScalar<TValue, ConvertElement<TValue & Scalar>, never>;
 
 /**
  * **ToNumber**`<T>`
@@ -35,9 +20,35 @@ type Process<TValue> = TValue extends Tuple
  *    - any non-numeric content which can not be converted to a number will be convert to `never`
  *    - a number or a numeric array will be proxied through "as is"
  */
-export type ToNumber<TValue> = IfEqual<
-  Process<TValue>, never[],
-  number[],
-  Process<TValue>
->
+export type ToNumber<TValue> =  IsTuple<TValue> extends true
+
+  ? TValue extends readonly unknown[]
+    ? ToNumericArray<TValue> extends readonly (number | never)[]
+      ? ToNumericArray<TValue>
+      : Throw<
+          "can-not-convert",
+          `Attempt to convert a tuple into a numeric tuple failed!`,
+          "ToNumber",
+          { library: "inferred-types"; value: TValue }
+        >
+    : never
+  : TValue extends number
+    ? TValue
+    : TValue extends `${infer Num extends number}`
+      ? Num
+      : If<
+          Or<[ IsTrue<TValue>, IsEqual<TValue, "true"> ]>,
+          1,
+          If<
+            Or<[ IsFalse<TValue>, IsEqual<TValue, "false"> ]>,
+            0,
+            If<
+              IsArray<TValue>,
+              readonly (number | never)[],
+              never
+            >
+          >
+        >
+  
+
 

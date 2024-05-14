@@ -1,15 +1,23 @@
-import { Filter, If, IsUnion, TupleToUnion, UnionToTuple } from "../..";
-import { IfEquals } from "./IfEqual";
-import { IfNever } from "./IfNever";
+import { 
+  IsNever, 
+  IsEqual, 
+  Filter, 
+  If, 
+  IsUnion, 
+  TupleToUnion, 
+  UnionToTuple 
+} from "src/types/index";
 
 type Narrow<
   TContent,
   THandle
-> = If<
-  IsUnion<TContent>,
-  TupleToUnion<Filter<UnionToTuple<TContent>, THandle>>,
-  TContent
->
+> = IsUnion<TContent> extends true
+  ? UnionToTuple<TContent> extends readonly unknown[]
+    ? Filter<UnionToTuple<TContent>, THandle> extends readonly unknown[]
+      ? TupleToUnion<Filter<UnionToTuple<TContent>, THandle>>
+      : never
+  : never
+: TContent;
 
 
 /**
@@ -27,18 +35,18 @@ export type Handle<
   THandle,
   TMapTo,
   TSpecificity extends "extends" | "equals" = "extends"
-> = IfNever<
-  THandle,
-  IfNever<TContent, TMapTo, TContent>,
-  IfEquals<
-    TSpecificity, "extends",
+> = If<
+  IsNever<THandle>,
+  If<IsNever<TContent>, TMapTo, TContent>,
+  If<
+    IsEqual<TSpecificity, "extends">,
     [TContent] extends [THandle]
       ? TMapTo
       : Narrow<TContent,THandle>,
-    IfEquals<
-      [TContent], [THandle],
+    If<
+      IsEqual<[TContent], [THandle]>,
       TMapTo,
-      Narrow<TContent,THandle>
+      TContent
     >
   >
 >

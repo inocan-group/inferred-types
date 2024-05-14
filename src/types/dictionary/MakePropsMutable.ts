@@ -45,7 +45,7 @@ export type MakePropsMutable<
  */
 export type MutablePropsExclusive<
   T extends AnyObject, 
-  M extends (keyof T & ObjectKey) | readonly (keyof T & ObjectKey)[]
+  M extends readonly (keyof T & ObjectKey)[]
 > = ExpandRecursively<
   Mutable<WithKeys<T,M>> & Readonly<WithoutKeys<T, AsArray<M>>>
 >;

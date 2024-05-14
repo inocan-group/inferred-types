@@ -1,4 +1,4 @@
-import { ErrorCondition, IsBooleanLiteral, IsNever, IsTrue, Throw, } from "../..";
+import { ErrorCondition, IsBoolean, IsBooleanLiteral, IsFalse, IsNever, IsTrue, LogicFunction, Throw, } from "src/types/index";
 
 type InvalidTest<TTest> = Throw<
   "invalid-test",
@@ -42,4 +42,12 @@ export type If<
     : [IsBooleanLiteral<TTest>] extends [true]  
       ? TElse
       : TMaybe
-  : InvalidTest<TTest>;
+  : [TTest] extends [LogicFunction]
+    ? [IsTrue<ReturnType<TTest>>] extends [true]
+      ? TIf
+    : [IsFalse<ReturnType<TTest>>] extends [true]
+      ? TElse
+      : [IsBoolean<ReturnType<TTest>>] extends [true]
+        ? TMaybe
+        : InvalidTest<TTest>
+    : InvalidTest<TTest>;

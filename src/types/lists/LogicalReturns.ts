@@ -10,7 +10,7 @@ import { LogicFunction } from "../functions";
  * with a boolean return. In the latter case the function's return value
  * will be represented in the Tuple.
  * 
- * **See Also**: `ReturnTypes` and `TruthyReturns`
+ * **Related**: `ReturnTypes` and `TruthyReturns`
  */
 export type LogicalReturns<
   TValues extends readonly (boolean | LogicFunction)[],

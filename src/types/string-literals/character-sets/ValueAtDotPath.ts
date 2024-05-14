@@ -5,7 +5,9 @@ import {
   IsValidDotPath, 
   Container, 
   IsVueRef, 
-  AsRef 
+  AsRef, 
+  IsLiteral,
+  IsStringLiteral
 } from "src/types/index";
 
 
@@ -42,11 +44,17 @@ type Process<
 export type ValueAtDotPath<
   TValue extends Container,
   TPath extends string
-> = IsValidDotPath<TValue,TPath> extends true
-? Process<
-    TValue,
-    Split<TPath,".">
-  >
+> = [IsValidDotPath<TValue,TPath>] extends [true]
+? IsLiteral<TValue> extends true
+  ? IsStringLiteral<TPath> extends true
+    ? Split<TPath,"."> extends readonly string[]
+      ? Process<
+          TValue,
+          Split<TPath,".">
+        >
+      : never
+    : string
+  : string
 : never;
 
 

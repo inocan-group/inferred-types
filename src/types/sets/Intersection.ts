@@ -1,14 +1,13 @@
 import type { 
   GetEach, 
-  IfNull,
+  IsNull,
   Container,
-  ErrorCondition,
   RemoveNever,
   Contains,
   If,
-  Or,
   RemoveMarked,
   NarrowlyContains,
+  Throw,
 } from "src/types/index";
 import { MARKED } from "../../constants/Marked";
 
@@ -70,7 +69,7 @@ type _WithDeref<
   B extends readonly Container[],
   AValues extends readonly unknown[],
   BValues extends readonly unknown[],
-  TDeref extends PropertyKey,
+  TDeref extends string,
   TReport extends boolean
 > = TReport extends false
 ? DerefNoReport<AValues,BValues>
@@ -82,7 +81,7 @@ type _WithDeref<
 type HandleDeref<
   A extends readonly unknown[],
   B extends readonly unknown[],
-  TDeref extends PropertyKey,
+  TDeref extends string,
   TReport extends boolean = false
 > = 
 A extends readonly Container[]
@@ -99,15 +98,17 @@ A extends readonly Container[]
         >
       : never
     : never
-  : ErrorCondition<
+  : Throw<
       "invalid-container-tuple", 
       "In Intersection<A,B> the B set was not Container[] tuple!",
-      { context: {a: A; b: B} }
+      "Intersection",
+      { ctx: {a: A; b: B} }
     >
-: ErrorCondition<
+: Throw<
     "invalid-container-tuple", 
     "In Intersection<A,B> the A set was not Container[] tuple!",
-    { context: {a: A; b: B} }
+    "Intersection",
+    { ctx: {a: A; b: B} }
   >;
 
 /**
@@ -132,18 +133,19 @@ A extends readonly Container[]
 export type Intersection<
   A extends readonly unknown[],
   B extends readonly unknown[],
-  TDeref extends PropertyKey | null = null,
+  TDeref extends string | null = null,
   TReport extends boolean = false
-> = IfNull<
-  TDeref, 
+> = If<
+  IsNull<TDeref>, 
   // no dereferencing
   _NoDeref<A,B>,
   // dereference the array elements
   TDeref extends PropertyKey
     ? HandleDeref<A,B,TDeref,TReport>
-    : ErrorCondition<
+    : Throw<
         "invalid-deref",
         "The TDeref property was set but must be extended from a PropertyKey!",
-        { context: {deref: TDeref } }
+        "Intersection",
+        { index: TDeref  }
       >
 >;

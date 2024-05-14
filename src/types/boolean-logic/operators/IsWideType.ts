@@ -41,7 +41,7 @@ type InvalidNever = Throw<
  * 
  * - string, number, and boolean types
  * - `string[]`, `number[]` array types
- * - union types who's elements are all wide too
+ * - does _not_ include wide union types; use `IsWideUnion` for this
  * 
  * **Note:** 
  * - types such as `null` and `undefined` are **not** considered
@@ -57,9 +57,7 @@ export type IsWideType<
 > = IfNever<
   T,
   TNever,
-  IsWideUnion<T> extends true
-    ? true
-    : [IsWide<T>] extends [true]
+  [IsWide<T>] extends [true]
       ? true
       : [T] extends [ErrorCondition]
         ? ProxyError<T, "IsWideType">

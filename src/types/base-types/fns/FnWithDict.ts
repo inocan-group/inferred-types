@@ -3,12 +3,13 @@
 import type { 
   AnyObject, 
   ExpandRecursively, 
-  IfEqual, 
+  IsEqual, 
   IndexableObject, 
   RemoveIndex, 
   RegularFn, 
-  IfTrue,
-  AnyFunction
+  AnyFunction,
+  IsTrue,
+  If
 } from "src/types/index";
 /**
  * **FnWithDict**
@@ -21,8 +22,8 @@ export type FnWithDictOld<
   TArgs extends readonly unknown[] = unknown[],
   TReturn = unknown,
   TDict extends AnyObject | "no-props" = "no-props",
-> = IfEqual<
-  TDict, "no-props", 
+> = If<
+  IsEqual<TDict, "no-props">, 
   RegularFn<TArgs,TReturn>,
   ((...args: TArgs) => TReturn) & ExpandRecursively<RemoveIndex<TDict & IndexableObject>>
 >;
@@ -48,8 +49,8 @@ export type FnWithDict<
   TFn extends AnyFunction,
   TProps extends AnyObject,
   TClone extends boolean | null | undefined = true
-> = IfTrue<
-  TClone,
+> = If<
+  IsTrue<TClone>,
   JustFunction<TFn> & TProps,
   TFn & TProps 
 >;

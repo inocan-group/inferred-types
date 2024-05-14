@@ -1,4 +1,4 @@
-import { KV } from "../../src/inferred-types";
+import { KV } from "src/types/index";
 
 /**
  * **AsContainer**`<T, [TError]>`

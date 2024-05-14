@@ -1,4 +1,12 @@
-import type { AnyObject, AnyFunction , IsEmptyObject, IfEqual, IfAnd, DoesExtend } from "src/types/index";
+import type { 
+  AnyObject, 
+  AnyFunction , 
+  IsEmptyObject, 
+  IsEqual, 
+  And, 
+  DoesExtend, 
+  If
+} from "src/types/index";
 
 /**
  * **IsFnWithParams**`<TFn, [TParamMatch]>`
@@ -16,14 +24,14 @@ export type IsFnWithParams<
     ? IsEmptyObject<TFn> extends true 
         ? false 
         : // there are some props on TFn
-          IfAnd<
-            [
+          If<
+            And<[
               // the Fn extends the param matcher
               DoesExtend<TFn, TParamMatch>,
               // TParamMatch is set
               DoesExtend<TParamMatch, AnyObject>, 
-            ], 
+            ]>, 
             true,
-            IfEqual<TParamMatch, undefined, true, false>
+            If<IsEqual<TParamMatch, undefined>, true, false>
         >
     : false;

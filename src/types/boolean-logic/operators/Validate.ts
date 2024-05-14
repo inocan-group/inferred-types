@@ -1,4 +1,12 @@
-import { ErrorCondition, If, IsFalse, IsTrue, IsWideType, LogicFunction, ToString } from "../..";
+import { 
+  AsString, 
+  ErrorCondition, 
+  IsBoolean, 
+  IsFalse, 
+  IsTrue, 
+  IsWideType, 
+  LogicFunction,
+} from "src/types/index";
 
 
 type WideBooleanNotAllowed = ErrorCondition<
@@ -8,7 +16,7 @@ type WideBooleanNotAllowed = ErrorCondition<
 
 type WideReturnNotAllowed<T> = ErrorCondition<
   "wide-return-not-allowed", 
-  `Call to Validate<T,E> returned a wide type: ${ToString<T>}!`
+  `Call to Validate<T,E> returned a wide type: ${AsString<T>}!`
 >;
 
 
@@ -27,22 +35,20 @@ type WideReturnNotAllowed<T> = ErrorCondition<
  * ```
  */
 export type Validate<
-  T,
-  E = never
-> = T extends boolean
-  ? If<
-      IsTrue<T>,
-      T,
-      If<IsFalse<T>, E, WideBooleanNotAllowed>
-    >
-  : T extends LogicFunction 
-    ? If<
-        IsTrue<ReturnType<T>>,
-        T,
-        If<IsFalse<ReturnType<T>>, E, WideBooleanNotAllowed>
-      >
-    : If<
-        IsWideType<T>, 
-        WideReturnNotAllowed<T>, 
-        T
-      >;
+  TTest,
+  TErr = never
+> = [IsTrue<TTest>] extends [true]
+  ? TTest
+  : [IsFalse<TTest>] extends [true]
+  ? TErr
+  : [IsBoolean<TTest>] extends [true]
+  ? WideBooleanNotAllowed
+  : TTest extends LogicFunction
+    ? [IsTrue<ReturnType<TTest>>] extends [true]
+      ? TTest
+    : [IsFalse<ReturnType<TTest>>] extends [true]
+      ? TErr
+    : WideBooleanNotAllowed
+  : IsWideType<TTest> extends true
+    ? WideReturnNotAllowed<TTest>
+    : TTest;

@@ -1,4 +1,4 @@
-import { Tuple, Length, ToNumber, AfterFirst, First, IfReadonlyArray } from "src/types/index";
+import { Tuple, Length, ToNumber, AfterFirst, First, IsReadonlyArray, If } from "src/types/index";
 
 type Recurse<
   TList extends Tuple,
@@ -25,8 +25,8 @@ type Convert<
     
 type Process<
   TList extends Tuple
-> = IfReadonlyArray<
-  TList,
+> = If<
+  IsReadonlyArray<TList>,
   TList["length"] extends 0
     ? number[]
     : Readonly<Convert<TList>>,

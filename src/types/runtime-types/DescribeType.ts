@@ -4,16 +4,17 @@ import {
   AnyObject, 
   Nothing, 
   IfNever, 
-  IfStringLiteral, 
+  IsStringLiteral, 
   IsEqual,
-  IfNumericLiteral,
-  IfBooleanLiteral,
-  IfLiteral,
-  IfUnion,
+  IsNumericLiteral,
+  IsBooleanLiteral,
+  IsLiteral,
+  IsUnion,
+  If,
   UnionToTuple,
   Concat,
   Join,
-  IfTuple
+  IsTuple
 } from "src/types/index";
 
 /**
@@ -32,24 +33,25 @@ export type TypeFormat = "normal" | "tokenized"
 
 type Describe<
   T,
-  TFormat extends TypeFormat
+  _TFormat extends TypeFormat = "normal"
 > = IfNever<
 T, "never",
 IsEqual<T, Nothing> extends true ? "nothing"
-: T extends string ? IfStringLiteral<
-    T,
+: T extends string ? If<
+    IsStringLiteral<T>,
     `string-literal(${T})`,
     "string"
   >
-: T extends number ? IfNumericLiteral<
-    T, 
+: T extends number ? If<
+    IsNumericLiteral<T>, 
     `numeric-literal(${T})`, 
     "number"
   >
-: T extends boolean ? IfBooleanLiteral<T, T extends true ? "true" : "false", "boolean">
+: T extends boolean ? If<IsBooleanLiteral<T>, T extends true ? "true" : "false", "boolean">
 : T extends AnyFunction ? "function"
-: T extends unknown[] ? IfTuple<T, Concat<["tuple[", Join<T, ", ", 3>, "]"]>, "array">
-: T extends AnyObject | object ? IfLiteral<T, "object-literal", "object">
+: T extends unknown[] 
+  ? IsTuple<T> extends true ? Concat<["tuple[", Join<T, ", ", 3>, "]"]> : "array"
+: T extends AnyObject | object ? If<IsLiteral<T>, "object-literal", "object">
 : T extends symbol ? "symbol" 
 : IsEqual<T,null> extends true  ? "null"
 : IsEqual<T,undefined> extends true  ? "undefined"
@@ -76,8 +78,8 @@ type HandleUnion<
 export type DescribeType<T> = IfNever<
   T,
   "never",
-  IfUnion<
-    T,
+  If<
+    IsUnion<T>,
     UnionToTuple<T> extends readonly unknown[]
       ? Concat<[
           "union(",
@@ -103,8 +105,8 @@ T,
 "never",
 IsEqual<T, boolean> extends true
   ? "boolean"
-  : IfUnion<
-      DescribeNarrow<T>,
+  : If<
+      IsUnion<DescribeNarrow<T>>,
       Concat<[
         "union(",
         Join<UnionToTuple<DescribeNarrow<T>>, " | ">,

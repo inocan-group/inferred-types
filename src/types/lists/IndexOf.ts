@@ -1,5 +1,5 @@
 import { 
-  IfNull, 
+  IsNull, 
   IsNegativeNumber, 
   Abs, 
   Decrement, 
@@ -15,9 +15,8 @@ import {
   AsPropertyKey,
   Throw,
   ErrorCondition,
-  TypeDefaultValue,
+  Concat
 } from "src/types/index";
-import { Concat } from "../string-literals/Concat";
 import { Constant } from "../../constants/Constant";
 
 type Override<
@@ -101,8 +100,8 @@ TIdx extends PropertyKey
 type Process<
 TValue,
 TIdx extends PropertyKey | null
-> = IfNull<
-TIdx,
+> = If<
+IsNull<TIdx>,
 // return "as is"
 TValue,
 // dereference where valid index

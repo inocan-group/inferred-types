@@ -1,16 +1,23 @@
 import {SHAPE_PREFIXES} from "src/constants/index";
-import { Mutable } from "../type-conversion/Mutable";
-import { TupleToUnion } from "../type-conversion/TupleToUnion";
-import { IfNever, IfTrue, IfUndefined } from "../boolean-logic";
-import { IndexableObject } from "../base-types/IndexableObject";
-import { ObjectKey } from "../base-types/ObjectKey";
-import { Narrowable } from "./Narrowable";
-import { EmptyObject, KV } from "../base-types";
-import { UnionToTuple } from "../type-conversion";
+
+import { 
+  If,
+  EmptyObject, 
+  Narrowable, 
+  IndexableObject,
+  ObjectKey,
+  IsNever, 
+  IsTrue, 
+  IsUndefined,
+  TupleToUnion,
+  Mutable
+} from "src/types/index";
 
 type Narrow = Exclude<Narrowable, symbol>;
 
-type Prefixes = TupleToUnion<Mutable<typeof SHAPE_PREFIXES>>;
+type Prefixes = Mutable<typeof SHAPE_PREFIXES> extends readonly string[]
+  ? TupleToUnion<Mutable<typeof SHAPE_PREFIXES>>
+  : never;
 /**
  * **Shape**
  * 
@@ -33,8 +40,8 @@ export type ShapeTupleOrUnion<
   add: <
     TAdd extends Narrow
   >(a: TAdd) => ShapeTupleOrUnion<[...TTuple, TAdd], TMakeUnion>;
-  done: () => IfTrue<
-    TMakeUnion, 
+  done: () => If<
+    IsTrue<TMakeUnion>, 
     TupleToUnion<TTuple>, 
     TTuple
   >;
@@ -46,12 +53,12 @@ export type ShapeApi__Wide<
   TUnion = never,
   TExclude extends string = ""
 > = Omit<{
-  string: () => IfNever<TUnion, string, string | TUnion>;
-  number: () => IfNever<TUnion,number, number | TUnion>;
-  boolean: () => IfNever<TUnion,boolean,TUnion | boolean>;
-  null: () => IfNever<TUnion, null, null | TUnion>;
-  undefined: () => IfNever<TUnion, undefined, undefined | TUnion>;
-  unknown: () => IfNever<TUnion, unknown, unknown | TUnion>;
+  string: () => If<IsNever<TUnion>, string, string | TUnion>;
+  number: () => If<IsNever<TUnion>,number, number | TUnion>;
+  boolean: () => If<IsNever<TUnion>,boolean,TUnion | boolean>;
+  null: () => If<IsNever<TUnion>, null, null | TUnion>;
+  undefined: () => If<IsNever<TUnion>, undefined, undefined | TUnion>;
+  unknown: () => If<IsNever<TUnion>, unknown, unknown | TUnion>;
 }, TExclude>
 
 type LookupWideName<T extends WideTypeName> =T extends "string"
@@ -92,7 +99,7 @@ export type ShapeApi = ShapeApi__Wide & {
    * Add either a plain `object` type or pass in `true` to the function to make it
    * an `IndexableObject`.
    */
-  object: <I extends boolean>(indexable?: I) => IfTrue<I, IndexableObject, object>;
+  object: <I extends boolean>(indexable?: I) => If<IsTrue<I>, IndexableObject, object>;
 
   /**
    * **Record**
@@ -106,8 +113,8 @@ export type ShapeApi = ShapeApi__Wide & {
     unknown: () => Record<ObjectKey, unknown>;
     union: <
       U extends readonly WideTypeName[]
-    >(...members: U) => IfUndefined<
-      U,
+    >(...members: U) => If<
+      IsUndefined<U>,
       EmptyObject, 
       Record<
         ObjectKey, 

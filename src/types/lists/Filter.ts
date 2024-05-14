@@ -1,7 +1,7 @@
 import { 
   ComparatorOperation, 
   Compare, 
-  IfArray, 
+  IsArray, 
   IfNever, 
   Or,
   If,
@@ -87,8 +87,8 @@ export type Filter<
 ? IfNever<
     TComparator,
     RemoveNever<TList>,
-    IfArray<
-      TComparator, 
+    If<
+      IsArray<TComparator>, 
       Process<
         PrepList<TList, TOp>,
         TupleToUnion<TComparator>,

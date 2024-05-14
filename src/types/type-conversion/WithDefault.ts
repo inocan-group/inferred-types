@@ -1,4 +1,4 @@
-import { IfExtends, IfFalsy, Nothing } from "src/types/index";
+import { If, Extends, IsFalsy, Nothing } from "src/types/index";
 
 /**
  * **WithDefault**`<TVal,TDef>`
@@ -25,7 +25,7 @@ export type WithDefault<
   TDef,
   TPolicy extends "nothing" | "falsy" = "nothing"
 > = TPolicy extends "nothing"
-? IfExtends<TVal, Nothing, TDef, TVal>
+? If<Extends<TVal, Nothing>, TDef, TVal>
 : TPolicy extends "falsy"
-  ? IfFalsy<TVal,TDef, TVal>
+  ? If<IsFalsy<TVal>,TDef, TVal>
   : never;

@@ -1,9 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { Equal, Expect } from "@type-challenges/utils";
+import { Equal, Expect, ExpectFalse } from "@type-challenges/utils";
 import {  
   EmptyObject, 
   ExplicitlyEmptyObject, 
-  IfLiteral, 
   IsBooleanLiteral, 
   IsLiteral, 
   IsObjectLiteral
@@ -62,13 +61,13 @@ describe("IsLiteral<T> type utility", () => {
   it("boolean values", () => {
     type cases = [
       // wide
-      Expect<Equal<IsBooleanLiteral<boolean>, false>>,
+      ExpectFalse<IsBooleanLiteral<boolean>>,
       Expect<Equal<IsLiteral<boolean>, false>>,
       // literal
       Expect<Equal<IsBooleanLiteral<false>, true>>,
       Expect<Equal<IsLiteral<false>, true>>
     ];
-    const cases: cases = [true, true, true, true];
+    const cases: cases = [false, true, true, true];
   });
 
   it("union with undefined", () => {
@@ -132,33 +131,4 @@ describe("IsLiteral<T> type utility", () => {
   });
   
   
-});
-
-describe("IfLiteral<T,IF,ELSE,MAYBE>", () => {
-
-  it("happy-path", () => {
-    type T1 = IfLiteral<"foo", true, false>;
-    type T2 = IfLiteral<true, true, false>;
-    type T3 = IfLiteral<false, true, false>;
-    type T4 = IfLiteral<42, true, false>;
-
-    type F1 = IfLiteral<string, true, false>;
-    type F2 = IfLiteral<boolean, true, false>;
-    type F3 = IfLiteral<number, true, false>;
-
-    type cases = [
-      //
-      Expect<Equal<T1, true>>,
-      Expect<Equal<T2, true>>,
-      Expect<Equal<T3, true>>,
-      Expect<Equal<T4, true>>,
-      Expect<Equal<F1, false>>,
-      Expect<Equal<F2, false>>,
-      Expect<Equal<F3, false>>,
-    ];
-    
-    const cases: cases = [ true, true, true, true, true, true, true ];
-
-  });
-
 });

@@ -1,12 +1,14 @@
 import { MARKED } from "src/constants/index";
-import { Container, EmptyObject, KV, ObjectKey, Tuple } from "../base-types";
-import { RemoveIndexKeys } from "../dictionary/RemoveIndexKeys";
-import { NumericKeys } from "../lists";
-import { AfterFirst } from "../lists/AfterFirst";
-import { First } from "../lists/First";
-import { UnionToTuple } from "../type-conversion/UnionToTuple";
-import { DoesExtend } from "../boolean-logic/operators/DoesExtend";
-import { If } from "../boolean-logic/branching/If";
+import { 
+  DoesExtend, 
+  UnionToTuple, 
+  First, 
+  AfterFirst, 
+  NumericKeys,
+  RemoveIndexKeys,
+  Container, EmptyObject, KV, ObjectKey, Tuple
+} from "src/types/index";
+
 
 type Marked = typeof MARKED;
 
@@ -22,10 +24,9 @@ type Process<
 > = [] extends TKeys
 ? TResults
 : First<TKeys> extends keyof T
-  ? If<
-      DoesExtend<T[First<TKeys>], Marked>,
-      Process<T,AfterFirst<TKeys>, TResults>,
-      Process<
+  ? DoesExtend<T[First<TKeys>], Marked> extends true
+    ? Process<T,AfterFirst<TKeys>, TResults>
+    : Process<
         T,
         AfterFirst<TKeys>,
         First<TKeys> extends keyof T
@@ -36,7 +37,7 @@ type Process<
               : never
           : never
       >
-    >
+
   : never
 
 /**

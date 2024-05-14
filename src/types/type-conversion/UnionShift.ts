@@ -1,5 +1,11 @@
-import { IfUnion } from "../boolean-logic/branching/IfUnion";
-import { LastInUnion } from "./UnionToTuple";
+import {  IsUnion, LastInUnion } from "src/types/index";
+
+
+type Process<U, Last = LastInUnion<U>> = [U] extends [never]
+? []
+: [IsUnion<U>] extends [true]
+    ? [Last, Exclude<U,Last>]
+    : U;
 
   /**
    * **ShiftUnion**`<U>`
@@ -18,8 +24,7 @@ import { LastInUnion } from "./UnionToTuple";
    * - when calling `ShiftUnion`<U>` where `U` is _not_ a union you will
    * get the tuple `[never, U]`
    */
-  export type UnionShift<U, Last = LastInUnion<U>> = [U] extends [never]
-  ? []
-  : IfUnion<U, [Last, Exclude<U,Last>], U> extends readonly unknown[]
-      ? IfUnion<U, [Last, Exclude<U,Last>], U>
-      : [never, IfUnion<U, [Last, Exclude<U,Last>], U>];
+  export type UnionShift<U, Last = LastInUnion<U>> = 
+  Process<U,Last> extends readonly unknown[]
+    ? IsUnion<U> extends true ? [Last, Exclude<U,Last>] : U
+    : [never, IsUnion<U> extends true ? [Last, Exclude<U,Last>] : U];

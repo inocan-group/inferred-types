@@ -1,4 +1,4 @@
-import {  Chars,  IfStringLiteral, Concat} from "src/types/index";
+import {  Chars,  If, IsStringLiteral, Concat} from "src/types/index";
 
 
 type Process<
@@ -13,8 +13,8 @@ type Process<
  * Type utility which converts all alphabetic characters to their
  * UPPERCASE variant.
  */
-export type AllCaps<T extends string> = IfStringLiteral<
-  T,
+export type AllCaps<T extends string> = If<
+  IsStringLiteral<T>,
   Chars<T> extends readonly string[]
     ? Process<Chars<T>> extends readonly string[] 
       ? Concat<Process<Chars<T>>> 

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { ErrorCondition, IfEqual, IfNull } from "src/types/index";
+import type { ErrorCondition } from "src/types/index";
 
 /**
  * **IsErrorCondition**`<TEval,[TKind]>`
@@ -13,9 +13,8 @@ export type IsErrorCondition<
   TEval, 
   TKind extends string | null = null,
 > = TEval extends ErrorCondition
-  ? IfNull<
-        TKind, 
-        true,
-        IfEqual<TEval["kind"], TKind, true, false>
-      >
+  ? TKind extends string
+    ? TEval extends ErrorCondition<TKind>
+      ? true : false
+    : true
   : false;

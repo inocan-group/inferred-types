@@ -1,4 +1,4 @@
-import { IfEqual, IfExtends , AfterFirst, First } from "src/types/index";
+import { IsEqual, If, Extends , AfterFirst, First } from "src/types/index";
 
 type FindAcc<
   TList extends readonly unknown[],
@@ -7,8 +7,8 @@ type FindAcc<
 > = [] extends TList
   ? undefined
   : TDeref extends keyof First<TList> 
-    ? IfEqual<
-        First<TList>[TDeref], TFind, 
+    ? If<
+        IsEqual<First<TList>[TDeref], TFind>, 
         First<TList>, 
         FindAcc<AfterFirst<TList>, TFind, TDeref>
       >
@@ -45,8 +45,8 @@ type FindExtendsAcc<
 > = [] extends TList
   ? undefined
   : TDeref extends keyof First<TList> 
-    ? IfExtends<
-        TFind, First<TList>[TDeref],
+    ? If<
+        Extends<TFind, First<TList>[TDeref]>,
         First<TList>, 
         FindAcc<AfterFirst<TList>, TFind, TDeref>
       >

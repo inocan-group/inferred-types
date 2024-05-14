@@ -1,7 +1,5 @@
-import { IfTrue } from "../boolean-logic/branching/IfTrue";
-import { Fn, FnDefn } from "../functions/Fn";
-import { TupleToUnion } from "../type-conversion";
-import { Narrow } from "./Narrow";
+import { IsTrue, If, Fn, FnDefn, TupleToUnion, Narrow} from "src/types/index";
+
 
 /**
  * **DoneFnTuple**`<[TTuple],[TMakeUnion],[TFns]>`
@@ -27,7 +25,7 @@ TState extends readonly Narrow[] = Narrow[],
   state: TState;
   type_as_union: TMakeUnion;
   done: Fn<[
-    () => IfTrue<TMakeUnion, TupleToUnion<TState>, TState>,
+    () => If<IsTrue<TMakeUnion>, TupleToUnion<TState>, TState>,
     "exits the API surface with the state which has been accumulated so far"
   ]>;
 }

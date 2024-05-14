@@ -1,4 +1,4 @@
-import { IfEqual, IfNever } from "src/types/index";
+import {  IfNever, IsEqual } from "src/types/index";
 
 /**
  * **IsStringLiteral**`<T>`
@@ -10,7 +10,9 @@ export type IsStringLiteral<T> = IfNever<
   T, 
   false,
   T extends string
-  ? IfEqual<T,string, false, true>
+  ? IsEqual<T,string> extends true 
+    ? false
+    : true
   : false
 >;
 
