@@ -5,7 +5,7 @@ import {
   Filter,
   First,
   If,
-  IfUnion,
+  IsUnion,
   IsStringLiteral,
   IsWideType,
   Last,
@@ -38,10 +38,16 @@ type UnionSplit<
           )
         ]
       : // add to existing
-        [
-          ...BeforeLast<TResult>,
-          `${Last<TResult,"">}${First<TContent>}`
-        ]
+        Last<TResult,""> extends string
+          ? First<TContent> extends string
+            ? BeforeLast<TResult> extends readonly string[]
+              ? [
+                ...BeforeLast<TResult>,
+                `${Last<TResult,"">}${First<TContent>}`
+              ]
+              : never
+            : never
+          : never
 >;
 
 type LiteralSplit<
@@ -69,7 +75,9 @@ type Process<
 ? string
 : TSep extends readonly string[]
     ? TupleToUnion<TSep> extends string
-      ? UnionSplit<Chars<TContent>,TupleToUnion<TSep>,TUnionPolicy>
+      ? Chars<TContent> extends readonly string[]
+        ? UnionSplit<Chars<TContent>,TupleToUnion<TSep>,TUnionPolicy>
+        : never
       : never
     : TSep extends string
       ? LiteralSplit<TContent,TSep,TUnionPolicy>
@@ -78,8 +86,8 @@ type Process<
 type PreProcess<TContent extends string,
 TSep extends string | readonly string[],
 TUnionPolicy extends UnionPolicy = "omit"
-> = IfUnion<
-  TSep,
+> = If<
+  IsUnion<TSep>,
   UnionToTuple<TSep> extends readonly string[]
   ? Process<TContent, UnionToTuple<TSep>, TUnionPolicy>
   : never,

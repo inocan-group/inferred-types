@@ -7,5 +7,7 @@ import type { Or } from "src/types/index";
  * function to perform a logical OR operation on them.
  */
 export function or<TList extends readonly boolean[]>(...conditions: TList) {
-  return (conditions.some((v) => v === true) ? true : false) as Or<TList>;
+  const values: unknown = conditions.some((v: boolean) => v === true ? true : false);
+
+  return values as Or<TList>;
 }

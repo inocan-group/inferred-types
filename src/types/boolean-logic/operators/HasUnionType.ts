@@ -1,10 +1,12 @@
-import { AfterFirst, First, IfUnion } from "src/types/index";
+import { AfterFirst, First,  IsUnion } from "src/types/index";
 
 type _HasUnion<
   TList extends readonly unknown[]
 > = [] extends TList
   ? false
-  : IfUnion<First<TList>, true, _HasUnion<AfterFirst<TList>>>;
+  : IsUnion<First<TList>> extends true
+      ? true
+      : _HasUnion<AfterFirst<TList>>;
 
 /**
  * **HasUnionType**`<TList>`

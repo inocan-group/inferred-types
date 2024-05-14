@@ -1,8 +1,4 @@
-import { Tuple } from "../base-types";
-import { IfUnion } from "../boolean-logic/branching/IfUnion";
-import { Filter } from "../lists/Filter";
-import { TupleToUnion } from "./TupleToUnion";
-import { UnionToTuple } from "./UnionToTuple";
+import { UnionToTuple, TupleToUnion, Filter, If, IsUnion, Tuple } from "src/types/index";
 
 
 type Reduce<
@@ -37,8 +33,8 @@ type Isolate<
  */
 export type UnionFilter<U, E> = [U] extends [never]
 ? never
-: IfUnion<
-    U,
+: If<
+    IsUnion<U>,
     Reduce<UnionToTuple<U>,E>,
     U extends E
         ? never
@@ -55,10 +51,8 @@ export type UnionFilter<U, E> = [U] extends [never]
  */
 export type UnionRetain<U, E> = [U] extends [never]
 ? never
-: IfUnion<
-    U,
-    Isolate<UnionToTuple<U>,E>,
-    U extends E
+: IsUnion<U> extends true
+    ? Isolate<UnionToTuple<U>,E>
+    : U extends E
         ? U
-        : never
-  >
+        : never;

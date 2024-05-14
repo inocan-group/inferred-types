@@ -4,7 +4,8 @@ import {
   Date,
   Time,
   DateTime,
-  IfNull,
+  IsNull,
+  If,
   Retain
 } from "src/types/index";
 import { 
@@ -54,8 +55,8 @@ type TT = Readonly<[
  */
 export type TypeToken<
   TFind extends string | null = null
-> = IfNull<
-  TFind,
+> = If<
+  IsNull<TFind>,
   TupleToUnion<TT>, 
   TupleToUnion<
     Retain<TT, `<<${TFind}${">>" | `:${string}>>`}`>

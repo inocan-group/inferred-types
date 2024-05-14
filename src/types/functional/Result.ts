@@ -8,7 +8,9 @@ import {
   TypeGuard,
   StackTrace,
   TakeProp,
-  DoesExtend, IfAnd, IfEqual, IfEquals, IfFunction,
+  DoesExtend, 
+  If, 
+  IsFunction,
   Something
 } from "src/types/index";
 
@@ -311,7 +313,7 @@ export type ResultApi<
    */
   okOrElse: <V extends Result<T,E>, TElse>(v: V, otherwise: TElse) => V extends Ok<V>
     ? Ok<V>
-    : IfFunction<TElse>;
+    : If<IsFunction<TElse>>;
   /**
    * **okOrThrow**(val) -> Ok<T>["val"]
    * 

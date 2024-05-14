@@ -1,6 +1,8 @@
-import { AnyObject } from "src/types/index";
+import { AnyObject, IsObjectLiteral } from "src/types/index";
 
-type MutableObject<T> = {
+type MutableObject<T> = [T] extends [boolean]
+? T
+:{
   -readonly [K in keyof T]: T[K] extends AnyObject
     ? MutableObject<T[K]> 
     : T[K] extends readonly (infer R)[]
@@ -17,9 +19,11 @@ type MutableArray<T extends readonly unknown[]> = [...T];
  * Makes a readonly value to a mutable value without
  * widening the type.
  */
-export type Mutable<T> = T extends readonly unknown[]
+export type Mutable<T> = [T] extends [readonly unknown[]]
   ? MutableArray<T>
-  : T extends AnyObject ? MutableObject<T> : T;
+  : [T] extends [boolean]
+    ? T
+    : [IsObjectLiteral<T>] extends [true] ? MutableObject<T> : T;
 
 
 

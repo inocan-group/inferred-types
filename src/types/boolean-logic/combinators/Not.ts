@@ -1,5 +1,14 @@
 /* eslint-disable no-use-before-define */
-import {  LogicFunction, IfFalse, IfTrue, IsErrorCondition, AfterFirst, First, IsEqual, IsNever } from "src/types/index";
+import {  
+  LogicFunction,
+  IsFalse, 
+  IsTrue, 
+  IsErrorCondition, 
+  AfterFirst, 
+  First, 
+  IsEqual, 
+  IsNever 
+} from "src/types/index";
 
 
 
@@ -8,7 +17,9 @@ type Negate <
 > = IsNever<TVal> extends true
 ? never
 : [TVal] extends [boolean]
-  ? IfTrue<TVal, false, IfFalse<TVal, true, boolean>>  
+  ? IsTrue<TVal> extends true 
+    ? false 
+    : IsFalse<TVal> extends true ?  true : boolean 
   : [TVal] extends [LogicFunction]
     ? ReturnType<LogicFunction>
     : never;

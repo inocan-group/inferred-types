@@ -1,4 +1,4 @@
-import { Narrowable, IfBoolean, IsBoolean } from "src/types/index";
+import { Narrowable,  IsBoolean } from "src/types/index";
 import { isBoolean } from "../type-guards/isBoolean";
 
 
@@ -14,17 +14,17 @@ import { isBoolean } from "../type-guards/isBoolean";
  * @param notBoolean the value (strongly typed) returned if val is NOT a _boolean
  */
 export function ifBoolean<
-  T extends Narrowable, 
-  IF extends Narrowable, 
-  ELSE extends Narrowable
+  TContent extends Narrowable, 
+  TIf extends Narrowable, 
+  TElse extends Narrowable
 >(
-  val: T, 
-  ifBoolean: <V extends boolean>(v: V & T) => IF, 
-  notBoolean: <V extends Exclude<T, boolean>>(v: V) => ELSE
-): IfBoolean<T,IF,ELSE> {
+  val: TContent, 
+  ifBoolean: <V extends boolean>(v: V & TContent) => TIf, 
+  notBoolean: <V extends Exclude<TContent, boolean>>(v: V) => TElse
+) {
   return (
     isBoolean(val) 
-      ? ifBoolean(val as T & boolean) 
-      : notBoolean(val as Exclude<T, boolean>)
-  ) as IsBoolean<T> extends true ? IF : ELSE;
+      ? ifBoolean(val as TContent & boolean) 
+      : notBoolean(val as Exclude<TContent, boolean>)
+  ) as unknown as  [IsBoolean<TContent>] extends [true] ? TIf : TElse;
 }

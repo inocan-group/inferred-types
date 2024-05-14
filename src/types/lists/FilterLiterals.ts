@@ -1,17 +1,13 @@
-import { Constant } from "../../constants/Constant";
-import { If } from "../boolean-logic/branching/If";
-import { IsLiteral } from "../boolean-logic/operators/IsLiteral";
-import { RemoveMarked } from "../containers";
+import { Constant } from "src/constants/index";
+import { IsLiteral, RemoveMarked } from "src/types/index";
 
 
 type Process<
 T extends readonly unknown[]
 > = RemoveMarked<{
-[K in keyof T]: If<
-  IsLiteral<T[K]>,
-  Constant<"Marked">,
-  T[K]
->
+  [K in keyof T]: IsLiteral<T[K]> extends true
+    ? Constant<"Marked">
+    : T[K]
 }>
 
 

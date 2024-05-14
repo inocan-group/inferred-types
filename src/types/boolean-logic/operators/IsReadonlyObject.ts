@@ -1,4 +1,4 @@
-import {  MutableProps,  EmptyContainer,  KV } from "src/types/index";
+import {   KV, ReadonlyKeys, IsEqual } from "src/types/index";
 
 /**
  * **IsReadonlyObject**`<T>`
@@ -10,9 +10,6 @@ import {  MutableProps,  EmptyContainer,  KV } from "src/types/index";
  * - Note: objects with no properties return `false`
  */
 export type IsReadonlyObject<T> = T extends KV
-  ? EmptyContainer<MutableProps<T>> extends true
-    ? EmptyContainer<T> extends true ? false :true
-    : false
+  ? IsEqual<ReadonlyKeys<T>, keyof T>
   : false;
-
 

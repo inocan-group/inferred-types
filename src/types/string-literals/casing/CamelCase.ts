@@ -1,4 +1,11 @@
-import { IfTrue , LeftWhitespace , RightWhitespace , PascalCase , Concat } from "src/types/index";
+import { 
+  IsTrue, 
+  If,
+  LeftWhitespace,
+  RightWhitespace, 
+  PascalCase , 
+  Concat 
+} from "src/types/index";
 
 /**
  * **CamelCase**`<TString,TPreserveWhitespace>`
@@ -9,8 +16,8 @@ import { IfTrue , LeftWhitespace , RightWhitespace , PascalCase , Concat } from 
 export type CamelCase<
   TString extends string,
   TPreserveWhitespace extends boolean = false
-> = IfTrue<
-  TPreserveWhitespace,
+> = If<
+  IsTrue<TPreserveWhitespace>,
   string extends TString
     ? string
     : Concat<[

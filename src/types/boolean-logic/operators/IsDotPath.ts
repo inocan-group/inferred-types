@@ -1,4 +1,24 @@
-import {  HasCharacters, IfNever, If,  StartsWith, IsStringLiteral, Or, EndsWith,  Contains } from "src/types/index";
+import {  
+  HasCharacters, 
+  IsNever, 
+  StartsWith, 
+  IsStringLiteral, 
+  EndsWith,  
+  Contains, 
+  IsEqual
+} from "src/types/index";
+
+type CheckForInvalid<
+  T extends string
+> = HasCharacters<T, ["/", "*", "!", "&", "$", "\\"]> extends true
+? true
+: StartsWith<T,"."> extends true
+? true
+: EndsWith<T,"."> extends true
+? true
+: Contains<T,".."> extends true
+? true
+: false;
 
 /**
  * **IsDotPath**`<T>`
@@ -11,7 +31,7 @@ import {  HasCharacters, IfNever, If,  StartsWith, IsStringLiteral, Or, EndsWith
  * - `boolean` - a wide string type
  * - `true` - a string literal value where `DotPath<T>` does not resolve to _never_.
  * 
- * Note: this utility does not validate that `T` is a _valid_ dot path for any indexable
+ * Note: this utility does not validate that `T` is a _valid_ dot path for a particular
  * container; only that it is a valid looking dotpath. If you want this validation use
  * `IsValidDotPath<TContainer, TKey>` instead.
  */
@@ -20,22 +40,16 @@ export type IsDotPath<
   TIf = true,
   TElse = false,
   TMaybe = TIf | TElse
-> = IfNever<
-  T,
-  false,
-  T extends string
-  ? IsStringLiteral<T> extends true
-      ? If<
-          Or<[
-            HasCharacters<T, ["/", "*", "!", "&", "$", "\\"]>,
-            StartsWith<T,".">,
-            EndsWith<T,".">,
-            Contains<T,"..">
-          ]>,
-          TElse,
-          TIf
-        >
-      : TMaybe
-  : false
->
+> = [IsNever<T>] extends [true]
+  ? false
+  : T extends string
+    ? [IsEqual<T, ""> ] extends [true]
+      ? true
+      : IsStringLiteral<T> extends true
+        ? CheckForInvalid<T> extends true
+          ? TElse
+          : TIf
+        : TMaybe
+: false
+
 

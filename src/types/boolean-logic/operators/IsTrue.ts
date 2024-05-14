@@ -1,7 +1,7 @@
 import { IsEqual , IsNever } from "src/types/index";
 
 /**
- * **IsTrue**`<T>`
+ * **IsTrue**`<T,[TNever]>`
  * 
  * Type utility which checks for the narrow type of `true`
  * ```ts
@@ -13,8 +13,11 @@ import { IsEqual , IsNever } from "src/types/index";
  * type F2 = IsTrue<"foobar">;
  * ```
  */
-export type IsTrue<T> = IsNever<T> extends true
-? never
-: IsEqual<T, true> extends true
+export type IsTrue<
+  T,
+  TNever = never
+> = [IsNever<T>] extends [true]
+? TNever
+: [IsEqual<T, true>] extends [true]
   ? true
   : false;

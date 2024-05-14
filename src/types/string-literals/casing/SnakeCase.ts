@@ -1,6 +1,7 @@
 /* eslint @typescript-eslint/no-unused-vars: "off" */
 import { 
-  IfTrue,
+  IsTrue,
+  If,
   LeftWhitespace, 
   RightWhitespace, 
   Trim, 
@@ -28,17 +29,19 @@ type SpaceToDash<T extends string> = T extends `${infer Begin}${" "}${infer Rest
 export type SnakeCase<
   S extends string,
   TPreserve extends boolean = false
-> = IfTrue<
-  TPreserve,
+> = If<
+  IsTrue<TPreserve>,
   string extends S
     ? string
     : DashUppercase<
         Uncapitalize<SpaceToDash<Trim<LowerAllCaps<S>>>
       >
-    > extends `${infer Begin}${"-"}${infer Rest}`
+    > extends `${infer Begin extends string}${"-"}${infer Rest extends string}`
       ? Concat<[
           LeftWhitespace<S>,
-          SnakeCase<`${Lowercase<Begin>}_${Rest}`>,
+          `${Lowercase<Begin>}_${Rest}` extends string
+          ? SnakeCase<`${Lowercase<Begin>}_${Rest}`>
+          : never,
           RightWhitespace<S>
       ]>
       : Concat<[

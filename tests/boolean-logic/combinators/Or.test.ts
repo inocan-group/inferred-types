@@ -1,5 +1,5 @@
-import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { IfOr, Or } from "src/types/index";
+import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
+import { ErrorCondition, Extends,  Or } from "src/types/index";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -22,7 +22,7 @@ describe("Or<T>", () => {
       Expect<Equal<T3, false>>,
       Expect<Equal<T4, true>>,
       Expect<Equal<T5, boolean>>,
-      Expect<Equal<T6, false>>,
+      ExpectTrue<Extends<T6, ErrorCondition<"invalid-never">>>,
     ];
     const cases: cases = [true, true, true, true, true, true];
   });
@@ -47,17 +47,4 @@ describe("Or<T>", () => {
 
 
 });
-describe("IfOr<T>", () => {
 
-  it("happy path", () => {
-    type Falsy = IfOr<[ false, () => false, false ]>;
-    type Truthy = IfOr<[ false, () => false, true ]>;
-
-    type cases = [
-      ExpectFalse<Falsy>, //
-      ExpectTrue<Truthy>
-    ];
-    const cases: cases = [ false, true ];
-  });
-
-});

@@ -2,7 +2,9 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
 import { 
-  narrow,  createFnWithProps , optional , 
+  narrow,  
+  createFnWithProps, 
+  optional, 
   isArray, 
   isReadonlyArray,
   hasDefaultValue, 

@@ -1,7 +1,7 @@
-import { Equal, Expect } from "@type-challenges/utils";
+import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 import { Ref } from "vue";
-import { ValueAtDotPath } from "src/types/index";
+import { IsValidDotPath, Split, ValueAtDotPath } from "src/types/index";
 
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -28,6 +28,8 @@ describe("ValueAtDotPath", () => {
       info: myRef;
     };
 
+    type Valid = IsValidDotPath<Obj, "foo">;
+
     type Foo = ValueAtDotPath<Obj, "foo">;
     type Bar = ValueAtDotPath<Obj, "bar">;
     type Baz_c_ca = ValueAtDotPath<Obj, "baz.c.ca">;
@@ -35,6 +37,7 @@ describe("ValueAtDotPath", () => {
     type ImplicitInfo = ValueAtDotPath<Obj, "info.age">;
     
     type cases = [
+      ExpectTrue<Valid>,
       Expect<Equal<Foo, 1>>,
       Expect<Equal<Bar, number[]>>,
       Expect<Equal<Baz_c_ca, 1>>,
@@ -44,7 +47,7 @@ describe("ValueAtDotPath", () => {
       
     ];
     const cases: cases = [ 
-      true, true, true,
+      true, true, true, true,
       true, true
     ];
   });

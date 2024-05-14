@@ -1,11 +1,18 @@
-import {  AfterFirst , First, Tuple, IfStringLiteral, IfNumericLiteral, IfBooleanLiteral } from "src/types/index";
+import {  
+  AfterFirst,
+  First, 
+  Tuple, 
+  IsStringLiteral, 
+  IsNumericLiteral, 
+  IsBooleanLiteral 
+} from "src/types/index";
 
-type ElementLiteral<T> = T extends string
-  ? IfStringLiteral<T, T, string>
-  : T extends number
-  ? IfNumericLiteral<T, T, `${number}`>
-  : T extends boolean
-  ? IfBooleanLiteral<T, T, `${boolean}`>
+type ElementLiteral<T> = [T] extends [string]
+  ? IsStringLiteral<T> extends true ? T : string
+  : [T] extends [number]
+  ? IsNumericLiteral<T> extends true ? T : `${number}`
+  : [T] extends [boolean]
+  ? IsBooleanLiteral<T> extends true ? T : `${boolean}`
   : never;
 
 type Process<

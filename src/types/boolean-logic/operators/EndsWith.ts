@@ -30,7 +30,7 @@ type PreProcess<
 > = TComparator extends readonly string[]
   ? ProcessEach<TValue, TComparator>
   : TComparator extends string
-      ? Process<TValue,AsString<TComparator>>
+      ? Process<TValue,TComparator>
       : never;
 
 /**
@@ -49,8 +49,8 @@ export type EndsWith<
   TComparator extends string | number | readonly string[]
 > = PreProcess<
   AsString<TValue>, 
-  TComparator extends readonly string[] 
-    ? TComparator 
-    : AsString<TComparator>
+  TComparator extends number 
+    ? AsString<TComparator>
+    : TComparator 
 >;
 

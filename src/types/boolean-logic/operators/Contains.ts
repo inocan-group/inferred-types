@@ -1,22 +1,18 @@
 import {  
   AsString, 
-  If, 
   IsEqual, 
   IsWideType, 
   Or,
 } from "src/types/index";
 
-
 type ProcessStr<
   TContent extends string,
   TComparator extends string
-> = If<
-  IsWideType<TComparator>,
-  boolean,
-  TContent extends `${string}${TComparator}${string}`
+> = IsWideType<TComparator> extends true
+  ? boolean
+  : TContent extends `${string}${TComparator}${string}`
     ? true
-    : false
->
+    : false;
 
 
 /**
@@ -56,11 +52,9 @@ type PreProcess<
 export type Contains<
   TContent extends string | number | readonly unknown[],
   TComparator,
-> = If<
-  Or<[
-    IsEqual<TContent, string>, IsEqual<TContent, number>
-  ]>,
-  boolean,
-  PreProcess<TContent, TComparator>
->
+> = [IsEqual<TContent, string>] extends [true]
+  ? [IsEqual<TContent, number>] extends [true]
+    ? boolean
+    : PreProcess<TContent, TComparator>
+  : PreProcess<TContent, TComparator>;
 

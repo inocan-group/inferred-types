@@ -1,5 +1,4 @@
 import { 
-    IfNotLiteral, 
     IsNegativeNumber, 
     NumericChar, 
     ToString, 
@@ -8,7 +7,10 @@ import {
     DigitalLiteral, 
     AfterFirst,
     AsNumber,
-    First
+    First,
+    IsLiteral,
+    Not,
+    If
 } from "src/types/index";
 
 type HasMoreThanOneDigit<T extends `${number}`> = T extends `${NumericChar}${NumericChar}${string}`
@@ -65,8 +67,8 @@ type AsNumericElements<
  */
 export type Digitize<
   T extends `${number}` | number
-> = IfNotLiteral<
-  T,
+> = If<
+  Not<IsLiteral<T>>,
   never,
   T extends `${number}`
     ? [ 

@@ -12,13 +12,15 @@ describe("StripTrailing", () => {
   it("happy path", () => {
     type RemoveBar = StripTrailing<"FooBar","Bar">;
     type SameAsItEverWas = StripTrailing<"Foo","Bar">;
+    type Num = StripTrailing<4000,"000">;
     
     type cases = [
       Expect<Equal<RemoveBar, "Foo">>,
       Expect<Equal<SameAsItEverWas, "Foo">>,
+      Expect<Equal<Num, 4>>,
     ];
     const cases: cases = [
-      true, true
+      true, true, true
     ];
   });
 

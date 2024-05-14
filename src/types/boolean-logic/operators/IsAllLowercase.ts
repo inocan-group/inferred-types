@@ -1,4 +1,4 @@
-import { UpperAlphaChar, IfHasCharacters } from "src/types/index";
+import { UpperAlphaChar, If,HasCharacters } from "src/types/index";
 
 /**
  * **IsAllLowercase**`<T>`
@@ -19,4 +19,4 @@ import { UpperAlphaChar, IfHasCharacters } from "src/types/index";
  */
 export type IsAllLowercase<T extends string> = string extends T
   ? boolean
-  : IfHasCharacters<T, UpperAlphaChar, true, false>;
+  : If<HasCharacters<T, UpperAlphaChar>, true, false>;

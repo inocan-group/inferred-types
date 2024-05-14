@@ -4,14 +4,16 @@ type Find<
   TList extends readonly unknown[],
   TComparator
 > = Or<{
-  [K in keyof TList]: TList[K] extends TComparator ? true : false
+  [K in keyof TList]: [TList[K]] extends [TComparator] ? true : false
 }>;
 
 type Compare<
   TList extends readonly unknown[],
   TComparator extends readonly unknown[]
 > = And<{
-  [K in keyof TList]: Find<TComparator, TList[K]>
+  [K in keyof TList]: Find<TComparator, TList[K]> extends boolean
+    ? Find<TComparator, TList[K]>
+    : never
 }>
 
 /**

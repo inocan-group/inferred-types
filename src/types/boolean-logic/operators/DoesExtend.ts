@@ -1,4 +1,4 @@
-import { IfNever } from "../branching/IfNever";
+import { IsNever } from "src/types/index";
 
 /**
  * **DoesExtend**`<TValue, TExtends>`
@@ -8,11 +8,9 @@ import { IfNever } from "../branching/IfNever";
 export type DoesExtend<
   TValue, 
   TExtends
-> = IfNever<
-      TValue, 
-      false, 
-      [TValue] extends [TExtends]
-        ? true
-        : false
->;
+> = IsNever<TValue> extends true
+  ? false
+  : [TValue] extends [TExtends]
+    ? true
+    : false;
 

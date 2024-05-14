@@ -1,12 +1,12 @@
-import { AfterFirst, First , IfExtends } from "src/types/index";
+import { AfterFirst, First , If, Extends } from "src/types/index";
 
 type AllAcc<
   TList extends readonly unknown[],
   TExtend
 > = [] extends TList
   ? true
-  : IfExtends<
-      First<TList>, TExtend,
+  : If<
+      Extends<First<TList>, TExtend>,
       AllAcc<
         AfterFirst<TList>,
         TExtend

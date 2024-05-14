@@ -1,10 +1,19 @@
 import { 
-  IfNever, 
-  IfOr, 
+  IsNever, 
   IsScalar, 
   IsUndefined,
-  IfUnion,
+  IsUnion
 } from "src/types/index";
+
+type Process<T> = [IsNever<T>] extends [true]
+? false
+: [IsScalar<T>] extends [true]
+  ? true
+  : [IsUndefined<T>] extends [true]
+    ? true
+    : [IsUnion<T>] extends [true]
+      ? boolean
+      : false;
 
 
 /**
@@ -14,14 +23,6 @@ import {
  * 
  * **Related:** `IsScalar`
  */
-export type IsOptionalScalar<T> = IfNever<T, false, IfOr<
-  [
-    IsScalar<T>, IsUndefined<T>
-  ],
-  true,
-  IfUnion<
-    T, 
-    boolean, 
-    false
-  >
->>;
+export type IsOptionalScalar<T> = Process<T> extends boolean
+? Process<T>
+: never;

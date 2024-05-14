@@ -1,4 +1,5 @@
 import { 
+  ExpandRecursively,
   Narrowable, 
   RemoveIndex, 
   Widen
@@ -38,7 +39,7 @@ export function defineObj<
         : wide
     ) as unknown;
 
-    return obj as RemoveIndex<TLiteral> & Widen<TWide>
+    return obj as ExpandRecursively< RemoveIndex<TLiteral> & Widen<TWide> >
   };
 }
 

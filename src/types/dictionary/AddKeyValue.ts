@@ -1,7 +1,8 @@
 
 import type { 
   AnyObject, 
-  IfContains, 
+  If,
+  Contains, 
   Narrowable, 
   SimplifyObject, 
   Concat, 
@@ -25,8 +26,8 @@ export type AddKeyValue<
   TObj extends AnyObject,
   K extends PropertyKey,
   V extends Narrowable
-> = IfContains<
-  Keys<AsRecord<TObj>>, K, 
+> = If<
+  Contains<Keys<AsRecord<TObj>>, K>, 
   ErrorCondition<"duplicate-key", Concat<["The object passed into AddKeyValue already has the key '", ToString<K>, "'. This is not allowed. If you intended this then consider using UpsertKeyValue instead."]>>,
   SimplifyObject<TObj & Record<K, V>>
 >;

@@ -2,15 +2,14 @@
 import type { 
   Narrowable,
   Box,
-  DoesExtend, 
-  IfArray, 
-  IfEqual, 
-  IfExtends, 
-  IfFalse, 
-  IfOr, 
-  IfStringLiteral, 
+  IsArray,
+  Extends, 
+  If, 
+  Or,
+  IsStringLiteral, 
   IsEqual, 
-  IsUnion
+  IsUnion,
+  IsFalse
 } from "src/types/index";
 import { 
   LITERAL_TYPE_KINDS,  
@@ -62,11 +61,11 @@ export type TypeIsRequired = "required" | "not-required";
  * Type utility which checks whether a given `TypeKind` maps to
  * a narrow / literal type.
  */
-export type IsLiteralKind<T extends TypeKind> = IfOr<
-  [
-    IfExtends<T, TypeKindLiteral, true, false>,
-    IfExtends<T, TypeKindContainerNarrow, true, false>,
-  ],
+export type IsLiteralKind<T extends TypeKind> = If<
+  Or<[
+    If<Extends<T, TypeKindLiteral>, true, false>,
+    If<Extends<T, TypeKindContainerNarrow>, true, false>,
+  ]>,
   true,
   false
 >;
@@ -91,8 +90,11 @@ type ToType<
   TKind extends TypeKind, 
   TRequired extends boolean | TypeIsRequired = boolean | TypeIsRequired,
   TUnderlying extends TypeUnderlying = "no-underlying"
-> = IfOr<
-      [DoesExtend<TRequired, "not-required">, DoesExtend<TRequired, false>], ToBaseType<TKind,  TUnderlying> | undefined,
+> = If<
+      Or<[
+        Extends<TRequired, "not-required">, Extends<TRequired, false>
+      ]>, 
+      ToBaseType<TKind,  TUnderlying> | undefined,
       ToBaseType<TKind,  TUnderlying>
     >;
 
@@ -219,26 +221,26 @@ export type FromTypeDefn<
 >
   ? Type<
       Kind,
-      IfEqual<
-        Required, boolean, 
+      If<
+        IsEqual<Required, boolean>,
         "required",
-        IfFalse<Required, "not-required", "required">
+        If<IsFalse<Required>, "not-required", "required">
       >,
-      IfStringLiteral<Desc, Desc, "">,
-      IfArray<Underlying, Exclude<Underlying, "no-underlying">, "no-underlying">,
-      IfOr<
-        [
+      If<IsStringLiteral<Desc>, Desc, "">,
+      If<IsArray<Underlying>, Exclude<Underlying, "no-underlying">, "no-underlying">,
+      If<
+        Or<[
           IsEqual<DefaultValue, NoDefaultValue>, 
           IsUnion<DefaultValue>
-        ],
+        ]>,
         "no-default-value", 
         "with-default-value"
       >,
-      IfOr<
-        [
+      If<
+        Or<[
           IsEqual<Validations, "no-validations">, 
           IsUnion<Validations>
-        ],
+        ]>,
         "no-validations", 
         "with-validations"
       >

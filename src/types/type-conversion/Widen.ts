@@ -87,12 +87,12 @@ type WidenUnion<T> = TupleToUnion<WidenTuple<UnionToTuple<T>>>
  * Makes all efforts to _widen_ the type found (though 
  * not to the point it is "unknown" or "any").
  */
-export type Widen<T> = IsUnion<T> extends true
+export type Widen<T> = [IsUnion<T>] extends [true]
   ? WidenUnion<T>
   : T extends readonly unknown[]
   ? WidenTuple<T>
   : T extends object
-  ? IsObjectLiteral<T> extends true
+  ? [IsObjectLiteral<T>] extends [true]
     ? Keys<T> extends readonly (keyof T)[]
       ? ExpandRecursively<WidenObj<T, Keys<T>>>
       : never

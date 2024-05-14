@@ -1,9 +1,16 @@
 /* eslint-disable no-use-before-define */
-import { IfEqual, IfLength, AfterFirst, AsArray, First , TupleToUnion } from "src/types/index";
+import { 
+  IfLength, 
+  AfterFirst, 
+  AsArray, 
+  First , 
+  TupleToUnion,
+  IsEqual
+} from "src/types/index";
 
 type DefaultPrefix = ["www"];
 
-type DNS = `${string}.${string}`;
+export type DNS = `${string}.${string}`;
 
 type _Names<
   TDomain extends readonly DNS[],
@@ -43,9 +50,7 @@ type _Names<
 export type DomainName<
   TDomain extends DNS | readonly DNS[] = DNS,
   TPrefixes extends readonly string[] = DefaultPrefix
-> = IfEqual<
-  TDomain, DNS,
-  DNS,
-  TupleToUnion<_Names<AsArray<TDomain>,TPrefixes>>
->;
+> = IsEqual<TDomain, DNS> extends true
+  ? DNS
+  : TupleToUnion<_Names<AsArray<TDomain>,TPrefixes>>
 

@@ -3,10 +3,8 @@
 import { PLURAL_EXCEPTIONS } from "src/constants/index";
 import { 
   Consonant, 
-  IfContains, 
-  IfStringLiteral, 
-  Filter, 
-  GetEach, 
+  IsStringLiteral, 
+  If,
   EnsureTrailing, 
   StripTrailing,
   Mutable
@@ -45,22 +43,30 @@ type EndsIn_Y<T extends string> = T extends `${string}${Y}` ? T : never;
 /**
  * strings which end in the letters "is" should have an "es" added to the end
  */
-type PluralizeEndingIn_IS<T extends string> = T extends `${infer HEAD}is` ? `${HEAD}ises` : T;
+type PluralizeEndingIn_IS<
+  T extends string
+> = T extends `${infer HEAD}is` ? `${HEAD}ises` : T;
 
 /**
  * singular nouns should have "es" added to the end
  */
-type PluralizeEndingSingularNoun<T extends string> = EnsureTrailing<T, "es">;
+type PluralizeEndingSingularNoun<
+  T extends string
+> = EnsureTrailing<T, "es">;
 
 /**
  * strings which end in the letters "f" or "fe" should have "ves" replace the ending
  */
-type PluralizeEnding_F<T extends string> = T extends `${infer HEAD}${F}` ? `${HEAD}ves` : T;
+type PluralizeEnding_F<
+  T extends string
+> = T extends `${infer HEAD}${F}` ? `${HEAD}ves` : T;
 
 /**
  * singular nouns should have "es" added to the end
  */
-type PluralizeEndingIn_Y<T extends string> = EnsureTrailing<StripTrailing<T,"y">, "ies">;
+type PluralizeEndingIn_Y<
+  T extends string
+> = EnsureTrailing<StripTrailing<T,"y">, "ies">;
 
 
 /**
@@ -71,10 +77,8 @@ type PluralizeEndingIn_Y<T extends string> = EnsureTrailing<StripTrailing<T,"y">
  */
 export type Pluralize<
   T extends string
-> = 
-IfStringLiteral<
-  T,
-  IsException<T> extends true
+> = IsStringLiteral<T> extends true
+  ? IsException<T> extends true
     ? PluralException<T>
     : T extends EndsIn_IS<T>
       ? PluralizeEndingIn_IS<T>
@@ -84,9 +88,8 @@ IfStringLiteral<
           ? PluralizeEnding_F<T>
           : T extends EndsIn_Y<T>
             ? PluralizeEndingIn_Y<T>
-            : `${T}s`,
-  string
->;
+            : `${T}s`
+  : string;
 
 
 

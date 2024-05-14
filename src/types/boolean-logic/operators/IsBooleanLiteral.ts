@@ -1,4 +1,4 @@
-import type {  IfFalse, IfNever, IfTrue } from "src/types/index";
+import type {  If, IsFalse, IsNever, IsTrue } from "src/types/index";
 
 // [note on handling of boolean](https://stackoverflow.com/questions/74213646/detecting-type-literals-works-in-isolation-but-not-when-combined-with-other-lite/74213713#74213713)
 
@@ -10,11 +10,11 @@ import type {  IfFalse, IfNever, IfTrue } from "src/types/index";
  */
 export type IsBooleanLiteral<
   T
-> = IfNever<
-T, false,
-  IfTrue<
-    T,
-    true,
-    IfFalse<T, true, false>
-  >
->
+> = [IsNever<T>] extends [true]
+  ? false
+  : [IsTrue<T>] extends [true] 
+    ? true
+    : [IsFalse<T>] extends [true]
+    ? true
+    : false;
+

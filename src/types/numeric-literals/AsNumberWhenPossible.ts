@@ -1,4 +1,4 @@
-import { IfUnion , ToNumber, TupleToUnion, UnionToTuple } from "src/types/index";
+import { If, IsUnion , ToNumber, TupleToUnion, UnionToTuple } from "src/types/index";
 
 
 type Convert<T> = T extends `${number}`
@@ -13,8 +13,8 @@ type ConvertTuple<T> = T extends unknown[]
 : never;
 
 
-type ConvertUnion<T> = IfUnion<
-  T,
+type ConvertUnion<T> = If<
+  IsUnion<T>,
   TupleToUnion<ConvertTuple<UnionToTuple<T>>>,
   never
 >;
@@ -32,8 +32,8 @@ type ConvertUnion<T> = IfUnion<
  * literal values will be converted to a numeric literal but the return type will
  * still be a _union_.
  */
-export type AsNumberWhenPossible<T> = IfUnion<
-  T,
+export type AsNumberWhenPossible<T> = If<
+  IsUnion<T>,
   ConvertUnion<T>,
   T extends readonly unknown[]
     ? ConvertTuple<T>

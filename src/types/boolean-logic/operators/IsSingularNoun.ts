@@ -1,4 +1,4 @@
-import { IfNever, IfStringLiteral, SingularNoun } from "src/types/index";
+import { If, IfNever, IsStringLiteral, SingularNoun } from "src/types/index";
 
 
 /**
@@ -12,5 +12,9 @@ import { IfNever, IfStringLiteral, SingularNoun } from "src/types/index";
  * - `false` - all other conditions
  */
 export type IsSingularNoun<T> = T extends string
-  ? IfStringLiteral<T, IfNever<SingularNoun<T>, false, true>, boolean>
+  ? If<
+      IsStringLiteral<T>, 
+      IfNever<SingularNoun<T>, false, true>, 
+      boolean
+    >
   : false;

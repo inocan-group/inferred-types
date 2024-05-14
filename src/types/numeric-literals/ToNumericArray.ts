@@ -1,18 +1,13 @@
 
-import { Tuple,  IfReadonlyArray, NonEmptyContainer, If, ToNumber} from "src/types/index";
+import { Tuple,  IsReadonlyArray, NonEmptyContainer, ToNumber} from "src/types/index";
 
 type _Convert<
   TInput extends Tuple
-> = If<
-  NonEmptyContainer<TInput>,
-  {
+> = NonEmptyContainer<TInput> extends true
+  ? {
     [K in keyof TInput]: ToNumber<TInput[K]>
-  },
-  number[]
->;
-
-
-
+  }
+  : number[];
 
 /**
  * **ToNumericArray**`<TList>`
@@ -26,9 +21,7 @@ type _Convert<
  */
 export type ToNumericArray<
   TList extends Tuple
-> = IfReadonlyArray<
-  TList,
-  Readonly<_Convert<TList>>,
-  _Convert<TList>
->;
+> = IsReadonlyArray<TList> extends true
+  ? Readonly<_Convert<TList>>
+  : _Convert<TList>;
 

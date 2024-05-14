@@ -1,13 +1,18 @@
 /* eslint-disable no-use-before-define */
+import { 
+  KV, 
+  If, 
+  IsTrue, 
+  Fn, 
+  HandleDoneFn, 
+  AfterFirst, 
+  First,
+  AsFunction,
+  ExpandRecursively,
+  ShapeCallback,
+  IsFunction
+} from "src/types/index";
 
-import { KV } from "../base-types/KV";
-import { IfFunction, IfTrue } from "../boolean-logic";
-import { Fn } from "../functions/Fn";
-import { HandleDoneFn } from "../functions/HandleDoneFn";
-import { AfterFirst, First } from "../lists/index";
-import { AsFunction } from "../type-conversion/AsFunction";
-import { ExpandRecursively } from "./ExpandRecursively";
-import { ShapeCallback } from "./Shape";
 
 /**
  * **ChoiceRepresentation**
@@ -43,8 +48,8 @@ export type Choice<
   : T extends string
     ? Record<T,T>
   : T extends [name: string, value: unknown]
-    ? IfFunction<
-        T[1], 
+    ? If<
+        IsFunction<T[1]>, 
         Record<T[0], ReturnType<AsFunction<T[1]>>>,
         Record<T[0], T[1]>
       >
@@ -94,7 +99,11 @@ export type MultipleChoice<
           ? TChoices[T] 
           : never
       ],
-      IfTrue<TForceUnique, TExclude | T, TExclude>
+      If<
+        IsTrue<TForceUnique>,
+        TExclude | T, 
+        TExclude
+      >
     >;
   /** return the selected choices */
   done: () => TState;

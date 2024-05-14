@@ -1,12 +1,12 @@
 import { 
-  IfUndefined , 
+  IsUndefined , 
   DoesExtend, 
-  IfAnd , 
+  If,
+  And , 
   IsOptionalScalar , 
   Narrowable, 
   AfterFirst , 
   First , 
-  AnyObject, 
   Scalar, 
   MergeObjects,
   KV
@@ -19,15 +19,15 @@ import {
 export type MergeScalars<
   TDefault extends Narrowable,
   TOverride extends Narrowable,
-> = IfAnd<
-  [IsOptionalScalar<TDefault>, IsOptionalScalar<TOverride>],
-  IfUndefined<
-    TOverride,
-    TDefault,
-    Exclude<TOverride, undefined>
-  >,
-  never
->;
+> = IsOptionalScalar<TDefault> extends true
+? IsOptionalScalar<TOverride> extends true
+  ? IsUndefined<TOverride> extends true
+    ? TDefault
+    : Exclude<TOverride, undefined>
+  : never
+: never;
+
+
 
 type MergeTuplesAcc<
   TDefault extends readonly unknown[],
@@ -35,8 +35,8 @@ type MergeTuplesAcc<
   TKey extends string | false = false,
   TResults extends readonly unknown[] = []
 > = TOverride extends [infer Override, ...infer Rest extends unknown[]]
-  ? IfUndefined<
-    Override,
+  ? If<
+    IsUndefined<Override>,
     MergeTuplesAcc<AfterFirst<TDefault>, Rest, TKey, [...TResults, First<TDefault>]>,
     MergeTuplesAcc<AfterFirst<TDefault>, Rest, TKey, [...TResults, Override]>
   >
@@ -71,14 +71,17 @@ export type MergeTuples<
 export type Merge<
   TDefault, 
   TOverride
-> = IfAnd<
-  [DoesExtend<TDefault, KV>, DoesExtend<TOverride, KV>],
+> = If<
+  And<[DoesExtend<TDefault, KV>, DoesExtend<TOverride, KV>]>,
   MergeObjects<TDefault & KV,TOverride & KV>,
-  IfAnd<
-    [ DoesExtend<TDefault, Scalar>, DoesExtend<TOverride, Scalar> ],
+  If<
+    And<[ DoesExtend<TDefault, Scalar>, DoesExtend<TOverride, Scalar> ]>,
     MergeScalars<TDefault & Scalar, TOverride & Scalar>,
-    IfAnd<
-      [ DoesExtend<TDefault, readonly Narrowable[]>, DoesExtend<TDefault, readonly Narrowable[]> ],
+    If<
+      And<[ 
+        DoesExtend<TDefault, readonly Narrowable[]>, 
+        DoesExtend<TOverride, readonly Narrowable[]> 
+      ]>,
       MergeTuples<TDefault & readonly Narrowable[], TOverride & readonly Narrowable[]>,
       never
     >

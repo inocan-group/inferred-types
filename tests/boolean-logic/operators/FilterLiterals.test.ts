@@ -1,6 +1,6 @@
 import {  Expect } from "@type-challenges/utils";
-import { FilterLiterals,  HasSameValues, KV } from "src/types/index";
 import { describe, it } from "vitest";
+import { FilterLiterals,  HasSameValues, KV } from "src/types/index";
 
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

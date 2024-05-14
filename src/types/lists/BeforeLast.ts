@@ -1,4 +1,4 @@
-import {  Handle, Pop, Tuple } from "src/types/index";
+import {  Chars, Concat, Handle, IsEqual, Join, Pop, Tuple } from "src/types/index";
 
 
 /**
@@ -21,7 +21,13 @@ import {  Handle, Pop, Tuple } from "src/types/index";
 export type BeforeLast<
   T extends Tuple | string
 > = T extends string 
-  ? Handle<Pop<T>, never, "">
+  ? string extends T
+    ? string
+  : IsEqual<T, ""> extends true
+    ? ""
+    : Pop<Chars<T>> extends readonly string[]
+      ? Concat<Pop<Chars<T>>>
+      : never
   : T extends Tuple
     ? Handle<Pop<T>, never, []>
     : never;

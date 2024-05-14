@@ -1,4 +1,15 @@
-import { Scalar, IfFalsy, IfLength, IfTruthy, Keys, AnyObject, IfNever, IfExtends, AsRecord } from "src/types/index";
+import { 
+  Scalar,
+  IsFalsy, 
+  IsLength, 
+  IsTruthy, 
+  Keys, 
+  AnyObject, 
+  IsNever, 
+  If,
+  Extends, 
+  AsRecord 
+} from "src/types/index";
 
 
 /**
@@ -13,20 +24,24 @@ import { Scalar, IfFalsy, IfLength, IfTruthy, Keys, AnyObject, IfNever, IfExtend
  * - _never_, _null_, and _undefined_ map to false
  * - all other values return the wide "boolean" type
  */
-export type ToBoolean<T> = IfNever<
-T, 
+export type ToBoolean<T> = If<
+IsNever<T>, 
 false,
 T extends boolean
 ? T
 : T extends Scalar 
-  ? IfTruthy<
-      T, 
+  ? If<
+      IsTruthy<T>, 
       true, 
-      IfFalsy<T, false, boolean>
+      If<IsFalsy<T>, false, boolean>
     >
   : T extends readonly unknown[]
-    ? IfLength<Keys<T>, 0, false, true>
+    ? If<
+        IsLength<Keys<T>["length"], 0>, 
+        false, 
+        true
+      >
     : T extends AnyObject 
-      ? IfLength<Keys<AsRecord<T>>, 0, false, true>
-      : IfExtends<T, undefined, false, boolean>
+      ? If<IsLength<Keys<AsRecord<T>>["length"], 0>, false, true>
+      : If<Extends<T, undefined>, false, boolean>
 >;

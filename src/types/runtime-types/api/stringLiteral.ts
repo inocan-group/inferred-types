@@ -1,7 +1,8 @@
 import type { 
   Digit, 
   TypeOptions, 
-  IfReadonlyArray, 
+  IsReadonlyArray, 
+  If,
   AlphaNumericChar,
   LowerAlphaChar, 
   UpperAlphaChar, 
@@ -31,8 +32,8 @@ export type StringLiteralMapper = {
 // ];
 
 
-type ToUnderlying<T extends Narrowable> = IfReadonlyArray<
-  T, T & readonly unknown[], readonly [T]
+type ToUnderlying<T> = If<
+  IsReadonlyArray<T>, T & readonly unknown[], readonly [T]
 >;
 
 export type TypeApiStringLiteral = <

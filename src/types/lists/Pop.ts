@@ -1,4 +1,4 @@
-import { Concat, Tuple, Split, IfStringLiteral } from "src/types/index";
+import { Concat, Tuple, IsStringLiteral,If, Chars } from "src/types/index";
 
 type _Pop<
   TVal extends Tuple
@@ -22,16 +22,16 @@ type _Pop<
 export type Pop<
   TList extends Tuple | string
 > = TList extends string
-    ? IfStringLiteral<
-          TList,
-          TList extends string
-          ? TList extends ""
-            ? ""
-            : Split<TList> extends readonly string[]
-              ? Concat<_Pop<Split<TList>>>
-              : never
-          : never,
-          string
+    ? If<
+        IsStringLiteral<TList>,
+        TList extends string
+        ? TList extends ""
+          ? ""
+          : Chars<TList> extends readonly string[]
+            ? Concat<_Pop<Chars<TList>>>
+            : never
+        : never,
+        string
       >
     : _Pop<Exclude<TList, string>>;
 

@@ -1,5 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AnyFunction, AnyObject, IfRef, IsUndefined, Narrowable, Concat, IfNumericLiteral, IfBooleanLiteral} from "src/types/index";
+import { 
+  AnyFunction, 
+  AnyObject,  
+  IsVueRef, 
+  IsUndefined, 
+  Narrowable, 
+  Concat, 
+  If, 
+  IsNumericLiteral, 
+  IsBooleanLiteral
+} from "src/types/index";
 
 /**
  * **ToString**
@@ -12,11 +22,12 @@ import { AnyFunction, AnyObject, IfRef, IsUndefined, Narrowable, Concat, IfNumer
  */
 export type ToString<T> = T extends string
   ? T
-  : T extends number ? IfNumericLiteral<T, `${T}`, `${number}`>
-  : T extends boolean ? IfBooleanLiteral<T, `${T}` , `${boolean}`>
+  : T extends number ? If<IsNumericLiteral<T>, `${T}`, `${number}`>
+  : T extends boolean ? If<IsBooleanLiteral<T>, `${T}` , `${boolean}`>
   : T extends null ? "null"
   : IsUndefined<T> extends true ? "undefined"
-  : T extends AnyObject ? IfRef<
+  : T extends AnyObject ? If<
+      IsVueRef<T>,
       T,
       Concat<["Ref<", T extends { value: Narrowable } ? ToString<T["value"]> : "", ">"]>,
       T extends { name: string} ? `Object(${T["name"]})` : "Object"

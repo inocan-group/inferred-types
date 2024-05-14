@@ -1,12 +1,12 @@
 import { SINGULAR_NOUN_ENDINGS } from "src/constants/index";
-import { AlphaChar , IfAllExtend, Split , TupleToUnion, Mutable, AsArray } from "src/types/index";
+import { AlphaChar , TupleToUnion, Mutable,  Chars, AllExtend, If } from "src/types/index";
 /**
  * **SingularNounEnding**
  * 
  * A union of characters which when found at the end of a word are a strong
  * indicator that the word is a singular noun.
  * 
- * **Related:** `SINGULAR_NOUN_ENDINGS`, `SingularNoun`, `SINGULAR_NOUN_RE`
+ * **Related:** `SingularNoun`, `IsSingularNoun`
  */
 export type SingularNounEnding = TupleToUnion<Mutable<typeof SINGULAR_NOUN_ENDINGS>>;
 
@@ -25,7 +25,13 @@ export type SingularNounEnding = TupleToUnion<Mutable<typeof SINGULAR_NOUN_ENDIN
  * // rush
  * type T2 = SingularNoun<"rush">;
  * ```
+ * 
+ * **Related:** `IsSingularNoun`
  */
 export type SingularNoun<T extends string> = T extends `${infer Prelude}${SingularNounEnding}`
-  ? IfAllExtend<AsArray<Split<Prelude>>, AlphaChar, T, never>
+  ? If<
+      AllExtend<Chars<Prelude>, AlphaChar>, 
+      T, 
+      never
+    >
   : never;

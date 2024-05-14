@@ -1,10 +1,14 @@
-import {  IsUnion, RetainWideTypes, UnionToTuple } from "../..";
+import {  
+  IsUnion, 
+  IsWideType, 
+  UnionToTuple 
+} from "src/types/index";
 
-type Process<T> = UnionToTuple<T> extends readonly unknown[]
-? RetainWideTypes<UnionToTuple<T>>["length"] extends UnionToTuple<T>["length"]
-  ? true
-  : false
-: never;
+type Process<
+  T extends readonly unknown[]
+> = {
+  [K in keyof T]: IsWideType<T[K]>
+}
 
 /**
  * **IsWideUnion**`<T>`
@@ -14,6 +18,8 @@ type Process<T> = UnionToTuple<T> extends readonly unknown[]
  * 
  * **Related:** `IsNonLiteralUnion`
  */
-export type IsWideUnion<T> = IsUnion<T> extends true
-  ? Process<T>
-  : false;
+export type IsWideUnion<T> = [IsUnion<T>] extends [true]
+? [Process<UnionToTuple<T>>] extends [readonly true[]]
+  ? true
+  : false
+: false;

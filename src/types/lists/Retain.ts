@@ -2,7 +2,6 @@ import {
   Compare, 
   ComparatorOperation, 
   TupleToUnion,
-  If,
   Or,
   IsEqual,
   RemoveNever,
@@ -39,19 +38,17 @@ type Process<
 type PrepList<
   T extends readonly unknown[],
   O extends ComparatorOperation
-> = If<
-  Or<[
+> = Or<[
     IsEqual<O, "contains">,
     IsEqual<O, "startsWith">,
     IsEqual<O, "endsWith">,
-  ]>,
-  RemoveNever<{
+  ]> extends true
+  ? RemoveNever<{
     [K in keyof T]: T[K] extends string | number
       ? T[K]
       : never
-  }>,
-  T
->
+  }>
+  : T;
 
 /**
  * **Retain**`<TList, TFilter>`
