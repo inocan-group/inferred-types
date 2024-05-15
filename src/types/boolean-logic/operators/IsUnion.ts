@@ -1,12 +1,5 @@
-import { UnionToTuple , IsNever, IsWideType } from "src/types/index";
+import { UnionToTuple , IsNever,  IsEqual } from "src/types/index";
 
-type ProcessLength<
-  T extends number
-> = T extends 1
-  ? false
-  : T extends 0
-  ? false
-  : true;
 
 /**
  * **IsUnion**`<T>`
@@ -16,10 +9,10 @@ type ProcessLength<
  */
 export type IsUnion<T> = [IsNever<UnionToTuple<T>>] extends [true]
 ? false
-: [IsWideType<T>] extends [true]
+: IsEqual<T, boolean> extends true
 ? false
-: UnionToTuple<T> extends readonly unknown[]
-  ? UnionToTuple<T>["length"] extends number
-    ? ProcessLength<UnionToTuple<T>["length"]>
-    : never
-  : false;
+: UnionToTuple<T>["length"] extends 1
+  ? false
+  : true;
+
+
