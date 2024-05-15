@@ -10,6 +10,7 @@ export * from "./isString";
 export * from "./isIndexable";
 export * from "./isObject";
 export * from "./isTrue";
+export * from "./isObject"
 export * from "./isArray";
 export * from "./isConstant";
 export * from "./isNever";

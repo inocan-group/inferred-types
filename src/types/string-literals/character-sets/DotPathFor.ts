@@ -35,8 +35,8 @@ type GenList<
  * `T`. 
  * 
  * - If `T` is _not_ a container then it will resolve to
- * `""` because `T` can not be dereferenced.
- * - If `T` is a _wide_ container than it will resolve to `string` as
+ * `"" | null` because `T` can not be dereferenced.
+ * - If `T` is a _wide_ container than it will resolve to `string | null` as
  * nothing can be determined at design time
  */
 export type DotPathFor<

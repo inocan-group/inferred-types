@@ -14,6 +14,7 @@ export * from "./PromiseAll";
 export * from "./FnProps";
 export * from "./Fn";
 export * from "./HandleDoneFn"
+export * from "./NarrowingFn"
 // export * from "src/types/index";
 
 // #endregion auto-indexed files

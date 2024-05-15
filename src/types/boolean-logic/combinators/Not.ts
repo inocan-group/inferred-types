@@ -34,6 +34,19 @@ type NegateTuple<
     [...TResults, Negate<First<TTuple>> ]
   >;
 
+type Process<
+TVal, 
+TError = never
+> = IsErrorCondition<TVal> extends true 
+? TError
+: [IsNever<TVal>] extends [true]
+  ? never
+  : [TVal] extends [boolean]
+    ? Negate<TVal>
+    :TVal extends readonly (boolean | LogicFunction)[] 
+      ? NegateTuple<TVal>
+      : never;
+
 /**
  * **Not**`<T,[TError]>`
  * 
@@ -50,12 +63,7 @@ type NegateTuple<
 export type Not<
   TVal, 
   TError = never
-> = IsErrorCondition<TVal> extends true 
-  ? TError
-  : [IsNever<TVal>] extends [true]
-    ? never
-    : [TVal] extends [boolean]
-      ? Negate<TVal>
-      :TVal extends readonly (boolean | LogicFunction)[] 
-        ? NegateTuple<TVal>
-        : never;
+> = Process<TVal,TError> extends boolean | readonly unknown[]
+? Process<TVal, TError>
+: never;
+

@@ -13,13 +13,15 @@ import {
   NotDefined,
   NOT_DEFINED 
 } from "src/constants/index";
-import { createErrorCondition } from "../errors/createErrorCondition";
-import { isTruthy } from "../type-guards/isTruthy";
-import { hasIndexOf } from "../type-guards/hasIndexOf";
-import { isSpecificConstant } from "../type-guards/isSpecificConstant";
-import { hasDefaultValue } from "../type-guards/hasDefaultValue";
-import { isContainer } from "../type-guards/isContainer";
-import { isRef } from "../type-guards/isRef";
+import { 
+  createErrorCondition,
+  isTruthy,
+  hasIndexOf,
+  isSpecificConstant,
+  hasDefaultValue,
+  isContainer,
+  isRef 
+} from "src/runtime/index";
 
 /** updates based on whether segment is a Ref or not */
 function updatedDotPath<
@@ -69,9 +71,12 @@ function getValue<
   /** has handler for invalid dotpath */
   const hasHandler = !isSpecificConstant("not-defined")(handleInvalid);
 
-  const errors = createErrorCondition(`get(value, "${updatedDotPath(value,fullDotPath, idx)}", ${hasDefaultValue(defaultValue) ? `${String(defaultValue)}` : "[defValue]"})`);
 
-  const invalidDotPath = errors("invalid-dot-path")(`The segment "${idx}" in the dotpath "${fullDotPath}" was not indexable and no default value existed on: ${JSON.stringify(value)}`);
+
+  const invalidDotPath = createErrorCondition(
+    `get(value, "${updatedDotPath(value,fullDotPath, idx)}", ${hasDefaultValue(defaultValue) ? `${String(defaultValue)}` : "[defValue]"})`)(
+    "invalid-dot-path",
+    `The segment "${idx}" in the dotpath "${fullDotPath}" was not indexable and no default value existed on: ${JSON.stringify(value)}`);
 
   const current = (
     hasMoreSegments
@@ -138,7 +143,7 @@ export function get<
   TValue extends Narrowable | readonly unknown[], 
   TDotPath extends Suggest<DotPathFor<TValue>>, 
   TDefVal extends Narrowable = NoDefaultValue,
-  TInvalid extends Narrowable = NotDefined
+  TInvalid extends Narrowable = NotDefined 
 >(
     value: TValue, 
     dotPath: TDotPath | null, 
@@ -161,4 +166,3 @@ export function get<
 
   return outcome as unknown as Get<TValue,TDotPath>
 }
-

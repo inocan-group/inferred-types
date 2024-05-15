@@ -8,8 +8,6 @@ export * from "./arrayToKeyLookup";
 export * from "./entries";
 export * from "./get";
 export * from "./keysOf";
-// export * from "./mapTo";
-export * from "./mapValues";
 export * from "./omit";
 export * from "./retain";
 export * from "./sharedKeys";

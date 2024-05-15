@@ -3,7 +3,6 @@ import {
   AsNumber,
   Container, 
   ExplicitlyEmptyObject, 
-  If, 
   IsEqual, 
   IsNegativeNumber, 
   IsStringLiteral,
@@ -14,7 +13,6 @@ import {
   NumericKeys,
   TupleToUnion, 
 } from "src/types/index";
-
 
 /**
  * **IsValidIndex**`<TContainer,TKey>`
@@ -28,28 +26,24 @@ export type IsValidIndex<
   TContainer extends Container,
   TKey extends PropertyKey
 > = TContainer extends Tuple
-? If<
-    IsTuple<TContainer>,
-    TKey extends number
-    ? If<
-      IsNegativeNumber<AsNumber<TKey>>,
-      Abs<AsNumber<TKey>> extends number
+? IsTuple<TContainer> extends true
+  ? TKey extends number
+    ? IsNegativeNumber<AsNumber<TKey>> extends true
+      ? Abs<AsNumber<TKey>> extends number
         ? [Abs<AsNumber<TKey>>] extends [TupleToUnion<NumericKeys<TContainer>>]
           ? true
           : false
-        : never,
-      [TKey] extends [TupleToUnion<NumericKeys<TContainer>>]
+        : never
+      : [TKey] extends [TupleToUnion<NumericKeys<TContainer>>]
         ? true
         : false
-    >
-    : false,
-    boolean
-  >
+    : false
+  : boolean // not a tuple literal
+
 : TContainer extends KV
-  ? If<
-      IsEqual<TContainer, ExplicitlyEmptyObject>,
-      false,
-      [IsObjectLiteral<TContainer>] extends [true]
+  ? IsEqual<TContainer, ExplicitlyEmptyObject> extends true
+      ? false
+      : [IsObjectLiteral<TContainer>] extends [true]
       ? [IsStringLiteral<TKey>] extends [true]
         ? [TKey] extends [keyof TContainer]
           ? true
@@ -60,8 +54,6 @@ export type IsValidIndex<
             : false
           : false
       : boolean
-    >
-
 : false;
 
 

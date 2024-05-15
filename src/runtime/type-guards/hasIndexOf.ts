@@ -1,6 +1,6 @@
 
-import { Container } from "src/types/index";
-import { isObject } from "./isObject";
+import { Container, IsValidIndex, KV, Tuple } from "src/types/index";
+import { isErrorCondition, isObject } from "src/runtime/index";
 
 
 /**
@@ -11,7 +11,26 @@ import { isObject } from "./isObject";
  */
 export const hasIndexOf = <
   TContainer extends Container,
-  TIndex extends PropertyKey
->(value: TContainer, idx: TIndex): value is TContainer & Record<TIndex, unknown> => {
-  return (isObject(value) || Array.isArray(value)) && idx in value;
+  TIndex extends PropertyKey,
+>(
+    value: TContainer, 
+    idx: TIndex
+): value is TContainer & 
+  (TContainer extends Tuple 
+    ? Tuple<TIndex> 
+    : TContainer extends KV 
+        ? Record<TIndex,unknown> 
+        : never
+) => {
+  const result = isObject(value) 
+    ? String(idx) in value
+    : Array.isArray(value)
+      ? Number(idx) in value
+      : false;
+  return (
+    isErrorCondition(result, "invalid-index") 
+      ? false 
+      : result
+  ) as IsValidIndex<TContainer,TIndex>;
 };
+

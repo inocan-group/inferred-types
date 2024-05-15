@@ -1,5 +1,13 @@
 /* eslint-disable no-use-before-define */
-import {  AfterFirst, First, IfEqual,  LogicFunction, LogicalReturns, NarrowlyContains } from "src/types/index";
+import {  
+  AfterFirst, 
+  First, 
+  IfEqual,  
+  IsEqual, 
+  LogicFunction, 
+  LogicalReturns, 
+  NarrowlyContains 
+} from "src/types/index";
 
 type Process<
   TConditions extends readonly boolean[], 
@@ -22,8 +30,10 @@ type Process<
  */
 export type And<
   TConditions extends readonly (boolean | LogicFunction)[], 
-  _TParams extends readonly unknown[] = [],
-> = LogicalReturns<TConditions> extends readonly boolean[]
+  TEmpty extends boolean = false
+> = IsEqual<TConditions,[]> extends true
+? TEmpty
+: LogicalReturns<TConditions> extends readonly boolean[]
   ? Process<
       LogicalReturns<TConditions>,
       NarrowlyContains<LogicalReturns<TConditions>,boolean>

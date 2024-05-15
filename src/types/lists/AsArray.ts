@@ -1,4 +1,4 @@
-import { IfUndefined, Tuple } from "src/types/index";
+import { If,  IsUndefined, Tuple } from "src/types/index";
 
 /**
  * **AsArray**`<T>`
@@ -11,4 +11,4 @@ export type AsArray<T> = T extends Tuple
     ? T
     : T extends unknown[]
       ? readonly [...T]
-      : IfUndefined<T,  [],  [T]>;
+      : If<IsUndefined<T>,  [],  [T]>;

@@ -23,4 +23,3 @@ export type ToFn<T> = T extends AnyFunction
         : ((...args: Args) => Returns) & Props
   : () => T
 
-

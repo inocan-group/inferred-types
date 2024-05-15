@@ -1,30 +1,78 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {  ErrorCondition,   IfNever,  IsArray,    IsEqual,   IsObjectLiteral, IsTuple, IsWideUnion,  KV, ProxyError, Throw } from "src/types/index";
+import {  
+  Container,
+  ErrorCondition,         
+  IsEqual,
+  IsNever,
+  IsVueRef, 
+  IsWideUnion, 
+  ObjectKey, 
+  ProxyError, 
+  RemoveIndexKeys, 
+  Scalar, 
+  Throw, 
+  UnionToTuple,
+} from "src/types/index";
 
-type IsWide<T> = 
-[IsEqual<T, boolean>] extends [true]
-    ? true
-  : [IsEqual<T, object>] extends [true]
-    ? true
-  : [IsEqual<T, KV>] extends [true]
-    ? true
-  : [IsEqual<T, string>] extends [true]
-    ? true
-  : [IsEqual<T, number>] extends [true]
-    ? true
-  : [IsEqual<T, symbol>] extends [true]
-    ? true
-  : [IsArray<T>] extends [true]
-    ? [IsTuple<T>] extends [false]
+/**
+ * **IsWideScalar**`<T>`
+ * 
+ * Boolean operator which validates whether or not `T`
+ * is considered a "wide type" which extends `Scalar`
+ */
+export type IsWideScalar<T> = [T] extends [Scalar]
+  ? [
+      IsEqual<T, string, true,false>,
+      IsEqual<T, number, true,false>,
+      IsEqual<T, boolean, true,false>,
+      IsEqual<T, null, true,false>,
+      IsEqual<T, symbol, true,false>,
+    ] extends [ 
+      false, false, false, false, false
+    ] 
+      ? false 
+      : true
+: false;
+
+type _Keys<
+  T extends object
+  > = UnionToTuple<keyof RemoveIndexKeys<T>>;
+
+type GetKeys<
+  T extends object
+> = IsVueRef<T> extends true
+? ["value"]
+: _Keys<T> extends [symbol]
+  ? ObjectKey[]
+  : _Keys<T> extends []
+    ? UnionToTuple<keyof T> extends [ObjectKey]
+      ? (keyof T)[]
+      : ObjectKey[]
+    : _Keys<T>;
+
+
+/**
+ * **IsWideContainer**`<T>`
+ * 
+ * Boolean operator which tests wether `T` is a `Container` and
+ * also a `wide type` (aka, not a literal).
+ */
+export type IsWideContainer<T> = T extends Container
+? T extends readonly unknown[]
+  ? "length" extends keyof T
+    ? IsEqual<T["length"], number> extends true
       ? true
       : false
-  : T extends KV
-    ? IsObjectLiteral<T> extends true
-      ? false
-      : true
-  : IsWideUnion<T> extends true
-      ? true
-  : false;
+    : false
+  : T extends object
+    ? "length" extends keyof GetKeys<T>
+      ? IsEqual<GetKeys<T>["length"], number> extends true
+        ? true
+        : false
+      : false
+    : false
+: false;
+
 
 
 type InvalidNever = Throw<
@@ -41,11 +89,10 @@ type InvalidNever = Throw<
  * 
  * - string, number, and boolean types
  * - `string[]`, `number[]` array types
- * - does _not_ include wide union types; use `IsWideUnion` for this
+ * - wide union types like `string | number`
  * 
  * **Note:** 
- * - types such as `null` and `undefined` are **not** considered
- * wide.
+ * - types such as `null` and `undefined` **are** considered wide.
  * - If the `T` passed in is _never_ the result of this operation is
  * ErrorCondition<"invalid-never"> but this can be made into whatever
  * you like by setting the `TNever` generic.
@@ -54,14 +101,16 @@ type InvalidNever = Throw<
 export type IsWideType<
   T,
   TNever = InvalidNever
-> = IfNever<
-  T,
-  TNever,
-  [IsWide<T>] extends [true]
-      ? true
-      : [T] extends [ErrorCondition]
-        ? ProxyError<T, "IsWideType">
-        : false
->;
+> = [IsNever<T>] extends [true]
+? TNever
+: [T] extends [ErrorCondition]
+? ProxyError<T,"IsWideType">
+:IsWideScalar<T> extends true
+? true
+: IsWideContainer<T> extends true
+? true
+: IsWideUnion<T> extends true
+? true
+: false;
 
 

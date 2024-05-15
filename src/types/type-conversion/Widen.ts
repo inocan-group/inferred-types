@@ -16,6 +16,7 @@ import {
   ObjectKey, 
   RemoveFnProps, 
   RemoveIndexKeys, 
+  Scalar, 
   TupleToUnion, 
   UnionToTuple 
 } from "src/types/index";
@@ -31,12 +32,26 @@ type GetKeys<
 : never;
 
 
-type Process<T> = T extends string
+/**
+ * **WidenScalar**`<T>`
+ * 
+ * Widens any _scalar_ type `T`.
+ */
+export type WidenScalar<T extends Scalar> = T extends string
 ? string
 : T extends number
 ? number
 : T extends boolean
-? boolean
+? boolean 
+: T extends symbol
+? symbol
+: T extends null
+? null
+: never;
+
+
+type Process<T> = T extends Scalar
+? WidenScalar<T>
 : T extends readonly string[]
 ? string[]
 : T extends readonly number[]
@@ -71,15 +86,31 @@ type WidenObj<
     >
 
 
-type WidenTuple<
+export type WidenTuple<
   T extends readonly unknown[]
 > = {
   [K in keyof T]: Process<T[K]>
 };
 
 
-type WidenUnion<T> = TupleToUnion<WidenTuple<UnionToTuple<T>>>
 
+
+/**
+ * **WidenUnion**<T>
+ * 
+ * Widens all the elements in the union type.
+ */
+export type WidenUnion<T> = TupleToUnion<WidenTuple<UnionToTuple<T>>>
+
+export type WidenLiteral<
+  T 
+> =  T extends Scalar
+  ? WidenScalar<T>
+  // : IsUnion<T> extends true
+  // ? WidenUnion<T>
+  // : T extends readonly unknown[]
+  // ? WidenTuple<T>
+  : never;
 
 /**
  * **Widen**<T>
@@ -98,6 +129,8 @@ export type Widen<T> = [IsUnion<T>] extends [true]
       : never
     
     : RemoveIndexKeys<T>
-  : Process<T>;
+  : T extends Scalar
+    ? WidenScalar<T>
+    : Process<T>;
 
 
