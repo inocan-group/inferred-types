@@ -1,10 +1,74 @@
 import {  ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import {  IsErrorCondition, IsWideType, Throw } from "src/types/index";
+import {  IsErrorCondition, IsWideContainer, IsWideScalar, IsWideType, KV, Throw } from "src/types/index";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
 // gain validation that no new type vulnerabilities have cropped up.
+
+describe("IsWideScalar<T>", () => {
+
+  it("happy path", () => {
+    type T1 = IsWideScalar<string>;
+    type T2 = IsWideScalar<boolean>;
+    type T3= IsWideScalar<number>;
+    type T4= IsWideScalar<null>;
+
+    type F1 = IsWideScalar<"foo">;
+    type F2 = IsWideScalar<true>;
+    type F3= IsWideScalar<42>;
+
+
+    type cases = [
+      ExpectTrue<T1>,
+      ExpectTrue<T2>,
+      ExpectTrue<T3>,
+      ExpectTrue<T4>,
+      
+      ExpectFalse<F1>,
+      ExpectFalse<F2>,
+      ExpectFalse<F3>,
+    ];
+    const cases: cases = [ 
+      true, true, true, true,
+      false, false, false
+    ];
+  });
+});
+
+describe("IsWideContainer<T>", () => {
+
+  it("happy path", () => {
+    type T1 = IsWideContainer<object>;
+    type T2 = IsWideContainer<KV>;
+    type T3 = IsWideContainer<Record<string, string>>;
+    type T4 = IsWideContainer<string[]>;
+    type T5 = IsWideContainer<readonly string[]>;
+    type T6 = IsWideContainer<readonly unknown[]>;
+
+    type F1 = IsWideContainer<{foo:1}>;
+    type F2 = IsWideContainer<[1,2]>;
+
+    type cases = [
+      ExpectTrue<T1>,
+      ExpectTrue<T2>,
+      ExpectTrue<T3>,
+      ExpectTrue<T4>,
+      ExpectTrue<T5>,
+      ExpectTrue<T6>,
+      
+      ExpectFalse<F1>,
+      ExpectFalse<F2>,
+    ];
+    const cases: cases = [ 
+      true, true, true, true, true, true,
+      false, false
+    ];
+  });
+
+});
+
+
 
 describe("IsWideType<T>", () => {
 

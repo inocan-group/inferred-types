@@ -19,6 +19,7 @@ describe("IsUnion<T>", () => {
     type F3 = IsUnion<true>;
     type F4 = IsUnion<string>;
     type F5 = IsUnion<number>;
+    type F6 = IsUnion<string[]>;
 
     type cases = [
       ExpectTrue<T1>,
@@ -30,10 +31,11 @@ describe("IsUnion<T>", () => {
       ExpectFalse<F3>,
       ExpectFalse<F4>,
       ExpectFalse<F5>,
+      ExpectFalse<F6>,
     ];
     const cases: cases = [
       true, true, true,
-      false, false, false, false, false
+      false, false, false, false, false, false
     ];
   });
 

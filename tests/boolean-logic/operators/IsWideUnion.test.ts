@@ -14,6 +14,7 @@ describe("IsWideUnion<T>", () => {
     type Bool = IsWideUnion<boolean>;
 
     type Mixed = IsWideUnion<"foo" | number>;
+    type Mixed2 = IsWideUnion<"foo" | boolean>;
     type AllLit = IsWideUnion<"foo" | "bar">;
     type AllWide = IsWideUnion<string | number>;
     
@@ -22,12 +23,13 @@ describe("IsWideUnion<T>", () => {
       ExpectFalse<Bool>,
 
       ExpectFalse<Mixed>,
+      ExpectFalse<Mixed2>,
       ExpectFalse<AllLit>,
       ExpectTrue<AllWide>
     ];
     const cases: cases = [
       false, false,
-      false, false, true
+      false, false, false, true
     ];
   });
 
