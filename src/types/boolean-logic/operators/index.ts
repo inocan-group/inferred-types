@@ -67,6 +67,7 @@ export * from "./IsFnWithParams";
 export * from "./IsContainer";
 export * from "./NotLength";
 export * from "./HasCharacters";
+export * from "./HasOtherCharacters";
 export * from "./IsReadonlyObject";
 export * from "./AreSameLength";
 export * from "./HasWideValues";
