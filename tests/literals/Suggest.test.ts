@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { Equal, Expect } from "@type-challenges/utils";
-import { describe, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import { Suggest } from "src/types/index";
 
@@ -9,8 +9,23 @@ import { Suggest } from "src/types/index";
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("Suggest<T>", () => {
+  
+  it("type tests for Suggest<T>", () => {
+    type FooBar = Suggest<["foo", "bar"]>;
+    type FooBarUnion = Suggest<"foo" | "bar">;
+    
+    type cases = [
+      Expect<Equal<FooBar, "foo" | "bar" | (string & {})>>,
+      Expect<Equal<FooBarUnion, "foo" | "bar" | (string & {})>>,
+    ];
+    const cases: cases = [
+      true, true
+    ];
+    
+  });
+  
 
-  it("happy path", () => {
+  it("runtime tests for Suggest<T>", () => {
     type Choice = Suggest<"foo" | "bar" | "baz">;
 
     const fn = <T extends Choice>(choose: T) => choose;
@@ -18,6 +33,9 @@ describe("Suggest<T>", () => {
 
     const foo = fn("foo");
     const nuts = fn("nuts");
+
+    expect(foo).toBe("foo");
+    expect(nuts).toBe("nuts");
 
     type cases = [
       Expect<Equal<PFn, [choose: "foo" | "bar" | "baz" | (string & {})] >>,

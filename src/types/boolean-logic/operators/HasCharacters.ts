@@ -1,17 +1,12 @@
-import type {  IsUnion, UnionToTuple, IsStringLiteral,  AllStringLiterals, AsArray, Or, And } from "src/types/index";
-
-type _HasChar<
-  TStr extends string,
-  TChars extends readonly string[],
-  TOp extends "any" | "all"
-> = TOp extends "any"
-? Or<{
-    [K in keyof TChars]: TStr extends `${string}${TChars[K]}${string}` ? true : false
-  }>
-: And<{
-    [K in keyof TChars]: TStr extends `${string}${TChars[K]}${string}` ? true : false
-  }>;
-
+import type {  
+  IsUnion, 
+  UnionToTuple, 
+  IsStringLiteral,  
+  AllStringLiterals, 
+  AsArray, 
+  Or, 
+  And 
+} from "src/types/index";
 
 type Process<
   TStr extends string,

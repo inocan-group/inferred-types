@@ -2,8 +2,7 @@
 import type { Container, GetEach } from "src/types/index";
 
 import { Never } from "src/constants/index";
-import { isContainer, isErrorCondition, isNull } from "../type-guards/index";
-import { get } from "../dictionary/get";
+import { isContainer, isErrorCondition, isNull, get } from "src/runtime/index";
 
 export interface GetEachOptions<
   THandleErrors
@@ -27,26 +26,23 @@ export interface GetEachOptions<
 export function getEach<
   TList extends readonly unknown[],
   TDotPath extends string | null,
-  THandleErrors = "ignore",
 >(
   list: TList, 
   dotPath: TDotPath, 
-  options?: GetEachOptions<THandleErrors>
-): GetEach<TList, TDotPath> {
-  options = {
-    handleErrors: "ignore" as THandleErrors,
-    ...options,
-  };
+): GetEach<[...TList], TDotPath> {
   
-  return list
+  const result: unknown =  list
     .map(i => isNull(dotPath)
         ? i
         : isContainer(i)
           ? get(i as Container, dotPath as TDotPath & string )
           : Never
       ) 
-    .filter(i => !isErrorCondition(i) || (options?.handleErrors !== "ignore")) as GetEach<
-      TList,
+    .filter(i => !isErrorCondition(i));
+    
+    return result as GetEach<
+      [...TList],
       TDotPath
     >;
 }
+

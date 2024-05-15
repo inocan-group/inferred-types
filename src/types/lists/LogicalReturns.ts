@@ -2,6 +2,16 @@
 
 import { LogicFunction } from "../functions";
 
+type Process<
+TValues extends readonly (boolean | LogicFunction)[],
+_TParams extends readonly unknown[] = []
+> = {
+[K in keyof TValues]: TValues[K] extends ((...args: any[]) => boolean)
+  ? ReturnType<TValues[K]>
+  : TValues[K]
+}
+
+
 /**
  * **LogicalReturns**`<TValues, TParams>`
  * 
@@ -15,8 +25,6 @@ import { LogicFunction } from "../functions";
 export type LogicalReturns<
   TValues extends readonly (boolean | LogicFunction)[],
   _TParams extends readonly unknown[] = []
-> = {
-  [K in keyof TValues]: TValues[K] extends ((...args: any[]) => boolean)
-    ? ReturnType<TValues[K]>
-    : TValues[K]
-}
+> = Process<TValues, _TParams> extends readonly boolean[]
+? Process<TValues, _TParams>
+: never;

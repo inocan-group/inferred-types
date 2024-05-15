@@ -21,6 +21,9 @@ describe("defineObj(literals)(wide) runtime utility", () => {
     const wideFnWithProps = defineObj()({fn: fnWithProps });
 
     expect(fooBarBaz).toEqual({foo: 1, bar: 2, baz: 3});
+    expect(narrowFn.fn()).toBe("hi");
+    expect(narrowFnWithProps.fn.foo).toBe(1);
+    expect(wideFnWithProps.fn.foo).toBe(1);
     
     type cases = [
       Expect<Equal<typeof fooBarBaz, { foo: 1; bar: number; baz: number }>>,

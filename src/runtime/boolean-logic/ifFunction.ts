@@ -1,4 +1,4 @@
-import { IfFunction, AnyFunction, Narrowable } from "src/types/index";
+import { AnyFunction, Narrowable, If, IsFunction } from "src/types/index";
 import { isFunction } from "../type-guards/isFunction";
 
 
@@ -18,11 +18,11 @@ export function ifFunction<
   value: TValue, 
   isFnCallback: (fn: TValue & AnyFunction) => Fn, 
   notFnCallback: (payload: Exclude<TValue, AnyFunction>) => NotFn
-): IfFunction<TValue, Fn, NotFn> {
+): If<IsFunction<TValue>, Fn, NotFn> {
   return (
     isFunction(value)
     ? isFnCallback(value)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     : notFnCallback(value as any)
-  ) as IfFunction<TValue, Fn, NotFn>;
+  ) as If<IsFunction<TValue>, Fn, NotFn>;
 }

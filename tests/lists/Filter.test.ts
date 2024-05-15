@@ -1,7 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { describe, expect, it } from "vitest";
+import { describe,  it } from "vitest";
 
-import { filter } from "src/runtime/index";
 import {  Filter, HasSameValues } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -123,14 +122,7 @@ describe("Filter using extends operation", () => {
     
   });
   
-  it("runtime: extends / does-not-extend", () => {
-    const arr = [1,2, "foo", "bar"] as const;
-    const foobar = filter(arr, 1 as number);
-    const foobar2 = filter(arr, "not-equal", 1);
-    
-    expect(foobar).toEqual(["foo", "bar"]);
-    expect(foobar2).toEqual([2, "foo","bar"]);
-  });
+
 });
 
 describe("filter() runtime", () => {

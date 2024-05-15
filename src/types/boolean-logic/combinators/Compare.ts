@@ -8,8 +8,10 @@ import {
   TupleToUnion, 
   EndsWith, 
   Tuple,
+  ErrorCondition,
+  Extends,
+  NumberLike,
 } from "src/types/index";
-
 
 /**
  * **ComparatorOperation**
@@ -20,12 +22,75 @@ import {
 export type ComparatorOperation = 
 | "extends"
 | "equals"
-| "contains"
-| "containsAll"
 | "startsWith"
 | "endsWith"
+| "contains"
+| "containsAll"
+| "greaterThan"
+| "greaterThanOrEqual"
+| "lessThan"
+| "lessThanOrEqual"
 | "returnEquals"
 | "returnExtends";
+
+/**
+ * **ParamsForComparison**`<T>`
+ * 
+ * Provides a lookup function on `T` of the _parameters_ required
+ * for a given `ComparatorOperation`.
+ */
+export type ParamsForComparison<
+  T extends ComparatorOperation
+> = 
+T extends "equals"
+? readonly [unknown]
+: T extends "extends"
+? readonly [unknown]
+: T extends "startsWith"
+?  [string | number]
+: T extends "endsWith"
+? readonly [[string | number] | Tuple<unknown, 1>]
+: T extends "contains"
+? readonly [unknown,...Tuple[]]
+: T extends "containsAll"
+? readonly [unknown,...Tuple[]]
+: T extends "greaterThan"
+? readonly [NumberLike]
+: T extends "greaterThanOrEqual"
+? readonly [NumberLike]
+: T extends "lessThan"
+? readonly [NumberLike]
+: T extends "lessThanOrEqual"
+? readonly [NumberLike]
+: never;
+
+/**
+ * **Comparison**`<TOp,TArgs>`
+ * 
+ * A strongly typed comparison which can be used in runtime utilities
+ * like `filter`, `retain`, and `map`. 
+ * 
+ * - typically generated with the `createComparison(op,...params)` runtime utility.
+ * 
+ * ```ts
+ * // Comparison<"equals",[true]>
+ * const isTrue = createComparison("equals", true);
+ * //
+ * const filtered = filter(isTrue)(listOfStuff);
+ * ```
+ */
+export type Comparison<
+  TOp extends ComparatorOperation = ComparatorOperation,
+  TArgs extends ParamsForComparison<TOp> = ParamsForComparison<TOp>
+> = Extends<TArgs, ParamsForComparison<TOp>> extends true
+? {
+    kind: "Comparison";
+    op: TOp;
+    args: TArgs;
+  }
+: ErrorCondition<"invalid-comparison">;
+
+
 
 type Unionize<T> = T extends readonly unknown[]
   ? TupleToUnion<T>

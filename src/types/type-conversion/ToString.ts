@@ -14,7 +14,7 @@ import {
 /**
  * **ToString**
  * 
- * Converts any type into a string representation.
+ * Converts _any_ type into a string representation.
  * This utility works as advertised but is in early stages
  * so expect it to be refined over time.
  * 
