@@ -7,6 +7,12 @@ type Underlying<T extends ErrorCondition> = "msg" extends keyof T
   : "no message"
 : "no message"
 
+type StackDesc<T extends ErrorCondition> = "stack" extends keyof T
+? T["stack"] extends readonly [string, ...string[]]
+  ? ` [ from  ${T["stack"][0]} ]`
+  : ""
+: "";
+
 /**
  * **ProxyError**`<TError,TUtility,[TGeneric]>`
  * 
@@ -30,8 +36,8 @@ export type ProxyError<
 > = Throw<
   TError["kind"],
   TGeneric extends string
-    ? `The "${TUtility}" type utility detected an ErrorCondition in the "${TGeneric}" property passed into it. The underlying error message was: ${Underlying<TError>}`
-    : `The "${TUtility}" type utility detected an ErrorCondition. The underlying error message was: ${Underlying<TError>}`,
+    ? `The "${TUtility}" type utility detected an ErrorCondition in the "${TGeneric}" property passed into it. The underlying error message${StackDesc<TError>} was: ${Underlying<TError>}`
+    : `The "${TUtility}" type utility detected an ErrorCondition. The underlying error message${StackDesc<TError>} was: ${Underlying<TError>}`,
     TUtility,
     { underlying: TError }
 >

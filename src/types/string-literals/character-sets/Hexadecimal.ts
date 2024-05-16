@@ -1,21 +1,25 @@
-import { IsStringLiteral, NotCharacters , StripLeading , Suggest , NumericChar } from "src/types/index";
+import { 
+  Suggest, 
+  NumericChar, 
+} from "src/types/index";
 
 /**
  * Valid hexadecimal character
+ * 
+ * **Related:** `IsHexadecimal`, `Hexadecimal`, `SuggestHexadecimal`
  */
 export type HexadecimalChar = NumericChar | "A" | "B" | "C" | "D" | "E" | "F" | "a" | "b" | "c" | "d" | "e" | "f";
 
 /**
- * **Hexadecimal**`<T>`
+ * **Hexadecimal**
  * 
- * Ensures that `T` is a valid hexadecimal and converts to **never**
- * otherwise.
+ * A decent approximation for typing a _hexadecimal_ number representation.
+ * For stronger type checking use `IsHexadecimal<T>`
  */
-export type Hexadecimal<T extends string> = IsStringLiteral<T> extends true
-  ? NotCharacters<StripLeading<T, "#">, HexadecimalChar> extends true
-    ? never
-    : T
-  : never;
+export type Hexadecimal = `#${HexadecimalChar}${HexadecimalChar}${string}`
+
+
+  
 
 /**
  * A string suggestion for hexadecimal types

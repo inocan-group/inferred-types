@@ -11,6 +11,8 @@ import {
   If,
   TupleToUnion,
   UnionToTuple,
+  Passthrough,
+  AsString,
 } from "src/types/index";
 
 type Get<
@@ -45,10 +47,14 @@ type Process<
         Not<Contains<TResults, First<TValues>>>,
         // a non-scalar must consider deref setting
         Not<Contains<
-          IfNever<
-            TDeref, 
-            TResults, 
-            GetEach<TResults, TDeref>
+          Passthrough<
+            IfNever<
+              TDeref, 
+              TResults, 
+              GetEach<TResults, AsString<TDeref>>
+            >,
+            string | number | readonly unknown[],
+            never
           >,
           Get<First<TValues>,TDeref>
         >> 

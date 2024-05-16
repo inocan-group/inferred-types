@@ -38,11 +38,11 @@ export type DateTimeSeconds<
  * datetime representation.
  */
 export type DateTime<
+  TResolution extends TimeResolution = "HH:MM:SS",
   TNomenclature extends TimeNomenclature = "either",
-  TResolution extends TimeResolution | "all" = "all",
   TTimezone extends TypeRequired = "exclude",
   TSep extends DateSeparator = "-"
-> = `${YMD<"simple",TSep>} ${Time<TNomenclature,TResolution,TTimezone>}`;
+> = `${YMD<"simple",TSep>} ${Time<TResolution,TNomenclature,{timezone: TTimezone}>}`;
 
 
 /**

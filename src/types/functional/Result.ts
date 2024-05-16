@@ -11,7 +11,9 @@ import {
   DoesExtend, 
   If, 
   IsFunction,
-  Something
+  Something,
+  IsEqual,
+  And
 } from "src/types/index";
 
 import { RESULT } from "src/constants/index";
@@ -221,7 +223,8 @@ export type IsResult<
   TVal = unknown,
   TErr extends ErrInput = ErrInput
 > = TTest extends ResultTuple
-? IfEqual<_IsResult<TTest,TVal,TErr>, boolean, 
+? If<
+    IsEqual<_IsResult<TTest,TVal,TErr>, boolean>, 
       false,
       _IsResult<TTest,TVal,TErr>
     >
@@ -248,8 +251,8 @@ export type IsOk<
 export type IsErr<
   TTest,
   TErr extends ErrInput = ErrInput
-> = IfAnd<
-      [
+> = If<
+      And<[
         DoesExtend<TTest, { state: ERR }>,
         TTest extends { err: {kind: string}}
         ? AsErr<TErr> extends  { kind: string}
@@ -258,7 +261,7 @@ export type IsErr<
             : false
           : true
         : true
-      ],
+      ]>,
       true,
       false
 >
@@ -294,7 +297,7 @@ export type ResultApi<
    * 
    * A type guard which helps to _narrow_ a `Result` type into the `Ok` variant.
    */
-  isOk: TypeGuard<Ok<T>, IfEquals<T, unknown, Narrowable, T>>;
+  isOk: TypeGuard<Ok<T>, IsEqual<T, unknown> extends true ? Narrowable : T >;
   /**
    * **isErr**(val)
    * 

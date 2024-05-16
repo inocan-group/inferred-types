@@ -10,7 +10,8 @@ import {
   AsFunction,
   ExpandRecursively,
   ShapeCallback,
-  IsFunction
+  IsFunction,
+  AsString
 } from "src/types/index";
 
 
@@ -99,11 +100,11 @@ export type MultipleChoice<
           ? TChoices[T] 
           : never
       ],
-      If<
+      AsString<If<
         IsTrue<TForceUnique>,
         TExclude | T, 
         TExclude
-      >
+      >>
     >;
   /** return the selected choices */
   done: () => TState;

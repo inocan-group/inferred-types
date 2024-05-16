@@ -4,6 +4,7 @@ import { describe, it } from "vitest";
 import { 
   CivilianTime,
   DoesExtend, 
+  DoesNotExtend, 
   HoursMinutes, 
   HoursMinutes12, 
   HoursMinutesSeconds, 
@@ -23,6 +24,24 @@ import {
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("Time types", () => {
+  
+  it("Time<TResolution>", () => {
+    type cases = [
+      Expect<DoesExtend<"09:45", Time<"HH:MM">>>,
+      Expect<DoesExtend<"09:45pm", Time<"HH:MM">>>,
+      Expect<DoesExtend<"9:45pm", Time<"HH:MM">>>,
+      Expect<DoesExtend<"13:00", Time<"HH:MM">>>,
+
+      Expect<DoesNotExtend<"13:00pm", Time<"HH:MM">>>,
+
+    ];
+    const cases: cases = [
+      true, true, true, true,
+      true,
+    ];
+    
+  });
+  
 
   it("HoursMinutes", () => {
     // valid times
@@ -91,16 +110,16 @@ describe("Time types", () => {
 
   it("HoursMinutes12<upper>", () => {
     // valid times
-    type V0 = DoesExtend<"09:45AM", HoursMinutes12<"upper">>;
-    type V1 = DoesExtend<"9:45AM", HoursMinutes12<"upper">>;
-    type V2 = DoesExtend<"10:45AM", HoursMinutes12<"upper">>;
-    type V3 = DoesExtend<"12:45PM", HoursMinutes12<"upper">>;
+    type V0 = DoesExtend<"09:45AM", HoursMinutes12<{amPmCase: "upper"}>>;
+    type V1 = DoesExtend<"9:45AM", HoursMinutes12<{amPmCase: "upper"}>>;
+    type V2 = DoesExtend<"10:45AM", HoursMinutes12<{amPmCase: "upper"}>>;
+    type V3 = DoesExtend<"12:45PM", HoursMinutes12<{amPmCase: "upper"}>>;
     // invalid times
-    type IV0 = DoesExtend<"13:45PM", HoursMinutes12<"upper">>;
-    type IV1 = DoesExtend<"0:45PM", HoursMinutes12<"upper">>;
-    type IV2 = DoesExtend<"9:85PM", HoursMinutes12<"upper">>;
-    type IV3 = DoesExtend<"21:45PM", HoursMinutes12<"upper">>;
-    type IV4 = DoesExtend<"21:45", HoursMinutes12<"upper">>;
+    type IV0 = DoesExtend<"13:45PM", HoursMinutes12<{amPmCase: "upper"}>>;
+    type IV1 = DoesExtend<"0:45PM", HoursMinutes12<{amPmCase: "upper"}>>;
+    type IV2 = DoesExtend<"9:85PM", HoursMinutes12<{amPmCase: "upper"}>>;
+    type IV3 = DoesExtend<"21:45PM", HoursMinutes12<{amPmCase: "upper"}>>;
+    type IV4 = DoesExtend<"21:45", HoursMinutes12<{amPmCase: "upper"}>>;
     
     type cases = [
       ExpectTrue<V0>,
@@ -122,16 +141,16 @@ describe("Time types", () => {
 
   it("HoursMinutes12<bare>", () => {
     // valid times
-    type V0 = DoesExtend<"09:45", HoursMinutes12<"bare">>;
-    type V1 = DoesExtend<"9:45", HoursMinutes12<"bare">>;
-    type V2 = DoesExtend<"10:45", HoursMinutes12<"bare">>;
-    type V3 = DoesExtend<"12:45", HoursMinutes12<"bare">>;
+    type V0 = DoesExtend<"09:45", HoursMinutes12<{amPmCase: "bare"}>>;
+    type V1 = DoesExtend<"9:45", HoursMinutes12<{amPmCase: "bare"}>>;
+    type V2 = DoesExtend<"10:45", HoursMinutes12<{amPmCase: "bare"}>>;
+    type V3 = DoesExtend<"12:45", HoursMinutes12<{amPmCase: "bare"}>>;
     // invalid times
-    type IV0 = DoesExtend<"13:45", HoursMinutes12<"bare">>;
-    type IV1 = DoesExtend<"0:45", HoursMinutes12<"bare">>;
-    type IV2 = DoesExtend<"9:85", HoursMinutes12<"bare">>;
-    type IV3 = DoesExtend<"21:45", HoursMinutes12<"bare">>;
-    type IV4 = DoesExtend<"21:45pm", HoursMinutes12<"bare">>;
+    type IV0 = DoesExtend<"13:45", HoursMinutes12<{amPmCase: "bare"}>>;
+    type IV1 = DoesExtend<"0:45", HoursMinutes12<{amPmCase: "bare"}>>;
+    type IV2 = DoesExtend<"9:85", HoursMinutes12<{amPmCase: "bare"}>>;
+    type IV3 = DoesExtend<"21:45", HoursMinutes12<{amPmCase: "bare"}>>;
+    type IV4 = DoesExtend<"21:45pm", HoursMinutes12<{amPmCase: "bare"}>>;
     
     
     type cases = [
@@ -243,7 +262,7 @@ describe("Time types", () => {
   // but then roll it into a more simply typed form for performance
   // later
   it("TimeInSeconds<military>: defined as strong, maps to simple", () => {
-    type Simple = TimeInSeconds<"military", "simple">;
+    type Simple = TimeInSeconds<"military", {strength: "simple"}>;
     // type C = TimeInSeconds<"civilian">;
     // type CS = TimeInSeconds<"civilian", "simple">;
     const getTime = <T extends TimeInSeconds<"military">>(time: T) => time; 

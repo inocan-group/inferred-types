@@ -1,5 +1,13 @@
 import { IsEqual , IsNever } from "src/types/index";
 
+type Process<T,
+TNever
+> = [IsNever<T>] extends [true]
+? TNever
+: [IsEqual<T, true>] extends [true]
+? true
+: false;
+
 /**
  * **IsTrue**`<T,[TNever]>`
  * 
@@ -16,8 +24,4 @@ import { IsEqual , IsNever } from "src/types/index";
 export type IsTrue<
   T,
   TNever = never
-> = [IsNever<T>] extends [true]
-? TNever
-: [IsEqual<T, true>] extends [true]
-  ? true
-  : false;
+> = Process<T, TNever>;

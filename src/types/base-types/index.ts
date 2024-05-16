@@ -20,6 +20,7 @@ export * from "./FalsyValue";
 export * from "./ObjectKey";
 export * from "./NarrowObject";
 export * from "./KV";
+export * from "./NonArray"
 
 export * from "./fns/index";
 export * from "./functional/index";

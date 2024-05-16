@@ -42,6 +42,27 @@ describe("Iff<TValues,[TIgnore],[TOffset],[TNotFound]>", () => {
     ];
     
   });
+
+  
+  it("using a non-array to test for existence", () => {
+    type NotFound = Iff<null>;
+    type NotFound2 = Iff<undefined>;
+    type Found = Iff<42>;
+    type Found2 = Iff<string>;
+
+    
+    type cases = [
+      ExpectTrue<IsErrorCondition<NotFound, "not-found">>,
+      ExpectTrue<IsErrorCondition<NotFound2, "not-found">>,
+      Expect<Equal<Found, 42>>,
+      Expect<Equal<Found2, string>>,
+    ];
+    const cases: cases = [
+      true, true, true, true
+    ];
+    
+  });
+  
   
 
 });

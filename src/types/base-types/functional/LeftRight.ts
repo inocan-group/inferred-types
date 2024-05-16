@@ -1,4 +1,4 @@
-import { AsError, Concat, Contains, IfEqual, Includes, Defined, Tuple, NarrowlyContains } from "src/types/index";
+import { AsError, Concat, Contains, IfEqual, Defined, Tuple, NarrowlyContains } from "src/types/index";
 
 type left = 1;
 type right = 2;
@@ -108,7 +108,7 @@ export type LeftIncludes<
   TLeftRight extends LeftRight
 > = TLeftRight[left] extends string
 ? TEval extends string | readonly string[]
-    ? Includes<TEval,TLeftRight[left]>
+    ? Contains<TEval,TLeftRight[left]>
     : false
 : false;
 
@@ -175,7 +175,7 @@ export type RightIncludes<
   TLeftRight extends LeftRight
 > = TLeftRight[right] extends string
 ? TEval extends string | readonly string[]
-  ? Includes<TEval,TLeftRight[right]>
+  ? Contains<TEval,TLeftRight[right]>
   : false
 : false;
 

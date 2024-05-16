@@ -1,4 +1,13 @@
-import {  If, IsNumber, IsString, AfterFirst, First, ToString, StringLiteralToken, AllLiteral, If } from "src/types/index";
+import {  
+  If, 
+  IsNumber, 
+  AfterFirst, 
+  First, 
+  ToString, 
+  StringLiteralToken, 
+  AllLiteral,
+  Passthrough
+} from "src/types/index";
 
 
 type _Tokenize<
@@ -23,10 +32,14 @@ type _Tokenize<
         AfterFirst<T>,
         [
           ...Results,
-          If<
-            IsString<First<T>>, 
-            "<string>", 
-            If<IsNumber<First<T>>, "<number>", "<boolean>">
+          Passthrough<
+            If<
+              First<T> extends string ? true : false, 
+              "<string>", 
+              If<IsNumber<First<T>>, "<number>", "<boolean>">
+            >,
+            StringLiteralToken,
+            never
           >
         ]
       >

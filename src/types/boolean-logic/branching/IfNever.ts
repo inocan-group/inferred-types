@@ -10,4 +10,4 @@ export type IfNever<
   T,
   IF,
   ELSE = T
-> = IsNever<T> extends true ? IF : ELSE;
+> = [IsNever<T>] extends [true] ? IF : ELSE;

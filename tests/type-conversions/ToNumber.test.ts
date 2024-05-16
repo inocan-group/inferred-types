@@ -90,7 +90,7 @@ describe("ToNumber<T>", () => {
     type cases = [
       Expect<Equal<typeof str, 42>>,
       Expect<Equal<typeof passthrough, 42>>,
-      Expect<Equal<typeof emptyArr,  number[]>>,
+      Expect<Equal<typeof emptyArr,  readonly number[]>>,
       Expect<Equal<typeof goodArr, readonly [1,2,3]>>,
       Expect<Equal<typeof mixedArr, readonly [1,never,2]>>,
 

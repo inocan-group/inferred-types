@@ -21,7 +21,7 @@ describe("Validate<T>", () => {
     type F5 = Validate<IsDotPath<"abc*", "/foobar">>;
     type F6 = Validate<IsDotPath<"abc...def","abc...def">>;
 
-    type E1 = Validate<IsDotPath<string,string>>;
+    type E1 = Validate<IsDotPath<"foobar",string>>;
 
 
     type cases = [

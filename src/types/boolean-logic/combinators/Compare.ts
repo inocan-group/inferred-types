@@ -11,6 +11,8 @@ import {
   ErrorCondition,
   Extends,
   NumberLike,
+  AnyFunction,
+  KV,
 } from "src/types/index";
 
 /**
@@ -81,12 +83,14 @@ T extends "equals"
  */
 export type Comparison<
   TOp extends ComparatorOperation = ComparatorOperation,
-  TArgs extends ParamsForComparison<TOp> = ParamsForComparison<TOp>
+  TArgs extends ParamsForComparison<TOp> = ParamsForComparison<TOp>,
+  TFn extends AnyFunction<any[], boolean, KV> = AnyFunction<any[], boolean, KV>
 > = Extends<TArgs, ParamsForComparison<TOp>> extends true
 ? {
     kind: "Comparison";
     op: TOp;
     args: TArgs;
+    fn: TFn;
   }
 : ErrorCondition<"invalid-comparison">;
 

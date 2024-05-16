@@ -1,4 +1,18 @@
-import { If, StartsWith, AfterFirst, First, AlphaChar, Bracket, ClosingBracket, Digit, LowerAlphaChar, OpeningBracket, StripLeading, UpperAlphaChar, StringLiteralToken } from "src/types/index";
+import { 
+  If, 
+  StartsWith, 
+  AfterFirst, 
+  First, 
+  AlphaChar, 
+  Bracket, 
+  ClosingBracket, 
+  Digit, 
+  LowerAlphaChar, 
+  OpeningBracket, 
+  StripLeading, 
+  UpperAlphaChar, 
+  StringLiteralToken
+} from "src/types/index";
 
 type _Tokenize<T extends StringLiteralToken> = //
   If<
@@ -24,7 +38,11 @@ type _Convert<
 ? Type
 : _Convert<
     AfterFirst<T>,
-    `${Type}${_Tokenize<First<T>>}`
+    _Tokenize<First<T>> extends string
+    ? `${Type}${_Tokenize<First<T>>}` extends StringLiteralToken
+      ? `${Type}${_Tokenize<First<T>>}`
+      : never
+    : never
   >;
 
 /**

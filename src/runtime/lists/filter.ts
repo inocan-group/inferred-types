@@ -31,6 +31,8 @@ export const createFilter = <
 >(list: TList) => {
   let result: unknown;
 
+  
+
   switch(op) {
     case "equals":
       result = list.filter(i => i === comparator);

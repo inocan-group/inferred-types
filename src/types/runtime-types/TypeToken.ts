@@ -2,11 +2,11 @@ import {
   Surround, 
   TupleToUnion , 
   Date,
-  Time,
   DateTime,
   IsNull,
   If,
-  Retain
+  Retain,
+  TimeLike
 } from "src/types/index";
 import { 
   TYPE_TOKEN_IDENTITIES, 
@@ -39,7 +39,7 @@ type TT = Readonly<[
   ...Surround<typeof TYPE_TOKEN_PARAM_CSV, "<<", `:${string}>>`>,
   ...Surround<typeof TYPE_TOKEN_PARAM_DATETIME, "<<", `:${DateTime}>>`>,
   ...Surround<typeof TYPE_TOKEN_PARAM_DATE, "<<", `:${Date}>>`>,
-  ...Surround<typeof TYPE_TOKEN_PARAM_TIME, "<<", `:${Time}>>`>,
+  ...Surround<typeof TYPE_TOKEN_PARAM_TIME, "<<", `:${TimeLike}>>`>,
 ]>;
 
 /**

@@ -1,70 +1,128 @@
+/* eslint-disable no-use-before-define */
 
 import { 
   AnyFunction, 
   AnyObject, 
-  Nothing, 
-  IfNever, 
   IsStringLiteral, 
   IsEqual,
   IsNumericLiteral,
-  IsBooleanLiteral,
   IsLiteral,
   IsUnion,
   If,
   UnionToTuple,
-  Concat,
   Join,
-  IsTuple
+  IsTuple,
+  IsNever,
+  IsTrue,
+  Surround,
+  IsObjectLiteral,
+  Keys,
+  AfterFirst,
+  First,
+  AsString,
+  IsBooleanLiteral,
+  KV
 } from "src/types/index";
 
-/**
- * **TypeFormat**
- * 
- * Options for how you'd like to parse a type at runtime.
- * 
- * - `normal` represents like you'd typically see them in your editor:
- *    - a _wide string_ type would just show as `string`
- *    - a _string literal_ would show like `"foo"`, `"42"`, etc 
- *    - whereas a numeric literal would show like `42` (without quotes)
- * - `tokenized` representation is the type as it would be defined by
- * the runtime utility `type()`.
- */
-export type TypeFormat = "normal" | "tokenized"
+
+type DescribeUnion<
+  T extends readonly unknown[]
+> = Join<{
+  [K in keyof T]: Describe<T[K]>
+}, " | ">;
 
 type Describe<
-  T,
-  _TFormat extends TypeFormat = "normal"
-> = IfNever<
-T, "never",
-IsEqual<T, Nothing> extends true ? "nothing"
-: T extends string ? If<
-    IsStringLiteral<T>,
-    `string-literal(${T})`,
-    "string"
-  >
-: T extends number ? If<
-    IsNumericLiteral<T>, 
-    `numeric-literal(${T})`, 
-    "number"
-  >
-: T extends boolean ? If<IsBooleanLiteral<T>, T extends true ? "true" : "false", "boolean">
-: T extends AnyFunction ? "function"
-: T extends unknown[] 
-  ? IsTuple<T> extends true ? Concat<["tuple[", Join<T, ", ", 3>, "]"]> : "array"
-: T extends AnyObject | object ? If<IsLiteral<T>, "object-literal", "object">
-: T extends symbol ? "symbol" 
-: IsEqual<T,null> extends true  ? "null"
-: IsEqual<T,undefined> extends true  ? "undefined"
-: T extends unknown ? "unknown"
-: "never"
+  T
+> = If<
+  IsNever<T>, 
+  "never",
+  [T] extends [string] ? If<IsStringLiteral<T>,`'${T}'`,"string">
+    : [T] extends [boolean] 
+    ? If<IsTrue<T>, "true", If<IsBooleanLiteral<T>, "false", "boolean">>
+    : IsEqual<T,null> extends true  ? "null"
+    : IsEqual<T,undefined> extends true  ? "undefined"
+    : IsEqual<T, unknown> extends true ? "unknown"
+    : [T] extends [number] ? If<IsNumericLiteral<T>, `${T}`, "number">
+    : [T] extends [AnyFunction] ? "function"
+    : [T] extends [AnyObject] ? If<IsLiteral<T>, "{ ... }", "object">
+    : [T] extends [symbol] ? "symbol" 
+    : "non-identified-type"
 >;
 
-type HandleUnion<
+type ProcessUnionArray<
   T extends readonly unknown[]
-> = {
-  [K in keyof T]: Describe<T[K]>
-}
+> = `(${DescribeUnion<T>})[]`
 
+type HandleWideArray<
+  T extends unknown[]
+> = T extends (infer U)[]
+? IsUnion<U> extends true
+  ? ProcessUnionArray<UnionToTuple<U>>
+  : U extends string ? "string[]"
+  : U extends number ? "number[]"
+  : U extends boolean ? "boolean[]"
+  : "unknown[]"
+: never;
+
+
+type DescribeArray<
+  T extends unknown[]
+> = IsTuple<T> extends true
+? Surround<
+    Join<{
+      [K in keyof T]: Describe<T[K]>
+    }, ", ">,
+    "[", "]"
+  >
+: HandleWideArray<T>;
+
+type ObjKey<T extends string | symbol | number> = T extends string
+? T
+: T extends number  
+? AsString<T>
+: "symbol";
+
+type HandleObjLiteral<
+  TObj extends object,
+  TKeys extends readonly (keyof TObj)[],
+  TResult extends string = ""
+> = [] extends TKeys
+? `{ ${TResult} }`
+: HandleObjLiteral<
+    TObj,
+    AfterFirst<TKeys>,
+    TResult extends ""
+    ? `${ObjKey<First<TKeys>>}: ${AsString<Describe<TObj[First<TKeys>]>>}`
+    : `${TResult}; ${ObjKey<First<TKeys>>}: ${AsString<Describe<TObj[First<TKeys>]>>}`
+  >;
+
+type RecordKey<
+  K extends PropertyKey
+> = IsUnion<K> extends true
+? Join<UnionToTuple<K>, "|">
+: Describe<K>;
+
+type RecordValue<T> = AsString<Describe<T>>;
+
+type BuildRecord<
+  K extends PropertyKey,
+  V
+> = RecordKey<K> extends string
+? RecordValue<V> extends string
+? `Record<${RecordKey<K>}, ${RecordValue<V>}>`
+: never
+: never;
+
+
+type DescribeObj<
+  T extends object
+> = IsObjectLiteral<T> extends true
+  ? HandleObjLiteral<T, Keys<T> extends readonly (keyof T)[] ? Keys<T> : never>
+  : IsEqual<T, object> extends true ? "object"
+  : IsEqual<T, KV> extends true ? "Record<string | symbol, unknown>"
+  : [T] extends [Record<infer K, infer V>]
+      ? BuildRecord<K,V>
+    : "object";
 
 /**
  * **DescribeType**`<T>`
@@ -75,43 +133,13 @@ type HandleUnion<
  * defined from the `type()` runtime utility in this library as the
  * underlying type
  */
-export type DescribeType<T> = IfNever<
-  T,
-  "never",
-  If<
-    IsUnion<T>,
-    UnionToTuple<T> extends readonly unknown[]
-      ? Concat<[
-          "union(",
-          HandleUnion<UnionToTuple<T>>,
-          ")"
-        ]>
-      : never,
-    Describe<T>
-  >
->;
+export type DescribeType<T> = IsNever<T> extends true
+  ? "never"
+  : IsUnion<T> extends true
+    ? DescribeUnion<UnionToTuple<T>>
+  : T extends unknown[]
+      ? DescribeArray<T>
+  : T extends object
+    ? DescribeObj<T>
+    : Describe<T>;
 
-/**
- * **DescribeTypeNarrowly**`<T>`
- * 
- * Describes the type in string form. The description
- * attempts to segment all literal types from their wide
- * counterparts.
- * 
- * **Related:** `DescribeType` 
- */
-export type DescribeTypeNarrowly<T> = IfNever<
-T,
-"never",
-IsEqual<T, boolean> extends true
-  ? "boolean"
-  : If<
-      IsUnion<DescribeNarrow<T>>,
-      Concat<[
-        "union(",
-        Join<UnionToTuple<DescribeNarrow<T>>, " | ">,
-        ")" 
-      ]>,
-      DescribeNarrow<T>
-    >
->;

@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { 
-  Container,
   EmptyObject, 
   ExpandRecursively, 
   RemoveNever
@@ -25,6 +24,10 @@ export interface TypeErrorInfo<
    * a _value_ involved in the ErrorCondition
    */
   value?: any | readonly any[];
+
+  extends?: any | readonly any[];
+
+  doesNotExtend?: any | readonly any[];
 
   values?: readonly unknown[];
 

@@ -80,3 +80,4 @@ export * from "./IsLiteralUnion";
 export * from "./IsNonLiteralUnion";
 export * from "./HasRequiredProps";
 export * from "./IsValidDotPath";
+export * from "./IsHexadecimal";

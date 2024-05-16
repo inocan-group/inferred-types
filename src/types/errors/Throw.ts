@@ -1,7 +1,9 @@
-import { EmptyObject } from "../base-types";
-import { IfNever } from "../boolean-logic";
-import { KebabCase } from "../sets/string-literals";
-import { ErrorCondition, TypeErrorInfo } from "./ErrorCondition";
+import { 
+  ErrorCondition, 
+  TypeErrorInfo, 
+  IfNever, 
+  EmptyObject 
+} from "src/types/index";
 
 type Stack<
   TRest extends TypeErrorInfo

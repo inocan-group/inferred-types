@@ -4,13 +4,11 @@ import { PLURAL_EXCEPTIONS } from "src/constants/index";
 import { 
   Consonant, 
   IsStringLiteral, 
-  If,
   EnsureTrailing, 
   StripTrailing,
-  Mutable
 } from "src/types/index";
 
-type ExceptionLookup = Mutable<typeof PLURAL_EXCEPTIONS>;
+type ExceptionLookup = typeof PLURAL_EXCEPTIONS;
 
 type SingularNoun = "s" | "sh" | "ch" | "x" | "z" | "o";
 type F = "f" | "fe";

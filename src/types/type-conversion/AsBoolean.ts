@@ -1,11 +1,12 @@
-import { ErrorCondition} from "src/types/index";
+import {  Throw} from "src/types/index";
 
 export type AsBoolean<T> = T extends boolean
   ? T
   : boolean extends T
   ? T
-  : ErrorCondition<
+  : Throw<
       "invalid-conversion",
       `The AsBoolean<T> utility was provided a variable which was not convertible to boolean!`,
-      { context: { variable: T }}
+      "AsBoolean",
+      { value: T }
     >;
