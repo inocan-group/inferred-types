@@ -27,6 +27,11 @@ export type Mutable<T> = [T] extends [readonly unknown[]]
 
 
 
+/**
+ * **Immutable**`<T>`
+ * 
+ * Makes a mutable value immutable.
+ */
 export type Immutable<T extends { [propName:string]: unknown }> ={
   readonly [key in keyof T]: T[key] extends { [propName:string]: unknown }
     ? Immutable<T[key]>

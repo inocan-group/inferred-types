@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { AfterFirst, Container, First, IndexOf, Throw } from "../..";
+import { AfterFirst, AsArray, Container, First, IndexOf, NonArray, Nothing, Throw } from "../..";
 
 type ProcessContainers<
   TValues extends readonly (Container | TIgnore)[],
@@ -27,29 +27,29 @@ type Process<
  * 
  * Looks through a list of values -- `TValues` -- until it finds
  * the first one which _does not_ extend `TIgnore` (which is by 
- * default set to _undefined_).
+ * default set to null or undefined).
  * 
  * If it reaches the end without finding a value to use it will 
  * fall back on the `TNotFound` value which is `ErrorCondition<"not-found">`
  * by default.
  */
 export type Iff<
-  TValues extends readonly unknown[],
-  TIgnore = undefined,
+  TValues extends NonArray | readonly unknown[],
+  TIgnore = Nothing,
   TOffset extends PropertyKey | null = null,
   TNotFound = Throw<
     "not-found", 
     `Call to Iff utility resulted in no valid results`,
     "Iff",
-    { library: "inferred-types"; values: TValues }
+    { library: "inferred-types"; values: AsArray<TValues> }
   >
 > = TOffset extends PropertyKey
 ? TValues extends readonly (Container | TIgnore)[]
-  ? ProcessContainers<TValues, TIgnore, TOffset, TNotFound>
+  ? ProcessContainers<AsArray<TValues>, TIgnore, TOffset, TNotFound>
   : Throw<
       "invalid-values",
       `When calling Iff with a TOffset set; the TValues generic must contain a tuple of containers!`,
       "Iff",
-      { library: "inferred-types"; values: TValues; offset: TOffset }
+      { library: "inferred-types"; values: AsArray<TValues>; offset: TOffset }
     >
-: Process<TValues,TIgnore,TNotFound>;
+: Process<AsArray<TValues>,TIgnore,TNotFound>;

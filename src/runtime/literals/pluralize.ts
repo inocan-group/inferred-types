@@ -59,13 +59,13 @@ const endingIn = <
  * will be pluralized along with the runtime value._
  */
 export const pluralize = <T extends string>(word: T): Pluralize<T> => {
-  return (
-    isException(word)
+  const result: unknown = isException(word)
     ? PLURAL_EXCEPTIONS[word as keyof typeof PLURAL_EXCEPTIONS]
     : endingIn(word, "is") || 
       endingIn(word, "singular-noun") || 
       endingIn(word, "f") ||
       endingIn(word, "y") ||
-      `${word}s` // add "s" if no other patterns match
-  ) as unknown as Pluralize<T>;
+      `${word}s`; // add "s" if no other patterns match
+
+  return result as Pluralize<T>;
 };

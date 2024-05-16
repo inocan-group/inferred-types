@@ -7,4 +7,5 @@ export * from "./IfEqual";
 export * from "./IfLength";
 export * from "./Passthrough";
 export * from "./Handle";
+export * from "./Default";
 export * from "./Iff";

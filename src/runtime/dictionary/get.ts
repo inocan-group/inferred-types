@@ -3,7 +3,6 @@ import type {
   DotPathFor, 
   Get, 
   Suggest, 
-  ReportError,
   AnyObject,
   Tuple,
 } from "src/types/index";
@@ -96,7 +95,7 @@ function getValue<
         ? value[idx] || defaultValue 
         : value[idx] 
       : hasHandler ? handleInvalid : invalidDotPath
-  ) as ReportError<Get<TValue, TDotPath>>;
+  ) as unknown as Get<TValue, TDotPath>;
 
   return current;
 }

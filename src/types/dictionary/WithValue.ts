@@ -3,9 +3,7 @@ import {
   Compare,
   ExpandRecursively,
   If, 
-  KV,
-  IsEqual,
-  EmptyObject
+  KV
 } from "src/types/index";
 import { RemoveMarked } from "../containers/RemoveMarked";
 
@@ -40,12 +38,4 @@ export type WithValue<
   TObj extends KV,
   TValue,
   TOp extends "equals" | "extends" = "extends"
-> = If<
-  IsEqual<
-    ExpandRecursively<Process<TObj,TValue,TOp>>, 
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    {}
-  >,
-  EmptyObject,
-  ExpandRecursively<Process<TObj,TValue,TOp>>
->;
+> = ExpandRecursively<Process<TObj,TValue,TOp>>

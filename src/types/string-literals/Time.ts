@@ -1,16 +1,16 @@
-import {  NumericChar, PlusMinus, TypeRequired, TypeStrength } from "src/types/index";
+import {  Default, EmptyObject, IndexOf, NumericChar, PlusMinus, TypeRequired, TypeStrength } from "src/types/index";
 
 type CivilianTwoDigitHour = "10" | "11" | "12";
-
-
 export type TimeResolution = "HH:MM" | "HH:MM:SS" | "HH:MM:SS.ms";
 export type TimeNomenclature = "military" | "civilian" | "either";
 export type AmPmCase = "lower" | "upper" | "bare";
 
 type ZeroToFive = "0" | "1" | "2" | "3" | "4" | "5";
 
+
+
 /**
- * **CivilianHours**
+ * **CivilianHours**`<[TFixedLengthHours]>`
  * 
  * The _hours_ used in the civilian clock (aka, 1-12)
  */
@@ -20,6 +20,35 @@ export type CivilianHours<
 ? `0${Exclude<NumericChar, "0">}` | CivilianTwoDigitHour
 : Exclude<NumericChar | CivilianTwoDigitHour, "0"> | `0${NumericChar}`;
 
+/**
+ * **CivilianTimeOptions**
+ * 
+ * The optional configuration for a civilian "time" type.
+ */
+export type CivilianTimeOptions = {
+  strength?: TypeStrength;
+  fixedLengthHours?: boolean;
+  timezone?: TypeRequired;
+  amPmCase?: AmPmCase;
+}
+
+/**
+ * **MilitaryTimeOptions**
+ * 
+ * The optional configuration for a military "time" type.
+ */
+export type MilitaryTimeOptions = Omit<CivilianTimeOptions, "amPmCase">;
+
+
+/**
+ * The user's options merged with default values
+ */
+type Opt<T extends MilitaryTimeOptions | CivilianTimeOptions> = {
+  strength: Default<IndexOf<T, "strength", undefined>, "strong">;
+  fixedLengthHours: Default<IndexOf<T, "fixedLengthHours", undefined>, false>;
+  timezone: Default<IndexOf<T, "timezone", undefined>, "exclude">;
+  amPmCase: Default<IndexOf<T, "amPmCase", undefined>, "lower">;
+}
 
 
 /**
@@ -82,6 +111,17 @@ export type TZ<
     ? `${PlusMinus}:${number}:${number}` | ""
     : `${PlusMinus}:${number}:${number}`;
 
+/**
+ * **TimeLike**
+ * 
+ * A representation of _time_ values which aims to keep the typing
+ * open to as many formats as possible but at the cost being somewhat
+ * less detailed in it's typing. 
+ * 
+ * **Related:** `Time`, `MilitaryTime`, `CivilianTime`
+ */
+export type TimeLike = `${number}:${number}${`:${number}` | ""}${" " | ""}${"am" | "pm" | "AM" | "PM" | ""}${`${PlusMinus}:${number}:${number}` | ""}`
+
 
 /**
  * **MilitaryHours**
@@ -94,8 +134,11 @@ export type MilitaryHours<
 ? `${"0" | "1"}${NumericChar}` | "20" | "21" | "22" | "23"
 : `${""|"0" | "1"}${NumericChar}` | "20" | "21" | "22" | "23";
 
+
+
+
 /**
- * **HoursMinutes**`<[TStr], [TTimezone]>`
+ * **HoursMinutes**`<[TOpt]>`
  * 
  * Time expressed as just hours and minutes in military time.
  * 
@@ -103,15 +146,13 @@ export type MilitaryHours<
  * with the optional `TTimezone` generic.
  */
 export type HoursMinutes<
-  TStr extends TypeStrength = "strong",
-  TFixedLengthHours extends boolean = false,
-  TTimezone extends TypeRequired = "exclude"
-> = TStr extends "strong"
-  ? `${MilitaryHours<TFixedLengthHours>}:${Minutes}${TZ<"strong", TTimezone>}`
-  : `${number}:${number}${TZ<"simple", TTimezone>}`;
+  TOpt extends MilitaryTimeOptions = Opt<EmptyObject>
+> = Opt<TOpt>["strength"] extends "strong"
+  ? `${MilitaryHours<Opt<TOpt>["fixedLengthHours"]>}:${Minutes}${TZ<"strong", Opt<TOpt>["timezone"]>}`
+  : `${number}:${number}${TZ<"simple", Opt<TOpt>["timezone"]>}`;
 
 /**
- * **HoursMinutes12**`<[TCase], [TStr], [TTimezone]>`
+ * **HoursMinutes12**`<[TOpt]>`
  * 
  * Time expressed as just hours and minutes using the 12 hour civilian nomenclature
  * and requiring that an `AmPm<TCase>` indicator be included at the end of the time.
@@ -120,35 +161,29 @@ export type HoursMinutes<
  * are the expected markers for the 12 hour clock you are in.
  */
 export type HoursMinutes12<
-  TCase extends AmPmCase = "lower",
-  TStr extends TypeStrength = "strong",
-  TFixedLengthHours extends boolean = false,
-  TTimezone extends TypeRequired = "exclude",
-> = TStr extends "strong"
-? `${CivilianHours<TFixedLengthHours>}:${ZeroToFive}${NumericChar}${AmPm<TCase>}${TZ<"strong", TTimezone>}`
-: `${number}:${number}${AmPm<TCase>}${TZ<"simple", TTimezone>}`;
+  TOpt extends CivilianTimeOptions = Opt<EmptyObject>
+> = Opt<TOpt>["strength"] extends "strong"
+? `${CivilianHours<Opt<TOpt>["fixedLengthHours"]>}:${ZeroToFive}${NumericChar}${AmPm<Opt<TOpt>["amPmCase"]>}${TZ<"strong", Opt<TOpt>["timezone"]>}`
+: `${number}:${number}${AmPm<Opt<TOpt>["amPmCase"]>}${TZ<"simple", Opt<TOpt>["timezone"]>}`;
 
 /**
- * **HoursMinutesSeconds**`<[TTimezone]>`
+ * **HoursMinutesSeconds**`<[TOpt]>`
  * 
  * Time expressed in hours, minutes, and seconds in military nomenclature. Timezone is
  * excluded by default but can be enabled with `TTimezone` generic.
  */
 export type HoursMinutesSeconds<
-  TStr extends TypeStrength = "strong",
-  TTimezone extends TypeRequired = "exclude"
-> = TStr extends "strong"
-  ? `${HoursMinutes}:${Seconds<"simple">}${TZ<"simple", TTimezone>}`
-  : `${number}:${number}:${number}${TZ<"simple", TTimezone>}`;
+  TOpt extends MilitaryTimeOptions = Opt<EmptyObject>
+> = Opt<TOpt>["strength"] extends "strong"
+  ? `${HoursMinutes<TOpt>}:${Seconds<"simple">}${TZ<"simple", Opt<TOpt>["timezone"]>}`
+  : `${number}:${number}:${number}${TZ<"simple", Opt<TOpt>["timezone"]>}`;
 
-type _X = HoursMinutesSeconds;
 
 export type HoursMinutesSecondsMilliseconds<
-  TStr extends TypeStrength = "strong",
-  TTimezone extends TypeRequired = "exclude"
-> = TStr extends "strong"
-  ? `${HoursMinutes}:${Seconds<"simple">}.${number}${TZ<"simple", TTimezone>}`
-  : `${number}:${number}:${number}.${number}${TZ<"simple", TTimezone>}`;
+  TOpt extends MilitaryTimeOptions = Opt<EmptyObject>
+> = Opt<TOpt>["strength"] extends "strong"
+  ? `${HoursMinutes}:${Seconds<"simple">}.${number}${TZ<"simple", Opt<TOpt>["timezone"]>}`
+  : `${number}:${number}:${number}.${number}${TZ<"simple", Opt<TOpt>["timezone"]>}`;
 
 /**
  * **HoursMinutesSeconds12**`<[TTimezone]>`
@@ -157,23 +192,19 @@ export type HoursMinutesSecondsMilliseconds<
  * excluded by default but can be enabled with `TTimezone` generic.
  */
 export type HoursMinutesSeconds12<
-  TCase extends AmPmCase = "lower",
-  TStr extends TypeStrength = "strong",
-  TTimezone extends TypeRequired = "exclude",
-> = TStr extends "strong"
-? `${HoursMinutes}:${Seconds<"simple">}${AmPm<TCase>}${TZ<"simple", TTimezone>}`
-: `${number}:${number}:${number}${AmPm<TCase>}${TZ<"simple", TTimezone>}`;
+  TOpt extends CivilianTimeOptions = Opt<EmptyObject>
+> = Opt<TOpt>["strength"] extends "strong"
+? `${HoursMinutes}:${Seconds<"simple">}${AmPm<Opt<TOpt>["amPmCase"]>}${TZ<"simple", Opt<TOpt>["timezone"]>}`
+: `${number}:${number}:${number}${AmPm<Opt<TOpt>["amPmCase"]>}${TZ<"simple", Opt<TOpt>["timezone"]>}`;
 
 export type HoursMinutesSecondsMilliseconds12<
-  TCase extends AmPmCase = "lower",
-  TStr extends TypeStrength = "strong",
-  TTimezone extends TypeRequired = "exclude",
-> = TStr extends "strong"
-? `${HoursMinutes}:${Seconds<"simple">}.${number}${AmPm<TCase>}${TZ<"simple", TTimezone>}`
-: `${number}:${number}:${number}.${number}${AmPm<TCase>}${TZ<"simple", TTimezone>}`;
+  TOpt extends CivilianTimeOptions = Opt<EmptyObject>
+> = Opt<TOpt>["strength"] extends "strong"
+? `${HoursMinutes}:${Seconds<"simple">}.${number}${AmPm<Opt<TOpt>["amPmCase"]>}${TZ<"simple", Opt<TOpt>["timezone"]>}`
+: `${number}:${number}:${number}.${number}${AmPm<Opt<TOpt>["amPmCase"]>}${TZ<"simple", Opt<TOpt>["timezone"]>}`;
 
 /**
- * **TimeInMinutes**
+ * **TimeInMinutes**`<TNomenclature,[TOpts]>`
  * 
  * Time expressed with a time resolution of `HH:MM` (e.g., `12:43pm` or `23:15`).
  * 
@@ -182,19 +213,17 @@ export type HoursMinutesSecondsMilliseconds12<
  */
 export type TimeInMinutes<
   TNomenclature extends TimeNomenclature = "either",
-  TStr extends TypeStrength = "strong",
-  TTimezone extends TypeRequired = "exclude",
-  TCase extends AmPmCase = "lower"
+  TOpt extends CivilianTimeOptions = Opt<EmptyObject>
 > = TNomenclature extends "either"
-? HoursMinutes<TStr, TTimezone> | HoursMinutes12<TCase, TStr, TTimezone>
+? HoursMinutes<TOpt> | HoursMinutes12<TOpt>
 : TNomenclature extends "military"
-  ? HoursMinutes<TStr, TTimezone>
+  ? HoursMinutes<TOpt>
   : TNomenclature extends "civilian"
-    ? HoursMinutes12<TCase, TStr, TTimezone>
+    ? HoursMinutes12<TOpt>
     : never;
 
 /**
- * **TimeInSeconds**
+ * **TimeInSeconds**`<[TNomenclature],[TOpts]>`
  * 
  * Time expressed in `HH:MM:SS` resolution. 
  * 
@@ -208,28 +237,24 @@ export type TimeInMinutes<
  */
 export type TimeInSeconds<
   TNomenclature extends TimeNomenclature = "either",
-  TStr extends TypeStrength = "strong",
-  TTimezone extends TypeRequired = "exclude",
-  TCase extends AmPmCase = "lower"
+  TOpt extends CivilianTimeOptions = Opt<EmptyObject>
 > = TNomenclature extends "either"
-? HoursMinutesSeconds<TStr, TTimezone> | HoursMinutesSeconds12<TCase, TStr, TTimezone>
+? HoursMinutesSeconds<TOpt> | HoursMinutesSeconds12<TOpt>
 : TNomenclature extends "military"
-  ? HoursMinutesSeconds<TStr, TTimezone>
+  ? HoursMinutesSeconds<TOpt>
   : TNomenclature extends "civilian"
-    ? HoursMinutesSeconds12<TCase, TStr, TTimezone>
+    ? HoursMinutesSeconds12<TOpt>
     : never;
 
 export type TimeInMilliseconds<
   TNomenclature extends TimeNomenclature = "either",
-  TStr extends TypeStrength = "strong",
-  TTimezone extends TypeRequired = "exclude",
-  TCase extends AmPmCase = "lower"
+  TOpt extends CivilianTimeOptions = Opt<EmptyObject>
 > = TNomenclature extends "either"
-  ? HoursMinutesSecondsMilliseconds<TStr, TTimezone> | HoursMinutesSecondsMilliseconds12<TCase, TStr, TTimezone>
+  ? HoursMinutesSecondsMilliseconds<TOpt> | HoursMinutesSecondsMilliseconds12<TOpt>
   : TNomenclature extends "military"
-    ? HoursMinutesSecondsMilliseconds<TStr, TTimezone>
+    ? HoursMinutesSecondsMilliseconds<TOpt>
     : TNomenclature extends "civilian"
-      ? HoursMinutesSecondsMilliseconds12<TCase, TStr, TTimezone>
+      ? HoursMinutesSecondsMilliseconds12<TOpt>
       : never;
 
 
@@ -244,17 +269,34 @@ export type TimeInMilliseconds<
  * resolution
  */
 export type MilitaryTime<
-  TResolution extends TimeResolution | "all",
-  TStr extends TypeStrength = "strong",
-  TTimezone extends TypeRequired = "exclude"
+  TResolution extends TimeResolution,
+  TOpt extends MilitaryTimeOptions = Opt<EmptyObject>
 > = TResolution extends "all"
-? TimeInMinutes<"military", "simple"> | TimeInSeconds<"military", "simple"> | TimeInMilliseconds<"military", "simple">
+? TimeInMinutes<
+  "military", {
+      strength: "simple"; 
+      timezone: Opt<TOpt>["timezone"];
+      amPmCase: Opt<TOpt>["amPmCase"];
+      fixedLengthHours: Opt<TOpt>["fixedLengthHours"];
+    }> 
+  | TimeInSeconds<"military", {
+      strength: "simple"; 
+      timezone: Opt<TOpt>["timezone"];
+      amPmCase: Opt<TOpt>["amPmCase"];
+      fixedLengthHours: Opt<TOpt>["fixedLengthHours"];
+    }> 
+  | TimeInMilliseconds<"military",{
+    strength: "simple"; 
+    timezone: Opt<TOpt>["timezone"];
+    amPmCase: Opt<TOpt>["amPmCase"];
+    fixedLengthHours: Opt<TOpt>["fixedLengthHours"];
+    } >
 : TResolution extends "HH:MM"
-  ? HoursMinutes<TStr,TTimezone>
+  ? HoursMinutes<TOpt>
   : TResolution extends "HH:MM:SS"
-    ? HoursMinutesSeconds<TStr,TTimezone>
+    ? HoursMinutesSeconds<TOpt>
     : TResolution extends "HH:MM:SS.ms"
-      ? HoursMinutesSecondsMilliseconds<TStr,TTimezone>
+      ? HoursMinutesSecondsMilliseconds<TOpt>
       : never;
 
 /**
@@ -264,20 +306,18 @@ export type MilitaryTime<
  */
 export type CivilianTime<
   TResolution extends TimeResolution,
-  TStr extends TypeStrength = "strong",
-  TTimezone extends TypeRequired = "exclude",
-  TCase extends AmPmCase = "lower"
+  TOpt extends CivilianTimeOptions = Opt<EmptyObject>
 > = TResolution extends "HH:MM"
-  ? HoursMinutes12<TCase, TStr, TTimezone>
+  ? HoursMinutes12<TOpt>
   : TResolution extends "HH:MM:SS"
-    ? HoursMinutesSeconds12<TCase, TStr, TTimezone>
+    ? HoursMinutesSeconds12<TOpt>
     : TResolution extends "HH:MM:SS.ms"
-      ? HoursMinutesSecondsMilliseconds12<TCase, TStr, TTimezone>
+      ? HoursMinutesSecondsMilliseconds12<TOpt>
       : never;
 
 
 /**
- * **Time**
+ * **Time**`<TResolution,[TNomenclature], [TOpts]>`
  * 
  * A _simplified_ type for Time which accepts military and civilian
  * nomenclature as well as `HH:MM` and `HH:MM:SS` resolutions. 
@@ -285,21 +325,23 @@ export type CivilianTime<
  * You can use the `TNomenclature` and `TResolution` generics to constrain
  * what is allowed (and further simplify the type).
  * 
- * **Related:** `MilitaryTime`, `CivilianTime`, `TimeInMinutes`, `TimeInSeconds`
+ * **Related:** `MilitaryTime`, `CivilianTime`, `TimeLike`
  */
 export type Time<
+  TResolution extends TimeResolution,
   TNomenclature extends TimeNomenclature = "either",
-  TResolution extends TimeResolution | "all" = "all",
-  TTimezone extends TypeRequired = "exclude"
-> = 
-TResolution extends "all"
-  ? TimeInSeconds<TNomenclature, "simple", TTimezone> 
-    | TimeInMinutes<TNomenclature, "simple", TTimezone>
-    | TimeInMilliseconds<TNomenclature, "simple", TTimezone>
-  : TResolution extends "HH:MM"
-    ? TimeInMinutes<TNomenclature, "simple", TTimezone>
+  TOpt extends CivilianTimeOptions = Opt<EmptyObject>
+> = TResolution extends "HH:MM"
+    ? TimeInMinutes<TNomenclature, TOpt>
+
     : TResolution extends "HH:MM:SS"
-      ? TimeInSeconds<TNomenclature, "simple", TTimezone>
+      ? TimeInSeconds<TNomenclature, TOpt> 
+
       : TResolution extends "HH:MM:SS.ms"
-        ? TimeInMilliseconds<TNomenclature, "simple", TTimezone>
+        ? TimeInMilliseconds<TNomenclature, {
+            strength: "simple"; 
+            timezone: Opt<TOpt>["timezone"];
+            amPmCase: Opt<TOpt>["amPmCase"];
+            fixedLengthHours: Opt<TOpt>["fixedLengthHours"];
+          }> 
         : never;

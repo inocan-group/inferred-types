@@ -1,9 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { LeftWhitespace, Replace, RightWhitespace, Trim } from "src/types/index"
-import { Concat } from "../Concat";
-import { DashUppercase } from "./DashUppercase";
-import { LowerAllCaps } from "./LowerAllCaps";
+import { 
+  LeftWhitespace, 
+  Replace, 
+  RightWhitespace, 
+  Trim , 
+  Concat, 
+  DashUppercase, 
+  LowerAllCaps
+} from "src/types/index"
+
 
 /**
  * **KebabCase**`<TString,TPreserve>`

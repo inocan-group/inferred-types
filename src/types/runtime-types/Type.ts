@@ -9,7 +9,8 @@ import type {
   IsStringLiteral, 
   IsEqual, 
   IsUnion,
-  IsFalse
+  IsFalse,
+  As
 } from "src/types/index";
 import { 
   LITERAL_TYPE_KINDS,  
@@ -221,29 +222,27 @@ export type FromTypeDefn<
 >
   ? Type<
       Kind,
-      If<
-        IsEqual<Required, boolean>,
-        "required",
-        If<IsFalse<Required>, "not-required", "required">
-      >,
-      If<IsStringLiteral<Desc>, Desc, "">,
-      If<IsArray<Underlying>, Exclude<Underlying, "no-underlying">, "no-underlying">,
-      If<
+      IsEqual<Required, boolean> extends true
+        ? "required"
+        : IsFalse<Required> extends true ? "not-required": "required",
+      IsStringLiteral<Desc> extends true ? Desc : "",
+      IsArray<Underlying> extends true ? Exclude<Underlying, "no-underlying">: "no-underlying",
+      As<If<
         Or<[
           IsEqual<DefaultValue, NoDefaultValue>, 
           IsUnion<DefaultValue>
         ]>,
         "no-default-value", 
         "with-default-value"
-      >,
-      If<
+      >, TypeHasDefaultValue>,
+      As<If<
         Or<[
           IsEqual<Validations, "no-validations">, 
           IsUnion<Validations>
         ]>,
         "no-validations", 
         "with-validations"
-      >
+      >, TypeHasValidations>
       // IfEquals<Validations, "no-validations", "no-validations", "with-validations">
     >
   : never;

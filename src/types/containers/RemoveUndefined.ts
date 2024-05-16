@@ -1,5 +1,5 @@
 import { Container, EmptyObject, KV, ObjectKey, Tuple } from "../base-types";
-import { IfUndefined } from "../boolean-logic";
+import { IsUndefined } from "../boolean-logic/operators/IsUndefined";
 import { RemoveIndexKeys } from "../dictionary/RemoveIndexKeys";
 import { NumericKeys } from "../lists";
 import { AfterFirst } from "../lists/AfterFirst";
@@ -18,10 +18,10 @@ type Process<
 > = [] extends TKeys
 ? TResults
 : First<TKeys> extends keyof T
-  ? IfUndefined<
-      T[First<TKeys>],
-      Process<T,AfterFirst<TKeys>, TResults>,
-      Process<
+  ? 
+      IsUndefined<T[First<TKeys>]> extends true
+      ? Process<T,AfterFirst<TKeys>, TResults>
+      : Process<
         T,
         AfterFirst<TKeys>,
         First<TKeys> extends keyof T
@@ -32,7 +32,6 @@ type Process<
               : never
           : never
       >
-    >
   : never
 
 

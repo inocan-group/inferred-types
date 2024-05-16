@@ -106,10 +106,10 @@ export type WidenLiteral<
   T 
 > =  T extends Scalar
   ? WidenScalar<T>
-  // : IsUnion<T> extends true
-  // ? WidenUnion<T>
-  // : T extends readonly unknown[]
-  // ? WidenTuple<T>
+  : IsUnion<T> extends true
+  ? WidenUnion<T>
+  : T extends readonly unknown[]
+  ? WidenTuple<T>
   : never;
 
 /**

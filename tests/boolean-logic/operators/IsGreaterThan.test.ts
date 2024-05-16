@@ -1,19 +1,19 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { GreaterThan } from "src/types/index";
+import { IsGreaterThan } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
 // gain validation that no new type vulnerabilities have cropped up.
 
-describe("GreaterThan<A,B>", () => {
+describe("IsGreaterThan<A,B>", () => {
 
   it("happy path", () => {
-    type T1 = GreaterThan<1,0>;
-    type T2 = GreaterThan<1000,0>;
+    type T1 = IsGreaterThan<1,0>;
+    type T2 = IsGreaterThan<1000,0>;
 
-    type F1 = GreaterThan<0,1>;
-    type F2 = GreaterThan<0,1000>;
+    type F1 = IsGreaterThan<0,1>;
+    type F2 = IsGreaterThan<0,1000>;
     
     type cases = [
       Expect<Equal<T1, true>>,
