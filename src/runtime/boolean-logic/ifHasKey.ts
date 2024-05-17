@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { 
   Container, 
-  IfContains, 
+  If,
+  Contains, 
   Keys, 
   Narrowable
 } from "src/types/index";
@@ -22,5 +23,5 @@ export const ifHasKey = <
   hasIndexOf(container, key) 
   ? hasKey(container as TContainer & Record<TKey, unknown>)
   : doesNotHaveKey(container as Exclude<TContainer, TKey>)
-) as IfContains<Keys<TContainer>, TKey, IF, ELSE>;
+) as unknown as If<Contains<Keys<TContainer>, TKey>, IF, ELSE>;
 

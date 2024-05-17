@@ -1,4 +1,4 @@
-import { First, IfUnion, Length, Narrowable, UnionToTuple } from "src/types/index";
+import { First, If, IsUnion, Length, Narrowable, UnionToTuple } from "src/types/index";
 import { asArray } from "../lists/asArray";
 
 /**
@@ -23,9 +23,9 @@ export const tuple = <
   ) as Length<T> extends 1 
     ? T[0] extends readonly unknown[]
       ? T[0] extends infer Arr
-        ? IfUnion<
+        ? If<
             // eslint-disable-next-line no-use-before-define
-            First<Arr & readonly unknown[]>, 
+            IsUnion<First<Arr & readonly unknown[]>>, 
             UnionToTuple<First<T[0]>>, 
             T[0]
           >

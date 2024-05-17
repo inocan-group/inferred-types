@@ -24,6 +24,5 @@ export const endsWith = <
       n => String(n).endsWith(endingIn) ? true : false,
       () => false
     )
-  );
-  
+  ) as boolean;
 };

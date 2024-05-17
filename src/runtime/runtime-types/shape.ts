@@ -2,8 +2,6 @@ import { SHAPE_DELIMITER, SHAPE_PREFIXES } from "src/constants/Shape";
 import { 
   IndexableObject, 
   ObjectKey,
-  IfTrue, 
-  IfUndefined,
   Narrow, 
   Shape, 
   ShapeTupleOrUnion, 
@@ -11,7 +9,10 @@ import {
   ShapeCallback, 
   WideTypeName, 
   TupleToUnion,
-  HandleDoneFn
+  HandleDoneFn,
+  If,
+  IsTrue,
+  IsUndefined
 } from "src/types/index";
 import { isString } from "../type-guards/isString";
 import { hasKeys, isObject, isUndefined } from "../type-guards/index";
@@ -31,7 +32,7 @@ const shapeTupleOrUnion = <
       makeUnion
         ? `<<union::${state.join(SHAPE_DELIMITER)}>>` as unknown as TupleToUnion<TTuple>
         : `<<tuple::${state.join(SHAPE_DELIMITER)}>>` as unknown as TTuple
-    ) as unknown as IfTrue<TMakeUnion, TupleToUnion<TTuple>, TTuple>
+    ) as unknown as If<IsTrue<TMakeUnion>, TupleToUnion<TTuple>, TTuple>
   };
 
   return api;
@@ -48,7 +49,7 @@ export const ShapeApiImplementation: ShapeApi = {
     indexable 
       ? "<<object::indexable>>" as unknown as IndexableObject
       : "<<object>>" as unknown as object
-    ) as IfTrue<I, IndexableObject, object>,
+    ) as If<IsTrue<I>, IndexableObject, object>,
   record: {
     string: () => "<<record::string>>" as unknown as Record<ObjectKey, string>,
     number: () => "<<record::number>>" as unknown as Record<ObjectKey, number>,
@@ -58,7 +59,7 @@ export const ShapeApiImplementation: ShapeApi = {
       U extends readonly WideTypeName[]
     >(...members: U) => (
       `<<union:${isUndefined(members) ? [] : members}.join(SHAPE_DELIMITER)>>`
-    ) as unknown as IfUndefined<U,NonNullable<unknown>, Record<ObjectKey, TupleToUnion<U>>>
+    ) as unknown as If<IsUndefined<U>,NonNullable<unknown>, Record<ObjectKey, TupleToUnion<U>>>
   },
   array: {
     string: () => "<<array::string>>" as unknown as string[],

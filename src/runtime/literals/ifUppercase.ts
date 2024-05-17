@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { LOWER_ALPHA_CHARS } from "src/constants/index";
-import { IfChar, IfExtends, Narrowable, UpperAlphaChar, ValueCallback } from "src/types/index";
+import { Extends, If, IsSingleChar, Narrowable,  UpperAlphaChar, ValueCallback } from "src/types/index";
 
-type Convert<T, IF, ELSE> = IfExtends<T, UpperAlphaChar, IF, ELSE>;
+type Convert<T, IF, ELSE> = If<Extends<T, UpperAlphaChar>, IF, ELSE>;
 
 /**
  * **ifUppercaseChar**(ch, callbackForMatch, callbackForNoMatch)
  * 
- * Tests whether a passed in _character_ is an uppercase character and uses appropriate callback to
- * mutate the value.
+ * Tests whether a passed in _character_ is an uppercase character and uses appropriate callback 
+ * to mutate the value.
  * 
  * **Related:** `ifUppercase()`
  */
@@ -18,7 +18,7 @@ export function ifUppercaseChar<
   ELSE extends Narrowable
 >(
   /** the character to be tested */
-  ch: T & IfChar<T>,
+  ch: T & IsSingleChar<T> extends true ? T : never,
   callbackForMatch: ValueCallback<T, IF>,
   callbackForNoMatch: ValueCallback<T, ELSE>
 ): Convert<T,IF,ELSE> {

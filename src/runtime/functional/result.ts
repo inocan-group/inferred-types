@@ -4,7 +4,6 @@ import { RESULT } from "src/constants/Functional"
 import { 
   Ok, 
   Result,  
-  IfFunction, 
   AsFunction, 
   Narrowable, 
   Err,
@@ -17,6 +16,8 @@ import {
   IsOk,
   IsErr,
   ErrInput,
+  IsFunction,
+  If,
 } from "src/types/index"
 import { Never } from "src/constants/index";
 import { isFunction, isObject, isString } from "../type-guards/index";
@@ -245,7 +246,7 @@ export function okOrElse<
 >(
   result: R, 
   els: Els
-): IsOk<R> extends true ? T : IfFunction<Els, ReturnType<AsFunction<Els>>, Els> {
+): IsOk<R> extends true ? T : If<IsFunction<Els>, ReturnType<AsFunction<Els>>, Els> {
   return result.state === RESULT.Err
   ? isFunction(els)
     ? els(result.err)

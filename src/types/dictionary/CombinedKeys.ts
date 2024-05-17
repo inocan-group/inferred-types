@@ -1,6 +1,4 @@
-import { ObjectKey } from "../base-types";
-import { Unique } from "../sets/Unique";
-import { Keys } from "./Keys";
+import { Dictionary, Unique, IsObjectLiteral, Keys } from "src/types/index";
 
 /**
  * **CombinedKeys**`<A,B>`
@@ -14,9 +12,10 @@ import { Keys } from "./Keys";
  * ```
  */
 export type CombinedKeys<
-  A extends Record<ObjectKey, unknown>, 
-  B extends Record<ObjectKey, unknown>
+  A extends Dictionary, 
+  B extends Dictionary
 > = Unique<[
-  ...Keys<A>,
-  ...Keys<B> 
+  ...(IsObjectLiteral<A> extends true ? Keys<A> : []),
+  ...(IsObjectLiteral<B> extends true ? Keys<B> : []),
 ]>;
+

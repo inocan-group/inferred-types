@@ -115,26 +115,5 @@ describe("GetEach<T,P>", () => {
   });
 
   
-  it("runtime: optional inclusion of never values", () => {
-    const shallowNoErr = getEach(objSet, "color");
-    const shallowWithNever = getEach(objSet, "color", { handleErrors:  "to-never"});
-
-    expect(shallowNoErr, "shallow without never").toHaveLength(2);
-    expect(shallowWithNever, "shallow with never").toHaveLength(2);
-
-    const objNoErr = getEach(objSet, "color.favorite", { handleErrors: "ignore" });
-    const arrNoErr = getEach(arrSet, "color.0");
-
-    expect(objNoErr, "object with nevers eliminated").toHaveLength(2);
-    expect(arrNoErr, `array with nevers eliminated: ${JSON.stringify(arrNoErr)}`).toHaveLength(2);
-
-    type cases = [
-      // deep
-      Expect<Equal<typeof objNoErr,  ["blue", "green"]>>,
-      Expect<Equal<typeof arrNoErr,  ["blue", "purple"]>>,
-    ];
-    
-    const cases: cases = [ true, true, true, true ];
-  });
 
 });

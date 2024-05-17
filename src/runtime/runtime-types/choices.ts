@@ -1,11 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-use-before-define */
-import {   ChoiceRepresentation, ChoiceBuilder, MultipleChoice, Choice, Narrowable, Dictionary, MergeDictionarys } from "src/types/index";
+import {   
+  ChoiceRepresentation, 
+  ChoiceBuilder, 
+  MultipleChoice, 
+  Choice, 
+  Narrowable, 
+  Dictionary,
+  MergeKVs 
+} from "src/types/index";
 import { isString } from "../type-guards/isString";
 import {  isObject } from "../type-guards/index";
-import { Never } from "src/constants/Never";
 import { createFnWithProps } from "../initializers";
 import { handleDoneFn } from "../boolean-logic";
+import { Never } from "src/constants/index";
 
 const chooseMany = <
   TChoices extends Dictionary<string>,
@@ -65,7 +73,7 @@ export const choice = <
 
 export const mergeChoices = <
   T extends readonly Dictionary<string>[]
->(...choices: T): MergeDictionarys<T> => {
+>(...choices: T) => {
   let obj: Dictionary<string> = {};
   for (const idx in choices) {
     obj = {
@@ -73,7 +81,7 @@ export const mergeChoices = <
       ...choices[idx as keyof typeof choices]
     }
   }
-  return obj as MergeDictionarys<T>
+  return obj as unknown as MergeKVs<T>
 }
 
 

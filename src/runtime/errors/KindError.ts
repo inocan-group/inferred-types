@@ -1,6 +1,5 @@
-import { KindError, KindErrorDefn } from "src/types/errors/KindError";
-import { toKebabCase, toPascalCase } from "../literals";
-import { IfUndefined } from "src/types/boolean-logic/branching/IfUndefined";
+import { EmptyObject, If, IsUndefined, KindError, KindErrorDefn } from "src/types/index";
+import { toKebabCase, toPascalCase } from "src/runtime/index";
 
 /**
  * **KindError**
@@ -41,13 +40,13 @@ export const kindError = <
   const err = new Error(msg) as Partial<
     KindError<
       typeof kind, 
-      IfUndefined<C, NonNullable<unknown>>
+      If<IsUndefined<C>, EmptyObject, C>
     >
   >;
   err.name = toPascalCase(kind);
   err.kind = toKebabCase(kind);
   err.__kind = "KindError";
-  err.context = context as IfUndefined<C, NonNullable<unknown>>;
+  err.context = context as unknown as  If<IsUndefined<C>, EmptyObject>;
 
-  return err as KindError<K,C>
+  return err as unknown as KindError<K,C>
 }

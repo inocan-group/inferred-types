@@ -1,4 +1,4 @@
-export * from "./CouldHaveValue";
+
 export * from "./Defined";
 export * from "./Something";
 export * from "./Nothing";
@@ -8,7 +8,6 @@ export * from "./IndexableObject";
 export * from "./EmptyObject";
 export * from "./AnyFunction";
 export * from "./AnyArray";
-export * from "./IdentityFunction";
 export * from "./Scalar";
 export * from "./ScalarNotSymbol";
 export * from "./Container";
@@ -19,7 +18,7 @@ export * from "./Indexable";
 export * from "./FalsyValue";
 export * from "./ObjectKey";
 export * from "./NarrowObject";
-export * from "./KV";
+export * from "./Dictionary";
 export * from "./NonArray"
 
 export * from "./fns/index";

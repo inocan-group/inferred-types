@@ -1,11 +1,11 @@
-import { AfterFirst, AsRecord, CombinedKeys, ExpandRecursively, First, IsDefined, Dictionary, ObjectKey  } from "src/types/index";
+import { AfterFirst,  CombinedKeys, ExpandRecursively, First, IsDefined, Dictionary, ObjectKey, Nothing, IsNothing, EmptyObject, If, As  } from "src/types/index";
 
 type Process<
   TKeys extends readonly unknown[],
   TDef extends Dictionary,
   TOverride extends Dictionary,
   // eslint-disable-next-line @typescript-eslint/ban-types
-  TResult extends Record<string|symbol, unknown> = {}
+  TResult extends Dictionary = EmptyObject
 > = [] extends TKeys
 ? ExpandRecursively<TResult>
 : Process<
@@ -31,10 +31,14 @@ type Process<
  * A type utility that _shallowly merges_ two object types.
  */
 export type MergeObjects<
-  TDef extends Dictionary,
-  TOverride extends Dictionary,
+  TDef extends Dictionary | Nothing,
+  TOverride extends Dictionary | Nothing,
 > = Process<
-  CombinedKeys<TDef,TOverride>,
-  AsRecord<TDef>,
-  TOverride
+  CombinedKeys<
+    As<If<IsNothing<TDef>, EmptyObject, TDef>, Dictionary>,
+    As<If<IsNothing<TOverride>, EmptyObject, TOverride>, Dictionary>
+  >,
+  As<If<IsNothing<TDef>, EmptyObject, TDef>, Dictionary>,
+  As<If<IsNothing<TOverride>, EmptyObject, TOverride>, Dictionary>
 >;
+

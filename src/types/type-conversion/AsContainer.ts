@@ -1,4 +1,4 @@
-import { Dictionary } from "../base-types/KV";
+import { Dictionary } from "../base-types/Dictionary";
 
 
 /**

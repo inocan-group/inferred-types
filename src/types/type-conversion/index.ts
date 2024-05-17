@@ -7,6 +7,7 @@
 // file exports
 export * from "./Awaited";
 export * from "./AsString";
+export * from "./AsDictionary";
 export * from "./AsRef";
 export * from "./AsNumber";
 export * from "./AsBoolean";
@@ -19,7 +20,6 @@ export * from "./AsObjectKeys"
 export * from "./AsPropertyKey";
 export * from "./TupleToUnion";
 export * from "./UnionToIntersection";
-export * from "./KvDict";
 export * from "./ToString";
 export * from "./ToUnion";
 export * from "./ToNumber";
@@ -33,7 +33,6 @@ export * from "./Mutable";
 export * from "./MergeObjects";
 export * from "./Merge";
 export * from "./Break";
-export * from "./ArrConcat";
 export * from "./LeftWhitespace";
 export * from "./Replace";
 export * from "./ReplaceAll";

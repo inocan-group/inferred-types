@@ -13,7 +13,7 @@ export function mergeObjects<
   override: TOverride
 ) {
   const intersectingKeys = sharedKeys(defVal,override) as string[];
-  const defUnique = withoutKeys(defVal, ...intersectingKeys as readonly string[]) as string[];
+  const defUnique = withoutKeys(defVal, ...intersectingKeys as readonly string[]) as unknown as string[];
   const overrideUnique = withoutKeys(defVal, ...intersectingKeys as readonly string[]);
 
   const merged = {
@@ -27,5 +27,5 @@ export function mergeObjects<
     ...overrideUnique,
   };
 
-  return merged as MergeObjects<TDefault,TOverride>
+  return merged as unknown as  MergeObjects<TDefault,TOverride>
 }

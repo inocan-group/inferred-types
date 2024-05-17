@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
-import { Dictionary } from "src/types/index";
+import { Dictionary, EmptyObject } from "src/types/index";
 
 /**
  * **AnyFunction**`<[TArgs],[TReturn],[TDict]>`
@@ -16,6 +16,6 @@ export type AnyFunction<
   TArgs extends readonly any[] = any[],
   TReturn = any,
   TProps extends Dictionary = Dictionary,
-> = TProps extends NonNullable<unknown>
+> = TProps extends EmptyObject
   ? (...args: TArgs) => TReturn
   : ((...args: TArgs) => TReturn) & TProps;

@@ -23,7 +23,7 @@ TDeref extends string | number
     }
   }
 
-  const aMatches = getEach(a, toString(deref)) as readonly unknown[];
+  const aMatches = getEach(a, toString(deref) as any) as readonly unknown[];
   const bMatches = getEach(b, toString(deref)) as readonly unknown[];
 
   const sharedKeys = ifNotNull(

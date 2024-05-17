@@ -8,9 +8,10 @@ import { EnsureLeading, EnsureTrailing } from "src/types/index";
  * **Related:** `Surround`
  */
 export type EnsureSurround<
+  TInput extends string,
   TPrefix extends string,
   TPostfix extends string
-> = <TInput extends string>(input: TInput) => EnsureTrailing<
+> = EnsureTrailing<
   EnsureLeading<TInput, TPrefix>, 
   TPostfix
 >;

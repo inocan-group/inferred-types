@@ -14,7 +14,7 @@ type Compare<
   [K in keyof TList]: Find<TComparator, TList[K]> extends boolean
     ? Find<TComparator, TList[K]>
     : never
-}>
+}, true>
 
 /**
  * **HasSameValues**`<TList,TComparator>`
@@ -28,8 +28,7 @@ export type HasSameValues<
   TComparator extends readonly unknown[]
 > = TList["length"] extends TComparator["length"]
 ? Compare<
-  TList,
-  TComparator
->
+    TList,
+    TComparator
+  >
 : false;
-  

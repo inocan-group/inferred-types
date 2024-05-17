@@ -1,5 +1,5 @@
 import { toKebabCase, toPascalCase } from "../literals";
-import { IfUndefined, KindError, KindErrorDefn } from "src/types/index";
+import { EmptyObject, Handle, If, IsUndefined, KindError, KindErrorDefn } from "src/types/index";
 
 /**
  * **KindError**
@@ -27,7 +27,7 @@ import { IfUndefined, KindError, KindErrorDefn } from "src/types/index";
  */
 export const kindError = <
   K extends string,
-  C extends Record<string, unknown> = NonNullable<unknown>
+  C extends Record<string, unknown> = EmptyObject
 >(
   kind: K, 
   _defineContext?: C
@@ -40,15 +40,15 @@ export const kindError = <
   const err = new Error(msg) as Partial<
     KindError<
       typeof kind, 
-      IfUndefined<C, NonNullable<unknown>>
+      Handle<C, undefined, EmptyObject>
     >
   >;
   err.name = toPascalCase(kind);
   err.kind = toKebabCase(kind);
   err.__kind = "KindError";
-  err.context = context as IfUndefined<C, NonNullable<unknown>>;
+  err.context = context as unknown as If<IsUndefined<C>, EmptyObject>;
 
-  return err as KindError<K,C>
+  return err as unknown as KindError<K,C>
 }
 
 

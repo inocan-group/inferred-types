@@ -1,4 +1,4 @@
-import type { IfNull, Narrowable } from "src/types/index";
+import type { If, Not, IsNull, Narrowable } from "src/types/index";
 import { isNull } from "../type-guards/isNull";
 
 
@@ -26,5 +26,5 @@ export function ifNotNull<
     isNull(val) 
     ? elseVal()
     : ifVal(val as Exclude<T, null>)
-  ) as unknown as IfNull<T, IF, ELSE>;
+  ) as unknown as If<Not<IsNull<T>>, IF, ELSE>;
 }

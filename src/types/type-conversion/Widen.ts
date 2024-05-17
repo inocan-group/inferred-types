@@ -18,7 +18,10 @@ import {
   RemoveIndexKeys, 
   Scalar, 
   TupleToUnion, 
-  UnionToTuple 
+  UnionToTuple, 
+  Container,
+  Tuple,
+  AsObject
 } from "src/types/index";
 
 type GetKeys<
@@ -112,23 +115,53 @@ export type WidenLiteral<
   ? WidenTuple<T>
   : never;
 
-/**
- * **Widen**<T>
- * 
- * Makes all efforts to _widen_ the type found (though 
- * not to the point it is "unknown" or "any").
- */
-export type Widen<T> = [IsUnion<T>] extends [true]
-  ? WidenUnion<T>
-  : T extends readonly unknown[]
-  ? WidenTuple<T>
-  : T extends object
+export type WidenContainer<
+  T extends Container,
+  TForce extends boolean
+> = 
+[TForce] extends [true]
+  ? T extends Tuple ? Tuple
+  : T extends Dictionary ? Dictionary
+  : T extends Map<unknown,unknown> ? Map<unknown,unknown>
+  : T extends Set<unknown> ? Set<unknown>
+  : T extends WeakMap<object,unknown> ? WeakMap<object,unknown>
+  : never
+: T extends Dictionary
   ? [IsObjectLiteral<T>] extends [true]
     ? Keys<T> extends readonly (keyof T)[]
       ? ExpandRecursively<WidenObj<T, Keys<T>>>
       : never
-    
-    : RemoveIndexKeys<T>
+  : RemoveIndexKeys<T>
+: T extends Tuple ? WidenTuple<T>
+: T extends Map<infer K, infer V> ? Map<Widen<K>, Widen<V>>
+: T extends WeakMap<infer O, infer V> 
+    ? O extends Dictionary
+      ? WeakMap<AsObject<Widen<O>>, Widen<V>>
+      : O extends Tuple
+      ? WeakMap<WidenTuple<O>, Widen<V>>
+: T extends Set<infer V> ? Set<Widen<V>>
+: object
+: object;
+
+/**
+ * **Widen**`<T, [TForce]>`
+ * 
+ * Converts a literal type to a _wider_ type.
+ * 
+ * - for _scalar values_ `T` will just become wide variant (e.g., `5` → `number`)
+ * - for _union types_ all elements of the union will be made wide 
+ * - for _container values_ it will widen the items inside the container
+ * 
+ * **Note:** should you want the container values to be fully widened you
+ * can set `TForce` to true.
+ */
+export type Widen<
+  T,
+  TForce extends boolean = false
+> = [IsUnion<T>] extends [true]
+  ? WidenUnion<T>
+  : T extends Container
+  ? WidenContainer<T,TForce>
   : T extends Scalar
     ? WidenScalar<T>
     : Process<T>;

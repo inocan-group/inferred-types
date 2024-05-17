@@ -13,7 +13,7 @@ describe("LogicalReturns<TValues,TParams>", () => {
     const f = <A extends readonly unknown[]>(...args: A) => args;
     const t = f(true as const, () => true);
 
-    type T1 =  LogicalReturns<[ true, () => true]>;
+    type T1 = LogicalReturns<[ true, () => true]>;
     type T2 = LogicalReturns<[ false, () => false]>;
     type T3 = LogicalReturns<[ true, true, false, boolean, () => true, () => false ]>;
     

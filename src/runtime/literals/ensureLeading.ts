@@ -1,4 +1,4 @@
-import { EnsureLeading, ToString } from "src/types/index";
+import { AsString, EnsureLeading } from "src/types/index";
 
 /**
  * **ensureLeading**(content, strip)
@@ -6,7 +6,10 @@ import { EnsureLeading, ToString } from "src/types/index";
  * Runtime utility which ensures that last part of a string -- `content` -- has the
  * substring `ensure` at the end and adds it if not present.
  */
-export function ensureLeading<T extends string | number, U extends string>(
+export function ensureLeading<
+  T extends string | number, 
+  U extends string
+>(
   content: T,
   ensure: U
 ) {
@@ -14,5 +17,5 @@ export function ensureLeading<T extends string | number, U extends string>(
     String(content).startsWith(ensure)
       ? content 
       : `${ensure}${content}` 
-  ) as unknown as EnsureLeading<ToString<T>, U>;
+  ) as unknown as EnsureLeading<AsString<T>, U>;
 }

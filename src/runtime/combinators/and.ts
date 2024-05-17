@@ -6,6 +6,6 @@ import type { And } from "src/types/index";
  */
 export const and = <
   TList extends readonly boolean[],
->(...values: TList): And<TList, []> => {
-  return values.every(i => i === true) as And<TList, []>;
+>(...values: TList): And<TList> => {
+  return values.every(i => i === true) as And<TList>;
 };

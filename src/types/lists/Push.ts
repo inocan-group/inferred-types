@@ -1,4 +1,4 @@
-import { If } from "../boolean-logic/branching/If";
+import { As } from "../boolean-logic/narrowing/As";
 
 type Process<
   TList extends readonly unknown[],
@@ -20,14 +20,6 @@ export type Push<
   TList extends readonly unknown[], 
   TVal,
   TCondition = true
-> = If<
-  TCondition,
-  Process<TList,TVal>,
-  TList
-> extends readonly unknown[]
-? If<
-    TCondition,
-    Process<TList,TVal>,
-    TList
-  >
-: never;
+> = [TCondition] extends [true] 
+  ? As<Process<TList,TVal>, readonly unknown[]>
+  : TList

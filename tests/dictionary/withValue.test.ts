@@ -1,7 +1,7 @@
 import { describe,  it } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
 import { createFnWithProps,  defineObj } from "src/runtime/index";
-import { EmptyObject, KV, WithValue } from "src/types/index";
+import { EmptyObject, Dictionary, WithValue } from "src/types/index";
 
 const obj = defineObj({
   id: "foobar",
@@ -27,7 +27,7 @@ describe("WithValue<TObj,TVal> type util", () => {
     type Str = WithValue<typeof obj, string>;
     type Num = WithValue<typeof obj, number>;
     type Bool = WithValue<typeof obj, boolean>;
-    type Wide = WithValue<KV, string>;
+    type Wide = WithValue<Dictionary, string>;
 
     type cases = [
       Expect<Equal<Str, { id: "foobar"; message: string }>>,

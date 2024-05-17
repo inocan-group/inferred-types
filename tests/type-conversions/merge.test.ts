@@ -5,7 +5,11 @@ import type {
   MergeObjects, 
   MergeScalars, 
   MergeTuples, 
-  HasSameKeys
+  HasSameKeys,
+  Merge,
+  Dictionary,
+  ExpandRecursively,
+  IsErrorCondition
 } from "src/types/index";
 import { mergeScalars, mergeTuples } from "src/runtime/index";
 
@@ -149,13 +153,25 @@ describe("Merge Objects", () => {
     type JustExtend = MergeObjects<{foo: 1; bar: 2}, {baz: 3}>;
     type JustExtend2 = MergeObjects<{baz: 3}, {foo: 1; bar: 2}>;
     type FullyOverride = MergeObjects<{foo: 1; bar: 2}, { foo: 2; bar: 3}>;
-    
+
+    type NullDef = MergeObjects<null, {foo: 1}>;
+    type NullOver = MergeObjects<{foo: 1}, null>;
+    type NadaDef = MergeObjects<undefined, {foo: 1}>;
+    type NadaOver = MergeObjects<{foo: 1}, undefined>;
+
     type cases = [
       Expect<Equal<JustExtend, {foo: 1; bar: 2; baz: 3}>>,
       Expect<Equal<JustExtend2, {foo: 1; bar: 2; baz: 3}>>,
       Expect<Equal<FullyOverride, {foo: 2; bar: 3}>>,
+      Expect<Equal<NullDef, {foo: 1}>>,
+      Expect<Equal<NullOver, {foo: 1}>>,
+      Expect<Equal<NadaDef, {foo: 1}>>,
+      Expect<Equal<NadaOver, {foo: 1}>>,
     ];
-    const cases: cases = [true, true, true];
+    const cases: cases = [
+      true, true, true,
+      true, true, true, true
+    ];
   });
 
   it("runtime tests", () => {
@@ -164,3 +180,39 @@ describe("Merge Objects", () => {
     
   });
 });
+
+
+describe("Merge<A,B>", () => {
+
+  it("happy path", () => {
+    type FooBar = Merge<{foo: 1}, {bar:2}>;
+    type Replaced = Merge<{foo: 0; bar: 0}, {foo: 1; bar: 2}>;
+    type Both = Merge<{foo: 1; bar: 2}, {baz: 3}>;
+
+    type ObjFromNada = Merge<undefined, {foo: 1}>;
+    type ObjFromNull = Merge<null, {foo: 1}>;
+
+    type Invalid = Merge<5, "foo">;
+    type Nothing = Merge<null,undefined>;
+
+    type cases = [
+      Expect<Equal<FooBar, {foo:1; bar: 2}>>,
+      Expect<Equal<Replaced, {foo:1; bar: 2}>>,
+      Expect<Equal<Both, {foo:1; bar: 2; baz: 3}>>,
+
+      Expect<Equal<ObjFromNada, {foo:1}>>,
+      Expect<Equal<ObjFromNull, {foo:1}>>,
+
+      ExpectTrue<IsErrorCondition<Invalid, "invalid-merge">>,
+      ExpectTrue<IsErrorCondition<Nothing, "invalid-merge">>,
+    ];
+    const cases: cases = [ 
+      true, true, true,
+      true, true,
+      true, true
+    ];
+  });
+
+});
+
+

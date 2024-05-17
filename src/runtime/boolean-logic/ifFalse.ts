@@ -1,4 +1,4 @@
-import type { IfFalse, Narrowable } from "src/types/index";
+import type { If, IsFalse, Narrowable } from "src/types/index";
 import { isFalse } from "../type-guards/isFalse";
 
 
@@ -22,5 +22,5 @@ export function ifFalse<T extends boolean, IF extends Narrowable, ELSE extends N
   ifVal: IF,
   elseVal: ELSE
 ) {
-  return (isFalse(val) ? ifVal : elseVal) as IfFalse<T, IF, ELSE>;
+  return (isFalse(val) ? ifVal : elseVal) as If<IsFalse<T>, IF, ELSE>;
 }

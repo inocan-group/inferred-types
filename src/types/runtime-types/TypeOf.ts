@@ -40,13 +40,13 @@ export type TypeOfExtended = TypeOf | "null" | "array" | "function-with-props";
  */
 export type GetTypeOf<T> = (T extends string 
   ? "string"
-  : T extends number ? "number"
-  : T extends boolean ? "boolean"
-  : T extends AnyFunction ? "function"
-  : T extends AnyObject | null | unknown[] ? "object"
-  : T extends bigint ? "bigint"
-  : IsUndefined<T> extends true ? "undefined"
-  : T extends symbol ? "symbol"
+  : [T] extends [number] ? "number"
+  : [T] extends [boolean] ? "boolean"
+  : [T] extends [AnyFunction] ? "function"
+  : [T] extends [AnyObject] | null | unknown[] ? "object"
+  : [T] extends [bigint] ? "bigint"
+  : [IsUndefined<T>] extends [true] ? "undefined"
+  : [T] extends [symbol] ? "symbol"
   : never
 ) & TypeOf;
 

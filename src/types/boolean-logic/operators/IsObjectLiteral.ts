@@ -27,7 +27,9 @@ type CheckIt<T extends Dictionary> = IsNever<keyof T> extends true
  * - any KV-like type which has an **explicit** number of keys
  * - if `Keys<T>["length"]` translates to `number` than this is **not** a literal.
  */
-export type IsObjectLiteral<T> = T extends Dictionary
+export type IsObjectLiteral<T> = IsNever<T> extends true
+? false
+: T extends Dictionary
 ? IsEqual<T, ExplicitlyEmptyObject> extends true
   ? true
   : CheckIt<T>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { 
   Narrowable, 
   ConverterDefn, 
@@ -64,38 +65,41 @@ export function createConverter<
   TTuple extends Narrowable = never,
   TNothing extends Narrowable = never
 >(mapper: Partial<ConverterDefn<TStr,TNum,TBool,TObj,TTuple,TNothing>>) {
-  
-
-  return <TInput extends Narrowable | Tuple>(input: TInput): ConversionResult<typeof mapper, TInput> => {
+  return <TInput extends Narrowable | Tuple>(input: TInput) => {
+    let result: unknown;
     if(isNothing(input)) {
-      return (mapper.nothing
+      result =  (mapper.nothing
         ? mapper.nothing(input as TInput & Nothing)
         : Never
-      ) as ConversionResult<typeof mapper, TInput>;
+      ) 
     } else if(isObject(input)) {
-      return (mapper.object
+      result =  (mapper.object
         ? mapper.object(input as TInput & AnyObject)
         : Never
-      ) as ConversionResult<typeof mapper, TInput>;
+      ) 
     } else {
       switch(typeof input) {
         case "string":
-          return (mapper.string
+          result =  (mapper.string
             ? mapper.string(input)
-            : Never) as ConversionResult<typeof mapper, TInput>;
+            : Never);
+          break;
         case "number":
         case "bigint":
-          return (mapper.number
-            ? mapper.number(input)
-            : Never) as ConversionResult<typeof mapper, TInput>;
+          result =  (mapper.number
+            ? mapper.number(input as any)
+            : Never);
+            break;
         case "boolean":
-          return (mapper.boolean
-            ? mapper.boolean(input)
-            : Never) as ConversionResult<typeof mapper, TInput>;
+          result =  (mapper.boolean
+            ? mapper.boolean(input as any)
+            : Never);
+            break;
         default:
           throw new Error(`Unhandled type: ${typeof input}`);
       }
     }
+    return result as ConversionResult<typeof mapper, TInput>;
   };
 
 }
