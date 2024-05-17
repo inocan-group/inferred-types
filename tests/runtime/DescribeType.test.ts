@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { DescribeType, Dictionary, Nothing } from "src/types/index";
+import { DescribeType, Dictionary, Extends, Nothing } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -25,6 +25,11 @@ describe("DescribeType<T>", () => {
     type ObjLiteral = DescribeType<{foo: 1; bar: 2}>;
     type Arr = DescribeType<string[]>;
     type ArrLiteral = DescribeType<[1,2,3]>;
+
+    type MyMap = DescribeType<Map<string, string>>;
+    type MyWeakMap = DescribeType<WeakMap<{foo: 1}, string>>;
+    type MyWeakWideMap = DescribeType<WeakMap<object, string>>;
+    type SetTheory = DescribeType<Set<string>>;
 
     type Nada = DescribeType<Nothing>;
     type Null = DescribeType<null>;
@@ -55,20 +60,26 @@ describe("DescribeType<T>", () => {
       Expect<Equal<Arr, "string[]">>,
       Expect<Equal<ArrLiteral, "[1, 2, 3]">>,
 
+      Expect<Equal<MyMap, "Map<string, string>">>,
+      Expect<Equal<MyWeakMap, "WeakMap<{ foo: 1 }, string>">>,
+      Expect<Equal<MyWeakWideMap, "WeakMap<object, string>">>,
+      Expect<Equal<SetTheory, "Set<string>">>,
+
       Expect<Equal<Nada, "undefined | null">>,
       Expect<Equal<Null, "null">>,
       Expect<Equal<Undefined, "undefined">>,
       Expect<Equal<Never, "never">>,
       Expect<Equal<Unknown, "unknown">>,
 
-      Expect<Equal<MixedUnion, "'foo' | 42">>
+      Expect<Extends<MixedUnion, "'foo' | 42" | "42 | 'foo'">>
     ];
     const cases: cases = [
       true, true, true,
       true, true,
       true, true, true,
+      true, true, true, true, true,
       true, true,
-      true, true,
+      true, true, true, true,
       true, true, true, true, true,
       true
     ];
