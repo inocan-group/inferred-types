@@ -21,7 +21,8 @@ import {
   First,
   AsString,
   IsBooleanLiteral,
-  Dictionary
+  Dictionary,
+  Something
 } from "src/types/index";
 
 
@@ -124,6 +125,20 @@ type DescribeObj<
       ? BuildRecord<K,V>
     : "object";
 
+type DescribeMap<
+  K extends Something,
+  V
+> = `Map<${AsString<Describe<K>>}, ${AsString<Describe<V>>}>`;
+
+type DescribeWeakMap<
+  K extends Something,
+  V
+> = `WeakMap<${AsString<DescribeObj<K>>}, ${AsString<Describe<V>>}>`;
+
+type DescribeSet<
+  T
+> = `Set<${AsString<Describe<T>>}>`;
+
 /**
  * **DescribeType**`<T>`
  * 
@@ -133,13 +148,19 @@ type DescribeObj<
  * defined from the `type()` runtime utility in this library as the
  * underlying type
  */
-export type DescribeType<T> = IsNever<T> extends true
+export type DescribeType<T> = [IsNever<T>] extends [true]
   ? "never"
-  : IsUnion<T> extends true
+  : [IsUnion<T>] extends [true]
     ? DescribeUnion<UnionToTuple<T>>
-  : T extends unknown[]
+  : [T] extends [unknown[]]
       ? DescribeArray<T>
-  : T extends object
+  : [T] extends [Dictionary]
     ? DescribeObj<T>
-    : Describe<T>;
+    : [T] extends [Map<infer K extends Something, infer V>]
+    ? DescribeMap<K,V>
+    : [T] extends [WeakMap<infer K extends object, infer V>]
+    ? DescribeWeakMap<K,V>
+    : [T] extends [Set<infer K>]
+    ? DescribeSet<K>
+  : Describe<T>;
 
