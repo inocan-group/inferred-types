@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type {  IsNever, KV } from "src/types/index";
+import type {  IsNever, Dictionary } from "src/types/index";
 
 /**
  * **IsContainer**`<T>`
@@ -9,7 +9,7 @@ import type {  IsNever, KV } from "src/types/index";
  */
 export type IsContainer<T> = IsNever<T> extends true
 ? false
-: [T] extends [KV]
+: [T] extends [Dictionary]
   ? true
   : [T] extends [readonly any[]]
     ? true

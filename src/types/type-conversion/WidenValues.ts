@@ -1,4 +1,4 @@
-import { AfterFirst, Container, EmptyObject, First, KV, Keys } from "src/types/index";
+import { AfterFirst, Container, EmptyObject, First, Dictionary, Keys } from "src/types/index";
 import { Widen } from "./Widen";
 
 type ProcessArr<
@@ -10,7 +10,7 @@ type ProcessArr<
 type ProcessObj<
   TObj extends object,
   TKeys extends readonly (keyof TObj)[],
-  TResults extends KV = EmptyObject
+  TResults extends Dictionary = EmptyObject
 > = [] extends TKeys
 ? TResults
 : ProcessObj<
@@ -30,7 +30,7 @@ export type WidenValues<
   T extends Container
 > = T extends readonly unknown[]
 ? ProcessArr<T>
-: T extends KV
+: T extends Dictionary
   ? ProcessObj<T, Keys<T> extends readonly (keyof T)[] ? Keys<T> : never>
   : never;
 

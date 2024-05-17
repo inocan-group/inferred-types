@@ -21,7 +21,7 @@ import {
   First,
   AsString,
   IsBooleanLiteral,
-  KV
+  Dictionary
 } from "src/types/index";
 
 
@@ -119,7 +119,7 @@ type DescribeObj<
 > = IsObjectLiteral<T> extends true
   ? HandleObjLiteral<T, Keys<T> extends readonly (keyof T)[] ? Keys<T> : never>
   : IsEqual<T, object> extends true ? "object"
-  : IsEqual<T, KV> extends true ? "Record<string | symbol, unknown>"
+  : IsEqual<T, Dictionary> extends true ? "Record<string | symbol, unknown>"
   : [T] extends [Record<infer K, infer V>]
       ? BuildRecord<K,V>
     : "object";

@@ -11,7 +11,7 @@ import {
   ExpandRecursively,
   EmptyObject,
   RemoveNever,
-  KV,
+  Dictionary,
   AsString
 } from "src/types/index"
 

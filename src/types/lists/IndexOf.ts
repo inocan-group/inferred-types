@@ -5,7 +5,7 @@ import {
   Decrement, 
   Reverse,  
   ToString, 
-  KV,
+  Dictionary,
   ObjectKey,
   If,
   AsString,
@@ -74,7 +74,7 @@ type HandleArr<
   >;
 
 type HandleObj<
-TValue extends KV,
+TValue extends Dictionary,
 TIdx extends PropertyKey
 > = TIdx extends keyof TValue
 ? TValue[TIdx]
@@ -104,7 +104,7 @@ TValue extends readonly unknown[]
         { library: "inferred-types"; container: TValue; key: TIdx }
       >
     >
-  : TValue extends KV
+  : TValue extends Dictionary
     ? TIdx extends ObjectKey
       ? HandleObj<TValue,TIdx>
       : Throw<

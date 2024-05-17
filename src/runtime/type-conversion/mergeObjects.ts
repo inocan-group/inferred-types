@@ -1,4 +1,4 @@
-import {  KV, MergeObjects, NarrowObject, Narrowable } from "src/types/index";
+import {  Dictionary, MergeObjects, NarrowObject, Narrowable } from "src/types/index";
 import { sharedKeys } from "../dictionary/sharedKeys";
 import { withoutKeys } from "../dictionary/withoutKeys";
 
@@ -21,7 +21,7 @@ export function mergeObjects<
       (acc, key) => typeof override[key] === "undefined"
         ? {...acc, [key]: defVal[key]}
         : {...acc, [key]: override[key]},
-      {} as KV
+      {} as Dictionary
     )),
     ...defUnique,
     ...overrideUnique,

@@ -1,4 +1,4 @@
-import { KV } from "src/types/index";
+import { Dictionary } from "src/types/index";
 
 
 /**
@@ -6,5 +6,5 @@ import { KV } from "src/types/index";
  * 
  * A base type which represents any value _other_ than an array or tuple.
  */
-export type NonArray = string | number | boolean | null | undefined | symbol | KV;
+export type NonArray = string | number | boolean | null | undefined | symbol | Dictionary;
 

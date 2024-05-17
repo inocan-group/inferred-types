@@ -1,4 +1,4 @@
-import {  KV, ReadonlyKeys } from "src/types/index";
+import {  Dictionary, ReadonlyKeys } from "src/types/index";
 
 /**
  * **MutableProps**`<T>`
@@ -6,4 +6,4 @@ import {  KV, ReadonlyKeys } from "src/types/index";
  * Reduces an object down to just the key/value pairs which
  * are mutable.
  */
-export type MutableProps<T extends KV> = Omit<T, ReadonlyKeys<T>>;
+export type MutableProps<T extends Dictionary> = Omit<T, ReadonlyKeys<T>>;

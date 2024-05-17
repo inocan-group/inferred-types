@@ -1,4 +1,4 @@
-import { Container, KV, ObjectKey, Tuple } from "../base-types";
+import { Container, Dictionary, ObjectKey, Tuple } from "../base-types";
 import { AfterFirst, First } from "../lists";
 import { Keys } from "./Keys";
 
@@ -33,7 +33,7 @@ export type Values<
   T extends Container
 > = T extends Tuple
 ? T
-: T extends KV
+: T extends Dictionary
   ? Process<
       Keys<T> extends readonly ObjectKey[]
         ? Keys<T>

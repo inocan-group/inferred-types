@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 import { 
-  KV, 
+  Dictionary, 
   If, 
   IsTrue, 
   Fn, 
@@ -82,7 +82,7 @@ export type AsChoices<
 > = ToLookup<TInput>;
 
 export type MultipleChoice<
-  TChoices extends KV<string> = KV<string>,
+  TChoices extends Dictionary<string> = Dictionary<string>,
   TForceUnique extends boolean = boolean,
   TState extends readonly unknown[] = [],
   TExclude extends string = never
@@ -145,13 +145,13 @@ type MergeKVs<
  * Builds a _choice_ API surface (with a `done()` exit)
  */
 export type ChoiceBuilder= <
-  TChoices extends readonly KV<string>[]
+  TChoices extends readonly Dictionary<string>[]
 >(...choices: TChoices) => ({
   chooseMany: <
     TForce extends boolean
   >(force: TForce) => 
   MultipleChoice<
-     MergeKVs<TChoices> extends KV<string>
+     MergeKVs<TChoices> extends Dictionary<string>
      ? MergeKVs<TChoices>
      : never,
     TForce

@@ -1,4 +1,4 @@
-import { KV } from "../base-types/KV";
+import { Dictionary } from "../base-types/KV";
 
 
 /**
@@ -12,6 +12,6 @@ export type AsContainer<
   TError = never
 > = T extends readonly unknown[]
   ? T & readonly unknown[]
-  : T extends KV
-    ? T & KV
+  : T extends Dictionary
+    ? T & Dictionary
     : TError;

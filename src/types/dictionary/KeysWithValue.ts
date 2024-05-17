@@ -3,14 +3,14 @@ import {
   First, 
   IsFunction, 
   IsObjectLiteral,
-  KV, 
+  Dictionary, 
   Keys, 
   ObjectKey 
 } from "src/types/index";
 
 type Process<
   TKeys extends readonly ObjectKey[],
-  TObj extends KV,
+  TObj extends Dictionary,
   TValue,
   TResults extends readonly ObjectKey[] = []
 > = [] extends TKeys
@@ -40,7 +40,7 @@ type Process<
  * **Related:** `KeysEqualValue`
  */
 export type KeysWithValue<
-  TObj extends KV,
+  TObj extends Dictionary,
   TValue
 > = [IsObjectLiteral<TObj>] extends [true]
 ? Process<

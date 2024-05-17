@@ -1,6 +1,6 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { valuesOf } from "src/runtime/index";
-import {  HasSameValues, KV, ObjectKey,  Values } from "src/types/index";
+import {  HasSameValues, Dictionary, ObjectKey,  Values } from "src/types/index";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -17,7 +17,7 @@ describe("Values<T>", () => {
 
   it("Values<T> where T is an object", () => {
     type VObj = Values<Obj>;
-    type VEmpty = Values<KV>;
+    type VEmpty = Values<Dictionary>;
     type VRecord = Values<Record<ObjectKey, unknown>>;
     
     type cases = [

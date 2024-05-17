@@ -9,7 +9,7 @@ import {
   First , 
   Scalar, 
   MergeObjects,
-  KV
+  Dictionary
 } from "src/types/index";
 
 // 1. Keep all unique keys in `TValue`
@@ -72,8 +72,8 @@ export type Merge<
   TDefault, 
   TOverride
 > = If<
-  And<[DoesExtend<TDefault, KV>, DoesExtend<TOverride, KV>]>,
-  MergeObjects<TDefault & KV,TOverride & KV>,
+  And<[DoesExtend<TDefault, Dictionary>, DoesExtend<TOverride, Dictionary>]>,
+  MergeObjects<TDefault & Dictionary,TOverride & Dictionary>,
   If<
     And<[ DoesExtend<TDefault, Scalar>, DoesExtend<TOverride, Scalar> ]>,
     MergeScalars<TDefault & Scalar, TOverride & Scalar>,

@@ -8,7 +8,7 @@ import type {
   IsEqual, 
   IsObjectLiteral, 
   IsWideType, 
-  KV, 
+  Dictionary, 
   NotEqual, 
   ObjectKey, 
   Or, 

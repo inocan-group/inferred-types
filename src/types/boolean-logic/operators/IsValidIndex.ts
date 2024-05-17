@@ -8,7 +8,7 @@ import {
   IsStringLiteral,
   IsObjectLiteral, 
   IsTuple, 
-  KV, 
+  Dictionary, 
   Tuple,
   NumericKeys,
   TupleToUnion, 
@@ -40,7 +40,7 @@ export type IsValidIndex<
     : false
   : boolean // not a tuple literal
 
-: TContainer extends KV
+: TContainer extends Dictionary
   ? IsEqual<TContainer, ExplicitlyEmptyObject> extends true
       ? false
       : [IsObjectLiteral<TContainer>] extends [true]

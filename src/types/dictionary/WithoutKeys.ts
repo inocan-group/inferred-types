@@ -5,13 +5,13 @@ import {
   AsArray, 
   IfLength, 
   ObjectKey,  
-  KV, 
+  Dictionary, 
   ExplicitlyEmptyObject, 
   RemoveIndexKeys
 } from "src/types/index";
 
 type Process<
-  TObj extends KV, 
+  TObj extends Dictionary, 
   TKeys extends ObjectKey | readonly ObjectKey[]
 > = IfLength<
   AsArray<TKeys>, 0,
@@ -40,7 +40,7 @@ type Process<
  * taking a union type it takes an array of keys.
  */
 export type WithoutKeys<
-  TObj extends KV, 
+  TObj extends Dictionary, 
   TKeys extends ObjectKey | readonly ObjectKey[]
 > = ExpandRecursively<RemoveIndexKeys<
   Process<TObj,TKeys>

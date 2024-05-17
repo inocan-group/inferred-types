@@ -1,7 +1,7 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { KeysWithValue, HasSameValues, KV, AnyFunction } from "src/types/index";
+import { KeysWithValue, HasSameValues, Dictionary, AnyFunction } from "src/types/index";
 import { createFnWithProps, defineObj} from "src/runtime/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -39,7 +39,7 @@ describe("KeysWithValue<T> utility", () => {
 
     type Fn = KeysWithValue<typeof obj, AnyFunction>;
     type ObjOfType = KeysWithValue<typeof obj, {foo: unknown; bar: unknown }>;
-    type Obj = KeysWithValue<typeof obj, KV>;
+    type Obj = KeysWithValue<typeof obj, Dictionary>;
 
     type cases = [
       ExpectTrue<HasSameValues<Num, ["foo", "foo2", "foo3"]>>,

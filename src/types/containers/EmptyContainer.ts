@@ -1,4 +1,4 @@
-import { Container,    ExplicitlyEmptyObject,  KV,  Keys } from "src/types/index";
+import { Container,    ExplicitlyEmptyObject,  Dictionary,  Keys } from "src/types/index";
 
 /**
  * **EmptyContainer**`<T>`
@@ -10,7 +10,7 @@ import { Container,    ExplicitlyEmptyObject,  KV,  Keys } from "src/types/index
  */
 export type EmptyContainer<
   T extends Container
-> = T extends KV 
+> = T extends Dictionary 
   ? T extends ExplicitlyEmptyObject
     ? true
     : Keys<T>["length"] extends 0

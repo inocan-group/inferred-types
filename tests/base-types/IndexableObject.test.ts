@@ -3,7 +3,7 @@ import { describe, it } from "vitest";
 import { 
   DoesExtend, 
   IndexableObject, 
-  KV
+  Dictionary
 } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -18,9 +18,9 @@ describe("IndexableObject and IndexedObject", () => {
   
   it("IndexableObject Basics", () => {
     type FooBarIdx = IndexableObject<FooBar>;
-    type FooBarIdxStr = IndexableObject<FooBar, KV<string>>;
+    type FooBarIdxStr = IndexableObject<FooBar, Dictionary<string>>;
     
-    type Identity = IndexableObject<KV>;
+    type Identity = IndexableObject<Dictionary>;
 
     type cases = [
       Expect<Equal<
@@ -40,7 +40,7 @@ describe("IndexableObject and IndexedObject", () => {
           [x:string]: unknown; 
         }
       >>,
-      Expect<Equal<Identity, KV>>,
+      Expect<Equal<Identity, Dictionary>>,
     ];
     const cases: cases = [
       true, true, true

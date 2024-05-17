@@ -1,4 +1,4 @@
-import {   KV, ReadonlyKeys, IsEqual } from "src/types/index";
+import {   Dictionary, ReadonlyKeys, IsEqual } from "src/types/index";
 
 /**
  * **IsReadonlyObject**`<T>`
@@ -9,7 +9,7 @@ import {   KV, ReadonlyKeys, IsEqual } from "src/types/index";
  * 
  * - Note: objects with no properties return `false`
  */
-export type IsReadonlyObject<T> = T extends KV
+export type IsReadonlyObject<T> = T extends Dictionary
   ? IsEqual<ReadonlyKeys<T>, keyof T>
   : false;
 

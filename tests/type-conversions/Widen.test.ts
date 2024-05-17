@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { Equal, Expect } from "@type-challenges/utils";
-import { EmptyObject, KV,  Widen } from "src/types/index";
+import { EmptyObject, Dictionary,  Widen } from "src/types/index";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -15,7 +15,7 @@ describe("Widen<T>", () => {
 
     type LiteralObj = Widen<{ foo: 42; bar: "baz" }>;
     type WideObj = Widen<{ foo: number; bar: string }>; // already wide
-    type KeyValue = Widen<KV>;
+    type KeyValue = Widen<Dictionary>;
     type Obj = Widen<object>;
 
     type Arr = Widen<["foo", false, 42]>; 

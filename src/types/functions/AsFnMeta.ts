@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import type { AnyFunction, IfEqual, FnMeta, FnProps, EmptyObject, KV } from "src/types/index";
+import type { AnyFunction, IfEqual, FnMeta, FnProps, EmptyObject, Dictionary } from "src/types/index";
 
 /**
  * **AsFnMeta**`<TFn>`
@@ -15,6 +15,6 @@ export type AsFnMeta<
   FnMeta<
     Parameters<TFn>, 
     ReturnType<TFn>, 
-    FnProps<TFn> extends KV ? FnProps<TFn> : never
+    FnProps<TFn> extends Dictionary ? FnProps<TFn> : never
   >
 >;

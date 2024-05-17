@@ -1,4 +1,4 @@
-import { KV } from "src/types/base-types/KV";
+import { Dictionary } from "src/types/base-types/KV";
 import { Keys, ObjectKey, RequiredProps } from "../..";
 
 /**
@@ -9,7 +9,7 @@ import { Keys, ObjectKey, RequiredProps } from "../..";
  */
 export type HasRequiredProps<
   T extends object
-> = T extends KV
+> = T extends Dictionary
 ? Keys<RequiredProps<T>> extends readonly ObjectKey[]
   ? Keys<RequiredProps<T>>["length"] extends 0
     ? false

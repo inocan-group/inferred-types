@@ -1,6 +1,6 @@
 import {  Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { FilterLiterals,  HasSameValues, KV } from "src/types/index";
+import { FilterLiterals,  HasSameValues, Dictionary } from "src/types/index";
 
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -15,10 +15,10 @@ describe("FilterLiterals<T>", () => {
     type BoolLits = FilterLiterals<[number, string, null,boolean,  true, false]>;
 
     type TupLits = FilterLiterals<
-      [KV, object, string[], readonly (string|number)[],  [1,2,3]]
+      [Dictionary, object, string[], readonly (string|number)[],  [1,2,3]]
     >
     type ObjLits = FilterLiterals<
-      [KV, object, string[], readonly (string|number)[], {foo: number}]
+      [Dictionary, object, string[], readonly (string|number)[], {foo: number}]
     >
     type ObjLits2 = FilterLiterals<
       [Record<string, string>, object, string[], readonly (string|number)[], {foo: number}]
@@ -29,8 +29,8 @@ describe("FilterLiterals<T>", () => {
       Expect<HasSameValues<StrLits, [number, string, null, boolean]>>,
       Expect<HasSameValues<BoolLits, [number, string, null, boolean]>>,
 
-      Expect<HasSameValues<TupLits, [KV, object, string[],readonly (string|number)[]]>>,
-      Expect<HasSameValues<ObjLits, [KV, object, string[],readonly (string|number)[]]>>,
+      Expect<HasSameValues<TupLits, [Dictionary, object, string[],readonly (string|number)[]]>>,
+      Expect<HasSameValues<ObjLits, [Dictionary, object, string[],readonly (string|number)[]]>>,
       Expect<HasSameValues<ObjLits2, [Record<string, string>, object, string[],readonly (string|number)[]]>>,
     ];
 

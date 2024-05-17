@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-use-before-define */
-import {   ChoiceRepresentation, ChoiceBuilder, MultipleChoice, Choice, Narrowable, KV, MergeKVs } from "src/types/index";
+import {   ChoiceRepresentation, ChoiceBuilder, MultipleChoice, Choice, Narrowable, Dictionary, MergeDictionarys } from "src/types/index";
 import { isString } from "../type-guards/isString";
 import {  isObject } from "../type-guards/index";
 import { Never } from "src/constants/Never";
@@ -8,7 +8,7 @@ import { createFnWithProps } from "../initializers";
 import { handleDoneFn } from "../boolean-logic";
 
 const chooseMany = <
-  TChoices extends KV<string>,
+  TChoices extends Dictionary<string>,
   TForceUnique extends boolean,
   TState extends readonly unknown[] = [],
   TExclude extends string = ""
@@ -64,16 +64,16 @@ export const choice = <
 }
 
 export const mergeChoices = <
-  T extends readonly KV<string>[]
->(...choices: T): MergeKVs<T> => {
-  let obj: KV<string> = {};
+  T extends readonly Dictionary<string>[]
+>(...choices: T): MergeDictionarys<T> => {
+  let obj: Dictionary<string> = {};
   for (const idx in choices) {
     obj = {
       ...obj,
       ...choices[idx as keyof typeof choices]
     }
   }
-  return obj as MergeKVs<T>
+  return obj as MergeDictionarys<T>
 }
 
 
