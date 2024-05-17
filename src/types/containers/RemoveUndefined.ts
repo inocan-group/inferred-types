@@ -1,4 +1,4 @@
-import { Container, EmptyObject, KV, ObjectKey, Tuple } from "../base-types";
+import { Container, EmptyObject, Dictionary, ObjectKey, Tuple } from "../base-types";
 import { IsUndefined } from "../boolean-logic/operators/IsUndefined";
 import { RemoveIndexKeys } from "../dictionary/RemoveIndexKeys";
 import { NumericKeys } from "../lists";
@@ -27,7 +27,7 @@ type Process<
         First<TKeys> extends keyof T
           ? TResults extends readonly unknown[] 
             ? [...TResults, T[First<TKeys>]]
-            : TResults extends KV
+            : TResults extends Dictionary
               ? TResults & Record<First<TKeys>, T[First<TKeys>]>
               : never
           : never

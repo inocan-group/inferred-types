@@ -1,5 +1,5 @@
 
-import { Container, IsValidIndex, KV, Tuple } from "src/types/index";
+import { Container, IsValidIndex, Dictionary, Tuple } from "src/types/index";
 import { isErrorCondition, isObject } from "src/runtime/index";
 
 
@@ -18,7 +18,7 @@ export const hasIndexOf = <
 ): value is TContainer & 
   (TContainer extends Tuple 
     ? Tuple<TIndex> 
-    : TContainer extends KV 
+    : TContainer extends Dictionary 
         ? Record<TIndex,unknown> 
         : never
 ) => {

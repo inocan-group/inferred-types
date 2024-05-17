@@ -1,5 +1,5 @@
 import {  ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { IsObjectLiteral, KV } from "src/types/index";
+import { IsObjectLiteral, Dictionary } from "src/types/index";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -13,7 +13,7 @@ describe("IsObjectLiteral<T>", () => {
     type T2 = IsObjectLiteral<Readonly<{foo: 1}>>;
 
     type F1 = IsObjectLiteral<object>;
-    type F2 = IsObjectLiteral<KV>;
+    type F2 = IsObjectLiteral<Dictionary>;
     type F3 = IsObjectLiteral<Record<string, string>>;
     
     type cases = [

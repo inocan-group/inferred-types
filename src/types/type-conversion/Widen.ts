@@ -11,7 +11,7 @@ import {
   If, 
   IsObjectLiteral, 
   IsUnion, 
-  KV, 
+  Dictionary, 
   Keys, 
   ObjectKey, 
   RemoveFnProps, 
@@ -23,7 +23,7 @@ import {
 
 type GetKeys<
   T extends AnyFunction
-> = FnProps<T> extends KV
+> = FnProps<T> extends Dictionary
 ? Keys<FnProps<T>> extends readonly ObjectKey[]
   ? Keys<FnProps<T>> extends readonly (keyof FnProps<T>)[]
     ? Keys<FnProps<T>>
@@ -68,7 +68,7 @@ type Process<T> = T extends Scalar
 type WidenObj<
   T extends object,
   TKeys extends readonly (keyof T)[],
-  TResults extends KV = EmptyObject
+  TResults extends Dictionary = EmptyObject
 > = [] extends TKeys
   ? TResults
   : WidenObj<

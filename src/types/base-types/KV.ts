@@ -1,11 +1,14 @@
 import { ObjectKey } from "./ObjectKey";
 
 /**
- * **KV**`<[K],[V]>`
+ * **Dictionary**`<[K],[V]>`
  * 
  * Represents a Key/Value dictionary type.
+ * 
+ * **Note:** this is pretty much the same as the built-in
+ * `Record<K,V>` type of Typescript but 
  */
-export type KV<
+export type Dictionary<
   K extends ObjectKey = ObjectKey,
   V = unknown
 > = Record<K,V>;

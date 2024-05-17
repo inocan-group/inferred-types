@@ -1,6 +1,6 @@
-import {  EmptyObject, ExpandRecursively, IsEqual, If, IsNever, KV, RemoveIndex, RemoveIndexKeys, UnionToTuple } from "src/types/index";
+import {  EmptyObject, ExpandRecursively, IsEqual, If, IsNever, Dictionary, RemoveIndex, RemoveIndexKeys, UnionToTuple } from "src/types/index";
 
-type Len<T extends KV> = UnionToTuple<keyof RemoveIndexKeys<T>>["length"]
+type Len<T extends Dictionary> = UnionToTuple<keyof RemoveIndexKeys<T>>["length"]
 
 /**
  * **IndexableObject**`<[TObj], [TIndex]>`
@@ -19,17 +19,17 @@ type Len<T extends KV> = UnionToTuple<keyof RemoveIndexKeys<T>>["length"]
  * **Related:** `EmptyObject`, `IndexedObject`
  */
 export type IndexableObject<
-  TObj extends KV = KV,
-  TIndex extends KV = KV
+  TObj extends Dictionary = Dictionary,
+  TIndex extends Dictionary = Dictionary
 > = If<
   IsNever<TObj>,
   never,
   If<
     IsEqual<TObj,EmptyObject>,
-    KV,
+    Dictionary,
     If<
       IsNever<Len<TObj>>,
-      KV,
+      Dictionary,
       ExpandRecursively<TIndex & RemoveIndex<TObj>>
     >
   >

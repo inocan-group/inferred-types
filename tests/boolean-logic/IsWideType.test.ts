@@ -1,5 +1,5 @@
 import {  ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import {  IsErrorCondition, IsWideContainer, IsWideScalar, IsWideType, KV, Throw } from "src/types/index";
+import {  IsErrorCondition, IsWideContainer, IsWideScalar, IsWideType, Dictionary, Throw } from "src/types/index";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -40,7 +40,7 @@ describe("IsWideContainer<T>", () => {
 
   it("happy path", () => {
     type T1 = IsWideContainer<object>;
-    type T2 = IsWideContainer<KV>;
+    type T2 = IsWideContainer<Dictionary>;
     type T3 = IsWideContainer<Record<string, string>>;
     type T4 = IsWideContainer<string[]>;
     type T5 = IsWideContainer<readonly string[]>;

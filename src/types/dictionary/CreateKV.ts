@@ -1,12 +1,12 @@
 import { EmptyObject } from "../base-types";
-import { KV } from "../base-types/KV";
+import { Dictionary } from "../base-types/KV";
 import { AfterFirst, First } from "../lists"
 import { ExpandRecursively } from "../literals";
 
 type Process<
 TKeys extends readonly string[],
 TValue,
-TObj extends KV = EmptyObject
+TObj extends Dictionary = EmptyObject
 >= [] extends TKeys
 ? TObj
 : Process<

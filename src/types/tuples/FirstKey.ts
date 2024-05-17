@@ -1,4 +1,4 @@
-import {  KV, Keys , Tuple, UnionToTuple } from "src/types/index";
+import {  Dictionary, Keys , Tuple, UnionToTuple } from "src/types/index";
 
 /**
  * Returns the _first_ key in an object.
@@ -6,7 +6,7 @@ import {  KV, Keys , Tuple, UnionToTuple } from "src/types/index";
  * **Note:** key order is not guaranteed so typically this is used
  * for a key/value pair where only one key is expected
  */
-export type FirstKey<T extends KV | Tuple> = T extends Tuple
+export type FirstKey<T extends Dictionary | Tuple> = T extends Tuple
 ? T extends [infer First extends unknown , ...unknown[]]
   ? First
   : never

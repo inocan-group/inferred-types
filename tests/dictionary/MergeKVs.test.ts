@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { KV, MergeKVs } from "src/types/index";
+import { Dictionary, MergeKVs } from "src/types/index";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -9,9 +9,9 @@ import { describe, it } from "vitest";
 describe("MergeKVs<T>", () => {
 
   it("Happy Path", () => {
-    type Foo = KV<"foo","foo">;
-    type Bar = KV<"bar","bar">;
-    type Baz = KV<"baz","baz">;
+    type Foo = Dictionary<"foo","foo">;
+    type Bar = Dictionary<"bar","bar">;
+    type Baz = Dictionary<"baz","baz">;
     type M = MergeKVs<[Foo,Bar,Baz]>;
     
     type cases = [

@@ -3,7 +3,7 @@ import { describe, it } from "vitest";
 
 import { 
   IsValidIndex,  
-  KV, 
+  Dictionary, 
   ExplicitlyEmptyObject, 
   EmptyObject 
 } from "src/types/index";
@@ -28,8 +28,8 @@ describe("IsValidKey<T>", () => {
     
     type B1 = IsValidIndex<string[], 0>;
     type BF1 = IsValidIndex<string[], "foo">;
-    type B2 = IsValidIndex<KV, "foo">;
-    type BF2 = IsValidIndex<KV, 0>;
+    type B2 = IsValidIndex<Dictionary, "foo">;
+    type BF2 = IsValidIndex<Dictionary, 0>;
     type BF3 = IsValidIndex<EmptyObject, "foo">;
     
     type cases = [

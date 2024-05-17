@@ -1,4 +1,4 @@
-import {  KV } from "src/types/index";
+import {  Dictionary } from "src/types/index";
 import { FirstKey } from "./FirstKey";
 
 /**
@@ -7,4 +7,4 @@ import { FirstKey } from "./FirstKey";
  * about key order, this is typically only used in cases where it's known there is
  * a single key on the object.
  */
-export type FirstKeyValue<T extends KV> = FirstKey<T> extends keyof T ? T[FirstKey<T>] : never;
+export type FirstKeyValue<T extends Dictionary> = FirstKey<T> extends keyof T ? T[FirstKey<T>] : never;

@@ -7,7 +7,7 @@ import type {
   EmptyObject,
   ObjectKey,
   VueRef,
-  KV,
+  Dictionary,
   HasSameValues,
   HasSameKeys,
 } from "src/types/index";
@@ -51,7 +51,7 @@ describe("Keys<T> with object targets", () => {
   type EmptyObj = Keys<EmptyObject>;
   type Uno = Keys<{baz: 3}>;
   type StrRec = Keys<Record<string, string>>;
-  type KeyVal = Keys<KV>;
+  type KeyVal = Keys<Dictionary>;
 
   // eslint-disable-next-line @typescript-eslint/ban-types
   type Curly = Keys<{}>;

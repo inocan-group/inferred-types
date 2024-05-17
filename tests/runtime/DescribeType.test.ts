@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { DescribeType, KV, Nothing } from "src/types/index";
+import { DescribeType, Dictionary, Nothing } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -19,7 +19,7 @@ describe("DescribeType<T>", () => {
     type True = DescribeType<true>;
     type False = DescribeType<false>;
     type Obj = DescribeType<object>;
-    type KeyValue = DescribeType<KV>;
+    type KeyValue = DescribeType<Dictionary>;
     type RecStr = DescribeType<Record<string, string>>;
     type RecNum = DescribeType<Record<string, number>>;
     type ObjLiteral = DescribeType<{foo: 1; bar: 2}>;

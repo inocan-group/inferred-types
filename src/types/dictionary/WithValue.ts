@@ -3,14 +3,14 @@ import {
   Compare,
   ExpandRecursively,
   If, 
-  KV
+  Dictionary
 } from "src/types/index";
 import { RemoveMarked } from "../containers/RemoveMarked";
 
 type Marked = typeof MARKED;
 
 type Process<
-  TObj extends KV,
+  TObj extends Dictionary,
   TValue,
   TOp extends "equals" | "extends"
 > = RemoveMarked<{
@@ -35,7 +35,7 @@ type Process<
  * **Related:** `WithoutValue`, `WithKeys`, `WithoutKeys`
  */
 export type WithValue<
-  TObj extends KV,
+  TObj extends Dictionary,
   TValue,
   TOp extends "equals" | "extends" = "extends"
 > = ExpandRecursively<Process<TObj,TValue,TOp>>

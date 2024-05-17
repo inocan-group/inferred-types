@@ -1,8 +1,19 @@
-import {KV, ObjectKey } from "src/types/index";
+import { Dictionary } from "src/types/index";
 
 /**
- * **Container**`<V=unknown>`
+ * **Container**
  * 
- * A type which represents any `KV<ObjectKey,V>` or tuple of `readonly V[]`.
+ * A type which represents any container type including:
+ * 
+ *  - any object based type defined with Record<K,V>
+ *  - any array or tuple
+ *  - any `Map<K,V>`, `WeakMap<K,V>`, or `Set<T>`
  */
-export type Container<V = unknown> = KV<ObjectKey, V> | readonly V[] | object;
+export type Container = 
+| Dictionary 
+| readonly unknown[] 
+| Map<unknown,unknown> 
+| WeakMap<object,unknown>
+| Set<unknown>
+| object;
+

@@ -7,8 +7,9 @@ import {
   Tuple,
   Time,
   AnyObject,
-  IfTrue,
-  IfFalse,
+ If,
+ IsTrue,
+ IsBooleanLiteral,
   CamelCase,
   EmptyObject,
   AnyFunction,
@@ -104,7 +105,7 @@ export const kind =  {
         ? t<true>("<<true>>")
         : t<false>("<<false>>")
       ) 
-    ) as IfTrue<T, true, IfFalse<T, false, boolean>>,
+    ) as unknown as If<IsTrue<T>, true, If<IsBooleanLiteral<T>, false, boolean>>,
 
   /** 
    * **booleanString**()

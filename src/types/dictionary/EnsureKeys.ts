@@ -1,13 +1,13 @@
-import { KV } from "../base-types";
+import { Dictionary } from "../base-types";
 import { ExpandRecursively } from "../literals";
 import { CreateKV } from "./CreateKV";
 
 type BuildObj<
-  T extends readonly string[] | KV | [KV],
+  T extends readonly string[] | Dictionary | [Dictionary],
   TType
-> = T extends KV
+> = T extends Dictionary
 ? T
-: T extends [KV]
+: T extends [Dictionary]
 ? T[0]
 : T extends string[]
 ? CreateKV<T,TType>
@@ -28,7 +28,7 @@ type BuildObj<
  */
 export type EnsureKeys<
   TObj extends object,
-  TKeys extends readonly string[] | KV | [KV],
+  TKeys extends readonly string[] | Dictionary | [Dictionary],
   TType = unknown
 > = ExpandRecursively<
   TObj & BuildObj<TKeys, TType>

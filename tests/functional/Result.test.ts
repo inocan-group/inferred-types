@@ -101,7 +101,6 @@ describe("ok(), err(), isOk() and other Result runtime utils", () => {
   it("runtime base happy path", () => {
     const five = ok(5);
     const five_n = okN(5);
-    const _bad_juju = err("bad-juju");
 
     const simple_err = createErr("Oops");
     const simple = err(simple_err);
@@ -146,9 +145,7 @@ describe("ok(), err(), isOk() and other Result runtime utils", () => {
       Expect<Equal<IsErr<typeof err_result, "nada">, false>>, 
       ExpectTrue<IsOk<typeof ok_result>>,
 
-      Expect<Equal<typeof expected["err"], {
 
-      }>>
     ];
     const cases: cases = [
       true, true,

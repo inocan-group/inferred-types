@@ -6,7 +6,7 @@ import {
   AfterFirst, 
   NumericKeys,
   RemoveIndexKeys,
-  Container, EmptyObject, KV, ObjectKey, Tuple
+  Container, EmptyObject, Dictionary, ObjectKey, Tuple
 } from "src/types/index";
 
 
@@ -32,7 +32,7 @@ type Process<
         First<TKeys> extends keyof T
           ? TResults extends readonly unknown[] 
             ? [...TResults, T[First<TKeys>]]
-            : TResults extends KV
+            : TResults extends Dictionary
               ? TResults & Record<First<TKeys>, T[First<TKeys>]>
               : never
           : never
