@@ -29,9 +29,10 @@ export type AsNonNull<T> = If<
 > extends null 
 ? never
 : If<
-IsEqual<T, null>,
-InvalidCast<T>,
-IsUnion<T> extends true
-  ? TupleToUnion<Filter<UnionToTuple<T>, null>>
-  : T
->
+    IsEqual<T, null>,
+    InvalidCast<T>,
+    IsUnion<T> extends true
+      ? TupleToUnion<Filter<UnionToTuple<T>, null>>
+      : T
+    >
+

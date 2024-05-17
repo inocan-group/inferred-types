@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-use-before-define */
-import { Container,   Narrowable,  ObjectKey,  UniqueKeys } from "src/types/index";
+import { Container,    ObjectKey,  UniqueKeys } from "src/types/index";
 import { isArray } from "../type-guards/isArray";
-import { toNumber } from "../type-conversion/toNumber";
 
 /**
  * **uniqueKeys**(left, right)
@@ -11,10 +10,8 @@ import { toNumber } from "../type-conversion/toNumber";
  * unique keys for each participant list passed in.
  */
 export const uniqueKeys = <
-  L extends Container<VL>,
-  R extends Container<VR>,
-  VL extends Narrowable,
-  VR extends Narrowable
+  L extends Container,
+  R extends Container,
 >(left: L, right: R): UniqueKeys<L,R> => {
   const isNumeric = isArray(left) && isArray(right)
     ? true
@@ -29,12 +26,12 @@ export const uniqueKeys = <
 
   const l = (
     isNumeric 
-    ? toNumber(Object.keys(left)) 
+    ? Object.keys(left).map(i => Number(i))
     : Object.keys(left)
   ) as ObjectKey[];
   const r = (
     isNumeric
-    ? toNumber(Object.keys(right)) 
+    ? Object.keys(right).map(i => Number(i))
     : Object.keys(right)
   ) as ObjectKey[];
 

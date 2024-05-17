@@ -1,4 +1,4 @@
-import {  IfArray, IfLength, Narrowable, Scalar, Tuple } from "src/types/index";
+import {  If, IsArray, IfLength, Narrowable, Scalar, Tuple } from "src/types/index";
 
 /**
  * **ifLength**(val,length, ifVal, elseVal)
@@ -20,7 +20,7 @@ export function ifLength<
   value: TList, 
   length: TLen,
   ifVal: <V extends Exclude<TList, Scalar | undefined> & Tuple>(v: V) => IF, 
-  elseVal: <V extends IfArray<TList, TList, Exclude<TList, Tuple>>>(v:V) => ELSE
+  elseVal: <V extends If<IsArray<TList>, TList, Exclude<TList, Tuple>>>(v:V) => ELSE
 ) {
   return (
     Array.isArray(value) && (value as unknown[]).length === length

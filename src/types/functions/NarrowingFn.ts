@@ -1,26 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Throw, UnionToTuple } from "src/types/index";
+import {  AnyFunction, IsEqual, IsNarrowingFn, Throw } from "src/types/index";
 
-type IsAtomicLiteral<T> = [T] extends [string | number | boolean]
-? [
-  string extends UnionToTuple<T>[0] ? true : false,
-  number extends UnionToTuple<T>[0] ? true : false,
-  [[false, true]] extends [UnionToTuple<T> ] ? true : false 
-] extends [ false, false, false ]
-  ? UnionToTuple<T>["length"] extends 1 
-      ? true 
-      : T extends boolean
-        ? UnionToTuple<T>["length"] extends 2
-          ? true
-          : false
-    : false
-  : false
-: false;
+
 
 /**
  * **NarrowingFn**`<N>`
  * 
- * Produces a function which helps to narrow down to the type passed in.
+ * Produces a function which helps to narrow down to the type passed in 
+ * by assigning generics to all input parameters.
  * 
  * ```ts
  * // <T extends string>(name: string) => string
@@ -30,14 +17,20 @@ type IsAtomicLiteral<T> = [T] extends [string | number | boolean]
  * // <T extends number>(v: T) => T
  * type Fn2 = NarrowingFn<42>;
  * ```
+ * 
+ * **Related:** `LiteralFn`, `IsNarrowingFn`
  */
-export type NarrowingFn<N> = [N] extends [((...args: infer Args) => any)]
-? <T extends Args>(...args: T) => ReturnType<N>
-: [IsAtomicLiteral<N>] extends [true]
+export type NarrowingFn<
+  TFn extends AnyFunction
+> = IsEqual<Parameters<TFn>, []> extends true
   ? Throw<
-      "invalid-literal",
-      `The value passed into NarrowingFn<T> is already "atomic" so it can no longer be narrowed further. Consider using ToFn<T> instead to create an identity function for this value.`,
+      "no-parameters",
+      `To make a function a NarrowingFn it must have at least one parameter!`,
       "NarrowingFn",
-      { library: "inferred-types"; value: N }
+      { library: "inferred-types"; params: TFn }
     >
-  : (<T extends N>(v: T) => T);
+  : IsNarrowingFn<TFn> extends true
+    ? TFn
+    : (<T extends Parameters<TFn>>(...args: T) => ReturnType<TFn>);
+
+

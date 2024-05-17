@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
-import { AnyFunction, FnMeta } from "src/types/index";
+import { AnyFunction, FnMeta, IsNever } from "src/types/index";
 
 /**
  * **ToFn**`<T>`
@@ -17,9 +17,8 @@ import { AnyFunction, FnMeta } from "src/types/index";
  */
 export type ToFn<T> = T extends AnyFunction
     ? T
-    : T extends FnMeta<infer Args, infer Returns, infer Props>
-      ? "no-props" extends Props
-        ? (...args: Args) => Returns
-        : ((...args: Args) => Returns) & Props
+    : T extends FnMeta<infer _Args, infer _Returns, infer Props, infer Fn>
+      ? IsNever<Props> extends true
+        ? Fn
+        : Fn & Props
   : () => T
-

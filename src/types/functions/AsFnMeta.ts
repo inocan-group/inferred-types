@@ -1,20 +1,21 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import type { AnyFunction, IfEqual, FnMeta, FnProps, EmptyObject, Dictionary } from "src/types/index";
+import type { AnyFunction, FnMeta, FnProps, EmptyObject, IsEqual, If, ExpandRecursively } from "src/types/index";
 
 /**
  * **AsFnMeta**`<TFn>`
  * 
- * Takes a function `TFn` and returns the meta information in `FnMeta`
- * format.
+ * Converts any function into `FnMeta` format.
  */
 export type AsFnMeta<
   TFn extends AnyFunction
-> = IfEqual<
-  FnProps<TFn>, EmptyObject,
-  FnMeta<Parameters<TFn>, ReturnType<TFn>, "no-props">,
+> = If<
+  IsEqual<FnProps<TFn>, EmptyObject>,
+  FnMeta<Parameters<TFn>, ReturnType<TFn>, never, TFn>,
   FnMeta<
     Parameters<TFn>, 
     ReturnType<TFn>, 
-    FnProps<TFn> extends Dictionary ? FnProps<TFn> : never
+    ExpandRecursively<FnProps<TFn>>,
+    TFn
   >
 >;
+

@@ -1,4 +1,4 @@
-import { IfChar, Narrowable } from "src/types/index";
+import { If, IsSingleChar, Narrowable } from "src/types/index";
 import { Never } from "src/constants/index";
 
 type Callback<T extends string, R> = <V extends T>(v: V) => R;
@@ -19,5 +19,5 @@ export function ifChar<
     ch.length === 1
     ? callback_if_match(ch)
     : callback_not_match(ch)
-  ) as IfChar<T, IF, ELSE>;
+  ) as If<IsSingleChar<T>, IF, ELSE>;
 }

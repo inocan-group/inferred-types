@@ -17,9 +17,9 @@ export type List<
 const api = <
   TName extends string,
   TState extends readonly Narrow[],
->(name: TName, state: TState) => ({
+>(name: TName, state: TState): List<TName, TState> => ({
   values: state,
-  add: <A extends Narrow>(item: A) => api([...state, item]),
+  add: <A extends Narrow>(item: A) => api(name, [...state, item]),
   has: <A extends Narrow>(item: A) => state.includes(item) as Contains<TState,A>
 } as List<TName, TState>)
 

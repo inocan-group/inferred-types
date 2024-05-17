@@ -1,5 +1,5 @@
 import { EmptyObject } from "../base-types";
-import { Dictionary } from "../base-types/KV";
+import { Dictionary } from "../base-types/Dictionary";
 import { AfterFirst, First } from "../lists"
 import { ExpandRecursively } from "../literals";
 

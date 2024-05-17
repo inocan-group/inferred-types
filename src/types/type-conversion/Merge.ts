@@ -3,29 +3,44 @@ import {
   DoesExtend, 
   If,
   And , 
-  IsOptionalScalar , 
   Narrowable, 
   AfterFirst , 
   First , 
   Scalar, 
   MergeObjects,
-  Dictionary
+  Dictionary,
+  AsDictionary,
+  AreSameType,
+  Throw,
+  Or,
+  IsNothing,
+  Nothing
 } from "src/types/index";
 
 // 1. Keep all unique keys in `TValue`
 // 2. Strip all KV's on `TValue` which are _undefined_
 // 3. Add all unique props from `TDefaultVal`
 
+
+/**
+ * **MergeScalars**`<TDefault, TOverride, [TEmpty]>`
+ * 
+ * Provides a `Scalar` value by evaluating whether `TDefault`
+ * and `TOverride` extends `TEmpty` (which is `null` | `undefined`
+ * by default).
+ * 
+ * Note: if both `TDefault` and `TOverride` are _undefined_ then the
+ * exiting type will be _undefined_ (which isn't strictly a `Scalar` 
+ * value).
+ */
 export type MergeScalars<
-  TDefault extends Narrowable,
-  TOverride extends Narrowable,
-> = IsOptionalScalar<TDefault> extends true
-? IsOptionalScalar<TOverride> extends true
-  ? IsUndefined<TOverride> extends true
-    ? TDefault
-    : Exclude<TOverride, undefined>
-  : never
-: never;
+  TDefault extends Scalar | undefined,
+  TOverride extends Scalar | undefined,
+  TEmpty extends Scalar | undefined = null | undefined
+> = TDefault extends TEmpty
+? TOverride
+: TOverride extends TEmpty
+  ? TDefault : TOverride;
 
 
 
@@ -57,33 +72,53 @@ export type MergeTuples<
 > = MergeTuplesAcc<[...TDefault], [...TOverride], TKey>;
 
 
+type Process<
+TDefault, 
+TOverride
+> = And<[
+  DoesExtend<TDefault, Dictionary|Nothing>, DoesExtend<TOverride, Dictionary|Nothing>
+]> extends true
+? MergeObjects<AsDictionary<TDefault>,AsDictionary<TOverride> >
+: And<[ 
+    DoesExtend<TDefault, Scalar|undefined>, DoesExtend<TOverride, Scalar|undefined> 
+  ]> extends true
+  ? MergeScalars<TDefault & Scalar, TOverride & Scalar>
+  :
+    And<[ 
+      DoesExtend<TDefault, readonly Narrowable[]>, 
+      DoesExtend<TOverride, readonly Narrowable[]> 
+    ]> extends true
+    ? MergeTuples<TDefault & readonly Narrowable[], TOverride & readonly Narrowable[]>
+    : never;
 
-// /**
-//  * **Merge**`<TDefault,TOverride>`
-//  *
-//  * A type utility that will merge any two values together. The merge strategy
-//  * is broken up by scalar, tuple, and object types each of which leverages the
-//  * `MergeScalars`, `MergeTuples`, and `MergeObjects` utilities.
-//  * 
-//  * You may want to consider using the specific merge utility if you have that option
-//  * but there are cases where another level of indirection is desirable.
-//  */
+
+/**
+ * **Merge**`<TDefault,TOverride>`
+ *
+ * A type utility that will merge any two like values together. 
+ * 
+ * **Related:** `MergeObjects`, `MergeScalars`, `MergeTuples`
+ */
 export type Merge<
   TDefault, 
-  TOverride
-> = If<
-  And<[DoesExtend<TDefault, Dictionary>, DoesExtend<TOverride, Dictionary>]>,
-  MergeObjects<TDefault & Dictionary,TOverride & Dictionary>,
-  If<
-    And<[ DoesExtend<TDefault, Scalar>, DoesExtend<TOverride, Scalar> ]>,
-    MergeScalars<TDefault & Scalar, TOverride & Scalar>,
-    If<
-      And<[ 
-        DoesExtend<TDefault, readonly Narrowable[]>, 
-        DoesExtend<TOverride, readonly Narrowable[]> 
-      ]>,
-      MergeTuples<TDefault & readonly Narrowable[], TOverride & readonly Narrowable[]>,
-      never
-    >
-  >
->;
+  TOverride,
+> = AreSameType<TDefault,TOverride> extends true
+? Process<TDefault,TOverride>
+: Or<[
+    IsNothing<TDefault>, IsNothing<TOverride>
+  ]> extends true
+    ? And<[IsNothing<TDefault>, IsNothing<TOverride>]> extends true 
+      ? Throw<
+          "invalid-merge", 
+          `Merge<TDef,TOver> received two empty values; at least one needs to have a value!`,
+          "Merge",
+          { library: "inferred-types"; TDef: TDefault; TOver: TOverride }
+        >
+      : Process<TDefault, TOverride>
+    : Throw<
+      "invalid-merge",
+      `the Merge<TDef,TOver> utility can merge various types but both types must be of the same base type and they were not!`,
+      "Merge",
+      { library: "inferred-types"; TDef: TDefault; TOver: TOverride}
+    >;
+

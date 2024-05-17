@@ -80,6 +80,8 @@ export interface TypeErrorInfo<
    * to the error which don't fit into the other props provided.
    */
   ctx?: TContext;
+
+  [key: string]: unknown;
 }
 
 
@@ -111,7 +113,6 @@ export type ErrorCondition<
   TRest extends TypeErrorInfo = EmptyObject
 > = ExpandRecursively<
 RemoveNever<{
-  __kind: "ErrorCondition";
   /** the kind/category of error this is */
   kind: TKind;
   /** an error about the message */
@@ -120,5 +121,6 @@ RemoveNever<{
   utility: TUtility;
   /** the stack of utility types which were used to get to this error */
   stack: TStack;
+  __kind: "ErrorCondition";
 }> & TRest>
 

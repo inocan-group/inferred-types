@@ -56,7 +56,7 @@ describe("omit()", () => {
     const test = omit(input, "foo");
     
     type cases = [
-      Expect<Equal<typeof test, {bar: 2; baz: readonly ["testing", "something"]}>>
+      Expect<Equal<typeof test, {bar: 2; baz: ["testing", "something"]}>>
     ];
     const cases: cases = [ true ];
 

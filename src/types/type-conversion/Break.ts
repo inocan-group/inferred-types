@@ -9,6 +9,8 @@
  * // ["there", " I was, there I was"]
  * type T2 = Break<"there I was, there I was", " ">;
  * ```
+ * 
+ * **Related:** `Split`
  */
 export type Break<T extends string, D extends string> = (
   string extends T ? [string, string] : (

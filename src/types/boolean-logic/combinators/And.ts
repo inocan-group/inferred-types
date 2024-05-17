@@ -23,7 +23,7 @@ type Process<
 
 
 /**
- * **And**`<TConditions, [TParams]>`
+ * **And**`<TConditions, [TEmpty]>`
  * 
  * Allows an array of conditions which are either ARE a boolean value or a 
  * function which evaluates to a boolean value to be logically AND'd together.

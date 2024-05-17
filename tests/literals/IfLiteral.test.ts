@@ -1,7 +1,13 @@
 import { ExpectTrue, ExpectFalse } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { IsLiteral,  EmptyObject, IndexableObject, IsObjectLiteral, ExplicitlyEmptyObject, KV } from "src/types/index";
+import { 
+  IsLiteral,  
+  EmptyObject,  
+  IsObjectLiteral, 
+  ExplicitlyEmptyObject, 
+  Dictionary 
+} from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -53,7 +59,7 @@ describe("IsLiteral<T>", () => {
   it("Edge Cases", () => {
     type Empty = IsLiteral<EmptyObject>;
     type Explicit = IsLiteral<ExplicitlyEmptyObject>;
-    type BaseKV = IsObjectLiteral<KV>;
+    type BaseDictionary = IsObjectLiteral<Dictionary>;
     // eslint-disable-next-line @typescript-eslint/ban-types
     type Curly = IsLiteral<{}>;
     
@@ -64,9 +70,9 @@ describe("IsLiteral<T>", () => {
       // an explicitly empty object -- which has it's index keys set to _never_
       // -- can never have any key/values and therefore IS a literal
       ExpectTrue<Explicit>,
-      // a type marked at `KV` is generic; it can take any normal key/value
+      // a type marked at `Dictionary` is generic; it can take any normal key/value
       // pair that an object is allowed so therefore it is NOT literal
-      ExpectFalse<BaseKV>,
+      ExpectFalse<BaseDictionary>,
       // the `{}` type is quite misunderstood and really should be called
       // `Something` (which we do export as a symbol in this lib). Effectively
       // it is just any value except for **null** and **undefined**.

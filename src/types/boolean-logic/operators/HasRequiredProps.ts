@@ -1,4 +1,4 @@
-import { Dictionary } from "src/types/base-types/KV";
+import { Dictionary } from "../../base-types/Dictionary";
 import { Keys, ObjectKey, RequiredProps } from "../..";
 
 /**

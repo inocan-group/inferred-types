@@ -8,11 +8,11 @@ import {
   Not,
   GetEach,
   IsScalar,
-  If,
   TupleToUnion,
   UnionToTuple,
-  Passthrough,
   AsString,
+  IsNever,
+  As,
 } from "src/types/index";
 
 type Get<
@@ -41,25 +41,20 @@ type Process<
     Push<
       TResults,
       First<TResults>,
-      If<
-        IsScalar<First<TValues>>,
+      IsScalar<First<TValues>> extends true
         // a scalar value should/can ignore the deref setting
-        Not<Contains<TResults, First<TValues>>>,
+        ? Not<Contains<TResults, First<TValues>>>
         // a non-scalar must consider deref setting
-        Not<Contains<
-          Passthrough<
-            IfNever<
-              TDeref, 
-              TResults, 
-              GetEach<TResults, AsString<TDeref>>
-            >,
-            string | number | readonly unknown[],
-            never
+        : Not<Contains<
+          As<
+            IsNever<TDeref> extends true  
+              ? TResults
+              : GetEach<TResults, AsString<TDeref>>,
+            string | number | readonly unknown[]
           >,
           Get<First<TValues>,TDeref>
         >> 
       >
-    >
 >;
 
 /**

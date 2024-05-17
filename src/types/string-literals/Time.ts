@@ -2,11 +2,10 @@ import {  Default, EmptyObject, IndexOf, NumericChar, PlusMinus, TypeRequired, T
 
 type CivilianTwoDigitHour = "10" | "11" | "12";
 export type TimeResolution = "HH:MM" | "HH:MM:SS" | "HH:MM:SS.ms";
-export type TimeNomenclature = "military" | "civilian" | "either";
+export type TimeNomenclature = "military" | "civilian";
 export type AmPmCase = "lower" | "upper" | "bare";
 
 type ZeroToFive = "0" | "1" | "2" | "3" | "4" | "5";
-
 
 
 /**
@@ -99,15 +98,10 @@ export type TzHourOffset = `0${NumericChar}` | "10" | "11";
  * are other options for the `TStrength` generic.
  */
 export type TZ<
-  TStr extends TypeStrength | "exclude" = "strong",
   TRequire extends "required" | "optional" | "exclude" = "required"
 > = TRequire extends "exclude"
 ? ""
-: TStr extends "strong"
-  ? TRequire extends "optional"
-    ? `${PlusMinus}${TzHourOffset}:${ZeroToFive}${NumericChar}` | ""
-    : `${PlusMinus}${TzHourOffset}:${ZeroToFive}${NumericChar}`
-  : TRequire extends "optional"
+: TRequire extends "optional"
     ? `${PlusMinus}:${number}:${number}` | ""
     : `${PlusMinus}:${number}:${number}`;
 
@@ -148,8 +142,8 @@ export type MilitaryHours<
 export type HoursMinutes<
   TOpt extends MilitaryTimeOptions = Opt<EmptyObject>
 > = Opt<TOpt>["strength"] extends "strong"
-  ? `${MilitaryHours<Opt<TOpt>["fixedLengthHours"]>}:${Minutes}${TZ<"strong", Opt<TOpt>["timezone"]>}`
-  : `${number}:${number}${TZ<"simple", Opt<TOpt>["timezone"]>}`;
+  ? `${MilitaryHours<Opt<TOpt>["fixedLengthHours"]>}:${Minutes}${TZ<Opt<TOpt>["timezone"]>}`
+  : `${number}:${number}${TZ<Opt<TOpt>["timezone"]>}`;
 
 /**
  * **HoursMinutes12**`<[TOpt]>`
@@ -163,8 +157,8 @@ export type HoursMinutes<
 export type HoursMinutes12<
   TOpt extends CivilianTimeOptions = Opt<EmptyObject>
 > = Opt<TOpt>["strength"] extends "strong"
-? `${CivilianHours<Opt<TOpt>["fixedLengthHours"]>}:${ZeroToFive}${NumericChar}${AmPm<Opt<TOpt>["amPmCase"]>}${TZ<"strong", Opt<TOpt>["timezone"]>}`
-: `${number}:${number}${AmPm<Opt<TOpt>["amPmCase"]>}${TZ<"simple", Opt<TOpt>["timezone"]>}`;
+? `${CivilianHours<Opt<TOpt>["fixedLengthHours"]>}:${ZeroToFive}${NumericChar}${AmPm<Opt<TOpt>["amPmCase"]>}${TZ<Opt<TOpt>["timezone"]>}`
+: `${number}:${number}${AmPm<Opt<TOpt>["amPmCase"]>}${TZ< Opt<TOpt>["timezone"]>}`;
 
 /**
  * **HoursMinutesSeconds**`<[TOpt]>`
@@ -175,15 +169,15 @@ export type HoursMinutes12<
 export type HoursMinutesSeconds<
   TOpt extends MilitaryTimeOptions = Opt<EmptyObject>
 > = Opt<TOpt>["strength"] extends "strong"
-  ? `${HoursMinutes<TOpt>}:${Seconds<"simple">}${TZ<"simple", Opt<TOpt>["timezone"]>}`
-  : `${number}:${number}:${number}${TZ<"simple", Opt<TOpt>["timezone"]>}`;
+  ? `${HoursMinutes<TOpt>}:${Seconds<"simple">}${TZ<Opt<TOpt>["timezone"]>}`
+  : `${number}:${number}:${number}${TZ<Opt<TOpt>["timezone"]>}`;
 
 
 export type HoursMinutesSecondsMilliseconds<
   TOpt extends MilitaryTimeOptions = Opt<EmptyObject>
 > = Opt<TOpt>["strength"] extends "strong"
-  ? `${HoursMinutes}:${Seconds<"simple">}.${number}${TZ<"simple", Opt<TOpt>["timezone"]>}`
-  : `${number}:${number}:${number}.${number}${TZ<"simple", Opt<TOpt>["timezone"]>}`;
+  ? `${HoursMinutes}:${Seconds<"simple">}.${number}${TZ< Opt<TOpt>["timezone"]>}`
+  : `${number}:${number}:${number}.${number}${TZ<Opt<TOpt>["timezone"]>}`;
 
 /**
  * **HoursMinutesSeconds12**`<[TTimezone]>`
@@ -194,14 +188,14 @@ export type HoursMinutesSecondsMilliseconds<
 export type HoursMinutesSeconds12<
   TOpt extends CivilianTimeOptions = Opt<EmptyObject>
 > = Opt<TOpt>["strength"] extends "strong"
-? `${HoursMinutes}:${Seconds<"simple">}${AmPm<Opt<TOpt>["amPmCase"]>}${TZ<"simple", Opt<TOpt>["timezone"]>}`
-: `${number}:${number}:${number}${AmPm<Opt<TOpt>["amPmCase"]>}${TZ<"simple", Opt<TOpt>["timezone"]>}`;
+? `${HoursMinutes}:${Seconds<"simple">}${AmPm<Opt<TOpt>["amPmCase"]>}${TZ<Opt<TOpt>["timezone"]>}`
+: `${number}:${number}:${number}${AmPm<Opt<TOpt>["amPmCase"]>}${TZ<Opt<TOpt>["timezone"]>}`;
 
 export type HoursMinutesSecondsMilliseconds12<
   TOpt extends CivilianTimeOptions = Opt<EmptyObject>
 > = Opt<TOpt>["strength"] extends "strong"
-? `${HoursMinutes}:${Seconds<"simple">}.${number}${AmPm<Opt<TOpt>["amPmCase"]>}${TZ<"simple", Opt<TOpt>["timezone"]>}`
-: `${number}:${number}:${number}.${number}${AmPm<Opt<TOpt>["amPmCase"]>}${TZ<"simple", Opt<TOpt>["timezone"]>}`;
+? `${HoursMinutes}:${Seconds<"simple">}.${number}${AmPm<Opt<TOpt>["amPmCase"]>}${TZ< Opt<TOpt>["timezone"]>}`
+: `${number}:${number}:${number}.${number}${AmPm<Opt<TOpt>["amPmCase"]>}${TZ<Opt<TOpt>["timezone"]>}`;
 
 /**
  * **TimeInMinutes**`<TNomenclature,[TOpts]>`
@@ -212,11 +206,9 @@ export type HoursMinutesSecondsMilliseconds12<
  * by default but can be isolated with the use the `TNomenclature` generic.
  */
 export type TimeInMinutes<
-  TNomenclature extends TimeNomenclature = "either",
+  TNomenclature extends TimeNomenclature = "military",
   TOpt extends CivilianTimeOptions = Opt<EmptyObject>
-> = TNomenclature extends "either"
-? HoursMinutes<TOpt> | HoursMinutes12<TOpt>
-: TNomenclature extends "military"
+> = TNomenclature extends "military"
   ? HoursMinutes<TOpt>
   : TNomenclature extends "civilian"
     ? HoursMinutes12<TOpt>
@@ -236,22 +228,18 @@ export type TimeInMinutes<
  * ```
  */
 export type TimeInSeconds<
-  TNomenclature extends TimeNomenclature = "either",
+  TNomenclature extends TimeNomenclature = "military",
   TOpt extends CivilianTimeOptions = Opt<EmptyObject>
-> = TNomenclature extends "either"
-? HoursMinutesSeconds<TOpt> | HoursMinutesSeconds12<TOpt>
-: TNomenclature extends "military"
+> = TNomenclature extends "military"
   ? HoursMinutesSeconds<TOpt>
   : TNomenclature extends "civilian"
     ? HoursMinutesSeconds12<TOpt>
     : never;
 
 export type TimeInMilliseconds<
-  TNomenclature extends TimeNomenclature = "either",
+  TNomenclature extends TimeNomenclature = "military",
   TOpt extends CivilianTimeOptions = Opt<EmptyObject>
-> = TNomenclature extends "either"
-  ? HoursMinutesSecondsMilliseconds<TOpt> | HoursMinutesSecondsMilliseconds12<TOpt>
-  : TNomenclature extends "military"
+> = TNomenclature extends "military"
     ? HoursMinutesSecondsMilliseconds<TOpt>
     : TNomenclature extends "civilian"
       ? HoursMinutesSecondsMilliseconds12<TOpt>
@@ -329,7 +317,7 @@ export type CivilianTime<
  */
 export type Time<
   TResolution extends TimeResolution,
-  TNomenclature extends TimeNomenclature = "either",
+  TNomenclature extends TimeNomenclature = "military",
   TOpt extends CivilianTimeOptions = Opt<EmptyObject>
 > = TResolution extends "HH:MM"
     ? TimeInMinutes<TNomenclature, TOpt>

@@ -5,10 +5,7 @@ import {
   TZ,
   Time,
   YMD,
-  TypeStrength,
   TypeRequired,
-  MilitaryHours,
-  Minutes,
   TimeNomenclature,
   TimeResolution
 } from "src/types/index";
@@ -21,12 +18,11 @@ import {
  */
 export type DateTimeMinutes<
   S extends DateSeparator = DateSeparator
-> = `${YMD<"simple",S>} ${HoursMinutes}`;
+> = `${YMD<S>} ${HoursMinutes<{strength: "simple"}>}`;
 
 export type DateTimeSeconds<
   S extends DateSeparator = DateSeparator
-> = `${YMD<"simple",S>} ${HoursMinutesSeconds}`;
-
+> = `${YMD<S>} ${HoursMinutesSeconds<{strength: "simple"}>}`;
 
 /**
  * **DateTime**`<S>`
@@ -39,10 +35,10 @@ export type DateTimeSeconds<
  */
 export type DateTime<
   TResolution extends TimeResolution = "HH:MM:SS",
-  TNomenclature extends TimeNomenclature = "either",
+  TNomenclature extends TimeNomenclature = "military",
   TTimezone extends TypeRequired = "exclude",
   TSep extends DateSeparator = "-"
-> = `${YMD<"simple",TSep>} ${Time<TResolution,TNomenclature,{timezone: TTimezone}>}`;
+> = `${YMD<TSep>} ${Time<TResolution,TNomenclature,{timezone: TTimezone; strength: "simple"}>}`;
 
 
 /**
@@ -55,10 +51,6 @@ export type DateTime<
  * - a timezone is optional by default but can be isolated to "required" or "excluded"
  */
 export type Iso8601<
-  TStr extends TypeStrength = "strong",
   TTimezone extends TypeRequired = "optional"
-> = TStr extends "strong"
-  ? `${YMD<"simple">}T${MilitaryHours}:${Minutes<"simple">}:${number}.${number}${TZ<"simple", TTimezone>}`
-  // simple representation
-  : `${number}-${number}-${number}T${number}:${number}:${number}.${number}${TZ<"simple", TTimezone>}`;
+> = `${number}-${number}-${number}T${number}:${number}:${number}.${number}${TZ<TTimezone>}`
 

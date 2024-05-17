@@ -1,4 +1,4 @@
-import { KV } from "src/types/index";
+import { Dictionary } from "src/types/index";
 
 /**
  * **AsContainer**`<T, [TError]>`
@@ -11,6 +11,6 @@ export type AsContainer<
   TError = never
 > = T extends readonly unknown[]
   ? T & readonly unknown[]
-  : T extends KV
-    ? T & KV
+  : T extends Dictionary
+    ? T & Dictionary
     : TError;

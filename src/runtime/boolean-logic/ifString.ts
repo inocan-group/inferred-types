@@ -1,4 +1,4 @@
-import {  IsString, Narrowable, Not } from "src/types/index";
+import {  If, IsFalse, IsString, IsTrue, Narrowable } from "src/types/index";
 import { isString } from "../type-guards/isString";
 
 
@@ -26,10 +26,12 @@ export function ifString<
     isString(val) 
       ? ifVal(val as string & TContent) 
       : elseVal(val as Exclude<TContent, string>)
-  ) as unknown as [IsString<TContent>] extends [true] 
-    ? TIf 
-    : [Not<IsString<TContent>>] extends [true] 
-      ? TElse
-      : TIf | TElse;
+  ) as unknown as 
+    If<
+      IsTrue<IsString<TContent>>, 
+      true, 
+      If<IsFalse<IsString<TContent>>, TElse, TIf | TElse>
+    >
+      
 
 }

@@ -22,7 +22,8 @@ import {
   AsString,
   IsBooleanLiteral,
   Dictionary,
-  Something
+  Something,
+  Extends
 } from "src/types/index";
 
 
@@ -32,6 +33,11 @@ type DescribeUnion<
   [K in keyof T]: Describe<T[K]>
 }, " | ">;
 
+// eslint-disable-next-line @typescript-eslint/ban-types
+type DescribeFunction<T extends AnyFunction> = Extends<T, Function> extends true
+  ? "Function"
+  : ``;
+
 type Describe<
   T
 > = If<
@@ -40,11 +46,13 @@ type Describe<
   [T] extends [string] ? If<IsStringLiteral<T>,`'${T}'`,"string">
     : [T] extends [boolean] 
     ? If<IsTrue<T>, "true", If<IsBooleanLiteral<T>, "false", "boolean">>
+    : [T] extends [AnyFunction]
+    ? DescribeFunction<T>
     : IsEqual<T,null> extends true  ? "null"
     : IsEqual<T,undefined> extends true  ? "undefined"
     : IsEqual<T, unknown> extends true ? "unknown"
     : [T] extends [number] ? If<IsNumericLiteral<T>, `${T}`, "number">
-    : [T] extends [AnyFunction] ? "function"
+    : [T] extends [AnyFunction] ? DescribeFunction<T>
     : [T] extends [AnyObject] ? If<IsLiteral<T>, "{ ... }", "object">
     : [T] extends [symbol] ? "symbol" 
     : "non-identified-type"
@@ -55,7 +63,7 @@ type ProcessUnionArray<
 > = `(${DescribeUnion<T>})[]`
 
 type HandleWideArray<
-  T extends unknown[]
+  T extends readonly unknown[]
 > = T extends (infer U)[]
 ? IsUnion<U> extends true
   ? ProcessUnionArray<UnionToTuple<U>>
@@ -66,8 +74,13 @@ type HandleWideArray<
 : never;
 
 
-type DescribeArray<
-  T extends unknown[]
+/**
+ * **DescribeArray**`<T>`
+ * 
+ * Describes an array/tuple in string format
+ */
+export type DescribeArray<
+  T extends readonly unknown[]
 > = IsTuple<T> extends true
 ? Surround<
     Join<{
@@ -115,7 +128,7 @@ type BuildRecord<
 : never;
 
 
-type DescribeObj<
+export type DescribeDictionary<
   T extends object
 > = IsObjectLiteral<T> extends true
   ? HandleObjLiteral<T, Keys<T> extends readonly (keyof T)[] ? Keys<T> : never>
@@ -133,11 +146,30 @@ type DescribeMap<
 type DescribeWeakMap<
   K extends Something,
   V
-> = `WeakMap<${AsString<DescribeObj<K>>}, ${AsString<Describe<V>>}>`;
+> = `WeakMap<${AsString<DescribeDictionary<K>>}, ${AsString<Describe<V>>}>`;
 
 type DescribeSet<
   T
 > = `Set<${AsString<Describe<T>>}>`;
+
+
+type Process<T> = [IsNever<T>] extends [true]
+? "never"
+: [IsUnion<T>] extends [true]
+  ? DescribeUnion<UnionToTuple<T>>
+: [T] extends [unknown[]]
+    ? DescribeArray<T>
+: [T] extends [Dictionary]
+  ? DescribeDictionary<T>
+  : [T] extends [Map<infer K extends Something, infer V>]
+  ? DescribeMap<K,V>
+  : [T] extends [WeakMap<infer K extends object, infer V>]
+  ? DescribeWeakMap<K,V>
+  : [T] extends [Set<infer K>]
+  ? DescribeSet<K>
+: Describe<T>;
+
+
 
 /**
  * **DescribeType**`<T>`
@@ -148,19 +180,7 @@ type DescribeSet<
  * defined from the `type()` runtime utility in this library as the
  * underlying type
  */
-export type DescribeType<T> = [IsNever<T>] extends [true]
-  ? "never"
-  : [IsUnion<T>] extends [true]
-    ? DescribeUnion<UnionToTuple<T>>
-  : [T] extends [unknown[]]
-      ? DescribeArray<T>
-  : [T] extends [Dictionary]
-    ? DescribeObj<T>
-    : [T] extends [Map<infer K extends Something, infer V>]
-    ? DescribeMap<K,V>
-    : [T] extends [WeakMap<infer K extends object, infer V>]
-    ? DescribeWeakMap<K,V>
-    : [T] extends [Set<infer K>]
-    ? DescribeSet<K>
-  : Describe<T>;
+export type DescribeType<T> = Process<T> extends string
+? Process<T>
+: never;
 

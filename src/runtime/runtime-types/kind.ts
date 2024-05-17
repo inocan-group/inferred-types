@@ -136,7 +136,7 @@ export const kind =  {
   literal: <T extends Narrowable[]>(...literals: T) => literals,
   union: <T extends readonly Narrowable[]>(...union: T) => `union:${union.join(",")}` as TupleToUnion<T>,
   explicitType: <T extends Narrowable>(typeName: `${UpperAlphaChar}${string}`) => t<T>(`<<explicitType:${typeName}>>`),
-  timeInMinutes: <T extends TimeInMinutes>(time: T) => t<Time>(`<<timeInMinutes:${time}>>`),
+  timeInMinutes: <T extends TimeInMinutes>(time: T) => `<<timeInMinutes:${time}>>`,
 
   /**
    * a string type that _starts with_ an explicit string literal

@@ -16,12 +16,19 @@ describe("Widen<T>", () => {
     type LiteralObj = Widen<{ foo: 42; bar: "baz" }>;
     type WideObj = Widen<{ foo: number; bar: string }>; // already wide
     type KeyValue = Widen<Dictionary>;
+
+
     type Obj = Widen<object>;
 
     type Arr = Widen<["foo", false, 42]>; 
     type WideArr = Widen<string[]>;
 
     type Union = Widen<"foo" | 42>;
+
+    type DictForced = Widen<Dictionary, true>;
+    type ObjLitForced = Widen<{foo: 1}, true>;
+    type MapForced = Widen<Map<string, number>, true>;
+    type TupleForced = Widen<readonly string[], true>;
 
 
     type cases = [
@@ -36,13 +43,19 @@ describe("Widen<T>", () => {
       Expect<Equal<Arr, [string, boolean, number]>>,
       Expect<Equal<WideArr, string[]>>,
 
-      Expect<Equal<Union, string | number>>
+      Expect<Equal<Union, string | number>>,
+
+      Expect<Equal<DictForced, Dictionary>>,
+      Expect<Equal<ObjLitForced, Dictionary>>,
+      Expect<Equal<MapForced, Map<unknown,unknown>>>,
+      Expect<Equal<TupleForced, readonly unknown[]>>
     ];
     const cases: cases = [
       true, true, 
       true, true, true, true,
       true, true,
-      true
+      true,
+      true, true, true, true
     ];
   });
 

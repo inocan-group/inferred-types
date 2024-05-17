@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { LOWER_ALPHA_CHARS } from "src/constants/index";
-import { AfterFirst, IfExtends, LowerAlphaChar } from "src/types/index";
+import { AfterFirst, If, Extends, LowerAlphaChar } from "src/types/index";
 
 
 type _Index<
@@ -16,7 +16,7 @@ type _Index<
       ELSE,
       [
         ...Results,
-        IfExtends<T, LowerAlphaChar, IF, ELSE>
+        If<Extends<T, LowerAlphaChar>, IF, ELSE>
       ]
     >;
 
@@ -25,7 +25,7 @@ type Returns<
   IF,
   ELSE
 > = T extends string 
-  ? IfExtends<T, LowerAlphaChar, IF, ELSE> 
+  ? If<Extends<T, LowerAlphaChar>, IF, ELSE> 
   : T extends readonly string[]
     ? _Index<T, IF, ELSE>
     : never;

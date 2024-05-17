@@ -1,13 +1,21 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { 
   AnyFunction,  
-  EmptyObject,  
   ExpandRecursively, 
-  IfNever, 
+  IsEqual, 
+  IsNever, 
   ObjectKey 
 } from "src/types/index";
 
-
+type Process<
+  T extends AnyFunction
+> = IsEqual<T, Function> extends true
+? never
+: IsNever<ExpandRecursively<keyof T>> extends true
+  ? never
+  : keyof T extends ObjectKey
+    ? Pick<T, keyof T>
+    : never;
 
 /**
  * **FnProps**`<T>`
@@ -17,19 +25,5 @@ import {
  */
 export type FnProps<
   T extends AnyFunction
-> = IfNever<
-  ExpandRecursively<keyof T>,
-  EmptyObject,
-  keyof T extends ObjectKey
-    ? Pick<T, keyof T>
-  : never
-> extends Record<keyof T, unknown>
-  ? IfNever<
-      keyof T,
-      EmptyObject,
-      keyof T extends ObjectKey
-        ? Pick<T, keyof T>
-        : never
-    >
-: never;
+> = Process<T>;
 

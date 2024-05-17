@@ -13,7 +13,7 @@ import { SnakeCase } from "src/types/index";
 export function toSnakeCase<
   S extends string,
   P extends boolean = false
->(input: S, preserveWhitespace: P = false as P): string {
+>(input: S, preserveWhitespace: P = false as P): SnakeCase<S,P> {
   const [_, preWhite, focus, postWhite] = /^(\s*)(.*?)(\s*)$/.exec(input) as RegExpExecArray;
 
   const convertInteriorSpace = (input: string) => input.replace(/\s+/gs, "_");
@@ -28,6 +28,6 @@ export function toSnakeCase<
       injectUnderscoreBeforeCaps(convertDashes(convertInteriorSpace(focus)))
     ).toLowerCase() +
     (preserveWhitespace ? postWhite : "")
-  ).replace(/__/g, "_") as SnakeCase<S,P>;
+  ).replace(/__/g, "_") as unknown as SnakeCase<S,P>;
 }
 

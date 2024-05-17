@@ -1,4 +1,4 @@
-import type { IfObject, Narrowable } from "src/types/index";
+import type { If, IsObject, Narrowable } from "src/types/index";
 import { isObject } from "../type-guards/isObject";
 
 
@@ -10,6 +10,6 @@ export function ifObject<
   val: T,
   ifObj: IF,
   notObj: ELSE
-): IfObject<T, IF, ELSE> {
-  return (isObject(val) ? ifObj : notObj) as IfObject<T, IF, ELSE>;
+): If<IsObject<T>, IF, ELSE> {
+  return (isObject(val) ? ifObj : notObj) as If<IsObject<T>, IF, ELSE>;
 }

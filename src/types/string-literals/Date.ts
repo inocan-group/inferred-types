@@ -1,8 +1,7 @@
 import { 
   NumericChar, 
   NonZeroNumericChar, 
-  TupleToUnion, 
-  TypeStrength 
+  TupleToUnion
 } from "src/types/index";
 import { MONTH_ABBR, MONTH_NAME}  from "src/constants/index";
 
@@ -47,17 +46,14 @@ export type DateSeparator = "-" | "/" | ".";
 
 
 /**
- * **YMD**`<[TStrength],[TSep]>
+ * **YMD**`<[TSep]>
  * A date format for `YYYY-MM-DD` which is used as a component of the ISO8601 standard.
  * 
  * > Note: you may optionally change the DateSeparator to suit your needs
  */
 export type YMD<
-  TStrength extends TypeStrength = "strong",
   TSep extends DateSeparator = "-"
-> = TStrength extends "strong"
-? `${"1" | "2"}${number}${TSep}${MonthNumeric}${TSep}${MonthDay}`
-: `${"1" | "2"}${number}${TSep}${number}${TSep}${number}`;
+> =  `${"1" | "2"}${number}${TSep}${MonthNumeric}${TSep}${number}`;
 
 /**
  * **DateThenMonth**
@@ -137,7 +133,7 @@ export type MonthAbbrThenDateAndYear = `${MonthAbbr} ${MonthDay}${MonthPostfix}$
  * with just the `YMD_Simple` type. If you really need stronger typing use
  * the `FullDateStrong` type.
  */
-export type FullDate = YMD<"simple"> | DateThenMonthThenYear | MonthThenDateThenYear;
+export type FullDate = YMD | DateThenMonthThenYear | MonthThenDateThenYear;
 
 /**
  * **ShortDate**
@@ -163,4 +159,4 @@ export type ShortDate = DateThenMonth | MonthThenDate;
  * `MonthThenDateAndYear`, `MonthAbbrThenDate`, `MonthAbbrDateAndYear`
  * `DateThenMonth`, `DateThenMonthAndYear`
  */
-export type Date = YMD<"simple"> | `${MonthAbbr}${string}` | `${MonthDay}${string}`;
+export type Date = YMD | `${MonthAbbr}${string}` | `${MonthDay}${string}`;

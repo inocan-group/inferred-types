@@ -1,7 +1,7 @@
 import {   ExpectTrue } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { narrow, isContainer } from "src/runtime/index";
+import { narrow, isContainer, optional } from "src/runtime/index";
 import {  Container, DoesExtend } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -11,7 +11,7 @@ import {  Container, DoesExtend } from "src/types/index";
 describe("isContainer(val)", () => {
   const lit_obj = {id: 1} as {id: 1} | null;
   const wide_obj =  {id: 1} as {id: number} | null;
-  const lit_arr =  narrow([1,2,3]) as [1,2,3] | undefined;
+  const lit_arr =  optional(narrow([1,2,3]))
   const wide_arr =  [1,2,3] as number[] | undefined;
   
   it("literal object", () => {
@@ -57,7 +57,7 @@ describe("isContainer(val)", () => {
 
       type Value = typeof lit_arr;
       type cases = [
-        ExpectTrue<DoesExtend<Value, readonly [1,2,3] & unknown[]>>
+        ExpectTrue<DoesExtend<Value, readonly [1,2,3]>>
       ];
       const cases: cases = [ true ];
     } else {

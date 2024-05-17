@@ -52,9 +52,7 @@ type PreProcess<
 export type Contains<
   TContent extends string | number | readonly unknown[],
   TComparator,
-> = [IsEqual<TContent, string>] extends [true]
-  ? [IsEqual<TContent, number>] extends [true]
+> = [IsWideType<TContent>] extends [true]
     ? boolean
-    : PreProcess<TContent, TComparator>
-  : PreProcess<TContent, TComparator>;
+    : PreProcess<TContent, TComparator>;
 

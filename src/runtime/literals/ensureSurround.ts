@@ -1,5 +1,6 @@
 
-import { EnsureSurround } from "../../types/sets/string-literals/EnsureSurround";
+
+import { EnsureSurround } from "src/types/index";
 import { ensureLeading } from "./ensureLeading";
 import { ensureTrailing } from "./ensureTrailing";
 
@@ -16,8 +17,19 @@ import { ensureTrailing } from "./ensureTrailing";
 export function ensureSurround<
   TPrefix extends string,
   TPostfix extends string
->(prefix: TPrefix, postfix: TPostfix): EnsureSurround<TPrefix, TPostfix> {
+>(prefix: TPrefix, postfix: TPostfix)  {
 
-  return (input) => ensureTrailing(ensureLeading(input, prefix), postfix);
+  const fn = <TInput extends string>(
+    input: TInput
+  ): EnsureSurround<TInput, TPrefix, TPostfix> => {
+    const result = ensureTrailing(
+      ensureLeading(input, prefix),
+      postfix
+    ) as unknown;
+
+    return result as EnsureSurround<TInput, TPrefix, TPostfix>;
+  }
+
+  return fn ;
 }
 

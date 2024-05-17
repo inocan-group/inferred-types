@@ -1,4 +1,7 @@
-import {  IndexableObject } from "src/types/index";
+import { AnyFunction, Dictionary, IsNarrowingFn, IsObjectLiteral } from "src/types/index";
+
+
+
 
 /**
  * **FnMeta**<TArgs,TReturn,TProps>
@@ -14,9 +17,14 @@ import {  IndexableObject } from "src/types/index";
 export type FnMeta<
   TArgs extends readonly unknown[],
   TReturn,
-  TProps extends IndexableObject | "no-props"
+  TProps extends Dictionary,
+  TFn extends AnyFunction
 > = {
+  fn: TFn;
   args: TArgs;
   returns: TReturn;
   props: TProps;
+  hasProps: [IsObjectLiteral<TProps>] extends [true] ? true : false;
+  hasArgs: TArgs["length"] extends 0 ? false : true;
+  isNarrowingFn: IsNarrowingFn<TFn>;
 };
