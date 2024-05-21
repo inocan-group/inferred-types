@@ -9,3 +9,4 @@ export * from "./Passthrough";
 export * from "./Handle";
 export * from "./Default";
 export * from "./Iff";
+export * from "./Fail"
