@@ -8,7 +8,7 @@ import { describe, it } from "vitest";
 
 describe("Flatten<T>", () => {
 
-  it("first test", () => {
+  it("Happy Path", () => {
     type F1 = Flatten<[1,2, [3,4]]>;
     type F1a = Flatten<[1,2, [3,4]], 2>;
     type F2 = Flatten<[1,2, readonly [3,4]]>;
@@ -42,5 +42,45 @@ describe("Flatten<T>", () => {
       true, true, true  
     ];
   });
+
+  
+  it("Union Types", () => {
+    type U1 = Flatten<42 | [42,56,[34,77]]>;
+    
+    type cases = [
+      Expect<Equal<U1, 42 | [42,56,34,77]>>
+    ];
+    const cases: cases = [
+      true
+    ];
+    
+  });
+
+  
+  it("Wide Types", () => {
+    type DeepNum = Flatten<number[][]>;
+    type Num = Flatten<number[]>;
+    type IntoScalar = Flatten<number[],1,true>;
+    type DeepUnion = Flatten<number | string[][]>;
+    type Union = Flatten<number | string[]>;
+    type UnionToScalar = Flatten<number | string[], 1, true>;
+    
+    type cases = [
+      Expect<Equal<DeepNum, number[]>>,
+      Expect<Equal<Num, number[]>>,
+      Expect<Equal<IntoScalar, number>>,
+
+      Expect<Equal<DeepUnion, number | string[]>>,
+      Expect<Equal<Union, number | string[]>>,
+      Expect<Equal<UnionToScalar, number | string>>,
+    ];
+    const cases: cases = [
+      true, true, true,
+      true, true, true
+    ];
+    
+  });
+  
+  
 
 });
