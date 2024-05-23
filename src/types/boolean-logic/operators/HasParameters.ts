@@ -1,4 +1,4 @@
-import { AnyFunction , Length , IsEqual } from "src/types/index";
+import {  Length , IsEqual, TypedFunction } from "src/types/index";
 
 /**
  * **HasParameters**`<T>`
@@ -11,7 +11,7 @@ import { AnyFunction , Length , IsEqual } from "src/types/index";
  * type P = HasParameters<typeof fn>;
  * ```
  */
-export type HasParameters<T> = T extends AnyFunction
+export type HasParameters<T> = T extends TypedFunction
   ? IsEqual<Length<Parameters<T>>, 0> extends true
     ? false
     : true

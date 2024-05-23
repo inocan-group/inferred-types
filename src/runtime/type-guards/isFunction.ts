@@ -1,4 +1,4 @@
-import { AnyFunction } from "src/types/index";
+import {  TypedFunction } from "src/types/index";
 
 /**
  * **isFunction**(value)
@@ -7,7 +7,7 @@ import { AnyFunction } from "src/types/index";
  * 
  * **Related:** `isFnWithParams`, `ifFunction`
  */
-export function isFunction<T>(value: T): value is T & AnyFunction {
+export function isFunction<T>(value: T): value is T & TypedFunction {
   return (typeof value === "function" 
     ? true 
     : false

@@ -1,4 +1,4 @@
-import { AnyFunction } from "src/types/index";
+import { TypedFunction } from "src/types/index";
 
 /**
  * **ReturnTypes**`<T>`
@@ -11,7 +11,7 @@ import { AnyFunction } from "src/types/index";
  * **See Also**: `LogicalReturns` and `TruthyReturns`
  */
 export type ReturnTypes<T extends readonly unknown[]> = {
-  [K in keyof T]: T[K] extends AnyFunction
+  [K in keyof T]: T[K] extends TypedFunction
     ? ReturnType<T[K]> extends boolean
       ? ReturnType<T[K]>
       : never

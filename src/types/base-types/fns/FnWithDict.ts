@@ -2,10 +2,10 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import type { 
   AnyObject, 
-  AnyFunction,
   IsTrue,
   If,
-  JustFunction
+  JustFunction,
+  TypedFunction
 } from "src/types/index";
 
 
@@ -18,7 +18,7 @@ import type {
  * **Related**: `SimpleFn`, `NarrowableFn`, `AnyFunction`, `IsFunctionWithDict`
  */
 export type FnWithDict<
-  TFn extends AnyFunction,
+  TFn extends TypedFunction,
   TProps extends AnyObject,
   TClone extends boolean | null | undefined = true
 > = If<

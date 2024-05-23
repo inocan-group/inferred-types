@@ -13,6 +13,7 @@ import {
   NumberLike,
   AnyFunction,
   Dictionary,
+  TypedFunction,
 } from "src/types/index";
 
 /**
@@ -84,7 +85,7 @@ T extends "equals"
 export type Comparison<
   TOp extends ComparatorOperation = ComparatorOperation,
   TArgs extends ParamsForComparison<TOp> = ParamsForComparison<TOp>,
-  TFn extends AnyFunction<any[], boolean, Dictionary> = AnyFunction<any[], boolean, Dictionary>
+  TFn extends TypedFunction = TypedFunction
 > = Extends<TArgs, ParamsForComparison<TOp>> extends true
 ? {
     kind: "Comparison";

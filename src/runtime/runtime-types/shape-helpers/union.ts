@@ -1,4 +1,4 @@
-import { AsUnion, UnionElDefn } from "src/types/literals/Shape";
+import { AsUnion, UnionElDefn } from "src/types/index";
 
 
 

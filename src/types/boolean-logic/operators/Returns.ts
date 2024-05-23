@@ -1,4 +1,4 @@
-import { AnyFunction } from "src/types/index";
+import {  TypedFunction } from "src/types/index";
 
 /**
  * **Returns**`<TFn,TExpected>`
@@ -9,7 +9,7 @@ import { AnyFunction } from "src/types/index";
 export type Returns<
   TFn,
   TExpected
-> = TFn extends AnyFunction
+> = TFn extends TypedFunction
   ? ReturnType<TFn> extends TExpected
     ? true
     : false

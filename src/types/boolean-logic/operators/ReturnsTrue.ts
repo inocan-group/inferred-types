@@ -1,4 +1,4 @@
-import { AnyFunction } from "src/types/index";
+import {  TypedFunction } from "src/types/index";
 
 
 /**
@@ -10,7 +10,7 @@ import { AnyFunction } from "src/types/index";
  * Note: any non-functions passed in as `T` are always a **false** value
  * and so is a `boolean` value
  */
-export type ReturnsTrue<T> = T extends AnyFunction
+export type ReturnsTrue<T> = T extends TypedFunction
   ? ReturnType<T> extends true
     ? true
     : false
