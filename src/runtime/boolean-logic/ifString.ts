@@ -29,7 +29,7 @@ export function ifString<
   ) as unknown as 
     If<
       IsTrue<IsString<TContent>>, 
-      true, 
+      TIf, 
       If<IsFalse<IsString<TContent>>, TElse, TIf | TElse>
     >
       

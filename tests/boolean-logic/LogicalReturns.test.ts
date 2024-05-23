@@ -32,7 +32,6 @@ describe("LogicalReturns<TValues,TParams>", () => {
     const f1t = ifString("foo", () => true, () => false);
     const f1n = ifString(42, () => true, () => false);
 
-
     type T1 = LogicalReturns<[typeof f1, typeof f1t, typeof f1n]>;
 
     

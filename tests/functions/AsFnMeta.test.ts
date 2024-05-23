@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { AsFnMeta } from "src/types/index";
+import { AsFnMeta, EmptyObject } from "src/types/index";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -18,14 +18,38 @@ describe("AsFnMeta<Fn> type utility", () => {
     type M3 = AsFnMeta<F3>;
     
     type cases = [
-      Expect<Equal<M1, { args: []; returns: "hi"; props: "no-props" }>>,
+      Expect<Equal<M1, { 
+        fn: F1;
+        args: []; 
+        returns: "hi"; 
+        props: EmptyObject;
+        hasProps: false;
+        hasArgs: false;
+        isNarrowingFn: false;
+      }>>,
       Expect<Equal<
         M2, 
-        { args: [name: string]; returns: `Hi ${string}`; props: "no-props" }
+        { 
+          fn: F2;
+          args: [name: string]; 
+          returns: `Hi ${string}`; 
+          props: EmptyObject;
+          hasProps: false;
+          hasArgs: true;
+          isNarrowingFn: true;
+        }
       >>,
       Expect<Equal<
       M3, 
-      { args: [name: string]; returns: `Hi ${string}`; props: { foo: "bar"} }
+      { 
+        fn: F3;
+        args: [name: string]; 
+        returns: `Hi ${string}`; 
+        props: { foo: "bar"};
+        hasProps: true;
+        hasArgs: true;
+        isNarrowingFn: true;
+      }
     >>,
 
     ];

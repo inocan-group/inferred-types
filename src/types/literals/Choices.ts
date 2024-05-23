@@ -3,83 +3,176 @@ import {
   Dictionary, 
   If, 
   IsTrue, 
-  Fn, 
   HandleDoneFn, 
   AfterFirst, 
   First,
-  AsFunction,
   ExpandRecursively,
   ShapeCallback,
-  IsFunction,
-  AsString
+  AsString,
+  EmptyObject,
+  Scalar,
+  MergeObjects,
+  As,
 } from "src/types/index";
 
 
 /**
- * **ChoiceRepresentation**
+ * **createChoice**(name, [value])
  * 
- * Allows a "choice" to be represented in multiple ways. Intended to be
- * used with `Choice` and `Choices` type utils.
+ * Creates a "choice" for a Choice API. Values may be:
+ * 
+ * - any `Scalar` value
+ * - a callback of the form `s => s.literal(42)`
+ * - or if left _undefined_ the value will be set to the name
  */
-export type ChoiceRepresentation<TName extends string = string, TValue = unknown> = 
-| {name: TName; value: TValue}
-| {name: TName; type: TValue & ShapeCallback }
-| [name: TName, value: TValue ]
-| TName;
+export type CreateChoice = <
+  TName extends string,
+  TValue extends ChoiceValue
+>(name: TName, value?: TValue) => Choice;
+
+export type ChoiceCallback = (cb: CreateChoice) => Choice;
 
 
-/**
- * **Choice**`<T>`
- * 
- * Type utility which receives one of many _choice representations_ 
- * (from `ChoiceRepresentation`) and converts it into a simple key/value pair.
- */
 export type Choice<
-  T extends ChoiceRepresentation = ChoiceRepresentation
-> = T extends {name: string; type: Fn} 
-  ? ReturnType<T["type"]> extends { done: Fn }
-      ? Record<
-          T["name"], 
-          ReturnType<ReturnType<T["type"]>["done"]>
-        >
-      : Record<T["name"], ReturnType<T["type"]>>
-    
-  : T extends {name: string; value: unknown}
-    ? Record<T["name"], T["value"]>
-  : T extends string
-    ? Record<T,T>
-  : T extends [name: string, value: unknown]
-    ? If<
-        IsFunction<T[1]>, 
-        Record<T[0], ReturnType<AsFunction<T[1]>>>,
-        Record<T[0], T[1]>
-      >
-    : never;
+  K extends string = string,
+  V = unknown
+> = { name: K; value: V };
 
-
-type ToLookup<
-TInput extends readonly (ChoiceRepresentation|Choice)[],
-TOutput extends {[key:string]: unknown} = NonNullable<unknown>
-> = [] extends TInput
-? ExpandRecursively<TOutput>
-: ToLookup<
-    AfterFirst<TInput>,
-    First<TInput> extends ChoiceRepresentation
-      ? Choice<First<TInput>> & TOutput
-      : First<TInput> extends Record<string, unknown> 
-        ? First<TInput> & TOutput
-        : never
-  >
+export type ChoiceValue = ShapeCallback | Scalar | Dictionary | undefined;
 
 /**
- *  **Choices**`<TInput>`
+ * **AsChoice**
  * 
- * Converts an tuple of `ChoiceRepresentation` elements into a lookup table
- * of name/values.
- */      
-export type AsChoices<
-  TInput extends readonly (ChoiceRepresentation|Choice)[] = readonly ChoiceRepresentation[],
-> = ToLookup<TInput>;
+ * Converts a name/value pairing from createChoice() into a Choice.
+ */
+export type AsChoice<
+  TName extends string = string, 
+  TValue extends ChoiceValue = ChoiceValue
+> = [TValue] extends [ShapeCallback]
+? {name: TName; value: HandleDoneFn<ReturnType<TValue>>}
+: [TValue] extends [Scalar | Dictionary]
+  ? {name: TName; value: TValue }
+  : {name: TName; value: TName};
+
+type ProcessChoices<
+  T extends string | [string, Scalar] | Choice | ChoiceCallback
+> = T extends string
+? Choice<T,T>
+: T extends [string, Scalar]
+? Choice<T[0],T[1]>
+: T extends Choice
+? T
+: T extends ChoiceCallback
+? ReturnType<ChoiceCallback>
+: never;
+
+export type ToChoices<
+  T extends readonly (string | [string, Scalar] | Choice | ChoiceCallback)[]
+> = {
+  [K in keyof T]: ProcessChoices<T[K]>
+}
+
+export type ChoiceApiOptions = {
+  /**
+   * A choice may only be chosen once
+   */
+  unique: boolean;
+  max: number | null;
+  /**
+   * the API style as it's presented after configuration
+   */
+  style: "fn" | "object";
+}
+
+export type ChoiceApi<
+TChoices extends readonly Choice[],
+  TOptions extends ChoiceApiOptions
+> = {};
+
+
+export type ChoiceApiConfig<
+  TChoices extends readonly Choice[],
+  TOptions extends ChoiceApiOptions
+> = {
+  done: () => ChoiceApi<TChoices, TOptions>;
+  allowChoicesToBeUsedOnlyOnce: () => ChoiceApiConfig<
+    TChoices,
+    As<MergeObjects<TOptions, {unique: true}>, ChoiceApiOptions>
+  >;
+  /**
+   * configured choices can be _reused_ multiple times
+   */
+  allowChoicesToBeUsedMultipleTimes: () => ChoiceApiConfig<
+    TChoices,
+    As<MergeObjects<TOptions, {unique: false}>, ChoiceApiOptions>
+  >;
+  setStyle: <TStyle extends "fn" | "object">(style: TStyle) => ChoiceApiConfig<
+    TChoices,
+    As<MergeObjects<TOptions, {style: TStyle}>, ChoiceApiOptions>
+  >;
+  /**
+   * set a maximum number of choices that should be allowed
+   */
+  maximumChoices: <TMax extends number>(max: TMax) => ChoiceApiConfig<
+    TChoices,
+    As<MergeObjects<TOptions, {max: TMax}>, ChoiceApiOptions>
+  >;
+}
+
+
+
+// /**
+//  * **Choice**`<T>`
+//  * 
+//  * Type utility which receives one of many _choice representations_ 
+//  * (from `ChoiceRepresentation`) and converts it into a simple key/value pair.
+//  */
+// export type Choice<
+//   T extends ChoiceRepresentation = ChoiceRepresentation
+// > = T extends {name: string; type: Fn} 
+//   ? ReturnType<T["type"]> extends { done: Fn }
+//       ? Record<
+//           T["name"], 
+//           ReturnType<ReturnType<T["type"]>["done"]>
+//         >
+//       : Record<T["name"], ReturnType<T["type"]>>
+    
+//   : T extends {name: string; value: unknown}
+//     ? Record<T["name"], T["value"]>
+//   : T extends string
+//     ? Record<T,T>
+//   : T extends [name: string, value: unknown]
+//     ? If<
+//         IsFunction<T[1]>, 
+//         Record<T[0], ReturnType<AsFunction<T[1]>>>,
+//         Record<T[0], T[1]>
+//       >
+//     : never;
+
+
+// type ToLookup<
+// TInput extends readonly (ChoiceRepresentation|AsChoice)[],
+// TOutput extends {[key:string]: unknown} = NonNullable<unknown>
+// > = [] extends TInput
+// ? ExpandRecursively<TOutput>
+// : ToLookup<
+//     AfterFirst<TInput>,
+//     First<TInput> extends ChoiceRepresentation
+//       ? AsChoice<First<TInput>> & TOutput
+//       : First<TInput> extends Record<string, unknown> 
+//         ? First<TInput> & TOutput
+//         : never
+//   >
+
+// /**
+//  *  **Choices**`<TInput>`
+//  * 
+//  * Converts an tuple of `ChoiceRepresentation` elements into a lookup table
+//  * of name/values.
+//  */      
+// export type AsChoices<
+//   TInput extends readonly (ChoiceRepresentation|AsChoice)[] = readonly ChoiceRepresentation[],
+// > = ToLookup<TInput>;
 
 export type MultipleChoice<
   TChoices extends Dictionary<string> = Dictionary<string>,
@@ -126,12 +219,10 @@ export type MultiChoiceCallback<TApi extends MultipleChoice> = <
 
 
 type MergeKVs<
-  TInput extends readonly {[key: string]: unknown}[],
-  TOutput extends {[key: string]: unknown} = NonNullable<unknown>
+  TInput extends readonly Dictionary[],
+  TOutput extends Dictionary = EmptyObject
 > = [] extends TInput
-? TOutput extends Record<string, unknown>
   ? ExpandRecursively<TOutput> 
-  : never
 : MergeKVs<
     AfterFirst<TInput>,
     First<TInput> extends keyof TOutput
@@ -142,10 +233,10 @@ type MergeKVs<
 /**
  * **ChoiceBuilder**
  * 
- * Builds a _choice_ API surface (with a `done()` exit)
+ * Builds a Choice API surface:
  */
 export type ChoiceBuilder= <
-  TChoices extends readonly Dictionary<string>[]
+  TChoices extends readonly Choice[]
 >(...choices: TChoices) => ({
   chooseMany: <
     TForce extends boolean

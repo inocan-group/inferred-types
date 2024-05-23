@@ -1,16 +1,19 @@
-import { AnyObject, IsObjectLiteral } from "src/types/index";
+import {  Dictionary, IsObjectLiteral } from "src/types/index";
 
 type MutableObject<T> = [T] extends [boolean]
 ? T
 :{
-  -readonly [K in keyof T]: T[K] extends AnyObject
+  -readonly [K in keyof T]: T[K] extends Dictionary
     ? MutableObject<T[K]> 
     : T[K] extends readonly (infer R)[]
       ? R[]
       : T[K];
 };
 
-type MutableArray<T extends readonly unknown[]> = [...T];
+type MutableArray<T extends readonly unknown[]> = [...{
+  // eslint-disable-next-line no-use-before-define
+  [K in keyof T]: Mutable<T[K]>
+}];
 
 
 /**
@@ -30,10 +33,12 @@ export type Mutable<T> = [T] extends [readonly unknown[]]
 /**
  * **Immutable**`<T>`
  * 
- * Makes a mutable value immutable.
+ * Makes a _mutable_ value _immutable_.
  */
 export type Immutable<T extends { [propName:string]: unknown }> ={
   readonly [key in keyof T]: T[key] extends { [propName:string]: unknown }
     ? Immutable<T[key]>
     : T[key]
 };
+
+

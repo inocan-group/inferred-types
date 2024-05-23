@@ -1,5 +1,5 @@
 import { DomainName } from "./DomainName";
-import { Ipv4 } from "./IpAddress";
+import { Ip4Address } from "./IpAddress";
 import { VariableChar } from "./Variable";
 
 
@@ -13,7 +13,7 @@ export type RelativeUrl = `${VariableChar | "/"}`;
  * for a fully qualified URL like `https://google.com`. It can't ensure the
  * type is fully valid but does help to avoid some typos.
  */
-export type FullyQualifiedUrl = `${NetworkProtocol}://${Ipv4 | DomainName}/${string}`;
+export type FullyQualifiedUrl = `${NetworkProtocol}://${Ip4Address | DomainName}/${string}`;
 
 export type UrlBuilder =
   | (<P extends NetworkProtocol, D extends DomainName, B extends RelativeUrl>(

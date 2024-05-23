@@ -13,7 +13,6 @@ import { Ref, ref } from "vue";
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("VueRef, isRef(), and IsRef<T>", () => {
-
   
   it("IsRef<T> on real Ref<T> and fake VueRef<T>", () => {
     type Str = IsVueRef<Ref<"hi">>;

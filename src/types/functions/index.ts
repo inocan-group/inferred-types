@@ -10,12 +10,14 @@ export * from "./AsFnMeta";
 export * from "./RemoveFnProps";
 export * from "./ToFn";
 export * from "./FnMeta";
+export * from "./FnFrom";
 export * from "./PromiseAll";
 export * from "./FnProps";
 export * from "./Fn";
 export * from "./HandleDoneFn"
 export * from "./NarrowingFn"
 export * from "./LiteralFn"
+export * from "./IdentityFn"
 // export * from "src/types/index";
 
 // #endregion auto-indexed files

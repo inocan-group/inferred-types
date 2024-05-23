@@ -20,7 +20,6 @@ export * from "./reverse";
 export * from "./pop";
 export * from "./join";
 export * from "./shift";
-export * from "./list";
 
 // #endregion auto-indexed files
 

@@ -6,7 +6,6 @@ export * from "./NotNull";
 export * from "./AnyObject";
 export * from "./IndexableObject";
 export * from "./EmptyObject";
-export * from "./AnyFunction";
 export * from "./AnyArray";
 export * from "./Scalar";
 export * from "./ScalarNotSymbol";
@@ -19,7 +18,8 @@ export * from "./FalsyValue";
 export * from "./ObjectKey";
 export * from "./NarrowObject";
 export * from "./Dictionary";
-export * from "./NonArray"
+export * from "./NonArray";
+export * from "./List";
 
 export * from "./fns/index";
 export * from "./functional/index";

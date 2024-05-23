@@ -1,5 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
-import type { AnyFunction, FnMeta, FnProps, EmptyObject, IsEqual, If, ExpandRecursively } from "src/types/index";
+import type { 
+  AnyFunction, 
+  FnMeta, 
+  FnProps, 
+  EmptyObject, 
+  ExpandDictionary,
+  TypedFunction,
+  IsNonEmptyObject
+} from "src/types/index";
 
 /**
  * **AsFnMeta**`<TFn>`
@@ -8,14 +17,16 @@ import type { AnyFunction, FnMeta, FnProps, EmptyObject, IsEqual, If, ExpandRecu
  */
 export type AsFnMeta<
   TFn extends AnyFunction
-> = If<
-  IsEqual<FnProps<TFn>, EmptyObject>,
-  FnMeta<Parameters<TFn>, ReturnType<TFn>, never, TFn>,
-  FnMeta<
+> = TFn extends TypedFunction
+? [IsNonEmptyObject<FnProps<TFn>>] extends [true]
+  ? FnMeta<
+    TFn,
     Parameters<TFn>, 
     ReturnType<TFn>, 
-    ExpandRecursively<FnProps<TFn>>,
-    TFn
+    ExpandDictionary<FnProps<TFn>>
   >
->;
+  : FnMeta<TFn,Parameters<TFn>, ReturnType<TFn>, EmptyObject>
 
+: FnMeta<TypedFunction, any[], any, EmptyObject>;
+
+type _x = FnMeta<TypedFunction,any[], any, EmptyObject>;

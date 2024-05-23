@@ -64,6 +64,7 @@
       }
     ],
     "semi": "off",
+    "prefer-const": "off",
     "@typescript-eslint/semi": "off",
     // "cases" allows for graceful use of that variable
     // name in Typescript test cases

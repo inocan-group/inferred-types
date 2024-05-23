@@ -151,12 +151,7 @@ export type ShortDate = DateThenMonth | MonthThenDate;
 /**
  * **Date**
  * 
- * A simplified type to represent different date formats. If you 
- * need stronger type validation consider those in **related** section
- * below. All stronger type definitions will rollup to this type.
- * 
- * **Related:** `FullDate`, `ShortDate`, `YMD`, `MonthThenDate`,
- * `MonthThenDateAndYear`, `MonthAbbrThenDate`, `MonthAbbrDateAndYear`
- * `DateThenMonth`, `DateThenMonthAndYear`
+ * An [ISO8601](https://www.iso.org/iso-8601-date-and-time-format.html#:~:text=Therefore%2C%20the%20order%20of%20the,27%2018%3A00%3A00.000.) 
+ * date format which looks like `YYYY-MM-DD`.
  */
-export type Date = YMD | `${MonthAbbr}${string}` | `${MonthDay}${string}`;
+export type Date = YMD;

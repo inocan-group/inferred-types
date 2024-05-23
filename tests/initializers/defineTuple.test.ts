@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import {defineTuple, widen} from "src/runtime/index";
+import {defineTuple} from "src/runtime/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -13,7 +13,7 @@ describe("createTuple(...values) runtime utility", () => {
     const foobar = defineTuple("foo", "bar");
     const takeTwo = defineTuple(...foobar);
 
-    const wideFoo = defineTuple(widen("foo"), "bar");
+    const wideFoo = defineTuple(s => s.string(), "bar");
 
     expect(foobar).toEqual(["foo", "bar"]);
     expect(takeTwo).toEqual(["foo", "bar"]);
@@ -30,17 +30,14 @@ describe("createTuple(...values) runtime utility", () => {
   
   it("passing a const array", () => {
     const arr = ["foo", "bar"] as const;
-    const foobar = defineTuple(arr);
-    const foobar2 = defineTuple(...arr);
+    const foobar = defineTuple(...arr);
 
     expect(foobar).toEqual(["foo", "bar"]);
-    expect(foobar2).toEqual(["foo", "bar"]);
 
     type cases = [
       Expect<Equal<typeof foobar, ["foo", "bar"]>>,
-      Expect<Equal<typeof foobar2, ["foo", "bar"]>>,
     ];
-    const cases: cases = [ true, true ];
+    const cases: cases = [ true ];
   });
   
   

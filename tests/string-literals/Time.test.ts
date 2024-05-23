@@ -27,17 +27,19 @@ describe("Time types", () => {
   
   it("Time<TResolution>", () => {
     type cases = [
-      Expect<DoesExtend<"09:45", Time<"HH:MM">>>,
-      Expect<DoesExtend<"09:45pm", Time<"HH:MM">>>,
-      Expect<DoesExtend<"9:45pm", Time<"HH:MM">>>,
-      Expect<DoesExtend<"13:00", Time<"HH:MM">>>,
-
+      Expect<DoesExtend<"09:45pm", Time<"HH:MM", "civilian">>>,
+      Expect<DoesExtend<"9:45pm", Time<"HH:MM", "civilian">>>,
+      Expect<DoesExtend<"13:00", Time<"HH:MM", "military">>>,
+      
+      Expect<DoesNotExtend<"13:00pm", Time<"HH:MM", "military">>>,
+      Expect<DoesNotExtend<"13:00pm", Time<"HH:MM", "civilian">>>,
+      Expect<DoesNotExtend<"09:45", Time<"HH:MM","civilian">>>,
       Expect<DoesNotExtend<"13:00pm", Time<"HH:MM">>>,
 
     ];
     const cases: cases = [
-      true, true, true, true,
-      true,
+      true, true, true, 
+      true,true,true, true,
     ];
     
   });
@@ -174,27 +176,29 @@ describe("Time types", () => {
 
   it("TimeInMinutes", () => {
     // military: valid
-    type MV0 = DoesExtend<"09:45", TimeInMinutes>;
-    type MV1 = DoesExtend<"9:45", TimeInMinutes>;
-    type MV2 = DoesExtend<"10:45", TimeInMinutes>;
-    type MV3 = DoesExtend<"12:45", TimeInMinutes>;
-    type MV4 = DoesExtend<"13:45", TimeInMinutes>;
-    type MV5 = DoesExtend<"23:45", TimeInMinutes>;
+    type MV0 = DoesExtend<"09:45", MilitaryTime<"HH:MM">>;
+    type MV1 = DoesExtend<"9:45", MilitaryTime<"HH:MM">>;
+    type MV2 = DoesExtend<"10:45", MilitaryTime<"HH:MM">>;
+    type MV3 = DoesExtend<"12:45", MilitaryTime<"HH:MM">>;
+    type MV4 = DoesExtend<"13:45", MilitaryTime<"HH:MM">>;
+    type MV5 = DoesExtend<"23:45", MilitaryTime<"HH:MM">>;
     // military: invalid
-    type MIV0 = DoesExtend<"13:45pm", TimeInMinutes>;
-    type MIV1 = DoesExtend<"24:45", TimeInMinutes>;
-    type MIV2 = DoesExtend<"9:85", TimeInMinutes>;
+    type MIV0 = DoesExtend<"13:45pm", MilitaryTime<"HH:MM">>;
+    type MIV1 = DoesExtend<"24:45", MilitaryTime<"HH:MM">>;
+    type MIV2 = DoesExtend<"9:85", MilitaryTime<"HH:MM">>;
+    type MIV3 = DoesExtend<"9:45", MilitaryTime<"HH:MM", {fixedLengthHours: true}>>;
+
 
     // civilian: valid
-    type CV0 = DoesExtend<"09:45am", TimeInMinutes>;
-    type CV1 = DoesExtend<"9:45am", TimeInMinutes>;
-    type CV2 = DoesExtend<"10:45am", TimeInMinutes>;
-    type CV3 = DoesExtend<"12:45pm", TimeInMinutes>;
+    type CV0 = DoesExtend<"09:45am", CivilianTime<"HH:MM">>;
+    type CV1 = DoesExtend<"9:45am", CivilianTime<"HH:MM">>;
+    type CV2 = DoesExtend<"10:45am", CivilianTime<"HH:MM">>;
+    type CV3 = DoesExtend<"12:45pm", CivilianTime<"HH:MM">>;
     // civilian: invalid
-    type CIV0 = DoesExtend<"13:45pm", TimeInMinutes>;
-    type CIV1 = DoesExtend<"0:45pm", TimeInMinutes>;
-    type CIV2 = DoesExtend<"9:85pm", TimeInMinutes>;
-    type CIV3 = DoesExtend<"21:45pm", TimeInMinutes>;
+    type CIV0 = DoesExtend<"13:45pm", CivilianTime<"HH:MM">>;
+    type CIV1 = DoesExtend<"0:45pm", CivilianTime<"HH:MM">>;
+    type CIV2 = DoesExtend<"9:85pm", CivilianTime<"HH:MM">>;
+    type CIV3 = DoesExtend<"21:45pm", CivilianTime<"HH:MM">>;
     
     type cases = [
       ExpectTrue<MV0>,
@@ -207,6 +211,7 @@ describe("Time types", () => {
       ExpectFalse<MIV0>,
       ExpectFalse<MIV1>,
       ExpectFalse<MIV2>,
+      ExpectFalse<MIV3>,
 
       ExpectTrue<CV0>,
       ExpectTrue<CV1>,
@@ -220,7 +225,7 @@ describe("Time types", () => {
     ];
     const cases: cases = [ 
       true, true, true, true, true, true,
-      false, false, false,
+      false, false, false,false,
       true, true, true, true,
       false, false, false, false
     ];

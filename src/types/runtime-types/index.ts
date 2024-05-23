@@ -7,3 +7,4 @@ export * from "./FromLiteralTokens";
 export * from "./TokenizeStringLiteral";
 export * from "./TypeToken";
 export * from "./TypeTuple";
+export * from "./Hash";

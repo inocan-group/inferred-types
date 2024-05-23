@@ -13,6 +13,7 @@ describe("Flatten<T>", () => {
     type F1a = Flatten<[1,2, [3,4]], 2>;
     type F2 = Flatten<[1,2, readonly [3,4]]>;
     type F2a = Flatten<[1,2, readonly [3,4]], 2>;
+    
 
     type D1 = Flatten<[[1,2],[3,4],[[5],6]]>;
     type D2 = Flatten<[[1,2],[3,4],[[5],6]], 2>;
@@ -55,6 +56,24 @@ describe("Flatten<T>", () => {
     ];
     
   });
+
+  
+  it("ToScalar types set to true", () => {
+    type S = Flatten<[1,2,[3,[4,5]], "foo"], 2, true>;
+    type S2 = Flatten<[string | number | (number | number[])[]], 1>;
+    type S3 = Flatten<[string | number | (number | number[])[]], 2>;
+    type S4 = Flatten<[string | number | (number | number[])[]], 3, true>;
+    
+    type cases = [
+      Expect<Equal<S, 1 | 2 | 3 | 4 | 5| "foo">>,
+      Expect<Equal<S2, [string | number | number[]]>>,
+      Expect<Equal<S3, [string | number]>>,
+      Expect<Equal<S4, string | number>>,
+    ];
+    const cases: cases = [ true, true, true, true ];
+    
+  });
+  
 
   
   it("Wide Types", () => {

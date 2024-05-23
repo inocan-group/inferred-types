@@ -1,4 +1,7 @@
-import { Flatten, Narrowable } from "src/types/index";
+import {  FromDefn,  ShapeCallback, TypeDefinition } from "src/types/index";
+import { isFunction } from "../type-guards";
+import { handleDoneFn } from "../boolean-logic";
+import { ShapeApi } from "../runtime-types/shape";
 
 /**
  * **createTuple**(...values) -> (...values) -> Tuple
@@ -13,9 +16,15 @@ import { Flatten, Narrowable } from "src/types/index";
  * // [ "foo", "bar", 42 ]
  * const foobar = defineTuple("foo", "bar", 42)
  * // [ string, "bar", 42]
- * const foey = defineTuple(wide("foo"), "bar", 42)
+ * const foey = defineTuple(s => s.string(), "bar", 42)
  * ```
  */
 export const defineTuple = <
-  T extends readonly Narrowable[] | readonly Narrowable[][]
->(...values: T) => values.flat() as Flatten<T>;
+  T extends readonly TypeDefinition[]
+>(...values: T) => {
+  return values.map(
+    i => isFunction(i) 
+      ? handleDoneFn((i as ShapeCallback)(ShapeApi)) 
+      : i
+  ) as unknown as FromDefn<T>
+};

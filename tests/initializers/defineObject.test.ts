@@ -29,7 +29,7 @@ describe("defineObj(literals)(wide) runtime utility", () => {
       Expect<Equal<typeof fooBarBaz, { foo: 1; bar: number; baz: number }>>,
 
       Expect<Equal<typeof narrowFn, { fn: () => "hi"}>>,
-      Expect<Equal<typeof wideFn, { fn: () => "hi"}>>,
+      Expect<Equal<typeof wideFn, { fn: () => string}>>,
 
       Expect<Equal<typeof narrowFnWithProps, {
         fn: (() => "hi") & 
@@ -39,7 +39,7 @@ describe("defineObj(literals)(wide) runtime utility", () => {
           };
       }>>,
       Expect<Equal<typeof wideFnWithProps, {
-        fn: (() => "hi") & 
+        fn: (() => string) & 
           {
             foo: number;
             bar: number;

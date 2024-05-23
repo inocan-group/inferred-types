@@ -15,12 +15,13 @@ describe("Widen<T>", () => {
 
     type LiteralObj = Widen<{ foo: 42; bar: "baz" }>;
     type WideObj = Widen<{ foo: number; bar: string }>; // already wide
+    type ObjInObj = Widen<{foo: {bar: 1; baz: 2}}>;
     type KeyValue = Widen<Dictionary>;
-
 
     type Obj = Widen<object>;
 
     type Arr = Widen<["foo", false, 42]>; 
+    type ArrInObj = Widen<{foo: ["foo","bar"]; bar: 42}>;
     type WideArr = Widen<string[]>;
 
     type Union = Widen<"foo" | 42>;
@@ -30,6 +31,11 @@ describe("Widen<T>", () => {
     type MapForced = Widen<Map<string, number>, true>;
     type TupleForced = Widen<readonly string[], true>;
 
+    type Fn = Widen<() => "hi">;
+    type NarrowFn = Widen<<T extends string>(name: T) => `hi ${T}`>;
+    type FnWithProps = Widen<(() => "hi") & { foo: 1; bar: 2}>;
+    type FnAsProp = Widen<{foo: () => "hi"}>;
+    type FnWithPropAsProp = Widen<{foo: (() => "hi") & { bar: 1}}>;
 
     type cases = [
       Expect<Equal<NumLiteral, number>>, //
@@ -37,10 +43,12 @@ describe("Widen<T>", () => {
 
       Expect<Equal<LiteralObj, { foo: number; bar: string}>>, 
       Expect<Equal<WideObj, { foo: number; bar: string}>>, 
+      Expect<Equal<ObjInObj, { foo: { bar: number; baz: number}}>>,
       Expect<Equal<KeyValue, EmptyObject>>,
       Expect<Equal<Obj, object>>,
 
       Expect<Equal<Arr, [string, boolean, number]>>,
+      Expect<Equal<ArrInObj, {foo: [string, string]; bar: number}>>,
       Expect<Equal<WideArr, string[]>>,
 
       Expect<Equal<Union, string | number>>,
@@ -48,14 +56,21 @@ describe("Widen<T>", () => {
       Expect<Equal<DictForced, Dictionary>>,
       Expect<Equal<ObjLitForced, Dictionary>>,
       Expect<Equal<MapForced, Map<unknown,unknown>>>,
-      Expect<Equal<TupleForced, readonly unknown[]>>
+      Expect<Equal<TupleForced, readonly unknown[]>>,
+
+      Expect<Equal<Fn, () => string>>,
+      Expect<Equal<NarrowFn, <T extends [name: string]>(...args: T) => string>>,
+      Expect<Equal<FnWithProps, (()=> string) & {foo: number; bar: number}>>,
+      Expect<Equal<FnAsProp, {foo: () => string}>>,
+      Expect<Equal<FnWithPropAsProp, {foo: (() => string) & {bar: number}}>>
     ];
     const cases: cases = [
       true, true, 
-      true, true, true, true,
-      true, true,
+      true, true, true, true,true,
+      true, true,true,
       true,
-      true, true, true, true
+      true, true, true, true,
+      true, true, true, true, true
     ];
   });
 

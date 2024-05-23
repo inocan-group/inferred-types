@@ -30,7 +30,7 @@ export function narrow<
     values.length === 1 
       ? values[0] 
       : values
-  ) as Length<T> extends 1 
+  ) as unknown as Length<T> extends 1 
     ? T[0] extends readonly unknown[]
       ? T[0] extends infer Arr
         ? [IsUnion<First<Arr & readonly unknown[]>>] extends [true] 

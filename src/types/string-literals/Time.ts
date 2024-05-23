@@ -1,11 +1,9 @@
-import {  Default, EmptyObject, IndexOf, NumericChar, PlusMinus, TypeRequired, TypeStrength } from "src/types/index";
+import {  Default, EmptyObject, IndexOf, NonZeroNumericChar, NumericChar, NumericCharZeroToFive, PlusMinus, TypeRequired, TypeStrength } from "src/types/index";
 
 type CivilianTwoDigitHour = "10" | "11" | "12";
 export type TimeResolution = "HH:MM" | "HH:MM:SS" | "HH:MM:SS.ms";
 export type TimeNomenclature = "military" | "civilian";
 export type AmPmCase = "lower" | "upper" | "bare";
-
-type ZeroToFive = "0" | "1" | "2" | "3" | "4" | "5";
 
 
 /**
@@ -17,7 +15,7 @@ export type CivilianHours<
   TFixedLengthHours extends boolean = false
 > = TFixedLengthHours extends true
 ? `0${Exclude<NumericChar, "0">}` | CivilianTwoDigitHour
-: Exclude<NumericChar | CivilianTwoDigitHour, "0"> | `0${NumericChar}`;
+: NonZeroNumericChar | CivilianTwoDigitHour | `0${NonZeroNumericChar}`;
 
 /**
  * **CivilianTimeOptions**
@@ -56,8 +54,8 @@ type Opt<T extends MilitaryTimeOptions | CivilianTimeOptions> = {
  * Provides a typing for the minutes component of Time (aka, 00 to 59).
  */
 export type Minutes<TStr extends TypeStrength = "strong"> = TStr extends "strong"
-  ? `${ZeroToFive}${NumericChar}`
-  : `${ZeroToFive}${number}`;
+  ? `${NumericCharZeroToFive}${NumericChar}`
+  : `${NumericCharZeroToFive}${number}`;
 
 /**
  * **Seconds**`<[TStr]>`
@@ -65,8 +63,8 @@ export type Minutes<TStr extends TypeStrength = "strong"> = TStr extends "strong
  * Provides a typing for the seconds component of Time (aka, 00 to 59).
  */
 export type Seconds<TStr extends TypeStrength = "strong"> = TStr extends "strong"
-  ? `${ZeroToFive}${NumericChar}`
-  : `${ZeroToFive}${number}`;
+  ? `${NumericCharZeroToFive}${NumericChar}`
+  : `${NumericCharZeroToFive}${number}`;
 
 /**
  * **Milliseconds**`<[TStr]>`
@@ -157,7 +155,7 @@ export type HoursMinutes<
 export type HoursMinutes12<
   TOpt extends CivilianTimeOptions = Opt<EmptyObject>
 > = Opt<TOpt>["strength"] extends "strong"
-? `${CivilianHours<Opt<TOpt>["fixedLengthHours"]>}:${ZeroToFive}${NumericChar}${AmPm<Opt<TOpt>["amPmCase"]>}${TZ<Opt<TOpt>["timezone"]>}`
+? `${CivilianHours<Opt<TOpt>["fixedLengthHours"]>}:${NumericCharZeroToFive}${NumericChar}${AmPm<Opt<TOpt>["amPmCase"]>}${TZ<Opt<TOpt>["timezone"]>}`
 : `${number}:${number}${AmPm<Opt<TOpt>["amPmCase"]>}${TZ< Opt<TOpt>["timezone"]>}`;
 
 /**

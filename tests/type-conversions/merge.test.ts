@@ -7,8 +7,6 @@ import type {
   MergeTuples, 
   HasSameKeys,
   Merge,
-  Dictionary,
-  ExpandRecursively,
   IsErrorCondition
 } from "src/types/index";
 import { mergeScalars, mergeTuples } from "src/runtime/index";

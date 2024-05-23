@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { Narrowable, WithoutKeys,  ObjectKey, RemoveIndexKeys, ExpandRecursively } from "src/types/index";
+import type { Narrowable, WithoutKeys,  ObjectKey } from "src/types/index";
 
 
 /**
@@ -35,6 +35,6 @@ export function omit<
         [key]: obj[key as keyof TObj]
       },
     {}
-  ) as unknown as ExpandRecursively<RemoveIndexKeys<WithoutKeys<TObj, TKeys>>>;
+  ) as unknown as WithoutKeys<TObj, TKeys>;
     
 }

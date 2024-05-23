@@ -41,6 +41,7 @@ export * from "./Truncate";
 export * from "./character-sets/index";
 export * from "./casing/index";
 export * from "./options/index";
+export * from "./geo/index";
 
 
 // #endregion auto-indexed files
