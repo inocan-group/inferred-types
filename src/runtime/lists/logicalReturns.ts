@@ -1,18 +1,21 @@
 /* eslint-disable no-use-before-define */
-import { LogicFunction } from "src/types/index";
-import { ifBoolean, ifFunction } from "../boolean-logic";
+import { LogicFunction, LogicalReturns } from "src/types/index";
+
+import { isBoolean } from "../type-guards/isBoolean";
+import { isFunction } from "../type-guards/isFunction";
+import { Never } from "src/constants/Never";
 
 
 export function logicalReturns<
   TConditions extends readonly (boolean | LogicFunction)[],
-  TParams extends readonly unknown[] = []
->(conditions: TConditions, ...params: TParams) {
+>(conditions: TConditions) {
   
-  return conditions.map(c => ifBoolean(
-    c, 
-    v => v, 
-    v => ifFunction(v, <F extends LogicFunction>(fn: F) => fn(...params), () => null)
-  ));
+  return conditions.map(c => isBoolean(c)
+    ? c
+    : isFunction(c)
+      ? c()
+      : Never
+  ) as unknown as LogicalReturns<TConditions>;
 
 }
 

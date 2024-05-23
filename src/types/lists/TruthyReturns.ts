@@ -1,4 +1,4 @@
-import { AnyFunction , If, IsTruthy , TupleToUnion } from "src/types/index";
+import {  If, IsTruthy , TupleToUnion, TypedFunction } from "src/types/index";
 
 /**
  * **TruthyReturns**`<T>`
@@ -17,7 +17,7 @@ import { AnyFunction , If, IsTruthy , TupleToUnion } from "src/types/index";
  */
 export type TruthyReturns<T extends readonly unknown[]> = TupleToUnion<{
   [K in keyof T]: //
-    T[K] extends AnyFunction
+    T[K] extends TypedFunction
       ? If<IsTruthy<ReturnType<T[K]>>, true, false, boolean>
       : If<IsTruthy<T[K]>, true, false, boolean>;
 }>;

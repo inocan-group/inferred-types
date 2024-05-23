@@ -22,6 +22,8 @@ import {
   Ip6Address,
   Zip,
   ZipPlus4,
+  As,
+  Container,
 } from "src/types/index";
 import { AsUnion, FromDefn } from "./FromDefn";
 import { FromWideTokens, WideContainerNames, WideTokenNames } from "./FromTokenNames";
@@ -302,7 +304,10 @@ type ShapeApi__WideContainers = {
   weakMap: <
     TKey extends WeakMapKeyDefn = "object",
     TValue extends WeakMapValueDefn = "unknown"
-  >(key?: TKey, value?: TValue) => WeakMap<FromDefn<TKey>, FromDefn<TValue>>;
+  >(key?: TKey, value?: TValue) => WeakMap<
+    As<FromDefn<TKey>, Container>,
+    FromDefn<TValue>
+  >;
 }
 
 export type TupleDefn = WideTokenNames | ShapeCallback;

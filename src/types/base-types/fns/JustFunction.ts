@@ -1,4 +1,4 @@
-import { AnyFunction } from "./AnyFunction";
+import { TypedFunction } from "./TypedFunction";
 
 /**
  * **JustFunction**`<T>`
@@ -7,5 +7,5 @@ import { AnyFunction } from "./AnyFunction";
  * on the function passed in as `T` and leaves just the pure function signature.
  */
 export type JustFunction<
-  TFn extends AnyFunction
+  TFn extends TypedFunction
 > = <T extends readonly unknown[]>(...args: T & Parameters<TFn>) => ReturnType<TFn>;

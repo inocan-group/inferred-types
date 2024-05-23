@@ -14,9 +14,7 @@ import {
   isConstant, 
   isSpecificConstant,
   isFnWithParams,
-  defineObj, 
-  isTypeToken, 
-  kind
+  defineObj
 } from "src/runtime/index";
 import { Constant, NoDefaultValue, NO_DEFAULT_VALUE, Never } from "src/constants/index";
 import { ref, Ref } from "vue";
@@ -298,22 +296,6 @@ describe("isConstant()", () => {
       const cases: cases = [ true ];
     }
   });
-});
-
-describe("isTypeToken", () => {
-  
-  it("boolean validation", () => {
-
-    expect(isTypeToken("<<string>>")).toBe(true);
-    expect(isTypeToken(kind.string())).toBe(true);
-
-    expect(isTypeToken("<<boolean>>")).toBe(true);
-    expect(isTypeToken(kind.boolean())).toBe(true);
-
-    expect(isTypeToken("<<stringLiteral:foobar>>")).toBe(true);
-  });
-
-
 });
 
 

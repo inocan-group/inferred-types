@@ -1,4 +1,4 @@
-import { AnyFunction ,  IsBoolean } from "src/types/index";
+import {   IsBoolean, TypedFunction } from "src/types/index";
 
 /**
  * **ReturnsBoolean**`<T>`
@@ -8,6 +8,6 @@ import { AnyFunction ,  IsBoolean } from "src/types/index";
  * 
  * Note: any non-functions passed in as `T` are always a **false** value
  */
-export type ReturnsBoolean<T> = T extends AnyFunction
+export type ReturnsBoolean<T> = T extends TypedFunction
   ? IsBoolean<ReturnType<T>>
   : false;

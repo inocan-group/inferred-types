@@ -1,10 +1,10 @@
-import { AnyFunction } from "src/types/index";
+import { TypedFunction } from "src/types/index";
 
 
 type Process<
   T extends readonly unknown[]
 > = {
-  [K in keyof T]: T[K] extends AnyFunction
+  [K in keyof T]: T[K] extends TypedFunction
   ? ReturnType<T[K]>
   : T[K];
 };

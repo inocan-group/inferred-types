@@ -1,4 +1,4 @@
-import { AnyFunction , IsEqual } from "src/types/index";
+import { IsEqual, TypedFunction } from "src/types/index";
 
 /**
  * **ReturnsTrue**`<T>`
@@ -8,7 +8,7 @@ import { AnyFunction , IsEqual } from "src/types/index";
  * 
  * Note: any non-functions passed in as `T` are removed from the result set
  */
-export type ReturnsFalse<T> = T extends AnyFunction
+export type ReturnsFalse<T> = T extends TypedFunction
   ? ReturnType<T> extends false
     ? true
     : IsEqual<ReturnType<T>, boolean> extends true ? boolean : false

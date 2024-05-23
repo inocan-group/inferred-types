@@ -5,7 +5,7 @@ import type {
   Tuple,
   Nothing,
   AnyObject,
-  AnyFunction
+  TypedFunction
 } from "src/types/index";
 
 import { Never } from "src/constants/index";
@@ -14,7 +14,7 @@ import { isObject } from "../type-guards/isObject";
 
 type CallIfDefined<
   Handler
-> = Handler extends AnyFunction
+> = Handler extends TypedFunction
   ? ReturnType<Handler>
   : never;
 

@@ -1,4 +1,4 @@
-import { AnyFunction } from "../base-types";
+import {  TypedFunction } from "../base-types";
 
 /**
  * **HandleDoneFn**`<T>`
@@ -7,6 +7,6 @@ import { AnyFunction } from "../base-types";
  * if it's a function it will convert the type to the _return type_
  * of the `done()` function.
  */
-export type HandleDoneFn<T> = T extends { done: AnyFunction }
+export type HandleDoneFn<T> = T extends { done: TypedFunction }
   ? ReturnType<T["done"]>
   : T;

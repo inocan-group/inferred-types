@@ -76,7 +76,7 @@ type DescribeLit<
 
 type ListHash<
   T extends readonly unknown[]
-> = IsEqual<T["length"], number> extends true
+> = [IsEqual<T["length"], number>] extends [true]
 ? `0${Describe<ListWideType<T>>}`
 : `${T["length"]}${Describe<ListWideType<T>>}${DescribeLit<T>}`
 

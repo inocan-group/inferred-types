@@ -1,4 +1,4 @@
-import { AnyFunction,  AfterFirst, First } from "src/types/index";
+import {  AfterFirst, First, TypedFunction } from "src/types/index";
 
 /**
  * **ReturnValues**`<TArray>`
@@ -15,7 +15,7 @@ export type ReturnValues<
   TResults extends readonly unknown[] = []> = //
   [] extends TArray
     ? TResults
-    : First<TArray> extends AnyFunction
+    : First<TArray> extends TypedFunction
       ? ReturnValues<AfterFirst<TArray>, [...TResults, ReturnType<First<TArray>>]>
       : ReturnValues<AfterFirst<TArray>, TResults>;
 

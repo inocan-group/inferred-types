@@ -4,7 +4,6 @@ import type {Container, Intersection,  } from "src/types/index";
 import { isIndexable } from "../type-guards/index";
 import { getEach } from "./getEach";
 import { ifNotNull } from "../boolean-logic/index";
-import { toString } from "../literals/index"
 import { get } from "../dictionary/get";
 
 function intersectWithOffset<
@@ -23,8 +22,8 @@ TDeref extends string | number
     }
   }
 
-  const aMatches = getEach(a, toString(deref) as any) as readonly unknown[];
-  const bMatches = getEach(b, toString(deref)) as readonly unknown[];
+  const aMatches = getEach(a, deref as any) as readonly unknown[];
+  const bMatches = getEach(b, deref as any) as readonly unknown[];
 
   const sharedKeys = ifNotNull(
     deref,
@@ -60,7 +59,7 @@ B extends readonly unknown[],
 export const intersection = <
   A extends readonly unknown[],
   B extends readonly unknown[],
-  TDeref extends string | number | null = null
+  TDeref extends string  | null = null
 >(
   a: A,
   b: B,
