@@ -1,13 +1,15 @@
-import {  Dictionary, IsObjectLiteral } from "src/types/index";
+import {  Dictionary, IsObjectLiteral, IsTuple } from "src/types/index";
 
 type MutableObject<T> = [T] extends [boolean]
 ? T
 :{
   -readonly [K in keyof T]: T[K] extends Dictionary
     ? MutableObject<T[K]> 
-    : T[K] extends readonly (infer R)[]
-      ? R[]
-      : T[K];
+    : IsTuple<T[K]> extends true
+      ? T[K]
+      : T[K] extends readonly (infer R)[]
+        ? R[]
+        : T[K];
 };
 
 type MutableArray<T extends readonly unknown[]> = [...{
