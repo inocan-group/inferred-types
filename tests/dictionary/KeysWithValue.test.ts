@@ -11,9 +11,10 @@ import { createFnWithProps, defineObj} from "src/runtime/index";
 const obj = defineObj({
   id: "foobar",
   foo2: 2,
-  foo3: 3,
   success: true,
-  fail: false
+  fail: false,
+  narrowFn: (name: string) => `hi ${name}`,
+  narrowFnWithProps: createFnWithProps(() => "hi",{ foo: "there" })
 })({
   foo: 1,
   bar: true,
@@ -25,8 +26,6 @@ const obj = defineObj({
   baz: { foo: 1, bar: 2 },
   emptyBaz: {}
 });
-
-
 
 describe("KeysWithValue<T> utility", () => {
 
@@ -42,7 +41,7 @@ describe("KeysWithValue<T> utility", () => {
     type Obj = KeysWithValue<typeof obj, Dictionary>;
 
     type cases = [
-      ExpectTrue<HasSameValues<Num, ["foo", "foo2", "foo3"]>>,
+      ExpectTrue<HasSameValues<Num, ["foo", "foo2"]>>,
       ExpectTrue<HasSameValues<Str, ["message", "id"]>>,
       ExpectTrue<HasSameValues<Arr, ["numericArr" ,"strArr"]>>,
       ExpectTrue<HasSameValues<RoArr, ["numericArr", "strArr"]>>,
@@ -51,7 +50,7 @@ describe("KeysWithValue<T> utility", () => {
       Expect<Equal<ObjOfType, ["baz"]>>,
       // an object also includes a function (TODO: try and exclude this)
       ExpectTrue<HasSameValues<Obj, ["baz", "emptyBaz" ]>>,
-      ExpectTrue<HasSameValues<Fn, ["fn" , "fnWithProp"] >>,
+      ExpectTrue<HasSameValues<Fn, ["fn" , "fnWithProp", "narrowFn", "narrowFnWithProps"] >>,
     ];
     const cases: cases = [
       true,true,true,true,true,
@@ -65,7 +64,7 @@ describe("KeysWithValue<T> utility", () => {
     type False = KeysWithValue<typeof obj, false>;
     
     type cases = [
-      ExpectTrue<HasSameValues<Num, ["foo2", "foo3"]>>,
+      ExpectTrue<HasSameValues<Num, ["foo2"]>>,
       Expect<Equal<True, ["success"]>>,
       Expect<Equal<False, ["fail"]>>,
     ];

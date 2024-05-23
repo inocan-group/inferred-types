@@ -1,4 +1,4 @@
-import { AnyFunction } from "../AnyFunction";
+import { AnyFunction } from "./AnyFunction";
 
 /**
  * **JustFunction**`<T>`

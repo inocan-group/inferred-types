@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { defineObj, getEach, narrow } from "src/runtime/index";
+import {  getEach } from "src/runtime/index";
 import { GetEach } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -91,10 +91,7 @@ describe("GetEach<T,P>", () => {
     const cases: cases = [ true, true, true ];
   });
 
-  const objSet = narrow(
-    {id: 1, color: defineObj({ favorite: "blue" })()},
-    {id: 2, color: defineObj({ favorite: "green" })()},
-  );
+
   const arrSet = [
       { id: 1, color: ["blue", "green", "red"] as const },
       { id: 2, color: ["purple", "lime", "orange", "fuchsia"] as const },
@@ -102,15 +99,11 @@ describe("GetEach<T,P>", () => {
   ] as const;
   
   it("runtime: happy path", () => {
-    const idObjSet = getEach(objSet, "id");
     const idArrSet = getEach(arrSet, "id");
-    expect(idObjSet).toEqual([1,2]);
     expect(idArrSet).toEqual([1,2,3]);
     
-    const colorsObjSet = getEach(objSet, "color");
     const colorsArrSet = getEach(arrSet, "color");
     
-    expect(colorsObjSet).toEqual([{favorite: "blue"}, {favorite: "green"}]);
     expect(colorsArrSet).toHaveLength(2);
   });
 

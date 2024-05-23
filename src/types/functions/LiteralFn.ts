@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AnyFunction } from "../base-types";
+import { AnyFunction, AsFnMeta, Dictionary, EmptyObject, IsEmptyObject, IsEqual, Tuple } from "src/types/index";
 
 /**
  * **LiteralFn**`<TFn>`
@@ -11,6 +11,36 @@ import { AnyFunction } from "../base-types";
  */
 export type LiteralFn<
   TFn extends AnyFunction
-> = TFn extends ((...args: any[]) => any)
-? (...args: Parameters<TFn>) => ReturnType<TFn>
-: false;
+> = 
+AsFnMeta<TFn>["hasProps"] extends true
+? AsFnMeta<TFn>["hasArgs"] extends true
+  ? ((...args: AsFnMeta<TFn>["args"]) => AsFnMeta<TFn>["returns"]) & AsFnMeta<TFn>["props"]
+  : (() => AsFnMeta<TFn>["returns"]) & AsFnMeta<TFn>["props"]
+: AsFnMeta<TFn>["hasArgs"] extends true
+  ? (...args: AsFnMeta<TFn>["args"]) => AsFnMeta<TFn>["returns"]
+  : () => AsFnMeta<TFn>["returns"] ;
+
+
+/**
+ * **AsLiteralFn**`<TParams,TReturns,TProps>`
+ * 
+ * Constructs a `LiteralFn` from component aspects of 
+ * a function.
+ * 
+ * **Related:** `LiteralFn`, `NarrowingFn`, `AsNarrowingFn`
+ */
+export type AsLiteralFn<
+  TParams extends Tuple | AnyFunction,
+  TReturn = unknown,
+  TProps extends Dictionary = EmptyObject
+> = TParams extends AnyFunction
+? LiteralFn<TParams>
+: TParams extends Tuple
+  ? IsEmptyObject<TProps> extends true
+    ? IsEqual<TParams, []> extends true
+      ? () => TReturn
+      : (...args: TParams) => TReturn
+    : IsEqual<TParams, []> extends true
+      ? (() => TReturn) & TProps
+      : ((...args: TParams) => TReturn) & TProps
+: never;

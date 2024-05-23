@@ -1,4 +1,5 @@
-import { AnyFunction, Dictionary, IsNarrowingFn, IsObjectLiteral } from "src/types/index";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { AnyFunction, Dictionary,  EmptyObject,  IsNarrowingFn, IsNonEmptyObject, TypedFunction } from "src/types/index";
 
 
 
@@ -15,16 +16,16 @@ import { AnyFunction, Dictionary, IsNarrowingFn, IsObjectLiteral } from "src/typ
  * key/values are found it will be set to `no-props`.
  */
 export type FnMeta<
-  TArgs extends readonly unknown[],
-  TReturn,
-  TProps extends Dictionary,
-  TFn extends AnyFunction
+  TFn extends AnyFunction = AnyFunction,
+  TArgs extends readonly any[] = readonly any[],
+  TReturn = unknown,
+  TProps extends Dictionary = Dictionary,
 > = {
   fn: TFn;
   args: TArgs;
   returns: TReturn;
   props: TProps;
-  hasProps: [IsObjectLiteral<TProps>] extends [true] ? true : false;
+  hasProps: [IsNonEmptyObject<TProps>] extends [true] ? true : false;
   hasArgs: TArgs["length"] extends 0 ? false : true;
   isNarrowingFn: IsNarrowingFn<TFn>;
 };

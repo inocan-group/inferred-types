@@ -124,7 +124,7 @@ TValue extends readonly unknown[]
 
 
 /**
- * **IndexOf**<TValue, TIdx>
+ * **IndexOf**<TValue, TIdx, [TOverride]>
  * 
  * A type utility which _dereferences_ a property/index item on an array
  * or object.

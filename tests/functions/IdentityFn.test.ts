@@ -1,22 +1,36 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { IsErrorCondition, NarrowingFn } from "src/types/index";
+import {  IsErrorCondition, IdentityFn } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
 // gain validation that no new type vulnerabilities have cropped up.
 
-describe("NarrowingFn<T>", () => {
+describe("IdentityFn<T,[TNarrow]>", () => {
 
-  it("happy path", () => {
-    type Num = NarrowingFn<number>;
-    type Str = NarrowingFn<string>;
-    type WideUnion = NarrowingFn<string | number>;
-    type LitUnion = NarrowingFn<42 | 56 | 78>;
-    type Bool = NarrowingFn<boolean>;
+  
+  it("Regular Identity", () => {
+    type Num = IdentityFn<number>;
+    type Lit = IdentityFn<42>;
+    
+    type cases = [
+      Expect<Equal<Num, () => number>>,
+      Expect<Equal<Lit, () => 42>>,
+    ];
+    const cases: cases = [ true, true ];
+    
+  });
+  
 
-    type Err = NarrowingFn<42>;
-    type Err2 = NarrowingFn<true>;
+  it("with narrowing", () => {
+    type Num = IdentityFn<number, true>;
+    type Str = IdentityFn<string, true>;
+    type WideUnion = IdentityFn<string | number, true>;
+    type LitUnion = IdentityFn<42 | 56 | 78, true>;
+    type Bool = IdentityFn<boolean, true>;
+
+    type Err = IdentityFn<42, true>;
+    type Err2 = IdentityFn<true, true>;
     
     type cases = [
       Expect<Equal<Num, <T extends number>(v: T) => T>>,

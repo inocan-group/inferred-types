@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { Equal, Expect } from "@type-challenges/utils";
-import {  FnProps } from "src/types/index";
+import {  EmptyObject, FnProps } from "src/types/index";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -16,12 +16,14 @@ describe("FnProps", () => {
 
     type Props = FnProps<Hybrid>;
     type Empty = FnProps<Fn>;
+    type Func = FnProps<Function>;
     
     type cases = [
       Expect<Equal<Props, { foo: 1; bar: 2 }>>,
-      Expect<Equal<Empty, never>>
+      Expect<Equal<Empty, EmptyObject>>,
+      Expect<Equal<Func, EmptyObject>>
     ];
-    const cases: cases = [true, true];
+    const cases: cases = [true, true, true];
   });
 
 });

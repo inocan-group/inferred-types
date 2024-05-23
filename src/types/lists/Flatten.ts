@@ -1,5 +1,22 @@
 /* eslint-disable no-use-before-define */
-import { Contains , AfterFirst, First, IsUnion, UnionToTuple, TupleToUnion, IsTuple } from "src/types/index";
+import { 
+  Contains , 
+  AfterFirst, 
+  First, 
+  IsUnion, 
+  UnionToTuple, 
+  TupleToUnion, 
+  IsTuple, 
+  Or
+} from "src/types/index";
+
+type TupleHasUnionWithTuple<
+  T extends readonly unknown[]
+> = Or<{
+  [K in keyof T]: [IsUnion<T[K]>] extends [true]
+    ? Contains<UnionToTuple<T[K]>, unknown[]>
+    : false;
+}>;
 
 type _Flat<
   TList extends readonly unknown[],
@@ -8,19 +25,32 @@ type _Flat<
 > = [] extends TList
   ? TLevel extends 1
     ? TResults
-    : Contains<TResults, unknown[]> extends true
+    : Or<[
+        Contains<TResults, unknown[]>,
+        TupleHasUnionWithTuple<TResults>,
+      ]> extends true
       ? TLevel extends 3
         ? _Flat<TResults, 2>
         : _Flat<TResults, 1>
-      : TResults
+      : TupleHasUnionWithTuple<TResults> extends true
+          ? TResults
+          : TResults
   : _Flat<
       AfterFirst<TList>, 
       TLevel,
       First<TList> extends unknown[] | readonly unknown[]
         ? [ ...TResults, ...First<TList>]
-        : [ ...TResults, First<TList> ]
+        : IsUnion<First<TList>> extends true
+          ? [ 
+              ...TResults, 
+              ...(
+                ReduceUnion<First<TList>> extends unknown[]
+                  ? ReduceUnion<First<TList>>
+                  : [ReduceUnion<First<TList>>]
+              )
+            ]
+          : [ ...TResults, First<TList> ]
     >;
-
 
 type Iterate<
   T extends readonly unknown[],
@@ -33,9 +63,14 @@ type Iterate<
 
 export type FlattenUnion<
   TValue,
-  TDepth extends 1 | 2 | 3 = 1
 > = IsUnion<TValue> extends true
-? Iterate<UnionToTuple<TValue>, TDepth>
+? Iterate<UnionToTuple<TValue>, 1>
+: TValue;
+
+type ReduceUnion<
+  TValue,
+> = IsUnion<TValue> extends true
+? IterateScalar<UnionToTuple<TValue>, 1>
 : TValue;
 
 type WideFlatten<T> = T extends (infer Type)[] 
@@ -52,13 +87,13 @@ TLevel extends 1 | 2 | 3 = 1
 ? _Flat<TList, TLevel>
 : WideFlatten<TList>
 : IsUnion<TList> extends true
-? FlattenUnion<TList,TLevel>
+? FlattenUnion<TList>
 : TList;
 
 type ToScalar<
   TList,
   TLevel extends 1 | 2 | 3
-> = [IsTuple<Process<TList,TLevel>>] extends [true]
+> = [IsTuple<Process<TList>>] extends [true]
 ? TupleToUnion<Process<TList,TLevel>>
 : Process<TList,TLevel> extends (infer Type)[]
   ? Type

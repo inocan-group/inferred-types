@@ -1,102 +1,85 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-use-before-define */
 import {   
-  ChoiceRepresentation, 
-  ChoiceBuilder, 
-  MultipleChoice, 
   Choice, 
-  Narrowable, 
-  Dictionary,
-  MergeKVs 
+  ChoiceValue,
+  AsChoice,
+  Scalar,
+  CreateChoice,
+  ChoiceCallback,
+  ChoiceApiOptions,
+  ChoiceApiConfig,
+  ChoiceApi
 } from "src/types/index";
-import { isString } from "../type-guards/isString";
-import {  isObject } from "../type-guards/index";
-import { createFnWithProps } from "../initializers";
-import { handleDoneFn } from "../boolean-logic";
-import { Never } from "src/constants/index";
+import {  isDoneFn, isFunction,  isString,  isTuple,  isUndefined } from "../type-guards/index";
+import { shape } from "./shape";
+import { Never } from "src/constants/Never";
 
-const chooseMany = <
-  TChoices extends Dictionary<string>,
-  TForceUnique extends boolean,
-  TState extends readonly unknown[] = [],
-  TExclude extends string = ""
+
+
+export const createChoice: CreateChoice = <
+  TName extends string,
+  TValue extends ChoiceValue
+>(name: TName, value?: TValue) => {
+  const result: any = isUndefined(value)
+    ? { name, value: name }
+    : isFunction(value)
+      ? { name, value: value(shape) }
+      : { name, value }
+
+  return (
+    isDoneFn(result) 
+      ? result.done() 
+      : result
+   ) as AsChoice<TName,TValue>;
+}
+
+const configureChoiceApi = <
+TChoices extends readonly Choice[],
+TOptions extends ChoiceApiOptions
 >(
   choices: TChoices, 
-  forceUnique: TForceUnique, 
-  state: TState = [] as unknown as TState
-): MultipleChoice<TChoices, TForceUnique, TState, TExclude> => {
-  const result = createFnWithProps(
-    <I extends Exclude<keyof TChoices, TExclude>>(item: I) => chooseMany(
-          choices,
-          forceUnique,
-          [...state, choices[item]]
-      ),
-      { 
-        config: choices,  
-        selected: state, 
-        forceUnique,
-        done: () => state
-      }
+  options: TOptions
+): ChoiceApiConfig<TChoices,TOptions> => ({
+  done: () => ({} as unknown as ChoiceApi<TChoices,TOptions>),
+  allowChoicesToBeUsedOnlyOnce: () => configureChoiceApi(
+    choices, 
+    {...options, unique: true}
+  ),
+  allowChoicesToBeUsedMultipleTimes: () => configureChoiceApi(
+    choices, 
+    {...options, unique: false}
+  ),
+  setStyle: (style) => configureChoiceApi(
+    choices,
+    {...options, style}
+  ),
+  maximumChoices: (max) => configureChoiceApi(
+    choices,
+    {...options, max}
   )
-
-  return result as unknown as MultipleChoice<TChoices, TForceUnique, TState, TExclude>;
-};
-
-
-/**
- * **choice**(_choice representation_)
- * 
- * Receives a `ChoiceRepresentation` value and converts it into
- * a strongly typed Key/Value pair.
- */
-export const choice = <
-  TChoice extends ChoiceRepresentation<N,V>,
-  N extends string,
-  V extends Narrowable
->(choice: TChoice) => {
-  return (
-    isString(choice)
-    ? { [choice]: choice }
-    : isObject(choice)
-      ? "type" in choice
-        ? { [(choice as any).name as string]: handleDoneFn(choice.type) }
-        : "value" in choice
-          ? { [(choice as any).name as string]: choice.value }
-          : Never
-    : Array.isArray(choice)
-      ? choice.length === 2
-        ? { [String(choice[0])]: choice[1]}
-        : Never
-    : Never
-  ) as Choice<TChoice>;
-}
-
-export const mergeChoices = <
-  T extends readonly Dictionary<string>[]
->(...choices: T) => {
-  let obj: Dictionary<string> = {};
-  for (const idx in choices) {
-    obj = {
-      ...obj,
-      ...choices[idx as keyof typeof choices]
-    }
-  }
-  return obj as unknown as MergeKVs<T>
-}
-
-
-
-export const choices: ChoiceBuilder = (...choices) => ({
-  chooseMany: (forceUnique) => {
-    return chooseMany(
-      mergeChoices(...choices),
-      forceUnique
-    );
-  }
 });
 
+const toChoices = <
+  T extends readonly (string | [string, Scalar] | Choice | ChoiceCallback)[]
+>(values: T) => {
+  return values.map(i => isString(i)
+    ? {name: i, value: i }
+    : isTuple(s => s.string(), s => s.union("Scalar"))(i)
+    ? {name: i[0], value: i[1]}
+    : Never
+  );
+}
 
 
-
+export const createChoiceApi = <
+  TChoices extends readonly (string | [string, Scalar] | Choice | ChoiceCallback)[]
+>(...choices: TChoices) => {
+  configureChoiceApi(toChoices(choices), {
+    unique: true,
+    max: null,
+    style: "fn"
+  })
+}
 
 

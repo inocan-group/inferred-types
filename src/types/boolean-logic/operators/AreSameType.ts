@@ -1,5 +1,4 @@
 import { Widen } from "../..";
-import { IsEqual } from "./IsEqual";
 
 /**
  * **AreSameType**`<A,B>`
@@ -16,6 +15,8 @@ import { IsEqual } from "./IsEqual";
  * AreSameType<"foo",42>;
  * ```
  */
-export type AreSameType<A,B> = [IsEqual<Widen<A, true>, Widen<B, true>>] extends [true]
-? true
+export type AreSameType<A,B> = Widen<A, true> extends Widen<B, true>
+? Widen<B, true> extends Widen<A, true>
+  ? true
+  : false
 : false;

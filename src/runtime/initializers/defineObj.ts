@@ -1,5 +1,7 @@
 import { 
-  ExpandRecursively,
+  EmptyObject,
+  ExpandDictionary,
+  IsNonEmptyObject,
   Narrowable, 
   RemoveIndex, 
   Widen
@@ -32,14 +34,22 @@ export function defineObj<
   return <
     N2 extends Narrowable,
     TWide extends Record<string,N2>,
-  >(wide: TWide = {} as TWide) => {
+  >(wide: TWide = {} as EmptyObject as TWide) => {
     const obj = (
       literal 
-        ? { ...wide, ...literal } 
+        ? { ...literal, ...wide  } 
         : wide
     ) as unknown;
 
-    return obj as ExpandRecursively< RemoveIndex<TLiteral> & Widen<TWide> >
+
+    return obj as ExpandDictionary<
+      RemoveIndex<TLiteral> & (
+        IsNonEmptyObject<TWide> extends true 
+          ? Widen<TWide>
+          : EmptyObject
+        )
+      >;
   };
-}
+};
+
 

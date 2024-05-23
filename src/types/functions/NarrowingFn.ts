@@ -1,5 +1,16 @@
+/* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {  AnyFunction, IsEqual, IsNarrowingFn, Throw } from "src/types/index";
+import {  
+  AnyFunction, 
+  Dictionary, 
+  EmptyObject, 
+  IsEmptyObject, 
+  IsEqual, 
+  IsNarrowingFn, 
+  Throw, 
+  Tuple, 
+  TypedFunction 
+} from "src/types/index";
 
 
 
@@ -22,15 +33,40 @@ import {  AnyFunction, IsEqual, IsNarrowingFn, Throw } from "src/types/index";
  */
 export type NarrowingFn<
   TFn extends AnyFunction
-> = IsEqual<Parameters<TFn>, []> extends true
-  ? Throw<
-      "no-parameters",
-      `To make a function a NarrowingFn it must have at least one parameter!`,
-      "NarrowingFn",
-      { library: "inferred-types"; params: TFn }
-    >
-  : IsNarrowingFn<TFn> extends true
-    ? TFn
-    : (<T extends Parameters<TFn>>(...args: T) => ReturnType<TFn>);
+> = TFn extends TypedFunction
+  ? IsEqual<Parameters<TFn>, []> extends true
+    ? Throw<
+        "no-parameters",
+        `To make a function a NarrowingFn it must have at least one parameter!`,
+        "NarrowingFn",
+        { library: "inferred-types"; params: TFn }
+      >
+    : IsNarrowingFn<TFn> extends true
+      ? TFn
+      : (<T extends Parameters<TFn>>(...args: T) => ReturnType<TFn>)
+  : NarrowingFn<TypedFunction>;
 
 
+/**
+ * **AsNarrowingFn**`<TParams,TReturns,TProps>`
+ * 
+ * Constructs a `NarrowingFn` from component aspects of 
+ * a function.
+ * 
+ * **Related:** `LiteralFn`, `NarrowingFn`, `AsLiteralFn`
+ */    
+export type AsNarrowingFn<
+    TParams extends Tuple | AnyFunction,
+    TReturn = unknown,
+    TProps extends Dictionary = EmptyObject
+  > = TParams extends AnyFunction
+  ? NarrowingFn<TParams>
+  : TParams extends Tuple
+    ? IsEmptyObject<TProps> extends true
+      ? IsEqual<TParams, []> extends true
+        ? () => TReturn
+        : <T extends TParams>(...args: T) => TReturn
+      : IsEqual<TParams, []> extends true
+        ? (() => TReturn) & TProps
+        : (<T extends TParams>(...args: T) => TReturn) & TProps
+  : never;

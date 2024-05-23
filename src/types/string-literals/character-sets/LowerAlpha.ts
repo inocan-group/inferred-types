@@ -9,7 +9,7 @@ import {  AsArray, IfAllExtend,  If, IsStringLiteral, LowerAlphaChar,  Chars } f
  * - `string` - when T is a wide string type
  * - `never` - all other types of `T` are converted to never
  */
-export type LowerAlpha<T> = T extends string
+export type IsLowerAlpha<T> = T extends string
   ? If<
       IsStringLiteral<T>,
       IfAllExtend<AsArray<Chars<T>>, LowerAlphaChar, T, never>,

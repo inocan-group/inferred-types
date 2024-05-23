@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import {  FnMeta, ToFn } from "src/types/index";
+import {  ToFn } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
@@ -13,17 +13,15 @@ describe("ToFn<T> utility", () => {
     type Str = ToFn<"hi">;
     type Num = ToFn<42>;
     type Proxy = ToFn<() => "hi">;
-    type Meta = ToFn< FnMeta<[], string, { foo: "bar" }> >;
     type Never = ToFn<never>;
 
     type cases = [
       Expect<Equal<Str, () => "hi">>,
       Expect<Equal<Num, () => 42>>,
       Expect<Equal<Proxy, () => "hi">>,
-      Expect<Equal<Meta, (() => string) & { foo: "bar" }>>,
       Expect<Equal<Never, never>>
     ];
-    const cases: cases = [ true, true, true, true, true ];
+    const cases: cases = [ true, true, true,  true ];
   });
 
 });

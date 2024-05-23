@@ -1,13 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-import { AnyFunction } from "../..";
-import { Not } from "../combinators/Not";
-import { IsEqual } from "./IsEqual";
+import { AnyFunction, Not, IsEqual, LiteralFn } from "src/types/index";
 
 
-type RegularFn<Fn> = Fn extends ((...args: any[]) => any)
-? (...args: Parameters<Fn>) => ReturnType<Fn>
-: false;
 
 
 /**
@@ -20,5 +14,7 @@ type RegularFn<Fn> = Fn extends ((...args: any[]) => any)
  * **Related:** `NarrowingFn`, `IsLiteralFn`
  */
 export type IsNarrowingFn<TFn> = TFn extends AnyFunction
-? Not<IsEqual<RegularFn<TFn>,TFn>>
+? Not<IsEqual<
+    LiteralFn<TFn>,TFn
+  >>
 : false;

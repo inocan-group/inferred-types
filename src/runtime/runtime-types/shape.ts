@@ -1,81 +1,59 @@
-import { SHAPE_DELIMITER, SHAPE_PREFIXES } from "src/constants/Shape";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { SHAPE_PREFIXES } from "src/constants/Shape";
 import { 
-  IndexableObject, 
-  ObjectKey,
-  Narrow, 
   Shape, 
   ShapeTupleOrUnion, 
-  ShapeApi, 
+  ShapeApi as TShapeApi, 
   ShapeCallback, 
-  WideTypeName, 
-  TupleToUnion,
   HandleDoneFn,
-  If,
-  IsTrue,
-  IsUndefined
 } from "src/types/index";
 import { isString } from "../type-guards/isString";
-import { hasKeys, isObject, isUndefined } from "../type-guards/index";
+import { hasKeys, isObject } from "../type-guards/index";
 import { handleDoneFn } from "../boolean-logic";
+import { boolean, nullType, undefinedType, unknown } from "./shape-helpers/atomics";
+import { number, string } from "./shape-helpers/singletons";
+import { fn } from "./shape-helpers/functions";
+import { dictionary, tuple } from "./shape-helpers/literal-containers";
+import { array, map, record, set, weakMap } from "./shape-helpers/wide-containers";
+import { union } from "./shape-helpers/union";
 
 const isAddOrDone = <T>(val: T): val is ShapeTupleOrUnion & T => {
   return isObject(val) && hasKeys("add","done") && typeof val.done === "function" && typeof val.add === "function"
 }
 
-const shapeTupleOrUnion = <
-  TTuple extends readonly Narrow[],
-  TMakeUnion extends boolean,
->(state: TTuple, makeUnion: TMakeUnion) => {
-  const api:  ShapeTupleOrUnion<TTuple,TMakeUnion> = {
-    add: <TAdd extends Narrow>(a: TAdd) => shapeTupleOrUnion([...state, a], makeUnion),
-    done: () => (
-      makeUnion
-        ? `<<union::${state.join(SHAPE_DELIMITER)}>>` as unknown as TupleToUnion<TTuple>
-        : `<<tuple::${state.join(SHAPE_DELIMITER)}>>` as unknown as TTuple
-    ) as unknown as If<IsTrue<TMakeUnion>, TupleToUnion<TTuple>, TTuple>
-  };
-
-  return api;
-}
-
-export const ShapeApiImplementation: ShapeApi = {
-  string: () => "<<string>>" as string,
-  number: () => "<<number>>" as unknown as number,
-  boolean: () => "<<boolean>>" as unknown as boolean,
-  unknown: () => "<<unknown>>" as unknown,
-  undefined: () => "<<undefined>>" as unknown as undefined,
-  null: () => "<<null>>" as unknown as null,
-  object: <I extends boolean>(indexable?: I) => (
-    indexable 
-      ? "<<object::indexable>>" as unknown as IndexableObject
-      : "<<object>>" as unknown as object
-    ) as If<IsTrue<I>, IndexableObject, object>,
-  record: {
-    string: () => "<<record::string>>" as unknown as Record<ObjectKey, string>,
-    number: () => "<<record::number>>" as unknown as Record<ObjectKey, number>,
-    boolean: () => "<<record::boolean>>" as unknown as Record<ObjectKey, boolean>,  
-    unknown: () => "<<record::unknown>>" as unknown as Record<ObjectKey, unknown>,
-    union: <
-      U extends readonly WideTypeName[]
-    >(...members: U) => (
-      `<<union:${isUndefined(members) ? [] : members}.join(SHAPE_DELIMITER)>>`
-    ) as unknown as If<IsUndefined<U>,NonNullable<unknown>, Record<ObjectKey, TupleToUnion<U>>>
-  },
-  array: {
-    string: () => "<<array::string>>" as unknown as string[],
-    number: () => "<<array::number>>" as unknown as number[],
-    boolean: () => "<<array::boolean>>" as unknown as boolean[],  
-    unknown: () => "<<array::unknown>>" as unknown as unknown[],  
-  },
-  literals: <T extends readonly Narrow[]>(...literals: T) => shapeTupleOrUnion(literals, true),
-  tuple: <T extends Narrow>(item: T) => shapeTupleOrUnion([item], false),
-  opt: {
-    string: () => "<<opt::string>>" as string | undefined,
-    number: () => "<<opt::number>>" as unknown as number | undefined,
-    boolean: () => "<<opt::boolean>>" as unknown as boolean | undefined,  
-    unknown: () => "<<opt::boolean>>" as unknown as unknown | undefined,  
-    null: () => "<<opt::boolean>>" as unknown as null | undefined,  
-  },
+/*
+ * **Shape Api** _Implementation_
+ * 
+ * This API surface is intended to be used to create a string-based
+ * **token** which _represents_ a fully typed _type_.
+ * 
+ * Even though the runtime system can interrogate this this token
+ * at runtime -- via the `isShape()` type guard -- the
+ * runtime will "see" the actual type that the token represents.
+ * 
+ * ```ts
+ * // number
+ * const token = ShapeApi.number();
+ * // <<number>>
+ * console.log(token);
+ * ```
+ */
+export const ShapeApi: TShapeApi = {
+  string,
+  number,
+  boolean,
+  unknown,
+  undefined: undefinedType,
+  null: nullType,
+  union,
+  fn,
+  record,
+  array,
+  set,
+  map,
+  weakMap,
+  dictionary,
+  tuple
 }
 
 /**
@@ -89,7 +67,7 @@ export const ShapeApiImplementation: ShapeApi = {
 export const shape = <
   T extends ShapeCallback
 >(cb: T): HandleDoneFn<ReturnType<T>> => {
-  const rtn = cb(ShapeApiImplementation);
+  const rtn = cb(ShapeApi);
   return handleDoneFn(
     isAddOrDone(rtn) ? rtn.done() : rtn
   ) as unknown as HandleDoneFn<ReturnType<T>>;
@@ -107,3 +85,7 @@ export const isShape = (v: unknown): v is Shape => {
     SHAPE_PREFIXES.some(i => v.startsWith(`<<${i}`))
     ? true : false
 }
+
+const _s = shape(s => s.string("foo", "bar"));
+
+

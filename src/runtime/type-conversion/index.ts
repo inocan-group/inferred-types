@@ -10,3 +10,4 @@ export * from "./union";
 export * from "./toNumber";
 export * from "./asUnion";
 export * from "./asRecord";
+export * from "./asString";

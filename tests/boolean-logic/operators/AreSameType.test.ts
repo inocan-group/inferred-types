@@ -16,6 +16,8 @@ describe("AreSameType<A,B>", () => {
     type T4 = AreSameType<true, false>;
     type T5 = AreSameType<{foo:1}, {bar:2}>;
     type T6 = AreSameType<readonly string[], readonly (string | number)[]>;
+    type T7 = AreSameType<() => "hi", () => string>;
+    type T8 = AreSameType<Record<string, string>, Dictionary>;
 
     type F1 = AreSameType<"foo", 42>;
     type F2 = AreSameType<Dictionary, Tuple>;
@@ -27,12 +29,14 @@ describe("AreSameType<A,B>", () => {
       ExpectTrue<T4>,
       ExpectTrue<T5>,
       ExpectTrue<T6>,
+      ExpectTrue<T7>,
+      ExpectTrue<T8>,
 
       ExpectFalse<F1>,
       ExpectFalse<F2>,
     ];
     const cases: cases = [
-      true,true, true, true,true, true,
+      true,true, true, true,true, true,true,true,
       false, false
     ];
   });

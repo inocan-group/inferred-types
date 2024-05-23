@@ -13,7 +13,7 @@ export function ifArray<
   ELSE extends Narrowable
 >(
   val: T,
-  isAnArray: <N extends T & readonly unknown[]>(arr: N) => IF,
+  isAnArray: <N extends T & unknown[]>(arr: N) => IF,
   isNotAnArray: <N extends Exclude<T, unknown[] | readonly unknown[]>>(nonArr: N) => ELSE
 ) {
   return (

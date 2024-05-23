@@ -11,7 +11,7 @@ import { isTrue } from "../type-guards/index";
 
 
 /**
- * **createFnWithProps**(fn, props)
+ * **createFnWithProps**`(fn, props)`
  * 
  * creates a strongly typed function along with properties.
  */
