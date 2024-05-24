@@ -1,5 +1,4 @@
 /* eslint-disable no-use-before-define */
-import {SHAPE_PREFIXES} from "src/constants/index";
 
 import { 
   If, 
@@ -8,7 +7,6 @@ import {
   IsNever, 
   IsTrue, 
   TupleToUnion,
-  Mutable,
   IsFalse,
   Tuple,
   HandleDoneFn,
@@ -24,15 +22,14 @@ import {
   ZipPlus4,
   As,
   Container,
+  TypeTokenKind,
 } from "src/types/index";
 import { AsUnion, FromDefn } from "./FromDefn";
 import { FromWideTokens, WideContainerNames, WideTokenNames } from "./FromTokenNames";
 
 type Narrow = Exclude<Narrowable, symbol>;
 
-type Prefixes = Mutable<typeof SHAPE_PREFIXES> extends readonly string[]
-  ? TupleToUnion<Mutable<typeof SHAPE_PREFIXES>>
-  : never;
+
 /**
  * **Shape**
  * 
@@ -40,7 +37,7 @@ type Prefixes = Mutable<typeof SHAPE_PREFIXES> extends readonly string[]
  * are produced as the runtime representation of a type by utilities
  * like the `ShapeApi` and the `shape()` runtime function.
  */
-export type Shape = `<<${Prefixes}${string}>>`
+export type Shape = `<<${TypeTokenKind}${string}>>`
 
 /**
  * **ShapeAddOrDone**`<TTuple, TMakeUnion>`

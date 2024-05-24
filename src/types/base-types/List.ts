@@ -202,10 +202,16 @@ export type List<T = unknown, ID extends string = string> = {
   lastIndexOf: (find: T) => number;
 
   /**
-   * **map**`(callback)`
+   * **map**`(callbackfn)`
    * 
-   * Returns a new List populated with the current's list elements all having 
-   * been transformed with the provided callback function.
+   * Calls a defined callback function on each element of an array, and returns an array
+   * that contains the results.
+   * 
+   * @param callbackfn — A function that accepts up to three arguments. The map method 
+   * calls the callbackfn function one time for each element in the array.
+   * 
+   * @param thisArg — An object to which the this keyword can refer in the callbackfn 
+   * function. If thisArg is omitted, undefined is used as the this value.
    */
   map: <M extends ((v: T) => unknown)>(cb: M) => List<ReturnType<M>,`${ID} -> mapped`>;
 

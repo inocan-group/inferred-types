@@ -35,5 +35,5 @@ export const find = <
         : i
       : i;
     return comparator === value;
-  }) as Find<TList, TExtends, TDeref>;
+  }) as unknown as Find<TList, TExtends, TDeref>;
 };

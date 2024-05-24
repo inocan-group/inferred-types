@@ -24,9 +24,37 @@ describe("Find<TList, TValue, TIndex>", () => {
 
 });
 
-describe("FindExtends<TList, TValue, TIndex", () => {
+describe("FindExtends<TList, TValue, TIndex>", () => {
 
-  it("first test", () => {
+  
+  it("happy path  without indexing", () => {
+    type List = [number, 1, 2, string, "foo"];
+    type Num = FindExtends<List, number>;
+    type Two = FindExtends<List, 2>;
+    type Str = FindExtends<List, string>;
+    type Foo = FindExtends<List, "foo">;
+    type Missing = FindExtends<List, "bar">;
+    type FooBar = FindExtends<List, "foo" | "bar">;
+    
+    type cases = [
+      Expect<Equal<Num, number>>,
+      Expect<Equal<Two, 2>>,
+      Expect<Equal<Str, string>>,
+      Expect<Equal<Foo, "foo">>,
+
+      Expect<Equal<Missing, undefined>>,
+      Expect<Equal<Num, number>>,
+      Expect<Equal<FooBar, "foo">>,
+    ];
+    const cases: cases = [
+      true, true, true, true,
+      true, true, true
+    ];
+    
+  });
+  
+
+  it("happy path with indexing", () => {
     type List = [ { id: 1; val: "hi" }, { id: 2; val: "bye" } ];
     type T1 = FindExtends<List, 1, "id">;
     type T2 = FindExtends<List, 2, "id">;

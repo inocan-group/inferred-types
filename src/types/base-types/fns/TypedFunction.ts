@@ -7,4 +7,4 @@
  * 
  * **Related:** `AnyFunction`
  */
-export type TypedFunction = ((...args: any[]) => any);
+export type TypedFunction<R = any> = ((...args: any[]) => R);

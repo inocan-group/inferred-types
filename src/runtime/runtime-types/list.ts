@@ -141,5 +141,3 @@ export const list = <
     ? List<ListWideType<TList>, ListHash<TList>>
     : never;
 }
-
-
