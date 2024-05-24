@@ -4,3 +4,4 @@ export * from "./JustFunction";
 export * from "./IdentityFunction";
 export * from "./AnyFunction";
 export * from "./TypedFunction"
+export * from "./AnyFnWithDict"

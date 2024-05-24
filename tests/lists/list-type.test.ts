@@ -116,7 +116,6 @@ describe("list() utility", () => {
 
   
   it("FlatMap", () => {
-
     let narrowCb = <T extends number | number[] | string>(v: T) => 
       ifArray(v, v => v, v=>`found a ${v}`);
     let cb = <T extends number | number[] | string>(v: T) => typeof v === "number"

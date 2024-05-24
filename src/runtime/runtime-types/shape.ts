@@ -86,6 +86,5 @@ export const isShape = (v: unknown): v is Shape => {
     ? true : false
 }
 
-const _s = shape(s => s.string("foo", "bar"));
 
 

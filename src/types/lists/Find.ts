@@ -44,13 +44,16 @@ type FindExtendsAcc<
   TDeref extends string | number | null
 > = [] extends TList
   ? undefined
-  : TDeref extends keyof First<TList> 
-    ? If<
-        Extends<TFind, First<TList>[TDeref]>,
-        First<TList>, 
-        FindAcc<AfterFirst<TList>, TFind, TDeref>
-      >
-    : FindAcc<AfterFirst<TList>, TFind, TDeref>;
+  : TDeref extends null
+    ? First<TList> extends TFind
+      ? First<TList>
+      : FindExtendsAcc<AfterFirst<TList>, TFind, TDeref>
+    : TDeref extends keyof First<TList>
+      ? First<TList>[TDeref] extends TFind
+          ? First<TList>
+          : FindExtendsAcc<AfterFirst<TList>, TFind, TDeref>
+      : FindExtendsAcc<AfterFirst<TList>, TFind, TDeref>
+    ;
 
 /**
  * **FindExtends**`<TList, TFind, TIndex>`

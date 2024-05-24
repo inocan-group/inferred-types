@@ -50,6 +50,7 @@ export * from "./KvFn";
 export * from "./CreateLookup";
 export * from "./MergeKVs"
 export * from "./TakeProp"
+export * from "./MakeKeysOptional"
 
 // #endregion auto-indexed files
 

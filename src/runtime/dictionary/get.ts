@@ -73,9 +73,9 @@ function getValue<
 
 
   const invalidDotPath = createErrorCondition(
-    `get(value, "${updatedDotPath(value,fullDotPath, idx)}", ${hasDefaultValue(defaultValue) ? `${String(defaultValue)}` : "[defValue]"})`)(
     "invalid-dot-path",
-    `The segment "${idx}" in the dotpath "${fullDotPath}" was not indexable and no default value existed on: ${JSON.stringify(value)}`);
+    `The segment "${idx}" in the dotpath "${fullDotPath}" was not indexable and no default value existed on: ${JSON.stringify(value)}`
+  );
 
   const current = (
     hasMoreSegments

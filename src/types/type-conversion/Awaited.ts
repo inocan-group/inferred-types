@@ -5,7 +5,7 @@
  * result.
  */
 export type Awaited<T> = T extends PromiseLike<infer Inner>
-  ? Inner extends Promise<unknown>
-    ? Awaited<Inner>
-    : Inner
+  ? Inner
   : never;
+
+  
