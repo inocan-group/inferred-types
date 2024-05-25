@@ -85,9 +85,9 @@ export type ChoiceApiOptions = {
 }
 
 export type ChoiceApi<
-TChoices extends readonly Choice[],
-  TOptions extends ChoiceApiOptions
-> = {};
+  _TChoices extends readonly Choice[],
+  _TOptions extends ChoiceApiOptions
+> = EmptyObject;
 
 
 export type ChoiceApiConfig<

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 
 import { 
   Contains, 
@@ -11,8 +11,6 @@ import {
   ErrorCondition,
   Extends,
   NumberLike,
-  AnyFunction,
-  Dictionary,
   TypedFunction,
 } from "src/types/index";
 

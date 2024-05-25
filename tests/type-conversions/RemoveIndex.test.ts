@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { Equal, Expect } from "@type-challenges/utils";
 import { Narrowable, RemoveIndex } from "src/types/index";
 import { describe, it } from "vitest";

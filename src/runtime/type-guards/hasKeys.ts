@@ -1,4 +1,4 @@
-import { AsObject, EnsureKeys, If, IsNever, Not } from "src/types/index"
+import { AsObject, EnsureKeys } from "src/types/index"
 import { isObject } from "./isObject";
 import { isFunction } from "./isFunction";
 

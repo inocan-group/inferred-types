@@ -4,7 +4,6 @@ type Process<
   TKeys extends readonly unknown[],
   TDef extends Dictionary,
   TOverride extends Dictionary,
-  // eslint-disable-next-line @typescript-eslint/ban-types
   TResult extends Dictionary = EmptyObject
 > = [] extends TKeys
 ? ExpandRecursively<TResult>

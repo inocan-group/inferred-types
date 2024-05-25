@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import type { 
   Narrowable, 
   ConverterDefn, 
@@ -20,7 +20,7 @@ type CallIfDefined<
 
 type ConversionResult<
   TConvert extends Partial<
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     ConverterDefn<any, any, any, any, any, any>
   >,
   TInput extends Narrowable | Tuple

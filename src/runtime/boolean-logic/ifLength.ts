@@ -24,7 +24,7 @@ export function ifLength<
 ) {
   return (
     Array.isArray(value) && (value as unknown[]).length === length
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+       
       ? ifVal(value as any) 
       : elseVal(value as Exclude<TList, Tuple>)
   ) as IfLength<TList, TLen, IF, ELSE>;

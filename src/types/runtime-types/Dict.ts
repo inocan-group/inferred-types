@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
-
 import { Constant } from "src/constants/index";
 import { 
   RemoveMarked,

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { ShapeCallback } from "src/types/literals"
 import { isDoneFn } from "../isDoneFn"
 import { ShapeApiImplementation, isArray, isSameTypeOf, isShape } from "../.."

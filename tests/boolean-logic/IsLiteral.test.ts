@@ -11,7 +11,7 @@ import {
 describe("IsObjectLiteral<T>", () => {
 
   it("happy path", () => {
-    // eslint-disable-next-line @typescript-eslint/ban-types
+     
 
     type cases = [
       // an empty object is still allowed to take on keys after it is

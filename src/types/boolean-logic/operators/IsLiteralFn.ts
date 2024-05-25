@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 
 import { AnyFunction } from "../..";
 import { IsEqual } from "./IsEqual";

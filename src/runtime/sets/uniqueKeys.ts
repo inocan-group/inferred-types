@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable no-use-before-define */
 import { Container,    ObjectKey,  UniqueKeys } from "src/types/index";
 import { isArray } from "../type-guards/isArray";
 

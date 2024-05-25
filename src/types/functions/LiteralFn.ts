@@ -1,5 +1,12 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { AnyFunction, AsFnMeta, Dictionary, EmptyObject, IsEmptyObject, IsEqual, IsNonEmptyObject, Tuple } from "src/types/index";
+import { 
+  AnyFunction, 
+  AsFnMeta, 
+  Dictionary, 
+  EmptyObject,  
+  IsEqual, 
+  IsNonEmptyObject, 
+  Tuple 
+} from "src/types/index";
 
 /**
  * **LiteralFn**`<TFn>`

@@ -1,5 +1,3 @@
-/* eslint-disable no-use-before-define */
-/* eslint-disable @typescript-eslint/ban-types */
 import type { 
   AnyObject, 
   IsTrue,

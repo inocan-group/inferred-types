@@ -35,7 +35,7 @@ export function box<T extends Narrowable>(value: T): Box<T> {
 
 export function isBox(thing: Narrowable): thing is Box<unknown> {
   return (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     typeof thing === "object" && "__type" in (thing as object) && (thing as any).__type === "box"
   );
 }

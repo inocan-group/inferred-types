@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AnyFunction, Not, IsEqual, LiteralFn } from "src/types/index";
 
 

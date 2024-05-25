@@ -22,7 +22,7 @@ export function ifFunction<
   return (
     isFunction(value)
     ? isFnCallback(value)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     : notFnCallback(value as any)
   ) as If<IsFunction<TValue>, Fn, NotFn>;
 }

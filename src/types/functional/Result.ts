@@ -195,7 +195,7 @@ export type KindFrom<
 
 export type OkFrom<
   TResult extends Result
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 > = TResult["__kind"][1];
 
 type _IsResult<

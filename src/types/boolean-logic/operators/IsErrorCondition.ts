@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { ErrorCondition } from "src/types/index";
 
 /**

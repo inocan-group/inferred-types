@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { SHAPE_PREFIXES } from "src/constants/Shape";
 import { 
   Shape, 

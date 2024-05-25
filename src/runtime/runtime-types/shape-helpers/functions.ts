@@ -8,9 +8,9 @@ import {
 } from "src/types/index";
 
 
-export const fn = <TArgs extends readonly FnArgsDefn[]>(...args: TArgs) => ({
-  returns: <TReturn extends FnReturnTypeDefn>(rtn: TReturn) => ({
-    addProperties: <TProps extends FnPropertiesDefn>(kv: TProps) => {
+export const fn = <TArgs extends readonly FnArgsDefn[]>(..._args: TArgs) => ({
+  returns: <TReturn extends FnReturnTypeDefn>(_rtn: TReturn) => ({
+    addProperties: <TProps extends FnPropertiesDefn>(_kv: TProps) => {
       // TODO
       return null as unknown as AsLiteralFn<
         FromWideTokens<TArgs, FromDefn<TArgs>>,

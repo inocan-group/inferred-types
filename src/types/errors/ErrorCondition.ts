@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { 
   EmptyObject, 
   ExpandRecursively, 
@@ -70,7 +70,7 @@ export interface TypeErrorInfo<
    * In cases where a utility provides a means to handle the "never" value
    * then this indicates what type _never_ would be mapped to.
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   handleNever?: any;
 
   container?: any | readonly any[];

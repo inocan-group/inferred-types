@@ -1,15 +1,8 @@
-/* eslint-disable @typescript-eslint/ban-types */
 import type {  
   AsString, 
   Container, 
-  ExpandRecursively, 
   If, 
-  IfNever, 
   IsEqual, 
-  IsObjectLiteral, 
-  IsWideType, 
-  Dictionary, 
-  NotEqual, 
   ObjectKey, 
   Or, 
   RemoveIndexKeys, 

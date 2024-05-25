@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-define */
 import { LogicFunction, LogicalReturns } from "src/types/index";
 
 import { isBoolean } from "../type-guards/isBoolean";

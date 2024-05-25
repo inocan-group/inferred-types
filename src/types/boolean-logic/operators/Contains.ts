@@ -1,6 +1,5 @@
 import {  
   AsString, 
-  IsEqual, 
   IsWideType, 
   Or,
 } from "src/types/index";

@@ -1,17 +1,11 @@
 import {
   Throw, 
-  Iff,
   PartialError, 
   ErrorCondition,
-  RequiredProps,
-  WithoutKeys,
-  Keys,
-  OptionalProps,
   TypeErrorInfo,
   ExpandRecursively,
   EmptyObject,
   RemoveNever,
-  Dictionary,
   AsString
 } from "src/types/index"
 

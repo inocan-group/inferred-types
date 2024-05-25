@@ -1,22 +1,35 @@
-import { ArrayTypeDefn, AsArray, FromDefn, HandleDoneFn, MapKeyDefn, MapValueDefn, ObjKeyDefn, RecordValueTypeDefn, ShapeCallback, WeakMapKeyDefn, WeakMapValueDefn, WideTokenNames } from "src/types/index";
+import { 
+  ArrayTypeDefn, 
+  AsArray, 
+  FromDefn, 
+  HandleDoneFn, 
+  MapKeyDefn, 
+  MapValueDefn, 
+  ObjKeyDefn, 
+  RecordValueTypeDefn, 
+  ShapeCallback, 
+  WeakMapKeyDefn, 
+  WeakMapValueDefn, 
+  WideTokenNames 
+} from "src/types/index";
 
 
 export const record = <
   TKey extends ObjKeyDefn = "string | symbol",
   TValue extends RecordValueTypeDefn = "unknown"
->(key?: TKey, value?: TValue) => {
+>(_key?: TKey, _value?: TValue) => {
   // TODO
   return null as unknown as Record<FromDefn<TKey>, FromDefn<TValue>>
 }
 
 export const array = <T extends ArrayTypeDefn = "unknown[]">(
-  type?: T
+  _type?: T
 ) => {
   // TODO
   return null as unknown as AsArray<FromDefn<T>>
 };
 
-export const set = <T extends WideTokenNames | ShapeCallback = "unknown">(type?: T) => {
+export const set = <T extends WideTokenNames | ShapeCallback = "unknown">(_type?: T) => {
   return null as unknown as T extends ShapeCallback
     ? Set<HandleDoneFn<ReturnType<T>>>
     : T extends WideTokenNames
@@ -27,7 +40,7 @@ export const set = <T extends WideTokenNames | ShapeCallback = "unknown">(type?:
 export const map = <
   TKey extends MapKeyDefn = "unknown",
   TValue extends MapValueDefn = "unknown"
->(key?: TKey, value?: TValue) => {
+>(_key?: TKey, _value?: TValue) => {
   // TODO
   return null as unknown as Map<FromDefn<TKey>, FromDefn<TValue>>;
 }
@@ -35,7 +48,7 @@ export const map = <
 export const weakMap = <
   TKey extends WeakMapKeyDefn = "object",
   TValue extends WeakMapValueDefn = "unknown"
->(key?: TKey, value?: TValue) => {
+>(_key?: TKey, _value?: TValue) => {
   // TODO
   return null as unknown as WeakMap<
     FromDefn<TKey> extends object

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { Container, Contains, IsNever, Dictionary, Keys } from "src/types/index";
 
 type Process<T extends Container> = T extends Generator

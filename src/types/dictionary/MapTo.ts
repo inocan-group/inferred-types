@@ -1,6 +1,5 @@
 /* eslint-disable no-use-before-define */
 import { 
-  AnyObject,
   Dictionary,
   MergeObjects,
   OptRequired 
@@ -460,7 +459,7 @@ export type MapInputFrom<T extends Mapper> = T extends Mapper<infer I> ? I : nev
  *
  * Type utility which extracts the output [`O`] type from a fully configured `Mapper`
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 export type MapOutputFrom<T extends Mapper> = T extends Mapper<any, infer O> ? O : never;
 
 /**
@@ -468,7 +467,7 @@ export type MapOutputFrom<T extends Mapper> = T extends Mapper<any, infer O> ? O
  *
  * Type utility which extracts _cardinality_ of a `Mapper`'s inputs to outputs
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 export type MapCardinalityFrom<T extends Mapper> = T extends Mapper<any, any, infer C>
   ? C extends FinalizedMapConfig<OptRequired, infer Cardinality, OptRequired>
     ? Cardinality

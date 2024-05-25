@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { LOWER_ALPHA_CHARS } from "src/constants/index";
 import { Extends, If, IsSingleChar, Narrowable,  UpperAlphaChar, ValueCallback } from "src/types/index";
 

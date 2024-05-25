@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable no-use-before-define */
 import { 
   Dictionary, 
   EmptyObject, 
@@ -14,12 +12,8 @@ import {
   ExpandRecursively,
   ShapeCallback,
   Scalar,
-  TypeDefinition,
   TupleToUnion,
-  FromDefn,
 } from "src/types/index";
-
-
 
 /**
  * **ValueCallback**`<TVal, TReturn>`
@@ -79,8 +73,9 @@ export type FluentFn<
   TState,
   TName extends string,
   TFn extends <TCb extends (
-    <T extends FluentState<TState>>(state: T) => TypedFunction<TState>
-  )>(cb: TCb, useOnce?: TOnce) => void,
+    <T extends FluentState<TState>>(state: T) => TypedFunction<TState>),
+    TOnce extends boolean
+  >(cb: TCb, useOnce?: TOnce) => void,
   TOnce extends boolean = false
 > = {
   name: TName;

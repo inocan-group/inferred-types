@@ -1,10 +1,7 @@
-/* eslint-disable @typescript-eslint/ban-types */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {  
   AnyFunction, 
   Dictionary, 
   EmptyObject, 
-  IsEmptyObject, 
   IsEqual, 
   IsNarrowingFn, 
   IsNonEmptyObject, 

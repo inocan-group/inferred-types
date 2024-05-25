@@ -1,4 +1,8 @@
-import { AnyFunction,  FnWithDict, Narrowable, TypedFunction } from "src/types/index";
+import { 
+  FnWithDict, 
+  Narrowable, 
+  TypedFunction 
+} from "src/types/index";
 
 /**
  * **addFnToProps**(props, [clone]) => (fn) => FnWithProps
@@ -17,12 +21,12 @@ export const addFnToProps = <
   N extends Narrowable,
   TProps extends Record<K,N>,
   TClone extends boolean | undefined
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
->(props: TProps, clone_fn?: TClone) => 
+ 
+>(props: TProps, _clone_fn?: TClone) => 
 <
   TFn extends TypedFunction
 >(fn: TFn) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     const localFn: any =  <T extends Readonly<Parameters<TFn>>>(...args: T) => fn(args);
 
     for (const k in props) {
