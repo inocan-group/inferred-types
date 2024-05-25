@@ -1,8 +1,5 @@
-
-
 import { EnsureSurround } from "src/types/index";
-import { ensureLeading } from "./ensureLeading";
-import { ensureTrailing } from "./ensureTrailing";
+import { ensureLeading, ensureTrailing } from "src/runtime/index";
 
 /**
  * **ensureSurround**(prefix, postfix) -> (input) -> `${prefix}${input}${postfix}`
@@ -17,7 +14,7 @@ import { ensureTrailing } from "./ensureTrailing";
 export function ensureSurround<
   TPrefix extends string,
   TPostfix extends string
->(prefix: TPrefix, postfix: TPostfix)  {
+>(prefix: TPrefix, postfix: TPostfix) {
 
   const fn = <TInput extends string>(
     input: TInput
@@ -30,6 +27,6 @@ export function ensureSurround<
     return result as EnsureSurround<TInput, TPrefix, TPostfix>;
   }
 
-  return fn ;
+  return fn;
 }
 

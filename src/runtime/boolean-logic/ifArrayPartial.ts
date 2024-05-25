@@ -1,5 +1,5 @@
 import { Narrowable } from "src/types/index";
-import { ifArray } from "./ifArray";
+import { ifArray } from "src/runtime/index";
 
 
 export function ifArrayPartial<T extends Narrowable>() {

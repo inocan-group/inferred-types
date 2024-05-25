@@ -1,6 +1,6 @@
 
 import { Narrowable, TakeProp, Something } from "src/types/index";
-import { isArray, isObject } from "../type-guards/index";
+import { isArray, isObject } from "src/runtime/index";
 
 /**
  * **takeProp**(val, prop, otherwise)
@@ -12,8 +12,8 @@ import { isArray, isObject } from "../type-guards/index";
  * **Related:** `get`
  */
 export const takeProp = <
-  T extends Something, 
-  P extends PropertyKey, 
+  T extends Something,
+  P extends PropertyKey,
   E extends Narrowable
 >(
   val: T,
@@ -22,7 +22,7 @@ export const takeProp = <
 ) => {
   return (
     (isObject(val) || isArray(val)) && prop in val
-    ? val[prop as keyof typeof val]
-    : otherwise
-  ) as TakeProp<T,P,E>
+      ? val[prop as keyof typeof val]
+      : otherwise
+  ) as TakeProp<T, P, E>
 }

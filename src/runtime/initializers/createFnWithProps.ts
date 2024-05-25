@@ -1,13 +1,10 @@
- 
- 
 import {
   If,
   IsTrue,
   Narrowable,
   ObjectKey,
 } from "src/types/index";
-import { keysOf } from "../dictionary/keysOf";
-import { isTrue } from "../type-guards/index";
+import { isTrue, keysOf } from "src/runtime/index";
 
 
 /**
@@ -16,14 +13,14 @@ import { isTrue } from "../type-guards/index";
  * creates a strongly typed function along with properties.
  */
 export const createFnWithProps = <
-TArgs extends readonly unknown[],
-TReturn extends Narrowable,
-N extends Narrowable,
-TProps extends Record<ObjectKey, N>,
-TNarrowing extends boolean = false
+  TArgs extends readonly unknown[],
+  TReturn extends Narrowable,
+  N extends Narrowable,
+  TProps extends Record<ObjectKey, N>,
+  TNarrowing extends boolean = false
 >(
-  fn: (...args: TArgs) => TReturn, 
-  props: TProps, 
+  fn: (...args: TArgs) => TReturn,
+  props: TProps,
   narrowing: TNarrowing = false as TNarrowing
 ) => {
   const fnWithProps: any = fn;
@@ -32,9 +29,9 @@ TNarrowing extends boolean = false
   }
 
   return (
-    isTrue(narrowing) 
-    ? fnWithProps as (<A extends Readonly<TArgs>>(...args: A) => TReturn) & TProps
-    : fnWithProps as ((...args: TArgs) => TReturn) & TProps
+    isTrue(narrowing)
+      ? fnWithProps as (<A extends Readonly<TArgs>>(...args: A) => TReturn) & TProps
+      : fnWithProps as ((...args: TArgs) => TReturn) & TProps
   ) as If<
     IsTrue<TNarrowing>,
     (<A extends TArgs>(...args: A) => TReturn) & TProps,

@@ -1,5 +1,5 @@
 import type { CamelCase } from "src/types/index";
-import { toPascalCase } from "./toPascalCase";
+import { toPascalCase } from "src/runtime/index";
 
 /**
  * **toCamelCase**(str)
@@ -12,7 +12,7 @@ import { toPascalCase } from "./toPascalCase";
  * **Related:** `toKebabCase`, `toPascalCase`, `toSnakeCase`
  */
 export function toCamelCase<
-  TString extends string, 
+  TString extends string,
   TPreserve extends boolean = false
 >(input: TString, preserveWhitespace?: TPreserve): CamelCase<TString, TPreserve> {
   const pascal = preserveWhitespace ? toPascalCase(input, preserveWhitespace) : toPascalCase(input);
@@ -22,7 +22,7 @@ export function toCamelCase<
 
   const camel = (preserveWhitespace ? preWhite : "") +
     focus.replace(/^.*?([0-9]*?[a-z|A-Z]{1})/s, (_, p1) => p1.toLowerCase()) +
-    (preserveWhitespace ? postWhite : "") as CamelCase<TString,TPreserve>;
+    (preserveWhitespace ? postWhite : "") as CamelCase<TString, TPreserve>;
 
-  return camel ;
+  return camel;
 }

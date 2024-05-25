@@ -9,13 +9,13 @@ const entry = <
   TDesc extends string,
   TParams extends readonly (Scalar | ((kb: WideApi) => unknown))[],
 >(
-  refType: TRefType, 
+  refType: TRefType,
   desc: TDesc,
   ...params: TParams
-) => [ 
-  refType(wide as unknown as WideApi) as ReturnType<TRefType>, 
+) => [
+  refType(wide as unknown as WideApi) as ReturnType<TRefType>,
   desc as TDesc,
-  params.map(i => typeof(i) === "function" 
+  params.map(i => typeof (i) === "function"
     ? i(wide)
     : i
   ) as unknown as TParams,
@@ -28,8 +28,8 @@ const entry = <
  * and `Params`.
  */
 export const TYPE_COMPARISONS = {
-  "Extends": entry(t => t.unknown(), "extends the type", t => t.unknown() ),
-  "NotExtends": entry(t => t.unknown(), "does not extent the type", t => t.unknown() ),
+  "Extends": entry(t => t.unknown(), "extends the type", t => t.unknown()),
+  "NotExtends": entry(t => t.unknown(), "does not extent the type", t => t.unknown()),
   "Equals": entry(t => t.unknown(), "equals the type", t => t.unknown()),
   "NotEqual": entry(t => t.unknown(), "does not equal the type", t => t.unknown()),
   "Truthy": entry(t => t.unknown(), "must be a truthy value"),

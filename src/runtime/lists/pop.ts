@@ -1,10 +1,9 @@
-import {  Narrowable, Slice, Tuple,  Last, IfNever } from "src/types/index";
-import { last } from "./last";
-import { slice } from "./slice";
+import { Narrowable, Slice, Tuple, Last, IfNever } from "src/types/index";
+import { last, slice } from "src/runtime/index";
 
 
 export type PopResult<V, L extends Tuple> = [
-  value: IfNever<V, undefined>, 
+  value: IfNever<V, undefined>,
   list: L
 ];
 
@@ -19,15 +18,15 @@ export type PopResult<V, L extends Tuple> = [
  * ```
  */
 export const pop = <
-N extends Narrowable,
-K extends PropertyKey,
-T extends readonly (Record<K,N> | Narrowable)[]
+  N extends Narrowable,
+  K extends PropertyKey,
+  T extends readonly (Record<K, N> | Narrowable)[]
 >(list: T) => {
   return (
     list.length > 0
-    ? [last(list), slice(list, 0, -1)] as PopResult<Last<T>, Slice<T,0,-1>>
-    : undefined
-  ) as PopResult<Last<T>, Slice<T,0,-1>>;
+      ? [last(list), slice(list, 0, -1)] as PopResult<Last<T>, Slice<T, 0, -1>>
+      : undefined
+  ) as PopResult<Last<T>, Slice<T, 0, -1>>;
 };
 
 

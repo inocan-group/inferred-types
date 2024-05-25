@@ -1,10 +1,10 @@
-import { isDefined, isFalse, isTrue } from "src/runtime/type-guards/index";
+import { isDefined, isFalse, isTrue } from "src/runtime/index";
 import { addToken } from "./addToken";
 import { If, IsTrue, IsFalse } from "src/types/index";
 
 export const boolean = <L extends boolean>(literal?: L) => (
   isDefined(literal)
-    ? isTrue(literal) 
+    ? isTrue(literal)
       ? addToken("true")
       : isFalse(literal)
         ? addToken("false")

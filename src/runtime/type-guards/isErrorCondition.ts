@@ -1,5 +1,5 @@
 import { ErrorCondition } from "src/types/index";
-import { isObject } from "./isObject";
+import { isObject } from "src/runtime/index";
 
 
 /**
@@ -12,8 +12,8 @@ export function isErrorCondition<
   T extends ErrorCondition<TKind extends null ? string : TKind>
 >(value: unknown | T, kind: TKind = null as TKind): value is T {
   return isObject(value) && "__kind" in value && value.__kind === "ErrorCondition" && "kind" in value
-    ? kind !== null 
+    ? kind !== null
       ? value["kind"] === kind
-      : true 
+      : true
     : false;
 }

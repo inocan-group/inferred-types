@@ -1,5 +1,5 @@
-import {  Dictionary, If, IsScalar, Narrowable, Scalar } from "src/types/index";
-import { isScalar } from "../type-guards/isScalar";
+import { Dictionary, If, IsScalar, Narrowable, Scalar } from "src/types/index";
+import { isScalar } from "src/runtime/index";
 
 
 /**
@@ -20,16 +20,16 @@ export function ifScalar<
   TIf extends Narrowable,
   TElse extends Narrowable
 >(
-  value: T, 
+  value: T,
   ifCallback: <
     V extends Exclude<T, undefined | Dictionary | unknown[]>
   >(v: V) => TIf,
   notCallback: <V extends Exclude<T, Scalar>>(v: V) => TElse
 ) {
-  const result = isScalar(value) 
+  const result = isScalar(value)
     ? ifCallback(
-        value as Exclude<T, undefined | Dictionary | unknown[]>
-      )
+      value as Exclude<T, undefined | Dictionary | unknown[]>
+    )
     : notCallback(value as Exclude<T, Scalar>);
   return result as typeof result & If<IsScalar<T>, TIf, TElse>;
 }

@@ -1,6 +1,4 @@
-import { ifLowercaseChar } from "./ifLowercase";
-import { lowercase } from "./lowercase";
-
+import { ifLowercaseChar, lowercase } from "src/runtime/index";
 
 /**
  * Converts a string to the "all lowercase" equivalent.

@@ -1,4 +1,4 @@
-import { isConstant } from "./isConstant"
+import { isConstant } from "src/runtime/index"
 
 
 /**

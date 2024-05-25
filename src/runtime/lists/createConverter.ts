@@ -1,7 +1,7 @@
- 
-import type { 
-  Narrowable, 
-  ConverterDefn, 
+
+import type {
+  Narrowable,
+  ConverterDefn,
   Tuple,
   Nothing,
   AnyObject,
@@ -9,8 +9,7 @@ import type {
 } from "src/types/index";
 
 import { Never } from "src/constants/index";
-import { isNothing } from "../type-guards/isNothing";
-import { isObject } from "../type-guards/isObject";
+import { isNothing, isObject } from "src/runtime/index";
 
 type CallIfDefined<
   Handler
@@ -20,23 +19,23 @@ type CallIfDefined<
 
 type ConversionResult<
   TConvert extends Partial<
-     
+
     ConverterDefn<any, any, any, any, any, any>
   >,
   TInput extends Narrowable | Tuple
 > = TInput extends string
   ? CallIfDefined<TConvert["string"]>
   : TInput extends number
-    ? CallIfDefined<TConvert["number"]>
-    : TInput extends boolean
-      ? CallIfDefined<TConvert["boolean"]>
-      : TInput extends AnyObject
-        ? CallIfDefined<TConvert["object"]>
-        : TInput extends Tuple
-          ? CallIfDefined<TConvert["tuple"]>
-          : TInput extends Nothing
-            ? CallIfDefined<TConvert["nothing"]>
-            : never;
+  ? CallIfDefined<TConvert["number"]>
+  : TInput extends boolean
+  ? CallIfDefined<TConvert["boolean"]>
+  : TInput extends AnyObject
+  ? CallIfDefined<TConvert["object"]>
+  : TInput extends Tuple
+  ? CallIfDefined<TConvert["tuple"]>
+  : TInput extends Nothing
+  ? CallIfDefined<TConvert["nothing"]>
+  : never;
 
 /**
  * **createConverter**(mapper)
@@ -64,37 +63,37 @@ export function createConverter<
   TObj extends Narrowable = never,
   TTuple extends Narrowable = never,
   TNothing extends Narrowable = never
->(mapper: Partial<ConverterDefn<TStr,TNum,TBool,TObj,TTuple,TNothing>>) {
+>(mapper: Partial<ConverterDefn<TStr, TNum, TBool, TObj, TTuple, TNothing>>) {
   return <TInput extends Narrowable | Tuple>(input: TInput) => {
     let result: unknown;
-    if(isNothing(input)) {
-      result =  (mapper.nothing
+    if (isNothing(input)) {
+      result = (mapper.nothing
         ? mapper.nothing(input as TInput & Nothing)
         : Never
-      ) 
-    } else if(isObject(input)) {
-      result =  (mapper.object
+      )
+    } else if (isObject(input)) {
+      result = (mapper.object
         ? mapper.object(input as TInput & AnyObject)
         : Never
-      ) 
+      )
     } else {
-      switch(typeof input) {
+      switch (typeof input) {
         case "string":
-          result =  (mapper.string
+          result = (mapper.string
             ? mapper.string(input)
             : Never);
           break;
         case "number":
         case "bigint":
-          result =  (mapper.number
+          result = (mapper.number
             ? mapper.number(input as any)
             : Never);
-            break;
+          break;
         case "boolean":
-          result =  (mapper.boolean
+          result = (mapper.boolean
             ? mapper.boolean(input as any)
             : Never);
-            break;
+          break;
         default:
           throw new Error(`Unhandled type: ${typeof input}`);
       }

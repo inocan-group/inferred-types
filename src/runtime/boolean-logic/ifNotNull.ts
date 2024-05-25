@@ -1,5 +1,5 @@
 import type { If, Not, IsNull, Narrowable } from "src/types/index";
-import { isNull } from "../type-guards/isNull";
+import { isNull } from "src/runtime/index";
 
 
 /**
@@ -14,7 +14,7 @@ import { isNull } from "../type-guards/isNull";
  * @param elseVal callback fn which responds when _val_ is not **null**
  */
 export function ifNotNull<
-  T extends Narrowable, 
+  T extends Narrowable,
   IF extends Narrowable,
   ELSE extends Narrowable
 >(
@@ -23,8 +23,8 @@ export function ifNotNull<
   elseVal: () => ELSE
 ) {
   return (
-    isNull(val) 
-    ? elseVal()
-    : ifVal(val as Exclude<T, null>)
+    isNull(val)
+      ? elseVal()
+      : ifVal(val as Exclude<T, null>)
   ) as unknown as If<Not<IsNull<T>>, IF, ELSE>;
 }

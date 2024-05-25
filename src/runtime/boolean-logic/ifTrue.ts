@@ -1,5 +1,5 @@
-import {   IsFalse, IsTrue, Narrowable } from "src/types/index";
-import { isTrue } from "../type-guards/isTrue";
+import { IsFalse, IsTrue, Narrowable } from "src/types/index";
+import { isTrue } from "src/runtime/index";
 
 
 /**
@@ -13,8 +13,8 @@ import { isTrue } from "../type-guards/isTrue";
  * - **IF | ELSE** - returned when T is a `boolean` type
  */
 export function ifTrue<
-  TContent extends Narrowable, 
-  TIf extends Narrowable, 
+  TContent extends Narrowable,
+  TIf extends Narrowable,
   TElse extends Narrowable
 >(
   val: TContent,
@@ -23,11 +23,11 @@ export function ifTrue<
 ) {
   return (
     //
-    isTrue(val) 
-    ? ifVal(val as TContent & true) 
-    : elseVal(val as Exclude<TContent, true>)
-  ) as unknown as 
-    [IsTrue<TContent>] extends [true] 
-      ? TIf 
-      : [IsFalse<TContent>] extends [true] ? TElse : TIf | TElse;
+    isTrue(val)
+      ? ifVal(val as TContent & true)
+      : elseVal(val as Exclude<TContent, true>)
+  ) as unknown as
+    [IsTrue<TContent>] extends [true]
+    ? TIf
+    : [IsFalse<TContent>] extends [true] ? TElse : TIf | TElse;
 }

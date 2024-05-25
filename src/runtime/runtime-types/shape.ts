@@ -1,14 +1,12 @@
 import { SHAPE_PREFIXES } from "src/constants/Shape";
-import { 
-  Shape, 
-  ShapeTupleOrUnion, 
-  ShapeApi as TShapeApi, 
-  ShapeCallback, 
+import {
+  Shape,
+  ShapeTupleOrUnion,
+  ShapeApi as TShapeApi,
+  ShapeCallback,
   HandleDoneFn,
 } from "src/types/index";
-import { isString } from "../type-guards/isString";
-import { hasKeys, isObject } from "../type-guards/index";
-import { handleDoneFn } from "../boolean-logic";
+import { isString, hasKeys, isObject, handleDoneFn } from "src/runtime/index";
 import { boolean, nullType, undefinedType, unknown } from "./shape-helpers/atomics";
 import { number, string } from "./shape-helpers/singletons";
 import { fn } from "./shape-helpers/functions";
@@ -17,7 +15,7 @@ import { array, map, record, set, weakMap } from "./shape-helpers/wide-container
 import { union } from "./shape-helpers/union";
 
 const isAddOrDone = <T>(val: T): val is ShapeTupleOrUnion & T => {
-  return isObject(val) && hasKeys("add","done") && typeof val.done === "function" && typeof val.add === "function"
+  return isObject(val) && hasKeys("add", "done") && typeof val.done === "function" && typeof val.add === "function"
 }
 
 /*
@@ -78,9 +76,9 @@ export const shape = <
  * Type guard which tests whether a value is a _type_ defined by a `Shape`.
  */
 export const isShape = (v: unknown): v is Shape => {
-  return isString(v) && 
-    v.startsWith("<<") && 
-    v.endsWith(">>") && 
+  return isString(v) &&
+    v.startsWith("<<") &&
+    v.endsWith(">>") &&
     SHAPE_PREFIXES.some(i => v.startsWith(`<<${i}`))
     ? true : false
 }

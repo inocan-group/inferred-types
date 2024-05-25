@@ -1,6 +1,4 @@
-import { isDoneFn } from "../type-guards/isDoneFn";
-import { isFunction } from "../type-guards/isFunction";
-import { isObject } from "../type-guards/isObject";
+import { isDoneFn, isFunction, isObject } from "src/runtime/index";
 
 /**
  * **handleDoneFn**(val, [bare_fn])
@@ -16,7 +14,7 @@ export const handleDoneFn = <
   TVal,
   TBareFn extends boolean
 >(
-  val: TVal, 
+  val: TVal,
   call_bare_fn: TBareFn = false as TBareFn
 ) => {
   return isObject(val) || isFunction(val)
@@ -26,7 +24,6 @@ export const handleDoneFn = <
         ? call_bare_fn ? val() : val
         : val
     : isFunction(val)
-    ? call_bare_fn ? val() : val
-    : val;
+      ? call_bare_fn ? val() : val
+      : val;
 }
- 

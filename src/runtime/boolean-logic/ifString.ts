@@ -1,5 +1,5 @@
-import {  If, IsFalse, IsString, IsTrue, Narrowable } from "src/types/index";
-import { isString } from "../type-guards/isString";
+import { If, IsFalse, IsString, IsTrue, Narrowable } from "src/types/index";
+import { isString } from "src/runtime/index";
 
 
 /**
@@ -14,8 +14,8 @@ import { isString } from "../type-guards/isString";
  * @param elseVal the value (strongly typed) returned if val is NOT a _string
  */
 export function ifString<
-  TContent, 
-  TIf extends Narrowable, 
+  TContent,
+  TIf extends Narrowable,
   TElse extends Narrowable
 >(
   val: TContent,
@@ -23,15 +23,15 @@ export function ifString<
   elseVal: <V extends Exclude<TContent, string>>(v: V & TContent) => TElse
 ) {
   return (
-    isString(val) 
-      ? ifVal(val as string & TContent) 
+    isString(val)
+      ? ifVal(val as string & TContent)
       : elseVal(val as Exclude<TContent, string>)
-  ) as unknown as 
+  ) as unknown as
     If<
-      IsTrue<IsString<TContent>>, 
-      TIf, 
+      IsTrue<IsString<TContent>>,
+      TIf,
       If<IsFalse<IsString<TContent>>, TElse, TIf | TElse>
     >
-      
+
 
 }
