@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 import type { NarrowObject, Narrowable } from "src/types/index";
-import { omit } from "./omit";
+import { omit } from "src/runtime/index";
 
 
 /**
@@ -18,6 +18,6 @@ export const withoutKeys = <
   N extends Narrowable,
   TKeys extends readonly (string & keyof TObj)[]
 >(
-  dict: TObj, 
+  dict: TObj,
   ...exclude: TKeys
 ) => omit(dict, ...exclude);

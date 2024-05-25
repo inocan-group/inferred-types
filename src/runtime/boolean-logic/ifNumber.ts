@@ -1,5 +1,5 @@
-import {  IsNumber, Narrowable } from "src/types/index";
-import { isNumber } from "../type-guards/isNumber";
+import { IsNumber, Narrowable } from "src/types/index";
+import { isNumber } from "src/runtime/index";
 
 
 /**
@@ -14,17 +14,17 @@ import { isNumber } from "../type-guards/isNumber";
  * @param elseVal the value (strongly typed) returned if val is NOT a number
  */
 export function ifNumber<
-  TContent extends Narrowable, 
-  TIf extends Narrowable, 
-  TElse extends Narrowable, 
+  TContent extends Narrowable,
+  TIf extends Narrowable,
+  TElse extends Narrowable,
 >(
-  val: TContent, 
-  ifVal: <V extends TContent & number>(v: V) => TIf, 
-  elseVal: <V extends Exclude<TContent, number>>(v:V) => TElse
+  val: TContent,
+  ifVal: <V extends TContent & number>(v: V) => TIf,
+  elseVal: <V extends Exclude<TContent, number>>(v: V) => TElse
 ) {
   return (
-    isNumber(val) 
-      ? ifVal(val as TContent & number) 
+    isNumber(val)
+      ? ifVal(val as TContent & number)
       : elseVal(val as Exclude<TContent, number>)
   ) as unknown as IsNumber<TContent> extends true ? TIf : TElse;
 }

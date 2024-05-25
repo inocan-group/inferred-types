@@ -1,10 +1,10 @@
 import type { If, IsObject, Narrowable } from "src/types/index";
-import { isObject } from "../type-guards/isObject";
+import { isObject } from "src/runtime/index";
 
 
 export function ifObject<
-  T extends Narrowable, 
-  IF extends Narrowable, 
+  T extends Narrowable,
+  IF extends Narrowable,
   ELSE extends Narrowable
 >(
   val: T,

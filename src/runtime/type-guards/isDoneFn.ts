@@ -1,5 +1,5 @@
 import { AsDoneFn } from "src/types/boolean-logic"
-import { hasKeys } from "./hasKeys"
+import { hasKeys } from "src/runtime/index"
 
 /**
  * **isDoneFn**(val)
@@ -9,6 +9,6 @@ import { hasKeys } from "./hasKeys"
  */
 export const isDoneFn = <T>(val: T): val is AsDoneFn<T> => {
 
-   
+
   return hasKeys("done")(val) && typeof (val as any).done === "function"
 }

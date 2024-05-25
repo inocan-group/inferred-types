@@ -1,20 +1,15 @@
- 
- 
-import type {Container, Intersection,  } from "src/types/index";
-import { isIndexable } from "../type-guards/index";
-import { getEach } from "./getEach";
-import { ifNotNull } from "../boolean-logic/index";
-import { get } from "../dictionary/get";
+import type { Container, Intersection, } from "src/types/index";
+import { isIndexable, getEach, ifNotNull, get } from "src/runtime/index";
 
 function intersectWithOffset<
-A extends readonly unknown[],
-B extends readonly unknown[],
-TDeref extends string | number
+  A extends readonly unknown[],
+  B extends readonly unknown[],
+  TDeref extends string | number
 >(a: A, b: B, deref: TDeref) {
   const aIndexable = a.every(i => isIndexable(i));
   const bIndexable = b.every(i => isIndexable(i));
 
-  if(!aIndexable || !bIndexable) {
+  if (!aIndexable || !bIndexable) {
     if (!aIndexable) {
       throw new Error(`The "a" array passed into intersect(a,b) was not fully composed of indexable properties: ${a.map(i => typeof i).join(", ")}`);
     } else {
@@ -28,20 +23,20 @@ TDeref extends string | number
   const sharedKeys = ifNotNull(
     deref,
     v => [
-      a.filter(i => Array.from(bMatches).includes(get(i as Container, v as string | null ))),
-      b.filter(i => Array.from(aMatches).includes(get(i as Container, v as string | null )))
+      a.filter(i => Array.from(bMatches).includes(get(i as Container, v as string | null))),
+      b.filter(i => Array.from(aMatches).includes(get(i as Container, v as string | null)))
     ],
-    () => a.filter(k => b.includes(k)) 
+    () => a.filter(k => b.includes(k))
   );
 
   return sharedKeys;
 }
 
 function intersectNoOffset<
-A extends readonly unknown[],
-B extends readonly unknown[],
+  A extends readonly unknown[],
+  B extends readonly unknown[],
 >(a: A, b: B) {
-  return a.length < b.length 
+  return a.length < b.length
     ? a.filter((val) => b.includes(val))
     : b.filter((val) => a.includes(val));
 }
@@ -59,15 +54,15 @@ B extends readonly unknown[],
 export const intersection = <
   A extends readonly unknown[],
   B extends readonly unknown[],
-  TDeref extends string  | null = null
+  TDeref extends string | null = null
 >(
   a: A,
   b: B,
   deref: TDeref = null as TDeref
-): Intersection<A,B,TDeref> => {
+): Intersection<A, B, TDeref> => {
   return (
     deref === null
-    ? intersectNoOffset(a,b) as unknown
-    : intersectWithOffset(a,b,deref) as unknown
-  ) as unknown as Intersection<A,B,TDeref>;
+      ? intersectNoOffset(a, b) as unknown
+      : intersectWithOffset(a, b, deref) as unknown
+  ) as unknown as Intersection<A, B, TDeref>;
 };

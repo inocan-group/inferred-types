@@ -1,5 +1,5 @@
 import type { If, IsFalse, Narrowable } from "src/types/index";
-import { isFalse } from "../type-guards/isFalse";
+import { isFalse } from "src/runtime/index";
 
 
 /**

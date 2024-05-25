@@ -1,5 +1,5 @@
-import { PascalCase , LeftWhitespace, RightWhitespace } from "src/types/index";
-import { capitalize } from "./capitalize";
+import { PascalCase, LeftWhitespace, RightWhitespace } from "src/types/index";
+import { capitalize } from "src/runtime/index";
 
 
 /**
@@ -13,7 +13,7 @@ import { capitalize } from "./capitalize";
  * **Related:** `toKebabCase`, `toCamelCase`, `toSnakeCase`
  */
 export function toPascalCase<
-  S extends string, 
+  S extends string,
   P extends boolean | undefined = undefined
 >(input: S, preserveWhitespace: P = undefined as P) {
   const [_, preWhite, focus, postWhite] = /^(\s*)(.*?)(\s*)$/.exec(

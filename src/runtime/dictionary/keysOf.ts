@@ -1,6 +1,5 @@
-import type {  Container,   Keys } from "src/types/index";
-import { isObject } from "../type-guards/isObject";
-import { isRef } from "../type-guards/isRef";
+import type { Container, Keys } from "src/types/index";
+import { isObject, isRef } from "src/runtime/index";
 
 
 /**
@@ -12,11 +11,11 @@ import { isRef } from "../type-guards/isRef";
  * `readonly ["value"]` as the keys array when detected rather than reporting
  * on props like `__v_isRef`, etc.
  */
-export function keysOf<TContainer extends Container >(
+export function keysOf<TContainer extends Container>(
   container: TContainer
 ) {
 
-  const keys: unknown =  (
+  const keys: unknown = (
     Array.isArray(container)
       ? Object.keys(container).map(i => Number(i))
       : isObject(container)

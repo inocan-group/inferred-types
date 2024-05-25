@@ -1,5 +1,5 @@
 import { AnyObject, Indexable } from "src/types/index";
-import { keysOf } from "../dictionary/keysOf";
+import { keysOf } from "src/runtime/index";
 
 
 /**
@@ -9,6 +9,6 @@ import { keysOf } from "../dictionary/keysOf";
  */
 export function isIndexable<T>(value: T): value is T & Indexable {
   return Array.isArray(value) || (typeof value === "object" && keysOf(value as AnyObject).length > 0)
-    ? true 
+    ? true
     : false;
 }

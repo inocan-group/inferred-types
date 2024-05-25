@@ -1,4 +1,4 @@
-import { createConstant } from "./createConstant";
+import { createConstant } from "src/constants/index";
 
 /**
  * **COMMA**
