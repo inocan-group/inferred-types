@@ -5,6 +5,7 @@ import type {
  IsBooleanLiteral,
  IsObjectLiteral,
  IfEqual,
+ IsUnion,
 } from "src/types/index";
 
 type Validations<T> = IsStringLiteral<T> extends true
@@ -29,8 +30,15 @@ type Validations<T> = IsStringLiteral<T> extends true
  * - boolean literal
  * - object literal
  * - or a tuple literal
+ * 
+ * Note: when `T` is a _union type_, even if there are literal types
+ * in the union, this will return `false`.
+ * 
+ * **Related:** `IsUnion`, `IsWideUnion`, `IsLiteralUnion`
  */
-export type IsLiteral<T> = Validations<T>
+export type IsLiteral<T> = [IsUnion<T>] extends [true]
+? false
+: Validations<T>
 
 
 

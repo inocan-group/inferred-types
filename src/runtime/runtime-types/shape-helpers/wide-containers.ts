@@ -38,7 +38,9 @@ export const weakMap = <
 >(key?: TKey, value?: TValue) => {
   // TODO
   return null as unknown as WeakMap<
-    FromDefn<TKey>, 
+    FromDefn<TKey> extends object
+    ? FromDefn<TKey>
+    : never, 
     FromDefn<TValue>
   >;
 }

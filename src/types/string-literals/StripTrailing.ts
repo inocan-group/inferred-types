@@ -5,7 +5,7 @@ type Process<
   TContent extends string, 
   TStrip extends string
 > = And<[ IsStringLiteral<TContent>, IsStringLiteral<TStrip>]> extends true
-  ? TContent extends `${infer Before}${AsString<TStrip>}` 
+  ? TContent extends `${infer Before}${TStrip}` 
     ? Before 
     : TContent
   : string;
@@ -26,12 +26,16 @@ type Process<
 export type StripTrailing<
   TContent extends string|number, 
   TStrip extends string|number
-> = IsNumber<TContent> extends true
-? AsNumber<Process<
-  AsString<TContent>, 
-  AsString<TStrip>
->>
-: Process<
-AsString<TContent>, 
-AsString<TStrip>
->
+> = TContent extends number
+? AsNumber<
+    Process<
+      AsString<TContent>, 
+      AsString<TStrip>
+    >
+  >
+: TContent extends string
+  ? Process<
+      AsString<TContent>, 
+      AsString<TStrip>
+    >
+  : never;

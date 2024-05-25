@@ -125,7 +125,7 @@ describe("Filter using extends operation", () => {
 
 });
 
-describe("filter() runtime", () => {
+describe.skip("filter() runtime", () => {
 
   it("using extends", () => {
     

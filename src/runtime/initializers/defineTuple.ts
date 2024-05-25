@@ -1,7 +1,7 @@
 import {  FromDefn,  ShapeCallback, TypeDefinition } from "src/types/index";
 import { isFunction } from "../type-guards";
 import { handleDoneFn } from "../boolean-logic";
-import { ShapeApi } from "../runtime-types/shape";
+import { ShapeApiImplementation } from "../runtime-types/shape";
 
 /**
  * **createTuple**(...values) -> (...values) -> Tuple
@@ -24,7 +24,7 @@ export const defineTuple = <
 >(...values: T) => {
   return values.map(
     i => isFunction(i) 
-      ? handleDoneFn((i as ShapeCallback)(ShapeApi)) 
+      ? handleDoneFn((i as ShapeCallback)(ShapeApiImplementation)) 
       : i
   ) as unknown as FromDefn<T>
 };

@@ -38,7 +38,7 @@ const isAddOrDone = <T>(val: T): val is ShapeTupleOrUnion & T => {
  * console.log(token);
  * ```
  */
-export const ShapeApi: TShapeApi = {
+export const ShapeApiImplementation = {
   string,
   number,
   boolean,
@@ -54,7 +54,7 @@ export const ShapeApi: TShapeApi = {
   weakMap,
   dictionary,
   tuple
-}
+} as unknown as TShapeApi
 
 /**
  * **shape**(s => s.[API])
@@ -67,7 +67,7 @@ export const ShapeApi: TShapeApi = {
 export const shape = <
   T extends ShapeCallback
 >(cb: T): HandleDoneFn<ReturnType<T>> => {
-  const rtn = cb(ShapeApi);
+  const rtn = cb(ShapeApiImplementation);
   return handleDoneFn(
     isAddOrDone(rtn) ? rtn.done() : rtn
   ) as unknown as HandleDoneFn<ReturnType<T>>;

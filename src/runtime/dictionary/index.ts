@@ -4,7 +4,6 @@
 // hash-code: b0051c37
 
 // file exports
-export * from "./arrayToKeyLookup";
 export * from "./entries";
 export * from "./get";
 export * from "./keysOf";

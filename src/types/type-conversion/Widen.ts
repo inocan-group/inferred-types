@@ -14,7 +14,6 @@ import {
   Keys, 
   ObjectKey, 
   RemoveFnProps, 
-  RemoveIndexKeys, 
   Scalar, 
   TupleToUnion, 
   UnionToTuple, 
@@ -28,7 +27,9 @@ import {
   TypedFunction,
   IsNarrowingFn,
   ExpandDictionary,
-  IsFunction
+  IsNonEmptyContainer,
+  IsLiteralUnion,
+  IsEqual
 } from "src/types/index";
 
 type GetKeys<
@@ -108,6 +109,15 @@ export type WidenTuple<
   : Process<T[K]>
 };
 
+type WidenFnParams<
+  T extends readonly unknown[]
+> = {
+  [K in keyof T]: IsLiteral<T[K]> extends true
+  ? WidenLiteral<T[K]>
+  : IsLiteralUnion<T[K]> extends true
+    ? WidenUnion<T[K]>
+    : T[K]
+};
 
 /**
  * **WidenUnion**<T>
@@ -128,13 +138,13 @@ export type WidenLiteral<
     ? WidenObj<T, Keys<T>>
   : never;
 
-type NarrowFnProps<
+type WidenFnProps<
   TObj extends Dictionary,
   TKeys extends readonly unknown[],
   TResult extends Dictionary = EmptyObject
 > = [] extends TKeys
 ? ExpandDictionary<TResult>
-: NarrowFnProps<
+: WidenFnProps<
     TObj,
     AfterFirst<TKeys>,
     First<TKeys> extends keyof TObj
@@ -152,26 +162,28 @@ type WidenFn<
   TParams extends readonly unknown[],
   TReturn,
   TProps extends Dictionary
-> = TNarrowing extends true
+> = [TNarrowing] extends [true]
 ? AsNarrowingFn<
-    WidenTuple<TParams>,
-    Widen<TReturn>,
-    EmptyObject extends TProps
-      ? EmptyObject
-      : NarrowFnProps<TProps, Keys<TProps>>
+    WidenFnParams<TParams>,
+    IsEqual<TReturn, any> extends true
+    ? unknown
+    : Widen<TReturn>,
+    [IsNonEmptyContainer<TProps>] extends [true]
+      ? WidenFnProps<TProps, Keys<TProps>>
+      : EmptyObject
   >
 : AsLiteralFn<
-    WidenTuple<TParams>,
+    WidenFnParams<TParams>,
     Widen<TReturn>,
-    EmptyObject extends TProps
-      ? EmptyObject
-      : NarrowFnProps<TProps, Keys<TProps>>
+    [IsNonEmptyContainer<TProps>] extends [true]
+      ? WidenFnProps<TProps, Keys<TProps>>
+      : EmptyObject
     >;
 
 
 export type WidenContainer<
   T extends Container,
-  TForce extends boolean
+  TForce extends boolean = false
 > = 
 [TForce] extends [true]
   ? T extends Tuple ? Tuple
@@ -205,7 +217,6 @@ export type WidenContainer<
 : T extends Set<infer V> ? Set<Widen<V>>
 : object
 : object;
-
 
 /**
  * **Widen**`<T, [TForce]>`

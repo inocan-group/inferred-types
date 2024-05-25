@@ -40,13 +40,13 @@ export const kindError = <
   const err = new Error(msg) as Partial<
     KindError<
       typeof kind, 
-      Handle<C, undefined, EmptyObject>
+      Handle<C, undefined, EmptyObject, "equals">
     >
   >;
   err.name = toPascalCase(kind);
   err.kind = toKebabCase(kind);
   err.__kind = "KindError";
-  err.context = context as unknown as If<IsUndefined<C>, EmptyObject>;
+  err.context = context as unknown as Handle<C, undefined, EmptyObject, "equals">;
 
   return err as unknown as KindError<K,C>
 }

@@ -1,5 +1,11 @@
-import {  Find , Narrowable, Tuple } from "src/types/index";
-import { isContainer } from "../type-guards/isContainer";
+import {  
+  Find , 
+  FromDefn, 
+  Narrowable, 
+  ShapeCallback,
+  Tuple 
+} from "src/types/index";
+import { isContainer } from "src/runtime/index";
 
 
 /**
@@ -10,7 +16,11 @@ import { isContainer } from "../type-guards/isContainer";
 export type Finder<
   TList extends Tuple,
   TDeref extends string | number | null
-> = <TExtends extends Narrowable>(value: TExtends) => Find<TList, TExtends, TDeref>;
+> = <TExtends extends Narrowable | ShapeCallback>(value: TExtends) => Find<
+  TList, 
+  FromDefn<TExtends>, 
+  TDeref
+>;
 
 /**
  * **find**(list, [deref]) => (value) => el | undefined
@@ -25,15 +35,16 @@ export const find = <
   list: TList, 
   deref: TDeref = null as TDeref 
 ): Finder<TList, TDeref> => <
-  TExtends extends Narrowable
->(value: TExtends): Find<TList, TExtends, TDeref> => {
+  TExtends extends Narrowable | ShapeCallback
+>(comparator: TExtends): Find<TList, FromDefn<TExtends>, TDeref> => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return list.find((i: any) => {
-    const comparator = deref 
+    const val = deref 
       ? isContainer(i) 
         ? deref in i ? i[deref] : undefined
         : i
       : i;
-    return comparator === value;
-  }) as unknown as Find<TList, TExtends, TDeref>;
+    return val === comparator;
+  }) as unknown as Find<TList, FromDefn<TExtends>, TDeref>;
 };
+

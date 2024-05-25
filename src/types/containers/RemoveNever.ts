@@ -1,4 +1,4 @@
-import { Container, EmptyObject, Dictionary, ObjectKey, Tuple } from "../base-types";
+import { Container, EmptyObject, Dictionary, ObjectKey } from "../base-types";
 import { IfNever } from "../boolean-logic/branching/IfNever";
 import { RemoveIndexKeys } from "../dictionary/RemoveIndexKeys";
 import { NumericKeys } from "../lists";
@@ -11,17 +11,17 @@ readonly ObjectKey[]
   ? UnionToTuple<keyof RemoveIndexKeys<T>>
   : never;
 
-type Process<
+type ProcessObj<
   T extends Container,
   TKeys extends readonly PropertyKey[],
-  TResults extends Container = T extends readonly unknown[] ? [] : EmptyObject
+  TResults extends Dictionary = EmptyObject
 > = [] extends TKeys
 ? TResults
 : First<TKeys> extends keyof T
   ? IfNever<
       T[First<TKeys>],
-      Process<T,AfterFirst<TKeys>, TResults>,
-      Process<
+      ProcessObj<T,AfterFirst<TKeys>, TResults>,
+      ProcessObj<
         T,
         AfterFirst<TKeys>,
         First<TKeys> extends keyof T
@@ -35,6 +35,26 @@ type Process<
     >
   : never
 
+type ProcessTuple<
+  T extends Container,
+  TKeys extends readonly number[],
+  TResults extends readonly unknown[] = []
+> = [] extends TKeys
+? TResults
+: First<TKeys> extends keyof T
+  ? IfNever<
+      T[First<TKeys>],
+      ProcessTuple<T,AfterFirst<TKeys>, TResults>,
+      ProcessTuple<
+        T,
+        AfterFirst<TKeys>,
+        First<TKeys> extends keyof T
+          ? [...TResults, T[First<TKeys>]]
+          : never
+      >
+    >
+  : never
+
 /**
  * **RemoveNever**`<T>`
  * 
@@ -42,7 +62,8 @@ type Process<
  */
 export type RemoveNever<
   T extends Container
-> = Process<
-  T,
-  T extends Tuple ? NumericKeys<T> :  _Keys<T>
->
+> = T extends readonly unknown[]
+? ProcessTuple<T,NumericKeys<T>> 
+: T extends Dictionary
+  ? ProcessObj<T, _Keys<T>>
+  : never;

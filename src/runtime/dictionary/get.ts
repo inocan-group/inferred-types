@@ -5,6 +5,7 @@ import type {
   Suggest, 
   AnyObject,
   Tuple,
+  Dictionary,
 } from "src/types/index";
 import {
   NO_DEFAULT_VALUE,
@@ -19,7 +20,8 @@ import {
   isSpecificConstant,
   hasDefaultValue,
   isContainer,
-  isRef 
+  isRef, 
+  indexOf
 } from "src/runtime/index";
 
 /** updates based on whether segment is a Ref or not */
@@ -79,9 +81,9 @@ function getValue<
 
   const current = (
     hasMoreSegments
-    ? isContainer(value) && hasIndexOf(value, idx)
+    ? isContainer(value) && idx in value
       ? getValue(
-          value[idx],
+          indexOf(value, idx) ,
           pathSegments.join(".").replace(`${idx}.`, ""),
           defaultValue,
           handleInvalid,
@@ -92,8 +94,8 @@ function getValue<
         : invalidDotPath
     : valueIsIndexable
       ? hasDefaultValue(hasDefaultValue) 
-        ? value[idx] || defaultValue 
-        : value[idx] 
+        ? indexOf(value, idx)  || defaultValue 
+        : indexOf(value, idx) 
       : hasHandler ? handleInvalid : invalidDotPath
   ) as unknown as Get<TValue, TDotPath>;
 
@@ -155,7 +157,7 @@ export function get<
     dotPath === null || dotPath === ""
       ? value
       : getValue(
-          value as AnyObject | Tuple,
+          value as Dictionary | Tuple,
           dotPath,
           options?.defaultValue || NO_DEFAULT_VALUE, 
           options?.handleInvalidDotpath || NOT_DEFINED,

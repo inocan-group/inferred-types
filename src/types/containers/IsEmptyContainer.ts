@@ -8,7 +8,7 @@ import { Container,    ExplicitlyEmptyObject,  Dictionary,  Keys } from "src/typ
  * 
  * **Related:** `NonEmptyContainer`
  */
-export type EmptyContainer<
+export type IsEmptyContainer<
   T extends Container
 > = T extends Dictionary 
   ? T extends ExplicitlyEmptyObject

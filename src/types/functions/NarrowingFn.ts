@@ -7,6 +7,7 @@ import {
   IsEmptyObject, 
   IsEqual, 
   IsNarrowingFn, 
+  IsNonEmptyObject, 
   Throw, 
   Tuple, 
   TypedFunction 
@@ -56,17 +57,20 @@ export type NarrowingFn<
  * **Related:** `LiteralFn`, `NarrowingFn`, `AsLiteralFn`
  */    
 export type AsNarrowingFn<
-    TParams extends Tuple | AnyFunction,
+    TParams extends Tuple | TypedFunction,
     TReturn = unknown,
     TProps extends Dictionary = EmptyObject
-  > = TParams extends AnyFunction
-  ? NarrowingFn<TParams>
-  : TParams extends Tuple
-    ? IsEmptyObject<TProps> extends true
-      ? IsEqual<TParams, []> extends true
+  > = 
+TParams extends TypedFunction
+      ? NarrowingFn<TParams>
+  : TParams extends Tuple // this is the normal call structure
+      ? [IsNonEmptyObject<TProps>] extends [true]
+        ? [IsEqual<TParams, []>] extends [true]
+          ? (() => TReturn) & TProps
+          : (<T extends TParams>(...args: T) => TReturn) & TProps
+      : [IsEqual<TParams, []>] extends [true]
         ? () => TReturn
         : <T extends TParams>(...args: T) => TReturn
-      : IsEqual<TParams, []> extends true
-        ? (() => TReturn) & TProps
-        : (<T extends TParams>(...args: T) => TReturn) & TProps
-  : never;
+    : never
+
+

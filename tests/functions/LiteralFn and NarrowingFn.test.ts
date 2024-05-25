@@ -1,5 +1,5 @@
 import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { describe, it } from "vitest";
+import { describe, it, expect } from "vitest";
 import { AsFnMeta, AsLiteralFn, AsNarrowingFn,  IsErrorCondition, IsNarrowingFn, LiteralFn, NarrowingFn } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -98,6 +98,7 @@ describe("LiteralFn<T>", () => {
       true, true, true, true,
       false, false, true
     ];
+    expect(cases).toEqual(cases);
   });
 
 });
@@ -119,26 +120,30 @@ describe("AsLiteralFn<TParam,TReturn,TProps>", () => {
       true, true, true
     ];
 
+    expect(cases).toEqual(cases);
   });
-
 });
 
 describe("AsNarrowingFn<TParam,TReturn,TProps>", () => {
-  type Basic = AsNarrowingFn<[], "hi">;
-  type WithParams = AsNarrowingFn<[name: string], "hi">;
-  type WithProps = AsNarrowingFn<[name: string], "hi", { foo: 1}>;
 
-  type cases = [
-    Expect<Equal<Basic, () => "hi">>, 
-    Expect<Equal<WithParams, <T extends [name: string]>(...args: T) => "hi">>, 
-    Expect<Equal<
-      WithProps, 
-      (<T extends [name: string]>(...args: T) => "hi") & {
-        foo: 1;
-    }>>, 
-  ];
-  const cases: cases = [ 
-    true, true, true
-  ];
+  it("happy path", () => {
+    type Basic = AsNarrowingFn<[], "hi">;
+    type WithParams = AsNarrowingFn<[name: string], "hi">;
+    type WithProps = AsNarrowingFn<[name: string], "hi", { foo: 1}>;
+  
+    type cases = [
+      Expect<Equal<Basic, () => "hi">>, 
+      Expect<Equal<WithParams, <T extends [name: string]>(...args: T) => "hi">>, 
+      Expect<Equal<
+        WithProps, 
+        (<T extends [name: string]>(...args: T) => "hi") & {
+          foo: 1;
+      }>>, 
+    ];
+    const cases: cases = [ 
+      true, true, true
+    ];
+    expect(cases).toEqual(cases);
 
+  });
 });

@@ -3,8 +3,6 @@ import { isShape, shape } from "src/runtime/index";
 import { Ip4Address, ZipCode } from "src/types/index";
 import { describe, expect, it } from "vitest";
 
-
-
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 
 // gain validation that no new type vulnerabilities have cropped up.
@@ -20,9 +18,9 @@ describe("shape(s => s.[api])", () => {
 
     expect(str).toEqual("<<string>>");
     expect(strLit).toEqual("<<string::foo>>");
-    expect(strLit).toEqual("<<union::<<string:foo>>::<string:bar>>>>");
+    expect(strUnion).toEqual("<<union::<<string::foo>>,<<string::bar>>>>");
     expect(ipAddress).toEqual("<<string-set::ipv4Address>>");
-    expect(zip).toEqual("<<string-set::zipCode::either>>");
+    expect(zip).toEqual("<<string-set::ZipCode>>");
 
     expect(isShape(str)).toBe(true);
     expect(isShape(zip)).toBe(true);

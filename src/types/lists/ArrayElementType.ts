@@ -1,4 +1,4 @@
-import { EmptyContainer, TupleToUnion, Widen } from "src/types/index";
+import { IsEmptyContainer, TupleToUnion, Widen } from "src/types/index";
 
 /**
  * **ArrayElementType**`<T>`
@@ -9,7 +9,7 @@ import { EmptyContainer, TupleToUnion, Widen } from "src/types/index";
  * type T = ArrayElementType<string[]>;
  * ```
  */
-export type ArrayElementType<T extends readonly unknown[]> = EmptyContainer<T> extends true
+export type ArrayElementType<T extends readonly unknown[]> = IsEmptyContainer<T> extends true
   // this is an array versus a known length array
   ? [...T][0]
   : Widen<TupleToUnion<T>>;
