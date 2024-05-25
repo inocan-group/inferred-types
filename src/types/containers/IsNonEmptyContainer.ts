@@ -1,4 +1,4 @@
-import { EmptyContainer } from "./EmptyContainer";
+import { IsEmptyContainer } from "./IsEmptyContainer";
 
 import { Container } from "src/types/index";
 
@@ -10,6 +10,6 @@ import { Container } from "src/types/index";
  * 
  * **Related:** `EmptyContainer`
  */
-export type NonEmptyContainer<
+export type IsNonEmptyContainer<
   T extends Container
-> = EmptyContainer<T> extends true ? false : true;
+> = IsEmptyContainer<T> extends true ? false : true;

@@ -1,67 +1,16 @@
+import { Constant } from "src/constants/Constant";
 import { 
-  AfterFirst, 
-  As, 
   AsString, 
-  Contains,
-  Dict,
-  Dictionary, 
-  EmptyObject, 
-  ExpandDictionary, 
-  First, 
+  CreateDictHash,
+  CreateDictShape,
+  Dict, 
   Keys, 
-  MakeKeysOptional, 
+  NarrowDictProps, 
   Narrowable, 
+  OptDictProps, 
+  Passthrough, 
   Values, 
-  Widen,
 } from "src/types/index";
-
-type OptProps<
-  T extends readonly string[]
-> = {
-  [K in keyof T]: T[K] extends `opt:${infer Prop}`
-      ? Prop
-      : never
-};
-
-type NarrowProps<
-  T extends readonly string[]
-> = {
-  [K in keyof T]: T[K] extends `opt:${string}`
-      ? never
-      : T[K]
-};
-
-type CreateShape<
-  TObj extends Dictionary,
-  TKeys extends readonly (string & keyof TObj)[],
-  TNarrow extends readonly (string & keyof TObj)[],
-  TOpt extends readonly string[],
-  TResult extends Dictionary = EmptyObject
-> = [] extends TKeys
-? OptProps<TKeys> extends readonly string[]
-  ? MakeKeysOptional<
-      ExpandDictionary<TResult>,
-      TOpt
-    >
-
-  : never
-: CreateShape<
-    TObj,
-    AfterFirst<TKeys>,
-    TNarrow,
-    TOpt,
-    TResult & Record<
-            First<TKeys>,
-            Contains<TNarrow, First<TKeys>> extends true
-              ? TObj[First<TKeys>]
-              : Widen<TObj[First<TKeys>]>
-          >
-  >;
-
-type CreateHash<
-  TValues extends readonly unknown[],
-  TNarrowProps extends readonly string[],
-> = `${TValues["length"]}${TNarrowProps["length"]}`;
 
 const process =  <
   N extends Narrowable, 
@@ -74,7 +23,7 @@ const process =  <
     "__id", 
     { enumerable: false }
   ) as unknown as Dict<
-  CreateShape<
+  CreateDictShape<
     TObj,
     Keys<TObj> extends readonly (string & keyof TObj)[] 
       ? Keys<TObj> 
@@ -82,20 +31,36 @@ const process =  <
     TNarrow,
     TOpt
   >,
-  CreateHash<
+  CreateDictHash<
     Values<TObj>, 
-    TNarrow
+    TNarrow,
+    TOpt
   >
 >
 }
 
+/**
+ * **dict**`(obj, ...props)`
+ * 
+ * Defines a `Dict` type which mimics the behavior of a normal JS
+ * object but plays nicer with `let` declarations by not allowing 
+ * re-declarations.
+ */
 export const dict = <
   N extends Narrowable, 
   TObj extends Record<string, N>,
-  TProps extends readonly (string & (keyof TObj | `opt:${AsString<keyof TObj>}`))[]
->(obj: TObj, ...narrow: TProps ) => process(
+  TProps extends readonly (string & (keyof TObj | `opt:${AsString<keyof TObj>}`))[] = []
+>(obj: TObj, ...props: TProps ) => process(
   obj, 
-  narrow.filter(i => !i.startsWith("opt:")) as NarrowProps<TProps>,
-  narrow.filter(i => i.startsWith("opt:")) as OptProps<TProps>
+  (props || []).filter(i => !i.startsWith("opt:"))  as Passthrough<
+    NarrowDictProps<TProps>, 
+    readonly string[],
+    []
+  >,
+  (props || []).filter(i => i.startsWith("opt:")) as Passthrough<
+    OptDictProps<TProps>,
+    readonly string[],
+    []
+  >
 );
 

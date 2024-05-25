@@ -32,7 +32,8 @@ describe("Widen<T>", () => {
     type TupleForced = Widen<readonly string[], true>;
 
     type Fn = Widen<() => "hi">;
-    type NarrowFn = Widen<<T extends string>(name: T) => `hi ${T}`>;
+    type NarrowFnReturn = Widen<<T extends string>(name: T) => `hi ${T}`>;
+    type NarrowFnParams = Widen<<T extends "Bob" | "Nancy">(name: T) => `hi ${T}`>;
     type FnWithProps = Widen<(() => "hi") & { foo: 1; bar: 2}>;
     type FnAsProp = Widen<{foo: () => "hi"}>;
     type FnWithPropAsProp = Widen<{foo: (() => "hi") & { bar: 1}}>;
@@ -59,7 +60,10 @@ describe("Widen<T>", () => {
       Expect<Equal<TupleForced, readonly unknown[]>>,
 
       Expect<Equal<Fn, () => string>>,
-      Expect<Equal<NarrowFn, <T extends [name: string]>(...args: T) => string>>,
+      Expect<Equal<NarrowFnReturn, <T extends [name: string]>(...args: T) => string>>,
+      // this was unexpected by the `ReturnType` utility can't handle the union type
+      // in the params
+      Expect<Equal<NarrowFnParams, <T extends [name: string]>(...args: T) => unknown>>,
       Expect<Equal<FnWithProps, (()=> string) & {foo: number; bar: number}>>,
       Expect<Equal<FnAsProp, {foo: () => string}>>,
       Expect<Equal<FnWithPropAsProp, {foo: (() => string) & {bar: number}}>>
@@ -70,7 +74,7 @@ describe("Widen<T>", () => {
       true, true,true,
       true,
       true, true, true, true,
-      true, true, true, true, true
+      true, true, true, true, true, true
     ];
   });
 

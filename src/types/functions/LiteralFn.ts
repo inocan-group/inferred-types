@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AnyFunction, AsFnMeta, Dictionary, EmptyObject, IsEmptyObject, IsEqual, Tuple } from "src/types/index";
+import { AnyFunction, AsFnMeta, Dictionary, EmptyObject, IsEmptyObject, IsEqual, IsNonEmptyObject, Tuple } from "src/types/index";
 
 /**
  * **LiteralFn**`<TFn>`
@@ -36,11 +36,11 @@ export type AsLiteralFn<
 > = TParams extends AnyFunction
 ? LiteralFn<TParams>
 : TParams extends Tuple
-  ? IsEmptyObject<TProps> extends true
+  ? IsNonEmptyObject<TProps> extends true
     ? IsEqual<TParams, []> extends true
-      ? () => TReturn
-      : (...args: TParams) => TReturn
-    : IsEqual<TParams, []> extends true
       ? (() => TReturn) & TProps
       : ((...args: TParams) => TReturn) & TProps
+  : IsEqual<TParams, []> extends true
+    ? () => TReturn
+    : (...args: TParams) => TReturn
 : never;

@@ -24,14 +24,15 @@ export const hasKeys = <
  */
 <
   T
->(val: T): val is T & If<
-    Not<IsNever<EnsureKeys<AsObject<T>, ["name"], never>>>, 
-    EnsureKeys<AsObject<T>,P>
-  >  => {
+>(val: T): val is T &([EnsureKeys<AsObject<T>, ["name"]>] extends never[]
+  ? never
+  : EnsureKeys<AsObject<T>,P>) => {
   const keys = Array.isArray(props) 
     ? props 
     : Object.keys(props).filter(i => typeof i === "string") as string[];
   
 
-  return (isFunction(val) || isObject(val)) && keys.every(k => k in (val as object)) ? true : false
+  return (
+    isFunction(val) || isObject(val)
+  ) && keys.every(k => k in (val as object)) ? true : false
 }

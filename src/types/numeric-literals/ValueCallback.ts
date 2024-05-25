@@ -193,7 +193,7 @@ export type ApiCallback<
   >(
     cb: TCall
   ) =>  HandleApiCallback<TCall extends TypedFunction 
-          ? ReturnType<TCall> 
+          ? ReturnType<TCall> // return from API callback
           : TCall
         >
 : Throw<"no-escape-function">;

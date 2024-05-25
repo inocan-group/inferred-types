@@ -1,4 +1,11 @@
-import { AsLiteralFn, FnArgsDefn, FnPropertiesDefn, FnReturnTypeDefn, FromDefn } from "src/types/index";
+import { 
+  AsLiteralFn,  
+  FnArgsDefn, 
+  FnPropertiesDefn, 
+  FnReturnTypeDefn, 
+  FromDefn, 
+  FromWideTokens 
+} from "src/types/index";
 
 
 export const fn = <TArgs extends readonly FnArgsDefn[]>(...args: TArgs) => ({
@@ -6,8 +13,8 @@ export const fn = <TArgs extends readonly FnArgsDefn[]>(...args: TArgs) => ({
     addProperties: <TProps extends FnPropertiesDefn>(kv: TProps) => {
       // TODO
       return null as unknown as AsLiteralFn<
-        FromDefn<TArgs>,
-        FromDefn<TReturn>,
+        FromWideTokens<TArgs, FromDefn<TArgs>>,
+        FromWideTokens<TReturn, FromDefn<TReturn>>,
         FromDefn<TProps>
       >
     },

@@ -38,9 +38,16 @@ const addSingleton = <
       : addToken(token)
     : literals.length === 1
     ? addToken(token,literals[0] as any)
-    : addToken("union")
+    : addToken(
+        "union",
+        literals
+          .map(l => addToken(token, `${l}`))
+          .join(",")
+      )
   ) as unknown as L["length"] extends 0
-    ? TokenBaseType<Token<T>>
+    ? Api extends Dictionary
+      ? Api
+      : TokenBaseType<Token<T>>
     : L["length"] extends 1
       ? L[0]
       : TupleToUnion<L>;

@@ -12,7 +12,11 @@ type FindAcc<
         First<TList>, 
         FindAcc<AfterFirst<TList>, TFind, TDeref>
       >
-    : FindAcc<AfterFirst<TList>, TFind, TDeref>;
+    : If<
+        IsEqual<First<TList>, TFind>, 
+        First<TList>, 
+        FindAcc<AfterFirst<TList>, TFind, TDeref>
+      >;
 
 /**
  * **Find**`<TList,TFind,TIndex>`
@@ -72,3 +76,5 @@ export type FindExtends<
   TFind,
   TDeref extends string | number | null = null,
 > = FindExtendsAcc<TList, TFind, TDeref>;
+
+type x = Find<[42,56,"foo","bar",false], "foo">;

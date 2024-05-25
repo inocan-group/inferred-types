@@ -1,9 +1,9 @@
 
-import { Tuple,  IsReadonlyArray, NonEmptyContainer, ToNumber} from "src/types/index";
+import { Tuple,  IsReadonlyArray, IsNonEmptyContainer, ToNumber} from "src/types/index";
 
 type _Convert<
   TInput extends Tuple
-> = NonEmptyContainer<TInput> extends true
+> = IsNonEmptyContainer<TInput> extends true
   ? {
     [K in keyof TInput]: ToNumber<TInput[K]>
   }

@@ -1,7 +1,16 @@
-import {  If, IsStringLiteral } from "src/types/index";
+import {   And, AsNumber, AsString, IsNumber, IsStringLiteral } from "src/types/index";
+
+type Process<
+  TContent extends string, 
+  TStrip extends string
+> = And<[ IsStringLiteral<TContent>, IsStringLiteral<TStrip>]> extends true
+  ? TContent extends `${TStrip & string}${infer After}` 
+    ? After 
+    : TContent
+  : string;
 
 /**
- * **StripStarting**`<T, U>`
+ * **StripLeading**`<T, U>`
  *
  * Will strip off of `T` the starting string defined by `U` when
  * both are string literals.
@@ -9,23 +18,24 @@ import {  If, IsStringLiteral } from "src/types/index";
  * type T = "Hello World";
  * type U = "Hello ";
  * // "World"
- * type R = StripStarting<T,U>;
+ * type R = StripLeading<T,U>;
  * ```
  * 
  * Note: 
  *   - if `T` is a non-string type then no transformation will be done
  *   - same applies to `U`
  */
-export type StripLeading<T, U> = T extends string
-? U extends string
-  ? If<
-    // can only operate on literal strings
-    IsStringLiteral<T>,
-    // this path represents successful strip opp
-    // but we must never accept `U` being wide
-    string extends U ? never : T extends `${U & string}${infer After}` ? After : T,
-    // here we must stay wide
-    string
+export type StripLeading<
+  TContent extends string|number, 
+  TStrip extends string|number
+> = IsNumber<TContent> extends true
+? AsNumber<
+    Process<
+      AsString<TContent>, 
+      AsString<TStrip>
+    >
   >
-  : never
-: never;
+: Process<
+    AsString<TContent>, 
+    AsString<TStrip>
+  >

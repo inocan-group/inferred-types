@@ -1,19 +1,19 @@
 import { 
-  StripTrailing,  
-  StripLeading,
   Join,
   StartsWith,
   Concat,
-  EndsWith
+  EndsWith,
+  First,
+  Last
 } from "src/types/index";
 
 type Finalize<
   TSegments extends readonly string[],
   TPath extends string
 > = Concat<[
-  StartsWith<Concat<TSegments>, "/"> extends true ? "/" : "",
+  StartsWith<First<TSegments>, "/"> extends true ? "/" : "",
   TPath,
-  EndsWith<Concat<TSegments>, "/"> extends true ? "/" : ""
+  EndsWith<Last<TSegments>, "/"> extends true ? "/" : ""
 ]>
 
 /**
@@ -33,9 +33,17 @@ export type PathJoin<
   TSegments extends readonly string[]
 > = Finalize<
   TSegments,
-  Join<{
-    [K in keyof TSegments]: StripLeading<StripTrailing<TSegments[K], "/">, "/">
-  }, "/">
+  Join<
+    {
+      [K in keyof TSegments]: TSegments[K] extends `/${infer End}`
+        ? End extends `${infer Both}/`
+          ? Both
+          : End
+        : TSegments[K] extends `${infer Start}/`
+          ? Start
+          : TSegments[K]
+    }, 
+    "/"
+  >
 >
-  
 

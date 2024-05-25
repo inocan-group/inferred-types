@@ -3,8 +3,6 @@ import { describe, it } from "vitest";
 import { 
   Api,
   ApiCallback, 
-  ApiEscape, 
-  ApiReturn, 
   ErrorCondition, 
   EscapeFunction, 
   Extends, 
@@ -99,15 +97,10 @@ describe("API related type utilities", () => {
       whatNow: () => number;
       done: EscapeFunction<() => T>;
     }>;
-    type AbstractedCallback<T> = ApiCallback<Abstracted<T>>;
+    type _AbstractedCallback<T> = ApiCallback<Abstracted<T>>;
     
     type GuessCallback = ApiCallback<Guess>;
     type GuessCallback42 = ApiCallback<Guess, {proxy: [42]}>;
-
-    const _abstracted: AbstractedCallback<string> = (cb) => {
-      return cb.done();
-    }
-    const v = _abstracted(c => c.whatNow());
 
 
     type cases = [

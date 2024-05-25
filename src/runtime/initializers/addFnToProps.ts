@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AnyFunction,  FnWithDict, Narrowable,  } from "src/types/index";
+import { AnyFunction,  FnWithDict, Narrowable, TypedFunction,  } from "src/types/index";
 
 /**
  * **addPropsToFn**(fn, [clone]) => (props) => FnWithProps
@@ -8,7 +8,7 @@ import { AnyFunction,  FnWithDict, Narrowable,  } from "src/types/index";
  * then a function and combines them into a single type.
  */
 export const addPropsToFn = <
-  TFn extends AnyFunction, 
+  TFn extends TypedFunction, 
   TClone extends boolean | undefined
 >(fn: TFn, clone_fn?: TClone) => {
     const localFn: any = clone_fn

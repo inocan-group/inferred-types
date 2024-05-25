@@ -31,3 +31,4 @@ export function entries<
 
   return iterable;
 }
+

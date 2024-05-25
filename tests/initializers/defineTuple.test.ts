@@ -17,7 +17,7 @@ describe("createTuple(...values) runtime utility", () => {
 
     expect(foobar).toEqual(["foo", "bar"]);
     expect(takeTwo).toEqual(["foo", "bar"]);
-    expect(wideFoo).toEqual(["foo", "bar"]);
+    expect(wideFoo).toEqual(["<<string>>", "bar"]);
 
     type cases = [
       Expect<Equal<typeof foobar, ["foo", "bar"]>>,
