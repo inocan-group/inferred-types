@@ -16,7 +16,7 @@ export type UndefinedArrayIsUnknown<T extends unknown[]> = undefined[] extends T
  * is of type `string` not the literal `abc`. If you want to keep literal types then
  * change the optional _widen_ parameter to _false_.
  */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+ 
 export const asArray = <T extends Narrowable>(thing: T) => {
   return (
     Array.isArray(thing) === true

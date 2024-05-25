@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable brace-style */
+ 
+ 
 import type {Container, Intersection,  } from "src/types/index";
 import { isIndexable } from "../type-guards/index";
 import { getEach } from "./getEach";

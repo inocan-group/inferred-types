@@ -9,6 +9,6 @@ import { hasKeys } from "./hasKeys"
  */
 export const isDoneFn = <T>(val: T): val is AsDoneFn<T> => {
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   return hasKeys("done")(val) && typeof (val as any).done === "function"
 }

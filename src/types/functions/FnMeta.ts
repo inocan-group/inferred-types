@@ -1,5 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { AnyFunction, Dictionary,  EmptyObject,  IsNarrowingFn, IsNonEmptyObject, TypedFunction } from "src/types/index";
+ 
+import { 
+  AnyFunction, 
+  Dictionary, 
+  IsNarrowingFn, 
+  IsNonEmptyObject
+} from "src/types/index";
 
 
 

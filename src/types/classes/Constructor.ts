@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 
 /**
  * Define a class constructor; allowing strong typing for constructor's parameters

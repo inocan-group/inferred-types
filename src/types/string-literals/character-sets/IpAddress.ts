@@ -1,5 +1,10 @@
-import { HexadecimalChar, Join, NumericChar, NumericCharZeroToFive, Suggest } from "src/types/index";
-import { IPv6 } from "../../../constants/TCP_IP";
+import { 
+  HexadecimalChar,  
+  NumericChar, 
+  NumericCharZeroToFive, 
+  Suggest 
+} from "src/types/index";
+import { IPv6 } from "src/constants/index";
 
 /**
  * **IPv4Number**

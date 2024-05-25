@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import type {  IsNever, Dictionary } from "src/types/index";
 
 /**

@@ -12,7 +12,7 @@ N extends Narrowable,
 K extends number,
 T extends readonly (Record<K,N> | Narrowable)[]
 >(...values: T) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   const u: any[] = [];
   for (const i of values.flat()) {
     if(!u.includes(i)) {

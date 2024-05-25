@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-types */
+ 
 import {  Narrowable, Widen } from "src/types/index";
 
 

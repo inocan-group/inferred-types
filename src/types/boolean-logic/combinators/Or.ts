@@ -1,4 +1,4 @@
-/* eslint-disable no-use-before-define */
+ 
 import { 
   LogicFunction, 
   NarrowlyContains, 

@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-
 /**
  * **VueComputedRef**
  * 
@@ -11,7 +8,7 @@
  * _types_ and _type guards_ which can respond to this structure without 
  * needing to have `Vue` but a dependency on this package.
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 export type VueComputedRef<T = any> = {
   value: T;
   effect: any;

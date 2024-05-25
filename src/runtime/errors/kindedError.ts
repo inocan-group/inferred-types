@@ -1,5 +1,10 @@
 import { toKebabCase, toPascalCase } from "../literals";
-import { EmptyObject, Handle, If, IsUndefined, KindError, KindErrorDefn } from "src/types/index";
+import { 
+  EmptyObject, 
+  Handle, 
+  KindError, 
+  KindErrorDefn 
+} from "src/types/index";
 
 /**
  * **KindError**

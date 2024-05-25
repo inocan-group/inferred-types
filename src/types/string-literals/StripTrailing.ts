@@ -1,4 +1,4 @@
-import type { AsString, And,  IsStringLiteral, IsNumber, AsNumber } from "src/types/index";
+import type { AsString, And,  IsStringLiteral,  AsNumber } from "src/types/index";
 
 
 type Process<

@@ -3,7 +3,6 @@ import type {
   DotPathFor, 
   Get, 
   Suggest, 
-  AnyObject,
   Tuple,
   Dictionary,
 } from "src/types/index";

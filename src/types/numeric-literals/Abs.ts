@@ -1,4 +1,11 @@
-import {   NumberLike, AsNumber, StripLeading, IsStringLiteral, If, Or,  AsString } from "src/types/index";
+import {   
+  NumberLike, 
+  AsNumber, 
+  StripLeading, 
+  IsStringLiteral, 
+  If, 
+  AsString 
+} from "src/types/index";
 
 type Process<T extends `${number}`> = If<
   IsStringLiteral<T>,

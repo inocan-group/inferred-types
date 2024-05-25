@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { describe, expect, it } from "vitest";
+import { describe,  it } from "vitest";
 import {  AsErrKind, Err, ErrFrom, IsErr, IsOk, IsResult, KindFrom, Ok, Result, OkFrom, IsFunction,  } from "src/types/index";
-import { ok, err, okN, assertErr, isOk, asResult, createErr } from "src/runtime/index"
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to 

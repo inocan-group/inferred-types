@@ -1,22 +1,22 @@
-import { Constant } from "../../constants/Constant";
-import { EmptyObject } from "../base-types";
-import { Dictionary } from "../base-types/Dictionary";
-import { ObjectKey } from "../base-types/ObjectKey";
-import { Tuple } from "../base-types/Tuple";
-import { IsEqual } from "../boolean-logic";
-import { Contains } from "../boolean-logic/operators/Contains";
-import { IsNever } from "../boolean-logic/operators/IsNever";
-import { Keys } from "../dictionary/Keys";
-import { Values } from "../dictionary/Values";
-import { HandleDoneFn } from "../functions/HandleDoneFn";
-import { AfterFirst, First } from "../lists";
-import { AsDictionary } from "../type-conversion";
-import { TupleToUnion } from "../type-conversion/TupleToUnion";
-import { ExpandDictionary } from "./ExpandRecursively";
-import { NarrowableScalar } from "./NarrowableScalar";
-import { ShapeCallback,  UnionElDefn } from "./Shape";
-
-
+import { Constant } from "src/constants/index";
+import { EmptyObject,
+  Dictionary,
+  ObjectKey,
+  Tuple,
+  IsEqual,
+  Contains,
+  Keys,
+  Values,
+  HandleDoneFn,
+  AfterFirst, 
+  First,
+  AsDictionary,
+  TupleToUnion,
+  ExpandDictionary,
+  NarrowableScalar,
+  ShapeCallback,
+  UnionElDefn
+ } from "src/types/index";
 
 type HandleObject<
   TObj extends Dictionary,

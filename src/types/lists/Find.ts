@@ -1,4 +1,4 @@
-import { IsEqual, If, Extends , AfterFirst, First } from "src/types/index";
+import { IsEqual, If, AfterFirst, First } from "src/types/index";
 
 type FindAcc<
   TList extends readonly unknown[],
@@ -77,4 +77,3 @@ export type FindExtends<
   TDeref extends string | number | null = null,
 > = FindExtendsAcc<TList, TFind, TDeref>;
 
-type x = Find<[42,56,"foo","bar",false], "foo">;

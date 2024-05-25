@@ -16,8 +16,8 @@ describe("FromDefn<T>", () => {
     type Obj = FromDefn<{foo: 1}>;
     // definitions
     const fn = <
+      V extends TypeDefinition,
       T extends readonly (TypeDefinition | DictTypeDefinition<V>)[],
-      V extends TypeDefinition
     >(...s: T) => s;
 
     const objDefn = fn({foo: s => s.string("foo","bar"), bar: 42});

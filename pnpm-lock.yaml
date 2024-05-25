@@ -11,6 +11,9 @@ importers:
       '@arktype/attest':
         specifier: ^0.5.4
         version: 0.5.4(typescript@5.4.5)
+      '@eslint/js':
+        specifier: ^9.3.0
+        version: 9.3.0
       '@type-challenges/utils':
         specifier: ~0.1.1
         version: 0.1.1
@@ -86,6 +89,9 @@ importers:
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
+      typescript-eslint:
+        specifier: ^7.10.0
+        version: 7.10.0(eslint@9.3.0)(typescript@5.4.5)
       typescript-transform-paths:
         specifier: ^3.4.7
         version: 3.4.7(typescript@5.4.5)
@@ -120,8 +126,8 @@ packages:
   '@arktype/fs@0.0.11':
     resolution: {integrity: sha512-f3p8apUMOTl6KlFNTrOX6twQJDeSdSmtYPVca7SaQjUUTAxfUlaROY1/i1C3y2llYDrrQBEbsggk8k2Oxxgrvw==}
 
-  '@arktype/schema@0.1.7':
-    resolution: {integrity: sha512-xeaS/0EiuT5kUQGC9DqLv0vnjFpbEILmaBQF9CrLhamR0v8c+eUNM6z5u6DgzqPZbDFMmtfiCdikUTT1VueWXw==}
+  '@arktype/schema@0.1.8':
+    resolution: {integrity: sha512-e6xfASOKbiHZFYMmpMdiuPsM3ifvjUwMl1yYJubAaxgff8rbz3cgGo1HtUyOXNWAYRDsa6+/x/fKuo85o3uDug==}
 
   '@arktype/util@0.0.19':
     resolution: {integrity: sha512-RrpoYDWPqa1ol9G05HNCa6QaZGunWjxRlwMjj0bBBxarLwMTXM8jFhNVyQAfmDhvtadzGd7LaNsFGZN+Zl9Puw==}
@@ -774,8 +780,8 @@ packages:
   argparse@2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
 
-  arktype@2.0.0-dev.15:
-    resolution: {integrity: sha512-V8/jyfU/ISl9uSzTNZMgj/sYOI1QNxhVaqcS+spWamF/jx4eDFMqBVdhAGysJhKyLC+Qi2yNw5f1YQuaOMEeGw==}
+  arktype@2.0.0-dev.16:
+    resolution: {integrity: sha512-g/YvBV1qJkM4Foxg6yddzL9Vfui0bUYrUX92QHnC6FBdA9KdsKxKGRhx5hI8pHlMiGMhQ42JdO5mg+g1tIxOqQ==}
 
   array-back@3.1.0:
     resolution: {integrity: sha512-TkuxA4UCOvxuDK6NZYXCalszEzj+TLszyASooky+i742l9TqsOdYCMJJupxRic61hwquNtppB3hgcuq9SVSH1Q==}
@@ -2326,6 +2332,16 @@ packages:
     resolution: {integrity: sha512-/OxDN6OtAk5KBpGb28T+HZc2M+ADtvRxXrKKbUwtsLgdoxgX13hyy7ek6bFRl5+aBs2yZzB0c4CnQfAtVypW/g==}
     engines: {node: '>= 0.4'}
 
+  typescript-eslint@7.10.0:
+    resolution: {integrity: sha512-thO8nyqptXdfWHQrMJJiJyftpW8aLmwRNs11xA8pSrXneoclFPstQZqXvDWuH1WNL4CHffqHvYUeCHTit6yfhQ==}
+    engines: {node: ^18.18.0 || >=20.0.0}
+    peerDependencies:
+      eslint: ^8.56.0
+      typescript: '*'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
   typescript-transform-paths@3.4.7:
     resolution: {integrity: sha512-1Us1kdkdfKd2unbkBAOV2HHRmbRBYpSuk9nJ7cLD2hP4QmfToiM/VpxNlhJc1eezVwVqSKSBjNSzZsK/fWR/9A==}
     peerDependencies:
@@ -2523,14 +2539,14 @@ snapshots:
       '@arktype/fs': 0.0.11
       '@arktype/util': 0.0.19
       '@typescript/vfs': 1.5.0
-      arktype: 2.0.0-dev.15
+      arktype: 2.0.0-dev.16
       typescript: 5.4.5
     transitivePeerDependencies:
       - supports-color
 
   '@arktype/fs@0.0.11': {}
 
-  '@arktype/schema@0.1.7':
+  '@arktype/schema@0.1.8':
     dependencies:
       '@arktype/util': 0.0.45
 
@@ -3083,9 +3099,9 @@ snapshots:
 
   argparse@2.0.1: {}
 
-  arktype@2.0.0-dev.15:
+  arktype@2.0.0-dev.16:
     dependencies:
-      '@arktype/schema': 0.1.7
+      '@arktype/schema': 0.1.8
       '@arktype/util': 0.0.45
 
   array-back@3.1.0: {}
@@ -4825,6 +4841,17 @@ snapshots:
       has-proto: 1.0.3
       is-typed-array: 1.1.13
       possible-typed-array-names: 1.0.0
+
+  typescript-eslint@7.10.0(eslint@9.3.0)(typescript@5.4.5):
+    dependencies:
+      '@typescript-eslint/eslint-plugin': 7.10.0(@typescript-eslint/parser@7.10.0(eslint@9.3.0)(typescript@5.4.5))(eslint@9.3.0)(typescript@5.4.5)
+      '@typescript-eslint/parser': 7.10.0(eslint@9.3.0)(typescript@5.4.5)
+      '@typescript-eslint/utils': 7.10.0(eslint@9.3.0)(typescript@5.4.5)
+      eslint: 9.3.0
+    optionalDependencies:
+      typescript: 5.4.5
+    transitivePeerDependencies:
+      - supports-color
 
   typescript-transform-paths@3.4.7(typescript@5.4.5):
     dependencies:

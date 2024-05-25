@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { Constant } from "src/constants/index";
 import { isObject } from "./isObject";
 import { isEqual } from "./higher-order/isEqual";

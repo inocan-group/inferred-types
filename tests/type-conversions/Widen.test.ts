@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
 import { Equal, Expect } from "@type-challenges/utils";
 import { EmptyObject, Dictionary,  Widen } from "src/types/index";
 import { describe, it } from "vitest";

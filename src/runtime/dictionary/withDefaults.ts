@@ -16,7 +16,7 @@ export const withDefaults = <
   TObj extends Record<ObjectKey, W>,
   W extends Narrowable
 >(obj: TObj) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   const merged = {
     ...with_defaults,
     ...obj

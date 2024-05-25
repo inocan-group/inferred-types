@@ -1,5 +1,3 @@
-/* eslint-disable no-use-before-define */
-
 import { Chars, Concat } from "../string-literals";
 import { Length } from "./Length";
 

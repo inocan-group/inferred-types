@@ -10,6 +10,6 @@ import { split } from "../literals/split";
 export function isNumericString<T>(value: T): value is T & `${number}` {
   const validChars = [...NUMERIC_CHAR, "x", "E"];
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   return typeof value === "string" && split(value).every(i => validChars.includes(i as any));
 }

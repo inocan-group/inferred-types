@@ -65,7 +65,7 @@ export type Retain<
   TList extends readonly unknown[],
   TComparator,
   TOp extends ComparatorOperation = "extends"
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 > = PrepList<TList, TOp> extends readonly unknown[]
 ? [TComparator] extends [unknown[]]
   ? Process<

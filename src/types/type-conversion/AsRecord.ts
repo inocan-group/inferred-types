@@ -14,7 +14,7 @@ export type AsRecord<
 : T extends Dictionary
 ? T
 : T extends object
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   ? T extends any[]
     ? never
     : NonNullable<unknown>

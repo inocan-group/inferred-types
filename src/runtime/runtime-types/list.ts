@@ -1,6 +1,4 @@
 /* eslint-disable no-use-before-define */
-/* eslint-disable @typescript-eslint/ban-types */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { 
   TupleToUnion, 
   WidenUnion,  
