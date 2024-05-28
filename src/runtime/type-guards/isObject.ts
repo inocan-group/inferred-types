@@ -1,4 +1,4 @@
-import type { Dictionary } from "src/types/index";
+
 
 /**
  * **isObject**(value)
