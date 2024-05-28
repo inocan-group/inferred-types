@@ -1,4 +1,4 @@
-import type {  Dictionary  } from "src/types/index";
+import type { Dictionary } from "src/types/index";
 
 /**
  * **isObject**(value)
@@ -8,6 +8,6 @@ import type {  Dictionary  } from "src/types/index";
  * Note: an _array_ will **not** pass this test (although the _typeof_ operator
  * would have said it was an object)
  */
-export function isObject<T>(value: T): value is T & Dictionary  {
+export function isObject<T>(value: T): value is T & { [key: string | symbol]: unknown } {
   return typeof value === "object" && value !== null && Array.isArray(value) === false;
 }
