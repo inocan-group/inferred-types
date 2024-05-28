@@ -27,7 +27,6 @@
     "build": "run-s build:esm build:cjs",
     "build:esm": "tsc -b --verbose src/inferred-types",
     "build:cjs": "tsup dist/inferred-types/index.js --format cjs -d dist/inferred-types",
-    "build:force": "rimraf dist && tsc -b -f --verbose src/inferred-types",
     "diagnostics": "tsc -b -f --extendedDiagnostics src/inferred-types",
     "clean": "rimraf dist/**/*",
     "lint": "eslint src",
@@ -51,7 +50,7 @@
     "watch:bundle": "tsup src/index.ts --format=esm --dts"
   },
   "devDependencies": {
-    "@arktype/attest": "^0.5.4",
+    "@arktype/attest": "^0.7.7",
     "@eslint/js": "^9.3.0",
     "@type-challenges/utils": "~0.1.1",
     "@types/node": "^18.19.33",

@@ -1,5 +1,5 @@
 import { Constant } from "src/constants/index";
-import { 
+import {
   RemoveMarked,
   Widen,
   ExpandDictionary,
@@ -25,28 +25,25 @@ export type Dict<T extends Dictionary = EmptyObject, ID extends string = string>
   [s]: ID;
 } & T;
 
-
-
-
 export type OptDictProps<
   T extends readonly string[]
 > = RemoveMarked<{
   [K in keyof T]: T[K] extends `opt:${infer Prop}`
-      ? Prop extends string
-        ? Prop
-        : Constant<"Marked">
-      : Constant<"Marked">
+  ? Prop extends string
+  ? Prop
+  : Constant<"Marked">
+  : Constant<"Marked">
 }>;
 
 export type NarrowDictProps<
   T extends readonly string[]
 > = [] extends T
-? T
-: RemoveMarked<{
-  [K in keyof T]: T[K] extends `opt:${string}`
-      ? Constant<"Marked">
-      : T[K]
-}>;
+  ? T
+  : RemoveMarked<{
+    [K in keyof T]: T[K] extends `opt:${string}`
+    ? Constant<"Marked">
+    : T[K]
+  }>;
 
 export type CreateDictShape<
   TObj extends Dictionary,
@@ -55,14 +52,14 @@ export type CreateDictShape<
   TOpt extends readonly string[],
   TResult extends Dictionary = EmptyObject
 > = [] extends TKeys
-? OptDictProps<TKeys> extends readonly string[]
+  ? OptDictProps<TKeys> extends readonly string[]
   ? MakeKeysOptional<
-      ExpandDictionary<TResult>,
-      TOpt
-    >
+    ExpandDictionary<TResult>,
+    TOpt
+  >
 
   : never
-: CreateDictShape<
+  : CreateDictShape<
     TObj,
     AfterFirst<TKeys>,
     TNarrow,
@@ -70,8 +67,8 @@ export type CreateDictShape<
     TResult & Record<
       First<TKeys>,
       Contains<TNarrow, First<TKeys>> extends true
-        ? TObj[First<TKeys>]
-        : Widen<TObj[First<TKeys>]>
+      ? TObj[First<TKeys>]
+      : Widen<TObj[First<TKeys>]>
     >
   >;
 

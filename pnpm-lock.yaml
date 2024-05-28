@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@arktype/attest':
-        specifier: ^0.5.4
-        version: 0.5.4(typescript@5.4.5)
+        specifier: ^0.7.7
+        version: 0.7.7(typescript@5.4.5)
       '@eslint/js':
         specifier: ^9.3.0
         version: 9.3.0
@@ -120,20 +120,20 @@ packages:
     resolution: {integrity: sha512-xvgv6pkMGBA6GwdyJbNAnDmfAIR/DfWhrj9jgWh3TY7gRm3KO46x/GPjRg6wJ0nOepwqrNxFfojebh0Df4h4Tw==}
     engines: {node: '>=12.17'}
 
-  '@arktype/attest@0.5.4':
-    resolution: {integrity: sha512-hLIahKs9Cx4sFRBkj2JSluBmOeNOAwCQNZEI/nuTrhqAKNyi+wNrXjZwZrqJpqKUDTreS8k0E9XEfvnAkIRHGA==}
+  '@arktype/attest@0.7.7':
+    resolution: {integrity: sha512-16pD/DQ1jlATCr0x7niZKLIRQzc+A4SxU3mOw//RFYmyULTUlP+dWzqswH2UlCBPb4h1pYtDOtqJoCc0SQWI2A==}
     hasBin: true
     peerDependencies:
       typescript: '*'
 
-  '@arktype/fs@0.0.11':
-    resolution: {integrity: sha512-f3p8apUMOTl6KlFNTrOX6twQJDeSdSmtYPVca7SaQjUUTAxfUlaROY1/i1C3y2llYDrrQBEbsggk8k2Oxxgrvw==}
+  '@arktype/fs@0.0.20':
+    resolution: {integrity: sha512-WnoIFrhiDKnWixd7xmcvFTlP7ZVReT7j37nTbCpieUCsVaUldb38pgQjxdvlJN40UL3kkjxyiYIRmc7BOvgy1A==}
 
-  '@arktype/schema@0.1.8':
-    resolution: {integrity: sha512-e6xfASOKbiHZFYMmpMdiuPsM3ifvjUwMl1yYJubAaxgff8rbz3cgGo1HtUyOXNWAYRDsa6+/x/fKuo85o3uDug==}
+  '@arktype/schema@0.1.5':
+    resolution: {integrity: sha512-99lnx+I+oRFEpcPxrrOHMZgcntUzrya/i4WdfcSfeET5mcfQI2xKISdA/jebaDbXgaMlP0+uEdtPUc70JJooRQ==}
 
-  '@arktype/util@0.0.19':
-    resolution: {integrity: sha512-RrpoYDWPqa1ol9G05HNCa6QaZGunWjxRlwMjj0bBBxarLwMTXM8jFhNVyQAfmDhvtadzGd7LaNsFGZN+Zl9Puw==}
+  '@arktype/util@0.0.42':
+    resolution: {integrity: sha512-A/LOal4oZy7Yj9fCkqe/4hsb+jqWnMDiECvdkcAkpqVoIOL9Jm/YmYNxXDBefPLb7T+vZ9pCYxrZ5qpCoXpBlQ==}
 
   '@arktype/util@0.0.45':
     resolution: {integrity: sha512-WPzoElBZK1NxYzT8PnoNsnulohgRU7PRKkJUoqeGvuFqP/Egv7tRNnvcJCE0MboHUnWaPTy/5Psjm/4iOvbWiw==}
@@ -783,8 +783,8 @@ packages:
   argparse@2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
 
-  arktype@2.0.0-dev.16:
-    resolution: {integrity: sha512-g/YvBV1qJkM4Foxg6yddzL9Vfui0bUYrUX92QHnC6FBdA9KdsKxKGRhx5hI8pHlMiGMhQ42JdO5mg+g1tIxOqQ==}
+  arktype@2.0.0-dev.13:
+    resolution: {integrity: sha512-g/SA8Lp7LB4/0sAGoN57x07DcpIEeSaD/inWhkZ/sJON29vmUS1jnCqemaDmoxfSMpGEvu2UX5wlSJj380l3bA==}
 
   array-back@3.1.0:
     resolution: {integrity: sha512-TkuxA4UCOvxuDK6NZYXCalszEzj+TLszyASooky+i742l9TqsOdYCMJJupxRic61hwquNtppB3hgcuq9SVSH1Q==}
@@ -2542,23 +2542,24 @@ snapshots:
       lodash.assignwith: 4.2.0
       typical: 7.1.1
 
-  '@arktype/attest@0.5.4(typescript@5.4.5)':
+  '@arktype/attest@0.7.7(typescript@5.4.5)':
     dependencies:
-      '@arktype/fs': 0.0.11
-      '@arktype/util': 0.0.19
+      '@arktype/fs': 0.0.20
+      '@arktype/util': 0.0.45
+      '@typescript/analyze-trace': 0.10.1
       '@typescript/vfs': 1.5.0
-      arktype: 2.0.0-dev.16
+      arktype: 2.0.0-dev.13
       typescript: 5.4.5
     transitivePeerDependencies:
       - supports-color
 
-  '@arktype/fs@0.0.11': {}
+  '@arktype/fs@0.0.20': {}
 
-  '@arktype/schema@0.1.8':
+  '@arktype/schema@0.1.5':
     dependencies:
-      '@arktype/util': 0.0.45
+      '@arktype/util': 0.0.42
 
-  '@arktype/util@0.0.19': {}
+  '@arktype/util@0.0.42': {}
 
   '@arktype/util@0.0.45': {}
 
@@ -3107,10 +3108,10 @@ snapshots:
 
   argparse@2.0.1: {}
 
-  arktype@2.0.0-dev.16:
+  arktype@2.0.0-dev.13:
     dependencies:
-      '@arktype/schema': 0.1.8
-      '@arktype/util': 0.0.45
+      '@arktype/schema': 0.1.5
+      '@arktype/util': 0.0.42
 
   array-back@3.1.0: {}
 
