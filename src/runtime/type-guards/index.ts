@@ -32,5 +32,6 @@ export * from "./isErrorCondition";
 export * from "./isSymbol";
 export * from "./hasKeys";
 export * from "./isDoneFn";
+export * from "./isUrl";
 
 export * from "./higher-order/index";
