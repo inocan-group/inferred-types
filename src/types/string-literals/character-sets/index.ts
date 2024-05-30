@@ -22,6 +22,7 @@ export * from "./ValueAtDotPath";
 export * from "./Consonants";
 export * from "./PlusMinus";
 export * from "./CSS";
+export * from "./InlineSvg";
 
 export * from "./brackets/index";
 export * from "./quotation-marks/index";
