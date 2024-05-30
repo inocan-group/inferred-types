@@ -34,5 +34,6 @@ export * from "./hasKeys";
 export * from "./isDoneFn";
 export * from "./isUrl";
 export * from "./isCssAspectRatio";
+export * from "./isInlineSvg";
 
 export * from "./higher-order/index";
