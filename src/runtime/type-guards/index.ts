@@ -33,5 +33,6 @@ export * from "./isSymbol";
 export * from "./hasKeys";
 export * from "./isDoneFn";
 export * from "./isUrl";
+export * from "./isCssAspectRatio";
 
 export * from "./higher-order/index";

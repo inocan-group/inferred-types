@@ -17,8 +17,11 @@ export type FullyQualifiedUrl = `${NetworkProtocol}://${Ip4Address | DomainName}
 
 export type UrlBuilder =
   | (<P extends NetworkProtocol, D extends DomainName, B extends RelativeUrl>(
-      protocol: P,
-      domain: D,
-      basePath: B
-    ) => `${P}://${D}/${B}`)
+    protocol: P,
+    domain: D,
+    basePath: B
+  ) => `${P}://${D}/${B}`)
   | (<U extends RelativeUrl>(url: U) => U);
+
+
+export type Uri = `${NetworkProtocol}://${string}`;
