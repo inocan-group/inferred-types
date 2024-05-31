@@ -10,3 +10,4 @@ export * from "./Handle";
 export * from "./Default";
 export * from "./Iff";
 export * from "./Fail"
+export * from "./OnPass"
