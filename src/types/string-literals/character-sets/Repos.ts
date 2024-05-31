@@ -1,11 +1,12 @@
-import { OptionalSpace } from "./OptionalSpace";
+import { Mutable, TupleToUnion, OptionalSpace } from "src/types/index";
+import { REPO_PAGE_TYPES, REPO_SOURCES } from "src/constants/index";
 
 /**
  * **RepoSources**
  * 
  * common sources for source code repositories.
  */
-export type RepoSources = "github" | "bitbucket" | "gitlab" | "codecommit" | "local";
+export type RepoSource = TupleToUnion<Mutable<typeof REPO_SOURCES>>;
 
 
 /**
@@ -14,16 +15,7 @@ export type RepoSources = "github" | "bitbucket" | "gitlab" | "codecommit" | "lo
  * a union of descriptive page names you'd expect to find in a source
  * code repository.
  */
-export type RepoPageType =
-  | "repo"
-  | "commits"
-  | "author"
-  | "org"
-  | "issues"
-  | "followers"
-  | "following"
-  | "docs"
-  | "unknown";
+export type RepoPageType = TupleToUnion<Mutable<typeof REPO_PAGE_TYPES>>;
 
 /**
  * **SemanticVersion**`<[TPrefix]>`

@@ -1,4 +1,17 @@
-import { AfterFirst,  CombinedKeys, ExpandRecursively, First, IsDefined, Dictionary, ObjectKey, Nothing, IsNothing, EmptyObject, If, As  } from "src/types/index";
+import {
+  AfterFirst,
+  CombinedKeys,
+  ExpandRecursively,
+  First,
+  IsDefined,
+  Dictionary,
+  ObjectKey,
+  Nothing,
+  IsNothing,
+  EmptyObject,
+  If,
+  As
+} from "src/types/index";
 
 type Process<
   TKeys extends readonly unknown[],
@@ -6,22 +19,22 @@ type Process<
   TOverride extends Dictionary,
   TResult extends Dictionary = EmptyObject
 > = [] extends TKeys
-? ExpandRecursively<TResult>
-: Process<
+  ? ExpandRecursively<TResult>
+  : Process<
     AfterFirst<TKeys>,
     TDef,
     TOverride,
     First<TKeys> extends keyof TOverride
-      ? IsDefined<TOverride[First<TKeys>]> extends true
-          ? TResult & Record<First<TKeys>, TOverride[First<TKeys>]>
-          : First<TKeys> extends keyof TDef
-            ? TResult & Record<First<TKeys>, TDef[First<TKeys>]>
-            : TResult & Record<First<TKeys>, undefined>
-      : First<TKeys> extends keyof TDef
-      ? TResult & Record<First<TKeys>, TDef[First<TKeys>]>
-      : First<TKeys> extends ObjectKey
-        ? TResult & Record<First<TKeys>, undefined>
-        : never
+    ? IsDefined<TOverride[First<TKeys>]> extends true
+    ? TResult & Record<First<TKeys>, TOverride[First<TKeys>]>
+    : First<TKeys> extends keyof TDef
+    ? TResult & Record<First<TKeys>, TDef[First<TKeys>]>
+    : TResult & Record<First<TKeys>, undefined>
+    : First<TKeys> extends keyof TDef
+    ? TResult & Record<First<TKeys>, TDef[First<TKeys>]>
+    : First<TKeys> extends ObjectKey
+    ? TResult & Record<First<TKeys>, undefined>
+    : never
   >;
 
 /**

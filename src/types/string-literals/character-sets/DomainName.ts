@@ -1,24 +1,31 @@
 /* eslint-disable no-use-before-define */
-import { 
-  IfLength, 
-  AfterFirst, 
-  AsArray, 
-  First , 
+import {
+  IfLength,
+  AfterFirst,
+  AsArray,
+  First,
   TupleToUnion,
   IsEqual
 } from "src/types/index";
 
 type DefaultPrefix = ["www"];
 
-export type DNS = `${string}.${string}`;
+/**
+ * **DnsName**
+ * 
+ * A simple representation of a DNS name.
+ * 
+ * **Related:** `DomainName`, `UrlsFrom`
+ */
+export type DnsName = `${string}.${string}`;
 
 type _Names<
-  TDomain extends readonly DNS[],
+  TDomain extends readonly DnsName[],
   TPrefixes extends readonly string[],
   TResults extends readonly DomainName[] = []
 > = [] extends TDomain
-? TResults
-: IfLength<
+  ? TResults
+  : IfLength<
     TPrefixes, 0,
     _Names<
       AfterFirst<TDomain>,
@@ -46,11 +53,13 @@ type _Names<
  * cases it will:
  *    - each domain name by itself is allowed
  *    - each domain name _prefixed_ by one or more 
+ *  
+ * **Related:** `UrlsFrom`
  */
 export type DomainName<
-  TDomain extends DNS | readonly DNS[] = DNS,
+  TDomain extends DnsName | readonly DnsName[] = DnsName,
   TPrefixes extends readonly string[] = DefaultPrefix
-> = IsEqual<TDomain, DNS> extends true
-  ? DNS
-  : TupleToUnion<_Names<AsArray<TDomain>,TPrefixes>>
+> = IsEqual<TDomain, DnsName> extends true
+  ? DnsName
+  : TupleToUnion<_Names<AsArray<TDomain>, TPrefixes>>
 
