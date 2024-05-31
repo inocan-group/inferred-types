@@ -24,7 +24,6 @@ describe("isUri(val) type guard", () => {
 
       type cases = [
         Expect<Equal<typeof http, `http://${string}` | `https://${string}`>>
-
       ];
       const cases: cases = [
         true

@@ -17,4 +17,3 @@ export * from "./ToInteger";
 export * from "./ToNumericArray";
 export * from "./NextDigit";
 export * from "./NumberLike";
-export * from "./ValueCallback";
