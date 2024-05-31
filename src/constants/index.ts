@@ -24,6 +24,6 @@ export * from "./Wide";
 export * from "./Shape";
 export * from "./Marked";
 export * from "./HashTable";
-export * from "./TCP_IP";
+export * from "./Network";
 export * from "./Geo";
 export * from "./RepoConstants";

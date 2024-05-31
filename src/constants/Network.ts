@@ -10,3 +10,16 @@ export const IPv4 = {
   "Loopback": "127.0.0.1"
 } as const;
 
+
+/**
+ * Lookup of protocols which provides a tuple of: `[insecure,secure]`
+ */
+export const NETWORK_PROTOCOL_LOOKUP = {
+  http: ["http", "https"],
+  ftp: ["ftp", "sftp"],
+  file: ["","file"],
+  ws: ["ws","wss"],
+  ssh: ["","ssh"],
+  "scp": ["","scp"]
+ } as const;
+

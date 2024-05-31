@@ -28,7 +28,7 @@ export const REPO_PAGE_TYPES = [
 
 
 export const REPO_SOURCE_LOOKUP = {
-  "github": ["github.com", "github.io"],
+  "github": [`github.com`, "github.io"],
   "bitbucket": ["bitbucket.com"],
   "gitlab": ["gitlab.com"],
   "codecommit": ["https://aws.amazon.com/codecommit/"],
