@@ -19,7 +19,9 @@ export const REPO_PAGE_TYPES = [
   "commits",
   "author",
   "org",
+  "profile",
   "issues",
+  "actions",
   "followers",
   "following",
   "docs",
@@ -35,4 +37,20 @@ export const REPO_SOURCE_LOOKUP = {
   "local": []
 } as const;
 
+
+export const GITHUB_INSIGHT_CATEGORY_LOOKUP = {
+  pulse: "pulse",
+  contributors: "graphs/contributors",
+  community: "graphs/community",
+  standards: "community",
+  traffic: "graphs/traffic",
+  commits: "graphs/commit-activity",
+  code_frequency: "graphs/code-frequency",
+  dependencies: "network/dependencies",
+  dependents: "network/dependents",
+  dependabot: "network/updates",
+  network: "network",
+  forks: "forks",
+  people: "people",
+ } as const;
 

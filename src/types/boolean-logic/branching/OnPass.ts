@@ -1,6 +1,15 @@
-import { AfterFirst, As, Dictionary, EmptyObject, ExpandDictionary, First, IndexOf, Keys, MergeObjects, ObjectKey } from "../..";
-import { Constant } from "../../../constants/Constant";
-import { IsEqual, IsErrorCondition, IsFalse, IsNever } from "../operators";
+import {
+  AfterFirst,
+  As,
+  ExpandDictionary,
+  First,
+  Keys,
+  ObjectKey,
+  IsErrorCondition,
+  IsFalse,
+  IsNever
+} from "src/types/index";
+import { Constant } from "src/constants/index";
 
 export type OnPassRemap<
   TNever = unknown,
@@ -25,9 +34,7 @@ type Merge<
       Record<First<TKeys>, A[First<TKeys>]>
       & Omit<TConfig, First<TKeys>>
     >, OnPassRemap>
-  >
-
-type x = Merge<{ error: "hi" }, ["error"]>;
+  >;
 
 
 type Process<
@@ -44,14 +51,14 @@ type Process<
 
 /**
  * **OnPass**`<TTest, TPass,[TRemap],[TFalse]>`
- * 
+ *
  * Branching utility which evaluates `TTest` for being
  * `never`, `false`, or an `ErrorCondition` and
  * passes that through when it occurs.
- * 
+ *
  * In all other cases, the type of `TPass` is proxied through
  * as the type.
- * 
+ *
  * - the `TRemap` allows you to remap error conditions
  * as well if needed
  */

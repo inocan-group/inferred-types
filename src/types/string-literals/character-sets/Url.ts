@@ -16,6 +16,7 @@ import {
   Mutable,
   Values,
   Flatten,
+  EmptyObject,
 } from "src/types/index";
 import { NETWORK_PROTOCOL_LOOKUP } from "src/constants/index";
 
@@ -102,7 +103,7 @@ export type ProtocolOptions = {
  * or enable insure `http://` too.
  */
 export type WebsocketProtocol<
-  TOpt extends ProtocolOptions = {}
+  TOpt extends ProtocolOptions = EmptyObject
 > =
   IsTrue<TOpt["allowInsecure"]> extends true
   ? IsTrue<TOpt["optional"]> extends true
@@ -123,7 +124,7 @@ export type WebsocketProtocol<
  * or enable insure `http://` too.
  */
 export type HttpProtocol<
-  TOpt extends ProtocolOptions = {}
+  TOpt extends ProtocolOptions = EmptyObject
 > =
   IsTrue<TOpt["allowInsecure"]> extends true
   ? IsTrue<TOpt["optional"]> extends true
@@ -196,7 +197,7 @@ export type UrlPath<T extends string | null = null> = T extends null
 export type GetUrlSource<
   T extends string
 > = IsStringLiteral<T> extends true
-  ? RemoveNetworkProtocol<T> extends `${infer Domain extends DnsName | Ip4Address}${'' | `/${string}`}`
+  ? RemoveNetworkProtocol<T> extends `${infer Domain extends DnsName | Ip4Address}${"" | `/${string}`}`
   ? StripAfter<Domain, "/">
   : ""
   : string;
@@ -228,7 +229,7 @@ export type GetUrlPath<
   ? _GetUrlPath<RemoveNetworkProtocol<T>> extends ""
     ? ""
     : `/${_GetUrlPath<RemoveNetworkProtocol<T>>}`
-  : ''
+  : ""
 : string
 
 type RelativeStart = `../` | `./`;
@@ -269,7 +270,7 @@ export type Uri<
  * `/` representation is preserved.
  */
 export type AddUrlPathSegment<
-  TExisting extends UrlPath,
+  TExisting extends string,
   TAdd extends string
 > = TExisting extends `${string}/`
 ? `${TExisting}${StripTrailing<StripLeading<TAdd, "/">, "/">}`
@@ -290,7 +291,7 @@ type _UrlsFromProtocol<
 
 type _UrlsFrom<
   T extends string,
-  TOpt extends ProtocolOptions & PortSpecifierOptions = {},
+  TOpt extends ProtocolOptions & PortSpecifierOptions = EmptyObject,
 > = TOpt["protocol"] extends "ws"
 ? _UrlsFromProtocol<T,WebsocketProtocol<TOpt>,TOpt>
 : TOpt["protocol"] extends "both"
@@ -312,7 +313,7 @@ type _UrlsFrom<
  */
 export type UrlsFrom<
   T extends string | readonly string[],
-  TOpt extends ProtocolOptions & PortSpecifierOptions = {},
+  TOpt extends ProtocolOptions & PortSpecifierOptions = EmptyObject,
 > = T extends string
 ? ExpandUnion<_UrlsFrom<T,TOpt>>
 : T extends readonly string[]

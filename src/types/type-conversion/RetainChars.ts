@@ -1,16 +1,11 @@
-import { Constant } from "../../constants/Constant";
-import { And, IsEqual, IsWideType, Or } from "../boolean-logic";
-import { RemoveMarked } from "../containers";
-import { Chars } from "../string-literals/Chars";
-import { Join } from "../string-literals/Join";
-
-type Validate<T extends string> = IsEqual<T["length"], 1>;
-
-type ValidateEach<
-  T extends readonly string[]
-> = And<{
-  [K in keyof T]: Validate<T[K]>
-}>;
+import { Constant } from "src/constants/index";
+import {
+  IsWideType,
+  Or,
+  RemoveMarked,
+  Chars,
+  Join
+} from "src/types/index";
 
 type Process<
   TChars extends readonly string[],
