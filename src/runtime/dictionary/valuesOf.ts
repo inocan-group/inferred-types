@@ -3,13 +3,13 @@ import { AsRecord,  Narrowable, ObjectKey, Values } from "src/types/index";
 
 /**
  * **valuesOf**(obj) -> readonly values[]
- * 
- * Runtime utility to convert an object into a tuple of 
+ *
+ * Runtime utility to convert an object into a tuple of
  * values while preserving as much type information as
  * possible.
  */
 export const valuesOf = <
-  TObj extends Record<ObjectKey, N> | object,
+  TObj extends Record<ObjectKey, N>,
   N extends Narrowable
 >(obj: TObj): Values<AsRecord<TObj>> => {
   const values = [];

@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { AfterFirst, AnyFunction, AsLiteralFn, AsNarrowingFn, Decrement, Dictionary, First, FnProps, IsNarrowingFn, Tuple, TypedFunction } from "src/types/index";
+import { AfterFirst, AnyFunction, AsLiteralFn, AsNarrowingFn, Decrement, Dictionary, First, FnProps, IsNarrowingFn, IsUnion, Tuple, TupleToUnion, TypedFunction, UnionToTuple } from "src/types/index";
 
 type _ExpandTuple<
   TLength extends number,
@@ -30,7 +30,18 @@ type ExpandParameters<
         ? ExpandDictionary<First<TParams>>
         : First<TParams>
     ]
+  >;
+
+export type ExpandTuple<T> = T extends Tuple
+? _ExpandTuple<T["length"],T>
+: T;
+
+export type ExpandUnion<T> = IsUnion<T> extends true
+? TupleToUnion<
+    ExpandTuple<UnionToTuple<T>>
   >
+: T
+;
 
 /**
  * Recursively goes over an object based structure and tries to reduce
@@ -41,7 +52,7 @@ export type ExpandRecursively<T> = T extends Dictionary
       ? T[K] extends TypedFunction
         ? ExpandParameters<T[K], Parameters<T[K]>>
         : T[K]
-      : ExpandRecursively<T[K]> 
+      : ExpandRecursively<T[K]>
     }
   : T;
 
@@ -52,6 +63,6 @@ export type ExpandRecursively<T> = T extends Dictionary
 export type ExpandDictionary<T> = T extends Dictionary
   ? { [K in keyof T]: T[K] extends AnyFunction
       ? T[K]
-      : ExpandRecursively<T[K]> 
+      : ExpandRecursively<T[K]>
     }
   : T;
