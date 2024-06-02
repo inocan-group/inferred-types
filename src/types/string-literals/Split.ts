@@ -1,16 +1,16 @@
-import {  
+import {
   AfterFirst,
   BeforeLast,
   Chars,
   Filter,
   First,
-  If,
   IsUnion,
   IsStringLiteral,
   IsWideType,
   Last,
   TupleToUnion,
   UnionToTuple,
+  As,
 } from "src/types/index";
 
 type UnionPolicy = "omit" | "include";
@@ -86,21 +86,19 @@ type Process<
 type PreProcess<TContent extends string,
 TSep extends string | readonly string[],
 TUnionPolicy extends UnionPolicy = "omit"
-> = If<
-  IsUnion<TSep>,
-  UnionToTuple<TSep> extends readonly string[]
-  ? Process<TContent, UnionToTuple<TSep>, TUnionPolicy>
-  : never,
-  Process<TContent,TSep,TUnionPolicy>
->
+> = IsUnion<TSep> extends true
+  ? UnionToTuple<TSep> extends readonly string[]
+    ? Process<TContent, UnionToTuple<TSep>, TUnionPolicy>
+    : never
+  : Process<TContent,TSep,TUnionPolicy>;
 
 
 /**
  * **Split**`<TContent,TSep,[TPolicy]>`
- * 
+ *
  * Type conversion utility which receives a string `TContent`,
  * and _splits_ it into multiple string elements based on `TSep`.
- * 
+ *
  * - `TSep` can be a _string_, a _union_ of string literals, or a tuple of strings
  * - typically you want to have the `TSep` _omitted_ from the result elements
  * but you can opt to include them by changing `TPolicy` to "include"
@@ -109,8 +107,6 @@ export type Split<
   TContent extends string,
   TSep extends string | readonly string[],
   TPolicy extends UnionPolicy = "omit"
-> = If<
-  IsStringLiteral<TContent>,
-  PreProcess<TContent,TSep,TPolicy>,
-  string
->
+> = IsStringLiteral<TContent> extends true
+  ? As<PreProcess<TContent,TSep,TPolicy>, readonly string[]>
+  : string[];

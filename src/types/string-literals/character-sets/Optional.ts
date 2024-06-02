@@ -1,0 +1,27 @@
+import { AfterFirst, First } from "../..";
+
+type Cascade<
+  T extends readonly string[],
+  TResult extends string = ""
+> = [] extends T
+? TResult
+: Cascade<
+    AfterFirst<T>,
+    `${TResult}${First<T> | ""}`
+  >;
+
+
+/**
+ * **Optional**`<T>`
+ *
+ * String literal utility which makes the text `T` either present
+ * or just an _empty string_ (aka, "optional").
+ *
+ * - if you send in an array of strings they will build a
+ * string literal up left-to-right.
+ */
+export type Optional<
+  T extends string | readonly string[]
+> = T extends readonly string[]
+? Cascade<T>
+: T | "";

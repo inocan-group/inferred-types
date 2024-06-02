@@ -4,7 +4,7 @@ import { describe, it } from "vitest";
 import { IsNever, IfNever, Something, Nothing } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("IsNever<T>", () => {
@@ -16,7 +16,7 @@ describe("IsNever<T>", () => {
     type F4 = IsNever<undefined>;
     type F5 = IsNever<Something>;
     type F6 = IsNever<Nothing>;
-    
+
     type cases = [
       ExpectFalse<F1>,
       ExpectFalse<F2>,
@@ -28,28 +28,28 @@ describe("IsNever<T>", () => {
     const cases: cases = [ false, false, false, false, false, false ];
   });
 
-  
+
   it("positive tests", () => {
     type T1 = IsNever<never>;
-    
+
     type cases = [
       ExpectTrue<T1>,
     ];
     const cases: cases = [ true ];
   });
-  
 
-  
+
+
   it("IfTrue<T,IF,ELSE> branching", () => {
     type B1 = IfNever<never, "yup", "nope">;
     type B2 = IfNever<true, "yup", "nope">;
-    
+
     type cases = [
       Expect<Equal<B1, "yup">>,
       Expect<Equal<B2, "nope">>,
     ];
     const cases: cases = [ true, true ];
-    
+
   });
-  
+
 });

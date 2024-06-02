@@ -1,11 +1,11 @@
-import {  IsStringLiteral, If } from "src/types/index";
+import {  IsStringLiteral } from "src/types/index";
 
 /**
  * **StripAfter**`<TStr, TBreak>`
- * 
- * Receives a string `TStr` and truncates all characters in 
+ *
+ * Receives a string `TStr` and truncates all characters in
  * the first occurrence of `TBreak` and all remaining chars.
- * 
+ *
  * ### Example
  * ```ts
  * // "hello"
@@ -15,14 +15,10 @@ import {  IsStringLiteral, If } from "src/types/index";
 export type StripAfter<
   TStr extends string,
   TBreak extends string
-> = If<
-  IsStringLiteral<TStr>,
-  If<
-    IsStringLiteral<TBreak>,
-    TStr extends `${infer Before}${TBreak}${string}`
+> = IsStringLiteral<TStr> extends true
+  ? IsStringLiteral<TBreak> extends true
+    ? TStr extends `${infer Before}${TBreak}${string}`
       ? Before
-      : TStr,
-    string
-  >,
-  string
->;
+      : TStr
+    : string
+  : string;

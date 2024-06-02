@@ -1,65 +1,56 @@
 /* eslint-disable no-use-before-define */
 import {
-  IfLength,
-  AfterFirst,
-  AsArray,
-  First,
   TupleToUnion,
-  IsEqual
+  Mutable,
+  IsStringLiteral,
+  IsDomainName
 } from "src/types/index";
+import { TOP_LEVEL_DOMAINS }  from "src/constants/index";
 
-type DefaultPrefix = ["www"];
+/**
+ * **TLD**
+ *
+ * A union type of all of the common top-level domains along with many
+ * others which are starting to be used. This is _not_ meant to be
+ * comprehensive.
+ */
+export type TLD = Mutable<
+  TupleToUnion<typeof TOP_LEVEL_DOMAINS>
+>;
 
 /**
  * **DnsName**
- * 
+ *
  * A simple representation of a DNS name.
- * 
+ *
  * **Related:** `DomainName`, `UrlsFrom`
  */
 export type DnsName = `${string}.${string}`;
 
-type _Names<
-  TDomain extends readonly DnsName[],
-  TPrefixes extends readonly string[],
-  TResults extends readonly DomainName[] = []
-> = [] extends TDomain
-  ? TResults
-  : IfLength<
-    TPrefixes, 0,
-    _Names<
-      AfterFirst<TDomain>,
-      TPrefixes,
-      [...TResults, First<TDomain>]
-    >,
-    _Names<
-      AfterFirst<TDomain>,
-      TPrefixes,
-      [
-        ...TResults,
-        ...([First<TDomain>, `${TupleToUnion<TPrefixes>}.${First<TDomain>}`])
-      ]
-    >
-  >;
-
 /**
  * **DomainName**
- * 
- * Designed to represents a DNS name. 
- * 
- * - Without the use of _any_ generics it will simply enforce
- * that the domain name have a `.` with strings surrounding it
- * - You _can_ specify one or more top level domains and in these
- * cases it will:
- *    - each domain name by itself is allowed
- *    - each domain name _prefixed_ by one or more 
- *  
- * **Related:** `UrlsFrom`
+ *
+ * Designed to represents a DNS name.
+ *
+ * - Without the use of a generic this simply applies the same type
+ * as `DnsName`
+ * - When using the generic to _test_ the potential DNS name we can
+ * run more validations and return `never` if they do not pass.
+ * - When using the generic with a wide `T` you will get `unknown`
+ *
+ * **Related:** `DnsName`
  */
 export type DomainName<
-  TDomain extends DnsName | readonly DnsName[] = DnsName,
-  TPrefixes extends readonly string[] = DefaultPrefix
-> = IsEqual<TDomain, DnsName> extends true
-  ? DnsName
-  : TupleToUnion<_Names<AsArray<TDomain>, TPrefixes>>
+  T extends string | null = null
+> = T extends null
+? DnsName
+: T extends string
+? IsStringLiteral<T> extends true
+  ? IsDomainName<T> extends true
+    ? T & DnsName
+    : never
+  : unknown
+: never;
+
+
 

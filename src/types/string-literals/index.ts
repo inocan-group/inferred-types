@@ -37,6 +37,8 @@ export * from "./StrLen";
 export * from "./Surround";
 export * from "./Time";
 export * from "./Truncate";
+export * from "./RetainUntil";
+export * from "./StripUntil";
 
 export * from "./character-sets/index";
 export * from "./casing/index";

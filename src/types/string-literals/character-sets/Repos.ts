@@ -1,4 +1,19 @@
-import { Mutable, TupleToUnion, OptionalSpace, Values, Flatten, UrlsFrom, AlphaNumericChar, GetUrlPath, IsTrue, Keys, AddUrlPathSegment, IsUnion, UnionToTuple, As } from "src/types/index";
+import {
+  Mutable,
+  TupleToUnion,
+  OptionalSpace,
+  Values,
+  Flatten,
+  UrlsFrom,
+  AlphaNumericChar,
+  GetUrlPath,
+  IsTrue,
+  Keys,
+  AddUrlPathSegment,
+  IsUnion,
+  UnionToTuple,
+  As
+} from "src/types/index";
 import { Constant, GITHUB_INSIGHT_CATEGORY_LOOKUP, REPO_PAGE_TYPES, REPO_SOURCES, REPO_SOURCE_LOOKUP } from "src/constants/index";
 
 /**
@@ -7,7 +22,6 @@ import { Constant, GITHUB_INSIGHT_CATEGORY_LOOKUP, REPO_PAGE_TYPES, REPO_SOURCES
  * common sources for source code repositories.
  */
 export type RepoSource = TupleToUnion<Mutable<typeof REPO_SOURCES>>;
-
 
 /**
  * **RepoPageType**

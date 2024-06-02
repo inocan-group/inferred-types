@@ -4,7 +4,7 @@ import { describe, it } from "vitest";
 import { Split, UpperAlphaChar } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("Split<T,SEP>", () => {
@@ -15,12 +15,12 @@ describe("Split<T,SEP>", () => {
     type Characters = Split<"hello","">;
     type Empty = Split<"","">;
     type EmptyToo = Split<"",",">;
-    
+
     type cases = [
       Expect<Equal<FooBarBaz, ["foo", "bar", "baz"]>>,
       Expect<Equal<FooBarBaz2, ["foo, ", "bar, ", "baz"]>>,
       Expect<Equal<
-        Characters, 
+        Characters,
         ["h", "e", "l", "l", "o"]
       >>,
       Expect<Equal<Empty, []>>,
@@ -62,10 +62,10 @@ describe("Split<T,SEP>", () => {
   it("Split with separator as wide type", () => {
     type S = Split<string, ",">;
 
-    type cases = [Expect<Equal<S, string>>];
+    type cases = [Expect<Equal<S, string[]>>];
     const cases: cases = [true];
   });
-  
+
   it("Split with a union type", () => {
     // type LongText = Split<"Hello world, Nice to meet you", UpperAlphaChar>;
     type FooBar = Split<"FooBar", UpperAlphaChar>;
@@ -79,5 +79,5 @@ describe("Split<T,SEP>", () => {
     ];
     const cases: cases = [ true, true, true ];
   });
-  
+
 });

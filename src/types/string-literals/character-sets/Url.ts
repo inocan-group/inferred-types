@@ -1,12 +1,9 @@
 import {
   AlphaNumericChar,
-  As,
   AsString,
   ExpandUnion,
   IsStringLiteral,
-  IsTrue,
   StripAfter,
-  StripBefore,
   StripChars,
   StripLeading,
   StripTrailing,
@@ -17,6 +14,12 @@ import {
   Values,
   Flatten,
   EmptyObject,
+  IsEqual,
+  NumericChar,
+  RetainWhile,
+  AsNumber,
+  StripBefore,
+  StripWhile
 } from "src/types/index";
 import { NETWORK_PROTOCOL_LOOKUP } from "src/constants/index";
 
@@ -50,6 +53,31 @@ export type PortSpecifierOptions = {
   ports?: number
 }
 
+/**
+ * **GetUrlProtocol**`<T>`
+ *
+ * Gets the network protocol used in the URL string passed into `T`.
+ */
+export type GetUrlProtocol<T> = T extends string
+? T extends `${NetworkProtocolPrefix}${string}`
+? StripAfter<T,"://">
+: IsEqual<T,string> extends true
+  ? string
+  : never
+: never;
+
+/**
+ * **GetUrlProtocolPrefix**`<T>`
+ *
+ * Just like `GetUrlProtocol` but adds in the `://` so long
+ * as there's a protocol found.
+ */
+export type GetUrlProtocolPrefix<T> = T extends string
+? GetUrlProtocol<T> extends NetworkProtocol
+  ? NetworkProtocolPrefix<GetUrlProtocol<T>>
+  : ""
+: "";
+
 
 type _Ports<
   TOpt extends PortSpecifierOptions,
@@ -58,7 +86,7 @@ type _Ports<
 : `${number}`;
 
 /**
- * **PortSpecifier**`<TOpt>`
+ * **UrlPort**`<TOpt>`
  *
  * Produces a string literal for the _port_ designation of
  * many protocols. Basically just a `:${number}` and
@@ -69,7 +97,7 @@ type _Ports<
  *   - `required`
  *   - or `not-allowed`
  */
-export type PortSpecifier<
+export type UrlPort<
   TOpt extends PortSpecifierOptions = { portRequirement: "not-allowed", ports: number }
 > = [TOpt["portRequirement"]] extends ["required"]
   ? `:${_Ports<TOpt>}`
@@ -77,67 +105,75 @@ export type PortSpecifier<
   ? "" | `:${_Ports<TOpt>}`
   : ``;
 
+/**
+ * **GetUrlPort**`<T>`
+ *
+ * Returns the port designated in the URL passed in if found.
+ *
+ * - if `T` is a literal string and port not found then value is "default"
+ * - if `T` is a wide string then the value will be `number | "default"`
+ * - all non-string based values result in `never`
+ */
+export type GetUrlPort<T> = T extends string
+? IsStringLiteral<T> extends true
+  ? RemoveNetworkProtocol<T> extends `${string}:${infer Port extends number}${infer Rest}`
+    ? AsNumber<RetainWhile<`${Port}${Rest}`, NumericChar>>
+    : "default"
+  : number | "default"
+: never;
+
+type _FindPort<
+  T extends string
+> = RetainWhile<StripBefore<RemoveNetworkProtocol<T>, ":">,NumericChar>;
+
+/**
+ * **RemoveUrlPort**`<T,[TOpt]>`
+ *
+ * Removes a _port specification_ in a URL if found otherwise returns string literal
+ * as it was.
+ */
+export type RemoveUrlPort<
+  T
+> = T extends string
+? IsStringLiteral<T> extends true
+  ? RemoveNetworkProtocol<T> extends `${infer Before}:${infer _Port extends `${number}`}${infer After}`
+    ? `${GetUrlProtocolPrefix<T>}${Before}${StripWhile<After, NumericChar>}`
+    : T
+  : string
+: never;
+
+;
+
 export type ProtocolOptions = {
   /**
    * whether the protocol prefix should be optional
    * @default false
    */
-  optional?: boolean;
+  protocolOptional?: boolean;
   /**
-   * whether to allow for `http://` along with `https://`
-   * @default false
+   * The Network Protocols to use.
    */
-  allowInsecure?: boolean;
-
-  protocol?: "http" | "ws" | "both"
+  protocols?: NetworkProtocol[]
 }
 
-/**
- * **HttpProtocol**`<[TOpt]>`
- *
- * A utility which provides different ways of
- * requiring an **HTTP** based protocol string.
- *
- * - by default this only allows `https://`
- * - you can choose to make the protocol _optional_
- * or enable insure `http://` too.
- */
-export type WebsocketProtocol<
-  TOpt extends ProtocolOptions = EmptyObject
-> =
-  IsTrue<TOpt["allowInsecure"]> extends true
-  ? IsTrue<TOpt["optional"]> extends true
-  ? `wss://` | `ws://` | ""
-  : `wss://` | `ws://`
-  : IsTrue<TOpt["optional"]> extends true
-  ? `wss://` | ""
-  : `wss://`;
-
-/**
- * **HttpProtocol**`<[TOpt]>`
- *
- * A utility which provides different ways of
- * requiring an **HTTP** based protocol string.
- *
- * - by default this only allows `https://`
- * - you can choose to make the protocol _optional_
- * or enable insure `http://` too.
- */
-export type HttpProtocol<
-  TOpt extends ProtocolOptions = EmptyObject
-> =
-  IsTrue<TOpt["allowInsecure"]> extends true
-  ? IsTrue<TOpt["optional"]> extends true
-  ? `https://` | `http://` | ""
-  : `https://` | `http://`
-  : IsTrue<TOpt["optional"]> extends true
-  ? `https://` | ""
-  : `https://`;
+export type UrlOptions = {
+  /**
+   * Specify how you'd like to allow for queryParameters in the URL's
+   * you're generating.
+   *
+   * - you may choose "any", "none"
+   *
+   * @default "any"
+   */
+  queryParameters?: "any" | "none" ;
+}
 
 /**
  * **RemoveHttpProtocol**`<T>`
  *
  * Removes both `http://` and `https://` prefixes to a string.
+ *
+ * **Related:** `RemoveNetworkProtocol`
  */
 export type RemoveHttpProtocol<T extends string> = T extends `http://${infer Insecure}`
   ? Insecure
@@ -161,6 +197,8 @@ export type RemoveNetworkProtocol<
 ? Rest
 : TContent;
 
+type UrlPathChars = AlphaNumericChar | "_" | "@" | "." | "-";
+
 /**
  * **UrlPath**`<T>`
  *
@@ -175,12 +213,12 @@ export type RemoveNetworkProtocol<
  * `never` when an invalid character is used.
  */
 export type UrlPath<T extends string | null = null> = T extends null
-  ? "" | `/${AlphaNumericChar | "_"}${string}`
+  ? "" | `/${UrlPathChars}${string}`
   : T extends string
   ? IsStringLiteral<T> extends true
     ? T extends `${string}/`
       ? never
-    : StripChars<T, AlphaNumericChar | "/" | "_" | "." | "-" > extends ""
+    : StripChars<T, UrlPathChars | "/" > extends ""
       ? T
       : never
   : never
@@ -197,21 +235,39 @@ export type UrlPath<T extends string | null = null> = T extends null
 export type GetUrlSource<
   T extends string
 > = IsStringLiteral<T> extends true
-  ? RemoveNetworkProtocol<T> extends `${infer Domain extends DnsName | Ip4Address}${"" | `/${string}`}`
-  ? StripAfter<Domain, "/">
-  : ""
+  ? StripAfter<StripAfter<RemoveNetworkProtocol<T>, "/">, ":"> extends
+      `${infer Domain extends DnsName | Ip4Address}`
+  ? Domain
+  : never
   : string;
 
+/**
+ * **RemoveUrlSource**`<T>`
+ *
+ * Removes the URL source (aka, domain name or IP address) from a URL string when
+ * it can be identified.
+ */
+export type RemoveUrlSource<T extends string> = IsStringLiteral<T> extends true
+? GetUrlSource<T> extends string
+  ? IsStringLiteral<GetUrlSource<T>> extends true
+    ? T extends `${infer Before}${GetUrlSource<T>}${infer After}`
+      ? `${Before}${After}`
+      : T
+    : T
+  : T
+: string;
+
+
 type _GetUrlPath<T extends string> =
-StripAfter<
-  As<StripBefore<RemoveNetworkProtocol<T>, "/">, string>,
-  "?"
-> extends string
-  ? StripAfter<
-  As<StripBefore<RemoveNetworkProtocol<T>, "/">, string>,
-  "?"
-  >
-  : never;
+   [T] extends [`${string}//${string}`]
+      ? never
+      : T extends ""
+        ? ""
+        : StripAfter<T,"?"> extends "/"
+        ? ""
+        : T extends `/${string}`
+          ? StripAfter<T,"?">
+          : never;
 
 /**
  * **GetUrlPath**`<T>`
@@ -224,13 +280,38 @@ StripAfter<
  */
 export type GetUrlPath<
   T extends string
-> = IsStringLiteral<T> extends true
-? RemoveNetworkProtocol<T> extends `${string}/${string}`
-  ? _GetUrlPath<RemoveNetworkProtocol<T>> extends ""
-    ? ""
-    : `/${_GetUrlPath<RemoveNetworkProtocol<T>>}`
-  : ""
-: string
+> = [IsStringLiteral<T>] extends [true]
+? _GetUrlPath<
+    RemoveUrlSource<RemoveNetworkProtocol<RemoveUrlPort<T>>>
+  >
+: string;
+
+
+/**
+ * **GetUrlQueryParams**`<T>`
+ *
+ * Given a URL passed into `T`, this utility will extract the
+ * query parameters portion of the URL or `""` if none exists.
+ */
+export type GetUrlQueryParams<
+  T extends string
+> = T extends `${string}?${infer QP}`
+? `?${QP}`
+: "";
+
+/**
+ * **AnyQueryParams**
+ *
+ * A type which represents any string value for query parameters
+ * or no query parameters at all.
+ *
+ * Can be quite useful for creating pattern matching types where
+ * you don't want to be blocked by someone having put some silly
+ * marketing QP at the end of a URL.
+ */
+export type AnyQueryParams = `?${string}` | "";
+
+
 
 type RelativeStart = `../` | `./`;
 
@@ -280,24 +361,28 @@ type _Path<T extends string> = GetUrlPath<T> extends UrlPath
   ? GetUrlPath<T>
   : never;
 
+type _Proto<TOpt extends ProtocolOptions & PortSpecifierOptions & UrlOptions> =
+NetworkProtocolPrefix<[] extends TOpt["protocols"]
+  ? "https"
+  : TupleToUnion<TOpt["protocols"]>>;
 
-type _UrlsFromProtocol<
-  TContent extends string,
-  TProto extends WebsocketProtocol<TOpt> | HttpProtocol<TOpt>,
-  TOpt extends ProtocolOptions & PortSpecifierOptions
-> = `${TProto}${GetUrlSource<TContent>}${PortSpecifier<TOpt>}${AddUrlPathSegment<_Path<TContent>, `${string}`>}` | `${TProto}${GetUrlSource<TContent>}${PortSpecifier<TOpt>}${_Path<TContent>}`
-
-
+type _QP<
+  TOpt extends ProtocolOptions & PortSpecifierOptions & UrlOptions
+> = TOpt["queryParameters"] extends "none"
+? ""
+: `${AnyQueryParams}`;
 
 type _UrlsFrom<
-  T extends string,
-  TOpt extends ProtocolOptions & PortSpecifierOptions = EmptyObject,
-> = TOpt["protocol"] extends "ws"
-? _UrlsFromProtocol<T,WebsocketProtocol<TOpt>,TOpt>
-: TOpt["protocol"] extends "both"
-  ? _UrlsFromProtocol<T,WebsocketProtocol<TOpt>,TOpt> |
-    _UrlsFromProtocol<T,HttpProtocol<TOpt>,TOpt>
-  : _UrlsFromProtocol<T,HttpProtocol<TOpt>,TOpt>;
+  TContent extends string,
+  TOpt extends ProtocolOptions & PortSpecifierOptions & UrlOptions,
+> = [TOpt["protocolOptional"]] extends [true]
+? `${_Proto<TOpt>}${GetUrlSource<TContent>}${UrlPort<TOpt>}${AddUrlPathSegment<_Path<TContent>, `${string}`>}`
+| `${_Proto<TOpt>}${GetUrlSource<TContent>}${UrlPort<TOpt>}${_Path<TContent>}${_QP<TOpt>}`
+| `${GetUrlSource<TContent>}${UrlPort<TOpt>}${_Path<TContent>}${_QP<TOpt>}`
+| `${GetUrlSource<TContent>}${UrlPort<TOpt>}${AddUrlPathSegment<_Path<TContent>, `${string}`>}`
+
+: `${_Proto<TOpt>}${GetUrlSource<TContent>}${UrlPort<TOpt>}${AddUrlPathSegment<_Path<TContent>, `${string}`>}` |
+`${_Proto<TOpt>}${GetUrlSource<TContent>}${UrlPort<TOpt>}${_Path<TContent>}${_QP<TOpt>}`;
 
 
 /**
@@ -313,7 +398,7 @@ type _UrlsFrom<
  */
 export type UrlsFrom<
   T extends string | readonly string[],
-  TOpt extends ProtocolOptions & PortSpecifierOptions = EmptyObject,
+  TOpt extends ProtocolOptions & PortSpecifierOptions & UrlOptions = EmptyObject,
 > = T extends string
 ? ExpandUnion<_UrlsFrom<T,TOpt>>
 : T extends readonly string[]

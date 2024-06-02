@@ -16,6 +16,7 @@ export * from "./functions/index";
 export * from "./initializers/index";
 export * from "./lists/index";
 export * from "./literals/index";
+export * from "./meta/index";
 export * from "./runtime-types/index";
 export * from "./sets/index";
 export * from "./type-conversion/index";
