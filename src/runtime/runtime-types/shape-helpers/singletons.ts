@@ -1,18 +1,17 @@
- 
-import {  
-  CivilianTime, 
-  Dictionary, 
-  Ip4Address, 
-  Ip6Address, 
-  MilitaryTime, 
-  StringTokenUtilities, 
-  TimeResolution, 
-  TokenBaseType, 
-  TupleToUnion, 
-  TypeTokenSingletons, 
-  Zip, 
-  ZipPlus4, 
-  ZipCode, 
+ import {
+  CivilianTime,
+  Dictionary,
+  Ip4Address,
+  Ip6Address,
+  MilitaryTime,
+  StringTokenUtilities,
+  TimeResolution,
+  TokenBaseType,
+  TupleToUnion,
+  TypeTokenSingletons,
+  Zip,
+  ZipPlus4,
+  ZipCode,
 } from "src/types/index";
 
 import { addToken } from "./addToken"
@@ -41,7 +40,7 @@ const addSingleton = <
     : addToken(
         "union",
         literals
-          .map(l => addToken(token, `${l}`))
+          .map((l: TokenBaseType<any>) => addToken(token, `${l}`))
           .join(",")
       )
   ) as unknown as L["length"] extends 0
@@ -60,22 +59,22 @@ const stringApi: StringTokenUtilities<string> = ({
   zipCode: () => addToken("string-set", "ZipCode") as ZipCode,
   militaryTime: <T extends TimeResolution="HH:MM">(resolution?: T) => {
     return addToken(
-      "string-set", 
-      "militaryTime", 
+      "string-set",
+      "militaryTime",
       resolution || "HH:MM"
     ) as unknown as MilitaryTime<T>
   },
   civilianTime: <T extends TimeResolution="HH:MM">(resolution?: T) => {
     return addToken(
-      "string-set", 
-      "militaryTime", 
+      "string-set",
+      "militaryTime",
       resolution || "HH:MM"
     ) as unknown as CivilianTime<T>
   },
   numericString: () => addToken("string-set", "numeric") as unknown as `${number}`,
   ipv4Address: () => addToken("string-set", "ipv4Address") as unknown as Ip4Address,
   ipv6Address: () => addToken("string-set", "ipv6Address") as unknown as Ip6Address,
-  
+
   done: () => addToken("string")
 })
 
