@@ -85,7 +85,7 @@ export * from "./IsLiteralUnion";
 export * from "./IsNonLiteralUnion";
 export * from "./HasRequiredProps";
 export * from "./IsValidDotPath";
-export * from "./IsHexadecimal";
+export * from "./IsCssHexadecimal";
 export * from "./IsFloat";
 export * from "./IsInteger";
 export * from "./IsUrl";
