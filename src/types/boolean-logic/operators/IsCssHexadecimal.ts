@@ -1,4 +1,4 @@
-import { HasOtherCharacters, Hexadecimal, HexadecimalChar, IsHexadecimal, IsStringLiteral } from "src/types/index"
+import { IsHexadecimal, IsStringLiteral } from "src/types/index"
 
 /**
  * **IsHexadecimal**`<T>`
