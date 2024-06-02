@@ -16,7 +16,6 @@ import {
   isIp6Address,
   isIpAddress,
   stripAfter,
-  valuesOf,
   stripBefore,
   ensureLeading,
   stripTrailing,
@@ -59,7 +58,7 @@ export type UrlMeta<T> = {
   isIpV6Address: IsIp6Address<T>;
 }
 
-const Protocols = valuesOf(NETWORK_PROTOCOL_LOOKUP).flat().filter(i => i !== "") as NetworkProtocol[];
+const PROTOCOLS = Object.values(NETWORK_PROTOCOL_LOOKUP).flat().filter(i => i !== "") as NetworkProtocol[];
 
 
 export const getUrlProtocol = <
@@ -67,7 +66,7 @@ export const getUrlProtocol = <
 >(
   url: T
 ) => {
-  const proto = Protocols.find(p => url.startsWith(`${p}://`));
+  const proto = PROTOCOLS.find(p => url.startsWith(`${p}://`));
 
   return proto as GetUrlProtocol<T>;
 }
