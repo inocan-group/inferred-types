@@ -5,6 +5,7 @@
     "Aint",
     "appr",
     "arktype",
+    "arpa",
     "AWAS",
     "barbar",
     "barfoo",
@@ -33,7 +34,8 @@
     "ruleset",
     "singleline",
     "tokei",
-    "Uncapitalize"
+    "Uncapitalize",
+    "youtu"
   ],
   "references.preferredLocation": "peek"
 }

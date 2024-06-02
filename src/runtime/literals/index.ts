@@ -37,6 +37,7 @@ export * from "./toPascalCase";
 export * from "./toUppercase";
 export * from "./toNumericArray";
 export * from "./truncate";
+export * from "./takeNumericCharacters";
 
 // #endregion auto-indexed files
 

@@ -1,9 +1,6 @@
-import { NetworkProtocol, Uri } from "src/types/string-literals";
-import { isString } from "./isString"
-import { NETWORK_PROTOCOL_LOOKUP } from "src/constants/Network";
-import { valuesOf } from "../dictionary/valuesOf";
-import { TupleToUnion } from "src/types/type-conversion";
-import { Keys } from "src/types/index";
+import { isString, valuesOf } from "src/runtime/index";
+import { NETWORK_PROTOCOL_LOOKUP } from "src/constants/index";
+import { Keys,TupleToUnion,  NetworkProtocol, Uri  } from "src/types/index";
 
 /**
  * **isUri**`(val, ...protocols)`

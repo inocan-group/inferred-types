@@ -1,27 +1,27 @@
- 
-import {  
+
+import {
   LogicFunction,
-  IsFalse, 
-  IsTrue, 
-  IsErrorCondition, 
-  AfterFirst, 
-  First, 
-  IsEqual, 
-  IsNever 
+  IsFalse,
+  IsTrue,
+  AfterFirst,
+  First,
+  IsEqual,
+  IsNever,
+  As
 } from "src/types/index";
 
 
 
 type Negate <
-  TVal, 
+  TVal,
 > = IsNever<TVal> extends true
 ? never
 : [TVal] extends [boolean]
-  ? IsTrue<TVal> extends true 
-    ? false 
-    : IsFalse<TVal> extends true ?  true : boolean 
+  ? IsTrue<TVal> extends true
+    ? false
+    : IsFalse<TVal> extends true ?  true : boolean
   : [TVal] extends [LogicFunction]
-    ? ReturnType<LogicFunction>
+    ? Negate<ReturnType<LogicFunction>>
     : never;
 
 type NegateTuple<
@@ -31,28 +31,22 @@ type NegateTuple<
 ? IsEqual<TResults, [], false, TResults>
 : NegateTuple<
     AfterFirst<TTuple>,
-    [...TResults, Negate<First<TTuple>> ]
+    [
+      ...TResults,
+        First<TTuple> extends LogicFunction
+       ? Negate<ReturnType<First<TTuple>>>
+       : Negate<First<TTuple>>
+    ]
   >;
 
-type Process<
-TVal, 
-TError = never
-> = IsErrorCondition<TVal> extends true 
-? TError
-: [IsNever<TVal>] extends [true]
-  ? never
-  : [TVal] extends [boolean]
-    ? Negate<TVal>
-    :TVal extends readonly (boolean | LogicFunction)[] 
-      ? NegateTuple<TVal>
-      : never;
+
 
 /**
  * **Not**`<T,[TError]>`
- * 
+ *
  * A boolean negation that can work on both a single value or an
- * array of values.
- * 
+ * tuple of values.
+ *
  * ```ts
  * // false
  * type Single = Not<true>;
@@ -61,9 +55,14 @@ TError = never
  * ```
  */
 export type Not<
-  TVal, 
-  TError = never
-> = Process<TVal,TError> extends boolean | readonly unknown[]
-? Process<TVal, TError>
-: never;
+  TVal,
+  TNotBoolean extends boolean = false
+> = [TVal] extends [boolean]
+? Exclude<As<Negate<TVal>, boolean>, any[]>
+: [TVal] extends [LogicFunction]
+? As<Negate<ReturnType<TVal>>, boolean>
+: [TVal] extends [readonly (LogicFunction | boolean)[]]
+? As<NegateTuple<TVal>, readonly boolean[]>
+: TNotBoolean;
+
 

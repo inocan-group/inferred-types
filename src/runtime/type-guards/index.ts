@@ -35,5 +35,10 @@ export * from "./isDoneFn";
 export * from "./isUrl";
 export * from "./isCssAspectRatio";
 export * from "./isInlineSvg";
+export * from "./youtube";
+export * from "./repos";
+export * from "./network-tg";
+export * from "./isHexadecimal";
+
 
 export * from "./higher-order/index";

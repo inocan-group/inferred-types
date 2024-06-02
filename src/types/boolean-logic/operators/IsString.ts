@@ -1,4 +1,4 @@
-import { IsUnion } from "./IsUnion";
+import {  WidenUnion, IsUnion } from "src/types/index";
 
 /**
  * **IsString**
@@ -6,8 +6,11 @@ import { IsUnion } from "./IsUnion";
  * Type utility which returns true/false based on whether `T` is a
  * string (wide or narrow).
  */
-export type IsString<T> = IsUnion<T> extends true
-? [string] extends [T]
-  ? boolean
-  : false
+export type IsString<T> = [IsUnion<T>] extends [true]
+? WidenUnion<T> extends string
+  ? true
+  : string extends WidenUnion<T>
+    ? boolean
+    : false
 : [T] extends [string] ? true : false;
+
