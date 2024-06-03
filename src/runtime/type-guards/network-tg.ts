@@ -6,7 +6,7 @@ import { isString } from "./isString"
 import { AsString } from "src/types/type-conversion/AsString"
 import { ip6GroupExpansion } from "../type-conversion"
 import { isHexadecimal } from "./isHexadecimal"
-import { removeUrlProtocol } from "../meta"
+import { getUrlQueryParams, removeUrlProtocol } from "../meta"
 
 
 
@@ -103,3 +103,12 @@ export const isUrlSource = <T>(val: T) => {
 }
 
 
+/**
+ * **hasUrlQueryParameter**`(val,prop)`
+ *
+ * Tests whether the valued in has a query parameter specified by `prop`.
+ */
+export const hasUrlQueryParameter = <T,P extends string>(val: T, prop: P) => {
+  const re = new RegExp(`${prop}=`)
+  return isString(val) && re.test(getUrlQueryParams(val))
+}
