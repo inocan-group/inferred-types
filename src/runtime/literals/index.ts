@@ -40,6 +40,8 @@ export * from "./truncate";
 export * from "./takeNumericCharacters";
 export * from "./retainChars";
 export * from "./stripChars";
+export * from "./retainWhile";
+export * from "./asPhoneNumber";
 
 
 // #endregion auto-indexed files

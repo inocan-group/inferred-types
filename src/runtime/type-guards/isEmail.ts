@@ -1,5 +1,5 @@
-import { Email } from "src/types/type-conversion"
-import { isString } from "src/runtime/index";
+import { Email } from "src/types/index"
+import { asChars, isString, last } from "src/runtime/index";
 
 /**
  * **isEmail**`(val)`
@@ -9,6 +9,7 @@ import { isString } from "src/runtime/index";
 export const isEmail = <T>(val: T): val is T & Email => {
   return isString(val) && (
     val.split("@").length === 2 &&
-    val.split("@")[1].split(".").length > 1
+    val.split("@")[1].split(".").length > 1 &&
+    asChars(last(val.split("@")[1].split("."))).length > 1
   )
 }

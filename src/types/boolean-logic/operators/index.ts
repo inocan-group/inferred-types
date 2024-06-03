@@ -90,3 +90,4 @@ export * from "./IsFloat";
 export * from "./IsInteger";
 export * from "./IsUrl";
 export * from "./Network-operators";
+export * from "./IsPhoneNumber";

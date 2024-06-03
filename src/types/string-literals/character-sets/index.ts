@@ -27,6 +27,7 @@ export * from "./Repos";
 export * from "./Variable";
 export * from "./Optional";
 export * from "./YouTube";
+export * from "./phone";
 
 export * from "./brackets/index";
 export * from "./quotation-marks/index";

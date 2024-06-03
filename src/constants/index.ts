@@ -28,3 +28,4 @@ export * from "./Geo";
 export * from "./RepoConstants";
 export * from "./NetworkConstants";
 export * from "./Characters";
+export * from "./Phone";

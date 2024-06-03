@@ -1,11 +1,11 @@
 import {   And, AsNumber, AsString, IsNumber, IsStringLiteral } from "src/types/index";
 
 type Process<
-  TContent extends string, 
+  TContent extends string,
   TStrip extends string
 > = And<[ IsStringLiteral<TContent>, IsStringLiteral<TStrip>]> extends true
-  ? TContent extends `${TStrip & string}${infer After}` 
-    ? After 
+  ? TContent extends `${TStrip & string}${infer After}`
+    ? After
     : TContent
   : string;
 
@@ -20,22 +20,24 @@ type Process<
  * // "World"
  * type R = StripLeading<T,U>;
  * ```
- * 
- * Note: 
+ *
+ * Note:
  *   - if `T` is a non-string type then no transformation will be done
  *   - same applies to `U`
  */
 export type StripLeading<
-  TContent extends string|number, 
+  TContent extends string|number,
   TStrip extends string|number
-> = IsNumber<TContent> extends true
+> = TContent extends number
 ? AsNumber<
     Process<
-      AsString<TContent>, 
+      AsString<TContent>,
       AsString<TStrip>
     >
   >
-: Process<
-    AsString<TContent>, 
+: TContent extends string
+  ? Process<
+    AsString<TContent>,
     AsString<TStrip>
   >
+  : never
