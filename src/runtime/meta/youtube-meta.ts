@@ -104,7 +104,7 @@ export const youtube = <T extends string>(url: T): YouTubeMeta<T> => {
         url,
         isYouTubeUrl: true,
         isShareUrl: isYouTubeShareUrl(url),
-        pageType: getYouTubePageType(url) as GetYouTubePageType<T>,
+        pageType: getYouTubePageType(url) as unknown as GetYouTubePageType<T>,
       }
     : {
         url,
