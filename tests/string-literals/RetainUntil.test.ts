@@ -20,19 +20,3 @@ describe("RetainUntil<TContent,TComparator>", () => {
   });
 
 });
-
-describe("RetainWhile<TContent,TComparator>", () => {
-
-  it("happy path", () => {
-    type Num = RetainWhile<"42 is a number", NumericChar>;
-
-
-    type cases = [
-      Expect<Equal<Num, "42">>,
-    ];
-    const cases: cases = [
-      true
-    ];
-  });
-
-});

@@ -42,6 +42,7 @@ export * from "./isHexadecimal";
 export * from "./isTrimmable";
 export * from "./hasWhitespace";
 export * from "./isEmail"
+export * from "./isPhoneNumber"
 
 
 export * from "./higher-order/index";

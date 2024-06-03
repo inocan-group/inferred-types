@@ -72,7 +72,7 @@ export const US_STATE_LOOKUP_PROVINCES = [
 
 /**
  * All 50 states and 9 provinces which have State abbreviations.
- * 
+ *
  * Data format is: `[name, abbrev, flag]` where the boolean flag
  * indicates whether the line item is one of the 50 true states.
  */
