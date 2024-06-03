@@ -39,6 +39,9 @@ export * from "./youtube";
 export * from "./repos";
 export * from "./network-tg";
 export * from "./isHexadecimal";
+export * from "./isTrimmable";
+export * from "./hasWhitespace";
+export * from "./isEmail"
 
 
 export * from "./higher-order/index";

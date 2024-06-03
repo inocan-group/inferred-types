@@ -26,4 +26,5 @@ export * from "./Marked";
 export * from "./HashTable";
 export * from "./Geo";
 export * from "./RepoConstants";
-export * from "./NetworkConstants"
+export * from "./NetworkConstants";
+export * from "./Characters";

@@ -38,6 +38,9 @@ export * from "./toUppercase";
 export * from "./toNumericArray";
 export * from "./truncate";
 export * from "./takeNumericCharacters";
+export * from "./retainChars";
+export * from "./stripChars";
+
 
 // #endregion auto-indexed files
 
