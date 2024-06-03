@@ -1,6 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { describe, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { GetYouTubePageType} from "src/types/index";
+import { getYouTubePageType, isYouTubeFeedUrl } from "../../src/inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -52,6 +53,40 @@ describe("YouTube utilities", () => {
       true, true,true,true,
       true, true,true,true,
       true
+    ];
+  });
+
+
+  it("isYouTubeFeedUrl(val)", () => {
+    const history = isYouTubeFeedUrl("https://www.youtube.com/feed/history");
+    const history2 = isYouTubeFeedUrl("https://www.youtube.com/feed/history", "history");
+    const history3 = isYouTubeFeedUrl("https://www.youtube.com/feed/history", "playlists");
+
+    expect(history).toBe(true);
+    expect(history2).toBe(true);
+    expect(history3).toBe(false);
+
+  });
+
+
+
+  it("getYouTubePageType(url)", () => {
+    const playlists = getYouTubePageType("https://www.youtube.com/feed/playlists");
+    const showVideosInPlaylist = getYouTubePageType(`https://www.youtube.com/playlist?list=PLYuw9x8TuK9u3s8qnucWs7M2q9vf7OZ-X`);
+    const featured = getYouTubePageType("https://www.youtube.com/@yankee-in-london/featured");
+
+
+    expect(playlists).toBe("feed::playlists");
+    expect(showVideosInPlaylist).toBe("playlist::show");
+    expect(featured).toBe("creator::featured")
+
+    type cases = [
+      Expect<Equal<typeof playlists, "feed::playlists">>,
+      Expect<Equal<typeof showVideosInPlaylist, "playlist::show">>,
+      Expect<Equal<typeof featured, "creator::featured">>,
+    ];
+    const cases: cases = [
+      true, true, true,
     ];
   });
 

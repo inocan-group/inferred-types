@@ -6,9 +6,17 @@ import {
   YouTubeUrl
 } from "src/types/index";
 import {
+  getUrlPath,
+  hasUrlQueryParameter,
+  isYouTubeCreatorUrl,
+  isYouTubeFeedUrl,
   isYouTubeShareUrl,
-  isYouTubeUrl
+  isYouTubeUrl,
+  isYouTubeVideoUrl,
+  isYouTubeVideosInPlaylist,
+  last
 } from "src/runtime/index";
+import { Never } from "src/constants/Never";
 
 
 /**
@@ -39,6 +47,49 @@ export type YouTubeMeta<T extends string> = {
   >
 };
 
+export const getYouTubePageType = <T extends string>(url: T) => {
+  return (
+    isYouTubeUrl(url)
+    ? isYouTubeVideoUrl(url) && (hasUrlQueryParameter(url, "v") || isYouTubeShareUrl(url))
+      ? hasUrlQueryParameter(url, "list")
+        ? isYouTubeShareUrl(url)
+          ? hasUrlQueryParameter(url, "t")
+            ? `play::video::in-list::share-link::with-timestamp`
+            : `play::video::in-list::share-link`
+          : `play::video::in-list`
+        : isYouTubeShareUrl(url)
+          ? hasUrlQueryParameter(url, "t")
+            ? `play::video::solo::share-link::with-timestamp`
+            : `play::video::solo::share-link`
+          :  `play::video::solo`
+      : isYouTubeCreatorUrl(url)
+        ? getUrlPath(url).includes("/videos")
+          ? "creator::videos"
+        : getUrlPath(url).includes("/playlists")
+          ? "creator::playlists"
+        : last(getUrlPath(url).split("/")).startsWith("@") ||
+          getUrlPath(url).includes("/featured")
+          ? "creator::featured"
+        : "creator::other"
+      : isYouTubeFeedUrl(url)
+        ? isYouTubeFeedUrl(url, "history")
+          ? "feed::history"
+        : isYouTubeFeedUrl(url, "playlists")
+          ? "feed::playlists"
+        : isYouTubeFeedUrl(url, "liked")
+          ? "feed::liked"
+        : isYouTubeFeedUrl(url, "subscriptions")
+          ? "feed::subscriptions"
+        : isYouTubeFeedUrl(url, "trending")
+          ? "feed::trending"
+          : "feed::other"
+      : isYouTubeVideosInPlaylist(url)
+        ? "playlist::show"
+        : "other"
+    : Never
+  ) as unknown as GetYouTubePageType<T>;
+}
+
 
 /**
  * **youtube**`(url)`
@@ -53,7 +104,7 @@ export const youtube = <T extends string>(url: T): YouTubeMeta<T> => {
         url,
         isYouTubeUrl: true,
         isShareUrl: isYouTubeShareUrl(url),
-
+        pageType: getYouTubePageType(url) as GetYouTubePageType<T>,
       }
     : {
         url,

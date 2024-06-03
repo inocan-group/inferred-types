@@ -1,6 +1,15 @@
-import { YouTubeFeedType, YouTubeFeedUrl, YouTubePlaylistUrl, YouTubeShareUrl, YouTubeUrl } from "src/types/index";
+import {
+  YouTubeCreatorUrl,
+  YouTubeFeedType,
+  YouTubeFeedUrl,
+  YouTubePlaylistUrl,
+  YouTubeShareUrl,
+  YouTubeUrl,
+  YouTubeVideosInPlaylist
+} from "src/types/index";
 import { isString } from "./isString";
 import { isUndefined } from "./isUndefined";
+import { hasUrlQueryParameter } from "./network-tg";
 
 /**
  * **isYouTubeUrl**`(val)`
@@ -86,10 +95,27 @@ export const isYouTubeFeedUrl = <
   U extends YouTubeFeedType = YouTubeFeedType
 >(
   val:T,
-  kind?: U
+  type: U = undefined as unknown as YouTubeFeedType as U
 ): val is T & YouTubeFeedUrl<U> => {
   return isString(val) && (
-    val.startsWith(`https://www.youtube.com/${feed_map(kind)}`) ||
-    val.startsWith(`https://youtube.com/feed${feed_map(kind)}`)
+    val.startsWith(`https://www.youtube.com${feed_map(type)}`) ||
+    val.startsWith(`https://youtube.com${feed_map(type)}`)
   )
+}
+
+export const isYouTubeCreatorUrl = <T extends string>(
+  url: T
+): url is T & YouTubeCreatorUrl => {
+  return isString(url) && (
+    url.startsWith(`https://www.youtube.com/@`) ||
+    url.startsWith(`https://youtube.com/@`) ||
+    url.startsWith(`https://www.youtube.com/channel/`)
+  );
+}
+
+export const isYouTubeVideosInPlaylist = <T>(val: T): val is T & YouTubeVideosInPlaylist => {
+  return isString(val) && (
+    val.startsWith(`https://www.youtube.com/playlist?`) ||
+    val.startsWith(`https://youtube.com/playlist?`)
+  ) && hasUrlQueryParameter(val, "list")
 }

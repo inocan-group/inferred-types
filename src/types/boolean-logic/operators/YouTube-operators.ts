@@ -65,3 +65,4 @@ export type IsYouTubePlaylist<T> = [T] extends [string]
     : false
   : boolean
 : false;
+
