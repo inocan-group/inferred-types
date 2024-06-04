@@ -1,4 +1,4 @@
-import { RetainUntil, RetainWhile } from "src/types/string-literals";
+import {  RetainWhile } from "src/types/string-literals";
 import { asChars } from "../type-conversion"
 import { TupleToUnion } from "src/types/type-conversion";
 

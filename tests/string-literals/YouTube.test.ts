@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import { GetYouTubePageType} from "src/types/index";
-import { getYouTubePageType, isYouTubeFeedUrl } from "../../src/inferred-types";
+import { getYouTubePageType, isYouTubeFeedUrl, youtubeMeta } from "../../src/inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -68,13 +68,10 @@ describe("YouTube utilities", () => {
 
   });
 
-
-
   it("getYouTubePageType(url)", () => {
     const playlists = getYouTubePageType("https://www.youtube.com/feed/playlists");
     const showVideosInPlaylist = getYouTubePageType(`https://www.youtube.com/playlist?list=PLYuw9x8TuK9u3s8qnucWs7M2q9vf7OZ-X`);
     const featured = getYouTubePageType("https://www.youtube.com/@yankee-in-london/featured");
-
 
     expect(playlists).toBe("feed::playlists");
     expect(showVideosInPlaylist).toBe("playlist::show");
@@ -90,6 +87,14 @@ describe("YouTube utilities", () => {
     ];
   });
 
+
+  it("youTubeMeta()", () => {
+    const m1 = youtubeMeta("https://www.youtube.com/feed/playlists");
+    expect(m1.isYouTubeUrl).toBe(true);
+    expect(m1.pageType).toBe("feed::playlists");
+    expect(m1.isShareUrl).toBe(false);
+
+  });
 
 
 });

@@ -1,4 +1,4 @@
-import {   And, AsNumber, AsString, IsNumber, IsStringLiteral } from "src/types/index";
+import {   And, AsNumber, AsString, IsStringLiteral } from "src/types/index";
 
 type Process<
   TContent extends string,

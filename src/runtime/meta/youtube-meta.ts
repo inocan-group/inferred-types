@@ -47,6 +47,12 @@ export type YouTubeMeta<T extends string> = {
   >
 };
 
+/**
+ * **getYouTubePageType**`(url)`
+ *
+ * Returns a `YouTubePageType` description based on the url passed in (assuming
+ * that URL is for YouTube). Returns _never_ if not a YouTube URL.
+ */
 export const getYouTubePageType = <T extends string>(url: T) => {
   return (
     isYouTubeUrl(url)
@@ -97,7 +103,7 @@ export const getYouTubePageType = <T extends string>(url: T) => {
  * Takes a YouTube URL and converts it to a meta-data object
  * that helps describe the intent of the URL.
  */
-export const youtube = <T extends string>(url: T): YouTubeMeta<T> => {
+export const youtubeMeta = <T extends string>(url: T): YouTubeMeta<T> => {
   return (
     isYouTubeUrl(url)
     ? {
