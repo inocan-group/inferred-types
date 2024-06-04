@@ -1,7 +1,7 @@
 import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { getCountryPhoneNumber } from "src/runtime/index"
-import { Extends,  GetPhoneCountryCode,  PhoneNumber } from "src/types/index";
+import { removePhoneCountryCode } from "src/runtime/index"
+import { Extends,  RemovePhoneCountryCode,  GetPhoneCountryCode,  PhoneNumber } from "src/types/index";
 import { getPhoneCountryCode, isPhoneNumber } from "src/runtime/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -94,8 +94,25 @@ describe("asPhoneNumber() and supporting utils", () => {
     const cases: cases = [
       true, true
     ];
+  });
+
+
+  it("RemovePhoneCountryCode<T>", () => {
+    type Global = RemovePhoneCountryCode<"+44 07989479178">;
+    type Country = RemovePhoneCountryCode<"07989479178">;
+    type Local = RemovePhoneCountryCode<"555-1212">;
+
+    type cases = [
+      Expect<Equal<Global, "07989479178">>,
+      Expect<Equal<Country, "07989479178">>,
+      Expect<Equal<Local, "555-1212">>,
+    ];
+    const cases: cases = [
+      true, true, true
+    ];
 
   });
+
 
 
   it("getPhoneCountryCode()", () => {
@@ -119,7 +136,11 @@ describe("asPhoneNumber() and supporting utils", () => {
 
 
   it("getCountryPhoneNumber()", () => {
-    const none = getCountryPhoneNumber("442-555-1212");
+    const no_change = removePhoneCountryCode("442-555-1212");
+    const uk = removePhoneCountryCode("+44 442-555-1212");
+
+    expect(no_change).toBe("442-555-1212");
+    expect(uk).toBe("442-555-1212");
 
     type cases = [
       /** type tests */

@@ -1,6 +1,26 @@
 import { PHONE_COUNTRY_CODES, PHONE_FORMAT } from "src/constants/index"
-import { Mutable } from "src/types/type-conversion/Mutable"
-import {  As, AsString, FirstOfEach, IsLessThan, IsPhoneNumber, IsStringLiteral, Length, NumericChar, Optional, OptionalSpace, Or, RetainChars, RetainWhile, StartsWith, StripChars, StripLeading, StripWhile, Trim, TrimLeft, TupleToUnion, Whitespace } from "src/types/index"
+import {
+  As,
+  AsString,
+  FirstOfEach,
+  IsLessThan,
+  IsStringLiteral,
+  Length,
+  NumericChar,
+  Optional,
+  OptionalSpace,
+  RetainChars,
+  RetainWhile,
+  StartsWith,
+  StripChars,
+  StripLeading,
+  StripWhile,
+  Trim,
+  TrimLeft,
+  TupleToUnion,
+  Whitespace,
+  Mutable
+} from "src/types/index"
 
 
 /**
@@ -125,16 +145,25 @@ export type PhoneNumber<
   : never;
 
 type _CountryCode<T extends string> = T extends `+${string}`
-? RetainWhile<StripLeading<T,"+">,NumericChar>
+? RetainWhile<StripLeading<T,"+">,NumericChar> extends string
+  ? Trim<RetainWhile<StripLeading<T,"+">,NumericChar>>
+  : never
 : T extends `00${string}`
-? RetainWhile<StripLeading<T,"00">,NumericChar>
+? RetainWhile<StripLeading<T,"00">,NumericChar> extends string
+  ? Trim<RetainWhile<StripLeading<T,"00">,NumericChar>>
+  : never
 : "";
 
-type _RemoveCountryCode<T extends string> =  T extends `+${string}`
-? StripWhile<StripLeading<T,"+">,NumericChar>
+type _RemoveCountryCode<T extends string> =
+T extends `+${string}`
+? StripWhile<StripLeading<T,"+">,NumericChar> extends string
+  ? Trim<StripWhile<StripLeading<T,"+">,NumericChar>>
+  : never
 : T extends `00${string}`
-? StripWhile<StripLeading<T,"00">,NumericChar>
-: "";
+  ? StripWhile<StripLeading<T,"00">,NumericChar> extends string
+    ? Trim<StripWhile<StripLeading<T,"00">,NumericChar>>
+    : never
+: Trim<T>;
 
 /**
  * GetPhoneCountryCode`<T>`
@@ -147,17 +176,17 @@ type _RemoveCountryCode<T extends string> =  T extends `+${string}`
  */
 export type GetPhoneCountryCode<T> = T extends string
 ? IsStringLiteral<T> extends true
-    ? As<_CountryCode<Trim<AsString<T>>>, "" | PhoneCountryCode>
+    ? As<_CountryCode<Trim<AsString<T>>>, "" | `${OneDash}${number}`>
     : string
 : never;
 
 /**
- * **GetCountryPhoneNumber**`<T>`
+ * **RemoveCountryCode**`<T>`
  *
  * Removes the country code -- where present -- to reveal
  * just a country-based number.
  */
-export type GetCountryPhoneNumber<T> = T extends string
+export type RemovePhoneCountryCode<T> = T extends string
 ? IsStringLiteral<T> extends true
   ? As<_RemoveCountryCode<Trim<T>>, DialAreaCode | DialNoAreaCode>
 : string

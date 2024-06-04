@@ -27,7 +27,12 @@ type Process<
       >;
 
 
-
+/**
+ * **StripUntil**`<TContent,TComparator>`
+ *
+ * Strip characters from the start of `TContent` _until_ a
+ * character extends `TComparator`.
+ */
 export type StripUntil<
   TContent extends string,
   TComparator extends string,
@@ -35,7 +40,12 @@ export type StripUntil<
 
 
 
-
+/**
+ * **StripWhile**`<TContent,TComparator>`
+ *
+ * Strip characters from the start of `TContent` _while_ those
+ * characters extend `TComparator`.
+ */
 export type StripWhile<
   TContent extends string,
   TComparator extends string
