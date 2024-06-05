@@ -1,5 +1,15 @@
 import { Whitespace } from "src/types/index";
 
+type Process<
+S extends string
+> = string extends S
+? string
+: S extends `${Whitespace}${infer Right}`
+? Trim<Right>
+: S extends `${infer Left}${Whitespace}`
+? Trim<Left>
+: S;
+
 
 /**
  * Trims off blank spaces, `\n` and `\t` characters from both sides of a _string literal_.
@@ -10,7 +20,9 @@ import { Whitespace } from "src/types/index";
  * type T = Trim<string>;
  * ```
  */
-export type Trim<S extends string> = string extends S ? string :
-  S extends `${Whitespace}${infer Right}` ?
-  Trim<Right> : S extends `${infer Left}${Whitespace}` ? Trim<Left> : S;
+export type Trim<
+  S extends string
+> = Process<S> extends string
+? Process<S>
+: never;
 

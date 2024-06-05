@@ -1,7 +1,7 @@
 import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import { removePhoneCountryCode } from "src/runtime/index"
-import { Extends,  RemovePhoneCountryCode,  GetPhoneCountryCode,  PhoneNumber } from "src/types/index";
+import { Extends,  RemovePhoneCountryCode,  GetPhoneCountryCode,  PhoneNumber, InternationalPhoneNumber, IsErrorCondition } from "src/types/index";
 import { getPhoneCountryCode, isPhoneNumber } from "src/runtime/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -32,7 +32,6 @@ describe("isPhoneNumber(val)", () => {
 });
 
 describe("PhoneNumber<[T>", () => {
-
   it("without generic", () => {
     type T1 = Extends<"555 1212", PhoneNumber>;
     type T2 = Extends<"555-1212", PhoneNumber>;
@@ -79,20 +78,53 @@ describe("PhoneNumber<[T>", () => {
     ];
   });
 
+
+
+  it("with generic test", () => {
+    type ValidUsNumber = PhoneNumber<"+1 555 456-1212">;
+    type InValidUsNumber1 = PhoneNumber<"+1 555 456-121">;
+
+    type cases = [
+      Expect<Equal<ValidUsNumber, "+1 555 456-1212">>,
+      ExpectTrue<IsErrorCondition<InValidUsNumber1, "invalid-phone-number">>,
+
+    ];
+    const cases: cases = [
+      true, true,
+    ];
+
+  });
+
 });
+
+describe("HasCountryCode<TPhone,TExplicit>", () => {
+
+  it("first test", () => {
+
+
+  });
+
+});
+
 
 describe("asPhoneNumber() and supporting utils", () => {
 
   it("GetPhoneCountryCode<T>", () => {
     type None = GetPhoneCountryCode<"555-1212">;
-    type UK = GetPhoneCountryCode<"+44 798-947-9178">
+    type UK = GetPhoneCountryCode<"+44 798-947-9178">;
+    type UK2 = GetPhoneCountryCode<"0044 798-947-9178">;
+    type US = GetPhoneCountryCode<"001 798-947-9178">;
+    type US2 = GetPhoneCountryCode<"+1 798-947-9178">;
 
     type cases = [
       Expect<Equal<None, "">>,
       Expect<Equal<UK, "44">>,
+      Expect<Equal<UK2, "44">>,
+      Expect<Equal<US, "1">>,
+      Expect<Equal<US2, "1">>,
     ];
     const cases: cases = [
-      true, true
+      true, true, true, true, true
     ];
   });
 
@@ -113,24 +145,25 @@ describe("asPhoneNumber() and supporting utils", () => {
 
   });
 
-
-
   it("getPhoneCountryCode()", () => {
     const none = getPhoneCountryCode("555-1212");
     const uk = getPhoneCountryCode("+44 798-947-9178");
-    const uk2 = getPhoneCountryCode("+44 07989479178");
+    const uk2 = getPhoneCountryCode("0044 07989479178");
+    const us = getPhoneCountryCode("+1 798-947-9178");
 
 
     expect(none).toBe("");
     expect(uk).toBe("44");
     expect(uk2).toBe("44");
+    expect(us).toBe("1");
 
     type cases = [
       Expect<Equal<typeof none, "">>,
       Expect<Equal<typeof uk, "44">>,
       Expect<Equal<typeof uk2, "44">>,
+      Expect<Equal<typeof us, "1">>,
     ];
-    const cases: cases = [ true, true, true ];
+    const cases: cases = [ true, true, true, true ];
 
   });
 

@@ -30,27 +30,27 @@ export const removePhoneCountryCode = <
   ) as unknown as RemovePhoneCountryCode<T>
 }
 
-/**
- * **asPhoneNumber**`(phone, format)`
- *
- * Receives a phone number and returns it as a well formatted version.
- */
-export const asPhoneNumber = <
-  T extends string,
-  F extends PhoneFormat,
->(
-  phone: T & PhoneNumber<T>,
-  format: F = "Dotted (e.g., 456.555.1212)" as F
-) => {
-  if (!isPhoneNumber(phone)) {
-    throw new Error(`Invalid phone number presented to asPhoneNumber(phone,format)!`);
-  }
-  const countryCode = getPhoneCountryCode(phone);
-  const remaining = removePhoneCountryCode(pone);
+// /**
+//  * **asPhoneNumber**`(phone, format)`
+//  *
+//  * Receives a phone number and returns it as a well formatted version.
+//  */
+// export const asPhoneNumber = <
+//   T extends string,
+//   F extends PhoneFormat,
+// >(
+//   phone: T & PhoneNumber<T>,
+//   format: F = "Dotted (e.g., 456.555.1212)" as F
+// ) => {
+//   if (!isPhoneNumber(phone)) {
+//     throw new Error(`Invalid phone number presented to asPhoneNumber(phone,format)!`);
+//   }
+//   const countryCode = getPhoneCountryCode(phone);
+//   const remaining = removePhoneCountryCode(pone);
 
-  switch (format) {
-    case ""
-  }
+//   switch (format) {
+//     case ""
+//   }
 
 
-}
+// }
