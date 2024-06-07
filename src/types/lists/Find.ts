@@ -1,79 +1,52 @@
-import { IsEqual, If, AfterFirst, First } from "src/types/index";
+import { IsEqual, If, AfterFirst, First, Or, NumberLike, Compare } from "src/types/index";
 
 type FindAcc<
   TList extends readonly unknown[],
-  TFind,
+  TOp extends "extends" | "equals" | "startsWith" | "endsWith" | "lessThan" | "greaterThan",
+  TComparator,
   TDeref extends string | number | null
 > = [] extends TList
   ? undefined
-  : TDeref extends keyof First<TList> 
+  : TDeref extends keyof First<TList>
     ? If<
-        IsEqual<First<TList>[TDeref], TFind>, 
-        First<TList>, 
-        FindAcc<AfterFirst<TList>, TFind, TDeref>
+        Compare<First<TList>[TDeref], TOp, TComparator>,
+        First<TList>,
+        FindAcc<AfterFirst<TList>, TOp,TComparator, TDeref>
       >
     : If<
-        IsEqual<First<TList>, TFind>, 
-        First<TList>, 
-        FindAcc<AfterFirst<TList>, TFind, TDeref>
+        Compare<First<TList>, TOp, TComparator>,
+        First<TList>,
+        FindAcc<AfterFirst<TList>, TOp,TComparator, TDeref>
       >;
 
 /**
- * **Find**`<TList,TFind,TIndex>`
- * 
+ * **Find**`<TList,TOp,TComparator,[TDeref]>`
+ *
  * Type utility used to find the first value in `TList` which _equals_ `TValue`.
  * Will return _undefined_ if no matches found.
- * 
+ *
  * - use **FindExtends** if you want a more permissive match
- * - by default, values in `TList` will be compared directly but you can _dereference_ 
+ * - by default, values in `TList` will be compared directly but you can _dereference_
  * array and object properties with `TIndex` if you want to compare on a child property
- * 
+ *
  * ```ts
  * type List = [ { id: 1, value: "hi" }, { id: 2, value: "bye" } ]
  * // { id: 1; value: "hi" }
  * type T = Find<List, 1, "id">
  * ```
- * 
+ *
  * **Related**: `FindExtends`
  */
 export type Find<
   TList extends readonly unknown[],
-  TFind,
+  TOp extends "extends" | "equals" | "startsWith" | "endsWith" | "lessThan" | "greaterThan",
+  TComparator extends Or<[
+    IsEqual<TOp,"startsWith">, IsEqual<TOp,"endsWith">,
+  ]> extends true
+  ? string
+  : Or<[IsEqual<TOp,"lessThan">, IsEqual<TOp,"greaterThan">]> extends true
+  ? NumberLike
+  : unknown,
   TDeref extends string | number | null = null,
-> = FindAcc<TList, TFind, TDeref>;
-
-type FindExtendsAcc<
-  TList extends readonly unknown[],
-  TFind,
-  TDeref extends string | number | null
-> = [] extends TList
-  ? undefined
-  : TDeref extends null
-    ? First<TList> extends TFind
-      ? First<TList>
-      : FindExtendsAcc<AfterFirst<TList>, TFind, TDeref>
-    : TDeref extends keyof First<TList>
-      ? First<TList>[TDeref] extends TFind
-          ? First<TList>
-          : FindExtendsAcc<AfterFirst<TList>, TFind, TDeref>
-      : FindExtendsAcc<AfterFirst<TList>, TFind, TDeref>
-    ;
-
-/**
- * **FindExtends**`<TList, TFind, TIndex>`
- * 
- * Type utility used to find the first value in `TList` which _extends_ `TValue`. 
- * Will return _undefined_ if no matches found.
- * 
- * - use **Find** if you want a stricter match
- * - by default, values in `TList` will be compared directly but you can _dereference_ 
- * array and object properties with `TIndex` if you want to compare on a child property
- * 
- * **Related:** `Find`
- */
-export type FindExtends<
-  TList extends readonly unknown[],
-  TFind,
-  TDeref extends string | number | null = null,
-> = FindExtendsAcc<TList, TFind, TDeref>;
+> = FindAcc<TList, TOp, TComparator, TDeref>;
 
