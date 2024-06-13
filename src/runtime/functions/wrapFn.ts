@@ -1,5 +1,5 @@
-import { FnFrom } from "src/types/index";
-import { identity } from "../literals";
+// import { FnFrom } from "src/types/index";
+// import { identity } from "../literals";
 
 
 
@@ -14,30 +14,19 @@ import { identity } from "../literals";
 //   }
 // };
 
-export const wrapFn = <
-  TWrap extends FnFrom<[any]>,
->(wrap: TWrap) => {
-  return <TInterior extends (...args: any[]) => Parameters<TWrap>[0]>(fn: TInterior) => {
-    return <TFn extends Parameters<TInterior>>(...args: TFn) => {
-      const interior = identity(fn(...args) as ReturnType<TInterior>) as ()=>ReturnType<TInterior>;
-      const wrapped = wrap(interior()) as ReturnType<TWrap>;
+// export const wrapFn = <
+//   TWrap extends FnFrom<[any]>,
+// >(wrap: TWrap) => {
+//   return <TInterior extends (...args: any[]) => Parameters<TWrap>[0]>(fn: TInterior) => {
+//     return <TFn extends Parameters<TInterior>>(...args: TFn) => {
+//       const interior = identity(fn(...args) as ReturnType<TInterior>) as ()=>ReturnType<TInterior>;
+//       const wrapped = wrap(interior()) as ReturnType<TWrap>;
 
-      return wrapped;
-    }
-  }
-};
-
-
-
-
-// export const wrapStatefulFn = <
-//   TInteriorFn extends TypedFunction,
-//   TState extends Dictionary
-// >(fn: TInteriorFn, state: TState) => {
-//   return <
-//     TWrap extends <I extends ReturnType<TInteriorFn>>(input: I) => unknown
-//   >(wrap: TWrap) => <F extends Parameters<TInteriorFn>>(...input: F) => {
-//     const interior = fn(input) as ReturnType<TInteriorFn>;
-//     return wrap(interior) as ReturnType<TWrap>
+//       return wrapped;
+//     }
 //   }
-// };;
+// };
+
+
+
+export const wrapFn = "NOT IMPLEMENTED" as const;
