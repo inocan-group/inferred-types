@@ -1,6 +1,6 @@
 {
   "name": "inferred-types",
-  "version": "0.45.1",
+  "version": "0.45.2",
   "description": "Functions which provide useful type inference on TS projects",
   "license": "MIT",
   "author": "Ken Snyder<ken@ken.net>",
@@ -85,5 +85,11 @@
     "vite-node": "^1.6.0",
     "vitest": "^1.6.0",
     "vue": "^3.4.27"
+  },
+  "pnpm": {
+    "overrides": {
+      "tar@<6.2.1": ">=6.2.1",
+      "braces@<3.0.3": ">=3.0.3"
+    }
   }
 }
