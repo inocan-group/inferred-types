@@ -1,17 +1,17 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { 
-  narrow,  
-  createFnWithProps, 
-  optional, 
-  isArray, 
+import {
+  narrow,
+  createFnWithProps,
+  optional,
+  isArray,
   isReadonlyArray,
-  hasDefaultValue, 
+  hasDefaultValue,
   isNumericString,
   isDefined,
   isRef,
-  isConstant, 
+  isConstant,
   isSpecificConstant,
   isFnWithParams,
   defineObj
@@ -21,7 +21,7 @@ import { ref, Ref } from "vue";
 import { DoesExtend } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("isNumericString", () => {
@@ -41,20 +41,20 @@ describe("isNumericString", () => {
     } else {
       expect(true, "wrong type identified as such").toBe(true);
     }
-    
+
     type cases = [
       /** type tests */
     ];
     const cases: cases = [];
   });
 
-  
+
   it("positive outcomes", () => {
     const numericString = "42" as const;
     const wideString = "42" as string;
 
     expect(isNumericString(numericString), "numericString variable not recognized:" + typeof numericString).toBe(true);
-    
+
 
     if(isNumericString(numericString)) {
       expect(true, "numeric string identified").toBe(true);
@@ -75,9 +75,9 @@ describe("isNumericString", () => {
     } else {
       throw new Error("wide string not identified");
     }
-    
+
   });
-  
+
 
 });
 
@@ -119,7 +119,7 @@ describe("isRef - testing for VueJS reference types", () => {
       type R = typeof refObj;
       type cases = [
         Expect<DoesExtend<
-          R, 
+          R,
           Ref<{ foo: 1;  bar: 2 }>
         >>
       ];
@@ -127,9 +127,9 @@ describe("isRef - testing for VueJS reference types", () => {
     } else {
       throw new Error("ref not identified!");
     }
-    
+
   });
-  
+
 
   it("negative tests", () => {
     if(isRef(obj)) {
@@ -142,7 +142,7 @@ describe("isRef - testing for VueJS reference types", () => {
 });
 
 describe("isArray / isReadonlyArray", () => {
-  const foobar = narrow([{foo: 1, bar: 2}]); 
+  const foobar = narrow([{foo: 1, bar: 2}]);
   const optFoobar = optional(foobar);
 
   it("positive tests", () => {
@@ -151,7 +151,7 @@ describe("isArray / isReadonlyArray", () => {
       type Foobar = typeof foobar;
       type cases = [
         Expect<Equal<
-          Foobar, 
+          Foobar,
           {foo: number; bar: number }[]
         >>
       ];
@@ -165,7 +165,7 @@ describe("isArray / isReadonlyArray", () => {
       type Foobar = typeof foobar;
       type cases = [
         Expect<Equal<
-          Foobar, 
+          Foobar,
           {foo: number; bar: number }[]
         >>
       ];
@@ -175,7 +175,7 @@ describe("isArray / isReadonlyArray", () => {
     }
   });
 
-  
+
   it("positive test of union type", () => {
     if(isReadonlyArray(optFoobar)) {
       expect(true, "identified as readonly array").toBe(true);
@@ -183,8 +183,8 @@ describe("isArray / isReadonlyArray", () => {
       type Foobar = typeof optFoobar;
       type cases = [
         Expect<Equal<
-          Foobar, 
-           {foo: number; bar: number }[] 
+          Foobar,
+           {foo: number; bar: number }[]
         >>
       ];
       const cases: cases = [ true ];
@@ -223,7 +223,7 @@ describe("hasDefaultValue(v)", () => {
     }
   });
 
-  
+
   it("negative tests", () => {
     if(hasDefaultValue(noNumeric)) {
       throw new Error(`noNumeric should not have passed`);
@@ -261,30 +261,30 @@ describe("isConstant()", () => {
     }
   });
 
-  
+
   it("positive test for Never type", () => {
     // special case because the type system sees as `never` rather than as Constant
-    const maybe = Never as string | never;
-    
+    const maybe = Never;
+
     if(isConstant(maybe)) {
       expect(true).toBe(true);
     } else {
-      throw new Error("Never was not found to be a constant!");
+      throw new Error(`Never was not found to be a constant! Value: ${JSON.stringify(maybe)}`);
     }
   });
 
   it("isSpecificConstant for Never type", () => {
     // special case because the type system sees as `never` rather than as Constant
-    const maybe = Never as string | never;
-    
+    const maybe = Never;
+
     if(isSpecificConstant("never")(maybe)) {
       expect(true).toBe(true);
     } else {
-      throw new Error("Never was not found to be a SpecificConstant<\"never\">!");
+      throw new Error(`Never was not found to be a SpecificConstant<\"never\">! Value: ${JSON.stringify(maybe)}`);
     }
   });
 
-  
+
   it("negative test", () => {
     if(isConstant(notReally)) {
       throw new Error("incorrect identification of constant");
@@ -306,7 +306,7 @@ describe("isFnWithParams()", () => {
   secretHybrid.foo = 42;
   const typedHybrid = createFnWithProps(fn,obj);
   const unionHybrid = typedHybrid as typeof typedHybrid | undefined;
-  
+
   it("test vars validated", () => {
     // runtime
     expect(secretHybrid()).toBe("secret");
@@ -315,14 +315,14 @@ describe("isFnWithParams()", () => {
     expect(typedHybrid.foo).toBe(1);
   });
 
-  
+
   it("positive test with typed hybrid", () => {
     if(isFnWithParams(typedHybrid)) {
       expect(true).toBe(true);
 
       type cases = [
         Expect<Equal<
-          typeof typedHybrid, 
+          typeof typedHybrid,
           (() => "hi") & { foo: 1; bar: 2 }
         >>
       ];
@@ -332,14 +332,14 @@ describe("isFnWithParams()", () => {
       throw new Error("typedHybrid should have resolved as true in type guard!");
     }
   });
-  
+
   it("positive test with hybrid in union with undefined", () => {
     if(isFnWithParams(unionHybrid)) {
       expect(true).toBe(true);
 
       type cases = [
         Expect<Equal<
-          typeof unionHybrid, 
+          typeof unionHybrid,
           (() => "hi") & { foo: 1; bar: 2 }
         >>
       ];

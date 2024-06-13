@@ -1,11 +1,12 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { createFnWithProps, isFnWithParams, isFunction, ifFunction } from "src/runtime/index";
+import { createFnWithProps, isFnWithParams, isFunction } from "src/runtime/index";
 import type { AnyFunction, IsFunction } from "src/types/index";
+import { ifFunction } from "../../src/runtime/boolean-logic";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("Boolean Logic for functions", () => {
@@ -21,16 +22,16 @@ describe("Boolean Logic for functions", () => {
     type F2 = IsFunction<null>;
     type F3 = IsFunction<"foo">;
     type F4 = IsFunction<42>;
-    
+
     type cases = [
       Expect<Equal<T1, true>>, //
-      Expect<Equal<T2, true>>, 
-      Expect<Equal<T3, true>>, 
-      Expect<Equal<T4, true>>, 
+      Expect<Equal<T2, true>>,
+      Expect<Equal<T3, true>>,
+      Expect<Equal<T4, true>>,
       Expect<Equal<F1, false>>, //
-      Expect<Equal<F2, false>>, 
-      Expect<Equal<F3, false>>, 
-      Expect<Equal<F4, false>>, 
+      Expect<Equal<F2, false>>,
+      Expect<Equal<F3, false>>,
+      Expect<Equal<F4, false>>,
     ];
     const cases: cases = [ true, true, true, true, true, true, true, true];
   });
@@ -40,7 +41,7 @@ describe("Boolean Logic for functions", () => {
     const falseFn = () => false as const;
     const hybrid = createFnWithProps(trueFn,{ about: "i am a function" });
     const empty = {};
-  
+
     it("basic positive test", () => {
       if(isFunction(trueFn)) {
         expect(true).toBe(true);
@@ -55,7 +56,7 @@ describe("Boolean Logic for functions", () => {
       }
     });
 
-    
+
     it("functions with params also pass", () => {
       if(isFunction(hybrid)) {
         expect(true).toBe(true);
@@ -64,7 +65,7 @@ describe("Boolean Logic for functions", () => {
       }
     });
 
-    
+
     it("non-functions not confused as fn", () => {
       if(isFunction(empty)) {
         throw new Error(`empty object detected as function!`);
@@ -82,7 +83,7 @@ describe("Boolean Logic for functions", () => {
 
   describe("ifFunction(fn, IF, ELSE) runtime", () => {
     const trueFn = () => true as const;
-  
+
     it("happy-path", () => {
       const t1 = ifFunction(trueFn, () => true, () => false);
       const f1 = ifFunction({foo: 1}, () => true, () => false);
@@ -96,10 +97,10 @@ describe("Boolean Logic for functions", () => {
       ];
       const cases: cases = [ true, true ];
     });
-  
+
   });
 
-  describe("isFnWithParams() type guard", () => {  
+  describe("isFnWithParams() type guard", () => {
     const fn1 = createFnWithProps(() => `hi`,{ foo: 42 });
     const fnUnion = fn1 as typeof fn1 | undefined;
     const fnNoParams = () => `hi`;
@@ -114,7 +115,7 @@ describe("Boolean Logic for functions", () => {
         const cases: cases = [ true ];
       }
     });
-    
+
     it("negative test, using fn without params", () => {
       if(isFnWithParams(fnNoParams)) {
         throw new Error("fn without params identified as having params");
@@ -122,7 +123,7 @@ describe("Boolean Logic for functions", () => {
         expect(true).toBe(true);
       }
     });
-  
+
   });
-  
+
 });

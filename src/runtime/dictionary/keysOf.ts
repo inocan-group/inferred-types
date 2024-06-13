@@ -4,9 +4,9 @@ import { isObject, isRef } from "src/runtime/index";
 
 /**
  * **keysOf**(container)
- * 
+ *
  * Provides a read-only array of the _keys_ an object (or array) contains.
- * 
+ *
  * **Note:** this function is aware of Ref<T> types from VueJS and will return
  * `readonly ["value"]` as the keys array when detected rather than reporting
  * on props like `__v_isRef`, etc.
@@ -24,5 +24,5 @@ export function keysOf<TContainer extends Container>(
           : Object.keys(container)
         : []
   );
-  return keys as Keys<TContainer>
+  return keys as Keys<TContainer> & readonly (keyof TContainer)[]
 }

@@ -1,6 +1,10 @@
 import { Dictionary, EmptyObject, Tuple } from "../base-types";
 
-
+/**
+ * **FnFrom**`<TParams,[TReturn],[TProps]>`
+ *
+ * Type utility  to build a type from it's constituent parts.
+ */
 export type FnFrom<
   TParams extends Tuple,
   TReturn = unknown,

@@ -3,12 +3,12 @@ import { isFunction, handleDoneFn, ShapeApiImplementation } from "src/runtime/in
 
 /**
  * **createTuple**(...values) -> (...values) -> Tuple
- * 
+ *
  * Runtime utility to define a strongly typed tuple.
- * 
+ *
  * - if you want to _widen_ certain elements in the Tuple you can use
  * the `widen()` type utility for those elements.
- * 
+ *
  * ### Example
  * ```ts
  * // [ "foo", "bar", 42 ]

@@ -13,11 +13,12 @@ export * from "./FnMeta";
 export * from "./FnFrom";
 export * from "./PromiseAll";
 export * from "./FnProps";
-export * from "./Fn";
+export * from "./FnWithDescription";
 export * from "./HandleDoneFn"
 export * from "./NarrowingFn"
 export * from "./LiteralFn"
 export * from "./IdentityFn"
+export * from "./WrapperFn"
 // export * from "src/types/index";
 
 // #endregion auto-indexed files

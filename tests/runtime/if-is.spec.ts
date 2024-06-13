@@ -1,20 +1,14 @@
 import { describe, expect, it } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
 import {
-  ifBoolean,
-  ifSameType,
-  ifTrue,
-  ifArray,
-  ifUndefined,
-  ifArrayPartial,
-  ifNumber,
-  ifString,
+
   or,
   isTrue,
-  StartingWithTypeGuard, 
+  StartingWithTypeGuard,
   startsWith, box
 } from "src/runtime/index";
 import { EndsWith, DoesExtend, LowerAlphaChar, Or, StartsWith  } from "src/types/index";
+import { ifArray, ifArrayPartial, ifBoolean, ifNumber, ifSameType, ifString, ifTrue, ifUndefined } from "../../src/runtime/boolean-logic";
 
 
 describe("runtime if/is", () => {
@@ -286,7 +280,7 @@ describe("runtime if/is", () => {
     // runtime
     expect(foo("foobar")).toBe(true);
     expect(foot("foobar")).toBe(false);
-    
+
     // design time
     type cases = [
       Expect<Equal<typeof foo, StartingWithTypeGuard<"foo">>>, //

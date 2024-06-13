@@ -1,12 +1,12 @@
-import { Fn } from "src/types/functions/Fn";
+import { FnWithDescription } from "src/types/index";
 
 
 
 /**
  * **AsDoneFn**`<T>`
- * 
- * Narrows 
+ *
+ * Narrows
  */
-export type AsDoneFn<T> = T extends { done: Fn }
+export type AsDoneFn<T> = T extends { done: FnWithDescription }
   ? T & { done: () => unknown }
   : never;

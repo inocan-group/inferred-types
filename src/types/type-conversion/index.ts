@@ -58,6 +58,7 @@ export * from "./WithDefault";
 export * from "./AsContainer";
 export * from "./StripChars";
 export * from "./RetainChars";
+export * from "./ReduceValues";
 
 // #endregion auto-indexed files
 

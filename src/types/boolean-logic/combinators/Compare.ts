@@ -1,26 +1,31 @@
- 
 
-import { 
-  Contains, 
-  DoesExtend, 
-  IsEqual, 
-  StartsWith, 
-  TupleToUnion, 
-  EndsWith, 
+
+import {
+  Contains,
+  DoesExtend,
+  IsEqual,
+  StartsWith,
+  TupleToUnion,
+  EndsWith,
   Tuple,
   ErrorCondition,
   Extends,
   NumberLike,
   TypedFunction,
+  IsGreaterThan,
+  As,
+  IsLessThan,
+  WhenNever,
+  And,
 } from "src/types/index";
 
 /**
  * **ComparatorOperation**
- * 
+ *
  * A union type providing various ways in which two values
  * can be compared.
  */
-export type ComparatorOperation = 
+export type ComparatorOperation =
 | "extends"
 | "equals"
 | "startsWith"
@@ -36,13 +41,13 @@ export type ComparatorOperation =
 
 /**
  * **ParamsForComparison**`<T>`
- * 
+ *
  * Provides a lookup function on `T` of the _parameters_ required
  * for a given `ComparatorOperation`.
  */
 export type ParamsForComparison<
   T extends ComparatorOperation
-> = 
+> =
 T extends "equals"
 ? readonly [unknown]
 : T extends "extends"
@@ -67,12 +72,12 @@ T extends "equals"
 
 /**
  * **Comparison**`<TOp,TArgs>`
- * 
+ *
  * A strongly typed comparison which can be used in runtime utilities
- * like `filter`, `retain`, and `map`. 
- * 
+ * like `filter`, `retain`, and `map`.
+ *
  * - typically generated with the `createComparison(op,...params)` runtime utility.
- * 
+ *
  * ```ts
  * // Comparison<"equals",[true]>
  * const isTrue = createComparison("equals", true);
@@ -101,7 +106,7 @@ type Unionize<T> = T extends readonly unknown[]
 
 type Process<
 TVal,
-TOp extends ComparatorOperation, 
+TOp extends ComparatorOperation,
 TComparator
 > = TOp extends "extends"
 ? DoesExtend<TVal, Unionize<TComparator>>
@@ -123,7 +128,15 @@ TComparator
   ? StartsWith<TVal, TComparator>
   : never
 : never
-: TOp extends "endsWith"
+: TOp extends "greaterThan"
+? And<[Extends<TComparator, NumberLike>, Extends<TVal, NumberLike>]> extends true
+  ? IsGreaterThan<As<TVal, NumberLike>,As<TComparator, NumberLike>>
+  : never
+: TOp extends "lessThan"
+  ? And<[Extends<TComparator, NumberLike>, Extends<TVal, NumberLike>]> extends true
+    ? IsLessThan<As<TVal, NumberLike>,As<TComparator, NumberLike>>
+    : never
+  : TOp extends "endsWith"
 ? [TVal] extends [string | number]
 ? [TComparator] extends [string | number | readonly string[]]
   ? EndsWith<TVal, TComparator>
@@ -139,12 +152,12 @@ TComparator
 
 /**
  * **Compare**`<TVal,TOp,TComparator>`
- * 
+ *
  * Compares the value `TVal` with `TComparator` using
  * the `TOp` _operator_.
  */
 export type Compare<
 TVal,
-TOp extends ComparatorOperation, 
+TOp extends ComparatorOperation,
 TComparator
-> = Process<TVal, TOp, TComparator>;
+> = WhenNever<Process<TVal, TOp, TComparator>>;

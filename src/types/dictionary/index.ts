@@ -16,8 +16,6 @@ export * from "./MaybeRef";
 export * from "./FromMaybeRef";
 export * from "./RequiredProps";
 export * from "./OptionalProps";
-export * from "./PrivateKeys";
-export * from "./PublicKeys";
 export * from "./StringKeys";
 export * from "./NonStringKeys";
 export * from "./KeysWithValue";
@@ -50,7 +48,8 @@ export * from "./KvFn";
 export * from "./CreateLookup";
 export * from "./MergeKVs"
 export * from "./TakeProp"
-export * from "./MakeKeysOptional"
+export * from "./MakeKeysOptional";
+export * from "./MakeKeysRequired";
 
 // #endregion auto-indexed files
 

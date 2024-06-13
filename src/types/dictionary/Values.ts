@@ -1,4 +1,4 @@
-import { Container, Dictionary, ObjectKey, Tuple } from "../base-types";
+import { Container, Dictionary, ObjectKey, Tuple, TypedFunction } from "../base-types";
 import { AfterFirst, First } from "../lists";
 import { Keys } from "./Keys";
 
@@ -12,10 +12,10 @@ type Process<
 : Process<
     AfterFirst<TKeys>,
     TObj,
-    [ 
-      ...TResult, 
-      First<TKeys> extends keyof TObj 
-        ? TObj[First<TKeys>] 
+    [
+      ...TResult,
+      First<TKeys> extends keyof TObj
+        ? TObj[First<TKeys>]
         : never
     ]
   >
@@ -23,7 +23,7 @@ type Process<
 
 /**
  * **Values**`<T>`
- * 
+ *
  * Produces a tuple of all the _values_ of a container.
  * - for **objects** this would translate to the key values
  * - for **tuples** this is just a _proxy_ of the type
@@ -40,5 +40,8 @@ export type Values<
         : never,
       T
     >
+  : T extends TypedFunction
+    ? [T]
+
   : [];
 

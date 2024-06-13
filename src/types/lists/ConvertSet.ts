@@ -1,12 +1,12 @@
-import { Narrowable , AfterFirst , FindExtends , First } from "src/types/index";
+import { Narrowable , AfterFirst ,  First, Find } from "src/types/index";
 
 export type ConversionTuple = [from: Narrowable, to: Narrowable];
 
 type Convert<
   TValue,
   TConversions extends readonly ConversionTuple[]
-> = FindExtends<TConversions, TValue, 0> extends ConversionTuple
-  ? FindExtends<TConversions, TValue, 0>[1]
+> = Find<TConversions, "extends", TValue, 0> extends ConversionTuple
+  ? Find<TConversions, "extends", TValue, 0>[1]
   : TValue;
 
 type ConvertAcc<
@@ -16,14 +16,14 @@ type ConvertAcc<
 > = [] extends TSet
   ? TResults
   : ConvertAcc<
-      AfterFirst<TSet>, 
+      AfterFirst<TSet>,
       TConversions,
       [ ...TResults, Convert<First<TSet>, TConversions> ]
     >;
 
 /**
  * **ConvertSet**`<TSet, TConversions>`
- * 
+ *
  * Utility which works on a list `TSet` and converts matched values
  * to an alternative type.
  * ```ts

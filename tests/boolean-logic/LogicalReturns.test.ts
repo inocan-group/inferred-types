@@ -1,10 +1,10 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { ifString } from "src/runtime/index";
+import { ifString } from "../../src/runtime/boolean-logic";
 import {  Narrowable , LogicalReturns } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("LogicalReturns<TValues,TParams>", () => {
@@ -16,7 +16,7 @@ describe("LogicalReturns<TValues,TParams>", () => {
     type T1 = LogicalReturns<[ true, () => true]>;
     type T2 = LogicalReturns<[ false, () => false]>;
     type T3 = LogicalReturns<[ true, true, false, boolean, () => true, () => false ]>;
-    
+
     type cases = [
       Expect<Equal<T1, [true, true]>>,
       Expect<Equal<LogicalReturns<typeof t>, [true, true]>>,
@@ -26,7 +26,7 @@ describe("LogicalReturns<TValues,TParams>", () => {
     const cases: cases = [true, true, true, true ];
   });
 
-  
+
   it("Functions with parameters and generics", () => {
     const f1 = (v: string | number) => ifString(v, () => true, () => false);
     const f1t = ifString("foo", () => true, () => false);
@@ -34,7 +34,7 @@ describe("LogicalReturns<TValues,TParams>", () => {
 
     type T1 = LogicalReturns<[typeof f1, typeof f1t, typeof f1n]>;
 
-    
+
     type cases = [
       Expect<Equal<T1[0], boolean>>,
       Expect<Equal<T1[1], true>>,
@@ -42,7 +42,7 @@ describe("LogicalReturns<TValues,TParams>", () => {
 
     ];
     const cases: cases = [true, true, true];
-    
+
   });
 });
 

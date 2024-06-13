@@ -2,10 +2,11 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
 import { IfLength,  Length } from "src/types/index";
-import { ifLength, narrow } from "src/runtime/index";
+import {  narrow } from "src/runtime/index";
+import { ifLength } from "../../src/runtime/boolean-logic";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("IfLength<TCompareTo,TVal,IF,ELSE>", () => {
@@ -38,7 +39,7 @@ it("evaluating a string", () => {
     Expect<Equal<NE1, "no">>, //Expect<Equal<E1, "yes">>, //
   ];
   const cases: cases = [ true, true ];
-  
+
 });
 
 
@@ -53,7 +54,7 @@ describe("ifLength(val,len,if,else)", () => {
     const t2 = ifLength(tuple1, tuple2.length, () => "yes", () => "no");
 
     const f1 = ifLength(tuple1, 1, () => "yes", () => "no");
-    
+
     type cases = [
       Expect<Equal<typeof t1, "yes">>,
       Expect<Equal<typeof t2, "yes">>,

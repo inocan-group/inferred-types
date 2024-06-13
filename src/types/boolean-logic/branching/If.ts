@@ -1,27 +1,23 @@
-import { ErrorCondition, IsBoolean, IsBooleanLiteral, IsFalse, IsNever, IsTrue, LogicFunction, ProxyError, Throw, } from "src/types/index";
+import { ErrorCondition, IsBoolean, IsBooleanLiteral, IsFalse, IsNever, IsTrue, LogicFunction, Throw, } from "src/types/index";
 
 type InvalidTest<TTest> = Throw<
   "invalid-test",
   `Call of If<TTest, ...> received an invalid TTest that does not evaluate to a boolean type!`,
   "If",
-  { 
-    library: "inferred-types"; 
-    test: TTest; 
+  {
+    library: "inferred-types";
+    test: TTest;
   }
 >
 
-type ReceivedError<TTest extends ErrorCondition> = ProxyError<
-  TTest,
-  "If",
-  "TTest"
->
+
 
 // Throw<
 //   "if-received-error",
 //   `If<TTest> got an ErrorCondition rather than a boolean was found in TTest: ${TTest["kind"]}`,
 //   "If",
-//   { 
-//     library: "inferred-types"; 
+//   {
+//     library: "inferred-types";
 //     underlying: TTest;
 //   }
 // >;
@@ -29,23 +25,24 @@ type ReceivedError<TTest extends ErrorCondition> = ProxyError<
 
 /**
  * **If**`<TTest,[TIf],[TElse],[TMaybe]>`
- * 
+ *
  * Branching utility which tests `TTest` for a boolean value.
  */
 export type If<
   TTest,
-  TIf = true, 
+  TIf = true,
   TElse = false,
   TMaybe = TIf | TElse,
-  TNever = never
+  TNever = never,
+  TError = never
 > =  [IsNever<TTest>] extends [true]
 ? TNever
 : [TTest] extends [ErrorCondition]
-  ? ReceivedError<TTest>
+  ? TError
 : [TTest] extends [boolean]
   ? [IsTrue<TTest>] extends [true]
     ? TIf
-    : [IsBooleanLiteral<TTest>] extends [true]  
+    : [IsBooleanLiteral<TTest>] extends [true]
       ? TElse
       : TMaybe
   : [TTest] extends [LogicFunction]

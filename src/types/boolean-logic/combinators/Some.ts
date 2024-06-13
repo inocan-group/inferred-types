@@ -6,6 +6,7 @@ import {
   Dictionary,
   First,
   IsEqual,
+  NumberLike,
   Or,
   Values,
   WhenNever
@@ -34,7 +35,7 @@ export type Some<
   ]> extends true
   ? string
   : Or<[IsEqual<TOp,"lessThan">, IsEqual<TOp,"greaterThan">]> extends true
-  ? number
+  ? NumberLike
   : unknown
 > = TContainer extends readonly unknown[]
 ? Process<TContainer,TOp,TComparator>

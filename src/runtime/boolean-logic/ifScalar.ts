@@ -1,13 +1,20 @@
-import { Dictionary, If, IsScalar, Narrowable, Scalar } from "src/types/index";
-import { isScalar } from "src/runtime/index";
+import {
+  Dictionary,
+  If,
+  IsScalar,
+  Narrowable,
+  Scalar
+} from "src/types/index";
+import { isScalar } from "../type-guards/isScalar";
+
 
 
 /**
  * **ifScalar**(value, ifCallback, notCallback)
- * 
- * A runtime utility which branches based on whether 
- * the type is a `T` is a _scalar_ value or not. 
- * 
+ *
+ * A runtime utility which branches based on whether
+ * the type is a `T` is a _scalar_ value or not.
+ *
  *  - each branch is provided an _optional_ callback to further
  * refine the type.
  * ```ts
