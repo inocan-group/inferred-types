@@ -1,11 +1,11 @@
 import { RetainAfter } from "src/types/index";
 
 /**
- * **RetainAfter**(content, find)
- * 
+ * **retainAfter**(content, find)
+ *
  * Runtime utility which removes all characters in a given string _until_
  * it finds the first instance of a substring defined in **find** variable.
- * 
+ *
  * ### Example
  * ```ts
  * // "world"
