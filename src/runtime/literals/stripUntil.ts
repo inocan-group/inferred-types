@@ -1,6 +1,5 @@
-import { StripUntil } from "src/types/string-literals";
 import { asChars } from "../type-conversion/index";
-import { TupleToUnion } from "src/types/type-conversion";
+import { TupleToUnion,StripUntil } from "src/types/index";
 
 /**
  * **stripUntil**`(content, ...until)`
