@@ -5,9 +5,9 @@ S extends string
 > = string extends S
 ? string
 : S extends `${Whitespace}${infer Right}`
-? Trim<Right>
+? Process<Right>
 : S extends `${infer Left}${Whitespace}`
-? Trim<Left>
+? Process<Left>
 : S;
 
 

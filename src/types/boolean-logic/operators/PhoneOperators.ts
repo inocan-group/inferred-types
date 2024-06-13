@@ -1,12 +1,20 @@
-import { GetPhoneCountryCode, IsNever, IsTrue, PhoneCountryCode, PhoneNumber, Trim } from "../..";
+import { GetPhoneCountryCode, IsNever, IsTrue, PhoneCountryCode, PhoneNumber } from "../..";
 import { IsStringLiteral } from "./IsStringLiteral";
 
+// BOOLEAN OPERATORS for PHONE TYPES
 
 /**
  * **IsPhoneNumber**`<T>`
  *
  * Boolean operator which tests whether `T` has a
  * type that supports it being a phone number.
+ *
+ * **Note:**
+ *
+ * - this utility relies on the using the `PhoneNumber<T>` validation
+ * technique to determine that whether it is a phone number but whereas
+ * this utility returns `T` _or_ and `ErrorCode` this produces a boolean
+ * outcome.
  *
  * **Related:** `PhoneNumber`, `HasPhoneCountryCode`
  */

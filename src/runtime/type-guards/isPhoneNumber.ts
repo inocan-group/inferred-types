@@ -1,6 +1,7 @@
 import { WHITESPACE_CHARS } from "src/constants/Characters"
 import { NUMERIC_CHAR } from "src/constants/NumericChar"
 import { isString,asChars, retainChars, stripChars } from "src/runtime/index"
+import { IsPhoneNumber } from "src/types/boolean-logic"
 
 /**
  * **isPhoneNumber**`(val)`
@@ -15,7 +16,8 @@ import { isString,asChars, retainChars, stripChars } from "src/runtime/index"
  * **Related:** `asPhoneNumber()`, `PhoneNumber`
  */
 export const isPhoneNumber = <T>(val: T): val is T => {
-  return isString(val) &&
+  return (
+    isString(val) &&
     ["+","(",...NUMERIC_CHAR].includes(asChars(val.trim())[0] as any) &&
     [...NUMERIC_CHAR].includes(
       [...asChars(val.trim())].pop() as any
@@ -32,4 +34,5 @@ export const isPhoneNumber = <T>(val: T): val is T => {
       ...NUMERIC_CHAR,
       ...WHITESPACE_CHARS, "(", ")", "+", ".", "-"
     ) === ""
+  ) as unknown as IsPhoneNumber<T>;
 }

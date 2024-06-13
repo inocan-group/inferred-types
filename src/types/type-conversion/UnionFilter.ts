@@ -1,4 +1,4 @@
-import { UnionToTuple, TupleToUnion, Filter, If, IsUnion, Tuple } from "src/types/index";
+import { UnionToTuple, TupleToUnion, Filter, IsUnion, Tuple } from "src/types/index";
 
 
 type Reduce<
@@ -25,28 +25,26 @@ type Isolate<
 
 /**
  * **UnionFilter**`<U, E>`
- * 
+ *
  * A type utility which receives a union type `U` and then eliminates
  * all elements of the union which _extend_ `E`.
- * 
+ *
  * **Related:** `UnionRetain`
  */
 export type UnionFilter<U, E> = [U] extends [never]
 ? never
-: If<
-    IsUnion<U>,
-    Reduce<UnionToTuple<U>,E>,
-    U extends E
+: [IsUnion<U>] extends [true]
+    ? Reduce<UnionToTuple<U>,E>
+    : [U] extends [E]
         ? never
-        : U
-  >
+        : U;
 
 /**
  * **UnionRetain**`<U, E>`
- * 
+ *
  * A type utility which receives a union type `U` and then eliminates
  * all elements of the union which _do not extend_ `E`.
- * 
+ *
  * **Related:** `UnionFilter`
  */
 export type UnionRetain<U, E> = [U] extends [never]

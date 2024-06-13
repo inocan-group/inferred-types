@@ -22,17 +22,19 @@ export type OnPassRemap<
 }
 
 type Merge<
-  A extends Partial<OnPassRemap>,
-  TKeys extends readonly (ObjectKey & keyof A)[],
+  TUser extends Partial<OnPassRemap>,
+  TKeys extends readonly (ObjectKey & keyof TUser)[],
   TConfig extends OnPassRemap = { never: never; false: false; error: Constant<"not-set"> }
 > = [] extends TKeys
   ? TConfig
   : Merge<
-    A,
+    TUser,
     AfterFirst<TKeys>,
     As<ExpandDictionary<
-      Record<First<TKeys>, A[First<TKeys>]>
-      & Omit<TConfig, First<TKeys>>
+      Record<
+        First<TKeys>,
+        TUser[First<TKeys>]
+      > & Omit<TConfig, First<TKeys>>
     >, OnPassRemap>
   >;
 
@@ -48,6 +50,32 @@ type Process<
   : [IsFalse<TTest>] extends [true]
   ? TRemap["false"]
   : TPass;
+
+type Iterate<
+  TTest extends readonly unknown[],
+  TPass,
+  TRemap extends OnPassRemap<unknown, unknown, unknown>
+> = [] extends TTest
+? TPass
+: Process<
+    First<TTest>,
+    TPass,
+    TRemap
+  > extends TPass
+
+
+  ? Iterate<
+      AfterFirst<TTest>,
+      TPass,
+      TRemap
+    >
+  : Process<
+    First<TTest>,
+    TPass,
+    TRemap
+  >
+
+;
 
 /**
  * **OnPass**`<TTest, TPass,[TRemap],[TFalse]>`
@@ -66,9 +94,13 @@ export type OnPass<
   TTest,
   TPass,
   TRemap extends Partial<OnPassRemap<unknown, unknown, unknown>> = OnPassRemap<never, false, Constant<"not-set">>
-> =
+> = TTest extends readonly unknown[]
+? Iterate<TTest,TPass,TRemap extends OnPassRemap<never, false, Constant<"not-set">>
+    ? TRemap
+    : Merge<TRemap, Keys<TRemap>>
+  >
 
-  Process<
+: Process<
     TTest,
     TPass,
     TRemap extends OnPassRemap<never, false, Constant<"not-set">>

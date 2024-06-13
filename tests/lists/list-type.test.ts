@@ -1,11 +1,12 @@
 import { Expect, Equal } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { ifArray, list } from "src/runtime/index"
+import {  list } from "src/runtime/index"
 import {  Extends, List } from "src/types/index";
+import { ifArray } from "../../src/runtime/boolean-logic";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("list() utility", () => {
@@ -64,7 +65,7 @@ describe("list() utility", () => {
     ];
   });
 
-  
+
   it("Mapping", () => {
     const cb = <T extends number>(v: T) => `${v} is a number`;
     let m = list(1,2).map(cb);
@@ -75,13 +76,13 @@ describe("list() utility", () => {
     ]);
 
     type cases = [
-      Expect<Equal<typeof m, List<string, "2212 -> mapped">>>, 
+      Expect<Equal<typeof m, List<string, "2212 -> mapped">>>,
     ];
     const cases: cases = [ true ];
 
   });
 
-  
+
   it("Flattening", () => {
     let deep = list(1,2,[3,4], "foo");
     let deeper = list(1,2,[3,[4,5]], "foo");
@@ -93,7 +94,7 @@ describe("list() utility", () => {
     expect(flat).toEqual([1,2,3,4, "foo"]);
     expect(kindaFlat).toEqual([1,2,3,[4,5], "foo"]);
     expect(superFlat).toEqual([1,2,3,4,5,"foo"]);
-    
+
     type cases = [
       Expect<Equal<typeof deep, List<string | number | number[], "49312f">>>,
       Expect<Equal<typeof flat, List<string | number, "49312f -> flattened">>>,
@@ -102,21 +103,21 @@ describe("list() utility", () => {
     const cases: cases = [
       true, true, true
     ];
-    
+
   });
 
-  
+
   it("toLocaleString", () => {
     let english = list(1000,2000,3000).toLocaleString("en");
     // let uzbek = list(1000,2000,3000).toLocaleString("uz");
     expect(english).toEqual("1,000,2,000,3,000");
     // expect(uzbek).toEqual("1 000,2 000,3 000");
   });
-  
 
-  
+
+
   it("FlatMap", () => {
-    let narrowCb = <T extends number | number[] | string>(v: T) => 
+    let narrowCb = <T extends number | number[] | string>(v: T) =>
       ifArray(v, v => v, v=>`found a ${v}`);
     let cb = <T extends number | number[] | string>(v: T) => typeof v === "number"
       ? `${v}`
@@ -125,7 +126,7 @@ describe("list() utility", () => {
     let deep = list(1,2,[3,4], "foo");
     let wide = deep.flatMap(cb);
     let narrow = deep.flatMap(narrowCb);
-    
+
     type cases = [
       Expect<Extends<typeof wide, List<string | number>>>,
       Expect<Extends<typeof narrow, List<`found a ${string}` | `found a ${number}`>>>,
@@ -133,9 +134,9 @@ describe("list() utility", () => {
     const cases: cases = [
       true, true
     ];
-    
+
   });
-  
+
 
 
 });

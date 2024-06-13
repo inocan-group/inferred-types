@@ -11,3 +11,5 @@ export * from "./Default";
 export * from "./Iff";
 export * from "./Fail"
 export * from "./OnPass"
+export * from "./IfUnset"
+export * from "./WhenNever"

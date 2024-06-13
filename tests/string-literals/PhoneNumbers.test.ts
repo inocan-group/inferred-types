@@ -1,8 +1,15 @@
 import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { removePhoneCountryCode } from "src/runtime/index"
-import { Extends,  RemovePhoneCountryCode,  GetPhoneCountryCode,  PhoneNumber, InternationalPhoneNumber, IsErrorCondition } from "src/types/index";
-import { getPhoneCountryCode, isPhoneNumber } from "src/runtime/index";
+import {
+  Extends,
+  RemovePhoneCountryCode,
+  GetPhoneCountryCode,
+  PhoneNumber,
+  IsErrorCondition,
+  HasPhoneCountryCode,
+  GetPhoneNumberType
+} from "src/types/index";
+import { asPhoneNumber, getPhoneCountryCode, isPhoneNumber, removePhoneCountryCode } from "src/runtime/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -31,7 +38,7 @@ describe("isPhoneNumber(val)", () => {
 
 });
 
-describe("PhoneNumber<[T>", () => {
+describe("PhoneNumber<[T]>", () => {
   it("without generic", () => {
     type T1 = Extends<"555 1212", PhoneNumber>;
     type T2 = Extends<"555-1212", PhoneNumber>;
@@ -78,19 +85,35 @@ describe("PhoneNumber<[T>", () => {
     ];
   });
 
-
-
   it("with generic test", () => {
     type ValidUsNumber = PhoneNumber<"+1 555 456-1212">;
-    type InValidUsNumber1 = PhoneNumber<"+1 555 456-121">;
+    type ValidUsNumber2 = PhoneNumber<"001 555 456-1212">;
+    type InvalidUsNumber1 = PhoneNumber<"+1 555 456-121">;
+    type InvalidUsNumber2 = PhoneNumber<"+1 555 456-A212">;
+
+    type ValidUkNumber = PhoneNumber<"+44 0555 456-1212">;
+    type ValidUkNumber2 = PhoneNumber<"0044 555 456-1212">;
+    type InvalidUkNumber1 = PhoneNumber<"+44 555 456-121">;
+
+    type InvalidCountryCode = PhoneNumber<"+666 555 456-1212">;
 
     type cases = [
       Expect<Equal<ValidUsNumber, "+1 555 456-1212">>,
-      ExpectTrue<IsErrorCondition<InValidUsNumber1, "invalid-phone-number">>,
+      Expect<Equal<ValidUsNumber2, "001 555 456-1212">>,
+      IsErrorCondition<InvalidUsNumber1, "invalid-phone-number">,
+      IsErrorCondition<InvalidUsNumber2, "invalid-phone-number">,
+
+      Expect<Equal<ValidUkNumber, "+44 0555 456-1212">>,
+      Expect<Equal<ValidUkNumber2, "0044 555 456-1212">>,
+      IsErrorCondition<InvalidUkNumber1, "invalid-phone-number">,
+
+      IsErrorCondition<InvalidCountryCode, "invalid-phone-number">,
 
     ];
     const cases: cases = [
-      true, true,
+      true, true,true,true,
+      true, true, true,
+      true
     ];
 
   });
@@ -100,7 +123,22 @@ describe("PhoneNumber<[T>", () => {
 describe("HasCountryCode<TPhone,TExplicit>", () => {
 
   it("first test", () => {
+    type UK = HasPhoneCountryCode<"+44 798-947-9178">;
+    type US = HasPhoneCountryCode<"+1 798-947-9178">;
+    type Fake = HasPhoneCountryCode<"+666 798-947-9178">;
+    type FakeNotExplicit = HasPhoneCountryCode<"+666 798-947-9178", false>;
 
+    type cases = [
+      ExpectTrue<UK>,
+      ExpectTrue<US>,
+
+      ExpectFalse<Fake>,
+      ExpectTrue<FakeNotExplicit>,
+    ];
+    const cases: cases = [
+      true, true,
+      false, true
+    ];
 
   });
 
@@ -145,6 +183,43 @@ describe("asPhoneNumber() and supporting utils", () => {
 
   });
 
+
+  it("GetPhoneNumberType<T>", () => {
+    type Intl = GetPhoneNumberType<"+44 7989449188">;
+    type Intl2 = GetPhoneNumberType<"+1 7989449188">;
+    type Country = GetPhoneNumberType<"07989449188">;
+    type Country2 = GetPhoneNumberType<"0798-9449-188">;
+    type Country3 = GetPhoneNumberType<"555-456-1212">;
+    type Country4 = GetPhoneNumberType<"(203) 486-4455">;
+    type Regional = GetPhoneNumberType<"486-4455">;
+    type Regional2 = GetPhoneNumberType<"486.4455">;
+    type Regional3 = GetPhoneNumberType<"486 4455">;
+    type Regional4 = GetPhoneNumberType<"  4864455 ">;
+
+    type cases = [
+      Expect<Equal<Intl, "international">>,
+      Expect<Equal<Intl2, "international">>,
+
+      Expect<Equal<Country, "country">>,
+      Expect<Equal<Country2, "country">>,
+      Expect<Equal<Country3, "country">>,
+      Expect<Equal<Country4, "country">>,
+
+      Expect<Equal<Regional, "regional">>,
+      Expect<Equal<Regional2, "regional">>,
+      Expect<Equal<Regional3, "regional">>,
+      Expect<Equal<Regional4, "regional">>,
+
+    ];
+    const cases: cases = [
+      true,true,
+      true,true,true,true,
+      true,true,true,true,
+    ];
+
+  });
+
+
   it("getPhoneCountryCode()", () => {
     const none = getPhoneCountryCode("555-1212");
     const uk = getPhoneCountryCode("+44 798-947-9178");
@@ -181,6 +256,23 @@ describe("asPhoneNumber() and supporting utils", () => {
     const cases: cases = [];
 
   });
+
+  it("asPhoneNumber()", () => {
+    const usaParaDashed = asPhoneNumber("  +1 424-339-0625", "ParaDashed (e.g., (456) 555-1212)");
+    const usaDotted = asPhoneNumber("+1 424-339-0625 ", "Dotted (e.g., 456.555.1212)");
+    const usaDashed = asPhoneNumber("+1 424-339-0625 ", "Dashed (e.g., 456-555-1212)");
+
+    expect(usaParaDashed).toBe("+1 (424) 339-0625");
+    expect(usaDotted).toBe("+1 424.339.0625");
+    expect(usaDashed).toBe("+1 424-339-0625");
+
+    type cases = [
+      /** type tests */
+    ];
+    const cases: cases = [];
+
+  });
+
 
 
 });

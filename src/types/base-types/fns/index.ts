@@ -5,3 +5,5 @@ export * from "./IdentityFunction";
 export * from "./AnyFunction";
 export * from "./TypedFunction"
 export * from "./AnyFnWithDict"
+export * from "./OptionalParamFn"
+export * from "./EscapeFunction"

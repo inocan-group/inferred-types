@@ -1,4 +1,4 @@
-import { And, Or } from "src/types/index";
+import { And, Dictionary, Or, Values } from "src/types/index";
 
 type Find<
   TList extends readonly unknown[],
@@ -16,19 +16,29 @@ type Compare<
     : never
 }, true>
 
-/**
- * **HasSameValues**`<TList,TComparator>`
- * 
- * Boolean type utility which determines if the values in
- * `TList` and `TComparator` are the same (even if the order
- * is different). 
- */
-export type HasSameValues<
-  TList extends readonly unknown[],
-  TComparator extends readonly unknown[]
+type Process<
+TList extends readonly unknown[],
+TComparator extends readonly unknown[]
 > = TList["length"] extends TComparator["length"]
 ? Compare<
-    TList,
-    TComparator
-  >
+  TList,
+  TComparator
+>
 : false;
+
+
+/**
+ * **HasSameValues**`<TContainer,TComparator>`
+ *
+ * Boolean type utility which determines if the values in
+ * `TList` and `TComparator` are the same (even if the order
+ * is different).
+ */
+export type HasSameValues<
+  TContainer extends readonly unknown[],
+  TComparator extends readonly unknown[]
+> = TContainer extends readonly unknown[]
+? Process<TContainer,TComparator>
+: TContainer extends Dictionary
+  ? Process<Values<TContainer>,TComparator>
+  : never;

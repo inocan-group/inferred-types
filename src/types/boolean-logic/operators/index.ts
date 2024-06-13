@@ -1,3 +1,4 @@
+export * from "./ApiOperators";
 export * from "./AllExtend";
 export * from "./AllLiteral";
 export * from "./AreSameType";
@@ -90,4 +91,5 @@ export * from "./IsFloat";
 export * from "./IsInteger";
 export * from "./IsUrl";
 export * from "./Network-operators";
-export * from "./IsPhoneNumber";
+export * from "./PhoneOperators";
+export * from "./IsUnset";

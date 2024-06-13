@@ -1,13 +1,13 @@
 import { AnyFunction, ObjectKey } from "../base-types";
 
-export type FnDefn = [fn: AnyFunction ] 
-| [fn: AnyFunction, desc: string] 
+export type FnDefn = [fn: AnyFunction ]
+| [fn: AnyFunction, desc: string]
 | [fn: AnyFunction, props: Record<ObjectKey, unknown> ];
 
 /**
  * **Fn**`<TArgs,TReturn>`
  */
-export type Fn<
+export type FnWithDescription<
   TFn extends FnDefn = FnDefn
 > = TFn extends [ fn: AnyFunction ]
 ? TFn[0]

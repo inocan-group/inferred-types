@@ -16,5 +16,4 @@ export * from "./ifFalse";
 export * from "./ifChar";
 export * from "./ifUndefined";
 export * from "./ifArrayPartial";
-export * from "./handleDoneFn";
 

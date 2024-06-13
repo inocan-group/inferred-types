@@ -41,8 +41,10 @@ export * from "./network-tg";
 export * from "./isHexadecimal";
 export * from "./isTrimmable";
 export * from "./hasWhitespace";
-export * from "./isEmail"
-export * from "./isPhoneNumber"
-
+export * from "./isEmail";
+export * from "./isPhoneNumber";
+export * from "./isUnset";
+export * from "./api-tg";
+export * from "./isFunction";
 
 export * from "./higher-order/index";

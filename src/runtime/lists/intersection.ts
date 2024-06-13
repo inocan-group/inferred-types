@@ -1,5 +1,6 @@
 import type { Container, Intersection, } from "src/types/index";
-import { isIndexable, getEach, ifNotNull, get } from "src/runtime/index";
+import { isIndexable, getEach,  get } from "src/runtime/index";
+import { ifNotNull } from "../boolean-logic/ifNotNull";
 
 function intersectWithOffset<
   A extends readonly unknown[],
@@ -43,13 +44,13 @@ function intersectNoOffset<
 
 /**
  * **intersection**(a,b,[deref])
- * 
+ *
  * A set operation which provides the _intersection_ between
- * between two array's `a` and `b`. 
- * 
+ * between two array's `a` and `b`.
+ *
  * - when passing in arrays, you may also pass in a _dereferencing_ property
  * which will be used for arrays of objects (or sub-arrays) so that the comparison
- * is done on the dereferenced value versus the value as a whole. 
+ * is done on the dereferenced value versus the value as a whole.
  */
 export const intersection = <
   A extends readonly unknown[],
