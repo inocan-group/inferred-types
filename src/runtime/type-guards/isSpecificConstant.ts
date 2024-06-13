@@ -1,6 +1,6 @@
 
 import { Constant } from "src/constants/index";
-import { isConstant, isEqual } from "src/runtime/index";
+import { isConstant } from "src/runtime/index";
 
 
 /**
