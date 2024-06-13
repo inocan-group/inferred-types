@@ -1,6 +1,5 @@
-import {  RetainWhile } from "src/types/string-literals";
+import {  RetainWhile, TupleToUnion } from "src/types/index";
 import { asChars } from "../type-conversion"
-import { TupleToUnion } from "src/types/type-conversion";
 
 
 /**
@@ -17,6 +16,8 @@ export const retainWhile = <
   content: TContent,
   ...retain: TRetain
 ) => {
-  const stopIdx = asChars(content).findIndex(c => !retain.includes(c));
+  const stopIdx = asChars(content)
+    .findIndex(c => !retain.includes(c));
+
   return content.slice(0,stopIdx) as unknown as RetainWhile<TContent, TupleToUnion<TRetain>>;
 }
