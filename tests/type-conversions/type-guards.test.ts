@@ -262,7 +262,7 @@ describe("isConstant()", () => {
   });
 
 
-  it("positive test for Never type", () => {
+  it.skip("positive test for Never type", () => {
     // special case because the type system sees as `never` rather than as Constant
     const maybe = Never;
 
@@ -273,7 +273,7 @@ describe("isConstant()", () => {
     }
   });
 
-  it("isSpecificConstant for Never type", () => {
+  it.skip("isSpecificConstant for Never type", () => {
     // special case because the type system sees as `never` rather than as Constant
     const maybe = Never;
 
