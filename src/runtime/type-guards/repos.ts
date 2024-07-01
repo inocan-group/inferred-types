@@ -75,6 +75,12 @@ export const isGithubUrl = <T>(val: T): val is T & UrlsFrom<typeof REPO_SOURCE_L
   )
 }
 
+/**
+ * **isGithubRepoUrl**
+ *
+ * Type guard validating that passed in value is valid URL for
+ * a Github repo.
+ */
 export const isGithubRepoUrl = <T>(val: T): val is T & `https://github.com/${string}/${AlphaNumericChar}${string}` => {
   const baseUrls = [""]
   return isString(val) && baseUrls.every(u =>
