@@ -26,7 +26,7 @@
     "prepare": "ts-patch install -s",
     "build": "run-s build:esm build:cjs",
     "build:esm": "tsc -b --verbose src/inferred-types",
-    "build:cjs": "tsup dist/inferred-types/index.cjs --format cjs -d dist/inferred-types",
+    "build:cjs": "tsup dist/inferred-types/index.js --format cjs -d dist/inferred-types",
     "diagnostics": "tsc -b -f --extendedDiagnostics src/inferred-types",
     "clean": "rimraf dist/**/*",
     "lint": "eslint src",
