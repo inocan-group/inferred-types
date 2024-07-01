@@ -2228,11 +2228,6 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  typescript@5.5.3:
-    resolution: {integrity: sha512-/hreyEujaB0w76zKo6717l3L0o/qEUtRgdvUBvlkhoWeOVMjMuHNHk0BRBzikzuGDqNmPQbg5ifMEqsHLiIUcQ==}
-    engines: {node: '>=14.17'}
-    hasBin: true
-
   typical@4.0.0:
     resolution: {integrity: sha512-VAH4IvQ7BDFYglMd7BPRDfLgxZZX4O4TFcRDA6EN5X7erNJJq+McIEp8np9aVtxrCJ6qx4GTYVfOWNjcqwZgRw==}
     engines: {node: '>=8'}
@@ -2869,12 +2864,6 @@ snapshots:
       '@vue/compiler-ssr': 3.4.31
       '@vue/shared': 3.4.31
       vue: 3.4.31(typescript@5.4.5)
-
-  '@vue/server-renderer@3.4.31(vue@3.4.31(typescript@5.5.3))':
-    dependencies:
-      '@vue/compiler-ssr': 3.4.31
-      '@vue/shared': 3.4.31
-      vue: 3.4.31(typescript@5.5.3)
 
   '@vue/shared@3.4.31': {}
 
@@ -3730,9 +3719,9 @@ snapshots:
 
   imurmurhash@0.1.4: {}
 
-  inferred-types@0.42.1(typescript@5.5.3):
+  inferred-types@0.42.1(typescript@5.4.5):
     dependencies:
-      vue: 3.4.31(typescript@5.5.3)
+      vue: 3.4.31(typescript@5.4.5)
     transitivePeerDependencies:
       - typescript
 
@@ -4554,11 +4543,11 @@ snapshots:
       command-line-args: 5.2.1
       command-line-usage: 7.0.1
       fast-glob: 3.3.2
-      inferred-types: 0.42.1(typescript@5.5.3)
+      inferred-types: 0.42.1(typescript@5.4.5)
       pathe: 1.1.2
       stack-trace: 1.0.0-pre2
       ts-morph: 22.0.0
-      typescript: 5.5.3
+      typescript: 5.4.5
       watcher: 2.3.1
       xxhash-wasm: 1.0.2
 
@@ -4661,8 +4650,6 @@ snapshots:
 
   typescript@5.4.5: {}
 
-  typescript@5.5.3: {}
-
   typical@4.0.0: {}
 
   typical@7.1.1: {}
@@ -4758,16 +4745,6 @@ snapshots:
       '@vue/shared': 3.4.31
     optionalDependencies:
       typescript: 5.4.5
-
-  vue@3.4.31(typescript@5.5.3):
-    dependencies:
-      '@vue/compiler-dom': 3.4.31
-      '@vue/compiler-sfc': 3.4.31
-      '@vue/runtime-dom': 3.4.31
-      '@vue/server-renderer': 3.4.31(vue@3.4.31(typescript@5.5.3))
-      '@vue/shared': 3.4.31
-    optionalDependencies:
-      typescript: 5.5.3
 
   watcher@2.3.1:
     dependencies:
