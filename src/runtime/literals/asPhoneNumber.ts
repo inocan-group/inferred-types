@@ -89,5 +89,5 @@ export const asPhoneNumber = <
       break;
   }
 
-  return result as ToPhoneFormat<T,F>;
+  return result as unknown as ToPhoneFormat<T,F>;
 }

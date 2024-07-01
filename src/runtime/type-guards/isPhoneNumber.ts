@@ -1,7 +1,6 @@
-import { WHITESPACE_CHARS } from "src/constants/Characters"
-import { NUMERIC_CHAR } from "src/constants/NumericChar"
+import { NUMERIC_CHAR, WHITESPACE_CHARS } from "src/constants/index"
 import { isString,asChars, retainChars, stripChars } from "src/runtime/index"
-import { IsPhoneNumber } from "src/types/boolean-logic"
+import { IsPhoneNumber } from "src/types/index"
 
 /**
  * **isPhoneNumber**`(val)`

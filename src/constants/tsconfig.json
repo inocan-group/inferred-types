@@ -1,39 +1,39 @@
 {
-    "compilerOptions": {
-        "strict": true,
-        "skipLibCheck": true,
-        "module": "ESNext",
-        "target": "ESNext",
-        "moduleResolution": "Bundler",
-        "declaration": true,
-        "declarationMap": true,
-        "baseUrl": ".",
-        "rootDir": "..",
-        "outDir": "../../dist",
-        "composite": true,
-        "forceConsistentCasingInFileNames": true,
-        "paths": {
-            "src/constants/index": [
-                "../constants/index.ts"
-            ],
-            "src/constants/*": [
-                "./*"
-            ],
-        },
-        "plugins": [
-            // Transform paths in output .js files
-            {
-                "transform": "typescript-transform-paths"
-            },
-            // Transform paths in output .d.ts files (Include this line if you output declarations files)
-            {
-                "transform": "typescript-transform-paths",
-                "afterDeclarations": true
-            },
-            {
-                "transform": "typescript-transformer-esm",
-                "after": true
-            }
-        ]
-    }
+  "compilerOptions": {
+    "strict": true,
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "Bundler",
+    "declaration": true,
+    "declarationMap": true,
+    "baseUrl": ".",
+    "rootDir": "..",
+    "outDir": "../../dist",
+    "composite": true,
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "src/constants/index": [
+        "../constants/index.ts"
+      ],
+      "src/constants/*": [
+        "./*"
+      ],
+    },
+    "plugins": [
+      // Transform paths in output .js files
+      {
+        "transform": "typescript-transform-paths"
+      },
+      // Transform paths in output .d.ts files (Include this line if you output declarations files)
+      {
+        "transform": "typescript-transform-paths",
+        "afterDeclarations": true
+      },
+      {
+        "transform": "typescript-transformer-esm",
+        "after": true
+      }
+    ]
+  }
 }

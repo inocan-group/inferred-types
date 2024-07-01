@@ -1,5 +1,6 @@
-import { AsIp6Prefix, Ip6Group } from "src/types/string-literals";
+import { AsIp6Prefix, Ip6Group } from "src/types/index";
 import { addToken } from "./shape-helpers/addToken";
+
 
 export const ip6Prefix = <T extends readonly Ip6Group[]>(...groups: T) => {
   const empty = addToken("string") as `${string}`;
@@ -11,9 +12,9 @@ export const ip6Prefix = <T extends readonly Ip6Group[]>(...groups: T) => {
   return [
     "<<string::",
     [
-      groups.join(":"), 
+      groups.join(":"),
       fillIn.join(":"),
-    ].join(":"),
+    ].join(":") as string,
     ">>"
   ].join("") as unknown as AsIp6Prefix<T>
 }

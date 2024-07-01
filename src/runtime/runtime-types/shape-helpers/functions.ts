@@ -1,10 +1,10 @@
-import { 
-  AsLiteralFn,  
-  FnArgsDefn, 
-  FnPropertiesDefn, 
-  FnReturnTypeDefn, 
-  FromDefn, 
-  FromWideTokens 
+import {
+  AsLiteralFn,
+  FnArgsDefn,
+  FnPropertiesDefn,
+  FnReturnTypeDefn,
+  FromDefn,
+  FromWideTokens
 } from "src/types/index";
 
 
@@ -27,6 +27,6 @@ export const fn = <TArgs extends readonly FnArgsDefn[]>(..._args: TArgs) => ({
   }),
   done: () => {
     const result:unknown = null;
-    return result as AsLiteralFn<FromDefn<TArgs>>;
+    return result as unknown as AsLiteralFn<FromDefn<TArgs>>;
   }
 });

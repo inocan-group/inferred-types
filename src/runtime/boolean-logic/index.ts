@@ -1,7 +1,6 @@
 export * from "./ifArray";
 export * from "./ifBoolean";
 export * from "./ifNumber";
-export * from "./ifString";
 export * from "./ifNotNull";
 export * from "./ifSameType";
 export * from "./ifFunction";

@@ -5,13 +5,11 @@
   "license": "MIT",
   "author": "Ken Snyder<ken@ken.net>",
   "type": "module",
-  "main": "./dist/inferred-types/index.cjs",
   "module": "./dist/inferred-types/index.js",
   "typings": "./dist/inferred-types/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/inferred-types/index.js",
-      "require": "./dist/inferred-types/index.cjs",
       "types": "./dist/inferred-types/index.d.ts"
     }
   },
@@ -24,7 +22,7 @@
   "sideEffects": false,
   "scripts": {
     "prepare": "ts-patch install -s",
-    "build": "run-s build:esm build:cjs",
+    "build": "run-s build:esm",
     "build:esm": "tsc -b --verbose src/inferred-types",
     "build:cjs": "tsup dist/inferred-types/index.js --format cjs -d dist/inferred-types",
     "diagnostics": "tsc -b -f --extendedDiagnostics src/inferred-types",
@@ -77,7 +75,7 @@
     "ts-type-tester": "^0.3.2",
     "tsup": "^8.1.0",
     "tsx": "^4.16.0",
-    "typescript": "^5.5.3",
+    "typescript": "~5.4.5",
     "typescript-eslint": "^7.15.0",
     "typescript-transform-paths": "^3.4.7",
     "typescript-transformer-esm": "^1.1.0",
