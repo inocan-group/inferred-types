@@ -51,7 +51,7 @@
     "@arktype/attest": "^0.7.10",
     "@eslint/js": "^9.6.0",
     "@type-challenges/utils": "~0.1.1",
-    "@types/node": "^18.19.39",
+    "@types/node": "^20.14.9",
     "@typescript-eslint/eslint-plugin": "^7.15.0",
     "@typescript-eslint/parser": "^7.15.0",
     "@typescript/analyze-trace": "^0.10.1",
