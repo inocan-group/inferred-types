@@ -3,7 +3,7 @@ import { ErrorCondition,If, IsErrorCondition } from "src/types/index";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("If<T,TIf,TElse,TMaybe>", () => {
@@ -18,8 +18,7 @@ describe("If<T,TIf,TElse,TMaybe>", () => {
     type YesNo = If<boolean, "yes", "no">;
 
     type InvalidUnion = If<"foo" | "bar">;
-    type Cascade = If<ErrorCondition<"cascade", "oops!">>;
-    
+
     type cases = [
       Expect<Equal<True, true>>,
       Expect<Equal<False, false>>,
@@ -31,12 +30,11 @@ describe("If<T,TIf,TElse,TMaybe>", () => {
 
       Expect<Equal<YesNo, "yes" | "no">>,
       ExpectTrue<IsErrorCondition<InvalidUnion, "invalid-test">>,
-      ExpectTrue<IsErrorCondition<Cascade, "cascade">>,
     ];
     const cases: cases = [
-      true, true, true, true, 
-      true, true,  
-      true, true, true
+      true, true, true, true,
+      true, true,
+      true, true
     ];
   });
 

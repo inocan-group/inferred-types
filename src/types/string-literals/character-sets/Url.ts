@@ -19,7 +19,9 @@ import {
   RetainWhile,
   AsNumber,
   StripBefore,
-  StripWhile
+  StripWhile,
+  IsUndefined,
+  Contains
 } from "src/types/index";
 import { NETWORK_PROTOCOL_LOOKUP } from "src/constants/index";
 
@@ -288,15 +290,20 @@ export type GetUrlPath<
 
 
 /**
- * **GetUrlQueryParams**`<T>`
+ * **GetUrlQueryParams**`<T, [S]>`
  *
  * Given a URL passed into `T`, this utility will extract the
  * query parameters portion of the URL or `""` if none exists.
  */
 export type GetUrlQueryParams<
-  T extends string
+  T extends string,
+  S extends string | undefined = undefined
 > = T extends `${string}?${infer QP}`
-? `?${QP}`
+? IsUndefined<S> extends true
+  ? `?${QP}`
+  : Contains<QP, `${S}=`> extends true
+    ? string
+    : undefined
 : "";
 
 /**

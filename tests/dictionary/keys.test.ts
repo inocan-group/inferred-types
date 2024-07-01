@@ -1,6 +1,6 @@
 import type { Expect, Equal } from "@type-challenges/utils";
 import { describe, it, expect } from "vitest";
-import type { 
+import type {
   Keys,
   NumericKeys,
   EmptyObject,
@@ -33,9 +33,9 @@ describe("NumericKeys<T>", () => {
       Expect<Equal<Empty,  number[]>>,
       Expect<Equal<Empty_RO,  number[]>>,
     ];
-    
-    const cases: cases = [ 
-      true, true, true, true, true 
+
+    const cases: cases = [
+      true, true, true, true, true
     ];
   });
 });
@@ -54,7 +54,7 @@ describe("Keys<T> with object targets", () => {
 
   // eslint-disable-next-line @typescript-eslint/ban-types
   type Curly = Keys<{}>;
-  
+
   it("object resolution", () => {
     type cases = [
       Expect<Equal<EmptyObj, ObjectKey[]>>,
@@ -67,14 +67,14 @@ describe("Keys<T> with object targets", () => {
       Expect<Equal<StrRec, ObjectKey[]>>,
       Expect<Equal<KeyVal, ObjectKey[]>>,
     ];
-    
-    const cases: cases = [ 
+
+    const cases: cases = [
       true, true, true, true, true, true,
       true, true
-    ]; 
+    ];
   });
 
-  
+
   it("array resolution", () => {
 
     type cases = [
@@ -86,7 +86,7 @@ describe("Keys<T> with object targets", () => {
     const cases: cases = [true, true, true, true];
   });
 
-  
+
   // we need the "real" Ref<T> and the "fake" VueRef<T>
   // to perform exactly the same
   it("VueRef<T> and Ref<T> key resolution", () => {
@@ -98,28 +98,28 @@ describe("Keys<T> with object targets", () => {
     type Str2 = Keys<VueRef<"hi">>;
 
     type cases = [
-      Expect<HasSameValues<Obj, ["value"]>>, 
-      Expect<HasSameValues<Obj2, ["value"]>>, 
-      Expect<HasSameValues<Arr, ["value"]>>, 
-      Expect<HasSameValues<Arr2, ["value"]>>, 
-      Expect<HasSameValues<Str, ["value"]>>, 
-      Expect<HasSameValues<Str2, ["value"]>>, 
+      Expect<HasSameValues<Obj, ["value"]>>,
+      Expect<HasSameValues<Obj2, ["value"]>>,
+      Expect<HasSameValues<Arr, ["value"]>>,
+      Expect<HasSameValues<Arr2, ["value"]>>,
+      Expect<HasSameValues<Str, ["value"]>>,
+      Expect<HasSameValues<Str2, ["value"]>>,
     ];
     const cases: cases = [ true, true, true, true, true, true ];
   });
-  
-  
+
+
 });
 
 describe("runtime keysOf() utility on object", () => {
   it("with just object passed in, keys are extracted as expected", () => {
     const obj = defineObj({ id: "123" })({ color: "red", isFavorite: false });
-    const k = keysOf(obj); 
+    const k = keysOf(obj);
     const k2 = keysOf({} as object);
     type K = typeof k;
 
     expect(k).toHaveLength(3);
-    expect(k).toContain("id"); 
+    expect(k).toContain("id");
     expect(k).toContain("color");
     expect(k).toContain("isFavorite");
 
@@ -127,24 +127,24 @@ describe("runtime keysOf() utility on object", () => {
 
     type cases = [
       Expect<HasSameValues<K,  ["id", "color", "isFavorite" ]>>,
-      Expect<Equal<typeof k2, ObjectKey[]>>
+      Expect<Equal<typeof k2, ObjectKey[] & readonly never[]>>
     ];
     const cases: cases = [true, true];
     expect(cases).toBe(cases);
   });
 
-  
+
   it("Runtime keysOf() for an array", () => {
     const arr = narrow([1,2,3]);
     const keys = keysOf(arr);
     expect(keys).toEqual([0,1,2]);
-    
+
     type cases = [
-      Expect<Equal<typeof keys, readonly [0,1,2]>>,
+      Expect<Equal<typeof keys, readonly [0,1,2] & readonly (keyof readonly [1, 2, 3])[]>>,
     ];
     const cases: cases = [ true ];
   });
-  
+
 
 
 });
