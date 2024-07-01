@@ -27,17 +27,17 @@ const handleTypeToken = <TToken extends Shape>(token: TToken) => <TType>() => {
 
 /**
  * **parse**`(value)`
- * 
+ *
  * Detects if the value passed in is a type token
- * from the `ShapeApi`. 
+ * from the `ShapeApi`.
  */
 export const parse = <T>(value: T) => {
-  return isShape(value) 
-    ? handleTypeToken(value)<T>()
+  return isShape(value)
+    ? handleTypeToken(value)<T>() as unknown
     : {
       isToken: false,
       type: value,
-    }
+    } as unknown
 }
 
 // export const IsParsedToken = <T>(value: T): value is ParsedToken<T> => {
