@@ -108,7 +108,6 @@ export const isUrlSource = <T>(val: T) => {
  *
  * Tests whether the valued in has a query parameter specified by `prop`.
  */
-export const hasUrlQueryParameter = <T,P extends string>(val: T, prop: P) => {
-  const re = new RegExp(`${prop}=`)
-  return isString(val) && re.test(getUrlQueryParams(val))
+export const hasUrlQueryParameter = <T extends string,P extends string>(val: T, prop: P) => {
+  return isString(getUrlQueryParams(val, prop))
 }

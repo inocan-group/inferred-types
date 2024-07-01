@@ -125,7 +125,7 @@ export const getUrlQueryParams = <
     qp === ""
     ? qp
     : `?${qp}`
-  ) as GetUrlQueryParams<T>;
+  ) as GetUrlQueryParams<T,S>;
 }
 
 export const getUrlPort = <
