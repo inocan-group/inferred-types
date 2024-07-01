@@ -3,7 +3,8 @@ import { describe, expect, it } from "vitest";
 
 import { createFnWithProps, isFnWithParams, isFunction } from "src/runtime/index";
 import type { AnyFunction, IsFunction } from "src/types/index";
-import { ifFunction } from "src/runtime/index";
+import { ifFunction } from "../../src/runtime/boolean-logic/ifFunction";
+
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to

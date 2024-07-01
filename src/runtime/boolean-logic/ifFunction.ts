@@ -1,4 +1,9 @@
-import { AnyFunction, Narrowable, If, IsFunction } from "src/types/index";
+import {
+  AnyFunction,
+  Narrowable,
+  If,
+  IsFunction
+} from "src/types/index";
 
 
 /**
@@ -22,5 +27,5 @@ export function ifFunction<
     typeof value === "function"
       ? isFnCallback(value)
       : notFnCallback(value as any)
-  ) as If<IsFunction<TValue>, Fn, NotFn>;
+  ) as unknown as If<IsFunction<TValue>, Fn, NotFn>;
 }
