@@ -26,7 +26,7 @@ import {PascalCase, KebabCase} from "src/types/index";
  */
 export interface KindError<
   K extends string,
-  C extends Record<string, unknown> | undefined
+  C extends Record<string, unknown> | undefined = Record<string, unknown> | undefined
 > extends Error  {
   __kind: "KindError";
   name: PascalCase<K>;

@@ -1,13 +1,12 @@
 import { AnyFunction, Narrowable, If, IsFunction } from "src/types/index";
-import { isFunction } from "src/runtime/index";
 
 
 /**
  * **ifFunction**(value, isFn, notFn)
- * 
+ *
  * Runtime utility which assesses whether `value` is a function and provides
  * two callback hooks for both outcome.
- * 
+ *
  * **Related:** `isFunction`
  */
 export function ifFunction<
@@ -20,9 +19,8 @@ export function ifFunction<
   notFnCallback: (payload: Exclude<TValue, AnyFunction>) => NotFn
 ): If<IsFunction<TValue>, Fn, NotFn> {
   return (
-    isFunction(value)
+    typeof value === "function"
       ? isFnCallback(value)
-
       : notFnCallback(value as any)
   ) as If<IsFunction<TValue>, Fn, NotFn>;
 }

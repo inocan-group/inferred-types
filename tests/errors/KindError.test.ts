@@ -4,7 +4,7 @@ import { kindError } from "src/runtime/index";
 import {   KindError, KindErrorDefn } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("KindError", () => {
@@ -18,7 +18,7 @@ describe("KindError", () => {
         typeof FooBarErr,
         KindErrorDefn<"foo-bar">
       >>,
-      Expect<Equal<typeof FooBar, KindError<"foo-bar">>>,
+      Expect<Equal<typeof FooBar, KindError<"foo-bar", {}>>>,
       Expect<Equal<typeof FooBar["kind"], "foo-bar">>,
       Expect<Equal<typeof FooBar["name"], "FooBar">>,
     ];

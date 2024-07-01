@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { ifString } from "../../src/runtime/boolean-logic";
+import { ifString } from "src/runtime/index";
 import {  Narrowable , LogicalReturns } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

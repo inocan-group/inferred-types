@@ -1,5 +1,5 @@
 import { If, IsFalse, IsString, IsTrue, Narrowable } from "src/types/index";
-import { isString } from "src/runtime/index";
+
 
 
 /**
@@ -23,7 +23,7 @@ export function ifString<
   elseVal: <V extends Exclude<TContent, string>>(v: V & TContent) => TElse
 ) {
   return (
-    isString(val)
+    typeof val === "string"
       ? ifVal(val as string & TContent)
       : elseVal(val as Exclude<TContent, string>)
   ) as unknown as

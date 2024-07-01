@@ -75,9 +75,9 @@ export type YouTubeShareUrl = UrlsFrom<"youtu.be">;
  * may state that this is a video to watch in a list of videos. You can avoid
  * this ambiguity with the `IsYouTubeVideo` and `IsYouTubeList` operators.
  */
-export type YouTubeVideoUrl = UrlsFrom<[
-  "www.youtube.com/watch", "youtube.com/watch"
-]> | YouTubeShareUrl;
+export type YouTubeVideoUrl =
+  `https://www.youtube.com/watch?${string}v=${string}` | `https://youtube.com/watch?${string}v=${string}`
+ | YouTubeShareUrl;
 
 /**
  * **YouTubeCreatorUrl**
@@ -89,6 +89,12 @@ export type YouTubeCreatorUrl = UrlsFrom<[
   `www.youtube.com/channel/${string}`,
   `youtube.com/channel/${string}`,
 ]> | `https://www.youtube.com/@${string}${Optional<"/featured" | "/videos" | "/playlists">}`
+
+
+export type YouTubeEmbedUrl<TVideo extends string = string>  = UrlsFrom<[
+  `www.youtube.com/embed/${TVideo}`,
+  `youtube.com/embed/${TVideo}`
+]>
 
 
 /**

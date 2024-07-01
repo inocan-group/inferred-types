@@ -1,12 +1,15 @@
 import {
   As,
   GetYouTubePageType,
+  YouTubeEmbedUrl,
   YouTubePageType,
   YouTubeShareUrl,
-  YouTubeUrl
+  YouTubeUrl,
+  YouTubeVideoUrl
 } from "src/types/index";
 import {
   getUrlPath,
+  getUrlQueryParams,
   hasUrlQueryParameter,
   isYouTubeCreatorUrl,
   isYouTubeFeedUrl,
@@ -94,6 +97,28 @@ export const getYouTubePageType = <T extends string>(url: T) => {
         : "other"
     : Never
   ) as unknown as GetYouTubePageType<T>;
+}
+
+/**
+ * **youtubeEmbed**`(url)`
+ *
+ * Takes a Video URL from YouTube and converts it to a "embed" URL
+ * that can be put into an iframe.
+ */
+export const youtubeEmbed = (url: YouTubeVideoUrl) =>  {
+  if (hasUrlQueryParameter(url, "v")) {
+    const id= getUrlQueryParams(url, "v")
+    return `https://www.youtube.com/embed/${id}` as YouTubeEmbedUrl
+  } else if (isYouTubeShareUrl(url)) {
+    const id = url.split("/").pop() as string;
+    if (id) {
+      return `https://www.youtube.com/embed/${id}` as YouTubeEmbedUrl
+    } else {
+      throw new Error(`Unexpected problem parsing share URL -- "${url}" -- into a YouTube embed URL`)
+    }
+  } else {
+    throw new Error(`Unexpected URL structure; unable to convert "${url}" to a YouTube embed URL`)
+  }
 }
 
 

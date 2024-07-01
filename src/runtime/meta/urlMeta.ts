@@ -89,15 +89,37 @@ export const getUrlPath = <
         stripAfter(stripBefore(removeUrlProtocol(url), "/"), "?")
       ) as unknown as GetUrlPath<T>
     : Never
-
 }
 
+/**
+ * **getUrlQueryParams**`(url, [specific])`
+ *
+ * Get's the query parameter's part of a URL and optionally allows
+ * you to focus in on a specific key in the query parameters.
+ *
+ * If you do specify a particular query parameter it will decode
+ * the value with URIDecode.
+ */
 export const getUrlQueryParams = <
-  T extends string
+  T extends string,
+  S extends string | undefined
 >(
-  url: T
+  url: T,
+  specific: S = undefined as S
 ) => {
   const qp = stripBefore(url, "?");
+  if (specific) {
+    return (
+      qp.includes(`${specific}=`)
+        ? decodeURIComponent(
+            stripAfter(
+              stripBefore(qp, (`${specific}=`)),
+              "&"
+            ).replace(/\+/g, '%20')
+          )
+        : undefined
+    )
+  }
 
   return (
     qp === ""
