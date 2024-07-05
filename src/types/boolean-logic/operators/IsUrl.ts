@@ -1,13 +1,9 @@
 import {
   And,
-  As,
-  AsString,
-  Equals,
   Extends,
   GetUrlPath,
   GetUrlSource,
   IsNever,
-  IsString,
   IsStringLiteral,
   NetworkProtocol,
   NetworkProtocolPrefix,
@@ -17,16 +13,15 @@ import {
 
 
 export type HasUrlPath<T extends string> = And<[
-  IsString<T>,
   Not<IsNever<GetUrlPath<T>>>,
   Or<[
     Extends<GetUrlPath<T>,"">,
     Extends<GetUrlPath<T>,`/${string}`>,
-    Equals<GetUrlPath<T>, string>,
+    string extends GetUrlPath<T> ? true : false
   ]>
 ]>;
 
-export type HasUrlSource<T> = Not<IsNever<GetUrlSource<AsString<T>>>>;
+export type HasUrlSource<T extends string> = Not<IsNever<GetUrlSource<T>>>;
 
 export type HasNetworkProtocolReference<
   TTest extends string,
@@ -50,18 +45,20 @@ export type HasNetworkProtocolReference<
 export type IsUrl<
   TTest,
   TProtocol extends NetworkProtocol | "optional" = "https"
-> = IsString<TTest> extends true
+> = TTest extends string
 ? IsStringLiteral<TTest> extends true
   ? And<[
       Or<[
         HasNetworkProtocolReference<
-          AsString<TTest>,
-          As<TProtocol, NetworkProtocol>
+          TTest,
+          TProtocol extends NetworkProtocol
+            ? TProtocol
+            : "https"
         >,
         Extends<"optional", TProtocol>
       ]>,
-      HasUrlPath<AsString<TTest>>,
-      HasUrlSource<AsString<TTest>>,
+      HasUrlPath<TTest>,
+      HasUrlSource<TTest>,
     ]>
   : boolean
 :false;

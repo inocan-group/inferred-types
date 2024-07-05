@@ -18,6 +18,7 @@ export * from "./AsFunction";
 export * from "./AsRecord";
 export * from "./AsObjectKeys"
 export * from "./AsPropertyKey";
+export * from "./AsStringUnion";
 export * from "./TupleToUnion";
 export * from "./UnionToIntersection";
 export * from "./ToString";
@@ -60,6 +61,8 @@ export * from "./AsContainer";
 export * from "./StripChars";
 export * from "./RetainChars";
 export * from "./ReduceValues";
+export * from "./JSON";
+export * from "./StringLiteralFromTuple"
 
 // #endregion auto-indexed files
 

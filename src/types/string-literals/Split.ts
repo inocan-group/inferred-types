@@ -23,7 +23,8 @@ type UnionSplit<
   TResult extends readonly string[] = []
 > = [] extends TContent
 ? TResult
-: UnionSplit<
+: // recurse
+  UnionSplit<
     AfterFirst<TContent>, // advance to next character
     TSep,
     TUnionPolicy,
@@ -43,7 +44,7 @@ type UnionSplit<
             ? BeforeLast<TResult> extends readonly string[]
               ? [
                 ...BeforeLast<TResult>,
-                `${Last<TResult,"">}${First<TContent>}`
+                `${Last<TResult>}${First<TContent>}`
               ]
               : never
             : never

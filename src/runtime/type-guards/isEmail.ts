@@ -1,5 +1,5 @@
 import { Email } from "src/types/index"
-import { asChars, isString, last } from "src/runtime/index";
+import { isString } from "src/runtime/index";
 
 /**
  * **isEmail**`(val)`
@@ -7,9 +7,16 @@ import { asChars, isString, last } from "src/runtime/index";
  * Tests to see if a string is shaped as an email address.
  */
 export const isEmail = <T>(val: T): val is T & Email => {
+  if (!isString(val)) {
+    return false
+  }
+  const parts: string[] = val.split("@");
+  const domain = parts[1].split(".");
+  const tld = domain.pop() as string;
+
   return isString(val) && (
-    val.split("@").length === 2 &&
-    val.split("@")[1].split(".").length > 1 &&
-    asChars(last(val.split("@")[1].split("."))).length > 1
+    parts.length === 2 &&
+    domain.length >= 1 &&
+    tld.length >= 2
   )
 }

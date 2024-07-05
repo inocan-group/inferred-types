@@ -1,6 +1,15 @@
 
+/**
+ * **ParseInt**`<T>`
+ *
+ * Converts a known string literal representation of a number
+ * to an actual number.
+ */
+export type ParseInt<T> = T extends `${infer N extends number}`
+  ? N
+  : never;
 
-type ParseInt<T> = T extends `${infer N extends number}` ? N : never;
+
 /**
  * **AsNumber**`<T>`
  *
@@ -14,9 +23,7 @@ type ParseInt<T> = T extends `${infer N extends number}` ? N : never;
  * **Related:** `ToNumber`
  */
 export type AsNumber<T> = T extends number
-  ? T & number
-  : number extends T
-    ? number
-    : T extends `${number}`
+  ? T
+  : T extends `${number}`
       ? ParseInt<T>
       : never;

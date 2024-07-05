@@ -1,4 +1,4 @@
-import { IfLength,Keys } from "src/types/index";
+import { Keys } from "src/types/index";
 
 /**
  * Converts a Tuple type into a _union_ of the tuple elements
@@ -12,6 +12,8 @@ import { IfLength,Keys } from "src/types/index";
  * **Note:** an empty array will be converted to a `string` type.
  */
 export type TupleToUnion<T> = T extends readonly unknown[]
-  ? IfLength<Keys<T>, 0, never, T[number]>
+  ? Keys<T>["length"] extends 0
+    ? never
+    : T[number]
   : never;
 

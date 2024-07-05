@@ -1,5 +1,5 @@
-import {  asType, isString } from "src/runtime/index";
-import { SimpleToken } from "src/types/index";
+import { isString } from "src/runtime/index";
+import { AsType, SimpleToken } from "src/types/index";
 import { isRegExp } from "util/types";
 
 
@@ -14,12 +14,12 @@ import { isRegExp } from "util/types";
  */
 export const regexToken = <
   TExp extends RegExp | string,
-  TRep extends readonly string[]
->(re: TExp, ...rep: TRep & readonly SimpleToken[]) => {
+  TRep extends readonly SimpleToken[]
+>(re: TExp, ...rep: TRep ) => {
   let exp: string="";
 
   if (isString(re)) {
-    // test string for being a valid RegEx first
+    // regex's coming in as a string must be validated
     try {
       const test = new RegExp(re);
       if (!isRegExp(test)) {
@@ -35,10 +35,12 @@ export const regexToken = <
        throw err;
     }
   } else if (isRegExp(re)) {
+    // all representations must be stored as as a string
     exp = re.toString();
   }
 
   // exp has been validated as valid
   const token = `<<string-set::regexp::${encodeURIComponent(exp)}>>`
-  const type = asType(rep);
+
+  return token as AsType<TRep>
 }

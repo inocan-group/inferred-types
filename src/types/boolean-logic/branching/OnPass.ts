@@ -95,7 +95,11 @@ export type OnPass<
   TPass,
   TRemap extends Partial<OnPassRemap<unknown, unknown, unknown>> = OnPassRemap<never, false, Constant<"not-set">>
 > = TTest extends readonly unknown[]
-? Iterate<TTest,TPass,TRemap extends OnPassRemap<never, false, Constant<"not-set">>
+? Iterate<
+    TTest,
+    TPass,
+    TRemap extends OnPassRemap<never, false, Constant<"not-set">
+  >
     ? TRemap
     : Merge<TRemap, Keys<TRemap>>
   >
@@ -107,5 +111,3 @@ export type OnPass<
     ? TRemap
     : Merge<TRemap, Keys<TRemap>>
   >;
-
-

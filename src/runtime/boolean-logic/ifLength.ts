@@ -34,6 +34,6 @@ export function ifLength<
 
       ? ifVal(value as any)
       : elseVal(value as Exclude<TList, Tuple>)
-  ) as IfLength<TList, TLen, IF, ELSE>;
+  ) as unknown as IfLength<TList, TLen, IF, ELSE>;
 }
 

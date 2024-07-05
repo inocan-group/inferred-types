@@ -1,18 +1,15 @@
-import { 
-  Tuple, 
-  Length, 
+import {
+  Tuple,
   FixedLengthArray,
-  ToString, 
-  AsNumber 
+  ToString,
+  AsNumber
 } from "src/types/index";
 
-type Push<T extends Tuple> = Length<
-  [...T, unknown]
->;
+type Push<T extends Tuple> = [...T, unknown]["length"];
 
 /**
  * **Increment**`<T>`
- * 
+ *
  * Allows a number -- or a string literal of a number -- to be _incremented_
  * by one.
  * ```ts

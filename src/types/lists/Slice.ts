@@ -1,57 +1,130 @@
-import { Chars, Concat } from "../string-literals";
-import { Length } from "./Length";
 
-type NumberToArr<T extends number, R extends unknown[] = []> =
-R["length"] extends T
-    ? R
-    : NumberToArr<T, [...R, 0]>;
+import {
+  As,
+  Add,
+  Chars,
+  Concat,
+  FixedLengthArray,
+  IsPositiveNumber,
+  Throw,
+  If,
+  IsNumericLiteral,
+  IsGreaterThan,
+  IsGreaterThanOrEqual,
+  TakeFirst,
+  IsNegativeNumber,
+  Abs,
+} from "src/types/index";
 
-type ToPositiveIndex<
-  Arr extends readonly unknown[],
-  N extends number,
-> = `${N}` extends `-${infer P extends number}`
-    ? NumberToArr<Arr["length"]> extends [...NumberToArr<P>, ...infer Rest]
-      ? Rest["length"]
-      : 0
-    : N;
-
-export type _Slice<
+export type RemoveStart<
   TList extends readonly unknown[],
-  TStart extends number = 0,
-  TEnd extends number = TList["length"],
-  Index extends unknown[] = [],
-  R extends unknown[] = [],
-  PStart extends number = ToPositiveIndex<TList, TStart>,
-  PEnd extends number = ToPositiveIndex<TList, TEnd>,
-> = TList extends [infer A, ...infer Rest]
-? Index["length"] extends PEnd
-  ? R
-  : Index["length"] extends PStart
-    ? _Slice<Rest, PStart, PEnd, [...Index, 0], [...R, A]>
-    : R["length"] extends 0
-      ? _Slice<Rest, PStart, PEnd, [...Index, 0], R>
-      : _Slice<Rest, PStart, PEnd, [...Index, 0], [...R, A]>
-: R;
+  TStart extends number,
+> = TStart extends 0
+? TList
+: IsPositiveNumber<TStart> extends true
+  ? TList extends [
+      ...FixedLengthArray<unknown, TStart>,
+      ...(infer REST)
+    ]
+      ? REST
+      : Throw<"invalid-start-index">
+: TList extends [
+    ...FixedLengthArray<unknown, Add<TList["length"], TStart>>,
+    ...(infer REST)
+  ]
+    ? REST
+    : Throw<"invalid-start-index">;
+
+export type TruncateAtLen<
+  TList extends readonly unknown[],
+  TLen extends number
+> = IsNegativeNumber<TLen> extends true
+? If<
+    IsGreaterThan<Abs<TLen>, TList["length"]>,
+    never,
+    TakeFirst<TList, Add<TList["length"],TLen>>
+  >
+: If<
+    IsGreaterThanOrEqual<TLen, TList["length"]>,
+    TList,
+    TakeFirst<TList, TLen>
+  >;
+
+
+
+export type Process<
+  TList extends readonly unknown[],
+  TStart extends number,
+  TLen extends number | undefined
+> = TList extends readonly unknown[]
+? RemoveStart<
+    TList,
+    TStart
+  > extends readonly unknown[]
+    ? If<
+        IsNumericLiteral<TLen>,
+        TruncateAtLen<
+          RemoveStart<
+            TList,
+            TStart
+          >,
+          As<TLen, number>
+        >,
+        // no length specified
+        RemoveStart<
+          TList,
+          TStart
+        >
+      >
+
+
+    : RemoveStart<
+        TList,
+        TStart
+      >
+: never
+
+type PreProcess<
+TList extends readonly unknown[] | string,
+TStart extends number,
+TLen extends number | undefined = undefined,
+> = TList extends string
+? Chars<TList> extends readonly string[]
+? Concat<
+    As<
+      Process<
+        Chars<TList>,
+        TStart,
+        TLen
+      >,
+      readonly string[]
+    >
+  >
+: never
+: TList extends readonly unknown[]
+? Process<TList,TStart,TLen>
+: never;
+
 
 
 /**
- * **Slice**`<TList, TStart, TEnd>`
- * 
- * Provides a slice of `TList`.
- * 
+ * **Slice**`<TList, TStart, TLen>`
+ *
+ * Provides a slice of a tuple or a string.
+ *
  * - negative indexes for `TEnd` can be used
  * - `TStart` defaults to 0
- * - `TEnd` defaults to the length of `TList`
+ * - `TLen` defaults to the all the remaining elements
+ * but can be any amount; if you use negative values this
+ * will drop that many values off the end of the tuple
  */
 export type Slice<
   TList extends readonly unknown[] | string,
-  TStart extends number = 0,
-  TEnd extends number = Length<TList>,
-> = TList extends readonly unknown[] 
-? _Slice<[...TList],TStart,TEnd>
-: TList extends string
-  ? Chars<TList> extends readonly string[]
-    ? Concat<_Slice<Chars<TList>, TStart, TEnd>>
-    : never
-  : never;
+  TStart extends number,
+  TLen extends number | undefined = undefined,
+> = PreProcess<TList, TStart, TLen> extends readonly unknown[]
+? PreProcess<TList, TStart, TLen>
+: never;
+
+
 

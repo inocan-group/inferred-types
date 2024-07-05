@@ -1,12 +1,16 @@
-import {  Throw} from "src/types/index";
 
+/**
+ * **AsBoolean**`<T>`
+ *
+ * Converts any `BooleanLike` value to a boolean value
+ * and return `never` otherwise.
+ */
 export type AsBoolean<T> = T extends boolean
   ? T
-  : boolean extends T
-  ? T
-  : Throw<
-      "invalid-conversion",
-      `The AsBoolean<T> utility was provided a variable which was not convertible to boolean!`,
-      "AsBoolean",
-      { value: T }
-    >;
+  : T extends "true"
+  ? true
+  : T extends "false"
+  ? false
+  : T extends "boolean"
+  ? boolean
+  : never;

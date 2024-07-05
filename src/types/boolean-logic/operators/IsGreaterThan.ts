@@ -1,4 +1,4 @@
-import { AsNumber, If, IsEqual, Or } from "src/types/index";
+import { AsNumber, If, IsEqual, NumberLike, Or } from "src/types/index";
 
 type Calc<
   A extends number,
@@ -20,10 +20,24 @@ Count["length"] extends A
  * **Note:** does not take negative numbers into account
  */
 export type IsGreaterThan<
-  A extends number | `${number}`,
-  B extends number | `${number}`
+  A extends NumberLike,
+  B extends NumberLike
 > = If<
   Or<[IsEqual<A,number>, IsEqual<B,number>, IsEqual<A,`${number}`>, IsEqual<B,`${number}`>]>,
   boolean,
   Calc<AsNumber<A>, AsNumber<B>>
 >;
+
+
+
+/**
+ * **IsGreaterThanOrEqual**`<A,B>`
+ *
+ * Test whether `A` is _greater than_ or _equal_ to `B`.
+ */
+export type IsGreaterThanOrEqual<
+  A extends NumberLike,
+  B extends NumberLike
+> = IsEqual<A,B> extends true
+? true
+: IsGreaterThan<A,B>;

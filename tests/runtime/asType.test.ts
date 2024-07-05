@@ -38,7 +38,6 @@ describe("asType(val)", () => {
     ];
     const cases: cases = [
       true, true, true,
-      true, true, true
     ];
   });
 

@@ -1,4 +1,4 @@
-import { AtomicToken, SingletonToken } from "src/types/index";
+import {  SingletonToken } from "src/types/index";
 import { isString } from "../isString"
 
 import {

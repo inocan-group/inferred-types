@@ -5,22 +5,22 @@ import {  Chars, Concat, Handle, IsEqual, Pop, Tuple } from "src/types/index";
  * **BeforeLast**`<T>`
  *
  * Returns:
- * 
+ *
  * - the _elements_ in an **array**; _excluding_ the last element
  * - the _characters_ in a **string** excluding the last character
- * 
- * This behavior is _very_ much like `Pop<T>` but where `Pop<T>` will 
+ *
+ * This behavior is _very_ much like `Pop<T>` but where `Pop<T>` will
  * return _never_ when an empty input is passed in, this utility returns
- * the appropriate "empty" state:
- * 
- * - a tuple will return `[]`
- * - a string will return ""
- * 
+ * the "empty" state:
+ *
+ * - a _tuple_ will return `[]`
+ * - a _string_ will return ""
+ *
  * **Related:** `Pop`, `Last`, `AfterFirst`, `First`
  */
 export type BeforeLast<
   T extends Tuple | string
-> = T extends string 
+> = T extends string
   ? string extends T
     ? string
   : IsEqual<T, ""> extends true

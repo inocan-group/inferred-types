@@ -1,4 +1,5 @@
 import { StripLeading, TupleToUnion } from "src/types/index";
+import { isNumber } from "../type-guards/isNumber";
 
 /**
  * **stripLeading**(content, ...strip)
@@ -7,18 +8,21 @@ import { StripLeading, TupleToUnion } from "src/types/index";
  * primary content if it exists and leaves content unchanged otherwise.
  */
 export function stripLeading<
-  T extends string,
-  U extends string[]
+  T extends string | number,
+  U extends readonly (string | number)[]
 >(
   content: T,
   ...strip: U
-): StripLeading<T, TupleToUnion<U>> {
-  const stripper = strip.find(i => content.startsWith(i));
+) {
+  let output: string = String(content);
+
+  for (const s of strip) {
+    if (output.startsWith(String(s))) {
+      output = output.slice(String(s).length);
+    }
+  }
+
   return (
-    stripper
-      ? // starts with
-        content.slice(stripper.length)
-      : // does not
-        content
-  ) as StripLeading<T, TupleToUnion<U>>;
+    isNumber(content) ? Number(output) : output
+  ) as unknown as StripLeading<T, TupleToUnion<U>>
 }

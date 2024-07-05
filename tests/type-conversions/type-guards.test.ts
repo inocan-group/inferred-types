@@ -8,13 +8,13 @@ import {
   isArray,
   isReadonlyArray,
   hasDefaultValue,
-  isNumericString,
   isDefined,
   isRef,
   isConstant,
   isSpecificConstant,
   isFnWithParams,
-  defineObj
+  defineObj,
+  isNumberLike
 } from "src/runtime/index";
 import { Constant, NoDefaultValue, NO_DEFAULT_VALUE, Never } from "src/constants/index";
 import { ref, Ref } from "vue";
@@ -30,13 +30,13 @@ describe("isNumericString", () => {
     const wrongType = 42 as const;
     const nonNumericString = "foobar" as const;
 
-    if(isNumericString(wrongType)) {
+    if(isNumberLike(wrongType)) {
       throw new Error("wrong type!");
     } else {
       expect(true, "wrong type identified as such").toBe(true);
     }
 
-    if(isNumericString(nonNumericString)) {
+    if(isNumberLike(nonNumericString)) {
       throw new Error("non numeric string!");
     } else {
       expect(true, "wrong type identified as such").toBe(true);
@@ -53,10 +53,10 @@ describe("isNumericString", () => {
     const numericString = "42" as const;
     const wideString = "42" as string;
 
-    expect(isNumericString(numericString), "numericString variable not recognized:" + typeof numericString).toBe(true);
+    expect(isNumberLike(numericString), "numericString variable not recognized:" + typeof numericString).toBe(true);
 
 
-    if(isNumericString(numericString)) {
+    if(isNumberLike(numericString)) {
       expect(true, "numeric string identified").toBe(true);
       type cases = [
         Expect<Equal<typeof numericString, "42">> //
@@ -66,7 +66,7 @@ describe("isNumericString", () => {
       throw new Error("numeric string not identified!");
     }
 
-    if(isNumericString(wideString)) {
+    if(isNumberLike(wideString)) {
       expect(true, "wide string identified").toBe(true);
       type cases = [
         Expect<Equal<typeof numericString, "42">> //

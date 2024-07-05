@@ -1,4 +1,9 @@
-import {   And, AsNumber, AsString, IsStringLiteral } from "src/types/index";
+import {
+  And,
+  AsNumber,
+  AsStringUnion,
+  IsStringLiteral
+} from "src/types/index";
 
 type Process<
   TContent extends string,
@@ -31,13 +36,13 @@ export type StripLeading<
 > = TContent extends number
 ? AsNumber<
     Process<
-      AsString<TContent>,
-      AsString<TStrip>
+      `${TContent}`,
+      AsStringUnion<TStrip>
     >
   >
 : TContent extends string
   ? Process<
-    AsString<TContent>,
-    AsString<TStrip>
+    TContent,
+    AsStringUnion<TStrip>
   >
   : never

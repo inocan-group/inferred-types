@@ -3,7 +3,7 @@ import {
   AfterFirst,
   First,
   ToStringArray,
-  Slice
+  TakeFirst
 } from "src/types/index";
 
 
@@ -25,6 +25,17 @@ type Process<
       : `${TResult}${TSeparator}${First<TTuple>}`
   >;
 
+type Slicer<
+  TTuple extends readonly unknown[],
+  TMax extends number | null,
+  TEllipsis extends string | false
+> = TMax extends number
+? TakeFirst<TTuple,TMax> extends readonly unknown[]
+  ? TEllipsis extends string
+    ? ToStringArray<[...TakeFirst<TTuple,TMax>, TEllipsis]>
+    : ToStringArray<TakeFirst<TTuple,TMax>>
+  : never
+: ToStringArray<TTuple>;
 
 /**
  * **Join**`<TArr,[TSeparator],[TMax]>`
@@ -46,12 +57,8 @@ export type Join<
   TEllipsis extends string | false = "..."
 > = ToStringArray<TTuple> extends readonly string[]
 ? TMax extends number
-  ? IsGreaterThan<ToStringArray<TTuple>["length"], TMax> extends true
-    ? Slice<ToStringArray<TTuple>, 0, TMax> extends readonly string[]
-      ? TEllipsis extends false
-        ? `${Process<Slice<ToStringArray<TTuple>, 0, TMax>, TSeparator>}`
-        : `${Process<Slice<ToStringArray<TTuple>, 0, TMax>, TSeparator>}${TSeparator}${TEllipsis}`
-      : never
+  ? IsGreaterThan<TTuple["length"], TMax> extends true
+    ? Process<Slicer<TTuple,TMax,TEllipsis>, TSeparator>
     : Process<ToStringArray<TTuple>, TSeparator>
   : Process<ToStringArray<TTuple>, TSeparator>
 : never;

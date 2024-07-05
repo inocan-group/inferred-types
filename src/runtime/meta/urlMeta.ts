@@ -75,9 +75,13 @@ export const removeUrlProtocol = <T extends string>(url: T) => {
   return stripBefore(url, "://")
 }
 
-const ensurePath = (val: string) => val === ""
+const ensurePath = (val: string) => {
+  const val2 = ensureLeading(val, "/");
+
+  return val === ""
   ? ""
-  : stripTrailing(ensureLeading(val,"/"), "/");
+  : stripTrailing(val2, "/");
+}
 
 export const getUrlPath = <
   T extends string
@@ -115,7 +119,7 @@ export const getUrlQueryParams = <
             stripAfter(
               stripBefore(qp, (`${specific}=`)),
               "&"
-            ).replace(/\+/g, '%20')
+            ).replace(/\+/g, "%20")
           )
         : undefined
     )

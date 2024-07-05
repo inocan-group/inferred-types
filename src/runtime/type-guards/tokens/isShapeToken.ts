@@ -1,3 +1,4 @@
+import { TypeToken } from "src/types/runtime-types";
 import { isString } from "../isString"
 import {
   TT_Atomics,
@@ -16,13 +17,14 @@ const token_types = [
 ] as const;
 
 
+
 /**
  * **isShapeToken**`(val)`
  *
  * Type guard which validates whether the value passed in is a
  * valid "shape token" of some sort.
  */
-export const isShapeToken = (val: unknown): val is ShapeToken => {
+export const isShapeToken = (val: unknown): val is TypeToken => {
 
   return isString(val) &&
     val.startsWith("<<") &&

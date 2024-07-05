@@ -6,12 +6,14 @@ import {
   SimpleType,
   TypeTokenAtomics,
   TypeTokenKind,
-  TypeTokenSingletons
+  TypeTokenSingletons,
+  UnionToken,
 } from "src/types/index";
 import {
   isAtomicToken,
-  isSingletonToken
-} from "../../type-guards/tokens";
+  isSingletonToken,
+  jsonValues
+} from "src/runtime/index";
 
 type BaseReturn<TBase extends TypeTokenKind> = TBase extends TypeTokenAtomics
   ? `<<${TBase}>>`
@@ -40,35 +42,53 @@ export type UnionClosure = <T extends readonly unknown[]>(...elements: T) =>
  * const c = closure<"string">("foo","bar");
  * ```
  */
-export type SingletonClosure<T extends "string" | "number"> = <
-  TLit extends readonly SimpleType<T>[]
->(...literals: TLit) => If<
-      IsLength<TLit, 0>,
-      `<<${T}>>`,
-      If<
-        IsLength<TLit, 1>,
-        `<<${T}::${TLit[0]}>>`,
-        `<<${T}::>>`
-      >
-    >;
+export type SingletonClosure<T extends "string" | "number"> =
+  <TLit extends readonly SimpleType<T>[]>(
+    ...literals: TLit
+) => If<
+  IsLength<TLit, 0>,
+  `<<${T}>>`,
+  If<
+    IsLength<TLit, 1>,
+    `<<${T}::${TLit[0]}>>`,
+    `<<${T}::>>`
+  >
+>;
 
 const unionToken = <
   TElements extends readonly unknown[]
 >(...els: TElements) => {
-  return `<<union::[${JoinJsonValues<TElements>}]>>`
+  return `<<union::[${jsonValues(els)}]>>` as unknown as UnionToken<TElements>
 }
 
 
-const singleton = <T extends TypeTokenSingletons>(base: T): SingletonClosure<T> => (lits) => {
-  return (
-    lits.length === 0
-      ? base === "string" ? `<<string>>` : `<<number>>`
-      : lits.length === 1
-        ? base === "string" ? `<<string::${lits[0]}>>` : `<<number::${lits[0]}>>`
-        : base === "string"
-          ? `<<string::${unionToken(...lits)}>>`
-          : `<<number::${unionToken(...lits)}>>`
-  )
+
+const singleton = <T extends TypeTokenSingletons>(
+  base: T
+)=> {
+  const handler = <TLit extends readonly SimpleType<T>[]>(
+    ...lits: TLit
+    ) => {
+      return (
+        lits.length === 0
+          ? base === "string" ? `<<string>>` : `<<number>>`
+          : lits.length === 1
+            ? base === "string" ? `<<string::${lits[0]}>>` : `<<number::${lits[0]}>>`
+            : base === "string"
+              ? `<<string::${unionToken(...lits)}>>`
+              : `<<number::${unionToken(...lits)}>>`
+      ) as unknown as If<
+        IsLength<TLit, 0>,
+        `<<${T}>>`,
+        If<
+          IsLength<TLit, 1>,
+          `<<${T}::${TLit[0]}>>`,
+          `<<${T}::>>`
+        >
+      >;
+  }
+
+  return handler as unknown as SingletonClosure<T>;
 }
 
 
@@ -90,6 +110,3 @@ export const createTypeToken = <
   ) as unknown as BaseReturn<TBase>
 }
 
-
-const a = createTypeToken("true");
-const b = createTypeToken("string-set")

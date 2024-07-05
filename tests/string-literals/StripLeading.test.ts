@@ -45,6 +45,7 @@ describe("stripLeading(content, remove)", () => {
   });
 
 
+  // I removed this capability until I can get all perf issues sorted
   it("with multiple strip sequences", () => {
     const bar = stripLeading("foobar", "foo", "baz");
     const bar2 = stripLeading("foobar", "baz", "foo");

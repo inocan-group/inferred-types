@@ -153,8 +153,6 @@ describe("Url testing", () => {
 
   });
 
-
-
   it("RemoveUrlPPort", () => {
     type Homelab = RemoveUrlPort<"https://192.168.1.1:443/admin/console">;
     type Union = RemoveUrlPort<`https://192.168.1.1:${"443" | "80"}/admin/console`>;
@@ -170,10 +168,7 @@ describe("Url testing", () => {
     const cases: cases = [
       true, true, true, true
     ];
-
   });
-
-
 
   it("GetUrlPath<T>", () => {
     type FooBarBaz = GetUrlPath<"https://foo.bar/baz">;

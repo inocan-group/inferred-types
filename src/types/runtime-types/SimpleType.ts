@@ -1,11 +1,15 @@
 import { SIMPLE_DICT_VALUES, SIMPLE_MAP_KEYS, SIMPLE_MAP_VALUES, SIMPLE_SET_TYPES } from "src/constants/index";
-import {  If, IsEqual } from "../boolean-logic";
-import { AsUnion, ExpandDictionary } from "../literals";
-import { Split } from "../string-literals/Split";
-import { SimpleToken } from "./TypeToken";
-import { Dictionary } from "../base-types";
-import { AsNumber } from "../type-conversion/AsNumber";
-import { CsvToStrUnion, CsvToUnion } from "../numeric-literals/CSV";
+import {
+  If,
+  IsEqual,
+  ExpandDictionary,
+  SimpleContainerToken, SimpleScalarToken, SimpleToken, SimpleUnionToken,
+  Dictionary,
+  AsNumber,
+  CsvToStrUnion, CsvToTuple, CsvToUnion,
+  UnderlyingType,
+  TupleToUnion
+} from "src/types/index";
 
 type SetTypes = typeof SIMPLE_SET_TYPES[number];
 type MapKeys = typeof SIMPLE_MAP_KEYS[number];
@@ -13,14 +17,12 @@ type MapValues = typeof SIMPLE_MAP_VALUES[number];
 type DictValues = typeof SIMPLE_DICT_VALUES[number];
 
 /**
- * **SimpleType**`<T>`
+ * **SimpleTypeScalar**`<T>`
  *
- * A type utility which takes a `SimpleToken` and converts it to
- * it's _type_ in the type system.
- *
- * **Related:** `ToShapeToken`, `StructuredStringType`
+ * Converts a `SimpleScalarToken` into the _type_ it represents.
  */
-export type SimpleType<T extends SimpleToken> = T extends "string"
+export type SimpleTypeScalar<T extends SimpleScalarToken> =
+T extends "string"
 ? string
 : T extends `string(${infer Literal})`
 ? Literal extends `${string},${string}`
@@ -46,7 +48,34 @@ export type SimpleType<T extends SimpleToken> = T extends "string"
 ? undefined
 : T extends "unknown"
 ? unknown
-: T extends `Dict`
+: never;
+
+
+/**
+ * **SimpleTypeUnion**`<T>`
+ *
+ * Converts a `SimpleUnionToken` into the _type_ it represents.
+ */
+export type SimpleTypeUnion<T extends SimpleUnionToken> =
+T extends "opt(string)"
+  ? string | undefined
+: T extends "opt(number)"
+  ? number | undefined
+: T extends "opt(boolean)"
+  ? boolean | undefined
+: T extends "opt(unknown)"
+  ? unknown | undefined
+: T extends `opt(${infer Literal extends string})`
+  ? Literal extends `${string},${string}`
+    ? TupleToUnion<CsvToTuple<Literal>> | undefined
+    : UnderlyingType<Literal> | undefined
+: T extends `Union(${infer Literal})`
+  ? Literal extends `${string},${string}`
+    ? CsvToTuple<Literal>
+    : Literal
+: never;
+
+export type SimpleTypeContainer<T extends SimpleContainerToken> = T extends `Dict`
 ? Dictionary
 : T extends `Dict<string, ${infer Value extends DictValues}>`
 ? Dictionary<string, SimpleType<Value>>
@@ -80,18 +109,24 @@ export type SimpleType<T extends SimpleToken> = T extends "string"
 ? Map<any,any>
 : T extends `Map<${infer Key extends MapKeys}, ${infer Value extends MapValues}>`
 ? Map<SimpleType<Key>, SimpleType<Value>>
-: T extends "opt(number)"
-? number | undefined
-: T extends "opt(string)"
-? string | undefined
-: T extends "opt(boolean)"
-? boolean | undefined
-: T extends `opt(${infer Literal})`
-? Literal
-: T extends `union(${infer Literals})`
-? AsUnion<Split<Literals, ",">>
-: T extends `Set(${infer Type extends SetTypes})`
-? Set<SimpleType<Type>>
+: never;
+
+
+
+/**
+ * **SimpleType**`<T>`
+ *
+ * A type utility which takes a `SimpleToken` and converts it to
+ * it's _type_ in the type system.
+ *
+ * **Related:** `ToShapeToken`, `StructuredStringType`
+ */
+export type SimpleType<T extends SimpleToken> = T extends SimpleScalarToken
+? SimpleTypeScalar<T>
+: T extends SimpleContainerToken
+? SimpleTypeContainer<T>
+: T extends SimpleUnionToken
+? SimpleTypeUnion<T>
 : never;
 
 export type StructuredStringType = any;

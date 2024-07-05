@@ -1,27 +1,37 @@
-import { IfLength, Narrowable } from "src/types/index";
+import { Narrowable } from "src/types/index";
+
+
 
 /**
  * **optional**(value)
- * 
- * A function which takes the value `T` and makes sure it
- * includes a union with _undefined_.
+ *
+ * A function which takes the value `T` and widens it to include
+ * a union with _undefined_.
  */
 export function optional<
-  N extends Narrowable,
-  K extends PropertyKey,
-  T extends readonly (Record<K,N> | Narrowable)[]
->(...values: T): IfLength<
-  T, 1,
-  T[0] | undefined,
-  T | undefined
-> {
-  return (
-    values.length === 1 
-    ? values[0] 
-    : values
-  ) as IfLength<
-      T, 1,
-      T[0] | undefined,
-      T | undefined
-    >;
+  T extends Narrowable
+>(value: T) {
+  return value as T | undefined;
+}
+
+/**
+ * **orNull**`(value)`
+ *
+ * widens the type for the value passed in to be whatever type it
+ * currently is _in union with_ `null`.
+ */
+export function orNull<T extends Narrowable>(value: T) {
+  return value as T | null;
+}
+
+/**
+ * **optionalOrNull**`(value)`
+ *
+ *  widens the type for the value passed in to be whatever type it
+ * currently is _in union with_ `null and `undefined`.
+ *
+ * **Related:** `optional()`, `orNull()`
+ */
+export function optionalOrNull<T extends Narrowable>(value: T) {
+  return value as T | null | undefined;
 }

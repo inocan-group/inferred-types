@@ -32,6 +32,7 @@ export * from "./retainAfter";
 export * from "./surround";
 export * from "./stripAfter";
 export * from "./stripBefore";
+export * from "./stripSurround";
 export * from "./stripUntil";
 export * from "./trim";
 export * from "./toPascalCase";
@@ -42,7 +43,9 @@ export * from "./takeNumericCharacters";
 export * from "./retainChars";
 export * from "./stripChars";
 export * from "./retainWhile";
-export * from "./asPhoneNumber";
+
+
+export * from "./phone/index";
 
 
 // #endregion auto-indexed files

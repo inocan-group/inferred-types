@@ -1,48 +1,40 @@
 
-import { 
-  ExpandRecursively,  
-  TupleToUnion, 
-  AsArray, 
-  IfLength, 
-  ObjectKey,  
-  Dictionary, 
-  ExplicitlyEmptyObject, 
-  RemoveIndexKeys
+import {
+  TupleToUnion,
+  ObjectKey,
+  Dictionary,
+  ExpandDictionary,
 } from "src/types/index";
 
 type Process<
-  TObj extends Dictionary, 
-  TKeys extends ObjectKey | readonly ObjectKey[]
-> = IfLength<
-  AsArray<TKeys>, 0,
-  TObj,
-  ExpandRecursively<
-    Omit<
-        TObj, 
-        TupleToUnion<AsArray<TKeys>>
-    >
-> extends ExplicitlyEmptyObject
-  ? ExplicitlyEmptyObject
-  : ExpandRecursively<
-      Omit<
-          TObj, 
-          TupleToUnion<AsArray<TKeys>>
-      >
-    >
->;
+  TObj extends Dictionary,
+  TKeys extends ObjectKey,
+> = [] extends TKeys
+? TObj
+: Omit<TObj, TKeys>
+
 
 
 /**
  * **WithoutKeys**`<TObj, TKeys>`
- * 
- * Removes the keys in `TKeys` from an object `TObj`. This is 
+ *
+ * Removes the keys in `TKeys` from an object `TObj`. This is
  * functionally equivalent to the `Omit<T,U>` built-in but rather than
  * taking a union type it takes an array of keys.
  */
 export type WithoutKeys<
-  TObj extends Dictionary, 
+  TObj extends Dictionary,
   TKeys extends ObjectKey | readonly ObjectKey[]
-> = ExpandRecursively<RemoveIndexKeys<
-  Process<TObj,TKeys>
->>
+> = TKeys extends readonly ObjectKey[]
+? Process<
+    TObj,
+    TupleToUnion<TKeys>
+  >
+: ExpandDictionary<Process<
+  TObj,
+  TKeys extends readonly ObjectKey[]
+    ? TupleToUnion<TKeys>
+    : TKeys
+>>;
+
 

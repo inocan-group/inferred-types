@@ -3,12 +3,12 @@ import { toPascalCase } from "src/runtime/index";
 
 /**
  * **toCamelCase**(str)
- * 
+ *
  * Converts a string into `camelCase` while preserving literal strings.
- * 
+ *
  * **Note:** _by default it also removes surrounding white space (if it exists) but it
  * can be preserved if you change the `preserveWhitespace` flag._
- * 
+ *
  * **Related:** `toKebabCase`, `toPascalCase`, `toSnakeCase`
  */
 export function toCamelCase<
@@ -22,7 +22,7 @@ export function toCamelCase<
 
   const camel = (preserveWhitespace ? preWhite : "") +
     focus.replace(/^.*?([0-9]*?[a-z|A-Z]{1})/s, (_, p1) => p1.toLowerCase()) +
-    (preserveWhitespace ? postWhite : "") as CamelCase<TString, TPreserve>;
+    (preserveWhitespace ? postWhite : "") as unknown as CamelCase<TString, TPreserve>;
 
   return camel;
 }

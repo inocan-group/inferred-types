@@ -94,8 +94,6 @@ describe("SimpleType<T>", () => {
     ];
 
   });
-
-
 });
 
 

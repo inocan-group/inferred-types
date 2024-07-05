@@ -21,15 +21,16 @@ import {
   StripBefore,
   StripWhile,
   IsUndefined,
-  Contains
+  Contains,
+  RemoveEmpty
 } from "src/types/index";
 import { NETWORK_PROTOCOL_LOOKUP } from "src/constants/index";
 
-export type NetworkProtocol = Exclude<TupleToUnion<
-  Mutable<
-    Flatten<Values<typeof NETWORK_PROTOCOL_LOOKUP>>
-  >
->, "">;
+const proto = NETWORK_PROTOCOL_LOOKUP;
+export type NetworkProtocol = Mutable<Values<typeof proto>> extends readonly (string | string[])[]
+  ? RemoveEmpty<Flatten<Mutable<Values<typeof proto>>>>[number]
+  : never
+
 
 /**
  * **NetworkProtocolPrefix**

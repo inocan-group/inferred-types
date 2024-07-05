@@ -1,61 +1,27 @@
-import { 
-    IsNegativeNumber, 
-    NumericChar, 
-    ToString, 
-    Abs, 
-    Digital, 
-    DigitalLiteral, 
-    AfterFirst,
-    AsNumber,
-    First,
-    IsLiteral,
-    Not,
-    If
+import {
+    NumericChar,
+    NumericSign,
+    NumberLike,
+    Chars,
+    ToNumericArray,
+    Digit,
+    Or,
+    IsEqual
 } from "src/types/index";
 
-type HasMoreThanOneDigit<T extends `${number}`> = T extends `${NumericChar}${NumericChar}${string}`
-  ? true
-  : false;
+type Pos<T extends NumberLike, N extends `${number}`> = [
+  "+",
+  T extends string ? Chars<N> : ToNumericArray<Chars<N>>
+];
 
-type MostSignificantDigit<T extends `${number}`> = HasMoreThanOneDigit<T> extends true
-  ? T extends `${infer Digit}${NumericChar}${string}`
-    ? Digit & NumericChar
-    : never
-  : T & NumericChar;
-
-type RemainingDigits<T extends `${number}`> = T extends `${NumericChar}${number}`
-  ? T extends `${NumericChar}${infer Rest}`
-    ? Rest
-    : never
-  : T;
-
-type Sign<T extends `${number}` | number> = IsNegativeNumber<T> extends true
-  ? "-" 
-  : "+";
-
-type _Digitize<
-  TNumber extends `${number}`,
-  TResults extends readonly NumericChar[] = []
-> = HasMoreThanOneDigit<TNumber> extends true
-  ? _Digitize<
-      RemainingDigits<TNumber>,
-      [...TResults, MostSignificantDigit<TNumber>]
-    >
-  : [...TResults, MostSignificantDigit<TNumber>];
-
-type AsNumericElements<
-  TIn extends readonly `${number}`[],
-  TOut extends readonly number[] = []
-> = [] extends TIn
-? TOut
-: AsNumericElements<
-    AfterFirst<TIn>,
-    [...TOut, AsNumber<First<TIn>>]
-  >;
+type Neg<T extends NumberLike, N extends `${number}`> = [
+  "-",
+  T extends string ? Chars<N> : ToNumericArray<Chars<N>>
+];
 
 /**
  * **Digitize**`<T>`
- * 
+ *
  * Takes a literal value of a number -- either a numeric literal or a string literal
  * is accepted -- and converts into a tuple: `[ NumericSign, Digits[] ]`
  * ```ts
@@ -66,21 +32,11 @@ type AsNumericElements<
  * ```
  */
 export type Digitize<
-  T extends `${number}` | number
-> = If<
-  Not<IsLiteral<T>>,
-  never,
-  T extends `${number}`
-    ? [ 
-      Sign<T>, 
-      Readonly<_Digitize<ToString<Abs<T>>>> 
-    ] & DigitalLiteral
-    : T extends number
-      ? [ 
-          Sign<T>,
-          _Digitize<ToString<Abs<T>>> extends readonly `${number}`[]
-          ? Readonly<AsNumericElements<_Digitize<ToString<Abs<T>>>>>
-          : never
-        ] & Digital
-      : never
->;
+  T extends NumberLike
+> = Or<[IsEqual<T,number>, IsEqual<T,`${number}`>]> extends true
+? [ sign: NumericSign, digits: T extends string ? NumericChar[] : Digit[] ]
+: `${T}` extends `-${infer Rest extends `${number}`}`
+? Neg<T, Rest>
+: `${T}` extends `${"+" |""}${infer Rest extends `${number}`}`
+? Pos<T, Rest>
+: never

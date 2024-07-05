@@ -44,6 +44,8 @@ export * from "./BeforeLast";
 export * from "./GetEach";
 export * from "./ToCSV";
 export * from "./Push"
+export * from "./TakeFirst"
+export * from "./TakeLast"
 
 
 

@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { simpleContainerTokenToTypeToken, simpleScalarTokenToTypeToken } from "src/runtime/index";
+import { simpleContainerTokenToTypeToken, simpleScalarTokenToTypeToken, simpleUnionTokenToTypeToken } from "src/runtime/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -13,9 +13,7 @@ describe("token conversion", () => {
     const num = simpleScalarTokenToTypeToken("number");
     const bool = simpleScalarTokenToTypeToken("boolean");
     const Null = simpleScalarTokenToTypeToken("null");
-    const optStr = simpleScalarTokenToTypeToken("opt(string)");
-    const optNum = simpleScalarTokenToTypeToken("opt(number)");
-    const optBool = simpleScalarTokenToTypeToken("opt(boolean)");
+
     // literals
     const strLit = simpleScalarTokenToTypeToken("string(foobar)");
     const numLit = simpleScalarTokenToTypeToken("number(42)");
@@ -28,10 +26,6 @@ describe("token conversion", () => {
     expect(num).toBe("<<number>>");
     expect(bool).toBe("<<boolean>>");
     expect(Null).toBe("<<null>>");
-
-    expect(optStr).toBe("<<union::[<<string>>, <<undefined>>]>>");
-    expect(optNum).toBe("<<union::[<<number>>, <<undefined>>]>>");
-    expect(optBool).toBe("<<union::[<<boolean>>, <<undefined>>]>>");
 
     expect(strLit).toBe("<<string::foobar>>")
     expect(numLit).toBe("<<number::42>>")
@@ -47,10 +41,6 @@ describe("token conversion", () => {
       Expect<Equal<typeof bool, boolean>>,
       Expect<Equal<typeof Null, null>>,
 
-      Expect<Equal<typeof optStr, string | undefined>>,
-      Expect<Equal<typeof optNum, number | undefined>>,
-      Expect<Equal<typeof optBool, boolean | undefined>>,
-
       Expect<Equal<typeof strLit, "foobar">>,
       Expect<Equal<typeof numLit, 42>>,
 
@@ -59,11 +49,45 @@ describe("token conversion", () => {
     ];
     const cases: cases = [
       true, true, true, true,
-      true, true, true,
       true, true,
       true, true,
     ];
   });
+
+
+  it("simpleUnionTokenToTypeToken()", () => {
+    const optStr = simpleUnionTokenToTypeToken("opt(string)");
+    const optNum = simpleUnionTokenToTypeToken("opt(number)");
+    const optBool = simpleUnionTokenToTypeToken("opt(boolean)");
+
+    const optLit = simpleUnionTokenToTypeToken("opt(42)");
+    const optTrue = simpleUnionTokenToTypeToken("opt(true)");
+    const multiOpt = simpleUnionTokenToTypeToken("opt(42,56,78)");
+
+    expect(optStr).toBe("<<union::[ <<string>>, <<undefined>> ]>>");
+    expect(optNum).toBe("<<union::[ <<number>>, <<undefined>> ]>>");
+    expect(optBool).toBe("<<union::[ <<boolean>>, <<undefined>> ]>>");
+
+    expect(optLit).toBe("<<union::[ <<number::42>>, <<undefined>> ]>>");
+    expect(optTrue).toBe("<<union::[ <<true>>, <<undefined>> ]>>");
+    expect(multiOpt).toBe("<<union::[ <<number::42>>, <<number::56>>, <<number::78>>, <<undefined>> ]>>");
+
+    type cases = [
+      Expect<Equal<typeof optStr, string | undefined>>,
+      Expect<Equal<typeof optNum, number | undefined>>,
+      Expect<Equal<typeof optBool, boolean | undefined>>,
+
+      Expect<Equal<typeof optLit, 42 | undefined>>,
+      Expect<Equal<typeof optTrue, true | undefined>>,
+      Expect<Equal<typeof multiOpt, 42| 56| 78 | undefined>>,
+    ];
+    const cases: cases = [
+      true, true, true,
+      true, true, true
+    ];
+
+  });
+
 
 
   it("simpleContainerTokenToTypeToken()", () => {

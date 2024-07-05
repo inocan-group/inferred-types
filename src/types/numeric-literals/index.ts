@@ -18,3 +18,7 @@ export * from "./ToNumericArray";
 export * from "./NextDigit";
 export * from "./NumberLike";
 export * from "./CSV";
+export * from "./InvertNumericSign";
+export * from "./Delta";
+export * from "./AsNegativeNumber";
+export * from "./Zero";

@@ -1,4 +1,4 @@
-import { AsNumber } from "src/types/index";
+import { AsNumber, IsEqual, NumberLike } from "src/types/index";
 
 type Calc<
   A extends number,
@@ -20,6 +20,20 @@ Count["length"] extends B
  * **Note:** does not take negative numbers into account
  */
 export type IsLessThan<
-  A extends number | `${number}`,
-  B extends number | `${number}`
+  A extends NumberLike,
+  B extends NumberLike
 > = Calc<AsNumber<A>, AsNumber<B>>;
+
+
+
+/**
+ * **IsLessThanOrEqual**`<A,B>`
+ *
+ * Test whether `A` is _less than_ or _equal_ to `B`.
+ */
+export type IsLessThanOrEqual<
+  A extends NumberLike,
+  B extends NumberLike
+> = IsEqual<A,B> extends true
+? true
+: IsLessThan<A,B>;

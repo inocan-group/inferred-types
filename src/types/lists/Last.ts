@@ -1,10 +1,10 @@
-import { AfterFirst, IfLength, Length,  Tuple } from "src/types/index";
+import { AfterFirst, IfLength,  Tuple } from "src/types/index";
 
 /**
  * **Last**`<TList, [TEmpty]>`
- * 
+ *
  * Returns the _last_ element in a list of elements.
- * 
+ *
  * - by default `TEmpty` is _never_ but this can be changed.
  */
 export type Last<
@@ -18,10 +18,10 @@ export type Last<
     TContent, 0,
     // no array element results in `never` type
     TEmpty,
-    // otherwise 
+    // otherwise
     AfterFirst<TContent> extends readonly unknown[]
-      ? TContent[Length<AfterFirst<TContent>>] extends TContent[number]
-        ? TContent[Length<AfterFirst<TContent>>]
+      ? TContent[AfterFirst<TContent>["length"]] extends TContent[number]
+        ? TContent[AfterFirst<TContent>["length"]]
         : never
       : never
   >
