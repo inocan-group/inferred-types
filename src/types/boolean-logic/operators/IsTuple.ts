@@ -10,13 +10,13 @@ type Process<T> = [IsNever<T>] extends [true]
 
 
 /**
- * **IfTuple**`<T>`
- * 
+ * **IsTuple**`<T>`
+ *
  * Boolean operator which tests whether the given `T` is
  * a _tuple_ value where a tuple is defined as:
- * 
+ *
  * > a _finite_ and _known_ list of elements
- * 
+ *
  * - note that this _does_ include a list of zero elements
  * - types such as `string[]`, etc. are _not_ tuples as they
  * do not discretely specify a length of elements

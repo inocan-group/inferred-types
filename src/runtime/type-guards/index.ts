@@ -45,6 +45,8 @@ export * from "./isEmail";
 export * from "./isPhoneNumber";
 export * from "./isUnset";
 export * from "./api-tg";
+export * from "./isBooleanLike";
 
+export * from "./tokens/index";
 export * from "./higher-order/index";
 export * from "./tokens/index";

@@ -160,4 +160,6 @@ export type Compare<
 TVal,
 TOp extends ComparatorOperation,
 TComparator
-> = WhenNever<Process<TVal, TOp, TComparator>>;
+> = WhenNever<
+  Process<TVal, TOp, TComparator>
+>;

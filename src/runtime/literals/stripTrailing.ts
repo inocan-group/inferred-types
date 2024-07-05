@@ -1,10 +1,5 @@
-import { StripTrailing } from "src/types/index";
-
-const switchType = <T extends string | number>(content: T) => <V>(val: V) => {
-  return typeof content === "number"
-    ? Number(val)
-    : val;
-}
+import { StripTrailing, TupleToUnion } from "src/types/index";
+import { isNumber } from "../type-guards";
 
 /**
  * **stripTrailing**(content, strip)
@@ -13,17 +8,22 @@ const switchType = <T extends string | number>(content: T) => <V>(val: V) => {
  * removed if it exists and that strong typing is preserved.
  */
 export function stripTrailing<
-  T extends string | number, 
-  U extends string | number
+  T extends string | number,
+  U extends readonly (string | number)[]
 >(
   content: T,
-  strip: U
-): StripTrailing<T, U> {
-  const re = new RegExp(`(.*)${strip}$`);
+  ...strip: U
+): StripTrailing<T, TupleToUnion<U>> {
+  let output: string = String(content);
+
+  for (const s of strip) {
+    if (output.endsWith(String(s))) {
+      output = output.slice(0,-1 * String(s).length);
+    }
+  }
+
   return (
-    String(content)?.endsWith(String(strip)) 
-      ? switchType(content)(String(content).replace(re, "$1"))
-      : switchType(content)(String(content))
-  ) as unknown as StripTrailing<T, U>;
+    isNumber(content) ? Number(output) : output
+  ) as unknown as StripTrailing<T, TupleToUnion<U>>
 }
 

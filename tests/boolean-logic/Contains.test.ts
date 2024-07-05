@@ -32,7 +32,7 @@ describe("Contains<T,A>", () => {
     const cases: cases = [true, true, true, true, true, true, true, true];
   });
 
-  
+
   it("Using numeric literals", () => {
     type Found = Contains<2000, 2>;
     type Found2 = Contains<2000, "2">;
@@ -41,7 +41,7 @@ describe("Contains<T,A>", () => {
     type NotFound = Contains<2000, 1>;
     type NotFound2 = Contains<2000, "1">;
     type NotFound3 = Contains<"2000", 1>;
-    
+
     type cases = [
       ExpectTrue<Found>,
       ExpectTrue<Found2>,
@@ -55,13 +55,13 @@ describe("Contains<T,A>", () => {
       false, false, false
     ];
   });
-  
+
   it("Content is a string", () => {
     type HasBar = Contains<"FooBar", "Bar">;
     type NoBar = Contains<"FooBaz", "Bar">;
     type WideContent = Contains<string, "Bar">;
     type WideContains = Contains<"FooBar", string>;
-    
+
     type cases = [
       ExpectTrue<HasBar>,
       ExpectFalse<NoBar>,
@@ -73,11 +73,11 @@ describe("Contains<T,A>", () => {
     ];
   });
 
-  
+
   it("Comparator is a union", () => {
-    type Foo = Contains<["foo", "bar"], "foo" | 42>;
-    type Nada = Contains<["foo", "bar"], boolean | 42>;
-    
+    type Foo = Contains<["foo", "bar"], ["foo", 42]>;
+    type Nada = Contains<["foo", "bar"], [boolean , 42]>;
+
     type cases = [
       ExpectTrue<Foo>,
       ExpectFalse<Nada>,
@@ -85,9 +85,9 @@ describe("Contains<T,A>", () => {
     const cases: cases = [
       true, false
     ];
-    
+
   });
-  
+
 
 });
 

@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("EnsureTrailing", () => {
@@ -16,12 +16,12 @@ describe("EnsureTrailing", () => {
 
     type WideContent = EnsureTrailing<string, "wide">;
     type WideTrailer = EnsureTrailing<"wide", string>;
-  
+
     type NoChange = EnsureTrailing<"FooBar", "Bar">;
     type FooBar = EnsureTrailing<"Foo", "Bar">;
 
     type PostfixOne = EnsureTrailing<5,1>;
-    
+
     type cases = [
       Expect<Equal<SuperWide, string>>,
       Expect<Equal<NumSuperWide, number>>,
@@ -34,17 +34,13 @@ describe("EnsureTrailing", () => {
 
       Expect<Equal<PostfixOne, 51>>
     ];
-    const cases: cases = [ 
-      true, true, 
+    const cases: cases = [
       true, true,
-      true, true, 
+      true, true,
+      true, true,
       true
     ];
   });
-
-  
-
-  
 
 });
 

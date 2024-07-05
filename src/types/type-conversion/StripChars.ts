@@ -1,20 +1,28 @@
-import { Constant } from "src/constants/index";
+import {  Marked } from "src/constants/index";
 import {
   IsWideType,
   Or,
   RemoveMarked,
   Chars,
-  Join
+  As,
+  Concat
 } from "src/types/index";
+
+type Strip<
+  TChars extends readonly string[],
+  TStrip extends string
+> = {
+  [K in keyof TChars]: TChars[K] extends TStrip
+    ? Marked
+    : TChars[K]
+};
+
 
 type Process<
   TChars extends readonly string[],
-  TStrip extends string
-> = RemoveMarked<{
-  [K in keyof TChars]: TChars[K] extends TStrip
-    ? Constant<"Marked">
-    : TChars[K]
-}>;
+  TStrip extends string,
+> = As<RemoveMarked<Strip<TChars,TStrip>>, readonly string[]>;
+
 
 /**
  * **StripChars**`<TContent,TStrip>`
@@ -31,7 +39,6 @@ export type StripChars<
   TStrip extends string,
 > = Or<[IsWideType<TContent>, IsWideType<TStrip>]> extends true
   ? string
-  : Process<Chars<TContent>, TStrip> extends readonly string[]
-    ? Join<Process<Chars<TContent>, TStrip>>
-    : never;
+  : // both TContent and TStrip are literals
+    Concat<Process<Chars<TContent>, TStrip>>;
 

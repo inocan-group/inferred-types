@@ -1,4 +1,5 @@
-import { AsString, EnsureLeading } from "src/types/index";
+import {  EnsureLeading } from "src/types/index";
+import { isString } from "../type-guards/isString";
 
 /**
  * **ensureLeading**(content, strip)
@@ -7,15 +8,20 @@ import { AsString, EnsureLeading } from "src/types/index";
  * substring `ensure` at the end and adds it if not present.
  */
 export function ensureLeading<
-  T extends string | number, 
-  U extends string
+  T extends string | number,
+  U extends string | number
 >(
   content: T,
   ensure: U
 ) {
+  let output: string = String(content);
+
   return (
-    String(content).startsWith(ensure)
-      ? content 
-      : `${ensure}${content}` 
-  ) as unknown as EnsureLeading<AsString<T>, U>;
+    output.startsWith(String(ensure))
+      ? content
+      : isString(content)
+        ? `${ensure}${content}`
+        : Number(`${ensure}${content}`)
+  )  as EnsureLeading<T,U>
+
 }

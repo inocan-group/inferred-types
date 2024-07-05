@@ -15,7 +15,9 @@ export const stripChars = <
   content: TContent,
   ...strip: TRetain
 ): StripChars<TContent, TupleToUnion<TRetain>> => {
-  return asChars(content).filter(c => !strip.includes(c)).join("") as unknown as StripChars<TContent, TupleToUnion<TRetain>>
+  return (
+    asChars(content).filter(c => !strip.includes(c)).join("")
+   ) as unknown as StripChars<TContent, TupleToUnion<TRetain>>
 }
 
 

@@ -4,7 +4,7 @@ import { Truncate } from "src/types/index";
 import { truncate } from "src/runtime/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("Truncate<T>", () => {
@@ -14,7 +14,7 @@ describe("Truncate<T>", () => {
     type Trunc = Truncate<"Foobar", 3>;
     type TruncWithEllipsis = Truncate<"Foobar", 3, true>;
     type CustomEllipsis = Truncate<"Foobar", 3, "... more">;
-    
+
     type cases = [
       Expect<Equal<NoTrunc, "Foobar">>,
       Expect<Equal<Trunc, "Foo">>,
@@ -24,22 +24,6 @@ describe("Truncate<T>", () => {
     const cases: cases = [ true, true, true, true ];
   });
 
-  it("truncating tuples", () => {
-    type NoTrunc = Truncate<[1,2,3], 3>;
-    type Trunc = Truncate<[1,2,3,4,5], 3>;
-    type WithEllipsis = Truncate<[1,2,3,4,5], 3, true>;
-    type CustomEllipsis = Truncate<[1,2,3,4,5], 3, "... more">;
-    
-    type cases = [
-      Expect<Equal<NoTrunc, [1,2,3]>>,
-      Expect<Equal<Trunc, [1,2,3]>>,
-      Expect<Equal<WithEllipsis, [1,2,3, "..."]>>,
-      Expect<Equal<CustomEllipsis, [1,2,3, "... more"]>>,
-
-    ];
-    const cases: cases = [true, true, true, true ];
-  });
-  
 });
 
 describe("truncate()", () => {

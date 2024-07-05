@@ -1,9 +1,7 @@
+import { TT_Atomics } from "src/constants/index";
 import { AtomicToken } from "src/types/index";
-import { isString } from "../isString"
+import { isString } from "src/runtime/index";
 
-import {
-  TT_Atomics
-} from "src/constants/index";
 
 
 /**

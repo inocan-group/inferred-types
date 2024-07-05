@@ -93,3 +93,9 @@ export * from "./IsUrl";
 export * from "./Network-operators";
 export * from "./PhoneOperators";
 export * from "./IsUnset";
+export * from "./IsEmptyString"
+export * from "./IsPositiveNumber"
+export * from "./HaveSameNumericSign"
+export * from "./HasArray"
+export * from "./UnionHasArray"
+export * from "./MaybeError"

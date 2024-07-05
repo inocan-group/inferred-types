@@ -1,4 +1,4 @@
-import { AsString, ToStringArray } from "src/types/index";
+import {  ToStringArray } from "src/types/index";
 
 type Process<
   TContent extends string,
@@ -16,10 +16,10 @@ type ProcessEach<
 
 /**
  * **Surround**`<TContent,TPrefix,TPostfix>`
- * 
+ *
  * Receives content -- either a string or an array of strings -- and then
  * proceeds to _surround_ the content with the prefix and postfix content.
- * 
+ *
  * ```ts
  * // "(hi)"
  * type T1 = Surround<"hi", "(", ")">;
@@ -32,7 +32,7 @@ export type Surround<
   TPrefix extends string,
   TPostfix extends string
 > = TContent extends number
-? Surround<AsString<TContent>, TPrefix, TPostfix>
+? Surround<`${TContent}`, TPrefix, TPostfix>
 : TContent extends readonly unknown[]
   ? TContent extends readonly string[]
     ? ProcessEach<TContent, TPrefix, TPostfix>

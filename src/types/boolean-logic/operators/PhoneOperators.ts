@@ -1,5 +1,12 @@
-import { GetPhoneCountryCode, IsNever, IsTrue, PhoneCountryCode, PhoneNumber } from "../..";
-import { IsStringLiteral } from "./IsStringLiteral";
+import {
+  IsStringLiteral,
+  GetPhoneCountryCode,
+  IsTrue,
+  PhoneNumber,
+  PhoneCountryCode,
+  IsErrorCondition,
+  MaybeError
+} from "src/types/index";
 
 // BOOLEAN OPERATORS for PHONE TYPES
 
@@ -18,13 +25,11 @@ import { IsStringLiteral } from "./IsStringLiteral";
  *
  * **Related:** `PhoneNumber`, `HasPhoneCountryCode`
  */
-export type IsPhoneNumber<T> = T extends string
-? IsStringLiteral<T> extends true
-  ? IsNever<PhoneNumber<T>> extends true
-    ? false
-    : true
-: boolean
-: false;
+export type IsPhoneNumber<T extends string | number> = IsErrorCondition<PhoneNumber<T>> extends true
+  ? false
+  : MaybeError<PhoneNumber<T>> extends true
+  ? boolean
+  : true;
 
 
 /**

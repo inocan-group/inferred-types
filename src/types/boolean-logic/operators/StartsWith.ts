@@ -1,56 +1,35 @@
-import { 
-  AsString,  
-  IsFalse, 
-  IsEqual, 
-  IsUnion, 
-  Or 
+import {
+  AsString,
+  IsWideType,
+  TupleToUnion,
+  IsEqual
 } from "src/types/index";
 
-type TestThatExtends<
+
+type Check<
   TValue extends string,
-  TComparator extends string
-> = [TValue] extends [`${TComparator}${string}`] ? true : false
+  TComparator extends string | number
+>= TValue extends `${TComparator}${string}`
+? true
+: false;
 
 type Process<
   TValue extends string,
-  TComparator extends string
-> = [IsFalse<TestThatExtends<TValue,TComparator>>] extends [true]
-? false
-: true;
-
-type ProcessEach<
-    TValue extends string,
-    TComparator extends readonly string[]
-> = {
-  [K in keyof TComparator]: Process<TValue,TComparator[K]>
-};
-
-
-
-type PreProcess<
-  TValue extends string,
-  TComparator extends string | readonly string[]
-> = TComparator extends readonly string[]
-  ? ProcessEach<TValue, TComparator> extends readonly boolean[]
-    ? Or<ProcessEach<TValue, TComparator>>
-    : never
-  : TComparator extends string
-    ? Process<TValue,AsString<TComparator>>
-    : never;
-
-type IsWide<
-  TValue extends string | number,
   TComparator extends string | number | readonly string[]
-> = [IsEqual<AsString<TValue>,string>] extends [true]
-? true
-: [IsEqual<AsString<TComparator>,string>] extends [true]
-? true
-: false;
+> = TComparator extends readonly string[]
+? Check<
+    [TValue] extends [number] ? `${TValue}` : TValue ,
+    TupleToUnion<TComparator>
+  >
+: Check<
+    [TValue] extends [number] ? `${TValue}` : TValue,
+    AsString<TComparator>
+  >;
 
 /**
  * **StartsWith**<TValue, TComparator>
  *
- * A type utility which checks whether `TValue` _starts with_ the 
+ * A type utility which checks whether `TValue` _starts with_ the
  * value of `TComparator`.
  *
  * - numeric values for `TValue` will be converted into string literals
@@ -64,24 +43,12 @@ type IsWide<
 export type StartsWith<
   TValue extends string | number,
   TComparator extends string | number | readonly string[]
-> = [IsWide<TValue,TComparator>] extends [true]
+> = [IsWideType<TValue>] extends [true]
 ? boolean
-: [IsUnion<TComparator>] extends [true]
-  ? IsFalse<
-      PreProcess<
-        `${TValue}`,
-        TComparator extends number
-          ? AsString<TComparator>
-          : TComparator
-      >
-    > extends true
-    ? false
-    : true
-  : PreProcess<
-      AsString<TValue>,
-      TComparator extends number
-        ? `${TComparator}`
-        : TComparator
-    >;
+: [IsWideType<TComparator>] extends [true]
+? boolean
+: IsEqual<Process<AsString<TValue>, TComparator>, boolean> extends true
+  ? true
+  : Process<AsString<TValue>, TComparator>;
 
 

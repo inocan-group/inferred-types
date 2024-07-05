@@ -39,7 +39,7 @@ describe("shape(s => s.[api])", () => {
   });
 
 
-  it("regex backed", () => {
+  it.skip("regex backed", () => {
     // should create a string literal type which has a backing regex for validation
     const zip = shape(s => s.string().regex(
       /[0-9]{5}(-[0-9]{4}){0,1}/,

@@ -1,40 +1,22 @@
-import { RemovePhoneCountryCode, GetPhoneCountryCode, PhoneFormat, PhoneNumber, ToPhoneFormat } from "src/types/index";
-import { asChars, isPhoneNumber, retainWhile, stripChars, stripLeading } from "src/runtime/index";
-import { NUMERIC_CHAR } from "src/constants/NumericChar";
+import {
+  PhoneFormat,
+  PhoneNumber,
+  ToPhoneFormat
+} from "src/types/index";
+import {
+  getPhoneCountryCode,
+  isPhoneNumber,
+  removePhoneCountryCode,
+  stripChars,
+} from "src/runtime/index";
 
-
-export const getPhoneCountryCode = <T extends string>(
-  phone: T
-) => {
-  return (
-    phone.trim().startsWith("+") || phone.trim().startsWith("00")
-      ? retainWhile(
-          stripLeading(stripLeading(phone.trim(),"+"), "00") as string,
-          ...NUMERIC_CHAR
-        ) as string
-      : "" as string
-  ) as unknown as GetPhoneCountryCode<T>;
-}
-
-export const removePhoneCountryCode = <
-  T extends string
->(phone: T) => {
-  const countryCode = getPhoneCountryCode(phone) as unknown as string;
-  return (
-    countryCode !== ""
-      ? stripLeading(stripLeading(
-          phone.trim(),
-          "+","00"
-        ) as string, countryCode).trim()
-      : phone.trim()
-  ) as unknown as RemovePhoneCountryCode<T>
-}
 
 const convert = (countryCode: string, phone: string, delimiter: string, para: boolean) => {
+  const s = stripChars(phone, "(",")");
   const parts = stripChars(phone, "(", ")").trim().split(/[-. ]/);
   const isRegional = parts.length === 2 ? true : false;
   const isCountry = parts.length === 3 ? true : false;
-  const isShortCode = parts.length === 1 && asChars(phone).length < 7 ? true : false;
+  const isShortCode = parts.length === 1 && phone.split("").length < 7 ? true : false;
 
   const replacement = isShortCode
     ? phone
@@ -76,16 +58,16 @@ export const asPhoneNumber = <
 
   switch (format) {
     case "Dashed (e.g., 456-555-1212)":
-      result = convert(countryCode, remaining, "-", false);
+      result = convert(countryCode, remaining, "-", false) as unknown;
       break;
     case "Dotted (e.g., 456.555.1212)":
-      result = convert(countryCode, remaining, ".", false);
+      result = convert(countryCode, remaining, ".", false) as unknown;
       break;
     case "ParaDashed (e.g., (456) 555-1212)":
-      result = convert(countryCode, remaining, "-", true);
+      result = convert(countryCode, remaining, "-", true) as unknown;
       break;
     case "ParaSpaced (e.g., (456) 555 1212)":
-      result = convert(countryCode, remaining, " ", true);
+      result = convert(countryCode, remaining, " ", true) as unknown;
       break;
   }
 

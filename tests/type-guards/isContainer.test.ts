@@ -5,7 +5,7 @@ import { narrow, isContainer, optional } from "src/runtime/index";
 import {  Container, DoesExtend } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("isContainer(val)", () => {
@@ -13,7 +13,7 @@ describe("isContainer(val)", () => {
   const wide_obj =  {id: 1} as {id: number} | null;
   const lit_arr =  optional(narrow([1,2,3]))
   const wide_arr =  [1,2,3] as number[] | undefined;
-  
+
   it("literal object", () => {
     const v = isContainer(lit_obj);
     expect(v).toBe(true);

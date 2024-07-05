@@ -1,54 +1,29 @@
-import { 
-  AsNumber, 
-  AsString, 
-  If,  
-  IsWideType, 
-  ToStringArray,
-  IfNever
+import {
+  AsNumber,
+  AsString,
+  IsString,
+  IsWideType,
 } from "src/types/index";
 
-type Process<
-  TContent extends string, 
-  TTrailing extends string
->= If<
-  IsWideType<TContent>,
-  `${string}${TTrailing}`,
-  If<
-    IsWideType<TTrailing>,
-    `${TContent}${string}`,
-    TContent extends `${string}${TTrailing}`
-      ? TContent
-      : `${TContent}${TTrailing}`
-    >
-  >;
 
-type PreProcess<
-  TContent extends string | number, 
-  TTrailing extends string | number
-> = If<
-IsWideType<TContent>,
-If<
-  IsWideType<TTrailing>,
-  // string | number
-  TContent,
-  TTrailing extends number
-    ? TContent extends number
-      ? AsNumber<Process<AsString<TContent>,AsString<TTrailing>>>
-      : Process<AsString<TContent>,AsString<TTrailing>>
-    : Process<AsString<TContent>,AsString<TTrailing>>
-  >,
-  TContent extends number
-    ? AsNumber<
-        Process<AsString<TContent>, AsString<TTrailing>>
-      >
-    : Process<AsString<TContent>, AsString<TTrailing>>
->
+type P<
+  TContent extends string,
+  TTrailing extends string
+> = TContent extends `${string}${TTrailing}`
+? TContent
+: `${TContent}${TTrailing}`;
+
+
 
 type IterateOver<
-  TContent extends readonly string[],
+  TContent extends readonly unknown[],
   TTrailing extends string
 > = {
-  [K in keyof TContent]: PreProcess<TContent[K], TTrailing>
+  [K in keyof TContent]: TContent[K] extends string
+    ? P<TContent[K], TTrailing>
+    : TContent[K] extends number
+      ? AsNumber<P<`${TContent[K]}`, TTrailing>>
+    : P<`${AsString<TContent[K]>}`, TTrailing>
 }
 
 /**
@@ -65,19 +40,21 @@ type IterateOver<
  * ```
  */
 export type EnsureTrailing<
-  TContent extends string | number | readonly (string|number)[], 
+  TContent extends string | number | readonly (string|number)[],
   TTrailing extends string | number
-> = TContent extends readonly (string|number)[]
-? ToStringArray<TContent> extends readonly string[]
-  ? IterateOver<ToStringArray<TContent>, AsString<TTrailing>>
-  : never
-: TContent extends string 
-  ? PreProcess<AsString<TContent>,AsString<TTrailing>>
-  : TContent extends number 
-      ? IfNever<
-          AsNumber<
-            PreProcess<AsString<TContent>,AsString<TTrailing>>
-          >,
-          number
-        >
-  : never;
+> = IsWideType<TContent> extends true
+? IsWideType<TTrailing> extends true
+  ? TContent
+  : `${string}${TTrailing}`
+: IsWideType<TTrailing> extends true
+  ? IsString<TContent> extends true
+    ? `${AsString<TContent>}${string}`
+    : never
+: TContent extends number
+? AsNumber<P<`${TContent}`, `${TTrailing}`>>
+: TContent extends string
+? P<TContent, `${TTrailing}`>
+: TContent extends readonly unknown[]
+? IterateOver<TContent, `${TTrailing}`>
+: never;
+

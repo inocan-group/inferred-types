@@ -8,7 +8,6 @@ import type {
   IsTuple,
   IsObjectLiteral,
   AfterFirst,
-  StartsWith,
   First,
   TupleToUnion,
   As,
@@ -89,11 +88,9 @@ type _Public<
 ? TOutput
 : _Public<
     AfterFirst<TInput>,
-    First<TInput> extends string
-    ? StartsWith<First<TInput>, "_"> extends true
+    First<TInput> extends `_${string}`
       ? TOutput
       : [...TOutput, First<TInput>]
-    : TOutput
   >;
 
 /**

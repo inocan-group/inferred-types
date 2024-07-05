@@ -12,9 +12,11 @@
   Zip,
   ZipPlus4,
   ZipCode,
+  SimpleToken,
 } from "src/types/index";
 
 import { addToken } from "./addToken"
+import { regexToken } from "./regexToken";
 
 type Token<T extends string> = `<<${T}>>`;
 
@@ -75,19 +77,30 @@ const stringApi: StringTokenUtilities<string> = ({
   ipv4Address: () => addToken("string-set", "ipv4Address") as unknown as Ip4Address,
   ipv6Address: () => addToken("string-set", "ipv6Address") as unknown as Ip6Address,
 
-  // regex: <
-  //   TExp extends string | RegExp,
-  //   TRepresentation extends
-  // >(
-  //   exp: string | RegExp,
-  //   literalRepresentation: ...string[]
-  // ) => {
+  regex: <
+    TExp extends string | RegExp,
+    TRepresentation extends readonly SimpleToken[]
+  >(
+    exp: string | RegExp,
+    ...literalRepresentation: TRepresentation
+  ) => {
+    const token = regexToken(exp, ...literalRepresentation);
 
-  // },
+    return token
+  },
 
   done: () => addToken("string")
 })
-
-
+/**
+ * **string**
+ *
+ * The API surface for adding string tokens
+ */
 export const string = addSingleton("string", stringApi);
+
+/**
+ * **number**
+ *
+ * The API surface for adding number tokens
+ */
 export const number = addSingleton("number");

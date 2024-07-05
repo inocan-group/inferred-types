@@ -1,7 +1,6 @@
-import { Dictionary, Tuple } from "../base-types";
-import { As } from "../boolean-logic/narrowing/As";
-import { Join } from "../string-literals/Join";
-import { ToString } from "./ToString";
+import {  ToString, Tuple } from "src/types/index";
+
+
 
 /**
  * **ToStringArray**`<T>`
@@ -11,4 +10,8 @@ import { ToString } from "./ToString";
  */
 export type ToStringArray<T extends Tuple> = {
   [K in keyof T]: ToString<T[K]>
+} extends readonly string[]
+? {
+  [K in keyof T]: ToString<T[K]>
 }
+: never;

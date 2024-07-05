@@ -3,12 +3,12 @@ import { ensureLeading, ensureTrailing } from "src/runtime/index";
 
 /**
  * **ensureSurround**(prefix, postfix) -> (input) -> `${prefix}${input}${postfix}`
- * 
+ *
  * A higher order runtime utility which receives a prefix and postfix string
  * on it's first call. This returns a secondary function which will _ensure_
- * the given prefix/postfix's surround the input (without duplicating the 
+ * the given prefix/postfix's surround the input (without duplicating the
  * prefix/postfix characters if they were already there).
- * 
+ *
  * **Related:** `surround()`
  */
 export function ensureSurround<
@@ -19,10 +19,10 @@ export function ensureSurround<
   const fn = <TInput extends string>(
     input: TInput
   ): EnsureSurround<TInput, TPrefix, TPostfix> => {
-    const result = ensureTrailing(
-      ensureLeading(input, prefix),
-      postfix
-    ) as unknown;
+    let result: string = input;
+
+    result = ensureLeading(result, prefix);
+    result = ensureTrailing(result, postfix);
 
     return result as EnsureSurround<TInput, TPrefix, TPostfix>;
   }

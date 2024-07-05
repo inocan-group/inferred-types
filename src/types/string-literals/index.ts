@@ -26,6 +26,7 @@ export * from "./Pluralize";
 export * from "./Prepend";
 export * from "./PrependAll";
 export * from "./StripLeading";
+export * from "./StripSurround";
 export * from "./Suggest";
 export * from "./Repeat";
 export * from "./RetainAfter";
@@ -39,6 +40,7 @@ export * from "./Time";
 export * from "./Truncate";
 export * from "./RetainUntil";
 export * from "./StripUntil";
+export * from "./UnderlyingType";
 
 export * from "./character-sets/index";
 export * from "./casing/index";

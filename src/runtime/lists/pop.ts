@@ -1,5 +1,5 @@
 import { Narrowable, Slice, Tuple, Last, IfNever } from "src/types/index";
-import { last, slice } from "src/runtime/index";
+import { last } from "src/runtime/index";
 
 
 export type PopResult<V, L extends Tuple> = [
@@ -9,7 +9,7 @@ export type PopResult<V, L extends Tuple> = [
 
 /**
  * **pop**(list)
- * 
+ *
  * Takes a list of elements and then returns a `PopResult` unless
  * there were no more elements in which case the value _undefined_ is returned.
  * ```ts
@@ -24,7 +24,7 @@ export const pop = <
 >(list: T) => {
   return (
     list.length > 0
-      ? [last(list), slice(list, 0, -1)] as PopResult<Last<T>, Slice<T, 0, -1>>
+      ? [last(list), list.slice( 0, -1)]
       : undefined
   ) as PopResult<Last<T>, Slice<T, 0, -1>>;
 };

@@ -1,6 +1,6 @@
 import { NUMERIC_CHAR, WHITESPACE_CHARS } from "src/constants/index"
-import { isString,asChars, retainChars, stripChars } from "src/runtime/index"
-import { IsPhoneNumber } from "src/types/index"
+import { retainChars, stripChars } from "src/runtime/index"
+import { PhoneNumber } from "src/types/index"
 
 /**
  * **isPhoneNumber**`(val)`
@@ -14,24 +14,23 @@ import { IsPhoneNumber } from "src/types/index"
  *
  * **Related:** `asPhoneNumber()`, `PhoneNumber`
  */
-export const isPhoneNumber = <T>(val: T): val is T => {
-  return (
-    isString(val) &&
-    ["+","(",...NUMERIC_CHAR].includes(asChars(val.trim())[0] as any) &&
-    [...NUMERIC_CHAR].includes(
-      [...asChars(val.trim())].pop() as any
-    ) &&
-    (
-      val.trim().startsWith(`+`)
-      ? asChars(retainChars(val, ...NUMERIC_CHAR)).length >= 8
-      : val.trim().startsWith("00")
-        ? asChars(retainChars(val, ...NUMERIC_CHAR)).length >= 10
-        : asChars(retainChars(val, ...NUMERIC_CHAR)).length >= 7
-    ) &&
-    stripChars(
-      val,
+export const isPhoneNumber = (val: unknown): val is PhoneNumber => {
+    let svelte: string = String(val).trim();
+    let chars: readonly string[] = svelte.split("");
+    let numeric: string = retainChars(svelte, ...NUMERIC_CHAR)
+    let valid = ["+","(",...NUMERIC_CHAR];
+    let nothing: string = stripChars(svelte, ...[
       ...NUMERIC_CHAR,
       ...WHITESPACE_CHARS, "(", ")", "+", ".", "-"
-    ) === ""
-  ) as unknown as IsPhoneNumber<T>;
+    ]);
+
+    return (
+      chars.every(i => valid.includes(i)) &&
+      svelte.startsWith(`+`)
+        ? numeric.length >= 8
+        : svelte.startsWith(`00`)
+        ? numeric.length >= 10
+        : numeric.length >= 7
+      && nothing === ""
+    )
 }

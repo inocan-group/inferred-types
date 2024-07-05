@@ -1,6 +1,4 @@
 import {
-  TupleToUnion ,
-  Mutable,
   Split,
   AfterFirst,
   First,
@@ -10,7 +8,7 @@ import {
   IsNever,
   Throw,
   Contains,
-  If
+  If,
 } from "src/types/index";
 import {
   TT_Atomics,
@@ -23,7 +21,8 @@ import {
   TT_Sets,
   SIMPLE_TOKENS,
   SIMPLE_SCALAR_TOKENS,
-  SIMPLE_CONTAINER_TOKENS
+  SIMPLE_CONTAINER_TOKENS,
+  SIMPLE_UNION_TOKENS
 } from "src/constants/index";
 
 
@@ -33,7 +32,9 @@ import {
  * An enumeration of string values which point to _types_ in the
  * the type system.
  *
- * **Related:** `SimpleScalarToken`, `TypeToken`
+ * **Related:**
+ * - `SimpleScalarToken`, `SimpleContainerToken`, `SimpleUnionToken`,
+ * - `TypeToken`
  */
 export type SimpleToken = typeof SIMPLE_TOKENS[number];
 
@@ -44,6 +45,14 @@ export type SimpleToken = typeof SIMPLE_TOKENS[number];
  * simple string literal values.
  */
 export type SimpleScalarToken = typeof SIMPLE_SCALAR_TOKENS[number];
+
+/**
+ * **SimpleUnionToken**
+ *
+ * A subset of `SimpleToken` which represents union types.
+ */
+export type SimpleUnionToken = typeof SIMPLE_UNION_TOKENS[number];
+
 /**
  * **BaseTypeToken**
  *
@@ -70,10 +79,11 @@ export type AtomicToken<
 ? `<<${T}>>`
 : never;
 
-type KvToken = `{ "key": "${string}", "value": ${SimpleToken} }`
+// type KvToken = `{ "key": "${string}", "value": ${SimpleToken} }`
 
 export type TypeTokenContainers = typeof TT_Containers[number];
-export type UnionToken = `<<union::[ ${string} ]>>`
+// TODO
+export type UnionToken<_TEls extends readonly unknown[] = unknown[]> = `<<union::[ ${string} ]>>`
 
 /**
  * **UnionSetToken**
