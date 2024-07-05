@@ -1,6 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { describe, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { Dictionary, SimpleType } from "src/types/index";
+import { simpleType } from "src/runtime/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -92,6 +93,49 @@ describe("SimpleType<T>", () => {
 
     ];
 
+  });
+
+
+});
+
+
+describe("simpleType()", () => {
+
+  it("happy path", () => {
+      const str = simpleType("string");
+      const num = simpleType("number");
+      const bool = simpleType("boolean");
+
+      expect(str).toBe("string")
+      expect(num).toBe("number")
+      expect(bool).toBe("boolean")
+
+    type cases = [
+      Expect<Equal<typeof str, string>>,
+      Expect<Equal<typeof num, number>>,
+      Expect<Equal<typeof bool, boolean>>,
+
+    ];
+    const cases: cases = [
+      true,  true, true
+    ];
+  });
+
+
+  it("literals", () => {
+    const strLit = simpleType("string(foo)");
+    const strUnion = simpleType("string(foo,bar)")
+
+    expect(strLit).toBe("string(foo)");
+    expect(strUnion).toBe("string(foo,bar)");
+
+    type cases = [
+      Expect<Equal<typeof strLit, "foo">>,
+      Expect<Equal<typeof strUnion, "foo" | "bar">>,
+    ];
+    const cases: cases = [
+      true, true
+    ];
   });
 
 

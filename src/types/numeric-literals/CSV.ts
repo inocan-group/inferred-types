@@ -1,12 +1,15 @@
-import { Tuple } from "../base-types";
-import { AsNumber, TupleToUnion } from "../type-conversion";
+
+import { If, IsEqual } from "../boolean-logic";
+import { AsNumber } from "../type-conversion";
 import { NumberLike } from "./NumberLike";
 
 
 type Tighten<
   T extends string
 > = T extends ` ${infer Rest extends string}`
-? Rest
+? T extends `  ${infer Double extends string}`
+  ? Double
+  : Rest
 : T;
 
 
@@ -28,7 +31,45 @@ type Process<
     Tighten<T> extends NumberLike
         ? AsNumber<Tighten<T>>
         : Tighten<T>
-  ];
+];
+
+type ProcessJsonTuple<
+  T extends string,
+  Result extends readonly unknown[] = []
+> = T extends `${infer Element},${infer Rest}`
+? ProcessJsonTuple<
+    Rest,
+    [
+      ...Result,
+      Tighten<Element> extends NumberLike
+        ? AsNumber<Tighten<Element>>
+        : If<
+            IsEqual<Tighten<Element>, "true">,
+            true,
+            If<
+              IsEqual<Tighten<Element>, "false">,
+              false,
+              Tighten<`"${Element}"`>
+            >
+          >
+    ]
+  >
+: [
+    ...Result,
+    Tighten<T> extends NumberLike
+        ? AsNumber<Tighten<T>>
+        : If<
+            IsEqual<Tighten<T>, "true">,
+            true,
+            If<
+              IsEqual<Tighten<T>, "false">,
+              false,
+              Tighten<`"${T}"`>
+            >
+          >
+];
+
+
 
 type ProcessStr<
   T extends string,
@@ -109,3 +150,15 @@ export type CsvToUnion<T extends string> = ProcessUnion<T>;
  * **Related:** `CsvToTuple`, `CsvToUnion`
  */
 export type CsvToStrUnion<T extends string> = ProcessUnionStr<T>;
+
+/**
+ * **CsvToTuple**`<T>`
+ *
+ * Converts a CSV string into a tuple with both numbers
+ * and string literals but for the string literals it ensures
+ * -- just like you find with JSON strings -- that there are
+ * explicit double quotes around the string.
+ *
+ * **Related:** `CsvToTuple`, `CsvToTupleStr`, `CsvToUnion`
+ */
+export type CsvToJsonTuple<T extends string> = ProcessJsonTuple<T>;
