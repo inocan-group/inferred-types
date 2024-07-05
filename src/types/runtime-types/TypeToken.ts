@@ -1,19 +1,18 @@
-import { 
-  TupleToUnion , 
+import {
+  TupleToUnion ,
   Mutable,
   Split,
-  StripLeading,
-  StripTrailing,
-  As,
   AfterFirst,
   First,
   AsNumber,
   AnyFunction,
   Dictionary,
   IsNever,
-  Throw
+  Throw,
+  Contains,
+  If
 } from "src/types/index";
-import { 
+import {
   TT_Atomics,
   TT_Containers,
   TT_Functions,
@@ -21,31 +20,103 @@ import {
   TT_START,
   TT_STOP,
   TT_Singletons,
-  TT_Sets
+  TT_Sets,
+  SIMPLE_TOKENS,
+  SIMPLE_SCALAR_TOKENS,
+  SIMPLE_CONTAINER_TOKENS
 } from "src/constants/index";
 
 
-export type TypeTokenAtomics = TupleToUnion<Mutable<typeof TT_Atomics>>;
-export type TypeTokenContainers = TupleToUnion<Mutable<typeof TT_Containers>>;
-export type TypeTokenFunctions = TupleToUnion<Mutable<typeof TT_Functions>>;
-export type TypeTokenSingletons = TupleToUnion<Mutable<typeof TT_Singletons>>;
+/**
+ * **SimpleToken**
+ *
+ * An enumeration of string values which point to _types_ in the
+ * the type system.
+ *
+ * **Related:** `SimpleScalarToken`, `TypeToken`
+ */
+export type SimpleToken = typeof SIMPLE_TOKENS[number];
+
+/**
+ * **SimpleScalarToken**
+ *
+ * A subset of the `SimpleToken` which may be more useful for building
+ * simple string literal values.
+ */
+export type SimpleScalarToken = typeof SIMPLE_SCALAR_TOKENS[number];
+
+/**
+ * **SimpleContainerToken**
+ *
+ * A subset of `SimpleToken` which provides shortcut's for expressing
+ * _container_ types via a simple token.
+ */
+export type SimpleContainerToken = typeof SIMPLE_CONTAINER_TOKENS[number];
+
+
+export type TypeTokenAtomics = typeof TT_Atomics[number];
+export type AtomicToken<T = TypeTokenAtomics> = T extends TypeTokenAtomics
+? `<<${T}>>`
+: never;
+
+type KvToken = `{ key: ${string}, value: ${SimpleToken} }`
+
+export type TypeTokenContainers = typeof TT_Containers[number];
+export type UnionToken<TEls extends readonly unknown[]> = `<<union::[${JoinJsonValues<TEls>}]>>`
+export type UnionSetToken = `<<union-set::${string}::[${string}]>>`
+export type ObjToken = `<<`
+
+export type TypeTokenFunctions = typeof TT_Functions[number];
+export type TypeTokenSingletons = typeof TT_Singletons[number];
+
+/**
+ * **SingletonToken**
+ *
+ * Shapes:
+ * - Wide: `<<string>>` or `<<number>>`
+ * - Literal: `<<string::{string}>` or `<number::{number}>`
+ * - Union Literal: `<<string::{UnionToken}>>`
+ * - Sets: `<<string-set::[set]::[...params]>`
+ */
+export type SingletonToken =
+| `<<${TypeTokenSingletons}>>`
+| `<<${TypeTokenSingletons}::${string}>>`
+| `<<${TypeTokenSingletons}::${UnionToken}>>`
+| `<<${TypeTokenSets}::${string}::[${string}]>>`
+``
+
+
 export type TypeTokenSets = TupleToUnion<Mutable<typeof TT_Sets>>;
-export type TypeTokenKind = 
-  | TypeTokenAtomics 
-  | TypeTokenContainers 
+export type TypeTokenKind =
+  | TypeTokenAtomics
+  | TypeTokenContainers
   | TypeTokenFunctions
   | TypeTokenSets
   | TypeTokenSingletons;
 
+
+/**
+ * string which indicates the start of a `TypeToken`
+ */
+export type TypeTokenStart = typeof TT_START;
+/**
+ * string which indicates the end of a `TypeToken`
+ */
+export type TypeTokenStop = typeof TT_STOP;
+
+export type TypeTokenSeparator = typeof TT_SEP;
+
 export type TypeToken<
   T extends TypeTokenKind = TypeTokenKind
-> =`${typeof TT_START}${T}${"" | `::${string}`}${typeof TT_STOP}`;
+> =`${TypeTokenStart}${T}${"" | `::${string}`}${TypeTokenStop}`;
 
-type Parse<T extends TypeToken> = As<
-Split<
-  As<StripTrailing<StripLeading<T, typeof TT_START>,typeof TT_STOP>, string>,
-  typeof TT_SEP
->, readonly [string, ...string[]]>;
+type Parse<T extends TypeToken> = T extends `${TypeTokenStart}${infer Data}${TypeTokenStop}`
+? If<
+    Contains<Data, TypeTokenSeparator>,
+    Split<Data, TypeTokenSeparator>,
+    [ Data ]
+  >
+: never;
 
 type Kind<T extends TypeToken> = Parse<T>[0] extends TypeTokenKind
   ? Parse<T>[0]
@@ -75,22 +146,22 @@ type GetAtomic<T extends TypeTokenKind> = T extends "undefined"
 ? false
 : never;
 
-type GetSingleton<T extends TypeTokenKind, D extends readonly string[]> = 
+type GetSingleton<T extends TypeTokenKind, D extends readonly string[]> =
   T extends "string"
     ? D["length"] extends 0
       ? string
-      : First<D> extends string 
+      : First<D> extends string
         ? [string, First<D>]
         : never
   : T extends "number"
     ? D["length"] extends 0
       ? number
-      : First<D> extends `${number}` 
+      : First<D> extends `${number}`
         ? [number, AsNumber<First<D>>]
         : never
   : never;
 
-type GetFunction<T extends TypeTokenKind, _D extends readonly string[]> = 
+type GetFunction<T extends TypeTokenKind, _D extends readonly string[]> =
   T extends "fn"
   ? AnyFunction
   : T extends "gen"
@@ -98,7 +169,7 @@ type GetFunction<T extends TypeTokenKind, _D extends readonly string[]> =
   : never;
 
 type GetContainer<
-  T extends TypeTokenKind, 
+  T extends TypeTokenKind,
   _D extends readonly string[]
 > = T extends "obj"
 ? Dictionary
@@ -135,16 +206,16 @@ type TypeHelper<
 
 /**
  * **ParseToken**`<T>`
- * 
+ *
  * Attempts to parses the passed in string in `T` as a
  * `TypeToken` and if successful returns meta characteristics:
- * 
+ *
  * - `token` - the raw token in `T`
  * - `kind` - the specific _kind_ of token; which uniquely identifies the token
  * - `category` - the category of token (e.g., atomic, singleton, etc.)
  * - `baseType` - the broad / base type of the token
  * - _`literal`_ - where appropriate, the _literal_ type of the token
- * 
+ *
  * **Notes:**
  * - deeper type analysis must be done at runtime.
  * - if `T` is not a valid token then an `ErrorCondition<"invalid-token">`
@@ -170,14 +241,14 @@ export type ParseToken<T extends string> = T extends TypeToken
 
 /**
  * **TokenKind**`<T>`
- * 
+ *
  * Reveals the _kind_ of a given `TypeToken`
  */
 export type TokenKind<T extends TypeToken> = Kind<T>;
 
 /**
  * **TokenBaseType**`<T>`
- * 
+ *
  * Reveals the _base_ type of a given `TypeToken`
  */
 export type TokenBaseType<T extends TypeToken> = ParseToken<T>["baseType"];
@@ -189,7 +260,7 @@ export type TokenLiteralType<T extends TypeToken> = "literal" extends keyof Pars
 
 
 export type IsTypeToken<T> = T extends string
-  ? T extends TypeToken 
+  ? T extends TypeToken
     ? true
     : false
   : false;

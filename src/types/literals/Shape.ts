@@ -23,6 +23,8 @@ import {
   As,
   Container,
   TypeTokenKind,
+  Suggest,
+  SimpleToken,
 } from "src/types/index";
 import { AsUnion, FromDefn } from "./FromDefn";
 import { FromWideTokens, WideContainerNames, WideTokenNames } from "./FromTokenNames";
@@ -38,6 +40,9 @@ type Narrow = Exclude<Narrowable, symbol>;
  * like the `ShapeApi` and the `shape()` runtime function.
  */
 export type Shape<T extends TypeTokenKind = TypeTokenKind> = `<<${T}${string}>>`
+
+export type ShapeSuggest = Suggest<`<<${TypeTokenKind}>>`>
+
 
 /**
  * **ShapeAddOrDone**`<TTuple, TMakeUnion>`
@@ -120,6 +125,17 @@ export type StringTokenUtilities<T> = {
    */
   ipv6Address: () => Ip6Address;
 
+  /**
+   * **regex**
+   *
+   * A regular expression which can act as a type validator during
+   * runtime, along with a type pattern/representation that doesn't
+   * overburden the type system while keeping the guard rails on.
+   */
+  regex: <
+    TExp extends string | RegExp,
+    TRep extends readonly SimpleToken[]
+  >(re: TExp, ...representation: TRep) => unknown;
 
   done: () => T;
 }

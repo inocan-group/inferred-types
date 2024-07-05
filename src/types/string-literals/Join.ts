@@ -1,8 +1,8 @@
-import {  
-  IsGreaterThan, 
-  AfterFirst, 
+import {
+  IsGreaterThan,
+  AfterFirst,
   First,
-  ToStringArray, 
+  ToStringArray,
   Slice
 } from "src/types/index";
 
@@ -28,15 +28,15 @@ type Process<
 
 /**
  * **Join**`<TArr,[TSeparator],[TMax]>`
- * 
+ *
  * Joins together an array of items into a string.
- * 
+ *
  * - the _separator_ between items defaults to an empty string this can be
  * changed to whatever is needed
  * - non-string types will be converted to strings as best as possible
  * - specifying a value for `TMax` will truncate tuples which are greater
  * than the specified length and add an ellipsis marker as the last element
- * 
+ *
  * **Related:** `Concat<TArr>`
  */
 export type Join<
