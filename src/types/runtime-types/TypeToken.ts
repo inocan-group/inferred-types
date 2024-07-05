@@ -44,6 +44,15 @@ export type SimpleToken = typeof SIMPLE_TOKENS[number];
  * simple string literal values.
  */
 export type SimpleScalarToken = typeof SIMPLE_SCALAR_TOKENS[number];
+/**
+ * **BaseTypeToken**
+ *
+ * A very simple structure for `TypeTokens` to fit into.
+ *
+ * Use this type if you need to preserve type simplicity, otherwise
+ * prefer `TypeToken` (or subsets like `AtomicToken`, `SingletonToken`, etc.)
+ */
+export type BaseTypeToken = `${TypeTokenStart}${string}${TypeTokenStop}`
 
 /**
  * **SimpleContainerToken**
@@ -55,16 +64,46 @@ export type SimpleContainerToken = typeof SIMPLE_CONTAINER_TOKENS[number];
 
 
 export type TypeTokenAtomics = typeof TT_Atomics[number];
-export type AtomicToken<T = TypeTokenAtomics> = T extends TypeTokenAtomics
+export type AtomicToken<
+  T = TypeTokenAtomics
+> = T extends TypeTokenAtomics
 ? `<<${T}>>`
 : never;
 
-type KvToken = `{ key: ${string}, value: ${SimpleToken} }`
+type KvToken = `{ "key": "${string}", "value": ${SimpleToken} }`
 
 export type TypeTokenContainers = typeof TT_Containers[number];
-export type UnionToken<TEls extends readonly unknown[]> = `<<union::[${JoinJsonValues<TEls>}]>>`
-export type UnionSetToken = `<<union-set::${string}::[${string}]>>`
-export type ObjToken = `<<`
+export type UnionToken = `<<union::[ ${string} ]>>`
+
+/**
+ * **UnionSetToken**
+ *
+ * - static `<<union-set::`, then
+ * - set _name_ `${string}`, then
+ * - static `::[ `, then
+ * - set _parameters_ `${string}`, then
+ * - static ` ]>>`
+ */
+export type UnionSetToken = `<<union-set::${string}::[ ${string} ]>>`
+
+export type ObjectToken = `<<obj::{ ${string} }>>`;
+export type TupleToken = `<<tuple::[ ${string} ]>>`;
+export type ArrayToken = `<<arr::${BaseTypeToken}>>`;
+export type RecordToken = `<<rec::${BaseTypeToken}::${BaseTypeToken}>>`
+
+export type SetToken = `<<set::${BaseTypeToken}>>`
+export type MapToken = `<<map::${BaseTypeToken}::${BaseTypeToken}>>`
+export type WeakMapToken = `<<weak::${BaseTypeToken}::${BaseTypeToken}>>`
+
+export type FnToken = `<<fn::${string}::${BaseTypeToken}>>`
+export type GeneratorToken = `<<gen::${string}::${BaseTypeToken}>>`
+
+/**
+ * **ContainerToken**
+ *
+ * A `TypeToken` which represents a _container_ type.
+ */
+export type ContainerToken = ObjectToken | TupleToken | ArrayToken | RecordToken | SetToken | MapToken | WeakMapToken | UnionToken | UnionSetToken;
 
 export type TypeTokenFunctions = typeof TT_Functions[number];
 export type TypeTokenSingletons = typeof TT_Singletons[number];
@@ -82,11 +121,13 @@ export type SingletonToken =
 | `<<${TypeTokenSingletons}>>`
 | `<<${TypeTokenSingletons}::${string}>>`
 | `<<${TypeTokenSingletons}::${UnionToken}>>`
-| `<<${TypeTokenSets}::${string}::[${string}]>>`
+| `<<string-set::${string}::[${string}]>>`
+| `<<number-set::${string}::[${string}]>>`
 ``
 
 
-export type TypeTokenSets = TupleToUnion<Mutable<typeof TT_Sets>>;
+export type TypeTokenSets = typeof TT_Sets[number];
+
 export type TypeTokenKind =
   | TypeTokenAtomics
   | TypeTokenContainers

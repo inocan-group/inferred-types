@@ -1,4 +1,4 @@
-import { asString, asType, isString } from "src/runtime/index";
+import {  asType, isString } from "src/runtime/index";
 import { SimpleToken } from "src/types/index";
 import { isRegExp } from "util/types";
 

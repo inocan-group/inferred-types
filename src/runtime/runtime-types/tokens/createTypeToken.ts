@@ -11,7 +11,7 @@ import {
 import {
   isAtomicToken,
   isSingletonToken
-} from "../type-guards/tokens";
+} from "../../type-guards/tokens";
 
 type BaseReturn<TBase extends TypeTokenKind> = TBase extends TypeTokenAtomics
   ? `<<${TBase}>>`
@@ -71,7 +71,14 @@ const singleton = <T extends TypeTokenSingletons>(base: T): SingletonClosure<T> 
   )
 }
 
-export const createShapeToken = <
+
+/**
+ * **createTypeToken**`(base) => (secondary) => ...`
+ *
+ * A higher order function designed to creating a valid
+ * `TypeToken` simple through a compound process.
+ */
+export const createTypeToken = <
   TBase extends TypeTokenKind
 >(base: TBase): BaseReturn<TBase> => {
   return (
@@ -84,4 +91,5 @@ export const createShapeToken = <
 }
 
 
-const a = createShapeToken("true");
+const a = createTypeToken("true");
+const b = createTypeToken("string-set")
