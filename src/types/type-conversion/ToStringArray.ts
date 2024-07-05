@@ -1,9 +1,11 @@
-import { Tuple } from "../base-types";
+import { Dictionary, Tuple } from "../base-types";
+import { As } from "../boolean-logic/narrowing/As";
+import { Join } from "../string-literals/Join";
 import { ToString } from "./ToString";
 
 /**
  * **ToStringArray**`<T>`
- * 
+ *
  * Receives a tuple of values and converts each item
  * into a _string_ value using the `ToString<T>` utility.
  */

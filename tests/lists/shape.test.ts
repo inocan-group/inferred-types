@@ -4,7 +4,7 @@ import { Ip4Address, ZipCode } from "src/types/index";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("shape(s => s.[api])", () => {
@@ -37,5 +37,14 @@ describe("shape(s => s.[api])", () => {
       true, true, true, true, true
     ];
   });
+
+
+  it("regex backed", () => {
+    // should create a string literal type which has a backing regex for validation
+    const zip = shape(s => s.string().regex(
+      /[0-9]{5}(-[0-9]{4}){0,1}/,
+      "number","opt(-)", "opt(number)"
+    ))
+  })
 
 });

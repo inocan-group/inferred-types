@@ -75,6 +75,16 @@ const stringApi: StringTokenUtilities<string> = ({
   ipv4Address: () => addToken("string-set", "ipv4Address") as unknown as Ip4Address,
   ipv6Address: () => addToken("string-set", "ipv6Address") as unknown as Ip6Address,
 
+  // regex: <
+  //   TExp extends string | RegExp,
+  //   TRepresentation extends
+  // >(
+  //   exp: string | RegExp,
+  //   literalRepresentation: ...string[]
+  // ) => {
+
+  // },
+
   done: () => addToken("string")
 })
 
