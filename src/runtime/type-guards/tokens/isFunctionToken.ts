@@ -1,5 +1,5 @@
 import { FnToken, GeneratorToken } from "src/types/index"
-import { isString } from "../isString"
+import { isString } from "src/runtime/index"
 
 
 export const isFnToken = (val: unknown): val is FnToken => {

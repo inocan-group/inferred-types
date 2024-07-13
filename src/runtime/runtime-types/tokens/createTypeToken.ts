@@ -99,7 +99,7 @@ const singleton = <T extends TypeTokenSingletons>(
  * `TypeToken` simple through a compound process.
  */
 export const createTypeToken = <
-  TBase extends TypeTokenKind
+  TBase extends TypeTokenAtomics
 >(base: TBase): BaseReturn<TBase> => {
   return (
     isAtomicToken(base)

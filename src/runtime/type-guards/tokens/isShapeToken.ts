@@ -1,5 +1,5 @@
-import { TypeToken } from "src/types/runtime-types";
-import { isString } from "../isString"
+import { TypeToken } from "src/types/index";
+import { isString } from "src/runtime/index"
 import {
   TT_Atomics,
   TT_Containers,

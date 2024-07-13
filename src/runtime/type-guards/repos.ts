@@ -5,10 +5,8 @@ import {
   SemanticVersion,
   UrlsFrom
 } from "src/types/index";
-import { isString } from "./isString";
 import { REPO_SOURCES, REPO_SOURCE_LOOKUP } from "src/constants/index";
-import { stripLeading } from "../literals";
-import { valuesOf } from "../dictionary";
+import { valuesOf, stripLeading, isString } from "src/runtime/index";
 
 /**
  * **isRepoSource**`(val)`

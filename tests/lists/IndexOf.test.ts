@@ -1,7 +1,7 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { indexOf } from "src/runtime/index";
+import { indexOf, isErrorCondition } from "src/runtime/index";
 import type {  IndexOf, IsErrorCondition } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -77,9 +77,9 @@ describe("IndexOf<T>", () => {
     expect(obj).toBe(2);
     expect(identity).toBe("foo");
     expect(
-      invalidIndex,
+      isErrorCondition(invalidIndex),
       `Use of an invalid index: ${JSON.stringify(invalidIndex)}`
-    ).toEqual(undefined);
+    ).toBe(true);
   });
 
 

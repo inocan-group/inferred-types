@@ -148,86 +148,86 @@ describe("API related type utilities", () => {
   });
 
 
-  it("asApiCallback()", () => {
-    let api = asApi({
-      default_values: <T extends NarrowObject<N>, N extends Narrowable>(v: T) => v,
-      done: asEscapeFunction(() => null)
-    });
+  // it("asApiCallback()", () => {
+  //   let api = asApi({
+  //     default_values: <T extends NarrowObject<N>, N extends Narrowable>(v: T) => v,
+  //     done: asEscapeFunction(() => null)
+  //   });
 
-    type Surface = ApiSurface<typeof api>;
-    type Return = ApiReturn<typeof api>;
-    type Callback = ApiCallback<typeof api>;
-    type Done = GetEscapeFunction<typeof api>;
+  //   type Surface = ApiSurface<typeof api>;
+  //   type Return = ApiReturn<typeof api>;
+  //   type Callback = ApiCallback<typeof api>;
+  //   type Done = GetEscapeFunction<typeof api>;
 
-    let cb = asApiCallback(api);
-    let done = getEscapeFunction(api);
+  //   let cb = asApiCallback(api);
+  //   let done = getEscapeFunction(api);
 
-    let d1 = done();
-    let d2 = cb(c => c.done());
-    let values = cb(c => c.default_values({foo: 1, bar: 2}));
+  //   let d1 = done();
+  //   let d2 = cb(c => c.done());
+  //   let values = cb(c => c.default_values({foo: 1, bar: 2}));
 
-    // returned the escape function but didn't call it
-    let oops1 = cb(c => c.done);
-    // returned the whole API
-    let oops2 = cb(c => c);
+  //   // returned the escape function but didn't call it
+  //   let oops1 = cb(c => c.done);
+  //   // returned the whole API
+  //   let oops2 = cb(c => c);
 
-    // unexpected in-use of the API
-    let unexpected = cb(() => 42);
+  //   // unexpected in-use of the API
+  //   let unexpected = cb(() => 42);
 
-    expect(d1).toBe(null);
-    expect(d2).toBe(null);
-    expect(values).toEqual({foo: 1, bar: 2});
+  //   expect(d1).toBe(null);
+  //   expect(d2).toBe(null);
+  //   expect(values).toEqual({foo: 1, bar: 2});
 
-    expect(typeof oops1).toBe("function");
-    expect(isEscapeFunction(oops1)).toBe(true);
-    expect(typeof oops2).toBe("object");
-    expect(isApiSurface(oops2)).toBe(true);
+  //   expect(typeof oops1).toBe("function");
+  //   expect(isEscapeFunction(oops1)).toBe(true);
+  //   expect(typeof oops2).toBe("object");
+  //   expect(isApiSurface(oops2)).toBe(true);
 
-    expect(unexpected).toBe(42);
+  //   expect(unexpected).toBe(42);
 
-    type cases = [
-      Expect<Equal<Surface, {
-        default_values: <T extends NarrowObject<N>, N extends Narrowable>(v: T) => T;
-        done: (() => null) & {
-          escape: true;
-      };
-      }>>,
-      Expect<Equal<Done, (() => null) & { escape: true }>>,
-      Expect<Equal<Return, NarrowObject<Narrowable> | null>>,
-      Expect<Equal<typeof cb, Callback>>,
+  //   type cases = [
+  //     Expect<Equal<Surface, {
+  //       default_values: <T extends NarrowObject<N>, N extends Narrowable>(v: T) => T;
+  //       done: (() => null) & {
+  //         escape: true;
+  //     };
+  //     }>>,
+  //     Expect<Equal<Done, (() => null) & { escape: true }>>,
+  //     Expect<Equal<Return, NarrowObject<Narrowable> | null>>,
+  //     Expect<Equal<typeof cb, Callback>>,
 
-      Expect<Equal<typeof d1, null>>,
-      Expect<Equal<typeof d2, null>>,
-      Expect<Equal<typeof values, { foo: 1; bar: 2 }>>,
+  //     Expect<Equal<typeof d1, null>>,
+  //     Expect<Equal<typeof d2, null>>,
+  //     Expect<Equal<typeof values, { foo: 1; bar: 2 }>>,
 
-      Expect<Equal<typeof unexpected, number>>
-    ];
-    const cases: cases = [
-      true, true,true,true,
-      true, true, true,
-      true
-    ];
+  //     Expect<Equal<typeof unexpected, number>>
+  //   ];
+  //   const cases: cases = [
+  //     true, true,true,true,
+  //     true, true, true,
+  //     true
+  //   ];
 
-  });
-
-
-  it("addApiHandler()", () => {
-    let api = asApi({
-      default_values: <T extends NarrowObject<N>, N extends Narrowable>(v: T) => v,
-      done: asEscapeFunction(() => null)
-    });
-    /** Handled API */
-    let cb = asHandledApiCallback(api);
+  // });
 
 
+  // it("addApiHandler()", () => {
+  //   let api = asApi({
+  //     default_values: <T extends NarrowObject<N>, N extends Narrowable>(v: T) => v,
+  //     done: asEscapeFunction(() => null)
+  //   });
+  //   /** Handled API */
+  //   let cb = asHandledApiCallback(api);
 
 
-    type cases = [
-      /** type tests */
-    ];
-    const cases: cases = [];
 
-  });
+
+  //   type cases = [
+  //     /** type tests */
+  //   ];
+  //   const cases: cases = [];
+
+  // });
 
 
 

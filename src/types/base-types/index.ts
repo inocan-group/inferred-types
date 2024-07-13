@@ -20,6 +20,7 @@ export * from "./NarrowObject";
 export * from "./Dictionary";
 export * from "./NonArray";
 export * from "./List";
+export * from "./LikeRegExp";
 
 export * from "./fns/index";
 export * from "./functional/index";

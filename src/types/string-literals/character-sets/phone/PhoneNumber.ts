@@ -1,27 +1,10 @@
 import {
-  HasPhoneCountryCode,
-  GetPhoneCountryCode,
-  NumericChar,
-  RemovePhoneCountryCode,
   LocalPhoneNumber,
-  RetainChars,
   OnPass,
-  Throw,
-  Trim,
-  StrLen,
-  IsLessThan,
   PhoneNumberDelimiter,
-  StripChars,
-  IsGreaterThan,
   InternationalPhoneNumber,
   CountryPhoneNumber,
-  Extends,
   IsStringLiteral,
-  Not,
-  HasCharacters,
-  Or,
-  And,
-  Whitespace,
   IsNumericLiteral,
   As,
   ErrorCondition
@@ -82,7 +65,7 @@ import {
 
 type Process<
   T extends string,
-  TDelimiter extends PhoneNumberDelimiter = PhoneNumberDelimiter
+  _TDelimiter extends PhoneNumberDelimiter = PhoneNumberDelimiter
 > = OnPass<
       [
         // _ValidChars<RemovePhoneCountryCode<T>>,

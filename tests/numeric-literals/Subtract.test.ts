@@ -30,13 +30,19 @@ describe("Subtract<A,B>", () => {
 
   it("Negative results", () => {
     type NegOne = Subtract<4,5>;
+    type NegOneS = Subtract<"4","5">;
     type NegTwo = Subtract<498,500>;
+    type NegTwoS = Subtract<"498","500">;
 
     type cases = [
       Expect<Equal<NegOne, -1>>,
+      Expect<Equal<NegOneS, "-1">>,
       Expect<Equal<NegTwo, -2>>,
+      Expect<Equal<NegTwoS, "-2">>,
     ];
-    const cases: cases = [ true, true ];
+    const cases: cases = [
+      true, true, true, true
+    ];
   });
 
 

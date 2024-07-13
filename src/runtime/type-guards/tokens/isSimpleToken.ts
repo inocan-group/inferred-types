@@ -1,7 +1,7 @@
-import { SIMPLE_SCALAR_TOKENS, SIMPLE_TOKENS } from "src/constants/TypeTokens"
-import { isArray } from "../isArray"
-import { SimpleContainerToken, SimpleScalarToken, SimpleToken } from "src/types/runtime-types"
-import { isString } from "../isString";
+import { SIMPLE_SCALAR_TOKENS, SIMPLE_TOKENS } from "src/constants/index"
+
+import { SimpleContainerToken, SimpleScalarToken, SimpleToken } from "src/types/index"
+import { isString,isArray } from "src/runtime/index";
 
 const split_tokens = SIMPLE_TOKENS.map(i => i.split("TOKEN"));
 const scalar_split_tokens = SIMPLE_SCALAR_TOKENS.map(i => i.split("TOKEN"));

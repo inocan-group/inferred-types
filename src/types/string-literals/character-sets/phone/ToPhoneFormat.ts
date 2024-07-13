@@ -9,7 +9,6 @@ import {
   HasPhoneCountryCode,
   IsStringLiteral,
   PhoneNumber,
-  Trim
 } from "src/types/index";
 
 /**
@@ -39,7 +38,7 @@ export type ToPhoneFormat<
   TFormat extends PhoneFormat
 > = IsStringLiteral<TPhone> extends true
 ? PhoneNumber<TPhone> extends string
-    ? Trim<TPhone> & FormatLookup<TPhone>[TFormat]
+    ? FormatLookup<TPhone>[TFormat]
     : PhoneNumber<TPhone>
 : FormatLookup<TPhone>[TFormat] | ErrorCondition<"invalid-phone-number">;
 
