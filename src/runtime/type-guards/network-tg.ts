@@ -1,12 +1,22 @@
-import { DomainName, GetUrlProtocolPrefix, GetUrlSource, Ip4Address, Ip6AddressLoose, UrlPath } from "src/types/index"
-import { asChars } from "../type-conversion/asChars"
-import { isAlpha } from "./isAlpha"
-import { isNumericString } from "./isNumericString"
+import {
+  DomainName,
+  GetUrlProtocolPrefix,
+  GetUrlSource,
+  Ip4Address,
+  Ip6AddressLoose,
+  UrlPath
+} from "src/types/index"
 import { isString } from "./isString"
 import { AsString } from "src/types/type-conversion/AsString"
-import { ip6GroupExpansion } from "../type-conversion"
-import { isHexadecimal } from "./isHexadecimal"
-import { getUrlQueryParams, removeUrlProtocol } from "../meta"
+import {
+  getUrlQueryParams,
+  removeUrlProtocol,
+  isHexadecimal,
+  ip6GroupExpansion,
+  isNumberLike,
+  isAlpha,
+  asChars
+} from "src/runtime/index"
 
 
 
@@ -19,7 +29,7 @@ import { getUrlQueryParams, removeUrlProtocol } from "../meta"
 export const isIp4Address = <T>(val: T): val is T & Ip4Address => {
   return isString(val) &&
     ( val.split(".").length === 4) &&
-    ( val.split(".").every(i => isNumericString(i))) &&
+    ( val.split(".").every(i => isNumberLike(i))) &&
     val.split(".").every(i => Number(i)>= 0 && Number(i)<= 255)
 }
 
@@ -68,7 +78,7 @@ export const isUrlPath = <T>(val: T): val is T & UrlPath => {
   (
     asChars(val).every(
       c => isAlpha(c) ||
-      isNumericString(c) ||
+      isNumberLike(c) ||
       c === "_" ||
       c === "@" ||
       c === "." ||
@@ -88,7 +98,7 @@ export const isDomainName = <T>(val: T): val is T & DomainName<AsString<T>> => {
     isString(val.split(".").filter(i => i).pop()) &&
     asChars(val.split(".").filter(i => i).pop() as string).length > 1 &&
     val.split(".").filter(i => i).every(
-      i => isAlpha(i) || isNumericString(i) || i === "-" || i === "_"
+      i => isAlpha(i) || isNumberLike(i) || i === "-" || i === "_"
     )
 }
 

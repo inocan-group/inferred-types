@@ -72,9 +72,20 @@ export type BaseTypeToken = `${TypeTokenStart}${string}${TypeTokenStop}`
 export type SimpleContainerToken = typeof SIMPLE_CONTAINER_TOKENS[number];
 
 
+/**
+ * TypeTokenAtomics
+ *
+ * The token names which are considered "atomic"
+ */
 export type TypeTokenAtomics = typeof TT_Atomics[number];
+
+/**
+ * **AtomicToken**
+ *
+ * A fully formed `TypeToken` of the "atomic" type.
+ */
 export type AtomicToken<
-  T = TypeTokenAtomics
+  T extends TypeTokenAtomics = TypeTokenAtomics
 > = T extends TypeTokenAtomics
 ? `<<${T}>>`
 : never;
@@ -138,6 +149,13 @@ export type SingletonToken =
 
 export type TypeTokenSets = typeof TT_Sets[number];
 
+/**
+ * **TypeTokenKind**
+ *
+ * The full set of _type token_ kinds (aka, the first and
+ * identifying part of the string token after the initial
+ * token identifier)
+ */
 export type TypeTokenKind =
   | TypeTokenAtomics
   | TypeTokenContainers
@@ -157,6 +175,11 @@ export type TypeTokenStop = typeof TT_STOP;
 
 export type TypeTokenSeparator = typeof TT_SEP;
 
+/**
+ * **TypeToken**
+ *
+ *
+ */
 export type TypeToken<
   T extends TypeTokenKind = TypeTokenKind
 > =`${TypeTokenStart}${T}${"" | `::${string}`}${TypeTokenStop}`;

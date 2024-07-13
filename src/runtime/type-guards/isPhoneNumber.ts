@@ -1,6 +1,5 @@
 import { NUMERIC_CHAR, WHITESPACE_CHARS } from "src/constants/index"
 import { retainChars, stripChars } from "src/runtime/index"
-import { PhoneNumber } from "src/types/index"
 
 /**
  * **isPhoneNumber**`(val)`
@@ -14,7 +13,7 @@ import { PhoneNumber } from "src/types/index"
  *
  * **Related:** `asPhoneNumber()`, `PhoneNumber`
  */
-export const isPhoneNumber = (val: unknown): val is PhoneNumber => {
+export const isPhoneNumber = (val: unknown) => {
     let svelte: string = String(val).trim();
     let chars: readonly string[] = svelte.split("");
     let numeric: string = retainChars(svelte, ...NUMERIC_CHAR)

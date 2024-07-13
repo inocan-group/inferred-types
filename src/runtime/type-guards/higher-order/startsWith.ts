@@ -1,11 +1,10 @@
 import type { Narrowable } from "src/types/index";
-import { isString } from "../isString";
-import { isNumber } from "../isNumber";
+import { isString, isNumber } from "src/runtime/index";
 
 
 /**
  * **StartingWithTypeGuard**`<literal>`
- * 
+ *
  * A type guard built using the `startsWith` utility.
  */
 export type StartingWithTypeGuard<TStartsWith extends string> = <
@@ -14,10 +13,10 @@ export type StartingWithTypeGuard<TStartsWith extends string> = <
 
 /**
  * **startsWith**(startingWith) => (val)
- * 
+ *
  * A higher-level builder pattern which is used to create a TypeGuard
  * which checks whether a string _starts with_ another substring.
- * 
+ *
  * ```ts
  * // StartingWithTypeGuard<"foo">
  * const foo = startsWith("foo");

@@ -7,9 +7,7 @@ import {
   YouTubeUrl,
   YouTubeVideosInPlaylist
 } from "src/types/index";
-import { isString } from "./isString";
-import { isUndefined } from "./isUndefined";
-import { hasUrlQueryParameter } from "./network-tg";
+import { isString, isUndefined, hasUrlQueryParameter } from "src/runtime/index";
 
 /**
  * **isYouTubeUrl**`(val)`

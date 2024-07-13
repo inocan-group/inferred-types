@@ -1,5 +1,8 @@
 import { PHONE_COUNTRY_CODES } from "src/constants/index";
+import { FirstOfEach } from "src/types/tuples";
+import { Mutable } from "src/types/type-conversion";
 
+export type PhoneCountryLookup = Mutable<[...typeof PHONE_COUNTRY_CODES]>;
 
 /**
  * **PhoneCountryCode**
@@ -8,4 +11,4 @@ import { PHONE_COUNTRY_CODES } from "src/constants/index";
  *
  * **Related:** `DialCountryCode`
  */
-export type PhoneCountryCode = typeof PHONE_COUNTRY_CODES[number];
+export type PhoneCountryCode = FirstOfEach<PhoneCountryLookup>;

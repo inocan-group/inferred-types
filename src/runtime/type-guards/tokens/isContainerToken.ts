@@ -1,5 +1,8 @@
-import { ArrayToken, ContainerToken, MapToken, ObjectToken, RecordToken, SetToken, TupleToken, UnionSetToken, UnionToken, WeakMapToken } from "src/types/runtime-types";
-import { isString } from "../isString"
+import {
+  ArrayToken,
+  ContainerToken,
+  MapToken, ObjectToken, RecordToken, SetToken, TupleToken, UnionSetToken, UnionToken, WeakMapToken } from "src/types/index";
+import { isString } from "src/runtime/index"
 
 export const isObjectToken = (val: unknown): val is ObjectToken => {
   return isString(val) && val.startsWith("<<obj::");

@@ -1,5 +1,5 @@
 import { IsUndefined, Narrowable } from "src/types/index";
-import { isDefined, isUndefined } from "../type-guards/index";
+import { isDefined, isUndefined } from "src/runtime/index";
 
 /**
  * **ifUndefined**
@@ -13,8 +13,8 @@ import { isDefined, isUndefined } from "../type-guards/index";
  * @param elseVal the value (strongly typed) returned if val is NOT `undefined`
  */
 export function ifUndefined<
-  T extends Narrowable, 
-  IF extends Narrowable = undefined, 
+  T extends Narrowable,
+  IF extends Narrowable = undefined,
   ELSE extends Narrowable = Exclude<T, undefined>
 >(
   val: T,
@@ -27,8 +27,8 @@ export function ifUndefined<
 }
 
 export function ifDefined<
-  T extends Narrowable, 
-  IF extends Narrowable = Exclude<T, undefined>, 
+  T extends Narrowable,
+  IF extends Narrowable = Exclude<T, undefined>,
   ELSE extends Narrowable = undefined
 >(
   val: T,

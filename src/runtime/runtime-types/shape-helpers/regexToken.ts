@@ -1,7 +1,5 @@
-import { isString } from "src/runtime/index";
+import { isRegExp, isString } from "src/runtime/index";
 import { AsType, SimpleToken } from "src/types/index";
-import { isRegExp } from "util/types";
-
 
 /**
  * **regexToken**`(re, ...rep)`

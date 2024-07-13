@@ -9,7 +9,9 @@ import {
   ParseInt,
   As,
   IsWideType,
-  Or
+  Or,
+  IsGreaterThanOrEqual,
+  NegDelta
 } from "src/types/index";
 
 
@@ -21,7 +23,15 @@ type ConvertNumber<
   ? Add<Abs<A>,Abs<B>> extends NumberLike
     ? AsNegativeNumber< Add<Abs<A>,Abs<B>> >
     : never
-  : Delta<A,B>
+  : IsNegativeNumber<B> extends true
+    ? Add<A,B>
+    : IsNegativeNumber<A> extends true
+      ? IsGreaterThanOrEqual<Abs<B>,Abs<A>> extends true
+        ? Delta<A,B>
+        : Add<B,A>
+      : IsGreaterThanOrEqual<Abs<B>,Abs<A>> extends true
+        ? NegDelta<A,B>
+        : Delta<A,B>
 : never;
 
 type SummedStrings<
@@ -37,7 +47,15 @@ type ConvertString<
   ? Add<Abs<A>,Abs<B>> extends NumberLike
     ? SummedStrings<ParseInt<Abs<A>>, ParseInt<Abs<B>>>
     : never
-  : Delta<A,B>
+  : IsNegativeNumber<B> extends true
+  ? Add<A,B>
+  : IsNegativeNumber<A> extends true
+    ? IsGreaterThanOrEqual<Abs<B>,Abs<A>> extends true
+      ? Delta<A,B>
+      : Add<B,A>
+    : IsGreaterThanOrEqual<Abs<B>,Abs<A>> extends true
+      ? NegDelta<A,B>
+      : Delta<A,B>
 : never;
 
 type Process<

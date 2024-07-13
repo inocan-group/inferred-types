@@ -3,15 +3,14 @@ import {
   Narrowable,
   Tuple
 } from "src/types/index";
-import { Never } from "src/constants/index";
-import { isArray, isNull, isNumber, isObject } from "src/runtime/index";
+import { errCondition, isArray, isNull, isNumber, isObject } from "src/runtime/index";
 
 /**
  * **indexOf**(val, index)
- * 
+ *
  * A dereferencing utility which receives a **value** and an **index** and then
- * returns `value[idx]`. 
- * 
+ * returns `value[idx]`.
+ *
  * - If the _index_ is passed in as a `null` value then no dereferencing will be done
  * and it will simply pass back the _value_.
  * - If an array is passed in, you are allowed to use negative values to dereference
@@ -41,9 +40,13 @@ export function indexOf<
       : isNull(idx)
         ? val
         : isArray(val)
-          ? Number(idx as PropertyKey) in val ? val[Number(idx)] : Never
+          ? Number(idx as PropertyKey) in val
+            ? val[Number(idx)]
+            : errCondition("invalid-index", `attempt to index a numeric array with an invalid index: ${Number(idx)}`)
           : isObject(val)
-            ? String(idx as PropertyKey) in val ? val[String(idx) as keyof TContainer] : Never
-            : Never
+            ? String(idx as PropertyKey) in val
+              ? val[String(idx) as keyof TContainer]
+              : errCondition("invalid-index", `attempt to index a dictionary object with an invalid index: ${String(idx)}`)
+            : errCondition("invalid-container-type", `Attempt to use indexOf() on an invalid container type: ${typeof val}`)
   ) as IndexOf<TContainer, TIdx>;
 }

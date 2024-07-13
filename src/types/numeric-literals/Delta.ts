@@ -6,7 +6,9 @@ import {
   Abs,
   Add,
   NumberLike,
-  IsGreaterThan
+  IsGreaterThan,
+  ParseInt,
+  StartsWith
 } from "src/types/index";
 
 
@@ -36,3 +38,33 @@ B extends NumberLike
 > = A extends `${number}`
 ? Process<A,B>
 : AsNumber<Process<A,B>>
+
+
+type AsLit<T extends NumberLike> = T extends `${number}`
+? T
+: T extends number
+  ? `${T}`
+  : never;
+
+
+type ProcessNeg<
+A extends `${number}`,
+B extends `${number}`
+> = Delta<A,B> extends `${infer Num extends number}`
+  ? StartsWith<Num, "-"> extends true
+    ? `${Num}`
+    : `-${Num}`
+  : never;
+
+export type NegDelta<
+A extends NumberLike,
+B extends NumberLike
+> = A extends number
+? ParseInt<ProcessNeg<
+    AsLit<A>,
+    AsLit<B>
+  >>
+: ProcessNeg<
+    AsLit<A>,
+    AsLit<B>
+  >;

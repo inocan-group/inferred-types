@@ -7,9 +7,9 @@
 
 // /**
 //  * **createFilter**(op,comparator) → (list) → _filtered results_
-//  * 
+//  *
 //  * A higher order runtime utility.
-//  * 
+//  *
 //  * - on it's first call it specifies the comparison that will be
 //  * made in the future
 //  * ```ts
@@ -31,7 +31,7 @@
 // >(list: TList) => {
 //   let result: unknown;
 
-  
+
 
 //   switch(op) {
 //     case "equals":
@@ -59,4 +59,4 @@
 //   return result as Filter<TList, TComparator, TOp>;
 // };
 
-export const FILTER = "NOT READY";
+export const filter = "NOT READY";

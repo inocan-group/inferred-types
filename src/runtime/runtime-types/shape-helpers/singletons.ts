@@ -81,7 +81,7 @@ const stringApi: StringTokenUtilities<string> = ({
     TExp extends string | RegExp,
     TRepresentation extends readonly SimpleToken[]
   >(
-    exp: string | RegExp,
+    exp: TExp,
     ...literalRepresentation: TRepresentation
   ) => {
     const token = regexToken(exp, ...literalRepresentation);
