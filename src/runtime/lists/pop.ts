@@ -2,7 +2,10 @@ import { Narrowable, Slice, Tuple, Last, IfNever } from "src/types/index";
 import { last } from "src/runtime/index";
 
 
-export type PopResult<V, L extends Tuple> = [
+export type PopResult<
+  V,
+  L extends Tuple
+> = [
   value: IfNever<V, undefined>,
   list: L
 ];
@@ -25,8 +28,11 @@ export const pop = <
   return (
     list.length > 0
       ? [last(list), list.slice( 0, -1)]
-      : undefined
-  ) as PopResult<Last<T>, Slice<T, 0, -1>>;
+      : [undefined, []]
+  ) as unknown as PopResult<
+    Last<T, undefined>,
+    Slice<T, 0, -1>
+  >;
 };
 
 

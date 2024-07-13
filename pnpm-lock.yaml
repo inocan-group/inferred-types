@@ -13,8 +13,8 @@ importers:
   .:
     devDependencies:
       '@arktype/attest':
-        specifier: ^0.7.10
-        version: 0.7.10(typescript@5.5.3)
+        specifier: ^0.8.2
+        version: 0.8.2(typescript@5.5.3)
       '@eslint/js':
         specifier: ^9.7.0
         version: 9.7.0
@@ -67,8 +67,8 @@ importers:
         specifier: ^8.0.0
         version: 8.0.0(eslint@9.7.0)
       glob:
-        specifier: ^10.4.5
-        version: 10.4.5
+        specifier: ^11.0.0
+        version: 11.0.0
       npm-run-all:
         specifier: ~4.1.5
         version: 4.1.5
@@ -128,8 +128,8 @@ packages:
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
 
-  '@arktype/attest@0.7.10':
-    resolution: {integrity: sha512-5uL2v0O5ugc1qHROlSSGuWEHFhP8y58fV6jBEkq7d9xcnWBnxy64E2dhLfaGSgiCaSuGq/tUk7rA6fIrAYRpQA==}
+  '@arktype/attest@0.8.2':
+    resolution: {integrity: sha512-3CAP+KA1v6U5qAKC9BmtfZGXPEqdv03kMs+0wHzvLr6XRFNugH2nkJPlKMUwKH6l81oI4wacS+CR6+gwwrFUvg==}
     hasBin: true
     peerDependencies:
       typescript: '*'
@@ -139,9 +139,6 @@ packages:
 
   '@arktype/schema@0.1.22':
     resolution: {integrity: sha512-3HAf9EcIgu/H9IIOtfY2yH1exuF5b7z3GmMrPuI9xhC0OwKw5DK/57MNGSxbx9JMw51RLxL/fcEOnyNiXEDT+g==}
-
-  '@arktype/util@0.0.48':
-    resolution: {integrity: sha512-U5FO5EUAJ4LoYtLSyAMmTf6CEVgslObfSQuua2zoK5Tv2FB3aESVQ3rdLfhuz+coRhlzlynbkmimyoQWwQT+aQ==}
 
   '@arktype/util@0.0.51':
     resolution: {integrity: sha512-lukmZcbSVI27ZJ4uJA7ztCKM5OligUfdTrr0E6k+F0tzz9iSEcplS0KZbVD2WfrLL3HXNKBE6g/w3nhYMAMoqw==}
@@ -548,8 +545,10 @@ packages:
     resolution: {integrity: sha512-RnlSOPh14QbopGCApgkSx5UBgGda5MX1cHqp2fsqfiDyCwGL/m1jaeB9fzu7didVS81LQqGZZuxFBcg8YU8EVw==}
     hasBin: true
 
-  '@typescript/vfs@1.5.0':
-    resolution: {integrity: sha512-AJS307bPgbsZZ9ggCT3wwpg3VbTKMFNHfaY/uF0ahSkYYrPF2dSSKDNIDIQAHm9qJqbLvCsSJH7yN4Vs/CsMMg==}
+  '@typescript/vfs@1.5.3':
+    resolution: {integrity: sha512-OSZ/o3wwD5VPZVdGGsXWk7sRGRtwrGnqA4zwmb33FTs7Wxmad0QTkQCbaNyqWA8hL09TCwAthdp8yjFA5G1lvw==}
+    peerDependencies:
+      typescript: '*'
 
   '@vitest/expect@2.0.2':
     resolution: {integrity: sha512-nKAvxBYqcDugYZ4nJvnm5OR8eDJdgWjk4XM9owQKUjzW70q0icGV2HVnQOyYsp906xJaBDUXw0+9EHw2T8e0mQ==}
@@ -2403,12 +2402,12 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
 
-  '@arktype/attest@0.7.10(typescript@5.5.3)':
+  '@arktype/attest@0.8.2(typescript@5.5.3)':
     dependencies:
       '@arktype/fs': 0.0.20
-      '@arktype/util': 0.0.48
+      '@arktype/util': 0.0.51
       '@typescript/analyze-trace': 0.10.1
-      '@typescript/vfs': 1.5.0
+      '@typescript/vfs': 1.5.3(typescript@5.5.3)
       arktype: 2.0.0-dev.29
       typescript: 5.5.3
     transitivePeerDependencies:
@@ -2419,8 +2418,6 @@ snapshots:
   '@arktype/schema@0.1.22':
     dependencies:
       '@arktype/util': 0.0.51
-
-  '@arktype/util@0.0.48': {}
 
   '@arktype/util@0.0.51': {}
 
@@ -2759,9 +2756,10 @@ snapshots:
       treeify: 1.1.0
       yargs: 16.2.0
 
-  '@typescript/vfs@1.5.0':
+  '@typescript/vfs@1.5.3(typescript@5.5.3)':
     dependencies:
       debug: 4.3.5
+      typescript: 5.5.3
     transitivePeerDependencies:
       - supports-color
 

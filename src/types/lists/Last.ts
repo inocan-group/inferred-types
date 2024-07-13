@@ -22,8 +22,8 @@ export type Last<
     AfterFirst<TContent> extends readonly unknown[]
       ? TContent[AfterFirst<TContent>["length"]] extends TContent[number]
         ? TContent[AfterFirst<TContent>["length"]]
-        : never
-      : never
+        : TEmpty
+      : TEmpty
   >
 >;
 
