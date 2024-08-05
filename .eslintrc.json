@@ -5,7 +5,6 @@
     "promise",
     "prettier"
   ],
-  "root": true,
   "extends": [
     "plugin:import/warnings",
     "plugin:promise/recommended",
@@ -18,7 +17,6 @@
     "ecmaVersion": 13
   },
   "rules": {
-    "prefer-const": "error",
     "quotes": [
       "warn",
       "double",

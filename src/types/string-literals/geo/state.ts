@@ -1,4 +1,4 @@
-import {US_STATE_LOOKUP, US_STATE_LOOKUP_PROVINCES} from "src/constants/index"
+import type {US_STATE_LOOKUP, US_STATE_LOOKUP_PROVINCES} from "src/constants/index"
 import { Mutable, IsTrue } from "src/types/index";
 
 
@@ -20,13 +20,13 @@ type _UsProvinceAbbrev = {
 
 /**
  * **UsStateAbbrev**`<TStrict>`
- * 
+ *
  * A union type which includes all state abbreviations.
- * 
+ *
  * By default it will also include all US provinces and territories which have
  * a state abbreviation. If you prefer to just use the strict state list then
  * set `TStrict` to **true**.
- * 
+ *
  * **Related:** `UsStateAbbrev`
  */
 export type UsStateAbbrev<TStrict extends boolean = false> = IsTrue<TStrict> extends true
@@ -34,7 +34,7 @@ export type UsStateAbbrev<TStrict extends boolean = false> = IsTrue<TStrict> ext
 : _UsStateAbbrev;
 
 type _UsStateName = {
-  [K in keyof UsStateLookup]: UsStateLookup[K] extends { 
+  [K in keyof UsStateLookup]: UsStateLookup[K] extends {
     name: infer A extends string;
   }
     ? A
@@ -49,10 +49,10 @@ type _UsProvinceName = {
 
 /**
  * **UsStateName**`<TStrict>`
- * 
- * A union type which includes all US state names (and provinces with state codes) 
+ *
+ * A union type which includes all US state names (and provinces with state codes)
  * fully spelled out. If you want _only_ US states set the `TStrict` generic to `true`.
- * 
+ *
  * **Related:** `UsStateAbbrev`
  */
 export type UsStateName<TStrict extends boolean = false> = IsTrue<TStrict> extends true

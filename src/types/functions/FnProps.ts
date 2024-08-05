@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/ban-types */
-import { 
-  AnyFunction,  
-  EmptyObject,  
-  IsEqual, 
-  ObjectKey 
+/* eslint-disable @typescript-eslint/no-unsafe-function-type */
+import {
+  AnyFunction,
+  EmptyObject,
+  IsEqual,
+  ObjectKey
 } from "src/types/index";
 
 type Process<
@@ -16,10 +16,11 @@ type Process<
 
 /**
  * **FnProps**`<T>`
- * 
+ *
  * Return a dictionary of key/value pairs from a function. If no key/value
  * pairs are assigned to the function base then an empty object is returned.
  */
 export type FnProps<
   T extends AnyFunction
 > = Process<T>;
+

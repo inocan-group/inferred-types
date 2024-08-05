@@ -3,7 +3,7 @@ import ts from 'typescript-eslint';
 
 export default ts.config({
     files: ["**/*.ts"],
-    extends: [ 
+    extends: [
         eslint.configs.recommended,
         ...ts.configs.recommended
     ],
@@ -44,8 +44,13 @@ export default ts.config({
           "@typescript-eslint/no-unused-vars": [
             "error",
             {
-              "varsIgnorePattern": "cases|^_",
-              "argsIgnorePattern": "^_"
+              "args": "all",
+              "argsIgnorePattern": "^_",
+              "caughtErrors": "all",
+              "caughtErrorsIgnorePattern": "^_",
+              "destructuredArrayIgnorePattern": "^_",
+              "varsIgnorePattern": "^_",
+              "ignoreRestSiblings": true
             }
           ]
     },

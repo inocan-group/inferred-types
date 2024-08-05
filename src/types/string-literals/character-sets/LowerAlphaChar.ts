@@ -1,11 +1,10 @@
-import { LOWER_ALPHA_CHARS } from "src/constants/index";
-import { Mutable, TupleToUnion } from "src/types/index";
+import type { LOWER_ALPHA_CHARS } from "src/constants/index";
 
-/** 
+/**
  * **LowerAlphaChar**
- * 
+ *
  * Lowercase alphabetic character.
- * 
+ *
  * **Related:** `AlphaChar`, `UpperAlphaChar`, `LowerAlpha`
  */
-export type LowerAlphaChar = TupleToUnion<Mutable<typeof LOWER_ALPHA_CHARS>>;
+export type LowerAlphaChar =typeof LOWER_ALPHA_CHARS[number];

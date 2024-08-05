@@ -26,9 +26,9 @@ export const isLikeRegExp = (val: unknown): val is LikeRegExp => {
 
   if (isString(val)) {
     try {
-      const re = new RegExp(val);
+      const _re = new RegExp(val);
       return true
-    } catch(e) {
+    } catch {
       return false
     }
   }

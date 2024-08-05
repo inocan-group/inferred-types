@@ -1,4 +1,9 @@
-import { SIMPLE_DICT_VALUES, SIMPLE_MAP_KEYS, SIMPLE_MAP_VALUES, SIMPLE_SET_TYPES } from "src/constants/index";
+import type {
+  SIMPLE_DICT_VALUES,
+  SIMPLE_MAP_KEYS,
+  SIMPLE_MAP_VALUES,
+  SIMPLE_SET_TYPES
+} from "src/constants/index";
 import {
   If,
   IsEqual,

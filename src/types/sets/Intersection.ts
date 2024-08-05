@@ -1,5 +1,5 @@
-import type { 
-  GetEach, 
+import type {
+  GetEach,
   IsNull,
   Container,
   RemoveNever,
@@ -9,9 +9,9 @@ import type {
   NarrowlyContains,
   Throw,
 } from "src/types/index";
-import { MARKED } from "../../constants/Marked";
+import type { MARKED } from "src/constants/index";
 
-type Marked = typeof MARKED
+type Marked = typeof MARKED;
 
 type _NoDeref<
   A extends readonly unknown[],
@@ -73,7 +73,7 @@ type _WithDeref<
   TReport extends boolean
 > = TReport extends false
 ? DerefNoReport<AValues,BValues>
-: DerefNoReport<AValues,BValues> extends readonly PropertyKey[] 
+: DerefNoReport<AValues,BValues> extends readonly PropertyKey[]
   ? DerefWithReport<A,B,DerefNoReport<AValues,BValues>, TDeref>
   : never;
 
@@ -83,13 +83,13 @@ type HandleDeref<
   B extends readonly unknown[],
   TDeref extends string,
   TReport extends boolean = false
-> = 
+> =
 A extends readonly Container[]
 ? B extends readonly Container[]
   ? GetEach<A, TDeref> extends readonly unknown[]
     ? GetEach<B, TDeref> extends readonly unknown[]
       ? _WithDeref<
-          A, 
+          A,
           B,
           GetEach<A, TDeref>,
           GetEach<B, TDeref>,
@@ -99,13 +99,13 @@ A extends readonly Container[]
       : never
     : never
   : Throw<
-      "invalid-container-tuple", 
+      "invalid-container-tuple",
       "In Intersection<A,B> the B set was not Container[] tuple!",
       "Intersection",
       { ctx: {a: A; b: B} }
     >
 : Throw<
-    "invalid-container-tuple", 
+    "invalid-container-tuple",
     "In Intersection<A,B> the A set was not Container[] tuple!",
     "Intersection",
     { ctx: {a: A; b: B} }
@@ -113,21 +113,21 @@ A extends readonly Container[]
 
 /**
   * **Intersection**`<A,B, [TDeref]>`
-  * 
+  *
   * Takes two tuple sets `A` and `B` and returns each of their _value intersections_.
   *
   * - this behavior is modified when the `deref` property is provided
   *   - the expectation now is that both A and B contain _containers_ and their
   * "value" is based on the offset provided by `TDref`
   *   - in this mode, all _scalar_ values in `A` or `B` will be ignored
-  *   - the `TReport` property is by default set to _false_ but if changed to 
+  *   - the `TReport` property is by default set to _false_ but if changed to
   * _true_ then this changes the reporting structure to:
   * ```ts
   * [A: values[], B: values[]]
   * ```
-  * where the left side contains all containers -- in their entirety -- which 
+  * where the left side contains all containers -- in their entirety -- which
   * intersect based on the `TDeref` property values.
-  * 
+  *
   * **Related:** `Unique`, `IntersectingKeys`
   */
 export type Intersection<
@@ -136,7 +136,7 @@ export type Intersection<
   TDeref extends string | null = null,
   TReport extends boolean = false
 > = If<
-  IsNull<TDeref>, 
+  IsNull<TDeref>,
   // no dereferencing
   _NoDeref<A,B>,
   // dereference the array elements

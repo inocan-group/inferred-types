@@ -1,31 +1,31 @@
 /* eslint-disable no-use-before-define */
-import type { 
+import type {
   Narrowable,
   Box,
   IsArray,
-  Extends, 
-  If, 
+  Extends,
+  If,
   Or,
-  IsStringLiteral, 
-  IsEqual, 
+  IsStringLiteral,
+  IsEqual,
   IsUnion,
   IsFalse,
   As
 } from "src/types/index";
-import { 
-  LITERAL_TYPE_KINDS,  
-  WIDE_TYPE_KINDS, 
+import type {
+  LITERAL_TYPE_KINDS,
+  WIDE_TYPE_KINDS,
   NARROW_CONTAINER_TYPE_KINDS,
   WIDE_CONTAINER_TYPE_KINDS,
   FALSY_TYPE_KINDS,
-  NoDefaultValue, 
-  NotApplicable 
+  NoDefaultValue,
+  NotApplicable
 } from "src/constants/index";
 
 import { TupleToUnion , TypeGuard , Filter ,   UnionToIntersection , AnyFunction , ErrorCondition } from "src/types/index";
 
 export type TypeOptions<
-  TKind extends TypeKind = TypeKind, 
+  TKind extends TypeKind = TypeKind,
   TRequired extends boolean = boolean,
   TDesc extends string = string,
   TUnderlying extends TypeUnderlying = TypeUnderlying,
@@ -34,7 +34,7 @@ export type TypeOptions<
     TRequired,
     TUnderlying
   >,
-  TValidations extends readonly unknown[] | "no-validations" = readonly unknown[] | "no-validations", 
+  TValidations extends readonly unknown[] | "no-validations" = readonly unknown[] | "no-validations",
 > = {
   isRequired?: TRequired;
   validations?: TValidations;
@@ -58,7 +58,7 @@ export type TypeIsRequired = "required" | "not-required";
 
 /**
  * **IsLiteralKind**`<T>`
- * 
+ *
  * Type utility which checks whether a given `TypeKind` maps to
  * a narrow / literal type.
  */
@@ -79,28 +79,28 @@ export type IfLiteralKind<
 
 /**
  * **ToType**
- * 
+ *
  * A type utility which takes a runtime type's "kind", whether it's
- * required or not, and any _underlying_ values and produces the 
+ * required or not, and any _underlying_ values and produces the
  * Typescript type.
- * 
+ *
  * Note: because `Type` and `TypeDefn` have slightly different representations
  * of TRequired and TUnderlying, we will accept either and convert.
  */
 type ToType<
-  TKind extends TypeKind, 
+  TKind extends TypeKind,
   TRequired extends boolean | TypeIsRequired = boolean | TypeIsRequired,
   TUnderlying extends TypeUnderlying = "no-underlying"
 > = If<
       Or<[
         Extends<TRequired, "not-required">, Extends<TRequired, false>
-      ]>, 
+      ]>,
       ToBaseType<TKind,  TUnderlying> | undefined,
       ToBaseType<TKind,  TUnderlying>
     >;
 
 type ToBaseType<
-  TKind extends TypeKind, 
+  TKind extends TypeKind,
   TUnderlying extends TypeUnderlying = "no-underlying"
 > = //
   TKind extends "string" ? string
@@ -117,28 +117,28 @@ type ToBaseType<
   : TKind extends "unknownObject" ? Record<string, unknown>
   : TKind extends "unknownFunction" ? AnyFunction
   : TKind extends "unknownObject" ? Record<string, unknown>
-  : TKind extends "fnWithDict" ? 
+  : TKind extends "fnWithDict" ?
       TUnderlying extends readonly [
-        {kind: "fnType"; type: unknown; [key: string]: unknown}, 
+        {kind: "fnType"; type: unknown; [key: string]: unknown},
         {kind: "object"; type: unknown; [key: string]: unknown}
       ]
         ? TUnderlying[0]["type"] & TUnderlying[1]["type"]
         : never
-  : TKind extends "tuple" 
-    ? TUnderlying extends readonly unknown[] 
-      ? TupleToUnion<TUnderlying> 
+  : TKind extends "tuple"
+    ? TUnderlying extends readonly unknown[]
+      ? TupleToUnion<TUnderlying>
       : never
-  : TKind extends "union" 
+  : TKind extends "union"
     ? TUnderlying extends readonly unknown[]
       ? TupleToUnion<Filter<
-          TUnderlying, 
+          TUnderlying,
           { kind: TypeKind; required: TypeIsRequired; underlying: readonly unknown[] | "none" }
         >>
       : never
   : TKind extends "intersection"
     ? TUnderlying extends readonly unknown[]
       ? UnionToIntersection<TupleToUnion<Filter<
-        TUnderlying, 
+        TUnderlying,
         { kind: TypeKind; required: TypeIsRequired; underlying: readonly unknown[] | "none" }
       >>>
     : never
@@ -147,15 +147,15 @@ type ToBaseType<
 
 /**
  * **TypeUnderlying**
- * 
+ *
  * Used in both `Type` and `TypeDefn` structures, it's value is one of
  * two types:
- * 
+ *
  * - `no-underlying` is used when no _underlying_ types are needed to
  * specify the type
  * - `readonly unknown[]` is used to host unknown set of values which _combine_
  * in some way to determine the **type** of the property
- * 
+ *
  * Note: the property `underlying_
  */
 export type TypeUnderlying =  readonly unknown[] | "no-underlying";
@@ -164,13 +164,13 @@ export type TypeDefnValidations = readonly unknown[] | "no-validations";
 
 /**
  * **TypeDefaultValue**
- * 
- * The resultant _value_ of the `defaultValue` prop in a `Type` structure 
+ *
+ * The resultant _value_ of the `defaultValue` prop in a `Type` structure
  * and one of the generic's used to hold specifics for a `TypeDefn` struct.
- * 
+ *
  * - either a Box<T> where T extends the type of the property
  * - or, the constant `NoDefaultValue` indicating no default was set
- * 
+ *
  * Note: the _generic_ `TWithDefault` in a `Type` is defined as `TypeHasDefaultValue`
  * which is used to preserve type info but provide developers a "summarized status."
  */
@@ -183,9 +183,9 @@ export type TypeDefaultValue<
 
 /**
  * **TypeDefn**`<TKind,TRequired,TDesc,TUnderlying,...>`
- * 
+ *
  * Represents a minimal `Type` definition.
- * 
+ *
  * Note: this type is typically then converted to a `Type<...>` type.
  */
 export interface TypeDefn<
@@ -206,7 +206,7 @@ export interface TypeDefn<
 
 /**
  * **FromTypeDefn**`<TypeDefn>`
- * 
+ *
  * Type utility which converts from the minimalist `TypeDefn` to a full
  * fledged `Type` definition.
  */
@@ -229,18 +229,18 @@ export type FromTypeDefn<
       IsArray<Underlying> extends true ? Exclude<Underlying, "no-underlying">: "no-underlying",
       As<If<
         Or<[
-          IsEqual<DefaultValue, NoDefaultValue>, 
+          IsEqual<DefaultValue, NoDefaultValue>,
           IsUnion<DefaultValue>
         ]>,
-        "no-default-value", 
+        "no-default-value",
         "with-default-value"
       >, TypeHasDefaultValue>,
       As<If<
         Or<[
-          IsEqual<Validations, "no-validations">, 
+          IsEqual<Validations, "no-validations">,
           IsUnion<Validations>
         ]>,
-        "no-validations", 
+        "no-validations",
         "with-validations"
       >, TypeHasValidations>
       // IfEquals<Validations, "no-validations", "no-validations", "with-validations">
@@ -261,32 +261,32 @@ export type ValidationFunction = <T, E extends string>(value: T) =>  true | Erro
  * A type definition which retains valuable runtime characteristics
  */
 export type Type<
-  TKind extends TypeKind = TypeKind, 
+  TKind extends TypeKind = TypeKind,
   TRequired extends TypeIsRequired = TypeIsRequired,
   TDesc extends string = string,
   TUnderlying extends TypeUnderlying = TypeUnderlying,
   TWithDefault extends TypeHasDefaultValue = TypeHasDefaultValue,
   TWithValidations extends TypeHasValidations = TypeHasValidations,
 > = {
-  _type: "Type"; 
-  /** 
+  _type: "Type";
+  /**
    * **kind**
-   * 
+   *
    * The _type_ / _category_ of the type (e.g., string, stringLiteral, number, etc).
    */
   kind: TKind;
-  /** 
+  /**
    * **type**
-   * 
-   * The fully expressed _type definition_. 
-   * 
+   *
+   * The fully expressed _type definition_.
+   *
    * **Note:** do not use this for anything in the runtime environment
    */
   type: ToType<TKind, TRequired, TUnderlying>;
 
   /**
-   * **isRequired** 
-   * 
+   * **isRequired**
+   *
    * Whether or not this type is _required_ to exist or if it's type
    * should be a union with `undefined`; will default to `required`
    */
@@ -300,7 +300,7 @@ export type Type<
   /**
    * This can be an array of _type literals_ or a container
    * type (e.g., object, union, intersection, tuple, etc.).
-   * 
+   *
    * In all cases, the _underlying_ types represent the type
    * definition using the _logical operand_ of the `underlying_operand`
    * property.
@@ -309,7 +309,7 @@ export type Type<
 
   /**
    * **underlying_operand**
-   * 
+   *
    * In cases where a runtime type has _underlying_ types, this property
    * expresses how they should be merged together into a type. In most cases
    * this is an `OR` operand but not all.
@@ -320,19 +320,19 @@ export type Type<
 
   /**
    * **defaultValue**
-   * 
+   *
    * A default value to set this variable to at runtime;
-   * defaults to not being set but when it is said then 
+   * defaults to not being set but when it is said then
    * certain additional runtime operations are possible.
    */
   defaultValue: TWithDefault extends "no-default-value"
     ? NoDefaultValue
     : Box<ToType<TKind, TRequired, TUnderlying>>;
 
-  /** 
+  /**
    * **isUnion**
-   * 
-   * Whether or not the type represents a _union_ type. This can be true in 
+   *
+   * Whether or not the type represents a _union_ type. This can be true in
    * obvious cases like a `union` _type_ but **any** type which is not required
    * is also in effect a union type too.
    */
@@ -340,22 +340,22 @@ export type Type<
 
   /**
    * **is**`(input: unknown): input is T`
-   * 
+   *
    * a **type guard** function which helps users to ensures type safety
    * for the given type.
    */
   is: TypeGuard<ToType<TKind, TRequired, TUnderlying>>;
 
-  /** 
+  /**
    * **validate**`(val) => boolean`
-   * 
+   *
    * Runs any runtime configurations which were provided to the runtime type.
    */
   validate: <V extends ToType<TKind, TRequired, TUnderlying>>(val: V) => boolean;
 
   /**
    * **validations**
-   * 
+   *
    * An optional array of runtime validations which can be performed on the
    * runtime type. When the `validate()` function is called these functions
    * along with any _underlying_ types which have validators will be run to ensure

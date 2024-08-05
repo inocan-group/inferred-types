@@ -10,7 +10,7 @@ import {
   Contains,
   If,
 } from "src/types/index";
-import {
+import type {
   TT_Atomics,
   TT_Containers,
   TT_Functions,
@@ -143,8 +143,7 @@ export type SingletonToken =
 | `<<${TypeTokenSingletons}::${string}>>`
 | `<<${TypeTokenSingletons}::${UnionToken}>>`
 | `<<string-set::${string}::[${string}]>>`
-| `<<number-set::${string}::[${string}]>>`
-``
+| `<<number-set::${string}::[${string}]>>`;
 
 
 export type TypeTokenSets = typeof TT_Sets[number];

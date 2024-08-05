@@ -1,11 +1,10 @@
-import { NUMERIC_DIGIT } from "src/constants/index";
-import { Mutable, TupleToUnion } from "src/types/index";
+import type { NUMERIC_DIGIT } from "src/constants/index";
 
 /**
  * **Digit**
- * 
+ *
  * A single numeric digit.
- * 
+ *
  * **Related:** `NumericChar`
  */
-export type Digit = TupleToUnion<Mutable<typeof NUMERIC_DIGIT>>;
+export type Digit = typeof NUMERIC_DIGIT[number];

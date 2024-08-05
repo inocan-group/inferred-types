@@ -1,4 +1,4 @@
-import {  As, Dictionary, IfUnset, ObjectKey, Unset } from "src/types/index";
+import {  As, Dictionary, EmptyObject, IfUnset, ObjectKey, Unset } from "src/types/index";
 
 /**
  * **RequiredKeys**`<T,[V]>`
@@ -15,8 +15,7 @@ import {  As, Dictionary, IfUnset, ObjectKey, Unset } from "src/types/index";
 export type RequiredKeys<
   T extends Dictionary,
   V = Unset> = As<{
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  [K in keyof T]-?: {} extends { [P in K]: T[K] }
+  [K in keyof T]-?: EmptyObject extends { [P in K]: T[K] }
     ? never //
     : IfUnset<
         V,

@@ -1,4 +1,4 @@
-import { WHITESPACE_CHARS } from "src/constants/index";
+import type { WHITESPACE_CHARS } from "src/constants/index";
 import { Mutable, TupleToUnion } from "src/types/index";
 
 /**
