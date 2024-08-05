@@ -7,22 +7,14 @@ import {
   IsErrorCondition,
   Api,
   Dictionary,
-  ApiReturn,
-  ApiSurface,
   IsEscapeFunction,
   HasEscapeFunction,
   AsEscapeFunction,
-  ApiCallback,
-  NarrowObject,
-  Narrowable
 } from "src/types/index";
 
 import {
-  asHandledApiCallback,
   asApi,
-  asApiCallback,
   asEscapeFunction,
-  getEscapeFunction,
   isApiSurface,
   isEscapeFunction
 } from "src/runtime/index";
