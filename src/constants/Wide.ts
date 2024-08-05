@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 
 type AnyObject = Record<never,unknown> | Record<string|symbol, unknown>;
 
@@ -32,6 +33,5 @@ export const WideAssignment = {
    */
   unknown: () =>  "<<unknown>>" as unknown,
   nothing: (): null | undefined => "<<nothing>>" as unknown  as (null | undefined),
-  // eslint-disable-next-line @typescript-eslint/ban-types
   something: () => "<<something>>" as unknown as {}
 } as const;

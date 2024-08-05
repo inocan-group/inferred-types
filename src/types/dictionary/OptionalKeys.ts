@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/ban-types */
 
 import {
   AnyObject,
+  EmptyObject,
   If,
   IsEqual,
   Unset
@@ -30,7 +30,7 @@ export type OptionalKeys<
   T extends AnyObject,
   V = Unset
 > = {
-  [K in keyof T]-?: {} extends { [P in K]: T[K] }
+  [K in keyof T]-?: EmptyObject extends { [P in K]: T[K] }
     ? If<IsEqual<V,Unset>, K, K extends V ? K : never>
     : never;
 }[keyof T];

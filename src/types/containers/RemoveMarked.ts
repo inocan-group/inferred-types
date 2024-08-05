@@ -1,9 +1,9 @@
-import { MARKED } from "src/constants/index";
-import { 
-  DoesExtend, 
-  UnionToTuple, 
-  First, 
-  AfterFirst, 
+import type { MARKED } from "src/constants/index";
+import {
+  DoesExtend,
+  UnionToTuple,
+  First,
+  AfterFirst,
   NumericKeys,
   RemoveIndexKeys,
   Container, EmptyObject, Dictionary, ObjectKey, Tuple
@@ -12,7 +12,7 @@ import {
 
 type Marked = typeof MARKED;
 
-type _Keys<T extends object> = UnionToTuple<keyof RemoveIndexKeys<T>> extends 
+type _Keys<T extends object> = UnionToTuple<keyof RemoveIndexKeys<T>> extends
 readonly ObjectKey[]
   ? UnionToTuple<keyof RemoveIndexKeys<T>>
   : never;
@@ -30,7 +30,7 @@ type Process<
         T,
         AfterFirst<TKeys>,
         First<TKeys> extends keyof T
-          ? TResults extends readonly unknown[] 
+          ? TResults extends readonly unknown[]
             ? [...TResults, T[First<TKeys>]]
             : TResults extends Dictionary
               ? TResults & Record<First<TKeys>, T[First<TKeys>]>
@@ -42,7 +42,7 @@ type Process<
 
 /**
  * **RemoveMarked**`<T>`
- * 
+ *
  * Removes all values in `T` which extends `Constant<"Marked">`
  */
 export type RemoveMarked<

@@ -14,7 +14,9 @@ import {
   UnionToTuple,
   As
 } from "src/types/index";
-import { Constant, GITHUB_INSIGHT_CATEGORY_LOOKUP, REPO_PAGE_TYPES, REPO_SOURCES, REPO_SOURCE_LOOKUP } from "src/constants/index";
+import type {  GITHUB_INSIGHT_CATEGORY_LOOKUP, REPO_PAGE_TYPES, REPO_SOURCES, REPO_SOURCE_LOOKUP } from "src/constants/index";
+
+import { Constant } from "src/constants/index";
 
 /**
  * **RepoSources**

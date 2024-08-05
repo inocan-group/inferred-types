@@ -1,8 +1,8 @@
-import { MARKED } from "src/constants/index";
-import { 
+import type { MARKED } from "src/constants/index";
+import {
   Compare,
   ExpandRecursively,
-  If, 
+  If,
   Dictionary
 } from "src/types/index";
 import { RemoveMarked } from "../containers/RemoveMarked";
@@ -31,7 +31,7 @@ type Process<
  * // { c: () => "hello" }
  * type W = WithValue<typeof foo, Function>
  * ```
- * 
+ *
  * **Related:** `WithoutValue`, `WithKeys`, `WithoutKeys`
  */
 export type WithValue<

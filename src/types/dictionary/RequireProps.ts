@@ -1,4 +1,4 @@
-import { ExpandRecursively } from "src/types/index";
+import { EmptyObject, ExpandRecursively } from "src/types/index";
 
 /**
  * Given a dictionary of type `<T>`, this utility function will
@@ -10,7 +10,6 @@ import { ExpandRecursively } from "src/types/index";
  * type Example = RequireProps<{foo?: string, bar?: number}, "foo">;
  * ```
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
-export type RequireProps<T extends {}, R extends keyof T> = ExpandRecursively<
+export type RequireProps<T extends EmptyObject, R extends keyof T> = ExpandRecursively<
   Required<Pick<T, R>> & T
 >;

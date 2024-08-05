@@ -27,7 +27,7 @@ export const regexToken = <
       } else {
         exp = re as string;
       }
-    } catch(e) {
+    } catch(_e) {
       const err = Error(`Invalid RegEx passed into regexToken(${re}, ${JSON.stringify(rep)})!`)
        err.name ="InvalidRegEx";
        throw err;

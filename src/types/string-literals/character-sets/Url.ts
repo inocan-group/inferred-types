@@ -24,11 +24,11 @@ import {
   Contains,
   RemoveEmpty
 } from "src/types/index";
-import { NETWORK_PROTOCOL_LOOKUP } from "src/constants/index";
+import type { NETWORK_PROTOCOL_LOOKUP } from "src/constants/index";
 
-const proto = NETWORK_PROTOCOL_LOOKUP;
-export type NetworkProtocol = Mutable<Values<typeof proto>> extends readonly (string | string[])[]
-  ? RemoveEmpty<Flatten<Mutable<Values<typeof proto>>>>[number]
+type Proto = typeof NETWORK_PROTOCOL_LOOKUP;
+export type NetworkProtocol = Mutable<Values<Proto>> extends readonly (string | string[])[]
+  ? RemoveEmpty<Flatten<Mutable<Values<Proto>>>>[number]
   : never
 
 

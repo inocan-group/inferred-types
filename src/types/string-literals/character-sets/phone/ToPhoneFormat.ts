@@ -1,4 +1,4 @@
-import {
+import type {
   PHONE_FORMAT
 } from "src/constants/index"
 

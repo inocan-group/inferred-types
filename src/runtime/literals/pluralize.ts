@@ -9,14 +9,14 @@ import { stripTrailing, split } from "src/runtime/index";
 
 const isException = <T extends string>(word: T) => Object.keys(PLURAL_EXCEPTIONS).includes(word);
 
-const END_IN = [
+const _END_IN = [
   "is",
   "y",
   "f",
   "singular-noun"
 ] as const;
 
-type EndsIn = (typeof END_IN)[number];
+type EndsIn = (typeof _END_IN)[number];
 
 /**
  * pluralize based on how word ends

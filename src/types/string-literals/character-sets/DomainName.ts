@@ -1,11 +1,11 @@
- 
+
 import {
   TupleToUnion,
   Mutable,
   IsStringLiteral,
   IsDomainName
 } from "src/types/index";
-import { TOP_LEVEL_DOMAINS }  from "src/constants/index";
+import type { TOP_LEVEL_DOMAINS }  from "src/constants/index";
 
 /**
  * **TLD**
