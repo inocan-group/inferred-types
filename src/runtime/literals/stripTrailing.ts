@@ -1,5 +1,5 @@
 import { StripTrailing, TupleToUnion } from "src/types/index";
-import { isNumber } from "../type-guards";
+import { isNumber } from "../type-guards/index";
 
 /**
  * **stripTrailing**(content, strip)

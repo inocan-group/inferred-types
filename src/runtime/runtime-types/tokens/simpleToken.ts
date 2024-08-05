@@ -1,6 +1,11 @@
-import { Never } from "src/constants/Never";
-import { isSimpleContainerToken, isSimpleScalarToken } from "src/runtime/type-guards/tokens";
-import { SimpleContainerToken, SimpleScalarToken, SimpleToken, SimpleType } from "src/types/runtime-types";
+import { Never } from "src/constants/index";
+import { isSimpleContainerToken, isSimpleScalarToken } from "src/runtime/index";
+import {
+  SimpleContainerToken,
+  SimpleScalarToken,
+  SimpleToken,
+  SimpleType
+} from "src/types/index";
 
 /**
  * **simpleToken**`(token)`

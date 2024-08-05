@@ -3,9 +3,10 @@ import {
   Compare,
   ExpandRecursively,
   If,
-  Dictionary
+  Dictionary,
+  RemoveMarked
 } from "src/types/index";
-import { RemoveMarked } from "../containers/RemoveMarked";
+
 
 type Marked = typeof MARKED;
 

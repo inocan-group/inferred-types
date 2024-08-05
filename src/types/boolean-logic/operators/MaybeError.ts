@@ -1,7 +1,4 @@
-import { UnionToTuple } from "src/types/type-conversion";
-import { IsUnion } from "./IsUnion";
-import { Contains } from "./Contains";
-import { ErrorCondition } from "src/types/errors";
+import { UnionToTuple, IsUnion, Contains, ErrorCondition } from "src/types/index";
 
 
 type AnyError<

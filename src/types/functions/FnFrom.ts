@@ -1,4 +1,4 @@
-import { Dictionary, EmptyObject, Tuple } from "../base-types";
+import { Dictionary, EmptyObject, Tuple } from "src/types/index";
 
 /**
  * **FnFrom**`<TParams,[TReturn],[TProps]>`

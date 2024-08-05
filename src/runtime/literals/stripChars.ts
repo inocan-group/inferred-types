@@ -1,4 +1,4 @@
-import {  StripChars, TupleToUnion } from "src/types/type-conversion";
+import {  StripChars, TupleToUnion } from "src/types/index";
 import { asChars } from "../type-conversion/asChars";
 
 /**
@@ -15,8 +15,10 @@ export const stripChars = <
   content: TContent,
   ...strip: TRetain
 ): StripChars<TContent, TupleToUnion<TRetain>> => {
+  let chars: readonly string[] = asChars(content);
+
   return (
-    asChars(content).filter(c => !strip.includes(c)).join("")
+    chars.filter(c => !strip.includes(c)).join("")
    ) as unknown as StripChars<TContent, TupleToUnion<TRetain>>
 }
 

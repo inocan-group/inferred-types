@@ -1,4 +1,4 @@
-import {  If, IsUnion, RetainLiterals,  UnionToTuple } from "../..";
+import {  If, IsUnion, RetainLiterals,  UnionToTuple } from "src/types/index";
 
 
 type Process<T> = UnionToTuple<T> extends readonly unknown[]
@@ -9,10 +9,10 @@ type Process<T> = UnionToTuple<T> extends readonly unknown[]
 
 /**
  * **IsNonLiteralUnion**`<T>`
- * 
+ *
  * Boolean utility which checks whether `T` is both a _union type_
  * and that none of it's elements are considered _literal types_.
- * 
+ *
  * **Related:** `IsLiteralUnion`, `IsWideUnion`
  */
 export type IsNonLiteralUnion<

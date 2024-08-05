@@ -1,4 +1,4 @@
-import { SHAPE_PREFIXES } from "src/constants/Shape";
+import { SHAPE_PREFIXES } from "src/constants/index";
 import {
   Shape,
   ShapeTupleOrUnion,

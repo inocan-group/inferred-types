@@ -1,7 +1,7 @@
 // /* eslint-disable @typescript-eslint/no-explicit-any */
 // /* eslint-disable no-use-before-define */
-// import {   
-//   Choice, 
+// import {
+//   Choice,
 //   ChoiceValue,
 //   AsChoice,
 //   Scalar,
@@ -13,7 +13,7 @@
 // } from "src/types/index";
 // import {  isDoneFn, isFunction,  isString,  isTuple,  isUndefined } from "../type-guards/index";
 // import { shape } from "./shape";
-// import { Never } from "src/constants/Never";
+// import { Never } from "src/constants/index";
 
 
 
@@ -28,8 +28,8 @@
 //       : { name, value }
 
 //   return (
-//     isDoneFn(result) 
-//       ? result.done() 
+//     isDoneFn(result)
+//       ? result.done()
 //       : result
 //    ) as AsChoice<TName,TValue>;
 // }
@@ -38,16 +38,16 @@
 // TChoices extends readonly Choice[],
 // TOptions extends ChoiceApiOptions
 // >(
-//   choices: TChoices, 
+//   choices: TChoices,
 //   options: TOptions
 // ): ChoiceApiConfig<TChoices,TOptions> => ({
 //   done: () => ({} as unknown as ChoiceApi<TChoices,TOptions>),
 //   allowChoicesToBeUsedOnlyOnce: () => configureChoiceApi(
-//     choices, 
+//     choices,
 //     {...options, unique: true}
 //   ),
 //   allowChoicesToBeUsedMultipleTimes: () => configureChoiceApi(
-//     choices, 
+//     choices,
 //     {...options, unique: false}
 //   ),
 //   setStyle: (style) => configureChoiceApi(
