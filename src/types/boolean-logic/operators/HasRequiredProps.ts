@@ -1,9 +1,8 @@
-import { Dictionary } from "../../base-types/Dictionary";
-import { Keys, ObjectKey, RequiredProps } from "../..";
+import { Keys, Dictionary, ObjectKey, RequiredProps } from "src/types/index";
 
 /**
  * **HasRequiredProps**`<T>`
- * 
+ *
  * Receives an object and returns true/false based on whether
  * the type has required properties or not.
  */

@@ -2,7 +2,7 @@
 // import { isSameTypeOf } from "../type-guards/higher-order/isSameTypeOf";
 // import {  endsWith,startsWith } from "../type-guards";
 // import { asArray } from "./asArray";
-// import { Never } from "src/constants/Never";
+// import { Never } from "src/constants/index";
 
 
 // /**

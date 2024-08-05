@@ -1,10 +1,9 @@
-import { IsLiteral, IsUnion } from "../boolean-logic";
-import { Throw } from "../errors/Throw";
+import { IsLiteral, IsUnion, Throw } from "src/types/index";
 
 
 /**
  * **IdentityFn**`<TValue, [TNarrow]>`
- * 
+ *
  * A function which returns the value of `T`.
  */
 export type IdentityFn<

@@ -1,6 +1,4 @@
-import { Dictionary } from "../base-types";
-import { ExpandRecursively } from "../literals";
-import { CreateKV } from "./CreateKV";
+import { Dictionary, ExpandRecursively,CreateKV  } from "src/types/index";
 
 type BuildObj<
   T extends readonly string[] | Dictionary | [Dictionary],
@@ -16,12 +14,12 @@ type BuildObj<
 
 /**
  * **EnsureKeys**`<TObj,TKeys,[TType]>`
- * 
+ *
  * Receives an object `TObj` and a specifier `TKeys` which
- * ensures that the specified _keys_ exist on the object. 
- * 
+ * ensures that the specified _keys_ exist on the object.
+ *
  * The _keys_ specifier may be either an array of keys or a dictionary of key/value pairs.
- * 
+ *
  * - when _keys_ is a _dictionary_ then both the key and _type_ of that key
  * are inferred.
  * - otherwise, the optional `TType` (set to `unknown` by default) is used.

@@ -4,10 +4,10 @@ import {
   GetUrlSource,
   Ip4Address,
   Ip6AddressLoose,
-  UrlPath
+  UrlPath,
+  AsString
 } from "src/types/index"
 import { isString } from "./isString"
-import { AsString } from "src/types/type-conversion/AsString"
 import {
   getUrlQueryParams,
   removeUrlProtocol,

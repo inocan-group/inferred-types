@@ -1,4 +1,4 @@
-import { WHITESPACE_CHARS } from "src/constants/Characters"
+import { WHITESPACE_CHARS } from "src/constants/index"
 import { asChars } from "../type-conversion"
 import { isString } from "./isString"
 

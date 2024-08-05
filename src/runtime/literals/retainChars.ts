@@ -1,4 +1,4 @@
-import { RetainChars, TupleToUnion } from "src/types/type-conversion";
+import { RetainChars, TupleToUnion } from "src/types/index";
 import { asChars } from "../type-conversion/asChars";
 
 /**
@@ -21,7 +21,10 @@ export const retainChars = <
   content: TContent,
   ...retain: TRetain
 ): RetainChars<TContent, TupleToUnion<TRetain>> => {
-  return asChars(content).filter(c => retain.includes(c)).join("") as unknown as RetainChars<TContent, TupleToUnion<TRetain>>
+  let chars: readonly string[] = asChars(content);
+
+
+  return chars.filter(c => retain.includes(c)).join("") as unknown as RetainChars<TContent, TupleToUnion<TRetain>>
 }
 
 

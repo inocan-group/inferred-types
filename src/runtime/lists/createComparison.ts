@@ -1,5 +1,4 @@
-import { ComparatorOperation, Comparison, ParamsForComparison } from "src/types/boolean-logic";
-import {  Narrowable } from "src/types/literals";
+import {  ComparatorOperation, Comparison, ParamsForComparison, Narrowable } from "src/types/index";
 
 /**
  * **createComparison**(op, ...args)

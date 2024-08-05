@@ -1,4 +1,4 @@
-import { CssAspectRatio } from "src/types/string-literals";
+import { CssAspectRatio } from "src/types/index";
 import { isString } from "./isString";
 
 const tokens = [
