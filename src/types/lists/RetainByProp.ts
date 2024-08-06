@@ -29,8 +29,8 @@ type SingleFilter<
       TOp,
       TComparator
     >] extends [true]
-    ? SingleFilter<Rest, TComparator, TProp, TOp, Result> // filter out
-    : SingleFilter<Rest, TComparator, TProp, TOp, [...Result, Head]>
+    ? SingleFilter<Rest, TComparator, TProp, TOp, [...Result, Head]>
+    : SingleFilter<Rest, TComparator, TProp, TOp, Result> // filter out
   : Result;
 
 
@@ -48,12 +48,14 @@ type Process<
       >
     : never;
 
+
 /**
- * **FilterByProp**`<TList, TComparator, TProp, [TOp]>`
+ * **RetainByProp**`<TList, TComparator, TProp, [TOp]>`
  *
  * Allows a known tuple `TList` to be reduced to a subset with the value `TComparator`
  * being compared to each element in TList[TProp]; if comparison resolves to a `true`
- * value then the element `TList[TProp]` is removed but otherwise retained.
+ * value then the element `TList[TProp]` is preserved
+ * but otherwise removed.
  *
  * - How the list is _compared_ depends on `TOp` which defaults to "extends"
  * - other values include "equals", "does-not-extend", "does-not-equal"
@@ -72,9 +74,9 @@ type Process<
  * extends _any_ of the `TFilter` entries
  * - any non-container based value in `TList` will be discarded
  *
- * **Related:** `RetainByProp`, `Filter`, `RetainFromList`, `RemoveFromList`
+ * **Related:** `FilterByProp`, `Filter`, `RetainFromList`, `RemoveFromList`
  */
-export type FilterByProp<
+export type RetainByProp<
   TList extends readonly unknown[],
   TComparator,
   TProp extends string,

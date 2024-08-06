@@ -24,6 +24,7 @@ export * from "./UnionFromProp";
 export * from "./Flatten";
 export * from "./Reverse";
 export * from "./Retain";
+export * from "./RetainByProp";
 export * from "./RetainLiterals";
 export * from "./RetainWideTypes";
 export * from "./Find";
