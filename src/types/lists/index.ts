@@ -14,6 +14,7 @@ export * from "./AsArray";
 export * from "./AsTuple";
 export * from "./FirstString";
 export * from "./Filter";
+export * from "./FilterByProp";
 export * from "./FilterLiterals";
 export * from "./FilterWideTypes";
 export * from "./Length";
