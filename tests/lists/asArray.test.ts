@@ -19,18 +19,18 @@ describe("AsArray<T>", () => {
     const cases: cases = [true, true, true];
   });
 
-  
+
   it("using with a union tuple type", () => {
     type X = (readonly unknown[] | [readonly unknown[]]);
     type T1 = AsArray<X>;
-    
+
     type cases = [
-      Expect<Equal<T1, readonly unknown[] | [readonly unknown[]]>>
+      Expect<Equal<T1, unknown[] | [ unknown[]]>>
     ];
     const cases: cases = [ true ];
-    
+
   });
-  
+
 });
 
 describe("asArray() function", () => {

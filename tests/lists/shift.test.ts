@@ -1,11 +1,11 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { shift } from "src/runtime/index";
-import { Shift } from "src/types/index";
+import { defineTuple, keysOf, shift, shifter } from "src/runtime/index";
+import { First, Shift, TupleToUnion, Values } from "src/types/index";
 
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("Shift<T>", () => {
@@ -20,6 +20,20 @@ describe("Shift<T>", () => {
     const cases: cases = [true];
   });
 
+
+  it("Shift empty Tuple", () => {
+    type Nada = Shift<[]>;
+
+    type cases = [
+      Expect<Equal<Nada, undefined>>
+    ];
+    const cases: cases = [
+      true
+    ];
+
+  });
+
+
   it("shift a string", () => {
     type Bar = Shift<"#bar">;
 
@@ -29,26 +43,93 @@ describe("Shift<T>", () => {
     const cases: cases = [true];
   })
 
+
+  it("shift an empty string", () => {
+    type Empty = Shift<"">;
+
+    type cases = [
+      Expect<Equal<Empty, undefined>>
+    ];
+    const cases: cases = [ true ];
+
+  });
+
+
 });
 
 describe("shift()", () => {
 
   it("happy path", () => {
-    const arr = [1,2,3] as const;
-    const [val, list] = shift(arr);
-    expect(list).toEqual([2,3]);
-    expect(val).toBe(1);
+    const arr_ro = [1,2,3] as const;
+    let arr = defineTuple(1,2,3);
 
-    const empty = shift([]);
-    
+    const val = shift(arr_ro);
+    const val2 = shift(arr);
+    const empty = shift(defineTuple());
+    let str: string[] = [];
+    const wideArray = shift(str);
+
+    expect(val).toBe(1);
+    expect(val2).toBe(1);
+    expect(empty).toBe(undefined);
+    expect(wideArray).toBe(undefined);
+
     type cases = [
       Expect<Equal<typeof val, 1>>,
-      Expect<Equal<typeof list, [2,3]>>,
-      Expect<Equal<typeof empty, [never, []]>>,
+      Expect<Equal<typeof val2, 1>>,
+      Expect<Equal<typeof empty, undefined>>,
+      Expect<Equal<typeof wideArray, undefined | string>>,
     ];
-    const cases: cases = [ true, true, true ];
+    const cases: cases = [ true, true, true, true ];
   });
 
+
+  it("The list value is never mutated regardless of whether property is readonly", () => {
+    const arr_ro = [1,2,3] as const;
+    let arr = defineTuple(1,2,3);
+
+    shift(arr_ro);
+    shift(arr);
+
+    expect(arr_ro, "readonly variable unaffected").toEqual([1,2,3]);
+    expect(arr, "mutable tuple is changed").toEqual([1,2,3]);
+
+  });
+
+
+
+
+
+  // it("use of shifter() utility allows iteration through list", () => {
+  //   let data = defineTuple(1,2,3);
+  //   let data_ro = [1,2,3] as const;
+
+  //   let l1 = shifter(1,2,3);
+  //   let l2 = shifter(...data);
+  //   let l3 = shifter(...data_ro);
+
+  //   for (const el  of l1) {
+  //     console.log(el);
+
+  //   }
+
+  //   type cases = [
+  //     Expect<Equal<typeof l1, typeof l2>>,
+  //     Expect<Equal<typeof l2, typeof l3>>,
+
+
+  //   ];
+  //   const cases: cases = [
+  //     true, true,
+
+  //   ];
+
+  // });
+
+
 });
+
+
+
 
 

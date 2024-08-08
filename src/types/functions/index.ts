@@ -7,6 +7,7 @@
 export * from "./LogicFunction";
 export * from "./TypeGuard";
 export * from "./AsFnMeta";
+export * from "./FnWithProps"
 export * from "./RemoveFnProps";
 export * from "./ToFn";
 export * from "./FnMeta";
