@@ -85,7 +85,7 @@ export type Process<
 : never
 
 type PreProcess<
-TList extends readonly unknown[] | string,
+TList extends readonly unknown[],
 TStart extends number,
 TLen extends number | undefined = undefined,
 > = TList extends string
@@ -105,7 +105,7 @@ TLen extends number | undefined = undefined,
 ? Process<TList,TStart,TLen>
 : never;
 
-
+type T = Chars<"foobar"> extends readonly string[] ? true : false;
 
 /**
  * **Slice**`<TList, TStart, TLen>`
@@ -122,8 +122,12 @@ export type Slice<
   TList extends readonly unknown[] | string,
   TStart extends number,
   TLen extends number | undefined = undefined,
-> = PreProcess<TList, TStart, TLen> extends readonly unknown[]
+> = TList extends string
+? Concat<As<PreProcess<Chars<TList>, TStart, TLen>, readonly string[]>>
+: TList extends readonly unknown[]
+? PreProcess<TList, TStart, TLen> extends readonly unknown[]
 ? PreProcess<TList, TStart, TLen>
+: never
 : never;
 
 

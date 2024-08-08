@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { defineTuple, keysOf, shift, shifter } from "src/runtime/index";
-import { First, Shift, TupleToUnion, Values } from "src/types/index";
+import { defineTuple,  shift } from "src/runtime/index";
+import {  Shift } from "src/types/index";
 
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -95,36 +95,6 @@ describe("shift()", () => {
     expect(arr, "mutable tuple is changed").toEqual([1,2,3]);
 
   });
-
-
-
-
-
-  // it("use of shifter() utility allows iteration through list", () => {
-  //   let data = defineTuple(1,2,3);
-  //   let data_ro = [1,2,3] as const;
-
-  //   let l1 = shifter(1,2,3);
-  //   let l2 = shifter(...data);
-  //   let l3 = shifter(...data_ro);
-
-  //   for (const el  of l1) {
-  //     console.log(el);
-
-  //   }
-
-  //   type cases = [
-  //     Expect<Equal<typeof l1, typeof l2>>,
-  //     Expect<Equal<typeof l2, typeof l3>>,
-
-
-  //   ];
-  //   const cases: cases = [
-  //     true, true,
-
-  //   ];
-
-  // });
 
 
 });
