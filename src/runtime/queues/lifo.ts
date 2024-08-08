@@ -1,5 +1,4 @@
 import { FixedLengthArray, LifoQueue, Narrowable } from "src/types/index";
-import { asArray } from "../lists/asArray";
 
 
 const queue =  <

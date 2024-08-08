@@ -1,4 +1,4 @@
-import { FifoQueue, FixedLengthArray, LifoQueue, Narrowable } from "src/types/index";
+import { FifoQueue, FixedLengthArray, Narrowable } from "src/types/index";
 
 
 const queue =  <

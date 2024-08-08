@@ -3,9 +3,7 @@ import {
   Compare,
   IsArray,
   IfNever,
-  Or,
   If,
-  IsEqual,
   TupleToUnion,
   RemoveNever
 } from "src/types/index";
