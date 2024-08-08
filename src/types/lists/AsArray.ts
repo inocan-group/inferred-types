@@ -1,4 +1,4 @@
-import { If,  IsUndefined, IsUnion, Mutable, Tuple } from "src/types/index";
+import { If,  IsUndefined,  Mutable, Tuple } from "src/types/index";
 
 type _AsArray<T> = T extends Tuple
     ? Mutable<T>

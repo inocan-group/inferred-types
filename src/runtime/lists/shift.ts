@@ -1,14 +1,10 @@
 import {
-  AnyFunction,
   First,
-  FnAllowingProps,
   IsEqual,
   IsUndefined,
-  Narrow,
   Narrowable,
-  TupleToUnion,
 } from "src/types/index";
-import { isArray, isDefined } from "../type-guards";
+import { isDefined } from "src/runtime/index";
 
 type Rtn<
   T extends readonly K[] | K[] | undefined,
@@ -66,16 +62,5 @@ export const shift = <
   }
 
   return rtn as Rtn<T,K>;
-};
-
-const iterator = function* iterator<
-T extends  readonly K[] | undefined,
-K extends Narrowable
->(source: T) {
-  while (source !== undefined) {
-    let val = isArray(source) ? source.shift() : undefined;
-
-    yield val;
-  }
 };
 
