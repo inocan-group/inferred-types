@@ -1,14 +1,24 @@
-import { If,  IsUndefined, Tuple } from "src/types/index";
+import { If,  IsUndefined, IsUnion, Mutable, Tuple } from "src/types/index";
+
+type _AsArray<T> = T extends Tuple
+    ? Mutable<T>
+    : If<
+        IsUndefined<T>,
+        [],
+        [T]
+      >;
+
+
 
 /**
  * **AsArray**`<T>`
- * 
+ *
  * Type utility which ensures that `T` is an array by
  * encapsulating it as a single item array if it is a
  * non-array type.
  */
-export type AsArray<T> = T extends Tuple
-    ? T
-    : T extends unknown[]
-      ? readonly [...T]
-      : If<IsUndefined<T>,  [],  [T]>;
+export type AsArray<T> = _AsArray<T> extends any[]
+? _AsArray<T>
+: never;
+
+

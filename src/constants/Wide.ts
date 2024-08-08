@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-object-type */
-
 type AnyObject = Record<never,unknown> | Record<string|symbol, unknown>;
 
 type AnyFunction<

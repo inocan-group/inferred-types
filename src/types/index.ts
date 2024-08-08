@@ -18,6 +18,7 @@ export * from "./kv/index";
 export * from "./lists/index";
 export * from "./literals/index";
 export * from "./numeric-literals/index";
+export * from "./queues/index";
 export * from "./runtime-types/index";
 export * from "./sets/index";
 export * from "./string-literals/index";
