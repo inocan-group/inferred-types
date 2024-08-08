@@ -14,7 +14,9 @@ type Process<
         AfterFirst<TChars>,
         TOp,
         TComparator,
-        Shift<TResult>
+        Shift<TResult> extends string
+          ? Shift<TResult>
+          : ""
       >
     : TResult
   : TOp extends "is"
@@ -23,7 +25,9 @@ type Process<
         AfterFirst<TChars>,
         TOp,
         TComparator,
-        Shift<TResult>
+        Shift<TResult> extends string
+        ? Shift<TResult>
+        : ""
       >;
 
 

@@ -1,14 +1,14 @@
- 
-import {  FnWithDict, Narrowable, TypedFunction,  } from "src/types/index";
+
+import {  FnWithProps, Narrowable, TypedFunction,  } from "src/types/index";
 
 /**
  * **addPropsToFn**(fn, [clone]) => (props) => FnWithProps
- * 
+ *
  * A higher order function which takes a dictionary object and
  * then a function and combines them into a single type.
  */
 export const addPropsToFn = <
-  TFn extends TypedFunction, 
+  TFn extends TypedFunction,
   TClone extends boolean | undefined
 >(fn: TFn, clone_fn?: TClone) => {
     const localFn: any = clone_fn
@@ -24,8 +24,8 @@ export const addPropsToFn = <
       for (const k in obj) {
         localFn[k] = obj[k];
       }
-      
-      return localFn as FnWithDict<
+
+      return localFn as FnWithProps<
         TFn,
         TProps,
         TClone

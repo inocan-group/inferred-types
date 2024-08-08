@@ -145,8 +145,6 @@ export type RemoveUrlPort<
   : string
 : never;
 
-;
-
 export type ProtocolOptions = {
   /**
    * whether the protocol prefix should be optional
