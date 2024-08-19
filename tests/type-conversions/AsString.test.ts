@@ -4,7 +4,7 @@ import { describe, it } from "vitest";
 import { AsString, Something } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("AsString<T>", () => {
@@ -21,7 +21,9 @@ describe("AsString<T>", () => {
 
     type B1 = AsString<true>;
     type BU = AsString<boolean>;
-    
+
+    type SA = AsString<string[]>;
+
     type cases = [
       Expect<Equal<Foobar, "Foobar">>,
       Expect<Equal<WideStr, string>>,
@@ -35,14 +37,14 @@ describe("AsString<T>", () => {
       Expect<Equal<B1, "true">>,
       Expect<Equal<BU, "true" | "false">>,
 
-      Expect<Equal<AsString<string[]>, never>>,
+      Expect<Equal<SA, never>>,
       Expect<Equal<AsString<string[] | string>, string>>,
       Expect<Equal<AsString<null>, never>>,
       Expect<Equal<AsString<undefined>, never>>,
 
     ];
-    const cases: cases = [ 
-      true, true, 
+    const cases: cases = [
+      true, true,
       true, true, true,
       true, true,
       true, true,

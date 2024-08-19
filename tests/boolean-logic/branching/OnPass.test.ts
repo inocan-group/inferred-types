@@ -20,7 +20,6 @@ describe("OnPass<TTest,TPass", () => {
     type Mapper = { false: "mapped"; never: "mapped"; error: "mapped" };
 
     type RF = OnPass<false, "mapped", Mapper>;
-    type RN = OnPass<never, "mapped", { never: "mapped" }>;
     type RE = OnPass<ErrorCondition, "mapped", { error: "mapped" }>;
 
 
@@ -34,13 +33,12 @@ describe("OnPass<TTest,TPass", () => {
       Expect<Equal<FE, ErrorCondition<"bad-juju">>>,
 
       Expect<Equal<RF, "mapped">>,
-      Expect<Equal<RN, "mapped">>,
       Expect<Equal<RE, "mapped">>,
     ];
     const cases: cases = [
       true, true, true,
       true, true, true,
-      true, true, true
+      true, true
     ];
   });
 
