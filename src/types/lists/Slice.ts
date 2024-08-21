@@ -105,7 +105,6 @@ TLen extends number | undefined = undefined,
 ? Process<TList,TStart,TLen>
 : never;
 
-type T = Chars<"foobar"> extends readonly string[] ? true : false;
 
 /**
  * **Slice**`<TList, TStart, TLen>`

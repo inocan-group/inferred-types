@@ -22,8 +22,6 @@ describe("AsType<T>", () => {
 
 });
 
-
-
 describe("asType(val)", () => {
 
   it("happy path", () => {

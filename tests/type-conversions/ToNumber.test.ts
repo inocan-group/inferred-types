@@ -5,7 +5,7 @@ import { ToNumber } from "src/types/index";
 import { narrow, toNumber } from "src/runtime/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("ToNumber<T>", () => {
@@ -19,7 +19,7 @@ describe("ToNumber<T>", () => {
     type Nada = ToNumber<null>;
     type Nada2 = ToNumber<undefined>;
     type Nan = ToNumber<"foobar">;
-    
+
     type cases = [
       Expect<Equal<Num, 42>>,
       Expect<Equal<StrNum, 42>>,
@@ -32,12 +32,12 @@ describe("ToNumber<T>", () => {
     ];
     const cases: cases = [
       true,true,true,
-      true,true, true, 
+      true,true, true,
       true,true
     ];
   });
 
-  
+
   it("happy path for tuples and arrays", () => {
     type NumericArray = ToNumber<[1,2,3]>;
     type RoNumericArray = ToNumber<readonly [1,2,3]>;
@@ -50,7 +50,7 @@ describe("ToNumber<T>", () => {
 
     type Bool = ToNumber<[boolean, boolean, boolean]>;
     type TrueFalse = ToNumber<[true, true, false]>;
-    
+
     type cases = [
       Expect<Equal<NumericArray,  [1,2,3]>>,
       Expect<Equal<RoNumericArray, readonly [1,2,3]>>,
@@ -70,34 +70,31 @@ describe("ToNumber<T>", () => {
       true, true,true,
       true, true
     ];
-    
+
   });
 
-  
+
   it("runtime tests of toNumber()", () => {
     const str = toNumber("42");
     expect(str).toBe(42);
     const passthrough = toNumber(42);
     expect(passthrough).toBe(42);
-    
+
     const emptyArr = toNumber([] as string[]);
     expect(emptyArr).toEqual([]);
     const goodArr = toNumber(narrow(["1", "2", "3"]));
     expect(goodArr).toEqual([1,2,3]);
     const mixedArr = toNumber(["1", "foo", "2"] as const);
     expect(mixedArr).toEqual([1,NaN,2]);
-    
+
     type cases = [
       Expect<Equal<typeof str, 42>>,
       Expect<Equal<typeof passthrough, 42>>,
       Expect<Equal<typeof emptyArr,  readonly number[]>>,
       Expect<Equal<typeof goodArr, readonly [1,2,3]>>,
       Expect<Equal<typeof mixedArr, readonly [1,never,2]>>,
-
     ];
     const cases: cases = [true, true, true, true, true];
   });
-  
-  
 
 });

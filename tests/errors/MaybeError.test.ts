@@ -1,4 +1,4 @@
-import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
+import {  ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { ErrorCondition, MaybeError } from "src/types/index";
 import { describe, it } from "vitest";
 

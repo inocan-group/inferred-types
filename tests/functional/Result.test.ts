@@ -1,18 +1,29 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { describe,  it } from "vitest";
-import {  AsErrKind, Err, ErrFrom, IsErr, IsOk, IsResult, KindFrom, Ok, Result, OkFrom, IsFunction,  } from "src/types/index";
+import {
+  AsErrKind,
+  Err,
+  ErrFrom,
+  IsErr,
+  IsOk,
+  IsResult,
+  KindFrom,
+  Ok,
+  Result,
+  OkFrom
+} from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("Result<T,E> and Utils", () => {
 
   it("happy path", () => {
     type EFoo = AsErrKind<"foo">;
-    type EDire = AsErrKind<{ 
-      kind: "dire-straights"; 
+    type EDire = AsErrKind<{
+      kind: "dire-straights";
       context: {foo: 1; bar: 2};
     }>;
     type EShit = AsErrKind<"shit gone crazy">;
@@ -60,7 +71,7 @@ describe("Result<T,E> and Utils", () => {
       Expect<Equal<IsErr<Five>, false>>,
 
       Expect<Equal<
-        SimpleErr["err"], 
+        SimpleErr["err"],
         { msg: "UhOh"; kind: "uh-oh"; context: {}; stack: false }
       >>,
       ExpectTrue<IsErr<SimpleErr>>,
@@ -81,10 +92,10 @@ describe("Result<T,E> and Utils", () => {
 });
 
 describe("ok(), err(), isOk() and other Result runtime utils", () => {
-  
+
   it.skip("runtime using higher order fn", () => {
     // const {ok, err, result} = asResult("", "oops")
-    
+
     // type cases = [
     //   ExpectTrue<IsFunction<typeof ok>>,
     //   ExpectTrue<IsFunction<typeof err>>,
@@ -93,9 +104,9 @@ describe("ok(), err(), isOk() and other Result runtime utils", () => {
     // const cases: cases = [
     //   true, true, true
     // ];
-    
+
   });
-  
+
 
   it.skip("runtime base happy path", () => {
     // const five = ok(5);
@@ -106,10 +117,10 @@ describe("ok(), err(), isOk() and other Result runtime utils", () => {
     // const asserted_err = assertErr(simple);
     // const err_result: Result<number, "oops"> = err("oops");
     // const ok_result: Result<number, "oops"> = ok(5);
-    
+
     // const expected = err({
-    //   msg: "oops", 
-    //   kind: "invalid-value", 
+    //   msg: "oops",
+    //   kind: "invalid-value",
     //   context: { expected: 5, got: 42 }
     // });
 
@@ -119,7 +130,7 @@ describe("ok(), err(), isOk() and other Result runtime utils", () => {
     // } else {
     //   throw new Error(`ok_result was supposed to have an OK value of 5!`)
     // }
-    
+
     // type cases = [
     //   Expect<Equal<typeof five, Ok<number>>>,
     //   Expect<Equal<typeof five_n, Ok<5>>>,
@@ -137,11 +148,11 @@ describe("ok(), err(), isOk() and other Result runtime utils", () => {
     //   ExpectFalse<IsResult<typeof ok_result, string>>,
     //   ExpectTrue<IsResult<typeof ok_result>>,
     //   // we've masked it's value so we'll need to determine at runtime
-    //   // whether it's a 
-    //   ExpectTrue<IsErr<typeof err_result, "oops">>, 
+    //   // whether it's a
+    //   ExpectTrue<IsErr<typeof err_result, "oops">>,
     //   // because the error type doesn't match we can determine
     //   // that it is NOT the expected error at design time.
-    //   Expect<Equal<IsErr<typeof err_result, "nada">, false>>, 
+    //   Expect<Equal<IsErr<typeof err_result, "nada">, false>>,
     //   ExpectTrue<IsOk<typeof ok_result>>,
 
 
@@ -153,7 +164,7 @@ describe("ok(), err(), isOk() and other Result runtime utils", () => {
     //   true, false, true, true,true,
     //   true
     // ];
-    
+
   });
 
 
