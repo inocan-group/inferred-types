@@ -1,56 +1,56 @@
 {
-    "references": [
-        {
-            "path": "../constants"
-        },
-        {
-            "path": "../types"
-        }
-    ],
-    "compilerOptions": {
-        "strict": true,
-        "skipLibCheck": true,
-        "module": "ES2022",
-        "target": "ES2022",
-        "moduleResolution": "node",
-        "declaration": true,
-        "declarationMap": true,
-        "baseUrl": ".",
-        "rootDir": "..",
-        "outDir": "../../dist",
-        "composite": true,
-        "forceConsistentCasingInFileNames": true,
-        "paths": {
-            "src/types/*": [
-                "../types/*"
-            ],
-            "src/constants/*": [
-                "../constants/*"
-            ],
-            "src/runtime/*": [
-                "./*"
-            ],
-        },
-        "plugins": [
-            // Transform paths in output .js files
-            {
-                "transform": "typescript-transform-paths"
-            },
-            // Transform paths in output .d.ts files (Include this line if you output declarations files)
-            {
-                "transform": "typescript-transform-paths",
-                "afterDeclarations": true
-            },
-            {
-                "transform": "typescript-transformer-esm",
-                "after": true
-            }
-        ]
+  "references": [
+    {
+      "path": "../constants"
     },
-    "include": [
-        "**/*.ts",
-    ],
-    "exclude": [
-        "node_modules"
+    {
+      "path": "../types"
+    }
+  ],
+  "compilerOptions": {
+    "strict": true,
+    "skipLibCheck": true,
+    "module": "ES2022",
+    "target": "ESNext",
+    "moduleResolution": "node",
+    "declaration": true,
+    "declarationMap": true,
+    "baseUrl": ".",
+    "rootDir": "..",
+    "outDir": "../../dist",
+    "composite": true,
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "src/types/*": [
+        "../types/*"
+      ],
+      "src/constants/*": [
+        "../constants/*"
+      ],
+      "src/runtime/*": [
+        "./*"
+      ],
+    },
+    "plugins": [
+      // Transform paths in output .js files
+      {
+        "transform": "typescript-transform-paths"
+      },
+      // Transform paths in output .d.ts files (Include this line if you output declarations files)
+      {
+        "transform": "typescript-transform-paths",
+        "afterDeclarations": true
+      },
+      {
+        "transform": "typescript-transformer-esm",
+        "after": true
+      }
     ]
+  },
+  "include": [
+    "**/*.ts",
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

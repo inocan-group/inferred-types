@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { asPhoneNumber, getPhoneCountryCode, removePhoneCountryCode } from "src/runtime/index";
+import { getPhoneCountryCode, removePhoneCountryCode } from "src/runtime/index";
 import { GetPhoneCountryCode, GetPhoneNumberType, RemovePhoneCountryCode } from "src/types/index";
 import { describe, expect, it } from "vitest";
 

@@ -10,9 +10,9 @@
   "typings": "./dist/inferred-types/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/inferred-types/index.d.ts",
       "import": "./dist/inferred-types/index.js",
-      "require": "./dist/inferred-types/index.cjs",
-      "types": "./dist/inferred-types/index.d.ts"
+      "require": "./dist/inferred-types/index.cjs"
     }
   },
   "files": [
@@ -27,7 +27,7 @@
     "build": "run-s build:esm build:cjs",
     "build:esm": "tsc -b --verbose src/inferred-types ",
     "bun:runtime": "bun build src/runtime/index.ts --format=esm --outfile=dist/runtime/index.mjs",
-    "build:cjs": "tsup dist/inferred-types/index.js --format cjs -d dist/inferred-types",
+    "build:cjs": "tsup src/inferred-types/index.ts --format=cjs -d dist/inferred-types",
     "diag": "tsc -b -f --extendedDiagnostics src/inferred-types",
     "diag:constants": "tsc -b -f --extendedDiagnostics src/constants",
     "diag:types": "tsc -b -f --extendedDiagnostics src/types",
@@ -39,7 +39,7 @@
     "test:ui": "vitest --ui",
     "bench": "cd benches && tsx ./index.ts",
     "test:ci": "vitest run",
-    "test:types": "typed test --ignore 6133 --ignore 6307",
+    "test:types": "typed test -w 6133 -w 6307",
     "audit:fix": "pnpm audit --fix",
     "audit:types": "typed -c src/types/tsconfig.json -w 6133 -w 6307",
     "audit:runtime": "typed -c src/runtime/tsconfig.json -w 2304 -w 6133 -w 6307",
@@ -54,18 +54,17 @@
     "watch:bundle": "tsup src/index.ts --format=esm --dts"
   },
   "devDependencies": {
-    "@arktype/attest": "^0.10.1",
-    "@eslint/js": "^9.8.0",
+    "@eslint/js": "^9.9.0",
     "@type-challenges/utils": "~0.1.1",
-    "@types/node": "^20.14.14",
-    "@typescript-eslint/eslint-plugin": "^8.0.1",
-    "@typescript-eslint/parser": "^8.0.1",
+    "@types/node": "^20.16.1",
+    "@typescript-eslint/eslint-plugin": "^8.2.0",
+    "@typescript-eslint/parser": "^8.2.0",
     "@typescript/analyze-trace": "^0.10.1",
     "@vitest/ui": "^2.0.5",
-    "bumpp": "^9.4.2",
+    "bumpp": "^9.5.1",
     "chalk": "^5.3.0",
     "cross-env": "^7.0.3",
-    "eslint": "^9.8.0",
+    "eslint": "^9.9.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-promise": "^7.1.0",
@@ -75,17 +74,17 @@
     "prettier": "^3.3.3",
     "rimraf": "^6.0.1",
     "ts-patch": "^3.2.1",
-    "typed-tester": "^0.4.0",
     "tsup": "^8.2.4",
-    "tsx": "^4.16.5",
-    "typescript": "5.6.0-dev.20240807",
-    "typescript-eslint": "^8.0.1",
-    "typescript-transform-paths": "^3.4.9",
+    "tsx": "^4.17.0",
+    "typed-tester": "^0.6.2",
+    "typescript": "5.5.4",
+    "typescript-eslint": "^8.2.0",
+    "typescript-transform-paths": "^3.5.0",
     "typescript-transformer-esm": "^1.1.0",
-    "vite": "^5.4.0",
+    "vite": "^5.4.2",
     "vite-node": "^2.0.5",
     "vitest": "^2.0.5",
-    "vue": "^3.4.36"
+    "vue": "^3.4.38"
   },
   "pnpm": {
     "overrides": {

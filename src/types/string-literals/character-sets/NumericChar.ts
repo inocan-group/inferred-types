@@ -1,4 +1,7 @@
-import type { NON_ZERO_NUMERIC_CHAR, NUMERIC_CHAR } from "src/constants/index";
+import type {
+  NON_ZERO_NUMERIC_CHAR,
+  NUMERIC_CHAR
+} from "src/constants/index";
 
 /**
  * **NumericChar**
