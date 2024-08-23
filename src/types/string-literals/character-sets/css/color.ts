@@ -43,6 +43,7 @@ export type CssHsb =
 | `hsb(${number},${OptionalSpace}${number},${OptionalSpace}${number})`;
 
 
+
 /**
  * [**CssOkLch**](https://oklch.com/#70,0.1,122,100)`(lightness, chroma, hue)`
  *
@@ -54,3 +55,4 @@ export type CssOkLch =
 | `oklch(${number}% ${number} ${number})`
 
 export type CssHexColor = `#${HexadecimalChar}${HexadecimalChar}${string}`;
+
