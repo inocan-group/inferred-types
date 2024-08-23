@@ -54,5 +54,8 @@ export type CssHsb =
 export type CssOkLch =
 | `oklch(${number}% ${number} ${number})`
 
+/**
+ * a hexadecimal color representation for CSS
+ */
 export type CssHexColor = `#${HexadecimalChar}${HexadecimalChar}${string}`;
 
