@@ -17,7 +17,6 @@ export type CssColorSpace =
 | "ProPhoto RGB"
 | "rec2020";
 
-type Sep = " " | `,${OptionalSpace}`;
 
 export type CssRgb =
 | `rgb(${number} ${number} ${number})`
