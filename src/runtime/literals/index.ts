@@ -46,6 +46,7 @@ export * from "./retainWhile";
 
 
 export * from "./phone/index";
+export * from "./color/index";
 
 
 // #endregion auto-indexed files
