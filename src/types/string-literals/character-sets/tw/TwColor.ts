@@ -1,4 +1,4 @@
-import { TW_CHROMA, TW_LUMINOSITY } from "src/constants/index";
+import { TW_CHROMA, TW_HUE, TW_LUMINOSITY } from "src/constants/index";
 import { Mutable } from "src/types/index";
 
 
@@ -120,3 +120,6 @@ export type TwChroma700 = typeof TW_CHROMA["700"];
 export type TwChroma800 = typeof TW_CHROMA["800"];
 export type TwChroma900 = typeof TW_CHROMA["900"];
 export type TwChroma950 = typeof TW_CHROMA["950"];
+
+
+export type TwHue = Mutable<typeof TW_HUE>;
