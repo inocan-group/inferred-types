@@ -73,7 +73,7 @@ export type TwColorWithLuminosity = `${TwColor}-${TwLuminosity}`
  *
  * **Related:** `TwColorOption`, `TwColorWithLuminosity`, `TwColor`, `TwNeutralColor`
  */
-export type TwColorWithLuminosityOpacity = `${TwColorWithLuminosity} / ${number}`
+export type TwColorWithLuminosityOpacity = `${TwColorWithLuminosity}/${number}`
 
 
 /**

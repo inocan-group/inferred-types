@@ -43,16 +43,17 @@ export type CssHsb =
 | `hsb(${number},${OptionalSpace}${number},${OptionalSpace}${number})`;
 
 
+type OptionalPercent = "%" | "";
 
 /**
- * [**CssOkLch**](https://oklch.com/#70,0.1,122,100)`(lightness, chroma, hue)`
+ * [**CssOkLch**](https://oklch.com/)`(lightness, chroma, hue)`
  *
  * - Lightness is critical to **contrast** between _background_ and _foreground_ elements
  * - Saturation levels are seen in _chroma_ values.
  * - Hue distinguishes the actual color you're viewing
  */
 export type CssOkLch =
-| `oklch(${number}% ${number} ${number})`
+| `oklch(${number}${OptionalPercent} ${number}${OptionalPercent} ${number})`
 
 /**
  * a hexadecimal color representation for CSS
