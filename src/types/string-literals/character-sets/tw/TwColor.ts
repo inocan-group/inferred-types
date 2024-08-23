@@ -1,3 +1,5 @@
+import { TW_CHROMA, TW_LUMINOSITY } from "src/constants/index";
+import { Mutable, Values } from "src/types/index";
 
 
 /**
@@ -81,3 +83,40 @@ export type TwColorWithLuminosityOpacity = `${TwColorWithLuminosity} / ${number}
  * option which optionally can include
  */
 export type TwColorOption = TwColorWithLuminosity | TwColorWithLuminosityOpacity;
+
+
+export type TwLuminosityLookup = Mutable<typeof TW_LUMINOSITY>;
+export type TwLumi50 = typeof TW_LUMINOSITY["50"];
+export type TwLumi100 = typeof TW_LUMINOSITY["100"];
+export type TwLumi200 = typeof TW_LUMINOSITY["200"];
+export type TwLumi300 = typeof TW_LUMINOSITY["300"];
+export type TwLumi400 = typeof TW_LUMINOSITY["400"];
+export type TwLumi500 = typeof TW_LUMINOSITY["500"];
+export type TwLumi600 = typeof TW_LUMINOSITY["600"];
+export type TwLumi700 = typeof TW_LUMINOSITY["700"];
+export type TwLumi800 = typeof TW_LUMINOSITY["800"];
+export type TwLumi900 = typeof TW_LUMINOSITY["900"];
+export type TwLumi950 = typeof TW_LUMINOSITY["950"];
+
+
+export type TwChromaLookup = Mutable<typeof TW_CHROMA>;
+
+/**
+ * the possible values of Tailwind Luminosity values when using
+ * **okhsl** color values.
+ *
+ * **Related:** `TwChromaLookup`, `TwChroma50`, ...
+ */
+export type TwChroma = typeof TW_CHROMA[TwLuminosity];
+
+export type TwChroma50 = typeof TW_CHROMA["50"];
+export type TwChroma100 = typeof TW_CHROMA["100"];
+export type TwChroma200 = typeof TW_CHROMA["200"];
+export type TwChroma300 = typeof TW_CHROMA["300"];
+export type TwChroma400 = typeof TW_CHROMA["400"];
+export type TwChroma500 = typeof TW_CHROMA["500"];
+export type TwChroma600 = typeof TW_CHROMA["600"];
+export type TwChroma700 = typeof TW_CHROMA["700"];
+export type TwChroma800 = typeof TW_CHROMA["800"];
+export type TwChroma900 = typeof TW_CHROMA["900"];
+export type TwChroma950 = typeof TW_CHROMA["950"];
