@@ -1,4 +1,4 @@
-import { OptionalSpace } from "./OptionalSpace";
+import { OptionalSpace } from "src/types/index";
 
 type Ratio = `${number}${OptionalSpace}/${OptionalSpace}${number}`;
 type One = `1`;
