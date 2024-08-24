@@ -10,12 +10,15 @@ export type CssColorModel =
 | "oklch";
 
 export type CssColorSpace =
-| "cie1931"
-| "p3"
-| "sRGB"
-| "AdobeRGB"
-| "ProPhoto RGB"
-| "rec2020";
+| "srgb"
+| "srgb-linear"
+| "p3-display"
+| "rec2020"
+| "a98-rgb"
+| "prophoto-rgb"
+| "xyz"
+| "xyz-d50"
+| "xyz-d65";
 
 
 export type CssRgb =
@@ -59,4 +62,15 @@ export type CssOkLch =
  * a hexadecimal color representation for CSS
  */
 export type CssHexColor = `#${HexadecimalChar}${HexadecimalChar}${string}`;
+
+
+type ColorFnValue = `${number}` | `${number}%` | "none";
+type OptionalOpacityForColorFn = ` / ${number}`
+
+/**
+ * The new CSS 4 `color(colorspace v1 v2 v3 [/ alpha])` function.
+ * 
+ * **Related:** `CssColorSpace`
+ */
+export type CssColorFn = `color(${CssColorSpace} ${ColorFnValue} ${ColorFnValue} ${ColorFnValue})${OptionalOpacityForColorFn}`;
 
