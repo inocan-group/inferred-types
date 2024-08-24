@@ -64,13 +64,19 @@ export type CssOkLch =
 export type CssHexColor = `#${HexadecimalChar}${HexadecimalChar}${string}`;
 
 
-type ColorFnValue = `${number}` | `${number}%` | "none";
-type OptionalOpacityForColorFn = ` / ${number}`
+export type ColorFnValue = `${number}` | `${number}%` | "none";
+export type ColorFnOptOpacity = "" | ` / ${number}`
 
 /**
  * The new CSS 4 `color(colorspace v1 v2 v3 [/ alpha])` function.
  * 
- * **Related:** `CssColorSpace`
+ * **Related:** `CssColorSpace`, `ColorFnValue`, `ColorFnOptOpacity`
  */
-export type CssColorFn = `color(${CssColorSpace} ${ColorFnValue} ${ColorFnValue} ${ColorFnValue})${OptionalOpacityForColorFn}`;
+export type CssColorFn<
+  TColorSpace extends CssColorSpace = CssColorSpace,
+  TV1 extends ColorFnValue = ColorFnValue,
+  TV2 extends ColorFnValue = ColorFnValue,
+  TV3 extends ColorFnValue = ColorFnValue,
+  TOp extends ColorFnOptOpacity = ColorFnOptOpacity
+>= `color(${TColorSpace} ${TV1} ${TV2} ${TV3})${TOp}`;
 
