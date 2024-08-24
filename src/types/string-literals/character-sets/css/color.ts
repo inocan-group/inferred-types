@@ -78,5 +78,21 @@ export type CssColorFn<
   TV2 extends ColorFnValue = ColorFnValue,
   TV3 extends ColorFnValue = ColorFnValue,
   TOp extends ColorFnOptOpacity = ColorFnOptOpacity
->= `color(${TColorSpace} ${TV1} ${TV2} ${TV3})${TOp}`;
+>= 
+| `color(${TColorSpace} ${TV1} ${TV2} ${TV3})${TOp}` // absolute color
+| `color(${CssColor} from ${TColorSpace} ${TV1} ${TV2} ${TV3})${TOp}`;
+
+/**
+ * **CssColor**
+ * 
+ * Intended to represent _any_ CSS color value.
+ */
+export type CssColor = 
+| CssHexColor
+| CssRgb
+| CssRgba
+| CssOkLch
+| CssHsb
+| CssHsl
+| `color(${string})`;
 
