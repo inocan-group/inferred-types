@@ -1,6 +1,4 @@
-import { OptCrThenIndent } from "../CarriageReturn";
 import { OptSpace } from "../OptionalSpace";
-import { OptWhitespace } from "../Whitespace";
 
 type PropertyFormat =
 | "*"

@@ -25,3 +25,9 @@ export type Optional<
 > = T extends readonly string[]
 ? Cascade<T>
 : T | "";
+
+
+/**
+ * an _optional_ percentage symbol
+ */
+export type OptPercent = "%" | "";
