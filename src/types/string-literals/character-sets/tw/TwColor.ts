@@ -14,11 +14,10 @@ export type TwNeutralColor =
 | "stone";
 
 /**
- * all of the [TailwindCSS](https://tailwindcss.com/docs/customizing-colors)
+ * the _vibrant_ [TailwindCSS](https://tailwindcss.com/docs/customizing-colors)
  * named colors.
  */
-export type TwColor =
-| TwNeutralColor
+export type TwVibrantColor =
 | "red"
 | "orange"
 | "amber"
@@ -36,6 +35,17 @@ export type TwColor =
 | "fuchsia"
 | "pink"
 | "rose";
+
+export type TwStaticColor = "white" | "black";
+
+/**
+ * all [TailwindCSS](https://tailwindcss.com/docs/customizing-colors)
+ * named colors, including neutral gradients, vibrant colors, and static
+ * colors (white, black).
+ *
+ * **Related:** `TwNeutralColor`, `TwVibrantColor`, `TwStaticColor`
+ */
+export type TwColor = TwNeutralColor | TwVibrantColor | TwStaticColor;
 
 
 /**
@@ -63,7 +73,10 @@ export type TwLuminosity =
  *
  * **Related:** `TwColorOption`, `TwColorWithLuminosityOpacity`, `TwColor`, `TwNeutralColor`
  */
-export type TwColorWithLuminosity = `${TwColor}-${TwLuminosity}`
+export type TwColorWithLuminosity =
+| `${TwNeutralColor}-${TwLuminosity}`
+| `${TwVibrantColor}-${TwLuminosity}`
+| TwStaticColor;
 
 /**
  * **TwColorWithLuminosityOpacity**
