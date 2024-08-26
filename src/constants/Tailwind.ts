@@ -26,7 +26,9 @@ export const TW_HUE = {
   purple: 294,
   fuchsia: 319,
   pink: 334,
-  rose: 15
+  rose: 15,
+  black: 0,
+  white: 106.37411429114086
 } as const;
 
 export const TW_LUMINOSITY = {
