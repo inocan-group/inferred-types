@@ -1,3 +1,4 @@
+import { EmptyObject } from "src/types/base-types";
 
 export enum ExifCompression {
   Uncompressed = 1,
@@ -102,7 +103,7 @@ export enum ExifFlashValues {
   OffRedEyeReduction = 0x50,
   AutoDidNotFireRedEyeReduction = 0x58,
   AutoFiredRedEyeReduction = 0x59,
-  AutoFiredRedEyeReductionNotDetected = 0x59,
+  AutoFiredRedEyeReductionNotDetected = 0x60,
   AutoFiredRedEyeReductionDetected = 0x5d,
 }
 
@@ -166,7 +167,7 @@ export enum ExifSaturation {
  * Extraneous info in an EXIF metadata payload. Detailed info
  * can be found on all fields here: [EXIF Tags](https://exiftool.org/TagNames/EXIF.html)
  */
-export type ExifExtraneous<T extends object = {}> = {
+export type ExifExtraneous<T extends object = EmptyObject> = {
   /** [ `0x0001` ] */
   InteropIndex: string;
   // InteropVersion:
@@ -181,7 +182,7 @@ export type ExifExtraneous<T extends object = {}> = {
  * Date and Time info found in EXIF payload. Detailed info
  * can be found on all fields here: [EXIF Tags](https://exiftool.org/TagNames/EXIF.html)
  */
-export type ExifDateTimeInfo<T extends object = {}> = {
+export type ExifDateTimeInfo<T extends object = EmptyObject> = {
   ModifyDate: string;
   OffsetTime: string;
   /** The date created; formal EXIF property is `DateTimeDigitized` */
@@ -208,7 +209,7 @@ export type ExifDateTimeInfo<T extends object = {}> = {
  * Information regarding attribution found in EXIF payload. Detailed info
  * can be found on all fields here: [EXIF Tags](https://exiftool.org/TagNames/EXIF.html)
  */
-export type ExifAttributionInfo<T extends object = {}> = {
+export type ExifAttributionInfo<T extends object = EmptyObject> = {
   Copyright: string;
   /** becomes a list-type tag when the MWG module is loaded */
   Artist: string;
@@ -222,7 +223,7 @@ export type ExifAttributionInfo<T extends object = {}> = {
   HostComputer: string;
 } & T;
 
-export type ExifCameraInfo<T extends object = {}> = {
+export type ExifCameraInfo<T extends object = EmptyObject> = {
   Make: string;
   Model: string;
   UniqueCameraModel: string;
@@ -478,7 +479,7 @@ export type ExifCameraInfo<T extends object = {}> = {
    * Ambient temperature in degrees C, called `Temperature` by the EXIF spec
    */
   AmbientTemperature: number;
-  /** Ambient temperature in degress C */
+  /** Ambient temperature in degrees C */
   Temperature: number;
   Humidity: number;
   Pressure: number;
@@ -487,7 +488,7 @@ export type ExifCameraInfo<T extends object = {}> = {
   CameraElevationAngle: number;
 } & T;
 
-export type ExifPhotoContext<T extends object = {}> = {
+export type ExifPhotoContext<T extends object = EmptyObject> = {
   ImageDescription: string;
   DocumentName: string;
   UserComment: string;
@@ -569,7 +570,7 @@ export type ExifGps = {
  * Detailed info can be found here:
  * [EXIF Tags](https://exiftool.org/TagNames/EXIF.html).
  */
-export type Exif<T extends object = {}> = Partial<
+export type Exif<T extends object = EmptyObject> = Partial<
   ExifAttributionInfo &
     ExifCameraInfo &
     ExifDateTimeInfo &
