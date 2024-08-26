@@ -22,13 +22,13 @@ const queue =  <
   },
   drop(quantity) {
     if (quantity && quantity > state.length) {
-      throw new Error('Cannot drop more elements than present in the queue');
+      throw new Error("Cannot drop more elements than present in the queue");
     }
     state.splice(0, quantity || 1);
   },
   take<Q extends number | undefined>(quantity?: Q) {
     if (quantity && quantity > state.length) {
-      throw new Error('Cannot take more elements than present in the queue');
+      throw new Error("Cannot take more elements than present in the queue");
     }
     const result = state.slice(0, quantity || 1);
     state.splice(0, quantity || 1);
