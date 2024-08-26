@@ -34,3 +34,4 @@ export * from "./quotation-marks/index";
 export * from "./phone/index";
 export * from "./css/index";
 export * from "./tw/index";
+export * from "./images/index";
