@@ -1,26 +1,15 @@
-import { ErrorCondition, IsBoolean, IsBooleanLiteral, IsFalse, IsNever, IsTrue, LogicFunction, Throw, } from "src/types/index";
-
-type InvalidTest<TTest> = Throw<
-  "invalid-test",
-  `Call of If<TTest, ...> received an invalid TTest that does not evaluate to a boolean type!`,
-  "If",
-  {
-    library: "inferred-types";
-    test: TTest;
-  }
->
+import {
+  ErrorCondition,
+  IsBoolean,
+  IsBooleanLiteral,
+  IsFalse,
+  IsNever,
+  IsTrue,
+  LogicFunction
+} from "src/types/index";
 
 
 
-// Throw<
-//   "if-received-error",
-//   `If<TTest> got an ErrorCondition rather than a boolean was found in TTest: ${TTest["kind"]}`,
-//   "If",
-//   {
-//     library: "inferred-types";
-//     underlying: TTest;
-//   }
-// >;
 
 
 /**
@@ -53,4 +42,4 @@ export type If<
       : [IsBoolean<ReturnType<TTest>>] extends [true]
         ? TMaybe
         : never
-    : InvalidTest<TTest>;
+    : never;

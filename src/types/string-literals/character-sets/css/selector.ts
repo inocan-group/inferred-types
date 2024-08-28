@@ -1,5 +1,6 @@
 import { AlphaNumericChar } from "../AlphaNumeric";
-import { CommonHtmlElement, HtmlBodyElement } from "./html-element";
+import {  HtmlBodyElement } from "./html-element";
+import { CssPseudoClass, CssPseudoClassDefn } from "./pseudo-classes";
 
 export type CssIdSelector = `#${string}${AlphaNumericChar}`;
 export type CssClassSelector = `.${string}${AlphaNumericChar}`;
@@ -10,15 +11,41 @@ export type CssClassSelector = `.${string}${AlphaNumericChar}`;
  */
 export type CssTagSelector = HtmlBodyElement;
 
+/**
+ * **BareCssSelector**`<TId, TClass, TTag>`
+ *
+ * A CSS Selector.
+ *
+ * A strongly typed **CSS** _selector_ which allows for
+ * the element selector (minus a pseudo class).
+ *
+ *
+ * - `TId`, `TClass`, and `TTag` provide means to _narrow_ type
+ * types of `CssIdSelector`'s, `CssClassSelector`'s, and
+ * `CssTagSelectors` respectively
+ *
+ * **Related:**
+ * - `CssSelector` _(adds typing for pseudo classes)_
+ */
+export type BareCssSelector<
+  TId extends CssIdSelector = CssIdSelector,
+  TClass extends CssClassSelector = CssClassSelector,
+  TTag extends CssTagSelector = CssTagSelector
+> = TId | TTag | TClass;
 
 
 /**
- * A CSS Selector.
+ * **CssSelector**`<[TId],[TClass],[TTag],[TPseudo]>`
  *
- * A union of `CssIdSelector`, `CssClassSelector`, and `CssTagSelector`.
- * However, because you might have a known set of Class selectors this
- * is exposed as a generic which you can use to narrow down the scope.
+ * A strongly typed **CSS** _selector_.
  */
 export type CssSelector<
-  T extends CssClassSelector = CssClassSelector
-> = CssIdSelector | T | CssTagSelector;
+  TId extends CssIdSelector = CssIdSelector,
+  TClass extends CssClassSelector = CssClassSelector,
+  TTag extends CssTagSelector = CssTagSelector,
+  TPseudo extends CssPseudoClass = CssPseudoClass
+> =
+| TId | TClass | TTag
+| `${TId}${CssPseudoClassDefn<TPseudo>}`
+| `${TClass}${CssPseudoClassDefn<TPseudo>}`
+| `${TTag}${CssPseudoClassDefn<TPseudo>}`;

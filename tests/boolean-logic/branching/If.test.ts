@@ -1,5 +1,5 @@
-import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
-import { If, IsErrorCondition } from "src/types/index";
+import { Equal, Expect } from "@type-challenges/utils";
+import { If } from "src/types/index";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -29,7 +29,7 @@ describe("If<T,TIf,TElse,TMaybe>", () => {
       Expect<Equal<Maybe, "maybe">>,
 
       Expect<Equal<YesNo, "yes" | "no">>,
-      ExpectTrue<IsErrorCondition<InvalidUnion, "invalid-test">>,
+      Expect<Equal<InvalidUnion, never>>,
     ];
     const cases: cases = [
       true, true, true, true,
