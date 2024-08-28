@@ -1,14 +1,14 @@
 import { Constant } from "src/constants/index";
-import { IfEqual, Dictionary, Throw, ToString, Tuple } from "src/types/index";
+import { IfEqual, Dictionary, Throw, Tuple, AsString } from "src/types/index";
 
 /**
  * **AsIndexOf**`<T,K,[ERR]>`
- * 
- * Validates that `K` is a keyof `T` and 
+ *
+ * Validates that `K` is a keyof `T` and
  */
 export type AsIndexOf<
-  T extends Dictionary | object | Tuple, 
-  K extends PropertyKey, 
+  T extends Dictionary | object | Tuple,
+  K extends PropertyKey,
   ERR = Constant<"NoErr">
 > = K extends keyof T
 ? T[K]
@@ -16,7 +16,7 @@ export type AsIndexOf<
     ERR, Constant<"NoErr">,
     Throw<
       "invalid-key",
-      `the key '${ToString<K>}' is not a valid key of the passed container`,
+      `the key '${AsString<K>}' is not a valid key of the passed container`,
       "AsIndexOf"
     >,
     ERR

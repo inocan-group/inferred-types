@@ -1,10 +1,10 @@
-import { 
-  IsNull, 
-  IsNegativeNumber, 
-  Abs, 
-  Decrement, 
-  Reverse,  
-  ToString, 
+import {
+  IsNull,
+  IsNegativeNumber,
+  Abs,
+  Decrement,
+  Reverse,
+  ToString,
   Dictionary,
   ObjectKey,
   If,
@@ -37,9 +37,9 @@ type NegativeIndex<
         "invalid-index",
         `Use of a negative index [${AsString<TIdx>}] was unsuccessful in matching a valid index`,
         "IndexOf",
-        { 
-          container: TValue; 
-          key: TIdx; 
+        {
+          container: TValue;
+          key: TIdx;
           context: {
             revIndex: Decrement<Abs<TIdx>>;
             revContainer: Reverse<TValue>;
@@ -60,7 +60,7 @@ type HandleArr<
       IsValidIndex<TValue,TIdx>,
       TValue[TIdx],
       Throw<
-        "invalid-index", 
+        "invalid-index",
         Concat<["Attempt to index [", ToString<TIdx>, "] into a non-container type!"]>,
         "IndexOf",
         { container: TValue; key: TIdx; library: "inferred-types" }
@@ -68,7 +68,7 @@ type HandleArr<
     >
 : Throw<
     "invalid-index",
-    `IndexOf<Tuple,${ToString<TIdx>}> failed because a tuple container must use numeric indexes!`,
+    `IndexOf<Tuple,${AsString<TIdx>}> failed because a tuple container must use numeric indexes!`,
     "IndexOf",
     { container: TValue; key: TIdx; library: "inferred-types" }
   >;
@@ -79,7 +79,7 @@ TIdx extends PropertyKey
 > = TIdx extends keyof TValue
 ? TValue[TIdx]
 : Throw<
-  "invalid-index", 
+  "invalid-index",
   Concat<["Attempt to index [", ToString<TIdx>, "] into a non-container type!"]>,
   "IndexOf",
   { container: TValue; key: TIdx; library: "inferred-types" }
@@ -115,7 +115,7 @@ TValue extends readonly unknown[]
         >
     : Throw<
         "invalid-index",
-        `IndexOf<ToString<TValue>},${ToString<TIdx>}> was called but the a non-null value was used to index a non-container which will never work!`,
+        `IndexOf<ToString<TValue>},${AsString<TIdx>}> was called but the a non-null value was used to index a non-container which will never work!`,
         "IndexOf",
         { library: "inferred-types"; container: TValue; key: TIdx }
       >
@@ -125,17 +125,17 @@ TValue extends readonly unknown[]
 
 /**
  * **IndexOf**<TValue, TIdx, [TOverride]>
- * 
+ *
  * A type utility which _dereferences_ a property/index item on an array
  * or object.
- * 
+ *
  * - if `TIdx` is passed in as `null` then this will act as an identity
  * function and return `TValue`.
  * - if `TIdx` is a negative number it will index in reverse for tuple based
  * containers
- * 
+ *
  * **Related:** `Get`, `IsValidIndex`
- * 
+ *
  * **Errors:** produces an `ErrorCondition<"invalid-index">` when an a bad index value
  * is passed in for the given container
  */
