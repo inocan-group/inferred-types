@@ -1,4 +1,4 @@
-import { AfterFirst, First , ToString } from "src/types/index";
+import { AfterFirst, AsString, First } from "src/types/index";
 
 type PrependAcc<
   TList extends readonly string[],
@@ -15,4 +15,4 @@ type PrependAcc<
 export type PrependAll<
   TList extends readonly string[],
   TPrepend extends string | number | boolean
-> = PrependAcc<TList, ToString<TPrepend>>;
+> = PrependAcc<TList, AsString<TPrepend>>;

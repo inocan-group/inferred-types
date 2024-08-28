@@ -1,4 +1,4 @@
-import { AfterFirst, First, Replace, StripLeading, ToString, Tuple } from "src/types/index";
+import { AfterFirst, AsString, First, Replace, StripLeading, Tuple } from "src/types/index";
 
 type Process<
   T extends Tuple,
@@ -11,13 +11,13 @@ type Process<
     TReplace,
     First<T> extends string
       ? `${TResult},${Replace<First<T>, ",", TReplace>}`
-      : `${TResult},${ToString<First<T>>}`
+      : `${TResult},${AsString<First<T>>}`
     >;
 
 
 /**
  * **ToCSV**`<TTuple,[TReplace]>`
- * 
+ *
  * Converts a tuple into a CSV string. For any elements
  * in the tuple which are strings the `,` character will
  * be replaced with the value of `TReplace` (which defaults
