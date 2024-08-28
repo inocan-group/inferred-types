@@ -157,3 +157,13 @@ export type CssPseudoClass =
 | CssTimePseudoClasses
 | CssTreePseudoClasses
 | CssUserActionPseudoClasses;
+
+
+/**
+ * **CssPseudoClassDefn**
+ *
+ * A type which incorporates a definition of _all_ CSS pseudo classes.
+ */
+export type CssPseudoClassDefn<
+  T extends CssPseudoClass = CssPseudoClass
+> = `${T}(${string})`;

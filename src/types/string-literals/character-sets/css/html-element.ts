@@ -1,10 +1,10 @@
 export type OldSchoolHtmlElement =
 | "b"
 | "center"
-| `u`
+| "u"
 | "big"
-| `small`
-| `strong`
+| "small"
+| "strong"
 ;
 
 export type EsotericHtmlElement =
@@ -19,52 +19,46 @@ export type EsotericHtmlElement =
 | "dl"
 | "dt"
 | "fencedframe"
-| `ins`
-| `kbd`
-| `nobr`
-| `noembed`
-| `rb`
-| `rt`
-| `rtc`
-| `ruby`
-| `s`
-| `samp`
-| `map`
-| `marquee`
-| `meter`
-| `noframes`
-| `object`
-| `param`
-| `portal`
-| `q`
-| `sub`
-| `sup`
-| `tt`
-| `track`
-| `var`
-| `wbr`
-| `xmp`;
-
-;
-
-
-
+| "ins"
+| "kbd"
+| "nobr"
+| "noembed"
+| "rb"
+| "rt"
+| "rtc"
+| "ruby"
+| "s"
+| "samp"
+| "map"
+| "marquee"
+| "meter"
+| "noframes"
+| "object"
+| "param"
+| "portal"
+| "q"
+| "sub"
+| "sup"
+| "tt"
+| "track"
+| "var"
+| "wbr"
+| "xmp";
 
 
 export type HtmlTableElement =
 | "col"
 | "colgroup"
-| `hgroup`
-| `table`
-| `tbody`
-| `td`
-| `tfoot`
-| `th`
-| `thead`
-| `time`
-| `tr`
+| "hgroup"
+| "table"
+| "tbody"
+| "td"
+| "tfoot"
+| "th"
+| "thead"
+| "time"
+| "tr";
 
-;
 
 export type HtmlSymantecElement =
 | "abbr"
@@ -82,26 +76,26 @@ export type HtmlSymantecElement =
 | "fieldset"
 | "figure"
 | "figcaption"
-| `header`
+| "header"
 | "footer"
-| `legend`
-| `nav`
-| `menu`
-| `search`
-| `summary`
-| `section`
+| "legend"
+| "nav"
+| "menu"
+| "search"
+| "summary"
+| "section"
 
 ;
 
 export type HtmlInputElement =
 | "button"
 | "form"
-| `label`
-| `optgroup`
-| `option`
-| `select`
-| `input`
-| `textarea`
+| "label"
+| "optgroup"
+| "option"
+| "select"
+| "input"
+| "textarea"
 ;
 
 export type HtmlFunctionalElement =
@@ -113,27 +107,27 @@ export type HtmlFunctionalElement =
 | "embed"
 | "em"
 | "font"
-| `hr`
-| `i`
-| `iframe`
-| `img`
-| `mark`
-| `strike`
-| `progress`
-| `p`
-| `picture`
-| `plaintext`
-| `pre`
+| "hr"
+| "i"
+| "iframe"
+| "img"
+| "mark"
+| "strike"
+| "progress"
+| "p"
+| "picture"
+| "plaintext"
+| "pre"
 ;
 
 export type HtmlMediaElement =
 | "audio"
-| `video`
+| "video"
 ;
 
 export type HtmlFrameworkElement =
-| `template`
-| `slot`;
+| "template"
+| "slot";
 
 
 export type HtmlStructuralElement =
@@ -141,31 +135,30 @@ export type HtmlStructuralElement =
 | `h${"1" | "2" | "3" | "4" | "5" | "6"}`
 | "frame"
 | "frameset"
-| `html`
-| `head`
-| `span`
+| "html"
+| "head"
+| "span"
 ;
 
 export type HtmlListElement =
-| `li`
-| `ol`
-| `ul`
+| "li"
+| "ol"
+| "ul"
 ;
 
 export type HtmlHeaderElement =
-| `meta`
-| `link`
-| `noscript`
-| `script`
-| `title`
-| `style`
-| `source`
+| "meta"
+| "link"
+| "noscript"
+| "script"
+| "title"
+| "style"
+| "source"
 ;
 
 export type HtmlBodyElement =
 | "body"
-| `main`
-| HTMLTableElement
+| "main"
 | HtmlListElement
 | HtmlStructuralElement
 | HtmlSymantecElement
