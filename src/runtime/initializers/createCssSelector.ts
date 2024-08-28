@@ -46,12 +46,7 @@ export type AsClassSelector<
     >
   : never
 >;
-;
-// [] extends T
-// ? CssClassSelector
-// : TupleToUnion<T> extends CssClassSelector
-//   ? TupleToUnion<T>
-//   : never;
+
 
 
 
