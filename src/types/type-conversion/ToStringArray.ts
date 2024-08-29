@@ -1,6 +1,4 @@
-import {  ToString, Tuple } from "src/types/index";
-
-
+import {  AsString,  Tuple } from "src/types/index";
 
 /**
  * **ToStringArray**`<T>`
@@ -9,9 +7,9 @@ import {  ToString, Tuple } from "src/types/index";
  * into a _string_ value using the `ToString<T>` utility.
  */
 export type ToStringArray<T extends Tuple> = {
-  [K in keyof T]: ToString<T[K]>
+  [K in keyof T]: AsString<T[K]>
 } extends readonly string[]
 ? {
-  [K in keyof T]: ToString<T[K]>
+  [K in keyof T]: AsString<T[K]>
 }
 : never;

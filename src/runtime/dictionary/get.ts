@@ -1,8 +1,8 @@
-import type { 
-  Narrowable,  
-  DotPathFor, 
-  Get, 
-  Suggest, 
+import type {
+  Narrowable,
+  DotPathFor,
+  Get,
+  Suggest,
   Tuple,
   Dictionary,
 } from "src/types/index";
@@ -10,22 +10,22 @@ import {
   NO_DEFAULT_VALUE,
   NoDefaultValue,
   NotDefined,
-  NOT_DEFINED 
+  NOT_DEFINED
 } from "src/constants/index";
-import { 
+import {
   createErrorCondition,
   isTruthy,
   hasIndexOf,
   isSpecificConstant,
   hasDefaultValue,
   isContainer,
-  isRef, 
+  isRef,
   indexOf
 } from "src/runtime/index";
 
 /** updates based on whether segment is a Ref or not */
 function updatedDotPath<
-  TValue, 
+  TValue,
   TDotPath extends string,
   TSegment extends string
 >(value: TValue, dotpath: TDotPath, segment: TSegment) {
@@ -38,19 +38,19 @@ function updatedDotPath<
  * **getValue**(value, dotpath, defaultValue, handler, fullDotPath)
  */
 function getValue<
-  TValue, 
+  TValue,
   TDotPath extends string,
   TDefVal extends Narrowable,
   TInvalid extends Narrowable,
   TFullDotPath extends string,
 >(
-  value: TValue, 
+  value: TValue,
   dotPath: TDotPath,
   defaultValue: TDefVal,
   handleInvalid: TInvalid,
   fullDotPath: TFullDotPath
-) {  
-  
+) {
+
   /** the remaining segments that need processing */
   const pathSegments: string[] = isTruthy(dotPath)
     ? dotPath.split(".")
@@ -59,7 +59,7 @@ function getValue<
   /** current index property */
   const idx = pathSegments[0];
 
-  /** 
+  /**
    * dotpath _will_ need to recurse further to
    * reach destination
    **/
@@ -89,12 +89,12 @@ function getValue<
           updatedDotPath(value,fullDotPath, idx)
         )
       : hasHandler
-        ? handleInvalid 
+        ? handleInvalid
         : invalidDotPath
     : valueIsIndexable
-      ? hasDefaultValue(hasDefaultValue) 
-        ? indexOf(value, idx)  || defaultValue 
-        : indexOf(value, idx) 
+      ? hasDefaultValue(hasDefaultValue)
+        ? (indexOf(value, idx) as any || defaultValue) as any
+        : indexOf(value, idx)
       : hasHandler ? handleInvalid : invalidDotPath
   ) as unknown as Get<TValue, TDotPath>;
 
@@ -115,9 +115,9 @@ export interface GetOptions<
    * Typically when a dotpath is invalid for a given item then this item
    * is set as a `ErrorCondition<'invalid-dot-path'>` but if you'd like
    * to set it to something else you may.
-   * 
+   *
    * Note: a common replacement would be the `Never` constant from this library
-   * as it "reports" as being `never` but allows for a more sophisticated 
+   * as it "reports" as being `never` but allows for a more sophisticated
    * handling process to follow.
    */
   handleInvalidDotpath?: TInvalid;
@@ -129,24 +129,24 @@ export interface GetOptions<
  *
  * Gets a value in a deeply nested object while attempting to preserve type information
  * (a default value is allowed as optional param).
- * 
- * - if the dot-path is invalid then an `ErrorCondition` will be returned, unless 
+ *
+ * - if the dot-path is invalid then an `ErrorCondition` will be returned, unless
  * a defaultValue is provided in which case this will be returned instead
- * - this function is also VueJS _aware_ in the sense that it can also traverse 
+ * - this function is also VueJS _aware_ in the sense that it can also traverse
  * VueJS `ref` properties when encountered
- * 
+ *
  * ```ts
  * const prop = get(obj, "foo.bar.baz", "nothing there chief!");
  * ```
  */
 export function get<
-  TValue extends Narrowable | readonly unknown[], 
-  TDotPath extends Suggest<DotPathFor<TValue>>, 
+  TValue extends Narrowable | readonly unknown[],
+  TDotPath extends Suggest<DotPathFor<TValue>>,
   TDefVal extends Narrowable = NoDefaultValue,
-  TInvalid extends Narrowable = NotDefined 
+  TInvalid extends Narrowable = NotDefined
 >(
-    value: TValue, 
-    dotPath: TDotPath | null, 
+    value: TValue,
+    dotPath: TDotPath | null,
     options: GetOptions<TDefVal, TInvalid> = {
       defaultValue: NO_DEFAULT_VALUE,
       handleInvalidDotpath: NOT_DEFINED
@@ -158,7 +158,7 @@ export function get<
       : getValue(
           value as Dictionary | Tuple,
           dotPath,
-          options?.defaultValue || NO_DEFAULT_VALUE, 
+          options?.defaultValue || NO_DEFAULT_VALUE,
           options?.handleInvalidDotpath || NOT_DEFINED,
           String(dotPath)
         ) as unknown

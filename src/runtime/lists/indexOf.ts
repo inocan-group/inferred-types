@@ -3,7 +3,13 @@ import {
   Narrowable,
   Tuple
 } from "src/types/index";
-import { errCondition, isArray, isNull, isNumber, isObject } from "src/runtime/index";
+import {
+  errCondition,
+  isArray,
+  isNull,
+  isNumber,
+  isObject
+} from "src/runtime/index";
 
 /**
  * **indexOf**(val, index)
@@ -48,5 +54,5 @@ export function indexOf<
               ? val[String(idx) as keyof TContainer]
               : errCondition("invalid-index", `attempt to index a dictionary object with an invalid index: ${String(idx)}`)
             : errCondition("invalid-container-type", `Attempt to use indexOf() on an invalid container type: ${typeof val}`)
-  ) as IndexOf<TContainer, TIdx>;
+  ) as unknown as IndexOf<TContainer, TIdx>;
 }
