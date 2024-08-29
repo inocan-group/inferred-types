@@ -1,4 +1,3 @@
-import { HtmlElement } from "src/types/string-literals";
 import { isObject } from "../isObject";
 
 
