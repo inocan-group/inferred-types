@@ -5,21 +5,24 @@ import type {
   SIMPLE_SET_TYPES
 } from "src/constants/index";
 import {
-  If,
-  IsEqual,
   ExpandDictionary,
-  SimpleContainerToken, SimpleScalarToken, SimpleToken, SimpleUnionToken,
+  SimpleScalarToken, SimpleToken, SimpleUnionToken,
   Dictionary,
   AsNumber,
   CsvToStrUnion, CsvToTuple, CsvToUnion,
   UnderlyingType,
-  TupleToUnion
+  TupleToUnion,
+  SimpleDictToken,
+  SimpleMapToken,
+  SimpleSetToken,
+  SimpleArrayToken
 } from "src/types/index";
 
 type SetTypes = typeof SIMPLE_SET_TYPES[number];
 type MapKeys = typeof SIMPLE_MAP_KEYS[number];
 type MapValues = typeof SIMPLE_MAP_VALUES[number];
 type DictValues = typeof SIMPLE_DICT_VALUES[number];
+
 
 /**
  * **SimpleTypeScalar**`<T>`
@@ -53,6 +56,8 @@ T extends "string"
 ? undefined
 : T extends "unknown"
 ? unknown
+: T extends `Opt<${infer Underlying extends SimpleScalarToken}>`
+? undefined | SimpleTypeScalar<Underlying>
 : never;
 
 
@@ -80,42 +85,56 @@ T extends "opt(string)"
     : Literal
 : never;
 
-export type SimpleTypeContainer<T extends SimpleContainerToken> = T extends `Dict`
+
+export type SimpleTypeDict<T extends SimpleDictToken> =
+T extends `Dict`
 ? Dictionary
-: T extends `Dict<string, ${infer Value extends DictValues}>`
-? Dictionary<string, SimpleType<Value>>
-: T extends `Dict<{id: number}>`
-? { id: number; [key:string|symbol]: any }
-: T extends `Dict<{id: string}>`
-? { id: string; [key:string|symbol]: any }
-: T extends `Dict<{${infer Prop}: number}>`
-  ? If<
-      IsEqual<Prop,"">,
-      { id: number; [key:string|symbol]: any },
-      ExpandDictionary<
-        Record<Prop, number> &
-        { [key:string | symbol]: any }
-      >
-    >
-: T extends `Dict<{${infer Prop}: string}>`
-  ? If<
-      IsEqual<Prop,"">,
-      { id: string; [key:string|symbol]: any },
-      ExpandDictionary<
-        Record<Prop, string> &
-        { [key:string | symbol]: any }
-      >
-    >
-: T extends "Set"
-? Set<any>
-: T extends `Set<${infer Type extends SetTypes}>`
-? Set<SimpleType<Type>>
-: T extends "Map"
+: T extends `Dict<string, ${infer Value extends DictValues & SimpleScalarToken}>`
+? Dictionary<string, SimpleTypeScalar<Value>>
+: T extends `Dict<{${infer K}: ${infer V}, ${infer K2}: ${infer V2}}>`
+  ? V extends SimpleScalarToken
+    ? V2 extends SimpleScalarToken
+      ? ExpandDictionary<
+          Record<K, SimpleTypeScalar<V>> & Record<K2, SimpleTypeScalar<V2>> & Dictionary
+        >
+      : ExpandDictionary<Record<K, SimpleTypeScalar<V>> & Dictionary>
+  : V2 extends SimpleScalarToken
+    ? ExpandDictionary<Record<K2, SimpleTypeScalar<V2>> & Dictionary>
+    : never
+: T extends `Dict<{${infer Key}: ${infer Value}}>`
+  ? Value extends SimpleScalarToken
+    ? ExpandDictionary<Record<Key, SimpleTypeScalar<Value>> & Dictionary>
+    : never
+: never;
+
+export type SimpleTypeArray<T extends SimpleArrayToken> = T extends "Array"
+? any[]
+: T extends "Array<string>"
+? string[]
+: T extends "Array<number>"
+? number[]
+: T extends "Array<boolean>"
+? boolean[]
+: T extends "Array<unknown>"
+? unknown[]
+: never;
+
+export type SimpleTypeMap<T extends SimpleMapToken> = T extends "Map"
 ? Map<any,any>
 : T extends `Map<${infer Key extends MapKeys}, ${infer Value extends MapValues}>`
 ? Map<SimpleType<Key>, SimpleType<Value>>
 : never;
 
+export type SimpleTypeSet<T extends SimpleSetToken> = T extends "Set"
+? Set<any>
+: T extends `Set<${infer Type extends SetTypes}>`
+? Set<SimpleType<Type>>
+: never;
+
+
+// export type SimpleTypeContainer<T extends SimpleContainerToken> =
+
+// : never;
 
 
 /**
@@ -128,14 +147,19 @@ export type SimpleTypeContainer<T extends SimpleContainerToken> = T extends `Dic
  */
 export type SimpleType<T extends SimpleToken> = T extends SimpleScalarToken
 ? SimpleTypeScalar<T>
-: T extends SimpleContainerToken
-? SimpleTypeContainer<T>
+: T extends SimpleDictToken
+? SimpleTypeDict<T>
+: T extends SimpleArrayToken
+? SimpleTypeArray<T>
+: T extends SimpleMapToken
+? SimpleTypeMap<T>
+: T extends SimpleSetToken
+? SimpleTypeSet<T>
 : T extends SimpleUnionToken
 ? SimpleTypeUnion<T>
 : never;
 
 export type StructuredStringType = any;
-
 
 
 

@@ -16,6 +16,7 @@ import {
  */
 export const simpleToken = <T extends SimpleToken>(token: T) => token;
 
+
 /**
  * **simpleScalarToken**`(token)`
  *
@@ -24,7 +25,6 @@ export const simpleToken = <T extends SimpleToken>(token: T) => token;
  * **Related:** `simpleType()`, `simpleToken()`, `simpleContainerToken()`
  */
 export const simpleScalarToken = <T extends SimpleScalarToken>(token: T) => token;
-
 
 /**
  * **simpleContainerToken**`(token)`
@@ -82,3 +82,4 @@ export const simpleType = <T extends SimpleToken>(token: T) => {
   );
   return value as SimpleType<T>
 }
+

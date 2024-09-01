@@ -76,6 +76,7 @@
     "ts-patch": "^3.2.1",
     "tsup": "^8.2.4",
     "tsx": "^4.18.0",
+    "typecheck": "^0.1.2",
     "typed-tester": "^0.6.2",
     "typescript": "5.5.4",
     "typescript-eslint": "^8.2.0",
