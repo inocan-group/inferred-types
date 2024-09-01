@@ -107,7 +107,6 @@ const union = <T extends string | readonly string[]>(nodes: T) => {
       : unionNode(nodes as string)
 }
 
-const stripOpt = stripSurround("opt(", ")");
 const stripUnion = stripSurround("Union(", ")");
 
 /**
