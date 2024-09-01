@@ -1,6 +1,23 @@
 import { AfterFirst, First } from "../lists";
-import { SimpleType, SimpleTypeContainer, SimpleTypeScalar, SimpleTypeUnion } from "./SimpleType";
-import { SimpleContainerToken, SimpleScalarToken, SimpleToken, SimpleUnionToken, TypeToken } from "./TypeToken";
+import {
+  SimpleType,
+  SimpleTypeMap,
+  SimpleTypeDict,
+  SimpleTypeSet,
+  SimpleTypeArray,
+  SimpleTypeScalar,
+  SimpleTypeUnion
+} from "./SimpleType";
+import {
+  SimpleDictToken,
+  SimpleMapToken,
+  SimpleSetToken,
+  SimpleArrayToken,
+  SimpleScalarToken,
+  SimpleToken,
+  SimpleUnionToken,
+  TypeToken
+} from "./TypeToken";
 
 type ProcessSimple<T extends SimpleToken | TypeToken> = T extends SimpleToken
   ? SimpleType<T>
@@ -16,8 +33,14 @@ type Iterate<
     TResult & (
       First<T> extends SimpleScalarToken
         ? SimpleTypeScalar<First<T>>
-        : First<T> extends SimpleContainerToken
-        ? SimpleTypeContainer<First<T>>
+        : First<T> extends SimpleDictToken
+        ? SimpleTypeDict<First<T>>
+        : First<T> extends SimpleMapToken
+        ? SimpleTypeMap<First<T>>
+        : First<T> extends SimpleSetToken
+        ? SimpleTypeSet<First<T>>
+        : First<T> extends SimpleArrayToken
+        ? SimpleTypeArray<First<T>>
         : First<T> extends SimpleUnionToken
         ? SimpleTypeUnion<First<T>>
         : never

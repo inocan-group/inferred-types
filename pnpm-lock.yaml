@@ -79,6 +79,9 @@ importers:
       tsx:
         specifier: ^4.18.0
         version: 4.18.0
+      typecheck:
+        specifier: ^0.1.2
+        version: 0.1.2
       typed-tester:
         specifier: ^0.6.2
         version: 0.6.2(typescript@5.5.4)
@@ -2258,6 +2261,9 @@ packages:
   type-detect@4.1.0:
     resolution: {integrity: sha512-Acylog8/luQ8L7il+geoSxhEkazvkslg7PSNKOX59mbB9cOveP5aq9h74Y7YU8yDpJwetzQQrfIwtf4Wp4LKcw==}
     engines: {node: '>=4'}
+
+  typecheck@0.1.2:
+    resolution: {integrity: sha512-noA7T++dtHFemmk++XgotLp47kcu8ezbvN3hUUljZvntPGDWi9Ci0c24x6onS92PxOUNZFYChH8KPXRaoCcjgQ==}
 
   typed-array-buffer@1.0.2:
     resolution: {integrity: sha512-gEymJYKZtKXzzBzM4jqa9w6Q1Jjm7x2d+sh19AdsD4wqnMPDYyvwpsIc2Q/835kHuo3BEQ7CjelGhfTsoBb2MQ==}
@@ -4673,6 +4679,8 @@ snapshots:
       prelude-ls: 1.2.1
 
   type-detect@4.1.0: {}
+
+  typecheck@0.1.2: {}
 
   typed-array-buffer@1.0.2:
     dependencies:

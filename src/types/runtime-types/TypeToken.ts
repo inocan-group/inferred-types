@@ -19,10 +19,13 @@ import type {
   TT_STOP,
   TT_Singletons,
   TT_Sets,
-  SIMPLE_TOKENS,
   SIMPLE_SCALAR_TOKENS,
-  SIMPLE_CONTAINER_TOKENS,
-  SIMPLE_UNION_TOKENS
+  SIMPLE_UNION_TOKENS,
+  SIMPLE_OPT_SCALAR_TOKENS,
+  SIMPLE_DICT_TOKENS,
+  SIMPLE_ARRAY_TOKENS,
+  SIMPLE_MAP_TOKENS,
+  SIMPLE_SET_TOKENS
 } from "src/constants/index";
 
 
@@ -36,15 +39,37 @@ import type {
  * - `SimpleScalarToken`, `SimpleContainerToken`, `SimpleUnionToken`,
  * - `TypeToken`
  */
-export type SimpleToken = typeof SIMPLE_TOKENS[number];
+export type SimpleToken =
+| SimpleScalarToken
+| SimpleArrayToken
+| SimpleDictToken
+| SimpleMapToken
+| SimpleSetToken
+| SimpleUnionToken;
+
+/**
+ * the _optional_ variants of the `SimpleScalarToken` type
+ */
+export type OptionalSimpleScalarTokens = typeof SIMPLE_OPT_SCALAR_TOKENS[number];
+
+/**
+ * the _required_ variants of the `SimpleScalarToken` type
+ */
+export type RequiredSimpleScalarTokens = typeof SIMPLE_SCALAR_TOKENS[number];
 
 /**
  * **SimpleScalarToken**
  *
  * A subset of the `SimpleToken` which may be more useful for building
  * simple string literal values.
+ *
+ * **Note:** this includes both `RequiredSimpleScalarTokens` and `OptionalSimpleScalarTokens`.
  */
-export type SimpleScalarToken = typeof SIMPLE_SCALAR_TOKENS[number];
+export type SimpleScalarToken =
+| RequiredSimpleScalarTokens
+| OptionalSimpleScalarTokens;
+
+
 
 /**
  * **SimpleUnionToken**
@@ -64,12 +89,36 @@ export type SimpleUnionToken = typeof SIMPLE_UNION_TOKENS[number];
 export type BaseTypeToken = `${TypeTokenStart}${string}${TypeTokenStop}`
 
 /**
+ * a subset of `SimpleContainerToken`
+ */
+export type SimpleDictToken = typeof SIMPLE_DICT_TOKENS[number];
+
+/**
+ * a subset of `SimpleContainerToken`
+ */
+export type SimpleArrayToken = typeof SIMPLE_ARRAY_TOKENS[number];
+
+/**
+ * a subset of `SimpleContainerToken`
+ */
+export type SimpleMapToken = typeof SIMPLE_MAP_TOKENS[number];
+
+/**
+ * a subset of `SimpleContainerToken`
+ */
+export type SimpleSetToken = typeof SIMPLE_SET_TOKENS[number];
+
+/**
  * **SimpleContainerToken**
  *
  * A subset of `SimpleToken` which provides shortcut's for expressing
  * _container_ types via a simple token.
  */
-export type SimpleContainerToken = typeof SIMPLE_CONTAINER_TOKENS[number];
+export type SimpleContainerToken =
+| SimpleDictToken
+| SimpleArrayToken
+| SimpleMapToken
+| SimpleArrayToken;
 
 
 /**

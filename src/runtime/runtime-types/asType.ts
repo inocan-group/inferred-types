@@ -5,14 +5,18 @@ import {
   SimpleType
 } from "src/types/runtime-types";
 
-
+/**
+ * **asType**(token)**
+ *
+ * Converts a `SimpleToken` into it's corresponding _type_.
+ */
 export const asType = <
   T extends SimpleToken
->(val: T) => {
+>(token: T) => {
 
   return (
-    val
-  ) as SimpleType<T>
+    token
+  ) as unknown as SimpleType<T>
 }
 
 export const asStringLiteral = <
@@ -21,3 +25,4 @@ export const asStringLiteral = <
 
   return values.map(i => i as unknown as AsType<typeof i>)
 }
+
