@@ -16,6 +16,7 @@ import {
   stripBefore,
   stripSurround
 } from "src/runtime/index";
+import { Never } from "src/constants/Never";
 
 // TODO
 export const asSimpleToken = <T extends Narrowable>(_val: T) => {
@@ -42,12 +43,12 @@ const _containerToToken: Record<string, unknown> = {
   "array(unknown)": "",
 }
 
-const unionToToken : Record<string, unknown> = {
-  "opt(string)": "<<union::[ <<string>>, <<undefined>> ]>>" as unknown ,
-  "opt(number)": "<<union::[ <<number>>, <<undefined>> ]>>" as unknown,
-  "opt(unknown)": "<<union::[ <<unknown>>, <<undefined>> ]>>" as unknown,
-  "opt(boolean)": "<<union::[ <<boolean>>, <<undefined>> ]>>" as unknown,
-} satisfies Record<SimpleUnionToken, unknown>
+// const unionToToken : Record<string, unknown> = {
+//   "Opt<string>": "<<union::[ <<string>>, <<undefined>> ]>>" as unknown ,
+//   "Opt<number>": "<<union::[ <<number>>, <<undefined>> ]>>" as unknown,
+//   "Opt<unknown>": "<<union::[ <<unknown>>, <<undefined>> ]>>" as unknown,
+//   "Opt<boolean>": "<<union::[ <<boolean>>, <<undefined>> ]>>" as unknown,
+// } satisfies Record<SimpleUnionToken, unknown>
 
 const stringLiteral = <T extends string>(str: T) => {
   return stripAfter(stripBefore(str, "string("), ")")
@@ -121,13 +122,9 @@ const stripUnion = stripSurround("Union(", ")");
  */
 export const simpleUnionTokenToTypeToken = <T extends SimpleUnionToken>(val: T) => {
   return (
-    val in unionToToken
-    ? unionToToken[val as keyof typeof scalarToToken] as unknown
-    : val.startsWith(`Union(`) && val.endsWith(`)`)
+    val.startsWith(`Union(`) && val.endsWith(`)`)
       ? `<<union::[ ${union(stripUnion(val))} ]>>`
-    : val.startsWith(`opt(`) && val.endsWith(`)`)
-      ? `<<union::[ ${union(stripOpt(val))}, <<undefined>> ]>>`
-      : `<<never>>`
+      : Never
   ) as SimpleType<T>
 }
 
