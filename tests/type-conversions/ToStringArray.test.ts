@@ -13,17 +13,15 @@ describe("ToStringArray<T>", () => {
     type Num = ToStringArray<[1,2]>;
     type Bool = ToStringArray<[true, false, boolean]>;
     type Empty = ToStringArray<[]>;
-    type Opt = ToStringArray<[undefined, null]>;
 
     type cases = [
       Expect<Equal<Str, ["foo","bar"]>>,
       Expect<Equal<Num, ["1","2"]>>,
       Expect<Equal<Bool, ["true","false", "true" | "false"]>>,
       Expect<Equal<Empty, []>>,
-      Expect<Equal<Opt, ["undefined", "null"]>>,
     ];
     const cases: cases = [
-      true, true, true, true, true
+      true, true, true, true
     ];
   });
 

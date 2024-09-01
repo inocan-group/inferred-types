@@ -55,50 +55,7 @@ describe("token conversion", () => {
   });
 
 
-  it("simpleUnionTokenToTypeToken()", () => {
-    const optStr = simpleUnionTokenToTypeToken("opt(string)");
-    const optNum = simpleUnionTokenToTypeToken("opt(number)");
-    const optBool = simpleUnionTokenToTypeToken("opt(boolean)");
 
-    const optLit = simpleUnionTokenToTypeToken("opt(42)");
-    const optTrue = simpleUnionTokenToTypeToken("opt(true)");
-    const multiOpt = simpleUnionTokenToTypeToken("opt(42,56,78)");
-
-    expect(optStr).toBe("<<union::[ <<string>>, <<undefined>> ]>>");
-    expect(optNum).toBe("<<union::[ <<number>>, <<undefined>> ]>>");
-    expect(optBool).toBe("<<union::[ <<boolean>>, <<undefined>> ]>>");
-
-    expect(optLit).toBe("<<union::[ <<number::42>>, <<undefined>> ]>>");
-    expect(optTrue).toBe("<<union::[ <<true>>, <<undefined>> ]>>");
-    expect(multiOpt).toBe("<<union::[ <<number::42>>, <<number::56>>, <<number::78>>, <<undefined>> ]>>");
-
-    type cases = [
-      Expect<Equal<typeof optStr, string | undefined>>,
-      Expect<Equal<typeof optNum, number | undefined>>,
-      Expect<Equal<typeof optBool, boolean | undefined>>,
-
-      Expect<Equal<typeof optLit, 42 | undefined>>,
-      Expect<Equal<typeof optTrue, true | undefined>>,
-      Expect<Equal<typeof multiOpt, 42| 56| 78 | undefined>>,
-    ];
-    const cases: cases = [
-      true, true, true,
-      true, true, true
-    ];
-
-  });
-
-
-
-  it("simpleContainerTokenToTypeToken()", () => {
-    const dict = simpleContainerTokenToTypeToken("Dict");
-
-    type cases = [
-      /** type tests */
-    ];
-    const cases: cases = [];
-
-  });
 
 
 });

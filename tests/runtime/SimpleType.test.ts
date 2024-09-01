@@ -31,9 +31,9 @@ describe("SimpleType<T>", () => {
   });
 
   it("optional types", () => {
-    type Str = SimpleType<"opt(string)">;
-    type Num = SimpleType<"opt(number)">;
-    type Bool = SimpleType<"opt(boolean)">;
+    type Str = SimpleType<"Opt<string>">;
+    type Num = SimpleType<"Opt<number>">;
+    type Bool = SimpleType<"Opt<boolean>">;
 
     type cases = [
       Expect<Equal<Str, string | undefined>>,
@@ -47,20 +47,18 @@ describe("SimpleType<T>", () => {
 
   it("Dictionaries", () => {
     type D1 = SimpleType<"Dict">;
-    type DN1 = SimpleType<"Dict<{id: number}>">;
-    type DN2 = SimpleType<"Dict<{foo: number}>">;
-    type DS1 = SimpleType<"Dict<{id: string}>">;
-    type DS2 = SimpleType<"Dict<{foo: string}>">;
+    type DId = SimpleType<"Dict<{id: number}>">;
+    type DFoo = SimpleType<"Dict<{foo: number}>">;
+    type DFooBar = SimpleType<"Dict<{foo: string, bar: Opt<boolean>}>">;
 
     type cases = [
       Expect<Equal<D1, Dictionary>>,
-      Expect<Equal<DN1, {id: number; [key: string|symbol]: any}>>,
-      Expect<Equal<DN2, {foo: number; [key: string|symbol]: any}>>,
-      Expect<Equal<DS1, {id: string; [key: string|symbol]: any}>>,
-      Expect<Equal<DS2, {foo: string; [key: string|symbol]: any}>>,
+      Expect<Equal<DId, {id: number; [key: string|symbol]: unknown}>>,
+      Expect<Equal<DFoo, {foo: number; [key: string|symbol]: unknown}>>,
+      Expect<Equal<DFooBar, {foo: string; bar: boolean | undefined; [key: string|symbol]: unknown}>>,
     ];
     const cases: cases = [
-      true, true, true, true, true,
+      true, true, true, true,
     ];
   });
 
@@ -72,7 +70,7 @@ describe("SimpleType<T>", () => {
 
     type M1 = SimpleType<"Map">;
     type M2 = SimpleType<"Map<number, string>">;
-    type M3 = SimpleType<"Map<Dict, Dict<string, opt(number)>>">;
+    type M3 = SimpleType<"Map<Dict, Dict<string, Opt<number>>>">;
 
     type cases = [
       Expect<Equal<S1, Set<any>>>,
