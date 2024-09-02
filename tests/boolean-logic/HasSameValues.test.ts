@@ -19,7 +19,7 @@ describe("HasSameValues<TList,TComparator", () => {
     type F4 = HasSameValues<[1,2,3], [1,2,3,4]>;
     type F5 = HasSameValues<[1,2,3,4], [1,2,3]>;
 
-
+    // @ts-ignore
     type cases = [
       Expect<Equal<T1, true>>,
       Expect<Equal<T2, true>>,
@@ -30,14 +30,8 @@ describe("HasSameValues<TList,TComparator", () => {
       Expect<Equal<F3, false>>,
       Expect<Equal<F4, false>>,
       Expect<Equal<F5, false>>,
-
     ];
 
-    const cases: cases = [
-      true, true, true,
-      true, true, true,
-      true, true
-    ];
   });
 
 

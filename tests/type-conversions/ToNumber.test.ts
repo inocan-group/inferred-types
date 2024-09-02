@@ -87,14 +87,16 @@ describe("ToNumber<T>", () => {
     const mixedArr = toNumber(["1", "foo", "2"] as const);
     expect(mixedArr).toEqual([1,NaN,2]);
 
+    type GoodArr = typeof goodArr;
+
+    // @ts-ignore
     type cases = [
       Expect<Equal<typeof str, 42>>,
       Expect<Equal<typeof passthrough, 42>>,
       Expect<Equal<typeof emptyArr,  readonly number[]>>,
-      Expect<Equal<typeof goodArr, readonly [1,2,3]>>,
+      Expect<Equal<GoodArr, readonly [1,2,3]>>,
       Expect<Equal<typeof mixedArr, readonly [1,never,2]>>,
     ];
-    const cases: cases = [true, true, true, true, true];
   });
 
 });

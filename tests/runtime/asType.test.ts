@@ -64,15 +64,17 @@ describe("asType(val)", () => {
     expect(optStr).toBe("Opt<string>");
     expect(foo).toBe("Dict<{foo: string}>");
 
+    type StrToken = typeof strToken;
+    type NumToken = typeof numToken;
+
+    // @ts-ignore
     type cases = [
-      Expect<Equal<typeof strToken, string>>,
-      Expect<Equal<typeof numToken, number>>,
+      Expect<Equal<StrToken, string>>,
+      Expect<Equal<NumToken, number>>,
       Expect<Equal<typeof optStr, string | undefined>>,
       Expect<Equal<typeof foo, {foo: string; [key: string|symbol]: unknown}>>
     ];
-    const cases: cases = [
-      true, true, true, true
-    ];
+
   });
 
 });
