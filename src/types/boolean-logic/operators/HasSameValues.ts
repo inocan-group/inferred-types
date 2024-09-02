@@ -1,4 +1,4 @@
-import { And, Dictionary, Or, Values } from "src/types/index";
+import { And, Dictionary, If, IsNever, Or, Values } from "src/types/index";
 
 type Find<
   TList extends readonly unknown[],
@@ -27,6 +27,15 @@ TComparator extends readonly unknown[]
 : false;
 
 
+type _HasSameValues<
+TContainer extends readonly unknown[],
+TComparator extends readonly unknown[]
+> = TContainer extends readonly unknown[]
+? Process<TContainer,TComparator>
+: TContainer extends Dictionary
+? Process<Values<TContainer>,TComparator>
+: never;
+
 /**
  * **HasSameValues**`<TContainer,TComparator>`
  *
@@ -37,8 +46,8 @@ TComparator extends readonly unknown[]
 export type HasSameValues<
   TContainer extends readonly unknown[],
   TComparator extends readonly unknown[]
-> = TContainer extends readonly unknown[]
-? Process<TContainer,TComparator>
-: TContainer extends Dictionary
-  ? Process<Values<TContainer>,TComparator>
-  : never;
+> = If<
+  IsNever<TContainer>,
+  If<IsNever<TComparator>, true, false>,
+  If<IsNever<TComparator>, false, _HasSameValues<TContainer,TComparator>>
+>

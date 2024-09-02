@@ -3,7 +3,7 @@ import { HasSameValues } from "src/types/index";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("HasSameValues<TList,TComparator", () => {
@@ -19,7 +19,7 @@ describe("HasSameValues<TList,TComparator", () => {
     type F4 = HasSameValues<[1,2,3], [1,2,3,4]>;
     type F5 = HasSameValues<[1,2,3,4], [1,2,3]>;
 
-    
+
     type cases = [
       Expect<Equal<T1, true>>,
       Expect<Equal<T2, true>>,
@@ -32,6 +32,7 @@ describe("HasSameValues<TList,TComparator", () => {
       Expect<Equal<F5, false>>,
 
     ];
+
     const cases: cases = [
       true, true, true,
       true, true, true,
@@ -40,6 +41,19 @@ describe("HasSameValues<TList,TComparator", () => {
   });
 
 
-  
+  it("testing with never", () => {
+    type T1 = HasSameValues<never, never>;
+
+    type F1 = HasSameValues<[1,2,3], never>;
+    type F2 = HasSameValues<never, [1,2,3]>;
+
+    // @ts-ignore
+    type cases = [
+      Expect<Equal<T1, true>>,
+      Expect<Equal<F1, false>>,
+      Expect<Equal<F2, false>>,
+    ];
+
+  });
 
 });
