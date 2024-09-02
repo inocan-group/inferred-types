@@ -1,9 +1,9 @@
-import { First, If, IsUnion, Length, Narrowable, UnionToTuple } from "src/types/index";
+import { First, Flatten, If, IsUnion, Length, Narrowable, UnionToTuple } from "src/types/index";
 import { asArray } from "src/runtime/index";
 
 /**
  * **tuple**(value)
- * 
+ *
  * Creates a discrete tuple.
  * ```ts
  * // [1,2,3]
@@ -33,5 +33,5 @@ export const tuple = <
     : T[0]
     : T;
 
-  return asArray(arr);
+  return asArray(arr) as unknown as Flatten<T>;
 };
