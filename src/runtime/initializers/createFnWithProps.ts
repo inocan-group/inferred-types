@@ -5,6 +5,7 @@ import {
   ObjectKey,
 } from "src/types/index";
 import { isTrue, keysOf } from "src/runtime/index";
+import { mutable } from "../type-conversion/mutable";
 
 
 /**
@@ -23,9 +24,10 @@ export const createFnWithProps = <
   props: TProps,
   narrowing: TNarrowing = false as TNarrowing
 ) => {
-  const fnWithProps: any = fn;
+  let fnWithProps: any = fn;
   for (let prop of keysOf(props)) {
-    fnWithProps[prop] = props[prop];
+    let p = mutable(prop);
+    fnWithProps[p] = props[p];
   }
 
   return (
