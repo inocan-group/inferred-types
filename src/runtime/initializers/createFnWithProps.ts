@@ -9,7 +9,7 @@ import { isTrue, keysOf } from "src/runtime/index";
 
 /**
  * **createFnWithProps**`(fn, props)`
- * 
+ *
  * creates a strongly typed function along with properties.
  */
 export const createFnWithProps = <
@@ -24,7 +24,7 @@ export const createFnWithProps = <
   narrowing: TNarrowing = false as TNarrowing
 ) => {
   const fnWithProps: any = fn;
-  for (const prop of keysOf(props)) {
+  for (let prop of keysOf(props)) {
     fnWithProps[prop] = props[prop];
   }
 
