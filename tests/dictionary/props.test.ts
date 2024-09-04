@@ -12,9 +12,9 @@ import {
   NonStringKeys,
   WithNumericKeys,
   WithoutValue,
-  FilterByProp,
+  FilterProps,
+  RetainProps
 } from "src/types/index";
-import { FilterProps } from "../../src/types/lists/FilterProps";
 
 
 type T0 = { foo: number; bar: number; baz: string };
@@ -269,5 +269,19 @@ describe("Dictionary Type Utils", () => {
     ];
 
   });
+
+
+  it("RetainProps<TObj,TComparator>", () => {
+    type Foo = RetainProps<{foo: 42, bar: string, baz: boolean}, number>;
+    type Bar = RetainProps<{foo: 42; bar: number; baz: boolean}, number, "equals">;
+
+    // @ts-ignore
+    type cases = [
+      Expect<Equal<Foo, { foo: 42 }>>,
+      Expect<Equal<Bar, { bar: number }>>,
+    ];
+
+  });
+
 
 });
