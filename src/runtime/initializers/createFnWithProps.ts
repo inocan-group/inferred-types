@@ -4,8 +4,7 @@ import {
   Narrowable,
   ObjectKey,
 } from "src/types/index";
-import { isTrue, keysOf } from "src/runtime/index";
-import { mutable } from "../type-conversion/mutable";
+import { isTrue } from "src/runtime/index";
 
 
 /**
@@ -25,9 +24,8 @@ export const createFnWithProps = <
   narrowing: TNarrowing = false as TNarrowing
 ) => {
   let fnWithProps: any = fn;
-  for (let prop of keysOf(props)) {
-    let p = mutable(prop);
-    fnWithProps[p] = props[p];
+  for (let prop of Object.keys(props)) {
+    fnWithProps[prop] = props[prop];
   }
 
   return (
