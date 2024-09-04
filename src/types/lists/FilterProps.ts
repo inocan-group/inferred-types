@@ -29,8 +29,9 @@ TResult extends Dictionary = EmptyObject
  * Type utility which targets dictionary objects and filters
  * out all key/value pairs which _extend_ the type `TComparator`.
  *
- * - by default `TOp` is "extends" but you can change the comparison
- * operation to `equals`, `startsWith`, `endsWith`, ...
+ * - by default the comparison operation -- dictated by `TOp` -- is
+ * "extends" but you can change the comparison operation to
+ * `equals`, `startsWith`, `endsWith`, ...
  */
 export type FilterProps<
   TObj extends Dictionary,
