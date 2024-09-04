@@ -1,9 +1,9 @@
 import { Dictionary, EmptyObject, ObjectKey } from "../base-types";
 import { ComparatorOperation, Compare } from "../boolean-logic";
-import { Keys } from "../dictionary/Keys";
+import { Keys } from "./Keys";
 import { ExpandDictionary } from "../literals";
-import { AfterFirst } from "./AfterFirst";
-import { First } from "./First";
+import { AfterFirst } from "../lists/AfterFirst";
+import { First } from "../lists/First";
 
 type Process<
 TObj extends Dictionary,

@@ -50,6 +50,8 @@ export * from "./MergeKVs"
 export * from "./TakeProp"
 export * from "./MakeKeysOptional";
 export * from "./MakeKeysRequired";
+export * from "./FilterProps";
+export * from "./RetainProps";
 
 // #endregion auto-indexed files
 
