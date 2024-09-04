@@ -12,7 +12,9 @@ import {
   NonStringKeys,
   WithNumericKeys,
   WithoutValue,
+  FilterByProp,
 } from "src/types/index";
+import { FilterProps } from "../../src/types/lists/FilterProps";
 
 
 type T0 = { foo: number; bar: number; baz: string };
@@ -251,4 +253,21 @@ describe("Dictionary Type Utils", () => {
     const cases: cases = [true, true, true, true];
     expect(cases).toBe(cases);
   });
+
+
+
+  it("FilterByProp<TObj,TComparator>", () => {
+    type Foo = FilterProps<{foo: 42, bar: undefined, baz: undefined}, undefined>;
+    type Empty = FilterProps<{foo: 42, bar: unknown, baz: unknown}, unknown>;
+    type Known = FilterProps<{foo: 42, bar: unknown, baz: unknown}, unknown, "equals">;
+
+    // @ts-ignore
+    type cases = [
+      Expect<Equal<Foo, { foo: 42 }>>,
+      Expect<Equal<Empty, {  }>>,
+      Expect<Equal<Known, { foo: 42 }>>,
+    ];
+
+  });
+
 });

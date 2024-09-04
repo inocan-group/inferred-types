@@ -70,7 +70,7 @@ type Process<
  * extends _any_ of the `TFilter` entries
  * - any non-container based value in `TList` will be discarded
  *
- * **Related:** `RetainByProp`, `Filter`, `RetainFromList`, `RemoveFromList`
+ * **Related:** `RetainByProp`, `Filter`, `RetainFromList`, `RemoveFromList`, `FilterProps`
  */
 export type FilterByProp<
   TList extends readonly unknown[],
