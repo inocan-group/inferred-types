@@ -1,15 +1,9 @@
 import {
-  Flatten,
-  If,
-  IsUnion,
   Length,
   Narrowable,
-  UnionArrayToTuple,
   UnionToTuple,
 } from "src/types/index";
 import { asArray } from "src/runtime/index";
-
-type ElementOf<T> = T extends (infer U)[] ? U : never;
 
 /**
  * **tuple**(value)

@@ -57,7 +57,7 @@ export * from "./IsNumericLiteral";
 export * from "./IsBooleanLiteral";
 export * from "./IsEqual";
 export * from "./IsUnion";
-export * from "./IsUnionArray;
+export * from "./IsUnionArray";
 export * from "./IsArray";
 export * from "./IsReadonlyArray";
 export * from "./IsNull";
