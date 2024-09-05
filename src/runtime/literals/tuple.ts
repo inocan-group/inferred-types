@@ -1,6 +1,8 @@
 import {
+  IsUnionArray,
   Length,
   Narrowable,
+  UnionArrayToTuple,
   UnionToTuple,
 } from "src/types/index";
 import { asArray } from "src/runtime/index";
@@ -27,7 +29,9 @@ export const tuple = <
   ) as Length<T> extends 1
     ? T[0] extends readonly unknown[]
     ? T[0] extends infer Arr
-    ? UnionToTuple<Arr>
+    ? IsUnionArray<Arr> extends true
+      ? UnionArrayToTuple<Arr>
+      : UnionToTuple<Arr>
     : T[0]
     : T[0]
     : T;

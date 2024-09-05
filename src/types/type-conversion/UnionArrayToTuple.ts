@@ -1,3 +1,5 @@
+import { ElementOf } from "../lists/ElementOf";
+
 // Existing utility: UnionToTuple (unchanged)
 type UnionToIntersection<U> = (
   U extends unknown ? (arg: U) => 0 : never
@@ -12,7 +14,6 @@ type UnionToTuple<U, Last = LastInUnion<U>> = [U] extends [never]
   : [...UnionToTuple<Exclude<U, Last>>, Last];
 
 
-type ElementOf<T> = T extends (infer U)[] ? U : never;
 
 /**
  * **UnionArrayToTuple**`<T>`
@@ -22,5 +23,7 @@ type ElementOf<T> = T extends (infer U)[] ? U : never;
  *
  * **Related:** `UnionToTuple`
  */
-export type UnionArrayToTuple<T> = T extends any[] ? UnionToTuple<ElementOf<T>> : never;
+export type UnionArrayToTuple<T> = T extends any[]
+? UnionToTuple<ElementOf<T>>
+: never;
 
