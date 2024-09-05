@@ -12,13 +12,12 @@ describe("tuple(value)", () => {
     const t1 = tuple(1,2,3);
     const t2 = tuple([1,2,3]);
 
-
     expect(t1).toEqual([1,2,3]);
     expect(t2).toEqual([1,2,3]);
 
     type cases = [
       Expect<Equal<typeof t1, [1,2,3]>>,
-      Expect<Equal<typeof t2, (1|2|3)[]>>,
+      Expect<Equal<typeof t2, [1,2,3]>>,
     ];
     const cases: cases = [ true, true ];
   });

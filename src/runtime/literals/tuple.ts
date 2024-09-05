@@ -1,5 +1,15 @@
-import { First, Flatten, If, IsUnion, Length, Narrowable, UnionToTuple } from "src/types/index";
+import {
+  Flatten,
+  If,
+  IsUnion,
+  Length,
+  Narrowable,
+  UnionArrayToTuple,
+  UnionToTuple,
+} from "src/types/index";
 import { asArray } from "src/runtime/index";
+
+type ElementOf<T> = T extends (infer U)[] ? U : never;
 
 /**
  * **tuple**(value)
@@ -14,7 +24,7 @@ import { asArray } from "src/runtime/index";
 export const tuple = <
   N extends Narrowable,
   K extends PropertyKey,
-  T extends readonly (Record<K, N> | Narrowable)[]
+  T extends readonly (Record<K, N> | N)[]
 >(...values: T) => {
   const arr = (
     values.length === 1
@@ -23,15 +33,11 @@ export const tuple = <
   ) as Length<T> extends 1
     ? T[0] extends readonly unknown[]
     ? T[0] extends infer Arr
-    ? If<
-      // eslint-disable-next-line no-use-before-define
-      IsUnion<First<Arr & readonly unknown[]>>,
-      UnionToTuple<First<T[0]>>,
-      T[0]
-    >
+    ? UnionToTuple<Arr>
     : T[0]
     : T[0]
     : T;
 
-  return asArray(arr) as unknown as Flatten<T>;
+  return asArray(arr) ;
 };
+
