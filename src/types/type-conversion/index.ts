@@ -25,6 +25,7 @@ export * from "./ToString";
 export * from "./ToUnion";
 export * from "./ToNumber";
 export * from "./ToBoolean";
+export * from "./UnionArrayToTuple";
 export * from "./UnionToTuple";
 export * from "./UnionShift";
 export * from "./UnionFilter";
