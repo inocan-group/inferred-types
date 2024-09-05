@@ -20,7 +20,11 @@ export type LastInUnion<U> = UnionToIntersection<
 
 
 /**
- * UnionToTuple<1 | 2> = [1, 2].
+ * **UnionToTuple**`<1 | 2>` => [1, 2]
+ *
+ * Converts union members into a tuple.
+ *
+ * **Related**: `UnionArrayToTuple`
  */
 export type UnionToTuple<U, Last = LastInUnion<U>> = [U] extends [never]
 ? []
