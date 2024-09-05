@@ -1,6 +1,6 @@
-import { IsUnion } from "src/types/index";
+import { ElementOf, IsEqual, IsUnion } from "src/types/index";
 
-type ElementOf<T> = T extends (infer U)[] ? U : never;
+
 
 /**
  * **IsUnionArray**`<T>`
@@ -8,6 +8,10 @@ type ElementOf<T> = T extends (infer U)[] ? U : never;
  * Boolean operator which tests whether `T` is an array of
  * a _union type_.
  */
-export type IsUnionArray<T> = T extends any[]
-  ? IsUnion<ElementOf<T>>
+export type IsUnionArray<T> = T extends readonly any[]
+  ? IsEqual<T["length"], number> extends true
+  ? IsUnion<ElementOf<T>> extends true
+    ? true
+    : false
+  : false
   : false;

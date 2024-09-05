@@ -12,6 +12,7 @@ export * from "./First";
 export * from "./Second";
 export * from "./AsArray";
 export * from "./AsTuple";
+export * from "./ElementOf";
 export * from "./FirstString";
 export * from "./Filter";
 export * from "./FilterByProp";
