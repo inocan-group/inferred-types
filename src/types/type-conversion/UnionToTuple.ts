@@ -1,3 +1,5 @@
+import { IsUnionArray } from "../boolean-logic/operators/IsUnionArray";
+import { UnionArrayToTuple } from "./UnionArrayToTuple";
 
 
 /**
@@ -24,6 +26,8 @@ export type LastInUnion<U> = UnionToIntersection<
  */
 export type UnionToTuple<U, Last = LastInUnion<U>> = [U] extends [never]
   ? []
-  : [...UnionToTuple<Exclude<U, Last>>, Last];
+  : IsUnionArray<U> extends true
+    ? UnionArrayToTuple<U>
+    : [...UnionToTuple<Exclude<U, Last>>, Last];
 
 
