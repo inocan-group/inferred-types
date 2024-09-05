@@ -4,28 +4,28 @@ import { intersection } from "src/runtime/index";
 import { Intersection } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("Set Intersection", () => {
 
 
-  describe("Intersect<A,B, Deref>", () => {
+  describe("Intersection<A,B, Deref>", () => {
     it("intersecting scalar values", () => {
       type Foo = Intersection<["foo", "bar","blue"], ["foo","baz"]>;
       type All = Intersection<["foo","bar"], ["foo", "bar"]>;
       type None = Intersection<["foo"], ["bar"]>;
-  
+
       type cases = [
         Expect<Equal<Foo, ["foo"]>>,
         Expect<Equal<All, ["foo", "bar"]>>,
         Expect<Equal<None, []>>,
       ];
-      
+
       const cases: cases = [ true, true, true ];
     });
 
-    
+
     it("intersection objects with deref", () => {
       type One = Intersection<
         [{id: 1; value: "foo"}, {id: 2; value: "bar"}],
@@ -37,7 +37,7 @@ describe("Set Intersection", () => {
         [{id: 1; value: "not-foo"}, {id: 2; value: "blue"}],
         "id"
       >
-      
+
       type cases = [
         Expect<Equal<One, [1]>>,
         Expect<Equal<Two, [1,2]>>,
@@ -47,7 +47,7 @@ describe("Set Intersection", () => {
       ];
     });
 
-    
+
     it("intersection objects with deref and reporting", () => {
       type One = Intersection<
         [{id: 1; value: "foo"}, {id: 2; value: "bar"}],
@@ -59,7 +59,7 @@ describe("Set Intersection", () => {
         [{id: 1; value: "foo"}],
         [{id: 1; value: "not-foo"}]
       ]
-      
+
       type cases = [
         Expect<Equal<One, ExpectOne>>,
       ];
@@ -67,7 +67,7 @@ describe("Set Intersection", () => {
         true
       ];
     });
-  
+
   });
 
 
@@ -77,7 +77,7 @@ describe("Set Intersection", () => {
       const three = intersection([1,2,3],[3,4,5]);
       const none = intersection([1,2,3],[4,5,6]);
       console.log({result: three});
-      
+
       expect(three).toHaveLength(1); // scalars return a single array
       expect(three).toEqual([3]);
       expect(none).toEqual([]);
@@ -89,7 +89,7 @@ describe("Set Intersection", () => {
       const two = { id: 2, foo: 123, bar: 66 } as const;
       const three = { id: 3, foo: 123, bar: 66 } as const;
 
-      // no offset means a single array is returned and it's 
+      // no offset means a single array is returned and it's
       // comparing on the object as a whole
       const oneTwo = intersection([one], [two]); // no overlap
       expect(oneTwo).toEqual([]);
@@ -98,7 +98,7 @@ describe("Set Intersection", () => {
       expect(oneOne).toEqual([ one ]);
 
       // the more common situation is to deref by a property like
-      // "id" which then let's us see how many "id" are found in 
+      // "id" which then let's us see how many "id" are found in
       // both sets
       const oneTwoId = intersection([one, two],[ oneAlt, three ], "id");
       expect(oneTwoId).toHaveLength(2); // tuple
