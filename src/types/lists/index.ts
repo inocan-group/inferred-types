@@ -34,6 +34,7 @@ export * from "./Last";
 export * from "./TruthyReturns";
 export * from "./ReturnTypes";
 export * from "./LogicalReturns";
+export * from "./Intersect";
 export * from "./IntersectAll";
 export * from "./Filter";
 export * from "./NumericKeys";
