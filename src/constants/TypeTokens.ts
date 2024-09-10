@@ -97,7 +97,9 @@ export const SIMPLE_DICT_TOKENS = [
 export const SIMPLE_ARRAY_TOKENS = [
   "Array",
   "Array<string>",
+  "Array<string(TOKEN)>" as `Array<string(${string})>`,
   "Array<number>",
+  "Array<number(TOKEN)>" as `Array<number(${number}${`,${string}` | ""})>`,
   "Array<boolean>",
   "Array<unknown>",
   `Array<Dict>`,
@@ -279,5 +281,3 @@ export const TYPE_TOKEN_ALL = [
   ...TYPE_TOKEN_PARAM_STR,
   ...TYPE_TOKEN_PARAM_TIME
 ] as const;
-
-

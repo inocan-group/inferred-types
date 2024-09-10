@@ -111,8 +111,12 @@ export type SimpleTypeArray<T extends SimpleArrayToken> = T extends "Array"
 ? any[]
 : T extends "Array<string>"
 ? string[]
+: T extends `Array<string(${infer StringUnion})>`
+? Array<SimpleTypeScalar<`string(${StringUnion})`>>
 : T extends "Array<number>"
 ? number[]
+: T extends `Array<number(${infer NumericUnion extends `${number}`})>`
+? Array<SimpleTypeScalar<`number(${NumericUnion})`>>
 : T extends "Array<boolean>"
 ? boolean[]
 : T extends "Array<unknown>"
@@ -122,12 +126,14 @@ export type SimpleTypeArray<T extends SimpleArrayToken> = T extends "Array"
 export type SimpleTypeMap<T extends SimpleMapToken> = T extends "Map"
 ? Map<any,any>
 : T extends `Map<${infer Key extends MapKeys}, ${infer Value extends MapValues}>`
+// eslint-disable-next-line no-use-before-define
 ? Map<SimpleType<Key>, SimpleType<Value>>
 : never;
 
 export type SimpleTypeSet<T extends SimpleSetToken> = T extends "Set"
 ? Set<any>
 : T extends `Set<${infer Type extends SetTypes}>`
+// eslint-disable-next-line no-use-before-define
 ? Set<SimpleType<Type>>
 : never;
 
@@ -160,6 +166,3 @@ export type SimpleType<T extends SimpleToken> = T extends SimpleScalarToken
 : never;
 
 export type StructuredStringType = any;
-
-
-
