@@ -30,6 +30,24 @@ describe("SimpleType<T>", () => {
     ];
   });
 
+  it("String and Numeric literals", () => {
+    type Answer = SimpleType<"string(42)">;
+    type Answer2 = SimpleType<"number(42)">;
+
+    type FooBar = SimpleType<"string(foo,bar)">;
+    type OneTwo = SimpleType<"number(1,2)">;
+
+    type cases = [
+      Expect<Equal<Answer, "42">>, //
+      Expect<Equal<Answer2, 42>>, //
+      Expect<Equal<FooBar, "foo" | "bar">>, //
+      Expect<Equal<OneTwo, 1 | 2>>, //
+    ];
+    const cases: cases = [
+      true, true, true, true
+    ];
+  })
+
   it("optional types", () => {
     type Str = SimpleType<"Opt<string>">;
     type Num = SimpleType<"Opt<number>">;
