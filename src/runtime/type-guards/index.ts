@@ -28,6 +28,7 @@ export * from "./isNumber";
 export * from "./isNothing";
 export * from "./isScalar";
 export * from "./isTypeToken";
+export * from "./isThenable";
 export * from "./isErrorCondition";
 export * from "./isSymbol";
 export * from "./hasKeys";
