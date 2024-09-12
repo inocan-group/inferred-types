@@ -5,4 +5,5 @@ export * from "./props";
 export * from "./property";
 export * from "./pseudo-classes";
 export * from "./selector";
+export * from "./object";
 export * from "./html-element";
