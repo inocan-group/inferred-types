@@ -26,7 +26,7 @@ type Positional =
   | "right"
   | "center";
 
-type LengthValues = "0 0" | `${CssSizing} ${CssSizing}` | `${Positional} ${CssSizing} ${Positional} ${CssSizing}`
+type LengthValues = "0 0" | `${CssSizing} ${CssSizing}` | `${Positional} ${CssSizing} ${Positional} ${string}`
 
 
 /**
