@@ -8,9 +8,9 @@ export type SizingUnits =
 | `dvh`
 | `lvh`
 | `vw`
+| `lvw`
 | `svw`
 | `dvw`
-| `lvw`
 | `fr`;
 
 type VariableSizing =
