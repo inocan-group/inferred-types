@@ -4,7 +4,13 @@ export type SizingUnits =
 | `rem`
 | `ch`
 | `vh`
+| `svh`
+| `dvh`
+| `lvh`
 | `vw`
+| `svw`
+| `dvw`
+| `lvw`
 | `fr`;
 
 type VariableSizing =
@@ -25,5 +31,5 @@ type VariableSizing =
  * "size" of any CSS property (whether using static values or
  * CSS variables)
  */
-export type CssSizing = `${number}${SizingUnits}` | VariableSizing;
+export type CssSizing = `${number}${SizingUnits}` | `${number}%` | VariableSizing;
 
