@@ -17,6 +17,7 @@ export * from "./EmptyString";
 export * from "./EmptyStringOr";
 export * from "./EnsureTrailing";
 export * from "./FirstChar";
+export * from "./FindIndex";
 export * from "./LastChar";
 export * from "./AfterFirstChar";
 export * from "./IsCapitalized";
