@@ -20,6 +20,7 @@ export * from "./FilterLiterals";
 export * from "./FilterWideTypes";
 export * from "./Length";
 export * from "./Last";
+export * from "./MaxLength";
 export * from "./IndexOf";
 export * from "./UnionFromProp";
 export * from "./Flatten";
@@ -50,7 +51,8 @@ export * from "./ToCSV";
 export * from "./Push"
 export * from "./TakeFirst"
 export * from "./TakeLast"
-
+export * from "./Sort"
+export * from "./AsNumericArray";
 
 
 // #endregion auto-indexed files
