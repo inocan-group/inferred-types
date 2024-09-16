@@ -43,6 +43,7 @@ export * from "./takeNumericCharacters";
 export * from "./retainChars";
 export * from "./stripChars";
 export * from "./retainWhile";
+export * from "./rightWhitespace";
 
 
 export * from "./phone/index";
