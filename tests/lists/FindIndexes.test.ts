@@ -33,4 +33,16 @@ describe("FindIndexes<TContent,TFind,[TOp]>, FindFirstIndex<...>, FindLastIndex<
     ];
   });
 
+
+
+  it("tuple content", () => {
+    type Foo42 = FindIndexes<["foo","bar","baz", 0, 42], "foo" | 42>;
+
+
+    // @ts-ignore
+    type cases = [
+      Expect<Equal<Foo42, [0,4]>>,
+    ];
+
+  });
 });
