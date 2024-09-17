@@ -1,11 +1,10 @@
 import {
   ALPHA_CHARS,
-  CONSONANTS,
   PLURAL_EXCEPTIONS,
   SINGULAR_NOUN_ENDINGS
 } from "src/constants/index";
 import { Pluralize } from "src/types/index";
-import { stripTrailing, split } from "src/runtime/index";
+import { stripTrailing, split, rightWhitespace } from "src/runtime/index";
 
 const isException = <T extends string>(word: T) => Object.keys(PLURAL_EXCEPTIONS).includes(word);
 
@@ -42,9 +41,9 @@ const endingIn = <
           : undefined;
     case "y":
       return word.endsWith("y")
-        ? CONSONANTS.includes(word.slice(-2, 1) as any)
+        // ? CONSONANTS.includes(word.slice(-2, 1) as any)
           ? stripTrailing(word, "y") + "ies"
-          : undefined
+          // : undefined
         : undefined;
     default:
       throw new Error(`endingIn received "${postfix}" as a postfix but this ending is not known!`);
@@ -61,13 +60,15 @@ const endingIn = <
  * will be pluralized along with the runtime value._
  */
 export const pluralize = <T extends string>(word: T): Pluralize<T> => {
-  const result: unknown = isException(word)
-    ? PLURAL_EXCEPTIONS[word as keyof typeof PLURAL_EXCEPTIONS]
-    : endingIn(word, "is") ||
-      endingIn(word, "singular-noun") ||
-      endingIn(word, "f") ||
-      endingIn(word, "y") ||
-      `${word}s`; // add "s" if no other patterns match
+  const right = rightWhitespace(word);
+  const w = word.trimEnd();
+  const result: unknown = isException(w)
+    ? PLURAL_EXCEPTIONS[w as keyof typeof PLURAL_EXCEPTIONS]
+    : endingIn(w, "is") ||
+      endingIn(w, "singular-noun") ||
+      endingIn(w, "f") ||
+      endingIn(w, "y") ||
+      `${w}s`; // add "s" if no other patterns match
 
-  return result as unknown as Pluralize<T>;
+  return `${result}${right}` as unknown as Pluralize<T>;
 };
