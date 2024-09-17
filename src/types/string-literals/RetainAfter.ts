@@ -1,4 +1,22 @@
-import { FindFirstIndex, FindLastIndex, If, IfAllLiteral, IsTrue, IsUnion, MaxLength, Slice, UnionToTuple } from "src/types/index";
+import { If, IfAllLiteral, IsNever, IsTrue, IsUnion, MaxLength, UnionToTuple} from "src/types/index";
+
+type _RetainAfter<
+  TStr extends string,
+  TBreak extends string,
+  TInclude extends boolean = false
+> = IfAllLiteral<
+[TStr, TBreak],
+TBreak extends any
+? TStr extends `${infer Pre}${TBreak}${infer Rest}`
+  ? If<
+      IsTrue<TInclude>,
+      `${TBreak}${Rest}`,
+      Rest
+    >
+  : never
+: never,
+string
+>
 
 /**
  * **RetainAfter**`<TStr, TBreak, [TInclude]>`
@@ -22,17 +40,11 @@ export type RetainAfter<
   TStr extends string,
   TBreak extends string,
   TInclude extends boolean = false
-> = IfAllLiteral<
-[TStr, TBreak],
-TStr extends `${string}${TBreak}${infer REST}`
-  ? IsUnion<REST> extends true
-    ? If<IsTrue<TInclude>, `${TBreak}${MaxLength<UnionToTuple<REST>>}`, `${MaxLength<UnionToTuple<REST>>}`>
-
-
-    : If<IsTrue<TInclude>, `${TBreak}${REST}`, `${REST}`>
-  : TStr,
-string
->
+> = IsNever<_RetainAfter<TStr,TBreak,TInclude>> extends true
+? ""
+: IsUnion<_RetainAfter<TStr,TBreak,TInclude>> extends true
+? MaxLength<UnionToTuple<_RetainAfter<TStr,TBreak,TInclude>>>
+: _RetainAfter<TStr,TBreak,TInclude>;
 
 
 export type RetainAfterLast<
