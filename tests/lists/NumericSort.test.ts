@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { NumericSort } from "src/types/index";
+import { FilterByProp, NumericSort, RetainByProp } from "src/types/index";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -8,14 +8,14 @@ import { describe, it } from "vitest";
 
 describe("Sort<TValues,[TReverse]>", () => {
 
-  it("happy path", () => {
+  it("numeric sort", () => {
     type S1 = NumericSort<[2,3,4,1]>;
     type S2 = NumericSort<[22,33,44,11,11]>;
     type S3 = NumericSort<[1,2,3,4]>;
 
-    type SR1 = NumericSort<[2,3,4,1], true>;
-    type SR2 = NumericSort<[22,33,44,11,11], true>;
-    type SR3 = NumericSort<[1,2,3,4], true>;
+    type SR1 = NumericSort<[2,3,4,1], {order: "DESC"}>;
+    type SR2 = NumericSort<[22,33,44,11,11], {order: "DESC"}>;
+    type SR3 = NumericSort<[1,2,3,4], {order: "DESC"}>;
 
 
 
@@ -31,14 +31,14 @@ describe("Sort<TValues,[TReverse]>", () => {
     ];
   });
 
-  it("with string literals", () => {
+  it("numeric sort with numeric literals", () => {
     type S1 = NumericSort<[`2`,`3`,`4`,1]>;
     type S2 = NumericSort<[22,`33`,44,11,11]>;
     type S3 = NumericSort<[1,2,3,`4`]>;
 
-    type SR1 = NumericSort<[`2`,`3`,`4`,`1`], true>;
-    type SR2 = NumericSort<[22,33,44,`11`,11], true>;
-    type SR3 = NumericSort<[1,`2`,`3`,4], true>;
+    type SR1 = NumericSort<[`2`,`3`,`4`,`1`], {order: "DESC"}>;
+    type SR2 = NumericSort<[22,33,44,`11`,11], {order: "DESC"}>;
+    type SR3 = NumericSort<[1,`2`,`3`,4], {order: "DESC"}>;
 
     // @ts-ignore
     type cases = [
@@ -52,4 +52,38 @@ describe("Sort<TValues,[TReverse]>", () => {
     ];
   });
 
+
+
+  it("numeric sort on an offset", () => {
+    type DATA = [
+      {id: "foo", value: 14 },
+      {id: "baz", value: 0},
+      {id: "bar", value: 2 },
+    ]
+
+
+    type Asc = NumericSort<DATA, {offset: "value", order:"ASC"}>;
+    type Desc = NumericSort<DATA, {offset: "value", order:"DESC"}>;
+
+    // @ts-ignore
+    type cases = [
+      Expect<Equal<
+        Asc,
+        [
+          {id: "baz", value: 0},
+          {id: "bar", value: 2},
+          {id: "foo", value: 14},
+        ]
+      >>,
+      Expect<Equal<
+        Desc,
+        [
+          {id: "foo", value: 14},
+          {id: "bar", value: 2},
+          {id: "baz", value: 0},
+        ]
+      >>,
+    ];
+
+  });
 });
