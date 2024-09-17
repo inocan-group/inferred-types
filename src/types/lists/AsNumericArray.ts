@@ -1,4 +1,3 @@
-import { AllLiteral } from "../boolean-logic";
 import { RemoveNever } from "../containers";
 import { NumberLike } from "../numeric-literals";
 import { AsNumber } from "../type-conversion";

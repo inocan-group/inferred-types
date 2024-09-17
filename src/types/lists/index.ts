@@ -51,7 +51,7 @@ export * from "./ToCSV";
 export * from "./Push"
 export * from "./TakeFirst"
 export * from "./TakeLast"
-export * from "./Sort"
+export * from "./NumericSort"
 export * from "./AsNumericArray";
 
 

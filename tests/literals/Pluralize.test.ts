@@ -23,16 +23,16 @@ describe("Pluralize<T>", () => {
     const cases: cases = [true, true, true, true, true, true];
   });
 
-  
+
   it("wide string is left as a string type", () => {
     type Wide = Pluralize<string>;
-    
+
     type cases = [
       Expect<Equal<Wide, string>>
     ];
     const cases: cases = [ true ];
   });
-  
+
 });
 
 describe("pluralize(word)", () => {
@@ -57,23 +57,23 @@ describe("pluralize(word)", () => {
   });
 
 
-  
+
   it("ending in 'is' is treated appropriately", () => {
     const miss = pluralize("miss");
 
     expect(miss).toBe("misses");
-    
+
     type cases = [
       Expect<Equal<typeof miss, "misses">>,
     ];
     const cases: cases = [ true];
   });
-  
-  
+
+
   it("words ending in singular noun", () => {
     const rich = pluralize("rich");
     expect(rich).toBe("riches");
-    
+
     type cases = [
       Expect<Equal<typeof rich, "riches">>
     ];
@@ -83,7 +83,7 @@ describe("pluralize(word)", () => {
   it("words ending in f", () => {
     const elf = pluralize("elf");
     expect(elf).toBe("elves");
-    
+
     type cases = [
       Expect<Equal<typeof elf, "elves">>
     ];
@@ -92,18 +92,41 @@ describe("pluralize(word)", () => {
 
   it("words ending in fe", () => {
     const knife = pluralize("knife");
+    const knife_sp = pluralize("knife  ");
     expect(knife).toBe("knives");
-    
+    expect(knife_sp).toBe("knives  ");
+
+    // @ts-ignore
     type cases = [
-      Expect<Equal<typeof knife, "knives">>
+      Expect<Equal<typeof knife, "knives">>,
+      Expect<Equal<typeof knife_sp, "knives  ">>
     ];
-    const cases: cases = [true];
   });
+
+
+  it("words ending in y", () => {
+    const currency = pluralize("currency");
+    const c2 = pluralize("currency ");
+    const Currency = pluralize("Currency");
+
+    expect(currency).toEqual("currencies");
+    expect(c2).toEqual("currencies ");
+    expect(Currency).toEqual("Currencies");
+
+    // @ts-ignore
+    type cases = [
+      Expect<Equal<typeof currency, "currencies">>,
+      Expect<Equal<typeof c2, "currencies ">>,
+      Expect<Equal<typeof Currency, "Currencies">>,
+    ];
+
+  });
+
 
   it("words ending in a consonant and then y", () => {
     const money = pluralize("money");
     expect(money).toBe("monies");
-    
+
     type cases = [
       Expect<Equal<typeof money, "monies">>
     ];
@@ -113,7 +136,7 @@ describe("pluralize(word)", () => {
   it("fallback pluralization", () => {
     const cat = pluralize("cat");
     expect(cat).toBe("cats");
-    
+
     type cases = [
       Expect<Equal<typeof cat, "cats">>
     ];
