@@ -1,13 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-
 import { RetainAfter, Whitespace } from "src/types/index";
-import { retainAfter } from "src/runtime/index";
+import { retainAfter, retainAfterInclusive } from "src/runtime/index";
 import { WHITESPACE_CHARS } from "src/constants/index";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
 
 describe("RetainAfter<TStr,TBreak>", () => {
 
@@ -20,6 +16,8 @@ describe("RetainAfter<TStr,TBreak>", () => {
     type WideContent = RetainAfter<string, ",">;
     type BothWide = RetainAfter<string, string>;
 
+    type Nada = RetainAfter<"foo, bar, baz", "!">;
+
     // @ts-ignore
     type cases = [
       Expect<Equal<World, "world">>,
@@ -29,6 +27,8 @@ describe("RetainAfter<TStr,TBreak>", () => {
       Expect<Equal<WideBreak, string>>,
       Expect<Equal<WideContent, string>>,
       Expect<Equal<BothWide, string>>,
+
+      Expect<Equal<Nada, "">>,
     ];
 
   });
@@ -40,17 +40,17 @@ describe("RetainAfter<TStr,TBreak>", () => {
 
     type World2 = RetainAfter<"hello\tworld", " " | "\t">;
     type FooBarBaz = RetainAfter<"foo\tbar\nbaz", Whitespace>;
-
+    type FooBarBazInc = RetainAfter<"foo\tbar\nbaz", Whitespace, true>;
 
     // @ts-ignore
     type cases = [
       Expect<Equal<World, "world">>,
+      Expect<Equal<WorldInc, " world">>,
       Expect<Equal<World2, "world">>,
       Expect<Equal<FooBarBaz, "bar\nbaz">>,
+      Expect<Equal<FooBarBazInc, "\tbar\nbaz">>,
     ];
-
   });
-
 
 });
 
@@ -58,9 +58,11 @@ describe("retainAfter(contend,find) runtime utility", () => {
 
   it("happy path", () => {
     const world = retainAfter("hello world", " ");
+    const world_inc = retainAfterInclusive("hello world", " ");
     const barBaz = retainAfter("foo, bar, baz", ", ");
 
     expect(world).toBe("world");
+    expect(world_inc).toBe(" world");
     expect(barBaz).toBe("bar, baz");
 
     type cases = [
