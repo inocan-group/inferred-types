@@ -1,4 +1,3 @@
-
 import { IsGreaterThan } from "../boolean-logic";
 import { If } from "../boolean-logic/branching/If";
 import { StrLen } from "../string-literals";
@@ -13,7 +12,7 @@ TVal extends string = ""
 ? TVal
 : Reduce<
     AfterFirst<T>,
-    First<T> extends [infer Val extends string, infer Len extends number]
+    First<T> extends [string, infer Len extends number]
     ? If<
         IsGreaterThan<Len, TMax>,
         Len,
@@ -42,5 +41,4 @@ T extends readonly string[]
     ? [T[K], StrLen<T[K]>]
     : never
   }>
-
 : never;

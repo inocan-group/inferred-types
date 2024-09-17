@@ -21,7 +21,6 @@ describe("MaxLength<T>", () => {
       Expect<Equal<FooBar2, "foobar">>,
       Expect<Equal<FooBar3, "foobar">>,
       Expect<Equal<FooBar4, "foobar">>,
-
     ];
   });
 

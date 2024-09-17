@@ -1,4 +1,12 @@
-import { If, IfAllLiteral, IsNever, IsTrue, IsUnion, MaxLength, UnionToTuple} from "src/types/index";
+import {
+  If,
+  IfAllLiteral,
+  IsNever,
+  IsTrue,
+  IsUnion,
+  MaxLength,
+  UnionToTuple
+} from "src/types/index";
 
 type _RetainAfter<
   TStr extends string,
@@ -7,7 +15,7 @@ type _RetainAfter<
 > = IfAllLiteral<
 [TStr, TBreak],
 TBreak extends any
-? TStr extends `${infer Pre}${TBreak}${infer Rest}`
+? TStr extends `${string}${TBreak}${infer Rest}`
   ? If<
       IsTrue<TInclude>,
       `${TBreak}${Rest}`,

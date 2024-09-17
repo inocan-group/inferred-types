@@ -1,11 +1,15 @@
 /* eslint @typescript-eslint/no-unused-vars: "off" */
 
 import { PLURAL_EXCEPTIONS } from "src/constants/index";
-import { 
-  Consonant, 
-  IsStringLiteral, 
-  EnsureTrailing, 
+import {
+  Consonant,
+  IsStringLiteral,
+  EnsureTrailing,
   StripTrailing,
+  Whitespace,
+  TrimRight,
+  Join,
+  RightWhitespace,
 } from "src/types/index";
 
 type ExceptionLookup = typeof PLURAL_EXCEPTIONS;
@@ -67,16 +71,9 @@ type PluralizeEndingIn_Y<
 > = EnsureTrailing<StripTrailing<T,"y">, "ies">;
 
 
-/**
- * **Pluralize**`<T>`
- * 
- * Pluralizes the word `T`, using _language rules_ on pluralization for English as well as
- * leveraging many known exceptions to the linguistic rules. 
- */
-export type Pluralize<
+type _Pluralize<
   T extends string
-> = IsStringLiteral<T> extends true
-  ? IsException<T> extends true
+> = IsException<T> extends true
     ? PluralException<T>
     : T extends EndsIn_IS<T>
       ? PluralizeEndingIn_IS<T>
@@ -87,7 +84,24 @@ export type Pluralize<
           : T extends EndsIn_Y<T>
             ? PluralizeEndingIn_Y<T>
             : `${T}s`
-  : string;
 
+
+
+/**
+ * **Pluralize**`<T>`
+ *
+ * Pluralizes the word `T`, using _language rules_ on pluralization for English as well as
+ * leveraging many known exceptions to the linguistic rules.
+ */
+export type Pluralize<
+  T extends string
+> = IsStringLiteral<T> extends true
+? T extends `${string}${Whitespace}`
+  ? Join<[
+      _Pluralize< TrimRight<T> >,
+      RightWhitespace<T>
+  ]>
+  : _Pluralize<T>
+: string;
 
 

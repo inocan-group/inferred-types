@@ -1,14 +1,11 @@
 import {
   ComparatorOperation,
   Compare,
-  IsArray,
   IfNever,
-  If,
-  TupleToUnion,
   RemoveNever,
   IsDotPath,
   Throw,
-  Get
+  Get,
 } from "src/types/index";
 
 
@@ -22,22 +19,25 @@ type SingleFilter<
   TOp extends ComparatorOperation,
   Result extends unknown[] = []
 > = TList extends [infer Head, ...infer Rest]
-  ? [Compare<
-      Get<Head, TProp>,
-      TOp,
-      TComparator
-    >] extends [true]
+  ? [
+      Compare<
+        Get<Head, TProp>,
+        TOp,
+        TComparator
+      >
+    ] extends [true]
     ? SingleFilter<Rest, TComparator, TProp, TOp, Result> // filter out
     : SingleFilter<Rest, TComparator, TProp, TOp, [...Result, Head]>
   : Result;
 
 
+
 type Process<
-  TList extends unknown[] | readonly unknown[],
+  TList extends readonly unknown[],
   TComparator,
   TProp extends string,
   TOp extends ComparatorOperation
-> = TList extends unknown[]
+> =  TList extends unknown[]
 ? SingleFilter<TList, TComparator, TProp, TOp>
 : // readonly only tuples
   TList extends readonly unknown[]
@@ -56,20 +56,6 @@ type Process<
  * - How the list is _compared_ depends on `TOp` which defaults to "extends"
  * - other values include "equals", "does-not-extend", "does-not-equal"
  *
- * By default `TOp` is set to _extends_ which ensures that those values in the list which
- * _extend_ `TValue` are retained but the remaining filtered out.
- *
- * ```ts
- * type T = [1,"foo",3];
- * // [1,3]
- * type T2 = Filter<T, string>;
- * ```
- * - `TComparator` can be single value or a Tuple of values
- * - in the case of a Tuple of values being found in `TComparator`, an "OR" operation
- * will be used ... meaning that the elements in `TList` will be kept if an element
- * extends _any_ of the `TFilter` entries
- * - any non-container based value in `TList` will be discarded
- *
  * **Related:** `RetainByProp`, `Filter`, `RetainFromList`, `RemoveFromList`, `FilterProps`
  */
 export type FilterByProp<
@@ -84,20 +70,18 @@ export type FilterByProp<
 ? IfNever<
     TComparator,
     RemoveNever<TList>,
-    If<
-      IsArray<TComparator>,
-      Process<
-        TList,
-        TupleToUnion<TComparator>,
-        TProp,
-        TOp
-      >,
-      Process<
-        TList,
-        TComparator,
-        TProp,
-        TOp
-      >
+    TComparator extends any[]
+      ? Process<
+          TList,
+          TComparator[number],
+          TProp,
+          TOp
+        >
+      : Process<
+          TList,
+          TComparator,
+          TProp,
+          TOp
+        >
     >
-  >
 : never;
