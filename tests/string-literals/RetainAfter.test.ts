@@ -13,25 +13,31 @@ describe("RetainAfter<TStr,TBreak>", () => {
 
   it("happy path", () => {
     type World = RetainAfter<"hello world", " ">;
+    type WorldInc = RetainAfter<"hello world", " ", true>;
+
     type BarBaz = RetainAfter<"foo, bar, baz", ", ">;
     type WideBreak = RetainAfter<"hmmm", string>;
     type WideContent = RetainAfter<string, ",">;
     type BothWide = RetainAfter<string, string>;
 
+    // @ts-ignore
     type cases = [
       Expect<Equal<World, "world">>,
+      Expect<Equal<WorldInc, " world">>,
+
       Expect<Equal<BarBaz, "bar, baz">>,
       Expect<Equal<WideBreak, string>>,
       Expect<Equal<WideContent, string>>,
       Expect<Equal<BothWide, string>>,
     ];
 
-    const cases: cases = [ true, true, true, true, true ];
   });
 
 
   it("using a union type to break", () => {
     type World = RetainAfter<"hello world", " " | "\t">;
+    type WorldInc = RetainAfter<"hello world", " " | "\t", true>;
+
     type World2 = RetainAfter<"hello\tworld", " " | "\t">;
     type FooBarBaz = RetainAfter<"foo\tbar\nbaz", Whitespace>;
 
