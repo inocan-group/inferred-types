@@ -1,55 +1,40 @@
 {
-    "references": [
-        {
-            // depends on constants to derive some types
-            "path": "../constants"
-        }
-    ],
-    "compilerOptions": {
-        "strict": true,
-        "skipLibCheck": true,
-        "module": "ES2022",
-        "target": "ES2022",
-        "moduleResolution": "node",
-        "declaration": true,
-        "declarationMap": true,
-        "baseUrl": ".",
-        "rootDir": "..",
-        "outDir": "../../dist",
-        "composite": true,
-        "forceConsistentCasingInFileNames": true,
-        "paths": {
-            // allow importing from the root export of the types sub project
-            "src/types/index": [
-                "index.ts"
-            ],
-            // allow importing all constants to the static "src/constants/index" path
-            "src/constants/index": [
-                "../constants/index.ts"
-            ],
-            // allow various "index.ts" to import explicit files in the src tree
-            "src/types/*": [
-                "./*"
-            ]
-        },
-        "plugins": [
-            // Transform paths in output .js files
-            {
-                "transform": "typescript-transform-paths"
-            },
-            // Transform paths in output .d.ts files (Include this line if you output declarations files)
-            {
-                "transform": "typescript-transform-paths",
-                "afterDeclarations": true
-            },
-            {
-                "transform": "typescript-transformer-esm",
-                "after": true
-            }
-        ]
+  "references": [
+    {
+      // depends on constants to derive some types
+      "path": "../constants"
+    }
+  ],
+  "compilerOptions": {
+    "strict": true,
+    "skipLibCheck": true,
+    "module": "ES2022",
+    "target": "ES2022",
+    "moduleResolution": "node",
+    "declaration": true,
+    "declarationMap": true,
+    "baseUrl": ".",
+    "rootDir": "..",
+    "outDir": "../../dist",
+    "composite": true,
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      // allow importing from the root export of the types sub project
+      "src/types/index": [
+        "index.ts"
+      ],
+      // allow importing all constants to the static "src/constants/index" path
+      "src/constants/index": [
+        "../constants/index.ts"
+      ],
+      // allow various "index.ts" to import explicit files in the src tree
+      "src/types/*": [
+        "./*"
+      ]
     },
-    "include": [
-        "./**/*.ts",
-        "functions/FnWithProps.ts"
-    ]
+  },
+  "include": [
+    "./**/*.ts",
+    "functions/FnWithProps.ts"
+  ]
 }
