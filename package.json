@@ -1,6 +1,6 @@
 {
   "name": "inferred-types",
-  "version": "0.50.0",
+  "version": "0.50.1",
   "description": "Functions which provide useful type inference on TS projects",
   "license": "MIT",
   "author": "Ken Snyder<ken@ken.net>",
@@ -91,7 +91,8 @@
     "overrides": {
       "tar@<6.2.1": ">=6.2.1",
       "braces@<3.0.3": ">=3.0.3",
-      "micromatch@<4.0.8": ">=4.0.8"
+      "micromatch@<4.0.8": ">=4.0.8",
+      "vite@>=5.4.0 <=5.4.5": ">=5.4.6"
     }
   }
 }
