@@ -1,3 +1,4 @@
+import { If } from "../boolean-logic";
 import { AfterFirst, First } from "../lists";
 import { Chars } from "./Chars";
 
@@ -5,7 +6,8 @@ type Process<
   TChars extends readonly string[],
   TOp extends "is" | "not",
   TComparator extends string,
-  TResult extends string = ""
+  TInclude extends boolean = false,
+  TResult extends string = "",
 > = [] extends TChars
 ? TResult
 : First<TChars> extends TComparator
@@ -14,15 +16,17 @@ type Process<
         AfterFirst<TChars>,
         TOp,
         TComparator,
+        TInclude,
         `${TResult}${First<TChars>}`
       >
-    : TResult // terminate when "not"
+    : If<TInclude, `${TResult}${First<TChars>}` ,  TResult >
   : TOp extends "is"
-    ? TResult
+    ? If<TInclude, `${TResult}${First<TChars>}` ,  TResult >
     : Process<
         AfterFirst<TChars>,
         TOp,
         TComparator,
+        TInclude,
         `${TResult}${First<TChars>}`
       >;
 
@@ -41,8 +45,9 @@ type Process<
  */
 export type RetainUntil<
   TContent extends string,
-  TComparator extends string
-> = Process<Chars<TContent>,"not",TComparator>;
+  TComparator extends string,
+  TInclude extends boolean = false
+> = Process<Chars<TContent>,"not",TComparator, TInclude>;
 
 
 /**
@@ -60,5 +65,5 @@ export type RetainUntil<
  */
 export type RetainWhile<
   TContent extends string,
-  TComparator extends string
+  TComparator extends string,
 > = Process<Chars<TContent>,"is",TComparator>;
