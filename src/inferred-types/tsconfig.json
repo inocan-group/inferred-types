@@ -37,7 +37,7 @@
       // root export for constant symbols
       "src/constants/*": [
         "../constants/*"
-      ]
+      ],
     },
   }
 }

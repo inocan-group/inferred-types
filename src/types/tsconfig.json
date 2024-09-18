@@ -34,7 +34,6 @@
     },
   },
   "include": [
-    "./**/*.ts",
-    "functions/FnWithProps.ts"
+    "./**/*.ts"
   ]
 }
