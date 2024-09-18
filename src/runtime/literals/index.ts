@@ -44,6 +44,7 @@ export * from "./retainChars";
 export * from "./stripChars";
 export * from "./retainWhile";
 export * from "./rightWhitespace";
+export * from "./retainUntil";
 
 
 export * from "./phone/index";
