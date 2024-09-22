@@ -6,4 +6,6 @@ export * from "./property";
 export * from "./pseudo-classes";
 export * from "./selector";
 export * from "./object";
+export * from "./overflow";
+export * from "./global";
 export * from "./html-element";
