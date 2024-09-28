@@ -43,13 +43,13 @@ export const isUrl = <
 T,
 P extends readonly NetworkProtocol[]
 >(val: T, ...protocols: P): val is T & Uri<
-Keys<P>["length"] extends 0
-? "http" | "https"
-: TupleToUnion<P>
+  Keys<P>["length"] extends 0
+  ? "http" | "https"
+  : P[number]
 > => {
 const p = protocols.length === 0
   ? ["http", "https"]
   : protocols;
 
-return isString(val) && p.some(i => val.startsWith(`${i}://`))
+  return isString(val) && p.some(i => val.startsWith(`${i}://`))
 }

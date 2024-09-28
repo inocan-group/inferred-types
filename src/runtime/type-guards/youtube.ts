@@ -90,16 +90,69 @@ const feed_map = <T extends YouTubeFeedType | undefined>(type: T) => {
  */
 export const isYouTubeFeedUrl = <
   T,
-  U extends YouTubeFeedType = YouTubeFeedType
+  U extends YouTubeFeedType
 >(
   val:T,
-  type: U = undefined as unknown as YouTubeFeedType as U
+  type: U
 ): val is T & YouTubeFeedUrl<U> => {
   return isString(val) && (
     val.startsWith(`https://www.youtube.com${feed_map(type)}`) ||
     val.startsWith(`https://youtube.com${feed_map(type)}`)
   )
 }
+
+/**
+ * **isYouTubeHistoryUrl**`(val,[kind])**
+ *
+ * Type guard which checks whether the passed in value is a valid
+ * YouTube URL which responds with a user's history feed.
+ */
+export const isYouTubeFeedHistoryUrl = <T>(val: T) => {
+  return isString(val) && (
+    val.startsWith(`https://www.youtube.com/feed/history`) ||
+    val.startsWith(`https://youtube.com/feed/history`)
+  )
+}
+
+/**
+ * **isYouTubePlaylistsUrl**`(val,[kind])**
+ *
+ * Type guard which checks whether the passed in value is a valid
+ * YouTube URL which responds with a user's own playlists page.
+ */
+export const isYouTubePlaylistsUrl = <T>(val: T) => {
+  return isString(val) && (
+    val.startsWith(`https://www.youtube.com/feed/playlists`) ||
+    val.startsWith(`https://youtube.com/feed/playlists`)
+  )
+}
+
+/**
+ * **isYouTubeTrendingUrl**`(val,[kind])**
+ *
+ * Type guard which checks whether the passed in value is a valid
+ * YouTube URL which responds with a user's own history feed.
+ */
+export const isYouTubeTrendingUrl = <T>(val: T) => {
+  return isString(val) && (
+    val.startsWith(`https://www.youtube.com/feed/trending`) ||
+    val.startsWith(`https://youtube.com/feed/trending`)
+  )
+}
+
+/**
+ * **isYouTubeSubscriptionsUrl**`(val,[kind])**
+ *
+ * Type guard which checks whether the passed in value is a valid
+ * YouTube URL which responds with a user's own subscriptions feed.
+ */
+export const isYouTubeSubscriptionsUrl = <T>(val: T) => {
+  return isString(val) && (
+    val.startsWith(`https://www.youtube.com/feed/subscriptions`) ||
+    val.startsWith(`https://youtube.com/feed/subscriptions`)
+  )
+}
+
 
 export const isYouTubeCreatorUrl = <T extends string>(
   url: T
