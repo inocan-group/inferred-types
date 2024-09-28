@@ -60,32 +60,6 @@ export const isRepoUrl = <T>(val: T): val is T & RepoUrls => {
   )
 }
 
-/**
- * **isGithubUrl**`(val)`
- *
- * Type guard which validates that the value passed in is a valid Github URL
- */
-export const isGithubUrl = <T>(val: T): val is T & UrlsFrom<typeof REPO_SOURCE_LOOKUP["github"]> => {
-  const baseUrls = REPO_SOURCE_LOOKUP["github"];
-  return isString(val) && baseUrls.every(u =>
-    val === u ||
-    val.startsWith(`${u}/`)
-  )
-}
-
-/**
- * **isGithubRepoUrl**
- *
- * Type guard validating that passed in value is valid URL for
- * a Github repo.
- */
-export const isGithubRepoUrl = <T>(val: T): val is T & `https://github.com/${string}/${AlphaNumericChar}${string}` => {
-  const baseUrls = [""]
-  return isString(val) && baseUrls.every(u =>
-    val === u ||
-    val.startsWith(`${u}/`)
-  )
-}
 
 /**
  * **isBitbucketUrl**`(val)`
