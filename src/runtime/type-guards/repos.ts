@@ -1,5 +1,4 @@
 import {
-  AlphaNumericChar,
   RepoSource,
   RepoUrls,
   SemanticVersion,

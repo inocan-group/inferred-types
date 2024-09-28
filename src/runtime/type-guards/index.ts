@@ -49,6 +49,8 @@ export * from "./api-tg";
 export * from "./isBooleanLike";
 export * from "./isRegExp";
 export * from "./isAlpha";
+export * from "./github";
+export * from "./retail";
 
 export * from "./tokens/index";
 export * from "./higher-order/index";

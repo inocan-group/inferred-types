@@ -32,3 +32,4 @@ export * from "./Characters";
 export * from "./Phone";
 export * from "./ProxmoxConstants";
 export * from "./Tailwind";
+export * from "./Retail";
