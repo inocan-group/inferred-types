@@ -416,3 +416,13 @@ export type UrlsFrom<
     }
   >
   : never;
+
+/**
+ * the inclusion of query parameters at the end of a URL parameter
+ */
+export type UrlQueryParameters = `?${string}`
+
+/**
+ * the _optional_ inclusion of query parameters at the end of a URL
+ */
+export type OptUrlQueryParameters = "" | UrlQueryParameters;
