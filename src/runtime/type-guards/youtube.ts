@@ -90,10 +90,10 @@ const feed_map = <T extends YouTubeFeedType | undefined>(type: T) => {
  */
 export const isYouTubeFeedUrl = <
   T,
-  U extends YouTubeFeedType
+  U extends YouTubeFeedType = YouTubeFeedType
 >(
   val:T,
-  type: U
+  type?: U
 ): val is T & YouTubeFeedUrl<U> => {
   return isString(val) && (
     val.startsWith(`https://www.youtube.com${feed_map(type)}`) ||
