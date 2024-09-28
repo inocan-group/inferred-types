@@ -400,7 +400,7 @@ type _UrlsFrom<
  * - you can configure whether the protocol should be _optional_
  * and whether _insecure_ URL's should be allowed with `TOpt`
  * - you can also switch the protocol between `http`,`ws`, or `both`
- * - the default protocol is `http`
+ * - the default protocol is `https`
  */
 export type UrlsFrom<
   T extends string | readonly string[],

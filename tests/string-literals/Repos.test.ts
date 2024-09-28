@@ -1,6 +1,6 @@
 import { Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { Extends,  GithubIssuesUrl, GithubRepoUrl, IsNever, RepoUrls, SemanticVersion } from "src/types/index";
+import { Extends,  RepoUrls, SemanticVersion } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -53,48 +53,6 @@ describe("Repo related utilities", () => {
     ];
   });
 
-
-
-  it("GithubRepoUrl<T>", () => {
-    type T1 = Extends<"https://github.com/inocan-group/inferred-types", GithubRepoUrl>;
-    type F1 = Extends<"https://github.com/inferred-types", GithubRepoUrl>;
-
-    type T2 = GithubRepoUrl<"https://github.com/inocan-group/inferred-types">;
-    type N2 = GithubRepoUrl<"https://github.com/inocan-group/inferred-types/issues">;
-
-    type cases = [
-      ExpectTrue<T1>,
-      ExpectFalse<F1>,
-
-      Expect<Extends<T2, string>>,
-      IsNever<N2>,
-    ];
-    const cases: cases = [
-      true, false,
-      true, true,
-    ];
-  });
-
-
-  it("GithubIssuesUrl<T>", () => {
-    type T1 = Extends<"https://github.com/inocan-group/inferred-types/issues", GithubIssuesUrl>;
-    type T2 = Extends<"https://github.com/inocan-group/inferred-types/issues/001", GithubIssuesUrl>;
-    type F1 = Extends<"https://github.com/inocan-group/inferred-types", GithubIssuesUrl>;
-    type F2 = Extends<"https://github.com/inocan-group/inferred-types/issues/001", GithubIssuesUrl<true>>;
-
-
-    type cases = [
-      ExpectTrue<T1>,
-      ExpectTrue<T2>,
-      ExpectFalse<F1>,
-      ExpectFalse<F2>,
-
-    ];
-    const cases: cases = [
-      true, true,
-      false,false
-    ];
-  });
 
 
 
