@@ -1,14 +1,28 @@
 import { NumberLike } from "src/types/numeric-literals";
-import { Iso3166_1_Alpha2, Iso3166_1_Alpha3, Iso3166_1_CountryCode, Iso3166_1_CountryName, Iso3166Alpha2Lookup, Iso3166CountryLookup, Suggest } from "src/types/string-literals";
-import { isIso3166Alpha2, isIso3166Alpha3, isNumber, isNumberLike } from "../type-guards";
-import { ISO3166_1 } from "src/constants/ISO3166";
+import {
+  Iso3166_1_Alpha2,
+  Iso3166_1_Alpha3,
+  Iso3166_1_CountryCode,
+  Iso3166_1_CountryName,
+  Iso3166Alpha2Lookup,
+  Iso3166Alpha3Lookup,
+  Iso3166CodeLookup,
+  Iso3166CountryLookup,
+  Suggest
+} from "src/types/string-literals";
+import { isIso3166Alpha2, isIso3166Alpha3, isIso3166CountryName, isNumber, isNumberLike } from "../type-guards";
+import { ISO3166_1 } from "src/constants/index";
 import { AsString } from "src/types/type-conversion";
 import { uppercase } from "../literals";
+import { log } from "console";
 
 type Props = "alpha2" | "alpha3" | "countryCode" | "name";
 
-const lookupAlpha2Code = <P extends Props>(
-  code: Iso3166_1_Alpha2,
+const lookupAlpha2Code = <
+  T extends Iso3166_1_Alpha2,
+  P extends Props
+>(
+  code: T,
   prop: P
 ): P extends "name"
 ? Iso3166_1_CountryName
@@ -62,15 +76,54 @@ const lookupAlpha3Code = <P extends Props>(
   : never;
 }
 
-const lookupNumericCode = (code: NumberLike): string | undefined => {
-  let num: string = isNumber(code) ? `${code}` : code;
+const lookupName = <
+  T extends Iso3166_1_CountryName,
+  P extends Props
+>(
+  name: T,
+  prop: P
+): P extends "name"
+? Iso3166_1_CountryName
+: P extends "alpha2"
+? Iso3166_1_Alpha2
+: P extends "alpha3"
+? Iso3166_1_Alpha3
+: P extends "countryCode"
+? Iso3166_1_CountryCode
+: never => {
+  const found = ISO3166_1.find(i => i["name"] === name);
+
+  return (
+    found ? found[prop] : undefined
+  ) as unknown as P extends "name"
+  ? Iso3166_1_CountryName
+  : P extends "alpha2"
+  ? Iso3166_1_Alpha2
+  : P extends "alpha3"
+  ? Iso3166_1_Alpha3
+  : P extends "countryCode"
+  ? Iso3166_1_CountryCode
+  : never;
+}
+
+
+const lookupNumericCode = <
+T extends NumberLike,
+P extends Props
+>(
+  code: T,
+  prop: P
+): string | undefined => {
+  let num: string = isNumber(code) ? `${code}` : code as `${number}`;
   if (num.length === 1) {
     num = `00${num}`
   } else if (num.length === 2) {
     num = `0${num}`;
   }
 
-  return ISO3166_1.find(i => i["countryCode"] === num)?.name;
+  const found = ISO3166_1.find(i => i["countryCode"] === num);
+
+  return found ? found[prop] : undefined;
 }
 
 /**
@@ -93,7 +146,7 @@ export const lookupCountryName = <T extends Suggest<Iso3166_1_Alpha2 | Iso3166_1
 
   return (
     isNumberLike(code)
-    ? lookupNumericCode(code)
+    ? lookupNumericCode(code, "name")
     : isIso3166Alpha2(uc)
       ? lookupAlpha2Code(uc, "name")
       : isIso3166Alpha3(uc)
@@ -102,18 +155,89 @@ export const lookupCountryName = <T extends Suggest<Iso3166_1_Alpha2 | Iso3166_1
   ) as unknown as Iso3166CountryLookup<Uppercase<AsString<T>>>;
 }
 
-export const lookupCountryAlpha2 = <T extends Suggest< Iso3166_1_CountryName | Iso3166_1_Alpha3 | Iso3166_1_CountryCode>>(
+/**
+ * Looks up the Alpha2 component of a [ISO3166-1](https://en.wikipedia.org/wiki/ISO_3166-1)
+ * standard.
+ */
+export const lookupCountryAlpha2 = <
+  T extends Suggest<Iso3166_1_Alpha3 |
+  Iso3166_1_CountryCode |
+  Iso3166_1_CountryName
+>>(
   code: T
 ) => {
   const uc = uppercase(code);
 
   return (
     isNumberLike(code)
-    ? lookupNumericCode(code)
+    ? lookupNumericCode(code, "alpha2")
     : isIso3166Alpha2(uc)
       ? lookupAlpha2Code(uc, "alpha2")
       : isIso3166Alpha3(uc)
       ? lookupAlpha3Code(uc, "alpha2")
+      : isIso3166CountryName(code)
+      ? lookupName(code, "alpha2")
       : undefined
-  ) as unknown as Iso3166Alpha2Lookup<Uppercase<AsString<T>>>;
+  ) as unknown as T extends Iso3166_1_CountryName
+  ? Iso3166Alpha2Lookup<T>
+  : Iso3166Alpha2Lookup<Uppercase<AsString<T>>>;
+}
+
+/**
+ * Looks up the Alpha3 component of a [ISO3166-1](https://en.wikipedia.org/wiki/ISO_3166-1)
+ * standard.
+ */
+export const lookupCountryAlpha3 = <
+  T extends Suggest<
+    Iso3166_1_Alpha2
+  | Iso3166_1_CountryCode
+  | Iso3166_1_CountryName
+>>(
+  token: T
+) => {
+  const uc = uppercase(token);
+
+  return (
+    isNumberLike(token)
+    ? lookupNumericCode(token, "alpha3")
+    : isIso3166Alpha2(uc)
+      ? lookupAlpha2Code(uc, "alpha3")
+      : isIso3166Alpha3(uc)
+      ? lookupAlpha3Code(uc, "alpha3")
+      : isIso3166CountryName(token)
+      ? lookupName(token as any, "alpha3")
+      : undefined
+  ) as unknown as T extends Iso3166_1_CountryName
+  ? Iso3166Alpha3Lookup<T>
+  : Iso3166Alpha3Lookup<Uppercase<AsString<T>>>;
+}
+
+
+/**
+ * Looks up the Alpha3 component of a [ISO3166-1](https://en.wikipedia.org/wiki/ISO_3166-1)
+ * standard.
+ */
+export const lookupCountryCode = <
+  T extends Suggest<
+    Iso3166_1_Alpha2
+  | Iso3166_1_Alpha3
+  | Iso3166_1_CountryName
+>>(
+  token: T
+) => {
+  const uc = uppercase(token);
+
+  return (
+    isNumberLike(token)
+    ? lookupNumericCode(token, "countryCode")
+    : isIso3166Alpha2(uc)
+      ? lookupAlpha2Code(uc, "countryCode")
+      : isIso3166Alpha3(uc)
+      ? lookupAlpha3Code(uc, "countryCode")
+      : isIso3166CountryName(token)
+      ? lookupName(token as any, "countryCode")
+      : undefined
+  ) as unknown as T extends Iso3166_1_CountryName
+  ? Iso3166CodeLookup<T>
+  : Iso3166CodeLookup<Uppercase<AsString<T>>>;
 }
