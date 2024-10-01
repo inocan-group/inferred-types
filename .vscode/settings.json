@@ -3,10 +3,12 @@
   "editor.formatOnSave": true,
   "cSpell.words": [
     "Aint",
+    "aminotransferase",
     "Aperio",
     "appr",
     "arktype",
     "arpa",
+    "aspartate",
     "AWAS",
     "barbar",
     "barfoo",
@@ -27,6 +29,7 @@
     "dasherized",
     "Decomp",
     "dotpath",
+    "electronvolt",
     "ello",
     "ensureleading",
     "ESRC",
@@ -37,8 +40,11 @@
     "fooy",
     "Gainsboro",
     "GPSH",
+    "hematocrit",
     "homedepot",
     "ises",
+    "kiloampere",
+    "kiloohm",
     "kinded",
     "Krogers",
     "Lerc",
@@ -47,6 +53,10 @@
     "LUMIN",
     "LZMA",
     "macys",
+    "MCHC",
+    "megaohm",
+    "microliter",
+    "mmol",
     "nesw",
     "noembed",
     "oasises",
@@ -73,7 +83,8 @@
     "Whitebalance",
     "wholefoodsmarket",
     "WLAN",
-    "youtu"
+    "youtu",
+    "µmol"
   ],
   "references.preferredLocation": "peek"
 }
