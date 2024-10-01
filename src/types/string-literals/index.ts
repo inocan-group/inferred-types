@@ -47,6 +47,7 @@ export * from "./character-sets/index";
 export * from "./casing/index";
 export * from "./options/index";
 export * from "./geo/index";
+export * from "./metrics/index";
 
 
 // #endregion auto-indexed files
