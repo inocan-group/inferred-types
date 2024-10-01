@@ -57,6 +57,11 @@ export type Iso3166_1_CountryName = {
     : never
 }[number];
 
+/**
+ * Any identifying aspect of an ISO3166-1 country (alpha2, alpha3, code, name)
+ */
+export type Iso3166_1_Token = Iso3166_1_Alpha2 | Iso3166_1_Alpha3 | Iso3166_1_CountryCode | Iso3166_1_CountryName;
+
 
 type LookupAlpha2<
   T extends Iso3166_1_Alpha2,

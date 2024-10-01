@@ -1,4 +1,4 @@
-import { Iso3166_1_Alpha2, Iso3166_1_Alpha3, Iso3166_1_CountryCode } from "src/types/index";
+import { Iso3166_1_Alpha2, Iso3166_1_Alpha3, Iso3166_1_CountryCode, Iso3166_1_CountryName } from "src/types/index";
 import { isString } from "../isString";
 import { ISO3166_1 } from "src/constants/ISO3166";
 
@@ -26,5 +26,13 @@ export const isIso3166Alpha3 = (val: unknown): val is Iso3166_1_Alpha3 => {
  */
 export const isIso3166CountryCode = (val: unknown): val is Iso3166_1_CountryCode => {
   const codes = ISO3166_1.map(i => i["countryCode"]) as string[];
+  return isString(val) && codes.includes(val);
+}
+
+/**
+ * Type guard which checks whether `val` is a valid ISO3166-1 country name.
+ */
+export const isIso3166CountryName = (val: unknown): val is Iso3166_1_CountryName => {
+  const codes = ISO3166_1.map(i => i["name"]) as string[];
   return isString(val) && codes.includes(val);
 }
