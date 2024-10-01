@@ -1,5 +1,5 @@
 import { DoesExtend } from "./DoesExtend";
-import { IsEqual } from "./IsEqual";
+
 import { IsNever } from "./IsNever";
 import { IsNumber } from "./IsNumber";
 
