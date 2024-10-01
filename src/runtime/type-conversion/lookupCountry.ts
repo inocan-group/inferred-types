@@ -14,7 +14,6 @@ import { isIso3166Alpha2, isIso3166Alpha3, isIso3166CountryName, isNumber, isNum
 import { ISO3166_1 } from "src/constants/index";
 import { AsString } from "src/types/type-conversion";
 import { uppercase } from "../literals";
-import { log } from "console";
 
 type Props = "alpha2" | "alpha3" | "countryCode" | "name";
 
