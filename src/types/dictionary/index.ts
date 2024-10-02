@@ -52,6 +52,10 @@ export * from "./MakeKeysOptional";
 export * from "./MakeKeysRequired";
 export * from "./FilterProps";
 export * from "./RetainProps";
+export * from "./CamelKeys";
+export * from "./PascalKeys";
+export * from "./SnakeKeys";
+export * from "./KebabKeys";
 
 // #endregion auto-indexed files
 
