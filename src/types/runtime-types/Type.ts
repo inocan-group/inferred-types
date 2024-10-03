@@ -22,7 +22,14 @@ import type {
   NotApplicable
 } from "src/constants/index";
 
-import { TupleToUnion , TypeGuard , Filter ,   UnionToIntersection , AnyFunction , ErrorCondition } from "src/types/index";
+import {
+  TupleToUnion ,
+  TypeGuard ,
+  Filter ,
+  UnionToIntersection ,
+  AnyFunction ,
+  ErrorCondition
+} from "src/types/index";
 
 export type TypeOptions<
   TKind extends TypeKind = TypeKind,

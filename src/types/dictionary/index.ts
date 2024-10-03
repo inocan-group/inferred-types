@@ -56,6 +56,7 @@ export * from "./CamelKeys";
 export * from "./PascalKeys";
 export * from "./SnakeKeys";
 export * from "./KebabKeys";
+export * from "./DefineObject";
 
 // #endregion auto-indexed files
 

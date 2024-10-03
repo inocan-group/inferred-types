@@ -26,8 +26,8 @@ import {
   Suggest,
   SimpleToken,
 } from "src/types/index";
-import { AsUnion, FromDefn } from "./FromDefn";
-import { FromWideTokens, WideContainerNames, WideTokenNames } from "./FromTokenNames";
+import { AsUnion, FromDefn } from "../literals/FromDefn";
+import { FromWideTokens, WideContainerNames, WideTokenNames } from "../literals/FromTokenNames";
 
 type Narrow = Exclude<Narrowable, symbol>;
 
