@@ -11,7 +11,6 @@ export * from "./VueComputedRef";
 export * from "./ContainerKeyGuarantee";
 export * from "./ContainerBlockKey";
 export * from "./RuntimeUnion"
-export * from "./Shape";
 export * from "./DoneFnTuple";
 export * from "./Choices";
 export * from "./FromDefn";

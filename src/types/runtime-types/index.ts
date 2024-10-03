@@ -9,3 +9,4 @@ export * from "./TypeTuple";
 export * from "./Dict";
 export * from "./SimpleType";
 export * from "./AsType";
+export * from "./Shape";
