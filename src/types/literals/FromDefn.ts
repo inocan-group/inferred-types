@@ -85,9 +85,15 @@ type ToType<
   ? HandleDoneFn<ReturnType<T>>
 : [IsDictionaryDefinition<T>] extends [true]
   ? HandleObject<AsDictionary<T>, Keys<AsDictionary<T>>>
+: T extends SimpleToken
+  ? AsType<T>
 : IsEqual<TElse, Constant<"not-set">> extends true
   ? T
-  : TElse;
+  : TElse extends SimpleToken
+    ? AsType<TElse>
+    : TElse;
+
+
 
 /**
  * iterates over tuple definition types to convert into real types

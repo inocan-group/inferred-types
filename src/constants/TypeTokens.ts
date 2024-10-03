@@ -40,6 +40,14 @@ export const SIMPLE_OPT_SCALAR_TOKENS = [
 ] as const;
 
 
+export const SIMPLE_FN_TOKENS = [
+  "Fn<none> => Unknown",
+  "Fn<string> => Unknown",
+  "Fn<number> => Unknown",
+  "Fn<boolean> => Unknown",
+] as const;
+
+
 
 export const SIMPLE_UNION_TOKENS = [
   `Union(TOKEN)` as `union(${string}${`,${string}` | ""})`

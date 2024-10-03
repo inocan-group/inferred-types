@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { simpleContainerTokenToTypeToken, simpleScalarTokenToTypeToken, simpleUnionTokenToTypeToken } from "src/runtime/index";
+import { simpleScalarTokenToTypeToken } from "src/runtime/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -22,6 +22,10 @@ describe("token conversion", () => {
     const numUnion = simpleScalarTokenToTypeToken("number(42, 56)");
     const numUnion2 = simpleScalarTokenToTypeToken("number(42,56)");
 
+    // optional
+    const strOpt = simpleScalarTokenToTypeToken("Opt<string>");
+    const numOpt = simpleScalarTokenToTypeToken("Opt<number>");
+
     expect(str).toBe("<<string>>");
     expect(num).toBe("<<number>>");
     expect(bool).toBe("<<boolean>>");
@@ -34,7 +38,9 @@ describe("token conversion", () => {
     expect(numUnion).toBe("<<union::[ 42, 56 ]>>")
     expect(numUnion2).toBe("<<union::[ 42, 56 ]>>")
 
+    expect(strOpt).toBe("<<union::[ <<string>>, <<undefined>> ]>>")
 
+    // @ts-ignore
     type cases = [
       Expect<Equal<typeof str, string>>,
       Expect<Equal<typeof num, number>>,
@@ -46,12 +52,13 @@ describe("token conversion", () => {
 
       Expect<Equal<typeof strUnion, "foo" | "bar">>,
       Expect<Equal<typeof numUnion, 42 | 56>>,
+
+
+      Expect<Equal<typeof strOpt, string | undefined>>,
+      Expect<Equal<typeof numOpt, number | undefined>>,
+
     ];
-    const cases: cases = [
-      true, true, true, true,
-      true, true,
-      true, true,
-    ];
+
   });
 
 

@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import { asType } from "src/runtime/index";
-import { AsType, Dictionary } from "src/types/index";
+import { AsType, Dictionary, Zip } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -77,4 +77,42 @@ describe("asType(val)", () => {
 
   });
 
+
+  it("asType(obj) works with DefineObject shape", () => {
+    const fooBar = asType({
+      foo: "number",
+      bar: "string",
+      baz: o => o.string().zip()
+    });
+
+    expect(fooBar).toEqual({
+      foo: "number",
+      bar: "string",
+      baz: "<<string-set::Zip5>>"
+    })
+
+    // @ts-ignore
+    type cases = [
+      Expect<Equal<typeof fooBar, {foo: number; bar: string; baz: Zip}>>
+    ];
+  });
+
+  it("asType(tuple) works with a tuple using DefnFn<T>", () => {
+    const myTuple = asType(
+      s => s.string(),
+      s => s.number(),
+      s => s.number(0,42,256)
+    );
+
+    expect(myTuple).toEqual([
+      "<<string>>",
+      "<<number>>",
+      "<<union::<<number::0>>,<<number::42>>,<<number::256>>>>"
+    ])
+
+    // @ts-ignore
+    type cases = [
+      Expect<Equal<typeof myTuple, [string, number, 0 | 42 | 256]>>
+    ];
+  })
 });

@@ -1,12 +1,13 @@
 
 import {
-  Narrowable,
   SimpleContainerToken,
   SimpleScalarToken,
   SimpleType,
-  SimpleUnionToken
+  SimpleUnionToken,
+  TypeToken
 } from "src/types/index";
 import {
+  identity,
   isBooleanLike,
   isNumberLike,
   isSimpleContainerToken,
@@ -14,27 +15,24 @@ import {
   simpleScalarToken,
   stripAfter,
   stripBefore,
-  stripSurround
+  stripLeading,
+  stripSurround,
+  stripTrailing
 } from "src/runtime/index";
 import { Never } from "src/constants/Never";
 
-// TODO
-export const asSimpleToken = <T extends Narrowable>(_val: T) => {
-  return "not ready"
-}
-
-const scalarToToken: Record<string, unknown> = {
-  string: "<<string>>" as string,
-  number: "<<number>>" as unknown,
-  boolean: "<<boolean>>" as unknown,
-  true: "<<true>>" as unknown,
-  false: "<<false>>" as unknown,
-  null: "<<null>>" as unknown,
-  undefined: "<<undefined>>" as unknown,
-  unknown: "<<unknown>>" as unknown,
-  any: "<<any>>" as unknown ,
-  never: "<<never>>" as unknown,
-}
+const scalarToToken = identity({
+  string: "<<string>>",
+  number: "<<number>>",
+  boolean: "<<boolean>>",
+  true: "<<true>>",
+  false: "<<false>>",
+  null: "<<null>>",
+  undefined: "<<undefined>>",
+  unknown: "<<unknown>>",
+  any: "<<any>>" ,
+  never: "<<never>>",
+});
 
 const _containerToToken: Record<string, unknown> = {
   "array(string)": "",
@@ -55,6 +53,20 @@ const stringLiteral = <T extends string>(str: T) => {
 }
 const numericLiteral = <T extends string>(str: T) => {
   return stripAfter(stripBefore(str, "number("), ")")
+}
+
+const handleOptional = <T extends SimpleScalarToken>(token: T) => {
+  const bare = stripTrailing(stripLeading(token, "Opt<"), ">");
+
+  return bare.startsWith("string")
+    ? `<<union::[ <<string>>, <<undefined>> ]>>`
+    : bare.startsWith("number")
+    ? `<<union::[ <<number>>, <<undefined>> ]>>`
+    : bare.startsWith("boolean")
+    ? `<<union::[ <<boolean>>, <<undefined>> ]>>`
+    : bare.startsWith("unknown")
+    ? `<<union::[ <<unknown>>, <<undefined>> ]>>`
+    : `<<never>>`
 }
 
 /**
@@ -78,7 +90,9 @@ export const simpleScalarTokenToTypeToken = <T extends SimpleScalarToken>(val: T
       ? numericLiteral(val).includes(",")
         ? `<<union::[ ${numericLiteral(val).split(/,\s{0,1}/).join(", ")} ]>>` as unknown
         : `<<number::${numericLiteral(val)}>>` as unknown
-      : `<<never>>` as unknown
+    : val.startsWith("Opt<")
+      ? handleOptional(val)
+    : `<<never>>` as unknown
   ) as SimpleType<T>
 }
 
@@ -142,7 +156,7 @@ export const simpleContainerTokenToTypeToken = <T extends SimpleContainerToken>(
 
 
 // TODO
-export const asTypeToken = <T extends Narrowable>(_val: T) => {
+export const asTypeToken = <T extends TypeToken>(_val: T) => {
   return "not ready"
 }
 
