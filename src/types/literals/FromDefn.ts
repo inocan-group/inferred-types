@@ -8,14 +8,16 @@ import { EmptyObject,
   Keys,
   Values,
   HandleDoneFn,
-  AfterFirst, 
+  AfterFirst,
   First,
   AsDictionary,
   TupleToUnion,
   ExpandDictionary,
   NarrowableScalar,
   ShapeCallback,
-  UnionElDefn
+  UnionElDefn,
+  SimpleToken,
+  AsType
  } from "src/types/index";
 
 type HandleObject<
@@ -33,17 +35,22 @@ type HandleObject<
             First<TKeys>,
             HandleDoneFn<ReturnType< TObj[First<TKeys>] >>
           > & TResult
-        : Record<
+        : TObj[First<TKeys>] extends SimpleToken
+          ? Record<
             First<TKeys>,
-            TObj[First<TKeys>]
+            AsType<TObj[First<TKeys>]>
           > & TResult
+          : Record<
+              First<TKeys>,
+              TObj[First<TKeys>]
+            > & TResult
       : never
   >;
 
 
 type ProcessUnion<
   T extends UnionElDefn
-> = T extends Tuple 
+> = T extends Tuple
     ? TupleToUnion<T>
     : T extends ShapeCallback
       ? HandleDoneFn<ReturnType<T>>
@@ -54,7 +61,7 @@ type IterateUnion<T extends readonly UnionElDefn[]> = {
 
 /**
  * **AsUnion**
- * 
+ *
  * Receives a `UnionTokenSet`, a `ShapeCallback` or just a tuple of values
  * and makes this into _union type_.
  */
@@ -74,8 +81,7 @@ export type IsDictionaryDefinition<T> = T extends Dictionary
 type ToType<
   T,
   TElse
-> = 
-[T] extends [ShapeCallback]
+> = [T] extends [ShapeCallback]
   ? HandleDoneFn<ReturnType<T>>
 : [IsDictionaryDefinition<T>] extends [true]
   ? HandleObject<AsDictionary<T>, Keys<AsDictionary<T>>>
@@ -98,33 +104,34 @@ export type TypeDefinition = NarrowableScalar | ShapeCallback;
 
 /**
  * **DictShapeDefn**`<T>`
- * 
+ *
  * A _dictionary_ shape which provides direct value input or use of
  * the `ShapeCallback` API to any of the dictionaries values.
- * 
+ *
  * Use of the generic `T` is not required but adding it as a separate
  * generic will increase the narrowness of your types.
  */
 export type DictTypeDefinition<
   V extends TypeDefinition = TypeDefinition
 > = Record<
-  ObjectKey, 
+  ObjectKey,
   V
 >;
 
 
 /**
  * **FromDefn**`<T, [TElse]>`
- * 
+ *
  * Takes either a singular `T` or a tuple of values for `T` and
  * looks for any cases where a `ShapeCallback` is found:
- * 
+ *
  * - where it is found, it will resolve the type
- * - where it is not it will simply proxy the values through
+ * - if the type is a `SimpleToken` then this too is resolved
+ * - in other cases it simply proxies the values through
  * - if `TElse` is set you can redirect values which don't use
  * the ShapeCallback API to a specific type.
- * 
- * Note: when dictionary objects are found the _values_ will be 
+ *
+ * Note: when dictionary objects are found the _values_ will be
  * interrogated for ShapeCallback's.
  */
 export type FromDefn<
