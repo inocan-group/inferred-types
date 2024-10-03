@@ -1,5 +1,5 @@
 import { FromDefn } from "../literals";
-import { ShapeApi, ShapeCallback, SimpleToken } from "../runtime-types";
+import {  ShapeCallback, SimpleToken } from "../runtime-types";
 
 /**
  * **DefineObject**
