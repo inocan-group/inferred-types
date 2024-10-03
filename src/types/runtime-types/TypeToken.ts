@@ -133,15 +133,14 @@ export type TypeTokenAtomics = typeof TT_Atomics[number];
  *
  * A fully formed `TypeToken` of the "atomic" type.
  */
-export type AtomicToken<
-  T extends TypeTokenAtomics = TypeTokenAtomics
-> = T extends TypeTokenAtomics
-? `<<${T}>>`
-: never;
+export type AtomicToken = `<<${TypeTokenAtomics}>>`
 
 // type KvToken = `{ "key": "${string}", "value": ${SimpleToken} }`
 
 export type TypeTokenContainers = typeof TT_Containers[number];
+
+export type ContainerToken = `<<${TypeTokenContainers}${string}>>`
+
 // TODO
 export type UnionToken<_TEls extends readonly unknown[] = unknown[]> = `<<union::[ ${string} ]>>`
 
@@ -168,12 +167,7 @@ export type WeakMapToken = `<<weak::${BaseTypeToken}::${BaseTypeToken}>>`
 export type FnToken = `<<fn::${string}::${BaseTypeToken}>>`
 export type GeneratorToken = `<<gen::${string}::${BaseTypeToken}>>`
 
-/**
- * **ContainerToken**
- *
- * A `TypeToken` which represents a _container_ type.
- */
-export type ContainerToken = ObjectToken | TupleToken | ArrayToken | RecordToken | SetToken | MapToken | WeakMapToken | UnionToken | UnionSetToken;
+
 
 export type TypeTokenFunctions = typeof TT_Functions[number];
 export type TypeTokenSingletons = typeof TT_Singletons[number];

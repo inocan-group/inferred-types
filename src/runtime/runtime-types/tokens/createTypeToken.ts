@@ -1,5 +1,4 @@
 import {
-  AtomicToken,
   If,
   IsLength,
   Join,
@@ -15,7 +14,9 @@ import {
   jsonValues
 } from "src/runtime/index";
 
-type BaseReturn<TBase extends TypeTokenKind> = TBase extends TypeTokenAtomics
+type BaseReturn<
+  TBase extends TypeTokenKind
+  > = TBase extends TypeTokenAtomics
   ? `<<${TBase}>>`
   : TBase extends TypeTokenSingletons
   ? SingletonClosure<TBase>
@@ -62,10 +63,11 @@ const unionToken = <
 }
 
 
-
-const singleton = <T extends TypeTokenSingletons>(
+const singletonApi = <
+  T extends TypeTokenSingletons
+>(
   base: T
-)=> {
+) => {
   const handler = <TLit extends readonly SimpleType<T>[]>(
     ...lits: TLit
     ) => {
@@ -99,13 +101,13 @@ const singleton = <T extends TypeTokenSingletons>(
  * `TypeToken` simple through a compound process.
  */
 export const createTypeToken = <
-  TBase extends TypeTokenAtomics
+  TBase extends TypeTokenAtomics | TypeTokenSingletons
 >(base: TBase): BaseReturn<TBase> => {
   return (
     isAtomicToken(base)
-    ? `<<${base}>>` as AtomicToken<TBase>
+    ? `<<${base}>>`
     : isSingletonToken(base)
-      ? singleton(base)
+      ? singletonApi(base)
       : ""
   ) as unknown as BaseReturn<TBase>
 }

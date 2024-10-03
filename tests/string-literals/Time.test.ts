@@ -1,36 +1,36 @@
 import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { 
+import {
   CivilianTime,
-  DoesExtend, 
-  DoesNotExtend, 
-  HoursMinutes, 
-  HoursMinutes12, 
-  HoursMinutesSeconds, 
-  HoursMinutesSeconds12, 
-  HoursMinutesSecondsMilliseconds, 
-  HoursMinutesSecondsMilliseconds12, 
-  MilitaryTime, 
-  Mutable, 
-  Time, 
-  TimeInMilliseconds, 
-  TimeInMinutes, 
-  TimeInSeconds 
+  DoesExtend,
+  DoesNotExtend,
+  HoursMinutes,
+  HoursMinutes12,
+  HoursMinutesSeconds,
+  HoursMinutesSeconds12,
+  HoursMinutesSecondsMilliseconds,
+  HoursMinutesSecondsMilliseconds12,
+  MilitaryTime,
+  Mutable,
+  Time,
+  TimeInMilliseconds,
+  TimeInMinutes,
+  TimeInSeconds
 } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("Time types", () => {
-  
+
   it("Time<TResolution>", () => {
     type cases = [
       Expect<DoesExtend<"09:45pm", Time<"HH:MM", "civilian">>>,
       Expect<DoesExtend<"9:45pm", Time<"HH:MM", "civilian">>>,
       Expect<DoesExtend<"13:00", Time<"HH:MM", "military">>>,
-      
+
       Expect<DoesNotExtend<"13:00pm", Time<"HH:MM", "military">>>,
       Expect<DoesNotExtend<"13:00pm", Time<"HH:MM", "civilian">>>,
       Expect<DoesNotExtend<"09:45", Time<"HH:MM","civilian">>>,
@@ -38,12 +38,12 @@ describe("Time types", () => {
 
     ];
     const cases: cases = [
-      true, true, true, 
+      true, true, true,
       true,true,true, true,
     ];
-    
+
   });
-  
+
 
   it("HoursMinutes", () => {
     // valid times
@@ -53,12 +53,12 @@ describe("Time types", () => {
     type V3 = DoesExtend<"12:45", HoursMinutes>;
     type V4 = DoesExtend<"13:45", HoursMinutes>;
     type V5 = DoesExtend<"23:45", HoursMinutes>;
-    
+
     // invalid times
     type IV0 = DoesExtend<"13:45pm", HoursMinutes>;
     type IV1 = DoesExtend<"24:45", HoursMinutes>;
     type IV2 = DoesExtend<"9:85", HoursMinutes>;
-    
+
     type cases = [
       ExpectTrue<V0>,
       ExpectTrue<V1>,
@@ -71,13 +71,13 @@ describe("Time types", () => {
       ExpectFalse<IV1>,
       ExpectFalse<IV2>
     ];
-    const cases: cases = [ 
+    const cases: cases = [
       true, true, true, true, true, true,
-      false, false, false, 
+      false, false, false,
     ];
   });
 
-  
+
   it("HoursMinutes12", () => {
     // valid times
     type V0 = DoesExtend<"09:45am", HoursMinutes12>;
@@ -90,8 +90,8 @@ describe("Time types", () => {
     type IV2 = DoesExtend<"9:85pm", HoursMinutes12>;
     type IV3 = DoesExtend<"21:45pm", HoursMinutes12>;
     type IV4 = DoesExtend<"21:45", HoursMinutes12>;
-    
-    
+
+
     type cases = [
       ExpectTrue<V0>,
       ExpectTrue<V1>,
@@ -104,7 +104,7 @@ describe("Time types", () => {
       ExpectFalse<IV3>,
       ExpectFalse<IV4>,
     ];
-    const cases: cases = [ 
+    const cases: cases = [
       true, true, true, true,
       false, false, false, false, false
     ];
@@ -122,7 +122,7 @@ describe("Time types", () => {
     type IV2 = DoesExtend<"9:85PM", HoursMinutes12<{amPmCase: "upper"}>>;
     type IV3 = DoesExtend<"21:45PM", HoursMinutes12<{amPmCase: "upper"}>>;
     type IV4 = DoesExtend<"21:45", HoursMinutes12<{amPmCase: "upper"}>>;
-    
+
     type cases = [
       ExpectTrue<V0>,
       ExpectTrue<V1>,
@@ -135,7 +135,7 @@ describe("Time types", () => {
       ExpectFalse<IV3>,
       ExpectFalse<IV4>,
     ];
-    const cases: cases = [ 
+    const cases: cases = [
       true, true, true, true,
       false, false, false, false, false
     ];
@@ -153,8 +153,8 @@ describe("Time types", () => {
     type IV2 = DoesExtend<"9:85", HoursMinutes12<{amPmCase: "bare"}>>;
     type IV3 = DoesExtend<"21:45", HoursMinutes12<{amPmCase: "bare"}>>;
     type IV4 = DoesExtend<"21:45pm", HoursMinutes12<{amPmCase: "bare"}>>;
-    
-    
+
+
     type cases = [
       ExpectTrue<V0>,
       ExpectTrue<V1>,
@@ -167,12 +167,12 @@ describe("Time types", () => {
       ExpectFalse<IV3>,
       ExpectFalse<IV4>,
     ];
-    const cases: cases = [ 
+    const cases: cases = [
       true, true, true, true,
       false, false, false, false, false
     ];
   });
-  
+
 
   it("TimeInMinutes", () => {
     // military: valid
@@ -199,7 +199,7 @@ describe("Time types", () => {
     type CIV1 = DoesExtend<"0:45pm", CivilianTime<"HH:MM">>;
     type CIV2 = DoesExtend<"9:85pm", CivilianTime<"HH:MM">>;
     type CIV3 = DoesExtend<"21:45pm", CivilianTime<"HH:MM">>;
-    
+
     type cases = [
       ExpectTrue<MV0>,
       ExpectTrue<MV1>,
@@ -223,7 +223,7 @@ describe("Time types", () => {
       ExpectFalse<CIV2>,
       ExpectFalse<CIV3>,
     ];
-    const cases: cases = [ 
+    const cases: cases = [
       true, true, true, true, true, true,
       false, false, false,false,
       true, true, true, true,
@@ -231,7 +231,7 @@ describe("Time types", () => {
     ];
   });
 
-  
+
   it("TimeInMinutes<military> and TimeInMinutes<civilian> equivalency", () => {
     type cases = [
       Expect<Equal<TimeInMinutes<"military">, HoursMinutes>>,
@@ -241,7 +241,7 @@ describe("Time types", () => {
     ];
     const cases: cases = [ true, true, true, true ];
   });
-  
+
 
   it("TimeInSeconds<military> and TimeInSeconds<civilian> equivalency", () => {
     type cases = [
@@ -270,7 +270,7 @@ describe("Time types", () => {
     type Simple = TimeInSeconds<"military", {strength: "simple"}>;
     // type C = TimeInSeconds<"civilian">;
     // type CS = TimeInSeconds<"civilian", "simple">;
-    const getTime = <T extends TimeInSeconds<"military">>(time: T) => time; 
+    const getTime = <T extends TimeInSeconds<"military">>(time: T) => time;
     const t1 = getTime("10:15:45");
     const t2 = getTime("21:15:33");
     const times = [ t1, t2 ] as const;
@@ -278,10 +278,10 @@ describe("Time types", () => {
     type cases = [
       Expect<DoesExtend<Mutable<typeof times>, Simple[]>>,
     ];
-    
+
     const cases: cases = [ true ];
-    
+
   });
-  
+
 
 });

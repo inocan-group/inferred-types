@@ -69,6 +69,20 @@ export type WideTypeName = "string" | "number" | "boolean" | "null" | "undefined
 
 export type StringTokenUtilities<T> = {
   /**
+   * **startsWith**
+   *
+   * Fix a string literal for the beginning of the string and allow
+   * anything else afterward
+   */
+  startsWith: <T extends string>(startsWith: T) => `${T}${string}`;
+  /**
+   * **endsWith**
+   *
+   * Fix a string literal for the ending of the string and allow
+   * anything else before it
+   */
+  endsWith: <T extends string>(endsWith: T) => `${string}${T}`;
+  /**
    * **numericString**
    *
    * A string type which holds numeric content (e.g., \`${number}\`)
@@ -349,7 +363,8 @@ type ShapeApi__LiteralContainers = {
  * -- with the `ShapeCallback` type which simply gives this API to the caller of
  * the function.
  */
-export type ShapeApi = ShapeApi__Scalars &
+export type ShapeApi = { kind: "shape" } &
+  ShapeApi__Scalars &
   ShapeApi__Union &
   ShapeApi__Functions &
   ShapeApi__WideContainers &
@@ -361,7 +376,7 @@ export type ShapeApi = ShapeApi__Scalars &
  * This is a function signature for a property which you want to use
  * the `SharpApi` with to define types.
  */
-export type ShapeCallback = (api: ShapeApi) => unknown;
+export type ShapeCallback = ((api: ShapeApi) => unknown) ;
 
 
 export type ScalarCallback = (api: ShapeApi__Scalars & ShapeApi__Union) => unknown;
