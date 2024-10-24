@@ -49,3 +49,11 @@ export type WalgreensUrl = UrlsFrom<typeof WALGREENS_DNS>;
 export type CvsUrl = UrlsFrom<typeof CVS_DNS>;
 export type WholeFoodsUrl = UrlsFrom<typeof WHOLE_FOODS_DNS>;
 
+/**
+ * represents URL patterns of many of the top worldwide retailers
+ */
+export type RetailUrl =
+| AmazonUrl | WalmartUrl | AppleUrl | HomeDepotUrl | EbayUrl | TargetUrl
+| EtsyUrl | CostCoUrl | BestBuyUrl | MacysUrl | ChewyUrl
+| WayFairUrl | NikeUrl | LowesUrl | IkeaUrl | DellUrl
+| HandMUrl | ZaraUrl | KrogerUrl | WalgreensUrl | CvsUrl | WholeFoodsUrl;

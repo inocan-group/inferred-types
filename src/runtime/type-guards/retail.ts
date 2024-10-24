@@ -1,4 +1,4 @@
-import { AmazonUrl, AppleUrl, BestBuyUrl, CostCoUrl, CvsUrl, DellUrl, EbayUrl, EtsyUrl, HandMUrl, HomeDepotUrl, IkeaUrl, KrogerUrl, LowesUrl, MacysUrl, NikeUrl, TargetUrl, WalgreensUrl, WalmartUrl, WayFairUrl, WholeFoodsUrl, ZaraUrl } from "src/types/string-literals";
+import { AmazonUrl, AppleUrl, BestBuyUrl, CostCoUrl, CvsUrl, DellUrl, EbayUrl, EtsyUrl, HandMUrl, HomeDepotUrl, IkeaUrl, KrogerUrl, LowesUrl, MacysUrl, NikeUrl, RetailUrl, TargetUrl, WalgreensUrl, WalmartUrl, WayFairUrl, WholeFoodsUrl, ZaraUrl } from "src/types/string-literals";
 import { isString } from "./isString";
 import {
   AMAZON_DNS,
@@ -188,3 +188,11 @@ export const isAmazonUrl = (val: unknown): val is AmazonUrl => {
   return isString(val) && AMAZON_DNS.some(i => val.startsWith(`https://${i}`));
 }
 
+/**
+ * type guard which check if the passed in value is a Url for one
+ * of the top retailers in the world
+ */
+export const isRetailUrl = (val: unknown): val is RetailUrl => {
+  return isAmazonUrl(val) || isWalgreensUrl(val) || isAppleUrl(val) || isMacysUrl(val) || isEbayUrl(val) || isHomeDepotUrl(val) || isTargetUrl(val) || isEtsyUrl(val) || isCostCoUrl(val) || isBestBuyUrl(val) || isWayfairUrl(val) || isNikeUrl(val) || isLowesUrl(val) || isIkeaUrl(val) || isDellUrl(val) || isHmUrl(val) || isZaraUrl(val) || isKrogersUrl(val) || isWalgreensUrl(val) || isCvsUrl(val) || isWholeFoodsUrl(val)
+
+}
