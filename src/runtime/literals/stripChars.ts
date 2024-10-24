@@ -1,5 +1,5 @@
 import {  StripChars, TupleToUnion } from "src/types/index";
-import { asChars } from "../type-conversion/asChars";
+import { asChars } from "src/runtime/index";
 
 /**
  * **stripChars**`(content, ...strip)`

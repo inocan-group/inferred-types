@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import { asType } from "src/runtime/index";
-import { AsType, Dictionary, Zip } from "src/types/index";
+import { AsType, Dictionary, Zip5 } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -93,7 +93,7 @@ describe("asType(val)", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<typeof fooBar, {foo: number; bar: string; baz: Zip}>>
+      Expect<Equal<typeof fooBar, {foo: number; bar: string; baz: Zip5}>>
     ];
   });
 

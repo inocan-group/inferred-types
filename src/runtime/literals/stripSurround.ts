@@ -1,14 +1,15 @@
+
 import {
-  isNumber,
-} from "src/runtime/index";
-import {
-  StripSurround,
-  TupleToUnion
+  StripSurround
 } from "src/types/index";
+import { isNumber } from "../type-guards/isNumber";
 
 export type StripSurroundConfigured<
   TStrip extends readonly (string | number)[]
-> = <TInput extends string | number>(input: TInput) => StripSurround<TInput, TupleToUnion<TStrip>>;
+> = <TInput extends string | number>(input: TInput) => StripSurround<
+  TInput,
+  TStrip[number]
+>;
 
 
 /**
@@ -45,7 +46,7 @@ export const stripSurround = <
 
     return (
       isNumber(input) ? Number(output) : output
-    ) as unknown as StripSurround<TInput, TupleToUnion<TChars>>
+    ) as unknown as StripSurround<TInput, TChars[number]>
 
 
   }
