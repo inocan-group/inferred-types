@@ -8,7 +8,7 @@ import type { ZIP_TO_STATE } from "src/constants/index";
  *
  * **Related:** `ZipPlus4`, `ZipCode`
  */
-export type Zip = `${NumericChar}${number}${NumericChar}${number}${NumericChar}`;
+export type Zip5 = `${NumericChar}${number}${NumericChar}${number}${NumericChar}`;
 
 type Z2S = Mutable<typeof ZIP_TO_STATE>;
 
@@ -24,11 +24,11 @@ export type ZipToState<
 : never;
 
 
-export type ZipPlus4 = `${Zip}${NumericChar}${number}`;
+export type ZipPlus4 = `${Zip5}${NumericChar}${number}`;
 
 /**
  * A relatively strong type for Zip5 or Zip5+4 zip codes
  */
-export type ZipCode = ZipPlus4 | Zip;
+export type ZipCode = ZipPlus4 | Zip5;
 
 

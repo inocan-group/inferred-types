@@ -9,7 +9,7 @@
   TokenBaseType,
   TupleToUnion,
   TypeTokenSingletons,
-  Zip,
+  Zip5,
   ZipPlus4,
   ZipCode,
   SimpleToken,
@@ -58,7 +58,7 @@ const addSingleton = <
 const stringApi: StringTokenUtilities<string> = ({
   startsWith: <T extends string>(startsWith: T) => addToken(`string-set`,`startsWith::${startsWith}`) as `${T}${string}`,
   endsWith: <T extends string>(endsWith: T) => addToken(`string-set`,`endsWith::${endsWith}`) as `${string}${T}`,
-  zip: () => addToken("string-set","Zip5") as Zip,
+  zip: () => addToken("string-set","Zip5") as Zip5,
   zipPlus4: () => addToken("string-set", "Zip5_4") as ZipPlus4,
   zipCode: () => addToken("string-set", "ZipCode") as ZipCode,
   militaryTime: <T extends TimeResolution="HH:MM">(resolution?: T) => {

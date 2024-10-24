@@ -41,13 +41,6 @@ const _containerToToken: Record<string, unknown> = {
   "array(unknown)": "",
 }
 
-// const unionToToken : Record<string, unknown> = {
-//   "Opt<string>": "<<union::[ <<string>>, <<undefined>> ]>>" as unknown ,
-//   "Opt<number>": "<<union::[ <<number>>, <<undefined>> ]>>" as unknown,
-//   "Opt<unknown>": "<<union::[ <<unknown>>, <<undefined>> ]>>" as unknown,
-//   "Opt<boolean>": "<<union::[ <<boolean>>, <<undefined>> ]>>" as unknown,
-// } satisfies Record<SimpleUnionToken, unknown>
-
 const stringLiteral = <T extends string>(str: T) => {
   return stripAfter(stripBefore(str, "string("), ")")
 }

@@ -18,7 +18,7 @@ import {
   CivilianTime,
   Ip4Address,
   Ip6Address,
-  Zip,
+  Zip5,
   ZipPlus4,
   As,
   Container,
@@ -91,7 +91,7 @@ export type StringTokenUtilities<T> = {
   /**
    * traditional 5 digit zip code (e.g., 90210)
    */
-  zip: () => Zip;
+  zip: () => Zip5;
   /**
    * A 5 digit code, a dash, and then a 4 digit code used for greater
    * geographic specificity. You can use the [melissa](https://lookups.melissa.com/home/zip4/zip4/)
