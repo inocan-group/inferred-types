@@ -1,11 +1,9 @@
 import {
   RepoSource,
-  RepoUrls,
   SemanticVersion,
-  UrlsFrom
 } from "src/types/index";
-import { REPO_SOURCES, REPO_SOURCE_LOOKUP } from "src/constants/index";
-import { valuesOf, stripLeading, isString } from "src/runtime/index";
+import { REPO_SOURCES } from "src/constants/index";
+import {  stripLeading, isString } from "src/runtime/index";
 
 /**
  * **isRepoSource**`(val)`
