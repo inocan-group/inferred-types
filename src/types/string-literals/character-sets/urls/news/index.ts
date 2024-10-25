@@ -3,6 +3,7 @@ import { BelgianNewsUrls } from "./belgian";
 import { CanadianNewsUrls } from "./canadian";
 import { ChineseNewsUrls } from "./chinese";
 import { DanishNewsUrls } from "./danish";
+import { DutchNewsUrls } from "./dutch";
 import { FrenchNewsUrls } from "./french";
 import { GermanNewsUrls } from "./german";
 import { IndianNewsUrls } from "./indian";
@@ -22,6 +23,7 @@ export * from "./belgian";
 export * from "./canadian";
 export * from "./chinese";
 export * from "./danish";
+export * from "./dutch";
 export * from "./french";
 export * from "./german";
 export * from "./indian";
@@ -45,6 +47,7 @@ export type NewsUrls =
 | CanadianNewsUrls
 | ChineseNewsUrls
 | DanishNewsUrls
+| DutchNewsUrls
 | FrenchNewsUrls
 | GermanNewsUrls
 | IndianNewsUrls
