@@ -37,3 +37,4 @@ export * from "./ISO3166";
 export * from "./Metrics";
 export * from "./Markers";
 export * from "./News";
+export * from "./Social";
