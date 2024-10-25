@@ -4,9 +4,14 @@ import { isString } from "src/runtime/index";
 /**
  * **isEmail**`(val)`
  *
- * Tests to see if a string is shaped as an email address.
+ * type guard which validates that the value passed in
+ * in the correct shape to be an email address. It checks:
+ *
+ * 1. that leads with alphabetic char
+ * 2. has a `@` character
+ * 3. has at least one `.` char after the `@`
  */
-export const isEmail = <T>(val: T): val is T & Email => {
+export const isEmail = (val: unknown): val is Email => {
   if (!isString(val)) {
     return false
   }
