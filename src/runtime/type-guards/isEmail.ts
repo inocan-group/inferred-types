@@ -16,8 +16,8 @@ export const isEmail = (val: unknown): val is Email => {
   if (!isString(val)) {
     return false
   }
-  const parts: string[] = val.split("@");
-  const domain = parts[1].split(".");
+  const parts: string[] = val?.split("@");
+  const domain = parts[1]?.split(".");
   const tld = domain.pop() as string;
   const firstChar = val[0].toLowerCase();
 
