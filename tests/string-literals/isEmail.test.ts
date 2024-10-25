@@ -20,9 +20,11 @@ describe("isEmail(val)", () => {
 
     const f1 = isEmail("bob@builder");
     const f2 = isEmail("bob@builder.b");
+    const f3 = isEmail("1bob@builder.com");
 
     expect(f1).toBe(false);
     expect(f2).toBe(false);
+    expect(f3).toBe(false);
 
     if (isEmail(bob)) {
       type Bob = typeof bob;

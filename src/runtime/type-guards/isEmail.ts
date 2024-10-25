@@ -1,5 +1,6 @@
 import { Email } from "src/types/index"
 import { isString } from "src/runtime/index";
+import { LOWER_ALPHA_CHARS } from "src/constants/Alpha";
 
 /**
  * **isEmail**`(val)`
@@ -18,8 +19,10 @@ export const isEmail = (val: unknown): val is Email => {
   const parts: string[] = val.split("@");
   const domain = parts[1].split(".");
   const tld = domain.pop() as string;
+  const firstChar = val[0].toLowerCase();
 
   return isString(val) && (
+    LOWER_ALPHA_CHARS.includes(firstChar as any) &&
     parts.length === 2 &&
     domain.length >= 1 &&
     tld.length >= 2
