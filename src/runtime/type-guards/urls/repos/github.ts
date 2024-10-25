@@ -9,8 +9,8 @@ import {
   GithubRepoUrl,
   GithubUrl
 } from "src/types/string-literals"
-import { isString } from "./isString"
-import { stripLeading, stripTrailing } from "../literals"
+import { isString } from "../../isString"
+import { stripLeading, stripTrailing } from "../../../literals"
 
 
 /**
@@ -19,12 +19,17 @@ import { stripLeading, stripTrailing } from "../literals"
  * Type guard which validates that the passed in value is a valid
  * **Github** URL.
  */
-export const isGithubUrl = <T>(val: T): val is GithubUrl & T => {
-  return isString(val) && (
-    val.startsWith("https://github.com") ||
-    val.startsWith('https://www.github.com') ||
-    val.startsWith('https://github.io')
-  )
+export const isGithubUrl = (val: unknown): val is GithubUrl => {
+  const valid = [
+    "https://github.com",
+    'https://www.github.com',
+    'https://github.io'
+  ];
+  return isString(val) && valid.some(i =>
+    val === i ||
+    val.startsWith(`${i}/`) ||
+    val.startsWith(`${i}?`)
+  );
 }
 
 /**
