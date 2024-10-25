@@ -1,1 +1,1 @@
-export * from "./news/belgium";
+export * from "./news/index";
