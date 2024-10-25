@@ -11,6 +11,7 @@ import { LOWER_ALPHA_CHARS } from "src/constants/Alpha";
  * 1. that leads with alphabetic char
  * 2. has a `@` character
  * 3. has at least one `.` char after the `@`
+ * 4. top-level domain has at least 2 characters
  */
 export const isEmail = (val: unknown): val is Email => {
   if (!isString(val)) {
@@ -18,7 +19,7 @@ export const isEmail = (val: unknown): val is Email => {
   }
   const parts: string[] = val?.split("@");
   const domain = parts[1]?.split(".");
-  const tld = domain.pop() as string;
+  const tld = domain ? domain.pop() as string : "";
   const firstChar = val[0].toLowerCase();
 
   return isString(val) && (
