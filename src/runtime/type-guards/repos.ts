@@ -51,9 +51,9 @@ export const isSemanticVersion = <T,P extends boolean>(
  *
  * Type guard which validates that the value passed in is a valid Repo URL
  */
-export const isRepoUrl = <T>(val: T): val is T & RepoUrls => {
+export const isRepoUrl = (val: unknown): val is RepoUrls => {
   const baseUrls = valuesOf(REPO_SOURCE_LOOKUP).flat();
-  return isString(val) && baseUrls.every(u =>
+  return isString(val) && baseUrls.some(u =>
     val === u ||
     val.startsWith(`${u}/`)
   )
