@@ -36,8 +36,6 @@ export * from "./isDoneFn";
 export * from "./isUrl";
 export * from "./isCssAspectRatio";
 export * from "./isInlineSvg";
-export * from "./youtube";
-export * from "./repos";
 export * from "./network-tg";
 export * from "./isHexadecimal";
 export * from "./isTrimmable";
@@ -49,8 +47,6 @@ export * from "./api-tg";
 export * from "./isBooleanLike";
 export * from "./isRegExp";
 export * from "./isAlpha";
-export * from "./github";
-export * from "./retail";
 
 export * from "./tokens/index";
 export * from "./higher-order/index";
