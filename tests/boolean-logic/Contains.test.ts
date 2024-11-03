@@ -10,6 +10,9 @@ describe("Contains<T,A>", () => {
     type T4 = ["foo", "bar"];
     type T5 = ["foo", "bar", null, undefined];
 
+    // type PageIdType = "path" | "tag";
+    type T6 = Contains<["path"], "path">;
+
     type TNum = Contains<[number, 32, 64, "foo"], number>;
 
     type cases = [
@@ -87,8 +90,6 @@ describe("Contains<T,A>", () => {
     ];
 
   });
-
-
 });
 
 describe("NarrowlyContains<T,A>", () => {
