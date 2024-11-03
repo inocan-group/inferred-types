@@ -1,4 +1,27 @@
-import { AmazonUrl, AppleUrl, BestBuyUrl, CostCoUrl, CvsUrl, DellUrl, EbayUrl, EtsyUrl, HandMUrl, HomeDepotUrl, IkeaUrl, KrogerUrl, LowesUrl, MacysUrl, NikeUrl, RetailUrl, TargetUrl, WalgreensUrl, WalmartUrl, WayFairUrl, WholeFoodsUrl, ZaraUrl } from "src/types/string-literals";
+import {
+  AmazonUrl,
+  AppleUrl,
+  BestBuyUrl,
+  CostCoUrl,
+  CvsUrl,
+  DellUrl,
+  EbayUrl,
+  EtsyUrl,
+  HandMUrl,
+  HomeDepotUrl,
+  IkeaUrl,
+  KrogerUrl,
+  LowesUrl,
+  MacysUrl,
+  NikeUrl,
+  RetailUrl,
+  TargetUrl,
+  WalgreensUrl,
+  WalmartUrl,
+  WayFairUrl,
+  WholeFoodsUrl,
+  ZaraUrl
+} from "src/types/string-literals";
 import { isString } from "../isString";
 import {
   AMAZON_DNS,

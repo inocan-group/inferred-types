@@ -38,3 +38,4 @@ export * from "./Metrics";
 export * from "./Markers";
 export * from "./News";
 export * from "./Social";
+export * from "./Books";

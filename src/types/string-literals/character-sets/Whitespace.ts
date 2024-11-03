@@ -8,7 +8,7 @@ import { Mutable, TupleToUnion } from "src/types/index";
  *
  * **Related:** `OptWhitespace`
  */
-export type Whitespace = TupleToUnion<Mutable<typeof WHITESPACE_CHARS>>;
+export type Whitespace = typeof WHITESPACE_CHARS[number];
 
 /**
  * Allows for a whitespace character (optionally)
