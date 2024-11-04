@@ -1,4 +1,4 @@
-import { Chars } from "src/types/index";
+import { Chars } from "@inferred-types/types";
 
 /**
  * **asChars**`(str)`

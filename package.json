@@ -1,34 +1,9 @@
 {
   "name": "inferred-types",
-  "version": "0.50.29",
-  "description": "Functions which provide useful type inference on TS projects",
+  "private": true,
+  "description": "primitives for advanced inference in TS",
   "license": "MIT",
   "author": "Ken Snyder<ken@ken.net>",
-  "type": "module",
-  "module": "./dist/index.js",
-  "main": "./dist/index.cjs",
-  "typings": "./dist/inferred-types/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/inferred-types/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
-    },
-    "./types": {
-      "import": "./dist/types/index.js",
-      "types": "./dist/types/index.d.ts"
-    },
-    "./runtime": {
-      "import": "./dist/runtime/index.js",
-      "types": "./dist/runtime/index.d.ts"
-    },
-    "./constants": {
-      "import": "./dist/constants/index.js"
-    }
-  },
-  "files": [
-    "dist"
-  ],
   "repository": {
     "url": "https://github.com/inocan-group/inferred-types"
   },
@@ -65,7 +40,8 @@
     "watch:types": "ts-type-tester tests tests/tsconfig.json --ignore 6133 -w",
     "watch:lint": "esw (src|tests)/**/*.ts -w --clear",
     "watch:bundle": "tsup src/index.ts --format=esm --dts",
-    "constants": "pnpm --filter constants"
+    "build:constants": "pnpm --filter constants build",
+    "build:types": "pnpm --filter types build"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.0",

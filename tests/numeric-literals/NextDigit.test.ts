@@ -1,9 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { NextDigit } from "src/types/index";
+import { NextDigit } from "@inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("NextDigit<T>", () => {
@@ -16,7 +16,7 @@ describe("NextDigit<T>", () => {
     type OneStr = NextDigit<"1">;
     type TwoStr = NextDigit<"2">;
     type OverflowStr = NextDigit<"9">;
-    
+
     type cases = [
       Expect<Equal<One, 2>>,
       Expect<Equal<Two, 3>>,

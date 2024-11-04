@@ -9,7 +9,7 @@ import {
   IsDotPath,
   Throw,
   Get
-} from "src/types/index";
+} from "@inferred-types/types";
 
 
 /**

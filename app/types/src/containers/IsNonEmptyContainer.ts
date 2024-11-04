@@ -1,13 +1,13 @@
 import { IsEmptyContainer } from "./IsEmptyContainer";
 
-import { Container } from "src/types/index";
+import { Container } from "@inferred-types/types";
 
 /**
  * **NonEmptyContainer**`<T>`
- * 
+ *
  * Boolean utility which tests whether a container has keys
  * (aka, is not "empty")
- * 
+ *
  * **Related:** `EmptyContainer`
  */
 export type IsNonEmptyContainer<

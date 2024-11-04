@@ -1,4 +1,4 @@
-import { AsString } from "src/types/index";
+import { AsString } from "@inferred-types/types";
 import { isArray, isBoolean, isNumber, isString} from "src/runtime/index"
 
 /**

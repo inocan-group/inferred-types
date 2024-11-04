@@ -1,8 +1,8 @@
-import type { Narrowable, ObjectKey } from "src/types/index";
+import type { Narrowable, ObjectKey } from "@inferred-types/types";
 
 /**
  * **NarrowObject**`<N>`
- * 
+ *
  * Defines a `Record` type who's values extends `Narrowable`. This type is most
  * commonly used in runtime settings where a function wants to _extend_ this
  * type to ensure that the received values are as narrow as could be available

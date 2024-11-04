@@ -1,18 +1,18 @@
-import { 
+import {
   EmptyObject,
   ExpandDictionary,
   IsNonEmptyObject,
-  Narrowable, 
-  RemoveIndex, 
+  Narrowable,
+  RemoveIndex,
   Widen
-} from "src/types/index";
+} from "@inferred-types/types";
 
 /**
  * **defineObj**(literal) -> (wide) -> object
- * 
- * A runtime utility designed to create an object _type_ from runtime objects. 
- * The object's keys are all type literals, but the values can be either 
- * _wide_ variants of the value passed in or instead maintain as _narrow_ 
+ *
+ * A runtime utility designed to create an object _type_ from runtime objects.
+ * The object's keys are all type literals, but the values can be either
+ * _wide_ variants of the value passed in or instead maintain as _narrow_
  * a type definition as possible.
  *
  * ### Example
@@ -22,7 +22,7 @@ import {
  * ```
  */
 export function defineObj<
-  N extends Narrowable, 
+  N extends Narrowable,
   TLiteral extends Record<string, N>
 >(
   literal: TLiteral = {}  as TLiteral
@@ -36,15 +36,15 @@ export function defineObj<
     TWide extends Record<string,N2>,
   >(wide: TWide = {} as EmptyObject as TWide) => {
     const obj = (
-      literal 
-        ? { ...literal, ...wide  } 
+      literal
+        ? { ...literal, ...wide  }
         : wide
     ) as unknown;
 
 
     return obj as ExpandDictionary<
       RemoveIndex<TLiteral> & (
-        IsNonEmptyObject<TWide> extends true 
+        IsNonEmptyObject<TWide> extends true
           ? Widen<TWide>
           : EmptyObject
         )

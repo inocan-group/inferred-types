@@ -5,7 +5,7 @@ import {
   Contains,
   Keys,
   Narrowable
-} from "src/types/index";
+} from "@inferred-types/types";
 import { hasIndexOf } from "src/runtime/index";
 
 

@@ -1,5 +1,5 @@
 import { REPO_SOURCE_LOOKUP } from "inferred-types";
-import { UrlsFrom } from "src/types/index";
+import { UrlsFrom } from "@inferred-types/types";
 import { isString } from "../../isString";
 
 /**

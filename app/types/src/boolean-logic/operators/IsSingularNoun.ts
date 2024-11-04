@@ -1,20 +1,20 @@
-import { If, IfNever, IsStringLiteral, SingularNoun } from "src/types/index";
+import { If, IfNever, IsStringLiteral, SingularNoun } from "@inferred-types/types";
 
 
 /**
  * **IsSingularNoun**`<T>`
- * 
+ *
  * Boolean operator which returns:
- * 
- * - `true` - if `T` is a string literal with only `Alpha` chars and ending in 
+ *
+ * - `true` - if `T` is a string literal with only `Alpha` chars and ending in
  * character defined by `SingularNounEnding`.
  * - `boolean` - if `T` is a wide string type
  * - `false` - all other conditions
  */
 export type IsSingularNoun<T> = T extends string
   ? If<
-      IsStringLiteral<T>, 
-      IfNever<SingularNoun<T>, false, true>, 
+      IsStringLiteral<T>,
+      IfNever<SingularNoun<T>, false, true>,
       boolean
     >
   : false;

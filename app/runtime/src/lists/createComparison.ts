@@ -1,4 +1,4 @@
-import {  ComparatorOperation, Comparison, ParamsForComparison, Narrowable } from "src/types/index";
+import {  ComparatorOperation, Comparison, ParamsForComparison, Narrowable } from "@inferred-types/types";
 
 /**
  * **createComparison**(op, ...args)

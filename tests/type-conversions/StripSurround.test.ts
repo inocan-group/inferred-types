@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { UpperAlphaChar, StripSurround } from "src/types/index";
+import { UpperAlphaChar, StripSurround } from "@inferred-types/types";
 import { stripSurround } from "src/runtime/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

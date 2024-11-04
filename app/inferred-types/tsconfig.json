@@ -1,18 +1,4 @@
 {
-  // this project serves only as a means to reference all sub-projects
-  // and allow constants, types, and runtime symbols to be exported
-  // as a single NPM package.
-  "references": [
-    {
-      "path": "../constants"
-    },
-    {
-      "path": "../types"
-    },
-    {
-      "path": "../runtime"
-    }
-  ],
   "compilerOptions": {
     "strict": true,
     "skipLibCheck": true,
@@ -23,21 +9,7 @@
     "baseUrl": ".",
     "rootDir": "..",
     "outDir": "../../dist",
-    "composite": true,
+    "composite": false,
     "forceConsistentCasingInFileNames": true,
-    "paths": {
-      // root export for runtime symbols
-      "src/runtime/*": [
-        "../runtime/*"
-      ],
-      // root export for type symbols
-      "src/types/*": [
-        "../types/*"
-      ],
-      // root export for constant symbols
-      "src/constants/*": [
-        "../constants/*"
-      ],
-    },
   }
 }

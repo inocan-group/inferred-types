@@ -1,8 +1,8 @@
 /* eslint-disable no-use-before-define */
-import { 
-  TupleToUnion, 
-  WidenUnion,  
-  List, 
+import {
+  TupleToUnion,
+  WidenUnion,
+  List,
   IsUnion,
   Tuple,
   IsTuple,
@@ -17,7 +17,7 @@ import {
   UnionToTuple,
   AsString,
   IsNever,
-} from "src/types/index"
+} from "@inferred-types/types"
 
 import { isArray } from "src/runtime/index";
 
@@ -81,7 +81,7 @@ type ListHash<
 export type AsList<
   T extends readonly unknown[]
 > = List<
-  ListWideType<T>, 
+  ListWideType<T>,
   ListHash<T>
 >;
 
@@ -92,7 +92,7 @@ const createProxy = <
   state.id = null as unknown as ListHash<TArr>;
 
   const proxy = new Proxy(state, {}) as List<
-    ListWideType<TArr>, 
+    ListWideType<TArr>,
     ListHash<TArr>
   >;
   Object.defineProperty(proxy, "id", {
@@ -105,19 +105,19 @@ const createProxy = <
 
 /**
  * **list**([init])
- * 
- * Creates a `List` container which aims to behave _exactly_ like a 
- * [Javascript Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) 
- * but with the exception that when declared as a variable (aka, `let` or `var`, 
+ *
+ * Creates a `List` container which aims to behave _exactly_ like a
+ * [Javascript Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)
+ * but with the exception that when declared as a variable (aka, `let` or `var`,
  * not `const`), the variable can't be replaced with another raw array declaration.
- * 
+ *
  * ```ts
  * // List<number>
  * let a = list([1,2,3]);
  * // mutate the list
  * a.push(4);
  * // NOT allowed
- * a = [4,5,6]; 
+ * a = [4,5,6];
  * // pass into fn as a reference
  * const fn = (v: List<number>) => { v.push(4); return v; }
  * // List<number> with values [1,2,3,4]
@@ -130,7 +130,7 @@ export const list = <
 >(...init: TList) => {
 
   return (
-    init.length === 1 && isArray(init[0]) 
+    init.length === 1 && isArray(init[0])
       ? createProxy(...init[0])
       : createProxy(...init)
   ) as unknown as TList extends readonly [ readonly N[] ]

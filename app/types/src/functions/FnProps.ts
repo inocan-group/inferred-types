@@ -4,7 +4,7 @@ import {
   EmptyObject,
   IsEqual,
   ObjectKey
-} from "src/types/index";
+} from "@inferred-types/types";
 
 type Process<
   T extends AnyFunction

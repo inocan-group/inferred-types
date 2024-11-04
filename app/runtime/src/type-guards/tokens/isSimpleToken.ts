@@ -1,6 +1,6 @@
 import { SIMPLE_SCALAR_TOKENS, SIMPLE_TOKENS } from "inferred-types"
 
-import { SimpleContainerToken, SimpleScalarToken, SimpleToken } from "src/types/index"
+import { SimpleContainerToken, SimpleScalarToken, SimpleToken } from "@inferred-types/types"
 import { isString,isArray } from "src/runtime/index";
 
 const split_tokens = SIMPLE_TOKENS.map(i => i.split("TOKEN"));

@@ -9,7 +9,7 @@ import {
   IsIpAddress,
   IsIp4Address,
   IsIp6Address
-} from "src/types/index";
+} from "@inferred-types/types";
 import {
   isUrl,
   isIp4Address,

@@ -1,4 +1,4 @@
-import {  Dictionary, Keys , Tuple, UnionToTuple } from "src/types/index";
+import {  Dictionary, Keys , Tuple, UnionToTuple } from "@inferred-types/types";
 
 /**
  * Returns the _first_ key in an object.

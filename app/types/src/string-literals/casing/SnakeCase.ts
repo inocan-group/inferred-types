@@ -1,14 +1,14 @@
 /* eslint @typescript-eslint/no-unused-vars: "off" */
-import { 
+import {
   IsTrue,
   If,
-  LeftWhitespace, 
-  RightWhitespace, 
-  Trim, 
-  Concat, 
-  DashUppercase, 
-  LowerAllCaps 
-} from "src/types/index";
+  LeftWhitespace,
+  RightWhitespace,
+  Trim,
+  Concat,
+  DashUppercase,
+  LowerAllCaps
+} from "@inferred-types/types";
 
 /** convert space to dash */
 type SpaceToDash<T extends string> = T extends `${infer Begin}${" "}${infer Rest}`
@@ -17,14 +17,14 @@ type SpaceToDash<T extends string> = T extends `${infer Begin}${" "}${infer Rest
 
 /**
  * **SnakeCase**`<TString,TPreserve>`
- * 
+ *
  * Converts a string literal type to _snake_case_ and optionally preserves
  * surrounding whitespace.
  * ```ts
  * // "foo_bar"
  * type T = SnakeCase<"fooBar">;
  * type T = SnakeCase<"\n foo bar \t">;
- * ``` 
+ * ```
  */
 export type SnakeCase<
   S extends string,

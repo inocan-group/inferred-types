@@ -1,9 +1,9 @@
 import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import {  StartsWith, UpperAlphaChar } from "src/types/index";
+import {  StartsWith, UpperAlphaChar } from "@inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("StartsWith<TValue,TTest>", () => {
@@ -23,7 +23,7 @@ describe("StartsWith<TValue,TTest>", () => {
 
     type WideComparator = StartsWith<"Foo", string>;
     type WideContent = StartsWith<string, "foo">;
-    
+
     type cases = [
       ExpectTrue<Foo>,
       ExpectFalse<NoFoo>,
@@ -40,8 +40,8 @@ describe("StartsWith<TValue,TTest>", () => {
       Expect<Equal<WideComparator, boolean>>,
       Expect<Equal<WideContent, boolean>>,
     ];
-    const cases: cases = [ 
-      true, false, 
+    const cases: cases = [
+      true, false,
       true, false,
       true, false,
       true, false,

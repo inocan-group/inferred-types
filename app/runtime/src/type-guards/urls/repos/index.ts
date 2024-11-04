@@ -1,4 +1,4 @@
-import { RepoUrls } from "src/types/index";
+import { RepoUrls } from "@inferred-types/types";
 import { isGithubUrl } from "./github";
 import { isBitbucketUrl } from "./bitbucket";
 import { isCodeCommitUrl } from "./codeCommit";

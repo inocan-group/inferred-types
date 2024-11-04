@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   StripWhile,
   Whitespace
-} from "src/types/index";
+} from "@inferred-types/types";
 import { stripWhile } from "src/runtime/index";
 import { NUMERIC_CHAR } from "src/constants/index";
 

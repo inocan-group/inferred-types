@@ -1,23 +1,23 @@
- 
-import { 
-  AnyFunction, 
-  AnyObject,  
-  IsVueRef, 
-  IsUndefined, 
-  Narrowable, 
-  Concat, 
-  If, 
-  IsNumericLiteral, 
+
+import {
+  AnyFunction,
+  AnyObject,
+  IsVueRef,
+  IsUndefined,
+  Narrowable,
+  Concat,
+  If,
+  IsNumericLiteral,
   IsBooleanLiteral
-} from "src/types/index";
+} from "@inferred-types/types";
 
 /**
  * **ToString**
- * 
+ *
  * Converts _any_ type into a string representation.
  * This utility works as advertised but is in early stages
  * so expect it to be refined over time.
- * 
+ *
  * **Related:** `AsString`
  */
 export type ToString<T> = T extends string

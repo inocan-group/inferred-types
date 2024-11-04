@@ -1,4 +1,4 @@
-// import { Filter,   Comparison } from "src/types/index";
+// import { Filter,   Comparison } from "@inferred-types/types";
 // import { isSameTypeOf } from "../type-guards/higher-order/isSameTypeOf";
 // import {  endsWith,startsWith } from "../type-guards";
 // import { asArray } from "./asArray";

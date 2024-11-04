@@ -1,4 +1,4 @@
-import { PROXMOX_CT_STATE } from "inferred-types";
+import { PROXMOX_CT_STATE } from "@inferred-types/constants";
 
 /**
  * the _states_ a Proxmox LXC container can be in

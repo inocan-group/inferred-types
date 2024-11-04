@@ -1,4 +1,4 @@
-import { IsAllCaps } from "src/types/index";
+import { IsAllCaps } from "@inferred-types/types";
 
 
 /**

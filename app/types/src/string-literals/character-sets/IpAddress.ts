@@ -8,8 +8,8 @@ import {
   StripTrailing,
   Suggest,
   UnionToTuple
-} from "src/types/index";
-import  { IPv6 } from "inferred-types";
+} from "@inferred-types/types";
+import  { IPv6 } from "@inferred-types/constants";
 
 /**
  * **IPv4Number**

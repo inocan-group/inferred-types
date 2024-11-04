@@ -1,19 +1,19 @@
 import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { 
-  DoesExtend, 
+import {
+  DoesExtend,
   IsVueRef,
-  VueRef 
-} from "src/types/index";
+  VueRef
+} from "@inferred-types/types";
 import { asVueRef, isRef, keysOf } from "src/runtime/index";
 import { Ref, ref } from "vue";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("VueRef, isRef(), and IsRef<T>", () => {
-  
+
   it("IsRef<T> on real Ref<T> and fake VueRef<T>", () => {
     type Str = IsVueRef<Ref<"hi">>;
     type Str2 = IsVueRef<VueRef<"hi">>;
@@ -25,30 +25,30 @@ describe("VueRef, isRef(), and IsRef<T>", () => {
       ExpectFalse<NotRef>
     ];
     const cases: cases = [ true, true, false ];
-    
+
   });
 
-  
+
   it("Negative tests of IsRef<T> on non-reference types", () => {
     type Str = IsVueRef<"hi">;
     type Num = IsVueRef<42>;
     type Obj = IsVueRef<object>;
-    
+
     type cases = [
       ExpectFalse<Str>,
       ExpectFalse<Num>,
       ExpectFalse<Obj>,
     ];
     const cases: cases = [ false, false, false ];
-    
+
   });
-  
-  
+
+
 
   it("VueRef and IsRef<T>", () => {
     const test_ref = ref("foobar");
     /**
-     * Since our `keysOf` function is VueJS aware it reduces the 
+     * Since our `keysOf` function is VueJS aware it reduces the
      * keys to just `value`.
      */
     const keys = keysOf(test_ref);
@@ -67,7 +67,7 @@ describe("VueRef, isRef(), and IsRef<T>", () => {
       "_value"
     ]
     expect(runtime_keys.every(k => obj_keys.includes(k)));
-    
+
     type cases = [
       // Ref extends VueRef by not in reverse
       // due to the private symbol used in Ref
@@ -81,7 +81,7 @@ describe("VueRef, isRef(), and IsRef<T>", () => {
       true,  false, true, true
     ];
   });
-  
+
   it("using isRef() type guard", () => {
     const test_ref = ref("foobar");
     if (isRef(test_ref)) {

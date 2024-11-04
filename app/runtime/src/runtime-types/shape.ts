@@ -5,7 +5,7 @@ import {
   ShapeApi as TShapeApi,
   ShapeCallback,
   HandleDoneFn,
-} from "src/types/index";
+} from "@inferred-types/types";
 import { isString, hasKeys, isObject, handleDoneFn,  } from "src/runtime/index";
 import { boolean, nullType, undefinedType, unknown } from "./shape-helpers/atomics";
 import { number, string } from "./shape-helpers/singletons";

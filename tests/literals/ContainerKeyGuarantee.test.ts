@@ -1,9 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { ContainerKeyGuarantee } from "src/types/index";
+import { ContainerKeyGuarantee } from "@inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("ContainerKeyGuarantee<T>", () => {
@@ -17,7 +17,7 @@ describe("ContainerKeyGuarantee<T>", () => {
     type Two = ContainerKeyGuarantee<Tup, 2>;
     type ThreeArr = ContainerKeyGuarantee<StrArr, 3>;
 
-    
+
     type cases = [
       Expect<Equal<Bar, { foo: 1; bar: unknown }>>,
       Expect<Equal<Two, Tup & readonly [unknown, unknown, unknown]>>,

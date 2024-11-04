@@ -1,8 +1,8 @@
-import { Narrowable } from "src/types/index";
+import { Narrowable } from "@inferred-types/types";
 
 /**
  * **ifSameType**(value, comparator, same, notSame)
- * 
+ *
  * Runtime utility function which compares the variable `value` to a comparison type
  * and based on whether they are the same type, it will call one of the two provided
  * callback functions: `same` or `notSame`.
@@ -21,8 +21,8 @@ export function ifSameType<
   return (
     // runtime values match
     (
-      typeof value === typeof comparator 
-        ? same(value as TType & TValue) 
+      typeof value === typeof comparator
+        ? same(value as TType & TValue)
         : notSame(value as Exclude<TValue, TType>)
     ) as TValue extends TType ? IF : ELSE
   );

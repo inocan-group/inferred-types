@@ -1,11 +1,11 @@
-import { StripBefore } from "src/types/index";
+import { StripBefore } from "@inferred-types/types";
 
 /**
  * **stripBefore**(content, find)
- * 
+ *
  * Runtime utility which strips out all characters Before (and including)
  * the "find" string while returning a strong type.
- * 
+ *
  * ### Example
  * ```ts
  * // "hello"

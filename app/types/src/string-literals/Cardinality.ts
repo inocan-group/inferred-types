@@ -1,4 +1,4 @@
-import { First, UnionToTuple } from "src/types/index";
+import { First, UnionToTuple } from "@inferred-types/types";
 
 export type OneToOne = `1:1`;
 export type OneToMany = `1:M`;
@@ -73,7 +73,7 @@ export type CardinalityOut<T extends Cardinality> = T extends `${string}:${infer
   : never;
 
 export type CardinalityInput<
-  T, 
+  T,
   C extends Cardinality
 > = UnionToTuple<C> extends readonly unknown[]
   ? First<UnionToTuple<C>> extends 1

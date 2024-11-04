@@ -1,4 +1,4 @@
-import { TEMPERATURE_METRICS_LOOKUP } from "inferred-types";
+import { TEMPERATURE_METRICS_LOOKUP } from "@inferred-types/constants";
 import { OptSpace } from "../character-sets/OptionalSpace";
 
 type TemperatureMetricsLookup = typeof TEMPERATURE_METRICS_LOOKUP;

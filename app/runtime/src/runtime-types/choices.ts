@@ -10,7 +10,7 @@
 //   ChoiceApiOptions,
 //   ChoiceApiConfig,
 //   ChoiceApi
-// } from "src/types/index";
+// } from "@inferred-types/types";
 // import {  isDoneFn, isFunction,  isString,  isTuple,  isUndefined } from "../type-guards/index";
 // import { shape } from "./shape";
 // import { Never } from "inferred-types";

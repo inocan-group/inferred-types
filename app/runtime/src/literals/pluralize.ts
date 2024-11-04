@@ -3,7 +3,7 @@ import {
   PLURAL_EXCEPTIONS,
   SINGULAR_NOUN_ENDINGS
 } from "inferred-types";
-import { Pluralize } from "src/types/index";
+import { Pluralize } from "@inferred-types/types";
 import { stripTrailing, split, rightWhitespace } from "src/runtime/index";
 
 const isException = <T extends string>(word: T) => Object.keys(PLURAL_EXCEPTIONS).includes(word);

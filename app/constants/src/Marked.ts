@@ -1,4 +1,4 @@
-import { createConstant } from "src/constants/index";
+import { createConstant } from "./index";
 
 export const MARKED = createConstant("Marked");
 

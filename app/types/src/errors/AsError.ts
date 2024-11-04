@@ -1,18 +1,18 @@
-import { 
-  AnyObject, 
-  AsIndexOf, 
-  Concat, 
-  IfNever, 
-  IsEqual, 
+import {
+  AnyObject,
+  AsIndexOf,
+  Concat,
+  IfNever,
+  IsEqual,
   ToString,
-  ErrorCondition, 
+  ErrorCondition,
   EmptyObject,
   TypeErrorInfo,
   Throw,
-} from "src/types/index";
+} from "@inferred-types/types";
 
 interface Error<
-  TName extends string = string, 
+  TName extends string = string,
   TMsg extends string = string
 > {
   name: TName;
@@ -43,29 +43,29 @@ type Process<
 ? ErrorCondition<T[0], T[1], never >
 : T extends [string, string, TypeErrorInfo]
   ? Throw<
-    T[0], 
+    T[0],
     T[1],
     "AsError",
     {
-      id: IdFrom<Props<T[2]>>; 
+      id: IdFrom<Props<T[2]>>;
       library: LibraryFrom<Props<T[2]>>;
     }
   >
   : ErrorCondition<
-      T[0], 
+      T[0],
       T[1],
       never
     >;
 
 /**
  * **AsError**`<T>`
- * 
+ *
  * Proxies through all `T`'s which are already extended from `ErrorCondition`
- * unchanged but converts all other types into 
- * 
+ * unchanged but converts all other types into
+ *
  * If no known formula's are found to convert to an ErrorCondition then a
  * `ErrorCondition<"failed-to-wrap">` error will be produced:
- * 
+ *
  * #### Known Formulas:
  * - `never` - converted to `ErrorCondition<"never-value">`
  * - `Error` - a JS `Error` type is converted to `ErrorCondition<"runtime-error"> and it's properties are available in the error conditions hash storage as `error`
@@ -75,9 +75,9 @@ type Process<
  *    - the optional `context` object is a dictionary of key value pairs; where:
  *      - when the keys match one of the root properties of `ErrorCondition` it will be
  *        mapped onto that property (assuming that the _type_ is appropriate)
- *      - otherwise it will be added to the `context` dictionary appearing as a prop on 
+ *      - otherwise it will be added to the `context` dictionary appearing as a prop on
  *        `ErrorCondition`.
- * 
+ *
  * **Related:** `Throw`
  */
 export type AsError<
@@ -85,12 +85,12 @@ export type AsError<
 > = TType extends ErrorCondition ? TType : IfNever<
   TType,
   ErrorCondition<
-    "never-value", 
-    "a 'never' type was encountered which is not allowed in this context!" 
+    "never-value",
+    "a 'never' type was encountered which is not allowed in this context!"
   >,
   TType extends Error<string>
   ? Throw<
-      "runtime-error", 
+      "runtime-error",
       `the JS runtime's Error class was found with the message: '${TType["message"]}'`,
       "AsError",
       { library: "inferred-types" }

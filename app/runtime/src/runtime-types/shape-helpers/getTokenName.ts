@@ -1,4 +1,4 @@
-import { Shape } from "src/types/index";
+import { Shape } from "@inferred-types/types";
 import { stripLeading } from "src/runtime/index"
 
 /**

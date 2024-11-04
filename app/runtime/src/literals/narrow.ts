@@ -1,14 +1,14 @@
-import { 
-  First, 
-  IsUnion, 
-  Length, 
-  Narrowable, 
+import {
+  First,
+  IsUnion,
+  Length,
+  Narrowable,
   UnionToTuple,
-} from "src/types/index";
+} from "@inferred-types/types";
 
 /**
  * **narrow**(value)
- * 
+ *
  * An identity function which provides the input in as narrow a form
  * as possible.
  * ```ts
@@ -27,13 +27,13 @@ export function narrow<
   T extends readonly (Record<K,N> | N)[]
 >(...values: T) {
   return (
-    values.length === 1 
-      ? values[0] 
+    values.length === 1
+      ? values[0]
       : values
-  ) as unknown as Length<T> extends 1 
+  ) as unknown as Length<T> extends 1
     ? T[0] extends readonly unknown[]
       ? T[0] extends infer Arr
-        ? [IsUnion<First<Arr & readonly unknown[]>>] extends [true] 
+        ? [IsUnion<First<Arr & readonly unknown[]>>] extends [true]
             ? Readonly<UnionToTuple<First<T[0]>>>
             : T[0]
 

@@ -1,5 +1,5 @@
 
-import { FalsyValue, Narrowable } from "src/types/index";
+import { FalsyValue, Narrowable } from "@inferred-types/types";
 import { FALSY_VALUES } from "inferred-types";
 
 /**

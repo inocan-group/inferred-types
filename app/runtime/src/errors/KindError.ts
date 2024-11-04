@@ -5,7 +5,7 @@ import {
   KindError,
   KindErrorDefn,
   Unset
-} from "src/types/index";
+} from "@inferred-types/types";
 import { toKebabCase, toPascalCase } from "src/runtime/index";
 
 /**

@@ -1,9 +1,9 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
-import { ErrorCondition, Extends,  Or } from "src/types/index";
+import { ErrorCondition, Extends,  Or } from "@inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("Or<T>", () => {
@@ -15,7 +15,7 @@ describe("Or<T>", () => {
     type T4 = Or<[true, false, boolean]>; // true
     type T5 = Or<[false, false, boolean]>; // boolean
     type T6 = Or<never>;
-    
+
     type cases = [
       Expect<Equal<T1, true>>, //
       Expect<Equal<T2, false>>,
@@ -33,8 +33,8 @@ describe("Or<T>", () => {
     // type T3 = Or<() => readonly boolean[] >; // never
     type T4 = Or<[() => true, () => false, () => boolean]>; // true
     type T5 = Or<[() => false, () => false, () => boolean]>; // boolean
-    
-  
+
+
     type cases = [
       Expect<Equal<T1, true>>, //
       Expect<Equal<T2, false>>,

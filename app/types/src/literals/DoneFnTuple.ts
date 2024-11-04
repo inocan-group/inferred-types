@@ -1,4 +1,4 @@
-import { IsTrue, If, FnWithDescription, FnDefn, TupleToUnion, Narrow} from "src/types/index";
+import { IsTrue, If, FnWithDescription, FnDefn, TupleToUnion, Narrow} from "@inferred-types/types";
 
 
 /**

@@ -12,7 +12,7 @@ import {
   IsUrl,
   GetUrlProtocol,
   RemoveUrlPort
-} from "src/types/index";
+} from "@inferred-types/types";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

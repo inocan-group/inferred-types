@@ -1,34 +1,20 @@
 {
-  "references": [
-    {
-      // depends on constants to derive some types
-      "path": "../constants"
-    }
-  ],
   "compilerOptions": {
     "strict": true,
     "skipLibCheck": true,
     "module": "ES2022",
     "target": "ES2022",
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "declaration": true,
     "declarationMap": true,
     "baseUrl": ".",
-    "rootDir": "..",
-    "outDir": "../../dist",
-    "composite": true,
+    "rootDir": "./src",
+    "outDir": "./dist",
     "forceConsistentCasingInFileNames": true,
     "paths": {
       // allow importing from the root export of the types sub project
-      "src/types/index": [
-        "index.ts"
-      ],
-      // allow importing all constants to the static "src/constants/index" path
-      "src/constants/index": [
-        "../constants/index.ts"
-      ],
-      "inferred-types": [
-        "../constants/index.ts"
+      "@inferred-types/types": [
+        "./src/index.ts"
       ],
       // allow various "index.ts" to import explicit files in the src tree
       "src/types/*": [
@@ -37,9 +23,10 @@
     },
   },
   "include": [
-    "./**/*.ts"
+    "src"
   ],
   "exclude": [
-    "./dist"
+    "dist",
+    "node_modules"
   ]
 }

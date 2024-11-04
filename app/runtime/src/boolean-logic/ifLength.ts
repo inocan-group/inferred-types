@@ -5,7 +5,7 @@ import {
   Narrowable,
   Scalar,
   Tuple
-} from "src/types/index";
+} from "@inferred-types/types";
 
 /**
  * **ifLength**(val,length, ifVal, elseVal)

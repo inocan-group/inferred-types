@@ -1,4 +1,4 @@
-import { AfterFirst, First, Shift,Chars } from "src/types/index";
+import { AfterFirst, First, Shift,Chars } from "@inferred-types/types";
 
 
 type Process<

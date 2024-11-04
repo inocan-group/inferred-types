@@ -1,8 +1,8 @@
-import { IsEmptyContainer, TupleToUnion, Widen } from "src/types/index";
+import { IsEmptyContainer, TupleToUnion, Widen } from "@inferred-types/types";
 
 /**
  * **ArrayElementType**`<T>`
- * 
+ *
  * Determines what type the elements in an array are.
  * ```ts
  * // string

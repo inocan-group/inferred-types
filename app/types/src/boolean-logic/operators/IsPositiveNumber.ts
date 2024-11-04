@@ -1,5 +1,5 @@
-import { NumberLike } from "src/types/numeric-literals";
-import { IsNegativeNumber } from "./IsNegativeNumber";
+import { NumberLike, IsNegativeNumber } from "@inferred-types/types";
+
 
 /**
  * **IsPositiveNumber**`<T>`

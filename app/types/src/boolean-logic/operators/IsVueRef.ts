@@ -1,8 +1,8 @@
-import {  If,  IsEqual,  ObjectKey,  RemoveIndexKeys,   Retain,  UnionToTuple } from "src/types/index";
+import {  If,  IsEqual,  ObjectKey,  RemoveIndexKeys,   Retain,  UnionToTuple } from "@inferred-types/types";
 
 
 
-type _Keys<T extends object> = UnionToTuple<keyof RemoveIndexKeys<T>> extends 
+type _Keys<T extends object> = UnionToTuple<keyof RemoveIndexKeys<T>> extends
 readonly ObjectKey[]
   ? UnionToTuple<keyof RemoveIndexKeys<T>>
   : never;
@@ -18,7 +18,7 @@ type _Validate<T extends object> = "value" extends keyof T
 
 /**
  * **IsVueRef**`<T>`
- * 
+ *
  * Boolean type utility that detects whether the type passed in
  * is a VueJS `Ref<...>` type or this library's `VueRef<...>`
  * (which serves as a lightweight proxy type for Vue's `Ref`).
@@ -31,5 +31,4 @@ export type IsVueRef<T> = T extends object
       ? _Validate<T>
       : false
     >
-: false;    
-    
+: false;

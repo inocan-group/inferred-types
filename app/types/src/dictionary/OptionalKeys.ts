@@ -5,7 +5,7 @@ import {
   If,
   IsEqual,
   Unset
- } from "src/types/index";
+ } from "@inferred-types/types";
 
 /**
  * **OptionalKeys**`<T,[V]>`

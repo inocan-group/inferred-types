@@ -1,8 +1,8 @@
-import {  
-  IsUnion, 
-  IsWideType, 
-  UnionToTuple 
-} from "src/types/index";
+import {
+  IsUnion,
+  IsWideType,
+  UnionToTuple
+} from "@inferred-types/types";
 
 type Process<
   T extends readonly unknown[]
@@ -12,10 +12,10 @@ type Process<
 
 /**
  * **IsWideUnion**`<T>`
- * 
+ *
  * Boolean utility which checks whether `T` is both a _union type_
  * and that it's elements are all considered _wide types_.
- * 
+ *
  * **Related:** `IsNonLiteralUnion`
  */
 export type IsWideUnion<T> = [IsUnion<T>] extends [true]

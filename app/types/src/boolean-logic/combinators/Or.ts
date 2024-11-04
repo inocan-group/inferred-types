@@ -1,15 +1,15 @@
- 
-import { 
-  LogicFunction, 
-  NarrowlyContains, 
-  LogicalReturns, 
-  IsNever, 
-  IsEqual, 
-  Throw, 
-  ProxyError, 
-  ErrorCondition, 
-  IsErrorCondition  
-} from "src/types/index";
+
+import {
+  LogicFunction,
+  NarrowlyContains,
+  LogicalReturns,
+  IsNever,
+  IsEqual,
+  Throw,
+  ProxyError,
+  ErrorCondition,
+  IsErrorCondition
+} from "@inferred-types/types";
 
 type Process<
   TConditions extends readonly boolean[],
@@ -31,13 +31,13 @@ type ConditionError<TErr> = TErr extends ErrorCondition
 
 /**
  * **Or**`<TConditions, [TEmpty]>`
- * 
- * Allows an array of conditions (either a boolean value or a 
+ *
+ * Allows an array of conditions (either a boolean value or a
  * function which evaluates to a boolean value) to be logically OR'd together.
- * 
+ *
  * - by default if an empty tuple of conditions is passed in then this utility
  * resolves to `false` but this can be changed by modifying `TEmpty`
- * 
+ *
  * **Related:** `And`
  */
 export type Or<
@@ -66,4 +66,4 @@ export type Or<
           "Or",
           { library: "inferred-types"; value: TConditions }
         >;
-  
+

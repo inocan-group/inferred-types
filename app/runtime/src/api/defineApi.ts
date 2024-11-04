@@ -7,7 +7,7 @@ import {
   Narrowable,
   OnPass,
   TypedFunction
-} from "src/types/index";
+} from "@inferred-types/types";
 import {
   isApiSurface,
 } from "src/runtime/index";

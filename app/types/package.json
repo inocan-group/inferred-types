@@ -1,5 +1,5 @@
 {
-  "name": "types",
+  "name": "@inferred-types/types",
   "private": true,
   "type": "module",
   "license": "MIT",
@@ -18,6 +18,9 @@
     "node": ">=20"
   },
   "scripts": {
-    "constants": "pnpm --filter constants"
+    "build": "tsup src/index.ts --format=\"esm,cjs\" --dts"
+  },
+  "dependencies": {
+    "@inferred-types/constants": "workspace:*"
   }
 }

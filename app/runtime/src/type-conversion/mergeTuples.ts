@@ -1,9 +1,9 @@
-import type { MergeTuples, Narrowable } from "src/types/index";
+import type { MergeTuples, Narrowable } from "@inferred-types/types";
 
 /**
  * **mergeTuples**(a,b)
- * 
- * Replaces values in `a` with `b` unless `b` is _undefined_. Also, if 
+ *
+ * Replaces values in `a` with `b` unless `b` is _undefined_. Also, if
  * `a` has more elements than `b` then these extra elements will be
  * appended to the end.
  */

@@ -1,10 +1,10 @@
-import { Narrowable, TupleToUnion } from "src/types/index";
+import { Narrowable, TupleToUnion } from "@inferred-types/types";
 
 /**
  * **union**(options) => (value)
- * 
+ *
  * A higher order function which creates a union type with a runtime value set.
- * 
+ *
  * **Related:** `unionize`
  */
 export const union = <

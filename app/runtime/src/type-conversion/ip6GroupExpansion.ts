@@ -1,4 +1,4 @@
-import { Ip6GroupExpansion } from "src/types/index"
+import { Ip6GroupExpansion } from "@inferred-types/types"
 import { stripTrailing } from "../literals/stripTrailing";
 
 /**

@@ -1,4 +1,4 @@
-import { EnsureSurround } from "src/types/index";
+import { EnsureSurround } from "@inferred-types/types";
 import { ensureLeading, ensureTrailing } from "src/runtime/index";
 
 /**

@@ -1,6 +1,6 @@
 
 
-import { AnyObject, EmptyObject, Narrowable, } from "src/types/index";
+import { AnyObject, EmptyObject, Narrowable, } from "@inferred-types/types";
 import { addFnToProps } from "src/runtime/index";
 
 export interface TypedError<
@@ -16,7 +16,7 @@ export interface TypedError<
 
 /**
  * **KindedApi**
- * 
+ *
  * An error builder where the `kind` property has already been set.
  */
 export type KindedApi<TKind extends string> = <

@@ -1,4 +1,4 @@
-import type {  And,  IsStringLiteral,  AsNumber } from "src/types/index";
+import type {  And,  IsStringLiteral,  AsNumber } from "@inferred-types/types";
 
 
 type Process<

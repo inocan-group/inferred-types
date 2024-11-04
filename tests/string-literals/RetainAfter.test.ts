@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { RetainAfter, Whitespace } from "src/types/index";
+import { RetainAfter, Whitespace } from "@inferred-types/types";
 import { retainAfter, retainAfterInclusive } from "src/runtime/index";
 import { WHITESPACE_CHARS } from "src/constants/index";
 

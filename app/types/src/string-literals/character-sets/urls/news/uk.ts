@@ -1,5 +1,5 @@
-import {  UK_NEWS } from "inferred-types";
-import { Mutable } from "src/types/type-conversion/Mutable";
+import {  UK_NEWS } from "@inferred-types/constants";
+import { Mutable } from "@inferred-types/types";
 import { UrlsFrom } from "../Url";
 
 type Lookup = Mutable<typeof UK_NEWS>;

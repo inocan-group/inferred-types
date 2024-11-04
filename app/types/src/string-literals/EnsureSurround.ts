@@ -1,10 +1,10 @@
-import { EnsureLeading, EnsureTrailing } from "src/types/index";
+import { EnsureLeading, EnsureTrailing } from "@inferred-types/types";
 
 /**
  * **EnsureSurround**
- * 
+ *
  * Ensures that `TInput` is _surrounded_ by `TPrefix` and `TPostfix`
- * 
+ *
  * **Related:** `Surround`
  */
 export type EnsureSurround<
@@ -12,6 +12,6 @@ export type EnsureSurround<
   TPrefix extends string,
   TPostfix extends string
 > = EnsureTrailing<
-  EnsureLeading<TInput, TPrefix>, 
+  EnsureLeading<TInput, TPrefix>,
   TPostfix
 >;

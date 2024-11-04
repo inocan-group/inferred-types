@@ -2,7 +2,7 @@ import {
   IsWideType,
   Or,
   TupleToUnion,
-} from "src/types/index";
+} from "@inferred-types/types";
 
 
 export type ToStringLiteral = string | number | boolean;

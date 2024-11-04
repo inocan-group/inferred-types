@@ -4,7 +4,7 @@ import {
   StripLeading,
   IsStringLiteral,
   If
-} from "src/types/index";
+} from "@inferred-types/types";
 
 type Process<T extends `${number}`> = If<
   IsStringLiteral<T>,

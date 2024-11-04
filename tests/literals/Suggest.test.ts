@@ -2,18 +2,18 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { Suggest } from "src/types/index";
+import { Suggest } from "@inferred-types/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("Suggest<T>", () => {
-  
+
   it("type tests for Suggest<T>", () => {
     type FooBar = Suggest<["foo", "bar"]>;
     type FooBarUnion = Suggest<"foo" | "bar">;
-    
+
     type cases = [
       Expect<Equal<FooBar, "foo" | "bar" | (string & {})>>,
       Expect<Equal<FooBarUnion, "foo" | "bar" | (string & {})>>,
@@ -21,9 +21,9 @@ describe("Suggest<T>", () => {
     const cases: cases = [
       true, true
     ];
-    
+
   });
-  
+
 
   it("runtime tests for Suggest<T>", () => {
     type Choice = Suggest<"foo" | "bar" | "baz">;

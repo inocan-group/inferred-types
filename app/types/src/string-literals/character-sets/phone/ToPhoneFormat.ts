@@ -1,6 +1,6 @@
 import type {
   PHONE_FORMAT
-} from "inferred-types"
+} from "@inferred-types/constants"
 
 import {
   ErrorCondition,
@@ -9,7 +9,7 @@ import {
   HasPhoneCountryCode,
   IsStringLiteral,
   PhoneNumber,
-} from "src/types/index";
+} from "@inferred-types/types";
 
 /**
  * **PhoneFormat**

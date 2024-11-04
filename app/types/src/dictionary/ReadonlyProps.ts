@@ -1,8 +1,8 @@
-import { ReadonlyKeys } from "src/types/index";
+import { ReadonlyKeys } from "@inferred-types/types";
 
 /**
  * **ReadonlyProps**`<T>`
- * 
+ *
  * Reduces an object down to just the key/value pairs which
  * are readonly.
  */

@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { FindFirstIndex, FindIndexes, FindLastIndex } from "src/types/index";
+import { FindFirstIndex, FindIndexes, FindLastIndex } from "@inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

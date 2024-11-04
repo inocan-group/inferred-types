@@ -1,7 +1,7 @@
-import {  
+import {
   Last,
-  Chars, 
-} from "src/types/index";
+  Chars,
+} from "@inferred-types/types";
 
 type Process<TContent extends string> = Last<Chars<TContent>>;
 
@@ -13,15 +13,15 @@ type Iterate<TContent extends readonly string[]> = {
 
 /**
  * **LastChar**`<TContent>`
- * 
+ *
  * When `TContent` extends a _string_:
  *   - will return the last character in a string literal
  *   - returns `string` when a wide type is encountered
  *   - returns `never` when an empty string is passed in
- * 
+ *
  * When `TContent` is a tuple of strings:
  *   - each item will be processed as described above
- * 
+ *
  * **Related:** `FirstChar`, `AfterFirstChar`
  */
 export type LastChar<

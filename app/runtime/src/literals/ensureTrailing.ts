@@ -1,4 +1,4 @@
-import { EnsureTrailing } from "src/types/index";
+import { EnsureTrailing } from "@inferred-types/types";
 
 /**
  * **ensureTrailing**(content, strip)
@@ -7,7 +7,7 @@ import { EnsureTrailing } from "src/types/index";
  * substring `ensure` at the end and adds it if not present.
  */
 export function ensureTrailing<
-  T extends string, 
+  T extends string,
   U extends string
 >(
   content: T,

@@ -1,8 +1,8 @@
-import { AnyObject, NonStringKeys } from "src/types/index";
+import { AnyObject, NonStringKeys } from "@inferred-types/types";
 
 /**
  * **WithStringKeys**`<T>`
- * 
+ *
  * Reduces an object to only the key/value pairs where the key is a
  * string.
  */

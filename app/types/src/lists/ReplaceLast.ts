@@ -1,9 +1,9 @@
- 
-import { Pop } from "src/types/index";
+
+import { Pop } from "@inferred-types/types";
 
 /**
  * **ReplaceLast**`<TList,TVal>`
- * 
+ *
  * Replaces the _last_ element of `TList` with the value of `TVal`.
  */
 export type ReplaceLast<

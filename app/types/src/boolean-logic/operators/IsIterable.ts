@@ -1,5 +1,5 @@
- 
-import { Container, Contains, IsNever, Dictionary, Keys } from "src/types/index";
+
+import { Container, Contains, IsNever, Dictionary, Keys } from "@inferred-types/types";
 
 type Process<T extends Container> = T extends Generator
   ? true
@@ -20,7 +20,7 @@ type Process<T extends Container> = T extends Generator
 
 /**
  * **IsIterable**`<T>`
- * 
+ *
  * Boolean operator which tests whether `T` is iterable.
  */
 export type IsIterable<

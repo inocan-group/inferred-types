@@ -1,8 +1,8 @@
-import { IsNegativeNumber , FixedLengthArray , Concat } from "src/types/index";
+import { IsNegativeNumber , FixedLengthArray , Concat } from "@inferred-types/types";
 
 /**
  * **Repeat**`<TStr,TCount>`
- * 
+ *
  * Creates a string literal by repeating a given string `TStr`, `TCount` times.
  */
 export type Repeat<

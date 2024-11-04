@@ -1,15 +1,15 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { 
-  IsValidIndex,  
-  Dictionary, 
-  ExplicitlyEmptyObject, 
-  EmptyObject 
-} from "src/types/index";
+import {
+  IsValidIndex,
+  Dictionary,
+  ExplicitlyEmptyObject,
+  EmptyObject
+} from "@inferred-types/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("IsValidKey<T>", () => {
@@ -25,13 +25,13 @@ describe("IsValidKey<T>", () => {
     type F3 = IsValidIndex<ExplicitlyEmptyObject, "foo">;
     type F4 = IsValidIndex<[1,2,3], -10>;
     type F5 = IsValidIndex<[1,2,3], "foo">;
-    
+
     type B1 = IsValidIndex<string[], 0>;
     type BF1 = IsValidIndex<string[], "foo">;
     type B2 = IsValidIndex<Dictionary, "foo">;
     type BF2 = IsValidIndex<Dictionary, 0>;
     type BF3 = IsValidIndex<EmptyObject, "foo">;
-    
+
     type cases = [
       Expect<Equal<T1, true>>,
       Expect<Equal<T2, true>>,
@@ -54,7 +54,7 @@ describe("IsValidKey<T>", () => {
     const cases: cases = [
       true, true, true, true,
       true, true,true, true, true,
-      true, true, 
+      true, true,
       true, true, true
     ];
   });

@@ -11,7 +11,7 @@ import {
   EmptyObject,
   If,
   As
-} from "src/types/index";
+} from "@inferred-types/types";
 
 type Process<
   TKeys extends readonly unknown[],
@@ -39,7 +39,7 @@ type Process<
 
 /**
  * **MergeObjects**`<TDefault,TOverride>`
- * 
+ *
  * A type utility that _shallowly merges_ two object types.
  */
 export type MergeObjects<

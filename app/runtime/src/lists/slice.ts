@@ -1,8 +1,8 @@
-import { Slice, Tuple } from "src/types/index";
+import { Slice, Tuple } from "@inferred-types/types";
 
 /**
  * **slice**(list, start, end)
- * 
+ *
  * Runtime utility to slice an array while maintaining strong
  * types.
  */

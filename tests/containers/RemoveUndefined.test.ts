@@ -1,9 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { EmptyObject, RemoveUndefined } from "src/types/index";
+import { EmptyObject, RemoveUndefined } from "@inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("RemoveUndefined<T>", () => {
@@ -14,7 +14,7 @@ describe("RemoveUndefined<T>", () => {
     type AllGone = RemoveUndefined<[undefined, undefined]>;
     type Leading = RemoveUndefined<[undefined, 1,2,3]>;
     type Tailing = RemoveUndefined<[1,2,3, undefined]>;
-    
+
     type cases = [
       Expect<Equal<Identity, [1,2,3]>>,
       Expect<Equal<OneGone, [1,2,3]>>,
@@ -32,7 +32,7 @@ describe("RemoveUndefined<T>", () => {
     type NoBar = RemoveUndefined<{foo: 1; bar: undefined}>;
     type NothingLeft = RemoveUndefined<{foo: undefined; bar: undefined}>;
     type NothingToBegin = RemoveUndefined<EmptyObject>;
-    
+
     type cases = [
       Expect<Equal<Identity, {foo:1}>>,
       Expect<Equal<NoBar, {foo:1}>>,

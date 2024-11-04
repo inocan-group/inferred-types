@@ -1,5 +1,5 @@
 
-import { FalsyValue } from "src/types/index";
+import { FalsyValue } from "@inferred-types/types";
 import { FALSY_VALUES } from "inferred-types";
 
 

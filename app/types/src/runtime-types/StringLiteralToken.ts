@@ -1,20 +1,20 @@
-import { CSV, Digit } from "src/types/index";
+import { CSV, Digit } from "@inferred-types/types";
 
 export type OptModifier = `|opt`;
 
 /**
  * **BespokeLiteral**
- * 
+ *
  * A string literal token which has a discrete literal value
  */
 export type BespokeLiteral = `literal:${string}`;
 
 /**
  * **BespokeUnion**
- * 
+ *
  * A string literal token which represents a discrete set of
  * values who's union represents the string literal value.
- * 
+ *
  * Note: if you need a comma literal in your union type then it
  * must be serialized to `Constant<"comma">`.
  */
@@ -24,16 +24,16 @@ type OptionalOptModifier = OptModifier | "";
 
 /**
  * **StringLiteralToken**
- * 
+ *
  * Tokens are broken up into three types:
- * 
+ *
  * 1. **bespoke** literal values can also be specified by prefixing with
  * `literal:` and then the literal value.
  * 2. **union** literal values can be expressed as `union:[CSV]`
  * 3. **known** literals are surrounded by `<` and `>` characters and
  * represent a known type definition which is valid for a string
  * literal.
- * 
+ *
  *    - within known literals there are three char "scopes":
  *        - `<string>` effectively allows any number and type of chars
  *        - `<number>` and `<boolean>` allow for as many characters as is required for completing the type

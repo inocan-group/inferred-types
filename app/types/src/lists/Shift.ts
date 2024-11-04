@@ -7,7 +7,7 @@ import {
   If,
   Chars,
   IsUndefined
-} from "src/types/index";
+} from "@inferred-types/types";
 
 type _Shift<TList extends Tuple> = //
 TList extends [unknown, ...(infer Tail)]

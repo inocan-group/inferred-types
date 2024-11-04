@@ -1,9 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { AsRecord, ObjectKey } from "src/types/index";
+import { AsRecord, ObjectKey } from "@inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("AsRecord<T>", () => {
@@ -13,7 +13,7 @@ describe("AsRecord<T>", () => {
     type Obj = AsRecord<object>;
     type Rec = AsRecord<Record<ObjectKey, number>>;
     type FooBar = AsRecord<{foo: 1; bar: 2}>;
-    
+
     type cases = [
       Expect<Equal<Tup, [1,2,3]>>,
       Expect<Equal<Obj, NonNullable<unknown>>>,

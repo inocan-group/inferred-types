@@ -1,4 +1,4 @@
-import {  RetainWhile, TupleToUnion } from "src/types/index";
+import {  RetainWhile, TupleToUnion } from "@inferred-types/types";
 import { asChars } from "../type-conversion"
 
 

@@ -1,6 +1,6 @@
-import { ISO3166_1 } from "inferred-types";
-import {  If, IsEqual, IsStringLiteral } from "src/types/boolean-logic";
-import { AfterFirst, First } from "src/types/lists";
+import { ISO3166_1 } from "@inferred-types/constants";
+import {  If, IsEqual, IsStringLiteral, AfterFirst, First } from "@inferred-types/types";
+
 
 
 export type Iso3166_1_Lookup = typeof ISO3166_1;

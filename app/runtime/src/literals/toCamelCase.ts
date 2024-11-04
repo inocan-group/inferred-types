@@ -1,4 +1,4 @@
-import type { CamelCase } from "src/types/index";
+import type { CamelCase } from "@inferred-types/types";
 import { toPascalCase } from "src/runtime/index";
 
 /**

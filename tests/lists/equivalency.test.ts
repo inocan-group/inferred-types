@@ -1,9 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import type { IfEqual, IsEqual, IsNotEqual } from "src/types/index";
+import type { IfEqual, IsEqual, IsNotEqual } from "@inferred-types/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("IsEqual", () => {
@@ -59,7 +59,7 @@ describe("IfEqual", () => {
       Expect<Equal<Eq, "equal">>,
       Expect<Equal<NotEq, "not">>,
     ];
-    
+
     const cases: cases = [ true, true ];
   });
 

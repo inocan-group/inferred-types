@@ -2,7 +2,7 @@ import {
   FnWithProps,
   Narrowable,
   TypedFunction
-} from "src/types/index";
+} from "@inferred-types/types";
 
 /**
  * **addFnToProps**(props, [clone]) => (fn) => FnWithProps

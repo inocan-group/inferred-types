@@ -1,11 +1,11 @@
-import { UpperAlphaChar } from "src/types/index";
+import { UpperAlphaChar } from "@inferred-types/types";
 
 /**
  * Indicates whether `T` has uppercase characters in it.
  * ```ts
  * // true
  * type T = HasUppercase<"Foobar">;
- * // false 
+ * // false
  * type T = HasUppercase<"foobar">;
  * // "unknown"
  * type T = HasUppercase<string>;

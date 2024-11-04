@@ -1,9 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { IsNegativeNumber } from "src/types/index";
+import { IsNegativeNumber } from "@inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("IsNegativeNumber", () => {
@@ -14,7 +14,7 @@ describe("IsNegativeNumber", () => {
     type Pos = IsNegativeNumber<1>;
     type PosStr = IsNegativeNumber<"1">;
     type Bool = IsNegativeNumber<number>;
-    
+
     type cases = [
       Expect<Equal<Neg, true>>,
       Expect<Equal<NegStr, true>>,

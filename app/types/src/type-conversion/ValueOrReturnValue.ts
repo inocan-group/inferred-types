@@ -1,4 +1,4 @@
-import { TypedFunction } from "src/types/index";
+import { TypedFunction } from "@inferred-types/types";
 
 
 type Process<
@@ -11,11 +11,11 @@ type Process<
 
 /**
  * **ValueOrReturnValue**`<TEval>`
- * 
+ *
  * Takes a value or a tuple of values in `TEval` and evaluates what
  * the item's _return type_ is when an element is a function; otherwise it just proxies
  * the element's type forward.
- * 
+ *
  * ### Example
  * ```ts
  * // [true, "foo", "bar"]

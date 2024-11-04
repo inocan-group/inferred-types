@@ -1,22 +1,22 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 import { narrow } from "src/runtime/index";
-import { Narrowable } from "src/types/index";
+import { Narrowable } from "@inferred-types/types";
 
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("Narrowable", () => {
-  
+
   it("Narrowable<T>", () => {
     type Num = Narrowable & number;
     type Str = Narrowable & string;
     type NumericLiteral = Narrowable & 42;
     type StringLiteral = Narrowable & "foo";
     type Obj = object & Narrowable;
-    
+
     type cases = [
       Expect<Equal<Num, number>>,
       Expect<Equal<Str, string>>,
@@ -26,7 +26,7 @@ describe("Narrowable", () => {
     ];
     const cases: cases = [true,true,true,true,true];
   });
-  
+
 
   it("narrow() runtime util", () => {
     const stringLiteral = narrow("foo");
@@ -43,13 +43,13 @@ describe("Narrowable", () => {
     const mixedTuple1 = narrow(["foo", 42] as const);
     const mixedTuple2 = narrow(["foo", 42]);
     const mixedTuple3 = narrow("foo", 42);
-    
+
     type cases = [
       Expect<Equal<typeof stringLiteral, "foo">>,
       Expect<Equal<typeof numericLiteral, 42>>,
 
       Expect<Equal<typeof obj, {foo: 1; bar: 2; baz: number[]}>>,
-      
+
       Expect<Equal<typeof stringTuple1, readonly ["foo", "bar"]>>,
       Expect<Equal<typeof stringTuple2, readonly ["foo", "bar"]>>,
       Expect<Equal<typeof stringTuple3, readonly ["foo", "bar"]>>,
@@ -60,8 +60,8 @@ describe("Narrowable", () => {
       Expect<Equal<typeof mixedTuple3, readonly ["foo", 42]>>,
     ];
     const cases: cases = [
-      true, true, true, true, true, 
-      true, true, true, true, true 
+      true, true, true, true, true,
+      true, true, true, true, true
     ];
   });
 

@@ -1,6 +1,6 @@
-import { 
+import {
   DateSeparator,
-  HoursMinutes, 
+  HoursMinutes,
   HoursMinutesSeconds,
   TZ,
   Time,
@@ -8,12 +8,12 @@ import {
   TypeRequired,
   TimeNomenclature,
   TimeResolution
-} from "src/types/index";
+} from "@inferred-types/types";
 
 
 /**
  * **DateTimeMinutes**
- * 
+ *
  * The date and time with time resolution of minutes.
  */
 export type DateTimeMinutes<
@@ -26,10 +26,10 @@ export type DateTimeSeconds<
 
 /**
  * **DateTime**`<S>`
- * 
+ *
  * A simplified way of representing any supported representation
  * of a `DateTime` string.
- * 
+ *
  * **Note:** the most common and best choice is often the `Iso8601`
  * datetime representation.
  */
@@ -43,10 +43,10 @@ export type DateTime<
 
 /**
  * **Iso8601**<TStrength>
- * 
+ *
  * Creates typing for the [**ISO8601**](https://en.wikipedia.org/wiki/ISO_8601)
  * datetime format.
- * 
+ *
  * - the strength/complexity of the type can be set with `TStrength`
  * - a timezone is optional by default but can be isolated to "required" or "excluded"
  */

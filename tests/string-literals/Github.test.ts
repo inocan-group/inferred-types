@@ -1,6 +1,6 @@
 import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { isGithubIssuesListUrl, isGithubIssueUrl, isGithubProjectsListUrl, isGithubProjectUrl, isGithubReleasesListUrl, isGithubReleaseTagUrl, isGithubRepoUrl } from "src/runtime/index";
-import { DoesNotExtend, Extends, GithubRepoIssuesListUrl, GithubRepoIssueUrl, GithubRepoProjectsUrl, GithubRepoProjectUrl, GithubRepoReleasesUrl, GithubRepoReleaseTagUrl, GithubRepoUrl } from "src/types/index";
+import { DoesNotExtend, Extends, GithubRepoIssuesListUrl, GithubRepoIssueUrl, GithubRepoProjectsUrl, GithubRepoProjectUrl, GithubRepoReleasesUrl, GithubRepoReleaseTagUrl, GithubRepoUrl } from "@inferred-types/types";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

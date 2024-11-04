@@ -1,11 +1,11 @@
-import { MARKED } from "inferred-types";
+import { MARKED } from "@inferred-types/constants";
 import {
   Compare,
   ExpandRecursively,
   If,
   Dictionary,
   RemoveMarked
-} from "src/types/index";
+} from "@inferred-types/types";
 
 
 type Marked = typeof MARKED;

@@ -1,9 +1,9 @@
 import {  ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import {  IsErrorCondition, IsWideContainer, IsWideScalar, IsWideType, Dictionary, Throw } from "src/types/index";
+import {  IsErrorCondition, IsWideContainer, IsWideScalar, IsWideType, Dictionary, Throw } from "@inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("IsWideScalar<T>", () => {
@@ -24,12 +24,12 @@ describe("IsWideScalar<T>", () => {
       ExpectTrue<T2>,
       ExpectTrue<T3>,
       ExpectTrue<T4>,
-      
+
       ExpectFalse<F1>,
       ExpectFalse<F2>,
       ExpectFalse<F3>,
     ];
-    const cases: cases = [ 
+    const cases: cases = [
       true, true, true, true,
       false, false, false
     ];
@@ -56,11 +56,11 @@ describe("IsWideContainer<T>", () => {
       ExpectTrue<T4>,
       ExpectTrue<T5>,
       ExpectTrue<T6>,
-      
+
       ExpectFalse<F1>,
       ExpectFalse<F2>,
     ];
-    const cases: cases = [ 
+    const cases: cases = [
       true, true, true, true, true, true,
       false, false
     ];
@@ -92,7 +92,7 @@ describe("IsWideType<T>", () => {
     type E2 = IsWideType<never, false>;
     // proxy errors passed in
     type E3 = IsWideType<Throw<"testing">>
-    
+
     type cases = [
       ExpectTrue<T1>,
       ExpectTrue<T2>,

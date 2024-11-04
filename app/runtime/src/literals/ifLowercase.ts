@@ -1,6 +1,6 @@
 
 import { LOWER_ALPHA_CHARS } from "inferred-types";
-import { AfterFirst, If, Extends, LowerAlphaChar } from "src/types/index";
+import { AfterFirst, If, Extends, LowerAlphaChar } from "@inferred-types/types";
 
 
 type _Index<

@@ -4,7 +4,7 @@ import {
   NumberLike,
   IsNegativeNumber,
   IsPositiveNumber
-} from "src/types/index";
+} from "@inferred-types/types";
 
 /**
  * **HaveSameNumericSign**`<A,B>`

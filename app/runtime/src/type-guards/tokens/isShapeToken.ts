@@ -1,4 +1,4 @@
-import { TypeToken } from "src/types/index";
+import { TypeToken } from "@inferred-types/types";
 import { isString } from "src/runtime/index"
 import {
   TT_Atomics,

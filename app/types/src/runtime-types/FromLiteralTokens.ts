@@ -1,22 +1,22 @@
-import { 
-  If, 
-  StartsWith, 
-  AfterFirst, 
-  First, 
-  AlphaChar, 
-  Bracket, 
-  ClosingBracket, 
-  Digit, 
-  LowerAlphaChar, 
-  OpeningBracket, 
-  StripLeading, 
-  UpperAlphaChar, 
+import {
+  If,
+  StartsWith,
+  AfterFirst,
+  First,
+  AlphaChar,
+  Bracket,
+  ClosingBracket,
+  Digit,
+  LowerAlphaChar,
+  OpeningBracket,
+  StripLeading,
+  UpperAlphaChar,
   StringLiteralToken
-} from "src/types/index";
+} from "@inferred-types/types";
 
 type _Tokenize<T extends StringLiteralToken> = //
   If<
-    StartsWith<T, "literal:">, 
+    StartsWith<T, "literal:">,
     StripLeading<T, "literal:">,
     T extends "<string>" ? `${string}`
     : T extends "<number>" ? `${number}`
@@ -47,7 +47,7 @@ type _Convert<
 
 /**
  * **FromLiteralTokens**`<T>`
- * 
+ *
  * Type utility which converts an array of `StringLiteralToken`'s
  * into a literal type.
  */

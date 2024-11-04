@@ -1,8 +1,8 @@
-import { If, Extends, Increment, ToNumber } from "src/types/index";
+import { If, Extends, Increment, ToNumber } from "@inferred-types/types";
 
 export type ToIntegerOp = "truncate" | "round";
 
-type Truncate<T extends `${number}`> = 
+type Truncate<T extends `${number}`> =
 T extends `${number}.${number}`
   ? T extends `${infer Q}.${number}`
     ? Q & `${number}`
@@ -28,10 +28,10 @@ type EnsureKind<
 
 /**
  * **ToInteger**`<T>`
- * 
- * Type utility which converts a _number_ (or numeric string 
+ *
+ * Type utility which converts a _number_ (or numeric string
  * literal) to an _integer_ value.
- * 
+ *
  * - the optional `TOp` generic provides methods for converting
  * a float to integer but the default is just to remove the
  * decimal value from the number (aka, "truncate").

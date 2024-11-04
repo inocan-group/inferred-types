@@ -5,7 +5,7 @@ import type {
   Suggest,
   Tuple,
   Dictionary,
-} from "src/types/index";
+} from "@inferred-types/types";
 import {
   NO_DEFAULT_VALUE,
   NoDefaultValue,

@@ -1,8 +1,8 @@
-import { Narrowable , TypeTuple } from "src/types/index";
+import { Narrowable , TypeTuple } from "@inferred-types/types";
 
 /**
  * **isTypeTuple**(value)
- * 
+ *
  * A type-guard which detects if passed in value is a `TypeTuple`.
  */
 export function isTypeTuple<T extends Narrowable, V extends TypeTuple<T, string>>(value: unknown | V): value is V {

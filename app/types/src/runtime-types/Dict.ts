@@ -1,4 +1,4 @@
-import { Constant } from "inferred-types";
+import { Constant } from "@inferred-types/constants";
 import {
   RemoveMarked,
   Widen,
@@ -9,7 +9,7 @@ import {
   Contains,
   Dictionary,
   EmptyObject,
-} from "src/types/index";
+} from "@inferred-types/types";
 
 const s = Symbol("Dict");
 

@@ -1,5 +1,5 @@
 import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import {  Contains, NarrowlyContains } from "src/types/index";
+import {  Contains, NarrowlyContains } from "@inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("Contains<T,A>", () => {

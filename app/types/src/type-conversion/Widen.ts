@@ -30,7 +30,7 @@ import {
   IsNonEmptyContainer,
   IsLiteralUnion,
   IsEqual
-} from "src/types/index";
+} from "@inferred-types/types";
 
 type GetKeys<
   T extends AnyFunction
@@ -208,13 +208,13 @@ export type WidenContainer<
       : never
     : EmptyObject
 : T extends Tuple ? WidenTuple<T>
-: T extends Map<infer K, infer V> ? Map<Widen<K>, Widen<V>>
+: T extends Map<infer K, infer V> ? Map<Widen<K>, any>
 : T extends WeakMap<infer O, infer V>
     ? O extends Dictionary
-      ? WeakMap<AsObject<Widen<O>>, Widen<V>>
+      ? WeakMap<AsObject<Widen<O>>, any>
       : O extends Tuple
-      ? WeakMap<WidenTuple<O>, Widen<V>>
-: T extends Set<infer V> ? Set<Widen<V>>
+      ? WeakMap<WidenTuple<O>, any>
+: T extends Set<infer V> ? Set<any>
 : object
 : object;
 
@@ -233,12 +233,15 @@ export type WidenContainer<
 export type Widen<
   T,
   TForce extends boolean = false
-> = [IsUnion<T>] extends [true]
-  ? WidenUnion<T>
-  : T extends Container
-    ? WidenContainer<T,TForce>
-    : T extends Scalar
-      ? WidenScalar<T>
-      : Process<T>;
+> = any;
+
+
+// [IsUnion<T>] extends [true]
+//   ? WidenUnion<T>
+//   : T extends Container
+//     ? WidenContainer<T,TForce>
+//     : T extends Scalar
+//       ? WidenScalar<T>
+//       : Process<T>;
 
 

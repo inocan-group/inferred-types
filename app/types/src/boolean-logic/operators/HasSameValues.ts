@@ -1,4 +1,4 @@
-import { And, Dictionary, If, IsNever, Or, Values } from "src/types/index";
+import { And, Dictionary, If, IsNever, Or, Values } from "@inferred-types/types";
 
 type Find<
   TList extends readonly unknown[],

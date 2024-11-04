@@ -1,4 +1,4 @@
-import { NumericChar, PhoneNumberDelimiter } from "src/types/index"
+import { NumericChar, PhoneNumberDelimiter } from "@inferred-types/types"
 
 /**
  * **LocalPhoneNumber**`<[TDelimiter]>`

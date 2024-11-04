@@ -1,4 +1,4 @@
-import { IsNever } from "src/types/index";
+import { IsNever } from "@inferred-types/types";
 
 /**
  * **DoesExtend**`<TValue, TExtends>`
@@ -6,7 +6,7 @@ import { IsNever } from "src/types/index";
  * Boolean type utility which returns `true` if `TValue` _extends_ `TExtends`.
  */
 export type DoesExtend<
-  TValue, 
+  TValue,
   TExtends
 > = IsNever<TValue> extends true
   ? false

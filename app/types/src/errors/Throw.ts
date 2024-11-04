@@ -1,9 +1,9 @@
-import { 
-  ErrorCondition, 
-  TypeErrorInfo, 
-  IfNever, 
-  EmptyObject 
-} from "src/types/index";
+import {
+  ErrorCondition,
+  TypeErrorInfo,
+  IfNever,
+  EmptyObject
+} from "@inferred-types/types";
 
 type Stack<
   TRest extends TypeErrorInfo
@@ -30,16 +30,16 @@ type HandleStack<
 
 /**
  * **Throw**`<TKind,[TMessage],[TUtility],[TRest]>`
- * 
+ *
  * Allows a user to conveniently create a well formed `ErrorCondition`
  * which prioritizes:
- * 
+ *
  * - `TKind` - is **required** and gives the error a dasherized name
  * which a caller can respond to. It provides a critical "grouping" feature.
  * - `TMessage` - provides a user friendly message about the error
  * - `TUtility` - the name of the _type utility_ in which this condition
  * is being raised.
- * 
+ *
  * The final parameter is `TRest` which provides a key/value dictionary --
  * defined by `TypeErrorInfo` -- which can further describe the error.
  */

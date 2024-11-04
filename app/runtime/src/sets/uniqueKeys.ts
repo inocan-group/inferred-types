@@ -1,9 +1,9 @@
-import { Container,    ObjectKey,  UniqueKeys } from "src/types/index";
+import { Container,    ObjectKey,  UniqueKeys } from "@inferred-types/types";
 import { isArray } from "../type-guards/isArray";
 
 /**
  * **uniqueKeys**(left, right)
- * 
+ *
  * Returns a strongly typed `LeftRight` tuple which identifies the
  * unique keys for each participant list passed in.
  */
@@ -23,7 +23,7 @@ export const uniqueKeys = <
   }
 
   const l = (
-    isNumeric 
+    isNumeric
     ? Object.keys(left).map(i => Number(i))
     : Object.keys(left)
   ) as ObjectKey[];
@@ -39,7 +39,7 @@ export const uniqueKeys = <
 
   const leftKeys = l.filter(i => !r.includes(i));
   const rightKeys = r.filter(i => !l.includes(i));
-  
+
   return [
     "LeftRight",
       leftKeys,

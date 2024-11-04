@@ -1,4 +1,4 @@
-import { AfterFirst, Container, EmptyObject, First, Dictionary, Keys } from "src/types/index";
+import { AfterFirst, Container, EmptyObject, First, Dictionary, Keys } from "@inferred-types/types";
 import { Widen } from "./Widen";
 
 type ProcessArr<
@@ -21,9 +21,9 @@ type ProcessObj<
 
 /**
  * **WidenValues**`<T>`
- * 
+ *
  * Type utility which _widens_ the values of a container.
- * 
+ *
  * **Related:** `Widen`
  */
 export type WidenValues<

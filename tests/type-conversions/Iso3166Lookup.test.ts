@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { Iso3166Alpha2Lookup, Iso3166CountryLookup } from "src/types/index";
+import { Iso3166Alpha2Lookup, Iso3166CountryLookup } from "@inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

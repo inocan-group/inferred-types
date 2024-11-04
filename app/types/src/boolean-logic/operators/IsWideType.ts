@@ -1,22 +1,22 @@
- 
-import {  
+
+import {
   Container,
-  ErrorCondition,         
+  ErrorCondition,
   IsEqual,
   IsNever,
-  IsVueRef, 
-  IsWideUnion, 
-  ObjectKey, 
-  ProxyError, 
-  RemoveIndexKeys, 
-  Scalar, 
-  Throw, 
+  IsVueRef,
+  IsWideUnion,
+  ObjectKey,
+  ProxyError,
+  RemoveIndexKeys,
+  Scalar,
+  Throw,
   UnionToTuple,
-} from "src/types/index";
+} from "@inferred-types/types";
 
 /**
  * **IsWideScalar**`<T>`
- * 
+ *
  * Boolean operator which validates whether or not `T`
  * is considered a "wide type" which extends `Scalar`
  */
@@ -27,10 +27,10 @@ export type IsWideScalar<T> = [T] extends [Scalar]
       IsEqual<T, boolean, true,false>,
       IsEqual<T, null, true,false>,
       IsEqual<T, symbol, true,false>,
-    ] extends [ 
+    ] extends [
       false, false, false, false, false
-    ] 
-      ? false 
+    ]
+      ? false
       : true
 : false;
 
@@ -53,7 +53,7 @@ type GetKeys<
 
 /**
  * **IsWideContainer**`<T>`
- * 
+ *
  * Boolean operator which tests wether `T` is a `Container` and
  * also a `wide type` (aka, not a literal).
  */
@@ -84,14 +84,14 @@ type InvalidNever = Throw<
 
 /**
  * **IsWideType**`<T, [TNever]>`
- * 
+ *
  * Identifies types which are "wide" (and have a narrow variant):
- * 
+ *
  * - string, number, and boolean types
  * - `string[]`, `number[]` array types
  * - wide union types like `string | number`
- * 
- * **Note:** 
+ *
+ * **Note:**
  * - types such as `null` and `undefined` **are** considered wide.
  * - If the `T` passed in is _never_ the result of this operation is
  * ErrorCondition<"invalid-never"> but this can be made into whatever

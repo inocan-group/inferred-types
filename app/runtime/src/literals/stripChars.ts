@@ -1,4 +1,4 @@
-import {  StripChars, TupleToUnion } from "src/types/index";
+import {  StripChars, TupleToUnion } from "@inferred-types/types";
 import { asChars } from "src/runtime/index";
 
 /**

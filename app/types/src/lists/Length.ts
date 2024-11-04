@@ -8,7 +8,7 @@ import type {
   RemoveIndexKeys,
   StrLen,
   UnionToTuple
-} from "src/types/index";
+} from "@inferred-types/types";
 
 type _Keys<
 T extends object

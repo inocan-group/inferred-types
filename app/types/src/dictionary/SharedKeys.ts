@@ -1,10 +1,10 @@
-import {  IntersectingKeys, ObjectKey } from "src/types/index";
+import {  IntersectingKeys, ObjectKey } from "@inferred-types/types";
 
 
 /**
  * **SharedKeys**`<A,B>`
- * 
- * Given two objects `A` and `B`, this type utility will provide the 
+ *
+ * Given two objects `A` and `B`, this type utility will provide the
  * _keys_ which both objects contain.
  * ```ts
  * type O1 = { foo: 1; bar: 2; baz: 88 };
@@ -12,7 +12,7 @@ import {  IntersectingKeys, ObjectKey } from "src/types/index";
  * //  ["bar", "baz"]
  * type X = SharedKeys<O1,O2>;
  * ```
- * 
+ *
  * **Note:** this is now just an alias to `IntersectingKeys`
  */
 export type SharedKeys<

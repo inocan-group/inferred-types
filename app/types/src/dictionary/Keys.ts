@@ -13,7 +13,7 @@ import type {
   As,
   Tuple,
   IsWideUnion,
-} from "src/types/index";
+} from "@inferred-types/types";
 
 type _Keys<
 T extends object

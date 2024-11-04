@@ -1,7 +1,7 @@
 import {
   RepoSource,
   SemanticVersion,
-} from "src/types/index";
+} from "@inferred-types/types";
 import { REPO_SOURCES } from "inferred-types";
 import {  stripLeading, isString } from "src/runtime/index";
 

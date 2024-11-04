@@ -2,14 +2,14 @@
 import { describe, it } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
 import { Ref } from "vue";
-import { 
-  DoesExtend,  
-  DotPathFor , 
-  Suggest 
-} from "src/types/index";
+import {
+  DoesExtend,
+  DotPathFor ,
+  Suggest
+} from "@inferred-types/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("Name", () => {
@@ -30,13 +30,13 @@ describe("Name", () => {
     color: [number, string, number];
     info: myRef;
   };
-  
-  
+
+
   it("using an object as target", () => {
     type Path = DotPathFor<Obj>;
     type Suggestion = Suggest<Path>;
     type Scalar = DotPathFor<42>;
-    
+
     const takeSuggestion: Suggestion = "baz.c.ca";
     const bespoke: Suggestion = "bespoke";
 
@@ -52,9 +52,9 @@ describe("Name", () => {
       Expect<DoesExtend<typeof takeSuggestion, Suggestion>>,
       Expect<DoesExtend<typeof bespoke , Suggestion>>,
     ];
-    const cases: cases = [ 
+    const cases: cases = [
       true,
-      true, true, true, 
+      true, true, true,
       true, true
     ];
   });
@@ -94,17 +94,17 @@ describe("Name", () => {
 
     type ScalarPaths = DotPathFor<42>;
     type ObjPaths = DotPathFor<Obj>;
-    
+
     type cases = [
       Expect<DoesExtend<ScalarPaths, "">>,
       Expect<DoesExtend<"", ObjPaths >>,
     ];
-    const cases: cases = [ 
-      true, true, 
+    const cases: cases = [
+      true, true,
     ];
   });
 
-  
+
   it("Wide object type and scalars resolve to only root path", () => {
     type TObj = DotPathFor<object>;
     type TNum = DotPathFor<42>;
@@ -117,6 +117,6 @@ describe("Name", () => {
     ];
     const cases: cases = [ true, true, true  ];
   });
-  
+
 });
 

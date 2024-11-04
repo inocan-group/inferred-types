@@ -6,7 +6,7 @@ import {
   LogicFunction,
   LogicalReturns,
   NarrowlyContains
-} from "src/types/index";
+} from "@inferred-types/types";
 
 type Process<
   TConditions extends readonly boolean[],

@@ -1,5 +1,5 @@
 import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { IsString } from "src/types/index";
+import { IsString } from "@inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

@@ -1,4 +1,4 @@
-import { If, IsSingleChar, Narrowable } from "src/types/index";
+import { If, IsSingleChar, Narrowable } from "@inferred-types/types";
 import { Never } from "inferred-types";
 
 type Callback<T extends string, R> = <V extends T>(v: V) => R;

@@ -6,7 +6,7 @@ import {
   CsvToTuple,
   CsvToTupleStr,
   CsvToUnion
-} from "src/types/index";
+} from "@inferred-types/types";
 import { csv } from "src/runtime/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

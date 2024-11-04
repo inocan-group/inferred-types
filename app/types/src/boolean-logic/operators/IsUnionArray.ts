@@ -1,4 +1,4 @@
-import { ElementOf, IsEqual, IsUnion } from "src/types/index";
+import { ElementOf, IsEqual, IsUnion } from "@inferred-types/types";
 
 
 

@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { Equal, Expect } from "@type-challenges/utils";
-import { LeftRight, UniqueKeys } from "src/types/index";
+import { LeftRight, UniqueKeys } from "@inferred-types/types";
 import { describe, expect, it } from "vitest";
 import { uniqueKeys } from "src/runtime/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("UniqueKeys<A,B>", () => {
@@ -17,7 +17,7 @@ describe("UniqueKeys<A,B>", () => {
     type EmptyRight = UniqueKeys<{foo: 1}, {}>;
 
     type NumShortLong = UniqueKeys<[1,2],[1,2,3,4]>;
-    
+
     type cases = [
       Expect<Equal<NoOverlap, LeftRight<["foo"], ["bar", "baz"]>>>,
       Expect<Equal<Override, LeftRight<[], ["bar", "baz"]>>>,
@@ -48,7 +48,7 @@ describe("uniqueKeys(a,b)", () => {
     expect(override[1]).toEqual([]);
     expect(override[2]).toEqual(["bar", "baz"]);
   });
-  
+
   it("empty left", () => {
     const emptyLeft = uniqueKeys({}, {bar: 2, baz: 3});
     expect(emptyLeft[0]).toBe("LeftRight");
@@ -62,6 +62,6 @@ describe("uniqueKeys(a,b)", () => {
     expect(emptyLeft[1]).toEqual(["foo"]);
     expect(emptyLeft[2]).toEqual([]);
   });
-  
+
 
 });

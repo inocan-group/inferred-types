@@ -1,7 +1,7 @@
 
 import {
   StripSurround
-} from "src/types/index";
+} from "@inferred-types/types";
 import { isNumber } from "../type-guards/isNumber";
 
 export type StripSurroundConfigured<

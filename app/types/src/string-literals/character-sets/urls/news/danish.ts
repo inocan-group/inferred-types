@@ -1,5 +1,5 @@
-import {  DANISH_NEWS } from "inferred-types";
-import { Mutable } from "src/types/type-conversion/Mutable";
+import {  DANISH_NEWS } from "@inferred-types/constants";
+import { Mutable } from "@inferred-types/types";
 import { UrlsFrom } from "../Url";
 
 type Lookup = Mutable<typeof DANISH_NEWS>;

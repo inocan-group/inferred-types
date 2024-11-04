@@ -1,4 +1,4 @@
-// import { FnFrom } from "src/types/index";
+// import { FnFrom } from "@inferred-types/types";
 // import { identity } from "../literals";
 
 

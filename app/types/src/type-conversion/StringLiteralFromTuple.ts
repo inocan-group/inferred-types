@@ -1,4 +1,4 @@
-import { AfterFirst, First, IsNumericLiteral, IsStringLiteral } from "src/types/index";
+import { AfterFirst, First, IsNumericLiteral, IsStringLiteral } from "@inferred-types/types";
 
 type LitString<
   TItems extends readonly unknown[],

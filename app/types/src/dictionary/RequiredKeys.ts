@@ -1,4 +1,4 @@
-import {  As, Dictionary, EmptyObject, IfUnset, ObjectKey, Unset } from "src/types/index";
+import {  As, Dictionary, EmptyObject, IfUnset, ObjectKey, Unset } from "@inferred-types/types";
 
 /**
  * **RequiredKeys**`<T,[V]>`

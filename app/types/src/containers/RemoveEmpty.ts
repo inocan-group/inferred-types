@@ -1,4 +1,4 @@
-import { Marked } from "inferred-types";
+import { Marked } from "@inferred-types/constants";
 
 import {
   As,
@@ -15,7 +15,7 @@ import {
   RemoveMarked,
   Keys,
   AfterFirst, First
-} from "src/types/index";
+} from "@inferred-types/types";
 
 
 type IsEmpty<T> = Or<[

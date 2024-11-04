@@ -9,7 +9,7 @@ import {
   IsGreaterThan,
   ParseInt,
   StartsWith
-} from "src/types/index";
+} from "@inferred-types/types";
 
 
 type Process<

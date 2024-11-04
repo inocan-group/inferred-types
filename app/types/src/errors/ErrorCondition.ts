@@ -1,9 +1,9 @@
- 
-import { 
-  EmptyObject, 
-  ExpandRecursively, 
+
+import {
+  EmptyObject,
+  ExpandRecursively,
   RemoveNever
-} from "src/types/index";
+} from "@inferred-types/types";
 
 export interface TypeErrorInfo<
   TContext extends Record<string, unknown> = EmptyObject,
@@ -53,7 +53,7 @@ export interface TypeErrorInfo<
   /**
    * used typically for boolean operators to indicate the value
    * if the test is `false`
-   */  
+   */
   else?: unknown;
   /**
    * used typically for boolean operators to indicate the value
@@ -70,13 +70,13 @@ export interface TypeErrorInfo<
    * In cases where a utility provides a means to handle the "never" value
    * then this indicates what type _never_ would be mapped to.
    */
-   
+
   handleNever?: any;
 
   container?: any | readonly any[];
 
   /**
-   * A place to add a dictionary of key/value pairs specifically related 
+   * A place to add a dictionary of key/value pairs specifically related
    * to the error which don't fit into the other props provided.
    */
   ctx?: TContext;
@@ -87,7 +87,7 @@ export interface TypeErrorInfo<
 
 /**
  * **ErrorConditionShape**
- * 
+ *
  * Represents the basic shape of any `ErrorCondition`
  */
 export interface ErrorConditionShape extends TypeErrorInfo {
@@ -98,16 +98,16 @@ export interface ErrorConditionShape extends TypeErrorInfo {
 
 /**
  * **ErrorCondition**`<TKind,[TMsg],[TDomain],[TVars]>`
- * 
+ *
  * A way to express a meaningful error message in type system.
- * 
+ *
  * **Related:** `Throw`, `ProxyError`, `MapError`, `IsErrorCondition`
  */
 export type ErrorCondition<
   // identifier for this type of error
-  TKind extends string = string, 
+  TKind extends string = string,
   // unique description for this instance of the condition
-  TMsg extends string = never, 
+  TMsg extends string = never,
   TUtility extends string = never,
   TStack extends readonly string[] = never,
   TRest extends TypeErrorInfo = EmptyObject

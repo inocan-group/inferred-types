@@ -9,7 +9,7 @@ import type {
   Dictionary,
   HasSameValues,
   HasSameKeys,
-} from "src/types/index";
+} from "@inferred-types/types";
 import { defineObj, keysOf, narrow } from "src/runtime/index";
 import { Ref } from "vue";
 
