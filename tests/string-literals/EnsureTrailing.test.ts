@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { ensureTrailing } from "src/runtime/index";
+import { ensureTrailing } from "inferred-types";
 import { EnsureTrailing } from "@inferred-types/types";
 import { describe, expect, it } from "vitest";
 

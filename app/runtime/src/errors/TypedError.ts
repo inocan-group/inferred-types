@@ -1,7 +1,7 @@
 
 
 import { AnyObject, EmptyObject, Narrowable, } from "@inferred-types/types";
-import { addFnToProps } from "src/runtime/index";
+import { addFnToProps } from "@inferred-types/runtime";
 
 export interface TypedError<
   TKind extends string = string,

@@ -1,5 +1,5 @@
-import { Never } from "inferred-types";
-import { isSimpleContainerToken, isSimpleScalarToken } from "src/runtime/index";
+import { Never } from "@inferred-types/constants";
+import { isSimpleContainerToken, isSimpleScalarToken } from "@inferred-types/runtime";
 import {
   SimpleContainerToken,
   SimpleScalarToken,

@@ -1,4 +1,4 @@
-import { SHAPE_PREFIXES } from "inferred-types";
+import { SHAPE_PREFIXES } from "@inferred-types/constants";
 import {
   Shape,
   ShapeTupleOrUnion,
@@ -6,7 +6,7 @@ import {
   ShapeCallback,
   HandleDoneFn,
 } from "@inferred-types/types";
-import { isString, hasKeys, isObject, handleDoneFn,  } from "src/runtime/index";
+import { isString, hasKeys, isObject, handleDoneFn,  } from "@inferred-types/runtime";
 import { boolean, nullType, undefinedType, unknown } from "./shape-helpers/atomics";
 import { number, string } from "./shape-helpers/singletons";
 import { fn } from "./shape-helpers/functions";

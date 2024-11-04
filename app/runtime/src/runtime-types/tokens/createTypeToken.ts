@@ -12,7 +12,7 @@ import {
   isAtomicToken,
   isSingletonToken,
   jsonValues
-} from "src/runtime/index";
+} from "@inferred-types/runtime";
 
 type BaseReturn<
   TBase extends TypeTokenKind

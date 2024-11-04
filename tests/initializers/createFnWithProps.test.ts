@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it, expect } from "vitest";
 
-import { createFnWithProps } from "src/runtime/index";
+import { createFnWithProps } from "inferred-types";
 
 const fn = () => "hi" as const;
 const fnWithParam = (name: string) => `hi ${name}` as const;
@@ -9,7 +9,7 @@ const fnWithTwoParam = (name: string, age: number) => `hi ${name}, you are ${age
 const fnNarrowing = <T extends string>(name: T) => `hi ${name}` as const;
 
 describe("createFnWithProps()", () => {
-  
+
 
   it("happy path", () => {
     const foo = createFnWithProps(fn, {foo: 42});
@@ -26,21 +26,21 @@ describe("createFnWithProps()", () => {
     type cases = [
       Expect<Equal<typeof foo, (() => "hi") & { foo: 42 }>>,
       Expect<Equal<
-        typeof fooWithParam, 
+        typeof fooWithParam,
         ((name: string) => `hi ${string}`) & { foo: 42 }
       >>,
       Expect<Equal<
-        typeof fooWithTwo, 
+        typeof fooWithTwo,
         ((name: string, age: number) => `hi ${string}, you are ${number}`) & { foo: 42 }
-      >>,      
+      >>,
       Expect<Equal<
-        typeof fooNarrowing, 
+        typeof fooNarrowing,
         ((name: string) => `hi ${string}`) & { foo: 42 }
       >>,
 
 
       Expect<Equal<
-        typeof n_foo, 
+        typeof n_foo,
         (<A extends []>(...args: A) => "hi") & { foo: 42 }
       >>,
       Expect<Equal<
@@ -48,19 +48,19 @@ describe("createFnWithProps()", () => {
         (<A extends [name: string]>(...args: A) => `hi ${string}`) & { foo: 42 }
       >>,
       Expect<Equal<
-        typeof n_fooWithTwo, 
+        typeof n_fooWithTwo,
         (<A extends [name: string, age: number]>(...args: A) => `hi ${string}, you are ${number}`) & { foo: 42 }
-      >>,      
+      >>,
       Expect<Equal<
         typeof n_fooNarrowing,
         (<A extends [name: string]>(...args: A) => `hi ${string}`) & { foo: 42 }
       >>,
     ];
-    const cases: cases = [ 
+    const cases: cases = [
       true, true, true, true,
       true, true, true, true,
     ];
   });
 
-  
+
 });

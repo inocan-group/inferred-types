@@ -1,5 +1,5 @@
 import { ErrorCondition } from "@inferred-types/types";
-import { isObject } from "src/runtime/index";
+import { isObject } from "@inferred-types/runtime";
 
 
 /**

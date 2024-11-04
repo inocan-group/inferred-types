@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { getPhoneCountryCode, removePhoneCountryCode } from "src/runtime/index";
+import { getPhoneCountryCode, removePhoneCountryCode } from "inferred-types";
 import { GetPhoneCountryCode, GetPhoneNumberType, RemovePhoneCountryCode } from "@inferred-types/types";
 import { describe, expect, it } from "vitest";
 

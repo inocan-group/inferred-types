@@ -1,5 +1,5 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
-import { valuesOf } from "src/runtime/index";
+import { valuesOf } from "inferred-types";
 import {  HasSameValues, Dictionary, ObjectKey,  Values, EmptyObject } from "@inferred-types/types";
 import { describe, expect, it } from "vitest";
 

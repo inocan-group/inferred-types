@@ -1,5 +1,5 @@
 import { LeftRight, Narrowable, Tuple } from "@inferred-types/types";
-import { isArray } from "src/runtime/index";
+import { isArray } from "@inferred-types/runtime";
 
 
 /**

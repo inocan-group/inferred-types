@@ -1,6 +1,6 @@
 import { Equal, Expect,  } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { kindError } from "src/runtime/index";
+import { kindError } from "inferred-types";
 import {   KindError, KindErrorDefn } from "@inferred-types/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

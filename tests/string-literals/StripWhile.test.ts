@@ -4,8 +4,8 @@ import {
   StripWhile,
   Whitespace
 } from "@inferred-types/types";
-import { stripWhile } from "src/runtime/index";
-import { NUMERIC_CHAR } from "src/constants/index";
+import { stripWhile } from "inferred-types";
+import { NUMERIC_CHAR } from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to

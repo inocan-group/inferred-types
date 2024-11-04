@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { shape } from "src/runtime/index";
+import { shape } from "inferred-types";
 import { ZipCode } from "@inferred-types/types";
 import { describe, it } from "vitest";
 

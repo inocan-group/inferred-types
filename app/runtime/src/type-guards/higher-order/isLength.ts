@@ -4,7 +4,7 @@ import {
   isObject,
   isString,
   isEqual
-} from "src/runtime/index";
+} from "@inferred-types/runtime";
 
 
 

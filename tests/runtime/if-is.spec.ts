@@ -6,7 +6,7 @@ import {
   isTrue,
   StartingWithTypeGuard,
   startsWith, box
-} from "src/runtime/index";
+} from "inferred-types";
 import { EndsWith, DoesExtend, LowerAlphaChar, Or, StartsWith  } from "@inferred-types/types";
 import { ifArray, ifArrayPartial, ifBoolean, ifNumber, ifSameType, ifString, ifTrue, ifUndefined } from "../../src/runtime/boolean-logic";
 

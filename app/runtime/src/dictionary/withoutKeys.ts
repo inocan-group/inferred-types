@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 import type { NarrowObject, Narrowable } from "@inferred-types/types";
-import { omit } from "src/runtime/index";
+import { omit } from "@inferred-types/runtime";
 
 
 /**

@@ -5,7 +5,7 @@ import {
   TwChromaLookup,
   TwHue
 } from "@inferred-types/types";
-import { TW_CHROMA, TW_LUMINOSITY, TW_HUE } from "inferred-types"
+import { TW_CHROMA, TW_LUMINOSITY, TW_HUE } from "@inferred-types/constants"
 
 
 

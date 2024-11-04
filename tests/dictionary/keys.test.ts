@@ -10,7 +10,7 @@ import type {
   HasSameValues,
   HasSameKeys,
 } from "@inferred-types/types";
-import { defineObj, keysOf, narrow } from "src/runtime/index";
+import { defineObj, keysOf, narrow } from "inferred-types";
 import { Ref } from "vue";
 
 describe("NumericKeys<T>", () => {

@@ -11,7 +11,7 @@ import {
   NoDefaultValue,
   NotDefined,
   NOT_DEFINED
-} from "inferred-types";
+} from "@inferred-types/constants";
 import {
   createErrorCondition,
   isTruthy,
@@ -21,7 +21,7 @@ import {
   isContainer,
   isRef,
   indexOf
-} from "src/runtime/index";
+} from "@inferred-types/runtime";
 
 /** updates based on whether segment is a Ref or not */
 function updatedDotPath<

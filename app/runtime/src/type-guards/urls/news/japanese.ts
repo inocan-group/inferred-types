@@ -1,6 +1,6 @@
-import { JAPANESE_NEWS } from "inferred-types"
+import { JAPANESE_NEWS } from "@inferred-types/constants"
 import { isString } from "../../isString"
-import { JapaneseNewsUrls } from "src/types/string-literals"
+import { JapaneseNewsUrls } from "@inferred-types/types"
 
 const URL = JAPANESE_NEWS.flatMap(i => i.baseUrls)
 

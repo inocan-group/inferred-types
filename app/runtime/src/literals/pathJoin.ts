@@ -1,5 +1,5 @@
 import { PathJoin } from "@inferred-types/types";
-import { stripTrailing, stripLeading } from "src/runtime/index";
+import { stripTrailing, stripLeading } from "@inferred-types/runtime";
 
 
 /**

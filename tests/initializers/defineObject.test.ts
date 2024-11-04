@@ -1,10 +1,10 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { createFnWithProps, defineObj } from "src/runtime/index";
+import { createFnWithProps, defineObj } from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("defineObj(literals)(wide) runtime utility", () => {
@@ -24,7 +24,7 @@ describe("defineObj(literals)(wide) runtime utility", () => {
     expect(narrowFn.fn()).toBe("hi");
     expect(narrowFnWithProps.fn.foo).toBe(1);
     expect(wideFnWithProps.fn.foo).toBe(1);
-    
+
     type cases = [
       Expect<Equal<typeof fooBarBaz, { foo: 1; bar: number; baz: number }>>,
 
@@ -32,14 +32,14 @@ describe("defineObj(literals)(wide) runtime utility", () => {
       Expect<Equal<typeof wideFn, { fn: () => string}>>,
 
       Expect<Equal<typeof narrowFnWithProps, {
-        fn: (() => "hi") & 
+        fn: (() => "hi") &
           {
             foo: 1;
             bar: 2;
           };
       }>>,
       Expect<Equal<typeof wideFnWithProps, {
-        fn: (() => string) & 
+        fn: (() => string) &
           {
             foo: number;
             bar: number;
@@ -47,11 +47,11 @@ describe("defineObj(literals)(wide) runtime utility", () => {
       }>>,
 
     ];
-    const cases: cases = [ 
+    const cases: cases = [
       true,
       true, true,
       true, true,
-      
+
     ];
   });
 

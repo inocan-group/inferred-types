@@ -1,5 +1,5 @@
 import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { urlMeta } from "src/runtime/index";
+import { urlMeta } from "inferred-types";
 import {
   AddUrlPathSegment,
   Extends,

@@ -4,7 +4,7 @@ import {
   IsUndefined,
   Narrowable,
 } from "@inferred-types/types";
-import { isDefined } from "src/runtime/index";
+import { isDefined } from "@inferred-types/runtime";
 
 type Rtn<
   T extends readonly K[] | K[] | undefined,

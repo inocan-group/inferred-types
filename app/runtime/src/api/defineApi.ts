@@ -10,12 +10,12 @@ import {
 } from "@inferred-types/types";
 import {
   isApiSurface,
-} from "src/runtime/index";
+} from "@inferred-types/runtime";
 import {
   isApi,
   createErrorCondition,
   createFnWithProps
-} from "src/runtime/index";
+} from "@inferred-types/runtime";
 
 /**
  * **asEscapeFunction**`(fn)`

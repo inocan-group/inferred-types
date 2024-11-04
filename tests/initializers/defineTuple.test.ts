@@ -1,10 +1,10 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import {defineTuple} from "src/runtime/index";
+import {defineTuple} from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("createTuple(...values) runtime utility", () => {
@@ -27,7 +27,7 @@ describe("createTuple(...values) runtime utility", () => {
     const cases: cases = [ true, true, true ];
   });
 
-  
+
   it("passing a const array", () => {
     const arr = ["foo", "bar"] as const;
     const foobar = defineTuple(...arr);
@@ -39,7 +39,7 @@ describe("createTuple(...values) runtime utility", () => {
     ];
     const cases: cases = [ true ];
   });
-  
-  
+
+
 
 });

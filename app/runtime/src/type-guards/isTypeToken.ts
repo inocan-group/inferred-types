@@ -3,7 +3,7 @@ import {
   isString,
   startsWith,
   endsWith
- } from "src/runtime/index";
+ } from "@inferred-types/runtime";
 
 /**
  * **isTypeToken**(val)

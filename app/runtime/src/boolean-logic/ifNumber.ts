@@ -1,5 +1,5 @@
 import { IsNumber, Narrowable } from "@inferred-types/types";
-import { isNumber } from "src/runtime/index";
+import { isNumber } from "@inferred-types/runtime";
 
 
 /**

@@ -7,7 +7,7 @@ import {
   YouTubeUrl,
   YouTubeVideosInPlaylist
 } from "@inferred-types/types";
-import { isString, isUndefined, hasUrlQueryParameter } from "src/runtime/index";
+import { isString, isUndefined, hasUrlQueryParameter } from "@inferred-types/runtime";
 
 /**
  * **isYouTubeUrl**`(val)`

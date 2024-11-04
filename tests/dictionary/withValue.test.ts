@@ -1,6 +1,6 @@
 import { describe,  it } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
-import { createFnWithProps,  defineObj } from "src/runtime/index";
+import { createFnWithProps,  defineObj } from "inferred-types";
 import { EmptyObject, Dictionary, WithValue } from "@inferred-types/types";
 
 const obj = defineObj({

@@ -1,5 +1,5 @@
 import {  StripChars, TupleToUnion } from "@inferred-types/types";
-import { asChars } from "src/runtime/index";
+import { asChars } from "@inferred-types/runtime";
 
 /**
  * **stripChars**`(content, ...strip)`

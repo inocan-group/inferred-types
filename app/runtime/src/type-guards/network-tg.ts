@@ -16,7 +16,7 @@ import {
   isNumberLike,
   isAlpha,
   asChars
-} from "src/runtime/index"
+} from "@inferred-types/runtime"
 
 
 

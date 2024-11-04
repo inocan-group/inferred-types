@@ -1,5 +1,5 @@
 import { Narrowable, IsBoolean } from "@inferred-types/types";
-import { isBoolean } from "src/runtime/index";
+import { isBoolean } from "@inferred-types/runtime";
 
 
 /**

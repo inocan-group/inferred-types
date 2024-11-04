@@ -9,7 +9,7 @@ import type {
   Merge,
   IsErrorCondition
 } from "@inferred-types/types";
-import { mergeScalars, mergeTuples } from "src/runtime/index";
+import { mergeScalars, mergeTuples } from "inferred-types";
 
 describe("MergeObjects<A,B>", () => {
   it("happy path", () => {

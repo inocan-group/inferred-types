@@ -21,9 +21,9 @@ import {
   stripTrailing,
   isDomainName,
   takeNumericCharacters,
-} from "src/runtime/index";
-import { NETWORK_PROTOCOL_LOOKUP } from "src/constants/NetworkConstants";
-import { Never } from "inferred-types";
+} from "@inferred-types/runtime";
+import { NETWORK_PROTOCOL_LOOKUP } from "@inferred-types/constants";
+import { Never } from "@inferred-types/constants";
 
 
 export type UrlMeta<T> = {

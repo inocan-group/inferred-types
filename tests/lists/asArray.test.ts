@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
 
 import { AsArray } from "@inferred-types/types";
-import {  asArray } from "src/runtime/index";
+import {  asArray } from "inferred-types";
 
 describe("AsArray<T>", () => {
   it("happy path", () => {

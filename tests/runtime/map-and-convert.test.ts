@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it, expect } from "vitest";
-import { createConverter } from "src/runtime/index";
+import { createConverter } from "inferred-types";
 
 
 // Note: while type tests fail visible inspection they pass from Vitest

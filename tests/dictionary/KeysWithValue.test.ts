@@ -2,7 +2,7 @@ import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
 import { KeysWithValue, HasSameValues, Dictionary, AnyFunction } from "@inferred-types/types";
-import { createFnWithProps, defineObj} from "src/runtime/index";
+import { createFnWithProps, defineObj} from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to

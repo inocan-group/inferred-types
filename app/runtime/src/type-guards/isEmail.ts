@@ -1,6 +1,6 @@
 import { Email } from "@inferred-types/types"
-import { isString } from "src/runtime/index";
-import { LOWER_ALPHA_CHARS } from "src/constants/Alpha";
+import { isString } from "@inferred-types/runtime";
+import { LOWER_ALPHA_CHARS } from "@inferred-types/constants";
 
 /**
  * **isEmail**`(val)`

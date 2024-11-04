@@ -1,20 +1,7 @@
 {
-  "extends": "../ts-base.json",
-  "references": [
-    {
-      "path": "../src/constants"
-    },
-    {
-      "path": "../src/runtime"
-    },
-    {
-      "path": "../src/types"
-    }
-  ],
   "compilerOptions": {
     "noEmit": true,
-    "incremental": true,
-    "composite": true,
+    "composite": false,
     "declaration": true,
     "declarationMap": true,
     "tsBuildInfoFile": ".tsbuildinfo",
@@ -23,16 +10,13 @@
     "outDir": "../../dist/none",
     "paths": {
       "src/types/index": [
-        "../src/types/index.ts"
+        "@inferred-types/types"
       ],
       "src/constants/index": [
-        "../src/constants/index.ts"
+        "@inferred-types/constants"
       ],
       "src/runtime/index": [
-        "../src/runtime/index.ts"
-      ],
-      "src/inferred-types/index": [
-        "../src/inferred-types/index.ts"
+        "../app/src/runtime/index.ts"
       ]
     }
   },

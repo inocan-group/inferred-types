@@ -5,7 +5,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 // NOTE: "withKeys" and "retain" are aliases of one another
 // so these tests really pertain to both
 
-import { retain, withKeys } from "src/runtime/index";
+import { retain, withKeys } from "inferred-types";
 import { DoesExtend, ErrorCondition, WithKeys } from "@inferred-types/types";
 
 describe("WithKeys<T, K> utility with tuples", () => {

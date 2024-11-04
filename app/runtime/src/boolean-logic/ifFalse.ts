@@ -1,5 +1,5 @@
 import type { If, IsFalse, Narrowable } from "@inferred-types/types";
-import { isFalse } from "src/runtime/index";
+import { isFalse } from "@inferred-types/runtime";
 
 
 /**

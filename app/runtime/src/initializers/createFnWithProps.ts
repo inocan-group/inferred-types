@@ -4,7 +4,7 @@ import {
   Narrowable,
   ObjectKey,
 } from "@inferred-types/types";
-import { isTrue } from "src/runtime/index";
+import { isTrue } from "@inferred-types/runtime";
 
 
 /**

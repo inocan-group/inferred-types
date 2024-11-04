@@ -5,7 +5,7 @@ import {
   ShapeCallback,
   Tuple
 } from "@inferred-types/types";
-import { isContainer } from "src/runtime/index";
+import { isContainer } from "@inferred-types/runtime";
 
 
 /**

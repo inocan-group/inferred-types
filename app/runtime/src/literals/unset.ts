@@ -1,5 +1,5 @@
 // import { Unset, ShapeCallback } from "@inferred-types/types";
-// import { ShapeApiImplementation, handleEscapeApi, isFunction } from "src/runtime/index";
+// import { ShapeApiImplementation, handleEscapeApi, isFunction } from "@inferred-types/runtime";
 
 export const unset = "NOT IMPLEMENTED" as const;
 

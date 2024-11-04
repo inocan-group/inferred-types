@@ -1,5 +1,5 @@
-import { NUMERIC_CHAR, WHITESPACE_CHARS } from "inferred-types"
-import { retainChars, stripChars } from "src/runtime/index"
+import { NUMERIC_CHAR, WHITESPACE_CHARS } from "@inferred-types/constants"
+import { retainChars, stripChars } from "@inferred-types/runtime"
 
 /**
  * **isPhoneNumber**`(val)`

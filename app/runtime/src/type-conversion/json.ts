@@ -1,5 +1,5 @@
 import { JsonValue, JsonValues } from "@inferred-types/types";
-import { isNumberLike } from "src/runtime/index";
+import { isNumberLike } from "@inferred-types/runtime";
 
 /**
  * **jsonValue**`(val)`

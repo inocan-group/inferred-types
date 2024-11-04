@@ -1,5 +1,5 @@
 import { AsString } from "@inferred-types/types";
-import { isArray, isBoolean, isNumber, isString} from "src/runtime/index"
+import { isArray, isBoolean, isNumber, isString} from "@inferred-types/runtime"
 
 /**
  * **asString**`(value)

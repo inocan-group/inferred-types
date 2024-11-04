@@ -2,8 +2,8 @@ import {
   RepoSource,
   SemanticVersion,
 } from "@inferred-types/types";
-import { REPO_SOURCES } from "inferred-types";
-import {  stripLeading, isString } from "src/runtime/index";
+import { REPO_SOURCES } from "@inferred-types/constants";
+import {  stripLeading, isString } from "@inferred-types/runtime";
 
 /**
  * **isRepoSource**`(val)`

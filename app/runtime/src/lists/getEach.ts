@@ -1,8 +1,8 @@
 
 import type { Container, GetEach } from "@inferred-types/types";
 
-import { Never } from "inferred-types";
-import { isContainer, isErrorCondition, isNull, get } from "src/runtime/index";
+import { Never } from "@inferred-types/constants";
+import { isContainer, isErrorCondition, isNull, get } from "@inferred-types/runtime";
 
 export interface GetEachOptions<
   THandleErrors

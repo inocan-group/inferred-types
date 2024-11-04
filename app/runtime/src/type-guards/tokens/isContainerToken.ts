@@ -2,7 +2,7 @@ import {
   ArrayToken,
   ContainerToken,
   MapToken, ObjectToken, RecordToken, SetToken, TupleToken, UnionSetToken, UnionToken, WeakMapToken } from "@inferred-types/types";
-import { isString } from "src/runtime/index"
+import { isString } from "@inferred-types/runtime"
 
 export const isObjectToken = (val: unknown): val is ObjectToken => {
   return isString(val) && val.startsWith("<<obj::");

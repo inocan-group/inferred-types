@@ -16,8 +16,7 @@ import {
   TimeMetric,
   Voltage,
   Volume
-} from "src/types/string-literals";
-import { isString } from "../isString";
+} from "@inferred-types/types";
 import {
   ACCELERATION_METRICS_LOOKUP,
   AREA_METRICS_LOOKUP,
@@ -36,8 +35,8 @@ import {
   TIME_METRICS_LOOKUP,
   VOLTAGE_METRICS_LOOKUP,
   VOLUME_METRICS_LOOKUP,
-} from "inferred-types";
-import {  stripWhile } from "src/runtime/literals";
+} from "@inferred-types/constants";
+import {  stripWhile, isString } from "@inferred-types/runtime";
 
 
 const separate = (s: string) => {

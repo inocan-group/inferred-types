@@ -1,5 +1,5 @@
 import type { Container, Keys } from "@inferred-types/types";
-import { isObject, isRef } from "src/runtime/index";
+import { isObject, isRef } from "@inferred-types/runtime";
 
 
 /**

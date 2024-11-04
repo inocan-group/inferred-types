@@ -2,7 +2,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
 import { IfLength,  Length } from "@inferred-types/types";
-import {  narrow } from "src/runtime/index";
+import {  narrow } from "inferred-types";
 import { ifLength } from "../../src/runtime/boolean-logic";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

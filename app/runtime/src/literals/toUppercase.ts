@@ -1,8 +1,8 @@
-import { capitalize, ifLowercaseChar } from "src/runtime/index";
+import { capitalize, ifLowercaseChar } from "@inferred-types/runtime";
 
 /**
  * Converts a string to the "all caps" equivalent.
- * 
+ *
  * Note: non-alpha characters are left "as is"
  */
 export function toUppercase<T extends string>(str: T): Uppercase<T> {
