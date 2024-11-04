@@ -1,16 +1,16 @@
-import {  If, IsStringLiteral, Length } from "src/types/index";
+import {  If, IsStringLiteral, Length } from "@inferred-types/types";
 
 /**
  * **IsSingleChar**`<T>`
- * 
+ *
  * Boolean operator which returns true/false/boolean based on whether `T` is a
  */
 export type IsSingleChar<T> = T extends string
   ? Length<T> extends 1
     ? true
     : If<
-        IsStringLiteral<T>, 
-        false, 
+        IsStringLiteral<T>,
+        false,
         boolean
       >
   : false;

@@ -1,4 +1,4 @@
-import { Narrowable , TypeGuard } from "src/types/index";
+import { Narrowable , TypeGuard } from "@inferred-types/types";
 import { isSameTypeOf } from "src/runtime/index";
 
 

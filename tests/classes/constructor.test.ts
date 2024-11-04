@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 import { Expect, Equal } from "@type-challenges/utils";
-import { Constructor } from "src/types/index";
+import { Constructor } from "@inferred-types/types";
 
 class TestClass {
   public foo: number;

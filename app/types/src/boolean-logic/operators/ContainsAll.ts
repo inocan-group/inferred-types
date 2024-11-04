@@ -1,5 +1,5 @@
 
-import { And, Contains , Narrowable , AfterFirst, First } from "src/types/index";
+import { And, Contains , Narrowable , AfterFirst, First } from "@inferred-types/types";
 
 
 type _Contains<
@@ -18,11 +18,11 @@ TResults extends readonly boolean[] = []
 
 /**
   * **ContainsAll**`<TList, THasAll>`
-  * 
-  * Type utility which provides a boolean response based on 
+  *
+  * Type utility which provides a boolean response based on
   * whether the list `TList` contains _all_ of the values passed
   * in.
-  * 
+  *
   * **Related:** `DoesExtend`, `ContainsSome`
   */
 export type ContainsAll<

@@ -1,5 +1,5 @@
-import { 
-  AfterFirst, 
+import {
+  AfterFirst,
   First,
   IfNever,
   Contains,
@@ -13,13 +13,13 @@ import {
   AsString,
   IsNever,
   As,
-} from "src/types/index";
+} from "@inferred-types/types";
 
 type Get<
   TValue,
   TDeref extends PropertyKey | never,
 > = IfNever<
-  TDeref, 
+  TDeref,
   TValue, // just proxy value back
   TDeref extends keyof TValue
     ? TValue[TDeref]
@@ -47,27 +47,27 @@ type Process<
         // a non-scalar must consider deref setting
         : Not<Contains<
           As<
-            IsNever<TDeref> extends true  
+            IsNever<TDeref> extends true
               ? TResults
               : GetEach<TResults, AsString<TDeref>>,
             string | number | readonly unknown[]
           >,
           Get<First<TValues>,TDeref>
-        >> 
+        >>
       >
 >;
 
 /**
  * **Unique**`<TList, [TDeref]>`
- * 
+ *
  * Given a tuple of values, this utility will reduce the tuple to
  * _unique_ values in the set.
- * 
+ *
  * - If the values are containers themselves, you can provide a `TDeref`
  * to point to a property which represents the "identity" of that container
  * - If you're comparing containers _without_ a `TDeref` property
  * then the full type signature will be used in deduplication
- * 
+ *
  * ```ts
  * // ["foo", "bar"]
  * type FooBar = Unique<["foo","foo","bar"]>;
@@ -84,4 +84,4 @@ export type Unique<
     TList,
     TDeref
   >
-> 
+>

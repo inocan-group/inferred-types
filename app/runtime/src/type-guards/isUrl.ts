@@ -1,6 +1,6 @@
 import { isString, valuesOf } from "src/runtime/index";
 import { NETWORK_PROTOCOL_LOOKUP } from "inferred-types";
-import { Keys,TupleToUnion,  NetworkProtocol, Uri  } from "src/types/index";
+import { Keys,TupleToUnion,  NetworkProtocol, Uri  } from "@inferred-types/types";
 
 /**
  * **isUri**`(val, ...protocols)`

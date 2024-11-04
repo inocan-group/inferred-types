@@ -25,7 +25,7 @@ import {
   TypeTokenKind,
   Suggest,
   SimpleToken,
-} from "src/types/index";
+} from "@inferred-types/types";
 import { AsUnion, FromDefn } from "../literals/FromDefn";
 import { FromWideTokens, WideContainerNames, WideTokenNames } from "../literals/FromTokenNames";
 

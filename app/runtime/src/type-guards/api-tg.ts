@@ -1,4 +1,4 @@
-import {  Dictionary,  Narrowable, OptionalParamFn, TypedFunction } from "src/types/index";
+import {  Dictionary,  Narrowable, OptionalParamFn, TypedFunction } from "@inferred-types/types";
 import { isFunction } from "./isFunction";
 import { isObject } from "./isObject"
 

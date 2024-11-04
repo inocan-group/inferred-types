@@ -9,7 +9,7 @@ import {
   Throw,
   Contains,
   If,
-} from "src/types/index";
+} from "@inferred-types/types";
 import type {
   TT_Atomics,
   TT_Containers,
@@ -26,7 +26,7 @@ import type {
   SIMPLE_ARRAY_TOKENS,
   SIMPLE_MAP_TOKENS,
   SIMPLE_SET_TOKENS
-} from "inferred-types";
+} from "@inferred-types/constants";
 
 
 /**

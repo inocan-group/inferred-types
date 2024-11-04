@@ -1,9 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { CompleteError, EmptyObject,  PartialError } from "src/types/index";
+import { CompleteError, EmptyObject,  PartialError } from "@inferred-types/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("PartialError<> and CompleteError<>", () => {
@@ -14,7 +14,7 @@ describe("PartialError<> and CompleteError<>", () => {
 
     type C1 = CompleteError<P1, EmptyObject, {id: 1}>;
     type C2 = CompleteError<P2, {message: "hi"}>;
-    
+
     type cases = [
       Expect<Equal<C1, {
         __kind: "ErrorCondition";

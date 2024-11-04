@@ -1,4 +1,4 @@
-import {  Chars, Concat, Handle, IsEqual, Pop, Tuple } from "src/types/index";
+import {  Chars, Concat, Handle, IsEqual, Pop, Tuple } from "@inferred-types/types";
 
 
 /**

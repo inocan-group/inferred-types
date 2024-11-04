@@ -8,10 +8,9 @@ import type {
   RemoveMarked,
   NarrowlyContains,
   Throw,
-} from "src/types/index";
-import  { MARKED } from "inferred-types";
+} from "@inferred-types/types";
+import  { Marked } from "@inferred-types/constants";
 
-type Marked = typeof MARKED;
 
 type _NoDeref<
   A extends readonly unknown[],

@@ -1,13 +1,13 @@
-import { ConvertTypeOf, GetTypeOf } from "src/types/index";
+import { ConvertTypeOf, GetTypeOf } from "@inferred-types/types";
 
 /**
  * **isSameTypeOf**(base, compare)
- * 
- * A type guard which validates that `base` and `compare` are the same "type" 
+ *
+ * A type guard which validates that `base` and `compare` are the same "type"
  * defined by the runtime `typeof` operator.
- * 
- * **Note:** if either `TBase` or `TCompare` are 
- * 
+ *
+ * **Note:** if either `TBase` or `TCompare` are
+ *
  * **Related:** `IsSameType`
  */
 export const isSameTypeOf = <TBase>(base: TBase) => <TCompare>(compare: TCompare): compare is TCompare & ConvertTypeOf<GetTypeOf<TBase>>  => {

@@ -1,8 +1,8 @@
-import { AfterFirst, First, IsEqual } from "src/types/index";
+import { AfterFirst, First, IsEqual } from "@inferred-types/types";
 
 /**
  * **IsAnyEqual**`<TVal,TList>`
- * 
+ *
  * Boolean tester which reports on whether `TVal` equals **any** of
  * the values in `TList`.
  */

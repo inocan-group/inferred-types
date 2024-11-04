@@ -1,4 +1,4 @@
-import { IsUndefined, Narrowable } from "src/types/index";
+import { IsUndefined, Narrowable } from "@inferred-types/types";
 import { isDefined, isUndefined } from "src/runtime/index";
 
 /**

@@ -111,6 +111,35 @@ importers:
         specifier: ^3.5.7
         version: 3.5.7(typescript@5.6.2)
 
+  app/constants: {}
+
+  app/inferred-types:
+    dependencies:
+      '@inferred-types/constants':
+        specifier: workspace:*
+        version: link:../constants
+      '@inferred-types/runtime':
+        specifier: workspace:*
+        version: link:../runtime
+      '@inferred-types/types':
+        specifier: workspace:*
+        version: link:../types
+
+  app/runtime:
+    dependencies:
+      '@inferred-types/constants':
+        specifier: workspace:*
+        version: link:../constants
+      '@inferred-types/types':
+        specifier: workspace:*
+        version: link:../types
+
+  app/types:
+    dependencies:
+      '@inferred-types/constants':
+        specifier: workspace:*
+        version: link:../constants
+
 packages:
 
   '@babel/helper-string-parser@7.24.8':

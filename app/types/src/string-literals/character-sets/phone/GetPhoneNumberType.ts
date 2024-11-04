@@ -6,7 +6,7 @@ import {
   RetainChars,
   StrLen,
   Trim
-} from "src/types/index";
+} from "@inferred-types/types";
 
 
 export type PhoneNumberType = "international" | "country" | "regional" | "short-code";

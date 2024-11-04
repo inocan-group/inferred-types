@@ -1,0 +1,29 @@
+{
+  "name": "inferred-types",
+  "private": false,
+  "version": "0.50.29",
+  "type": "module",
+  "license": "MIT",
+  "author": "Ken Snyder<ken@ken.net>",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "dependencies": {
+    "@inferred-types/constants": "workspace:*",
+    "@inferred-types/types": "workspace:*",
+    "@inferred-types/runtime": "workspace:*"
+  },
+  "packageManager": "pnpm@9.12.3",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format=\"esm,cjs\" --dts"
+  }
+}

@@ -7,7 +7,7 @@ import {
   TypeTokenKind,
   TypeTokenSingletons,
   UnionToken,
-} from "src/types/index";
+} from "@inferred-types/types";
 import {
   isAtomicToken,
   isSingletonToken,

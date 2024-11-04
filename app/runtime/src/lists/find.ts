@@ -4,7 +4,7 @@ import {
   Narrowable,
   ShapeCallback,
   Tuple
-} from "src/types/index";
+} from "@inferred-types/types";
 import { isContainer } from "src/runtime/index";
 
 

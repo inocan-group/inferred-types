@@ -1,10 +1,10 @@
- 
-import {  Narrowable, Widen } from "src/types/index";
+
+import {  Narrowable, Widen } from "@inferred-types/types";
 
 
 /**
  * **widen**(value)
- * 
+ *
  * Runtime utility which takes any _type_ and ensures it's widened to a wide
  * type of passed in value is a literal.
  */

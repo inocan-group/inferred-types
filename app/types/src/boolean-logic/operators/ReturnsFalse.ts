@@ -1,11 +1,11 @@
-import { IsEqual, TypedFunction } from "src/types/index";
+import { IsEqual, TypedFunction } from "@inferred-types/types";
 
 /**
  * **ReturnsTrue**`<T>`
- * 
- * Type utility which indicates whether the _return value_ of `T` is 
+ *
+ * Type utility which indicates whether the _return value_ of `T` is
  * a `false` value. Possible values are `true`, `false`, or `boolean`.
- * 
+ *
  * Note: any non-functions passed in as `T` are removed from the result set
  */
 export type ReturnsFalse<T> = T extends TypedFunction

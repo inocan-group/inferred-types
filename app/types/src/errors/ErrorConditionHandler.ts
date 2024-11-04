@@ -1,9 +1,9 @@
- 
-import {ErrorCondition} from "src/types/index";
+
+import {ErrorCondition} from "@inferred-types/types";
 
 /**
  * **ErrorConditionHandler**
- * 
+ *
  * A callback function which will receive an ErrorCondition and return an appropriate
  * response.
  */

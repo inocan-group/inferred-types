@@ -1,4 +1,4 @@
-import { IsEqual, If, AfterFirst, First, Or, NumberLike, Compare } from "src/types/index";
+import { IsEqual, If, AfterFirst, First, Or, NumberLike, Compare } from "@inferred-types/types";
 
 type FindAcc<
   TList extends readonly unknown[],

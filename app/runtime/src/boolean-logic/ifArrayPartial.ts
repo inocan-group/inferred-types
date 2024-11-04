@@ -1,4 +1,4 @@
-import { Narrowable } from "src/types/index";
+import { Narrowable } from "@inferred-types/types";
 import { ifArray } from "./ifArray";
 
 

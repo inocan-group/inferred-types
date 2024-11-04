@@ -19,7 +19,7 @@ import {
   And,
   IsGreaterThanOrEqual,
   IsLessThanOrEqual,
-} from "src/types/index";
+} from "@inferred-types/types";
 
 /**
  * comparison operators which require the base type to be a string

@@ -1,5 +1,5 @@
 
-import { HasParameters, TypedFunction } from "src/types/index";
+import { HasParameters, TypedFunction } from "@inferred-types/types";
 
 export interface Box<T> {
   __type: "box";

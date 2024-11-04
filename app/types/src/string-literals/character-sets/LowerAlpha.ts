@@ -1,10 +1,10 @@
-import {  AsArray, IfAllExtend,  If, IsStringLiteral, LowerAlphaChar,  Chars } from "src/types/index";
+import {  AsArray, IfAllExtend,  If, IsStringLiteral, LowerAlphaChar,  Chars } from "@inferred-types/types";
 
 /**
  * **LowerAlpha**`<T>`
- * 
+ *
  * Converts `T` to _never_ if `T` is not composed of only lowercase alphabetic chars. Possible values are:
- * 
+ *
  * - `T` - when T is a string literal and characters are lowercase alphabetic
  * - `string` - when T is a wide string type
  * - `never` - all other types of `T` are converted to never

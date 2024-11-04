@@ -1,5 +1,5 @@
 
-import type { Container, GetEach } from "src/types/index";
+import type { Container, GetEach } from "@inferred-types/types";
 
 import { Never } from "inferred-types";
 import { isContainer, isErrorCondition, isNull, get } from "src/runtime/index";

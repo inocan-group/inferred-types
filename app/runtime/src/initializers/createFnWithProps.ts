@@ -3,7 +3,7 @@ import {
   IsTrue,
   Narrowable,
   ObjectKey,
-} from "src/types/index";
+} from "@inferred-types/types";
 import { isTrue } from "src/runtime/index";
 
 

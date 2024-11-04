@@ -1,20 +1,20 @@
- 
-import { 
-  AnyFunction, 
-  Dictionary, 
-  IsNarrowingFn, 
+
+import {
+  AnyFunction,
+  Dictionary,
+  IsNarrowingFn,
   IsNonEmptyObject
-} from "src/types/index";
+} from "@inferred-types/types";
 
 
 
 
 /**
  * **FnMeta**<TArgs,TReturn,TProps>
- * 
+ *
  * The meta-information around a given function. Represented as an
  * object with the following properties:
- * 
+ *
  * 1. `args` - the array of arguments the function expects
  * 2. `returns` - the return type of the function
  * 3. `props` - any Key/Value props also packaged with the function, if no

@@ -1,4 +1,4 @@
-import {  SingletonToken } from "src/types/index";
+import {  SingletonToken } from "@inferred-types/types";
 import { isString } from "src/runtime/index"
 
 import {

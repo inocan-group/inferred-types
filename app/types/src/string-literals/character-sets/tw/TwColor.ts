@@ -1,5 +1,5 @@
-import { TW_CHROMA, TW_HUE, TW_LUMINOSITY } from "inferred-types";
-import { Mutable } from "src/types/index";
+import { TW_CHROMA, TW_HUE, TW_LUMINOSITY } from "@inferred-types/constants";
+import { Mutable } from "@inferred-types/types";
 
 
 /**

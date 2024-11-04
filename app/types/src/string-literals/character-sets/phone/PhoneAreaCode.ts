@@ -1,4 +1,4 @@
-import { NumericChar } from "src/types/index";
+import { NumericChar } from "@inferred-types/types";
 
 
 /**

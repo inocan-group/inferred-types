@@ -1,4 +1,4 @@
-import { Dictionary, ObjectKey, TypedFunction } from "src/types/index";
+import { Dictionary, ObjectKey, TypedFunction } from "@inferred-types/types";
 
 
 /**

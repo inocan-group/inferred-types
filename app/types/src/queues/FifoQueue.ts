@@ -1,4 +1,4 @@
-import { FixedLengthArray } from "src/types/index";
+import { FixedLengthArray } from "@inferred-types/types";
 
 
 /**

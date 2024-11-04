@@ -5,7 +5,7 @@ import {
   FnReturnTypeDefn,
   FromDefn,
   FromWideTokens
-} from "src/types/index";
+} from "@inferred-types/types";
 
 /**
  * **fn**

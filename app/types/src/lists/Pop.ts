@@ -1,4 +1,4 @@
-import { Concat, Tuple, IsStringLiteral, Chars, IsWideType } from "src/types/index";
+import { Concat, Tuple, IsStringLiteral, Chars, IsWideType } from "@inferred-types/types";
 
 type _Pop<
   TVal extends Tuple
@@ -8,16 +8,16 @@ type _Pop<
 
 /**
  * **Pop**`<TList>`
- * 
+ *
  * Removes the last element of a list.
  * ```ts
  * // [1,2]
  * type T = Pop<[1,2,3]>;
  * ```
- * 
+ *
  * - to provide additional utility, you can also pass
  * in a string literal and get back the literal with the last
- * character removed. 
+ * character removed.
  */
 export type Pop<
   TList extends Tuple | string

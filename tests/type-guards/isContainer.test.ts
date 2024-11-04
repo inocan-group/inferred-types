@@ -2,7 +2,7 @@ import {   ExpectTrue } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
 import { narrow, isContainer, optional } from "src/runtime/index";
-import {  Container, DoesExtend } from "src/types/index";
+import {  Container, DoesExtend } from "@inferred-types/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to

@@ -6,7 +6,7 @@ import type {
   Nothing,
   AnyObject,
   TypedFunction
-} from "src/types/index";
+} from "@inferred-types/types";
 
 import { Never } from "inferred-types";
 import { isNothing, isObject } from "src/runtime/index";

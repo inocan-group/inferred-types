@@ -1,4 +1,4 @@
-import { AsBoolean, AsNumber, BooleanLike, NumberLike } from "src/types/index";
+import { AsBoolean, AsNumber, BooleanLike, NumberLike } from "@inferred-types/types";
 
 type Process<
 T

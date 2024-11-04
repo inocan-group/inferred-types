@@ -1,5 +1,5 @@
-import { REPO_SOURCE_LOOKUP } from "inferred-types";
-import { UrlsFrom } from "src/types/index";
+import { REPO_SOURCE_LOOKUP } from "@inferred-types/constants";
+import { UrlsFrom } from "@inferred-types/types";
 
 type URL = typeof REPO_SOURCE_LOOKUP["bitbucket"];
 

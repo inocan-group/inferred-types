@@ -1,10 +1,10 @@
 /* eslint-disable no-use-before-define */
-import { 
-  Dictionary, 
-  If, 
-  IsTrue, 
-  HandleDoneFn, 
-  AfterFirst, 
+import {
+  Dictionary,
+  If,
+  IsTrue,
+  HandleDoneFn,
+  AfterFirst,
   First,
   ExpandRecursively,
   ShapeCallback,
@@ -13,14 +13,14 @@ import {
   Scalar,
   MergeObjects,
   As,
-} from "src/types/index";
+} from "@inferred-types/types";
 
 
 /**
  * **createChoice**(name, [value])
- * 
+ *
  * Creates a "choice" for a Choice API. Values may be:
- * 
+ *
  * - any `Scalar` value
  * - a callback of the form `s => s.literal(42)`
  * - or if left _undefined_ the value will be set to the name
@@ -42,11 +42,11 @@ export type ChoiceValue = ShapeCallback | Scalar | Dictionary | undefined;
 
 /**
  * **AsChoice**
- * 
+ *
  * Converts a name/value pairing from createChoice() into a Choice.
  */
 export type AsChoice<
-  TName extends string = string, 
+  TName extends string = string,
   TValue extends ChoiceValue = ChoiceValue
 > = [TValue] extends [ShapeCallback]
 ? {name: TName; value: HandleDoneFn<ReturnType<TValue>>}
@@ -123,27 +123,27 @@ export type ChoiceApiConfig<
 
 // /**
 //  * **Choice**`<T>`
-//  * 
-//  * Type utility which receives one of many _choice representations_ 
+//  *
+//  * Type utility which receives one of many _choice representations_
 //  * (from `ChoiceRepresentation`) and converts it into a simple key/value pair.
 //  */
 // export type Choice<
 //   T extends ChoiceRepresentation = ChoiceRepresentation
-// > = T extends {name: string; type: Fn} 
+// > = T extends {name: string; type: Fn}
 //   ? ReturnType<T["type"]> extends { done: Fn }
 //       ? Record<
-//           T["name"], 
+//           T["name"],
 //           ReturnType<ReturnType<T["type"]>["done"]>
 //         >
 //       : Record<T["name"], ReturnType<T["type"]>>
-    
+
 //   : T extends {name: string; value: unknown}
 //     ? Record<T["name"], T["value"]>
 //   : T extends string
 //     ? Record<T,T>
 //   : T extends [name: string, value: unknown]
 //     ? If<
-//         IsFunction<T[1]>, 
+//         IsFunction<T[1]>,
 //         Record<T[0], ReturnType<AsFunction<T[1]>>>,
 //         Record<T[0], T[1]>
 //       >
@@ -159,17 +159,17 @@ export type ChoiceApiConfig<
 //     AfterFirst<TInput>,
 //     First<TInput> extends ChoiceRepresentation
 //       ? AsChoice<First<TInput>> & TOutput
-//       : First<TInput> extends Record<string, unknown> 
+//       : First<TInput> extends Record<string, unknown>
 //         ? First<TInput> & TOutput
 //         : never
 //   >
 
 // /**
 //  *  **Choices**`<TInput>`
-//  * 
+//  *
 //  * Converts an tuple of `ChoiceRepresentation` elements into a lookup table
 //  * of name/values.
-//  */      
+//  */
 // export type AsChoices<
 //   TInput extends readonly (ChoiceRepresentation|AsChoice)[] = readonly ChoiceRepresentation[],
 // > = ToLookup<TInput>;
@@ -183,19 +183,19 @@ export type MultipleChoice<
   selected: TState;
   forceUnique: TForceUnique;
   choices: TChoices;
-  <T extends string & Exclude<keyof TChoices, TExclude>>(s: T ): 
+  <T extends string & Exclude<keyof TChoices, TExclude>>(s: T ):
     MultipleChoice<
       TChoices,
       TForceUnique,
       [
-        ...TState, 
-        T extends keyof TChoices 
-          ? TChoices[T] 
+        ...TState,
+        T extends keyof TChoices
+          ? TChoices[T]
           : never
       ],
       AsString<If<
         IsTrue<TForceUnique>,
-        TExclude | T, 
+        TExclude | T,
         TExclude
       >>
     >;
@@ -205,24 +205,24 @@ export type MultipleChoice<
 
 /**
  * **MultiChoiceCallback**`<TApi>`
- * 
+ *
  * Provides the typing so that you can easily incorporate a "choice"
- * as a parameter to your functions. 
- * 
- * It is intended to be used with the runtime utility `handleDoneFn()` 
+ * as a parameter to your functions.
+ *
+ * It is intended to be used with the runtime utility `handleDoneFn()`
  * so that if a user doesn't terminate their callback with a call to
  * `.done()` then this is done for them.
  */
 export type MultiChoiceCallback<TApi extends MultipleChoice> = <
   CB extends ((c: TApi) => unknown)
->(cb: CB) =>  HandleDoneFn<ReturnType<CB>>; 
+>(cb: CB) =>  HandleDoneFn<ReturnType<CB>>;
 
 
 type MergeKVs<
   TInput extends readonly Dictionary[],
   TOutput extends Dictionary = EmptyObject
 > = [] extends TInput
-  ? ExpandRecursively<TOutput> 
+  ? ExpandRecursively<TOutput>
 : MergeKVs<
     AfterFirst<TInput>,
     First<TInput> extends keyof TOutput
@@ -232,7 +232,7 @@ type MergeKVs<
 
 /**
  * **ChoiceBuilder**
- * 
+ *
  * Builds a Choice API surface:
  */
 export type ChoiceBuilder= <
@@ -240,7 +240,7 @@ export type ChoiceBuilder= <
 >(...choices: TChoices) => ({
   chooseMany: <
     TForce extends boolean
-  >(force: TForce) => 
+  >(force: TForce) =>
   MultipleChoice<
      MergeKVs<TChoices> extends Dictionary<string>
      ? MergeKVs<TChoices>

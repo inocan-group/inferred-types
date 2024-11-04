@@ -1,19 +1,19 @@
-import {  
+import {
   If,
-  ToNumericArray, 
-  IsTrue, 
-  IsFalse, 
+  ToNumericArray,
+  IsTrue,
+  IsFalse,
   IsEqual,
   IsArray,
   IsTuple,
   Throw,
   Or
-} from "src/types/index";
+} from "@inferred-types/types";
 
 
 /**
  * **ToNumber**`<T>`
- * 
+ *
  * - Converts `T` into a numeric type:
  *    - if `T` is a Scalar/Object it's converted to a number where possible
  *    - if `T` is an array then each element will be converted to a number where possible
@@ -49,6 +49,6 @@ export type ToNumber<TValue> =  IsTuple<TValue> extends true
             >
           >
         >
-  
+
 
 

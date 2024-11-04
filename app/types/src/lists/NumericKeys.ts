@@ -1,4 +1,4 @@
-import { Tuple, Length, ToNumber, AfterFirst, First, IsReadonlyArray, If } from "src/types/index";
+import { Tuple, Length, ToNumber, AfterFirst, First, IsReadonlyArray, If } from "@inferred-types/types";
 
 type Recurse<
   TList extends Tuple,
@@ -22,7 +22,7 @@ type Convert<
     : Recurse<{
       [K in keyof TList]: K
     }>;
-    
+
 type Process<
   TList extends Tuple
 > = If<
@@ -35,16 +35,16 @@ type Process<
 
 /**
  * **NumericKeys**<`TList`>
- * 
- * Will provide a readonly tuple of numeric keys for 
+ *
+ * Will provide a readonly tuple of numeric keys for
  * a given literal array and an empty array otherwise.
- * 
+ *
  * ```ts
  * type Arr = ["foo", "bar", "baz"];
  * // readonly [0, 1, 2]
  * type T = NumericKeys<Arr>;
  * ```
- * 
+ *
  * **Related:** `Keys`
  */
 export type NumericKeys <

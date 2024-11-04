@@ -1,9 +1,9 @@
-import {  First,  Narrowable,  UnionToTuple, Unique } from "src/types/index";
+import {  First,  Narrowable,  UnionToTuple, Unique } from "@inferred-types/types";
 
 
 /**
  * **unique**
- * 
+ *
  * Runtime utility which removes intersecting values from two sets and
  * provides a unique values contained in each set.
  */
@@ -12,7 +12,7 @@ N extends Narrowable,
 K extends number,
 T extends readonly (Record<K,N> | Narrowable)[]
 >(...values: T) => {
-   
+
   const u: any[] = [];
   for (const i of values.flat()) {
     if(!u.includes(i)) {

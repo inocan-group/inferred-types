@@ -1,9 +1,9 @@
 import { Equal, Expect, ExpectFalse } from "@type-challenges/utils";
-import { Passthrough } from "src/types/index";
+import { Passthrough } from "@inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("Passthrough<TContent,TPass,THandle,TSpecificity>", () => {
@@ -18,7 +18,7 @@ describe("Passthrough<TContent,TPass,THandle,TSpecificity>", () => {
     type Removal = Passthrough<"foo" | 42 | "bar", string, never>;
 
     type Nope = Passthrough<"foo", number, false>;
-    
+
     type cases = [
       Expect<Equal<Foo, "foo">>,
       Expect<Equal<Foo2, "foo">>,
@@ -37,14 +37,14 @@ describe("Passthrough<TContent,TPass,THandle,TSpecificity>", () => {
     ];
   });
 
-  
+
   it("equals specificity", () => {
     type TooWide = Passthrough<"foo", string, false, "equals">;
     type InReverse = Passthrough<string, "foo", false, "equals">;
 
     type Foo = Passthrough<"foo", "foo", false, "equals">;
     type NotFoo = Passthrough<"foo", "foo" | "bar", false, "equals">;
-    
+
     type cases = [
       ExpectFalse<TooWide>,
       ExpectFalse<InReverse>,
@@ -56,8 +56,8 @@ describe("Passthrough<TContent,TPass,THandle,TSpecificity>", () => {
       false, false,
       true, false,
     ];
-    
+
   });
-  
+
 
 });

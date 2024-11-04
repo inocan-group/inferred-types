@@ -1,8 +1,8 @@
-import { AnyObject, AsRecord, ObjectKey, SharedKeys } from "src/types/index";
+import { AnyObject, AsRecord, ObjectKey, SharedKeys } from "@inferred-types/types";
 
 /**
  * **sharedKeys**
- * 
+ *
  * Runtime utility which provides the _shared_ keys between two objects.
  */
 export const sharedKeys = <

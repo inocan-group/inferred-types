@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import {  NumericChar, RetainUntil } from "src/types/index";
+import {  NumericChar, RetainUntil } from "@inferred-types/types";
 import { retainUntil, retainUntilInclusive } from "src/runtime/index";
 import { NUMERIC_CHAR } from "src/constants/index";
 

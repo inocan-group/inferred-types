@@ -1,4 +1,4 @@
-import {  Dictionary,  IsObject } from "src/types/index";
+import {  Dictionary,  IsObject } from "@inferred-types/types";
 import { isObject } from "src/runtime/index";
 
 type ContainerType<T> = T extends any[]

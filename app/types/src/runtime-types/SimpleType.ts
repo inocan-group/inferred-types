@@ -3,7 +3,7 @@ import type {
   SIMPLE_MAP_KEYS,
   SIMPLE_MAP_VALUES,
   SIMPLE_SET_TYPES
-} from "inferred-types";
+} from "@inferred-types/constants";
 import {
   ExpandDictionary,
   SimpleScalarToken, SimpleToken, SimpleUnionToken,
@@ -16,7 +16,7 @@ import {
   SimpleMapToken,
   SimpleSetToken,
   SimpleArrayToken
-} from "src/types/index";
+} from "@inferred-types/types";
 
 type SetTypes = typeof SIMPLE_SET_TYPES[number];
 type MapKeys = typeof SIMPLE_MAP_KEYS[number];

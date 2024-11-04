@@ -1,12 +1,12 @@
-import { 
-  AfterFirst, 
-  First, 
-  IsFunction, 
+import {
+  AfterFirst,
+  First,
+  IsFunction,
   IsObjectLiteral,
-  Dictionary, 
-  Keys, 
-  ObjectKey 
-} from "src/types/index";
+  Dictionary,
+  Keys,
+  ObjectKey
+} from "@inferred-types/types";
 
 type Process<
   TKeys extends readonly ObjectKey[],
@@ -28,15 +28,15 @@ type Process<
 
 /**
  * **KeysWithValue**`<TObj,TValue>`
- * 
+ *
  * Filter's the key/values found on `TObj` to only those whose
  * values _extend_ `TValue`.
- * 
+ *
  * ```ts
  * // ["foo",  "baz"]
  * type Str = KeysWithValue<{ foo: "hi"; bar: 5; baz: "bye" }, string>;
  * ```
- * 
+ *
  * **Related:** `KeysEqualValue`
  */
 export type KeysWithValue<
@@ -44,8 +44,8 @@ export type KeysWithValue<
   TValue
 > = [IsObjectLiteral<TObj>] extends [true]
 ? Process<
-    Keys<TObj>, 
-    TObj, 
+    Keys<TObj>,
+    TObj,
     TValue
   >
 : ObjectKey[];

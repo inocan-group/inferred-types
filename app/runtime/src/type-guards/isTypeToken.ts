@@ -1,5 +1,5 @@
-import {   TypeToken } from "src/types/index";
-import { 
+import {   TypeToken } from "@inferred-types/types";
+import {
   isString,
   startsWith,
   endsWith
@@ -7,7 +7,7 @@ import {
 
 /**
  * **isTypeToken**(val)
- * 
+ *
  * Type guard which checks whether the given value is a valid `TypeToken`
  */
 export function isTypeToken(val: unknown): val is TypeToken {

@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { StripTrailing } from "src/types/index";
+import { StripTrailing } from "@inferred-types/types";
 import { stripTrailing } from "src/runtime/index";
 
 

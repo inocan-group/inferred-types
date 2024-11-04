@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { Dictionary, SimpleType } from "src/types/index";
+import { Dictionary, SimpleType } from "@inferred-types/types";
 import { simpleType } from "src/runtime/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

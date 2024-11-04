@@ -6,7 +6,7 @@ import {
   If,
   TupleToUnion,
   RemoveNever
-} from "src/types/index";
+} from "@inferred-types/types";
 
 
 /**

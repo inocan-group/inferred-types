@@ -1,11 +1,11 @@
-import { Filter } from "src/types/index";
+import { Filter } from "@inferred-types/types";
 
 /**
  * **IntersectWithAll**`<TList,TIntersection>`
- * 
+ *
  * Type utility which iterates through each element of `TList` and intersects
  * the current value with `TIntersection`.
- * 
+ *
  * - all intersections which evaluation to `never` are removed from the list
  * ```ts
  * type Arr = [1,2,"foo"];

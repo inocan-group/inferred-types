@@ -1,17 +1,17 @@
-import { 
-  IsTrue, 
+import {
+  IsTrue,
   If,
   LeftWhitespace,
-  RightWhitespace, 
-  PascalCase , 
-  Concat 
-} from "src/types/index";
+  RightWhitespace,
+  PascalCase ,
+  Concat
+} from "@inferred-types/types";
 
 /**
  * **CamelCase**`<TString,TPreserveWhitespace>`
- * 
+ *
  * Converts a string to `CamelCase` format while optionally preserving
- * surrounding whitespace. 
+ * surrounding whitespace.
  */
 export type CamelCase<
   TString extends string,

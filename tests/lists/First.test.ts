@@ -1,6 +1,6 @@
 import { describe, it } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
-import { AfterFirst, First } from "src/types/index";
+import { AfterFirst, First } from "@inferred-types/types";
 
 describe("First<T>, AfterFirst<T>", () => {
   it("First<T> with literals", () => {

@@ -10,7 +10,7 @@ import {
   AfterFirst,
   First,
   UnionToTuple
-} from "src/types/index";
+} from "@inferred-types/types";
 
 
 type _Keys<T extends object> = UnionToTuple<keyof RemoveIndexKeys<T>> extends

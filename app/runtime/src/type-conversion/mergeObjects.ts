@@ -1,4 +1,4 @@
-import { Dictionary, MergeObjects, NarrowObject, Narrowable } from "src/types/index";
+import { Dictionary, MergeObjects, NarrowObject, Narrowable } from "@inferred-types/types";
 import { sharedKeys } from "src/runtime/index";
 import { withoutKeys } from "src/runtime/index";
 

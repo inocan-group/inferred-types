@@ -7,7 +7,7 @@ import {
     Digit,
     Or,
     IsEqual
-} from "src/types/index";
+} from "@inferred-types/types";
 
 type Pos<T extends NumberLike, N extends `${number}`> = [
   "+",

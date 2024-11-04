@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { IfLength,  Length } from "src/types/index";
+import { IfLength,  Length } from "@inferred-types/types";
 import {  narrow } from "src/runtime/index";
 import { ifLength } from "../../src/runtime/boolean-logic";
 

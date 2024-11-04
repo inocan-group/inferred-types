@@ -1,6 +1,6 @@
-import { IMAGE_FORMAT_LOOKUP } from "inferred-types";
-import { FilterByProp } from "src/types/lists";
-import { GetEach } from "src/types/lists/GetEach";
+import { IMAGE_FORMAT_LOOKUP } from "@inferred-types/constants";
+import { FilterByProp, GetEach } from "@inferred-types/types";
+
 
 /**
  * **ImgFormat**

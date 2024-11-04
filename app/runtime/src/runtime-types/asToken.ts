@@ -5,7 +5,7 @@ import {
   SimpleType,
   SimpleUnionToken,
   TypeToken
-} from "src/types/index";
+} from "@inferred-types/types";
 import {
   identity,
   isBooleanLike,

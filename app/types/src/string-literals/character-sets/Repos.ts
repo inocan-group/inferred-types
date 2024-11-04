@@ -5,8 +5,8 @@ import {
   Values,
   Flatten,
   UrlsFrom,
-} from "src/types/index";
-import  {  REPO_PAGE_TYPES, REPO_SOURCES, REPO_SOURCE_LOOKUP } from "inferred-types";
+} from "@inferred-types/types";
+import  {  REPO_PAGE_TYPES, REPO_SOURCES, REPO_SOURCE_LOOKUP } from "@inferred-types/constants";
 
 /**
  * **RepoSources**

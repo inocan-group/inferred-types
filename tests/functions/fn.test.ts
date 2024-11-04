@@ -1,5 +1,5 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
-import { AnyFunction, DoesExtend, FnWithDescription } from "src/types/index";
+import { AnyFunction, DoesExtend, FnWithDescription } from "@inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

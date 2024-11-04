@@ -1,9 +1,9 @@
 import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { IsFloat } from "src/types/index";
+import { IsFloat } from "@inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("IsFloat<T>", () => {
@@ -16,8 +16,8 @@ describe("IsFloat<T>", () => {
     type F1 = IsFloat<1>;
     type F2 = IsFloat<"1">;
     type F3 = IsFloat<1.0>;
-    
-    
+
+
     type cases = [
       ExpectTrue<T1>,
       ExpectTrue<T2>,

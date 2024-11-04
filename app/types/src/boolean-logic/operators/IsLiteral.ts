@@ -1,4 +1,4 @@
-import type { 
+import type {
  IsStringLiteral,
  IsNumericLiteral,
  IsTuple,
@@ -6,7 +6,7 @@ import type {
  IsObjectLiteral,
  IfEqual,
  IsUnion,
-} from "src/types/index";
+} from "@inferred-types/types";
 
 type Validations<T> = IsStringLiteral<T> extends true
 ? true
@@ -24,16 +24,16 @@ type Validations<T> = IsStringLiteral<T> extends true
  * **IsLiteral**`<T>`
  *
  * Boolean utility which returns `true` when `T` is:
- * 
+ *
  * - string literal
  * - numeric literal
  * - boolean literal
  * - object literal
  * - or a tuple literal
- * 
+ *
  * Note: when `T` is a _union type_, even if there are literal types
  * in the union, this will return `false`.
- * 
+ *
  * **Related:** `IsUnion`, `IsWideUnion`, `IsLiteralUnion`
  */
 export type IsLiteral<T> = [IsUnion<T>] extends [true]

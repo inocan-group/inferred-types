@@ -1,11 +1,11 @@
-import type { AfterFirst, First } from "src/types/index";
+import type { AfterFirst, First } from "@inferred-types/types";
 
 /**
  * **ExtendsSome**`<TValue,TList>`
- * 
- * Boolean type utility which evaluates whether `TValue` extends **some** of the 
- * elements in `TList`. 
- * 
+ *
+ * Boolean type utility which evaluates whether `TValue` extends **some** of the
+ * elements in `TList`.
+ *
  * **Related:** `ExtendsAll`, `IfExtendsSome`, `DoesExtend`
  */
 export type ExtendsSome<

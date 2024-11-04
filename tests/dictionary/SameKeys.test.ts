@@ -1,14 +1,14 @@
 import { describe, it, expect } from "vitest";
 
 import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import type { HasSameKeys } from "src/types/index";
+import type { HasSameKeys } from "@inferred-types/types";
 
 describe("SameKeys<T> utility", () => {
- 
+
 
   it("happy path", () => {
 
-    
+
     type cases = [
       ExpectFalse<HasSameKeys<{ id: "abc" },{ id: "abc"; favorite: false }>>,
       ExpectTrue<HasSameKeys<{ id: "abc" },{ id: "syz" }>>,

@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { AfterFirst, AnyFunction, AsLiteralFn, AsNarrowingFn, Decrement, Dictionary, First, FnProps, IsNarrowingFn, IsUnion, Tuple, TupleToUnion, TypedFunction, UnionToTuple } from "src/types/index";
+import { AfterFirst, AnyFunction, AsLiteralFn, AsNarrowingFn, Decrement, Dictionary, First, FnProps, IsNarrowingFn, IsUnion, Tuple, TupleToUnion, TypedFunction, UnionToTuple } from "@inferred-types/types";
 
 type _ExpandTuple<
   TLength extends number,

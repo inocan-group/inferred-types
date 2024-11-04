@@ -10,7 +10,7 @@ import {
   IsEscapeFunction,
   HasEscapeFunction,
   AsEscapeFunction,
-} from "src/types/index";
+} from "@inferred-types/types";
 
 import {
   asApi,

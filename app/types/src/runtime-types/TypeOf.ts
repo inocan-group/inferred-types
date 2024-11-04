@@ -1,5 +1,5 @@
-import { TYPE_OF } from "inferred-types";
-import { IsUndefined , AnyFunction, AnyObject , TupleToUnion } from "src/types/index";
+import { TYPE_OF } from "@inferred-types/constants";
+import { IsUndefined , AnyFunction, AnyObject , TupleToUnion } from "@inferred-types/types";
 
 /**
  * **TypeOf**

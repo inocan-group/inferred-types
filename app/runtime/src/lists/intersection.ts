@@ -1,4 +1,4 @@
-import type { Container, Intersection, } from "src/types/index";
+import type { Container, Intersection, } from "@inferred-types/types";
 import { isIndexable, getEach,  get } from "src/runtime/index";
 import { ifNotNull } from "../boolean-logic/ifNotNull";
 

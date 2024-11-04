@@ -1,4 +1,4 @@
-import { AsNumber, IsEqual, NumberLike } from "src/types/index";
+import { AsNumber, IsEqual, NumberLike } from "@inferred-types/types";
 
 type Calc<
   A extends number,

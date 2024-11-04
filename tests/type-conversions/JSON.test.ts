@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { JsonValue, JsonValues } from "src/types/index";
+import { JsonValue, JsonValues } from "@inferred-types/types";
 import { jsonValue } from "src/runtime/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

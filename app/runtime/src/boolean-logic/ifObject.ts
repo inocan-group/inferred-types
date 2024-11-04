@@ -1,4 +1,4 @@
-import type { If, IsObject, Narrowable } from "src/types/index";
+import type { If, IsObject, Narrowable } from "@inferred-types/types";
 import { isObject } from "src/runtime/index";
 
 

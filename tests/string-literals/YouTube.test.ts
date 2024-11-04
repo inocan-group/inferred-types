@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { GetYouTubePageType} from "src/types/index";
+import { GetYouTubePageType} from "@inferred-types/types";
 import { getYouTubePageType, isYouTubeFeedUrl, youtubeMeta } from "src/runtime/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

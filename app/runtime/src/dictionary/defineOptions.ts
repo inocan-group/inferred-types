@@ -4,7 +4,7 @@ import {
   MakeKeysOptional,
   MakeKeysRequired,
   RequiredKeys,
-} from "src/types/index"
+} from "@inferred-types/types"
 import {
   createFnWithProps,
 } from "src/runtime/index"

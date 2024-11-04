@@ -1,12 +1,12 @@
-import {  
-  HasCharacters, 
-  IsNever, 
-  StartsWith, 
-  IsStringLiteral, 
-  EndsWith,  
-  Contains, 
+import {
+  HasCharacters,
+  IsNever,
+  StartsWith,
+  IsStringLiteral,
+  EndsWith,
+  Contains,
   IsEqual
-} from "src/types/index";
+} from "@inferred-types/types";
 
 type CheckForInvalid<
   T extends string
@@ -22,15 +22,15 @@ type CheckForInvalid<
 
 /**
  * **IsDotPath**`<T>`
- * 
+ *
  * Boolean operator which detects whether a given `T` should be considered a
  * "dot path". Results based on `T` are:
- * 
+ *
  * - `false` - any non-string type or any string literal in which `DotPath<T>` resolves
  * to false (including _never_ value).
  * - `boolean` - a wide string type
  * - `true` - a string literal value where `DotPath<T>` does not resolve to _never_.
- * 
+ *
  * Note: this utility does not validate that `T` is a _valid_ dot path for a particular
  * container; only that it is a valid looking dotpath. If you want this validation use
  * `IsValidDotPath<TContainer, TKey>` instead.

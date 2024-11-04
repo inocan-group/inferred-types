@@ -1,4 +1,4 @@
-import { Constant } from "../../constants/Constant";
+import { Constant } from "@inferred-types/constants";
 import { IsWideType } from "../boolean-logic";
 import { If } from "../boolean-logic/branching/If";
 import { RemoveMarked } from "../containers";
@@ -15,13 +15,13 @@ T extends readonly unknown[]
 
 /**
  * **RetainWideTypes**`<T>`
- * 
+ *
  * Receives a tuple of items and keeps only the "wide types"
- * (e.g., object literals, tuple literals, string literals, 
+ * (e.g., object literals, tuple literals, string literals,
  * numeric literals, and boolean literals).
- * 
+ *
  * All wide types and elements such as _undefined_ and `null` are removed.
- * 
+ *
  * **Related:** `Retain`, `RetainLiterals`, `FilterWideTypes`
  */
 export type RetainWideTypes<

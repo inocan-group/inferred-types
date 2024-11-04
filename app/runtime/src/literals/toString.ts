@@ -1,8 +1,8 @@
-import { ToString, Narrowable } from "src/types/index";
+import { ToString, Narrowable } from "@inferred-types/types";
 
 /**
  * **toString**()
- * 
+ *
  * Runtime utility which converts any given type to a string while
  * preserving literal types.
  */

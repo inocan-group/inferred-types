@@ -1,9 +1,9 @@
-import { 
-  IsNever, 
-  IsScalar, 
+import {
+  IsNever,
+  IsScalar,
   IsUndefined,
   IsUnion
-} from "src/types/index";
+} from "@inferred-types/types";
 
 type Process<T> = [IsNever<T>] extends [true]
 ? false
@@ -18,9 +18,9 @@ type Process<T> = [IsNever<T>] extends [true]
 
 /**
  * **IsOptionalScalar**`<T>`
- * 
+ *
  * Boolean type utility which tests for a _scalar_ value or _undefined_.
- * 
+ *
  * **Related:** `IsScalar`
  */
 export type IsOptionalScalar<T> = Process<T> extends boolean

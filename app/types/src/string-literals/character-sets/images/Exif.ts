@@ -1,4 +1,4 @@
-import { EmptyObject } from "src/types/base-types";
+import { EmptyObject } from "@inferred-types/types";
 
 export enum ExifCompression {
   Uncompressed = 1,

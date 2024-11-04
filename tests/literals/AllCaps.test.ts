@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 import { Equal, Expect } from "@type-challenges/utils";
-import { AllCaps } from "src/types/index";
+import { AllCaps } from "@inferred-types/types";
 
 describe("AllCaps<T> type utility", () => {
   it("finds AllCaps where it exists", () => {
@@ -11,7 +11,7 @@ describe("AllCaps<T> type utility", () => {
 
     type cases = [
       Expect<Equal<T1, "YUP">>,
-      Expect<Equal<T2, "YUP ">>, 
+      Expect<Equal<T2, "YUP ">>,
       Expect<Equal<T3, "YUP YUP YESSSSSSSSSSSSSS">>
     ];
     const c: cases = [true, true, true];
@@ -23,7 +23,7 @@ describe("AllCaps<T> type utility", () => {
     type T2 = AllCaps<"  noo nooo noooooooooooooo">;
 
     type cases = [
-      Expect<Equal<T1, "NOPE">>, 
+      Expect<Equal<T1, "NOPE">>,
       Expect<Equal<T2, "  NOO NOOO NOOOOOOOOOOOOOO">>
     ];
     const c: cases = [true, true];

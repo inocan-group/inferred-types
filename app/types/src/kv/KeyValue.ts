@@ -1,8 +1,8 @@
-import { ExpandRecursively } from "src/types/index";
+import { ExpandRecursively } from "@inferred-types/types";
 
 /**
  * Provides a strongly typed _key_ and _value_ for a dictionary `T`
- * 
+ *
  * ```ts
  * type Obj = { foo: 1, bar: "hi" };
  * // ["foo", 1 ]

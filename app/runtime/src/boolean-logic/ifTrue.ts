@@ -1,4 +1,4 @@
-import { IsFalse, IsTrue, Narrowable } from "src/types/index";
+import { IsFalse, IsTrue, Narrowable } from "@inferred-types/types";
 import { isTrue } from "src/runtime/index";
 
 
@@ -7,7 +7,7 @@ import { isTrue } from "src/runtime/index";
  *
  * Strongly type-aware conditional statement which checks whether a value is
  * _true_. Valid outcomes are:
- * 
+ *
  * - **IF** - returned when T is narrowly typed as `true`
  * - **ELSE** - returned when T is narrowly typed as `false`
  * - **IF | ELSE** - returned when T is a `boolean` type

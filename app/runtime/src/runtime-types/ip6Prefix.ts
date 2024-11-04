@@ -1,4 +1,4 @@
-import { AsIp6Prefix, Ip6Group } from "src/types/index";
+import { AsIp6Prefix, Ip6Group } from "@inferred-types/types";
 import { addToken } from "./shape-helpers/addToken";
 
 

@@ -4,7 +4,7 @@ import {
   IsEqual,
   IsStringLiteral,
   IsTuple
-} from "src/types/index";
+} from "@inferred-types/types";
 
 
 

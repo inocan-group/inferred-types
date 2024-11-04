@@ -1,4 +1,4 @@
-import { Email } from "src/types/index"
+import { Email } from "@inferred-types/types"
 import { isString } from "src/runtime/index";
 import { LOWER_ALPHA_CHARS } from "src/constants/Alpha";
 

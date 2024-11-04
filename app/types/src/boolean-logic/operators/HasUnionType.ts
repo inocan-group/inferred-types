@@ -1,4 +1,4 @@
-import { AfterFirst, First,  IsUnion } from "src/types/index";
+import { AfterFirst, First,  IsUnion } from "@inferred-types/types";
 
 type _HasUnion<
   TList extends readonly unknown[]
@@ -10,7 +10,7 @@ type _HasUnion<
 
 /**
  * **HasUnionType**`<TList>`
- * 
+ *
  * Checks whether a list of items includes a value in it which is a _union type_.
  */
 export type HasUnionType<TList extends readonly unknown[]> = _HasUnion<TList>;

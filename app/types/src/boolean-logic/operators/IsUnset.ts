@@ -1,4 +1,4 @@
-import { Unset, IsEqual } from "src/types/index";
+import { Unset, IsEqual } from "@inferred-types/types";
 
 
 /**

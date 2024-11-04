@@ -1,11 +1,11 @@
-import { Constant } from "inferred-types";
+import { Constant } from "@inferred-types/constants";
 import {
   IsWideType,
   Or,
   RemoveMarked,
   Chars,
   Join
-} from "src/types/index";
+} from "@inferred-types/types";
 
 type Process<
   TChars extends readonly string[],

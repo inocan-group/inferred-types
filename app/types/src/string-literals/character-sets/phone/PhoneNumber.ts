@@ -8,7 +8,7 @@ import {
   IsNumericLiteral,
   As,
   ErrorCondition
-} from "src/types/index";
+} from "@inferred-types/types";
 
 // /** T or ErrorCondition */
 // type _AppropriateNumerics<T extends string> =

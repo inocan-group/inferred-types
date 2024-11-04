@@ -1,8 +1,8 @@
- 
+
 import { describe, it, expect } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
 
-import {  UnionToTuple, WithoutKeys } from "src/types/index";
+import {  UnionToTuple, WithoutKeys } from "@inferred-types/types";
 import { withoutKeys } from "src/runtime/index";
 
 describe("WithoutKeys<T, K> utility", () => {
@@ -49,9 +49,9 @@ describe("WithoutKeys<T, K> utility", () => {
     expect((t2b as any).baz).toBeUndefined;
 
     type cases = [
-      Expect<Equal<typeof t1, { readonly baz: "hi"}>>, 
+      Expect<Equal<typeof t1, { readonly baz: "hi"}>>,
       Expect<Equal<typeof t2, { readonly bar: number | undefined}>>,
-      Expect<Equal<typeof t1b, { baz: string}>>, 
+      Expect<Equal<typeof t1b, { baz: string}>>,
       Expect<Equal<typeof t2b, {  bar: number | undefined}>>,
     ];
     const cases: cases = [ true, true, true, true ];

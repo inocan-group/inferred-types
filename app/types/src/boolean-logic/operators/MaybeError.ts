@@ -1,4 +1,4 @@
-import { UnionToTuple, IsUnion, Contains, ErrorCondition } from "src/types/index";
+import { UnionToTuple, IsUnion, Contains, ErrorCondition } from "@inferred-types/types";
 
 
 type AnyError<

@@ -1,4 +1,4 @@
-import { Bracket, NumericChar, Punctuation, SpecialChar, Whitespace } from "src/types/index";
+import { Bracket, NumericChar, Punctuation, SpecialChar, Whitespace } from "@inferred-types/types";
 
 
 /**

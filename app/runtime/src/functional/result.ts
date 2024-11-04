@@ -18,7 +18,7 @@
 //   ErrInput,
 //   IsFunction,
 //   If,
-// } from "src/types/index"
+// } from "@inferred-types/types"
 // import { Never } from "inferred-types";
 // import { isFunction, isObject, isString } from "../type-guards/index";
 // import { toKebabCase } from "../literals/toKebabCase";

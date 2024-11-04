@@ -1,4 +1,4 @@
-import { AfterFirst, First,  IsArray } from "src/types/index";
+import { AfterFirst, First,  IsArray } from "@inferred-types/types";
 
 type _HasArray<
   TList extends readonly unknown[]

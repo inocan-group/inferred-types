@@ -1,4 +1,4 @@
-import {  AfterFirst, First, IsLiteral, IsStringLiteral, IsUnion, UnionToTuple } from "src/types/index";
+import {  AfterFirst, First, IsLiteral, IsStringLiteral, IsUnion, UnionToTuple } from "@inferred-types/types";
 import { Replace } from "./Replace";
 
 

@@ -1,9 +1,9 @@
 import {  ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { IsObjectLiteral, Dictionary } from "src/types/index";
+import { IsObjectLiteral, Dictionary } from "@inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("IsObjectLiteral<T>", () => {
@@ -15,7 +15,7 @@ describe("IsObjectLiteral<T>", () => {
     type F1 = IsObjectLiteral<object>;
     type F2 = IsObjectLiteral<Dictionary>;
     type F3 = IsObjectLiteral<Record<string, string>>;
-    
+
     type cases = [
       ExpectTrue<T1>,
       ExpectTrue<T2>,

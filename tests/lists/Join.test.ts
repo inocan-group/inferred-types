@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { Join , EnsureLeading } from "src/types/index";
+import { Join , EnsureLeading } from "@inferred-types/types";
 import { describe, expect, it } from "vitest";
 import { Joiner, joinWith } from "src/runtime/index";
 

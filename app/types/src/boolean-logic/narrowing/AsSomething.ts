@@ -4,8 +4,8 @@ import {
   RemoveMarked,
   TupleToUnion,
   UnionToTuple
-} from "src/types/index";
-import { Constant } from "inferred-types";
+} from "@inferred-types/types";
+import { Constant } from "@inferred-types/constants";
 
 type Process<
   T extends readonly unknown[]

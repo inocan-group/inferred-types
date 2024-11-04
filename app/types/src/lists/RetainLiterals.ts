@@ -1,4 +1,4 @@
-import { Constant } from "../../constants/Constant";
+import { Constant } from "@inferred-types/constants";
 import { IsLiteral } from "../boolean-logic";
 import { If } from "../boolean-logic/branching/If";
 import { RemoveMarked } from "../containers";
@@ -15,12 +15,12 @@ T extends readonly unknown[]
 
 /**
  * **RetainLiterals**`<T>`
- * 
+ *
  * Receives a tuple of items and keeps only the literal types
  * (e.g., object, number, string, Record<string, string>, boolean, etc.).
- * 
+ *
  * All literal types and elements such as _undefined_ and `null` are removed.
- * 
+ *
  * **Related:** `Retain`, `FilterLiterals`, `RetainWideTypes`
  */
 export type RetainLiterals<

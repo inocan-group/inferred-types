@@ -4,7 +4,7 @@ import type {
   If,
   JustFunction,
   TypedFunction
-} from "src/types/index";
+} from "@inferred-types/types";
 
 
 

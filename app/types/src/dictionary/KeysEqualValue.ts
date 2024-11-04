@@ -1,15 +1,15 @@
-import { IfEqual } from "src/types/index";
+import { IfEqual } from "@inferred-types/types";
 
 /**
  * **KeysEqualValue**`<TObj,TValue>`
- * 
+ *
  * The _keys_ on a given object `TObj` which are _equal to_ `TValue`.
- * 
+ *
  * ```ts
  * // "foo"
  * type Str = KeysEqualValue<{ foo: string; bar: 5; baz: "bye" }, string>;
  * ```
- * 
+ *
  * **Related:** `KeysWithValue`
  */
 export type KeysEqualValue<TObj extends object, TWithValue> = {

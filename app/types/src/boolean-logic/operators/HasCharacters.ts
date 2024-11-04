@@ -1,12 +1,12 @@
-import type {  
-  IsUnion, 
-  UnionToTuple, 
-  IsStringLiteral,  
-  AllStringLiterals, 
-  AsArray, 
-  Or, 
-  And 
-} from "src/types/index";
+import type {
+  IsUnion,
+  UnionToTuple,
+  IsStringLiteral,
+  AllStringLiterals,
+  AsArray,
+  Or,
+  And
+} from "@inferred-types/types";
 
 type Process<
   TStr extends string,
@@ -45,13 +45,13 @@ type PreProcess<
 
 /**
  * **HasCharacters**`<TStr,TChars>`
- * 
+ *
  * Boolean type utility which tests whether `TStr` has _any_ of the
- * characters in `TChars`. 
- * 
- * - If you would prefer to test for ALL characters matching then 
+ * characters in `TChars`.
+ *
+ * - If you would prefer to test for ALL characters matching then
  * you can change `TOp` to "all".
- * 
+ *
  * **Related:** `NotCharacters`
  */
 export type HasCharacters<
@@ -59,7 +59,7 @@ export type HasCharacters<
   TChars extends string | readonly string[],
   TOp extends "any" | "all" = "any"
 > = IsStringLiteral<TStr> extends true
-  ? TChars extends string 
+  ? TChars extends string
     ? IsStringLiteral<TChars> extends true
       ? PreProcess<TStr,TChars,TOp>
       : boolean
@@ -68,6 +68,6 @@ export type HasCharacters<
       ? ProcessTuple<TStr, TChars, TOp>
       : boolean
     : boolean
-      
+
   : boolean;
 

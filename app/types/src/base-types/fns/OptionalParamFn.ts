@@ -3,7 +3,7 @@ import {
   Some,
   Throw,
   TypedFunction
-} from "src/types/index";
+} from "@inferred-types/types";
 
 
 /**

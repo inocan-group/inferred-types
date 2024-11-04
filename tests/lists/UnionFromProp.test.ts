@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { Expect, Equal } from "@type-challenges/utils";
-import { UnionFromProp } from "src/types/index";
+import { UnionFromProp } from "@inferred-types/types";
 
 const narrow_data = [
   { id: 123, color: "blue" },
@@ -16,7 +16,7 @@ const wide_data: readonly R[] = [
 type WideData = typeof wide_data;
 
 type R2<T extends string> = Readonly<{ id: number; color: T }>;
- 
+
 const hybrid = <H extends R2<any>>(...data: H[]): readonly H[] => data;
 const hybrid_data = hybrid(
   ...[

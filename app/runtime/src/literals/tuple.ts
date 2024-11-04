@@ -4,7 +4,7 @@ import {
   Narrowable,
   UnionArrayToTuple,
   UnionToTuple,
-} from "src/types/index";
+} from "@inferred-types/types";
 import { asArray } from "src/runtime/index";
 
 /**

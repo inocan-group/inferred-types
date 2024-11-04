@@ -1,9 +1,9 @@
 /* eslint-disable no-use-before-define */
-import { 
+import {
   Dictionary,
   MergeObjects,
-  OptRequired 
-} from "src/types/index";
+  OptRequired
+} from "@inferred-types/types";
 
 /**
  * utility function to take a fully-qualified _user_ config
@@ -459,7 +459,7 @@ export type MapInputFrom<T extends Mapper> = T extends Mapper<infer I> ? I : nev
  *
  * Type utility which extracts the output [`O`] type from a fully configured `Mapper`
  */
- 
+
 export type MapOutputFrom<T extends Mapper> = T extends Mapper<any, infer O> ? O : never;
 
 /**
@@ -467,7 +467,7 @@ export type MapOutputFrom<T extends Mapper> = T extends Mapper<any, infer O> ? O
  *
  * Type utility which extracts _cardinality_ of a `Mapper`'s inputs to outputs
  */
- 
+
 export type MapCardinalityFrom<T extends Mapper> = T extends Mapper<any, any, infer C>
   ? C extends FinalizedMapConfig<OptRequired, infer Cardinality, OptRequired>
     ? Cardinality

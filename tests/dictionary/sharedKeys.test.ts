@@ -2,11 +2,11 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import type { Contains, HasSameValues, SharedKeys } from "src/types/index";
+import type { Contains, HasSameValues, SharedKeys } from "@inferred-types/types";
 import { sharedKeys } from "src/runtime/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("SharedKeys", () => {

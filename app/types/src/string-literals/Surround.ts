@@ -1,4 +1,4 @@
-import {  ToStringArray } from "src/types/index";
+import {  ToStringArray } from "@inferred-types/types";
 
 type Process<
   TContent extends string,

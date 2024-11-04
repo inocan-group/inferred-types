@@ -4,8 +4,8 @@ import {
   Mutable,
   IsStringLiteral,
   IsDomainName
-} from "src/types/index";
-import  { TOP_LEVEL_DOMAINS }  from "inferred-types";
+} from "@inferred-types/types";
+import  { TOP_LEVEL_DOMAINS }  from "@inferred-types/constants";
 
 /**
  * **TLD**

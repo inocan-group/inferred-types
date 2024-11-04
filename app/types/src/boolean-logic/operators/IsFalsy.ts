@@ -1,8 +1,8 @@
-import { If, ExtendsSome } from "src/types/index";
+import { If, ExtendsSome } from "@inferred-types/types";
 
 /**
  * **IsFalsy**`<T>`
- * 
+ *
  * Boolean operator which tests whether `T` is _falsy_.
  */
 export type IsFalsy<T> = If<

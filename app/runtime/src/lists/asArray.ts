@@ -1,4 +1,4 @@
-import { AsArray, Narrowable } from "src/types/index";
+import { AsArray, Narrowable } from "@inferred-types/types";
 
 /**
  * Type utility which converts `undefined[]` to `unknown[]`
@@ -16,7 +16,7 @@ export type UndefinedArrayIsUnknown<T extends unknown[]> = undefined[] extends T
  * is of type `string` not the literal `abc`. If you want to keep literal types then
  * change the optional _widen_ parameter to _false_.
  */
- 
+
 export const asArray = <T extends Narrowable>(thing: T) => {
   return (
     Array.isArray(thing) === true

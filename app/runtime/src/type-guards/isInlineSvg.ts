@@ -1,9 +1,9 @@
-import { InlineSvg } from "src/types/index";
+import { InlineSvg } from "@inferred-types/types";
 import { isString } from "./isString"
 
 /**
  * **isInlineSvg**`(val)`
- * 
+ *
  * Type guard which tests whether the passed in value is both a string
  * and also appears to be an inline SVG image.
  */

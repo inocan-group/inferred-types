@@ -1,4 +1,4 @@
-import { AfterFirst, First, IsWideType } from "src/types/index";
+import { AfterFirst, First, IsWideType } from "@inferred-types/types";
 
 type Validate<T extends readonly unknown[]> = [] extends T
 ? false
@@ -8,7 +8,7 @@ type Validate<T extends readonly unknown[]> = [] extends T
 
 /**
  * **HasWideValues**`<T>`
- * 
+ *
  * Tests whether any values in the tuple are _wide_ (aka, not a literal) value.
  */
 export type HasWideValues<T extends readonly unknown[]> = Validate<T>;

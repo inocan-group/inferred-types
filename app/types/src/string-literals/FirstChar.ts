@@ -1,4 +1,4 @@
-import {   First, Chars } from "src/types/index";
+import {   First, Chars } from "@inferred-types/types";
 
 type Process<TContent extends string> = First<Chars<TContent>>;
 
@@ -9,15 +9,15 @@ type Iterate<TContent extends readonly string[]> = {
 
 /**
  * **FirstChar**`<TContent>`
- * 
+ *
  * When `TContent` extends a _string_:
  *   - will return the first character in a string literal
  *   - returns `string` when a wide type is encountered
  *   - returns `never` when an empty string is passed in
- * 
+ *
  * When `TContent` is a tuple of strings:
  *   - each item will be processed as described above
- * 
+ *
  * **Related:** `LastChar`, `AfterFirstChar`
  */
 export type FirstChar<

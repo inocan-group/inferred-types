@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { ReduceValues } from "src/types/index";
+import { ReduceValues } from "@inferred-types/types";
 
 import { describe, it } from "vitest";
 

@@ -1,4 +1,4 @@
-import { Whitespace } from "src/types/index";
+import { Whitespace } from "@inferred-types/types";
 
 type Process<
 S extends string

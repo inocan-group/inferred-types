@@ -1,5 +1,5 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
-import { IsErrorCondition, TakeFirst } from "src/types/index";
+import { IsErrorCondition, TakeFirst } from "@inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

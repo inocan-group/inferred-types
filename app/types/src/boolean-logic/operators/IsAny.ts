@@ -1,8 +1,8 @@
-import { IsNever } from "src/types/index";
+import { IsNever } from "@inferred-types/types";
 
 /**
  * **IsAny**`<T>`
- * 
+ *
  * Tests whether a given `T` is of the **any** type.
  */
 export type IsAny<T> = IsNever<T> extends true
