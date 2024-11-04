@@ -64,7 +64,8 @@
     "watch": "run-p watch:*",
     "watch:types": "ts-type-tester tests tests/tsconfig.json --ignore 6133 -w",
     "watch:lint": "esw (src|tests)/**/*.ts -w --clear",
-    "watch:bundle": "tsup src/index.ts --format=esm --dts"
+    "watch:bundle": "tsup src/index.ts --format=esm --dts",
+    "constants": "pnpm --filter constants"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.0",
