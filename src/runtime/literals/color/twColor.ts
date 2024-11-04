@@ -8,7 +8,6 @@ import {
 import { TW_CHROMA, TW_LUMINOSITY, TW_HUE } from "inferred-types"
 
 
-// `oklch(${TwLuminosityLookup[TLum]} ${TwChromaLookup[TLum]} ${TwHue[TColor]})`
 
 type Rtn<
   TColor extends TwColor,
@@ -16,8 +15,8 @@ type Rtn<
 > =
 TLum extends keyof TwLuminosityLookup
 ? TLum extends keyof TwChromaLookup
-  ? TLum extends keyof TwHue
-    ? `oklch(${TwLuminosityLookup[TLum]} ${TwChromaLookup[TLum]} ${TwHue[TLum]}) `
+  ? TColor extends keyof TwHue
+    ? `oklch(${TwLuminosityLookup[TLum]} ${TwChromaLookup[TLum]} ${TwHue[TColor]}) `
     : never
   : never
 : never;
