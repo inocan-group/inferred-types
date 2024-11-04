@@ -23,7 +23,7 @@ import {
   takeNumericCharacters,
 } from "src/runtime/index";
 import { NETWORK_PROTOCOL_LOOKUP } from "src/constants/NetworkConstants";
-import { Never } from "src/constants/index";
+import { Never } from "inferred-types";
 
 
 export type UrlMeta<T> = {

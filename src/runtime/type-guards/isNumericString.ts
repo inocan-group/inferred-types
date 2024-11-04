@@ -1,4 +1,4 @@
-import { NUMERIC_CHAR } from "src/constants/index";
+import { NUMERIC_CHAR } from "inferred-types";
 import { split } from "../literals/split";
 import { NumberLike } from "src/types/numeric-literals";
 

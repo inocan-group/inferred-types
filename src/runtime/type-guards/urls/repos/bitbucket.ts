@@ -1,4 +1,4 @@
-import { REPO_SOURCE_LOOKUP } from "src/constants/index";
+import { REPO_SOURCE_LOOKUP } from "inferred-types";
 import { isString } from "../../isString";
 import { UrlsFrom } from "src/types/index";
 

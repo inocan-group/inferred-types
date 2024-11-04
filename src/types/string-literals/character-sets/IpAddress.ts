@@ -9,7 +9,7 @@ import {
   Suggest,
   UnionToTuple
 } from "src/types/index";
-import  { IPv6 } from "src/constants/index";
+import  { IPv6 } from "inferred-types";
 
 /**
  * **IPv4Number**

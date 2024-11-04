@@ -1,4 +1,4 @@
-import { SIMPLE_SCALAR_TOKENS, SIMPLE_TOKENS } from "src/constants/index"
+import { SIMPLE_SCALAR_TOKENS, SIMPLE_TOKENS } from "inferred-types"
 
 import { SimpleContainerToken, SimpleScalarToken, SimpleToken } from "src/types/index"
 import { isString,isArray } from "src/runtime/index";

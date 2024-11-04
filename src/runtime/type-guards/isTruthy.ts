@@ -1,11 +1,11 @@
- 
+
 import { FalsyValue } from "src/types/index";
-import { FALSY_VALUES } from "src/constants/index";
+import { FALSY_VALUES } from "inferred-types";
 
 
 /**
  * **isTruthy**
- * 
+ *
  * Creates a TypeGuard which checks whether a value is considered _truthy_
  * in Javascript.
  */

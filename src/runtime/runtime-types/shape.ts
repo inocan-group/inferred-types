@@ -1,4 +1,4 @@
-import { SHAPE_PREFIXES } from "src/constants/index";
+import { SHAPE_PREFIXES } from "inferred-types";
 import {
   Shape,
   ShapeTupleOrUnion,

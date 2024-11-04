@@ -11,7 +11,7 @@ import {
   NoDefaultValue,
   NotDefined,
   NOT_DEFINED
-} from "src/constants/index";
+} from "inferred-types";
 import {
   createErrorCondition,
   isTruthy,

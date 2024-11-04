@@ -1,4 +1,4 @@
-import { Constant } from "src/constants/index";
+import { Constant } from "inferred-types";
 import {
   IsWideType,
   Or,

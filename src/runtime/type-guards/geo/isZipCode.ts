@@ -3,7 +3,7 @@ import { isString } from "../isString";
 import { isNumber } from "../isNumber";
 import { isNumberLike } from "../isNumericString";
 import { retainWhile, stripChars } from "src/runtime/index";
-import { NUMERIC_CHAR } from "src/constants/index";
+import { NUMERIC_CHAR } from "inferred-types";
 
 /**
  * Type guard which validates that passed in value is a US ZipCode

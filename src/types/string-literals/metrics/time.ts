@@ -1,4 +1,4 @@
-import { TIME_METRICS_LOOKUP } from "src/constants/index";
+import { TIME_METRICS_LOOKUP } from "inferred-types";
 import { OptSpace } from "../character-sets/OptionalSpace";
 
 type TimeMetricsLookup = typeof TIME_METRICS_LOOKUP;

@@ -1,4 +1,4 @@
-import { SPANISH_NEWS } from "src/constants/index"
+import { SPANISH_NEWS } from "inferred-types"
 import { isString } from "../../isString"
 import { SpanishNewsUrls } from "src/types/string-literals"
 

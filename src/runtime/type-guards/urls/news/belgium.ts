@@ -1,4 +1,4 @@
-import { BELGIUM_NEWS } from "src/constants/index"
+import { BELGIUM_NEWS } from "inferred-types"
 import { isString } from "../../isString"
 import { BelgianNewsUrls } from "src/types/string-literals"
 

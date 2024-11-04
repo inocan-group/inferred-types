@@ -1,4 +1,4 @@
-import { US_NEWS } from "src/constants/index"
+import { US_NEWS } from "inferred-types"
 import { isString } from "../../isString"
 import { UsNewsUrls } from "src/types/string-literals"
 

@@ -1,4 +1,4 @@
-import  { SINGULAR_NOUN_ENDINGS } from "src/constants/index";
+import  { SINGULAR_NOUN_ENDINGS } from "inferred-types";
 import { AlphaChar , TupleToUnion, Mutable,  Chars, AllExtend, If } from "src/types/index";
 /**
  * **SingularNounEnding**

@@ -1,4 +1,4 @@
-import { ISO3166_1 } from "src/constants/index";
+import { ISO3166_1 } from "inferred-types";
 import {  If, IsEqual, IsStringLiteral } from "src/types/boolean-logic";
 import { AfterFirst, First } from "src/types/lists";
 

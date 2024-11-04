@@ -43,7 +43,7 @@ import {
   WAYFAIR_DNS,
   WHOLE_FOODS_DNS,
   ZARA_DNS,
-} from "src/constants/index";
+} from "inferred-types";
 
 /**
  * type guard which validates that the `val` passed in is a valid URL

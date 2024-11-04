@@ -1,6 +1,6 @@
 /* eslint @typescript-eslint/no-unused-vars: "off" */
 
-import { PLURAL_EXCEPTIONS } from "src/constants/index";
+import { PLURAL_EXCEPTIONS } from "inferred-types";
 import {
   Consonant,
   IsStringLiteral,

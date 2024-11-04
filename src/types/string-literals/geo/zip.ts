@@ -1,5 +1,5 @@
 import { Chars, First, Mutable, NumericChar, TupleToUnion } from "src/types/index";
-import  { ZIP_TO_STATE } from "src/constants/index";
+import  { ZIP_TO_STATE } from "inferred-types";
 
 /**
  * **Zip5**

@@ -1,4 +1,4 @@
-import { CHINESE_NEWS } from "src/constants/index"
+import { CHINESE_NEWS } from "inferred-types"
 import { isString } from "../../isString"
 import { ChineseNewsUrls } from "src/types/string-literals"
 

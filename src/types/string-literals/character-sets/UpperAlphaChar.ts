@@ -1,4 +1,4 @@
-import { UPPER_ALPHA_CHARS } from "src/constants/index";
+import { UPPER_ALPHA_CHARS } from "inferred-types";
 
 /**
  * **UpperAlphaChar**

@@ -1,4 +1,4 @@
-import { Marked } from "src/constants/index";
+import { Marked } from "inferred-types";
 
 import {
   As,

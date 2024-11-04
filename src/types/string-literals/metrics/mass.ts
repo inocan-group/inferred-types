@@ -1,4 +1,4 @@
-import { MASS_METRICS_LOOKUP } from "src/constants/index";
+import { MASS_METRICS_LOOKUP } from "inferred-types";
 import { OptSpace } from "../character-sets/OptionalSpace";
 
 type MassMetricsLookup = typeof MASS_METRICS_LOOKUP;

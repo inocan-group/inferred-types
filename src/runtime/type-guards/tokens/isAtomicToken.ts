@@ -1,4 +1,4 @@
-import { TT_Atomics } from "src/constants/index";
+import { TT_Atomics } from "inferred-types";
 import { AtomicToken } from "src/types/index";
 import { isString } from "src/runtime/index";
 

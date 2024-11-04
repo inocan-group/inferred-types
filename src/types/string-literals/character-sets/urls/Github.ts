@@ -1,7 +1,7 @@
 import { As, IsTrue, IsUnion } from "src/types/boolean-logic";
 import { AddUrlPathSegment, OptUrlQueryParameters, UrlsFrom } from "./Url";
 import { TupleToUnion, UnionToTuple } from "src/types/type-conversion";
-import { GITHUB_INSIGHT_CATEGORY_LOOKUP } from "src/constants/index";
+import { GITHUB_INSIGHT_CATEGORY_LOOKUP } from "inferred-types";
 import { Keys } from "src/types/dictionary";
 
 export type GithubUrl = UrlsFrom<[

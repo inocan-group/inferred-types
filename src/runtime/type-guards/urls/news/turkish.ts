@@ -1,4 +1,4 @@
-import { TURKISH_NEWS } from "src/constants/index"
+import { TURKISH_NEWS } from "inferred-types"
 import { isString } from "../../isString"
 import { TurkishNewsUrls } from "src/types/string-literals"
 

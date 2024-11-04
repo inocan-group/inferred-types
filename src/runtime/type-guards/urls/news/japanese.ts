@@ -1,4 +1,4 @@
-import { JAPANESE_NEWS } from "src/constants/index"
+import { JAPANESE_NEWS } from "inferred-types"
 import { isString } from "../../isString"
 import { JapaneseNewsUrls } from "src/types/string-literals"
 

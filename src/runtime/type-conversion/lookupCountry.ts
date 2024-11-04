@@ -11,7 +11,7 @@ import {
   Suggest
 } from "src/types/string-literals";
 import { isIso3166Alpha2, isIso3166Alpha3, isIso3166CountryName, isNumber, isNumberLike } from "../type-guards";
-import { ISO3166_1 } from "src/constants/index";
+import { ISO3166_1 } from "inferred-types";
 import { AsString } from "src/types/type-conversion";
 import { uppercase } from "../literals";
 
