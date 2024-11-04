@@ -1,4 +1,4 @@
-import type { TYPE_OF } from "src/constants/index";
+import { TYPE_OF } from "src/constants/index";
 import { IsUndefined , AnyFunction, AnyObject , TupleToUnion } from "src/types/index";
 
 /**

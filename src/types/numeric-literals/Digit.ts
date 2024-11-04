@@ -1,4 +1,4 @@
-import type { NUMERIC_DIGIT } from "src/constants/index";
+import { NUMERIC_DIGIT } from "src/constants/index";
 
 /**
  * **Digit**

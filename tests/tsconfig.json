@@ -1,43 +1,46 @@
 {
-    "extends": "../ts-base.json",
-    "references": [
-        {
-            "path": "../src/constants"
-        },
-        {
-            "path": "../src/runtime"
-        },
-        {
-            "path": "../src/types"
-        }
-    ],
-    "compilerOptions": {
-        "noEmit": true,
-        "incremental": true,
-        "composite": true,
-        "declaration": true,
-        "declarationMap": true,
-        "tsBuildInfoFile": ".tsbuildinfo",
-        "rootDir": "..",
-        "baseUrl": ".",
-        "outDir": "../../dist/none",
-        "paths": {
-            "src/types/index": [
-                "../src/types/index.ts"
-            ],
-            "src/constants/index": [
-                "../src/constants/index.ts"
-            ],
-            "src/runtime/index": [
-                "../src/runtime/index.ts"
-            ]
-        }
+  "extends": "../ts-base.json",
+  "references": [
+    {
+      "path": "../src/constants"
     },
-    "include": [
-        ".",
-        "../src",
-    ],
-    "exclude": [
-        "**/node_modules/*",
-    ]
+    {
+      "path": "../src/runtime"
+    },
+    {
+      "path": "../src/types"
+    }
+  ],
+  "compilerOptions": {
+    "noEmit": true,
+    "incremental": true,
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "tsBuildInfoFile": ".tsbuildinfo",
+    "rootDir": "..",
+    "baseUrl": ".",
+    "outDir": "../../dist/none",
+    "paths": {
+      "src/types/index": [
+        "../src/types/index.ts"
+      ],
+      "src/constants/index": [
+        "../src/constants/index.ts"
+      ],
+      "src/runtime/index": [
+        "../src/runtime/index.ts"
+      ],
+      "src/inferred-types/index": [
+        "../src/inferred-types/index.ts"
+      ]
+    }
+  },
+  "include": [
+    ".",
+    "../src",
+  ],
+  "exclude": [
+    "**/node_modules/*",
+  ]
 }
