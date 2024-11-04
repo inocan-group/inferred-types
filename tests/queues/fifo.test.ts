@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { createFifoQueue,  widen } from "src/runtime/index"
+import { createFifoQueue,  widen } from "inferred-types"
 import { FifoQueue  } from "@inferred-types/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

@@ -9,7 +9,7 @@ import {
   isArray,
   isSameTypeOf,
   isShape
- } from "src/runtime/index"
+ } from "@inferred-types/runtime"
 
 type FromDefn<
   T extends readonly ShapeCallback[]

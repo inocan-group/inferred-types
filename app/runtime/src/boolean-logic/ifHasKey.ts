@@ -6,7 +6,7 @@ import {
   Keys,
   Narrowable
 } from "@inferred-types/types";
-import { hasIndexOf } from "src/runtime/index";
+import { hasIndexOf } from "@inferred-types/runtime";
 
 
 export const ifHasKey = <

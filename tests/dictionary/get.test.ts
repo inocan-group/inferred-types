@@ -4,7 +4,7 @@ import {
   get,
   defineObj,
   isErrorCondition,
-} from "src/runtime/index";
+} from "inferred-types";
 import type {
   Get,
 } from "@inferred-types/types";

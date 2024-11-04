@@ -1,6 +1,6 @@
 
 import { Container, If, IsContainer, Narrowable } from "@inferred-types/types";
-import { isObject, isArray } from "src/runtime/index";
+import { isObject, isArray } from "@inferred-types/runtime";
 
 
 export function ifContainer<

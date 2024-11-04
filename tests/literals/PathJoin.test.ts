@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { pathJoin } from "src/runtime/index";
+import { pathJoin } from "inferred-types";
 import { PathJoin } from "@inferred-types/types";
 import { describe, expect, it } from "vitest";
 

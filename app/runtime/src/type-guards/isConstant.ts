@@ -1,6 +1,6 @@
 
-import { Constant  } from "inferred-types";
-import { isObject  } from "src/runtime/index";
+import { Constant  } from "@inferred-types/constants";
+import { isObject  } from "@inferred-types/runtime";
 
 /**
  * **isConstant**`(val)`

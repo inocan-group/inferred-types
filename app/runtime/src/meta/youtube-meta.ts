@@ -18,8 +18,8 @@ import {
   isYouTubeVideoUrl,
   isYouTubeVideosInPlaylist,
   last
-} from "src/runtime/index";
-import { Never } from "src/constants/Never";
+} from "@inferred-types/runtime";
+import { Never } from "@inferred-types/constants";
 
 
 /**

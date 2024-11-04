@@ -7,7 +7,7 @@ import {
   CsvToTupleStr,
   CsvToUnion
 } from "@inferred-types/types";
-import { csv } from "src/runtime/index";
+import { csv } from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to

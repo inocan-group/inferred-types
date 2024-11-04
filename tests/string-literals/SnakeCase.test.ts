@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
 
-import { toSnakeCase } from "src/runtime/index";
+import { toSnakeCase } from "inferred-types";
 import type { SnakeCase } from "@inferred-types/types";
 
 describe("toSnakeCase() function", () => {

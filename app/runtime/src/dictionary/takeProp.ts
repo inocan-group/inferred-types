@@ -1,6 +1,6 @@
 
 import { Narrowable, TakeProp, Something } from "@inferred-types/types";
-import { isArray, isObject } from "src/runtime/index";
+import { isArray, isObject } from "@inferred-types/runtime";
 
 /**
  * **takeProp**(val, prop, otherwise)

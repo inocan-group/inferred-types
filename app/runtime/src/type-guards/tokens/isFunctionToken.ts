@@ -1,5 +1,5 @@
 import { FnToken, GeneratorToken } from "@inferred-types/types"
-import { isString } from "src/runtime/index"
+import { isString } from "@inferred-types/runtime"
 
 
 export const isFnToken = (val: unknown): val is FnToken => {

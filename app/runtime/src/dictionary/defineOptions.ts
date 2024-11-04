@@ -7,7 +7,7 @@ import {
 } from "@inferred-types/types"
 import {
   createFnWithProps,
-} from "src/runtime/index"
+} from "@inferred-types/runtime"
 
 
 export type UserOptions<

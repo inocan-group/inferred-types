@@ -1,6 +1,6 @@
 import { Dictionary, MergeObjects, NarrowObject, Narrowable } from "@inferred-types/types";
-import { sharedKeys } from "src/runtime/index";
-import { withoutKeys } from "src/runtime/index";
+import { sharedKeys } from "@inferred-types/runtime";
+import { withoutKeys } from "@inferred-types/runtime";
 
 
 export function mergeObjects<

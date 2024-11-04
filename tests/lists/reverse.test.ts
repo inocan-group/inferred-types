@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { reverse } from "src/runtime/index";
+import { reverse } from "inferred-types";
 import type { Reverse } from "@inferred-types/types";
 import { describe, expect, it } from "vitest";
 

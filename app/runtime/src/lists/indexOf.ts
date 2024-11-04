@@ -9,7 +9,7 @@ import {
   isNull,
   isNumber,
   isObject
-} from "src/runtime/index";
+} from "@inferred-types/runtime";
 
 /**
  * **indexOf**(val, index)

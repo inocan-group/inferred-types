@@ -1,12 +1,4 @@
 {
-  "references": [
-    {
-      "path": "../constants"
-    },
-    {
-      "path": "../types"
-    }
-  ],
   "compilerOptions": {
     "strict": true,
     "skipLibCheck": true,
@@ -16,23 +8,14 @@
     "declaration": true,
     "declarationMap": true,
     "baseUrl": ".",
-    "rootDir": "..",
-    "outDir": "../../dist",
-    "composite": true,
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "composite": false,
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      "src/types/*": [
-        "../types/*"
-      ],
-      "src/constants/*": [
-        "../constants/*"
-      ],
-      "inferred-types": [
-        "../constants/index"
-      ],
-      "src/runtime/*": [
-        "./*"
-      ],
+      "@inferred-types/runtime": [
+        "./src/index.ts"
+      ]
     },
   },
   "include": [

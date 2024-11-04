@@ -41,7 +41,9 @@
     "watch:lint": "esw (src|tests)/**/*.ts -w --clear",
     "watch:bundle": "tsup src/index.ts --format=esm --dts",
     "build:constants": "pnpm --filter constants build",
-    "build:types": "pnpm --filter types build"
+    "build:types": "pnpm --filter types build",
+    "build:runtime": "pnpm --filter runtime build",
+    "build:inferred": "pnpm --filter inferred-types build"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.0",

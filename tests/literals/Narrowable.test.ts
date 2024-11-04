@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { narrow } from "src/runtime/index";
+import { narrow } from "inferred-types";
 import { Narrowable } from "@inferred-types/types";
 
 

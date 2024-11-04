@@ -1,8 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import { RetainAfter, Whitespace } from "@inferred-types/types";
-import { retainAfter, retainAfterInclusive } from "src/runtime/index";
-import { WHITESPACE_CHARS } from "src/constants/index";
+import { retainAfter, retainAfterInclusive } from "inferred-types";
+import { WHITESPACE_CHARS } from "inferred-types";
 
 
 describe("RetainAfter<TStr,TBreak>", () => {

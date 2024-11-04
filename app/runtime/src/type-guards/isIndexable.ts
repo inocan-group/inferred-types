@@ -1,5 +1,5 @@
 import { AnyObject, Indexable } from "@inferred-types/types";
-import { keysOf } from "src/runtime/index";
+import { keysOf } from "@inferred-types/runtime";
 
 
 /**

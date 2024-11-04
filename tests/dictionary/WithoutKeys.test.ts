@@ -3,7 +3,7 @@ import { describe, it, expect } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
 
 import {  UnionToTuple, WithoutKeys } from "@inferred-types/types";
-import { withoutKeys } from "src/runtime/index";
+import { withoutKeys } from "inferred-types";
 
 describe("WithoutKeys<T, K> utility", () => {
   it("base test", () => {

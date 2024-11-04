@@ -1,6 +1,6 @@
 
 import { Container, IsValidIndex, Dictionary, Tuple } from "@inferred-types/types";
-import { isErrorCondition, isObject } from "src/runtime/index";
+import { isErrorCondition, isObject } from "@inferred-types/runtime";
 
 
 /**

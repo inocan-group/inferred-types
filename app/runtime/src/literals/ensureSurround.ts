@@ -1,5 +1,5 @@
 import { EnsureSurround } from "@inferred-types/types";
-import { ensureLeading, ensureTrailing } from "src/runtime/index";
+import { ensureLeading, ensureTrailing } from "@inferred-types/runtime";
 
 /**
  * **ensureSurround**(prefix, postfix) -> (input) -> `${prefix}${input}${postfix}`

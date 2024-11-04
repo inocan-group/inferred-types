@@ -2,7 +2,7 @@
 import { describe, expect, it } from "vitest";
 
 import {StripLeading} from "@inferred-types/types";
-import { stripLeading } from "src/runtime/index";
+import { stripLeading } from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to

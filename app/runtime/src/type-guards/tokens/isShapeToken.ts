@@ -1,12 +1,12 @@
 import { TypeToken } from "@inferred-types/types";
-import { isString } from "src/runtime/index"
+import { isString } from "@inferred-types/runtime"
 import {
   TT_Atomics,
   TT_Containers,
   TT_Functions,
   TT_Singletons,
   TT_Sets
-} from "inferred-types";
+} from "@inferred-types/constants";
 
 const token_types = [
   ...TT_Atomics,

@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { intersection } from "src/runtime/index";
+import { intersection } from "inferred-types";
 import { Intersection } from "@inferred-types/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

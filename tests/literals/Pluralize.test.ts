@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
 import type { Pluralize } from "@inferred-types/types";
-import { pluralize } from "src/runtime/index";
+import { pluralize } from "inferred-types";
 
 type Bugs = Pluralize<"bug">;
 type Cases = Pluralize<"case">;

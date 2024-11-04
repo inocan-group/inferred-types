@@ -1,4 +1,4 @@
-import { Never } from "src/constants/Never";
+import { Never } from "@inferred-types/constants";
 import { isNumberLike } from "../type-guards";
 import { CsvToJsonTuple, CsvToTuple, CsvToTupleStr } from "@inferred-types/types";
 

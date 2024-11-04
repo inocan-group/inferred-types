@@ -1,5 +1,5 @@
 import { AtomicToken } from "@inferred-types/types";
-import { isString } from "src/runtime/index"
+import { isString } from "@inferred-types/runtime"
 
 
 

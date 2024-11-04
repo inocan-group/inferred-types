@@ -1,8 +1,8 @@
-import { ifLowercaseChar, lowercase } from "src/runtime/index";
+import { ifLowercaseChar, lowercase } from "@inferred-types/runtime";
 
 /**
  * Converts a string to the "all lowercase" equivalent.
- * 
+ *
  * Note: non-alpha characters are left "as is"
  */
 export function toLowercase<T extends string>(str: T): Lowercase<T> {

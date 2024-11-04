@@ -1,4 +1,4 @@
-import { isDefined, isFalse, isTrue } from "src/runtime/index";
+import { isDefined, isFalse, isTrue } from "@inferred-types/runtime";
 import { addToken } from "./addToken";
 import { If, IsTrue, IsFalse } from "@inferred-types/types";
 

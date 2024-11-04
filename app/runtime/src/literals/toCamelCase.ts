@@ -1,5 +1,5 @@
 import type { CamelCase } from "@inferred-types/types";
-import { toPascalCase } from "src/runtime/index";
+import { toPascalCase } from "@inferred-types/runtime";
 
 /**
  * **toCamelCase**(str)

@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { isZipCode, isZipCode5, isZipPlus4 } from "src/runtime/index";
+import { isZipCode, isZipCode5, isZipPlus4 } from "inferred-types";
 import { Zip5, ZipCode, ZipPlus4 } from "@inferred-types/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

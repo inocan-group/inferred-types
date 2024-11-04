@@ -13,7 +13,7 @@
 // } from "@inferred-types/types";
 // import {  isDoneFn, isFunction,  isString,  isTuple,  isUndefined } from "../type-guards/index";
 // import { shape } from "./shape";
-// import { Never } from "inferred-types";
+// import { Never } from "@inferred-types/constants";
 
 
 

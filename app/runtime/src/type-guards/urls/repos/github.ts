@@ -8,7 +8,7 @@ import {
   GithubRepoReleaseTagUrl,
   GithubRepoUrl,
   GithubUrl
-} from "src/types/string-literals"
+} from "@inferred-types/types"
 import { isString } from "../../isString"
 import { stripLeading, stripTrailing } from "../../../literals"
 

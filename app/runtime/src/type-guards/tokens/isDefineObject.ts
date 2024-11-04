@@ -1,4 +1,4 @@
-import { DefineObject } from "src/types/dictionary";
+import { DefineObject } from "@inferred-types/types";
 import { isObject } from "../isObject";
 import { isSimpleToken } from "./isSimpleToken";
 import { isShapeToken } from "./isShapeToken";

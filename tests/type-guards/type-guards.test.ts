@@ -15,8 +15,8 @@ import {
   isFnWithParams,
   defineObj,
   isNumericString,
-} from "src/runtime/index";
-import { Constant, NoDefaultValue, NO_DEFAULT_VALUE, Never } from "src/constants/index";
+} from "inferred-types";
+import { Constant, NoDefaultValue, NO_DEFAULT_VALUE, Never } from "inferred-types";
 import { ref, Ref } from "vue";
 import { DoesExtend } from "@inferred-types/types";
 

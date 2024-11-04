@@ -5,7 +5,7 @@ import {
   UnionArrayToTuple,
   UnionToTuple,
 } from "@inferred-types/types";
-import { asArray } from "src/runtime/index";
+import { asArray } from "@inferred-types/runtime";
 
 /**
  * **tuple**(value)

@@ -3,7 +3,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
 import { LeftRight, UniqueKeys, Left, Right, HasSameValues , UniqueKeysUnion } from "@inferred-types/types";
-import { uniqueKeys } from "src/runtime/index";
+import { uniqueKeys } from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to

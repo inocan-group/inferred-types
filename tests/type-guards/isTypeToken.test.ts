@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { isTypeToken } from "src/runtime/index";
+import { isTypeToken } from "inferred-types";
 import { TypeToken } from "@inferred-types/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

@@ -1,4 +1,4 @@
-import { WHITESPACE_CHARS } from "inferred-types"
+import { WHITESPACE_CHARS } from "@inferred-types/constants"
 import { asChars } from "../type-conversion"
 import { isString } from "./isString"
 

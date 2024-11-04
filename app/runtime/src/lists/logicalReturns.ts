@@ -1,6 +1,6 @@
 import { LogicFunction, LogicalReturns } from "@inferred-types/types";
-import { isBoolean, isFunction } from "src/runtime/index";
-import { Never } from "src/constants/Never";
+import { isBoolean, isFunction } from "@inferred-types/runtime";
+import { Never } from "@inferred-types/constants";
 
 
 export function logicalReturns<

@@ -1,5 +1,5 @@
 import { Shape } from "@inferred-types/types";
-import { stripLeading } from "src/runtime/index"
+import { stripLeading } from "@inferred-types/runtime"
 
 /**
  * **getTokenName**`(token)`

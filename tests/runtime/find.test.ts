@@ -1,10 +1,10 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { find, narrow } from "src/runtime/index";
+import { find, narrow } from "inferred-types";
 
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("find(list,[deref])", () => {
@@ -25,7 +25,7 @@ describe("find(list,[deref])", () => {
     expect(bob).toEqual({id: 1, name: "Bob"});
     let mark = findObj(2);
     expect(mark).toEqual({id: 2, name: "Mark"});
-    
+
     type cases = [
       Expect<Equal<typeof foo, "foo">>,
       Expect<Equal<typeof num, 42>>,

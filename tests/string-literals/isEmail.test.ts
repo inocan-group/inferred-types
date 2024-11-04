@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { isEmail} from "src/runtime/index"
+import { isEmail} from "inferred-types"
 import { Email } from "@inferred-types/types"
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

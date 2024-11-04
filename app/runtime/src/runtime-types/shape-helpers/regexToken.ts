@@ -1,4 +1,4 @@
-import { isRegExp, isString } from "src/runtime/index";
+import { isRegExp, isString } from "@inferred-types/runtime";
 import { AsType, SimpleToken } from "@inferred-types/types";
 
 /**

@@ -1,12 +1,12 @@
-import { DefineObject } from "src/types/dictionary";
-import { FromDefn } from "src/types/literals";
 import {
+  FromDefn,
+  DefineObject,
   AsType,
   ShapeCallback,
   SimpleScalarToken,
   SimpleToken,
   SimpleType
-} from "src/types/runtime-types";
+} from "@inferred-types/types";
 import { isFunction } from "../type-guards/isFunction";
 import {  ShapeApiImplementation } from "./shape";
 import { handleDoneFn } from "../api";

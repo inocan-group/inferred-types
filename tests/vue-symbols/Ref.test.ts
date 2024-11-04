@@ -5,7 +5,7 @@ import {
   IsVueRef,
   VueRef
 } from "@inferred-types/types";
-import { asVueRef, isRef, keysOf } from "src/runtime/index";
+import { asVueRef, isRef, keysOf } from "inferred-types";
 import { Ref, ref } from "vue";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

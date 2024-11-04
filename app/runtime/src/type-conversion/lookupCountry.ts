@@ -1,4 +1,3 @@
-import { NumberLike } from "src/types/numeric-literals";
 import {
   Iso3166_1_Alpha2,
   Iso3166_1_Alpha3,
@@ -8,12 +7,13 @@ import {
   Iso3166Alpha3Lookup,
   Iso3166CodeLookup,
   Iso3166CountryLookup,
-  Suggest
-} from "src/types/string-literals";
+  Suggest,
+  AsString,
+  NumberLike
+} from "@inferred-types/types";
 import { isIso3166Alpha2, isIso3166Alpha3, isIso3166CountryName, isNumber, isNumberLike } from "../type-guards";
-import { ISO3166_1 } from "inferred-types";
-import { AsString } from "src/types/type-conversion";
 import { uppercase } from "../literals";
+import { ISO3166_1 } from "@inferred-types/constants";
 
 type Props = "alpha2" | "alpha3" | "countryCode" | "name";
 
@@ -138,7 +138,9 @@ P extends Props
  *
  * **Related:** `lookupCountryAlpha2()`, `lookupCountryAlpha3()`
  */
-export const lookupCountryName = <T extends Suggest<Iso3166_1_Alpha2 | Iso3166_1_Alpha3 | Iso3166_1_CountryCode>>(
+export const lookupCountryName = <
+  T extends Suggest<Iso3166_1_Alpha2 | Iso3166_1_Alpha3 | Iso3166_1_CountryCode>
+>(
   code: T
 ) => {
   const uc = uppercase(code);
