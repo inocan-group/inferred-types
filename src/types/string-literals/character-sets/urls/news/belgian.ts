@@ -1,4 +1,4 @@
-import {  BELGIUM_NEWS } from "src/constants/index";
+import {  BELGIUM_NEWS } from "inferred-types";
 import { Mutable } from "src/types/type-conversion/Mutable";
 import { UrlsFrom } from "../Url";
 

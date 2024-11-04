@@ -1,4 +1,4 @@
-import { SOUTH_KOREAN_NEWS } from "src/constants/index"
+import { SOUTH_KOREAN_NEWS } from "inferred-types"
 import { isString } from "../../isString"
 import { SouthKoreanNewsUrls } from "src/types/string-literals"
 

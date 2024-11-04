@@ -5,8 +5,22 @@ import {
   TwChromaLookup,
   TwHue
 } from "src/types/index";
-import { TW_CHROMA, TW_LUMINOSITY, TW_HUE } from "src/constants/index"
+import { TW_CHROMA, TW_LUMINOSITY, TW_HUE } from "inferred-types"
 
+
+// `oklch(${TwLuminosityLookup[TLum]} ${TwChromaLookup[TLum]} ${TwHue[TColor]})`
+
+type Rtn<
+  TColor extends TwColor,
+  TLum extends TwLuminosity
+> =
+TLum extends keyof TwLuminosityLookup
+? TLum extends keyof TwChromaLookup
+  ? TLum extends keyof TwHue
+    ? `oklch(${TwLuminosityLookup[TLum]} ${TwChromaLookup[TLum]} ${TwHue[TLum]}) `
+    : never
+  : never
+: never;
 
 /**
  * Provides a Tailwind Color using the `oklch` color
@@ -23,5 +37,5 @@ export const twColor = <
   const lum = TW_LUMINOSITY[luminosity];
   const chroma = TW_CHROMA[luminosity];
   const hue = TW_HUE[color];
-  return `oklch(${lum} ${chroma} ${hue})` as `oklch(${TwLuminosityLookup[TLum]} ${TwChromaLookup[TLum]} ${TwHue[TColor]})`
+  return `oklch(${lum} ${chroma} ${hue})` as unknown as Rtn<TColor,TLum>
 }

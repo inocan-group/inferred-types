@@ -1,11 +1,11 @@
 // /* eslint-disable @typescript-eslint/no-explicit-any */
 // /* eslint-disable no-use-before-define */
 // import { RESULT } from "src/constants/Functional"
-// import { 
-//   Ok, 
-//   Result,  
-//   AsFunction, 
-//   Narrowable, 
+// import {
+//   Ok,
+//   Result,
+//   AsFunction,
+//   Narrowable,
 //   Err,
 //   ResultErr,
 //   ObjectKey,
@@ -19,7 +19,7 @@
 //   IsFunction,
 //   If,
 // } from "src/types/index"
-// import { Never } from "src/constants/index";
+// import { Never } from "inferred-types";
 // import { isFunction, isObject, isString } from "../type-guards/index";
 // import { toKebabCase } from "../literals/toKebabCase";
 // import { asUnion } from "../type-conversion/asUnion";
@@ -31,15 +31,15 @@
 // const errInputs: ErrInput = "undefined" as const;
 
 // export const isResult = (val: unknown): val is Result => {
-//   return typeof val === "object" && 
-//     "__kind" in (val as object) && 
+//   return typeof val === "object" &&
+//     "__kind" in (val as object) &&
 //     "state" in (val as object) &&
 //     [RESULT.Err, RESULT.Ok].includes((val as any).state)
 // }
 
 
 // function resultTuple<
-//   T, 
+//   T,
 //   E extends ErrInput
 // >(val: T, err: E) {
 //   return {
@@ -55,13 +55,13 @@
 //   result: null as unknown as Result<T,E>,
 //   ok: (v) => {
 //     return {
-//       ...resultTuple(val,err), state: RESULT.Ok, val: v 
+//       ...resultTuple(val,err), state: RESULT.Ok, val: v
 //     } as Ok<T>
 //   },
 //   err: (e) => {
 //     return {
-//       ...resultTuple(val,err), 
-//       state: RESULT.Err, 
+//       ...resultTuple(val,err),
+//       state: RESULT.Err,
 //       err: transformErrInput(e)
 //     } as unknown as Err<E>
 //   },
@@ -90,13 +90,13 @@
 
 // /**
 //  * **ok**(val)
-//  * 
+//  *
 //  * Places a value into the `Ok` state of a `Result` structure.
-//  * 
+//  *
 //  * Note: if you need/want the value to be narrowly typed then use `okN()` instead.
 //  */
 // export function ok<
-//   T, 
+//   T,
 //   E extends ErrInput
 // >(val: T, _err: E = errInputs as E): IfEqual<E, ErrInput, Ok<T>, Ok<T,E>> {
 //   const tuple = resultTuple(val, _err) as unknown as ResultTuple<T,E>;
@@ -106,15 +106,15 @@
 
 // /**
 //  * **ok**(val)
-//  * 
+//  *
 //  * Places a value into the `Ok` state of a `Result` structure.
-//  * 
+//  *
 //  * Note: this can only receive _narrowable_ types in order to provide the
 //  * narrowest type possible for `T` but if you don't need this then use the
 //  * `ok(val)` function instead.
 //  */
 // export function okN<
-//   T extends Narrowable, 
+//   T extends Narrowable,
 //   E extends ErrInput
 // >(val: T, _err: E = errInputs as E): Ok<T> {
 //   const tuple = resultTuple(val, "unknown") as unknown as ResultTuple<T,E>;
@@ -133,11 +133,11 @@
 //     : typeof input === "string"
 //     ? [{ msg: input, kind: toKebabCase(input as string), context: {} }]
 //     : typeof input === "object"
-//     ? [{ 
-//       msg: takeProp((input as Record<ObjectKey, unknown>), "msg", "" as string), 
+//     ? [{
+//       msg: takeProp((input as Record<ObjectKey, unknown>), "msg", "" as string),
 //       kind: toKebabCase(takeProp((input as Record<ObjectKey, unknown>), "kind", "unspecified-kind") as string),
-//       context: takeProp((input as Record<ObjectKey, unknown>), "context", {} as NonNullable<unknown>), 
-//       trace: takeProp((input as Record<ObjectKey, unknown>), "trace", false), 
+//       context: takeProp((input as Record<ObjectKey, unknown>), "context", {} as NonNullable<unknown>),
+//       trace: takeProp((input as Record<ObjectKey, unknown>), "trace", false),
 //     }]
 //     : Array.isArray(input)
 //     ? input
@@ -151,13 +151,13 @@
 
 // /**
 //  * **createErr**(e) → `<ResultErr>`
-//  * 
+//  *
 //  * Creates a reusable error template which will allow for:
-//  * 
+//  *
 //  * - a strict `kind` definition
 //  * - a _shape_ and default values for the `context` property
 //  * - a strict `stack` definition (default is false)
-//  * 
+//  *
 //  * The `msg` property will be left as `string` allowing each variant of
 //  * this type of error to add their own.
 //  */
@@ -174,14 +174,14 @@
 
 // /**
 //  * **err**(input) -> Err`<E>`
-//  * 
+//  *
 //  * Creates a `Err` error for use inside a `Result<T,E>` block.
 //  */
 // export function err<
 //   TErr extends string | ResultErr<any, any>,
 //   TVal = unknown
 // >(
-//   err: TErr,  
+//   err: TErr,
 //   _val: TVal = null as unknown as ErrInput as TVal
 // ): IfEqual<TVal, unknown, Err<TErr>, Err<TErr,TVal>> {
 //   return {
@@ -194,7 +194,7 @@
 
 // /**
 //  * **isOk**(result)
-//  * 
+//  *
 //  * Type guard which tests whether the `Result<T,E>` is in the **Ok** state.
 //  */
 // export const isOk = <
@@ -206,7 +206,7 @@
 
 // /**
 //  * **okOrThrow**(result)
-//  * 
+//  *
 //  * Returns the Ok _value_ if it's in the Ok status; otherwise throws
 //  * an error.
 //  */
@@ -233,10 +233,10 @@
 
 // /**
 //  * **okOrElse**(result, els)
-//  * 
+//  *
 //  * Returns the _value_ of the `Result<T,E>` if in the **Ok** state, otherwise
 //  * returns `els`.
-//  * 
+//  *
 //  * - **Note:** if `els` is a function it will be called while passing the error
 //  * object to the function.
 //  */
@@ -246,7 +246,7 @@
 //   E extends ResultErr,
 //   Els
 // >(
-//   result: R, 
+//   result: R,
 //   els: Els
 // ): IsOk<R> extends true ? T : If<IsFunction<Els>, ReturnType<AsFunction<Els>>, Els> {
 //   return result.state === RESULT.Err
@@ -262,14 +262,14 @@
 // >(result: Result<T,E>): result is Err<E,T> {
 //   return (
 //       isString(result)
-//       ? { 
-//           state: RESULT.Err, 
-//           err:{ 
-//             msg: result, 
-//             kind: toPascalCase(result), 
-//             context: {}, 
-//             stack: false 
-//           } 
+//       ? {
+//           state: RESULT.Err,
+//           err:{
+//             msg: result,
+//             kind: toPascalCase(result),
+//             context: {},
+//             stack: false
+//           }
 //         }
 //       : isObject(result)
 //         ? {
@@ -283,13 +283,13 @@
 //         }
 //         : false
 //     )
-//     ? true 
+//     ? true
 //     : false
 // }
 
 // /**
 //  * **assertErr**(result)
-//  * 
+//  *
 //  * Asserts that a _result_ is of the `Err` type.
 //  */
 // export function assertErr<
@@ -301,7 +301,7 @@
 //       typeof (result as any).err === "string" ||
 //       typeof (result as any).err === "object"
 //     )
-//     ? true 
+//     ? true
 //     : false
 //   ) as IsErr<typeof result>;
 // }

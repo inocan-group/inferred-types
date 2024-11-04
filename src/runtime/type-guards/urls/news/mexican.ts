@@ -1,4 +1,4 @@
-import { MEXICAN_NEWS } from "src/constants/index"
+import { MEXICAN_NEWS } from "inferred-types"
 import { isString } from "../../isString"
 import { MexicanNewsUrls } from "src/types/string-literals"
 

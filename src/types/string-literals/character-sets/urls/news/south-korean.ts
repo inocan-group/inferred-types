@@ -1,4 +1,4 @@
-import {  SOUTH_KOREAN_NEWS } from "src/constants/index";
+import {  SOUTH_KOREAN_NEWS } from "inferred-types";
 import { Mutable } from "src/types/type-conversion/Mutable";
 import { UrlsFrom } from "../Url";
 

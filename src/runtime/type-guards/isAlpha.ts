@@ -1,10 +1,10 @@
 import { Alpha, AlphaChar, Narrowable } from "src/types/index";
-import { ALPHA_CHARS } from "src/constants/index";
+import { ALPHA_CHARS } from "inferred-types";
 import { isString, split } from "src/runtime/index";
 
 /**
  * **isAlpha**(value)
- * 
+ *
  * Type guard which ensures that the given value is a string literal with only
  * alphabetic characters.
  */

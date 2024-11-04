@@ -36,7 +36,7 @@ import {
   TIME_METRICS_LOOKUP,
   VOLTAGE_METRICS_LOOKUP,
   VOLUME_METRICS_LOOKUP,
-} from "src/constants/index";
+} from "inferred-types";
 import {  stripWhile } from "src/runtime/literals";
 
 

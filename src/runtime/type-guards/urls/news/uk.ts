@@ -1,4 +1,4 @@
-import { UK_NEWS } from "src/constants/index"
+import { UK_NEWS } from "inferred-types"
 import { isString } from "../../isString"
 import { UkNewsUrls } from "src/types/string-literals"
 

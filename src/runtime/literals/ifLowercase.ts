@@ -1,5 +1,5 @@
- 
-import { LOWER_ALPHA_CHARS } from "src/constants/index";
+
+import { LOWER_ALPHA_CHARS } from "inferred-types";
 import { AfterFirst, If, Extends, LowerAlphaChar } from "src/types/index";
 
 
@@ -24,8 +24,8 @@ type Returns<
   T extends string | readonly string[],
   IF,
   ELSE
-> = T extends string 
-  ? If<Extends<T, LowerAlphaChar>, IF, ELSE> 
+> = T extends string
+  ? If<Extends<T, LowerAlphaChar>, IF, ELSE>
   : T extends readonly string[]
     ? _Index<T, IF, ELSE>
     : never;
@@ -33,7 +33,7 @@ type Returns<
 
 /**
  * **ifLowercaseChar**(ch)
- * 
+ *
  * Tests whether a passed in character is lowercase and then uses the appropriate callback to
  * mutate the value.
  */

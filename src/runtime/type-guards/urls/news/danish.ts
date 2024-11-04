@@ -1,4 +1,4 @@
-import { DANISH_NEWS } from "src/constants/index"
+import { DANISH_NEWS } from "inferred-types"
 import { isString } from "../../isString"
 import { DanishNewsUrls } from "src/types/string-literals"
 

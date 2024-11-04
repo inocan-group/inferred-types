@@ -1,15 +1,15 @@
- 
-import { LOWER_ALPHA_CHARS } from "src/constants/index";
+
+import { LOWER_ALPHA_CHARS } from "inferred-types";
 import { Extends, If, IsSingleChar, Narrowable,  UpperAlphaChar, ValueCallback } from "src/types/index";
 
 type Convert<T, IF, ELSE> = If<Extends<T, UpperAlphaChar>, IF, ELSE>;
 
 /**
  * **ifUppercaseChar**(ch, callbackForMatch, callbackForNoMatch)
- * 
- * Tests whether a passed in _character_ is an uppercase character and uses appropriate callback 
+ *
+ * Tests whether a passed in _character_ is an uppercase character and uses appropriate callback
  * to mutate the value.
- * 
+ *
  * **Related:** `ifUppercase()`
  */
 export function ifUppercaseChar<

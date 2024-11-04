@@ -1,4 +1,4 @@
-import { PHONE_COUNTRY_CODES } from "src/constants/index";
+import { PHONE_COUNTRY_CODES } from "inferred-types";
 import { FirstOfEach } from "src/types/tuples";
 import { Mutable } from "src/types/type-conversion";
 

@@ -1,4 +1,4 @@
-import { CANADIAN_NEWS } from "src/constants/index"
+import { CANADIAN_NEWS } from "inferred-types"
 import { isString } from "../../isString"
 import { CanadianNewsUrls } from "src/types/string-literals"
 

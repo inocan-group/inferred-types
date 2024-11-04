@@ -16,7 +16,7 @@ import {
   And
 } from "src/types/index";
 
-import { RESULT } from "src/constants/index";
+import { RESULT } from "inferred-types";
 
 type OK = typeof RESULT.Ok;
 type ERR = typeof RESULT.Err;

@@ -6,7 +6,7 @@ import {
   TT_Functions,
   TT_Singletons,
   TT_Sets
-} from "src/constants/index";
+} from "inferred-types";
 
 const token_types = [
   ...TT_Atomics,

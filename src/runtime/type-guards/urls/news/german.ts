@@ -1,4 +1,4 @@
-import { GERMAN_NEWS } from "src/constants/index"
+import { GERMAN_NEWS } from "inferred-types"
 import { isString } from "../../isString"
 import { GermanNewsUrls } from "src/types/string-literals"
 

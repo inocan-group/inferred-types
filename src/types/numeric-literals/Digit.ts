@@ -1,4 +1,4 @@
-import { NUMERIC_DIGIT } from "src/constants/index";
+import { NUMERIC_DIGIT } from "inferred-types";
 
 /**
  * **Digit**

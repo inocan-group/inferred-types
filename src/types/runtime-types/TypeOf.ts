@@ -1,4 +1,4 @@
-import { TYPE_OF } from "src/constants/index";
+import { TYPE_OF } from "inferred-types";
 import { IsUndefined , AnyFunction, AnyObject , TupleToUnion } from "src/types/index";
 
 /**

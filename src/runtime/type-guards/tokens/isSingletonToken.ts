@@ -3,7 +3,7 @@ import { isString } from "src/runtime/index"
 
 import {
   TT_Atomics
-} from "src/constants/index";
+} from "inferred-types";
 
 /**
  * **isSingletonToken**`(val)`

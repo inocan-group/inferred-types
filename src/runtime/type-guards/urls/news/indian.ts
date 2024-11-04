@@ -1,4 +1,4 @@
-import { INDIAN_NEWS } from "src/constants/index"
+import { INDIAN_NEWS } from "inferred-types"
 import { isString } from "../../isString"
 import { IndianNewsUrls } from "src/types/string-literals"
 

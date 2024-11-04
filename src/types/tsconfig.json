@@ -27,6 +27,9 @@
       "src/constants/index": [
         "../constants/index.ts"
       ],
+      "inferred-types": [
+        "../constants/index.ts"
+      ],
       // allow various "index.ts" to import explicit files in the src tree
       "src/types/*": [
         "./*"

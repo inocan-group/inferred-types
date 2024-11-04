@@ -1,4 +1,4 @@
-import { Constant } from "src/constants/index";
+import { Constant } from "inferred-types";
 import { IsLiteral, RemoveMarked } from "src/types/index";
 
 
@@ -13,13 +13,13 @@ T extends readonly unknown[]
 
 /**
  * **FilterLiterals**`<T>`
- * 
+ *
  * Receives a tuple of items and filters out all literal items
- * (e.g., object literals, tuple literals, string literals, 
+ * (e.g., object literals, tuple literals, string literals,
  * numeric literals, and boolean literals).
- * 
+ *
  * Elements like _undefined_ and `null` are kept in the tuple.
- * 
+ *
  * **Related:** `Filter`, `FilterWideTypes`, `RetainLiterals`
  */
 export type FilterLiterals<

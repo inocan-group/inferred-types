@@ -1,4 +1,4 @@
-import { AUSTRALIAN_NEWS } from "src/constants/index"
+import { AUSTRALIAN_NEWS } from "inferred-types"
 import { isString } from "../../isString"
 import { AustralianNewsUrls } from "src/types/string-literals"
 
