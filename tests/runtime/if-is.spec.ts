@@ -8,7 +8,16 @@ import {
   startsWith, box
 } from "inferred-types";
 import { EndsWith, DoesExtend, LowerAlphaChar, Or, StartsWith  } from "@inferred-types/types";
-import { ifArray, ifArrayPartial, ifBoolean, ifNumber, ifSameType, ifString, ifTrue, ifUndefined } from "../../src/runtime/boolean-logic";
+import {
+  ifArray,
+  ifArrayPartial,
+  ifBoolean,
+  ifNumber,
+  ifSameType,
+  ifString,
+  ifTrue,
+  ifUndefined
+} from "@inferred-types/runtime";
 
 
 describe("runtime if/is", () => {

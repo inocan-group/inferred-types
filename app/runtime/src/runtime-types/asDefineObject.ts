@@ -1,10 +1,9 @@
 import { DefineObject } from "@inferred-types/types";
-import { FromDefn } from "src/types/literals";
 import { isDoneFn, isFunction, isSimpleToken } from "../type-guards";
 import { asType } from "./asType";
 import { ShapeApiImplementation } from "./shape";
 import { handleDoneFn } from "../api/handleDoneFn";
-import { ShapeCallback } from "src/types/runtime-types";
+import { FromDefn, ShapeCallback } from "@inferred-types/types";
 import { Never } from "@inferred-types/constants";
 
 

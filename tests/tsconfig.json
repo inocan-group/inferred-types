@@ -9,22 +9,35 @@
     "baseUrl": ".",
     "outDir": "../../dist/none",
     "paths": {
+      "inferred-types": [
+        "../app/inferred-types/src/index"
+      ],
       "src/types/index": [
-        "@inferred-types/types"
+        "../app/types/src/index"
+      ],
+      "@inferred-types/types": [
+        "../app/types/src/index"
       ],
       "src/constants/index": [
-        "@inferred-types/constants"
+        "../app/constants/src/index"
+      ],
+      "@inferred-types/constants": [
+        "../app/constants/src/index"
       ],
       "src/runtime/index": [
-        "../app/src/runtime/index.ts"
+        "../app/runtime/src/index"
+      ],
+      "@inferred-types/runtime": [
+        "../app/runtime/src/index.ts"
       ]
     }
   },
   "include": [
     ".",
-    "../src",
+    "../app",
   ],
   "exclude": [
-    "**/node_modules/*",
+    "dist",
+    "node_modules"
   ]
 }

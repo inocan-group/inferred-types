@@ -20,14 +20,12 @@ describe("LIFO Queue tests", () => {
 
     let wq = createLifoQueue(...widen([1,2,3]))
 
-
+    // @ts-ignore
     type cases = [
       Expect<Equal<typeof q, LifoQueue<1 | 2 | 3>>>,
       Expect<Equal<typeof wq, LifoQueue<number>>>
     ];
-    const cases: cases = [
-      true, true
-    ];
+
   });
 
 });

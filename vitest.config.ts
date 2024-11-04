@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 export default defineConfig({
   resolve: {
     alias: {
-      "src/": `${resolve(fileURLToPath(new URL(".", import.meta.url)), "src")}/`,
+      "app/": `${resolve(fileURLToPath(new URL(".", import.meta.url)), "app")}/`,
     },
   },
   test: {
@@ -16,5 +16,8 @@ export default defineConfig({
       include: ["tests/**/*.{test,spec}.ts"]
     }
   },
+  assetsInclude: [
+    "app"
+  ],
   plugins: [],
 });

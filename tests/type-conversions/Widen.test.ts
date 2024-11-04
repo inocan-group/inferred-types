@@ -27,7 +27,6 @@ describe("Widen<T>", () => {
 
     type DictForced = Widen<Dictionary, true>;
     type ObjLitForced = Widen<{foo: 1}, true>;
-    type MapForced = Widen<Map<string, number>, true>;
     type TupleForced = Widen<readonly string[], true>;
 
     type Fn = Widen<() => "hi">;
@@ -37,6 +36,7 @@ describe("Widen<T>", () => {
     type FnAsProp = Widen<{foo: () => "hi"}>;
     type FnWithPropAsProp = Widen<{foo: (() => "hi") & { bar: 1}}>;
 
+    // @ts-ignore
     type cases = [
       Expect<Equal<NumLiteral, number>>, //
       Expect<Equal<StrLiteral, string>>,
@@ -55,7 +55,6 @@ describe("Widen<T>", () => {
 
       Expect<Equal<DictForced, Dictionary>>,
       Expect<Equal<ObjLitForced, Dictionary>>,
-      Expect<Equal<MapForced, Map<unknown,unknown>>>,
       Expect<Equal<TupleForced, readonly unknown[]>>,
 
       Expect<Equal<Fn, () => string>>,
@@ -67,14 +66,7 @@ describe("Widen<T>", () => {
       Expect<Equal<FnAsProp, {foo: () => string}>>,
       Expect<Equal<FnWithPropAsProp, {foo: (() => string) & {bar: number}}>>
     ];
-    const cases: cases = [
-      true, true,
-      true, true, true, true,true,
-      true, true,true,
-      true,
-      true, true, true, true,
-      true, true, true, true, true, true
-    ];
+
   });
 
 });

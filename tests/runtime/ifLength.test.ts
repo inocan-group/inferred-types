@@ -3,7 +3,7 @@ import { describe, it } from "vitest";
 
 import { IfLength,  Length } from "@inferred-types/types";
 import {  narrow } from "inferred-types";
-import { ifLength } from "../../src/runtime/boolean-logic";
+import { ifLength } from "@inferred-types/runtime";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to

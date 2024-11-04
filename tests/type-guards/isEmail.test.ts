@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { isEmail} from "inferred-types"
+import { isEmail } from "inferred-types"
 import { Email } from "@inferred-types/types"
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -33,6 +33,8 @@ describe("isEmail(val)", () => {
       type cases = [
         Expect<Equal<Bob, Email>>
       ];
+    } else {
+      throw new Error("Bob IS an email address!")
     }
 
   });
