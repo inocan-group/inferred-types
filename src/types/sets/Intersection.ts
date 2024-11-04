@@ -9,7 +9,7 @@ import type {
   NarrowlyContains,
   Throw,
 } from "src/types/index";
-import type { MARKED } from "src/constants/index";
+import  { MARKED } from "src/constants/index";
 
 type Marked = typeof MARKED;
 

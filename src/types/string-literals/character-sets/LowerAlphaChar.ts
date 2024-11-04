@@ -1,4 +1,4 @@
-import type { LOWER_ALPHA_CHARS } from "src/constants/index";
+import  { LOWER_ALPHA_CHARS } from "src/constants/index";
 
 /**
  * **LowerAlphaChar**
