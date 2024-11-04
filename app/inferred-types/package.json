@@ -1,7 +1,7 @@
 {
   "name": "inferred-types",
   "private": false,
-  "version": "0.50.29",
+  "version": "0.51.0",
   "type": "module",
   "license": "MIT",
   "author": "Ken Snyder<ken@ken.net>",
@@ -24,6 +24,11 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "tsup src/index.ts --format=\"esm,cjs\" --dts"
+    "build": "tsup src/index.ts --format=\"esm,cjs\" --dts",
+    "release": "run-s release:latest test:ci audit:fix bump",
+    "release:latest": "pnpm install",
+    "bump": "bumpp",
+    "lint": "eslint src",
+    "audit:fix": "pnpm audit --fix"
   }
 }
