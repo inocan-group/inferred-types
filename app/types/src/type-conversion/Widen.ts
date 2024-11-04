@@ -188,9 +188,6 @@ export type WidenContainer<
 [TForce] extends [true]
   ? T extends Tuple ? Tuple
   : T extends Dictionary ? Dictionary
-  : T extends Map<unknown,unknown> ? Map<unknown,unknown>
-  : T extends Set<unknown> ? Set<unknown>
-  : T extends WeakMap<object,unknown> ? WeakMap<object,unknown>
   : never
 : T extends AnyFunction
     ? T extends TypedFunction
@@ -208,14 +205,6 @@ export type WidenContainer<
       : never
     : EmptyObject
 : T extends Tuple ? WidenTuple<T>
-: T extends Map<infer K, infer V> ? Map<Widen<K>, any>
-: T extends WeakMap<infer O, infer V>
-    ? O extends Dictionary
-      ? WeakMap<AsObject<Widen<O>>, any>
-      : O extends Tuple
-      ? WeakMap<WidenTuple<O>, any>
-: T extends Set<infer V> ? Set<any>
-: object
 : object;
 
 /**
@@ -233,15 +222,12 @@ export type WidenContainer<
 export type Widen<
   T,
   TForce extends boolean = false
-> = any;
-
-
-// [IsUnion<T>] extends [true]
-//   ? WidenUnion<T>
-//   : T extends Container
-//     ? WidenContainer<T,TForce>
-//     : T extends Scalar
-//       ? WidenScalar<T>
-//       : Process<T>;
+> = [IsUnion<T>] extends [true]
+  ? WidenUnion<T>
+  : T extends Container
+    ? WidenContainer<T,TForce>
+    : T extends Scalar
+      ? WidenScalar<T>
+      : Process<T>;
 
 

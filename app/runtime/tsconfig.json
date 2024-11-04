@@ -19,9 +19,10 @@
     },
   },
   "include": [
-    "**/*.ts",
+    "src",
   ],
   "exclude": [
+    "dist",
     "node_modules"
   ]
 }

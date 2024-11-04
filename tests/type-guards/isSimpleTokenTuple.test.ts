@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { SimpleToken } from "../../src/inferred-types";
-import { isSimpleTokenTuple } from "../../src/runtime/type-guards/tokens";
+import { SimpleToken } from "@inferred-types/types";
+import { isSimpleTokenTuple } from "@inferred-types/runtime";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to

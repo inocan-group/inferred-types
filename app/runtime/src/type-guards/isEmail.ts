@@ -20,10 +20,10 @@ export const isEmail = (val: unknown): val is Email => {
   const parts: string[] = val?.split("@");
   const domain = parts[1]?.split(".");
   const tld = domain ? domain.pop() as string : "";
-  const firstChar = val[0].toLowerCase();
+  const firstChar = val[0].toLowerCase() as any;
 
   return isString(val) && (
-    LOWER_ALPHA_CHARS.includes(firstChar as any) &&
+    LOWER_ALPHA_CHARS.includes(firstChar) &&
     parts.length === 2 &&
     domain.length >= 1 &&
     tld.length >= 2
