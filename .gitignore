@@ -55,3 +55,4 @@ frontend/.vite-ssg-dist/**
 .tsbuildinfo
 trace/*
 .trace/*
+.turbo
