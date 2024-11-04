@@ -24,7 +24,7 @@ import {
   Contains,
   RemoveEmpty
 } from "src/types/index";
-import type { NETWORK_PROTOCOL_LOOKUP } from "src/constants/index";
+import { NETWORK_PROTOCOL_LOOKUP } from "src/constants/index";
 
 type Proto = typeof NETWORK_PROTOCOL_LOOKUP;
 export type NetworkProtocol = Mutable<Values<Proto>> extends readonly (string | string[])[]

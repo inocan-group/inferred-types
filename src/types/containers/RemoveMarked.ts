@@ -1,4 +1,4 @@
-import type { MARKED } from "src/constants/index";
+import { MARKED } from "src/constants/index";
 import {
   DoesExtend,
   UnionToTuple,

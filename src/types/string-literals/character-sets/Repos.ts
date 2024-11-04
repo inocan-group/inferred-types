@@ -6,7 +6,7 @@ import {
   Flatten,
   UrlsFrom,
 } from "src/types/index";
-import type {  REPO_PAGE_TYPES, REPO_SOURCES, REPO_SOURCE_LOOKUP } from "src/constants/index";
+import  {  REPO_PAGE_TYPES, REPO_SOURCES, REPO_SOURCE_LOOKUP } from "src/constants/index";
 
 /**
  * **RepoSources**

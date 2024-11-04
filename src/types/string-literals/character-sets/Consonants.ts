@@ -1,4 +1,4 @@
-import type { CONSONANTS } from "src/constants/index";
+import  { CONSONANTS } from "src/constants/index";
 
 /**
  * **Consonants**
