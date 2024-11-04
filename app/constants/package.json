@@ -1,0 +1,20 @@
+{
+  "name": "constants",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "author": "Ken Snyder<ken@ken.net>",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "packageManager": "pnpm@9.12.3",
+  "engines": {
+    "node": ">=20"
+  }
+}
