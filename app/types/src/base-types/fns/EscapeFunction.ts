@@ -1,4 +1,4 @@
-import { ExpandDictionary, ExpandRecursively, FnProps } from "../..";
+import { ExpandDictionary, ExpandRecursively, FnProps } from "../../types";
 
 /**
  * **EscapeFunction**`<[T]>`

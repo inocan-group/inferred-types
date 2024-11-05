@@ -1,6 +1,6 @@
- 
 
-import { AnyFunction } from "../..";
+
+import { AnyFunction } from "../../types";
 import { IsEqual } from "./IsEqual";
 
 
@@ -11,12 +11,12 @@ type RegularFn<Fn> = Fn extends ((...args: any[]) => any)
 
 /**
  * **IsLiteralFn**`<TFn>`
- * 
+ *
  * A boolean operator which checks that `TFn`:
- * 
+ *
  * - is a function
  * - does not use generics to narrow input parameters
- * 
+ *
  * **Related:** `LiteralFn`, `IsNarrowFn`
  */
 export type IsLiteralFn<TFn> = TFn extends AnyFunction

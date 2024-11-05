@@ -1,4 +1,4 @@
-import { AfterFirst, First } from "../..";
+import { AfterFirst, First } from "../../types";
 
 type Cascade<
   T extends readonly string[],

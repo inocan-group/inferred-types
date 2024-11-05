@@ -11,7 +11,8 @@
   "sideEffects": false,
   "scripts": {
     "prepare": "ts-patch install -s",
-    "build": "turbo build",
+    "build": "run-s build:constants build:types build:runtime build:inferred",
+    "build:turbo": "turbo build",
     "diag": "tsc -b -f --extendedDiagnostics src/inferred-types",
     "diag:constants": "tsc -b -f --extendedDiagnostics src/constants",
     "diag:types": "tsc -b -f --extendedDiagnostics src/types",

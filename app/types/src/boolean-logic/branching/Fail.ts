@@ -1,4 +1,4 @@
-import { Tuple } from "../..";
+import { Tuple } from "../../types";
 import { Or } from "../combinators";
 import { IsFalse, IsNever } from "../operators";
 
