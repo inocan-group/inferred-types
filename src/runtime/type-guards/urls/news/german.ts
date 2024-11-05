@@ -1,6 +1,6 @@
-import { GERMAN_NEWS } from "inferred-types"
-import { isString } from "../../isString"
-import { GermanNewsUrls } from "src/types/string-literals"
+import { GERMAN_NEWS } from "inferred-types/dist/constants/index"
+import { isString } from "inferred-types/dist/runtime/index"
+import { GermanNewsUrls } from "inferred-types/dist/types/index"
 
 const URL = GERMAN_NEWS.flatMap(i => i.baseUrls)
 

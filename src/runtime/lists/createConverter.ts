@@ -8,7 +8,7 @@ import type {
   TypedFunction
 } from "src/types/index";
 
-import { Never } from "inferred-types";
+import { Never } from "inferred-types/dist/constants/index";
 import { isNothing, isObject } from "src/runtime/index";
 
 type CallIfDefined<

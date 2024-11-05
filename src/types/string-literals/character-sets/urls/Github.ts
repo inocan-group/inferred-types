@@ -1,8 +1,8 @@
-import { As, IsTrue, IsUnion } from "src/types/boolean-logic";
+import { As, IsTrue, IsUnion } from "inferred-types/dist/types/index";
 import { AddUrlPathSegment, OptUrlQueryParameters, UrlsFrom } from "./Url";
-import { TupleToUnion, UnionToTuple } from "src/types/type-conversion";
-import { GITHUB_INSIGHT_CATEGORY_LOOKUP } from "inferred-types";
-import { Keys } from "src/types/dictionary";
+import { TupleToUnion, UnionToTuple } from"inferred-types/dist/types/index";
+import { GITHUB_INSIGHT_CATEGORY_LOOKUP } from "inferred-types/dist/constants/index";
+import { Keys } from "inferred-types/dist/types/index";
 
 export type GithubUrl = UrlsFrom<[
   "https://github.com",

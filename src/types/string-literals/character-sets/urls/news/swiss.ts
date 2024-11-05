@@ -1,4 +1,4 @@
-import {  SWISS_NEWS } from "inferred-types";
+import {  SWISS_NEWS } from "inferred-types/dist/constants/index";
 import { Mutable } from "src/types/type-conversion/Mutable";
 import { UrlsFrom } from "../Url";
 

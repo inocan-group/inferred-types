@@ -15,7 +15,7 @@ import {
   ErrorCondition,
   Concat
 } from "src/types/index";
-import { Constant } from "inferred-types";
+import { Constant } from "inferred-types/dist/constants/index";
 
 type Override<
   TValue,

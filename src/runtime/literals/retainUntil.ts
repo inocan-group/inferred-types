@@ -1,4 +1,4 @@
-import { RetainUntil } from "src/types/string-literals";
+import { RetainUntil } from "inferred-types/dist/types/index";
 import { asChars } from "../type-conversion";
 
 /**

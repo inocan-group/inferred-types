@@ -5,7 +5,7 @@ import {
   TupleToUnion,
   UnionToTuple
 } from "src/types/index";
-import { Constant } from "inferred-types";
+import { Constant } from "inferred-types/dist/constants/index";
 
 type Process<
   T extends readonly unknown[]

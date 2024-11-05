@@ -1,4 +1,4 @@
-import { Constant } from "inferred-types";
+import { Constant } from "inferred-types/dist/constants/index";
 import { IfEqual, Dictionary, Throw, Tuple, AsString } from "src/types/index";
 
 /**

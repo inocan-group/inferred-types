@@ -21,7 +21,7 @@ import {
   WAYFAIR_DNS,
   WHOLE_FOODS_DNS,
   ZARA_DNS
-} from "inferred-types";
+} from "inferred-types/dist/constants/index";
 import { UrlsFrom } from "./Url";
 
 export type AmazonUrl = UrlsFrom<typeof AMAZON_DNS>

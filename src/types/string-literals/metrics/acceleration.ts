@@ -1,4 +1,4 @@
-import { ACCELERATION_METRICS_LOOKUP } from "inferred-types";
+import { ACCELERATION_METRICS_LOOKUP } from "inferred-types/dist/constants/index";
 import { OptSpace } from "../character-sets/OptionalSpace";
 
 type AccelerationMetricsLookup = typeof ACCELERATION_METRICS_LOOKUP;

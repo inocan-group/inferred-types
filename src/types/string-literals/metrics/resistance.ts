@@ -1,4 +1,4 @@
-import { RESISTANCE_METRICS_LOOKUP } from "inferred-types";
+import { RESISTANCE_METRICS_LOOKUP } from "inferred-types/dist/constants/index";
 import { OptSpace } from "../character-sets/OptionalSpace";
 
 type ResistanceMetricsLookup = typeof RESISTANCE_METRICS_LOOKUP;

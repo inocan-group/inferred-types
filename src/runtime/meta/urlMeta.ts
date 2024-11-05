@@ -22,8 +22,8 @@ import {
   isDomainName,
   takeNumericCharacters,
 } from "src/runtime/index";
-import { NETWORK_PROTOCOL_LOOKUP } from "src/constants/NetworkConstants";
-import { Never } from "inferred-types";
+import { NETWORK_PROTOCOL_LOOKUP } from "inferred-types/dist/constants/index";
+import { Never } from "inferred-types/dist/constants/index";
 
 
 export type UrlMeta<T> = {

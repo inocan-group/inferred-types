@@ -1,4 +1,4 @@
-import { IMAGE_FORMAT_LOOKUP } from "inferred-types";
+import { IMAGE_FORMAT_LOOKUP } from "inferred-types/dist/constants/index";
 import { FilterByProp } from "src/types/lists";
 import { GetEach } from "src/types/lists/GetEach";
 

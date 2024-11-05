@@ -1,4 +1,4 @@
-import { NumberLike } from "src/types/numeric-literals";
+import { NumberLike } from "inferred-types/dist/types/index";
 import { IsNegativeNumber } from "./IsNegativeNumber";
 
 /**

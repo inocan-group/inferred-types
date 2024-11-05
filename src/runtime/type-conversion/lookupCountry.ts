@@ -1,4 +1,4 @@
-import { NumberLike } from "src/types/numeric-literals";
+import { NumberLike } from "inferred-types/dist/types/index";
 import {
   Iso3166_1_Alpha2,
   Iso3166_1_Alpha3,
@@ -9,10 +9,10 @@ import {
   Iso3166CodeLookup,
   Iso3166CountryLookup,
   Suggest
-} from "src/types/string-literals";
+} from "inferred-types/dist/types/index";
 import { isIso3166Alpha2, isIso3166Alpha3, isIso3166CountryName, isNumber, isNumberLike } from "../type-guards";
-import { ISO3166_1 } from "inferred-types";
-import { AsString } from "src/types/type-conversion";
+import { ISO3166_1 } from "inferred-types/dist/constants/index";
+import { AsString } from"inferred-types/dist/types/index";
 import { uppercase } from "../literals";
 
 type Props = "alpha2" | "alpha3" | "countryCode" | "name";

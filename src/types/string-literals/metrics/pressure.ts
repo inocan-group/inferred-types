@@ -1,4 +1,4 @@
-import { PRESSURE_METRICS_LOOKUP } from "inferred-types";
+import { PRESSURE_METRICS_LOOKUP } from "inferred-types/dist/constants/index";
 import { OptSpace } from "../character-sets/OptionalSpace";
 
 type PressureMetricsLookup = typeof PRESSURE_METRICS_LOOKUP;

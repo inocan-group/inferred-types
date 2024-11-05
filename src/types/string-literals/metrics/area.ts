@@ -1,4 +1,4 @@
-import { AREA_METRICS_LOOKUP } from "inferred-types";
+import { AREA_METRICS_LOOKUP } from "inferred-types/dist/constants/index";
 import { OptSpace } from "../character-sets/OptionalSpace";
 
 type AreaMetricsLookup = typeof AREA_METRICS_LOOKUP;

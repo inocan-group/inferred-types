@@ -26,7 +26,7 @@ import type {
   SIMPLE_ARRAY_TOKENS,
   SIMPLE_MAP_TOKENS,
   SIMPLE_SET_TOKENS
-} from "inferred-types";
+} from "inferred-types/dist/constants/index";
 
 
 /**

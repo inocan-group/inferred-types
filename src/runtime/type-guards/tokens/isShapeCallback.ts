@@ -1,4 +1,4 @@
-import { ShapeCallback } from "src/types/runtime-types";
+import { ShapeCallback } from "inferred-types/dist/types/index";
 import { isFunction } from "../isFunction";
 
 /**

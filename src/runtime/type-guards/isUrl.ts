@@ -1,5 +1,5 @@
 import { isString, valuesOf } from "src/runtime/index";
-import { NETWORK_PROTOCOL_LOOKUP } from "inferred-types";
+import { NETWORK_PROTOCOL_LOOKUP } from "inferred-types/dist/constants/index";
 import { Keys,TupleToUnion,  NetworkProtocol, Uri  } from "src/types/index";
 
 /**

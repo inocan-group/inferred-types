@@ -1,4 +1,4 @@
-import { NUMERIC_CHAR } from "src/constants/NumericChar";
+import { NUMERIC_CHAR } from "inferred-types/dist/constants/index";
 import { GetPhoneCountryCode } from "src/types/index";
 import { retainWhile, stripLeading } from "src/runtime/index";
 

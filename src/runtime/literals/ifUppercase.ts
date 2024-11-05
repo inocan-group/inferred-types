@@ -1,5 +1,5 @@
 
-import { LOWER_ALPHA_CHARS } from "inferred-types";
+import { LOWER_ALPHA_CHARS } from "inferred-types/dist/constants/index";
 import { Extends, If, IsSingleChar, Narrowable,  UpperAlphaChar, ValueCallback } from "src/types/index";
 
 type Convert<T, IF, ELSE> = If<Extends<T, UpperAlphaChar>, IF, ELSE>;

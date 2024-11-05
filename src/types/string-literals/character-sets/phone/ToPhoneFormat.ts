@@ -1,6 +1,6 @@
 import type {
   PHONE_FORMAT
-} from "inferred-types"
+} from "inferred-types/dist/constants/index"
 
 import {
   ErrorCondition,

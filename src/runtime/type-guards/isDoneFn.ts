@@ -1,9 +1,9 @@
-import { AsDoneFn } from "src/types/boolean-logic"
+import { AsDoneFn } from "inferred-types/dist/types/index"
 import { hasKeys } from "src/runtime/index"
 
 /**
  * **isDoneFn**(val)
- * 
+ *
  * A type guard which checks whether the value passed in has a `done`
  * property which is a function.
  */

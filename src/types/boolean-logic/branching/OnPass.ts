@@ -9,7 +9,7 @@ import {
   IsFalse,
   IsNever
 } from "src/types/index";
-import { Constant } from "inferred-types";
+import { Constant } from "inferred-types/dist/constants/index";
 
 export type OnPassRemap<
   TNever = unknown,

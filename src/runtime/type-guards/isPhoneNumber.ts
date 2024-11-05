@@ -1,4 +1,4 @@
-import { NUMERIC_CHAR, WHITESPACE_CHARS } from "inferred-types"
+import { NUMERIC_CHAR, WHITESPACE_CHARS } from "inferred-types/dist/constants/index"
 import { retainChars, stripChars } from "src/runtime/index"
 
 /**

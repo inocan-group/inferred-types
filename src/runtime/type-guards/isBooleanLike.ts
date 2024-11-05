@@ -1,4 +1,4 @@
-import { BooleanLike } from "src/types/literals";
+import { BooleanLike } from "inferred-types/dist/types/index";
 import { isBoolean } from "./isBoolean";
 import { isString } from "./isString";
 

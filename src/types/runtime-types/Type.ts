@@ -20,7 +20,7 @@ import type {
   FALSY_TYPE_KINDS,
   NoDefaultValue,
   NotApplicable
-} from "inferred-types";
+} from "inferred-types/dist/constants/index";
 
 import {
   TupleToUnion ,

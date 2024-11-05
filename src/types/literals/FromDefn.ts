@@ -1,4 +1,4 @@
-import { Constant } from "inferred-types";
+import { Constant } from "inferred-types/dist/constants/index";
 import { EmptyObject,
   Dictionary,
   ObjectKey,

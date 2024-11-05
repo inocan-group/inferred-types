@@ -16,7 +16,7 @@ import {
   TimeMetric,
   Voltage,
   Volume
-} from "src/types/string-literals";
+} from "inferred-types/dist/types/index";
 import { isString } from "../isString";
 import {
   ACCELERATION_METRICS_LOOKUP,
@@ -36,7 +36,7 @@ import {
   TIME_METRICS_LOOKUP,
   VOLTAGE_METRICS_LOOKUP,
   VOLUME_METRICS_LOOKUP,
-} from "inferred-types";
+} from "inferred-types/dist/constants/index";
 import {  stripWhile } from "src/runtime/literals";
 
 
