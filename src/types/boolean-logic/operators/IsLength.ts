@@ -1,8 +1,8 @@
-import type { Length , IfEqual } from "src/types/index";
+import type { Length , IfEqual } from "inferred-types/dist/types/index";
 
 /**
  * **IsLength**`<T, LEN>`
- * 
+ *
  * Boolean type utility which returns true/false based on whether
  * the correct length for `T` is specified.
  */

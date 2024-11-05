@@ -1,17 +1,17 @@
-import { 
-  ArrayTypeDefn, 
-  AsArray, 
-  FromDefn, 
-  HandleDoneFn, 
-  MapKeyDefn, 
-  MapValueDefn, 
-  ObjKeyDefn, 
-  RecordValueTypeDefn, 
-  ShapeCallback, 
-  WeakMapKeyDefn, 
-  WeakMapValueDefn, 
-  WideTokenNames 
-} from "src/types/index";
+import {
+  ArrayTypeDefn,
+  AsArray,
+  FromDefn,
+  HandleDoneFn,
+  MapKeyDefn,
+  MapValueDefn,
+  ObjKeyDefn,
+  RecordValueTypeDefn,
+  ShapeCallback,
+  WeakMapKeyDefn,
+  WeakMapValueDefn,
+  WideTokenNames
+} from "inferred-types/dist/types/index";
 
 
 export const record = <
@@ -53,8 +53,8 @@ export const weakMap = <
   return null as unknown as WeakMap<
     FromDefn<TKey> extends object
     ? FromDefn<TKey>
-    : never, 
+    : never,
     FromDefn<TValue>
   >;
 }
-  
+

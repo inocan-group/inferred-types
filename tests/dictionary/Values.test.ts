@@ -1,6 +1,6 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
-import { valuesOf } from "src/runtime/index";
-import {  HasSameValues, Dictionary, ObjectKey,  Values, EmptyObject } from "src/types/index";
+import { valuesOf } from "inferred-types";
+import {  HasSameValues, Dictionary, ObjectKey,  Values, EmptyObject } from "inferred-types";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

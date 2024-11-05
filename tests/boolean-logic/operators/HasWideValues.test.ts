@@ -1,10 +1,10 @@
 import {  ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { HasWideValues } from "src/types/index";
+import { HasWideValues } from "inferred-types";
 
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("HasWideValues<T>", () => {
@@ -14,7 +14,7 @@ describe("HasWideValues<T>", () => {
 
     type F1 = HasWideValues<[]>;
     type F2 = HasWideValues<["foo", "bar", 42]>;
-    
+
     type cases = [
       ExpectTrue<T1>,
       ExpectFalse<F1>,

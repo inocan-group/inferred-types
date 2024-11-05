@@ -1,8 +1,8 @@
-import {  Last } from "src/types/index";
+import {  Last } from "inferred-types/dist/types/index";
 
 /**
  * **LastOfEach**`<TList>`
- * 
+ *
  * Expects `TList` to consist of an array of arrays and then this utility will reduce
  * this to a _tuple_ of all the _last_ elements in `TList`
  *

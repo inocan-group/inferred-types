@@ -1,4 +1,4 @@
-import { AfterFirst, First, If, Extends } from "src/types/index";
+import { AfterFirst, First, If, Extends } from "inferred-types/dist/types/index";
 
 type SomeAcc<
   TList extends readonly unknown[],
@@ -16,7 +16,7 @@ type SomeAcc<
 
 /**
  * **SomeExtend**`<TList, TExtend>`
- * 
+ *
  * Boolean util which checks whether **some** of the elements
  * in `TList` _extend_ `TExtend`.
  */

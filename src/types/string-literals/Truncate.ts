@@ -6,7 +6,7 @@ import {
   Concat,
   Chars,
   TakeFirst
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 type Ellipsis<T extends boolean | string> = T extends string
   ? T

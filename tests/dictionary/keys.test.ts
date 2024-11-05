@@ -9,8 +9,8 @@ import type {
   Dictionary,
   HasSameValues,
   HasSameKeys,
-} from "src/types/index";
-import { defineObj, keysOf, narrow } from "src/runtime/index";
+} from "inferred-types";
+import { defineObj, keysOf, narrow } from "inferred-types";
 import { Ref } from "vue";
 
 describe("NumericKeys<T>", () => {

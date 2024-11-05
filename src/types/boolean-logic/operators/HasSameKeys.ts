@@ -1,4 +1,4 @@
-import {  And,  AsTuple, Container, DoesExtend,   HasSameValues,   IsTuple, ObjectKey,RemoveIndexKeys,  UnionToTuple } from "src/types/index"
+import {  And,  AsTuple, Container, DoesExtend,   HasSameValues,   IsTuple, ObjectKey,RemoveIndexKeys,  UnionToTuple } from "inferred-types/dist/types/index"
 
 
 
@@ -19,13 +19,13 @@ type _Keys<T extends object> = UnionToTuple<keyof RemoveIndexKeys<T>> extends re
 
 /**
  * **HasSameKeys**`<A,B>`
- * 
+ *
  * Boolean operator which compares two lists to see if they have the same keys.
  */
 export type HasSameKeys<
   A extends Container,
   B extends Container
-> = 
+> =
 IsTuple<A> extends true
   ? IsTuple<B> extends true
     ? AsTuple<A>["length"] extends AsTuple<B>["length"]

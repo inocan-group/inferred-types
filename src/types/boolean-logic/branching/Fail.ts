@@ -1,4 +1,4 @@
-import { Tuple } from "../..";
+import { Tuple } from "inferred-types/dist/types/index";
 import { Or } from "../combinators";
 import { IsFalse, IsNever } from "../operators";
 

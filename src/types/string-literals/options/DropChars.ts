@@ -1,11 +1,11 @@
-import { 
-  Chars, 
+import {
+  Chars,
   ReplaceAll,
   AfterFirst,
   First,
   IsUnion,
   UnionToTuple
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 /**
  * Handles dropping a non-union type which can be a single
@@ -20,16 +20,16 @@ type DropSequence<
     ReplaceAll<TContent, First<TDrop>, "">,
     AfterFirst<TDrop>
   >;
-  
+
 
 /**
  * **DropChars**`<TContent,TDrop>`
- * 
+ *
  * Removes all character sequences found in `TDrop` from the string content
  * in `TContent`. If you use a _union_ type for `TDrop` then each of the
  * union members will be extracted (but union member must only be a single
  * character).
- * 
+ *
  * ```ts
  * // "foobarbaz"
  * DropChars<"foo, bar, baz", ", ">;

@@ -2,7 +2,7 @@ import {
   IndexOf,
   Narrowable,
   Tuple
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 import {
   errCondition,
   isArray,

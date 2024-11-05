@@ -1,9 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import {  IsDotPath } from "src/types/index";
+import {  IsDotPath } from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("IsDotPath<T>", () => {
@@ -14,7 +14,7 @@ describe("IsDotPath<T>", () => {
     type MultiOffset = IsDotPath<"foo.bar">;
     type InvalidChar = IsDotPath<"foo/bar">;
     type InvalidChar2 = IsDotPath<"foo\\bar">;
-    
+
     type cases = [
       Expect<Equal<Root, true>>,
       Expect<Equal<SingleOffset, true>>,

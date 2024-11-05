@@ -1,17 +1,17 @@
-import { 
-  LeftWhitespace, 
-  Replace, 
-  RightWhitespace, 
-  Trim , 
-  Concat, 
-  DashUppercase, 
+import {
+  LeftWhitespace,
+  Replace,
+  RightWhitespace,
+  Trim ,
+  Concat,
+  DashUppercase,
   LowerAllCaps
-} from "src/types/index"
+} from "inferred-types/dist/types/index"
 
 
 /**
  * **KebabCase**`<TString,TPreserve>`
- * 
+ *
  * Converts a string literal into a `kebab-case` format while optionally
  * allowing surrounding whitespace.
  *
@@ -34,7 +34,7 @@ export type KebabCase<
       KebabCase<TString, false>,
       RightWhitespace<TString>
     ]>
-  
+
   : // remove whitespace
     string extends TString
       ? string

@@ -1,4 +1,4 @@
-import { IsHexadecimal, IsStringLiteral } from "src/types/index"
+import { IsHexadecimal, IsStringLiteral } from "inferred-types/dist/types/index"
 
 /**
  * **IsHexadecimal**`<T>`

@@ -1,9 +1,9 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
-import { EmptyObject, ErrorCondition, Iff, IsErrorCondition } from "src/types/index";
+import { EmptyObject, ErrorCondition, Iff, IsErrorCondition } from "inferred-types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("Iff<TValues,[TIgnore],[TOffset],[TNotFound]>", () => {
@@ -14,7 +14,7 @@ describe("Iff<TValues,[TIgnore],[TOffset],[TNotFound]>", () => {
     type ImmediateFoo = Iff<["foo", undefined, undefined]>;
 
     type BaseErr = Iff<[undefined, undefined, undefined]>;
-    
+
     type cases = [
       Expect<Equal<Foo, "foo">>,
       Expect<Equal<MoreFoo, "foo">>,
@@ -28,7 +28,7 @@ describe("Iff<TValues,[TIgnore],[TOffset],[TNotFound]>", () => {
     ];
   });
 
-  
+
   it("indexing into containers", () => {
     type Foo = Iff<[EmptyObject, EmptyObject, {id: "foo"}], ErrorCondition, "id">;
     type Foo2 = Iff<[undefined, undefined, {id: "foo"}], undefined, "id">;
@@ -40,17 +40,17 @@ describe("Iff<TValues,[TIgnore],[TOffset],[TNotFound]>", () => {
     const cases: cases = [
       true, true
     ];
-    
+
   });
 
-  
+
   it("using a non-array to test for existence", () => {
     type NotFound = Iff<null>;
     type NotFound2 = Iff<undefined>;
     type Found = Iff<42>;
     type Found2 = Iff<string>;
 
-    
+
     type cases = [
       ExpectTrue<IsErrorCondition<NotFound, "not-found">>,
       ExpectTrue<IsErrorCondition<NotFound2, "not-found">>,
@@ -60,9 +60,9 @@ describe("Iff<TValues,[TIgnore],[TOffset],[TNotFound]>", () => {
     const cases: cases = [
       true, true, true, true
     ];
-    
+
   });
-  
-  
+
+
 
 });

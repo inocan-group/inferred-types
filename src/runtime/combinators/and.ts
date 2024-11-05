@@ -1,4 +1,4 @@
-import type { And } from "src/types/index";
+import type { And } from "inferred-types/dist/types/index";
 
 /**
  * Groups a number of "logic functions" together by combining their results using

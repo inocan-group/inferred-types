@@ -1,9 +1,9 @@
 import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import {  AreSameLength } from "src/types/index";
+import {  AreSameLength } from "inferred-types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("OfEqualLength<A,B>", () => {
@@ -14,7 +14,7 @@ describe("OfEqualLength<A,B>", () => {
     type T3 = AreSameLength<[never],[1]>;
 
     type F1 = AreSameLength<[1,2,3],[1,2]>;
-    
+
     type cases = [
       ExpectTrue<T1>,
       ExpectTrue<T2>,
@@ -32,7 +32,7 @@ describe("OfEqualLength<A,B>", () => {
     type F1 = AreSameLength<"foey","bar">;
     type B1 = AreSameLength<"foo", string>;
     type B2 = AreSameLength<number[], [1,2,3]>;
-    
+
     type cases = [
       ExpectTrue<T1>,
       ExpectFalse<F1>,

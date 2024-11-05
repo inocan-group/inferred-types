@@ -7,7 +7,7 @@ import {
   Increment,
   First,
   IsGreaterThanOrEqual
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 
 type Process<

@@ -1,10 +1,10 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { ToNumericArray } from "src/types/index";
+import { ToNumericArray } from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("ToNumericArray<T>", () => {
@@ -16,7 +16,7 @@ describe("ToNumericArray<T>", () => {
     type AllStr_RO = ToNumericArray<readonly ["1","2","3","4"]>;
     type None = ToNumericArray<number[]>;
     type None_RO = ToNumericArray<readonly number[]>;
-    
+
     type cases = [
       Expect<Equal<Mixed, [1,2,3,4]>>,
       Expect<Equal<Mixed_RO, readonly [1,2,3,4]>>,
@@ -25,7 +25,7 @@ describe("ToNumericArray<T>", () => {
       Expect<Equal<None, number[]>>,
       Expect<Equal<None_RO, readonly number[]>>,
     ];
-    const cases: cases = [ 
+    const cases: cases = [
       true, true, true,
       true, true, true,
     ];

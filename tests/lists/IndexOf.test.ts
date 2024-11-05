@@ -1,8 +1,8 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { indexOf, isErrorCondition } from "src/runtime/index";
-import type {  IndexOf, IsErrorCondition } from "src/types/index";
+import { indexOf, isErrorCondition } from "inferred-types";
+import type {  IndexOf, IsErrorCondition } from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to

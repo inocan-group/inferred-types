@@ -1,18 +1,18 @@
 import { Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { 
-  DoesExtend, 
-  IndexableObject, 
-  EmptyObject, 
-  DoesNotExtend, 
-  Something, 
-  Nothing, 
+import {
+  DoesExtend,
+  IndexableObject,
+  EmptyObject,
+  DoesNotExtend,
+  Something,
+  Nothing,
   Scalar,
   ExplicitlyEmptyObject,
-} from "src/types/index";
+} from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("EmptyObject", () => {
@@ -24,7 +24,7 @@ describe("EmptyObject", () => {
     type ViaRuntime = typeof empty;
     const explicitEmpty: EmptyObject = {};
     type ViaRuntime2 = typeof explicitEmpty;
-    
+
     type cases = [
       // an empty object still must be "something"
       Expect<DoesExtend<EmptyObject, Something>>,
@@ -38,11 +38,11 @@ describe("EmptyObject", () => {
       Expect<DoesExtend<EmptyObject, ViaRuntime2>>,
     ];
 
-    const cases: cases = [ 
+    const cases: cases = [
       true, true, true, true, true, true
     ];
   });
-  
+
   it("negative tests", () => {
 
     const foo = { foo: 42 };
@@ -59,24 +59,24 @@ describe("EmptyObject", () => {
       // it must not have any values other than `never`
       Expect<DoesNotExtend<EmptyObject, Foo>>,
 
-      // furthermore, a union of an `IndexableObject` 
+      // furthermore, a union of an `IndexableObject`
       Expect<DoesNotExtend<EmptyObject, Foo & EmptyObject>>,
       Expect<DoesNotExtend<EmptyObject, IndexableObject<Foo>>>,
       Expect<DoesNotExtend<null, EmptyObject>>,
       Expect<DoesNotExtend<FooBar, ExplicitlyEmptyObject>>,
-      
-      // an Object is a superset of 
+
+      // an Object is a superset of
       Expect<DoesNotExtend<object, ExplicitlyEmptyObject>>,
       // compared to an indexable object
       Expect<DoesNotExtend<IndexableObject, ExplicitlyEmptyObject>>,
     ];
 
     const cases: cases = [
-      true, true, true, 
-      true, true, true, true, 
+      true, true, true,
+      true, true, true, true,
       true, true
     ];
   });
-  
+
 
 });

@@ -24,23 +24,17 @@
       "src/types/index": [
         "../types/index.ts"
       ],
-      "src/runtime/index": [
-        "../runtime/index.ts"
-      ],
-      "inferred-types/dist/runtime/index": [
-        "../runtime/index.ts"
-      ],
       "inferred-types/dist/types/index": [
         "../types/index.ts"
       ],
       "inferred-types/dist/constants/index": [
         "../constants/index.ts"
       ],
-      "inferred-types": [
-        "../constants/index"
+      "src/runtime/index": [
+        "../runtime/index.ts"
       ],
-      "src/runtime/*": [
-        "./*"
+      "inferred-types/dist/runtime/index": [
+        "../runtime/index.ts"
       ],
     },
   },

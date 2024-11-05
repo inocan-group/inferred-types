@@ -1,15 +1,15 @@
-import { PascalCase, LeftWhitespace, RightWhitespace } from "src/types/index";
+import { PascalCase, LeftWhitespace, RightWhitespace } from "inferred-types/dist/types/index";
 import { capitalize } from "src/runtime/index";
 
 
 /**
  * **toPascalCase**(str)
- * 
+ *
  * Converts a string into `PascalCase` while preserving literal strings.
- * 
+ *
  * **Note:** _by default it also removes surrounding white space (if it exists) but it
  * can be preserved if you change the `preserveWhitespace` flag._
- * 
+ *
  * **Related:** `toKebabCase`, `toCamelCase`, `toSnakeCase`
  */
 export function toPascalCase<

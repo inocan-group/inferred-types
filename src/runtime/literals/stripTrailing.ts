@@ -1,4 +1,4 @@
-import { StripTrailing, TupleToUnion } from "src/types/index";
+import { StripTrailing, TupleToUnion } from "inferred-types/dist/types/index";
 import { isNumber } from "../type-guards/index";
 
 /**

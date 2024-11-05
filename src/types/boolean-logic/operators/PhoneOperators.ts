@@ -6,7 +6,7 @@ import {
   PhoneCountryCode,
   IsErrorCondition,
   MaybeError
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 // BOOLEAN OPERATORS for PHONE TYPES
 

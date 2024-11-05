@@ -9,7 +9,7 @@ import {
   NetworkProtocolPrefix,
   Not,
   Or,
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 
 export type HasUrlPath<T extends string> = And<[

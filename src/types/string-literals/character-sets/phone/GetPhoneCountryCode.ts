@@ -5,7 +5,7 @@ import {
   RetainUntil,
   StartsWith,
   Trim
-} from "src/types/index"
+} from "inferred-types/dist/types/index"
 
 /**
  * GetPhoneCountryCode`<T>`

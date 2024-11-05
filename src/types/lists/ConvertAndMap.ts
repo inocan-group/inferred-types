@@ -1,11 +1,11 @@
-import { TupleToUnion, UnionToTuple , Narrowable , Keys, WithoutValue, First, AfterFirst, AnyObject, Tuple, Nothing } from "src/types/index";
+import { TupleToUnion, UnionToTuple , Narrowable , Keys, WithoutValue, First, AfterFirst, AnyObject, Tuple, Nothing } from "inferred-types/dist/types/index";
 
 
 // [Mapped Tuple Types](https://github.com/Microsoft/TypeScript/issues/25947)
 
 /**
  * **ConverterDefn**`<TStr,TNum,TBool,TObj,TTuple,TNothing>`
- * 
+ *
  * A conversion definition which has wide types for keys and
  * callback functions to call when a particular type is provided
  * as input.
@@ -70,7 +70,7 @@ type ConverterInputUnion<
 export type AvailableConverters<S, N, B, O> = ConverterKeys<S, N, B, O> extends readonly string[]
   ? TupleToUnion<ConverterInputUnion<[], ConverterKeys<S, N, B, O>>>
   : never;
-  
+
 export type Conversion<TInput extends Narrowable, TOutput extends Narrowable> = <T extends TInput>(
   input: T
 ) => TOutput;

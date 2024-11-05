@@ -1,4 +1,4 @@
-import { ExpandRecursively, Narrowable, AfterFirst, First } from "src/types/index";
+import { ExpandRecursively, Narrowable, AfterFirst, First } from "inferred-types/dist/types/index";
 
 type Intersect<
   TList extends readonly unknown[],
@@ -14,8 +14,8 @@ type Intersect<
 
 /**
  * **IntersectAll**`<TList, TIntersect>`
- * 
- * Type utility which adds an _intersection_ with each element in `TList` 
+ *
+ * Type utility which adds an _intersection_ with each element in `TList`
  * with `TIntersect`.
  */
 export type IntersectAll<

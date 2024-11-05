@@ -1,13 +1,13 @@
 import {
-  Throw, 
-  PartialError, 
+  Throw,
+  PartialError,
   ErrorCondition,
   TypeErrorInfo,
   ExpandRecursively,
   EmptyObject,
   RemoveNever,
   AsString
-} from "src/types/index"
+} from "inferred-types/dist/types/index"
 
 
 type Req<
@@ -24,7 +24,7 @@ type Optional<
     library: T["library"] extends string ? never : string;
     utility: T["utility"] extends string ? never : string;
     underlying: T["utility"] extends ErrorCondition ? never : ErrorCondition;
-  }> & 
+  }> &
   Omit<TypeErrorInfo, "kind" | "message" | "utility" | "library" | "underlying">
 >>
 
@@ -32,7 +32,7 @@ type Optional<
 
 /**
  * **CompleteError**`<TPartial, TComplete>`
- * 
+ *
  * Completes an `ErrorCondition` from the starting point of
  * a pre-existing `TPartial`.
  */

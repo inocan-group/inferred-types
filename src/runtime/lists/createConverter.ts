@@ -6,7 +6,7 @@ import type {
   Nothing,
   AnyObject,
   TypedFunction
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 import { Never } from "inferred-types/dist/constants/index";
 import { isNothing, isObject } from "src/runtime/index";

@@ -1,4 +1,4 @@
-import {  IsStringLiteral } from "src/types/index";
+import {  IsStringLiteral } from "inferred-types/dist/types/index";
 
 /**
  * **StripAfter**`<TStr, TBreak>`

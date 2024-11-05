@@ -14,7 +14,7 @@ import {
   Throw,
   ErrorCondition,
   Concat
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 import { Constant } from "inferred-types/dist/constants/index";
 
 type Override<

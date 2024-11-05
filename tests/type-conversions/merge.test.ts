@@ -1,15 +1,15 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import type { 
+import type {
   CombinedKeys,
-  MergeObjects, 
-  MergeScalars, 
-  MergeTuples, 
+  MergeObjects,
+  MergeScalars,
+  MergeTuples,
   HasSameKeys,
   Merge,
   IsErrorCondition
-} from "src/types/index";
-import { mergeScalars, mergeTuples } from "src/runtime/index";
+} from "inferred-types";
+import { mergeScalars, mergeTuples } from "inferred-types";
 
 describe("MergeObjects<A,B>", () => {
   it("happy path", () => {
@@ -20,8 +20,8 @@ describe("MergeObjects<A,B>", () => {
     type M2 = MergeObjects<O1,O2>;
 
     type cases = [
-      Expect<Equal<M1, { foo: 1; bar: 2; baz: 4}>>, 
-      Expect<Equal<M2, { foo: 1; bar: 3; baz: 4}>>, 
+      Expect<Equal<M1, { foo: 1; bar: 2; baz: 4}>>,
+      Expect<Equal<M2, { foo: 1; bar: 3; baz: 4}>>,
     ];
     const cases: cases = [ true, true ];
   });
@@ -31,14 +31,14 @@ describe("MergeObjects<A,B>", () => {
     type O2 = { bar: 3; baz: 4; deep: { a: 2; b: 3} };
 
     type M1 = MergeObjects<O2,O1>;
-    
+
     type cases = [
-      Expect<Equal<M1, { foo: 1; bar: 2; baz: 4; deep: { a:1}}>>, 
+      Expect<Equal<M1, { foo: 1; bar: 2; baz: 4; deep: { a:1}}>>,
     ];
     const cases: cases = [ true ];
-    
+
   });
-  
+
 });
 
 describe("MergeTuples<TDefault,TOverride>", () => {
@@ -59,7 +59,7 @@ describe("MergeTuples<TDefault,TOverride>", () => {
     const cases: cases = [ true, true, true, true ];
   });
 
-  
+
   it.skip("using key based comparison", () => {
     // not currently implemented
     type cases = [
@@ -67,7 +67,7 @@ describe("MergeTuples<TDefault,TOverride>", () => {
     ];
     const cases: cases = [];
   });
-  
+
 });
 
 describe("MergeScalars", () => {
@@ -82,7 +82,7 @@ describe("MergeScalars", () => {
         Expect<Equal<MergeScalars<number, 5>, 5>>, // override being wide has no bearing
         Expect<Equal<MergeScalars<number, number>, number>>
       ];
-      
+
       const cases: cases = [ true, true, true, true, true, true ];
   });
 });
@@ -100,17 +100,17 @@ describe("Merge Tuples", () => {
   const foobar = ["foo", "bar"] as const;
   const baz42 = ["baz", 42] as const;
   const lengthy = ["one", "two", "three", "four", "five"] as const;
-  
+
   it("type testing", () => {
     type Partial = typeof partial;
     type Foobar = typeof foobar;
     type Baz42 = typeof baz42;
     type Lengthy = typeof lengthy;
-    
+
     type OverrideFully = MergeTuples<Foobar, Baz42>;
     type PartialOverride = MergeTuples<Baz42,Partial>;
     type OverExtend = MergeTuples<Lengthy, Foobar>;
-    
+
     type cases = [
       Expect<Equal<OverrideFully, Baz42>>,
       Expect<Equal<PartialOverride, readonly ["baz", "bar"]>>,
@@ -119,7 +119,7 @@ describe("Merge Tuples", () => {
     const cases: cases = [true, true, true];
   });
 
-  
+
   it("runtime tests", () => {
     // override fully
     expect(mergeTuples(foobar, baz42)).toEqual(baz42);
@@ -135,17 +135,17 @@ describe("Merge Tuples", () => {
 
 describe("Merge Objects", () => {
 
-  
+
   it("CombinedKeys<A,B>", () => {
     type FooBarBaz = CombinedKeys<{foo: 1; bar: 2}, {baz: 3}>;
-    
+
     type cases = [
       ExpectTrue<HasSameKeys<FooBarBaz, ["foo","bar","baz"]>>
     ];
     const cases: cases = [ true ];
-    
+
   });
-  
+
 
   it("type tests", () => {
     type JustExtend = MergeObjects<{foo: 1; bar: 2}, {baz: 3}>;
@@ -175,7 +175,7 @@ describe("Merge Objects", () => {
   it("runtime tests", () => {
     // const justExtend = mergeObjects({foo: 1, bar: 2}, {baz: 3});
 
-    
+
   });
 });
 
@@ -204,7 +204,7 @@ describe("Merge<A,B>", () => {
       ExpectTrue<IsErrorCondition<Invalid, "invalid-merge">>,
       ExpectTrue<IsErrorCondition<Nothing, "invalid-merge">>,
     ];
-    const cases: cases = [ 
+    const cases: cases = [
       true, true, true,
       true, true,
       true, true

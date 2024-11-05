@@ -1,10 +1,10 @@
-import { AsRecord, Container, UnionToTuple } from "src/types/index";
+import { AsRecord, Container, UnionToTuple } from "inferred-types/dist/types/index";
 
 
 /**
  * **IntersectingKeys**`<A,B>`
- * 
- * Provides a tuple of keys which are shared between the two 
+ *
+ * Provides a tuple of keys which are shared between the two
  * containers passed in `A` and `B`.
  */
 export type IntersectingKeys<

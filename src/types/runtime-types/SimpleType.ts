@@ -16,7 +16,7 @@ import {
   SimpleMapToken,
   SimpleSetToken,
   SimpleArrayToken
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 type SetTypes = typeof SIMPLE_SET_TYPES[number];
 type MapKeys = typeof SIMPLE_MAP_KEYS[number];

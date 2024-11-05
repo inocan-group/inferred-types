@@ -1,13 +1,13 @@
- 
-import { FixedLengthArray } from "src/types/index";
+
+import { FixedLengthArray } from "inferred-types/dist/types/index";
 
 export type TupleRange = [required: number, optional: number];
 
 /**
  * **Tuple**`<TType,TLength>`
- * 
+ *
  * As a default, a **Tuple** is represented as a readonly array of _unknown_ properties.
- * 
+ *
  * - by expressing `TType` you can state either a constant type _or_ a list of types
  * - by expressing `TLength` it will make the tuple a fixed length (assuming that `TType`
  * is set to a constant value rather than as a list)
@@ -21,21 +21,21 @@ export type TupleRange = [required: number, optional: number];
 export type Tuple<
   TType = unknown,
   TLength extends number | TupleRange | `${number}+` = 0
-> = 0 extends TLength 
-  ? TType extends any[] 
+> = 0 extends TLength
+  ? TType extends any[]
     ? Readonly<TType>
     : readonly TType[]
   : TLength extends number
     ? Readonly<FixedLengthArray<TType, TLength>>
     : TLength extends TupleRange
       ? Readonly<[
-          ...FixedLengthArray<TType, TLength[0]>, 
+          ...FixedLengthArray<TType, TLength[0]>,
           ...FixedLengthArray<TType | undefined, TLength[1]>
         ]>
   : TLength extends `${infer Num extends number}+`
     ? Num extends number
           ? Readonly<[
-            ...FixedLengthArray<TType, Num>, 
+            ...FixedLengthArray<TType, Num>,
             ...TType[]
           ]>
           : never

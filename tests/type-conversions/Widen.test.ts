@@ -1,9 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { EmptyObject, Dictionary,  Widen } from "src/types/index";
+import { EmptyObject, Dictionary,  Widen } from "inferred-types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("Widen<T>", () => {
@@ -19,7 +19,7 @@ describe("Widen<T>", () => {
 
     type Obj = Widen<object>;
 
-    type Arr = Widen<["foo", false, 42]>; 
+    type Arr = Widen<["foo", false, 42]>;
     type ArrInObj = Widen<{foo: ["foo","bar"]; bar: 42}>;
     type WideArr = Widen<string[]>;
 
@@ -39,10 +39,10 @@ describe("Widen<T>", () => {
 
     type cases = [
       Expect<Equal<NumLiteral, number>>, //
-      Expect<Equal<StrLiteral, string>>, 
+      Expect<Equal<StrLiteral, string>>,
 
-      Expect<Equal<LiteralObj, { foo: number; bar: string}>>, 
-      Expect<Equal<WideObj, { foo: number; bar: string}>>, 
+      Expect<Equal<LiteralObj, { foo: number; bar: string}>>,
+      Expect<Equal<WideObj, { foo: number; bar: string}>>,
       Expect<Equal<ObjInObj, { foo: { bar: number; baz: number}}>>,
       Expect<Equal<KeyValue, EmptyObject>>,
       Expect<Equal<Obj, object>>,
@@ -68,7 +68,7 @@ describe("Widen<T>", () => {
       Expect<Equal<FnWithPropAsProp, {foo: (() => string) & {bar: number}}>>
     ];
     const cases: cases = [
-      true, true, 
+      true, true,
       true, true, true, true,true,
       true, true,true,
       true,

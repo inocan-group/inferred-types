@@ -1,10 +1,10 @@
 import {  ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { IsWideUnion } from "src/types/index";
+import { IsWideUnion } from "inferred-types";
 import { describe, it } from "vitest";
 
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("IsWideUnion<T>", () => {
@@ -17,7 +17,7 @@ describe("IsWideUnion<T>", () => {
     type Mixed2 = IsWideUnion<"foo" | boolean>;
     type AllLit = IsWideUnion<"foo" | "bar">;
     type AllWide = IsWideUnion<string | number>;
-    
+
     type cases = [
       ExpectFalse<NotUnion>,
       ExpectFalse<Bool>,

@@ -1,9 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { UnionRetain } from "src/types/index";
+import { UnionRetain } from "inferred-types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("UnionRetain", () => {
@@ -20,7 +20,7 @@ describe("UnionRetain", () => {
     type Str = UnionRetain<FooBarBaz | OneTwoThree, FooBarBaz>;
 
     type All = UnionRetain<FooBarBaz, FooBarBaz>;
-    
+
     type cases = [
       Expect<Equal<FooBar, "foo" | "bar">>,
       Expect<Equal<FooBaz, "foo" | "baz">>,

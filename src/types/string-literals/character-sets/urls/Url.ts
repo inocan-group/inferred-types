@@ -23,7 +23,7 @@ import {
   IsUndefined,
   Contains,
   RemoveEmpty
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 import { NETWORK_PROTOCOL_LOOKUP } from "inferred-types/dist/constants/index";
 
 type Proto = typeof NETWORK_PROTOCOL_LOOKUP;

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
-import type { SnakeCase } from "src/types/index";
+import type { SnakeCase } from "inferred-types";
 
 const target = "two_three_four";
 type TARGET = typeof target;
@@ -69,7 +69,7 @@ describe("SnakeCase<T> type utility", () => {
 
     type cases = [
       Expect<Equal<T1, TARGET>>, //
-      Expect<Equal<T2, TARGET>>, 
+      Expect<Equal<T2, TARGET>>,
       Expect<Equal<T3, TARGET>>
     ];
     const c: cases = [true, true, true];
@@ -81,7 +81,7 @@ describe("SnakeCase<T> type utility", () => {
     type T2 = SnakeCase<"\n  one two three ">;
 
     type cases = [
-      Expect<Equal<T1, "one_two_three">>, 
+      Expect<Equal<T1, "one_two_three">>,
       Expect<Equal<T2, "one_two_three">>
     ];
     const c: cases = [true, true];

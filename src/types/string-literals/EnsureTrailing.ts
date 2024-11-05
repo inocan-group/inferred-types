@@ -3,7 +3,7 @@ import {
   AsString,
   IsString,
   IsWideType,
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 
 type P<

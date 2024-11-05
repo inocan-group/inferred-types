@@ -1,5 +1,5 @@
 import { Constant } from "inferred-types/dist/constants/index";
-import { IfEqual, Dictionary, Throw, Tuple, AsString } from "src/types/index";
+import { IfEqual, Dictionary, Throw, Tuple, AsString } from "inferred-types/dist/types/index";
 
 /**
  * **AsIndexOf**`<T,K,[ERR]>`

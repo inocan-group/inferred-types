@@ -6,8 +6,8 @@ import {
   CsvToTuple,
   CsvToTupleStr,
   CsvToUnion
-} from "src/types/index";
-import { csv } from "src/runtime/index";
+} from "inferred-types";
+import { csv } from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to

@@ -1,10 +1,10 @@
-import { ErrorCondition } from "src/types/index";
+import { ErrorCondition } from "inferred-types/dist/types/index";
 import { isObject } from "src/runtime/index";
 
 
 /**
  * **isErrorCondition**(value)
- * 
+ *
  * Type guard which checks whether the given value is a `ErrorCondition` type.
  */
 export function isErrorCondition<

@@ -1,17 +1,17 @@
-import { KebabCase } from "src/types/index";
+import { KebabCase } from "inferred-types/dist/types/index";
 
 /**
  * **toKebabCase**(str)
- * 
+ *
  * Converts a string into `kebab-case` while preserving literal strings.
- * 
+ *
  * **Note:** _by default it also removes surrounding white space (if it exists) but it
  * can be preserved if you change the `preserveWhitespace` flag._
- * 
+ *
  * **Related:** `toPascalCase`, `toCamelCase`, `toSnakeCase`
  */
 export function toKebabCase<
-  S extends string, 
+  S extends string,
   P extends boolean = false
 >(input: S, _preserveWhitespace?: P) {
   const [_, preWhite, focus, postWhite] = /^(\s*)(.*?)(\s*)$/.exec(input) as RegExpExecArray;

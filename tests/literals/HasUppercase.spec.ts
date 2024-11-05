@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 import { Equal, Expect } from "@type-challenges/utils";
-import { HasUppercase } from "src/types/index";
+import { HasUppercase } from "inferred-types";
 
 describe("HasUppercase<T> type utility", () => {
   it("finds capitals where they exist", () => {

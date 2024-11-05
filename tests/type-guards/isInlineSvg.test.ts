@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { isInlineSvg } from "src/runtime/index";
+import { isInlineSvg } from "inferred-types";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

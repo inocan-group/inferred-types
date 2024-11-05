@@ -1,4 +1,4 @@
-import { IsEqual , IsNever } from "src/types/index";
+import { IsEqual , IsNever } from "inferred-types/dist/types/index";
 
 type Process<T,
 TNever
@@ -10,7 +10,7 @@ TNever
 
 /**
  * **IsTrue**`<T,[TNever]>`
- * 
+ *
  * Type utility which checks for the narrow type of `true`
  * ```ts
  * // true

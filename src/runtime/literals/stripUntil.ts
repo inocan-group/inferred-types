@@ -1,5 +1,5 @@
 import { asChars } from "../type-conversion/index";
-import { TupleToUnion,StripUntil } from "src/types/index";
+import { TupleToUnion,StripUntil } from "inferred-types/dist/types/index";
 
 /**
  * **stripUntil**`(content, ...until)`

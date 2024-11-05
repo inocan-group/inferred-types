@@ -1,11 +1,11 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import {  omit } from "src/runtime/index";
-import {  EmptyObject } from "src/types/index";
+import {  omit } from "inferred-types";
+import {  EmptyObject } from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("omit()", () => {
@@ -32,11 +32,11 @@ describe("omit()", () => {
     const cases: cases = [true, true, true, true];
   });
 
-  
+
   it("Narrowing a typed object", () => {
     const input: { foo: 1; bar: 2; baz: 3} = {foo:1, bar: 2, baz: 3};
     const test = omit(input, "foo");
-    
+
     type cases = [
       Expect<Equal<typeof test, {bar: 2; baz: 3}>>
     ];
@@ -47,13 +47,13 @@ describe("omit()", () => {
 
   it("Narrowing a typed object with an array property", () => {
     const input: { foo: 1; bar: 2; baz: ["testing", "something"]} = {
-      foo:1, 
-      bar: 2, 
+      foo:1,
+      bar: 2,
       baz: ["testing", "something"]
     };
 
     const test = omit(input, "foo");
-    
+
     type cases = [
       Expect<Equal<typeof test, {bar: 2; baz: ["testing", "something"]}>>
     ];
@@ -61,6 +61,6 @@ describe("omit()", () => {
 
     expect(test).toEqual({bar: 2, baz: ["testing","something"]});
   });
-  
+
 
 });

@@ -1,4 +1,4 @@
-import { AsUnion, UnionElDefn } from "src/types/index";
+import { AsUnion, UnionElDefn } from "inferred-types/dist/types/index";
 
 
 /**

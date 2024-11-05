@@ -6,7 +6,7 @@ import {
   IsNever,
   IsTrue,
   LogicFunction
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 
 

@@ -15,7 +15,7 @@ import {
   StripChars,
   StrLen,
   Unset
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 
 type _RightLength<T extends string > = If<

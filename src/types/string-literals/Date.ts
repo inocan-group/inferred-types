@@ -1,7 +1,7 @@
 import {
   NumericChar,
   NonZeroNumericChar,
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 import  { MONTH_ABBR, MONTH_NAME}  from "inferred-types/dist/constants/index";
 
 export type Year<

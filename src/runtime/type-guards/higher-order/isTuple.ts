@@ -2,7 +2,7 @@
 import {
   ShapeCallback,
   HandleDoneFn
-} from "src/types/index"
+} from "inferred-types/dist/types/index"
 import {
   isDoneFn,
   ShapeApiImplementation,

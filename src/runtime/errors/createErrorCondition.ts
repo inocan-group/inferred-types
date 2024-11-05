@@ -1,4 +1,4 @@
-import { Throw } from "src/types/index";
+import { Throw } from "inferred-types/dist/types/index";
 
 
 /**

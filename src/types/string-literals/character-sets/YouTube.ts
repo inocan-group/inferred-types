@@ -12,7 +12,7 @@ import {
   GetUrlPath,
   UrlsFrom,
   Optional
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 
 

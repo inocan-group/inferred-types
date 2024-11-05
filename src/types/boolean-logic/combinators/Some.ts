@@ -10,7 +10,7 @@ import {
   Or,
   Values,
   WhenNever
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 type Process<
 TElements extends readonly unknown[],

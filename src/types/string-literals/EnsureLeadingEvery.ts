@@ -1,4 +1,4 @@
-import {  AsString, EnsureLeading,  UnionToTuple } from "src/types/index";
+import {  AsString, EnsureLeading,  UnionToTuple } from "inferred-types/dist/types/index";
 
 
 /**

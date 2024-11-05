@@ -1,4 +1,4 @@
-import { Tuple } from "src/types/index";
+import { Tuple } from "inferred-types/dist/types/index";
 
 /**
  * **isReadonlyArray**(value)

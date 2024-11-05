@@ -13,7 +13,7 @@ import {
   IsArray,
   As,
   UnionHasArray
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 type ToFlat<T> = IsArray<T> extends true
 ? As<T, readonly unknown[]>

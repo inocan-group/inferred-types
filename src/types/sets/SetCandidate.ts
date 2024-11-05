@@ -1,8 +1,8 @@
-import { Narrowable } from "src/types/index";
+import { Narrowable } from "inferred-types/dist/types/index";
 
 /**
  * **SetCandidate**
- * 
+ *
  * A _set candidate_ is the base type for a type which can be converted
  * into a "set" (and have set operations applied).
  */

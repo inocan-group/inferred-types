@@ -1,4 +1,4 @@
-import {PascalCase, KebabCase} from "src/types/index";
+import {PascalCase, KebabCase} from "inferred-types/dist/types/index";
 
 /**
  * **KindError**

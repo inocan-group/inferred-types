@@ -1,8 +1,8 @@
-import type {  
+import type {
   Narrowable,
   Box,
   AnyObject,
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 
 export type BoxValue<T extends Box<unknown>> = T extends Box<infer V> ? V : never;
@@ -35,7 +35,7 @@ export function box<T extends Narrowable>(value: T): Box<T> {
 
 export function isBox(thing: Narrowable): thing is Box<unknown> {
   return (
-     
+
     typeof thing === "object" && "__type" in (thing as object) && (thing as any).__type === "box"
   );
 }
@@ -68,8 +68,8 @@ export type Unbox<T> = T extends Box<infer U> ? U : T;
  * Unboxes a value if it was a box; otherwise it leaves _as is_.
  */
 export function unbox<T extends Narrowable>(val: T): Unbox<T> {
-  return (isBox(val) 
-    ? val.value 
+  return (isBox(val)
+    ? val.value
     : val
   ) as Unbox<T>;
 }

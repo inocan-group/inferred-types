@@ -1,9 +1,9 @@
-import { IsBoolean, IsNever } from "src/types/index";
+import { IsBoolean, IsNever } from "inferred-types/dist/types/index";
 
 
 /**
  * **IsFalse**`<T>`
- * 
+ *
  * Type utility which checks for the narrow type of `false`
  * ```ts
  * // true

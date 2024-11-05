@@ -23,7 +23,7 @@ import {
   WhenNever,
   HasEscapeFunction,
   ErrorCondition
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 /**
  * **ValueCallback**`<TVal, TReturn>`

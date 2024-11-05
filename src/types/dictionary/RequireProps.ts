@@ -1,4 +1,4 @@
-import { EmptyObject, ExpandRecursively } from "src/types/index";
+import { EmptyObject, ExpandRecursively } from "inferred-types/dist/types/index";
 
 /**
  * Given a dictionary of type `<T>`, this utility function will

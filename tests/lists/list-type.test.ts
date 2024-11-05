@@ -1,8 +1,8 @@
 import { Expect, Equal } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import {  list, ifArray } from "src/runtime/index"
-import {  Extends, List } from "src/types/index";
+import {  list, ifArray } from "inferred-types"
+import {  Extends, List } from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to

@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { DomainName } from "src/types/index";
+import { DomainName } from "inferred-types";
 import { describe, it } from "vitest";
 
 

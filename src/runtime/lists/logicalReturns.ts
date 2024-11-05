@@ -1,4 +1,4 @@
-import { LogicFunction, LogicalReturns } from "src/types/index";
+import { LogicFunction, LogicalReturns } from "inferred-types/dist/types/index";
 import { isBoolean, isFunction } from "src/runtime/index";
 import { Never } from "inferred-types/dist/constants/index";
 

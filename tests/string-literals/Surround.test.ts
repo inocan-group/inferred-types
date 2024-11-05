@@ -1,11 +1,11 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { Surround } from "src/types/index";
-import { SurroundWith, surround } from "src/runtime/index";
+import { Surround } from "inferred-types";
+import { SurroundWith, surround } from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("Surround<TContent,TPre,TPost>", () => {
@@ -24,18 +24,18 @@ describe("Surround<TContent,TPre,TPost>", () => {
     ];
     const cases: cases = [ true, true, true, true ];
   });
-  
+
   it("with array content", () => {
     type FooBar = Surround<["foo", "bar"], "(", ")">;
     type OneTwo = Surround<[1,2], "(", ")">;
-    
+
     type cases = [
       Expect<Equal<FooBar, ["(foo)", "(bar)"]>>,
       Expect<Equal<OneTwo, ["(1)", "(2)"]>>,
     ];
     const cases: cases = [ true, true ];
   });
-  
+
 });
 
 describe("surround() runtime utility", () => {
@@ -45,7 +45,7 @@ describe("surround() runtime utility", () => {
     const completed = partial("foobar");
 
     expect(completed).toBe("(foobar)");
-    
+
     type cases = [
       Expect<Equal<typeof partial, SurroundWith<"(",")">>>,
       Expect<Equal<typeof completed, "(foobar)">>

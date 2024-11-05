@@ -1,25 +1,25 @@
-import { 
-  Suggest, 
-  NumericChar, 
-} from "src/types/index";
+import {
+  Suggest,
+  NumericChar,
+} from "inferred-types/dist/types/index";
 
 /**
  * Valid hexadecimal character
- * 
+ *
  * **Related:** `IsHexadecimal`, `Hexadecimal`, `SuggestHexadecimal`
  */
 export type HexadecimalChar = NumericChar | "A" | "B" | "C" | "D" | "E" | "F" | "a" | "b" | "c" | "d" | "e" | "f";
 
 /**
  * **Hexadecimal**
- * 
+ *
  * A decent approximation for typing a _hexadecimal_ number representation.
  * For stronger type checking use `IsHexadecimal<T>`
  */
 export type Hexadecimal = `#${HexadecimalChar}${HexadecimalChar}${string}`
 
 
-  
+
 
 /**
  * A string suggestion for hexadecimal types

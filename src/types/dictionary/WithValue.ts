@@ -5,7 +5,7 @@ import {
   If,
   Dictionary,
   RemoveMarked
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 
 type Marked = typeof MARKED;

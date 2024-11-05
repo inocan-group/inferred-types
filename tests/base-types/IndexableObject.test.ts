@@ -1,13 +1,13 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { 
-  DoesExtend, 
-  IndexableObject, 
+import {
+  DoesExtend,
+  IndexableObject,
   Dictionary
-} from "src/types/index";
+} from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 type FooBar = { foo: 42; bar: number };
 type FooBarExt = { foo: 42; bar: number; [key: string]: unknown };
@@ -15,29 +15,29 @@ type FooBarExt = { foo: 42; bar: number; [key: string]: unknown };
 describe("IndexableObject and IndexedObject", () => {
   type Generic = { [key: string]: unknown };
 
-  
+
   it("IndexableObject Basics", () => {
     type FooBarIdx = IndexableObject<FooBar>;
     type FooBarIdxStr = IndexableObject<FooBar, Dictionary<string>>;
-    
+
     type Identity = IndexableObject<Dictionary>;
 
     type cases = [
       Expect<Equal<
-        FooBarIdx, 
+        FooBarIdx,
         {
-          foo: 42; 
-          bar: number; 
-          [x:string]: unknown; 
+          foo: 42;
+          bar: number;
+          [x:string]: unknown;
           [x:symbol]: unknown;
         }
       >>,
       Expect<Equal<
-        FooBarIdxStr, 
+        FooBarIdxStr,
         {
-          foo: 42; 
-          bar: number; 
-          [x:string]: unknown; 
+          foo: 42;
+          bar: number;
+          [x:string]: unknown;
         }
       >>,
       Expect<Equal<Identity, Dictionary>>,
@@ -61,7 +61,7 @@ describe("IndexableObject and IndexedObject", () => {
 
     const cases: cases = [ true, true, true, true,  ];
   });
-  
-  
+
+
 
 });

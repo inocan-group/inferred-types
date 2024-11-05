@@ -1,7 +1,7 @@
 import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { IsNever, IfNever, Something, Nothing } from "src/types/index";
+import { IsNever, IfNever, Something, Nothing } from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to

@@ -1,8 +1,8 @@
-import {  TypedFunction } from "src/types/index";
+import {  TypedFunction } from "inferred-types/dist/types/index";
 
 /**
  * **Returns**`<TFn,TExpected>`
- * 
+ *
  * Boolean type utility which detects whether `TFn` is a function
  * and _extends_ `TExpected` in it's return type.
  */

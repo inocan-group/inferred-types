@@ -1,4 +1,4 @@
-import {  IsUnion, RetainLiterals,  UnionToTuple } from "../..";
+import {  IsUnion, RetainLiterals,  UnionToTuple } from "inferred-types/dist/types/index";
 
 
 type Process<T> = UnionToTuple<T> extends readonly unknown[]
@@ -9,10 +9,10 @@ type Process<T> = UnionToTuple<T> extends readonly unknown[]
 
 /**
  * **IsLiteralUnion**`<T>`
- * 
+ *
  * Boolean utility which checks whether `T` is both a _union type_
  * and that it's elements are all considered _literal type_.
- * 
+ *
  * **Related:** `IsLiteralUnion`, `IsWideUnion`
  */
 export type IsLiteralUnion<

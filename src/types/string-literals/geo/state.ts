@@ -1,5 +1,5 @@
 import {US_STATE_LOOKUP, US_STATE_LOOKUP_PROVINCES} from "inferred-types/dist/constants/index"
-import { Mutable, IsTrue } from "src/types/index";
+import { Mutable, IsTrue } from "inferred-types/dist/types/index";
 
 
 type UsStateLookup = Mutable<typeof US_STATE_LOOKUP>;

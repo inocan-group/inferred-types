@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { defineTuple,  shift } from "src/runtime/index";
-import {  Shift } from "src/types/index";
+import { defineTuple,  shift } from "inferred-types";
+import {  Shift } from "inferred-types";
 
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

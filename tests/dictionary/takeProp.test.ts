@@ -1,9 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { takeProp } from "src/runtime/index";
+import { takeProp } from "inferred-types";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("takeProp(obj,prop,else)", () => {
@@ -19,7 +19,7 @@ describe("takeProp(obj,prop,else)", () => {
 
     const notIndex = takeProp(TEST, "bob", "not");
     expect(notIndex).toEqual("not");
-    
+
     type cases = [
       Expect<Equal<typeof foo, 42>>,
       Expect<Equal<typeof notContainer, "not">>,

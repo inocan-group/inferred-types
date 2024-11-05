@@ -1,4 +1,4 @@
-import { PathJoin } from "src/types/index";
+import { PathJoin } from "inferred-types/dist/types/index";
 import { stripTrailing, stripLeading } from "src/runtime/index";
 
 

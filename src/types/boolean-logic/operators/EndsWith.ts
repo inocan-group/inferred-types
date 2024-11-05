@@ -1,4 +1,4 @@
-import {  AsString, IsStringLiteral, Or } from "src/types/index";
+import {  AsString, IsStringLiteral, Or } from "inferred-types/dist/types/index";
 
 type Test<
   TValue extends string,
@@ -36,7 +36,7 @@ type PreProcess<
 /**
  * **EndsWith**<TValue, TComparator>
  *
- * A type utility which checks whether `TValue` _ends with_ the 
+ * A type utility which checks whether `TValue` _ends with_ the
  * value of `TComparator`.
  *
  * - numeric values for `TValue` will be converted into string literals
@@ -48,9 +48,9 @@ export type EndsWith<
   TValue extends string | number,
   TComparator extends string | number | readonly string[]
 > = PreProcess<
-  AsString<TValue>, 
-  TComparator extends number 
+  AsString<TValue>,
+  TComparator extends number
     ? AsString<TComparator>
-    : TComparator 
+    : TComparator
 >;
 

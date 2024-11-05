@@ -1,4 +1,4 @@
-import { RetainAfter } from "src/types/index";
+import { RetainAfter } from "inferred-types/dist/types/index";
 
 /**
  * **retainAfter**`(content, ...find)`

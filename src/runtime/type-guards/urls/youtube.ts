@@ -6,7 +6,7 @@ import {
   YouTubeShareUrl,
   YouTubeUrl,
   YouTubeVideosInPlaylist
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 import { isString, isUndefined, hasUrlQueryParameter } from "src/runtime/index";
 
 /**

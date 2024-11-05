@@ -1,23 +1,23 @@
-import {  
-  AnyFunction, 
-  Dictionary, 
-  EmptyObject, 
-  IsEqual, 
-  IsNarrowingFn, 
-  IsNonEmptyObject, 
-  Throw, 
-  Tuple, 
-  TypedFunction 
-} from "src/types/index";
+import {
+  AnyFunction,
+  Dictionary,
+  EmptyObject,
+  IsEqual,
+  IsNarrowingFn,
+  IsNonEmptyObject,
+  Throw,
+  Tuple,
+  TypedFunction
+} from "inferred-types/dist/types/index";
 
 
 
 /**
  * **NarrowingFn**`<N>`
- * 
- * Produces a function which helps to narrow down to the type passed in 
+ *
+ * Produces a function which helps to narrow down to the type passed in
  * by assigning generics to all input parameters.
- * 
+ *
  * ```ts
  * // <T extends string>(name: string) => string
  * type Fn1 = NarrowingFn<(name: string) => string>;
@@ -26,7 +26,7 @@ import {
  * // <T extends number>(v: T) => T
  * type Fn2 = NarrowingFn<42>;
  * ```
- * 
+ *
  * **Related:** `LiteralFn`, `IsNarrowingFn`
  */
 export type NarrowingFn<
@@ -47,17 +47,17 @@ export type NarrowingFn<
 
 /**
  * **AsNarrowingFn**`<TParams,TReturns,TProps>`
- * 
- * Constructs a `NarrowingFn` from component aspects of 
+ *
+ * Constructs a `NarrowingFn` from component aspects of
  * a function.
- * 
+ *
  * **Related:** `LiteralFn`, `NarrowingFn`, `AsLiteralFn`
- */    
+ */
 export type AsNarrowingFn<
     TParams extends Tuple | TypedFunction,
     TReturn = unknown,
     TProps extends Dictionary = EmptyObject
-  > = 
+  > =
 TParams extends TypedFunction
       ? NarrowingFn<TParams>
   : TParams extends Tuple // this is the normal call structure

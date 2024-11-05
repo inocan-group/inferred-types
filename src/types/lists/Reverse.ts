@@ -1,4 +1,4 @@
-import { AfterFirst , First } from "src/types/index";
+import { AfterFirst , First } from "inferred-types/dist/types/index";
 
 type RevAcc<
   TInput extends readonly unknown[],

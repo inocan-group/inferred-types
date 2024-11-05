@@ -1,8 +1,8 @@
-import { IsVueRef } from "src/types/index";
+import { IsVueRef } from "inferred-types/dist/types/index";
 
 /**
  * **FromMaybeRef**`<T>`
- * 
+ *
  * Dereferences the `value` property on VueJS `Ref<T>`'s otherwise
  * returns `T` as is.
  */

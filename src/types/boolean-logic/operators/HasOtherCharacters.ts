@@ -1,8 +1,8 @@
-import type {  
+import type {
   ReplaceAll,
   IsWideType,
   TupleToUnion,
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 type Process<
   TStr extends string,
@@ -15,13 +15,13 @@ type Process<
 
 /**
  * **HasOtherCharacters**`<TStr,TChars>`
- * 
+ *
  * Boolean type utility which tests whether `TStr` has any
- * characters _other_ than those in `TChars`. 
- * 
+ * characters _other_ than those in `TChars`.
+ *
  * - union types are fine for `TChars`
  * - a tuple for `TChars` behaves the same as union type
- * 
+ *
  * **Related:** `HasCharacters`
  */
 export type HasOtherCharacters<

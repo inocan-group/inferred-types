@@ -1,4 +1,4 @@
-import { IsEqual } from "src/types/index";
+import { IsEqual } from "inferred-types/dist/types/index";
 
 type Calc<
 A extends number,
@@ -14,11 +14,11 @@ Count extends 1[] = []
 
 /**
  * **LessThanOrEqual**`<A,B>`
- * 
- * Boolean operator which checks whether `A` is 
+ *
+ * Boolean operator which checks whether `A` is
  * _less than_ `B`.
- * 
+ *
  * - Note: this solution is cheap and cheerful and doesn't
  * try to address negative numbers or other edge cases
- */ 
+ */
 export type LessThanOrEqual<A extends number,B extends number> = Calc<A,B>;

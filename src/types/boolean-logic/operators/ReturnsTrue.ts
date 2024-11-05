@@ -1,12 +1,12 @@
-import {  TypedFunction } from "src/types/index";
+import {  TypedFunction } from "inferred-types/dist/types/index";
 
 
 /**
  * **ReturnsTrue**`<T>`
- * 
- * Type utility which indicates whether the _return value_ of `T` is 
+ *
+ * Type utility which indicates whether the _return value_ of `T` is
  * a `true` value. Return value are always either `true` or `false`.
- * 
+ *
  * Note: any non-functions passed in as `T` are always a **false** value
  * and so is a `boolean` value
  */

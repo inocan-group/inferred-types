@@ -1,4 +1,4 @@
-import { ExpandRecursively , UnionToIntersection } from "src/types/index";
+import { ExpandRecursively , UnionToIntersection } from "inferred-types/dist/types/index";
 
 /**
  * Often when mutating the shape of an object you will end up with the union of a number of

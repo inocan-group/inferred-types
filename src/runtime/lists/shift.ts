@@ -3,7 +3,7 @@ import {
   IsEqual,
   IsUndefined,
   Narrowable,
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 import { isDefined } from "src/runtime/index";
 
 type Rtn<

@@ -1,4 +1,4 @@
-import type { Container, Keys } from "src/types/index";
+import type { Container, Keys } from "inferred-types/dist/types/index";
 import { isObject, isRef } from "src/runtime/index";
 
 

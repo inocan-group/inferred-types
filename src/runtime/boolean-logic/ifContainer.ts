@@ -1,5 +1,5 @@
 
-import { Container, If, IsContainer, Narrowable } from "src/types/index";
+import { Container, If, IsContainer, Narrowable } from "inferred-types/dist/types/index";
 import { isObject, isArray } from "src/runtime/index";
 
 

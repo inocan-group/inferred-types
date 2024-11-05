@@ -1,4 +1,4 @@
-import { ColorFnOptOpacity, ColorFnValue, CssColorFn, CssColorSpace} from "src/types/index";
+import { ColorFnOptOpacity, ColorFnValue, CssColorFn, CssColorSpace} from "inferred-types/dist/types/index";
 
 /**
  * **cssColor**`(colorspace, v1, v2, v3, [opacity]) -> CssColorFn`

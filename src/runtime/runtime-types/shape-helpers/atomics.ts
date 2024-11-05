@@ -1,6 +1,6 @@
 import { isDefined, isFalse, isTrue } from "src/runtime/index";
 import { addToken } from "./addToken";
-import { If, IsTrue, IsFalse } from "src/types/index";
+import { If, IsTrue, IsFalse } from "inferred-types/dist/types/index";
 
 export const boolean = <L extends boolean>(literal?: L) => (
   isDefined(literal)

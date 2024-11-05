@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { trim, trimEnd, trimStart } from "src/runtime/index";
+import { trim, trimEnd, trimStart } from "inferred-types";
 import { describe, expect, it } from "vitest";
-import { Trim, TrimLeft, TrimRight } from "src/types/index";
+import { Trim, TrimLeft, TrimRight } from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to

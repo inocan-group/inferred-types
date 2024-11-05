@@ -1,8 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { createFnWithProps, isFnWithParams, isFunction } from "src/runtime/index";
-import type { AnyFunction, IsFunction } from "src/types/index";
+import { createFnWithProps, isFnWithParams, isFunction } from "inferred-types";
+import type { AnyFunction, IsFunction } from "inferred-types";
 import { ifFunction } from "../../src/runtime/boolean-logic/ifFunction";
 
 

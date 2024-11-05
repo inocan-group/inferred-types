@@ -1,4 +1,4 @@
-import { AfterFirst, IfLength,  Tuple } from "src/types/index";
+import { AfterFirst, IfLength,  Tuple } from "inferred-types/dist/types/index";
 
 /**
  * **Last**`<TList, [TEmpty]>`

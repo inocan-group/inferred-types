@@ -1,6 +1,6 @@
 import { ExpectFalse, ExpectTrue, IsFalse, IsTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { IsDomainName, IsIp4Octet, IsIp6HexGroup, IsIpAddress } from "src/types/index";
+import { IsDomainName, IsIp4Octet, IsIp6HexGroup, IsIpAddress } from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to

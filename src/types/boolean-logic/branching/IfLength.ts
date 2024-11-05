@@ -1,13 +1,13 @@
-import { Length, IfEqual, Tuple, If, IsStringLiteral,  IsNumericLiteral } from "src/types/index";
+import { Length, IfEqual, Tuple, If, IsStringLiteral,  IsNumericLiteral } from "inferred-types/dist/types/index";
 
 
 /**
  * **IfLength**`<TEvaluate,TLength,IF,[ELSE],[MAYBE]>`
- * 
- * Type utility which returns type `IF` when `TEvaluate` evaluates to being 
+ *
+ * Type utility which returns type `IF` when `TEvaluate` evaluates to being
  * a length of `TLength`. It returns type `ELSE` if it can determine the length
  * at design time and otherwise returns `MAYBE`.
- * 
+ *
  * - the `ELSE` type will default to `TEvaluate` by default
  * - the `MAYBE` type will default to `IF | ELSE` by default
  * - If a _non-array_ type is passed into `TEvaluate` then utility will result `ELSE`

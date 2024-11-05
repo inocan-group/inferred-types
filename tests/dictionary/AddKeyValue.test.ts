@@ -1,10 +1,10 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import {  AddKeyValue,DoesExtend, ErrorCondition } from "src/types/index";
+import {  AddKeyValue,DoesExtend, ErrorCondition } from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("AddKeyValue<TObj,K,V>", () => {
@@ -15,7 +15,7 @@ describe("AddKeyValue<TObj,K,V>", () => {
     type Valid = AddKeyValue<Obj, "baz", 42>;
     type Invalid = AddKeyValue<Obj, "foo", 42>;
 
-    
+
     type cases = [
       Expect<Equal<Valid, {foo: 1; bar: 2; baz: 42}>>,
       DoesExtend<Invalid, ErrorCondition<"duplicate-key">>

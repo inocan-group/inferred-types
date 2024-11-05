@@ -3,7 +3,7 @@
 import {
   TakeFirst,
   Reverse
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 
 

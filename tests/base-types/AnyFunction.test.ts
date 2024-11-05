@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import {  ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { AnyFunction, AsLiteralFn, Extends } from "src/types/index";
+import { AnyFunction, AsLiteralFn, Extends } from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("AnyFunction", () => {
@@ -16,7 +16,7 @@ describe("AnyFunction", () => {
     type T4 = Extends<<T extends string>(name: T) => "hi",AnyFunction>;
     type T5 = Extends<(<T extends string>(name: T) => "hi") & { foo: 1},AnyFunction>;
     type T6 = Extends<AsLiteralFn<[name: string, age: number],string, {foo:1}>, AnyFunction>;
-    
+
     type cases = [
       ExpectTrue<T1>,
       ExpectTrue<T2>,

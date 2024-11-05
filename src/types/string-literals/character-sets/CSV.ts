@@ -1,11 +1,11 @@
-import { Digit } from "src/types/index";
+import { Digit } from "inferred-types/dist/types/index";
 
 
 /**
  * **CSV**
- * 
+ *
  * A string literal type meant to enforce CSV data.
- * 
+ *
  * - when used _without_ the provided generic it is a fairly loose type which only ensures that somewhere in the string is a comma
  * - the generic, however, allows you to state the minimum number of
  * commas you expect in your data.
