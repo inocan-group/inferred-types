@@ -1,34 +1,34 @@
 import { describe, it, expect } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
-import type { MakePropsMutable, Mutable, MutablePropsExclusive } from "src/types/index";
+import type { MakePropsMutable, Mutable, MutablePropsExclusive } from "inferred-types";
 
 describe("MutableProp<T,M> and MutableProps<T,M>", () => {
-  
+
   it("Basics", () => {
-    type Test = { 
-      readonly foo: string; 
-      bar?: number; 
+    type Test = {
+      readonly foo: string;
+      bar?: number;
       readonly baz: boolean;
     };
     type Mut = Mutable<Test>;
     type Foo = MakePropsMutable<Test, "foo">;
     type Bar = MutablePropsExclusive<Test, ["bar"]>
-    
+
     type cases = [
       Expect<Equal<Mut, {foo: string; bar?: number | undefined; baz: boolean}>>,
       Expect<Equal<Foo, {foo: string; bar?: number | undefined; readonly baz: boolean}>>,
       Expect<Equal<Bar, {
-        readonly foo: string; 
-        bar?: number | undefined; 
+        readonly foo: string;
+        bar?: number | undefined;
         readonly baz: boolean;
       }>>,
     ];
     const cases: cases = [
       true, true, true
     ];
-    
+
   });
-  
+
 
   it("MutableProp<T,M> ", () => {
     type Test = { foo: string; bar?: number; readonly baz: boolean };
@@ -41,11 +41,11 @@ describe("MutableProp<T,M> and MutableProps<T,M>", () => {
 
     type cases = [
       Expect<Equal<
-        Foo, 
+        Foo,
         { foo: string; bar?: number; readonly baz: boolean }
       >>,
       Expect<Equal<
-        FooAlt, 
+        FooAlt,
         { foo: string; bar?: number; readonly baz: boolean }
       >>,
       Expect<Equal<
@@ -57,11 +57,11 @@ describe("MutableProp<T,M> and MutableProps<T,M>", () => {
           { foo: string; bar?: number; readonly baz: boolean }
       >>,
       Expect<Equal<
-        FooBar, 
+        FooBar,
         { foo: string; bar?: number; readonly baz: boolean }
       >>,
       Expect<Equal<
-          FooBaz, 
+          FooBaz,
           { foo: string; bar?: number; baz: boolean }
       >>
     ];
@@ -69,7 +69,7 @@ describe("MutableProp<T,M> and MutableProps<T,M>", () => {
     expect(cases).toBe(cases);
   });
 
-  
+
   it("MutablePropsExclusive<T,M>", () => {
     type Test = { foo: string; bar?: number; readonly baz: boolean };
     type Foo = MutablePropsExclusive<Test, ["foo", "bar"]>;
@@ -79,7 +79,7 @@ describe("MutableProp<T,M> and MutableProps<T,M>", () => {
 
     type cases = [
       Expect<Equal<
-        Foo, 
+        Foo,
         { foo: string; bar?: number; readonly baz: boolean }
       >>,
       Expect<Equal<
@@ -88,16 +88,16 @@ describe("MutableProp<T,M> and MutableProps<T,M>", () => {
       >>,
 
       Expect<Equal<
-        FooBar, 
+        FooBar,
         { foo: string; bar?: number; readonly baz: boolean }
       >>,
       Expect<Equal<
-          FooBaz, 
+          FooBaz,
           { foo: string; readonly bar?: number; baz: boolean }
       >>
     ];
     const cases: cases = [true, true, true, true, ];
     expect(cases).toBe(cases);
   });
-  
+
 });

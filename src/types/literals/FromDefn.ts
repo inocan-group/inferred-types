@@ -18,7 +18,7 @@ import { EmptyObject,
   UnionElDefn,
   SimpleToken,
   AsType
- } from "src/types/index";
+ } from "inferred-types/dist/types/index";
 
 type HandleObject<
   TObj extends Dictionary,

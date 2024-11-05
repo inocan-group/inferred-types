@@ -1,5 +1,5 @@
 import {  ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { HasArray } from "src/types/index";
+import { HasArray } from "inferred-types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

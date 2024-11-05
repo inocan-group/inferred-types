@@ -1,9 +1,9 @@
 import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { describe, it, expect } from "vitest";
-import { AsFnMeta, AsLiteralFn, AsNarrowingFn,  IsErrorCondition, IsNarrowingFn, LiteralFn, NarrowingFn } from "src/types/index";
+import { AsFnMeta, AsLiteralFn, AsNarrowingFn,  IsErrorCondition, IsNarrowingFn, LiteralFn, NarrowingFn } from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("IsNarrowingFn<T>", () => {
@@ -24,7 +24,7 @@ describe("IsNarrowingFn<T>", () => {
       ExpectFalse<F2>,
       ExpectFalse<F3>,
     ];
-    const cases: cases = [ 
+    const cases: cases = [
       true, true,
       false, false,false
     ];
@@ -45,7 +45,7 @@ describe("NarrowingFn<T>", () => {
     type Meta = AsFnMeta<Fn2>;
 
     type PropsMeta = AsFnMeta<(() => string) & {foo: 1}>;
-    
+
     type cases = [
       Expect<Equal<Fn1, <T extends [name: string]>(...args: T) => string>>,
       Expect<Equal<Idempotent, Fn1>>,
@@ -83,18 +83,18 @@ describe("LiteralFn<T>", () => {
     type Meta = AsFnMeta<MyNarrow>;
 
     type cases = [
-      Expect<Equal<Fn1, Base>>, 
-      Expect<Equal<Idempotent, Base>>, 
-      Expect<Equal<FromNarrowing, Base>>, 
+      Expect<Equal<Fn1, Base>>,
+      Expect<Equal<Idempotent, Base>>,
+      Expect<Equal<FromNarrowing, Base>>,
       Expect<Equal<
-        MyNarrow, 
+        MyNarrow,
         (name: string, age: number) => `${string} is ${number} years old`
        >>,
       ExpectFalse<Meta["hasProps"]>,
       ExpectFalse<Meta["isNarrowingFn"]>,
       ExpectTrue<Meta["hasArgs"]>
     ];
-    const cases: cases = [ 
+    const cases: cases = [
       true, true, true, true,
       false, false, true
     ];
@@ -112,11 +112,11 @@ describe("AsLiteralFn<TParam,TReturn,TProps>", () => {
 
 
     type cases = [
-      Expect<Equal<Basic, () => "hi">>, 
-      Expect<Equal<WithParams, (...args: [name: string]) => "hi">>, 
-      Expect<Equal<WithProps, (() => "hi") & {foo: 1}>>, 
+      Expect<Equal<Basic, () => "hi">>,
+      Expect<Equal<WithParams, (...args: [name: string]) => "hi">>,
+      Expect<Equal<WithProps, (() => "hi") & {foo: 1}>>,
     ];
-    const cases: cases = [ 
+    const cases: cases = [
       true, true, true
     ];
 
@@ -130,17 +130,17 @@ describe("AsNarrowingFn<TParam,TReturn,TProps>", () => {
     type Basic = AsNarrowingFn<[], "hi">;
     type WithParams = AsNarrowingFn<[name: string], "hi">;
     type WithProps = AsNarrowingFn<[name: string], "hi", { foo: 1}>;
-  
+
     type cases = [
-      Expect<Equal<Basic, () => "hi">>, 
-      Expect<Equal<WithParams, <T extends [name: string]>(...args: T) => "hi">>, 
+      Expect<Equal<Basic, () => "hi">>,
+      Expect<Equal<WithParams, <T extends [name: string]>(...args: T) => "hi">>,
       Expect<Equal<
-        WithProps, 
+        WithProps,
         (<T extends [name: string]>(...args: T) => "hi") & {
           foo: 1;
-      }>>, 
+      }>>,
     ];
-    const cases: cases = [ 
+    const cases: cases = [
       true, true, true
     ];
     expect(cases).toEqual(cases);

@@ -5,8 +5,8 @@ import {
   PhoneNumber,
   IsErrorCondition,
   HasPhoneCountryCode,
-} from "src/types/index";
-import { isPhoneNumber } from "src/runtime/index";
+} from "inferred-types";
+import { isPhoneNumber } from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to

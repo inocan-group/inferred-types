@@ -1,4 +1,4 @@
-import { Iso3166_1_Alpha2, Iso3166_1_Alpha3, Iso3166_1_CountryCode, Iso3166_1_CountryName } from "src/types/index";
+import { Iso3166_1_Alpha2, Iso3166_1_Alpha3, Iso3166_1_CountryCode, Iso3166_1_CountryName } from "inferred-types/dist/types/index";
 import { isString } from "../isString";
 import { ISO3166_1 } from "inferred-types/dist/constants/index";
 

@@ -1,6 +1,6 @@
 import {  Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import {  GetEach, HasSameValues, RetainByProp } from "src/types/index";
+import {  GetEach, HasSameValues, RetainByProp } from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to

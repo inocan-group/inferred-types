@@ -1,4 +1,4 @@
-import { FnToken, GeneratorToken } from "src/types/index"
+import { FnToken, GeneratorToken } from "inferred-types/dist/types/index"
 import { isString } from "src/runtime/index"
 
 

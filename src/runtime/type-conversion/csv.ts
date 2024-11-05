@@ -1,6 +1,6 @@
 import { Never } from "inferred-types/dist/constants/index";
 import { isNumberLike } from "../type-guards";
-import { CsvToJsonTuple, CsvToTuple, CsvToTupleStr } from "src/types/index";
+import { CsvToJsonTuple, CsvToTuple, CsvToTupleStr } from "inferred-types/dist/types/index";
 
 export type CsvFormat =
 | "string-tuple"

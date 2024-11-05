@@ -1,7 +1,7 @@
 import {
   ArrayToken,
   ContainerToken,
-  MapToken, ObjectToken, RecordToken, SetToken, TupleToken, UnionSetToken, UnionToken, WeakMapToken } from "src/types/index";
+  MapToken, ObjectToken, RecordToken, SetToken, TupleToken, UnionSetToken, UnionToken, WeakMapToken } from "inferred-types/dist/types/index";
 import { isString } from "src/runtime/index"
 
 export const isObjectToken = (val: unknown): val is ObjectToken => {

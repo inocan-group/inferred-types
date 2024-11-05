@@ -1,14 +1,25 @@
 import { describe, expect, it } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
-import {
 
+import {
   or,
+  EndsWith,
+  DoesExtend,
+  LowerAlphaChar,
+  Or,
+  StartsWith,
   isTrue,
   StartingWithTypeGuard,
-  startsWith, box
-} from "src/runtime/index";
-import { EndsWith, DoesExtend, LowerAlphaChar, Or, StartsWith  } from "src/types/index";
-import { ifArray, ifArrayPartial, ifBoolean, ifNumber, ifSameType, ifString, ifTrue, ifUndefined } from "../../src/runtime/boolean-logic";
+  startsWith, box,
+  ifArray,
+  ifArrayPartial,
+  ifBoolean,
+  ifNumber,
+  ifSameType,
+  ifString,
+  ifTrue,
+  ifUndefined
+} from "inferred-types";
 
 
 describe("runtime if/is", () => {

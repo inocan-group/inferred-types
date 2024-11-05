@@ -1,8 +1,8 @@
 ;import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import {StripLeading} from "src/types/index";
-import { stripLeading } from "src/runtime/index";
+import {StripLeading} from "inferred-types";
+import { stripLeading } from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to

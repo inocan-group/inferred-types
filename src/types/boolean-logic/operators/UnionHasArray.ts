@@ -1,4 +1,4 @@
-import { HasArray, IsUnion, UnionToTuple } from "src/types/index";
+import { HasArray, IsUnion, UnionToTuple } from "inferred-types/dist/types/index";
 
 
 type Process<

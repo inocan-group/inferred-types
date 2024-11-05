@@ -1,8 +1,8 @@
-import { Reverse } from "src/types/index";
+import { Reverse } from "inferred-types/dist/types/index";
 
 /**
  * **reverse**(list)
- * 
+ *
  * Allows reversing the order of a readonly array and preserving the types.
  */
 export const reverse = <T extends readonly unknown[]>(list: T): Reverse<T> => {

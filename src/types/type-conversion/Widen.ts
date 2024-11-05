@@ -30,7 +30,7 @@ import {
   IsNonEmptyContainer,
   IsLiteralUnion,
   IsEqual
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 type GetKeys<
   T extends AnyFunction

@@ -1,4 +1,4 @@
-import type { Narrowable } from "src/types/index";
+import type { Narrowable } from "inferred-types/dist/types/index";
 import { isString, isNumber } from "src/runtime/index";
 
 

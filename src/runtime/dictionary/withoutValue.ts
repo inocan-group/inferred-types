@@ -1,4 +1,4 @@
-import { AnyObject, Narrowable, WithoutValue } from "src/types/index";
+import { AnyObject, Narrowable, WithoutValue } from "inferred-types/dist/types/index";
 
 /**
  * **withoutValue**

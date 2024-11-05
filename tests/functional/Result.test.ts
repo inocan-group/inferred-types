@@ -12,7 +12,7 @@ import {
   Ok,
   Result,
   OkFrom
-} from "src/types/index";
+} from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to

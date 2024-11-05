@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 
-import {  Dictionary, Length } from "src/types/index";
+import {  Dictionary, Length } from "inferred-types";
 import { describe, it } from "vitest";
 
 describe("Length<T>", () => {
@@ -40,8 +40,8 @@ describe("Length<T>", () => {
       Expect<Equal<EmptyObj, 0>>,
     ];
     const cases: cases = [
-      true, true, true, true, 
-      true, true, true, true, 
+      true, true, true, true,
+      true, true, true, true,
       true, true, true, true,
       true, true, true
     ];

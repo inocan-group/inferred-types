@@ -1,4 +1,4 @@
-import { Keys } from "src/types/index";
+import { Keys } from "inferred-types/dist/types/index";
 
 /**
  * Converts a Tuple type into a _union_ of the tuple elements

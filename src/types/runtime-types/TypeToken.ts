@@ -9,7 +9,7 @@ import {
   Throw,
   Contains,
   If,
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 import type {
   TT_Atomics,
   TT_Containers,

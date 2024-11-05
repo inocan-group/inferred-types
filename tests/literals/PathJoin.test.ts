@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { pathJoin } from "src/runtime/index";
-import { PathJoin } from "src/types/index";
+import { pathJoin } from "inferred-types";
+import { PathJoin } from "inferred-types";
 import { describe, expect, it } from "vitest";
 
 // Note: type tests fail visible inspection but pass from Vitest

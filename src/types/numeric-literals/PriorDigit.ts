@@ -1,15 +1,15 @@
-import { 
-  Digit, 
-  NumericChar, 
-  ToString, 
+import {
+  Digit,
+  NumericChar,
+  ToString,
   AsNumber
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 /**
  * **PriorDigit**`<T>`
- * 
+ *
  * Given a numeric digit, this utility provides the next numeric digit in sequence.
- * 
+ *
  * - this includes the overflow condition of `0` -> `9`
  * - a string literal digit can be passed in as well and the next string literal
  * digit will be returned

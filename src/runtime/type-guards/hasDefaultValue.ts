@@ -1,4 +1,4 @@
-import { Narrowable } from "src/types/index";
+import { Narrowable } from "inferred-types/dist/types/index";
 import { NoDefaultValue } from "inferred-types/dist/constants/index";
 import { isSpecificConstant } from "./isSpecificConstant";
 /**

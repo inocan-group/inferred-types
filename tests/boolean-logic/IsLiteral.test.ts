@@ -1,29 +1,29 @@
 import { describe, expect, it } from "vitest";
 import { Equal, Expect, ExpectFalse } from "@type-challenges/utils";
-import {  
-  EmptyObject, 
-  ExplicitlyEmptyObject, 
-  IsBooleanLiteral, 
-  IsLiteral, 
+import {
+  EmptyObject,
+  ExplicitlyEmptyObject,
+  IsBooleanLiteral,
+  IsLiteral,
   IsObjectLiteral
-} from "src/types/index";
+} from "inferred-types";
 
 describe("IsObjectLiteral<T>", () => {
 
   it("happy path", () => {
-     
+
 
     type cases = [
       // an empty object is still allowed to take on keys after it is
       // defined without error. The type will remain showing as empty
       // but there is no typing error when more characters are added
-      Expect<Equal<IsObjectLiteral<EmptyObject>, false>>, 
-      // when we explicitly strip out the index keys then this 
+      Expect<Equal<IsObjectLiteral<EmptyObject>, false>>,
+      // when we explicitly strip out the index keys then this
       // becomes an explicit literal type with zero keys
-      Expect<Equal<IsObjectLiteral<ExplicitlyEmptyObject>, true>>, 
-      Expect<Equal<IsObjectLiteral<{ foo: 1; bar: 2 }>, true>>, 
+      Expect<Equal<IsObjectLiteral<ExplicitlyEmptyObject>, true>>,
+      Expect<Equal<IsObjectLiteral<{ foo: 1; bar: 2 }>, true>>,
       Expect<Equal<IsObjectLiteral<object>, false>>,
-      Expect<Equal<IsObjectLiteral<Record<string, unknown>>, false>>, 
+      Expect<Equal<IsObjectLiteral<Record<string, unknown>>, false>>,
     ];
     const cases: cases = [ true, true, true, true, true ];
   });
@@ -83,7 +83,7 @@ describe("IsLiteral<T> type utility", () => {
     const cases: cases = [true, true, true];
   });
 
-  
+
   it("arrays", () => {
     type StringArr = IsLiteral<string[]>;
     type NumericArr = IsLiteral<number[]>;
@@ -93,8 +93,8 @@ describe("IsLiteral<T> type utility", () => {
     type TupleWithWide = IsLiteral<["foo", "bar", "baz", number, string]>;
     type TupleWithWide_RO = IsLiteral<["foo", "bar", "baz", number, string]>;
     type TupleOnlyWide = IsLiteral<[number, string, number]>;
-    
-    
+
+
     type cases = [
       Expect<Equal<StringArr, false>>,
       Expect<Equal<NumericArr, false>>,
@@ -106,10 +106,10 @@ describe("IsLiteral<T> type utility", () => {
       Expect<Equal<TupleOnlyWide, true>>,
     ];
     const cases: cases = [ true, true, true, true, true, true, true, true ];
-    
+
   });
 
-  
+
   it("objects", () => {
     type GenericString = IsLiteral<Record<string, string>>;
     type GenericUnion = IsLiteral<Record<string, string | number>>;
@@ -117,7 +117,7 @@ describe("IsLiteral<T> type utility", () => {
     type Empty = IsLiteral<{}>;
     type Loose = IsLiteral<object>;
     type Keyed = IsLiteral<{ foo: 1 }>;
-    
+
     type cases = [
       Expect<Equal<IsLiteral<Record<string, unknown>>, false>>,
       Expect<Equal<GenericString, false>>,
@@ -127,8 +127,8 @@ describe("IsLiteral<T> type utility", () => {
       Expect<Equal<Keyed, true>>,
     ];
     const cases: cases = [ true, true, true, true, true, true ];
-    
+
   });
-  
-  
+
+
 });

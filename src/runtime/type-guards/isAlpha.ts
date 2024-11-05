@@ -1,4 +1,4 @@
-import { Alpha, AlphaChar, Narrowable } from "src/types/index";
+import { Alpha, AlphaChar, Narrowable } from "inferred-types/dist/types/index";
 import { ALPHA_CHARS } from "inferred-types/dist/constants/index";
 import { isString, split } from "src/runtime/index";
 

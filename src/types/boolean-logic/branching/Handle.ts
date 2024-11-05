@@ -1,11 +1,11 @@
-import { 
-  IsEqual, 
-  Filter, 
-  If, 
-  IsUnion, 
-  TupleToUnion, 
-  UnionToTuple 
-} from "src/types/index";
+import {
+  IsEqual,
+  Filter,
+  If,
+  IsUnion,
+  TupleToUnion,
+  UnionToTuple
+} from "inferred-types/dist/types/index";
 
 type Narrow<
   TContent,
@@ -21,12 +21,12 @@ type Narrow<
 
 /**
  * **Handle**`<TContent,THandle,TMapTo,[TSpecificity]>`
- * 
+ *
  * Maps `TContent` when it _extends_ / _equals (based on `TSpecificity`) the type
  * of `THandle` to `TMapTo`, otherwise it just proxies the value through.
- * 
+ *
  * - `TSpecificity` defaults to _extends_ but can be set to _equals_
- * 
+ *
  * **Related:** `THandle`
  */
 export type Handle<
@@ -34,9 +34,9 @@ export type Handle<
   THandle,
   TMapTo,
   TSpecificity extends "extends" | "equals" = "extends"
-> = 
+> =
 [THandle] extends never[]
-  ? [TContent] extends never[] 
+  ? [TContent] extends never[]
     ? TMapTo
     : TContent
 : TSpecificity extends "extends"

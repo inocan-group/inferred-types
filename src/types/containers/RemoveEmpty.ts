@@ -15,7 +15,7 @@ import {
   RemoveMarked,
   Keys,
   AfterFirst, First
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 
 type IsEmpty<T> = Or<[

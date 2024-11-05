@@ -1,9 +1,9 @@
- 
-import type {  IsNever, Dictionary } from "src/types/index";
+
+import type {  IsNever, Dictionary } from "inferred-types/dist/types/index";
 
 /**
  * **IsContainer**`<T>`
- * 
+ *
  * Boolean operator which detects whether `T` is a "container" where a
  * container is any object or array.
  */

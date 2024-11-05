@@ -9,7 +9,7 @@ import {
   HasPhoneCountryCode,
   IsStringLiteral,
   PhoneNumber,
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 /**
  * **PhoneFormat**

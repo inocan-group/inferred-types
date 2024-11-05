@@ -6,7 +6,7 @@ import {
   IsUnion,
   MaxLength,
   UnionToTuple
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 type _RetainAfter<
   TStr extends string,

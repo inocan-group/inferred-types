@@ -1,17 +1,17 @@
-import { UpperAlphaChar, If,HasCharacters } from "src/types/index";
+import { UpperAlphaChar, If,HasCharacters } from "inferred-types/dist/types/index";
 
 /**
  * **IsAllLowercase**`<T>`
- * 
+ *
  * Boolean operator which indicates whether `T` has _all_ lowercase characters in it.
  * Valid values are:
- * 
+ *
  * - note: any non-alphabetic characters are ignored in the evaluation
- * 
+ *
  * ```ts
  * // true
  * type T = AllCaps<"foobar">;
- * // false 
+ * // false
  * type T = AllCaps<"FooBar">;
  * // boolean
  * type T = AllCaps<string>;

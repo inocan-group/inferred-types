@@ -1,4 +1,4 @@
-import {  IsStringLiteral,  IsEqual } from "src/types/index";
+import {  IsStringLiteral,  IsEqual } from "inferred-types/dist/types/index";
 
 type Process<
   TStr extends string,
@@ -17,7 +17,7 @@ type Process<
 
 /**
  * **Chars**`<TStr>`
- * 
+ *
  * Takes a literal string and converts it to an array of characters.
  */
 export type Chars<TStr extends string> = IsStringLiteral<TStr> extends true

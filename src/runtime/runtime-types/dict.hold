@@ -9,7 +9,7 @@
 //   OptDictProps,
 //   Passthrough,
 //   Values,
-// } from "src/types/index";
+// } from "inferred-types/dist/types/index";
 
 // const process =  <
 //   N extends Narrowable,

@@ -1,10 +1,10 @@
 import {  ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { AreSameType, Dictionary, Tuple } from "src/types/index";
+import { AreSameType, Dictionary, Tuple } from "inferred-types";
 import { describe, it } from "vitest";
 
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("AreSameType<A,B>", () => {
@@ -21,7 +21,7 @@ describe("AreSameType<A,B>", () => {
 
     type F1 = AreSameType<"foo", 42>;
     type F2 = AreSameType<Dictionary, Tuple>;
-    
+
     type cases = [
       ExpectTrue<T1>,
       ExpectTrue<T2>,

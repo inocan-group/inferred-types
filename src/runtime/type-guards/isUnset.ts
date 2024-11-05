@@ -1,4 +1,4 @@
-import { Unset } from "src/types/index";
+import { Unset } from "inferred-types/dist/types/index";
 import { isObject } from "./isObject"
 
 /**

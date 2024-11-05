@@ -1,9 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { IsNumericLiteral } from "src/types/index";
+import { IsNumericLiteral } from "inferred-types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("IsNumericLiteral<T>", () => {
@@ -15,7 +15,7 @@ describe("IsNumericLiteral<T>", () => {
     type F2 = IsNumericLiteral<"foo">;
 
     type Never = IsNumericLiteral<never>;
-    
+
     type cases = [
       Expect<Equal<T1, true>>,
       Expect<Equal<T2, true>>,

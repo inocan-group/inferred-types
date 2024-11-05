@@ -1,4 +1,4 @@
-import { If, IsUnion , ToNumber, TupleToUnion, UnionToTuple } from "src/types/index";
+import { If, IsUnion , ToNumber, TupleToUnion, UnionToTuple } from "inferred-types/dist/types/index";
 
 
 type Convert<T> = T extends `${number}`
@@ -21,11 +21,11 @@ type ConvertUnion<T> = If<
 
 /**
  * **AsNumberWhenPossible**`<T>`
- * 
+ *
  * Takes any value `T` and either returns `T` as an _identity value_ or where
  * it finds a string literal which can be converted to a number it will convert
  * it to that number value.
- * 
+ *
  * - if an array of values is passed in then the values are iterated over and
  * the same process is applied to each.
  * - if the type of `T` is a _union type_ then any numeric string literal in the

@@ -1,15 +1,15 @@
 import {  Expect, Equal } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { defineObj, hasIndexOf,  narrow } from "src/runtime/index";
+import { defineObj, hasIndexOf,  narrow } from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("hasIndexOf(value, index)", () => {
   const lit_arr = narrow([1,2,3]);
   const lit_obj = defineObj({id: 1})();
-  
+
   it("runtime produces correct result; type is boolean", () => {
     const numIdx = hasIndexOf(lit_arr, 2);
     expect(numIdx).toBe(true);
@@ -23,8 +23,8 @@ describe("hasIndexOf(value, index)", () => {
 
     const cases: cases = [ true, true ];
   });
-  
-  
+
+
   it("used as type guard, type is reduced", () => {
     if(hasIndexOf(lit_arr, 2)) {
       expect(true).toBe(true);

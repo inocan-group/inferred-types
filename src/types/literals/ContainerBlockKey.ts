@@ -1,9 +1,9 @@
-import { Container,  Tuple } from "src/types/index";
+import { Container,  Tuple } from "inferred-types/dist/types/index";
 
 
 /**
  * **ContainerBlockKey**`<TContainer,TKey>`
- * 
+ *
  * Returns the `TContainer` value intersected with a guarantee that the
  * `TKey` key value exists.
  * ```ts
@@ -16,7 +16,7 @@ import { Container,  Tuple } from "src/types/index";
 export type ContainerBlockKey<
   TContainer extends Container,
   TKey extends PropertyKey
-> = TContainer extends Tuple 
+> = TContainer extends Tuple
   ? TContainer & [...Tuple<unknown, TKey & number>, never]
   : Exclude<TContainer, TKey>;
 

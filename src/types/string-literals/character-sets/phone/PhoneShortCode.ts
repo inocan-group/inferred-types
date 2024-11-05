@@ -3,7 +3,7 @@ import {
   IsStringLiteral,
   NumericChar,
   Throw
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 /**
  * **PhoneShortCode**`<[T]>`

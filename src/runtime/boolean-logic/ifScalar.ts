@@ -4,7 +4,7 @@ import {
   IsScalar,
   Narrowable,
   Scalar
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 import { isScalar } from "../type-guards/isScalar";
 
 

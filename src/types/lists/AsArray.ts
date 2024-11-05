@@ -1,4 +1,4 @@
-import { If,  IsUndefined,  Mutable, Tuple } from "src/types/index";
+import { If,  IsUndefined,  Mutable, Tuple } from "inferred-types/dist/types/index";
 
 type _AsArray<T> = T extends Tuple
     ? Mutable<T>

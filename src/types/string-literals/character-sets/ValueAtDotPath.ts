@@ -1,14 +1,14 @@
-import { 
-  AfterFirst, 
-  First, 
-  Split, 
-  IsValidDotPath, 
-  Container, 
-  IsVueRef, 
-  AsRef, 
+import {
+  AfterFirst,
+  First,
+  Split,
+  IsValidDotPath,
+  Container,
+  IsVueRef,
+  AsRef,
   IsLiteral,
   IsStringLiteral
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 
 type Process<

@@ -1,4 +1,4 @@
-import { AfterFirst, AsString, First } from "src/types/index";
+import { AfterFirst, AsString, First } from "inferred-types/dist/types/index";
 
 type PrependAcc<
   TList extends readonly string[],

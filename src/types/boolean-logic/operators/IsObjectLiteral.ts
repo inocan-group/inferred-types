@@ -1,12 +1,12 @@
 
-import { 
+import {
   Dictionary,
   UnionToTuple,
   RemoveIndexKeys,
   ExplicitlyEmptyObject,
   IsEqual,
   IsNever,
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 type _Keys<
   T extends Dictionary
@@ -21,9 +21,9 @@ type CheckIt<T extends Dictionary> = IsNever<keyof T> extends true
 
 /**
  * **IsObjectLiteral**`<T>`
- * 
+ *
  * Tests whether an object is a literal. An object literal is any of the following:
- * 
+ *
  * - any KV-like type which has an **explicit** number of keys
  * - if `Keys<T>["length"]` translates to `number` than this is **not** a literal.
  */

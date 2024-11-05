@@ -1,10 +1,10 @@
 import {  Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { FilterLiterals,  HasSameValues, Dictionary } from "src/types/index";
+import { FilterLiterals,  HasSameValues, Dictionary } from "inferred-types";
 
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("FilterLiterals<T>", () => {
@@ -23,7 +23,7 @@ describe("FilterLiterals<T>", () => {
     type ObjLits2 = FilterLiterals<
       [Record<string, string>, object, string[], readonly (string|number)[], {foo: number}]
     >
-    
+
     type cases = [
       Expect<HasSameValues<NumLits, [number, string, null, boolean]>>,
       Expect<HasSameValues<StrLits, [number, string, null, boolean]>>,

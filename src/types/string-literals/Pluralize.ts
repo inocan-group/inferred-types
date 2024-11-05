@@ -10,7 +10,7 @@ import {
   TrimRight,
   Join,
   RightWhitespace,
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 type ExceptionLookup = typeof PLURAL_EXCEPTIONS;
 

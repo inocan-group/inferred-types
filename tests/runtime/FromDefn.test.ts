@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { DefineObject, DictTypeDefinition, FromDefn, TypeDefinition } from "src/types/index";
+import { DefineObject, DictTypeDefinition, FromDefn, TypeDefinition } from "inferred-types/dist/types/index";
 import { describe, it } from "vitest";
 
 

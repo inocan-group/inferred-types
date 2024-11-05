@@ -3,7 +3,7 @@ import {
   AsNumber,
   AsStringUnion,
   IsStringLiteral
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 type Process<
   TContent extends string,

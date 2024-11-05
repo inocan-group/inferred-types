@@ -1,8 +1,8 @@
 import { describe, it, expect } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
-import { box, BoxedFnParams, BoxValue, unbox } from "src/runtime/index";
+import { box, BoxedFnParams, BoxValue, unbox } from "inferred-types";
 
-import { Box, First } from "src/types/index";
+import { Box, First } from "inferred-types";
 
 // [Instantiation Expressions](https://devblogs.microsoft.com/typescript/announcing-typescript-4-7-beta/#instantiation-expressions)
 

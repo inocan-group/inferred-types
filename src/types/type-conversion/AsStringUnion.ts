@@ -1,4 +1,4 @@
-import { IsUnion, TupleToUnion, UnionToTuple } from "src/types/index";
+import { IsUnion, TupleToUnion, UnionToTuple } from "inferred-types/dist/types/index";
 
 type ConvertUnion<
   T extends readonly unknown[],

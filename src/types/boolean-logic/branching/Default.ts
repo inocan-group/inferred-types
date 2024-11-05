@@ -1,4 +1,4 @@
-import { Something } from "../..";
+import { Something } from "inferred-types/dist/types/index";
 
 type Process<TVal,TDefault> = TVal extends Something
 ? TVal
@@ -8,7 +8,7 @@ type Process<TVal,TDefault> = TVal extends Something
 
 /**
  * **Default**`<TVal,TDefault,[TProtect]>`
- * 
+ *
  * Branching operator which allows giving a value `TVal` a _default value_ when
  * it's value is either `null` or `undefined`.
  */

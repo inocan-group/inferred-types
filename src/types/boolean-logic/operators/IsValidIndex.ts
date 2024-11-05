@@ -1,24 +1,24 @@
-import {  
+import {
   Abs,
   AsNumber,
-  Container, 
-  ExplicitlyEmptyObject, 
-  IsEqual, 
-  IsNegativeNumber, 
+  Container,
+  ExplicitlyEmptyObject,
+  IsEqual,
+  IsNegativeNumber,
   IsStringLiteral,
-  IsObjectLiteral, 
-  IsTuple, 
-  Dictionary, 
+  IsObjectLiteral,
+  IsTuple,
+  Dictionary,
   Tuple,
   NumericKeys,
-  TupleToUnion, 
-} from "src/types/index";
+  TupleToUnion,
+} from "inferred-types/dist/types/index";
 
 /**
  * **IsValidIndex**`<TContainer,TKey>`
- * 
+ *
  * Provides a boolean check on whether `TKey` is a valid key for `TContainer`.
- * 
+ *
  * - valid responses are `true` or `false` if literal types found; otherwise `boolean`
  * - negative indexes are allowed when `TContainer` is a tuple
  */

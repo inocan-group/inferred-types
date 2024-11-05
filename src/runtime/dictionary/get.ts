@@ -5,7 +5,7 @@ import type {
   Suggest,
   Tuple,
   Dictionary,
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 import {
   NO_DEFAULT_VALUE,
   NoDefaultValue,
@@ -21,7 +21,7 @@ import {
   isContainer,
   isRef,
   indexOf
-} from "src/runtime/index";
+} from "inferred-types/dist/runtime/index";
 
 /** updates based on whether segment is a Ref or not */
 function updatedDotPath<

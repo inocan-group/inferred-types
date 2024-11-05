@@ -1,11 +1,11 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { KeysWithValue, HasSameValues, Dictionary, AnyFunction } from "src/types/index";
-import { createFnWithProps, defineObj} from "src/runtime/index";
+import { KeysWithValue, HasSameValues, Dictionary, AnyFunction } from "inferred-types";
+import { createFnWithProps, defineObj} from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 const obj = defineObj({
@@ -46,7 +46,7 @@ describe("KeysWithValue<T> utility", () => {
       ExpectTrue<HasSameValues<Arr, ["numericArr" ,"strArr"]>>,
       ExpectTrue<HasSameValues<RoArr, ["numericArr", "strArr"]>>,
       ExpectTrue<HasSameValues<Bool, ["bar", "success", "fail"]>>,
-      
+
       Expect<Equal<ObjOfType, ["baz"]>>,
       // an object also includes a function (TODO: try and exclude this)
       ExpectTrue<HasSameValues<Obj, ["baz", "emptyBaz" ]>>,
@@ -62,15 +62,15 @@ describe("KeysWithValue<T> utility", () => {
     type Num = KeysWithValue<typeof obj, 2 | 3>;
     type True = KeysWithValue<typeof obj, true>;
     type False = KeysWithValue<typeof obj, false>;
-    
+
     type cases = [
       ExpectTrue<HasSameValues<Num, ["foo2"]>>,
       Expect<Equal<True, ["success"]>>,
       Expect<Equal<False, ["fail"]>>,
     ];
     const cases: cases = [ true, true, true ];
-    
+
   });
-  
+
 
 });

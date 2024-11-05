@@ -1,4 +1,4 @@
-import type { And } from "src/types/index";
+import type { And } from "inferred-types/dist/types/index";
 
 
 type _Extends<
@@ -13,10 +13,10 @@ Processed extends readonly boolean[] = []
 
 /**
   * **ExtendsAll**`<TValue, TList>`
-  * 
-  * Boolean type utility which evaluates whether a singular 
+  *
+  * Boolean type utility which evaluates whether a singular
   * value `TValue` extends **all** of the elements in `TList`.
-  * 
+  *
   * **Related:** `ExtendsSome`, `IfExtendsAll`, `DoesExtend`
   */
 export type ExtendsAll<

@@ -1,4 +1,4 @@
-import {  WidenUnion, IsUnion } from "src/types/index";
+import {  WidenUnion, IsUnion } from "inferred-types/dist/types/index";
 /**
  * **IsBoolean**
  *

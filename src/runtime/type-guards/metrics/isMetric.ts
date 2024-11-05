@@ -37,7 +37,8 @@ import {
   VOLTAGE_METRICS_LOOKUP,
   VOLUME_METRICS_LOOKUP,
 } from "inferred-types/dist/constants/index";
-import {  stripWhile } from "src/runtime/literals";
+import { stripWhile } from "inferred-types/dist/runtime/index";
+
 
 
 const separate = (s: string) => {

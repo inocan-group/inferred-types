@@ -1,4 +1,4 @@
-import { CssAspectRatio } from "src/types/index";
+import { CssAspectRatio } from "inferred-types/dist/types/index";
 import { isString } from "./isString";
 
 const tokens = [

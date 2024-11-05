@@ -1,4 +1,4 @@
-import { FixedLengthArray, LifoQueue, Narrowable } from "src/types/index";
+import { FixedLengthArray, LifoQueue, Narrowable } from "inferred-types/dist/types/index";
 
 
 const queue =  <

@@ -1,8 +1,8 @@
-import { AsRecord, ObjectKey } from "src/types/index";
+import { AsRecord, ObjectKey } from "inferred-types/dist/types/index";
 
 /**
  * **asRecord**`<T>`(obj: T) → AsRecord`<T>`
- * 
+ *
  * An "identity function" with regards to runtime information but
  * helps convert a `object` to a `Record<ObjectKey,unknown>` which
  * is indexable.

@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 import { Equal, Expect } from "@type-challenges/utils";
-import { KebabCase } from "src/types/index";
+import { KebabCase } from "inferred-types";
 
 const target = "two-three-four";
 type TARGET = typeof target;

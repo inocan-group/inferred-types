@@ -1,5 +1,5 @@
 
-import {  FnWithProps, Narrowable, TypedFunction,  } from "src/types/index";
+import {  FnWithProps, Narrowable, TypedFunction,  } from "inferred-types/dist/types/index";
 
 /**
  * **addPropsToFn**(fn, [clone]) => (props) => FnWithProps

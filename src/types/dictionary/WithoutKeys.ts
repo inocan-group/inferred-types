@@ -4,7 +4,7 @@ import {
   ObjectKey,
   Dictionary,
   ExpandDictionary,
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 type Process<
   TObj extends Dictionary,

@@ -1,10 +1,10 @@
-import { LeftRight, Narrowable, Tuple } from "src/types/index";
+import { LeftRight, Narrowable, Tuple } from "inferred-types/dist/types/index";
 import { isArray } from "src/runtime/index";
 
 
 /**
  * **isLeftRight**(value)
- * 
+ *
  * Type guard for detecting a `LeftRight` result.
  */
 export const isLeftRight = <T extends Narrowable | Tuple>(

@@ -1,9 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { HasSameValues, WidenValues } from "src/types/index";
+import { HasSameValues, WidenValues } from "inferred-types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("WidenValues<T>", () => {
@@ -13,7 +13,7 @@ describe("WidenValues<T>", () => {
     type MixedScalars = WidenValues<["foo",42,false,null]>;
     type NoChange = WidenValues<[string, number]>;
     type EmbeddedObj = WidenValues<[{foo: 1}, {bar: 2}]>;
-    
+
     type cases = [
       Expect<Equal<Str, [string, string]>>,
       Expect<Equal<MixedScalars, [string, number, boolean, null]>>,

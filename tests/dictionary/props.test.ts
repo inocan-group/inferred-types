@@ -14,7 +14,7 @@ import {
   WithoutValue,
   FilterProps,
   RetainProps
-} from "src/types/index";
+} from "inferred-types";
 
 
 type T0 = { foo: number; bar: number; baz: string };

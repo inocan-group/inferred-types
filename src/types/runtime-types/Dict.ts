@@ -9,7 +9,7 @@ import {
   Contains,
   Dictionary,
   EmptyObject,
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 const s = Symbol("Dict");
 

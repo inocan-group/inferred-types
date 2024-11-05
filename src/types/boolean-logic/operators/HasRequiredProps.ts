@@ -1,4 +1,4 @@
-import { Keys, Dictionary, ObjectKey, RequiredProps } from "src/types/index";
+import { Keys, Dictionary, ObjectKey, RequiredProps } from "inferred-types/dist/types/index";
 
 /**
  * **HasRequiredProps**`<T>`

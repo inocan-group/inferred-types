@@ -1,4 +1,4 @@
-import {  Length , IsEqual, TypedFunction } from "src/types/index";
+import {  Length , IsEqual, TypedFunction } from "inferred-types/dist/types/index";
 
 /**
  * **HasParameters**`<T>`

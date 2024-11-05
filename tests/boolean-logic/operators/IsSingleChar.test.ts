@@ -1,10 +1,10 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { IsSingleChar } from "src/types/index";
+import { IsSingleChar } from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("IsSingleChar<T>", () => {
@@ -14,7 +14,7 @@ describe("IsSingleChar<T>", () => {
     type NC = IsSingleChar<"No">;
     type Str = IsSingleChar<string>;
     type NotStr = IsSingleChar<42>;
-    
+
     type cases = [
       Expect<Equal<C, true>>,
       Expect<Equal<NC, false>>,

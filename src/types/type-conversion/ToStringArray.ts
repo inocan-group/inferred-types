@@ -1,4 +1,4 @@
-import {  AsString,  Tuple } from "src/types/index";
+import {  AsString,  Tuple } from "inferred-types/dist/types/index";
 
 /**
  * **ToStringArray**`<T>`

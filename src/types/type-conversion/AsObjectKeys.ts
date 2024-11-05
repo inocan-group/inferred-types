@@ -1,9 +1,9 @@
-import { ObjectKey } from "src/types/index";
+import { ObjectKey } from "inferred-types/dist/types/index";
 
 
 /**
  * **AsObjectKeys**`<T>`
- * 
+ *
  * Narrows type by validating that `T` extends a tuple of only
  * values which extend `ObjectKey`.
  */
@@ -15,7 +15,7 @@ export type AsObjectKeys<
 
 /**
  * **AsObjectKey**`<T>`
- * 
+ *
  * Narrows type by validating that `T` extends `ObjectKey`.
  */
 export type AsObjectKey<T> = T extends ObjectKey ? T : never;

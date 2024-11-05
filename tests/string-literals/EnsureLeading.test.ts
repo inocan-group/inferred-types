@@ -1,10 +1,10 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { EnsureLeading } from "src/types/index";
-import { ensureLeading } from "src/runtime/index";
+import { EnsureLeading } from "inferred-types";
+import { ensureLeading } from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("EnsureLeading", () => {
@@ -19,7 +19,7 @@ describe("EnsureLeading", () => {
     type NoChange = EnsureLeading<"FooBar", "Foo">;
     type FooBar = EnsureLeading<"Bar", "Foo">;
     type PrefixOne = EnsureLeading<5,1>;
-    
+
     type cases = [
       Expect<Equal<SuperWide, string>>,
       Expect<Equal<NumSuperWide, number>>,
@@ -29,22 +29,22 @@ describe("EnsureLeading", () => {
 
       Expect<Equal<NoChange, "FooBar">>,
       Expect<Equal<FooBar, "FooBar">>,
-      
+
       Expect<Equal<PrefixOne, 15>>,
     ];
-    const cases: cases = [ 
-      true, true, 
-      true, true, 
+    const cases: cases = [
+      true, true,
+      true, true,
       true, true,
       true
     ];
   });
 
-  
+
   it("use where TContent is a tuple", () => {
     type SuperWide = EnsureLeading<[string, number], string>;
     type Foo = EnsureLeading<["Foo", "Bar"], "Foo">;
-    
+
     type cases = [
       Expect<Equal<SuperWide, [string, number]>>,
       Expect<Equal<Foo, ["Foo", "FooBar"]>>
@@ -69,7 +69,7 @@ describe("ensureLeading()", () => {
     const cases: cases = [ true, true ]
   });
 
-  
+
   it("brackets", () => {
     const square = ensureLeading("FooBar", "[[");
     const curly = ensureLeading("FooBar", "{{");

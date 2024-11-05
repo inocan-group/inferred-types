@@ -8,7 +8,7 @@ import {
   IsEqual,
   IsNever,
   As
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 
 

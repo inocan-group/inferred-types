@@ -1,10 +1,10 @@
 import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import {  HasCharacters } from "src/types/index";
+import {  HasCharacters } from "inferred-types";
 
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("HasCharacter", () => {
@@ -12,7 +12,7 @@ describe("HasCharacter", () => {
   it("happy path", () => {
     type Without = "test";
     type With = "[test]";
-    
+
     type HasBracket1 = HasCharacters<With, "]">;
     type HasBracket2 = HasCharacters<With, "[">;
     type HasBracket2b = HasCharacters<With, "[" | "]">;
@@ -38,7 +38,7 @@ describe("HasCharacter", () => {
     ];
   });
 
-  
+
   it("Tuple for character patterns", () => {
     type With = HasCharacters<"hi", ["h", "i"]>;
     type Without = HasCharacters<"42", ["h", "i"]>;
@@ -50,20 +50,20 @@ describe("HasCharacter", () => {
     const cases: cases = [
       true, false
     ];
-    
+
   });
-  
+
   it("Union type for characters", () => {
     type With = HasCharacters<"hi", "h" | "i">;
     type Without = HasCharacters<"42", "h" | "i">;
-    
+
     type cases = [
       ExpectTrue<With>,
       ExpectFalse<Without>
     ];
     const cases: cases = [ true, false ];
-    
+
   });
-  
+
 
 });

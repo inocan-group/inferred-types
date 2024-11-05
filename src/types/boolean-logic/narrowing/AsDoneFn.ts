@@ -1,4 +1,4 @@
-import { FnWithDescription } from "src/types/index";
+import { FnWithDescription } from "inferred-types/dist/types/index";
 
 
 

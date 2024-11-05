@@ -1,5 +1,5 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
-import { IsComputedRef,  VueComputedRef } from "src/types/index";
+import { IsComputedRef,  VueComputedRef } from "inferred-types";
 import { describe, expect, it } from "vitest";
 import {ComputedRef, ReactiveEffect, computed} from "vue";
 

@@ -1,9 +1,9 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { CreateLookup, IsNever } from "src/types/index";
+import { CreateLookup, IsNever } from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("CreateLookup<TPayload,TKeyProp,TValProp>", () => {
@@ -18,7 +18,7 @@ describe("CreateLookup<TPayload,TKeyProp,TValProp>", () => {
     type LColor = CreateLookup<Tup, "color", "value">;
     type LValue = CreateLookup<Tup, "value", "name">; // non-unique key
     type LRank = CreateLookup<Tup, "rank", "value">; // numeric key converted
-    
+
     type cases = [
       Expect<Equal<LName, {foo: 12; bar: 53; baz: 12}>>,
       Expect<Equal<LColor, {red: 12; blue: 53; green: 12}>>,

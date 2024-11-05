@@ -1,9 +1,9 @@
 import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { SomeEqual } from "src/types/index";
+import { SomeEqual } from "inferred-types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("IfSomeEqual & SomeEqual", () => {
@@ -14,7 +14,7 @@ describe("IfSomeEqual & SomeEqual", () => {
     type Never = [never];
     type NeverFoo = [never, "foo"];
     type Wide = [ string, number ];
-    
+
     type cases = [
       // numeric literals
       Expect<Equal<SomeEqual< OneTwo,1>, true>>,
@@ -44,19 +44,19 @@ describe("IfSomeEqual & SomeEqual", () => {
     ];
   });
 
-  
+
   it("SomeEqual<TVal,TCompareTo> edge cases", () => {
     type UnionMatch = SomeEqual<[string | symbol, string, symbol], string | symbol>;
     type UnionNotMatch = SomeEqual<[string, symbol], string | symbol>;
-    
+
     type cases = [
       ExpectTrue<UnionMatch>,
       ExpectFalse<UnionNotMatch>
     ];
     const cases: cases = [ true, false ];
-    
+
   });
-  
+
 
 });
 

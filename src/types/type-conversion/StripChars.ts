@@ -6,7 +6,7 @@ import {
   Chars,
   As,
   Concat
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 type Strip<
   TChars extends readonly string[],

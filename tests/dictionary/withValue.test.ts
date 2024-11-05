@@ -1,7 +1,7 @@
 import { describe,  it } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
-import { createFnWithProps,  defineObj } from "src/runtime/index";
-import { EmptyObject, Dictionary, WithValue } from "src/types/index";
+import { createFnWithProps,  defineObj } from "inferred-types";
+import { EmptyObject, Dictionary, WithValue } from "inferred-types";
 
 const obj = defineObj({
   id: "foobar",
@@ -22,7 +22,7 @@ const obj = defineObj({
 });
 
 describe("WithValue<TObj,TVal> type util", () => {
-  
+
   it("using the default 'extends' comparison", () => {
     type Str = WithValue<typeof obj, string>;
     type Num = WithValue<typeof obj, number>;
@@ -51,5 +51,5 @@ describe("WithValue<TObj,TVal> type util", () => {
     ];
     const cases: cases = [true, true, true  ];
   });
-  
+
 });

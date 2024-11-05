@@ -1,16 +1,16 @@
 /* eslint-disable no-use-before-define */
-import type { NarrowObject, Narrowable } from "src/types/index";
+import type { NarrowObject, Narrowable } from "inferred-types/dist/types/index";
 import { omit } from "src/runtime/index";
 
 
 /**
  * **withoutKeys**(obj,...keys)
- * 
+ *
  * Reduces the key/value pairs in an object with the expressed
  * keys excluded.
- * 
- * - this is an alias to the `omit()` utility 
- * 
+ *
+ * - this is an alias to the `omit()` utility
+ *
  * **Related**: `omit`, `createOmission`
  */
 export const withoutKeys = <

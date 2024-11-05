@@ -1,4 +1,4 @@
-import { Narrowable, Scalar, ToNumber } from "src/types/index";
+import { Narrowable, Scalar, ToNumber } from "inferred-types/dist/types/index";
 
 
 
@@ -18,9 +18,9 @@ const convertList = <T extends readonly Scalar[]>(val: T) => val.map(i => conver
 
 /**
  * **toNumber**(value)
- * 
+ *
  * Runtime utility which converts a value into a _numeric_ variant:
- * 
+ *
  * - for scalars (and objects) it will try to convert to number but otherwise returns `NaN` to runtime and `never` to type system
  * - for arrays it will iterate over each element and try to convert to a number like above
  */

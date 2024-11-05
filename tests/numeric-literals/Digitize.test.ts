@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { Digital, DigitalLiteral, DoesExtend, Digitize, NumericSign, Digit, NumericChar } from "src/types/index";
+import { Digital, DigitalLiteral, DoesExtend, Digitize, NumericSign, Digit, NumericChar } from "inferred-types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

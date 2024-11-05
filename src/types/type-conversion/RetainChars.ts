@@ -5,7 +5,7 @@ import {
   RemoveMarked,
   Chars,
   Join
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 type Process<
   TChars extends readonly string[],

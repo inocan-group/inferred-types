@@ -1,4 +1,4 @@
-import { IsEqual } from "src/types/index";
+import { IsEqual } from "inferred-types/dist/types/index";
 /**
  * **NotEqual**`<X,Y>`
  *

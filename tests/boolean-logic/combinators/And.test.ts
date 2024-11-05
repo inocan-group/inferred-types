@@ -1,9 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { And } from "src/types/index";
+import { And } from "inferred-types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("And<T>", () => {
@@ -14,7 +14,7 @@ describe("And<T>", () => {
     type T3 = And<[true]>; // true
     type T4 = And<readonly [true, true, true]>; // true
     type T5 = And<[true, boolean, true]>; // boolean
-    
+
     type cases = [
       Expect<Equal<T1, false>>, //
       Expect<Equal<T2, false>>,
@@ -31,7 +31,7 @@ describe("And<T>", () => {
     type T3 = And<[() => true]>; // true
     type T4 = And<[() => true, true, () => true]>; // true
     type T5 = And<[() => true, () => boolean, () => true]>; // boolean
-    
+
     type cases = [
       Expect<Equal<T1, false>>, //
       Expect<Equal<T2, false>>,

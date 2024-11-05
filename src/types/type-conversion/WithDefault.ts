@@ -1,15 +1,15 @@
-import { If, Extends, IsFalsy, Nothing } from "src/types/index";
+import { If, Extends, IsFalsy, Nothing } from "inferred-types/dist/types/index";
 
 /**
  * **WithDefault**`<TVal,TDef>`
- * 
+ *
  * Provided a type `TVal`, this utility will proxy any value which is
- * _not_ `null` or `undefined` through as `TVal`; otherwise it will 
+ * _not_ `null` or `undefined` through as `TVal`; otherwise it will
  * substitute in `TDef`.
- * 
+ *
  * **Note:** you may optionally set the criteria for using the default
  * value from `null` or `undefined` to any _falsy_ value.
- * 
+ *
  * ### Examples
  * ```ts
  * // "foo"
@@ -21,7 +21,7 @@ import { If, Extends, IsFalsy, Nothing } from "src/types/index";
  * ```
  */
 export type WithDefault<
-  TVal, 
+  TVal,
   TDef,
   TPolicy extends "nothing" | "falsy" = "nothing"
 > = TPolicy extends "nothing"

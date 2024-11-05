@@ -1,4 +1,4 @@
-import { SimplifyObject } from "src/types/index";
+import { SimplifyObject } from "inferred-types/dist/types/index";
 
 /**
  * Allow a dictionary to have it's value's type changed to `T` while maintaining the keys in

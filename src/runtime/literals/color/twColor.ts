@@ -4,7 +4,7 @@ import {
   TwLuminosityLookup,
   TwChromaLookup,
   TwHue
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 import { TW_CHROMA, TW_LUMINOSITY, TW_HUE } from "inferred-types/dist/constants/index"
 
 

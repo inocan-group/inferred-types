@@ -1,8 +1,8 @@
 import { describe, it, expect } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
 
-import { AsArray } from "src/types/index";
-import {  asArray } from "src/runtime/index";
+import { AsArray } from "inferred-types";
+import {  asArray } from "inferred-types";
 
 describe("AsArray<T>", () => {
   it("happy path", () => {

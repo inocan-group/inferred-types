@@ -1,9 +1,9 @@
-import { Tuple,AllLiteral } from "src/types/index";
+import { Tuple,AllLiteral } from "inferred-types/dist/types/index";
 
 
 /**
  * **IfAllLiteral**`<TTuple,IF,ELSE>`
- * 
+ *
  * Branching utility which branches on whether the tuple passed in
  * has _literal_ values for every member.
  */

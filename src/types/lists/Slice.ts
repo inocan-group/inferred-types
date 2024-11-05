@@ -14,7 +14,7 @@ import {
   TakeFirst,
   IsNegativeNumber,
   Abs,
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 export type RemoveStart<
   TList extends readonly unknown[],

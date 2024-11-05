@@ -6,7 +6,7 @@ import {
   YouTubeShareUrl,
   YouTubeUrl,
   YouTubeVideoUrl
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 import {
   getUrlPath,
   getUrlQueryParams,

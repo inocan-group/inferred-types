@@ -8,7 +8,7 @@ import {
   StripTrailing,
   Suggest,
   UnionToTuple
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 import  { IPv6 } from "inferred-types/dist/constants/index";
 
 /**

@@ -15,10 +15,15 @@ import {
   isFnWithParams,
   defineObj,
   isNumericString,
-} from "src/runtime/index";
-import { Constant, NoDefaultValue, NO_DEFAULT_VALUE, Never } from "src/constants/index";
+  DoesExtend
+} from "inferred-types";
+import {
+  Constant,
+  NoDefaultValue,
+  NO_DEFAULT_VALUE,
+  Never
+} from "inferred-types";
 import { ref, Ref } from "vue";
-import { DoesExtend } from "src/types/index";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to

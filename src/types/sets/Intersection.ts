@@ -8,7 +8,7 @@ import type {
   RemoveMarked,
   NarrowlyContains,
   Throw,
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 import  { MARKED } from "inferred-types/dist/constants/index";
 
 type Marked = typeof MARKED;

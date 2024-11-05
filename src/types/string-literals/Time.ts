@@ -1,4 +1,4 @@
-import {  Default, EmptyObject, IndexOf, NonZeroNumericChar, NumericChar, NumericCharZeroToFive, PlusMinus, TypeRequired, TypeStrength } from "src/types/index";
+import {  Default, EmptyObject, IndexOf, NonZeroNumericChar, NumericChar, NumericCharZeroToFive, PlusMinus, TypeRequired, TypeStrength } from "inferred-types/dist/types/index";
 
 type CivilianTwoDigitHour = "10" | "11" | "12";
 export type TimeResolution = "HH:MM" | "HH:MM:SS" | "HH:MM:SS.ms";
@@ -8,7 +8,7 @@ export type AmPmCase = "lower" | "upper" | "bare";
 
 /**
  * **CivilianHours**`<[TFixedLengthHours]>`
- * 
+ *
  * The _hours_ used in the civilian clock (aka, 1-12)
  */
 export type CivilianHours<
@@ -19,7 +19,7 @@ export type CivilianHours<
 
 /**
  * **CivilianTimeOptions**
- * 
+ *
  * The optional configuration for a civilian "time" type.
  */
 export type CivilianTimeOptions = {
@@ -31,7 +31,7 @@ export type CivilianTimeOptions = {
 
 /**
  * **MilitaryTimeOptions**
- * 
+ *
  * The optional configuration for a military "time" type.
  */
 export type MilitaryTimeOptions = Omit<CivilianTimeOptions, "amPmCase">;
@@ -50,7 +50,7 @@ type Opt<T extends MilitaryTimeOptions | CivilianTimeOptions> = {
 
 /**
  * **Minutes**`<[TStr]>`
- * 
+ *
  * Provides a typing for the minutes component of Time (aka, 00 to 59).
  */
 export type Minutes<TStr extends TypeStrength = "strong"> = TStr extends "strong"
@@ -59,7 +59,7 @@ export type Minutes<TStr extends TypeStrength = "strong"> = TStr extends "strong
 
 /**
  * **Seconds**`<[TStr]>`
- * 
+ *
  * Provides a typing for the seconds component of Time (aka, 00 to 59).
  */
 export type Seconds<TStr extends TypeStrength = "strong"> = TStr extends "strong"
@@ -68,7 +68,7 @@ export type Seconds<TStr extends TypeStrength = "strong"> = TStr extends "strong
 
 /**
  * **Milliseconds**`<[TStr]>`
- * 
+ *
  * Provides a typing for the milliseconds component of Time (aka, 000 to 999).
  */
 export type Milliseconds<TStr extends TypeStrength = "strong"> = TStr extends "strong"
@@ -89,9 +89,9 @@ export type TzHourOffset = `0${NumericChar}` | "10" | "11";
 
 /**
  * **TZ**`<TStrength>`
- * 
+ *
  * Creates a type for timezones.
- * 
+ *
  * - by default chooses a "strong" type but "simple" or "exclude"
  * are other options for the `TStrength` generic.
  */
@@ -105,11 +105,11 @@ export type TZ<
 
 /**
  * **TimeLike**
- * 
+ *
  * A representation of _time_ values which aims to keep the typing
  * open to as many formats as possible but at the cost being somewhat
- * less detailed in it's typing. 
- * 
+ * less detailed in it's typing.
+ *
  * **Related:** `Time`, `MilitaryTime`, `CivilianTime`
  */
 export type TimeLike = `${number}:${number}${`:${number}` | ""}${" " | ""}${"am" | "pm" | "AM" | "PM" | ""}${`${PlusMinus}:${number}:${number}` | ""}`
@@ -117,7 +117,7 @@ export type TimeLike = `${number}:${number}${`:${number}` | ""}${" " | ""}${"am"
 
 /**
  * **MilitaryHours**
- * 
+ *
  * The _hours_ component of Time when using military nomenclature.
  */
 export type MilitaryHours<
@@ -131,9 +131,9 @@ export type MilitaryHours<
 
 /**
  * **HoursMinutes**`<[TOpt]>`
- * 
+ *
  * Time expressed as just hours and minutes in military time.
- * 
+ *
  * - by default the timezone is excluded but this can be modified
  * with the optional `TTimezone` generic.
  */
@@ -145,10 +145,10 @@ export type HoursMinutes<
 
 /**
  * **HoursMinutes12**`<[TOpt]>`
- * 
+ *
  * Time expressed as just hours and minutes using the 12 hour civilian nomenclature
  * and requiring that an `AmPm<TCase>` indicator be included at the end of the time.
- * 
+ *
  * **Note:** by default the `TCase` generic defaults to _lower_ which means that "am" and "pm"
  * are the expected markers for the 12 hour clock you are in.
  */
@@ -160,7 +160,7 @@ export type HoursMinutes12<
 
 /**
  * **HoursMinutesSeconds**`<[TOpt]>`
- * 
+ *
  * Time expressed in hours, minutes, and seconds in military nomenclature. Timezone is
  * excluded by default but can be enabled with `TTimezone` generic.
  */
@@ -179,7 +179,7 @@ export type HoursMinutesSecondsMilliseconds<
 
 /**
  * **HoursMinutesSeconds12**`<[TTimezone]>`
- * 
+ *
  * Time expressed in hours, minutes, and seconds in civilian nomenclature. Timezone is
  * excluded by default but can be enabled with `TTimezone` generic.
  */
@@ -197,9 +197,9 @@ export type HoursMinutesSecondsMilliseconds12<
 
 /**
  * **TimeInMinutes**`<TNomenclature,[TOpts]>`
- * 
+ *
  * Time expressed with a time resolution of `HH:MM` (e.g., `12:43pm` or `23:15`).
- * 
+ *
  * The nomenclatures of _military_ versus _civilian_ are both allowed
  * by default but can be isolated with the use the `TNomenclature` generic.
  */
@@ -214,12 +214,12 @@ export type TimeInMinutes<
 
 /**
  * **TimeInSeconds**`<[TNomenclature],[TOpts]>`
- * 
- * Time expressed in `HH:MM:SS` resolution. 
- * 
+ *
+ * Time expressed in `HH:MM:SS` resolution.
+ *
  * By default either military or civilian nomenclature is allowed but
  * this can be isolated by using the `TNomenclature` generic.
- * 
+ *
  * ```ts
  * const ex1: TimeInSeconds = "9:45:15pm";
  * const ex2: TimeInSeconds = "21:45:15"
@@ -246,12 +246,12 @@ export type TimeInMilliseconds<
 
 /**
  * **MilitaryTime**
- * 
+ *
  * Provides a type for military time.
- * 
+ *
  * - by default the resolution is "all" but can be modified with `TResolution`
  * - when _all_ time resolutions are allowed the strength is always set to "simple"
- * - in all other cases, `TStr` will specify the strength of the particular time 
+ * - in all other cases, `TStr` will specify the strength of the particular time
  * resolution
  */
 export type MilitaryTime<
@@ -260,19 +260,19 @@ export type MilitaryTime<
 > = TResolution extends "all"
 ? TimeInMinutes<
   "military", {
-      strength: "simple"; 
+      strength: "simple";
       timezone: Opt<TOpt>["timezone"];
       amPmCase: Opt<TOpt>["amPmCase"];
       fixedLengthHours: Opt<TOpt>["fixedLengthHours"];
-    }> 
+    }>
   | TimeInSeconds<"military", {
-      strength: "simple"; 
+      strength: "simple";
       timezone: Opt<TOpt>["timezone"];
       amPmCase: Opt<TOpt>["amPmCase"];
       fixedLengthHours: Opt<TOpt>["fixedLengthHours"];
-    }> 
+    }>
   | TimeInMilliseconds<"military",{
-    strength: "simple"; 
+    strength: "simple";
     timezone: Opt<TOpt>["timezone"];
     amPmCase: Opt<TOpt>["amPmCase"];
     fixedLengthHours: Opt<TOpt>["fixedLengthHours"];
@@ -287,7 +287,7 @@ export type MilitaryTime<
 
 /**
  * **CivilianTime**
- * 
+ *
  * Allows time resolution of HH:MM or HH:MM:SS in civilian time (aka, 12 hour time with AM/PM).
  */
 export type CivilianTime<
@@ -304,13 +304,13 @@ export type CivilianTime<
 
 /**
  * **Time**`<TResolution,[TNomenclature], [TOpts]>`
- * 
+ *
  * A _simplified_ type for Time which accepts military and civilian
- * nomenclature as well as `HH:MM` and `HH:MM:SS` resolutions. 
- * 
+ * nomenclature as well as `HH:MM` and `HH:MM:SS` resolutions.
+ *
  * You can use the `TNomenclature` and `TResolution` generics to constrain
  * what is allowed (and further simplify the type).
- * 
+ *
  * **Related:** `MilitaryTime`, `CivilianTime`, `TimeLike`
  */
 export type Time<
@@ -321,13 +321,13 @@ export type Time<
     ? TimeInMinutes<TNomenclature, TOpt>
 
     : TResolution extends "HH:MM:SS"
-      ? TimeInSeconds<TNomenclature, TOpt> 
+      ? TimeInSeconds<TNomenclature, TOpt>
 
       : TResolution extends "HH:MM:SS.ms"
         ? TimeInMilliseconds<TNomenclature, {
-            strength: "simple"; 
+            strength: "simple";
             timezone: Opt<TOpt>["timezone"];
             amPmCase: Opt<TOpt>["amPmCase"];
             fixedLengthHours: Opt<TOpt>["fixedLengthHours"];
-          }> 
+          }>
         : never;

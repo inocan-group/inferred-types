@@ -1,16 +1,16 @@
-import { Narrowable, Get } from "src/types/index";
+import { Narrowable, Get } from "inferred-types/dist/types/index";
 
 /**
  * **UnionFromProp**
- * 
+ *
  * Given an array of objects `<T>` and a property value `<P>`, this utility will
  * return a _union type_ of all the potential values of the objects which have
  * a keyof `P`.
- * 
+ *
  * If an object in the array _explicitly_ doesn't have the prop in it's definition then it
  * is ignored, if it is shaped to be an optional property then `undefined` will be included
  * in the union.
- * 
+ *
  * ```ts
  * const data = [
  *    { id: 123, color: "blue" },

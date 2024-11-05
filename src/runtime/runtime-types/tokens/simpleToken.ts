@@ -5,7 +5,7 @@ import {
   SimpleScalarToken,
   SimpleToken,
   SimpleType
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 /**
  * **simpleToken**`(token)`

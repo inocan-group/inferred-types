@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { KeyOf, PublicKeyOf } from "src/types/index";
+import { KeyOf, PublicKeyOf } from "inferred-types";
 
 describe("KeyOf<T> and PublicKeyOf<T>", () => {
 

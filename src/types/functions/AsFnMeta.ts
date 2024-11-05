@@ -1,18 +1,18 @@
- 
- 
-import type { 
-  AnyFunction, 
-  FnMeta, 
-  FnProps, 
-  EmptyObject, 
+
+
+import type {
+  AnyFunction,
+  FnMeta,
+  FnProps,
+  EmptyObject,
   ExpandDictionary,
   TypedFunction,
   IsNonEmptyObject
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 /**
  * **AsFnMeta**`<TFn>`
- * 
+ *
  * Converts any function into `FnMeta` format.
  */
 export type AsFnMeta<
@@ -21,8 +21,8 @@ export type AsFnMeta<
 ? [IsNonEmptyObject<FnProps<TFn>>] extends [true]
   ? FnMeta<
     TFn,
-    Parameters<TFn>, 
-    ReturnType<TFn>, 
+    Parameters<TFn>,
+    ReturnType<TFn>,
     ExpandDictionary<FnProps<TFn>>
   >
   : FnMeta<TFn,Parameters<TFn>, ReturnType<TFn>, EmptyObject>

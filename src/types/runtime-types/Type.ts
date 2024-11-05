@@ -11,7 +11,7 @@ import type {
   IsUnion,
   IsFalse,
   As
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 import type {
   LITERAL_TYPE_KINDS,
   WIDE_TYPE_KINDS,
@@ -29,7 +29,7 @@ import {
   UnionToIntersection ,
   AnyFunction ,
   ErrorCondition
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 export type TypeOptions<
   TKind extends TypeKind = TypeKind,

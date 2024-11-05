@@ -1,10 +1,10 @@
-import { 
+import {
   Container,
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 /**
  * **HasIndex**`<TContainer, TIdx>`
- * 
+ *
  * Boolean operator that tests whether `TContainer` has the
  * index value `TIdx`.
  */

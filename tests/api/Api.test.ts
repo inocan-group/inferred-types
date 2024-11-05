@@ -10,14 +10,14 @@ import {
   IsEscapeFunction,
   HasEscapeFunction,
   AsEscapeFunction,
-} from "src/types/index";
+} from "inferred-types";
 
 import {
   asApi,
   asEscapeFunction,
   isApiSurface,
   isEscapeFunction
-} from "src/runtime/index";
+} from "inferred-types";
 
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

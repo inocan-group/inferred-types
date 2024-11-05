@@ -1,4 +1,4 @@
-import type { IsNull, Narrowable } from "src/types/index";
+import type { IsNull, Narrowable } from "inferred-types/dist/types/index";
 import { isNull } from "src/runtime/index";
 
 

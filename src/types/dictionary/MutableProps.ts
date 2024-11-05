@@ -1,8 +1,8 @@
-import {  Dictionary, ReadonlyKeys } from "src/types/index";
+import {  Dictionary, ReadonlyKeys } from "inferred-types/dist/types/index";
 
 /**
  * **MutableProps**`<T>`
- * 
+ *
  * Reduces an object down to just the key/value pairs which
  * are mutable.
  */

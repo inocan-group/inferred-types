@@ -1,4 +1,4 @@
-import { Tuple } from "src/types/index";
+import { Tuple } from "inferred-types/dist/types/index";
 
 type Compute<
   TStr extends string,
@@ -9,7 +9,7 @@ type Compute<
 
 /**
  * **StrLen**`<T>`
- * 
+ *
  * Provides the length of a string if T is a string literal,
  * otherwise just returns `number` type.
  */

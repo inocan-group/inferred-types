@@ -1,16 +1,16 @@
 
-import { IsNever } from "src/types/index";
+import { IsNever } from "inferred-types/dist/types/index";
 
-type _Get<T, K, Acc=never> = K extends `${infer A}.${infer B}` 
-? A extends keyof T ? _Get<T[A], B, _Get<T[A], B>> : Acc 
+type _Get<T, K, Acc=never> = K extends `${infer A}.${infer B}`
+? A extends keyof T ? _Get<T[A], B, _Get<T[A], B>> : Acc
 : K extends keyof T ? _Get<T[K], K, T[K]> : Acc;
 
 /**
  * **Get**`<TContainer,TDotPath,[TDefVal]>`
  */
 export type Get<
-  TContainer, 
-  TDotPath, 
+  TContainer,
+  TDotPath,
   TDefVal = undefined
 > = IsNever<_Get<TContainer,TDotPath>> extends true
   ? TDefVal

@@ -1,4 +1,4 @@
-import { YouTubeVideoUrl, YouTubeUrl, IsStringLiteral, GetUrlQueryParams, YouTubePlaylistUrl } from "src/types/index";
+import { YouTubeVideoUrl, YouTubeUrl, IsStringLiteral, GetUrlQueryParams, YouTubePlaylistUrl } from "inferred-types/dist/types/index";
 
 type VideoUrlKind ="single-video" | "video-in-playlist" | "both";
 

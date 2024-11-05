@@ -1,9 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { AsNonNull, ErrorCondition, Extends } from "src/types/index";
+import { AsNonNull, ErrorCondition, Extends } from "inferred-types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to 
+// standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("AsNonNull<T>", () => {
@@ -13,7 +13,7 @@ describe("AsNonNull<T>", () => {
     type Union = AsNonNull<"foobar" | null>;
     type PropKey = AsNonNull<PropertyKey | null>;
     type JustNull = AsNonNull<null>;
-    
+
     type cases = [
       Expect<Equal<WasNever, "foobar">>,
       Expect<Equal<Union, "foobar">>,

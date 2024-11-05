@@ -1,4 +1,4 @@
-import { AnyFunction , Mutable , Or, If, Extends } from "src/types/index";
+import { AnyFunction , Mutable , Or, If, Extends } from "inferred-types/dist/types/index";
 
 /**
  * **IsObject**

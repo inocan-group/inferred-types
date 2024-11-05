@@ -1,4 +1,4 @@
-import { FromDefn, ShapeCallback, TypeDefinition } from "src/types/index";
+import { FromDefn, ShapeCallback, TypeDefinition } from "inferred-types/dist/types/index";
 import { isFunction, handleDoneFn, ShapeApiImplementation } from "src/runtime/index";
 
 /**

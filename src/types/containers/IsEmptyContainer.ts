@@ -1,16 +1,16 @@
-import { Container,    ExplicitlyEmptyObject,  Dictionary,  Keys } from "src/types/index";
+import { Container,    ExplicitlyEmptyObject,  Dictionary,  Keys } from "inferred-types/dist/types/index";
 
 /**
  * **EmptyContainer**`<T>`
- * 
+ *
  * Boolean utility which tests whether a container is "empty"
  * (meaning it has no keys).
- * 
+ *
  * **Related:** `NonEmptyContainer`
  */
 export type IsEmptyContainer<
   T extends Container
-> = T extends Dictionary 
+> = T extends Dictionary
   ? T extends ExplicitlyEmptyObject
     ? true
     : Keys<T>["length"] extends 0

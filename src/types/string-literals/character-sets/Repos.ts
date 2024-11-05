@@ -5,7 +5,7 @@ import {
   Values,
   Flatten,
   UrlsFrom,
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 import  {  REPO_PAGE_TYPES, REPO_SOURCES, REPO_SOURCE_LOOKUP } from "inferred-types/dist/constants/index";
 
 /**

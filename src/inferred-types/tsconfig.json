@@ -38,6 +38,12 @@
       "inferred-types/dist/constants/index": [
         "../constants/*"
       ],
+      "inferred-types/dist/types/index": [
+        "../types/*"
+      ],
+      "inferred-types/dist/runtime/index": [
+        "../runtime/*"
+      ],
     },
   }
 }

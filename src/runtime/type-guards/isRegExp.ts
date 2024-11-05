@@ -1,4 +1,4 @@
-import { LikeRegExp } from "src/types/index";
+import { LikeRegExp } from "inferred-types/dist/types/index";
 import { isString } from "./isString"
 
 /**

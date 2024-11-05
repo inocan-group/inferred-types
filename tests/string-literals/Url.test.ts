@@ -1,5 +1,5 @@
 import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { urlMeta } from "src/runtime/index";
+import { urlMeta } from "inferred-types";
 import {
   AddUrlPathSegment,
   Extends,
@@ -12,7 +12,7 @@ import {
   IsUrl,
   GetUrlProtocol,
   RemoveUrlPort
-} from "src/types/index";
+} from "inferred-types";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

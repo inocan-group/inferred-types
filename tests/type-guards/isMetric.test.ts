@@ -1,5 +1,5 @@
 import { } from "@type-challenges/utils";
-import { isMetric } from "src/runtime/index";
+import { isMetric } from "inferred-types";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

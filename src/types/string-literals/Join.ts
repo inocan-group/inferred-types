@@ -4,7 +4,7 @@ import {
   First,
   ToStringArray,
   TakeFirst
-} from "src/types/index";
+} from "inferred-types/dist/types/index";
 
 
 type Process<

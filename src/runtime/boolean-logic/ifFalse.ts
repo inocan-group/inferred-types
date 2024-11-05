@@ -1,4 +1,4 @@
-import type { If, IsFalse, Narrowable } from "src/types/index";
+import type { If, IsFalse, Narrowable } from "inferred-types/dist/types/index";
 import { isFalse } from "src/runtime/index";
 
 

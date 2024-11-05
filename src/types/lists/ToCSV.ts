@@ -1,4 +1,4 @@
-import { AfterFirst, AsString, First, Replace, StripLeading, Tuple } from "src/types/index";
+import { AfterFirst, AsString, First, Replace, StripLeading, Tuple } from "inferred-types/dist/types/index";
 
 type Process<
   T extends Tuple,
