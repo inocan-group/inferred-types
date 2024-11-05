@@ -1,8 +1,8 @@
-import { createConstant } from "src/constants/index";
+import { createConstant } from "inferred-types/dist/constants/index";
 
 /**
  * **NOT_DEFINED**
- * 
+ *
  * A runtime constant which indicates that some value has not been defined (yet).
  */
 export const NOT_DEFINED = createConstant("not-defined");

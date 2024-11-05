@@ -1,4 +1,4 @@
-import { DISTANCE_METRICS_LOOKUP } from "inferred-types";
+import { DISTANCE_METRICS_LOOKUP } from "inferred-types/dist/constants/index";
 import { OptSpace } from "../character-sets";
 
 type DistanceMetricsLookup = typeof DISTANCE_METRICS_LOOKUP;

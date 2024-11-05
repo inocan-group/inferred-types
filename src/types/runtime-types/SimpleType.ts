@@ -3,7 +3,7 @@ import type {
   SIMPLE_MAP_KEYS,
   SIMPLE_MAP_VALUES,
   SIMPLE_SET_TYPES
-} from "inferred-types";
+} from "inferred-types/dist/constants/index";
 import {
   ExpandDictionary,
   SimpleScalarToken, SimpleToken, SimpleUnionToken,

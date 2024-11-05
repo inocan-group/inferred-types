@@ -23,6 +23,15 @@
       "src/types/index": [
         "index.ts"
       ],
+      "inferred-types/dist/runtime/index": [
+        "../runtime/index.ts"
+      ],
+      "inferred-types/dist/types/index": [
+        "index.ts"
+      ],
+      "inferred-types/dist/constants/index": [
+        "../constants/index.ts"
+      ],
       // allow importing all constants to the static "src/constants/index" path
       "src/constants/index": [
         "../constants/index.ts"

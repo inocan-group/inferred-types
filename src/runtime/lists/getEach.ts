@@ -1,7 +1,7 @@
 
 import type { Container, GetEach } from "src/types/index";
 
-import { Never } from "inferred-types";
+import { Never } from "inferred-types/dist/constants/index";
 import { isContainer, isErrorCondition, isNull, get } from "src/runtime/index";
 
 export interface GetEachOptions<

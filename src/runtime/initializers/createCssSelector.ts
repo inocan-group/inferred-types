@@ -1,4 +1,4 @@
-import { If, IsUndefined } from "src/types/boolean-logic";
+import { If, IsUndefined } from "inferred-types/dist/types/index";
 import {
   CssClassSelector,
   CssIdSelector,
@@ -6,8 +6,8 @@ import {
   CssSelector,
   CssTagSelector,
   Join
-} from "src/types/string-literals";
-import { TupleToUnion } from "src/types/type-conversion";
+} from "inferred-types/dist/types/index";
+import { TupleToUnion } from"inferred-types/dist/types/index";
 
 export type CssSelectorOptions = {
   ids?: readonly CssIdSelector[],

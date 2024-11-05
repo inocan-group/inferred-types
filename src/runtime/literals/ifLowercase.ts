@@ -1,5 +1,5 @@
 
-import { LOWER_ALPHA_CHARS } from "inferred-types";
+import { LOWER_ALPHA_CHARS } from "inferred-types/dist/constants/index";
 import { AfterFirst, If, Extends, LowerAlphaChar } from "src/types/index";
 
 

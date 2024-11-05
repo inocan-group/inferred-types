@@ -1,4 +1,4 @@
-import {  Marked } from "inferred-types";
+import {  Marked } from "inferred-types/dist/constants/index";
 import {
   IsWideType,
   Or,

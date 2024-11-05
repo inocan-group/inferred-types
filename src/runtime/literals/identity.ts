@@ -1,4 +1,4 @@
-import { Narrowable } from "src/types/literals";
+import { Narrowable } from "inferred-types/dist/types/index";
 
 
 /**

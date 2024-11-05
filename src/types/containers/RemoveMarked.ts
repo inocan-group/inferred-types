@@ -1,4 +1,4 @@
-import { MARKED } from "inferred-types";
+import { MARKED } from "inferred-types/dist/constants/index";
 import {
   DoesExtend,
   UnionToTuple,

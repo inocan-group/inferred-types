@@ -1,6 +1,6 @@
-import { SOUTH_KOREAN_NEWS } from "inferred-types"
-import { isString } from "../../isString"
-import { SouthKoreanNewsUrls } from "src/types/string-literals"
+import { SOUTH_KOREAN_NEWS } from "inferred-types/dist/constants/index"
+import { isString } from "inferred-types/dist/runtime/index"
+import { SouthKoreanNewsUrls } from "inferred-types/dist/types/index"
 
 const URL = SOUTH_KOREAN_NEWS.flatMap(i => i.baseUrls)
 

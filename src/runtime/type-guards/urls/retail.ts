@@ -21,7 +21,7 @@ import {
   WayFairUrl,
   WholeFoodsUrl,
   ZaraUrl
-} from "src/types/string-literals";
+} from "inferred-types/dist/types/index";
 import { isString } from "../isString";
 import {
   AMAZON_DNS,
@@ -43,7 +43,7 @@ import {
   WAYFAIR_DNS,
   WHOLE_FOODS_DNS,
   ZARA_DNS,
-} from "inferred-types";
+} from "inferred-types/dist/constants/index";
 
 /**
  * type guard which validates that the `val` passed in is a valid URL

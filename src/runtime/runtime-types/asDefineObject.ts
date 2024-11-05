@@ -1,11 +1,11 @@
-import { DefineObject } from "src/types/dictionary";
-import { FromDefn } from "src/types/literals";
+import { DefineObject } from "inferred-types/dist/types/index";
+import { FromDefn } from "inferred-types/dist/types/index";
 import { isDoneFn, isFunction, isSimpleToken } from "../type-guards";
 import { asType } from "./asType";
 import { ShapeApiImplementation } from "./shape";
 import { handleDoneFn } from "../api/handleDoneFn";
-import { ShapeCallback } from "src/types/runtime-types";
-import { Never } from "src/constants/Never";
+import { ShapeCallback } from "inferred-types/dist/types/index";
+import { Never } from "inferred-types/dist/constants/index";
 
 
 export const asDefineObject = <T extends DefineObject>(defn: T) => {

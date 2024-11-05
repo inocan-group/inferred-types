@@ -8,8 +8,8 @@ import {
   GithubRepoReleaseTagUrl,
   GithubRepoUrl,
   GithubUrl
-} from "src/types/string-literals"
-import { isString } from "../../isString"
+} from "inferred-types/dist/types/index"
+import { isString } from "inferred-types/dist/runtime/index"
 import { stripLeading, stripTrailing } from "../../../literals"
 
 

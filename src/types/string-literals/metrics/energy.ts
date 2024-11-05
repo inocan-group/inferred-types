@@ -1,4 +1,4 @@
-import { ENERGY_METRICS_LOOKUP } from "inferred-types";
+import { ENERGY_METRICS_LOOKUP } from "inferred-types/dist/constants/index";
 import { OptSpace } from "../character-sets/OptionalSpace";
 
 type EnergyMetricsLookup = typeof ENERGY_METRICS_LOOKUP;

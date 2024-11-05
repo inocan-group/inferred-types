@@ -1,4 +1,4 @@
-import { POWER_METRICS_LOOKUP } from "inferred-types";
+import { POWER_METRICS_LOOKUP } from "inferred-types/dist/constants/index";
 import { OptSpace } from "../character-sets/OptionalSpace";
 
 type PowerMetricsLookup = typeof POWER_METRICS_LOOKUP;

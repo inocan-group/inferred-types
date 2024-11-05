@@ -19,7 +19,7 @@ import {
   stripSurround,
   stripTrailing
 } from "src/runtime/index";
-import { Never } from "src/constants/Never";
+import { Never } from "inferred-types/dist/constants/index";
 
 const scalarToToken = identity({
   string: "<<string>>",

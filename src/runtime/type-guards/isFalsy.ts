@@ -1,6 +1,6 @@
 
 import { FalsyValue, Narrowable } from "src/types/index";
-import { FALSY_VALUES } from "inferred-types";
+import { FALSY_VALUES } from "inferred-types/dist/constants/index";
 
 /**
  * **isFalsy**()

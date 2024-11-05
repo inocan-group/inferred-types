@@ -1,6 +1,6 @@
 import { LogicFunction, LogicalReturns } from "src/types/index";
 import { isBoolean, isFunction } from "src/runtime/index";
-import { Never } from "src/constants/Never";
+import { Never } from "inferred-types/dist/constants/index";
 
 
 export function logicalReturns<

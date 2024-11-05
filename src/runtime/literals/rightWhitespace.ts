@@ -1,7 +1,7 @@
-import { WHITESPACE_CHARS } from "src/constants/Characters"
+import { WHITESPACE_CHARS } from "inferred-types/dist/constants/index"
 import {  retainAfterInclusive } from "./retainAfter"
-import { TrimLeft } from "src/types/type-conversion"
-import { RetainAfter, Whitespace } from "src/types/string-literals"
+import { TrimLeft } from"inferred-types/dist/types/index"
+import { RetainAfter, Whitespace } from "inferred-types/dist/types/index"
 
 /**
  * **rightWhitespace**`(content)`

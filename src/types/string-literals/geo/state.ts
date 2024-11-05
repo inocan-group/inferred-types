@@ -1,4 +1,4 @@
-import {US_STATE_LOOKUP, US_STATE_LOOKUP_PROVINCES} from "inferred-types"
+import {US_STATE_LOOKUP, US_STATE_LOOKUP_PROVINCES} from "inferred-types/dist/constants/index"
 import { Mutable, IsTrue } from "src/types/index";
 
 

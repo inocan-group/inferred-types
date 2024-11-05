@@ -5,7 +5,7 @@ import {
   IsStringLiteral,
   IsDomainName
 } from "src/types/index";
-import  { TOP_LEVEL_DOMAINS }  from "inferred-types";
+import  { TOP_LEVEL_DOMAINS }  from "inferred-types/dist/constants/index";
 
 /**
  * **TLD**

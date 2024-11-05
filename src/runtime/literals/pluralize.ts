@@ -2,7 +2,7 @@ import {
   ALPHA_CHARS,
   PLURAL_EXCEPTIONS,
   SINGULAR_NOUN_ENDINGS
-} from "inferred-types";
+} from "inferred-types/dist/constants/index";
 import { Pluralize } from "src/types/index";
 import { stripTrailing, split, rightWhitespace } from "src/runtime/index";
 

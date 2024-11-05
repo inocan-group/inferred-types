@@ -1,5 +1,5 @@
 
-import { Constant } from "inferred-types";
+import { Constant } from "inferred-types/dist/constants/index";
 import { isConstant } from "src/runtime/index";
 
 

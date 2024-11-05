@@ -1,7 +1,7 @@
 import type {
   NON_ZERO_NUMERIC_CHAR,
   NUMERIC_CHAR
-} from "inferred-types";
+} from "inferred-types/dist/constants/index";
 
 /**
  * **NumericChar**

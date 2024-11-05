@@ -23,7 +23,8 @@
       "types": "./dist/runtime/index.d.ts"
     },
     "./constants": {
-      "import": "./dist/constants/index.js"
+      "import": "./dist/constants/index.js",
+      "types": "./dist/constants/index.d.ts"
     }
   },
   "files": [
