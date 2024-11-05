@@ -22,13 +22,13 @@
     "baseUrl": ".",
     "outDir": "../../dist/none",
     "paths": {
-      "inferred-types": [
+      "src/types/index": [
         "../src/types/index.ts"
       ],
       "src/constants/index": [
         "../src/constants/index.ts"
       ],
-      "inferred-types": [
+      "src/runtime/index": [
         "../src/runtime/index.ts"
       ],
       "src/inferred-types/index": [
@@ -40,12 +40,12 @@
       "inferred-types/dist/runtime/index": [
         "../src/runtime/index.ts"
       ],
-      "inferred-types": [
+      "inferred-types/dist/constants/index": [
         "../src/constants/index.ts"
       ],
       "inferred-types": [
         "../src/inferred-types/index.ts"
-      ],
+      ]
     }
   },
   "include": [
