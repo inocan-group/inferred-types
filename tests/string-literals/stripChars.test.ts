@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { stripChars } from "inferred-types";
-import { UPPER_ALPHA_CHARS } from "inferred-types";
+import { stripChars,UPPER_ALPHA_CHARS } from "inferred-types";
+
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to

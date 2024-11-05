@@ -1,8 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { NUMERIC_CHAR } from "inferred-types";
-import { NumericChar, RetainWhile } from "inferred-types";
-import { retainWhile } from "inferred-types"
+
+import { NumericChar, RetainWhile, retainWhile, NUMERIC_CHAR } from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
