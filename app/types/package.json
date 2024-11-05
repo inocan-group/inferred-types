@@ -18,7 +18,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "tsup src/index.ts --format=\"esm,cjs\" --dts"
+    "build": "tsup src/types.ts --format=\"esm,cjs\" --dts -d ../inferred-types/dist "
   },
   "dependencies": {
     "@inferred-types/constants": "workspace:*"

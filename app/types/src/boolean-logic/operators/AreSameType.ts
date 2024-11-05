@@ -1,13 +1,13 @@
-import { Widen } from "../..";
+import { Widen } from "../../types";
 
 /**
  * **AreSameType**`<A,B>`
- * 
+ *
  * Tests whether `A` and `B` are the same _wide_ type.
- * 
+ *
  * - Note: for containers, the types are rolled up to the broad category of
  * container (e.g., Dictionary, Tuple, Map, Set, WeakMap)
- * 
+ *
  * ```ts
  * // true
  * AreSameType<"foo","bar">;

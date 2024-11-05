@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { AfterFirst, AsArray, Container, First, IndexOf, NonArray, Nothing, Throw } from "../..";
+import { AfterFirst, AsArray, Container, First, IndexOf, NonArray, Nothing, Throw } from "../../types";
 
 type ProcessContainers<
   TValues extends readonly (Container | TIgnore)[],
@@ -24,12 +24,12 @@ type Process<
 
 /**
  * **Iff**`<TValues,[TIgnore],[TOffset],[TNotFound]>`
- * 
+ *
  * Looks through a list of values -- `TValues` -- until it finds
- * the first one which _does not_ extend `TIgnore` (which is by 
+ * the first one which _does not_ extend `TIgnore` (which is by
  * default set to null or undefined).
- * 
- * If it reaches the end without finding a value to use it will 
+ *
+ * If it reaches the end without finding a value to use it will
  * fall back on the `TNotFound` value which is `ErrorCondition<"not-found">`
  * by default.
  */
@@ -38,7 +38,7 @@ export type Iff<
   TIgnore = Nothing,
   TOffset extends PropertyKey | null = null,
   TNotFound = Throw<
-    "not-found", 
+    "not-found",
     `Call to Iff utility resulted in no valid results`,
     "Iff",
     { library: "inferred-types"; values: AsArray<TValues> }
