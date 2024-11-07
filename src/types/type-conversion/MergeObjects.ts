@@ -10,7 +10,8 @@ import {
   IsNothing,
   EmptyObject,
   If,
-  As
+  As,
+  ExpandDictionary
 } from "inferred-types/dist/types/index";
 
 type Process<
@@ -37,20 +38,35 @@ type Process<
     : never
   >;
 
+type Merged<
+  TKeys extends readonly string[],
+  TBase extends Record<string, unknown>,
+  TErr extends Record<string, unknown>,
+  TResult extends Record<string, unknown> = EmptyObject
+> = [] extends TKeys
+? ExpandDictionary<TResult>
+: Merged<
+    AfterFirst<TKeys>,
+    TBase,
+    TErr,
+    First<TKeys> extends keyof TErr
+      ? TResult & Record<First<TKeys>, TErr[First<TKeys>]>
+      : First<TKeys> extends keyof TBase
+      ? TResult & Record<First<TKeys>, TBase[First<TKeys>]>
+      : never
+  >;
+
 /**
  * **MergeObjects**`<TDefault,TOverride>`
  *
  * A type utility that _shallowly merges_ two object types.
  */
 export type MergeObjects<
-  TDef extends Dictionary | Nothing,
-  TOverride extends Dictionary | Nothing,
-> = Process<
-  CombinedKeys<
-    As<If<IsNothing<TDef>, EmptyObject, TDef>, Dictionary>,
-    As<If<IsNothing<TOverride>, EmptyObject, TOverride>, Dictionary>
-  >,
-  As<If<IsNothing<TDef>, EmptyObject, TDef>, Dictionary>,
-  As<If<IsNothing<TOverride>, EmptyObject, TOverride>, Dictionary>
->;
+  TDef extends Dictionary,
+  TOverride extends Dictionary,
+> = Merged<
+      As<CombinedKeys<TDef,TOverride>, readonly string[]>,
+      TDef,
+      TOverride
+    >
 

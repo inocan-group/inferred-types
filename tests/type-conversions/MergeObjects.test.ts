@@ -24,4 +24,16 @@ describe("MergeObjects<A,B>", () => {
     ];
   });
 
+
+  it("can override base type", () => {
+    type T1 = MergeObjects<{foo: 1; bar: 2}, { foo: "foo"; bar: "bar" }>;
+
+    // @ts-ignore
+    type cases = [
+      Expect<Equal<T1, {foo: "foo"; bar: "bar"}>>,
+    ];
+
+  });
+
+
 });
