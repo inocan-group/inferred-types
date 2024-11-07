@@ -1,8 +1,5 @@
 import { KebabCase } from "inferred-types/dist/types/index";
 
-
-
-
 /**
  * **toKebabCase**(str)
  *
@@ -16,7 +13,7 @@ import { KebabCase } from "inferred-types/dist/types/index";
 export function toKebabCase<
   S extends string,
   P extends boolean = false
->(input: S, preserveWhitespace: P = false as P) {
+>(input: S, _preserveWhitespace: P = false as P) {
   const [_, preWhite, focus, postWhite] = /^(\s*)(.*?)(\s*)$/.exec(input) as RegExpExecArray;
 
   const replaceWhitespace = (i: string) => i.replace(/\s/gs, "-");

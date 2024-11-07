@@ -1,4 +1,4 @@
-import {  StripChars, TupleToUnion } from "inferred-types/dist/types/index";
+import {  StripChars } from "inferred-types/dist/types/index";
 import { asChars } from "inferred-types/dist/runtime/index";
 
 /**
