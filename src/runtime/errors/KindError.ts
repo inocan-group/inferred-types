@@ -14,7 +14,7 @@ import {
 } from "inferred-types/dist/types/index";
 
 import { parse } from "error-stack-parser-es/lite";
-import { relative } from "path";
+import { relative } from "pathe";
 
 type Merged<
   TKeys extends readonly string[],
