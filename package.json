@@ -108,6 +108,7 @@
     }
   },
   "dependencies": {
-    "error-stack-parser-es": "^0.1.5"
+    "error-stack-parser-es": "^0.1.5",
+    "pathe": "^1.1.2"
   }
 }
