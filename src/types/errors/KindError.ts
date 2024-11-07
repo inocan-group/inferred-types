@@ -1,4 +1,11 @@
-import {PascalCase, KebabCase} from "inferred-types/dist/types/index";
+import {
+  PascalCase,
+  KebabCase,
+  EmptyObject,
+  Narrowable,
+  MergeObjects
+} from "inferred-types/dist/types/index";
+import { StackFrame } from "error-stack-parser-es";
 
 /**
  * **KindError**
@@ -25,13 +32,17 @@ import {PascalCase, KebabCase} from "inferred-types/dist/types/index";
  * ```
  */
 export interface KindError<
-  K extends string,
-  C extends Record<string, unknown> | undefined = Record<string, unknown> | undefined
+  TKind extends string,
+  TContext extends Record<string, unknown> = EmptyObject
 > extends Error  {
   __kind: "KindError";
-  name: PascalCase<K>;
-  kind: KebabCase<K>;
-  context: C;
+  name: PascalCase<TKind>;
+  kind: KebabCase<TKind>;
+  file?: string;
+  line?: number;
+  col?: number;
+  context: TContext;
+  stackTrace: StackFrame[];
 }
 
 /**
@@ -41,9 +52,16 @@ export interface KindError<
  * turn it into a `KindError` as specified by this definition.
  */
 export type KindErrorDefn<
-  K extends string,
-  C extends Record<string, unknown> = NonNullable<unknown>
-> = (
+  TKind extends string,
+  TBase extends Record<string, BC>,
+  BC extends Narrowable = Narrowable
+> = <
+  TContext extends Record<string, C>,
+  C extends Narrowable
+>(
   msg: string,
-  context?: C
-) => KindError<K,C>;
+  context?: TContext
+) => KindError<
+  TKind,
+  MergeObjects<TBase, TContext>
+>;

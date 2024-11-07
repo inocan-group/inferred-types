@@ -1,23 +1,58 @@
+import { toKebabCase, toPascalCase } from "../literals";
 import {
+  AfterFirst,
+  As,
+  CombinedKeys,
   EmptyObject,
-  If,
-  IsUndefined,
+  ExpandDictionary,
+  First,
+  Handle,
   KindError,
   KindErrorDefn,
-  Unset
+  MergeObjects,
+  Narrowable
 } from "inferred-types/dist/types/index";
-import { toKebabCase, toPascalCase } from "src/runtime/index";
+
+import { parse } from "error-stack-parser-es/lite";
+import { relative } from "path";
+
+type Merged<
+  TKeys extends readonly string[],
+  TBase extends Record<string, unknown>,
+  TErr extends Record<string, unknown>,
+  TResult extends Record<string, unknown> = EmptyObject
+> = [] extends TKeys
+? ExpandDictionary<TResult>
+: Merged<
+    AfterFirst<TKeys>,
+    TBase,
+    TErr,
+    First<TKeys> extends keyof TErr
+      ? TResult & Record<First<TKeys>, TErr[First<TKeys>]>
+      : First<TKeys> extends keyof TBase
+      ? TResult & Record<First<TKeys>, TBase[First<TKeys>]>
+      : never
+  >;
+
+
+const IGNORABLES = [
+  "@vitest/runner",
+  "node:"
+]
 
 /**
  * **KindError**
  *
- * An error which:
+ * A higher order function who's utility is to create a type and context aware
+ * error message. The first call defines:
  *
- * - must have a "kind" type defined which can be used to categorize the error
- * - is allowed to express other key/value pairs in the `context` property
+ * - the "kind" used to categorize the error
+ * - key/value pairs which represent will eventually be represented
+ * in the Error's `context` property.
  *
- * This error is generated with the `kindError(kind, _defineContext) => (msg, ctx)`
- * higher order function.
+ * The second call fully applies this function into an Error and takes at
+ * minimum a `message` parameter but can also add a second parameter to
+ * add to the "context" which the error conveys.
  *
  * ```ts
  * // Defines the Error
@@ -32,28 +67,61 @@ import { toKebabCase, toPascalCase } from "src/runtime/index";
  * BadJuju("oh my god!", { flavor: "strawberry"})
  * ```
  */
-export const kindError = <
-  K extends string,
-  C extends Record<string, unknown> | Unset = Unset
+export function kindError<
+  TKind extends string,
+  TBaseContext extends Record<string, BC>,
+  BC extends Narrowable = Narrowable
 >(
-  kind: K,
-  _defineContext?: C
-): KindErrorDefn<K,C> =>
-(
-  msg: string,
-  context?: C
-) => {
+  kind: TKind,
+  baseContext: TBaseContext = {} as EmptyObject as TBaseContext
+): KindErrorDefn<
+  TKind,
+  TBaseContext
+> {
+  return <
+    TErrContext extends Record<string, C> = EmptyObject,
+    C extends Narrowable = Narrowable
+  >(
+    msg: string,
+    context: TErrContext = {} as EmptyObject as TErrContext
+    ): KindError<
+      TKind,
+      Merged<
+        As<CombinedKeys<TBaseContext,TErrContext>, readonly string[]>,
+        TBaseContext,TErrContext
+      >
+    > => {
+      const err = new Error(msg) as Partial<
+        KindError<
+          typeof kind, Handle<TBaseContext, undefined, EmptyObject, "equals">
+        >
+      >;
+      const stackTrace = parse(err as Error)
+        .filter(i => !IGNORABLES.some(has => i.file && i.file.includes(has)))
+        .map(i => ({
+          ...i,
+          file: i.file
+          ? relative(process.cwd(), i.file)
+          : undefined
+      }));
 
-  const err = new Error(msg) as Partial<
-    KindError<
-      typeof kind,
-      If<IsUndefined<C>, EmptyObject, C>
-    >
-  >;
-  err.name = toPascalCase(kind);
-  err.kind = toKebabCase(kind);
-  err.__kind = "KindError";
-  err.context = context as any;
+      err.name = toPascalCase(kind);
+      err.kind = toKebabCase(kind);
+      err.file = stackTrace[0].file;
+      err.line = stackTrace[0].line;
+      err.col = stackTrace[0].col;
+      err.stackTrace = stackTrace;
+      err.__kind = "KindError";
+      err.context = {
+        ...baseContext,
+        ...context
+      };
 
-  return err as unknown as KindError<K,C>
+      return err as unknown as KindError<
+        TKind,
+        MergeObjects<TBaseContext,TErrContext>
+      >;
+  };
 }
+
+

@@ -1,2 +1,2 @@
 export * from "./createErrorCondition";
-export * from "./kindedError";
+export * from "./KindError";
