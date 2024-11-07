@@ -1,11 +1,6 @@
 import { stripChars, toKebabCase, toPascalCase } from "../literals";
 import {
-  AfterFirst,
-  As,
-  CombinedKeys,
   EmptyObject,
-  ExpandDictionary,
-  First,
   Handle,
   KindError,
   KindErrorDefn,
