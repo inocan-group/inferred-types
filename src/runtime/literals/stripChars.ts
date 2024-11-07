@@ -1,5 +1,5 @@
 import {  StripChars, TupleToUnion } from "inferred-types/dist/types/index";
-import { asChars } from "src/runtime/index";
+import { asChars } from "inferred-types/dist/runtime/index";
 
 /**
  * **stripChars**`(content, ...strip)`
@@ -14,12 +14,12 @@ export const stripChars = <
 >(
   content: TContent,
   ...strip: TRetain
-): StripChars<TContent, TupleToUnion<TRetain>> => {
+): StripChars<TContent, TRetain[number]> => {
   let chars: readonly string[] = asChars(content);
 
   return (
     chars.filter(c => !strip.includes(c)).join("")
-   ) as unknown as StripChars<TContent, TupleToUnion<TRetain>>
+   ) as unknown as StripChars<TContent, TRetain[number]>
 }
 
 
