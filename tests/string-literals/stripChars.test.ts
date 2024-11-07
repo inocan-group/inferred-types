@@ -11,14 +11,15 @@ describe("stripChars(content,...strip)", () => {
 
   it("happy path", () => {
     const lower = stripChars("FooBar", ...UPPER_ALPHA_CHARS);
+    const special = stripChars("FooBar<Baz>", "<",">", "[", "]", "(",")");
 
     expect(lower).toBe("ooar");
+    expect(special).toBe("FooBarBaz");
 
+    // @ts-ignore
     type cases = [
       Expect<Equal<typeof lower, "ooar">>,
-    ];
-    const cases: cases = [
-      true
+      Expect<Equal<typeof special, "FooBarBaz">>,
     ];
   });
 

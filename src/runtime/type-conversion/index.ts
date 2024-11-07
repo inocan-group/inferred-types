@@ -15,4 +15,5 @@ export * from "./ip6GroupExpansion";
 export * from "./csv";
 export * from "./lookupCountry";
 export * from "./json";
+export * from "./stripParenthesis";
 

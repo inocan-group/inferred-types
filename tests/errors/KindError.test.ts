@@ -74,13 +74,16 @@ describe("KindError", () => {
 
 
   it("with awkward name", () => {
-      const err = kindError("FooBar<12>");
+      const err = kindError("FooBar<Baz>");
+      const fooBarBaz = err("well, well");
 
+      expect(fooBarBaz.name).toEqual("FooBar<Baz>");
+      expect(fooBarBaz.kind).toEqual("foo-bar-baz");
 
 
     // @ts-ignore
     type cases = [
-      /** type tests */
+      Expect<Equal<typeof fooBarBaz, KindError<"FooBar<Baz>">  >>
     ];
 
   });

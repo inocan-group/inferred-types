@@ -9,6 +9,29 @@ import {
 } from "inferred-types/dist/types/index"
 
 
+type Process<
+TString extends string,
+TPreserve extends boolean = false
+> = TPreserve extends true
+? // preserve
+  Concat<[
+    LeftWhitespace<TString>,
+    KebabCase<TString, false>,
+    RightWhitespace<TString>
+  ]>
+
+: // remove whitespace
+  string extends TString
+    ? string
+    : DashUppercase<Trim<LowerAllCaps<TString>>> extends `${infer Begin}${"_" | " "}${infer Rest}`
+      ? KebabCase<`${Lowercase<Begin>}-${Rest}`>
+      : Replace<
+          Lowercase<
+            DashUppercase<Uncapitalize<Trim<LowerAllCaps<TString>>>>
+          >,
+          "--", "-"
+        >;
+
 /**
  * **KebabCase**`<TString,TPreserve>`
  *
@@ -27,22 +50,6 @@ import {
 export type KebabCase<
   TString extends string,
   TPreserve extends boolean = false
-> = TPreserve extends true
-  ? // preserve
-    Concat<[
-      LeftWhitespace<TString>,
-      KebabCase<TString, false>,
-      RightWhitespace<TString>
-    ]>
-
-  : // remove whitespace
-    string extends TString
-      ? string
-      : DashUppercase<Trim<LowerAllCaps<TString>>> extends `${infer Begin}${"_" | " "}${infer Rest}`
-        ? KebabCase<`${Lowercase<Begin>}-${Rest}`>
-        : Replace<
-            Lowercase<
-              DashUppercase<Uncapitalize<Trim<LowerAllCaps<TString>>>>
-            >,
-            "--", "-"
-          >;
+> = Process<TString, TPreserve> extends string
+? Process<TString, TPreserve>
+: never;

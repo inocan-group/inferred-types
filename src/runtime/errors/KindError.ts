@@ -1,4 +1,4 @@
-import { toKebabCase, toPascalCase } from "../literals";
+import { stripChars, toKebabCase, toPascalCase } from "../literals";
 import {
   AfterFirst,
   As,
@@ -10,29 +10,14 @@ import {
   KindError,
   KindErrorDefn,
   MergeObjects,
-  Narrowable
+  Narrowable,
+  StripChars
 } from "inferred-types/dist/types/index";
 
 import { parse } from "error-stack-parser-es/lite";
 import { relative } from "pathe";
 
-type Merged<
-  TKeys extends readonly string[],
-  TBase extends Record<string, unknown>,
-  TErr extends Record<string, unknown>,
-  TResult extends Record<string, unknown> = EmptyObject
-> = [] extends TKeys
-? ExpandDictionary<TResult>
-: Merged<
-    AfterFirst<TKeys>,
-    TBase,
-    TErr,
-    First<TKeys> extends keyof TErr
-      ? TResult & Record<First<TKeys>, TErr[First<TKeys>]>
-      : First<TKeys> extends keyof TBase
-      ? TResult & Record<First<TKeys>, TBase[First<TKeys>]>
-      : never
-  >;
+
 
 
 const IGNORABLES = [
@@ -86,10 +71,7 @@ export function kindError<
     context: TErrContext = {} as EmptyObject as TErrContext
     ): KindError<
       TKind,
-      Merged<
-        As<CombinedKeys<TBaseContext,TErrContext>, readonly string[]>,
-        TBaseContext,TErrContext
-      >
+      MergeObjects<TBaseContext,TErrContext>
     > => {
       const err = new Error(msg) as Partial<
         KindError<
@@ -106,7 +88,7 @@ export function kindError<
       }));
 
       err.name = toPascalCase(kind);
-      err.kind = toKebabCase(kind);
+      err.kind = toKebabCase(stripChars(kind, "<",">", "[", "]", "(",")"));
       err.file = stackTrace[0].file;
       err.line = stackTrace[0].line;
       err.col = stackTrace[0].col;

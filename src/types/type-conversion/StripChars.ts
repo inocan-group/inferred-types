@@ -40,5 +40,9 @@ export type StripChars<
 > = Or<[IsWideType<TContent>, IsWideType<TStrip>]> extends true
   ? string
   : // both TContent and TStrip are literals
-    Concat<Process<Chars<TContent>, TStrip>>;
+    Chars<TContent> extends readonly string[]
+    ? Concat<Process<Chars<TContent>, TStrip>> extends string
+      ? Concat<Process<Chars<TContent>, TStrip>>
+      : never
+    : never;
 

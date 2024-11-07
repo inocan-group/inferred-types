@@ -3,7 +3,8 @@ import {
   KebabCase,
   EmptyObject,
   Narrowable,
-  MergeObjects
+  MergeObjects,
+  StripChars
 } from "inferred-types/dist/types/index";
 import { StackFrame } from "error-stack-parser-es";
 
@@ -37,7 +38,7 @@ export interface KindError<
 > extends Error  {
   __kind: "KindError";
   name: PascalCase<TKind>;
-  kind: KebabCase<TKind>;
+  kind: KebabCase<StripChars<TKind, "<"|">"| "["| "]"| "("|")">>;
   file?: string;
   line?: number;
   col?: number;
