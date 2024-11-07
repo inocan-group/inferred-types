@@ -6,7 +6,6 @@ import {
   KindErrorDefn,
   MergeObjects,
   Narrowable,
-  StripChars
 } from "inferred-types/dist/types/index";
 
 import { parse } from "error-stack-parser-es/lite";
