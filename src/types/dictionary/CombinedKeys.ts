@@ -1,4 +1,11 @@
-import { Dictionary, Unique, IsObjectLiteral, Keys } from "inferred-types/dist/types/index";
+import {
+  Dictionary,
+  Unique,
+  IsObjectLiteral,
+  Keys
+} from "inferred-types/dist/types/index";
+
+
 
 /**
  * **CombinedKeys**`<A,B>`
