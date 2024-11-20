@@ -5,6 +5,7 @@ export * from "./Constant";
 export * from "./DateTime";
 export * from "./Types";
 export * from "./Comma";
+export * from "./colors";
 export * from "./Functional";
 export * from "./Images";
 export * from "./Alpha";
