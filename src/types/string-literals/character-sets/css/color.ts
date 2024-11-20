@@ -1,6 +1,9 @@
 import { HexadecimalChar } from "../Hexadecimal";
 import { OptionalSpace } from "../OptionalSpace";
+import { CSS_NAMED_COLORS } from "src/constants/index";
 
+
+export type CssNamedColors = typeof CSS_NAMED_COLORS[number];
 
 export type CssColorModel =
 | "rgb"
@@ -69,7 +72,7 @@ export type ColorFnOptOpacity = "" | ` / ${number}`
 
 /**
  * The new CSS 4 `color(colorspace v1 v2 v3 [/ alpha])` function.
- * 
+ *
  * **Related:** `CssColorSpace`, `ColorFnValue`, `ColorFnOptOpacity`
  */
 export type CssColorFn<
@@ -78,16 +81,17 @@ export type CssColorFn<
   TV2 extends ColorFnValue = ColorFnValue,
   TV3 extends ColorFnValue = ColorFnValue,
   TOp extends ColorFnOptOpacity = ColorFnOptOpacity
->= 
+>=
 | `color(${TColorSpace} ${TV1} ${TV2} ${TV3})${TOp}` // absolute color
 | `color(${CssColor} from ${TColorSpace} ${TV1} ${TV2} ${TV3})${TOp}`;
 
 /**
  * **CssColor**
- * 
+ *
  * Intended to represent _any_ CSS color value.
  */
-export type CssColor = 
+export type CssColor =
+| CssNamedColors
 | CssHexColor
 | CssRgb
 | CssRgba
