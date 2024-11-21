@@ -113,8 +113,8 @@ export type Iso8601Time<
 > = TExplicit extends "explicit"
 ? `${IsoTimeSymbol<TExplicit>}${IsoHour}:${IsoMonth}${TZ}`
 : TExplicit extends "implicit"
-? `${IsoTimeSymbol<TExplicit>}${IsoHour}:${IsoMonth}:${number}.${number}${TZ}`
-: `${IsoTimeSymbol<TExplicit>}${IsoHour}:${IsoMonth}${TZ}` | `${IsoTimeSymbol<TExplicit>}${IsoHour}:${IsoMonth}:${number}.${number}${TZ}`;
+? `${IsoTimeSymbol<TExplicit>}${IsoHour}:${IsoMonth}:${number}${TZ}`
+: `${IsoTimeSymbol<TExplicit>}${IsoHour}:${IsoMonth}${TZ}` | `${IsoTimeSymbol<TExplicit>}${IsoHour}:${IsoMonth}:${number}${TZ}`;
 
 
 /**
