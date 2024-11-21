@@ -17,11 +17,23 @@
       "import": "./dist/types/index.js",
       "types": "./dist/types/index.d.ts"
     },
+    "./dist/types": {
+      "import": "./dist/types/index.js",
+      "types": "./dist/types/index.d.ts"
+    },
     "./runtime": {
       "import": "./dist/runtime/index.js",
       "types": "./dist/runtime/index.d.ts"
     },
+    "./dist/runtime": {
+      "import": "./dist/runtime/index.js",
+      "types": "./dist/runtime/index.d.ts"
+    },
     "./constants": {
+      "import": "./dist/constants/index.js",
+      "types": "./dist/constants/index.d.ts"
+    },
+    "./dist/constants": {
       "import": "./dist/constants/index.js",
       "types": "./dist/constants/index.d.ts"
     }

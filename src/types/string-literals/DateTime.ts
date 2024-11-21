@@ -53,7 +53,8 @@ type Month = `0${NumericChar}`| `10` | `11` | `12`
 type Date = `${"0"|"1"|"2"}${NumericChar}` | "30" | "31";
 
 /**
- * A calendar date -- by the ISO-8601 standard -- must be represented as:
+ * A calendar date -- by the [**ISO8601**](https://en.wikipedia.org/wiki/ISO_8601) standard --
+ * must be represented as:
  *
  * 1. `YYYY-MM-DD`, or
  * 2. `YYYYMMDD`
@@ -74,7 +75,8 @@ export type Iso8601Date<
 /**
  * **Iso8601Year**
  *
- * A year represented by the ISO-8601 standard. It is represented as either:
+ * A year represented by the [**ISO8601**](https://en.wikipedia.org/wiki/ISO_8601) standard.
+ * It is represented as either:
  *
  * 1. `YYYY` (the standard way)
  * 2. `+`/`-` followed by `YYYYY` for years beyond the range of 0000 and 9999
@@ -94,7 +96,7 @@ type IsoMonth = `${NumericCharZeroToFive}${NumericChar}`;
 /**
  * **Iso8601Time**`<[TExplicit], [TZ]>`
  *
- * The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) standard's representation of a **time**.
+ * The [**ISO8601**](https://en.wikipedia.org/wiki/ISO_8601) standard's representation of a **time**.
  *
  * This allows for the following structures:
  *
@@ -120,7 +122,8 @@ export type Iso8601Time<
 /**
  * **Iso8601DateTime**`<[TExplicit],[TZ]>`
  *
- * A strongly typed [ISO 8601]() representation of a DateTime.
+ * A strongly typed [**ISO8601**](https://en.wikipedia.org/wiki/ISO_8601) representation
+ * of a DateTime.
  *
  * - by default it enforces the "explicit" syntaxes used most commonly in the standard
  * but you can change `TExplicit` to moodify this default.
