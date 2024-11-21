@@ -4,9 +4,6 @@ import { isNumberLike, isString, stripUntil, } from "src/runtime/index";
 
 export const isIsoDateTime = (val: unknown): val is Iso8601DateTime => {
   if (isString(val)) {
-    const afterZ = val.indexOf("Z") === -1
-      ? false
-      : val.indexOf("Z") + 1;
 
     return isString(val) &&
       val.includes(":") &&
