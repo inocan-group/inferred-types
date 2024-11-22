@@ -15,7 +15,6 @@ describe("isIsoDateTime() type guard", () => {
     const t4 = isIsoDateTime(`${t}:45Z+8`);
     const t5 = isIsoDateTime(`${t}:45.001Z+8`);
 
-
     expect(t1).toBe(true);
     expect(t2).toBe(true);
     expect(t3).toBe(true);
