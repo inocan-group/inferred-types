@@ -1,6 +1,6 @@
 import {  getTomorrow,  isDate, isLuxonDateTime } from "src/runtime/index";
 import { isIsoExplicitDate, isMoment, isString, stripAfter } from "src/runtime/index";
-import { Iso8601Date, LuxonJS, MomentJs } from "src/types/index";
+import { Iso8601Date, LuxonJs, MomentJs } from "src/types/index";
 
 
 /**
@@ -14,7 +14,7 @@ import { Iso8601Date, LuxonJS, MomentJs } from "src/types/index";
 */
 export const isTomorrow = (
   test: unknown
-): test is Iso8601Date<"explicit"> | LuxonJS["DateTime"] | MomentJs => {
+): test is Iso8601Date<"explicit"> | LuxonJs["DateTime"] | MomentJs => {
 	if (isString(test)) {
 		const justDate = stripAfter(test, "T");
 		return isIsoExplicitDate(justDate) && justDate === getTomorrow();

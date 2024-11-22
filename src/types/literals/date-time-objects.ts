@@ -351,12 +351,68 @@ type LongDateFormatKey = "LTS" | "LT" | "L" | "LL" | "LLL" | "LLLL" | "lts" | "l
     * @param isLower - Whether to return lowercase (e.g., "am" or "pm").
     */
    meridiem(hour: number, minute: number, isLower: boolean): string;
+
+
+   /**
+    * Gets or sets the year.
+    * @param value - If provided, sets the year to this value.
+    * @returns The year if no argument is provided, or a MomentJs instance if setting.
+    */
+   year(value?: number): number | MomentJs;
+
+   /**
+    * Gets or sets the month (0-11).
+    * @param value - If provided, sets the month to this value.
+    * @returns The month if no argument is provided, or a MomentJs instance if setting.
+    */
+   month(value?: number): number | MomentJs;
+
+   /**
+    * Gets or sets the day of the month.
+    * @param value - If provided, sets the day to this value.
+    * @returns The day if no argument is provided, or a MomentJs instance if setting.
+    */
+   date(value?: number): number | MomentJs;
+
+   /**
+    * Gets or sets the hour.
+    * @param value - If provided, sets the hour to this value.
+    * @returns The hour if no argument is provided, or a MomentJs instance if setting.
+    */
+   hour(value?: number): number | MomentJs;
+
+   /**
+    * Gets or sets the minute.
+    * @param value - If provided, sets the minute to this value.
+    * @returns The minute if no argument is provided, or a MomentJs instance if setting.
+    */
+   minute(value?: number): number | MomentJs;
+
+   /**
+    * Gets or sets the second.
+    * @param value - If provided, sets the second to this value.
+    * @returns The second if no argument is provided, or a MomentJs instance if setting.
+    */
+   second(value?: number): number | MomentJs;
+
+   /**
+    * Gets or sets the millisecond.
+    * @param value - If provided, sets the millisecond to this value.
+    * @returns The millisecond if no argument is provided, or a MomentJs instance if setting.
+    */
+   millisecond(value?: number): number | MomentJs;
+
+   /**
+    * Gets the day of the year (1-366).
+    * @returns The day of the year.
+    */
+   dayOfYear(): number;
  };
 
 /**
  * A representation of the [Luxon](https://moment.github.io/luxon/#/?id=luxon) library's type system
  */
-export type LuxonJS = {
+export type LuxonJs = {
   calendars: {
     standard: {
       months: string[];
@@ -375,25 +431,25 @@ export type LuxonJS = {
      * Create a Duration from an object specifying units and their values.
      * @param values - An object with time unit keys like `hours` and `minutes`.
      */
-    fromObject(values: { [unit: string]: number }): LuxonJS["Duration"];
+    fromObject(values: { [unit: string]: number }): LuxonJs["Duration"];
 
     /**
      * Create a Duration from a number of milliseconds.
      * @param milliseconds - The number of milliseconds.
      */
-    fromMillis(milliseconds: number): LuxonJS["Duration"];
+    fromMillis(milliseconds: number): LuxonJs["Duration"];
 
     /**
      * Create a Duration from an ISO 8601 duration string.
      * @param isoString - The ISO duration string to parse.
      */
-    fromISO(isoString: string): LuxonJS["Duration"];
+    fromISO(isoString: string): LuxonJs["Duration"];
 
     /**
      * Create a Duration from a number of seconds.
      * @param seconds - The number of seconds.
      */
-    fromSeconds(seconds: number): LuxonJS["Duration"];
+    fromSeconds(seconds: number): LuxonJs["Duration"];
 
     // Instance properties
 
@@ -456,31 +512,31 @@ export type LuxonJS = {
     /**
      * Normalize this Duration, shifting larger units down to smaller units.
      */
-    normalize(): LuxonJS["Duration"];
+    normalize(): LuxonJs["Duration"];
 
     /**
      * Add another Duration to this Duration.
      * @param other - The Duration to add.
      */
-    plus(other: LuxonJS["Duration"] | { [unit: string]: number }): LuxonJS["Duration"];
+    plus(other: LuxonJs["Duration"] | { [unit: string]: number }): LuxonJs["Duration"];
 
     /**
      * Subtract another Duration from this Duration.
      * @param other - The Duration to subtract.
      */
-    minus(other: LuxonJS["Duration"] | { [unit: string]: number }): LuxonJS["Duration"];
+    minus(other: LuxonJs["Duration"] | { [unit: string]: number }): LuxonJs["Duration"];
 
     /**
      * Scale this Duration by a factor.
      * @param factor - The factor to scale by.
      */
-    mapUnits(factor: number): LuxonJS["Duration"];
+    mapUnits(factor: number): LuxonJs["Duration"];
 
     /**
      * Reconfigure this Duration's locale and numbering system.
      * @param opts - Configuration options like `locale` or `numberingSystem`.
      */
-    reconfigure(opts: { locale?: string; numberingSystem?: string }): LuxonJS["Duration"];
+    reconfigure(opts: { locale?: string; numberingSystem?: string }): LuxonJs["Duration"];
   }
 
   DateTime: {
@@ -492,59 +548,59 @@ export type LuxonJS = {
      * @param format - The format string to interpret `inp`.
      * @param opts - Options to customize parsing, like `locale` or `zone`.
      */
-    fromFormat(inp: string, format: string, opts?: object): LuxonJS["DateTime"];
+    fromFormat(inp: string, format: string, opts?: object): LuxonJs["DateTime"];
 
     /**
      * Create a DateTime instance from an SQL date/time string.
      * @param inp - The SQL string to parse.
      * @param opts - Options to customize parsing, like `zone`.
      */
-    fromSQL(inp: string, opts?: object): LuxonJS["DateTime"];
+    fromSQL(inp: string, opts?: object): LuxonJs["DateTime"];
 
     /**
      * Create a DateTime instance in the local time zone.
      * Accepts optional values for date and time components.
      */
-    local(year?: number, month?: number, day?: number, hour?: number, minute?: number, second?: number, millisecond?: number): LuxonJS["DateTime"];
+    local(year?: number, month?: number, day?: number, hour?: number, minute?: number, second?: number, millisecond?: number): LuxonJs["DateTime"];
 
     /**
      * Create a DateTime instance in the UTC time zone.
      * Accepts optional values for date and time components.
      */
-    utc(year?: number, month?: number, day?: number, hour?: number, minute?: number, second?: number, millisecond?: number): LuxonJS["DateTime"];
+    utc(year?: number, month?: number, day?: number, hour?: number, minute?: number, second?: number, millisecond?: number): LuxonJs["DateTime"];
 
     /**
      * Get the current date and time as a DateTime instance.
      * @param zone - Optional time zone for the instance.
      */
-    now(zone?: string): LuxonJS["DateTime"];
+    now(zone?: string): LuxonJs["DateTime"];
 
     /**
      * Create a DateTime instance from an object specifying date and time components.
      * @param config - Object with properties like `year`, `month`, `day`, etc.
      */
-    fromObject(config: { zone?: string; locale?: string; numberingSystem?: string; [key: string]: any }): LuxonJS["DateTime"];
+    fromObject(config: { zone?: string; locale?: string; numberingSystem?: string; [key: string]: any }): LuxonJs["DateTime"];
 
     /**
      * Create a DateTime instance from a JavaScript Date object.
      * @param date - The JavaScript Date object to convert.
      * @param opts - Options to customize conversion, like `zone`.
      */
-    fromJSDate(date: Date, opts?: { zone?: string; locale?: string }): LuxonJS["DateTime"];
+    fromJSDate(date: Date, opts?: { zone?: string; locale?: string }): LuxonJs["DateTime"];
 
     /**
      * Create a DateTime instance from a number of milliseconds since the epoch.
      * @param milliseconds - Milliseconds since January 1, 1970.
      * @param opts - Options like `zone` or `locale`.
      */
-    fromMillis(milliseconds: number, opts?: { zone?: string; locale?: string }): LuxonJS["DateTime"];
+    fromMillis(milliseconds: number, opts?: { zone?: string; locale?: string }): LuxonJs["DateTime"];
 
     /**
      * Create a DateTime instance from a number of seconds since the epoch.
      * @param seconds - Seconds since January 1, 1970.
      * @param opts - Options like `zone` or `locale`.
      */
-    fromSeconds(seconds: number, opts?: { zone?: string; locale?: string }): LuxonJS["DateTime"];
+    fromSeconds(seconds: number, opts?: { zone?: string; locale?: string }): LuxonJs["DateTime"];
 
     /**
      * Determine if the given input is a valid JavaScript Date object.
@@ -557,7 +613,7 @@ export type LuxonJS = {
      * Create an invalid DateTime instance.
      * @param reason - A string describing why the instance is invalid.
      */
-    invalid(reason: string): LuxonJS["DateTime"];
+    invalid(reason: string): LuxonJs["DateTime"];
 
     // Instance methods
 
@@ -615,44 +671,44 @@ export type LuxonJS = {
      * Add a duration to this DateTime.
      * @param duration - An object specifying the amount to add, e.g., `{ days: 1 }`.
      */
-    plus(duration: { years?: number; months?: number; days?: number; hours?: number; minutes?: number; seconds?: number; milliseconds?: number }): LuxonJS["DateTime"];
+    plus(duration: { years?: number; months?: number; days?: number; hours?: number; minutes?: number; seconds?: number; milliseconds?: number }): LuxonJs["DateTime"];
 
     /**
      * Subtract a duration from this DateTime.
      * @param duration - An object specifying the amount to subtract, e.g., `{ days: 1 }`.
      */
-    minus(duration: { years?: number; months?: number; days?: number; hours?: number; minutes?: number; seconds?: number; milliseconds?: number }): LuxonJS["DateTime"];
+    minus(duration: { years?: number; months?: number; days?: number; hours?: number; minutes?: number; seconds?: number; milliseconds?: number }): LuxonJs["DateTime"];
 
     /**
      * Get the start of a specified time unit (e.g., start of the day).
      * @param unit - The unit, such as `"year"` or `"day"`.
      */
-    startOf(unit: "year" | "month" | "week" | "day" | "hour" | "minute" | "second" | "millisecond"): LuxonJS["DateTime"];
+    startOf(unit: "year" | "month" | "week" | "day" | "hour" | "minute" | "second" | "millisecond"): LuxonJs["DateTime"];
 
     /**
      * Get the end of a specified time unit (e.g., end of the day).
      * @param unit - The unit, such as `"year"` or `"day"`.
      */
-    endOf(unit: "year" | "month" | "week" | "day" | "hour" | "minute" | "second" | "millisecond"): LuxonJS["DateTime"];
+    endOf(unit: "year" | "month" | "week" | "day" | "hour" | "minute" | "second" | "millisecond"): LuxonJs["DateTime"];
 
     /**
      * Set specific components of the DateTime (e.g., change the year or month).
      * @param values - An object with the components to set.
      */
-    set(values: { year?: number; month?: number; day?: number; hour?: number; minute?: number; second?: number; millisecond?: number; zone?: string; locale?: string }): LuxonJS["DateTime"];
+    set(values: { year?: number; month?: number; day?: number; hour?: number; minute?: number; second?: number; millisecond?: number; zone?: string; locale?: string }): LuxonJs["DateTime"];
 
     /**
      * Change the locale, numbering system, or calendar system of the DateTime.
      * @param values - An object specifying the new configuration.
      */
-    reconfigure(values: { locale?: string; numberingSystem?: string; outputCalendar?: string }): LuxonJS["DateTime"];
+    reconfigure(values: { locale?: string; numberingSystem?: string; outputCalendar?: string }): LuxonJs["DateTime"];
 
     /**
      * Change the time zone of the DateTime.
      * @param zone - The new time zone.
      * @param opts - Options to keep the local time or calendar time.
      */
-    setZone(zone: string, opts?: { keepLocalTime?: boolean; keepCalendarTime?: boolean }): LuxonJS["DateTime"];
+    setZone(zone: string, opts?: { keepLocalTime?: boolean; keepCalendarTime?: boolean }): LuxonJs["DateTime"];
 
     /**
      * Get the specified unit of the DateTime (e.g., the year or month).
@@ -666,7 +722,7 @@ export type LuxonJS = {
      * @param unit - The units to calculate the difference in.
      * @param opts - Options like `conversionAccuracy`.
      */
-    diff(other: LuxonJS["DateTime"], unit?: string | string[], opts?: { conversionAccuracy?: "casual" | "longterm" }): LuxonJS["Duration"];
+    diff(other: LuxonJs["DateTime"], unit?: string | string[], opts?: { conversionAccuracy?: "casual" | "longterm" }): LuxonJs["Duration"];
 
     // Properties
     /** The year represented by this DateTime instance */
