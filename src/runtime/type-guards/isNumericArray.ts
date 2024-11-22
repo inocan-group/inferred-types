@@ -1,4 +1,4 @@
-import { isNumber } from "./isNumber";
+import { isNumber } from "inferred-types/dist/runtime/index";
 
 
 /**
