@@ -1,0 +1,33 @@
+import { getToday, isDate, isLuxonDateTime } from "src/runtime/index";
+import { isIsoExplicitDate, isMoment, isString, stripAfter } from "src/runtime/index";
+import { Iso8601Date, LuxonJS, MomentJs } from "src/types/index";
+
+
+/**
+* **isToday`(val)`**
+*
+* A type guard which validates whether the passed in value _represents_ today's date
+* as either a:
+*
+*   - [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date string, or
+*   - [Moment.js](https://momentjs.com/docs/#/displaying/)  DateTime object, or
+*   - [Luxon](https://moment.github.io/luxon/#/?id=luxon) DateTime object
+*/
+export const isToday = (
+  test: unknown
+): test is Iso8601Date<"explicit"> | LuxonJS["DateTime"] | MomentJs => {
+	if (isString(test)) {
+		const justDate = stripAfter(test, "T");
+		return isIsoExplicitDate(justDate) && justDate === getToday();
+	} else if (isMoment(test) || isDate(test)) {
+		return (
+		  stripAfter(test.toISOString(), "T") === getToday()
+		);
+	} else if (isLuxonDateTime(test)) {
+		return (
+		  stripAfter(test.toISO(), "T") === getToday()
+		);
+	}
+
+	return false;
+};
