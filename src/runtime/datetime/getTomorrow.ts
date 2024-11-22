@@ -1,7 +1,7 @@
 import { Iso8601Date } from "src/types/index";
 
 /**
- * Returns the an
+ * Returns a
  * [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date string
  * for tomorrow.
 */

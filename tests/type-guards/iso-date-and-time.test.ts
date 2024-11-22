@@ -27,7 +27,6 @@ describe("isIsoDate()", () => {
     expect(f1).toBe(false);
     expect(f2).toBe(false);
 
-
     if (isIsoExplicitDate(d)) {
       type D = typeof d;
 
