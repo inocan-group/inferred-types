@@ -45,7 +45,7 @@ export default ts.config({
             "error",
             {
               "args": "all",
-              "argsIgnorePattern": ["^_", "cases"],
+              "argsIgnorePattern": "^_",
               "caughtErrors": "all",
               "caughtErrorsIgnorePattern": "^_",
               "destructuredArrayIgnorePattern": "^_",
