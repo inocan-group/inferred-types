@@ -22,7 +22,7 @@ const now = new Date();
   if (isMoment(val)) {
     const monthValue = val.month();
     return val.year() === currentYear &&
-           (typeof monthValue === 'number' ? monthValue + 1 : monthValue) === currentMonth; // Moment months are 0-11
+           (typeof monthValue === "number" ? monthValue + 1 : monthValue) === currentMonth; // Moment months are 0-11
   }
 
   if (isLuxonDateTime(val)) {
@@ -30,9 +30,7 @@ const now = new Date();
            val.month === currentMonth; // Luxon months are 1-12
   }
 
-  // Handle ISO 8601 strings
   if (typeof val === "string") {
-    // Match YYYY-MM from ISO 8601 format
     const dateMatch = val.match(/^(\d{4})-(\d{2})/);
     if (dateMatch) {
       const year = parseInt(dateMatch[1], 10);
