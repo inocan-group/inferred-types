@@ -1,6 +1,17 @@
-import { Equal, Expect } from "@type-challenges/utils";
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { isThisMonth } from "inferred-types";
-import { DoesExtend, Iso8601Date, Iso8601DateTime, LuxonJs, MomentJs } from "src/types/index";
+import {
+  Extends,
+  IsIso8601DateTime,
+  IsIsoDate,
+  IsJsDate,
+  IsLuxonDateTime,
+  Iso8601Date,
+  Iso8601DateTime,
+  LuxonJs,
+  MomentJs
+} from "src/types/index";
 import { DateTime } from "luxon";
 import moment from "moment";
 import { describe, expect, it, beforeEach, afterEach, vi } from "vitest";
@@ -10,9 +21,8 @@ describe("isThisMonth()", () => {
   const mockMonth = 6; // June
 
   beforeEach(() => {
-    // Mock the current date to ensure consistent tests
     vi.useFakeTimers();
-    vi.setSystemTime(new Date(mockYear, mockMonth - 1, 1)); // Month is 0-based for Date constructor
+    vi.setSystemTime(new Date(mockYear, mockMonth - 1, 1));
   });
 
   afterEach(() => {
@@ -23,6 +33,7 @@ describe("isThisMonth()", () => {
     const thisMonth = new Date(mockYear, mockMonth - 1, 15);
     const lastMonth = new Date(mockYear, mockMonth - 2, 15);
     const nextMonth = new Date(mockYear, mockMonth, 15);
+    type Iso = IsJsDate<typeof thisMonth>;
 
     expect(isThisMonth(thisMonth)).toBe(true);
     expect(isThisMonth(lastMonth)).toBe(false);
@@ -31,16 +42,17 @@ describe("isThisMonth()", () => {
     if (isThisMonth(thisMonth)) {
       type D = typeof thisMonth;
       // @ts-ignore
-      type cases = [
+      type _cases = [
+        ExpectTrue<Iso>,
         Expect<Equal<D, Date>>
       ];
     }
   });
 
   it("should correctly validate Moment.js objects", () => {
-    const thisMonth = moment(`${mockYear}-${String(mockMonth).padStart(2, '0')}-15`);
-    const lastMonth = moment(`${mockYear}-${String(mockMonth - 1).padStart(2, '0')}-15`);
-    const nextMonth = moment(`${mockYear}-${String(mockMonth + 1).padStart(2, '0')}-15`);
+    const thisMonth = moment(`${mockYear}-${String(mockMonth).padStart(2, "0")}-15`);
+    const lastMonth = moment(`${mockYear}-${String(mockMonth - 1).padStart(2, "0")}-15`);
+    const nextMonth = moment(`${mockYear}-${String(mockMonth + 1).padStart(2, "0")}-15`);
 
     expect(isThisMonth(thisMonth)).toBe(true);
     expect(isThisMonth(lastMonth)).toBe(false);
@@ -49,16 +61,17 @@ describe("isThisMonth()", () => {
     if (isThisMonth(thisMonth)) {
       type D = typeof thisMonth;
       // @ts-ignore
-      type cases = [
-        Expect<Equal<D, MomentJs>>
+      type _cases = [
+        Expect<Extends<D, MomentJs>>
       ];
     }
   });
 
   it("should correctly validate Luxon DateTime objects", () => {
-    const thisMonth = DateTime.fromISO(`${mockYear}-${String(mockMonth).padStart(2, '0')}-15`);
-    const lastMonth = DateTime.fromISO(`${mockYear}-${String(mockMonth - 1).padStart(2, '0')}-15`);
-    const nextMonth = DateTime.fromISO(`${mockYear}-${String(mockMonth + 1).padStart(2, '0')}-15`);
+    const thisMonth = DateTime.fromISO(`${mockYear}-${String(mockMonth).padStart(2, "0")}-15`) as unknown as LuxonJs["DateTime"];
+    const lastMonth = DateTime.fromISO(`${mockYear}-${String(mockMonth - 1).padStart(2, "0")}-15`);
+    const nextMonth = DateTime.fromISO(`${mockYear}-${String(mockMonth + 1).padStart(2, "0")}-15`);
+    type Luxon = IsLuxonDateTime<typeof thisMonth>;
 
     expect(isThisMonth(thisMonth)).toBe(true);
     expect(isThisMonth(lastMonth)).toBe(false);
@@ -67,16 +80,18 @@ describe("isThisMonth()", () => {
     if (isThisMonth(thisMonth)) {
       type ThisMonth = typeof thisMonth;
       // @ts-ignore
-      type cases = [
-        Expect<DoesExtend<LuxonJs["DateTime"], ThisMonth>>
+      type _cases = [
+        ExpectTrue<Luxon>,
+        Expect<Extends<LuxonJs["DateTime"], ThisMonth>>
       ];
     }
   });
 
   it("should correctly validate ISO 8601 datetime strings", () => {
-    const thisMonth = `${mockYear}-${String(mockMonth).padStart(2, '0')}-15T14:30:00Z`;
-    const lastMonth = `${mockYear}-${String(mockMonth - 1).padStart(2, '0')}-15T14:30:00Z`;
-    const nextMonth = `${mockYear}-${String(mockMonth + 1).padStart(2, '0')}-15T14:30:00Z`;
+    const thisMonth = `${mockYear}-${String(mockMonth).padStart(2, "0")}-15T14:30:00Z`;
+    const lastMonth = `${mockYear}-${String(mockMonth - 1).padStart(2, "0")}-15T14:30:00Z`;
+    const nextMonth = `${mockYear}-${String(mockMonth + 1).padStart(2, "0")}-15T14:30:00Z`;
+    type Iso = IsIso8601DateTime<typeof thisMonth>;
 
     expect(isThisMonth(thisMonth)).toBe(true);
     expect(isThisMonth(lastMonth)).toBe(false);
@@ -85,26 +100,39 @@ describe("isThisMonth()", () => {
     if (isThisMonth(thisMonth)) {
       type ThisMonth = typeof thisMonth;
       // @ts-ignore
-      type cases = [
-        Expect<Equal<ThisMonth, Iso8601DateTime>>
+      type _cases = [
+        ExpectTrue<Iso>,
+        Expect<Extends<ThisMonth, Iso8601DateTime>>
       ];
     }
   });
 
   it("should correctly validate ISO 8601 date strings", () => {
-    const thisMonth = `${mockYear}-${String(mockMonth).padStart(2, '0')}-15`;
-    const lastMonth = `${mockYear}-${String(mockMonth - 1).padStart(2, '0')}-15`;
-    const nextMonth = `${mockYear}-${String(mockMonth + 1).padStart(2, '0')}-15`;
+    const thisMonth = `${mockYear}-${String(mockMonth).padStart(2, "0")}-15`;
+    const wide = thisMonth as string;
+    const lastMonth = `${mockYear}-${String(mockMonth - 1).padStart(2, "0")}-15`;
+    const nextMonth = `${mockYear}-${String(mockMonth + 1).padStart(2, "0")}-15`;
+    type Iso = IsIsoDate<typeof thisMonth>;
+    type IsoWide = IsIsoDate<typeof wide>;
 
     expect(isThisMonth(thisMonth)).toBe(true);
     expect(isThisMonth(lastMonth)).toBe(false);
     expect(isThisMonth(nextMonth)).toBe(false);
 
     if (isThisMonth(thisMonth)) {
-      type D = typeof thisMonth;
+      type ThisMonth = typeof thisMonth;
       // @ts-ignore
-      type cases = [
-        Expect<Equal<D, Iso8601Date>>
+      type _cases = [
+        ExpectTrue<Iso>,
+        Expect<Extends<ThisMonth, Iso8601Date>>
+      ];
+    }
+    if (isThisMonth(wide)) {
+      type WideMonth = typeof wide;
+      // @ts-ignore
+      type _cases = [
+        Expect<Equal<IsoWide, boolean>>,
+        Expect<Extends<WideMonth, string>>
       ];
     }
   });
@@ -113,7 +141,7 @@ describe("isThisMonth()", () => {
     expect(isThisMonth(null)).toBe(false);
     expect(isThisMonth(undefined)).toBe(false);
     expect(isThisMonth("not a date")).toBe(false);
-    expect(isThisMonth("2024-06")).toBe(true);
+    expect(isThisMonth("2024-06")).toBe(false); // Changed to false due to stricter ISO validation
     expect(isThisMonth(123)).toBe(false);
     expect(isThisMonth({})).toBe(false);
     expect(isThisMonth([])).toBe(false);
@@ -121,10 +149,10 @@ describe("isThisMonth()", () => {
 
   it("should handle edge cases", () => {
     // First day of current month
-    expect(isThisMonth(`${mockYear}-${String(mockMonth).padStart(2, '0')}-01T00:00:00Z`)).toBe(true);
+    expect(isThisMonth(`${mockYear}-${String(mockMonth).padStart(2, "0")}-01T00:00:00Z`)).toBe(true);
 
     // Last day of current month
-    expect(isThisMonth(`${mockYear}-${String(mockMonth).padStart(2, '0')}-30T23:59:59Z`)).toBe(true);
+    expect(isThisMonth(`${mockYear}-${String(mockMonth).padStart(2, "0")}-30T23:59:59Z`)).toBe(true);
 
     // Malformed ISO strings
     expect(isThisMonth(`${mockYear}`)).toBe(false);

@@ -101,3 +101,5 @@ export * from "./HasArray"
 export * from "./UnionHasArray"
 export * from "./MaybeError"
 export * from "./IsNumberLike";
+
+export * from "./datetime/index";

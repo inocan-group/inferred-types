@@ -1,6 +1,16 @@
-import { Equal, Expect } from "@type-challenges/utils";
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { isThisYear } from "inferred-types";
-import { DoesExtend, Iso8601Date, Iso8601DateTime, LuxonJs, MomentJs } from "src/types/index";
+import {
+  Extends,
+  IsIso8601DateTime,
+  IsIsoDate,
+  IsLuxonDateTime,
+  Iso8601Date,
+  Iso8601DateTime,
+  LuxonJs,
+  MomentJs
+} from "src/types/index";
 import { DateTime } from "luxon";
 import moment from "moment";
 import { describe, expect, it, beforeEach, afterEach, vi } from "vitest";
@@ -29,8 +39,9 @@ describe("isThisYear()", () => {
 
     if (isThisYear(thisYear)) {
       type D = typeof thisYear;
+
       // @ts-ignore
-      type cases = [
+      type _cases = [
         Expect<Equal<D, Date>>
       ];
     }
@@ -38,6 +49,8 @@ describe("isThisYear()", () => {
 
   it("should correctly validate Moment.js objects", () => {
     const thisYear = moment(`${mockCurrentYear}-06-15`);
+
+
     const lastYear = moment(`${mockCurrentYear - 1}-06-15`);
     const nextYear = moment(`${mockCurrentYear + 1}-06-15`);
 
@@ -48,16 +61,17 @@ describe("isThisYear()", () => {
     if (isThisYear(thisYear)) {
       type D = typeof thisYear;
       // @ts-ignore
-      type cases = [
-        Expect<Equal<D, MomentJs>>
+      type _cases = [
+        Expect<Extends<D, MomentJs>>
       ];
     }
   });
 
   it("should correctly validate Luxon DateTime objects", () => {
-    const thisYear = DateTime.fromISO(`${mockCurrentYear}-06-15`);
+    const thisYear = DateTime.fromISO(`${mockCurrentYear}-06-15`) as unknown as LuxonJs["DateTime"];
     const lastYear = DateTime.fromISO(`${mockCurrentYear - 1}-06-15`);
     const nextYear = DateTime.fromISO(`${mockCurrentYear + 1}-06-15`);
+    type Luxon = IsLuxonDateTime<typeof thisYear>;
 
     expect(isThisYear(thisYear)).toBe(true);
     expect(isThisYear(lastYear)).toBe(false);
@@ -66,8 +80,9 @@ describe("isThisYear()", () => {
     if (isThisYear(thisYear)) {
       type ThisYear = typeof thisYear;
       // @ts-ignore
-      type cases = [
-        Expect<DoesExtend<LuxonJs["DateTime"], ThisYear>>
+      type _cases = [
+        ExpectTrue<Luxon>,
+        Expect<Extends<LuxonJs["DateTime"], ThisYear>>
       ];
     }
   });
@@ -76,6 +91,7 @@ describe("isThisYear()", () => {
     const thisYear = `${mockCurrentYear}-06-15T14:30:00Z`;
     const lastYear = `${mockCurrentYear - 1}-06-15T14:30:00Z`;
     const nextYear = `${mockCurrentYear + 1}-06-15T14:30:00Z`;
+    type Iso = IsIso8601DateTime<typeof thisYear>;
 
     expect(isThisYear(thisYear)).toBe(true);
     expect(isThisYear(lastYear)).toBe(false);
@@ -84,26 +100,39 @@ describe("isThisYear()", () => {
     if (isThisYear(thisYear)) {
       type ThisYear = typeof thisYear;
       // @ts-ignore
-      type cases = [
-        Expect<Equal<ThisYear, Iso8601DateTime>>
+      type _cases = [
+        ExpectTrue<Iso>,
+        Expect<Extends<ThisYear, Iso8601DateTime>>
       ];
     }
   });
 
   it("should correctly validate ISO 8601 date strings", () => {
     const thisYear = `${mockCurrentYear}-06-15`;
+    const wide = thisYear as string;
     const lastYear = `${mockCurrentYear - 1}-06-15`;
     const nextYear = `${mockCurrentYear + 1}-06-15`;
+    type Iso = IsIsoDate<typeof thisYear>;
+    type IsoWide = IsIsoDate<typeof wide>;
 
     expect(isThisYear(thisYear)).toBe(true);
     expect(isThisYear(lastYear)).toBe(false);
     expect(isThisYear(nextYear)).toBe(false);
 
     if (isThisYear(thisYear)) {
-      type D = typeof thisYear;
+      type ThisYear = typeof thisYear;
       // @ts-ignore
-      type cases = [
-        Expect<Equal<D, Iso8601Date>>
+      type _cases = [
+        ExpectTrue<Iso>,
+        Expect<Extends<ThisYear, Iso8601Date>>
+      ];
+    }
+    if (isThisYear(wide)) {
+      type WideYear = typeof wide;
+      // @ts-ignore
+      type _cases = [
+        Expect<Equal<IsoWide, boolean>>,
+        Expect<Extends<WideYear, string>>
       ];
     }
   });

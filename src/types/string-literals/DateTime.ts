@@ -120,19 +120,17 @@ export type Iso8601Time<
 
 
 /**
- * **Iso8601DateTime**`<[TExplicit],[TZ]>`
+ * **Iso8601DateTime**`<[TZ]>`
  *
  * A strongly typed [**ISO8601**](https://en.wikipedia.org/wiki/ISO_8601) representation
  * of a DateTime.
  *
- * - by default it enforces the "explicit" syntaxes used most commonly in the standard
- * but you can change `TExplicit` to moodify this default.
  * - by default, the timezone is considered optional but you can adjust this with the `TZ`
  * generic.
  */
 export type Iso8601DateTime<
   TZ extends Timezone | "" = Timezone | ""
-> = `${number}-${number}-${number}${Iso8601Time<"explicit">}${TZ}`;
+> = `${number}-${number}-${number}${Iso8601Time<"both">}${TZ}`;
 
 
 /**
