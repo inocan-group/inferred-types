@@ -1,41 +1,15 @@
-import {
-  IsIso8601DateTime,
-  IsIsoExplicitDate,
-  IsIsoImplicitDate,
-  IsJsDate, IsLuxonDateTime,
-  IsMoment,
-  Iso8601Date,
-  Iso8601DateTime,
-  IsString,
-  LuxonJs,
-  MomentJs
-} from "src/types/index";
+
 import { isMoment } from "./isMoment";
 import { isLuxonDateTime } from "./isLuxonDateTime";
 
-type RetainDateFormat<T> = IsLuxonDateTime<T> extends true
-  ? LuxonJs["DateTime"]
-  : IsMoment<T> extends true
-  ? MomentJs
-  : IsJsDate<T> extends true
-  ? Date
-  : IsIsoExplicitDate<T> extends true
-  ? Iso8601Date<"explicit">
-  : IsIsoImplicitDate<T> extends true
-  ? Iso8601Date<"implicit">
-  : IsIso8601DateTime<T> extends true
-  ? Iso8601DateTime
-  : IsString<T> extends true
-  ? T
-  : never;
 
 /**
 * Type guard which validates that the passed in `val` is a date or date-time
 * representation and that it's year is the same as the current year.
 */
-export const isThisYear = <T>(
-  val: T
-): val is T & RetainDateFormat<T> => {
+export const isThisYear = (
+  val: unknown
+): boolean => {
   // Get current year
   const currentYear = new Date().getFullYear();
 
