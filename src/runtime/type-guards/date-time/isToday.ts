@@ -1,23 +1,5 @@
 import { getToday, isDate, isLuxonDateTime } from "src/runtime/index";
 import { isIsoExplicitDate, isMoment, isString, stripAfter } from "src/runtime/index";
-import { IsJsDate, IsLuxonDateTime, IsMoment, Iso8601Date, Iso8601DateTime, LuxonJs, MomentJs } from "src/types/index";
-
-
-type DateType<T> = T extends Iso8601Date<"explicit">
-? Iso8601Date<"explicit">
-: T extends Iso8601Date<"implicit">
-? Iso8601Date<"implicit">
-: T extends Iso8601DateTime
-? Iso8601DateTime
-: IsMoment<T> extends true
-? MomentJs
-: IsJsDate<T> extends true
-? Date
-: IsLuxonDateTime<T> extends true
-? LuxonJs["DateTime"]
-: T extends string
-? Iso8601Date | Iso8601DateTime
-: never;
 
 
 /**
@@ -32,7 +14,7 @@ type DateType<T> = T extends Iso8601Date<"explicit">
 */
 export const isToday = <T>(
   test: T
-): test is T & DateType<T> => {
+): boolean => {
 	if (isString(test)) {
 		const justDate = stripAfter(test, "T");
 		return isIsoExplicitDate(justDate) && justDate === getToday();
