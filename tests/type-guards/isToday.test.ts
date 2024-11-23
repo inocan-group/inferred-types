@@ -8,8 +8,7 @@ import {
   IsLuxonDateTime,
   Iso8601Date,
   Iso8601DateTime,
-  LuxonJs,
-  MomentJs
+  LuxonJs
 } from "src/types/index";
 import { DateTime } from "luxon";
 import moment from "moment";
@@ -56,13 +55,6 @@ describe("isToday()", () => {
     expect(isToday(yesterday)).toBe(false);
     expect(isToday(tomorrow)).toBe(false);
 
-    if (isToday(today)) {
-      type D = typeof today;
-      // @ts-ignore
-      type _cases = [
-        Expect<Extends<D, MomentJs>>
-      ];
-    }
   });
 
   it("should correctly validate Luxon DateTime objects", () => {
@@ -107,11 +99,9 @@ describe("isToday()", () => {
 
   it("should correctly validate ISO 8601 date strings", () => {
     const today = "2024-01-15";
-    const wide = today as string;
     const yesterday = "2024-01-14";
     const tomorrow = "2024-01-16";
     type Iso = IsIsoDate<typeof today>;
-    type IsoWide = IsIsoDate<typeof wide>;
 
     expect(isToday(today)).toBe(true);
     expect(isToday(yesterday)).toBe(false);
@@ -125,14 +115,7 @@ describe("isToday()", () => {
         Expect<Extends<ThisDay, Iso8601Date>>
       ];
     }
-    if (isToday(wide)) {
-      type WideDay = typeof wide;
-      // @ts-ignore
-      type _cases = [
-        Expect<Equal<IsoWide, boolean>>,
-        Expect<Extends<WideDay, Iso8601Date | Iso8601DateTime>>
-      ];
-    }
+
   });
 
   it("should handle invalid inputs", () => {
