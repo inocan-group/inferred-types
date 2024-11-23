@@ -7,7 +7,7 @@ import { isObject } from "src/runtime/index"
 */
 export const isLuxonDateTime = (val: unknown): val is LuxonJs["DateTime"] => {
   return isObject(val) &&
-    typeof val === 'object' &&
+    typeof val === "object" &&
     val !== null &&
     "isValid" in val &&
     "invalidReason" in val &&
