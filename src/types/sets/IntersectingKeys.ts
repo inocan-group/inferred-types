@@ -1,4 +1,4 @@
-import { AsRecord, Container, UnionToTuple } from "inferred-types/dist/types/index";
+import { AsRecord, Container, UnionToTuple } from "inferred-types/types";
 
 
 /**

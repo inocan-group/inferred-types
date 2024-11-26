@@ -1,4 +1,4 @@
-import { If, Extends, IsFalsy, Nothing } from "inferred-types/dist/types/index";
+import { If, Extends, IsFalsy, Nothing } from "inferred-types/types";
 
 /**
  * **WithDefault**`<TVal,TDef>`

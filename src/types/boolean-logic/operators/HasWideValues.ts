@@ -1,4 +1,4 @@
-import { AfterFirst, First, IsWideType } from "inferred-types/dist/types/index";
+import { AfterFirst, First, IsWideType } from "inferred-types/types";
 
 type Validate<T extends readonly unknown[]> = [] extends T
 ? false

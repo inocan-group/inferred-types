@@ -1,4 +1,4 @@
-import { First, UnionToTuple } from "inferred-types/dist/types/index";
+import { First, UnionToTuple } from "inferred-types/types";
 
 export type OneToOne = `1:1`;
 export type OneToMany = `1:M`;

@@ -1,4 +1,4 @@
-import { MARKED } from "inferred-types/dist/constants/index";
+import { MARKED } from "inferred-types/constants";
 import {
   DoesExtend,
   UnionToTuple,
@@ -7,7 +7,7 @@ import {
   NumericKeys,
   RemoveIndexKeys,
   Container, EmptyObject, Dictionary, ObjectKey, Tuple
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 
 type Marked = typeof MARKED;

@@ -8,7 +8,7 @@ import {
   Throw,
   Tuple,
   TypedFunction
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 
 
@@ -37,7 +37,7 @@ export type NarrowingFn<
         "no-parameters",
         `To make a function a NarrowingFn it must have at least one parameter!`,
         "NarrowingFn",
-        { library: "inferred-types"; params: TFn }
+        { library: "inferred-types/constants"; params: TFn }
       >
     : IsNarrowingFn<TFn> extends true
       ? TFn

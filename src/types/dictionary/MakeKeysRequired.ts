@@ -1,4 +1,4 @@
-import { Dictionary, ExpandDictionary, ObjectKey, WithKeys, WithoutKeys } from "inferred-types/dist/types/index";
+import { Dictionary, ExpandDictionary, ObjectKey, WithKeys, WithoutKeys } from "inferred-types/types";
 
 
 /**

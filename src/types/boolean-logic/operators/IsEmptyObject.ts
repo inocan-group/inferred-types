@@ -1,4 +1,4 @@
-import type {AsRecord,  Dictionary,  IsNumericLiteral,  Keys} from "inferred-types/dist/types/index";
+import type {AsRecord,  Dictionary,  IsNumericLiteral,  Keys} from "inferred-types/types";
 
 /**
  * **IsEmptyObject**`<T>`

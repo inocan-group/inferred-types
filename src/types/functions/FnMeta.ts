@@ -4,7 +4,7 @@ import {
   Dictionary,
   IsNarrowingFn,
   IsNonEmptyObject
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 
 

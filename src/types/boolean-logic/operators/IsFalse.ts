@@ -1,4 +1,4 @@
-import { IsBoolean, IsNever } from "inferred-types/dist/types/index";
+import { IsBoolean, IsNever } from "inferred-types/types";
 
 
 /**

@@ -13,7 +13,7 @@
     "composite": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      "inferred-types/dist/constants/index": [
+      "inferred-types/constants": [
         "../constants/index.ts"
       ],
     },

@@ -1,4 +1,4 @@
-import { VOLTAGE_METRICS_LOOKUP } from "inferred-types/dist/constants/index";
+import { VOLTAGE_METRICS_LOOKUP } from "inferred-types/constants";
 import { OptSpace } from "../character-sets/OptionalSpace";
 
 type VoltageMetricsLookup = typeof VOLTAGE_METRICS_LOOKUP;

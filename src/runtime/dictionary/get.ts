@@ -21,7 +21,7 @@ import {
   isContainer,
   isRef,
   indexOf
-} from "inferred-types/dist/runtime/index";
+} from "inferred-types/runtime";
 
 /** updates based on whether segment is a Ref or not */
 function updatedDotPath<

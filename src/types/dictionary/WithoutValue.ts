@@ -1,4 +1,4 @@
-import { AnyObject , Narrowable, ExpandRecursively, KeysWithoutValue } from "inferred-types/dist/types/index";
+import { AnyObject , Narrowable, ExpandRecursively, KeysWithoutValue } from "inferred-types/types";
 
 /**
  * **WithoutValue**

@@ -1,4 +1,4 @@
-import { IsLiteral, IsUnion, Throw } from "inferred-types/dist/types/index";
+import { IsLiteral, IsUnion, Throw } from "inferred-types/types";
 
 
 /**

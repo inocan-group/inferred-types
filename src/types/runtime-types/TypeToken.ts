@@ -9,7 +9,7 @@ import {
   Throw,
   Contains,
   If,
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 import type {
   TT_Atomics,
   TT_Containers,
@@ -26,7 +26,7 @@ import type {
   SIMPLE_ARRAY_TOKENS,
   SIMPLE_MAP_TOKENS,
   SIMPLE_SET_TOKENS
-} from "inferred-types/dist/constants/index";
+} from "inferred-types/constants";
 
 
 /**
@@ -352,7 +352,7 @@ export type ParseToken<T extends string> = T extends TypeToken
     "invalid-token",
     `Call to ParseToken<T> with an invalid token: ${T}`,
     "ParseToken",
-    {library: "inferred-types"}
+    {library: "inferred-types/constants"}
   >
 
 /**

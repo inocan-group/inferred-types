@@ -6,7 +6,7 @@ import {
   Dictionary,
   Keys,
   ObjectKey
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 type Process<
   TKeys extends readonly ObjectKey[],

@@ -1,4 +1,4 @@
-import { ExpandRecursively } from "inferred-types/dist/types/index";
+import { ExpandRecursively } from "inferred-types/types";
 
 /**
  * Provides a strongly typed _key_ and _value_ for a dictionary `T`

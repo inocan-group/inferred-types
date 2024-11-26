@@ -1,4 +1,4 @@
-import {  IntersectingKeys, ObjectKey } from "inferred-types/dist/types/index";
+import {  IntersectingKeys, ObjectKey } from "inferred-types/types";
 
 
 /**

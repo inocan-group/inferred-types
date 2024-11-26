@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { AfterFirst, AsArray, Container, First, IndexOf, NonArray, Nothing, Throw } from "inferred-types/dist/types/index";
+import { AfterFirst, AsArray, Container, First, IndexOf, NonArray, Nothing, Throw } from "inferred-types/types";
 
 type ProcessContainers<
   TValues extends readonly (Container | TIgnore)[],
@@ -41,7 +41,7 @@ export type Iff<
     "not-found",
     `Call to Iff utility resulted in no valid results`,
     "Iff",
-    { library: "inferred-types"; values: AsArray<TValues> }
+    { library: "inferred-types/constants"; values: AsArray<TValues> }
   >
 > = TOffset extends PropertyKey
 ? TValues extends readonly (Container | TIgnore)[]
@@ -50,6 +50,6 @@ export type Iff<
       "invalid-values",
       `When calling Iff with a TOffset set; the TValues generic must contain a tuple of containers!`,
       "Iff",
-      { library: "inferred-types"; values: AsArray<TValues>; offset: TOffset }
+      { library: "inferred-types/constants"; values: AsArray<TValues>; offset: TOffset }
     >
 : Process<AsArray<TValues>,TIgnore,TNotFound>;

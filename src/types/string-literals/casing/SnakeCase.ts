@@ -8,7 +8,7 @@ import {
   Concat,
   DashUppercase,
   LowerAllCaps
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 /** convert space to dash */
 type SpaceToDash<T extends string> = T extends `${infer Begin}${" "}${infer Rest}`

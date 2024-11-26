@@ -1,4 +1,4 @@
-import { Narrowable, Get } from "inferred-types/dist/types/index";
+import { Narrowable, Get } from "inferred-types/types";
 
 /**
  * **UnionFromProp**

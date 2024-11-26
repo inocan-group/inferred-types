@@ -3,7 +3,7 @@ import {
   As,
   Join,
   Tuple
- } from "inferred-types/dist/types/index";
+ } from "inferred-types/types";
 
 
 type AsJsonArray<T extends Tuple> = Join<

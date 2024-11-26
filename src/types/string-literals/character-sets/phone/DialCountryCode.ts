@@ -1,4 +1,4 @@
-import { NumericChar, Optional } from "inferred-types/dist/types/index";
+import { NumericChar, Optional } from "inferred-types/types";
 
 /**
  * **DialCountryCode**

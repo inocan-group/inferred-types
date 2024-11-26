@@ -1,6 +1,6 @@
 import {
   Container,
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 /**
  * **HasIndex**`<TContainer, TIdx>`

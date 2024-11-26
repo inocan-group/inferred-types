@@ -1,5 +1,5 @@
 import { US_NEWS } from "inferred-types/constants"
-import { isString } from "inferred-types/dist/runtime/index"
+import { isString } from "inferred-types/runtime"
 import { UsNewsUrls } from "inferred-types/types"
 
 const URL = US_NEWS.flatMap(i => i.baseUrls)

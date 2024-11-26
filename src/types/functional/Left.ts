@@ -1,4 +1,4 @@
-import { LeftRight } from "inferred-types/dist/types/index";
+import { LeftRight } from "inferred-types/types";
 
 /**
  * **Left**<T>

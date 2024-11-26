@@ -10,7 +10,7 @@ import type {
   Keys,
   ErrorCondition,
   AsRecord
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 /**
  * **AddKeyValue**`<TObj,TKey,TVal>`

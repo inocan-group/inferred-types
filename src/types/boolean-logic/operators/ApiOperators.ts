@@ -6,7 +6,7 @@ import {
   FnProps,
   GetEscapeFunction,
   TypedFunction,
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 /**
  * **HasEscapeFunction**`<T>`

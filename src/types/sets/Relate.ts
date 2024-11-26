@@ -1,4 +1,4 @@
-import { Container,  IntersectingKeys, LeftRight, Length, UniqueKeys } from "inferred-types/dist/types/index";
+import { Container,  IntersectingKeys, LeftRight, Length, UniqueKeys } from "inferred-types/types";
 
 /**
  * **Relate**`<L,R>`

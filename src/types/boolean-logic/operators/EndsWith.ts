@@ -1,4 +1,4 @@
-import {  AsString, IsStringLiteral, Or } from "inferred-types/dist/types/index";
+import {  AsString, IsStringLiteral, Or } from "inferred-types/types";
 
 type Test<
   TValue extends string,

@@ -1,5 +1,5 @@
 
-import { And, Contains , Narrowable , AfterFirst, First } from "inferred-types/dist/types/index";
+import { And, Contains , Narrowable , AfterFirst, First } from "inferred-types/types";
 
 
 type _Contains<

@@ -1,4 +1,4 @@
-import { TupleToUnion , EmptyString } from "inferred-types/dist/types/index";
+import { TupleToUnion , EmptyString } from "inferred-types/types";
 
 /**
  * **EmptyStringOr**`<T>`

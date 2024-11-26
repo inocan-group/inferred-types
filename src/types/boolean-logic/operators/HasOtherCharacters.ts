@@ -2,7 +2,7 @@ import type {
   ReplaceAll,
   IsWideType,
   TupleToUnion,
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 type Process<
   TStr extends string,

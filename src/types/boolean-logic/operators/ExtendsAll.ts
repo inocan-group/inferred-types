@@ -1,4 +1,4 @@
-import type { And } from "inferred-types/dist/types/index";
+import type { And } from "inferred-types/types";
 
 
 type _Extends<

@@ -6,7 +6,7 @@ import type {
   AsArray,
   Or,
   And
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 type Process<
   TStr extends string,

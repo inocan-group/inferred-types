@@ -1,4 +1,4 @@
-import type {  AnyFunction } from "inferred-types/dist/types/index";
+import type {  AnyFunction } from "inferred-types/types";
 
 
 /**

@@ -1,4 +1,4 @@
-import {  AnyObject , ExpandRecursively ,  Tuple, TupleToUnion, UnionToIntersection } from "inferred-types/dist/types/index";
+import {  AnyObject , ExpandRecursively ,  Tuple, TupleToUnion, UnionToIntersection } from "inferred-types/types";
 
 type MakeIntoUnion<K extends PropertyKey | readonly PropertyKey[]> =
   K extends readonly PropertyKey[] ? TupleToUnion<K> : K;

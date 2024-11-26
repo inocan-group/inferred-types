@@ -1,4 +1,4 @@
-import { IsStringLiteral , NumericChar , AlphaChar } from "inferred-types/dist/types/index";
+import { IsStringLiteral , NumericChar , AlphaChar } from "inferred-types/types";
 
 /**
  * Any alphabetic or numeric string character

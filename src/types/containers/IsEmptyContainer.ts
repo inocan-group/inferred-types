@@ -1,4 +1,4 @@
-import { Container,    ExplicitlyEmptyObject,  Dictionary,  Keys } from "inferred-types/dist/types/index";
+import { Container,    ExplicitlyEmptyObject,  Dictionary,  Keys } from "inferred-types/types";
 
 /**
  * **EmptyContainer**`<T>`

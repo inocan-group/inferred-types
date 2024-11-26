@@ -1,4 +1,4 @@
-import { If, IfNever, IsStringLiteral, SingularNoun } from "inferred-types/dist/types/index";
+import { If, IfNever, IsStringLiteral, SingularNoun } from "inferred-types/types";
 
 
 /**

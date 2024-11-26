@@ -1,4 +1,4 @@
-import { UpperAlphaChar, If,HasCharacters } from "inferred-types/dist/types/index";
+import { UpperAlphaChar, If,HasCharacters } from "inferred-types/types";
 
 /**
  * **IsAllLowercase**`<T>`

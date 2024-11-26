@@ -1,4 +1,4 @@
-import { Digit, NumericChar, NumericSign } from "inferred-types/dist/types/index";
+import { Digit, NumericChar, NumericSign } from "inferred-types/types";
 
 /**
  * **Digital**

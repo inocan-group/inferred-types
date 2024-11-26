@@ -20,7 +20,7 @@ export * from "./NarrowingFn"
 export * from "./LiteralFn"
 export * from "./IdentityFn"
 export * from "./WrapperFn"
-// export * from "inferred-types/dist/types/index";
+// export * from "inferred-types/types";
 
 // #endregion auto-indexed files
 

@@ -6,7 +6,7 @@ import {
   EndsWith,
   Contains,
   IsEqual
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 type CheckForInvalid<
   T extends string

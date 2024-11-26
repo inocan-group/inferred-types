@@ -1,4 +1,4 @@
-import { Filter } from "inferred-types/dist/types/index";
+import { Filter } from "inferred-types/types";
 
 /**
  * **IntersectWithAll**`<TList,TIntersection>`

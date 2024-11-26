@@ -5,7 +5,7 @@ import type {
   ScalarNotSymbol,
   TupleToUnion,
   ToStringArray
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 type SuggestString<
 T extends string | number | readonly string[] | readonly number[]

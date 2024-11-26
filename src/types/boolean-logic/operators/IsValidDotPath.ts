@@ -6,7 +6,7 @@ import {
   IsEqual,
   IsObjectLiteral,
   IsTuple,
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 
 /**

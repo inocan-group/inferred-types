@@ -1,4 +1,4 @@
-import { ErrorConditionShape, IsErrorCondition } from "inferred-types/dist/types/index";
+import { ErrorConditionShape, IsErrorCondition } from "inferred-types/types";
 
 
 /**

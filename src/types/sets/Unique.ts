@@ -13,7 +13,7 @@ import {
   AsString,
   IsNever,
   As,
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 type Get<
   TValue,

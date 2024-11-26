@@ -1,4 +1,4 @@
-import {  EmptyObject, ExpandRecursively, IsEqual, If, IsNever, Dictionary, RemoveIndex, RemoveIndexKeys, UnionToTuple } from "inferred-types/dist/types/index";
+import {  EmptyObject, ExpandRecursively, IsEqual, If, IsNever, Dictionary, RemoveIndex, RemoveIndexKeys, UnionToTuple } from "inferred-types/types";
 
 type Len<T extends Dictionary> = UnionToTuple<keyof RemoveIndexKeys<T>>["length"]
 

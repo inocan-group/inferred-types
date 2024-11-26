@@ -1,4 +1,4 @@
-import {  Marked } from "inferred-types/dist/constants/index";
+import {  Marked } from "inferred-types/constants";
 import {
   IsWideType,
   Or,
@@ -6,7 +6,7 @@ import {
   Chars,
   As,
   Concat
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 type Strip<
   TChars extends readonly string[],

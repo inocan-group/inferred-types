@@ -6,7 +6,7 @@ import type {
  IsObjectLiteral,
  IfEqual,
  IsUnion,
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 type Validations<T> = IsStringLiteral<T> extends true
 ? true

@@ -15,7 +15,7 @@ import {
   Or,
   IsNothing,
   Nothing
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 // 1. Keep all unique keys in `TValue`
 // 2. Strip all KV's on `TValue` which are _undefined_
@@ -112,13 +112,13 @@ export type Merge<
           "invalid-merge",
           `Merge<TDef,TOver> received two empty values; at least one needs to have a value!`,
           "Merge",
-          { library: "inferred-types"; TDef: TDefault; TOver: TOverride }
+          { library: "inferred-types/constants"; TDef: TDefault; TOver: TOverride }
         >
       : Process<TDefault, TOverride>
     : Throw<
       "invalid-merge",
       `the Merge<TDef,TOver> utility can merge various types but both types must be of the same base type and they were not!`,
       "Merge",
-      { library: "inferred-types"; TDef: TDefault; TOver: TOverride}
+      { library: "inferred-types/constants"; TDef: TDefault; TOver: TOverride}
     >;
 

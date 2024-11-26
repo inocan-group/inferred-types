@@ -1,4 +1,4 @@
-import { ExpandRecursively , AsArray, Mutable,  WithKeys, WithoutKeys , AnyObject, SimplifyObject, ObjectKey } from "inferred-types/dist/types/index";
+import { ExpandRecursively , AsArray, Mutable,  WithKeys, WithoutKeys , AnyObject, SimplifyObject, ObjectKey } from "inferred-types/types";
 
 
 /**

@@ -5,7 +5,7 @@ import {
   Or,
   IsEqual,
   RemoveNever,
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 /**
  * Iterates over each element of the Tuple

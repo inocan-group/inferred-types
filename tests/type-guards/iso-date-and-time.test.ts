@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import {  isIsoExplicitDate, isIsoImplicitDate } from "inferred-types";
-import { Iso8601Date } from "src/types/index"
+import { Iso8601Date } from "inferred-types/types"
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

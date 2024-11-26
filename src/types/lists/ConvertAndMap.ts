@@ -1,4 +1,4 @@
-import { TupleToUnion, UnionToTuple , Narrowable , Keys, WithoutValue, First, AfterFirst, AnyObject, Tuple, Nothing } from "inferred-types/dist/types/index";
+import { TupleToUnion, UnionToTuple , Narrowable , Keys, WithoutValue, First, AfterFirst, AnyObject, Tuple, Nothing } from "inferred-types/types";
 
 
 // [Mapped Tuple Types](https://github.com/Microsoft/TypeScript/issues/25947)

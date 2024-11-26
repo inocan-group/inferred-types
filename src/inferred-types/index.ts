@@ -1,3 +1,3 @@
-export * from "../constants/index";
-export * from "../types/index";
-export * from "../runtime/index";
+export * from "inferred-types/constants";
+export * from "inferred-types/types";
+export * from "inferred-types/runtime";

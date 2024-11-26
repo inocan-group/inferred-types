@@ -1,4 +1,4 @@
-import { Nothing } from "inferred-types/dist/types/index";
+import { Nothing } from "inferred-types/types";
 
 /**
  * **IsNothing**`<T>`

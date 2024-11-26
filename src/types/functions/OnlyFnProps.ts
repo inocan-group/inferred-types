@@ -1,4 +1,4 @@
-import { AnyFunction, AsFnMeta } from "inferred-types/dist/types/index";
+import { AnyFunction, AsFnMeta } from "inferred-types/types";
 
 /**
  * **OnlyFnProps**`<T>`

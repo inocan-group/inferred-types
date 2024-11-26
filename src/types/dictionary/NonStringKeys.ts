@@ -1,4 +1,4 @@
-import { AnyObject } from "inferred-types/dist/types/index";
+import { AnyObject } from "inferred-types/types";
 
 /**
  * **NonStringKeys**`<T>`

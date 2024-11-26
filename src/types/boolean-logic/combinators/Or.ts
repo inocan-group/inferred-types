@@ -9,7 +9,7 @@ import {
   ProxyError,
   ErrorCondition,
   IsErrorCondition
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 type Process<
   TConditions extends readonly boolean[],
@@ -64,6 +64,6 @@ export type Or<
           "invalid-conditions",
           `The conditions passed to Or<TConditions> were invalid!`,
           "Or",
-          { library: "inferred-types"; value: TConditions }
+          { library: "inferred-types/constants"; value: TConditions }
         >;
 

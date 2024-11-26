@@ -1,4 +1,4 @@
-import { AnyFunction, FnMeta, IsNever } from "inferred-types/dist/types/index";
+import { AnyFunction, FnMeta, IsNever } from "inferred-types/types";
 
 /**
  * **ToFn**`<T>`

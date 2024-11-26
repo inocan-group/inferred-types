@@ -1,4 +1,4 @@
-import type { HasUppercase } from "inferred-types/dist/types/index";
+import type { HasUppercase } from "inferred-types/types";
 
 type _DU<T extends string> = T extends Lowercase<T> ? T : `-${Lowercase<T>}`;
 

@@ -3,7 +3,7 @@ import {
   Some,
   Throw,
   TypedFunction
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 
 /**
@@ -36,7 +36,7 @@ export type AsOptionalParamFn<T extends TypedFunction> = Parameters<T>["length"]
     Throw<
       "invalid-conversion", `To convert to a OptionalParamFn, a function must have _no_ required Parameters but required params were found!`,
       `AsOptionalParamFn`,
-      { library: "inferred-types"; params: Parameters<T> }
+      { library: "inferred-types/constants"; params: Parameters<T> }
     >,
     T & { optionalParams: true }
   >;

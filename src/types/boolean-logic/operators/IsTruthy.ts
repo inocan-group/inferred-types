@@ -5,7 +5,7 @@ import {
   IsFalse,
   IsTrue,
   SomeEqual
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 
 /**

@@ -1,4 +1,4 @@
-import { IsAllLowercase } from "inferred-types/dist/types/index";
+import { IsAllLowercase } from "inferred-types/types";
 
 /**
  * **RaiseAllLowercase**`<T>`

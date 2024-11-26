@@ -8,7 +8,7 @@ import {
   RemoveNever,
   TypedFunction,
   FnProps,
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 /**
  * extract props from functions
  */

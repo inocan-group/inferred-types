@@ -1,6 +1,6 @@
 import {
   WHITESPACE_CHARS
-} from "inferred-types/dist/constants/index";
+} from "inferred-types/constants";
 
 /**
  * **Whitespace**

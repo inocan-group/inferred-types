@@ -8,8 +8,8 @@ import type {
   RemoveMarked,
   NarrowlyContains,
   Throw,
-} from "inferred-types/dist/types/index";
-import  { MARKED } from "inferred-types/dist/constants/index";
+} from "inferred-types/types";
+import  { MARKED } from "inferred-types/constants";
 
 type Marked = typeof MARKED;
 

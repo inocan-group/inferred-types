@@ -1,4 +1,4 @@
-import { TypedFunction } from "src/types/base-types";
+import { TypedFunction } from "inferred-types/types";
 
 /**
 * **IsMoment`<T>`

@@ -3,7 +3,7 @@ import {
   IsWideType,
   TupleToUnion,
   IsEqual
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 
 type Check<

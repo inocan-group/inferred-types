@@ -1,4 +1,4 @@
-import {  Chars,  If, IsStringLiteral, Concat} from "inferred-types/dist/types/index";
+import {  Chars,  If, IsStringLiteral, Concat} from "inferred-types/types";
 
 
 type Process<

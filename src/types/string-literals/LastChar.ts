@@ -1,7 +1,7 @@
 import {
   Last,
   Chars,
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 type Process<TContent extends string> = Last<Chars<TContent>>;
 

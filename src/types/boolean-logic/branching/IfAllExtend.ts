@@ -1,4 +1,4 @@
-import { AllExtend } from "inferred-types/dist/types/index";
+import { AllExtend } from "inferred-types/types";
 
 /**
  * **IfAllExtend**`<TList,TExtend,IF,ELSE>`

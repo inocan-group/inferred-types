@@ -6,7 +6,7 @@ import {
   Scalar,
   IfEqual,
   IfNever
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 /**
  * **ToContainer**`<T>`

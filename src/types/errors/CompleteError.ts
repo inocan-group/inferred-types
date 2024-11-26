@@ -7,7 +7,7 @@ import {
   EmptyObject,
   RemoveNever,
   AsString
-} from "inferred-types/dist/types/index"
+} from "inferred-types/types"
 
 
 type Req<

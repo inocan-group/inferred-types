@@ -18,7 +18,7 @@ import {
   LowerAlphaChar,
   NumericChar,
   Split
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 /**
  * **IsIp4Octet**`<T>`

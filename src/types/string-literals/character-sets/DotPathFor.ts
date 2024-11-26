@@ -1,4 +1,4 @@
-import { Container, IsArray } from "inferred-types/dist/types/index";
+import { Container, IsArray } from "inferred-types/types";
 
 
 type GenNode<

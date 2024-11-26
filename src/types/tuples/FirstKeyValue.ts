@@ -1,4 +1,4 @@
-import {  Dictionary } from "inferred-types/dist/types/index";
+import {  Dictionary } from "inferred-types/types";
 import { FirstKey } from "./FirstKey";
 
 /**

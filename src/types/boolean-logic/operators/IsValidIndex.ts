@@ -12,7 +12,7 @@ import {
   Tuple,
   NumericKeys,
   TupleToUnion,
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 /**
  * **IsValidIndex**`<TContainer,TKey>`

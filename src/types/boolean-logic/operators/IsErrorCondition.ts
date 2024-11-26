@@ -1,4 +1,4 @@
-import type { ErrorCondition } from "inferred-types/dist/types/index";
+import type { ErrorCondition } from "inferred-types/types";
 
 /**
  * **IsErrorCondition**`<TEval,[TKind]>`

@@ -1,4 +1,4 @@
-import { VOLUME_METRICS_LOOKUP } from "inferred-types/dist/constants/index";
+import { VOLUME_METRICS_LOOKUP } from "inferred-types/constants";
 import { OptSpace } from "../character-sets/OptionalSpace";
 
 type VolumeMetricsLookup = typeof VOLUME_METRICS_LOOKUP;

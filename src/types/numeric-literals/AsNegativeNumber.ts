@@ -3,7 +3,7 @@ import {
   EnsureLeading,
   NumberLike,
   Zero
-} from "inferred-types/dist/types/index"
+} from "inferred-types/types"
 
 
 type Process<

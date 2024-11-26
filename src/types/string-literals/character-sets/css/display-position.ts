@@ -1,4 +1,4 @@
-import { OptionalSpace } from "inferred-types/dist/types/index";
+import { OptionalSpace } from "inferred-types/types";
 
 type Ratio = `${number}${OptionalSpace}/${OptionalSpace}${number}`;
 type One = `1`;

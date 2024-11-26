@@ -1,4 +1,4 @@
-import { Container,  Tuple } from "inferred-types/dist/types/index";
+import { Container,  Tuple } from "inferred-types/types";
 
 
 /**

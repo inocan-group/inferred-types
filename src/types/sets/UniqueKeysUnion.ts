@@ -1,4 +1,4 @@
-import { Container, LeftRight } from "inferred-types/dist/types/index";
+import { Container, LeftRight } from "inferred-types/types";
 
 /**
  * **UniqueKeysUnion**`<L,R>`

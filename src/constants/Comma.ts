@@ -1,4 +1,4 @@
-import { createConstant } from "inferred-types/dist/constants/index";
+import { createConstant } from "inferred-types/constants";
 
 /**
  * **COMMA**

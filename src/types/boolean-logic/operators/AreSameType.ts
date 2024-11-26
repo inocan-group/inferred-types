@@ -1,4 +1,4 @@
-import { Widen } from "inferred-types/dist/types/index";
+import { Widen } from "inferred-types/types";
 
 /**
  * **AreSameType**`<A,B>`

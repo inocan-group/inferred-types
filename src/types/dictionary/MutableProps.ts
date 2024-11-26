@@ -1,4 +1,4 @@
-import {  Dictionary, ReadonlyKeys } from "inferred-types/dist/types/index";
+import {  Dictionary, ReadonlyKeys } from "inferred-types/types";
 
 /**
  * **MutableProps**`<T>`

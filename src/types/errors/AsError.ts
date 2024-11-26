@@ -9,7 +9,7 @@ import {
   EmptyObject,
   TypeErrorInfo,
   Throw,
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 interface Error<
   TName extends string = string,
@@ -93,7 +93,7 @@ export type AsError<
       "runtime-error",
       `the JS runtime's Error class was found with the message: '${TType["message"]}'`,
       "AsError",
-      { library: "inferred-types" }
+      { library: "inferred-types/constants" }
     >
   : TType extends AsError__Meta
       ? Process<TType>
@@ -105,6 +105,6 @@ export type AsError<
             " -- was passed into the AsError<T> type utility!"
           ]>,
           "AsError",
-          { library: "inferred-types" }
+          { library: "inferred-types/constants" }
         >
 >;

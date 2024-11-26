@@ -1,4 +1,4 @@
-import { VueRef } from "inferred-types/dist/types/index";
+import { VueRef } from "inferred-types/types";
 
 /**
  * **MaybeRef**`<T>`

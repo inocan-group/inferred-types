@@ -1,4 +1,4 @@
-import { IsEmptyContainer, TupleToUnion, Widen } from "inferred-types/dist/types/index";
+import { IsEmptyContainer, TupleToUnion, Widen } from "inferred-types/types";
 
 /**
  * **ArrayElementType**`<T>`

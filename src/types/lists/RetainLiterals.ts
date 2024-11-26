@@ -1,4 +1,4 @@
-import { Constant } from "inferred-types/dist/constants/index";
+import { Constant } from "inferred-types/constants";
 import { IsLiteral } from "../boolean-logic";
 import { If } from "../boolean-logic/branching/If";
 import { RemoveMarked } from "../containers";

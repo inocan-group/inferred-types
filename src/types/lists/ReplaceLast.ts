@@ -1,5 +1,5 @@
 
-import { Pop } from "inferred-types/dist/types/index";
+import { Pop } from "inferred-types/types";
 
 /**
  * **ReplaceLast**`<TList,TVal>`

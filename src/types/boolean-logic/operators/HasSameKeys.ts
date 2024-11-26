@@ -1,4 +1,4 @@
-import {  And,  AsTuple, Container, DoesExtend,   HasSameValues,   IsTuple, ObjectKey,RemoveIndexKeys,  UnionToTuple } from "inferred-types/dist/types/index"
+import {  And,  AsTuple, Container, DoesExtend,   HasSameValues,   IsTuple, ObjectKey,RemoveIndexKeys,  UnionToTuple } from "inferred-types/types"
 
 
 

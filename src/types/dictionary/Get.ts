@@ -1,5 +1,5 @@
 
-import { IsNever } from "inferred-types/dist/types/index";
+import { IsNever } from "inferred-types/types";
 
 type _Get<T, K, Acc=never> = K extends `${infer A}.${infer B}`
 ? A extends keyof T ? _Get<T[A], B, _Get<T[A], B>> : Acc

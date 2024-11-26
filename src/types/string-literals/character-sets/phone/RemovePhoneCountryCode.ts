@@ -1,4 +1,4 @@
-import { GetPhoneCountryCode, IsStringLiteral, Trim } from "inferred-types/dist/types/index"
+import { GetPhoneCountryCode, IsStringLiteral, Trim } from "inferred-types/types"
 
 
 /**

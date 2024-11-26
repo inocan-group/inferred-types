@@ -1,4 +1,4 @@
-import { Concat, Tuple, IsStringLiteral, Chars, IsWideType } from "inferred-types/dist/types/index";
+import { Concat, Tuple, IsStringLiteral, Chars, IsWideType } from "inferred-types/types";
 
 type _Pop<
   TVal extends Tuple

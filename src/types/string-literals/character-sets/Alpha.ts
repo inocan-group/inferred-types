@@ -1,4 +1,4 @@
-import { AlphaChar, AsArray, IfAllExtend,  If, IsStringLiteral,  Chars } from "inferred-types/dist/types/index";
+import { AlphaChar, AsArray, IfAllExtend,  If, IsStringLiteral,  Chars } from "inferred-types/types";
 
 /**
  * **Alpha**`<T>`

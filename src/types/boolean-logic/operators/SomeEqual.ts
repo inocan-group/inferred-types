@@ -1,4 +1,4 @@
-import { IfEqual , AfterFirst, First } from "inferred-types/dist/types/index";
+import { IfEqual , AfterFirst, First } from "inferred-types/types";
 
 /**
  * **SomeEqual**`<TVal, TList>`

@@ -7,7 +7,7 @@ import {
   StringLiteralToken,
   AllLiteral,
   Passthrough
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 
 type _Tokenize<

@@ -3,7 +3,7 @@ import {
   FixedLengthArray,
   ToString,
   AsNumber
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 type Push<T extends Tuple> = [...T, unknown]["length"];
 

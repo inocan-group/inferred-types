@@ -1,5 +1,5 @@
-import { Constant } from "inferred-types/dist/constants/index";
-import { IsLiteral, RemoveMarked } from "inferred-types/dist/types/index";
+import { Constant } from "inferred-types/constants";
+import { IsLiteral, RemoveMarked } from "inferred-types/types";
 
 
 type Process<

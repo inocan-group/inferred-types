@@ -1,4 +1,4 @@
-import { Container, ExpandRecursively,  Tuple } from "inferred-types/dist/types/index";
+import { Container, ExpandRecursively,  Tuple } from "inferred-types/types";
 
 
 /**

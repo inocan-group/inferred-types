@@ -1,4 +1,4 @@
-import { AsArray, AfterFirst, AsString,  Concat, Chars } from "inferred-types/dist/types/index";
+import { AsArray, AfterFirst, AsString,  Concat, Chars } from "inferred-types/types";
 
 type Iterate<
   TInput extends readonly string[]

@@ -14,8 +14,8 @@ import {
   Throw,
   ErrorCondition,
   Concat
-} from "inferred-types/dist/types/index";
-import { Constant } from "inferred-types/dist/constants/index";
+} from "inferred-types/types";
+import { Constant } from "inferred-types/constants";
 
 type Override<
   TValue,
@@ -63,14 +63,14 @@ type HandleArr<
         "invalid-index",
         Concat<["Attempt to index [", ToString<TIdx>, "] into a non-container type!"]>,
         "IndexOf",
-        { container: TValue; key: TIdx; library: "inferred-types" }
+        { container: TValue; key: TIdx; library: "inferred-types/constants" }
       >
     >
 : Throw<
     "invalid-index",
     `IndexOf<Tuple,${AsString<TIdx>}> failed because a tuple container must use numeric indexes!`,
     "IndexOf",
-    { container: TValue; key: TIdx; library: "inferred-types" }
+    { container: TValue; key: TIdx; library: "inferred-types/constants" }
   >;
 
 type HandleObj<
@@ -82,7 +82,7 @@ TIdx extends PropertyKey
   "invalid-index",
   Concat<["Attempt to index [", ToString<TIdx>, "] into a non-container type!"]>,
   "IndexOf",
-  { container: TValue; key: TIdx; library: "inferred-types" }
+  { container: TValue; key: TIdx; library: "inferred-types/constants" }
 >;
 
 type Process<
@@ -101,7 +101,7 @@ TValue extends readonly unknown[]
       "invalid-index",
         `Call to IndexOf<DescribeType<TValue>,${AsString<TIdx>}> is not allowed as an tuple based container must receive either null or numeric index value.`,
         "IndexOf",
-        { library: "inferred-types"; container: TValue; key: TIdx }
+        { library: "inferred-types/constants"; container: TValue; key: TIdx }
       >
     >
   : TValue extends Dictionary
@@ -111,13 +111,13 @@ TValue extends readonly unknown[]
           "invalid-index",
           `Call to IndexOf<DescribeType<TValue>,${AsString<TIdx>}> is not allowed as an object based container must receive either null, a string, or a symbol index value.`,
           "IndexOf",
-          {library: "inferred-types"; container: TValue; key: TIdx }
+          {library: "inferred-types/constants"; container: TValue; key: TIdx }
         >
     : Throw<
         "invalid-index",
         `IndexOf<ToString<TValue>},${AsString<TIdx>}> was called but the a non-null value was used to index a non-container which will never work!`,
         "IndexOf",
-        { library: "inferred-types"; container: TValue; key: TIdx }
+        { library: "inferred-types/constants"; container: TValue; key: TIdx }
       >
 >;
 

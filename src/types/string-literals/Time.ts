@@ -1,4 +1,4 @@
-import {  Default, EmptyObject, IndexOf, NonZeroNumericChar, NumericChar, NumericCharZeroToFive, PlusMinus, TypeRequired, TypeStrength } from "inferred-types/dist/types/index";
+import {  Default, EmptyObject, IndexOf, NonZeroNumericChar, NumericChar, NumericCharZeroToFive, PlusMinus, TypeRequired, TypeStrength } from "inferred-types/types";
 
 type CivilianTwoDigitHour = "10" | "11" | "12";
 export type TimeResolution = "HH:MM" | "HH:MM:SS" | "HH:MM:SS.ms";
