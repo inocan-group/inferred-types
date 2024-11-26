@@ -112,8 +112,8 @@ describe("getWeekNumber()", () => {
 
   it("should handle different week start days", () => {
     const testDate = new Date(2024, 0, 7); // January 7, 2024
-    expect(getWeekNumber(testDate, "Mon")).toBe(2);
-    expect(getWeekNumber(testDate, "Sun")).toBe(2);
+    expect(getWeekNumber(testDate, "Mon"), `Jan 7th of 2024 should be in week 1, if starting on Monday `).toBe(1);
+    expect(getWeekNumber(testDate, "Sun"), `Jan 7th of 2024 should be in week 2, if starting on Sunday`).toBe(2);
   });
 
   it("should handle edge cases", () => {
@@ -121,7 +121,7 @@ describe("getWeekNumber()", () => {
     expect(getWeekNumber("2024-12-31")).toBe(53);
 
     // First day of the year
-    expect(getWeekNumber("2024-01-01")).toBe(1);
+    expect(getWeekNumber("2024-01-01"), `Jan 1st was mistakenly found to be week ${getWeekNumber("2024-01-01")}`).toBe(1);
 
     // Week spanning between years
     expect(getWeekNumber("2023-12-31")).toBe(52);
