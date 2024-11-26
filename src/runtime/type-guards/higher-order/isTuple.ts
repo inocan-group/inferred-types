@@ -2,14 +2,14 @@
 import {
   ShapeCallback,
   HandleDoneFn
-} from "inferred-types/dist/types/index"
+} from "inferred-types/types"
 import {
   isDoneFn,
   ShapeApiImplementation,
   isArray,
   isSameTypeOf,
   isShape
- } from "src/runtime/index"
+ } from "inferred-types/runtime"
 
 type FromDefn<
   T extends readonly ShapeCallback[]

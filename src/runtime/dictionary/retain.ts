@@ -1,4 +1,4 @@
-import { Throw, HasUnionType, NarrowObject, Narrowable,  ObjectKey,  WithKeys } from "inferred-types/dist/types/index";
+import { Throw, HasUnionType, NarrowObject, Narrowable,  ObjectKey,  WithKeys } from "inferred-types/types";
 
 /**
  * **retain**(obj,...keys)

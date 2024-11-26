@@ -1,5 +1,5 @@
-import { PascalCase, LeftWhitespace, RightWhitespace } from "inferred-types/dist/types/index";
-import { capitalize } from "src/runtime/index";
+import { PascalCase, LeftWhitespace, RightWhitespace } from "inferred-types/types";
+import { capitalize } from "inferred-types/runtime";
 
 
 /**

@@ -1,9 +1,9 @@
-import { isConstant } from "src/runtime/index"
+import { isConstant } from "inferred-types/runtime"
 
 
 /**
  * **isNever**(val)
- * 
+ *
  * Type guard which checks for the runtime constant `Never`
  * (which also has a _type_ of **never**).
  */

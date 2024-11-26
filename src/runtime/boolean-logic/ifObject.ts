@@ -1,5 +1,5 @@
-import type { If, IsObject, Narrowable } from "inferred-types/dist/types/index";
-import { isObject } from "src/runtime/index";
+import type { If, IsObject, Narrowable } from "inferred-types/types";
+import { isObject } from "inferred-types/runtime";
 
 
 export function ifObject<

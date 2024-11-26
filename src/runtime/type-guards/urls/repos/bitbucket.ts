@@ -1,6 +1,6 @@
-import { REPO_SOURCE_LOOKUP } from "inferred-types/dist/constants/index";
+import { REPO_SOURCE_LOOKUP } from "inferred-types/constants";
 import { isString } from "inferred-types/dist/runtime/index";
-import { UrlsFrom } from "inferred-types/dist/types/index";
+import { UrlsFrom } from "inferred-types/types";
 
 /**
  * **isBitbucketUrl**`(val)`

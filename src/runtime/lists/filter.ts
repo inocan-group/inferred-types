@@ -1,8 +1,8 @@
-// import { Filter,   Comparison } from "inferred-types/dist/types/index";
+// import { Filter,   Comparison } from "inferred-types/types";
 // import { isSameTypeOf } from "../type-guards/higher-order/isSameTypeOf";
 // import {  endsWith,startsWith } from "../type-guards";
 // import { asArray } from "./asArray";
-// import { Never } from "inferred-types/dist/constants/index";
+// import { Never } from "inferred-types/constants";
 
 
 // /**

@@ -1,4 +1,4 @@
-import { Narrowable, TupleToUnion } from "inferred-types/dist/types/index";
+import { Narrowable, TupleToUnion } from "inferred-types/types";
 
 /**
  * **union**(options) => (value)

@@ -13,7 +13,7 @@
   ZipPlus4,
   ZipCode,
   SimpleToken,
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 import { addToken } from "./addToken"
 import { regexToken } from "./regexToken";

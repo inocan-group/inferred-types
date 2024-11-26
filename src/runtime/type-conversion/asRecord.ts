@@ -1,4 +1,4 @@
-import { AsRecord, ObjectKey } from "inferred-types/dist/types/index";
+import { AsRecord, ObjectKey } from "inferred-types/types";
 
 /**
  * **asRecord**`<T>`(obj: T) → AsRecord`<T>`

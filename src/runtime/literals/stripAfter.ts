@@ -1,4 +1,4 @@
-import { StripAfter } from "inferred-types/dist/types/index";
+import { StripAfter } from "inferred-types/types";
 
 /**
  * **stripAfter**(content, find)

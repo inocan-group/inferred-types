@@ -6,7 +6,7 @@ import {
   Ip6AddressLoose,
   UrlPath,
   AsString
-} from "inferred-types/dist/types/index"
+} from "inferred-types/types"
 import { isString } from "./isString"
 import {
   getUrlQueryParams,
@@ -16,7 +16,7 @@ import {
   isNumberLike,
   isAlpha,
   asChars
-} from "src/runtime/index"
+} from "inferred-types/runtime"
 
 
 

@@ -5,13 +5,13 @@ import type {
   Suggest,
   Tuple,
   Dictionary,
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 import {
   NO_DEFAULT_VALUE,
   NoDefaultValue,
   NotDefined,
   NOT_DEFINED
-} from "inferred-types/dist/constants/index";
+} from "inferred-types/constants";
 import {
   createErrorCondition,
   isTruthy,

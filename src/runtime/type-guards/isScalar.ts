@@ -1,4 +1,4 @@
-import { Scalar } from "inferred-types/dist/types/index";
+import { Scalar } from "inferred-types/types";
 import { isString } from "./isString";
 import { isNumber } from "./isNumber";
 import { isSymbol } from "./isSymbol";

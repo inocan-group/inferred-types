@@ -7,15 +7,13 @@ import {
   Narrowable,
   OnPass,
   TypedFunction
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 import {
   isApiSurface,
-} from "src/runtime/index";
-import {
   isApi,
   createErrorCondition,
   createFnWithProps
-} from "src/runtime/index";
+} from "inferred-types/runtime";
 
 /**
  * **asEscapeFunction**`(fn)`

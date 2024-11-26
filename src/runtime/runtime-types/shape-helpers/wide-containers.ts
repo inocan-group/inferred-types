@@ -11,7 +11,7 @@ import {
   WeakMapKeyDefn,
   WeakMapValueDefn,
   WideTokenNames
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 
 export const record = <

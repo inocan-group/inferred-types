@@ -1,6 +1,6 @@
 
-import { Constant } from "inferred-types/dist/constants/index";
-import { isConstant } from "src/runtime/index";
+import { Constant } from "inferred-types/constants";
+import { isConstant } from "inferred-types/runtime";
 
 
 /**

@@ -1,4 +1,4 @@
-import { NewsUrls } from "inferred-types/dist/types/index";
+import { NewsUrls } from "inferred-types/types";
 import { isAustralianNewsUrl } from "./australian";
 import { isBelgiumNewsUrl } from "./belgium";
 import { isCanadianNewsUrl } from "./canadian";

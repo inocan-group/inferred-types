@@ -6,10 +6,10 @@ import type {
   Nothing,
   AnyObject,
   TypedFunction
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
-import { Never } from "inferred-types/dist/constants/index";
-import { isNothing, isObject } from "src/runtime/index";
+import { Never } from "inferred-types/constants";
+import { isNothing, isObject } from "inferred-types/runtime";
 
 type CallIfDefined<
   Handler

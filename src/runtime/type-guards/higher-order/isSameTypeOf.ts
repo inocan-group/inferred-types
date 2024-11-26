@@ -1,4 +1,4 @@
-import { ConvertTypeOf, GetTypeOf } from "inferred-types/dist/types/index";
+import { ConvertTypeOf, GetTypeOf } from "inferred-types/types";
 
 /**
  * **isSameTypeOf**(base, compare)

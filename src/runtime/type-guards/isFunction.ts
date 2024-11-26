@@ -1,4 +1,4 @@
-import {  TypedFunction } from "inferred-types/dist/types/index";
+import {  TypedFunction } from "inferred-types/types";
 
 /**
  * **isFunction**(value)

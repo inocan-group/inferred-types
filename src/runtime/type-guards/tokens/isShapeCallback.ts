@@ -1,4 +1,4 @@
-import { ShapeCallback } from "inferred-types/dist/types/index";
+import { ShapeCallback } from "inferred-types/types";
 import { isFunction } from "../isFunction";
 
 /**

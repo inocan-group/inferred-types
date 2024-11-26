@@ -1,4 +1,4 @@
-import { SnakeCase } from "inferred-types/dist/types/index";
+import { SnakeCase } from "inferred-types/types";
 
 /**
  * **toSnakeCase**(str)

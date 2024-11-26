@@ -1,5 +1,5 @@
-import { LuxonJs } from "src/types/index"
-import { isObject } from "src/runtime/index"
+import { LuxonJs } from "inferred-types/types"
+import { isObject } from "inferred-types/runtime"
 
 /**
 * Type guard which validates that the passed in `val` is a

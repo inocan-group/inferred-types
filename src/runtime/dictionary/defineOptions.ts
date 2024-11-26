@@ -4,10 +4,10 @@ import {
   MakeKeysOptional,
   MakeKeysRequired,
   RequiredKeys,
-} from "inferred-types/dist/types/index"
+} from "inferred-types/types"
 import {
   createFnWithProps,
-} from "src/runtime/index"
+} from "inferred-types/runtime"
 
 
 export type UserOptions<

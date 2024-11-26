@@ -4,7 +4,7 @@ import {
   Length,
   Narrowable,
   UnionToTuple,
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 /**
  * **narrow**(value)

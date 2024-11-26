@@ -1,4 +1,4 @@
-import { Narrowable, Scalar, ToNumber } from "inferred-types/dist/types/index";
+import { Narrowable, Scalar, ToNumber } from "inferred-types/types";
 
 
 

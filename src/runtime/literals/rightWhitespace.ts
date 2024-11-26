@@ -1,7 +1,7 @@
-import { WHITESPACE_CHARS } from "inferred-types/dist/constants/index"
+import { WHITESPACE_CHARS } from "inferred-types/constants"
 import {  retainAfterInclusive } from "./retainAfter"
-import { TrimLeft } from"inferred-types/dist/types/index"
-import { RetainAfter, Whitespace } from "inferred-types/dist/types/index"
+import { TrimLeft } from"inferred-types/types"
+import { RetainAfter, Whitespace } from "inferred-types/types"
 
 /**
  * **rightWhitespace**`(content)`

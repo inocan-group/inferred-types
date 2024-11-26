@@ -1,4 +1,4 @@
-import { StripLeading, TupleToUnion } from "inferred-types/dist/types/index";
+import { StripLeading, TupleToUnion } from "inferred-types/types";
 import { isNumber } from "../type-guards/isNumber";
 
 /**

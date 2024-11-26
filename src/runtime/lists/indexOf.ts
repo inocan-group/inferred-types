@@ -2,14 +2,14 @@ import {
   IndexOf,
   Narrowable,
   Tuple
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 import {
   errCondition,
   isArray,
   isNull,
   isNumber,
   isObject
-} from "src/runtime/index";
+} from "inferred-types/runtime";
 
 /**
  * **indexOf**(val, index)

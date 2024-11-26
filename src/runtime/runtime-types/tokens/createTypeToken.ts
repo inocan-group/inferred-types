@@ -7,12 +7,12 @@ import {
   TypeTokenKind,
   TypeTokenSingletons,
   UnionToken,
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 import {
   isAtomicToken,
   isSingletonToken,
   jsonValues
-} from "src/runtime/index";
+} from "inferred-types/runtime";
 
 type BaseReturn<
   TBase extends TypeTokenKind

@@ -1,5 +1,5 @@
-import { Iso8601DateTime } from "inferred-types/dist/types/index";
-import { isNumberLike, isString, stripUntil, } from "src/runtime/index";
+import { Iso8601DateTime } from "inferred-types/types";
+import { isNumberLike, isString, stripUntil, } from "inferred-types/runtime";
 
 /**
  * Type guard which validates that `val` is a valid ISO8601 DateTime string.

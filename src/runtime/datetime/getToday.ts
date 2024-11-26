@@ -1,4 +1,4 @@
-import { Iso8601Date } from "src/types/index";
+import { Iso8601Date } from "inferred-types/types";
 
 /**
  * Returns the current date as an

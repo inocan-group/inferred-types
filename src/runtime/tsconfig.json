@@ -21,16 +21,13 @@
     "composite": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      "src/types/index": [
+      "inferred-types/types": [
         "../types/index.ts"
       ],
-      "inferred-types/dist/types/index": [
-        "../types/index.ts"
-      ],
-      "inferred-types/dist/constants/index": [
+      "inferred-types/constants": [
         "../constants/index.ts"
       ],
-      "src/runtime/index": [
+      "inferred-types/runtime": [
         "../runtime/index.ts"
       ],
       "inferred-types/dist/runtime/index": [

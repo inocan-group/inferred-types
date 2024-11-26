@@ -1,5 +1,5 @@
-import { isString, isNumberLike } from "src/runtime/index"
-import { Iso8601Date } from "inferred-types/dist/types/index";
+import { isString, isNumberLike } from "inferred-types/runtime"
+import { Iso8601Date } from "inferred-types/types";
 
 /**
  * Type guard which validates whether the passed in `val` is an ISO 8601 date

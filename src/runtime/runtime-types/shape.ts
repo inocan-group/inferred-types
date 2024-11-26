@@ -1,12 +1,12 @@
-import { SHAPE_PREFIXES } from "inferred-types/dist/constants/index";
+import { SHAPE_PREFIXES } from "inferred-types/constants";
 import {
   Shape,
   ShapeTupleOrUnion,
   ShapeApi as TShapeApi,
   ShapeCallback,
   HandleDoneFn,
-} from "inferred-types/dist/types/index";
-import { isString, hasKeys, isObject, handleDoneFn,  } from "src/runtime/index";
+} from "inferred-types/types";
+import { isString, hasKeys, isObject, handleDoneFn,  } from "inferred-types/runtime";
 import { boolean, nullType, undefinedType, unknown } from "./shape-helpers/atomics";
 import { number, string } from "./shape-helpers/singletons";
 import { fn } from "./shape-helpers/functions";

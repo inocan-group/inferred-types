@@ -1,6 +1,6 @@
-import { NUMERIC_CHAR } from "inferred-types/dist/constants/index";
+import { NUMERIC_CHAR } from "inferred-types/constants";
 import { split } from "../literals/split";
-import { NumberLike } from "inferred-types/dist/types/index";
+import { NumberLike } from "inferred-types/types";
 
 
 /**

@@ -1,12 +1,12 @@
-import { DefineObject } from "inferred-types/dist/types/index";
-import { FromDefn } from "inferred-types/dist/types/index";
+import { DefineObject } from "inferred-types/types";
+import { FromDefn } from "inferred-types/types";
 import {
   AsType,
   ShapeCallback,
   SimpleScalarToken,
   SimpleToken,
   SimpleType
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 import { isFunction } from "../type-guards/isFunction";
 import {  ShapeApiImplementation } from "./shape";
 import { handleDoneFn } from "../api";

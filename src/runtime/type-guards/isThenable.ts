@@ -1,4 +1,4 @@
-import { Thenable } from "inferred-types/dist/types/index";
+import { Thenable } from "inferred-types/types";
 import { isObject } from "./isObject";
 /**
 * type guard which checks whether passed in `val` is a `Thenable` object

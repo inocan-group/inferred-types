@@ -17,9 +17,9 @@ import {
   UnionToTuple,
   AsString,
   IsNever,
-} from "inferred-types/dist/types/index"
+} from "inferred-types/types"
 
-import { isArray } from "src/runtime/index";
+import { isArray } from "inferred-types/runtime";
 
 type ListWideType<
   T extends readonly unknown[]

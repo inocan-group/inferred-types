@@ -1,4 +1,4 @@
-import { If, IsUndefined } from "inferred-types/dist/types/index";
+import { If, IsUndefined } from "inferred-types/types";
 import {
   CssClassSelector,
   CssIdSelector,
@@ -6,8 +6,8 @@ import {
   CssSelector,
   CssTagSelector,
   Join
-} from "inferred-types/dist/types/index";
-import { TupleToUnion } from"inferred-types/dist/types/index";
+} from "inferred-types/types";
+import { TupleToUnion } from"inferred-types/types";
 
 export type CssSelectorOptions = {
   ids?: readonly CssIdSelector[],

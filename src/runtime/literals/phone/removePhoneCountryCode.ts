@@ -1,5 +1,5 @@
-import { getPhoneCountryCode, stripLeading } from "src/runtime/index";
-import { RemovePhoneCountryCode } from "inferred-types/dist/types/index";
+import { getPhoneCountryCode, stripLeading } from "inferred-types/runtime";
+import { RemovePhoneCountryCode } from "inferred-types/types";
 
 export const removePhoneCountryCode = <
   T extends string

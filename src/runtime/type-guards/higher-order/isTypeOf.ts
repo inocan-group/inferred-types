@@ -1,4 +1,4 @@
-import { TypeOf, ConvertTypeOf } from "inferred-types/dist/types/index";
+import { TypeOf, ConvertTypeOf } from "inferred-types/types";
 
 export type TypeOfTypeGuard<TType extends TypeOf> = <TValue>(value: TValue)=> value is TValue & ConvertTypeOf<TType>;
 

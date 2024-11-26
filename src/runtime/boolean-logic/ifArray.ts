@@ -1,4 +1,4 @@
-import type {  IsArray, Narrowable } from "inferred-types/dist/types/index";
+import type {  IsArray, Narrowable } from "inferred-types/types";
 
 /**
  * **ifArray**(T, IF, ELSE)

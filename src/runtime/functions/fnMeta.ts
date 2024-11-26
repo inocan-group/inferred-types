@@ -1,4 +1,4 @@
-import { AnyFunction,  AsFnMeta } from "inferred-types/dist/types/index";
+import { AnyFunction,  AsFnMeta } from "inferred-types/types";
 
 type _Props<TFn extends AnyFunction> = AsFnMeta<TFn>["props"];
 

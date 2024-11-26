@@ -1,4 +1,4 @@
-import { Tuple, Join } from "inferred-types/dist/types/index";
+import { Tuple, Join } from "inferred-types/types";
 
 export type Joiner<
   TJoin extends string> = <TContent extends Tuple<string>

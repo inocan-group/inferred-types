@@ -1,4 +1,4 @@
-import type { MergeTuples, Narrowable } from "inferred-types/dist/types/index";
+import type { MergeTuples, Narrowable } from "inferred-types/types";
 
 /**
  * **mergeTuples**(a,b)

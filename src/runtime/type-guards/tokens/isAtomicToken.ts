@@ -1,6 +1,6 @@
-import { TT_Atomics } from "inferred-types/dist/constants/index";
-import { AtomicToken } from "inferred-types/dist/types/index";
-import { isString } from "src/runtime/index";
+import { TT_Atomics } from "inferred-types/constants";
+import { AtomicToken } from "inferred-types/types";
+import { isString } from "inferred-types/runtime";
 
 
 

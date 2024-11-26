@@ -22,6 +22,9 @@
     "baseUrl": ".",
     "outDir": "../../dist/none",
     "paths": {
+      "inferred-types/runtime": [
+        "../src/runtime/index.ts"
+      ],
       "src/types/index": [
         "../src/types/index.ts"
       ],

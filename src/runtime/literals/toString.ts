@@ -1,4 +1,4 @@
-import { ToString, Narrowable } from "inferred-types/dist/types/index";
+import { ToString, Narrowable } from "inferred-types/types";
 
 /**
  * **toString**()

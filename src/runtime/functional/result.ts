@@ -1,6 +1,6 @@
 // /* eslint-disable @typescript-eslint/no-explicit-any */
 // /* eslint-disable no-use-before-define */
-// import { RESULT } from "inferred-types/dist/constants/index"
+// import { RESULT } from "inferred-types/constants"
 // import {
 //   Ok,
 //   Result,
@@ -18,8 +18,8 @@
 //   ErrInput,
 //   IsFunction,
 //   If,
-// } from "inferred-types/dist/types/index"
-// import { Never } from "inferred-types/dist/constants/index";
+// } from "inferred-types/types"
+// import { Never } from "inferred-types/constants";
 // import { isFunction, isObject, isString } from "../type-guards/index";
 // import { toKebabCase } from "../literals/toKebabCase";
 // import { asUnion } from "../type-conversion/asUnion";

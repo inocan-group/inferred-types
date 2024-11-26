@@ -1,4 +1,4 @@
-import type { Or } from "inferred-types/dist/types/index";
+import type { Or } from "inferred-types/types";
 
 /**
  * **or**(conditions) -> boolean

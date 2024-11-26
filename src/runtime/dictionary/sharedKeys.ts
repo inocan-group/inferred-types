@@ -1,4 +1,4 @@
-import { AnyObject, AsRecord, ObjectKey, SharedKeys } from "inferred-types/dist/types/index";
+import { AnyObject, AsRecord, ObjectKey, SharedKeys } from "inferred-types/types";
 
 /**
  * **sharedKeys**

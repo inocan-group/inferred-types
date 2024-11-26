@@ -1,4 +1,4 @@
-import {  EnsureLeading } from "inferred-types/dist/types/index";
+import {  EnsureLeading } from "inferred-types/types";
 import { isString } from "../type-guards/isString";
 
 /**

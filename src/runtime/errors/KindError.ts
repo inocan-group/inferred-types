@@ -6,7 +6,7 @@ import {
   KindErrorDefn,
   MergeObjects,
   Narrowable,
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 import { parse } from "error-stack-parser-es/lite";
 import { relative } from "pathe";

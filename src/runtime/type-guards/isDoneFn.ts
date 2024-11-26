@@ -1,5 +1,5 @@
-import { AsDoneFn } from "inferred-types/dist/types/index"
-import { hasKeys } from "src/runtime/index"
+import { AsDoneFn } from "inferred-types/types"
+import { hasKeys } from "inferred-types/runtime"
 
 /**
  * **isDoneFn**(val)

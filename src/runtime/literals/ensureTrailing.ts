@@ -1,4 +1,4 @@
-import { EnsureTrailing } from "inferred-types/dist/types/index";
+import { EnsureTrailing } from "inferred-types/types";
 
 /**
  * **ensureTrailing**(content, strip)

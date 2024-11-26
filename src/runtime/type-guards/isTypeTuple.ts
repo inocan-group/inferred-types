@@ -1,4 +1,4 @@
-import { Narrowable , TypeTuple } from "inferred-types/dist/types/index";
+import { Narrowable , TypeTuple } from "inferred-types/types";
 
 /**
  * **isTypeTuple**(value)

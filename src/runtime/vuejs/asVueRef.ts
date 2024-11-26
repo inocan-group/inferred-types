@@ -1,4 +1,4 @@
-import { Narrowable, VueRef } from "inferred-types/dist/types/index";
+import { Narrowable, VueRef } from "inferred-types/types";
 
 /**
  * **asVueRef**(value)

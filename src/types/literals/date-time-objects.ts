@@ -447,6 +447,7 @@ export type UnitType =
   from(moment: MomentJs | string | number | Date | string[], withoutSuffix?: boolean): string;
   toNow(withoutSuffix?: boolean): string;
   to(moment: MomentJs | string | number | Date | string[], withoutSuffix?: boolean): string;
+  [key: string]: any;
 };
 
 /**

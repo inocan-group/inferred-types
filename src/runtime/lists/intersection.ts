@@ -1,5 +1,5 @@
-import type { Container, Intersection, } from "inferred-types/dist/types/index";
-import { isIndexable, getEach,  get } from "src/runtime/index";
+import type { Container, Intersection, } from "inferred-types/types";
+import { isIndexable, getEach,  get } from "inferred-types/runtime";
 import { ifNotNull } from "../boolean-logic/ifNotNull";
 
 function intersectWithOffset<

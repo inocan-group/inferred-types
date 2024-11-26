@@ -1,4 +1,4 @@
-import { Reverse } from "inferred-types/dist/types/index";
+import { Reverse } from "inferred-types/types";
 
 /**
  * **reverse**(list)

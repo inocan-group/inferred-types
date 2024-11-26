@@ -1,4 +1,4 @@
-import { Slice, Tuple } from "inferred-types/dist/types/index";
+import { Slice, Tuple } from "inferred-types/types";
 
 /**
  * **slice**(list, start, end)
