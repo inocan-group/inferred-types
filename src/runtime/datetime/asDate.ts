@@ -1,5 +1,15 @@
 
-import { isDate, isIsoDate, isIsoDateTime, isIsoYear, isLuxonDateTime, isMoment, isNumber } from "inferred-types/runtime";
+import {
+  isDate,
+  isIsoDateTime,
+  isIsoExplicitDate,
+  isIsoImplicitDate,
+  isIsoYear,
+  isLuxonDateTime,
+  isMoment,
+  isNumber,
+  stripAfter
+} from "inferred-types/runtime";
 
 /**
 * **asDate**`(input)`
@@ -12,6 +22,7 @@ export const asDate = <
   input: T
 ): Date => {
   if(isDate(input)) {
+    input.setHours(0, 0, 0, 0); // strip time
     return input;
   }
 
@@ -24,15 +35,26 @@ export const asDate = <
   }
 
   if(isIsoDateTime(input)) {
-    return new Date(input);
+    const [year,month,day] = stripAfter( input, "T").split("-").map(Number);
+    return new Date(year, month - 1, day);
   }
 
-  if(isIsoDate(input)) {
-    return new Date(input);
+  if(isIsoExplicitDate(input)) {
+    const [year,month,day] = input.split("-").map(Number);
+    return new Date(year, month - 1, day);
+  }
+
+  if(isIsoImplicitDate(input)) {
+    const year = Number(input.slice(0,4));
+    const month = Number(input.slice(4,6));
+    const day = Number(input.slice(6,8));
+    return new Date(year, month - 1, day);
   }
 
   if(isIsoYear(input)) {
-    return new Date(`${input}-01-01`);
+    const d = new Date(Number(input), 0, 1);
+    d.setHours(0, 0, 0, 0); // strip time
+    return d;
   }
 
   if(isNumber(input)) {
@@ -46,5 +68,5 @@ export const asDate = <
     }
   }
 
-  throw new Error("Invalid date input to asDate() function!");
+  throw new Error(`Invalid date input to asDate(${String(input)}) function!`);
 };

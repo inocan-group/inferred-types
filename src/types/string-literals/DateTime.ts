@@ -9,14 +9,15 @@ import {
   TimeNomenclature,
   TimeResolution,
   NumericChar,
-  NumericCharZeroToFive
+  NumericCharZeroToFive,
+  Opt
 } from "inferred-types/types";
 
 
 /**
  * The ISO8601 standard means of representing a _timezone_. `Z` by itself represents UTC.
  */
-export type Timezone = `Z${"+"|"-"}${number}` | `Z${"+"|"-"}${number}:${number}` | "Z";
+export type Timezone = `${Opt<"Z">}${"+"|"-"}${number}` | `${Opt<"Z">}${"+"|"-"}${number}:${number}` | "Z";
 
 /**
  * **DateTimeMinutes**

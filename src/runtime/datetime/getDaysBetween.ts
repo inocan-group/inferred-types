@@ -1,4 +1,3 @@
-import {  LuxonJs, MomentJs } from "inferred-types/types";
 import { asDate } from "./asDate";
 
 /**
@@ -7,8 +6,8 @@ import { asDate } from "./asDate";
 * - if the second date is left out, the current date is used
 */
 export const getDaysBetween = <
-  A extends string | MomentJs | Date | LuxonJs["DateTime"],
-  B extends string | MomentJs | Date | LuxonJs["DateTime"],
+  A extends number | string | Date | Record<string, any>,
+  B extends number | string | Date | Record<string, any>,
 >(
   a: A,
   b: B = new Date() as B
@@ -16,21 +15,13 @@ export const getDaysBetween = <
   const aDate = asDate(a);
   const bDate = asDate(b);
 
+  const aStr = aDate.toISOString().split("T")[0];
+  const bStr = bDate.toISOString().split("T")[0];
 
-  // Normalize both dates to UTC midnight to ignore timezones
-  const utcA = new Date(
-    Date.UTC(aDate.getUTCFullYear(),
-      aDate.getUTCMonth(),
-      aDate.getUTCDate())
-  );
-  const utcB = new Date(
-    Date.UTC(
-      bDate.getUTCFullYear(),
-      bDate.getUTCMonth(),
-      bDate.getUTCDate())
-  );
+  const dateA = new Date(aStr + "T00:00:00Z");
+  const dateB = new Date(bStr + "T00:00:00Z");
 
   // Calculate the difference in milliseconds and convert to days
   const msInDay = 24 * 60 * 60 * 1000;
-  return Math.abs((utcA.getTime() - utcB.getTime()) / msInDay);
+  return Math.round(Math.abs((dateB.getTime() - dateA.getTime()) / msInDay));
 };
