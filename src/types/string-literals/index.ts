@@ -42,6 +42,7 @@ export * from "./Truncate";
 export * from "./RetainUntil";
 export * from "./StripUntil";
 export * from "./UnderlyingType";
+export * from "./Calendar";
 
 export * from "./character-sets/index";
 export * from "./casing/index";
