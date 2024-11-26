@@ -1,4 +1,4 @@
-import { IsNever } from "inferred-types/dist/types/index";
+import { IsNever } from "inferred-types/types";
 
 /**
  * **IfNever**`<T,IsNever,NotNever>`

@@ -37,7 +37,7 @@ import {
   VOLTAGE_METRICS_LOOKUP,
   VOLUME_METRICS_LOOKUP,
 } from "inferred-types/constants";
-import { stripWhile } from "inferred-types/dist/runtime/index";
+import { stripWhile } from "inferred-types/runtime";
 
 
 

@@ -3,7 +3,7 @@ import {
   IsScalar,
   IsUndefined,
   IsUnion
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 type Process<T> = [IsNever<T>] extends [true]
 ? false

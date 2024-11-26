@@ -12,7 +12,7 @@ import {
   Or,
   IsGreaterThanOrEqual,
   NegDelta
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 
 type ConvertNumber<

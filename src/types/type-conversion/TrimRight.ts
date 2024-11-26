@@ -1,4 +1,4 @@
-import { Whitespace } from "inferred-types/dist/types/index";
+import { Whitespace } from "inferred-types/types";
 
 /**
  * Trims off whitespace on left of string

@@ -1,4 +1,4 @@
-import { UpperAlphaChar } from "inferred-types/dist/types/index";
+import { UpperAlphaChar } from "inferred-types/types";
 
 /**
  * Indicates whether `T` has uppercase characters in it.

@@ -1,4 +1,4 @@
-import { Narrowable , AfterFirst ,  First, Find } from "inferred-types/dist/types/index";
+import { Narrowable , AfterFirst ,  First, Find } from "inferred-types/types";
 
 export type ConversionTuple = [from: Narrowable, to: Narrowable];
 

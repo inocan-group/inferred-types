@@ -1,4 +1,4 @@
-import { IfNever, IfEqual, DoesExtend } from "inferred-types/dist/types/index";
+import { IfNever, IfEqual, DoesExtend } from "inferred-types/types";
 
 /**
  * **IsNumericLiteral**`<T>`

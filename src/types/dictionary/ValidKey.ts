@@ -1,4 +1,4 @@
-import { AsArray, Container, Keys, TupleToUnion } from "inferred-types/dist/types/index";
+import { AsArray, Container, Keys, TupleToUnion } from "inferred-types/types";
 
 
 /**

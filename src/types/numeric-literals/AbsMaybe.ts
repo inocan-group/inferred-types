@@ -1,4 +1,4 @@
-import {  ToNumber,  StripLeading, If, Or, IsNumericLiteral, IsStringLiteral, AsString } from "inferred-types/dist/types/index";
+import {  ToNumber,  StripLeading, If, Or, IsNumericLiteral, IsStringLiteral, AsString } from "inferred-types/types";
 
 /**
  * **AbsMaybe**`<T>`

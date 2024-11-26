@@ -2,7 +2,7 @@ import {
   CountryPhoneNumber,
   DialCountryCode,
   PhoneNumberDelimiter
-} from "inferred-types/dist/types/index"
+} from "inferred-types/types"
 
 /**
  * **InternationalPhoneNumber**`<[TDelimiter]>`

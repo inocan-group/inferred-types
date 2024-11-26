@@ -1,4 +1,4 @@
-import {  If,  IsEqual,  ObjectKey,  RemoveIndexKeys,   Retain,  UnionToTuple } from "inferred-types/dist/types/index";
+import {  If,  IsEqual,  ObjectKey,  RemoveIndexKeys,   Retain,  UnionToTuple } from "inferred-types/types";
 
 
 

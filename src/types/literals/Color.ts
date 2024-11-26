@@ -1,7 +1,7 @@
 
 // https://www.w3schools.com/colors/colors_groups.asp
 
-import { HexadecimalChar } from "inferred-types/dist/types/index";
+import { HexadecimalChar } from "inferred-types/types";
 
 export type NamedColor_Pink = "Pink" | "LightPink" | "HotPink" | "DeepPink" | "PaleVioletRed" | "MediumVioletRed";
 export type NamedColor_Purple = "Lavender" | "Thistle" | "Plum" | "Orchid" | "Violet" | "Fuchsia" | "Magenta" | "MediumOrchid" | "DarkOrchid" | "DarkViolet" | "BlueViolet" | "DarkMagenta" | "Purple" | "MediumPurple" | "MediumSlateBlue" | "SlateBlue" | "DarkSlateBlue" | "RebeccaPurple" | "Indigo";

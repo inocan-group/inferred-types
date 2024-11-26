@@ -4,7 +4,7 @@ import {
   NumericCharZeroToThree,
   NumericCharZeroToTwo,
   Slice
-} from "src/types/index";
+} from "inferred-types/types";
 
 
 type YMD<T> = T extends `${number}-${number}-${number}`

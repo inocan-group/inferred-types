@@ -1,4 +1,4 @@
-import { AfterFirst, Container, EmptyObject, First, Dictionary, Keys } from "inferred-types/dist/types/index";
+import { AfterFirst, Container, EmptyObject, First, Dictionary, Keys } from "inferred-types/types";
 import { Widen } from "./Widen";
 
 type ProcessArr<

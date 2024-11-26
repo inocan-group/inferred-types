@@ -1,4 +1,4 @@
-import { TypedFunction } from "src/types/index";
+import { TypedFunction } from "inferred-types/types";
 
 /**
 * **IsLuxonDateTime`<T>`

@@ -1,4 +1,4 @@
-import { AsNumber, AsString, IsNegativeNumber } from "inferred-types/dist/types/index";
+import { AsNumber, AsString, IsNegativeNumber } from "inferred-types/types";
 
 /**
  * **Negative**`<T>`

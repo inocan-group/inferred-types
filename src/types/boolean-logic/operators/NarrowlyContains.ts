@@ -1,4 +1,4 @@
-import { AfterFirst, First , IsEqual } from "inferred-types/dist/types/index";
+import { AfterFirst, First , IsEqual } from "inferred-types/types";
 
 /**
  * **NarrowlyContains**`<TList, TContains>`

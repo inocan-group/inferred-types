@@ -1,4 +1,4 @@
-import {   IsBoolean, TypedFunction } from "inferred-types/dist/types/index";
+import {   IsBoolean, TypedFunction } from "inferred-types/types";
 
 /**
  * **ReturnsBoolean**`<T>`

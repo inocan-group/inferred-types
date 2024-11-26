@@ -1,4 +1,4 @@
-import type { AfterFirst, First } from "inferred-types/dist/types/index";
+import type { AfterFirst, First } from "inferred-types/types";
 
 /**
  * **ExtendsSome**`<TValue,TList>`

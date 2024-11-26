@@ -1,4 +1,4 @@
-import { Tuple,AllLiteral } from "inferred-types/dist/types/index";
+import { Tuple,AllLiteral } from "inferred-types/types";
 
 
 /**

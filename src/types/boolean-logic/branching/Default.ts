@@ -1,4 +1,4 @@
-import { Something } from "inferred-types/dist/types/index";
+import { Something } from "inferred-types/types";
 
 type Process<TVal,TDefault> = TVal extends Something
 ? TVal

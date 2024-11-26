@@ -1,4 +1,4 @@
-import { If, Extends, Increment, ToNumber } from "inferred-types/dist/types/index";
+import { If, Extends, Increment, ToNumber } from "inferred-types/types";
 
 export type ToIntegerOp = "truncate" | "round";
 

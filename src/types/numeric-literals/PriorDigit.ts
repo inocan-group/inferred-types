@@ -3,7 +3,7 @@ import {
   NumericChar,
   ToString,
   AsNumber
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 /**
  * **PriorDigit**`<T>`

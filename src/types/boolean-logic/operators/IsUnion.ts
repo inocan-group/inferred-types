@@ -1,4 +1,4 @@
-import { UnionToTuple , IsNever,  IsEqual } from "inferred-types/dist/types/index";
+import { UnionToTuple , IsNever,  IsEqual } from "inferred-types/types";
 
 
 /**

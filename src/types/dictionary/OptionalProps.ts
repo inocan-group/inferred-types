@@ -1,4 +1,4 @@
-import { EmptyObject, OptionalKeys, RemoveIndexKeys } from "inferred-types/dist/types/index";
+import { EmptyObject, OptionalKeys, RemoveIndexKeys } from "inferred-types/types";
 
 /**
  * **OptionalProps**

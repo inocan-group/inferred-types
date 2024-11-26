@@ -3,7 +3,7 @@ import {
   TypeErrorInfo,
   IfNever,
   EmptyObject
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 type Stack<
   TRest extends TypeErrorInfo

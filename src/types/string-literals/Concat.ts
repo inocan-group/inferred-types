@@ -5,7 +5,7 @@ import {
   IsStringLiteral,
   IsNumericLiteral,
   IsBooleanLiteral
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 type ElementLiteral<T> = [T] extends [string]
   ? IsStringLiteral<T> extends true ? T : string

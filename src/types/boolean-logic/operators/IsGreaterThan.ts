@@ -1,4 +1,4 @@
-import { AsNumber, If, IsEqual, NumberLike, Or } from "inferred-types/dist/types/index";
+import { AsNumber, If, IsEqual, NumberLike, Or } from "inferred-types/types";
 
 type Calc<
   A extends number,

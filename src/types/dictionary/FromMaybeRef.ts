@@ -1,4 +1,4 @@
-import { IsVueRef } from "inferred-types/dist/types/index";
+import { IsVueRef } from "inferred-types/types";
 
 /**
  * **FromMaybeRef**`<T>`

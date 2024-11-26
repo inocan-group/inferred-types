@@ -3,7 +3,7 @@ import {
   IsEqual,
   IsWideType,
   NumberLike,
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 /**
  * **IsNegativeNumber**`<T>`

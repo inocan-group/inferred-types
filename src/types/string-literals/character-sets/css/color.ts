@@ -1,6 +1,6 @@
 import { HexadecimalChar } from "../Hexadecimal";
 import { OptionalSpace } from "../OptionalSpace";
-import { CSS_NAMED_COLORS } from "inferred-types/dist/constants/index";
+import { CSS_NAMED_COLORS } from "inferred-types/constants";
 
 export type CssNamedColors = typeof CSS_NAMED_COLORS[number];
 

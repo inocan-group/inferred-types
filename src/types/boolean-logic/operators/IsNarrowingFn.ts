@@ -1,4 +1,4 @@
-import { AnyFunction, Not, IsEqual, LiteralFn } from "inferred-types/dist/types/index";
+import { AnyFunction, Not, IsEqual, LiteralFn } from "inferred-types/types";
 
 
 

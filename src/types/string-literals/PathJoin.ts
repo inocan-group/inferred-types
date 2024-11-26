@@ -2,7 +2,7 @@ import {
   Join,
   First,
   Last,
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 
 export type StripSlash<

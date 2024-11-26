@@ -1,4 +1,4 @@
-import { AnyObject, Narrowable, IfEqual } from "inferred-types/dist/types/index";
+import { AnyObject, Narrowable, IfEqual } from "inferred-types/types";
 
 /**
  * **KeysNotEqualValue**`<TObj, TValue>`

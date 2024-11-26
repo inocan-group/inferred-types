@@ -1,4 +1,4 @@
-import {  IsStringLiteral,  IsEqual } from "inferred-types/dist/types/index";
+import {  IsStringLiteral,  IsEqual } from "inferred-types/types";
 
 type Process<
   TStr extends string,

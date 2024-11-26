@@ -1,4 +1,4 @@
-import { Iso8601DateTime } from "src/types/index";
+import { Iso8601DateTime } from "inferred-types/types";
 
 type RelativeTimeKey = "s" | "ss" | "m" | "mm" | "h" | "hh" | "d" | "dd" | "w" | "ww" | "M" | "MM" | "y" | "yy";
 type CalendarKey = "sameDay" | "nextDay" | "lastDay" | "nextWeek" | "lastWeek" | "sameElse" | string;

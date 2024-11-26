@@ -1,4 +1,4 @@
-import {  Tuple, If, IsUndefined } from "inferred-types/dist/types/index";
+import {  Tuple, If, IsUndefined } from "inferred-types/types";
 
 /**
  * **AsTuple**`<T>`

@@ -3,7 +3,7 @@ import {
   Dictionary,
   MergeObjects,
   OptRequired
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 /**
  * utility function to take a fully-qualified _user_ config

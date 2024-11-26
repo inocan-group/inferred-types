@@ -1,4 +1,4 @@
-import { AsError, Concat, Contains, IfEqual, Defined, Tuple, NarrowlyContains } from "inferred-types/dist/types/index";
+import { AsError, Concat, Contains, IfEqual, Defined, Tuple, NarrowlyContains } from "inferred-types/types";
 
 type left = 1;
 type right = 2;
@@ -236,7 +236,7 @@ export type WhereLeft<
       TOp,
       "' operation to compare to the LEFT value"
     ]>,
-    { library: "inferred-types"; utility: "IfLeft" }
+    { library: "inferred-types/constants"; utility: "IfLeft" }
   ]>
 > =
 TOp extends "extends"

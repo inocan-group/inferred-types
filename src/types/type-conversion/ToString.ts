@@ -9,7 +9,7 @@ import {
   If,
   IsNumericLiteral,
   IsBooleanLiteral
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 /**
  * **ToString**

@@ -1,4 +1,4 @@
-import { Constant } from "inferred-types/dist/constants/index";
+import { Constant } from "inferred-types/constants";
 import { EmptyObject,
   Dictionary,
   ObjectKey,
@@ -18,7 +18,7 @@ import { EmptyObject,
   UnionElDefn,
   SimpleToken,
   AsType
- } from "inferred-types/dist/types/index";
+ } from "inferred-types/types";
 
 type HandleObject<
   TObj extends Dictionary,

@@ -1,4 +1,4 @@
-import { ExpandRecursively , UnionToIntersection } from "inferred-types/dist/types/index";
+import { ExpandRecursively , UnionToIntersection } from "inferred-types/types";
 
 /**
  * Typescript utility which receives `T` as shape which resembles `DictArray<D>`

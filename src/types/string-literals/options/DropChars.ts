@@ -5,7 +5,7 @@ import {
   First,
   IsUnion,
   UnionToTuple
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 /**
  * Handles dropping a non-union type which can be a single

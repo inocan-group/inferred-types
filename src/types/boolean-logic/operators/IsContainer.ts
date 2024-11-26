@@ -1,5 +1,5 @@
 
-import type {  IsNever, Dictionary } from "inferred-types/dist/types/index";
+import type {  IsNever, Dictionary } from "inferred-types/types";
 
 /**
  * **IsContainer**`<T>`

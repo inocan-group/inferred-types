@@ -1,4 +1,4 @@
-import { ReadonlyKeys } from "inferred-types/dist/types/index";
+import { ReadonlyKeys } from "inferred-types/types";
 
 /**
  * **ReadonlyProps**`<T>`

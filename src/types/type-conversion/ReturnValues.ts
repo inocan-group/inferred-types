@@ -1,4 +1,4 @@
-import {  AfterFirst, Dictionary, First, TypedFunction, Values } from "inferred-types/dist/types/index";
+import {  AfterFirst, Dictionary, First, TypedFunction, Values } from "inferred-types/types";
 
 
 type ProcessTuple<

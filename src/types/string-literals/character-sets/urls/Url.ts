@@ -23,8 +23,8 @@ import {
   IsUndefined,
   Contains,
   RemoveEmpty
-} from "inferred-types/dist/types/index";
-import { NETWORK_PROTOCOL_LOOKUP } from "inferred-types/dist/constants/index";
+} from "inferred-types/types";
+import { NETWORK_PROTOCOL_LOOKUP } from "inferred-types/constants";
 
 type Proto = typeof NETWORK_PROTOCOL_LOOKUP;
 export type NetworkProtocol = Mutable<Values<Proto>> extends readonly (string | string[])[]

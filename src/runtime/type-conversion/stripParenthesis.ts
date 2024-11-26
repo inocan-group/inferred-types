@@ -1,4 +1,4 @@
-import { stripLeading, stripTrailing } from "inferred-types/dist/runtime/index"
+import { stripLeading, stripTrailing } from "inferred-types/runtime"
 import { StripSurround, Trim } from "inferred-types/types"
 
 

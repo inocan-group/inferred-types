@@ -1,4 +1,4 @@
-import {  Dictionary, IsObjectLiteral, IsTuple } from "inferred-types/dist/types/index";
+import {  Dictionary, IsObjectLiteral, IsTuple } from "inferred-types/types";
 
 type MutableObject<T> = [T] extends [boolean]
 ? T

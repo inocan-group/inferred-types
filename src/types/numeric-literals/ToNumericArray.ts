@@ -1,5 +1,5 @@
 
-import { Tuple,  IsReadonlyArray, IsNonEmptyContainer, ToNumber} from "inferred-types/dist/types/index";
+import { Tuple,  IsReadonlyArray, IsNonEmptyContainer, ToNumber} from "inferred-types/types";
 
 type _Convert<
   TInput extends Tuple

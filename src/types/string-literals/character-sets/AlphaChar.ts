@@ -1,4 +1,4 @@
-import { LowerAlphaChar , UpperAlphaChar } from "inferred-types/dist/types/index";
+import { LowerAlphaChar , UpperAlphaChar } from "inferred-types/types";
 
 /**
  * **AlphaChar**

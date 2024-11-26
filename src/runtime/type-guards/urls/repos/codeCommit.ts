@@ -1,6 +1,6 @@
 import { REPO_SOURCE_LOOKUP } from "inferred-types/constants";
 import { UrlsFrom } from "inferred-types/types";
-import { isString } from "inferred-types/dist/runtime/index";
+import { isString } from "inferred-types/runtime";
 
 /**
  * **isCodeCommitUrl**`(val)`

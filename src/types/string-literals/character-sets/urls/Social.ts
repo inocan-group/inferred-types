@@ -1,5 +1,5 @@
-import { SOCIAL_MEDIA } from "inferred-types/dist/constants/index";
-import { Replace, UrlsFrom } from "inferred-types/dist/types/index";
+import { SOCIAL_MEDIA } from "inferred-types/constants";
+import { Replace, UrlsFrom } from "inferred-types/types";
 
 type Lookup = typeof SOCIAL_MEDIA;
 

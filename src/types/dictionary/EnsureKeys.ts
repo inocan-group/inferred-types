@@ -1,4 +1,4 @@
-import { Dictionary, ExpandRecursively,CreateKV  } from "inferred-types/dist/types/index";
+import { Dictionary, ExpandRecursively,CreateKV  } from "inferred-types/types";
 
 type BuildObj<
   T extends readonly string[] | Dictionary | [Dictionary],

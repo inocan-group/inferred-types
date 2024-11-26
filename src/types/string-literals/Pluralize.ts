@@ -1,6 +1,6 @@
 /* eslint @typescript-eslint/no-unused-vars: "off" */
 
-import { PLURAL_EXCEPTIONS } from "inferred-types/dist/constants/index";
+import { PLURAL_EXCEPTIONS } from "inferred-types/constants";
 import {
   Consonant,
   IsStringLiteral,
@@ -10,7 +10,7 @@ import {
   TrimRight,
   Join,
   RightWhitespace,
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 type ExceptionLookup = typeof PLURAL_EXCEPTIONS;
 

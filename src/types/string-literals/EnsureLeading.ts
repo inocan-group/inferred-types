@@ -1,5 +1,5 @@
 
-import {As, AsNumber, AsStringUnion, IsString, IsWideType } from "inferred-types/dist/types/index";
+import {As, AsNumber, AsStringUnion, IsString, IsWideType } from "inferred-types/types";
 
 type Process<
   TContent extends string,

@@ -1,5 +1,5 @@
 import {  StripChars } from "inferred-types/types";
-import { asChars } from "inferred-types/dist/runtime/index";
+import { asChars } from "inferred-types/runtime";
 
 /**
  * **stripChars**`(content, ...strip)`

@@ -1,4 +1,4 @@
-import { Dictionary, EmptyObject, Tuple } from "inferred-types/dist/types/index";
+import { Dictionary, EmptyObject, Tuple } from "inferred-types/types";
 
 /**
  * **FnFrom**`<TParams,[TReturn],[TProps]>`

@@ -1,4 +1,4 @@
-import type { Length , IfEqual } from "inferred-types/dist/types/index";
+import type { Length , IfEqual } from "inferred-types/types";
 
 /**
  * **IsLength**`<T, LEN>`

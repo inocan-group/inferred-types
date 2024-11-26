@@ -1,6 +1,6 @@
-import { ISO3166_1 } from "inferred-types/dist/constants/index";
-import {  If, IsEqual, IsStringLiteral } from "inferred-types/dist/types/index";
-import { AfterFirst, First } from "src/types/lists";
+import { ISO3166_1 } from "inferred-types/constants";
+import {  If, IsEqual, IsStringLiteral, AfterFirst, First } from "inferred-types/types";
+
 
 
 export type Iso3166_1_Lookup = typeof ISO3166_1;

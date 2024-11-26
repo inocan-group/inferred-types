@@ -1,4 +1,4 @@
-import {  If, IsTruthy , TupleToUnion, TypedFunction } from "inferred-types/dist/types/index";
+import {  If, IsTruthy , TupleToUnion, TypedFunction } from "inferred-types/types";
 
 /**
  * **TruthyReturns**`<T>`

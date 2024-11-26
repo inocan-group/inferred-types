@@ -1,4 +1,4 @@
-import { NumberLike } from "inferred-types/dist/types/index";
+import { NumberLike } from "inferred-types/types";
 import { IsNegativeNumber } from "./IsNegativeNumber";
 
 /**

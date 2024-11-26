@@ -14,9 +14,9 @@ import {
   Something,
   IsEqual,
   And
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
-import { RESULT } from "inferred-types/dist/constants/index";
+import { RESULT } from "inferred-types/constants";
 
 type OK = typeof RESULT.Ok;
 type ERR = typeof RESULT.Err;

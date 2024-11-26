@@ -1,4 +1,4 @@
-import { IsIsoTime, RetainAfter, RetainUntil } from "src/types/index";
+import { IsIsoTime, RetainAfter, RetainUntil } from "inferred-types/types";
 import { IsIsoDate } from "./IsIsoDate";
 
 

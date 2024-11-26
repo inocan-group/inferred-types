@@ -9,7 +9,7 @@ import {
   Iso8601Date,
   Iso8601DateTime,
   LuxonJs
-} from "src/types/index";
+} from "inferred-types/types";
 import { DateTime } from "luxon";
 import moment from "moment";
 import { describe, expect, it, beforeEach, afterEach, vi } from "vitest";

@@ -1,6 +1,6 @@
 
 
-import { AnyFunction } from "inferred-types/dist/types/index";
+import { AnyFunction } from "inferred-types/types";
 import { IsEqual } from "./IsEqual";
 
 

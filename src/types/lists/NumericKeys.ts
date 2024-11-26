@@ -1,4 +1,4 @@
-import { Tuple, Length, ToNumber, AfterFirst, First, IsReadonlyArray, If } from "inferred-types/dist/types/index";
+import { Tuple, Length, ToNumber, AfterFirst, First, IsReadonlyArray, If } from "inferred-types/types";
 
 type Recurse<
   TList extends Tuple,

@@ -1,4 +1,4 @@
-import { HasCharacters, IsNever, IsStringLiteral, NumberLike } from "inferred-types/dist/types/index";
+import { HasCharacters, IsNever, IsStringLiteral, NumberLike } from "inferred-types/types";
 
 
 /**

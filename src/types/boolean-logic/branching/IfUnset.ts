@@ -1,7 +1,7 @@
 import {
   IsUndefined,
   Unset
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 
 /**

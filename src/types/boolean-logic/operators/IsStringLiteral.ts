@@ -1,4 +1,4 @@
-import {  IsEqual, IsNever } from "inferred-types/dist/types/index";
+import {  IsEqual, IsNever } from "inferred-types/types";
 
 /**
  * **IsStringLiteral**`<T>`

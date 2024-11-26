@@ -12,7 +12,7 @@ import {
   Scalar,
   Throw,
   UnionToTuple,
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 /**
  * **IsWideScalar**`<T>`
@@ -79,7 +79,7 @@ type InvalidNever = Throw<
   "invalid-never",
   `The value of T when calling IsWideType<T> was "never" which makes the comparison invalid! If you want prefer to instead allow this condition then set the TNever generic to true or false depending on your preferred outcome`,
   "IsWideType",
-  { library: "inferred-types"}
+  { library: "inferred-types/constants"}
 >
 
 /**

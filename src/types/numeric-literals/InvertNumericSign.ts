@@ -3,7 +3,7 @@ import {
   IsNegativeNumber,
   Abs,
   NumberLike
- } from "inferred-types/dist/types/index";
+ } from "inferred-types/types";
 
 
 /**

@@ -1,4 +1,4 @@
-import { UnionToTuple, TupleToUnion, Filter, IsUnion, Tuple, CamelCase, PascalCase, KebabCase, SnakeCase } from "inferred-types/dist/types/index";
+import { UnionToTuple, TupleToUnion, Filter, IsUnion, Tuple, CamelCase, PascalCase, KebabCase, SnakeCase } from "inferred-types/types";
 
 
 type Reduce<

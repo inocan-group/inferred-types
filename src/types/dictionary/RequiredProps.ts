@@ -1,4 +1,4 @@
-import { AnyObject, RequiredKeys } from "inferred-types/dist/types/index";
+import { AnyObject, RequiredKeys } from "inferred-types/types";
 
 /**
  * **RequiredProps**`<T>`

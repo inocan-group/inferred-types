@@ -1,4 +1,4 @@
-import { AfterFirst, First, If, Extends } from "inferred-types/dist/types/index";
+import { AfterFirst, First, If, Extends } from "inferred-types/types";
 
 type SomeAcc<
   TList extends readonly unknown[],

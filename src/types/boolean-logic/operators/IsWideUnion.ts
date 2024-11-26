@@ -2,7 +2,7 @@ import {
   IsUnion,
   IsWideType,
   UnionToTuple
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 type Process<
   T extends readonly unknown[]

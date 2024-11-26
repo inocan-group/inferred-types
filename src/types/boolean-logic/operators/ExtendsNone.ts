@@ -1,4 +1,4 @@
-import type { Not, ExtendsSome } from "inferred-types/dist/types/index";
+import type { Not, ExtendsSome } from "inferred-types/types";
 
 
 /**

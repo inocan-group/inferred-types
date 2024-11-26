@@ -1,4 +1,4 @@
-import {  If, IsUnion, RetainLiterals,  UnionToTuple } from "inferred-types/dist/types/index";
+import {  If, IsUnion, RetainLiterals,  UnionToTuple } from "inferred-types/types";
 
 
 type Process<T> = UnionToTuple<T> extends readonly unknown[]

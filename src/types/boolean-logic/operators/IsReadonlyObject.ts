@@ -1,4 +1,4 @@
-import {   Dictionary, ReadonlyKeys, IsEqual } from "inferred-types/dist/types/index";
+import {   Dictionary, ReadonlyKeys, IsEqual } from "inferred-types/types";
 
 /**
  * **IsReadonlyObject**`<T>`

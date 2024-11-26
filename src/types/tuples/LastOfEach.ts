@@ -1,4 +1,4 @@
-import {  Last } from "inferred-types/dist/types/index";
+import {  Last } from "inferred-types/types";
 
 /**
  * **LastOfEach**`<TList>`

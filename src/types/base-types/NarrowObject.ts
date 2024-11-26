@@ -1,4 +1,4 @@
-import type { Narrowable, ObjectKey } from "inferred-types/dist/types/index";
+import type { Narrowable, ObjectKey } from "inferred-types/types";
 
 /**
  * **NarrowObject**`<N>`

@@ -6,7 +6,7 @@ import {
   Timezone,
   StripLeading,
   NumericChar
-} from "src/types/index";
+} from "inferred-types/types";
 
 type JustTime<T extends `${Opt<"T">}${number}:${number}:${number}${Opt<Timezone>}`> =
   StripAfter<

@@ -1,7 +1,7 @@
 import {
   Suggest,
   NumericChar,
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 /**
  * Valid hexadecimal character

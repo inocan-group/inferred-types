@@ -1,5 +1,5 @@
 
-import { IndexableObject } from "inferred-types/dist/types/index";
+import { IndexableObject } from "inferred-types/types";
 
 /**
  * **Indexable**

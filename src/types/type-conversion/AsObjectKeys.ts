@@ -1,4 +1,4 @@
-import { ObjectKey } from "inferred-types/dist/types/index";
+import { ObjectKey } from "inferred-types/types";
 
 
 /**

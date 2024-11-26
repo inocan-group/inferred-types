@@ -1,5 +1,5 @@
-import {  DUTCH_NEWS } from "inferred-types/dist/constants/index";
-import { Mutable } from "src/types/type-conversion/Mutable";
+import {  DUTCH_NEWS } from "inferred-types/constants";
+import { Mutable } from "inferred-types/types";
 import { UrlsFrom } from "../Url";
 
 type Lookup = Mutable<typeof DUTCH_NEWS>;

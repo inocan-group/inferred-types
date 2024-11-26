@@ -1,4 +1,4 @@
-import { IsNegativeNumber , FixedLengthArray , Concat } from "inferred-types/dist/types/index";
+import { IsNegativeNumber , FixedLengthArray , Concat } from "inferred-types/types";
 
 /**
  * **Repeat**`<TStr,TCount>`

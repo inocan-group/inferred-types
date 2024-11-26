@@ -1,4 +1,4 @@
-import { Tuple, First} from "inferred-types/dist/types/index";
+import { Tuple, First} from "inferred-types/types";
 
 
 /**

@@ -1,4 +1,4 @@
-import { Narrowable , TypeGuard } from "inferred-types/dist/types/index";
+import { Narrowable , TypeGuard } from "inferred-types/types";
 
 /**
  * **TypeTuple**`<TType>`

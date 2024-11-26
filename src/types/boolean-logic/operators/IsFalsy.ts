@@ -1,4 +1,4 @@
-import { If, ExtendsSome } from "inferred-types/dist/types/index";
+import { If, ExtendsSome } from "inferred-types/types";
 
 /**
  * **IsFalsy**`<T>`

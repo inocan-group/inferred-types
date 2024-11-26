@@ -5,7 +5,7 @@ import {
   Narrowable,
   MergeObjects,
   StripChars
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 import { StackFrame } from "error-stack-parser-es";
 
 /**

@@ -1,4 +1,4 @@
-import { If, IsUnion , ToNumber, TupleToUnion, UnionToTuple } from "inferred-types/dist/types/index";
+import { If, IsUnion , ToNumber, TupleToUnion, UnionToTuple } from "inferred-types/types";
 
 
 type Convert<T> = T extends `${number}`

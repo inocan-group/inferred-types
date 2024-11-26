@@ -5,7 +5,7 @@ import {
   IsUnion,
   TupleToUnion,
   UnionToTuple
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 type Narrow<
   TContent,

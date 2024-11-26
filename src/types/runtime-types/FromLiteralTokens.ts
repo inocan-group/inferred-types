@@ -12,7 +12,7 @@ import {
   StripLeading,
   UpperAlphaChar,
   StringLiteralToken
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 type _Tokenize<T extends StringLiteralToken> = //
   If<

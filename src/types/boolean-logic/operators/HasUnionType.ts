@@ -1,4 +1,4 @@
-import { AfterFirst, First,  IsUnion } from "inferred-types/dist/types/index";
+import { AfterFirst, First,  IsUnion } from "inferred-types/types";
 
 type _HasUnion<
   TList extends readonly unknown[]

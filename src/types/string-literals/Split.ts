@@ -11,7 +11,7 @@ import {
   TupleToUnion,
   UnionToTuple,
   As,
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 type UnionPolicy = "omit" | "include";
 

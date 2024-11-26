@@ -5,7 +5,7 @@ import {
   RightWhitespace,
   PascalCase ,
   Concat
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 /**
  * **CamelCase**`<TString,TPreserveWhitespace>`

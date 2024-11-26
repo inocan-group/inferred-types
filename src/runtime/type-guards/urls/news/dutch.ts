@@ -1,5 +1,5 @@
 import { DUTCH_NEWS } from "inferred-types/constants"
-import { isString } from "inferred-types/dist/runtime/index"
+import { isString } from "inferred-types/runtime"
 import { DutchNewsUrls } from "inferred-types/types"
 
 

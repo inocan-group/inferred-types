@@ -1,8 +1,8 @@
-import { As, IsTrue, IsUnion } from "inferred-types/dist/types/index";
+import { As, IsTrue, IsUnion } from "inferred-types/types";
 import { AddUrlPathSegment, OptUrlQueryParameters, UrlsFrom } from "./Url";
-import { TupleToUnion, UnionToTuple } from"inferred-types/dist/types/index";
-import { GITHUB_INSIGHT_CATEGORY_LOOKUP } from "inferred-types/dist/constants/index";
-import { Keys } from "inferred-types/dist/types/index";
+import { TupleToUnion, UnionToTuple } from"inferred-types/types";
+import { GITHUB_INSIGHT_CATEGORY_LOOKUP } from "inferred-types/constants";
+import { Keys } from "inferred-types/types";
 
 export type GithubUrl = UrlsFrom<[
   "https://github.com",

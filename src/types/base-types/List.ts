@@ -7,7 +7,7 @@ import {
   IsInteger,
   Dictionary,
   Flatten
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 import { BCP47 } from "../string-literals/character-sets/BCP";
 
 type ShallowCopy<T> = T;

@@ -27,23 +27,18 @@
     "forceConsistentCasingInFileNames": true,
     "paths": {
       // root export for runtime symbols
-      "src/runtime/*": [
-        "../runtime/*"
+      "inferred-types/constants": [
+        "../constants/index.ts"
       ],
-      // root export for type symbols
-      "src/types/*": [
-        "../types/*"
+      "inferred-types/types": [
+        "../types/index.ts"
       ],
-      // root export for constant symbols
-      "inferred-types/dist/constants/index": [
+      "inferred-types/runtime": [
+        "../runtime/index.ts"
+      ],
+      "./dist/constants/*": [
         "../constants/*"
-      ],
-      "inferred-types/dist/types/index": [
-        "../types/*"
-      ],
-      "inferred-types/dist/runtime/index": [
-        "../runtime/*"
-      ],
+      ]
     },
   }
 }

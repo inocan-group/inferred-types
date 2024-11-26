@@ -1,8 +1,8 @@
 import {
   NumericChar,
   NonZeroNumericChar,
-} from "inferred-types/dist/types/index";
-import  { MONTH_ABBR, MONTH_NAME}  from "inferred-types/dist/constants/index";
+} from "inferred-types/types";
+import  { MONTH_ABBR, MONTH_NAME}  from "inferred-types/constants";
 
 export type Year<
   T extends "strong" | "simple" = "strong"

@@ -1,5 +1,5 @@
 
-import { Container, Contains, IsNever, Dictionary, Keys } from "inferred-types/dist/types/index";
+import { Container, Contains, IsNever, Dictionary, Keys } from "inferred-types/types";
 
 type Process<T extends Container> = T extends Generator
   ? true

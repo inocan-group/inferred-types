@@ -19,14 +19,16 @@
     "composite": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      // allow importing from the root export of the types sub project
-      "src/types/index": [
-        "index.ts"
+      "inferred-types/constants": [
+        "../constants/index.ts"
       ],
-      "inferred-types/dist/runtime/index": [
+      "inferred-types/types": [
+        "./index.ts"
+      ],
+      "inferred-types/runtime": [
         "../runtime/index.ts"
       ],
-      "inferred-types/dist/types/index": [
+      "src/types/index": [
         "index.ts"
       ],
       "inferred-types/dist/constants/index": [
@@ -36,13 +38,6 @@
       "src/constants/index": [
         "../constants/index.ts"
       ],
-      "inferred-types": [
-        "../constants/index.ts"
-      ],
-      // allow various "index.ts" to import explicit files in the src tree
-      "src/types/*": [
-        "./*"
-      ]
     },
   },
   "include": [

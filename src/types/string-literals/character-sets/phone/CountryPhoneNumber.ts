@@ -2,7 +2,7 @@ import {
   LocalPhoneNumber,
   PhoneAreaCode,
   PhoneNumberDelimiter
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 
 

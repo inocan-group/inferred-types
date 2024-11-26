@@ -8,8 +8,8 @@ import {
   IsErrorCondition,
   IsFalse,
   IsNever
-} from "inferred-types/dist/types/index";
-import { Constant } from "inferred-types/dist/constants/index";
+} from "inferred-types/types";
+import { Constant } from "inferred-types/constants";
 
 export type OnPassRemap<
   TNever = unknown,

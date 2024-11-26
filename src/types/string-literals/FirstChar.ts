@@ -1,4 +1,4 @@
-import {   First, Chars } from "inferred-types/dist/types/index";
+import {   First, Chars } from "inferred-types/types";
 
 type Process<TContent extends string> = First<Chars<TContent>>;
 

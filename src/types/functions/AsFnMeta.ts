@@ -8,7 +8,7 @@ import type {
   ExpandDictionary,
   TypedFunction,
   IsNonEmptyObject
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 /**
  * **AsFnMeta**`<TFn>`

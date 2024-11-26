@@ -1,4 +1,4 @@
-import { Length, IfEqual, Tuple, If, IsStringLiteral,  IsNumericLiteral } from "inferred-types/dist/types/index";
+import { Length, IfEqual, Tuple, If, IsStringLiteral,  IsNumericLiteral } from "inferred-types/types";
 
 
 /**

@@ -1,5 +1,5 @@
 
-import { FixedLengthArray } from "inferred-types/dist/types/index";
+import { FixedLengthArray } from "inferred-types/types";
 
 export type TupleRange = [required: number, optional: number];
 

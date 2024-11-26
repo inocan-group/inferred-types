@@ -1,4 +1,4 @@
-import { AnyObject , Narrowable } from "inferred-types/dist/types/index";
+import { AnyObject , Narrowable } from "inferred-types/types";
 
 /**
  * **KeysWithoutValue**`<TObj, TValue>`

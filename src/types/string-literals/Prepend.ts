@@ -1,4 +1,4 @@
-import { AsString } from "inferred-types/dist/types/index";
+import { AsString } from "inferred-types/types";
 
 /**
  * **Prepend**`<TStr, TPrepend>`

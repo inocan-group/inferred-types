@@ -8,7 +8,7 @@ import {
   IsTuple,
   Throw,
   Or
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 
 /**
@@ -29,7 +29,7 @@ export type ToNumber<TValue> =  IsTuple<TValue> extends true
           "can-not-convert",
           `Attempt to convert a tuple into a numeric tuple failed!`,
           "ToNumber",
-          { library: "inferred-types"; value: TValue }
+          { library: "inferred-types/constants"; value: TValue }
         >
     : never
   : TValue extends number

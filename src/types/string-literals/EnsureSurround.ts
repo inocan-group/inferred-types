@@ -1,4 +1,4 @@
-import { EnsureLeading, EnsureTrailing } from "inferred-types/dist/types/index";
+import { EnsureLeading, EnsureTrailing } from "inferred-types/types";
 
 /**
  * **EnsureSurround**

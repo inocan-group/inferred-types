@@ -1,4 +1,4 @@
-import { isString } from "inferred-types/dist/runtime/index";
+import { isString } from "inferred-types/runtime";
 
 /**
  * Type guard which validates that the passed in `val` is a string array.

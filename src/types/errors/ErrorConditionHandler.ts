@@ -1,5 +1,5 @@
 
-import {ErrorCondition} from "inferred-types/dist/types/index";
+import {ErrorCondition} from "inferred-types/types";
 
 /**
  * **ErrorConditionHandler**

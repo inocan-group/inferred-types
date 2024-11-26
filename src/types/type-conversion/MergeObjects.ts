@@ -6,7 +6,7 @@ import {
   EmptyObject,
   As,
   ExpandDictionary
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 
 type Merged<

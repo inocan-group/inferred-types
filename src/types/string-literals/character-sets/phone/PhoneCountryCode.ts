@@ -1,6 +1,5 @@
-import { PHONE_COUNTRY_CODES } from "inferred-types/dist/constants/index";
-import { FirstOfEach } from "src/types/tuples";
-import { Mutable } from"inferred-types/dist/types/index";
+import { PHONE_COUNTRY_CODES } from "inferred-types/constants";
+import { Mutable, FirstOfEach } from"inferred-types/types";
 
 export type PhoneCountryLookup = Mutable<[...typeof PHONE_COUNTRY_CODES]>;
 
