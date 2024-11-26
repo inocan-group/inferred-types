@@ -1,4 +1,4 @@
-import { InlineSvg } from "inferred-types/dist/types/index";
+import { InlineSvg } from "inferred-types/types";
 import { isString } from "./isString"
 
 /**

@@ -1,4 +1,4 @@
-import { ErrorCondition } from "inferred-types/dist/types/index";
+import { ErrorCondition } from "inferred-types/types";
 import { isErrorCondition } from "./isErrorCondition";
 
 export const hasErrorConditions = <

@@ -1,4 +1,4 @@
-import { RuntimeUnion } from "inferred-types/dist/types/index";
+import { RuntimeUnion } from "inferred-types/types";
 
 
 /**

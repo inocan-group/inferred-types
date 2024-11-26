@@ -1,4 +1,4 @@
-import { TypeToken, TypeTokenKind } from "inferred-types/dist/types/index";
+import { TypeToken, TypeTokenKind } from "inferred-types/types";
 
 /**
  * Adds any `TypeToken` by receiving the `TypeTokenKind` and then whatever

@@ -1,4 +1,4 @@
-import { Container,    ObjectKey,  UniqueKeys } from "inferred-types/dist/types/index";
+import { Container,    ObjectKey,  UniqueKeys } from "inferred-types/types";
 import { isArray } from "../type-guards/isArray";
 
 /**

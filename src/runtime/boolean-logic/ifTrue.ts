@@ -1,5 +1,5 @@
-import { IsFalse, IsTrue, Narrowable } from "inferred-types/dist/types/index";
-import { isTrue } from "src/runtime/index";
+import { IsFalse, IsTrue, Narrowable } from "inferred-types/types";
+import { isTrue } from "inferred-types/runtime";
 
 
 /**

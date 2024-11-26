@@ -1,4 +1,4 @@
-import { DictionaryTypeDefn, FromDefn, TupleDefn } from "inferred-types/dist/types/index";
+import { DictionaryTypeDefn, FromDefn, TupleDefn } from "inferred-types/types";
 
 
 

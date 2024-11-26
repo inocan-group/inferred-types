@@ -1,5 +1,5 @@
 
-import {  Narrowable, Widen } from "inferred-types/dist/types/index";
+import {  Narrowable, Widen } from "inferred-types/types";
 
 
 /**

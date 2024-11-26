@@ -1,5 +1,5 @@
-import { KeyValue, Narrowable } from "inferred-types/dist/types/index";
-import { keysOf } from "src/runtime/index";
+import { KeyValue, Narrowable } from "inferred-types/types";
+import { keysOf } from "inferred-types/runtime";
 
 
 /**

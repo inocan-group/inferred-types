@@ -6,7 +6,7 @@ import {
   YouTubeShareUrl,
   YouTubeUrl,
   YouTubeVideoUrl
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 import {
   getUrlPath,
   getUrlQueryParams,
@@ -18,8 +18,8 @@ import {
   isYouTubeVideoUrl,
   isYouTubeVideosInPlaylist,
   last
-} from "src/runtime/index";
-import { Never } from "inferred-types/dist/constants/index";
+} from "inferred-types/runtime";
+import { Never } from "inferred-types/constants";
 
 
 /**

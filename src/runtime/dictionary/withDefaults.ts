@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import {  MergeObjects, Narrowable, ObjectKey } from "inferred-types/dist/types/index";
+import {  MergeObjects, Narrowable, ObjectKey } from "inferred-types/types";
 
 /**
  * **withDefaults**(defaults) → (obj) → _merged_

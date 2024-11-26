@@ -1,4 +1,4 @@
-import { NotNull } from "inferred-types/dist/types/index";
+import { NotNull } from "inferred-types/types";
 
 /**
  * **isNotNull**(value)

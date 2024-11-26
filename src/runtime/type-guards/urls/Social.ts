@@ -1,6 +1,6 @@
-import { SocialMediaUrl } from "inferred-types/dist/types/index";
+import { SocialMediaUrl } from "inferred-types/types";
 import { isString } from "../isString";
-import { SOCIAL_MEDIA } from "inferred-types/dist/constants/index";
+import { SOCIAL_MEDIA } from "inferred-types/constants";
 
 const URL = SOCIAL_MEDIA.flatMap(i => i.baseUrls);
 const PROFILE = SOCIAL_MEDIA.map(i => i.profileUrl);

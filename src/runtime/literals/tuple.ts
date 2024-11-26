@@ -4,8 +4,8 @@ import {
   Narrowable,
   UnionArrayToTuple,
   UnionToTuple,
-} from "inferred-types/dist/types/index";
-import { asArray } from "src/runtime/index";
+} from "inferred-types/types";
+import { asArray } from "inferred-types/runtime";
 
 /**
  * **tuple**(value)

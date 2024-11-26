@@ -1,6 +1,6 @@
-import { UsStateAbbrev, UsStateName } from "inferred-types/dist/types/index"
+import { UsStateAbbrev, UsStateName } from "inferred-types/types"
 import { isString } from "../isString"
-import { US_STATE_LOOKUP } from "inferred-types/dist/constants/index"
+import { US_STATE_LOOKUP } from "inferred-types/constants"
 
 const ABBREV = US_STATE_LOOKUP.map(i => i.abbrev);
 const NAME = US_STATE_LOOKUP.map(i => i.name);

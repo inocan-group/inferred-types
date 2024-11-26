@@ -1,4 +1,4 @@
-import { isDoneFn, isFunction, isObject } from "src/runtime/index";
+import { isDoneFn, isFunction, isObject } from "inferred-types/runtime";
 
 /**
  * **handleDoneFn**(val, [bare_fn])

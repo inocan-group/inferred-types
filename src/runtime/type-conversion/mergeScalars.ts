@@ -1,4 +1,4 @@
-import type { MergeScalars, Scalar } from "inferred-types/dist/types/index";
+import type { MergeScalars, Scalar } from "inferred-types/types";
 import { isUndefined } from "../type-guards/isUndefined";
 
 

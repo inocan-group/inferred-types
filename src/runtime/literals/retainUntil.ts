@@ -1,4 +1,4 @@
-import { RetainUntil } from "inferred-types/dist/types/index";
+import { RetainUntil } from "inferred-types/types";
 import { asChars } from "../type-conversion";
 
 /**

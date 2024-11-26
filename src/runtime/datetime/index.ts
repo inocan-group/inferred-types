@@ -1,3 +1,7 @@
 export * from "./getToday"
 export * from "./getTomorrow"
 export * from "./getYesterday"
+export * from "./asDate"
+export * from "./asIsoDate"
+export * from "./daysBetween"
+export * from "./getWeekNumber"

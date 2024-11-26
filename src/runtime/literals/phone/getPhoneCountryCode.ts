@@ -1,6 +1,6 @@
-import { NUMERIC_CHAR } from "inferred-types/dist/constants/index";
-import { GetPhoneCountryCode } from "inferred-types/dist/types/index";
-import { retainWhile, stripLeading } from "src/runtime/index";
+import { NUMERIC_CHAR } from "inferred-types/constants";
+import { GetPhoneCountryCode } from "inferred-types/types";
+import { retainWhile, stripLeading } from "inferred-types/runtime";
 
 export const getPhoneCountryCode = <T extends string>(
   phone: T

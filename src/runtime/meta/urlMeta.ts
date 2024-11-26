@@ -9,7 +9,7 @@ import {
   IsIpAddress,
   IsIp4Address,
   IsIp6Address
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 import {
   isUrl,
   isIp4Address,
@@ -21,9 +21,9 @@ import {
   stripTrailing,
   isDomainName,
   takeNumericCharacters,
-} from "src/runtime/index";
-import { NETWORK_PROTOCOL_LOOKUP } from "inferred-types/dist/constants/index";
-import { Never } from "inferred-types/dist/constants/index";
+} from "inferred-types/runtime";
+import { NETWORK_PROTOCOL_LOOKUP } from "inferred-types/constants";
+import { Never } from "inferred-types/constants";
 
 
 export type UrlMeta<T> = {

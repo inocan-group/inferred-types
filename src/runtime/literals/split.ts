@@ -1,4 +1,4 @@
-import {  Chars, IsEqual } from "inferred-types/dist/types/index";
+import {  Chars, IsEqual } from "inferred-types/types";
 
 /**
  * **split**(str, sep)

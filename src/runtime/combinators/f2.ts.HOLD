@@ -1,6 +1,6 @@
-import { AfterFirst,  First,  SimplifyObject, TupleToUnion, UnionToTuple, WithoutValue } from "inferred-types/dist/types/index";
-import { AsArray } from "inferred-types/dist/types/index";
-import { withoutValue } from "inferred-types/dist/types/index";
+import { AfterFirst,  First,  SimplifyObject, TupleToUnion, UnionToTuple, WithoutValue } from "inferred-types/types";
+import { AsArray } from "inferred-types/types";
+import { withoutValue } from "inferred-types/types";
 
 /** ways in which an "undefined" value should be handled in a filter function */
 export type FilterUndefinedBehavior = "filter out" | "throw error" | "do not allow";

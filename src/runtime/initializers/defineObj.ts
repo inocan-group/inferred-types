@@ -5,7 +5,7 @@ import {
   Narrowable,
   RemoveIndex,
   Widen
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 /**
  * **defineObj**(literal) -> (wide) -> object

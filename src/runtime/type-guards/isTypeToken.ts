@@ -1,9 +1,9 @@
-import {   TypeToken } from "inferred-types/dist/types/index";
+import {   TypeToken } from "inferred-types/types";
 import {
   isString,
   startsWith,
   endsWith
- } from "src/runtime/index";
+ } from "inferred-types/runtime";
 
 /**
  * **isTypeToken**(val)

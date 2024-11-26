@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 
-import type { Narrowable, WithoutKeys,  ObjectKey } from "inferred-types/dist/types/index";
+import type { Narrowable, WithoutKeys,  ObjectKey } from "inferred-types/types";
 
 
 /**

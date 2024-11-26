@@ -1,5 +1,5 @@
-import { isString, stripAfter, stripLeading } from "src/runtime/index";
-import { Iso8601Time } from "inferred-types/dist/types/index";
+import { isString, stripAfter, stripLeading } from "inferred-types/runtime";
+import { Iso8601Time } from "inferred-types/types";
 
 
 export const isIsoExplicitTime = (val: unknown): val is Iso8601Time<"explicit"> => {

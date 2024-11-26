@@ -1,11 +1,11 @@
-import { Never } from "inferred-types/dist/constants/index";
-import { isSimpleContainerToken, isSimpleScalarToken } from "src/runtime/index";
+import { Never } from "inferred-types/constants";
+import { isSimpleContainerToken, isSimpleScalarToken } from "inferred-types/runtime";
 import {
   SimpleContainerToken,
   SimpleScalarToken,
   SimpleToken,
   SimpleType
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 
 /**
  * **simpleToken**`(token)`

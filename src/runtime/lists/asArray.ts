@@ -1,4 +1,4 @@
-import { AsArray, Narrowable } from "inferred-types/dist/types/index";
+import { AsArray, Narrowable } from "inferred-types/types";
 
 /**
  * Type utility which converts `undefined[]` to `unknown[]`

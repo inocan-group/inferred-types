@@ -1,5 +1,5 @@
 import { asChars } from "../type-conversion/index";
-import { StripWhile } from "inferred-types/dist/types/index";
+import { StripWhile } from "inferred-types/types";
 
 /**
  * **stripWhile**`(content, ...until)`

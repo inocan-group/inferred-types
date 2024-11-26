@@ -1,5 +1,5 @@
-import { JsonValue, JsonValues } from "inferred-types/dist/types/index";
-import { isNumberLike } from "src/runtime/index";
+import { JsonValue, JsonValues } from "inferred-types/types";
+import { isNumberLike } from "inferred-types/runtime";
 
 /**
  * **jsonValue**`(val)`

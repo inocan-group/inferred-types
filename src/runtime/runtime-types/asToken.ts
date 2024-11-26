@@ -5,7 +5,7 @@ import {
   SimpleType,
   SimpleUnionToken,
   TypeToken
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 import {
   identity,
   isBooleanLike,
@@ -18,8 +18,8 @@ import {
   stripLeading,
   stripSurround,
   stripTrailing
-} from "src/runtime/index";
-import { Never } from "inferred-types/dist/constants/index";
+} from "inferred-types/runtime";
+import { Never } from "inferred-types/constants";
 
 const scalarToToken = identity({
   string: "<<string>>",

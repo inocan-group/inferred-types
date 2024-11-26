@@ -1,4 +1,4 @@
-import { Truncate } from "inferred-types/dist/types/index";
+import { Truncate } from "inferred-types/types";
 
 
 

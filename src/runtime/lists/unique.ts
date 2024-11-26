@@ -1,4 +1,4 @@
-import {  First,  Narrowable,  UnionToTuple, Unique } from "inferred-types/dist/types/index";
+import {  First,  Narrowable,  UnionToTuple, Unique } from "inferred-types/types";
 
 
 /**

@@ -1,6 +1,6 @@
-import { NUMERIC_CHAR } from "inferred-types/dist/constants/index"
-import { asChars } from "src/runtime/index"
-import { NumericChar, RetainWhile } from "inferred-types/dist/types/index";
+import { NUMERIC_CHAR } from "inferred-types/constants"
+import { asChars } from "inferred-types/runtime"
+import { NumericChar, RetainWhile } from "inferred-types/types";
 
 
 /**

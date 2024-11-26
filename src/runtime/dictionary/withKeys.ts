@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import type { Dictionary, Narrowable, ObjectKey } from "inferred-types/dist/types/index";
+import type { Dictionary, Narrowable, ObjectKey } from "inferred-types/types";
 import { retain } from "./retain";
 
 

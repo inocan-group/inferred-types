@@ -1,5 +1,5 @@
-import { isRegExp, isString } from "src/runtime/index";
-import { AsType, SimpleToken } from "inferred-types/dist/types/index";
+import { isRegExp, isString } from "inferred-types/runtime";
+import { AsType, SimpleToken } from "inferred-types/types";
 
 /**
  * **regexToken**`(re, ...rep)`

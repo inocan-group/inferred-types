@@ -1,4 +1,4 @@
-import { AsObject, EnsureKeys } from "inferred-types/dist/types/index"
+import { AsObject, EnsureKeys } from "inferred-types/types"
 import { isObject } from "./isObject";
 import { isFunction } from "./isFunction";
 

@@ -1,5 +1,5 @@
-import {  getYesterday, isDate, isLuxonDateTime } from "src/runtime/index";
-import { isIsoExplicitDate, isMoment, isString, stripAfter } from "src/runtime/index";
+import {  getYesterday, isDate, isLuxonDateTime } from "inferred-types/runtime";
+import { isIsoExplicitDate, isMoment, isString, stripAfter } from "inferred-types/runtime";
 
 
 /**

@@ -1,5 +1,5 @@
-import { FromDefn, ShapeCallback, TypeDefinition } from "inferred-types/dist/types/index";
-import { isFunction, handleDoneFn, ShapeApiImplementation } from "src/runtime/index";
+import { FromDefn, ShapeCallback, TypeDefinition } from "inferred-types/types";
+import { isFunction, handleDoneFn, ShapeApiImplementation } from "inferred-types/runtime";
 
 /**
  * **createTuple**(...values) -> (...values) -> Tuple

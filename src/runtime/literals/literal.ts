@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 
-import { Narrowable } from "inferred-types/dist/types/index";
+import { Narrowable } from "inferred-types/types";
 
 /**
  * Takes an object as input --which has an `id` property and returns it as the same

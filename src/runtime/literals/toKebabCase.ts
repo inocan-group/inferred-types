@@ -1,4 +1,4 @@
-import { KebabCase } from "inferred-types/dist/types/index";
+import { KebabCase } from "inferred-types/types";
 
 /**
  * **toKebabCase**(str)

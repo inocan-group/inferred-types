@@ -1,9 +1,9 @@
-import {  SingletonToken } from "inferred-types/dist/types/index";
-import { isString } from "src/runtime/index"
+import {  SingletonToken } from "inferred-types/types";
+import { isString } from "inferred-types/runtime"
 
 import {
   TT_Atomics
-} from "inferred-types/dist/constants/index";
+} from "inferred-types/constants";
 
 /**
  * **isSingletonToken**`(val)`
