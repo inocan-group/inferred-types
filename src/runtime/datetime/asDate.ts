@@ -1,6 +1,5 @@
 
-import { isDate, isIsoDate, isIsoDateTime, isLuxonDateTime, isMoment } from "inferred-types/runtime";
-import {  LuxonJs, MomentJs } from "inferred-types/types";
+import { isDate, isIsoDate, isIsoDateTime, isIsoYear, isLuxonDateTime, isMoment, isNumber } from "inferred-types/runtime";
 
 /**
 * **asDate**`(input)`
@@ -8,7 +7,7 @@ import {  LuxonJs, MomentJs } from "inferred-types/types";
 * Converts common date representations to a Javascript Date object.
 */
 export const asDate = <
-  T extends string | MomentJs | LuxonJs["DateTime"] | Date
+  T extends number | string | Record<string,any> | Date
 >(
   input: T
 ): Date => {
@@ -30,6 +29,21 @@ export const asDate = <
 
   if(isIsoDate(input)) {
     return new Date(input);
+  }
+
+  if(isIsoYear(input)) {
+    return new Date(`${input}-01-01`);
+  }
+
+  if(isNumber(input)) {
+    // appears to be year literal
+    if(`${input}`.length === 4) {
+      return new Date(`${input}-01-01`);
+    }
+    if (input >= 0) {
+      // treat as an epoch timestamp
+      return new Date(input * 1000);
+    }
   }
 
   throw new Error("Invalid date input to asDate() function!");
