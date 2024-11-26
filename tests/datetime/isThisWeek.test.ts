@@ -1,6 +1,6 @@
-import { isThisWeek } from "inferred-types";
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import { getWeekNumber, isThisWeek } from "inferred-types/runtime";
 import {
-
   LuxonJs
 } from "inferred-types/types";
 import { DateTime } from "luxon";
@@ -25,20 +25,12 @@ describe("isThisWeek()", () => {
     const previousWeek = new Date(2024, 0, 8); // Monday last week
     const nextWeek = new Date(2024, 0, 22); // Monday next week
 
-    expect(isThisWeek(sameWeek, "Mon")).toBe(true);
-    expect(isThisWeek(previousWeek, "Mon")).toBe(false);
-    expect(isThisWeek(nextWeek, "Mon")).toBe(false);
+    expect(isThisWeek(sameWeek)).toBe(true);
+    expect(isThisWeek(previousWeek)).toBe(false);
+    expect(isThisWeek(nextWeek)).toBe(false);
   });
 
-  it("should correctly validate Date objects with Sunday start", () => {
-    const sameWeek = new Date(2024, 0, 20); // Saturday
-    const previousWeek = new Date(2024, 0, 13); // Saturday last week
-    const nextWeek = new Date(2024, 0, 21); // Sunday next week
 
-    expect(isThisWeek(sameWeek, "Sun")).toBe(true);
-    expect(isThisWeek(previousWeek, "Sun")).toBe(false);
-    expect(isThisWeek(nextWeek, "Sun")).toBe(false);
-  });
 
   it("should correctly validate Moment.js objects", () => {
     const sameWeek = moment("2024-01-17"); // Wednesday
@@ -78,12 +70,17 @@ describe("isThisWeek()", () => {
 
     expect(isThisWeek(sameWeek)).toBe(true);
     expect(isThisWeek(previousWeek)).toBe(false);
-    expect(isThisWeek(nextWeek)).toBe(false);
+    expect(
+      isThisWeek(nextWeek),
+      `Week ${getWeekNumber(nextWeek)} should NOT be in week ${getWeekNumber()} `
+    ).toBe(false);
 
   });
 
   it("should handle invalid inputs", () => {
+    // @ts-expect-error
     expect(isThisWeek(null)).toBe(false);
+    // @ts-expect-error
     expect(isThisWeek(undefined)).toBe(false);
     expect(isThisWeek("not a date")).toBe(false);
     expect(isThisWeek("2024")).toBe(false);
@@ -98,10 +95,11 @@ describe("isThisWeek()", () => {
     expect(isThisWeek("2024-01-17T23:59:59Z")).toBe(true);
 
     // Week boundaries
-    expect(isThisWeek("2024-01-15", "Mon")).toBe(true); // Monday
-    expect(isThisWeek("2024-01-21", "Mon")).toBe(true); // Sunday
-    expect(isThisWeek("2024-01-14", "Sun")).toBe(true); // Sunday
-    expect(isThisWeek("2024-01-20", "Sun")).toBe(true); // Saturday
+    expect(isThisWeek("2024-01-21")).toBe(true);
+    expect(
+      isThisWeek("2024-01-15"),
+      `Week ${getWeekNumber("2024-01-15")} should be in week ${getWeekNumber()}`
+    ).toBe(true);
 
     // Malformed ISO strings
     expect(isThisWeek("2024-01")).toBe(false);
