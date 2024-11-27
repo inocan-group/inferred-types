@@ -10,3 +10,4 @@ export * from "./object";
 export * from "./overflow";
 export * from "./global";
 export * from "./html-element";
+export * from "./functions";
