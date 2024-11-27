@@ -14,13 +14,17 @@ export type CssColorModel =
 export type CssColorSpace =
 | "srgb"
 | "srgb-linear"
-| "p3-display"
+| "display-p3"
 | "rec2020"
 | "a98-rgb"
 | "prophoto-rgb"
 | "xyz"
 | "xyz-d50"
-| "xyz-d65";
+| "xyz-d65"
+| "hsl"
+| "hwb"
+| "lch"
+| "oklch";
 
 
 export type CssRgb =
@@ -98,3 +102,7 @@ export type CssColorFn<
 >=
 | `color(${TColorSpace} ${TV1} ${TV2} ${TV3})${TOp}` // absolute color
 | `color(${CssColor} from ${TColorSpace} ${TV1} ${TV2} ${TV3})${TOp}`;
+
+
+
+export type CssColorMix = `color-mix(in ${CssColorSpace}, ${CssColor}${string})`
