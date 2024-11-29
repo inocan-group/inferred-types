@@ -1,6 +1,7 @@
 import { HexadecimalChar } from "../Hexadecimal";
 import { OptionalSpace } from "../OptionalSpace";
 import { CSS_NAMED_COLORS } from "inferred-types/constants";
+import { TwColorWithLuminosity } from "../tw";
 
 export type CssNamedColors = typeof CSS_NAMED_COLORS[number];
 
@@ -21,6 +22,15 @@ export type CssColorSpace =
 | "xyz"
 | "xyz-d50"
 | "xyz-d65"
+| "hsl"
+| "hwb"
+| "lch"
+| "oklch";
+
+export type CssColorSpacePrimary =
+| "srgb"
+| "display-p3"
+| "rec2020"
 | "hsl"
 | "hwb"
 | "lch"
@@ -88,6 +98,9 @@ export type CssColor =
 | CssHsl
 | `color(${string})`;
 
+
+
+
 /**
  * The new CSS 4 `color(colorspace v1 v2 v3 [/ alpha])` function.
  *
@@ -105,4 +118,18 @@ export type CssColorFn<
 
 
 
-export type CssColorMix = `color-mix(in ${CssColorSpace}, ${CssColor}${string})`
+export type CssColorMix = `color-mix(in ${CssColorSpace}, ${CssColor}${string})`;
+
+export type CssColorMixLight = `color-mix(in ${CssColorSpacePrimary}, ${string})`;
+
+/**
+ * **ColorParam**
+ *
+ * A union of color options which might be presented as user input. It includes:
+ *
+ * - all CSS named colors
+ * - any valid CSS hex color
+ * - any Tailwind Color/Luminosity pairing
+ * - a `color-mix(...)` color
+ */
+export type ColorParam = CssNamedColors | CssHexColor | TwColorWithLuminosity | CssColorMixLight;

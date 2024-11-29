@@ -93,7 +93,7 @@ export type TwColorWithLuminosityOpacity = `${TwColorWithLuminosity}/${number}`
  * **TwColorOption**
  *
  * A [TailwindCSS](https://tailwindcss.com/docs/customizing-colors) color
- * option which optionally can include
+ * option which requires luminosity but optionally can include opacity too
  */
 export type TwColorOption = TwColorWithLuminosity | TwColorWithLuminosityOpacity;
 
