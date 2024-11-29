@@ -27,9 +27,19 @@ type VariableSizing =
 
 
 /**
- * provides a string literal which is intended to describe the
- * "size" of any CSS property (whether using static values or
- * CSS variables)
+ * A strong type for allowed CSS sizing options.
+ *
+ * **Related:** `CssSizingLight`
  */
 export type CssSizing = `${number}${SizingUnits}` | `${number}%` | VariableSizing;
 
+
+/**
+ * A strong type for allowed CSS sizing options.
+ *
+ * - unlike `CssSizing` this type doesn't allow `VariableSizing` where a **var(...)** expression
+ * is then followed by a sizing unit.
+ * - this reduces complexity considerably while fiitting most use cases as you can still have
+ * CSS variables like `var(--foobar)` in this type.
+ */
+export type CssSizingLight = `${number}${SizingUnits}` | `${number}%`;
