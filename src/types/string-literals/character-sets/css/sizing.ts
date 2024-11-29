@@ -25,13 +25,20 @@ type VariableSizing =
 | `minmax(${string})${SizingUnits}`
 | `minmax(${string})`;
 
+export type CssNamedSizes =
+| "initial"
+| "intrinsic"
+| "fit-content"
+| "auto"
+| "min-content"
+| "max-content";
 
 /**
  * A strong type for allowed CSS sizing options.
  *
  * **Related:** `CssSizingLight`
  */
-export type CssSizing = `${number}${SizingUnits}` | `${number}%` | VariableSizing;
+export type CssSizing = `${number}${SizingUnits}` | `${number}%` | VariableSizing | CssNamedSizes;
 
 
 /**
@@ -42,4 +49,4 @@ export type CssSizing = `${number}${SizingUnits}` | `${number}%` | VariableSizin
  * - this reduces complexity considerably while fiitting most use cases as you can still have
  * CSS variables like `var(--foobar)` in this type.
  */
-export type CssSizingLight = `${number}${SizingUnits}` | `${number}%`;
+export type CssSizingLight = `${number}${SizingUnits}` | `${number}%` | CssNamedSizes;
