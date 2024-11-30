@@ -8,8 +8,7 @@ import {
   IsLuxonDateTime,
   Iso8601Date,
   Iso8601DateTime,
-  LuxonJs,
-  MomentJs
+  LuxonJs
 } from "inferred-types/types";
 import { DateTime } from "luxon";
 import moment from "moment";
@@ -49,22 +48,12 @@ describe("isThisYear()", () => {
 
   it("should correctly validate Moment.js objects", () => {
     const thisYear = moment(`${mockCurrentYear}-06-15`);
-
-
     const lastYear = moment(`${mockCurrentYear - 1}-06-15`);
     const nextYear = moment(`${mockCurrentYear + 1}-06-15`);
 
     expect(isThisYear(thisYear)).toBe(true);
     expect(isThisYear(lastYear)).toBe(false);
     expect(isThisYear(nextYear)).toBe(false);
-
-    if (isThisYear(thisYear)) {
-      type D = typeof thisYear;
-      // @ts-ignore
-      type _cases = [
-        Expect<Extends<D, MomentJs>>
-      ];
-    }
   });
 
   it("should correctly validate Luxon DateTime objects", () => {

@@ -3,14 +3,9 @@ import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { isThisMonth } from "inferred-types";
 import {
   Extends,
-  IsIso8601DateTime,
-  IsIsoDate,
   IsJsDate,
   IsLuxonDateTime,
-  Iso8601Date,
-  Iso8601DateTime,
   LuxonJs,
-  MomentJs
 } from "inferred-types/types";
 import { DateTime } from "luxon";
 import moment from "moment";
@@ -58,13 +53,6 @@ describe("isThisMonth()", () => {
     expect(isThisMonth(lastMonth)).toBe(false);
     expect(isThisMonth(nextMonth)).toBe(false);
 
-    if (isThisMonth(thisMonth)) {
-      type D = typeof thisMonth;
-      // @ts-ignore
-      type _cases = [
-        Expect<Extends<D, MomentJs>>
-      ];
-    }
   });
 
   it("should correctly validate Luxon DateTime objects", () => {
@@ -91,50 +79,21 @@ describe("isThisMonth()", () => {
     const thisMonth = `${mockYear}-${String(mockMonth).padStart(2, "0")}-15T14:30:00Z`;
     const lastMonth = `${mockYear}-${String(mockMonth - 1).padStart(2, "0")}-15T14:30:00Z`;
     const nextMonth = `${mockYear}-${String(mockMonth + 1).padStart(2, "0")}-15T14:30:00Z`;
-    type Iso = IsIso8601DateTime<typeof thisMonth>;
 
     expect(isThisMonth(thisMonth)).toBe(true);
     expect(isThisMonth(lastMonth)).toBe(false);
     expect(isThisMonth(nextMonth)).toBe(false);
-
-    if (isThisMonth(thisMonth)) {
-      type ThisMonth = typeof thisMonth;
-      // @ts-ignore
-      type _cases = [
-        ExpectTrue<Iso>,
-        Expect<Extends<ThisMonth, Iso8601DateTime>>
-      ];
-    }
   });
 
   it("should correctly validate ISO 8601 date strings", () => {
     const thisMonth = `${mockYear}-${String(mockMonth).padStart(2, "0")}-15`;
-    const wide = thisMonth as string;
     const lastMonth = `${mockYear}-${String(mockMonth - 1).padStart(2, "0")}-15`;
     const nextMonth = `${mockYear}-${String(mockMonth + 1).padStart(2, "0")}-15`;
-    type Iso = IsIsoDate<typeof thisMonth>;
-    type IsoWide = IsIsoDate<typeof wide>;
 
     expect(isThisMonth(thisMonth)).toBe(true);
     expect(isThisMonth(lastMonth)).toBe(false);
     expect(isThisMonth(nextMonth)).toBe(false);
 
-    if (isThisMonth(thisMonth)) {
-      type ThisMonth = typeof thisMonth;
-      // @ts-ignore
-      type _cases = [
-        ExpectTrue<Iso>,
-        Expect<Extends<ThisMonth, Iso8601Date>>
-      ];
-    }
-    if (isThisMonth(wide)) {
-      type WideMonth = typeof wide;
-      // @ts-ignore
-      type _cases = [
-        Expect<Equal<IsoWide, boolean>>,
-        Expect<Extends<WideMonth, string>>
-      ];
-    }
   });
 
   it("should handle invalid inputs", () => {

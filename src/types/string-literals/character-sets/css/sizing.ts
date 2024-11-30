@@ -13,7 +13,7 @@ export type SizingUnits =
 | `dvw`
 | `fr`;
 
-type VariableSizing =
+export type CssSizingFunction =
 | `var(${string})${SizingUnits}`
 | `var(${string})`
 | `calc(${string})${SizingUnits}`
@@ -38,7 +38,7 @@ export type CssNamedSizes =
  *
  * **Related:** `CssSizingLight`
  */
-export type CssSizing = `${number}${SizingUnits}` | `${number}%` | VariableSizing | CssNamedSizes;
+export type CssSizing = `${number}${SizingUnits}` | `${number}%` | CssSizingFunction | CssNamedSizes;
 
 
 /**
