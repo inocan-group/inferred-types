@@ -1,15 +1,12 @@
-/**
- * **TW_COLOR_HUE**
- *
- * The _hue_ values for [TailwindCSS](https://tailwindcss.com/docs/customizing-colors)
- * when moved into the **oklch** color space.
- */
-export const TW_HUE = {
+export const TW_HUE_NEUTRAL = {
   slate: 262,
   gray: 270,
   zinc: 269,
   neutral: 270,
   stone: 273,
+} as const;
+
+export const TW_HUE_VIBRANT = {
   red: 24,
   orange: 44,
   amber: 79,
@@ -27,8 +24,23 @@ export const TW_HUE = {
   fuchsia: 319,
   pink: 334,
   rose: 15,
+} as const;
+
+export const TW_HUE_STATIC = {
   black: 0,
   white: 106.37411429114086
+} as const;
+
+/**
+ * **TW_COLOR_HUE**
+ *
+ * The _hue_ values for [TailwindCSS](https://tailwindcss.com/docs/customizing-colors)
+ * when moved into the **oklch** color space.
+ */
+export const TW_HUE = {
+  ...TW_HUE_NEUTRAL,
+  ...TW_HUE_VIBRANT,
+  ...TW_HUE_STATIC
 } as const;
 
 export const TW_LUMINOSITY = {
@@ -90,3 +102,64 @@ export const TW_CHROMA_700 = TW_CHROMA["700"];
 export const TW_CHROMA_800 = TW_CHROMA["800"];
 export const TW_CHROMA_900 = TW_CHROMA["900"];
 export const TW_CHROMA_950 = TW_CHROMA["950"];
+
+/**
+ * The list of "targets" where Tailwind color string references
+ * can be applied to. These domains are prefixes to the color string
+ * when used (e.g., `bg-green-500`)
+ */
+export const TW_COLOR_TARGETS = [
+  "bg",
+  "text",
+  "border",
+  "ring",
+  "shadow",
+  "border"
+] as const;
+
+
+export const TW_MODIFIERS_CORE = [
+  "dark",
+  "focus",
+  "hover",
+  "active",
+  "visited",
+  "disabled"
+] as const;
+
+export const TW_MODIFIERS_ORDER = [
+  "first",
+  "last",
+  "odd",
+  "even",
+] as const;
+
+export const TW_MODIFIERS_RELN = [
+  "focus-within",
+  "focus-visible",
+  "checked",
+  "peer-invalid",
+  `peer-checked/{{string}}`
+] as const;
+
+/**
+ * The list of page size prefixes which Tailwind provides for adjusting to
+ * device size. These are the defaults and can be customized.
+ */
+export const TW_MODIFIERS_SIZING = [
+  "sm", "md", "lg", "xl", "2xl"
+] as const;
+
+
+/**
+ * The list of _modifiers_ which you can target as a prefix to a Tailwind
+ * class (e.g., `focus:...`, `hover:...`).
+ */
+export const TW_MODIFIERS = [
+  ...TW_MODIFIERS_CORE,
+  ...TW_MODIFIERS_ORDER,
+  ...TW_MODIFIERS_SIZING,
+  ...TW_MODIFIERS_RELN
+] as const;
+
+

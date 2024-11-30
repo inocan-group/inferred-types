@@ -20,7 +20,7 @@ export const asDate = <
   T extends number | string | Record<string,any> | Date
 >(
   input: T
-): Date => {
+): Date | undefined => {
   if(isDate(input)) {
     input.setHours(0, 0, 0, 0); // strip time
     return input;
@@ -68,5 +68,5 @@ export const asDate = <
     }
   }
 
-  throw new Error(`Invalid date input to asDate(${String(input)}) function!`);
+  return undefined;
 };

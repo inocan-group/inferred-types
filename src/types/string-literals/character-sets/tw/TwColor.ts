@@ -1,40 +1,31 @@
-import { TW_CHROMA, TW_HUE, TW_LUMINOSITY } from "inferred-types/constants";
-import { Mutable } from "inferred-types/types";
+import {
+  TW_CHROMA,
+  TW_COLOR_TARGETS,
+  TW_HUE,
+  TW_HUE_NEUTRAL,
+  TW_HUE_VIBRANT,
+  TW_LUMINOSITY
+} from "inferred-types/constants";
+import {
+  IsStringLiteral,
+  Join,
+  Mutable,
+  Opt,
+  TwModifier
+} from "inferred-types/types";
 
 
 /**
  * The [TailwindCSS](https://tailwindcss.com/docs/customizing-colors)
  * named colors which represent variations of grayscale/neutral colors.
  */
-export type TwNeutralColor =
-| "slate"
-| "gray"
-| "zinc"
-| "neutral"
-| "stone";
+export type TwNeutralColor = keyof typeof TW_HUE_NEUTRAL;
 
 /**
  * the _vibrant_ [TailwindCSS](https://tailwindcss.com/docs/customizing-colors)
  * named colors.
  */
-export type TwVibrantColor =
-| "red"
-| "orange"
-| "amber"
-| "yellow"
-| "lime"
-| "green"
-| "emerald"
-| "teal"
-| "cyan"
-| "sky"
-| "blue"
-| "indigo"
-| "violet"
-| "purple"
-| "fuchsia"
-| "pink"
-| "rose";
+export type TwVibrantColor = keyof typeof TW_HUE_VIBRANT;
 
 export type TwStaticColor = "white" | "black";
 
@@ -49,7 +40,7 @@ export type TwColor = TwNeutralColor | TwVibrantColor | TwStaticColor;
 
 
 /**
- * all of the [TailwindCSS](https://tailwindcss.com/docs/customizing-colors)
+ * All of the [TailwindCSS](https://tailwindcss.com/docs/customizing-colors)
  * luminosity levels.
  */
 export type TwLuminosity =
@@ -90,12 +81,12 @@ export type TwColorWithLuminosityOpacity = `${TwColorWithLuminosity}/${number}`
 
 
 /**
- * **TwColorOption**
+ * **TwColorOptionalOpacity**
  *
  * A [TailwindCSS](https://tailwindcss.com/docs/customizing-colors) color
  * option which requires luminosity but optionally can include opacity too
  */
-export type TwColorOption = TwColorWithLuminosity | TwColorWithLuminosityOpacity;
+export type TwColorOptionalOpacity = `${TwColorWithLuminosity}${Opt<`/${number}`>}`;
 
 
 export type TwLuminosityLookup = Mutable<typeof TW_LUMINOSITY>;
@@ -136,3 +127,40 @@ export type TwChroma950 = typeof TW_CHROMA["950"];
 
 
 export type TwHue = Mutable<typeof TW_HUE>;
+
+/**
+ * **TwColorTarget**
+ *
+ * Prefixes that Tailwind provides which can be used in targeting aspects of
+ * the HTMLElement which take color information.
+ */
+export type TwColorTarget = typeof TW_COLOR_TARGETS[number];
+
+type _TwModifiers<
+  TText extends string,
+  TCaptured extends readonly string[] = []
+> = TText extends `${infer M extends TwModifier}:${infer REST}`
+? _TwModifiers<
+    REST,
+    [...TCaptured, M]
+  >
+: TCaptured["length"] extends 0
+  ? ""
+  :  `${Join<TCaptured, ":">}:`;
+
+
+/**
+ * **TwModifiers**
+ *
+ * Given a string, this type utility will find `TwMondifer` substrings at the
+ * the start of the string and return them as a string with the remaining string
+ * removed.
+ */
+export type TwModifiers<
+  T
+> = T extends string
+? IsStringLiteral<T> extends true
+  ? _TwModifiers<T>
+  : Opt<`${string}:`>
+: "";
+

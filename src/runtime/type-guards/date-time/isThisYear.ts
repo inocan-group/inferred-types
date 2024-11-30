@@ -1,11 +1,16 @@
-
-import { isMoment } from "./isMoment";
-import { isLuxonDateTime } from "./isLuxonDateTime";
+import { asDate, isNumber, isObject, isString  } from "inferred-types/runtime";
 
 
 /**
-* Type guard which validates that the passed in `val` is a date or date-time
+* A validation -- not typeguard -- on whether the passed in `val` is a date or date-time
 * representation and that it's year is the same as the current year.
+*
+* Types correctly handled are:
+*
+* - **JS Date** object
+* - **ISO Date** or **ISO Datetime**
+* - a number representing a **epoch** timestamp (in seconds, not miliseconds)
+* - **MomentJS** and **Luxon** datetime objects
 */
 export const isThisYear = (
   val: unknown
@@ -13,32 +18,14 @@ export const isThisYear = (
   // Get current year
   const currentYear = new Date().getFullYear();
 
-  if (val instanceof Date) {
-    return val.getFullYear() === currentYear;
-  }
-
-  if (isMoment(val)) {
-    return val.year() === currentYear;
-  }
-
-  if (isLuxonDateTime(val)) {
-    return val.year === currentYear;
-  }
-
-  // Handle ISO 8601 strings
-  if (typeof val === "string") {
-    // Match for full ISO 8601 date (YYYY-MM-DD) or datetime (YYYY-MM-DDThh:mm:ssZ) format
-    const isoDateRegex = /^\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])(?:T(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d(?:\.\d+)?(?:Z|[-+][01]\d:[0-5]\d))?$/;
-
-    if (!isoDateRegex.test(val)) {
-      return false;
-    }
-
-    // Extract year from valid ISO string
-    const yearMatch = val.match(/^(\d{4})/);
-    if (yearMatch) {
-      const year = parseInt(yearMatch[1], 10);
-      return year === currentYear;
+  if(isObject(val) || isNumber(val) || isString(val)) {
+    try {
+      const date = asDate(val);
+      if (date) {
+        return date.getFullYear() === currentYear;
+      }
+    } catch {
+      return false
     }
   }
 

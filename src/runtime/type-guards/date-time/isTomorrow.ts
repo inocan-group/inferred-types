@@ -5,7 +5,7 @@ import { isIsoExplicitDate, isMoment, isString, stripAfter } from "inferred-type
 
 /**
 * **isTomorrow`(val)`**
-* A type guard which validates whether the passed in value _represents_ tomorrow's date
+* A boolean test which validates whether the passed in value _represents_ tomorrow's date
 * as either a:
 *
 *   - [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date string, or
