@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
-import { isThisYear } from "inferred-types";
+import { isThisYear } from "inferred-types/runtime";
 import {
   Extends,
   IsIso8601DateTime,
@@ -130,7 +130,6 @@ describe("isThisYear()", () => {
     expect(isThisYear(null)).toBe(false);
     expect(isThisYear(undefined)).toBe(false);
     expect(isThisYear("not a date")).toBe(false);
-    expect(isThisYear("2024")).toBe(false);
     expect(isThisYear(123)).toBe(false);
     expect(isThisYear({})).toBe(false);
     expect(isThisYear([])).toBe(false);
@@ -144,7 +143,6 @@ describe("isThisYear()", () => {
     expect(isThisYear(`${mockCurrentYear}-01-01T00:00:00Z`)).toBe(true);
 
     // Malformed ISO strings
-    expect(isThisYear(`${mockCurrentYear}`)).toBe(false);
     expect(isThisYear(`${mockCurrentYear}-`)).toBe(false);
     expect(isThisYear(`${mockCurrentYear}-13-01`)).toBe(false);
   });

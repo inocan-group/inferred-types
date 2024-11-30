@@ -11,6 +11,8 @@ import { asDate, isNumber, isObject, isString  } from "inferred-types/runtime";
 * - **ISO Date** or **ISO Datetime**
 * - a number representing a **epoch** timestamp (in seconds, not miliseconds)
 * - **MomentJS** and **Luxon** datetime objects
+*
+* **Note:** an invalidate date/datetime passed in will always resolve to `false`
 */
 export const isThisYear = (
   val: unknown
@@ -19,14 +21,12 @@ export const isThisYear = (
   const currentYear = new Date().getFullYear();
 
   if(isObject(val) || isNumber(val) || isString(val)) {
-    try {
       const date = asDate(val);
       if (date) {
         return date.getFullYear() === currentYear;
+      } else {
+        return false
       }
-    } catch {
-      return false
-    }
   }
 
   return false;
