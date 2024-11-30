@@ -11,10 +11,9 @@ import { asDate, getWeekNumber } from "inferred-types/runtime";
 export const isThisWeek = <T extends number | string | Date | Record<string, any>>(
   date: T
 ): boolean => {
-  let targetDate: Date;
-  try {
-    targetDate = asDate(date);
-  } catch {
+  let targetDate = asDate(date);
+
+  if(!targetDate) {
     return false;
   }
 
