@@ -20,6 +20,10 @@ export const getWeekNumber = <
 ): number => {
   let d = asDate(date);
 
+  if(!d) {
+    throw new Error(`invalid date passed into getWeekNumber${String(date)}`);
+  }
+
   const daysIntoYear = getDaysBetween(new Date(d.getFullYear(), 0,1), d);
   const week = Math.floor(daysIntoYear / 7) + 1;
 

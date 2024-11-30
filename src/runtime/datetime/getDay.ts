@@ -18,6 +18,9 @@ import { DayOfWeek } from "inferred-types/types";
 */
 export const getDay = (date: Date | string | number): number => {
   const d = asDate(date);
+  if(!(d)) {
+    throw new Error(`Invalid date passed to getDay()!`);
+  }
   return d.getDay();
 };
 

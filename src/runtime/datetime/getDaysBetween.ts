@@ -14,6 +14,9 @@ export const getDaysBetween = <
 ): number => {
   const aDate = asDate(a);
   const bDate = asDate(b);
+  if(!aDate || !bDate) {
+    throw new Error(`Invalid date passed into getDaysBetween()`)
+  }
 
   const aStr = aDate.toISOString().split("T")[0];
   const bStr = bDate.toISOString().split("T")[0];
