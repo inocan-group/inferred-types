@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { KeyValue, ObjectToTuple } from "inferred-types/types";
+import { KeyValue, ObjectKey, ObjectToTuple } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -20,5 +20,21 @@ describe("ObjectToTuple<T>", () => {
       Expect<Equal<Wide, KeyValue[]>>
     ];
   });
+
+
+  it("compact output", () => {
+    type FooBar = ObjectToTuple<{foo: 1; bar: 2}, true>;
+    type Empty = ObjectToTuple<{}, true>;
+    type Wide = ObjectToTuple<object, true>;
+
+    // @ts-ignore
+    type cases = [
+      Expect<Equal<FooBar, [ Record<"foo", 1>, Record<"bar", 2> ]>>,
+      Expect<Equal<Empty, []>>,
+      Expect<Equal<Wide, Record<ObjectKey, any>[]>>
+    ];
+
+  });
+
 
 });
