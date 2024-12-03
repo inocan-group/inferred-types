@@ -52,7 +52,7 @@ export type TruncateAtLen<
 
 
 
-export type Process<
+type Process<
   TList extends readonly unknown[],
   TStart extends number,
   TLen extends number | undefined

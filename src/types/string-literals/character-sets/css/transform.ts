@@ -45,7 +45,7 @@ export type CssTransformStyle =
 
 export type CssTransformProperties = {
   /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/transform) */
-  transform: CssTransform | `${CssTransform} ${string}` | CssGlobal;
+  transform?: CssTransform | `${CssTransform} ${string}` | CssGlobal;
   /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-box) */
   "transform-box"?: CssTransformBox | CssGlobal;
   /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-origin) */

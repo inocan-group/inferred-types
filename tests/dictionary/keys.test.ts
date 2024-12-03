@@ -127,7 +127,7 @@ describe("runtime keysOf() utility on object", () => {
 
     type cases = [
       Expect<HasSameValues<K,  ["id", "color", "isFavorite" ]>>,
-      Expect<Equal<typeof k2, ObjectKey[] & readonly never[]>>
+      Expect<Equal<typeof k2, ObjectKey[]>>
     ];
     const cases: cases = [true, true];
     expect(cases).toBe(cases);
@@ -140,7 +140,7 @@ describe("runtime keysOf() utility on object", () => {
     expect(keys).toEqual([0,1,2]);
 
     type cases = [
-      Expect<Equal<typeof keys, readonly [0,1,2] & readonly (keyof readonly [1, 2, 3])[]>>,
+      Expect<Equal<typeof keys, readonly [0,1,2] >>,
     ];
     const cases: cases = [ true ];
   });

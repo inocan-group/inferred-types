@@ -24,5 +24,5 @@ export function keysOf<TContainer extends Container>(
           : Object.keys(container)
         : []
   );
-  return keys as Keys<TContainer> & (keyof TContainer)[]
+  return keys as Keys<TContainer>
 }

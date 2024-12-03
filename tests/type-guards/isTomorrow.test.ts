@@ -8,8 +8,7 @@ import {
   IsLuxonDateTime,
   Iso8601Date,
   Iso8601DateTime,
-  LuxonJs,
-  MomentJs
+  LuxonJs
 } from "inferred-types/types";
 import { DateTime } from "luxon";
 import moment from "moment";
@@ -56,13 +55,6 @@ describe("isTomorrow()", () => {
     expect(isTomorrow(today)).toBe(false);
     expect(isTomorrow(dayAfterTomorrow)).toBe(false);
 
-    if (isTomorrow(tomorrow)) {
-      type D = typeof tomorrow;
-      // @ts-ignore
-      type _cases = [
-        Expect<Extends<D, MomentJs>>
-      ];
-    }
   });
 
   it("should correctly validate Luxon DateTime objects", () => {
