@@ -1,12 +1,9 @@
-import { ExpandRecursively } from "inferred-types/types";
 
 /**
- * Provides a strongly typed _key_ and _value_ for a dictionary `T`
- *
- * ```ts
- * type Obj = { foo: 1, bar: "hi" };
- * // ["foo", 1 ]
- * type Foo = KeyValue<Obj, "foo">;
- * ```
+ * A dictionary which contains a `key` and `value` property.
  */
-export type KeyValue<T extends object, K extends keyof T> = [K & keyof T, ExpandRecursively<T[K]>];
+export type KeyValue<
+  K = any,
+  V = any
+> = {key: K; value: V};
+
