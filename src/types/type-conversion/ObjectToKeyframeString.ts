@@ -13,19 +13,21 @@ type Process<
   E extends boolean
 > = Join<{
   [K in keyof T]: T[K] extends Record<infer Key extends string,infer Value>
-    ? `${Prefix<E>}${Key}: ${Value extends string ? `"${Value}"` : `${AsString<Value>}`}`
+    ? Value extends AnyObject
+      ?  `${Prefix<E>}${Key} ${AsString<Value>}`
+      : never
     : never
-}, ", ">;
+}, "\n  ">;
 
 
 /**
- * **ObjectToJsString**`<T>`
+ * **ObjectToKeyframeString**`<T>`
  *
- * Converts a Javascript object into a string representation.
+ * Converts a Javascript object into a CSS Keyframe representation.
  *
- * **Related:** `ObjectToCssString`, `ObjectToJsonString`, `ObjectToTuple`
+ * **Related:** `ObjectToJsString`, `ObjectToJsonString`, `ObjectToTuple`, `ObjectToCssString`
  */
-export type ObjectToJsString<
+export type ObjectToKeyframeString<
   TObj extends AnyObject,
   TExpand extends boolean = false
 > = TObj extends ExplicitlyEmptyObject
@@ -33,7 +35,7 @@ export type ObjectToJsString<
 : IsWideContainer<TObj> extends true
 ? string
 : Surround<
-    Process< ObjectToTuple<TObj, true> , TExpand>,
-    "{ ",
-    " }"
+    Process< ObjectToTuple<TObj, true> , false>,
+    TExpand extends false ? "{ " : "{\n  ",
+    TExpand extends false ? " }" : "\n}"
   >;

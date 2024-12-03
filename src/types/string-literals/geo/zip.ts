@@ -24,7 +24,7 @@ export type ZipToState<
 : never;
 
 
-export type ZipPlus4 = `${Zip5}${NumericChar}${number}`;
+export type ZipPlus4 = `${Zip5}-${number}`;
 
 /**
  * A relatively strong type for Zip5 or Zip5+4 zip codes
