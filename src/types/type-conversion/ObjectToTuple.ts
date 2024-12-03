@@ -22,9 +22,24 @@ type Process<
     [ ...TTuple, { key: First<TKeys>, value: TSource[First<TKeys>] } ]
   >;
 
+type Compact<
+  TSource extends AnyObject,
+  TKeys extends readonly (ObjectKey & keyof TSource)[],
+  TTuple extends readonly Record<ObjectKey, any>[] = []
+> = [] extends TKeys
+? TTuple
+: Compact<
+    TSource,
+    AfterFirst<TKeys>,
+    [
+      ...TTuple,
+      Record<First<TKeys>, TSource[First<TKeys>]>
+    ]
+  >;
+
 
 /**
- * **ObjectToTuple**`<TObj>`
+ * **ObjectToTuple**`<TObj,[TCompact]>`
  *
  * Type utility to convert an object to an array of object based key-value pairs.
  *
@@ -32,12 +47,17 @@ type Process<
  * ```ts
  * // readonly [ {key: "foo", value: 1} ]
  * type T = ObjectToTuple<{ foo: 1 }>
+ * // readonly [ { foo: 1 } ]
+ * type C = ObjectToTuple< foo: 1 }, true>;
  * ```
  */
 export type ObjectToTuple<
-  TObj extends AnyObject
+  TObj extends AnyObject,
+  TCompact extends boolean = false
 > = TObj extends ExplicitlyEmptyObject
 ? []
 : IsWideContainer<TObj> extends true
-? KeyValue[]
-: Process<TObj, As<Keys<TObj>, readonly (ObjectKey & keyof TObj)[] >>
+? TCompact extends false ? KeyValue[] : Record<ObjectKey,any>[]
+: TCompact extends false
+  ? Process<TObj, As<Keys<TObj>, readonly (ObjectKey & keyof TObj)[] >>
+  : Compact<TObj, As<Keys<TObj>, readonly (ObjectKey & keyof TObj)[] >>
