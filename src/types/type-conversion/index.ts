@@ -40,7 +40,10 @@ export * from "./Replace";
 export * from "./ReplaceAll";
 
 export * from "./RightWhitespace";
-export * from "./ObjectToKvDict";
+export * from "./ObjectToTuple";
+export * from "./ObjectToJsString";
+export * from "./ObjectToJsonString";
+export * from "./ObjectToCssString";
 export * from "./StringLength";
 export * from "./Trim";
 export * from "./TrimLeft";
