@@ -51,7 +51,17 @@ import { CssTextProperties } from "./text";
 import { CssTransformProperties } from "./transform";
 
 
-type _CssDefinition = {
+
+/**
+ * **CssDefinition**
+ *
+ * Provides a means to define a CSS selector in a type strong manner.
+ *
+ * - each _key_ is a possible CSS property with a type definition provided to constrain it
+ * - it is also indexed so that any property without a strong type definition can still be
+ * added as a string value.
+ */
+export type CssDefinition = {
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/appearance) */
   appearance?: CssAppearance;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter) */
@@ -126,7 +136,7 @@ type _CssDefinition = {
   perspective?: CssSizingLight | "none" | CssGlobal;
   "perspective-origin"?: CssPerspectiveOrigin;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/mix-blend-mode) */
-  "mix-blend-mode": CssMixBlendMode;
+  "mix-blend-mode"?: CssMixBlendMode;
 
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/letter-spacing) */
   "letter-spacing"?: CssLetterSpacing;
@@ -237,15 +247,4 @@ type _CssDefinition = {
 & CssOverflowProperties
 & CssOffsetProperties
 & CssTransformProperties;
-
-/**
- * **CssDefinition**
- *
- * Provides a means to define a CSS selector in a type strong manner.
- *
- * - each _key_ is a possible CSS property with a type definition provided to constrain it
- * - it is also indexed so that any property without a strong type definition can still be
- * added as a string value.
- */
-export type CssDefinition = _CssDefinition | { [key: string]: string };
 

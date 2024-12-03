@@ -4,7 +4,7 @@ import { ObjectToTuple } from "./ObjectToTuple";
 import { AsString } from "./AsString";
 import { Join, Surround } from "string-literals";
 
-export type Process<
+type Process<
   T extends readonly Record<ObjectKey, any>[]
 > = Join<{
   [K in keyof T]: T[K] extends Record<infer Key extends string,infer Value>

@@ -7,4 +7,3 @@ export * from "./asType";
 export * from "./asToken";
 
 export * from "./tokens/index"
-export * from "./css/index"

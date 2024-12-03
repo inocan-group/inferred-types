@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { Join , EnsureLeading } from "inferred-types";
 import { describe, expect, it } from "vitest";
-import { Joiner, joinWith } from "inferred-types";
+import { Join , EnsureLeading } from "inferred-types/types";
+import {  Joiner, joinWith } from "inferred-types/runtime";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -62,7 +62,7 @@ describe("Join<T,S>", () => {
 
 });
 
-describe("join()() runtime utility", () => {
+describe("joinWith()() runtime utility", () => {
 
   it("join happy path", () => {
     const helloWorld = joinWith("")("hello", " ", "world");
@@ -82,3 +82,4 @@ describe("join()() runtime utility", () => {
   });
 
 });
+
