@@ -13,7 +13,7 @@ export type CssVarWithFallback = `var(--${string}, ${CssVar | CssColor})`;
 /**
  * The CSS `translate()` function
  */
-export type CssTranslate = `translate(${CssSizing})` | `translate(0)` | `translate(${CssSizing}, ${CssSizing})`
+export type CssTranslateFn = `translate(${CssSizing})` | `translate(0)` | `translate(${CssSizing}, ${CssSizing})`
 
 /**
  * The CSS [`round()`](https://developer.mozilla.org/en-US/docs/Web/CSS/round) function

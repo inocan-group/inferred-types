@@ -1,6 +1,12 @@
 import { CssGlobal } from "./global";
 import { CssSizing } from "./sizing";
 
+type Overflow =
+| "visible"
+| "hidden"
+| "clip"
+| "scroll"
+| "auto";
 
 /**
  * **CssOverflowX**
@@ -12,13 +18,7 @@ import { CssSizing } from "./sizing";
  * scroll bar, or the overflow content. This property may also be set
  * by using the overflow shorthand property.
  */
-export type CssOverflowX =
-| "visible"
-| "hidden"
-| "clip"
-| "scroll"
-| "auto"
-| "inherit" | "initial" | "revert" |"unset" | "revert-layer";
+export type CssOverflowX = Overflow;
 
 /**
  * **CssOverflowY**
@@ -30,13 +30,12 @@ export type CssOverflowX =
  * scroll bar, or the overflow content. This property may also be set
  * by using the overflow shorthand property.
  */
-export type CssOverflowY =
-| "visible"
-| "hidden"
-| "clip"
-| "scroll"
-| "auto"
-| "inherit" | "initial" | "revert" |"unset" | "revert-layer";
+export type CssOverflowY = Overflow;
+
+export type CssOverflowBlock = Overflow;
+export type CssOverflowInline = Overflow;
+
+export type CssOverflowAnchor = "auto" | "none";
 
 
 /**
@@ -53,3 +52,22 @@ export type CssOverflowClipMargin =
 | CssSizing
 | `content-box ${CssSizing}`
 |  CssGlobal;
+
+export type CssOverflowProperties = {
+  /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow) */
+  overflow?: string;
+  /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-anchor) */
+  "overflow-anchor"?: CssOverflowAnchor | CssGlobal;
+  /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-block) */
+  "overflow-block"?: CssOverflowBlock | CssGlobal;
+  /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-clip-margin) */
+  "overflow-clip-margin"?: string;
+  /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-inline) */
+  "overflow-inline"?: CssOverflowInline | CssGlobal;
+  /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-wrap) */
+  "overflow-wrap"?: string;
+  /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-x) */
+  "overflow-x"?: CssOverflowX | CssGlobal;
+  /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-y) */
+  "overflow-y"?: CssOverflowY | CssGlobal;
+}

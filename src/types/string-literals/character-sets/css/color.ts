@@ -96,9 +96,15 @@ export type CssColor =
 | CssOkLch
 | CssHsb
 | CssHsl
+| "currentcolor"
 | `color(${string})`;
 
-
+export type CssColorLight =
+| CssNamedColors
+| `#${number}`
+| "currentcolor"
+| `${"rgb" | "rgba" | "hsb" | "hsl"}(${string})`
+| `color(${string})`;
 
 
 /**
