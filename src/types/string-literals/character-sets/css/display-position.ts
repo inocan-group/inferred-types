@@ -1,4 +1,4 @@
-import { OptionalSpace } from "inferred-types/types";
+import { CssGlobal, OptionalSpace } from "inferred-types/types";
 
 type Ratio = `${number}${OptionalSpace}/${OptionalSpace}${number}`;
 type One = `1`;
@@ -39,4 +39,4 @@ export type CssDisplay =
 | "inline flex" | "inline flow" | "inline flow-root" | "inline-grid"
 | "table" | "table-row"
 | "list-item"
-| "inherit" | "initial" | "revert" | "revert-layer" | "unset";
+| CssGlobal;
