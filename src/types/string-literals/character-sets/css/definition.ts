@@ -13,7 +13,7 @@ import { CssMarginProperties } from "./margin";
 import { CssObjectFit, CssObjectPosition } from "./object";
 import { CssOffsetProperties } from "./offset";
 import { CssOutlineProperties } from "./outline";
-import { CssOverflowProperties, CssOverflowX, CssOverflowY } from "./overflow";
+import { CssOverflowProperties } from "./overflow";
 import { CssPaddingProperties } from "./padding";
 import { CssPlaceProperties } from "./place";
 import {
