@@ -272,7 +272,7 @@ export type CssWhiteSpace =
 
 
 
-export type CssTiming = `${number}${"ms" | "s"}` | CssGlobal;
+export type CssTiming = `${number}${"ms" | "s"}` ;
 
 
 export type CssPointerEvent =
