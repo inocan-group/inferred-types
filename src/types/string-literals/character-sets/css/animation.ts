@@ -69,6 +69,7 @@ export type CssAnimationPlayState =
 | `${PlayState}${Opt<`, ${PlayState}`>}${Opt<`, ${PlayState}`>}${string}`;
 
 export type CssAnimation = `${CssAnimationDuration} ${CssAnimationTimingFunction}${string}`
+  | `${string} ${CssAnimationDuration} ${CssAnimationTimingFunction}${string}`
 
 export type CssAnimationProperties = {
   /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/animation) */
