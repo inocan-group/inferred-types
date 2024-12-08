@@ -1,4 +1,15 @@
-import {  As, Dictionary, EmptyObject, IfUnset, ObjectKey, Unset } from "inferred-types/types";
+import {
+  AfterFirst,
+  AnyObject,
+  As,
+  Dictionary,
+  EmptyObject,
+  First,
+  IfUnset,
+  Keys,
+  ObjectKey,
+  Unset
+} from "inferred-types/types";
 
 /**
  * **RequiredKeys**`<T,[V]>`
@@ -10,11 +21,12 @@ import {  As, Dictionary, EmptyObject, IfUnset, ObjectKey, Unset } from "inferre
  * by the _value_ of the key and then only keys which are required AND
  * who extend `V` will be included in the union.
  *
- * **Related:** `OptionalKeys`, `RequiredProps`
+ * **Related:** `OptionalKeys`, `RequiredProps`, `RequiredKeysTuple`
  */
 export type RequiredKeys<
   T extends Dictionary,
-  V = Unset> = As<{
+  V = Unset
+> = As<{
   [K in keyof T]-?: EmptyObject extends { [P in K]: T[K] }
     ? never //
     : IfUnset<
@@ -25,3 +37,31 @@ export type RequiredKeys<
           : never
       >;
 }[keyof T], ObjectKey>;
+
+
+type KeyList<
+  TObj extends AnyObject,
+  TKeys extends readonly (keyof TObj & ObjectKey)[],
+  TResult extends ObjectKey[] = []
+> = [] extends TKeys
+  ? TResult
+  : undefined extends TObj[First<TKeys>]
+  ? KeyList<TObj, AfterFirst<TKeys>, TResult>
+  : KeyList<
+      TObj,
+      AfterFirst<TKeys>,
+      [...TResult, First<TKeys>]
+  >;
+
+;
+
+/**
+* **RequiredKeysTuple**`<T,[E]>`
+*
+* Provides a tuple of the _keys_ in `T` which are
+* **required** properties.
+*
+* **Related:** `OptionalKeys`, `RequiredProps`, `RequiredKeys`*/
+export type RequiredKeysTuple<
+  T extends Dictionary
+> = KeyList<T, Keys<T>>;
