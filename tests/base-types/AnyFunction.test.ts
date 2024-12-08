@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
 import {  ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 import { AnyFunction, AsLiteralFn, Extends } from "inferred-types";

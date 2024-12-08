@@ -101,5 +101,6 @@ export * from "./HasArray"
 export * from "./UnionHasArray"
 export * from "./MaybeError"
 export * from "./IsNumberLike";
+export * from "./IsThenable";
 
 export * from "./datetime/index";
