@@ -11,7 +11,8 @@
   "exports": {
     ".": {
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "require": "./dist/index.cjs",
+      "types": "./dist/inferred-types/index.d.ts"
     },
     "./types": {
       "import": "./dist/types/index.js",
