@@ -4,6 +4,7 @@
 // hash-code: 57dfa865
 
 // file exports
+export * from "./AsyncFunction";
 export * from "./LogicFunction";
 export * from "./TypeGuard";
 export * from "./AsFnMeta";

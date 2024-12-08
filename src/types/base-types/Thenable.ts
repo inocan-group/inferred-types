@@ -1,4 +1,3 @@
-import { Dictionary } from "./Dictionary";
 
 /**
  * **Thenable**`<T>`
@@ -6,7 +5,7 @@ import { Dictionary } from "./Dictionary";
  * An object which resembles a promise and is guarenteed to provide a `.then` and `.catch`
  * callback hook.
  */
-export type Thenable<T = unknown> = Dictionary & {
-  then: (cb: T) => void;
-  catch: (err: string) => void;
+export type Thenable =  {
+  then: (...args: any[]) => any;
+  finally?: (...args: any[]) => any
 }
