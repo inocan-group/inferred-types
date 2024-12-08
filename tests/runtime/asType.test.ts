@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import { asType } from "inferred-types";
-import { AsType, Dictionary, Zip5 } from "inferred-types/dist/types/index";
+import { AsType, Dictionary, Zip5 } from "inferred-types/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to

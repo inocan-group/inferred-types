@@ -4,11 +4,11 @@ import { describe, it } from "vitest";
 import {
   IfLength,
   Length
-} from "inferred-types/dist/types/index";
+} from "inferred-types/types";
 import {
   narrow,
   ifLength
-} from "inferred-types";
+} from "inferred-types/runtime";
 
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
