@@ -1,0 +1,46 @@
+{
+  // this project serves only as a means to reference all sub-projects
+  // and allow constants, types, and runtime symbols to be exported
+  // as a single NPM package.
+  "references": [
+    {
+      "path": "../constants"
+    },
+    {
+      "path": "../types"
+    },
+    {
+      "path": "../runtime"
+    }
+  ],
+  "compilerOptions": {
+    "strict": true,
+    "skipLibCheck": true,
+    "target": "ESNext",
+    "moduleResolution": "Bundler",
+    "declaration": true,
+    "declarationMap": true,
+    "baseUrl": ".",
+    "rootDir": ".",
+    "outDir": "dist",
+    "composite": true,
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "inferred-types/types": [
+        "../types/dist/index"
+      ],
+      "inferred-types/constants": [
+        "../constants/dist/index"
+      ],
+      "inferred-types/runtime": [
+        "../runtime/dist/index"
+      ],
+    },
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

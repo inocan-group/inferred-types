@@ -9,7 +9,6 @@ describe("RequiredKeysTuple<T>", () => {
     type T2 = RequiredKeysTuple<{foo: 1; bar: 2; baz?: 3; }>;
     type None = RequiredKeysTuple<{foo?: 1; bar?: 2; baz?: 3; bax?: 4; bay?: 5}>;
 
-
     type cases = [
       Expect<Equal<T1, ["foo", "bar", "baz"]>>,
       Expect<Equal<T2, ["foo", "bar"]>>,

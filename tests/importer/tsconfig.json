@@ -2,13 +2,13 @@
   "extends": "../ts-base.json",
   "references": [
     {
-      "path": "../src/constants"
+      "path": "../../src/constants"
     },
     {
-      "path": "../src/runtime"
+      "path": "../../src/runtime"
     },
     {
-      "path": "../src/types"
+      "path": "../../src/types"
     }
   ],
   "compilerOptions": {
@@ -17,31 +17,32 @@
     "composite": true,
     "declaration": true,
     "declarationMap": true,
+    "preserveConstEnums": true,
+    "stripInternal": false,
+    "sourceMap": true,
     "tsBuildInfoFile": ".tsbuildinfo",
     "rootDir": "..",
     "baseUrl": ".",
     "outDir": "../../dist/none",
     "paths": {
-      "inferred-types/types": [
-        "../src/types/src/index.ts"
-      ],
       "inferred-types": [
-        "../src/inferred-types/src/index.ts"
+        "../../dist"
       ],
+      "inferred-types/types": [
+        "../../dist/types"
+      ],
+
       "inferred-types/runtime": [
-        "../src/runtime/src/index.ts"
+        "../../dist/runtime"
       ],
       "inferred-types/constants": [
-        "../src/constants/src/index.ts"
+        "../../dist/constants"
       ],
-      "dist": [
-        "../"
-      ]
     }
   },
   "include": [
     ".",
-    "../src",
+    "../../dist",
   ],
   "exclude": [
     "**/node_modules/*",
