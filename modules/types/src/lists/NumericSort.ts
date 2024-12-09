@@ -9,7 +9,7 @@ import { Reverse } from "./Reverse"
 type Iterator<
   N,
   iterator extends number[] = []
-> = iterator['length'] extends N
+> = iterator["length"] extends N
     ? iterator
     : Iterator<N, [any, ...iterator]>
 

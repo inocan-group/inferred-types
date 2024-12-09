@@ -9,13 +9,9 @@ export default defineConfig({
   clean: false,
   treeshake: true,
   outDir: "dist",
-  outExtension: ({ format }) => {
-    if (format === "esm") {
-      return { js: ".js" };
-    } else if (format === "cjs") {
-      return { js: ".cjs" };
-    }
-    return { js: ".js" }; // default fallback
-  },
-  tsconfig: "./tsconfig.tsup.json",
+  outExtension: ({ format }) => ({
+    js: format === "cjs" ? ".cjs" : ".js",
+    dts: format === "cjs" ? ".cts" : ".ts"
+}),
+  tsconfig: "./tsconfig.tsup.json"
 })

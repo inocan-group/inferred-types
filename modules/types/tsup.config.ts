@@ -6,16 +6,13 @@ export default defineConfig({
   dts: {entry: ["src/index.ts"]},
   splitting: false,
   sourcemap: true,
-  clean: false,
+  clean: true,
   treeshake: true,
-  outDir: "dist",
   outExtension: ({ format }) => {
-    if (format === "esm") {
-      return { js: ".js" };
-    } else if (format === "cjs") {
-      return { js: ".cjs" };
+    return {
+      js: format === "cjs" ? ".cjs" : ".js",
+      dts: format === "cjs" ? ".cts" : ".ts"
     }
-    return { js: ".js" }; // default fallback
   },
-  tsconfig: "./tsconfig.tsup.json",
+  tsconfig: "./tsconfig.tsup.json"
 })

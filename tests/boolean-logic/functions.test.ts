@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import { createFnWithProps, isFnWithParams, isFunction } from "inferred-types";
 import type { AnyFunction, IsFunction } from "inferred-types";
-import { ifFunction } from "../../src/runtime/boolean-logic/ifFunction";
+import { ifFunction } from "inferred-types/runtime";
 
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
