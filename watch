@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+echo ""
+echo "Watching inferred-types with TSUP"
+echo ""
+
+echo " - constants"
+cd './modules/constants' || exit
+tsup --watch &
+
+echo ""
+echo "- types"
+cd '../types' || exit
+
+tsup --watch &
+echo ""
+
+echo " - runtime"
+cd '../runtime' || exit
+tsup --watch &
+
+echo ""
+echo "- inferred-types"
+cd '../inferred-types' || exit
+tsup --watch &
+
+echo ""
+echo "- 👓 Watchers watching"
+echo ""
+
+bg
+
+echo "- Watchers Stopped"
+echo ""
+
+

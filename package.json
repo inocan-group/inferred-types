@@ -10,24 +10,24 @@
   "typings": "./dist/inferred-types/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/inferred-types/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "types": "./modules/inferred-types/dist/index.d.ts",
+      "import": "./modules/inferred-types/dist/index.js",
+      "require": "./modules/inferred-types/dist/index.cjs"
     },
     "./types": {
       "types": "./modules/types/dist/index.d.ts",
-      "import": "./modules/types/dist/index.mjs",
-      "require": "./modules/types/dist/index.js"
+      "import": "./modules/types/dist/index.js",
+      "require": "./modules/types/dist/index.cjs"
     },
     "./runtime": {
       "types": "./modules/runtime/dist/index.d.ts",
-      "import": "./modules/runtime/dist/index.mjs",
-      "require": "./modules/runtime/dist/index.js"
+      "import": "./modules/runtime/dist/index.js",
+      "require": "./modules/runtime/dist/index.cjs"
     },
     "./constants": {
       "types": "./modules/constants/dist/index.d.ts",
-      "import": "./modules/constants/dist/index.mjs",
-      "require": "./modules/constants/dist/index.js"
+      "import": "./modules/constants/dist/index.js",
+      "require": "./modules/constants/dist/index.cjs"
     }
   },
   "files": [
@@ -39,17 +39,14 @@
   "sideEffects": false,
   "scripts": {
     "prepare": "ts-patch install -s",
-    "build": "run-s build:clean build:tsc build:cjs build:esm",
-    "build:tsc": "tsc -b --verbose modules/constants modules/types modules/runtime",
-    "build:clean": "run-s clean build",
-    "build:cjs": "tsup src/inferred-types/index.ts --format=cjs -d dist",
-    "build:esm": "tsup src/inferred-types/index.ts --format=esm -d dist --dts",
+    "build": "bash build",
+    "build:tsc": "tsc -b modules/constants modules/types modules/runtime",
     "diag": "tsc -b -f --extendedDiagnostics src/inferred-types",
     "diag:constants": "tsc -b -f --extendedDiagnostics src/constants",
     "diag:types": "tsc -b -f --extendedDiagnostics src/types",
     "diag:runtime": "tsc -b -f --extendedDiagnostics src/runtime",
     "clean": "rimraf dist/**/*",
-    "lint": "eslint src",
+    "lint": "eslint modules",
     "trace": "npx tsc --noEmit --diagnostics && npx analyze-trace trace",
     "test": "vitest",
     "test:ui": "vitest --ui",
@@ -70,40 +67,41 @@
     "watch:bundle": "tsup src/index.ts --format=esm --dts"
   },
   "devDependencies": {
-    "@eslint/js": "^9.15.0",
+    "@antfu/eslint-config": "^3.11.2",
+    "@eslint/js": "^9.16.0",
     "@type-challenges/utils": "~0.1.1",
     "@types/luxon": "^3.4.2",
-    "@types/node": "^20.17.6",
-    "@typescript-eslint/eslint-plugin": "^8.15.0",
-    "@typescript-eslint/parser": "^8.15.0",
+    "@types/node": "^20.17.9",
+    "@typescript-eslint/eslint-plugin": "^8.18.0",
+    "@typescript-eslint/parser": "^8.18.0",
     "@typescript/analyze-trace": "^0.10.1",
-    "@vitest/ui": "^2.1.5",
-    "bumpp": "^9.8.1",
+    "@vitest/ui": "^2.1.8",
+    "bumpp": "^9.9.0",
     "chalk": "^5.3.0",
     "cross-env": "^7.0.3",
-    "eslint": "^9.15.0",
+    "eslint": "^9.16.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-promise": "^7.1.0",
+    "eslint-plugin-promise": "^7.2.1",
     "glob": "^11.0.0",
     "luxon": "^3.5.0",
     "moment": "^2.30.1",
     "npm-run-all": "~4.1.5",
     "pathe": "^1.1.2",
-    "prettier": "^3.3.3",
+    "prettier": "^3.4.2",
     "rimraf": "^6.0.1",
-    "ts-patch": "^3.2.1",
+    "ts-patch": "^3.3.0",
     "tsup": "^8.3.5",
     "tsx": "^4.19.2",
     "typecheck": "^0.1.2",
     "typed-tester": "^0.6.2",
-    "typescript": "5.6.3",
-    "typescript-eslint": "^8.15.0",
+    "typescript": "5.7.2",
+    "typescript-eslint": "^8.18.0",
     "typescript-transform-paths": "^3.5.2",
     "typescript-transformer-esm": "^1.1.0",
-    "vite": "^5.4.11",
-    "vite-node": "^2.1.5",
-    "vitest": "^2.1.5",
+    "vite": "^6.0.3",
+    "vite-node": "^2.1.8",
+    "vitest": "^2.1.8",
     "vue": "^3.5.13"
   },
   "pnpm": {

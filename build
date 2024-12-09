@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+echo ""
+echo "Building inferred-types with TSUP"
+echo ""
+
+echo " - constants"
+cd './modules/constants' || exit
+tsup
+
+echo ""
+echo "- types"
+cd '../types' || exit
+
+tsup
+echo ""
+
+echo " - runtime"
+cd '../runtime' || exit
+tsup
+
+echo ""
+echo "- inferred-types"
+cd '../inferred-types' || exit
+tsup
+
+echo ""
+echo "- 🚀 Build Complete"
+echo ""

@@ -22,8 +22,8 @@ import { stripLeading, stripTrailing } from "src/literals"
 export const isGithubUrl = (val: unknown): val is GithubUrl => {
   const valid = [
     "https://github.com",
-    'https://www.github.com',
-    'https://github.io'
+    "https://www.github.com",
+    "https://github.io"
   ];
   return isString(val) && valid.some(i =>
     val === i ||

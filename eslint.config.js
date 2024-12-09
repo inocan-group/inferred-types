@@ -2,7 +2,11 @@ import eslint from '@eslint/js';
 import ts from 'typescript-eslint';
 
 export default ts.config({
-    files: ["**/*.ts"],
+    files: [
+      "modules/constants/**/*.ts",
+      "modules/types/**/*.ts",
+      "modules/runtime/**/*.ts"
+    ],
     extends: [
         eslint.configs.recommended,
         ...ts.configs.recommended

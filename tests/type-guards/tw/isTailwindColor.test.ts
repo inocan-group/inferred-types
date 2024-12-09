@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { TwColorOptionalOpacity } from "inferred-types/types";
-import { isTailwindColor } from "src/runtime/index";
+import { isTailwindColor } from "inferred-types/runtime";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
