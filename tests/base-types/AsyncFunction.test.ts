@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable ts/ban-ts-comment */
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe,  it } from "vitest";
 import { AsyncFunction } from "inferred-types/types";

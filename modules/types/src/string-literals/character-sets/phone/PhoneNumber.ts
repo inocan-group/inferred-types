@@ -95,9 +95,7 @@ export type PhoneNumber<
   T extends number | string | null = null,
   TDelimiter extends PhoneNumberDelimiter = PhoneNumberDelimiter,
 > = T extends null
-? LocalPhoneNumber<TDelimiter>
-| CountryPhoneNumber<TDelimiter>
-| InternationalPhoneNumber<TDelimiter>
+  ? LocalPhoneNumber<TDelimiter> | CountryPhoneNumber<TDelimiter> | InternationalPhoneNumber<TDelimiter>
   : IsStringLiteral<T> extends true
     ? Process<As<T, string>, TDelimiter>
     : IsNumericLiteral<T> extends true

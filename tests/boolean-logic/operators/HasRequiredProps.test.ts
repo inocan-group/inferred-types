@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable ts/ban-ts-comment */
 import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import {  EmptyObject, HasRequiredProps } from "inferred-types/types";
 import { describe, it } from "vitest";

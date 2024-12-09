@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable ts/ban-ts-comment */
 import { describe, it } from "vitest";
 import {  Expect, ExpectTrue } from "@type-challenges/utils";
 

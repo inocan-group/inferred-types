@@ -19,11 +19,11 @@ type GenList<
   IsRoot extends boolean = true,
   K extends keyof TContainer = keyof TContainer,
 > = K extends string | number
-? GenNode<K, IsRoot, IsArray<TContainer>> | (
-  TContainer[K] extends object
-    ? `${GenNode<K, IsRoot, IsArray<TContainer>>}${GenList<TContainer[K], false>}`
-    : never
-  )
+  ? GenNode<K, IsRoot, IsArray<TContainer>> | (
+    TContainer[K] extends object
+      ? `${GenNode<K, IsRoot, IsArray<TContainer>>}${GenList<TContainer[K], false>}`
+      : never
+    )
   : never;
 
 /**

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable ts/ban-types */
 import { describe, it } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
 import { Ref } from "vue";

@@ -12,7 +12,7 @@ function toFinalizedConfig<
   IR extends OptRequired,
   D extends MapCardinalityIllustrated,
   OR extends OptRequired,
->(config: MapConfig<IR, D, OR>) {
+>(config: MapConfig<IR, D, OR>): FinalizedMapConfig<IR, D, OR> {
   return { ...config, finalized: true } as FinalizedMapConfig<IR, D, OR>;
 }
 

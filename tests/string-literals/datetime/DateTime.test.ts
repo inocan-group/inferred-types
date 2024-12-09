@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable ts/ban-ts-comment */
 import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { IsIsoDate, IsIsoExplicitDate, IsIsoImplicitDate, IsIsoTime } from "inferred-types/types";
 import { describe, it } from "vitest";

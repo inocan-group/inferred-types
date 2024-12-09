@@ -1,5 +1,3 @@
-/* eslint @typescript-eslint/no-unused-vars: "off" */
-
 import type { LowerAllCaps, Trim } from "inferred-types/types";
 
 type Delimiter = "_" | "-" | " ";

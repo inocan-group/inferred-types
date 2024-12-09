@@ -1,5 +1,3 @@
-/* eslint @typescript-eslint/no-unused-vars: "off" */
-
 import type { PLURAL_EXCEPTIONS } from "inferred-types/constants";
 import type {
   Consonant,

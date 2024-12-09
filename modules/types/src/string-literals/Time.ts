@@ -256,12 +256,15 @@ export type MilitaryTime<
       fixedLengthHours: Opt<TOpt>["fixedLengthHours"];
     }
   >
-  | TimeInSeconds<"military", {
-    strength: "simple";
-    timezone: Opt<TOpt>["timezone"];
-    amPmCase: Opt<TOpt>["amPmCase"];
-    fixedLengthHours: Opt<TOpt>["fixedLengthHours"];
-  }>
+  | TimeInSeconds<
+    "military",
+    {
+      strength: "simple";
+      timezone: Opt<TOpt>["timezone"];
+      amPmCase: Opt<TOpt>["amPmCase"];
+      fixedLengthHours: Opt<TOpt>["fixedLengthHours"];
+    }
+  >
   | TimeInMilliseconds<"military", {
     strength: "simple";
     timezone: Opt<TOpt>["timezone"];

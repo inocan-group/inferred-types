@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-function-type */
-
+/* eslint-disable ts/no-unsafe-function-type */
 import type {
   AfterFirst,
   AnyFunction,
@@ -142,12 +141,13 @@ type WidenFnProps<
     TObj,
     AfterFirst<TKeys>,
     First<TKeys> extends keyof TObj
-      ? TResult & Record<
-        First<TKeys>,
-        TObj[First<TKeys>] extends Scalar
-          ? WidenScalar<TObj[First<TKeys>]>
-          : TObj[First<TKeys>]
-      >
+      ? TResult &
+    Record<
+      First<TKeys>,
+      TObj[First<TKeys>] extends Scalar
+        ? WidenScalar<TObj[First<TKeys>]>
+        : TObj[First<TKeys>]
+    >
       : TResult
   >;
 

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-function-type */
+/* eslint-disable ts/no-unsafe-function-type */
 
 import type { TypedFunction } from "./TypedFunction";
 
