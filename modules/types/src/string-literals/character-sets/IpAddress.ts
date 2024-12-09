@@ -1,4 +1,5 @@
-import {
+import type { IPv6 } from "inferred-types/constants";
+import type {
   AsString,
   HexadecimalChar,
   IsStringLiteral,
@@ -7,9 +8,8 @@ import {
   ReplaceAll,
   StripTrailing,
   Suggest,
-  UnionToTuple
+  UnionToTuple,
 } from "inferred-types/types";
-import  { IPv6 } from "inferred-types/constants";
 
 /**
  * **IPv4Number**
@@ -17,18 +17,17 @@ import  { IPv6 } from "inferred-types/constants";
  * A high resolution typing for a single octet of an **IP version 4** IP address.
  */
 export type Ip4Octet =
-| `25${NumericCharZeroToFive}`
- | `24${NumericChar}`
- | `23${NumericChar}`
- | `22${NumericChar}`
- | `21${NumericChar}`
- | `20${NumericChar}`
- | `1${NumericChar}${NumericChar}`
- | `${NumericChar}${NumericChar}`
- | `${NumericChar}`;
+  | `25${NumericCharZeroToFive}`
+  | `24${NumericChar}`
+  | `23${NumericChar}`
+  | `22${NumericChar}`
+  | `21${NumericChar}`
+  | `20${NumericChar}`
+  | `1${NumericChar}${NumericChar}`
+  | `${NumericChar}${NumericChar}`
+  | `${NumericChar}`;
 
-
-export type Ip4NetmaskSuggestion<TVlan extends readonly number[] = [1,10]> = Suggest<[
+export type Ip4NetmaskSuggestion<TVlan extends readonly number[] = [1, 10]> = Suggest<[
   `10.0.0.0/8`,
   `192.168.0.0/16`,
   `172.16.0.0/16`,
@@ -49,21 +48,19 @@ export type Ip4Netmask32 = `${number}.${number}.${number}.${number}/32`;
  */
 export type Ip4Netmask = Ip4Netmask8 | Ip4Netmask16 | Ip4Netmask24 | Ip4Netmask32;
 
-
 /**
-* the range of IPv6 addresses which are considered **multicast**.
-*/
+ * the range of IPv6 addresses which are considered **multicast**.
+ */
 export type IP6Multicast = typeof IPv6["Multicast"];
 
 /**
-* the range of IPv6 addresses which are considered **unicast**.
-*/
+ * the range of IPv6 addresses which are considered **unicast**.
+ */
 export type IP6Unicast = typeof IPv6["Unicast"];
 
 export type Ip6Loopback = typeof IPv6["Loopback"];
 
 export type Ip6Group = `${HexadecimalChar}${string}`;
-
 
 /**
  * **Ipv4**
@@ -72,10 +69,9 @@ export type Ip6Group = `${HexadecimalChar}${string}`;
  */
 export type Ip4Address = `${number}.${number}.${number}.${number}`;
 
-
 export type Ip6AddressFull = `${string}:${string}:${string}:${string}:${string}:${string}:${string}:${string}`;
 
-export type Ip6AddressLoose = `${HexadecimalChar}${string}:${string}`
+export type Ip6AddressLoose = `${HexadecimalChar}${string}:${string}`;
 
 /**
  * **Ip6GroupExpansion**`<T>`
@@ -83,12 +79,10 @@ export type Ip6AddressLoose = `${HexadecimalChar}${string}:${string}`
  * Expands an IPv6's address by changing
  */
 export type Ip6GroupExpansion<T> = T extends string
-? IsStringLiteral<T> extends true
-  ? StripTrailing<ReplaceAll<T,"::", ":0000:">, ":">
-  : string
-: never;
-
-
+  ? IsStringLiteral<T> extends true
+    ? StripTrailing<ReplaceAll<T, "::", ":0000:">, ":">
+    : string
+  : never;
 
 /**
  * An IPv6 Address
@@ -108,30 +102,28 @@ export type Ip6GroupExpansion<T> = T extends string
  * **Related:** `Ip6Subnet`
  */
 export type Ip6Address =
-| `${string}:${string}:${string}:${string}:${string}:${string}:${string}:${string}`
-| `${string}::${string}:${string}:${string}:${string}:${string}:${string}`
-| `${string}:${string}::${string}:${string}:${string}:${string}:${string}`
-| `${string}:${string}:${string}::${string}:${string}:${string}:${string}`
-| `${string}:${string}:${string}:${string}::${string}:${string}:${string}`
-| `${string}:${string}:${string}:${string}:${string}::${string}:${string}`
-| `${string}:${string}:${string}:${string}:${string}:${string}::${string}`
-| `${string}:${string}:${string}:${string}:${string}:${string}:${string}::`;
-
-
+  | `${string}:${string}:${string}:${string}:${string}:${string}:${string}:${string}`
+  | `${string}::${string}:${string}:${string}:${string}:${string}:${string}`
+  | `${string}:${string}::${string}:${string}:${string}:${string}:${string}`
+  | `${string}:${string}:${string}::${string}:${string}:${string}:${string}`
+  | `${string}:${string}:${string}:${string}::${string}:${string}:${string}`
+  | `${string}:${string}:${string}:${string}:${string}::${string}:${string}`
+  | `${string}:${string}:${string}:${string}:${string}:${string}::${string}`
+  | `${string}:${string}:${string}:${string}:${string}:${string}:${string}::`;
 
 export type Ip6SubnetPrefix = `${string}:${string}:${string}:${string}`;
 
 export type AsIp6Prefix<
-  T extends readonly Ip6Group[]
+  T extends readonly Ip6Group[],
 > = T extends [Ip6Group]
-? `${T[0]}:${string}:${string}:${string}`
-: T extends [Ip6Group,Ip6Group]
-? `${T[0]}:${T[1]}:${string}:${string}`
-: T extends [Ip6Group,Ip6Group,Ip6Group]
-? `${T[0]}:${T[1]}:${T[2]}:${string}`
-: T extends [Ip6Group,Ip6Group,Ip6Group,Ip6Group,...Ip6Group[]]
-? `${T[0]}:${T[1]}:${T[3]}:${T[4]}`
-: `${string}:${string}:${string}:${string}`;
+  ? `${T[0]}:${string}:${string}:${string}`
+  : T extends [Ip6Group, Ip6Group]
+    ? `${T[0]}:${T[1]}:${string}:${string}`
+    : T extends [Ip6Group, Ip6Group, Ip6Group]
+      ? `${T[0]}:${T[1]}:${T[2]}:${string}`
+      : T extends [Ip6Group, Ip6Group, Ip6Group, Ip6Group, ...Ip6Group[]]
+        ? `${T[0]}:${T[1]}:${T[3]}:${T[4]}`
+        : `${string}:${string}:${string}:${string}`;
 
 /**
  * An IPv6 subnet.
@@ -147,9 +139,8 @@ export type AsIp6Prefix<
  */
 export type Ip6Subnet<
   TPrefix extends Ip6SubnetPrefix = Ip6SubnetPrefix,
-  TMask extends number = number
+  TMask extends number = number,
 > = `${TPrefix}::/${TMask}`;
-
 
 /**
  * **SuggestIpAddress**

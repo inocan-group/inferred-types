@@ -1,25 +1,24 @@
-import {
+import type {
   AfterFirst,
   First,
   IfEqual,
   IsEqual,
-  LogicFunction,
   LogicalReturns,
-  NarrowlyContains
+  LogicFunction,
+  NarrowlyContains,
 } from "inferred-types/types";
 
 type Process<
   TConditions extends readonly boolean[],
   TBooleanSeen extends boolean,
 > = [] extends TConditions
-? IfEqual<TBooleanSeen, true, boolean, true>
-: [First<TConditions>] extends [false]
-  ? false
-  : Process<
-      AfterFirst<TConditions>,
-      TBooleanSeen
-    >;
-
+  ? IfEqual<TBooleanSeen, true, boolean, true>
+  : [First<TConditions>] extends [false]
+      ? false
+      : Process<
+        AfterFirst<TConditions>,
+        TBooleanSeen
+      >;
 
 /**
  * **And**`<TConditions, [TEmpty]>`
@@ -29,16 +28,15 @@ type Process<
  */
 export type And<
   TConditions,
-  TEmpty extends boolean = false
+  TEmpty extends boolean = false,
 > = TConditions extends readonly (boolean | LogicFunction)[]
 
-? IsEqual<TConditions,[]> extends true
-? TEmpty
-: LogicalReturns<TConditions> extends readonly boolean[]
-  ? Process<
-      LogicalReturns<TConditions>,
-      NarrowlyContains<LogicalReturns<TConditions>,boolean>
-    >
-  : never
-: never;
-
+  ? IsEqual<TConditions, []> extends true
+    ? TEmpty
+    : LogicalReturns<TConditions> extends readonly boolean[]
+      ? Process<
+        LogicalReturns<TConditions>,
+        NarrowlyContains<LogicalReturns<TConditions>, boolean>
+      >
+      : never
+  : never;

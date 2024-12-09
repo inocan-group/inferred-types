@@ -1,12 +1,10 @@
 import type {
   AnyObject,
-  IsTrue,
   If,
+  IsTrue,
   JustFunction,
-  TypedFunction
+  TypedFunction,
 } from "inferred-types/types";
-
-
 
 /**
  * **FnWithProps**`<TFn,TProps,[TClone]>`
@@ -18,7 +16,7 @@ import type {
 export type FnWithProps<
   TFn extends TypedFunction,
   TProps extends AnyObject,
-  TClone extends boolean | null | undefined = true
+  TClone extends boolean | null | undefined = true,
 > = If<
   IsTrue<TClone>,
   JustFunction<TFn> & TProps,

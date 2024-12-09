@@ -1,5 +1,4 @@
-import { IsAllCaps } from "inferred-types/types";
-
+import type { IsAllCaps } from "inferred-types/types";
 
 /**
  * **LowerAllCaps**`<T>
@@ -8,10 +7,9 @@ import { IsAllCaps } from "inferred-types/types";
  * all other cases it will do nothing and simply return `T` as `T`.
  *
  * **Related:** `RaiseAllLowercase`
- **/
+ */
 export type LowerAllCaps<
-  T extends string
+  T extends string,
 > = IsAllCaps<T> extends true
-? Lowercase<T>
-: T;
-
+  ? Lowercase<T>
+  : T;

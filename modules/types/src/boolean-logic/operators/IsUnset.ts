@@ -1,5 +1,4 @@
-import { Unset, IsEqual } from "inferred-types/types";
-
+import type { IsEqual, Unset } from "inferred-types/types";
 
 /**
  * **IsUnset**`<T>`
@@ -7,4 +6,4 @@ import { Unset, IsEqual } from "inferred-types/types";
  * Boolean operator which reports true/false on whether
  * `T` is the value `Unset`.
  */
-export type IsUnset<T> = IsEqual<T,Unset>;
+export type IsUnset<T> = IsEqual<T, Unset>;

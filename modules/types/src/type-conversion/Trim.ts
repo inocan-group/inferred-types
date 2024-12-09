@@ -1,15 +1,14 @@
-import { Whitespace } from "inferred-types/types";
+import type { Whitespace } from "inferred-types/types";
 
 type Process<
-S extends string
+  S extends string,
 > = string extends S
-? string
-: S extends `${Whitespace}${infer Right}`
-? Process<Right>
-: S extends `${infer Left}${Whitespace}`
-? Process<Left>
-: S;
-
+  ? string
+  : S extends `${Whitespace}${infer Right}`
+    ? Process<Right>
+    : S extends `${infer Left}${Whitespace}`
+      ? Process<Left>
+      : S;
 
 /**
  * Trims off blank spaces, `\n` and `\t` characters from both sides of a _string literal_.
@@ -21,8 +20,7 @@ S extends string
  * ```
  */
 export type Trim<
-  S extends string
+  S extends string,
 > = Process<S> extends string
-? Process<S>
-: never;
-
+  ? Process<S>
+  : never;

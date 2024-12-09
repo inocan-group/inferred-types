@@ -1,5 +1,5 @@
-import { CURRENT_METRICS_LOOKUP } from "inferred-types/constants";
-import { OptSpace } from "../character-sets/OptionalSpace";
+import type { CURRENT_METRICS_LOOKUP } from "inferred-types/constants";
+import type { OptSpace } from "../character-sets/OptionalSpace";
 
 type CurrentMetricsLookup = typeof CURRENT_METRICS_LOOKUP;
 
@@ -21,7 +21,6 @@ export type CurrentUom = {
     : never
 }[number];
 
-
 /***
  * **Current**
  *
@@ -31,4 +30,3 @@ export type CurrentUom = {
  * **Related:** `CurrentAbbrev`
  */
 export type Current = `${number}${OptSpace}${CurrentUom}`;
-

@@ -1,11 +1,10 @@
-
-import {
-  TupleToUnion,
-  Mutable,
+import type { TOP_LEVEL_DOMAINS } from "inferred-types/constants";
+import type {
+  IsDomainName,
   IsStringLiteral,
-  IsDomainName
+  Mutable,
+  TupleToUnion,
 } from "inferred-types/types";
-import  { TOP_LEVEL_DOMAINS }  from "inferred-types/constants";
 
 /**
  * **TLD**
@@ -41,16 +40,13 @@ export type DnsName = `${string}.${string}`;
  * **Related:** `DnsName`
  */
 export type DomainName<
-  T extends string | null = null
+  T extends string | null = null,
 > = T extends null
-? DnsName
-: T extends string
-? IsStringLiteral<T> extends true
-  ? IsDomainName<T> extends true
-    ? T & DnsName
-    : never
-  : unknown
-: never;
-
-
-
+  ? DnsName
+  : T extends string
+    ? IsStringLiteral<T> extends true
+      ? IsDomainName<T> extends true
+        ? T & DnsName
+        : never
+      : unknown
+    : never;

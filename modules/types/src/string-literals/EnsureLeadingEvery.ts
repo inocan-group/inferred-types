@@ -1,5 +1,4 @@
-import {  AsString, EnsureLeading,  UnionToTuple } from "inferred-types/types";
-
+import type { AsString, EnsureLeading, UnionToTuple } from "inferred-types/types";
 
 /**
  * **EnsureLeadingEvery**`<TList, TLeader>`
@@ -14,7 +13,7 @@ import {  AsString, EnsureLeading,  UnionToTuple } from "inferred-types/types";
  */
 export type EnsureLeadingEvery<
   TList extends readonly (string | number | boolean)[],
-  TLeader extends string
+  TLeader extends string,
 > = UnionToTuple< {
   [K in keyof TList]: AsString<TList[K]> extends string
     ? EnsureLeading<AsString<TList[K]>, TLeader>

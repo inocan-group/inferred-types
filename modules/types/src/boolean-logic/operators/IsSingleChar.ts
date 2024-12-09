@@ -1,7 +1,7 @@
-import {
+import type {
   If,
   IsStringLiteral,
-  Length
+  Length,
 } from "inferred-types/types";
 
 /**
@@ -13,8 +13,8 @@ export type IsSingleChar<T> = T extends string
   ? Length<T> extends 1
     ? true
     : If<
-        IsStringLiteral<T>,
-        false,
-        boolean
-      >
+      IsStringLiteral<T>,
+      false,
+      boolean
+    >
   : false;

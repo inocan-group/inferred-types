@@ -1,4 +1,4 @@
-import { CSV, Digit } from "inferred-types/types";
+import type { CSV, Digit } from "inferred-types/types";
 
 export type OptModifier = `|opt`;
 

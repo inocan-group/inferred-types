@@ -1,37 +1,36 @@
-
-import {As, AsNumber, AsStringUnion, IsString, IsWideType } from "inferred-types/types";
+import type { As, AsNumber, AsStringUnion, IsString, IsWideType } from "inferred-types/types";
 
 type Process<
   TContent extends string,
-  TLeading extends string
->= TContent extends `${TLeading}${string}`
-? TContent
-: `${TLeading}${TContent}`;
+  TLeading extends string,
+> = TContent extends `${TLeading}${string}`
+  ? TContent
+  : `${TLeading}${TContent}`;
 
 type IterateOver<
   TContent extends readonly (string | number)[],
-  TLeading extends string | number
+  TLeading extends string | number,
 > = {
   [K in keyof TContent]: TContent[K] extends string
     ? Process<TContent[K], AsStringUnion<TLeading>>
     : TContent[K] extends number
-    ? AsNumber<Process<`${TContent[K]}`, AsStringUnion<TLeading>>>
-    : never
-}
+      ? AsNumber<Process<`${TContent[K]}`, AsStringUnion<TLeading>>>
+      : never
+};
 
 type WideContent<
   TContent extends string | number,
-  TLeading extends string | number
+  TLeading extends string | number,
 > = IsString<TContent> extends true
-? `${TLeading}${string}`
-: number;
+  ? `${TLeading}${string}`
+  : number;
 
 type WideLeading<
   TContent extends string | number,
-  TLeading extends string | number
+  TLeading extends string | number,
 > = TContent extends string
-? `${TLeading}${TContent}`
-: number;
+  ? `${TLeading}${TContent}`
+  : number;
 
 /**
  * **EnsureLeading**`<TContent, TLeading>`
@@ -55,16 +54,16 @@ type WideLeading<
  * **Related:** `EnsureLeadingEvery`, `EnsureTrailing`, `EnsureSurround`, `Surround`
  */
 export type EnsureLeading<
-  TContent extends string | number | readonly (string|number)[],
-  TLeading extends string | number
-> = TContent extends readonly (string|number)[]
-? IterateOver<TContent,TLeading>
-: IsWideType<TContent> extends true
-? WideContent<As<TContent, string|number>, TLeading>
-: IsWideType<TLeading> extends true
-? WideLeading<As<TContent, string|number>, TLeading>
-: TContent extends string
-  ? Process<TContent,AsStringUnion<TLeading>>
-  : TContent extends number
-  ? AsNumber<Process<`${TContent}`, AsStringUnion<TLeading>>>
-  : never;
+  TContent extends string | number | readonly (string | number)[],
+  TLeading extends string | number,
+> = TContent extends readonly (string | number)[]
+  ? IterateOver<TContent, TLeading>
+  : IsWideType<TContent> extends true
+    ? WideContent<As<TContent, string | number>, TLeading>
+    : IsWideType<TLeading> extends true
+      ? WideLeading<As<TContent, string | number>, TLeading>
+      : TContent extends string
+        ? Process<TContent, AsStringUnion<TLeading>>
+        : TContent extends number
+          ? AsNumber<Process<`${TContent}`, AsStringUnion<TLeading>>>
+          : never;

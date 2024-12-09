@@ -1,19 +1,18 @@
-import {
+import type {
   TW_CHROMA,
   TW_COLOR_TARGETS,
   TW_HUE,
   TW_HUE_NEUTRAL,
   TW_HUE_VIBRANT,
-  TW_LUMINOSITY
+  TW_LUMINOSITY,
 } from "inferred-types/constants";
-import {
+import type {
   IsStringLiteral,
   Join,
   Mutable,
   Opt,
-  TwModifier
+  TwModifier,
 } from "inferred-types/types";
-
 
 /**
  * The [TailwindCSS](https://tailwindcss.com/docs/customizing-colors)
@@ -38,23 +37,22 @@ export type TwStaticColor = "white" | "black";
  */
 export type TwColor = TwNeutralColor | TwVibrantColor | TwStaticColor;
 
-
 /**
  * All of the [TailwindCSS](https://tailwindcss.com/docs/customizing-colors)
  * luminosity levels.
  */
 export type TwLuminosity =
-| "50"
-| "100"
-| "200"
-| "300"
-| "400"
-| "500"
-| "600"
-| "700"
-| "800"
-| "900"
-| "950";
+  | "50"
+  | "100"
+  | "200"
+  | "300"
+  | "400"
+  | "500"
+  | "600"
+  | "700"
+  | "800"
+  | "900"
+  | "950";
 
 /**
  * **TwColorWithLuminosity**
@@ -65,9 +63,9 @@ export type TwLuminosity =
  * **Related:** `TwColorOption`, `TwColorWithLuminosityOpacity`, `TwColor`, `TwNeutralColor`
  */
 export type TwColorWithLuminosity =
-| `${TwNeutralColor}-${TwLuminosity}`
-| `${TwVibrantColor}-${TwLuminosity}`
-| TwStaticColor;
+  | `${TwNeutralColor}-${TwLuminosity}`
+  | `${TwVibrantColor}-${TwLuminosity}`
+  | TwStaticColor;
 
 /**
  * **TwColorWithLuminosityOpacity**
@@ -77,8 +75,7 @@ export type TwColorWithLuminosity =
  *
  * **Related:** `TwColorOption`, `TwColorWithLuminosity`, `TwColor`, `TwNeutralColor`
  */
-export type TwColorWithLuminosityOpacity = `${TwColorWithLuminosity}/${number}`
-
+export type TwColorWithLuminosityOpacity = `${TwColorWithLuminosity}/${number}`;
 
 /**
  * **TwColorOptionalOpacity**
@@ -87,7 +84,6 @@ export type TwColorWithLuminosityOpacity = `${TwColorWithLuminosity}/${number}`
  * option which requires luminosity but optionally can include opacity too
  */
 export type TwColorOptionalOpacity = `${TwColorWithLuminosity}${Opt<`/${number}`>}`;
-
 
 export type TwLuminosityLookup = Mutable<typeof TW_LUMINOSITY>;
 export type TwLumi50 = typeof TW_LUMINOSITY["50"];
@@ -101,7 +97,6 @@ export type TwLumi700 = typeof TW_LUMINOSITY["700"];
 export type TwLumi800 = typeof TW_LUMINOSITY["800"];
 export type TwLumi900 = typeof TW_LUMINOSITY["900"];
 export type TwLumi950 = typeof TW_LUMINOSITY["950"];
-
 
 export type TwChromaLookup = Mutable<typeof TW_CHROMA>;
 
@@ -125,7 +120,6 @@ export type TwChroma800 = typeof TW_CHROMA["800"];
 export type TwChroma900 = typeof TW_CHROMA["900"];
 export type TwChroma950 = typeof TW_CHROMA["950"];
 
-
 export type TwHue = Mutable<typeof TW_HUE>;
 
 /**
@@ -138,16 +132,15 @@ export type TwColorTarget = typeof TW_COLOR_TARGETS[number];
 
 type _TwModifiers<
   TText extends string,
-  TCaptured extends readonly string[] = []
+  TCaptured extends readonly string[] = [],
 > = TText extends `${infer M extends TwModifier}:${infer REST}`
-? _TwModifiers<
+  ? _TwModifiers<
     REST,
     [...TCaptured, M]
   >
-: TCaptured["length"] extends 0
-  ? ""
-  :  `${Join<TCaptured, ":">}:`;
-
+  : TCaptured["length"] extends 0
+    ? ""
+    : `${Join<TCaptured, ":">}:`;
 
 /**
  * **TwModifiers**
@@ -157,10 +150,9 @@ type _TwModifiers<
  * removed.
  */
 export type TwModifiers<
-  T
+  T,
 > = T extends string
-? IsStringLiteral<T> extends true
-  ? _TwModifiers<T>
-  : Opt<`${string}:`>
-: "";
-
+  ? IsStringLiteral<T> extends true
+    ? _TwModifiers<T>
+    : Opt<`${string}:`>
+  : "";

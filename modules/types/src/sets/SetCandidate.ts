@@ -1,4 +1,4 @@
-import { Narrowable } from "inferred-types/types";
+import type { Narrowable } from "inferred-types/types";
 
 /**
  * **SetCandidate**

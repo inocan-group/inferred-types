@@ -1,4 +1,4 @@
-import { CssGlobal, OptionalSpace } from "inferred-types/types";
+import type { CssGlobal, OptionalSpace } from "inferred-types/types";
 
 type Ratio = `${number}${OptionalSpace}/${OptionalSpace}${number}`;
 type One = `1`;
@@ -12,14 +12,12 @@ type Auto = "auto" | `auto ${Ratio}` | `${Ratio} auto`;
  */
 export type CssAspectRatio = Ratio | One | Special | Auto;
 
-
 /**
  * **CssPosition**
  *
  * The valid values for the `position` property in CSS.
  */
-export type CssPosition = "static" | "relative" | "absolute" | "fixed" | "sticky" |"inherit" | "initial" | "revert" | "revert-layer" | "unset";
-
+export type CssPosition = "static" | "relative" | "absolute" | "fixed" | "sticky" | "inherit" | "initial" | "revert" | "revert-layer" | "unset";
 
 /**
  * **CssDisplay**
@@ -28,15 +26,15 @@ export type CssPosition = "static" | "relative" | "absolute" | "fixed" | "sticky
  * property in CSS.
  */
 export type CssDisplay =
-| "block"
-| "flex"
-| "inline" | "inline-block" | "inline-flex" | "inline-grid"
-| "grid"
-| "flow-root"
-| "none"
-| "contents"
-| "block flex" | "block flow" | "block flow-root" | "block grid"
-| "inline flex" | "inline flow" | "inline flow-root" | "inline-grid"
-| "table" | "table-row"
-| "list-item"
-| CssGlobal;
+  | "block"
+  | "flex"
+  | "inline" | "inline-block" | "inline-flex" | "inline-grid"
+  | "grid"
+  | "flow-root"
+  | "none"
+  | "contents"
+  | "block flex" | "block flow" | "block flow-root" | "block grid"
+  | "inline flex" | "inline flow" | "inline flow-root" | "inline-grid"
+  | "table" | "table-row"
+  | "list-item"
+  | CssGlobal;

@@ -1,5 +1,4 @@
-import { NumericChar } from "inferred-types/types";
-
+import type { NumericChar } from "inferred-types/types";
 
 /**
  * **PhoneAreaCode**

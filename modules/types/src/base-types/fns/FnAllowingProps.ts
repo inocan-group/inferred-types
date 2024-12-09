@@ -1,5 +1,4 @@
-import { Dictionary, ObjectKey, TypedFunction } from "inferred-types/types";
-
+import type { Dictionary, ObjectKey, TypedFunction } from "inferred-types/types";
 
 /**
  * **FnAllowingProps**
@@ -10,5 +9,5 @@ import { Dictionary, ObjectKey, TypedFunction } from "inferred-types/types";
  * optional generic `TDict` to be more explicit about the properties.
  */
 export type FnAllowingProps<
-  TDict extends Dictionary = Record<ObjectKey,unknown>
+  TDict extends Dictionary = Record<ObjectKey, unknown>,
 > = TypedFunction & TDict;

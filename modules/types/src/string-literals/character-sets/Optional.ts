@@ -1,15 +1,14 @@
-import { AfterFirst, First } from "inferred-types/types";
+import type { AfterFirst, First } from "inferred-types/types";
 
 type Cascade<
   T extends readonly string[],
-  TResult extends string = ""
+  TResult extends string = "",
 > = [] extends T
-? TResult
-: Cascade<
+  ? TResult
+  : Cascade<
     AfterFirst<T>,
     `${TResult}${First<T> | ""}`
   >;
-
 
 /**
  * **Optional**`<T>`
@@ -21,11 +20,10 @@ type Cascade<
  * string literal up left-to-right.
  */
 export type Optional<
-  T extends string | readonly string[]
+  T extends string | readonly string[],
 > = T extends readonly string[]
-? Cascade<T>
-: T | "";
-
+  ? Cascade<T>
+  : T | "";
 
 /**
  * **Opt**`<T>`
@@ -40,7 +38,6 @@ export type Optional<
  */
 export type Opt<T extends string | readonly string[]> =
 Optional<T>;
-
 
 /**
  * an _optional_ percentage symbol

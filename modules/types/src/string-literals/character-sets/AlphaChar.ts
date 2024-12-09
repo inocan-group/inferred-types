@@ -1,4 +1,4 @@
-import { LowerAlphaChar , UpperAlphaChar } from "inferred-types/types";
+import type { LowerAlphaChar, UpperAlphaChar } from "inferred-types/types";
 
 /**
  * **AlphaChar**

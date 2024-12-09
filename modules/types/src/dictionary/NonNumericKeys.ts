@@ -1,6 +1,6 @@
 /**
  * **NonNumericKeys**`<T>`
- * 
+ *
  * The keys in an array/object `T` which are _not_ numeric keys.
  */
 export type NonNumericKeys<T extends object> = {

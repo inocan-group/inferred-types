@@ -1,4 +1,4 @@
-import { NonNumericKeys } from "inferred-types/types";
+import type { NonNumericKeys } from "inferred-types/types";
 
 /**
  * **WithNumericKeys**`<T>`

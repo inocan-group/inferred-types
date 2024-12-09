@@ -1,32 +1,30 @@
-import {
+import type {
+  EmptyObject,
   ErrorCondition,
-  TypeErrorInfo,
   IfNever,
-  EmptyObject
+  TypeErrorInfo,
 } from "inferred-types/types";
 
 type Stack<
-  TRest extends TypeErrorInfo
+  TRest extends TypeErrorInfo,
 > = "underlying" extends keyof TRest
-? TRest["underlying"] extends ErrorCondition
-  ? "stack" extends keyof TRest["underlying"]
-    ? TRest["underlying"]["stack"] extends readonly string[]
-      ? TRest["underlying"]["stack"]
+  ? TRest["underlying"] extends ErrorCondition
+    ? "stack" extends keyof TRest["underlying"]
+      ? TRest["underlying"]["stack"] extends readonly string[]
+        ? TRest["underlying"]["stack"]
+        : never
       : never
     : never
-  : never
-: never;
-
+  : never;
 
 type HandleStack<
   TUtility extends string,
-  TRest extends TypeErrorInfo
+  TRest extends TypeErrorInfo,
 > = IfNever<
   TUtility,
   IfNever<Stack<TRest>, never, ["unspecified", ...Stack<TRest>]>,
   IfNever<Stack<TRest>, [TUtility], [TUtility, ...Stack<TRest>]>
->
-
+>;
 
 /**
  * **Throw**`<TKind,[TMessage],[TUtility],[TRest]>`
@@ -48,7 +46,7 @@ export type Throw<
   TMessage extends string = never,
   TUtility extends string = never,
   TRest extends TypeErrorInfo = EmptyObject,
-  TStack extends readonly string[] = HandleStack<TUtility,TRest>,
+  TStack extends readonly string[] = HandleStack<TUtility, TRest>,
 > = ErrorCondition<
   TKind,
   TMessage,

@@ -1,4 +1,4 @@
-import {   Dictionary, ReadonlyKeys, IsEqual } from "inferred-types/types";
+import type { Dictionary, IsEqual, ReadonlyKeys } from "inferred-types/types";
 
 /**
  * **IsReadonlyObject**`<T>`
@@ -12,4 +12,3 @@ import {   Dictionary, ReadonlyKeys, IsEqual } from "inferred-types/types";
 export type IsReadonlyObject<T> = T extends Dictionary
   ? IsEqual<ReadonlyKeys<T>, keyof T>
   : false;
-

@@ -1,3 +1,2 @@
-export * from "./LifoQueue";
 export * from "./FifoQueue";
-
+export * from "./LifoQueue";

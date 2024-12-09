@@ -1,5 +1,5 @@
-import { ACCELERATION_METRICS_LOOKUP } from "inferred-types/constants";
-import { OptSpace } from "../character-sets/OptionalSpace";
+import type { ACCELERATION_METRICS_LOOKUP } from "inferred-types/constants";
+import type { OptSpace } from "../character-sets/OptionalSpace";
 
 type AccelerationMetricsLookup = typeof ACCELERATION_METRICS_LOOKUP;
 
@@ -21,7 +21,6 @@ export type AccelerationUom = {
     : never
 }[number];
 
-
 /***
  * **Acceleration**
  *
@@ -31,4 +30,3 @@ export type AccelerationUom = {
  * **Related:** `AccelerationAbbrev`
  */
 export type Acceleration = `${number}${OptSpace}${AccelerationUom}`;
-

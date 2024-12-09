@@ -1,5 +1,5 @@
-import { VOLUME_METRICS_LOOKUP } from "inferred-types/constants";
-import { OptSpace } from "../character-sets/OptionalSpace";
+import type { VOLUME_METRICS_LOOKUP } from "inferred-types/constants";
+import type { OptSpace } from "../character-sets/OptionalSpace";
 
 type VolumeMetricsLookup = typeof VOLUME_METRICS_LOOKUP;
 
@@ -21,7 +21,6 @@ export type VolumeUom = {
     : never
 }[number];
 
-
 /***
  * **Volume**
  *
@@ -31,4 +30,3 @@ export type VolumeUom = {
  * **Related:** `VolumeUom`
  */
 export type Volume = `${number}${OptSpace}${VolumeUom}`;
-

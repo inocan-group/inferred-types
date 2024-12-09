@@ -1,4 +1,4 @@
-import  { CONSONANTS } from "inferred-types/constants";
+import type { CONSONANTS } from "inferred-types/constants";
 
 /**
  * **Consonants**

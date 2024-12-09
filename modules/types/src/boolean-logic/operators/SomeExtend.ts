@@ -1,18 +1,18 @@
-import { AfterFirst, First, If, Extends } from "inferred-types/types";
+import type { AfterFirst, Extends, First, If } from "inferred-types/types";
 
 type SomeAcc<
   TList extends readonly unknown[],
-  TExtend
+  TExtend,
 > = [] extends TList
   ? false
   : If<
-      Extends<First<TList>, TExtend>,
-      true,
-      SomeAcc<
-        AfterFirst<TList>,
-        TExtend
-      >
-    >;
+    Extends<First<TList>, TExtend>,
+    true,
+    SomeAcc<
+      AfterFirst<TList>,
+      TExtend
+    >
+  >;
 
 /**
  * **SomeExtend**`<TList, TExtend>`
@@ -22,5 +22,5 @@ type SomeAcc<
  */
 export type SomeExtend<
   TList extends readonly unknown[],
-  TExtend
-> = SomeAcc<TList,TExtend>;
+  TExtend,
+> = SomeAcc<TList, TExtend>;

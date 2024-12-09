@@ -1,12 +1,10 @@
-import {
+import type {
   AsString,
   Chars,
   IsEqual,
   IsStringLiteral,
-  IsTuple
+  IsTuple,
 } from "inferred-types/types";
-
-
 
 /**
  * **AreSameLength**`<A,B>`
@@ -16,14 +14,14 @@ import {
  */
 export type AreSameLength<
   A extends string | readonly unknown[],
-  B extends string | readonly unknown[]
+  B extends string | readonly unknown[],
 > = IsStringLiteral<A> extends true
-? IsStringLiteral<B> extends true
-  ? IsEqual<Chars<AsString<A>>["length"], Chars<AsString<B>>["length"]>
-: boolean
-: IsTuple<A> extends true
+  ? IsStringLiteral<B> extends true
+    ? IsEqual<Chars<AsString<A>>["length"], Chars<AsString<B>>["length"]>
+    : boolean
+  : IsTuple<A> extends true
     ? IsTuple<B> extends true
-        ? IsEqual<A["length"], B["length"]>
-        : IsStringLiteral<B> extends true ? IsEqual<A["length"], B["length"]>
+      ? IsEqual<A["length"], B["length"]>
+      : IsStringLiteral<B> extends true ? IsEqual<A["length"], B["length"]>
         : boolean
-: boolean;
+    : boolean;

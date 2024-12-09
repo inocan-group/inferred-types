@@ -1,5 +1,4 @@
-import { Tuple } from "inferred-types/types";
-
+import type { Tuple } from "inferred-types/types";
 
 /**
  * **PromiseAll**

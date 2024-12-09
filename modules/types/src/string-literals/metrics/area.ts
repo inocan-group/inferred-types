@@ -1,5 +1,5 @@
-import { AREA_METRICS_LOOKUP } from "inferred-types/constants";
-import { OptSpace } from "../character-sets/OptionalSpace";
+import type { AREA_METRICS_LOOKUP } from "inferred-types/constants";
+import type { OptSpace } from "../character-sets/OptionalSpace";
 
 type AreaMetricsLookup = typeof AREA_METRICS_LOOKUP;
 
@@ -21,7 +21,6 @@ export type AreaUom = {
     : never
 }[number];
 
-
 /***
  * **Area**
  *
@@ -31,4 +30,3 @@ export type AreaUom = {
  * **Related:** `AreaAbbrev`
  */
 export type Area = `${number}${OptSpace}${AreaUom}`;
-

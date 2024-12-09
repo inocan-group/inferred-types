@@ -1,15 +1,15 @@
 /* eslint @typescript-eslint/no-unused-vars: "off" */
 
-import { PLURAL_EXCEPTIONS } from "inferred-types/constants";
-import {
+import type { PLURAL_EXCEPTIONS } from "inferred-types/constants";
+import type {
   Consonant,
-  IsStringLiteral,
   EnsureTrailing,
-  StripTrailing,
-  Whitespace,
-  TrimRight,
+  IsStringLiteral,
   Join,
   RightWhitespace,
+  StripTrailing,
+  TrimRight,
+  Whitespace,
 } from "inferred-types/types";
 
 type ExceptionLookup = typeof PLURAL_EXCEPTIONS;
@@ -25,7 +25,7 @@ type IsException<T extends string> = T extends keyof ExceptionLookup ? true : fa
  * to the plural equivalent. Will return `never` if `T` is not an exception.
  */
 type PluralException<
-  T extends string
+  T extends string,
 > = T extends keyof ExceptionLookup
   ? ExceptionLookup[T]
   : never;
@@ -46,46 +46,43 @@ type EndsIn_Y<T extends string> = T extends `${string}${Y}` ? T : never;
  * strings which end in the letters "is" should have an "es" added to the end
  */
 type PluralizeEndingIn_IS<
-  T extends string
+  T extends string,
 > = T extends `${infer HEAD}is` ? `${HEAD}ises` : T;
 
 /**
  * singular nouns should have "es" added to the end
  */
 type PluralizeEndingSingularNoun<
-  T extends string
+  T extends string,
 > = EnsureTrailing<T, "es">;
 
 /**
  * strings which end in the letters "f" or "fe" should have "ves" replace the ending
  */
 type PluralizeEnding_F<
-  T extends string
+  T extends string,
 > = T extends `${infer HEAD}${F}` ? `${HEAD}ves` : T;
 
 /**
  * singular nouns should have "es" added to the end
  */
 type PluralizeEndingIn_Y<
-  T extends string
-> = EnsureTrailing<StripTrailing<T,"y">, "ies">;
-
+  T extends string,
+> = EnsureTrailing<StripTrailing<T, "y">, "ies">;
 
 type _Pluralize<
-  T extends string
+  T extends string,
 > = IsException<T> extends true
-    ? PluralException<T>
-    : T extends EndsIn_IS<T>
-      ? PluralizeEndingIn_IS<T>
-      : T extends EndsInSingularNoun<T>
-        ? PluralizeEndingSingularNoun<T>
-        : T extends EndsIn_F<T>
-          ? PluralizeEnding_F<T>
-          : T extends EndsIn_Y<T>
-            ? PluralizeEndingIn_Y<T>
-            : `${T}s`
-
-
+  ? PluralException<T>
+  : T extends EndsIn_IS<T>
+    ? PluralizeEndingIn_IS<T>
+    : T extends EndsInSingularNoun<T>
+      ? PluralizeEndingSingularNoun<T>
+      : T extends EndsIn_F<T>
+        ? PluralizeEnding_F<T>
+        : T extends EndsIn_Y<T>
+          ? PluralizeEndingIn_Y<T>
+          : `${T}s`;
 
 /**
  * **Pluralize**`<T>`
@@ -94,14 +91,12 @@ type _Pluralize<
  * leveraging many known exceptions to the linguistic rules.
  */
 export type Pluralize<
-  T extends string
+  T extends string,
 > = IsStringLiteral<T> extends true
-? T extends `${string}${Whitespace}`
-  ? Join<[
+  ? T extends `${string}${Whitespace}`
+    ? Join<[
       _Pluralize< TrimRight<T> >,
-      RightWhitespace<T>
-  ]>
-  : _Pluralize<T>
-: string;
-
-
+      RightWhitespace<T>,
+    ]>
+    : _Pluralize<T>
+  : string;

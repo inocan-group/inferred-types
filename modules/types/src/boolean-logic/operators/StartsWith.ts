@@ -1,27 +1,26 @@
-import {
+import type {
   AsString,
+  IsEqual,
   IsWideType,
   TupleToUnion,
-  IsEqual
 } from "inferred-types/types";
-
 
 type Check<
   TValue extends string,
-  TComparator extends string | number
->= TValue extends `${TComparator}${string}`
-? true
-: false;
+  TComparator extends string | number,
+> = TValue extends `${TComparator}${string}`
+  ? true
+  : false;
 
 type Process<
   TValue extends string,
-  TComparator extends string | number | readonly string[]
+  TComparator extends string | number | readonly string[],
 > = TComparator extends readonly string[]
-? Check<
-    [TValue] extends [number] ? `${TValue}` : TValue ,
+  ? Check<
+    [TValue] extends [number] ? `${TValue}` : TValue,
     TupleToUnion<TComparator>
   >
-: Check<
+  : Check<
     [TValue] extends [number] ? `${TValue}` : TValue,
     AsString<TComparator>
   >;
@@ -42,13 +41,11 @@ type Process<
  */
 export type StartsWith<
   TValue extends string | number,
-  TComparator extends string | number | readonly string[]
+  TComparator extends string | number | readonly string[],
 > = [IsWideType<TValue>] extends [true]
-? boolean
-: [IsWideType<TComparator>] extends [true]
-? boolean
-: IsEqual<Process<AsString<TValue>, TComparator>, boolean> extends true
-  ? true
-  : Process<AsString<TValue>, TComparator>;
-
-
+  ? boolean
+  : [IsWideType<TComparator>] extends [true]
+      ? boolean
+      : IsEqual<Process<AsString<TValue>, TComparator>, boolean> extends true
+        ? true
+        : Process<AsString<TValue>, TComparator>;

@@ -1,30 +1,29 @@
-import {
+import type {
+  AfterFirst,
+  AllLiteral,
+  AsString,
+  First,
   If,
   IsNumber,
-  AfterFirst,
-  First,
-  AsString,
+  Passthrough,
   StringLiteralToken,
-  AllLiteral,
-  Passthrough
 } from "inferred-types/types";
-
 
 type _Tokenize<
   T extends readonly (string | number | boolean)[],
-  Results extends readonly StringLiteralToken[] = []
+  Results extends readonly StringLiteralToken[] = [],
 > = [] extends T
   ? Results
   : First<T> extends StringLiteralToken
-  ? _Tokenize<AfterFirst<T>, [...Results, First<T>]>
-  : If<
+    ? _Tokenize<AfterFirst<T>, [...Results, First<T>]>
+    : If<
       AllLiteral<[First<T>]>,
       // literal value
       _Tokenize<
         AfterFirst<T>,
         [
           ...Results,
-          `literal:${AsString<First<T>>}`
+          `literal:${AsString<First<T>>}`,
         ]
       >,
       // non-literal value
@@ -40,12 +39,11 @@ type _Tokenize<
             >,
             StringLiteralToken,
             never
-          >
+          >,
         ]
       >
 
     >;
-
 
 /**
  * **TokenizeStringLiteral**`<T>`
@@ -61,5 +59,5 @@ type _Tokenize<
  * **Related:** `ToStringLiteral<T>`
  */
 export type TokenizeStringLiteral<
-  T extends readonly (string | number | boolean)[]
+  T extends readonly (string | number | boolean)[],
 > = _Tokenize<T>;

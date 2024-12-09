@@ -1,4 +1,4 @@
-import {  IsEqual, IsNever } from "inferred-types/types";
+import type { IsEqual, IsNever } from "inferred-types/types";
 
 /**
  * **IsStringLiteral**`<T>`
@@ -9,8 +9,7 @@ import {  IsEqual, IsNever } from "inferred-types/types";
 export type IsStringLiteral<T> = IsNever<T> extends true
   ? false
   : T extends string
-    ? IsEqual<T,string> extends true
+    ? IsEqual<T, string> extends true
       ? false
       : true
     : false;
-

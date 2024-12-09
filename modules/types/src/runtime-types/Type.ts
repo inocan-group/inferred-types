@@ -1,58 +1,55 @@
-/* eslint-disable no-use-before-define */
 import type {
-  Narrowable,
-  Box,
-  IsArray,
-  Extends,
-  If,
-  Or,
-  IsStringLiteral,
-  IsEqual,
-  IsUnion,
-  IsFalse,
-  As
-} from "inferred-types/types";
-import type {
-  LITERAL_TYPE_KINDS,
-  WIDE_TYPE_KINDS,
-  NARROW_CONTAINER_TYPE_KINDS,
-  WIDE_CONTAINER_TYPE_KINDS,
   FALSY_TYPE_KINDS,
+  LITERAL_TYPE_KINDS,
+  NARROW_CONTAINER_TYPE_KINDS,
   NoDefaultValue,
-  NotApplicable
+  NotApplicable,
+  WIDE_CONTAINER_TYPE_KINDS,
+  WIDE_TYPE_KINDS,
 } from "inferred-types/constants";
-
-import {
-  TupleToUnion ,
-  TypeGuard ,
-  Filter ,
-  UnionToIntersection ,
-  AnyFunction ,
-  ErrorCondition
+import type {
+  AnyFunction,
+  As,
+  Box,
+  ErrorCondition,
+  Extends,
+  Filter,
+  If,
+  IsArray,
+  IsEqual,
+  IsFalse,
+  IsStringLiteral
+  ,
+  IsUnion,
+  Narrowable,
+  Or,
+  TupleToUnion,
+  TypeGuard,
+  UnionToIntersection,
 } from "inferred-types/types";
 
-export type TypeOptions<
+export interface TypeOptions<
   TKind extends TypeKind = TypeKind,
   TRequired extends boolean = boolean,
   TDesc extends string = string,
   TUnderlying extends TypeUnderlying = TypeUnderlying,
-  TDefaultValue extends TypeDefaultValue<TKind,TRequired,TUnderlying> = TypeDefaultValue<
+  TDefaultValue extends TypeDefaultValue<TKind, TRequired, TUnderlying> = TypeDefaultValue<
     TKind,
     TRequired,
     TUnderlying
   >,
   TValidations extends readonly unknown[] | "no-validations" = readonly unknown[] | "no-validations",
-> = {
+> {
   isRequired?: TRequired;
   validations?: TValidations;
   defaultValue?: TDefaultValue;
   description?: TDesc;
-};
+}
 
 export type TypeKindLiteral = TupleToUnion<typeof LITERAL_TYPE_KINDS>;
 export type TypeKindWide = TupleToUnion<typeof WIDE_TYPE_KINDS>;
 export type TypeKindFalsy = TupleToUnion<typeof FALSY_TYPE_KINDS>;
-export type TypeKindContainerNarrow =TupleToUnion<typeof NARROW_CONTAINER_TYPE_KINDS>;
+export type TypeKindContainerNarrow = TupleToUnion<typeof NARROW_CONTAINER_TYPE_KINDS>;
 export type TypeKindContainerWide = TupleToUnion<typeof WIDE_CONTAINER_TYPE_KINDS>;
 export type TypeKindContainer = TypeKindContainerNarrow | TypeKindContainerWide;
 
@@ -81,7 +78,7 @@ export type IsLiteralKind<T extends TypeKind> = If<
 export type IfLiteralKind<
   T extends TypeKind,
   IF extends Narrowable,
-  ELSE extends Narrowable
+  ELSE extends Narrowable,
 > = IsLiteralKind<T> extends true ? IF : ELSE;
 
 /**
@@ -97,60 +94,60 @@ export type IfLiteralKind<
 type ToType<
   TKind extends TypeKind,
   TRequired extends boolean | TypeIsRequired = boolean | TypeIsRequired,
-  TUnderlying extends TypeUnderlying = "no-underlying"
+  TUnderlying extends TypeUnderlying = "no-underlying",
 > = If<
-      Or<[
-        Extends<TRequired, "not-required">, Extends<TRequired, false>
-      ]>,
-      ToBaseType<TKind,  TUnderlying> | undefined,
-      ToBaseType<TKind,  TUnderlying>
-    >;
+  Or<[
+    Extends<TRequired, "not-required">,
+    Extends<TRequired, false>,
+  ]>,
+      ToBaseType<TKind, TUnderlying> | undefined,
+      ToBaseType<TKind, TUnderlying>
+>;
 
 type ToBaseType<
   TKind extends TypeKind,
-  TUnderlying extends TypeUnderlying = "no-underlying"
+  TUnderlying extends TypeUnderlying = "no-underlying",
 > = //
   TKind extends "string" ? string
-  : TKind extends "number" ? number
-  : TKind extends "boolean" ? boolean
-  : TKind extends "null" ? null
-  : TKind extends "undefined" ? undefined
-  : TKind extends "stringLiteral" ? TupleToUnion<TUnderlying>
-  : TKind extends "numericLiteral" ? TupleToUnion<TUnderlying>
-  : TKind extends "true" ? true
-  : TKind extends "false" ? false
-  : TKind extends "anyArray" ? unknown[]
-  : TKind extends "unknownObject" ? Record<string, unknown>
-  : TKind extends "unknownObject" ? Record<string, unknown>
-  : TKind extends "unknownFunction" ? AnyFunction
-  : TKind extends "unknownObject" ? Record<string, unknown>
-  : TKind extends "fnWithDict" ?
-      TUnderlying extends readonly [
-        {kind: "fnType"; type: unknown; [key: string]: unknown},
-        {kind: "object"; type: unknown; [key: string]: unknown}
-      ]
-        ? TUnderlying[0]["type"] & TUnderlying[1]["type"]
-        : never
-  : TKind extends "tuple"
-    ? TUnderlying extends readonly unknown[]
-      ? TupleToUnion<TUnderlying>
-      : never
-  : TKind extends "union"
-    ? TUnderlying extends readonly unknown[]
-      ? TupleToUnion<Filter<
-          TUnderlying,
-          { kind: TypeKind; required: TypeIsRequired; underlying: readonly unknown[] | "none" }
-        >>
-      : never
-  : TKind extends "intersection"
-    ? TUnderlying extends readonly unknown[]
-      ? UnionToIntersection<TupleToUnion<Filter<
-        TUnderlying,
-        { kind: TypeKind; required: TypeIsRequired; underlying: readonly unknown[] | "none" }
-      >>>
-    : never
-: unknown;
-
+    : TKind extends "number" ? number
+      : TKind extends "boolean" ? boolean
+        : TKind extends "null" ? null
+          : TKind extends "undefined" ? undefined
+            : TKind extends "stringLiteral" ? TupleToUnion<TUnderlying>
+              : TKind extends "numericLiteral" ? TupleToUnion<TUnderlying>
+                : TKind extends "true" ? true
+                  : TKind extends "false" ? false
+                    : TKind extends "anyArray" ? unknown[]
+                      : TKind extends "unknownObject" ? Record<string, unknown>
+                        : TKind extends "unknownObject" ? Record<string, unknown>
+                          : TKind extends "unknownFunction" ? AnyFunction
+                            : TKind extends "unknownObject" ? Record<string, unknown>
+                              : TKind extends "fnWithDict" ?
+                                TUnderlying extends readonly [
+                                  { kind: "fnType"; type: unknown; [key: string]: unknown },
+                                  { kind: "object"; type: unknown; [key: string]: unknown },
+                                ]
+                                  ? TUnderlying[0]["type"] & TUnderlying[1]["type"]
+                                  : never
+                                : TKind extends "tuple"
+                                  ? TUnderlying extends readonly unknown[]
+                                    ? TupleToUnion<TUnderlying>
+                                    : never
+                                  : TKind extends "union"
+                                    ? TUnderlying extends readonly unknown[]
+                                      ? TupleToUnion<Filter<
+                                        TUnderlying,
+                                        { kind: TypeKind; required: TypeIsRequired; underlying: readonly unknown[] | "none" }
+                                      >>
+                                      : never
+                                    : TKind extends "intersection"
+                                      ? TUnderlying extends readonly unknown[]
+                                        ? UnionToIntersection<TupleToUnion<Filter<
+                                          TUnderlying,
+                                          { kind: TypeKind; required: TypeIsRequired; underlying: readonly unknown[] | "none" }
+                                        >>>
+                                        : never
+                                      : unknown;
 
 /**
  * **TypeUnderlying**
@@ -165,7 +162,7 @@ type ToBaseType<
  *
  * Note: the property `underlying_
  */
-export type TypeUnderlying =  readonly unknown[] | "no-underlying";
+export type TypeUnderlying = readonly unknown[] | "no-underlying";
 
 export type TypeDefnValidations = readonly unknown[] | "no-validations";
 
@@ -184,9 +181,8 @@ export type TypeDefnValidations = readonly unknown[] | "no-validations";
 export type TypeDefaultValue<
   TKind extends TypeKind = TypeKind,
   TRequired extends boolean = boolean,
-  TUnderlying extends TypeUnderlying = TypeUnderlying
+  TUnderlying extends TypeUnderlying = TypeUnderlying,
 > = Box<ToType<TKind, TRequired, TUnderlying>> | NoDefaultValue;
-
 
 /**
  * **TypeDefn**`<TKind,TRequired,TDesc,TUnderlying,...>`
@@ -218,7 +214,7 @@ export interface TypeDefn<
  * fledged `Type` definition.
  */
 export type FromTypeDefn<
-  TD extends TypeDefn
+  TD extends TypeDefn,
 > = TD extends TypeDefn<
   infer Kind,
   infer Required,
@@ -228,30 +224,30 @@ export type FromTypeDefn<
   infer Validations
 >
   ? Type<
-      Kind,
-      IsEqual<Required, boolean> extends true
-        ? "required"
-        : IsFalse<Required> extends true ? "not-required": "required",
-      IsStringLiteral<Desc> extends true ? Desc : "",
-      IsArray<Underlying> extends true ? Exclude<Underlying, "no-underlying">: "no-underlying",
-      As<If<
-        Or<[
-          IsEqual<DefaultValue, NoDefaultValue>,
-          IsUnion<DefaultValue>
-        ]>,
-        "no-default-value",
-        "with-default-value"
-      >, TypeHasDefaultValue>,
-      As<If<
-        Or<[
-          IsEqual<Validations, "no-validations">,
-          IsUnion<Validations>
-        ]>,
-        "no-validations",
-        "with-validations"
-      >, TypeHasValidations>
-      // IfEquals<Validations, "no-validations", "no-validations", "with-validations">
-    >
+    Kind,
+    IsEqual<Required, boolean> extends true
+      ? "required"
+      : IsFalse<Required> extends true ? "not-required" : "required",
+    IsStringLiteral<Desc> extends true ? Desc : "",
+    IsArray<Underlying> extends true ? Exclude<Underlying, "no-underlying"> : "no-underlying",
+    As<If<
+      Or<[
+        IsEqual<DefaultValue, NoDefaultValue>,
+        IsUnion<DefaultValue>,
+      ]>,
+      "no-default-value",
+      "with-default-value"
+    >, TypeHasDefaultValue>,
+    As<If<
+      Or<[
+        IsEqual<Validations, "no-validations">,
+        IsUnion<Validations>,
+      ]>,
+      "no-validations",
+      "with-validations"
+    >, TypeHasValidations>
+    // IfEquals<Validations, "no-validations", "no-validations", "with-validations">
+  >
   : never;
 
 export type TypeHasDefaultValue = "no-default-value" | "with-default-value";
@@ -262,19 +258,19 @@ export type TypeHasUnderlying = "no-underlying" | "literals" | "children";
  * A function which is provided a value `T` and must either return
  * `true` or an `ErrorCondition` which describes the issue.
  */
-export type ValidationFunction = <T, E extends string>(value: T) =>  true | ErrorCondition<E>;
+export type ValidationFunction = <T, E extends string>(value: T) => true | ErrorCondition<E>;
 
 /**
  * A type definition which retains valuable runtime characteristics
  */
-export type Type<
+export interface Type<
   TKind extends TypeKind = TypeKind,
   TRequired extends TypeIsRequired = TypeIsRequired,
   TDesc extends string = string,
   TUnderlying extends TypeUnderlying = TypeUnderlying,
   TWithDefault extends TypeHasDefaultValue = TypeHasDefaultValue,
   TWithValidations extends TypeHasValidations = TypeHasValidations,
-> = {
+> {
   _type: "Type";
   /**
    * **kind**
@@ -376,6 +372,4 @@ export type Type<
 
   /** Description of the type */
   description: TDesc;
-};
-
-
+}

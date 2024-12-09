@@ -1,4 +1,4 @@
-import { IfNever, IfEqual, DoesExtend } from "inferred-types/types";
+import type { DoesExtend, IfEqual, IfNever } from "inferred-types/types";
 
 /**
  * **IsNumericLiteral**`<T>`
@@ -7,7 +7,8 @@ import { IfNever, IfEqual, DoesExtend } from "inferred-types/types";
  * numeric literal.
  */
 export type IsNumericLiteral<T> = IfNever<
-  T, never,
+  T,
+  never,
   DoesExtend<T, number> extends true
     ? IfEqual<T, number, false, true>
     : false

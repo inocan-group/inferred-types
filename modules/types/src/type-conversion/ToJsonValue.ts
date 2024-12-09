@@ -1,21 +1,17 @@
-
-import {
+import type {
   As,
   Join,
   ToStringArray,
-  Tuple
- } from "inferred-types/types";
-
+  Tuple,
+} from "inferred-types/types";
 
 type AsJsonArray<T extends Tuple> = Join<
   [
     "[ ",
     ...ToStringArray<T>,
-    " ]"
+    " ]",
   ]
 >;
-
-
 
 /**
  * **ToJsonValue**`<T>`
@@ -31,17 +27,15 @@ type AsJsonArray<T extends Tuple> = Join<
 export type ToJsonValue<T> = T extends string
   ? `"${T}"`
   : T extends number
-  ? `${T}`
-  : T extends boolean
-  ? `${T}`
-  : T extends undefined
-  ? "undefined"
-  : T extends null
-  ? "null"
-  : T extends Tuple
-  ? AsJsonArray<
-      As<{[K in keyof T]: ToJsonValue<T[K]>}, string>
-    >
-  : never;
-
-
+    ? `${T}`
+    : T extends boolean
+      ? `${T}`
+      : T extends undefined
+        ? "undefined"
+        : T extends null
+          ? "null"
+          : T extends Tuple
+            ? AsJsonArray<
+              As<{ [K in keyof T]: ToJsonValue<T[K]> }, string>
+            >
+            : never;

@@ -1,18 +1,16 @@
-
-import {
+import type {
   AnyObject,
   ExpandRecursively,
   ObjectKey,
 } from "inferred-types/types";
 
-
 type Process<
-TObj extends AnyObject,
-K extends ObjectKey,
-V
+  TObj extends AnyObject,
+  K extends ObjectKey,
+  V,
 > = K extends keyof TObj
-? Omit<TObj, K> & Record<K,V>
-: TObj & Record<K,V>;
+  ? Omit<TObj, K> & Record<K, V>
+  : TObj & Record<K, V>;
 
 /**
  * **UpsertKeyValue**`<TObj,TKey,TVal>`
@@ -25,5 +23,5 @@ V
 export type UpsertKeyValue<
   TObj extends AnyObject,
   K extends ObjectKey,
-  V
+  V,
 > = ExpandRecursively<Process<TObj, K, V>>;

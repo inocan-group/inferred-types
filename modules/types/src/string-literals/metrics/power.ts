@@ -1,5 +1,5 @@
-import { POWER_METRICS_LOOKUP } from "inferred-types/constants";
-import { OptSpace } from "../character-sets/OptionalSpace";
+import type { POWER_METRICS_LOOKUP } from "inferred-types/constants";
+import type { OptSpace } from "../character-sets/OptionalSpace";
 
 type PowerMetricsLookup = typeof POWER_METRICS_LOOKUP;
 
@@ -21,7 +21,6 @@ export type PowerUom = {
     : never
 }[number];
 
-
 /***
  * **Power**
  *
@@ -31,4 +30,3 @@ export type PowerUom = {
  * **Related:** `PowerAbbrev`
  */
 export type Power = `${number}${OptSpace}${PowerUom}`;
-

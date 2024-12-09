@@ -1,13 +1,12 @@
-import {
+import type {
   ComparatorOperation,
   Compare,
-  IsArray,
-  IfNever,
   If,
+  IfNever,
+  IsArray,
+  RemoveNever,
   TupleToUnion,
-  RemoveNever
 } from "inferred-types/types";
-
 
 /**
  * Iterates over each element of the Tuple
@@ -16,27 +15,25 @@ type SingleFilter<
   TList extends readonly unknown[],
   TFilter,
   TOp extends ComparatorOperation,
-  Result extends unknown[] = []
+  Result extends unknown[] = [],
 > = TList extends [infer Head, ...infer Rest]
-  ? [Compare<Head,TOp, TFilter>] extends [true]
-    ? SingleFilter<Rest, TFilter, TOp, Result> // filter out
-    : SingleFilter<Rest, TFilter, TOp, [...Result, Head]>
+  ? [Compare<Head, TOp, TFilter>] extends [true]
+      ? SingleFilter<Rest, TFilter, TOp, Result> // filter out
+      : SingleFilter<Rest, TFilter, TOp, [...Result, Head]>
   : Result;
-
 
 type Process<
   TList extends unknown[] | readonly unknown[],
   TFilter,
-  TOp extends ComparatorOperation
+  TOp extends ComparatorOperation,
 > = TList extends unknown[]
-? SingleFilter<TList, TFilter, TOp>
-: // readonly only tuples
+  ? SingleFilter<TList, TFilter, TOp>
+  : // readonly only tuples
   TList extends readonly unknown[]
     ? Readonly<
-        SingleFilter<[...TList], TFilter, TOp>
-      >
+      SingleFilter<[...TList], TFilter, TOp>
+    >
     : never;
-
 
 /**
  * **Filter**`<TList, TComparator, [TOp]>`
@@ -64,9 +61,9 @@ type Process<
 export type Filter<
   TList extends readonly unknown[],
   TComparator,
-  TOp extends ComparatorOperation = "extends"
+  TOp extends ComparatorOperation = "extends",
 > = TList extends readonly unknown[]
-? IfNever<
+  ? IfNever<
     TComparator,
     RemoveNever<TList>,
     If<
@@ -83,4 +80,4 @@ export type Filter<
       >
     >
   >
-: never;
+  : never;

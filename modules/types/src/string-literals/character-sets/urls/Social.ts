@@ -1,5 +1,5 @@
-import { SOCIAL_MEDIA } from "inferred-types/constants";
-import { Replace, UrlsFrom } from "inferred-types/types";
+import type { SOCIAL_MEDIA } from "inferred-types/constants";
+import type { Replace, UrlsFrom } from "inferred-types/types";
 
 type Lookup = typeof SOCIAL_MEDIA;
 
@@ -35,9 +35,7 @@ export type SocialMediaPlatform = Companies;
  */
 export type SocialMediaUrl = UrlsFrom<Urls>;
 
-
 /**
  * URLs which point to _user profiles_ on Social Media platforms
  */
 export type SocialMediaProfileUrl = Profiles;
-

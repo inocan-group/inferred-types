@@ -1,4 +1,4 @@
-import { Dictionary, EmptyObject, Tuple } from "inferred-types/types";
+import type { Dictionary, EmptyObject, Tuple } from "inferred-types/types";
 
 /**
  * **FnFrom**`<TParams,[TReturn],[TProps]>`
@@ -8,7 +8,7 @@ import { Dictionary, EmptyObject, Tuple } from "inferred-types/types";
 export type FnFrom<
   TParams extends Tuple,
   TReturn = unknown,
-  TProps extends Dictionary = EmptyObject
+  TProps extends Dictionary = EmptyObject,
 > = TProps extends EmptyObject
-? <T extends TParams>(...args: T) => TReturn
-: (<T extends TParams>(...args: T) => TReturn) & TProps
+  ? <T extends TParams>(...args: T) => TReturn
+  : (<T extends TParams>(...args: T) => TReturn) & TProps;

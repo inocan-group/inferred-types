@@ -1,4 +1,4 @@
-import {
+import type {
   And,
   Extends,
   GetUrlPath,
@@ -11,21 +11,20 @@ import {
   Or,
 } from "inferred-types/types";
 
-
 export type HasUrlPath<T extends string> = And<[
   Not<IsNever<GetUrlPath<T>>>,
   Or<[
-    Extends<GetUrlPath<T>,"">,
-    Extends<GetUrlPath<T>,`/${string}`>,
-    string extends GetUrlPath<T> ? true : false
-  ]>
+    Extends<GetUrlPath<T>, "">,
+    Extends<GetUrlPath<T>, `/${string}`>,
+    string extends GetUrlPath<T> ? true : false,
+  ]>,
 ]>;
 
 export type HasUrlSource<T extends string> = Not<IsNever<GetUrlSource<T>>>;
 
 export type HasNetworkProtocolReference<
   TTest extends string,
-  TProto extends NetworkProtocol
+  TProto extends NetworkProtocol,
 > = Extends<TTest, `${NetworkProtocolPrefix<TProto>}${string}`>;
 
 /**
@@ -44,10 +43,10 @@ export type HasNetworkProtocolReference<
  */
 export type IsUrl<
   TTest,
-  TProtocol extends NetworkProtocol | "optional" = "https"
+  TProtocol extends NetworkProtocol | "optional" = "https",
 > = TTest extends string
-? IsStringLiteral<TTest> extends true
-  ? And<[
+  ? IsStringLiteral<TTest> extends true
+    ? And<[
       Or<[
         HasNetworkProtocolReference<
           TTest,
@@ -55,11 +54,10 @@ export type IsUrl<
             ? TProtocol
             : "https"
         >,
-        Extends<"optional", TProtocol>
+        Extends<"optional", TProtocol>,
       ]>,
       HasUrlPath<TTest>,
       HasUrlSource<TTest>,
     ]>
-  : boolean
-:false;
-
+    : boolean
+  : false;

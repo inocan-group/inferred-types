@@ -1,25 +1,23 @@
-import { Container, Dictionary, ObjectKey, Tuple, TypedFunction } from "../base-types";
-import { AfterFirst, First } from "../lists";
-import { Keys } from "./Keys";
-
+import type { Container, Dictionary, ObjectKey, Tuple, TypedFunction } from "../base-types";
+import type { AfterFirst, First } from "../lists";
+import type { Keys } from "./Keys";
 
 type Process<
   TKeys extends readonly ObjectKey[],
   TObj extends Record<ObjectKey, unknown>,
-  TResult extends readonly unknown[] = []
+  TResult extends readonly unknown[] = [],
 > = [] extends TKeys
-? TResult
-: Process<
+  ? TResult
+  : Process<
     AfterFirst<TKeys>,
     TObj,
     [
       ...TResult,
       First<TKeys> extends keyof TObj
         ? TObj[First<TKeys>]
-        : never
+        : never,
     ]
-  >
-
+  >;
 
 /**
  * **Values**`<T>`
@@ -30,18 +28,17 @@ type Process<
  * - for _wide_ types like `string[]`
  */
 export type Values<
-  T extends Container
+  T extends Container,
 > = T extends Tuple
-? T
-: T extends Dictionary
-  ? Process<
+  ? T
+  : T extends Dictionary
+    ? Process<
       Keys<T> extends readonly ObjectKey[]
         ? Keys<T>
         : never,
       T
     >
-  : T extends TypedFunction
-    ? [T]
+    : T extends TypedFunction
+      ? [T]
 
-  : [];
-
+      : [];

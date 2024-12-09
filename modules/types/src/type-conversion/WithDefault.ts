@@ -1,4 +1,4 @@
-import { If, Extends, IsFalsy, Nothing } from "inferred-types/types";
+import type { Extends, If, IsFalsy, Nothing } from "inferred-types/types";
 
 /**
  * **WithDefault**`<TVal,TDef>`
@@ -23,9 +23,9 @@ import { If, Extends, IsFalsy, Nothing } from "inferred-types/types";
 export type WithDefault<
   TVal,
   TDef,
-  TPolicy extends "nothing" | "falsy" = "nothing"
+  TPolicy extends "nothing" | "falsy" = "nothing",
 > = TPolicy extends "nothing"
-? If<Extends<TVal, Nothing>, TDef, TVal>
-: TPolicy extends "falsy"
-  ? If<IsFalsy<TVal>,TDef, TVal>
-  : never;
+  ? If<Extends<TVal, Nothing>, TDef, TVal>
+  : TPolicy extends "falsy"
+    ? If<IsFalsy<TVal>, TDef, TVal>
+    : never;

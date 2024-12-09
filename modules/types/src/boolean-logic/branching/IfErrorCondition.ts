@@ -1,5 +1,4 @@
-import { ErrorConditionShape, IsErrorCondition } from "inferred-types/types";
-
+import type { ErrorConditionShape, IsErrorCondition } from "inferred-types/types";
 
 /**
  * **IFErrorCondition**`<T,IF,[ELSE]>`
@@ -12,7 +11,7 @@ import { ErrorConditionShape, IsErrorCondition } from "inferred-types/types";
 export type IfErrorCondition<
   T,
   IF,
-  ELSE = T
+  ELSE = T,
 > = IsErrorCondition<T> extends true
   ? T extends ErrorConditionShape
     ? IF

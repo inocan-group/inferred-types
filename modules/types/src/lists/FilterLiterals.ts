@@ -1,15 +1,13 @@
-import { Constant } from "inferred-types/constants";
-import { IsLiteral, RemoveMarked } from "inferred-types/types";
-
+import type { Constant } from "inferred-types/constants";
+import type { IsLiteral, RemoveMarked } from "inferred-types/types";
 
 type Process<
-T extends readonly unknown[]
+  T extends readonly unknown[],
 > = RemoveMarked<{
   [K in keyof T]: IsLiteral<T[K]> extends true
     ? Constant<"Marked">
     : T[K]
-}>
-
+}>;
 
 /**
  * **FilterLiterals**`<T>`
@@ -23,7 +21,7 @@ T extends readonly unknown[]
  * **Related:** `Filter`, `FilterWideTypes`, `RetainLiterals`
  */
 export type FilterLiterals<
-  T extends readonly unknown[]
+  T extends readonly unknown[],
 > = Process<T> extends readonly unknown[]
-? Process<T>
-: never;
+  ? Process<T>
+  : never;

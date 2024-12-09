@@ -1,15 +1,13 @@
-import {
-  Last,
+import type {
   Chars,
+  Last,
 } from "inferred-types/types";
 
 type Process<TContent extends string> = Last<Chars<TContent>>;
 
 type Iterate<TContent extends readonly string[]> = {
   [K in keyof TContent]: Process<TContent[K]>
-}
-
-
+};
 
 /**
  * **LastChar**`<TContent>`
@@ -25,7 +23,7 @@ type Iterate<TContent extends readonly string[]> = {
  * **Related:** `FirstChar`, `AfterFirstChar`
  */
 export type LastChar<
-  TContent extends string | readonly string[]
+  TContent extends string | readonly string[],
 > = TContent extends readonly string[]
   ? Iterate<TContent>
   : TContent extends string

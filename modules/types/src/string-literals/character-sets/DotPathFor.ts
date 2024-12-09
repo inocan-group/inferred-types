@@ -1,32 +1,30 @@
-import { Container, IsArray } from "inferred-types/types";
-
+import type { Container, IsArray } from "inferred-types/types";
 
 type GenNode<
   K extends string | number,
   IsRoot extends boolean,
-  IsArray extends boolean
+  IsArray extends boolean,
 > = IsArray extends true
-? K extends `${number}`
-  ? IsRoot extends true
+  ? K extends `${number}`
+    ? IsRoot extends true
+      ? `${K}`
+      : `.${K}`
+    : never
+  : IsRoot extends true
     ? `${K}`
-    : `.${K}`
-  : never
-: IsRoot extends true
-  ? `${K}`
-  : `.${K}`
-
+    : `.${K}`;
 
 type GenList<
   TContainer,
   IsRoot extends boolean = true,
-  K extends keyof TContainer = keyof TContainer
+  K extends keyof TContainer = keyof TContainer,
 > = K extends string | number
-? GenNode<K,IsRoot, IsArray<TContainer>> | (
+? GenNode<K, IsRoot, IsArray<TContainer>> | (
   TContainer[K] extends object
-    ? `${GenNode<K,IsRoot, IsArray<TContainer>>}${GenList<TContainer[K],false>}`
+    ? `${GenNode<K, IsRoot, IsArray<TContainer>>}${GenList<TContainer[K], false>}`
     : never
   )
-: never;
+  : never;
 
 /**
  * **DotPathFor**`<T>`
@@ -40,7 +38,7 @@ type GenList<
  * nothing can be determined at design time
  */
 export type DotPathFor<
-  TContainer
+  TContainer,
 > = TContainer extends Container
-? "" | GenList<TContainer, true>
-: "";
+  ? "" | GenList<TContainer, true>
+  : "";

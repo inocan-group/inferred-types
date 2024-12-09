@@ -1,4 +1,3 @@
-
 /**
  * **ParseInt**`<T>`
  *
@@ -8,7 +7,6 @@
 export type ParseInt<T> = T extends `${infer N extends number}`
   ? N
   : never;
-
 
 /**
  * **AsNumber**`<T>`
@@ -25,5 +23,5 @@ export type ParseInt<T> = T extends `${infer N extends number}`
 export type AsNumber<T> = T extends number
   ? T
   : T extends `${number}`
-      ? ParseInt<T>
-      : never;
+    ? ParseInt<T>
+    : never;

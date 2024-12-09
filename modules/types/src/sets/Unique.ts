@@ -1,18 +1,18 @@
-import {
+import type {
   AfterFirst,
-  First,
-  IfNever,
-  Contains,
-  Push,
+  As,
+  AsString,
   Container,
-  Not,
+  Contains,
+  First,
   GetEach,
+  IfNever,
+  IsNever,
   IsScalar,
+  Not,
+  Push,
   TupleToUnion,
   UnionToTuple,
-  AsString,
-  IsNever,
-  As,
 } from "inferred-types/types";
 
 type Get<
@@ -26,15 +26,15 @@ type Get<
     : TValue extends Container
       ? never
       : TValue
->
+>;
 
 type Process<
   TValues extends readonly unknown[],
-  TDeref extends string |number | never,
-  TResults extends readonly unknown[] = []
+  TDeref extends string | number | never,
+  TResults extends readonly unknown[] = [],
 > = [] extends TValues
-? TResults
-: Process<
+  ? TResults
+  : Process<
     AfterFirst<TValues>,
     TDeref,
     // push new value into TResults if unique
@@ -52,10 +52,10 @@ type Process<
               : GetEach<TResults, AsString<TDeref>>,
             string | number | readonly unknown[]
           >,
-          Get<First<TValues>,TDeref>
+          Get<First<TValues>, TDeref>
         >>
-      >
->;
+    >
+  >;
 
 /**
  * **Unique**`<TList, [TDeref]>`
@@ -75,7 +75,7 @@ type Process<
  */
 export type Unique<
   TList extends readonly unknown[],
-  TDeref extends string | number | never = never
+  TDeref extends string | number | never = never,
 > = IfNever<
   TDeref,
   UnionToTuple<TupleToUnion<TList>>,
@@ -84,4 +84,4 @@ export type Unique<
     TList,
     TDeref
   >
->
+>;

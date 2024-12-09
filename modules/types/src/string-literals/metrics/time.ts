@@ -1,5 +1,5 @@
-import { TIME_METRICS_LOOKUP } from "inferred-types/constants";
-import { OptSpace } from "../character-sets/OptionalSpace";
+import type { TIME_METRICS_LOOKUP } from "inferred-types/constants";
+import type { OptSpace } from "../character-sets/OptionalSpace";
 
 type TimeMetricsLookup = typeof TIME_METRICS_LOOKUP;
 
@@ -21,7 +21,6 @@ export type TimeUom = {
     : never
 }[number];
 
-
 /***
  * **Time**
  *
@@ -31,4 +30,3 @@ export type TimeUom = {
  * **Related:** `TimeUom`
  */
 export type TimeMetric = `${number}${OptSpace}${TimeUom}`;
-

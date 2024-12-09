@@ -1,28 +1,26 @@
-import {  Marked } from "inferred-types/constants";
-import {
+import type { Marked } from "inferred-types/constants";
+import type {
+  As,
+  Chars,
+  Concat,
   IsWideType,
   Or,
   RemoveMarked,
-  Chars,
-  As,
-  Concat
 } from "inferred-types/types";
 
 type Strip<
   TChars extends readonly string[],
-  TStrip extends string
+  TStrip extends string,
 > = {
   [K in keyof TChars]: TChars[K] extends TStrip
     ? Marked
     : TChars[K]
 };
 
-
 type Process<
   TChars extends readonly string[],
   TStrip extends string,
-> = As<RemoveMarked<Strip<TChars,TStrip>>, readonly string[]>;
-
+> = As<RemoveMarked<Strip<TChars, TStrip>>, readonly string[]>;
 
 /**
  * **StripChars**`<TContent,TStrip>`
@@ -40,9 +38,8 @@ export type StripChars<
 > = Or<[IsWideType<TContent>, IsWideType<TStrip>]> extends true
   ? string
   : // both TContent and TStrip are literals
-    Chars<TContent> extends readonly string[]
+  Chars<TContent> extends readonly string[]
     ? Concat<Process<Chars<TContent>, TStrip>> extends string
       ? Concat<Process<Chars<TContent>, TStrip>>
       : never
     : never;
-

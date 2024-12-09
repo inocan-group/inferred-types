@@ -1,15 +1,14 @@
-
-import {
+import type {
   Dictionary,
-  UnionToTuple,
-  RemoveIndexKeys,
   ExplicitlyEmptyObject,
   IsEqual,
   IsNever,
+  RemoveIndexKeys,
+  UnionToTuple,
 } from "inferred-types/types";
 
 type _Keys<
-  T extends Dictionary
+  T extends Dictionary,
 > = UnionToTuple<keyof RemoveIndexKeys<T>>;
 
 type CheckIt<T extends Dictionary> = IsNever<keyof T> extends true
@@ -17,7 +16,6 @@ type CheckIt<T extends Dictionary> = IsNever<keyof T> extends true
   : IsEqual<_Keys<T>, []> extends true
     ? false
     : true;
-
 
 /**
  * **IsObjectLiteral**`<T>`
@@ -28,10 +26,9 @@ type CheckIt<T extends Dictionary> = IsNever<keyof T> extends true
  * - if `Keys<T>["length"]` translates to `number` than this is **not** a literal.
  */
 export type IsObjectLiteral<T> = IsNever<T> extends true
-? false
-: T extends Dictionary
-? IsEqual<T, ExplicitlyEmptyObject> extends true
-  ? true
-  : CheckIt<T>
-: false
-
+  ? false
+  : T extends Dictionary
+    ? IsEqual<T, ExplicitlyEmptyObject> extends true
+      ? true
+      : CheckIt<T>
+    : false;

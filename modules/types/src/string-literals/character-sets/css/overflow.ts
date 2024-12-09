@@ -1,12 +1,12 @@
-import { CssGlobal } from "./global";
-import { CssSizing } from "./sizing";
+import type { CssGlobal } from "./global";
+import type { CssSizing } from "./sizing";
 
 type Overflow =
-| "visible"
-| "hidden"
-| "clip"
-| "scroll"
-| "auto";
+  | "visible"
+  | "hidden"
+  | "clip"
+  | "scroll"
+  | "auto";
 
 /**
  * **CssOverflowX**
@@ -37,7 +37,6 @@ export type CssOverflowInline = Overflow;
 
 export type CssOverflowAnchor = "auto" | "none";
 
-
 /**
  * **CssOverflowClipMargin**
  *
@@ -49,13 +48,13 @@ export type CssOverflowAnchor = "auto" | "none";
  * overflow clip edge of the box.
  */
 export type CssOverflowClipMargin =
-| CssSizing
-| `content-box ${CssSizing}`
-|  CssGlobal;
+  | CssSizing
+  | `content-box ${CssSizing}`
+  | CssGlobal;
 
-export type CssOverflowProperties = {
+export interface CssOverflowProperties {
   /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow) */
-  overflow?: string;
+  "overflow"?: string;
   /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-anchor) */
   "overflow-anchor"?: CssOverflowAnchor | CssGlobal;
   /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-block) */

@@ -1,12 +1,11 @@
-import {
+import type {
   If,
+  IsFalse,
   IsNumericLiteral,
   IsStringLiteral,
-  IsFalse,
   IsTrue,
-  SomeEqual
+  SomeEqual,
 } from "inferred-types/types";
-
 
 /**
  * **IsTruthy**`<T>`
@@ -19,22 +18,24 @@ import {
 export type IsTruthy<T> = //
   [T] extends [string]
     ? T extends "" ? false : If<IsStringLiteral<T>, true, boolean>
-  : [T] extends [number]
-    ? If<
-        IsNumericLiteral<T>,
-        If<SomeEqual<[0, -0],T>,  false, true>, boolean>
-    : [T] extends [boolean]
-      ? If<
-          IsFalse<T>,
-          false,
-          If<
-            IsTrue<T>,
-            true,
-            boolean
-          >
+    : [T] extends [number]
+        ? If<
+          IsNumericLiteral<T>,
+          If<SomeEqual<[0, -0], T>, false, true>,
+          boolean
         >
-    : If<
-        SomeEqual<[null, undefined, typeof NaN],T>,
-        false,
-        boolean
-      >;
+        : [T] extends [boolean]
+            ? If<
+              IsFalse<T>,
+              false,
+              If<
+                IsTrue<T>,
+                true,
+                boolean
+              >
+            >
+            : If<
+              SomeEqual<[null, undefined, typeof Number.NaN], T>,
+              false,
+              boolean
+            >;

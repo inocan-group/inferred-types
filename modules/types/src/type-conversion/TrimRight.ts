@@ -1,4 +1,4 @@
-import { Whitespace } from "inferred-types/types";
+import type { Whitespace } from "inferred-types/types";
 
 /**
  * Trims off whitespace on left of string
@@ -11,4 +11,4 @@ import { Whitespace } from "inferred-types/types";
  */
 export type TrimRight<S extends string> = string extends S ? string :
   S extends `${infer Right}${Whitespace}` ?
-  TrimRight<Right> : S;
+    TrimRight<Right> : S;

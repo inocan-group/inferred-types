@@ -1,10 +1,8 @@
-import { Something } from "inferred-types/types";
+import type { Something } from "inferred-types/types";
 
-type Process<TVal,TDefault> = TVal extends Something
-? TVal
-: TDefault;
-
-
+type Process<TVal, TDefault> = TVal extends Something
+  ? TVal
+  : TDefault;
 
 /**
  * **Default**`<TVal,TDefault,[TProtect]>`

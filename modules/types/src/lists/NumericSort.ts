@@ -1,89 +1,89 @@
-import { Container } from "../base-types"
-import {  As, IsStringLiteral } from "../boolean-logic"
-import { IsEqual } from "../boolean-logic/operators/IsEqual"
-import { Get } from "../dictionary/Get"
-import { AsNumericArray } from "./AsNumericArray"
-import { RetainByProp } from "./RetainByProp"
-import { Reverse } from "./Reverse"
+import type { Container } from "../base-types";
+import type { As, IsStringLiteral } from "../boolean-logic";
+import type { IsEqual } from "../boolean-logic/operators/IsEqual";
+import type { Get } from "../dictionary/Get";
+import type { AsNumericArray } from "./AsNumericArray";
+import type { RetainByProp } from "./RetainByProp";
+import type { Reverse } from "./Reverse";
 
 type Iterator<
   N,
-  iterator extends number[] = []
+  iterator extends number[] = [],
 > = iterator["length"] extends N
-    ? iterator
-    : Iterator<N, [any, ...iterator]>
+  ? iterator
+  : Iterator<N, [any, ...iterator]>;
 
 type Drop1<xs extends any[]> =
-  xs extends [any, ...infer tail] ? tail : []
+  xs extends [any, ...infer tail] ? tail : [];
 
 type LessThanOrEqual<
   a extends number[],
-  b extends number[]
+  b extends number[],
 > =
   [a, b] extends [[], [any, ...any]]
     ? true
-    : [a, b] extends [[any,...any], []]
-    ? false
-    : [a, b] extends [[], []]
-    ? true
-    : LessThanOrEqual<Drop1<a>, Drop1<b>>
+    : [a, b] extends [[any, ...any], []]
+        ? false
+        : [a, b] extends [[], []]
+            ? true
+            : LessThanOrEqual<Drop1<a>, Drop1<b>>;
 
 type GreaterThan<
   a extends number[],
-  b extends number[]
+  b extends number[],
 > =
   [a, b] extends [[], [any, ...any]]
     ? false
-    : [a, b] extends [[any,...any], []]
-    ? true
-    : [a, b] extends [[], []]
-    ? false
-    : GreaterThan<Drop1<a>, Drop1<b>>
-
+    : [a, b] extends [[any, ...any], []]
+        ? true
+        : [a, b] extends [[], []]
+            ? false
+            : GreaterThan<Drop1<a>, Drop1<b>>;
 
 type FilterLessThanOrEqual<
   TVal,
   TValues extends number[],
-  TOut extends number[] = []
+  TOut extends number[] = [],
 > =
   TValues extends [infer head, ...infer tail extends number[]]
     ? LessThanOrEqual<Iterator<TVal>, Iterator<head>> extends true
       ? [...TOut, head, ...FilterLessThanOrEqual<TVal, tail, TOut>]
       : [...TOut, ...FilterLessThanOrEqual<TVal, tail, TOut>]
-    : []
+    : [];
 
 type FilterGreaterThan<
   TVal,
   TValues extends number[],
-  TOut extends number[] = []
+  TOut extends number[] = [],
 > =
   TValues extends [infer head, ...infer tail extends number[]]
     ? GreaterThan<Iterator<TVal>, Iterator<head>> extends true
       ? [...TOut, head, ...FilterGreaterThan<TVal, tail, TOut>]
       : [...TOut, ...FilterGreaterThan<TVal, tail, TOut>]
-    : []
-
+    : [];
 
 /**
  * Local Sort for values at root (aka, not offset)
  */
 type _Sort<
-    TValues extends readonly number[],
-    TReverse extends boolean,
-  > = TValues extends [infer head, ...infer tail extends number[]]
+  TValues extends readonly number[],
+  TReverse extends boolean,
+> = TValues extends [infer head, ...infer tail extends number[]]
   ? TReverse extends true
     ? [
-      ..._Sort<
-        FilterLessThanOrEqual<head, tail>,
-        TReverse
-      >, head,
-      ..._Sort<
-        FilterGreaterThan<
-          head,
-          tail
+        ..._Sort<
+          FilterLessThanOrEqual<head, tail>,
+          TReverse
         >,
-        TReverse
-      >]
+        head,
+        ..._Sort<
+          FilterGreaterThan<
+            head,
+            tail
+          >,
+          TReverse
+        >,
+      ]
     : [
         ..._Sort<
           FilterGreaterThan<head, tail>,
@@ -93,14 +93,13 @@ type _Sort<
         ..._Sort<
           FilterLessThanOrEqual<head, tail>,
           TReverse
-        >
+        >,
       ]
   : [];
 
-
 type _SortOffset<
   TContainers extends readonly Container[],
-  TOffset extends string
+  TOffset extends string,
 > = TContainers extends [infer head extends Container, ...infer rest extends Container[]]
   ? [
       ..._SortOffset<
@@ -121,17 +120,14 @@ type _SortOffset<
           "greaterThan"
         >, Container[]>,
         TOffset
-      >
+      >,
     ]
   : [];
 
-
-
-
-export type NumericSupportOptions<
-  TOrder extends "ASC" | "DESC" | undefined = "ASC" | "DESC"  | undefined,
-  TOffset extends string | undefined = string | undefined
-> = {
+export interface NumericSupportOptions<
+  TOrder extends "ASC" | "DESC" | undefined = "ASC" | "DESC" | undefined,
+  TOffset extends string | undefined = string | undefined,
+> {
   /**
    * by default this is set to sort by _ascending_ order but this can be
    * reversed by changing order to `DESC`.
@@ -146,7 +142,6 @@ export type NumericSupportOptions<
   offset?: TOffset;
 }
 
-
 /**
  * **NumericSort**`<TValues, [TOpt]>`
  *
@@ -160,24 +155,23 @@ export type NumericSupportOptions<
  */
 export type NumericSort<
   TValues extends any[],
-  TOpt extends NumericSupportOptions = NumericSupportOptions
+  TOpt extends NumericSupportOptions = NumericSupportOptions,
 > = IsStringLiteral<TOpt["offset"]> extends true
-? [IsEqual<TOpt["order"], "ASC">] extends [true]
-  ? _SortOffset<
-      TValues,
-      As<TOpt["offset"], string>
-    >
-  : Reverse<
-      _SortOffset<
+  ? [IsEqual<TOpt["order"], "ASC">] extends [true]
+      ? _SortOffset<
         TValues,
         As<TOpt["offset"], string>
       >
-    >
+      : Reverse<
+        _SortOffset<
+          TValues,
+          As<TOpt["offset"], string>
+        >
+      >
 
-
-: _Sort<
-  AsNumericArray<TValues>,
-  [IsEqual<TOpt["order"], "DESC">] extends [true]
-    ? true
-    : false
+  : _Sort<
+    AsNumericArray<TValues>,
+    [IsEqual<TOpt["order"], "DESC">] extends [true]
+      ? true
+      : false
   >;

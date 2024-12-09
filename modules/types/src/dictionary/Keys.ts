@@ -1,53 +1,52 @@
 import type {
-  Container,
-  ObjectKey,
-  UnionToTuple,
-  NumericKeys,
-  RemoveIndexKeys,
-  IsVueRef,
-  IsObjectLiteral,
   AfterFirst,
-  First,
-  TupleToUnion,
-  As,
-  Tuple,
-  IsWideUnion,
   AnyObject,
+  As,
+  Container,
+  First,
+  IsObjectLiteral,
+  IsVueRef,
+  IsWideUnion,
+  NumericKeys,
+  ObjectKey,
+  RemoveIndexKeys,
+  Tuple,
+  TupleToUnion,
+  UnionToTuple,
 } from "inferred-types/types";
 
 type _Keys<
-T extends object
+  T extends object,
 > = UnionToTuple<keyof RemoveIndexKeys<T>>;
 
-
 type GetKeys<
-  T extends object
+  T extends object,
 > = IsVueRef<T> extends true
-? ["value"]
-: _Keys<T> extends [symbol]
-  ? ObjectKey[]
-  : _Keys<T> extends []
-    ? UnionToTuple<keyof T> extends [ObjectKey]
-      ? (keyof T)[]
-      : ObjectKey[]
-    : _Keys<T>;
+  ? ["value"]
+  : _Keys<T> extends [symbol]
+    ? ObjectKey[]
+    : _Keys<T> extends []
+      ? UnionToTuple<keyof T> extends [ObjectKey]
+        ? (keyof T)[]
+        : ObjectKey[]
+      : _Keys<T>;
 
 type ProcessObj<
-  TContainer extends object
-> = GetKeys<TContainer>
+  TContainer extends object,
+> = GetKeys<TContainer>;
 
 type ProcessTuple<
-  TContainer extends readonly unknown[]
+  TContainer extends readonly unknown[],
 > = NumericKeys<TContainer> extends readonly number[]
-? NumericKeys<TContainer>
-: never;
+  ? NumericKeys<TContainer>
+  : never;
 
 type Process<
-  TContainer extends AnyObject
+  TContainer extends AnyObject,
 > = [IsObjectLiteral<RemoveIndexKeys<TContainer>>] extends [true]
   ? ProcessObj<RemoveIndexKeys<TContainer>> extends readonly (keyof TContainer & ObjectKey)[]
-  ? As<ProcessObj<RemoveIndexKeys<TContainer>>, readonly ObjectKey[]>
-  : never
+    ? As<ProcessObj<RemoveIndexKeys<TContainer>>, readonly ObjectKey[]>
+    : never
   : ObjectKey[];
 
 /**
@@ -67,20 +66,19 @@ type Process<
  * **Related:** `ValidKey`, `PublicKeys`
  */
 export type Keys<
-  TContainer extends Tuple | AnyObject
+  TContainer extends Tuple | AnyObject,
 > = TContainer extends Tuple
-? ProcessTuple<TContainer>
-: TContainer extends AnyObject
-  ? Process<TContainer>
-  : never;
-
+  ? ProcessTuple<TContainer>
+  : TContainer extends AnyObject
+    ? Process<TContainer>
+    : never;
 
 type _Public<
   TInput extends readonly PropertyKey[],
-  TOutput extends readonly PropertyKey[] = []
+  TOutput extends readonly PropertyKey[] = [],
 > = [] extends TInput
-? TOutput
-: _Public<
+  ? TOutput
+  : _Public<
     AfterFirst<TInput>,
     First<TInput> extends `_${string}`
       ? TOutput
@@ -94,7 +92,6 @@ type _Public<
  * keys which start with an underscore character.
  */
 export type PublicKeys<TContainer extends Container> = _Public<Keys<TContainer>>;
-
 
 /**
  * **PrivateKey**
@@ -117,7 +114,6 @@ export type PrivateKeys<T extends object> = {
   [K in keyof T]: K extends `_${string}` ? K : never;
 }[keyof T];
 
-
 type _KeyOf<TContainer extends Container> =
 TupleToUnion<Keys<TContainer>> extends PropertyKey
   ? TupleToUnion<Keys<TContainer>> extends keyof TContainer
@@ -133,8 +129,8 @@ TupleToUnion<Keys<TContainer>> extends PropertyKey
  * **Related:** `Keys`,`PublicKeys`,`PublicKeyOf`
  */
 export type KeyOf<TContainer extends Container> = IsWideUnion<_KeyOf<TContainer>> extends true
-? ""
-: As<_KeyOf<TContainer>, string | symbol>;
+  ? ""
+  : As<_KeyOf<TContainer>, string | symbol>;
 
 /**
  * **PublicKeyOf**`<TContainer>`

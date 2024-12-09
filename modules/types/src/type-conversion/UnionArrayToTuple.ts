@@ -1,4 +1,4 @@
-import { ElementOf } from "../lists/ElementOf";
+import type { ElementOf } from "../lists/ElementOf";
 
 // Existing utility: UnionToTuple (unchanged)
 type UnionToIntersection<U> = (
@@ -13,8 +13,6 @@ type UnionToTuple<U, Last = LastInUnion<U>> = [U] extends [never]
   ? []
   : [...UnionToTuple<Exclude<U, Last>>, Last];
 
-
-
 /**
  * **UnionArrayToTuple**`<T>`
  *
@@ -24,6 +22,5 @@ type UnionToTuple<U, Last = LastInUnion<U>> = [U] extends [never]
  * **Related:** `UnionToTuple`
  */
 export type UnionArrayToTuple<T> = T extends any[]
-? UnionToTuple<ElementOf<T>>
-: never;
-
+  ? UnionToTuple<ElementOf<T>>
+  : never;

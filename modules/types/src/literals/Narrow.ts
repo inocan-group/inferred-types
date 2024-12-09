@@ -1,8 +1,8 @@
-import { Narrowable } from "./Narrowable";
+import type { Narrowable } from "./Narrowable";
 
 /**
  * **Narrow**
- * 
+ *
  * Just like the `Narrowable` type, this type is used in the _extends_
  * clause during runtime to extract the narrowest types possible. Unlike
  * the `Narrowable` type, **Narrow** _excludes_ **symbols**.

@@ -7,22 +7,20 @@ import type {
   Or,
   RemoveIndexKeys,
   StrLen,
-  UnionToTuple
+  UnionToTuple,
 } from "inferred-types/types";
 
 type _Keys<
-T extends object
+  T extends object,
 > = UnionToTuple<keyof RemoveIndexKeys<T>>;
 
 type ProcessString<T extends string> = If<
-  IsEqual<T,string>,
+  IsEqual<T, string>,
   number,
   StrLen<T> extends number
-  ? StrLen<T>
-  : never
->
-
-
+    ? StrLen<T>
+    : never
+>;
 
 /**
  * Utility type which returns the length of:
@@ -37,29 +35,28 @@ type ProcessString<T extends string> = If<
  * ```
  */
 export type Length<
-  T extends Container | string | number
-  > = T extends readonly unknown[]
-? T["length"]
-: T extends number
-? number extends T
-  ? number
-  : ProcessString<`${Abs<T>}`>
-: T extends string
-  ? ProcessString<T>
-: T extends object
-    ? If<
-        Or<[
-          IsEqual<T, string[]>,
-          IsEqual<T, number[]>,
-          IsEqual<T, boolean[]>,
-          IsEqual<T, unknown[]>,
-          IsEqual<keyof T, string | symbol>,
-          IsEqual<keyof T, string>,
-        ]>,
-        number,
-        _Keys<T> extends readonly ObjectKey[]
-          ? _Keys<T>["length"]
-          : never
-      >
-    : never;
-
+  T extends Container | string | number,
+> = T extends readonly unknown[]
+  ? T["length"]
+  : T extends number
+    ? number extends T
+      ? number
+      : ProcessString<`${Abs<T>}`>
+    : T extends string
+      ? ProcessString<T>
+      : T extends object
+        ? If<
+          Or<[
+            IsEqual<T, string[]>,
+            IsEqual<T, number[]>,
+            IsEqual<T, boolean[]>,
+            IsEqual<T, unknown[]>,
+            IsEqual<keyof T, string | symbol>,
+            IsEqual<keyof T, string>,
+          ]>,
+          number,
+          _Keys<T> extends readonly ObjectKey[]
+            ? _Keys<T>["length"]
+            : never
+        >
+        : never;

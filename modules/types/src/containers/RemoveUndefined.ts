@@ -1,17 +1,16 @@
-import {
-  Container,
-  EmptyObject,
-  Dictionary,
-  ObjectKey,
-  Tuple,
-  IsUndefined,
-  RemoveIndexKeys,
-  NumericKeys,
+import type {
   AfterFirst,
+  Container,
+  Dictionary,
+  EmptyObject,
   First,
-  UnionToTuple
+  IsUndefined,
+  NumericKeys,
+  ObjectKey,
+  RemoveIndexKeys,
+  Tuple,
+  UnionToTuple,
 } from "inferred-types/types";
-
 
 type _Keys<T extends object> = UnionToTuple<keyof RemoveIndexKeys<T>> extends
 readonly ObjectKey[]
@@ -21,13 +20,13 @@ readonly ObjectKey[]
 type Process<
   T extends Container,
   TKeys extends readonly PropertyKey[],
-  TResults extends Container = T extends readonly unknown[] ? [] : EmptyObject
+  TResults extends Container = T extends readonly unknown[] ? [] : EmptyObject,
 > = [] extends TKeys
-? TResults
-: First<TKeys> extends keyof T
-  ?
-      IsUndefined<T[First<TKeys>]> extends true
-      ? Process<T,AfterFirst<TKeys>, TResults>
+  ? TResults
+  : First<TKeys> extends keyof T
+    ?
+    IsUndefined<T[First<TKeys>]> extends true
+      ? Process<T, AfterFirst<TKeys>, TResults>
       : Process<
         T,
         AfterFirst<TKeys>,
@@ -39,8 +38,7 @@ type Process<
               : never
           : never
       >
-  : never
-
+    : never;
 
 /**
  * **RemoveUndefined**`<T>`
@@ -48,8 +46,8 @@ type Process<
  * Removes all the elements from `T` which are typed as _undefined_.
  */
 export type RemoveUndefined<
-  T extends Container
+  T extends Container,
 > = Process<
   T,
-  T extends Tuple ? NumericKeys<T> :  _Keys<T>
->
+  T extends Tuple ? NumericKeys<T> : _Keys<T>
+>;

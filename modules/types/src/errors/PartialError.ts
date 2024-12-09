@@ -1,6 +1,5 @@
-import { ExpandRecursively } from "../literals/ExpandRecursively";
-import { ErrorCondition } from "./ErrorCondition";
-
+import type { ExpandRecursively } from "../literals/ExpandRecursively";
+import type { ErrorCondition } from "./ErrorCondition";
 
 export interface PartialErrorDefn {
   kind?: string;
@@ -12,14 +11,12 @@ export interface PartialErrorDefn {
 
 /**
  * **PartialError**`<[TKind],[TMessage],[]>`
- * 
+ *
  * Allows an author to configure part of an `ErrorCondition`
  * and then complete it with `CompleteError`.
  */
 export type PartialError<
-  TConfig extends PartialErrorDefn = PartialErrorDefn
+  TConfig extends PartialErrorDefn = PartialErrorDefn,
 > = ExpandRecursively<
-  {__kind: "PartialError"} & TConfig
->
-
-
+  { __kind: "PartialError" } & TConfig
+>;

@@ -1,5 +1,4 @@
-import { AsArray, Container, Keys, TupleToUnion } from "inferred-types/types";
-
+import type { AsArray, Container, Keys, TupleToUnion } from "inferred-types/types";
 
 /**
  * **ValidKey**<TContainer>
@@ -10,7 +9,7 @@ import { AsArray, Container, Keys, TupleToUnion } from "inferred-types/types";
  * **Related**: `Keys`
  */
 export type ValidKey<
-  TContainer extends Container
+  TContainer extends Container,
 > = TupleToUnion<
   AsArray<Keys<TContainer>>
 >;

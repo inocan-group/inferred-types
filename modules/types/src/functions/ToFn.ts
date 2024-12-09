@@ -1,4 +1,4 @@
-import { AnyFunction, FnMeta, IsNever } from "inferred-types/types";
+import type { AnyFunction, FnMeta, IsNever } from "inferred-types/types";
 
 /**
  * **ToFn**`<T>`
@@ -14,9 +14,9 @@ import { AnyFunction, FnMeta, IsNever } from "inferred-types/types";
  * **Related:** `AsFn`
  */
 export type ToFn<T> = T extends AnyFunction
-    ? T
-    : T extends FnMeta<infer _Args, infer _Returns, infer Props, infer Fn>
-      ? IsNever<Props> extends true
-        ? Fn
-        : Fn & Props
-  : () => T
+  ? T
+  : T extends FnMeta<infer _Args, infer _Returns, infer Props, infer Fn>
+    ? IsNever<Props> extends true
+      ? Fn
+      : Fn & Props
+    : () => T;

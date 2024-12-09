@@ -1,13 +1,9 @@
-
-import {
+import type {
   AnyFunction,
   Dictionary,
   IsNarrowingFn,
-  IsNonEmptyObject
+  IsNonEmptyObject,
 } from "inferred-types/types";
-
-
-
 
 /**
  * **FnMeta**<TArgs,TReturn,TProps>
@@ -20,12 +16,12 @@ import {
  * 3. `props` - any Key/Value props also packaged with the function, if no
  * key/values are found it will be set to `no-props`.
  */
-export type FnMeta<
+export interface FnMeta<
   TFn extends AnyFunction = AnyFunction,
   TArgs extends readonly any[] = readonly any[],
   TReturn = unknown,
   TProps extends Dictionary = Dictionary,
-> = {
+> {
   fn: TFn;
   args: TArgs;
   returns: TReturn;
@@ -33,4 +29,4 @@ export type FnMeta<
   hasProps: [IsNonEmptyObject<TProps>] extends [true] ? true : false;
   hasArgs: TArgs["length"] extends 0 ? false : true;
   isNarrowingFn: IsNarrowingFn<TFn>;
-};
+}

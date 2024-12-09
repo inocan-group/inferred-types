@@ -1,8 +1,8 @@
-import { Tuple } from "inferred-types/types";
+import type { Tuple } from "inferred-types/types";
 
 type Compute<
   TStr extends string,
-  TLen extends Tuple = []
+  TLen extends Tuple = [],
 > = TStr extends `${infer _Char}${infer Rest}`
   ? Compute<Rest, [...TLen, unknown]>
   : TLen["length"];
@@ -14,4 +14,3 @@ type Compute<
  * otherwise just returns `number` type.
  */
 export type StrLen<T extends string> = Compute<T>;
-

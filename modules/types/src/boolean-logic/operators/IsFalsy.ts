@@ -1,4 +1,4 @@
-import { If, ExtendsSome } from "inferred-types/types";
+import type { ExtendsSome, If } from "inferred-types/types";
 
 /**
  * **IsFalsy**`<T>`
@@ -10,4 +10,3 @@ export type IsFalsy<T> = If<
   true,
   false
 >;
-

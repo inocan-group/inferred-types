@@ -1,23 +1,23 @@
-import { IsEqual, If, AfterFirst, First, Or, NumberLike, Compare } from "inferred-types/types";
+import type { AfterFirst, Compare, First, If, IsEqual, NumberLike, Or } from "inferred-types/types";
 
 type FindAcc<
   TList extends readonly unknown[],
   TOp extends "extends" | "equals" | "startsWith" | "endsWith" | "lessThan" | "greaterThan",
   TComparator,
-  TDeref extends string | number | null
+  TDeref extends string | number | null,
 > = [] extends TList
   ? undefined
   : TDeref extends keyof First<TList>
     ? If<
-        Compare<First<TList>[TDeref], TOp, TComparator>,
-        First<TList>,
-        FindAcc<AfterFirst<TList>, TOp,TComparator, TDeref>
-      >
+      Compare<First<TList>[TDeref], TOp, TComparator>,
+      First<TList>,
+      FindAcc<AfterFirst<TList>, TOp, TComparator, TDeref>
+    >
     : If<
-        Compare<First<TList>, TOp, TComparator>,
-        First<TList>,
-        FindAcc<AfterFirst<TList>, TOp,TComparator, TDeref>
-      >;
+      Compare<First<TList>, TOp, TComparator>,
+      First<TList>,
+      FindAcc<AfterFirst<TList>, TOp, TComparator, TDeref>
+    >;
 
 /**
  * **Find**`<TList,TOp,TComparator,[TDeref]>`
@@ -41,12 +41,12 @@ export type Find<
   TList extends readonly unknown[],
   TOp extends "extends" | "equals" | "startsWith" | "endsWith" | "lessThan" | "greaterThan",
   TComparator extends Or<[
-    IsEqual<TOp,"startsWith">, IsEqual<TOp,"endsWith">,
+    IsEqual<TOp, "startsWith">,
+    IsEqual<TOp, "endsWith">,
   ]> extends true
-  ? string
-  : Or<[IsEqual<TOp,"lessThan">, IsEqual<TOp,"greaterThan">]> extends true
-  ? NumberLike
-  : unknown,
+    ? string
+    : Or<[IsEqual<TOp, "lessThan">, IsEqual<TOp, "greaterThan">]> extends true
+      ? NumberLike
+      : unknown,
   TDeref extends string | number | null = null,
 > = FindAcc<TList, TOp, TComparator, TDeref>;
-

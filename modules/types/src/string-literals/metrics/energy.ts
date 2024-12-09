@@ -1,5 +1,5 @@
-import { ENERGY_METRICS_LOOKUP } from "inferred-types/constants";
-import { OptSpace } from "../character-sets/OptionalSpace";
+import type { ENERGY_METRICS_LOOKUP } from "inferred-types/constants";
+import type { OptSpace } from "../character-sets/OptionalSpace";
 
 type EnergyMetricsLookup = typeof ENERGY_METRICS_LOOKUP;
 
@@ -21,7 +21,6 @@ export type EnergyUom = {
     : never
 }[number];
 
-
 /***
  * **Energy**
  *
@@ -31,4 +30,3 @@ export type EnergyUom = {
  * **Related:** `EnergyAbbrev`
  */
 export type Energy = `${number}${OptSpace}${EnergyUom}`;
-

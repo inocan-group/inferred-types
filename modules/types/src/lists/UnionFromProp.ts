@@ -1,4 +1,4 @@
-import { Narrowable, Get } from "inferred-types/types";
+import type { Get, Narrowable } from "inferred-types/types";
 
 /**
  * **UnionFromProp**
@@ -22,5 +22,5 @@ import { Narrowable, Get } from "inferred-types/types";
  */
 export type UnionFromProp<
   T extends readonly Record<string, Narrowable>[],
-  P extends string
+  P extends string,
 > = Readonly<Get<T[number], P>>;

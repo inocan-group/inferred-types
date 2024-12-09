@@ -1,11 +1,11 @@
-import {
+import type {
+  Chars,
+  Concat,
+  If,
   IsEqual,
   IsGreaterThan,
-  If,
   StrLen,
-  Concat,
-  Chars,
-  TakeFirst
+  TakeFirst,
 } from "inferred-types/types";
 
 type Ellipsis<T extends boolean | string> = T extends string
@@ -15,10 +15,10 @@ type Ellipsis<T extends boolean | string> = T extends string
 type _Truncate<
   TStr extends readonly string[],
   TMaxLen extends number,
-  TEllipsis extends string
+  TEllipsis extends string,
 > = TakeFirst<TStr, TMaxLen> extends readonly string[]
-? Concat<[...TakeFirst<TStr, TMaxLen>, TEllipsis]>
-: never
+  ? Concat<[...TakeFirst<TStr, TMaxLen>, TEllipsis]>
+  : never;
 
 /**
  * **Truncate**`<TStr,TMaxLen,[TEllipsis]>`
@@ -35,9 +35,9 @@ type _Truncate<
 export type Truncate<
   TContent extends string,
   TMaxLen extends number,
-  TEllipsis extends boolean | string = false
+  TEllipsis extends boolean | string = false,
 > = TContent extends string
-? If<
+  ? If<
     IsEqual<TMaxLen, number>,
     // non-literal value for max
     never,
@@ -55,5 +55,3 @@ export type Truncate<
   >
 
   : never;
-
-

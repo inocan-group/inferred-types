@@ -1,4 +1,4 @@
-import { IsUnion, WidenUnion } from "inferred-types/types";
+import type { IsUnion, WidenUnion } from "inferred-types/types";
 
 /**
  * **IsNumber**`<T>`
@@ -6,9 +6,9 @@ import { IsUnion, WidenUnion } from "inferred-types/types";
  * Boolean type utility testing whether `T` is a numeric type.
  */
 export type IsNumber<T> = [IsUnion<T>] extends [true]
-? WidenUnion<T> extends number
-  ? true
-  : number extends WidenUnion<T>
-    ? boolean
-    : false
-: [T] extends [number] ? true : false;
+  ? WidenUnion<T> extends number
+    ? true
+    : number extends WidenUnion<T>
+      ? boolean
+      : false
+  : [T] extends [number] ? true : false;

@@ -1,74 +1,74 @@
-import { Opt } from "../Optional";
-import { CssGlobal } from "./global";
-import { CssRotation } from "./props";
-import { CssSizing, CssSizingLight } from "./sizing";
+import type { Opt } from "../Optional";
+import type { CssGlobal } from "./global";
+import type { CssRotation } from "./props";
+import type { CssSizing, CssSizingLight } from "./sizing";
 
 export type CssFontFamily =
-| `"${string}"`
-| "serif"
-| "san-serif"
-| "monospace"
-| "cursive"
-| "fantasy"
-| "system-ui"
-| "ui-serif"
-| "ui-sans-serif"
-| "ui-monospace"
-| "ui-rounded"
-| "emoji"
-| "math"
-| "fansong";
+  | `"${string}"`
+  | "serif"
+  | "san-serif"
+  | "monospace"
+  | "cursive"
+  | "fantasy"
+  | "system-ui"
+  | "ui-serif"
+  | "ui-sans-serif"
+  | "ui-monospace"
+  | "ui-rounded"
+  | "emoji"
+  | "math"
+  | "fansong";
 
 export type CssFontFeatureSetting =
-| "normal"
-| "liga"
-| "tnum"
-| "smcp";
+  | "normal"
+  | "liga"
+  | "tnum"
+  | "smcp";
 
 export type CssFontKerning =
-| "auto"
-| "normal"
-| "none"
-| CssGlobal;
+  | "auto"
+  | "normal"
+  | "none"
+  | CssGlobal;
 
 export type CssFontPalette =
-| "normal"
-| "light"
-| "dark"
-| `--${string}`
-| `palette-mix(in ${ColorGamut},${string})`;
+  | "normal"
+  | "light"
+  | "dark"
+  | `--${string}`
+  | `palette-mix(in ${ColorGamut},${string})`;
 
 export type CssFontWidth =
-| "normal"
-| "ultra-condensed"
-| "extra-condensed"
-| "condensed"
-| "semi-condensed"
-| "expanded"
-| "extra-expanded"
-| "ultra-expanded"
-| `${number}%`
-| CssGlobal;
+  | "normal"
+  | "ultra-condensed"
+  | "extra-condensed"
+  | "condensed"
+  | "semi-condensed"
+  | "expanded"
+  | "extra-expanded"
+  | "ultra-expanded"
+  | `${number}%`
+  | CssGlobal;
 
 export type CssFontStyle =
-| "normal"
-| "italic"
-| "oblique"
-| `oblique ${CssRotation}`
-| CssGlobal;
+  | "normal"
+  | "italic"
+  | "oblique"
+  | `oblique ${CssRotation}`
+  | CssGlobal;
 
 export type CssFontSynthesis =
-| "none"
-| "weight"
-| "style"
-| "position"
-| "small-caps";
+  | "none"
+  | "weight"
+  | "style"
+  | "position"
+  | "small-caps";
 
 export type CssFontWeight =
-| "normal" | "bold"
-| "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900"
-| "lighter" | "bolder"
-| CssGlobal;
+  | "normal" | "bold"
+  | "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900"
+  | "lighter" | "bolder"
+  | CssGlobal;
 
 /**
  * The font-language-override CSS property controls the use of language-specific glyphs in a typeface.
@@ -87,15 +87,15 @@ export type CssFontWeight =
  */
 export type CssFontLanguageOverride = string;
 
-export type FontProperties = {
+export interface FontProperties {
   "font-family"?:
-  | CssFontFamily
-  | `${CssFontFamily}, ${CssFontFamily}${string}`
-  | CssGlobal;
+    | CssFontFamily
+    | `${CssFontFamily}, ${CssFontFamily}${string}`
+    | CssGlobal;
   "font-feature-settings":
     | CssFontFeatureSetting
     | `${CssFontFeatureSetting} ${number | "on" | "off"}`
-    | `${CssFontFeatureSetting} ${number | "on" | "off"},${string}`
+    | `${CssFontFeatureSetting} ${number | "on" | "off"},${string}`;
   "font-kerning"?: CssFontKerning;
   "font-language-override"?: CssFontLanguageOverride;
   "font-size"?: CssSizing
@@ -119,11 +119,11 @@ export type FontProperties = {
     | "none"
     | `${number}`
     | `from-font${Opt<` ${CssSizingLight}`>}`
-    | `cap-height${Opt<` ${CssSizingLight }`>}`
-    | `ex-height${Opt<` ${CssSizingLight }`>}`
-    | `ch-width${Opt<` ${CssSizingLight }`>}`
-    | `ic-width${Opt<` ${CssSizingLight }`>}`
-    | `ic-height${Opt<` ${CssSizingLight }`>}`
+    | `cap-height${Opt<` ${CssSizingLight}`>}`
+    | `ex-height${Opt<` ${CssSizingLight}`>}`
+    | `ch-width${Opt<` ${CssSizingLight}`>}`
+    | `ic-width${Opt<` ${CssSizingLight}`>}`
+    | `ic-height${Opt<` ${CssSizingLight}`>}`;
 
   /**
    * The font-palette CSS property allows specifying one of the many palettes contained in a
@@ -157,7 +157,7 @@ export type FontProperties = {
   "font-synthesis"?: CssFontSynthesis
     | `${CssFontSynthesis} ${CssFontSynthesis}`
     | `${CssFontSynthesis} ${CssFontSynthesis} ${CssFontSynthesis}${string}`
-    | CssGlobal
+    | CssGlobal;
   /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight) */
   "font-weight"?: CssFontWeight;
 }

@@ -1,13 +1,12 @@
-import {
+import type {
   HasPhoneCountryCode,
   IsLessThan,
   IsStringLiteral,
   NumericChar,
   RetainChars,
   StrLen,
-  Trim
+  Trim,
 } from "inferred-types/types";
-
 
 export type PhoneNumberType = "international" | "country" | "regional" | "short-code";
 
@@ -18,22 +17,20 @@ export type PhoneNumberType = "international" | "country" | "regional" | "short-
  * based on the shape and number of digits
  */
 export type GetPhoneNumberType<T> = T extends string
-? IsStringLiteral<T> extends true
-  ? HasPhoneCountryCode<T,false> extends true
-    ? "international"
-    : IsLessThan<
+  ? IsStringLiteral<T> extends true
+    ? HasPhoneCountryCode<T, false> extends true
+      ? "international"
+      : IsLessThan<
         StrLen<
-          RetainChars<Trim<`${T}`>,
-          NumericChar
-        >>,
+          RetainChars<Trim<`${T}`>, NumericChar >
+        >,
         8
       > extends true
         ? StrLen<
-            RetainChars<Trim<`${T}`>,
-            NumericChar
-          >> extends 7
+          RetainChars<Trim<`${T}`>, NumericChar >
+        > extends 7
           ? "regional"
           : "short-code"
         : "country"
-: string
-: never;
+    : string
+  : never;

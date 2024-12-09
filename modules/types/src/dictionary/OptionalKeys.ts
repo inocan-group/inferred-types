@@ -1,11 +1,10 @@
-
-import {
+import type {
   AnyObject,
   EmptyObject,
   If,
   IsEqual,
-  Unset
- } from "inferred-types/types";
+  Unset,
+} from "inferred-types/types";
 
 /**
  * **OptionalKeys**`<T,[V]>`
@@ -28,9 +27,9 @@ import {
  */
 export type OptionalKeys<
   T extends AnyObject,
-  V = Unset
+  V = Unset,
 > = {
   [K in keyof T]-?: EmptyObject extends { [P in K]: T[K] }
-    ? If<IsEqual<V,Unset>, K, K extends V ? K : never>
+    ? If<IsEqual<V, Unset>, K, K extends V ? K : never>
     : never;
 }[keyof T];

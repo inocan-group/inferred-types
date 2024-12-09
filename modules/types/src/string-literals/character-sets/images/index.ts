@@ -1,2 +1,2 @@
-export * from "./ImgFormat";
 export * from "./Exif";
+export * from "./ImgFormat";

@@ -1,5 +1,4 @@
-
-export * from "./AsIndexOf";
-export * from "./AsDoneFn";
-export * from "./AsSomething";
 export * from "./As";
+export * from "./AsDoneFn";
+export * from "./AsIndexOf";
+export * from "./AsSomething";

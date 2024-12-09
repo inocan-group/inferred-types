@@ -1,5 +1,5 @@
-import { FromDefn } from "../literals";
-import {  ShapeCallback, SimpleToken } from "../runtime-types";
+import type { FromDefn } from "../literals";
+import type { ShapeCallback, SimpleToken } from "../runtime-types";
 
 /**
  * **DefineObject**
@@ -39,7 +39,3 @@ export type DefineObject = Record<string, SimpleToken | ShapeCallback>;
  * ```
  */
 export type DefineObjectApi = <T extends DefineObject>(defn: T) => FromDefn<T>;
-
-
-
-

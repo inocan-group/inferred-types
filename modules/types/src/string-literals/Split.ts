@@ -1,29 +1,28 @@
-import {
+import type {
   AfterFirst,
+  As,
   BeforeLast,
   Chars,
   Filter,
   First,
-  IsUnion,
   IsStringLiteral,
+  IsUnion,
   IsWideType,
   Last,
   TupleToUnion,
   UnionToTuple,
-  As,
 } from "inferred-types/types";
 
 type UnionPolicy = "omit" | "include";
-
 
 type UnionSplit<
   TContent extends readonly string[],
   TSep extends string,
   TUnionPolicy extends UnionPolicy,
-  TResult extends readonly string[] = []
+  TResult extends readonly string[] = [],
 > = [] extends TContent
-? TResult
-: // recurse
+  ? TResult
+  : // recurse
   UnionSplit<
     AfterFirst<TContent>, // advance to next character
     TSep,
@@ -36,63 +35,60 @@ type UnionSplit<
             TUnionPolicy extends "omit"
               ? [""]
               : [First<TContent>]
-          )
+          ),
         ]
       : // add to existing
-        Last<TResult,""> extends string
-          ? First<TContent> extends string
-            ? BeforeLast<TResult> extends readonly string[]
-              ? [
+      Last<TResult, ""> extends string
+        ? First<TContent> extends string
+          ? BeforeLast<TResult> extends readonly string[]
+            ? [
                 ...BeforeLast<TResult>,
-                `${Last<TResult>}${First<TContent>}`
+                `${Last<TResult>}${First<TContent>}`,
               ]
-              : never
             : never
           : never
->;
+        : never
+  >;
 
 type LiteralSplit<
   TContent extends string,
   TSep extends string,
   TUnionPolicy extends UnionPolicy = "omit",
-  TResults extends readonly string[] = []
+  TResults extends readonly string[] = [],
 > = TContent extends `${infer Block}${TSep}${infer Rest}`
-? LiteralSplit<
+  ? LiteralSplit<
     Rest,
     TSep,
     TUnionPolicy,
     [
       ...TResults,
-      TUnionPolicy extends "omit" ? Block : `${Block}${TSep}`
+      TUnionPolicy extends "omit" ? Block : `${Block}${TSep}`,
     ]
   >
-: Filter<[...TResults, TContent], "">;
+  : Filter<[...TResults, TContent], "">;
 
 type Process<
   TContent extends string,
   TSep extends string | readonly string[],
-  TUnionPolicy extends UnionPolicy = "omit"
+  TUnionPolicy extends UnionPolicy = "omit",
 > = IsWideType<TContent> extends true
-? string
-: TSep extends readonly string[]
+  ? string
+  : TSep extends readonly string[]
     ? TupleToUnion<TSep> extends string
       ? Chars<TContent> extends readonly string[]
-        ? UnionSplit<Chars<TContent>,TupleToUnion<TSep>,TUnionPolicy>
+        ? UnionSplit<Chars<TContent>, TupleToUnion<TSep>, TUnionPolicy>
         : never
       : never
     : TSep extends string
-      ? LiteralSplit<TContent,TSep,TUnionPolicy>
+      ? LiteralSplit<TContent, TSep, TUnionPolicy>
       : never;
 
-type PreProcess<TContent extends string,
-TSep extends string | readonly string[],
-TUnionPolicy extends UnionPolicy = "omit"
+type PreProcess<TContent extends string, TSep extends string | readonly string[], TUnionPolicy extends UnionPolicy = "omit",
 > = IsUnion<TSep> extends true
   ? UnionToTuple<TSep> extends readonly string[]
     ? Process<TContent, UnionToTuple<TSep>, TUnionPolicy>
     : never
-  : Process<TContent,TSep,TUnionPolicy>;
-
+  : Process<TContent, TSep, TUnionPolicy>;
 
 /**
  * **Split**`<TContent,TSep,[TPolicy]>`
@@ -107,7 +103,7 @@ TUnionPolicy extends UnionPolicy = "omit"
 export type Split<
   TContent extends string,
   TSep extends string | readonly string[],
-  TPolicy extends UnionPolicy = "omit"
+  TPolicy extends UnionPolicy = "omit",
 > = IsStringLiteral<TContent> extends true
-  ? As<PreProcess<TContent,TSep,TPolicy>, readonly string[]>
+  ? As<PreProcess<TContent, TSep, TPolicy>, readonly string[]>
   : string[];

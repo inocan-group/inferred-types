@@ -1,4 +1,4 @@
-import { Replace , NonAlphaChar } from "inferred-types/types";
+import type { NonAlphaChar, Replace } from "inferred-types/types";
 
 /**
  * Strips the non-alpha characters that lead a string

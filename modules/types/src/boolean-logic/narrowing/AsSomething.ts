@@ -1,20 +1,21 @@
-import {
+import type { Constant } from "inferred-types/constants";
+import type {
   IsUnion,
   Nothing,
   RemoveMarked,
   TupleToUnion,
-  UnionToTuple
+  UnionToTuple,
 } from "inferred-types/types";
-import { Constant } from "inferred-types/constants";
 
 type Process<
-  T extends readonly unknown[]
+  T extends readonly unknown[],
 > = TupleToUnion<
-RemoveMarked<{
-  [K in keyof T]: T[K] extends Nothing
-    ? Constant<"Marked">
-    : T[K]
-}>>;
+  RemoveMarked<{
+    [K in keyof T]: T[K] extends Nothing
+      ? Constant<"Marked">
+      : T[K]
+  }>
+>;
 
 /**
  * **AsSomething**`<T>`
@@ -30,9 +31,9 @@ RemoveMarked<{
  */
 export type AsSomething<
   T,
-  TNonUnion = never
+  TNonUnion = never,
 > = IsUnion<T> extends true
-? Process<UnionToTuple<T>>
-: T extends Nothing
-  ? TNonUnion
-  : T;
+  ? Process<UnionToTuple<T>>
+  : T extends Nothing
+    ? TNonUnion
+    : T;

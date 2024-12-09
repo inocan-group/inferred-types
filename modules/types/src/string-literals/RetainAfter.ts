@@ -1,30 +1,30 @@
-import {
+import type {
   If,
   IfAllLiteral,
   IsNever,
   IsTrue,
   IsUnion,
   MaxLength,
-  UnionToTuple
+  UnionToTuple,
 } from "inferred-types/types";
 
 type _RetainAfter<
   TStr extends string,
   TBreak extends string,
-  TInclude extends boolean = false
+  TInclude extends boolean = false,
 > = IfAllLiteral<
-[TStr, TBreak],
-TBreak extends any
-? TStr extends `${string}${TBreak}${infer Rest}`
-  ? If<
-      IsTrue<TInclude>,
+  [TStr, TBreak],
+  TBreak extends any
+    ? TStr extends `${string}${TBreak}${infer Rest}`
+      ? If<
+        IsTrue<TInclude>,
       `${TBreak}${Rest}`,
       Rest
-    >
-  : never
-: never,
-string
->
+      >
+      : never
+    : never,
+  string
+>;
 
 /**
  * **RetainAfter**`<TStr, TBreak, [TInclude]>`
@@ -47,22 +47,21 @@ string
 export type RetainAfter<
   TStr extends string,
   TBreak extends string,
-  TInclude extends boolean = false
-> = IsNever<_RetainAfter<TStr,TBreak,TInclude>> extends true
-? ""
-: IsUnion<_RetainAfter<TStr,TBreak,TInclude>> extends true
-? MaxLength<UnionToTuple<_RetainAfter<TStr,TBreak,TInclude>>>
-: _RetainAfter<TStr,TBreak,TInclude>;
-
+  TInclude extends boolean = false,
+> = IsNever<_RetainAfter<TStr, TBreak, TInclude>> extends true
+  ? ""
+  : IsUnion<_RetainAfter<TStr, TBreak, TInclude>> extends true
+    ? MaxLength<UnionToTuple<_RetainAfter<TStr, TBreak, TInclude>>>
+    : _RetainAfter<TStr, TBreak, TInclude>;
 
 export type RetainAfterLast<
   TStr extends string,
   TBreak extends string,
-  TInclude extends boolean = false
+  TInclude extends boolean = false,
 > = IfAllLiteral<
   [TStr, TBreak],
   TStr extends `${string}${infer Break extends TBreak}${infer REST}`
     ? If<IsTrue<TInclude>, `${Break}${REST}`, `${REST}`>
     : TStr,
   string
->
+>;

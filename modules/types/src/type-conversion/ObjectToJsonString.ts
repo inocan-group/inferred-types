@@ -1,16 +1,14 @@
-
-import { ObjectToTuple } from "./ObjectToTuple";
-import { AsString } from "./AsString";
-import { AnyObject,  ExplicitlyEmptyObject, ObjectKey, IsWideContainer, Join, Surround } from "inferred-types/types";
+import type { AnyObject, ExplicitlyEmptyObject, IsWideContainer, Join, ObjectKey, Surround } from "inferred-types/types";
+import type { AsString } from "./AsString";
+import type { ObjectToTuple } from "./ObjectToTuple";
 
 type Process<
-  T extends readonly Record<ObjectKey, any>[]
+  T extends readonly Record<ObjectKey, any>[],
 > = Join<{
-  [K in keyof T]: T[K] extends Record<infer Key extends string,infer Value>
+  [K in keyof T]: T[K] extends Record<infer Key extends string, infer Value>
     ? `${Surround<Key, `"`, `"`>}: ${Value extends string ? `"${Value}"` : `${AsString<Value>}`}`
     : never
 }, ", ">;
-
 
 /**
  * **ObjectToJsonString**`<T>`
@@ -20,13 +18,13 @@ type Process<
  * **Related:** `ObjectToCssString`, `ObjectToJsString`, `ObjectToTuple`
  */
 export type ObjectToJsonString<
-  TObj extends AnyObject
+  TObj extends AnyObject,
 > = TObj extends ExplicitlyEmptyObject
-? "{}"
-: IsWideContainer<TObj> extends true
-? string
-: Surround<
-    Process< ObjectToTuple<TObj, true> >,
-    "{ ",
-    " }"
-  >;
+  ? "{}"
+  : IsWideContainer<TObj> extends true
+    ? string
+    : Surround<
+      Process< ObjectToTuple<TObj, true> >,
+      "{ ",
+      " }"
+    >;

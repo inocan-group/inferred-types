@@ -1,6 +1,6 @@
-import { If } from "../boolean-logic";
-import { AfterFirst, First } from "../lists";
-import { Chars } from "./Chars";
+import type { If } from "../boolean-logic";
+import type { AfterFirst, First } from "../lists";
+import type { Chars } from "./Chars";
 
 type Process<
   TChars extends readonly string[],
@@ -9,20 +9,20 @@ type Process<
   TInclude extends boolean = false,
   TResult extends string = "",
 > = [] extends TChars
-? TResult
-: First<TChars> extends TComparator
-  ? TOp extends "is"
-    ? Process<
+  ? TResult
+  : First<TChars> extends TComparator
+    ? TOp extends "is"
+      ? Process<
         AfterFirst<TChars>,
         TOp,
         TComparator,
         TInclude,
         `${TResult}${First<TChars>}`
       >
-    : If<TInclude, `${TResult}${First<TChars>}` ,  TResult >
-  : TOp extends "is"
-    ? If<TInclude, `${TResult}${First<TChars>}` ,  TResult >
-    : Process<
+      : If<TInclude, `${TResult}${First<TChars>}`, TResult >
+    : TOp extends "is"
+      ? If<TInclude, `${TResult}${First<TChars>}`, TResult >
+      : Process<
         AfterFirst<TChars>,
         TOp,
         TComparator,
@@ -46,9 +46,8 @@ type Process<
 export type RetainUntil<
   TContent extends string,
   TComparator extends string,
-  TInclude extends boolean = false
-> = Process<Chars<TContent>,"not",TComparator, TInclude>;
-
+  TInclude extends boolean = false,
+> = Process<Chars<TContent>, "not", TComparator, TInclude>;
 
 /**
  * **RetainWhile**`<TContent,TComparator>`
@@ -66,4 +65,4 @@ export type RetainUntil<
 export type RetainWhile<
   TContent extends string,
   TComparator extends string,
-> = Process<Chars<TContent>,"is",TComparator>;
+> = Process<Chars<TContent>, "is", TComparator>;

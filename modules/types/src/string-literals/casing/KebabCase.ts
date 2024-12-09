@@ -1,36 +1,36 @@
-import {
-  LeftWhitespace,
-  Replace,
-  RightWhitespace,
-  Trim ,
+import type {
   Concat,
   DashUppercase,
-  LowerAllCaps
-} from "inferred-types/types"
-
+  LeftWhitespace,
+  LowerAllCaps,
+  Replace,
+  RightWhitespace,
+  Trim,
+} from "inferred-types/types";
 
 type Process<
-TString extends string,
-TPreserve extends boolean = false
+  TString extends string,
+  TPreserve extends boolean = false,
 > = TPreserve extends true
-? // preserve
+  ? // preserve
   Concat<[
     LeftWhitespace<TString>,
     KebabCase<TString, false>,
-    RightWhitespace<TString>
+    RightWhitespace<TString>,
   ]>
 
-: // remove whitespace
+  : // remove whitespace
   string extends TString
     ? string
     : DashUppercase<Trim<LowerAllCaps<TString>>> extends `${infer Begin}${"_" | " "}${infer Rest}`
       ? KebabCase<`${Lowercase<Begin>}-${Rest}`>
       : Replace<
-          Lowercase<
-            DashUppercase<Uncapitalize<Trim<LowerAllCaps<TString>>>>
-          >,
-          "--", "-"
-        >;
+        Lowercase<
+          DashUppercase<Uncapitalize<Trim<LowerAllCaps<TString>>>>
+        >,
+        "--",
+        "-"
+      >;
 
 /**
  * **KebabCase**`<TString,TPreserve>`
@@ -49,7 +49,7 @@ TPreserve extends boolean = false
  */
 export type KebabCase<
   TString extends string,
-  TPreserve extends boolean = false
+  TPreserve extends boolean = false,
 > = Process<TString, TPreserve> extends string
-? Process<TString, TPreserve>
-: never;
+  ? Process<TString, TPreserve>
+  : never;

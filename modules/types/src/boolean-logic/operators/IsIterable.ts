@@ -1,22 +1,20 @@
-
-import { Container, Contains, IsNever, Dictionary, Keys } from "inferred-types/types";
+import type { Container, Contains, Dictionary, IsNever, Keys } from "inferred-types/types";
 
 type Process<T extends Container> = T extends Generator
   ? true
   : T extends Map<any, any>
-  ? true
-  : T extends WeakMap<any, any>
-  ? true
-  : T extends Set<any>
-  ? true
-  : T extends readonly any[]
-  ? true
-  : T extends Dictionary
-  ? Contains<Keys<T>, Iterator<T>> extends true
     ? true
-    : false
-  : false;
-
+    : T extends WeakMap<any, any>
+      ? true
+      : T extends Set<any>
+        ? true
+        : T extends readonly any[]
+          ? true
+          : T extends Dictionary
+            ? Contains<Keys<T>, Iterator<T>> extends true
+              ? true
+              : false
+            : false;
 
 /**
  * **IsIterable**`<T>`
@@ -25,11 +23,9 @@ type Process<T extends Container> = T extends Generator
  */
 export type IsIterable<
   T,
-  TNever = never
+  TNever = never,
 > = IsNever<T> extends true
-? TNever
-: T extends Container
-  ? Process<T>
-  : false;
-
-
+  ? TNever
+  : T extends Container
+    ? Process<T>
+    : false;

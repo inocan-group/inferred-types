@@ -1,4 +1,4 @@
-import { AnyObject, Narrowable, IfEqual } from "inferred-types/types";
+import type { AnyObject, IfEqual, Narrowable } from "inferred-types/types";
 
 /**
  * **KeysNotEqualValue**`<TObj, TValue>`
@@ -13,8 +13,8 @@ import { AnyObject, Narrowable, IfEqual } from "inferred-types/types";
  * **Related:** `KeysEqualValue`, `KeysWithoutValue`
  */
 export type KeysNotEqualValue<
-TObj extends AnyObject,
-TValue extends Narrowable,
+  TObj extends AnyObject,
+  TValue extends Narrowable,
 > = {
-    [K in keyof TObj]: IfEqual<TObj[K], TValue, never, Readonly<K>>;
+  [K in keyof TObj]: IfEqual<TObj[K], TValue, never, Readonly<K>>;
 }[keyof TObj];

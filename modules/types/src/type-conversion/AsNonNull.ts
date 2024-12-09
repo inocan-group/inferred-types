@@ -1,15 +1,15 @@
-import { If, IsEqual, IsUnion } from "../boolean-logic";
-import { Throw } from "../errors";
-import { Filter } from "../lists/Filter";
-import { TupleToUnion } from "./TupleToUnion";
-import { UnionToTuple } from "./UnionToTuple";
+import type { If, IsEqual, IsUnion } from "../boolean-logic";
+import type { Throw } from "../errors";
+import type { Filter } from "../lists/Filter";
+import type { TupleToUnion } from "./TupleToUnion";
+import type { UnionToTuple } from "./UnionToTuple";
 
 type InvalidCast<T> = Throw<
   "invalid-cast",
   `An attempt to cast a type as being non-null based was unsuccessful!`,
   "AsNonNull",
-  {library: "inferred-types/constants"; value: T}
->
+  { library: "inferred-types/constants"; value: T }
+>;
 
 /**
  * **AsNonNull**`<T>`
@@ -27,12 +27,11 @@ export type AsNonNull<T> = If<
     ? TupleToUnion<Filter<UnionToTuple<T>, null>>
     : T
 > extends null
-? never
-: If<
+  ? never
+  : If<
     IsEqual<T, null>,
     InvalidCast<T>,
     IsUnion<T> extends true
       ? TupleToUnion<Filter<UnionToTuple<T>, null>>
       : T
-    >
-
+  >;

@@ -1,12 +1,12 @@
-import {
-  Mutable,
-  TupleToUnion,
-  OptionalSpace,
-  Values,
+import type { REPO_PAGE_TYPES, REPO_SOURCE_LOOKUP, REPO_SOURCES } from "inferred-types/constants";
+import type {
   Flatten,
+  Mutable,
+  OptionalSpace,
+  TupleToUnion,
   UrlsFrom,
+  Values,
 } from "inferred-types/types";
-import  {  REPO_PAGE_TYPES, REPO_SOURCES, REPO_SOURCE_LOOKUP } from "inferred-types/constants";
 
 /**
  * **RepoSources**
@@ -40,9 +40,8 @@ export type RepoUrls = UrlsFrom<Flatten<
  * - this prefixing can be disabled by setting `TPrefix` to false
  */
 export type SemanticVersion<
-  TPrefix extends boolean = true
-> = `${[TPrefix] extends [true] ? `${"v" | ""}${OptionalSpace}` : ""}${number}.${number}.${number}`
-
+  TPrefix extends boolean = true,
+> = `${[TPrefix] extends [true] ? `${"v" | ""}${OptionalSpace}` : ""}${number}.${number}.${number}`;
 
 /**
  * **GitRef**
@@ -50,5 +49,4 @@ export type SemanticVersion<
  * A type that provides the basic shape of a non-HTTP reference
  * to a Git repository.
  */
-export type GitRef = `git@${string}.${string}:${string}.git`
-
+export type GitRef = `git@${string}.${string}:${string}.git`;

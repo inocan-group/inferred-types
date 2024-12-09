@@ -10,7 +10,7 @@ import type { AfterFirst, First } from "inferred-types/types";
  */
 export type ExtendsSome<
   TValue,
-  TExtendsSome extends readonly unknown[]
+  TExtendsSome extends readonly unknown[],
 > = [] extends TExtendsSome
   ? false
   : TValue extends First<TExtendsSome>

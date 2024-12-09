@@ -1,20 +1,19 @@
-import { IsStringLiteral , NumericChar , AlphaChar } from "inferred-types/types";
+import type { AlphaChar, IsStringLiteral, NumericChar } from "inferred-types/types";
 
 /**
  * Any alphabetic or numeric string character
  */
 export type AlphaNumericChar = AlphaChar | NumericChar;
 
-
 type AlphaNumericAcc<
   T extends string,
-  TResult extends string
+  TResult extends string,
 > = T extends ""
   ? TResult
   : // iterate through characters and look for exception
-    T extends `${AlphaNumericChar}${infer REST}`
-      ? AlphaNumericAcc<REST, TResult>
-      : never;
+  T extends `${AlphaNumericChar}${infer REST}`
+    ? AlphaNumericAcc<REST, TResult>
+    : never;
 
 /**
  * **AlphaNumeric**`<T>`

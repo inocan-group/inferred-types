@@ -1,4 +1,4 @@
-import { CssSizing } from "./sizing";
+import type { CssSizing } from "./sizing";
 
 /**
  * **CssObjectFit**
@@ -18,7 +18,6 @@ export type CssObjectFit =
   | "revert-layer"
   | "unset";
 
-
 type Positional =
   | "top"
   | "bottom"
@@ -26,8 +25,7 @@ type Positional =
   | "right"
   | "center";
 
-type LengthValues = "0 0" | `${CssSizing} ${CssSizing}` | `${Positional} ${CssSizing} ${Positional} ${string}`
-
+type LengthValues = "0 0" | `${CssSizing} ${CssSizing}` | `${Positional} ${CssSizing} ${Positional} ${string}`;
 
 /**
  * **CssObjectPosition**

@@ -1,4 +1,4 @@
-import { AnyFunction, AsFnMeta } from "inferred-types/types";
+import type { AnyFunction, AsFnMeta } from "inferred-types/types";
 
 /**
  * **RemoveFnProps**`<T>`
@@ -7,5 +7,5 @@ import { AnyFunction, AsFnMeta } from "inferred-types/types";
  * key/value pairs that may have been added to the function's definition.
  */
 export type RemoveFnProps<
-  T extends AnyFunction
+  T extends AnyFunction,
 > = (...args: AsFnMeta<T>["args"]) => AsFnMeta<T>["returns"];

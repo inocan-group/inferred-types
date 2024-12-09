@@ -1,4 +1,4 @@
-import { Container,    ExplicitlyEmptyObject,  Dictionary,  Keys } from "inferred-types/types";
+import type { Container, Dictionary, ExplicitlyEmptyObject, Keys } from "inferred-types/types";
 
 /**
  * **EmptyContainer**`<T>`
@@ -9,7 +9,7 @@ import { Container,    ExplicitlyEmptyObject,  Dictionary,  Keys } from "inferre
  * **Related:** `NonEmptyContainer`
  */
 export type IsEmptyContainer<
-  T extends Container
+  T extends Container,
 > = T extends Dictionary
   ? T extends ExplicitlyEmptyObject
     ? true
@@ -17,5 +17,5 @@ export type IsEmptyContainer<
       ? true
       : false
   : Keys<T>["length"] extends 0
-  ? true
-  : false;
+    ? true
+    : false;

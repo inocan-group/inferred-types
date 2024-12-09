@@ -1,30 +1,29 @@
-import {
+import type {
   AfterFirst,
+  Dictionary,
   First,
   IsFunction,
   IsObjectLiteral,
-  Dictionary,
   Keys,
-  ObjectKey
+  ObjectKey,
 } from "inferred-types/types";
 
 type Process<
   TKeys extends readonly ObjectKey[],
   TObj extends Dictionary,
   TValue,
-  TResults extends readonly ObjectKey[] = []
+  TResults extends readonly ObjectKey[] = [],
 > = [] extends TKeys
-? TResults
-: [First<TKeys>] extends [keyof TObj ]
-  ? [IsFunction<TValue>] extends [true]
-    ? [IsFunction<TObj[First<TKeys>]>] extends [true]
-      ? Process<AfterFirst<TKeys>, TObj, TValue, [...TResults, First<TKeys>]>
-      : Process<AfterFirst<TKeys>, TObj, TValue, TResults>
-    : [TObj[First<TKeys>]] extends [TValue]
-      ? Process<AfterFirst<TKeys>, TObj, TValue, [...TResults, First<TKeys>]>
-      : Process<AfterFirst<TKeys>, TObj, TValue, TResults>
-  : never;
-
+  ? TResults
+  : [First<TKeys>] extends [keyof TObj ]
+      ? [IsFunction<TValue>] extends [true]
+          ? [IsFunction<TObj[First<TKeys>]>] extends [true]
+              ? Process<AfterFirst<TKeys>, TObj, TValue, [...TResults, First<TKeys>]>
+              : Process<AfterFirst<TKeys>, TObj, TValue, TResults>
+          : [TObj[First<TKeys>]] extends [TValue]
+              ? Process<AfterFirst<TKeys>, TObj, TValue, [...TResults, First<TKeys>]>
+              : Process<AfterFirst<TKeys>, TObj, TValue, TResults>
+      : never;
 
 /**
  * **KeysWithValue**`<TObj,TValue>`
@@ -41,11 +40,11 @@ type Process<
  */
 export type KeysWithValue<
   TObj extends Dictionary,
-  TValue
+  TValue,
 > = [IsObjectLiteral<TObj>] extends [true]
-? Process<
+  ? Process<
     Keys<TObj>,
     TObj,
     TValue
   >
-: ObjectKey[];
+  : ObjectKey[];

@@ -1,5 +1,5 @@
-import { IsWideType } from "../boolean-logic";
-import { Join } from "../string-literals/Join";
+import type { IsWideType } from "../boolean-logic";
+import type { Join } from "../string-literals/Join";
 
 /**
  * **AsString**<T>
@@ -15,14 +15,13 @@ import { Join } from "../string-literals/Join";
 export type AsString<T> = T extends string
   ? T & string
   : T extends number
-  ? `${T}`
-  : T extends boolean
-  ? `${T}`
-  : string extends T
-  ? string
-  : T extends string[]
-  ? IsWideType<T> extends true
-    ? never
-    : Join<T>
-  :  never;
-
+    ? `${T}`
+    : T extends boolean
+      ? `${T}`
+      : string extends T
+        ? string
+        : T extends string[]
+          ? IsWideType<T> extends true
+            ? never
+            : Join<T>
+          : never;

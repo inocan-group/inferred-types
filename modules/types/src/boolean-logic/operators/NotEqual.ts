@@ -1,4 +1,4 @@
-import { IsEqual } from "inferred-types/types";
+import type { IsEqual } from "inferred-types/types";
 
 /**
  * **NotEqual**`<A,B>`
@@ -7,5 +7,5 @@ import { IsEqual } from "inferred-types/types";
  */
 export type NotEqual<
   A,
-  B
+  B,
 > = IsEqual<A, B> extends true ? false : true;

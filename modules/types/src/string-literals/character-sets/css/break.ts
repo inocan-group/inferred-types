@@ -1,29 +1,29 @@
-import { CssGlobal } from "./global";
+import type { CssGlobal } from "./global";
 
 export type CssBreak =
-| "auto"
-| "avoid"
-| "always"
-| "all"
-| "avoid-page"
-| "page"
-| "left"
-| "right"
-| "recto"
-| "verso"
-| "avoid-column"
-| "region"
-| CssGlobal;
+  | "auto"
+  | "avoid"
+  | "always"
+  | "all"
+  | "avoid-page"
+  | "page"
+  | "left"
+  | "right"
+  | "recto"
+  | "verso"
+  | "avoid-column"
+  | "region"
+  | CssGlobal;
 
 export type CssBreakInside =
-| "auto"
-| "avoid"
-| "avoid-page"
-| "avoid-column"
-| "avoid-region"
-| CssGlobal;
+  | "auto"
+  | "avoid"
+  | "avoid-page"
+  | "avoid-column"
+  | "avoid-region"
+  | CssGlobal;
 
-export type CssBreakProperties = {
+export interface CssBreakProperties {
   /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/break-after) */
   "break-after"?: CssBreak;
   /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/break-before) */

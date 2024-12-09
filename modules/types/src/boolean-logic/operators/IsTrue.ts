@@ -1,12 +1,11 @@
-import { IsEqual , IsNever } from "inferred-types/types";
+import type { IsEqual, IsNever } from "inferred-types/types";
 
-type Process<T,
-TNever
+type Process<T, TNever,
 > = [IsNever<T>] extends [true]
-? TNever
-: [IsEqual<T, true>] extends [true]
-? true
-: false;
+  ? TNever
+  : [IsEqual<T, true>] extends [true]
+      ? true
+      : false;
 
 /**
  * **IsTrue**`<T,[TNever]>`
@@ -23,5 +22,5 @@ TNever
  */
 export type IsTrue<
   T,
-  TNever = never
+  TNever = never,
 > = Process<T, TNever>;

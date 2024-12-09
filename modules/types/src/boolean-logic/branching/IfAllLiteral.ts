@@ -1,5 +1,4 @@
-import { Tuple,AllLiteral } from "inferred-types/types";
-
+import type { AllLiteral, Tuple } from "inferred-types/types";
 
 /**
  * **IfAllLiteral**`<TTuple,IF,ELSE>`

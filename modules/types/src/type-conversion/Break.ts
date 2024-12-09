@@ -1,7 +1,6 @@
-
 /**
  * **Break<T,D>**
- * 
+ *
  * Takes a string `T`, and splits it into a tuple of the form `[F, R]`.
  * ```ts
  * // ["the", " long and winding road"]
@@ -9,7 +8,7 @@
  * // ["there", " I was, there I was"]
  * type T2 = Break<"there I was, there I was", " ">;
  * ```
- * 
+ *
  * **Related:** `Split`
  */
 export type Break<T extends string, D extends string> = (
@@ -21,4 +20,3 @@ export type Break<T extends string, D extends string> = (
     ) : [T, ""]
   )
 );
-

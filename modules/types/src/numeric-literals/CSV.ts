@@ -1,115 +1,110 @@
-
-import { If, IsEqual } from "../boolean-logic";
-import { AsNumber } from "../type-conversion";
-import { NumberLike } from "./NumberLike";
-
+import type { If, IsEqual } from "../boolean-logic";
+import type { AsNumber } from "../type-conversion";
+import type { NumberLike } from "./NumberLike";
 
 type Tighten<
-  T extends string
+  T extends string,
 > = T extends ` ${infer Rest extends string}`
-? T extends `  ${infer Double extends string}`
-  ? Double
-  : Rest
-: T;
-
+  ? T extends `  ${infer Double extends string}`
+    ? Double
+    : Rest
+  : T;
 
 type Process<
   T extends string,
-  Result extends readonly unknown[] = []
+  Result extends readonly unknown[] = [],
 > = T extends `${infer Element},${infer Rest}`
-? Process<
+  ? Process<
     Rest,
     [
       ...Result,
       Tighten<Element> extends NumberLike
         ? AsNumber<Tighten<Element>>
-        : Tighten<Element>
+        : Tighten<Element>,
     ]
   >
-: [
-    ...Result,
-    Tighten<T> extends NumberLike
+  : [
+      ...Result,
+      Tighten<T> extends NumberLike
         ? AsNumber<Tighten<T>>
-        : Tighten<T>
-];
+        : Tighten<T>,
+    ];
 
 type ProcessJsonTuple<
   T extends string,
-  Result extends readonly unknown[] = []
+  Result extends readonly unknown[] = [],
 > = T extends `${infer Element},${infer Rest}`
-? ProcessJsonTuple<
+  ? ProcessJsonTuple<
     Rest,
     [
       ...Result,
       Tighten<Element> extends NumberLike
         ? AsNumber<Tighten<Element>>
         : If<
-            IsEqual<Tighten<Element>, "true">,
-            true,
-            If<
-              IsEqual<Tighten<Element>, "false">,
-              false,
-              Tighten<`"${Element}"`>
-            >
+          IsEqual<Tighten<Element>, "true">,
+          true,
+          If<
+            IsEqual<Tighten<Element>, "false">,
+            false,
+            Tighten<`"${Element}"`>
           >
+        >,
     ]
   >
-: [
-    ...Result,
-    Tighten<T> extends NumberLike
+  : [
+      ...Result,
+      Tighten<T> extends NumberLike
         ? AsNumber<Tighten<T>>
         : If<
-            IsEqual<Tighten<T>, "true">,
-            true,
-            If<
-              IsEqual<Tighten<T>, "false">,
-              false,
-              Tighten<`"${T}"`>
-            >
+          IsEqual<Tighten<T>, "true">,
+          true,
+          If<
+            IsEqual<Tighten<T>, "false">,
+            false,
+            Tighten<`"${T}"`>
           >
-];
-
-
+        >,
+    ];
 
 type ProcessStr<
   T extends string,
-  Result extends readonly unknown[] = []
+  Result extends readonly unknown[] = [],
 > = T extends `${infer Element},${infer Rest}`
-? ProcessStr<
+  ? ProcessStr<
     Rest,
     [
       ...Result,
-      Tighten<Element>
+      Tighten<Element>,
     ]
   >
-: [
-    ...Result,
-    Tighten<T>
-  ];
+  : [
+      ...Result,
+      Tighten<T>,
+    ];
 
 type ProcessUnion<
   T extends string,
-  Result extends string | number = never
+  Result extends string | number = never,
 > = T extends `${infer Element},${infer Rest}`
-? ProcessUnion<
+  ? ProcessUnion<
     Rest,
     Tighten<Element> extends NumberLike
-        ? Result | AsNumber<Tighten<Element>>
-        : Result | Tighten<Element>
+      ? Result | AsNumber<Tighten<Element>>
+      : Result | Tighten<Element>
   >
-: Tighten<T> extends NumberLike
-        ? Result | AsNumber<Tighten<T>>
-        : Result | Tighten<T>;
+  : Tighten<T> extends NumberLike
+    ? Result | AsNumber<Tighten<T>>
+    : Result | Tighten<T>;
 
 type ProcessUnionStr<
   T extends string,
-  Result extends string | number = never
+  Result extends string | number = never,
 > = T extends `${infer Element},${infer Rest}`
-? ProcessUnionStr<
+  ? ProcessUnionStr<
     Rest,
     Result | Tighten<Element>
   >
-: Result | Tighten<T>;
+  : Result | Tighten<T>;
 
 /**
  * **CsvToTuple**`<T>`
@@ -121,7 +116,6 @@ type ProcessUnionStr<
  */
 export type CsvToTuple<T extends string> = Process<T>;
 
-
 /**
  * **CsvToTupleStr**`<T>`
  *
@@ -131,7 +125,6 @@ export type CsvToTuple<T extends string> = Process<T>;
  */
 export type CsvToTupleStr<T extends string> = ProcessStr<T>;
 
-
 /**
  * **CsvToUnion**`<T>`
  *
@@ -140,7 +133,6 @@ export type CsvToTupleStr<T extends string> = ProcessStr<T>;
  * **Related:** `CsvToTuple`, `CsvToStrUnion`
  */
 export type CsvToUnion<T extends string> = ProcessUnion<T>;
-
 
 /**
  * **CsvToStrUnion**`<T>`

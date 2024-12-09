@@ -1,29 +1,28 @@
-import {
-  If,
-  AsNegativeNumber,
-  HaveSameNumericSign,
-  AsNumber,
+import type {
   Abs,
   Add,
-  NumberLike,
+  AsNegativeNumber,
+  AsNumber,
+  HaveSameNumericSign,
+  If,
   IsGreaterThan,
+  NumberLike,
   ParseInt,
-  StartsWith
+  StartsWith,
 } from "inferred-types/types";
 
-
 type Process<
-A extends NumberLike,
-B extends NumberLike
+  A extends NumberLike,
+  B extends NumberLike,
 > = If<
-  HaveSameNumericSign<A,B>,
+  HaveSameNumericSign<A, B>,
   If<
-    IsGreaterThan<Abs<A>,Abs<B>>,
+    IsGreaterThan<Abs<A>, Abs<B>>,
     Add<Abs<A>, AsNegativeNumber<B>>,
     Add<Abs<B>, AsNegativeNumber<A>>
   >,
   // one of the params is negative, one positive
-  Add<Abs<A>,Abs<B>>
+  Add<Abs<A>, Abs<B>>
 >;
 
 /**
@@ -33,38 +32,36 @@ B extends NumberLike
  * between negative numbers).
  */
 export type Delta<
-A extends NumberLike,
-B extends NumberLike
+  A extends NumberLike,
+  B extends NumberLike,
 > = A extends `${number}`
-? Process<A,B>
-: AsNumber<Process<A,B>>
-
+  ? Process<A, B>
+  : AsNumber<Process<A, B>>;
 
 type AsLit<T extends NumberLike> = T extends `${number}`
-? T
-: T extends number
-  ? `${T}`
-  : never;
-
+  ? T
+  : T extends number
+    ? `${T}`
+    : never;
 
 type ProcessNeg<
-A extends `${number}`,
-B extends `${number}`
-> = Delta<A,B> extends `${infer Num extends number}`
+  A extends `${number}`,
+  B extends `${number}`,
+> = Delta<A, B> extends `${infer Num extends number}`
   ? StartsWith<Num, "-"> extends true
     ? `${Num}`
     : `-${Num}`
   : never;
 
 export type NegDelta<
-A extends NumberLike,
-B extends NumberLike
+  A extends NumberLike,
+  B extends NumberLike,
 > = A extends number
-? ParseInt<ProcessNeg<
+  ? ParseInt<ProcessNeg<
     AsLit<A>,
     AsLit<B>
   >>
-: ProcessNeg<
+  : ProcessNeg<
     AsLit<A>,
     AsLit<B>
   >;

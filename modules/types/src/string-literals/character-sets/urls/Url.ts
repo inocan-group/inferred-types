@@ -1,36 +1,36 @@
-import {
+import type { NETWORK_PROTOCOL_LOOKUP } from "inferred-types/constants";
+import type {
   AlphaNumericChar,
+  AsNumber,
   AsString,
+  Contains,
+  DnsName,
+  DomainName,
+  EmptyObject,
   ExpandUnion,
+  Flatten,
+  Ip4Address,
+  IsEqual,
   IsStringLiteral,
+  IsUndefined,
+  Mutable,
+  NumericChar,
+  RemoveEmpty,
+  RetainWhile,
   StripAfter,
+  StripBefore,
   StripChars,
   StripLeading,
   StripTrailing,
-  TupleToUnion,
-  DnsName, DomainName,
-  Ip4Address,
-  Mutable,
-  Values,
-  Flatten,
-  EmptyObject,
-  IsEqual,
-  NumericChar,
-  RetainWhile,
-  AsNumber,
-  StripBefore,
   StripWhile,
-  IsUndefined,
-  Contains,
-  RemoveEmpty
+  TupleToUnion,
+  Values,
 } from "inferred-types/types";
-import { NETWORK_PROTOCOL_LOOKUP } from "inferred-types/constants";
 
 type Proto = typeof NETWORK_PROTOCOL_LOOKUP;
 export type NetworkProtocol = Mutable<Values<Proto>> extends readonly (string | string[])[]
   ? RemoveEmpty<Flatten<Mutable<Values<Proto>>>>[number]
-  : never
-
+  : never;
 
 /**
  * **NetworkProtocolPrefix**
@@ -39,10 +39,10 @@ export type NetworkProtocol = Mutable<Values<Proto>> extends readonly (string | 
  * indicates the network protocol.
  */
 export type NetworkProtocolPrefix<
-  T extends NetworkProtocol = NetworkProtocol
-> = `${T}://`
+  T extends NetworkProtocol = NetworkProtocol,
+> = `${T}://`;
 
-export type PortSpecifierOptions = {
+export interface PortSpecifierOptions {
   /**
    * **portRequirement**
    *
@@ -51,9 +51,9 @@ export type PortSpecifierOptions = {
    *
    * @default "not-allowed"
    */
-  portRequirement?: "optional" | "required" | "not-allowed"
+  portRequirement?: "optional" | "required" | "not-allowed";
 
-  ports?: number
+  ports?: number;
 }
 
 /**
@@ -62,12 +62,12 @@ export type PortSpecifierOptions = {
  * Gets the network protocol used in the URL string passed into `T`.
  */
 export type GetUrlProtocol<T> = T extends string
-? T extends `${NetworkProtocolPrefix}${string}`
-? StripAfter<T,"://">
-: IsEqual<T,string> extends true
-  ? string
-  : never
-: never;
+  ? T extends `${NetworkProtocolPrefix}${string}`
+    ? StripAfter<T, "://">
+    : IsEqual<T, string> extends true
+      ? string
+      : never
+  : never;
 
 /**
  * **GetUrlProtocolPrefix**`<T>`
@@ -76,17 +76,16 @@ export type GetUrlProtocol<T> = T extends string
  * as there's a protocol found.
  */
 export type GetUrlProtocolPrefix<T> = T extends string
-? GetUrlProtocol<T> extends NetworkProtocol
-  ? NetworkProtocolPrefix<GetUrlProtocol<T>>
-  : ""
-: "";
-
+  ? GetUrlProtocol<T> extends NetworkProtocol
+    ? NetworkProtocolPrefix<GetUrlProtocol<T>>
+    : ""
+  : "";
 
 type _Ports<
   TOpt extends PortSpecifierOptions,
 > = TOpt["ports"] extends number
-? `${TOpt["ports"]}`
-: `${number}`;
+  ? `${TOpt["ports"]}`
+  : `${number}`;
 
 /**
  * **UrlPort**`<TOpt>`
@@ -101,12 +100,12 @@ type _Ports<
  *   - or `not-allowed`
  */
 export type UrlPort<
-  TOpt extends PortSpecifierOptions = { portRequirement: "not-allowed", ports: number }
+  TOpt extends PortSpecifierOptions = { portRequirement: "not-allowed"; ports: number },
 > = [TOpt["portRequirement"]] extends ["required"]
   ? `:${_Ports<TOpt>}`
   : [TOpt["portRequirement"]] extends ["optional"]
-  ? "" | `:${_Ports<TOpt>}`
-  : ``;
+      ? "" | `:${_Ports<TOpt>}`
+      : ``;
 
 /**
  * **GetUrlPort**`<T>`
@@ -118,16 +117,16 @@ export type UrlPort<
  * - all non-string based values result in `never`
  */
 export type GetUrlPort<T> = T extends string
-? IsStringLiteral<T> extends true
-  ? RemoveNetworkProtocol<T> extends `${string}:${infer Port extends number}${infer Rest}`
-    ? AsNumber<RetainWhile<`${Port}${Rest}`, NumericChar>>
-    : "default"
-  : number | "default"
-: never;
+  ? IsStringLiteral<T> extends true
+    ? RemoveNetworkProtocol<T> extends `${string}:${infer Port extends number}${infer Rest}`
+      ? AsNumber<RetainWhile<`${Port}${Rest}`, NumericChar>>
+      : "default"
+    : number | "default"
+  : never;
 
 type _FindPort<
-  T extends string
-> = RetainWhile<StripBefore<RemoveNetworkProtocol<T>, ":">,NumericChar>;
+  T extends string,
+> = RetainWhile<StripBefore<RemoveNetworkProtocol<T>, ":">, NumericChar>;
 
 /**
  * **RemoveUrlPort**`<T,[TOpt]>`
@@ -136,16 +135,16 @@ type _FindPort<
  * as it was.
  */
 export type RemoveUrlPort<
-  T
+  T,
 > = T extends string
-? IsStringLiteral<T> extends true
-  ? RemoveNetworkProtocol<T> extends `${infer Before}:${infer _Port extends `${number}`}${infer After}`
-    ? `${GetUrlProtocolPrefix<T>}${Before}${StripWhile<After, NumericChar>}`
-    : T
-  : string
-: never;
+  ? IsStringLiteral<T> extends true
+    ? RemoveNetworkProtocol<T> extends `${infer Before}:${infer _Port extends `${number}`}${infer After}`
+      ? `${GetUrlProtocolPrefix<T>}${Before}${StripWhile<After, NumericChar>}`
+      : T
+    : string
+  : never;
 
-export type ProtocolOptions = {
+export interface ProtocolOptions {
   /**
    * whether the protocol prefix should be optional
    * @default false
@@ -154,10 +153,10 @@ export type ProtocolOptions = {
   /**
    * The Network Protocols to use.
    */
-  protocols?: NetworkProtocol[]
+  protocols?: NetworkProtocol[];
 }
 
-export type UrlOptions = {
+export interface UrlOptions {
   /**
    * Specify how you'd like to allow for queryParameters in the URL's
    * you're generating.
@@ -179,8 +178,8 @@ export type UrlOptions = {
 export type RemoveHttpProtocol<T extends string> = T extends `http://${infer Insecure}`
   ? Insecure
   : T extends `https://${infer Secure}`
-  ? Secure
-  : T;
+    ? Secure
+    : T;
 
 /**
  * **RemoveNetworkProtocol**`<TContent,[TProtocol]>`
@@ -193,10 +192,10 @@ export type RemoveHttpProtocol<T extends string> = T extends `http://${infer Ins
  */
 export type RemoveNetworkProtocol<
   TContent extends string,
-  TProtocol extends NetworkProtocol = NetworkProtocol
+  TProtocol extends NetworkProtocol = NetworkProtocol,
 > = TContent extends `${NetworkProtocolPrefix<TProtocol>}${infer Rest}`
-? Rest
-: TContent;
+  ? Rest
+  : TContent;
 
 type UrlPathChars = AlphaNumericChar | "_" | "@" | "." | "-";
 
@@ -216,14 +215,14 @@ type UrlPathChars = AlphaNumericChar | "_" | "@" | "." | "-";
 export type UrlPath<T extends string | null = null> = T extends null
   ? "" | `/${UrlPathChars}${string}`
   : T extends string
-  ? IsStringLiteral<T> extends true
-    ? T extends `${string}/`
-      ? never
-    : StripChars<T, UrlPathChars | "/" > extends ""
-      ? T
+    ? IsStringLiteral<T> extends true
+      ? T extends `${string}/`
+        ? never
+        : StripChars<T, UrlPathChars | "/" > extends ""
+          ? T
+          : never
       : never
-  : never
-  : never; // when not string or null
+    : never; // when not string or null
 
 /**
  * **GetUrlSource**`<T>`
@@ -234,12 +233,12 @@ export type UrlPath<T extends string | null = null> = T extends null
  * - if not able to find it then it returns the literal ''
  */
 export type GetUrlSource<
-  T extends string
+  T extends string,
 > = IsStringLiteral<T> extends true
   ? StripAfter<StripAfter<RemoveNetworkProtocol<T>, "/">, ":"> extends
       `${infer Domain extends DnsName | Ip4Address}`
-  ? Domain
-  : never
+    ? Domain
+    : never
   : string;
 
 /**
@@ -249,26 +248,25 @@ export type GetUrlSource<
  * it can be identified.
  */
 export type RemoveUrlSource<T extends string> = IsStringLiteral<T> extends true
-? GetUrlSource<T> extends string
-  ? IsStringLiteral<GetUrlSource<T>> extends true
-    ? T extends `${infer Before}${GetUrlSource<T>}${infer After}`
-      ? `${Before}${After}`
+  ? GetUrlSource<T> extends string
+    ? IsStringLiteral<GetUrlSource<T>> extends true
+      ? T extends `${infer Before}${GetUrlSource<T>}${infer After}`
+        ? `${Before}${After}`
+        : T
       : T
     : T
-  : T
-: string;
-
+  : string;
 
 type _GetUrlPath<T extends string> =
    [T] extends [`${string}//${string}`]
-      ? never
-      : T extends ""
-        ? ""
-        : StripAfter<T,"?"> extends "/"
-        ? ""
-        : T extends `/${string}`
-          ? StripAfter<T,"?">
-          : never;
+     ? never
+     : T extends ""
+       ? ""
+       : StripAfter<T, "?"> extends "/"
+         ? ""
+         : T extends `/${string}`
+           ? StripAfter<T, "?">
+           : never;
 
 /**
  * **GetUrlPath**`<T>`
@@ -280,13 +278,12 @@ type _GetUrlPath<T extends string> =
  * - removes any trailing query parameters
  */
 export type GetUrlPath<
-  T extends string
+  T extends string,
 > = [IsStringLiteral<T>] extends [true]
-? _GetUrlPath<
+  ? _GetUrlPath<
     RemoveUrlSource<RemoveNetworkProtocol<RemoveUrlPort<T>>>
   >
-: string;
-
+  : string;
 
 /**
  * **GetUrlQueryParams**`<T, [S]>`
@@ -296,14 +293,14 @@ export type GetUrlPath<
  */
 export type GetUrlQueryParams<
   T extends string,
-  S extends string | undefined = undefined
+  S extends string | undefined = undefined,
 > = T extends `${string}?${infer QP}`
-? IsUndefined<S> extends true
-  ? `?${QP}`
-  : Contains<QP, `${S}=`> extends true
-    ? string
-    : undefined
-: "";
+  ? IsUndefined<S> extends true
+    ? `?${QP}`
+    : Contains<QP, `${S}=`> extends true
+      ? string
+      : undefined
+  : "";
 
 /**
  * **AnyQueryParams**
@@ -316,8 +313,6 @@ export type GetUrlQueryParams<
  * marketing QP at the end of a URL.
  */
 export type AnyQueryParams = `?${string}` | "";
-
-
 
 type RelativeStart = `../` | `./`;
 
@@ -347,7 +342,7 @@ export type UrlBuilder =
  * A simple type to allow for any HTTP, File, or Websocket based URI.
  */
 export type Uri<
-  T extends NetworkProtocol = NetworkProtocol
+  T extends NetworkProtocol = NetworkProtocol,
 > = `${T}://${string}`;
 
 /**
@@ -358,10 +353,10 @@ export type Uri<
  */
 export type AddUrlPathSegment<
   TExisting extends string,
-  TAdd extends string
+  TAdd extends string,
 > = TExisting extends `${string}/`
-? `${TExisting}${StripTrailing<StripLeading<TAdd, "/">, "/">}`
-: `${TExisting}/${StripTrailing<StripLeading<TAdd, "/">, "/">}`;
+  ? `${TExisting}${StripTrailing<StripLeading<TAdd, "/">, "/">}`
+  : `${TExisting}/${StripTrailing<StripLeading<TAdd, "/">, "/">}`;
 
 type _Path<T extends string> = GetUrlPath<T> extends UrlPath
   ? GetUrlPath<T>
@@ -373,10 +368,10 @@ NetworkProtocolPrefix<[] extends TOpt["protocols"]
   : TupleToUnion<TOpt["protocols"]>>;
 
 type _QP<
-  TOpt extends ProtocolOptions & PortSpecifierOptions & UrlOptions
+  TOpt extends ProtocolOptions & PortSpecifierOptions & UrlOptions,
 > = TOpt["queryParameters"] extends "none"
-? ""
-: `${AnyQueryParams}`;
+  ? ""
+  : `${AnyQueryParams}`;
 
 type _UrlsFrom<
   TContent extends string,
@@ -388,8 +383,7 @@ type _UrlsFrom<
 | `${GetUrlSource<TContent>}${UrlPort<TOpt>}${AddUrlPathSegment<_Path<TContent>, `${string}`>}`
 
 : `${_Proto<TOpt>}${GetUrlSource<TContent>}${UrlPort<TOpt>}${AddUrlPathSegment<_Path<TContent>, `${string}`>}` |
-`${_Proto<TOpt>}${GetUrlSource<TContent>}${UrlPort<TOpt>}${_Path<TContent>}${_QP<TOpt>}`;
-
+  `${_Proto<TOpt>}${GetUrlSource<TContent>}${UrlPort<TOpt>}${_Path<TContent>}${_QP<TOpt>}`;
 
 /**
  * **UrlsFrom**`<T, [TOpt]>`
@@ -406,21 +400,21 @@ export type UrlsFrom<
   T extends string | readonly string[],
   TOpt extends ProtocolOptions & PortSpecifierOptions & UrlOptions = EmptyObject,
 > = T extends string
-? ExpandUnion<_UrlsFrom<T,TOpt>>
-: T extends readonly string[]
-  ? TupleToUnion<
-    {
-      [K in keyof T]: IsStringLiteral<T[K]> extends true
-        ? ExpandUnion<_UrlsFrom<AsString<T[K]>, TOpt>>
-        : never
-    }
-  >
-  : never;
+  ? ExpandUnion<_UrlsFrom<T, TOpt>>
+  : T extends readonly string[]
+    ? TupleToUnion<
+      {
+        [K in keyof T]: IsStringLiteral<T[K]> extends true
+          ? ExpandUnion<_UrlsFrom<AsString<T[K]>, TOpt>>
+          : never
+      }
+    >
+    : never;
 
 /**
  * the inclusion of query parameters at the end of a URL parameter
  */
-export type UrlQueryParameters = `?${string}`
+export type UrlQueryParameters = `?${string}`;
 
 /**
  * the _optional_ inclusion of query parameters at the end of a URL

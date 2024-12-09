@@ -1,15 +1,14 @@
-
 import type {
   AnyObject,
-  If,
+  AsRecord,
+  Concat,
   Contains,
+  ErrorCondition,
+  If,
+  Keys,
   Narrowable,
   SimplifyObject,
-  Concat,
   ToString,
-  Keys,
-  ErrorCondition,
-  AsRecord
 } from "inferred-types/types";
 
 /**
@@ -25,10 +24,9 @@ import type {
 export type AddKeyValue<
   TObj extends AnyObject,
   K extends PropertyKey,
-  V extends Narrowable
+  V extends Narrowable,
 > = If<
   Contains<Keys<AsRecord<TObj>>, K>,
   ErrorCondition<"duplicate-key", Concat<["The object passed into AddKeyValue already has the key '", ToString<K>, "'. This is not allowed. If you intended this then consider using UpsertKeyValue instead."]>>,
   SimplifyObject<TObj & Record<K, V>>
 >;
-

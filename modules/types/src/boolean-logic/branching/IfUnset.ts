@@ -1,8 +1,7 @@
-import {
+import type {
   IsUndefined,
-  Unset
+  Unset,
 } from "inferred-types/types";
-
 
 /**
  * **IfUnset**`<TTest,TElse,[TIf]>`
@@ -15,18 +14,17 @@ import {
 export type IfUnset<
   TTest,
   TElse,
-  TIf = TTest
+  TIf = TTest,
 > = TTest extends Unset
-? TElse
-: Exclude<TIf, Unset>;
-
+  ? TElse
+  : Exclude<TIf, Unset>;
 
 export type IfUnsetOrUndefined<
-TTest,
-TElse,
-TIf = TTest
+  TTest,
+  TElse,
+  TIf = TTest,
 > = TTest extends Unset
-? TElse
-: IsUndefined<TTest> extends true
-? TElse
-: Exclude<TIf, Unset | undefined>;
+  ? TElse
+  : IsUndefined<TTest> extends true
+    ? TElse
+    : Exclude<TIf, Unset | undefined>;

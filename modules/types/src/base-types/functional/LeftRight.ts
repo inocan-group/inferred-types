@@ -1,4 +1,4 @@
-import { AsError, Concat, Contains, IfEqual, Defined, Tuple, NarrowlyContains } from "inferred-types/types";
+import type { AsError, Concat, Contains, Defined, IfEqual, NarrowlyContains, Tuple } from "inferred-types/types";
 
 type left = 1;
 type right = 2;
@@ -13,7 +13,7 @@ type right = 2;
  */
 export type LeftRight<
   L = unknown,
-  R = unknown
+  R = unknown,
 > = [kind: "LeftRight", left: L, right: R];
 
 /**
@@ -25,7 +25,7 @@ export type LeftRight<
  * but in the case where both sides of the `LeftRight` tuple are being leveraged
  * this is a convenient way to set the value.
  */
-export type AsLeftRight<A,B> = LeftRight<A,B>;
+export type AsLeftRight<A, B> = LeftRight<A, B>;
 
 /**
  * **IsSingleSided**`<T>`
@@ -34,18 +34,17 @@ export type AsLeftRight<A,B> = LeftRight<A,B>;
  * a value only on the left or right sides but _not_ both.
  */
 export type IsSingleSided<T extends LeftRight> = T extends [Defined, undefined]
-? true
-: T extends [undefined, Defined]
   ? true
-  : false;
+  : T extends [undefined, Defined]
+    ? true
+    : false;
 
 /**
  * **AsLeft**`<T>`
  *
  * Creates a `LeftRight` tuple with value on left.
  */
-export type AsLeft<T> = LeftRight<T,null>;
-
+export type AsLeft<T> = LeftRight<T, null>;
 
 /**
  * **IfLeft**`<T>`
@@ -53,8 +52,8 @@ export type AsLeft<T> = LeftRight<T,null>;
  * Checks that
  */
 export type IfLeft<T extends LeftRight> = IsSingleSided<T> extends true
-? T[left] extends Defined ? true : false
-: never;
+  ? T[left] extends Defined ? true : false
+  : never;
 
 /**
  * **AsRight**`<T>`
@@ -72,7 +71,7 @@ export type AsRight<T> = LeftRight<null, T>;
  * of an array
  */
 export type AppendRight<TErr, TExisting extends LeftRight> = TExisting[right] extends Tuple
-? [...TExisting[right], TErr] : [TErr];
+  ? [...TExisting[right], TErr] : [TErr];
 
 /**
  * **LeftExtends**`<TEval,TLeftRight>`
@@ -82,7 +81,7 @@ export type AppendRight<TErr, TExisting extends LeftRight> = TExisting[right] ex
  */
 export type LeftExtends<
   TEval,
-  TLeftRight extends LeftRight
+  TLeftRight extends LeftRight,
 > = TEval extends TLeftRight[left] ? true : false;
 
 /**
@@ -93,7 +92,7 @@ export type LeftExtends<
  */
 export type LeftEquals<
   TEval,
-  TLeftRight extends LeftRight
+  TLeftRight extends LeftRight,
 > = IfEqual<TEval, TLeftRight[left], true, false>;
 
 /**
@@ -105,12 +104,12 @@ export type LeftEquals<
  */
 export type LeftIncludes<
   TEval,
-  TLeftRight extends LeftRight
+  TLeftRight extends LeftRight,
 > = TLeftRight[left] extends string
-? TEval extends string | readonly string[]
-    ? Contains<TEval,TLeftRight[left]>
+  ? TEval extends string | readonly string[]
+    ? Contains<TEval, TLeftRight[left]>
     : false
-: false;
+  : false;
 
 type Explicitness = "loose" | "tight";
 
@@ -130,13 +129,12 @@ type Explicitness = "loose" | "tight";
 export type LeftContains<
   TEval,
   TLeftRight extends LeftRight,
-  TExplicitness extends Explicitness = "loose"
+  TExplicitness extends Explicitness = "loose",
 > = TLeftRight[left] extends Tuple
-? TExplicitness extends "loose"
-  ? Contains<TLeftRight[left], TEval>
-  : NarrowlyContains<TLeftRight[left], TEval>
-: false;
-
+  ? TExplicitness extends "loose"
+    ? Contains<TLeftRight[left], TEval>
+    : NarrowlyContains<TLeftRight[left], TEval>
+  : false;
 
 /**
  * **LeftExtends**`<TEval,TLeftRight>`
@@ -146,7 +144,7 @@ export type LeftContains<
  */
 export type RightExtends<
   TEval,
-  TLeftRight extends LeftRight
+  TLeftRight extends LeftRight,
 > = TEval extends TLeftRight[right] ? true : false;
 
 /**
@@ -157,9 +155,8 @@ export type RightExtends<
  */
 export type RightEquals<
   TEval,
-  TLeftRight extends LeftRight
+  TLeftRight extends LeftRight,
 > = IfEqual<TEval, TLeftRight[right], true, false>;
-
 
 /**
  * **RightIncludes**
@@ -172,12 +169,12 @@ export type RightEquals<
  */
 export type RightIncludes<
   TEval,
-  TLeftRight extends LeftRight
+  TLeftRight extends LeftRight,
 > = TLeftRight[right] extends string
-? TEval extends string | readonly string[]
-  ? Contains<TEval,TLeftRight[right]>
-  : false
-: false;
+  ? TEval extends string | readonly string[]
+    ? Contains<TEval, TLeftRight[right]>
+    : false
+  : false;
 
 /**
  * **RightContains**
@@ -195,19 +192,18 @@ export type RightIncludes<
 export type RightContains<
   TEval,
   TLeftRight extends LeftRight,
-  TExplicitness extends Explicitness = "loose"
+  TExplicitness extends Explicitness = "loose",
 > = TLeftRight[left] extends Tuple
-? TExplicitness extends "loose"
-  ? Contains<TLeftRight[left], TEval>
-  : NarrowlyContains<TLeftRight[left], TEval>
-: false;
+  ? TExplicitness extends "loose"
+    ? Contains<TLeftRight[left], TEval>
+    : NarrowlyContains<TLeftRight[left], TEval>
+  : false;
 
 export type LeftRight__Operations =
-| "extends"
-| "equals"
-| "includes"
-| "contains";
-
+  | "extends"
+  | "equals"
+  | "includes"
+  | "contains";
 
 /**
  * **WhereLeft**`<TEval,TOp,TLeftRight,[IF],[ELSE]>`
@@ -234,18 +230,17 @@ export type WhereLeft<
     Concat<[
       "While using the '",
       TOp,
-      "' operation to compare to the LEFT value"
+      "' operation to compare to the LEFT value",
     ]>,
-    { library: "inferred-types/constants"; utility: "IfLeft" }
-  ]>
+    { library: "inferred-types/constants"; utility: "IfLeft" },
+  ]>,
 > =
 TOp extends "extends"
-  ? LeftExtends<TEval,TLeftRight> extends true ? IF : ELSE
-: TOp extends "equals"
-  ? LeftEquals<TEval, TLeftRight> extends true ? IF : ELSE
-: TOp extends "includes"
-  ? LeftIncludes<TEval, TLeftRight> extends true ? IF : ELSE
-: TOp extends "contains"
-  ? LeftContains<TEval, TLeftRight> extends true ? IF : ELSE
-: never;
-
+  ? LeftExtends<TEval, TLeftRight> extends true ? IF : ELSE
+  : TOp extends "equals"
+    ? LeftEquals<TEval, TLeftRight> extends true ? IF : ELSE
+    : TOp extends "includes"
+      ? LeftIncludes<TEval, TLeftRight> extends true ? IF : ELSE
+      : TOp extends "contains"
+        ? LeftContains<TEval, TLeftRight> extends true ? IF : ELSE
+        : never;

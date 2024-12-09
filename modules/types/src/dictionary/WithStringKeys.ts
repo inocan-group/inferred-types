@@ -1,4 +1,4 @@
-import { AnyObject, NonStringKeys } from "inferred-types/types";
+import type { AnyObject, NonStringKeys } from "inferred-types/types";
 
 /**
  * **WithStringKeys**`<T>`

@@ -1,4 +1,3 @@
-
 /**
  * _indentation of 2 spaces_
  *
@@ -27,11 +26,9 @@ export type IndentTab = "\t";
  */
 export type Indent = Indent2 | Indent4 | IndentTab;
 
-
 /**
  * _indentation using 2 or 4 spaces_
  *
  * **Related**: `Indent`, `Indent4`, `IndentTab`
  */
 export type IndentSpaces = Indent2 | Indent4;
-

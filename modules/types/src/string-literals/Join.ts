@@ -1,41 +1,40 @@
-import {
-  IsGreaterThan,
+import type {
   AfterFirst,
   First,
+  IsGreaterThan,
+  TakeFirst,
   ToStringArray,
-  TakeFirst
 } from "inferred-types/types";
-
 
 type Process<
   TTuple extends readonly string[],
   TSeparator extends string,
-  TResult extends string = ""
+  TResult extends string = "",
 > = [] extends TTuple
-? TResult
-: Process<
+  ? TResult
+  : Process<
     AfterFirst<TTuple>,
     TSeparator,
     TResult extends ""
-    ? First<TTuple> extends ""
-      ? TResult
-      : `${First<TTuple>}`
-    : First<TTuple> extends ""
-      ? TResult
-      : `${TResult}${TSeparator}${First<TTuple>}`
+      ? First<TTuple> extends ""
+        ? TResult
+        : `${First<TTuple>}`
+      : First<TTuple> extends ""
+        ? TResult
+        : `${TResult}${TSeparator}${First<TTuple>}`
   >;
 
 type Slicer<
   TTuple extends readonly unknown[],
   TMax extends number | null,
-  TEllipsis extends string | false
+  TEllipsis extends string | false,
 > = TMax extends number
-? TakeFirst<TTuple,TMax> extends readonly unknown[]
-  ? TEllipsis extends string
-    ? ToStringArray<[...TakeFirst<TTuple,TMax>, TEllipsis]>
-    : ToStringArray<TakeFirst<TTuple,TMax>>
-  : never
-: ToStringArray<TTuple>;
+  ? TakeFirst<TTuple, TMax> extends readonly unknown[]
+    ? TEllipsis extends string
+      ? ToStringArray<[...TakeFirst<TTuple, TMax>, TEllipsis]>
+      : ToStringArray<TakeFirst<TTuple, TMax>>
+    : never
+  : ToStringArray<TTuple>;
 
 /**
  * **Join**`<TArr,[TSeparator],[TMax]>`
@@ -54,11 +53,11 @@ export type Join<
   TTuple extends readonly unknown[],
   TSeparator extends string = "",
   TMax extends number | null = null,
-  TEllipsis extends string | false = "..."
+  TEllipsis extends string | false = "...",
 > = ToStringArray<TTuple> extends readonly string[]
-? TMax extends number
-  ? IsGreaterThan<TTuple["length"], TMax> extends true
-    ? Process<Slicer<TTuple,TMax,TEllipsis>, TSeparator>
+  ? TMax extends number
+    ? IsGreaterThan<TTuple["length"], TMax> extends true
+      ? Process<Slicer<TTuple, TMax, TEllipsis>, TSeparator>
+      : Process<ToStringArray<TTuple>, TSeparator>
     : Process<ToStringArray<TTuple>, TSeparator>
-  : Process<ToStringArray<TTuple>, TSeparator>
-: never;
+  : never;

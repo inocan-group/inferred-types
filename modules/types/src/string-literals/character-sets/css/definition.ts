@@ -1,22 +1,22 @@
-import { CssAbsolutionPositioningProperties } from "./absolute";
-import { CssAlignProperties } from "./align";
-import { CssAnimationProperties } from "./animation";
-import { CssBackgroundProperties } from "./background";
-import {  CssBorderProperties } from "./border";
-import { CssBoxProperties } from "./box";
-import { CssBreakProperties } from "./break";
-import { CssColor, CssColorLight } from "./color";
-import { CssAspectRatio, CssDisplay, CssPosition } from "./display-position"
-import { CssGlobal } from "./global";
-import { CssJustifyProperties } from "./justify";
-import { CssMarginProperties } from "./margin";
-import { CssObjectFit, CssObjectPosition } from "./object";
-import { CssOffsetProperties } from "./offset";
-import { CssOutlineProperties } from "./outline";
-import { CssOverflowProperties } from "./overflow";
-import { CssPaddingProperties } from "./padding";
-import { CssPlaceProperties } from "./place";
-import {
+import type { CssAbsolutionPositioningProperties } from "./absolute";
+import type { CssAlignProperties } from "./align";
+import type { CssAnimationProperties } from "./animation";
+import type { CssBackgroundProperties } from "./background";
+import type { CssBorderProperties } from "./border";
+import type { CssBoxProperties } from "./box";
+import type { CssBreakProperties } from "./break";
+import type { CssColor, CssColorLight } from "./color";
+import type { CssAspectRatio, CssDisplay, CssPosition } from "./display-position";
+import type { CssGlobal } from "./global";
+import type { CssJustifyProperties } from "./justify";
+import type { CssMarginProperties } from "./margin";
+import type { CssObjectFit, CssObjectPosition } from "./object";
+import type { CssOffsetProperties } from "./offset";
+import type { CssOutlineProperties } from "./outline";
+import type { CssOverflowProperties } from "./overflow";
+import type { CssPaddingProperties } from "./padding";
+import type { CssPlaceProperties } from "./place";
+import type {
   CssAppearance,
   CssBackdropFilter,
   CssContent,
@@ -43,14 +43,12 @@ import {
   CssWhiteSpace,
   CssWhiteSpaceCollapse,
   CssWordBreak,
-  CssWritingMode
+  CssWritingMode,
 } from "./props";
-import { CssSizing, CssSizingLight } from "./sizing";
-import { CssStrokeProperties } from "./stroke";
-import { CssTextProperties } from "./text";
-import { CssTransformProperties } from "./transform";
-
-
+import type { CssSizing, CssSizingLight } from "./sizing";
+import type { CssStrokeProperties } from "./stroke";
+import type { CssTextProperties } from "./text";
+import type { CssTransformProperties } from "./transform";
 
 /**
  * **CssDefinition**
@@ -63,7 +61,7 @@ import { CssTransformProperties } from "./transform";
  */
 export type CssDefinition = {
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/appearance) */
-  appearance?: CssAppearance;
+  "appearance"?: CssAppearance;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter) */
   "backdrop-filter"?: CssBackdropFilter;
   /**
@@ -71,18 +69,18 @@ export type CssDefinition = {
    * [**display**](https://developer.mozilla.org/en-US/docs/Web/CSS/display)
    * property in CSS.
    */
-  display?: CssDisplay;
+  "display"?: CssDisplay;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/position) */
-  position?: CssPosition;
+  "position"?: CssPosition;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio) */
   "aspect-ratio"?: CssAspectRatio;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/opacity) */
-  opacity?: CssOpacity;
+  "opacity"?: CssOpacity;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/gap) */
-  gap?: CssGap;
+  "gap"?: CssGap;
 
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/flex) */
-  flex?: CssFlex;
+  "flex"?: CssFlex;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-grow) */
   "flex-grow"?: CssFlexGrow;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-shrink) */
@@ -95,7 +93,7 @@ export type CssDefinition = {
   "flex-basis"?: CssFlexBasis;
 
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/float) */
-  float?: CssFloat;
+  "float"?: CssFloat;
 
   /**
    * a union of valid values for the **CSS** [`list-style`](https://developer.mozilla.org/en-US/docs/Web/CSS/list-style) property.
@@ -115,25 +113,25 @@ export type CssDefinition = {
    * inline-size, which defines the other dimension of the element.
    *
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/block-size)
-  */
+   */
   "block-size"?: CssSizing;
 
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/border-size) */
   "border-size"?: CssSizing;
 
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/content) */
-  content?: CssContent;
+  "content"?: CssContent;
 
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/color) */
-  color?: CssColor;
+  "color"?: CssColor;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) */
-  cursor?: CssCursor | CssGlobal;
+  "cursor"?: CssCursor | CssGlobal;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/height) */
-  height?: CssSizing;
+  "height"?: CssSizing;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/width) */
-  width?: CssSizing;
+  "width"?: CssSizing;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/perspective) */
-  perspective?: CssSizingLight | "none" | CssGlobal;
+  "perspective"?: CssSizingLight | "none" | CssGlobal;
   "perspective-origin"?: CssPerspectiveOrigin;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/mix-blend-mode) */
   "mix-blend-mode"?: CssMixBlendMode;
@@ -153,7 +151,7 @@ export type CssDefinition = {
   "object-fit"?: CssObjectFit;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/object-position) */
   "object-position"?: CssObjectPosition;
-  order?: `${number}` | CssGlobal;
+  "order"?: `${number}` | CssGlobal;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/image-orientation) */
   "image-orientation"?: CssImageOrientation;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/image-rendering) */
@@ -174,7 +172,7 @@ export type CssDefinition = {
   "min-inline-size"?: CssSizing;
 
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/stop-color) */
-  "stop-color"?: CssColorLight  | CssGlobal;
+  "stop-color"?: CssColorLight | CssGlobal;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/stop-opacity) */
   "stop-opacity"?: `${number}` | `${number}%` | CssGlobal;
 
@@ -184,31 +182,30 @@ export type CssDefinition = {
   "table-layout"?: "auto" | "fixed" | CssGlobal;
 
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/translate) */
-  translate?: CssTranslate | CssGlobal;
+  "translate"?: CssTranslate | CssGlobal;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/quotes) */
-  quotes?: string;
+  "quotes"?: string;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/r) */
-  r?: CssSizingLight | CssGlobal;
+  "r"?: CssSizingLight | CssGlobal;
 
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/pointer-events) */
   "pointer-events"?: PointerEvent | CssGlobal;
 
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/resize) */
-  resize?: "both" | "horizontal" | "vertical" | "none" | CssGlobal;
+  "resize"?: "both" | "horizontal" | "vertical" | "none" | CssGlobal;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/rotate) */
-  rotate?: CssRotation | `x ${CssRotation}` | `y ${CssRotation}` | `z ${CssRotation}` | CssGlobal;
+  "rotate"?: CssRotation | `x ${CssRotation}` | `y ${CssRotation}` | `z ${CssRotation}` | CssGlobal;
   "row-gap"?: CssSizing;
 
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/rx) */
-  rx?: CssSizing;
+  "rx"?: CssSizing;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/ry) */
-  ry?: CssSizing;
-
+  "ry"?: CssSizing;
 
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/x) */
-  x?: CssSizing;
+  "x"?: CssSizing;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/y) */
-  y?: CssSizing;
+  "y"?: CssSizing;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/white-space) */
   "white-space"?: CssWhiteSpace;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/white-space-collapse) */
@@ -247,4 +244,3 @@ export type CssDefinition = {
 & CssOverflowProperties
 & CssOffsetProperties
 & CssTransformProperties;
-

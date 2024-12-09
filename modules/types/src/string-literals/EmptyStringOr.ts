@@ -1,4 +1,4 @@
-import { TupleToUnion , EmptyString } from "inferred-types/types";
+import type { EmptyString, TupleToUnion } from "inferred-types/types";
 
 /**
  * **EmptyStringOr**`<T>`

@@ -1,22 +1,20 @@
-import { CssAlignContent, CssAlignItems, CssAlignSelf } from "./align"
-import { CssGlobal } from "./global"
-import { CssJustifyContent, CssJustifyItems, CssJustifySelf } from "./justify"
-
+import type { CssAlignContent, CssAlignItems, CssAlignSelf } from "./align";
+import type { CssGlobal } from "./global";
+import type { CssJustifyContent, CssJustifyItems, CssJustifySelf } from "./justify";
 
 export type CssPlaceContent = `${CssAlignContent} ${CssJustifyContent}`
-| CssAlignContent
-| CssGlobal;
+  | CssAlignContent
+  | CssGlobal;
 
 export type CssPlaceItems = `${CssAlignItems} ${CssJustifyItems}`
-| CssAlignContent
-| CssGlobal;
+  | CssAlignContent
+  | CssGlobal;
 
 export type CssPlaceSelf = `${CssAlignSelf} ${CssJustifySelf}`
-| CssAlignContent
-| CssGlobal;
+  | CssAlignContent
+  | CssGlobal;
 
-
-export type CssPlaceProperties = {
+export interface CssPlaceProperties {
   /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/place-content) */
   "place-content"?: CssPlaceContent;
   /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/place-items) */

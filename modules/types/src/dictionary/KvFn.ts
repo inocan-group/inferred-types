@@ -1,4 +1,4 @@
-import { FnWithDescription, FnDefn } from "../functions/FnWithDescription";
+import type { FnDefn, FnWithDescription } from "../functions/FnWithDescription";
 
 /**
  * **KvFnDefn**
@@ -14,7 +14,5 @@ export type KvFnDefn = [key: string, fn: FnDefn];
  * _value_ is a function.
  */
 export type KvFn<
-  T extends KvFnDefn = KvFnDefn
+  T extends KvFnDefn = KvFnDefn,
 > = Record<T[0], FnWithDescription<T[1]>>;
-
-

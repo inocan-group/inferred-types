@@ -1,5 +1,5 @@
-import { TEMPERATURE_METRICS_LOOKUP } from "inferred-types/constants";
-import { OptSpace } from "../character-sets/OptionalSpace";
+import type { TEMPERATURE_METRICS_LOOKUP } from "inferred-types/constants";
+import type { OptSpace } from "../character-sets/OptionalSpace";
 
 type TemperatureMetricsLookup = typeof TEMPERATURE_METRICS_LOOKUP;
 
@@ -21,7 +21,6 @@ export type TemperatureUom = {
     : never
 }[number];
 
-
 /***
  * **Temperature**
  *
@@ -31,4 +30,3 @@ export type TemperatureUom = {
  * **Related:** `TemperatureUom`
  */
 export type Temperature = `${number}${OptSpace}${TemperatureUom}`;
-

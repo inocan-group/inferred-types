@@ -1,10 +1,7 @@
-import {
+import type {
   IfNever,
   Scalar,
 } from "inferred-types/types";
-
-
-
 
 /**
  * **IsScalar**`<T>`
@@ -21,5 +18,3 @@ import {
  * **Related:** `IsOptionalScalar`
  */
 export type IsScalar<T> = IfNever<T, false, T extends Scalar ? true : false>;
-
-

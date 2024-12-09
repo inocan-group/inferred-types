@@ -1,4 +1,4 @@
-import {  AsString,  Tuple } from "inferred-types/types";
+import type { AsString, Tuple } from "inferred-types/types";
 
 /**
  * **ToStringArray**`<T>`
@@ -9,7 +9,7 @@ import {  AsString,  Tuple } from "inferred-types/types";
 export type ToStringArray<T extends Tuple> = {
   [K in keyof T]: AsString<T[K]>
 } extends readonly string[]
-? {
-  [K in keyof T]: AsString<T[K]>
-}
-: never;
+  ? {
+      [K in keyof T]: AsString<T[K]>
+    }
+  : never;

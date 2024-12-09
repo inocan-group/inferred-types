@@ -1,8 +1,7 @@
-import {  Chars,  If, IsStringLiteral, Concat} from "inferred-types/types";
-
+import type { Chars, Concat, If, IsStringLiteral } from "inferred-types/types";
 
 type Process<
-  TChars extends readonly string[]
+  TChars extends readonly string[],
 > = {
   [K in keyof TChars]: Capitalize<TChars[K]>
 };

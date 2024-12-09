@@ -1,4 +1,4 @@
-import  { LOWER_ALPHA_CHARS } from "inferred-types/constants";
+import type { LOWER_ALPHA_CHARS } from "inferred-types/constants";
 
 /**
  * **LowerAlphaChar**
@@ -7,4 +7,4 @@ import  { LOWER_ALPHA_CHARS } from "inferred-types/constants";
  *
  * **Related:** `AlphaChar`, `UpperAlphaChar`, `LowerAlpha`
  */
-export type LowerAlphaChar =typeof LOWER_ALPHA_CHARS[number];
+export type LowerAlphaChar = typeof LOWER_ALPHA_CHARS[number];

@@ -1,4 +1,4 @@
-import { AnyObject, LeftRight } from "inferred-types/types";
+import type { AnyObject, LeftRight } from "inferred-types/types";
 
 /**
  * **UniqueKv**`<L,R>`

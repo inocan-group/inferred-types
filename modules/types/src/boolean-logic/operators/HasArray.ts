@@ -1,7 +1,7 @@
-import { AfterFirst, First,  IsArray } from "inferred-types/types";
+import type { AfterFirst, First, IsArray } from "inferred-types/types";
 
 type _HasArray<
-  TList extends readonly unknown[]
+  TList extends readonly unknown[],
 > = [] extends TList
   ? false
   : IsArray<First<TList>> extends true
@@ -14,4 +14,3 @@ type _HasArray<
  * Checks whether a list of items includes an _array_ (tuple or wide array type) within it.
  */
 export type HasArray<TList extends readonly unknown[]> = _HasArray<TList>;
-

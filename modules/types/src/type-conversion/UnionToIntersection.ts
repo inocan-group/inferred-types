@@ -1,6 +1,6 @@
 /**
  * **UnionToIntersection**`<U>`
- * 
+ *
  * Type utility which converts a union type to an intersection
  */
 export type UnionToIntersection<U> = (

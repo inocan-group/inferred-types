@@ -1,20 +1,18 @@
-import { OptSpace } from "../OptionalSpace";
+import type { OptSpace } from "../OptionalSpace";
 
 type PropertyFormat =
-| "*"
-| "color"
-| "image"
-| "length"
-| "size"
-| "number"
-| "integer"
-| "string"
-| "angle"
-| "time"
-| "frequency"
-| "resolution";
-
-
+  | "*"
+  | "color"
+  | "image"
+  | "length"
+  | "size"
+  | "number"
+  | "integer"
+  | "string"
+  | "angle"
+  | "time"
+  | "frequency"
+  | "resolution";
 
 /**
  * **CssProperty**
@@ -30,7 +28,4 @@ type PropertyFormat =
  * }
  * ```
  */
-export type CssProperty = `@property --${string}${OptSpace}{${string}syntax: "${PropertyFormat}";${string}inherits: ${"true" | "false"};${string}initial-value: ${string};${string}}`
-
-
-
+export type CssProperty = `@property --${string}${OptSpace}{${string}syntax: "${PropertyFormat}";${string}inherits: ${"true" | "false"};${string}initial-value: ${string};${string}}`;

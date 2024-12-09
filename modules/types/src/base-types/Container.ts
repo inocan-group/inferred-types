@@ -1,4 +1,4 @@
-import { Dictionary } from "inferred-types/types";
+import type { Dictionary } from "inferred-types/types";
 
 /**
  * **Container**
@@ -10,10 +10,9 @@ import { Dictionary } from "inferred-types/types";
  *  - any `Map<K,V>`, `WeakMap<K,V>`, or `Set<T>`
  */
 export type Container =
-| Dictionary
-| readonly unknown[]
-| Map<unknown,unknown>
-| WeakMap<object,unknown>
-| Set<unknown>
-| object;
-
+  | Dictionary
+  | readonly unknown[]
+  | Map<unknown, unknown>
+  | WeakMap<object, unknown>
+  | Set<unknown>
+  | object;

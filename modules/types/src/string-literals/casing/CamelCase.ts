@@ -1,10 +1,10 @@
-import {
-  IsTrue,
+import type {
+  Concat,
   If,
+  IsTrue,
   LeftWhitespace,
+  PascalCase,
   RightWhitespace,
-  PascalCase ,
-  Concat
 } from "inferred-types/types";
 
 /**
@@ -15,7 +15,7 @@ import {
  */
 export type CamelCase<
   TString extends string,
-  TPreserveWhitespace extends boolean = false
+  TPreserveWhitespace extends boolean = false,
 > = If<
   IsTrue<TPreserveWhitespace>,
   string extends TString
@@ -23,7 +23,7 @@ export type CamelCase<
     : Concat<[
       LeftWhitespace<TString>,
       Uncapitalize<PascalCase<TString>>,
-      RightWhitespace<TString>
+      RightWhitespace<TString>,
     ]>
   ,
   string extends TString

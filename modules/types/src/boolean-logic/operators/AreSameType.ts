@@ -1,4 +1,4 @@
-import { Widen } from "inferred-types/types";
+import type { Widen } from "inferred-types/types";
 
 /**
  * **AreSameType**`<A,B>`
@@ -15,8 +15,8 @@ import { Widen } from "inferred-types/types";
  * AreSameType<"foo",42>;
  * ```
  */
-export type AreSameType<A,B> = Widen<A, true> extends Widen<B, true>
-? Widen<B, true> extends Widen<A, true>
-  ? true
-  : false
-: false;
+export type AreSameType<A, B> = Widen<A, true> extends Widen<B, true>
+  ? Widen<B, true> extends Widen<A, true>
+    ? true
+    : false
+  : false;

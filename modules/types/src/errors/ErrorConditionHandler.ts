@@ -1,5 +1,4 @@
-
-import {ErrorCondition} from "inferred-types/types";
+import type { ErrorCondition } from "inferred-types/types";
 
 /**
  * **ErrorConditionHandler**

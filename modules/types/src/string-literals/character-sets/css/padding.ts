@@ -1,10 +1,10 @@
-import { Opt } from "../Optional";
-import { CssSizingLight } from "./sizing";
+import type { Opt } from "../Optional";
+import type { CssSizingLight } from "./sizing";
 
 export type CssPadding = CssSizingLight
-| `${CssSizingLight}, ${CssSizingLight}${Opt<`, ${CssSizingLight}`>}${string}`;
+  | `${CssSizingLight}, ${CssSizingLight}${Opt<`, ${CssSizingLight}`>}${string}`;
 
-export type CssPaddingBlock = `${CssSizingLight}${Opt<`, ${CssSizingLight}`>}${string}`;;
+export type CssPaddingBlock = `${CssSizingLight}${Opt<`, ${CssSizingLight}`>}${string}`; ;
 
 export type CssPaddingBlockEnd = CssSizingLight;
 export type CssPaddingBlockStart = CssSizingLight;
@@ -18,8 +18,8 @@ export type CssPaddingRight = CssSizingLight;
 export type CssPaddingTop = CssSizingLight;
 export type CssPaddingBottom = CssSizingLight;
 
-export type CssPaddingProperties = {
-  padding?: CssPadding;
+export interface CssPaddingProperties {
+  "padding"?: CssPadding;
   "padding-block"?: CssPaddingBlock;
   "padding-block-end"?: CssPaddingBlockEnd;
   "padding-block-start"?: CssPaddingBlockStart;

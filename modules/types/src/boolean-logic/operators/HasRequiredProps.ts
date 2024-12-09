@@ -1,10 +1,10 @@
-import {
+import type {
+  AnyObject,
+  EmptyObject,
+  IsEqual,
+  IsWideContainer,
   ObjectKey,
   RequiredKeysTuple,
-  AnyObject,
-  IsWideContainer,
-  IsEqual,
-  EmptyObject
 } from "inferred-types/types";
 
 /**
@@ -14,14 +14,14 @@ import {
  * the `T` is an object _and_ has at least one required property on it.
  */
 export type HasRequiredProps<
-  T extends AnyObject
+  T extends AnyObject,
 > = IsWideContainer<T> extends true
-? IsEqual<T, EmptyObject> extends true
-  ? false
-  : boolean
-// Narrow Container
-: RequiredKeysTuple<T> extends readonly ObjectKey[]
-  ? RequiredKeysTuple<T>["length"] extends 0
+  ? IsEqual<T, EmptyObject> extends true
     ? false
-    : true
-  : false;
+    : boolean
+// Narrow Container
+  : RequiredKeysTuple<T> extends readonly ObjectKey[]
+    ? RequiredKeysTuple<T>["length"] extends 0
+      ? false
+      : true
+    : false;

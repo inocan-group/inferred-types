@@ -1,4 +1,4 @@
-import { AllExtend } from "inferred-types/types";
+import type { AllExtend } from "inferred-types/types";
 
 /**
  * **IfAllExtend**`<TList,TExtend,IF,ELSE>`
@@ -13,5 +13,5 @@ export type IfAllExtend<
   TList extends readonly unknown[],
   TExtend,
   IF,
-  ELSE
-> = AllExtend<TList,TExtend> extends true ? IF : ELSE;
+  ELSE,
+> = AllExtend<TList, TExtend> extends true ? IF : ELSE;

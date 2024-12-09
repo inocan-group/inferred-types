@@ -1,7 +1,7 @@
 /**
-* [**Document Structure Aria Roles**]([**Aria Role**](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles#1._document_structure_roles)
-*/
-export type AriaDocStructureRoles ="alert"
+ * [**Document Structure Aria Roles**]([**Aria Role**](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles#1._document_structure_roles)
+ */
+export type AriaDocStructureRoles = "alert"
   | "toolbar"
   | "tooltip"
   | "feed"
@@ -37,28 +37,27 @@ export type AriaLandmarkRoles = "banner"
   | "search";
 
 export type AriaLiveRegionRoles = "alert"
-| "log"
-| "marquee"
-| "status"
-| "timer";
+  | "log"
+  | "marquee"
+  | "status"
+  | "timer";
 
 export type AriaWindowRoles = "alertdialog"
   | "dialog";
 
-
 /**
-* [**Aria Role**](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles)
-* Includes roles from:
-*   - `AriaDocStructureRoles`
-*   - `AriaWidgetRoles`
-*   - `AriaLandmarkRoles`
-*   - `AriaLiveRegionRoles`
-*
-* > [Role definitions](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles#roles_defined_on_mdn).
-*/
+ * [**Aria Role**](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles)
+ * Includes roles from:
+ *   - `AriaDocStructureRoles`
+ *   - `AriaWidgetRoles`
+ *   - `AriaLandmarkRoles`
+ *   - `AriaLiveRegionRoles`
+ *
+ * > [Role definitions](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles#roles_defined_on_mdn).
+ */
 export type AriaRole =
-| AriaDocStructureRoles
-| AriaWidgetRoles
-| AriaLandmarkRoles
-| AriaLiveRegionRoles
-| AriaWindowRoles;
+  | AriaDocStructureRoles
+  | AriaWidgetRoles
+  | AriaLandmarkRoles
+  | AriaLiveRegionRoles
+  | AriaWindowRoles;
