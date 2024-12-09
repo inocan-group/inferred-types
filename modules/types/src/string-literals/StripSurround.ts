@@ -1,8 +1,8 @@
-import { AsNumber, AsStringUnion, IsWideType } from "inferred-types/types"
+import type { AsNumber, AsStringUnion, IsWideType } from "inferred-types/types";
 
 type Process<
   TContent extends string,
-  TSurround extends string
+  TSurround extends string,
 > = TContent extends `${TSurround}${infer REMAIN}`
   ? REMAIN extends `${infer LEADING}${TSurround}`
     ? LEADING
@@ -24,11 +24,11 @@ type Process<
  */
 export type StripSurround<
   TContent extends string | number,
-  TSurround extends string | number
+  TSurround extends string | number,
 > = IsWideType<TContent> extends true
-? TContent
-: TContent extends string
-  ? Process<TContent, AsStringUnion<TSurround>>
-  : AsNumber<
+  ? TContent
+  : TContent extends string
+    ? Process<TContent, AsStringUnion<TSurround>>
+    : AsNumber<
       Process<`${TContent}`, AsStringUnion<TSurround>>
     >;

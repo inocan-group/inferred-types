@@ -1,14 +1,14 @@
-import {
-  NumericChar,
+import type { MONTH_ABBR, MONTH_NAME } from "inferred-types/constants";
+import type {
   NonZeroNumericChar,
+  NumericChar,
 } from "inferred-types/types";
-import  { MONTH_ABBR, MONTH_NAME}  from "inferred-types/constants";
 
 export type Year<
-  T extends "strong" | "simple" = "strong"
+  T extends "strong" | "simple" = "strong",
 > = T extends "strong"
-? `${"1" | "2"}${NumericChar}${NumericChar}${NumericChar}`
-: `${"1" | "2"}${number}`;
+  ? `${"1" | "2"}${NumericChar}${NumericChar}${NumericChar}`
+  : `${"1" | "2"}${number}`;
 
 type ZeroThenDigit = `0${NumericChar}`;
 
@@ -18,7 +18,6 @@ type ZeroThenDigit = `0${NumericChar}`;
  * The month of the year represented as a full string name.
  */
 export type MonthName = typeof MONTH_NAME[number];
-
 
 /**
  * **MonthAbbr**
@@ -32,7 +31,7 @@ export type MonthAbbr = typeof MONTH_ABBR[number];
  *
  * The month of the year represented in a numeric format.
  */
-export type MonthNumeric =  "10" | "11" | "12" | `${"0" | ""}${NonZeroNumericChar}`;
+export type MonthNumeric = "10" | "11" | "12" | `${"0" | ""}${NonZeroNumericChar}`;
 
 /**
  * **MonthDay**
@@ -43,7 +42,6 @@ export type MonthDay = ZeroThenDigit | `${"" | "1" | "2"}${NumericChar}` | `3${"
 
 export type DateSeparator = "-" | "/" | ".";
 
-
 /**
  * **YMD**`<[TSep]>
  * A date format for `YYYY-MM-DD` which is used as a component of the ISO8601 standard.
@@ -51,8 +49,8 @@ export type DateSeparator = "-" | "/" | ".";
  * > Note: you may optionally change the DateSeparator to suit your needs
  */
 export type YMD<
-  TSep extends DateSeparator = "-"
-> =  `${"1" | "2"}${number}${TSep}${MonthNumeric}${TSep}${number}`;
+  TSep extends DateSeparator = "-",
+> = `${"1" | "2"}${number}${TSep}${MonthNumeric}${TSep}${number}`;
 
 /**
  * **DateThenMonth**
@@ -69,7 +67,6 @@ export type DateThenMonth = `${MonthDay} ${MonthAbbr}`;
  * of the month and finishing with the year (e.g., `4 July 2021`)
  */
 export type DateThenMonthThenYear = `${MonthDay} ${MonthAbbr}${` ${Year<"simple">}`}`;
-
 
 export type MonthPostfix = "" | "st" | "rd" | "th";
 
@@ -88,7 +85,6 @@ export type MonthThenDateThenYear = `${MonthAbbr | MonthName} ${MonthDay}${Month
  * day in the month (e.g., `July 28`, `July 28th`)
  */
 export type MonthThenDate = `${MonthAbbr | MonthName} ${MonthDay}${MonthPostfix}`;
-
 
 export type MonthThenDate_Simple = ``;
 
@@ -145,7 +141,6 @@ export type FullDate = YMD | DateThenMonthThenYear | MonthThenDateThenYear;
  * **Note:** the year is _not_ representable using this type
  */
 export type ShortDate = DateThenMonth | MonthThenDate;
-
 
 /**
  * **Date**

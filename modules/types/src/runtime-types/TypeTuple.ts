@@ -1,4 +1,4 @@
-import { Narrowable , TypeGuard } from "inferred-types/types";
+import type { Narrowable, TypeGuard } from "inferred-types/types";
 
 /**
  * **TypeTuple**`<TType>`
@@ -14,9 +14,9 @@ import { Narrowable , TypeGuard } from "inferred-types/types";
  */
 export type TypeTuple<
   TType extends Narrowable = Narrowable,
-  TDesc extends string = string
+  TDesc extends string = string,
 > = [
   type: TType,
   guard: TypeGuard<TType>,
-  desc: TDesc
+  desc: TDesc,
 ];

@@ -1,9 +1,8 @@
-
-import {
+import type {
   If,
-  NumberLike,
   IsNegativeNumber,
-  IsPositiveNumber
+  IsPositiveNumber,
+  NumberLike,
 } from "inferred-types/types";
 
 /**
@@ -14,11 +13,9 @@ import {
  */
 export type HaveSameNumericSign<
   A extends NumberLike,
-  B extends NumberLike
+  B extends NumberLike,
 > = If<
   IsPositiveNumber<A>,
   IsPositiveNumber<B> extends true ? true : false,
   IsNegativeNumber<B> extends true ? true : false
->
-
-
+>;

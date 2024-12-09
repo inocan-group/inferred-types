@@ -1,15 +1,15 @@
-import { AsNumber, IsEqual, NumberLike } from "inferred-types/types";
+import type { AsNumber, IsEqual, NumberLike } from "inferred-types/types";
 
 type Calc<
   A extends number,
   B extends number,
-  Count extends 1[] = []
+  Count extends 1[] = [],
 > =
 Count["length"] extends B
   ? false
   : Count["length"] extends A
     ? true
-    : Calc<A,B, [...Count, 1]>;
+    : Calc<A, B, [...Count, 1]>;
 
 /**
  * **IsLessThan**`<A,B>`
@@ -21,10 +21,8 @@ Count["length"] extends B
  */
 export type IsLessThan<
   A extends NumberLike,
-  B extends NumberLike
+  B extends NumberLike,
 > = Calc<AsNumber<A>, AsNumber<B>>;
-
-
 
 /**
  * **IsLessThanOrEqual**`<A,B>`
@@ -33,7 +31,7 @@ export type IsLessThan<
  */
 export type IsLessThanOrEqual<
   A extends NumberLike,
-  B extends NumberLike
-> = IsEqual<A,B> extends true
-? true
-: IsLessThan<A,B>;
+  B extends NumberLike,
+> = IsEqual<A, B> extends true
+  ? true
+  : IsLessThan<A, B>;

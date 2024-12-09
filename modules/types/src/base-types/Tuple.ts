@@ -1,5 +1,4 @@
-
-import { FixedLengthArray } from "inferred-types/types";
+import type { FixedLengthArray } from "inferred-types/types";
 
 export type TupleRange = [required: number, optional: number];
 
@@ -20,7 +19,7 @@ export type TupleRange = [required: number, optional: number];
  */
 export type Tuple<
   TType = unknown,
-  TLength extends number | TupleRange | `${number}+` = 0
+  TLength extends number | TupleRange | `${number}+` = 0,
 > = 0 extends TLength
   ? TType extends any[]
     ? Readonly<TType>
@@ -29,14 +28,14 @@ export type Tuple<
     ? Readonly<FixedLengthArray<TType, TLength>>
     : TLength extends TupleRange
       ? Readonly<[
-          ...FixedLengthArray<TType, TLength[0]>,
-          ...FixedLengthArray<TType | undefined, TLength[1]>
-        ]>
-  : TLength extends `${infer Num extends number}+`
-    ? Num extends number
+        ...FixedLengthArray<TType, TLength[0]>,
+        ...FixedLengthArray<TType | undefined, TLength[1]>,
+      ]>
+      : TLength extends `${infer Num extends number}+`
+        ? Num extends number
           ? Readonly<[
             ...FixedLengthArray<TType, Num>,
-            ...TType[]
+            ...TType[],
           ]>
           : never
-    : never;
+        : never;

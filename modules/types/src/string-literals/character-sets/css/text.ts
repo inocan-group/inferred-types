@@ -1,39 +1,37 @@
-import { CssColorLight } from "./color";
-import { CssGlobal } from "./global";
-import { CssSizingLight } from "./sizing";
+import type { CssColorLight } from "./color";
+import type { CssGlobal } from "./global";
+import type { CssSizingLight } from "./sizing";
 
 export type CssTextAlign =
-| "start"
-| "end"
-| "center"
-| "left"
-| "right"
-| "justify"
-| "match-parent";
+  | "start"
+  | "end"
+  | "center"
+  | "left"
+  | "right"
+  | "justify"
+  | "match-parent";
 
 export type CssTextDecorationStyle =
-| "solid"
-| "double"
-| "dotted"
-| "dashed"
-| "wavy"
-| CssGlobal;
+  | "solid"
+  | "double"
+  | "dotted"
+  | "dashed"
+  | "wavy"
+  | CssGlobal;
 
 export type CssTextDecorationLine =
-| "none"
-| "underline"
-| "overline"
-| "line-through"
-
-
+  | "none"
+  | "underline"
+  | "overline"
+  | "line-through";
 
 export type CssTextWrap =
-| "wrap"
-| "nowrap"
-| "balance"
-| "pretty"
-| "stable"
-| CssGlobal;
+  | "wrap"
+  | "nowrap"
+  | "balance"
+  | "pretty"
+  | "stable"
+  | CssGlobal;
 
 export type CssTextWrapMode = "wrap" | "nowrap" | CssGlobal;
 
@@ -42,50 +40,50 @@ export type CssTextWrapStyle = "auto" | "balance" | "stable" | CssGlobal;
 type Indent = "each-line" | "hanging";
 
 export type CssTextIndent = CssSizingLight
-| `${CssSizingLight} ${Indent}`
-| `${CssSizingLight} ${Indent} ${Indent}`
-| CssGlobal;
+  | `${CssSizingLight} ${Indent}`
+  | `${CssSizingLight} ${Indent} ${Indent}`
+  | CssGlobal;
 
 export type CssTextJustify =
-| "none"
-| "auto"
-| "inter-word"
-| "inter-character"
-| "distribute"
-| CssGlobal;
+  | "none"
+  | "auto"
+  | "inter-word"
+  | "inter-character"
+  | "distribute"
+  | CssGlobal;
 
 export type CssTextOrientation = "mixed" | "upright" | "sideways" | "sideways-right" | "use-glyph-orientation" | CssGlobal;
 
 export type CssTextOverflow =
-| "clip"
-| "ellipsis"
-| `"${string}"`
-| CssGlobal;
+  | "clip"
+  | "ellipsis"
+  | `"${string}"`
+  | CssGlobal;
 
 export type CssTextRendering = "auto" | "optimizeSpeed" | "optimizeLegility" | "geometricPrecision" | CssGlobal;
 
 export type CssTextTransform =
-| "none"
-| "capitalize"
-| "uppercase"
-| "lowercase"
-| "full-width"
-| "full-size-kana"
-| "math-auto"
-| CssGlobal;
+  | "none"
+  | "capitalize"
+  | "uppercase"
+  | "lowercase"
+  | "full-width"
+  | "full-size-kana"
+  | "math-auto"
+  | CssGlobal;
 
 export type CssTextPosition =
-| "auto"
-| "from-font"
-| "under"
-| "left"
-| "right"
-| "under left"
-| "under right"
-| "left under"
-| "right under";
+  | "auto"
+  | "from-font"
+  | "under"
+  | "left"
+  | "right"
+  | "under left"
+  | "under right"
+  | "left under"
+  | "right under";
 
-export type CssTextProperties = {
+export interface CssTextProperties {
   "text-align"?: CssTextAlign;
   "text-align-last"?: CssTextAlign;
 

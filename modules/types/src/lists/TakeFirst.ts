@@ -1,24 +1,23 @@
-import {
-  IsGreaterThan,
-  If,
-  Throw,
-  IsEqual,
+import type {
   AfterFirst,
-  Increment,
   First,
-  IsGreaterThanOrEqual
+  If,
+  Increment,
+  IsEqual,
+  IsGreaterThan,
+  IsGreaterThanOrEqual,
+  Throw,
 } from "inferred-types/types";
-
 
 type Process<
   TContent extends readonly unknown[],
   TLen extends number,
   TIdx extends number = 0,
-  TResult extends readonly unknown[] = []
+  TResult extends readonly unknown[] = [],
 > = [] extends TContent
-? TResult
-: If<
-    IsGreaterThanOrEqual<TIdx,TLen>,
+  ? TResult
+  : If<
+    IsGreaterThanOrEqual<TIdx, TLen>,
     TResult,
     Process<
       AfterFirst<TContent>,
@@ -26,13 +25,10 @@ type Process<
       Increment<TIdx>,
       [
         ...TResult,
-        First<TContent>
+        First<TContent>,
       ]
     >
   >;
-
-
-
 
 /**
  * **TakeFirst**`<TContent,TLen,[THandle]>`
@@ -50,7 +46,7 @@ type Process<
 export type TakeFirst<
   TContent extends readonly unknown[],
   TLen extends number,
-  THandle extends "ignore" | "throw" = "ignore"
+  THandle extends "ignore" | "throw" = "ignore",
 > = If<
   IsGreaterThan<TLen, TContent["length"]>,
   // TLen greater than TContent length
@@ -62,6 +58,6 @@ export type TakeFirst<
   If<
     IsEqual<TLen, TContent["length"]>,
     TContent,
-    Process<TContent,TLen>
+    Process<TContent, TLen>
   >
 >;

@@ -1,6 +1,6 @@
 /* eslint @typescript-eslint/no-unused-vars: "off" */
 
-import { Trim , LowerAllCaps } from "inferred-types/types";
+import type { LowerAllCaps, Trim } from "inferred-types/types";
 
 type Delimiter = "_" | "-" | " ";
 
@@ -8,8 +8,8 @@ type Delimiter = "_" | "-" | " ";
 type DashDelim<T extends string> = T extends `${infer Begin}${" "}${infer Rest}`
   ? DashDelim<`${Begin}-${Rest}`>
   : T extends `${infer Begin}${"_"}${infer Rest}`
-  ? DashDelim<`${Begin}-${Rest}`>
-  : T;
+    ? DashDelim<`${Begin}-${Rest}`>
+    : T;
 
 /**
  * Converts a string literal type to a **PascalCase** representation.
@@ -24,5 +24,5 @@ type DashDelim<T extends string> = T extends `${infer Begin}${" "}${infer Rest}`
 export type PascalCase<S extends string> = string extends S
   ? string
   : Trim<DashDelim<LowerAllCaps<S>>> extends `${infer Begin}${Delimiter}${infer Rest}`
-  ? PascalCase<`${Capitalize<Begin>}${Capitalize<Rest>}`>
-  : Capitalize<Trim<LowerAllCaps<S>>>;
+    ? PascalCase<`${Capitalize<Begin>}${Capitalize<Rest>}`>
+    : Capitalize<Trim<LowerAllCaps<S>>>;

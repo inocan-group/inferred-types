@@ -1,4 +1,4 @@
-import {
+import type {
   Contains,
   DotPathFor,
   IsContainer,
@@ -7,7 +7,6 @@ import {
   IsObjectLiteral,
   IsTuple,
 } from "inferred-types/types";
-
 
 /**
  * **IsValidDotPath**`<TContainer,TDotPath>`
@@ -23,20 +22,19 @@ import {
  */
 export type IsValidDotPath<
   TContainer,
-  TDotPath extends string | null
+  TDotPath extends string | null,
 > = IsEqual<TDotPath, null> extends true
-? true
-: IsObjectLiteral<TContainer> extends true
-? IsTuple<TContainer> extends true
-  ? Contains<DotPathFor<TContainer>, TDotPath>
-  : IsContainer<TContainer> extends true
-    ? IsDotPath<TDotPath>
-    : IsEqual<TDotPath, ""> extends true
-      ? true
-      : false
-  : IsContainer<TContainer> extends true
-  ? IsDotPath<TDotPath>
-  : IsEqual<TDotPath, ""> extends true
-    ? true
-    : false;
-
+  ? true
+  : IsObjectLiteral<TContainer> extends true
+    ? IsTuple<TContainer> extends true
+      ? Contains<DotPathFor<TContainer>, TDotPath>
+      : IsContainer<TContainer> extends true
+        ? IsDotPath<TDotPath>
+        : IsEqual<TDotPath, ""> extends true
+          ? true
+          : false
+    : IsContainer<TContainer> extends true
+      ? IsDotPath<TDotPath>
+      : IsEqual<TDotPath, ""> extends true
+        ? true
+        : false;

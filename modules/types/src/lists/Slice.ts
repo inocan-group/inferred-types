@@ -1,110 +1,105 @@
-
-import {
-  As,
+import type {
+  Abs,
   Add,
+  As,
   Chars,
   Concat,
   FixedLengthArray,
-  IsPositiveNumber,
-  Throw,
   If,
-  IsNumericLiteral,
   IsGreaterThan,
   IsGreaterThanOrEqual,
-  TakeFirst,
   IsNegativeNumber,
-  Abs,
+  IsNumericLiteral,
+  IsPositiveNumber,
+  TakeFirst,
+  Throw,
 } from "inferred-types/types";
 
 export type RemoveStart<
   TList extends readonly unknown[],
   TStart extends number,
 > = TStart extends 0
-? TList
-: IsPositiveNumber<TStart> extends true
-  ? TList extends [
+  ? TList
+  : IsPositiveNumber<TStart> extends true
+    ? TList extends [
       ...FixedLengthArray<unknown, TStart>,
-      ...(infer REST)
+      ...(infer REST),
     ]
       ? REST
       : Throw<"invalid-start-index">
-: TList extends [
-    ...FixedLengthArray<unknown, Add<TList["length"], TStart>>,
-    ...(infer REST)
-  ]
-    ? REST
-    : Throw<"invalid-start-index">;
+    : TList extends [
+      ...FixedLengthArray<unknown, Add<TList["length"], TStart>>,
+      ...(infer REST),
+    ]
+      ? REST
+      : Throw<"invalid-start-index">;
 
 export type TruncateAtLen<
   TList extends readonly unknown[],
-  TLen extends number
+  TLen extends number,
 > = IsNegativeNumber<TLen> extends true
-? If<
+  ? If<
     IsGreaterThan<Abs<TLen>, TList["length"]>,
     never,
-    TakeFirst<TList, Add<TList["length"],TLen>>
+    TakeFirst<TList, Add<TList["length"], TLen>>
   >
-: If<
+  : If<
     IsGreaterThanOrEqual<TLen, TList["length"]>,
     TList,
     TakeFirst<TList, TLen>
   >;
 
-
-
 type Process<
   TList extends readonly unknown[],
   TStart extends number,
-  TLen extends number | undefined
+  TLen extends number | undefined,
 > = TList extends readonly unknown[]
-? RemoveStart<
+  ? RemoveStart<
     TList,
     TStart
   > extends readonly unknown[]
     ? If<
-        IsNumericLiteral<TLen>,
-        TruncateAtLen<
-          RemoveStart<
-            TList,
-            TStart
-          >,
-          As<TLen, number>
-        >,
-        // no length specified
+      IsNumericLiteral<TLen>,
+      TruncateAtLen<
         RemoveStart<
           TList,
           TStart
-        >
-      >
-
-
-    : RemoveStart<
+        >,
+        As<TLen, number>
+      >,
+      // no length specified
+      RemoveStart<
         TList,
         TStart
       >
-: never
+    >
+
+    : RemoveStart<
+      TList,
+      TStart
+    >
+  : never;
 
 type PreProcess<
-TList extends readonly unknown[],
-TStart extends number,
-TLen extends number | undefined = undefined,
+  TList extends readonly unknown[],
+  TStart extends number,
+  TLen extends number | undefined = undefined,
 > = TList extends string
-? Chars<TList> extends readonly string[]
-? Concat<
-    As<
-      Process<
-        Chars<TList>,
-        TStart,
-        TLen
-      >,
-      readonly string[]
+  ? Chars<TList> extends readonly string[]
+    ? Concat<
+      As<
+        Process<
+          Chars<TList>,
+          TStart,
+          TLen
+        >,
+        readonly string[]
+      >
     >
-  >
-: never
-: TList extends readonly unknown[]
-? Process<TList,TStart,TLen>
-: never;
-
+    : never
+  : TList extends readonly unknown[]
+    ? Process<TList, TStart, TLen>
+    : never;
 
 /**
  * **Slice**`<TList, TStart, TLen>`
@@ -122,12 +117,9 @@ export type Slice<
   TStart extends number,
   TLen extends number | undefined = undefined,
 > = TList extends string
-? Concat<As<PreProcess<Chars<TList>, TStart, TLen>, readonly string[]>>
-: TList extends readonly unknown[]
-? PreProcess<TList, TStart, TLen> extends readonly unknown[]
-? PreProcess<TList, TStart, TLen>
-: never
-: never;
-
-
-
+  ? Concat<As<PreProcess<Chars<TList>, TStart, TLen>, readonly string[]>>
+  : TList extends readonly unknown[]
+    ? PreProcess<TList, TStart, TLen> extends readonly unknown[]
+      ? PreProcess<TList, TStart, TLen>
+      : never
+    : never;

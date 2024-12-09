@@ -1,5 +1,5 @@
-import  { SINGULAR_NOUN_ENDINGS } from "inferred-types/constants";
-import { AlphaChar , TupleToUnion, Mutable,  Chars, AllExtend, If } from "inferred-types/types";
+import type { SINGULAR_NOUN_ENDINGS } from "inferred-types/constants";
+import type { AllExtend, AlphaChar, Chars, If, Mutable, TupleToUnion } from "inferred-types/types";
 /**
  * **SingularNounEnding**
  *
@@ -30,8 +30,8 @@ export type SingularNounEnding = TupleToUnion<Mutable<typeof SINGULAR_NOUN_ENDIN
  */
 export type SingularNoun<T extends string> = T extends `${infer Prelude}${SingularNounEnding}`
   ? If<
-      AllExtend<Chars<Prelude>, AlphaChar>,
-      T,
-      never
-    >
+    AllExtend<Chars<Prelude>, AlphaChar>,
+    T,
+    never
+  >
   : never;

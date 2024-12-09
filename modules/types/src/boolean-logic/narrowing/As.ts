@@ -1,5 +1,3 @@
-
-
 /**
  * **As**`<TContent,TType>`
  *
@@ -7,7 +5,7 @@
  */
 export type As<
   TContent,
-  TType
+  TType,
 > = TContent extends TType
-? TContent
-: never;
+  ? TContent
+  : never;

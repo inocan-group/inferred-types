@@ -1,5 +1,5 @@
-import { PRESSURE_METRICS_LOOKUP } from "inferred-types/constants";
-import { OptSpace } from "../character-sets/OptionalSpace";
+import type { PRESSURE_METRICS_LOOKUP } from "inferred-types/constants";
+import type { OptSpace } from "../character-sets/OptionalSpace";
 
 type PressureMetricsLookup = typeof PRESSURE_METRICS_LOOKUP;
 
@@ -21,7 +21,6 @@ export type PressureUom = {
     : never
 }[number];
 
-
 /***
  * **Pressure**
  *
@@ -31,4 +30,3 @@ export type PressureUom = {
  * **Related:** `PressureAbbrev`
  */
 export type Pressure = `${number}${OptSpace}${PressureUom}`;
-

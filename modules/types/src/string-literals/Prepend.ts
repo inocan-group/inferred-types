@@ -1,4 +1,4 @@
-import { AsString } from "inferred-types/types";
+import type { AsString } from "inferred-types/types";
 
 /**
  * **Prepend**`<TStr, TPrepend>`
@@ -13,5 +13,5 @@ import { AsString } from "inferred-types/types";
  */
 export type Prepend<
   TStr extends string,
-  TPrepend extends string | number | boolean
+  TPrepend extends string | number | boolean,
 > = `${AsString<TPrepend>}${TStr}`;

@@ -1,57 +1,56 @@
-import {
+import type {
   AnyObject,
   AsIndexOf,
   Concat,
+  EmptyObject,
+  ErrorCondition,
   IfNever,
   IsEqual,
-  ToString,
-  ErrorCondition,
-  EmptyObject,
-  TypeErrorInfo,
   Throw,
+  ToString,
+  TypeErrorInfo,
 } from "inferred-types/types";
 
 interface Error<
   TName extends string = string,
-  TMsg extends string = string
+  TMsg extends string = string,
 > {
   name: TName;
   message: TMsg;
   stack?: string;
 }
 
-
 export type AsError__Meta = [
   kind: string,
   msg: string,
-  context: TypeErrorInfo
+  context: TypeErrorInfo,
 ] | [
   kind: string,
-  msg: string
+  msg: string,
 ];
 
 type Props<T extends AnyObject | undefined> = T extends AnyObject
-? T
-: EmptyObject;
+  ? T
+  : EmptyObject;
 
-type IdFrom<T extends AnyObject> = AsIndexOf<T,"id",never>;
-type LibraryFrom<T extends AnyObject> = AsIndexOf<T,"library",never>;
+type IdFrom<T extends AnyObject> = AsIndexOf<T, "id", never>;
+type LibraryFrom<T extends AnyObject> = AsIndexOf<T, "library", never>;
 
 type Process<
-  T extends AsError__Meta
+  T extends AsError__Meta,
 > = IsEqual<T, [string, string]> extends true
-? ErrorCondition<T[0], T[1], never >
-: T extends [string, string, TypeErrorInfo]
-  ? Throw<
-    T[0],
-    T[1],
-    "AsError",
-    {
-      id: IdFrom<Props<T[2]>>;
-      library: LibraryFrom<Props<T[2]>>;
-    }
-  >
-  : ErrorCondition<
+  ? ErrorCondition<T[0], T[1], never >
+  : T extends [string, string, TypeErrorInfo]
+    ? Throw<
+      T[0],
+      T[1],
+      "AsError",
+      {
+        id: IdFrom<Props<T[2]>>;
+        library: LibraryFrom<Props<T[2]>>;
+      }
+    >
+    : ErrorCondition<
       T[0],
       T[1],
       never
@@ -89,22 +88,22 @@ export type AsError<
     "a 'never' type was encountered which is not allowed in this context!"
   >,
   TType extends Error<string>
-  ? Throw<
+    ? Throw<
       "runtime-error",
       `the JS runtime's Error class was found with the message: '${TType["message"]}'`,
       "AsError",
       { library: "inferred-types/constants" }
     >
-  : TType extends AsError__Meta
+    : TType extends AsError__Meta
       ? Process<TType>
       : Throw<
-          "failed-to-wrap",
-          Concat<[
-            "An unexpected value -- ",
-            ToString<TType>,
-            " -- was passed into the AsError<T> type utility!"
-          ]>,
-          "AsError",
-          { library: "inferred-types/constants" }
-        >
+        "failed-to-wrap",
+        Concat<[
+          "An unexpected value -- ",
+          ToString<TType>,
+          " -- was passed into the AsError<T> type utility!",
+        ]>,
+        "AsError",
+        { library: "inferred-types/constants" }
+      >
 >;

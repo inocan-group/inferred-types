@@ -1,6 +1,6 @@
-import {  EmptyObject, ExpandRecursively, IsEqual, If, IsNever, Dictionary, RemoveIndex, RemoveIndexKeys, UnionToTuple } from "inferred-types/types";
+import type { Dictionary, EmptyObject, ExpandRecursively, If, IsEqual, IsNever, RemoveIndex, RemoveIndexKeys, UnionToTuple } from "inferred-types/types";
 
-type Len<T extends Dictionary> = UnionToTuple<keyof RemoveIndexKeys<T>>["length"]
+type Len<T extends Dictionary> = UnionToTuple<keyof RemoveIndexKeys<T>>["length"];
 
 /**
  * **IndexableObject**`<[TObj], [TIndex]>`
@@ -20,12 +20,12 @@ type Len<T extends Dictionary> = UnionToTuple<keyof RemoveIndexKeys<T>>["length"
  */
 export type IndexableObject<
   TObj extends Dictionary = Dictionary,
-  TIndex extends Dictionary = Dictionary
+  TIndex extends Dictionary = Dictionary,
 > = If<
   IsNever<TObj>,
   never,
   If<
-    IsEqual<TObj,EmptyObject>,
+    IsEqual<TObj, EmptyObject>,
     Dictionary,
     If<
       IsNever<Len<TObj>>,

@@ -1,5 +1,3 @@
-
-
 /**
  * **Unset**
  *
@@ -9,6 +7,6 @@
  *
  * **Related:** `unset()`
  */
-export type Unset = {
+export interface Unset {
   kind: "Unset";
-};
+}

@@ -1,6 +1,6 @@
 /**
  * **StringKeys**`<T>`
- * 
+ *
  * Creates a union type of all the _string_ keys in `T`.
  */
 export type StringKeys<T extends object> = {

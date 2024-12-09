@@ -1,4 +1,4 @@
-import { IsNegativeNumber , FixedLengthArray , Concat } from "inferred-types/types";
+import type { Concat, FixedLengthArray, IsNegativeNumber } from "inferred-types/types";
 
 /**
  * **Repeat**`<TStr,TCount>`
@@ -7,8 +7,7 @@ import { IsNegativeNumber , FixedLengthArray , Concat } from "inferred-types/typ
  */
 export type Repeat<
   TStr extends string,
-  TCount extends number
+  TCount extends number,
 > = IsNegativeNumber<TCount> extends true
-? ""
-: Concat<FixedLengthArray<TStr,TCount>>;
-
+  ? ""
+  : Concat<FixedLengthArray<TStr, TCount>>;

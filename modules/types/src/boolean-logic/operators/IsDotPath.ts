@@ -1,24 +1,24 @@
-import {
-  HasCharacters,
-  IsNever,
-  StartsWith,
-  IsStringLiteral,
-  EndsWith,
+import type {
   Contains,
-  IsEqual
+  EndsWith,
+  HasCharacters,
+  IsEqual,
+  IsNever,
+  IsStringLiteral,
+  StartsWith,
 } from "inferred-types/types";
 
 type CheckForInvalid<
-  T extends string
+  T extends string,
 > = HasCharacters<T, ["/", "*", "!", "&", "$", "\\"]> extends true
-? true
-: StartsWith<T,"."> extends true
-? true
-: EndsWith<T,"."> extends true
-? true
-: Contains<T,".."> extends true
-? true
-: false;
+  ? true
+  : StartsWith<T, "."> extends true
+    ? true
+    : EndsWith<T, "."> extends true
+      ? true
+      : Contains<T, ".."> extends true
+        ? true
+        : false;
 
 /**
  * **IsDotPath**`<T>`
@@ -39,17 +39,15 @@ export type IsDotPath<
   T,
   TIf = true,
   TElse = false,
-  TMaybe = TIf | TElse
+  TMaybe = TIf | TElse,
 > = [IsNever<T>] extends [true]
   ? false
   : T extends string
     ? [IsEqual<T, ""> ] extends [true]
-      ? true
-      : IsStringLiteral<T> extends true
-        ? CheckForInvalid<T> extends true
-          ? TElse
-          : TIf
-        : TMaybe
-: false
-
-
+        ? true
+        : IsStringLiteral<T> extends true
+          ? CheckForInvalid<T> extends true
+            ? TElse
+            : TIf
+          : TMaybe
+    : false;

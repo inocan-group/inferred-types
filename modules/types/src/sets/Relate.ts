@@ -1,4 +1,4 @@
-import { Container,  IntersectingKeys, LeftRight, Length, UniqueKeys } from "inferred-types/types";
+import type { Container, IntersectingKeys, LeftRight, Length, UniqueKeys } from "inferred-types/types";
 
 /**
  * **Relate**`<L,R>`
@@ -9,12 +9,11 @@ import { Container,  IntersectingKeys, LeftRight, Length, UniqueKeys } from "inf
  * - **sharedKeys**: the shared keys between the two sets
  * - **uniqueKeys**: the unique keys _per_ list in a `LeftRight` struct.
  */
-export type Relate<
+export interface Relate<
   L extends Container,
-  R extends Container
-> = {
-  length: LeftRight<Length<L>,Length<R>>;
-  sharedKeys: IntersectingKeys<L,R>;
-  uniqueKeys: UniqueKeys<L,R>;
-};
-
+  R extends Container,
+> {
+  length: LeftRight<Length<L>, Length<R>>;
+  sharedKeys: IntersectingKeys<L, R>;
+  uniqueKeys: UniqueKeys<L, R>;
+}

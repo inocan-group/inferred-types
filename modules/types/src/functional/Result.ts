@@ -1,36 +1,37 @@
-import {
+import type { RESULT } from "inferred-types/constants";
+
+import type {
+  And,
   AsString,
-  TupleToUnion,
-  Widen,
-  KebabCase,
-  RuntimeUnion,
-  Narrowable,
-  TypeGuard,
-  StackTrace,
-  TakeProp,
   DoesExtend,
   If,
-  IsFunction,
-  Something,
   IsEqual,
-  And
+  IsFunction,
+  KebabCase,
+  Narrowable,
+  RuntimeUnion,
+  Something,
+  StackTrace,
+  TakeProp,
+  TupleToUnion,
+  TypeGuard,
+  Widen,
 } from "inferred-types/types";
-
-import { RESULT } from "inferred-types/constants";
 
 type OK = typeof RESULT.Ok;
 type ERR = typeof RESULT.Err;
 
-/**`
+/**
+ * `
  * **ResultErr**
  *
  * A `ResultErr` provides the structure of an
  */
-export type ResultErr<
+export interface ResultErr<
   K extends string = string,
   C extends Record<string, unknown> = Record<string, unknown>,
-  S extends boolean = boolean
-> = {
+  S extends boolean = boolean,
+> {
   /**
    * **kind**
    *
@@ -81,21 +82,21 @@ export type ErrInput = string
  * **Related:** `AsErrKind`, `ResultErr`
  */
 export type AsErr<T extends ErrInput> = TupleToUnion<
-T extends RuntimeUnion<ResultErr[]>
-  ? T["type"]
-  : T extends string
-  ? [{ msg: T; kind: KebabCase<T>; context: NonNullable<unknown>; stack: false }]
-  : T extends ResultErr
-  ? [{
-    kind: TakeProp<T, "kind", "undefined">;
-    msg: TakeProp<T, "msg", "undefined">;
-    context: TakeProp<T, "context", NonNullable<unknown>>;
-    stack: TakeProp<T, "stack", false>;
-  }]
-  : T extends readonly Required<ResultErr>[]
-  ? T
-  : never
->;;
+  T extends RuntimeUnion<ResultErr[]>
+    ? T["type"]
+    : T extends string
+      ? [{ msg: T; kind: KebabCase<T>; context: NonNullable<unknown>; stack: false }]
+      : T extends ResultErr
+        ? [{
+            kind: TakeProp<T, "kind", "undefined">;
+            msg: TakeProp<T, "msg", "undefined">;
+            context: TakeProp<T, "context", NonNullable<unknown>>;
+            stack: TakeProp<T, "stack", false>;
+          }]
+        : T extends readonly Required<ResultErr>[]
+          ? T
+          : never
+>; ;
 
 /**
  * **AsErrKind**
@@ -106,22 +107,21 @@ T extends RuntimeUnion<ResultErr[]>
  * **Related:** `AsErr`, `ResultErr`
  */
 export type AsErrKind<
-  T extends string | {  kind: string; context?: Record<string, unknown>; stack?: boolean },
+  T extends string | { kind: string; context?: Record<string, unknown>; stack?: boolean },
 > = T extends string
-? {  kind: KebabCase<T>; msg: string; context: NonNullable<unknown>; stack: false }
-: T extends { kind: string; context: Record<string, unknown>; stack?: boolean }
-  ? {
-    kind: KebabCase<AsString<T["kind"]>>;
-    msg: string;
-    context: "context" extends keyof T
-      ? T["context"] extends Record<string, unknown>
-        ? Widen<T["context"]>
-        : NonNullable<unknown>
-      : NonNullable<unknown>;
-    stack: TakeProp<T, "stack", false>;
-  }
-  : never;
-
+  ? { kind: KebabCase<T>; msg: string; context: NonNullable<unknown>; stack: false }
+  : T extends { kind: string; context: Record<string, unknown>; stack?: boolean }
+    ? {
+        kind: KebabCase<AsString<T["kind"]>>;
+        msg: string;
+        context: "context" extends keyof T
+          ? T["context"] extends Record<string, unknown>
+            ? Widen<T["context"]>
+            : NonNullable<unknown>
+          : NonNullable<unknown>;
+        stack: TakeProp<T, "stack", false>;
+      }
+    : never;
 
 /**
  * **ResultTuple**
@@ -129,13 +129,12 @@ export type AsErrKind<
  * A tuple containing the types of both possible OK and ERR conditions and
  * are stored in the `__kind` property of a `Result<T,E>`.
  */
-export type ResultTuple<
+export interface ResultTuple<
   T = unknown,
-  E extends ErrInput = ErrInput
-> = {
+  E extends ErrInput = ErrInput,
+> {
   __kind: ["Result", ok: T, err: E];
-};
-
+}
 
 export type RealizedErr<T extends ResultErr = ResultErr> = Exclude<T, "stack"> & {
   stack: T["stack"] extends true ? StackTrace : never;
@@ -148,10 +147,10 @@ export type RealizedErr<T extends ResultErr = ResultErr> = Exclude<T, "stack"> &
  * the `Result<T,E>` structure. It will expand this _representation_ to a fully
  * formed **state** and **err** property.
  */
-export type Err<E extends ErrInput = ErrInput, T =unknown> = {
+export type Err<E extends ErrInput = ErrInput, T = unknown> = {
   state: ERR;
   err: AsErr<E>;
-} & ResultTuple<T,E>
+} & ResultTuple<T, E>;
 
 /**
  * **Ok**`<T>`
@@ -161,7 +160,7 @@ export type Err<E extends ErrInput = ErrInput, T =unknown> = {
 export type Ok<T = unknown, E extends ErrInput = ErrInput> = {
   state: OK;
   val: T;
-} & ResultTuple<T,E>;
+} & ResultTuple<T, E>;
 
 /**
  * **Result**`<T,E>`
@@ -172,8 +171,8 @@ export type Ok<T = unknown, E extends ErrInput = ErrInput> = {
  */
 export type Result<
   T = unknown,
-  E extends ErrInput = ErrInput
-> = Ok<T,E> | Err<E,T>
+  E extends ErrInput = ErrInput,
+> = Ok<T, E> | Err<E, T>;
 
 /**
  * **ErrFrom**`<T>`
@@ -182,7 +181,7 @@ export type Result<
  */
 export type ErrFrom<
   TResult extends Result,
-> = TResult["__kind"][2]
+> = TResult["__kind"][2];
 
 /**
  * **KindFrom**`<T>`
@@ -190,25 +189,25 @@ export type ErrFrom<
  * Extracts the _kind_ property from the `Err` type of a `Result<T,E>`.
  */
 export type KindFrom<
-  TResult extends Result
+  TResult extends Result,
 > = AsErr<TResult["__kind"][2]>["kind"];
 
 export type OkFrom<
-  TResult extends Result
+  TResult extends Result,
 
 > = TResult["__kind"][1];
 
 type _IsResult<
-TTest extends Something,
-TVal = unknown,
-TErr extends ErrInput = ErrInput
+  TTest extends Something,
+  TVal = unknown,
+  TErr extends ErrInput = ErrInput,
 > = TTest extends Result
-? OkFrom<TTest> extends TVal
-  ? KindFrom<TTest> extends AsErr<TErr>["kind"]
-    ? true
+  ? OkFrom<TTest> extends TVal
+    ? KindFrom<TTest> extends AsErr<TErr>["kind"]
+      ? true
+      : false
     : false
-  : false
-: false
+  : false;
 
 /**
  * **IsResult**`<TTest,[TOk],[TErr]>`
@@ -221,15 +220,14 @@ TErr extends ErrInput = ErrInput
 export type IsResult<
   TTest extends Something,
   TVal = unknown,
-  TErr extends ErrInput = ErrInput
+  TErr extends ErrInput = ErrInput,
 > = TTest extends ResultTuple
-? If<
-    IsEqual<_IsResult<TTest,TVal,TErr>, boolean>,
-      false,
-      _IsResult<TTest,TVal,TErr>
-    >
-: false;
-
+  ? If<
+    IsEqual<_IsResult<TTest, TVal, TErr>, boolean>,
+    false,
+    _IsResult<TTest, TVal, TErr>
+  >
+  : false;
 
 /**
  * **IsOk**`<TTest,[TVal]>`
@@ -239,7 +237,7 @@ export type IsResult<
  */
 export type IsOk<
   TTest,
-  TVal = unknown
+  TVal = unknown,
 > = TTest extends { state: OK; val: TVal } ? true : false;
 
 /**
@@ -250,40 +248,40 @@ export type IsOk<
  */
 export type IsErr<
   TTest,
-  TErr extends ErrInput = ErrInput
+  TErr extends ErrInput = ErrInput,
 > = If<
-      And<[
-        DoesExtend<TTest, { state: ERR }>,
-        TTest extends { err: {kind: string}}
-        ? AsErr<TErr> extends  { kind: string}
-          ? TTest["err"]["kind"] extends AsErr<TErr>["kind"]
-            ? true
-            : false
-          : true
+  And<[
+    DoesExtend<TTest, { state: ERR }>,
+    TTest extends { err: { kind: string } }
+      ? AsErr<TErr> extends { kind: string }
+        ? TTest["err"]["kind"] extends AsErr<TErr>["kind"]
+          ? true
+          : false
         : true
-      ]>,
-      true,
-      false
->
+      : true,
+  ]>,
+  true,
+  false
+>;
 
-export type ResultApi<
+export interface ResultApi<
   T,
-  E extends ErrInput = ErrInput
-> = {
+  E extends ErrInput = ErrInput,
+> {
   kind: "Result API";
   /**
    * **Result<T,E>**
    *
    * the _type_ of the result created
    */
-  result: Result<T,E>;
+  result: Result<T, E>;
   /**
    * **ok**`<T>`(val: T) -> Ok`<T>`
    *
    * Allows a developer inside of a function with a `Result<T,E>`
    * return type to express the "OK" variant in a type safe manner.
    */
-  ok: <V extends T>(v: V) =>  Ok<V,E>;
+  ok: <V extends T>(v: V) => Ok<V, E>;
   /**
    * **err**`<E>`(err: E) => Err`<E>`
    *
@@ -303,7 +301,7 @@ export type ResultApi<
    *
    * A type guard which helps to _narrow_ a `Result` type into the `Err` variant.
    */
-  isErr: TypeGuard<Err<AsErr<E>>,ErrInput>;
+  isErr: TypeGuard<Err<AsErr<E>>, ErrInput>;
 
   /**
    * **okOrElse**(val, otherwise)
@@ -314,7 +312,7 @@ export type ResultApi<
    * The handler for the `Err` condition can be a static value or a function
    * (which will receive the `Err` as it's input).
    */
-  okOrElse: <V extends Result<T,E>, TElse>(v: V, otherwise: TElse) => V extends Ok<V>
+  okOrElse: <V extends Result<T, E>, TElse>(v: V, otherwise: TElse) => V extends Ok<V>
     ? Ok<V>
     : If<IsFunction<TElse>>;
   /**
@@ -323,5 +321,5 @@ export type ResultApi<
    * A function which either returns the _value_ of the `Ok` variant or
    * throws a JS error.
    */
-  okOrThrow: <V extends Result<T,E>>(v: V) => Ok<V>["val"];
+  okOrThrow: <V extends Result<T, E>>(v: V) => Ok<V>["val"];
 }

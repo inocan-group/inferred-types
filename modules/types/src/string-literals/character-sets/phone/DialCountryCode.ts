@@ -1,4 +1,4 @@
-import { NumericChar, Optional } from "inferred-types/types";
+import type { NumericChar, Optional } from "inferred-types/types";
 
 /**
  * **DialCountryCode**
@@ -6,5 +6,4 @@ import { NumericChar, Optional } from "inferred-types/types";
  * A simplified representation of `PhoneCountryCode` so as to not make other
  * phone patterns too complex.
  */
-export type DialCountryCode = `${"+" | "00"}${ `1-${number}` | `${Exclude<NumericChar, "0">}`}${Optional<`${number}`>}`;
-
+export type DialCountryCode = `${"+" | "00"}${`1-${number}` | `${Exclude<NumericChar, "0">}`}${Optional<`${number}`>}`;

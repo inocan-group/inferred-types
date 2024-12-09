@@ -1,13 +1,13 @@
-import {
+import type {
+  As,
+  CountryPhoneNumber,
+  ErrorCondition,
+  InternationalPhoneNumber,
+  IsNumericLiteral,
+  IsStringLiteral,
   LocalPhoneNumber,
   OnPass,
   PhoneNumberDelimiter,
-  InternationalPhoneNumber,
-  CountryPhoneNumber,
-  IsStringLiteral,
-  IsNumericLiteral,
-  As,
-  ErrorCondition
 } from "inferred-types/types";
 
 // /** T or ErrorCondition */
@@ -62,20 +62,17 @@ import {
 //         ? Throw<"invalid-phone-number", `This looked like an international number but the country code ${GetPhoneCountryCode<T>} is not a valid country code!`>
 //         : true;
 
-
 type Process<
   T extends string,
-  _TDelimiter extends PhoneNumberDelimiter = PhoneNumberDelimiter
+  _TDelimiter extends PhoneNumberDelimiter = PhoneNumberDelimiter,
 > = OnPass<
-      [
-        // _ValidChars<RemovePhoneCountryCode<T>>,
-        // _InvalidCountryCode<T>,
-        // _AppropriateNumerics<T>
-      ],
-      T
-    >;
-
-
+  [
+    // _ValidChars<RemovePhoneCountryCode<T>>,
+    // _InvalidCountryCode<T>,
+    // _AppropriateNumerics<T>
+  ],
+  T
+>;
 
 /**
  * **PhoneNumber**`<[T]>`
@@ -96,17 +93,17 @@ type Process<
  */
 export type PhoneNumber<
   T extends number | string | null = null,
-  TDelimiter extends PhoneNumberDelimiter = PhoneNumberDelimiter
+  TDelimiter extends PhoneNumberDelimiter = PhoneNumberDelimiter,
 > = T extends null
 ? LocalPhoneNumber<TDelimiter>
 | CountryPhoneNumber<TDelimiter>
 | InternationalPhoneNumber<TDelimiter>
-: IsStringLiteral<T> extends true
-    ? Process<As<T, string>,TDelimiter>
+  : IsStringLiteral<T> extends true
+    ? Process<As<T, string>, TDelimiter>
     : IsNumericLiteral<T> extends true
       ? Process<`${As<T, number>}`, TDelimiter>
       : T extends string
-      ? string | ErrorCondition<"invalid-phone-number">
-      : T extends number
-      ? number | ErrorCondition<"invalid-phone-number">
-      : never;
+        ? string | ErrorCondition<"invalid-phone-number">
+        : T extends number
+          ? number | ErrorCondition<"invalid-phone-number">
+          : never;

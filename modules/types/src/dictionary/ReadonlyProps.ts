@@ -1,4 +1,4 @@
-import { ReadonlyKeys } from "inferred-types/types";
+import type { ReadonlyKeys } from "inferred-types/types";
 
 /**
  * **ReadonlyProps**`<T>`

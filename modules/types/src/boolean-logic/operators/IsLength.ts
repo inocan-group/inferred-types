@@ -1,4 +1,4 @@
-import type { Length , IfEqual } from "inferred-types/types";
+import type { IfEqual, Length } from "inferred-types/types";
 
 /**
  * **IsLength**`<T, LEN>`
@@ -8,7 +8,7 @@ import type { Length , IfEqual } from "inferred-types/types";
  */
 export type IsLength<
   T,
-  LEN extends number
+  LEN extends number,
 > = T extends readonly unknown[]
   ? IfEqual<Length<T>, LEN, true, false>
   : false;

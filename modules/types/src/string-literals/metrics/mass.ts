@@ -1,5 +1,5 @@
-import { MASS_METRICS_LOOKUP } from "inferred-types/constants";
-import { OptSpace } from "../character-sets/OptionalSpace";
+import type { MASS_METRICS_LOOKUP } from "inferred-types/constants";
+import type { OptSpace } from "../character-sets/OptionalSpace";
 
 type MassMetricsLookup = typeof MASS_METRICS_LOOKUP;
 
@@ -21,7 +21,6 @@ export type MassUom = {
     : never
 }[number];
 
-
 /***
  * **Mass**
  *
@@ -31,4 +30,3 @@ export type MassUom = {
  * **Related:** `MassAbbrev`
  */
 export type Mass = `${number}${OptSpace}${MassUom}`;
-

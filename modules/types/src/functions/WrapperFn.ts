@@ -1,9 +1,8 @@
-import { Container, TypedFunction } from "../base-types";
-import { If, IsUnset } from "../boolean-logic";
-import { Unset } from "../literals";
-import { FnFrom } from "./FnFrom";
-import { AsNarrowingFn } from "./NarrowingFn";
-
+import type { Container, TypedFunction } from "../base-types";
+import type { If, IsUnset } from "../boolean-logic";
+import type { Unset } from "../literals";
+import type { FnFrom } from "./FnFrom";
+import type { AsNarrowingFn } from "./NarrowingFn";
 
 /**
  * **WrapperFn**`<TFn,TTransform,[TState]>`
@@ -24,7 +23,7 @@ import { AsNarrowingFn } from "./NarrowingFn";
 export type WrapperFn<
   TFn extends TypedFunction,
   TTransform extends <TRtn extends ReturnType<TFn>>(rtn: TRtn) => unknown,
-  TState extends Container | Unset = Unset
+  TState extends Container | Unset = Unset,
 > = If<
   IsUnset<TState>,
   FnFrom<
@@ -36,5 +35,3 @@ export type WrapperFn<
     ReturnType<AsNarrowingFn<TTransform>>
   >
 >;
-
-

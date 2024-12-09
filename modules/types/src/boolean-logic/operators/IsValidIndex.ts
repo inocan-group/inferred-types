@@ -1,16 +1,16 @@
-import {
+import type {
   Abs,
   AsNumber,
   Container,
+  Dictionary,
   ExplicitlyEmptyObject,
   IsEqual,
   IsNegativeNumber,
-  IsStringLiteral,
   IsObjectLiteral,
+  IsStringLiteral,
   IsTuple,
-  Dictionary,
-  Tuple,
   NumericKeys,
+  Tuple,
   TupleToUnion,
 } from "inferred-types/types";
 
@@ -24,36 +24,34 @@ import {
  */
 export type IsValidIndex<
   TContainer extends Container,
-  TKey extends PropertyKey
+  TKey extends PropertyKey,
 > = TContainer extends Tuple
-? IsTuple<TContainer> extends true
-  ? TKey extends number
-    ? IsNegativeNumber<AsNumber<TKey>> extends true
-      ? Abs<AsNumber<TKey>> extends number
-        ? [Abs<AsNumber<TKey>>] extends [TupleToUnion<NumericKeys<TContainer>>]
-          ? true
-          : false
-        : never
-      : [TKey] extends [TupleToUnion<NumericKeys<TContainer>>]
-        ? true
-        : false
-    : false
-  : boolean // not a tuple literal
-
-: TContainer extends Dictionary
-  ? IsEqual<TContainer, ExplicitlyEmptyObject> extends true
-      ? false
-      : [IsObjectLiteral<TContainer>] extends [true]
-      ? [IsStringLiteral<TKey>] extends [true]
-        ? [TKey] extends [keyof TContainer]
-          ? true
-          : false
-        : [TKey] extends [symbol]
-          ? [TKey] extends [keyof TContainer]
+  ? IsTuple<TContainer> extends true
+    ? TKey extends number
+      ? IsNegativeNumber<AsNumber<TKey>> extends true
+        ? Abs<AsNumber<TKey>> extends number
+          ? [Abs<AsNumber<TKey>>] extends [TupleToUnion<NumericKeys<TContainer>>]
+              ? true
+              : false
+          : never
+        : [TKey] extends [TupleToUnion<NumericKeys<TContainer>>]
             ? true
             : false
-          : false
-      : boolean
-: false;
+      : false
+    : boolean // not a tuple literal
 
-
+  : TContainer extends Dictionary
+    ? IsEqual<TContainer, ExplicitlyEmptyObject> extends true
+      ? false
+      : [IsObjectLiteral<TContainer>] extends [true]
+          ? [IsStringLiteral<TKey>] extends [true]
+              ? [TKey] extends [keyof TContainer]
+                  ? true
+                  : false
+              : [TKey] extends [symbol]
+                  ? [TKey] extends [keyof TContainer]
+                      ? true
+                      : false
+                  : false
+          : boolean
+    : false;

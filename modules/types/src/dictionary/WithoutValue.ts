@@ -1,4 +1,4 @@
-import { AnyObject , Narrowable, ExpandRecursively, KeysWithoutValue } from "inferred-types/types";
+import type { AnyObject, ExpandRecursively, KeysWithoutValue, Narrowable } from "inferred-types/types";
 
 /**
  * **WithoutValue**
@@ -17,4 +17,4 @@ import { AnyObject , Narrowable, ExpandRecursively, KeysWithoutValue } from "inf
 export type WithoutValue<
   TObj extends AnyObject,
   TValue extends Narrowable,
-> = ExpandRecursively<Pick<TObj, KeysWithoutValue<TObj,TValue>>>;
+> = ExpandRecursively<Pick<TObj, KeysWithoutValue<TObj, TValue>>>;

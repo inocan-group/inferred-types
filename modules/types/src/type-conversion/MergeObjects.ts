@@ -1,30 +1,29 @@
-import {
+import type {
   AfterFirst,
+  As,
   CombinedKeys,
-  First,
   Dictionary,
   EmptyObject,
-  As,
-  ExpandDictionary
+  ExpandDictionary,
+  First,
 } from "inferred-types/types";
-
 
 type Merged<
   TKeys extends readonly string[],
   TBase extends Record<string, unknown>,
   TErr extends Record<string, unknown>,
-  TResult extends Record<string, unknown> = EmptyObject
+  TResult extends Record<string, unknown> = EmptyObject,
 > = [] extends TKeys
-? ExpandDictionary<TResult>
-: Merged<
+  ? ExpandDictionary<TResult>
+  : Merged<
     AfterFirst<TKeys>,
     TBase,
     TErr,
     First<TKeys> extends keyof TErr
       ? TResult & Record<First<TKeys>, TErr[First<TKeys>]>
       : First<TKeys> extends keyof TBase
-      ? TResult & Record<First<TKeys>, TBase[First<TKeys>]>
-      : never
+        ? TResult & Record<First<TKeys>, TBase[First<TKeys>]>
+        : never
   >;
 
 /**
@@ -36,8 +35,7 @@ export type MergeObjects<
   TDef extends Dictionary,
   TOverride extends Dictionary,
 > = Merged<
-      As<CombinedKeys<TDef,TOverride>, readonly string[]>,
-      TDef,
-      TOverride
-    >
-
+  As<CombinedKeys<TDef, TOverride>, readonly string[]>,
+  TDef,
+  TOverride
+>;

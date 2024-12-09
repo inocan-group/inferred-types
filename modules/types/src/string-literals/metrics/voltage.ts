@@ -1,5 +1,5 @@
-import { VOLTAGE_METRICS_LOOKUP } from "inferred-types/constants";
-import { OptSpace } from "../character-sets/OptionalSpace";
+import type { VOLTAGE_METRICS_LOOKUP } from "inferred-types/constants";
+import type { OptSpace } from "../character-sets/OptionalSpace";
 
 type VoltageMetricsLookup = typeof VOLTAGE_METRICS_LOOKUP;
 
@@ -21,7 +21,6 @@ export type VoltageUom = {
     : never
 }[number];
 
-
 /***
  * **Voltage**
  *
@@ -31,4 +30,3 @@ export type VoltageUom = {
  * **Related:** `VoltageUom`
  */
 export type Voltage = `${number}${OptSpace}${VoltageUom}`;
-

@@ -1,19 +1,16 @@
-
-import {
-  TupleToUnion,
-  ObjectKey,
+import type {
   Dictionary,
   ExpandDictionary,
+  ObjectKey,
+  TupleToUnion,
 } from "inferred-types/types";
 
 type Process<
   TObj extends Dictionary,
   TKeys extends ObjectKey,
 > = [] extends TKeys
-? TObj
-: Omit<TObj, TKeys>
-
-
+  ? TObj
+  : Omit<TObj, TKeys>;
 
 /**
  * **WithoutKeys**`<TObj, TKeys>`
@@ -24,17 +21,15 @@ type Process<
  */
 export type WithoutKeys<
   TObj extends Dictionary,
-  TKeys extends ObjectKey | readonly ObjectKey[]
+  TKeys extends ObjectKey | readonly ObjectKey[],
 > = TKeys extends readonly ObjectKey[]
-? Process<
+  ? Process<
     TObj,
     TupleToUnion<TKeys>
   >
-: ExpandDictionary<Process<
-  TObj,
-  TKeys extends readonly ObjectKey[]
-    ? TupleToUnion<TKeys>
-    : TKeys
->>;
-
-
+  : ExpandDictionary<Process<
+    TObj,
+    TKeys extends readonly ObjectKey[]
+      ? TupleToUnion<TKeys>
+      : TKeys
+  >>;

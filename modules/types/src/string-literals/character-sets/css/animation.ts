@@ -1,79 +1,78 @@
-import { Opt } from "../Optional";
-import { CssGlobal } from "./global";
-import { CssTiming } from "./props";
+import type { Opt } from "../Optional";
+import type { CssGlobal } from "./global";
+import type { CssTiming } from "./props";
 
 export type CssAnimationDelay = CssTiming;
 
 type Direction =
-| "normal"
-| "reverse"
-| "alternate"
-| "alternate-reverse"
+  | "normal"
+  | "reverse"
+  | "alternate"
+  | "alternate-reverse";
 
 export type CssAnimationDirection = Direction
-| `${Direction}${Opt<`, ${Direction}`>}`
-| `${Direction}${Opt<`, ${Direction}`>}${Opt<`, ${Direction}`>}${string}`;
+  | `${Direction}${Opt<`, ${Direction}`>}`
+  | `${Direction}${Opt<`, ${Direction}`>}${Opt<`, ${Direction}`>}${string}`;
 
 export type CssAnimationDuration = CssTiming;
 
 type FillMode =
-| "none"
-| "forwards"
-| "backwards"
-| "both";
-
+  | "none"
+  | "forwards"
+  | "backwards"
+  | "both";
 
 export type CssAnimationFillMode =
-| FillMode
-| `${FillMode}${Opt<`, ${FillMode}`>}`
-| `${FillMode}${Opt<`, ${FillMode}`>}${Opt<`, ${FillMode}`>}${string}`;
+  | FillMode
+  | `${FillMode}${Opt<`, ${FillMode}`>}`
+  | `${FillMode}${Opt<`, ${FillMode}`>}${Opt<`, ${FillMode}`>}${string}`;
 
-type Count = `${number}` | "infinite"
+type Count = `${number}` | "infinite";
 
 export type CssAnimationIterationCount =
-| Count
-| `${Count}${Opt<`, ${Count}`>}`
-| `${Count}${Opt<`, ${Count}`>}${Opt<`, ${Count}`>}${string}`;
+  | Count
+  | `${Count}${Opt<`, ${Count}`>}`
+  | `${Count}${Opt<`, ${Count}`>}${Opt<`, ${Count}`>}${string}`;
 
 type Composition =
-| "replace"
-| "add"
-| "accumulate";
+  | "replace"
+  | "add"
+  | "accumulate";
 
 export type CssAnimationComposition =
-| Composition
-| `${Composition}${Opt<`, ${Composition}`>}`
-| `${Composition}${Opt<`, ${Composition}`>}${Opt<`, ${Composition}`>}${string}`;
+  | Composition
+  | `${Composition}${Opt<`, ${Composition}`>}`
+  | `${Composition}${Opt<`, ${Composition}`>}${Opt<`, ${Composition}`>}${string}`;
 
 type TimingFunction =
-| "ease"
-| "ease-in"
-| "ease-out"
-| "ease-in-out"
-| "linear"
-| "step-start"
-| "step-end"
-| `cubic-bezier(${string})`
-| `linear(${string})`
-| `steps(${string})`;
+  | "ease"
+  | "ease-in"
+  | "ease-out"
+  | "ease-in-out"
+  | "linear"
+  | "step-start"
+  | "step-end"
+  | `cubic-bezier(${string})`
+  | `linear(${string})`
+  | `steps(${string})`;
 
 export type CssAnimationTimingFunction =
-| TimingFunction
-| `${TimingFunction}${Opt<`, ${TimingFunction}`>}${string}`;
+  | TimingFunction
+  | `${TimingFunction}${Opt<`, ${TimingFunction}`>}${string}`;
 
 type PlayState = "paused" | "running";
 
 export type CssAnimationPlayState =
-| PlayState
-| `${PlayState}${Opt<`, ${PlayState}`>}`
-| `${PlayState}${Opt<`, ${PlayState}`>}${Opt<`, ${PlayState}`>}${string}`;
+  | PlayState
+  | `${PlayState}${Opt<`, ${PlayState}`>}`
+  | `${PlayState}${Opt<`, ${PlayState}`>}${Opt<`, ${PlayState}`>}${string}`;
 
 export type CssAnimation = `${CssAnimationDuration} ${CssAnimationTimingFunction}${string}`
-  | `${string} ${CssAnimationTimingFunction}${string}`
+  | `${string} ${CssAnimationTimingFunction}${string}`;
 
-export type CssAnimationProperties = {
+export interface CssAnimationProperties {
   /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/animation) */
-  animation?: string;
+  "animation"?: string;
   /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-composition) */
   "animation-composition"?: CssAnimationComposition | CssGlobal;
   /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-delay) */
@@ -97,4 +96,3 @@ export type CssAnimationProperties = {
   /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timing-function) */
   "animation-timing-function"?: CssAnimationTimingFunction | CssGlobal;
 }
-

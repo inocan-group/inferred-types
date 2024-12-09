@@ -1,37 +1,37 @@
 export type SizingUnits =
-| `px`
-| `em`
-| `rem`
-| `ch`
-| `vh`
-| `svh`
-| `dvh`
-| `lvh`
-| `vw`
-| `lvw`
-| `svw`
-| `dvw`
-| `fr`;
+  | `px`
+  | `em`
+  | `rem`
+  | `ch`
+  | `vh`
+  | `svh`
+  | `dvh`
+  | `lvh`
+  | `vw`
+  | `lvw`
+  | `svw`
+  | `dvw`
+  | `fr`;
 
 export type CssSizingFunction =
-| `var(${string})${SizingUnits}`
-| `var(${string})`
-| `calc(${string})${SizingUnits}`
-| `calc(${string})`
-| `min(${string})${SizingUnits}`
-| `min(${string})`
-| `max(${string})${SizingUnits}`
-| `max(${string})`
-| `minmax(${string})${SizingUnits}`
-| `minmax(${string})`;
+  | `var(${string})${SizingUnits}`
+  | `var(${string})`
+  | `calc(${string})${SizingUnits}`
+  | `calc(${string})`
+  | `min(${string})${SizingUnits}`
+  | `min(${string})`
+  | `max(${string})${SizingUnits}`
+  | `max(${string})`
+  | `minmax(${string})${SizingUnits}`
+  | `minmax(${string})`;
 
 export type CssNamedSizes =
-| "initial"
-| "intrinsic"
-| "fit-content"
-| "auto"
-| "min-content"
-| "max-content";
+  | "initial"
+  | "intrinsic"
+  | "fit-content"
+  | "auto"
+  | "min-content"
+  | "max-content";
 
 /**
  * A strong type for allowed CSS sizing options.
@@ -39,7 +39,6 @@ export type CssNamedSizes =
  * **Related:** `CssSizingLight`
  */
 export type CssSizing = `${number}${SizingUnits}` | `${number}%` | CssSizingFunction | CssNamedSizes;
-
 
 /**
  * A strong type for allowed CSS sizing options.

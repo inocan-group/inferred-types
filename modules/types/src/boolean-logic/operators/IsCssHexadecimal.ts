@@ -1,4 +1,4 @@
-import { IsHexadecimal, IsStringLiteral } from "inferred-types/types"
+import type { IsHexadecimal, IsStringLiteral } from "inferred-types/types";
 
 /**
  * **IsHexadecimal**`<T>`
@@ -7,9 +7,9 @@ import { IsHexadecimal, IsStringLiteral } from "inferred-types/types"
  * otherwise.
  */
 export type IsCssHexadecimal<T> = T extends string
-? IsStringLiteral<T> extends true
-  ? T extends `#${infer Rest}`
-    ? IsHexadecimal<Rest>
-    : false
-  : boolean
-: false;
+  ? IsStringLiteral<T> extends true
+    ? T extends `#${infer Rest}`
+      ? IsHexadecimal<Rest>
+      : false
+    : boolean
+  : false;

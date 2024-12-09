@@ -1,14 +1,14 @@
-import { Suggest } from "inferred-types/types";
+import type { Suggest } from "inferred-types/types";
 
 /**
  * The _timestamp_ of a [CSS keyframe animation](https://developer.mozilla.org/en-US/docs/Web/CSS/@keyframes)
  * (e.g., "from", "to", "50%")
  */
 export type CssKeyframeTimestamp =
-| "from"
-| "to"
-| `${number}%`
-| `${number}%${string},${number}%`;
+  | "from"
+  | "to"
+  | `${number}%`
+  | `${number}%${string},${number}%`;
 
 export type CssKeyframeTimestampSuggest = Suggest<
   "from" |

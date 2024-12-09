@@ -1,19 +1,19 @@
-import { Dictionary, EmptyObject, ObjectKey } from "../base-types";
-import { ComparatorOperation, Compare } from "../boolean-logic";
-import { Keys } from "./Keys";
-import { ExpandDictionary } from "../literals";
-import { AfterFirst } from "../lists/AfterFirst";
-import { First } from "../lists/First";
+import type { Dictionary, EmptyObject, ObjectKey } from "../base-types";
+import type { ComparatorOperation, Compare } from "../boolean-logic";
+import type { AfterFirst } from "../lists/AfterFirst";
+import type { First } from "../lists/First";
+import type { ExpandDictionary } from "../literals";
+import type { Keys } from "./Keys";
 
 type Process<
-TObj extends Dictionary,
-TComparator,
-TOp extends ComparatorOperation,
-TKeys extends readonly ObjectKey[],
-TResult extends Dictionary = EmptyObject
+  TObj extends Dictionary,
+  TComparator,
+  TOp extends ComparatorOperation,
+  TKeys extends readonly ObjectKey[],
+  TResult extends Dictionary = EmptyObject,
 > = [] extends TKeys
-? ExpandDictionary< TResult >
-: Process<
+  ? ExpandDictionary< TResult >
+  : Process<
     TObj,
     TComparator,
     TOp,
@@ -36,7 +36,7 @@ TResult extends Dictionary = EmptyObject
 export type FilterProps<
   TObj extends Dictionary,
   TComparator,
-  TOp extends ComparatorOperation = "extends"
+  TOp extends ComparatorOperation = "extends",
 > = Process<
   TObj,
   TComparator,

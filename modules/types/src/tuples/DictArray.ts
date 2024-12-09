@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-define */
 export type DictArrayFilterCallback<K extends keyof T, T extends object, R extends true | false> = (key: K, value: Pick<T, K>) => R;
 
 /**

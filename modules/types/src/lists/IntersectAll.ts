@@ -1,16 +1,16 @@
-import { ExpandRecursively, Narrowable, AfterFirst, First } from "inferred-types/types";
+import type { AfterFirst, ExpandRecursively, First, Narrowable } from "inferred-types/types";
 
 type Intersect<
   TList extends readonly unknown[],
   TIntersect extends Narrowable,
-  TResults extends unknown[] = []
+  TResults extends unknown[] = [],
 > = [] extends TList
   ? TResults
   : Intersect<
-      AfterFirst<TList>,
-      TIntersect,
-      [...TResults, ExpandRecursively<First<TList> & TIntersect> ]
-    >;
+    AfterFirst<TList>,
+    TIntersect,
+    [...TResults, ExpandRecursively<First<TList> & TIntersect> ]
+  >;
 
 /**
  * **IntersectAll**`<TList, TIntersect>`
@@ -20,7 +20,7 @@ type Intersect<
  */
 export type IntersectAll<
   TList extends readonly unknown[],
-  TIntersect extends Narrowable
+  TIntersect extends Narrowable,
 > = TList extends readonly unknown[]
-? Readonly<Intersect<TList, TIntersect>>
-: [...Intersect<TList, TIntersect>];
+  ? Readonly<Intersect<TList, TIntersect>>
+  : [...Intersect<TList, TIntersect>];

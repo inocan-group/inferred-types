@@ -1,5 +1,4 @@
-import { ObjectKey } from "inferred-types/types";
-
+import type { ObjectKey } from "inferred-types/types";
 
 /**
  * **AsObjectKeys**`<T>`
@@ -8,10 +7,10 @@ import { ObjectKey } from "inferred-types/types";
  * values which extend `ObjectKey`.
  */
 export type AsObjectKeys<
-  T extends readonly unknown[]
+  T extends readonly unknown[],
 > = T extends readonly ObjectKey[]
-? T
-: never;
+  ? T
+  : never;
 
 /**
  * **AsObjectKey**`<T>`

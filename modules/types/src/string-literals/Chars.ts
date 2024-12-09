@@ -1,19 +1,18 @@
-import {  IsStringLiteral,  IsEqual } from "inferred-types/types";
+import type { IsEqual, IsStringLiteral } from "inferred-types/types";
 
 type Process<
   TStr extends string,
-  TResult extends readonly string[] = []
+  TResult extends readonly string[] = [],
 > = IsStringLiteral<TStr> extends true
   ? IsEqual<TStr["length"], 0> extends true
     ? []
     : TStr extends `${infer Char}${infer Rest}`
       ? Process<
-          Rest,
-          [...TResult, Char]
-        >
+        Rest,
+        [...TResult, Char]
+      >
       : TResult
   : string;
-
 
 /**
  * **Chars**`<TStr>`
@@ -24,4 +23,4 @@ export type Chars<TStr extends string> = IsStringLiteral<TStr> extends true
   ? Process<TStr> extends readonly string[]
     ? Process<TStr>
     : never
-  : readonly string[]
+  : readonly string[];

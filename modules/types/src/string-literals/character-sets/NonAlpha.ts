@@ -1,5 +1,4 @@
-import { Bracket, NumericChar, Punctuation, SpecialChar, Whitespace } from "inferred-types/types";
-
+import type { Bracket, NumericChar, Punctuation, SpecialChar, Whitespace } from "inferred-types/types";
 
 /**
  * Non-alphabetic characters including whitespace, string numerals, and

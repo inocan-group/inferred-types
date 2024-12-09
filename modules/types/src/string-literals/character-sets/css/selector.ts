@@ -1,6 +1,6 @@
-import { AlphaNumericChar } from "../AlphaNumeric";
-import {  HtmlBodyElement } from "./html-element";
-import { CssPseudoClass, CssPseudoClassDefn } from "./pseudo-classes";
+import type { AlphaNumericChar } from "../AlphaNumeric";
+import type { HtmlBodyElement } from "./html-element";
+import type { CssPseudoClass, CssPseudoClassDefn } from "./pseudo-classes";
 
 export type CssIdSelector = `#${string}${AlphaNumericChar}`;
 export type CssClassSelector = `.${string}${AlphaNumericChar}`;
@@ -30,9 +30,8 @@ export type CssTagSelector = HtmlBodyElement;
 export type BareCssSelector<
   TId extends CssIdSelector = CssIdSelector,
   TClass extends CssClassSelector = CssClassSelector,
-  TTag extends CssTagSelector = CssTagSelector
+  TTag extends CssTagSelector = CssTagSelector,
 > = TId | TTag | TClass;
-
 
 /**
  * **CssSelector**`<[TId],[TClass],[TTag],[TPseudo]>`
@@ -43,9 +42,9 @@ export type CssSelector<
   TId extends CssIdSelector = CssIdSelector,
   TClass extends CssClassSelector = CssClassSelector,
   TTag extends CssTagSelector = CssTagSelector,
-  TPseudo extends CssPseudoClass = CssPseudoClass
+  TPseudo extends CssPseudoClass = CssPseudoClass,
 > =
-| TId | TClass | TTag
-| `${TId}${CssPseudoClassDefn<TPseudo>}`
-| `${TClass}${CssPseudoClassDefn<TPseudo>}`
-| `${TTag}${CssPseudoClassDefn<TPseudo>}`;
+  | TId | TClass | TTag
+  | `${TId}${CssPseudoClassDefn<TPseudo>}`
+  | `${TClass}${CssPseudoClassDefn<TPseudo>}`
+  | `${TTag}${CssPseudoClassDefn<TPseudo>}`;

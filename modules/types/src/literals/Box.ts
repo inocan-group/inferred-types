@@ -1,5 +1,4 @@
-
-import { HasParameters, TypedFunction } from "inferred-types/types";
+import type { HasParameters, TypedFunction } from "inferred-types/types";
 
 export interface Box<T> {
   __type: "box";

@@ -1,5 +1,4 @@
-import { IsBoolean, IsNever } from "inferred-types/types";
-
+import type { IsBoolean, IsNever } from "inferred-types/types";
 
 /**
  * **IsFalse**`<T>`
@@ -16,7 +15,7 @@ import { IsBoolean, IsNever } from "inferred-types/types";
 export type IsFalse<T> = IsNever<T> extends true
   ? never
   : IsBoolean<T> extends true
-  ? T extends false
-    ? true
-    : false
-  : false;
+    ? T extends false
+      ? true
+      : false
+    : false;

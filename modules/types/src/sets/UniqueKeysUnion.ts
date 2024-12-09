@@ -1,4 +1,4 @@
-import { Container, LeftRight } from "inferred-types/types";
+import type { Container, LeftRight } from "inferred-types/types";
 
 /**
  * **UniqueKeysUnion**`<L,R>`
@@ -20,7 +20,7 @@ import { Container, LeftRight } from "inferred-types/types";
  */
 export type UniqueKeysUnion<
   L extends Container,
-  R extends Container
+  R extends Container,
 > = LeftRight<
   Exclude<keyof L, keyof R>,
   Exclude<keyof R, keyof L>

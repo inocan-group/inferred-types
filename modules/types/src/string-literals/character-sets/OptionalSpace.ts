@@ -15,8 +15,7 @@ export type OptSpace = OptionalSpace;
  */
 export type OptSpace2 = OptionalSpace | "  ";
 
-
 /**
  * **0** _to_ **4** _space_ characters
  */
-export type OptSpace4 = OptionalSpace |  "   " |  "    ";
+export type OptSpace4 = OptionalSpace | "   " | "    ";

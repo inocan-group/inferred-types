@@ -1,5 +1,5 @@
-import { Chars, First, Mutable, NumericChar, TupleToUnion } from "inferred-types/types";
-import  { ZIP_TO_STATE } from "inferred-types/constants";
+import type { ZIP_TO_STATE } from "inferred-types/constants";
+import type { Chars, First, Mutable, NumericChar, TupleToUnion } from "inferred-types/types";
 
 /**
  * **Zip5**
@@ -18,11 +18,10 @@ type Z2S = Mutable<typeof ZIP_TO_STATE>;
  * Converts a zip code into a _union type_ of
  */
 export type ZipToState<
-  T extends string
+  T extends string,
 > = First<Chars<T>> extends keyof Z2S
-? TupleToUnion<Z2S[First<Chars<T>>]>
-: never;
-
+  ? TupleToUnion<Z2S[First<Chars<T>>]>
+  : never;
 
 export type ZipPlus4 = `${Zip5}-${number}`;
 
@@ -30,5 +29,3 @@ export type ZipPlus4 = `${Zip5}-${number}`;
  * A relatively strong type for Zip5 or Zip5+4 zip codes
  */
 export type ZipCode = ZipPlus4 | Zip5;
-
-

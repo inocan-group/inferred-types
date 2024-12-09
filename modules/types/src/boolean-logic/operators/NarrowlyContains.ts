@@ -1,4 +1,4 @@
-import { AfterFirst, First , IsEqual } from "inferred-types/types";
+import type { AfterFirst, First, IsEqual } from "inferred-types/types";
 
 /**
  * **NarrowlyContains**`<TList, TContains>`
@@ -19,5 +19,5 @@ export type NarrowlyContains<
 > extends true
   ? true
   : [] extends AfterFirst<TList>
-  ? false
-  : NarrowlyContains<AfterFirst<TList>, TContains>;
+      ? false
+      : NarrowlyContains<AfterFirst<TList>, TContains>;

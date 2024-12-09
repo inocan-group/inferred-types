@@ -1,4 +1,4 @@
-import { Digit } from "inferred-types/types";
+import type { Digit } from "inferred-types/types";
 
 /**
  * **DigitNonZero**

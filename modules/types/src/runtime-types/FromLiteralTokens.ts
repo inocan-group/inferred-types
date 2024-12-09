@@ -1,17 +1,17 @@
-import {
-  If,
-  StartsWith,
+import type {
   AfterFirst,
-  First,
   AlphaChar,
   Bracket,
   ClosingBracket,
   Digit,
+  First,
+  If,
   LowerAlphaChar,
   OpeningBracket,
+  StartsWith,
+  StringLiteralToken,
   StripLeading,
   UpperAlphaChar,
-  StringLiteralToken
 } from "inferred-types/types";
 
 type _Tokenize<T extends StringLiteralToken> = //
@@ -19,30 +19,30 @@ type _Tokenize<T extends StringLiteralToken> = //
     StartsWith<T, "literal:">,
     StripLeading<T, "literal:">,
     T extends "<string>" ? `${string}`
-    : T extends "<number>" ? `${number}`
-    : T extends "<boolean>" ? `${boolean}`
-    : T extends "<letter>" ? `${AlphaChar}`
-    : T extends "<letter:lowercase>" ? `${LowerAlphaChar}`
-    : T extends "<letter:uppercase>" ? `${UpperAlphaChar}`
-    : T extends "<digit>" ? `${Digit}`
-    : T extends "<bracket>" ? `${Bracket}`
-    : T extends "<bracket:opening>" ? `${OpeningBracket}`
-    : T extends "<bracket:closing>" ? `${ClosingBracket}`
-    : never
+      : T extends "<number>" ? `${number}`
+        : T extends "<boolean>" ? `${boolean}`
+          : T extends "<letter>" ? `${AlphaChar}`
+            : T extends "<letter:lowercase>" ? `${LowerAlphaChar}`
+              : T extends "<letter:uppercase>" ? `${UpperAlphaChar}`
+                : T extends "<digit>" ? `${Digit}`
+                  : T extends "<bracket>" ? `${Bracket}`
+                    : T extends "<bracket:opening>" ? `${OpeningBracket}`
+                      : T extends "<bracket:closing>" ? `${ClosingBracket}`
+                        : never
   >;
 
 type _Convert<
   T extends readonly StringLiteralToken[],
-  Type extends string = ""
+  Type extends string = "",
 > = [] extends T
-? Type
-: _Convert<
+  ? Type
+  : _Convert<
     AfterFirst<T>,
     _Tokenize<First<T>> extends string
-    ? `${Type}${_Tokenize<First<T>>}` extends StringLiteralToken
-      ? `${Type}${_Tokenize<First<T>>}`
+      ? `${Type}${_Tokenize<First<T>>}` extends StringLiteralToken
+        ? `${Type}${_Tokenize<First<T>>}`
+        : never
       : never
-    : never
   >;
 
 /**
@@ -52,5 +52,5 @@ type _Convert<
  * into a literal type.
  */
 export type FromLiteralTokens<
-  T extends readonly StringLiteralToken[]
+  T extends readonly StringLiteralToken[],
 > = _Convert<T>;

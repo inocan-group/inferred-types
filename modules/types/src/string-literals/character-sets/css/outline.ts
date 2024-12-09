@@ -1,36 +1,36 @@
-import { Opt } from "../Optional";
-import { CssColorLight } from "./color";
-import { CssSizingLight } from "./sizing";
+import type { Opt } from "../Optional";
+import type { CssColorLight } from "./color";
+import type { CssSizingLight } from "./sizing";
 
 export type CssOutlineColor = CssColorLight;
 
 export type CssOutlineOffset = CssSizingLight;
 
 export type CssOutlineStyle =
-| "auto"
-| "none"
-| "dotted"
-| "dashed"
-| "solid"
-| "double"
-| "groove"
-| "ridge"
-| "inset"
-| "outset";
+  | "auto"
+  | "none"
+  | "dotted"
+  | "dashed"
+  | "solid"
+  | "double"
+  | "groove"
+  | "ridge"
+  | "inset"
+  | "outset";
 
 export type CssOutlineWidth =
-| "thin"
-| "medium"
-| "thick"
-| CssSizingLight;
+  | "thin"
+  | "medium"
+  | "thick"
+  | CssSizingLight;
 
 export type CssOutline =
-| `${CssOutlineStyle}${Opt<` ${CssColorLight}`>}`
-| `${CssOutlineWidth}${Opt<` ${CssOutlineStyle}`>}${string}`;
+  | `${CssOutlineStyle}${Opt<` ${CssColorLight}`>}`
+  | `${CssOutlineWidth}${Opt<` ${CssOutlineStyle}`>}${string}`;
 
-export type CssOutlineProperties = {
+export interface CssOutlineProperties {
   /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/outline) */
-  outline?: CssOutline;
+  "outline"?: CssOutline;
   /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/outline-color) */
   "outline-color"?: CssOutlineColor;
   /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/outline-offset) */

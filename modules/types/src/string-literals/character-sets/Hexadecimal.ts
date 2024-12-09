@@ -1,6 +1,6 @@
-import {
-  Suggest,
+import type {
   NumericChar,
+  Suggest,
 } from "inferred-types/types";
 
 /**
@@ -16,10 +16,7 @@ export type HexadecimalChar = NumericChar | "A" | "B" | "C" | "D" | "E" | "F" | 
  * A decent approximation for typing a _hexadecimal_ number representation.
  * For stronger type checking use `IsHexadecimal<T>`
  */
-export type Hexadecimal = `#${HexadecimalChar}${HexadecimalChar}${string}`
-
-
-
+export type Hexadecimal = `#${HexadecimalChar}${HexadecimalChar}${string}`;
 
 /**
  * A string suggestion for hexadecimal types

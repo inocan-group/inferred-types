@@ -1,4 +1,4 @@
-import { EmptyObject } from "inferred-types/types";
+import type { EmptyObject } from "inferred-types/types";
 
 export enum ExifCompression {
   Uncompressed = 1,
@@ -84,27 +84,27 @@ export enum ExifFlashValues {
   FiredReturnDetected = 0x7,
   OnDidNotFire = 0x8,
   OnFired = 0x9,
-  OnReturnNotDetected = 0xd,
-  OnReturnDetected = 0xf,
+  OnReturnNotDetected = 0xD,
+  OnReturnDetected = 0xF,
   OffDidNotFire = 0x10,
   OffDidNotFireReturnNotDetected = 0x14,
   AutoDidNotFire = 0x18,
   AutoFired = 0x19,
-  AutoFiredReturnNotDetected = 0x1d,
-  AutoFiredReturnDetected = 0x1f,
+  AutoFiredReturnNotDetected = 0x1D,
+  AutoFiredReturnDetected = 0x1F,
   NoFlashFunction = 0x20,
   OffNoFlashFunction = 0x30,
   FiredRedEyeReduction = 0x41,
   FiredRedEyeReductionReturnNotDetected = 0x45,
   FiredRedEyeReductionReturnDetected = 0x47,
   OnRedEyeReduction = 0x49,
-  OnRedEyeReductionReturnNotDetected = 0x4d,
-  OnRedEyeReductionReturnDetected = 0x4f,
+  OnRedEyeReductionReturnNotDetected = 0x4D,
+  OnRedEyeReductionReturnDetected = 0x4F,
   OffRedEyeReduction = 0x50,
   AutoDidNotFireRedEyeReduction = 0x58,
   AutoFiredRedEyeReduction = 0x59,
   AutoFiredRedEyeReductionNotDetected = 0x60,
-  AutoFiredRedEyeReductionDetected = 0x5d,
+  AutoFiredRedEyeReductionDetected = 0x5D,
 }
 
 export enum ExifPreviewColorSpace {
@@ -172,7 +172,8 @@ export type ExifExtraneous<T extends object = EmptyObject> = {
   InteropIndex: string;
   // InteropVersion:
 
-  /** called NewSubfileType by TIFF specification.
+  /**
+   * called NewSubfileType by TIFF specification.
    * [More](https://exiftool.org/TagNames/EXIF.html).
    */
   SubfileType: number;
@@ -374,7 +375,7 @@ export type ExifCameraInfo<T extends object = EmptyObject> = {
    * is indicated by "Uncalibrated" with an InteropIndex of "R03". The values
    * 0xfffd and 0xfffe are also non-standard, and are used by some Sony cameras.
    */
-  Colorspace: 0x1 | 0x2 | 0xfffd | 0xfffe | 0xffff;
+  Colorspace: 0x1 | 0x2 | 0xFFFD | 0xFFFE | 0xFFFF;
   Gamma: number;
   /**
    * The actual `PixelFormat` values are 16-byte GUID's but the leading 15 bytes,
@@ -438,7 +439,8 @@ export type ExifCameraInfo<T extends object = EmptyObject> = {
    * - `0x3f` = 32-bit Gray Fixed Point
    *
    * > NOTE: tags 0xbc** are used in Windows HD Photo (HDP and WDP) images
-   `*/
+   `
+   */
   PixelFormat: number;
 
   /**
@@ -507,7 +509,7 @@ export type ExifPhotoContext<T extends object = EmptyObject> = {
  * Typing for GPS properties that are part of EXIF spec.
  * Details can be found: [here](https://exiftool.org/TagNames/GPS.html).
  */
-export type ExifGps = {
+export interface ExifGps {
   GPSVersionID: number;
   GPSLatitudeRef: "N" | "S";
   GPSLatitude: number;
@@ -564,7 +566,7 @@ export type ExifGps = {
    */
   GPSDifferential: 0 | 1;
   GPSHPositioningError: number;
-};
+}
 /**
  * EXIF metadata payload fields.
  * Detailed info can be found here:
@@ -572,10 +574,10 @@ export type ExifGps = {
  */
 export type Exif<T extends object = EmptyObject> = Partial<
   ExifAttributionInfo &
-    ExifCameraInfo &
-    ExifDateTimeInfo &
-    ExifGps &
-    ExifExtraneous &
-    ExifPhotoContext
+  ExifCameraInfo &
+  ExifDateTimeInfo &
+  ExifGps &
+  ExifExtraneous &
+  ExifPhotoContext
 > &
-  T;
+T;

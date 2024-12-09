@@ -1,17 +1,17 @@
-import { Constant } from "inferred-types/constants";
-import { IsWideType } from "../boolean-logic";
-import { If } from "../boolean-logic/branching/If";
-import { RemoveMarked } from "../containers";
+import type { Constant } from "inferred-types/constants";
+import type { IsWideType } from "../boolean-logic";
+import type { If } from "../boolean-logic/branching/If";
+import type { RemoveMarked } from "../containers";
 
 type Process<
-T extends readonly unknown[]
+  T extends readonly unknown[],
 > = RemoveMarked<{
   [K in keyof T]: If<
     IsWideType<T[K]>,
     T[K],
     Constant<"Marked">
->
-}>
+  >
+}>;
 
 /**
  * **RetainWideTypes**`<T>`
@@ -25,7 +25,7 @@ T extends readonly unknown[]
  * **Related:** `Retain`, `RetainLiterals`, `FilterWideTypes`
  */
 export type RetainWideTypes<
-  T extends readonly unknown[]
+  T extends readonly unknown[],
 > = Process<T> extends readonly unknown[]
-? Process<T>
-: never;
+  ? Process<T>
+  : never;

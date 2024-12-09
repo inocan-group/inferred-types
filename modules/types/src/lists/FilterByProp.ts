@@ -1,13 +1,12 @@
-import {
+import type {
   ComparatorOperation,
   Compare,
-  IfNever,
-  RemoveNever,
-  IsDotPath,
-  Throw,
   Get,
+  IfNever,
+  IsDotPath,
+  RemoveNever,
+  Throw,
 } from "inferred-types/types";
-
 
 /**
  * Iterates over each element of the Tuple
@@ -17,33 +16,31 @@ type SingleFilter<
   TComparator,
   TProp extends string,
   TOp extends ComparatorOperation,
-  Result extends unknown[] = []
+  Result extends unknown[] = [],
 > = TList extends [infer Head, ...infer Rest]
   ? [
       Compare<
         Get<Head, TProp>,
         TOp,
         TComparator
-      >
+      >,
     ] extends [true]
-    ? SingleFilter<Rest, TComparator, TProp, TOp, Result> // filter out
-    : SingleFilter<Rest, TComparator, TProp, TOp, [...Result, Head]>
+      ? SingleFilter<Rest, TComparator, TProp, TOp, Result> // filter out
+      : SingleFilter<Rest, TComparator, TProp, TOp, [...Result, Head]>
   : Result;
-
-
 
 type Process<
   TList extends readonly unknown[],
   TComparator,
   TProp extends string,
-  TOp extends ComparatorOperation
-> =  TList extends unknown[]
-? SingleFilter<TList, TComparator, TProp, TOp>
-: // readonly only tuples
+  TOp extends ComparatorOperation,
+> = TList extends unknown[]
+  ? SingleFilter<TList, TComparator, TProp, TOp>
+  : // readonly only tuples
   TList extends readonly unknown[]
     ? Readonly<
-        SingleFilter<[...TList], TComparator, TProp, TOp>
-      >
+      SingleFilter<[...TList], TComparator, TProp, TOp>
+    >
     : never;
 
 /**
@@ -62,26 +59,26 @@ export type FilterByProp<
   TList extends readonly unknown[],
   TComparator,
   TProp extends string,
-  TOp extends ComparatorOperation = "extends"
+  TOp extends ComparatorOperation = "extends",
 > = IsDotPath<TProp> extends false
-? Throw<"invalid-dot-path", `the property value TProp must be a valid dotpath but "${TProp}" is not valid!`>
+  ? Throw<"invalid-dot-path", `the property value TProp must be a valid dotpath but "${TProp}" is not valid!`>
 
-: TList extends readonly unknown[]
-? IfNever<
-    TComparator,
-    RemoveNever<TList>,
-    TComparator extends any[]
-      ? Process<
+  : TList extends readonly unknown[]
+    ? IfNever<
+      TComparator,
+      RemoveNever<TList>,
+      TComparator extends any[]
+        ? Process<
           TList,
           TComparator[number],
           TProp,
           TOp
         >
-      : Process<
+        : Process<
           TList,
           TComparator,
           TProp,
           TOp
         >
     >
-: never;
+    : never;

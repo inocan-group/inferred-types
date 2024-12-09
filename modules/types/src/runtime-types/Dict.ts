@@ -1,14 +1,14 @@
-import { Constant } from "inferred-types/constants";
-import {
-  RemoveMarked,
-  Widen,
-  ExpandDictionary,
-  First,
+import type { Constant } from "inferred-types/constants";
+import type {
   AfterFirst,
-  MakeKeysOptional,
   Contains,
   Dictionary,
   EmptyObject,
+  ExpandDictionary,
+  First,
+  MakeKeysOptional,
+  RemoveMarked,
+  Widen,
 } from "inferred-types/types";
 
 const s = Symbol("Dict");
@@ -26,23 +26,23 @@ export type Dict<T extends Dictionary = EmptyObject, ID extends string = string>
 } & T;
 
 export type OptDictProps<
-  T extends readonly string[]
+  T extends readonly string[],
 > = RemoveMarked<{
   [K in keyof T]: T[K] extends `opt:${infer Prop}`
-  ? Prop extends string
-  ? Prop
-  : Constant<"Marked">
-  : Constant<"Marked">
+    ? Prop extends string
+      ? Prop
+      : Constant<"Marked">
+    : Constant<"Marked">
 }>;
 
 export type NarrowDictProps<
-  T extends readonly string[]
+  T extends readonly string[],
 > = [] extends T
   ? T
   : RemoveMarked<{
     [K in keyof T]: T[K] extends `opt:${string}`
-    ? Constant<"Marked">
-    : T[K]
+      ? Constant<"Marked">
+      : T[K]
   }>;
 
 export type CreateDictShape<
@@ -50,15 +50,15 @@ export type CreateDictShape<
   TKeys extends readonly (string & keyof TObj)[],
   TNarrow extends readonly string[],
   TOpt extends readonly string[],
-  TResult extends Dictionary = EmptyObject
+  TResult extends Dictionary = EmptyObject,
 > = [] extends TKeys
   ? OptDictProps<TKeys> extends readonly string[]
-  ? MakeKeysOptional<
-    ExpandDictionary<TResult>,
-    TOpt
-  >
+    ? MakeKeysOptional<
+      ExpandDictionary<TResult>,
+      TOpt
+    >
 
-  : never
+    : never
   : CreateDictShape<
     TObj,
     AfterFirst<TKeys>,
@@ -67,8 +67,8 @@ export type CreateDictShape<
     TResult & Record<
       First<TKeys>,
       Contains<TNarrow, First<TKeys>> extends true
-      ? TObj[First<TKeys>]
-      : Widen<TObj[First<TKeys>]>
+        ? TObj[First<TKeys>]
+        : Widen<TObj[First<TKeys>]>
     >
   >;
 

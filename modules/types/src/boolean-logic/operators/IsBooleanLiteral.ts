@@ -1,4 +1,4 @@
-import type {   IsFalse, IsNever, IsTrue } from "inferred-types/types";
+import type { IsFalse, IsNever, IsTrue } from "inferred-types/types";
 
 // [note on handling of boolean](https://stackoverflow.com/questions/74213646/detecting-type-literals-works-in-isolation-but-not-when-combined-with-other-lite/74213713#74213713)
 
@@ -9,12 +9,11 @@ import type {   IsFalse, IsNever, IsTrue } from "inferred-types/types";
  * is a boolean literal (aka, is `true` or `false`)
  */
 export type IsBooleanLiteral<
-  T
+  T,
 > = [IsNever<T>] extends [true]
   ? false
   : [IsTrue<T>] extends [true]
-    ? true
-    : [IsFalse<T>] extends [true]
-    ? true
-    : false;
-
+      ? true
+      : [IsFalse<T>] extends [true]
+          ? true
+          : false;

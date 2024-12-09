@@ -1,4 +1,4 @@
-import { IsEqual } from "inferred-types/types";
+import type { IsEqual } from "inferred-types/types";
 
 /**
  * **IfEqual**`<X,Y,[IF],[ELSE]>`
@@ -10,8 +10,8 @@ export type IfEqual<
   X,
   Y,
   IF = X & Y,
-  ELSE = Exclude<X,Y>
-> = IsEqual<X,Y> extends true
+  ELSE = Exclude<X, Y>,
+> = IsEqual<X, Y> extends true
   ? IF
   : ELSE;
 
@@ -24,8 +24,8 @@ export type IfEqual<
  * **Note:** this is just a type alias for `IfEqual`
  */
 export type IfEquals<
-X,
-Y,
-IF = X & Y,
-ELSE = Exclude<X,Y>
-> = IfEqual<X,Y,IF,ELSE>;
+  X,
+  Y,
+  IF = X & Y,
+  ELSE = Exclude<X, Y>,
+> = IfEqual<X, Y, IF, ELSE>;

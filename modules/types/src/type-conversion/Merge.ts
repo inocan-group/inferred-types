@@ -1,26 +1,25 @@
-import {
-  IsUndefined ,
-  DoesExtend,
-  If,
-  And ,
-  Narrowable,
-  AfterFirst ,
-  First ,
-  Scalar,
-  MergeObjects,
-  Dictionary,
-  AsDictionary,
+import type {
+  AfterFirst,
+  And,
   AreSameType,
-  Throw,
-  Or,
+  AsDictionary,
+  Dictionary,
+  DoesExtend,
+  First,
+  If,
   IsNothing,
-  Nothing
+  IsUndefined,
+  MergeObjects,
+  Narrowable,
+  Nothing,
+  Or,
+  Scalar,
+  Throw,
 } from "inferred-types/types";
 
 // 1. Keep all unique keys in `TValue`
 // 2. Strip all KV's on `TValue` which are _undefined_
 // 3. Add all unique props from `TDefaultVal`
-
 
 /**
  * **MergeScalars**`<TDefault, TOverride, [TEmpty]>`
@@ -36,19 +35,17 @@ import {
 export type MergeScalars<
   TDefault extends Scalar | undefined,
   TOverride extends Scalar | undefined,
-  TEmpty extends Scalar | undefined = null | undefined
+  TEmpty extends Scalar | undefined = null | undefined,
 > = TDefault extends TEmpty
-? TOverride
-: TOverride extends TEmpty
-  ? TDefault : TOverride;
-
-
+  ? TOverride
+  : TOverride extends TEmpty
+    ? TDefault : TOverride;
 
 type MergeTuplesAcc<
   TDefault extends readonly unknown[],
   TOverride extends readonly unknown[],
   TKey extends string | false = false,
-  TResults extends readonly unknown[] = []
+  TResults extends readonly unknown[] = [],
 > = TOverride extends [infer Override, ...infer Rest extends unknown[]]
   ? If<
     IsUndefined<Override>,
@@ -68,29 +65,29 @@ type MergeTuplesAcc<
 export type MergeTuples<
   TDefault extends readonly Narrowable[],
   TOverride extends readonly Narrowable[],
-  TKey extends string | false = false // TODO: not currently being used
+  TKey extends string | false = false, // TODO: not currently being used
 > = MergeTuplesAcc<[...TDefault], [...TOverride], TKey>;
 
-
 type Process<
-TDefault,
-TOverride
+  TDefault,
+  TOverride,
 > = And<[
-  DoesExtend<TDefault, Dictionary|Nothing>, DoesExtend<TOverride, Dictionary|Nothing>
+  DoesExtend<TDefault, Dictionary | Nothing>,
+  DoesExtend<TOverride, Dictionary | Nothing>,
 ]> extends true
-? MergeObjects<AsDictionary<TDefault>,AsDictionary<TOverride> >
-: And<[
-    DoesExtend<TDefault, Scalar|undefined>, DoesExtend<TOverride, Scalar|undefined>
+  ? MergeObjects<AsDictionary<TDefault>, AsDictionary<TOverride> >
+  : And<[
+    DoesExtend<TDefault, Scalar | undefined>,
+    DoesExtend<TOverride, Scalar | undefined>,
   ]> extends true
-  ? MergeScalars<TDefault & Scalar, TOverride & Scalar>
-  :
+    ? MergeScalars<TDefault & Scalar, TOverride & Scalar>
+    :
     And<[
       DoesExtend<TDefault, readonly Narrowable[]>,
-      DoesExtend<TOverride, readonly Narrowable[]>
+      DoesExtend<TOverride, readonly Narrowable[]>,
     ]> extends true
-    ? MergeTuples<TDefault & readonly Narrowable[], TOverride & readonly Narrowable[]>
-    : never;
-
+      ? MergeTuples<TDefault & readonly Narrowable[], TOverride & readonly Narrowable[]>
+      : never;
 
 /**
  * **Merge**`<TDefault,TOverride>`
@@ -102,23 +99,23 @@ TOverride
 export type Merge<
   TDefault,
   TOverride,
-> = AreSameType<TDefault,TOverride> extends true
-? Process<TDefault,TOverride>
-: Or<[
-    IsNothing<TDefault>, IsNothing<TOverride>
+> = AreSameType<TDefault, TOverride> extends true
+  ? Process<TDefault, TOverride>
+  : Or<[
+    IsNothing<TDefault>,
+    IsNothing<TOverride>,
   ]> extends true
     ? And<[IsNothing<TDefault>, IsNothing<TOverride>]> extends true
       ? Throw<
-          "invalid-merge",
-          `Merge<TDef,TOver> received two empty values; at least one needs to have a value!`,
-          "Merge",
-          { library: "inferred-types/constants"; TDef: TDefault; TOver: TOverride }
-        >
+        "invalid-merge",
+        `Merge<TDef,TOver> received two empty values; at least one needs to have a value!`,
+        "Merge",
+        { library: "inferred-types/constants"; TDef: TDefault; TOver: TOverride }
+      >
       : Process<TDefault, TOverride>
     : Throw<
       "invalid-merge",
       `the Merge<TDef,TOver> utility can merge various types but both types must be of the same base type and they were not!`,
       "Merge",
-      { library: "inferred-types/constants"; TDef: TDefault; TOver: TOverride}
+      { library: "inferred-types/constants"; TDef: TDefault; TOver: TOverride }
     >;
-

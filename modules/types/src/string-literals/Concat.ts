@@ -1,29 +1,29 @@
-import {
+import type {
   AfterFirst,
   First,
-  Tuple,
-  IsStringLiteral,
+  IsBooleanLiteral,
   IsNumericLiteral,
-  IsBooleanLiteral
+  IsStringLiteral,
+  Tuple,
 } from "inferred-types/types";
 
 type ElementLiteral<T> = [T] extends [string]
   ? IsStringLiteral<T> extends true ? T : string
   : [T] extends [number]
-  ? IsNumericLiteral<T> extends true ? T : `${number}`
-  : [T] extends [boolean]
-  ? IsBooleanLiteral<T> extends true ? T : `${boolean}`
-  : never;
+      ? IsNumericLiteral<T> extends true ? T : `${number}`
+      : [T] extends [boolean]
+          ? IsBooleanLiteral<T> extends true ? T : `${boolean}`
+          : never;
 
 type Process<
   T extends Tuple,
-  Result extends string = ""
+  Result extends string = "",
 > = [] extends T
   ? Result
   : Process<
-      AfterFirst<T>,
+    AfterFirst<T>,
       `${Result}${ElementLiteral<First<T>>}`
-    >;
+  >;
 
 /**
  * **Concat**`<T>`
@@ -41,5 +41,5 @@ type Process<
  * **Related:** `Join<TArr,TWith>`
  */
 export type Concat<
-  T extends readonly unknown[]
+  T extends readonly unknown[],
 > = Process<T>;

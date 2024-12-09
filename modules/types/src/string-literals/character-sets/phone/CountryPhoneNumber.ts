@@ -1,10 +1,8 @@
-import {
+import type {
   LocalPhoneNumber,
   PhoneAreaCode,
-  PhoneNumberDelimiter
+  PhoneNumberDelimiter,
 } from "inferred-types/types";
-
-
 
 /**
  * **CountryPhoneNumber**`<[TDelimiter]>`
@@ -16,5 +14,5 @@ import {
  * **Related:** `InternationalPhoneNumber`, `LocalPhoneNumber`, `PhoneNumber`
  */
 export type CountryPhoneNumber<
-  TDelimiter extends PhoneNumberDelimiter = PhoneNumberDelimiter
-> = `${PhoneAreaCode}${TDelimiter}${LocalPhoneNumber<TDelimiter>}`
+  TDelimiter extends PhoneNumberDelimiter = PhoneNumberDelimiter,
+> = `${PhoneAreaCode}${TDelimiter}${LocalPhoneNumber<TDelimiter>}`;

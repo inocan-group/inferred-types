@@ -1,14 +1,17 @@
-import { MARKED } from "inferred-types/constants";
-import {
-  DoesExtend,
-  UnionToTuple,
-  First,
+import type { MARKED } from "inferred-types/constants";
+import type {
   AfterFirst,
+  Container,
+  Dictionary,
+  DoesExtend,
+  EmptyObject,
+  First,
   NumericKeys,
+  ObjectKey,
   RemoveIndexKeys,
-  Container, EmptyObject, Dictionary, ObjectKey, Tuple
+  Tuple,
+  UnionToTuple,
 } from "inferred-types/types";
-
 
 type Marked = typeof MARKED;
 
@@ -20,13 +23,13 @@ readonly ObjectKey[]
 type Process<
   T extends Container,
   TKeys extends readonly PropertyKey[],
-  TResults extends Container = T extends readonly unknown[] ? [] : EmptyObject
+  TResults extends Container = T extends readonly unknown[] ? [] : EmptyObject,
 > = [] extends TKeys
-? TResults
-: First<TKeys> extends keyof T
-  ? DoesExtend<T[First<TKeys>], Marked> extends true
-    ? Process<T,AfterFirst<TKeys>, TResults>
-    : Process<
+  ? TResults
+  : First<TKeys> extends keyof T
+    ? DoesExtend<T[First<TKeys>], Marked> extends true
+      ? Process<T, AfterFirst<TKeys>, TResults>
+      : Process<
         T,
         AfterFirst<TKeys>,
         First<TKeys> extends keyof T
@@ -38,7 +41,7 @@ type Process<
           : never
       >
 
-  : never
+    : never;
 
 /**
  * **RemoveMarked**`<T>`
@@ -46,8 +49,8 @@ type Process<
  * Removes all values in `T` which extends `Constant<"Marked">`
  */
 export type RemoveMarked<
-  T extends Container
+  T extends Container,
 > = Process<
   T,
-  T extends Tuple ? NumericKeys<T> :  _Keys<T>
->
+  T extends Tuple ? NumericKeys<T> : _Keys<T>
+>;

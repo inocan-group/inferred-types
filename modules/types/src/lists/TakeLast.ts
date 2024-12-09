@@ -1,11 +1,7 @@
-
-
-import {
+import type {
+  Reverse,
   TakeFirst,
-  Reverse
 } from "inferred-types/types";
-
-
 
 /**
  * **TakeLast**`<TContent,TLen,[THandle]>`
@@ -23,7 +19,7 @@ import {
 export type TakeLast<
   TContent extends readonly unknown[],
   TLen extends number,
-  THandle extends "ignore" | "throw" = "ignore"
+  THandle extends "ignore" | "throw" = "ignore",
 > = TakeFirst<
   Reverse<TContent>,
   TLen,

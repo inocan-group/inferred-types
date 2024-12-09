@@ -1,5 +1,4 @@
-import { If, IfNever, IsStringLiteral, SingularNoun } from "inferred-types/types";
-
+import type { If, IfNever, IsStringLiteral, SingularNoun } from "inferred-types/types";
 
 /**
  * **IsSingularNoun**`<T>`
@@ -13,8 +12,8 @@ import { If, IfNever, IsStringLiteral, SingularNoun } from "inferred-types/types
  */
 export type IsSingularNoun<T> = T extends string
   ? If<
-      IsStringLiteral<T>,
-      IfNever<SingularNoun<T>, false, true>,
-      boolean
-    >
+    IsStringLiteral<T>,
+    IfNever<SingularNoun<T>, false, true>,
+    boolean
+  >
   : false;

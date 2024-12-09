@@ -1,15 +1,15 @@
+import type { MARKED } from "inferred-types/constants";
 import type {
-  GetEach,
-  IsNull,
   Container,
-  RemoveNever,
   Contains,
+  GetEach,
   If,
-  RemoveMarked,
+  IsNull,
   NarrowlyContains,
+  RemoveMarked,
+  RemoveNever,
   Throw,
 } from "inferred-types/types";
-import  { MARKED } from "inferred-types/constants";
 
 type Marked = typeof MARKED;
 
@@ -39,30 +39,29 @@ type DerefWithReport<
   A extends readonly Container[],
   B extends readonly Container[],
   TKeys extends readonly PropertyKey[],
-  TDeref
+  TDeref,
 > = [
   // left
   RemoveMarked<{
     [K in keyof A]: TDeref extends keyof A[K]
-    ? If<
+      ? If<
         NarrowlyContains<TKeys, A[K][TDeref]>,
         A[K],
         Marked
       >
-    : never
+      : never
   }>,
   // right
   RemoveMarked<{
     [K in keyof B]: TDeref extends keyof B[K]
-    ? If<
+      ? If<
         NarrowlyContains<TKeys, B[K][TDeref]>,
         B[K],
         Marked
       >
-    : Marked
-  }>
+      : Marked
+  }>,
 ];
-
 
 type _WithDeref<
   A extends readonly Container[],
@@ -70,25 +69,24 @@ type _WithDeref<
   AValues extends readonly unknown[],
   BValues extends readonly unknown[],
   TDeref extends string,
-  TReport extends boolean
+  TReport extends boolean,
 > = TReport extends false
-? DerefNoReport<AValues,BValues>
-: DerefNoReport<AValues,BValues> extends readonly PropertyKey[]
-  ? DerefWithReport<A,B,DerefNoReport<AValues,BValues>, TDeref>
-  : never;
-
+  ? DerefNoReport<AValues, BValues>
+  : DerefNoReport<AValues, BValues> extends readonly PropertyKey[]
+    ? DerefWithReport<A, B, DerefNoReport<AValues, BValues>, TDeref>
+    : never;
 
 type HandleDeref<
   A extends readonly unknown[],
   B extends readonly unknown[],
   TDeref extends string,
-  TReport extends boolean = false
+  TReport extends boolean = false,
 > =
 A extends readonly Container[]
-? B extends readonly Container[]
-  ? GetEach<A, TDeref> extends readonly unknown[]
-    ? GetEach<B, TDeref> extends readonly unknown[]
-      ? _WithDeref<
+  ? B extends readonly Container[]
+    ? GetEach<A, TDeref> extends readonly unknown[]
+      ? GetEach<B, TDeref> extends readonly unknown[]
+        ? _WithDeref<
           A,
           B,
           GetEach<A, TDeref>,
@@ -96,56 +94,56 @@ A extends readonly Container[]
           TDeref,
           TReport
         >
+        : never
       : never
-    : never
-  : Throw<
+    : Throw<
       "invalid-container-tuple",
       "In Intersection<A,B> the B set was not Container[] tuple!",
       "Intersection",
-      { ctx: {a: A; b: B} }
+      { ctx: { a: A; b: B } }
     >
-: Throw<
+  : Throw<
     "invalid-container-tuple",
     "In Intersection<A,B> the A set was not Container[] tuple!",
     "Intersection",
-    { ctx: {a: A; b: B} }
+    { ctx: { a: A; b: B } }
   >;
 
 /**
-  * **Intersection**`<A,B, [TDeref]>`
-  *
-  * Takes two tuple sets `A` and `B` and returns each of their _value intersections_.
-  *
-  * - this behavior is modified when the `deref` property is provided
-  *   - the expectation now is that both A and B contain _containers_ and their
-  * "value" is based on the offset provided by `TDref`
-  *   - in this mode, all _scalar_ values in `A` or `B` will be ignored
-  *   - the `TReport` property is by default set to _false_ but if changed to
-  * _true_ then this changes the reporting structure to:
-  * ```ts
-  * [A: values[], B: values[]]
-  * ```
-  * where the left side contains all containers -- in their entirety -- which
-  * intersect based on the `TDeref` property values.
-  *
-  * **Related:** `Unique`, `IntersectingKeys`
-  */
+ * **Intersection**`<A,B, [TDeref]>`
+ *
+ * Takes two tuple sets `A` and `B` and returns each of their _value intersections_.
+ *
+ * - this behavior is modified when the `deref` property is provided
+ *   - the expectation now is that both A and B contain _containers_ and their
+ * "value" is based on the offset provided by `TDref`
+ *   - in this mode, all _scalar_ values in `A` or `B` will be ignored
+ *   - the `TReport` property is by default set to _false_ but if changed to
+ * _true_ then this changes the reporting structure to:
+ * ```ts
+ * [A: values[], B: values[]]
+ * ```
+ * where the left side contains all containers -- in their entirety -- which
+ * intersect based on the `TDeref` property values.
+ *
+ * **Related:** `Unique`, `IntersectingKeys`
+ */
 export type Intersection<
   A extends readonly unknown[],
   B extends readonly unknown[],
   TDeref extends string | null = null,
-  TReport extends boolean = false
+  TReport extends boolean = false,
 > = If<
   IsNull<TDeref>,
   // no dereferencing
-  _NoDeref<A,B>,
+  _NoDeref<A, B>,
   // dereference the array elements
   TDeref extends PropertyKey
-    ? HandleDeref<A,B,TDeref,TReport>
+    ? HandleDeref<A, B, TDeref, TReport>
     : Throw<
-        "invalid-deref",
-        "The TDeref property was set but must be extended from a PropertyKey!",
-        "Intersection",
-        { index: TDeref  }
-      >
+      "invalid-deref",
+      "The TDeref property was set but must be extended from a PropertyKey!",
+      "Intersection",
+      { index: TDeref }
+    >
 >;

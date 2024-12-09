@@ -1,4 +1,4 @@
-import {
+import type {
   AsString,
   IsEqual,
   IsWideType,
@@ -13,11 +13,11 @@ import {
  * a number.
  */
 export type IsNegativeNumber<
-  T extends NumberLike
+  T extends NumberLike,
 > = IsWideType<T> extends true
-? boolean
-: IsEqual<T,NumberLike> extends true
-? boolean
-: AsString<T> extends `-${number}`
-  ? true
-  : false;
+  ? boolean
+  : IsEqual<T, NumberLike> extends true
+    ? boolean
+    : AsString<T> extends `-${number}`
+      ? true
+      : false;

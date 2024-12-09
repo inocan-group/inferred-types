@@ -1,63 +1,43 @@
-import { Constant } from "inferred-types/constants";
-import { EmptyObject,
-  Dictionary,
-  ObjectKey,
-  Tuple,
-  IsEqual,
-  Contains,
-  Keys,
-  Values,
-  HandleDoneFn,
-  AfterFirst,
-  First,
-  AsDictionary,
-  TupleToUnion,
-  ExpandDictionary,
-  NarrowableScalar,
-  ShapeCallback,
-  UnionElDefn,
-  SimpleToken,
-  AsType
- } from "inferred-types/types";
+import type { Constant } from "inferred-types/constants";
+import type { AfterFirst, AsDictionary, AsType, Contains, Dictionary, EmptyObject, ExpandDictionary, First, HandleDoneFn, IsEqual, Keys, NarrowableScalar, ObjectKey, ShapeCallback, SimpleToken, Tuple, TupleToUnion, UnionElDefn, Values } from "inferred-types/types";
 
 type HandleObject<
   TObj extends Dictionary,
   TKeys extends readonly unknown[],
-  TResult extends Dictionary = EmptyObject
+  TResult extends Dictionary = EmptyObject,
 > = [] extends TKeys
-? ExpandDictionary<TResult>
-: HandleObject<
+  ? ExpandDictionary<TResult>
+  : HandleObject<
     TObj,
     AfterFirst<TKeys>,
     First<TKeys> extends keyof TObj
       ? TObj[First<TKeys>] extends ShapeCallback
         ? Record<
-            First<TKeys>,
-            HandleDoneFn<ReturnType< TObj[First<TKeys>] >>
-          > & TResult
+          First<TKeys>,
+          HandleDoneFn<ReturnType< TObj[First<TKeys>] >>
+        > & TResult
         : TObj[First<TKeys>] extends SimpleToken
           ? Record<
             First<TKeys>,
             AsType<TObj[First<TKeys>]>
           > & TResult
           : Record<
-              First<TKeys>,
-              TObj[First<TKeys>]
-            > & TResult
+            First<TKeys>,
+            TObj[First<TKeys>]
+          > & TResult
       : never
   >;
 
-
 type ProcessUnion<
-  T extends UnionElDefn
+  T extends UnionElDefn,
 > = T extends Tuple
-    ? TupleToUnion<T>
-    : T extends ShapeCallback
-      ? HandleDoneFn<ReturnType<T>>
-        : never;
+  ? TupleToUnion<T>
+  : T extends ShapeCallback
+    ? HandleDoneFn<ReturnType<T>>
+    : never;
 type IterateUnion<T extends readonly UnionElDefn[]> = {
   [K in keyof T]: ProcessUnion<T[K]>
-}
+};
 
 /**
  * **AsUnion**
@@ -66,47 +46,44 @@ type IterateUnion<T extends readonly UnionElDefn[]> = {
  * and makes this into _union type_.
  */
 export type AsUnion<T extends UnionElDefn | readonly [UnionElDefn, ...UnionElDefn[]]> = T extends UnionElDefn[]
-? TupleToUnion<IterateUnion<T>>
-: T extends UnionElDefn
-? ProcessUnion<T>
-: never;
+  ? TupleToUnion<IterateUnion<T>>
+  : T extends UnionElDefn
+    ? ProcessUnion<T>
+    : never;
 
 export type IsDictionaryDefinition<T> = T extends Dictionary
-? Contains<Values<T>, ShapeCallback>
-: false;
+  ? Contains<Values<T>, ShapeCallback>
+  : false;
 
 /**
  * converts non-tuple definition types to actual type
  */
 type ToType<
   T,
-  TElse
+  TElse,
 > = [T] extends [ShapeCallback]
   ? HandleDoneFn<ReturnType<T>>
-: [IsDictionaryDefinition<T>] extends [true]
-  ? HandleObject<AsDictionary<T>, Keys<AsDictionary<T>>>
-: T extends SimpleToken
-  ? AsType<T>
-: IsEqual<TElse, Constant<"not-set">> extends true
-  ? T
-  : TElse extends SimpleToken
-    ? AsType<TElse>
-    : TElse;
-
-
+  : [IsDictionaryDefinition<T>] extends [true]
+      ? HandleObject<AsDictionary<T>, Keys<AsDictionary<T>>>
+      : T extends SimpleToken
+        ? AsType<T>
+        : IsEqual<TElse, Constant<"not-set">> extends true
+          ? T
+          : TElse extends SimpleToken
+            ? AsType<TElse>
+            : TElse;
 
 /**
  * iterates over tuple definition types to convert into real types
  */
 type IterateOverDefinitions<
   T extends readonly unknown[],
-  TElse
+  TElse,
 > = {
   [K in keyof T]: ToType<T[K], TElse>;
-}
+};
 
 export type TypeDefinition = NarrowableScalar | ShapeCallback;
-
 
 /**
  * **DictShapeDefn**`<T>`
@@ -118,12 +95,11 @@ export type TypeDefinition = NarrowableScalar | ShapeCallback;
  * generic will increase the narrowness of your types.
  */
 export type DictTypeDefinition<
-  V extends TypeDefinition = TypeDefinition
+  V extends TypeDefinition = TypeDefinition,
 > = Record<
   ObjectKey,
   V
 >;
-
 
 /**
  * **FromDefn**`<T, [TElse]>`
@@ -142,10 +118,7 @@ export type DictTypeDefinition<
  */
 export type FromDefn<
   T,
-  TElse = Constant<"not-set">
+  TElse = Constant<"not-set">,
 > = T extends readonly unknown[]
-? IterateOverDefinitions<T,TElse>
-: ToType<T,TElse>;
-
-
-
+  ? IterateOverDefinitions<T, TElse>
+  : ToType<T, TElse>;

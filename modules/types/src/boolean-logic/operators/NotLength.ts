@@ -1,4 +1,4 @@
-import { If, IsNotEqual, Length } from "inferred-types/types";
+import type { If, IsNotEqual, Length } from "inferred-types/types";
 
 /**
  * **NotLength**`<T>`

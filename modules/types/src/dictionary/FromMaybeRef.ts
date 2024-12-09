@@ -1,4 +1,4 @@
-import { IsVueRef } from "inferred-types/types";
+import type { IsVueRef } from "inferred-types/types";
 
 /**
  * **FromMaybeRef**`<T>`

@@ -1,6 +1,6 @@
-export type SymbolKind = "function" | "method"; 
+export type SymbolKind = "function" | "method";
 
-export type StackFrame = {
+export interface StackFrame {
   type: string;
   fn_name: string;
   method_name: string;

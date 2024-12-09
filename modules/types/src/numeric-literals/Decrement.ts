@@ -1,4 +1,4 @@
-import { Tuple, Length, FixedLengthArray } from "inferred-types/types";
+import type { FixedLengthArray, Length, Tuple } from "inferred-types/types";
 
 type Pop<T extends Tuple> = Length<T> extends 0
   ? 0

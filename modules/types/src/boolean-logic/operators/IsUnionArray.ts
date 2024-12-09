@@ -1,6 +1,4 @@
-import { ElementOf, IsEqual, IsUnion } from "inferred-types/types";
-
-
+import type { ElementOf, IsEqual, IsUnion } from "inferred-types/types";
 
 /**
  * **IsUnionArray**`<T>`
@@ -10,8 +8,8 @@ import { ElementOf, IsEqual, IsUnion } from "inferred-types/types";
  */
 export type IsUnionArray<T> = T extends readonly any[]
   ? IsEqual<T["length"], number> extends true
-  ? IsUnion<ElementOf<T>> extends true
-    ? true
+    ? IsUnion<ElementOf<T>> extends true
+      ? true
+      : false
     : false
-  : false
   : false;

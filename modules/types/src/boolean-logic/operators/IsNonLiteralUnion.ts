@@ -1,11 +1,10 @@
-import {  If, IsUnion, RetainLiterals,  UnionToTuple } from "inferred-types/types";
-
+import type { If, IsUnion, RetainLiterals, UnionToTuple } from "inferred-types/types";
 
 type Process<T> = UnionToTuple<T> extends readonly unknown[]
-? RetainLiterals<UnionToTuple<T>>["length"] extends UnionToTuple<T>["length"]
-  ? false
-  : true
-: never;
+  ? RetainLiterals<UnionToTuple<T>>["length"] extends UnionToTuple<T>["length"]
+    ? false
+    : true
+  : never;
 
 /**
  * **IsNonLiteralUnion**`<T>`
@@ -16,8 +15,9 @@ type Process<T> = UnionToTuple<T> extends readonly unknown[]
  * **Related:** `IsLiteralUnion`, `IsWideUnion`
  */
 export type IsNonLiteralUnion<
-  T> = If<
+  T,
+> = If<
   IsUnion<T>,
   Process<T>,
   false
->
+>;

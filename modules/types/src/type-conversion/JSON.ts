@@ -1,10 +1,9 @@
-import { Tuple } from "../base-types";
-import { If, IsEqual } from "../boolean-logic";
-import { NumberLike } from "../numeric-literals";
-import { EnsureLeading, EnsureTrailing } from "../string-literals";
-import { AsNumber } from "./AsNumber";
-import { AsString } from "./AsString";
-
+import type { Tuple } from "../base-types";
+import type { If, IsEqual } from "../boolean-logic";
+import type { NumberLike } from "../numeric-literals";
+import type { EnsureLeading, EnsureTrailing } from "../string-literals";
+import type { AsNumber } from "./AsNumber";
+import type { AsString } from "./AsString";
 
 /**
  * **JsonValue**`<T>`
@@ -14,8 +13,8 @@ import { AsString } from "./AsString";
  * **Related:** `JsonValues`
  */
 export type JsonValue<T> = T extends NumberLike
-? AsNumber<T>
-: If<
+  ? AsNumber<T>
+  : If<
     IsEqual<T, "true">,
     true,
     If<
@@ -25,7 +24,7 @@ export type JsonValue<T> = T extends NumberLike
         ? EnsureTrailing<EnsureLeading<AsString<T>, "\"">, "\"">
         : never
     >
-  >
+  >;
 
 /**
  * **JsonValues**`<T>`
@@ -36,5 +35,4 @@ export type JsonValue<T> = T extends NumberLike
  */
 export type JsonValues<T extends Tuple> = {
   [K in keyof T]: JsonValue<T[K]>
-}
-
+};

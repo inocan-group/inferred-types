@@ -1,4 +1,4 @@
-import { Keys } from "inferred-types/types";
+import type { Keys } from "inferred-types/types";
 
 /**
  * Converts a Tuple type into a _union_ of the tuple elements
@@ -16,4 +16,3 @@ export type TupleToUnion<T> = T extends readonly unknown[]
     ? never
     : T[number]
   : never;
-

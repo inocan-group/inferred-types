@@ -1,8 +1,8 @@
 import type {
-  PHONE_FORMAT
-} from "inferred-types/constants"
+  PHONE_FORMAT,
+} from "inferred-types/constants";
 
-import {
+import type {
   ErrorCondition,
   GetPhoneCountryCode,
   GetPhoneNumberType,
@@ -25,20 +25,19 @@ type FormatLookup<T extends string> = {
       ? `${number}-${number}`
       : `${number}-${number}-${number}`;
   "Dotted (e.g., 456.555.1212)": HasPhoneCountryCode<T> extends true
-  ? `+${GetPhoneCountryCode<T>} ${number}.${number}.${number}`
-  : GetPhoneNumberType<T> extends "regional"
-    ? `${number}.${number}`
-    : `${number}.${number}-${number}`;
+    ? `+${GetPhoneCountryCode<T>} ${number}.${number}.${number}`
+    : GetPhoneNumberType<T> extends "regional"
+      ? `${number}.${number}`
+      : `${number}.${number}-${number}`;
   "ParaSpaced (e.g., (456) 555 1212)": "";
   "ParaDashed (e.g., (456) 555-1212)": "";
 } & Record<PhoneFormat, any>;
 
 export type ToPhoneFormat<
   TPhone extends string,
-  TFormat extends PhoneFormat
+  TFormat extends PhoneFormat,
 > = IsStringLiteral<TPhone> extends true
-? PhoneNumber<TPhone> extends string
+  ? PhoneNumber<TPhone> extends string
     ? FormatLookup<TPhone>[TFormat]
     : PhoneNumber<TPhone>
-: FormatLookup<TPhone>[TFormat] | ErrorCondition<"invalid-phone-number">;
-
+  : FormatLookup<TPhone>[TFormat] | ErrorCondition<"invalid-phone-number">;

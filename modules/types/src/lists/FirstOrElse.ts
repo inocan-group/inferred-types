@@ -1,5 +1,4 @@
-import { Tuple, First} from "inferred-types/types";
-
+import type { First, Tuple } from "inferred-types/types";
 
 /**
  * **FirstOrElse**`<T,E>`
@@ -9,7 +8,7 @@ import { Tuple, First} from "inferred-types/types";
  */
 export type FirstOrElse<
   T extends Tuple,
-  E = undefined
+  E = undefined,
 > = T extends Tuple<unknown, "1+">
   ? First<T>
   : E;

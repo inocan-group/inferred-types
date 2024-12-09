@@ -1,10 +1,10 @@
-import { Concat, Tuple, IsStringLiteral, Chars, IsWideType } from "inferred-types/types";
+import type { Chars, Concat, IsStringLiteral, IsWideType, Tuple } from "inferred-types/types";
 
 type _Pop<
-  TVal extends Tuple
+  TVal extends Tuple,
 > = TVal extends [...(infer Rest), unknown]
-? Rest
-: never;
+  ? Rest
+  : never;
 
 /**
  * **Pop**`<TList>`
@@ -20,11 +20,11 @@ type _Pop<
  * character removed.
  */
 export type Pop<
-  TList extends Tuple | string
+  TList extends Tuple | string,
 > = TList extends string
   ? IsWideType<TList> extends true
     ? string
-    :IsStringLiteral<TList> extends true
+    : IsStringLiteral<TList> extends true
       ? TList extends string
         ? TList extends ""
           ? ""
@@ -33,7 +33,4 @@ export type Pop<
             : never
         : never
       : string
-    : _Pop<Exclude<TList, string>>;
-
-
-
+  : _Pop<Exclude<TList, string>>;

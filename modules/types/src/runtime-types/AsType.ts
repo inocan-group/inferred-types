@@ -1,22 +1,22 @@
-import { AfterFirst, First } from "../lists";
-import {
+import type { AfterFirst, First } from "../lists";
+import type {
   SimpleType,
-  SimpleTypeMap,
-  SimpleTypeDict,
-  SimpleTypeSet,
   SimpleTypeArray,
+  SimpleTypeDict,
+  SimpleTypeMap,
   SimpleTypeScalar,
-  SimpleTypeUnion
+  SimpleTypeSet,
+  SimpleTypeUnion,
 } from "./SimpleType";
-import {
+import type {
+  SimpleArrayToken,
   SimpleDictToken,
   SimpleMapToken,
-  SimpleSetToken,
-  SimpleArrayToken,
   SimpleScalarToken,
+  SimpleSetToken,
   SimpleToken,
   SimpleUnionToken,
-  TypeToken
+  TypeToken,
 } from "./TypeToken";
 
 type ProcessSimple<T extends SimpleToken | TypeToken> = T extends SimpleToken
@@ -25,28 +25,27 @@ type ProcessSimple<T extends SimpleToken | TypeToken> = T extends SimpleToken
 
 type Iterate<
   T extends readonly SimpleToken[],
-  TResult = never
+  TResult = never,
 > = [] extends T
-? TResult
-: Iterate<
+  ? TResult
+  : Iterate<
     AfterFirst<T>,
     TResult & (
       First<T> extends SimpleScalarToken
         ? SimpleTypeScalar<First<T>>
         : First<T> extends SimpleDictToken
-        ? SimpleTypeDict<First<T>>
-        : First<T> extends SimpleMapToken
-        ? SimpleTypeMap<First<T>>
-        : First<T> extends SimpleSetToken
-        ? SimpleTypeSet<First<T>>
-        : First<T> extends SimpleArrayToken
-        ? SimpleTypeArray<First<T>>
-        : First<T> extends SimpleUnionToken
-        ? SimpleTypeUnion<First<T>>
-        : never
+          ? SimpleTypeDict<First<T>>
+          : First<T> extends SimpleMapToken
+            ? SimpleTypeMap<First<T>>
+            : First<T> extends SimpleSetToken
+              ? SimpleTypeSet<First<T>>
+              : First<T> extends SimpleArrayToken
+                ? SimpleTypeArray<First<T>>
+                : First<T> extends SimpleUnionToken
+                  ? SimpleTypeUnion<First<T>>
+                  : never
     )
-  >
-
+  >;
 
 /**
  * **AsType**`<T>`
@@ -57,9 +56,9 @@ type Iterate<
  * NOTE: only implemented for `SimpleToken` at the moment.
  */
 export type AsType<
-  T extends SimpleToken | readonly SimpleToken[] | TypeToken
-> =  T extends readonly SimpleToken[]
-? Iterate<T>
-: T extends SimpleToken
-? ProcessSimple<T>
-: never;
+  T extends SimpleToken | readonly SimpleToken[] | TypeToken,
+> = T extends readonly SimpleToken[]
+  ? Iterate<T>
+  : T extends SimpleToken
+    ? ProcessSimple<T>
+    : never;

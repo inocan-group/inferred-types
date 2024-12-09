@@ -1,10 +1,9 @@
-import {
+import type {
   If,
   Some,
   Throw,
-  TypedFunction
+  TypedFunction,
 } from "inferred-types/types";
-
 
 /**
  * **OptionalParamFn**
@@ -18,10 +17,8 @@ import {
  * function you can use the `AsOptionalParamFn` utility.
  */
 export type OptionalParamFn = (
-  (() => any) | ((p1?: any, p2?: any, p3?: any, p4?:any) => any)
+  (() => any) | ((p1?: any, p2?: any, p3?: any, p4?: any) => any)
 ) & { optionalParams: true };
-
-
 
 /**
  * **AsOptionalParamFn**`<T>`
@@ -30,11 +27,12 @@ export type OptionalParamFn = (
  * converts to `ErrorCondition<"invalid-conversion">` otherwise.
  */
 export type AsOptionalParamFn<T extends TypedFunction> = Parameters<T>["length"] extends 0
-? T & { optionalParams: true }
-: If<
+  ? T & { optionalParams: true }
+  : If<
     Some<Parameters<T>, "extends", undefined>,
     Throw<
-      "invalid-conversion", `To convert to a OptionalParamFn, a function must have _no_ required Parameters but required params were found!`,
+      "invalid-conversion",
+      `To convert to a OptionalParamFn, a function must have _no_ required Parameters but required params were found!`,
       `AsOptionalParamFn`,
       { library: "inferred-types/constants"; params: Parameters<T> }
     >,

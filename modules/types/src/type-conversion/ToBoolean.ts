@@ -1,16 +1,15 @@
-import {
-  Scalar,
+import type {
+  AnyObject,
+  AsRecord,
+  Extends,
+  If,
   IsFalsy,
   IsLength,
+  IsNever,
   IsTruthy,
   Keys,
-  AnyObject,
-  IsNever,
-  If,
-  Extends,
-  AsRecord
+  Scalar,
 } from "inferred-types/types";
-
 
 /**
  * **ToBoolean**`<T>`
@@ -25,23 +24,23 @@ import {
  * - all other values return the wide "boolean" type
  */
 export type ToBoolean<T> = If<
-IsNever<T>,
-false,
-T extends boolean
-? T
-: T extends Scalar
-  ? If<
-      IsTruthy<T>,
-      true,
-      If<IsFalsy<T>, false, boolean>
-    >
-  : T extends readonly unknown[]
-    ? If<
-        IsLength<Keys<T>["length"], 0>,
-        false,
-        true
+  IsNever<T>,
+  false,
+  T extends boolean
+    ? T
+    : T extends Scalar
+      ? If<
+        IsTruthy<T>,
+        true,
+        If<IsFalsy<T>, false, boolean>
       >
-    : T extends AnyObject
-      ? If<IsLength<Keys<AsRecord<T>>["length"], 0>, false, true>
-      : If<Extends<T, undefined>, false, boolean>
+      : T extends readonly unknown[]
+        ? If<
+          IsLength<Keys<T>["length"], 0>,
+          false,
+          true
+        >
+        : T extends AnyObject
+          ? If<IsLength<Keys<AsRecord<T>>["length"], 0>, false, true>
+          : If<Extends<T, undefined>, false, boolean>
 >;

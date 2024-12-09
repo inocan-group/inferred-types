@@ -1,9 +1,9 @@
-import { Opt } from "../Optional";
-import {
+import type { Opt } from "../Optional";
+import type {
   TwColor,
   TwColorTarget,
   TwColorWithLuminosity,
-  TwColorWithLuminosityOpacity
+  TwColorWithLuminosityOpacity,
 } from "./TwColor";
 
 /**
@@ -22,7 +22,6 @@ export type TwTarget__ColorName = `${TwColor}`;
  */
 export type TwTarget__ColorLuminosity = `${TwColorTarget}-${TwColorWithLuminosity}`;
 
-
 /**
  * All of the combinations of a:
  *   - a `TwColorTarget` (e.g., "bg", "text", etc.)
@@ -37,9 +36,8 @@ export type TwTarget__ColorLuminosity = `${TwColorTarget}-${TwColorWithLuminosit
  */
 export type TwTarget__ColorLuminosityWithOpacity = `${TwColorTarget}-${TwColorWithLuminosityOpacity}`;
 
-
 /**
-* All of the combinations of a:
+ * All of the combinations of a:
  *   - a `TwColorTarget` (e.g., "bg", "text", etc.)
  *   - a Tailwind color name (e.g., "slate", "blue", etc.)
  *   - a `TwLuminosity` value
@@ -65,4 +63,4 @@ export type TwTarget__Color__Light = `${TwColorTarget}-${TwTarget__ColorName}-${
  * A `TwTarget__Color_Light` representation which also allows for modifiers to be prefixed
  * in front of the color string to help narrow the scope of when this color should be applied.
  */
-export type TwTarget__ColorWithOptPrefixes = `${`${string}:` | ""}${TwTarget__Color__Light}`
+export type TwTarget__ColorWithOptPrefixes = `${`${string}:` | ""}${TwTarget__Color__Light}`;

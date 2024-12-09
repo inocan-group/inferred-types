@@ -9,4 +9,3 @@ export * from "./LowerAllCaps";
 export * from "./NamingConvention";
 export * from "./PascalCase";
 export * from "./SnakeCase";
-

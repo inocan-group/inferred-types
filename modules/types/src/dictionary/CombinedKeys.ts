@@ -1,11 +1,9 @@
-import {
+import type {
   Dictionary,
-  Unique,
   IsObjectLiteral,
-  Keys
+  Keys,
+  Unique,
 } from "inferred-types/types";
-
-
 
 /**
  * **CombinedKeys**`<A,B>`
@@ -20,9 +18,8 @@ import {
  */
 export type CombinedKeys<
   A extends Dictionary,
-  B extends Dictionary
+  B extends Dictionary,
 > = Unique<[
   ...(IsObjectLiteral<A> extends true ? Keys<A> : []),
   ...(IsObjectLiteral<B> extends true ? Keys<B> : []),
 ]>;
-

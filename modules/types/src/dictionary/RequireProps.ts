@@ -1,4 +1,4 @@
-import { EmptyObject, ExpandRecursively } from "inferred-types/types";
+import type { EmptyObject, ExpandRecursively } from "inferred-types/types";
 
 /**
  * Given a dictionary of type `<T>`, this utility function will
@@ -12,7 +12,7 @@ import { EmptyObject, ExpandRecursively } from "inferred-types/types";
  */
 export type RequireProps<
   T extends EmptyObject,
-  R extends keyof T
+  R extends keyof T,
 > = ExpandRecursively<
   Required<Pick<T, R>> & T
 >;

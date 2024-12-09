@@ -1,4 +1,4 @@
-import { AlphaChar, AsArray, IfAllExtend,  If, IsStringLiteral,  Chars } from "inferred-types/types";
+import type { AlphaChar, AsArray, Chars, If, IfAllExtend, IsStringLiteral } from "inferred-types/types";
 
 /**
  * **Alpha**`<T>`
@@ -11,9 +11,8 @@ import { AlphaChar, AsArray, IfAllExtend,  If, IsStringLiteral,  Chars } from "i
  */
 export type Alpha<T> = T extends string
   ? If<
-      IsStringLiteral<T>,
-      IfAllExtend<AsArray<Chars<T>>, AlphaChar, T, never>,
-      string
-    >
+    IsStringLiteral<T>,
+    IfAllExtend<AsArray<Chars<T>>, AlphaChar, T, never>,
+    string
+  >
   : never;
-

@@ -1,4 +1,4 @@
-import {  ToNumber,  StripLeading, If, Or, IsNumericLiteral, IsStringLiteral, AsString } from "inferred-types/types";
+import type { AsString, If, IsNumericLiteral, IsStringLiteral, Or, StripLeading, ToNumber } from "inferred-types/types";
 
 /**
  * **AbsMaybe**`<T>`
@@ -14,8 +14,8 @@ import {  ToNumber,  StripLeading, If, Or, IsNumericLiteral, IsStringLiteral, As
 export type AbsMaybe<T extends number | `${number}`> = If<
   Or<[IsNumericLiteral<T>, IsStringLiteral<T>]>,
   T extends string
-    ? StripLeading<T,"-">
-    : ToNumber<StripLeading<AsString<T>,"-">>
+    ? StripLeading<T, "-">
+    : ToNumber<StripLeading<AsString<T>, "-">>
   ,
   number
 >;

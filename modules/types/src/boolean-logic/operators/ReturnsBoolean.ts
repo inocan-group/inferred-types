@@ -1,4 +1,4 @@
-import {   IsBoolean, TypedFunction } from "inferred-types/types";
+import type { IsBoolean, TypedFunction } from "inferred-types/types";
 
 /**
  * **ReturnsBoolean**`<T>`

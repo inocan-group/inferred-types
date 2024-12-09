@@ -1,13 +1,13 @@
-import { Tuple } from "../base-types";
-import { AfterFirst } from "./AfterFirst";
-import { First } from "./First";
+import type { Tuple } from "../base-types";
+import type { AfterFirst } from "./AfterFirst";
+import type { First } from "./First";
 
 type Process<
   TTup extends Tuple,
-  TResult = First<TTup>
+  TResult = First<TTup>,
 > = [] extends TTup
-? TResult
-: Process<AfterFirst<TTup>, TResult & First<TTup>>
+  ? TResult
+  : Process<AfterFirst<TTup>, TResult & First<TTup>>;
 
 /**
  * **Intersect**`<TList>`

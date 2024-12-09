@@ -1,5 +1,4 @@
-import { Length, IfEqual, Tuple, If, IsStringLiteral,  IsNumericLiteral } from "inferred-types/types";
-
+import type { If, IfEqual, IsNumericLiteral, IsStringLiteral, Length, Tuple } from "inferred-types/types";
 
 /**
  * **IfLength**`<TEvaluate,TLength,IF,[ELSE],[MAYBE]>`
@@ -18,7 +17,7 @@ export type IfLength<
   TLength extends number,
   IF,
   ELSE = TEvaluate,
-  MAYBE = IF | ELSE
+  MAYBE = IF | ELSE,
 > = TEvaluate extends readonly unknown[]
   ? IsNumericLiteral<TLength> extends true
     ? IfEqual<Length<TEvaluate>, TLength, IF, ELSE>
@@ -27,8 +26,8 @@ export type IfLength<
     ? MAYBE
     : TEvaluate extends string
       ? If<
-          IsStringLiteral<TEvaluate>,
-          IfEqual<Length<TEvaluate>, TLength, IF, ELSE>,
-          MAYBE
-        >
+        IsStringLiteral<TEvaluate>,
+        IfEqual<Length<TEvaluate>, TLength, IF, ELSE>,
+        MAYBE
+      >
       : MAYBE;

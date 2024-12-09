@@ -1,37 +1,36 @@
-import {  AsString, IsStringLiteral, Or } from "inferred-types/types";
+import type { AsString, IsStringLiteral, Or } from "inferred-types/types";
 
 type Test<
   TValue extends string,
-  TComparator extends string
+  TComparator extends string,
 > = TValue extends `${string}${TComparator}`
-? true
-: false;
+  ? true
+  : false;
 
 type Process<
   TValue extends string,
-  TComparator extends string
+  TComparator extends string,
 > = IsStringLiteral<TComparator> extends true
   ? IsStringLiteral<TValue> extends true // both literals
-    ? Test<TValue,TComparator>
+    ? Test<TValue, TComparator>
     : boolean
   : boolean;
 
 type ProcessEach<
-    TValue extends string,
-    TComparator extends readonly string[]
+  TValue extends string,
+  TComparator extends readonly string[],
 > = Or<{
-  [K in keyof TComparator]: Process<TValue,TComparator[K]>
+  [K in keyof TComparator]: Process<TValue, TComparator[K]>
 }>;
-
 
 type PreProcess<
   TValue extends string,
-  TComparator extends string | readonly string[]
+  TComparator extends string | readonly string[],
 > = TComparator extends readonly string[]
   ? ProcessEach<TValue, TComparator>
   : TComparator extends string
-      ? Process<TValue,TComparator>
-      : never;
+    ? Process<TValue, TComparator>
+    : never;
 
 /**
  * **EndsWith**<TValue, TComparator>
@@ -46,11 +45,10 @@ type PreProcess<
  */
 export type EndsWith<
   TValue extends string | number,
-  TComparator extends string | number | readonly string[]
+  TComparator extends string | number | readonly string[],
 > = PreProcess<
   AsString<TValue>,
   TComparator extends number
     ? AsString<TComparator>
     : TComparator
 >;
-

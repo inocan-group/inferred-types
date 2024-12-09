@@ -1,4 +1,4 @@
-import { Tuple } from "inferred-types/types";
+import type { Tuple } from "inferred-types/types";
 
 /**
  * **AfterFirst**`<T>`
@@ -7,9 +7,9 @@ import { Tuple } from "inferred-types/types";
  */
 export type AfterFirst<T extends Tuple > =
   T extends readonly [unknown, ...unknown[]]
-  ? T extends readonly [unknown, ...infer Rest] ? readonly [...Rest] : never
-  : T extends unknown[]
-    ? []
-    : T extends [unknown, ...infer Rest]
-      ? Rest
-      : [];
+    ? T extends readonly [unknown, ...infer Rest] ? readonly [...Rest] : never
+    : T extends unknown[]
+      ? []
+      : T extends [unknown, ...infer Rest]
+        ? Rest
+        : [];

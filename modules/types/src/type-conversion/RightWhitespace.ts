@@ -1,5 +1,5 @@
-import { Replace } from "./Replace";
-import { TrimRight } from "./TrimRight";
+import type { Replace } from "./Replace";
+import type { TrimRight } from "./TrimRight";
 
 /**
  * Provides the _left_ whitespace of a string

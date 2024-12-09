@@ -1,6 +1,4 @@
-import { FnWithDescription } from "inferred-types/types";
-
-
+import type { FnWithDescription } from "inferred-types/types";
 
 /**
  * **AsDoneFn**`<T>`

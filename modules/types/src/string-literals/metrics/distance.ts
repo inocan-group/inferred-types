@@ -1,5 +1,5 @@
-import { DISTANCE_METRICS_LOOKUP } from "inferred-types/constants";
-import { OptSpace } from "../character-sets";
+import type { DISTANCE_METRICS_LOOKUP } from "inferred-types/constants";
+import type { OptSpace } from "../character-sets";
 
 type DistanceMetricsLookup = typeof DISTANCE_METRICS_LOOKUP;
 
@@ -20,7 +20,6 @@ export type DistanceUom = {
     ? DistanceMetricsLookup[K]["abbrev"]
     : never
 }[number];
-
 
 /***
  * **Distance**

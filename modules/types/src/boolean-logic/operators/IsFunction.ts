@@ -1,5 +1,4 @@
-import type {  AnyFunction } from "inferred-types/types";
-
+import type { AnyFunction } from "inferred-types/types";
 
 /**
  * **IsFunction**`<T>`

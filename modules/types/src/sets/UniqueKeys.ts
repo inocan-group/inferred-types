@@ -1,4 +1,4 @@
-import { AsNumberWhenPossible, Container, LeftRight, UnionToTuple } from "inferred-types/types";
+import type { AsNumberWhenPossible, Container, LeftRight, UnionToTuple } from "inferred-types/types";
 
 /**
  * **UniqueKeys**`<L,R>`
@@ -29,7 +29,7 @@ import { AsNumberWhenPossible, Container, LeftRight, UnionToTuple } from "inferr
  */
 export type UniqueKeys<
   L extends Container,
-  R extends Container
+  R extends Container,
 > = LeftRight<
   AsNumberWhenPossible<UnionToTuple<Exclude<keyof L, keyof R>>>,
   AsNumberWhenPossible<UnionToTuple<Exclude<keyof R, keyof L>>>

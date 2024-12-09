@@ -1,5 +1,5 @@
-import { If } from "../boolean-logic/branching/If"
-import { IsEqual } from "../boolean-logic/operators/IsEqual"
+import type { If } from "../boolean-logic/branching/If";
+import type { IsEqual } from "../boolean-logic/operators/IsEqual";
 
 /**
  * **Replace**`<TText,TFind,TReplace>`
@@ -18,11 +18,11 @@ import { IsEqual } from "../boolean-logic/operators/IsEqual"
 export type Replace<
   TText extends string,
   TFind extends string,
-  TReplace extends string
+  TReplace extends string,
 > = TText extends ""
   ? If<IsEqual<TFind, "">, TReplace, "">
   : TFind extends ""
     ? TText
     : TText extends `${infer F}${TFind}${infer E}`
-    ? `${F}${TReplace}${E}`
-    : TText;
+      ? `${F}${TReplace}${E}`
+      : TText;

@@ -1,5 +1,5 @@
-import { IsEqual } from "./IsEqual";
-import { IsStringLiteral } from "./IsStringLiteral";
+import type { IsEqual } from "./IsEqual";
+import type { IsStringLiteral } from "./IsStringLiteral";
 
 /**
  * **IsEmptyString**`<T>`
@@ -10,9 +10,9 @@ import { IsStringLiteral } from "./IsStringLiteral";
  * - `false` for all other conditions
  */
 export type IsEmptyString<T> = T extends string
-? IsStringLiteral<T> extends true
-  ? IsEqual<T, ""> extends true
-    ? true
-    : false
-: boolean
-: false;
+  ? IsStringLiteral<T> extends true
+    ? IsEqual<T, ""> extends true
+      ? true
+      : false
+    : boolean
+  : false;

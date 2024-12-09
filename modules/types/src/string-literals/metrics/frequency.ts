@@ -1,5 +1,5 @@
-import { FREQUENCY_METRICS_LOOKUP } from "inferred-types/constants";
-import { OptSpace } from "../character-sets/OptionalSpace";
+import type { FREQUENCY_METRICS_LOOKUP } from "inferred-types/constants";
+import type { OptSpace } from "../character-sets/OptionalSpace";
 
 type FrequencyMetricsLookup = typeof FREQUENCY_METRICS_LOOKUP;
 
@@ -21,7 +21,6 @@ export type FrequencyUom = {
     : never
 }[number];
 
-
 /***
  * **Frequency**
  *
@@ -31,4 +30,3 @@ export type FrequencyUom = {
  * **Related:** `FrequencyAbbrev`
  */
 export type Frequency = `${number}${OptSpace}${FrequencyUom}`;
-

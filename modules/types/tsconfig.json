@@ -1,26 +1,11 @@
 {
-  "references": [
-    {
-      // depends on constants to derive some types
-      "path": "../constants"
-    }
-  ],
   "compilerOptions": {
-    "strict": true,
-    "skipLibCheck": true,
-    "module": "ES2022",
+    "composite": true,
     "target": "ES2022",
-    "moduleResolution": "Bundler",
-    "declaration": true,
-    "declarationMap": true,
     "baseUrl": ".",
     "rootDir": ".",
-    "outDir": "dist",
-    "composite": true,
-    "preserveConstEnums": true,
-    "stripInternal": false,
-    "sourceMap": true,
-    "forceConsistentCasingInFileNames": true,
+    "module": "ES2022",
+    "moduleResolution": "Bundler",
     "paths": {
       "inferred-types/types": [
         "./src/index.ts"
@@ -30,7 +15,22 @@
         "../constants/dist/src/index"
       ]
     },
+    "strict": true,
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "dist",
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "stripInternal": false,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
   },
+  "references": [
+    {
+      // depends on constants to derive some types
+      "path": "../constants"
+    }
+  ],
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "tests", "dist"]
 }

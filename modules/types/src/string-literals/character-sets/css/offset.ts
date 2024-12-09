@@ -1,34 +1,30 @@
-import { CssGlobal } from "./global";
-import { CssRotation } from "./props";
-import { CssSizing } from "./sizing"
+import type { CssGlobal } from "./global";
+import type { CssRotation } from "./props";
+import type { CssSizing } from "./sizing";
 
 type NamedPosition = "bottom" | "top" | "left" | "right" | "center" | "auto" | "normal";
 
 export type CssOffsetPosition =
-| `${NamedPosition} ${CssSizing | NamedPosition}${string}`
-| `${CssSizing}${string}`
-| CssGlobal;
-
-
-
+  | `${NamedPosition} ${CssSizing | NamedPosition}${string}`
+  | `${CssSizing}${string}`
+  | CssGlobal;
 
 export type CssOffsetPath =
-| `ray(${string})`
-| `url(${string})`
-| `circle(${string})`
-| `ellipse(${string})`
-| `polygon(${string})`
-| `path(${string})`
-| `rect(${string})`
-| `xywh(${string})`
-| CssGlobal;
+  | `ray(${string})`
+  | `url(${string})`
+  | `circle(${string})`
+  | `ellipse(${string})`
+  | `polygon(${string})`
+  | `path(${string})`
+  | `rect(${string})`
+  | `xywh(${string})`
+  | CssGlobal;
 
 export type CssOffsetDistance = "0" | CssSizing | CssGlobal;
 
-
-export type CssOffsetProperties = {
+export interface CssOffsetProperties {
   /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/offset) */
-  offset?: string;
+  "offset"?: string;
   /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/offset-path) */
   "offset-path"?: CssOffsetPath;
   /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/offset-distance) */

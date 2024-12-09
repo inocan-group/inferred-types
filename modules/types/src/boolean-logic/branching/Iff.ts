@@ -1,26 +1,25 @@
-/* eslint-disable no-use-before-define */
-import { AfterFirst, AsArray, Container, First, IndexOf, NonArray, Nothing, Throw } from "inferred-types/types";
+import type { AfterFirst, AsArray, Container, First, IndexOf, NonArray, Nothing, Throw } from "inferred-types/types";
 
 type ProcessContainers<
   TValues extends readonly (Container | TIgnore)[],
   TIgnore,
   TOffset extends PropertyKey | null,
-  TNotFound
+  TNotFound,
 > = [] extends TValues
-? TNotFound
-: IndexOf<First<TValues>, TOffset, TIgnore> extends TIgnore
-  ? ProcessContainers<AfterFirst<TValues>, TIgnore,TOffset,TNotFound>
-  : IndexOf<First<TValues>, TOffset>;
+  ? TNotFound
+  : IndexOf<First<TValues>, TOffset, TIgnore> extends TIgnore
+    ? ProcessContainers<AfterFirst<TValues>, TIgnore, TOffset, TNotFound>
+    : IndexOf<First<TValues>, TOffset>;
 
 type Process<
   TValues extends readonly unknown[],
   TIgnore,
-  TNotFound
+  TNotFound,
 > = [] extends TValues
-? TNotFound
-: First<TValues> extends TIgnore
-  ? Process<AfterFirst<TValues>,TIgnore,TNotFound>
-  : First<TValues>;
+  ? TNotFound
+  : First<TValues> extends TIgnore
+    ? Process<AfterFirst<TValues>, TIgnore, TNotFound>
+    : First<TValues>;
 
 /**
  * **Iff**`<TValues,[TIgnore],[TOffset],[TNotFound]>`
@@ -42,14 +41,14 @@ export type Iff<
     `Call to Iff utility resulted in no valid results`,
     "Iff",
     { library: "inferred-types/constants"; values: AsArray<TValues> }
-  >
+  >,
 > = TOffset extends PropertyKey
-? TValues extends readonly (Container | TIgnore)[]
-  ? ProcessContainers<AsArray<TValues>, TIgnore, TOffset, TNotFound>
-  : Throw<
+  ? TValues extends readonly (Container | TIgnore)[]
+    ? ProcessContainers<AsArray<TValues>, TIgnore, TOffset, TNotFound>
+    : Throw<
       "invalid-values",
       `When calling Iff with a TOffset set; the TValues generic must contain a tuple of containers!`,
       "Iff",
       { library: "inferred-types/constants"; values: AsArray<TValues>; offset: TOffset }
     >
-: Process<AsArray<TValues>,TIgnore,TNotFound>;
+  : Process<AsArray<TValues>, TIgnore, TNotFound>;

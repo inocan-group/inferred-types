@@ -1,5 +1,4 @@
-
-import { Pop } from "inferred-types/types";
+import type { Pop } from "inferred-types/types";
 
 /**
  * **ReplaceLast**`<TList,TVal>`
@@ -8,7 +7,7 @@ import { Pop } from "inferred-types/types";
  */
 export type ReplaceLast<
   TList extends readonly any[],
-  TVal
+  TVal,
 > = Pop<TList> extends readonly unknown[]
   ? [...Pop<TList>, TVal]
   : never;

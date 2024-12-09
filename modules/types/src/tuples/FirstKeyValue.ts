@@ -1,5 +1,5 @@
-import {  Dictionary } from "inferred-types/types";
-import { FirstKey } from "./FirstKey";
+import type { Dictionary } from "inferred-types/types";
+import type { FirstKey } from "./FirstKey";
 
 /**
  * Utility type which operates on a dictionary and provides the **value** of the

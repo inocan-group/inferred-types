@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unsafe-function-type */
-import {
+import type {
   AnyFunction,
   EmptyObject,
   IsEqual,
-  ObjectKey
+  ObjectKey,
 } from "inferred-types/types";
 
 type Process<
-  T extends AnyFunction
+  T extends AnyFunction,
 > = IsEqual<T, Function> extends true
-? EmptyObject
-: keyof T extends ObjectKey
+  ? EmptyObject
+  : keyof T extends ObjectKey
     ? Pick<T, keyof T>
     : never;
 
@@ -21,6 +21,5 @@ type Process<
  * pairs are assigned to the function base then an empty object is returned.
  */
 export type FnProps<
-  T extends AnyFunction
+  T extends AnyFunction,
 > = Process<T>;
-

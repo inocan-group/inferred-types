@@ -11,7 +11,7 @@ type isReadonly<T, K extends keyof T> = MyEqual<
 
 /**
  * **ReadonlyKeys**`<T>`
- * 
+ *
  * Creates a union of properties in `T` which are readonly.
  */
 export type ReadonlyKeys<T extends object> = keyof {

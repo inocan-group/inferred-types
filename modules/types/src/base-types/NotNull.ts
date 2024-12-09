@@ -1,4 +1,4 @@
-import {Something} from "inferred-types/types";
+import type { Something } from "inferred-types/types";
 
 /**
  * **NotNull**

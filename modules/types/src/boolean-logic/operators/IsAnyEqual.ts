@@ -1,4 +1,4 @@
-import { AfterFirst, First, IsEqual } from "inferred-types/types";
+import type { AfterFirst, First, IsEqual } from "inferred-types/types";
 
 /**
  * **IsAnyEqual**`<TVal,TList>`
@@ -9,6 +9,6 @@ import { AfterFirst, First, IsEqual } from "inferred-types/types";
 export type IsAnyEqual<TVal, TList extends readonly unknown[]> = //
   [] extends TList
     ? true
-    : IsEqual<TVal,First<TList>> extends true
+    : IsEqual<TVal, First<TList>> extends true
       ? IsAnyEqual<TVal, readonly [...AfterFirst<TList>]>
       : false;

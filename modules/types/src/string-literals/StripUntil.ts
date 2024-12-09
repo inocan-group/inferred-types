@@ -1,16 +1,15 @@
-import { AfterFirst, First, Shift,Chars } from "inferred-types/types";
-
+import type { AfterFirst, Chars, First, Shift } from "inferred-types/types";
 
 type Process<
   TChars extends readonly string[],
   TOp extends "is" | "not",
   TComparator extends string,
-  TResult extends string
+  TResult extends string,
 > = [] extends TChars
-? TResult
-: First<TChars> extends TComparator
-  ? TOp extends "is"
-    ? Process<
+  ? TResult
+  : First<TChars> extends TComparator
+    ? TOp extends "is"
+      ? Process<
         AfterFirst<TChars>,
         TOp,
         TComparator,
@@ -18,18 +17,17 @@ type Process<
           ? Shift<TResult>
           : ""
       >
-    : TResult
-  : TOp extends "is"
-    ? TResult
-    : Process<
+      : TResult
+    : TOp extends "is"
+      ? TResult
+      : Process<
         AfterFirst<TChars>,
         TOp,
         TComparator,
         Shift<TResult> extends string
-        ? Shift<TResult>
-        : ""
+          ? Shift<TResult>
+          : ""
       >;
-
 
 /**
  * **StripUntil**`<TContent,TComparator>`
@@ -40,9 +38,7 @@ type Process<
 export type StripUntil<
   TContent extends string,
   TComparator extends string,
-> = Process<Chars<TContent>,"not",TComparator, TContent>;
-
-
+> = Process<Chars<TContent>, "not", TComparator, TContent>;
 
 /**
  * **StripWhile**`<TContent,TComparator>`
@@ -52,5 +48,5 @@ export type StripUntil<
  */
 export type StripWhile<
   TContent extends string,
-  TComparator extends string
-> = Process<Chars<TContent>,"is",TComparator, TContent>;
+  TComparator extends string,
+> = Process<Chars<TContent>, "is", TComparator, TContent>;

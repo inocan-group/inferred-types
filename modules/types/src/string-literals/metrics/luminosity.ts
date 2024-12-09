@@ -1,5 +1,5 @@
-import { LUMINOSITY_METRICS_LOOKUP } from "inferred-types/constants";
-import { OptSpace } from "../character-sets/OptionalSpace";
+import type { LUMINOSITY_METRICS_LOOKUP } from "inferred-types/constants";
+import type { OptSpace } from "../character-sets/OptionalSpace";
 
 type LuminosityMetricsLookup = typeof LUMINOSITY_METRICS_LOOKUP;
 
@@ -21,7 +21,6 @@ export type LuminosityUom = {
     : never
 }[number];
 
-
 /***
  * **Luminosity**
  *
@@ -31,4 +30,3 @@ export type LuminosityUom = {
  * **Related:** `LuminosityAbbrev`
  */
 export type Luminosity = `${number}${OptSpace}${LuminosityUom}`;
-

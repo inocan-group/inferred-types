@@ -1,25 +1,24 @@
-import { MARKED } from "inferred-types/constants";
-import {
+import type { MARKED } from "inferred-types/constants";
+import type {
   Compare,
+  Dictionary,
   ExpandRecursively,
   If,
-  Dictionary,
-  RemoveMarked
+  RemoveMarked,
 } from "inferred-types/types";
-
 
 type Marked = typeof MARKED;
 
 type Process<
   TObj extends Dictionary,
   TValue,
-  TOp extends "equals" | "extends"
+  TOp extends "equals" | "extends",
 > = RemoveMarked<{
-    [K in keyof TObj]: If<
-      Compare<TObj[K], TOp, TValue>,
-      TObj[K],
-      Marked
-    >
+  [K in keyof TObj]: If<
+    Compare<TObj[K], TOp, TValue>,
+    TObj[K],
+    Marked
+  >
 }>;
 
 /**
@@ -38,5 +37,5 @@ type Process<
 export type WithValue<
   TObj extends Dictionary,
   TValue,
-  TOp extends "equals" | "extends" = "extends"
-> = ExpandRecursively<Process<TObj,TValue,TOp>>
+  TOp extends "equals" | "extends" = "extends",
+> = ExpandRecursively<Process<TObj, TValue, TOp>>;

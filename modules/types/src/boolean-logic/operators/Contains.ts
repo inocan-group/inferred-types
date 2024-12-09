@@ -1,28 +1,23 @@
-import {
+import type {
   IsWideType,
   Or,
   TupleToUnion,
 } from "inferred-types/types";
 
-
 export type ToStringLiteral = string | number | boolean;
-
-
-
 
 type ProcessStr<
   TContent extends string,
-  TComparator
+  TComparator,
 > = IsWideType<TComparator> extends true
   ? boolean
   : TComparator extends readonly ToStringLiteral[]
     ? ProcessStr<TContent, TupleToUnion<TComparator>>
-  : TComparator extends ToStringLiteral
-    ? TContent extends `${string}${TComparator}${string}`
-      ? true
-      : false
-    : false;
-
+    : TComparator extends ToStringLiteral
+      ? TContent extends `${string}${TComparator}${string}`
+        ? true
+        : false
+      : false;
 
 /**
  * Processes each node of the tuple
@@ -38,23 +33,19 @@ type ProcessTuple<
     : false
 }>;
 
-
-
-
 type PreProcess<
   TContent,
   TComparator,
 > =
 TContent extends readonly unknown[]
-? TComparator extends readonly unknown[]
-  ? ProcessTuple<TContent, TupleToUnion<TComparator>>
-  : ProcessTuple<TContent, TComparator>
-: TContent extends ToStringLiteral
   ? TComparator extends readonly unknown[]
-    ? ProcessStr<`${TContent}`, TupleToUnion<TComparator>>
-    : ProcessStr<`${TContent}`, TComparator>
-: never;
-
+    ? ProcessTuple<TContent, TupleToUnion<TComparator>>
+    : ProcessTuple<TContent, TComparator>
+  : TContent extends ToStringLiteral
+    ? TComparator extends readonly unknown[]
+      ? ProcessStr<`${TContent}`, TupleToUnion<TComparator>>
+      : ProcessStr<`${TContent}`, TComparator>
+    : never;
 
 /**
  * **Contains**`<TContent, TComparator>`
@@ -71,6 +62,5 @@ export type Contains<
   TContent extends string | number | readonly unknown[],
   TComparator,
 > = [IsWideType<TContent>] extends [true]
-    ? boolean
-    : PreProcess<TContent, TComparator>;
-
+  ? boolean
+  : PreProcess<TContent, TComparator>;

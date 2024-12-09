@@ -1,4 +1,4 @@
-import {  TypedFunction } from "inferred-types/types";
+import type { TypedFunction } from "inferred-types/types";
 
 /**
  * **Returns**`<TFn,TExpected>`
@@ -8,7 +8,7 @@ import {  TypedFunction } from "inferred-types/types";
  */
 export type Returns<
   TFn,
-  TExpected
+  TExpected,
 > = TFn extends TypedFunction
   ? ReturnType<TFn> extends TExpected
     ? true

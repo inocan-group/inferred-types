@@ -1,17 +1,17 @@
-import { Constant } from "inferred-types/constants";
-import { IsLiteral } from "../boolean-logic";
-import { If } from "../boolean-logic/branching/If";
-import { RemoveMarked } from "../containers";
+import type { Constant } from "inferred-types/constants";
+import type { IsLiteral } from "../boolean-logic";
+import type { If } from "../boolean-logic/branching/If";
+import type { RemoveMarked } from "../containers";
 
 type Process<
-T extends readonly unknown[]
+  T extends readonly unknown[],
 > = RemoveMarked<{
-[K in keyof T]: If<
-  IsLiteral<T[K]>,
-  T[K],
-  Constant<"Marked">
->
-}>
+  [K in keyof T]: If<
+    IsLiteral<T[K]>,
+    T[K],
+    Constant<"Marked">
+  >
+}>;
 
 /**
  * **RetainLiterals**`<T>`
@@ -24,7 +24,7 @@ T extends readonly unknown[]
  * **Related:** `Retain`, `FilterLiterals`, `RetainWideTypes`
  */
 export type RetainLiterals<
-  T extends readonly unknown[]
+  T extends readonly unknown[],
 > = Process<T> extends readonly unknown[]
-? Process<T>
-: never;
+  ? Process<T>
+  : never;

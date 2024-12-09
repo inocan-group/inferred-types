@@ -1,8 +1,8 @@
-import {
-  Tuple,
+import type {
+  AsNumber,
   FixedLengthArray,
   ToString,
-  AsNumber
+  Tuple,
 } from "inferred-types/types";
 
 type Push<T extends Tuple> = [...T, unknown]["length"];

@@ -1,6 +1,6 @@
-import {  CHINESE_NEWS } from "inferred-types/constants";
-import { Mutable } from "inferred-types/types";
-import { UrlsFrom } from "../Url";
+import type { CHINESE_NEWS } from "inferred-types/constants";
+import type { Mutable } from "inferred-types/types";
+import type { UrlsFrom } from "../Url";
 
 type Lookup = Mutable<typeof CHINESE_NEWS>;
 type Companies = {
@@ -12,7 +12,7 @@ type BaseUrls = {
   [K in keyof Lookup]: "baseUrls" extends keyof Lookup[K]
     ? Lookup[K]["baseUrls"]
     : never
-}[number]
+}[number];
 
 /**
  * A list of prominent Chinese companies who are in the news business
@@ -23,4 +23,3 @@ export type ChineseNewsCompanies = Companies;
  * URL's which point to companies involved in Chinese news
  */
 export type ChineseNewsUrls = UrlsFrom<BaseUrls>;
-

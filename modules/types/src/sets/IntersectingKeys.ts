@@ -1,5 +1,4 @@
-import { AsRecord, Container, UnionToTuple } from "inferred-types/types";
-
+import type { AsRecord, Container, UnionToTuple } from "inferred-types/types";
 
 /**
  * **IntersectingKeys**`<A,B>`
@@ -13,5 +12,3 @@ export type IntersectingKeys<
 > = UnionToTuple<
   (keyof AsRecord<L>) & (keyof AsRecord<R>)
 >;
-
-

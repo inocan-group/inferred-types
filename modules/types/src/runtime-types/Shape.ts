@@ -1,36 +1,33 @@
-/* eslint-disable no-use-before-define */
-
-import {
-  If,
-  Narrowable,
-  ObjectKey,
-  IsNever,
-  IsTrue,
-  TupleToUnion,
-  IsFalse,
-  Tuple,
-  HandleDoneFn,
-  AsLiteralFn,
+import type {
+  As,
   AsArray,
-  ZipCode,
-  MilitaryTime,
-  TimeResolution,
+  AsLiteralFn,
   CivilianTime,
+  Container,
+  HandleDoneFn,
+  If,
   Ip4Address,
   Ip6Address,
-  Zip5,
-  ZipPlus4,
-  As,
-  Container,
-  TypeTokenKind,
-  Suggest,
+  IsFalse,
+  IsNever,
+  IsTrue,
+  MilitaryTime,
+  Narrowable,
+  ObjectKey,
   SimpleToken,
+  Suggest,
+  TimeResolution,
+  Tuple,
+  TupleToUnion,
+  TypeTokenKind,
+  Zip5,
+  ZipCode,
+  ZipPlus4,
 } from "inferred-types/types";
-import { AsUnion, FromDefn } from "../literals/FromDefn";
-import { FromWideTokens, WideContainerNames, WideTokenNames } from "../literals/FromTokenNames";
+import type { AsUnion, FromDefn } from "../literals/FromDefn";
+import type { FromWideTokens, WideContainerNames, WideTokenNames } from "../literals/FromTokenNames";
 
 type Narrow = Exclude<Narrowable, symbol>;
-
 
 /**
  * **Shape**
@@ -39,10 +36,9 @@ type Narrow = Exclude<Narrowable, symbol>;
  * are produced as the runtime representation of a type by utilities
  * like the `ShapeApi` and the `shape()` runtime function.
  */
-export type Shape<T extends TypeTokenKind = TypeTokenKind> = `<<${T}${string}>>`
+export type Shape<T extends TypeTokenKind = TypeTokenKind> = `<<${T}${string}>>`;
 
-export type ShapeSuggest = Suggest<`<<${TypeTokenKind}>>`>
-
+export type ShapeSuggest = Suggest<`<<${TypeTokenKind}>>`>;
 
 /**
  * **ShapeAddOrDone**`<TTuple, TMakeUnion>`
@@ -50,13 +46,14 @@ export type ShapeSuggest = Suggest<`<<${TypeTokenKind}>>`>
  * The structure of endpoints on the `ShapeApi` which return
  * a tuple or union.
  */
-export type ShapeTupleOrUnion<
+export interface ShapeTupleOrUnion<
   TTuple extends readonly Narrow[] = Narrow[],
   TMakeUnion extends boolean = boolean,
-> = {
+> {
   add: <
-    TAdd extends Narrow
-  >(a: TAdd) => ShapeTupleOrUnion<[...TTuple, TAdd], TMakeUnion>;
+    TAdd extends Narrow,
+  >(a: TAdd
+  ) => ShapeTupleOrUnion<[...TTuple, TAdd], TMakeUnion>;
   done: () => If<
     IsTrue<TMakeUnion>,
     TupleToUnion<TTuple>,
@@ -66,8 +63,7 @@ export type ShapeTupleOrUnion<
 
 export type WideTypeName = "string" | "number" | "boolean" | "null" | "undefined" | "unknown" | "object";
 
-
-export type StringTokenUtilities<T> = {
+export interface StringTokenUtilities<T> {
   /**
    * **startsWith**
    *
@@ -114,7 +110,7 @@ export type StringTokenUtilities<T> = {
    * - `HH:MM:SS`
    * - `HH:MM:SS.ms`
    */
-  militaryTime: <T extends TimeResolution="HH:MM">(resolution?: T) => MilitaryTime<T>;
+  militaryTime: <T extends TimeResolution = "HH:MM">(resolution?: T) => MilitaryTime<T>;
   /**
    * **civilianTime**
    *
@@ -125,7 +121,7 @@ export type StringTokenUtilities<T> = {
    * - `HH:MM:SS`
    * - `HH:MM:SS.ms`
    */
-  civilianTime: <T extends TimeResolution="HH:MM">(resolution?: T) => CivilianTime<T>;
+  civilianTime: <T extends TimeResolution = "HH:MM">(resolution?: T) => CivilianTime<T>;
   /**
    * **ipv4Address**
    *
@@ -148,16 +144,17 @@ export type StringTokenUtilities<T> = {
    */
   regex: <
     TExp extends string | RegExp,
-    TRep extends readonly SimpleToken[]
-  >(re: TExp, ...representation: TRep) => unknown;
+    TRep extends readonly SimpleToken[],
+  >(re: TExp,
+    ...representation: TRep
+  ) => unknown;
 
   done: () => T;
 }
 
-
 export type ShapeApi__Scalars<
   TUnion = never,
-  TExclude extends string = ""
+  TExclude extends string = "",
 > = Omit<{
   /**
    * **string**(_literals_)
@@ -185,10 +182,10 @@ export type ShapeApi__Scalars<
    * - **more than one** parameter results in a _union type_ of numeric literals.
    */
   number: <T extends readonly number[]>(...literals: T) => T["length"] extends 0
-  ? number
-  : T["length"] extends 1
-    ? T[0]
-    : TupleToUnion<T>;
+    ? number
+    : T["length"] extends 1
+      ? T[0]
+      : TupleToUnion<T>;
   /**
    * **boolean**(_literal_)
    *
@@ -218,18 +215,15 @@ export type ShapeApi__Scalars<
    * Set as an `unknown` value.
    */
   unknown: () => If<IsNever<TUnion>, unknown, unknown | TUnion>;
-}, TExclude>
-
-
+}, TExclude>;
 
 export type UnionElDefn = ShapeCallback | Tuple;
 
-type ShapeApi__Union = {
-  union: <U extends readonly [UnionElDefn,...UnionElDefn[]]>(...elements: U) => AsUnion<U>;
+interface ShapeApi__Union {
+  union: <U extends readonly [UnionElDefn, ...UnionElDefn[]]>(...elements: U) => AsUnion<U>;
 }
 
 export type DictionaryTypeDefn = Record<ObjectKey, ShapeCallback>;
-
 
 /**
  * **FnArgsDefn**
@@ -252,42 +246,40 @@ export type FnReturnTypeDefn = WideTokenNames | ShapeCallback;
  */
 export type FnPropertiesDefn = DictionaryTypeDefn;
 
-type ShapeApi__Functions = {
+interface ShapeApi__Functions {
   fn: <TArgs extends readonly FnArgsDefn[]>(...args: TArgs) =>({
-        returns: <TReturn extends FnReturnTypeDefn>(rtn: TReturn) => ({
-          addProperties: <
-            TProps extends FnPropertiesDefn
-            >(kv: TProps) => AsLiteralFn<
-              FromWideTokens<TArgs, FromDefn<TArgs>>,
-              FromWideTokens<TReturn, FromDefn<TReturn>>,
-              FromDefn<TProps>
-            >;
-            done: () => AsLiteralFn<
-              FromDefn<TArgs>,
-              FromDefn<TReturn>
-            >;
-          });
-        done: () => AsLiteralFn<FromDefn<TArgs>>;
-      });
-};
+    returns: <TReturn extends FnReturnTypeDefn>(rtn: TReturn) => ({
+      addProperties: <
+        TProps extends FnPropertiesDefn,
+      >(kv: TProps) => AsLiteralFn<
+        FromWideTokens<TArgs, FromDefn<TArgs>>,
+        FromWideTokens<TReturn, FromDefn<TReturn>>,
+        FromDefn<TProps>
+      >;
+      done: () => AsLiteralFn<
+        FromDefn<TArgs>,
+        FromDefn<TReturn>
+      >;
+    });
+    done: () => AsLiteralFn<FromDefn<TArgs>>;
+  });
+}
 
 export type RecordKeyWideTokens = "string" | "symbol" | "string | symbol";
 
-export type RecordKeyDefn = RecordKeyWideTokens | ShapeCallback
+export type RecordKeyDefn = RecordKeyWideTokens | ShapeCallback;
 
 export type FromRecordKeyDefn<
-  T extends RecordKeyDefn
+  T extends RecordKeyDefn,
 > = T extends ShapeCallback
-? HandleDoneFn<ReturnType<T>>
-: T extends "string"
-  ? string
-  : T extends "symbol"
-  ? symbol
-  : T extends "string | symbol"
-  ? string | symbol
-  : never;
-
-
+  ? HandleDoneFn<ReturnType<T>>
+  : T extends "string"
+    ? string
+    : T extends "symbol"
+      ? symbol
+      : T extends "string | symbol"
+        ? string | symbol
+        : never;
 
 /**
  * An input type for defining an object's "key".
@@ -306,29 +298,34 @@ export type MapValueDefn = ShapeCallback | WideTokenNames;
 export type WeakMapKeyDefn = WideContainerNames | ShapeCallback;
 export type WeakMapValueDefn = ShapeCallback | WideTokenNames;
 
-type ShapeApi__WideContainers = {
+interface ShapeApi__WideContainers {
   record: <
     TKey extends ObjKeyDefn = "string | symbol",
-    TValue extends RecordValueTypeDefn = "unknown"
-  >(key?: TKey, value?: TValue) => Record<FromDefn<TKey>, FromDefn<TValue>>;
+    TValue extends RecordValueTypeDefn = "unknown",
+  >(key?: TKey,
+    value?: TValue
+  ) => Record<FromDefn<TKey>, FromDefn<TValue>>;
   array: <T extends ArrayTypeDefn = "unknown[]">(
     type?: T
   ) => AsArray<FromDefn<T>>;
   set: <T extends WideTokenNames | ShapeCallback = "unknown">(type?: T) =>
-    T extends ShapeCallback
-      ? Set<HandleDoneFn<ReturnType<T>>>
-      : T extends WideTokenNames
-        ? Set<FromDefn<T>>
-        : Set<unknown>;
+  T extends ShapeCallback
+    ? Set<HandleDoneFn<ReturnType<T>>>
+    : T extends WideTokenNames
+      ? Set<FromDefn<T>>
+      : Set<unknown>;
   map: <
     TKey extends MapKeyDefn = "unknown",
-    TValue extends MapValueDefn = "unknown"
-  >(key?: TKey, value?: TValue) => Map<FromDefn<TKey>, FromDefn<TValue>>;
+    TValue extends MapValueDefn = "unknown",
+  >(key?: TKey,
+    value?: TValue
+  ) => Map<FromDefn<TKey>, FromDefn<TValue>>;
 
   weakMap: <
     TKey extends WeakMapKeyDefn = "object",
-    TValue extends WeakMapValueDefn = "unknown"
-  >(key?: TKey, value?: TValue) => WeakMap<
+    TValue extends WeakMapValueDefn = "unknown",
+  >(key?: TKey,
+    value?: TValue) => WeakMap<
     As<FromDefn<TKey>, Container>,
     FromDefn<TValue>
   >;
@@ -336,7 +333,7 @@ type ShapeApi__WideContainers = {
 
 export type TupleDefn = WideTokenNames | ShapeCallback;
 
-type ShapeApi__LiteralContainers = {
+interface ShapeApi__LiteralContainers {
   dictionary: <T extends DictionaryTypeDefn>(obj: T) => FromDefn<T>;
   /**
    * **tuple**(el, el, ...)
@@ -352,7 +349,6 @@ type ShapeApi__LiteralContainers = {
    */
   tuple: <T extends readonly TupleDefn[]>(...elements: T) => FromDefn<T>;
 }
-
 
 /**
  * The `ShapeApi` is an API surface for defining types which have a runtime aspect
@@ -376,9 +372,6 @@ export type ShapeApi = { kind: "shape" } &
  * This is a function signature for a property which you want to use
  * the `SharpApi` with to define types.
  */
-export type ShapeCallback = ((api: ShapeApi) => unknown) ;
-
+export type ShapeCallback = ((api: ShapeApi) => unknown);
 
 export type ScalarCallback = (api: ShapeApi__Scalars & ShapeApi__Union) => unknown;
-
-

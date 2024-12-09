@@ -1,6 +1,6 @@
-import { IsEmptyContainer } from "./IsEmptyContainer";
+import type { Container } from "inferred-types/types";
 
-import { Container } from "inferred-types/types";
+import type { IsEmptyContainer } from "./IsEmptyContainer";
 
 /**
  * **NonEmptyContainer**`<T>`
@@ -11,5 +11,5 @@ import { Container } from "inferred-types/types";
  * **Related:** `EmptyContainer`
  */
 export type IsNonEmptyContainer<
-  T extends Container
+  T extends Container,
 > = IsEmptyContainer<T> extends true ? false : true;

@@ -1,11 +1,10 @@
-
-import {
+import type {
   AnyArray,
   AnyFunction,
   AnyObject,
-  Scalar,
   IfEqual,
-  IfNever
+  IfNever,
+  Scalar,
 } from "inferred-types/types";
 
 /**
@@ -29,12 +28,14 @@ export type ToContainer<T> = IfNever<
   AnyObject | AnyArray,
   // all non-never values
   IfEqual<
-    Exclude<T, Scalar | undefined | AnyFunction>, any,
+    Exclude<T, Scalar | undefined | AnyFunction>,
+    any,
     [any],
     IfEqual<
-    Exclude<T, Scalar | undefined | AnyFunction>, unknown,
-    [unknown],
-    Exclude<T, Scalar | undefined | AnyFunction>
+      Exclude<T, Scalar | undefined | AnyFunction>,
+      unknown,
+      [unknown],
+      Exclude<T, Scalar | undefined | AnyFunction>
     >
   >
 

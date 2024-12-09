@@ -1,17 +1,14 @@
-import { If, IsUnion , ToNumber, TupleToUnion, UnionToTuple } from "inferred-types/types";
-
+import type { If, IsUnion, ToNumber, TupleToUnion, UnionToTuple } from "inferred-types/types";
 
 type Convert<T> = T extends `${number}`
   ? ToNumber<T>
   : T;
 
-
 type ConvertTuple<T> = T extends unknown[]
-? {
-  [K in keyof T]: Convert<T[K]>
-}
-: never;
-
+  ? {
+      [K in keyof T]: Convert<T[K]>
+    }
+  : never;
 
 type ConvertUnion<T> = If<
   IsUnion<T>,

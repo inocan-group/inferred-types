@@ -1,9 +1,8 @@
-import { CssColor } from "./color";
-import { CssSizing } from "./sizing";
+import type { CssColor } from "./color";
+import type { CssSizing } from "./sizing";
 
-
-export type CssBackgroundProperties = {
-  background?: string;
+export interface CssBackgroundProperties {
+  "background"?: string;
   "background-attachement"?: string;
   "background-blend-mode"?: string;
   "background-clip"?: string;

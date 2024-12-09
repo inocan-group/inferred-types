@@ -1,6 +1,4 @@
-import {  If,  IsEqual,  ObjectKey,  RemoveIndexKeys,   Retain,  UnionToTuple } from "inferred-types/types";
-
-
+import type { If, IsEqual, ObjectKey, RemoveIndexKeys, Retain, UnionToTuple } from "inferred-types/types";
 
 type _Keys<T extends object> = UnionToTuple<keyof RemoveIndexKeys<T>> extends
 readonly ObjectKey[]
@@ -12,9 +10,8 @@ type _Len<T extends object> = _Keys<T> extends ObjectKey[]
   : 0;
 
 type _Validate<T extends object> = "value" extends keyof T
-? true
-: false
-
+  ? true
+  : false;
 
 /**
  * **IsVueRef**`<T>`
@@ -24,11 +21,11 @@ type _Validate<T extends object> = "value" extends keyof T
  * (which serves as a lightweight proxy type for Vue's `Ref`).
  */
 export type IsVueRef<T> = T extends object
-? If<
+  ? If<
     IsEqual<_Len<T>, 0>,
     false,
     Retain<_Keys<T>, string>["length"] extends 1
       ? _Validate<T>
       : false
-    >
-: false;
+  >
+  : false;

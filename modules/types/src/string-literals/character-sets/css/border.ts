@@ -1,40 +1,39 @@
-import { CssColor } from "./color";
-import { CssGlobal } from "./global";
-import { CssSizing } from "./sizing";
+import type { CssColor } from "./color";
+import type { CssGlobal } from "./global";
+import type { CssSizing } from "./sizing";
 
 /**
  * CSS Border Styles
  * ([reference](https://developer.mozilla.org/en-US/docs/Web/CSS/border-style))
  */
 export type CssBorderStyle =
-| "none"
-| "hidden"
-| "dotted"
-| "dashed"
-| "solid"
-| "double"
-| "groove"
-| "ridge"
-| "inset"
-| "outset";
+  | "none"
+  | "hidden"
+  | "dotted"
+  | "dashed"
+  | "solid"
+  | "double"
+  | "groove"
+  | "ridge"
+  | "inset"
+  | "outset";
 
 /**
  * CSS Border Width
  * ([reference](https://developer.mozilla.org/en-US/docs/Web/CSS/border-width))
  */
 export type CssBorderWidth =
-| "thin"
-| "medium"
-| "thick"
-| CssSizing;
-
+  | "thin"
+  | "medium"
+  | "thick"
+  | CssSizing;
 
 export type CssBorderImageSource = `url(${string})`
-| `url(${string}) ${number}`
-| `url(${string}) ${number} space`
-| `linear-gradient(${string},${string}) ${number} / ${CssSizing}`
-| `url(${string}) ${number} ${number} / ${CssSizing} ${string} / ${string}`
-| CssGlobal;
+  | `url(${string}) ${number}`
+  | `url(${string}) ${number} space`
+  | `linear-gradient(${string},${string}) ${number} / ${CssSizing}`
+  | `url(${string}) ${number} ${number} / ${CssSizing} ${string} / ${string}`
+  | CssGlobal;
 
 /**
  * **CssBorderCollapse**
@@ -53,18 +52,15 @@ export type CssBorderCollapse = "collapse" | "separate" | CssGlobal;
  * the keyword "fill" in the border-image-slice property.
  */
 export type CssBorderImageRepeat =
-| "stretch"
-| "repeat"
-| "round"
-| "space";
+  | "stretch"
+  | "repeat"
+  | "round"
+  | "space";
 
 export type CssBorderInlineSizing = CssBorderStyle
-| CssSizing
-| `${CssSizing} ${CssBorderStyle}`
-| `${CssSizing} ${CssBorderStyle} ${string}`;
-
-
-
+  | CssSizing
+  | `${CssSizing} ${CssBorderStyle}`
+  | `${CssSizing} ${CssBorderStyle} ${string}`;
 
 export type CssBorderProperties = {
   "border"?: string;
@@ -85,8 +81,8 @@ export type CssBorderProperties = {
    *  - four: `[top,  left,  right,  bottom]`
    */
   "border-style"?: CssBorderStyle
-  | `${CssBorderStyle} ${CssBorderStyle}`
-  | `${CssBorderStyle} ${CssBorderStyle} ${string}`
+    | `${CssBorderStyle} ${CssBorderStyle}`
+    | `${CssBorderStyle} ${CssBorderStyle} ${string}`;
 
   /**
    * Formats:
@@ -96,7 +92,7 @@ export type CssBorderProperties = {
    *  - four: `[top,  left,  right,  bottom]`
    */
   "border-width"?: CssBorderWidth
-    | `${CssBorderWidth} ${string}`
+    | `${CssBorderWidth} ${string}`;
 
   "border-image"?: CssBorderImageSource;
   /**
@@ -131,7 +127,6 @@ export type CssBorderProperties = {
   "border-image-slice"?: `${number}` | `${number} fill`;
   "border-image-source"?: CssBorderImageSource | "none";
 
-
   /**
    * The `border-end-end-radius` CSS property defines a logical border
    * radius on an element, which maps to a physical border radius
@@ -150,8 +145,7 @@ export type CssBorderProperties = {
    */
   "border-end-start-radius"?: CssSizing;
 
-
- /**
+  /**
    * Formats:
    *  - single
    *  - two: `[top & bottom,  left & right]`
@@ -160,12 +154,12 @@ export type CssBorderProperties = {
    */
   "border-color"?: CssColor
     | `${CssColor} ${string}`;
-    /**
-     * The border-block-color CSS property defines the color of the logical
-     * block borders of an element, which maps to a physical border color
-     * depending on the element's writing mode, directionality, and text
-     * orientation
-     */
+  /**
+   * The border-block-color CSS property defines the color of the logical
+   * block borders of an element, which maps to a physical border color
+   * depending on the element's writing mode, directionality, and text
+   * orientation
+   */
   "border-block-color"?: CssColor;
   /**
    * The border-block-end-color CSS property defines the color of the logical
@@ -193,8 +187,6 @@ export type CssBorderProperties = {
     | `${CssColor} ${string}`
     | `${CssBorderStyle} ${string}`;
 
-
-
   "border-inline-style"?: CssBorderStyle;
 
   /**
@@ -218,8 +210,8 @@ export type CssBorderProperties = {
   "border-inline-end-width"?: CssBorderWidth;
 
   "border-left"?: `${CssColor} ${string}`
-  | `${CssBorderStyle} ${string}`
-  | `${CssBorderWidth} ${string}`;
+    | `${CssBorderStyle} ${string}`
+    | `${CssBorderWidth} ${string}`;
   "border-left-style"?: CssBorderStyle;
   "border-left-color"?: CssColor;
   "border-left-width"?: CssBorderWidth;
@@ -227,8 +219,8 @@ export type CssBorderProperties = {
   "border-left-bottom-radius"?: CssSizing;
 
   "border-right"?: `${CssColor} ${string}`
-  | `${CssBorderStyle} ${string}`
-  | `${CssBorderWidth} ${string}`;
+    | `${CssBorderStyle} ${string}`
+    | `${CssBorderWidth} ${string}`;
   "border-right-style"?: CssBorderStyle;
   "border-right-color"?: CssColor;
   "border-right-width"?: CssBorderWidth;
@@ -236,8 +228,8 @@ export type CssBorderProperties = {
   "border-right-bottom-radius"?: CssSizing;
 
   "border-bottom"?: `${CssColor} ${string}`
-  | `${CssBorderStyle} ${string}`
-  | `${CssBorderWidth} ${string}`;
+    | `${CssBorderStyle} ${string}`
+    | `${CssBorderWidth} ${string}`;
   "border-bottom-style"?: CssBorderStyle;
   "border-bottom-color"?: CssColor;
   "border-bottom-width"?: CssBorderWidth;
@@ -271,8 +263,4 @@ export type CssBorderProperties = {
    */
   "border-inline-start"?: CssBorderInlineSizing;
 
-
-
-
-
-} | { [key: `border-${string}`]: string }
+} | { [key: `border-${string}`]: string };

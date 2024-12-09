@@ -1,16 +1,15 @@
-import { CssSizing } from "./sizing"
+import type { CssSizing } from "./sizing";
 
-
-export type CssAbsolutionPositioningProperties = {
+export interface CssAbsolutionPositioningProperties {
 
   /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/top) */
-  top?: CssSizing;
+  "top"?: CssSizing;
   /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/bottom) */
-  bottom?: CssSizing;
+  "bottom"?: CssSizing;
   /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/left) */
-  left?: CssSizing;
+  "left"?: CssSizing;
   /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/right) */
-  right?: CssSizing;
+  "right"?: CssSizing;
 
   /**
    * The inset CSS property is a shorthand that corresponds to the top, right, bottom,
@@ -20,8 +19,7 @@ export type CssAbsolutionPositioningProperties = {
    *
    * - [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/inset)
    */
-  inset?: CssSizing | `${CssSizing} ${string}`
-
+  "inset"?: CssSizing | `${CssSizing} ${string}`;
 
   /**
    * The `inset-block` CSS property defines the logical block start and end offsets of an
@@ -57,6 +55,5 @@ export type CssAbsolutionPositioningProperties = {
   "inset-inline-end"?: CssSizing;
   /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/inset-inline-start) */
   "inset-inline-start"?: CssSizing;
-
 
 }

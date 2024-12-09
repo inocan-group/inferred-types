@@ -1,12 +1,12 @@
-import {
-  Tuple,
-  AsString,
+import type {
   AsArray,
-  Concat,
-  IsStringLiteral,
-  If,
+  AsString,
   Chars,
-  IsUndefined
+  Concat,
+  If,
+  IsStringLiteral,
+  IsUndefined,
+  Tuple,
 } from "inferred-types/types";
 
 type _Shift<TList extends Tuple> = //
@@ -18,7 +18,6 @@ type _ShiftChar<TList extends Tuple> = //
 TList extends [unknown, ...(infer Tail)]
   ? Tail
   : never;
-
 
 /**
  * **Shift**`<T>`
@@ -36,15 +35,15 @@ TList extends [unknown, ...(infer Tail)]
  * then the output will _undefined_.
  */
 export type Shift<
-  T extends undefined | string | Tuple
+  T extends undefined | string | Tuple,
 > = IsUndefined<T> extends true
-? undefined
-:T extends Tuple
-? _Shift<AsArray<T>>
-: If<
-    IsStringLiteral<T>,
+  ? undefined
+  : T extends Tuple
+    ? _Shift<AsArray<T>>
+    : If<
+      IsStringLiteral<T>,
       _Shift<AsArray<Chars<AsString<T>>>> extends readonly string[]
-    ? Concat<_Shift<AsArray<Chars<AsString<T>>>>>
-    : undefined,
-    string
-  >;
+        ? Concat<_Shift<AsArray<Chars<AsString<T>>>>>
+        : undefined,
+      string
+    >;

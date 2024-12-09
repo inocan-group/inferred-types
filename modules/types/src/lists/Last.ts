@@ -1,4 +1,4 @@
-import { AfterFirst, IfLength,  Tuple } from "inferred-types/types";
+import type { AfterFirst, IfLength, Tuple } from "inferred-types/types";
 
 /**
  * **Last**`<TList, [TEmpty]>`
@@ -9,13 +9,15 @@ import { AfterFirst, IfLength,  Tuple } from "inferred-types/types";
  */
 export type Last<
   TContent extends Tuple,
-  TEmpty = never
+  TEmpty = never,
 > = IfLength<
-  TContent, 1,
+  TContent,
+  1,
   // If only one array element then return it
   TContent[0],
   IfLength<
-    TContent, 0,
+    TContent,
+    0,
     // no array element results in `never` type
     TEmpty,
     // otherwise
@@ -26,4 +28,3 @@ export type Last<
       : TEmpty
   >
 >;
-

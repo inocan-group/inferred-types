@@ -1,4 +1,4 @@
-import { IsEqual, TypedFunction } from "inferred-types/types";
+import type { IsEqual, TypedFunction } from "inferred-types/types";
 
 /**
  * **ReturnsTrue**`<T>`

@@ -1,18 +1,15 @@
-
-
-import {
-  AsArray,
-  Fail,
+import type {
   AnyFunction,
-  IsInteger,
+  AsArray,
   Dictionary,
-  Flatten
+  Fail,
+  Flatten,
+  IsInteger,
 } from "inferred-types/types";
-import { BCP47 } from "../string-literals/character-sets/BCP";
+import type { BCP47 } from "../string-literals/character-sets/BCP";
 
 type ShallowCopy<T> = T;
 type New<T> = T;
-
 
 /**
  * **List**`<T,S>`
@@ -22,7 +19,7 @@ type New<T> = T;
  * but with better behavior when using with `let` or `var`
  * variable declarations (versus `const` which is semantically peculiar).
  */
-export type List<T = unknown, ID extends string = string> = {
+export interface List<T = unknown, ID extends string = string> {
   id: ID;
   length: number;
   [key: number]: T;
@@ -34,14 +31,14 @@ export type List<T = unknown, ID extends string = string> = {
    * and returns the item at that index, allowing for positive and
    * negative integers. Negative integers count back from the last
    * item in the array.
-  */
- at: <TIdx extends number>(idx: Fail<TIdx, IsInteger<TIdx>>) => T;
+   */
+  at: <TIdx extends number>(idx: Fail<TIdx, IsInteger<TIdx>>) => T;
   /**
-    * **concat**`(arr | list)`
-    *
-    * The concat() method of Array instances is used to merge two or more arrays.
-    * This method does not change the existing arrays, but instead returns a new array.
-  */
+   * **concat**`(arr | list)`
+   *
+   * The concat() method of Array instances is used to merge two or more arrays.
+   * This method does not change the existing arrays, but instead returns a new array.
+   */
   concat: <TConcat extends List<T> | AsArray<T>>(list: TConcat) => List<T>;
   copyWithin: AnyFunction;
   /**
@@ -60,8 +57,9 @@ export type List<T = unknown, ID extends string = string> = {
    */
   every: <
     TCall extends ((v: T) => boolean),
-    TReturn extends boolean
-  >(cb: TCall) => TReturn;
+    TReturn extends boolean,
+  >(cb: TCall
+  ) => TReturn;
 
   /**
    * **fill**`(val)`
@@ -78,7 +76,7 @@ export type List<T = unknown, ID extends string = string> = {
    * down to just the elements from the given List that pass the test implemented by
    * the provided callback function.
    */
-  filter: <TCall extends ((v: T) => boolean)>(cb: TCall) =>  ShallowCopy<List<T,`${ID}sc`>>;
+  filter: <TCall extends ((v: T) => boolean)>(cb: TCall) => ShallowCopy<List<T, `${ID}sc`>>;
 
   /**
    * **find**`(callback)`
@@ -143,10 +141,11 @@ export type List<T = unknown, ID extends string = string> = {
    * **Note:** the value of `thisArg` sets the `this` value when executing the
    * callback.
    */
-  flatMap:<
+  flatMap: <
     TCall extends ((v: T) => unknown),
-    TArg
-  >(cb: TCall, thisArg?: TArg) => List<
+    TArg,
+  >(cb: TCall,
+    thisArg?: TArg) => List<
     Flatten<ReturnType<TCall>, 1, true>,
     `${ID} -> mapped`
   >;
@@ -183,7 +182,6 @@ export type List<T = unknown, ID extends string = string> = {
    */
   join: <TSep extends string = "">(sep?: TSep) => string;
 
-
   /**
    * **keys**`()`
    *
@@ -213,7 +211,7 @@ export type List<T = unknown, ID extends string = string> = {
    * @param thisArg — An object to which the this keyword can refer in the callbackfn
    * function. If thisArg is omitted, undefined is used as the this value.
    */
-  map: <M extends ((v: T) => unknown)>(cb: M) => List<ReturnType<M>,`${ID} -> mapped`>;
+  map: <M extends ((v: T) => unknown)>(cb: M) => List<ReturnType<M>, `${ID} -> mapped`>;
 
   /**
    * **pop**`()`
@@ -245,8 +243,10 @@ export type List<T = unknown, ID extends string = string> = {
    */
   reduce: <
     TCall extends ((acc: T[], v: T) => unknown),
-    TVal = List<ReturnType<TCall>, `${ID} -> reduced`>
-  >(cb: TCall, initialValue?: TVal) => TVal;
+    TVal = List<ReturnType<TCall>, `${ID} -> reduced`>,
+  >(cb: TCall,
+    initialValue?: TVal
+  ) => TVal;
 
   /**
    * **reduceRight**`(callback, initialValue)`
@@ -256,8 +256,10 @@ export type List<T = unknown, ID extends string = string> = {
    */
   reduceRight: <
     TCall extends ((acc: T[], v: T) => unknown),
-    TVal = List<ReturnType<TCall>, `${ID} ->reducedRight`>
-  >(cb: TCall, initialValue?: TVal) => TVal;
+    TVal = List<ReturnType<TCall>, `${ID} ->reducedRight`>,
+  >(cb: TCall,
+    initialValue?: TVal
+  ) => TVal;
 
   /**
    * **reverse**`()`
@@ -285,8 +287,10 @@ export type List<T = unknown, ID extends string = string> = {
    */
   slice: <
     TStart extends number,
-    TStop extends number
-  >(start?: TStart, stop?: TStop) => ShallowCopy< List<T, `${ID}-> sliced`> >;
+    TStop extends number,
+  >(start?: TStart,
+    stop?: TStop
+  ) => ShallowCopy< List<T, `${ID}-> sliced`> >;
   /**
    * **some**`(callback)`
    *
@@ -328,15 +332,17 @@ export type List<T = unknown, ID extends string = string> = {
    */
   toLocaleString: <
     TLang extends BCP47,
-    TOpts extends Dictionary
-  >(lang: TLang, opt?: TOpts) => string;
+    TOpts extends Dictionary,
+  >(lang: TLang,
+    opt?: TOpts
+  ) => string;
   /**
    * **toReversed**`()`
    *
    * Is the _copying_ counterpart of the reverse() method. It returns a new array
    * with the elements in reversed order.
    */
-  toReversed: () => List<T,`${ID}r`>;
+  toReversed: () => List<T, `${ID}r`>;
   /**
    * **toSorted**`()`
    *
@@ -373,7 +379,7 @@ export type List<T = unknown, ID extends string = string> = {
    *
    * returns an _iterator_ that iterates the value of each item in the array.
    */
-  values: () => Iterator<T,Array<T>>;
+  values: () => Iterator<T, Array<T>>;
   /**
    * **with**`(idx, val)`
    *
@@ -381,6 +387,6 @@ export type List<T = unknown, ID extends string = string> = {
    * given index. It returns a new array with the element at the given index replaced
    * with the given value.
    */
-  with: (idx: number, val: T) => New< List<T,`${ID}w`> >;
+  with: (idx: number, val: T) => New< List<T, `${ID}w`> >;
 
 }

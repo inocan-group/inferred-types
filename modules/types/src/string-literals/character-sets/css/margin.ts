@@ -1,10 +1,10 @@
-import { Opt } from "../Optional";
-import { CssSizingLight } from "./sizing";
+import type { Opt } from "../Optional";
+import type { CssSizingLight } from "./sizing";
 
 export type CssMargin = CssSizingLight
-| `${CssSizingLight}, ${CssSizingLight}${Opt<`, ${CssSizingLight}`>}${string}`;
+  | `${CssSizingLight}, ${CssSizingLight}${Opt<`, ${CssSizingLight}`>}${string}`;
 
-export type CssMarginBlock = `${CssSizingLight}${Opt<`, ${CssSizingLight}`>}${string}`;;
+export type CssMarginBlock = `${CssSizingLight}${Opt<`, ${CssSizingLight}`>}${string}`; ;
 
 export type CssMarginBlockEnd = CssSizingLight;
 export type CssMarginBlockStart = CssSizingLight;
@@ -18,8 +18,8 @@ export type CssMarginRight = CssSizingLight;
 export type CssMarginTop = CssSizingLight;
 export type CssMarginBottom = CssSizingLight;
 
-export type CssMarginProperties = {
-  margin?: CssMargin;
+export interface CssMarginProperties {
+  "margin"?: CssMargin;
   "margin-block"?: CssMarginBlock;
   "margin-block-end"?: CssMarginBlockEnd;
   "margin-block-start"?: CssMarginBlockStart;

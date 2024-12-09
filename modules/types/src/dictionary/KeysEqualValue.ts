@@ -1,4 +1,4 @@
-import { IfEqual } from "inferred-types/types";
+import type { IfEqual } from "inferred-types/types";
 
 /**
  * **KeysEqualValue**`<TObj,TValue>`

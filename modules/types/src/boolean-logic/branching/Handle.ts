@@ -1,23 +1,22 @@
-import {
-  IsEqual,
+import type {
   Filter,
   If,
+  IsEqual,
   IsUnion,
   TupleToUnion,
-  UnionToTuple
+  UnionToTuple,
 } from "inferred-types/types";
 
 type Narrow<
   TContent,
-  THandle
+  THandle,
 > = IsUnion<TContent> extends true
   ? UnionToTuple<TContent> extends readonly unknown[]
     ? Filter<UnionToTuple<TContent>, THandle> extends readonly unknown[]
       ? TupleToUnion<Filter<UnionToTuple<TContent>, THandle>>
       : never
-  : never
-: TContent;
-
+    : never
+  : TContent;
 
 /**
  * **Handle**`<TContent,THandle,TMapTo,[TSpecificity]>`
@@ -33,20 +32,18 @@ export type Handle<
   TContent,
   THandle,
   TMapTo,
-  TSpecificity extends "extends" | "equals" = "extends"
+  TSpecificity extends "extends" | "equals" = "extends",
 > =
 [THandle] extends never[]
   ? [TContent] extends never[]
-    ? TMapTo
-    : TContent
-: TSpecificity extends "extends"
-  ? [TContent] extends [THandle]
-    ? TMapTo
-    : Narrow<TContent,THandle>
-  : If<
-    IsEqual<[TContent], [THandle]>,
-    TMapTo,
-    TContent
-  >
-
-
+      ? TMapTo
+      : TContent
+  : TSpecificity extends "extends"
+    ? [TContent] extends [THandle]
+        ? TMapTo
+        : Narrow<TContent, THandle>
+    : If<
+      IsEqual<[TContent], [THandle]>,
+      TMapTo,
+      TContent
+    >;

@@ -1,13 +1,13 @@
-import {
+import type {
   And,
   AsNumber,
   AsStringUnion,
-  IsStringLiteral
+  IsStringLiteral,
 } from "inferred-types/types";
 
 type Process<
   TContent extends string,
-  TStrip extends string
+  TStrip extends string,
 > = And<[ IsStringLiteral<TContent>, IsStringLiteral<TStrip>]> extends true
   ? TContent extends `${TStrip & string}${infer After}`
     ? After
@@ -31,18 +31,18 @@ type Process<
  *   - same applies to `U`
  */
 export type StripLeading<
-  TContent extends string|number,
-  TStrip extends string|number
+  TContent extends string | number,
+  TStrip extends string | number,
 > = TContent extends number
-? AsNumber<
+  ? AsNumber<
     Process<
       `${TContent}`,
       AsStringUnion<TStrip>
     >
   >
-: TContent extends string
-  ? Process<
-    TContent,
-    AsStringUnion<TStrip>
-  >
-  : never
+  : TContent extends string
+    ? Process<
+      TContent,
+      AsStringUnion<TStrip>
+    >
+    : never;

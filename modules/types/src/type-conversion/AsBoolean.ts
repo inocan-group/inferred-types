@@ -1,4 +1,3 @@
-
 /**
  * **AsBoolean**`<T>`
  *
@@ -8,9 +7,9 @@
 export type AsBoolean<T> = T extends boolean
   ? T
   : T extends "true"
-  ? true
-  : T extends "false"
-  ? false
-  : T extends "boolean"
-  ? boolean
-  : never;
+    ? true
+    : T extends "false"
+      ? false
+      : T extends "boolean"
+        ? boolean
+        : never;

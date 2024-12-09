@@ -1,5 +1,4 @@
-import { Dictionary, ExpandDictionary, ObjectKey, WithKeys, WithoutKeys } from "inferred-types/types";
-
+import type { Dictionary, ExpandDictionary, ObjectKey, WithKeys, WithoutKeys } from "inferred-types/types";
 
 /**
  * **MakeKeysRequired**`<TObj, TKeys>`
@@ -12,12 +11,12 @@ import { Dictionary, ExpandDictionary, ObjectKey, WithKeys, WithoutKeys } from "
  */
 export type MakeKeysRequired<
   TObj extends Dictionary,
-  TKeys extends (string|symbol) | readonly ObjectKey[]
+  TKeys extends (string | symbol) | readonly ObjectKey[],
 > = ExpandDictionary<
-  WithoutKeys<TObj,TKeys> &
+  WithoutKeys<TObj, TKeys> &
   {
-    [K in keyof WithKeys<TObj,TKeys>]: K extends keyof TObj
+    [K in keyof WithKeys<TObj, TKeys>]: K extends keyof TObj
       ? TObj[K]
       : never
   }
->
+>;

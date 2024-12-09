@@ -1,8 +1,7 @@
-
-import {
+import type {
   EmptyObject,
   ExpandRecursively,
-  RemoveNever
+  RemoveNever,
 } from "inferred-types/types";
 
 export interface TypeErrorInfo<
@@ -64,7 +63,7 @@ export interface TypeErrorInfo<
    * an underlying ErrorCondition for which this ErrorCondition
    * is based
    */
-  // eslint-disable-next-line no-use-before-define
+
   underlying?: ErrorCondition;
   /**
    * In cases where a utility provides a means to handle the "never" value
@@ -83,7 +82,6 @@ export interface TypeErrorInfo<
 
   [key: string]: unknown;
 }
-
 
 /**
  * **ErrorConditionShape**
@@ -110,17 +108,17 @@ export type ErrorCondition<
   TMsg extends string = never,
   TUtility extends string = never,
   TStack extends readonly string[] = never,
-  TRest extends TypeErrorInfo = EmptyObject
+  TRest extends TypeErrorInfo = EmptyObject,
 > = ExpandRecursively<
-RemoveNever<{
+  RemoveNever<{
   /** the kind/category of error this is */
-  kind: TKind;
-  /** an error about the message */
-  msg: TMsg;
-  /** the originating type utility which threw the error */
-  utility: TUtility;
-  /** the stack of utility types which were used to get to this error */
-  stack: TStack;
-  __kind: "ErrorCondition";
-}> & TRest>
-
+    kind: TKind;
+    /** an error about the message */
+    msg: TMsg;
+    /** the originating type utility which threw the error */
+    utility: TUtility;
+    /** the stack of utility types which were used to get to this error */
+    stack: TStack;
+    __kind: "ErrorCondition";
+  }> & TRest
+>;

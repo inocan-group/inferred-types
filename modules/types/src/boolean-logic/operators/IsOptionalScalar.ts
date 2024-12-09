@@ -1,20 +1,19 @@
-import {
+import type {
   IsNever,
   IsScalar,
   IsUndefined,
-  IsUnion
+  IsUnion,
 } from "inferred-types/types";
 
 type Process<T> = [IsNever<T>] extends [true]
-? false
-: [IsScalar<T>] extends [true]
-  ? true
-  : [IsUndefined<T>] extends [true]
-    ? true
-    : [IsUnion<T>] extends [true]
-      ? boolean
-      : false;
-
+  ? false
+  : [IsScalar<T>] extends [true]
+      ? true
+      : [IsUndefined<T>] extends [true]
+          ? true
+          : [IsUnion<T>] extends [true]
+              ? boolean
+              : false;
 
 /**
  * **IsOptionalScalar**`<T>`
@@ -24,5 +23,5 @@ type Process<T> = [IsNever<T>] extends [true]
  * **Related:** `IsScalar`
  */
 export type IsOptionalScalar<T> = Process<T> extends boolean
-? Process<T>
-: never;
+  ? Process<T>
+  : never;
