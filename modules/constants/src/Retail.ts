@@ -1,4 +1,3 @@
-
 /**
  * Amazon's DNS entries (for retail business)
  */
@@ -8,13 +7,13 @@ export const AMAZON_DNS = [
   `www.amazon.fr`,
   `www.amazon.de`,
   `www.amazon.it`,
-  `www.amazon.es`
+  `www.amazon.es`,
 ] as const;
 
 export const WALMART_DNS = [
   "www.walmart.com",
   "www.walmart.ca",
-  "www.walmart.com.mx"
+  "www.walmart.com.mx",
 ] as const;
 
 export const APPLE_DNS = [
@@ -32,30 +31,30 @@ export const EBAY_DNS = [
   "www.ebay.co.uk",
   "www.ebay.fr",
   "www.ebay.de",
-  "www.ebay.it"
+  "www.ebay.it",
 ] as const;
 
 export const TARGET_DNS = [
-  "www.target.com"
+  "www.target.com",
 ] as const;
 
 export const ETSY_DNS = [
-  "www.etsy.com"
+  "www.etsy.com",
 ] as const;
 
 export const COSTCO_DNS = [
   "www.costco.com",
   "www.costco.co.uk",
-  "www.costco.ca"
+  "www.costco.ca",
 ] as const;
 
 export const CHEWY_DNS = [
-  "www.chewy.com"
+  "www.chewy.com",
 ] as const;
 
 export const BEST_BUY_DNS = [
   "www.bestbuy.com",
-  "www.bestbuy.ca"
+  "www.bestbuy.ca",
 ] as const;
 
 export const WAYFAIR_DNS = [
@@ -65,46 +64,44 @@ export const WAYFAIR_DNS = [
 ] as const;
 
 export const NIKE_DNS = [
-  "www.nike.com"
+  "www.nike.com",
 ] as const;
 
 export const MACYS_DNS = [
-  "www.macys.com"
+  "www.macys.com",
 ] as const;
 
 export const LOWES_DNS = [
-  "www.lowes.com"
+  "www.lowes.com",
 ] as const;
-
 
 export const IKEA_DNS = [
-  "www.ikea.com"
+  "www.ikea.com",
 ] as const;
 
-
 export const DELL_DNS = [
-  "www.dell.com"
+  "www.dell.com",
 ] as const;
 
 /** DNS for H&M retailer */
 export const HM_DNS = [
-  "www2.hm.com"
+  "www2.hm.com",
 ] as const;
 
 export const ZARA_DNS = [
-  "www.zara.com"
+  "www.zara.com",
 ] as const;
 
 export const KROGER_DNS = [
-  "www.kroger.com"
+  "www.kroger.com",
 ] as const;
 
 export const WALGREENS_DNS = [
-  "www.walgreens.com"
+  "www.walgreens.com",
 ] as const;
 
 export const CVS_DNS = [
-  "www.cvs.com"
+  "www.cvs.com",
 ] as const;
 
 export const WHOLE_FOODS_DNS = [

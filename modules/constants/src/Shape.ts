@@ -1,16 +1,16 @@
 export const SHAPE_PREFIXES = [
-  "string", 
+  "string",
   "number",
   "boolean",
   "null",
-  "undefined", 
+  "undefined",
   "unknown",
-  "opt::", 
-  "union::", 
-  "tuple::", 
+  "opt::",
+  "union::",
+  "tuple::",
   "array::",
-  "object", 
-  "record::"
+  "object",
+  "record::",
 ] as const;
 
 export const SHAPE_DELIMITER = "||,||" as const;

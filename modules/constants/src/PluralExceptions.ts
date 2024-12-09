@@ -1,6 +1,6 @@
 /**
  * **PLURAL_EXCEPTIONS**
- * 
+ *
  * An array of tuples of the form `[singular, plural]`.
  */
 export const PLURAL_EXCEPTIONS_OLD = [
@@ -13,26 +13,25 @@ export const PLURAL_EXCEPTIONS_OLD = [
   ["person", "people"],
   ["mouse", "mice"],
   ["series", "series"],
-  ["sheep","sheep"],
-  ["money","monies"],
-  ["deer","deer"],
+  ["sheep", "sheep"],
+  ["money", "monies"],
+  ["deer", "deer"],
 
 ] as const;
 
-
 /**
  * **PluralExceptions**
- * 
+ *
  * A dictionary of key/value pairs which map singular words to their
  * plural counterpart. This can be used in conjunction with the the
- * `pluralize()` and `Pluralize<T>` utilities to extend the known 
+ * `pluralize()` and `Pluralize<T>` utilities to extend the known
  * irregular conversions.
  */
-export type PluralExceptions = Record<string,string>;
+export type PluralExceptions = Record<string, string>;
 
 /**
  * **PLURAL_EXCEPTIONS**
- * 
+ *
  * A lookup table that maps singular words to their _plural_ counterpart.
  */
 export const PLURAL_EXCEPTIONS = {
@@ -109,5 +108,5 @@ export const PLURAL_EXCEPTIONS = {
   thief: "thieves",
   vertex: "vertexes",
   wife: "wives",
-  wolf: "wolves"
+  wolf: "wolves",
 } as const;

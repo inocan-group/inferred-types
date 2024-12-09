@@ -1,13 +1,24 @@
 export const SIMPLE_DICT_VALUES = [
-  "string", "number", "boolean", "unknown",
-  "Opt<string>", "Opt<number>", "Opt<boolean>", "Opt<unknown>",
+  "string",
+  "number",
+  "boolean",
+  "unknown",
+  "Opt<string>",
+  "Opt<number>",
+  "Opt<boolean>",
+  "Opt<unknown>",
 ] as const;
 
 export const SIMPLE_SET_TYPES = [
-  "string", "number", "boolean", "unknown",
-  "Opt<string>", "Opt<number>", "Opt<boolean>", "Opt<unknown>",
+  "string",
+  "number",
+  "boolean",
+  "unknown",
+  "Opt<string>",
+  "Opt<number>",
+  "Opt<boolean>",
+  "Opt<unknown>",
 ] as const;
-
 
 export const SIMPLE_SCALAR_TOKENS = [
   "string",
@@ -21,7 +32,7 @@ export const SIMPLE_SCALAR_TOKENS = [
   "undefined",
   "unknown",
   "any",
-  "never"
+  "never",
 ] as const;
 
 export const SIMPLE_OPT_SCALAR_TOKENS = [
@@ -39,7 +50,6 @@ export const SIMPLE_OPT_SCALAR_TOKENS = [
   "Opt<undefined>",
 ] as const;
 
-
 export const SIMPLE_FN_TOKENS = [
   "Fn<none> => Unknown",
   "Fn<string> => Unknown",
@@ -47,12 +57,9 @@ export const SIMPLE_FN_TOKENS = [
   "Fn<boolean> => Unknown",
 ] as const;
 
-
-
 export const SIMPLE_UNION_TOKENS = [
-  `Union(TOKEN)` as `union(${string}${`,${string}` | ""})`
+  `Union(TOKEN)` as `union(${string}${`,${string}` | ""})`,
 ] as const;
-
 
 export const SIMPLE_MAP_KEYS = [
   "string",
@@ -101,7 +108,6 @@ export const SIMPLE_DICT_TOKENS = [
   "Dict<{TOKEN: TOKEN, TOKEN: TOKEN}>" as `Dict<{${string}: ${ScalarToken}, ${string}: ${string}}`,
 ] as const;
 
-
 export const SIMPLE_ARRAY_TOKENS = [
   "Array",
   "Array<string>",
@@ -112,29 +118,26 @@ export const SIMPLE_ARRAY_TOKENS = [
   "Array<unknown>",
   `Array<Dict>`,
   `Array<Set>`,
-  `Array<Map>`
+  `Array<Map>`,
 ] as const;
 
 export const SIMPLE_MAP_TOKENS = [
   "Map",
   "Map<TOKEN, TOKEN>" as `Map<${MapKeys}, ${MapValues}>`,
-  "WeakMap"
+  "WeakMap",
 ] as const;
 
 export const SIMPLE_SET_TOKENS = [
   "Set",
-  "Set<TOKEN>" as `Set<${SetType}>`
+  "Set<TOKEN>" as `Set<${SetType}>`,
 ] as const;
 
 export const SIMPLE_CONTAINER_TOKENS = [
   ...SIMPLE_DICT_TOKENS,
   ...SIMPLE_ARRAY_TOKENS,
   ...SIMPLE_MAP_TOKENS,
-  ...SIMPLE_SET_TOKENS
+  ...SIMPLE_SET_TOKENS,
 ] as const;
-
-
-
 
 /**
  * **SIMPLE_TOKENS**
@@ -150,7 +153,6 @@ export const SIMPLE_TOKENS = [
   ...SIMPLE_UNION_TOKENS,
 ] as const;
 
-
 /**
  * **Type Tokens** which have zero configuration elements.
  */
@@ -159,7 +161,7 @@ export const TT_Atomics = [
   "null",
   "boolean",
   "true",
-  "false"
+  "false",
 ] as const;
 
 /**
@@ -168,13 +170,13 @@ export const TT_Atomics = [
  */
 export const TT_Singletons = [
   "string",
-  "number"
+  "number",
 ] as const;
 
 export const TT_Sets = [
   "string-set",
   "numeric-set",
-  "union-set"
+  "union-set",
 ] as const;
 
 /**
@@ -183,7 +185,7 @@ export const TT_Sets = [
  */
 export const TT_Functions = [
   "fn",
-  "gen"
+  "gen",
 ] as const;
 
 /**
@@ -197,7 +199,7 @@ export const TT_Containers = [
   "map",
   "union",
   "obj",
-  "tuple"
+  "tuple",
 ] as const;
 
 export const TT_START = "<<" as const;
@@ -223,7 +225,7 @@ export const TYPE_TOKEN_IDENTITIES = [
   "object",
   "emptyObject",
   "function",
-  "array"
+  "array",
 ] as const;
 
 /**
@@ -241,9 +243,8 @@ export const TYPE_TOKEN_PARAM_STR = [
   "pascalCase",
   "snakeCase",
   "kebabCase",
-  "explicitType"
+  "explicitType",
 ] as const;
-
 
 /**
  * `TypeToken` names which need a _CSV_ parameter to fully qualify
@@ -253,7 +254,7 @@ export const TYPE_TOKEN_PARAM_CSV = [
   "numericLiteral",
   "objectLiteral",
   "tuple",
-  "union"
+  "union",
 ] as const;
 
 /**
@@ -269,7 +270,7 @@ export const TYPE_TOKEN_PARAM_DATETIME = [
 export const TYPE_TOKEN_PARAM_DATE = [
   "ymd",
   "monthThenDate",
-  "dateThenMonth"
+  "dateThenMonth",
 ] as const;
 
 export const TYPE_TOKEN_PARAM_TIME = [
@@ -278,7 +279,7 @@ export const TYPE_TOKEN_PARAM_TIME = [
   "militaryTimeInMinutes",
   "militaryTimeInSeconds",
   "militaryTimeInMilliseconds",
-  "civilianTimeInMinutes"
+  "civilianTimeInMinutes",
 ] as const;
 
 export const TYPE_TOKEN_ALL = [
@@ -287,5 +288,5 @@ export const TYPE_TOKEN_ALL = [
   ...TYPE_TOKEN_PARAM_DATE,
   ...TYPE_TOKEN_PARAM_DATETIME,
   ...TYPE_TOKEN_PARAM_STR,
-  ...TYPE_TOKEN_PARAM_TIME
+  ...TYPE_TOKEN_PARAM_TIME,
 ] as const;
