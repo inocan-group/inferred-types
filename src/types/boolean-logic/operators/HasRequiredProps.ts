@@ -1,4 +1,11 @@
-import { Keys, Dictionary, ObjectKey, RequiredProps } from "inferred-types/types";
+import {
+  ObjectKey,
+  RequiredKeysTuple,
+  AnyObject,
+  IsWideContainer,
+  IsEqual,
+  EmptyObject
+} from "inferred-types/types";
 
 /**
  * **HasRequiredProps**`<T>`
@@ -7,11 +14,13 @@ import { Keys, Dictionary, ObjectKey, RequiredProps } from "inferred-types/types
  * the type has required properties or not.
  */
 export type HasRequiredProps<
-  T extends object
-> = T extends Dictionary
-? Keys<RequiredProps<T>> extends readonly ObjectKey[]
-  ? Keys<RequiredProps<T>>["length"] extends 0
+  T extends AnyObject
+> = IsWideContainer<T> extends true
+? IsEqual<T, EmptyObject> extends true ? false : boolean
+
+: RequiredKeysTuple<T> extends readonly ObjectKey[]
+  ? RequiredKeysTuple<T>["length"] extends 0
     ? false
     : true
-  : false
-: false;
+  : false;
+
