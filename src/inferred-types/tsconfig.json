@@ -26,18 +26,23 @@
     "composite": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      // root export for runtime symbols
+      "inferred-types/types": [
+        "../types/index.ts"
+      ],
+      "inferred-types/dist/types": [
+        "../types/index.ts"
+      ],
       "inferred-types/constants": [
         "../constants/index.ts"
       ],
-      "inferred-types/types": [
-        "../types/index.ts"
+      "inferred-types/dist/constants": [
+        "../constants/index.ts"
       ],
       "inferred-types/runtime": [
         "../runtime/index.ts"
       ],
-      "./dist/constants/*": [
-        "../constants/*"
+      "inferred-types/dist/runtime": [
+        "../runtime/index.ts"
       ]
     },
   }

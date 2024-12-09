@@ -10,7 +10,7 @@
     "skipLibCheck": true,
     "module": "ES2022",
     "target": "ES2022",
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "declaration": true,
     "declarationMap": true,
     "baseUrl": ".",
@@ -19,25 +19,24 @@
     "composite": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
+      "inferred-types/types": [
+        "../types/index.ts"
+      ],
+      "inferred-types/dist/types": [
+        "../types/index.ts"
+      ],
       "inferred-types/constants": [
         "../constants/index.ts"
       ],
-      "inferred-types/types": [
-        "./index.ts"
+      "inferred-types/dist/constants": [
+        "../constants/index.ts"
       ],
       "inferred-types/runtime": [
         "../runtime/index.ts"
       ],
-      "src/types/index": [
-        "index.ts"
-      ],
-      "inferred-types/dist/constants/index": [
-        "../constants/index.ts"
-      ],
-      // allow importing all constants to the static "src/constants/index" path
-      "src/constants/index": [
-        "../constants/index.ts"
-      ],
+      "inferred-types/dist/runtime": [
+        "../runtime/index.ts"
+      ]
     },
   },
   "include": [

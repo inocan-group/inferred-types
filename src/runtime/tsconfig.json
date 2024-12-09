@@ -12,7 +12,7 @@
     "skipLibCheck": true,
     "module": "ES2022",
     "target": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "declaration": true,
     "declarationMap": true,
     "baseUrl": ".",
@@ -24,15 +24,21 @@
       "inferred-types/types": [
         "../types/index.ts"
       ],
+      "inferred-types/dist/types": [
+        "../types/index.ts"
+      ],
       "inferred-types/constants": [
+        "../constants/index.ts"
+      ],
+      "inferred-types/dist/constants": [
         "../constants/index.ts"
       ],
       "inferred-types/runtime": [
         "../runtime/index.ts"
       ],
-      "inferred-types/dist/runtime/index": [
+      "inferred-types/dist/runtime": [
         "../runtime/index.ts"
-      ],
+      ]
     },
   },
   "include": [

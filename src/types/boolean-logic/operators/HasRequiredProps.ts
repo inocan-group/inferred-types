@@ -10,8 +10,8 @@ import {
 /**
  * **HasRequiredProps**`<T>`
  *
- * Receives an object and returns true/false based on whether
- * the type has required properties or not.
+ * Receives `T` and returns true/false based on whether
+ * the `T` is an object _and_ has at least one required property on it.
  */
 export type HasRequiredProps<
   T extends AnyObject
@@ -23,4 +23,3 @@ export type HasRequiredProps<
     ? false
     : true
   : false;
-
