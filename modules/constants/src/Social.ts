@@ -1,11 +1,11 @@
-type SocialMediaCompany = {
+interface SocialMediaCompany {
   name: string;
   description: string;
   baseUrls: string[];
   profileUrl: string;
   approximateUserSize?: number;
   tickerSymbol?: string;
-};
+}
 
 export const SOCIAL_MEDIA = [
   {
@@ -127,5 +127,5 @@ export const SOCIAL_MEDIA = [
     baseUrls: ["https://www.discord.com", "https://discord.com"],
     profileUrl: "https://discord.com/users/:user_id",
     approximateUserSize: 300000000, // 300 million
-  }
+  },
 ] as const satisfies SocialMediaCompany[];

@@ -1,6 +1,6 @@
 /**
  * **MONTH_NAME**
- * 
+ *
  * Full month names.
  */
 export const MONTH_NAME = [
@@ -15,13 +15,12 @@ export const MONTH_NAME = [
   "September",
   "October",
   "November",
-  "December"
+  "December",
 ] as const;
-
 
 /**
  * **MONTH_ABBR**
- * 
+ *
  * Abbreviated month names.
  */
 export const MONTH_ABBR = [
@@ -36,5 +35,5 @@ export const MONTH_ABBR = [
   "Sep",
   "Oct",
   "Nov",
-  "Dec"
+  "Dec",
 ] as const;

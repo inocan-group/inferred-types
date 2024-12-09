@@ -1,4 +1,11 @@
-import {  AfterFirst, First, IsLiteral, IsStringLiteral, IsUnion, UnionToTuple } from "inferred-types/types";
+import {
+  AfterFirst,
+  First,
+  IsLiteral,
+  IsStringLiteral,
+  IsUnion,
+  UnionToTuple
+} from "inferred-types/types";
 import { Replace } from "./Replace";
 
 

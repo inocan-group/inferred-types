@@ -1,25 +1,30 @@
 {
   "compilerOptions": {
-    "strict": true,
-    "skipLibCheck": true,
-    "module": "ESNext",
-    "target": "ESNext",
-    "moduleResolution": "Bundler",
-    "declaration": true,
-    "declarationMap": true,
-
-    "outDir": "./dist",
     "composite": true,
-    "forceConsistentCasingInFileNames": true,
-    "preserveConstEnums": true,
-    "stripInternal": false,
-    "sourceMap": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "paths": {
       "inferred-types/constants": [
         "./src/index.ts"
       ]
-    }
+    },
+    "strict": true,
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "./dist",
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "stripInternal": false,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "tests", "dist"]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "tests",
+    "dist"
+  ]
 }

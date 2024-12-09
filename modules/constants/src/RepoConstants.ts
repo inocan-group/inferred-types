@@ -1,4 +1,3 @@
-
 /**
  * common sources for source code repositories
  */
@@ -9,7 +8,6 @@ export const REPO_SOURCES = [
   "codecommit",
   "local",
 ] as const;
-
 
 /**
  * page types you'd expect to find in a source code repository.
@@ -25,18 +23,16 @@ export const REPO_PAGE_TYPES = [
   "followers",
   "following",
   "docs",
-  "unknown"
+  "unknown",
 ] as const;
 
-
 export const REPO_SOURCE_LOOKUP = {
-  "github": [`https://github.com`, "https://github.io"],
-  "bitbucket": [ "https://bitbucket.org"],
-  "gitlab": ["https://gitlab.com"],
-  "codecommit": ["https://aws.amazon.com/codecommit/"],
-  "local": []
+  github: [`https://github.com`, "https://github.io"],
+  bitbucket: ["https://bitbucket.org"],
+  gitlab: ["https://gitlab.com"],
+  codecommit: ["https://aws.amazon.com/codecommit/"],
+  local: [],
 } as const;
-
 
 export const GITHUB_INSIGHT_CATEGORY_LOOKUP = {
   pulse: "pulse",
@@ -52,5 +48,4 @@ export const GITHUB_INSIGHT_CATEGORY_LOOKUP = {
   network: "network",
   forks: "forks",
   people: "people",
- } as const;
-
+} as const;

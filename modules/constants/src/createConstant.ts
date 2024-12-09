@@ -1,4 +1,4 @@
-import { Constant } from "./Constant";
+import type { Constant } from "./Constant";
 
 /**
  * **createConstant**(kind)
@@ -8,6 +8,6 @@ import { Constant } from "./Constant";
 export function createConstant<TKind extends string>(kind: TKind) {
   return {
     _type: "Constant",
-    kind
+    kind,
   } as Constant<TKind>;
 }

@@ -1,5 +1,3 @@
-
-
 export const CONSONANTS = [
   "b",
   "c",

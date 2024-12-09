@@ -143,5 +143,5 @@ export const ISO3166_1 = [
   { name: "Viet Nam", alpha2: "VN", countryCode: "704", alpha3: "VNM" },
   { name: "Yemen", alpha2: "YE", countryCode: "887", alpha3: "YEM" },
   { name: "Zambia", alpha2: "ZM", countryCode: "894", alpha3: "ZMB" },
-  { name: "Zimbabwe", alpha2: "ZW", countryCode: "716", alpha3: "ZWE" }
+  { name: "Zimbabwe", alpha2: "ZW", countryCode: "716", alpha3: "ZWE" },
 ] as const;

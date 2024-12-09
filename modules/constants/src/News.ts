@@ -18,9 +18,8 @@ export const US_NEWS = [
   { company: "Nexstar Media Group", baseUrls: ["www.nexstar.tv"] },
   { company: "PBS News", baseUrls: ["www.pbs.org"] },
   { company: "HuffPost", baseUrls: ["www.huffpost.com"] },
-  { company: "The Boston Globe", baseUrls: ["www.bostonglobe.com"] }
+  { company: "The Boston Globe", baseUrls: ["www.bostonglobe.com"] },
 ] as const;
-
 
 export const UK_NEWS = [
   { company: "BBC", baseUrls: ["www.bbc.co.uk", "www.bbc.com"] },
@@ -42,7 +41,7 @@ export const UK_NEWS = [
   { company: "Birmingham Mail", baseUrls: ["www.birminghammail.co.uk"] },
   { company: "Manchester Evening News", baseUrls: ["www.manchestereveningnews.co.uk"] },
   { company: "The Scotsman", baseUrls: ["www.scotsman.com"] },
-  { company: "Daily Record", baseUrls: ["www.dailyrecord.co.uk"] }
+  { company: "Daily Record", baseUrls: ["www.dailyrecord.co.uk"] },
 ] as const;
 
 export const GERMAN_NEWS = [
@@ -65,7 +64,7 @@ export const GERMAN_NEWS = [
   { company: "Münchner Merkur", baseUrls: ["www.merkur.de"] },
   { company: "Stuttgarter Zeitung", baseUrls: ["www.stuttgarter-zeitung.de"] },
   { company: "Hamburger Abendblatt", baseUrls: ["www.abendblatt.de"] },
-  { company: "Deutsche Welle", baseUrls: ["www.dw.com"] }
+  { company: "Deutsche Welle", baseUrls: ["www.dw.com"] },
 ] as const;
 
 export const FRENCH_NEWS = [
@@ -88,7 +87,7 @@ export const FRENCH_NEWS = [
   { company: "Charlie Hebdo", baseUrls: ["www.charliehebdo.fr"] },
   { company: "Challenges", baseUrls: ["www.challenges.fr"] },
   { company: "Télérama", baseUrls: ["www.telerama.fr"] },
-  { company: "L'Obs", baseUrls: ["www.nouvelobs.com"] }
+  { company: "L'Obs", baseUrls: ["www.nouvelobs.com"] },
 ] as const;
 
 export const CANADIAN_NEWS = [
@@ -111,7 +110,7 @@ export const CANADIAN_NEWS = [
   { company: "The Hamilton Spectator", baseUrls: ["www.thespec.com"] },
   { company: "Ottawa Citizen", baseUrls: ["ottawacitizen.com"] },
   { company: "Windsor Star", baseUrls: ["windsorstar.com"] },
-  { company: "Edmonton Journal", baseUrls: ["edmontonjournal.com"] }
+  { company: "Edmonton Journal", baseUrls: ["edmontonjournal.com"] },
 ] as const;
 
 export const DUTCH_NEWS = [
@@ -134,7 +133,7 @@ export const DUTCH_NEWS = [
   { company: "ANP", baseUrls: ["www.anp.nl"] },
   { company: "Dagblad van het Noorden", baseUrls: ["www.dvhn.nl"] },
   { company: "Reformatorisch Dagblad", baseUrls: ["www.rd.nl"] },
-  { company: "Financieele Dagblad", baseUrls: ["www.fd.nl"] }
+  { company: "Financieele Dagblad", baseUrls: ["www.fd.nl"] },
 ] as const;
 
 export const ITALIAN_NEWS = [
@@ -157,7 +156,7 @@ export const ITALIAN_NEWS = [
   { company: "Il Secolo XIX", baseUrls: ["www.ilsecoloxix.it"] },
   { company: "Italia Oggi", baseUrls: ["www.italiaoggi.it"] },
   { company: "Libero", baseUrls: ["www.liberoquotidiano.it"] },
-  { company: "Il Tirreno", baseUrls: ["www.iltirreno.it"] }
+  { company: "Il Tirreno", baseUrls: ["www.iltirreno.it"] },
 ] as const;
 
 export const BELGIUM_NEWS = [
@@ -180,7 +179,7 @@ export const BELGIUM_NEWS = [
   { company: "Flamish Radio and TV Broadcasting Organization (VRT)", baseUrls: ["www.vrt.be"] },
   { company: "Knack", baseUrls: ["www.knack.be"] },
   { company: "De Tijd", baseUrls: ["www.tijd.be"] },
-  { company: "BX1", baseUrls: ["www.bx1.be"] }
+  { company: "BX1", baseUrls: ["www.bx1.be"] },
 ] as const;
 
 export const MEXICAN_NEWS = [
@@ -203,7 +202,7 @@ export const MEXICAN_NEWS = [
   { company: "Uniradio Noticias", baseUrls: ["www.uniradionoticias.com"] },
   { company: "El Imparcial", baseUrls: ["www.elimparcial.com"] },
   { company: "Publimetro México", baseUrls: ["www.publimetro.com.mx"] },
-  { company: "Notimex", baseUrls: ["www.notimex.gob.mx"] }
+  { company: "Notimex", baseUrls: ["www.notimex.gob.mx"] },
 ] as const;
 
 export const SPANISH_NEWS = [
@@ -226,7 +225,7 @@ export const SPANISH_NEWS = [
   { company: "Heraldo de Aragón", baseUrls: ["www.heraldo.es"] },
   { company: "Faro de Vigo", baseUrls: ["www.farodevigo.es"] },
   { company: "El Correo", baseUrls: ["www.elcorreo.com"] },
-  { company: "Diario Sur", baseUrls: ["www.diariosur.es"] }
+  { company: "Diario Sur", baseUrls: ["www.diariosur.es"] },
 ] as const;
 
 export const INDIAN_NEWS = [
@@ -249,9 +248,8 @@ export const INDIAN_NEWS = [
   { company: "Mint", baseUrls: ["www.livemint.com"] },
   { company: "OneIndia", baseUrls: ["www.oneindia.com"] },
   { company: "Quint", baseUrls: ["www.thequint.com"] },
-  { company: "Free Press Journal", baseUrls: ["www.freepressjournal.in"] }
+  { company: "Free Press Journal", baseUrls: ["www.freepressjournal.in"] },
 ] as const;
-
 
 export const CHINESE_NEWS = [
   { company: "Xinhua News Agency", baseUrls: ["www.xinhuanet.com"] },
@@ -273,7 +271,7 @@ export const CHINESE_NEWS = [
   { company: "Tencent News", baseUrls: ["news.qq.com"] },
   { company: "Sina News", baseUrls: ["news.sina.com.cn"] },
   { company: "NetEase News", baseUrls: ["news.163.com"] },
-  { company: "Phoenix TV", baseUrls: ["www.ifeng.com"] }
+  { company: "Phoenix TV", baseUrls: ["www.ifeng.com"] },
 ] as const;
 
 /** news sites in Denmark */
@@ -297,9 +295,8 @@ export const DANISH_NEWS = [
   { company: "Avisen Danmark", baseUrls: ["avisen.dk"] },
   { company: "Fagbladet 3F", baseUrls: ["fagbladet3f.dk"] },
   { company: "Herning Folkeblad", baseUrls: ["herningfolkeblad.dk"] },
-  { company: "Midtjyllands Avis", baseUrls: ["midtjyllandsavis.dk"] }
+  { company: "Midtjyllands Avis", baseUrls: ["midtjyllandsavis.dk"] },
 ] as const;
-
 
 export const SWISS_NEWS = [
   { company: "Neue Zürcher Zeitung (NZZ)", baseUrls: ["www.nzz.ch"], type: ["newspaper", "digital"] },
@@ -321,7 +318,7 @@ export const SWISS_NEWS = [
   { company: "Watson", baseUrls: ["www.watson.ch"], type: ["digital-first"] },
   { company: "Le Matin", baseUrls: ["www.lematin.ch"], type: ["newspaper", "digital"] },
   { company: "La Liberté", baseUrls: ["www.laliberte.ch"], type: ["newspaper", "digital"] },
-  { company: "The Swiss Times", baseUrls: ["www.theswisstimes.ch"], type: ["digital-first"] }
+  { company: "The Swiss Times", baseUrls: ["www.theswisstimes.ch"], type: ["digital-first"] },
 ] as const;
 
 export const AUSTRALIAN_NEWS = [
@@ -344,9 +341,8 @@ export const AUSTRALIAN_NEWS = [
   { company: "AAP (Australian Associated Press)", baseUrls: ["www.aap.com.au"], type: ["news agency", "digital"] },
   { company: "NT News", baseUrls: ["www.ntnews.com.au"], type: ["newspaper", "digital"] },
   { company: "The Canberra Times", baseUrls: ["www.canberratimes.com.au"], type: ["newspaper", "digital"] },
-  { company: "Brisbane Times", baseUrls: ["www.brisbanetimes.com.au"], type: ["digital-first"] }
+  { company: "Brisbane Times", baseUrls: ["www.brisbanetimes.com.au"], type: ["digital-first"] },
 ] as const;
-
 
 export const JAPANESE_NEWS = [
   { company: "The Asahi Shimbun", baseUrls: ["www.asahi.com"], type: ["newspaper", "digital"] },
@@ -368,7 +364,7 @@ export const JAPANESE_NEWS = [
   { company: "Jiji Press", baseUrls: ["www.jiji.com"], type: ["news agency", "digital"] },
   { company: "TV Asahi News", baseUrls: ["news.tv-asahi.co.jp"], type: ["television", "digital"] },
   { company: "WOWOW Prime News", baseUrls: ["www.wowow.co.jp"], type: ["television", "digital"] },
-  { company: "Kansai Telecasting Corporation (KTV)", baseUrls: ["www.ktv.jp"], type: ["television", "digital"] }
+  { company: "Kansai Telecasting Corporation (KTV)", baseUrls: ["www.ktv.jp"], type: ["television", "digital"] },
 ] as const;
 
 export const SOUTH_KOREAN_NEWS = [
@@ -391,7 +387,7 @@ export const SOUTH_KOREAN_NEWS = [
   { company: "Herald Business", baseUrls: ["biz.heraldcorp.com"], type: ["newspaper", "digital"] },
   { company: "eDaily", baseUrls: ["www.edaily.co.kr"], type: ["digital-first", "business"] },
   { company: "Seoul Economic Daily", baseUrls: ["www.sedaily.com"], type: ["newspaper", "digital"] },
-  { company: "JTBC News", baseUrls: ["news.jtbc.co.kr"], type: ["television", "digital"] }
+  { company: "JTBC News", baseUrls: ["news.jtbc.co.kr"], type: ["television", "digital"] },
 ] as const;
 
 export const TURKISH_NEWS = [
@@ -414,7 +410,7 @@ export const TURKISH_NEWS = [
   { company: "T24", baseUrls: ["www.t24.com.tr"], type: ["digital-first"] },
   { company: "Karar", baseUrls: ["www.karar.com"], type: ["newspaper", "digital"] },
   { company: "Gazete Duvar", baseUrls: ["www.gazeteduvar.com.tr"], type: ["digital-first"] },
-  { company: "Bloomberg HT", baseUrls: ["www.bloomberght.com"], type: ["television", "digital"] }
+  { company: "Bloomberg HT", baseUrls: ["www.bloomberght.com"], type: ["television", "digital"] },
 ] as const;
 
 export const NORWEGIAN_NEWS = [
@@ -437,5 +433,5 @@ export const NORWEGIAN_NEWS = [
   { company: "Sunnmørsposten", baseUrls: ["www.smp.no"], type: ["newspaper", "digital"] },
   { company: "Finansavisen", baseUrls: ["www.finansavisen.no"], type: ["newspaper", "digital"] },
   { company: "Nordlys", baseUrls: ["www.nordlys.no"], type: ["newspaper", "digital"] },
-  { company: "Hamar Arbeiderblad", baseUrls: ["www.h-a.no"], type: ["newspaper", "digital"] }
+  { company: "Hamar Arbeiderblad", baseUrls: ["www.h-a.no"], type: ["newspaper", "digital"] },
 ] as const;
