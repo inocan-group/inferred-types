@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable ts/ban-ts-comment */
 import {  Expect, ExpectTrue } from "@type-challenges/utils";
 import { getWeekNumber } from "inferred-types/runtime";
 import {

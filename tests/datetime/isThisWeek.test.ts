@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable ts/ban-ts-comment */
 import { getWeekNumber, isThisWeek } from "inferred-types/runtime";
 import {
   LuxonJs

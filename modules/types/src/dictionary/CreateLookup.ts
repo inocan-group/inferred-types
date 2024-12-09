@@ -17,7 +17,7 @@ type Process<
         TKeyProp,
         TValProp,
         First<TPayload>[TKeyProp] extends ObjectKey
-        ? TOutput & Record<
+          ? TOutput & Record<
             First<TPayload>[TKeyProp],
             First<TPayload>[TValProp]
           >

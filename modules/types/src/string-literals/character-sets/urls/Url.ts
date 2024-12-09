@@ -377,13 +377,13 @@ type _UrlsFrom<
   TContent extends string,
   TOpt extends ProtocolOptions & PortSpecifierOptions & UrlOptions,
 > = [TOpt["protocolOptional"]] extends [true]
-? `${_Proto<TOpt>}${GetUrlSource<TContent>}${UrlPort<TOpt>}${AddUrlPathSegment<_Path<TContent>, `${string}`>}`
+  ? `${_Proto<TOpt>}${GetUrlSource<TContent>}${UrlPort<TOpt>}${AddUrlPathSegment<_Path<TContent>, `${string}`>}`
 | `${_Proto<TOpt>}${GetUrlSource<TContent>}${UrlPort<TOpt>}${_Path<TContent>}${_QP<TOpt>}`
 | `${GetUrlSource<TContent>}${UrlPort<TOpt>}${_Path<TContent>}${_QP<TOpt>}`
 | `${GetUrlSource<TContent>}${UrlPort<TOpt>}${AddUrlPathSegment<_Path<TContent>, `${string}`>}`
 
-: `${_Proto<TOpt>}${GetUrlSource<TContent>}${UrlPort<TOpt>}${AddUrlPathSegment<_Path<TContent>, `${string}`>}` |
-  `${_Proto<TOpt>}${GetUrlSource<TContent>}${UrlPort<TOpt>}${_Path<TContent>}${_QP<TOpt>}`;
+  : `${_Proto<TOpt>}${GetUrlSource<TContent>}${UrlPort<TOpt>}${AddUrlPathSegment<_Path<TContent>, `${string}`>}`
+  | `${_Proto<TOpt>}${GetUrlSource<TContent>}${UrlPort<TOpt>}${_Path<TContent>}${_QP<TOpt>}`;
 
 /**
  * **UrlsFrom**`<T, [TOpt]>`

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable ts/ban-ts-comment */
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { isThisMonth } from "inferred-types";
 import {

@@ -1,5 +1,25 @@
 import type { Constant } from "inferred-types/constants";
-import type { AfterFirst, AsDictionary, AsType, Contains, Dictionary, EmptyObject, ExpandDictionary, First, HandleDoneFn, IsEqual, Keys, NarrowableScalar, ObjectKey, ShapeCallback, SimpleToken, Tuple, TupleToUnion, UnionElDefn, Values } from "inferred-types/types";
+import type {
+  AfterFirst,
+  AsDictionary,
+  AsType,
+  Contains,
+  Dictionary,
+  EmptyObject,
+  ExpandDictionary,
+  First,
+  HandleDoneFn,
+  IsEqual,
+  Keys,
+  NarrowableScalar,
+  ObjectKey,
+  ShapeCallback,
+  SimpleToken,
+  Tuple,
+  TupleToUnion,
+  UnionElDefn,
+  Values,
+} from "inferred-types/types";
 
 type HandleObject<
   TObj extends Dictionary,
