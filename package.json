@@ -10,9 +10,9 @@
   "typings": "./dist/inferred-types/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/inferred-types/index.d.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/inferred-types/index.d.ts"
+      "require": "./dist/index.cjs"
     },
     "./types": {
       "import": "./dist/types/index.js",
