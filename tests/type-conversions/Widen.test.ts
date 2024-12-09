@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { EmptyObject, Dictionary,  Widen } from "inferred-types";
+import { EmptyObject, Dictionary,  Widen } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -78,4 +78,3 @@ describe("Widen<T>", () => {
   });
 
 });
-

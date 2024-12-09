@@ -52,8 +52,7 @@ describe("Keys<T> with object targets", () => {
   type StrRec = Keys<Record<string, string>>;
   type KeyVal = Keys<Dictionary>;
 
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  type Curly = Keys<{}>;
+  type Curly = Keys<EmptyObject>;
 
   it("object resolution", () => {
     type cases = [

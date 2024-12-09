@@ -1,0 +1,44 @@
+{
+  "references": [
+    {
+      "path": "../constants"
+    },
+    {
+      "path": "../types"
+    }
+  ],
+  "compilerOptions": {
+    "strict": true,
+    "skipLibCheck": true,
+    "module": "ES2022",
+    "target": "ESNext",
+    "moduleResolution": "Bundler",
+    "declaration": true,
+    "declarationMap": true,
+    "baseUrl": ".",
+    "rootDir": ".",
+    "outDir": "dist",
+    "composite": true,
+    "forceConsistentCasingInFileNames": true,
+    "preserveConstEnums": true,
+    "stripInternal": false,
+    "sourceMap": true,
+    "paths": {
+      "inferred-types/types": [
+        "../types/dist"
+      ],
+      "inferred-types/constants": [
+        "../constants/dist"
+      ],
+      "inferred-types/runtime": [
+        "./src/index.ts"
+      ],
+    },
+  },
+  "include": [
+    "src/**/*.ts",
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
