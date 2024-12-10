@@ -10,13 +10,10 @@ import { isDoneFn, isFunction, isObject } from "inferred-types/runtime";
  * If you wish to also detect a bare function and have it
  * call that too, you can set the `call_bare_fn` to **true**.
  */
-export const handleDoneFn = <
+export function handleDoneFn<
   TVal,
-  TBareFn extends boolean
->(
-  val: TVal,
-  call_bare_fn: TBareFn = false as TBareFn
-) => {
+  TBareFn extends boolean,
+>(val: TVal, call_bare_fn: TBareFn = false as TBareFn) {
   return isObject(val) || isFunction(val)
     ? isDoneFn(val)
       ? val.done()
@@ -27,5 +24,3 @@ export const handleDoneFn = <
       ? call_bare_fn ? val() : val
       : val;
 }
-
-

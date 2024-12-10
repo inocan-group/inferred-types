@@ -1,8 +1,6 @@
 // import { FnFrom } from "inferred-types/types";
 // import { identity } from "../literals";
 
-
-
 // export const wrapFn = <
 //   TInteriorFn extends TypedFunction,
 // >(fn: TInteriorFn) => {
@@ -26,7 +24,5 @@
 //     }
 //   }
 // };
-
-
 
 export const wrapFn = "NOT IMPLEMENTED" as const;

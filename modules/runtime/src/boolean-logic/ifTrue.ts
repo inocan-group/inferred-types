@@ -1,6 +1,5 @@
-import { IsFalse, IsTrue, Narrowable } from "inferred-types/types";
+import type { IsFalse, IsTrue, Narrowable } from "inferred-types/types";
 import { isTrue } from "inferred-types/runtime";
-
 
 /**
  * **ifTrue**
@@ -15,11 +14,11 @@ import { isTrue } from "inferred-types/runtime";
 export function ifTrue<
   TContent extends Narrowable,
   TIf extends Narrowable,
-  TElse extends Narrowable
+  TElse extends Narrowable,
 >(
   val: TContent,
   ifVal: <V extends TContent & true>(val: V) => TIf,
-  elseVal: <V extends Exclude<TContent, true>>(val: V) => TElse
+  elseVal: <V extends Exclude<TContent, true>>(val: V) => TElse,
 ) {
   return (
     //
@@ -28,6 +27,6 @@ export function ifTrue<
       : elseVal(val as Exclude<TContent, true>)
   ) as unknown as
     [IsTrue<TContent>] extends [true]
-    ? TIf
-    : [IsFalse<TContent>] extends [true] ? TElse : TIf | TElse;
+      ? TIf
+      : [IsFalse<TContent>] extends [true] ? TElse : TIf | TElse;
 }

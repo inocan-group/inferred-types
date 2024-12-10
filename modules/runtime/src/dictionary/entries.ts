@@ -1,6 +1,5 @@
-import {  Narrowable, ObjectKey } from "inferred-types/types";
+import type { Narrowable, ObjectKey } from "inferred-types/types";
 import { keysOf } from "inferred-types/runtime";
-
 
 /**
  * **entries**
@@ -17,14 +16,14 @@ import { keysOf } from "inferred-types/runtime";
  */
 export function entries<
   T extends Record<ObjectKey, N>,
-  N extends Narrowable
+  N extends Narrowable,
 >(obj: T) {
   const iterable = {
     *[Symbol.iterator]() {
       for (const k of keysOf(obj)) {
         // const [k, v] = entry as KeyValue<T, First<typeof entry>>;
         type K = typeof k;
-        yield ({key: k, value: obj[k]}) as { key: K, value: K extends keyof T ? T[K] : never};
+        yield ({ key: k, value: obj[k] }) as { key: K; value: K extends keyof T ? T[K] : never };
       }
     },
   };

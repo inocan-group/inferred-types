@@ -1,7 +1,5 @@
-/* eslint-disable no-use-before-define */
 import type { Dictionary, Narrowable, ObjectKey } from "inferred-types/types";
 import { retain } from "./retain";
-
 
 /**
  * **withKeys**(obj,keys)
@@ -11,12 +9,10 @@ import { retain } from "./retain";
  *
  * - note: this function is an alias for `retain()`
  */
-export const withKeys = <
+export function withKeys<
   TObj extends Dictionary<string | symbol, N>,
   N extends Narrowable,
-  TKeys extends readonly (ObjectKey & keyof TObj)[]
->(
-  dict: TObj,
-  ...keys: TKeys
-) => retain(dict, ...keys);
-
+  TKeys extends readonly (ObjectKey & keyof TObj)[],
+>(dict: TObj, ...keys: TKeys) {
+  return retain(dict, ...keys);
+}

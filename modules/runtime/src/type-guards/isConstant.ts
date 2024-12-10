@@ -1,6 +1,5 @@
-
-import { Constant  } from "inferred-types/constants";
-import { isObject  } from "inferred-types/runtime";
+import type { Constant } from "inferred-types/constants";
+import { isObject } from "inferred-types/runtime";
 
 /**
  * **isConstant**`(val)`
@@ -9,12 +8,10 @@ import { isObject  } from "inferred-types/runtime";
  * `Constant<T>`.
  */
 export function isConstant<
-  K extends string
+  K extends string,
 >(value: unknown): value is Constant<K> {
-  return isObject(value) &&
-  "_type" in value &&
-  "kind" in value &&
-  value._type === "Constant"
-   ? true : false;
+  return !!(isObject(value)
+    && "_type" in value
+    && "kind" in value
+    && value._type === "Constant");
 }
-

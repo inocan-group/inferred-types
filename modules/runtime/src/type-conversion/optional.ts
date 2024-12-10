@@ -1,6 +1,4 @@
-import { Narrowable } from "inferred-types/types";
-
-
+import type { Narrowable } from "inferred-types/types";
 
 /**
  * **optional**(value)
@@ -9,7 +7,7 @@ import { Narrowable } from "inferred-types/types";
  * a union with _undefined_.
  */
 export function optional<
-  T extends Narrowable
+  T extends Narrowable,
 >(value: T) {
   return value as T | undefined;
 }

@@ -11,11 +11,11 @@ export * from "./omit";
 export * from "./retain";
 export * from "./sharedKeys";
 export * from "./takeProp";
+export * from "./valuesOf";
+export * from "./withDefaults";
 export * from "./withKeys";
 export * from "./withoutKeys";
 export * from "./withoutValue";
-export * from "./withDefaults";
-export * from "./valuesOf";
 
 // #endregion auto-indexed files
 

@@ -1,16 +1,8 @@
-import { DefineObject } from "inferred-types/types";
-import { FromDefn } from "inferred-types/types";
-import {
-  AsType,
-  ShapeCallback,
-  SimpleScalarToken,
-  SimpleToken,
-  SimpleType
-} from "inferred-types/types";
-import {  ShapeApiImplementation } from "./shape";
-import { handleDoneFn } from "../api";
+import type { AsType, DefineObject, FromDefn, ShapeCallback, SimpleScalarToken, SimpleToken, SimpleType } from "inferred-types/types";
 import { isDefineObject, isFunction } from "src/type-guards";
+import { handleDoneFn } from "../api";
 import { asDefineObject } from "./asDefineObject";
+import { ShapeApiImplementation } from "./shape";
 
 /**
  * **asType**(token)**
@@ -24,10 +16,9 @@ import { asDefineObject } from "./asDefineObject";
  * is not fully reverse engineerable at this point; this will
  * be added later
  */
-export const asType = <
-  T extends [SimpleToken | DefineObject ] | readonly (SimpleToken | DefineObject | ShapeCallback)[]
->(...token: T) => {
-
+export function asType<
+  T extends [SimpleToken | DefineObject ] | readonly (SimpleToken | DefineObject | ShapeCallback)[],
+>(...token: T) {
   return (
     isFunction(token)
       ? token(ShapeApiImplementation)
@@ -39,18 +30,16 @@ export const asType = <
             : token[0]
         : token.map(i => isFunction(i) ? handleDoneFn(i(ShapeApiImplementation)) : i)
   ) as unknown as T extends [SimpleToken]
-    ?  SimpleType<T[0]>
+    ? SimpleType<T[0]>
     : T extends [DefineObject]
       ? FromDefn<T[0]>
       : T extends readonly (SimpleToken | DefineObject | ShapeCallback)[]
-      ? FromDefn<T>
-      : never
+        ? FromDefn<T>
+        : never;
 }
 
-export const asStringLiteral = <
-  T extends readonly SimpleScalarToken[]
->(...values: T) => {
-
-  return values.map(i => i as unknown as AsType<typeof i>)
+export function asStringLiteral<
+  T extends readonly SimpleScalarToken[],
+>(...values: T) {
+  return values.map(i => i as unknown as AsType<typeof i>);
 }
-

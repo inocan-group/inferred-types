@@ -1,4 +1,4 @@
-import {  Chars, IsEqual } from "inferred-types/types";
+import type { Chars, IsEqual } from "inferred-types/types";
 
 /**
  * **split**(str, sep)
@@ -12,8 +12,7 @@ import {  Chars, IsEqual } from "inferred-types/types";
  */
 export function split<
   T extends string,
-  S extends string
+  S extends string,
 >(str: T, sep: S = "" as S) {
-  return str.split(sep) as unknown as IsEqual<S,""> extends true  ? Chars<T> : readonly string[];
+  return str.split(sep) as unknown as IsEqual<S, ""> extends true ? Chars<T> : readonly string[];
 }
-

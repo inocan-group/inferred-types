@@ -1,35 +1,32 @@
-
+import type { AfterFirst, Extends, If, LowerAlphaChar } from "inferred-types/types";
 import { LOWER_ALPHA_CHARS } from "inferred-types/constants";
-import { AfterFirst, If, Extends, LowerAlphaChar } from "inferred-types/types";
-
 
 type _Index<
   T extends readonly string[],
   IF,
   ELSE,
-  Results extends readonly unknown[] = []
+  Results extends readonly unknown[] = [],
 > = [] extends T
   ? Results
   : _Index<
-      AfterFirst<T>,
-      IF,
-      ELSE,
-      [
-        ...Results,
-        If<Extends<T, LowerAlphaChar>, IF, ELSE>
-      ]
-    >;
+    AfterFirst<T>,
+    IF,
+    ELSE,
+    [
+      ...Results,
+      If<Extends<T, LowerAlphaChar>, IF, ELSE>,
+    ]
+  >;
 
 type Returns<
   T extends string | readonly string[],
   IF,
-  ELSE
+  ELSE,
 > = T extends string
   ? If<Extends<T, LowerAlphaChar>, IF, ELSE>
   : T extends readonly string[]
     ? _Index<T, IF, ELSE>
     : never;
-
 
 /**
  * **ifLowercaseChar**(ch)
@@ -40,18 +37,18 @@ type Returns<
 export function ifLowercaseChar<
   T extends string,
   IF,
-  ELSE
+  ELSE,
 >(
   ch: T,
   callbackForMatch: <V extends T>(v: V) => IF,
-  callbackForNoMatch: <V extends T>(v: V) => ELSE
-  ): Returns<T, IF, ELSE> {
-    if (ch.length !== 1) {
-      throw new Error(`call to ifUppercaseChar received ${ch.length} characters but is only valid when one character is passed in!`);
-    }
-    return (
-      LOWER_ALPHA_CHARS.includes(ch as any)
+  callbackForNoMatch: <V extends T>(v: V) => ELSE,
+): Returns<T, IF, ELSE> {
+  if (ch.length !== 1) {
+    throw new Error(`call to ifUppercaseChar received ${ch.length} characters but is only valid when one character is passed in!`);
+  }
+  return (
+    LOWER_ALPHA_CHARS.includes(ch as any)
       ? callbackForMatch(ch)
       : callbackForNoMatch(ch)
-    ) as Returns<T, IF, ELSE>;
-  }
+  ) as Returns<T, IF, ELSE>;
+}

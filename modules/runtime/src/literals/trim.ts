@@ -1,4 +1,4 @@
-import { Trim, TrimLeft, TrimRight } from "inferred-types/types";
+import type { Trim, TrimLeft, TrimRight } from "inferred-types/types";
 
 /**
  * **trim**(input)

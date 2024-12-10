@@ -1,6 +1,6 @@
-import { Email } from "inferred-types/types"
-import { isString } from "inferred-types/runtime";
+import type { Email } from "inferred-types/types";
 import { LOWER_ALPHA_CHARS } from "inferred-types/constants";
+import { isString } from "inferred-types/runtime";
 
 /**
  * **isEmail**`(val)`
@@ -13,9 +13,9 @@ import { LOWER_ALPHA_CHARS } from "inferred-types/constants";
  * 3. has at least one `.` char after the `@`
  * 4. top-level domain has at least 2 characters
  */
-export const isEmail = (val: unknown): val is Email => {
+export function isEmail(val: unknown): val is Email {
   if (!isString(val)) {
-    return false
+    return false;
   }
   const parts: string[] = val?.split("@");
   const domain = parts[1]?.split(".");
@@ -23,9 +23,9 @@ export const isEmail = (val: unknown): val is Email => {
   const firstChar = val[0].toLowerCase();
 
   return isString(val) && (
-    LOWER_ALPHA_CHARS.includes(firstChar as any) &&
-    parts.length === 2 &&
-    domain.length >= 1 &&
-    tld.length >= 2
-  )
+    LOWER_ALPHA_CHARS.includes(firstChar as any)
+    && parts.length === 2
+    && domain.length >= 1
+    && tld.length >= 2
+  );
 }

@@ -1,4 +1,4 @@
-import {  ComparatorOperation, Comparison, ParamsForComparison, Narrowable } from "inferred-types/types";
+import type { ComparatorOperation, Comparison, Narrowable, ParamsForComparison } from "inferred-types/types";
 
 /**
  * **createComparison**(op, ...args)
@@ -6,10 +6,9 @@ import {  ComparatorOperation, Comparison, ParamsForComparison, Narrowable } fro
  * Creates a _future_ comparison which can be used with the `filter`, `retain`, and
  * other runtime utilities.
  */
-export const createComparison = <
+export function createComparison<
   TOp extends ComparatorOperation,
-  TArgs extends readonly Narrowable[]
->(_op: TOp, ...args: TArgs & ParamsForComparison<TOp>) => {
-  return [args[0],...args.slice(1)] as unknown as Comparison<TOp, typeof args>
+  TArgs extends readonly Narrowable[],
+>(_op: TOp, ...args: TArgs & ParamsForComparison<TOp>) {
+  return [args[0], ...args.slice(1)] as unknown as Comparison<TOp, typeof args>;
 }
-

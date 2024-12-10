@@ -37,7 +37,6 @@
 //     [RESULT.Err, RESULT.Ok].includes((val as any).state)
 // }
 
-
 // function resultTuple<
 //   T,
 //   E extends ErrInput
@@ -86,8 +85,6 @@
 //   }
 // }) as ResultApi<T,E>;
 
-
-
 // /**
 //  * **ok**(val)
 //  *
@@ -102,7 +99,6 @@
 //   const tuple = resultTuple(val, _err) as unknown as ResultTuple<T,E>;
 //   return { ...tuple, state: RESULT.Ok, val }
 // }
-
 
 // /**
 //  * **ok**(val)
@@ -191,7 +187,6 @@
 //   } as unknown as IfEqual<TVal, unknown, Err<TErr>, Err<TErr,TVal>>
 // }
 
-
 // /**
 //  * **isOk**(result)
 //  *
@@ -202,7 +197,6 @@
 // >(result: Result<T>): result is T & Ok<T> => {
 //   return result.state === RESULT.Ok;
 // }
-
 
 // /**
 //  * **okOrThrow**(result)
@@ -306,4 +300,4 @@
 //   ) as IsErr<typeof result>;
 // }
 
-export const result = "NOT READY"
+export const result = "NOT READY";

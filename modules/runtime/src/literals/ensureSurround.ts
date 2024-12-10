@@ -1,4 +1,4 @@
-import { EnsureSurround } from "inferred-types/types";
+import type { EnsureSurround } from "inferred-types/types";
 import { ensureLeading, ensureTrailing } from "inferred-types/runtime";
 
 /**
@@ -13,11 +13,10 @@ import { ensureLeading, ensureTrailing } from "inferred-types/runtime";
  */
 export function ensureSurround<
   TPrefix extends string,
-  TPostfix extends string
+  TPostfix extends string,
 >(prefix: TPrefix, postfix: TPostfix) {
-
   const fn = <TInput extends string>(
-    input: TInput
+    input: TInput,
   ): EnsureSurround<TInput, TPrefix, TPostfix> => {
     let result: string = input;
 
@@ -25,8 +24,7 @@ export function ensureSurround<
     result = ensureTrailing(result, postfix);
 
     return result as EnsureSurround<TInput, TPrefix, TPostfix>;
-  }
+  };
 
   return fn;
 }
-

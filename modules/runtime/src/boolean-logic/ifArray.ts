@@ -1,4 +1,4 @@
-import type {  IsArray, Narrowable } from "inferred-types/types";
+import type { IsArray, Narrowable } from "inferred-types/types";
 
 /**
  * **ifArray**(T, IF, ELSE)
@@ -10,11 +10,11 @@ export function ifArray<
   T extends Narrowable,
   // functions which return a known type
   IF extends Narrowable,
-  ELSE extends Narrowable
+  ELSE extends Narrowable,
 >(
   val: T,
   isAnArray: <N extends T & unknown[]>(arr: N) => IF,
-  isNotAnArray: <N extends Exclude<T, unknown[] | readonly unknown[]>>(nonArr: N) => ELSE
+  isNotAnArray: <N extends Exclude<T, unknown[] | readonly unknown[]>>(nonArr: N) => ELSE,
 ) {
   return (
     Array.isArray(val) ? isAnArray(val) : isNotAnArray(val as Exclude<T, unknown[] | readonly unknown[]>)

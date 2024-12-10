@@ -1,6 +1,6 @@
-import { AsObject, EnsureKeys } from "inferred-types/types"
-import { isObject } from "./isObject";
+import type { AsObject, EnsureKeys } from "inferred-types/types";
 import { isFunction } from "./isFunction";
+import { isObject } from "./isObject";
 
 /**
  * **hasKeys**(props) => (obj) => `HasKeys<O,P>`
@@ -14,25 +14,20 @@ import { isFunction } from "./isFunction";
  * const hasFooBarToo = hasKeys({foo: 1, bar: 1});
  * ```
  */
-export const hasKeys = <
-  P extends readonly string[] | [Record<string, unknown>]
->(...props: P) =>
-/**
- * Type guard which validates whether the configured properties
- * exist on a given `Record<ObjectKey, unknown` and if they do at
- * runtime will provide the type support for them.
- */
-<
-  T
->(val: T): val is T &([EnsureKeys<AsObject<T>, ["name"]>] extends never[]
-  ? never
-  : EnsureKeys<AsObject<T>,P>) => {
-  const keys = Array.isArray(props)
-    ? props
-    : Object.keys(props).filter(i => typeof i === "string") as string[];
+export function hasKeys<
+  P extends readonly string[] | [Record<string, unknown>],
+>(...props: P) {
+  return <
+    T,
+  >(val: T): val is T &([EnsureKeys<AsObject<T>, ["name"]>] extends never[]
+    ? never
+    : EnsureKeys<AsObject<T>, P>) => {
+    const keys = Array.isArray(props)
+      ? props
+      : Object.keys(props).filter(i => typeof i === "string") as string[];
 
-
-  return (
-    isFunction(val) || isObject(val)
-  ) && keys.every(k => k in (val as object)) ? true : false
+    return !!((
+      isFunction(val) || isObject(val)
+    ) && keys.every(k => k in (val as object)));
+  };
 }

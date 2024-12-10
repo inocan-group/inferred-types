@@ -1,6 +1,5 @@
-import { IsNumber, Narrowable } from "inferred-types/types";
+import type { IsNumber, Narrowable } from "inferred-types/types";
 import { isNumber } from "inferred-types/runtime";
-
 
 /**
  * **ifNumber**(val, ifVal, elseVal)
@@ -20,7 +19,7 @@ export function ifNumber<
 >(
   val: TContent,
   ifVal: <V extends TContent & number>(v: V) => TIf,
-  elseVal: <V extends Exclude<TContent, number>>(v: V) => TElse
+  elseVal: <V extends Exclude<TContent, number>>(v: V) => TElse,
 ) {
   return (
     isNumber(val)

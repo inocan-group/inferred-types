@@ -1,5 +1,5 @@
+import type { AsType, SimpleToken } from "inferred-types/types";
 import { isRegExp, isString } from "inferred-types/runtime";
-import { AsType, SimpleToken } from "inferred-types/types";
 
 /**
  * **regexToken**`(re, ...rep)`
@@ -10,35 +10,38 @@ import { AsType, SimpleToken } from "inferred-types/types";
  * the token too so that it can be used for validation during
  * runtime.
  */
-export const regexToken = <
+export function regexToken<
   TExp extends RegExp | string,
-  TRep extends readonly SimpleToken[]
->(re: TExp, ...rep: TRep ) => {
-  let exp: string="";
+  TRep extends readonly SimpleToken[],
+>(re: TExp, ...rep: TRep) {
+  let exp: string = "";
 
   if (isString(re)) {
     // regex's coming in as a string must be validated
     try {
       const test = new RegExp(re);
       if (!isRegExp(test)) {
-       const err = Error(`Invalid RegEx passed into regexToken(${re}, ${JSON.stringify(rep)})!`)
-       err.name ="InvalidRegEx";
-       throw err;
-      } else {
+        const err = new Error(`Invalid RegEx passed into regexToken(${re}, ${JSON.stringify(rep)})!`);
+        err.name = "InvalidRegEx";
+        throw err;
+      }
+      else {
         exp = re as string;
       }
-    } catch(_e) {
-      const err = Error(`Invalid RegEx passed into regexToken(${re}, ${JSON.stringify(rep)})!`)
-       err.name ="InvalidRegEx";
-       throw err;
     }
-  } else if (isRegExp(re)) {
+    catch (_e) {
+      const err = new Error(`Invalid RegEx passed into regexToken(${re}, ${JSON.stringify(rep)})!`);
+      err.name = "InvalidRegEx";
+      throw err;
+    }
+  }
+  else if (isRegExp(re)) {
     // all representations must be stored as as a string
     exp = re.toString();
   }
 
   // exp has been validated as valid
-  const token = `<<string-set::regexp::${encodeURIComponent(exp)}>>`
+  const token = `<<string-set::regexp::${encodeURIComponent(exp)}>>`;
 
-  return token as AsType<TRep>
+  return token as AsType<TRep>;
 }

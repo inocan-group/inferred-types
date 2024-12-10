@@ -1,4 +1,4 @@
-import {  EnsureLeading } from "inferred-types/types";
+import type { EnsureLeading } from "inferred-types/types";
 import { isString } from "src/type-guards/isString";
 
 /**
@@ -9,12 +9,12 @@ import { isString } from "src/type-guards/isString";
  */
 export function ensureLeading<
   T extends string | number,
-  U extends string | number
+  U extends string | number,
 >(
   content: T,
-  ensure: U
+  ensure: U,
 ) {
-  let output: string = String(content);
+  const output: string = String(content);
 
   return (
     output.startsWith(String(ensure))
@@ -22,6 +22,5 @@ export function ensureLeading<
       : isString(content)
         ? `${ensure}${content}`
         : Number(`${ensure}${content}`)
-  )  as EnsureLeading<T,U>
-
+  ) as EnsureLeading<T, U>;
 }

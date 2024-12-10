@@ -1,2 +1,2 @@
-export * from "./isUom";
 export * from "./isMetric";
+export * from "./isUom";

@@ -1,7 +1,8 @@
-
 export * from "./api/index";
 export * from "./boolean-logic/index";
 export * from "./combinators/index";
+export * from "./css/index";
+export * from "./datetime/index";
 export * from "./dictionary/index";
 export * from "./errors/index";
 export * from "./functional/index";
@@ -15,6 +16,4 @@ export * from "./runtime-types/index";
 export * from "./sets/index";
 export * from "./type-conversion/index";
 export * from "./type-guards/index";
-export * from "./vuejs/index"
-export * from "./datetime/index"
-export * from "./css/index"
+export * from "./vuejs/index";

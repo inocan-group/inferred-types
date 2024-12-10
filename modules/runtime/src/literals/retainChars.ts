@@ -1,4 +1,4 @@
-import { RetainChars, TupleToUnion } from "inferred-types/types";
+import type { RetainChars, TupleToUnion } from "inferred-types/types";
 import { asChars } from "src/type-conversion/asChars";
 
 /**
@@ -14,17 +14,11 @@ import { asChars } from "src/type-conversion/asChars";
  *
  * **Related:** `stripChars()`, `retainWhile()`, `retainUntil()`
  */
-export const retainChars = <
+export function retainChars<
   TContent extends string,
-  TRetain extends readonly string[]
->(
-  content: TContent,
-  ...retain: TRetain
-): RetainChars<TContent, TupleToUnion<TRetain>> => {
-  let chars: readonly string[] = asChars(content);
+  TRetain extends readonly string[],
+>(content: TContent, ...retain: TRetain): RetainChars<TContent, TupleToUnion<TRetain>> {
+  const chars: readonly string[] = asChars(content);
 
-
-  return chars.filter(c => retain.includes(c)).join("") as unknown as RetainChars<TContent, TupleToUnion<TRetain>>
+  return chars.filter(c => retain.includes(c)).join("") as unknown as RetainChars<TContent, TupleToUnion<TRetain>>;
 }
-
-

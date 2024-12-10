@@ -1,14 +1,14 @@
-import {
+import type {
   IndexOf,
   Narrowable,
-  Tuple
+  Tuple,
 } from "inferred-types/types";
 import {
   errCondition,
   isArray,
   isNull,
   isNumber,
-  isObject
+  isObject,
 } from "inferred-types/runtime";
 
 /**
@@ -24,9 +24,8 @@ import {
  */
 export function indexOf<
   TContainer extends Narrowable | Tuple,
-  TIdx extends PropertyKey | null
+  TIdx extends PropertyKey | null,
 >(val: TContainer, index: TIdx) {
-
   const isNegative = isNumber(index) && index < 0;
   if (isNegative && !Array.isArray(val)) {
     throw new Error(`The indexOf(val,idx) utility received a negative index value [${index}] but the value being de-references is not an array [${typeof val}]!`);

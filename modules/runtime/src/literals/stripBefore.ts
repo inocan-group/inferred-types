@@ -1,4 +1,4 @@
-import { StripBefore } from "inferred-types/types";
+import type { StripBefore } from "inferred-types/types";
 
 /**
  * **stripBefore**(content, find)
@@ -14,10 +14,10 @@ import { StripBefore } from "inferred-types/types";
  */
 export function stripBefore<
   TContent extends string,
-  TBreak extends string
+  TBreak extends string,
 >(content: TContent, find: TBreak) {
   return content
     .split(find)
     .slice(1)
-    .join(find)  as StripBefore<TContent, TBreak>;
+    .join(find) as StripBefore<TContent, TBreak>;
 }

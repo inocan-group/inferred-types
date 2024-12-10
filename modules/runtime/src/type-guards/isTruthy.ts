@@ -1,7 +1,5 @@
-
-import { FalsyValue } from "inferred-types/types";
+import type { FalsyValue } from "inferred-types/types";
 import { FALSY_VALUES } from "inferred-types/constants";
-
 
 /**
  * **isTruthy**
@@ -9,7 +7,6 @@ import { FALSY_VALUES } from "inferred-types/constants";
  * Creates a TypeGuard which checks whether a value is considered _truthy_
  * in Javascript.
  */
-export const isTruthy = <V>(val: V): val is Exclude<V, FalsyValue> => {
+export function isTruthy<V>(val: V): val is Exclude<V, FalsyValue> {
   return !FALSY_VALUES.includes(val as any);
-};
-
+}

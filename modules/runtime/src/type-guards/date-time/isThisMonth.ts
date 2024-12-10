@@ -1,34 +1,30 @@
-
-import { isMoment } from "./isMoment";
 import { isLuxonDateTime } from "./isLuxonDateTime";
-
+import { isMoment } from "./isMoment";
 
 /**
-* Type guard which validates that the passed in `val` is a date or date-time
-* representation and that it's month is the same as the current month year.
-*/
-export const isThisMonth = (
-  val: unknown
-): boolean => {
+ * Type guard which validates that the passed in `val` is a date or date-time
+ * representation and that it's month is the same as the current month year.
+ */
+export function isThisMonth(val: unknown): boolean {
   const now = new Date();
   const currentYear = now.getFullYear();
   const currentMonth = now.getMonth() + 1; // getMonth() returns 0-11, we need 1-12
 
   // Handle Date object
   if (val instanceof Date) {
-    return val.getFullYear() === currentYear &&
-           (val.getMonth() + 1) === currentMonth;
+    return val.getFullYear() === currentYear
+      && (val.getMonth() + 1) === currentMonth;
   }
 
   if (isMoment(val)) {
     const monthValue = val.month();
-    return val.year() === currentYear &&
-           (typeof monthValue === "number" ? monthValue + 1 : monthValue) === currentMonth;
+    return val.year() === currentYear
+      && (typeof monthValue === "number" ? monthValue + 1 : monthValue) === currentMonth;
   }
 
   if (isLuxonDateTime(val)) {
-    return val.year === currentYear &&
-           val.month === currentMonth;
+    return val.year === currentYear
+      && val.month === currentMonth;
   }
 
   // Handle ISO 8601 strings
@@ -42,11 +38,11 @@ export const isThisMonth = (
 
     const dateMatch = val.match(/^(\d{4})-(\d{2})/);
     if (dateMatch) {
-      const year = parseInt(dateMatch[1], 10);
-      const month = parseInt(dateMatch[2], 10);
+      const year = Number.parseInt(dateMatch[1], 10);
+      const month = Number.parseInt(dateMatch[2], 10);
       return year === currentYear && month === currentMonth;
     }
   }
 
   return false;
-};
+}

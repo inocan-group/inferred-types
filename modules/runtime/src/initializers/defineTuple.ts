@@ -1,5 +1,5 @@
-import { FromDefn, ShapeCallback, TypeDefinition } from "inferred-types/types";
-import { isFunction, handleDoneFn, ShapeApiImplementation } from "inferred-types/runtime";
+import type { FromDefn, ShapeCallback, TypeDefinition } from "inferred-types/types";
+import { handleDoneFn, isFunction, ShapeApiImplementation } from "inferred-types/runtime";
 
 /**
  * **createTuple**(...values) -> (...values) -> Tuple
@@ -17,12 +17,12 @@ import { isFunction, handleDoneFn, ShapeApiImplementation } from "inferred-types
  * const foey = defineTuple(s => s.string(), "bar", 42)
  * ```
  */
-export const defineTuple = <
-  T extends readonly TypeDefinition[]
->(...values: T) => {
+export function defineTuple<
+  T extends readonly TypeDefinition[],
+>(...values: T) {
   return values.map(
     i => isFunction(i)
       ? handleDoneFn((i as ShapeCallback)(ShapeApiImplementation))
-      : i
-  ) as unknown as FromDefn<T>
-};
+      : i,
+  ) as unknown as FromDefn<T>;
+}

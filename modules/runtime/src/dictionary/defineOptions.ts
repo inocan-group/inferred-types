@@ -1,53 +1,55 @@
-import {
+import type {
   Dictionary,
   KeyOf,
   MakeKeysOptional,
   MakeKeysRequired,
   RequiredKeys,
-} from "inferred-types/types"
+} from "inferred-types/types";
 import {
   createFnWithProps,
-} from "inferred-types/runtime"
-
+} from "inferred-types/runtime";
 
 export type UserOptions<
   TDefn extends Dictionary,
-  TReq extends ((string|symbol) & keyof TDefn)
+  TReq extends ((string | symbol) & keyof TDefn),
 > = TReq extends ""
-? <
-    T extends Partial<TDefn>,
-    R extends TDefn
-  >(opt?: T) => R & { param: MakeKeysRequired<Partial<TDefn>, TReq> }
-: TReq extends readonly (keyof TDefn)[]
-? <
-    T extends MakeKeysRequired<Partial<TDefn>, TReq>,
-    R extends TDefn
-  >(opt: T) => R & { param: MakeKeysRequired<Partial<TDefn>, TReq> }
-: never;
-
+  ? <
+      T extends Partial<TDefn>,
+      R extends TDefn,
+    >(opt?: T
+    ) => R & { param: MakeKeysRequired<Partial<TDefn>, TReq> }
+  : TReq extends readonly (keyof TDefn)[]
+    ? <
+        T extends MakeKeysRequired<Partial<TDefn>, TReq>,
+        R extends TDefn,
+      >(opt: T
+      ) => R & { param: MakeKeysRequired<Partial<TDefn>, TReq> }
+    : never;
 
 export type AsUserOptions<
   TDefn extends Dictionary,
-  _TDefaults extends Partial<TDefn>
+  _TDefaults extends Partial<TDefn>,
 > = UserOptions<
-TDefn,
-RequiredKeys<TDefn>
+  TDefn,
+  RequiredKeys<TDefn>
 >;
 
-const _userOptions = <
+function _userOptions<
   TDefn extends Dictionary,
-  TDefaults extends Partial<TDefn>
->(def_values: TDefaults) => createFnWithProps(
-  <T extends KeyOf<TDefaults> extends ""
-    ? TDefn
-    : MakeKeysOptional<TDefn, KeyOf<TDefaults>>>(opt: T) => {
-    return {
-      ...def_values,
-      opt
-    } as unknown as TDefn & TDefaults & T
-  },
-  { param: null as unknown as MakeKeysOptional<TDefn, KeyOf<TDefaults>> }
-);
+  TDefaults extends Partial<TDefn>,
+>(def_values: TDefaults) {
+  return createFnWithProps(
+    <T extends KeyOf<TDefaults> extends ""
+      ? TDefn
+      : MakeKeysOptional<TDefn, KeyOf<TDefaults>>>(opt: T) => {
+      return {
+        ...def_values,
+        opt,
+      } as unknown as TDefn & TDefaults & T;
+    },
+    { param: null as unknown as MakeKeysOptional<TDefn, KeyOf<TDefaults>> },
+  );
+}
 
 /**
  * **defineOptions**`<T>(def_values?: () => { .. }) → UserOptions<T, TReq>`
@@ -73,10 +75,3 @@ const _userOptions = <
 
 //   return userOptions(cb());
 // };
-
-
-
-
-
-
-

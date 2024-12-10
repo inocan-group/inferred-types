@@ -1,5 +1,5 @@
-import { Unset } from "inferred-types/types";
-import { isObject } from "./isObject"
+import type { Unset } from "inferred-types/types";
+import { isObject } from "./isObject";
 
 /**
  * **isUnset**`(val)`
@@ -8,9 +8,9 @@ import { isObject } from "./isObject"
  *
  * **Related:** `isSet()`
  */
-export const isUnset = (val: unknown): val is Unset => {
+export function isUnset(val: unknown): val is Unset {
   return isObject(val) && val.kind === "Unset";
-};
+}
 
 /**
  * **isSet**`(val)`
@@ -19,8 +19,8 @@ export const isUnset = (val: unknown): val is Unset => {
  *
  * **Related:** `isUnset()`
  */
-export const isSet = <T>(val: T): val is Exclude<T,Unset> => {
+export function isSet<T>(val: T): val is Exclude<T, Unset> {
   return isObject(val)
-    ? val.kind !== "Unset" ? true : false
+    ? val.kind !== "Unset"
     : true;
 }

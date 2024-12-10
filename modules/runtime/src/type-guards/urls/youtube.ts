@@ -1,13 +1,13 @@
-import {
+import type {
   YouTubeCreatorUrl,
   YouTubeFeedType,
   YouTubeFeedUrl,
   YouTubePlaylistUrl,
   YouTubeShareUrl,
   YouTubeUrl,
-  YouTubeVideosInPlaylist
+  YouTubeVideosInPlaylist,
 } from "inferred-types/types";
-import { isString, isUndefined, hasUrlQueryParameter } from "inferred-types/runtime";
+import { hasUrlQueryParameter, isString, isUndefined } from "inferred-types/runtime";
 
 /**
  * **isYouTubeUrl**`(val)`
@@ -15,12 +15,12 @@ import { isString, isUndefined, hasUrlQueryParameter } from "inferred-types/runt
  * Type guard which checks whether the passed in value is a valid
  * YouTube URL.
  */
-export const isYouTubeUrl = <T>(val: T): val is T & YouTubeUrl => {
+export function isYouTubeUrl<T>(val: T): val is T & YouTubeUrl {
   return isString(val) && (
-    val.startsWith("https://www.youtube.com") ||
-    val.startsWith("https://youtube.com") ||
-    val.startsWith("https://youtu.be")
-  )
+    val.startsWith("https://www.youtube.com")
+    || val.startsWith("https://youtube.com")
+    || val.startsWith("https://youtu.be")
+  );
 }
 
 /**
@@ -29,7 +29,7 @@ export const isYouTubeUrl = <T>(val: T): val is T & YouTubeUrl => {
  * Type guard which checks whether the passed in value is a URL
  * from YouTube's _URL shortening_ site `https://youtu.be`.
  */
-export const isYouTubeShareUrl = <T>(val:T): val is T & YouTubeShareUrl => {
+export function isYouTubeShareUrl<T>(val: T): val is T & YouTubeShareUrl {
   return isString(val) && val.startsWith(`https://youtu.be`);
 }
 
@@ -39,12 +39,12 @@ export const isYouTubeShareUrl = <T>(val:T): val is T & YouTubeShareUrl => {
  * Type guard which checks whether the passed in value is a valid
  * YouTube URL _which plays video_.
  */
-export const isYouTubeVideoUrl = <T>(val: T): val is T & YouTubeUrl => {
+export function isYouTubeVideoUrl<T>(val: T): val is T & YouTubeUrl {
   return isString(val) && (
-    val.startsWith("https://www.youtube.com") ||
-    val.startsWith("https://youtube.com") ||
-    val.startsWith("https://youtu.be")
-  )
+    val.startsWith("https://www.youtube.com")
+    || val.startsWith("https://youtube.com")
+    || val.startsWith("https://youtu.be")
+  );
 }
 
 /**
@@ -53,28 +53,28 @@ export const isYouTubeVideoUrl = <T>(val: T): val is T & YouTubeUrl => {
  * Type guard which checks whether the passed in value is a valid
  * YouTube URL which points to a "playlist" on the platform.
  */
-export const isYouTubePlaylistUrl = <T>(val: T): val is T & YouTubePlaylistUrl => {
+export function isYouTubePlaylistUrl<T>(val: T): val is T & YouTubePlaylistUrl {
   return isString(val) && (
-    val === `https://www.youtube.com/feed/playlists` ||
-    val === `https://youtube.com/feed/playlists` ||
-    val === `https://www.youtube.com/channel/playlists` ||
-    val === `https://youtube.com/channel/playlists` ||
-    ( val.startsWith(`https://www.youtube.com/@`) && val.endsWith(`/playlists`)) ||
-    ( val.startsWith(`https://youtube.com/@`) && val.endsWith(`/playlists`))
-  )
+    val === `https://www.youtube.com/feed/playlists`
+    || val === `https://youtube.com/feed/playlists`
+    || val === `https://www.youtube.com/channel/playlists`
+    || val === `https://youtube.com/channel/playlists`
+    || (val.startsWith(`https://www.youtube.com/@`) && val.endsWith(`/playlists`))
+    || (val.startsWith(`https://youtube.com/@`) && val.endsWith(`/playlists`))
+  );
 }
 
 /**
  * maps the "feed type" to a URL path
  */
-const feed_map = <T extends YouTubeFeedType | undefined>(type: T) => {
+function feed_map<T extends YouTubeFeedType | undefined>(type: T) {
   return isUndefined(type)
     ? `/feed`
     : type === "liked"
-    ? `/playlist?list=LL`
-    : ["history","playlists","trending","subscriptions"].includes(type)
-      ? `/feed/${type}`
-      : `/feed/`;
+      ? `/playlist?list=LL`
+      : ["history", "playlists", "trending", "subscriptions"].includes(type)
+          ? `/feed/${type}`
+          : `/feed/`;
 }
 
 /**
@@ -88,17 +88,14 @@ const feed_map = <T extends YouTubeFeedType | undefined>(type: T) => {
  * By default any "feed" URL is matched but you can narrow that down
  * to a specific feed type by specifying the `kind` variable.
  */
-export const isYouTubeFeedUrl = <
+export function isYouTubeFeedUrl<
   T,
-  U extends YouTubeFeedType = YouTubeFeedType
->(
-  val:T,
-  type?: U
-): val is T & YouTubeFeedUrl<U> => {
+  U extends YouTubeFeedType = YouTubeFeedType,
+>(val: T, type?: U): val is T & YouTubeFeedUrl<U> {
   return isString(val) && (
-    val.startsWith(`https://www.youtube.com${feed_map(type)}`) ||
-    val.startsWith(`https://youtube.com${feed_map(type)}`)
-  )
+    val.startsWith(`https://www.youtube.com${feed_map(type)}`)
+    || val.startsWith(`https://youtube.com${feed_map(type)}`)
+  );
 }
 
 /**
@@ -107,11 +104,11 @@ export const isYouTubeFeedUrl = <
  * Type guard which checks whether the passed in value is a valid
  * YouTube URL which responds with a user's history feed.
  */
-export const isYouTubeFeedHistoryUrl = <T>(val: T) => {
+export function isYouTubeFeedHistoryUrl<T>(val: T) {
   return isString(val) && (
-    val.startsWith(`https://www.youtube.com/feed/history`) ||
-    val.startsWith(`https://youtube.com/feed/history`)
-  )
+    val.startsWith(`https://www.youtube.com/feed/history`)
+    || val.startsWith(`https://youtube.com/feed/history`)
+  );
 }
 
 /**
@@ -120,11 +117,11 @@ export const isYouTubeFeedHistoryUrl = <T>(val: T) => {
  * Type guard which checks whether the passed in value is a valid
  * YouTube URL which responds with a user's own playlists page.
  */
-export const isYouTubePlaylistsUrl = <T>(val: T) => {
+export function isYouTubePlaylistsUrl<T>(val: T) {
   return isString(val) && (
-    val.startsWith(`https://www.youtube.com/feed/playlists`) ||
-    val.startsWith(`https://youtube.com/feed/playlists`)
-  )
+    val.startsWith(`https://www.youtube.com/feed/playlists`)
+    || val.startsWith(`https://youtube.com/feed/playlists`)
+  );
 }
 
 /**
@@ -133,11 +130,11 @@ export const isYouTubePlaylistsUrl = <T>(val: T) => {
  * Type guard which checks whether the passed in value is a valid
  * YouTube URL which responds with a user's own history feed.
  */
-export const isYouTubeTrendingUrl = <T>(val: T) => {
+export function isYouTubeTrendingUrl<T>(val: T) {
   return isString(val) && (
-    val.startsWith(`https://www.youtube.com/feed/trending`) ||
-    val.startsWith(`https://youtube.com/feed/trending`)
-  )
+    val.startsWith(`https://www.youtube.com/feed/trending`)
+    || val.startsWith(`https://youtube.com/feed/trending`)
+  );
 }
 
 /**
@@ -146,27 +143,24 @@ export const isYouTubeTrendingUrl = <T>(val: T) => {
  * Type guard which checks whether the passed in value is a valid
  * YouTube URL which responds with a user's own subscriptions feed.
  */
-export const isYouTubeSubscriptionsUrl = <T>(val: T) => {
+export function isYouTubeSubscriptionsUrl<T>(val: T) {
   return isString(val) && (
-    val.startsWith(`https://www.youtube.com/feed/subscriptions`) ||
-    val.startsWith(`https://youtube.com/feed/subscriptions`)
-  )
-}
-
-
-export const isYouTubeCreatorUrl = <T extends string>(
-  url: T
-): url is T & YouTubeCreatorUrl => {
-  return isString(url) && (
-    url.startsWith(`https://www.youtube.com/@`) ||
-    url.startsWith(`https://youtube.com/@`) ||
-    url.startsWith(`https://www.youtube.com/channel/`)
+    val.startsWith(`https://www.youtube.com/feed/subscriptions`)
+    || val.startsWith(`https://youtube.com/feed/subscriptions`)
   );
 }
 
-export const isYouTubeVideosInPlaylist = <T>(val: T): val is T & YouTubeVideosInPlaylist => {
+export function isYouTubeCreatorUrl<T extends string>(url: T): url is T & YouTubeCreatorUrl {
+  return isString(url) && (
+    url.startsWith(`https://www.youtube.com/@`)
+    || url.startsWith(`https://youtube.com/@`)
+    || url.startsWith(`https://www.youtube.com/channel/`)
+  );
+}
+
+export function isYouTubeVideosInPlaylist<T>(val: T): val is T & YouTubeVideosInPlaylist {
   return isString(val) && (
-    val.startsWith(`https://www.youtube.com/playlist?`) ||
-    val.startsWith(`https://youtube.com/playlist?`)
-  ) && hasUrlQueryParameter(val, "list")
+    val.startsWith(`https://www.youtube.com/playlist?`)
+    || val.startsWith(`https://youtube.com/playlist?`)
+  ) && hasUrlQueryParameter(val, "list");
 }

@@ -1,4 +1,4 @@
-import { Narrowable, VueRef } from "inferred-types/types";
+import type { Narrowable, VueRef } from "inferred-types/types";
 
 /**
  * **asVueRef**(value)
@@ -12,7 +12,9 @@ import { Narrowable, VueRef } from "inferred-types/types";
  * - this is a convenience function for building test cases in a library where you're
  * not actually exporting VueJS symbols (like inferred-types).
  */
-export const asVueRef = <T extends Narrowable>(value: T) => ({
-  value,
-  _value: null
-}) as unknown as VueRef<T>;
+export function asVueRef<T extends Narrowable>(value: T) {
+  return ({
+    value,
+    _value: null,
+  }) as unknown as VueRef<T>;
+}

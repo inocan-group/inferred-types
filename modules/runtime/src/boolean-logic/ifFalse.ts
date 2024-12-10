@@ -1,7 +1,6 @@
 import type { If, IsFalse, Narrowable } from "inferred-types/types";
 import { isFalse } from "inferred-types/runtime";
 
-
 /**
  * **ifTrue**
  *
@@ -20,7 +19,7 @@ import { isFalse } from "inferred-types/runtime";
 export function ifFalse<T extends boolean, IF extends Narrowable, ELSE extends Narrowable>(
   val: T,
   ifVal: IF,
-  elseVal: ELSE
+  elseVal: ELSE,
 ) {
   return (isFalse(val) ? ifVal : elseVal) as If<IsFalse<T>, IF, ELSE>;
 }

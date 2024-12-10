@@ -1,5 +1,4 @@
-
-import { Narrowable, TakeProp, Something } from "inferred-types/types";
+import type { Narrowable, Something, TakeProp } from "inferred-types/types";
 import { isArray, isObject } from "inferred-types/runtime";
 
 /**
@@ -11,18 +10,14 @@ import { isArray, isObject } from "inferred-types/runtime";
  *
  * **Related:** `get`
  */
-export const takeProp = <
+export function takeProp<
   T extends Something,
   P extends PropertyKey,
-  E extends Narrowable
->(
-  val: T,
-  prop: P,
-  otherwise: E
-) => {
+  E extends Narrowable,
+>(val: T, prop: P, otherwise: E) {
   return (
     (isObject(val) || isArray(val)) && prop in val
       ? val[prop as keyof typeof val]
       : otherwise
-  ) as TakeProp<T, P, E>
+  ) as TakeProp<T, P, E>;
 }

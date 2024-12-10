@@ -1,4 +1,4 @@
-import { JsonValue, JsonValues } from "inferred-types/types";
+import type { JsonValue, JsonValues } from "inferred-types/types";
 import { isNumberLike } from "inferred-types/runtime";
 
 /**
@@ -8,16 +8,16 @@ import { isNumberLike } from "inferred-types/runtime";
  *
  * **Related:** `jsonValues()`
  */
-export const jsonValue = <T>(val: T): JsonValue<T> => {
+export function jsonValue<T>(val: T): JsonValue<T> {
   return (
     isNumberLike(val)
-    ? Number(val)
-    : val === "true"
-    ? true
-    : val === "false"
-    ? false
-    : `"${val}"`
-  ) as unknown as JsonValue<T>
+      ? Number(val)
+      : val === "true"
+        ? true
+        : val === "false"
+          ? false
+          : `"${val}"`
+  ) as unknown as JsonValue<T>;
 }
 
 /**
@@ -27,6 +27,6 @@ export const jsonValue = <T>(val: T): JsonValue<T> => {
  *
  * **Related:** `csv`
  */
-export const jsonValues = <T extends unknown[]>(...val: T): JsonValues<T> => {
-  return val.map(i => jsonValue(i)) as unknown[] as JsonValues<T>
+export function jsonValues<T extends unknown[]>(...val: T): JsonValues<T> {
+  return val.map(i => jsonValue(i)) as unknown[] as JsonValues<T>;
 }

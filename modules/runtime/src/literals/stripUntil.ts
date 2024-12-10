@@ -1,5 +1,5 @@
+import type { StripUntil, TupleToUnion } from "inferred-types/types";
 import { asChars } from "src/type-conversion/index";
-import { TupleToUnion,StripUntil } from "inferred-types/types";
 
 /**
  * **stripUntil**`(content, ...until)`
@@ -7,10 +7,10 @@ import { TupleToUnion,StripUntil } from "inferred-types/types";
  * Strips the characters at the start of the string
  * until a character specified in `until` is found.
  */
-export const stripUntil = <
+export function stripUntil<
   TContent extends string,
-  TUntil extends readonly string[]
->(content: TContent, ...until: TUntil) => {
+  TUntil extends readonly string[],
+>(content: TContent, ...until: TUntil) {
   const stopIdx = asChars(content)
     .findIndex(c => until.includes(c));
 

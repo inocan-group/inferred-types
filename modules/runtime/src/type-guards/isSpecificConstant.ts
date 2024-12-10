@@ -1,7 +1,5 @@
-
-import { Constant } from "inferred-types/constants";
+import type { Constant } from "inferred-types/constants";
 import { isConstant } from "inferred-types/runtime";
-
 
 /**
  * **isSpecificConstant**(kind)
@@ -9,9 +7,9 @@ import { isConstant } from "inferred-types/runtime";
  * A higher order type guard which tests for a specific `Constant` type.
  */
 export function isSpecificConstant<
-  TKind extends string
+  TKind extends string,
 >(kind: TKind) {
   return (value: unknown): value is Constant<TKind> => {
-    return isConstant(value) && value.kind === kind ? true : false;
+    return !!(isConstant(value) && value.kind === kind);
   };
 }

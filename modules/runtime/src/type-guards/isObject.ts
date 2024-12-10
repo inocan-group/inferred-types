@@ -1,10 +1,8 @@
-
-
 /**
  * **isObject**(value)
- * 
+ *
  * Type guard used to detect whether the passed in value is an Object.
- * 
+ *
  * Note: an _array_ will **not** pass this test (although the _typeof_ operator
  * would have said it was an object)
  */

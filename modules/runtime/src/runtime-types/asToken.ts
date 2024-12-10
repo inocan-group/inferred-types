@@ -1,11 +1,11 @@
-
-import {
+import type {
   SimpleContainerToken,
   SimpleScalarToken,
   SimpleType,
   SimpleUnionToken,
-  TypeToken
+  TypeToken,
 } from "inferred-types/types";
+import { Never } from "inferred-types/constants";
 import {
   identity,
   isBooleanLike,
@@ -17,9 +17,8 @@ import {
   stripBefore,
   stripLeading,
   stripSurround,
-  stripTrailing
+  stripTrailing,
 } from "inferred-types/runtime";
-import { Never } from "inferred-types/constants";
 
 const scalarToToken = identity({
   string: "<<string>>",
@@ -30,7 +29,7 @@ const scalarToToken = identity({
   null: "<<null>>",
   undefined: "<<undefined>>",
   unknown: "<<unknown>>",
-  any: "<<any>>" ,
+  any: "<<any>>",
   never: "<<never>>",
 });
 
@@ -39,27 +38,27 @@ const _containerToToken: Record<string, unknown> = {
   "array(boolean)": "",
   "array(number)": "",
   "array(unknown)": "",
+};
+
+function stringLiteral<T extends string>(str: T) {
+  return stripAfter(stripBefore(str, "string("), ")");
+}
+function numericLiteral<T extends string>(str: T) {
+  return stripAfter(stripBefore(str, "number("), ")");
 }
 
-const stringLiteral = <T extends string>(str: T) => {
-  return stripAfter(stripBefore(str, "string("), ")")
-}
-const numericLiteral = <T extends string>(str: T) => {
-  return stripAfter(stripBefore(str, "number("), ")")
-}
-
-const handleOptional = <T extends SimpleScalarToken>(token: T) => {
+function handleOptional<T extends SimpleScalarToken>(token: T) {
   const bare = stripTrailing(stripLeading(token, "Opt<"), ">");
 
   return bare.startsWith("string")
     ? `<<union::[ <<string>>, <<undefined>> ]>>`
     : bare.startsWith("number")
-    ? `<<union::[ <<number>>, <<undefined>> ]>>`
-    : bare.startsWith("boolean")
-    ? `<<union::[ <<boolean>>, <<undefined>> ]>>`
-    : bare.startsWith("unknown")
-    ? `<<union::[ <<unknown>>, <<undefined>> ]>>`
-    : `<<never>>`
+      ? `<<union::[ <<number>>, <<undefined>> ]>>`
+      : bare.startsWith("boolean")
+        ? `<<union::[ <<boolean>>, <<undefined>> ]>>`
+        : bare.startsWith("unknown")
+          ? `<<union::[ <<unknown>>, <<undefined>> ]>>`
+          : `<<never>>`;
 }
 
 /**
@@ -71,47 +70,47 @@ const handleOptional = <T extends SimpleScalarToken>(token: T) => {
  *
  * **Related:** `simplContainerTokenToTypeToken`, `asTypeToken`
  */
-export const simpleScalarTokenToTypeToken = <T extends SimpleScalarToken>(val: T) => {
+export function simpleScalarTokenToTypeToken<T extends SimpleScalarToken>(val: T) {
   return (
     val in scalarToToken
-    ? scalarToToken[val as keyof typeof scalarToToken] as unknown
-    : val.startsWith("string(")
-      ? stringLiteral(val).includes(",")
-        ? `<<union::[ ${stringLiteral(val).split(/,\s{0,1}/).map(i => `"${i}"`).join(", ")} ]>>`
-        : `<<string::${stringLiteral(val)}>>` as unknown
-    : val.startsWith("number(")
-      ? numericLiteral(val).includes(",")
-        ? `<<union::[ ${numericLiteral(val).split(/,\s{0,1}/).join(", ")} ]>>` as unknown
-        : `<<number::${numericLiteral(val)}>>` as unknown
-    : val.startsWith("Opt<")
-      ? handleOptional(val)
-    : `<<never>>` as unknown
-  ) as SimpleType<T>
+      ? scalarToToken[val as keyof typeof scalarToToken] as unknown
+      : val.startsWith("string(")
+        ? stringLiteral(val).includes(",")
+          ? `<<union::[ ${stringLiteral(val).split(/,\s?/).map(i => `"${i}"`).join(", ")} ]>>`
+          : `<<string::${stringLiteral(val)}>>` as unknown
+        : val.startsWith("number(")
+          ? numericLiteral(val).includes(",")
+            ? `<<union::[ ${numericLiteral(val).split(/,\s?/).join(", ")} ]>>` as unknown
+            : `<<number::${numericLiteral(val)}>>` as unknown
+          : val.startsWith("Opt<")
+            ? handleOptional(val)
+            : `<<never>>` as unknown
+  ) as SimpleType<T>;
 }
 
 /**
  * converts a node in the union to a proper token or tokens
  */
-const unionNode = <
-  T extends string
->(node: T) => {
+function unionNode<
+  T extends string,
+>(node: T) {
   return isNumberLike(node)
     ? `<<number::${node}>>`
     : isBooleanLike(node)
-    ? `<<${node}>>`
-    : isSimpleContainerToken(node)
-    ? simpleContainerTokenToTypeToken(node) as unknown
-    : isSimpleScalarToken(node)
-    ? simpleScalarToken(node)
-    : `<<string::${node}>>`
+      ? `<<${node}>>`
+      : isSimpleContainerToken(node)
+        ? simpleContainerTokenToTypeToken(node) as unknown
+        : isSimpleScalarToken(node)
+          ? simpleScalarToken(node)
+          : `<<string::${node}>>`;
 }
 
-const union = <T extends string | readonly string[]>(nodes: T) => {
+function union<T extends string | readonly string[]>(nodes: T) {
   return Array.isArray(nodes)
     ? nodes.map(n => unionNode(n))
     : nodes.includes(",")
-      ? (nodes as string).split(/,\s{0,1}/).map(n => unionNode(n)).join(", ")
-      : unionNode(nodes as string)
+      ? (nodes as string).split(/,\s?/).map(n => unionNode(n)).join(", ")
+      : unionNode(nodes as string);
 }
 
 const stripUnion = stripSurround("Union(", ")");
@@ -126,12 +125,12 @@ const stripUnion = stripSurround("Union(", ")");
  * - when passing in _literals_ such as `opt(42)` it will evaluate the value
  * as being a numeric or a boolean literal and use that type if it is
  */
-export const simpleUnionTokenToTypeToken = <T extends SimpleUnionToken>(val: T) => {
+export function simpleUnionTokenToTypeToken<T extends SimpleUnionToken>(val: T) {
   return (
     val.startsWith(`Union(`) && val.endsWith(`)`)
       ? `<<union::[ ${union(stripUnion(val))} ]>>`
       : Never
-  ) as SimpleType<T>
+  ) as SimpleType<T>;
 }
 
 /**
@@ -143,13 +142,11 @@ export const simpleUnionTokenToTypeToken = <T extends SimpleUnionToken>(val: T) 
  *
  * **Related:** `simpleScalarTokenToTypeToken`, `asTypeToken`
  */
-export const simpleContainerTokenToTypeToken = <T extends SimpleContainerToken>(_val: T) => {
+export function simpleContainerTokenToTypeToken<T extends SimpleContainerToken>(_val: T) {
   // TODO
 }
 
-
 // TODO
-export const asTypeToken = <T extends TypeToken>(_val: T) => {
-  return "not ready"
+export function asTypeToken<T extends TypeToken>(_val: T) {
+  return "not ready";
 }
-

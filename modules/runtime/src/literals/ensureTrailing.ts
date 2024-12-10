@@ -1,4 +1,4 @@
-import { EnsureTrailing } from "inferred-types/types";
+import type { EnsureTrailing } from "inferred-types/types";
 
 /**
  * **ensureTrailing**(content, strip)
@@ -8,10 +8,10 @@ import { EnsureTrailing } from "inferred-types/types";
  */
 export function ensureTrailing<
   T extends string,
-  U extends string
+  U extends string,
 >(
   content: T,
-  ensure: U
+  ensure: U,
 ): EnsureTrailing<T, U> {
   return (
     //

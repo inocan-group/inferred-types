@@ -1,4 +1,4 @@
-import {
+import type {
   First,
   IsEqual,
   IsUndefined,
@@ -8,16 +8,16 @@ import { isDefined } from "inferred-types/runtime";
 
 type Rtn<
   T extends readonly K[] | K[] | undefined,
-  K extends Narrowable
+  K extends Narrowable,
 > = IsUndefined<T> extends true
   ? undefined
   : T extends readonly K[] | K[]
-  ? IsEqual<T["length"], number> extends true
-    ? undefined | string
-    : T["length"] extends 0
-      ? undefined
-      : First<T>
-  : never;
+    ? IsEqual<T["length"], number> extends true
+      ? undefined | string
+      : T["length"] extends 0
+        ? undefined
+        : First<T>
+    : never;
 
 /**
  * **shift**(list)
@@ -36,10 +36,10 @@ type Rtn<
  * `createLifoQueue()` or `createFifoQueue()`
  *
  */
-export const shift = <
-  T extends  readonly K[] | K[] | undefined,
-  K extends Narrowable
->(list: T): Rtn<T,K> => {
+export function shift<
+  T extends readonly K[] | K[] | undefined,
+  K extends Narrowable,
+>(list: T): Rtn<T, K> {
   let rtn;
   if (isDefined(list)) {
     rtn = (
@@ -53,14 +53,14 @@ export const shift = <
       // note: not possible when array is frozen by being
       // made readonly
       list = list.slice(1) as any;
-    } catch {
+    }
+    catch {
       // ignore
     }
-
-  } else {
+  }
+  else {
     rtn = undefined;
   }
 
-  return rtn as Rtn<T,K>;
-};
-
+  return rtn as Rtn<T, K>;
+}

@@ -1,9 +1,8 @@
 import type {
-  Narrowable,
-  Box,
   AnyObject,
+  Box,
+  Narrowable,
 } from "inferred-types/types";
-
 
 export type BoxValue<T extends Box<unknown>> = T extends Box<infer V> ? V : never;
 
@@ -12,7 +11,6 @@ export type BoxedFnParams<T extends Box<unknown>> = T extends Box<infer V>
     ? A
     : []
   : [];
-
 
 /**
  * Allows a value with an inner-type to be boxed into a dictionary
@@ -46,19 +44,19 @@ export function isBox(thing: Narrowable): thing is Box<unknown> {
  * Runtime utility which boxes each value in a dictionary
  */
 export function boxDictionaryValues<T extends AnyObject>(dict: T) {
-  const keys = Object.keys(dict) as (string & keyof T)[] ;
+  const keys = Object.keys(dict) as (string & keyof T)[];
 
   return keys.reduce(
     (acc, key) => ({ ...acc, [key]: box(dict[key] as Narrowable) }),
     {} as {
       [K in keyof T]: Box<T[K]>;
-    }
+    },
   );
 }
 
 export type Unbox<T> = T extends Box<infer U> ? U : T;
 
-//TODO: it would make sense in the future to use `b.unbox` instead
+// TODO: it would make sense in the future to use `b.unbox` instead
 // of `b.value` to keep consistent but currently value behaves more
 // consistently and with somewhat stronger typing
 

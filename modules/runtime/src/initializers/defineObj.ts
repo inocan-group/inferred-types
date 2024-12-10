@@ -1,10 +1,10 @@
-import {
+import type {
   EmptyObject,
   ExpandDictionary,
   IsNonEmptyObject,
   Narrowable,
   RemoveIndex,
-  Widen
+  Widen,
 } from "inferred-types/types";
 
 /**
@@ -23,9 +23,9 @@ import {
  */
 export function defineObj<
   N extends Narrowable,
-  TLiteral extends Record<string, N>
+  TLiteral extends Record<string, N>,
 >(
-  literal: TLiteral = {}  as TLiteral
+  literal: TLiteral = {} as TLiteral,
 ) {
   /**
    * Add any key/value pairs which you want to have _wide_ types associated;
@@ -33,14 +33,13 @@ export function defineObj<
    */
   return <
     N2 extends Narrowable,
-    TWide extends Record<string,N2>,
+    TWide extends Record<string, N2>,
   >(wide: TWide = {} as EmptyObject as TWide) => {
     const obj = (
       literal
-        ? { ...literal, ...wide  }
+        ? { ...literal, ...wide }
         : wide
     ) as unknown;
-
 
     return obj as ExpandDictionary<
       RemoveIndex<TLiteral> & (
@@ -48,8 +47,6 @@ export function defineObj<
           ? Widen<TWide>
           : EmptyObject
         )
-      >;
+    >;
   };
 };
-
-

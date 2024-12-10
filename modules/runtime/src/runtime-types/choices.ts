@@ -15,8 +15,6 @@
 // import { shape } from "./shape";
 // import { Never } from "inferred-types/constants";
 
-
-
 // export const createChoice: CreateChoice = <
 //   TName extends string,
 //   TValue extends ChoiceValue
@@ -71,7 +69,6 @@
 //   );
 // }
 
-
 // export const createChoiceApi = <
 //   TChoices extends readonly (string | [string, Scalar] | Choice | ChoiceCallback)[]
 // >(...choices: TChoices) => {
@@ -81,6 +78,5 @@
 //     style: "fn"
 //   })
 // }
-
 
 export const choices = "NOT READY";

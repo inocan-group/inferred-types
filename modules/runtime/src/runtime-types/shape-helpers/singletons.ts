@@ -1,79 +1,77 @@
- import {
+import type {
   CivilianTime,
   Dictionary,
   Ip4Address,
   Ip6Address,
   MilitaryTime,
+  SimpleToken,
   StringTokenUtilities,
   TimeResolution,
   TokenBaseType,
   TupleToUnion,
   TypeTokenSingletons,
   Zip5,
-  ZipPlus4,
   ZipCode,
-  SimpleToken,
+  ZipPlus4,
 } from "inferred-types/types";
 
-import { addToken } from "./addToken"
+import { addToken } from "./addToken";
 import { regexToken } from "./regexToken";
 
 type Token<T extends string> = `<<${T}>>`;
 
-
 /**
  * Generates a token and then types it appropriates for the given Singleton
  */
-const addSingleton = <
+function addSingleton<
   T extends TypeTokenSingletons,
-  Api extends Dictionary | null = null
->(token: T, api?: Api) => <
-  L extends readonly TokenBaseType<Token<T>>[]
->(
-  ...literals: L
-) => {
-  return (
-    literals.length === 0
-    ? api
-      ? api
-      : addToken(token)
-    : literals.length === 1
-    ? addToken(token,literals[0] as any)
-    : addToken(
-        "union",
-        literals
-          .map((l: TokenBaseType<any>) => addToken(token, `${l}`))
-          .join(",")
-      )
-  ) as unknown as L["length"] extends 0
-    ? Api extends Dictionary
-      ? Api
-      : TokenBaseType<Token<T>>
-    : L["length"] extends 1
-      ? L[0]
-      : TupleToUnion<L>;
+  Api extends Dictionary | null = null,
+>(token: T, api?: Api) {
+  return <
+    L extends readonly TokenBaseType<Token<T>>[],
+  >(
+    ...literals: L
+  ) => {
+    return (
+      literals.length === 0
+        ? api || addToken(token)
+        : literals.length === 1
+          ? addToken(token, literals[0] as any)
+          : addToken(
+              "union",
+              literals
+                .map((l: TokenBaseType<any>) => addToken(token, `${l}`))
+                .join(","),
+            )
+    ) as unknown as L["length"] extends 0
+      ? Api extends Dictionary
+        ? Api
+        : TokenBaseType<Token<T>>
+      : L["length"] extends 1
+        ? L[0]
+        : TupleToUnion<L>;
+  };
 }
 
-
 const stringApi: StringTokenUtilities<string> = ({
-  startsWith: <T extends string>(startsWith: T) => addToken(`string-set`,`startsWith::${startsWith}`) as `${T}${string}`,
-  endsWith: <T extends string>(endsWith: T) => addToken(`string-set`,`endsWith::${endsWith}`) as `${string}${T}`,
-  zip: () => addToken("string-set","Zip5") as Zip5,
+  startsWith: <T extends string>(startsWith: T) => addToken(`string-set`, `startsWith::${startsWith}`) as `${T}${string}`,
+  endsWith: <T extends string>(endsWith: T) => addToken(`string-set`, `endsWith::${endsWith}`) as `${string}${T}`,
+  zip: () => addToken("string-set", "Zip5") as Zip5,
   zipPlus4: () => addToken("string-set", "Zip5_4") as ZipPlus4,
   zipCode: () => addToken("string-set", "ZipCode") as ZipCode,
-  militaryTime: <T extends TimeResolution="HH:MM">(resolution?: T) => {
+  militaryTime: <T extends TimeResolution = "HH:MM">(resolution?: T) => {
     return addToken(
       "string-set",
       "militaryTime",
-      resolution || "HH:MM"
-    ) as unknown as MilitaryTime<T>
+      resolution || "HH:MM",
+    ) as unknown as MilitaryTime<T>;
   },
-  civilianTime: <T extends TimeResolution="HH:MM">(resolution?: T) => {
+  civilianTime: <T extends TimeResolution = "HH:MM">(resolution?: T) => {
     return addToken(
       "string-set",
       "militaryTime",
-      resolution || "HH:MM"
-    ) as unknown as CivilianTime<T>
+      resolution || "HH:MM",
+    ) as unknown as CivilianTime<T>;
   },
   numericString: () => addToken("string-set", "numeric") as unknown as `${number}`,
   ipv4Address: () => addToken("string-set", "ipv4Address") as unknown as Ip4Address,
@@ -81,18 +79,18 @@ const stringApi: StringTokenUtilities<string> = ({
 
   regex: <
     TExp extends string | RegExp,
-    TRepresentation extends readonly SimpleToken[]
+    TRepresentation extends readonly SimpleToken[],
   >(
     exp: TExp,
     ...literalRepresentation: TRepresentation
   ) => {
     const token = regexToken(exp, ...literalRepresentation);
 
-    return token
+    return token;
   },
 
-  done: () => addToken("string")
-})
+  done: () => addToken("string"),
+});
 /**
  * **string**
  *

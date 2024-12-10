@@ -1,4 +1,4 @@
-import { AsArray, Narrowable } from "inferred-types/types";
+import type { AsArray, Narrowable } from "inferred-types/types";
 
 /**
  * Type utility which converts `undefined[]` to `unknown[]`
@@ -17,13 +17,13 @@ export type UndefinedArrayIsUnknown<T extends unknown[]> = undefined[] extends T
  * change the optional _widen_ parameter to _false_.
  */
 
-export const asArray = <T extends Narrowable>(thing: T) => {
+export function asArray<T extends Narrowable>(thing: T) {
   return (
     Array.isArray(thing) === true
       ? // proxy thing back as it's already an array
-        thing
+      thing
       : typeof thing === "undefined"
-      ? ([] as T[])
-      : [thing]
+        ? ([] as T[])
+        : [thing]
   ) as AsArray<T>;
-};
+}

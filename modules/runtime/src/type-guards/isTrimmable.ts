@@ -5,6 +5,6 @@ import { isString } from "./isString";
  *
  * tests whether a string has whitespace on either left or right edges.
  */
-export const isTrimable = <T>(val: T): val is T => {
+export function isTrimable<T>(val: T): val is T {
   return isString(val) && val !== val.trim();
 }

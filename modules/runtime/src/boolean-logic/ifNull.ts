@@ -1,8 +1,6 @@
 import type { IsNull, Narrowable } from "inferred-types/types";
 import { isNull } from "inferred-types/runtime";
 
-
-
 /**
  * **ifNull**(val,IF,ELSE)
  *
@@ -17,11 +15,11 @@ import { isNull } from "inferred-types/runtime";
 export function ifNull<
   T extends Narrowable,
   IF extends Narrowable,
-  ELSE extends Narrowable
+  ELSE extends Narrowable,
 >(
   val: T,
   ifVal: () => IF,
-  elseVal: (v: Exclude<T, null>) => ELSE
+  elseVal: (v: Exclude<T, null>) => ELSE,
 ) {
   return (
     isNull(val)

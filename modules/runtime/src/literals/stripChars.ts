@@ -1,4 +1,4 @@
-import {  StripChars } from "inferred-types/types";
+import type { StripChars } from "inferred-types/types";
 import { asChars } from "inferred-types/runtime";
 
 /**
@@ -8,18 +8,13 @@ import { asChars } from "inferred-types/runtime";
  *
  * **Related:** `retainChars()`
  */
-export const stripChars = <
+export function stripChars<
   TContent extends string,
-  TRetain extends readonly string[]
->(
-  content: TContent,
-  ...strip: TRetain
-): StripChars<TContent, TRetain[number]> => {
-  let chars: readonly string[] = asChars(content);
+  TRetain extends readonly string[],
+>(content: TContent, ...strip: TRetain): StripChars<TContent, TRetain[number]> {
+  const chars: readonly string[] = asChars(content);
 
   return (
     chars.filter(c => !strip.includes(c)).join("")
-   ) as unknown as StripChars<TContent, TRetain[number]>
+  ) as unknown as StripChars<TContent, TRetain[number]>;
 }
-
-

@@ -1,7 +1,4 @@
-/* eslint-disable no-use-before-define */
-
-import type { Narrowable, WithoutKeys,  ObjectKey } from "inferred-types/types";
-
+import type { Narrowable, ObjectKey, WithoutKeys } from "inferred-types/types";
 
 /**
  * **omit**(obj, excluding)
@@ -23,7 +20,7 @@ import type { Narrowable, WithoutKeys,  ObjectKey } from "inferred-types/types";
 export function omit<
   TObj extends Record<ObjectKey, N>,
   N extends Narrowable,
-  TKeys extends readonly ObjectKey[] = readonly []
+  TKeys extends readonly ObjectKey[] = readonly [],
 >(obj: TObj, ...removeKeys: TKeys) {
   const keys = Object.keys(obj);
 
@@ -31,10 +28,9 @@ export function omit<
     (acc, key) => removeKeys.includes(key as any)
       ? acc
       : {
-        ...acc,
-        [key]: obj[key as keyof TObj]
-      },
-    {}
+          ...acc,
+          [key]: obj[key as keyof TObj],
+        },
+    {},
   ) as unknown as WithoutKeys<TObj, TKeys>;
-
 }
