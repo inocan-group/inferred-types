@@ -1,5 +1,19 @@
 #!/usr/bin/env bash
 
+export BOLD='\033[1m'
+export DIM='\033[2m'
+export ITALIC='\033[3m'
+export RESET='\033[0m'
+
+export GREEN='\033[38;5;2m'
+export RED='\033[38;5;1m'
+export YELLOW='\033[38;5;3m'
+
+function log() {
+    printf "%b\\n" "${*}" >&2
+}
+
+
 echo ""
 echo "Building inferred-types with TSUP"
 echo ""
@@ -8,21 +22,69 @@ echo " - constants"
 cd './modules/constants' || exit
 tsup
 
+# shellcheck disable=SC2181
+if [ $? -ne 0 ]; then
+    log ""
+    log "💩 failed to transpile ${BOLD}constants${RESET}!"
+    log ""
+    exit 1;
+else
+    log ""
+    log "${GREEN}✓${RESET} ${BOLD}constants${RESET} successfully transpiled!"
+    log ""
+fi
+
 echo ""
 echo "- types"
 cd '../types' || exit
 
 tsup
-echo ""
+# shellcheck disable=SC2181
+if [ $? -ne 0 ]; then
+    log ""
+    log "💩 failed to transpile ${BOLD}types${RESET}!"
+    log ""
+    exit 1;
+else
+    log ""
+    log "${GREEN}✓${RESET} ${BOLD}types${RESET} successfully transpiled!"
+    log ""
+fi
 
+echo ""
 echo " - runtime"
 cd '../runtime' || exit
 tsup
+
+# shellcheck disable=SC2181
+if [ $? -ne 0 ]; then
+    log ""
+    log "💩 failed to transpile ${BOLD}runtime${RESET}!"
+    log ""
+    exit 1;
+else
+    log ""
+    log "${GREEN}✓${RESET} ${BOLD}runtime${RESET} successfully transpiled!"
+    log ""
+fi
 
 echo ""
 echo "- inferred-types"
 cd '../inferred-types' || exit
 tsup
+
+# shellcheck disable=SC2181
+if [ $? -ne 0 ]; then
+    log ""
+    log "💩 failed to transpile ${BOLD}inferred-types${RESET}!"
+    log ""
+    exit 1;
+else
+    log ""
+    log "${GREEN}✓${RESET} ${BOLD}inferred-types${RESET} successfully transpiled!"
+    log ""
+fi
+
 
 echo ""
 echo "- 🚀 Build Complete"

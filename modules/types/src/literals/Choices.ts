@@ -1,5 +1,6 @@
 import type {
   AfterFirst,
+  AnyObject,
   As,
   AsString,
   Dictionary,
@@ -214,7 +215,7 @@ export type MultiChoiceCallback<TApi extends MultipleChoice> = <
 ) => HandleDoneFn<ReturnType<CB>>;
 
 type MergeKVs<
-  TInput extends readonly Dictionary[],
+  TInput extends readonly AnyObject[],
   TOutput extends Dictionary = EmptyObject,
 > = [] extends TInput
   ? ExpandRecursively<TOutput>
