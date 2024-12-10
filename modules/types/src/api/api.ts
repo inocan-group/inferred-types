@@ -199,7 +199,11 @@ export interface ApiOptions<
    *
    * **Note:** _this only really makes sense when you're managing state_.
    */
-  callOnce: IfUnset<TSurface, readonly PropertyKey[], readonly PublicKeyOf<AsApi<TSurface>>[]>;
+  callOnce: TSurface extends Unset
+    ? readonly PropertyKey[]
+    : TSurface extends Dictionary | TypedFunction
+    ? readonly PublicKeyOf<AsApi<TSurface>>[]
+    : never
 
 }
 
