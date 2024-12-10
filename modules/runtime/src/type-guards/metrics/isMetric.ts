@@ -123,9 +123,9 @@ export function isMetric(val: unknown): val is Metric {
     || isEnergyMetric(val)
     || isTimeMetric(val)
     || isPowerMetric(val)
-  || isFrequencyMetric(val)
-  || isVoltageMetric(val)
-  || isCurrentMetric(val)
-  || isLuminosityMetric(val)
-  || isAreaMetric(val);
+    || isFrequencyMetric(val)
+    || isVoltageMetric(val)
+    || isCurrentMetric(val)
+    || isLuminosityMetric(val)
+    || isAreaMetric(val);
 }
