@@ -1,5 +1,6 @@
 import type {
   AfterFirst,
+  AnyObject,
   As,
   CombinedKeys,
   Dictionary,
@@ -32,7 +33,7 @@ type Merged<
  * A type utility that _shallowly merges_ two object types.
  */
 export type MergeObjects<
-  TDef extends Dictionary,
+  TDef extends AnyObject,
   TOverride extends Dictionary,
 > = Merged<
   As<CombinedKeys<TDef, TOverride>, readonly string[]>,
