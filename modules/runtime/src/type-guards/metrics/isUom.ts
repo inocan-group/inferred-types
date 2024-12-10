@@ -115,9 +115,9 @@ export function isUom(val: unknown): val is Uom {
     || isEnergyUom(val)
     || isTimeUom(val)
     || isPowerUom(val)
-  || isFrequencyUom(val)
-  || isVoltageUom(val)
-  || isCurrentUom(val)
-  || isLuminosityUom(val)
-  || isAreaUom(val);
+    || isFrequencyUom(val)
+    || isVoltageUom(val)
+    || isCurrentUom(val)
+    || isLuminosityUom(val)
+    || isAreaUom(val);
 }

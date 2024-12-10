@@ -67,7 +67,7 @@ export function isYouTubePlaylistUrl<T>(val: T): val is T & YouTubePlaylistUrl {
 /**
  * maps the "feed type" to a URL path
  */
-function feed_map<T extends YouTubeFeedType | undefined>(type: T) {
+function feed_map<T extends YouTubeFeedType | undefined>(type: T): string {
   return isUndefined(type)
     ? `/feed`
     : type === "liked"
@@ -104,7 +104,7 @@ export function isYouTubeFeedUrl<
  * Type guard which checks whether the passed in value is a valid
  * YouTube URL which responds with a user's history feed.
  */
-export function isYouTubeFeedHistoryUrl<T>(val: T) {
+export function isYouTubeFeedHistoryUrl<T>(val: T): boolean {
   return isString(val) && (
     val.startsWith(`https://www.youtube.com/feed/history`)
     || val.startsWith(`https://youtube.com/feed/history`)
@@ -117,7 +117,7 @@ export function isYouTubeFeedHistoryUrl<T>(val: T) {
  * Type guard which checks whether the passed in value is a valid
  * YouTube URL which responds with a user's own playlists page.
  */
-export function isYouTubePlaylistsUrl<T>(val: T) {
+export function isYouTubePlaylistsUrl<T>(val: T): boolean {
   return isString(val) && (
     val.startsWith(`https://www.youtube.com/feed/playlists`)
     || val.startsWith(`https://youtube.com/feed/playlists`)
@@ -130,7 +130,7 @@ export function isYouTubePlaylistsUrl<T>(val: T) {
  * Type guard which checks whether the passed in value is a valid
  * YouTube URL which responds with a user's own history feed.
  */
-export function isYouTubeTrendingUrl<T>(val: T) {
+export function isYouTubeTrendingUrl<T>(val: T): boolean {
   return isString(val) && (
     val.startsWith(`https://www.youtube.com/feed/trending`)
     || val.startsWith(`https://youtube.com/feed/trending`)
@@ -143,7 +143,7 @@ export function isYouTubeTrendingUrl<T>(val: T) {
  * Type guard which checks whether the passed in value is a valid
  * YouTube URL which responds with a user's own subscriptions feed.
  */
-export function isYouTubeSubscriptionsUrl<T>(val: T) {
+export function isYouTubeSubscriptionsUrl<T>(val: T): boolean {
   return isString(val) && (
     val.startsWith(`https://www.youtube.com/feed/subscriptions`)
     || val.startsWith(`https://youtube.com/feed/subscriptions`)

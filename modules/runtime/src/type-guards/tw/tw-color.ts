@@ -99,7 +99,7 @@ export function isTailwindColor(val: unknown): val is TwColorOptionalOpacity {
  * Type guard which validates that `val` is a `TwModifier` (e.g., "dark", "focus", etc.).
  */
 export function isTailwindModifier(val: unknown): val is TwModifier {
-  return isString(val) && TW_MODIFIERS.includes(val);
+  return isString(val) && TW_MODIFIERS.includes(val as any);
 }
 
 /**
@@ -121,11 +121,10 @@ type FullTailwindColorClass<
     : TAllow["length"] extends 2
       ? TAllow[0] extends TwModifier
         ? TAllow[1] extends TwModifier
-        ? `${TAllow[0]}:${TAllow[1]}:${TwTarget__Color__Light}` |
+          ? `${TAllow[0]}:${TAllow[1]}:${TwTarget__Color__Light}` |
         `${TAllow[1]}:${TAllow[0]}:${TwTarget__Color__Light}` |
         `${TAllow[0]}:${TwTarget__Color__Light}` |
-        `${TAllow[1]}:${TwTarget__Color__Light}` |
-        TwTarget__Color__Light
+        `${TAllow[1]}:${TwTarget__Color__Light}` | TwTarget__Color__Light
           : never
         : never
       : `${Opt<`${string}:`>}${TwTarget__Color}`;

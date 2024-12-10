@@ -2,7 +2,6 @@ export * from "./AsError";
 export * from "./CompleteError";
 export * from "./ErrorCondition";
 export * from "./ErrorConditionHandler";
-export * from "./KindError";
 export * from "./MapError";
 export * from "./PartialError";
 export * from "./ProxyError";

@@ -29,7 +29,7 @@ export function regexToken<
         exp = re as string;
       }
     }
-    catch (_e) {
+    catch {
       const err = new Error(`Invalid RegEx passed into regexToken(${re}, ${JSON.stringify(rep)})!`);
       err.name = "InvalidRegEx";
       throw err;
