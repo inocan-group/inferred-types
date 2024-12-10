@@ -28,8 +28,12 @@ export function twColor<
   TColor extends TwColor,
   TLum extends TwLuminosity,
 >(color: TColor, luminosity: TLum) {
-  const lum: number =  luminosity in TW_LUMINOSITY ?  TW_LUMINOSITY[luminosity] : 0;
-  const chroma: number =  luminosity in TW_CHROMA ?  TW_CHROMA[luminosity] : 0;
+  const lum: number = luminosity in TW_LUMINOSITY
+    ? TW_LUMINOSITY[luminosity]
+    : 0;
+  const chroma: number = luminosity in TW_CHROMA
+    ? TW_CHROMA[luminosity]
+    : 0;
   const hue = TW_HUE[color];
   return `oklch(${lum} ${chroma} ${hue})` as unknown as Rtn<TColor, TLum>;
 }
