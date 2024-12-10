@@ -140,6 +140,7 @@
     "µmol"
   ],
   "references.preferredLocation": "peek",
+  "eslint.useFlatConfig": true,
   "prettier.enable": false,
   // Auto fix
   "editor.codeActionsOnSave": {
