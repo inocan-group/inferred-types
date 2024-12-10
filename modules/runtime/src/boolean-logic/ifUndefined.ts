@@ -1,4 +1,4 @@
-import { IsUndefined, Narrowable } from "inferred-types/types";
+import type { IsUndefined, Narrowable } from "inferred-types/types";
 import { isDefined, isUndefined } from "inferred-types/runtime";
 
 /**
@@ -15,25 +15,25 @@ import { isDefined, isUndefined } from "inferred-types/runtime";
 export function ifUndefined<
   T extends Narrowable,
   IF extends Narrowable = undefined,
-  ELSE extends Narrowable = Exclude<T, undefined>
+  ELSE extends Narrowable = Exclude<T, undefined>,
 >(
   val: T,
   ifUndefined: () => IF,
-  ifDefined: <V extends Exclude<T,undefined>>(v: V) => ELSE
+  ifDefined: <V extends Exclude<T, undefined>>(v: V) => ELSE,
 ) {
   return (
-    isUndefined(val) ? ifUndefined() : ifDefined(val as Exclude<T,undefined> )
+    isUndefined(val) ? ifUndefined() : ifDefined(val as Exclude<T, undefined>)
   ) as IsUndefined<T> extends true ? IF : ELSE;
 }
 
 export function ifDefined<
   T extends Narrowable,
   IF extends Narrowable = Exclude<T, undefined>,
-  ELSE extends Narrowable = undefined
+  ELSE extends Narrowable = undefined,
 >(
   val: T,
   ifVal: <V extends Exclude<T, undefined>>(v: V) => IF,
-  elseVal: () => ELSE
+  elseVal: () => ELSE,
 ) {
   return isDefined(val) ? ifVal : elseVal;
 }

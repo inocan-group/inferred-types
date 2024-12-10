@@ -1,18 +1,17 @@
-
 import type {
-  Narrowable,
-  ConverterDefn,
-  Tuple,
-  Nothing,
   AnyObject,
-  TypedFunction
+  ConverterDefn,
+  Narrowable,
+  Nothing,
+  Tuple,
+  TypedFunction,
 } from "inferred-types/types";
 
 import { Never } from "inferred-types/constants";
 import { isNothing, isObject } from "inferred-types/runtime";
 
 type CallIfDefined<
-  Handler
+  Handler,
 > = Handler extends TypedFunction
   ? ReturnType<Handler>
   : never;
@@ -22,20 +21,20 @@ type ConversionResult<
 
     ConverterDefn<any, any, any, any, any, any>
   >,
-  TInput extends Narrowable | Tuple
+  TInput extends Narrowable | Tuple,
 > = TInput extends string
   ? CallIfDefined<TConvert["string"]>
   : TInput extends number
-  ? CallIfDefined<TConvert["number"]>
-  : TInput extends boolean
-  ? CallIfDefined<TConvert["boolean"]>
-  : TInput extends AnyObject
-  ? CallIfDefined<TConvert["object"]>
-  : TInput extends Tuple
-  ? CallIfDefined<TConvert["tuple"]>
-  : TInput extends Nothing
-  ? CallIfDefined<TConvert["nothing"]>
-  : never;
+    ? CallIfDefined<TConvert["number"]>
+    : TInput extends boolean
+      ? CallIfDefined<TConvert["boolean"]>
+      : TInput extends AnyObject
+        ? CallIfDefined<TConvert["object"]>
+        : TInput extends Tuple
+          ? CallIfDefined<TConvert["tuple"]>
+          : TInput extends Nothing
+            ? CallIfDefined<TConvert["nothing"]>
+            : never;
 
 /**
  * **createConverter**(mapper)
@@ -62,7 +61,7 @@ export function createConverter<
   TBool extends Narrowable = never,
   TObj extends Narrowable = never,
   TTuple extends Narrowable = never,
-  TNothing extends Narrowable = never
+  TNothing extends Narrowable = never,
 >(mapper: Partial<ConverterDefn<TStr, TNum, TBool, TObj, TTuple, TNothing>>) {
   return <TInput extends Narrowable | Tuple>(input: TInput) => {
     let result: unknown;
@@ -70,13 +69,15 @@ export function createConverter<
       result = (mapper.nothing
         ? mapper.nothing(input as TInput & Nothing)
         : Never
-      )
-    } else if (isObject(input)) {
+      );
+    }
+    else if (isObject(input)) {
       result = (mapper.object
         ? mapper.object(input as TInput & AnyObject)
         : Never
-      )
-    } else {
+      );
+    }
+    else {
       switch (typeof input) {
         case "string":
           result = (mapper.string
@@ -100,5 +101,4 @@ export function createConverter<
     }
     return result as ConversionResult<typeof mapper, TInput>;
   };
-
 }

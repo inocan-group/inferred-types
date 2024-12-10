@@ -1,4 +1,4 @@
-import {
+import type {
   If,
   IsTrue,
   Narrowable,
@@ -6,25 +6,20 @@ import {
 } from "inferred-types/types";
 import { isTrue } from "inferred-types/runtime";
 
-
 /**
  * **createFnWithProps**`(fn, props)`
  *
  * creates a strongly typed function along with properties.
  */
-export const createFnWithProps = <
+export function createFnWithProps<
   TArgs extends readonly unknown[],
   TReturn extends Narrowable,
   N extends Narrowable,
   TProps extends Record<ObjectKey, N>,
-  TNarrowing extends boolean = false
->(
-  fn: (...args: TArgs) => TReturn,
-  props: TProps,
-  narrowing: TNarrowing = false as TNarrowing
-) => {
-  let fnWithProps: any = fn;
-  for (let prop of Object.keys(props)) {
+  TNarrowing extends boolean = false,
+>(fn: (...args: TArgs) => TReturn, props: TProps, narrowing: TNarrowing = false as TNarrowing) {
+  const fnWithProps: any = fn;
+  for (const prop of Object.keys(props)) {
     fnWithProps[prop] = props[prop];
   }
 

@@ -1,5 +1,5 @@
-import { LikeRegExp } from "inferred-types/types";
-import { isString } from "./isString"
+import type { LikeRegExp } from "inferred-types/types";
+import { isString } from "./isString";
 
 /**
  * Type guard that validates the the value passed in is
@@ -7,10 +7,9 @@ import { isString } from "./isString"
  *
  * **Related:** `isLikeRegExp`
  */
-export const isRegExp = (val: unknown): val is RegExp => {
-  return val instanceof RegExp
+export function isRegExp(val: unknown): val is RegExp {
+  return val instanceof RegExp;
 }
-
 
 /**
  * Type guard that validates the the value passed in is
@@ -19,7 +18,7 @@ export const isRegExp = (val: unknown): val is RegExp => {
  *
  * **Related:** `isRegExp`
  */
-export const isLikeRegExp = (val: unknown): val is LikeRegExp => {
+export function isLikeRegExp(val: unknown): val is LikeRegExp {
   if (isRegExp(val)) {
     return true;
   }
@@ -27,11 +26,12 @@ export const isLikeRegExp = (val: unknown): val is LikeRegExp => {
   if (isString(val)) {
     try {
       const _re = new RegExp(val);
-      return true
-    } catch {
-      return false
+      return true;
+    }
+    catch {
+      return false;
     }
   }
 
-  return false
+  return false;
 }

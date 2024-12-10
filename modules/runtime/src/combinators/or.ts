@@ -7,7 +7,7 @@ import type { Or } from "inferred-types/types";
  * function to perform a logical OR operation on them.
  */
 export function or<TList extends readonly boolean[]>(...conditions: TList) {
-  const values: unknown = conditions.some((v: boolean) => v === true ? true : false);
+  const values: unknown = conditions.includes(true);
 
   return values as Or<TList>;
 }

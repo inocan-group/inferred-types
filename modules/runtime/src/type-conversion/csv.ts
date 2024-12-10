@@ -1,12 +1,11 @@
+import type { CsvToJsonTuple, CsvToTuple, CsvToTupleStr } from "inferred-types/types";
 import { Never } from "inferred-types/constants";
 import { isNumberLike } from "../type-guards";
-import { CsvToJsonTuple, CsvToTuple, CsvToTupleStr } from "inferred-types/types";
 
 export type CsvFormat =
-| "string-tuple"
-| "string-numeric-tuple"
-| "json-tuple";
-
+  | "string-tuple"
+  | "string-numeric-tuple"
+  | "json-tuple";
 
 /**
  * **csv**`(csv, [format])`
@@ -19,38 +18,37 @@ export type CsvFormat =
  * after the comma will result in some leading whitespace in
  * some values.
  *
- * @default format `string-numeric-tuple`
+ * @default
  */
-export const csv = <
+export function csv<
   T extends string,
-  F extends CsvFormat = `string-numeric-tuple`
->(
-  csv: T,
-  format: F = `string-numeric-tuple` as F
-) => {
-
+  F extends CsvFormat = `string-numeric-tuple`,
+>(csv: T, format: F = `string-numeric-tuple` as F) {
   const tuple: unknown[] = [];
 
-  csv.split(/,\s{0,1}/).forEach(v => {
+  csv.split(/,\s?/).forEach((v) => {
     tuple.push(
       format === "string-numeric-tuple"
         ? isNumberLike(v) ? Number(v) : v
         : format === "json-tuple"
           ? isNumberLike(v)
             ? Number(v)
-            : v === "true" ? true : v === "false" ? false
-            : `"${v}"`
-        : format === "string-tuple"
-          ? `${v}`
-          : Never
-    )
-  })
+            : v === "true"
+              ? true
+              : v === "false"
+                ? false
+                : `"${v}"`
+          : format === "string-tuple"
+            ? `${v}`
+            : Never,
+    );
+  });
 
   return tuple as F extends "string-numeric-tuple"
     ? CsvToTuple<T>
     : F extends "json-tuple"
-    ? CsvToJsonTuple<T>
-    : F extends "string-tuple"
-    ? CsvToTupleStr<T>
-    : never
+      ? CsvToJsonTuple<T>
+      : F extends "string-tuple"
+        ? CsvToTupleStr<T>
+        : never;
 }

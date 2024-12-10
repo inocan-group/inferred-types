@@ -1,5 +1,5 @@
-import { Narrowable } from "inferred-types/types";
-import { NoDefaultValue } from "inferred-types/constants";
+import type { NoDefaultValue } from "inferred-types/constants";
+import type { Narrowable } from "inferred-types/types";
 import { isSpecificConstant } from "./isSpecificConstant";
 /**
  * **hasDefaultValue**(value)
@@ -12,5 +12,5 @@ import { isSpecificConstant } from "./isSpecificConstant";
  */
 export function hasDefaultValue<T extends Narrowable>(value: T): value is Exclude<T, NoDefaultValue> {
   const noDefault = isSpecificConstant("no-default-value");
-  return noDefault(value) ? false : true;
+  return !noDefault(value);
 }

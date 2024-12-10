@@ -1,5 +1,5 @@
-import { isString, isNumberLike } from "inferred-types/runtime"
-import { Iso8601Date } from "inferred-types/types";
+import type { Iso8601Date } from "inferred-types/types";
+import { isNumberLike, isString } from "inferred-types/runtime";
 
 /**
  * Type guard which validates whether the passed in `val` is an ISO 8601 date
@@ -7,7 +7,7 @@ import { Iso8601Date } from "inferred-types/types";
  *
  * **Related:** `isIsoDate`, `isIsoImplictDate`
  */
-export const isIsoExplicitDate = (val: unknown): val is Iso8601Date<"explicit"> => {
+export function isIsoExplicitDate(val: unknown): val is Iso8601Date<"explicit"> {
   if (isString(val)) {
     const parts = val.split("-").map(i => Number(i));
 
@@ -15,8 +15,9 @@ export const isIsoExplicitDate = (val: unknown): val is Iso8601Date<"explicit"> 
       ? val.split("-").every(i => isNumberLike(i))
         ? parts[0] >= 0 && parts[0] <= 9999 && parts[1] >= 1 && parts[1] <= 12 && parts[2] >= 1 && parts[2] <= 31
         : false
-      : false
-  } else {
+      : false;
+  }
+  else {
     return false;
   }
 }
@@ -27,16 +28,17 @@ export const isIsoExplicitDate = (val: unknown): val is Iso8601Date<"explicit"> 
  *
  * **Related:** `isIsoDate`, `isIsoExplictDate`
  */
-export const isIsoImplicitDate = (val: unknown): val is Iso8601Date<"implicit"> => {
+export function isIsoImplicitDate(val: unknown): val is Iso8601Date<"implicit"> {
   if (isString(val) && val.length === 8 && isNumberLike(val)) {
-    const year = Number(val.slice(0,4));
-    const month = Number(val.slice(4,6));
-    const date = Number(val.slice(6,8));
+    const year = Number(val.slice(0, 4));
+    const month = Number(val.slice(4, 6));
+    const date = Number(val.slice(6, 8));
 
     return (
       year >= 0 && year <= 9999 && month >= 1 && month <= 12 && date >= 1 && date <= 31
-    )
-  } else {
+    );
+  }
+  else {
     return false;
   }
 }
@@ -47,12 +49,13 @@ export const isIsoImplicitDate = (val: unknown): val is Iso8601Date<"implicit"> 
  *
  * **Related:** `isIsoExplictDate`, `isIsoImplictDate`
  */
-export const isIsoDate = (val: unknown): val is Iso8601Date<"both"> => {
+export function isIsoDate(val: unknown): val is Iso8601Date<"both"> {
   if (isString(val)) {
     return val.includes("-")
       ? isIsoExplicitDate(val)
-      : isIsoImplicitDate(val)
-  } else {
+      : isIsoImplicitDate(val);
+  }
+  else {
     return false;
   }
 }

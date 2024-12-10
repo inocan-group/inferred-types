@@ -1,4 +1,4 @@
-import { StripAfter } from "inferred-types/types";
+import type { StripAfter } from "inferred-types/types";
 
 /**
  * **stripAfter**(content, find)
@@ -14,7 +14,7 @@ import { StripAfter } from "inferred-types/types";
  */
 export function stripAfter<
   TContent extends string,
-  TBreak extends string
+  TBreak extends string,
 >(content: TContent, find: TBreak) {
   return content.split(find).shift() as unknown as StripAfter<TContent, TBreak>;
 }

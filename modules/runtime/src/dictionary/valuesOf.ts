@@ -1,5 +1,4 @@
-/* eslint-disable no-use-before-define */
-import { AsRecord,  Narrowable, ObjectKey, Values } from "inferred-types/types";
+import type { AsRecord, Narrowable, ObjectKey, Values } from "inferred-types/types";
 
 /**
  * **valuesOf**(obj) -> readonly values[]
@@ -8,14 +7,14 @@ import { AsRecord,  Narrowable, ObjectKey, Values } from "inferred-types/types";
  * values while preserving as much type information as
  * possible.
  */
-export const valuesOf = <
+export function valuesOf<
   TObj extends Record<ObjectKey, N>,
-  N extends Narrowable
->(obj: TObj): Values<AsRecord<TObj>> => {
+  N extends Narrowable,
+>(obj: TObj): Values<AsRecord<TObj>> {
   const values = [];
   for (const k of Object.keys(obj)) {
     values.push(obj[k as keyof typeof obj]);
   }
 
-  return values as Values<AsRecord<TObj>>
+  return values as Values<AsRecord<TObj>>;
 }

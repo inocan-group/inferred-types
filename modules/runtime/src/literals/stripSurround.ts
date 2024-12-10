@@ -1,16 +1,14 @@
-
-import {
-  StripSurround
+import type {
+  StripSurround,
 } from "inferred-types/types";
 import { isNumber } from "src/type-guards/isNumber";
 
 export type StripSurroundConfigured<
-  TStrip extends readonly (string | number)[]
+  TStrip extends readonly (string | number)[],
 > = <TInput extends string | number>(input: TInput) => StripSurround<
   TInput,
   TStrip[number]
 >;
-
 
 /**
  * **stripSurround**`(chars) => (input) => _stripped_`
@@ -27,11 +25,9 @@ export type StripSurroundConfigured<
  *
  * **Related**: `stripSurroundAndTrim`
  */
-export const stripSurround = <
-  TChars extends readonly (number | string)[]
->(
-  ...chars: TChars
-): StripSurroundConfigured<TChars> => {
+export function stripSurround<
+  TChars extends readonly (number | string)[],
+>(...chars: TChars): StripSurroundConfigured<TChars> {
   return <TInput extends string | number>(input: TInput) => {
     let output: string = String(input);
 
@@ -40,15 +36,12 @@ export const stripSurround = <
         output = output.slice(String(s).length);
       }
       if (output.endsWith(String(s))) {
-        output = output.slice(0,-1 * String(s).length);
+        output = output.slice(0, -1 * String(s).length);
       }
     }
 
     return (
       isNumber(input) ? Number(output) : output
-    ) as unknown as StripSurround<TInput, TChars[number]>
-
-
-  }
+    ) as unknown as StripSurround<TInput, TChars[number]>;
+  };
 }
-

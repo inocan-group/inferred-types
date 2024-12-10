@@ -4,7 +4,6 @@
 // import { asArray } from "./asArray";
 // import { Never } from "inferred-types/constants";
 
-
 // /**
 //  * **createFilter**(op,comparator) → (list) → _filtered results_
 //  *
@@ -30,8 +29,6 @@
 //  TList extends readonly unknown[]
 // >(list: TList) => {
 //   let result: unknown;
-
-
 
 //   switch(op) {
 //     case "equals":

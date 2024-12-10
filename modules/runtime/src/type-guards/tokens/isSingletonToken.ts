@@ -1,9 +1,9 @@
-import {  SingletonToken } from "inferred-types/types";
-import { isString } from "inferred-types/runtime"
-
+import type { SingletonToken } from "inferred-types/types";
 import {
-  TT_Atomics
+  TT_Atomics,
 } from "inferred-types/constants";
+
+import { isString } from "inferred-types/runtime";
 
 /**
  * **isSingletonToken**`(val)`
@@ -11,7 +11,7 @@ import {
  * Type guard which validates whether the value passed in is a
  * valid `SingletonToken` of some sort.
  */
-export const isSingletonToken = (val: unknown): val is SingletonToken => {
-  return isString(val) &&
-    TT_Atomics.some(v => val === `<<${v}>>`)
+export function isSingletonToken(val: unknown): val is SingletonToken {
+  return isString(val)
+    && TT_Atomics.some(v => val === `<<${v}>>`);
 }

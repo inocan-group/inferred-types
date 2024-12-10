@@ -1,12 +1,10 @@
-
-
-import { AnyObject, EmptyObject, Narrowable, } from "inferred-types/types";
+import type { AnyObject, EmptyObject, Narrowable } from "inferred-types/types";
 import { addFnToProps } from "inferred-types/runtime";
 
 export interface TypedError<
   TKind extends string = string,
   TMsg extends string = string,
-  TContext extends AnyObject = AnyObject
+  TContext extends AnyObject = AnyObject,
 > extends Error {
   kind: TKind;
   msg: TMsg;
@@ -23,47 +21,48 @@ export type KindedApi<TKind extends string> = <
   TMsg extends string,
   K extends PropertyKey,
   V extends Narrowable,
-  TContext extends Record<K, V>
->(msg: TMsg, context?: TContext) => TypedError<TKind, TMsg, TContext>;
+  TContext extends Record<K, V>,
+>(msg: TMsg,
+  context?: TContext
+) => TypedError<TKind, TMsg, TContext>;
 
-export type ErrorApi = {
+export interface ErrorApi {
   /**
    * A simple API surface to create an error with a `kind` and `msg` type.
    */
-  kinded<TKind extends string, TMsg extends string>(
+  kinded: <TKind extends string, TMsg extends string>(
     kind: TKind,
-    msg: TMsg): TypedError<TMsg, TKind>;
+    msg: TMsg
+  ) => TypedError<TMsg, TKind>;
 
   /**
    * Allows expressing the `kind` of error initially
    * and then provides a function to supply specific
    * errors.
    */
-  asKind<TKind extends string>(kind: TKind): KindedApi<TKind>;
-};
+  asKind: <TKind extends string>(kind: TKind) => KindedApi<TKind>;
+}
 
-
-const fn = <TKind extends string>(kind: TKind) =>
-  <TMsg extends string>(msg: TMsg) => ({
+function fn<TKind extends string>(kind: TKind) {
+  return <TMsg extends string>(msg: TMsg) => ({
     kind,
     msg,
-    context: {}
+    context: {},
   } as TypedError<TKind, TMsg, EmptyObject>);
-
-
+}
 
 const api: ErrorApi = {
   kinded: (kind, msg) => fn(kind)(msg),
-  asKind: (kind) => (msg, context) => ({ kind, msg, context: context || ({} as EmptyObject) })
+  asKind: kind => (msg, context) => ({ kind, msg, context: context || ({} as EmptyObject) }),
 
 } as ErrorApi;
 
-const basic = <TMsg extends string>(msg: TMsg) => ({
-  kind: "unknown" as const,
-  msg,
-  context: {}
-});
-
+function basic<TMsg extends string>(msg: TMsg) {
+  return {
+    kind: "unknown" as const,
+    msg,
+    context: {},
+  };
+}
 
 export const TypedError = addFnToProps(api)(basic);
-

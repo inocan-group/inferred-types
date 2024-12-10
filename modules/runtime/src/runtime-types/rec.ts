@@ -1,11 +1,8 @@
-import { Narrowable } from "inferred-types/types";
+import type { Narrowable } from "inferred-types/types";
 
-
-export const rec = <
+export function rec<
   N extends Narrowable,
-  TObj extends Record<string, N>
->(
-  _obj: TObj
-) => {
+  TObj extends Record<string, N>,
+>(_obj: TObj) {
   //
-};
+}

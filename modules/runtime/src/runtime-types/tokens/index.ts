@@ -1,2 +1,2 @@
-export * from "./simpleToken"
-export * from "./createTypeToken"
+export * from "./createTypeToken";
+export * from "./simpleToken";

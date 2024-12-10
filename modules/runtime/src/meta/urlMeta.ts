@@ -1,32 +1,30 @@
-import {
-  IsUrl,
-  GetUrlProtocol,
-  GetUrlSource,
+import type {
   GetUrlPath,
-  GetUrlQueryParams,
-  NetworkProtocol,
   GetUrlPort,
-  IsIpAddress,
+  GetUrlProtocol,
+  GetUrlQueryParams,
+  GetUrlSource,
   IsIp4Address,
-  IsIp6Address
+  IsIp6Address,
+  IsIpAddress,
+  IsUrl,
+  NetworkProtocol,
 } from "inferred-types/types";
+import { NETWORK_PROTOCOL_LOOKUP, Never } from "inferred-types/constants";
 import {
-  isUrl,
+  ensureLeading,
+  isDomainName,
   isIp4Address,
   isIp6Address,
   isIpAddress,
+  isUrl,
   stripAfter,
   stripBefore,
-  ensureLeading,
   stripTrailing,
-  isDomainName,
   takeNumericCharacters,
 } from "inferred-types/runtime";
-import { NETWORK_PROTOCOL_LOOKUP } from "inferred-types/constants";
-import { Never } from "inferred-types/constants";
 
-
-export type UrlMeta<T> = {
+export interface UrlMeta<T> {
   /** the URL passed in */
   url: T;
   /** boolean flag indicating whether the value passed in is considered a valid URL */
@@ -37,7 +35,6 @@ export type UrlMeta<T> = {
   queryParams: T extends string ? GetUrlQueryParams<T> : never;
   /** the port number -- when stated explicitly -- or "default" */
   port: GetUrlPort<T>;
-
 
   /** either the domain name or the IP address */
   source: T extends string
@@ -60,39 +57,34 @@ export type UrlMeta<T> = {
 
 const PROTOCOLS = Object.values(NETWORK_PROTOCOL_LOOKUP).flat().filter(i => i !== "") as NetworkProtocol[];
 
-
-export const getUrlProtocol = <
-  T extends string
->(
-  url: T
-) => {
+export function getUrlProtocol<
+  T extends string,
+>(url: T) {
   const proto = PROTOCOLS.find(p => url.startsWith(`${p}://`));
 
   return proto as GetUrlProtocol<T>;
 }
 
-export const removeUrlProtocol = <T extends string>(url: T) => {
-  return stripBefore(url, "://")
+export function removeUrlProtocol<T extends string>(url: T) {
+  return stripBefore(url, "://");
 }
 
-const ensurePath = (val: string) => {
+function ensurePath(val: string) {
   const val2 = ensureLeading(val, "/");
 
   return val === ""
-  ? ""
-  : stripTrailing(val2, "/");
+    ? ""
+    : stripTrailing(val2, "/");
 }
 
-export const getUrlPath = <
-  T extends string
->(
-  url: T
-) => {
+export function getUrlPath<
+  T extends string,
+>(url: T) {
   return isUrl(url)
     ? ensurePath(
-        stripAfter(stripBefore(removeUrlProtocol(url), "/"), "?")
-      ) as unknown as GetUrlPath<T>
-    : Never
+      stripAfter(stripBefore(removeUrlProtocol(url), "/"), "?"),
+    ) as unknown as GetUrlPath<T>
+    : Never;
 }
 
 /**
@@ -104,13 +96,10 @@ export const getUrlPath = <
  * If you do specify a particular query parameter it will decode
  * the value with URIDecode.
  */
-export const getUrlQueryParams = <
+export function getUrlQueryParams<
   T extends string,
-  S extends string | undefined
->(
-  url: T,
-  specific: S = undefined as S
-) => {
+  S extends string | undefined,
+>(url: T, specific: S = undefined as S) {
   const qp = stripBefore(url, "?");
   if (specific) {
     return (
@@ -118,49 +107,44 @@ export const getUrlQueryParams = <
         ? decodeURIComponent(
             stripAfter(
               stripBefore(qp, (`${specific}=`)),
-              "&"
-            ).replace(/\+/g, "%20")
+              "&",
+            ).replace(/\+/g, "%20"),
           )
         : undefined
-    )
+    );
   }
 
   return (
     qp === ""
-    ? qp
-    : `?${qp}`
-  ) as GetUrlQueryParams<T,S>;
+      ? qp
+      : `?${qp}`
+  ) as GetUrlQueryParams<T, S>;
 }
 
-export const getUrlPort = <
-  T extends string
->(
-  url: T
-) => {
+export function getUrlPort<
+  T extends string,
+>(url: T) {
   const candidate = takeNumericCharacters(
-    stripBefore(removeUrlProtocol(url), ":")
+    stripBefore(removeUrlProtocol(url), ":"),
   );
   return (
     candidate === ""
       ? "default"
       : Number(candidate)
-  )
+  );
 }
 
-export const getUrlSource = <
+export function getUrlSource<
   T extends string,
->(
-  url: T
-) => {
-  const candidate = stripAfter(stripAfter(stripAfter(removeUrlProtocol(url), "/"), "?") , ":") as unknown;
+>(url: T) {
+  const candidate = stripAfter(stripAfter(stripAfter(removeUrlProtocol(url), "/"), "?"), ":") as unknown;
 
   return (
     isIpAddress(candidate) || isDomainName(candidate)
-    ? candidate
-    : Never
+      ? candidate
+      : Never
   ) as unknown as GetUrlSource<T>;
 }
-
 
 /**
  * **urlMeta**`(url)`
@@ -168,12 +152,12 @@ export const getUrlSource = <
  * Analyzes the string passed in and provides a small dictionary of
  * metadata properties about the URL.
  */
-export const urlMeta = <
-  T extends string
->(url: T) => {
+export function urlMeta<
+  T extends string,
+>(url: T) {
   return {
     url,
-    isUrl: isUrl(url) as IsUrl<T> ,
+    isUrl: isUrl(url) as IsUrl<T>,
     protocol: getUrlProtocol(url) as GetUrlProtocol<T>,
     path: getUrlPath(url) as GetUrlPath<T>,
     queryParameters: getUrlQueryParams(url),
@@ -182,6 +166,5 @@ export const urlMeta = <
     isIpAddress: isIpAddress(getUrlSource(url)) as IsIpAddress<GetUrlSource<T>>,
     isIp4Address: isIp4Address(getUrlSource(url)) as IsIp4Address<GetUrlSource<T>>,
     isIp6Address: isIp6Address(getUrlSource(url)) as IsIp6Address<GetUrlSource<T>>,
-  }
-
+  };
 }

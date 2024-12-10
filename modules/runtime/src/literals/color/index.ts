@@ -1,2 +1,2 @@
-export * from "./twColor";
 export * from "./cssColor";
+export * from "./twColor";

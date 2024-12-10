@@ -6,19 +6,19 @@
 
 // file exports
 export * from "./asArray";
+export * from "./createConverter";
+export * from "./filter";
+export * from "./find";
 export * from "./getEach";
 export * from "./indexOf";
 export * from "./intersection";
-export * from "./unique";
-export * from "./logicalReturns";
-export * from "./find";
-export * from "./filter";
-export * from "./createConverter";
-export * from "./slice";
-export * from "./last";
-export * from "./reverse";
 export * from "./joinWith";
+export * from "./last";
+export * from "./logicalReturns";
+export * from "./reverse";
 export * from "./shift";
+export * from "./slice";
+export * from "./unique";
 
 // #endregion auto-indexed files
 

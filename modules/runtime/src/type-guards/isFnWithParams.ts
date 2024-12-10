@@ -1,4 +1,4 @@
-import { Scalar , ToFn } from "inferred-types/types";
+import type { Scalar, ToFn } from "inferred-types/types";
 
 /**
  * **isFnWithDict**(input)

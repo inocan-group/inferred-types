@@ -1,4 +1,4 @@
-import { AsRecord, ObjectKey } from "inferred-types/types";
+import type { AsRecord, ObjectKey } from "inferred-types/types";
 
 /**
  * **asRecord**`<T>`(obj: T) → AsRecord`<T>`
@@ -7,8 +7,8 @@ import { AsRecord, ObjectKey } from "inferred-types/types";
  * helps convert a `object` to a `Record<ObjectKey,unknown>` which
  * is indexable.
  */
-export const asRecord = <
-  T extends Record<ObjectKey, unknown> | object
->(obj: T): AsRecord<T> => {
+export function asRecord<
+  T extends Record<ObjectKey, unknown> | object,
+>(obj: T): AsRecord<T> {
   return obj as AsRecord<T>;
 }

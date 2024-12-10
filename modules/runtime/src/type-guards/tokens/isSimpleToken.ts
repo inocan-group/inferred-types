@@ -1,12 +1,11 @@
-import { SIMPLE_SCALAR_TOKENS, SIMPLE_TOKENS } from "inferred-types/constants"
+import type { SimpleContainerToken, SimpleScalarToken, SimpleToken } from "inferred-types/types";
 
-import { SimpleContainerToken, SimpleScalarToken, SimpleToken } from "inferred-types/types"
-import { isString,isArray } from "inferred-types/runtime";
+import { SIMPLE_SCALAR_TOKENS, SIMPLE_TOKENS } from "inferred-types/constants";
+import { isArray, isString } from "inferred-types/runtime";
 
 const split_tokens = SIMPLE_TOKENS.map(i => i.split("TOKEN"));
 const scalar_split_tokens = SIMPLE_SCALAR_TOKENS.map(i => i.split("TOKEN"));
 // const container_split_tokens = SIMPLE_CONTAINER_TOKENS.map(i => i.split("TOKEN"));
-
 
 /**
  * **isSimpleToken**`(val)`
@@ -15,16 +14,14 @@ const scalar_split_tokens = SIMPLE_SCALAR_TOKENS.map(i => i.split("TOKEN"));
  *
  * **Related:** `isSimpleTokenTuple`
  */
-export const isSimpleToken = (val: unknown): val is SimpleToken => {
-
-   return isString(val) && split_tokens.some(
+export function isSimpleToken(val: unknown): val is SimpleToken {
+  return isString(val) && split_tokens.some(
     i => (
-      (i.length === 1 && val === i[0]) ||
-      (val.startsWith(i[0]) && val.endsWith(i.slice(-1)[0]) && i.every(p => val.includes(p)))
-    )
-  )
+      (i.length === 1 && val === i[0])
+      || (val.startsWith(i[0]) && val.endsWith(i.slice(-1)[0]) && i.every(p => val.includes(p)))
+    ),
+  );
 }
-
 
 /**
  * **isSimpleScalarToken**`(val)`
@@ -33,13 +30,13 @@ export const isSimpleToken = (val: unknown): val is SimpleToken => {
  *
  * **Related:** `isSimpleToken()`, `isSimpleContainerToken()`
  */
-export const isSimpleScalarToken = (val: unknown): val is SimpleScalarToken => {
+export function isSimpleScalarToken(val: unknown): val is SimpleScalarToken {
   return isString(val) && scalar_split_tokens.some(
     i => (
-      (i.length === 1 && val === i[0]) ||
-      (val.startsWith(i[0]) && val.endsWith(i.slice(-1)[0]) && i.every(p => val.includes(p)))
-    )
-  )
+      (i.length === 1 && val === i[0])
+      || (val.startsWith(i[0]) && val.endsWith(i.slice(-1)[0]) && i.every(p => val.includes(p)))
+    ),
+  );
 }
 
 /**
@@ -50,16 +47,14 @@ export const isSimpleScalarToken = (val: unknown): val is SimpleScalarToken => {
  *
  * **Related:** `isSimpleToken()`, `isSimpleScalarToken()`
  */
-export const isSimpleContainerToken = (val: unknown): val is SimpleContainerToken => {
+export function isSimpleContainerToken(val: unknown): val is SimpleContainerToken {
   return isString(val) && scalar_split_tokens.some(
     i => (
-      (i.length === 1 && val === i[0]) ||
-      (val.startsWith(i[0]) && val.endsWith(i.slice(-1)[0]) && i.every(p => val.includes(p)))
-    )
-  )
+      (i.length === 1 && val === i[0])
+      || (val.startsWith(i[0]) && val.endsWith(i.slice(-1)[0]) && i.every(p => val.includes(p)))
+    ),
+  );
 }
-
-
 
 /**
  * **isSimpleTokenTuple**`(val)`
@@ -68,9 +63,9 @@ export const isSimpleContainerToken = (val: unknown): val is SimpleContainerToke
  *
  * **Related:** `isSimpleToken()`, `isSimpleTokenTuple()`
  */
-export const isSimpleTokenTuple = (val: unknown): val is SimpleToken[] => {
-  return isArray(val) && val.length !== 0 &&
-    val.every(isSimpleToken)
+export function isSimpleTokenTuple(val: unknown): val is SimpleToken[] {
+  return isArray(val) && val.length !== 0
+    && val.every(isSimpleToken);
 }
 
 /**
@@ -81,9 +76,9 @@ export const isSimpleTokenTuple = (val: unknown): val is SimpleToken[] => {
  *
  * **Related:** `isSimpleToken()`, `isSimpleTokenTuple()`
  */
-export const isSimpleScalarTokenTuple = (val: unknown): val is SimpleScalarToken[] => {
-  return isArray(val) && val.length !== 0 &&
-    val.every(isSimpleScalarToken)
+export function isSimpleScalarTokenTuple(val: unknown): val is SimpleScalarToken[] {
+  return isArray(val) && val.length !== 0
+    && val.every(isSimpleScalarToken);
 }
 
 /**
@@ -94,7 +89,7 @@ export const isSimpleScalarTokenTuple = (val: unknown): val is SimpleScalarToken
  *
  * **Related:** `isSimpleToken()`, `isSimpleTokenTuple()`
  */
-export const isSimpleContainerTokenTuple = (val: unknown): val is SimpleContainerToken[] => {
-  return isArray(val) && val.length !== 0 &&
-    val.every(isSimpleContainerToken)
+export function isSimpleContainerTokenTuple(val: unknown): val is SimpleContainerToken[] {
+  return isArray(val) && val.length !== 0
+    && val.every(isSimpleContainerToken);
 }

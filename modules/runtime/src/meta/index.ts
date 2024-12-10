@@ -1,2 +1,2 @@
-export * from "./youtube-meta"
-export * from "./urlMeta"
+export * from "./urlMeta";
+export * from "./youtube-meta";

@@ -1,10 +1,8 @@
-import { Scalar } from "inferred-types/types";
-import { isString } from "./isString";
-import { isNumber } from "./isNumber";
-import { isSymbol } from "./isSymbol";
+import type { Scalar } from "inferred-types/types";
 import { isNull } from "./isNull";
-
-
+import { isNumber } from "./isNumber";
+import { isString } from "./isString";
+import { isSymbol } from "./isSymbol";
 
 /**
  * **isScalar**(value)
@@ -13,5 +11,4 @@ import { isNull } from "./isNull";
  */
 export function isScalar<T>(value: T): value is T & Scalar {
   return isString(value) || isNumber(value) || isSymbol(value) || isNull(value);
-
 }

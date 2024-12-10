@@ -1,6 +1,5 @@
-import { Narrowable, IsBoolean } from "inferred-types/types";
+import type { IsBoolean, Narrowable } from "inferred-types/types";
 import { isBoolean } from "inferred-types/runtime";
-
 
 /**
  * **ifBoolean**
@@ -16,11 +15,11 @@ import { isBoolean } from "inferred-types/runtime";
 export function ifBoolean<
   TContent extends Narrowable,
   TIf extends Narrowable,
-  TElse extends Narrowable
+  TElse extends Narrowable,
 >(
   val: TContent,
   ifBoolean: <V extends boolean>(v: V & TContent) => TIf,
-  notBoolean: <V extends Exclude<TContent, boolean>>(v: V) => TElse
+  notBoolean: <V extends Exclude<TContent, boolean>>(v: V) => TElse,
 ) {
   return (
     isBoolean(val)

@@ -1,6 +1,3 @@
-
-
-
 // const convert = (
 //   countryCode: string,
 //   phone: string,
@@ -69,4 +66,4 @@
 //   return result ;
 // }
 
-export const asPhoneFormat = () => `NOT IMPLEMENTED`
+export const asPhoneFormat = () => `NOT IMPLEMENTED`;

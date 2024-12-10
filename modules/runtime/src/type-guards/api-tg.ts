@@ -1,12 +1,10 @@
-import {  Dictionary,  Narrowable, OptionalParamFn, TypedFunction } from "inferred-types/types";
+import type { Dictionary, Narrowable, OptionalParamFn, TypedFunction } from "inferred-types/types";
 import { isFunction } from "./isFunction";
-import { isObject } from "./isObject"
+import { isObject } from "./isObject";
 
-
-export const isEscapeFunction = <T>(val: T): val is T & (() => unknown) => {
-  return isFunction(val) && "escape" in val && val.escape === true
+export function isEscapeFunction<T>(val: T): val is T & (() => unknown) {
+  return isFunction(val) && "escape" in val && val.escape === true;
 }
-
 
 /**
  * **isOptionalParamFunction**`(val)`
@@ -18,8 +16,8 @@ export const isEscapeFunction = <T>(val: T): val is T & (() => unknown) => {
  * **Note:** this is similar to an "escape function" but whereas an API can
  * only have one escape function, an API may have as many ze
  */
-export const isOptionalParamFunction = <T>(val: T): val is T & OptionalParamFn => {
-  return isFunction(val) && "optionalParams" in val && val.optionalParams === true
+export function isOptionalParamFunction<T>(val: T): val is T & OptionalParamFn {
+  return isFunction(val) && "optionalParams" in val && val.optionalParams === true;
 }
 
 /**
@@ -30,7 +28,7 @@ export const isOptionalParamFunction = <T>(val: T): val is T & OptionalParamFn =
  *
  * **Related:** `isFluentApi()`
  */
-export const isApi = <T extends Narrowable>(api: T): api is T & { __kind: "api"; surface: Dictionary | TypedFunction} => {
+export function isApi<T extends Narrowable>(api: T): api is T & { __kind: "api"; surface: Dictionary | TypedFunction } {
   return isObject(api) && "surface" in api && "_kind" in api && api._kind === "api";
 }
 
@@ -40,6 +38,6 @@ export const isApi = <T extends Narrowable>(api: T): api is T & { __kind: "api";
  * A type guard which tests whether the value passed in is the SurfaceArea
  * of an API (or could be).
  */
-export const isApiSurface = <T>(val: T): val is T & (Dictionary | TypedFunction) => {
+export function isApiSurface<T>(val: T): val is T & (Dictionary | TypedFunction) {
   return isObject(val) && Object.keys(val).some(k => isEscapeFunction(val[k]));
 }

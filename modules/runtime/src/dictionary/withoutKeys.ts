@@ -1,7 +1,5 @@
-/* eslint-disable no-use-before-define */
-import type { NarrowObject, Narrowable } from "inferred-types/types";
+import type { Narrowable, NarrowObject } from "inferred-types/types";
 import { omit } from "inferred-types/runtime";
-
 
 /**
  * **withoutKeys**(obj,...keys)
@@ -13,11 +11,10 @@ import { omit } from "inferred-types/runtime";
  *
  * **Related**: `omit`, `createOmission`
  */
-export const withoutKeys = <
+export function withoutKeys<
   TObj extends NarrowObject<N>,
   N extends Narrowable,
-  TKeys extends readonly (string & keyof TObj)[]
->(
-  dict: TObj,
-  ...exclude: TKeys
-) => omit(dict, ...exclude);
+  TKeys extends readonly (string & keyof TObj)[],
+>(dict: TObj, ...exclude: TKeys) {
+  return omit(dict, ...exclude);
+}

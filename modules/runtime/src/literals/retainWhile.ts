@@ -1,6 +1,5 @@
-import {  RetainWhile, TupleToUnion } from "inferred-types/types";
-import { asChars } from "src/type-conversion"
-
+import type { RetainWhile, TupleToUnion } from "inferred-types/types";
+import { asChars } from "src/type-conversion";
 
 /**
  * **retainWhile**`(content, ...retain)`
@@ -9,15 +8,12 @@ import { asChars } from "src/type-conversion"
  * so long as they are part of the character values
  * passed in for `retain[]`
  */
-export const retainWhile = <
+export function retainWhile<
   TContent extends string,
-  TRetain extends readonly string[]
->(
-  content: TContent,
-  ...retain: TRetain
-) => {
+  TRetain extends readonly string[],
+>(content: TContent, ...retain: TRetain) {
   const stopIdx = asChars(content)
     .findIndex(c => !retain.includes(c));
 
-  return content.slice(0,stopIdx) as unknown as RetainWhile<TContent, TupleToUnion<TRetain>>;
+  return content.slice(0, stopIdx) as unknown as RetainWhile<TContent, TupleToUnion<TRetain>>;
 }

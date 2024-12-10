@@ -1,13 +1,10 @@
 import {
-  keysOf,
   isArray,
+  isEqual,
   isObject,
   isString,
-  isEqual
+  keysOf,
 } from "inferred-types/runtime";
-
-
-
 
 /**
  * **ifLength**(len) => (value) => boolean
@@ -23,14 +20,13 @@ import {
  */
 export function isLength<
   TValue,
-  TLen extends number
+  TLen extends number,
 >(value: TValue, len: TLen) {
-    return isArray(value)
-      ? isEqual((value as unknown[]).length)(len) ? true : false
-      : isString(value)
-        ? isEqual(value.length)(len) ? true : false
-        : isObject(value)
-          ? isEqual(keysOf(value))(len) ? true : false
-          : false;
-  }
-
+  return isArray(value)
+    ? !!isEqual((value as unknown[]).length)(len)
+    : isString(value)
+      ? !!isEqual(value.length)(len)
+      : isObject(value)
+        ? !!isEqual(keysOf(value))(len)
+        : false;
+}

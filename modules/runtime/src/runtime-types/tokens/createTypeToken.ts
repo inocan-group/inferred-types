@@ -1,4 +1,4 @@
-import {
+import type {
   If,
   IsLength,
   Join,
@@ -11,17 +11,16 @@ import {
 import {
   isAtomicToken,
   isSingletonToken,
-  jsonValues
+  jsonValues,
 } from "inferred-types/runtime";
 
 type BaseReturn<
-  TBase extends TypeTokenKind
-  > = TBase extends TypeTokenAtomics
+  TBase extends TypeTokenKind,
+> = TBase extends TypeTokenAtomics
   ? `<<${TBase}>>`
   : TBase extends TypeTokenSingletons
-  ? SingletonClosure<TBase>
-  : unknown;
-
+    ? SingletonClosure<TBase>
+    : unknown;
 
 export type UnionClosure = <T extends readonly unknown[]>(...elements: T) =>
   `union::[${Join<T, ", ">}]`;
@@ -46,53 +45,49 @@ export type UnionClosure = <T extends readonly unknown[]>(...elements: T) =>
 export type SingletonClosure<T extends "string" | "number"> =
   <TLit extends readonly SimpleType<T>[]>(
     ...literals: TLit
-) => If<
-  IsLength<TLit, 0>,
+  ) => If<
+    IsLength<TLit, 0>,
   `<<${T}>>`,
   If<
     IsLength<TLit, 1>,
     `<<${T}::${TLit[0]}>>`,
     `<<${T}::>>`
   >
->;
+  >;
 
-const unionToken = <
-  TElements extends readonly unknown[]
->(...els: TElements) => {
-  return `<<union::[${jsonValues(els)}]>>` as unknown as UnionToken<TElements>
+function unionToken<
+  TElements extends readonly unknown[],
+>(...els: TElements) {
+  return `<<union::[${jsonValues(els)}]>>` as unknown as UnionToken<TElements>;
 }
 
-
-const singletonApi = <
-  T extends TypeTokenSingletons
->(
-  base: T
-) => {
+function singletonApi<
+  T extends TypeTokenSingletons,
+>(base: T) {
   const handler = <TLit extends readonly SimpleType<T>[]>(
     ...lits: TLit
-    ) => {
-      return (
-        lits.length === 0
-          ? base === "string" ? `<<string>>` : `<<number>>`
-          : lits.length === 1
-            ? base === "string" ? `<<string::${lits[0]}>>` : `<<number::${lits[0]}>>`
-            : base === "string"
-              ? `<<string::${unionToken(...lits)}>>`
-              : `<<number::${unionToken(...lits)}>>`
-      ) as unknown as If<
-        IsLength<TLit, 0>,
+  ) => {
+    return (
+      lits.length === 0
+        ? base === "string" ? `<<string>>` : `<<number>>`
+        : lits.length === 1
+          ? base === "string" ? `<<string::${lits[0]}>>` : `<<number::${lits[0]}>>`
+          : base === "string"
+            ? `<<string::${unionToken(...lits)}>>`
+            : `<<number::${unionToken(...lits)}>>`
+    ) as unknown as If<
+      IsLength<TLit, 0>,
         `<<${T}>>`,
         If<
           IsLength<TLit, 1>,
           `<<${T}::${TLit[0]}>>`,
           `<<${T}::>>`
         >
-      >;
-  }
+    >;
+  };
 
   return handler as unknown as SingletonClosure<T>;
 }
-
 
 /**
  * **createTypeToken**`(base) => (secondary) => ...`
@@ -100,15 +95,14 @@ const singletonApi = <
  * A higher order function designed to creating a valid
  * `TypeToken` simple through a compound process.
  */
-export const createTypeToken = <
-  TBase extends TypeTokenAtomics | TypeTokenSingletons
->(base: TBase): BaseReturn<TBase> => {
+export function createTypeToken<
+  TBase extends TypeTokenAtomics | TypeTokenSingletons,
+>(base: TBase): BaseReturn<TBase> {
   return (
     isAtomicToken(base)
-    ? `<<${base}>>`
-    : isSingletonToken(base)
-      ? singletonApi(base)
-      : ""
-  ) as unknown as BaseReturn<TBase>
+      ? `<<${base}>>`
+      : isSingletonToken(base)
+        ? singletonApi(base)
+        : ""
+  ) as unknown as BaseReturn<TBase>;
 }
-

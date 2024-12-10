@@ -1,6 +1,5 @@
 import type { Narrowable } from "inferred-types/types";
-import { isString, isNumber } from "inferred-types/runtime";
-
+import { isNumber, isString } from "inferred-types/runtime";
 
 /**
  * **StartingWithTypeGuard**`<literal>`
@@ -8,8 +7,9 @@ import { isString, isNumber } from "inferred-types/runtime";
  * A type guard built using the `startsWith` utility.
  */
 export type StartingWithTypeGuard<TStartsWith extends string> = <
-  TValue extends Narrowable
->(val: TValue) => val is TValue & `${TStartsWith}${string}`;
+  TValue extends Narrowable,
+>(val: TValue
+) => val is TValue & `${TStartsWith}${string}`;
 
 /**
  * **startsWith**(startingWith) => (val)
@@ -28,15 +28,18 @@ export type StartingWithTypeGuard<TStartsWith extends string> = <
  * const weWillSee = foo(string);
  * ```
  */
-export const startsWith = <
-  TStartsWith extends string
->(startingWith: TStartsWith): StartingWithTypeGuard<TStartsWith> => <
-  TValue extends Narrowable
->(val: TValue): val is TValue & `${TStartsWith}${string}`=> {
-  return (
-    isString(val) ? val.startsWith(startingWith) ? true : false
-    : isNumber(val) ? String(val).startsWith(startingWith) ? true : false
-    : false
-  ) ;
-};
-
+export function startsWith<
+  TStartsWith extends string,
+>(startingWith: TStartsWith): StartingWithTypeGuard<TStartsWith> {
+  return <
+    TValue extends Narrowable,
+  >(val: TValue): val is TValue & `${TStartsWith}${string}` => {
+    return (
+      isString(val)
+        ? !!val.startsWith(startingWith)
+        : isNumber(val)
+          ? !!String(val).startsWith(startingWith)
+          : false
+    );
+  };
+}

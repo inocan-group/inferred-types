@@ -1,7 +1,5 @@
-import { Dictionary, MergeObjects, NarrowObject, Narrowable } from "inferred-types/types";
-import { sharedKeys } from "inferred-types/runtime";
-import { withoutKeys } from "inferred-types/runtime";
-
+import type { Dictionary, MergeObjects, Narrowable, NarrowObject } from "inferred-types/types";
+import { sharedKeys, withoutKeys } from "inferred-types/runtime";
 
 export function mergeObjects<
   D extends Narrowable,
@@ -10,7 +8,7 @@ export function mergeObjects<
   TOverride extends NarrowObject<O>,
 >(
   defVal: TDefault,
-  override: TOverride
+  override: TOverride,
 ) {
   const intersectingKeys = sharedKeys(defVal, override) as string[];
   const defUnique = withoutKeys(defVal, ...intersectingKeys as readonly string[]) as unknown as string[];
@@ -21,11 +19,11 @@ export function mergeObjects<
       (acc, key) => typeof override[key] === "undefined"
         ? { ...acc, [key]: defVal[key] }
         : { ...acc, [key]: override[key] },
-      {} as Dictionary
+      {} as Dictionary,
     )),
     ...defUnique,
     ...overrideUnique,
   };
 
-  return merged as unknown as MergeObjects<TDefault, TOverride>
+  return merged as unknown as MergeObjects<TDefault, TOverride>;
 }

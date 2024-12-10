@@ -13,16 +13,16 @@ import { toPascalCase } from "inferred-types/runtime";
  */
 export function toCamelCase<
   TString extends string,
-  TPreserve extends boolean = false
+  TPreserve extends boolean = false,
 >(input: TString, preserveWhitespace?: TPreserve): CamelCase<TString, TPreserve> {
   const pascal = preserveWhitespace ? toPascalCase(input, preserveWhitespace) : toPascalCase(input);
   const [_, preWhite, focus, postWhite] = /^(\s*)(.*?)(\s*)$/.exec(
-    pascal
+    pascal,
   ) as RegExpExecArray;
 
-  const camel = (preserveWhitespace ? preWhite : "") +
-    focus.replace(/^.*?([0-9]*?[a-z|A-Z]{1})/s, (_, p1) => p1.toLowerCase()) +
-    (preserveWhitespace ? postWhite : "") as unknown as CamelCase<TString, TPreserve>;
+  const camel = (preserveWhitespace ? preWhite : "")
+    + focus.replace(/^.*?(\d*[a-z|])/is, (_, p1) => p1.toLowerCase())
+    + (preserveWhitespace ? postWhite : "") as unknown as CamelCase<TString, TPreserve>;
 
   return camel;
 }

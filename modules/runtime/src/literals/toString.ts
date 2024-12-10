@@ -1,4 +1,4 @@
-import { ToString, Narrowable } from "inferred-types/types";
+import type { Narrowable, ToString } from "inferred-types/types";
 
 /**
  * **toString**()

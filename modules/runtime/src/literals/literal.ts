@@ -1,6 +1,4 @@
-/* eslint-disable no-use-before-define */
-
-import { Narrowable } from "inferred-types/types";
+import type { Narrowable } from "inferred-types/types";
 
 /**
  * Takes an object as input --which has an `id` property and returns it as the same
@@ -15,7 +13,7 @@ export function idLiteral<T extends { id: I }, I extends PropertyKey>(o: T): T &
  * run-time content but with the _type_ of the `name` property being forced to a literal type
  */
 export function nameLiteral<T extends { name: I }, I extends PropertyKey>(
-  o: T
+  o: T,
 ): T & { name: T["name"] } {
   return o;
 }
@@ -25,13 +23,13 @@ export function nameLiteral<T extends { name: I }, I extends PropertyKey>(
  * run-time content but with the _type_ of the `kind` property being forced to a literal type
  */
 export function kindLiteral<T extends { kind: I }, I extends PropertyKey>(
-  o: T
+  o: T,
 ): T & { kind: T["kind"] } {
   return o;
 }
 
 export function idTypeGuard<T extends { id: I }, I extends PropertyKey>(
-  _o: T
+  _o: T,
 ): _o is T & { id: I } {
   return true;
 }

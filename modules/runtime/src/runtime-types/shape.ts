@@ -1,21 +1,21 @@
-import { SHAPE_PREFIXES } from "inferred-types/constants";
-import {
+import type {
+  HandleDoneFn,
   Shape,
+  ShapeCallback,
   ShapeTupleOrUnion,
   ShapeApi as TShapeApi,
-  ShapeCallback,
-  HandleDoneFn,
 } from "inferred-types/types";
-import { isString, hasKeys, isObject, handleDoneFn,  } from "inferred-types/runtime";
+import { SHAPE_PREFIXES } from "inferred-types/constants";
+import { handleDoneFn, hasKeys, isObject, isString } from "inferred-types/runtime";
 import { boolean, nullType, undefinedType, unknown } from "./shape-helpers/atomics";
-import { number, string } from "./shape-helpers/singletons";
 import { fn } from "./shape-helpers/functions";
 import { dictionary, tuple } from "./shape-helpers/literal-containers";
-import { array, map, record, set, weakMap } from "./shape-helpers/wide-containers";
+import { number, string } from "./shape-helpers/singletons";
 import { union } from "./shape-helpers/union";
+import { array, map, record, set, weakMap } from "./shape-helpers/wide-containers";
 
-const isAddOrDone = <T>(val: T): val is ShapeTupleOrUnion & T => {
-  return isObject(val) && hasKeys("add", "done") && typeof val.done === "function" && typeof val.add === "function"
+function isAddOrDone<T>(val: T): val is ShapeTupleOrUnion & T {
+  return isObject(val) && hasKeys("add", "done") && typeof val.done === "function" && typeof val.add === "function";
 }
 
 /*
@@ -50,8 +50,8 @@ export const ShapeApiImplementation = {
   map,
   weakMap,
   dictionary,
-  tuple
-} as unknown as TShapeApi
+  tuple,
+} as unknown as TShapeApi;
 
 /**
  * **shape**(s => s.[API])
@@ -61,12 +61,12 @@ export const ShapeApiImplementation = {
  *
  * **Related:** `isShape(val)`
  */
-export const shape = <
-  T extends ShapeCallback
->(cb: T): HandleDoneFn<ReturnType<T>> => {
+export function shape<
+  T extends ShapeCallback,
+>(cb: T): HandleDoneFn<ReturnType<T>> {
   const rtn = cb(ShapeApiImplementation);
   return handleDoneFn(
-    isAddOrDone(rtn) ? rtn.done() : rtn
+    isAddOrDone(rtn) ? rtn.done() : rtn,
   ) as unknown as HandleDoneFn<ReturnType<T>>;
 }
 
@@ -75,13 +75,9 @@ export const shape = <
  *
  * Type guard which tests whether a value is a _type_ defined by a `Shape`.
  */
-export const isShape = (v: unknown): v is Shape => {
-  return isString(v) &&
-    v.startsWith("<<") &&
-    v.endsWith(">>") &&
-    SHAPE_PREFIXES.some(i => v.startsWith(`<<${i}`))
-    ? true : false
+export function isShape(v: unknown): v is Shape {
+  return !!(isString(v)
+    && v.startsWith("<<")
+    && v.endsWith(">>")
+    && SHAPE_PREFIXES.some(i => v.startsWith(`<<${i}`)));
 }
-
-
-

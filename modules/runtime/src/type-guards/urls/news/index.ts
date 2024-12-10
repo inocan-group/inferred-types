@@ -1,4 +1,4 @@
-import { NewsUrls } from "inferred-types/types";
+import type { NewsUrls } from "inferred-types/types";
 import { isAustralianNewsUrl } from "./australian";
 import { isBelgiumNewsUrl } from "./belgium";
 import { isCanadianNewsUrl } from "./canadian";
@@ -46,6 +46,6 @@ export * from "./us";
  * new organizations for most countries in western EU, North America, and have added notables such
  * as China, India, Japan, South Korea, and Australia as well._
  */
-export const isNewsUrl = (val: unknown): val is NewsUrls => {
-  return isAustralianNewsUrl(val) || isBelgiumNewsUrl(val) || isCanadianNewsUrl(val) || isDanishNewsUrl(val) || isDutchNewsUrl(val) || isFrenchNewsUrl(val) || isGermanNewsUrl(val) || isIndianNewsUrl(val) || isItalianNewsUrl(val) || isJapaneseNewsUrl(val) || isMexicanNewsUrl(val) || isNorwegianNewsUrl(val) || isSouthKoreanNewsUrl(val) || isSpanishNewsUrl(val) || isSwissNewsUrl(val) || isTurkishNewsUrl(val) || isUkNewsUrl(val) || isUsNewsUrl(val)
+export function isNewsUrl(val: unknown): val is NewsUrls {
+  return isAustralianNewsUrl(val) || isBelgiumNewsUrl(val) || isCanadianNewsUrl(val) || isDanishNewsUrl(val) || isDutchNewsUrl(val) || isFrenchNewsUrl(val) || isGermanNewsUrl(val) || isIndianNewsUrl(val) || isItalianNewsUrl(val) || isJapaneseNewsUrl(val) || isMexicanNewsUrl(val) || isNorwegianNewsUrl(val) || isSouthKoreanNewsUrl(val) || isSpanishNewsUrl(val) || isSwissNewsUrl(val) || isTurkishNewsUrl(val) || isUkNewsUrl(val) || isUsNewsUrl(val);
 }

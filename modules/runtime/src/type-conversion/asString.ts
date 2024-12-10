@@ -1,5 +1,5 @@
-import { AsString } from "inferred-types/types";
-import { isArray, isBoolean, isNumber, isString} from "inferred-types/runtime"
+import type { AsString } from "inferred-types/types";
+import { isArray, isBoolean, isNumber, isString } from "inferred-types/runtime";
 
 /**
  * **asString**`(value)
@@ -18,18 +18,16 @@ import { isArray, isBoolean, isNumber, isString} from "inferred-types/runtime"
  * set the runtime type to a token of `<<string::...>>` while the
  * type of the string will be
  */
-export const asString = <T>(value: T): AsString<T> => {
+export function asString<T>(value: T): AsString<T> {
   return (
     isString(value)
       ? value
       : isNumber(value)
-      ? `${value}`
-      : isBoolean(value)
-      ? `${value}`
-      : isArray(value)
-      ? value.join("")
-      : String(value)
+        ? `${value}`
+        : isBoolean(value)
+          ? `${value}`
+          : isArray(value)
+            ? value.join("")
+            : String(value)
   ) as unknown as AsString<T>;
 }
-
-

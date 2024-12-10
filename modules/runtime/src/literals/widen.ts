@@ -1,6 +1,4 @@
-
-import {  Narrowable, Widen } from "inferred-types/types";
-
+import type { Narrowable, Widen } from "inferred-types/types";
 
 /**
  * **widen**(value)

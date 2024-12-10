@@ -1,6 +1,6 @@
-import { isString, valuesOf } from "inferred-types/runtime";
+import type { Keys, NetworkProtocol, TupleToUnion, Uri } from "inferred-types/types";
 import { NETWORK_PROTOCOL_LOOKUP } from "inferred-types/constants";
-import { Keys,TupleToUnion,  NetworkProtocol, Uri  } from "inferred-types/types";
+import { isString, valuesOf } from "inferred-types/runtime";
 
 /**
  * **isUri**`(val, ...protocols)`
@@ -13,21 +13,20 @@ import { Keys,TupleToUnion,  NetworkProtocol, Uri  } from "inferred-types/types"
  *
  * **Related:** `isUrl`
  */
-export const isUri = <
+export function isUri<
   T,
-  P extends readonly NetworkProtocol[]
+  P extends readonly NetworkProtocol[],
 >(val: T, ...protocols: P): val is T & Uri<
   Keys<P>["length"] extends 0
-  ? NetworkProtocol
-  : TupleToUnion<P>
-> => {
+    ? NetworkProtocol
+    : TupleToUnion<P>
+> {
   const p = protocols.length === 0
     ? valuesOf(NETWORK_PROTOCOL_LOOKUP).flat().filter(i => i)
     : protocols;
 
-  return isString(val) && p.some(i => val.startsWith(`${i}://`))
+  return isString(val) && p.some(i => val.startsWith(`${i}://`));
 }
-
 
 /**
  * **isUrl**`(val,[...protocols])`
@@ -39,17 +38,17 @@ export const isUri = <
  *
  * **Related:** `isUri`
  */
-export const isUrl = <
-T,
-P extends readonly NetworkProtocol[]
+export function isUrl<
+  T,
+  P extends readonly NetworkProtocol[],
 >(val: T, ...protocols: P): val is T & Uri<
   Keys<P>["length"] extends 0
-  ? "http" | "https"
-  : P[number]
-> => {
-const p = protocols.length === 0
-  ? ["http", "https"]
-  : protocols;
+    ? "http" | "https"
+    : P[number]
+> {
+  const p = protocols.length === 0
+    ? ["http", "https"]
+    : protocols;
 
-  return isString(val) && p.some(i => val.startsWith(`${i}://`))
+  return isString(val) && p.some(i => val.startsWith(`${i}://`));
 }

@@ -1,4 +1,4 @@
-import {
+import type {
   Acceleration,
   Area,
   Current,
@@ -15,9 +15,8 @@ import {
   Temperature,
   TimeMetric,
   Voltage,
-  Volume
+  Volume,
 } from "inferred-types/types";
-import { isString } from "../isString";
 import {
   ACCELERATION_METRICS_LOOKUP,
   AREA_METRICS_LOOKUP,
@@ -38,75 +37,74 @@ import {
   VOLUME_METRICS_LOOKUP,
 } from "inferred-types/constants";
 import { stripWhile } from "inferred-types/runtime";
+import { isString } from "../isString";
 
-
-
-const separate = (s: string) => {
-  return stripWhile(s.toLowerCase(), ...NUMERIC_CHAR).trim()
+function separate(s: string) {
+  return stripWhile(s.toLowerCase(), ...NUMERIC_CHAR).trim();
 }
 
-export const isAreaMetric = (val: unknown): val is Area => {
+export function isAreaMetric(val: unknown): val is Area {
   return isString(val) && AREA_METRICS_LOOKUP.map(i => i.abbrev).includes(separate(val) as any);
 }
 
-export const isLuminosityMetric = (val: unknown): val is Luminosity => {
+export function isLuminosityMetric(val: unknown): val is Luminosity {
   return isString(val) && LUMINOSITY_METRICS_LOOKUP.map(i => i.abbrev).includes(separate(val) as any);
 }
 
-export const isResistance = (val: unknown): val is Resistance => {
+export function isResistance(val: unknown): val is Resistance {
   return isString(val) && RESISTANCE_METRICS_LOOKUP.map(i => i.abbrev).includes(separate(val) as any);
 }
 
-export const isCurrentMetric = (val: unknown): val is Current => {
+export function isCurrentMetric(val: unknown): val is Current {
   return isString(val) && CURRENT_METRICS_LOOKUP.map(i => i.abbrev).includes(separate(val) as any);
 }
 
-export const isVoltageMetric = (val: unknown): val is Voltage => {
+export function isVoltageMetric(val: unknown): val is Voltage {
   return isString(val) && VOLTAGE_METRICS_LOOKUP.map(i => i.abbrev).includes(separate(val) as any);
 }
 
-export const isFrequencyMetric = (val: unknown): val is Frequency => {
+export function isFrequencyMetric(val: unknown): val is Frequency {
   return isString(val) && FREQUENCY_METRICS_LOOKUP.map(i => i.abbrev).includes(separate(val) as any);
 }
 
-export const isPowerMetric = (val: unknown): val is Power => {
+export function isPowerMetric(val: unknown): val is Power {
   return isString(val) && POWER_METRICS_LOOKUP.map(i => i.abbrev).includes(separate(val) as any);
 }
 
-export const isTimeMetric = (val: unknown): val is TimeMetric => {
+export function isTimeMetric(val: unknown): val is TimeMetric {
   return isString(val) && TIME_METRICS_LOOKUP.map(i => i.abbrev).includes(separate(val) as any);
 }
 
-export const isEnergyMetric = (val: unknown): val is Energy => {
+export function isEnergyMetric(val: unknown): val is Energy {
   return isString(val) && ENERGY_METRICS_LOOKUP.map(i => i.abbrev).includes(separate(val) as any);
 }
 
-export const isPressureMetric = (val: unknown): val is Pressure => {
+export function isPressureMetric(val: unknown): val is Pressure {
   return isString(val) && PRESSURE_METRICS_LOOKUP.map(i => i.abbrev).includes(separate(val) as any);
 }
 
-export const isTemperatureMetric = (val: unknown): val is Temperature => {
+export function isTemperatureMetric(val: unknown): val is Temperature {
   return isString(val) && TEMPERATURE_METRICS_LOOKUP.map(i => i.abbrev).includes(separate(val) as any);
 }
 
-export const isVolumeMetric = (val: unknown): val is Volume => {
+export function isVolumeMetric(val: unknown): val is Volume {
   return isString(val) && VOLUME_METRICS_LOOKUP.map(i => i.abbrev).includes(separate(val) as any);
 }
 
-export const isAccelerationMetric = (val: unknown): val is Acceleration => {
+export function isAccelerationMetric(val: unknown): val is Acceleration {
   return isString(val) && ACCELERATION_METRICS_LOOKUP.map(i => i.abbrev).includes(separate(val) as any);
 }
 
-export const isSpeedMetric = (val: unknown): val is Speed => {
+export function isSpeedMetric(val: unknown): val is Speed {
   const speed = SPEED_METRICS_LOOKUP.map(i => i.abbrev);
   return isString(val) && speed.includes(separate(val) as any);
 }
 
-export const isMassMetric = (val: unknown): val is Mass => {
+export function isMassMetric(val: unknown): val is Mass {
   return isString(val) && MASS_METRICS_LOOKUP.map(i => i.abbrev).includes(separate(val) as any);
 }
 
-export const isDistanceMetric = (val: unknown): val is Distance => {
+export function isDistanceMetric(val: unknown): val is Distance {
   return isString(val) && DISTANCE_METRICS_LOOKUP.map(i => i.abbrev).includes(separate(val) as any);
 }
 
@@ -114,20 +112,20 @@ export const isDistanceMetric = (val: unknown): val is Distance => {
  * Type guard which validates the passed in `val` is a `Metric` (unit
  * of measure).
  */
-export const isMetric = (val: unknown): val is Metric => {
+export function isMetric(val: unknown): val is Metric {
   return isDistanceMetric(val)
-  || isMassMetric(val)
-  || isSpeedMetric(val)
-  || isAccelerationMetric(val)
-  || isVoltageMetric(val)
-  || isTemperatureMetric(val)
-  || isPressureMetric(val)
-  || isEnergyMetric(val)
-  || isTimeMetric(val)
-  || isPowerMetric(val)
+    || isMassMetric(val)
+    || isSpeedMetric(val)
+    || isAccelerationMetric(val)
+    || isVoltageMetric(val)
+    || isTemperatureMetric(val)
+    || isPressureMetric(val)
+    || isEnergyMetric(val)
+    || isTimeMetric(val)
+    || isPowerMetric(val)
   || isFrequencyMetric(val)
   || isVoltageMetric(val)
   || isCurrentMetric(val)
   || isLuminosityMetric(val)
-  || isAreaMetric(val)
+  || isAreaMetric(val);
 }

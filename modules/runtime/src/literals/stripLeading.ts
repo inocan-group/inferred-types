@@ -1,4 +1,4 @@
-import { StripLeading, TupleToUnion } from "inferred-types/types";
+import type { StripLeading, TupleToUnion } from "inferred-types/types";
 import { isNumber } from "src/type-guards/isNumber";
 
 /**
@@ -9,7 +9,7 @@ import { isNumber } from "src/type-guards/isNumber";
  */
 export function stripLeading<
   T extends string | number,
-  U extends readonly (string | number)[]
+  U extends readonly (string | number)[],
 >(
   content: T,
   ...strip: U
@@ -24,5 +24,5 @@ export function stripLeading<
 
   return (
     isNumber(content) ? Number(output) : output
-  ) as unknown as StripLeading<T, TupleToUnion<U>>
+  ) as unknown as StripLeading<T, TupleToUnion<U>>;
 }

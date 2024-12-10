@@ -1,5 +1,5 @@
+import type { If, IsSingleChar, Narrowable } from "inferred-types/types";
 import { Never } from "inferred-types/constants";
-import { If, IsSingleChar, Narrowable } from "inferred-types/types";
 
 type Callback<T extends string, R> = <V extends T>(v: V) => R;
 
@@ -9,15 +9,15 @@ const def_else = () => Never;
 export function ifChar<
   T extends string,
   IF extends Narrowable,
-  ELSE extends Narrowable
+  ELSE extends Narrowable,
 >(
   ch: T,
-  callback_if_match: Callback<T,IF> = def_if as Callback<T,IF>,
-  callback_not_match: Callback<T,ELSE> = def_else as Callback<T,ELSE>
+  callback_if_match: Callback<T, IF> = def_if as Callback<T, IF>,
+  callback_not_match: Callback<T, ELSE> = def_else as Callback<T, ELSE>,
 ) {
   return (
     ch.length === 1
-    ? callback_if_match(ch)
-    : callback_not_match(ch)
+      ? callback_if_match(ch)
+      : callback_not_match(ch)
   ) as If<IsSingleChar<T>, IF, ELSE>;
 }

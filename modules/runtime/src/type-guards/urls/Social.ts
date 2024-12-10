@@ -1,6 +1,6 @@
-import { SocialMediaUrl } from "inferred-types/types";
-import { isString } from "../isString";
+import type { SocialMediaUrl } from "inferred-types/types";
 import { SOCIAL_MEDIA } from "inferred-types/constants";
+import { isString } from "../isString";
 
 const URL = SOCIAL_MEDIA.flatMap(i => i.baseUrls);
 const PROFILE = SOCIAL_MEDIA.map(i => i.profileUrl);
@@ -10,8 +10,8 @@ const PROFILE = SOCIAL_MEDIA.map(i => i.profileUrl);
  *
  * **Related:** `isSocialMediaProfileUrl`
  */
-export const isSocialMediaUrl = (val: unknown): val is SocialMediaUrl => {
-  return isString(val) && URL.some(i => val.startsWith(i))
+export function isSocialMediaUrl(val: unknown): val is SocialMediaUrl {
+  return isString(val) && URL.some(i => val.startsWith(i));
 }
 
 /**
@@ -20,6 +20,6 @@ export const isSocialMediaUrl = (val: unknown): val is SocialMediaUrl => {
  *
  * **Related:** `isSocialMediaUrl`
  */
-export const isSocialMediaProfileUrl = (val: unknown): val is SocialMediaUrl => {
-  return isString(val) && PROFILE.some(i => i.startsWith(`${i}`))
+export function isSocialMediaProfileUrl(val: unknown): val is SocialMediaUrl {
+  return isString(val) && PROFILE.some(i => i.startsWith(`${i}`));
 }

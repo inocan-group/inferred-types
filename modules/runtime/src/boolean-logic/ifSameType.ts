@@ -1,4 +1,4 @@
-import { Narrowable } from "inferred-types/types";
+import type { Narrowable } from "inferred-types/types";
 
 /**
  * **ifSameType**(value, comparator, same, notSame)
@@ -11,12 +11,12 @@ export function ifSameType<
   TValue extends Narrowable,
   TType extends string | number | boolean | object,
   IF extends Narrowable,
-  ELSE extends Narrowable
+  ELSE extends Narrowable,
 >(
   value: TValue,
   comparator: TType,
   same: <T extends TType & TValue>(v: T) => IF,
-  notSame: <T extends Exclude<TValue, TType>>(v: T) => ELSE
+  notSame: <T extends Exclude<TValue, TType>>(v: T) => ELSE,
 ) {
   return (
     // runtime values match

@@ -1,4 +1,4 @@
-import { AnyObject, Narrowable, WithoutValue } from "inferred-types/types";
+import type { AnyObject, Narrowable, WithoutValue } from "inferred-types/types";
 
 /**
  * **withoutValue**
@@ -15,12 +15,12 @@ import { AnyObject, Narrowable, WithoutValue } from "inferred-types/types";
  * ```
  */
 export function withoutValue<TVal extends Narrowable>(val: TVal) {
-  return <TObj extends AnyObject>(obj: TObj): WithoutValue<TObj,TVal> => {
+  return <TObj extends AnyObject>(obj: TObj): WithoutValue<TObj, TVal> => {
     return Object.keys(obj).reduce(
       (acc, key) => val === obj[key as keyof TObj]
         ? acc
-        : ({...acc, [key]: obj[key as keyof TObj]}),
-      {} as WithoutValue<TObj,TVal>
+        : ({ ...acc, [key]: obj[key as keyof TObj] }),
+      {} as WithoutValue<TObj, TVal>,
     );
   };
 }

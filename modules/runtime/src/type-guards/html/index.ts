@@ -1,1 +1,1 @@
-export * from "./isHtmlElement"
+export * from "./isHtmlElement";

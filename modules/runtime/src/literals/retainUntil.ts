@@ -1,4 +1,4 @@
-import { RetainUntil } from "inferred-types/types";
+import type { RetainUntil } from "inferred-types/types";
 import { asChars } from "src/type-conversion";
 
 /**
@@ -17,22 +17,21 @@ import { asChars } from "src/type-conversion";
  */
 export function retainUntil<
   TContent extends string,
-  TFind extends readonly string[]
+  TFind extends readonly string[],
 >(content: TContent, ...find: TFind) {
   const chars = asChars(content) as readonly string[];
 
   let idx = 0;
   while (!find.includes(chars[idx]) && idx <= chars.length) {
-    idx = idx+1;
+    idx = idx + 1;
   }
 
   return (
     idx === 0
-    ? ""
-    : content.slice(0,idx)
+      ? ""
+      : content.slice(0, idx)
   ) as unknown as RetainUntil<TContent, TFind[number]>;
 }
-
 
 /**
  * **retainUntil**`(content, ...find)`
@@ -50,18 +49,18 @@ export function retainUntil<
  */
 export function retainUntilInclusive<
   TContent extends string,
-  TFind extends readonly string[]
+  TFind extends readonly string[],
 >(content: TContent, ...find: TFind) {
   const chars = asChars(content) as readonly string[];
 
   let idx = 0;
   while (!find.includes(chars[idx]) && idx <= chars.length) {
-    idx = idx+1;
+    idx = idx + 1;
   }
 
   return (
     idx === 0
-    ? content.slice(0,1)
-    : content.slice(0,idx+1)
+      ? content.slice(0, 1)
+      : content.slice(0, idx + 1)
   ) as unknown as RetainUntil<TContent, TFind[number], true>;
 }

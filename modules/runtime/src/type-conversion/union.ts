@@ -1,4 +1,4 @@
-import { Narrowable, TupleToUnion } from "inferred-types/types";
+import type { Narrowable, TupleToUnion } from "inferred-types/types";
 
 /**
  * **union**(options) => (value)
@@ -7,9 +7,11 @@ import { Narrowable, TupleToUnion } from "inferred-types/types";
  *
  * **Related:** `unionize`
  */
-export const union = <
-  TOptions extends readonly Narrowable[]
+export function union<
+  TOptions extends readonly Narrowable[],
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
->(...options: TOptions) => <
-  TValue extends TupleToUnion<TOptions>
->(value: TValue) => value as TupleToUnion<TOptions>;
+>(...options: TOptions) {
+  return <
+    TValue extends TupleToUnion<TOptions>,
+  >(value: TValue) => value as TupleToUnion<TOptions>;
+}

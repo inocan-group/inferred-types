@@ -1,6 +1,4 @@
-import { If, IsFalse, IsString, IsTrue, Narrowable } from "inferred-types/types";
-
-
+import type { If, IsFalse, IsString, IsTrue, Narrowable } from "inferred-types/types";
 
 /**
  * **ifString**
@@ -16,11 +14,11 @@ import { If, IsFalse, IsString, IsTrue, Narrowable } from "inferred-types/types"
 export function ifString<
   TContent,
   TIf extends Narrowable,
-  TElse extends Narrowable
+  TElse extends Narrowable,
 >(
   val: TContent,
   ifVal: <V extends TContent & string>(t: V & TContent) => TIf,
-  elseVal: <V extends Exclude<TContent, string>>(v: V & TContent) => TElse
+  elseVal: <V extends Exclude<TContent, string>>(v: V & TContent) => TElse,
 ) {
   return (
     typeof val === "string"
@@ -31,7 +29,5 @@ export function ifString<
       IsTrue<IsString<TContent>>,
       TIf,
       If<IsFalse<IsString<TContent>>, TElse, TIf | TElse>
-    >
-
-
+    >;
 }

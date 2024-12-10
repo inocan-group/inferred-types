@@ -1,6 +1,5 @@
-import { PathJoin } from "inferred-types/types";
-import { stripTrailing, stripLeading } from "inferred-types/runtime";
-
+import type { PathJoin } from "inferred-types/types";
+import { stripLeading, stripTrailing } from "inferred-types/runtime";
 
 /**
  * **pathJoin**`<T,U>(begin, ...rest)`
@@ -21,5 +20,5 @@ export function pathJoin<T extends readonly string[]>(
   const pre = original_path.startsWith("/") ? "/" : "";
   const post = original_path.endsWith("/") ? "/" : "";
 
-  return `${pre}${clean_path}${post}` as PathJoin<T>
+  return `${pre}${clean_path}${post}` as PathJoin<T>;
 }

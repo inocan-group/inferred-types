@@ -1,37 +1,39 @@
 import type {
-  Narrowable,
+  NoDefaultValue,
+  NotDefined,
+} from "inferred-types/constants";
+import type {
+  Dictionary,
   DotPathFor,
   Get,
+  Narrowable,
   Suggest,
   Tuple,
-  Dictionary,
 } from "inferred-types/types";
 import {
   NO_DEFAULT_VALUE,
-  NoDefaultValue,
-  NotDefined,
-  NOT_DEFINED
+  NOT_DEFINED,
 } from "inferred-types/constants";
 import {
   createErrorCondition,
-  isTruthy,
-  hasIndexOf,
-  isSpecificConstant,
   hasDefaultValue,
+  hasIndexOf,
+  indexOf,
   isContainer,
   isRef,
-  indexOf
+  isSpecificConstant,
+  isTruthy,
 } from "inferred-types/runtime";
 
 /** updates based on whether segment is a Ref or not */
 function updatedDotPath<
   TValue,
   TDotPath extends string,
-  TSegment extends string
+  TSegment extends string,
 >(value: TValue, dotpath: TDotPath, segment: TSegment) {
   return isRef(value)
-  ? dotpath.replace(segment, `Ref(${segment})`)
-  : dotpath;
+    ? dotpath.replace(segment, `Ref(${segment})`)
+    : dotpath;
 }
 
 /**
@@ -48,9 +50,8 @@ function getValue<
   dotPath: TDotPath,
   defaultValue: TDefVal,
   handleInvalid: TInvalid,
-  fullDotPath: TFullDotPath
+  fullDotPath: TFullDotPath,
 ) {
-
   /** the remaining segments that need processing */
   const pathSegments: string[] = isTruthy(dotPath)
     ? dotPath.split(".")
@@ -62,7 +63,7 @@ function getValue<
   /**
    * dotpath _will_ need to recurse further to
    * reach destination
-   **/
+   */
   const hasMoreSegments = pathSegments.length > 1;
 
   /** whether or not the value is indexable or not */
@@ -71,31 +72,29 @@ function getValue<
   /** has handler for invalid dotpath */
   const hasHandler = !isSpecificConstant("not-defined")(handleInvalid);
 
-
-
   const invalidDotPath = createErrorCondition(
     "invalid-dot-path",
-    `The segment "${idx}" in the dotpath "${fullDotPath}" was not indexable and no default value existed on: ${JSON.stringify(value)}`
+    `The segment "${idx}" in the dotpath "${fullDotPath}" was not indexable and no default value existed on: ${JSON.stringify(value)}`,
   );
 
   const current = (
     hasMoreSegments
-    ? isContainer(value) && idx in value
-      ? getValue(
-          indexOf(value, idx) ,
-          pathSegments.join(".").replace(`${idx}.`, ""),
-          defaultValue,
-          handleInvalid,
-          updatedDotPath(value,fullDotPath, idx)
-        )
-      : hasHandler
-        ? handleInvalid
-        : invalidDotPath
-    : valueIsIndexable
-      ? hasDefaultValue(hasDefaultValue)
-        ? (indexOf(value, idx) as any || defaultValue) as any
-        : indexOf(value, idx)
-      : hasHandler ? handleInvalid : invalidDotPath
+      ? isContainer(value) && idx in value
+        ? getValue(
+            indexOf(value, idx),
+            pathSegments.join(".").replace(`${idx}.`, ""),
+            defaultValue,
+            handleInvalid,
+            updatedDotPath(value, fullDotPath, idx),
+          )
+        : hasHandler
+          ? handleInvalid
+          : invalidDotPath
+      : valueIsIndexable
+        ? hasDefaultValue(hasDefaultValue)
+          ? (indexOf(value, idx) as any || defaultValue) as any
+          : indexOf(value, idx)
+        : hasHandler ? handleInvalid : invalidDotPath
   ) as unknown as Get<TValue, TDotPath>;
 
   return current;
@@ -103,7 +102,7 @@ function getValue<
 
 export interface GetOptions<
   TDefVal extends Narrowable,
-  TInvalid extends Narrowable
+  TInvalid extends Narrowable,
 > {
   /**
    * Typically when getting a valid dotpath and the value evaluates to _undefined_
@@ -122,7 +121,6 @@ export interface GetOptions<
    */
   handleInvalidDotpath?: TInvalid;
 }
-
 
 /**
  * **get**(obj, dotPath, [defVal])
@@ -143,26 +141,26 @@ export function get<
   TValue extends Narrowable | readonly unknown[],
   TDotPath extends Suggest<DotPathFor<TValue>>,
   TDefVal extends Narrowable = NoDefaultValue,
-  TInvalid extends Narrowable = NotDefined
+  TInvalid extends Narrowable = NotDefined,
 >(
-    value: TValue,
-    dotPath: TDotPath | null,
-    options: GetOptions<TDefVal, TInvalid> = {
-      defaultValue: NO_DEFAULT_VALUE,
-      handleInvalidDotpath: NOT_DEFINED
-    } as GetOptions<TDefVal, TInvalid>
+  value: TValue,
+  dotPath: TDotPath | null,
+  options: GetOptions<TDefVal, TInvalid> = {
+    defaultValue: NO_DEFAULT_VALUE,
+    handleInvalidDotpath: NOT_DEFINED,
+  } as GetOptions<TDefVal, TInvalid>,
 ) {
   const outcome: unknown = (
     dotPath === null || dotPath === ""
       ? value
       : getValue(
-          value as Dictionary | Tuple,
-          dotPath,
-          options?.defaultValue || NO_DEFAULT_VALUE,
-          options?.handleInvalidDotpath || NOT_DEFINED,
-          String(dotPath)
-        ) as unknown
+        value as Dictionary | Tuple,
+        dotPath,
+        options?.defaultValue || NO_DEFAULT_VALUE,
+        options?.handleInvalidDotpath || NOT_DEFINED,
+        String(dotPath),
+      ) as unknown
   );
 
-  return outcome as unknown as Get<TValue,TDotPath>
+  return outcome as unknown as Get<TValue, TDotPath>;
 }

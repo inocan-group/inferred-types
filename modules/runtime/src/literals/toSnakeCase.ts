@@ -1,4 +1,4 @@
-import { SnakeCase } from "inferred-types/types";
+import type { SnakeCase } from "inferred-types/types";
 
 /**
  * **toSnakeCase**(str)
@@ -12,22 +12,21 @@ import { SnakeCase } from "inferred-types/types";
  */
 export function toSnakeCase<
   S extends string,
-  P extends boolean = false
->(input: S, preserveWhitespace: P = false as P): SnakeCase<S,P> {
+  P extends boolean = false,
+>(input: S, preserveWhitespace: P = false as P): SnakeCase<S, P> {
   const [_, preWhite, focus, postWhite] = /^(\s*)(.*?)(\s*)$/.exec(input) as RegExpExecArray;
 
-  const convertInteriorSpace = (input: string) => input.replace(/\s+/gs, "_");
-  const convertDashes = (input: string) => input.replace(/-/gs, "_");
-  const injectUnderscoreBeforeCaps = (input: string) => input.replace(/([A-Z])/gs, "_$1");
+  const convertInteriorSpace = (input: string) => input.replace(/\s+/g, "_");
+  const convertDashes = (input: string) => input.replace(/-/g, "_");
+  const injectUnderscoreBeforeCaps = (input: string) => input.replace(/([A-Z])/g, "_$1");
   const removeLeadingUnderscore = (input: string) =>
     input.startsWith("_") ? input.slice(1) : input;
 
   return (
-    (preserveWhitespace ? preWhite : "") +
-    removeLeadingUnderscore(
-      injectUnderscoreBeforeCaps(convertDashes(convertInteriorSpace(focus)))
-    ).toLowerCase() +
-    (preserveWhitespace ? postWhite : "")
-  ).replace(/__/g, "_") as unknown as SnakeCase<S,P>;
+    (preserveWhitespace ? preWhite : "")
+    + removeLeadingUnderscore(
+      injectUnderscoreBeforeCaps(convertDashes(convertInteriorSpace(focus))),
+    ).toLowerCase()
+    + (preserveWhitespace ? postWhite : "")
+  ).replace(/__/g, "_") as unknown as SnakeCase<S, P>;
 }
-

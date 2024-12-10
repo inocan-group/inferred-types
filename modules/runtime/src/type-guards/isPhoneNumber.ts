@@ -1,5 +1,5 @@
-import { NUMERIC_CHAR, WHITESPACE_CHARS } from "inferred-types/constants"
-import { retainChars, stripChars } from "inferred-types/runtime"
+import { NUMERIC_CHAR, WHITESPACE_CHARS } from "inferred-types/constants";
+import { retainChars, stripChars } from "inferred-types/runtime";
 
 /**
  * **isPhoneNumber**`(val)`
@@ -13,23 +13,28 @@ import { retainChars, stripChars } from "inferred-types/runtime"
  *
  * **Related:** `asPhoneNumber()`, `PhoneNumber`
  */
-export const isPhoneNumber = (val: unknown) => {
-    let svelte: string = String(val).trim();
-    let chars: readonly string[] = svelte.split("");
-    let numeric: string = retainChars(svelte, ...NUMERIC_CHAR)
-    let valid = ["+","(",...NUMERIC_CHAR];
-    let nothing: string = stripChars(svelte, ...[
-      ...NUMERIC_CHAR,
-      ...WHITESPACE_CHARS, "(", ")", "+", ".", "-"
-    ]);
+export function isPhoneNumber(val: unknown) {
+  const svelte: string = String(val).trim();
+  const chars: readonly string[] = svelte.split("");
+  const numeric: string = retainChars(svelte, ...NUMERIC_CHAR);
+  const valid = ["+", "(", ...NUMERIC_CHAR];
+  const nothing: string = stripChars(svelte, ...[
+    ...NUMERIC_CHAR,
+    ...WHITESPACE_CHARS,
+    "(",
+    ")",
+    "+",
+    ".",
+    "-",
+  ]);
 
-    return (
-      chars.every(i => valid.includes(i)) &&
-      svelte.startsWith(`+`)
-        ? numeric.length >= 8
-        : svelte.startsWith(`00`)
+  return (
+    chars.every(i => valid.includes(i))
+    && svelte.startsWith(`+`)
+      ? numeric.length >= 8
+      : svelte.startsWith(`00`)
         ? numeric.length >= 10
         : numeric.length >= 7
-      && nothing === ""
-    )
+          && nothing === ""
+  );
 }

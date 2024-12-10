@@ -1,31 +1,30 @@
-
-import {
+import type {
+  HandleDoneFn,
   ShapeCallback,
-  HandleDoneFn
-} from "inferred-types/types"
+} from "inferred-types/types";
 import {
-  isDoneFn,
-  ShapeApiImplementation,
   isArray,
+  isDoneFn,
   isSameTypeOf,
-  isShape
- } from "inferred-types/runtime"
+  isShape,
+  ShapeApiImplementation,
+} from "inferred-types/runtime";
 
 type FromDefn<
-  T extends readonly ShapeCallback[]
+  T extends readonly ShapeCallback[],
 > = {
   [K in keyof T]: HandleDoneFn<ReturnType<T[K]>>
 };
 
-export const isTuple = <TDefn extends readonly ShapeCallback[]>(...tuple: TDefn) => {
+export function isTuple<TDefn extends readonly ShapeCallback[]>(...tuple: TDefn) {
   const results = tuple
     .map(i => i(ShapeApiImplementation))
     .map(i => isDoneFn(i) ? (i as any).done() : i);
 
   return <T>(v: T): v is T & FromDefn<TDefn> => {
-    return isArray(v) &&
-      v.length === results.length &&
-      results.every(isShape) &&
-      v.every((item, idx) => isSameTypeOf(results[idx])(item))
-  }
+    return isArray(v)
+      && v.length === results.length
+      && results.every(isShape)
+      && v.every((item, idx) => isSameTypeOf(results[idx])(item));
+  };
 }

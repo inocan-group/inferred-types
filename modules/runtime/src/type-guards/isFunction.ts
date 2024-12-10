@@ -1,4 +1,4 @@
-import {  TypedFunction } from "inferred-types/types";
+import type { TypedFunction } from "inferred-types/types";
 
 /**
  * **isFunction**(value)
@@ -9,7 +9,5 @@ import {  TypedFunction } from "inferred-types/types";
  */
 export function isFunction<T>(value: T): value is T & TypedFunction {
   return (typeof value === "function"
-    ? true
-    : false
   );
 }

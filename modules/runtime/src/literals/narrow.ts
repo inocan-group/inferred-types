@@ -1,4 +1,4 @@
-import {
+import type {
   First,
   IsUnion,
   Length,
@@ -24,7 +24,7 @@ import {
 export function narrow<
   N extends Narrowable,
   K extends PropertyKey,
-  T extends readonly (Record<K,N> | N)[]
+  T extends readonly (Record<K, N> | N)[],
 >(...values: T) {
   return (
     values.length === 1
@@ -41,4 +41,3 @@ export function narrow<
       : T[0]
     : Readonly<T>;
 }
-
