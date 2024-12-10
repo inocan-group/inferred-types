@@ -9,7 +9,6 @@ import type {
   First,
   HasEscapeFunction,
   If,
-  IfUnset,
   IsEscapeFunction,
   KeyOf,
   PublicKeyOf,
@@ -142,42 +141,6 @@ export interface ApiConfig<
   mask: ((state: TState, called: readonly string[]) => readonly (KeyOf<TSurface>)[]);
 }
 
-// /**
-//  * **ToFluent**`<TSurface,TState,TUseOnce>`
-//  *
-//  * Upgrades a base API to an API which supports state management
-//  * and a Fluent API style.
-//  */
-// export type DefineFluentApi<
-//   TSurface extends Dictionary | TypedFunction = EmptyObject,
-//   TState extends readonly FluentFn<TState, any, any>[] = [],
-//   TConfig extends ApiConfig = { callOnce: ["escapeFn"] }
-// > = {
-//   addFluentFn: <
-//     TName extends string,
-//     TFn extends <TCb extends (
-//       <T extends FluentState<TState>>(state: T) => TypedFunction<TState>
-//     )>(cb: TCb) => void,
-//     TUse extends boolean = false
-//   >(name: TName, fn: TFn, useOnce?: TUse) => DefineFluentApi<
-//       TSurface,
-//       TState,
-//       [
-//         ...TState,
-//         FluentFn<TState,TName,TFn>
-//       ]
-//     >;
-//   done: () => FluentApi<TSurface,TState,TState>;
-// };
-
-// export type AsFluentApi<
-//   TSurface extends Dictionary | TypedFunction,
-//   TState,
-//   TFluentFns extends readonly [FluentFn<TState, any, any>, ...FluentFn<TState, any, any>[]]
-// > = HasEscapeFunction<TSurface> extends true
-// ? FluentApi<TSurface, TState, TFluentFns>
-// : Throw<"no-escape-function">;
-
 /**
  * **ApiOptions**`<[TSurface]>`
  *
@@ -202,8 +165,8 @@ export interface ApiOptions<
   callOnce: TSurface extends Unset
     ? readonly PropertyKey[]
     : TSurface extends Dictionary | TypedFunction
-    ? readonly PublicKeyOf<AsApi<TSurface>>[]
-    : never
+      ? readonly PublicKeyOf<AsApi<TSurface>>[]
+      : never;
 
 }
 
