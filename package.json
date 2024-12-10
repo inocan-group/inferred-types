@@ -5,9 +5,9 @@
   "license": "MIT",
   "author": "Ken Snyder<ken@ken.net>",
   "type": "module",
-  "module": "./dist/index.js",
-  "main": "./dist/index.cjs",
-  "typings": "./dist/inferred-types/index.d.ts",
+  "module": "./modules/inferred-types/dist/index.js",
+  "main": "./modules/inferred-types/dist/index.cjs",
+  "typings": "./modules/inferred-types/dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./modules/inferred-types/dist/index.d.ts",
@@ -118,8 +118,5 @@
       "vite@>=5.4.0 <=5.4.5": ">=5.4.6"
     }
   },
-  "dependencies": {
-    "error-stack-parser-es": "^0.1.5",
-    "pathe": "^1.1.2"
-  }
+  "dependencies": {}
 }
