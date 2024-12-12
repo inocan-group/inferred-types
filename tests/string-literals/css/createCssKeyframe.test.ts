@@ -29,6 +29,7 @@ describe("createCssKeyframe()", () => {
   to { opacity: 1; transform: rotate(360deg) }
 }`)
 
+
     // @ts-ignore
     type cases = [
       Expect<Equal<KF["name"], "scroll-show">>,
