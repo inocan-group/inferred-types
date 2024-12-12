@@ -41,7 +41,6 @@
   },
   "sideEffects": false,
   "scripts": {
-    "prepare": "ts-patch install -s",
     "build": "bash build",
     "build:tsc": "tsc -b modules/constants modules/types modules/runtime",
     "diag": "tsc -b -f --extendedDiagnostics src/inferred-types",
@@ -65,10 +64,7 @@
     "release:latest": "pnpm install",
     "release:bump": "bumpp",
     "prepublishOnly": "npm run build",
-    "watch": "run-p watch:*",
-    "watch:types": "ts-type-tester tests tests/tsconfig.json --ignore 6133 -w",
-    "watch:lint": "esw (src|tests)/**/*.ts -w --clear",
-    "watch:bundle": "tsup src/index.ts --format=esm --dts"
+    "watch": "bash watch"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.11.2",

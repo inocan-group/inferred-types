@@ -73,7 +73,9 @@ function hasDone<T>(val: T): val is KeyframeApi<any[]> & T {
   return isObject(val) && "done" in val && typeof val.done === "function";
 }
 
-function frameToCss<T extends readonly [CssKeyframeTimestamp, CssDefinition][]>(frames: T) {
+function frameToCss<T extends readonly [CssKeyframeTimestamp, CssDefinition][]>(
+  frames: T,
+) {
   const tuples: [CssKeyframeTimestamp, string][] = frames.map(([ts, defn]) => [
     ts,
     Object.keys(defn).reduce(
