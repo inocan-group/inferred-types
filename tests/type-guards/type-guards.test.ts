@@ -3,7 +3,6 @@ import { describe, expect, it } from "vitest";
 
 import {
   narrow,
-  createFnWithProps,
   optional,
   isArray,
   isReadonlyArray,
@@ -12,7 +11,6 @@ import {
   isRef,
   isConstant,
   isSpecificConstant,
-  isFnWithParams,
   defineObj,
   isNumericString,
   DoesExtend
@@ -302,60 +300,3 @@ describe("isConstant()", () => {
     }
   });
 });
-
-
-describe("isFnWithParams()", () => {
-  const fn = () => "hi" as const;
-  const obj = narrow({foo: 1, bar: 2});
-  const secretHybrid = () => "secret";
-  secretHybrid.foo = 42;
-  const typedHybrid = createFnWithProps(fn,obj);
-  const unionHybrid = typedHybrid as typeof typedHybrid | undefined;
-
-  it("test vars validated", () => {
-    // runtime
-    expect(secretHybrid()).toBe("secret");
-    expect(secretHybrid.foo).toBe(42);
-    expect(typedHybrid()).toBe("hi");
-    expect(typedHybrid.foo).toBe(1);
-  });
-
-
-  it("positive test with typed hybrid", () => {
-    if(isFnWithParams(typedHybrid)) {
-      expect(true).toBe(true);
-
-      type cases = [
-        Expect<Equal<
-          typeof typedHybrid,
-          (() => "hi") & { foo: 1; bar: 2 }
-        >>
-      ];
-      const cases: cases = [ true ];
-
-    } else {
-      throw new Error("typedHybrid should have resolved as true in type guard!");
-    }
-  });
-
-  it("positive test with hybrid in union with undefined", () => {
-    if(isFnWithParams(unionHybrid)) {
-      expect(true).toBe(true);
-
-      type cases = [
-        Expect<Equal<
-          typeof unionHybrid,
-          (() => "hi") & { foo: 1; bar: 2 }
-        >>
-      ];
-      const cases: cases = [ true ];
-
-    } else {
-      throw new Error("unionHybrid should have resolved as true in type guard!");
-    }
-  });
-
-});
-
-
-

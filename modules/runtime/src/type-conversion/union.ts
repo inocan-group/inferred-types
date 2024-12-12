@@ -10,7 +10,7 @@ import type { Narrowable } from "inferred-types/types";
 export function union<
   TOptions extends readonly Narrowable[],
 >(..._options: TOptions) {
-  return <
-    TValue extends TOptions[number],
-  >(value: TValue): TValue & TOptions[number] => value as TValue & TOptions[number];
+  return <TValue extends TOptions[number]>(
+    value: TValue,
+  ): TValue & TOptions[number] => value as TValue & TOptions[number];
 }
