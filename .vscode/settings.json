@@ -142,6 +142,15 @@
   "references.preferredLocation": "peek",
   "eslint.useFlatConfig": true,
   "prettier.enable": false,
+  "json.schemas": [
+    {
+      "url": "https://cdn.jsdelivr.net/npm/tsup/shcema.json",
+      "fileMatch": [
+        "package.json",
+        "tsup.config.json"
+      ]
+    }
+  ],
   // Auto fix
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",

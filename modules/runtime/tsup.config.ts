@@ -1,17 +1,20 @@
-import { defineConfig } from "tsup";
+import { defineConfig, type Format } from "tsup";
 
-export default defineConfig({
-  entry: ["src/index.ts"],
-  format: ["esm", "cjs"],
-  dts: { entry: ["src/index.ts"] },
-  splitting: false,
-  sourcemap: true,
-  clean: false,
-  treeshake: true,
-  outDir: "dist",
-  outExtension: ({ format }) => ({
-    js: format === "cjs" ? ".cjs" : ".js",
-    dts: format === "cjs" ? ".cts" : ".ts",
-  }),
-  tsconfig: "./tsconfig.tsup.json",
-});
+function config(format: Format) {
+  return defineConfig({
+    entry: ["src/index.ts"],
+    format,
+    dts: format === "cjs" ? { entry: ["src/index.ts"] } : false,
+    sourcemap: true,
+    clean: false,
+    outExtension: () => {
+      return {
+        js: format === "cjs" ? ".cjs" : ".js",
+        dts: ".ts",
+      };
+    },
+    tsconfig: "./tsconfig.tsup.json",
+  });
+}
+
+export default [config("cjs"), config("esm")];

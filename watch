@@ -1,36 +1,99 @@
 #!/usr/bin/env bash
 
-echo ""
-echo "Watching inferred-types with TSUP"
-echo ""
+export BOLD='\033[1m'
+export DIM='\033[2m'
+export ITALIC='\033[3m'
+export RESET='\033[0m'
 
-echo " - constants"
-cd './modules/constants' || exit
-tsup --watch &
+export GREEN='\033[38;5;2m'
+export RED='\033[38;5;1m'
+export YELLOW='\033[38;5;3m'
 
-echo ""
-echo "- types"
-cd '../types' || exit
+function log() {
+    printf "%b\\n" "${*}" >&2
+}
 
-tsup --watch &
-echo ""
+# Function to clean up child processes on script termination
+function cleanup() {
+    # Ensure this runs only once
+    if [[ -n "$CLEANUP_CALLED" ]]; then
+        return
+    fi
+    CLEANUP_CALLED=true
 
-echo " - runtime"
-cd '../runtime' || exit
-tsup --watch &
+    log "- ${RED}Terminating watcher processes...${RESET}"
+    # Kill all child processes except the script itself
+    pkill -P $$
 
-echo ""
-echo "- inferred-types"
-cd '../inferred-types' || exit
-tsup --watch &
+    exit
+}
 
-echo ""
-echo "- 👓 Watchers watching"
-echo ""
+# Set up the trap to call cleanup on script termination
+trap cleanup SIGINT SIGTERM
 
-bg
+function initialize {
+  echo ""
+  echo "Watching modules with TSUP"
+  echo ""
 
-echo "- Watchers Stopped"
-echo ""
+  cd './modules/inferred-types' || exit
+  log "- initialize ${BOLD}${GREEN}Inferred Types${RESET} module"
+  tsup --watch --onSuccess "../../watch inferred" &
+  cd - || exit
 
+  sleep 1
 
+  cd './modules/runtime' || exit
+  log "- initialize ${BOLD}${GREEN}Runtime${RESET} module"
+  tsup --watch --onSuccess "../../watch runtime" &
+  cd - || exit
+
+  sleep 5
+
+  cd './modules/types' || exit
+  log "- initialize ${BOLD}${GREEN}Types${RESET} module"
+  tsup --watch --onSuccess "../../watch types" &
+  cd - || exit
+
+  sleep 5
+
+  cd './modules/constants' || exit
+  log "- initialize ${BOLD}${GREEN}Constants${RESET} module"
+  tsup --watch --onSuccess "../../watch constants" &
+  cd - || exit
+
+  # Wait for all background processes
+  wait
+}
+
+function watch {
+  local -r cmd="${1:-init}"
+
+  case "${cmd}" in
+    inferred)
+      log ""
+      log "- ${GREEN}inferred-types${RESET} recompiled"
+      log ""
+      ;;
+    runtime)
+      log ""
+      log "- ${GREEN}runtime${RESET} recompiled"
+      log ""
+      ;;
+    types)
+      log ""
+      log "- ${GREEN}types${RESET} recompiled"
+      log ""
+      ;;
+    constants)
+      log ""
+      log "- ${GREEN}constants${RESET} recompiled"
+      log ""
+      ;;
+    init) initialize;;
+
+  esac
+}
+
+# Initialize and wait if $1 is not a specific command
+watch "$1"
