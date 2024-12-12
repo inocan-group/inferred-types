@@ -1,9 +1,9 @@
-import type { AlphaNumericChar } from "../AlphaNumeric";
+import type { AlphaChar } from "../AlphaChar";
 import type { HtmlBodyElement } from "./html-element";
 import type { CssPseudoClass, CssPseudoClassDefn } from "./pseudo-classes";
 
-export type CssIdSelector = `#${string}${AlphaNumericChar}`;
-export type CssClassSelector = `.${string}${AlphaNumericChar}`;
+export type CssIdSelector = `#${AlphaChar}${string}`;
+export type CssClassSelector = `.${AlphaChar}${string}`;
 /**
  * A CSS Tag Selector.
  *
