@@ -62,6 +62,9 @@ function initialize {
   tsup --watch --onSuccess "../../watch constants" &
   cd - || exit
 
+  log ""
+  log ""
+
   # Wait for all background processes
   wait
 }
@@ -71,24 +74,19 @@ function watch {
 
   case "${cmd}" in
     inferred)
-      log ""
       log "- ${GREEN}inferred-types${RESET} recompiled"
-      log ""
       ;;
     runtime)
-      log ""
       log "- ${GREEN}runtime${RESET} recompiled"
-      log ""
+      touch "${PWD}/../../modules/inferred-types/src/index.ts"
       ;;
     types)
-      log ""
       log "- ${GREEN}types${RESET} recompiled"
-      log ""
+      touch "${PWD}/../../modules/runtime/src/index.ts"
       ;;
     constants)
-      log ""
       log "- ${GREEN}constants${RESET} recompiled"
-      log ""
+      touch "${PWD}/../../modules/types/src/index.ts"
       ;;
     init) initialize;;
 

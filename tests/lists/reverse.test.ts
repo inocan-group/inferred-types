@@ -13,13 +13,15 @@ describe("Reverse a Readonly Array", () => {
 
     it("happy path", () => {
       type FooBarBaz = Reverse<["foo", "bar", "baz"]>;
+      type Tup = Reverse<[ [1,"foo"], [2, "bar"], [3, "baz"] ]>;
       type Counting = Reverse<[1,2,3,4,5]>;
 
+      // @ts-ignore
       type cases = [
         Expect<Equal<FooBarBaz,  ["baz", "bar", "foo"]>>, //
+        Expect<Equal<Tup, [[3, "baz"] , [2, "bar"], [1,"foo"]]>>,
         Expect<Equal<Counting,  [5,4,3,2,1]>>
       ];
-      const cases: cases = [ true, true ];
     });
 
   });

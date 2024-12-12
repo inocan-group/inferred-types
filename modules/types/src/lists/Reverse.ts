@@ -10,4 +10,6 @@ type RevAcc<
     [ First<TInput>, ...TResults ]
   >;
 
-export type Reverse<T extends readonly unknown[]> = RevAcc<T>;
+export type Reverse<T> = T extends readonly unknown[]
+  ? RevAcc<T>
+  : never;
