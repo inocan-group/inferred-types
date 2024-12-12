@@ -1,24 +1,15 @@
 #!/usr/bin/env bash
 
-export BOLD='\033[1m'
-export DIM='\033[2m'
-export ITALIC='\033[3m'
-export RESET='\033[0m'
+source "./shared.sh"
 
-export GREEN='\033[38;5;2m'
-export RED='\033[38;5;1m'
-export YELLOW='\033[38;5;3m'
+# shellcheck disable=SC2034
+start_time=$( epoch )
 
-function log() {
-    printf "%b\\n" "${*}" >&2
-}
-
-
-echo ""
-echo "Building inferred-types with TSUP"
-echo ""
-
-echo " - constants"
+log ""
+log "Building ${BOLD}inferred-types${RESET} with TSUP"
+log ""
+log "👷‍♂️ building constants"
+log ""
 cd './modules/constants' || exit
 tsup
 
@@ -29,13 +20,15 @@ if [ $? -ne 0 ]; then
     log ""
     exit 1;
 else
-    log ""
-    log "${GREEN}✓${RESET} ${BOLD}constants${RESET} successfully transpiled!"
-    log ""
+  # shellcheck disable=SC2034
+  const_time=$( epoch )
+  log ""
+  log "${GREEN}✓${RESET} ${BOLD}constants${RESET} successfully transpiled ${ITALIC}in${RESET} $(timing start_time const_time)!"
+  log ""
 fi
 
-echo ""
-echo "- types"
+log "👷‍♂️ building types"
+log ""
 cd '../types' || exit
 
 tsup
@@ -46,30 +39,34 @@ if [ $? -ne 0 ]; then
     log ""
     exit 1;
 else
-    log ""
-    log "${GREEN}✓${RESET} ${BOLD}types${RESET} successfully transpiled!"
-    log ""
+  # shellcheck disable=SC2034
+  types_time=$( epoch )
+  log ""
+  log "${GREEN}✓${RESET} ${BOLD}types${RESET} successfully transpiled ${ITALIC}in${RESET} $(timing const_time types_time)!"
+  log ""
 fi
 
-echo ""
-echo " - runtime"
+log "👷‍♂️ building runtime"
+log ""
 cd '../runtime' || exit
 tsup
 
 # shellcheck disable=SC2181
 if [ $? -ne 0 ]; then
-    log ""
-    log "💩 failed to transpile ${BOLD}runtime${RESET}!"
-    log ""
-    exit 1;
+  log ""
+  log "💩 failed to transpile ${BOLD}runtime${RESET}!"
+  log ""
+  exit 1;
 else
-    log ""
-    log "${GREEN}✓${RESET} ${BOLD}runtime${RESET} successfully transpiled!"
-    log ""
+  # shellcheck disable=SC2034
+  runtime_time=$( epoch )
+  log ""
+  log "${GREEN}✓${RESET} ${BOLD}runtime${RESET} successfully transpiled ${ITALIC}in${RESET} $(timing types_time runtime_time)!"
+  log ""
 fi
 
-echo ""
-echo "- inferred-types"
+log "👷‍♂️ building inferred-types"
+log ""
 cd '../inferred-types' || exit
 tsup
 
@@ -80,12 +77,13 @@ if [ $? -ne 0 ]; then
     log ""
     exit 1;
 else
-    log ""
-    log "${GREEN}✓${RESET} ${BOLD}inferred-types${RESET} successfully transpiled!"
-    log ""
+  # shellcheck disable=SC2034
+  inferred_time=$(epoch)
+  log ""
+  log "${GREEN}✓${RESET} ${BOLD}inferred-types${RESET} successfully transpiled ${ITALIC}in${RESET} $(timing types_time inferred_time)!"
+  log ""
 fi
-
-
-echo ""
-echo "- 🚀 Build Complete"
-echo ""
+# shellcheck disable=SC2034
+end_time=$( epoch )
+log "🚀 Build complete ${ITALIC}in${RESET} $(timingSec start_time end_time)"
+log ""
