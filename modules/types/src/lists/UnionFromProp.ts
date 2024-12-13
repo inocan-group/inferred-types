@@ -24,5 +24,3 @@ export type UnionFromProp<
   T extends readonly Record<string, unknown>[],
   P extends string,
 > = Get<T[number], P>;
-
-
