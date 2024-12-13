@@ -1,5 +1,5 @@
 import type {
-  Dictionary,
+  AnyObject,
   If,
   IsTrue,
   Narrowable,
@@ -51,11 +51,11 @@ export function createFnWithProps<
  */
 export function createFnWithPropsExplicit<
   TFn extends TypedFunction,
-  TProps extends Dictionary,
+  TProps extends AnyObject,
 >(fn: TFn, props: TProps) {
   const fnWithProps: any = fn;
   for (const prop of Object.keys(props)) {
-    fnWithProps[prop] = props[prop];
+    fnWithProps[prop] = props[prop as keyof typeof props];
   }
 
   return fnWithProps as TFn & TProps;
