@@ -4,6 +4,7 @@ import type {
   AsDictionary,
   AsType,
   Contains,
+  DefineObject,
   Dictionary,
   EmptyObject,
   ExpandDictionary,
@@ -15,6 +16,7 @@ import type {
   ObjectKey,
   ShapeCallback,
   SimpleToken,
+  SimpleType,
   Tuple,
   TupleToUnion,
   UnionElDefn,
@@ -139,6 +141,14 @@ export type DictTypeDefinition<
 export type FromDefn<
   T,
   TElse = Constant<"not-set">,
-> = T extends readonly unknown[]
-  ? IterateOverDefinitions<T, TElse>
-  : ToType<T, TElse>;
+> = T extends DefineObject
+  ? {
+      [K in keyof T]: T[K] extends SimpleToken
+        ? SimpleType<T[K]>
+        : T[K] extends ShapeCallback
+          ? HandleDoneFn<T[K]>
+          : never
+    }
+  : T extends readonly unknown[]
+    ? IterateOverDefinitions<T, TElse>
+    : ToType<T, TElse>;
