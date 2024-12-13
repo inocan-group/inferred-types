@@ -4,10 +4,10 @@ import {
   get,
   defineObj,
   isErrorCondition,
-} from "inferred-types";
+} from "inferred-types/runtime";
 import type {
   Get,
-} from "inferred-types";
+} from "inferred-types/types";
 import { ref } from "vue";
 
 describe("Get<T, K> type utility", () => {
@@ -111,6 +111,29 @@ describe("Get<T, K> type utility", () => {
     ];
     const cases: cases = [true, true, true];
   });
+
+
+  it("type: Unavailable", () => {
+    type Obj = {
+      foo: 1;
+      bar: {
+        a: "a";
+        b: "b";
+      };
+      baz: [ 1, 2, 3 ];
+    };
+
+    type Undef = Get<Obj, "bar.c">;
+    type WithDef = Get<Obj, "bar.c", 0>;
+
+    // @ts-ignore
+    type cases = [
+      Expect<Equal<Undef, undefined>>,
+      Expect<Equal<WithDef, 0>>,
+    ];
+
+  });
+
 
   it("runtime happy path", () => {
     const deep = ref({deeperStill: [4,5,6]} as const);
