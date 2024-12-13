@@ -1,15 +1,22 @@
 import type {
+  Dictionary,
   If,
   IsTrue,
   Narrowable,
   ObjectKey,
+  TypedFunction,
 } from "inferred-types/types";
 import { isTrue } from "inferred-types/runtime";
 
 /**
  * **createFnWithProps**`(fn, props)`
  *
- * creates a strongly typed function along with properties.
+ * Creates a strongly typed function along with properties.
+ *
+ * **Note:** since the runtime is trying it's hardest to extract
+ * narrow types, it will sometimes reject types it ideally wouldn't.
+ * In these cases you may want to consider using `createFnWithPropsExplicit`
+ * instead.
  */
 export function createFnWithProps<
   TArgs extends readonly unknown[],
@@ -32,4 +39,24 @@ export function createFnWithProps<
     (<A extends TArgs>(...args: A) => TReturn) & TProps,
     ((...args: TArgs) => TReturn) & TProps
   >;
+}
+
+/**
+ * **createFnWithPropsExplicit**`<F,P>(fn, props)`
+ *
+ * Creates a strongly typed function along with properties.
+ *
+ * - unlike the similar `createFnWithProps()`, this utility just
+ * expects you to type the function and properties yourself.
+ */
+export function createFnWithPropsExplicit<
+  TFn extends TypedFunction,
+  TProps extends Dictionary,
+>(fn: TFn, props: TProps) {
+  const fnWithProps: any = fn;
+  for (const prop of Object.keys(props)) {
+    fnWithProps[prop] = props[prop];
+  }
+
+  return fnWithProps as TFn & TProps;
 }

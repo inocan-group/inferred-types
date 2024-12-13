@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it, expect } from "vitest";
 
-import { createFnWithProps } from "inferred-types";
+import { createFnWithProps, createFnWithPropsExplicit } from "inferred-types/runtime";
 
 const fn = () => "hi" as const;
 const fnWithParam = (name: string) => `hi ${name}` as const;
@@ -9,8 +9,6 @@ const fnWithTwoParam = (name: string, age: number) => `hi ${name}, you are ${age
 const fnNarrowing = <T extends string>(name: T) => `hi ${name}` as const;
 
 describe("createFnWithProps()", () => {
-
-
   it("happy path", () => {
     const foo = createFnWithProps(fn, {foo: 42});
     expect(foo.foo).toBe(42);
@@ -61,6 +59,44 @@ describe("createFnWithProps()", () => {
       true, true, true, true,
     ];
   });
+});
+
+describe("createFnWithPropsExplicit()", () => {
+
+  it("non-explicit works but with wider type discovery", () => {
+    const foo = createFnWithPropsExplicit(() => "hi", { foo: 1 });
+    type Foo = typeof foo;
+
+    expect(foo()).toBe("hi");
+    expect(foo.foo).toBe(1);
+
+    // @ts-ignore
+    type cases = [
+      Expect<Equal<Foo["foo"], number>>,
+      Expect<Equal<ReturnType<Foo>, string>>,
+    ]
+
+  });
+
+
+  it("explicit typing gives full shape", () => {
+    type Fn = () => "hi";
+    type Prop = { foo: 1 };
+
+    const foo = createFnWithPropsExplicit<Fn,Prop>(() => "hi", { foo: 1 });
+    type Foo = typeof foo;
+
+    expect(foo()).toBe("hi");
+    expect(foo.foo).toBe(1);
+
+    // @ts-ignore
+    type cases = [
+      Expect<Equal<Foo["foo"], 1>>,
+      Expect<Equal<ReturnType<Foo>, "hi">>,
+    ]
+
+  });
 
 
 });
+
