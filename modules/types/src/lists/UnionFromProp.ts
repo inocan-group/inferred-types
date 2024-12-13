@@ -6,14 +6,14 @@ import type { AfterFirst, First, Get } from "inferred-types/types";
  */
 type HasMissingInstance<
   T extends readonly Record<string, unknown>[],
-  P extends string
+  P extends string,
 > = [] extends T
-? false
-: P extends keyof First<T>
+  ? false
+  : P extends keyof First<T>
     ? HasMissingInstance<
-        AfterFirst<T>,
-        P
-      >
+      AfterFirst<T>,
+      P
+    >
     : true;
 
 /**
@@ -22,22 +22,19 @@ type HasMissingInstance<
 type RemoveMissing<
   T extends readonly Record<string, unknown>[],
   P extends string,
-  R extends readonly Record<string, unknown>[] = []
+  R extends readonly Record<string, unknown>[] = [],
 > = [] extends T
-? R[number]
-: RemoveMissing<
+  ? R[number]
+  : RemoveMissing<
     AfterFirst<T>,
     P,
     P extends keyof First<T>
-    ? [
-      ...R,
-      First<T>
-    ]
-    : R
-  >
-
-;
-
+      ? [
+          ...R,
+          First<T>,
+        ]
+      : R
+  >;
 
 /**
  * **UnionFromProp**
@@ -62,7 +59,6 @@ type RemoveMissing<
 export type UnionFromProp<
   T extends readonly Record<string, unknown>[],
   P extends string,
-> = HasMissingInstance<T,P> extends true
-? Get<RemoveMissing<T,P>, P> | undefined
-: Get<T[number], P>;
-
+> = HasMissingInstance<T, P> extends true
+  ? Get<RemoveMissing<T, P>, P> | undefined
+  : Get<T[number], P>;

@@ -20,4 +20,3 @@ export type Get<
   : _Get<TContainer, TDotPath> extends undefined
     ? TDefVal
     : _Get<TContainer, TDotPath>;
-
