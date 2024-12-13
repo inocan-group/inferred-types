@@ -20,6 +20,8 @@ import type {
  * // { foo: 1; bar: number; baz: number }
  * const fooBarBaz = defineObj({foo: 1})({bar: 2, baz: 3});
  * ```
+ *
+ * **Related:** `defineObject`
  */
 export function defineObj<
   N extends Narrowable,
