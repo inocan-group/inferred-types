@@ -3,6 +3,7 @@
 // index last changed at: 8th Aug, 2022, 09:51 AM ( GMT-7 )
 // hash-code: b0051c37
 
+export * from "./defineObject";
 // file exports
 export * from "./entries";
 export * from "./get";
