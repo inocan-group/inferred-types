@@ -6,3 +6,4 @@ export * from "./JustFunction";
 export * from "./OptionalParamFn";
 export * from "./RegularFn";
 export * from "./TypedFunction";
+export * from "./ParameterlessFn";
