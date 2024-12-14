@@ -7,7 +7,6 @@ import type { TypedFunction } from "inferred-types/types";
  *
  * **Related:** `isFnWithParams`, `ifFunction`
  */
-export function isFunction<T>(value: T): value is T & TypedFunction {
-  return (typeof value === "function"
-  );
+export function isFunction(value: unknown): value is TypedFunction {
+  return typeof value === "function";
 }
