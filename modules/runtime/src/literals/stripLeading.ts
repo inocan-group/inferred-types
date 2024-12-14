@@ -1,5 +1,5 @@
 import type { StripLeading, TupleToUnion } from "inferred-types/types";
-import { isNumber } from "src/type-guards/isNumber";
+import { isNumber } from "src/type-guards/numeric/isNumber";
 
 /**
  * **stripLeading**(content, ...strip)
