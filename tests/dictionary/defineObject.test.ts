@@ -9,7 +9,7 @@ import { defineObject } from "inferred-types/runtime"
 
 describe("defineObject()", () => {
 
-  it("happy path", () => {
+  it("using tokens to define", () => {
     const fooBar = defineObject({
       foo: "Opt<string>",
       bar: "string(foo,bar)"
@@ -30,5 +30,42 @@ describe("defineObject()", () => {
       }>>
     ];
   });
+
+  it("using callbacks to define", () => {
+    const fooBar = defineObject({
+      foo: t => t.string().endsWith("bar"),
+      bar: t => t.string("foo", "bar")
+    });
+
+    type FooBar = typeof fooBar;
+
+    // @ts-ignore
+    type cases = [
+      Expect<Equal<FooBar, {
+        foo: `${string}bar`,
+        bar: "foo" | "bar"
+      }>>
+    ];
+  });
+
+
+  it("using optional property syntax", () => {
+    const fooBar = defineObject({
+      foo: "Opt<string>",
+      bar: "string(foo,bar)"
+    }, "foo", "bar");
+
+
+    // @ts-ignore
+    type cases = [
+      Expect<Equal<typeof fooBar, {
+        foo?: string | undefined,
+        bar?: "foo" | "bar" | undefined
+      }>>
+    ];
+
+  });
+
+
 
 });
