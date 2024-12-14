@@ -1,11 +1,11 @@
-import type { AfterFirst, First, Get } from "inferred-types/types";
+import type { AfterFirst, AnyObject, First, Get } from "inferred-types/types";
 
 /**
  * Tests whether any of the object in T are explicitly missing
  * the property P
  */
 type HasMissingInstance<
-  T extends readonly Record<string, unknown>[],
+  T extends readonly AnyObject[],
   P extends string,
 > = [] extends T
   ? false
@@ -20,9 +20,9 @@ type HasMissingInstance<
  * removes objects that do not have the property P
  */
 type RemoveMissing<
-  T extends readonly Record<string, unknown>[],
+  T extends readonly AnyObject[],
   P extends string,
-  R extends readonly Record<string, unknown>[] = [],
+  R extends readonly AnyObject[] = [],
 > = [] extends T
   ? R[number]
   : RemoveMissing<
@@ -57,7 +57,7 @@ type RemoveMissing<
  * ```
  */
 export type UnionFromProp<
-  T extends readonly Record<string, unknown>[],
+  T extends readonly AnyObject[],
   P extends string,
 > = HasMissingInstance<T, P> extends true
   ? Get<RemoveMissing<T, P>, P> | undefined
