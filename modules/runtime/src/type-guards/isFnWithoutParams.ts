@@ -1,4 +1,4 @@
-import type { ParameterlessFn } from "inferred-types/types"
+import type { ParameterlessFn } from "inferred-types/types";
 
 /**
  * **isFunction**(value)
@@ -10,4 +10,3 @@ import type { ParameterlessFn } from "inferred-types/types"
 export function isFnWithoutParams(value: unknown): value is ParameterlessFn {
   return typeof value === "function" && value.length === 0;
 }
-
