@@ -1,12 +1,11 @@
-import type { ObjectKey } from "../base-types";
-import type { Dictionary } from "../base-types/Dictionary";
-import type { IsWideUnion } from "../boolean-logic";
+import type { AnyObject, ObjectKey } from "../base-types";
+import type { IsWideContainer, IsWideUnion } from "../boolean-logic";
 import type { ExpandDictionary } from "../literals";
 import type { WithKeys } from "./WithKeys";
 import type { WithoutKeys } from "./WithoutKeys";
 
 type ProcessTupleKeys<
-  TObj extends Dictionary,
+  TObj extends AnyObject,
   TKeys extends readonly ObjectKey[],
 > = ExpandDictionary<
   WithoutKeys<TObj, TKeys> & {
@@ -17,7 +16,7 @@ type ProcessTupleKeys<
 >;
 
 type ProcessUnionKeys<
-  TObj extends Dictionary,
+  TObj extends AnyObject,
   TKeys extends (string | symbol),
 > = ExpandDictionary<
   WithoutKeys<TObj, TKeys> & {
@@ -37,12 +36,14 @@ type ProcessUnionKeys<
  * **Related:** `MakeKeysRequired`
  */
 export type MakeKeysOptional<
-  TObj extends Dictionary,
+  TObj extends AnyObject,
   TKeys extends (string | symbol) | readonly ObjectKey[],
-> = TKeys extends readonly ObjectKey[]
-  ? ProcessTupleKeys<TObj, TKeys>
-  : TKeys extends (string | symbol)
-    ? IsWideUnion<TKeys> extends true
-      ? never
-      : ProcessUnionKeys<TObj, TKeys>
-    : never;
+> = IsWideContainer<TObj> extends true
+  ? TObj
+  : TKeys extends readonly ObjectKey[]
+    ? ProcessTupleKeys<TObj, TKeys>
+    : TKeys extends (string | symbol)
+      ? IsWideUnion<TKeys> extends true
+        ? never
+        : ProcessUnionKeys<TObj, TKeys>
+      : never;
