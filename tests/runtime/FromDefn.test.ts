@@ -1,11 +1,53 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { DefineObject, DictTypeDefinition, FromDefn, TypeDefinition } from "inferred-types/dist/types/index";
+
+import {
+  DefineObject,
+  DictTypeDefinition,
+  FromDefn,
+  TypeDefinition,
+  FromDefineObject
+} from "inferred-types/types";
 import { describe, it } from "vitest";
 
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+describe("FromDefineObject<T>", () => {
+
+
+  it("just using SimpleTokens", () => {
+    type Foo = FromDefineObject<{foo: "number"}>;
+    type OptFoo = FromDefineObject<{foo: "Opt<number>"}>;
+    type MaybeFoo = FromDefineObject<{foo?: "number"}>;
+
+
+    // @ts-ignore
+    type cases = [
+      Expect<Equal<Foo, { foo: number}>>,
+      Expect<Equal<OptFoo, { foo: number | undefined}>>,
+      Expect<Equal<MaybeFoo, { foo?: number | undefined }>>,
+    ];
+
+  });
+
+
+
+  // it("using combo of tokens and callbacks", () => {
+  //   const defn = defineObject({ foo: "number", bar: t => t.boolean() });
+
+  //   type Multi = FromDefineObject<typeof defn>;
+
+  //   // @ts-ignore
+  //   type cases = [
+  //     /** type tests */
+  //   ];
+
+  // });
+
+
+
+
+})
+
+
 
 describe("FromDefn<T>", () => {
 

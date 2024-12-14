@@ -12,14 +12,17 @@ import type {
   HandleDoneFn,
   IsEqual,
   Keys,
+  MakeKeysOptional,
   NarrowableScalar,
   ObjectKey,
+  OptionalKeys,
   ShapeCallback,
   SimpleToken,
   SimpleType,
   Tuple,
   TupleToUnion,
   UnionElDefn,
+  UnionToTuple,
   Values,
 } from "inferred-types/types";
 
@@ -123,6 +126,26 @@ export type DictTypeDefinition<
   V
 >;
 
+
+type _FromDefineObject<T extends Required<DefineObject>> = {
+  [K in keyof T]: T[K] extends SimpleToken
+    ? SimpleType<T[K]>
+    : T[K] extends ShapeCallback
+      ? ReturnType<HandleDoneFn<T[K]>>
+      : never
+};
+
+/**
+ * Converts a `DefineObject` definition into the type that it is
+ * defining.
+ */
+export type FromDefineObject<T extends DefineObject> = MakeKeysOptional<
+  _FromDefineObject<Required<T>>,
+  UnionToTuple<OptionalKeys<T>> extends readonly ObjectKey[]
+  ? UnionToTuple<OptionalKeys<T>>
+  : never
+>
+
 /**
  * **FromDefn**`<T, [TElse]>`
  *
@@ -142,13 +165,7 @@ export type FromDefn<
   T,
   TElse = Constant<"not-set">,
 > = T extends DefineObject
-  ? {
-      [K in keyof T]: T[K] extends SimpleToken
-        ? SimpleType<T[K]>
-        : T[K] extends ShapeCallback
-          ? HandleDoneFn<T[K]>
-          : never
-    }
+  ? FromDefineObject<T>
   : T extends readonly unknown[]
     ? IterateOverDefinitions<T, TElse>
     : ToType<T, TElse>;
