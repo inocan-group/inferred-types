@@ -126,7 +126,6 @@ export type DictTypeDefinition<
   V
 >;
 
-
 type _FromDefineObject<T extends Required<DefineObject>> = {
   [K in keyof T]: T[K] extends SimpleToken
     ? SimpleType<T[K]>
@@ -142,9 +141,9 @@ type _FromDefineObject<T extends Required<DefineObject>> = {
 export type FromDefineObject<T extends DefineObject> = MakeKeysOptional<
   _FromDefineObject<Required<T>>,
   UnionToTuple<OptionalKeys<T>> extends readonly ObjectKey[]
-  ? UnionToTuple<OptionalKeys<T>>
-  : never
->
+    ? UnionToTuple<OptionalKeys<T>>
+    : never
+>;
 
 /**
  * **FromDefn**`<T, [TElse]>`
