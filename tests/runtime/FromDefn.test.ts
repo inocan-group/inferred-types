@@ -1,4 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
+import { defineObject } from "inferred-types/runtime";
 
 import {
   DefineObject,
@@ -13,11 +14,10 @@ import { describe, it } from "vitest";
 describe("FromDefineObject<T>", () => {
 
 
-  it("just using SimpleTokens", () => {
+  it("using SimpleTokens", () => {
     type Foo = FromDefineObject<{foo: "number"}>;
     type OptFoo = FromDefineObject<{foo: "Opt<number>"}>;
     type MaybeFoo = FromDefineObject<{foo?: "number"}>;
-
 
     // @ts-ignore
     type cases = [
@@ -27,21 +27,6 @@ describe("FromDefineObject<T>", () => {
     ];
 
   });
-
-
-
-  // it("using combo of tokens and callbacks", () => {
-  //   const defn = defineObject({ foo: "number", bar: t => t.boolean() });
-
-  //   type Multi = FromDefineObject<typeof defn>;
-
-  //   // @ts-ignore
-  //   type cases = [
-  //     /** type tests */
-  //   ];
-
-  // });
-
 
 
 
