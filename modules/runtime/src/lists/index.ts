@@ -19,6 +19,7 @@ export * from "./reverse";
 export * from "./shift";
 export * from "./slice";
 export * from "./unique";
+export * from "./createFixedLengthArray";
 
 // #endregion auto-indexed files
 

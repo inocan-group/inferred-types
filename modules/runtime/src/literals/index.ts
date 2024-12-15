@@ -46,6 +46,7 @@ export * from "./trim";
 export * from "./truncate";
 export * from "./tuple";
 export * from "./uncapitalize";
+export * from "./unset"
 
 export * from "./uppercase";
 export * from "./widen";
