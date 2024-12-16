@@ -17,7 +17,7 @@ import type { ShapeCallback, SimpleToken } from "../runtime-types";
  *   }
  *   ```
  *
- * - typically used though a function of type `DefineObjectApi`
+ * - typically used alongside `FromDefn` or `FromDefineObject`
  */
 export interface DefineObject { [key: string]: SimpleToken | ShapeCallback }
 

@@ -1,5 +1,4 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { defineObject } from "inferred-types/runtime";
 
 import {
   DefineObject,
@@ -8,11 +7,23 @@ import {
   TypeDefinition,
   FromDefineObject
 } from "inferred-types/types";
+
+import { shape } from "inferred-types/runtime"
+
 import { describe, it } from "vitest";
 
 
 describe("FromDefineObject<T>", () => {
 
+  type XX = FromDefn<{
+    foo: "string",
+    bar: "number",
+    baz: "<<string-set::endsWith::foo>>"
+  }>
+
+  const s = shape(s => s.number());
+
+  console.log(s)
 
   it("using SimpleTokens", () => {
     type Foo = FromDefineObject<{foo: "number"}>;
@@ -27,8 +38,6 @@ describe("FromDefineObject<T>", () => {
     ];
 
   });
-
-
 
 })
 

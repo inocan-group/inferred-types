@@ -1,21 +1,15 @@
-import type { Constant } from "inferred-types/constants";
 import type {
-  AfterFirst,
-  AsDictionary,
-  AsType,
   Contains,
   DefineObject,
   Dictionary,
-  EmptyObject,
-  ExpandDictionary,
-  First,
+  FromSimpleRecordKey,
+  FromWideTokens,
   HandleDoneFn,
-  IsEqual,
-  Keys,
   MakeKeysOptional,
   NarrowableScalar,
   ObjectKey,
   OptionalKeys,
+  RecordKeyWideTokens,
   ShapeCallback,
   SimpleToken,
   SimpleType,
@@ -23,35 +17,11 @@ import type {
   TupleToUnion,
   UnionElDefn,
   UnionToTuple,
+  Unset,
   Values,
+  WideContainerNames,
+  WideTokenNames,
 } from "inferred-types/types";
-
-type HandleObject<
-  TObj extends Dictionary,
-  TKeys extends readonly unknown[],
-  TResult extends Dictionary = EmptyObject,
-> = [] extends TKeys
-  ? ExpandDictionary<TResult>
-  : HandleObject<
-    TObj,
-    AfterFirst<TKeys>,
-    First<TKeys> extends keyof TObj
-      ? TObj[First<TKeys>] extends ShapeCallback
-        ? Record<
-          First<TKeys>,
-          HandleDoneFn<ReturnType< TObj[First<TKeys>] >>
-        > & TResult
-        : TObj[First<TKeys>] extends SimpleToken
-          ? Record<
-            First<TKeys>,
-            AsType<TObj[First<TKeys>]>
-          > & TResult
-          : Record<
-            First<TKeys>,
-            TObj[First<TKeys>]
-          > & TResult
-      : never
-  >;
 
 type ProcessUnion<
   T extends UnionElDefn,
@@ -86,17 +56,17 @@ export type IsDictionaryDefinition<T> = T extends Dictionary
 type ToType<
   T,
   TElse,
-> = [T] extends [ShapeCallback]
-  ? HandleDoneFn<ReturnType<T>>
-  : [IsDictionaryDefinition<T>] extends [true]
-      ? HandleObject<AsDictionary<T>, Keys<AsDictionary<T>>>
-      : T extends SimpleToken
-        ? AsType<T>
-        : IsEqual<TElse, Constant<"not-set">> extends true
-          ? T
-          : TElse extends SimpleToken
-            ? AsType<TElse>
-            : TElse;
+> = T extends ShapeCallback
+  ? FromShapeCallback<T>
+  : T extends SimpleToken
+    ? FromSimpleToken<T>
+    : T extends RecordKeyWideTokens
+      ? FromSimpleRecordKey<T>
+      : T extends WideTokenNames | WideContainerNames
+        ? FromWideTokens<T>
+        : T extends RecordKeyWideTokens
+          ? FromSimpleRecordKey<T>
+          : TElse;
 
 /**
  * iterates over tuple definition types to convert into real types
@@ -111,26 +81,25 @@ type IterateOverDefinitions<
 export type TypeDefinition = NarrowableScalar | ShapeCallback;
 
 /**
- * **DictShapeDefn**`<T>`
- *
- * A _dictionary_ shape which provides direct value input or use of
- * the `ShapeCallback` API to any of the dictionaries values.
- *
- * Use of the generic `T` is not required but adding it as a separate
- * generic will increase the narrowness of your types.
+ * converts a `ShapeCallback` into the _type_ which it is defining
  */
-export type DictTypeDefinition<
-  V extends TypeDefinition = TypeDefinition,
-> = Record<
-  ObjectKey,
-  V
->;
+export type FromShapeCallback<
+  TShape extends ShapeCallback,
+  TAsToken extends boolean = false,
+> = TAsToken extends false
+  ? ReturnType<HandleDoneFn<TShape>>
+  : string; // TODO
+
+/**
+ * converts a `SimpleToken` into the _type_ which it is defining
+ */
+export type FromSimpleToken<T extends SimpleToken> = SimpleType<T>;
 
 type _FromDefineObject<T extends Required<DefineObject>> = {
   [K in keyof T]: T[K] extends SimpleToken
-    ? SimpleType<T[K]>
+    ? FromSimpleToken<T[K]>
     : T[K] extends ShapeCallback
-      ? ReturnType<HandleDoneFn<T[K]>>
+      ? FromShapeCallback<T[K]>
       : never
 };
 
@@ -162,7 +131,7 @@ export type FromDefineObject<T extends DefineObject> = MakeKeysOptional<
  */
 export type FromDefn<
   T,
-  TElse = Constant<"not-set">,
+  TElse = Unset,
 > = T extends DefineObject
   ? FromDefineObject<T>
   : T extends readonly unknown[]

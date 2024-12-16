@@ -1,4 +1,4 @@
-import { Integer } from "inferred-types/types"
+import type { Integer } from "inferred-types/types";
 
 /**
  * Converts the number `n` to a `Integer` type if

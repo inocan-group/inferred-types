@@ -1,7 +1,7 @@
 /**
  * **Type Tokens** which have zero configuration elements.
  */
-export const TT_Atomics = [
+export const TT_ATOMICS = [
   "undefined",
   "null",
   "boolean",
@@ -13,12 +13,12 @@ export const TT_Atomics = [
  * **Type Tokens** which have a literal variant which represents
  * the _single_ configuration of this type which is available.
  */
-export const TT_Singletons = [
+export const TT_SINGLETONS = [
   "string",
   "number",
 ] as const;
 
-export const TT_Sets = [
+export const TT_SETS = [
   "string-set",
   "numeric-set",
   "fn-set",
@@ -29,7 +29,7 @@ export const TT_Sets = [
  * **Type Tokens** which represent _functions_ (either the typical
  * variety or Generator functions).
  */
-export const TT_Functions = [
+export const TT_FUNCTIONS = [
   "fn",
   "gen",
 ] as const;
@@ -38,7 +38,7 @@ export const TT_Functions = [
  * **Type Tokens** which _contain_ other **Type Tokens** to make up their
  * identity.
  */
-export const TT_Containers = [
+export const TT_CONTAINERS = [
   "rec",
   "arr",
   "set",
@@ -49,13 +49,13 @@ export const TT_Containers = [
 ] as const;
 
 export const TT_KIND_VARIANTS = [
-  ...TT_Atomics,
-  ...TT_Containers,
-  ...TT_Functions,
-  ...TT_Sets,
-  ...TT_Singletons,
+  ...TT_ATOMICS,
+  ...TT_CONTAINERS,
+  ...TT_FUNCTIONS,
+  ...TT_SETS,
+  ...TT_SINGLETONS,
 ] as const;
 
 export const TT_START = "<<" as const;
 export const TT_STOP = ">>" as const;
-export const TT_SEP = "::" as const;
+export const TT_DELIMITER = "::" as const;

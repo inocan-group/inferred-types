@@ -1,5 +1,14 @@
 import type { AfterFirst, First } from "../lists";
 import type {
+  SimpleArrayToken,
+  SimpleDictToken,
+  SimpleMapToken,
+  SimpleScalarToken,
+  SimpleSetToken,
+  SimpleToken,
+  SimpleUnionToken,
+} from "./SimpleToken";
+import type {
   SimpleType,
   SimpleTypeArray,
   SimpleTypeDict,
@@ -8,16 +17,7 @@ import type {
   SimpleTypeSet,
   SimpleTypeUnion,
 } from "./SimpleType";
-import type {
-  SimpleArrayToken,
-  SimpleDictToken,
-  SimpleMapToken,
-  SimpleScalarToken,
-  SimpleSetToken,
-  SimpleToken,
-  SimpleUnionToken,
-  TypeToken,
-} from "./TypeToken";
+import type { TypeToken } from "./TypeToken";
 
 type ProcessSimple<T extends SimpleToken | TypeToken> = T extends SimpleToken
   ? SimpleType<T>

@@ -36,6 +36,23 @@ export type Metric =
   | Voltage
   | Volume;
 
+export type MetricCategory =
+  | "Acceleration"
+  | "Area"
+  | "Current"
+  | "Distance"
+  | "Frequency"
+  | "Luminosity"
+  | "Mass"
+  | "Power"
+  | "Pressure"
+  | "Resistance"
+  | "Speed"
+  | "Temperature"
+  | "Time"
+  | "Voltage"
+  | "Volume";
+
 /**
  * **Uom**
  *

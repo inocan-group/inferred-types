@@ -10,5 +10,5 @@ export function createFixedLengthArray<
   T extends Narrowable,
   C extends number,
 >(content: T, quantity: C): FixedLengthArray<T, C> {
-  return new Array(quantity).fill(content) as FixedLengthArray<T, C>;
+  return Array.from({ length: quantity }, () => content) as FixedLengthArray<T, C>;
 }
