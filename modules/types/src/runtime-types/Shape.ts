@@ -24,7 +24,7 @@ import type {
   ZipCode,
   ZipPlus4,
 } from "inferred-types/types";
-import type { AsUnion, FromDefn } from "../literals/FromDefn";
+import type { AsUnion, FromDefn, FromShapeCallback } from "../literals/FromDefn";
 import type { FromWideTokens, WideContainerNames, WideTokenNames } from "../literals/FromTokenNames";
 
 type Narrow = Exclude<Narrowable, symbol>;
@@ -265,14 +265,25 @@ interface ShapeApi__Functions {
   });
 }
 
+/** used in Shape callbacks */
 export type RecordKeyWideTokens = "string" | "symbol" | "string | symbol";
+
+export type FromSimpleRecordKey<T extends RecordKeyWideTokens> = T extends "string"
+  ? string
+  : T extends "symbol"
+    ? symbol
+    : T extends "string | symbol"
+      ? string | symbol
+      : never;
 
 export type RecordKeyDefn = RecordKeyWideTokens | ShapeCallback;
 
 export type FromRecordKeyDefn<
   T extends RecordKeyDefn,
 > = T extends ShapeCallback
-  ? HandleDoneFn<ReturnType<T>>
+  ? FromShapeCallback<T> extends ObjectKey
+    ? FromShapeCallback<T>
+    : never
   : T extends "string"
     ? string
     : T extends "symbol"
@@ -288,7 +299,13 @@ export type FromRecordKeyDefn<
  */
 export type ObjKeyDefn = RecordKeyWideTokens | ShapeCallback;
 
-export type ArrayTypeDefn = "string[]" | "number[]" | "boolean[]" | "unknown[]" | ShapeCallback;
+type FromObjKeyDefn<T extends ObjKeyDefn> = T extends ShapeCallback
+  ? FromShapeCallback<T> extends ObjectKey
+    ? FromShapeCallback<T>
+    : never
+  : FromRecordKeyDefn<T>;
+
+export type ArrayTypeDefn = "Array<string>" | "Array<number>" | "Array<boolean>" | "Array<unknown>" | ShapeCallback;
 
 export type RecordValueTypeDefn = ShapeCallback | WideTokenNames;
 
@@ -304,8 +321,10 @@ interface ShapeApi__WideContainers {
     TValue extends RecordValueTypeDefn = "unknown",
   >(key?: TKey,
     value?: TValue
-  ) => Record<FromDefn<TKey>, FromDefn<TValue>>;
-  array: <T extends ArrayTypeDefn = "unknown[]">(
+  ) => TKey extends string | symbol
+    ? Record<FromObjKeyDefn<TKey>, FromDefn<TValue>>
+    : never;
+  array: <T extends ArrayTypeDefn = "Array<unknown>">(
     type?: T
   ) => AsArray<FromDefn<T>>;
   set: <T extends WideTokenNames | ShapeCallback = "unknown">(type?: T) =>

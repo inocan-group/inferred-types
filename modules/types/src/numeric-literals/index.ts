@@ -10,6 +10,7 @@ export * from "./Digit";
 export * from "./Digitize";
 export * from "./DigitNonZero";
 export * from "./Increment";
+export * from "./Integer";
 export * from "./InvertNumericSign";
 export * from "./LessThan";
 export * from "./LessThanOrEqual";

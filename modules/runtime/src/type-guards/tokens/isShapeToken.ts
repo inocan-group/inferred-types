@@ -1,19 +1,19 @@
 import type { TypeToken } from "inferred-types/types";
 import {
-  TT_Atomics,
-  TT_Containers,
-  TT_Functions,
-  TT_Sets,
-  TT_Singletons,
+  TT_ATOMICS,
+  TT_CONTAINERS,
+  TT_FUNCTIONS,
+  TT_SETS,
+  TT_SINGLETONS,
 } from "inferred-types/constants";
 import { isString } from "inferred-types/runtime";
 
 const token_types = [
-  ...TT_Atomics,
-  ...TT_Containers,
-  ...TT_Functions,
-  ...TT_Sets,
-  ...TT_Singletons,
+  ...TT_ATOMICS,
+  ...TT_CONTAINERS,
+  ...TT_FUNCTIONS,
+  ...TT_SETS,
+  ...TT_SINGLETONS,
 ] as const;
 
 /**
