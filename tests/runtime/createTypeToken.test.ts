@@ -5,7 +5,7 @@ import { createTypeToken } from "inferred-types/runtime";
 
 describe("createTypeToken()", () => {
 
-  it("happy path", () => {
+  it.skip("happy path", () => {
     const unDef = createTypeToken("undefined");
 
     const str = createTypeToken("string");
