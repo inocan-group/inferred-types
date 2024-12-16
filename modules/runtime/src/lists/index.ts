@@ -7,6 +7,7 @@
 // file exports
 export * from "./asArray";
 export * from "./createConverter";
+export * from "./createFixedLengthArray";
 export * from "./filter";
 export * from "./find";
 export * from "./getEach";
@@ -19,7 +20,6 @@ export * from "./reverse";
 export * from "./shift";
 export * from "./slice";
 export * from "./unique";
-export * from "./createFixedLengthArray";
 
 // #endregion auto-indexed files
 
