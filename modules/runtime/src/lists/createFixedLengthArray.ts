@@ -1,4 +1,4 @@
-import {FixedLengthArray, Narrowable} from "inferred-types/types"
+import type { FixedLengthArray, Narrowable } from "inferred-types/types";
 
 /**
  * **createFixedLengthArray**`(content, quantity)`
@@ -6,11 +6,9 @@ import {FixedLengthArray, Narrowable} from "inferred-types/types"
  * Provides a type strong array of duplicates of what was
  * passed in as `content`
  */
-export const createFixedLengthArray = <
+export function createFixedLengthArray<
   T extends Narrowable,
-  C extends number
->(
-  content: T,
-  quantity: C
-): FixedLengthArray<T,C> => Array(quantity).fill(content) as FixedLengthArray<T,C>;
-
+  C extends number,
+>(content: T, quantity: C): FixedLengthArray<T, C> {
+  return new Array(quantity).fill(content) as FixedLengthArray<T, C>;
+}

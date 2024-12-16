@@ -13,6 +13,7 @@ export * from "./ensureTrailing";
 export * from "./identity";
 export * from "./ifLowercase";
 export * from "./ifUppercase";
+export * from "./infer";
 export * from "./literal";
 export * from "./lowercase";
 export * from "./narrow";
@@ -46,7 +47,7 @@ export * from "./trim";
 export * from "./truncate";
 export * from "./tuple";
 export * from "./uncapitalize";
-export * from "./unset"
+export * from "./unset";
 
 export * from "./uppercase";
 export * from "./widen";
