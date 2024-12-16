@@ -15,5 +15,5 @@ export function isAtomicToken(val: unknown): val is TT_Atomic {
 
 export function isAtomicKind(val: unknown): val is TypeTokenAtomics {
   return isString(val)
-    && TT_ATOMICS.includes(val);
+    && TT_ATOMICS.includes(val as any);
 }
