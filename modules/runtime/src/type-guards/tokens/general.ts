@@ -43,5 +43,5 @@ export function isTypeToken<T extends TypeTokenKind = TypeTokenKind>(val: unknow
  * type guard which validates that `val` is a `TypeTokenKind`
  */
 export function isTypeTokenKind(val: unknown): val is TypeTokenKind {
-  return !!(isString(val) && TT_KIND_VARIANTS.some(i => i ===val));
+  return !!(isString(val) && TT_KIND_VARIANTS.includes(val as any));
 }
