@@ -18,6 +18,7 @@ export * from "./LogicFunction";
 export * from "./NarrowingFn";
 export * from "./PromiseAll";
 export * from "./RemoveFnProps";
+export * from "./SyncFunction";
 export * from "./ToFn";
 export * from "./TypeGuard";
 export * from "./WrapperFn";
