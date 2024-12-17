@@ -10,6 +10,7 @@ export * from "./color/index";
 export * from "./ensureLeading";
 export * from "./ensureSurround";
 export * from "./ensureTrailing";
+export * from "./getTypeSubtype";
 export * from "./identity";
 export * from "./ifLowercase";
 export * from "./ifUppercase";
