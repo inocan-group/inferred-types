@@ -43,11 +43,12 @@ export * from "./StripSurround";
 export * from "./StripTrailing";
 export * from "./StripUntil";
 export * from "./StrLen";
-
 export * from "./Suggest";
+
 export * from "./Surround";
 export * from "./Time";
 export * from "./Truncate";
+export * from "./TypeSubtype";
 export * from "./UnderlyingType";
 
 // #endregion auto-indexed files

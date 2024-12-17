@@ -45,6 +45,7 @@ export * from "./isThenable";
 export * from "./isTrimmable";
 export * from "./isTrue";
 export * from "./isTruthy";
+export * from "./isTypeSubtype";
 export * from "./isTypeTuple";
 
 export * from "./isUndefined";
