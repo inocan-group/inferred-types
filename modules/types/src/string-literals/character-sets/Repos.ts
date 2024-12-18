@@ -2,6 +2,7 @@ import type { REPO_PAGE_TYPES, REPO_SOURCE_LOOKUP, REPO_SOURCES } from "inferred
 import type {
   Flatten,
   Mutable,
+  Opt,
   OptionalSpace,
   TupleToUnion,
   Unset,
@@ -60,3 +61,13 @@ export type SemanticVersion<
  * to a Git repository.
  */
 export type GitRef = `git@${string}.${string}:${string}.git`;
+
+type NpmPrefix = "" | "^" | ">=" | ">" | "~"
+type NpmVersionNum = `${number}${Opt<`.${number}`>}${Opt<`.${number}`>}`
+
+/**
+ * **NpmVersion**
+ *
+ * an [npm](https://npmjs.org) version / variant range.
+ */
+export type NpmVersion = `${NpmPrefix}${NpmVersionNum}`
