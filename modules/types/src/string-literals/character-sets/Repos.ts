@@ -301,5 +301,3 @@ export interface CargoDependency {
   /** The package name in case it differs from the key. */
   package?: string;
 }
-
-
