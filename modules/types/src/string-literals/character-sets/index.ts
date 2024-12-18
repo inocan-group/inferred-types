@@ -7,6 +7,7 @@ export * from "./Consonants";
 export * from "./Country";
 export * from "./css/index";
 export * from "./CSV";
+export * from "./Docker";
 export * from "./DomainName";
 export * from "./DotPathFor";
 export * from "./Hexadecimal";
@@ -28,8 +29,8 @@ export * from "./Repos";
 export * from "./SingularNoun";
 export * from "./SpecialChar";
 export * from "./StringDelimiter";
-export * from "./tw/index";
 
+export * from "./tw/index";
 export * from "./UpperAlphaChar";
 export * from "./urls/index";
 export * from "./urls/Url";
