@@ -180,3 +180,126 @@ export interface PackageJson {
 
   [key: string]: unknown;
 }
+
+export interface CargoToml {
+  /** Package metadata for the Rust project. */
+  package?: {
+    /** The name of the package. */
+    name: string;
+    /** The version of the package, typically following semantic versioning. */
+    version: string;
+    /** A short description of the package. */
+    description?: string;
+    /** The authors of the package, specified as an array of strings. */
+    authors?: string[];
+    /** The edition of Rust used by the package (e.g., "2018", "2021"). */
+    edition?: string;
+    /** The license of the package, typically an SPDX identifier. */
+    license?: string;
+    /** A path to the license file for the package. */
+    license_file?: string;
+    /** A URL to the package's homepage. */
+    homepage?: string;
+    /** A URL to the package's repository. */
+    repository?: string;
+    /** A URL to the issue tracker for the package. */
+    documentation?: string;
+    /** A URL to the package documentation. */
+    readme?: string | boolean;
+    /** Keywords to help categorize the package. */
+    keywords?: string[];
+    /** Categories to help classify the package. */
+    categories?: string[];
+    /** Whether the package should be published to crates.io. */
+    publish?: boolean;
+    /** An array of registries where the package can be published. */
+    registries?: string[];
+    /** Arbitrary metadata specific to this package. */
+    [key: string]: unknown;
+  };
+
+  /** Dependencies required by the package. */
+  dependencies?: Record<string, string | CargoDependency>;
+
+  /** Dependencies used for development purposes only. */
+  devDependencies?: Record<string, string | CargoDependency>;
+
+  /** Dependencies that are optional and feature-gated. */
+  optionalDependencies?: Record<string, string | CargoDependency>;
+
+  /** Dependencies required to build the package (e.g., procedural macros). */
+  buildDependencies?: Record<string, string | CargoDependency>;
+
+  /** Custom feature flags for conditional compilation. */
+  features?: Record<string, string[]>;
+
+  /** The build script to use for the package. */
+  build?: string;
+
+  /** Configuration for workspace members, if the project is part of a workspace. */
+  workspace?: {
+    /** A list of member packages within the workspace. */
+    members?: string[];
+    /** Excluded packages from the workspace. */
+    exclude?: string[];
+  };
+
+  /** Metadata for the package binaries. */
+  bin?: Array<{
+    /** The name of the binary. */
+    name?: string;
+    /** The path to the binary source file. */
+    path?: string;
+  }>;
+
+  /** Metadata for the library target. */
+  lib?: {
+    /** The name of the library. */
+    name?: string;
+    /** The crate type(s) for the library. */
+    crate_type?: string[];
+  };
+
+  /** Metadata for example binaries. */
+  example?: {
+    /** The name of the example binary. */
+    name?: string;
+    /** The path to the example binary source file. */
+    path?: string;
+  };
+
+  /** Build target-specific configurations. */
+  target?: Record<string, {
+    /** Target-specific dependencies. */
+    dependencies?: Record<string, string | CargoDependency>;
+    /** Target-specific build dependencies. */
+    build_dependencies?: Record<string, string | CargoDependency>;
+  }>;
+
+  /** The Rust compiler configuration. */
+  [key: string]: unknown;
+}
+
+/** Detailed dependency configuration for Cargo dependencies. */
+export interface CargoDependency {
+  /** The version of the dependency. */
+  version?: string;
+  /** A git repository URL for the dependency. */
+  git?: string;
+  /** A branch, tag, or revision for the git dependency. */
+  branch?: string;
+  tag?: string;
+  rev?: string;
+  /** A path to a local dependency. */
+  path?: string;
+  /** An optional feature flag for the dependency. */
+  features?: string[];
+  /** Whether the dependency should be used as default. */
+  default_features?: boolean;
+  /** Whether the dependency is optional. */
+  optional?: boolean;
+  /** The package name in case it differs from the key. */
+  package?: string;
+}
+
+
