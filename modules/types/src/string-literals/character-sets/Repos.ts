@@ -4,6 +4,7 @@ import type {
   Mutable,
   OptionalSpace,
   TupleToUnion,
+  Unset,
   UrlsFrom,
   Values,
 } from "inferred-types/types";
@@ -28,20 +29,29 @@ export type RepoUrls = UrlsFrom<Flatten<
 >>;
 
 /**
- * **SemanticVersion**`<[TAllowPrefix]>`
+ * **SemanticVersion**`<[TPrefix]>`
  *
  * Provides a type for _sematic versions_.
  *
- * - by default it not only allows the `${major}.${minor}.${patch}` nomenclature
- * but also _optionally_ allows a prefix of `v`:
+ * - by default it only allows the `v${major}.${minor}.${patch}`
+ * - setting `TPrefix to` `true` allows a version with or without
+ * the leading "v"
  *    - `0.10.1` - valid
  *    - `v0.10.1` - also valid
- *    - `v 0.10.1` - also valid
- * - this prefixing can be disabled by setting `TPrefix` to false
+ * - setting to `false` eliminates any prefix
+ * - if you pass in a string `TPrefix` then it will be used directly
  */
 export type SemanticVersion<
-  TPrefix extends boolean = true,
-> = `${[TPrefix] extends [true] ? `${"v" | ""}${OptionalSpace}` : ""}${number}.${number}.${number}`;
+  TPrefix extends boolean | string | Unset = Unset,
+> = TPrefix extends Unset
+? `v${number}.${number}.${number}`
+: TPrefix extends true
+? `${"v" | ""}${number}.${number}.${number}`
+: TPrefix extends false
+? `${number}.${number}.${number}`
+: TPrefix extends string
+? `${TPrefix}${number}.${number}.${number}`
+: never;
 
 /**
  * **GitRef**
