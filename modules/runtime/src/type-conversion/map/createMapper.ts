@@ -1,5 +1,12 @@
-import type { AnyObject, ObjectMap, ObjectMapConversion } from "inferred-types/types";
-import { createFnWithPropsExplicit, isFunction } from "inferred-types/runtime";
+import type {
+  AnyObject,
+  ObjectMap,
+  ObjectMapConversion,
+} from "inferred-types/types";
+import {
+  createFnWithPropsExplicit,
+  isFunction,
+} from "inferred-types/runtime";
 
 export type Mapper<
   TFrom extends AnyObject,

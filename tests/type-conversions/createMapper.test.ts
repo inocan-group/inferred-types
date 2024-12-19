@@ -12,7 +12,7 @@ const input  = tuple(
  );
 
 describe("createMapper<TFrom,TTo>()", () => {
-
+  // TODO: determine whether to invest in this utility
 
   it("first test", () => {
 
@@ -39,15 +39,4 @@ describe("createMapper<TFrom,TTo>()", () => {
 
 });
 
-describe("createObjectMapper()", () => {
-
-  // it("first test", () => {
-  //   const mapper = createObjectMap<AgeColor,IdAgeColor>()(() => ({
-  //     id: i => `${i.color}-${i.age}`,
-  //   })
-
-
-  // });
-
-});
 

@@ -1,12 +1,33 @@
 import type {
   AnyObject,
+  ConstrainedObjectCallback,
   ConstrainedObjectIdentity,
   ConstrainObject,
   DefineObject,
   FromDefineObject,
   Narrowable,
 } from "inferred-types/types";
-import { createFnWithPropsExplicit } from "src/initializers";
+import { createFnWithPropsExplicit } from "inferred-types/runtime";
+
+function callback<Constraint extends AnyObject>(): ConstrainedObjectCallback<Constraint> {
+  return <TReturn>(
+    cb: (input: ConstrainObject<Constraint, Constraint>) => TReturn,
+  ): ((input: ConstrainObject<Constraint, Constraint>) => TReturn) => {
+    return input => cb(input);
+  };
+}
+
+function narrowFn<TDefn extends AnyObject>() {
+  const fn = <
+    T extends Record<string, N>,
+    N extends Narrowable,
+    Constraint extends TDefn,
+  >(
+    obj: T & ConstrainObject<T, Constraint>,
+  ) => obj;
+
+  return fn as ConstrainedObjectIdentity<TDefn>;
+}
 
 /**
  * **narrowObjectTo**`(constraint) => (obj) => obj
@@ -26,15 +47,12 @@ import { createFnWithPropsExplicit } from "src/initializers";
 export function narrowObjectTo<
   TDefn extends DefineObject,
 >(_defn: TDefn): ConstrainedObjectIdentity<FromDefineObject<TDefn>> {
-  const fn = <
-    T extends Record<string, N>,
-    N extends Narrowable,
-    Constraint extends FromDefineObject<TDefn>,
-  >(
-    obj: T & ConstrainObject<T, Constraint>,
-  ) => obj;
-
-  return fn as ConstrainedObjectIdentity<FromDefineObject<TDefn>>;
+  return createFnWithPropsExplicit(
+    narrowFn<FromDefineObject<TDefn>>(),
+    {
+      asCallback: callback<TDefn>(),
+    },
+  );
 }
 
 /**
@@ -53,26 +71,10 @@ export function narrowObjectTo<
  * **Related:** `ConstrainedObjectIdentity`, `narrowObjectTo`
  */
 export function narrowObjectToType<TDefn extends AnyObject>(): ConstrainedObjectIdentity<TDefn> {
-  const fn = <
-    T extends Record<string, N>,
-    N extends Narrowable,
-    Constraint extends TDefn,
-  >(
-    obj: T & ConstrainObject<T, Constraint>,
-  ) => obj;
-
   return createFnWithPropsExplicit(
-    fn as ConstrainedObjectIdentity<TDefn>,
+    narrowFn<TDefn>(),
     {
-      cb: <
-        T extends Record<string, N>,
-        N extends Narrowable,
-        Constraint extends TDefn,
-      >(
-        _obj: T & ConstrainObject<T, Constraint>,
-      ) => {
-
-      },
+      asCallback: callback<TDefn>(),
     },
   );
 }

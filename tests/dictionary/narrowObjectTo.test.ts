@@ -26,8 +26,11 @@ describe("narrowObjectTo(constraint) -> (obj) -> obj", () => {
   });
 
 
-  it.skip("with callback", () => {
-    const _a = narrowObjectToType<{foo: string; bar?: number}>().cb;
+  it("with callback", () => {
+    const cb = narrowObjectToType<{foo: string; bar?: number}>().asCallback;
+    const mapper = cb(i => `${i.foo} is da foo`);
+
+    const whoDat = mapper({foo: "Foo"});
 
 
     // @ts-ignore

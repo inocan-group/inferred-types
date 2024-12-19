@@ -10,9 +10,8 @@
       "inferred-types/types": [
         "./src/index.ts"
       ],
-
       "inferred-types/constants": [
-        "../constants/dist/src/index"
+        "../constants/src/index.ts"
       ]
     },
     "strict": true,
@@ -31,6 +30,12 @@
       "path": "../constants"
     }
   ],
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "tests", "dist"]
+  "include": [
+    "modules/**/src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "tests",
+    "dist"
+  ]
 }

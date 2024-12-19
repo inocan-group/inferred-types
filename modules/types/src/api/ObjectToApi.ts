@@ -17,9 +17,7 @@ type Convert<
     AfterFirst<TKeys>,
     TObj,
     TResult & Record<First<TKeys>, <T extends TObj[First<TKeys>]>() => T>
-  >
-
-;
+  >;
 
 /**
  * **ObjectToApi**`<TObj>`
