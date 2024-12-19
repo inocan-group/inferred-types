@@ -1,6 +1,4 @@
-import type {  Contains, Or } from "inferred-types/types";
-
-
+import type { Contains, Or } from "inferred-types/types";
 
 /**
  * **ContainsSome**`<TList, TFind>`
@@ -16,5 +14,4 @@ export type ContainsSome<
   TFind extends readonly unknown[],
 > = Or<{
   [K in keyof TFind]: Contains<TList, TFind[K]>
-}>
-
+}>;

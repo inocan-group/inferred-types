@@ -18,6 +18,7 @@ export * from "./Nothing";
 export * from "./NotNull";
 export * from "./NumericSign";
 export * from "./ObjectKey";
+export * from "./ObjectMap";
 export * from "./Scalar";
 export * from "./ScalarNotSymbol";
 export * from "./Something";

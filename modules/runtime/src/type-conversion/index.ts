@@ -6,6 +6,7 @@ export * from "./intersect";
 export * from "./ip6GroupExpansion";
 export * from "./json";
 export * from "./lookupCountry";
+export * from "./map/index";
 export * from "./mergeObjects";
 export * from "./mergeScalars";
 export * from "./mergeTuples";
@@ -15,4 +16,5 @@ export * from "./stripParenthesis";
 export * from "./toNumber";
 export * from "./tw-conversion";
 export * from "./union";
+
 export * from "./unionize";

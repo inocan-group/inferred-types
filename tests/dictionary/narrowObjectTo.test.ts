@@ -25,6 +25,19 @@ describe("narrowObjectTo(constraint) -> (obj) -> obj", () => {
     ];
   });
 
+
+  it.skip("with callback", () => {
+    const _a = narrowObjectToType<{foo: string; bar?: number}>().cb;
+
+
+    // @ts-ignore
+    type cases = [
+      /** type tests */
+    ];
+
+  });
+
+
 });
 
 

@@ -13,7 +13,10 @@ type Returns<T extends DefineObject, P extends readonly (keyof T & string)[]> = 
  * In both cases the runtime type is left unchanged but the
  * type is converted to represent the designed object shape.
  */
-export function defineObject<T extends DefineObject, P extends readonly (keyof T & string)[]>(
+export function defineObject<
+  T extends DefineObject,
+  P extends readonly (keyof T & string)[],
+>(
   defn: T,
   ..._optProps: P
 ): Returns<T, P> {

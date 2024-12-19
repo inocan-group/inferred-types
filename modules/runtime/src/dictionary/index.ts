@@ -8,6 +8,7 @@ export * from "./defineObject";
 export * from "./entries";
 export * from "./get";
 export * from "./keysOf";
+export * from "./narrowObjectTo";
 export * from "./omit";
 export * from "./retain";
 export * from "./sharedKeys";

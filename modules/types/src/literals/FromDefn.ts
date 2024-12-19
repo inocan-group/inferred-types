@@ -103,20 +103,17 @@ type _FromDefineObject<T extends Required<DefineObject>> = {
       : never
 };
 
-export type TypeFromDefineObject<T> = T;
-
 /**
  * Converts a `DefineObject` definition into the type that it is
  * defining.
  */
-export type FromDefineObject<T extends DefineObject> = TypeFromDefineObject<
+export type FromDefineObject<T extends DefineObject> =
   MakeKeysOptional<
     _FromDefineObject<Required<T>>,
     UnionToTuple<OptionalKeys<T>> extends readonly ObjectKey[]
       ? UnionToTuple<OptionalKeys<T>>
       : never
-  >
->;
+  >;
 
 /**
  * **FromDefn**`<T, [TElse]>`
