@@ -1,9 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { ObjectToApi } from "inferred-types/types";
+import { ObjectToApi, ObjectApiCallback } from "inferred-types/types";
 import { handleDoneFn, objectToApi, shape } from "inferred-types/runtime";
-import { ObjectApiCallback } from "inferred-types";
 type FooBar = { foo: 1; bar?: "hi"; greet: () => `hello` };
 
 describe("ObjectToApi<T>", () => {
@@ -16,18 +15,18 @@ describe("ObjectToApi<T>", () => {
     type cases = [
       Expect<Equal<Converted, {
         __kind: "ObjectApi";
+        done: () => never;
         foo: <T extends 1>() => T;
         bar: <T extends "hi" | undefined>() => T;
-        greet: () => <T extends () => "hello">() => T;
-        done: () => never
-      }>>,
+        greet: <T extends () => `hello`>() => T;
+    }>>,
       Expect<Equal<WithDone, {
         __kind: "ObjectApi";
-        foo: () => 1;
-        bar: () => "hi" | undefined;
-        greet: () => () => "hello";
-        done: () => string
-      }>>,
+        done: () => string;
+        foo: <T extends 1>() => T;
+        bar: <T extends "hi" | undefined>() => T;
+        greet: <T extends () => `hello`>() => T;
+    }>>,
     ];
   });
 
@@ -43,18 +42,18 @@ describe("ObjectToApi<T>", () => {
     type cases = [
       Expect<Equal<Converted, {
         __kind: "ObjectApi";
-        foo: () => 1;
-        bar: () => "hi" ;
-        greet: () => () => "hello";
-        done: () => never
-      }>>,
+        done: () => never;
+        foo: <T extends 1>() => T;
+        bar: <T extends "hi">() => T;
+        greet: <T extends () => "hello">() => T;
+    }>>,
       Expect<Equal<WithDone, {
         __kind: "ObjectApi";
-        foo: () => 1;
-        bar: () => "hi" ;
-        greet: () => () => "hello";
-        done: () => string
-      }>>,
+        done: () => string;
+        foo: <T extends 1>() => T;
+        bar: <T extends "hi">() => T;
+        greet: <T extends () => "hello">() => T;
+    }>>,
     ];
 
   });
@@ -73,7 +72,6 @@ describe("ObjectApiCallback", () => {
       shape(t => t.string())
     );
 
-    const
 
 
     const callback = <Instance extends Api>(instance: Instance) =>
