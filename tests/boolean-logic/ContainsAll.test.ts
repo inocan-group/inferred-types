@@ -13,10 +13,13 @@ describe("ContainsAll<TList,THasAll>", () => {
     type Arr = ["foo", "bar", "baz"];
     type T1 = ContainsAll<Arr, ["foo", "bar"]>;
 
+    type F1 = ContainsAll<Arr, ["foo","bar","baz","bax"]>;
+
+    // @ts-ignore
     type cases = [
       Expect<Equal<T1, true>>,
+      Expect<Equal<F1, false>>,
     ];
-    const cases: cases = [ true ];
   });
 
 });

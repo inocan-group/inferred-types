@@ -1,18 +1,6 @@
-import type { AfterFirst, And, Contains, First, Narrowable } from "inferred-types/types";
+import type { And, Contains } from "inferred-types/types";
 
-type _Contains<
-  TList extends readonly unknown[],
-  THasAll extends Narrowable[],
-  TResults extends readonly boolean[] = [],
-> = [] extends THasAll
-  ? TResults
-  : Contains<TList, First<THasAll>> extends true
-    ? _Contains<
-      TList,
-      AfterFirst<THasAll>,
-      [...TResults, true]
-    >
-    : [false];
+
 
 /**
  * **ContainsAll**`<TList, THasAll>`
@@ -25,5 +13,8 @@ type _Contains<
  */
 export type ContainsAll<
   TList extends readonly unknown[],
-  THasAll extends Narrowable[],
-> = And<_Contains<TList, THasAll>>;
+  THasAll extends readonly unknown[],
+> = And<{
+  [K in keyof THasAll]: Contains<TList, THasAll[K]>
+}>
+
