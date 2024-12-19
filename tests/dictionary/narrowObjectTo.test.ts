@@ -32,10 +32,12 @@ describe("narrowObjectTo(constraint) -> (obj) -> obj", () => {
 
     const whoDat = mapper({foo: "Foo"});
 
+    expect(whoDat).toEqual("Foo is da foo");
+
 
     // @ts-ignore
     type cases = [
-      /** type tests */
+      Expect<Equal<typeof whoDat, `${string} is da foo`>>
     ];
 
   });

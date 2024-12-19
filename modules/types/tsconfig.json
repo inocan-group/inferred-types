@@ -3,7 +3,7 @@
     "composite": true,
     "target": "ES2022",
     "baseUrl": ".",
-    "rootDir": ".",
+    "rootDir": "..",
     "module": "ES2022",
     "moduleResolution": "Bundler",
     "paths": {
@@ -31,7 +31,7 @@
     }
   ],
   "include": [
-    "modules/**/src/**/*.ts"
+    "src/**/*.ts"
   ],
   "exclude": [
     "node_modules",
