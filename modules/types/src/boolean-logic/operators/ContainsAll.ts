@@ -1,7 +1,5 @@
 import type { And, Contains } from "inferred-types/types";
 
-
-
 /**
  * **ContainsAll**`<TList, THasAll>`
  *
@@ -16,5 +14,4 @@ export type ContainsAll<
   THasAll extends readonly unknown[],
 > = And<{
   [K in keyof THasAll]: Contains<TList, THasAll[K]>
-}>
-
+}>;

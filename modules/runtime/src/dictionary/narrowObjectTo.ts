@@ -3,10 +3,10 @@ import type {
   ConstrainedObjectIdentity,
   ConstrainObject,
   DefineObject,
-  ExpandDictionary,
   FromDefineObject,
   Narrowable,
 } from "inferred-types/types";
+import { createFnWithPropsExplicit } from "src/initializers";
 
 /**
  * **narrowObjectTo**`(constraint) => (obj) => obj
@@ -25,14 +25,14 @@ import type {
  */
 export function narrowObjectTo<
   TDefn extends DefineObject,
->(defn: TDefn): ConstrainedObjectIdentity<FromDefineObject<TDefn>> {
+>(_defn: TDefn): ConstrainedObjectIdentity<FromDefineObject<TDefn>> {
   const fn = <
     T extends Record<string, N>,
     N extends Narrowable,
     Constraint extends FromDefineObject<TDefn>,
   >(
     obj: T & ConstrainObject<T, Constraint>,
-  ) => obj as ExpandDictionary<T>;
+  ) => obj;
 
   return fn as ConstrainedObjectIdentity<FromDefineObject<TDefn>>;
 }
@@ -52,16 +52,27 @@ export function narrowObjectTo<
  *
  * **Related:** `ConstrainedObjectIdentity`, `narrowObjectTo`
  */
-export const narrowObjectToType = <TDefn extends AnyObject>(): ConstrainedObjectIdentity<TDefn> => {
-    const fn = <
+export function narrowObjectToType<TDefn extends AnyObject>(): ConstrainedObjectIdentity<TDefn> {
+  const fn = <
     T extends Record<string, N>,
     N extends Narrowable,
     Constraint extends TDefn,
   >(
     obj: T & ConstrainObject<T, Constraint>,
-  ) => obj as ExpandDictionary<T>;
+  ) => obj;
 
-  return fn as ConstrainedObjectIdentity<TDefn>;
+  return createFnWithPropsExplicit(
+    fn as ConstrainedObjectIdentity<TDefn>,
+    {
+      cb: <
+        T extends Record<string, N>,
+        N extends Narrowable,
+        Constraint extends TDefn,
+      >(
+        _obj: T & ConstrainObject<T, Constraint>,
+      ) => {
 
-  }
-
+      },
+    },
+  );
+}

@@ -1,5 +1,6 @@
 export * from "./AsError";
 export * from "./CompleteError";
+export * from "./ErrMsg";
 export * from "./ErrorCondition";
 export * from "./ErrorConditionHandler";
 export * from "./MapError";

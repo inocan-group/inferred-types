@@ -15,10 +15,10 @@
         "../modules/inferred-types/dist/index"
       ],
       "inferred-types/types": [
-        "../modules/types/dist/index"
+        "../modules/types/src/index.ts"
       ],
       "inferred-types/runtime": [
-        "../modules/runtime/dist/index"
+        "../modules/runtime/src/index.ts"
       ],
       "inferred-types/constants": [
         "../modules/constants/dist/index"

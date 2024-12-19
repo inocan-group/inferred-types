@@ -9,4 +9,8 @@ import type { TypedFunction } from "../base-types";
  */
 export type HandleDoneFn<T> = T extends { done: TypedFunction }
   ? ReturnType<T["done"]>
-  : T;
+  : T extends TypedFunction
+    ? Parameters<T>["length"] extends 0
+      ? ReturnType<T>
+      : T
+    : T;

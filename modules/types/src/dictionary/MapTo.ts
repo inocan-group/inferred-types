@@ -128,7 +128,7 @@ interface MapCardinalityConfig<
 export interface ConfiguredMap<
   C extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>,
 > {
-  map: <I, O>(map: MapTo<I, O, C>) => Mapper<I, O, C>;
+  map: <I, O>(map: MapTo<I, O, C>) => MapperOld<I, O, C>;
   input: MapIR<C>;
   cardinality: MapCard<C>;
   output: MapOR<C>;
@@ -419,7 +419,7 @@ export type MapFn<
  * which you can use. For instance, look at the `fnSignature`
  * property to get the _type_ signature of the map function.
  */
-export type Mapper<
+export type MapperOld<
   I = unknown,
   O = unknown,
   C extends FinalizedMapConfig<
@@ -448,7 +448,7 @@ export type Mapper<
  *
  * Type utility which extracts the `I` type from a fully configured `Mapper`
  */
-export type MapInputFrom<T extends Mapper> = T extends Mapper<infer I> ? I : never;
+export type MapInputFrom<T extends MapperOld> = T extends MapperOld<infer I> ? I : never;
 
 /**
  * **MapOutputFrom**
@@ -456,7 +456,7 @@ export type MapInputFrom<T extends Mapper> = T extends Mapper<infer I> ? I : nev
  * Type utility which extracts the output [`O`] type from a fully configured `Mapper`
  */
 
-export type MapOutputFrom<T extends Mapper> = T extends Mapper<any, infer O> ? O : never;
+export type MapOutputFrom<T extends MapperOld> = T extends MapperOld<any, infer O> ? O : never;
 
 /**
  * **MapCardinalityFrom**
@@ -464,7 +464,7 @@ export type MapOutputFrom<T extends Mapper> = T extends Mapper<any, infer O> ? O
  * Type utility which extracts _cardinality_ of a `Mapper`'s inputs to outputs
  */
 
-export type MapCardinalityFrom<T extends Mapper> = T extends Mapper<any, any, infer C>
+export type MapCardinalityFrom<T extends MapperOld> = T extends MapperOld<any, any, infer C>
   ? C extends FinalizedMapConfig<OptRequired, infer Cardinality, OptRequired>
     ? Cardinality
     : never
