@@ -3,6 +3,7 @@ import type {
   EmptyObject,
   If,
   IsEqual,
+  UnionToTuple,
   Unset,
 } from "inferred-types/types";
 
@@ -33,3 +34,15 @@ export type OptionalKeys<
     ? If<IsEqual<V, Unset>, K, K extends V ? K : never>
     : never;
 }[keyof T];
+
+/**
+ * **OptionalKeysTuple**`<T>`
+ *
+ * Provides a tuple of the _keys_ in `T` which are
+ * **required** properties.
+ *
+ * **Related:** `RequiredKeys`, `OptionalProps`
+ */
+export type OptionalKeysTuple<
+  T extends AnyObject,
+> = UnionToTuple<OptionalKeys<T>>;
