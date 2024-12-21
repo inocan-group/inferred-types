@@ -1,7 +1,8 @@
-import { describe,  it } from "vitest";
+import { describe,  expect,  it } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
 import { createFnWithProps,  defineObj } from "inferred-types";
 import { EmptyObject, Dictionary, WithValue } from "inferred-types";
+import { DictionaryWithValueFilter, withValue } from "inferred-types/runtime";
 
 const obj = defineObj({
   id: "foobar",
@@ -50,6 +51,32 @@ describe("WithValue<TObj,TVal> type util", () => {
       Expect<Equal<Bool, { bar: boolean }>>,
     ];
     const cases: cases = [true, true, true  ];
+  });
+
+});
+
+describe("withValue(wo) => (obj) => obj", () => {
+  const obj = defineObj({ foo: "hi", bar: 42, baz: 99, bax: "bye" })();
+
+  it("strings", () => {
+
+    const wide = withValue("string");
+    const narrow = withValue("string(hi,hello)");
+
+    const wideObj = wide(obj);
+    const narrowObj = narrow(obj);
+
+    expect(wideObj).toEqual({ foo: "hi", bax: "bye" });
+    expect(narrowObj).toEqual({ foo: "hi"});
+
+    // @ts-ignore
+    type cases = [
+      Expect<Equal<typeof wide, DictionaryWithValueFilter<string>>>,
+      Expect<Equal<typeof narrow, DictionaryWithValueFilter<"hi" | "hello">>>,
+
+      Expect<Equal<typeof wideObj, { foo: "hi", bax: "bye" }>>,
+      Expect<Equal<typeof narrowObj, { foo: "hi"}>>,
+    ];
   });
 
 });

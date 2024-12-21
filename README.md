@@ -70,6 +70,20 @@ const people = pluralize("person");
 #### Data Patterns
 
 - types like `Url`, `IpAddress`, `CSV`, `DotPath`, `Hexadecimal`, `ZipCode`, and `DomainName` attempt to provide an out of the box type for common data structure patterns we find in the real world
+- ISO3166 support (aka, countries):
+  - `Iso3166_Alpha2`, `Iso3166_Alpha3`, ...
+  - `isIso3166Alpha2()`, `isIsoAlpha3()`, type guards ...
+- ISO8601 support (aka, datetime)
+  - `Iso8601DateTime`, `Iso8601Date`, `Iso8601Time`, ...
+  - `isIsoDateTime()`, `isIsoDate()`, `isIsoTime()`, ...
+
+#### String Literal Matching at design time and run time
+
+```ts
+const matcher = infer("{{ string }} is a {{ infer foo }} utility, that {{ infer bar }}");
+// { foo: "fancy"; bar: "thinks it's better than you!"}
+const fooBar = matcher("infer is a fancy utility, that thinks it's better than you!")
+```
 
 ### Numeric Literals
 
@@ -89,42 +103,73 @@ const people = pluralize("person");
 
 ### Object / Dictionaries
 
-1. Based on an object's entity values:
+#### Reduce Object to Keys with a knownValue
 
-    Assume a base type of `Obj`:
+  Assume a base type of `Obj`:
 
-    ```ts
-    type Obj = {
-        n1: number;
-        n2: 2;
-        n3: 3;
-        success: true;
-        s1: string;
-        s2: "hello";
-    }
-    ```
+  ```ts
+  type Obj = {
+      n1: number;
+      n2: 2;
+      n3: 3;
+      success: true;
+      s1: string;
+      s2: "hello";
+  }
+  ```
 
-    We can get a union of string literals representing the _keys_ on the object whose value _extends_ some value:
+  We can get a union of string literals representing the _keys_ on the object whose value _extends_ some value:
 
-    ```ts
-    import type { KeysWithValue, KeysWithoutValue } from "inferred-types";
-    // "s1" | "s2"
-    type S = KeysWithValue<Obj, string>;
-    // "success" | "n1" | "n2"
-    type N = KeysWithoutValue<Obj, string>;
-    ```
+  ```ts
+  import type { KeysWithValue, KeysWithoutValue } from "inferred-types";
+  // "s1" | "s2"
+  type S = KeysWithValue<Obj, string>;
+  // "success" | "n1" | "n2"
+  type N = KeysWithoutValue<Obj, string>;
+  ```
 
-    > though less used, you can also use `KeysEqualValue` and `KeysNotEqualValue` for equality matching
+  > though less used, you can also use `KeysEqualValue` and `KeysNotEqualValue` for equality matching
 
-    If you'd prefer to mutate the object's type rather than just identify the _keys_ which extend a value you can do this with: `WithValue` and `WithoutValue`:
+  If you'd prefer to mutate the object's type rather than just identify the _keys_ which extend a value you can do this with: `WithValue` and `WithoutValue`:
 
-     ```ts
-     import type { WithValue, WithoutValue } from "inferred-types";
-     // { s1: string; s2: "hello" }
-     type S = WithValue<Obj, string>;
-     // { success: true; n1: number; n2: 2; n3: 3 }
-     type N = WithoutValue<Obj, string>;
-     ```
+   ```ts
+   import type { WithValue, WithoutValue } from "inferred-types";
+   // { s1: string; s2: "hello" }
+   type S = WithValue<Obj, string>;
+   // { success: true; n1: number; n2: 2; n3: 3 }
+   type N = WithoutValue<Obj, string>;
+   ```
+
+  And at runtime:
+
+  ```ts
+  // { foo: "hi" }
+  const foo = withoutValue("number")({ foo: "hi", bar: 42, baz: 99 });
+  // { bar: 42 }
+  const bar = withoutValue("number(42,55,66)")({ foo: "hi", bar: 42, baz: 99 });
+
+  // { foo: "hi", bar: 42 }
+  const fooBar = withoutKeys("baz")({ foo: "hi", bar: 42, baz: 99 });
+  // { foo: "hi", bar: 42 }
+  const fooBar2 = withKeys("foo", "bar")({ foo: "hi", bar: 42, baz: 99 })
+  ```
+
+#### Reduce Object's to only `Required` or `Optional` keys
+
+```ts
+type Obj = { foo: string; bar?: string; baz?: number };
+// "foo"
+type ReqKeys = RequiredKeys<Obj>;
+// ["foo"]
+type ReqKeyTup = RequiredKeysTuple<Obj>;
+// "bar" | "baz"
+type OptKeys = OptionalKeys<Obj>;
+// ["bar", "baz"]
+type OptKeyTup = OptionalKeysTuple<Obj>;
+
+type Reduced =
+
+```
 
 ## Contributing
 

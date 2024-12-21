@@ -9,6 +9,7 @@ export * from "./entries";
 export * from "./get";
 export * from "./keysOf";
 export * from "./narrowObjectTo";
+export * from "./objectValues";
 export * from "./omit";
 export * from "./retain";
 export * from "./sharedKeys";
@@ -18,6 +19,7 @@ export * from "./withDefaults";
 export * from "./withKeys";
 export * from "./withoutKeys";
 export * from "./withoutValue";
+export * from "./withValue";
 
 // #endregion auto-indexed files
 
