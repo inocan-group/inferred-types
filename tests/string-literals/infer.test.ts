@@ -23,19 +23,12 @@ describe("infer(templ) → (test) → RESULT", () => {
     type Vars = typeof inference["vars"];
     type Literal = typeof inference["typeLiteral"];
 
-    console.log({
-      match: inference(datum),
-      noMatch: inference("hello world"),
-      strMatch: strInference(datum)
-    })
-
     const match = inference(datum);
     expect(match).toBeTypeOf("object");
 
     const noMatch = inference("hello world");
     expect(noMatch).toBe(false);
 
-    const wide = inference(datum as string);
 
     const strMatch = strInference(datum);
     expect(strMatch).toBeTypeOf("object");
@@ -64,6 +57,7 @@ describe("infer(templ) → (test) → RESULT", () => {
           Total: number;
         }
       >>,
+
       // type system KNOWS that no match will be made
       Expect<Equal<typeof noMatch, false>>,
       // type system KNOWS that there will be a match
@@ -77,4 +71,50 @@ describe("infer(templ) → (test) → RESULT", () => {
       >>
     ];
   });
+
+
+  it("Wide strings passed in to inference test deferred to runtime", () => {
+    const inference = infer(
+      `{{infer Model}}/{{infer File}}-{{infer Index extends number}}-of-{{infer Total extends number}}.{{infer Rest}}`
+    )
+
+    const wide = inference(datum as string);
+    expect(wide).toBeTypeOf("object");
+    if(wide) {
+      expect(wide.Index).toBeTypeOf("number");
+      expect(wide.File).toBeTypeOf("string");
+    }
+
+    // @ts-ignore
+    type cases = [
+        // testing a wide string requires deferring to runtime
+        Expect<Equal<
+        typeof wide,
+        false | {
+          Model: string;
+          File: string;
+          Rest: string;
+          Index: number;
+          Total: number;
+        }
+      >>,
+    ];
+
+  });
+
+
+  it("numeric inferences are returned as numbers", () => {
+    const inference = infer(
+      `{{infer Model}}/{{infer File}}-{{infer Index extends number}}-of-{{infer Total extends number}}.{{infer Rest}}`
+    )
+    const match = inference(datum);
+    expect(match).toBeTypeOf("object");
+    if(match) {
+      expect(match.Index).toBeTypeOf("number");
+      expect(match.Total).toBeTypeOf("number");
+    }
+
+  });
+
+
 });

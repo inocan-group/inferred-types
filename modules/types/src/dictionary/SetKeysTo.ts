@@ -1,6 +1,9 @@
-import type { AnyObject } from "src/base-types";
-import type { AfterFirst, First } from "src/lists";
-import type { ExpandDictionary } from "src/literals";
+import type {
+  AfterFirst,
+  AnyObject,
+  ExpandDictionary,
+  First,
+} from "inferred-types/types";
 
 /**
  * **SetKeysTo**`<TObj, TKeys, TValue>`

@@ -1,10 +1,13 @@
-import type { RequiredKeys } from "src/dictionary";
-import type { AfterFirst, First } from "src/lists";
-import type { ExpandDictionary } from "src/literals";
-import type { AnyObject } from "./AnyObject";
-import type { EmptyObject } from "./EmptyObject";
-import type { TypedFunction } from "./fns";
-import type { ObjectKey } from "./ObjectKey";
+import type {
+  AfterFirst,
+  AnyObject,
+  EmptyObject,
+  ExpandDictionary,
+  First,
+  ObjectKey,
+  RequiredKeys,
+  TypedFunction,
+} from "inferred-types/types";
 
 type ReqKeys<
   K extends readonly (ObjectKey & keyof O)[],

@@ -89,6 +89,8 @@ export * from "./IsUrl";
 export * from "./IsValidDotPath";
 export * from "./IsValidIndex";
 export * from "./IsVueRef";
+export * from "./IsWideNumber";
+export * from "./IsWideString";
 export * from "./IsWideType";
 export * from "./IsWideUnion";
 export * from "./MaybeError";
@@ -104,7 +106,5 @@ export * from "./SomeEqual";
 export * from "./SomeExtend";
 export * from "./StartsWith";
 export * from "./UnionHasArray";
-export * from "./IsWideString";
-export * from "./IsWideNumber";
 
 export * from "./Validate";
