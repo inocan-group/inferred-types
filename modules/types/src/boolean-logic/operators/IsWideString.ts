@@ -1,4 +1,4 @@
-import { IsEqual } from "./IsEqual";
+import type { IsEqual } from "./IsEqual";
 
 /**
  * **IsWideString**`<T>`

@@ -1,8 +1,12 @@
-import type { AnyObject, ObjectKey } from "../base-types";
-import type { IsWideContainer, IsWideUnion } from "../boolean-logic";
-import type { ExpandDictionary } from "../literals";
-import type { WithKeys } from "./WithKeys";
-import type { WithoutKeys } from "./WithoutKeys";
+import type {
+  AnyObject,
+  ExpandDictionary,
+  IsWideContainer,
+  IsWideUnion,
+  ObjectKey,
+  WithKeys,
+  WithoutKeys,
+} from "inferred-types/types";
 
 type ProcessTupleKeys<
   TObj extends AnyObject,

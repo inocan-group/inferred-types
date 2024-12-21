@@ -2,8 +2,11 @@ import type {
   As,
   AsArray,
   AsLiteralFn,
+  AsUnion,
   CivilianTime,
   Container,
+  FromDefn,
+  FromShapeCallback,
   HandleDoneFn,
   If,
   Ip4Address,
@@ -24,7 +27,6 @@ import type {
   ZipCode,
   ZipPlus4,
 } from "inferred-types/types";
-import type { AsUnion, FromDefn, FromShapeCallback } from "../literals/FromDefn";
 import type { FromWideTokens, WideContainerNames, WideTokenNames } from "../literals/FromTokenNames";
 
 type Narrow = Exclude<Narrowable, symbol>;

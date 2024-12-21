@@ -1,15 +1,21 @@
-import type { ExpandDictionary, Join, OptSpace } from "inferred-types/types";
+/* eslint no-cond-assign: "off" */
+import type {
+  ExpandDictionary,
+  IsWideString,
+  Join,
+  OptSpace,
+} from "inferred-types/types";
 
 type Ext = "string" | "number" | "boolean";
-type START = "{{"
-type END = "}}"
+type START = "{{";
+type END = "}}";
 type InferredString = `infer ${string} extends string` | `infer ${string}`;
 type InferredNumber = `infer ${string} extends number`;
 type InferredBoolean = `infer ${string} extends boolean`;
 
 type InferenceVars<
   T extends string,
-  Vars extends [strings: string[], nums: string[], bools: string[]] = [[], [], []]
+  Vars extends [strings: string[], nums: string[], bools: string[]] = [[], [], []],
 > =
   // Peel off a block
   T extends `${infer _HEAD}${START}${infer Content}${END}${infer REST}`
@@ -34,23 +40,23 @@ type InferenceVars<
 
 type TypeLiteral<
   T extends string,
-  Sections extends readonly string[] = []
+  Sections extends readonly string[] = [],
 > = T extends `${infer HEAD}${START}${infer Content}${END}${infer REST}`
   // peel off a block
   ? Content extends InferredNumber
     ? TypeLiteral<REST, [ ...Sections, `${HEAD}${number}`]>
-  : Content extends InferredBoolean
-    ? TypeLiteral<REST, [ ...Sections, `${HEAD}${boolean}`]>
-  : Content extends InferredString
-    ? TypeLiteral<REST, [ ...Sections, `${HEAD}${string}`]>
+    : Content extends InferredBoolean
+      ? TypeLiteral<REST, [ ...Sections, `${HEAD}${boolean}`]>
+      : Content extends InferredString
+        ? TypeLiteral<REST, [ ...Sections, `${HEAD}${string}`]>
 
-  : Content extends "string"
-    ? TypeLiteral<REST, [ ...Sections, `${HEAD}${string}`]>
-  : Content extends "number"
-    ? TypeLiteral<REST, [ ...Sections, `${HEAD}${number}`]>
-  : Content extends "boolean"
-    ? TypeLiteral<REST, [ ...Sections, `${HEAD}${boolean}`]>
-    : TypeLiteral<REST, [ ...Sections, Content]>
+        : Content extends "string"
+          ? TypeLiteral<REST, [ ...Sections, `${HEAD}${string}`]>
+          : Content extends "number"
+            ? TypeLiteral<REST, [ ...Sections, `${HEAD}${number}`]>
+            : Content extends "boolean"
+              ? TypeLiteral<REST, [ ...Sections, `${HEAD}${boolean}`]>
+              : TypeLiteral<REST, [ ...Sections, Content]>
 
   // DONE
   : Join<Sections>;
@@ -68,26 +74,26 @@ type TypeLiteral<
  */
 type WiderTypeLiteral<
   T extends string,
-  Sections extends readonly string[] = []
+  Sections extends readonly string[] = [],
 > = T extends `${infer HEAD}${START}${infer Content}${END}${infer REST}`
 // peel off a block
-? Content extends InferredNumber
-  ? WiderTypeLiteral<REST, [ ...Sections, `${HEAD}${string}`]>
-: Content extends InferredBoolean
-  ? WiderTypeLiteral<REST, [ ...Sections, `${HEAD}${string}`]>
-: Content extends InferredString
-  ? WiderTypeLiteral<REST, [ ...Sections, `${HEAD}${string}`]>
+  ? Content extends InferredNumber
+    ? WiderTypeLiteral<REST, [ ...Sections, `${HEAD}${string}`]>
+    : Content extends InferredBoolean
+      ? WiderTypeLiteral<REST, [ ...Sections, `${HEAD}${string}`]>
+      : Content extends InferredString
+        ? WiderTypeLiteral<REST, [ ...Sections, `${HEAD}${string}`]>
 
-: Content extends "string"
-  ? WiderTypeLiteral<REST, [ ...Sections, `${HEAD}${string}`]>
-: Content extends "number"
-  ? WiderTypeLiteral<REST, [ ...Sections, `${HEAD}${string}`]>
-: Content extends "boolean"
-  ? WiderTypeLiteral<REST, [ ...Sections, `${HEAD}${string}`]>
-  : WiderTypeLiteral<REST, [ ...Sections, Content]>
+        : Content extends "string"
+          ? WiderTypeLiteral<REST, [ ...Sections, `${HEAD}${string}`]>
+          : Content extends "number"
+            ? WiderTypeLiteral<REST, [ ...Sections, `${HEAD}${string}`]>
+            : Content extends "boolean"
+              ? WiderTypeLiteral<REST, [ ...Sections, `${HEAD}${string}`]>
+              : WiderTypeLiteral<REST, [ ...Sections, Content]>
 
 // DONE
-: Join<Sections>;
+  : Join<Sections>;
 
 type StrVars<T extends string> = InferenceVars<T>[0];
 type NumVars<T extends string> = InferenceVars<T>[1];
@@ -118,21 +124,25 @@ type IsDynamic<T extends string> = LiteralSections<T>["length"] extends 0
     : true
   : true;
 
+export interface GetInferenceProps<TPattern extends string> {
+  vars: {
+    string: StrVars<TPattern>;
+    numeric: NumVars<TPattern>;
+    boolean: BoolVars<TPattern>;
+  };
+  typeLiteral: TypeLiteral<TPattern>;
+  typeWide: WiderTypeLiteral<TPattern>;
+}
+
 export type GetInference<TPattern extends string> = (
   <T extends string>(test: T) => T extends TypeLiteral<TPattern>
-      ? Shape<TPattern>
-      : T extends WiderTypeLiteral<TPattern>
+    ? Shape<TPattern>
+    : T extends WiderTypeLiteral<TPattern>
+      ? false | Shape<TPattern>
+      : IsWideString<T> extends true
         ? false | Shape<TPattern>
         : false
-) & {
-  vars: {
-    string: StrVars<TPattern>,
-    numeric: NumVars<TPattern>,
-    boolean: BoolVars<TPattern>
-  }
-  typeLiteral: TypeLiteral<TPattern>,
-  typeWide: WiderTypeLiteral<TPattern>,
-};
+) & GetInferenceProps<TPattern>;
 
 type Returns<T extends string> = IsDynamic<T> extends true
   ? GetInference<T>
@@ -153,33 +163,34 @@ type Returns<T extends string> = IsDynamic<T> extends true
  *   { static: "", dynamic: false }
  * ]
  */
-function parseTemplate(template: string): Array<
-  { dynamic: false; text: string } |
-  { dynamic: true; varName: string; type: Ext }
-> {
-  const pattern = /\{\{\s*infer\s+([A-Za-z_]\w*)\s*(?:as\s+(string|number|boolean)\s*)?\}\}/g;
+function parseTemplate(template: string) {
+  // updated pattern:
+  const pattern
+    = /\{\{\s*infer\s+([A-Za-z_]\w*)\s*(?:(?:extends|as)\s+(string|number|boolean)\s*)?\}\}/g;
+
   let lastIndex = 0;
   let match: RegExpExecArray | null;
-  const segments: Array<{ dynamic: false; text: string } | { dynamic: true; varName: string; type: Ext }> = [];
+  const segments: Array<
+    { dynamic: false; text: string } |
+    { dynamic: true; varName: string; type: "string" | "number" | "boolean" }
+  > = [];
 
-  do {
-    match = pattern.exec(template);
-    if (match) {
-      const [fullMatch, varName, asType] = match;
-      const staticPart = template.slice(lastIndex, match.index);
-      if (staticPart) {
-        segments.push({ dynamic: false, text: staticPart });
-      }
-      segments.push({
-        dynamic: true,
-        varName,
-        type: asType ? (asType as Ext) : "string",
-      });
-      lastIndex = match.index + fullMatch.length;
+  while ((match = pattern.exec(template))) {
+    const [fullMatch, varName, asType] = match;
+    // everything from the previous index to this match is static text
+    const staticPart = template.slice(lastIndex, match.index);
+    if (staticPart) {
+      segments.push({ dynamic: false, text: staticPart });
     }
-  } while (match);
+    segments.push({
+      dynamic: true,
+      varName,
+      type: asType ? (asType as "string" | "number" | "boolean") : "string",
+    });
+    lastIndex = match.index + fullMatch.length;
+  }
 
-  // Remainder after last inference
+  // push the remainder as static text
   const remainder = template.slice(lastIndex);
   if (remainder) {
     segments.push({ dynamic: false, text: remainder });
@@ -201,7 +212,8 @@ function buildRegexPattern(segments: ReturnType<typeof parseTemplate>) {
     if (!seg.dynamic) {
       // Static text
       regexStr += escapeRegex(seg.text);
-    } else {
+    }
+    else {
       // Dynamic segment
       switch (seg.type) {
         case "string":
@@ -237,14 +249,15 @@ function convertValue(type: Ext, value: string): string | number | boolean {
  */
 function matchTemplate<TTempl extends string>(
   template: TTempl,
-  test: string
+  test: string,
 ): Shape<TTempl> | false {
   const segments = parseTemplate(template);
   const regex = buildRegexPattern(segments);
 
   // Use exec(...) instead of match(...) so we can access capture groups by index
   const match = regex.exec(test);
-  if (!match) return false;
+  if (!match)
+    return false;
 
   let captureIndex = 1; // Start at 1 because [0] is the full match
   const result: Record<string, unknown> = {};
@@ -253,7 +266,8 @@ function matchTemplate<TTempl extends string>(
     if (seg.dynamic) {
       const rawVal = match[captureIndex++];
       // If the capture group is somehow missing or undefined, fail
-      if (rawVal === undefined) return false;
+      if (rawVal === undefined)
+        return false;
       result[seg.varName] = convertValue(seg.type, rawVal);
     }
   }
@@ -280,7 +294,7 @@ function matchTemplate<TTempl extends string>(
  * ```
  */
 export function infer<TTempl extends string>(
-  inference: TTempl
+  inference: TTempl,
 ): Returns<TTempl> {
   return ((test: string) => {
     return matchTemplate(inference, test);
