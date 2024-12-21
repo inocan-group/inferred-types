@@ -104,5 +104,7 @@ export * from "./SomeEqual";
 export * from "./SomeExtend";
 export * from "./StartsWith";
 export * from "./UnionHasArray";
+export * from "./IsWideString";
+export * from "./IsWideNumber";
 
 export * from "./Validate";
