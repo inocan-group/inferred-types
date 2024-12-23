@@ -1,94 +1,105 @@
 import type {
   AfterFirst,
-  As,
-  BeforeLast,
-  Chars,
+  ErrMsg,
   Filter,
   First,
+  IsLiteral,
   IsStringLiteral,
   IsUnion,
-  IsWideType,
-  Last,
-  TupleToUnion,
+  RetainAfter,
+  Second,
+  StripAfter,
+  UnionArrayToTuple,
   UnionToTuple,
 } from "inferred-types/types";
 
-type UnionPolicy = "omit" | "include";
+type Policy = "omit" | "before" | "after";
 
-type UnionSplit<
-  TContent extends readonly string[],
-  TSep extends string,
-  TUnionPolicy extends UnionPolicy,
-  TResult extends readonly string[] = [],
-> = [] extends TContent
-  ? TResult
-  : // recurse
-  UnionSplit<
-    AfterFirst<TContent>, // advance to next character
-    TSep,
-    TUnionPolicy,
-    First<TContent> extends TSep
-      ? // split mark
-        [
-          ...TResult,
-          ...(
-            TUnionPolicy extends "omit"
-              ? [""]
-              : [First<TContent>]
-          ),
-        ]
-      : // add to existing
-      Last<TResult, ""> extends string
-        ? First<TContent> extends string
-          ? BeforeLast<TResult> extends readonly string[]
-            ? [
-                ...BeforeLast<TResult>,
-                `${Last<TResult>}${First<TContent>}`,
-              ]
-            : never
-          : never
+type Postfix<T extends string> = ["postfix", T];
+
+type FixPostfix<
+  T extends readonly (string | Postfix<string>)[],
+  R extends readonly string[] = [],
+> = [] extends T
+? R
+: FixPostfix<
+    First<T> extends ["postfix", string]
+      ? AfterFirst<AfterFirst<T>>
+      : AfterFirst<T>,
+    First<T> extends string
+      ? [...R, First<T>]
+      : First<T> extends ["postfix", string]
+        ? [
+            ...R,
+            (
+              Second<T> extends string
+              ? `${First<T>[1]}${Second<T>}`
+              : never
+            )
+          ]
         : never
+  >
+
+;
+
+type Eagle<
+  TContent extends string,
+  TSep extends string,
+  TPolicy extends Policy,
+  TParts extends readonly (string | Postfix<string>)[] = []
+> = TContent extends `${string}${TSep}${string}`
+  ? TContent extends `${infer Pre}${TSep}${infer Post}`
+    ? Eagle<
+        Post,
+        TSep,
+        TPolicy,
+        TPolicy extends "after"
+        ? [...TParts, Pre, Postfix<TSep>]
+        : TPolicy extends "before"
+          ? [ ...TParts, `${Pre}${TSep}`]
+          : [...TParts, Pre]
+      >
+    : ErrMsg<"invalid-content", `Split<T>: found separator ['${TSep}'] within string but can't infer it: ${TContent}`>
+:  [...TParts, TContent];
+
+type EachBlock<
+  TContent extends readonly (string | Postfix<string>)[],
+  TSep extends string,
+  TPolicy extends Policy,
+  TOutput extends readonly (string | Postfix<string>)[] = []
+> = [] extends TContent
+? TOutput
+: EachBlock<
+    AfterFirst<TContent>,
+    TSep,
+    TPolicy,
+    First<TContent> extends string
+      ? [
+          ...TOutput,
+          ...(Eagle<First<TContent>, TSep, TPolicy> extends readonly (string | Postfix<string>)[]
+          ? Eagle<First<TContent>, TSep, TPolicy>
+          : []
+        )
+      ]
+      : [
+        ...TOutput,
+        First<TContent>
+      ]
   >;
 
-type LiteralSplit<
-  TContent extends string,
-  TSep extends string,
-  TUnionPolicy extends UnionPolicy = "omit",
-  TResults extends readonly string[] = [],
-> = TContent extends `${infer Block}${TSep}${infer Rest}`
-  ? LiteralSplit<
-    Rest,
-    TSep,
-    TUnionPolicy,
-    [
-      ...TResults,
-      TUnionPolicy extends "omit" ? Block : `${Block}${TSep}`,
-    ]
+type Iterate<
+  TContent extends readonly (string | Postfix<string>)[],
+  TSep extends readonly string[],
+  TPolicy extends Policy,
+> = [] extends TSep
+? FixPostfix<
+  Filter<TContent, "", "equals">
   >
-  : Filter<[...TResults, TContent], "">;
-
-type Process<
-  TContent extends string,
-  TSep extends string | readonly string[],
-  TUnionPolicy extends UnionPolicy = "omit",
-> = IsWideType<TContent> extends true
-  ? string
-  : TSep extends readonly string[]
-    ? TupleToUnion<TSep> extends string
-      ? Chars<TContent> extends readonly string[]
-        ? UnionSplit<Chars<TContent>, TupleToUnion<TSep>, TUnionPolicy>
-        : never
-      : never
-    : TSep extends string
-      ? LiteralSplit<TContent, TSep, TUnionPolicy>
-      : never;
-
-type PreProcess<TContent extends string, TSep extends string | readonly string[], TUnionPolicy extends UnionPolicy = "omit",
-> = IsUnion<TSep> extends true
-  ? UnionToTuple<TSep> extends readonly string[]
-    ? Process<TContent, UnionToTuple<TSep>, TUnionPolicy>
-    : never
-  : Process<TContent, TSep, TUnionPolicy>;
+: Iterate<
+    EachBlock<TContent, First<TSep>, TPolicy>,
+    AfterFirst<TSep>,
+    TPolicy
+  >;
 
 /**
  * **Split**`<TContent,TSep,[TPolicy]>`
@@ -103,7 +114,24 @@ type PreProcess<TContent extends string, TSep extends string | readonly string[]
 export type Split<
   TContent extends string,
   TSep extends string | readonly string[],
-  TPolicy extends UnionPolicy = "omit",
+  TPolicy extends Policy = "omit",
 > = IsStringLiteral<TContent> extends true
-  ? As<PreProcess<TContent, TSep, TPolicy>, readonly string[]>
+  ? IsUnion<TSep> extends true
+      ? UnionToTuple<TSep> extends readonly string[]
+        ? Split<TContent,UnionToTuple<TSep>, TPolicy>
+        : ErrMsg<"invalid-union">
+  : IsLiteral<TSep> extends true
+    ? TSep extends ""
+      ? ErrMsg<
+          "invalid-separator",
+          `Split<T>: an empty string was used as a separator. Use Chars<T> if you want to split a string into characters!`
+        >
+    : TSep extends readonly string[]
+      ? Iterate<[TContent], TSep, TPolicy>
+      : TSep extends string
+          ? Eagle<TContent, TSep, TPolicy> extends readonly (string | Postfix<string>)[]
+            ? FixPostfix< Eagle<TContent, TSep, TPolicy>>
+            : never
+          : never
+      : never
   : string[];
