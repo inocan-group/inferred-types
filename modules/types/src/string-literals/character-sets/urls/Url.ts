@@ -197,7 +197,7 @@ export type RemoveNetworkProtocol<
   ? Rest
   : TContent;
 
-type UrlPathChars = AlphaNumericChar | "_" | "@" | "." | "-";
+export type UrlPathChars = AlphaNumericChar | "_" | "@" | "." | "-";
 
 /**
  * **UrlPath**`<T>`

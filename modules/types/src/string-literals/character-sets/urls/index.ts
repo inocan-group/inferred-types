@@ -4,3 +4,4 @@ export * from "./retail";
 export * from "./Social";
 
 export * from "./Url";
+export * from "./UrlDynamics";

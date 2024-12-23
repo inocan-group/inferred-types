@@ -1,4 +1,4 @@
-import type { AfterFirst, AlphaChar, AlphaNumericChar, And, CsvToUnion, Dictionary, EmptyObject, ErrMsg, ExpandDictionary, First, FromSimpleToken, GetUrlQueryParams, IsCsv, IsVariable, Join, Keys, SimpleToken, Split, Variable } from "inferred-types/types";
+import type { AfterFirst, AlphaChar, AlphaNumericChar, And, CsvToUnion, Dictionary, EmptyObject, ErrMsg, ExpandDictionary, First, FromSimpleToken, GetUrlQueryParams, IsCsv, IsVariable, Join, Keys, RetainAfter, SimpleToken, Split, Variable } from "inferred-types/types";
 
 type SegmentType = (
   "string" | "number" | "boolean" | "Opt<string>" | "Opt<number>" | "Opt<boolean>"
@@ -56,18 +56,13 @@ export type FromNamedDynamicSegment<T extends string> = T extends `<string::${st
                 ? string
                 : never;
 
-/**
- * **GetUrlPathDynamics**`<T>`
- *
- * Extracts a key/value pairing of `NamedDynamicSegment`'s
- * found within the Url string.
- */
-type Dynomite<
+
+type PathDynamics<
   T extends readonly string[],
   Kv extends Dictionary = EmptyObject,
 > = [] extends T
 ? ExpandDictionary<Kv>
-: Dynomite<
+: PathDynamics<
     AfterFirst<T>,
     First<T> extends `${string}<${infer Candidate}>${string}`
       ? Candidate extends `${infer Name extends Variable} as string(${infer Params})`
@@ -80,15 +75,42 @@ type Dynomite<
       : Kv
   >;
 
-
-
-
-
+/**
+ * **GetUrlPathDynamics**`<T>`
+ *
+ * Extracts a key/value pairing of `NamedDynamicSegment`'s
+ * found within the Url string.
+ */
 export type GetUrlPathDynamics<
   T extends string
-> = Dynomite<
+> = PathDynamics<
   Split<T, "<", "after">
 >
+
+type QueryParameterDynamics<
+  T extends readonly string[],
+  R extends Dictionary = EmptyObject
+> = [] extends T
+? ExpandDictionary<R>
+: QueryParameterDynamics<
+    AfterFirst<T>,
+    First<T> extends `${infer Var}=<string(${infer Params})>`
+    ? R & Record<Var, CsvToUnion<Params>>
+    : First<T> extends `${infer Var}=<${infer Type extends SegmentType}>`
+      ? R & Record<Var, FromSimpleToken<Type>>
+      : First<T> extends `${infer Var}=${infer Val}`
+        ? R & Record<Var, Val>
+        : R
+  >;
+
+export type GetQueryParameterDynamics<
+  T extends string
+> = QueryParameterDynamics<
+  GetUrlQueryParams<T> extends `?${infer REST}`
+    ? Split<REST, "&">
+    : Split<GetUrlQueryParams<T>, "&">
+>
+
 
 export interface GetUrlDynamics<T extends string> {
   pathVars: GetUrlPathDynamics<T>;
