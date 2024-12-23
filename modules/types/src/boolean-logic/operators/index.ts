@@ -35,6 +35,7 @@ export * from "./IsBoolean";
 export * from "./IsBooleanLiteral";
 export * from "./IsContainer";
 export * from "./IsCssHexadecimal";
+export * from "./IsCsv";
 export * from "./IsDefined";
 export * from "./IsDotPath";
 export * from "./IsEmptyObject";
@@ -106,5 +107,4 @@ export * from "./SomeEqual";
 export * from "./SomeExtend";
 export * from "./StartsWith";
 export * from "./UnionHasArray";
-
 export * from "./Validate";
