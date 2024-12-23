@@ -1,4 +1,23 @@
-import type { AfterFirst, AlphaChar, AlphaNumericChar, And, CsvToUnion, Dictionary, EmptyObject, ErrMsg, ExpandDictionary, First, FromSimpleToken, GetUrlQueryParams, IsCsv, IsVariable, Join, Keys, RetainAfter, SimpleToken, Split, Variable } from "inferred-types/types";
+import type {
+  AfterFirst,
+  AlphaChar,
+  AlphaNumericChar,
+  CsvToUnion,
+  Dictionary,
+  EmptyObject,
+  ErrMsg,
+  ExpandDictionary,
+  First,
+  FromSimpleToken,
+  GetUrlPath,
+  GetUrlQueryParams,
+  IsVariable,
+  Keys,
+  KeysOverlap,
+  SimpleToken,
+  Split,
+  Variable,
+} from "inferred-types/types";
 
 type SegmentType = (
   "string" | "number" | "boolean" | "Opt<string>" | "Opt<number>" | "Opt<boolean>"
@@ -56,22 +75,21 @@ export type FromNamedDynamicSegment<T extends string> = T extends `<string::${st
                 ? string
                 : never;
 
-
 type PathDynamics<
   T extends readonly string[],
   Kv extends Dictionary = EmptyObject,
 > = [] extends T
-? ExpandDictionary<Kv>
-: PathDynamics<
+  ? ExpandDictionary<Kv>
+  : PathDynamics<
     AfterFirst<T>,
     First<T> extends `${string}<${infer Candidate}>${string}`
       ? Candidate extends `${infer Name extends Variable} as string(${infer Params})`
         ? Kv & Record<Name, CsvToUnion<Params>>
         : Candidate extends `${infer Name extends Variable} as ${infer Type extends SegmentType}`
-        ? Kv & Record<Name, FromSimpleToken<Type>>
-        : IsVariable<Candidate> extends true
-        ? Kv & Record<Candidate, string>
-        : never
+          ? Kv & Record<Name, FromSimpleToken<Type>>
+          : IsVariable<Candidate> extends true
+            ? Kv & Record<Candidate, string>
+            : never
       : Kv
   >;
 
@@ -82,38 +100,54 @@ type PathDynamics<
  * found within the Url string.
  */
 export type GetUrlPathDynamics<
-  T extends string
+  T extends string,
 > = PathDynamics<
   Split<T, "<", "after">
->
+>;
 
 type QueryParameterDynamics<
   T extends readonly string[],
-  R extends Dictionary = EmptyObject
+  R extends Dictionary = EmptyObject,
 > = [] extends T
-? ExpandDictionary<R>
-: QueryParameterDynamics<
+  ? ExpandDictionary<R>
+  : QueryParameterDynamics<
     AfterFirst<T>,
     First<T> extends `${infer Var}=<string(${infer Params})>`
-    ? R & Record<Var, CsvToUnion<Params>>
-    : First<T> extends `${infer Var}=<${infer Type extends SegmentType}>`
-      ? R & Record<Var, FromSimpleToken<Type>>
-      : First<T> extends `${infer Var}=${infer Val}`
-        ? R & Record<Var, Val>
-        : R
+      ? R & Record<Var, CsvToUnion<Params>>
+      : First<T> extends `${infer Var}=<${infer Type extends SegmentType}>`
+        ? R & Record<Var, FromSimpleToken<Type>>
+        : First<T> extends `${infer Var}=${infer Val}`
+          ? R & Record<Var, Val>
+          : R
   >;
 
 export type GetQueryParameterDynamics<
-  T extends string
+  T extends string,
 > = QueryParameterDynamics<
   GetUrlQueryParams<T> extends `?${infer REST}`
     ? Split<REST, "&">
     : Split<GetUrlQueryParams<T>, "&">
->
+>;
 
+type PathAndQueryDynamics<T extends string> = KeysOverlap<
+GetUrlPathDynamics<GetUrlPath<T>>, GetQueryParameterDynamics<GetUrlQueryParams<T>>
+> extends true
+? ErrMsg<"overlapping-keys", { path: Keys<GetUrlPathDynamics<GetUrlPath<T>>>, qp: Keys<GetQueryParameterDynamics<GetUrlQueryParams<T>>>}>
+: ExpandDictionary<
+  GetUrlPathDynamics<GetUrlPath<T>> & GetQueryParameterDynamics<GetUrlQueryParams<T>>
+>;
 
 export interface GetUrlDynamics<T extends string> {
-  pathVars: GetUrlPathDynamics<T>;
-  qp: GetUrlQueryParams<T>;
+  /**
+   * A key/value of dynamic path variables found
+   */
+  pathVars: GetUrlPathDynamics<GetUrlPath<T>>;
+  /**
+   * A key/value of dynamic (and fixed) query parameters found in the URL
+   */
+  qpVars: GetQueryParameterDynamics<GetUrlQueryParams<T>>;
+
+  /** A key/value of both path and query parameter variables */
+  allVars: PathAndQueryDynamics<T>;
 
 }

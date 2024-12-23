@@ -1,7 +1,7 @@
-import { Equal, Expect } from "@type-challenges/utils";
+import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { GetQueryParameterDynamics, GetUrlPathDynamics } from "inferred-types/types";
+import { GetQueryParameterDynamics, GetUrlDynamics, GetUrlPathDynamics, IsErrMsg } from "inferred-types/types";
 
 describe("GetUrlPathDynamics<T>", () => {
 
@@ -61,3 +61,40 @@ describe("GetQueryParameterDynamics<T>", () => {
   });
 
 });
+
+describe("GetUrlDynamics", () => {
+
+  it("happy path", () => {
+    type T1 = GetUrlDynamics<
+      "https://foo.com/<action>/<id>?foo=<number>&bar=<string>"
+    >;
+    type Path = T1["pathVars"];
+    type Qp = T1["qpVars"];
+    type All = T1["allVars"];
+
+    // @ts-ignore
+    type cases = [
+      Expect<Equal<Path, { id: string; action: string}>>,
+      Expect<Equal<Qp, { foo: number; bar: string}>>,
+      Expect<Equal<All, { id: string; action: string;  foo: number; bar: string}>>,
+    ];
+  });
+
+  it("overlapping keys", () => {
+    type T1 = GetUrlDynamics<
+      "https://foo.com/<id>/<bar>?foo=<number>&bar=<string>"
+    >;
+    type Path = T1["pathVars"];
+    type Qp = T1["qpVars"];
+    type All = T1["allVars"];
+
+    // @ts-ignore
+    type cases = [
+      Expect<Equal<Path, { id: string; bar: string}>>,
+      Expect<Equal<Qp, { foo: number; bar: string}>>,
+      ExpectTrue<IsErrMsg<All, "overlapping-keys">>,
+    ];
+  });
+
+});
+

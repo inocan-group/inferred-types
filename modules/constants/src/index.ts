@@ -12,6 +12,7 @@ export * from "./FalsyValues";
 export * from "./Functional";
 export * from "./Geo";
 export * from "./HashTable";
+export * from "./Http";
 export * from "./Images";
 export * from "./ISO3166";
 export * from "./Marked";
