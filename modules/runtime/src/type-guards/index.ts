@@ -14,6 +14,7 @@ export * from "./isBooleanLike";
 export * from "./isConstant";
 export * from "./isContainer";
 export * from "./isCssAspectRatio";
+export * from "./isCsv";
 export * from "./isDefined";
 export * from "./isDoneFn";
 export * from "./isEmail";
@@ -50,10 +51,12 @@ export * from "./isTrue";
 export * from "./isTruthy";
 export * from "./isTypeSubtype";
 export * from "./isTypeTuple";
-
 export * from "./isUndefined";
+export * from "./protocol";
+
 export * from "./isUnset";
 export * from "./isUrl";
+export * from "./isVariable";
 export * from "./metrics/index";
 export * from "./network-tg";
 export * from "./numeric/index";
