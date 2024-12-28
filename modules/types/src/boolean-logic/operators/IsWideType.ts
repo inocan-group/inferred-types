@@ -1,6 +1,7 @@
 import type {
   Container,
   ErrorCondition,
+  IsEmptyObject,
   IsEqual,
   IsNever,
   IsVueRef,
@@ -59,21 +60,23 @@ type GetKeys<
  * Boolean operator which tests wether `T` is a `Container` and
  * also a `wide type` (aka, not a literal).
  */
-export type IsWideContainer<T> = T extends Container
-  ? T extends readonly unknown[]
-    ? "length" extends keyof T
-      ? IsEqual<T["length"], number> extends true
-        ? true
-        : false
-      : false
-    : T extends object
-      ? "length" extends keyof GetKeys<T>
-        ? IsEqual<GetKeys<T>["length"], number> extends true
+export type IsWideContainer<T> = IsEmptyObject<T> extends true
+  ? false
+  : T extends Container
+    ? T extends readonly unknown[]
+      ? "length" extends keyof T
+        ? IsEqual<T["length"], number> extends true
           ? true
           : false
         : false
-      : false
-  : false;
+      : T extends object
+        ? "length" extends keyof GetKeys<T>
+          ? IsEqual<GetKeys<T>["length"], number> extends true
+            ? true
+            : false
+          : false
+        : false
+    : false;
 
 type InvalidNever = Throw<
   "invalid-never",

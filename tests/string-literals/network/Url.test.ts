@@ -1,5 +1,5 @@
 import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { urlMeta } from "inferred-types";
+import { GetUrlPort, urlMeta } from "inferred-types";
 import {
   AddUrlPathSegment,
   Extends,
@@ -13,6 +13,7 @@ import {
   GetUrlProtocol,
   RemoveUrlPort
 } from "inferred-types";
+import { getUrlPort } from "inferred-types/runtime";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -169,6 +170,48 @@ describe("Url testing", () => {
       true, true, true, true
     ];
   });
+
+
+  it("GetUrlPort<T>", () => {
+    type OnlyPort = GetUrlPort<":443">;
+    type InUrl = GetUrlPort<`https://facebook.com:456/path/to/thing`>;
+    type Inferred = GetUrlPort<`https://facebook.com/path/to/thing`>;
+    type Inferred2 = GetUrlPort<`https://facebook.com/path/to/thing`, true>;
+
+    // @ts-ignore
+    type cases = [
+      Expect<Equal<OnlyPort, 443>>,
+      Expect<Equal<InUrl, 456>>,
+      Expect<Equal<Inferred, "default">>,
+      Expect<Equal<Inferred2, 443>>,
+    ];
+
+  });
+
+
+  it("getUrlPort() runtime", () => {
+    const onlyPort = getUrlPort(":443");
+    const urlInferred = getUrlPort("https://facebook.com");
+    const urlResolved = getUrlPort("https://facebook.com", true);
+    const invalid = getUrlPort("");
+    const invalid2 = getUrlPort("", true);
+    const explicit = getUrlPort(`https://192.168.1.1:443/admin/console`);
+
+    expect(onlyPort).toEqual(443);
+    expect(urlInferred).toEqual("default");
+    expect(urlResolved).toEqual(443);
+    expect(invalid).toEqual(null);
+    expect(invalid2).toEqual(null);
+    expect(explicit).toEqual(443);
+
+    // @ts-ignore
+    type cases = [
+      /** type tests */
+    ];
+
+  });
+
+
 
   it("GetUrlPath<T>", () => {
     type FooBarBaz = GetUrlPath<"https://foo.bar/baz">;
@@ -378,6 +421,7 @@ describe("Url testing", () => {
     expect(homelab.source).toBe("192.168.1.1");
     expect(homelab.protocol).toBe("https");
     expect(homelab.port).toBe(443);
+
     expect(homelab.isIpAddress).toBe(true);
     expect(homelab.isIp4Address).toBe(true);
     expect(homelab.isIp6Address).toBe(false);

@@ -10,6 +10,31 @@ export const IPv4 = {
   Loopback: "127.0.0.1",
 } as const;
 
+export const NETWORK_PROTOCOL_INSECURE = [
+  "http",
+  "ftp",
+  "ws",
+  "dns",
+  "telnet",
+  "imap",
+  "pop3",
+  "smtp",
+] as const;
+
+export const NETWORK_PROTOCOL_SECURE = [
+  "https",
+  "sftp",
+  "wss",
+  "sdns",
+  "ssh",
+
+] as const;
+
+export const NETWORK_PROTOCOL = [
+  ...NETWORK_PROTOCOL_INSECURE,
+  ...NETWORK_PROTOCOL_SECURE,
+] as const;
+
 /**
  * Lookup of protocols which provides a tuple of: `[insecure,secure]`
  */
@@ -20,7 +45,25 @@ export const NETWORK_PROTOCOL_LOOKUP = {
   ws: ["ws", "wss"],
   ssh: ["", "ssh"],
   scp: ["", "scp"],
+  telnet: ["telnet", ""],
+  dns: ["dns", "sdns"],
 } as const;
+
+export const PROTOCOL_DEFAULT_PORTS = {
+  http: 80,
+  https: 443,
+  ws: 80,
+  wss: 443,
+  ssh: 22,
+  telnet: 23,
+  dns: 53,
+  sdns: 853,
+  smtp: 25,
+  imap: 142,
+  pop3: 110,
+  ftp: 21,
+  sftp: 22,
+} as const satisfies Record<typeof NETWORK_PROTOCOL[number], number>;
 
 /**
  * **TLD**

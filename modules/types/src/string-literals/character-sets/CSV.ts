@@ -10,6 +10,8 @@ import type { Digit } from "inferred-types/types";
  * commas you expect in your data.
  * - today we only provide a single _digit_ so 9 represents 9 commas
  * and 0 represents 10 (the max we'll check for).
+ *
+ * **Related:** `Csv`
  */
 export type CSV<T extends Digit = 1> = T extends 1
   ? `${string},${string}`
@@ -23,3 +25,12 @@ export type CSV<T extends Digit = 1> = T extends 1
                 : T extends 9 ? `${string},${string},${string},${string},${string},${string},${string},${string},${string},${string}`
                   : T extends 0 ? `${string},${string},${string},${string},${string},${string},${string},${string},${string},${string},${string}`
                     : never;
+
+/**
+ * A _branded_ string that indicates it represents a CSV string
+ *
+ * **Related:** `CSV`
+ */
+export type Csv<T extends string = string> = T & {
+  brand: "CSV";
+};

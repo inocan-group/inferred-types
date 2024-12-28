@@ -1,4 +1,4 @@
-import { AsNarrowingFn } from "src/functions";
+import type { AsNarrowingFn } from "src/functions";
 
 /**
  * **Callback**`<[TArgs], [TRtn]>`
@@ -7,7 +7,5 @@ import { AsNarrowingFn } from "src/functions";
  */
 export type Callback<
   TArgs extends readonly unknown[] = unknown[],
-  TRtn = unknown
+  TRtn = unknown,
 > = AsNarrowingFn<TArgs, TRtn>;
-
-

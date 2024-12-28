@@ -4,6 +4,7 @@
 // hash-code: b32382ed
 
 export * from "./AfterFirstChar";
+export * from "./Brand";
 export * from "./Calendar";
 export * from "./Cardinality";
 export * from "./casing/index";
@@ -36,6 +37,7 @@ export * from "./Repeat";
 export * from "./RetainAfter";
 export * from "./RetainUntil";
 export * from "./Split";
+export * from "./SplitAlt";
 export * from "./StripAfter";
 export * from "./StripBefore";
 export * from "./StripLeading";

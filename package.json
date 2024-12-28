@@ -64,7 +64,7 @@
     "@eslint/js": "^9.16.0",
     "@type-challenges/utils": "~0.1.1",
     "@types/luxon": "^3.4.2",
-    "@types/node": "^20.17.9",
+    "@types/node": "^22.10.2",
     "@typescript-eslint/eslint-plugin": "^8.18.0",
     "@typescript-eslint/parser": "^8.18.0",
     "@typescript/analyze-trace": "^0.10.1",
@@ -106,6 +106,5 @@
       "micromatch@<4.0.8": ">=4.0.8",
       "vite@>=5.4.0 <=5.4.5": ">=5.4.6"
     }
-  },
-  "dependencies": {}
+  }
 }

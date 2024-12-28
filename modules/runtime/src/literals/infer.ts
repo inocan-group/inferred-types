@@ -1,7 +1,6 @@
 /* eslint no-cond-assign: "off" */
 import type {
   ExpandDictionary,
-  IsWideString,
   Join,
   OptSpace,
 } from "inferred-types/types";
@@ -137,11 +136,7 @@ export interface GetInferenceProps<TPattern extends string> {
 export type GetInference<TPattern extends string> = (
   <T extends string>(test: T) => T extends TypeLiteral<TPattern>
     ? Shape<TPattern>
-    : T extends WiderTypeLiteral<TPattern>
-      ? false | Shape<TPattern>
-      : IsWideString<T> extends true
-        ? false | Shape<TPattern>
-        : false
+    : false | Shape<TPattern>
 ) & GetInferenceProps<TPattern>;
 
 type Returns<T extends string> = IsDynamic<T> extends true

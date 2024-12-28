@@ -70,7 +70,9 @@ export type Keys<
 > = TContainer extends Tuple
   ? ProcessTuple<TContainer>
   : TContainer extends AnyObject
-    ? Process<TContainer>
+    ? Process<TContainer> extends readonly ObjectKey[]
+      ? Process<TContainer>
+      : never
     : never;
 
 type _Public<

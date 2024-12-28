@@ -3,12 +3,6 @@ import { infer } from "inferred-types/runtime";
 import { describe, expect, it } from "vitest";
 
 const datum = "Llama-3.3-70B-Instruct-f16/Llama-3.3-70B-Instruct-f16-00001-of-00004.gguf" as const;
-// const data = [
-//   "Llama-3.3-70B-Instruct-f16/Llama-3.3-70B-Instruct-f16-00001-of-00004.gguf",
-//   "Llama-3.3-70B-Instruct-f16/Llama-3.3-70B-Instruct-f16-00002-of-00004.gguf",
-//   "Llama-3.3-70B-Instruct-f16/Llama-3.3-70B-Instruct-f16-00003-of-00004.gguf",
-//   "Llama-3.3-70B-Instruct-f16/Llama-3.3-70B-Instruct-f16-00004-of-00004.gguf",
-// ] as const;
 
 
 describe("infer(templ) → (test) → RESULT", () => {
