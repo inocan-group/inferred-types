@@ -1,4 +1,4 @@
-import type { NETWORK_PROTOCOL_LOOKUP } from "inferred-types/constants";
+import type { NETWORK_PROTOCOL_LOOKUP, PROTOCOL_DEFAULT_PORTS } from "inferred-types/constants";
 import type {
   AlphaNumericChar,
   AsNumber,
@@ -11,6 +11,7 @@ import type {
   Flatten,
   Ip4Address,
   IsEqual,
+  IsFalse,
   IsStringLiteral,
   IsUndefined,
   Mutable,
@@ -26,6 +27,8 @@ import type {
   TupleToUnion,
   Values,
 } from "inferred-types/types";
+
+type ProtocolPortLookup = typeof PROTOCOL_DEFAULT_PORTS;
 
 type Proto = typeof NETWORK_PROTOCOL_LOOKUP;
 export type NetworkProtocol = Mutable<Values<Proto>> extends readonly (string | string[])[]
@@ -108,20 +111,37 @@ export type UrlPort<
       : ``;
 
 /**
- * **GetUrlPort**`<T>`
+ * **GetDefaultPort**`<T>`
+ *
+ * Based on the `T` having a protocol specified, this utility will return the default port
+ * for the given protocol.
+ */
+export type GetDefaultPort<T> = GetUrlProtocol<T> extends keyof ProtocolPortLookup
+  ? ProtocolPortLookup[GetUrlProtocol<T>]
+  : never;
+
+/**
+ * **GetUrlPort**`<T, [R]>`
  *
  * Returns the port designated in the URL passed in if found.
  *
  * - if `T` is a literal string and port not found then value is "default"
  * - if `T` is a wide string then the value will be `number | "default"`
  * - all non-string based values result in `never`
+ * - if `R` is set to true then "default" is replaced with the numeric default port for
+ * the given protocol
  */
-export type GetUrlPort<T> = T extends string
+export type GetUrlPort<
+  T,
+  R extends boolean = false,
+> = T extends string
   ? IsStringLiteral<T> extends true
     ? RemoveNetworkProtocol<T> extends `${string}:${infer Port extends number}${infer Rest}`
       ? AsNumber<RetainWhile<`${Port}${Rest}`, NumericChar>>
-      : "default"
-    : number | "default"
+      : IsFalse<R> extends true
+        ? "default"
+        : GetDefaultPort<T>
+    : IsFalse<R> extends true ? number | "default" : number
   : never;
 
 type _FindPort<

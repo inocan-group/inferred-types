@@ -5,7 +5,7 @@ import type {
   ShapeCallback,
   Tuple,
 } from "inferred-types/types";
-import { isContainer } from "inferred-types/runtime";
+import { isArray, isObject } from "inferred-types/runtime";
 
 /**
  * **Finder**
@@ -36,9 +36,11 @@ export function find<
     TExtends extends Narrowable | ShapeCallback,
   >(comparator: TExtends): Find<TList, "equals", FromDefn<TExtends>, TDeref> => {
     return list.find((i: any) => {
-      const val = deref
-        ? isContainer(i)
-          ? deref in i ? i[deref] : undefined
+      const val: any = deref
+        ? isObject(i) || isArray(i)
+          ? (deref as any) in i
+              ? (i as any)[deref]
+              : undefined
           : i
         : i;
       return val === comparator;

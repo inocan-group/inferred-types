@@ -130,12 +130,13 @@ export type GetQueryParameterDynamics<
 >;
 
 type PathAndQueryDynamics<T extends string> = KeysOverlap<
-GetUrlPathDynamics<GetUrlPath<T>>, GetQueryParameterDynamics<GetUrlQueryParams<T>>
+  GetUrlPathDynamics<GetUrlPath<T>>,
+  GetQueryParameterDynamics<GetUrlQueryParams<T>>
 > extends true
-? ErrMsg<"overlapping-keys", { path: Keys<GetUrlPathDynamics<GetUrlPath<T>>>, qp: Keys<GetQueryParameterDynamics<GetUrlQueryParams<T>>>}>
-: ExpandDictionary<
+  ? ErrMsg<"overlapping-keys", { path: Keys<GetUrlPathDynamics<GetUrlPath<T>>>; qp: Keys<GetQueryParameterDynamics<GetUrlQueryParams<T>>> }>
+  : ExpandDictionary<
   GetUrlPathDynamics<GetUrlPath<T>> & GetQueryParameterDynamics<GetUrlQueryParams<T>>
->;
+  >;
 
 export interface GetUrlDynamics<T extends string> {
   /**
@@ -149,5 +150,4 @@ export interface GetUrlDynamics<T extends string> {
 
   /** A key/value of both path and query parameter variables */
   allVars: PathAndQueryDynamics<T>;
-
 }

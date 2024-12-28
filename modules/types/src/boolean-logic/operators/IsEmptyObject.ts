@@ -1,19 +1,37 @@
-import type { AsRecord, Dictionary, IsNumericLiteral, Keys } from "inferred-types/types";
+import type { AnyObject, AsRecord, EmptyObject, ExplicitlyEmptyObject, IsEqual, IsNumericLiteral, Keys, Or } from "inferred-types/types";
 
 /**
  * **IsEmptyObject**`<T>`
  *
  * Boolean type util which detects whether `T` _is_ an object
  * but _has no properties_.
+ *
+ * **Note:** this will report **true** for `EmptyObject` and `ExplicitlyEmptyObject`
+ *
+ * **Related:** `IsNonEmptyObject`
  */
-export type IsEmptyObject<T> = T extends Dictionary
-  ? Keys<AsRecord<T>>["length"] extends 0 ? true : false
+export type IsEmptyObject<T> = T extends AnyObject
+  ? Or<[IsEqual<T, EmptyObject>, IsEqual<T, ExplicitlyEmptyObject>]> extends true
+    ? true
+    : Keys<AsRecord<T>>["length"] extends 0 ? true : false
   : false;
 
-export type IsNonEmptyObject<T> = T extends Dictionary
-  ? Keys<AsRecord<T>>["length"] extends 0
+/**
+ * **IsNonEmptyObject**`<T>`
+ *
+ * Boolean type util which detects whether `T` _is_ an object
+ * and _has at least one property_.
+ *
+ * **Note:** this will report **false** for `EmptyObject` and `ExplicitlyEmptyObject`
+ *
+ * **Related:** `IsEmptyObject`
+ */
+export type IsNonEmptyObject<T> = T extends AnyObject
+  ? Or<[IsEqual<T, EmptyObject>, IsEqual<T, ExplicitlyEmptyObject>]> extends true
     ? false
-    : IsNumericLiteral<Keys<AsRecord<T>>["length"]> extends true
-      ? true
-      : false
+    : Keys<AsRecord<T>>["length"] extends 0
+      ? false
+      : IsNumericLiteral<Keys<AsRecord<T>>["length"]> extends true
+        ? true
+        : false
   : false;
