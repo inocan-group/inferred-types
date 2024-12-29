@@ -4,6 +4,7 @@ export * from "./Container";
 export * from "./Defined";
 export * from "./Dictionary";
 export * from "./Digital";
+export * from "./Empty";
 export * from "./EmptyObject";
 export * from "./FalsyValue";
 export * from "./fns/index";

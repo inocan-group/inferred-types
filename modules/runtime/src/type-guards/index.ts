@@ -18,6 +18,7 @@ export * from "./isCsv";
 export * from "./isDefined";
 export * from "./isDoneFn";
 export * from "./isEmail";
+export * from "./isEmpty";
 export * from "./isErrorCondition";
 export * from "./isFalse";
 export * from "./isFalsy";

@@ -1,4 +1,4 @@
-import { EmptyObject } from "./EmptyObject";
+import type { EmptyObject } from "./EmptyObject";
 
 /**
  * **Empty**
