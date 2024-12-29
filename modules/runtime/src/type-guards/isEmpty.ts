@@ -1,12 +1,11 @@
+import type { Empty } from "inferred-types/types";
 import {
   isArray,
   isNull,
   isObject,
   isString,
-  isUndefined
- } from "inferred-types/runtime"
-import { Empty } from "inferred-types/types"
-
+  isUndefined,
+} from "inferred-types/runtime";
 
 /**
  * **isEmpty**(val)
@@ -18,11 +17,10 @@ import { Empty } from "inferred-types/types"
  * - empty array
  * - empty object
  */
-export const isEmpty = <T>(val: T): val is T & Empty => {
-  return isUndefined(val) ||
-    isNull(val) ||
-    (isString(val) && val.length === 0) ||
-    (isObject(val) && Object.keys(val).length === 0) ||
-    (isArray(val) && val.length === 0)
+export function isEmpty<T>(val: T): val is T & Empty {
+  return isUndefined(val)
+    || isNull(val)
+    || (isString(val) && val.length === 0)
+    || (isObject(val) && Object.keys(val).length === 0)
+    || (isArray(val) && val.length === 0);
 }
-
