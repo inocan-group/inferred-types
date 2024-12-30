@@ -4,12 +4,12 @@ import { isNumber } from "src/type-guards/numeric/isNumber";
 
 type Returns<
   T extends string | number | undefined,
-  U extends readonly (string | number)[]
+  U extends readonly (string | number)[],
 > = T extends undefined
-? undefined
-: T extends string | number
-? StripLeading<T, TupleToUnion<U>>
-: never;
+  ? undefined
+  : T extends string | number
+    ? StripLeading<T, TupleToUnion<U>>
+    : never;
 
 /**
  * **stripLeading**(content, ...strip)
@@ -25,7 +25,7 @@ export function stripLeading<
   ...strip: U
 ) {
   if (isUndefined(content)) {
-    return undefined as Returns<T,U>;
+    return undefined as Returns<T, U>;
   }
   let output: string = String(content);
 
@@ -37,5 +37,5 @@ export function stripLeading<
 
   return (
     isNumber(content) ? Number(output) : output
-  ) as unknown as Returns<T,U>;
+  ) as unknown as Returns<T, U>;
 }
