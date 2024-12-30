@@ -1,5 +1,15 @@
 import type { StripLeading, TupleToUnion } from "inferred-types/types";
+import { isUndefined } from "src/type-guards";
 import { isNumber } from "src/type-guards/numeric/isNumber";
+
+type Returns<
+  T extends string | number | undefined,
+  U extends readonly (string | number)[]
+> = T extends undefined
+? undefined
+: T extends string | number
+? StripLeading<T, TupleToUnion<U>>
+: never;
 
 /**
  * **stripLeading**(content, ...strip)
@@ -8,12 +18,15 @@ import { isNumber } from "src/type-guards/numeric/isNumber";
  * primary content if it exists and leaves content unchanged otherwise.
  */
 export function stripLeading<
-  T extends string | number,
+  T extends string | number | undefined,
   U extends readonly (string | number)[],
 >(
   content: T,
   ...strip: U
 ) {
+  if (isUndefined(content)) {
+    return undefined as Returns<T,U>;
+  }
   let output: string = String(content);
 
   for (const s of strip) {
@@ -24,5 +37,5 @@ export function stripLeading<
 
   return (
     isNumber(content) ? Number(output) : output
-  ) as unknown as StripLeading<T, TupleToUnion<U>>;
+  ) as unknown as Returns<T,U>;
 }
