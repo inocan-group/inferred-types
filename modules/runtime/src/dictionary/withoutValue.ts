@@ -1,5 +1,5 @@
 import type { Dictionary, FromSimpleToken, Narrowable, ObjectKey, SimpleToken, WithoutValue } from "inferred-types/types";
-import { doesExtend } from "src/runtime-types/doesExtend";
+import { doesExtend } from "inferred-types/runtime";
 import { keysOf } from "./keysOf";
 
 export type DictionaryWithoutValueFilter<Without extends Narrowable> = <

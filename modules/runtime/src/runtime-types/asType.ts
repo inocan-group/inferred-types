@@ -1,5 +1,5 @@
 import type { AsType, DefineObject, FromDefn, ShapeCallback, SimpleScalarToken, SimpleToken, SimpleType } from "inferred-types/types";
-import { isDefineObject, isFunction } from "src/type-guards";
+import { isDefineObject, isFunction } from "inferred-types/runtime";
 import { handleDoneFn } from "../api";
 import { asDefineObject } from "./asDefineObject";
 import { ShapeApiImplementation } from "./shape";

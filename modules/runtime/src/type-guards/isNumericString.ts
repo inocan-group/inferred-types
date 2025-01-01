@@ -1,6 +1,6 @@
 import type { NumberLike } from "inferred-types/types";
 import { NUMERIC_CHAR } from "inferred-types/constants";
-import { split } from "src/literals/split";
+import { split } from "inferred-types/runtime";
 
 /**
  * **isNumericString**(value)

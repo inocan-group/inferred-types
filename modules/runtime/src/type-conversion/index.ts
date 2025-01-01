@@ -13,8 +13,8 @@ export * from "./mergeTuples";
 export * from "./never";
 export * from "./optional";
 export * from "./stripParenthesis";
+export * from "./toKeyValue";
 export * from "./toNumber";
 export * from "./tw-conversion";
 export * from "./union";
-
 export * from "./unionize";

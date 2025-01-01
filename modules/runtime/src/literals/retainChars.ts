@@ -1,5 +1,5 @@
 import type { RetainChars, TupleToUnion } from "inferred-types/types";
-import { asChars } from "src/type-conversion/asChars";
+import { asChars } from "inferred-types/runtime";
 
 /**
  * **retainChars**`(content, ...retain)`

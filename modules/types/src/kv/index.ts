@@ -4,10 +4,10 @@
 // hash-code: 744ff3bf
 
 // file exports
-export * from "./DictFromKv";
+export * from "./FromKv";
 export * from "./KeyValue";
-export * from "./KvFrom";
 export * from "./KvTuple";
+export * from "./ToKv";
 
 // #endregion auto-indexed files
 

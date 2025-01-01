@@ -1,5 +1,5 @@
 import type { EnsureLeading } from "inferred-types/types";
-import { isString } from "src/type-guards/isString";
+import { isString } from "inferred-types/runtime";
 
 /**
  * **ensureLeading**(content, strip)

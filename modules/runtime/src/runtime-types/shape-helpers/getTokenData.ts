@@ -1,5 +1,5 @@
 import type { Shape } from "inferred-types/types";
-import { stripTrailing } from "src/literals";
+import { stripTrailing } from "inferred-types/runtime";
 
 /**
  * **getTokenData**`(token)`

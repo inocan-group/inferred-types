@@ -1,6 +1,6 @@
 import type { StripLeading, TupleToUnion } from "inferred-types/types";
-import { isUndefined } from "src/type-guards";
-import { isNumber } from "src/type-guards/numeric/isNumber";
+import { isUndefined } from "inferred-types/runtime";
+import { isNumber } from "inferred-types/runtime";
 
 type Returns<
   T extends string | number | undefined,

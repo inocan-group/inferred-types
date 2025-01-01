@@ -8,7 +8,7 @@ import type {
   ObjectApiCallback,
   ObjectToApi,
 } from "inferred-types/types";
-import { createFnWithProps } from "src/initializers";
+import { createFnWithProps } from "inferred-types/runtime";
 import { handleDoneFn } from "./handleDoneFn";
 
 export function objectToApi<
