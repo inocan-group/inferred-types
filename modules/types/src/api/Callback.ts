@@ -1,4 +1,4 @@
-import type { AsNarrowingFn } from "src/functions";
+import type { AsNarrowingFn } from "inferred-types/types";
 
 /**
  * **Callback**`<[TArgs], [TRtn]>`

@@ -1,5 +1,5 @@
 import type { RetainAfter, RetainUntil, TypeSubtype } from "inferred-types/types";
-import { isTypeSubtype } from "src/type-guards";
+import { isTypeSubtype } from "inferred-types/runtime";
 
 /**
  * **getTypeSubTyp**`(str)`

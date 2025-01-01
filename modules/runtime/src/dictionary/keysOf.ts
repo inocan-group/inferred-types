@@ -1,5 +1,10 @@
-import type { Container, Keys } from "inferred-types/types";
-import { isObject, isRef } from "inferred-types/runtime";
+import type {
+  Container,
+  NumericKeys,
+  SKeys,
+  Tuple
+} from "inferred-types/types";
+import { isObject } from "inferred-types/runtime";
 
 /**
  * **keysOf**(container)
@@ -10,17 +15,21 @@ import { isObject, isRef } from "inferred-types/runtime";
  * `readonly ["value"]` as the keys array when detected rather than reporting
  * on props like `__v_isRef`, etc.
  */
-export function keysOf<TContainer extends Container>(
+export function keysOf<
+TContainer extends Container
+>(
   container: TContainer,
 ) {
   const keys: unknown = (
     Array.isArray(container)
       ? Object.keys(container).map(i => Number(i))
       : isObject(container)
-        ? isRef(container)
-          ? ["value"]
-          : Object.keys(container)
+        ? Object.keys(container)
         : []
   );
-  return keys as Keys<TContainer>;
+  return keys as TContainer extends Tuple
+    ? NumericKeys<TContainer>
+    : TContainer extends object
+      ? SKeys<TContainer>
+      : never
 }

@@ -36,9 +36,7 @@
     }
   ],
   "include": [
-    "src/**/*.ts",
-    "../constants/src",
-    "../types/src"
+    "src/**/*.ts"
   ],
   "exclude": [
     "node_modules"

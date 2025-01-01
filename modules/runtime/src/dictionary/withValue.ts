@@ -6,7 +6,7 @@ import type {
   SimpleToken,
   WithValue,
 } from "inferred-types/types";
-import { doesExtend } from "src/runtime-types/doesExtend";
+import { doesExtend } from "inferred-types/runtime";
 import { keysOf } from "./keysOf";
 
 export type DictionaryWithValueFilter<Without extends Narrowable> = <

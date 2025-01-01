@@ -10,7 +10,7 @@ import type {
   GithubUrl,
 } from "inferred-types/types";
 import { isString } from "inferred-types/runtime";
-import { stripLeading, stripTrailing } from "src/literals";
+import { stripLeading, stripTrailing } from "inferred-types/runtime";
 
 /**
  * **isGithubUrl**`(val)`

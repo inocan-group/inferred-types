@@ -1,7 +1,7 @@
 import type {
   StripSurround,
 } from "inferred-types/types";
-import { isNumber } from "src/type-guards/numeric/isNumber";
+import { isNumber } from "inferred-types/runtime";
 
 export type StripSurroundConfigured<
   TStrip extends readonly (string | number)[],

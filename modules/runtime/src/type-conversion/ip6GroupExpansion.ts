@@ -1,5 +1,5 @@
 import type { Ip6GroupExpansion } from "inferred-types/types";
-import { stripTrailing } from "src/literals/stripTrailing";
+import { stripTrailing } from "inferred-types/runtime";
 
 /**
  * **ip6GroupExpansion**`(ip)`

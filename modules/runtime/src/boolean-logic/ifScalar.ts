@@ -5,7 +5,7 @@ import type {
   Narrowable,
   Scalar,
 } from "inferred-types/types";
-import { isScalar } from "src/type-guards/isScalar";
+import { isScalar } from "inferred-types/runtime";
 
 /**
  * **ifScalar**(value, ifCallback, notCallback)

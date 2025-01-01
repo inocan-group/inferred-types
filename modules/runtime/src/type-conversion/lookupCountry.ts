@@ -1,6 +1,6 @@
 import type { AsString, Iso3166_1_Alpha2, Iso3166_1_Alpha3, Iso3166_1_CountryCode, Iso3166_1_CountryName, Iso3166Alpha2Lookup, Iso3166Alpha3Lookup, Iso3166CodeLookup, Iso3166CountryLookup, NumberLike, Suggest } from "inferred-types/types";
 import { ISO3166_1 } from "inferred-types/constants";
-import { uppercase } from "src/literals";
+import { uppercase } from "inferred-types/runtime";
 import { isIso3166Alpha2, isIso3166Alpha3, isIso3166CountryName, isNumber, isNumberLike } from "../type-guards";
 
 type Props = "alpha2" | "alpha3" | "countryCode" | "name";

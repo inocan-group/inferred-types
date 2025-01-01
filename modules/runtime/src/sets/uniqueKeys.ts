@@ -1,5 +1,5 @@
 import type { Container, ObjectKey, UniqueKeys } from "inferred-types/types";
-import { isArray } from "src/type-guards/isArray";
+import { isArray } from "inferred-types/runtime";
 
 /**
  * **uniqueKeys**(left, right)

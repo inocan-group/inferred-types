@@ -1,5 +1,5 @@
 import type { StripUntil, TupleToUnion } from "inferred-types/types";
-import { asChars } from "src/type-conversion/index";
+import { asChars } from "inferred-types/runtime";
 
 /**
  * **stripUntil**`(content, ...until)`
