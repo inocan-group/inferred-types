@@ -5,8 +5,8 @@ import {
   IsVueRef,
   VueRef
 } from "inferred-types";
-import { asVueRef, isRef, keysOf } from "inferred-types";
 import { Ref, ref } from "vue";
+import { isVueRef, asVueRef, isRef, keysOf } from "inferred-types/runtime";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -25,7 +25,6 @@ describe("VueRef, isRef(), and IsRef<T>", () => {
       ExpectFalse<NotRef>
     ];
     const cases: cases = [ true, true, false ];
-
   });
 
 
@@ -40,18 +39,20 @@ describe("VueRef, isRef(), and IsRef<T>", () => {
       ExpectFalse<Obj>,
     ];
     const cases: cases = [ false, false, false ];
-
   });
-
 
 
   it("VueRef and IsRef<T>", () => {
     const test_ref = ref("foobar");
+
+    expect(isVueRef(test_ref)).toBe(true);
+
     /**
      * Since our `keysOf` function is VueJS aware it reduces the
      * keys to just `value`.
      */
     const keys = keysOf(test_ref);
+
     expect(keys).toEqual(["value"]);
 
     /**

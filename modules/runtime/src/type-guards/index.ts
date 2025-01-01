@@ -65,3 +65,4 @@ export * from "./tokens/index";
 export * from "./tokens/index";
 export * from "./tw/index";
 export * from "./urls/index";
+export * from "./vue/index";

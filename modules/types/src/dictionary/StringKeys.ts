@@ -1,4 +1,4 @@
-import { AnyObject, UnionToTuple } from "inferred-types/types";
+import type { AnyObject, IsVueRef, UnionToTuple } from "inferred-types/types";
 
 /**
  * **KeysUnion**`<T>`
@@ -11,13 +11,11 @@ export type KeysUnion<T extends object> = {
   [K in keyof T]: K extends string ? Readonly<K> : never;
 }[keyof T];
 
-
 type _SKeys<T extends AnyObject> = UnionToTuple<
-{
-  [K in keyof T]: K extends string ? Readonly<K> : never;
-}[keyof T]
+  {
+    [K in keyof T]: K extends string ? Readonly<K> : never;
+  }[keyof T]
 >;
-
 
 /**
  * **SKeys**`<T>`
@@ -26,8 +24,8 @@ type _SKeys<T extends AnyObject> = UnionToTuple<
  *
  * **Related:** `Keys`, `SKeys`
  */
-export type SKeys<T extends AnyObject> = _SKeys<T> extends readonly string[]
-? _SKeys<T>
-: never;
-
-
+export type SKeys<T extends AnyObject> = IsVueRef<T> extends true
+  ? ["value"]
+  : _SKeys<T> extends readonly string[]
+    ? _SKeys<T>
+    : never;

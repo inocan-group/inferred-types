@@ -9,8 +9,7 @@ import type {
   GithubRepoUrl,
   GithubUrl,
 } from "inferred-types/types";
-import { isString } from "inferred-types/runtime";
-import { stripLeading, stripTrailing } from "inferred-types/runtime";
+import { isString, stripLeading, stripTrailing } from "inferred-types/runtime";
 
 /**
  * **isGithubUrl**`(val)`
