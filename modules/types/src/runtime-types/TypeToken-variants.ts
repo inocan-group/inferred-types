@@ -5,8 +5,7 @@ import type {
   TYPE_TOKEN_STRING_SET_VARIANTS,
   TYPE_TOKEN_UNION_SET_VARIANTS,
 } from "inferred-types/constants";
-import type { MetricCategory } from "inferred-types/types";
-import type { ReplaceAll } from "inferred-types/types";
+import type { MetricCategory, ReplaceAll } from "inferred-types/types";
 import type { TypeTokenDelimiter, TypeTokenKind } from "./TypeToken";
 
 type MakeDynamic<T extends readonly string[]> = {

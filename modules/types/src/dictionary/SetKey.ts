@@ -1,7 +1,5 @@
 import type { AnyObject, Widen } from "inferred-types/types";
 
-
-
 export type StrictSetKey<
   TObj extends AnyObject,
   TKey extends keyof TObj,
