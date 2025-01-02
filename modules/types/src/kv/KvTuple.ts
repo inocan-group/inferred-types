@@ -10,5 +10,7 @@
  * ```
  *
  * **Note:** _consider use of `KeyValue<T,K>` as an alternate representation_
+ *
+ * @deprecated use `KeyValue` instead
  */
 export type KvTuple<T, K extends keyof T> = [K, Record<K, T[K]>];
