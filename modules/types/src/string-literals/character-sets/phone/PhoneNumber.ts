@@ -7,6 +7,7 @@ import type {
   IsStringLiteral,
   LocalPhoneNumber,
   OnPass,
+  PhoneCountryCode,
   PhoneNumberDelimiter,
 } from "inferred-types/types";
 
@@ -90,6 +91,8 @@ type Process<
  *    - 8 if `+` character used as leading character (after whitespace)
  *    - 10 if `00` are leading characters
  * - leading character (after whitespace) must be numeric, `(` or `+`
+ *
+ * - Related: `PhoneNumberWithCountryCode`, `UsPhoneNumber`
  */
 export type PhoneNumber<
   T extends number | string | null = null,
@@ -105,3 +108,14 @@ export type PhoneNumber<
         : T extends number
           ? number | ErrorCondition<"invalid-phone-number">
           : never;
+
+export type PhoneNumberWithCountryCode = `+${PhoneCountryCode} ${string}`;
+
+type Sep = "." | " " | "-";
+type AreaCode = `(${number}) ` | `${number}${Sep}`;
+type Local = `${number}${Sep}${number}`;
+
+/**
+ * A US-only phone number which requires starting with the country code.
+ */
+export type UsPhoneNumber = `+1 ${AreaCode}${Local}`;
