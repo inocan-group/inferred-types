@@ -1,5 +1,6 @@
 export * from "./api-tg";
 export * from "./date-time/index";
+export * from "./finance/index";
 export * from "./geo/index";
 export * from "./hasDefaultValue";
 export * from "./hasIndexOf";
@@ -53,8 +54,8 @@ export * from "./isTruthy";
 export * from "./isTypeSubtype";
 export * from "./isTypeTuple";
 export * from "./isUndefined";
-export * from "./isUnset";
 
+export * from "./isUnset";
 export * from "./isUrl";
 export * from "./isVariable";
 export * from "./metrics/index";
