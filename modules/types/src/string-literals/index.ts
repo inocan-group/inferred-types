@@ -20,6 +20,7 @@ export * from "./EnsureLeading";
 export * from "./EnsureLeadingEvery";
 export * from "./EnsureSurround";
 export * from "./EnsureTrailing";
+export * from "./finance/index";
 export * from "./FindIndex";
 export * from "./FirstChar";
 export * from "./geo/index";
@@ -45,15 +46,11 @@ export * from "./StripSurround";
 export * from "./StripTrailing";
 export * from "./StripUntil";
 export * from "./StrLen";
-export * from "./Suggest";
 
+export * from "./Suggest";
 export * from "./Surround";
 export * from "./Time";
 export * from "./Truncate";
 export * from "./TypeSubtype";
+
 export * from "./UnderlyingType";
-
-// #endregion auto-indexed files
-
-// see https://github.com/inocan-group/do-devops/docs/autoindex.md
-// for more info
