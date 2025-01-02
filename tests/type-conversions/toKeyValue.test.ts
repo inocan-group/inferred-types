@@ -2,6 +2,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import { toKeyValue } from "inferred-types/runtime";
 import { fromKeyValue } from "inferred-types/runtime";
+import { Extends, KeyValue } from "inferred-types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -50,8 +51,61 @@ describe("toKeyValue(obj)", () => {
         ]
       >>
     ];
+  });
+
+
+  it("Obsidian example", () => {
+    const fmKv = toKeyValue({
+      "company": "[[Anthropic]]",
+      "kind": "[[AI Model]]",
+      "category": "[[LLM]]",
+      "aliases": [
+          "Haiku"
+      ],
+      "desc": "The fast and lightweight sibling in the Claude family (Anthropic)",
+      "subcategory": "[[Lightweight Model]]",
+      "type": "[[kind/types/AI.md|AI]]"
+    }, o => o.toTop("type","kind","category","subcategory").toBottom("desc"));
+
+    const keys = fmKv.map(i => i.key);
+
+    expect(keys).toEqual([
+      "type","kind","category","subcategory",
+      "company","aliases",
+      "desc"
+    ]);
+
+    const fm = fromKeyValue(fmKv);
+
+    expect(fm).toEqual({
+        type: "[[kind/types/AI.md|AI]]",
+        kind: "[[AI Model]]",
+        category: "[[LLM]]",
+        subcategory: "[[Lightweight Model]]",
+        company: "[[Anthropic]]",
+        aliases: [ "Haiku" ],
+        desc: "The fast and lightweight sibling in the Claude family (Anthropic)"
+    });
+
+    // @ts-ignore
+    type cases = [
+      Expect<Extends<typeof fmKv, KeyValue[]>>,
+      Expect<Equal<
+        typeof fm,
+        {
+            type: "[[kind/types/AI.md|AI]]";
+            kind: "[[AI Model]]";
+            category: "[[LLM]]";
+            subcategory: "[[Lightweight Model]]";
+            company: "[[Anthropic]]";
+            aliases: string[];
+            desc: "The fast and lightweight sibling in the Claude family (Anthropic)";
+        }
+      >>
+    ];
 
   });
+
 });
 
 

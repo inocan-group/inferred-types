@@ -3,7 +3,6 @@ import type {
   Filter,
   HandleDoneFn,
   Narrowable,
-  Reverse,
   SKeys,
   ToKv,
 } from "inferred-types/types";
@@ -13,7 +12,7 @@ type PushTop<
   TNatural extends readonly string[],
   TTop extends readonly string[],
 > = [
-  ...Reverse<TTop>,
+  ...TTop,
   ...Filter<TNatural, TTop[number]>,
 ];
 
@@ -25,14 +24,18 @@ type PushBottom<
   ...TBot,
 ];
 
-export interface SortApi<
+type Always<O> = O extends readonly string[]
+  ? readonly (O[number] & string)[]
+  : readonly string[];
+
+interface SortApi<
   O extends readonly string[],
 > {
   order: O;
-  toTop: <TTop extends readonly (O[number] & string)[]>(
+  toTop: <TTop extends Always<O>>(
     ...keys: TTop
   ) => SortApi<PushTop<O, TTop>>;
-  toBottom: <TBot extends readonly (O[number] & string)[]>(
+  toBottom: <TBot extends Always<O>>(
     ...keys: TBot
   ) => SortApi<PushBottom<O, TBot>>;
   done: () => O;
@@ -59,7 +62,7 @@ function sortKeyApi<O extends readonly string[]>(order: O): SortApi<O> {
     order,
     toTop: <T extends readonly (O[number] & string)[]>(...keys: T) => sortKeyApi(
       [
-        ...keys.toReversed(),
+        ...keys,
         ...order.filter(i => !keys.includes(i)),
       ],
     ) as SortApi<PushTop<O, T>>,
