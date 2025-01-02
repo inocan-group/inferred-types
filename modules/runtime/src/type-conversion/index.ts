@@ -2,6 +2,7 @@ export * from "./asChars";
 export * from "./asRecord";
 export * from "./asString";
 export * from "./csv";
+export * from "./fromKeyValue";
 export * from "./intersect";
 export * from "./ip6GroupExpansion";
 export * from "./json";
