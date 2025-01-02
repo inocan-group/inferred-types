@@ -42,7 +42,7 @@ jspm_packages/
 # OS X temporary files
 .DS_Store
 # Transpiled Destinations
-**/dist/
+**/dist
 **/.presite
 frontend/.vite-ssg-dist/**
 /functions
@@ -55,3 +55,4 @@ frontend/.vite-ssg-dist/**
 .tsbuildinfo
 trace/*
 .trace/*
+
