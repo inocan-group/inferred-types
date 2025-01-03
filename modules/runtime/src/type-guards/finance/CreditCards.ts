@@ -1,4 +1,10 @@
-import type { AmericanExpress, CreditCard, VisaMastercard } from "inferred-types/types";
+import type {
+  AmericanExpress,
+  CreditCard,
+  Mastercard,
+  Visa,
+  VisaMastercard,
+} from "inferred-types/types";
 import { isNumberLike, isString } from "inferred-types/runtime";
 
 export function isVisa(val: unknown): val is Visa {
@@ -12,16 +18,20 @@ export function isVisa(val: unknown): val is Visa {
   return false;
 }
 
-export function isVisaMastercard(val: unknown): val is VisaMastercard {
-  if (isString(val)) {
+export function isMastercard(val: unknown): val is Mastercard {
+  if (isString(val) && val.startsWith("4")) {
     const parts = val.split(" ");
     return (
       parts.length === 4
       && parts.every(i => isNumberLike(i) && i.length === 4)
-      && ["4", "51", "55", "22", "23", "24", "25", "26", "27"].some(i => val.startsWith(i))
+      && ["51", "55", "22", "23", "24", "25", "26", "27"].some(i => val.startsWith(i))
     );
   }
   return false;
+}
+
+export function isVisaMastercard(val: unknown): val is VisaMastercard {
+  return isVisa(val) || isMastercard(val);
 }
 
 export function isAmericanExpress(val: unknown): val is AmericanExpress {
