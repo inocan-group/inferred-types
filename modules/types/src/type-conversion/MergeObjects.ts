@@ -17,14 +17,14 @@ type Merged<
 > = [] extends TKeys
   ? ExpandDictionary<TResult>
   : Merged<
-    AfterFirst<TKeys>,
-    TBase,
-    TErr,
-    First<TKeys> extends keyof TErr
-      ? TResult & Record<First<TKeys>, TErr[First<TKeys>]>
-      : First<TKeys> extends keyof TBase
-        ? TResult & Record<First<TKeys>, TBase[First<TKeys>]>
-        : never
+      AfterFirst<TKeys>,
+      TBase,
+      TErr,
+      First<TKeys> extends keyof TErr
+        ? TResult & Record<First<TKeys>, TErr[First<TKeys>]>
+        : First<TKeys> extends keyof TBase
+          ? TResult & Record<First<TKeys>, TBase[First<TKeys>]>
+          : never
   >;
 
 /**
