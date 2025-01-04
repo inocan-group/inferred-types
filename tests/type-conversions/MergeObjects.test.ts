@@ -41,14 +41,20 @@ describe("mergeObjects(a,b)", () => {
   it("happy path", () => {
     const t1 = mergeObjects({ foo: 1, bar: 2 }, { bar: 4, baz: "howdy" });
     const t2 = mergeObjects({ bar: 4, baz: "howdy" }, { foo: 1, bar: 2 });
+    const t3 = mergeObjects({}, {foo: 1});
+    const t4 = mergeObjects({foo: 1}, {});
 
     expect(t1).toEqual({ foo:1, bar: 4, baz: "howdy"});
     expect(t2).toEqual({ foo:1, bar: 2, baz: "howdy"});
+    expect(t3).toEqual({ foo:1 });
+    expect(t4).toEqual({ foo:1 });
 
     // @ts-ignore
     type cases = [
       Expect<Equal<typeof t1, {foo: 1; bar: 4; baz: "howdy"}>>,
       Expect<Equal<typeof t2, {foo: 1; bar: 2; baz: "howdy"}>>,
+      Expect<Equal<typeof t3, {foo: 1; }>>,
+      Expect<Equal<typeof t4, {foo: 1; }>>,
     ];
 
   });
