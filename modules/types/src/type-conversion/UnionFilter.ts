@@ -1,26 +1,37 @@
-import type { CamelCase, Filter, IsUnion, KebabCase, PascalCase, SnakeCase, Tuple, TupleToUnion, UnionToTuple } from "inferred-types/types";
+import type {
+  AfterFirst,
+  CamelCase,
+  Dictionary,
+  EmptyObject,
+  Equals,
+  First,
+  IsUnion,
+  KebabCase,
+  Keys,
+  PascalCase,
+  RemoveNever,
+  SnakeCase,
+  Some,
+  UnionToTuple
+} from "inferred-types/types";
 
-type Reduce<
-  T extends Tuple,
-  E,
-> = TupleToUnion<
-  Filter<{
-    [K in keyof T]: T[K] extends E
-      ? never
-      : T[K]
-  }, never>
->;
+type RemoveEmptyObject<
+  T extends readonly unknown[],
+  R extends readonly unknown[] = []
+> = [] extends T
+? RemoveNever<R>[number]
+: RemoveEmptyObject<
+    AfterFirst<T>,
+    [
+      ...R,
+      First<T> extends Dictionary
+        ? Equals<Keys<First<T>>["length"], number> extends true
+          ? never
+          : First<T>
+        : First<T>
+    ]
+  >
 
-type Isolate<
-  T extends Tuple,
-  E,
-> = TupleToUnion<
-  Filter<{
-    [K in keyof T]: T[K] extends E
-      ? T[K]
-      : never
-  }, never>
->;
 
 /**
  * **UnionFilter**`<U, E>`
@@ -28,31 +39,25 @@ type Isolate<
  * A type utility which receives a union type `U` and then eliminates
  * all elements of the union which _extend_ `E`.
  *
+ * **Note:** _this is very much like `Exclude<U,E>` utility but can handle
+ * unions of containers as well as just scalar values._
+ *
  * **Related:** `UnionRetain`
  */
-export type UnionFilter<U, E> = [U] extends [never]
-  ? never
-  : [IsUnion<U>] extends [true]
-      ? Reduce<UnionToTuple<U>, E>
-      : [U] extends [E]
-          ? never
-          : U;
-
-/**
- * **UnionRetain**`<U, E>`
- *
- * A type utility which receives a union type `U` and then eliminates
- * all elements of the union which _do not extend_ `E`.
- *
- * **Related:** `UnionFilter`
- */
-export type UnionRetain<U, E> = [U] extends [never]
+export type UnionFilter<
+  U,
+  E
+> = [U] extends [never]
   ? never
   : IsUnion<U> extends true
-    ? Isolate<UnionToTuple<U>, E>
-    : U extends E
-      ? U
-      : never;
+    ? Some<UnionToTuple<E>, "extends", EmptyObject> extends true
+      ? Exclude<
+          RemoveEmptyObject<UnionToTuple<U>>,
+          RemoveEmptyObject<UnionToTuple<E>>
+        >
+      : Exclude<U,E>
+    : U; // not union
+
 
 export type UnionMutationOp =
   | "Capitalize"
