@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { isEmpty } from "inferred-types/runtime"
+import { isEmpty, isNotEmpty } from "inferred-types/runtime"
 import { Empty } from "inferred-types/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -54,10 +54,64 @@ describe("isEmpty(val)", () => {
         Expect<Equal<T, string & Empty>>
       ];
     }
+  });
+});
+
+describe("isNotEmpty(val)", () => {
+
+  it("first test", () => {
+    const f1 = isNotEmpty(null);
+    const f2 = isNotEmpty(undefined);
+    const f3 = isNotEmpty("");
+    const f4 = isNotEmpty([]);
+    const f5 = isNotEmpty({});
+
+    expect(f1).toEqual(false);
+    expect(f2).toEqual(false);
+    expect(f3).toEqual(false);
+    expect(f4).toEqual(false);
+    expect(f5).toEqual(false);
+
+    const t1 = isNotEmpty(" ");
+    const t2 = isNotEmpty({f: undefined});
+    const t3 = isNotEmpty(["foo"] as string[]);
+    const t4 = isNotEmpty(4);
+
+    expect(t1).toEqual(true);
+    expect(t2).toEqual(true);
+    expect(t3).toEqual(true);
+    expect(t4).toEqual(true);
+
+    const foo = ["foo"] as string[] | undefined;
+
+    const str = "howdy" as "howdy" | Empty;
+
+    if(isNotEmpty(foo)) {
+      type T = typeof foo;
+
+      // @ts-ignore
+      type cases = [
+        Expect<Equal<T, string[]>>
+      ];
+    }
+
+    if(isNotEmpty(str)) {
+      type T = typeof str;
+
+      // @ts-ignore
+      type cases = [
+        Expect<Equal<T, "howdy">>
+      ];
+    }
+  });
 
 
+  it("as array filter", () => {
+    const arr = [1,2,undefined,3, "",4].filter(isNotEmpty);
+    expect(arr).toEqual([1,2,3,4])
   });
 
 });
+
 
 

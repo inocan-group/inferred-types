@@ -9,6 +9,7 @@ export * from "./asArray";
 export * from "./createConverter";
 export * from "./createFixedLengthArray";
 export * from "./filter";
+export * from "./filterEmpty";
 export * from "./find";
 export * from "./getEach";
 export * from "./indexOf";

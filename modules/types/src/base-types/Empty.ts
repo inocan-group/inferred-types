@@ -1,8 +1,8 @@
-import type { EmptyObject } from "./EmptyObject";
+import type { ExplicitlyEmptyObject } from "./EmptyObject";
 
 /**
  * **Empty**
  *
  * values/types considered to be "empty"
  */
-export type Empty = undefined | null | EmptyObject | [] | "";
+export type Empty = undefined | null | ExplicitlyEmptyObject | [] | "";
