@@ -12,15 +12,15 @@ import type {
   RemoveNever,
   SnakeCase,
   Some,
-  UnionToTuple
+  UnionToTuple,
 } from "inferred-types/types";
 
 type RemoveEmptyObject<
   T extends readonly unknown[],
-  R extends readonly unknown[] = []
+  R extends readonly unknown[] = [],
 > = [] extends T
-? RemoveNever<R>[number]
-: RemoveEmptyObject<
+  ? RemoveNever<R>[number]
+  : RemoveEmptyObject<
     AfterFirst<T>,
     [
       ...R,
@@ -28,10 +28,9 @@ type RemoveEmptyObject<
         ? Equals<Keys<First<T>>["length"], number> extends true
           ? never
           : First<T>
-        : First<T>
+        : First<T>,
     ]
-  >
-
+  >;
 
 /**
  * **UnionFilter**`<U, E>`
@@ -46,18 +45,17 @@ type RemoveEmptyObject<
  */
 export type UnionFilter<
   U,
-  E
+  E,
 > = [U] extends [never]
   ? never
   : IsUnion<U> extends true
     ? Some<UnionToTuple<E>, "extends", EmptyObject> extends true
       ? Exclude<
-          RemoveEmptyObject<UnionToTuple<U>>,
-          RemoveEmptyObject<UnionToTuple<E>>
-        >
-      : Exclude<U,E>
+        RemoveEmptyObject<UnionToTuple<U>>,
+        RemoveEmptyObject<UnionToTuple<E>>
+      >
+      : Exclude<U, E>
     : U; // not union
-
 
 export type UnionMutationOp =
   | "Capitalize"

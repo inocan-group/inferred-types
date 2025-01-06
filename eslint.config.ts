@@ -21,9 +21,17 @@ export default antfu(
     },
     typescript: {
       overrides: {
-        "ts/explicit-function-return-type": ["off"]
-      }
-    },
+        "ts/explicit-function-return-type": ["off"],
+        "ts/no-unused-vars": [
+          "warn",
+          {
+            varsIgnorePattern: "^_|^cases$",
+            argsIgnorePattern: "^_|^cases$",
+            destructuredArrayIgnorePattern: "^_|^cases$",
+          },
+        ],
+      },
+    }
   }
 )
 
