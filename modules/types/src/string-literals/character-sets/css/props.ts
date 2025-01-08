@@ -1,3 +1,4 @@
+import type { Suggest } from "inferred-types/types";
 import type { Opt, OptPercent } from "../Optional";
 import type { CssGlobal } from "./global";
 import type { CssSizing, CssSizingLight } from "./sizing";
@@ -24,7 +25,7 @@ export type CssGap = CssSizing | `${CssSizing} ${CssSizing}` | CssGlobal;
  *
  * a union of valid values for the **CSS** `flex-grow` property.
  */
-export type CssFlexGrow = number | CssGlobal;
+export type CssFlexGrow = Suggest<"1" | "2" | "3" | CssGlobal>;
 
 /**
  * **CssFlexShrink**

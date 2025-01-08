@@ -1,3 +1,4 @@
+import type { Suggest } from "inferred-types/types";
 import type { CssColorLight } from "./color";
 import type { CssGlobal } from "./global";
 import type { CssSizingLight } from "./sizing";
@@ -90,12 +91,12 @@ export interface CssTextProperties {
   "text-decoration-line"?: CssTextDecorationLine
     | `${CssTextDecorationLine} ${CssTextDecorationLine}${string}`
     | CssGlobal;
-  "text-decoration-color"?: CssColorLight | CssGlobal;
+  "text-decoration-color"?: Suggest<CssColorLight | CssGlobal>;
   "text-decoration-thickness"?: "auto" | "from-font" | CssSizingLight | CssGlobal;
   "text-decoration-style"?: CssTextDecorationStyle;
-  "text-indent"?: CssTextIndent;
+  "text-indent"?: Suggest<CssTextIndent>;
   "text-emphasis"?: string;
-  "text-justify"?: CssTextJustify;
+  "text-justify"?: Suggest<CssTextJustify>;
   "text-orientation"?: CssTextOrientation;
   "text-shadow"?: `${CssSizingLight}${string}${CssColorLight}` | CssGlobal;
   "text-transform"?: CssTextTransform;

@@ -87,12 +87,12 @@ export type CssFontWeight =
  */
 export type CssFontLanguageOverride = string;
 
-export interface FontProperties {
+export interface CssFontProperties {
   "font-family"?:
     | CssFontFamily
     | `${CssFontFamily}, ${CssFontFamily}${string}`
     | CssGlobal;
-  "font-feature-settings":
+  "font-feature-settings"?:
     | CssFontFeatureSetting
     | `${CssFontFeatureSetting} ${number | "on" | "off"}`
     | `${CssFontFeatureSetting} ${number | "on" | "off"},${string}`;
