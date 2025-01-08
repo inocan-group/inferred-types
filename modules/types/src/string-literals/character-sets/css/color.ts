@@ -41,8 +41,8 @@ export type CssRgb =
   | `rgb(${number},${OptionalSpace}${number},${OptionalSpace}${number})`;
 
 export type CssRgba =
-  | `rgba(${number} ${number} ${number})`
-  | `rgba(${number},${OptionalSpace}${number},${OptionalSpace}${number})`;
+  | `rgba(${number} ${number} ${number} ${number})`
+  | `rgba(${number},${OptionalSpace}${number},${OptionalSpace}${number},${OptionalSpace}${number})`;
 
 /**
  * Hue, Saturation, and Lightness level (**HSL** color model)
@@ -68,7 +68,7 @@ type OptionalPercent = "%" | "";
  * - Hue distinguishes the actual color you're viewing
  */
 export type CssOkLch =
-| `oklch(${number}${OptionalPercent} ${number}${OptionalPercent} ${number})`;
+  | `oklch(${number}${OptionalPercent} ${number}${OptionalPercent} ${number})`;
 
 /**
  * a hexadecimal color representation for CSS

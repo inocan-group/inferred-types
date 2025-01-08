@@ -1,3 +1,4 @@
+import type { Suggest } from "inferred-types/types";
 import type { CssColor } from "./color";
 import type { CssSizing } from "./sizing";
 
@@ -6,7 +7,7 @@ export interface CssBackgroundProperties {
   "background-attachement"?: string;
   "background-blend-mode"?: string;
   "background-clip"?: string;
-  "background-color"?: CssColor;
+  "background-color"?: Suggest<CssColor>;
   "background-image"?: string;
   "background-origin"?: string;
   "background-position"?: string;

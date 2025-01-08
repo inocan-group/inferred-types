@@ -1,3 +1,4 @@
+import type { CssFontProperties, Suggest } from "inferred-types/types";
 import type { CssAbsolutionPositioningProperties } from "./absolute";
 import type { CssAlignProperties } from "./align";
 import type { CssAnimationProperties } from "./animation";
@@ -61,39 +62,39 @@ import type { CssTransformProperties } from "./transform";
  */
 export type CssDefinition = {
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/appearance) */
-  "appearance"?: CssAppearance;
+  "appearance"?: Suggest<CssAppearance>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter) */
-  "backdrop-filter"?: CssBackdropFilter;
+  "backdrop-filter"?: Suggest<CssBackdropFilter>;
   /**
    * The valid values for the
    * [**display**](https://developer.mozilla.org/en-US/docs/Web/CSS/display)
    * property in CSS.
    */
-  "display"?: CssDisplay;
+  "display"?: Suggest<CssDisplay>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/position) */
-  "position"?: CssPosition;
+  "position"?: Suggest<CssPosition>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio) */
-  "aspect-ratio"?: CssAspectRatio;
+  "aspect-ratio"?: Suggest<CssAspectRatio>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/opacity) */
-  "opacity"?: CssOpacity;
+  "opacity"?: Suggest<CssOpacity>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/gap) */
-  "gap"?: CssGap;
+  "gap"?: Suggest<CssGap>;
 
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/flex) */
-  "flex"?: CssFlex;
+  "flex"?: Suggest<CssFlex>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-grow) */
-  "flex-grow"?: CssFlexGrow;
+  "flex-grow"?: Suggest<CssFlexGrow>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-shrink) */
-  "flex-shrink"?: CssFlexShrink;
+  "flex-shrink"?: Suggest<CssFlexShrink>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-direction) */
-  "flex-direction"?: CssFlexDirection;
+  "flex-direction"?: Suggest<CssFlexDirection>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-flow) */
-  "flex-flow"?: CssFlexFlow;
+  "flex-flow"?: Suggest<CssFlexFlow>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-basis) */
-  "flex-basis"?: CssFlexBasis;
+  "flex-basis"?: Suggest<CssFlexBasis>;
 
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/float) */
-  "float"?: CssFloat;
+  "float"?: Suggest<CssFloat>;
 
   /**
    * a union of valid values for the **CSS** [`list-style`](https://developer.mozilla.org/en-US/docs/Web/CSS/list-style) property.
@@ -101,7 +102,7 @@ export type CssDefinition = {
    * The list-style CSS shorthand property allows you to set all the list style properties
    * at once.
    */
-  "list-style"?: CssListStyle;
+  "list-style"?: Suggest<CssListStyle>;
 
   /**
    * The block-size CSS property defines the horizontal or vertical size of an element's block,
@@ -114,30 +115,30 @@ export type CssDefinition = {
    *
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/block-size)
    */
-  "block-size"?: CssSizing;
+  "block-size"?: Suggest<CssSizing>;
 
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/border-size) */
-  "border-size"?: CssSizing;
+  "border-size"?: Suggest<CssSizing>;
 
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/content) */
-  "content"?: CssContent;
+  "content"?: Suggest<CssContent>;
 
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/color) */
-  "color"?: CssColor;
+  "color"?: Suggest<CssColor>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor) */
-  "cursor"?: CssCursor | CssGlobal;
+  "cursor"?: Suggest<CssCursor | CssGlobal>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/height) */
-  "height"?: CssSizing;
+  "height"?: Suggest<CssSizing>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/width) */
-  "width"?: CssSizing;
+  "width"?: Suggest<CssSizing>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/perspective) */
-  "perspective"?: CssSizingLight | "none" | CssGlobal;
-  "perspective-origin"?: CssPerspectiveOrigin;
+  "perspective"?: Suggest<CssSizingLight | "none" | CssGlobal>;
+  "perspective-origin"?: Suggest<CssPerspectiveOrigin>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/mix-blend-mode) */
-  "mix-blend-mode"?: CssMixBlendMode;
+  "mix-blend-mode"?: Suggest<CssMixBlendMode>;
 
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/letter-spacing) */
-  "letter-spacing"?: CssLetterSpacing;
+  "letter-spacing"?: Suggest<CssLetterSpacing>;
   /**
    * The lighting-color CSS property defines the color of the light source for the
    * <feDiffuseLighting> and <feSpecularLighting> SVG lighting filter primitives within an
@@ -145,86 +146,86 @@ export type CssDefinition = {
    *
    * - [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/lighting-color)
    */
-  "lighting-color"?: CssColor;
+  "lighting-color"?: Suggest<CssColor>;
 
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit) */
-  "object-fit"?: CssObjectFit;
+  "object-fit"?: Suggest<CssObjectFit>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/object-position) */
-  "object-position"?: CssObjectPosition;
-  "order"?: `${number}` | CssGlobal;
+  "object-position"?: Suggest<CssObjectPosition>;
+  "order"?: Suggest<`${number}` | CssGlobal>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/image-orientation) */
-  "image-orientation"?: CssImageOrientation;
+  "image-orientation"?: Suggest<CssImageOrientation>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/image-rendering) */
-  "image-rendering"?: CssImageRendering;
+  "image-rendering"?: Suggest<CssImageRendering>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/image-resolution) */
-  "image-resolution"?: CssImageResolution;
+  "image-resolution"?: Suggest<CssImageResolution>;
 
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/hanging-punction) */
-  "hanging-punctuation"?: CssHangingPunctuation;
+  "hanging-punctuation"?: Suggest<CssHangingPunctuation>;
 
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/min-height) */
-  "min-height"?: CssSizing;
+  "min-height"?: Suggest<CssSizing>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/min-width) */
-  "min-width"?: CssSizing;
+  "min-width"?: Suggest<CssSizing>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/min-block-size) */
-  "min-block-size"?: CssSizing;
+  "min-block-size"?: Suggest<CssSizing>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/min-inline-size) */
-  "min-inline-size"?: CssSizing;
+  "min-inline-size"?: Suggest<CssSizing>;
 
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/stop-color) */
-  "stop-color"?: CssColorLight | CssGlobal;
+  "stop-color"?: Suggest<CssColorLight | CssGlobal>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/stop-opacity) */
-  "stop-opacity"?: `${number}` | `${number}%` | CssGlobal;
+  "stop-opacity"?: Suggest<`${number}` | `${number}%` | CssGlobal>;
 
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/tab-size) */
-  "tab-size"?: `${number}` | CssSizingLight | CssGlobal;
+  "tab-size"?: Suggest<`${number}` | CssSizingLight | CssGlobal>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/table-layout) */
-  "table-layout"?: "auto" | "fixed" | CssGlobal;
+  "table-layout"?: Suggest<"auto" | "fixed" | CssGlobal>;
 
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/translate) */
-  "translate"?: CssTranslate | CssGlobal;
+  "translate"?: Suggest<CssTranslate | CssGlobal>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/quotes) */
-  "quotes"?: string;
+  "quotes"?: Suggest<string>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/r) */
-  "r"?: CssSizingLight | CssGlobal;
+  "r"?: Suggest<CssSizingLight | CssGlobal>;
 
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/pointer-events) */
-  "pointer-events"?: PointerEvent | CssGlobal;
+  "pointer-events"?: string;
 
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/resize) */
-  "resize"?: "both" | "horizontal" | "vertical" | "none" | CssGlobal;
+  "resize"?: Suggest<"both" | "horizontal" | "vertical" | "none" | CssGlobal>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/rotate) */
-  "rotate"?: CssRotation | `x ${CssRotation}` | `y ${CssRotation}` | `z ${CssRotation}` | CssGlobal;
-  "row-gap"?: CssSizing;
+  "rotate"?: Suggest<CssRotation | `x ${CssRotation}` | `y ${CssRotation}` | `z ${CssRotation}` | CssGlobal>;
+  "row-gap"?: Suggest<CssSizing>;
 
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/rx) */
-  "rx"?: CssSizing;
+  "rx"?: Suggest<CssSizing>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/ry) */
-  "ry"?: CssSizing;
+  "ry"?: Suggest<CssSizing>;
 
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/x) */
-  "x"?: CssSizing;
+  "x"?: Suggest<CssSizing>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/y) */
-  "y"?: CssSizing;
+  "y"?: Suggest<CssSizing>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/white-space) */
-  "white-space"?: CssWhiteSpace;
+  "white-space"?: Suggest<CssWhiteSpace>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/white-space-collapse) */
-  "white-space-collapse"?: CssWhiteSpaceCollapse;
+  "white-space-collapse"?: Suggest<CssWhiteSpaceCollapse>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/widows) */
-  "widows"?: string;
+  "widows"?: Suggest<string>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/will-change) */
-  "will-change"?: string;
+  "will-change"?: Suggest<string>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/word-break) */
-  "word-break"?: CssWordBreak;
+  "word-break"?: Suggest<CssWordBreak>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/word-spacing) */
-  "word-spacing"?: "normal" | CssSizing;
+  "word-spacing"?: Suggest<"normal" | CssSizing>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/writing-mode) */
-  "writing-mode"?: CssWritingMode;
+  "writing-mode"?: Suggest<CssWritingMode>;
 
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/z-index) */
-  "z-index"?: `${number}` | "auto" | CssGlobal;
+  "z-index"?: Suggest<`${number}` | "auto" | CssGlobal>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/zoom) */
-  "zoom"?: `${number}` | `${number}%` | "normal" | "reset" | CssGlobal;
+  "zoom"?: Suggest<`${number}` | `${number}%` | "normal" | "reset" | CssGlobal>;
 }
 & CssBorderProperties
 & CssBackgroundProperties
@@ -243,4 +244,5 @@ export type CssDefinition = {
 & CssOutlineProperties
 & CssOverflowProperties
 & CssOffsetProperties
-& CssTransformProperties;
+& CssTransformProperties
+& CssFontProperties;

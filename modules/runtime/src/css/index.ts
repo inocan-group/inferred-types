@@ -1,2 +1,2 @@
 export * from "./createCssKeyframe";
-export * from "./defineCss";
+export * from "./cssFromDefinition";
