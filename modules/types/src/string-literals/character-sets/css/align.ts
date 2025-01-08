@@ -27,4 +27,6 @@ export interface CssAlignProperties {
   "align-items"?: CssAlignItems;
   /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/align-self) */
   "align-self"?: CssAlignSelf;
+  /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align) */
+  "vertical-align"?: "baseline" | "top" | "middle" | "bottom" | "sub" | "text-top";
 }
