@@ -1,5 +1,5 @@
 import type { CssDefinition } from "inferred-types/types";
-import { createFnWithProps, ensureTrailing, isDefined, isString } from "inferred-types/runtime";
+import { createFnWithProps, ensureTrailing, isDefined, isString, isUndefined } from "inferred-types/runtime";
 
 export interface CssFromDefnOption {
   indent?: string;
@@ -12,18 +12,31 @@ export interface CssFromDefnOption {
  * converts a `CssDefinition` into a CSS string
  */
 export function cssFromDefinition<
-  T extends CssDefinition,
+  T extends CssDefinition | undefined,
   O extends CssFromDefnOption,
 >(
   defn: T,
   opt?: O,
 ) {
+  if (isUndefined(defn)) {
+    return "";
+  }
+
   const inline = isDefined(opt?.inline) ? opt.inline : true;
   const indent = isString(opt?.indent) ? opt.indent : "";
 
   const nextDefn = inline ? " " : "\n";
   return Object.keys(defn)
-    .map(key => `${indent}${key}: ${ensureTrailing(defn[key as keyof typeof defn] as string, ";")}`)
+    .map(
+      (key) => {
+        const val = ensureTrailing(
+          (defn as any)[key] as string,
+          ";",
+        );
+
+        return `${indent}${key}: ${val}`;
+      },
+    )
     .join(nextDefn);
 }
 
