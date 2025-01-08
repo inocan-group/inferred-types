@@ -245,4 +245,5 @@ export type CssDefinition = {
 & CssOverflowProperties
 & CssOffsetProperties
 & CssTransformProperties
-& CssFontProperties;
+& CssFontProperties
+& { [key: string]: string };
