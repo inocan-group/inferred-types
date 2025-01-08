@@ -1,5 +1,10 @@
 import type { CssDefinition } from "inferred-types/types";
-import { createFnWithProps, ensureTrailing } from "inferred-types/runtime";
+import { createFnWithProps, ensureTrailing, isDefined, isString } from "inferred-types/runtime";
+
+export type CssFromDefnOption = {
+  indent?: string;
+  inline?: boolean;
+}
 
 /**
  * **cssFromDefinition**`(defn, [indent], [inline])`
@@ -8,7 +13,14 @@ import { createFnWithProps, ensureTrailing } from "inferred-types/runtime";
  */
 export function cssFromDefinition<
   T extends CssDefinition,
->(defn: T, indent = "", inline: boolean = false) {
+  O extends CssFromDefnOption
+>(
+  defn: T,
+  opt?: O
+) {
+  const inline = isDefined(opt?.inline) ? opt.inline : true;
+  const indent = isString(opt?.indent) ? opt.indent : "";
+
   const nextDefn = inline ? " " : "\n";
   return Object.keys(defn)
     .map(key => `${indent}${key}: ${ensureTrailing(defn[key as keyof typeof defn] as string, ";")}${nextDefn}`)
@@ -18,7 +30,7 @@ export function cssFromDefinition<
 export function defineCss<T extends CssDefinition>(defn: T) {
   const fn = <S extends string>(selector?: S) => {
     return selector
-      ? `${selector} {\n${cssFromDefinition(defn, "  ")}}\n`
+      ? `${selector} {\n${cssFromDefinition(defn, { indent: "  " })}}\n`
       : cssFromDefinition(defn);
   };
   return createFnWithProps(
