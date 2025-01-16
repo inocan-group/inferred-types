@@ -7,6 +7,7 @@ import type {
   FrequencyUom,
   LuminosityUom,
   MassUom,
+  MetricCategory,
   PowerUom,
   PressureUom,
   ResistanceUom,
@@ -34,7 +35,7 @@ import {
   VOLTAGE_METRICS_LOOKUP,
   VOLUME_METRICS_LOOKUP,
 } from "inferred-types/constants";
-import { isString } from "../isString";
+import { isString } from "inferred-types/runtime";
 
 export function isAreaUom(val: unknown): val is AreaUom {
   return isString(val) && AREA_METRICS_LOOKUP.map(i => i.abbrev).includes(val as any);
@@ -103,6 +104,10 @@ export function isDistanceUom(val: unknown): val is DistanceUom {
 /**
  * Type guard which validates the passed in `val` is a `Uom` (unit
  * of measure).
+ *
+ * **Related:**
+ * - `isUomCategory(c)(v)`
+ * - `isSpeedUom(v)`, `isMassUom(v)`, ...
  */
 export function isUom(val: unknown): val is Uom {
   return isDistanceUom(val)
@@ -120,4 +125,67 @@ export function isUom(val: unknown): val is Uom {
     || isCurrentUom(val)
     || isLuminosityUom(val)
     || isAreaUom(val);
+}
+
+type UomTypeGuard<
+  _TCat extends MetricCategory,
+> = (val: unknown) => boolean;
+
+function getCategories<T extends readonly MetricCategory[]>(
+  c: T,
+) {
+  return c.map(
+    (i) => {
+      switch (i) {
+        case "Acceleration":
+          return isAccelerationUom;
+        case "Area":
+          return isAreaUom;
+        case "Current":
+          return isCurrentUom;
+        case "Distance":
+          return isDistanceUom;
+        case "Frequency":
+          return isFrequencyUom;
+        case "Luminosity":
+          return isLuminosityUom;
+        case "Mass":
+          return isMassUom;
+        case "Power":
+          return isPowerUom;
+        case "Pressure":
+          return isPressureUom;
+        case "Resistance":
+          return isResistanceUom;
+        case "Speed":
+          return isSpeedUom;
+        case "Temperature":
+          return isTemperatureUom;
+        case "Time":
+          return isTimeUom;
+        case "Voltage":
+          return isVoltageUom;
+        case "Volume":
+          return isVoltageUom;
+      }
+    },
+  );
+}
+
+/**
+ * **isUomCategory**`(...categories) => (val) => val is Uom<T>`
+ *
+ * A higher order type guard which validates that a value is of
+ * the specified metric category or categories.
+ *
+ * **Related:** `isUom()`, `isAreaUom()`, `isSpeedUom()`, ...
+ */
+export function isUomCategory<TCat extends readonly [MetricCategory, ...MetricCategory[]]>(
+  ...categories: TCat
+): UomTypeGuard<TCat[number]> {
+  return (val: unknown): val is Uom<TCat[number]> => {
+    const tests = getCategories(categories);
+
+    return tests.some(i => i(val));
+  };
 }
