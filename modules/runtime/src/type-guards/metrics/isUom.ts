@@ -35,7 +35,7 @@ import {
   VOLTAGE_METRICS_LOOKUP,
   VOLUME_METRICS_LOOKUP,
 } from "inferred-types/constants";
-import { isString } from "inferred-types/runtime";
+import { createFnWithProps, isString } from "inferred-types/runtime";
 
 export function isAreaUom(val: unknown): val is AreaUom {
   return isString(val) && AREA_METRICS_LOOKUP.map(i => i.abbrev).includes(val as any);
@@ -127,10 +127,6 @@ export function isUom(val: unknown): val is Uom {
     || isAreaUom(val);
 }
 
-type UomTypeGuard<
-  _TCat extends MetricCategory,
-> = (val: unknown) => boolean;
-
 function getCategories<T extends readonly MetricCategory[]>(
   c: T,
 ) {
@@ -172,6 +168,10 @@ function getCategories<T extends readonly MetricCategory[]>(
   );
 }
 
+export type UomTypeGuard<
+  TCat extends readonly MetricCategory[],
+> = ((val: unknown) => boolean) & { categories: TCat; kind: "UomTypeGuard" };
+
 /**
  * **isUomCategory**`(...categories) => (val) => val is Uom<T>`
  *
@@ -180,12 +180,16 @@ function getCategories<T extends readonly MetricCategory[]>(
  *
  * **Related:** `isUom()`, `isAreaUom()`, `isSpeedUom()`, ...
  */
-export function isUomCategory<TCat extends readonly [MetricCategory, ...MetricCategory[]]>(
+export function isUomCategory<
+  TCat extends readonly [MetricCategory, ...MetricCategory[]],
+>(
   ...categories: TCat
-): UomTypeGuard<TCat[number]> {
-  return (val: unknown): val is Uom<TCat[number]> => {
+): UomTypeGuard<TCat> {
+  const fn = (val: unknown): val is Uom<TCat[number]> => {
     const tests = getCategories(categories);
 
     return tests.some(i => i(val));
   };
+  const prop = { categories, kind: "UomTypeGuard" };
+  return createFnWithProps(fn, prop) as unknown as UomTypeGuard<TCat>;
 }
