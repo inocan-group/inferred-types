@@ -1,10 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
+import { isSpeedUom, isUomCategory } from "inferred-types/runtime";
 import { Uom, AccelerationUom, SpeedUom, Extends, Metric, Acceleration, Speed } from "inferred-types/types";
-import { describe, it } from "vitest";
-
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+import { describe, expect, it } from "vitest";
 
 describe("Uom<T>", () => {
 
@@ -12,7 +9,6 @@ describe("Uom<T>", () => {
     type A = Uom<"Acceleration">;
     type B = Uom<"Speed" | "Acceleration">;
 
-    // @ts-ignore
     type cases = [
       Expect<Equal<A, AccelerationUom>>,
       Expect<Extends<B, AccelerationUom | SpeedUom>>,
@@ -21,18 +17,33 @@ describe("Uom<T>", () => {
 
 });
 
-
 describe("Metric<T>", () => {
 
   it("happy path", () => {
     type A = Metric<"Acceleration">;
     type B = Metric<"Speed" | "Acceleration">;
 
-    // @ts-ignore
     type cases = [
       Expect<Equal<A, Acceleration>>,
       Expect<Extends<B, Acceleration | Speed>>,
     ];
+  });
+
+});
+
+describe("isUomCategory(c)(v)", () => {
+
+  it("happy path", () => {
+    const isSpeed = isUomCategory("Speed");
+    const isSpeedOrAccel = isUomCategory("Speed", "Acceleration");
+
+    const t0 = isSpeedUom("mph");
+    const t1 = isSpeed("mph");
+
+    expect(t0).toBe(true);
+    expect(t1).toBe(true);
+
+
   });
 
 });
