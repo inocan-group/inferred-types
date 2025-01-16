@@ -1,10 +1,38 @@
-import type { Narrowable, TypeGuard } from "inferred-types/types";
-import { isSameTypeOf } from "inferred-types/runtime";
+import type {
+  IsUnion,
+  Narrowable,
+} from "inferred-types/types";
 
 /**
  * A TypeGuard which was generated from `isEqual()` runtime util.
  */
-export type EqualTo<T extends Narrowable> = TypeGuard<T>;
+export type EqualTo<
+  _A,
+> = <TValue extends Narrowable>(
+  value: TValue
+) => boolean;
+
+type Returns<
+  TVal,
+  TBase extends readonly Narrowable[],
+> = IsUnion<TVal> extends true
+  ? TVal & TBase[number]
+
+  : TVal extends TBase[number]
+    ? TVal
+    : IsUnion<TVal> extends true
+      ? TVal
+      : never;
+
+function compare<
+  TBase extends readonly Narrowable[],
+>(base: TBase) {
+  return <TVal extends Narrowable>(
+    value: TVal,
+  ): value is Returns<TVal, TBase> => {
+    return base.includes(value);
+  };
+}
 
 /**
  * **isEqual**(compareTo)(value)
@@ -12,10 +40,8 @@ export type EqualTo<T extends Narrowable> = TypeGuard<T>;
  * Higher order type guard to detect whether two values are equal
  */
 export function isEqual<
-  TBase extends Narrowable,
->(base: TBase): EqualTo<TBase> {
-  return <TValue extends Narrowable>(value: TValue): value is TBase & TValue =>
-    isSameTypeOf(base)(value)
-      ? value === base
-      : false;
+  TBase extends readonly N[],
+  N extends Narrowable,
+>(...base: TBase) {
+  return compare(base);
 }
