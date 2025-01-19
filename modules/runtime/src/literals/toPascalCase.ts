@@ -1,4 +1,8 @@
-import type { LeftWhitespace, PascalCase, RightWhitespace } from "inferred-types/types";
+import type {
+  LeftWhitespace,
+  PascalCase,
+  RightWhitespace,
+} from "inferred-types/types";
 import { capitalize } from "inferred-types/runtime";
 
 /**

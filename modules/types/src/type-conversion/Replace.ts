@@ -1,5 +1,4 @@
-import type { If } from "../boolean-logic/branching/If";
-import type { IsEqual } from "../boolean-logic/operators/IsEqual";
+import type { If, IsEqual } from "inferred-types/types";
 
 /**
  * **Replace**`<TText,TFind,TReplace>`
