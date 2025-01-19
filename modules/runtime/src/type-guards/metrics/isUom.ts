@@ -170,7 +170,10 @@ function getCategories<T extends readonly MetricCategory[]>(
 
 export type UomTypeGuard<
   TCat extends readonly MetricCategory[],
-> = ((val: unknown) => boolean) & { categories: TCat; kind: "UomTypeGuard" };
+> = ((val: unknown) => boolean) & {
+  categories: TCat;
+  kind: "UomTypeGuard";
+};
 
 /**
  * **isUomCategory**`(...categories) => (val) => val is Uom<T>`

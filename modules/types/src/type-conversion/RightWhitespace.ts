@@ -1,5 +1,4 @@
-import type { Replace } from "./Replace";
-import type { TrimRight } from "./TrimRight";
+import type { Replace, TrimRight } from "inferred-types/types";
 
 /**
  * Provides the _left_ whitespace of a string
