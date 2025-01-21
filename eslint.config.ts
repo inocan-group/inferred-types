@@ -16,7 +16,8 @@ export default antfu(
     },
     regexp: {
       overrides: {
-        "regexp/no-super-linear-backtracking": ["warn"]
+        "regexp/no-super-linear-backtracking": ["warn"],
+        "regexp/no-unused-capturing-group": ["warn"]
       }
     },
     typescript: {
