@@ -6,7 +6,6 @@ import type { HTML_ATOMIC_TAGS, HTML_BLOCK_TAGS } from "inferred-types/constants
  */
 export type HtmlBlockTag = typeof HTML_BLOCK_TAGS[number];
 
-
 /**
  * a valid HTML "atomic tag" (aka, a tag which does
  * NOT have a closing tag)
@@ -26,7 +25,6 @@ export type HtmlTagOpen<T extends HtmlBlockTag = HtmlBlockTag> = `<${T}${string}
  * - You can use the generic `T` to isolate down to a subset
  */
 export type HtmlTagClose<T extends HtmlBlockTag = HtmlBlockTag> = `</${T}>`;
-
 
 /**
  * A union type of valid _atomic_ tags.
