@@ -11,6 +11,7 @@ export * from "./Docker";
 export * from "./DomainName";
 export * from "./DotPathFor";
 export * from "./Hexadecimal";
+export * from "./html/index";
 export * from "./images/index";
 export * from "./Indent";
 export * from "./InlineSvg";
@@ -28,8 +29,8 @@ export * from "./quotation-marks/index";
 export * from "./Repos";
 export * from "./SingularNoun";
 export * from "./SpecialChar";
-export * from "./StringDelimiter";
 
+export * from "./StringDelimiter";
 export * from "./tw/index";
 export * from "./UpperAlphaChar";
 export * from "./urls/index";
@@ -37,4 +38,5 @@ export * from "./urls/Url";
 export * from "./ValueAtDotPath";
 export * from "./Variable";
 export * from "./Whitespace";
+
 export * from "./YouTube";
