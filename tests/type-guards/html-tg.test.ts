@@ -1,5 +1,5 @@
 import { } from "@type-challenges/utils";
-import { hasHtml, hasValidHtml, isHtml, isValidHtml } from "inferred-types/runtime";
+import { hasHtml, hasValidHtml, isHtml, isHtmlComponentTag, isValidHtml, isValidHtmlTag } from "inferred-types/runtime";
 import { describe, expect, it } from "vitest";
 
 describe("isHtml", () => {
@@ -227,4 +227,200 @@ describe("hasValidHtml()", () => {
     const f1 = hasValidHtml("<div><span><strong>Text</span></div>");
     expect(f1).toBe(false);
   });
+});
+
+
+describe("isValidHtmlTag()", () => {
+  it("valid block tags", () => {
+    const isValid = isValidHtmlTag("div", "span");
+    expect(isValid("<div>")).toBe(true);
+    expect(isValid("</div>")).toBe(true);
+    expect(isValid("<span>")).toBe(true);
+    expect(isValid("</span>")).toBe(true);
+  });
+
+  it("invalid block tags", () => {
+    const isValid = isValidHtmlTag("div", "span");
+    expect(isValid("<spam>")).toBe(false);
+    expect(isValid("</spam>")).toBe(false);
+    expect(isValid("<divert>")).toBe(false);
+    expect(isValid("</divert>")).toBe(false);
+  });
+
+  it("valid atomic tags with close terminator", () => {
+    const isValid = isValidHtmlTag("br", "img");
+    expect(isValid("<br />")).toBe(true);
+    expect(isValid("<img src='test.jpg' />")).toBe(true);
+  });
+
+  it("valid atomic tags without close terminator", () => {
+    const isValid = isValidHtmlTag("br", "img");
+    expect(isValid("<br>")).toBe(true);
+    expect(isValid("<img src='test.jpg'>")).toBe(true);
+  });
+
+  it("atomic tags don't have closing tags", () => {
+    const isValid = isValidHtmlTag("br", "img");
+    expect(isValid("</br>")).toBe(false);
+    expect(isValid("</img>")).toBe(false);
+    expect(isValid("</br />")).toBe(false);
+    expect(isValid("</img />")).toBe(false);
+  })
+
+
+  it("valid block tag but outside scope", () => {
+    const isValid = isValidHtmlTag("div", "span");
+    expect(isValid("<p>")).toBe(false);
+    expect(isValid("</p>")).toBe(false);
+  });
+
+  it("valid atomic tag but outside scope", () => {
+    const isValid = isValidHtmlTag("br");
+    expect(isValid("<img>")).toBe(false);
+    expect(isValid("<img />")).toBe(false);
+  });
+
+  it("invalid HTML structure", () => {
+    const isValid = isValidHtmlTag("div");
+    expect(isValid("div")).toBe(false);
+    expect(isValid("<div extra")).toBe(false);
+  });
+
+  it("valid string attributes allowed", () => {
+    const isValid = isValidHtmlTag("div", "span");
+    // this isn't strictly HTML but single quotes should probably pass
+    expect(isValid("<div class='foo hover:bg-red-400' id='bar'>")).toBe(true);
+    // this is really the RIGHT way to test this
+    expect(isValid(`<div class="foo hover:bg-red-400" id="bar">`)).toBe(true);
+  });
+
+
+  it("invalid attribute assignment fails", () => {
+    const isValid = isValidHtmlTag("div", "span");
+    expect(isValid("<div class='foo' id=>")).toBe(false);
+  });
+
+
+  it("valid boolean attributes allowed", () => {
+    const isValid = isValidHtmlTag("div", "span");
+    expect(isValid("<div disabled>")).toBe(true);
+  });
+
+  it("handles empty strings and whitespace", () => {
+    const isValid = isValidHtmlTag("div");
+    expect(isValid("")).toBe(false);
+    expect(isValid("   ")).toBe(false);
+  });
+
+  it("handles non-string inputs", () => {
+    const isValid = isValidHtmlTag("div");
+    expect(isValid(123)).toBe(false);
+    expect(isValid(null)).toBe(false);
+    expect(isValid(undefined)).toBe(false);
+    expect(isValid({})).toBe(false);
+  });
+
+  it("handles uppercase and mixed-case tag names", () => {
+    const isValid = isValidHtmlTag("div", "span");
+    expect(isValid("<DIV>")).toBe(true);
+    expect(isValid("</DIV>")).toBe(true);
+    expect(isValid("<Div>")).toBe(true);
+    expect(isValid("</Div>")).toBe(true);
+  });
+
+  it("validates attributes with unbalanced quotes", () => {
+    const isValid = isValidHtmlTag("div");
+    expect(isValid("<div class='test id=\"foo\">")).toBe(false);
+  });
+
+  it("handles malformed HTML-like strings", () => {
+    const isValid = isValidHtmlTag("div");
+    expect(isValid("<>")).toBe(false);
+    expect(isValid("<div")).toBe(false);
+    expect(isValid("<div><div>")).toBe(false);
+  });
+
+  it("atomic tags with attributes and no close terminator are valid", () => {
+    const isValid = isValidHtmlTag("img");
+    expect(isValid("<img src='test.jpg'>")).toBe(true);
+  });
+});
+
+
+describe("isHtmlComponentTag", () => {
+  it("valid kebab-case component tags", () => {
+    const isValid = isHtmlComponentTag("image-gallery", "video-player");
+    expect(isValid("<image-gallery>")).toBe(true);
+    expect(isValid("<image-gallery autoplay>")).toBe(true);
+    expect(isValid("<video-player autoplay>")).toBe(true);
+    expect(isValid("</image-gallery>")).toBe(true);
+    expect(isValid("</video-player>")).toBe(true);
+  });
+
+  it("valid PascalCase component tags", () => {
+    const isValid = isHtmlComponentTag("image-gallery", "video-player");
+    expect(isValid("<ImageGallery>")).toBe(true);
+    expect(isValid("<ImageGallery autoplay>")).toBe(true);
+    expect(isValid("<VideoPlayer autoplay>")).toBe(true);
+    expect(isValid("</ImageGallery>")).toBe(true);
+    expect(isValid("</VideoPlayer>")).toBe(true);
+  });
+
+  it("valid self-closing component tags", () => {
+    const isValid = isHtmlComponentTag("image-gallery", "video-player");
+    expect(isValid("<image-gallery />")).toBe(true);
+    expect(isValid("<ImageGallery />")).toBe(true);
+    expect(isValid("<video-player autoplay />")).toBe(true);
+    expect(isValid("<VideoPlayer autoplay />")).toBe(true);
+  });
+
+  it("invalid component tags", () => {
+    const isValid = isHtmlComponentTag("image-gallery", "video-player");
+    expect(isValid("<invalid-component>")).toBe(false);
+    expect(isValid("</invalid-component>")).toBe(false);
+    expect(isValid("<invalid-component />")).toBe(false);
+    expect(isValid("</InvalidComponent>")).toBe(false);
+  });
+
+  it("component tags with invalid attributes", () => {
+    const isValid = isHtmlComponentTag("image-gallery", "video-player");
+    expect(isValid("<image-gallery autoplay=>")).toBe(false);
+    expect(isValid("<ImageGallery autoplay= >")).toBe(false);
+    expect(isValid("<video-player autoplay='test ></video-player>")).toBe(false);
+    expect(isValid("<VideoPlayer autoplay='test >")).toBe(false);
+  });
+
+  it("valid tags but outside provided scope", () => {
+    const isValid = isHtmlComponentTag("image-gallery");
+    expect(isValid("<video-player>")).toBe(false);
+    expect(isValid("<VideoPlayer>")).toBe(false);
+  });
+
+  it("handles non-string inputs", () => {
+    const isValid = isHtmlComponentTag("image-gallery");
+    expect(isValid(123)).toBe(false);
+    expect(isValid(null)).toBe(false);
+    expect(isValid(undefined)).toBe(false);
+    expect(isValid({})).toBe(false);
+  });
+
+  it("validates mixed-case component tags", () => {
+    const isValid = isHtmlComponentTag("image-gallery");
+    expect(isValid("<Image-Gallery>")).toBe(false);
+    expect(isValid("<image-Gallery>")).toBe(false);
+  });
+
+  it("wide string handling for dynamic input", () => {
+    const isValid = isHtmlComponentTag("image-gallery");
+    const dynamicTag = "<ImageGallery autoplay />" as string;
+    expect(isValid(dynamicTag)).toBe(true);
+  });
+
+
+  it("single word components", () => {
+    const isValid = isHtmlComponentTag("gallery");
+    expect(isValid("<Gallery>")).toBe(true);
+    expect(isValid("<gallery>")).toBe(true);
+  });
+
 });
