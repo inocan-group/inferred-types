@@ -10,6 +10,8 @@ export default antfu(
       semi: true,
       overrides: {
         "style/indent-binary-ops": ["warn", 2],
+        "quote-props": ["off"],
+        "style/quote-props": ["off"],
         "array-callback-return": ["warn"],
         "valid-typeof": ["warn"]
       }
