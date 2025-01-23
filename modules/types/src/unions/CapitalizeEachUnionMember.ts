@@ -1,4 +1,9 @@
-import type { AfterFirst, First, IsUnion, UnionToTuple } from "inferred-types/types";
+import type {
+  AfterFirst,
+  First,
+  IsUnion,
+  UnionToTuple,
+} from "inferred-types/types";
 
 type Process<
   T extends readonly unknown[],

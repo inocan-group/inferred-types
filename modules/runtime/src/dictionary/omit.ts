@@ -1,4 +1,4 @@
-import type { Narrowable, ObjectKey, WithoutKeys } from "inferred-types/types";
+import type { AnyObject, Narrowable, NarrowObject, ObjectKey } from "inferred-types/types";
 
 /**
  * **omit**(obj, excluding)
@@ -18,7 +18,7 @@ import type { Narrowable, ObjectKey, WithoutKeys } from "inferred-types/types";
  * **Related:** `createOmission`, `withoutKeys`
  */
 export function omit<
-  TObj extends Record<ObjectKey, N>,
+  TObj extends NarrowObject<N> | AnyObject,
   N extends Narrowable,
   TKeys extends readonly ObjectKey[] = readonly [],
 >(obj: TObj, ...removeKeys: TKeys) {
@@ -32,5 +32,5 @@ export function omit<
           [key]: obj[key as keyof TObj],
         },
     {},
-  ) as unknown as WithoutKeys<TObj, TKeys>;
+  ) as unknown as Omit<TObj, TKeys[number]>;
 }
