@@ -4,15 +4,15 @@ import type {
   GetUrlProtocolPrefix,
   GetUrlSource,
   Ip4Address,
-  Ip6AddressLoose,
+  Ip6Address,
+  Ip6Subnet,
+  IsWideString,
   UrlPath,
 } from "inferred-types/types";
 import {
   asChars,
   getUrlQueryParams,
-  ip6GroupExpansion,
   isAlpha,
-  isHexadecimal,
   isNumberLike,
   removeUrlProtocol,
 } from "inferred-types/runtime";
@@ -30,26 +30,96 @@ export function isIp4Address<T>(val: T): val is T & Ip4Address {
     && val.split(".").every(i => Number(i) >= 0 && Number(i) <= 255);
 }
 
+const IPV6_SUBNET_REGEX = /^([0-9a-f]{1,4}:){1,7}[0-9a-f]{1,4}::\/(12[0-8]|1[01]\d|[1-9]\d|\d)$/i;
+
+/**
+ * **isIp6Subnet**`(val,[mask])`
+ *
+ * Type guard which validates that `val` is a valid IPv6 subnet.
+ *
+ * - optionally allows for isolating a particular subnet mask
+ */
+export function isIp6Subnet<T extends number>(
+  val: string,
+  mask?: T,
+): val is Ip6Subnet {
+  const [_, maskPart] = val.split("/");
+  const numericMask = Number.parseInt(maskPart, 10);
+
+  return IPV6_SUBNET_REGEX.test(val)
+    && numericMask >= 0
+    && numericMask <= 128
+    && (mask === undefined || numericMask === mask);
+}
+
 /**
  * **isIp6Address**`(val)`
  *
- * Type guard which checks whether the value is a valid IPv6 address.
+ * Comprehensive type guard for IPv6 addresses with:
+ * - Full [RFC 4291](https://www.rfc-editor.org/rfc/rfc4291.html) validation
+ * - Compression handling
+ * - Zone index exclusion
  */
-export function isIp6Address<T>(val: T): val is T & Ip6AddressLoose {
-  const expanded = isString(val)
-    ? ip6GroupExpansion(val)
-    : "";
-  return isString(val) && isString(expanded)
-    && (expanded.split(":").every(i => asChars(i).length >= 1 && asChars(i).length <= 4))
-    && expanded.split(":").every(i => isHexadecimal(i));
+export function isIp6Address<T>(val: T): val is T & Ip6Address {
+  if (typeof val !== "string")
+    return false;
+  const str = val.trim();
+
+  // Basic structural checks
+  if (str.length < 2 || str.length > 45)
+    return false;
+  if (str.includes("/"))
+    return false;
+  if ((str.match(/::/g) || []).length > 1)
+    return false;
+  if (/^::.+::/.test(str))
+    return false;
+  if (/^:[^:]/.test(str) || /[^:]:$/.test(str))
+    return false;
+
+  // New: Detect 3+ consecutive colons anywhere
+  if (/:{3,}/.test(str))
+    return false;
+
+  // Split and validate parts
+  const [before = "", after = ""] = str.split("::");
+  const beforeParts = before.split(":").filter(Boolean);
+  const afterParts = after.split(":").filter(Boolean);
+  const totalParts = beforeParts.length + afterParts.length;
+
+  // Validate group count
+  if (str.includes("::")) {
+    if (totalParts > 7)
+      return false;
+    if (str === "::")
+      return true;
+  }
+  else {
+    if (beforeParts.length !== 8)
+      return false;
+  }
+
+  // Validate individual parts
+  const allParts = [...beforeParts, ...afterParts];
+  return allParts.every(part =>
+    /^[0-9a-f]{1,4}$/i.test(part),
+  );
 }
+
+type IsIpAddress<T> = IsWideString<T> extends true
+  ? Ip6Address | Ip4Address
+  : T extends `${string}:${string}`
+    ? Ip6Address
+    : T extends `${string}.${string}`
+      ? Ip4Address
+      : never;
 
 /**
  * **isIpAddress**`(val)`
  *
  * Type guard which checks whether the value is a valid IP address (v4 or v6).
  */
-export function isIpAddress<T>(val: T): val is T & (Ip4Address | Ip6AddressLoose) {
+export function isIpAddress<T>(val: T): val is T & IsIpAddress<T> {
   return isIp4Address(val) || isIp6Address(val);
 }
 
