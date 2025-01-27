@@ -44,7 +44,7 @@ type Process<
  * you can get a somewhat less strict tuple type by setting `TKeys` to `false`
  * - Ok ... _now that you're sorted_ ...
  *
- * **Related:** `KeyValue`, `FromKv`
+ * **Related:** `KeyValue`, `FromKv`, `ObjectToTuple`, `TupleToObject`
  */
 export type ToKv<
   TObj extends AnyObject,

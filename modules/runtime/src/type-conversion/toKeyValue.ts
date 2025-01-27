@@ -3,6 +3,7 @@ import type {
   Filter,
   HandleDoneFn,
   Narrowable,
+  NarrowObject,
   SKeys,
   ToKv,
 } from "inferred-types/types";
@@ -98,7 +99,7 @@ function sortKeyApi<O extends readonly string[]>(order: O): SortApi<O> {
  * ```
  */
 export function toKeyValue<
-  T extends { [key: string]: N },
+  T extends NarrowObject<N> | AnyObject,
   N extends Narrowable,
   S extends ToKeyValueSort<SKeys<T>> | undefined,
 >(
@@ -113,7 +114,7 @@ export function toKeyValue<
   }
 
   for (const k of keys) {
-    tuple.push({ key: k, value: obj[k] });
+    tuple.push({ key: k, value: obj[k as keyof typeof obj] });
   }
 
   return tuple as Returns<T, S>;

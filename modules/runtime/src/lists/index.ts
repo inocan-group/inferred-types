@@ -11,6 +11,7 @@ export * from "./intersection";
 export * from "./joinWith";
 export * from "./last";
 export * from "./logicalReturns";
+export * from "./mapOver";
 export * from "./reverse";
 export * from "./shift";
 export * from "./slice";

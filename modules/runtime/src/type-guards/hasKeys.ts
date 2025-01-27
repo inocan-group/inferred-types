@@ -10,7 +10,7 @@ import { isObject } from "./isObject";
  * properties passed into this first call.
  *
  * ```ts
- * const hasFooBar = hasKeys(["foo", "bar"]); // type guard
+ * const hasFooBar = hasKeys("foo", "bar"); // type guard
  * const hasFooBarToo = hasKeys({foo: 1, bar: 1});
  * ```
  */
@@ -19,7 +19,7 @@ export function hasKeys<
 >(...props: P) {
   return <
     T,
-  >(val: T): val is T &([EnsureKeys<AsObject<T>, ["name"]>] extends never[]
+  >(val: T): val is T & ([EnsureKeys<AsObject<T>, ["name"]>] extends never[]
     ? never
     : EnsureKeys<AsObject<T>, P>) => {
     const keys = Array.isArray(props)

@@ -3,6 +3,7 @@ export * from "./ifArrayPartial";
 export * from "./ifBoolean";
 export * from "./ifChar";
 export * from "./ifContainer";
+export * from "./ifEqual";
 export * from "./ifFalse";
 export * from "./ifFunction";
 export * from "./ifHasKey";
