@@ -5,11 +5,12 @@ import type {
   First,
   GetUrlQueryParams,
   HasOtherCharacters,
-  Ip4Address,
+  Ip4AddressLike,
   Ip4Octet,
+  Ip6Address,
   Ip6AddressFull,
-  Ip6AddressLoose,
   Ip6GroupExpansion,
+  Ip6Subnet,
   IsGreaterThan,
   IsLessThan,
   IsStringLiteral,
@@ -93,7 +94,7 @@ type DeepOctetCheck<
 export type IsIp4Address<T> =
 T extends string
   ? IsStringLiteral<T> extends true
-    ? T extends Ip4Address
+    ? T extends Ip4AddressLike
       ? SplitAlt<T, ".">["length"] extends 4
         ? DeepOctetCheck<Split<T, ".">>
         : false
@@ -141,7 +142,7 @@ export type IsIpAddress<T> = T extends string
  */
 export type HasIpAddress<T> = T extends string
   ? IsStringLiteral<T> extends true
-    ? T extends `${string}${infer IpAddress extends Ip4Address | Ip6AddressLoose}${string}`
+    ? T extends `${string}${infer IpAddress extends Ip4AddressLike | Ip6Address | Ip6Subnet}${string}`
       ? IsIp4Address<IpAddress>
       : false
     : boolean
