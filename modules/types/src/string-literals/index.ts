@@ -1,8 +1,3 @@
-// #autoindex, exclude: Alpha
-// #region auto-indexed files
-// index last changed at: 8th Aug, 2022, 09:51 AM ( GMT-7 )
-// hash-code: b32382ed
-
 export * from "./AfterFirstChar";
 export * from "./Brand";
 export * from "./Calendar";
@@ -10,7 +5,6 @@ export * from "./Cardinality";
 export * from "./casing/index";
 export * from "./character-sets/index";
 export * from "./Chars";
-// file exports
 export * from "./Concat";
 export * from "./Date";
 export * from "./DateTime";
@@ -46,11 +40,10 @@ export * from "./StripSurround";
 export * from "./StripTrailing";
 export * from "./StripUntil";
 export * from "./StrLen";
-
 export * from "./Suggest";
 export * from "./Surround";
 export * from "./Time";
 export * from "./Truncate";
 export * from "./TypeSubtype";
-
 export * from "./UnderlyingType";
+export * from "./UUID";
