@@ -36,6 +36,7 @@ export * from "./isNull";
 export * from "./isNumericString";
 export * from "./isObject";
 export * from "./isObject";
+export * from "./isObjectKey";
 export * from "./isPhoneNumber";
 export * from "./isReadonlyArray";
 export * from "./isRef";
