@@ -32,7 +32,6 @@ export function isIp4Address<T>(val: T): val is T & Ip4Address {
     && octets.every(i => `${Number(i)}` === i);
 }
 
-
 /**
  * **isIp6Subnet**`(val,[mask])`
  *
@@ -46,22 +45,26 @@ export function isIp6Subnet<T extends number>(
 ): val is Ip6Subnet {
   // Trim and split the input
   const trimmed = val.trim();
-  const parts = trimmed.split('/');
+  const parts = trimmed.split("/");
 
   // Must have exactly two parts: address and mask
-  if (parts.length !== 2) return false;
+  if (parts.length !== 2)
+    return false;
 
   const [address, maskPart] = parts;
 
   // Validate mask is a numeric string
-  if (!/^\d+$/.test(maskPart)) return false;
-  const numericMask = parseInt(maskPart, 10);
+  if (!/^\d+$/.test(maskPart))
+    return false;
+  const numericMask = Number.parseInt(maskPart, 10);
 
   // Validate mask range
-  if (numericMask < 0 || numericMask > 128) return false;
+  if (numericMask < 0 || numericMask > 128)
+    return false;
 
   // Validate IPv6 address portion
-  if (!isIp6Address(address)) return false;
+  if (!isIp6Address(address))
+    return false;
 
   // Check optional mask parameter
   return mask === undefined || numericMask === mask;

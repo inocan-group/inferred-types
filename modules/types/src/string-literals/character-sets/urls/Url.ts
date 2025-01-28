@@ -9,7 +9,7 @@ import type {
   EmptyObject,
   ExpandUnion,
   Flatten,
-  Ip4Address,
+  Ip4AddressLike,
   IsEqual,
   IsFalse,
   IsStringLiteral,
@@ -256,7 +256,7 @@ export type GetUrlSource<
   T extends string,
 > = IsStringLiteral<T> extends true
   ? StripAfter<StripAfter<RemoveNetworkProtocol<T>, "/">, ":"> extends
-      `${infer Domain extends DnsName | Ip4Address}`
+      `${infer Domain extends DnsName | Ip4AddressLike}`
     ? Domain
     : never
   : string;
@@ -346,7 +346,7 @@ export type RelativeUrl = `${RelativeStart}${UrlPath}`;
  * for a fully qualified URL like `https://google.com`. It can't ensure the
  * type is fully valid but does help to avoid some typos.
  */
-export type FullyQualifiedUrl = `${NetworkProtocol}://${Ip4Address | DomainName}/${string}`;
+export type FullyQualifiedUrl = `${NetworkProtocol}://${Ip4AddressLike | DomainName}/${string}`;
 
 export type UrlBuilder =
   | (<P extends NetworkProtocol, D extends DomainName, B extends RelativeUrl>(
