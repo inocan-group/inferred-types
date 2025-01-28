@@ -1,6 +1,7 @@
 export * from "./asChars";
 export * from "./asRecord";
 export * from "./asString";
+export * from "./asTemplate";
 export * from "./csv";
 export * from "./fromKeyValue";
 export * from "./intersect";

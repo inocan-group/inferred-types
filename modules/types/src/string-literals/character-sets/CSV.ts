@@ -34,3 +34,10 @@ export type CSV<T extends Digit = 1> = T extends 1
 export type Csv<T extends string = string> = T & {
   brand: "CSV";
 };
+
+/**
+ * A _branded_ string indicating that the value is a tab-separated value
+ */
+export type TSV<T extends `${string}\t${string}` = `${string}\t${string}`> = T & {
+  brand: "TSV";
+};

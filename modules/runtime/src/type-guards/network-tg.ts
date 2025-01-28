@@ -24,13 +24,14 @@ import { isString } from "./isString";
  * Type guard which checks whether the value is a valid IPv4 address.
  */
 export function isIp4Address<T>(val: T): val is T & Ip4Address {
+  const octets: string[] = isString(val) ? val.split(".") : [];
   return isString(val)
-    && (val.split(".").length === 4)
-    && (val.split(".").every(i => isNumberLike(i)))
-    && val.split(".").every(i => Number(i) >= 0 && Number(i) <= 255);
+    && (octets.length === 4)
+    && (octets.every(i => isNumberLike(i)))
+    && octets.every(i => Number(i) >= 0 && Number(i) <= 255)
+    && octets.every(i => `${Number(i)}` === i);
 }
 
-const IPV6_SUBNET_REGEX = /^([0-9a-f]{1,4}:){1,7}[0-9a-f]{1,4}::\/(12[0-8]|1[01]\d|[1-9]\d|\d)$/i;
 
 /**
  * **isIp6Subnet**`(val,[mask])`
@@ -43,13 +44,27 @@ export function isIp6Subnet<T extends number>(
   val: string,
   mask?: T,
 ): val is Ip6Subnet {
-  const [_, maskPart] = val.split("/");
-  const numericMask = Number.parseInt(maskPart, 10);
+  // Trim and split the input
+  const trimmed = val.trim();
+  const parts = trimmed.split('/');
 
-  return IPV6_SUBNET_REGEX.test(val)
-    && numericMask >= 0
-    && numericMask <= 128
-    && (mask === undefined || numericMask === mask);
+  // Must have exactly two parts: address and mask
+  if (parts.length !== 2) return false;
+
+  const [address, maskPart] = parts;
+
+  // Validate mask is a numeric string
+  if (!/^\d+$/.test(maskPart)) return false;
+  const numericMask = parseInt(maskPart, 10);
+
+  // Validate mask range
+  if (numericMask < 0 || numericMask > 128) return false;
+
+  // Validate IPv6 address portion
+  if (!isIp6Address(address)) return false;
+
+  // Check optional mask parameter
+  return mask === undefined || numericMask === mask;
 }
 
 /**

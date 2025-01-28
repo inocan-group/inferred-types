@@ -5,6 +5,7 @@ import type {
   NumericChar,
   NumericCharZeroToFive,
   Opt,
+  OptNumber,
   Time,
   TimeNomenclature,
   TimeResolution,
@@ -139,3 +140,79 @@ export type Iso8601DateTime<
 export type Iso8601<
   TTimezone extends TypeRequired = "optional",
 > = `${number}-${number}-${number}T${number}:${number}:${number}.${number}${TZ<TTimezone>}`;
+
+/**
+ * **DateLike**
+ *
+ * Represents structural patterns that look like a type that is a **date**.
+ *
+ * - a _number_ is assumed to be a Unix Epoch timestamp
+ * - the string literal format is meant to match
+ * the [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) spec
+ * "YYYY-MM-DD" format.
+ * - and then we have look for objects which _look like_:
+ *    - **MomentJS**'s DateTime object
+ *    - **DateFns**'s DateTime object
+ *    - **Luxon**'s DateTime object
+ *    - **Javascript**'s Date object
+ */
+export type DateLike = number
+  | `${number}`
+  | `${number}-${number}-${number}`
+  | `${number}-${number}-${number}T${number}:${number}:${number}Z`
+  | { isValid: () => boolean; toDate: () => Date } // MomentJS DateTime
+  | { toDate: () => Date } // Luxon DateTime
+  | { getTime: () => number } // Javascript Date object
+  | { startOfDay: () => Date }; // DateFns-like object
+
+/**
+ * **Iso8601DateRepresentation**
+ *
+ * A branded representation of an `Iso8601Date` with mild type checking.
+ *
+ * **Related:** `Iso8601Date`, `Iso8601DateTime`
+ */
+export type Iso8601DateRepresentation = `${number}-${number}-${number}` & {
+  brand: "Iso8601Date";
+};
+
+/**
+ * **Iso8601TimeRepresentation**
+ *
+ * A branded representation of an `Iso8601Time` with mild type checking.
+ *
+ * **Related:** `Iso8601Time`, `Iso8601Date`, `Iso8601DateTime`
+ */
+export type Iso8601TimeRepresentation = `${number}:${number}` | `${number}:${number}:${number}${OptNumber<".">}` & {
+  brand: "Iso8601Time";
+};
+
+/**
+ * **Iso8601DateTimeRepresentation**
+ *
+ * A branded representation of an `Iso8601DateTime` with mild type checking.
+ *
+ * **Related:** `Iso8601Time`, `Iso8601Date`, `Iso8601DateTime`
+ */
+export type Iso8601DateTimeRepresentation = `${number}-${number}-${number}T${number}:${number}`
+  | `${number}-${number}-${number}T${number}:${number}:${number}${OptNumber<".">}` & {
+    brand: "Iso8601DateTime";
+  };
+
+declare const __epochinms: unique symbol;
+
+/**
+ * An Epoch timestamp in milliseconds
+ */
+export type EpochInMs = number & {
+  [__epochinms]: "EpochInMs";
+};
+
+declare const __epochinseconds: unique symbol;
+
+/**
+ * An Epoch timestamp in seconds
+ */
+export type EpochInSeconds = number & {
+  [__epochinseconds]: "EpochInSeconds";
+};
