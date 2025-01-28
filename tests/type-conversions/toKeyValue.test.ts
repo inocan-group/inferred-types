@@ -18,7 +18,6 @@ describe("toKeyValue(obj)", () => {
       {key: "bar", value: "hi"}
     ])
 
-    // @ts-ignore
     type cases = [
       Expect<Equal<
         typeof fooBar,
@@ -40,7 +39,6 @@ describe("toKeyValue(obj)", () => {
       { key: "bar", value: "hi"},
     ])
 
-    // @ts-ignore
     type cases = [
       Expect<Equal<
         typeof fooBar,
@@ -87,7 +85,6 @@ describe("toKeyValue(obj)", () => {
         desc: "The fast and lightweight sibling in the Claude family (Anthropic)"
     });
 
-    // @ts-ignore
     type cases = [
       Expect<Extends<typeof fmKv, KeyValue[]>>,
       Expect<Equal<
