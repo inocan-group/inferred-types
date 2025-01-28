@@ -9,7 +9,7 @@ import type {
   FromShapeCallback,
   HandleDoneFn,
   If,
-  Ip4Address,
+  Ip4AddressLike,
   Ip6Address,
   IsFalse,
   IsNever,
@@ -129,7 +129,7 @@ export interface StringTokenUtilities<T> {
    *
    * A simple representation of a IPv4 address.
    */
-  ipv4Address: () => Ip4Address;
+  ipv4Address: () => Ip4AddressLike;
   /**
    * **ipv6Address**
    *

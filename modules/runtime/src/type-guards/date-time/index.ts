@@ -1,5 +1,6 @@
 export * from "./isDate";
 export * from "./isDateTime";
+export * from "./isEpoch";
 export * from "./isIsoDate";
 export * from "./isIsoTime";
 export * from "./isIsoYear";

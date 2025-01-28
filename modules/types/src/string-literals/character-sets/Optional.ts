@@ -43,3 +43,13 @@ Optional<T>;
  * an _optional_ percentage symbol
  */
 export type OptPercent = "%" | "";
+
+/**
+ * **OptNumber**`<[TPre],[TPost]>`
+ *
+ * An optional number (with generics for a prefix or postfix)
+ */
+export type OptNumber<
+  TPre extends string = "",
+  TPost extends string = "",
+> = `${TPre}${number}${TPost}` | "";
