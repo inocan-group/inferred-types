@@ -1,7 +1,7 @@
 import type {
-    NumberLike,
-    EpochInMs,
-    EpochInSeconds
+  EpochInMs,
+  EpochInSeconds,
+  NumberLike,
 } from "inferred-types/types";
 
 /** the epoch timestamp (in seconds) for the date 2500-01-01 */
