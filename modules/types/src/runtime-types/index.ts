@@ -1,4 +1,3 @@
-export * from "./AsStringLiteral";
 export * from "./AsToken";
 export * from "./AsType";
 export * from "./Dict";

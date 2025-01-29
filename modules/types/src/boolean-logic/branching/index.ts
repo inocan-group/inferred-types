@@ -12,4 +12,5 @@ export * from "./IfNever";
 export * from "./IfUnset";
 export * from "./OnPass";
 export * from "./Passthrough";
+export * from "./When";
 export * from "./WhenNever";

@@ -8,6 +8,7 @@ export * from "./AsBoolean";
 export * from "./AsContainer";
 export * from "./AsDefined";
 export * from "./AsDictionary";
+export * from "./AsFromTo";
 export * from "./AsFunction";
 export * from "./AsNonNull";
 export * from "./AsNumber";
@@ -21,8 +22,11 @@ export * from "./AsStringUnion";
 // file exports
 export * from "./Awaited";
 export * from "./Break";
+export * from "./encoding/index";
 export * from "./form-fields";
 export * from "./FromKeyValueTuple";
+export * from "./FromTo";
+export * from "./IntersectionToTuple";
 export * from "./IntersectWithAll";
 export * from "./JSON";
 export * from "./LeftWhitespace";
@@ -38,9 +42,12 @@ export * from "./ReduceValues";
 export * from "./RemoveFromEnd";
 export * from "./RemoveFromStart";
 export * from "./RemoveIndex";
-
+export * from "./RenameKey";
 export * from "./Replace";
 export * from "./ReplaceAll";
+export * from "./ReplaceAllFromTo";
+export * from "./ReplaceFromTo";
+export * from "./ReplaceKeys";
 export * from "./RetainChars";
 export * from "./ReturnValues";
 export * from "./RightWhitespace";
@@ -54,10 +61,10 @@ export * from "./ToKeyValueTuple";
 export * from "./ToNumber";
 export * from "./ToString";
 export * from "./ToStringArray";
+
 export * from "./ToUnion";
 export * from "./Trim";
 export * from "./TrimLeft";
-
 export * from "./TrimRight";
 export * from "./TupleToUnion";
 export * from "./UnionArrayToTuple";
@@ -69,9 +76,5 @@ export * from "./UnionWithAll";
 export * from "./ValueOrReturnValue";
 export * from "./Widen";
 export * from "./WidenValues";
+
 export * from "./WithDefault";
-
-// #endregion auto-indexed files
-
-// see https://github.com/inocan-group/do-devops/docs/autoindex.md
-// for more info
