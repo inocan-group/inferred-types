@@ -4,12 +4,12 @@ There are a million different situations where you will want to create a "templa
 
 This library provides a number of type and runtime primitives to help you do this.
 
-## Getting Started
+## Core Tools
 
-### Core Tools
+1. `asTemplate()` - describe a template using prescriptive tags and immediately transform the _type_ to model what you expect/want in that part of the text content
+2. `applyTemplate()`
 
-1. `asTemplate()`
-2. `asTemplateProvidingTags()`
+## Example Usage
 
 ### For Library Authors
 
@@ -50,6 +50,27 @@ const TEMP_EXPRESSIONS = [
 
 This will convert all instances of `{{number}}` into the _type_ `${number}`. It will also convert `{{hot|cold}}` into the union type `"hot" | "cold"`.
 
+```ts
+type TemplateInteger = AsTemplateTag<
+  "integer",
+  number, // type system upgrade
+  Integer, // branded upgrade
+  isInteger // type guard
+>
+
+const integer = asTemplateTag(
+  "integer",
+  isInteger,
+  t => [t.number(), t.number().integer()] // dual type outcome
+)
+
+const number = asTemplateTag(
+  "number",
+  isNumber,
+  t => t.number() // single type outcome
+)
+```
+
 Having heard this, you may now expect that `{{boolean}}` would be converted to the union of `"true" | "false"` and you wouldn't be wrong but it doesn't stop there:
 
 - `{{integer}}` converts to the type `${Integer}` from this library
@@ -65,15 +86,17 @@ Having heard this, you may now expect that `{{boolean}}` would be converted to t
 - `{{uri}}` converts to the type `${Uri}` from this library
 - `{{regex}}` converts to the type `${RegExpRepresentation}` from this library
 
-It's important to understand that these types provide the type system constraints to help ensure the type is correct as well as to inform the library user of what is available but they are not _guarentees_ that a user couldn't type in the wrong type.
+It's important to understand that these types provide the type constraints to help ensure the type is correct and while sometimes the type grammar is able to capture all requirements for a variable it is equally as likely that that either isn't possible or it's too expensive (from a type inference standpoint) to do this in the type system.
 
-For instance, the IPv6 format is far too complex to _fully type_ in typescript. For that matter so is IPv4; you may get close here but the type would be not be high performing and so complex to look at that it's not nearly as "explanatory" as just `${number}.${number}.${number}.${number}`.
+As a "for instance", the IPv6 format is far too complex to _fully type_ in typescript. For that matter so is IPv4; you may get close here but the type would be not be high performing and so complex to look at that it's not nearly as "explanatory" as just `${number}.${number}.${number}.${number}`.
+
+This means that providng a type for these types provides guard rails but not a guarentee. We often look at validation libraries or processes as being necessary due to IO (aka, externalities to your safe type environment) and there is some validity in that idea but the truth is as powerful as Typescript inference is it still needs to work with the runtime environment at times to validate non-trivial pattern based types.
 
 Fortunately, we've got you covered here. For all of the types mentioned above this library not only has type guards which are prescriptive but it also packages them up for you to use conveniently when using templates.
 
 ```ts
 // create a validator for your template
-const isValid = templateValidation(template);
+const isValid = applyTemplate(template).validate;
 
 // Now you can pass values at runtime into the validator which
 // return either:
@@ -87,3 +110,7 @@ if (isNotError(isValid(value))) {
   // you can handle the error how you like
 }
 ```
+
+### Use in AI
+
+Another common use case these days is _prompting_ in AI. Unlike
