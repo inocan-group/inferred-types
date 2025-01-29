@@ -60,7 +60,7 @@ type TemplateInteger = AsTemplateTag<
 
 const integer = asTemplateTag(
   "integer",
-  isInteger,
+  isInteger, // type guard
   t => [t.number(), t.number().integer()] // dual type outcome
 )
 
@@ -69,6 +69,20 @@ const number = asTemplateTag(
   isNumber,
   t => t.number() // single type outcome
 )
+
+const date = asTemplateTag(
+  "date",
+  isIso8601Date,
+  isDateLike,
+)
+
+const gammar = createTokenGrammar("{{","}}","::");
+const templateGrammar = grammar(integer,number,date);
+
+// the _future type_ of the template when interpolated with valid data
+const expected = templateGrammar.shape();
+//
+const outcome = templateGrammar.parse(text, { ..kv.. });
 ```
 
 Having heard this, you may now expect that `{{boolean}}` would be converted to the union of `"true" | "false"` and you wouldn't be wrong but it doesn't stop there:
