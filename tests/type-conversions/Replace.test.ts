@@ -2,6 +2,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
 import { LowerAlphaChar, Replace, ReplaceAll, UpperAlphaChar } from "inferred-types";
+import { ReplaceAllFromTo, ReplaceFromTo, ReplaceKeys } from "inferred-types/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -29,7 +30,6 @@ describe("Replace<TText,TFind,TReplace>", () => {
     type EmptyText = Replace<"","foo","bar">;
     type BothEmpty = Replace<"","","bar">;
 
-    // @ts-ignore
     type cases = [
       Expect<Equal<EmptyText, "">>,
       Expect<Equal<BothEmpty, "bar">>,
@@ -41,7 +41,6 @@ describe("Replace<TText,TFind,TReplace>", () => {
     type Text = "foobar" | "bazfoo";
     type R = Replace<Text, "foo", "bar">;
 
-    // @ts-ignore
     type cases = [
       Expect<Equal<R, "barbar" | "bazbar">>,
     ];
@@ -52,15 +51,15 @@ describe("Replace<TText,TFind,TReplace>", () => {
     type Text = "foobar, foo" | "bazfoo, foo";
     type R = Replace<Text, "foo", "bar">;
 
-    // @ts-ignore
     type cases = [
       Expect<Equal<R, "barbar, foo" | "bazbar, foo">>,
     ];
   });
-
-
-
 });
+
+
+
+
 
 describe("ReplaceAll<TText,TFind,TReplace>", () => {
 
@@ -70,7 +69,6 @@ describe("ReplaceAll<TText,TFind,TReplace>", () => {
     type WideStr = Replace<string, "a", "b">;
     type Curly = ReplaceAll<"https://www.amazon.com/{{ string }}storeType=ebooks{{ string }}",  "{{ string }}", `${string}`>
 
-    // @ts-ignore
     type cases = [
       Expect<Equal<Foobar, "Must be foobar">>,
       Expect<Equal<Duplicate, "Must be foobar; really it must be foobar">>,
@@ -143,7 +141,96 @@ describe("ReplaceAll<TText,TFind,TReplace>", () => {
     ];
 
   });
+});
 
+describe("ReplaceFromTo<TText,TFromTo>", () => {
+  it("Using ToFrom[] to replace multiple things", () => {
+    type Fooy = "fooy";
+    // "Pooey"
+    type Pooey = ReplaceFromTo<Fooy, [
+      { from: "y"; to: "ey" },
+      { from: "f"; to: "P" }
+    ]>
+
+    type cases = [
+      Expect<Equal<Pooey, "Pooey">>,
+    ];
+  });
+});
+
+describe("ReplaceAllFromTo<TText,TFromTo>", () => {
+  it("Using ToFrom[] to replace multiple things", () => {
+    type Dashing = ReplaceAllFromTo<"Foo Bar Baz", [
+      { from: " "; to: "-" },
+      { from: "B"; to: "b" }
+    ]>
+
+    type cases = [
+      Expect<Equal<Dashing, "Foo-bar-baz">>,
+    ];
+  });
+});
+
+describe("ReplaceKeys<TText,TFromTo>", () => {
+  it("Using ToFrom[] to replace multiple things", () => {
+    type Obj = { _foo: 1; _bar: 2; _baz: 3 }
+    type FooBarBaz = ReplaceKeys<Obj, [
+      { from: "_"; to: "" },
+      { from: "b"; to: "B" },
+      { from: "f"; to: "F" }
+    ]>
+
+    type cases = [
+      Expect<Equal<FooBarBaz, { Foo: 1; Bar: 2; Baz: 3 }>>,
+    ];
+  });
+
+
+  it("testing deep replacement", () => {
+    type Obj = { _foo: { _bar_: 2; _baz: 3 } }
+    type FooBarBaz = ReplaceKeys<Obj, [
+      { from: "_"; to: "" },
+      { from: "b"; to: "B" },
+      { from: "f"; to: "F" }
+    ]>
+    type Explicit = ReplaceKeys<Obj, [
+      { from: "_"; to: "" },
+      { from: "b"; to: "B" },
+      { from: "f"; to: "F" }
+    ], { deep: true }>
+
+    type cases = [
+      Expect<Equal<FooBarBaz, { Foo: { Bar: 2; Baz: 3 }}>>,
+      Expect<Equal<Explicit, { Foo: { Bar: 2; Baz: 3 }}>>,
+    ];
+  });
+
+
+  it("testing shallow replacement", () => {
+    type Obj = { _foo_: { _bar_: 2; _baz: 3 } }
+    type FooBarBaz = ReplaceKeys<Obj, [
+      { from: "_"; to: "" },
+      { from: "b"; to: "B" },
+      { from: "f"; to: "F" }
+    ], { deep: false }>
+
+    type cases = [
+      Expect<Equal<FooBarBaz, { Foo: { _bar_: 2; _baz: 3 }}>>,
+    ];
+  });
+
+  it("testing with replacing only first instance", () => {
+    type Obj = { _foo_: { _bar_: 2; _baz: 3 } }
+    type FooBarBaz = ReplaceKeys<Obj, [
+      { from: "_"; to: "" },
+      { from: "b"; to: "B" },
+      { from: "f"; to: "F" }
+    ], { replaceAll: false }>
+
+    type cases = [
+      Expect<Equal<FooBarBaz, { Foo_: { Bar_: 2; Baz: 3 }}>>,
+    ];
+  });
 
 
 });
