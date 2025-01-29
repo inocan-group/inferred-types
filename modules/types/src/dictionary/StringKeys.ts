@@ -29,3 +29,14 @@ export type SKeys<T extends AnyObject> = IsVueRef<T> extends true
   : _SKeys<T> extends readonly string[]
     ? _SKeys<T>
     : never;
+
+/**
+ * **StringKeys**`<T>`
+ *
+ * Creates a tuple of all _string_ keys of `T`.
+ *
+ * **Related:** `Keys`
+ */
+export type StringKeys<T extends AnyObject> = SKeys<T> extends readonly (keyof T & string)[]
+  ? SKeys<T>
+  : never;
