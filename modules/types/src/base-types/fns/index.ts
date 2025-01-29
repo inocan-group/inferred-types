@@ -3,6 +3,7 @@ export * from "./EscapeFunction";
 export * from "./FnAllowingProps";
 export * from "./IdentityFunction";
 export * from "./JustFunction";
+export * from "./NodeCallback";
 export * from "./OptionalParamFn";
 export * from "./ParameterlessFn";
 export * from "./RegularFn";
