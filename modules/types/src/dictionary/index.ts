@@ -44,6 +44,7 @@ export * from "./RequiredKeys";
 export * from "./RequiredProps";
 export * from "./RequireProps";
 export * from "./RetainProps";
+export * from "./ReverseLookup";
 export * from "./SetKey";
 export * from "./SetKeysTo";
 export * from "./SharedKeys";
