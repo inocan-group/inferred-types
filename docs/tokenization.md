@@ -4,36 +4,68 @@ This library provides the following primitives for creating a tokenization syste
 
 ## Runtime System
 
-- `createTokenizer(start, end, delimiter)`
+### `createToken(name, params,parser)`
 
-    This sets up the basic semantics of a tokenizer by providing the `start` and `end` delimiters of a token as well as an internal `delimiter` which can be used to provide variants of base tokens.
+A token's responsibility it to:
+
+- provide it's name
+- provide it's expectation about _parameters_ that might provide variants of the token
+- a "base type" which should represent the widest native which it is based off of
+- provide a parser function which will provide the discrete type for the token with all parameters passed in
+- provides a _type guard_ for testing a value to be of this token's type
+
+### `createTokenGrammar()`
+
+A `TokenGrammar` acts as an _adaptor_ and helps to conform any set of tokens to work as part of a `Grammar`.
+
+A `TokenGrammar` provides the `start`, `end` and `separator` text which will be used to mark the individual tokens. It also provides encoder/decoder functions for parameter values which ensure that these values do not interfere with the Grammar's own markers.
+
+### `createGrammar(tg, ...tokens)`
+
+A `Grammar` is defined by:
+
+- a `TokenGrammar` to provide it's basic shape
+- a set of `Token`'s which represent it's vocabulary
+
+We'll create a simple example of creating a grammar here:
+
+```ts
+const tg = createTokenGrammar(
+  "AngleBrackets",  // name
+  "<<",             // start
+  ">>",             // end
+  "::",             // separator
+  encode: { // note this is the default encoder/decoder config
+      ["<<"]: "^(start)",
+      [">>"]: "^(end)",
+      ["::"]: "^(sep)",
+      [" "]: nbsp
+  }
+)
+const grammar = createGrammar(tg, token1, token2, token3, ...);
+```
+
+With these two elements combined the Grammar is able to provide the following:
+
+- a _tokenizer_ which aids producing valid tokens from a type
 
     ```ts
-    const tokenizer = createTokenizer("<",">", "::");
+    const { tokenizer } = grammar;
 
-    /** <string> */
+    // <<string>>
     const t1 = tokenizer("string");
-
-    /** <string::foo::bar> */
-    const t2 = tokenizer("string","foo","bar");
-
-    // readonly [ "string", ["foo", "bar"]]
-    const serial = t2.serialize();
+    // <<string::foo::bar>>
+    const t2 = tokenizer("string", "foo", "bar");
     ```
 
-- `createTypeTokenizer(start, end, delimiter)`
-
-    This sets up a tokenizer but one specifically geared to create _type_ tokenization.
+- a `isToken()` type guard, and a `asType()` typed token producer
 
     ```ts
-    const tokenizer = createTypeTokenizer("<",">", "::");
-
-
-    const t1 = tokenizer("string", t => t.string(),{
-
-    });
-
-
+    const {isToken} = grammar;
+    // <<string::foo::bar>>
+    const token = isToken("<<string::foo::bar>>" as unknown as "foo" | "bar");
+    // "foo" | "bar"
+    const typed = asType("<<string::foo::bar>>");
     ```
 
 ## Type System
