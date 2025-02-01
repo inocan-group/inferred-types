@@ -6,6 +6,7 @@ import type {
 import type {
   AfterFirst,
   AsFromTo,
+  First,
   FromTo,
   Mutable,
   ReverseLookup,
@@ -30,16 +31,16 @@ export type SafeEncodingConversion<
   R extends readonly FromTo[] = [],
 > = [] extends T
   ? R
-  : SafeDecodingConversion<
+  : SafeEncodingConversion<
     AfterFirst<T>,
     [
       ...R,
       ...(
-        T extends "quotes"
+        First<T> extends "quotes"
           ? AsFromTo<SafeEncoding__Quotes>
-          : T extends "brackets"
+          : First<T> extends "brackets"
             ? AsFromTo<SafeEncoding__Brackets>
-            : T extends "whitespace"
+            : First<T> extends "whitespace"
               ? AsFromTo<SafeEncoding__Whitespace>
               : []
       ),
@@ -56,11 +57,11 @@ export type SafeDecodingConversion<
     [
       ...R,
       ...(
-        T extends "quotes"
+        First<T> extends "quotes"
           ? AsFromTo<ReverseLookup<SafeEncoding__Quotes>>
-          : T extends "brackets"
+          : First<T> extends "brackets"
             ? AsFromTo<ReverseLookup<SafeEncoding__Brackets>>
-            : T extends "whitespace"
+            : First<T> extends "whitespace"
               ? AsFromTo<ReverseLookup<SafeEncoding__Whitespace>>
               : []
       ),

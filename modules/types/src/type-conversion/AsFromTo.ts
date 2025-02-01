@@ -33,4 +33,7 @@ type Convert<
  * - any value which is _not_ a number will be converted to a `NumberLike` string and added
  * - any value which is neither a string or any of the above will be discarded
  */
-export type AsFromTo<T extends AnyObject> = Convert<T, StringKeys<T>>;
+export type AsFromTo<T extends AnyObject> =
+    Convert<T, StringKeys<T>> extends readonly FromTo[]
+      ? Convert<T, StringKeys<T>>
+      : never;
