@@ -7,6 +7,7 @@ export * from "./SimpleToken";
 export * from "./SimpleType";
 export * from "./StringLiteralToken";
 export * from "./TokenizeStringLiteral";
+export * from "./tokens/index";
 export * from "./Type";
 export * from "./TypeOf";
 export * from "./TypeToken";

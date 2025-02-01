@@ -56,7 +56,6 @@ export * from "./StringLiteralFromTuple";
 export * from "./StripChars";
 export * from "./ToBoolean";
 export * from "./ToContainer";
-export * from "./ToJsonValue";
 export * from "./ToKeyValueTuple";
 export * from "./ToNumber";
 export * from "./ToString";
