@@ -18,6 +18,7 @@ export * from "./InlineSvg";
 export * from "./IpAddress";
 export * from "./LowerAlpha";
 export * from "./LowerAlphaChar";
+export * from "./NBSP";
 export * from "./NonAlpha";
 export * from "./NumericChar";
 export * from "./Optional";
@@ -26,10 +27,11 @@ export * from "./phone/index";
 export * from "./PlusMinus";
 export * from "./Punctuation";
 export * from "./quotation-marks/index";
+export * from "./QuoteCharacter";
 export * from "./Repos";
+
 export * from "./SingularNoun";
 export * from "./SpecialChar";
-
 export * from "./StringDelimiter";
 export * from "./tw/index";
 export * from "./UpperAlphaChar";
@@ -38,5 +40,4 @@ export * from "./urls/Url";
 export * from "./ValueAtDotPath";
 export * from "./Variable";
 export * from "./Whitespace";
-
 export * from "./YouTube";
