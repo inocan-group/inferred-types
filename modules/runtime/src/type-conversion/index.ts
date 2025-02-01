@@ -8,7 +8,6 @@ export * from "./fromKeyValue";
 export * from "./intersect";
 export * from "./ip6GroupExpansion";
 export * from "./lookupCountry";
-export * from "./map/index";
 export * from "./mergeObjects";
 export * from "./mergeScalars";
 export * from "./mergeTuples";
@@ -23,3 +22,6 @@ export * from "./toNumber";
 export * from "./tw-conversion";
 export * from "./union";
 export * from "./unionize";
+
+export * from "./encoding/index"
+export * from "./map/index";

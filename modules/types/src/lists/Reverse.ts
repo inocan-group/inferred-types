@@ -7,9 +7,11 @@ type RevAcc<
   ? TResults
   : RevAcc<
     AfterFirst<TInput>,
-    [ First<TInput>, ...TResults ]
+    [First<TInput>, ...TResults]
   >;
 
 export type Reverse<T> = T extends readonly unknown[]
+  ? RevAcc<T> extends readonly (infer V)[]
   ? RevAcc<T>
+  : never
   : never;

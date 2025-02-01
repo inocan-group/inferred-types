@@ -4,7 +4,8 @@ import type {
   EmptyObject,
   ExpandDictionary,
   First,
-  Keys,
+  Reverse,
+  StringKeys,
 } from "inferred-types/types";
 
 type Process<
@@ -26,7 +27,8 @@ type Process<
  * Inverts a table of string to string lookups so that the values
  * can now lookup the keys.
  */
-export type ReverseLookup<T extends Record<string, string>> = Process<
-  T,
-  As<Keys<T>, readonly (string & keyof T)[]>
->;
+export type ReverseLookup<
+  T extends Record<string, string>
+> = Process<T, As<Reverse<StringKeys<T>>, readonly (keyof T)[]>> extends Record<string, string>
+  ? Process<T, As<Reverse<StringKeys<T>>, readonly (keyof T)[]>>
+  : never;
