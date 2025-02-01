@@ -1,5 +1,12 @@
 import type { AsString } from "inferred-types/types";
-import { isArray, isBoolean, isNumber, isString } from "inferred-types/runtime";
+import {
+  isArray,
+  isBoolean,
+  isNumber,
+  isObject,
+  isString,
+  keysOf,
+} from "inferred-types/runtime";
 
 /**
  * **asString**`(value)
@@ -26,8 +33,10 @@ export function asString<T>(value: T): AsString<T> {
         ? `${value}`
         : isBoolean(value)
           ? `${value}`
-          : isArray(value)
-            ? value.join("")
-            : String(value)
+          : isObject(value)
+            ? `{ ... ${keysOf(value)} ... }`
+            : isArray(value)
+              ? `any[]`
+              : String(value)
   ) as unknown as AsString<T>;
 }
