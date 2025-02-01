@@ -1,4 +1,5 @@
 import type { SAFE_STRING } from "inferred-types/constants";
+import type { SafeDecode, SafeEncodingGroup } from "inferred-types/types";
 
 export type SafeStringSymbol = typeof SAFE_STRING;
 
@@ -12,12 +13,11 @@ export type SafeStringSymbol = typeof SAFE_STRING;
  * - use `safeDecode()` or `SafeDecode<T>` utilities to move back to the original string value.
  */
 export type SafeString<
-  T extends string,
-  U extends string,
-  G extends readonly string[],
+  T extends string = string,
+  G extends readonly SafeEncodingGroup[] = SafeEncodingGroup[],
 > = T & {
   SafeStringSymbol: "SafeString";
   groups: G;
-  origin: U;
+  origin: SafeDecode<T, G>;
   encoded: T;
 };

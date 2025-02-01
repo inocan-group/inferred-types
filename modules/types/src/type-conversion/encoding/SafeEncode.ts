@@ -22,9 +22,5 @@ export type SafeEncode<
   T extends string,
   G extends readonly SafeEncodingGroup[] = ["whitespace", "brackets", "quotes"],
 > = IsStringLiteral<T> extends true
-  ? SafeString<
-    ReplaceAllFromTo<T, SafeEncodingConversion<G>>,
-    T,
-    G
-  >
-  : SafeString<string, string, G>;
+  ? ReplaceAllFromTo<T, SafeEncodingConversion<G>>
+  : SafeString<string, G>;

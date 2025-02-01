@@ -1,5 +1,5 @@
-import { AnyObject } from "src/base-types";
-import { ReplaceKeys } from "./ReplaceKeys";
+import type { AnyObject } from "src/base-types";
+import type { ReplaceKeys } from "./ReplaceKeys";
 
 /**
  * **RenameKey**`<T, TFrom, TTo>`
@@ -9,5 +9,5 @@ import { ReplaceKeys } from "./ReplaceKeys";
 export type RenameKey<
   T extends AnyObject,
   TFrom extends string,
-  TTo extends string
-> = ReplaceKeys<T, [{from: TFrom, to: TTo}]>;
+  TTo extends string,
+> = ReplaceKeys<T, [{ from: TFrom; to: TTo }]>;

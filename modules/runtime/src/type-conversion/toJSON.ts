@@ -1,5 +1,4 @@
-import type { ToJson,  Narrowable, NarrowObject, Scalar } from "inferred-types/types";
-
+import type { Narrowable, NarrowObject, Scalar, ToJson } from "inferred-types/types";
 
 /**
  * **toJSON**`(val)`
@@ -9,9 +8,8 @@ import type { ToJson,  Narrowable, NarrowObject, Scalar } from "inferred-types/t
  * **Related:** `jsonValues()`
  */
 export function toJSON<
-  T extends Exclude<Scalar, Symbol> | NarrowObject<N> | readonly N[],
-  N extends Narrowable
+  T extends Exclude<Scalar, symbol> | NarrowObject<N> | readonly N[],
+  N extends Narrowable,
 >(val: T): ToJson<T> {
-  return JSON.stringify(val) as ToJson<T>
+  return JSON.stringify(val) as ToJson<T>;
 }
-
