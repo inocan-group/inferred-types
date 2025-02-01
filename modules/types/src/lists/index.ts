@@ -15,6 +15,7 @@ export * from "./BeforeLast";
 export * from "./ConvertAndMap";
 export * from "./ConvertAndMap";
 export * from "./ConvertSet";
+export * from "./EachAsString";
 export * from "./ElementOf";
 export * from "./Filter";
 export * from "./Filter";
