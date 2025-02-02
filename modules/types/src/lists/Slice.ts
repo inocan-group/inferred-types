@@ -1,105 +1,60 @@
 import type {
   Abs,
-  Add,
-  As,
   Chars,
   Concat,
   FixedLengthArray,
-  If,
-  IsGreaterThan,
-  IsGreaterThanOrEqual,
   IsNegativeNumber,
-  IsNumericLiteral,
-  IsPositiveNumber,
   TakeFirst,
-  Throw,
+  TakeLast,
 } from "inferred-types/types";
 
-export type RemoveStart<
+
+export type DropLeading<
   TList extends readonly unknown[],
   TStart extends number,
-> = TStart extends 0
-  ? TList
-  : IsPositiveNumber<TStart> extends true
-    ? TList extends [
-      ...FixedLengthArray<unknown, TStart>,
-      ...(infer REST),
-    ]
-      ? REST
-      : Throw<"invalid-start-index">
-    : TList extends [
-      ...FixedLengthArray<unknown, Add<TList["length"], TStart>>,
-      ...(infer REST),
-    ]
-      ? REST
-      : Throw<"invalid-start-index">;
+> = TList extends readonly [
+  ...FixedLengthArray<unknown, TStart>, ...infer REST
+]
+  ? REST
+  : never;
+
+export type DropTrailing<
+  TList extends readonly unknown[],
+  TStart extends number,
+> = TList extends readonly [
+  ...infer LEAD,
+  ...FixedLengthArray<unknown, TStart>,
+]
+  ? LEAD
+  : never;
 
 export type TruncateAtLen<
   TList extends readonly unknown[],
-  TLen extends number,
-> = IsNegativeNumber<TLen> extends true
-  ? If<
-    IsGreaterThan<Abs<TLen>, TList["length"]>,
-    never,
-    TakeFirst<TList, Add<TList["length"], TLen>>
-  >
-  : If<
-    IsGreaterThanOrEqual<TLen, TList["length"]>,
-    TList,
-    TakeFirst<TList, TLen>
-  >;
+  TLen extends number | undefined
+> = TLen extends number
+  ? IsNegativeNumber<TLen> extends true
+  ? DropTrailing<TList, Abs<TLen>>
+  : TakeFirst<TList, TLen>
+  : TList;
 
-type Process<
+
+type ProcessList<
   TList extends readonly unknown[],
   TStart extends number,
   TLen extends number | undefined,
 > = TList extends readonly unknown[]
-  ? RemoveStart<
-    TList,
-    TStart
-  > extends readonly unknown[]
-    ? If<
-      IsNumericLiteral<TLen>,
-      TruncateAtLen<
-        RemoveStart<
-          TList,
-          TStart
-        >,
-        As<TLen, number>
-      >,
-      // no length specified
-      RemoveStart<
-        TList,
-        TStart
-      >
-    >
-
-    : RemoveStart<
-      TList,
-      TStart
-    >
+  ? IsNegativeNumber<TStart> extends true
+  ? TakeLast<TList, Abs<TStart>>
+  : TruncateAtLen<DropLeading<TList, TStart>, TLen>
   : never;
 
-type PreProcess<
-  TList extends readonly unknown[],
+type ProcessChars<
+  TList extends readonly string[],
   TStart extends number,
-  TLen extends number | undefined = undefined,
-> = TList extends string
-  ? Chars<TList> extends readonly string[]
-    ? Concat<
-      As<
-        Process<
-          Chars<TList>,
-          TStart,
-          TLen
-        >,
-        readonly string[]
-      >
-    >
-    : never
-  : TList extends readonly unknown[]
-    ? Process<TList, TStart, TLen>
-    : never;
+  TLen extends number | undefined,
+> = ProcessList<TList, TStart, TLen> extends readonly string[]
+  ? Concat<ProcessList<TList, TStart, TLen>>
+  : never;
 
 /**
  * **Slice**`<TList, TStart, TLen>`
@@ -117,9 +72,11 @@ export type Slice<
   TStart extends number,
   TLen extends number | undefined = undefined,
 > = TList extends string
-  ? Concat<As<PreProcess<Chars<TList>, TStart, TLen>, readonly string[]>>
+  ? Chars<TList> extends readonly string[]
+  ? ProcessChars<Chars<TList>, TStart, TLen>
+  : never
   : TList extends readonly unknown[]
-    ? PreProcess<TList, TStart, TLen> extends readonly unknown[]
-      ? PreProcess<TList, TStart, TLen>
-      : never
-    : never;
+  ? ProcessList<TList, TStart, TLen>
+  : never;
+
+
