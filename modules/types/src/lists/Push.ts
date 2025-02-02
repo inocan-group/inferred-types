@@ -4,9 +4,9 @@ type Process<
   TList extends readonly unknown[],
   TValue,
 > = [
-  ...TList,
-  TValue,
-];
+    ...TList,
+    TValue,
+  ];
 
 /**
  * **Push**`<TList,TVal,[TCondition]>`
@@ -16,7 +16,7 @@ type Process<
  * - If you want to make the push conditional you can add `TCondition`
  */
 export type Push<
-  TList extends readonly unknown[],
+  TList extends readonly unknown[] | readonly unknown[][],
   TVal,
   TCondition = true,
 > = [TCondition] extends [true]

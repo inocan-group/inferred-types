@@ -13,5 +13,5 @@ export function truncate<
         ? `${content.slice(0, maxLength)}${typeof ellipsis === "string" ? ellipsis : "..."}`
         : content.slice(0, maxLength)
       : content
-  ) as Truncate<TStr, TMax, TEllipsis>;
+  ) as unknown as Truncate<TStr, TMax, TEllipsis>;
 }
