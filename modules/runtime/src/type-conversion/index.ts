@@ -1,13 +1,16 @@
 export * from "./asChars";
+export * from "./asFromTo";
 export * from "./asRecord";
 export * from "./asString";
 export * from "./asTemplate";
 export * from "./csv";
 export * from "./eachAsString";
+export * from "./encoding/index";
 export * from "./fromKeyValue";
 export * from "./intersect";
 export * from "./ip6GroupExpansion";
 export * from "./lookupCountry";
+export * from "./map/index";
 export * from "./mergeObjects";
 export * from "./mergeScalars";
 export * from "./mergeTuples";
@@ -20,8 +23,6 @@ export * from "./toJSON";
 export * from "./toKeyValue";
 export * from "./toNumber";
 export * from "./tw-conversion";
+
 export * from "./union";
 export * from "./unionize";
-
-export * from "./encoding/index"
-export * from "./map/index";

@@ -22,7 +22,7 @@ type Process<
   ? Result
   : Process<
     AfterFirst<T>,
-      `${Result}${ElementLiteral<First<T>>}`
+    `${Result}${ElementLiteral<First<T>>}`
   >;
 
 /**
@@ -42,4 +42,6 @@ type Process<
  */
 export type Concat<
   T extends readonly unknown[],
-> = Process<T>;
+> = Process<T> extends string
+  ? Process<T>
+  : never;

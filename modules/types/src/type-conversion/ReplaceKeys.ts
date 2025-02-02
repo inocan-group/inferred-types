@@ -33,7 +33,7 @@ type O<
 /**
  * **ReplaceKeys**`<TObj,TFromTo,[TOpt]>`
  *
- * Replaces the keys in an object with a tuple of `ToFrom` instructions.
+ * Replaces the keys in an object with a tuple of `FromTo` instructions.
  *
  * - `TOpt` allows you to express:
  *    - `deep` - whether the traversal should be deep or not (default is **true**)

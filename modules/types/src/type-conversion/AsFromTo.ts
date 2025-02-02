@@ -1,27 +1,19 @@
-import type { AfterFirst, AnyObject, First, FromTo, StringKeys } from "inferred-types/types";
+import type {
+  AnyObject,
+  FromTo,
+  IsWideContainer,
+  Values,
+} from "inferred-types/types";
 
+/** converts an object's key values into FromTo tuple */
 type Convert<
   TObj extends AnyObject,
-  TKeys extends readonly (string & keyof TObj)[],
-  TResult extends readonly FromTo[] = [],
-> = [] extends TKeys
-  ? TResult
-  : Convert<
-    TObj,
-    AfterFirst<TKeys>,
-    [
-      ...TResult,
-      ...(
-        TObj[First<TKeys>] extends FromTo
-          ? [TObj[First<TKeys>]]
-          : TObj[First<TKeys>] extends number
-            ? [{ from: First<TKeys>; to: `${TObj[First<TKeys>]}` }]
-            : TObj[First<TKeys>] extends string
-              ? [{ from: First<TKeys>; to: TObj[First<TKeys>] }]
-              : []
-      ),
-    ]
-  >;
+> = Values<{
+  [K in keyof TObj]: {
+    from: K;
+    to: TObj[K];
+  }
+}, true>;
 
 /**
  * **AsFromTo**`<T>`
@@ -33,7 +25,10 @@ type Convert<
  * - any value which is _not_ a number will be converted to a `NumberLike` string and added
  * - any value which is neither a string or any of the above will be discarded
  */
-export type AsFromTo<T extends AnyObject> =
-    Convert<T, StringKeys<T>> extends readonly FromTo[]
-      ? Convert<T, StringKeys<T>>
-      : never;
+export type AsFromTo<
+  T extends Record<string, string>,
+> = IsWideContainer<T> extends true
+  ? FromTo[]
+  : Convert<T> extends readonly FromTo[]
+    ? Convert<T>
+    : never;

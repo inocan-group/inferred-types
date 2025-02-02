@@ -1,4 +1,4 @@
-import type { Slice, Tuple } from "inferred-types/types";
+import type { Narrowable, Slice } from "inferred-types/types";
 
 /**
  * **slice**(list, start, end)
@@ -7,9 +7,14 @@ import type { Slice, Tuple } from "inferred-types/types";
  * types.
  */
 export function slice<
-  TList extends Tuple,
+  TList extends readonly N[],
+  N extends Narrowable,
   TStart extends number,
   TEnd extends number,
->(list: TList, start: TStart, end: TEnd) {
-  return list.slice(start, end) as Slice<TList, TStart, TEnd>;
+>(
+  list: TList,
+  start: TStart,
+  end: TEnd,
+) {
+  return list.slice(start, end) as unknown as Slice<TList, TStart, TEnd>;
 }

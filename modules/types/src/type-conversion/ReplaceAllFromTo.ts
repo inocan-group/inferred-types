@@ -1,19 +1,31 @@
 import type {
-  AfterFirst,
-  First,
   FromTo,
-  IsStringLiteral,
   ReplaceAll,
 } from "inferred-types/types";
 
-type ProcessFromTo<
-  TText extends string,
-  TFromTo extends readonly FromTo[],
-> = [] extends TFromTo
-  ? TText
-  : First<TFromTo> extends { from: infer From extends string; to: infer To extends string }
-    ? ProcessFromTo<ReplaceAll<TText, From, To>, AfterFirst<TFromTo>>
-    : never;
+type ReplaceAllFromToLiteral<
+  S extends string,
+  Mappings extends readonly { from: string; to: string }[],
+> = Mappings extends readonly [
+  infer First extends { from: string; to: string },
+  ...infer Rest extends { from: string; to: string }[],
+]
+  ? ReplaceAllFromToLiteral<ApplyMapping<S, First>, Rest>
+  : S;
+
+type ApplyMapping<
+  S extends string,
+  Mapping extends { from: string; to: string },
+> = ReplaceAll<S, Mapping["from"], Mapping["to"]>;
+
+// type MAX = 35;
+
+// type ExcessProcessor<
+//     TText extends string,
+//     TMappings extends readonly FromTo[],
+// > = ReplaceAllFromToLiteral<TText, TakeFirst<TMappings, MAX>> extends string
+//     ? string
+//     : never
 
 /**
  * **ReplaceAllFromTo**`<TText, TFromTo>`
@@ -28,7 +40,7 @@ type ProcessFromTo<
  *    { from: "B"; to: "b" }
  * ]>;
  * ```
- * **Related:** `Replace`, `ReplaceAll`,  `ReplaceAllToFrom`
+ * **Related:** `Replace`, `ReplaceAll`
  *
  * **Notes:**
  * - does allow TText to be passed in as a _symbol_ but when it is
@@ -37,12 +49,10 @@ type ProcessFromTo<
  * the numbers are converted to a `NumberLike` type
  */
 export type ReplaceAllFromTo<
-  TText extends string | symbol | number,
-  TFromTo extends readonly FromTo[],
+  TText extends string | number | symbol,
+  TMappings extends readonly FromTo[],
 > = TText extends string
-  ? IsStringLiteral<TText> extends true
-    ? ProcessFromTo<TText, TFromTo>
-    : string
+  ? ReplaceAllFromToLiteral<TText, TMappings>
   : TText extends number
-    ? ReplaceAllFromTo<`${TText}`, TFromTo>
+    ? ReplaceAllFromTo<`${TText}`, TMappings>
     : TText;

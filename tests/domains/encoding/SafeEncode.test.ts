@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { setupSafeStringEncoding } from "inferred-types/runtime";
-import { SafeEncode, IsStringLiteral, Extends, SafeString, SafeDecode } from "inferred-types/types";
+import { SafeEncode, SafeDecode } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
 describe("SafeEncode<T,G>", () => {
@@ -50,14 +50,14 @@ describe("SafeEncode<T,G>", () => {
   });
 
   it("with all tokens (explicit)", () => {
-    type E = SafeEncode<test, ["quotes","brackets","whitespace"]>;
+    type E = SafeEncode<test, ["quotes", "brackets", "whitespace"]>;
     type D = SafeDecode<E>;
 
     type cases = [
       Expect<Equal<
         E,
-          "There^<sp>I^<sp>was,^<sp>^<dq>in^<sp>the^<sp>jungle^<sp>^<op>or^<sp>maybe^<sp>forest^<cp>^<dq>">
-        >,
+        "There^<sp>I^<sp>was,^<sp>^<dq>in^<sp>the^<sp>jungle^<sp>^<op>or^<sp>maybe^<sp>forest^<cp>^<dq>">
+      >,
       Expect<Equal<D, test>>
     ];
   });
@@ -107,7 +107,7 @@ describe("SafeString encoding/decoding", () => {
   });
 
   it("all groups (explicit)", () => {
-    const [encode, decode] = setupSafeStringEncoding("brackets","quotes","whitespace");
+    const [encode, decode] = setupSafeStringEncoding("brackets", "quotes", "whitespace");
     const safe = encode(text);
     const back = decode(safe);
 

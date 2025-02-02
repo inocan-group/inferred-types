@@ -2,8 +2,10 @@ import type {
   AfterFirst,
   First,
   FromTo,
+  IsGreaterThan,
   IsStringLiteral,
   Replace,
+  TakeFirst,
 } from "inferred-types/types";
 
 type ProcessFromTo<
@@ -14,6 +16,13 @@ type ProcessFromTo<
   : First<TFromTo> extends { from: infer From extends string; to: infer To extends string }
     ? ProcessFromTo<Replace<TText, From, To>, AfterFirst<TFromTo>>
     : never;
+
+type MAX = 35;
+
+type ExcessProcessor<
+  TText extends string,
+  TFromTo extends readonly FromTo[],
+> = ProcessFromTo<TText, TakeFirst<TFromTo, MAX>>;
 
 /**
  * **ReplaceFromTo**`<TText, TFromTo>`
@@ -40,7 +49,9 @@ export type ReplaceFromTo<
   TFromTo extends readonly FromTo[],
 > = TText extends string
   ? IsStringLiteral<TText> extends true
-    ? ProcessFromTo<TText, TFromTo>
+    ? IsGreaterThan<TFromTo["length"], MAX> extends true
+      ? ExcessProcessor<TText, TFromTo>
+      : ProcessFromTo<TText, TFromTo>
     : string
   : TText extends number
     ? ReplaceFromTo<`${TText}`, TFromTo>

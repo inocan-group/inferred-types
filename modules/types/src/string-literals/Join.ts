@@ -16,12 +16,12 @@ type Process<
     AfterFirst<TTuple>,
     TSeparator,
     TResult extends ""
-    ? First<TTuple> extends ""
-    ? TResult
-    : `${First<TTuple>}`
-    : First<TTuple> extends ""
-    ? TResult
-    : `${TResult}${TSeparator}${First<TTuple>}`
+      ? First<TTuple> extends ""
+        ? TResult
+        : `${First<TTuple>}`
+      : First<TTuple> extends ""
+        ? TResult
+        : `${TResult}${TSeparator}${First<TTuple>}`
   >;
 
 type Slicer<
@@ -31,7 +31,6 @@ type Slicer<
 > = TEllipsis extends string
   ? [...TakeFirst<TTuple, TMax>, TEllipsis]
   : TakeFirst<TTuple, TMax>;
-
 
 /**
  * **Join**`<TArr,[TSeparator],[TMax]>`
@@ -53,8 +52,6 @@ export type Join<
   TEllipsis extends string | false = "...",
 > = TMax extends number
   ? IsGreaterThan<TTuple["length"], TMax> extends true
-  ? Process<Slicer<ToStringArray<TTuple>, TMax, TEllipsis>, TSeparator>
-  : Process<ToStringArray<TTuple>, TSeparator>
+    ? Process<Slicer<ToStringArray<TTuple>, TMax, TEllipsis>, TSeparator>
+    : Process<ToStringArray<TTuple>, TSeparator>
   : Process<ToStringArray<TTuple>, TSeparator>;
-
-

@@ -4,9 +4,9 @@ type Process<
   TList extends readonly unknown[],
   TValue,
 > = [
-    ...TList,
-    TValue,
-  ];
+  ...TList,
+  TValue,
+];
 
 /**
  * **Push**`<TList,TVal,[TCondition]>`
