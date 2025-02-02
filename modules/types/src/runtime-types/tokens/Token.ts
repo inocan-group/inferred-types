@@ -1,4 +1,4 @@
-import type { AlphaChar, And, DigitNonZero, ExpandDictionary, Extends, FixedLengthArray, If, Narrowable, SimpleToken, SimpleType, TypedFunction } from "inferred-types/types";
+import type { AlphaChar, And, DigitNonZero, ExpandDictionary, Extends, FixedLengthArray, If, SimpleToken, SimpleType, TypedFunction } from "inferred-types/types";
 
 export type TokenName = `${AlphaChar}${string}`;
 
@@ -64,10 +64,7 @@ export type TokenTypeResolver<
  * A **Tokenizer** can take any set of parameters but must return an array of strings
  * which will then be added as token parameters.
  */
-export type Tokenizer = <
-  A extends readonly Narrowable[],
->(...args: A
-) => A;
+export type Tokenizer = <A extends readonly any[]>(...args: A) => string[];
 
 export type Token<
   TToken extends TokenName,

@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 describe("asUnion(elements,sep,pre,post)", () => {
 
   it("elements only", () => {
-    const u = asUnion(["foo","bar"]);
+    const u = asUnion(["foo", "bar"]);
     expect(u).toBe(`foo | bar`);
 
     type cases = [
@@ -14,7 +14,7 @@ describe("asUnion(elements,sep,pre,post)", () => {
   });
 
   it("elements, with separator", () => {
-    const u = asUnion(["foo","bar"], "::");
+    const u = asUnion(["foo", "bar"], "::");
     expect(u).toBe(`foo::bar`);
 
     type cases = [
@@ -23,7 +23,7 @@ describe("asUnion(elements,sep,pre,post)", () => {
   });
 
   it("elements, with separator and prefix", () => {
-    const u = asUnion(["foo","bar"], "::", {prefix: "string::"});
+    const u = asUnion(["foo", "bar"], "::", { prefix: "string::" });
     expect(u).toBe(`string::foo::bar`);
 
     type cases = [
@@ -32,11 +32,11 @@ describe("asUnion(elements,sep,pre,post)", () => {
   });
 
   it("elements, with encoder and prefix", () => {
-    const [e,d] = createEncoder({
+    const { encoder } = createEncoder({
       ["("]: "<<",
       [")"]: ">>"
     })
-    const u = asUnion(["f(1)","f(2)"], "::", { prefix: "string::", encoder: e });
+    const u = asUnion(["f(1)", "f(2)"], "::", { prefix: "string::", encoder });
     expect(u).toBe(`string::f<<1>>::f<<2>>`);
 
     type cases = [

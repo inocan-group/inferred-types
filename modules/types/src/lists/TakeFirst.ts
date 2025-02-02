@@ -1,63 +1,30 @@
 import type {
   AfterFirst,
+  Decrement,
   First,
-  If,
-  Increment,
-  IsEqual,
-  IsGreaterThan,
-  IsGreaterThanOrEqual,
-  Throw,
 } from "inferred-types/types";
 
-type Process<
+type Take<
   TContent extends readonly unknown[],
   TLen extends number,
-  TIdx extends number = 0,
   TResult extends readonly unknown[] = [],
-> = [] extends TContent
+> = TLen extends 0
   ? TResult
-  : If<
-    IsGreaterThanOrEqual<TIdx, TLen>,
-    TResult,
-    Process<
-      AfterFirst<TContent>,
-      TLen,
-      Increment<TIdx>,
-      [
-        ...TResult,
-        First<TContent>,
-      ]
-    >
-  >;
+  : Take<AfterFirst<TContent>, Decrement<TLen>, [
+    ...TResult,
+    First<TContent>,
+  ]>;
 
 /**
  * **TakeFirst**`<TContent,TLen,[THandle]>`
  *
  * Takes the first `TLen` items from `TContent` and discards the rest.
  *
- * Note:
- * - by default if `TLen` is larger than the size of `TContent` this
- * is fine and instead of getting precisely `TLen` elements you'll get
- * `TLen` element when available otherwise just the full tuple length
- * of `TContent`
- * - if you want a precise length, then set `THandle` to "throw" and
- * an error will be thrown.
+ * **Note:**
+ * - if `TLen` is larger then the number of elements left in
+ * `TContent` then the remaining elements will be returned.
  */
 export type TakeFirst<
   TContent extends readonly unknown[],
   TLen extends number,
-  THandle extends "ignore" | "throw" = "ignore",
-> = If<
-  IsGreaterThan<TLen, TContent["length"]>,
-  // TLen greater than TContent length
-  If<
-    THandle extends "ignore" ? true : false,
-    TContent,
-    Throw<"invalid-length", `TakeFirst<TContent,TLen> was called where the length of TLen(${TLen}) was greater than the length of the content (${TContent["length"]})!`>
-  >,
-  If<
-    IsEqual<TLen, TContent["length"]>,
-    TContent,
-    Process<TContent, TLen>
-  >
->;
+> = Take<TContent, TLen>;

@@ -59,8 +59,8 @@ export function createGrammar<
   N extends string,
   TTokens extends readonly Token<any, any>[],
 >(
-  TokenSyntax: TGrammar,
-  ...tokens: TTokens
+  _tokenSyntax: TGrammar,
+  ..._tokens: TTokens
 ) {
-
+  // TODO
 }

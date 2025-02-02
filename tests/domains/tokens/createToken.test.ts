@@ -41,16 +41,16 @@ describe("createToken(...)", () => {
             } as any;
         },
         // tokenizer
-        (...literals) =>  eachAsString(literals)
+        (...literals) => eachAsString(...literals)
     );
 
-    const a = Str.tokenizer("foo","bar")
+    const a = Str.tokenizer("foo","bar", 42)
 
     type cases = [
       Expect<Equal<
-        typeof partial,
-        DynamicTokenApi<"string", "any">
-    >>,
+          typeof partial,
+          DynamicTokenApi<"string", "any">
+      >>,
     ];
 
   });

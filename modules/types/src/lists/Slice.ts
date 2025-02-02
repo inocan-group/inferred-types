@@ -8,12 +8,12 @@ import type {
   TakeLast,
 } from "inferred-types/types";
 
-
 export type DropLeading<
   TList extends readonly unknown[],
   TStart extends number,
 > = TList extends readonly [
-  ...FixedLengthArray<unknown, TStart>, ...infer REST
+  ...FixedLengthArray<unknown, TStart>,
+  ...infer REST,
 ]
   ? REST
   : never;
@@ -30,13 +30,12 @@ export type DropTrailing<
 
 export type TruncateAtLen<
   TList extends readonly unknown[],
-  TLen extends number | undefined
+  TLen extends number | undefined,
 > = TLen extends number
   ? IsNegativeNumber<TLen> extends true
-  ? DropTrailing<TList, Abs<TLen>>
-  : TakeFirst<TList, TLen>
+    ? DropTrailing<TList, Abs<TLen>>
+    : TakeFirst<TList, TLen>
   : TList;
-
 
 type ProcessList<
   TList extends readonly unknown[],
@@ -44,8 +43,8 @@ type ProcessList<
   TLen extends number | undefined,
 > = TList extends readonly unknown[]
   ? IsNegativeNumber<TStart> extends true
-  ? TakeLast<TList, Abs<TStart>>
-  : TruncateAtLen<DropLeading<TList, TStart>, TLen>
+    ? TakeLast<TList, Abs<TStart>>
+    : TruncateAtLen<DropLeading<TList, TStart>, TLen>
   : never;
 
 type ProcessChars<
@@ -73,10 +72,8 @@ export type Slice<
   TLen extends number | undefined = undefined,
 > = TList extends string
   ? Chars<TList> extends readonly string[]
-  ? ProcessChars<Chars<TList>, TStart, TLen>
-  : never
+    ? ProcessChars<Chars<TList>, TStart, TLen>
+    : never
   : TList extends readonly unknown[]
-  ? ProcessList<TList, TStart, TLen>
-  : never;
-
-
+    ? ProcessList<TList, TStart, TLen>
+    : never;

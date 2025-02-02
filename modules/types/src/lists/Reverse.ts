@@ -11,7 +11,5 @@ type RevAcc<
   >;
 
 export type Reverse<T> = T extends readonly unknown[]
-  ? RevAcc<T> extends readonly (infer V)[]
   ? RevAcc<T>
-  : never
   : never;

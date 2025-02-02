@@ -149,7 +149,7 @@ export function isIpAddress<T>(val: T): val is T & IsIpAddress<T> {
  * protocol)
  */
 export function hasUrlPort<T>(val: T): val is T & `${GetUrlProtocolPrefix<T>}${GetUrlSource<AsString<T>>}:${number}${string}` {
-  return isString(val) && asChars(removeUrlProtocol(val)).includes(":");
+  return isString(val) && removeUrlProtocol(val).includes(":");
 }
 
 /**

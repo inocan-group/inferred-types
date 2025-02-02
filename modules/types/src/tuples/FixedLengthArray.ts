@@ -22,6 +22,6 @@ type Process<
  * Creates a fixed length `<N>` array of a given type `<T>`
  */
 export type FixedLengthArray<T, N extends number> =
-Process<T, N> extends readonly unknown[]
-  ? Process<T, N>
-  : never;
+  Process<T, N> extends readonly unknown[]
+    ? Process<T, N>
+    : never;

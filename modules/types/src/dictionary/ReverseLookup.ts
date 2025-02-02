@@ -28,7 +28,7 @@ type Process<
  * can now lookup the keys.
  */
 export type ReverseLookup<
-  T extends Record<string, string>
+  T extends Record<string, string>,
 > = Process<T, As<Reverse<StringKeys<T>>, readonly (keyof T)[]>> extends Record<string, string>
   ? Process<T, As<Reverse<StringKeys<T>>, readonly (keyof T)[]>>
   : never;
