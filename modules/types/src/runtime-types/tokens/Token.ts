@@ -1,4 +1,4 @@
-import type { AlphaChar, And, DigitNonZero, ExpandDictionary, Extends, FixedLengthArray, If, SimpleToken, SimpleType, TypedFunction } from "inferred-types/types";
+import type { AlphaChar, And, DigitNonZero, ExpandDictionary, Extends, FixedLengthArray, If, TypedFunction } from "inferred-types/types";
 
 export type TokenName = `${AlphaChar}${string}`;
 
@@ -9,7 +9,7 @@ export type TokenParamsConstraint<N extends number = number> = readonly [min: N,
 
 export type TokenNeverHasParameters<T extends TokenParamsConstraint> = T extends "none"
   ? true
-  : And<[ T extends [number, number] ? true : false, Extends<T[0], 0>, Extends<T[1], 0>]>;
+  : And<[T extends [number, number] ? true : false, Extends<T[0], 0>, Extends<T[1], 0>]>;
 
 type MinParameters<T extends TokenParamsConstraint> = T extends "none"
   ? 0
@@ -25,30 +25,6 @@ export type ResolvedTokenType<
   T = any,
   TG extends TypedFunction = TypedFunction,
 > = [type: T, tg: TG];
-
-export type StaticTokenApi<
-  TToken extends TokenName,
-> = <
-  TType extends SimpleToken,
-  TGuard extends (val: unknown) => boolean,
->(
-  type: TType,
-  typeGuard: TGuard
-) => Token<TToken, "none", SimpleType<TType>>;
-
-/**
- * The remaining configuration required to create a Dynamic Token.
- */
-export type DynamicTokenApi<
-  TToken extends TokenName,
-  TParams extends TokenParamsConstraint,
-> = <
-  TResolve extends TokenTypeResolver<TParams>,
-  TTokenize extends Tokenizer,
->(
-  resolver: TResolve,
-  tokenizer: TTokenize
-) => Token<TToken, TParams>;
 
 /**
  * A _resolver_ function which returns a _type_ and a _type guard_ based
@@ -112,9 +88,18 @@ export type Token<
 
     }
   >
-
 >;
 
-export type StaticToken = Token<TokenName, "none" | [0, 0], any>;
+/** base type for _static_ tokens */
+export type StaticToken = Token<
+  TokenName,
+"none" | [0, 0],
+any
+>;
 
-export type DynamicToken = Token<TokenName, "some" | "any" | [number, DigitNonZero], never>;
+/** base type for _dynamic_ tokens */
+export type DynamicToken = Token<
+  TokenName,
+"some" | "any" | [number, DigitNonZero],
+never
+>;

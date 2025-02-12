@@ -1,8 +1,17 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { LowerAlphaChar, Replace, ReplaceAll, UpperAlphaChar } from "inferred-types";
-import { ReplaceAllFromTo, ReplaceFromTo, ReplaceKeys } from "inferred-types/types";
+import {
+  LowerAlphaChar,
+  Replace,
+  ReplaceAll,
+  UpperAlphaChar
+} from "inferred-types";
+import {
+  ReplaceAllFromTo,
+  ReplaceFromTo,
+  ReplaceKeys
+} from "inferred-types/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -27,8 +36,8 @@ describe("Replace<TText,TFind,TReplace>", () => {
 
 
   it("empty string tests", () => {
-    type EmptyText = Replace<"","foo","bar">;
-    type BothEmpty = Replace<"","","bar">;
+    type EmptyText = Replace<"", "foo", "bar">;
+    type BothEmpty = Replace<"", "", "bar">;
 
     type cases = [
       Expect<Equal<EmptyText, "">>,
@@ -58,16 +67,13 @@ describe("Replace<TText,TFind,TReplace>", () => {
 });
 
 
-
-
-
 describe("ReplaceAll<TText,TFind,TReplace>", () => {
 
   it("happy path", () => {
     type Foobar = ReplaceAll<"Must be [[T]]", "[[T]]", "foobar">;
     type Duplicate = ReplaceAll<"Must be [[T]]; really it must be [[T]]", "[[T]]", "foobar">;
     type WideStr = Replace<string, "a", "b">;
-    type Curly = ReplaceAll<"https://www.amazon.com/{{ string }}storeType=ebooks{{ string }}",  "{{ string }}", `${string}`>
+    type Curly = ReplaceAll<"https://www.amazon.com/{{ string }}storeType=ebooks{{ string }}", "{{ string }}", `${string}`>
 
     type cases = [
       Expect<Equal<Foobar, "Must be foobar">>,
@@ -134,7 +140,7 @@ describe("ReplaceAll<TText,TFind,TReplace>", () => {
         `https://www.amazon.com/{{ string }}storeType=ebooks{{ string }}`,
         `https://www.amazon.com/{{ string }}ref=tmm_hrd_swatch{{ string }}`
       ]>>,
-      Expect<Equal<Back, [
+      Expect<Equal<Back, readonly [
         `https://www.amazon.com/${string}storeType=ebooks${string}`,
         `https://www.amazon.com/${string}ref=tmm_hrd_swatch${string}`
       ]>>
@@ -200,8 +206,8 @@ describe("ReplaceKeys<TText,TFromTo>", () => {
     ], { deep: true }>
 
     type cases = [
-      Expect<Equal<FooBarBaz, { Foo: { Bar: 2; Baz: 3 }}>>,
-      Expect<Equal<Explicit, { Foo: { Bar: 2; Baz: 3 }}>>,
+      Expect<Equal<FooBarBaz, { Foo: { Bar: 2; Baz: 3 } }>>,
+      Expect<Equal<Explicit, { Foo: { Bar: 2; Baz: 3 } }>>,
     ];
   });
 
@@ -215,7 +221,7 @@ describe("ReplaceKeys<TText,TFromTo>", () => {
     ], { deep: false }>
 
     type cases = [
-      Expect<Equal<FooBarBaz, { Foo: { _bar_: 2; _baz: 3 }}>>,
+      Expect<Equal<FooBarBaz, { Foo: { _bar_: 2; _baz: 3 } }>>,
     ];
   });
 
@@ -228,7 +234,7 @@ describe("ReplaceKeys<TText,TFromTo>", () => {
     ], { replaceAll: false }>
 
     type cases = [
-      Expect<Equal<FooBarBaz, { Foo_: { Bar_: 2; Baz: 3 }}>>,
+      Expect<Equal<FooBarBaz, { Foo_: { Bar_: 2; Baz: 3 } }>>,
     ];
   });
 

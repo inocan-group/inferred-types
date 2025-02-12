@@ -3,8 +3,8 @@ import type {
   DynamicTokenApi,
   StaticTokenApi,
   Token,
+  TokenDetail,
   TokenName,
-  TokenNeverHasParameters,
   TokenParamsConstraint,
 } from "inferred-types/types";
 import { isArray } from "src/type-guards";
@@ -12,13 +12,6 @@ import { isArray } from "src/type-guards";
 function hasNoParameters(params: TokenParamsConstraint) {
   return params === "none" || (isArray(params) && params[0] === 0 && params[1] === 0);
 }
-
-export type TokenDetail<
-  TToken extends TokenName,
-  TParams extends TokenParamsConstraint,
-> = TokenNeverHasParameters<TParams> extends true
-  ? StaticTokenApi<TToken>
-  : DynamicTokenApi<TToken, TParams>;
 
 function staticToken<TToken extends TokenName>(
   token: TToken,

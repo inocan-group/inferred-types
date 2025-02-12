@@ -18,16 +18,16 @@ type ExpandParameters<
   TResults extends readonly unknown[] = [],
 > = [] extends TParams
   ? IsNarrowingFn<TFn> extends true
-    ? AsNarrowingFn<TResults, ReturnType<TFn>, ExpandDictionary<FnProps<TFn>>>
-    : AsLiteralFn<TResults, ReturnType<TFn>, ExpandDictionary<FnProps<TFn>>>
+  ? AsNarrowingFn<TResults, ReturnType<TFn>, ExpandDictionary<FnProps<TFn>>>
+  : AsLiteralFn<TResults, ReturnType<TFn>, ExpandDictionary<FnProps<TFn>>>
   : ExpandParameters<
     TFn,
     AfterFirst<TParams>,
     [
       ...TResults,
       First<TParams> extends Dictionary
-        ? ExpandDictionary<First<TParams>>
-        : First<TParams>,
+      ? ExpandDictionary<First<TParams>>
+      : First<TParams>,
     ]
   >;
 
@@ -40,7 +40,7 @@ export type ExpandUnion<T> = IsUnion<T> extends true
     ExpandTuple<UnionToTuple<T>>
   >
   : T
-;
+  ;
 
 /**
  * Recursively goes over an object based structure and tries to reduce
@@ -48,11 +48,11 @@ export type ExpandUnion<T> = IsUnion<T> extends true
  */
 export type ExpandRecursively<T> = T extends Dictionary
   ? { [K in keyof T]: T[K] extends AnyFunction
-      ? T[K] extends TypedFunction
-        ? ExpandParameters<T[K], Parameters<T[K]>>
-        : T[K]
-      : ExpandRecursively<T[K]>
-    }
+    ? T[K] extends TypedFunction
+    ? ExpandParameters<T[K], Parameters<T[K]>>
+    : T[K]
+    : ExpandRecursively<T[K]>
+  }
   : T;
 
 /**
@@ -61,7 +61,10 @@ export type ExpandRecursively<T> = T extends Dictionary
  */
 export type ExpandDictionary<T> = T extends Dictionary
   ? { [K in keyof T]: T[K] extends AnyFunction
-      ? T[K]
-      : ExpandRecursively<T[K]>
-    }
+    ? T[K]
+    : ExpandRecursively<T[K]>
+  }
   : T;
+
+
+export type Expand<T> = T extends infer O ? { [K in keyof O]: O[K] } : never;

@@ -26,9 +26,9 @@ type Convert<
  * - any value which is neither a string or any of the above will be discarded
  */
 export type AsFromTo<
-  T extends Record<string, string>,
+  T extends { [key: string]: string },
 > = IsWideContainer<T> extends true
   ? FromTo[]
   : Convert<T> extends readonly FromTo[]
-    ? Convert<T>
-    : never;
+  ? Convert<T>
+  : never;
