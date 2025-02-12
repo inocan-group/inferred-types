@@ -56,3 +56,4 @@ frontend/.vite-ssg-dist/**
 trace/*
 .trace/*
 
+.name

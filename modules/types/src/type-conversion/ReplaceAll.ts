@@ -6,19 +6,15 @@ import type {
   IsUnion,
   UnionToTuple,
 } from "inferred-types/types";
-import type { Replace } from "./Replace";
 
-type Process<
+
+type ReplaceAllLiterals<
   TText extends string,
   TFind extends string,
   TReplace extends string,
-> = Replace<TText, TFind, TReplace> extends `${string}${TFind}${string}`
-  ? Process<
-    Replace<TText, TFind, TReplace>,
-    TFind,
-    TReplace
-  >
-  : Replace<TText, TFind, TReplace>;
+> = TText extends `${infer Head}${TFind}${infer Tail}`
+  ? `${Head}${TReplace}${ReplaceAllLiterals<Tail, TFind, TReplace>}`
+  : TText;
 
 type Iterate<
   TText extends string,
@@ -27,7 +23,7 @@ type Iterate<
 > = [] extends TFind
   ? TText
   : Iterate<
-    Process<TText, First<TFind>, TReplace>,
+    ReplaceAllLiterals<TText, First<TFind>, TReplace>,
     AfterFirst<TFind>,
     TReplace
   >;
@@ -38,30 +34,20 @@ type Singular<
   TReplace extends string,
 > = IsStringLiteral<TText> extends true
   ? IsStringLiteral<TFind> extends true
-    ? IsUnion<TFind> extends true
-      ? UnionToTuple<TFind> extends readonly string[]
-        ? Iterate<TText, UnionToTuple<TFind>, TReplace>
-        : never
-      : Process<TText, TFind, TReplace>
-    : string
+  ? IsUnion<TFind> extends true
+  ? UnionToTuple<TFind> extends readonly string[]
+  ? Iterate<TText, UnionToTuple<TFind>, TReplace>
+  : never
+  : ReplaceAllLiterals<TText, TFind, TReplace>
+  : string
   : string;
 
- type Multiple<
-   TText extends readonly string[],
-   TFind extends string,
-   TReplace extends string,
-   TResult extends readonly string[] = [],
- > = [] extends TText
-   ? TResult
-   : Multiple<
-     AfterFirst<TText>,
-     TFind,
-     TReplace,
-     [
-       ...TResult,
-       ReplaceAll<First<TText>, TFind, TReplace>,
-     ]
-   >;
+type EachTupleElement<
+  TText extends readonly string[],
+  TFind extends string,
+  TReplace extends string,
+  TResult extends readonly string[] = [],
+> = { [K in keyof TText]: ReplaceAll<TText[K], TFind, TReplace> };;
 
 /**
  * **ReplaceAll**`<TText,TFind,TReplace>`
@@ -86,8 +72,8 @@ export type ReplaceAll<
   TReplace extends string,
 > = TText extends readonly string[]
   ? IsLiteral<TText> extends true
-    ? Multiple<TText, TFind, TReplace>
-    : string[]
+  ? EachTupleElement<TText, TFind, TReplace>
+  : string[]
   : TText extends string
-    ? Singular<TText, TFind, TReplace>
-    : never;
+  ? Singular<TText, TFind, TReplace>
+  : never;

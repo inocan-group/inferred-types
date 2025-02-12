@@ -6,7 +6,6 @@ export interface Stack {
    * the same number -- and sequence of -- the tokens in the string
    */
   isBalanced: boolean;
-
 }
 
 /**

@@ -1,13 +1,13 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 import {
-    isNull,
-    createToken,
-    isTrue,
-    isUndefined,
-    isString,
-    asUnion,
-    eachAsString
+  isNull,
+  createToken,
+  isTrue,
+  isUndefined,
+  isString,
+  asUnion,
+  eachAsString
 } from "inferred-types/runtime";
 import { DynamicTokenApi } from "inferred-types/types"
 
@@ -24,32 +24,32 @@ describe("createToken(...)", () => {
   it("string and string literals", () => {
     const partial = createToken("string", "any");
     const Str = partial(
-        // type renderer
-        (p, sep) => {
+      // type renderer
+      (p, sep) => {
         const type = p.length === 0
-            ? "string" as string
-            : asUnion(p, sep, { prefix: `string${sep}` });
+          ? "string" as string
+          : asUnion(p, sep, { prefix: `string${sep}` });
         const typeGuard = p.length === 0
-            ? isString
-            : (val: unknown): val is typeof type => {
-                return isString(val) && p.includes(val);
-            }
+          ? isString
+          : (val: unknown): val is typeof type => {
+            return isString(val) && p.includes(val);
+          }
 
-            return {
-                type,
-                typeGuard
-            } as any;
-        },
-        // tokenizer
-        (...literals) => eachAsString(...literals)
+        return {
+          type,
+          typeGuard
+        } as any;
+      },
+      // tokenizer
+      (...literals) => eachAsString(...literals)
     );
 
-    const a = Str.tokenizer("foo","bar", 42)
+    const a = Str.tokenizer("foo", "bar", 42)
 
     type cases = [
       Expect<Equal<
-          typeof partial,
-          DynamicTokenApi<"string", "any">
+        typeof partial,
+        DynamicTokenApi<"string", "any">
       >>,
     ];
 

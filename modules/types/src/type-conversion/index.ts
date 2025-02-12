@@ -47,6 +47,7 @@ export * from "./Replace";
 export * from "./ReplaceAll";
 export * from "./ReplaceAllFromTo";
 export * from "./ReplaceFromTo";
+export * from "./ReplaceAllToFrom";
 export * from "./ReplaceKeys";
 export * from "./RetainChars";
 export * from "./ReturnValues";
