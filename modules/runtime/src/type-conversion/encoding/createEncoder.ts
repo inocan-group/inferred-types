@@ -76,5 +76,7 @@ export function createEncoder<
 >(
   defn: TDefn,
 ) {
-  return { encoder: encode(defn), decoder: decode(reverseLookup(defn)) };
+  return {
+    encoder: encode(defn), decoder: decode(reverseLookup(defn))
+  };
 }
