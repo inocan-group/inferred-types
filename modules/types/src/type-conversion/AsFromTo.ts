@@ -1,12 +1,14 @@
 import type {
   AnyObject,
+  Dictionary,
+  EncodingDefinition,
   FromTo,
   IsWideContainer,
   Values,
 } from "inferred-types/types";
 
 /** converts an object's key values into FromTo tuple */
-type Convert<
+type ConvertFromTo<
   TObj extends AnyObject,
 > = Values<{
   [K in keyof TObj]: {
@@ -15,10 +17,21 @@ type Convert<
   }
 }, true>;
 
+/** converts an object's key values into FromTo tuple (in reverse) */
+type ConvertToFrom<
+  TObj extends AnyObject,
+> = Values<{
+  [K in keyof TObj]: {
+    to: K;
+    from: TObj[K];
+  }
+}, true>;
+
 /**
  * **AsFromTo**`<T>`
  *
- * Converts an object-based lookup into a `FromTo`[] tuple.
+ * Converts:
+ * - an object-based lookup into a `FromTo[]` tuple
  *
  * **Notes:**
  * - any value which is already a FromTo will be kept as is
@@ -26,9 +39,28 @@ type Convert<
  * - any value which is neither a string or any of the above will be discarded
  */
 export type AsFromTo<
-  T extends { [key: string]: string },
+  T extends Dictionary<string, string>,
 > = IsWideContainer<T> extends true
   ? FromTo[]
-  : Convert<T> extends readonly FromTo[]
-  ? Convert<T>
+  : ConvertFromTo<T> extends readonly FromTo[]
+  ? ConvertFromTo<T>
+  : never;
+
+/**
+ * **AsToFrom**`<T>`
+ *
+ * Converts:
+ *
+ *    - an object-based KV lookup into a `FromTo[]` tuple
+ * _in reverse_.
+
+ *
+ * **Related:** `AsFromTo`
+ */
+export type AsToFrom<
+  T extends Dictionary<string, string>,
+> = IsWideContainer<T> extends true
+  ? FromTo[]
+  : ConvertFromTo<T> extends readonly FromTo[]
+  ? ConvertFromTo<T>
   : never;

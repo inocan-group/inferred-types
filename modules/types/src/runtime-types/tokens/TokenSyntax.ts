@@ -1,5 +1,6 @@
-import type { ReverseLookup } from "src/dictionary";
-import type { AsFromTo, ReplaceAllFromTo, ReplaceAllToFrom } from "src/type-conversion";
+import { Callback } from "src/api";
+import { Dictionary } from "inferred-types/types";
+
 
 /**
  * **TokenSyntax**`<TName, TEnc>`
@@ -11,7 +12,8 @@ import type { AsFromTo, ReplaceAllFromTo, ReplaceAllToFrom } from "src/type-conv
  */
 export interface TokenSyntax<
   TName extends string,
-  TEnc extends Record<string, string>,
+  TEnc extends Callback = any,
+  TDec extends Callback = any
 > {
   kind: "TokenSyntax";
   /** the name of the Token Syntax */
@@ -26,17 +28,16 @@ export interface TokenSyntax<
   /**
    * the encode/decode definition
    */
-  encodingDefinition: TEnc;
+  encodingDefinition: Dictionary<string, string>;
 
   /**
    * An encoder for parameter values to ensure parsing
    * mistakes on the token are avoided.
    */
-  encode: <T extends string>(content: T) =>
-    ReplaceAllFromTo<T, AsFromTo<TEnc>>;
+  encode: TEnc;
   /**
-   * A decoder for parameter values to
+   * A decoder for parameter values to allow
+   * decoding of the _encoded_ safe type.
    */
-  decode: <T extends string>(token: T) =>
-    ReplaceAllToFrom<T, AsFromTo<TEnc>>;
+  decode: TDec;
 }

@@ -1,5 +1,8 @@
-import type { ExpandDictionary, TokenSyntax } from "inferred-types/types";
-import { createEncoder } from "inferred-types/runtime";
+import type {
+  ExpandDictionary,
+  NarrowObject,
+} from "inferred-types/types";
+import { asFromTo, createEncoder } from "inferred-types/runtime";
 
 export type GrammarEncoder<
   TReq extends readonly string[],
@@ -13,8 +16,7 @@ export function createTokenSyntax<
   TStart extends string,
   TEnd extends string,
   TSep extends string,
-  TEncode extends Record<K, N>,
-  K extends string,
+  TEncode extends NarrowObject<N>,
   N extends string,
 >(
   name: TName,
@@ -25,8 +27,8 @@ export function createTokenSyntax<
 ) {
   const { encoder: encode, decoder: decode } = createEncoder(encoding);
 
-  const tg: TokenSyntax<TName, TEncode> = {
-    kind: "TokenSyntax",
+  const tg = {
+    kind: "TokenSyntax" as const,
     name,
     start,
     end,
@@ -34,7 +36,7 @@ export function createTokenSyntax<
     encodingDefinition: encoding,
     encode,
     decode,
-  } as unknown as TokenSyntax<TName, TEncode>;
+  }
 
   return tg;
 }
