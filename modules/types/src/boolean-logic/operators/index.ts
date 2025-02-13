@@ -111,3 +111,5 @@ export * from "./SomeExtend";
 export * from "./StartsWith";
 export * from "./UnionHasArray";
 export * from "./Validate";
+export * from "./IsEmpty";
+export * from "./IsEmptyArray";

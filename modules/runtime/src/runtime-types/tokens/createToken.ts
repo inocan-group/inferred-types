@@ -2,48 +2,39 @@ import type {
   AlphaChar,
   DynamicTokenApi,
   StaticTokenApi,
-  Token,
   DefineTokenDetail,
   TokenName,
-  TokenParamsConstraint,
-  TokenDynamicParams,
+  TokenType,
 } from "inferred-types/types";
-
-function hasNoParameters(params: TokenParamsConstraint) {
-  return params === "none"
-}
+import { simpleType } from "./simpleToken";
 
 function staticToken<TToken extends TokenName>(
-  token: TToken,
+  name: TToken,
 ): StaticTokenApi<TToken> {
   return (type, typeGuard) => {
     return {
-      kind: "Token",
+      kind: "StaticToken",
       isStatic: true,
-      token,
-      params: "none",
-      type,
+      name,
+      type: simpleType(type),
       typeGuard,
-    } as unknown as ReturnType<StaticTokenApi<TToken>>;
+    };
   };
 }
 
 function dynamicToken<
-  TToken extends TokenName,
-  TParams extends TokenDynamicParams,
+  TToken extends TokenName
 >(
-  token: TToken,
-  params: TParams,
-): DynamicTokenApi<TToken, TParams> {
+  name: TToken,
+): DynamicTokenApi<TToken> {
   return (resolver, tokenizer) => {
     return {
-      kind: "Token",
+      kind: "DynamicToken",
       isStatic: false,
-      token,
-      params,
+      name,
       resolver,
       tokenizer,
-    } as unknown as ReturnType<DynamicTokenApi<TToken, TParams>>;
+    }
   };
 }
 
@@ -54,16 +45,16 @@ function dynamicToken<
  */
 export function createToken<
   TToken extends `${AlphaChar}${string}`,
-  TParams extends TokenParamsConstraint,
+  TParams extends TokenType,
 >(
   /** the token's name */
   token: TToken,
-  /** a min and max number of parameters this token is expecting */
-  params: TParams,
+  /** whether the token is a static type or has dynamic variants */
+  kind: TParams,
 ): DefineTokenDetail<TToken, TParams> {
   return (
-    hasNoParameters(params)
+    kind === "static"
       ? staticToken(token)
-      : dynamicToken(token, params)
+      : dynamicToken(token)
   ) as DefineTokenDetail<TToken, TParams>;
 }
