@@ -1,4 +1,3 @@
-
 import type {
   DynamicToken,
   SimpleToken,
@@ -7,7 +6,7 @@ import type {
   Tokenizer,
   TokenName,
   TokenResolver,
-  TokenType
+  TokenType,
 } from "inferred-types/types";
 
 export type StaticTokenApi<

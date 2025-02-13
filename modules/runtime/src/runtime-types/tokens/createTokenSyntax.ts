@@ -12,12 +12,10 @@ export type GrammarEncoder<
   { [key: string]: string }
 >;
 
-
-
 type DefaultEncoder<
   TStart extends string,
   TEnd extends string,
-  TSep extends string
+  TSep extends string,
 > = Expand<
   Record<TStart, "^start!"> &
   Record<TEnd, "^end!"> &
@@ -25,29 +23,24 @@ type DefaultEncoder<
   Record<"\"", "^dq!"> &
   Record<"\'", "^sq!"> &
   Record<"`", "^grave!">
->
+>;
 
-const defaultEncoder = <
+function defaultEncoder<
   TStart extends string,
   TEnd extends string,
   TSep extends string,
->(
-  start: TStart,
-  end: TEnd,
-  sep: TSep,
-) => {
+>(start: TStart, end: TEnd, sep: TSep) {
   const config = {
     [start]: "^start!",
     [end]: "^end!",
     [sep]: "^sep!",
     "\"": "^dq!",
     "'": "^sq!",
-    "`": "^grave!"
-  }
+    "`": "^grave!",
+  };
 
-  return config as unknown as DefaultEncoder<TStart, TEnd, TSep>
+  return config as unknown as DefaultEncoder<TStart, TEnd, TSep>;
 }
-
 
 export function createTokenSyntax<
   TName extends string,
@@ -63,7 +56,6 @@ export function createTokenSyntax<
   sep: TSep,
   encoding: TEncode = defaultEncoder(start, end, sep) as unknown as TEncode,
 ) {
-
   const { encoder: encode, decoder: decode } = createEncoder(encoding);
 
   const tg = {
@@ -75,7 +67,7 @@ export function createTokenSyntax<
     encodingDefinition: encoding,
     encode,
     decode,
-  }
+  };
 
   return tg;
 }

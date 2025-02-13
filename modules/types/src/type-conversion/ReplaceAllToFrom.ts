@@ -53,5 +53,5 @@ export type ReplaceAllToFrom<
 > = TText extends string
   ? ReplaceAllFromToLiteral<TText, TMappings>
   : TText extends number
-  ? ReplaceAllToFrom<`${TText}`, TMappings>
-  : TText;
+    ? ReplaceAllToFrom<`${TText}`, TMappings>
+    : TText;

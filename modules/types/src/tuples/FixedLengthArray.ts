@@ -27,11 +27,11 @@ type Process<
 export type FixedLengthArray<
   TType,
   TLen extends number,
-  TExtends extends boolean = false
+  TExtends extends boolean = false,
 > = TExtends extends true
   ? Process<TType, TLen> extends readonly unknown[]
-  ? [...Process<TType, TLen>, ...TType[]]
-  : never
+    ? [...Process<TType, TLen>, ...TType[]]
+    : never
   : Process<TType, TLen> extends readonly unknown[]
-  ? Process<TType, TLen>
-  : never;
+    ? Process<TType, TLen>
+    : never;

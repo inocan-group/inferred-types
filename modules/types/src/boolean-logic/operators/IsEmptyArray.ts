@@ -1,5 +1,3 @@
-
-
 /**
  * Boolean operator which tests `T` for whether it is:
  *
@@ -10,9 +8,8 @@
  */
 export type IsEmptyArray<T> = T extends any[]
   ? number extends T["length"]
-  ? boolean
-  : T["length"] extends 0
-  ? true
-  : false
+    ? boolean
+    : T["length"] extends 0
+      ? true
+      : false
   : false;
-

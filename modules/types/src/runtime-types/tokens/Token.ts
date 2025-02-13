@@ -1,11 +1,10 @@
 import type {
   AlphaChar,
   TokenSyntax,
-  TypedFunction
+  TypedFunction,
 } from "inferred-types/types";
 
 export type TokenName = `${AlphaChar}${string}`;
-
 
 /**
  * How this token uses -- or doesn't use -- parameters to create
@@ -16,21 +15,16 @@ export type TokenParamsConstraint =
   | "none"
   | readonly unknown[];
 
-
 export type TokenType = "static" | "dynamic";
-
 
 export type TokenIsStatic<T extends TokenParamsConstraint> = T extends "none"
   ? true
   : false;
 
-
 export type ResolvedTokenType<
   T = any,
   TG extends TypedFunction = TypedFunction,
 > = [type: T, tg: TG];
-
-
 
 /**
  * A **TokenResolver** is a higher order function.
@@ -43,7 +37,7 @@ export type ResolvedTokenType<
  * function which validates this variant state.
  */
 export type TokenResolver = <
-  TSyntax extends TokenSyntax
+  TSyntax extends TokenSyntax,
 >(syntax: TSyntax) => <TParams extends readonly string[]>(...params: TParams) => {
   type: unknown;
   typeGuard: (val: unknown) => boolean;
@@ -62,11 +56,11 @@ export type Tokenizer = (
   ...args: readonly any[]
 ) => readonly string[];
 
-export type DynamicToken<
+export interface DynamicToken<
   TToken extends TokenName = TokenName,
   TResolver extends TokenResolver = TokenResolver,
-  TTokenizer extends Tokenizer = Tokenizer
-> = {
+  TTokenizer extends Tokenizer = Tokenizer,
+> {
   kind: "DynamicToken";
   /**
    * boolean flag indicating whether the token is static or is _dynamic_
@@ -77,13 +71,13 @@ export type DynamicToken<
   name: TToken;
   resolver: TResolver;
   tokenizer: TTokenizer;
-};
+}
 
-export type StaticToken<
+export interface StaticToken<
   TToken extends TokenName = TokenName,
   TType = unknown,
-  TG extends (val: unknown) => boolean = (val: unknown) => boolean
-> = {
+  TG extends (val: unknown) => boolean = (val: unknown) => boolean,
+> {
   kind: "StaticToken";
   /**
    * boolean flag indicating whether the token is static or is _dynamic_
@@ -98,7 +92,7 @@ export type StaticToken<
 export type Token<
   TToken extends TokenName = TokenName,
   T1 = any,
-  T2 extends TypedFunction = any
+  T2 extends TypedFunction = any,
 > = T1 extends TypedFunction
   ? DynamicToken<TToken, T1, T2>
-  : StaticToken<TToken, T1, T2>
+  : StaticToken<TToken, T1, T2>;

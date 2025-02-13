@@ -1,5 +1,4 @@
-import { Dictionary, StringEncoder } from "inferred-types/types";
-
+import type { Dictionary, StringEncoder } from "inferred-types/types";
 
 /**
  * **TokenSyntax**`<TName, TEnc>`
@@ -12,7 +11,7 @@ import { Dictionary, StringEncoder } from "inferred-types/types";
 export interface TokenSyntax<
   TName extends string = string,
   TEnc extends StringEncoder = StringEncoder,
-  TDec extends StringEncoder = StringEncoder
+  TDec extends StringEncoder = StringEncoder,
 > {
   kind: "TokenSyntax";
   /** the name of the Token Syntax */
