@@ -1,7 +1,6 @@
 import type {
   AnyObject,
   Dictionary,
-  EncodingDefinition,
   FromTo,
   IsWideContainer,
   Values,
@@ -43,8 +42,8 @@ export type AsFromTo<
 > = IsWideContainer<T> extends true
   ? FromTo[]
   : ConvertFromTo<T> extends readonly FromTo[]
-  ? ConvertFromTo<T>
-  : never;
+    ? ConvertFromTo<T>
+    : never;
 
 /**
  * **AsToFrom**`<T>`
@@ -53,7 +52,6 @@ export type AsFromTo<
  *
  *    - an object-based KV lookup into a `FromTo[]` tuple
  * _in reverse_.
-
  *
  * **Related:** `AsFromTo`
  */
@@ -61,6 +59,6 @@ export type AsToFrom<
   T extends Dictionary<string, string>,
 > = IsWideContainer<T> extends true
   ? FromTo[]
-  : ConvertFromTo<T> extends readonly FromTo[]
-  ? ConvertFromTo<T>
-  : never;
+  : ConvertToFrom<T> extends readonly FromTo[]
+    ? ConvertToFrom<T>
+    : never;

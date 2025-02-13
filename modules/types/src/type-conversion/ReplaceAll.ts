@@ -7,7 +7,6 @@ import type {
   UnionToTuple,
 } from "inferred-types/types";
 
-
 type ReplaceAllLiterals<
   TText extends string,
   TFind extends string,
@@ -34,19 +33,18 @@ type Singular<
   TReplace extends string,
 > = IsStringLiteral<TText> extends true
   ? IsStringLiteral<TFind> extends true
-  ? IsUnion<TFind> extends true
-  ? UnionToTuple<TFind> extends readonly string[]
-  ? Iterate<TText, UnionToTuple<TFind>, TReplace>
-  : never
-  : ReplaceAllLiterals<TText, TFind, TReplace>
-  : string
+    ? IsUnion<TFind> extends true
+      ? UnionToTuple<TFind> extends readonly string[]
+        ? Iterate<TText, UnionToTuple<TFind>, TReplace>
+        : never
+      : ReplaceAllLiterals<TText, TFind, TReplace>
+    : string
   : string;
 
 type EachTupleElement<
   TText extends readonly string[],
   TFind extends string,
   TReplace extends string,
-  TResult extends readonly string[] = [],
 > = { [K in keyof TText]: ReplaceAll<TText[K], TFind, TReplace> };;
 
 /**
@@ -72,8 +70,8 @@ export type ReplaceAll<
   TReplace extends string,
 > = TText extends readonly string[]
   ? IsLiteral<TText> extends true
-  ? EachTupleElement<TText, TFind, TReplace>
-  : string[]
+    ? EachTupleElement<TText, TFind, TReplace>
+    : string[]
   : TText extends string
-  ? Singular<TText, TFind, TReplace>
-  : never;
+    ? Singular<TText, TFind, TReplace>
+    : never;

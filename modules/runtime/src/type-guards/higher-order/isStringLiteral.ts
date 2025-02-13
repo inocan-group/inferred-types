@@ -1,4 +1,4 @@
-import { isString } from "../isString"
+import { isString } from "../isString";
 
 /**
  * Higher order type guard which:
@@ -9,6 +9,6 @@ import { isString } from "../isString"
  */
 export function isStringLiteral<TLit extends readonly string[]>(...literals: TLit) {
   return (val: unknown): val is TLit[number] => {
-    return isString(val) && literals.includes(val)
-  }
+    return isString(val) && literals.includes(val);
+  };
 }

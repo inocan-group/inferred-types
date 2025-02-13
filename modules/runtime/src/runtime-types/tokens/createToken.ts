@@ -1,8 +1,8 @@
 import type {
   AlphaChar,
+  DefineTokenDetail,
   DynamicTokenApi,
   StaticTokenApi,
-  DefineTokenDetail,
   TokenName,
   TokenType,
 } from "inferred-types/types";
@@ -23,7 +23,7 @@ function staticToken<TToken extends TokenName>(
 }
 
 function dynamicToken<
-  TToken extends TokenName
+  TToken extends TokenName,
 >(
   name: TToken,
 ): DynamicTokenApi<TToken> {
@@ -34,7 +34,7 @@ function dynamicToken<
       name,
       resolver,
       tokenizer,
-    }
+    };
   };
 }
 
