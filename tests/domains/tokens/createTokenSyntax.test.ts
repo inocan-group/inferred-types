@@ -50,4 +50,24 @@ describe("createTokenSyntax()", () => {
       Expect<Equal<Dec, `{{string}} is the best`>>
     ];
   });
+
+  it("implicit encoding", () => {
+    const syn = createTokenSyntax(
+      "Template",
+      "{{",
+      "}}",
+      "::"
+    );
+
+    const encoded = syn.encode("{{string}} is the 'best'");
+    expect(encoded).toBe("^start!string^end! is the ^sq!best^sq!");
+    const decoded = syn.decode(encoded);
+    expect(decoded).toBe("{{string}} is the 'best'");
+
+    type cases = [
+      Expect<Equal<typeof encoded, `^start!string^end! is the ^sq!best^sq!`>>,
+      Expect<Equal<typeof decoded, `{{string}} is the 'best'`>>,
+    ];
+  });
+
 });

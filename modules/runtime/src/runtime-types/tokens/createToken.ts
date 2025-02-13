@@ -3,14 +3,14 @@ import type {
   DynamicTokenApi,
   StaticTokenApi,
   Token,
-  TokenDetail,
+  DefineTokenDetail,
   TokenName,
   TokenParamsConstraint,
+  TokenDynamicParams,
 } from "inferred-types/types";
-import { isArray } from "src/type-guards";
 
 function hasNoParameters(params: TokenParamsConstraint) {
-  return params === "none" || (isArray(params) && params[0] === 0 && params[1] === 0);
+  return params === "none"
 }
 
 function staticToken<TToken extends TokenName>(
@@ -19,6 +19,7 @@ function staticToken<TToken extends TokenName>(
   return (type, typeGuard) => {
     return {
       kind: "Token",
+      isStatic: true,
       token,
       params: "none",
       type,
@@ -29,7 +30,7 @@ function staticToken<TToken extends TokenName>(
 
 function dynamicToken<
   TToken extends TokenName,
-  TParams extends TokenParamsConstraint,
+  TParams extends TokenDynamicParams,
 >(
   token: TToken,
   params: TParams,
@@ -37,11 +38,12 @@ function dynamicToken<
   return (resolver, tokenizer) => {
     return {
       kind: "Token",
+      isStatic: false,
       token,
       params,
       resolver,
       tokenizer,
-    } as unknown as Token<TToken, TParams>;
+    } as unknown as ReturnType<DynamicTokenApi<TToken, TParams>>;
   };
 }
 
@@ -52,17 +54,16 @@ function dynamicToken<
  */
 export function createToken<
   TToken extends `${AlphaChar}${string}`,
-  TParams extends TokenParamsConstraint<N>,
-  N extends number,
+  TParams extends TokenParamsConstraint,
 >(
   /** the token's name */
   token: TToken,
   /** a min and max number of parameters this token is expecting */
   params: TParams,
-): TokenDetail<TToken, TParams> {
+): DefineTokenDetail<TToken, TParams> {
   return (
     hasNoParameters(params)
       ? staticToken(token)
       : dynamicToken(token, params)
-  ) as TokenDetail<TToken, TParams>;
+  ) as DefineTokenDetail<TToken, TParams>;
 }

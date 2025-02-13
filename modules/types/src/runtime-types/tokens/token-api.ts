@@ -1,5 +1,16 @@
-import type { SimpleToken, SimpleType } from "inferred-types/types";
-import type { Token, Tokenizer, TokenName, TokenNeverHasParameters, TokenParamsConstraint, TokenTypeResolver } from "./Token";
+
+import type {
+  As,
+  SimpleToken,
+  SimpleType,
+  Token,
+  TokenDynamicParams,
+  TokenIsStatic,
+  Tokenizer,
+  TokenName,
+  TokenParamsConstraint,
+  TokenResolver
+} from "inferred-types/types";
 
 export type StaticTokenApi<
   TToken extends TokenName,
@@ -15,10 +26,10 @@ export type StaticTokenApi<
  * The remaining configuration required to create a Dynamic Token.
  */
 export type DynamicTokenApi<
-  TToken extends TokenName,
-  TParams extends TokenParamsConstraint,
+  TToken extends TokenName = TokenName,
+  TParams extends TokenDynamicParams = TokenDynamicParams,
 > = <
-  TResolve extends TokenTypeResolver<TParams>,
+  TResolve extends TokenResolver<TParams>,
   TTokenize extends Tokenizer,
 >(
   resolver: TResolve,
@@ -30,9 +41,9 @@ export type DynamicTokenApi<
  * It distinguishes between "static" and "dynamic" tokens in what is
  * required for configuration.
  */
-export type TokenDetail<
+export type DefineTokenDetail<
   TToken extends TokenName,
   TParams extends TokenParamsConstraint,
-> = TokenNeverHasParameters<TParams> extends true
+> = TokenIsStatic<TParams> extends true
   ? StaticTokenApi<TToken>
-  : DynamicTokenApi<TToken, TParams>;
+  : DynamicTokenApi<TToken, As<TParams, TokenDynamicParams>>;

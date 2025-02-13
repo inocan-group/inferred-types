@@ -1,105 +1,180 @@
-import type { AlphaChar, And, DigitNonZero, ExpandDictionary, Extends, FixedLengthArray, If, TypedFunction } from "inferred-types/types";
+import type { AlphaChar, And, As, AsNumber, Callback, DigitNonZero, Expand, ExpandDictionary, Extends, FixedLengthArray, If, NumericChar, TokenSyntax, TypedFunction } from "inferred-types/types";
 
 export type TokenName = `${AlphaChar}${string}`;
 
-export type TokenParamsConstraint<N extends number = number> = readonly [min: N, max: N]
-  | "none"
-  | "some"
-  | "any";
+export type TokenParams__always =
+  "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8";
 
-export type TokenNeverHasParameters<T extends TokenParamsConstraint> = T extends "none"
+export type TokenParams__never = "none";
+
+export type TokenParams__opt_fixed =
+  | "0|1" | "0|2" | "O|3" | "0|4" | "0|5" | "0|6" | "0|7" | "0|8";
+
+export type TokenParams__range =
+  | `1..${NumericChar}` | `2..${NumericChar}` | `3..${NumericChar}`
+
+
+/**
+ * Parameter constraints associated to "dynamic" Tokens
+ * which have multiple variants.
+ */
+export type TokenDynamicParams =
+  | TokenParams__always
+  | TokenParams__opt_fixed
+  | TokenParams__range;
+
+/**
+ * Parameter constraints associated to "static" Tokens
+ * which only have one type.
+ */
+export type TokenStaticParams = TokenParams__never;
+
+/**
+ * How this token uses -- or doesn't use -- parameters to create
+ * variants.
+ */
+export type TokenParamsConstraint =
+  | TokenDynamicParams
+  | TokenStaticParams;
+
+export type TokenMayHaveParams<T extends TokenParamsConstraint> =
+  T extends TokenParams__opt_fixed ? true : false;
+
+export type TokenDoesHaveParams<T extends TokenParamsConstraint> =
+  T extends TokenParams__always
   ? true
-  : And<[T extends [number, number] ? true : false, Extends<T[0], 0>, Extends<T[1], 0>]>;
+  : T extends TokenParams__range
+  ? true
+  : false;
 
-type MinParameters<T extends TokenParamsConstraint> = T extends "none"
-  ? 0
-  : T extends "some"
-    ? 1
-    : T extends "any"
-      ? 0
-      : T extends [infer Min extends number, number]
-        ? Min
-        : never;
+export type TokenIsStatic<T extends TokenParamsConstraint> = T extends "none"
+  ? true
+  : false;
+
 
 export type ResolvedTokenType<
   T = any,
   TG extends TypedFunction = TypedFunction,
 > = [type: T, tg: TG];
 
+
+type Max<
+  T extends TokenDynamicParams
+> = T extends TokenParams__opt_fixed
+  ? T extends `0|${infer Max}`
+  ? AsNumber<Max>
+  : never
+  : T extends TokenParams__always
+  ? AsNumber<T>
+  : T extends TokenParams__range
+  ? T extends `${string}..${infer Max}`
+  ? AsNumber<Max>
+  : never
+  : never;
+
+type Min<
+  T extends TokenDynamicParams
+> = T extends TokenParams__range
+  ? T extends `${infer Min}..${string}`
+  ? AsNumber<Min>
+  : never
+  : never;
+
+
 /**
  * A _resolver_ function which returns a _type_ and a _type guard_ based
  * on the parameters a token receives.
  */
 export type TokenTypeResolver<
-  T extends TokenParamsConstraint,
-> = MinParameters<T> extends 0
-  ? (params: string[], sep: string) => ResolvedTokenType
-  : (params: [FixedLengthArray<string, MinParameters<T>>, ...string[]], sep: string) => ResolvedTokenType;
+  T extends TokenDynamicParams,
+> = T extends TokenParams__opt_fixed
+  ? <P extends readonly [...FixedLengthArray<string, Max<T>>] | []>(...params: P) => ResolvedTokenType
+  : T extends TokenParams__range
+  ? <P extends readonly [...FixedLengthArray<string, Min<T>, true>]>(...params: P) => ResolvedTokenType
+  : T extends TokenParams__always
+  ? <P extends readonly [...FixedLengthArray<string, Max<T>>]>(...params: P) => ResolvedTokenType
+  : never;
 
 /**
- * A **Tokenizer** can take any set of parameters but must return an array of strings
- * which will then be added as token parameters.
+ * A **TokenResolver** is a higher order function.
+ *
+ * - the first call is made by a _syntax_ to provides it's context.
+ * - the second call provides the **parameters** which allow a dynamic token
+ * to isolate to a discrete variant state.
+ *
+ * This second call is responsible for returning the `type` and `typeGuard`
+ * function which validates this variant state.
  */
-export type Tokenizer = <A extends readonly any[]>(...args: A) => string[];
+export type TokenResolver = <
+  TSyntax extends TokenSyntax
+>(syntax: TSyntax) => <TParams extends readonly string[] | []>(params: TParams) => {
+  type: unknown;
+  typeGuard: (val: unknown) => boolean;
+};
+
+export type Tokenizer = <T extends readonly any[]>(...args: T) => readonly string[];
+
+export type DynamicToken<
+  TToken extends TokenName = TokenName,
+  TResolver extends TokenResolver,
+  TTokenizer extends Tokenizer
+> =;
 
 export type Token<
-  TToken extends TokenName,
-  TParams extends TokenParamsConstraint,
-  TBase = never,
-> = ExpandDictionary<
-  {
-    kind: "Token";
-    /** the name of the token */
-    token: TToken;
-    /**
-     * the number of parameters available to the token represented as:
-     *    - `[min: number, max: number]`
-     *    - "none"
-     *    - "any"
-     */
-    params: TParams;
+  TToken extends TokenName = TokenName,
+  TParams extends TokenParamsConstraint = TokenParamsConstraint,
+  TBaseResolver extends If<TokenIsStatic<TParams>, TokenResolver, any> = If<TokenIsStatic<TParams>, TokenResolver, any>,
+> = {
+  kind: "Token";
+  /** the name of the token */
+  token: TToken;
+  /**
+   * the number of parameters available to the token represented as:
+   *    - `[min: number, max: number]`
+   *    - "none"
+   *    - "any"
+   */
+  params: TParams;
+  isStatic: TokenIsStatic<TParams>;
 
-  } &
-  If<
-    TokenNeverHasParameters<TParams>,
-    {
-      /**
-       * The type of the token when no parameters are provided.
-       */
-      type: TBase;
-      /**
-       * A type guard to validate the base type of this token
-       */
-      typeGuard: TypedFunction;
-    },
-    {
-      /**
-       * **resolveType**
-       *
-       * A function which takes the token parameters provided
-       * and produces a fully qualified _type_ for the given variant
-       * along with a runtime type guard for this type.
-       */
-      resolver: TokenTypeResolver<TParams>;
-      /**
-       * A function which can be used to specify variants of the base token
-       */
-      tokenizer: Tokenizer;
+  /**
+   * The type of the token when no parameters are provided.
+   */
+  type: If<
+    TokenIsStatic<TParams>,
+    TBaseResolver,
+    never
+  >;
+  /**
+   * A type guard to validate the base type of this token
+   */
+  typeGuard: If<TokenIsStatic<TParams>, TypedFunction, never>;
 
-    }
-  >
->;
+  /**
+   * **resolveType**
+   *
+   * A function which takes the token parameters provided
+   * and produces a fully qualified _type_ for the given variant
+   * along with a runtime _type guard_ for this type.
+   */
+  resolver: If<
+    TokenIsStatic<TParams>,
+    never,
+    TBaseResolver
+  >;
+  /**
+   * A function which can be used to specify variants of the base token
+   */
+  tokenizer: If<
+    TokenIsStatic<TParams>,
+    never,
+    Tokenizer
+  >;
+}
 
 /** base type for _static_ tokens */
 export type StaticToken = Token<
   TokenName,
-"none" | [0, 0],
-any
->;
-
-/** base type for _dynamic_ tokens */
-export type DynamicToken = Token<
-  TokenName,
-"some" | "any" | [number, DigitNonZero],
-never
+  "none",
+  any
 >;
