@@ -5,3 +5,4 @@ export * from "./isSameTypeOf";
 export * from "./isTuple";
 export * from "./isTypeOf";
 export * from "./startsWith";
+export * from "./isStringLiteral";

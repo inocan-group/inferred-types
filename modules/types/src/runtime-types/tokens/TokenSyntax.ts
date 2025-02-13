@@ -1,5 +1,4 @@
-import { Callback } from "src/api";
-import { Dictionary } from "inferred-types/types";
+import { Dictionary, StringEncoder } from "inferred-types/types";
 
 
 /**
@@ -11,9 +10,9 @@ import { Dictionary } from "inferred-types/types";
  * matching.
  */
 export interface TokenSyntax<
-  TName extends string,
-  TEnc extends Callback = any,
-  TDec extends Callback = any
+  TName extends string = string,
+  TEnc extends StringEncoder = StringEncoder,
+  TDec extends StringEncoder = StringEncoder
 > {
   kind: "TokenSyntax";
   /** the name of the Token Syntax */

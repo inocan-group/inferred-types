@@ -4,4 +4,4 @@ export * from "./SafeEncode";
 export * from "./SafeEncodingGroup";
 export * from "./SafeString";
 export * from "./EncodingDefinition";
-export * from "./encoder-types";
+export * from "./StringEncoder";

@@ -5,10 +5,9 @@ import type {
 } from "inferred-types/types";
 
 export function createGrammar<
-  TSyntax extends TokenSyntax<N, D>,
+  TSyntax extends TokenSyntax<N, any, any>,
   N extends string,
-  D extends Record<string, string>,
-  TTokens extends readonly Token<any, any>[],
+  TTokens extends readonly Token[],
 >(
   tokenSyntax: TSyntax,
   ...tokens: TTokens

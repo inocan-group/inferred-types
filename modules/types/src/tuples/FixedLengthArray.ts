@@ -17,11 +17,21 @@ type Process<
   : MapItemType<GrowExp<[0], N, []>, T>;
 
 /**
- * **FixedLengthArray**`<T,N>`
+ * **FixedLengthArray**`<TType,TLen,[TOpt]>`
  *
- * Creates a fixed length `<N>` array of a given type `<T>`
+ * Creates a fixed length `TLen` array of a given type `T`.
+ *
+ * - if `TOpt` is set to true then it will add an optional
+ * continuation of the type to unlimited length
  */
-export type FixedLengthArray<T, N extends number> =
-  Process<T, N> extends readonly unknown[]
-    ? Process<T, N>
-    : never;
+export type FixedLengthArray<
+  TType,
+  TLen extends number,
+  TExtends extends boolean = false
+> = TExtends extends true
+  ? Process<TType, TLen> extends readonly unknown[]
+  ? [...Process<TType, TLen>, ...TType[]]
+  : never
+  : Process<TType, TLen> extends readonly unknown[]
+  ? Process<TType, TLen>
+  : never;
