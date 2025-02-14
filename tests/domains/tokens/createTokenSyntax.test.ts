@@ -1,5 +1,13 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { createTokenSyntax } from "inferred-types/runtime";
+import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
+import {
+  asUnion,
+  createToken,
+  createTokenSyntax,
+  ifEmpty,
+  isNull,
+  isString,
+  isStringLiteral
+} from "inferred-types/runtime";
 import { Extends, TokenSyntax } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
@@ -65,8 +73,58 @@ describe("createTokenSyntax()", () => {
     expect(decoded).toBe("{{string}} is the 'best'");
 
     type cases = [
+      ExpectTrue<typeof syn extends TokenSyntax<"Template"> ? true : false>,
+
       Expect<Equal<typeof encoded, `^start!string^end! is the ^sq!best^sq!`>>,
       Expect<Equal<typeof decoded, `{{string}} is the 'best'`>>,
+    ];
+  });
+
+
+  it("token shape -> static token", () => {
+    const n = createToken("null", "static")("null", isNull);
+    const syn = createTokenSyntax(
+      "Template",
+      "{{",
+      "}}",
+      "::"
+    );
+
+    const shape = syn.tokenShape(n);
+
+    type cases = [
+      Expect<Equal<typeof shape, "{{null}}">>,
+    ];
+  });
+
+  it("token shape -> dynamic token", () => {
+    const s = createToken("string", "dynamic")(
+      ({ sep }) => (...p) => {
+        return ifEmpty(
+          p,
+          {
+            type: "string" as string,
+            typeGuard: isString
+          },
+          {
+            type: asUnion(p, sep, { prefix: `string${sep}` }),
+            typeGuard: isStringLiteral(...p)
+          }
+        )
+      },
+      <T extends readonly string[]>(...params: T) => params
+    );
+    const syn = createTokenSyntax(
+      "Template",
+      "{{",
+      "}}",
+      "::"
+    );
+
+    const shape = syn.tokenShape(s);
+
+    type cases = [
+      Expect<Equal<typeof shape, "{{string}}" | `{{string::${string}}}`>>,
     ];
   });
 
