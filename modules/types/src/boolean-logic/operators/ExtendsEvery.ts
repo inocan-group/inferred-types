@@ -1,4 +1,4 @@
-import { And, Or } from "inferred-types/types";
+import type { And, Or } from "inferred-types/types";
 
 /**
  * **ExtendsEvery**`<T,U>`
@@ -11,7 +11,7 @@ import { And, Or } from "inferred-types/types";
  */
 export type ExtendsEvery<
   T extends readonly unknown[],
-  U extends readonly unknown[]
+  U extends readonly unknown[],
 > = And<{
   [K in keyof T]: Or<{
     [Key in keyof U]: T[K] extends U[Key] ? true : false

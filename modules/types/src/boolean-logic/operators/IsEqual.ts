@@ -1,5 +1,5 @@
 import type { IsAny } from "./IsAny";
-import { IsTrue } from "./IsTrue";
+import type { IsTrue } from "./IsTrue";
 
 type Test<
   X,
@@ -30,13 +30,13 @@ export type IsEqual<
   AllowNever = false,
 > = [IsAny<X>] extends [true]
   ? [IsAny<Y>] extends [true]
-  ? [IsTrue<AllowNever>] extends [true] ? true : never
-  : [IsTrue<AllowNever>] extends [true] ? false : never
+      ? [IsTrue<AllowNever>] extends [true] ? true : never
+      : [IsTrue<AllowNever>] extends [true] ? false : never
   : [boolean] extends [X]
-  ? [boolean] extends [Y]
-  ? true
-  : false
-  : Test<X, Y, TRUE, FALSE>;
+      ? [boolean] extends [Y]
+          ? true
+          : false
+      : Test<X, Y, TRUE, FALSE>;
 
 /**
  * **Equals**`<X,Y>`
@@ -44,4 +44,3 @@ export type IsEqual<
  * Type utility which tests whether two types -- `X` and `Y` -- are exactly the same type
  */
 export type Equals<X, Y, TTrue = true, TFalse = false> = IsEqual<X, Y, TTrue, TFalse>;
-

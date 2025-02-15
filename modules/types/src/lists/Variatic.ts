@@ -1,24 +1,22 @@
-import { Slice } from "./Slice"
+import type { Slice } from "./Slice";
 
 type GetNonVariadicLength<
   T extends readonly unknown[],
-  F extends readonly unknown[] = []
+  F extends readonly unknown[] = [],
 > = [] extends T
   ? F["length"]
   : T extends [infer Explicit, ...infer REST]
-  ? GetNonVariadicLength<
-    REST,
-    [...F, Explicit]
-  >
-  : F["length"]
-
+    ? GetNonVariadicLength<
+      REST,
+      [...F, Explicit]
+    >
+    : F["length"];
 
 export type NonVariadic<T extends readonly unknown[]> = Slice<
   T,
   0,
   GetNonVariadicLength<Required<T>>
->
-
+>;
 
 // type A = [1, 2, 3];
 // type B = [1, 2, 3, number?];

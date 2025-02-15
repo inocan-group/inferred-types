@@ -1,9 +1,9 @@
-import {
+import type {
   And,
   ComparatorOperation,
   Compare,
   IsUnion,
-  UnionToTuple
+  UnionToTuple,
 } from "inferred-types/types";
 
 type UnionComparison<
@@ -11,13 +11,12 @@ type UnionComparison<
   TOp extends ComparatorOperation,
   TComparator,
   TIf,
-  TElse
+  TElse,
 > = And<{
   [K in keyof TTarget]: Compare<TTarget[K], TOp, TComparator>
 }> extends true
   ? TIf
-  : TElse
-
+  : TElse;
 
 /**
  * **EveryUnionElement**`<TTarget, TOp, TComparator, [TIf], [TElse]>`
@@ -40,8 +39,7 @@ export type EveryUnionElement<
   TOp extends ComparatorOperation,
   TComparator,
   TIf = true,
-  TElse = false
+  TElse = false,
 > = IsUnion<TTarget> extends true
   ? UnionComparison<UnionToTuple<TTarget>, TOp, TComparator, TIf, TElse>
   : Compare<TTarget, TOp, TComparator>;
-

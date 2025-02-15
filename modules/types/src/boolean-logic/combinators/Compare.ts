@@ -14,7 +14,6 @@ import type {
   NumberLike,
   StartsWith,
   Tuple,
-  TupleToUnion,
   TypedFunction,
   WhenNever,
 } from "inferred-types/types";
@@ -60,26 +59,26 @@ export type ParamsForComparison<
   T extends ComparatorOperation,
 > =
   T extends "equals"
-  ? readonly [unknown]
-  : T extends "extends"
-  ? readonly [unknown]
-  : T extends "startsWith"
-  ? [string | number]
-  : T extends "endsWith"
-  ? readonly [[string | number] | Tuple<unknown, 1>]
-  : T extends "contains"
-  ? readonly [unknown, ...Tuple[]]
-  : T extends "containsAll"
-  ? readonly [unknown, ...Tuple[]]
-  : T extends "greaterThan"
-  ? readonly [NumberLike]
-  : T extends "greaterThanOrEqual"
-  ? readonly [NumberLike]
-  : T extends "lessThan"
-  ? readonly [NumberLike]
-  : T extends "lessThanOrEqual"
-  ? readonly [NumberLike]
-  : never;
+    ? readonly [unknown]
+    : T extends "extends"
+      ? readonly [unknown]
+      : T extends "startsWith"
+        ? [string | number]
+        : T extends "endsWith"
+          ? readonly [[string | number] | Tuple<unknown, 1>]
+          : T extends "contains"
+            ? readonly [unknown, ...Tuple[]]
+            : T extends "containsAll"
+              ? readonly [unknown, ...Tuple[]]
+              : T extends "greaterThan"
+                ? readonly [NumberLike]
+                : T extends "greaterThanOrEqual"
+                  ? readonly [NumberLike]
+                  : T extends "lessThan"
+                    ? readonly [NumberLike]
+                    : T extends "lessThanOrEqual"
+                      ? readonly [NumberLike]
+                      : never;
 
 /**
  * **Comparison**`<TOp,TArgs>`
@@ -102,14 +101,12 @@ export type Comparison<
   TFn extends TypedFunction = TypedFunction,
 > = Extends<TArgs, ParamsForComparison<TOp>> extends true
   ? {
-    kind: "Comparison";
-    op: TOp;
-    args: TArgs;
-    fn: TFn;
-  }
+      kind: "Comparison";
+      op: TOp;
+      args: TArgs;
+      fn: TFn;
+    }
   : ErrorCondition<"invalid-comparison">;
-
-
 
 type Process<
   TVal,
@@ -118,51 +115,51 @@ type Process<
 > = TOp extends "extends"
   ? DoesExtend<TVal, TComparator>
   : TOp extends "equals"
-  ? IsEqual<TVal, TComparator>
-  : TOp extends "contains"
-  ? [TVal] extends [string | number | Tuple]
-  ? Contains<TVal, TComparator>
-  : never
-  : TOp extends "containsAll"
-  ? [TVal] extends [Tuple]
-  ? [TComparator] extends [string | number | readonly string[]]
-  ? Contains<TVal, TComparator>
-  : never
-  : never
-  : TOp extends "startsWith"
-  ? [TVal] extends [string | number]
-  ? [TComparator] extends [string | number | readonly string[]]
-  ? StartsWith<TVal, TComparator>
-  : never
-  : never
-  : TOp extends "greaterThan"
-  ? And<[Extends<TComparator, NumberLike>, Extends<TVal, NumberLike>]> extends true
-  ? IsGreaterThan<As<TVal, NumberLike>, As<TComparator, NumberLike>>
-  : never
-  : TOp extends "greaterThanOrEqual"
-  ? And<[Extends<TComparator, NumberLike>, Extends<TVal, NumberLike>]> extends true
-  ? IsGreaterThanOrEqual<As<TVal, NumberLike>, As<TComparator, NumberLike>>
-  : never
+    ? IsEqual<TVal, TComparator>
+    : TOp extends "contains"
+      ? [TVal] extends [string | number | Tuple]
+          ? Contains<TVal, TComparator>
+          : never
+      : TOp extends "containsAll"
+        ? [TVal] extends [Tuple]
+            ? [TComparator] extends [string | number | readonly string[]]
+                ? Contains<TVal, TComparator>
+                : never
+            : never
+        : TOp extends "startsWith"
+          ? [TVal] extends [string | number]
+              ? [TComparator] extends [string | number | readonly string[]]
+                  ? StartsWith<TVal, TComparator>
+                  : never
+              : never
+          : TOp extends "greaterThan"
+            ? And<[Extends<TComparator, NumberLike>, Extends<TVal, NumberLike>]> extends true
+              ? IsGreaterThan<As<TVal, NumberLike>, As<TComparator, NumberLike>>
+              : never
+            : TOp extends "greaterThanOrEqual"
+              ? And<[Extends<TComparator, NumberLike>, Extends<TVal, NumberLike>]> extends true
+                ? IsGreaterThanOrEqual<As<TVal, NumberLike>, As<TComparator, NumberLike>>
+                : never
 
-  : TOp extends "lessThan"
-  ? And<[Extends<TComparator, NumberLike>, Extends<TVal, NumberLike>]> extends true
-  ? IsLessThan<As<TVal, NumberLike>, As<TComparator, NumberLike>>
-  : never
-  : TOp extends "lessThanOrEqual"
-  ? And<[Extends<TComparator, NumberLike>, Extends<TVal, NumberLike>]> extends true
-  ? IsLessThanOrEqual<As<TVal, NumberLike>, As<TComparator, NumberLike>>
-  : never
-  : TOp extends "endsWith"
-  ? [TVal] extends [string | number]
-  ? [TComparator] extends [string | number | readonly string[]]
-  ? EndsWith<TVal, TComparator>
-  : never
-  : never
-  : TOp extends "returnEquals"
-  ? TVal extends ((...args: any[]) => any) ? IsEqual<ReturnType<TVal>, TComparator> : false
-  : TOp extends "returnExtends"
-  ? TVal extends ((...args: any[]) => any) ? IsEqual<ReturnType<TVal>, TComparator> : false
-  : never;
+              : TOp extends "lessThan"
+                ? And<[Extends<TComparator, NumberLike>, Extends<TVal, NumberLike>]> extends true
+                  ? IsLessThan<As<TVal, NumberLike>, As<TComparator, NumberLike>>
+                  : never
+                : TOp extends "lessThanOrEqual"
+                  ? And<[Extends<TComparator, NumberLike>, Extends<TVal, NumberLike>]> extends true
+                    ? IsLessThanOrEqual<As<TVal, NumberLike>, As<TComparator, NumberLike>>
+                    : never
+                  : TOp extends "endsWith"
+                    ? [TVal] extends [string | number]
+                        ? [TComparator] extends [string | number | readonly string[]]
+                            ? EndsWith<TVal, TComparator>
+                            : never
+                        : never
+                    : TOp extends "returnEquals"
+                      ? TVal extends ((...args: any[]) => any) ? IsEqual<ReturnType<TVal>, TComparator> : false
+                      : TOp extends "returnExtends"
+                        ? TVal extends ((...args: any[]) => any) ? IsEqual<ReturnType<TVal>, TComparator> : false
+                        : never;
 
 /**
  * **Compare**`<TVal,TOp,TComparator>`
