@@ -8,8 +8,8 @@ import type { IsEqual, IsNever, UnionToTuple } from "inferred-types/types";
  */
 export type IsUnion<T> = [IsNever<UnionToTuple<T>>] extends [true]
   ? false
-  : IsEqual<T, boolean> extends true
-    ? false
-    : UnionToTuple<T>["length"] extends 1
-      ? false
-      : true;
+  : UnionToTuple<T> extends readonly unknown[]
+  ? UnionToTuple<T>["length"] extends 1
+  ? false
+  : true
+  : false;

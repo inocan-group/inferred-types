@@ -116,3 +116,4 @@ export * from "./Validate";
 export * from "./SomeUnionElement";
 export * from "./EveryUnionElement";
 export * from "./HasEvery";
+export * from "./ExtendsEvery";

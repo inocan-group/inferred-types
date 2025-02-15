@@ -1,4 +1,10 @@
-import { AfterFirst, And, AnyObject, First, IsFalse, IsTrue, Scalar } from "inferred-types/types"
+import {
+  AfterFirst,
+  And,
+  AnyObject,
+  First,
+  Scalar
+} from "inferred-types/types"
 
 type HasBoolean<
   T extends readonly unknown[],
@@ -8,14 +14,6 @@ type HasBoolean<
   ? And<[TTrue, TFalse]>
   : HasBoolean<AfterFirst<T>, First<T> extends true ? true : TTrue, First<T> extends false ? true : TFalse>
 
-
-type PreserveBoolean<T extends readonly unknown[]> = {
-  [K in keyof T]: IsTrue<T[K]> extends true
-  ? boolean
-  : IsFalse<T[K]> extends true
-  ? never
-  : T[K]
-}
 
 
 /**
@@ -42,7 +40,14 @@ type Process<
   Last = LastInUnion<U>
 > = [U] extends [never]
   ? []
-  : [...UnionToTuple<Exclude<U, Last>>, Last]
+  : [...Process<Exclude<U, Last>>, Last];
+
+type FilterBoolean<
+  T extends readonly unknown[],
+  R extends readonly unknown[] = []
+> = [] extends T
+  ? R
+  : FilterBoolean<AfterFirst<T>, First<T> extends boolean ? R : [...R, First<T>]>;
 
 /**
  * **UnionToTuple**`<1 | 2>` => [1, 2]
@@ -54,5 +59,5 @@ type Process<
 export type UnionToTuple<
   U extends undefined | Scalar | AnyObject
 > = HasBoolean<Process<U>> extends true
-  ? PreserveBoolean<Process<U>>
+  ? [...FilterBoolean<Process<U>>, boolean]
   : Process<U>;

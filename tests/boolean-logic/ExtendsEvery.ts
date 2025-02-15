@@ -1,6 +1,6 @@
 import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { ExtendsEvery } from "../../modules/types/src/boolean-logic/operators/ExtendsEvery";
+import { ExtendsEvery } from "inferred-types/types";
 
 describe("ExtendsEvery<T,U>", () => {
 
