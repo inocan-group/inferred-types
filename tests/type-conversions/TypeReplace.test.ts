@@ -36,4 +36,25 @@ describe("TypeReplace", () => {
     ];
   });
 
+
+
+  it("with union type for find literal", () => {
+    type Narrow = TypeReplace<[42, 56, "foo", true], number | string, string>
+    type Narrow2 = TypeReplace<[42, 56, "foo", true], number | boolean, string>
+    type Medium = TypeReplace<[42, 56, "foo", true], number | boolean, string, "medium">
+    type Wide = TypeReplace<[42, 56, "foo", true], number | boolean, string, "wide">
+
+    type cases = [
+      Expect<Equal<Narrow, ["42", "56", "foo", true]>>,
+      Expect<Equal<Narrow2, ["42", "56", "foo", "true"]>>,
+      Expect<Equal<Medium, [`${number}`, `${number}`, "foo", true]>>,
+      Expect<Equal<Wide, [string, string, "foo", true]>>,
+    ];
+
+    type cases = [
+      /** type tests */
+    ];
+  });
+
+
 });

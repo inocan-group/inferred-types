@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { EmptyObject, RemoveNever } from "inferred-types";
+import { EmptyObject, RemoveNever } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -9,18 +9,18 @@ import { describe, it } from "vitest";
 describe("RemoveNever<T>", () => {
 
   it("tuple tests", () => {
-    type Identity = RemoveNever<[1,2,3]>;
-    type OneGone = RemoveNever<[1,never, 2,3]>;
+    type Identity = RemoveNever<[1, 2, 3]>;
+    type OneGone = RemoveNever<[1, never, 2, 3]>;
     type AllGone = RemoveNever<[never, never]>;
-    type Leading = RemoveNever<[never, 1,2,3]>;
-    type Tailing = RemoveNever<[1,2,3, never]>;
+    type Leading = RemoveNever<[never, 1, 2, 3]>;
+    type Tailing = RemoveNever<[1, 2, 3, never]>;
 
     type cases = [
-      Expect<Equal<Identity, [1,2,3]>>,
-      Expect<Equal<OneGone, [1,2,3]>>,
+      Expect<Equal<Identity, [1, 2, 3]>>,
+      Expect<Equal<OneGone, [1, 2, 3]>>,
       Expect<Equal<AllGone, []>>,
-      Expect<Equal<Leading, [1,2,3]>>,
-      Expect<Equal<Tailing, [1,2,3]>>,
+      Expect<Equal<Leading, [1, 2, 3]>>,
+      Expect<Equal<Tailing, [1, 2, 3]>>,
     ];
     const cases: cases = [
       true, true, true, true, true
@@ -28,14 +28,14 @@ describe("RemoveNever<T>", () => {
   });
 
   it("object tests", () => {
-    type Identity = RemoveNever<{foo: 1}>;
-    type NoBar = RemoveNever<{foo: 1; bar: never}>;
-    type NothingLeft = RemoveNever<{foo: never; bar: never}>;
+    type Identity = RemoveNever<{ foo: 1 }>;
+    type NoBar = RemoveNever<{ foo: 1; bar: never }>;
+    type NothingLeft = RemoveNever<{ foo: never; bar: never }>;
     type NothingToBegin = RemoveNever<EmptyObject>;
 
     type cases = [
-      Expect<Equal<Identity, {foo:1}>>,
-      Expect<Equal<NoBar, {foo:1}>>,
+      Expect<Equal<Identity, { foo: 1 }>>,
+      Expect<Equal<NoBar, { foo: 1 }>>,
       Expect<Equal<NothingLeft, EmptyObject>>,
       Expect<Equal<NothingToBegin, EmptyObject>>,
     ];

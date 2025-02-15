@@ -1,4 +1,4 @@
-import { And, As, NumberLike } from "inferred-types/types";
+import { And, As, NumberLike, SomeUnionElement } from "inferred-types/types";
 
 export type TypeReplaceStrategy = "narrow" | "medium" | "wide";
 
@@ -13,16 +13,20 @@ export type Replacer<
   : TStrategy extends "narrow"
   ? TReplace extends string
   ? And<[
-    TFind extends boolean ? true : false,
+    SomeUnionElement<TFind, "extends", boolean>,
     TContent extends boolean ? true : false
   ]> extends true
   ? `${As<TContent, boolean>}`
   : And<[
-    TFind extends number ? true : false,
+    SomeUnionElement<TFind, "extends", number>,
     TContent extends number ? true : false
   ]> extends true
   ? `${As<TContent, number>}`
-
+  : And<[
+    SomeUnionElement<TFind, "extends", string>,
+    TContent extends string ? true : false
+  ]> extends true
+  ? `${As<TContent, string>}`
   : TReplace
   : TReplace
   // strategy is "medium"
@@ -63,3 +67,5 @@ export type TypeReplace<
   : TContent;
 
 
+type X = SomeUnionElement<string | boolean, "extends", boolean>
+//   ^?
