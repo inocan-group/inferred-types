@@ -1,19 +1,18 @@
 import type {
+  AfterFirst,
   Container,
   Dictionary,
   EmptyObject,
-  ObjectKey,
-  IfNever,
-  RemoveIndexKeys,
-  NumericKeys,
-  AfterFirst,
   First,
-  UnionToTuple
+  IfNever,
+  NumericKeys,
+  ObjectKey,
+  RemoveIndexKeys,
+  UnionToTuple,
 } from "inferred-types/types";
 
-
 type _Keys<T extends object> = UnionToTuple<keyof RemoveIndexKeys<T>> extends
-  readonly ObjectKey[]
+readonly ObjectKey[]
   ? UnionToTuple<keyof RemoveIndexKeys<T>>
   : never;
 
@@ -24,22 +23,22 @@ type ProcessObj<
 > = [] extends TKeys
   ? TResults
   : First<TKeys> extends keyof T
-  ? IfNever<
-    T[First<TKeys>],
-    ProcessObj<T, AfterFirst<TKeys>, TResults>,
-    ProcessObj<
-      T,
-      AfterFirst<TKeys>,
-      First<TKeys> extends keyof T
-      ? TResults extends readonly unknown[]
-      ? [...TResults, T[First<TKeys>]]
-      : TResults extends Dictionary
-      ? TResults & Record<First<TKeys>, T[First<TKeys>]>
-      : never
-      : never
+    ? IfNever<
+      T[First<TKeys>],
+      ProcessObj<T, AfterFirst<TKeys>, TResults>,
+      ProcessObj<
+        T,
+        AfterFirst<TKeys>,
+        First<TKeys> extends keyof T
+          ? TResults extends readonly unknown[]
+            ? [...TResults, T[First<TKeys>]]
+            : TResults extends Dictionary
+              ? TResults & Record<First<TKeys>, T[First<TKeys>]>
+              : never
+          : never
+      >
     >
-  >
-  : never;
+    : never;
 
 type ProcessTuple<
   T extends Container,
@@ -48,18 +47,18 @@ type ProcessTuple<
 > = [] extends TKeys
   ? TResults
   : First<TKeys> extends keyof T
-  ? IfNever<
-    T[First<TKeys>],
-    ProcessTuple<T, AfterFirst<TKeys>, TResults>,
-    ProcessTuple<
-      T,
-      AfterFirst<TKeys>,
-      First<TKeys> extends keyof T
-      ? [...TResults, T[First<TKeys>]]
-      : never
+    ? IfNever<
+      T[First<TKeys>],
+      ProcessTuple<T, AfterFirst<TKeys>, TResults>,
+      ProcessTuple<
+        T,
+        AfterFirst<TKeys>,
+        First<TKeys> extends keyof T
+          ? [...TResults, T[First<TKeys>]]
+          : never
+      >
     >
-  >
-  : never;
+    : never;
 
 /**
  * **RemoveNever**`<T>`
@@ -71,5 +70,5 @@ export type RemoveNever<
 > = T extends readonly unknown[]
   ? ProcessTuple<T, NumericKeys<T>>
   : T extends Dictionary
-  ? ProcessObj<T, _Keys<T>>
-  : never;
+    ? ProcessObj<T, _Keys<T>>
+    : never;
