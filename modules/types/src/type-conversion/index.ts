@@ -67,6 +67,7 @@ export * from "./Trim";
 export * from "./TrimLeft";
 export * from "./TrimRight";
 export * from "./TupleToUnion";
+export * from "./TypeReplace";
 export * from "./UnionArrayToTuple";
 export * from "./UnionFilter";
 export * from "./UnionShift";
@@ -75,7 +76,6 @@ export * from "./UnionToTuple";
 export * from "./UnionWithAll";
 export * from "./ValueOrReturnValue";
 export * from "./Widen";
-export * from "./WidenValues";
 
+export * from "./WidenValues";
 export * from "./WithDefault";
-export * from "./TypeReplace";

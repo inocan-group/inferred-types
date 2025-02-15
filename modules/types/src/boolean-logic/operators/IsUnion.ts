@@ -1,4 +1,4 @@
-import type { IsEqual, IsNever, UnionToTuple } from "inferred-types/types";
+import type { IsNever, UnionToTuple } from "inferred-types/types";
 
 /**
  * **IsUnion**`<T>`
@@ -9,7 +9,7 @@ import type { IsEqual, IsNever, UnionToTuple } from "inferred-types/types";
 export type IsUnion<T> = [IsNever<UnionToTuple<T>>] extends [true]
   ? false
   : UnionToTuple<T> extends readonly unknown[]
-  ? UnionToTuple<T>["length"] extends 1
-  ? false
-  : true
-  : false;
+    ? UnionToTuple<T>["length"] extends 1
+      ? false
+      : true
+    : false;

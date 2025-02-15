@@ -1,4 +1,3 @@
-
 /**
  * **MultiArrayType**`<T>`
  *
@@ -6,6 +5,6 @@
  */
 export type MultiArrayType<T> = T extends any[]
   ? T extends Array<infer Type>
-  ? MultiArrayType<Type>
-  : T
+    ? MultiArrayType<Type>
+    : T
   : never;

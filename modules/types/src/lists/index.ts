@@ -1,4 +1,3 @@
-
 export * from "./AfterFirst";
 export * from "./AllowNonTupleWhenSingular";
 export * from "./ArrayElementType";
@@ -49,5 +48,3 @@ export * from "./ToCSV";
 export * from "./TruthyReturns";
 export * from "./UnionFromProp";
 export * from "./Variatic";
-
-

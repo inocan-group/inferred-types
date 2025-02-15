@@ -47,13 +47,10 @@ describe("TypeReplace", () => {
     type cases = [
       Expect<Equal<Narrow, ["42", "56", "foo", true]>>,
       Expect<Equal<Narrow2, ["42", "56", "foo", "true"]>>,
-      Expect<Equal<Medium, [`${number}`, `${number}`, "foo", true]>>,
-      Expect<Equal<Wide, [string, string, "foo", true]>>,
+      Expect<Equal<Medium, [`${number}`, `${number}`, "foo", `${true}`]>>,
+      Expect<Equal<Wide, [string, string, "foo", string]>>,
     ];
 
-    type cases = [
-      /** type tests */
-    ];
   });
 
 

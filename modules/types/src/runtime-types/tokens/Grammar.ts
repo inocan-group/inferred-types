@@ -1,36 +1,36 @@
-import { Dictionary, EmptyObject } from "src/base-types";
+import type { Expand } from "inferred-types/types";
+import type { Dictionary, EmptyObject } from "src/base-types";
+import type { AfterFirst, First } from "src/lists";
 import type { DynamicToken, StaticToken, Token, TokenName } from "./Token";
 import type { TokenSyntax } from "./TokenSyntax";
-import { AfterFirst, First } from "src/lists";
-import { Expand } from "inferred-types/types";
 
 type AddGrammarMethod<
-  S extends TokenSyntax,
-  T extends Token
+  _S extends TokenSyntax,
+  T extends Token,
 > = Record<
   T["name"],
   T extends StaticToken
-  ? () => T["type"]
-  : T extends DynamicToken
-  ? <P extends Parameters<T["tokenizer"]>>(...params: P) => unknown
-  : never
+    ? () => T["type"]
+    : T extends DynamicToken
+      ? <P extends Parameters<T["tokenizer"]>>(...params: P) => unknown
+      : never
 >;
 
 /**
  * Provides a list of `Token` names from a tuple of `Token[]`'s
  */
 export type GetTokenNames<
-  T extends readonly Token[]
+  T extends readonly Token[],
 > = {
-    [K in keyof T]: T[K]["name"] extends TokenName
+  [K in keyof T]: T[K]["name"] extends TokenName
     ? T[K]["name"]
     : never
-  };
+};
 
 export type GrammarTypeDefinition<
   S extends TokenSyntax,
   T extends readonly Token[],
-  R extends Dictionary = EmptyObject
+  R extends Dictionary = EmptyObject,
 > = [] extends T
   ? Expand<R>
   : GrammarTypeDefinition<
@@ -45,9 +45,8 @@ export interface Grammar<
   TShape extends <TName extends (GetTokenNames<TTokens>[number] & TokenName) | undefined = undefined>(
     token?: TName
   ) => TName extends undefined
-    ? `${TSyntax['start']}${TTokens[number]['name']}${TSyntax['end']}`
-    : `${TSyntax['start']}${TName}${TSyntax['end']}`
-  = any
+    ? `${TSyntax["start"]}${TTokens[number]["name"]}${TSyntax["end"]}`
+    : `${TSyntax["start"]}${TName}${TSyntax["end"]}` = any,
 > {
   kind: "Grammar";
   /**
@@ -77,5 +76,5 @@ export interface Grammar<
    */
   tokenShape: TShape;
 
-  typeDefinition: GrammarTypeDefinition<TSyntax, TTokens>
+  typeDefinition: GrammarTypeDefinition<TSyntax, TTokens>;
 }
