@@ -113,3 +113,6 @@ export * from "./SomeExtend";
 export * from "./StartsWith";
 export * from "./UnionHasArray";
 export * from "./Validate";
+export * from "./SomeUnionElement";
+export * from "./EveryUnionElement";
+export * from "./HasEvery";
