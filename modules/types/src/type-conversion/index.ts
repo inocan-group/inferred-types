@@ -78,3 +78,4 @@ export * from "./Widen";
 export * from "./WidenValues";
 
 export * from "./WithDefault";
+export * from "./TypeReplace";
