@@ -8,14 +8,16 @@ import { MakeKeysOptional } from "inferred-types/types";
 
 describe("MakeKeysOptional<TObj,TKeys>", () => {
 
-  it("happy path", () => {
-    type Obj = { foo: 1; bar: 2};
+  it("using a tuple of keys", () => {
+    type Obj = { foo: 1; bar: 2 };
     type Opt = MakeKeysOptional<Obj, ["bar"]>;
 
     type cases = [
       Expect<Equal<Opt, { foo: 1; bar?: 2 | undefined }>>
     ];
-    const cases: cases = [ true ];
+    const cases: cases = [true];
   });
+
+
 
 });

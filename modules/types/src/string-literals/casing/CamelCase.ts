@@ -7,6 +7,26 @@ import type {
   RightWhitespace,
 } from "inferred-types/types";
 
+
+type Process<
+  TString extends string,
+  TPreserveWhitespace extends boolean = false,
+> = If<
+  IsTrue<TPreserveWhitespace>,
+  string extends TString
+  ? string
+  : Concat<[
+    LeftWhitespace<TString>,
+    Uncapitalize<PascalCase<TString>>,
+    RightWhitespace<TString>,
+  ]>
+  ,
+  string extends TString
+  ? string
+  : Uncapitalize<PascalCase<TString>>
+>;
+
+
 /**
  * **CamelCase**`<TString,TPreserveWhitespace>`
  *
@@ -14,19 +34,13 @@ import type {
  * surrounding whitespace.
  */
 export type CamelCase<
-  TString extends string,
-  TPreserveWhitespace extends boolean = false,
-> = If<
-  IsTrue<TPreserveWhitespace>,
-  string extends TString
-    ? string
-    : Concat<[
-      LeftWhitespace<TString>,
-      Uncapitalize<PascalCase<TString>>,
-      RightWhitespace<TString>,
-    ]>
-  ,
-  string extends TString
-    ? string
-    : Uncapitalize<PascalCase<TString>>
->;
+  T extends string | readonly unknown[]
+> = T extends string
+  ? Process<T>
+  : T extends readonly unknown[]
+  ? {
+    [K in keyof T]: T[K] extends string
+    ? CamelCase<T[K]>
+    : T[K]
+  }
+  : never;

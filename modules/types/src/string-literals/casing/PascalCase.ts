@@ -6,8 +6,8 @@ type Delimiter = "_" | "-" | " ";
 type DashDelim<T extends string> = T extends `${infer Begin}${" "}${infer Rest}`
   ? DashDelim<`${Begin}-${Rest}`>
   : T extends `${infer Begin}${"_"}${infer Rest}`
-    ? DashDelim<`${Begin}-${Rest}`>
-    : T;
+  ? DashDelim<`${Begin}-${Rest}`>
+  : T;
 
 /**
  * Converts a string literal type to a **PascalCase** representation.
@@ -19,8 +19,18 @@ type DashDelim<T extends string> = T extends `${infer Begin}${" "}${infer Rest}`
  * type T = PascalCase<"\n foo_bar \t">;
  * ```
  */
-export type PascalCase<S extends string> = string extends S
+export type PascalCase<
+  T extends string | readonly unknown[]
+> = string extends T
   ? string
-  : Trim<DashDelim<LowerAllCaps<S>>> extends `${infer Begin}${Delimiter}${infer Rest}`
-    ? PascalCase<`${Capitalize<Begin>}${Capitalize<Rest>}`>
-    : Capitalize<Trim<LowerAllCaps<S>>>;
+  : T extends string
+  ? Trim<DashDelim<LowerAllCaps<T>>> extends `${infer Begin}${Delimiter}${infer Rest}`
+  ? PascalCase<`${Capitalize<Begin>}${Capitalize<Rest>}`>
+  : Capitalize<Trim<LowerAllCaps<T>>>
+  : T extends readonly unknown[]
+  ? {
+    [K in keyof T]: T[K] extends string
+    ? PascalCase<T[K]>
+    : T[K]
+  }
+  : never;

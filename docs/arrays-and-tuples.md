@@ -46,9 +46,9 @@ This is a tricky topic in part because Javascript started without types and Type
 Create an Array type.
 
 ```ts
-// unknown[]
+// readonly unknown[]
 type Base = Arr;
-// string[]
+// readonly string[]
 type Str = Arr<string>;
 // readonly [unknown, ...unknown[]]
 type Explicit = Arr<unknown, { min: 1, readonly: true }>;

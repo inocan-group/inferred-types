@@ -1,4 +1,5 @@
 import type {
+  As,
   Concat,
   DashUppercase,
   LeftWhitespace,
@@ -21,16 +22,16 @@ type Process<
 
   : // remove whitespace
   string extends TString
-    ? string
-    : DashUppercase<Trim<LowerAllCaps<TString>>> extends `${infer Begin}${"_" | " "}${infer Rest}`
-      ? KebabCase<`${Lowercase<Begin>}-${Rest}`>
-      : Replace<
-        Lowercase<
-          DashUppercase<Uncapitalize<Trim<LowerAllCaps<TString>>>>
-        >,
-        "--",
-        "-"
-      >;
+  ? string
+  : DashUppercase<Trim<LowerAllCaps<TString>>> extends `${infer Begin}${"_" | " "}${infer Rest}`
+  ? KebabCase<`${Lowercase<Begin>}-${Rest}`>
+  : Replace<
+    Lowercase<
+      DashUppercase<Uncapitalize<Trim<LowerAllCaps<TString>>>>
+    >,
+    "--",
+    "-"
+  >;
 
 /**
  * **KebabCase**`<TString,TPreserve>`
@@ -48,8 +49,16 @@ type Process<
  * ```
  */
 export type KebabCase<
-  TString extends string,
+  TInput extends string | readonly unknown[],
   TPreserve extends boolean = false,
-> = Process<TString, TPreserve> extends string
-  ? Process<TString, TPreserve>
+> = TInput extends string
+  ? Process<TInput, TPreserve> extends string
+  ? Process<TInput, TPreserve>
+  : never
+  : TInput extends readonly unknown[]
+  ? As<{
+    [K in keyof TInput]: TInput[K] extends string
+    ? KebabCase<TInput[K]>
+    : TInput[K]
+  }, readonly unknown[]>
   : never;
