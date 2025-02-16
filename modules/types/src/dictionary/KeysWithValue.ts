@@ -1,5 +1,6 @@
 import type {
   AfterFirst,
+  As,
   Dictionary,
   First,
   IsFunction,
@@ -15,15 +16,15 @@ type Process<
   TResults extends readonly ObjectKey[] = [],
 > = [] extends TKeys
   ? TResults
-  : [First<TKeys>] extends [keyof TObj ]
-      ? [IsFunction<TValue>] extends [true]
-          ? [IsFunction<TObj[First<TKeys>]>] extends [true]
-              ? Process<AfterFirst<TKeys>, TObj, TValue, [...TResults, First<TKeys>]>
-              : Process<AfterFirst<TKeys>, TObj, TValue, TResults>
-          : [TObj[First<TKeys>]] extends [TValue]
-              ? Process<AfterFirst<TKeys>, TObj, TValue, [...TResults, First<TKeys>]>
-              : Process<AfterFirst<TKeys>, TObj, TValue, TResults>
-      : never;
+  : [First<TKeys>] extends [keyof TObj]
+  ? [IsFunction<TValue>] extends [true]
+  ? [IsFunction<TObj[First<TKeys>]>] extends [true]
+  ? Process<AfterFirst<TKeys>, TObj, TValue, [...TResults, First<TKeys>]>
+  : Process<AfterFirst<TKeys>, TObj, TValue, TResults>
+  : [TObj[First<TKeys>]] extends [TValue]
+  ? Process<AfterFirst<TKeys>, TObj, TValue, [...TResults, First<TKeys>]>
+  : Process<AfterFirst<TKeys>, TObj, TValue, TResults>
+  : never;
 
 /**
  * **KeysWithValue**`<TObj,TValue>`
@@ -43,7 +44,7 @@ export type KeysWithValue<
   TValue,
 > = [IsObjectLiteral<TObj>] extends [true]
   ? Process<
-    Keys<TObj>,
+    As<Keys<TObj>, readonly (keyof TObj & ObjectKey)[]>,
     TObj,
     TValue
   >

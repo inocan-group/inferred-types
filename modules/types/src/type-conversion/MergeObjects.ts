@@ -21,10 +21,10 @@ type Merged<
     TBase,
     TErr,
     First<TKeys> extends keyof TErr
-      ? TResult & Record<First<TKeys>, TErr[First<TKeys>]>
-      : First<TKeys> extends keyof TBase
-        ? TResult & Record<First<TKeys>, TBase[First<TKeys>]>
-        : never
+    ? TResult & Record<First<TKeys>, TErr[First<TKeys>]>
+    : First<TKeys> extends keyof TBase
+    ? TResult & Record<First<TKeys>, TBase[First<TKeys>]>
+    : never
   >;
 
 /**
@@ -35,8 +35,12 @@ type Merged<
 export type MergeObjects<
   TDef extends AnyObject,
   TOverride extends Dictionary,
-> = Merged<
-  As<CombinedKeys<TDef, TOverride>, readonly string[]>,
-  TDef,
-  TOverride
->;
+> = TDef extends Dictionary
+
+  ? Merged<
+    As<CombinedKeys<TDef, TOverride>, readonly string[]>,
+    TDef,
+    TOverride
+  >
+
+  : never;

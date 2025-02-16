@@ -10,5 +10,5 @@ import type { ObjectKey } from "./ObjectKey";
  */
 export type Dictionary<
   K extends ObjectKey = ObjectKey,
-  V = unknown,
+  V = any,
 > = Record<K, V>;

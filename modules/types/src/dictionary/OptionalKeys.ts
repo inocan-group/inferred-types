@@ -1,5 +1,5 @@
 import type {
-  AnyObject,
+  Dictionary,
   EmptyObject,
   If,
   IsEqual,
@@ -28,13 +28,16 @@ import type {
  * **Related:** `RequiredKeys`, `RequiredProps`
  */
 export type OptionalKeys<
-  T extends AnyObject,
+  T,
   V = Unset,
-> = {
-  [K in keyof T]-?: EmptyObject extends { [P in K]: T[K] }
+> = T extends Dictionary
+
+  ? {
+    [K in keyof T]-?: EmptyObject extends { [P in K]: T[K] }
     ? If<IsEqual<V, Unset>, K, K extends V ? K : never>
     : never;
-}[keyof T];
+  }[keyof T]
+  : never;
 
 /**
  * **OptionalKeysTuple**`<T>`
@@ -45,7 +48,10 @@ export type OptionalKeys<
  * **Related:** `RequiredKeys`, `OptionalProps`
  */
 export type OptionalKeysTuple<
-  T extends AnyObject,
-> = UnionToTuple<OptionalKeys<T>> extends readonly ObjectKey[]
+  T,
+> = T extends Dictionary
+
+  ? UnionToTuple<OptionalKeys<T>> extends readonly ObjectKey[]
   ? UnionToTuple<OptionalKeys<T>>
+  : never
   : never;

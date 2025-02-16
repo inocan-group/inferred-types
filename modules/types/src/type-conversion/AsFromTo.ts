@@ -1,5 +1,4 @@
 import type {
-  AnyObject,
   Dictionary,
   FromTo,
   IsWideContainer,
@@ -8,7 +7,7 @@ import type {
 
 /** converts an object's key values into FromTo tuple */
 type ConvertFromTo<
-  TObj extends AnyObject,
+  TObj extends Dictionary,
 > = Values<{
   [K in keyof TObj]: {
     from: K;
@@ -18,7 +17,7 @@ type ConvertFromTo<
 
 /** converts an object's key values into FromTo tuple (in reverse) */
 type ConvertToFrom<
-  TObj extends AnyObject,
+  TObj extends Dictionary,
 > = Values<{
   [K in keyof TObj]: {
     to: K;
@@ -42,8 +41,8 @@ export type AsFromTo<
 > = IsWideContainer<T> extends true
   ? FromTo[]
   : ConvertFromTo<T> extends readonly FromTo[]
-    ? ConvertFromTo<T>
-    : never;
+  ? ConvertFromTo<T>
+  : never;
 
 /**
  * **AsToFrom**`<T>`
@@ -60,5 +59,5 @@ export type AsToFrom<
 > = IsWideContainer<T> extends true
   ? FromTo[]
   : ConvertToFrom<T> extends readonly FromTo[]
-    ? ConvertToFrom<T>
-    : never;
+  ? ConvertToFrom<T>
+  : never;

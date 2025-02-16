@@ -1,4 +1,4 @@
-import type { AnyObject, Widen } from "inferred-types/types";
+import type { Dictionary, Widen } from "inferred-types/types";
 
 /**
  * **SetKeyStrict**`<TObj,TKey,TVal>
@@ -10,14 +10,14 @@ import type { AnyObject, Widen } from "inferred-types/types";
  * - if you want `TVal` to be less constrained, use `SetKey` instead.
  */
 export type SetKeyStrict<
-  TObj extends AnyObject,
+  TObj extends Dictionary,
   TKey extends keyof TObj,
   TVal extends TObj[TKey],
 > = {
-  [K in keyof TObj]: K extends TKey
+    [K in keyof TObj]: K extends TKey
     ? TVal
     : TObj[K]
-};
+  };
 
 /**
  * **SetKey**`<TObj,TKey,TVal>
@@ -30,14 +30,16 @@ export type SetKeyStrict<
  * - if you want to be constrained to the literal type use `SetKeyStrict`
  */
 export type SetKey<
-  TObj extends AnyObject,
+  TObj extends Dictionary,
   TKey extends keyof TObj,
-  TVal extends Widen<TObj[TKey]>,
+  TVal,
 > = {
-  [K in keyof TObj]: K extends TKey
+    [K in keyof TObj]: K extends TKey
     ? TVal
-    : TObj[K]
-};
+    : TObj[K] extends Widen<TObj[K]>
+    ? TObj[K]
+    : never
+  };
 
 /**
  * **ForceSetKey**`<TObj,TKey,TVal>
@@ -49,11 +51,11 @@ export type SetKey<
  * `TObj` use `SetKey` instead.
  */
 export type SetKeyForce<
-  TObj extends AnyObject,
+  TObj extends Dictionary,
   TKey extends keyof TObj,
-  TVal ,
+  TVal,
 > = {
-  [K in keyof TObj]: K extends TKey
+    [K in keyof TObj]: K extends TKey
     ? TVal
     : TObj[K]
-};
+  };

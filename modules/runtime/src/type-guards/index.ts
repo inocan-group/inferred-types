@@ -55,6 +55,7 @@ export * from "./isTruthy";
 export * from "./isTypeSubtype";
 export * from "./isTypeTuple";
 export * from "./isUndefined";
+export * from "./hasNonStringKeys";
 
 export * from "./isUnset";
 export * from "./isUrl";
