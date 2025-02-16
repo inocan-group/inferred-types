@@ -10,6 +10,8 @@ type Take<
   TResult extends readonly unknown[] = [],
 > = TLen extends 0
   ? TResult
+  : [] extends TContent
+  ? TResult
   : Take<AfterFirst<TContent>, Decrement<TLen>, [
     ...TResult,
     First<TContent>,
