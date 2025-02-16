@@ -1,6 +1,7 @@
 import type {
   AfterFirst,
   AnyObject,
+  Dictionary,
   ExpandDictionary,
   First,
   Keys,
@@ -9,8 +10,8 @@ import type {
 
 type Convert<
   TKeys extends readonly (ObjectKey & keyof TObj)[],
-  TObj extends AnyObject,
-  TResult extends AnyObject,
+  TObj extends Dictionary,
+  TResult extends Dictionary,
 > = [] extends TKeys
   ? ExpandDictionary<TResult>
   : Convert<

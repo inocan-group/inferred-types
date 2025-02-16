@@ -52,10 +52,7 @@ describe("KeysWithValue<T> utility", () => {
       ExpectTrue<HasSameValues<Obj, ["baz", "emptyBaz"]>>,
       ExpectTrue<HasSameValues<Fn, ["fn", "fnWithProp", "narrowFn", "narrowFnWithProps"]>>,
     ];
-    const cases: cases = [
-      true, true, true, true, true,
-      true, true, true
-    ];
+
   });
 
   it("using literal types for match", () => {

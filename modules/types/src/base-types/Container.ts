@@ -11,8 +11,4 @@ import type { Dictionary } from "inferred-types/types";
  */
 export type Container =
   | Dictionary
-  | readonly unknown[]
-  | Map<unknown, unknown>
-  | WeakMap<object, unknown>
-  | Set<unknown>
-  | object;
+  | readonly unknown[];

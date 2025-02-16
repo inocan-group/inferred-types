@@ -18,6 +18,9 @@ const defaultOptions: Required<AsUnionOptions> = {
   encoder: null,
 };
 
+/**
+ * Allows you to create a runtime "token" while specifying what it's union type is.
+ */
 export function asUnion<
   TElements extends readonly N[],
   N extends (string | number | boolean),

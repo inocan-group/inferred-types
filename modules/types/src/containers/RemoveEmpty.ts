@@ -15,6 +15,7 @@ import type {
   Keys,
   Or,
   RemoveMarked,
+  StringKeys,
   Tuple,
 } from "inferred-types/types";
 
@@ -49,8 +50,8 @@ type ProcessObj<
     TObj,
     AfterFirst<TKeys>,
     IsEmpty<First<TKeys>> extends true
-      ? TResult & Record<First<TKeys>, TObj[First<TKeys>]>
-      : TResult
+    ? TResult & Record<First<TKeys>, TObj[First<TKeys>]>
+    : TResult
   >;
 
 /**
@@ -69,5 +70,5 @@ type ProcessObj<
 export type RemoveEmpty<T> = T extends Tuple
   ? As<RemoveMarked<ProcessTup<T>>, readonly unknown[]>
   : T extends Dictionary
-    ? As<RemoveMarked<ProcessObj<T, Keys<T>>>, Dictionary>
-    : T;
+  ? As<RemoveMarked<ProcessObj<T, StringKeys<T>>>, Dictionary>
+  : T;

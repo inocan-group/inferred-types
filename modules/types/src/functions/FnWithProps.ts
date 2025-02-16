@@ -1,5 +1,5 @@
 import type {
-  AnyObject,
+  Dictionary,
   If,
   IsTrue,
   JustFunction,
@@ -15,7 +15,7 @@ import type {
  */
 export type FnWithProps<
   TFn extends TypedFunction,
-  TProps extends AnyObject,
+  TProps extends Dictionary,
   TClone extends boolean | null | undefined = true,
 > = If<
   IsTrue<TClone>,

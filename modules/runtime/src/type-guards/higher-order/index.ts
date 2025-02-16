@@ -6,3 +6,4 @@ export * from "./isStringLiteral";
 export * from "./isTuple";
 export * from "./isTypeOf";
 export * from "./startsWith";
+export * from "./isInUnion";
