@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { isZipCode, isZipCode5, isZipPlus4 } from "inferred-types";
-import { Zip5, ZipCode, ZipPlus4 } from "inferred-types";
+import { isZipCode, isZipCode5, isZipPlus4 } from "inferred-types/runtime";
+import { Zip5, ZipCode, ZipPlus4 } from "inferred-types/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -17,7 +17,7 @@ describe("isZipCode()", () => {
     expect(t1).toBe(true);
     expect(t2).toBe(true);
 
-    if(isZipCode(zc)) {
+    if (isZipCode(zc)) {
       type T = typeof zc;
       // @ts-ignore
       type cases = [
@@ -35,7 +35,7 @@ describe("isZipCode()", () => {
     expect(t1).toBe(true);
     expect(t2).toBe(true);
 
-    if(isZipCode(zc)) {
+    if (isZipCode(zc)) {
       type T = typeof zc;
       // @ts-ignore
       type cases = [
@@ -61,7 +61,7 @@ describe("isZipCode5", () => {
     expect(f1).toBe(false);
     expect(f2).toBe(false);
 
-    if(isZipCode5(zc)) {
+    if (isZipCode5(zc)) {
       type T = typeof zc;
       // @ts-ignore
       type cases = [
@@ -86,7 +86,7 @@ describe("isZipPlus4", () => {
     expect(f1).toBe(false);
     expect(f2).toBe(false);
 
-    if(isZipPlus4(zc2)) {
+    if (isZipPlus4(zc2)) {
       type T = typeof zc2;
       // @ts-ignore
       type cases = [

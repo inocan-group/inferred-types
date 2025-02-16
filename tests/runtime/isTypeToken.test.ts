@@ -1,5 +1,6 @@
 import { Expect } from "@type-challenges/utils";
-import { DoesExtend, isTypeToken } from "inferred-types";
+import { DoesExtend } from "inferred-types/types";
+import { isTypeToken } from "inferred-types/runtime";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -21,7 +22,7 @@ describe("isTypeToken(token, kind)", () => {
     expect(t3).toBe(true);
     expect(t4).toBe(true);
 
-    if(isTypeToken(variant, "fn")) {
+    if (isTypeToken(variant, "fn")) {
       type V = typeof variant;
 
       // @ts-ignore

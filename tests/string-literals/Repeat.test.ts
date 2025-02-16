@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { Repeat } from "inferred-types";
+import { Repeat } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -8,15 +8,15 @@ import { describe, it } from "vitest";
 
 describe("Repeat<TStr,TCount>", () => {
 
-  it("happy path", () => {
-    type T1 = Repeat<"a", 5>;
-    type T2 = Repeat<"foo", 3>;
+    it("happy path", () => {
+        type T1 = Repeat<"a", 5>;
+        type T2 = Repeat<"foo", 3>;
 
-    type cases = [
-      Expect<Equal<T1, "aaaaa">>,
-      Expect<Equal<T2, "foofoofoo">>,
-    ];
-    const cases: cases = [ true, true ];
-  });
+        type cases = [
+            Expect<Equal<T1, "aaaaa">>,
+            Expect<Equal<T2, "foofoofoo">>,
+        ];
+        const cases: cases = [true, true];
+    });
 
 });

@@ -1,6 +1,6 @@
 import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { isGithubIssuesListUrl, isGithubIssueUrl, isGithubProjectsListUrl, isGithubProjectUrl, isGithubReleasesListUrl, isGithubReleaseTagUrl, isGithubRepoUrl } from "inferred-types";
-import { DoesNotExtend, Extends, GithubRepoIssuesListUrl, GithubRepoIssueUrl, GithubRepoProjectsUrl, GithubRepoProjectUrl, GithubRepoReleasesUrl, GithubRepoReleaseTagUrl, GithubRepoUrl } from "inferred-types";
+import { isGithubIssuesListUrl, isGithubIssueUrl, isGithubProjectsListUrl, isGithubProjectUrl, isGithubReleasesListUrl, isGithubReleaseTagUrl, isGithubRepoUrl } from "inferred-types/runtime";
+import { DoesNotExtend, Extends, GithubRepoIssuesListUrl, GithubRepoIssueUrl, GithubRepoProjectsUrl, GithubRepoProjectUrl, GithubRepoReleasesUrl, GithubRepoReleaseTagUrl, GithubRepoUrl } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -20,13 +20,13 @@ describe("Github types and type guards", () => {
 
     expect(isGithubRepoUrl(repo)).toEqual(true);
 
-    if(isGithubRepoUrl(repo)) {
+    if (isGithubRepoUrl(repo)) {
       // @ts-ignore
       type cases1 = [
         Expect<Equal<typeof repo, typeof repo>>
       ]
     }
-    if(isGithubRepoUrl(repoWide)) {
+    if (isGithubRepoUrl(repoWide)) {
       // @ts-ignore
       type cases1 = [
         Expect<Equal<typeof repoWide, GithubRepoUrl>>
@@ -36,7 +36,7 @@ describe("Github types and type guards", () => {
     const f1 = isGithubRepoUrl(bad);
     expect(f1).toEqual(false);
 
-    if(isGithubRepoUrl(bad)) {
+    if (isGithubRepoUrl(bad)) {
       // @ts-ignore
       type cases1 = [
         Expect<Equal<typeof bad, never>>

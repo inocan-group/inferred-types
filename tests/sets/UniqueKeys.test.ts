@@ -2,8 +2,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { LeftRight, UniqueKeys, Left, Right, HasSameValues , UniqueKeysUnion } from "inferred-types";
-import { uniqueKeys } from "inferred-types";
+import { LeftRight, UniqueKeys, Left, Right, HasSameValues, UniqueKeysUnion } from "inferred-types/types";
+import { uniqueKeys } from "inferred-types/runtime";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -12,10 +12,10 @@ import { uniqueKeys } from "inferred-types";
 describe("UniqueKeys<L,R>", () => {
 
   it("happy path for UniqueKeysUnion<L,R>", () => {
-    type Obj = UniqueKeysUnion<{foo: 1; bar: 2}, {bar: 5; baz: 42}>;
-    type LeftEmpty = UniqueKeysUnion<{}, {bar: 5; baz: 42}>;
-    type RightEmpty = UniqueKeysUnion<{bar: 5; baz: 42}, NonNullable<unknown>>;
-    type Tup = UniqueKeysUnion<[1,2,3], [3,4,5,6]>;
+    type Obj = UniqueKeysUnion<{ foo: 1; bar: 2 }, { bar: 5; baz: 42 }>;
+    type LeftEmpty = UniqueKeysUnion<{}, { bar: 5; baz: 42 }>;
+    type RightEmpty = UniqueKeysUnion<{ bar: 5; baz: 42 }, NonNullable<unknown>>;
+    type Tup = UniqueKeysUnion<[1, 2, 3], [3, 4, 5, 6]>;
 
     type cases = [
       Expect<Equal<Obj, LeftRight<"foo", "baz">>>,
@@ -23,15 +23,15 @@ describe("UniqueKeys<L,R>", () => {
       Expect<Equal<RightEmpty, LeftRight<"bar" | "baz", never>>>,
       Expect<Equal<Tup, LeftRight<never, "3">>>,
     ];
-    const cases: cases = [ true, true, true, true ];
+    const cases: cases = [true, true, true, true];
   });
 
 
   it("happy path for UniqueKey<L,R>", () => {
-    type Obj = UniqueKeys<{foo: 1; bar: 2}, {bar: 5; baz: 42}>;
-    type LeftEmpty = UniqueKeys<{}, {bar: 5; baz: 42}>; // order not assured
-    type RightEmpty = UniqueKeys<{bar: 5; baz: 42}, NonNullable<unknown>>;
-    type Tup = UniqueKeys<[1,2,3], [3,4,5,6]>;
+    type Obj = UniqueKeys<{ foo: 1; bar: 2 }, { bar: 5; baz: 42 }>;
+    type LeftEmpty = UniqueKeys<{}, { bar: 5; baz: 42 }>; // order not assured
+    type RightEmpty = UniqueKeys<{ bar: 5; baz: 42 }, NonNullable<unknown>>;
+    type Tup = UniqueKeys<[1, 2, 3], [3, 4, 5, 6]>;
 
     type cases = [
       Expect<Equal<Obj, LeftRight<["foo"], ["baz"]>>>,
@@ -44,7 +44,7 @@ describe("UniqueKeys<L,R>", () => {
 
       Expect<Equal<Tup, LeftRight<[], [3]>>>,
     ];
-    const cases: cases = [ true, true, true, true, true, true ];
+    const cases: cases = [true, true, true, true, true, true];
   });
 
 
@@ -54,8 +54,8 @@ describe("uniqueKeys(left, right)", () => {
 
   it("object", () => {
     const obj = uniqueKeys(
-      {foo: 1, bar: 2},
-      {bar: 5, baz: 42}
+      { foo: 1, bar: 2 },
+      { bar: 5, baz: 42 }
     );
     expect(obj).toEqual(["LeftRight", ["foo"], ["baz"]]);
   });

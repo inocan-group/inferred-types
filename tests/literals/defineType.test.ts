@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 import type { Expect, Equal } from "@type-challenges/utils";
-import { defineObj } from "inferred-types";
+import { defineObj } from "inferred-types/runtime";
 
 describe("defineType() utility", () => {
   it("only specify a wide type", () => {
@@ -18,7 +18,7 @@ describe("defineType() utility", () => {
     type cases = [
       // when we provide {} as a literal type; we get the expected type
       Expect<Equal<typeof t, { foo: string; bar: number }>>,
-      Expect<Equal<typeof t2,{foo: string; bar: number }>>,
+      Expect<Equal<typeof t2, { foo: string; bar: number }>>,
     ];
     const cases: cases = [true, true];
     expect(cases).toBe(cases);

@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { MaxLength } from "inferred-types";
+import { MaxLength } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -8,20 +8,20 @@ import { describe, it } from "vitest";
 
 describe("MaxLength<T>", () => {
 
-  it("happy path", () => {
-    type FooBar = MaxLength<["foo", "bar", "foobar", "baz"]>;
-    type FooBar2 = MaxLength<["foo", "bar", "foobar"]>;
-    type FooBar3 = MaxLength<["foobar", "bar", "foo", "baz"]>;
-    type FooBar4 = MaxLength<["foobar"]>;
+    it("happy path", () => {
+        type FooBar = MaxLength<["foo", "bar", "foobar", "baz"]>;
+        type FooBar2 = MaxLength<["foo", "bar", "foobar"]>;
+        type FooBar3 = MaxLength<["foobar", "bar", "foo", "baz"]>;
+        type FooBar4 = MaxLength<["foobar"]>;
 
 
-    // @ts-ignore
-    type cases = [
-      Expect<Equal<FooBar, "foobar">>,
-      Expect<Equal<FooBar2, "foobar">>,
-      Expect<Equal<FooBar3, "foobar">>,
-      Expect<Equal<FooBar4, "foobar">>,
-    ];
-  });
+        // @ts-ignore
+        type cases = [
+            Expect<Equal<FooBar, "foobar">>,
+            Expect<Equal<FooBar2, "foobar">>,
+            Expect<Equal<FooBar3, "foobar">>,
+            Expect<Equal<FooBar4, "foobar">>,
+        ];
+    });
 
 });

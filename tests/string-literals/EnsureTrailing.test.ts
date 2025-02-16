@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { ensureTrailing } from "inferred-types";
-import { EnsureTrailing } from "inferred-types";
+import { ensureTrailing } from "inferred-types/runtime";
+import { EnsureTrailing } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
 
@@ -20,7 +20,7 @@ describe("EnsureTrailing", () => {
     type NoChange = EnsureTrailing<"FooBar", "Bar">;
     type FooBar = EnsureTrailing<"Foo", "Bar">;
 
-    type PostfixOne = EnsureTrailing<5,1>;
+    type PostfixOne = EnsureTrailing<5, 1>;
 
     type cases = [
       Expect<Equal<SuperWide, string>>,
@@ -57,13 +57,13 @@ describe("ensureTrailing()", () => {
       Expect<Equal<typeof noChange, "FooBar">>,
       Expect<Equal<typeof fooBar, "FooBar">>,
     ];
-    const cases: cases = [ true, true ]
+    const cases: cases = [true, true]
   });
 
   it("brackets", () => {
     const square = ensureTrailing("FooBar", "]]");
-    const curly =  ensureTrailing("FooBar", "}}");
-    const rounded =ensureTrailing("FooBar", "))");
+    const curly = ensureTrailing("FooBar", "}}");
+    const rounded = ensureTrailing("FooBar", "))");
 
     expect(square).toEqual("FooBar]]");
     expect(curly).toEqual("FooBar}}");

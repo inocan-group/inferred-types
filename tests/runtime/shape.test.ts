@@ -1,11 +1,7 @@
- import { Equal, Expect } from "@type-challenges/utils";
-import {  } from "inferred-types";
-import { ZipCode, shape } from "inferred-types";
+import { Equal, Expect } from "@type-challenges/utils";
+import { shape } from "inferred-types/runtime";
+import { ZipCode } from "inferred-types/types";
 import { describe, it } from "vitest";
-
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
 
 describe("shape", () => {
 
@@ -17,7 +13,7 @@ describe("shape", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<typeof foobar, { foo: string; bar: ZipCode}>>
+      Expect<Equal<typeof foobar, { foo: string; bar: ZipCode }>>
     ];
   });
 

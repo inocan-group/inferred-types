@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { IsTuple } from "inferred-types";
+import { IsTuple } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -8,23 +8,23 @@ import { describe, it } from "vitest";
 
 describe("IsTuple<T>", () => {
 
-  it("happy path", () => {
-    type Scalar = IsTuple<42>;
-    type Obj = IsTuple<{foo: 1}>;
-    type StrArr = IsTuple<string[]>;
-    type Tup = IsTuple<[1,2,3]>;
-    type TupRo = IsTuple<readonly [1,2,3]>;
-    type Empty = IsTuple<[]>;
+    it("happy path", () => {
+        type Scalar = IsTuple<42>;
+        type Obj = IsTuple<{ foo: 1 }>;
+        type StrArr = IsTuple<string[]>;
+        type Tup = IsTuple<[1, 2, 3]>;
+        type TupRo = IsTuple<readonly [1, 2, 3]>;
+        type Empty = IsTuple<[]>;
 
-    type cases = [
-      Expect<Equal<Scalar, false>>,
-      Expect<Equal<Obj, false>>,
-      Expect<Equal<StrArr, false>>,
-      Expect<Equal<Tup, true>>,
-      Expect<Equal<TupRo, true>>,
-      Expect<Equal<Empty, true>>,
-    ];
-    const cases: cases = [true, true, true, true,true,true];
-  });
+        type cases = [
+            Expect<Equal<Scalar, false>>,
+            Expect<Equal<Obj, false>>,
+            Expect<Equal<StrArr, false>>,
+            Expect<Equal<Tup, true>>,
+            Expect<Equal<TupRo, true>>,
+            Expect<Equal<Empty, true>>,
+        ];
+        const cases: cases = [true, true, true, true, true, true];
+    });
 
 });

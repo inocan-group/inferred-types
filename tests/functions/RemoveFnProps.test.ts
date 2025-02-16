@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { FnProps, RemoveFnProps } from "inferred-types";
+import { FnProps, RemoveFnProps } from "inferred-types/types";
 
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -9,22 +9,22 @@ import { FnProps, RemoveFnProps } from "inferred-types";
 // gain validation that no new type vulnerabilities have cropped up.
 
 describe("RemoveFnProps<Fn>", () => {
-  const fn = () => "hi" as const;
-  const dict = { foo: "bar", baz: 42 } as const;
-  type Fn = typeof fn;
-  type Dict = typeof dict;
+    const fn = () => "hi" as const;
+    const dict = { foo: "bar", baz: 42 } as const;
+    type Fn = typeof fn;
+    type Dict = typeof dict;
 
-  it("isolating fn and dict with type utils", () => {
-    type F1 = Fn & Dict;
-    type JustFn = RemoveFnProps<F1>;
-    type JustProps = FnProps<F1>;
+    it("isolating fn and dict with type utils", () => {
+        type F1 = Fn & Dict;
+        type JustFn = RemoveFnProps<F1>;
+        type JustProps = FnProps<F1>;
 
-    type cases = [
-      Expect<Equal<JustFn, Fn>>,
-      Expect<Equal<JustProps, Dict>>,
-    ];
-    const cases: cases = [ true, true ];
-  });
+        type cases = [
+            Expect<Equal<JustFn, Fn>>,
+            Expect<Equal<JustProps, Dict>>,
+        ];
+        const cases: cases = [true, true];
+    });
 
 
 

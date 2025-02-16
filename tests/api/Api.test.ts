@@ -10,14 +10,14 @@ import {
   IsEscapeFunction,
   HasEscapeFunction,
   AsEscapeFunction,
-} from "inferred-types";
+} from "inferred-types/types";
 
 import {
   asApi,
   asEscapeFunction,
   isApiSurface,
   isEscapeFunction
-} from "inferred-types";
+} from "inferred-types/runtime";
 
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -59,7 +59,7 @@ describe("API related type utilities", () => {
       >>,
       Expect<Equal<
         GFn,
-        (() => `done`) & { escape: true } & { age: 42}
+        (() => `done`) & { escape: true } & { age: 42 }
       >>,
     ];
     const cases: cases = [
@@ -91,7 +91,7 @@ describe("API related type utilities", () => {
       IsErrorCondition<Invalid, "no-escape-function">
     ];
     const cases: cases = [
-      true,true,
+      true, true,
       true
     ];
 

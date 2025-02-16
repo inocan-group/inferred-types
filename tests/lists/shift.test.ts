@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { defineTuple,  shift } from "inferred-types";
-import {  Shift } from "inferred-types";
+import { defineTuple, shift } from "inferred-types/runtime";
+import { Shift } from "inferred-types/types";
 
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -50,7 +50,7 @@ describe("Shift<T>", () => {
     type cases = [
       Expect<Equal<Empty, undefined>>
     ];
-    const cases: cases = [ true ];
+    const cases: cases = [true];
 
   });
 
@@ -60,8 +60,8 @@ describe("Shift<T>", () => {
 describe("shift()", () => {
 
   it("happy path", () => {
-    const arr_ro = [1,2,3] as const;
-    let arr = defineTuple(1,2,3);
+    const arr_ro = [1, 2, 3] as const;
+    let arr = defineTuple(1, 2, 3);
 
     const val = shift(arr_ro);
     const val2 = shift(arr);
@@ -80,19 +80,19 @@ describe("shift()", () => {
       Expect<Equal<typeof empty, undefined>>,
       Expect<Equal<typeof wideArray, undefined | string>>,
     ];
-    const cases: cases = [ true, true, true, true ];
+    const cases: cases = [true, true, true, true];
   });
 
 
   it("The list value is never mutated regardless of whether property is readonly", () => {
-    const arr_ro = [1,2,3] as const;
-    let arr = defineTuple(1,2,3);
+    const arr_ro = [1, 2, 3] as const;
+    let arr = defineTuple(1, 2, 3);
 
     shift(arr_ro);
     shift(arr);
 
-    expect(arr_ro, "readonly variable unaffected").toEqual([1,2,3]);
-    expect(arr, "mutable tuple is changed").toEqual([1,2,3]);
+    expect(arr_ro, "readonly variable unaffected").toEqual([1, 2, 3]);
+    expect(arr, "mutable tuple is changed").toEqual([1, 2, 3]);
 
   });
 

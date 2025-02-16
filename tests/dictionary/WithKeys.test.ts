@@ -5,8 +5,8 @@ import { Equal, Expect } from "@type-challenges/utils";
 // NOTE: "withKeys" and "retain" are aliases of one another
 // so these tests really pertain to both
 
-import { retain, withKeys } from "inferred-types";
-import { DoesExtend, ErrorCondition, WithKeys } from "inferred-types";
+import { retain, withKeys } from "inferred-types/runtime";
+import { DoesExtend, ErrorCondition, WithKeys } from "inferred-types/types";
 
 describe("WithKeys<T, K> utility with tuples", () => {
 
@@ -58,8 +58,8 @@ describe("WithKeys<T, K> utility with objects", () => {
 describe("withKeys() runtime with objects", () => {
 
   it("runtime: happy path", () => {
-    const literalObj = {foo: 1, bar: 42 as number | undefined, baz: "hi"} as const;
-    const obj = {foo: 1, bar: 42 as number | undefined, baz: "hi"};
+    const literalObj = { foo: 1, bar: 42 as number | undefined, baz: "hi" } as const;
+    const obj = { foo: 1, bar: 42 as number | undefined, baz: "hi" };
     const t1 = withKeys(literalObj, "foo", "bar");
     const t2 = withKeys(literalObj, "foo", "baz");
     const t1b = withKeys(obj, "foo", "bar");
@@ -80,23 +80,23 @@ describe("withKeys() runtime with objects", () => {
     expect(t2b.baz).toBe("hi");
 
     type cases = [
-      Expect<Equal<typeof t1, { readonly foo: 1; readonly bar: number | undefined}>>,
-      Expect<Equal<typeof t2, { readonly foo: 1; readonly baz: "hi"}>>
+      Expect<Equal<typeof t1, { readonly foo: 1; readonly bar: number | undefined }>>,
+      Expect<Equal<typeof t2, { readonly foo: 1; readonly baz: "hi" }>>
     ];
-    const cases: cases = [ true, true ];
+    const cases: cases = [true, true];
   });
 
 
   it("runtime: when keys includes a value which is a union the type is ErrorCondition", () => {
-    const obj = retain({foo: 1, bar: 2, baz: 3}, "bar" as "bar" | "baz");
+    const obj = retain({ foo: 1, bar: 2, baz: 3 }, "bar" as "bar" | "baz");
 
     // true runtime value is returned
-    expect(obj).toEqual({bar: 2});
+    expect(obj).toEqual({ bar: 2 });
     // since design time type can not legitimately determined
     type cases = [
       DoesExtend<typeof obj, ErrorCondition<"invalid-union">>,
     ];
-    const cases: cases = [ true ];
+    const cases: cases = [true];
   });
 
 });

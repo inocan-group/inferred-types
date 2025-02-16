@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { IsNegativeNumber } from "inferred-types";
+import { IsNegativeNumber } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -8,21 +8,21 @@ import { describe, it } from "vitest";
 
 describe("IsNegativeNumber", () => {
 
-  it("happy path", () => {
-    type Neg = IsNegativeNumber<-1>;
-    type NegStr = IsNegativeNumber<"-1">;
-    type Pos = IsNegativeNumber<1>;
-    type PosStr = IsNegativeNumber<"1">;
-    type Bool = IsNegativeNumber<number>;
+    it("happy path", () => {
+        type Neg = IsNegativeNumber<-1>;
+        type NegStr = IsNegativeNumber<"-1">;
+        type Pos = IsNegativeNumber<1>;
+        type PosStr = IsNegativeNumber<"1">;
+        type Bool = IsNegativeNumber<number>;
 
-    type cases = [
-      Expect<Equal<Neg, true>>,
-      Expect<Equal<NegStr, true>>,
-      Expect<Equal<Pos, false>>,
-      Expect<Equal<PosStr, false>>,
-      Expect<Equal<Bool, boolean>>,
-    ];
-    const cases: cases = [ true, true, true, true, true ];
-  });
+        type cases = [
+            Expect<Equal<Neg, true>>,
+            Expect<Equal<NegStr, true>>,
+            Expect<Equal<Pos, false>>,
+            Expect<Equal<PosStr, false>>,
+            Expect<Equal<Bool, boolean>>,
+        ];
+        const cases: cases = [true, true, true, true, true];
+    });
 
 });

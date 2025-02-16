@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import {  AllExtend, Dictionary } from "inferred-types";
+import { AllExtend, Dictionary } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -9,7 +9,7 @@ import { describe, it } from "vitest";
 describe("AllExtend<TList,TExtend> and IfAllExtend<TList,TExtend>", () => {
 
   it("happy path", () => {
-    type StringLiterals = ["foo","bar","baz"];
+    type StringLiterals = ["foo", "bar", "baz"];
     type StrBool = ["foo", boolean, string];
 
     type T1 = AllExtend<StringLiterals, string>;
@@ -24,7 +24,7 @@ describe("AllExtend<TList,TExtend> and IfAllExtend<TList,TExtend>", () => {
       Expect<Equal<F1, false>>,
       Expect<Equal<F2, false>>,
     ];
-    const cases: cases = [ true, true, true, true ];
+    const cases: cases = [true, true, true, true];
   });
 
 });

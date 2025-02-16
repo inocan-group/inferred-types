@@ -6,8 +6,8 @@ import {
   CsvToTuple,
   CsvToTupleStr,
   CsvToUnion
-} from "inferred-types";
-import { csv } from "inferred-types";
+} from "inferred-types/types";
+import { csv } from "inferred-types/runtime";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -24,11 +24,11 @@ describe("CsvToTuple<T> and CsvToTupleStr<T>", () => {
     type Mixed = CsvToTuple<"foo, 42, 56,bar">;
 
     type cases = [
-      Expect<Equal<OneTwoThree, [1,2,3]>>,
-      Expect<Equal<OneTwoThreeAlt, [1,2,3]>>,
-      Expect<Equal<OneTwoThreeStr, ["1","2","3"]>>,
+      Expect<Equal<OneTwoThree, [1, 2, 3]>>,
+      Expect<Equal<OneTwoThreeAlt, [1, 2, 3]>>,
+      Expect<Equal<OneTwoThreeStr, ["1", "2", "3"]>>,
 
-      Expect<Equal<FooBarBaz, ["foo","bar","baz"]>>,
+      Expect<Equal<FooBarBaz, ["foo", "bar", "baz"]>>,
       Expect<Equal<Mixed, ["foo", 42, 56, "bar"]>>,
 
     ];
@@ -47,9 +47,9 @@ describe("CsvToJsonTuple<T>", () => {
     type Mixed = CsvToJsonTuple<"foo, 42, 56,bar">;
 
     type cases = [
-      Expect<Equal<OneTwoThree, [1,2,3]>>,
+      Expect<Equal<OneTwoThree, [1, 2, 3]>>,
       Expect<Equal<FooBarBaz, ["\"foo\"", "\"bar\"", "\"baz\""]>>,
-      Expect<Equal<Mixed, [ "\"foo\"", 42, 56,  "\"bar\""]>>,
+      Expect<Equal<Mixed, ["\"foo\"", 42, 56, "\"bar\""]>>,
     ];
     const cases: cases = [
       true, true, true
@@ -68,10 +68,10 @@ describe("CsvToUnion<T> and CsvToStrUnion<T>", () => {
     type MixedAsStr = CsvToStrUnion<"foo, 42, 56,bar">;
 
     type cases = [
-      Expect<Equal<OneTwoThree, 1|2|3>>,
-      Expect<Equal<OneTwoThreeAlt, 1|2|3>>,
-      Expect<Equal<Mixed, "foo"|"bar"|42|56>>,
-      Expect<Equal<MixedAsStr, "foo"|"bar"|"42"|"56">>,
+      Expect<Equal<OneTwoThree, 1 | 2 | 3>>,
+      Expect<Equal<OneTwoThreeAlt, 1 | 2 | 3>>,
+      Expect<Equal<Mixed, "foo" | "bar" | 42 | 56>>,
+      Expect<Equal<MixedAsStr, "foo" | "bar" | "42" | "56">>,
     ]
 
     const cases: cases = [
@@ -90,9 +90,9 @@ describe("csv(content,format) runtime", () => {
     const abcStr = csv("a,b,c,42", "string-tuple");
     const bool = csv("foo,true, false, true", "json-tuple")
 
-    expect(abc).toEqual(["a","b","c", 42])
-    expect(abcJson).toEqual(["\"a\"","\"b\"","\"c\"", 42])
-    expect(abcStr).toEqual(["a","b","c", "42"])
+    expect(abc).toEqual(["a", "b", "c", 42])
+    expect(abcJson).toEqual(["\"a\"", "\"b\"", "\"c\"", 42])
+    expect(abcStr).toEqual(["a", "b", "c", "42"])
     expect(bool).toEqual(["\"foo\"", true, false, true])
 
 

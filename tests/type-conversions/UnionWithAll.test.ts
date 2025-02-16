@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { UnionWithAll } from "inferred-types";
+import { UnionWithAll } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -8,15 +8,15 @@ import { describe, it } from "vitest";
 
 describe("UnionWithAll<TList,TUnion>", () => {
 
-  it("happy path", () => {
-    type MightBeNumber = UnionWithAll<[1,2,3, "foo"], number>;
-    type Consider42 = UnionWithAll<[1,2,3,"foo"], 42>;
+    it("happy path", () => {
+        type MightBeNumber = UnionWithAll<[1, 2, 3, "foo"], number>;
+        type Consider42 = UnionWithAll<[1, 2, 3, "foo"], 42>;
 
-    type cases = [
-      Expect<Equal<MightBeNumber, [number, number, number, "foo" | number]>>,
-      Expect<Equal<Consider42, [1|42, 2|42, 3|42, "foo"|42]>>,
-    ];
-    const cases: cases = [ true, true];
-  });
+        type cases = [
+            Expect<Equal<MightBeNumber, [number, number, number, "foo" | number]>>,
+            Expect<Equal<Consider42, [1 | 42, 2 | 42, 3 | 42, "foo" | 42]>>,
+        ];
+        const cases: cases = [true, true];
+    });
 
 });

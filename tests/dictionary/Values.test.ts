@@ -1,11 +1,9 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
-import { valuesOf } from "inferred-types";
-import {  HasSameValues, Dictionary, ObjectKey,  Values, EmptyObject } from "inferred-types";
 import { describe, expect, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+import { valuesOf } from "inferred-types/runtime";
+import { HasSameValues, Dictionary, ObjectKey, Values, EmptyObject } from "inferred-types/types";
+
 
 describe("Values<T>", () => {
 
@@ -21,7 +19,7 @@ describe("Values<T>", () => {
     type VRecord = Values<Record<ObjectKey, unknown>>;
 
     type cases = [
-      ExpectTrue<HasSameValues<VObj, [1,"bar",true]>>,
+      ExpectTrue<HasSameValues<VObj, [1, "bar", true]>>,
       Expect<Equal<VEmpty, []>>,
       Expect<Equal<VRecord, []>>,
     ];
@@ -31,17 +29,17 @@ describe("Values<T>", () => {
   });
 
   it("Values<T> where T is a tuple or array", () => {
-    type VArr = Values<[1,2,3]>;
+    type VArr = Values<[1, 2, 3]>;
     type VEmpty = Values<[]>;
     type VStrArr = Values<string[]>;
-    type VMixedTuple = Values<[number,string,boolean]>;
+    type VMixedTuple = Values<[number, string, boolean]>;
     type VUnion = Values<(string | number)[]>
 
     type cases = [
-      Expect<Equal<VArr, [1,2,3]>>,
+      Expect<Equal<VArr, [1, 2, 3]>>,
       Expect<Equal<VEmpty, []>>,
       Expect<Equal<VStrArr, string[]>>,
-      Expect<Equal<VMixedTuple, [number,string,boolean]>>,
+      Expect<Equal<VMixedTuple, [number, string, boolean]>>,
       Expect<Equal<VUnion, (string | number)[]>>,
     ];
     const cases: cases = [
@@ -61,18 +59,18 @@ describe("valuesOf()", () => {
   it("Happy Path", () => {
     const v_obj = valuesOf(obj);
     const v_empty = valuesOf({} as EmptyObject);
-    const v_infer = valuesOf({foo: 1, bar: "bar", baz: true});
+    const v_infer = valuesOf({ foo: 1, bar: "bar", baz: true });
 
-    expect(v_obj).toEqual([1,"bar",true]);
-    expect(v_infer).toEqual([1,"bar",true]);
+    expect(v_obj).toEqual([1, "bar", true]);
+    expect(v_infer).toEqual([1, "bar", true]);
     expect(v_empty).toEqual([]);
 
     type cases = [
-      ExpectTrue<HasSameValues<typeof v_obj, [1,"bar",true]>>,
-      ExpectTrue<HasSameValues<typeof v_infer, [1,"bar",true]>>,
+      ExpectTrue<HasSameValues<typeof v_obj, [1, "bar", true]>>,
+      ExpectTrue<HasSameValues<typeof v_infer, [1, "bar", true]>>,
       Expect<Equal<typeof v_empty, []>>,
     ];
-    const cases: cases = [ true, true, true ];
+    const cases: cases = [true, true, true];
   });
 
 });

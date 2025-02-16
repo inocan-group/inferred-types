@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { HasSameValues, WidenValues } from "inferred-types";
+import { HasSameValues, WidenValues } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -8,23 +8,23 @@ import { describe, it } from "vitest";
 
 describe("WidenValues<T>", () => {
 
-  it("with a tuple container", () => {
-    type Str = WidenValues<["foo","bar"]>;
-    type MixedScalars = WidenValues<["foo",42,false,null]>;
-    type NoChange = WidenValues<[string, number]>;
-    type EmbeddedObj = WidenValues<[{foo: 1}, {bar: 2}]>;
+    it("with a tuple container", () => {
+        type Str = WidenValues<["foo", "bar"]>;
+        type MixedScalars = WidenValues<["foo", 42, false, null]>;
+        type NoChange = WidenValues<[string, number]>;
+        type EmbeddedObj = WidenValues<[{ foo: 1 }, { bar: 2 }]>;
 
-    type cases = [
-      Expect<Equal<Str, [string, string]>>,
-      Expect<Equal<MixedScalars, [string, number, boolean, null]>>,
-      Expect<Equal<NoChange, [string, number]>>,
-      Expect<HasSameValues<EmbeddedObj,[
-        {foo: number}, {bar: number}
-      ]>>
-    ];
-    const cases: cases = [
-      true, true, true, true
-    ];
-  });
+        type cases = [
+            Expect<Equal<Str, [string, string]>>,
+            Expect<Equal<MixedScalars, [string, number, boolean, null]>>,
+            Expect<Equal<NoChange, [string, number]>>,
+            Expect<HasSameValues<EmbeddedObj, [
+                { foo: number }, { bar: number }
+            ]>>
+        ];
+        const cases: cases = [
+            true, true, true, true
+        ];
+    });
 
 });

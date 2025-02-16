@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { Truncate } from "inferred-types";
-import { truncate } from "inferred-types";
+import { Truncate } from "inferred-types/types";
+import { truncate } from "inferred-types/runtime";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -21,7 +21,7 @@ describe("Truncate<T>", () => {
       Expect<Equal<TruncWithEllipsis, "Foo...">>,
       Expect<Equal<CustomEllipsis, "Foo... more">>,
     ];
-    const cases: cases = [ true, true, true, true ];
+    const cases: cases = [true, true, true, true];
   });
 
 });

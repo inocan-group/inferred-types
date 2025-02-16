@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { defineObj } from "inferred-types";
+import { defineObj } from "inferred-types/runtime";
 import { DictionaryWithoutValueFilter, withoutValue } from "inferred-types/runtime";
 import { describe, expect, it } from "vitest";
 
@@ -24,7 +24,7 @@ describe("withoutValue(wo) => (obj) => obj", () => {
       Expect<Equal<typeof narrow, DictionaryWithoutValueFilter<"hi" | "hello">>>,
 
       Expect<Equal<typeof wideObj, { bar: 42; baz: 99 }>>,
-      Expect<Equal<typeof narrowObj, { bar: 42; baz: 99; bax: "bye"}>>,
+      Expect<Equal<typeof narrowObj, { bar: 42; baz: 99; bax: "bye" }>>,
     ];
   });
 

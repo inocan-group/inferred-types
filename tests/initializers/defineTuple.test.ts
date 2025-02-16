@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import {defineTuple} from "inferred-types";
+import { defineTuple } from "inferred-types/runtime";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -24,7 +24,7 @@ describe("createTuple(...values) runtime utility", () => {
       Expect<Equal<typeof takeTwo, ["foo", "bar"]>>,
       Expect<Equal<typeof wideFoo, [string, "bar"]>>,
     ];
-    const cases: cases = [ true, true, true ];
+    const cases: cases = [true, true, true];
   });
 
 
@@ -37,7 +37,7 @@ describe("createTuple(...values) runtime utility", () => {
     type cases = [
       Expect<Equal<typeof foobar, ["foo", "bar"]>>,
     ];
-    const cases: cases = [ true ];
+    const cases: cases = [true];
   });
 
 

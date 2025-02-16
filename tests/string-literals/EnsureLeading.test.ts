@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { EnsureLeading } from "inferred-types";
-import { ensureLeading } from "inferred-types";
+import { EnsureLeading } from "inferred-types/types";
+import { ensureLeading } from "inferred-types/runtime";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -10,7 +10,7 @@ import { ensureLeading } from "inferred-types";
 describe("EnsureLeading", () => {
 
   it("use where TContent is a string", () => {
-    type SuperWide  = EnsureLeading<string, string>;
+    type SuperWide = EnsureLeading<string, string>;
     type NumSuperWide = EnsureLeading<number, number>;
 
     type WideContent = EnsureLeading<string, "wide">;
@@ -18,7 +18,7 @@ describe("EnsureLeading", () => {
 
     type NoChange = EnsureLeading<"FooBar", "Foo">;
     type FooBar = EnsureLeading<"Bar", "Foo">;
-    type PrefixOne = EnsureLeading<5,1>;
+    type PrefixOne = EnsureLeading<5, 1>;
 
     type cases = [
       Expect<Equal<SuperWide, string>>,
@@ -49,7 +49,7 @@ describe("EnsureLeading", () => {
       Expect<Equal<SuperWide, [string, number]>>,
       Expect<Equal<Foo, ["Foo", "FooBar"]>>
     ];
-    const cases: cases = [true, true ];
+    const cases: cases = [true, true];
   });
 });
 
@@ -66,7 +66,7 @@ describe("ensureLeading()", () => {
       Expect<Equal<typeof noChange, "FooBar">>,
       Expect<Equal<typeof fooBar, "FooBar">>,
     ];
-    const cases: cases = [ true, true ]
+    const cases: cases = [true, true]
   });
 
 

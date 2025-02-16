@@ -1,6 +1,6 @@
 import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { GetUrlPort, urlMeta } from "inferred-types";
 import {
+  GetUrlPort,
   AddUrlPathSegment,
   Extends,
   GetUrlSource,
@@ -12,8 +12,8 @@ import {
   IsUrl,
   GetUrlProtocol,
   RemoveUrlPort
-} from "inferred-types";
-import { getUrlPort } from "inferred-types/runtime";
+} from "inferred-types/types";
+import { getUrlPort, urlMeta } from "inferred-types/runtime";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -52,12 +52,12 @@ describe("Url testing", () => {
 
 
   it("PortSpecifier", () => {
-    type None = UrlPort<{portRequirement: "not-allowed"}>;
-    type Optional = UrlPort<{portRequirement: "optional"}>;
-    type Required = UrlPort<{portRequirement: "required"}>;
+    type None = UrlPort<{ portRequirement: "not-allowed" }>;
+    type Optional = UrlPort<{ portRequirement: "optional" }>;
+    type Required = UrlPort<{ portRequirement: "required" }>;
 
-    type Specific = UrlPort<{portRequirement: "required", ports: 80}>;
-    type Multiple = UrlPort<{portRequirement: "required", ports: 80 | 443}>;
+    type Specific = UrlPort<{ portRequirement: "required", ports: 80 }>;
+    type Multiple = UrlPort<{ portRequirement: "required", ports: 80 | 443 }>;
 
     type cases = [
       Expect<Equal<None, "">>,
@@ -149,7 +149,7 @@ describe("Url testing", () => {
       Expect<Equal<Two, "?name=Bob&age=36">>,
     ];
     const cases: cases = [
-      true,true,true
+      true, true, true
     ];
 
   });
@@ -258,9 +258,9 @@ describe("Url testing", () => {
       Expect<Equal<DoubleSlashLater, never>>,
     ];
     const cases: cases = [
-      true, true, true, true, true,true,
+      true, true, true, true, true, true,
       true, true,
-      true, true,true,
+      true, true, true,
       true, true,
       true, true, true
     ];
@@ -289,7 +289,7 @@ describe("Url testing", () => {
 
   it("UrlsFrom<T,TOpt> with HTTP protocol", () => {
     type FooBar = UrlsFrom<"foo.bar">;
-    type FooBarNoQp = UrlsFrom<"foo.bar", { queryParameters: "none"}>;
+    type FooBarNoQp = UrlsFrom<"foo.bar", { queryParameters: "none" }>;
     type FooBarTerminated = UrlsFrom<"foo.bar/">;
     type FooBarBaz = UrlsFrom<"foo.bar/baz">;
     type FooBarBazQuery = UrlsFrom<"foo.bar/baz?name=Bob">;
@@ -303,9 +303,9 @@ describe("Url testing", () => {
     type cases = [
       Expect<Equal<FooBar, `https://foo.bar` | `https://foo.bar?${string}` | `https://foo.bar/${string}`>>,
       Expect<Equal<FooBarNoQp, `https://foo.bar` | `https://foo.bar/${string}`>>,
-      Expect<Equal<FooBarTerminated,`https://foo.bar` | `https://foo.bar?${string}` | `https://foo.bar/${string}`>>,
-      Expect<Equal<FooBarBaz,`https://foo.bar/baz` | `https://foo.bar/baz?${string}` | `https://foo.bar/baz/${string}`>>,
-      Expect<Equal<FooBarBazQuery, `https://foo.bar/baz` | `https://foo.bar/baz?${string}` |`https://foo.bar/baz/${string}`>>,
+      Expect<Equal<FooBarTerminated, `https://foo.bar` | `https://foo.bar?${string}` | `https://foo.bar/${string}`>>,
+      Expect<Equal<FooBarBaz, `https://foo.bar/baz` | `https://foo.bar/baz?${string}` | `https://foo.bar/baz/${string}`>>,
+      Expect<Equal<FooBarBazQuery, `https://foo.bar/baz` | `https://foo.bar/baz?${string}` | `https://foo.bar/baz/${string}`>>,
       Expect<Equal<FooBarOpt, "foo.bar" | `foo.bar?${string}` | `foo.bar/${string}` | FooBar>>,
       Expect<Equal<FooBarInsecure, "http://foo.bar" | `http://foo.bar?${string}` | `http://foo.bar/${string}` | FooBar>>,
 
@@ -320,22 +320,22 @@ describe("Url testing", () => {
       Expect<Equal<GenericStr, `https://youtube.com/@${string}` | `https://youtube.com/@${string}?${string}`>>
     ];
     const cases: cases = [
-      true, true, true, true,true,true,true,
+      true, true, true, true, true, true, true,
       true, true, true
     ];
   });
 
   it("UrlsFrom<T,TOpt> with Websocket protocol", () => {
-    type FooBar = UrlsFrom<"foo.bar", { protocols: ["wss"], queryParameters: "none"}>;
-    type FooBarBaz = UrlsFrom<"foo.bar/baz", { protocols: ["wss"], queryParameters: "none"}>;
-    type FooBarBazQuery = UrlsFrom<"foo.bar/baz?name=Bob", { protocols: ["wss"], queryParameters: "none"}>;
-    type FooBarInsecure = UrlsFrom<"foo.bar", { protocols: ["ws", "wss"], queryParameters: "none"}>;
+    type FooBar = UrlsFrom<"foo.bar", { protocols: ["wss"], queryParameters: "none" }>;
+    type FooBarBaz = UrlsFrom<"foo.bar/baz", { protocols: ["wss"], queryParameters: "none" }>;
+    type FooBarBazQuery = UrlsFrom<"foo.bar/baz?name=Bob", { protocols: ["wss"], queryParameters: "none" }>;
+    type FooBarInsecure = UrlsFrom<"foo.bar", { protocols: ["ws", "wss"], queryParameters: "none" }>;
 
     type FooBarPort = UrlsFrom<"foo.bar", {
-       portRequirement: "required",
-        protocols: ["wss"],
-        ports: 666
-      }>;
+      portRequirement: "required",
+      protocols: ["wss"],
+      ports: 666
+    }>;
 
     type cases = [
       Expect<Equal<FooBar, "wss://foo.bar" | `wss://foo.bar/${string}`>>,
@@ -355,7 +355,7 @@ describe("Url testing", () => {
   });
 
   it("Multiple inputs", () => {
-    type FooBar = UrlsFrom<["foo.com", "bar.com"], { queryParameters: "none"}>;
+    type FooBar = UrlsFrom<["foo.com", "bar.com"], { queryParameters: "none" }>;
 
     type cases = [
       Expect<Equal<
@@ -402,9 +402,9 @@ describe("Url testing", () => {
       ExpectFalse<F3>,
     ];
     const cases: cases = [
-      true,true,true,true,true,true,
-      true,true,true,
-      false,false,false
+      true, true, true, true, true, true,
+      true, true, true,
+      false, false, false
     ];
   });
 
@@ -438,7 +438,7 @@ describe("Url testing", () => {
       Expect<Equal<typeof homelab["isIp6Address"], false>>,
     ];
     const cases: cases = [
-      true,true,true,
+      true, true, true,
       true, true, true, true, true
     ];
 

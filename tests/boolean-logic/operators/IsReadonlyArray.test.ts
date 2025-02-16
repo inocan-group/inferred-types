@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { IsReadonlyArray } from "inferred-types";
+import { IsReadonlyArray } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -8,15 +8,15 @@ import { describe, it } from "vitest";
 
 describe("IsReadonlyArray", () => {
 
-  it("happy path", () => {
-    type T1 = IsReadonlyArray<readonly [1,2,3]>;
-    type F1 = IsReadonlyArray<[1,2,3]>;
+    it("happy path", () => {
+        type T1 = IsReadonlyArray<readonly [1, 2, 3]>;
+        type F1 = IsReadonlyArray<[1, 2, 3]>;
 
-    type cases = [
-      Expect<Equal<T1, true>>,
-      Expect<Equal<F1, false>>,
-    ];
-    const cases: cases = [true, true];
-  });
+        type cases = [
+            Expect<Equal<T1, true>>,
+            Expect<Equal<F1, false>>,
+        ];
+        const cases: cases = [true, true];
+    });
 
 });

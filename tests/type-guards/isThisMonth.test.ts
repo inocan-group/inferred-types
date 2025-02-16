@@ -1,6 +1,6 @@
 /* eslint-disable ts/ban-ts-comment */
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
-import { isThisMonth } from "inferred-types";
+import { isThisMonth } from "inferred-types/runtime";
 import {
   Extends,
   IsJsDate,

@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { DoneFnTuple } from "inferred-types";
+import { DoneFnTuple } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -8,19 +8,19 @@ import { describe, it } from "vitest";
 
 describe("DoneFnTuple", () => {
 
-  it("happy path", () => {
-    type Base = DoneFnTuple;
+    it("happy path", () => {
+        type Base = DoneFnTuple;
 
-    type cases = [
+        type cases = [
 
-      // Base Descriptions
-      Expect<Equal<Base["done"]["desc"], "exits the API surface with the state which has been accumulated so far">>,
-      Expect<Equal<Base["add"]["desc"], "add a value to the tuple/union">>,
-    ];
-    const cases: cases = [
-      true, true,
-    ];
-  });
+            // Base Descriptions
+            Expect<Equal<Base["done"]["desc"], "exits the API surface with the state which has been accumulated so far">>,
+            Expect<Equal<Base["add"]["desc"], "add a value to the tuple/union">>,
+        ];
+        const cases: cases = [
+            true, true,
+        ];
+    });
 
 });
 

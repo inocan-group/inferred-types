@@ -13,15 +13,16 @@ import {
   isSpecificConstant,
   defineObj,
   isNumericString,
-  DoesExtend
-} from "inferred-types";
+
+} from "inferred-types/runtime";
 import {
   Constant,
   NoDefaultValue,
   NO_DEFAULT_VALUE,
   Never
-} from "inferred-types";
+} from "inferred-types/constants";
 import { ref, Ref } from "vue";
+import { DoesExtend } from "inferred-types/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -33,13 +34,13 @@ describe("isNumericString", () => {
     const wrongType = 42 as const;
     const nonNumericString = "foobar" as const;
 
-    if(isNumericString(wrongType)) {
+    if (isNumericString(wrongType)) {
       throw new Error("wrong type!");
     } else {
       expect(true, "wrong type identified as such").toBe(true);
     }
 
-    if(isNumericString(nonNumericString)) {
+    if (isNumericString(nonNumericString)) {
       throw new Error("non numeric string!");
     } else {
       expect(true, "wrong type identified as such").toBe(true);
@@ -59,22 +60,22 @@ describe("isNumericString", () => {
     expect(isNumericString(numericString), "numericString variable not recognized:" + typeof numericString).toBe(true);
 
 
-    if(isNumericString(numericString)) {
+    if (isNumericString(numericString)) {
       expect(true, "numeric string identified").toBe(true);
       type cases = [
         Expect<Equal<typeof numericString, "42">> //
       ];
-      const cases: cases = [ true ];
+      const cases: cases = [true];
     } else {
       throw new Error("numeric string not identified!");
     }
 
-    if(isNumericString(wideString)) {
+    if (isNumericString(wideString)) {
       expect(true, "wide string identified").toBe(true);
       type cases = [
         Expect<Equal<typeof numericString, "42">> //
       ];
-      const cases: cases = [ true ];
+      const cases: cases = [true];
     } else {
       throw new Error("wide string not identified");
     }
@@ -90,22 +91,22 @@ describe("isDefined(value)", () => {
     const yup = 45 as const;
     const yup2 = 45 as number;
 
-    if(isDefined(yup)) {
+    if (isDefined(yup)) {
       expect(true, "identified with narrow type").toBe(true);
       type cases = [
         Expect<Equal<typeof yup, 45>>
       ];
-      const cases: cases = [ true  ];
+      const cases: cases = [true];
     } else {
       throw new Error("narrow defined missed");
     }
 
-    if(isDefined(yup2)) {
+    if (isDefined(yup2)) {
       expect(true, "identified with wide type").toBe(true);
       type cases = [
         Expect<Equal<typeof yup, 45>>
       ];
-      const cases: cases = [ true  ];
+      const cases: cases = [true];
     }
 
   });
@@ -117,16 +118,16 @@ describe("isRef - testing for VueJS reference types", () => {
   const refObj = ref(obj);
 
   it("positive tests", () => {
-    if(isRef(refObj)) {
+    if (isRef(refObj)) {
       expect(true, "identified as ref").toBe(true);
       type R = typeof refObj;
       type cases = [
         Expect<DoesExtend<
           R,
-          Ref<{ foo: 1;  bar: 2 }>
+          Ref<{ foo: 1; bar: 2 }>
         >>
       ];
-      const cases: cases = [ true ];
+      const cases: cases = [true];
     } else {
       throw new Error("ref not identified!");
     }
@@ -135,7 +136,7 @@ describe("isRef - testing for VueJS reference types", () => {
 
 
   it("negative tests", () => {
-    if(isRef(obj)) {
+    if (isRef(obj)) {
       throw new Error("false positive for isRef");
     } else {
       expect(true, "rejected value as ref").toBe(true);
@@ -145,34 +146,34 @@ describe("isRef - testing for VueJS reference types", () => {
 });
 
 describe("isArray / isReadonlyArray", () => {
-  const foobar = narrow([{foo: 1, bar: 2}]);
+  const foobar = narrow([{ foo: 1, bar: 2 }]);
   const optFoobar = optional(foobar);
 
   it("positive tests", () => {
-    if(isReadonlyArray(foobar)) {
+    if (isReadonlyArray(foobar)) {
       expect(true, "identified as readonly array").toBe(true);
       type Foobar = typeof foobar;
       type cases = [
         Expect<Equal<
           Foobar,
-          {foo: number; bar: number }[]
+          { foo: number; bar: number }[]
         >>
       ];
-      const cases: cases = [ true ];
+      const cases: cases = [true];
     } else {
       throw new Error("didn't detect readonly array");
     }
 
-    if(isArray([{foo: 1, bar: 2}])) {
+    if (isArray([{ foo: 1, bar: 2 }])) {
       expect(true, "identified as array").toBe(true);
       type Foobar = typeof foobar;
       type cases = [
         Expect<Equal<
           Foobar,
-          {foo: number; bar: number }[]
+          { foo: number; bar: number }[]
         >>
       ];
-      const cases: cases = [ true ];
+      const cases: cases = [true];
     } else {
       throw new Error("didn't detect array");
     }
@@ -180,17 +181,17 @@ describe("isArray / isReadonlyArray", () => {
 
 
   it("positive test of union type", () => {
-    if(isReadonlyArray(optFoobar)) {
+    if (isReadonlyArray(optFoobar)) {
       expect(true, "identified as readonly array").toBe(true);
 
       type Foobar = typeof optFoobar;
       type cases = [
         Expect<Equal<
           Foobar,
-           {foo: number; bar: number }[]
+          { foo: number; bar: number }[]
         >>
       ];
-      const cases: cases = [ true ];
+      const cases: cases = [true];
     } else {
       throw new Error("didn't detect readonly array");
     }
@@ -204,23 +205,23 @@ describe("hasDefaultValue(v)", () => {
   const noStringy = NO_DEFAULT_VALUE as string | NoDefaultValue;
 
   it("positive tests", () => {
-    if(hasDefaultValue(numeric)) {
+    if (hasDefaultValue(numeric)) {
       expect(true).toBe(true);
       type Val = typeof numeric;
       type cases = [
         Expect<Equal<Val, number>>
       ];
-      const cases: cases = [ true ];
+      const cases: cases = [true];
     } else {
       throw new Error("numeric should have been identified as a def value");
     }
 
-    if(hasDefaultValue(stringy)) {
+    if (hasDefaultValue(stringy)) {
       expect(true).toBe(true);
       type cases = [
         Expect<Equal<typeof stringy, string>>
       ];
-      const cases: cases = [ true ];
+      const cases: cases = [true];
     } else {
       throw new Error("numeric should have been identified as a def value");
     }
@@ -228,24 +229,24 @@ describe("hasDefaultValue(v)", () => {
 
 
   it("negative tests", () => {
-    if(hasDefaultValue(noNumeric)) {
+    if (hasDefaultValue(noNumeric)) {
       throw new Error(`noNumeric should not have passed`);
     } else {
       expect(true).toBe(true);
       type cases = [
         Expect<Equal<typeof noNumeric, NoDefaultValue>>
       ];
-      const cases: cases = [ true ];
+      const cases: cases = [true];
     }
 
-    if(hasDefaultValue(noStringy)) {
+    if (hasDefaultValue(noStringy)) {
       throw new Error(`noStringy should not have passed`);
     } else {
       expect(true).toBe(true);
       type cases = [
         Expect<Equal<typeof noNumeric, NoDefaultValue>>
       ];
-      const cases: cases = [ true ];
+      const cases: cases = [true];
     }
   });
 });
@@ -255,12 +256,12 @@ describe("isConstant()", () => {
   const notReally = "foobar" as NoDefaultValue | "foobar";
 
   it("positive test", () => {
-    if(isConstant(maybe)) {
+    if (isConstant(maybe)) {
       expect(true).toBe(true);
       type cases = [
         Expect<Equal<typeof maybe, Constant<"no-default-value">>>
       ];
-      const cases: cases = [ true ];
+      const cases: cases = [true];
     }
   });
 
@@ -269,7 +270,7 @@ describe("isConstant()", () => {
     // special case because the type system sees as `never` rather than as Constant
     const maybe = Never;
 
-    if(isConstant(maybe)) {
+    if (isConstant(maybe)) {
       expect(true).toBe(true);
     } else {
       throw new Error(`Never was not found to be a constant! Value: ${JSON.stringify(maybe)}`);
@@ -280,7 +281,7 @@ describe("isConstant()", () => {
     // special case because the type system sees as `never` rather than as Constant
     const maybe = Never;
 
-    if(isSpecificConstant("never")(maybe)) {
+    if (isSpecificConstant("never")(maybe)) {
       expect(true).toBe(true);
     } else {
       throw new Error(`Never was not found to be a SpecificConstant<\"never\">! Value: ${JSON.stringify(maybe)}`);
@@ -289,14 +290,14 @@ describe("isConstant()", () => {
 
 
   it("negative test", () => {
-    if(isConstant(notReally)) {
+    if (isConstant(notReally)) {
       throw new Error("incorrect identification of constant");
     } else {
       expect(true).toBe(true);
       type cases = [
         Expect<Equal<typeof notReally, "foobar">>
       ];
-      const cases: cases = [ true ];
+      const cases: cases = [true];
     }
   });
 });

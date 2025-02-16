@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { asType } from "inferred-types";
+import { asType } from "inferred-types/runtime";
 import { AsType, Dictionary, Zip5 } from "inferred-types/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -35,15 +35,15 @@ describe("AsType<T>", () => {
       Expect<Equal<NumDict, Record<string, number>>>,
 
 
-      Expect<Equal<Foo, {foo: string; [key: string|symbol]: unknown}>>,
-      Expect<Equal<FooBar, {foo: number; bar: string; [key: string|symbol]: unknown}>>,
+      Expect<Equal<Foo, { foo: string;[key: string | symbol]: unknown }>>,
+      Expect<Equal<FooBar, { foo: number; bar: string;[key: string | symbol]: unknown }>>,
 
-      Expect<Equal<M, Map<any,any>>>,
-      Expect<Equal<M2, Map<number,any[]>>>,
+      Expect<Equal<M, Map<any, any>>>,
+      Expect<Equal<M2, Map<number, any[]>>>,
 
     ];
     const cases: cases = [
-      true, true,true, true,true, true,true,
+      true, true, true, true, true, true, true,
       true, true,
       true, true,
     ];
@@ -72,7 +72,7 @@ describe("asType(val)", () => {
       Expect<Equal<StrToken, string>>,
       Expect<Equal<NumToken, number>>,
       Expect<Equal<typeof optStr, string | undefined>>,
-      Expect<Equal<typeof foo, {foo: string; [key: string|symbol]: unknown}>>
+      Expect<Equal<typeof foo, { foo: string;[key: string | symbol]: unknown }>>
     ];
 
   });
@@ -93,7 +93,7 @@ describe("asType(val)", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<typeof fooBar, {foo: number; bar: string; baz: Zip5}>>
+      Expect<Equal<typeof fooBar, { foo: number; bar: string; baz: Zip5 }>>
     ];
   });
 
@@ -101,7 +101,7 @@ describe("asType(val)", () => {
     const myTuple = asType(
       s => s.string(),
       s => s.number(),
-      s => s.number(0,42,256)
+      s => s.number(0, 42, 256)
     );
 
     expect(myTuple).toEqual([

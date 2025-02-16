@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it, expect } from "vitest";
 
-import { toPascalCase } from "inferred-types";
+import { toPascalCase } from "inferred-types/runtime";
 
 describe("toPascalCase() function", () => {
   it("camelCase is converted correctly", () => {

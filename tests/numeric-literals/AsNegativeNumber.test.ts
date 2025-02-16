@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { AsNegativeNumber } from "inferred-types";
+import { AsNegativeNumber } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -8,36 +8,36 @@ import { describe, it } from "vitest";
 
 describe("AsNegativeNumber<T>", () => {
 
-  it("testing with numbers", () => {
-    type T1 = AsNegativeNumber<-1>;
-    type T2 = AsNegativeNumber<1>;
-    type T3 = AsNegativeNumber<500>;
+    it("testing with numbers", () => {
+        type T1 = AsNegativeNumber<-1>;
+        type T2 = AsNegativeNumber<1>;
+        type T3 = AsNegativeNumber<500>;
 
-    type cases = [
-      Expect<Equal<T1, -1>>,
-      Expect<Equal<T2, -1>>,
-      Expect<Equal<T3, -500>>,
-    ];
-    const cases: cases = [
-      true, true, true
-    ];
-  });
+        type cases = [
+            Expect<Equal<T1, -1>>,
+            Expect<Equal<T2, -1>>,
+            Expect<Equal<T3, -500>>,
+        ];
+        const cases: cases = [
+            true, true, true
+        ];
+    });
 
 
-  it("testing with numeric strings", () => {
-    type T1 = AsNegativeNumber<"-1">;
-    type T2 = AsNegativeNumber<"1">;
-    type T3 = AsNegativeNumber<"500">;
+    it("testing with numeric strings", () => {
+        type T1 = AsNegativeNumber<"-1">;
+        type T2 = AsNegativeNumber<"1">;
+        type T3 = AsNegativeNumber<"500">;
 
-    type cases = [
-      Expect<Equal<T1, "-1">>,
-      Expect<Equal<T2, "-1">>,
-      Expect<Equal<T3, "-500">>,
-    ];
-    const cases: cases = [
-      true, true, true
-    ];
-  });
+        type cases = [
+            Expect<Equal<T1, "-1">>,
+            Expect<Equal<T2, "-1">>,
+            Expect<Equal<T3, "-500">>,
+        ];
+        const cases: cases = [
+            true, true, true
+        ];
+    });
 
 
 });
