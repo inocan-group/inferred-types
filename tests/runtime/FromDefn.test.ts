@@ -2,7 +2,6 @@ import { Equal, Expect } from "@type-challenges/utils";
 
 import {
   DefineObject,
-  DictTypeDefinition,
   FromDefn,
   TypeDefinition,
   FromDefineObject
@@ -26,14 +25,14 @@ describe("FromDefineObject<T>", () => {
   console.log(s)
 
   it("using SimpleTokens", () => {
-    type Foo = FromDefineObject<{foo: "number"}>;
-    type OptFoo = FromDefineObject<{foo: "Opt<number>"}>;
-    type MaybeFoo = FromDefineObject<{foo?: "number"}>;
+    type Foo = FromDefineObject<{ foo: "number" }>;
+    type OptFoo = FromDefineObject<{ foo: "Opt<number>" }>;
+    type MaybeFoo = FromDefineObject<{ foo?: "number" }>;
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<Foo, { foo: number}>>,
-      Expect<Equal<OptFoo, { foo: number | undefined}>>,
+      Expect<Equal<Foo, { foo: number }>>,
+      Expect<Equal<OptFoo, { foo: number | undefined }>>,
       Expect<Equal<MaybeFoo, { foo?: number | undefined }>>,
     ];
 
@@ -48,8 +47,8 @@ describe("FromDefn<T>", () => {
   it("happy path", () => {
     // pass through
     type Num = FromDefn<42>;
-    type ArrNum = FromDefn<[42,56]>;
-    type Obj = FromDefn<{foo: 1}>;
+    type ArrNum = FromDefn<[42, 56]>;
+    type Obj = FromDefn<{ foo: 1 }>;
 
     // definitions
     const fn = <
@@ -57,16 +56,16 @@ describe("FromDefn<T>", () => {
       T extends readonly (TypeDefinition | DictTypeDefinition<V>)[],
     >(...s: T) => s;
 
-    const objDefn = fn({foo: s => s.string("foo","bar"), bar: 42});
+    const objDefn = fn({ foo: s => s.string("foo", "bar"), bar: 42 });
     type ObjDefn = FromDefn<typeof objDefn>;
 
 
     type cases = [
       Expect<Equal<Num, 42>>,
-      Expect<Equal<ArrNum, [42,56]>>,
-      Expect<Equal<Obj, {foo: 1}>>,
+      Expect<Equal<ArrNum, [42, 56]>>,
+      Expect<Equal<Obj, { foo: 1 }>>,
 
-      Expect<Equal<ObjDefn, [{foo: "foo" | "bar"; bar: 42}]>>,
+      Expect<Equal<ObjDefn, [{ foo: "foo" | "bar"; bar: 42 }]>>,
 
     ];
     const cases: cases = [
@@ -94,7 +93,7 @@ describe("FromDefn<T>", () => {
     const cb = <T extends DefineObject>(defn: T) => defn as unknown as FromDefn<T>;
 
     const a = cb({
-      foo: o => o.string("foo","bar","baz"),
+      foo: o => o.string("foo", "bar", "baz"),
       bar: o => o.string().militaryTime(),
       baz: "Opt<number>"
     });

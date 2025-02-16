@@ -1,6 +1,10 @@
-import type { Dictionary, Narrowable, OptionalParamFn, TypedFunction } from "inferred-types/types";
-import { isFunction } from "./isFunction";
-import { isObject } from "./isObject";
+import type {
+  Dictionary,
+  Narrowable,
+  OptionalParamFn,
+  TypedFunction
+} from "inferred-types/types";
+import { isFunction, isObject } from "inferred-types/runtime";
 
 export function isEscapeFunction<T>(val: T): val is T & (() => unknown) {
   return isFunction(val) && "escape" in val && val.escape === true;

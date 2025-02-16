@@ -1,5 +1,5 @@
 import type { ErrorCondition } from "inferred-types/types";
-import { isErrorCondition } from "./isErrorCondition";
+import { isErrorCondition } from "inferred-types/runtime";
 
 export function hasErrorConditions<
   T extends readonly unknown[],

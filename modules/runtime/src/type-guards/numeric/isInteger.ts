@@ -1,5 +1,5 @@
 import type { Integer } from "inferred-types/types";
-import { isNumber } from "./isNumber";
+import { isNumber } from "inferred-types/runtime";
 
 /**
  * type guard which validates that `val` is a `number` type which is

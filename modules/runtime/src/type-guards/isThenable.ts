@@ -1,5 +1,5 @@
 import type { Thenable } from "inferred-types/types";
-import { isObject } from "./isObject";
+import { isObject } from "inferred-types/runtime";
 /**
  * type guard which checks whether passed in `val` is a `Thenable` object
  */

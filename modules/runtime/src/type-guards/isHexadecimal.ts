@@ -1,6 +1,4 @@
-import { asChars } from "../type-conversion/asChars";
-import { isNumericString } from "./isNumericString";
-import { isString } from "./isString";
+import { isNumericString, isString, asChars } from "inferred-types/runtime";
 
 /**
  * **isHexadecimal**`(val)`

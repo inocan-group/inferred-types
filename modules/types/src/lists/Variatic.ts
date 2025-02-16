@@ -6,11 +6,11 @@ type GetNonVariadicLength<
 > = [] extends T
   ? F["length"]
   : T extends [infer Explicit, ...infer REST]
-  ? GetNonVariadicLength<
-    REST,
-    [...F, Explicit]
-  >
-  : F["length"];
+    ? GetNonVariadicLength<
+      REST,
+      [...F, Explicit]
+    >
+    : F["length"];
 
 export type NonVariadic<T extends readonly unknown[]> = Slice<
   T,

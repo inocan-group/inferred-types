@@ -1,17 +1,17 @@
 import type {
+  AfterFirst,
+  AnyObject,
+  As,
+  CamelCase,
   Dictionary,
   EmptyObject,
-  AfterFirst, First,
   ExpandDictionary,
-  CamelCase,
+  First,
   Keys,
-  ObjectKey,
-  As,
   MakeKeysOptional,
+  ObjectKey,
   OptionalKeysTuple,
-  AnyObject,
 } from "inferred-types/types";
-
 
 type Convert<
   TObj extends Dictionary,
@@ -24,14 +24,13 @@ type Convert<
     AfterFirst<TKeys>,
     First<TKeys> extends string
     ? Record<
-      CamelCase<First<TKeys>>,
-      TObj[First<TKeys>] extends Dictionary
-      ? CamelKeys<TObj[First<TKeys>]>
-      : TObj[First<TKeys>]
-    > & TResult
-    : Record<First<TKeys>, TObj[First<TKeys>]> & TResult
+        CamelCase<First<TKeys>>,
+        TObj[First<TKeys>] extends Dictionary
+          ? CamelKeys<TObj[First<TKeys>]>
+          : TObj[First<TKeys>]
+      > & TResult
+      : Record<First<TKeys>, TObj[First<TKeys>]> & TResult
   >;
-
 
 type Process<T extends Dictionary,
 > = MakeKeysOptional<
