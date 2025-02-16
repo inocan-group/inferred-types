@@ -8,26 +8,26 @@ import { describe, it } from "vitest";
 
 describe("TakeFirst<TContent,TLen,[THandle]>", () => {
 
-    it("happy path", () => {
-        type Arr = [1, 2, 3, "foo", "bar"];
+  it("happy path", () => {
+    type Arr = [1, 2, 3, "foo", "bar"];
 
-        type Two = TakeFirst<Arr, 2>;
-        type Three = TakeFirst<Arr, 3>;
-        type Biggie = TakeFirst<Arr, 100>;
-        type Oops = TakeFirst<Arr, 100, "throw">;
+    type Two = TakeFirst<Arr, 2>;
+    type Three = TakeFirst<Arr, 3>;
+    type Biggie = TakeFirst<Arr, 100>;
+    type Oops = TakeFirst<Arr, 100, "throw">;
 
 
-        type cases = [
-            Expect<Equal<Two, [1, 2]>>,
-            Expect<Equal<Three, [1, 2, 3]>>,
-            Expect<Equal<Biggie, Arr>>,
+    type cases = [
+      Expect<Equal<Two, [1, 2]>>,
+      Expect<Equal<Three, [1, 2, 3]>>,
+      Expect<Equal<Biggie, Arr>>,
 
-            ExpectTrue<IsErrorCondition<Oops, "invalid-length">>
-        ];
-        const cases: cases = [
-            true, true, true,
-            true
-        ];
-    });
+      ExpectTrue<IsErrorCondition<Oops, "invalid-length">>
+    ];
+    const cases: cases = [
+      true, true, true,
+      true
+    ];
+  });
 
 });

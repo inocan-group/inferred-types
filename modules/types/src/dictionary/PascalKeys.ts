@@ -1,17 +1,16 @@
 import type {
+  AfterFirst,
+  As,
   Dictionary,
   EmptyObject,
-  ObjectKey,
-  AfterFirst,
-  First,
   ExpandDictionary,
-  PascalCase,
+  First,
   Keys,
   MakeKeysOptional,
-  As,
-  OptionalKeysTuple
+  ObjectKey,
+  OptionalKeysTuple,
+  PascalCase,
 } from "inferred-types/types";
-
 
 type Convert<
   TObj extends Dictionary,
@@ -24,14 +23,13 @@ type Convert<
     AfterFirst<TKeys>,
     First<TKeys> extends string
     ? Record<
-      PascalCase<First<TKeys>>,
-      TObj[First<TKeys>] extends Dictionary
-      ? PascalKeys<TObj[First<TKeys>]>
-      : TObj[First<TKeys>]
-    > & TResult
-    : Record<First<TKeys>, TObj[First<TKeys>]> & TResult
+        PascalCase<First<TKeys>>,
+        TObj[First<TKeys>] extends Dictionary
+          ? PascalKeys<TObj[First<TKeys>]>
+          : TObj[First<TKeys>]
+      > & TResult
+      : Record<First<TKeys>, TObj[First<TKeys>]> & TResult
   >;
-
 
 type Process<T extends Dictionary,
 > = MakeKeysOptional<

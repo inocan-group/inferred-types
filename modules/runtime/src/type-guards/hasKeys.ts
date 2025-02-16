@@ -1,6 +1,5 @@
 import type { AsObject, EnsureKeys } from "inferred-types/types";
-import { isFunction } from "./isFunction";
-import { isObject } from "./isObject";
+import { isFunction, isObject } from "inferred-types/runtime";
 
 /**
  * **hasKeys**(props) => (obj) => `HasKeys<O,P>`

@@ -1,5 +1,5 @@
 import type { TypeSubtype } from "inferred-types/types";
-import { isString } from "./isString";
+import { isString } from "inferred-types/runtime";
 
 /**
  * type guard which validates whether the `val` passed in is a valid `TypeSubtype`

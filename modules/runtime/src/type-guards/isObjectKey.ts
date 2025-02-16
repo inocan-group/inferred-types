@@ -1,6 +1,5 @@
 import type { ObjectKey } from "inferred-types/types";
-import { isString } from "./isString";
-import { isSymbol } from "./isSymbol";
+import { isString, isSymbol } from "inferred-types/runtime";
 
 /**
  * Type guard which validates that `val` is a valid `ObjectKey`

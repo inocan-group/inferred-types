@@ -105,14 +105,7 @@ describe("PhoneNumber<[T]>", () => {
       IsErrorCondition<InvalidUkNumber1, "invalid-phone-number">,
 
       IsErrorCondition<InvalidCountryCode, "invalid-phone-number">,
-
     ];
-    const cases: cases = [
-      true, true, true, true,
-      true, true, true,
-      true
-    ];
-
   });
 
 });

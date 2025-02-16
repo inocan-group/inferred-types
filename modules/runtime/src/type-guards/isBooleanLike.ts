@@ -1,6 +1,5 @@
 import type { BooleanLike } from "inferred-types/types";
-import { isBoolean } from "./isBoolean";
-import { isString } from "./isString";
+import { isBoolean, isString } from "inferred-types/runtime";
 
 /**
  * **isBooleanLike**`(val)`

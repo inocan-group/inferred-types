@@ -13,11 +13,10 @@ type ProcessTupleKeys<
 > = ExpandDictionary<
   WithoutKeys<TObj, TKeys> & {
     [K in keyof WithKeys<TObj, TKeys>]?: K extends keyof TObj
-    ? TObj[K]
-    : never
+      ? TObj[K]
+      : never
   }
 >;
-
 
 /**
  * **MakeKeysOptional**`<TObj, TKeys>`
@@ -34,4 +33,3 @@ export type MakeKeysOptional<
 > = IsWideContainer<TObj> extends true
   ? TObj
   : ProcessTupleKeys<TObj, TKeys>;
-

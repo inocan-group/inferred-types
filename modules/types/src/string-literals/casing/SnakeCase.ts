@@ -20,32 +20,31 @@ type Process<
 > = If<
   IsTrue<TPreserve>,
   string extends T
-  ? string
-  : DashUppercase<
-    Uncapitalize<SpaceToDash<Trim<LowerAllCaps<T>>>
-    >
-  > extends `${infer Begin extends string}${"-"}${infer Rest extends string}`
-  ? Concat<[
-    LeftWhitespace<T>,
+    ? string
+    : DashUppercase<
+      Uncapitalize<SpaceToDash<Trim<LowerAllCaps<T>>>
+      >
+    > extends `${infer Begin extends string}${"-"}${infer Rest extends string}`
+      ? Concat<[
+        LeftWhitespace<T>,
     `${Lowercase<Begin>}_${Rest}` extends string
-    ? Process<`${Lowercase<Begin>}_${Rest}`>
-    : never,
+      ? Process<`${Lowercase<Begin>}_${Rest}`>
+      : never,
     RightWhitespace<T>,
-  ]>
-  : Concat<[
-    LeftWhitespace<T>,
-    Lowercase<DashUppercase<Uncapitalize<LowerAllCaps<T>>>>,
-    RightWhitespace<T>,
-  ]>,
+      ]>
+      : Concat<[
+        LeftWhitespace<T>,
+        Lowercase<DashUppercase<Uncapitalize<LowerAllCaps<T>>>>,
+        RightWhitespace<T>,
+      ]>,
   string extends T
-  ? string
-  : DashUppercase<
-    Uncapitalize<SpaceToDash<Trim<LowerAllCaps<T>>>>
-  > extends `${infer Begin}${"-"}${infer Rest}`
-  ? Trim<Process<`${Lowercase<Begin>}_${Rest}`>>
-  : Trim<Lowercase<DashUppercase<Uncapitalize<LowerAllCaps<T>>>>>
+    ? string
+    : DashUppercase<
+      Uncapitalize<SpaceToDash<Trim<LowerAllCaps<T>>>>
+    > extends `${infer Begin}${"-"}${infer Rest}`
+      ? Trim<Process<`${Lowercase<Begin>}_${Rest}`>>
+      : Trim<Lowercase<DashUppercase<Uncapitalize<LowerAllCaps<T>>>>>
 >;
-
 
 /**
  * **SnakeCase**`<TString,TPreserve>`
@@ -64,7 +63,7 @@ export type SnakeCase<
 > = T extends string
   ? Process<T, TPreserve>
   : {
-    [K in keyof T]: T[K] extends string
-    ? SnakeCase<T[K]>
-    : T[K]
-  }
+      [K in keyof T]: T[K] extends string
+        ? SnakeCase<T[K]>
+        : T[K]
+    };

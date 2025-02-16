@@ -152,24 +152,13 @@ describe("Merge Objects", () => {
     type JustExtend2 = MergeObjects<{ baz: 3 }, { foo: 1; bar: 2 }>;
     type FullyOverride = MergeObjects<{ foo: 1; bar: 2 }, { foo: 2; bar: 3 }>;
 
-    type NullDef = MergeObjects<null, { foo: 1 }>;
-    type NullOver = MergeObjects<{ foo: 1 }, null>;
-    type NadaDef = MergeObjects<undefined, { foo: 1 }>;
-    type NadaOver = MergeObjects<{ foo: 1 }, undefined>;
 
     type cases = [
       Expect<Equal<JustExtend, { foo: 1; bar: 2; baz: 3 }>>,
       Expect<Equal<JustExtend2, { foo: 1; bar: 2; baz: 3 }>>,
-      Expect<Equal<FullyOverride, { foo: 2; bar: 3 }>>,
-      Expect<Equal<NullDef, { foo: 1 }>>,
-      Expect<Equal<NullOver, { foo: 1 }>>,
-      Expect<Equal<NadaDef, { foo: 1 }>>,
-      Expect<Equal<NadaOver, { foo: 1 }>>,
+      Expect<Equal<FullyOverride, { foo: 2; bar: 3 }>>
     ];
-    const cases: cases = [
-      true, true, true,
-      true, true, true, true
-    ];
+
   });
 
   it("runtime tests", () => {

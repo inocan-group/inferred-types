@@ -1,4 +1,4 @@
-import { WideAssignment } from "./Wide";
+import { WideAssignment } from "inferred-types/constants";
 
 type Scalar = string | number | boolean | null | symbol;
 type WideApi = typeof WideAssignment;

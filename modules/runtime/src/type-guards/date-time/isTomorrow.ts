@@ -1,6 +1,11 @@
 import {
   getTomorrow,
-  isDate, isIsoExplicitDate, isLuxonDateTime, isMoment, isString, stripAfter
+  isDate,
+  isIsoExplicitDate,
+  isLuxonDateTime,
+  isMoment,
+  isString,
+  stripAfter,
 } from "inferred-types/runtime";
 
 /**

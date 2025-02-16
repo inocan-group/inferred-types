@@ -1,6 +1,6 @@
 import type { Container, Intersection } from "inferred-types/types";
-import { get, getEach, isIndexable } from "inferred-types/runtime";
-import { ifNotNull } from "../boolean-logic/ifNotNull";
+import { get, getEach, isIndexable, ifNotNull } from "inferred-types/runtime";
+
 
 function intersectWithOffset<
   A extends readonly unknown[],

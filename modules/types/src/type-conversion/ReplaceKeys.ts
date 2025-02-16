@@ -6,7 +6,6 @@ import type {
   EmptyObject,
   FromTo,
   KebabKeys,
-  MergeObjects,
   PascalKeys,
   ReplaceAllFromTo,
   ReplaceFromTo,
@@ -28,11 +27,8 @@ export interface ReplaceKeysOptions {
 
 interface DEFAULT extends ReplaceKeysOptions {
   replaceAll: true;
-  casing: "none"
+  casing: "none";
 }
-
-
-
 
 type Process<
   TObj extends AnyObject,
@@ -40,23 +36,22 @@ type Process<
   TOpt extends Partial<ReplaceKeysOptions> = DEFAULT,
 > = TConfig extends readonly FromTo[]
   ? TOpt["replaceAll"] extends false
-  ? {
-    [K in keyof TObj as ReplaceFromTo<K, TConfig>]: TObj[K] extends AnyObject
-    ? Process<TObj[K], TConfig, TOpt>
-    : TObj[K];
-  }
-  : {
-    [K in keyof TObj as ReplaceAllFromTo<K, TConfig>]: TObj[K] extends AnyObject
-    ? Process<TObj[K], TConfig, TOpt>
-    : TObj[K];
-  }
+    ? {
+        [K in keyof TObj as ReplaceFromTo<K, TConfig>]: TObj[K] extends AnyObject
+          ? Process<TObj[K], TConfig, TOpt>
+          : TObj[K];
+      }
+    : {
+        [K in keyof TObj as ReplaceAllFromTo<K, TConfig>]: TObj[K] extends AnyObject
+          ? Process<TObj[K], TConfig, TOpt>
+          : TObj[K];
+      }
   // Dictionary definition
   : TConfig extends Dictionary<string, string>
-  ? Process<TObj, AsFromTo<TConfig>, TOpt>
-  : TConfig extends EmptyObject
-  ? TObj
-  : never;
-
+    ? Process<TObj, AsFromTo<TConfig>, TOpt>
+    : TConfig extends EmptyObject
+      ? TObj
+      : never;
 
 /**
  * **ReplaceKeys**`<TObj,TFromTo,[TOpt]>`
@@ -80,17 +75,14 @@ type Process<
 export type ReplaceKeys<
   TObj extends AnyObject,
   TConfig extends (readonly FromTo[]) | Dictionary<string, string>,
-  TOpt extends Partial<ReplaceKeysOptions> = DEFAULT
+  TOpt extends Partial<ReplaceKeysOptions> = DEFAULT,
 > =
   TOpt["casing"] extends "CamelCase"
-  ? CamelKeys<Process<TObj, TConfig, TOpt>>
-  : TOpt["casing"] extends "PascalCase"
-  ? PascalKeys<Process<TObj, TConfig, TOpt>>
-  : TOpt["casing"] extends "KebabCase"
-  ? KebabKeys<Process<TObj, TConfig, TOpt>>
-  : TOpt["casing"] extends "SnakeCase"
-  ? SnakeKeys<Process<TObj, TConfig, TOpt>>
-  : Process<TObj, TConfig, TOpt>;
-
-
-
+    ? CamelKeys<Process<TObj, TConfig, TOpt>>
+    : TOpt["casing"] extends "PascalCase"
+      ? PascalKeys<Process<TObj, TConfig, TOpt>>
+      : TOpt["casing"] extends "KebabCase"
+        ? KebabKeys<Process<TObj, TConfig, TOpt>>
+        : TOpt["casing"] extends "SnakeCase"
+          ? SnakeKeys<Process<TObj, TConfig, TOpt>>
+          : Process<TObj, TConfig, TOpt>;

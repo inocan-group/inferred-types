@@ -1,7 +1,6 @@
 import type { AsString, Iso3166_1_Alpha2, Iso3166_1_Alpha3, Iso3166_1_CountryCode, Iso3166_1_CountryName, Iso3166Alpha2Lookup, Iso3166Alpha3Lookup, Iso3166CodeLookup, Iso3166CountryLookup, NumberLike, Suggest } from "inferred-types/types";
 import { ISO3166_1 } from "inferred-types/constants";
-import { uppercase } from "inferred-types/runtime";
-import { isIso3166Alpha2, isIso3166Alpha3, isIso3166CountryName, isNumber, isNumberLike } from "../type-guards";
+import { uppercase, isIso3166Alpha2, isIso3166Alpha3, isIso3166CountryName, isNumber, isNumberLike } from "inferred-types/runtime";
 
 type Props = "alpha2" | "alpha3" | "countryCode" | "name";
 
@@ -11,12 +10,12 @@ function lookupAlpha2Code<
 >(code: T, prop: P): P extends "name"
   ? Iso3166_1_CountryName
   : P extends "alpha2"
-    ? Iso3166_1_Alpha2
-    : P extends "alpha3"
-      ? Iso3166_1_Alpha3
-      : P extends "countryCode"
-        ? Iso3166_1_CountryCode
-        : never {
+  ? Iso3166_1_Alpha2
+  : P extends "alpha3"
+  ? Iso3166_1_Alpha3
+  : P extends "countryCode"
+  ? Iso3166_1_CountryCode
+  : never {
   const found = ISO3166_1.find(i => i.alpha2 === code);
 
   return (
@@ -24,23 +23,23 @@ function lookupAlpha2Code<
   ) as unknown as P extends "name"
     ? Iso3166_1_CountryName
     : P extends "alpha2"
-      ? Iso3166_1_Alpha2
-      : P extends "alpha3"
-        ? Iso3166_1_Alpha3
-        : P extends "countryCode"
-          ? Iso3166_1_CountryCode
-          : never;
+    ? Iso3166_1_Alpha2
+    : P extends "alpha3"
+    ? Iso3166_1_Alpha3
+    : P extends "countryCode"
+    ? Iso3166_1_CountryCode
+    : never;
 }
 
 function lookupAlpha3Code<P extends Props>(code: Iso3166_1_Alpha3, prop: P): P extends "name"
   ? Iso3166_1_CountryName
   : P extends "alpha2"
-    ? Iso3166_1_Alpha2
-    : P extends "alpha3"
-      ? Iso3166_1_Alpha3
-      : P extends "countryCode"
-        ? Iso3166_1_CountryCode
-        : never {
+  ? Iso3166_1_Alpha2
+  : P extends "alpha3"
+  ? Iso3166_1_Alpha3
+  : P extends "countryCode"
+  ? Iso3166_1_CountryCode
+  : never {
   const found = ISO3166_1.find(i => i.alpha3 === code);
 
   return (
@@ -48,12 +47,12 @@ function lookupAlpha3Code<P extends Props>(code: Iso3166_1_Alpha3, prop: P): P e
   ) as unknown as P extends "name"
     ? Iso3166_1_CountryName
     : P extends "alpha2"
-      ? Iso3166_1_Alpha2
-      : P extends "alpha3"
-        ? Iso3166_1_Alpha3
-        : P extends "countryCode"
-          ? Iso3166_1_CountryCode
-          : never;
+    ? Iso3166_1_Alpha2
+    : P extends "alpha3"
+    ? Iso3166_1_Alpha3
+    : P extends "countryCode"
+    ? Iso3166_1_CountryCode
+    : never;
 }
 
 function lookupName<
@@ -62,12 +61,12 @@ function lookupName<
 >(name: T, prop: P): P extends "name"
   ? Iso3166_1_CountryName
   : P extends "alpha2"
-    ? Iso3166_1_Alpha2
-    : P extends "alpha3"
-      ? Iso3166_1_Alpha3
-      : P extends "countryCode"
-        ? Iso3166_1_CountryCode
-        : never {
+  ? Iso3166_1_Alpha2
+  : P extends "alpha3"
+  ? Iso3166_1_Alpha3
+  : P extends "countryCode"
+  ? Iso3166_1_CountryCode
+  : never {
   const found = ISO3166_1.find(i => i.name === name);
 
   return (
@@ -75,12 +74,12 @@ function lookupName<
   ) as unknown as P extends "name"
     ? Iso3166_1_CountryName
     : P extends "alpha2"
-      ? Iso3166_1_Alpha2
-      : P extends "alpha3"
-        ? Iso3166_1_Alpha3
-        : P extends "countryCode"
-          ? Iso3166_1_CountryCode
-          : never;
+    ? Iso3166_1_Alpha2
+    : P extends "alpha3"
+    ? Iso3166_1_Alpha3
+    : P extends "countryCode"
+    ? Iso3166_1_CountryCode
+    : never;
 }
 
 function lookupNumericCode<
@@ -133,8 +132,8 @@ export function lookupCountryName<T extends Suggest<Iso3166_1_Alpha2 | Iso3166_1
  */
 export function lookupCountryAlpha2<
   T extends Suggest<Iso3166_1_Alpha3 |
-  Iso3166_1_CountryCode |
-  Iso3166_1_CountryName
+    Iso3166_1_CountryCode |
+    Iso3166_1_CountryName
   >,
 >(code: T) {
   const uc = uppercase(code);

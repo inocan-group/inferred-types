@@ -43,7 +43,7 @@ describe("Unique properties in Sets", () => {
       expect(t1).toEqual([1, 2, 3, 4, 5, 6, 8]);
 
       type cases = [
-        Expect<Equal<typeof t1, [1, 2, 3, 4, 5, 6, 8]>>
+        Expect<HasSameValues<typeof t1, [1, 2, 3, 4, 5, 6, 8]>>
       ];
       const cases: cases = [true];
     });
