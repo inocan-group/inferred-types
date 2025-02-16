@@ -1,34 +1,62 @@
 import type {
   AnyObject,
+  AsFromTo,
+  CamelKeys,
+  Dictionary,
+  EmptyObject,
   FromTo,
+  KebabKeys,
   MergeObjects,
+  PascalKeys,
   ReplaceAllFromTo,
   ReplaceFromTo,
+  SnakeKeys,
 } from "inferred-types/types";
 
+type CaseOptions = "none" | "PascalCase" | "CamelCase" | "SnakeCase" | "KebabCase";
+
 export interface ReplaceKeysOptions {
-  /**
-   * Whether to recurse deeply into the object when
-   * replacing keys. Default is `true`.
-   */
-  deep: boolean;
+
   /**
    * Indicates whether to replace _all_ `from` instances in the key or
    * just the first one. Default is `true`.
    */
   replaceAll: boolean;
+
+  casing: CaseOptions;
 }
 
-interface DEFAULT {
-  deep: true;
+interface DEFAULT extends ReplaceKeysOptions {
   replaceAll: true;
+  casing: "none"
 }
 
-type O<
-  T extends Partial<ReplaceKeysOptions>,
-> = MergeObjects<DEFAULT, T> extends ReplaceKeysOptions
-  ? MergeObjects<DEFAULT, T>
+
+
+
+type Process<
+  TObj extends AnyObject,
+  TConfig extends (readonly FromTo[]) | Dictionary<string, string>,
+  TOpt extends Partial<ReplaceKeysOptions> = DEFAULT,
+> = TConfig extends readonly FromTo[]
+  ? TOpt["replaceAll"] extends false
+  ? {
+    [K in keyof TObj as ReplaceFromTo<K, TConfig>]: TObj[K] extends AnyObject
+    ? Process<TObj[K], TConfig, TOpt>
+    : TObj[K];
+  }
+  : {
+    [K in keyof TObj as ReplaceAllFromTo<K, TConfig>]: TObj[K] extends AnyObject
+    ? Process<TObj[K], TConfig, TOpt>
+    : TObj[K];
+  }
+  // Dictionary definition
+  : TConfig extends Dictionary<string, string>
+  ? Process<TObj, AsFromTo<TConfig>, TOpt>
+  : TConfig extends EmptyObject
+  ? TObj
   : never;
+
 
 /**
  * **ReplaceKeys**`<TObj,TFromTo,[TOpt]>`
@@ -51,21 +79,18 @@ type O<
  */
 export type ReplaceKeys<
   TObj extends AnyObject,
-  TFromTo extends readonly FromTo[],
-  TOpt extends Partial<ReplaceKeysOptions> = DEFAULT,
-> = O<TOpt>["replaceAll"] extends true
+  TConfig extends (readonly FromTo[]) | Dictionary<string, string>,
+  TOpt extends Partial<ReplaceKeysOptions> = DEFAULT
+> =
+  TOpt["casing"] extends "CamelCase"
+  ? CamelKeys<Process<TObj, TConfig, TOpt>>
+  : TOpt["casing"] extends "PascalCase"
+  ? PascalKeys<Process<TObj, TConfig, TOpt>>
+  : TOpt["casing"] extends "KebabCase"
+  ? KebabKeys<Process<TObj, TConfig, TOpt>>
+  : TOpt["casing"] extends "SnakeCase"
+  ? SnakeKeys<Process<TObj, TConfig, TOpt>>
+  : Process<TObj, TConfig, TOpt>;
 
-  ? {
-      [K in keyof TObj as ReplaceAllFromTo<K, TFromTo>]: TObj[K] extends AnyObject
-        ? O<TOpt>["deep"] extends true
-          ? ReplaceKeys<TObj[K], TFromTo, TOpt>
-          : TObj[K]
-        : TObj[K];
-    }
-  : {
-      [K in keyof TObj as ReplaceFromTo<K, TFromTo>]: TObj[K] extends AnyObject
-        ? O<TOpt>["deep"] extends true
-          ? ReplaceKeys<TObj[K], TFromTo, TOpt>
-          : TObj[K]
-        : TObj[K];
-    };
+
+

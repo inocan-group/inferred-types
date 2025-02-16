@@ -58,9 +58,10 @@ describe("isYesterday()", () => {
 
     if (isYesterday(yesterday)) {
       type D = typeof yesterday;
-      // @ts-ignore
-      type _cases = [
-        Expect<Extends<D, MomentJs>>
+
+
+      type cases = [
+        Expect<Extends<D, moment.Moment>>
       ];
     }
   });
@@ -97,7 +98,7 @@ describe("isYesterday()", () => {
 
     if (isYesterday(yesterday)) {
       type PrevDay = typeof yesterday;
-      // @ts-ignore
+
       type _cases = [
         ExpectTrue<Iso>,
         Expect<Extends<PrevDay, Iso8601DateTime>>
@@ -119,7 +120,7 @@ describe("isYesterday()", () => {
 
     if (isYesterday(yesterday)) {
       type PrevDay = typeof yesterday;
-      // @ts-ignore
+
       type _cases = [
         ExpectTrue<Iso>,
         Expect<Extends<PrevDay, Iso8601Date>>
@@ -127,7 +128,7 @@ describe("isYesterday()", () => {
     }
     if (isYesterday(wide)) {
       type WideDay = typeof wide;
-      // @ts-ignore
+
       type _cases = [
         Expect<Equal<IsoWide, boolean>>,
         Expect<Extends<WideDay, string>>

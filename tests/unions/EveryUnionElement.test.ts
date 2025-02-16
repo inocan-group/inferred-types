@@ -53,7 +53,7 @@ describe("EveryUnionElement<TTarget, TOp, TComparator>", () => {
   it("equals comparison", () => {
     type T1 = EveryUnionElement<number, "equals", number>;
     type T2 = EveryUnionElement<"foo", "equals", "foo">;
-    type T4 = EveryUnionElement<D2, "equals", boolean>;
+    type T4 = EveryUnionElement<boolean, "equals", boolean>;
 
     type F1 = EveryUnionElement<D1, "equals", "foo">;
     type F2 = EveryUnionElement<D1, "equals", 42>;

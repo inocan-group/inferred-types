@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 import { Equal, Expect } from "@type-challenges/utils";
-import { CamelCase } from "inferred-types";
+import { CamelCase } from "inferred-types/types";
 
 const target = "twoThreeFour";
 type TARGET = typeof target;
@@ -106,4 +106,15 @@ describe("CamelCase<T> type utility", () => {
     const c: cases = [true, true, true, true, true];
     expect(c).toBe(c);
   });
+
+
+
+  it("camel casing a tuple of things", () => {
+    type T = CamelCase<["foo_bar", 42, true, "BarBaz"]>;
+
+    type cases = [
+      Expect<Equal<T, ["fooBar", 42, true, "barBaz"]>>
+    ];
+  });
+
 });
