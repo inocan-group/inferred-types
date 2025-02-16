@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { isShape, shape } from "inferred-types";
+import { isShape, shape } from "inferred-types/runtime";
 import { Ip4Address, ZipCode } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
@@ -12,7 +12,7 @@ describe("shape(s => s.[api])", () => {
   it("strings", () => {
     const str = shape(s => s.string());
     const strLit = shape(s => s.string("foo"));
-    const strUnion = shape(s => s.string("foo","bar"));
+    const strUnion = shape(s => s.string("foo", "bar"));
     const ipAddress = shape(s => s.string().ipv4Address());
     const zip = shape(s => s.string().zipCode());
 
@@ -43,7 +43,7 @@ describe("shape(s => s.[api])", () => {
     // should create a string literal type which has a backing regex for validation
     const zip = shape(s => s.string().regex(
       /[0-9]{5}(-[0-9]{4}){0,1}/,
-      "number","opt(-)", "opt(number)"
+      "number", "opt(-)", "opt(number)"
     ))
   })
 

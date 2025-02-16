@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { toCamelCase } from "inferred-types";
+import { toCamelCase } from "inferred-types/runtime";
 import { describe, it, expect } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

@@ -1,8 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { StripBefore } from "inferred-types";
-import { stripBefore } from "inferred-types";
+import { StripBefore } from "inferred-types/types";
+import { stripBefore } from "inferred-types/runtime";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -25,7 +25,7 @@ describe("StripBefore<TStr,TBreak>", () => {
       Expect<Equal<BothWide, string>>,
     ];
 
-    const cases: cases = [ true, true, true, true, true ];
+    const cases: cases = [true, true, true, true, true];
   });
 
 });
@@ -44,7 +44,7 @@ describe("StripBefore(contend,find) runtime utility", () => {
       Expect<Equal<typeof barBaz, "bar, baz">>, //
 
     ];
-    const cases: cases = [ true, true ];
+    const cases: cases = [true, true];
 
   });
 

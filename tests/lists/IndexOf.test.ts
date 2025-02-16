@@ -1,8 +1,8 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { indexOf, isErrorCondition } from "inferred-types";
-import type {  IndexOf, IsErrorCondition } from "inferred-types";
+import { indexOf, isErrorCondition } from "inferred-types/runtime";
+import type { IndexOf, IsErrorCondition } from "inferred-types/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -11,13 +11,13 @@ import type {  IndexOf, IsErrorCondition } from "inferred-types";
 describe("IndexOf<T>", () => {
 
   it("type tests", () => {
-    type Arr = IndexOf<[1,2,3], 1>;
-    type ArrBadIdx = IndexOf<[1,2,3], 8>;
-    type InvalidStrIdx = IndexOf<[1,2,3], "foo">;
+    type Arr = IndexOf<[1, 2, 3], 1>;
+    type ArrBadIdx = IndexOf<[1, 2, 3], 8>;
+    type InvalidStrIdx = IndexOf<[1, 2, 3], "foo">;
 
-    type Neg = IndexOf<[1,2,3], -1>;
+    type Neg = IndexOf<[1, 2, 3], -1>;
 
-    type Obj = IndexOf<{foo: 1; bar: 2; baz: 3}, "bar">;
+    type Obj = IndexOf<{ foo: 1; bar: 2; baz: 3 }, "bar">;
     type Identity = IndexOf<"foo", null>;
     type Never = IndexOf<"foo", 1>;
 
@@ -36,13 +36,13 @@ describe("IndexOf<T>", () => {
       true, true, true,
       true,
       true, true, true
-     ];
+    ];
   });
 
 
   it("using Override feature", () => {
-    type Arr = IndexOf<[1,2,3],8, "oops">
-    type Obj = IndexOf<{foo: 1}, "bar", "oops">;
+    type Arr = IndexOf<[1, 2, 3], 8, "oops">
+    type Obj = IndexOf<{ foo: 1 }, "bar", "oops">;
 
     type cases = [
       Expect<Equal<Arr, "oops">>,
@@ -68,8 +68,8 @@ describe("IndexOf<T>", () => {
 
 
   it("runtime", () => {
-    const arr = indexOf([1,2,3] as const, 1);
-    const obj = indexOf({foo: 1, bar: 2, baz: 3 } as const, "bar");
+    const arr = indexOf([1, 2, 3] as const, 1);
+    const obj = indexOf({ foo: 1, bar: 2, baz: 3 } as const, "bar");
     const identity = indexOf("foo", null);
     const invalidIndex = indexOf("foo", 1);
 

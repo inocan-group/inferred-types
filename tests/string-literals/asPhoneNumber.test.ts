@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { getPhoneCountryCode, removePhoneCountryCode } from "inferred-types";
-import { GetPhoneCountryCode, GetPhoneNumberType, RemovePhoneCountryCode } from "inferred-types";
+import { getPhoneCountryCode, removePhoneCountryCode } from "inferred-types/runtime";
+import { GetPhoneCountryCode, GetPhoneNumberType, RemovePhoneCountryCode } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
 describe("asPhoneNumber() and supporting utils", () => {
@@ -70,9 +70,9 @@ describe("asPhoneNumber() and supporting utils", () => {
 
     ];
     const cases: cases = [
-      true,true,
-      true,true,true,true,
-      true,true,true,true,
+      true, true,
+      true, true, true, true,
+      true, true, true, true,
     ];
 
   });
@@ -96,7 +96,7 @@ describe("asPhoneNumber() and supporting utils", () => {
       Expect<Equal<typeof uk2, "44">>,
       Expect<Equal<typeof us, "1">>,
     ];
-    const cases: cases = [ true, true, true, true ];
+    const cases: cases = [true, true, true, true];
 
   });
 

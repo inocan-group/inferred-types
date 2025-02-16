@@ -1,8 +1,8 @@
 import { describe, it, expect } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
 
-import { toSnakeCase } from "inferred-types";
-import type { SnakeCase } from "inferred-types";
+import { toSnakeCase } from "inferred-types/runtime";
+import type { SnakeCase } from "inferred-types/types";
 
 describe("toSnakeCase() function", () => {
 
@@ -55,7 +55,7 @@ describe("toSnakeCase() function", () => {
       Expect<Equal<SnakeCase<typeof white, true>, "  one_two_three  ">>,
       Expect<Equal<SnakeCase<typeof whiteHybrid, true>, "\n  one_two_three \t">>,
     ];
-    const cases: cases = [ true, true, true, true, true, true, true, true];
+    const cases: cases = [true, true, true, true, true, true, true, true];
 
   });
 

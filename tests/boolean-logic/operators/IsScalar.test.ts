@@ -2,7 +2,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { isScalar, IsScalar, Scalar} from "inferred-types";
+import { IsScalar, Scalar } from "inferred-types/types";
+import { isScalar } from "inferred-types/runtime"
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -19,7 +20,7 @@ describe("IsScalar<T>", () => {
     type F1 = IsScalar<undefined>;
     type F2 = IsScalar<{}>;
     type F3 = IsScalar<string[]>;
-    type F4 = IsScalar<{foo: 1}>;
+    type F4 = IsScalar<{ foo: 1 }>;
     type F5 = IsScalar<object>;
     type F6 = IsScalar<never>;
 
@@ -53,7 +54,7 @@ describe("IsScalar<T>", () => {
       Expect<Equal<AllScalarUnion, true>>,
       Expect<Equal<None, false>>,
     ];
-    const cases: cases = [ true, true, true ];
+    const cases: cases = [true, true, true];
   });
 
 
@@ -70,8 +71,8 @@ describe("isScalar(value) runtime type guard", () => {
     const f1 = isScalar(undefined);
     const f2 = isScalar({});
     const f3 = isScalar([] as string[]);
-    const f4 = isScalar({foo: 1});
-    const f5 = isScalar({foo: 1} as object);
+    const f4 = isScalar({ foo: 1 });
+    const f5 = isScalar({ foo: 1 } as object);
 
     expect(t1).toBe(true);
     expect(t2).toBe(true);
@@ -90,14 +91,14 @@ describe("isScalar(value) runtime type guard", () => {
   it("types at runtime", () => {
     const val: unknown = 42 as unknown;
 
-    if(isScalar(val)) {
+    if (isScalar(val)) {
       type Val = typeof val;
       expect(true).toBe(true);
 
       type cases = [
         Expect<Equal<Val, Scalar>>
       ];
-      const cases: cases = [ true ];
+      const cases: cases = [true];
     } else {
       expect(true, "isScalar() not working").toBe(false);
     }

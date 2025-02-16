@@ -1,6 +1,6 @@
 /* eslint-disable ts/ban-ts-comment */
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
-import { isToday } from "inferred-types";
+import { isToday } from "inferred-types/runtime";
 import {
   Extends,
   IsIso8601DateTime,

@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { trim, trimEnd, trimStart } from "inferred-types";
+import { trim, trimEnd, trimStart } from "inferred-types/runtime";
 import { describe, expect, it } from "vitest";
-import { Trim, TrimLeft, TrimRight } from "inferred-types";
+import { Trim, TrimLeft, TrimRight } from "inferred-types/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -25,7 +25,7 @@ describe("Trim<T> and trim()", () => {
       Expect<Equal<Empty, "">>,
       Expect<Equal<Wide, string>>,
     ];
-    const cases: cases = [ true, true, true, true, true, true  ];
+    const cases: cases = [true, true, true, true, true, true];
   });
 
 
@@ -37,7 +37,7 @@ describe("Trim<T> and trim()", () => {
     type cases = [
       Expect<Equal<typeof foobar, "foobar">>
     ];
-    const cases: cases = [ true ];
+    const cases: cases = [true];
   });
 
 
@@ -56,7 +56,7 @@ describe("TrimLeft<T>", () => {
       Expect<Equal<Trailing, "foobar ">>,
       Expect<Equal<BothSides, "foobar ">>,
     ];
-    const cases: cases = [ true, true, true ];
+    const cases: cases = [true, true, true];
   });
 
 
@@ -71,7 +71,7 @@ describe("TrimLeft<T>", () => {
       Expect<Equal<typeof foobar, "foobar ">>,
       Expect<Equal<typeof foobar2, "foobar ">>,
     ];
-    const cases: cases = [ true, true ];
+    const cases: cases = [true, true];
   });
 
 
@@ -89,7 +89,7 @@ describe("TrimRight<T>", () => {
       Expect<Equal<Trailing, "foobar">>,
       Expect<Equal<BothSides, " foobar">>,
     ];
-    const cases: cases = [ true, true, true ];
+    const cases: cases = [true, true, true];
   });
 
 

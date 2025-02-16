@@ -1,8 +1,8 @@
 import { describe, it, expect } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
 
-import { AsArray } from "inferred-types";
-import {  asArray } from "inferred-types";
+import { AsArray } from "inferred-types/types";
+import { asArray } from "inferred-types/runtime";
 
 describe("AsArray<T>", () => {
   it("happy path", () => {
@@ -25,9 +25,9 @@ describe("AsArray<T>", () => {
     type T1 = AsArray<X>;
 
     type cases = [
-      Expect<Equal<T1, unknown[] | [ unknown[]]>>
+      Expect<Equal<T1, unknown[] | [unknown[]]>>
     ];
-    const cases: cases = [ true ];
+    const cases: cases = [true];
 
   });
 
@@ -43,7 +43,7 @@ describe("asArray() function", () => {
     expect(o).toEqual(["a"]);
     // design-time
     type cases = [
-      Expect<Equal<O,  ["a"] >>, //
+      Expect<Equal<O, ["a"]>>, //
     ];
     const cases: cases = [true];
   });

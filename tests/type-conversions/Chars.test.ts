@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { Chars } from "inferred-types";
+import { Chars } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -8,15 +8,15 @@ import { describe, it } from "vitest";
 
 describe("Chars<T>", () => {
 
-  it("happy path", () => {
-    type FooBar = Chars<"FooBar">;
+    it("happy path", () => {
+        type FooBar = Chars<"FooBar">;
 
-    type cases = [
-      Expect<Equal<FooBar, ["F","o","o","B","a","r"]>>,
-    ];
-    const cases: cases = [
-      true
-    ];
-  });
+        type cases = [
+            Expect<Equal<FooBar, ["F", "o", "o", "B", "a", "r"]>>,
+        ];
+        const cases: cases = [
+            true
+        ];
+    });
 
 });

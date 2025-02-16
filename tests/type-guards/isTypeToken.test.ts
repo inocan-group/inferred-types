@@ -1,8 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { isTypeToken } from "inferred-types";
-import { TypeToken } from "inferred-types";
+import { isTypeToken } from "inferred-types/runtime";
+import { TypeToken } from "inferred-types/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -18,7 +18,7 @@ describe("isTypeToken(val)", () => {
       // by the type system
       Expect<Equal<typeof str, string>>
     ];
-    const cases: cases = [ true ];
+    const cases: cases = [true];
 
     if (isTypeToken(str)) {
       type Token = typeof str;
@@ -27,7 +27,7 @@ describe("isTypeToken(val)", () => {
         // changed to
         Expect<Equal<Token, TypeToken>>
       ];
-      const cases2: cases2 = [ true ];
+      const cases2: cases2 = [true];
 
       // runtime sees the token "as is"
       expect(str).toEqual("<<string>>");

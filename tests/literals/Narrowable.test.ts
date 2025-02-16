@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { narrow } from "inferred-types";
-import { Narrowable } from "inferred-types";
+import { narrow } from "inferred-types/runtime";
+import { Narrowable } from "inferred-types/types";
 
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -24,7 +24,7 @@ describe("Narrowable", () => {
       Expect<Equal<StringLiteral, "foo">>,
       Expect<Equal<Obj, object>>,
     ];
-    const cases: cases = [true,true,true,true,true];
+    const cases: cases = [true, true, true, true, true];
   });
 
 
@@ -32,7 +32,7 @@ describe("Narrowable", () => {
     const stringLiteral = narrow("foo");
     const numericLiteral = narrow(42);
 
-    const obj = narrow({foo: 1, bar: 2, baz: [1,2,3] });
+    const obj = narrow({ foo: 1, bar: 2, baz: [1, 2, 3] });
     const arr = narrow("foo", "bar");
 
     const stringTuple1 = narrow(["foo", "bar"] as const);
@@ -48,7 +48,7 @@ describe("Narrowable", () => {
       Expect<Equal<typeof stringLiteral, "foo">>,
       Expect<Equal<typeof numericLiteral, 42>>,
 
-      Expect<Equal<typeof obj, {foo: 1; bar: 2; baz: number[]}>>,
+      Expect<Equal<typeof obj, { foo: 1; bar: 2; baz: number[] }>>,
 
       Expect<Equal<typeof stringTuple1, readonly ["foo", "bar"]>>,
       Expect<Equal<typeof stringTuple2, readonly ["foo", "bar"]>>,

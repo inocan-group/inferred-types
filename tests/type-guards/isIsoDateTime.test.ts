@@ -1,4 +1,4 @@
-import { isIsoDateTime } from "inferred-types";
+import { isIsoDateTime } from "inferred-types/runtime";
 import { describe, expect, it } from "vitest";
 
 describe("isIsoDateTime() type guard", () => {

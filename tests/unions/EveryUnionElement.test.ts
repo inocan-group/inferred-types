@@ -1,5 +1,5 @@
 import { Equal, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { IsUnion } from "inferred-types";
+import { IsUnion } from "inferred-types/types";
 import { EveryUnionElement, SomeUnionElement } from "inferred-types/types";
 import { describe, it } from "vitest";
 

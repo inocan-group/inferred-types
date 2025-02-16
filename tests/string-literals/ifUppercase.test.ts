@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { toUppercase ,  ifUppercaseChar } from "inferred-types";
-import { describe,  it } from "vitest";
+import { toUppercase, ifUppercaseChar } from "inferred-types/runtime";
+import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -20,7 +20,7 @@ describe("ifUppercase()", () => {
       Expect<Equal<typeof capLower, "H">>,
       Expect<Equal<typeof capUpper, "H">>,
     ];
-    const cases: cases = [ true, true, true, true];
+    const cases: cases = [true, true, true, true];
   });
 
   // it("testing ifUppercase() with a character", () => {

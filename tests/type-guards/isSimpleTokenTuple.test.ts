@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { SimpleToken, isSimpleTokenTuple } from "inferred-types";
+import { SimpleToken } from "inferred-types/types";
+import { isSimpleTokenTuple } from "inferred-types/runtime"
 
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -28,18 +29,18 @@ describe("isSimpleTokenTuple(val)", () => {
 
   it("with dynamic variables", () => {
 
-    const t1 = [ t("Dict<{id: number}>"), "string", "number" ];
-    const t2 = [ t("Dict<{foo: number}>"), "string", "number" ];
-    const t3 = [ t("Dict<{id: string}>"), "string", t("Dict") ];
-    const t4 = [ t("Dict<{foo: string}>"), "string", t("Dict") ];
+    const t1 = [t("Dict<{id: number}>"), "string", "number"];
+    const t2 = [t("Dict<{foo: number}>"), "string", "number"];
+    const t3 = [t("Dict<{id: string}>"), "string", t("Dict")];
+    const t4 = [t("Dict<{foo: string}>"), "string", t("Dict")];
 
     expect(isSimpleTokenTuple(t1)).toBe(true);
     expect(isSimpleTokenTuple(t2)).toBe(true);
     expect(isSimpleTokenTuple(t3)).toBe(true);
     expect(isSimpleTokenTuple(t4)).toBe(true);
 
-    const f1 = [ "Dict with numeric id()", "string", "number" ];
-    const f2 = [ "Dict with numeric id(foo)", "string", "number" ];
+    const f1 = ["Dict with numeric id()", "string", "number"];
+    const f2 = ["Dict with numeric id(foo)", "string", "number"];
 
     expect(isSimpleTokenTuple(f1)).toBe(false);
     expect(isSimpleTokenTuple(f2)).toBe(false);

@@ -1,5 +1,5 @@
-import {  ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { AreSameType, Dictionary, Tuple } from "inferred-types";
+import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
+import { AreSameType, Dictionary, Tuple } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 
@@ -9,37 +9,37 @@ import { describe, it } from "vitest";
 
 describe("AreSameType<A,B>", () => {
 
-  it("happy path", () => {
-    type T1 = AreSameType<"foo","bar">;
-    type T2 = AreSameType<42, 56>;
-    type T3 = AreSameType<42, number>;
-    type T4 = AreSameType<true, false>;
-    type T5 = AreSameType<{foo:1}, {bar:2}>;
-    type T6 = AreSameType<readonly string[], readonly (string | number)[]>;
-    type T7 = AreSameType<() => "hi", () => string>;
-    type T8 = AreSameType<Record<string, string>, Dictionary>;
+    it("happy path", () => {
+        type T1 = AreSameType<"foo", "bar">;
+        type T2 = AreSameType<42, 56>;
+        type T3 = AreSameType<42, number>;
+        type T4 = AreSameType<true, false>;
+        type T5 = AreSameType<{ foo: 1 }, { bar: 2 }>;
+        type T6 = AreSameType<readonly string[], readonly (string | number)[]>;
+        type T7 = AreSameType<() => "hi", () => string>;
+        type T8 = AreSameType<Record<string, string>, Dictionary>;
 
-    type F1 = AreSameType<"foo", 42>;
-    type F2 = AreSameType<Dictionary, Tuple>;
+        type F1 = AreSameType<"foo", 42>;
+        type F2 = AreSameType<Dictionary, Tuple>;
 
-    type cases = [
-      ExpectTrue<T1>,
-      ExpectTrue<T2>,
-      ExpectTrue<T3>,
-      ExpectTrue<T4>,
-      ExpectTrue<T5>,
-      ExpectTrue<T6>,
-      ExpectTrue<T7>,
-      ExpectTrue<T8>,
+        type cases = [
+            ExpectTrue<T1>,
+            ExpectTrue<T2>,
+            ExpectTrue<T3>,
+            ExpectTrue<T4>,
+            ExpectTrue<T5>,
+            ExpectTrue<T6>,
+            ExpectTrue<T7>,
+            ExpectTrue<T8>,
 
-      ExpectFalse<F1>,
-      ExpectFalse<F2>,
-    ];
-    const cases: cases = [
-      true,true, true, true,true, true,true,true,
-      false, false
-    ];
-  });
+            ExpectFalse<F1>,
+            ExpectFalse<F2>,
+        ];
+        const cases: cases = [
+            true, true, true, true, true, true, true, true,
+            false, false
+        ];
+    });
 
 });
 

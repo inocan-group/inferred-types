@@ -1,5 +1,5 @@
-import {  ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { HasArray } from "inferred-types";
+import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
+import { HasArray } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -8,24 +8,24 @@ import { describe, it } from "vitest";
 
 describe("HasArray<T>", () => {
 
-  it("happy path", () => {
-    type T1 = HasArray<[1,2,[4,5],6]>;
-    type T2 = HasArray<[1,2, [4, [5,6]]]>;
+    it("happy path", () => {
+        type T1 = HasArray<[1, 2, [4, 5], 6]>;
+        type T2 = HasArray<[1, 2, [4, [5, 6]]]>;
 
-    type F1 = HasArray<[1,2,3,4]>;
-    type F2 = HasArray<[]>;
+        type F1 = HasArray<[1, 2, 3, 4]>;
+        type F2 = HasArray<[]>;
 
-    type cases = [
-      ExpectTrue<T1>,
-      ExpectTrue<T2>,
+        type cases = [
+            ExpectTrue<T1>,
+            ExpectTrue<T2>,
 
-      ExpectFalse<F1>,
-      ExpectFalse<F2>,
-    ];
-    const cases: cases = [
-      true, true,
-      false, false
-    ];
-  });
+            ExpectFalse<F1>,
+            ExpectFalse<F2>,
+        ];
+        const cases: cases = [
+            true, true,
+            false, false
+        ];
+    });
 
 });

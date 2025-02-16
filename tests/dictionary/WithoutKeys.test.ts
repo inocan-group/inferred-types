@@ -2,8 +2,8 @@
 import { describe, it, expect } from "vitest";
 import { Equal, Expect } from "@type-challenges/utils";
 
-import {  UnionToTuple, WithoutKeys } from "inferred-types";
-import { withoutKeys } from "inferred-types";
+import { UnionToTuple, WithoutKeys } from "inferred-types/types";
+import { withoutKeys } from "inferred-types/runtime";
 
 describe("WithoutKeys<T, K> utility", () => {
   it("base test", () => {
@@ -11,7 +11,7 @@ describe("WithoutKeys<T, K> utility", () => {
     type FooBarUnion = WithoutKeys<O, UnionToTuple<"foo" | "bar">>;
     type FooBarUnion2 = Omit<O, "foo" | "bar">;
     type FooBarRO = WithoutKeys<O, readonly ["foo", "bar"]>;
-    type FooBarRW = WithoutKeys<O,  ["foo", "bar"]>;
+    type FooBarRW = WithoutKeys<O, ["foo", "bar"]>;
     type BazRW = WithoutKeys<O, ["baz"]>;
     type FooBazArr = WithoutKeys<O, ["foo", "baz"]>;
 
@@ -27,8 +27,8 @@ describe("WithoutKeys<T, K> utility", () => {
   });
 
   it("runtime: happy path", () => {
-    const literalObj = {foo: 1, bar: 42 as number | undefined, baz: "hi"} as const;
-    const obj = {foo: 1, bar: 42 as number | undefined, baz: "hi"};
+    const literalObj = { foo: 1, bar: 42 as number | undefined, baz: "hi" } as const;
+    const obj = { foo: 1, bar: 42 as number | undefined, baz: "hi" };
     const t1 = withoutKeys(literalObj, "foo", "bar");
     const t1b = withoutKeys(obj, "foo", "bar");
     const t2 = withoutKeys(literalObj, "foo", "baz");
@@ -49,12 +49,12 @@ describe("WithoutKeys<T, K> utility", () => {
     expect((t2b as any).baz).toBeUndefined;
 
     type cases = [
-      Expect<Equal<typeof t1, { readonly baz: "hi"}>>,
-      Expect<Equal<typeof t2, { readonly bar: number | undefined}>>,
-      Expect<Equal<typeof t1b, { baz: string}>>,
-      Expect<Equal<typeof t2b, {  bar: number | undefined}>>,
+      Expect<Equal<typeof t1, { readonly baz: "hi" }>>,
+      Expect<Equal<typeof t2, { readonly bar: number | undefined }>>,
+      Expect<Equal<typeof t1b, { baz: string }>>,
+      Expect<Equal<typeof t2b, { bar: number | undefined }>>,
     ];
-    const cases: cases = [ true, true, true, true ];
+    const cases: cases = [true, true, true, true];
   });
 
 });

@@ -1,5 +1,5 @@
-import {  ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { IsWideUnion } from "inferred-types";
+import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
+import { IsWideUnion } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 
@@ -9,28 +9,28 @@ import { describe, it } from "vitest";
 
 describe("IsWideUnion<T>", () => {
 
-  it("Happy Path", () => {
-    type NotUnion = IsWideUnion<string>;
-    type Bool = IsWideUnion<boolean>;
+    it("Happy Path", () => {
+        type NotUnion = IsWideUnion<string>;
+        type Bool = IsWideUnion<boolean>;
 
-    type Mixed = IsWideUnion<"foo" | number>;
-    type Mixed2 = IsWideUnion<"foo" | boolean>;
-    type AllLit = IsWideUnion<"foo" | "bar">;
-    type AllWide = IsWideUnion<string | number>;
+        type Mixed = IsWideUnion<"foo" | number>;
+        type Mixed2 = IsWideUnion<"foo" | boolean>;
+        type AllLit = IsWideUnion<"foo" | "bar">;
+        type AllWide = IsWideUnion<string | number>;
 
-    type cases = [
-      ExpectFalse<NotUnion>,
-      ExpectFalse<Bool>,
+        type cases = [
+            ExpectFalse<NotUnion>,
+            ExpectFalse<Bool>,
 
-      ExpectFalse<Mixed>,
-      ExpectFalse<Mixed2>,
-      ExpectFalse<AllLit>,
-      ExpectTrue<AllWide>
-    ];
-    const cases: cases = [
-      false, false,
-      false, false, false, true
-    ];
-  });
+            ExpectFalse<Mixed>,
+            ExpectFalse<Mixed2>,
+            ExpectFalse<AllLit>,
+            ExpectTrue<AllWide>
+        ];
+        const cases: cases = [
+            false, false,
+            false, false, false, true
+        ];
+    });
 
 });

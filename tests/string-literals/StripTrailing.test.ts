@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { StripTrailing } from "inferred-types";
-import { stripTrailing } from "inferred-types";
+import { StripTrailing } from "inferred-types/types";
+import { stripTrailing } from "inferred-types/runtime";
 
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -11,9 +11,9 @@ import { stripTrailing } from "inferred-types";
 describe("StripTrailing", () => {
 
   it("happy path", () => {
-    type RemoveBar = StripTrailing<"FooBar","Bar">;
-    type SameAsItEverWas = StripTrailing<"Foo","Bar">;
-    type Num = StripTrailing<4000,"000">;
+    type RemoveBar = StripTrailing<"FooBar", "Bar">;
+    type SameAsItEverWas = StripTrailing<"Foo", "Bar">;
+    type Num = StripTrailing<4000, "000">;
 
     type cases = [
       Expect<Equal<RemoveBar, "Foo">>,

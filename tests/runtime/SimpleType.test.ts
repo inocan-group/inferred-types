@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import { Dictionary, SimpleType } from "inferred-types/types";
-import { simpleType } from "inferred-types";
+import { simpleType } from "inferred-types/runtime";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -71,9 +71,9 @@ describe("SimpleType<T>", () => {
 
     type cases = [
       Expect<Equal<D1, Dictionary>>,
-      Expect<Equal<DId, {id: number; [key: string|symbol]: unknown}>>,
-      Expect<Equal<DFoo, {foo: number; [key: string|symbol]: unknown}>>,
-      Expect<Equal<DFooBar, {foo: string; bar: boolean | undefined; [key: string|symbol]: unknown}>>,
+      Expect<Equal<DId, { id: number;[key: string | symbol]: unknown }>>,
+      Expect<Equal<DFoo, { foo: number;[key: string | symbol]: unknown }>>,
+      Expect<Equal<DFooBar, { foo: string; bar: boolean | undefined;[key: string | symbol]: unknown }>>,
     ];
     const cases: cases = [
       true, true, true, true,
@@ -95,8 +95,8 @@ describe("SimpleType<T>", () => {
       Expect<Equal<S2, Set<string>>>,
       Expect<Equal<S3, Set<number>>>,
 
-      Expect<Equal<M1, Map<any,any>>>,
-      Expect<Equal<M2, Map<number,string>>>,
+      Expect<Equal<M1, Map<any, any>>>,
+      Expect<Equal<M2, Map<number, string>>>,
       Expect<Equal<
         M3,
         Map<Dictionary, Dictionary<string, number | undefined>>
@@ -116,13 +116,13 @@ describe("SimpleType<T>", () => {
 describe("simpleType()", () => {
 
   it("happy path", () => {
-      const str = simpleType("string");
-      const num = simpleType("number");
-      const bool = simpleType("boolean");
+    const str = simpleType("string");
+    const num = simpleType("number");
+    const bool = simpleType("boolean");
 
-      expect(str).toBe("string")
-      expect(num).toBe("number")
-      expect(bool).toBe("boolean")
+    expect(str).toBe("string")
+    expect(num).toBe("number")
+    expect(bool).toBe("boolean")
 
     type cases = [
       Expect<Equal<typeof str, string>>,
@@ -131,7 +131,7 @@ describe("simpleType()", () => {
 
     ];
     const cases: cases = [
-      true,  true, true
+      true, true, true
     ];
   });
 

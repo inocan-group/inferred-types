@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { reverse } from "inferred-types";
-import type { Reverse } from "inferred-types";
+import { reverse } from "inferred-types/runtime";
+import type { Reverse } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -13,14 +13,14 @@ describe("Reverse a Readonly Array", () => {
 
     it("happy path", () => {
       type FooBarBaz = Reverse<["foo", "bar", "baz"]>;
-      type Tup = Reverse<[ [1,"foo"], [2, "bar"], [3, "baz"] ]>;
-      type Counting = Reverse<[1,2,3,4,5]>;
+      type Tup = Reverse<[[1, "foo"], [2, "bar"], [3, "baz"]]>;
+      type Counting = Reverse<[1, 2, 3, 4, 5]>;
 
       // @ts-ignore
       type cases = [
-        Expect<Equal<FooBarBaz,  ["baz", "bar", "foo"]>>, //
-        Expect<Equal<Tup, [[3, "baz"] , [2, "bar"], [1,"foo"]]>>,
-        Expect<Equal<Counting,  [5,4,3,2,1]>>
+        Expect<Equal<FooBarBaz, ["baz", "bar", "foo"]>>, //
+        Expect<Equal<Tup, [[3, "baz"], [2, "bar"], [1, "foo"]]>>,
+        Expect<Equal<Counting, [5, 4, 3, 2, 1]>>
       ];
     });
 
@@ -30,14 +30,14 @@ describe("Reverse a Readonly Array", () => {
   describe("Runtime tests", () => {
 
     it("happy path", () => {
-      const counting = reverse([1,2,3,4,5] as const);
+      const counting = reverse([1, 2, 3, 4, 5] as const);
 
-      expect(counting).toEqual([5,4,3,2,1]);
+      expect(counting).toEqual([5, 4, 3, 2, 1]);
       type cases = [
-        Expect<Equal<typeof counting,  [5,4,3,2,1]>>, //
+        Expect<Equal<typeof counting, [5, 4, 3, 2, 1]>>, //
 
       ];
-      const cases: cases = [ true ];
+      const cases: cases = [true];
     });
 
   });

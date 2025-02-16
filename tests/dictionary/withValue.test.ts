@@ -1,7 +1,7 @@
-import { describe,  expect,  it } from "vitest";
+import { describe, expect, it } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
-import { createFnWithProps,  defineObj } from "inferred-types";
-import { EmptyObject, Dictionary, WithValue } from "inferred-types";
+import { createFnWithProps, defineObj } from "inferred-types/runtime";
+import { EmptyObject, Dictionary, WithValue } from "inferred-types/types";
 import { DictionaryWithValueFilter, withValue } from "inferred-types/runtime";
 
 const obj = defineObj({
@@ -17,7 +17,7 @@ const obj = defineObj({
   numericArr: [1, 2, 3],
   strArr: ["foo", "bar"],
   fn: () => "hi",
-  fnWithProp: createFnWithProps(() => "hi",{ foo: "there" }),
+  fnWithProp: createFnWithProps(() => "hi", { foo: "there" }),
   baz: { foo: 1, bar: 2 },
   emptyBaz: {}
 });
@@ -36,7 +36,7 @@ describe("WithValue<TObj,TVal> type util", () => {
       Expect<Equal<Bool, { success: true; fail: false; bar: boolean }>>,
       Expect<Equal<Wide, EmptyObject>>
     ];
-    const cases: cases = [true, true, true, true ];
+    const cases: cases = [true, true, true, true];
   });
 
   it("using the 'equals' comparison", () => {
@@ -50,7 +50,7 @@ describe("WithValue<TObj,TVal> type util", () => {
       Expect<Equal<Num, { foo: number; foo2: 2; foo3: 3 }>>,
       Expect<Equal<Bool, { bar: boolean }>>,
     ];
-    const cases: cases = [true, true, true  ];
+    const cases: cases = [true, true, true];
   });
 
 });
@@ -67,7 +67,7 @@ describe("withValue(wo) => (obj) => obj", () => {
     const narrowObj = narrow(obj);
 
     expect(wideObj).toEqual({ foo: "hi", bax: "bye" });
-    expect(narrowObj).toEqual({ foo: "hi"});
+    expect(narrowObj).toEqual({ foo: "hi" });
 
     // @ts-ignore
     type cases = [
@@ -75,7 +75,7 @@ describe("withValue(wo) => (obj) => obj", () => {
       Expect<Equal<typeof narrow, DictionaryWithValueFilter<"hi" | "hello">>>,
 
       Expect<Equal<typeof wideObj, { foo: "hi", bax: "bye" }>>,
-      Expect<Equal<typeof narrowObj, { foo: "hi"}>>,
+      Expect<Equal<typeof narrowObj, { foo: "hi" }>>,
     ];
   });
 

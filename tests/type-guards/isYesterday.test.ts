@@ -1,6 +1,6 @@
 /* eslint-disable ts/ban-ts-comment */
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
-import { isYesterday } from "inferred-types";
+import { isYesterday } from "inferred-types/runtime";
 import {
   Extends,
   IsIso8601DateTime,
@@ -9,7 +9,6 @@ import {
   Iso8601Date,
   Iso8601DateTime,
   LuxonJs,
-  MomentJs
 } from "inferred-types/types";
 import { DateTime } from "luxon";
 import moment from "moment";

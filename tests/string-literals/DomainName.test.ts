@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { DomainName } from "inferred-types";
+import { DomainName } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 
@@ -9,22 +9,22 @@ import { describe, it } from "vitest";
 
 describe("DomainName<TDomain,TPrefixes>", () => {
 
-  it("happy path", () => {
-    type Generic = DomainName;
-    type Site = DomainName<"site.com">;
+    it("happy path", () => {
+        type Generic = DomainName;
+        type Site = DomainName<"site.com">;
 
-    type Bad1 = DomainName<"site.p">;
-    type Bad2 = DomainName<"site%.com">;
+        type Bad1 = DomainName<"site.p">;
+        type Bad2 = DomainName<"site%.com">;
 
 
-    type cases = [
-      Expect<Equal<Generic, `${string}.${string}`>>,
-      Expect<Equal<Site, "site.com">>,
-      Expect<Equal<Bad1, never>>,
-      Expect<Equal<Bad2, never>>,
+        type cases = [
+            Expect<Equal<Generic, `${string}.${string}`>>,
+            Expect<Equal<Site, "site.com">>,
+            Expect<Equal<Bad1, never>>,
+            Expect<Equal<Bad2, never>>,
 
-    ];
-    const cases: cases = [ true, true, true, true ];
-  });
+        ];
+        const cases: cases = [true, true, true, true];
+    });
 
 });

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
-import type { Pluralize } from "inferred-types";
-import { pluralize } from "inferred-types";
+import type { Pluralize } from "inferred-types/types";
+import { pluralize } from "inferred-types/runtime";
 
 type Bugs = Pluralize<"bug">;
 type Cases = Pluralize<"case">;
@@ -30,7 +30,7 @@ describe("Pluralize<T>", () => {
     type cases = [
       Expect<Equal<Wide, string>>
     ];
-    const cases: cases = [ true ];
+    const cases: cases = [true];
   });
 
 });
@@ -53,7 +53,7 @@ describe("pluralize(word)", () => {
       Expect<Equal<typeof man, "men">>, //
       Expect<Equal<typeof person, "people">>, //
     ];
-    const cases: cases = [ true, true ];
+    const cases: cases = [true, true];
   });
 
 
@@ -66,7 +66,7 @@ describe("pluralize(word)", () => {
     type cases = [
       Expect<Equal<typeof miss, "misses">>,
     ];
-    const cases: cases = [ true];
+    const cases: cases = [true];
   });
 
 

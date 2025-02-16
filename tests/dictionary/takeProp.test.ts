@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { takeProp } from "inferred-types";
+import { takeProp } from "inferred-types/runtime";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest

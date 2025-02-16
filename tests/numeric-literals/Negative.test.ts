@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { Negative } from "inferred-types";
+import { Negative } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -8,19 +8,19 @@ import { describe, it } from "vitest";
 
 describe("Negative<T>", () => {
 
-  it("happy path", () => {
-    type Neg = Negative<-42>;
-    type Pos = Negative<42>;
-    type NegStr = Negative<"-42">;
-    type PosStr = Negative<"42">;
+    it("happy path", () => {
+        type Neg = Negative<-42>;
+        type Pos = Negative<42>;
+        type NegStr = Negative<"-42">;
+        type PosStr = Negative<"42">;
 
-    type cases = [
-      Expect<Equal<Neg, -42>>,
-      Expect<Equal<Pos, -42>>,
-      Expect<Equal<NegStr, "-42">>,
-      Expect<Equal<PosStr, "-42">>,
-    ];
-    const cases: cases = [ true, true, true, true ];
-  });
+        type cases = [
+            Expect<Equal<Neg, -42>>,
+            Expect<Equal<Pos, -42>>,
+            Expect<Equal<NegStr, "-42">>,
+            Expect<Equal<PosStr, "-42">>,
+        ];
+        const cases: cases = [true, true, true, true];
+    });
 
 });

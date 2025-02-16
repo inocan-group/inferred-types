@@ -1,4 +1,7 @@
-import { getTomorrow, isDate, isIsoExplicitDate, isLuxonDateTime, isMoment, isString, stripAfter } from "inferred-types/runtime";
+import {
+  getTomorrow,
+  isDate, isIsoExplicitDate, isLuxonDateTime, isMoment, isString, stripAfter
+} from "inferred-types/runtime";
 
 /**
  * **isTomorrow`(val)`**

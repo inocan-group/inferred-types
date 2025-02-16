@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { isFnWithParams } from "inferred-types";
+import { isFnWithParams } from "inferred-types/runtime";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -30,11 +30,11 @@ describe("isFnWithParams(test, ...params)", () => {
 
     const mystery: unknown = () => `hi` as unknown;
 
-    if(isFnWithParams(mystery, "string")) {
+    if (isFnWithParams(mystery, "string")) {
       type M = typeof mystery;
       // @ts-ignore
       type cases = [
-        Expect<Equal<M, <T extends [string]>(...args: T) => unknown >>
+        Expect<Equal<M, <T extends [string]>(...args: T) => unknown>>
       ];
     }
 

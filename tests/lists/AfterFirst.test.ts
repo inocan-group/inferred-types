@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { AfterFirst } from "inferred-types";
+import { AfterFirst } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -8,15 +8,15 @@ import { describe, it } from "vitest";
 
 describe("AfterFirst", () => {
 
-  it("happy path for lists", () => {
-    type Foobar = AfterFirst<["foo", "bar"]>;
-    type Foobar2 = AfterFirst<readonly ["foo", "bar"]>;
+    it("happy path for lists", () => {
+        type Foobar = AfterFirst<["foo", "bar"]>;
+        type Foobar2 = AfterFirst<readonly ["foo", "bar"]>;
 
-    type cases = [
-      Expect<Equal<Foobar, readonly ["bar"]>>,
-      Expect<Equal<Foobar2, readonly ["bar"]>>,
-    ];
-    const cases: cases = [true, true];
-  });
+        type cases = [
+            Expect<Equal<Foobar, readonly ["bar"]>>,
+            Expect<Equal<Foobar2, readonly ["bar"]>>,
+        ];
+        const cases: cases = [true, true];
+    });
 
 });

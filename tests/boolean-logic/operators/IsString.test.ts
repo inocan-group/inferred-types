@@ -1,5 +1,5 @@
 import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { IsString } from "inferred-types";
+import { IsString } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -8,43 +8,43 @@ import { describe, it } from "vitest";
 
 describe("IsString<T>", () => {
 
-  it("happy path", () => {
-    type Wide = IsString<string>;
-    type Literal = IsString<"foo">;
-    type Num = IsString<42>;
-    type Arr = IsString<[]>;
+    it("happy path", () => {
+        type Wide = IsString<string>;
+        type Literal = IsString<"foo">;
+        type Num = IsString<42>;
+        type Arr = IsString<[]>;
 
-    type cases = [
-      ExpectTrue<Wide>,
-      ExpectTrue<Literal>,
+        type cases = [
+            ExpectTrue<Wide>,
+            ExpectTrue<Literal>,
 
-      ExpectFalse<Num>,
-      ExpectFalse<Arr>,
+            ExpectFalse<Num>,
+            ExpectFalse<Arr>,
 
-    ];
-    const cases: cases = [
-      true, true,
-      false, false,
-    ];
-  });
-
-
-  it("Union Types", () => {
-    type StrUnion = IsString<"foo" | "bar">;
-    type MixedUnion = IsString<"foo" | 42>;
-    type NonStrUnion = IsString<42 | 56 | false>;
+        ];
+        const cases: cases = [
+            true, true,
+            false, false,
+        ];
+    });
 
 
-    type cases = [
-      ExpectTrue<StrUnion>,
-      Expect<Equal<MixedUnion, boolean>>,
-      ExpectFalse<NonStrUnion>,
-    ];
-    const cases: cases = [
-      true, true, false,
-    ];
+    it("Union Types", () => {
+        type StrUnion = IsString<"foo" | "bar">;
+        type MixedUnion = IsString<"foo" | 42>;
+        type NonStrUnion = IsString<42 | 56 | false>;
 
-  });
+
+        type cases = [
+            ExpectTrue<StrUnion>,
+            Expect<Equal<MixedUnion, boolean>>,
+            ExpectFalse<NonStrUnion>,
+        ];
+        const cases: cases = [
+            true, true, false,
+        ];
+
+    });
 
 
 });

@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { isInlineSvg } from "inferred-types";
+import { isInlineSvg } from "inferred-types/runtime";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -25,7 +25,7 @@ describe("isInlineSvg(val)", () => {
     expect(t3).toBe(true);
     expect(t4).toBe(true);
 
-    if(isInlineSvg(svg1)) {
+    if (isInlineSvg(svg1)) {
       type T = typeof svg1;
 
       // @ts-ignore

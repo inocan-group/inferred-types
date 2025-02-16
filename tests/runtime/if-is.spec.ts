@@ -2,12 +2,16 @@ import { describe, expect, it } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
 
 import {
-  or,
+
   EndsWith,
   DoesExtend,
   LowerAlphaChar,
   Or,
   StartsWith,
+
+} from "inferred-types/types";
+
+import {
   isTrue,
   StartingWithTypeGuard,
   startsWith, box,
@@ -18,8 +22,9 @@ import {
   ifSameType,
   ifString,
   ifTrue,
-  ifUndefined
-} from "inferred-types";
+  ifUndefined,
+  or
+} from "inferred-types/runtime"
 
 
 describe("runtime if/is", () => {
@@ -225,7 +230,7 @@ describe("runtime if/is", () => {
   it("ifUndefined(v,i,e)", () => {
     const t = ifUndefined(undefined, () => 42, () => false);
     const f = ifUndefined(false, () => "yikes", () => 42);
-    const f2 = ifUndefined("", () => "yikes", () =>  42);
+    const f2 = ifUndefined("", () => "yikes", () => 42);
 
     type cases = [
       Expect<Equal<typeof t, 42>>, //

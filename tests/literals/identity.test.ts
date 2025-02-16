@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { identity } from "inferred-types";
+import { identity } from "inferred-types/runtime";
 import { describe, expect, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -13,10 +13,10 @@ describe("identity() runtime util", () => {
       foo: 42,
       bar: "hi"
     });
-    expect(obj).toEqual({foo: 42, bar: "hi"});
+    expect(obj).toEqual({ foo: 42, bar: "hi" });
 
-    const tup = identity(4,5,6);
-    expect(tup).toEqual([4,5,6]);
+    const tup = identity(4, 5, 6);
+    expect(tup).toEqual([4, 5, 6]);
 
     const undef = identity();
     expect(undef).toEqual(undefined);
@@ -29,8 +29,8 @@ describe("identity() runtime util", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<typeof obj, { foo: 42; bar: "hi"}>>,
-      Expect<Equal<typeof tup, [ 4,5,6 ]>>,
+      Expect<Equal<typeof obj, { foo: 42; bar: "hi" }>>,
+      Expect<Equal<typeof tup, [4, 5, 6]>>,
       Expect<Equal<typeof undef, undefined>>,
       Expect<Equal<typeof undef2, undefined>>,
       Expect<Equal<typeof scalar, 42>>,

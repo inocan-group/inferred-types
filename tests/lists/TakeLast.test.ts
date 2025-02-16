@@ -1,5 +1,5 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
-import { IsErrorCondition, Reverse, TakeLast } from "inferred-types";
+import { IsErrorCondition, Reverse, TakeLast } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -8,26 +8,26 @@ import { describe, it } from "vitest";
 
 describe("TakeLast<TContent,TLen,[THandle]>", () => {
 
-  it("happy path", () => {
-    type Arr = [1,2,3, "foo", "bar"];
+    it("happy path", () => {
+        type Arr = [1, 2, 3, "foo", "bar"];
 
-    type Two = TakeLast<Arr, 2>;
-    type Three = TakeLast<Arr, 3>;
-    type Biggie = TakeLast<Arr, 100>;
-    type Oops = TakeLast<Arr, 100, "throw">;
+        type Two = TakeLast<Arr, 2>;
+        type Three = TakeLast<Arr, 3>;
+        type Biggie = TakeLast<Arr, 100>;
+        type Oops = TakeLast<Arr, 100, "throw">;
 
 
-    type cases = [
-      Expect<Equal<Two, ["bar","foo"]>>,
-      Expect<Equal<Three, ["bar","foo",3]>>,
-      Expect<Equal<Biggie, Reverse<Arr>>>,
+        type cases = [
+            Expect<Equal<Two, ["bar", "foo"]>>,
+            Expect<Equal<Three, ["bar", "foo", 3]>>,
+            Expect<Equal<Biggie, Reverse<Arr>>>,
 
-      ExpectTrue<IsErrorCondition<Oops, "invalid-length">>
-    ];
-    const cases: cases = [
-      true, true, true,
-      true
-    ];
-  });
+            ExpectTrue<IsErrorCondition<Oops, "invalid-length">>
+        ];
+        const cases: cases = [
+            true, true, true,
+            true
+        ];
+    });
 
 });

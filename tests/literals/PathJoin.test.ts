@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { pathJoin } from "inferred-types";
-import { PathJoin } from "inferred-types";
+import { pathJoin } from "inferred-types/runtime";
+import { PathJoin } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
 // Note: type tests fail visible inspection but pass from Vitest
@@ -34,8 +34,8 @@ describe("PathJoin<T,U>", () => {
 
   it("PathJoin<T,U> with U as array", () => {
     type T1 = PathJoin<["foo", "bar", "baz"]>;
-    type T2 = PathJoin<["/foo/","/bar/", "/baz/"]>;
-    type T3 = PathJoin<["/foo/","bar", "/baz"]>;
+    type T2 = PathJoin<["/foo/", "/bar/", "/baz/"]>;
+    type T3 = PathJoin<["/foo/", "bar", "/baz"]>;
 
     type cases = [
       //
