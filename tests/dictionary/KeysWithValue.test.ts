@@ -3,7 +3,6 @@ import { describe, it } from "vitest";
 
 import {
   KeysWithValue,
-  HasSameValues,
   Dictionary,
   AnyFunction
 } from "inferred-types/types";
@@ -43,16 +42,15 @@ describe("KeysWithValue<T> utility", () => {
     type Obj = KeysWithValue<typeof obj, Dictionary>;
 
     type cases = [
-      ExpectTrue<HasSameValues<Num, ["foo", "foo2"]>>,
-      ExpectTrue<HasSameValues<Str, ["message", "id"]>>,
-      ExpectTrue<HasSameValues<Arr, ["numericArr", "strArr"]>>,
-      ExpectTrue<HasSameValues<RoArr, ["numericArr", "strArr"]>>,
-      ExpectTrue<HasSameValues<Bool, ["bar", "success", "fail"]>>,
+      ExpectTrue<Equal<Num, "foo" | "foo2">>,
+      ExpectTrue<Equal<Str, "message" | "id">>,
+      ExpectTrue<Equal<Arr, "numericArr" | "strArr">>,
+      ExpectTrue<Equal<RoArr, "numericArr" | "strArr">>,
+      ExpectTrue<Equal<Bool, "bar" | "success" | "fail">>,
 
-      Expect<Equal<ObjOfType, ["baz"]>>,
-      // an object also includes a function (TODO: try and exclude this)
-      ExpectTrue<HasSameValues<Obj, ["baz", "emptyBaz"]>>,
-      ExpectTrue<HasSameValues<Fn, ["fn", "fnWithProp", "narrowFn", "narrowFnWithProps"]>>,
+      Expect<Equal<ObjOfType, "baz">>,
+      ExpectTrue<Equal<Obj, "baz" | "emptyBaz">>,
+      ExpectTrue<Equal<Fn, "fn" | "fnWithProp" | "narrowFn" | "narrowFnWithProps">>,
     ];
 
   });
@@ -63,9 +61,9 @@ describe("KeysWithValue<T> utility", () => {
     type False = KeysWithValue<typeof obj, false>;
 
     type cases = [
-      ExpectTrue<HasSameValues<Num, ["foo2"]>>,
-      Expect<Equal<True, ["success"]>>,
-      Expect<Equal<False, ["fail"]>>,
+      ExpectTrue<Equal<Num, "foo2">>,
+      Expect<Equal<True, "success" | "bar">>,
+      Expect<Equal<False, "fail">>,
     ];
     const cases: cases = [true, true, true];
   });

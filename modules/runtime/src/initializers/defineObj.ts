@@ -45,10 +45,11 @@ export function defineObj<
 
     return obj as ExpandDictionary<
       RemoveIndex<TLiteral> & (
-        IsNonEmptyObject<TWide> extends true
-          ? Widen<TWide>
-          : EmptyObject
-        )
+        // IsNonEmptyObject<TWide> extends true
+        // ? Widen<TWide>
+        // : EmptyObject
+        TWide
+      )
     >;
   };
 };
