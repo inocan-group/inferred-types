@@ -1,4 +1,11 @@
-import type { AnyObject, Narrowable, NarrowObject, ObjectKey } from "inferred-types/types";
+import type {
+  AnyObject,
+  Narrowable,
+  NarrowObject,
+  StringKeys,
+  Suggest,
+  WithoutKeys
+} from "inferred-types/types";
 
 /**
  * **omit**(obj, excluding)
@@ -20,17 +27,20 @@ import type { AnyObject, Narrowable, NarrowObject, ObjectKey } from "inferred-ty
 export function omit<
   TObj extends NarrowObject<N> | AnyObject,
   N extends Narrowable,
-  TKeys extends readonly ObjectKey[] = readonly [],
->(obj: TObj, ...removeKeys: TKeys) {
+  TKeys extends readonly string[],
+>(
+  obj: TObj,
+  ...removeKeys: Suggest<TKeys[number]>[]
+) {
   const keys = Object.keys(obj);
 
   return keys.reduce(
     (acc, key) => removeKeys.includes(key as any)
       ? acc
       : {
-          ...acc,
-          [key]: obj[key as keyof TObj],
-        },
+        ...acc,
+        [key]: obj[key as keyof TObj],
+      },
     {},
-  ) as unknown as Omit<TObj, TKeys[number]>;
+  ) as WithoutKeys<TObj, TKeys[number]>
 }

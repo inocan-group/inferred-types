@@ -1,5 +1,10 @@
-import type { Narrowable, NarrowObject } from "inferred-types/types";
-import { omit } from "inferred-types/runtime";
+import type {
+  Narrowable,
+  NarrowObject,
+  StringKeys,
+  Suggest,
+  WithoutKeys
+} from "inferred-types/types";
 
 /**
  * **withoutKeys**(obj,...keys)
@@ -14,7 +19,16 @@ import { omit } from "inferred-types/runtime";
 export function withoutKeys<
   TObj extends NarrowObject<N>,
   N extends Narrowable,
-  TKeys extends readonly (string & keyof TObj)[],
->(dict: TObj, ...exclude: TKeys) {
-  return omit(dict, ...exclude);
+  TKeys extends readonly StringKeys<TObj>[],
+>(dict: TObj, ...exclude: Suggest<TKeys[number]>[]) {
+  let obj: any = {};
+  for (const [i, key] of Object.keys(dict).entries()) {
+    if (!(exclude as string[]).includes(key)) {
+      obj[key] = dict[key];
+    }
+  }
+
+
+  return obj as WithoutKeys<TObj, TKeys[number]>;
 }
+

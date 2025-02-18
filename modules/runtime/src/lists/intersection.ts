@@ -1,4 +1,4 @@
-import type { Container, Intersection } from "inferred-types/types";
+import type { Container, Dictionary, Intersection, Narrowable } from "inferred-types/types";
 import { get, getEach, isIndexable, ifNotNull } from "inferred-types/runtime";
 
 
@@ -25,8 +25,8 @@ function intersectWithOffset<
   const sharedKeys = ifNotNull(
     deref,
     v => [
-      a.filter(i => Array.from(bMatches).includes(get(i as Container, v as string | null))),
-      b.filter(i => Array.from(aMatches).includes(get(i as Container, v as string | null))),
+      a.filter(i => Array.from(bMatches).includes(get(i as Narrowable, v as string | null))),
+      b.filter(i => Array.from(aMatches).includes(get(i as Narrowable, v as string | null))),
     ],
     () => a.filter(k => b.includes(k)),
   );

@@ -1,5 +1,4 @@
-import type { DoesExtend } from "./DoesExtend";
-import type { IsNever } from "./IsNever";
+import type { DoesExtend, IsNever } from "inferred-types/types";
 
 /**
  * **Extends**`<T,U>`
@@ -9,6 +8,6 @@ import type { IsNever } from "./IsNever";
  */
 export type Extends<T, U> = IsNever<T> extends true
   ? IsNever<U> extends true
-    ? true
-    : false
+  ? true
+  : false
   : DoesExtend<T, U>;

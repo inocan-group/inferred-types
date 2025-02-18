@@ -1,5 +1,7 @@
 {
   "git.ignoreLimitWarning": true,
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "javascript.preferences.importModuleSpecifier": "non-relative",
   "editor.formatOnSave": true,
   "cSpell.words": [
     "abcnews",

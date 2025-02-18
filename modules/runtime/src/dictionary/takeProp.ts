@@ -13,11 +13,11 @@ import { isArray, isObject } from "inferred-types/runtime";
 export function takeProp<
   T extends Something,
   P extends PropertyKey,
-  E extends Narrowable,
->(val: T, prop: P, otherwise: E) {
+  E extends Narrowable = undefined,
+>(val: T, prop: P, otherwise: E = undefined as E) {
   return (
     (isObject(val) || isArray(val)) && prop in val
-      ? val[prop as keyof typeof val]
+      ? val[prop as unknown as keyof typeof val]
       : otherwise
-  ) as TakeProp<T, P, E>;
+  ) as unknown as TakeProp<T, P, E>;
 }

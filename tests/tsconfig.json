@@ -1,36 +1,42 @@
 {
-    "extends": "../ts-base.json",
-    "compilerOptions": {
-        "noEmit": true,
-        "incremental": true,
-        "noUnusedLocals": false,
-        "composite": true,
-        "declaration": true,
-        "declarationMap": true,
-        "tsBuildInfoFile": ".tsbuildinfo",
-        "rootDir": "..",
-        "baseUrl": ".",
-        "outDir": "../../dist/none",
-        "paths": {
-            "inferred-types/types": [
-                "../modules/inferred-types/dist/index"
-            ],
-            "inferred-types/types": [
-                "../modules/types/src/index.ts"
-            ],
-            "inferred-types/runtime": [
-                "../modules/runtime/src/index.ts"
-            ],
-            "inferred-types/constants": [
-                "../modules/constants/dist/index"
-            ]
-        }
-    },
-    "include": [
-        ".",
-        "../modules",
-    ],
-    "exclude": [
-        "**/node_modules/*",
-    ]
+  "extends": "../ts-base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "incremental": true,
+    "noUnusedLocals": false,
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "tsBuildInfoFile": ".tsbuildinfo",
+    "rootDir": "..",
+    "baseUrl": ".",
+    "outDir": "../../dist/none",
+    "paths": {
+      "inferred-types/types": [
+        "../modules/types/src"
+      ],
+      "inferred-types/runtime": [
+        "../modules/runtime/src"
+      ],
+      "inferred-types/constants": [
+        "../modules/constants/src"
+      ],
+      "transpiled/types": [
+        "../modules/inferred-types/dist"
+      ],
+      "transpiled/runtime": [
+        "../modules/inferred-types/dist"
+      ],
+      "transpiled/constants": [
+        "../modules/inferred-types/dist"
+      ]
+    }
+  },
+  "include": [
+    ".",
+    "../modules",
+  ],
+  "exclude": [
+    "**/node_modules/*",
+  ]
 }

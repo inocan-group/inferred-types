@@ -11,7 +11,6 @@ import type {
   NumericKeys,
   ObjectKey,
   RemoveIndexKeys,
-  Tuple,
   TupleToUnion,
   UnionToTuple,
 } from "inferred-types/types";
@@ -69,13 +68,9 @@ type Process<
 export type Keys<
   TContainer extends readonly unknown[] | AnyObject,
 > = TContainer extends readonly unknown[]
-  ? ProcessTuple<TContainer> extends readonly (number & keyof TContainer)[]
   ? ProcessTuple<TContainer>
-  : never
   : TContainer extends Dictionary
-  ? Process<TContainer> extends readonly (ObjectKey & keyof TContainer)[]
   ? Process<TContainer>
-  : never
   : never;
 
 type _Public<

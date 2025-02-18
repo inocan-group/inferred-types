@@ -48,3 +48,4 @@ export * from "./ToCSV";
 export * from "./TruthyReturns";
 export * from "./UnionFromProp";
 export * from "./Variatic";
+export * from "./Sort"

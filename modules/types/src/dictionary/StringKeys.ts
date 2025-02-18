@@ -5,7 +5,7 @@ import type { AnyObject, IsVueRef, UnionToTuple } from "inferred-types/types";
  *
  * Creates a union type of all the _string_ keys in `T`.
  *
- * **Related:** `Keys`, `SKeys`
+ * **Related:** `Keys`, `StringKeys`
  */
 export type KeysUnion<T extends object> = {
   [K in keyof T]: K extends string ? Readonly<K> : never;
@@ -27,8 +27,8 @@ type _SKeys<T extends AnyObject> = UnionToTuple<
 export type SKeys<T extends AnyObject> = IsVueRef<T> extends true
   ? ["value"]
   : _SKeys<T> extends readonly string[]
-    ? _SKeys<T>
-    : never;
+  ? _SKeys<T>
+  : never;
 
 /**
  * **StringKeys**`<T>`
