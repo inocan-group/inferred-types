@@ -57,3 +57,4 @@ trace/*
 .trace/*
 
 .name
+.ts-source*

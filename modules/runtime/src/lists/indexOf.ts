@@ -1,15 +1,12 @@
 import type {
+  Dictionary,
   IndexOf,
   Narrowable,
-  ObjectKey,
   Tuple,
 } from "inferred-types/types";
 import {
   errCondition,
-  isArray,
-  isNull,
   isNumber,
-  isObject,
 } from "inferred-types/runtime";
 
 /**
@@ -43,15 +40,15 @@ export function indexOf<
   return (
     index === null
       ? val
-      : isNull(idx)
+      : idx === null
         ? val
-        : isArray(val)
-          ? Number(idx as PropertyKey) in val
+        : Array.isArray(val)
+          ? Number(idx as any) in val
             ? val[Number(idx)]
             : errCondition("invalid-index", `attempt to index a numeric array with an invalid index: ${Number(idx)}`)
-          : isObject(val)
-            ? String(idx as ObjectKey) in val
-              ? val[String(idx) as ObjectKey]
+          : typeof val === "object"
+            ? String(idx as any) in (val as Dictionary)
+              ? (val as Dictionary)[String(idx)]
               : errCondition("invalid-index", `attempt to index a dictionary object with an invalid index: ${String(idx)}`)
             : errCondition("invalid-container-type", `Attempt to use indexOf() on an invalid container type: ${typeof val}`)
   ) as unknown as IndexOf<TContainer, TIdx>;

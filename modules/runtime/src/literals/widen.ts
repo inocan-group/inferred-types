@@ -7,5 +7,5 @@ import type { Narrowable, Widen } from "inferred-types/types";
  * type of passed in value is a literal.
  */
 export function widen<T extends Narrowable>(value: T): Widen<T> {
-  return value as Widen<T>;
+  return value as unknown as Widen<T>;
 }

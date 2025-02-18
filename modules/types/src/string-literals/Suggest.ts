@@ -1,24 +1,10 @@
 import type {
-  Filter,
-  IsString,
-  IsStringLiteral,
-  ScalarNotSymbol,
   ToStringArray,
-  TupleToUnion,
 } from "inferred-types/types";
 
 type SuggestString<
-  T extends string | number | readonly string[] | readonly number[],
-> = //
-T extends string | number | readonly string[] | readonly number[]
-  ? T extends readonly string[]
-    ? TupleToUnion<Filter<T, string, "equals">> | (string & {})
-    : T extends readonly number[]
-      ? ToStringArray<T> | (string & {})
-      : [IsStringLiteral<T>] extends [true]
-          ? IsString<T> extends true ? T | (string & {}) : `${T & number}` | (string & {})
-          : IsString<T> extends true ? string : `${number}`
-  : never;
+  T extends readonly string[],
+> = T[number] | (string & {})
 
 /**
  * **Suggest**`<T>`
@@ -34,9 +20,15 @@ T extends string | number | readonly string[] | readonly number[]
  * just a wide string as no suggestions are possible
  */
 export type Suggest<
-  T extends ScalarNotSymbol | readonly unknown[],
-> = T extends string | number | readonly string[] | readonly number[]
-  ? SuggestString<T>
+  T extends readonly unknown[] | string,
+> = T extends readonly unknown[]
+  ? ToStringArray<T> extends readonly string[]
+  ? SuggestString<ToStringArray<T>> extends string
+  ? SuggestString<ToStringArray<T>>
+  : never
+  : never
+  : T extends string
+  ? T | (string & {})
   : never;
 
 /**

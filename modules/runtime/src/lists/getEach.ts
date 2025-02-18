@@ -1,7 +1,7 @@
-import type { Container, GetEach } from "inferred-types/types";
+import type { Dictionary, GetEach, Narrowable } from "inferred-types/types";
 
 import { Never } from "inferred-types/constants";
-import { get, isContainer, isErrorCondition, isNull } from "inferred-types/runtime";
+import { get, isArray, isErrorCondition, isNull, isObject } from "inferred-types/runtime";
 
 export interface GetEachOptions<
   THandleErrors,
@@ -30,15 +30,17 @@ export function getEach<
   dotPath: TDotPath,
 ): GetEach<[...TList], TDotPath> {
   const result: unknown = list
-    .map(i => isNull(dotPath)
+    .map(i => dotPath === null
       ? i
-      : isContainer(i)
-        ? get(i as Container, dotPath as TDotPath & string)
-        : Never,
+      : typeof i === "object"
+        ? get(i as Narrowable, dotPath as string)
+        : Array.isArray(i)
+          ? get(i as readonly unknown[], dotPath as string)
+          : Never,
     )
     .filter(i => !isErrorCondition(i));
 
-  return result as GetEach<
+  return result as unknown as GetEach<
     [...TList],
     TDotPath
   >;

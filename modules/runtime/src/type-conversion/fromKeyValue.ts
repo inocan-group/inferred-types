@@ -1,3 +1,4 @@
+
 import type {
   Dictionary,
   FromKv,
@@ -5,6 +6,11 @@ import type {
   Narrowable,
 } from "inferred-types/types";
 
+/**
+ * **fromKeyValue**`(keyValueTuple)`
+ *
+ * Converts a `KeyValue` tuple into an object.
+ */
 export function fromKeyValue<
   T extends readonly KeyValue<K, N>[],
   K extends string,

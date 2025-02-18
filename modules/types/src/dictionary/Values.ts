@@ -1,6 +1,7 @@
 import type {
   AfterFirst,
   AnyObject,
+  Dictionary,
   First,
   Keys,
   ObjectKey,
@@ -19,8 +20,8 @@ type Process<
     [
       ...TResult,
       First<TKeys> extends keyof TObj
-        ? TObj[First<TKeys>]
-        : never,
+      ? TObj[First<TKeys>]
+      : never,
     ]
   >;
 
@@ -36,8 +37,8 @@ type ProcessStr<
     [
       ...TResult,
       First<TKeys> extends keyof TObj
-        ? TObj[First<TKeys>]
-        : never,
+      ? TObj[First<TKeys>]
+      : never,
     ]
   >;
 
@@ -51,9 +52,13 @@ type ProcessStr<
  * to true to get a slightly higher performing type inference.
  */
 export type Values<
-  TObj extends AnyObject,
+  TObj extends Dictionary | readonly unknown[],
   TOnlyStr extends boolean = false,
-> = [TOnlyStr] extends [true]
+> = TObj extends readonly unknown[]
+  ? TObj
+  : TObj extends Dictionary
+
+  ? [TOnlyStr] extends [true]
   ? ProcessStr<
     StringKeys<TObj>,
     TObj
@@ -61,7 +66,8 @@ export type Values<
 
   : Process<
     Keys<TObj> extends readonly ObjectKey[]
-      ? Keys<TObj>
-      : never,
+    ? Keys<TObj>
+    : never,
     TObj
-  >;
+  >
+  : never;

@@ -28,7 +28,7 @@ describe("Values<T>", () => {
     ];
   });
 
-  it("Values<T> where T is a tuple or array", () => {
+  it("Values<T> where T is an array", () => {
     type VArr = Values<[1, 2, 3]>;
     type VEmpty = Values<[]>;
     type VStrArr = Values<string[]>;
