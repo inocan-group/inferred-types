@@ -45,7 +45,7 @@ type EachTupleElement<
   TText extends readonly string[],
   TFind extends string,
   TReplace extends string,
-> = { [K in keyof TText]: ReplaceAll<TText[K], TFind, TReplace> };;
+> = { [K in keyof TText]: ReplaceAll<TText[K], TFind, TReplace> }; ;
 
 /**
  * **ReplaceAll**`<TText,TFind,TReplace>`

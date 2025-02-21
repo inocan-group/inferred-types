@@ -18,8 +18,7 @@ type Process<
       LeftWhitespace<TString>,
       Uncapitalize<PascalCase<TString>>,
       RightWhitespace<TString>,
-    ]>
-  ,
+    ]>,
   string extends TString
     ? string
     : Uncapitalize<PascalCase<TString>>

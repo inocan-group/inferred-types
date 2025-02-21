@@ -15,7 +15,6 @@ export type AbsMaybe<T extends number | `${number}`> = If<
   Or<[IsNumericLiteral<T>, IsStringLiteral<T>]>,
   T extends string
     ? StripLeading<T, "-">
-    : ToNumber<StripLeading<AsString<T>, "-">>
-  ,
+    : ToNumber<StripLeading<AsString<T>, "-">>,
   number
 >;

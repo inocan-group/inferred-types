@@ -11,11 +11,11 @@ type Take<
 > = TLen extends 0
   ? TResult
   : [] extends TContent
-  ? TResult
-  : Take<AfterFirst<TContent>, Decrement<TLen>, [
-    ...TResult,
-    First<TContent>,
-  ]>;
+      ? TResult
+      : Take<AfterFirst<TContent>, Decrement<TLen>, [
+        ...TResult,
+        First<TContent>,
+      ]>;
 
 /**
  * **TakeFirst**`<TContent,TLen,[THandle]>`

@@ -2,9 +2,8 @@ import type {
   AnyObject,
   Narrowable,
   NarrowObject,
-  StringKeys,
   Suggest,
-  WithoutKeys
+  WithoutKeys,
 } from "inferred-types/types";
 
 /**
@@ -38,9 +37,9 @@ export function omit<
     (acc, key) => removeKeys.includes(key as any)
       ? acc
       : {
-        ...acc,
-        [key]: obj[key as keyof TObj],
-      },
+          ...acc,
+          [key]: obj[key as keyof TObj],
+        },
     {},
-  ) as WithoutKeys<TObj, TKeys[number]>
+  ) as WithoutKeys<TObj, TKeys[number]>;
 }

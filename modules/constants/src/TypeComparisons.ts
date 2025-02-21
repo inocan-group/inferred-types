@@ -31,9 +31,9 @@ export const WideAssignment = {
    */
   unknown: () => "<<unknown>>" as unknown,
   nothing: (): null | undefined => "<<nothing>>" as unknown as (null | undefined),
+  // eslint-disable-next-line ts/no-empty-object-type
   something: () => "<<something>>" as unknown as {},
 } as const;
-
 
 type Scalar = string | number | boolean | null | symbol;
 type WideApi = typeof WideAssignment;

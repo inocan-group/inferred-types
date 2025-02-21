@@ -1,10 +1,8 @@
 import type {
   EmptyObject,
   ExpandDictionary,
-  IsNonEmptyObject,
   Narrowable,
   RemoveIndex,
-  Widen,
 } from "inferred-types/types";
 
 /**

@@ -3,7 +3,7 @@ import type {
   NarrowObject,
   StringKeys,
   Suggest,
-  WithoutKeys
+  WithoutKeys,
 } from "inferred-types/types";
 
 /**
@@ -21,14 +21,12 @@ export function withoutKeys<
   N extends Narrowable,
   TKeys extends readonly StringKeys<TObj>[],
 >(dict: TObj, ...exclude: Suggest<TKeys[number]>[]) {
-  let obj: any = {};
-  for (const [i, key] of Object.keys(dict).entries()) {
+  const obj: any = {};
+  for (const [_, key] of Object.keys(dict).entries()) {
     if (!(exclude as string[]).includes(key)) {
       obj[key] = dict[key];
     }
   }
 
-
   return obj as WithoutKeys<TObj, TKeys[number]>;
 }
-

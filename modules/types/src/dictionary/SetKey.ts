@@ -14,10 +14,10 @@ export type SetKeyStrict<
   TKey extends keyof TObj,
   TVal extends TObj[TKey],
 > = {
-    [K in keyof TObj]: K extends TKey
+  [K in keyof TObj]: K extends TKey
     ? TVal
     : TObj[K]
-  };
+};
 
 /**
  * **SetKey**`<TObj,TKey,TVal>
@@ -34,12 +34,12 @@ export type SetKey<
   TKey extends keyof TObj,
   TVal,
 > = {
-    [K in keyof TObj]: K extends TKey
+  [K in keyof TObj]: K extends TKey
     ? TVal
     : TObj[K] extends Widen<TObj[K]>
-    ? TObj[K]
-    : never
-  };
+      ? TObj[K]
+      : never
+};
 
 /**
  * **ForceSetKey**`<TObj,TKey,TVal>
@@ -55,7 +55,7 @@ export type SetKeyForce<
   TKey extends keyof TObj,
   TVal,
 > = {
-    [K in keyof TObj]: K extends TKey
+  [K in keyof TObj]: K extends TKey
     ? TVal
     : TObj[K]
-  };
+};

@@ -147,7 +147,7 @@ export type HoursMinutes12<
   TOpt extends CivilianTimeOptions = Opt<EmptyObject>,
 > = Opt<TOpt>["strength"] extends "strong"
   ? `${CivilianHours<Opt<TOpt>["fixedLengthHours"]>}:${NumericCharZeroToFive}${NumericChar}${AmPm<Opt<TOpt>["amPmCase"]>}${TZ<Opt<TOpt>["timezone"]>}`
-  : `${number}:${number}${AmPm<Opt<TOpt>["amPmCase"]>}${TZ< Opt<TOpt>["timezone"]>}`;
+  : `${number}:${number}${AmPm<Opt<TOpt>["amPmCase"]>}${TZ<Opt<TOpt>["timezone"]>}`;
 
 /**
  * **HoursMinutesSeconds**`<[TOpt]>`
@@ -164,7 +164,7 @@ export type HoursMinutesSeconds<
 export type HoursMinutesSecondsMilliseconds<
   TOpt extends MilitaryTimeOptions = Opt<EmptyObject>,
 > = Opt<TOpt>["strength"] extends "strong"
-  ? `${HoursMinutes}:${Seconds<"simple">}.${number}${TZ< Opt<TOpt>["timezone"]>}`
+  ? `${HoursMinutes}:${Seconds<"simple">}.${number}${TZ<Opt<TOpt>["timezone"]>}`
   : `${number}:${number}:${number}.${number}${TZ<Opt<TOpt>["timezone"]>}`;
 
 /**
@@ -182,7 +182,7 @@ export type HoursMinutesSeconds12<
 export type HoursMinutesSecondsMilliseconds12<
   TOpt extends CivilianTimeOptions = Opt<EmptyObject>,
 > = Opt<TOpt>["strength"] extends "strong"
-  ? `${HoursMinutes}:${Seconds<"simple">}.${number}${AmPm<Opt<TOpt>["amPmCase"]>}${TZ< Opt<TOpt>["timezone"]>}`
+  ? `${HoursMinutes}:${Seconds<"simple">}.${number}${AmPm<Opt<TOpt>["amPmCase"]>}${TZ<Opt<TOpt>["timezone"]>}`
   : `${number}:${number}:${number}.${number}${AmPm<Opt<TOpt>["amPmCase"]>}${TZ<Opt<TOpt>["timezone"]>}`;
 
 /**
@@ -270,7 +270,7 @@ export type MilitaryTime<
     timezone: Opt<TOpt>["timezone"];
     amPmCase: Opt<TOpt>["amPmCase"];
     fixedLengthHours: Opt<TOpt>["fixedLengthHours"];
-  } >
+  }>
   : TResolution extends "HH:MM"
     ? HoursMinutes<TOpt>
     : TResolution extends "HH:MM:SS"

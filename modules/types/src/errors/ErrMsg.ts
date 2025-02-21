@@ -5,4 +5,4 @@ export type ErrMsg<
   TContext extends AnyObject | string = "no desc",
 > = TContext extends string
   ? TType & { desc: TContext; kind: "ErrMsg" }
-  : TType & ExpandDictionary< TContext & { kind: "ErrMsg" }>;
+  : TType & ExpandDictionary<TContext & { kind: "ErrMsg" }>;

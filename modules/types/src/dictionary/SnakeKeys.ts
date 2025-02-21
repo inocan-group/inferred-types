@@ -22,12 +22,14 @@ type Convert<
     TObj,
     AfterFirst<TKeys>,
     First<TKeys> extends string
-    ? Record<
+      ? (
+      Record<
         SnakeCase<First<TKeys>>,
         TObj[First<TKeys>] extends Dictionary
           ? SnakeKeys<TObj[First<TKeys>]>
           : TObj[First<TKeys>]
       > & TResult
+        )
       : Record<First<TKeys>, TObj[First<TKeys>]> & TResult
   >;
 

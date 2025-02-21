@@ -3,9 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import { defineTuple } from "inferred-types/runtime";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("createTuple(...values) runtime utility", () => {
 
@@ -39,7 +37,4 @@ describe("createTuple(...values) runtime utility", () => {
     ];
     const cases: cases = [true];
   });
-
-
-
 });

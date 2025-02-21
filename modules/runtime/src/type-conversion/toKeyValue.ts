@@ -1,7 +1,5 @@
 import type {
   AnyObject,
-  Dictionary,
-  HandleDoneFn,
   KeyValue,
   Narrowable,
   NarrowObject,
@@ -14,21 +12,21 @@ type PushTop<
   TNatural extends readonly string[],
   TTop extends readonly string[],
 > = [
-    ...TTop,
-    ...{
-      [K in keyof Exclude<TNatural, TTop[number]>]: Exclude<TNatural, TTop[number]>[K]
-    },
-  ];
+  ...TTop,
+  ...{
+    [K in keyof Exclude<TNatural, TTop[number]>]: Exclude<TNatural, TTop[number]>[K]
+  },
+];
 
 type PushBottom<
   TNatural extends readonly string[],
   TBot extends readonly string[],
 > = [
-    ...{
-      [K in keyof Exclude<TNatural, TBot[number]>]: Exclude<TNatural, TBot[number]>[K]
-    },
-    ...TBot,
-  ];
+  ...{
+    [K in keyof Exclude<TNatural, TBot[number]>]: Exclude<TNatural, TBot[number]>[K]
+  },
+  ...TBot,
+];
 
 type Always<O> = O extends readonly string[]
   ? readonly (O[number] & string)[]
@@ -57,7 +55,6 @@ export type ToKeyValueSort<O extends readonly string[]> = <
 >(cb: TCb
 ) => unknown;
 
-
 function sortKeyApi<T extends readonly string[]>(order: T): SortApi<T> {
   return {
     order,
@@ -65,7 +62,7 @@ function sortKeyApi<T extends readonly string[]>(order: T): SortApi<T> {
       [
         ...keys,
         ...order.filter(i => !keys.includes(i)),
-      ]
+      ],
     ) as unknown as SortApi<PushTop<T, TTop>>,
     toBottom: <TBot extends readonly (string & T[number])[]>(...keys: TBot) => sortKeyApi(
       [
@@ -101,10 +98,10 @@ function sortKeyApi<T extends readonly string[]>(order: T): SortApi<T> {
 export function toKeyValue<
   T extends NarrowObject<N> | AnyObject,
   N extends Narrowable,
-  TSort extends ToKeyValueSort<StringKeys<T>> = ToKeyValueSort<StringKeys<T>>
+  TSort extends ToKeyValueSort<StringKeys<T>> = ToKeyValueSort<StringKeys<T>>,
 >(
   obj: T,
-  sort: TSort = (s => s) as TSort,
+  _sort: TSort = (s => s) as TSort,
 ) {
   const natural = Object.keys(obj);
   const sorted = Array.isArray(sortKeyApi(natural))

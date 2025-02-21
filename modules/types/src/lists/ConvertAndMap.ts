@@ -106,9 +106,9 @@ export type StrongMapTypes<K extends readonly unknown[]> = [] extends K
 export interface StrongMap<TDefined = ConverterCoverage> {
   string: TDefined extends "string" ? <T extends string, R>(v: T) => R : never;
   number: TDefined extends "number" ? <T extends number, R>(v: T) => R : never;
-  boolean: TDefined extends "boolean" ? <T extends boolean, R >(v: T) => R : never;
+  boolean: TDefined extends "boolean" ? <T extends boolean, R>(v: T) => R : never;
   object: TDefined extends "object"
-    ? <T extends Record<string, unknown>, R >(v: T) => R
+    ? <T extends Record<string, unknown>, R>(v: T) => R
     : never;
 }
 

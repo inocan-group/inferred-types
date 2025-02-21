@@ -20,8 +20,8 @@ type Process<
     [
       ...TResult,
       First<TKeys> extends keyof TObj
-      ? TObj[First<TKeys>]
-      : never,
+        ? TObj[First<TKeys>]
+        : never,
     ]
   >;
 
@@ -37,8 +37,8 @@ type ProcessStr<
     [
       ...TResult,
       First<TKeys> extends keyof TObj
-      ? TObj[First<TKeys>]
-      : never,
+        ? TObj[First<TKeys>]
+        : never,
     ]
   >;
 
@@ -58,16 +58,16 @@ export type Values<
   ? TObj
   : TObj extends Dictionary
 
-  ? [TOnlyStr] extends [true]
-  ? ProcessStr<
-    StringKeys<TObj>,
-    TObj
-  >
+    ? [TOnlyStr] extends [true]
+        ? ProcessStr<
+          StringKeys<TObj>,
+          TObj
+        >
 
-  : Process<
-    Keys<TObj> extends readonly ObjectKey[]
-    ? Keys<TObj>
-    : never,
-    TObj
-  >
-  : never;
+        : Process<
+          Keys<TObj> extends readonly ObjectKey[]
+            ? Keys<TObj>
+            : never,
+          TObj
+        >
+    : never;

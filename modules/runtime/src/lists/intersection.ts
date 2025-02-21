@@ -1,6 +1,5 @@
-import type { Container, Dictionary, Intersection, Narrowable } from "inferred-types/types";
-import { get, getEach, isIndexable, ifNotNull } from "inferred-types/runtime";
-
+import type { Intersection, Narrowable } from "inferred-types/types";
+import { get, getEach, ifNotNull, isIndexable } from "inferred-types/runtime";
 
 function intersectWithOffset<
   A extends readonly unknown[],

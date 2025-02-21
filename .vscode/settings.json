@@ -142,8 +142,6 @@
     "µmol"
   ],
   "references.preferredLocation": "peek",
-  "eslint.useFlatConfig": true,
-  "prettier.enable": false,
   "json.schemas": [
     {
       "url": "https://cdn.jsdelivr.net/npm/tsup/schema.json",
@@ -154,6 +152,7 @@
     }
   ],
   // Auto fix
+  "eslint.useFlatConfig": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
     "source.organizeImports": "never"

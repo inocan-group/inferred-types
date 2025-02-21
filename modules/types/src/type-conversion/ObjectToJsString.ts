@@ -30,7 +30,7 @@ export type ObjectToJsString<
   : IsWideContainer<TObj> extends true
     ? string
     : Surround<
-      Process< ObjectToTuple<TObj, true>, TExpand>,
+      Process<ObjectToTuple<TObj, true>, TExpand>,
       "{ ",
       " }"
     >;

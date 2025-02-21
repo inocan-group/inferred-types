@@ -6,7 +6,6 @@ import type {
   ObjectKey,
 } from "inferred-types/types";
 
-
 /**
  * **KeysWithValue**`<TObj,TValue>`
  *
@@ -25,19 +24,19 @@ export type KeysWithValue<
   TValue,
 > = IsObjectLiteral<TObj> extends true
   ? {
-    [K in keyof TObj]: TObj[K] extends TValue
-    ? TObj[K] extends AnyFunction
-    ? TValue extends AnyFunction
-    ? K
-    : never
-    : And<[
-      TObj[K] extends readonly any[] ? true : false,
-      TValue extends readonly any[] ? false : true
-    ]> extends true
+      [K in keyof TObj]: TObj[K] extends TValue
+        ? TObj[K] extends AnyFunction
+          ? TValue extends AnyFunction
+            ? K
+            : never
+          : And<[
+            TObj[K] extends readonly any[] ? true : false,
+            TValue extends readonly any[] ? false : true,
+          ]> extends true
 
-    ? never
+            ? never
 
-    : K
-    : never
-  }[keyof TObj]
+            : K
+        : never
+    }[keyof TObj]
   : ObjectKey[];

@@ -17,7 +17,7 @@ import type {
   Unset,
 } from "inferred-types/types";
 
-type _RightLength<T extends string > = If<
+type _RightLength<T extends string> = If<
   StartsWith<T, "+">,
   If<
     Contains<T, "1-">, // using 1- for country code nomenclature

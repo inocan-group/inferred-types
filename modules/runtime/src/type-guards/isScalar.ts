@@ -1,6 +1,5 @@
 import type { Scalar } from "inferred-types/types";
-import { isNull, isString, isSymbol, isNumber } from "inferred-types/runtime";
-
+import { isNull, isNumber, isString, isSymbol } from "inferred-types/runtime";
 
 /**
  * **isScalar**(value)

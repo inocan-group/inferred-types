@@ -24,7 +24,7 @@ export type ObjectToJsonString<
   : IsWideContainer<TObj> extends true
     ? string
     : Surround<
-      Process< ObjectToTuple<TObj, true> >,
+      Process<ObjectToTuple<TObj, true>>,
       "{ ",
       " }"
     >;

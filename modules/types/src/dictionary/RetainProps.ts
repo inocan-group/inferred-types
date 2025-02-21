@@ -1,15 +1,14 @@
 import type {
-  Dictionary,
-  EmptyObject,
-  ObjectKey,
+  AfterFirst,
   ComparatorOperation,
   Compare,
-  AfterFirst,
-  First,
+  Dictionary,
+  EmptyObject,
   ExpandDictionary,
-  StringKeys
+  First,
+  ObjectKey,
+  StringKeys,
 } from "inferred-types/types";
-
 
 type Process<
   TObj extends Dictionary,
@@ -25,8 +24,8 @@ type Process<
     TOp,
     AfterFirst<TKeys>,
     Compare<TObj[First<TKeys>], TOp, TComparator> extends true
-    ? TResult & Record<First<TKeys>, TObj[First<TKeys>]>
-    : TResult
+      ? TResult & Record<First<TKeys>, TObj[First<TKeys>]>
+      : TResult
   >;
 
 /**

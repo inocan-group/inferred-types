@@ -24,4 +24,3 @@ export * from "./toKeyValue";
 export * from "./toNumber";
 export * from "./tw-conversion";
 export * from "./unionize";
-

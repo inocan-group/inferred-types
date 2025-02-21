@@ -290,7 +290,7 @@ export interface List<T = unknown, ID extends string = string> {
     TStop extends number,
   >(start?: TStart,
     stop?: TStop
-  ) => ShallowCopy< List<T, `${ID}-> sliced`> >;
+  ) => ShallowCopy<List<T, `${ID}-> sliced`>>;
   /**
    * **some**`(callback)`
    *
@@ -387,6 +387,6 @@ export interface List<T = unknown, ID extends string = string> {
    * given index. It returns a new array with the element at the given index replaced
    * with the given value.
    */
-  with: (idx: number, val: T) => New< List<T, `${ID}w`> >;
+  with: (idx: number, val: T) => New<List<T, `${ID}w`>>;
 
 }

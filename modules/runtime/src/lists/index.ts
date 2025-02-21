@@ -14,5 +14,5 @@ export * from "./logicalReturns";
 export * from "./reverse";
 export * from "./shift";
 export * from "./slice";
-export * from "./unique";
 export * from "./sort";
+export * from "./unique";

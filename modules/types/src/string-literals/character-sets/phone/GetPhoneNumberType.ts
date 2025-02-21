@@ -22,12 +22,12 @@ export type GetPhoneNumberType<T> = T extends string
       ? "international"
       : IsLessThan<
         StrLen<
-          RetainChars<Trim<`${T}`>, NumericChar >
+          RetainChars<Trim<`${T}`>, NumericChar>
         >,
         8
       > extends true
         ? StrLen<
-          RetainChars<Trim<`${T}`>, NumericChar >
+          RetainChars<Trim<`${T}`>, NumericChar>
         > extends 7
           ? "regional"
           : "short-code"

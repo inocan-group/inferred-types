@@ -18,8 +18,7 @@ import type {
   IsArray,
   IsEqual,
   IsFalse,
-  IsStringLiteral
-  ,
+  IsStringLiteral,
   IsUnion,
   Narrowable,
   Or,

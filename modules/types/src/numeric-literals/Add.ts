@@ -155,7 +155,7 @@ type PreProcess<
       : A extends number
         ? B extends number
           ? AsNumber<Process<`${A}`, `${B}`>>
-          : AsNumber<Process<`${A}`, As<B, `${number}`> >>
+          : AsNumber<Process<`${A}`, As<B, `${number}`>>>
         : never;
 
 /**

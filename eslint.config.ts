@@ -13,7 +13,8 @@ export default antfu(
         "quote-props": ["off"],
         "style/quote-props": ["off"],
         "array-callback-return": ["warn"],
-        "valid-typeof": ["warn"]
+        "valid-typeof": ["warn"],
+        "no-fallthrough": ["off"],
       }
     },
     regexp: {
@@ -33,8 +34,8 @@ export default antfu(
             destructuredArrayIgnorePattern: "^_|^cases$",
           },
         ],
+        "ts/no-unsafe-function-type": ["off"]
       },
     }
   }
 )
-

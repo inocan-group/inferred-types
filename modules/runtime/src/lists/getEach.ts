@@ -1,7 +1,7 @@
-import type { Dictionary, GetEach, Narrowable } from "inferred-types/types";
+import type { GetEach, Narrowable } from "inferred-types/types";
 
 import { Never } from "inferred-types/constants";
-import { get, isArray, isErrorCondition, isNull, isObject } from "inferred-types/runtime";
+import { get, isErrorCondition } from "inferred-types/runtime";
 
 export interface GetEachOptions<
   THandleErrors,

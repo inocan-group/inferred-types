@@ -27,8 +27,8 @@ type _SKeys<T extends AnyObject> = UnionToTuple<
 export type SKeys<T extends AnyObject> = IsVueRef<T> extends true
   ? ["value"]
   : _SKeys<T> extends readonly string[]
-  ? _SKeys<T>
-  : never;
+    ? _SKeys<T>
+    : never;
 
 /**
  * **StringKeys**`<T>`

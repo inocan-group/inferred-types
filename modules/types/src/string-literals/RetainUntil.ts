@@ -19,9 +19,9 @@ type Process<
         TInclude,
         `${TResult}${First<TChars>}`
       >
-      : If<TInclude, `${TResult}${First<TChars>}`, TResult >
+      : If<TInclude, `${TResult}${First<TChars>}`, TResult>
     : TOp extends "is"
-      ? If<TInclude, `${TResult}${First<TChars>}`, TResult >
+      ? If<TInclude, `${TResult}${First<TChars>}`, TResult>
       : Process<
         AfterFirst<TChars>,
         TOp,

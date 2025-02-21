@@ -1,6 +1,5 @@
 import type { IPv6 } from "inferred-types/constants";
 import type {
-  AsString,
   HexadecimalChar,
   IsGreaterThan,
   IsLessThan,
@@ -12,7 +11,6 @@ import type {
   ReplaceAll,
   StripTrailing,
   Suggest,
-  UnionToTuple,
 } from "inferred-types/types";
 
 /**
@@ -31,13 +29,13 @@ export type Ip4Octet =
   | `${NumericChar}${NumericChar}`
   | `${NumericChar}`;
 
-export type Ip4NetmaskSuggestion<TVlan extends readonly number[] = [1, 10]> = Suggest<[
+export type Ip4NetmaskSuggestion = Suggest<[
   `10.0.0.0/8`,
   `192.168.0.0/16`,
   `172.16.0.0/16`,
-  `10.10.${AsString<UnionToTuple<TVlan>>}.0/24`,
-  `192.168.${AsString<UnionToTuple<TVlan>>}.0/24`,
-  `172.16.${AsString<UnionToTuple<TVlan>>}.0/24`,
+  `10.10.${number}.0/24`,
+  `192.168.${number}.0/24`,
+  `172.16.${number}.0/24`,
 ]>;
 
 export type Ip4Netmask8 = `${number}.0.0.0/8`;

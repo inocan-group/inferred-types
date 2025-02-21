@@ -2,7 +2,7 @@ import type {
   Dictionary,
   Narrowable,
   OptionalParamFn,
-  TypedFunction
+  TypedFunction,
 } from "inferred-types/types";
 import { isFunction, isObject } from "inferred-types/runtime";
 
