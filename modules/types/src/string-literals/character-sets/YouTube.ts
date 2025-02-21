@@ -125,7 +125,7 @@ type FeedMap<T extends YouTubeFeedType> = IsUnion<T> extends true
       ? _FeedMap<UnionToTuple<T>[K]>
       : never
   }>
-  : _FeedMap<T> ;
+  : _FeedMap<T>;
 
 /**
  * **YouTubeFeedUrl**`<[T]>`

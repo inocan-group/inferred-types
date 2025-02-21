@@ -1,6 +1,6 @@
 import type { EmptyObject, EnsureKeys } from "inferred-types/types";
-import { isFunction, isObject } from "inferred-types/runtime";
 import { Never } from "inferred-types/constants";
+import { isFunction, isObject } from "inferred-types/runtime";
 
 /**
  * **hasKeys**(props) => (obj) => `HasKeys<O,P>`
@@ -16,7 +16,7 @@ import { Never } from "inferred-types/constants";
  */
 export function hasKeys<
   P extends readonly N[],
-  N extends PropertyKey
+  N extends PropertyKey,
 >(...keys: P) {
   if (keys.length === 0) {
     return Never;
@@ -25,8 +25,6 @@ export function hasKeys<
   type Props = P extends readonly string[]
     ? P
     : never;
-
-
 
   return (val: unknown): val is EnsureKeys<EmptyObject, Props> => {
     return !!((

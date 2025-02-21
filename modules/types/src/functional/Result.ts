@@ -295,7 +295,7 @@ export interface ResultApi<
    *
    * A type guard which helps to _narrow_ a `Result` type into the `Ok` variant.
    */
-  isOk: TypeGuard<Ok<T>, IsEqual<T, unknown> extends true ? Narrowable : T >;
+  isOk: TypeGuard<Ok<T>, IsEqual<T, unknown> extends true ? Narrowable : T>;
   /**
    * **isErr**(val)
    *

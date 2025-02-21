@@ -31,7 +31,7 @@ IsTuple<A> extends true
   : DoesExtend<A, object> extends true
     ? DoesExtend<B, object> extends true
       ? _Keys<A>["length"] extends _Keys<B>["length"]
-        ? HasSameValues< _Keys<A>, _Keys<B>>
+        ? HasSameValues<_Keys<A>, _Keys<B>>
         : false
       : false
     : false;

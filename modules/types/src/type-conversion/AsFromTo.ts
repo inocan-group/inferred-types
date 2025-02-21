@@ -41,8 +41,8 @@ export type AsFromTo<
 > = IsWideContainer<T> extends true
   ? FromTo[]
   : ConvertFromTo<T> extends readonly FromTo[]
-  ? ConvertFromTo<T>
-  : never;
+    ? ConvertFromTo<T>
+    : never;
 
 /**
  * **AsToFrom**`<T>`
@@ -59,5 +59,5 @@ export type AsToFrom<
 > = IsWideContainer<T> extends true
   ? FromTo[]
   : ConvertToFrom<T> extends readonly FromTo[]
-  ? ConvertToFrom<T>
-  : never;
+    ? ConvertToFrom<T>
+    : never;

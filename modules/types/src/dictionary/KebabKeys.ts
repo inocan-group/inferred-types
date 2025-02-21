@@ -22,12 +22,15 @@ type Convert<
     TObj,
     AfterFirst<TKeys>,
     First<TKeys> extends string
-    ? Record<
+      ? (
+      Record<
         KebabCase<First<TKeys>>,
         TObj[First<TKeys>] extends Dictionary
           ? KebabKeys<TObj[First<TKeys>]>
           : TObj[First<TKeys>]
-      > & TResult
+      > &
+      TResult
+        )
       : Record<First<TKeys>, TObj[First<TKeys>]> & TResult
   >;
 

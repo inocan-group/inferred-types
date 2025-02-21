@@ -20,7 +20,7 @@ type ConvertNumber<
 > = HaveSameNumericSign<A, B> extends true
   ? IsNegativeNumber<A> extends true
     ? Add<Abs<A>, Abs<B>> extends NumberLike
-      ? AsNegativeNumber< Add<Abs<A>, Abs<B>> >
+      ? AsNegativeNumber<Add<Abs<A>, Abs<B>>>
       : never
     : IsNegativeNumber<B> extends true
       ? Add<A, B>

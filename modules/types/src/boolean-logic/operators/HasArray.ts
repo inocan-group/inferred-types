@@ -6,7 +6,7 @@ type _HasArray<
   ? false
   : IsArray<First<TList>> extends true
     ? true
-    : _HasArray< AfterFirst<TList> >;
+    : _HasArray<AfterFirst<TList>>;
 
 /**
  * **HasArray**`<TList>`

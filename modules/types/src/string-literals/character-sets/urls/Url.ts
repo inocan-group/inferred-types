@@ -185,7 +185,7 @@ export interface UrlOptions {
    *
    * @default "any"
    */
-  queryParameters?: "any" | "none" ;
+  queryParameters?: "any" | "none";
 }
 
 /**
@@ -238,7 +238,7 @@ export type UrlPath<T extends string | null = null> = T extends null
     ? IsStringLiteral<T> extends true
       ? T extends `${string}/`
         ? never
-        : StripChars<T, UrlPathChars | "/" > extends ""
+        : StripChars<T, UrlPathChars | "/"> extends ""
           ? T
           : never
       : never

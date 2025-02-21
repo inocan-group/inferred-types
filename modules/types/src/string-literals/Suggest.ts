@@ -4,7 +4,7 @@ import type {
 
 type SuggestString<
   T extends readonly string[],
-> = T[number] | (string & {})
+> = T[number] | (string & {});
 
 /**
  * **Suggest**`<T>`
@@ -23,13 +23,13 @@ export type Suggest<
   T extends readonly unknown[] | string,
 > = T extends readonly unknown[]
   ? ToStringArray<T> extends readonly string[]
-  ? SuggestString<ToStringArray<T>> extends string
-  ? SuggestString<ToStringArray<T>>
-  : never
-  : never
+    ? SuggestString<ToStringArray<T>> extends string
+      ? SuggestString<ToStringArray<T>>
+      : never
+    : never
   : T extends string
-  ? T | (string & {})
-  : never;
+    ? T | (string & {})
+    : never;
 
 /**
  * **SuggestNumeric**`<T>`

@@ -1,4 +1,4 @@
-import type { FromDefn, ShapeCallback, TypeDefinition } from "inferred-types/types";
+import type { FromDefn, Narrowable, ShapeCallback } from "inferred-types/types";
 import { handleDoneFn, isFunction, ShapeApiImplementation } from "inferred-types/runtime";
 
 /**
@@ -18,7 +18,7 @@ import { handleDoneFn, isFunction, ShapeApiImplementation } from "inferred-types
  * ```
  */
 export function defineTuple<
-  T extends readonly TypeDefinition[],
+  T extends readonly (Narrowable | ShapeCallback)[],
 >(...values: T) {
   return values.map(
     i => isFunction(i)

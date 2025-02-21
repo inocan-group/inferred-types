@@ -20,5 +20,5 @@ export type Brand<
 > = TVal & If<
   IsEqual<TKv, EmptyObject>,
   { Branded: TBrand },
-  ExpandDictionary< { Branded: TBrand } & TKv >
+  ExpandDictionary<{ Branded: TBrand } & TKv>
 >;

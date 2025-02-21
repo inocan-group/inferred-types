@@ -58,3 +58,4 @@ trace/*
 
 .name
 .ts-source*
+.aider*

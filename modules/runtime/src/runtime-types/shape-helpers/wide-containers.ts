@@ -1,11 +1,11 @@
 import type {
   ArrayTypeDefn,
   AsArray,
+  DictionaryTypeDefn,
   FromDefn,
   HandleDoneFn,
   MapKeyDefn,
   MapValueDefn,
-  ObjKeyDefn,
   RecordValueTypeDefn,
   ShapeCallback,
   WeakMapKeyDefn,
@@ -14,14 +14,14 @@ import type {
 } from "inferred-types/types";
 
 export function record<
-  TKey extends ObjKeyDefn = "string | symbol",
+  TKey extends DictionaryTypeDefn,
   TValue extends RecordValueTypeDefn = "unknown",
 >(_key?: TKey, _value?: TValue) {
   // TODO
   return null as unknown as Record<FromDefn<TKey>, FromDefn<TValue>>;
 }
 
-export function array<T extends ArrayTypeDefn = "unknown[]">(_type?: T) {
+export function array<T extends ArrayTypeDefn = "Array<unknown>">(_type?: T) {
   // TODO
   return null as unknown as AsArray<FromDefn<T>>;
 }

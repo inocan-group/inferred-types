@@ -1,6 +1,5 @@
 import type { Narrowable, SimpleToken } from "inferred-types/types";
-import { isString, isObject, isBoolean, isNumber, isNull, isUndefined, hasNonStringKeys } from "inferred-types/runtime";
-
+import { hasNonStringKeys, isBoolean, isNull, isNumber, isObject, isString, isUndefined } from "inferred-types/runtime";
 
 const TOKENS = [
   "undefined",
@@ -14,7 +13,7 @@ const TOKENS = [
   "Array<string>",
   "Array<boolean>",
   "Dict",
-  "Dict<string, unknown>"
+  "Dict<string, unknown>",
 ] satisfies SimpleToken[];
 
 /**
@@ -42,9 +41,9 @@ export function isInUnion<
     value: unknown,
   ): value is TOptions[number] => {
     const literals = elements.filter(
-      i => !isString(i) || (isString(i) && !TOKENS.includes(i as any))
+      i => !isString(i) || (isString(i) && !TOKENS.includes(i as any)),
     );
-    const wide = elements.filter(i => TOKENS.includes(i as any)) as Partial<typeof TOKENS>
+    const wide = elements.filter(i => TOKENS.includes(i as any)) as Partial<typeof TOKENS>;
     const isWideType = wide.reduce(
       (acc, i) => {
         switch (i) {
@@ -86,7 +85,7 @@ export function isInUnion<
             }
           case "number":
             if (isNumber(value)) {
-              return true
+              return true;
             }
           case "string":
             if (isString(value)) {
@@ -99,9 +98,10 @@ export function isInUnion<
           default:
             return acc;
         }
-      }, false
-    )
+      },
+      false,
+    );
 
-    return literals.includes(value as any) || isWideType
-  }
+    return literals.includes(value as any) || isWideType;
+  };
 }

@@ -108,7 +108,7 @@ type Process<
       ? Iterate<[TContent], TSep, TPolicy>
       : TSep extends string
         ? Convert<TContent, TSep, TPolicy> extends readonly (string | Postfix<string>)[]
-          ? FixPostfix< Convert<TContent, TSep, TPolicy>>
+          ? FixPostfix<Convert<TContent, TSep, TPolicy>>
           : never
         : never
   : never;

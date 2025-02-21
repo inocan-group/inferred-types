@@ -75,7 +75,7 @@ type Process<
   DoesExtend<TDefault, Dictionary | Nothing>,
   DoesExtend<TOverride, Dictionary | Nothing>,
 ]> extends true
-  ? MergeObjects<AsDictionary<TDefault>, AsDictionary<TOverride> >
+  ? MergeObjects<AsDictionary<TDefault>, AsDictionary<TOverride>>
   : And<[
     DoesExtend<TDefault, Scalar | undefined>,
     DoesExtend<TOverride, Scalar | undefined>,

@@ -39,7 +39,7 @@ type LibraryFrom<T extends AnyObject> = AsIndexOf<T, "library", never>;
 type Process<
   T extends AsError__Meta,
 > = IsEqual<T, [string, string]> extends true
-  ? ErrorCondition<T[0], T[1], never >
+  ? ErrorCondition<T[0], T[1], never>
   : T extends [string, string, TypeErrorInfo]
     ? Throw<
       T[0],

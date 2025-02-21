@@ -63,5 +63,5 @@ type KeyList<
 export type RequiredKeysTuple<
   T extends AnyObject,
 > = Keys<T> extends readonly (ObjectKey & keyof T)[]
-  ? KeyList<T, Keys<T> >
+  ? KeyList<T, Keys<T>>
   : never;

@@ -1,6 +1,5 @@
 import type {
   AfterFirst,
-  AnyObject,
   As,
   CamelCase,
   Dictionary,
@@ -23,13 +22,16 @@ type Convert<
     TObj,
     AfterFirst<TKeys>,
     First<TKeys> extends string
-    ? Record<
-      CamelCase<First<TKeys>>,
-      TObj[First<TKeys>] extends Dictionary
-      ? CamelKeys<TObj[First<TKeys>]>
-      : TObj[First<TKeys>]
-    > & TResult
-    : Record<First<TKeys>, TObj[First<TKeys>]> & TResult
+      ? (
+      Record<
+        CamelCase<First<TKeys>>,
+        TObj[First<TKeys>] extends Dictionary
+          ? CamelKeys<TObj[First<TKeys>]>
+          : TObj[First<TKeys>]
+      > &
+      TResult
+        )
+      : Record<First<TKeys>, TObj[First<TKeys>]> & TResult
   >;
 
 type Process<T extends Dictionary,

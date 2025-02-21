@@ -7,7 +7,10 @@ import type {
 } from "inferred-types/types";
 import { SHAPE_PREFIXES } from "inferred-types/constants";
 import {
-  handleDoneFn, hasKeys, isObject, isString,
+  handleDoneFn,
+  hasKeys,
+  isObject,
+  isString,
 } from "inferred-types/runtime";
 import { boolean, nullType, undefinedType, unknown } from "./shape-helpers/atomics";
 import { fn } from "./shape-helpers/functions";

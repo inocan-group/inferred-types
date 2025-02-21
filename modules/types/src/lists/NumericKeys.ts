@@ -11,7 +11,7 @@ type Recurse<
     AfterFirst<TList>,
     [
       ...TResults,
-      ToNumber<First<TList> >,
+      ToNumber<First<TList>>,
     ]
   >;
 

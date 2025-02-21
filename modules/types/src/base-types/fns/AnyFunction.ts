@@ -1,5 +1,3 @@
-/* eslint-disable ts/no-unsafe-function-type */
-
 import type { TypedFunction } from "./TypedFunction";
 
 /**

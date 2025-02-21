@@ -93,7 +93,7 @@ export type Pluralize<
 > = IsStringLiteral<T> extends true
   ? T extends `${string}${Whitespace}`
     ? Join<[
-      _Pluralize< TrimRight<T> >,
+      _Pluralize<TrimRight<T>>,
       RightWhitespace<T>,
     ]>
     : _Pluralize<T>

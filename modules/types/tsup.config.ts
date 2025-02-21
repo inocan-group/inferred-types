@@ -1,4 +1,5 @@
-import { defineConfig, type Format } from "tsup";
+import type { Format } from "tsup";
+import { defineConfig } from "tsup";
 
 function config(format: Format) {
   return defineConfig({

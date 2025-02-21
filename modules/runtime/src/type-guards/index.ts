@@ -5,6 +5,7 @@ export * from "./geo/index";
 export * from "./hasDefaultValue";
 export * from "./hasIndexOf";
 export * from "./hasKeys";
+export * from "./hasNonStringKeys";
 export * from "./hasWhitespace";
 export * from "./higher-order/index";
 export * from "./html/index";
@@ -55,7 +56,6 @@ export * from "./isTruthy";
 export * from "./isTypeSubtype";
 export * from "./isTypeTuple";
 export * from "./isUndefined";
-export * from "./hasNonStringKeys";
 
 export * from "./isUnset";
 export * from "./isUrl";

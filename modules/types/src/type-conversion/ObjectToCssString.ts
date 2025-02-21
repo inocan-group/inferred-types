@@ -29,7 +29,7 @@ export type ObjectToCssString<
   : IsWideContainer<TObj> extends true
     ? string
     : Surround<
-      Process< ObjectToTuple<TObj, true>, false>,
+      Process<ObjectToTuple<TObj, true>, false>,
       TExpand extends false ? "{ " : "{",
       TExpand extends false ? " }" : "\n}"
     >;

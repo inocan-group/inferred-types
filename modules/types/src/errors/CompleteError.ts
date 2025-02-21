@@ -42,20 +42,17 @@ export type CompleteError<
     ? TPartial["kind"]
     : "kind" extends keyof TRequired
       ? AsString<TRequired["kind"]>
-      : never
-  ,
+      : never,
   TPartial["message"] extends string
     ? TPartial["message"]
     : "message" extends keyof TRequired
       ? AsString<TRequired["message"]>
-      : never
-  ,
+      : never,
   TPartial["utility"] extends string
     ? TPartial["utility"]
     : "utility" extends keyof TRequired
       ? AsString<TRequired["utility"]>
-      : never
-  ,
+      : never,
       RemoveNever<{
         underlying: TPartial["underlying"] extends ErrorCondition
           ? TPartial["underlying"]

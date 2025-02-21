@@ -96,7 +96,7 @@ export type OnPass<
   ? Iterate<
     TTest,
     TPass,
-    TRemap extends OnPassRemap<never, false, Constant<"not-set"> >
+    TRemap extends OnPassRemap<never, false, Constant<"not-set">>
       ? TRemap
       : Merge<TRemap, Keys<TRemap>>
   >

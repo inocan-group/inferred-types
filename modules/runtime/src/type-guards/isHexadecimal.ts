@@ -1,4 +1,4 @@
-import { isNumericString, isString, asChars } from "inferred-types/runtime";
+import { asChars, isNumericString, isString } from "inferred-types/runtime";
 
 /**
  * **isHexadecimal**`(val)`

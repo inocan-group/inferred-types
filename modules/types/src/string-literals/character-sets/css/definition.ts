@@ -85,7 +85,7 @@ export type CssDefinition = {
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-grow) */
   "flex-grow"?: Suggest<CssFlexGrow>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-shrink) */
-  "flex-shrink"?: Suggest<CssFlexShrink>;
+  "flex-shrink"?: CssFlexShrink;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-direction) */
   "flex-direction"?: Suggest<CssFlexDirection>;
   /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-flow) */

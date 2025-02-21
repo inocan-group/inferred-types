@@ -42,10 +42,10 @@ export * from "./Reverse";
 export * from "./Second";
 export * from "./Shift";
 export * from "./Slice";
+export * from "./Sort";
 export * from "./TakeFirst";
 export * from "./TakeLast";
 export * from "./ToCSV";
 export * from "./TruthyReturns";
 export * from "./UnionFromProp";
 export * from "./Variatic";
-export * from "./Sort"
