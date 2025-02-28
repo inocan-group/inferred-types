@@ -47,5 +47,5 @@ export * from "./us";
  * as China, India, Japan, South Korea, and Australia as well._
  */
 export function isNewsUrl(val: unknown): val is NewsUrls {
-  return isAustralianNewsUrl(val) || isBelgiumNewsUrl(val) || isCanadianNewsUrl(val) || isDanishNewsUrl(val) || isDutchNewsUrl(val) || isFrenchNewsUrl(val) || isGermanNewsUrl(val) || isIndianNewsUrl(val) || isItalianNewsUrl(val) || isJapaneseNewsUrl(val) || isMexicanNewsUrl(val) || isNorwegianNewsUrl(val) || isSouthKoreanNewsUrl(val) || isSpanishNewsUrl(val) || isSwissNewsUrl(val) || isTurkishNewsUrl(val) || isUkNewsUrl(val) || isUsNewsUrl(val);
+    return isAustralianNewsUrl(val) || isBelgiumNewsUrl(val) || isCanadianNewsUrl(val) || isDanishNewsUrl(val) || isDutchNewsUrl(val) || isFrenchNewsUrl(val) || isGermanNewsUrl(val) || isIndianNewsUrl(val) || isItalianNewsUrl(val) || isJapaneseNewsUrl(val) || isMexicanNewsUrl(val) || isNorwegianNewsUrl(val) || isSouthKoreanNewsUrl(val) || isSpanishNewsUrl(val) || isSwissNewsUrl(val) || isTurkishNewsUrl(val) || isUkNewsUrl(val) || isUsNewsUrl(val);
 }

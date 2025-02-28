@@ -14,18 +14,18 @@ import { isString } from "inferred-types/runtime";
  * 4. top-level domain has at least 2 characters
  */
 export function isEmail(val: unknown): val is Email {
-  if (!isString(val)) {
-    return false;
-  }
-  const parts: string[] = val?.split("@");
-  const domain = parts[1]?.split(".");
-  const tld = domain ? domain.pop() as string : "";
-  const firstChar = val[0].toLowerCase();
+    if (!isString(val)) {
+        return false;
+    }
+    const parts: string[] = val?.split("@");
+    const domain = parts[1]?.split(".");
+    const tld = domain ? domain.pop() as string : "";
+    const firstChar = val[0].toLowerCase();
 
-  return isString(val) && (
-    LOWER_ALPHA_CHARS.includes(firstChar as any)
-    && parts.length === 2
-    && domain.length >= 1
-    && tld.length >= 2
-  );
+    return isString(val) && (
+        LOWER_ALPHA_CHARS.includes(firstChar as any)
+        && parts.length === 2
+        && domain.length >= 1
+        && tld.length >= 2
+    );
 }

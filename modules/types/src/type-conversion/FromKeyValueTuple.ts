@@ -1,21 +1,21 @@
 import type {
-  AfterFirst,
-  Dictionary,
-  EmptyObject,
-  ExpandDictionary,
-  First,
-  KeyValue,
+    AfterFirst,
+    Dictionary,
+    EmptyObject,
+    ExpandDictionary,
+    First,
+    KeyValue,
 } from "inferred-types/types";
 
 type Process<
-  T extends readonly KeyValue[],
-  O extends Dictionary = EmptyObject,
+    T extends readonly KeyValue[],
+    O extends Dictionary = EmptyObject,
 > = [] extends T
-  ? ExpandDictionary<O>
-  : Process<
-    AfterFirst<T>,
+    ? ExpandDictionary<O>
+    : Process<
+        AfterFirst<T>,
     O & Record<First<T>["key"], First<T>["value"]>
-  >;
+    >;
 
 /**
  * **FromKeyValueTuple**`<T>`
@@ -31,5 +31,5 @@ type Process<
  * **Related:** `ObjectToTuple`, `ToKeyValueTuple`, `AsObject`
  */
 export type FromKeyValueTuple<
-  T extends readonly KeyValue[],
+    T extends readonly KeyValue[],
 > = Process<T>;

@@ -1,17 +1,17 @@
 import type {
-  TW_CHROMA,
-  TW_COLOR_TARGETS,
-  TW_HUE,
-  TW_HUE_NEUTRAL,
-  TW_HUE_VIBRANT,
-  TW_LUMINOSITY,
+    TW_CHROMA,
+    TW_COLOR_TARGETS,
+    TW_HUE,
+    TW_HUE_NEUTRAL,
+    TW_HUE_VIBRANT,
+    TW_LUMINOSITY,
 } from "inferred-types/constants";
 import type {
-  IsStringLiteral,
-  Join,
-  Mutable,
-  Opt,
-  TwModifier,
+    IsStringLiteral,
+    Join,
+    Mutable,
+    Opt,
+    TwModifier,
 } from "inferred-types/types";
 
 /**
@@ -42,17 +42,17 @@ export type TwColor = TwNeutralColor | TwVibrantColor | TwStaticColor;
  * luminosity levels.
  */
 export type TwLuminosity =
-  | "50"
-  | "100"
-  | "200"
-  | "300"
-  | "400"
-  | "500"
-  | "600"
-  | "700"
-  | "800"
-  | "900"
-  | "950";
+    | "50"
+    | "100"
+    | "200"
+    | "300"
+    | "400"
+    | "500"
+    | "600"
+    | "700"
+    | "800"
+    | "900"
+    | "950";
 
 /**
  * **TwColorWithLuminosity**
@@ -63,9 +63,9 @@ export type TwLuminosity =
  * **Related:** `TwColorOption`, `TwColorWithLuminosityOpacity`, `TwColor`, `TwNeutralColor`
  */
 export type TwColorWithLuminosity =
-  | `${TwNeutralColor}-${TwLuminosity}`
-  | `${TwVibrantColor}-${TwLuminosity}`
-  | TwStaticColor;
+    | `${TwNeutralColor}-${TwLuminosity}`
+    | `${TwVibrantColor}-${TwLuminosity}`
+    | TwStaticColor;
 
 /**
  * **TwColorWithLuminosityOpacity**
@@ -131,16 +131,16 @@ export type TwHue = Mutable<typeof TW_HUE>;
 export type TwColorTarget = typeof TW_COLOR_TARGETS[number];
 
 type _TwModifiers<
-  TText extends string,
-  TCaptured extends readonly string[] = [],
+    TText extends string,
+    TCaptured extends readonly string[] = [],
 > = TText extends `${infer M extends TwModifier}:${infer REST}`
-  ? _TwModifiers<
-    REST,
-    [...TCaptured, M]
-  >
-  : TCaptured["length"] extends 0
-    ? ""
-    : `${Join<TCaptured, ":">}:`;
+    ? _TwModifiers<
+        REST,
+        [...TCaptured, M]
+    >
+    : TCaptured["length"] extends 0
+        ? ""
+        : `${Join<TCaptured, ":">}:`;
 
 /**
  * **TwModifiers**
@@ -150,9 +150,9 @@ type _TwModifiers<
  * removed.
  */
 export type TwModifiers<
-  T,
+    T,
 > = T extends string
-  ? IsStringLiteral<T> extends true
-    ? _TwModifiers<T>
-    : Opt<`${string}:`>
-  : "";
+    ? IsStringLiteral<T> extends true
+        ? _TwModifiers<T>
+        : Opt<`${string}:`>
+    : "";

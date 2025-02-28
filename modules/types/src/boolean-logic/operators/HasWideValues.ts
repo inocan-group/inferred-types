@@ -1,10 +1,10 @@
 import type { AfterFirst, First, IsWideType } from "inferred-types/types";
 
 type Validate<T extends readonly unknown[]> = [] extends T
-  ? false
-  : IsWideType<First<T>> extends true
-    ? true
-    : Validate<AfterFirst<T>>;
+    ? false
+    : IsWideType<First<T>> extends true
+        ? true
+        : Validate<AfterFirst<T>>;
 
 /**
  * **HasWideValues**`<T>`

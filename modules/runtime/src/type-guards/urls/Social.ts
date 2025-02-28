@@ -11,7 +11,7 @@ const PROFILE = SOCIAL_MEDIA.map(i => i.profileUrl);
  * **Related:** `isSocialMediaProfileUrl`
  */
 export function isSocialMediaUrl(val: unknown): val is SocialMediaUrl {
-  return isString(val) && URL.some(i => val.startsWith(i));
+    return isString(val) && URL.some(i => val.startsWith(i));
 }
 
 /**
@@ -21,5 +21,5 @@ export function isSocialMediaUrl(val: unknown): val is SocialMediaUrl {
  * **Related:** `isSocialMediaUrl`
  */
 export function isSocialMediaProfileUrl(val: unknown): val is SocialMediaUrl {
-  return isString(val) && PROFILE.some(i => i.startsWith(`${i}`));
+    return isString(val) && PROFILE.some(i => i.startsWith(`${i}`));
 }

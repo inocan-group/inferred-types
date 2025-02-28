@@ -1,61 +1,61 @@
 import type {
-  AfterFirst,
-  As,
-  AsString,
-  Container,
-  Contains,
-  First,
-  GetEach,
-  IfNever,
-  IsNever,
-  IsScalar,
-  Not,
-  Push,
-  TupleToUnion,
-  UnionToTuple,
+    AfterFirst,
+    As,
+    AsString,
+    Container,
+    Contains,
+    First,
+    GetEach,
+    IfNever,
+    IsNever,
+    IsScalar,
+    Not,
+    Push,
+    TupleToUnion,
+    UnionToTuple,
 } from "inferred-types/types";
 
 type Get<
-  TValue,
-  TDeref extends PropertyKey | never,
+    TValue,
+    TDeref extends PropertyKey | never,
 > = IfNever<
-  TDeref,
-  TValue, // just proxy value back
-  TDeref extends keyof TValue
-    ? TValue[TDeref]
-    : TValue extends Container
-      ? never
-      : TValue
+    TDeref,
+    TValue, // just proxy value back
+    TDeref extends keyof TValue
+        ? TValue[TDeref]
+        : TValue extends Container
+            ? never
+            : TValue
 >;
 
 type Process<
-  TValues extends readonly unknown[],
-  TDeref extends string | number | never,
-  TResults extends readonly unknown[] = [],
+    TValues extends readonly unknown[],
+    TDeref extends string | number | never,
+    TResults extends readonly unknown[] = [],
 > = [] extends TValues
-  ? TResults
-  : Process<
-    AfterFirst<TValues>,
-    TDeref,
-    // push new value into TResults if unique
-    Push<
-      TResults,
-      First<TResults>,
-      IsScalar<First<TValues>> extends true
-        // a scalar value should/can ignore the deref setting
-        ? Not<Contains<TResults, First<TValues>>>
-        // a non-scalar must consider deref setting
-        : Not<Contains<
-          As<
-            IsNever<TDeref> extends true
-              ? TResults
-              : GetEach<TResults, AsString<TDeref>>,
+    ? TResults
+    : Process<
+        AfterFirst<TValues>,
+        TDeref,
+        // push new value into TResults if unique
+        Push<
+            TResults,
+            First<TResults>,
+            IsScalar<First<TValues>> extends true
+            // a scalar value should/can ignore the deref setting
+                ? Not<Contains<TResults, First<TValues>>>
+            // a non-scalar must consider deref setting
+                : Not<Contains<
+                    As<
+                        IsNever<TDeref> extends true
+                            ? TResults
+                            : GetEach<TResults, AsString<TDeref>>,
             string | number | readonly unknown[]
-          >,
-          Get<First<TValues>, TDeref>
-        >>
-    >
-  >;
+                    >,
+                    Get<First<TValues>, TDeref>
+                >>
+        >
+    >;
 
 /**
  * **Unique**`<TList, [TDeref]>`
@@ -74,14 +74,14 @@ type Process<
  * ```
  */
 export type Unique<
-  TList extends readonly unknown[],
-  TDeref extends string | number | never = never,
+    TList extends readonly unknown[],
+    TDeref extends string | number | never = never,
 > = IfNever<
-  TDeref,
-  UnionToTuple<TupleToUnion<TList>>,
+    TDeref,
+    UnionToTuple<TupleToUnion<TList>>,
 
-  Process<
-    TList,
-    TDeref
-  >
+    Process<
+        TList,
+        TDeref
+    >
 >;

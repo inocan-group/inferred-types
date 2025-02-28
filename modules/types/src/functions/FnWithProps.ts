@@ -1,9 +1,9 @@
 import type {
-  Dictionary,
-  If,
-  IsTrue,
-  JustFunction,
-  TypedFunction,
+    Dictionary,
+    If,
+    IsTrue,
+    JustFunction,
+    TypedFunction,
 } from "inferred-types/types";
 
 /**
@@ -14,11 +14,11 @@ import type {
  * **Related**: `SimpleFn`, `NarrowableFn`, `AnyFunction`, `IsFunctionWithDict`
  */
 export type FnWithProps<
-  TFn extends TypedFunction,
-  TProps extends Dictionary,
-  TClone extends boolean | null | undefined = true,
+    TFn extends TypedFunction,
+    TProps extends Dictionary,
+    TClone extends boolean | null | undefined = true,
 > = If<
-  IsTrue<TClone>,
+    IsTrue<TClone>,
   JustFunction<TFn> & TProps,
   TFn & TProps
 >;

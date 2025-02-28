@@ -7,5 +7,5 @@ import type { TypedFunction } from "./TypedFunction";
  * on the function passed in as `T` and leaves just the pure function signature.
  */
 export type JustFunction<
-  TFn extends TypedFunction,
+    TFn extends TypedFunction,
 > = <T extends readonly unknown[]>(...args: T & Parameters<TFn>) => ReturnType<TFn>;

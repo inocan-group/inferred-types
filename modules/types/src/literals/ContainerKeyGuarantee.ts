@@ -16,9 +16,9 @@ import type { Container, ExpandRecursively, Tuple } from "inferred-types/types";
  * type but you can override this by setting `TType`
  */
 export type ContainerKeyGuarantee<
-  TContainer extends Container,
-  TKey extends PropertyKey,
-  TType = unknown,
+    TContainer extends Container,
+    TKey extends PropertyKey,
+    TType = unknown,
 > = TContainer extends Tuple
-  ? TContainer & Readonly<[...Tuple<unknown, TKey & number>, TType]>
-  : ExpandRecursively<TContainer & Record<TKey, TType>>;
+    ? TContainer & Readonly<[...Tuple<unknown, TKey & number>, TType]>
+    : ExpandRecursively<TContainer & Record<TKey, TType>>;

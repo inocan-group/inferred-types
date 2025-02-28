@@ -1,7 +1,7 @@
 import type {
-  Dictionary,
-  MergeObjects,
-  OptRequired,
+    Dictionary,
+    MergeObjects,
+    OptRequired,
 } from "inferred-types/types";
 
 /**
@@ -9,29 +9,29 @@ import type {
  * and make it into a FinalizedMapConfig
  */
 function toFinalizedConfig<
-  IR extends OptRequired,
-  D extends MapCardinalityIllustrated,
-  OR extends OptRequired,
+    IR extends OptRequired,
+    D extends MapCardinalityIllustrated,
+    OR extends OptRequired,
 >(config: MapConfig<IR, D, OR>): FinalizedMapConfig<IR, D, OR> {
-  return { ...config, finalized: true } as FinalizedMapConfig<IR, D, OR>;
+    return { ...config, finalized: true } as FinalizedMapConfig<IR, D, OR>;
 }
 
 export const DEFAULT_ONE_TO_MANY_MAPPING = toFinalizedConfig({
-  input: "req",
-  output: "opt",
-  cardinality: "I -> O[]",
+    input: "req",
+    output: "opt",
+    cardinality: "I -> O[]",
 });
 
 export const DEFAULT_ONE_TO_ONE_MAPPING = toFinalizedConfig({
-  input: "req",
-  output: "req",
-  cardinality: "I -> O",
+    input: "req",
+    output: "req",
+    cardinality: "I -> O",
 });
 
 export const DEFAULT_MANY_TO_ONE_MAPPING = toFinalizedConfig({
-  input: "req",
-  output: "req",
-  cardinality: "I[] -> O",
+    input: "req",
+    output: "req",
+    cardinality: "I[] -> O",
 });
 
 /**
@@ -53,12 +53,12 @@ export type DefaultManyToOneMapping = typeof DEFAULT_MANY_TO_ONE_MAPPING;
  * Expresses relationship between inputs/outputs:
  */
 export enum MapCardinality {
-  /** every input results in 0:M outputs */
-  OneToMany = "I -> O[]",
-  /** every input results in 0:1 outputs */
-  OneToOne = "I -> O",
-  /** every input is an array of type I and reduced to a single O  */
-  ManyToOne = "I[] -> O",
+    /** every input results in 0:M outputs */
+    OneToMany = "I -> O[]",
+    /** every input results in 0:1 outputs */
+    OneToOne = "I -> O",
+    /** every input is an array of type I and reduced to a single O  */
+    ManyToOne = "I[] -> O",
 }
 
 export type MapCardinalityIllustrated = `${string | number}`;
@@ -69,20 +69,20 @@ export type MapCardinalityIllustrated = `${string | number}`;
  * default mapping type.
  */
 export interface MapConfig<
-  IR extends OptRequired | undefined = undefined,
-  D extends MapCardinalityIllustrated | undefined = undefined,
-  OR extends OptRequired | undefined = undefined,
+    IR extends OptRequired | undefined = undefined,
+    D extends MapCardinalityIllustrated | undefined = undefined,
+    OR extends OptRequired | undefined = undefined,
 > {
-  input?: IR;
-  output?: OR;
-  cardinality?: D;
-  /**
-   * Whether calls to the final `MapFn` will be logged to stderr
-   * for debugging purposes. Defaults to false; if you specify
-   * a _string_ for a value that will be sent to stderr along
-   * with other debugging info.
-   */
-  debug?: boolean | string;
+    input?: IR;
+    output?: OR;
+    cardinality?: D;
+    /**
+     * Whether calls to the final `MapFn` will be logged to stderr
+     * for debugging purposes. Defaults to false; if you specify
+     * a _string_ for a value that will be sent to stderr along
+     * with other debugging info.
+     */
+    debug?: boolean | string;
 }
 
 /**
@@ -93,9 +93,9 @@ export interface MapConfig<
  * configuration between the input and output._
  */
 export type FinalizedMapConfig<
-  IR extends OptRequired = MapIR<DefaultOneToManyMapping & string>,
-  D extends MapCardinalityIllustrated = MapCard<DefaultOneToManyMapping>,
-  OR extends OptRequired = MapOR<DefaultOneToManyMapping>,
+    IR extends OptRequired = MapIR<DefaultOneToManyMapping & string>,
+    D extends MapCardinalityIllustrated = MapCard<DefaultOneToManyMapping>,
+    OR extends OptRequired = MapOR<DefaultOneToManyMapping>,
 > = Required<Omit<MapConfig<IR, D, OR>, "debug">> & { finalized: true; debug: boolean | string };
 
 /**
@@ -103,19 +103,19 @@ export type FinalizedMapConfig<
  * cardinality already (e.g., `oneToMany()`, `manyToOne()`)
  */
 interface MapCardinalityConfig<
-  IR extends OptRequired | undefined,
-  OR extends OptRequired | undefined,
+    IR extends OptRequired | undefined,
+    OR extends OptRequired | undefined,
 > {
-  /** whether we the input can _optionally_ be an `undefined` value or not */
-  input?: IR;
-  /** whether we the output can _optionally_ be an `undefined` value or not */
-  output?: OR;
-  /**
-   * Whether calls to the final `MapFn` will be logged to stderr
-   * for debugging purposes. Defaults to false; if you set to a string
-   * value than this will be echoed out with stderr.
-   */
-  debug?: boolean | string;
+    /** whether we the input can _optionally_ be an `undefined` value or not */
+    input?: IR;
+    /** whether we the output can _optionally_ be an `undefined` value or not */
+    output?: OR;
+    /**
+     * Whether calls to the final `MapFn` will be logged to stderr
+     * for debugging purposes. Defaults to false; if you set to a string
+     * value than this will be echoed out with stderr.
+     */
+    debug?: boolean | string;
 }
 
 /**
@@ -126,185 +126,185 @@ interface MapCardinalityConfig<
  * method which allows the user configure the specifics of the mapping.
  */
 export interface ConfiguredMap<
-  C extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>,
+    C extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>,
 > {
-  map: <I, O>(map: MapTo<I, O, C>) => MapperOld<I, O, C>;
-  input: MapIR<C>;
-  cardinality: MapCard<C>;
-  output: MapOR<C>;
-  debug: boolean | string;
+    map: <I, O>(map: MapTo<I, O, C>) => MapperOld<I, O, C>;
+    input: MapIR<C>;
+    cardinality: MapCard<C>;
+    output: MapOR<C>;
+    debug: boolean | string;
 }
 
 /**
  * Extracts the IR, Cardinality, and OR generics from a FinalizedMapConfig
  */
 export type DecomposeMapConfig<
-  M extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>,
+    M extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>,
 > = M extends MapConfig<infer IR, infer D, infer OR>
-  ? IR extends OptRequired | undefined
-    ? D extends MapCardinalityIllustrated | undefined
-      ? OR extends OptRequired | undefined
-        ? [IR, D, OR]
+    ? IR extends OptRequired | undefined
+        ? D extends MapCardinalityIllustrated | undefined
+            ? OR extends OptRequired | undefined
+                ? [IR, D, OR]
+                : never
+            : never
         : never
-      : never
-    : never
-  : M extends FinalizedMapConfig<infer IR, infer D, infer OR>
-    ? IR extends OptRequired
-      ? D extends MapCardinalityIllustrated
-        ? OR extends OptRequired
-          ? [IR, D, OR]
-          : never
-        : never
-      : never
-    : never;
+    : M extends FinalizedMapConfig<infer IR, infer D, infer OR>
+        ? IR extends OptRequired
+            ? D extends MapCardinalityIllustrated
+                ? OR extends OptRequired
+                    ? [IR, D, OR]
+                    : never
+                : never
+            : never
+        : never;
 
 /** extracts IR from a `FinalizedMapConfig` */
 export type MapIR<
-  T extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>,
+    T extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>,
 > = DecomposeMapConfig<T>[0];
 
 /**
  * extracts the MapCardinality from a `FinalizedMapConfig`
  */
 export type MapCard<
-  T extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>,
+    T extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>,
 > = DecomposeMapConfig<T>[1];
 
 /** extracts OR from a `FinalizedMapConfig` */
 export type MapOR<
-  T extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>,
+    T extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>,
 > = DecomposeMapConfig<T>[2];
 
 /**
  * Merges the types of a userland configuration with a default configuration
  */
 export type AsFinalizedConfig<
-  U extends MapConfig<
+    U extends MapConfig<
     OptRequired | undefined,
     MapCardinalityIllustrated | undefined,
     OptRequired | undefined
-  >,
-  D extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>,
+    >,
+    D extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>,
 > = MergeObjects<U & Dictionary, D> extends FinalizedMapConfig<infer IR, infer C, infer OR>
-  ? FinalizedMapConfig<IR, C, OR>
-  : never;
+    ? FinalizedMapConfig<IR, C, OR>
+    : never;
 
 export interface MapperApi {
-  /**
-   * Provides opportunity to configure _input_, _output_, and _cardinality_
-   * prior to providing a mapping function.
-   *
-   * Note: _the defaults for configuration are defined by the_ `DEFAULT_ONE_TO_MANY_MAPPING`
-   * _constant made available as a symbol from this library._
-   */
-  config: <
-    C extends MapConfig<
-      OptRequired, //
-      MapCardinalityIllustrated,
-      OptRequired
-    >,
-  >(
-    config: C
-  ) => ConfiguredMap<
-    AsFinalizedConfig<
-      C, //
-      DefaultOneToManyMapping
-    >
-  >;
+    /**
+     * Provides opportunity to configure _input_, _output_, and _cardinality_
+     * prior to providing a mapping function.
+     *
+     * Note: _the defaults for configuration are defined by the_ `DEFAULT_ONE_TO_MANY_MAPPING`
+     * _constant made available as a symbol from this library._
+     */
+    config: <
+        C extends MapConfig<
+            OptRequired, //
+            MapCardinalityIllustrated,
+            OptRequired
+        >,
+    >(
+        config: C
+    ) => ConfiguredMap<
+        AsFinalizedConfig<
+            C, //
+            DefaultOneToManyMapping
+        >
+    >;
 
-  /**
-   * Provides a nice 1:1 ratio between the input and output.
-   *
-   * By default the input and output are considered to be _required_
-   * properties but this can be changed with the options hash provided.
-   * ```ts
-   * const mapper = mapTo.oneToOne().map(...);
-   * // add in ability to filter out some inputs
-   * const mapAndFilter = mapTo.oneToOne({ output: "opt" })
-   * ```
-   */
-  oneToOne: <C extends MapCardinalityConfig<OptRequired, OptRequired>>(
-    config?: C
-  ) => ConfiguredMap<
-    AsFinalizedConfig<
-      C, //
-      DefaultOneToOneMapping
-    >
-  >;
+    /**
+     * Provides a nice 1:1 ratio between the input and output.
+     *
+     * By default the input and output are considered to be _required_
+     * properties but this can be changed with the options hash provided.
+     * ```ts
+     * const mapper = mapTo.oneToOne().map(...);
+     * // add in ability to filter out some inputs
+     * const mapAndFilter = mapTo.oneToOne({ output: "opt" })
+     * ```
+     */
+    oneToOne: <C extends MapCardinalityConfig<OptRequired, OptRequired>>(
+        config?: C
+    ) => ConfiguredMap<
+        AsFinalizedConfig<
+            C, //
+            DefaultOneToOneMapping
+        >
+    >;
 
-  /**
-   * **manyToOne** _mapping_
-   *
-   * Provides a configuration where multiple inputs `I[]` will be mapped to a
-   * single output `O`.
-   *
-   * Choosing this configuration will, by default, set both input and output
-   * to be "required" but you can change this default if you so choose.
-   */
-  manyToOne: <
-    C extends MapCardinalityConfig<
+    /**
+     * **manyToOne** _mapping_
+     *
+     * Provides a configuration where multiple inputs `I[]` will be mapped to a
+     * single output `O`.
+     *
+     * Choosing this configuration will, by default, set both input and output
+     * to be "required" but you can change this default if you so choose.
+     */
+    manyToOne: <
+        C extends MapCardinalityConfig<
       OptRequired | undefined, //
       OptRequired | undefined
-    >,
-  >(
-    config?: C
-  ) => ConfiguredMap<
-    AsFinalizedConfig<
-      C, //
-      DefaultManyToOneMapping
-    >
-  >;
+        >,
+    >(
+        config?: C
+    ) => ConfiguredMap<
+        AsFinalizedConfig<
+            C, //
+            DefaultManyToOneMapping
+        >
+    >;
 
-  oneToMany: <
-    C extends MapCardinalityConfig<
+    oneToMany: <
+        C extends MapCardinalityConfig<
       OptRequired | undefined, //
       OptRequired | undefined
-    >,
-  >(
-    config?: C
-  ) => ConfiguredMap<
-    AsFinalizedConfig<
-      C, //
-      DefaultOneToManyMapping
-    >
-  >;
+        >,
+    >(
+        config?: C
+    ) => ConfiguredMap<
+        AsFinalizedConfig<
+            C, //
+            DefaultOneToManyMapping
+        >
+    >;
 }
 
 export type MapInput<
-  I,
-  IR extends OptRequired,
-  C extends MapCardinalityIllustrated,
+    I,
+    IR extends OptRequired,
+    C extends MapCardinalityIllustrated,
 > = C extends MapCardinality.OneToMany | "I -> O[]"
-  ? IR extends "opt"
-    ? I | undefined
-    : I
-  : C extends MapCardinality.OneToOne | "I -> O"
     ? IR extends "opt"
-      ? I | undefined
-      : I
-    : C extends MapCardinality.ManyToOne | "I[] -> O"
-      ? IR extends "opt"
-        ? I[] | undefined
-        : I[]
-      : never;
+        ? I | undefined
+        : I
+    : C extends MapCardinality.OneToOne | "I -> O"
+        ? IR extends "opt"
+            ? I | undefined
+            : I
+        : C extends MapCardinality.ManyToOne | "I[] -> O"
+            ? IR extends "opt"
+                ? I[] | undefined
+                : I[]
+            : never;
 
 export type MapOutput<
-  O,
-  OR extends OptRequired,
-  C extends MapCardinalityIllustrated,
+    O,
+    OR extends OptRequired,
+    C extends MapCardinalityIllustrated,
 > = C extends MapCardinality.OneToMany | "I -> O[]"
-  ? OR extends "opt"
-    ? O[]
-    : [O, ...O[]]
-  : C extends MapCardinality.OneToOne | "I -> O"
     ? OR extends "opt"
-      ? O | null
-      : O
-    : C extends MapCardinality.ManyToOne | "I[] -> O"
-      ? OR extends "opt"
-        ? O | null
-        : O
-      : never;
+        ? O[]
+        : [O, ...O[]]
+    : C extends MapCardinality.OneToOne | "I -> O"
+        ? OR extends "opt"
+            ? O | null
+            : O
+        : C extends MapCardinality.ManyToOne | "I[] -> O"
+            ? OR extends "opt"
+                ? O | null
+                : O
+            : never;
 
 /**
  * **MapTo<I, O>**
@@ -316,64 +316,64 @@ export type MapOutput<
  * to `MapFn` if you want the type output by the `mapFn()` utility.
  */
 export type MapTo<
-  I,
-  O,
-  C extends FinalizedMapConfig<
-    OptRequired,
-    MapCardinalityIllustrated,
-    OptRequired
-  > = DefaultOneToManyMapping,
+    I,
+    O,
+    C extends FinalizedMapConfig<
+        OptRequired,
+        MapCardinalityIllustrated,
+        OptRequired
+    > = DefaultOneToManyMapping,
 > = MapIR<C> extends "opt"
-  ? (source?: MapInput<I, MapIR<C>, MapCard<C>>) => MapOutput<O, MapOR<C>, MapCard<C>>
-  : (source: MapInput<I, MapIR<C>, MapCard<C>>) => MapOutput<O, MapOR<C>, MapCard<C>>;
+    ? (source?: MapInput<I, MapIR<C>, MapCard<C>>) => MapOutput<O, MapOR<C>, MapCard<C>>
+    : (source: MapInput<I, MapIR<C>, MapCard<C>>) => MapOutput<O, MapOR<C>, MapCard<C>>;
 
 export type MapFnOutput<
-  I,
-  O,
-  S,
-  OR extends OptRequired,
-  C extends MapCardinalityIllustrated,
+    I,
+    O,
+    S,
+    OR extends OptRequired,
+    C extends MapCardinalityIllustrated,
 > = C extends "I -> O[]" | MapCardinality.OneToMany
-  ? S extends I[]
-    ? OR extends "opt"
-      ? O[]
-      : [O, ...O[]]
-    : OR extends "opt"
-      ? O[] | null
-      : O[]
-  : C extends MapCardinality.OneToOne | "I -> O"
     ? S extends I[]
-      ? OR extends "opt"
-        ? O[]
-        : [O, ...O[]]
-      : OR extends "opt"
-        ? O | null
-        : O
-    : C extends MapCardinality.ManyToOne | "I[] -> O"
-      ? S extends I[][]
         ? OR extends "opt"
-          ? O[]
-          : [O, ...O[]]
+            ? O[]
+            : [O, ...O[]]
         : OR extends "opt"
-          ? O | null
-          : O
-      : never;
+            ? O[] | null
+            : O[]
+    : C extends MapCardinality.OneToOne | "I -> O"
+        ? S extends I[]
+            ? OR extends "opt"
+                ? O[]
+                : [O, ...O[]]
+            : OR extends "opt"
+                ? O | null
+                : O
+        : C extends MapCardinality.ManyToOne | "I[] -> O"
+            ? S extends I[][]
+                ? OR extends "opt"
+                    ? O[]
+                    : [O, ...O[]]
+                : OR extends "opt"
+                    ? O | null
+                    : O
+            : never;
 
 export type MapFnInput<I, IR extends OptRequired, D extends MapCardinalityIllustrated> = D extends
-  | "I -> O[]"
-  | MapCardinality.OneToMany
-  ? IR extends "opt"
-    ? I | I[] | undefined
-    : I | I[]
-  : D extends MapCardinality.OneToOne | "I -> O"
+    | "I -> O[]"
+    | MapCardinality.OneToMany
     ? IR extends "opt"
-      ? I | I[] | undefined
-      : I | I[]
-    : D extends MapCardinality.ManyToOne | "I[] -> O"
-      ? IR extends "opt"
-        ? I[] | I[][] | undefined
-        : I[] | I[][]
-      : never;
+        ? I | I[] | undefined
+        : I | I[]
+    : D extends MapCardinality.OneToOne | "I -> O"
+        ? IR extends "opt"
+            ? I | I[] | undefined
+            : I | I[]
+        : D extends MapCardinality.ManyToOne | "I[] -> O"
+            ? IR extends "opt"
+                ? I[] | I[][] | undefined
+                : I[] | I[][]
+            : never;
 
 /**
  * The mapping function provided by the `mapFn()` utility. This _fn_
@@ -392,15 +392,15 @@ export type MapFnInput<I, IR extends OptRequired, D extends MapCardinalityIllust
  *    ```
  */
 export type MapFn<
-  I,
-  O,
-  C extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>,
+    I,
+    O,
+    C extends FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>,
 > = MapIR<C> extends "opt"
-  ? <S extends MapFnInput<I, MapIR<C>, MapCard<C>>>(
-      source?: S
+    ? <S extends MapFnInput<I, MapIR<C>, MapCard<C>>>(
+        source?: S
     ) => MapFnOutput<I, O, S, MapOR<C>, MapCard<C>>
-  : <S extends MapFnInput<I, MapIR<C>, MapCard<C>>>(
-      source: S
+    : <S extends MapFnInput<I, MapIR<C>, MapCard<C>>>(
+        source: S
     ) => MapFnOutput<I, O, S, MapOR<C>, MapCard<C>>;
 
 /**
@@ -420,27 +420,27 @@ export type MapFn<
  * property to get the _type_ signature of the map function.
  */
 export type MapperOld<
-  I = unknown,
-  O = unknown,
-  C extends FinalizedMapConfig<
-    OptRequired,
-    MapCardinalityIllustrated,
-    OptRequired
-  > = FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>,
+    I = unknown,
+    O = unknown,
+    C extends FinalizedMapConfig<
+        OptRequired,
+        MapCardinalityIllustrated,
+        OptRequired
+    > = FinalizedMapConfig<OptRequired, MapCardinalityIllustrated, OptRequired>,
 > = {
-  input: MapIR<C>;
-  output: MapOR<C>;
-  cardinality: MapCard<C>;
-  debug: boolean | string;
-  inputType: I;
-  outputType: O;
-  /**
-   * Provides the _type_ information for mapper function.
-   *
-   * Note: _this is just a **type**_ not the actual function which positioned
-   * at the root of the Mapper type
-   */
-  fnSignature: MapFn<I, O, C>;
+    input: MapIR<C>;
+    output: MapOR<C>;
+    cardinality: MapCard<C>;
+    debug: boolean | string;
+    inputType: I;
+    outputType: O;
+    /**
+     * Provides the _type_ information for mapper function.
+     *
+     * Note: _this is just a **type**_ not the actual function which positioned
+     * at the root of the Mapper type
+     */
+    fnSignature: MapFn<I, O, C>;
 } & MapFn<I, O, C>;
 
 /**
@@ -465,7 +465,7 @@ export type MapOutputFrom<T extends MapperOld> = T extends MapperOld<any, infer 
  */
 
 export type MapCardinalityFrom<T extends MapperOld> = T extends MapperOld<any, any, infer C>
-  ? C extends FinalizedMapConfig<OptRequired, infer Cardinality, OptRequired>
-    ? Cardinality
-    : never
-  : never;
+    ? C extends FinalizedMapConfig<OptRequired, infer Cardinality, OptRequired>
+        ? Cardinality
+        : never
+    : never;

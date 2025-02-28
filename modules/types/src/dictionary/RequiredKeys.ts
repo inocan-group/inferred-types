@@ -1,14 +1,14 @@
 import type {
-  AfterFirst,
-  AnyObject,
-  As,
-  Dictionary,
-  EmptyObject,
-  First,
-  IfUnset,
-  Keys,
-  ObjectKey,
-  Unset,
+    AfterFirst,
+    AnyObject,
+    As,
+    Dictionary,
+    EmptyObject,
+    First,
+    IfUnset,
+    Keys,
+    ObjectKey,
+    Unset,
 } from "inferred-types/types";
 
 /**
@@ -24,33 +24,33 @@ import type {
  * **Related:** `OptionalKeys`, `RequiredProps`, `RequiredKeysTuple`
  */
 export type RequiredKeys<
-  T extends Dictionary,
-  V = Unset,
+    T extends Dictionary,
+    V = Unset,
 > = As<{
-  [K in keyof T]-?: EmptyObject extends { [P in K]: T[K] }
-    ? never //
-    : IfUnset<
-      V,
-      K,
-      T[K] extends V
-        ? K
-        : never
-    >;
+    [K in keyof T]-?: EmptyObject extends { [P in K]: T[K] }
+        ? never //
+        : IfUnset<
+            V,
+            K,
+            T[K] extends V
+                ? K
+                : never
+        >;
 }[keyof T], ObjectKey>;
 
 type KeyList<
-  TObj extends AnyObject,
-  TKeys extends readonly (keyof TObj & ObjectKey)[],
-  TResult extends ObjectKey[] = [],
+    TObj extends AnyObject,
+    TKeys extends readonly (keyof TObj & ObjectKey)[],
+    TResult extends ObjectKey[] = [],
 > = [] extends TKeys
-  ? TResult
-  : undefined extends TObj[First<TKeys>]
-    ? KeyList<TObj, AfterFirst<TKeys>, TResult>
-    : KeyList<
-      TObj,
-      AfterFirst<TKeys>,
-      [...TResult, First<TKeys>]
-    >;
+    ? TResult
+    : undefined extends TObj[First<TKeys>]
+        ? KeyList<TObj, AfterFirst<TKeys>, TResult>
+        : KeyList<
+            TObj,
+            AfterFirst<TKeys>,
+            [...TResult, First<TKeys>]
+        >;
 
 /**
  * **RequiredKeysTuple**`<T>`
@@ -61,7 +61,7 @@ type KeyList<
  * **Related:** `OptionalKeys`, `RequiredProps`, `RequiredKeys`
  */
 export type RequiredKeysTuple<
-  T extends AnyObject,
+    T extends AnyObject,
 > = Keys<T> extends readonly (ObjectKey & keyof T)[]
-  ? KeyList<T, Keys<T>>
-  : never;
+    ? KeyList<T, Keys<T>>
+    : never;

@@ -1,11 +1,11 @@
 import type {
-  GetPhoneCountryCode,
-  IsErrorCondition,
-  IsStringLiteral,
-  IsTrue,
-  MaybeError,
-  PhoneCountryCode,
-  PhoneNumber,
+    GetPhoneCountryCode,
+    IsErrorCondition,
+    IsStringLiteral,
+    IsTrue,
+    MaybeError,
+    PhoneCountryCode,
+    PhoneNumber,
 } from "inferred-types/types";
 
 // BOOLEAN OPERATORS for PHONE TYPES
@@ -26,10 +26,10 @@ import type {
  * **Related:** `PhoneNumber`, `HasPhoneCountryCode`
  */
 export type IsPhoneNumber<T extends string | number> = IsErrorCondition<PhoneNumber<T>> extends true
-  ? false
-  : MaybeError<PhoneNumber<T>> extends true
-    ? boolean
-    : true;
+    ? false
+    : MaybeError<PhoneNumber<T>> extends true
+        ? boolean
+        : true;
 
 /**
  * **HasPhoneCountryCode**`<T>`
@@ -45,16 +45,16 @@ export type IsPhoneNumber<T extends string | number> = IsErrorCondition<PhoneNum
  * **Related:** `IsPhoneNumber`, `PhoneNumber`
  */
 export type HasPhoneCountryCode<
-  TPhone,
-  TExplicit extends boolean = true,
+    TPhone,
+    TExplicit extends boolean = true,
 > = TPhone extends string
-  ? IsStringLiteral<TPhone> extends true
-    ? IsTrue<TExplicit> extends true
-      ? GetPhoneCountryCode<TPhone> extends PhoneCountryCode
-        ? true
-        : false
-      : GetPhoneCountryCode<TPhone> extends ""
-        ? false
-        : true
-    : boolean
-  : false;
+    ? IsStringLiteral<TPhone> extends true
+        ? IsTrue<TExplicit> extends true
+            ? GetPhoneCountryCode<TPhone> extends PhoneCountryCode
+                ? true
+                : false
+            : GetPhoneCountryCode<TPhone> extends ""
+                ? false
+                : true
+        : boolean
+    : false;

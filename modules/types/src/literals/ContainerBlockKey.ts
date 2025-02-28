@@ -13,8 +13,8 @@ import type { Container, Tuple } from "inferred-types/types";
  * ```
  */
 export type ContainerBlockKey<
-  TContainer extends Container,
-  TKey extends PropertyKey,
+    TContainer extends Container,
+    TKey extends PropertyKey,
 > = TContainer extends Tuple
-  ? TContainer & [...Tuple<unknown, TKey & number>, never]
-  : Exclude<TContainer, TKey>;
+    ? TContainer & [...Tuple<unknown, TKey & number>, never]
+    : Exclude<TContainer, TKey>;

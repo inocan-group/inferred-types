@@ -4,25 +4,25 @@ import type { Increment } from "../numeric-literals";
 import type { Chars } from "./Chars";
 
 type _FindIndexes<
-  TContent extends readonly unknown[],
-  TFind,
-  TOp extends ComparatorOperation = "extends",
-  TIdx extends number = 0,
-  TResults extends readonly number[] = [],
-> = [] extends TContent
-  ? TResults
-  : _FindIndexes<
-    AfterFirst<TContent>,
+    TContent extends readonly unknown[],
     TFind,
-    TOp,
-    Increment<TIdx>,
-    Compare<First<TContent>, TOp, TFind> extends true
-      ? [
-          ...TResults,
-          TIdx,
-        ]
-      : TResults
-  >;
+    TOp extends ComparatorOperation = "extends",
+    TIdx extends number = 0,
+    TResults extends readonly number[] = [],
+> = [] extends TContent
+    ? TResults
+    : _FindIndexes<
+        AfterFirst<TContent>,
+        TFind,
+        TOp,
+        Increment<TIdx>,
+        Compare<First<TContent>, TOp, TFind> extends true
+            ? [
+                ...TResults,
+                TIdx,
+            ]
+            : TResults
+    >;
 
 /**
  * **FindIndexes**
@@ -37,18 +37,18 @@ type _FindIndexes<
  * **Related:** `FindFirstIndex`, `FindLastIndex`, `FindIndexesWithMeta`
  */
 export type FindIndexes<
-  TContent extends string | readonly unknown[],
-  TFind,
-  TOp extends ComparatorOperation = "extends",
-> = TContent extends string
-  ? _FindIndexes<
-    Chars<TContent>,
+    TContent extends string | readonly unknown[],
     TFind,
-    TOp
-  >
-  : TContent extends readonly unknown[]
-    ? _FindIndexes<TContent, TFind, TOp>
-    : never;
+    TOp extends ComparatorOperation = "extends",
+> = TContent extends string
+    ? _FindIndexes<
+        Chars<TContent>,
+        TFind,
+        TOp
+    >
+    : TContent extends readonly unknown[]
+        ? _FindIndexes<TContent, TFind, TOp>
+        : never;
 
 /**
  * **FindFirstIndex**`<TContent,TFind,[TOp]>`
@@ -57,81 +57,81 @@ export type FindIndexes<
  * which matches the
  */
 export type FindFirstIndex<
-  TContent extends string | readonly unknown[],
-  TFind,
-  TOp extends ComparatorOperation = "extends",
+    TContent extends string | readonly unknown[],
+    TFind,
+    TOp extends ComparatorOperation = "extends",
 > = First<FindIndexes<TContent, TFind, TOp>>;
 
 export type FindLastIndex<
-  TContent extends string | readonly unknown[],
-  TFind,
-  TOp extends ComparatorOperation = "extends",
+    TContent extends string | readonly unknown[],
+    TFind,
+    TOp extends ComparatorOperation = "extends",
 > = Last<FindIndexes<TContent, TFind, TOp>>;
 
 export interface FindIndexMetaOfString {
-  start: number;
-  end: number;
-  break: unknown;
+    start: number;
+    end: number;
+    break: unknown;
 }
 
 export interface FindIndexMetaOfTuple {
-  index: number;
+    index: number;
 
-  break: unknown;
+    break: unknown;
 }
 
 type _FindIndexesWithMeta__String<
-  TOriginal extends readonly unknown[],
-  TContent extends readonly unknown[],
-  TFind,
-  TOp extends ComparatorOperation = "extends",
-  TIdx extends number = 0,
-  TResults extends readonly FindIndexMetaOfString[] | [] = [],
-> = [] extends TContent
-  ? TResults
-  : _FindIndexesWithMeta__String<
-    TOriginal,
-    AfterFirst<TContent>,
+    TOriginal extends readonly unknown[],
+    TContent extends readonly unknown[],
     TFind,
-    TOp,
-    Increment<TIdx>,
-    Compare<First<TContent>, TOp, TFind> extends true
-      ? [
-          ...TResults,
-          {
-            start: TIdx;
-            end: Increment<TIdx>;
-            break: TOriginal[TIdx];
-          },
-        ]
-      : TResults
-  >;
+    TOp extends ComparatorOperation = "extends",
+    TIdx extends number = 0,
+    TResults extends readonly FindIndexMetaOfString[] | [] = [],
+> = [] extends TContent
+    ? TResults
+    : _FindIndexesWithMeta__String<
+        TOriginal,
+        AfterFirst<TContent>,
+        TFind,
+        TOp,
+        Increment<TIdx>,
+        Compare<First<TContent>, TOp, TFind> extends true
+            ? [
+                ...TResults,
+                {
+                    start: TIdx;
+                    end: Increment<TIdx>;
+                    break: TOriginal[TIdx];
+                },
+            ]
+            : TResults
+    >;
 
 type _FindIndexesWithMeta__Tuple<
-  TOriginal extends readonly unknown[],
-  TContent extends readonly unknown[],
-  TFind,
-  TOp extends ComparatorOperation = "extends",
-  TIdx extends number = 0,
-  TResults extends readonly FindIndexMetaOfTuple[] | [] = [],
-> = [] extends TContent
-  ? TResults
-  : _FindIndexesWithMeta__Tuple<
-    TOriginal,
-    AfterFirst<TContent>,
+    TOriginal extends readonly unknown[],
+    TContent extends readonly unknown[],
     TFind,
-    TOp,
-    Increment<TIdx>,
-    Compare<First<TContent>, TOp, TFind> extends true
-      ? [
-          ...TResults,
-          {
-            index: TIdx;
-            break: TOriginal[TIdx];
-          },
-        ]
-      : TResults
-  >;
+    TOp extends ComparatorOperation = "extends",
+    TIdx extends number = 0,
+    TResults extends readonly FindIndexMetaOfTuple[] | [] = [],
+> = [] extends TContent
+    ? TResults
+    : _FindIndexesWithMeta__Tuple<
+        TOriginal,
+        AfterFirst<TContent>,
+        TFind,
+        TOp,
+        Increment<TIdx>,
+        Compare<First<TContent>, TOp, TFind> extends true
+            ? [
+                ...TResults,
+                {
+                    index: TIdx;
+                    break: TOriginal[TIdx];
+                },
+            ]
+            : TResults
+    >;
 
 /**
  * **FindIndexesWithMeta**
@@ -146,21 +146,21 @@ type _FindIndexesWithMeta__Tuple<
  * **Related:** `FindFirstIndex`, `FindLastIndex`
  */
 export type FindIndexesWithMeta<
-  TContent extends string | readonly unknown[],
-  TFind,
-  TOp extends ComparatorOperation = "extends",
-> = TContent extends string
-  ? _FindIndexesWithMeta__String<
-    Chars<TContent>,
-    Chars<TContent>,
+    TContent extends string | readonly unknown[],
     TFind,
-    TOp
-  >
-  : TContent extends readonly unknown[]
-    ? _FindIndexesWithMeta__Tuple<
-      TContent,
-      TContent,
-      TFind,
-      TOp
+    TOp extends ComparatorOperation = "extends",
+> = TContent extends string
+    ? _FindIndexesWithMeta__String<
+        Chars<TContent>,
+        Chars<TContent>,
+        TFind,
+        TOp
     >
-    : never;
+    : TContent extends readonly unknown[]
+        ? _FindIndexesWithMeta__Tuple<
+            TContent,
+            TContent,
+            TFind,
+            TOp
+        >
+        : never;

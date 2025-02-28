@@ -7,18 +7,18 @@ type PressureMetricsLookup = typeof PRESSURE_METRICS_LOOKUP;
  * The singular name for metrics associated with **Pressure**.
  */
 export type PressureMetrics = {
-  [K in keyof PressureMetricsLookup]: "name" extends keyof PressureMetricsLookup[K]
-    ? PressureMetricsLookup[K]["name"]
-    : never
+    [K in keyof PressureMetricsLookup]: "name" extends keyof PressureMetricsLookup[K]
+        ? PressureMetricsLookup[K]["name"]
+        : never
 }[number];
 
 /**
  * Unit of measure for metrics associated with **Pressure**.
  */
 export type PressureUom = {
-  [K in keyof PressureMetricsLookup]: "abbrev" extends keyof PressureMetricsLookup[K]
-    ? PressureMetricsLookup[K]["abbrev"]
-    : never
+    [K in keyof PressureMetricsLookup]: "abbrev" extends keyof PressureMetricsLookup[K]
+        ? PressureMetricsLookup[K]["abbrev"]
+        : never
 }[number];
 
 /***

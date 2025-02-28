@@ -6,7 +6,7 @@ import type { Iso8601Date } from "inferred-types/types";
  * for yesterday..
  */
 export function getYesterday(): Iso8601Date<"explicit"> {
-  const yesterday = new Date();
-  yesterday.setDate(yesterday.getDate() - 1);
-  return yesterday.toISOString().split("T")[0] as Iso8601Date<"explicit">;
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    return yesterday.toISOString().split("T")[0] as Iso8601Date<"explicit">;
 }

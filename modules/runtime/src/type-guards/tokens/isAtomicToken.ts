@@ -9,11 +9,11 @@ import { isString } from "inferred-types/runtime";
  * valid `AtomicToken`.
  */
 export function isAtomicToken(val: unknown): val is TT_Atomic {
-  return isString(val)
-    && TT_ATOMICS.some(i => val.startsWith(`<<${i}`));
+    return isString(val)
+        && TT_ATOMICS.some(i => val.startsWith(`<<${i}`));
 }
 
 export function isAtomicKind(val: unknown): val is TypeTokenAtomics {
-  return isString(val)
-    && TT_ATOMICS.includes(val as any);
+    return isString(val)
+        && TT_ATOMICS.includes(val as any);
 }

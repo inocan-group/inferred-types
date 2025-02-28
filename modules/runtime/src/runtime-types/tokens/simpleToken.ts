@@ -1,8 +1,8 @@
 import type {
-  SimpleContainerToken,
-  SimpleScalarToken,
-  SimpleToken,
-  SimpleType,
+    SimpleContainerToken,
+    SimpleScalarToken,
+    SimpleToken,
+    SimpleType,
 } from "inferred-types/types";
 import { Never } from "inferred-types/constants";
 import { isSimpleContainerToken, isSimpleScalarToken } from "inferred-types/runtime";
@@ -43,9 +43,9 @@ export const simpleContainerToken = <T extends SimpleContainerToken>(token: T) =
  * **Related:** `simpleScalarToken`
  */
 export function simpleScalarType<T extends SimpleScalarToken>(token: T) {
-  const value: unknown = simpleScalarToken(token) as unknown;
+    const value: unknown = simpleScalarToken(token) as unknown;
 
-  return value as SimpleType<T>;
+    return value as SimpleType<T>;
 }
 
 /**
@@ -57,9 +57,9 @@ export function simpleScalarType<T extends SimpleScalarToken>(token: T) {
  * **Related:** `simpleContainerToken`
  */
 export function simpleContainerType<T extends SimpleContainerToken>(token: T) {
-  const value: unknown = simpleContainerToken(token) as unknown;
+    const value: unknown = simpleContainerToken(token) as unknown;
 
-  return value as SimpleType<T>;
+    return value as SimpleType<T>;
 }
 
 /**
@@ -69,12 +69,12 @@ export function simpleContainerType<T extends SimpleContainerToken>(token: T) {
  * the _type_ to the type that the token represents.
  */
 export function simpleType<T extends SimpleToken>(token: T) {
-  const value: unknown = (
-    isSimpleScalarToken(token)
-      ? simpleScalarType(token)
-      : isSimpleContainerToken(token)
-        ? simpleContainerToken(token)
-        : Never
-  );
-  return value as SimpleType<T>;
+    const value: unknown = (
+        isSimpleScalarToken(token)
+            ? simpleScalarType(token)
+            : isSimpleContainerToken(token)
+                ? simpleContainerToken(token)
+                : Never
+    );
+    return value as SimpleType<T>;
 }

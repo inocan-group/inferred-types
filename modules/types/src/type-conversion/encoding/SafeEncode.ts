@@ -1,9 +1,9 @@
 import type {
-  IsStringLiteral,
-  ReplaceAllFromTo,
-  SafeEncodingConversion,
-  SafeEncodingGroup,
-  SafeString,
+    IsStringLiteral,
+    ReplaceAllFromTo,
+    SafeEncodingConversion,
+    SafeEncodingGroup,
+    SafeString,
 } from "inferred-types/types";
 
 /**
@@ -19,8 +19,8 @@ import type {
  * By default ALL are used.
  */
 export type SafeEncode<
-  T extends string,
-  G extends readonly SafeEncodingGroup[] = ["whitespace", "brackets", "quotes"],
+    T extends string,
+    G extends readonly SafeEncodingGroup[] = ["whitespace", "brackets", "quotes"],
 > = IsStringLiteral<T> extends true
-  ? ReplaceAllFromTo<T, SafeEncodingConversion<G>>
-  : SafeString<string, G>;
+    ? ReplaceAllFromTo<T, SafeEncodingConversion<G>>
+    : SafeString<string, G>;

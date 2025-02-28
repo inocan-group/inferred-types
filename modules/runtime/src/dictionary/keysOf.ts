@@ -1,8 +1,8 @@
 import type {
-  Container,
-  NumericKeys,
-  SKeys,
-  Tuple,
+    Container,
+    NumericKeys,
+    SKeys,
+    Tuple,
 } from "inferred-types/types";
 import { isObject, isVueRef } from "inferred-types/runtime";
 
@@ -16,22 +16,22 @@ import { isObject, isVueRef } from "inferred-types/runtime";
  * on props like `__v_isRef`, etc.
  */
 export function keysOf<
-  TContainer extends Container,
+    TContainer extends Container,
 >(
-  container: TContainer,
+    container: TContainer,
 ) {
-  const keys: unknown = (
-    isVueRef(container)
-      ? ["value"]
-      : Array.isArray(container)
-        ? Object.keys(container).map(i => Number(i))
-        : isObject(container)
-          ? Object.keys(container)
-          : []
-  );
-  return keys as TContainer extends Tuple
-    ? NumericKeys<TContainer>
-    : TContainer extends object
-      ? SKeys<TContainer>
-      : never;
+    const keys: unknown = (
+        isVueRef(container)
+            ? ["value"]
+            : Array.isArray(container)
+                ? Object.keys(container).map(i => Number(i))
+                : isObject(container)
+                    ? Object.keys(container)
+                    : []
+    );
+    return keys as TContainer extends Tuple
+        ? NumericKeys<TContainer>
+        : TContainer extends object
+            ? SKeys<TContainer>
+            : never;
 }

@@ -8,5 +8,5 @@
  * ```
  */
 export type SecondOfEach<T extends unknown[][]> = T[number][1] extends T[number][number]
-  ? T[number][1]
-  : never;
+    ? T[number][1]
+    : never;

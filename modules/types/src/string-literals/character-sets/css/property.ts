@@ -1,18 +1,18 @@
 import type { OptSpace } from "../OptionalSpace";
 
 type PropertyFormat =
-  | "*"
-  | "color"
-  | "image"
-  | "length"
-  | "size"
-  | "number"
-  | "integer"
-  | "string"
-  | "angle"
-  | "time"
-  | "frequency"
-  | "resolution";
+    | "*"
+    | "color"
+    | "image"
+    | "length"
+    | "size"
+    | "number"
+    | "integer"
+    | "string"
+    | "angle"
+    | "time"
+    | "frequency"
+    | "resolution";
 
 /**
  * **CssProperty**

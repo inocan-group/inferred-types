@@ -1,6 +1,6 @@
 import {
-  asDate,
-  getDaysBetween,
+    asDate,
+    getDaysBetween,
 } from "inferred-types/runtime";
 
 /**
@@ -14,16 +14,16 @@ import {
  * years with a leap day and start on a Wednesday get 53
  */
 export function getWeekNumber<
-  T extends string | Record<string, any> | Date,
+    T extends string | Record<string, any> | Date,
 >(date: T = new Date() as T): number {
-  const d = asDate(date);
+    const d = asDate(date);
 
-  if (!d) {
-    throw new Error(`invalid date passed into getWeekNumber${String(date)}`);
-  }
+    if (!d) {
+        throw new Error(`invalid date passed into getWeekNumber${String(date)}`);
+    }
 
-  const daysIntoYear = getDaysBetween(new Date(d.getFullYear(), 0, 1), d);
-  const week = Math.floor(daysIntoYear / 7) + 1;
+    const daysIntoYear = getDaysBetween(new Date(d.getFullYear(), 0, 1), d);
+    const week = Math.floor(daysIntoYear / 7) + 1;
 
-  return week;
+    return week;
 }

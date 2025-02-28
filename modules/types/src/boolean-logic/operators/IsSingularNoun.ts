@@ -11,9 +11,9 @@ import type { If, IfNever, IsStringLiteral, SingularNoun } from "inferred-types/
  * - `false` - all other conditions
  */
 export type IsSingularNoun<T> = T extends string
-  ? If<
-    IsStringLiteral<T>,
-    IfNever<SingularNoun<T>, false, true>,
-    boolean
-  >
-  : false;
+    ? If<
+        IsStringLiteral<T>,
+        IfNever<SingularNoun<T>, false, true>,
+        boolean
+    >
+    : false;

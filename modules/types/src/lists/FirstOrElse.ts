@@ -7,8 +7,8 @@ import type { First, Tuple } from "inferred-types/types";
  * it will return `E` (which defaults to _undefined_).
  */
 export type FirstOrElse<
-  T extends Tuple,
-  E = undefined,
+    T extends Tuple,
+    E = undefined,
 > = T extends Tuple<unknown, "1+">
-  ? First<T>
-  : E;
+    ? First<T>
+    : E;

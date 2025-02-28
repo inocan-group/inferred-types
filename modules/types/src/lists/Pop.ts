@@ -1,10 +1,10 @@
 import type { Chars, Concat, IsStringLiteral, IsWideType, Tuple } from "inferred-types/types";
 
 type _Pop<
-  TVal extends Tuple,
+    TVal extends Tuple,
 > = TVal extends [...(infer Rest), unknown]
-  ? Rest
-  : never;
+    ? Rest
+    : never;
 
 /**
  * **Pop**`<TList>`
@@ -20,17 +20,17 @@ type _Pop<
  * character removed.
  */
 export type Pop<
-  TList extends Tuple | string,
+    TList extends Tuple | string,
 > = TList extends string
-  ? IsWideType<TList> extends true
-    ? string
-    : IsStringLiteral<TList> extends true
-      ? TList extends string
-        ? TList extends ""
-          ? ""
-          : Chars<TList> extends readonly string[]
-            ? Concat<_Pop<Chars<TList>>>
-            : never
-        : never
-      : string
-  : _Pop<Exclude<TList, string>>;
+    ? IsWideType<TList> extends true
+        ? string
+        : IsStringLiteral<TList> extends true
+            ? TList extends string
+                ? TList extends ""
+                    ? ""
+                    : Chars<TList> extends readonly string[]
+                        ? Concat<_Pop<Chars<TList>>>
+                        : never
+                : never
+            : string
+    : _Pop<Exclude<TList, string>>;

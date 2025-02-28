@@ -15,26 +15,26 @@ import type { RetainAfter } from "inferred-types/types";
  * **Related:** `retainAfterInclusive()`
  */
 export function retainAfter<
-  TContent extends string,
-  TFind extends readonly string[],
+    TContent extends string,
+    TFind extends readonly string[],
 >(content: TContent, ...find: TFind) {
-  const idx = Math.min(
-    ...find.map(i => content.indexOf(i)).filter(i => i > -1),
-  );
-  const min = Math.min(...find.map(i => i.length));
-  let len = Math.max(...find.map(i => i.length));
+    const idx = Math.min(
+        ...find.map(i => content.indexOf(i)).filter(i => i > -1),
+    );
+    const min = Math.min(...find.map(i => i.length));
+    let len = Math.max(...find.map(i => i.length));
 
-  if (min !== len) {
-    if (!find.includes(content.slice(idx, len))) {
-      len = min;
+    if (min !== len) {
+        if (!find.includes(content.slice(idx, len))) {
+            len = min;
+        }
     }
-  }
 
-  return (
-    idx && idx > 0
-      ? content.slice(idx + len)
-      : ""
-  ) as RetainAfter<TContent, TFind[number]>;
+    return (
+        idx && idx > 0
+            ? content.slice(idx + len)
+            : ""
+    ) as RetainAfter<TContent, TFind[number]>;
 }
 
 /**
@@ -52,19 +52,19 @@ export function retainAfter<
  * **Related:** `retainAfter()`
  */
 export function retainAfterInclusive<
-  TContent extends string,
-  TFind extends readonly string[],
+    TContent extends string,
+    TFind extends readonly string[],
 >(
-  content: TContent,
-  ...find: TFind
+    content: TContent,
+    ...find: TFind
 ) {
-  const minFound = Math.min(
-    ...find.map(i => content.indexOf(i)).filter(i => i > -1),
-  );
+    const minFound = Math.min(
+        ...find.map(i => content.indexOf(i)).filter(i => i > -1),
+    );
 
-  return (
-    minFound > 0
-      ? content.slice(minFound)
-      : ""
-  ) as RetainAfter<TContent, TFind[number], true>;
+    return (
+        minFound > 0
+            ? content.slice(minFound)
+            : ""
+    ) as RetainAfter<TContent, TFind[number], true>;
 }

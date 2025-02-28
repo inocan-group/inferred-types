@@ -1,9 +1,9 @@
 import {
-  isArray,
-  isEqual,
-  isObject,
-  isString,
-  keysOf,
+    isArray,
+    isEqual,
+    isObject,
+    isString,
+    keysOf,
 } from "inferred-types/runtime";
 
 /**
@@ -19,14 +19,14 @@ import {
  * All other types return `false`
  */
 export function isLength<
-  TValue,
-  TLen extends number,
+    TValue,
+    TLen extends number,
 >(value: TValue, len: TLen) {
-  return isArray(value)
-    ? !!isEqual((value as unknown[]).length)(len)
-    : isString(value)
-      ? !!isEqual(value.length)(len)
-      : isObject(value)
-        ? !!isEqual(keysOf(value))(len)
-        : false;
+    return isArray(value)
+        ? !!isEqual((value as unknown[]).length)(len)
+        : isString(value)
+            ? !!isEqual(value.length)(len)
+            : isObject(value)
+                ? !!isEqual(keysOf(value))(len)
+                : false;
 }

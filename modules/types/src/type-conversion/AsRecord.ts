@@ -8,14 +8,14 @@ import type { Dictionary, Tuple } from "../base-types";
  * Tuples through "as is".
  */
 export type AsRecord<
-  T extends Dictionary | object,
+    T extends Dictionary | object,
 > = T extends Tuple
-  ? T
-  : T extends Dictionary
     ? T
-    : T extends object
+    : T extends Dictionary
+        ? T
+        : T extends object
 
-      ? T extends any[]
-        ? never
-        : NonNullable<unknown>
-      : never;
+            ? T extends any[]
+                ? never
+                : NonNullable<unknown>
+            : never;

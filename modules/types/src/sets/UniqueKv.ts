@@ -12,6 +12,6 @@ import type { AnyObject, LeftRight } from "inferred-types/types";
  * **Related:** `Unique`, `UniqueKeys`
  */
 export type UniqueKv<L extends AnyObject, R extends AnyObject> = LeftRight<
-  Exclude<L, keyof (L & R)>,
-  Exclude<R, keyof (L & R)>
+    Exclude<L, keyof (L & R)>,
+    Exclude<R, keyof (L & R)>
 >;

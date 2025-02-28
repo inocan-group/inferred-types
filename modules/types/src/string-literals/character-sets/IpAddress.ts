@@ -1,16 +1,16 @@
 import type { IPv6 } from "inferred-types/constants";
 import type {
-  HexadecimalChar,
-  IsGreaterThan,
-  IsLessThan,
-  IsStringLiteral,
-  IsWideNumber,
-  NumericChar,
-  NumericCharZeroToFive,
-  Opt,
-  ReplaceAll,
-  StripTrailing,
-  Suggest,
+    HexadecimalChar,
+    IsGreaterThan,
+    IsLessThan,
+    IsStringLiteral,
+    IsWideNumber,
+    NumericChar,
+    NumericCharZeroToFive,
+    Opt,
+    ReplaceAll,
+    StripTrailing,
+    Suggest,
 } from "inferred-types/types";
 
 /**
@@ -19,20 +19,20 @@ import type {
  * A high resolution typing for a single octet of an **IP version 4** IP address.
  */
 export type Ip4Octet =
-  | `25${NumericCharZeroToFive}`
-  | `24${NumericChar}`
-  | `23${NumericChar}`
-  | `22${NumericChar}`
-  | `21${NumericChar}`
-  | `20${NumericChar}`
-  | `1${NumericChar}${NumericChar}`
-  | `${NumericChar}${NumericChar}`
-  | `${NumericChar}`;
+    | `25${NumericCharZeroToFive}`
+    | `24${NumericChar}`
+    | `23${NumericChar}`
+    | `22${NumericChar}`
+    | `21${NumericChar}`
+    | `20${NumericChar}`
+    | `1${NumericChar}${NumericChar}`
+    | `${NumericChar}${NumericChar}`
+    | `${NumericChar}`;
 
 export type Ip4NetmaskSuggestion = Suggest<[
-  `10.0.0.0/8`,
-  `192.168.0.0/16`,
-  `172.16.0.0/16`,
+    `10.0.0.0/8`,
+    `192.168.0.0/16`,
+    `172.16.0.0/16`,
   `10.10.${number}.0/24`,
   `192.168.${number}.0/24`,
   `172.16.${number}.0/24`,
@@ -55,8 +55,8 @@ export type Ip4Netmask32 = `${number}.${number}.${number}.${number}/32`;
  * Use `isRfc1812()` type guard to establish a verified RFC1812 IP address.
  */
 export type Rfc1812Like = `192.168.${number}.${number}`
-  | `172.16.${number}.${number}`
-  | `10.${number}.${number}.${number}`;
+    | `172.16.${number}.${number}`
+    | `10.${number}.${number}.${number}`;
 
 declare const __rfc1812: unique symbol;
 
@@ -67,7 +67,7 @@ declare const __rfc1812: unique symbol;
  * `isRfc1812()` type guard.
  */
 export type Rfc1812 = Rfc1812Like & {
-  [__rfc1812]: "Rfc1812";
+    [__rfc1812]: "Rfc1812";
 };
 
 /**
@@ -90,7 +90,7 @@ declare const __ip4netmask: unique symbol;
  * to (or any _string_ actually) to verified types.
  */
 export type Ip4Subnet = Ip4SubnetLike & {
-  [__ip4netmask]: "Ip4Netmask";
+    [__ip4netmask]: "Ip4Netmask";
 };
 
 /**
@@ -129,7 +129,7 @@ declare const __ip4address: unique symbol;
  * work with.
  */
 export type Ip4Address = Ip4AddressLike & {
-  [__ip4address]: "Ip4Address";
+    [__ip4address]: "Ip4Address";
 };
 
 export type Ip6AddressFull = `${string}:${string}:${string}:${string}:${string}:${string}:${string}:${string}`;
@@ -140,10 +140,10 @@ export type Ip6AddressFull = `${string}:${string}:${string}:${string}:${string}:
  * Expands an IPv6's address by changing
  */
 export type Ip6GroupExpansion<T> = T extends string
-  ? IsStringLiteral<T> extends true
-    ? StripTrailing<ReplaceAll<T, "::", ":0000:">, ":">
-    : string
-  : never;
+    ? IsStringLiteral<T> extends true
+        ? StripTrailing<ReplaceAll<T, "::", ":0000:">, ":">
+        : string
+    : never;
 
 /**
  * **Ip6Group**
@@ -188,34 +188,34 @@ declare const __ip6address: unique symbol;
  * A branded/verified IPv6 Address
  */
 export type Ip6Address = Ip6AddressLike & {
-  [__ip6address]: "Ip6Address";
+    [__ip6address]: "Ip6Address";
 };
 
 type Ip6_Groups<T extends number> = T extends 96
-  ? `${string}:${string}:${string}:${string}:${string}:${string}::/96`
-  : T extends 80
-    ? `${string}:${string}:${string}:${string}:${string}::/80`
-    : T extends 64
-      ? `${string}:${string}:${string}:${string}::/64`
-      : T extends 48
-        ? `${string}:${string}:${string}::/48`
-        : T extends 32
-          ? `${string}:${string}::/32`
-          : T extends 16
-            ? `${string}::/16`
-            : IsGreaterThan<T, 96> extends true
-              ? `${string}:${string}:${string}:${string}:${string}:${string}${Opt<`:${string}`>}::/${T}`
-              : IsGreaterThan<T, 80> extends true
-                ? `${string}:${string}:${string}:${string}:${string}${Opt<`:${string}`>}::/${T}`
-                : IsGreaterThan<T, 64> extends true
-                  ? `${string}:${string}:${string}:${string}${string}${Opt<`:${string}`>}::/${T}`
-                  : IsGreaterThan<T, 48> extends true
-                    ? `${string}:${string}:${string}${Opt<`:${string}`>}::/${T}`
-                    : IsGreaterThan<T, 32> extends true
-                      ? `${string}:${string}${Opt<`:${string}`>}::/${T}`
-                      : IsGreaterThan<T, 16> extends true
-                        ? `${string}${Opt<`:${string}`>}::/${T}`
-                        : never;
+    ? `${string}:${string}:${string}:${string}:${string}:${string}::/96`
+    : T extends 80
+        ? `${string}:${string}:${string}:${string}:${string}::/80`
+        : T extends 64
+            ? `${string}:${string}:${string}:${string}::/64`
+            : T extends 48
+                ? `${string}:${string}:${string}::/48`
+                : T extends 32
+                    ? `${string}:${string}::/32`
+                    : T extends 16
+                        ? `${string}::/16`
+                        : IsGreaterThan<T, 96> extends true
+                            ? `${string}:${string}:${string}:${string}:${string}:${string}${Opt<`:${string}`>}::/${T}`
+                            : IsGreaterThan<T, 80> extends true
+                                ? `${string}:${string}:${string}:${string}:${string}${Opt<`:${string}`>}::/${T}`
+                                : IsGreaterThan<T, 64> extends true
+                                    ? `${string}:${string}:${string}:${string}${string}${Opt<`:${string}`>}::/${T}`
+                                    : IsGreaterThan<T, 48> extends true
+                                        ? `${string}:${string}:${string}${Opt<`:${string}`>}::/${T}`
+                                        : IsGreaterThan<T, 32> extends true
+                                            ? `${string}:${string}${Opt<`:${string}`>}::/${T}`
+                                            : IsGreaterThan<T, 16> extends true
+                                                ? `${string}${Opt<`:${string}`>}::/${T}`
+                                                : never;
 
 /**
  * **IP6SubnetLike**`<[TMask]>`
@@ -238,14 +238,14 @@ type Ip6_Groups<T extends number> = T extends 96
  * **Related:** `Ip6Subnet`
  */
 export type Ip6SubnetLike<
-  TMask extends number = number,
+    TMask extends number = number,
 > = IsWideNumber<TMask> extends true
-  ? `${string}::/${number}`
-  : IsLessThan<TMask, 16> extends true
-    ? never
-    : IsGreaterThan<TMask, 128> extends true
-      ? never
-      : Ip6_Groups<TMask>;
+    ? `${string}::/${number}`
+    : IsLessThan<TMask, 16> extends true
+        ? never
+        : IsGreaterThan<TMask, 128> extends true
+            ? never
+            : Ip6_Groups<TMask>;
 
 declare const __ip6subnet: unique symbol;
 
@@ -256,7 +256,7 @@ declare const __ip6subnet: unique symbol;
  * the `isIp6Subnet()` runtime validator.
  */
 export type Ip6Subnet = Ip6SubnetLike & {
-  [__ip6subnet]: "Ip6Subnet";
+    [__ip6subnet]: "Ip6Subnet";
 };
 
 export type SuggestIp6SubnetMask = Suggest<"16" | "32" | "48" | "56" | "64">;

@@ -1,8 +1,8 @@
 import type { Something } from "inferred-types/types";
 
 type Process<TVal, TDefault> = TVal extends Something
-  ? TVal
-  : TDefault;
+    ? TVal
+    : TDefault;
 
 /**
  * **Default**`<TVal,TDefault,[TProtect]>`
@@ -11,6 +11,6 @@ type Process<TVal, TDefault> = TVal extends Something
  * it's value is either `null` or `undefined`.
  */
 export type Default<
-  TVal,
-  TDefault,
+    TVal,
+    TDefault,
 > = Process<TVal, TDefault>;

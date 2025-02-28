@@ -8,13 +8,13 @@ import type { AnyObject, IsVueRef, UnionToTuple } from "inferred-types/types";
  * **Related:** `Keys`, `StringKeys`
  */
 export type KeysUnion<T extends object> = {
-  [K in keyof T]: K extends string ? Readonly<K> : never;
+    [K in keyof T]: K extends string ? Readonly<K> : never;
 }[keyof T];
 
 type _SKeys<T extends AnyObject> = UnionToTuple<
-  {
-    [K in keyof T]: K extends string ? Readonly<K> : never;
-  }[keyof T]
+    {
+        [K in keyof T]: K extends string ? Readonly<K> : never;
+    }[keyof T]
 >;
 
 /**
@@ -25,10 +25,10 @@ type _SKeys<T extends AnyObject> = UnionToTuple<
  * **Related:** `Keys`, `SKeys`
  */
 export type SKeys<T extends AnyObject> = IsVueRef<T> extends true
-  ? ["value"]
-  : _SKeys<T> extends readonly string[]
-    ? _SKeys<T>
-    : never;
+    ? ["value"]
+    : _SKeys<T> extends readonly string[]
+        ? _SKeys<T>
+        : never;
 
 /**
  * **StringKeys**`<T>`
@@ -38,5 +38,5 @@ export type SKeys<T extends AnyObject> = IsVueRef<T> extends true
  * **Related:** `Keys`
  */
 export type StringKeys<T extends AnyObject> = SKeys<T> extends readonly (keyof T & string)[]
-  ? SKeys<T>
-  : never;
+    ? SKeys<T>
+    : never;

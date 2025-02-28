@@ -1,36 +1,36 @@
 import type { AsString, IsStringLiteral, Or } from "inferred-types/types";
 
 type Test<
-  TValue extends string,
-  TComparator extends string,
+    TValue extends string,
+    TComparator extends string,
 > = TValue extends `${string}${TComparator}`
-  ? true
-  : false;
+    ? true
+    : false;
 
 type Process<
-  TValue extends string,
-  TComparator extends string,
+    TValue extends string,
+    TComparator extends string,
 > = IsStringLiteral<TComparator> extends true
-  ? IsStringLiteral<TValue> extends true // both literals
-    ? Test<TValue, TComparator>
-    : boolean
-  : boolean;
+    ? IsStringLiteral<TValue> extends true // both literals
+        ? Test<TValue, TComparator>
+        : boolean
+    : boolean;
 
 type ProcessEach<
-  TValue extends string,
-  TComparator extends readonly string[],
+    TValue extends string,
+    TComparator extends readonly string[],
 > = Or<{
-  [K in keyof TComparator]: Process<TValue, TComparator[K]>
+    [K in keyof TComparator]: Process<TValue, TComparator[K]>
 }>;
 
 type PreProcess<
-  TValue extends string,
-  TComparator extends string | readonly string[],
+    TValue extends string,
+    TComparator extends string | readonly string[],
 > = TComparator extends readonly string[]
-  ? ProcessEach<TValue, TComparator>
-  : TComparator extends string
-    ? Process<TValue, TComparator>
-    : never;
+    ? ProcessEach<TValue, TComparator>
+    : TComparator extends string
+        ? Process<TValue, TComparator>
+        : never;
 
 /**
  * **EndsWith**<TValue, TComparator>
@@ -44,11 +44,11 @@ type PreProcess<
  * _at least one_ type Ends the sequence for TValue
  */
 export type EndsWith<
-  TValue extends string | number,
-  TComparator extends string | number | readonly string[],
+    TValue extends string | number,
+    TComparator extends string | number | readonly string[],
 > = PreProcess<
-  AsString<TValue>,
-  TComparator extends number
-    ? AsString<TComparator>
-    : TComparator
+    AsString<TValue>,
+    TComparator extends number
+        ? AsString<TComparator>
+        : TComparator
 >;

@@ -1,35 +1,35 @@
 import type {
-  DynamicToken,
-  SimpleToken,
-  SimpleType,
-  StaticToken,
-  Tokenizer,
-  TokenName,
-  TokenResolver,
-  TokenType,
+    DynamicToken,
+    SimpleToken,
+    SimpleType,
+    StaticToken,
+    Tokenizer,
+    TokenName,
+    TokenResolver,
+    TokenType,
 } from "inferred-types/types";
 
 export type StaticTokenApi<
-  TToken extends TokenName,
+    TToken extends TokenName,
 > = <
-  TType extends SimpleToken,
-  TGuard extends (val: unknown) => boolean,
+    TType extends SimpleToken,
+    TGuard extends (val: unknown) => boolean,
 >(
-  type: TType,
-  typeGuard: TGuard
+    type: TType,
+    typeGuard: TGuard
 ) => StaticToken<TToken, SimpleType<TType>, TGuard>;
 
 /**
  * The remaining configuration required to create a Dynamic Token.
  */
 export type DynamicTokenApi<
-  TToken extends TokenName = TokenName,
+    TToken extends TokenName = TokenName,
 > = <
-  TResolve extends TokenResolver,
-  TTokenize extends Tokenizer,
+    TResolve extends TokenResolver,
+    TTokenize extends Tokenizer,
 >(
-  resolver: TResolve,
-  tokenizer: TTokenize
+    resolver: TResolve,
+    tokenizer: TTokenize
 ) => DynamicToken<TToken, TResolve, TTokenize>;
 
 /**
@@ -38,8 +38,8 @@ export type DynamicTokenApi<
  * required for configuration.
  */
 export type DefineTokenDetail<
-  TToken extends TokenName,
-  TKind extends TokenType,
+    TToken extends TokenName,
+    TKind extends TokenType,
 > = TKind extends "static"
-  ? StaticTokenApi<TToken>
-  : DynamicTokenApi<TToken>;
+    ? StaticTokenApi<TToken>
+    : DynamicTokenApi<TToken>;

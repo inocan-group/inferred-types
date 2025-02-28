@@ -9,6 +9,6 @@ import type { ObjectKey } from "./ObjectKey";
  * `Record<K,V>` type of Typescript but
  */
 export type Dictionary<
-  K extends ObjectKey = ObjectKey,
-  V = any,
+    K extends ObjectKey = ObjectKey,
+    V = any,
 > = Record<K, V>;

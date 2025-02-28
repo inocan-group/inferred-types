@@ -7,18 +7,18 @@ type LuminosityMetricsLookup = typeof LUMINOSITY_METRICS_LOOKUP;
  * The singular name for metrics associated with **luminosity**.
  */
 export type LuminosityMetrics = {
-  [K in keyof LuminosityMetricsLookup]: "name" extends keyof LuminosityMetricsLookup[K]
-    ? LuminosityMetricsLookup[K]["name"]
-    : never
+    [K in keyof LuminosityMetricsLookup]: "name" extends keyof LuminosityMetricsLookup[K]
+        ? LuminosityMetricsLookup[K]["name"]
+        : never
 }[number];
 
 /**
  * Unit of measure for metrics associated with **Luminosity**.
  */
 export type LuminosityUom = {
-  [K in keyof LuminosityMetricsLookup]: "abbrev" extends keyof LuminosityMetricsLookup[K]
-    ? LuminosityMetricsLookup[K]["abbrev"]
-    : never
+    [K in keyof LuminosityMetricsLookup]: "abbrev" extends keyof LuminosityMetricsLookup[K]
+        ? LuminosityMetricsLookup[K]["abbrev"]
+        : never
 }[number];
 
 /***

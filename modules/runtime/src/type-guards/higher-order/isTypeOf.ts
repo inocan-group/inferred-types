@@ -1,7 +1,7 @@
 import type { ConvertTypeOf, TypeOf } from "inferred-types/types";
 
 export type TypeOfTypeGuard<
-  TType extends TypeOf,
+    TType extends TypeOf,
 > = <TValue>(value: TValue) => value is TValue & ConvertTypeOf<TType>;
 
 /**
@@ -13,9 +13,9 @@ export type TypeOfTypeGuard<
  * - The type guard is then returned based on the type.
  */
 export function isTypeOf<
-  TType extends TypeOf,
+    TType extends TypeOf,
 >(type: TType): TypeOfTypeGuard<TType> {
-  return <TValue>(value: TValue): value is TValue & ConvertTypeOf<TType> => {
-    return typeof value === type;
-  };
+    return <TValue>(value: TValue): value is TValue & ConvertTypeOf<TType> => {
+        return typeof value === type;
+    };
 }

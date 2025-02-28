@@ -7,7 +7,7 @@ import type { IsNever } from "inferred-types/types";
  * type.
  */
 export type IfNever<
-  T,
-  IF,
-  ELSE = T,
+    T,
+    IF,
+    ELSE = T,
 > = [IsNever<T>] extends [true] ? IF : ELSE;

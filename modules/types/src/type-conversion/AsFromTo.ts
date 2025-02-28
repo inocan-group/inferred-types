@@ -1,28 +1,28 @@
 import type {
-  Dictionary,
-  FromTo,
-  IsWideContainer,
-  Values,
+    Dictionary,
+    FromTo,
+    IsWideContainer,
+    Values,
 } from "inferred-types/types";
 
 /** converts an object's key values into FromTo tuple */
 type ConvertFromTo<
-  TObj extends Dictionary,
+    TObj extends Dictionary,
 > = Values<{
-  [K in keyof TObj]: {
-    from: K;
-    to: TObj[K];
-  }
+    [K in keyof TObj]: {
+        from: K;
+        to: TObj[K];
+    }
 }, true>;
 
 /** converts an object's key values into FromTo tuple (in reverse) */
 type ConvertToFrom<
-  TObj extends Dictionary,
+    TObj extends Dictionary,
 > = Values<{
-  [K in keyof TObj]: {
-    to: K;
-    from: TObj[K];
-  }
+    [K in keyof TObj]: {
+        to: K;
+        from: TObj[K];
+    }
 }, true>;
 
 /**
@@ -37,12 +37,12 @@ type ConvertToFrom<
  * - any value which is neither a string or any of the above will be discarded
  */
 export type AsFromTo<
-  T extends Dictionary<string, string>,
+    T extends Dictionary<string, string>,
 > = IsWideContainer<T> extends true
-  ? FromTo[]
-  : ConvertFromTo<T> extends readonly FromTo[]
-    ? ConvertFromTo<T>
-    : never;
+    ? FromTo[]
+    : ConvertFromTo<T> extends readonly FromTo[]
+        ? ConvertFromTo<T>
+        : never;
 
 /**
  * **AsToFrom**`<T>`
@@ -55,9 +55,9 @@ export type AsFromTo<
  * **Related:** `AsFromTo`
  */
 export type AsToFrom<
-  T extends Dictionary<string, string>,
+    T extends Dictionary<string, string>,
 > = IsWideContainer<T> extends true
-  ? FromTo[]
-  : ConvertToFrom<T> extends readonly FromTo[]
-    ? ConvertToFrom<T>
-    : never;
+    ? FromTo[]
+    : ConvertToFrom<T> extends readonly FromTo[]
+        ? ConvertToFrom<T>
+        : never;

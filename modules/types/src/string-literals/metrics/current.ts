@@ -7,18 +7,18 @@ type CurrentMetricsLookup = typeof CURRENT_METRICS_LOOKUP;
  * The singular name for metrics associated with **Current**.
  */
 export type CurrentMetrics = {
-  [K in keyof CurrentMetricsLookup]: "name" extends keyof CurrentMetricsLookup[K]
-    ? CurrentMetricsLookup[K]["name"]
-    : never
+    [K in keyof CurrentMetricsLookup]: "name" extends keyof CurrentMetricsLookup[K]
+        ? CurrentMetricsLookup[K]["name"]
+        : never
 }[number];
 
 /**
  * Unit of measure for metrics associated with **Current**.
  */
 export type CurrentUom = {
-  [K in keyof CurrentMetricsLookup]: "abbrev" extends keyof CurrentMetricsLookup[K]
-    ? CurrentMetricsLookup[K]["abbrev"]
-    : never
+    [K in keyof CurrentMetricsLookup]: "abbrev" extends keyof CurrentMetricsLookup[K]
+        ? CurrentMetricsLookup[K]["abbrev"]
+        : never
 }[number];
 
 /***

@@ -1,10 +1,10 @@
 import type { FixedLengthArray, Length, Tuple } from "inferred-types/types";
 
 type Pop<T extends Tuple> = Length<T> extends 0
-  ? 0
-  : T extends [unknown, ...(infer Rest)]
-    ? Length<Rest>
-    : never;
+    ? 0
+    : T extends [unknown, ...(infer Rest)]
+        ? Length<Rest>
+        : never;
 
 /**
  * **Decrement**`<T>`
@@ -15,7 +15,7 @@ type Pop<T extends Tuple> = Length<T> extends 0
  * - Once reaching zero the Decrement<T> utility will stay at 0
  */
 export type Decrement<T extends number | `${number}`> = T extends number
-  ? Pop<FixedLengthArray<unknown, T>>
-  : T extends `${infer Num extends number}`
-    ? `${Decrement<Num>}`
-    : never;
+    ? Pop<FixedLengthArray<unknown, T>>
+    : T extends `${infer Num extends number}`
+        ? `${Decrement<Num>}`
+        : never;

@@ -1,25 +1,25 @@
 import type {
-  AfterFirst,
-  And,
-  BeforeLast,
-  First,
-  GetUrlQueryParams,
-  HasOtherCharacters,
-  Ip4AddressLike,
-  Ip4Octet,
-  Ip6Address,
-  Ip6AddressFull,
-  Ip6GroupExpansion,
-  Ip6Subnet,
-  IsGreaterThan,
-  IsLessThan,
-  IsStringLiteral,
-  Last,
-  Length,
-  LowerAlphaChar,
-  NumericChar,
-  Split,
-  SplitAlt,
+    AfterFirst,
+    And,
+    BeforeLast,
+    First,
+    GetUrlQueryParams,
+    HasOtherCharacters,
+    Ip4AddressLike,
+    Ip4Octet,
+    Ip6Address,
+    Ip6AddressFull,
+    Ip6GroupExpansion,
+    Ip6Subnet,
+    IsGreaterThan,
+    IsLessThan,
+    IsStringLiteral,
+    Last,
+    Length,
+    LowerAlphaChar,
+    NumericChar,
+    Split,
+    SplitAlt,
 } from "inferred-types/types";
 
 /**
@@ -28,14 +28,14 @@ import type {
  * Checks whether `T` is a valid IPv4Octet.
  */
 export type IsIp4Octet<T> = T extends number
-  ? IsIp4Octet<`${T}`>
-  : T extends string
-    ? IsStringLiteral<T> extends true
-      ? T extends Ip4Octet
-        ? true
-        : false
-      : boolean
-    : false;
+    ? IsIp4Octet<`${T}`>
+    : T extends string
+        ? IsStringLiteral<T> extends true
+            ? T extends Ip4Octet
+                ? true
+                : false
+            : boolean
+        : false;
 
 /**
  * **IsHexadecimal**`<T>`
@@ -44,15 +44,15 @@ export type IsIp4Octet<T> = T extends number
  * all characters are valid hexadecimal digits/chars.
  */
 export type IsHexadecimal<T> = T extends string
-  ? IsStringLiteral<T> extends true
-    ? HasOtherCharacters<
-      Lowercase<T>,
+    ? IsStringLiteral<T> extends true
+        ? HasOtherCharacters<
+            Lowercase<T>,
       NumericChar | "a" | "b" | "c" | "d" | "e" | "f"
-    > extends true
-      ? false
-      : true
-    : boolean
-  : false;
+        > extends true
+            ? false
+            : true
+        : boolean
+    : false;
 
 /**
  * **IsIp6HexGroup**`<T>`
@@ -64,24 +64,24 @@ export type IsHexadecimal<T> = T extends string
  * - There will be between 1 and 4 digits
  */
 export type IsIp6HexGroup<T> = T extends string
-  ? IsStringLiteral<T> extends true
-    ? IsLessThan<Length<T>, 5> extends true
-      ? IsGreaterThan<Length<T>, 0> extends true
-        ? IsHexadecimal<T>
-        : false
-      : false
-    : boolean
-  : false;
+    ? IsStringLiteral<T> extends true
+        ? IsLessThan<Length<T>, 5> extends true
+            ? IsGreaterThan<Length<T>, 0> extends true
+                ? IsHexadecimal<T>
+                : false
+            : false
+        : boolean
+    : false;
 
 type DeepOctetCheck<
-  T extends readonly string[],
+    T extends readonly string[],
 > = [] extends T
-  ? true
-  : IsIp4Octet<First<T>> extends true
-    ? DeepOctetCheck<
-      AfterFirst<T>
-    >
-    : false;
+    ? true
+    : IsIp4Octet<First<T>> extends true
+        ? DeepOctetCheck<
+            AfterFirst<T>
+        >
+        : false;
 
 /**
  * **IsIp4Address**`<T>`
@@ -93,30 +93,30 @@ type DeepOctetCheck<
  */
 export type IsIp4Address<T> =
 T extends string
-  ? IsStringLiteral<T> extends true
-    ? T extends Ip4AddressLike
-      ? SplitAlt<T, ".">["length"] extends 4
-        ? DeepOctetCheck<Split<T, ".">>
-        : false
-      : false
-    : boolean
-  : never;
+    ? IsStringLiteral<T> extends true
+        ? T extends Ip4AddressLike
+            ? SplitAlt<T, ".">["length"] extends 4
+                ? DeepOctetCheck<Split<T, ".">>
+                : false
+            : false
+        : boolean
+    : never;
 
 type _EachGroup<
-  T extends readonly string[],
+    T extends readonly string[],
 > = {
-  [K in keyof T]: IsIp6HexGroup<T[K]>
+    [K in keyof T]: IsIp6HexGroup<T[K]>
 };
 
 export type IsIp6Address<T> = T extends string
-  ? IsStringLiteral<T> extends true
-    ? T extends Ip6AddressFull
-      ? And<_EachGroup<Split<T, ":">>>
-      : Ip6GroupExpansion<T> extends Ip6AddressFull
-        ? And<_EachGroup<Split<Ip6GroupExpansion<T>, ":">>>
-        : false
-    : boolean
-  : false;
+    ? IsStringLiteral<T> extends true
+        ? T extends Ip6AddressFull
+            ? And<_EachGroup<Split<T, ":">>>
+            : Ip6GroupExpansion<T> extends Ip6AddressFull
+                ? And<_EachGroup<Split<Ip6GroupExpansion<T>, ":">>>
+                : false
+        : boolean
+    : false;
 
 /**
  * **IsIpAddress**`<T>`
@@ -125,14 +125,14 @@ export type IsIp6Address<T> = T extends string
  * Address.
  */
 export type IsIpAddress<T> = T extends string
-  ? IsStringLiteral<T> extends true
-    ? IsIp4Address<T> extends true
-      ? true
-      : IsIp6Address<T> extends true
-        ? true
-        : false
-    : boolean
-  : false;
+    ? IsStringLiteral<T> extends true
+        ? IsIp4Address<T> extends true
+            ? true
+            : IsIp6Address<T> extends true
+                ? true
+                : false
+        : boolean
+    : false;
 
 /**
  * **HasIpAddress**`<T>`
@@ -141,26 +141,26 @@ export type IsIpAddress<T> = T extends string
  * in it.
  */
 export type HasIpAddress<T> = T extends string
-  ? IsStringLiteral<T> extends true
-    ? T extends `${string}${infer IpAddress extends Ip4AddressLike | Ip6Address | Ip6Subnet}${string}`
-      ? IsIp4Address<IpAddress>
-      : false
-    : boolean
-  : never;
+    ? IsStringLiteral<T> extends true
+        ? T extends `${string}${infer IpAddress extends Ip4AddressLike | Ip6Address | Ip6Subnet}${string}`
+            ? IsIp4Address<IpAddress>
+            : false
+        : boolean
+    : never;
 
 type _TLD<T extends string> = Length<T> extends 0
-  ? false
-  : Length<T> extends 1
     ? false
-    : HasOtherCharacters<Lowercase<T>, LowerAlphaChar> extends true
-      ? false
-      : true;
+    : Length<T> extends 1
+        ? false
+        : HasOtherCharacters<Lowercase<T>, LowerAlphaChar> extends true
+            ? false
+            : true;
 
 type _BeforeTLD<T extends readonly string[]> = [] extends T
-  ? true
-  : HasOtherCharacters<Lowercase<First<T>>, LowerAlphaChar | NumericChar | "-" | "_"> extends true
-    ? false
-    : _BeforeTLD<AfterFirst<T>>;
+    ? true
+    : HasOtherCharacters<Lowercase<First<T>>, LowerAlphaChar | NumericChar | "-" | "_"> extends true
+        ? false
+        : _BeforeTLD<AfterFirst<T>>;
 
 /**
  * **IsDomainName**`<T>`
@@ -168,16 +168,16 @@ type _BeforeTLD<T extends readonly string[]> = [] extends T
  * Checks whether `T` is a valid DNS domain name.
  */
 export type IsDomainName<T> = T extends string
-  ? IsStringLiteral<T> extends true
-    ? T extends `${string}.${string}`
-      ? _TLD<Last<SplitAlt<T, ".">>> extends true
-        ? _BeforeTLD<BeforeLast<SplitAlt<T, ".">>> extends true
-          ? true
-          : false
-        : false
-      : false
-    : boolean
-  : never;
+    ? IsStringLiteral<T> extends true
+        ? T extends `${string}.${string}`
+            ? _TLD<Last<SplitAlt<T, ".">>> extends true
+                ? _BeforeTLD<BeforeLast<SplitAlt<T, ".">>> extends true
+                    ? true
+                    : false
+                : false
+            : false
+        : boolean
+    : never;
 
 /**
  * **HasQueryParameter**`<T,P>`
@@ -185,10 +185,10 @@ export type IsDomainName<T> = T extends string
  * Checks whether the URL in `T` has a query parameter with the key of `P`.
  */
 export type HasQueryParameter<T extends string, P extends string> = And<[
-  IsStringLiteral<T>,
-  IsStringLiteral<P>,
+    IsStringLiteral<T>,
+    IsStringLiteral<P>,
 ]> extends true
-  ? GetUrlQueryParams<T> extends `${string}${P}=${string}`
-    ? true
-    : false
-  : boolean;
+    ? GetUrlQueryParams<T> extends `${string}${P}=${string}`
+        ? true
+        : false
+    : boolean;

@@ -13,27 +13,27 @@ import { isDefined, isUndefined } from "inferred-types/runtime";
  * @param elseVal the value (strongly typed) returned if val is NOT `undefined`
  */
 export function ifUndefined<
-  T extends Narrowable,
-  IF extends Narrowable = undefined,
-  ELSE extends Narrowable = Exclude<T, undefined>,
+    T extends Narrowable,
+    IF extends Narrowable = undefined,
+    ELSE extends Narrowable = Exclude<T, undefined>,
 >(
-  val: T,
-  ifUndefined: () => IF,
-  ifDefined: <V extends Exclude<T, undefined>>(v: V) => ELSE,
+    val: T,
+    ifUndefined: () => IF,
+    ifDefined: <V extends Exclude<T, undefined>>(v: V) => ELSE,
 ) {
-  return (
-    isUndefined(val) ? ifUndefined() : ifDefined(val as Exclude<T, undefined>)
-  ) as IsUndefined<T> extends true ? IF : ELSE;
+    return (
+        isUndefined(val) ? ifUndefined() : ifDefined(val as Exclude<T, undefined>)
+    ) as IsUndefined<T> extends true ? IF : ELSE;
 }
 
 export function ifDefined<
-  T extends Narrowable,
-  IF extends Narrowable = Exclude<T, undefined>,
-  ELSE extends Narrowable = undefined,
+    T extends Narrowable,
+    IF extends Narrowable = Exclude<T, undefined>,
+    ELSE extends Narrowable = undefined,
 >(
-  val: T,
-  ifVal: <V extends Exclude<T, undefined>>(v: V) => IF,
-  elseVal: () => ELSE,
+    val: T,
+    ifVal: <V extends Exclude<T, undefined>>(v: V) => IF,
+    elseVal: () => ELSE,
 ) {
-  return isDefined(val) ? ifVal : elseVal;
+    return isDefined(val) ? ifVal : elseVal;
 }

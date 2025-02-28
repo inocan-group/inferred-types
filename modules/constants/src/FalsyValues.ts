@@ -5,11 +5,11 @@
  * Javascript.
  */
 export const FALSY_VALUES = [
-  false,
-  0,
-  -0,
-  "",
-  null,
-  undefined,
-  Number.NaN,
+    false,
+    0,
+    -0,
+    "",
+    null,
+    undefined,
+    Number.NaN,
 ] as const;

@@ -1,23 +1,23 @@
 import type {
-  And,
-  Contains,
-  HasCharacters,
-  Split,
-  Trim,
-  Unset,
+    And,
+    Contains,
+    HasCharacters,
+    Split,
+    Trim,
+    Unset,
 } from "inferred-types/types";
 
 type Validate<
-  T extends readonly string[],
-  Kind extends string | Unset,
+    T extends readonly string[],
+    Kind extends string | Unset,
 > = {
-  [K in keyof T]: Trim<T[K]> extends ""
-    ? false
-    : Kind extends Unset
-      ? true
-      : Trim<T[K]> extends Kind
-        ? true
-        : false
+    [K in keyof T]: Trim<T[K]> extends ""
+        ? false
+        : Kind extends Unset
+            ? true
+            : Trim<T[K]> extends Kind
+                ? true
+                : false
 };
 
 /**
@@ -33,10 +33,10 @@ type Validate<
  * **Note:** _a trailing comma **is** allowed._
  */
 export type IsCsv<
-  T extends string,
-  K extends string | Unset = Unset,
+    T extends string,
+    K extends string | Unset = Unset,
 > = HasCharacters<T, ","> extends true
-  ? Contains<T, ",,"> extends true
-    ? false
-    : And<Validate<Split<T, ",">, K>>
-  : false;
+    ? Contains<T, ",,"> extends true
+        ? false
+        : And<Validate<Split<T, ",">, K>>
+    : false;

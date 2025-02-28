@@ -3,23 +3,23 @@ import type { AfterFirst, Find, First, Narrowable } from "inferred-types/types";
 export type ConversionTuple = [from: Narrowable, to: Narrowable];
 
 type Convert<
-  TValue,
-  TConversions extends readonly ConversionTuple[],
+    TValue,
+    TConversions extends readonly ConversionTuple[],
 > = Find<TConversions, "extends", TValue, 0> extends ConversionTuple
-  ? Find<TConversions, "extends", TValue, 0>[1]
-  : TValue;
+    ? Find<TConversions, "extends", TValue, 0>[1]
+    : TValue;
 
 type ConvertAcc<
-  TSet extends readonly unknown[],
-  TConversions extends readonly ConversionTuple[],
-  TResults extends readonly unknown[] = [],
+    TSet extends readonly unknown[],
+    TConversions extends readonly ConversionTuple[],
+    TResults extends readonly unknown[] = [],
 > = [] extends TSet
-  ? TResults
-  : ConvertAcc<
-    AfterFirst<TSet>,
-    TConversions,
-    [ ...TResults, Convert<First<TSet>, TConversions> ]
-  >;
+    ? TResults
+    : ConvertAcc<
+        AfterFirst<TSet>,
+        TConversions,
+        [ ...TResults, Convert<First<TSet>, TConversions> ]
+    >;
 
 /**
  * **ConvertSet**`<TSet, TConversions>`
@@ -35,10 +35,10 @@ type ConvertAcc<
  * ```
  */
 export type ConvertSet<
-  TSet extends readonly unknown[],
-  TConversions extends ConversionTuple | readonly ConversionTuple[],
+    TSet extends readonly unknown[],
+    TConversions extends ConversionTuple | readonly ConversionTuple[],
 > = TConversions extends readonly ConversionTuple[]
-  ? ConvertAcc<TSet, TConversions>
-  : TConversions extends ConversionTuple
-    ? ConvertAcc<TSet, readonly [TConversions]>
-    : never;
+    ? ConvertAcc<TSet, TConversions>
+    : TConversions extends ConversionTuple
+        ? ConvertAcc<TSet, readonly [TConversions]>
+        : never;

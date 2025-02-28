@@ -8,5 +8,5 @@ import { isTypeToken } from "inferred-types/runtime";
  * valid **union** variant of a `TypeToken`.
  */
 export function isUnionToken(val: unknown): val is TypeToken<"union"> {
-  return isTypeToken(val, "union");
+    return isTypeToken(val, "union");
 }

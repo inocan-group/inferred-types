@@ -10,9 +10,9 @@ import type { AsArray, Chars, If, IfAllExtend, IsStringLiteral, LowerAlphaChar }
  * - `never` - all other types of `T` are converted to never
  */
 export type IsLowerAlpha<T> = T extends string
-  ? If<
-    IsStringLiteral<T>,
-    IfAllExtend<AsArray<Chars<T>>, LowerAlphaChar, T, never>,
-    string
-  >
-  : never;
+    ? If<
+        IsStringLiteral<T>,
+        IfAllExtend<AsArray<Chars<T>>, LowerAlphaChar, T, never>,
+        string
+    >
+    : never;

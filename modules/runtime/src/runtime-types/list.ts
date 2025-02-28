@@ -1,101 +1,101 @@
 import type {
-  AfterFirst,
-  AsString,
-  Chars,
-  First,
-  IsEqual,
-  IsNever,
-  IsNumericLiteral,
-  IsStringLiteral,
-  IsTuple,
-  IsUnion,
-  List,
-  Narrowable,
-  ObjectKey,
-  Tuple,
-  TupleToUnion,
-  UnionToTuple,
-  WidenUnion,
+    AfterFirst,
+    AsString,
+    Chars,
+    First,
+    IsEqual,
+    IsNever,
+    IsNumericLiteral,
+    IsStringLiteral,
+    IsTuple,
+    IsUnion,
+    List,
+    Narrowable,
+    ObjectKey,
+    Tuple,
+    TupleToUnion,
+    UnionToTuple,
+    WidenUnion,
 } from "inferred-types/types";
 
 import { isArray } from "inferred-types/runtime";
 
 type ListWideType<
-  T extends readonly unknown[],
+    T extends readonly unknown[],
 > = IsNever<WidenUnion<TupleToUnion<T>>> extends true
-  ? unknown
-  : WidenUnion<TupleToUnion<T>>;
+    ? unknown
+    : WidenUnion<TupleToUnion<T>>;
 
 type Describe<T> = IsUnion<T> extends true
-  ? `9${AsString<UnionToTuple<T>["length"]>}`
-  : T extends string
-    ? "1"
-    : T extends number
-      ? "2"
-      : T extends boolean
-        ? "3"
-        : T extends Tuple
-          ? IsTuple<T> extends true
-            ? "tuple"
-            : "array"
-          : T extends Record<ObjectKey, infer V>
-            ? `0x${Describe<V>}>`
-            : T extends Map<unknown, infer V>
-              ? `1x${Describe<V>}>`
-              : IsEqual<T, unknown> extends true
-                ? `4`
-                : IsEqual<T, null> extends true
-                  ? `5`
-                  : `6`;
+    ? `9${AsString<UnionToTuple<T>["length"]>}`
+    : T extends string
+        ? "1"
+        : T extends number
+            ? "2"
+            : T extends boolean
+                ? "3"
+                : T extends Tuple
+                    ? IsTuple<T> extends true
+                        ? "tuple"
+                        : "array"
+                    : T extends Record<ObjectKey, infer V>
+                        ? `0x${Describe<V>}>`
+                        : T extends Map<unknown, infer V>
+                            ? `1x${Describe<V>}>`
+                            : IsEqual<T, unknown> extends true
+                                ? `4`
+                                : IsEqual<T, null> extends true
+                                    ? `5`
+                                    : `6`;
 
 type Lit<T> = T extends string
-  ? IsStringLiteral<T> extends true
-    ? First<Chars<T>>
-    : ""
-  : T extends number
-    ? IsNumericLiteral<T> extends true
-      ? `${T}`
-      : ""
-    : "";
+    ? IsStringLiteral<T> extends true
+        ? First<Chars<T>>
+        : ""
+    : T extends number
+        ? IsNumericLiteral<T> extends true
+            ? `${T}`
+            : ""
+        : "";
 
 type DescribeLit<
-  T extends readonly unknown[],
-  TResult extends string = "",
+    T extends readonly unknown[],
+    TResult extends string = "",
 > = [] extends T
-  ? TResult
-  : DescribeLit<
-    AfterFirst<T>,
+    ? TResult
+    : DescribeLit<
+        AfterFirst<T>,
     `${TResult}${Lit<First<T>>}`
-  >;
+    >;
 
 type ListHash<
-  T extends readonly unknown[],
+    T extends readonly unknown[],
 > = [IsEqual<T["length"], number>] extends [true]
-  ? `0${Describe<ListWideType<T>>}`
-  : `${T["length"]}${Describe<ListWideType<T>>}${DescribeLit<T>}`;
+    ? `0${Describe<ListWideType<T>>}`
+    : `${T["length"]}${Describe<ListWideType<T>>}${DescribeLit<T>}`;
 
 export type AsList<
-  T extends readonly unknown[],
+    T extends readonly unknown[],
 > = List<
-  ListWideType<T>,
-  ListHash<T>
+    ListWideType<T>,
+    ListHash<T>
 >;
 
 function createProxy<
-  TArr extends readonly unknown[],
+    TArr extends readonly unknown[],
 >(...initialize: TArr) {
-  const state = initialize as unknown as List<ListWideType<TArr>, ListHash<TArr>>;
-  state.id = null as unknown as ListHash<TArr>;
+    const state = initialize as unknown as List<ListWideType<TArr>, ListHash<TArr>>;
+    state.id = null as unknown as ListHash<TArr>;
 
-  const proxy = new Proxy(state, {}) as List<
-    ListWideType<TArr>,
-    ListHash<TArr>
-  >;
-  Object.defineProperty(proxy, "id", {
-    enumerable: false,
-  });
+    const proxy = new Proxy(state, {}) as List<
+        ListWideType<TArr>,
+        ListHash<TArr>
+    >;
+    Object.defineProperty(proxy, "id", {
+        enumerable: false,
+    });
 
-  return proxy;
+    return proxy;
 }
 
 /**
@@ -120,16 +120,16 @@ function createProxy<
  * ```
  */
 export function list<
-  TList extends readonly N[] | readonly [ readonly N[] ],
-  N extends Narrowable,
+    TList extends readonly N[] | readonly [ readonly N[] ],
+    N extends Narrowable,
 >(...init: TList) {
-  return (
-    init.length === 1 && isArray(init[0])
-      ? createProxy(...init[0])
-      : createProxy(...init)
-  ) as unknown as TList extends readonly [ readonly N[] ]
-    ? List<ListWideType<TList[0]>, ListHash<TList[0]>>
-    : TList extends readonly N[]
-      ? List<ListWideType<TList>, ListHash<TList>>
-      : never;
+    return (
+        init.length === 1 && isArray(init[0])
+            ? createProxy(...init[0])
+            : createProxy(...init)
+    ) as unknown as TList extends readonly [ readonly N[] ]
+        ? List<ListWideType<TList[0]>, ListHash<TList[0]>>
+        : TList extends readonly N[]
+            ? List<ListWideType<TList>, ListHash<TList>>
+            : never;
 }

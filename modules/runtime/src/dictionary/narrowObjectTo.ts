@@ -1,32 +1,32 @@
 import type {
-  AnyObject,
-  ConstrainedObjectCallback,
-  ConstrainedObjectIdentity,
-  ConstrainObject,
-  DefineObject,
-  FromDefineObject,
-  Narrowable,
+    AnyObject,
+    ConstrainedObjectCallback,
+    ConstrainedObjectIdentity,
+    ConstrainObject,
+    DefineObject,
+    FromDefineObject,
+    Narrowable,
 } from "inferred-types/types";
 import { createFnWithPropsExplicit } from "inferred-types/runtime";
 
 function callback<Constraint extends AnyObject>(): ConstrainedObjectCallback<Constraint> {
-  return <TReturn>(
-    cb: (input: ConstrainObject<Constraint, Constraint>) => TReturn,
-  ): ((input: ConstrainObject<Constraint, Constraint>) => TReturn) => {
-    return input => cb(input);
-  };
+    return <TReturn>(
+        cb: (input: ConstrainObject<Constraint, Constraint>) => TReturn,
+    ): ((input: ConstrainObject<Constraint, Constraint>) => TReturn) => {
+        return input => cb(input);
+    };
 }
 
 function narrowFn<TDefn extends AnyObject>() {
-  const fn = <
-    T extends Record<string, N>,
-    N extends Narrowable,
-    Constraint extends TDefn,
-  >(
-    obj: T & ConstrainObject<T, Constraint>,
-  ) => obj;
+    const fn = <
+        T extends Record<string, N>,
+        N extends Narrowable,
+        Constraint extends TDefn,
+    >(
+        obj: T & ConstrainObject<T, Constraint>,
+    ) => obj;
 
-  return fn as ConstrainedObjectIdentity<TDefn>;
+    return fn as ConstrainedObjectIdentity<TDefn>;
 }
 
 /**
@@ -45,14 +45,14 @@ function narrowFn<TDefn extends AnyObject>() {
  * **Related:** `ConstrainedObjectIdentity`, `narrowObjectToType`
  */
 export function narrowObjectTo<
-  TDefn extends DefineObject,
+    TDefn extends DefineObject,
 >(_defn: TDefn): ConstrainedObjectIdentity<FromDefineObject<TDefn>> {
-  return createFnWithPropsExplicit(
-    narrowFn<FromDefineObject<TDefn>>(),
-    {
-      asCallback: callback<TDefn>(),
-    },
-  );
+    return createFnWithPropsExplicit(
+        narrowFn<FromDefineObject<TDefn>>(),
+        {
+            asCallback: callback<TDefn>(),
+        },
+    );
 }
 
 /**
@@ -71,10 +71,10 @@ export function narrowObjectTo<
  * **Related:** `ConstrainedObjectIdentity`, `narrowObjectTo`
  */
 export function narrowObjectToType<TDefn extends AnyObject>(): ConstrainedObjectIdentity<TDefn> {
-  return createFnWithPropsExplicit(
-    narrowFn<TDefn>(),
-    {
-      asCallback: callback<TDefn>(),
-    },
-  );
+    return createFnWithPropsExplicit(
+        narrowFn<TDefn>(),
+        {
+            asCallback: callback<TDefn>(),
+        },
+    );
 }

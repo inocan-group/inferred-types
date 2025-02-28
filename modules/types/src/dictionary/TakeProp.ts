@@ -6,9 +6,9 @@
  * (which is defaulted to _undefined_).
  */
 export type TakeProp<
-  TTest,
-  TProp extends PropertyKey,
-  TElse = undefined,
+    TTest,
+    TProp extends PropertyKey,
+    TElse = undefined,
 > = TProp extends keyof TTest
-  ? TTest[TProp]
-  : TElse;
+    ? TTest[TProp]
+    : TElse;

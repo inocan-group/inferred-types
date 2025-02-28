@@ -9,7 +9,7 @@ import type { IsAllCaps } from "inferred-types/types";
  * **Related:** `RaiseAllLowercase`
  */
 export type LowerAllCaps<
-  T extends string,
+    T extends string,
 > = IsAllCaps<T> extends true
-  ? Lowercase<T>
-  : T;
+    ? Lowercase<T>
+    : T;

@@ -2,7 +2,7 @@ import type { Opt } from "../Optional";
 import type { CssSizingLight } from "./sizing";
 
 export type CssPadding = CssSizingLight
-  | `${CssSizingLight}, ${CssSizingLight}${Opt<`, ${CssSizingLight}`>}${string}`;
+    | `${CssSizingLight}, ${CssSizingLight}${Opt<`, ${CssSizingLight}`>}${string}`;
 
 export type CssPaddingBlock = `${CssSizingLight}${Opt<`, ${CssSizingLight}`>}${string}`; ;
 
@@ -19,15 +19,15 @@ export type CssPaddingTop = CssSizingLight;
 export type CssPaddingBottom = CssSizingLight;
 
 export interface CssPaddingProperties {
-  "padding"?: CssPadding;
-  "padding-block"?: CssPaddingBlock;
-  "padding-block-end"?: CssPaddingBlockEnd;
-  "padding-block-start"?: CssPaddingBlockStart;
-  "padding-inline"?: CssPaddingInline;
-  "padding-inline-end"?: CssPaddingInlineEnd;
-  "padding-inline-start"?: CssPaddingInlineStart;
-  "padding-left"?: CssPaddingLeft;
-  "padding-right"?: CssPaddingRight;
-  "padding-top"?: CssPaddingTop;
-  "padding-bottom"?: CssPaddingBottom;
+    "padding"?: CssPadding;
+    "padding-block"?: CssPaddingBlock;
+    "padding-block-end"?: CssPaddingBlockEnd;
+    "padding-block-start"?: CssPaddingBlockStart;
+    "padding-inline"?: CssPaddingInline;
+    "padding-inline-end"?: CssPaddingInlineEnd;
+    "padding-inline-start"?: CssPaddingInlineStart;
+    "padding-left"?: CssPaddingLeft;
+    "padding-right"?: CssPaddingRight;
+    "padding-top"?: CssPaddingTop;
+    "padding-bottom"?: CssPaddingBottom;
 }

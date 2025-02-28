@@ -5,5 +5,5 @@
  * (aka, whether the value is **not** _undefined_).
  */
 export function isDefined<T>(value: T): value is Exclude<T, undefined> {
-  return value !== undefined;
+    return value !== undefined;
 }

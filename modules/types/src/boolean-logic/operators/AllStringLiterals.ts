@@ -8,7 +8,7 @@ import type { IsStringLiteral } from "./IsStringLiteral";
  * passed in elements are _string literals_.
  */
 export type AllStringLiterals<
-  T extends readonly unknown[],
+    T extends readonly unknown[],
 > = And<{
-  [K in keyof T]: IsStringLiteral<T[K]>
+    [K in keyof T]: IsStringLiteral<T[K]>
 }>;

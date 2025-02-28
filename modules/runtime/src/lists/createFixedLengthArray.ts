@@ -7,8 +7,8 @@ import type { FixedLengthArray, Narrowable } from "inferred-types/types";
  * passed in as `content`
  */
 export function createFixedLengthArray<
-  T extends Narrowable,
-  C extends number,
+    T extends Narrowable,
+    C extends number,
 >(content: T, quantity: C): FixedLengthArray<T, C> {
-  return Array.from({ length: quantity }, () => content) as FixedLengthArray<T, C>;
+    return Array.from({ length: quantity }, () => content) as FixedLengthArray<T, C>;
 }

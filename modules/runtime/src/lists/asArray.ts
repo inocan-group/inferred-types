@@ -18,11 +18,11 @@ export type UndefinedArrayIsUnknown<T extends unknown[]> = undefined[] extends T
  */
 
 export function asArray<T extends Narrowable>(thing: T) {
-  return (
-    Array.isArray(thing) === true
-      ? thing // proxy thing back as it's already an array
-      : typeof thing === "undefined"
-        ? ([] as T[])
-        : [thing]
-  ) as AsArray<T>;
+    return (
+        Array.isArray(thing) === true
+            ? thing // proxy thing back as it's already an array
+            : typeof thing === "undefined"
+                ? ([] as T[])
+                : [thing]
+    ) as AsArray<T>;
 }

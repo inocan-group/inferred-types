@@ -45,42 +45,42 @@ export type HtmlTag = HtmlTagOpen | HtmlTagClose | HtmlTagAtomic;
  * boolean operator which validates that `T` is an HTML _closing_ tag
  */
 export type IsHtmlClosingTag<T> = T extends `</${infer Tag}>`
-  ? Tag extends HtmlTagOpen
-    ? true
-    : false
-  : false;
+    ? Tag extends HtmlTagOpen
+        ? true
+        : false
+    : false;
 
 /**
  * boolean operator which validates that `T` is an Atomic tag
  */
 export type IsAtomicTag<T> = T extends `<${infer Tag}>`
-  ? Tag extends HtmlTagAtomic
-    ? true
-    : false
-  : false;
+    ? Tag extends HtmlTagAtomic
+        ? true
+        : false
+    : false;
 
 /**
  * A narrowing utility which takes an input and ensures it's type
  * is within the _scope_ of the tags provided in `TScope`.
  */
 export type AsHtmlTag<
-  TInput,
-  TScope extends Html__AtomicTag | Html__BlockTag,
+    TInput,
+    TScope extends Html__AtomicTag | Html__BlockTag,
 > = TInput extends HtmlTagAtomic
-  ? TInput
-  : TInput extends HtmlTagOpen
     ? TInput
-    : TInput extends HtmlTagClose
-      ? TInput
-      : TInput extends `</${string}>`
-        ? HtmlTagClose<Exclude<TScope, Html__AtomicTag>>
-        : TInput extends `<${string}`
-          ? HtmlTagOpen<Exclude<TScope, Html__AtomicTag>> | HtmlTagAtomic extends TInput
-            ? HtmlTagOpen<Exclude<TScope, Html__AtomicTag>> | HtmlTagAtomic
-            : never
-          : IsWideString<TInput> extends true
-            ? HtmlTag
-            : never;
+    : TInput extends HtmlTagOpen
+        ? TInput
+        : TInput extends HtmlTagClose
+            ? TInput
+            : TInput extends `</${string}>`
+                ? HtmlTagClose<Exclude<TScope, Html__AtomicTag>>
+                : TInput extends `<${string}`
+                    ? HtmlTagOpen<Exclude<TScope, Html__AtomicTag>> | HtmlTagAtomic extends TInput
+                        ? HtmlTagOpen<Exclude<TScope, Html__AtomicTag>> | HtmlTagAtomic
+                        : never
+                    : IsWideString<TInput> extends true
+                        ? HtmlTag
+                        : never;
 
 /**
  * **AsHtmlComponentTag**`<T>`
@@ -90,15 +90,15 @@ export type AsHtmlTag<
  */
 export type AsHtmlComponentTag<T> =
   T extends `<${infer Name} ${infer Attr}/>`
-    ? T & (`<${PascalCase<Name>} ${Attr}/>` | `<${KebabCase<Name>} ${Attr}/>`)
-    : T extends `<${infer Name} ${infer Attr}>`
-      ? T & (`<${PascalCase<Name>} ${Attr}>` | `<${KebabCase<Name>} ${Attr}>`)
-      : T extends `<${infer Name}/>`
-        ? T & (`<${PascalCase<Name>}/>` | `<${KebabCase<Name>}/>`)
-        : T extends `<${infer Name}>`
-          ? T & (`<${PascalCase<Name>}` | `<${KebabCase<Name>}`)
-          : T extends string // Wide string matching
-            ? IsWideString<T> extends true
-              ? T & `<${PascalCase<StripSurround<T, "<" | ">">>}${string}>`
-              : never
-            : never;
+      ? T & (`<${PascalCase<Name>} ${Attr}/>` | `<${KebabCase<Name>} ${Attr}/>`)
+      : T extends `<${infer Name} ${infer Attr}>`
+          ? T & (`<${PascalCase<Name>} ${Attr}>` | `<${KebabCase<Name>} ${Attr}>`)
+          : T extends `<${infer Name}/>`
+              ? T & (`<${PascalCase<Name>}/>` | `<${KebabCase<Name>}/>`)
+              : T extends `<${infer Name}>`
+                  ? T & (`<${PascalCase<Name>}` | `<${KebabCase<Name>}`)
+                  : T extends string // Wide string matching
+                      ? IsWideString<T> extends true
+                          ? T & `<${PascalCase<StripSurround<T, "<" | ">">>}${string}>`
+                          : never
+                      : never;

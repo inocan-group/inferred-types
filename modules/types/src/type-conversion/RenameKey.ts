@@ -7,7 +7,7 @@ import type { ReplaceKeys } from "./ReplaceKeys";
  * Renames a key in `T`.
  */
 export type RenameKey<
-  T extends AnyObject,
-  TFrom extends string,
-  TTo extends string,
+    T extends AnyObject,
+    TFrom extends string,
+    TTo extends string,
 > = ReplaceKeys<T, [{ from: TFrom; to: TTo }]>;

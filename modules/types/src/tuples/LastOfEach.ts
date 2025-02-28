@@ -12,9 +12,9 @@ import type { Last } from "inferred-types/types";
  * ```
  */
 export type LastOfEach<
-  T extends readonly unknown[][],
+    T extends readonly unknown[][],
 > = {
-  [K in keyof T]: T[K] extends readonly unknown[]
-    ? Last<T[K]>
-    : never
+    [K in keyof T]: T[K] extends readonly unknown[]
+        ? Last<T[K]>
+        : never
 };

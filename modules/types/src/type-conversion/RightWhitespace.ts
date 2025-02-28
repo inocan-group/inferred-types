@@ -8,5 +8,5 @@ import type { Replace, TrimRight } from "inferred-types/types";
  * ```
  */
 export type RightWhitespace<S extends string> = string extends S
-  ? string
-  : Replace<S, TrimRight<S>, "">;
+    ? string
+    : Replace<S, TrimRight<S>, "">;

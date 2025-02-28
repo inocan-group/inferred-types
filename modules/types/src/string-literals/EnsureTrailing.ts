@@ -1,26 +1,26 @@
 import type {
-  AsNumber,
-  AsString,
-  IsString,
-  IsWideType,
+    AsNumber,
+    AsString,
+    IsString,
+    IsWideType,
 } from "inferred-types/types";
 
 type P<
-  TContent extends string,
-  TTrailing extends string,
+    TContent extends string,
+    TTrailing extends string,
 > = TContent extends `${string}${TTrailing}`
-  ? TContent
-  : `${TContent}${TTrailing}`;
+    ? TContent
+    : `${TContent}${TTrailing}`;
 
 type IterateOver<
-  TContent extends readonly unknown[],
-  TTrailing extends string,
+    TContent extends readonly unknown[],
+    TTrailing extends string,
 > = {
-  [K in keyof TContent]: TContent[K] extends string
-    ? P<TContent[K], TTrailing>
-    : TContent[K] extends number
-      ? AsNumber<P<`${TContent[K]}`, TTrailing>>
-      : P<`${AsString<TContent[K]>}`, TTrailing>
+    [K in keyof TContent]: TContent[K] extends string
+        ? P<TContent[K], TTrailing>
+        : TContent[K] extends number
+            ? AsNumber<P<`${TContent[K]}`, TTrailing>>
+            : P<`${AsString<TContent[K]>}`, TTrailing>
 };
 
 /**
@@ -37,20 +37,20 @@ type IterateOver<
  * ```
  */
 export type EnsureTrailing<
-  TContent extends string | number | readonly (string | number)[],
-  TTrailing extends string | number,
+    TContent extends string | number | readonly (string | number)[],
+    TTrailing extends string | number,
 > = IsWideType<TContent> extends true
-  ? IsWideType<TTrailing> extends true
-    ? TContent
-    : `${string}${TTrailing}`
-  : IsWideType<TTrailing> extends true
-    ? IsString<TContent> extends true
-      ? `${AsString<TContent>}${string}`
-      : never
-    : TContent extends number
-      ? AsNumber<P<`${TContent}`, `${TTrailing}`>>
-      : TContent extends string
-        ? P<TContent, `${TTrailing}`>
-        : TContent extends readonly unknown[]
-          ? IterateOver<TContent, `${TTrailing}`>
-          : never;
+    ? IsWideType<TTrailing> extends true
+        ? TContent
+        : `${string}${TTrailing}`
+    : IsWideType<TTrailing> extends true
+        ? IsString<TContent> extends true
+            ? `${AsString<TContent>}${string}`
+            : never
+        : TContent extends number
+            ? AsNumber<P<`${TContent}`, `${TTrailing}`>>
+            : TContent extends string
+                ? P<TContent, `${TTrailing}`>
+                : TContent extends readonly unknown[]
+                    ? IterateOver<TContent, `${TTrailing}`>
+                    : never;

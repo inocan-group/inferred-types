@@ -15,14 +15,14 @@ import { isTypeSubtype } from "inferred-types/runtime";
  * **Related:** `TypeSubtype`, `isTypeSubtype`
  */
 export function getTypeSubtype<T extends TypeSubtype | `${string}/${string}`>(str: T) {
-  if (isTypeSubtype(str)) {
-    const [t, st] = str.split("/");
+    if (isTypeSubtype(str)) {
+        const [t, st] = str.split("/");
 
-    return [t, st] as [RetainUntil<T, "/">, RetainAfter<T, "/">];
-  }
-  else {
-    const err = new Error(`An invalid Type/Subtype was passed into getTypeSubtype(${str})`);
-    err.name = "InvalidTypeSubtype";
-    throw err;
-  }
+        return [t, st] as [RetainUntil<T, "/">, RetainAfter<T, "/">];
+    }
+    else {
+        const err = new Error(`An invalid Type/Subtype was passed into getTypeSubtype(${str})`);
+        err.name = "InvalidTypeSubtype";
+        throw err;
+    }
 }

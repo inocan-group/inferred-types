@@ -12,10 +12,10 @@ import { isNumber } from "../numeric/isNumber";
  * **Related:** `isZipCode()`, `isZipPlus4()`
  */
 export function isZipCode5(val: unknown): val is Zip5 {
-  if (isNumber(val)) {
-    return isZipCode5(`${val}`);
-  }
-  return isString(val) && val.trim().length === 5 && isNumberLike(val.trim());
+    if (isNumber(val)) {
+        return isZipCode5(`${val}`);
+    }
+    return isString(val) && val.trim().length === 5 && isNumberLike(val.trim());
 }
 
 /**
@@ -25,13 +25,13 @@ export function isZipCode5(val: unknown): val is Zip5 {
  * **Related:** `isZipCode()`, `isZipCode5()`
  */
 export function isZipPlus4(val: unknown): val is ZipPlus4 {
-  if (isString(val)) {
-    const first = retainWhile(val.trim(), ...NUMERIC_CHAR);
-    const next = stripChars(val.trim().replace(first, "").trim(), "-");
-    return first.length === 5 && next.length === 4 && isNumberLike(next);
-  }
+    if (isString(val)) {
+        const first = retainWhile(val.trim(), ...NUMERIC_CHAR);
+        const next = stripChars(val.trim().replace(first, "").trim(), "-");
+        return first.length === 5 && next.length === 4 && isNumberLike(next);
+    }
 
-  return false;
+    return false;
 }
 
 /**
@@ -41,5 +41,5 @@ export function isZipPlus4(val: unknown): val is ZipPlus4 {
  * **Related:** `isZipCode5()`, `isZipPlus4()`
  */
 export function isZipCode(val: unknown): val is ZipCode {
-  return isZipCode5(val) || isZipPlus4(val);
+    return isZipCode5(val) || isZipPlus4(val);
 }

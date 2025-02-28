@@ -10,8 +10,8 @@ import type { And, Contains } from "inferred-types/types";
  * **Related:** `DoesExtend`, `ContainsSome`
  */
 export type ContainsAll<
-  TList extends readonly unknown[],
-  THasAll extends readonly unknown[],
+    TList extends readonly unknown[],
+    THasAll extends readonly unknown[],
 > = And<{
-  [K in keyof THasAll]: Contains<TList, THasAll[K]>
+    [K in keyof THasAll]: Contains<TList, THasAll[K]>
 }>;

@@ -10,7 +10,7 @@
  * ```
  */
 export type FirstOfEach<
-  T extends readonly unknown[][],
+    T extends readonly unknown[][],
 > = T[number][0] extends T[number][number]
-  ? T[number][0]
-  : never;
+    ? T[number][0]
+    : never;

@@ -19,9 +19,9 @@ import type { Container, LeftRight } from "inferred-types/types";
  * **Related:** `UniqueKeys`
  */
 export type UniqueKeysUnion<
-  L extends Container,
-  R extends Container,
+    L extends Container,
+    R extends Container,
 > = LeftRight<
-  Exclude<keyof L, keyof R>,
-  Exclude<keyof R, keyof L>
+    Exclude<keyof L, keyof R>,
+    Exclude<keyof R, keyof L>
 >;

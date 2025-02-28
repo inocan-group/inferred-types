@@ -1,33 +1,33 @@
 import type {
-  First,
-  Join,
-  Last,
+    First,
+    Join,
+    Last,
 } from "inferred-types/types";
 
 export type StripSlash<
-  T extends readonly string[],
+    T extends readonly string[],
 > = {
-  [K in keyof T]: T[K] extends `/${infer Middle}/`
-    ? Middle
-    : T[K] extends `/${infer Trailing}`
-      ? Trailing
-      : T[K] extends `${infer Leading}/`
-        ? Leading
-        : T[K]
+    [K in keyof T]: T[K] extends `/${infer Middle}/`
+        ? Middle
+        : T[K] extends `/${infer Trailing}`
+            ? Trailing
+            : T[K] extends `${infer Leading}/`
+                ? Leading
+                : T[K]
 };
 
 type Process<
-  TPath extends string,
-  TFirst extends string,
-  TLast extends string,
+    TPath extends string,
+    TFirst extends string,
+    TLast extends string,
 > =
 TFirst extends `/${string}`
-  ? TLast extends `${string}/`
-    ? `/${TPath}/`
-    : `/${TPath}`
-  : TLast extends `${string}/`
-    ? `${TPath}/`
-    : TPath;
+    ? TLast extends `${string}/`
+        ? `/${TPath}/`
+        : `/${TPath}`
+    : TLast extends `${string}/`
+        ? `${TPath}/`
+        : TPath;
 
 /**
  * **PathJoin**`<T,U>`
@@ -43,11 +43,11 @@ TFirst extends `/${string}`
  * the type.
  */
 export type PathJoin<
-  TSegments extends readonly string[],
+    TSegments extends readonly string[],
 > = StripSlash<TSegments> extends readonly string[]
-  ? Process<
-    Join<StripSlash<TSegments>, "/">,
-    First<TSegments>,
-    Last<TSegments>
-  >
-  : never;
+    ? Process<
+        Join<StripSlash<TSegments>, "/">,
+        First<TSegments>,
+        Last<TSegments>
+    >
+    : never;

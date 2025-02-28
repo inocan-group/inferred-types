@@ -2,13 +2,13 @@ import type { CssAspectRatio } from "inferred-types/types";
 import { isString } from "./isString";
 
 const tokens = [
-  "1",
-  "inherit",
-  "initial",
-  "revert",
-  "revert-layer",
-  "unset",
-  "auto",
+    "1",
+    "inherit",
+    "initial",
+    "revert",
+    "revert-layer",
+    "unset",
+    "auto",
 ];
 
 const isRatio = (val: string) => /\d{1,4}\s*\/\s*\d{1,4}/.test(val);
@@ -18,5 +18,5 @@ const isRatio = (val: string) => /\d{1,4}\s*\/\s*\d{1,4}/.test(val);
  * Ratio value.
  */
 export function isCssAspectRatio<T>(val: T): val is T & CssAspectRatio {
-  return isString(val) && val.split(/\s+/).every(i => tokens.includes(i) || isRatio(i));
+    return isString(val) && val.split(/\s+/).every(i => tokens.includes(i) || isRatio(i));
 }

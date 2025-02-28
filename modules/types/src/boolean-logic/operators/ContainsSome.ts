@@ -10,8 +10,8 @@ import type { Contains, Or } from "inferred-types/types";
  * **Related:** `DoesExtend`, `ContainsSome`
  */
 export type ContainsSome<
-  TList extends readonly unknown[],
-  TFind extends readonly unknown[],
+    TList extends readonly unknown[],
+    TFind extends readonly unknown[],
 > = Or<{
-  [K in keyof TFind]: Contains<TList, TFind[K]>
+    [K in keyof TFind]: Contains<TList, TFind[K]>
 }>;

@@ -1,12 +1,12 @@
 import type { AfterFirst, First, IsArray } from "inferred-types/types";
 
 type _HasArray<
-  TList extends readonly unknown[],
+    TList extends readonly unknown[],
 > = [] extends TList
-  ? false
-  : IsArray<First<TList>> extends true
-    ? true
-    : _HasArray<AfterFirst<TList>>;
+    ? false
+    : IsArray<First<TList>> extends true
+        ? true
+        : _HasArray<AfterFirst<TList>>;
 
 /**
  * **HasArray**`<TList>`

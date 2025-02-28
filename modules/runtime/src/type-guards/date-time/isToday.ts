@@ -11,20 +11,20 @@ import { getToday, isDate, isIsoExplicitDate, isLuxonDateTime, isMoment, isStrin
  *   - [Luxon](https://moment.github.io/luxon/#/?id=luxon) DateTime object
  */
 export function isToday<T>(test: T): boolean {
-  if (isString(test)) {
-    const justDate = stripAfter(test, "T");
-    return isIsoExplicitDate(justDate) && justDate === getToday();
-  }
-  else if (isMoment(test) || isDate(test)) {
-    return (
-      stripAfter(test.toISOString(), "T") === getToday()
-    );
-  }
-  else if (isLuxonDateTime(test)) {
-    return (
-      stripAfter(test.toISO(), "T") === getToday()
-    );
-  }
+    if (isString(test)) {
+        const justDate = stripAfter(test, "T");
+        return isIsoExplicitDate(justDate) && justDate === getToday();
+    }
+    else if (isMoment(test) || isDate(test)) {
+        return (
+            stripAfter(test.toISOString(), "T") === getToday()
+        );
+    }
+    else if (isLuxonDateTime(test)) {
+        return (
+            stripAfter(test.toISO(), "T") === getToday()
+        );
+    }
 
-  return false;
+    return false;
 }

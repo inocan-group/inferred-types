@@ -5,7 +5,7 @@
  * both a mutable array or a readonly array)
  */
 export type IsArray<T> = [T] extends [any[]]
-  ? true
-  : [T] extends [readonly any[]]
-      ? true
-      : false;
+    ? true
+    : [T] extends [readonly any[]]
+        ? true
+        : false;

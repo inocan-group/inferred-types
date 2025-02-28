@@ -2,16 +2,16 @@ import type { AnyObject, AsString, ExplicitlyEmptyObject, IsWideContainer, Join,
 import type { ObjectToTuple } from "./ObjectToTuple";
 
 type Prefix<T extends boolean> = T extends true
-  ? "\n  "
-  : "";
+    ? "\n  "
+    : "";
 
 type Process<
-  T extends readonly Record<ObjectKey, any>[],
-  E extends boolean,
+    T extends readonly Record<ObjectKey, any>[],
+    E extends boolean,
 > = Join<{
-  [K in keyof T]: T[K] extends Record<infer Key extends string, infer Value>
-    ? `${Prefix<E>}${Key}: ${AsString<Value>}`
-    : never
+    [K in keyof T]: T[K] extends Record<infer Key extends string, infer Value>
+        ? `${Prefix<E>}${Key}: ${AsString<Value>}`
+        : never
 }, "; ">;
 
 /**
@@ -22,14 +22,14 @@ type Process<
  * **Related:** `ObjectToJsString`, `ObjectToJsonString`, `ObjectToTuple`
  */
 export type ObjectToCssString<
-  TObj extends AnyObject,
-  TExpand extends boolean = false,
+    TObj extends AnyObject,
+    TExpand extends boolean = false,
 > = TObj extends ExplicitlyEmptyObject
-  ? "{}"
-  : IsWideContainer<TObj> extends true
-    ? string
-    : Surround<
-      Process<ObjectToTuple<TObj, true>, false>,
-      TExpand extends false ? "{ " : "{",
-      TExpand extends false ? " }" : "\n}"
-    >;
+    ? "{}"
+    : IsWideContainer<TObj> extends true
+        ? string
+        : Surround<
+            Process<ObjectToTuple<TObj, true>, false>,
+            TExpand extends false ? "{ " : "{",
+            TExpand extends false ? " }" : "\n}"
+        >;

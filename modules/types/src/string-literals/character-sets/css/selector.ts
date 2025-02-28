@@ -28,9 +28,9 @@ export type CssTagSelector = HtmlBodyElement;
  * - `CssSelector` _(adds typing for pseudo classes)_
  */
 export type BareCssSelector<
-  TId extends CssIdSelector = CssIdSelector,
-  TClass extends CssClassSelector = CssClassSelector,
-  TTag extends CssTagSelector = CssTagSelector,
+    TId extends CssIdSelector = CssIdSelector,
+    TClass extends CssClassSelector = CssClassSelector,
+    TTag extends CssTagSelector = CssTagSelector,
 > = TId | TTag | TClass;
 
 /**
@@ -39,12 +39,12 @@ export type BareCssSelector<
  * A strongly typed **CSS** _selector_.
  */
 export type CssSelector<
-  TId extends CssIdSelector = CssIdSelector,
-  TClass extends CssClassSelector = CssClassSelector,
-  TTag extends CssTagSelector = CssTagSelector,
-  TPseudo extends CssPseudoClass = CssPseudoClass,
+    TId extends CssIdSelector = CssIdSelector,
+    TClass extends CssClassSelector = CssClassSelector,
+    TTag extends CssTagSelector = CssTagSelector,
+    TPseudo extends CssPseudoClass = CssPseudoClass,
 > =
-  | TId | TClass | TTag
-  | `${TId}${CssPseudoClassDefn<TPseudo>}`
-  | `${TClass}${CssPseudoClassDefn<TPseudo>}`
-  | `${TTag}${CssPseudoClassDefn<TPseudo>}`;
+    | TId | TClass | TTag
+    | `${TId}${CssPseudoClassDefn<TPseudo>}`
+    | `${TClass}${CssPseudoClassDefn<TPseudo>}`
+    | `${TTag}${CssPseudoClassDefn<TPseudo>}`;

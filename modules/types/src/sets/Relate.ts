@@ -10,10 +10,10 @@ import type { Container, IntersectingKeys, LeftRight, Length, UniqueKeys } from 
  * - **uniqueKeys**: the unique keys _per_ list in a `LeftRight` struct.
  */
 export interface Relate<
-  L extends Container,
-  R extends Container,
+    L extends Container,
+    R extends Container,
 > {
-  length: LeftRight<Length<L>, Length<R>>;
-  sharedKeys: IntersectingKeys<L, R>;
-  uniqueKeys: UniqueKeys<L, R>;
+    length: LeftRight<Length<L>, Length<R>>;
+    sharedKeys: IntersectingKeys<L, R>;
+    uniqueKeys: UniqueKeys<L, R>;
 }

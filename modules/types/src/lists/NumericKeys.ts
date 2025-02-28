@@ -1,36 +1,36 @@
 import type { AfterFirst, First, If, IsReadonlyArray, Length, ToNumber, Tuple } from "inferred-types/types";
 
 type Recurse<
-  TList extends Tuple,
-  TResults extends Tuple = [],
+    TList extends Tuple,
+    TResults extends Tuple = [],
 > = [] extends TList
-  ? [] extends TResults
-      ? number[]
-      : TResults
-  : Recurse<
-    AfterFirst<TList>,
-    [
-      ...TResults,
-      ToNumber<First<TList>>,
-    ]
-  >;
+    ? [] extends TResults
+        ? number[]
+        : TResults
+    : Recurse<
+        AfterFirst<TList>,
+        [
+            ...TResults,
+            ToNumber<First<TList>>,
+        ]
+    >;
 
 type Convert<
-  TList extends Tuple,
+    TList extends Tuple,
 > = Length<TList> extends 0
-  ? number[]
-  : Recurse<{
-    [K in keyof TList]: K
-  }>;
+    ? number[]
+    : Recurse<{
+        [K in keyof TList]: K
+    }>;
 
 type Process<
-  TList extends Tuple,
+    TList extends Tuple,
 > = If<
-  IsReadonlyArray<TList>,
-  TList["length"] extends 0
-    ? number[]
-    : Readonly<Convert<TList>>,
-  Convert<TList>
+    IsReadonlyArray<TList>,
+    TList["length"] extends 0
+        ? number[]
+        : Readonly<Convert<TList>>,
+    Convert<TList>
 >;
 
 /**
@@ -48,7 +48,7 @@ type Process<
  * **Related:** `Keys`
  */
 export type NumericKeys<
-  TList extends Tuple,
+    TList extends Tuple,
 > = Process<TList> extends readonly number[]
-  ? Process<TList>
-  : never;
+    ? Process<TList>
+    : never;

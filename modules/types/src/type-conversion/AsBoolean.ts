@@ -5,11 +5,11 @@
  * and return `never` otherwise.
  */
 export type AsBoolean<T> = T extends boolean
-  ? T
-  : T extends "true"
-    ? true
-    : T extends "false"
-      ? false
-      : T extends "boolean"
-        ? boolean
-        : never;
+    ? T
+    : T extends "true"
+        ? true
+        : T extends "false"
+            ? false
+            : T extends "boolean"
+                ? boolean
+                : never;

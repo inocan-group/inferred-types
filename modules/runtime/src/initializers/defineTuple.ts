@@ -18,11 +18,11 @@ import { handleDoneFn, isFunction, ShapeApiImplementation } from "inferred-types
  * ```
  */
 export function defineTuple<
-  T extends readonly (Narrowable | ShapeCallback)[],
+    T extends readonly (Narrowable | ShapeCallback)[],
 >(...values: T) {
-  return values.map(
-    i => isFunction(i)
-      ? handleDoneFn((i as ShapeCallback)(ShapeApiImplementation))
-      : i,
-  ) as unknown as FromDefn<T>;
+    return values.map(
+        i => isFunction(i)
+            ? handleDoneFn((i as ShapeCallback)(ShapeApiImplementation))
+            : i,
+    ) as unknown as FromDefn<T>;
 }

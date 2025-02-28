@@ -17,29 +17,29 @@ import { ShapeApiImplementation } from "./shape";
  * be added later
  */
 export function asType<
-  T extends [SimpleToken | DefineObject ] | readonly (SimpleToken | DefineObject | ShapeCallback)[],
+    T extends [SimpleToken | DefineObject ] | readonly (SimpleToken | DefineObject | ShapeCallback)[],
 >(...token: T) {
-  return (
-    isFunction(token)
-      ? token(ShapeApiImplementation)
-      : token.length === 1
-        ? isFunction(token[0])
-          ? handleDoneFn(token[0](ShapeApiImplementation))
-          : isDefineObject(token[0])
-            ? asDefineObject(token[0])
-            : token[0]
-        : token.map(i => isFunction(i) ? handleDoneFn(i(ShapeApiImplementation)) : i)
-  ) as unknown as T extends [SimpleToken]
-    ? SimpleType<T[0]>
-    : T extends [DefineObject]
-      ? FromDefn<T[0]>
-      : T extends readonly (SimpleToken | DefineObject | ShapeCallback)[]
-        ? FromDefn<T>
-        : never;
+    return (
+        isFunction(token)
+            ? token(ShapeApiImplementation)
+            : token.length === 1
+                ? isFunction(token[0])
+                    ? handleDoneFn(token[0](ShapeApiImplementation))
+                    : isDefineObject(token[0])
+                        ? asDefineObject(token[0])
+                        : token[0]
+                : token.map(i => isFunction(i) ? handleDoneFn(i(ShapeApiImplementation)) : i)
+    ) as unknown as T extends [SimpleToken]
+        ? SimpleType<T[0]>
+        : T extends [DefineObject]
+            ? FromDefn<T[0]>
+            : T extends readonly (SimpleToken | DefineObject | ShapeCallback)[]
+                ? FromDefn<T>
+                : never;
 }
 
 export function asStringLiteral<
-  T extends readonly SimpleScalarToken[],
+    T extends readonly SimpleScalarToken[],
 >(...values: T) {
-  return values.map(i => i as unknown as AsType<typeof i>);
+    return values.map(i => i as unknown as AsType<typeof i>);
 }

@@ -7,9 +7,9 @@ import type { IsUnion, WidenUnion } from "inferred-types/types";
  * string (wide or narrow).
  */
 export type IsString<T> = [IsUnion<T>] extends [true]
-  ? WidenUnion<T> extends string
-    ? true
-    : string extends WidenUnion<T>
-      ? boolean
-      : false
-  : [T] extends [string] ? true : false;
+    ? WidenUnion<T> extends string
+        ? true
+        : string extends WidenUnion<T>
+            ? boolean
+            : false
+    : [T] extends [string] ? true : false;

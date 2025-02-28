@@ -1,22 +1,22 @@
 import type {
-  AnyObject,
-  Narrowable,
+    AnyObject,
+    Narrowable,
 } from "inferred-types/types";
 
 /**
  * Helper type to infer narrow types while constraining to a broad type.
  */
 export type ConstrainObject<
-  TObj extends AnyObject,
-  TConstraint extends AnyObject,
+    TObj extends AnyObject,
+    TConstraint extends AnyObject,
 > = {
-  [K in keyof TConstraint]: K extends keyof TObj ? TObj[K] & TConstraint[K] : never;
+    [K in keyof TConstraint]: K extends keyof TObj ? TObj[K] & TConstraint[K] : never;
 };
 
 export type ConstrainedObjectCallback<
-  TConstraint extends AnyObject,
+    TConstraint extends AnyObject,
 > = <TReturn extends Narrowable>(
-  cb: (input: ConstrainObject<TConstraint, TConstraint>) => TReturn
+    cb: (input: ConstrainObject<TConstraint, TConstraint>) => TReturn
 ) => (input: ConstrainObject<TConstraint, TConstraint>) => TReturn;
 
 /**
@@ -26,8 +26,8 @@ export type ConstrainedObjectCallback<
  * **Related:** `narrowObjectTo`
  */
 export interface ConstrainedObjectIdentity<TConstraint extends AnyObject> {
-  <T extends TConstraint>(
-    input: T & ConstrainObject<T, TConstraint>
-  ): T;
-  asCallback: ConstrainedObjectCallback<TConstraint>;
+    <T extends TConstraint>(
+        input: T & ConstrainObject<T, TConstraint>
+    ): T;
+    asCallback: ConstrainedObjectCallback<TConstraint>;
 }

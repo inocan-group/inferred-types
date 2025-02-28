@@ -9,11 +9,11 @@ import { asChars } from "inferred-types/runtime";
  * parameter.
  */
 export function stripWhile<
-  TContent extends string,
-  TMatch extends readonly string[],
+    TContent extends string,
+    TMatch extends readonly string[],
 >(content: TContent, ...match: TMatch) {
-  const stopIdx = asChars(content)
-    .findIndex(c => !match.includes(c));
+    const stopIdx = asChars(content)
+        .findIndex(c => !match.includes(c));
 
-  return content.slice(stopIdx) as unknown as StripWhile<TContent, TMatch[number]>;
+    return content.slice(stopIdx) as unknown as StripWhile<TContent, TMatch[number]>;
 }

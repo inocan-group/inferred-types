@@ -6,5 +6,5 @@
  * value provided by `intersectedWith`.
  */
 export function intersect<T, U>(value: T, _intersectedWith: U): T & U {
-  return value as T & U;
+    return value as T & U;
 }

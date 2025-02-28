@@ -1,12 +1,12 @@
 import type { AfterFirst, First, IsUnion } from "inferred-types/types";
 
 type _HasUnion<
-  TList extends readonly unknown[],
+    TList extends readonly unknown[],
 > = [] extends TList
-  ? false
-  : IsUnion<First<TList>> extends true
-    ? true
-    : _HasUnion<AfterFirst<TList>>;
+    ? false
+    : IsUnion<First<TList>> extends true
+        ? true
+        : _HasUnion<AfterFirst<TList>>;
 
 /**
  * **HasUnionType**`<TList>`

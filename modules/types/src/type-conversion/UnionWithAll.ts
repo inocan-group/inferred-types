@@ -10,8 +10,8 @@
  * ```
  */
 export type UnionWithAll<
-  TList extends readonly unknown[],
-  TUnion,
+    TList extends readonly unknown[],
+    TUnion,
 > = {
-  [K in keyof TList]: TList[K] | TUnion
+    [K in keyof TList]: TList[K] | TUnion
 };

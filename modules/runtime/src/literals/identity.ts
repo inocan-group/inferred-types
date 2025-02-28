@@ -5,19 +5,19 @@ import type { Narrowable } from "inferred-types/types";
  * where ever possible.
  */
 export function identity<
-  N extends Narrowable,
-  K extends PropertyKey,
-  T extends readonly (Record<K, N> | N)[],
+    N extends Narrowable,
+    K extends PropertyKey,
+    T extends readonly (Record<K, N> | N)[],
 >(...values: T) {
-  return (
-    values.length === 1
-      ? values[0]
-      : values.length === 0
-        ? undefined
-        : values
-  ) as T["length"] extends 1
-    ? T[0]
-    : T["length"] extends 0
-      ? undefined
-      : T;
+    return (
+        values.length === 1
+            ? values[0]
+            : values.length === 0
+                ? undefined
+                : values
+    ) as T["length"] extends 1
+        ? T[0]
+        : T["length"] extends 0
+            ? undefined
+            : T;
 }

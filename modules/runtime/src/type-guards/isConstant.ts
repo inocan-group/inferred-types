@@ -8,10 +8,10 @@ import { isObject } from "inferred-types/runtime";
  * `Constant<T>`.
  */
 export function isConstant<
-  K extends string,
+    K extends string,
 >(value: unknown): value is Constant<K> {
-  return !!(isObject(value)
-    && "_type" in value
-    && "kind" in value
-    && value._type === "Constant");
+    return !!(isObject(value)
+        && "_type" in value
+        && "kind" in value
+        && value._type === "Constant");
 }

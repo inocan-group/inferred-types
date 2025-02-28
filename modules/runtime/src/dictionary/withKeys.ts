@@ -10,9 +10,9 @@ import { retain } from "./retain";
  * - note: this function is an alias for `retain()`
  */
 export function withKeys<
-  TObj extends Dictionary<string | symbol, N>,
-  N extends Narrowable,
-  TKeys extends readonly (ObjectKey & keyof TObj)[],
+    TObj extends Dictionary<string | symbol, N>,
+    N extends Narrowable,
+    TKeys extends readonly (ObjectKey & keyof TObj)[],
 >(dict: TObj, ...keys: TKeys) {
-  return retain(dict, ...keys);
+    return retain(dict, ...keys);
 }

@@ -1,11 +1,11 @@
 import type { TypedFunction } from "inferred-types/types";
 
 type Process<
-  T extends readonly unknown[],
+    T extends readonly unknown[],
 > = {
-  [K in keyof T]: T[K] extends TypedFunction
-    ? ReturnType<T[K]>
-    : T[K];
+    [K in keyof T]: T[K] extends TypedFunction
+        ? ReturnType<T[K]>
+        : T[K];
 };
 
 /**
@@ -22,5 +22,5 @@ type Process<
  * ```
  */
 export type ValueOrReturnValue<TEval> = TEval extends readonly unknown[]
-  ? Process<TEval>
-  : Process<[TEval]>[0];
+    ? Process<TEval>
+    : Process<[TEval]>[0];

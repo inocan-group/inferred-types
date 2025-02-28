@@ -1,39 +1,39 @@
 import type {
-  AfterFirst,
-  As,
-  Decrement,
-  First,
-  HasArray,
-  HasUnionType,
-  IsArray,
-  IsTuple,
-  IsUnion,
-  Or,
-  TupleToUnion,
-  UnionHasArray,
-  UnionToTuple,
+    AfterFirst,
+    As,
+    Decrement,
+    First,
+    HasArray,
+    HasUnionType,
+    IsArray,
+    IsTuple,
+    IsUnion,
+    Or,
+    TupleToUnion,
+    UnionHasArray,
+    UnionToTuple,
 } from "inferred-types/types";
 
 type ToFlat<T> = IsArray<T> extends true
-  ? As<T, readonly unknown[]>
-  : IsUnion<T> extends true
-    ? UnionHasArray<T> extends true
-      ? [FlattenUnion<T>]
-      : [T]
-    : [T];
+    ? As<T, readonly unknown[]>
+    : IsUnion<T> extends true
+        ? UnionHasArray<T> extends true
+            ? [FlattenUnion<T>]
+            : [T]
+        : [T];
 
 type FlatPass<
-  TList extends readonly unknown[],
-  TResult extends readonly unknown[] = [],
+    TList extends readonly unknown[],
+    TResult extends readonly unknown[] = [],
 > = [] extends TList
-  ? TResult
-  : FlatPass<
-    AfterFirst<TList>,
-    [
-      ...TResult,
-      ...ToFlat<First<TList>>,
-    ]
-  >;
+    ? TResult
+    : FlatPass<
+        AfterFirst<TList>,
+        [
+            ...TResult,
+            ...ToFlat<First<TList>>,
+        ]
+    >;
 
 /**
  * Processes Tuple structures.
@@ -43,37 +43,37 @@ type FlatPass<
  * - Assuming it does
  */
 type FlattenTuple<
-  TList extends readonly unknown[],
-  TLevel extends 0 | 1 | 2 | 3,
+    TList extends readonly unknown[],
+    TLevel extends 0 | 1 | 2 | 3,
 > = TLevel extends 0
-  ? TList // we've processed the agreed number of levels
-  : Or<[ HasUnionType<TList>, HasArray<TList> ]> extends true
-    ? FlattenTuple<
-      FlatPass<TList>,
-      Decrement<TLevel>
-    >
-    : TList;
+    ? TList // we've processed the agreed number of levels
+    : Or<[ HasUnionType<TList>, HasArray<TList> ]> extends true
+        ? FlattenTuple<
+            FlatPass<TList>,
+            Decrement<TLevel>
+        >
+        : TList;
 
 type Iterate<
-  T extends readonly unknown[],
-  TDepth extends 1 | 2 | 3,
+    T extends readonly unknown[],
+    TDepth extends 1 | 2 | 3,
 > = TupleToUnion<{
-  [K in keyof T]: T[K] extends readonly unknown[]
-    ? Flatten<T[K], TDepth>
-    : T[K]
+    [K in keyof T]: T[K] extends readonly unknown[]
+        ? Flatten<T[K], TDepth>
+        : T[K]
 }>;
 
 export type FlattenUnion<
-  TValue,
+    TValue,
 > = IsUnion<TValue> extends true
-  ? Iterate<UnionToTuple<TValue>, 1>
-  : TValue;
+    ? Iterate<UnionToTuple<TValue>, 1>
+    : TValue;
 
 type WideFlatten<T> = T extends (infer Type)[]
-  ? Type extends unknown[]
-    ? Type
-    : T
-  : never;
+    ? Type extends unknown[]
+        ? Type
+        : T
+    : never;
 
 /**
  * Responsible for branching the flattening operation
@@ -84,36 +84,36 @@ type WideFlatten<T> = T extends (infer Type)[]
  * Union type.
  */
 type Process<
-  TList,
-  TLevel extends 1 | 2 | 3 = 1,
+    TList,
+    TLevel extends 1 | 2 | 3 = 1,
 > = TList extends readonly unknown[]
-  ? IsTuple<TList> extends true
-    ? FlattenTuple<TList, TLevel>
-    : WideFlatten<TList>
-  : IsUnion<TList> extends true
-    ? FlattenUnion<TList>
-    : TList;
+    ? IsTuple<TList> extends true
+        ? FlattenTuple<TList, TLevel>
+        : WideFlatten<TList>
+    : IsUnion<TList> extends true
+        ? FlattenUnion<TList>
+        : TList;
 
 /**
  * converts a wide array to a scalar and tuple
  * to a union type
  */
 type ToScalar<
-  TList,
-  TLevel extends 1 | 2 | 3,
+    TList,
+    TLevel extends 1 | 2 | 3,
 > = [IsTuple<Process<TList>>] extends [true]
-  ? TupleToUnion<Process<TList, TLevel>>
-  : Process<TList, TLevel> extends (infer Type)[]
-    ? Type
-    : never;
+    ? TupleToUnion<Process<TList, TLevel>>
+    : Process<TList, TLevel> extends (infer Type)[]
+        ? Type
+        : never;
 
 type IterateScalar<
-  T extends readonly unknown[],
-  TLevel extends 1 | 2 | 3,
+    T extends readonly unknown[],
+    TLevel extends 1 | 2 | 3,
 > = TupleToUnion<{
-  [K in keyof T]: T[K] extends unknown[]
-    ? ToScalar<T[K], TLevel>
-    : T[K]
+    [K in keyof T]: T[K] extends unknown[]
+        ? ToScalar<T[K], TLevel>
+        : T[K]
 }>;
 
 /**
@@ -129,17 +129,17 @@ type IterateScalar<
  * into a union type
  */
 export type Flatten<
-  TList,
-  TLevel extends 1 | 2 | 3 = 1,
-  ToScalar extends boolean = false,
+    TList,
+    TLevel extends 1 | 2 | 3 = 1,
+    ToScalar extends boolean = false,
 > = [ToScalar] extends [false]
-  ? // normal operation when ToScalar is false
-  Process<TList, TLevel>
-  : // prep work when ToScalar is activated
+    ? // normal operation when ToScalar is false
+    Process<TList, TLevel>
+    : // prep work when ToScalar is activated
     [IsUnion<Process<TList, TLevel>>] extends [true]
-      ? IterateScalar<UnionToTuple<Process<TList, TLevel>>, TLevel>
-      : [IsTuple<Process<TList, TLevel>>] extends [true]
-          ? TupleToUnion<Process<TList, TLevel>>
-          : Process<TList, TLevel> extends (infer Type)[]
-            ? Type
-            : never;
+        ? IterateScalar<UnionToTuple<Process<TList, TLevel>>, TLevel>
+        : [IsTuple<Process<TList, TLevel>>] extends [true]
+            ? TupleToUnion<Process<TList, TLevel>>
+            : Process<TList, TLevel> extends (infer Type)[]
+                ? Type
+                : never;

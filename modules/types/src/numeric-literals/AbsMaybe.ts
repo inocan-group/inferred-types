@@ -12,9 +12,9 @@ import type { AsString, If, IsNumericLiteral, IsStringLiteral, Or, StripLeading,
  * block any wide types then use `Abs` instead
  */
 export type AbsMaybe<T extends number | `${number}`> = If<
-  Or<[IsNumericLiteral<T>, IsStringLiteral<T>]>,
-  T extends string
-    ? StripLeading<T, "-">
-    : ToNumber<StripLeading<AsString<T>, "-">>,
-  number
+    Or<[IsNumericLiteral<T>, IsStringLiteral<T>]>,
+    T extends string
+        ? StripLeading<T, "-">
+        : ToNumber<StripLeading<AsString<T>, "-">>,
+    number
 >;

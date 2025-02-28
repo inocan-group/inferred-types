@@ -1,8 +1,8 @@
 import type {
-  AfterFirst,
-  AnyObject,
-  ExpandDictionary,
-  First,
+    AfterFirst,
+    AnyObject,
+    ExpandDictionary,
+    First,
 } from "inferred-types/types";
 
 /**
@@ -12,13 +12,13 @@ import type {
  * typed to the value of `TValue`.
  */
 export type SetKeysTo<
-  TObj extends AnyObject,
-  TKeys extends readonly string[],
-  TValue,
+    TObj extends AnyObject,
+    TKeys extends readonly string[],
+    TValue,
 > = [] extends TKeys
-  ? ExpandDictionary<TObj>
-  : SetKeysTo<
+    ? ExpandDictionary<TObj>
+    : SetKeysTo<
     TObj & Record<First<TKeys>, TValue>,
-    AfterFirst<TKeys>,
-    TValue
-  >;
+        AfterFirst<TKeys>,
+        TValue
+    >;

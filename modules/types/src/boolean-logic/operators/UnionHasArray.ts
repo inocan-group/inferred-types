@@ -1,10 +1,10 @@
 import type { HasArray, IsUnion, UnionToTuple } from "inferred-types/types";
 
 type Process<
-  T extends readonly unknown[],
+    T extends readonly unknown[],
 > = HasArray<T> extends true
-  ? true
-  : false;
+    ? true
+    : false;
 
 /**
  * **UnionHasArray**`<T>`
@@ -16,5 +16,5 @@ type Process<
  * of some sort.
  */
 export type UnionHasArray<T> = IsUnion<T> extends true
-  ? Process<UnionToTuple<T>>
-  : false;
+    ? Process<UnionToTuple<T>>
+    : false;

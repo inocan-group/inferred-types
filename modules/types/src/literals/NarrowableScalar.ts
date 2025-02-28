@@ -5,9 +5,9 @@
  * properties like `{}` and `object` causing conflicts.
  */
 export type NarrowableScalar = string
-  | number
-  | boolean
-  | symbol
-  | undefined
-  | void
-  | null;
+    | number
+    | boolean
+    | symbol
+    | undefined
+    | void
+    | null;

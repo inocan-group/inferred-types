@@ -8,9 +8,9 @@ import { isSimpleToken } from "./isSimpleToken";
  * type guard which validates whether the `val` passed in a `DefineObject`
  */
 export function isDefineObject(val: unknown): val is DefineObject {
-  return isObject(val) && Object.keys(val).some(
-    key => isSimpleToken(val[key])
-      || isShapeToken(val)
-      || isShapeCallback(val),
-  );
+    return isObject(val) && Object.keys(val).some(
+        key => isSimpleToken(val[key])
+            || isShapeToken(val)
+            || isShapeCallback(val),
+    );
 }

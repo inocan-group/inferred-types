@@ -10,7 +10,7 @@ import type { TypedFunction } from "inferred-types/types";
  * and so is a `boolean` value
  */
 export type ReturnsTrue<T> = T extends TypedFunction
-  ? ReturnType<T> extends true
-    ? true
-    : false
-  : false;
+    ? ReturnType<T> extends true
+        ? true
+        : false
+    : false;

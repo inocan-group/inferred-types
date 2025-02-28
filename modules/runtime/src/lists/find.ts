@@ -1,9 +1,9 @@
 import type {
-  Find,
-  FromDefn,
-  Narrowable,
-  ShapeCallback,
-  Tuple,
+    Find,
+    FromDefn,
+    Narrowable,
+    ShapeCallback,
+    Tuple,
 } from "inferred-types/types";
 import { isArray, isObject } from "inferred-types/runtime";
 
@@ -13,13 +13,13 @@ import { isArray, isObject } from "inferred-types/runtime";
  * A configured utility designed to find elements in a list.
  */
 export type Finder<
-  TList extends Tuple,
-  TDeref extends string | number | null,
+    TList extends Tuple,
+    TDeref extends string | number | null,
 > = <TExtends extends Narrowable | ShapeCallback>(value: TExtends) => Find<
-  TList,
-  "equals",
-  FromDefn<TExtends>,
-  TDeref
+    TList,
+    "equals",
+    FromDefn<TExtends>,
+    TDeref
 >;
 
 /**
@@ -29,21 +29,21 @@ export type Finder<
  * while preserving any available type information.
  */
 export function find<
-  TList extends Tuple,
-  TDeref extends string | number | null = null,
+    TList extends Tuple,
+    TDeref extends string | number | null = null,
 >(list: TList, deref: TDeref = null as TDeref): Finder<TList, TDeref> {
-  return <
-    TExtends extends Narrowable | ShapeCallback,
-  >(comparator: TExtends): Find<TList, "equals", FromDefn<TExtends>, TDeref> => {
-    return list.find((i: any) => {
-      const val: any = deref
-        ? isObject(i) || isArray(i)
-          ? (deref as any) in i
-              ? (i as any)[deref]
-              : undefined
-          : i
-        : i;
-      return val === comparator;
-    }) as unknown as Find<TList, "equals", FromDefn<TExtends>, TDeref>;
-  };
+    return <
+        TExtends extends Narrowable | ShapeCallback,
+    >(comparator: TExtends): Find<TList, "equals", FromDefn<TExtends>, TDeref> => {
+        return list.find((i: any) => {
+            const val: any = deref
+                ? isObject(i) || isArray(i)
+                    ? (deref as any) in i
+                        ? (i as any)[deref]
+                        : undefined
+                    : i
+                : i;
+            return val === comparator;
+        }) as unknown as Find<TList, "equals", FromDefn<TExtends>, TDeref>;
+    };
 }

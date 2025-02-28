@@ -11,8 +11,8 @@ import type { EmptyObject, ExpandRecursively } from "inferred-types/types";
  * ```
  */
 export type RequireProps<
-  T extends EmptyObject,
-  R extends keyof T,
+    T extends EmptyObject,
+    R extends keyof T,
 > = ExpandRecursively<
   Required<Pick<T, R>> & T
 >;

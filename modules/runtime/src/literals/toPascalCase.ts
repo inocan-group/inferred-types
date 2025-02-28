@@ -1,7 +1,7 @@
 import type {
-  LeftWhitespace,
-  PascalCase,
-  RightWhitespace,
+    LeftWhitespace,
+    PascalCase,
+    RightWhitespace,
 } from "inferred-types/types";
 import { capitalize } from "inferred-types/runtime";
 
@@ -16,26 +16,26 @@ import { capitalize } from "inferred-types/runtime";
  * **Related:** `toKebabCase`, `toCamelCase`, `toSnakeCase`
  */
 export function toPascalCase<
-  S extends string,
-  P extends boolean | undefined = undefined,
+    S extends string,
+    P extends boolean | undefined = undefined,
 >(input: S, preserveWhitespace: P = undefined as P) {
-  const [_, preWhite, focus, postWhite] = /^(\s*)(.*?)(\s*)$/.exec(
-    input,
-  ) as RegExpExecArray;
+    const [_, preWhite, focus, postWhite] = /^(\s*)(.*?)(\s*)$/.exec(
+        input,
+    ) as RegExpExecArray;
 
-  const convertInteriorToCap = (i: string) =>
-    i.replace(/[ |_\-]+(\d*[a-z|])/gi, (_, p1) => p1.toUpperCase());
-  const startingToCap = (i: string) =>
-    i.replace(/^[_|-]*(\d*[a-z])/g, (_, p1) => p1.toUpperCase());
+    const convertInteriorToCap = (i: string) =>
+        i.replace(/[ |_\-]+(\d*[a-z|])/gi, (_, p1) => p1.toUpperCase());
+    const startingToCap = (i: string) =>
+        i.replace(/^[_|-]*(\d*[a-z])/g, (_, p1) => p1.toUpperCase());
 
-  const replaceLeadingTrash = (i: string) => i.replace(/^[-_]/, "");
-  const replaceTrailingTrash = (i: string) => i.replace(/[-_]$/, "");
+    const replaceLeadingTrash = (i: string) => i.replace(/^[-_]/, "");
+    const replaceTrailingTrash = (i: string) => i.replace(/[-_]$/, "");
 
-  const pascal = `${preserveWhitespace ? preWhite : ""}${capitalize(
-    replaceTrailingTrash(replaceLeadingTrash(convertInteriorToCap(startingToCap(focus)))),
-  )}${preserveWhitespace ? postWhite : ""}`;
+    const pascal = `${preserveWhitespace ? preWhite : ""}${capitalize(
+        replaceTrailingTrash(replaceLeadingTrash(convertInteriorToCap(startingToCap(focus)))),
+    )}${preserveWhitespace ? postWhite : ""}`;
 
-  return pascal as true extends P
-    ? `${LeftWhitespace<S>}${PascalCase<S>}${RightWhitespace<S>}`
-    : PascalCase<S>;
+    return pascal as true extends P
+        ? `${LeftWhitespace<S>}${PascalCase<S>}${RightWhitespace<S>}`
+        : PascalCase<S>;
 }

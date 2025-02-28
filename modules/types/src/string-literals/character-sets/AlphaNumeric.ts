@@ -6,14 +6,14 @@ import type { AlphaChar, IsStringLiteral, NumericChar } from "inferred-types/typ
 export type AlphaNumericChar = AlphaChar | NumericChar;
 
 type AlphaNumericAcc<
-  T extends string,
-  TResult extends string,
+    T extends string,
+    TResult extends string,
 > = T extends ""
-  ? TResult
-  : // iterate through characters and look for exception
-  T extends `${AlphaNumericChar}${infer REST}`
-    ? AlphaNumericAcc<REST, TResult>
-    : never;
+    ? TResult
+    : // iterate through characters and look for exception
+    T extends `${AlphaNumericChar}${infer REST}`
+        ? AlphaNumericAcc<REST, TResult>
+        : never;
 
 /**
  * **AlphaNumeric**`<T>`
@@ -25,6 +25,6 @@ type AlphaNumericAcc<
  * **Related:** `AlphaNumericChar`
  */
 export type AlphaNumeric<T extends string> = IsStringLiteral<T> extends true
-  ? AlphaNumericAcc<T, T>
-  /** Invalid Alphanumeric string */
-  : never;
+    ? AlphaNumericAcc<T, T>
+/** Invalid Alphanumeric string */
+    : never;

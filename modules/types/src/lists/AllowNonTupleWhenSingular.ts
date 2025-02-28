@@ -9,9 +9,9 @@ import type { ErrorCondition } from "inferred-types/types";
  * This type pairs well with the `AsArray` utility.
  */
 export type AllowNonTupleWhenSingular<
-  TTuple extends readonly unknown[],
+    TTuple extends readonly unknown[],
 > = TTuple["length"] extends 1
-  ? TTuple[0] extends ErrorCondition
-    ? TTuple[0]
-    : TTuple | TTuple[0]
-  : TTuple;
+    ? TTuple[0] extends ErrorCondition
+        ? TTuple[0]
+        : TTuple | TTuple[0]
+    : TTuple;

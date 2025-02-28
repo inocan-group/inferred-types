@@ -12,7 +12,7 @@ import type { IsEqual, Length, TypedFunction } from "inferred-types/types";
  * ```
  */
 export type HasParameters<T> = T extends TypedFunction
-  ? IsEqual<Length<Parameters<T>>, 0> extends true
-    ? false
-    : true
-  : false;
+    ? IsEqual<Length<Parameters<T>>, 0> extends true
+        ? false
+        : true
+    : false;

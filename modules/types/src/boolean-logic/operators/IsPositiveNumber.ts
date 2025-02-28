@@ -9,5 +9,5 @@ import type { IsNegativeNumber } from "./IsNegativeNumber";
  * **Related:** `IsNegativeNumber`, `Abs`, `InvertNumericSign`
  */
 export type IsPositiveNumber<T extends NumberLike> = IsNegativeNumber<T> extends true
-  ? false
-  : true;
+    ? false
+    : true;

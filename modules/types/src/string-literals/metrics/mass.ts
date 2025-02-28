@@ -7,18 +7,18 @@ type MassMetricsLookup = typeof MASS_METRICS_LOOKUP;
  * The singular name for metrics associated with **distance**.
  */
 export type MassMetrics = {
-  [K in keyof MassMetricsLookup]: "name" extends keyof MassMetricsLookup[K]
-    ? MassMetricsLookup[K]["name"]
-    : never
+    [K in keyof MassMetricsLookup]: "name" extends keyof MassMetricsLookup[K]
+        ? MassMetricsLookup[K]["name"]
+        : never
 }[number];
 
 /**
  * Unit of measure for metrics associated with **Mass**.
  */
 export type MassUom = {
-  [K in keyof MassMetricsLookup]: "abbrev" extends keyof MassMetricsLookup[K]
-    ? MassMetricsLookup[K]["abbrev"]
-    : never
+    [K in keyof MassMetricsLookup]: "abbrev" extends keyof MassMetricsLookup[K]
+        ? MassMetricsLookup[K]["abbrev"]
+        : never
 }[number];
 
 /***

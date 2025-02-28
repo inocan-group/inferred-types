@@ -19,18 +19,18 @@ type Len<T extends Dictionary> = UnionToTuple<keyof RemoveIndexKeys<T>>["length"
  * **Related:** `EmptyObject`, `IndexedObject`
  */
 export type IndexableObject<
-  TObj extends Dictionary = Dictionary,
-  TIndex extends Dictionary = Dictionary,
+    TObj extends Dictionary = Dictionary,
+    TIndex extends Dictionary = Dictionary,
 > = If<
-  IsNever<TObj>,
-  never,
-  If<
-    IsEqual<TObj, EmptyObject>,
-    Dictionary,
+    IsNever<TObj>,
+    never,
     If<
-      IsNever<Len<TObj>>,
-      Dictionary,
-      ExpandRecursively<TIndex & RemoveIndex<TObj>>
+        IsEqual<TObj, EmptyObject>,
+        Dictionary,
+        If<
+            IsNever<Len<TObj>>,
+            Dictionary,
+            ExpandRecursively<TIndex & RemoveIndex<TObj>>
+        >
     >
-  >
 >;

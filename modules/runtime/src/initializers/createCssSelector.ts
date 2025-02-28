@@ -1,41 +1,41 @@
 import type { CssClassSelector, CssIdSelector, CssPseudoClass, CssSelector, CssTagSelector, If, IsUndefined, Join, TupleToUnion } from "inferred-types/types";
 
 export interface CssSelectorOptions {
-  ids?: readonly CssIdSelector[];
-  classes?: readonly CssClassSelector[];
-  tags?: readonly CssTagSelector[];
-  pseudo?: readonly CssPseudoClass[];
+    ids?: readonly CssIdSelector[];
+    classes?: readonly CssClassSelector[];
+    tags?: readonly CssTagSelector[];
+    pseudo?: readonly CssPseudoClass[];
 }
 
 export type AsClassSelector<
-  T extends CssSelectorOptions | undefined,
+    T extends CssSelectorOptions | undefined,
 > = If<
-  IsUndefined<T>,
-  CssSelector<CssIdSelector, CssClassSelector, CssTagSelector, CssPseudoClass>,
-  T extends CssSelectorOptions
-    ? CssSelector<
-      If<
-        IsUndefined<T["ids"]>,
-        CssIdSelector,
-        TupleToUnion<T["ids"]>
-      >,
-      If<
-        IsUndefined<T["classes"]>,
-        CssClassSelector,
-        TupleToUnion<T["classes"]>
-      >,
-      If<
-        IsUndefined<T["tags"]>,
-        CssTagSelector,
-        TupleToUnion<T["tags"]>
-      >,
-      If<
-        IsUndefined<T["pseudo"]>,
-        CssPseudoClass,
-        TupleToUnion<T["pseudo"]>
-      >
-    >
-    : never
+    IsUndefined<T>,
+    CssSelector<CssIdSelector, CssClassSelector, CssTagSelector, CssPseudoClass>,
+    T extends CssSelectorOptions
+        ? CssSelector<
+            If<
+                IsUndefined<T["ids"]>,
+                CssIdSelector,
+                TupleToUnion<T["ids"]>
+            >,
+            If<
+                IsUndefined<T["classes"]>,
+                CssClassSelector,
+                TupleToUnion<T["classes"]>
+            >,
+            If<
+                IsUndefined<T["tags"]>,
+                CssTagSelector,
+                TupleToUnion<T["tags"]>
+            >,
+            If<
+                IsUndefined<T["pseudo"]>,
+                CssPseudoClass,
+                TupleToUnion<T["pseudo"]>
+            >
+        >
+        : never
 >;
 
 /**
@@ -51,16 +51,16 @@ export type AsClassSelector<
  * Ensures correct syntax and aids in auto-completion of CSS props.
  */
 export function createCssSelector<
-  TOpt extends CssSelectorOptions,
+    TOpt extends CssSelectorOptions,
 >(_opt?: TOpt) {
-  return <
-    TSelect extends readonly CssSelector<
-      TOpt["ids"] extends readonly CssIdSelector[] ? TupleToUnion<TOpt["ids"]> : CssIdSelector,
-      TOpt["classes"] extends readonly CssClassSelector[] ? TupleToUnion<TOpt["classes"]> : CssClassSelector,
-      TOpt["tags"] extends readonly CssTagSelector[] ? TupleToUnion<TOpt["tags"]> : CssTagSelector,
-      TOpt["pseudo"] extends readonly CssPseudoClass[] ? TupleToUnion<TOpt["pseudo"]> : CssPseudoClass
-    >[],
-  >(...selectors: TSelect): Join<TSelect, " "> => {
-    return selectors.join(" ") as string as Join<TSelect, " ">;
-  };
+    return <
+        TSelect extends readonly CssSelector<
+            TOpt["ids"] extends readonly CssIdSelector[] ? TupleToUnion<TOpt["ids"]> : CssIdSelector,
+            TOpt["classes"] extends readonly CssClassSelector[] ? TupleToUnion<TOpt["classes"]> : CssClassSelector,
+            TOpt["tags"] extends readonly CssTagSelector[] ? TupleToUnion<TOpt["tags"]> : CssTagSelector,
+            TOpt["pseudo"] extends readonly CssPseudoClass[] ? TupleToUnion<TOpt["pseudo"]> : CssPseudoClass
+        >[],
+    >(...selectors: TSelect): Join<TSelect, " "> => {
+        return selectors.join(" ") as string as Join<TSelect, " ">;
+    };
 }

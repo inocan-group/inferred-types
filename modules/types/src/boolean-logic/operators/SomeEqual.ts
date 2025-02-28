@@ -10,8 +10,8 @@ import type { AfterFirst, First, IfEqual } from "inferred-types/types";
  * **See Also:** `SomeExtend` and `IfSomeEqual`
  */
 export type SomeEqual<
-  TList extends readonly unknown[],
-  TVal,
+    TList extends readonly unknown[],
+    TVal,
 > = [] extends TList
-  ? false
-  : IfEqual<TVal, First<TList>, true, SomeEqual<AfterFirst<TList>, TVal>>;
+    ? false
+    : IfEqual<TVal, First<TList>, true, SomeEqual<AfterFirst<TList>, TVal>>;

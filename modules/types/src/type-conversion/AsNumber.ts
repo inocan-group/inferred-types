@@ -5,8 +5,8 @@
  * to an actual number.
  */
 export type ParseInt<T> = T extends `${infer N extends number}`
-  ? N
-  : never;
+    ? N
+    : never;
 
 /**
  * **AsNumber**`<T>`
@@ -21,7 +21,7 @@ export type ParseInt<T> = T extends `${infer N extends number}`
  * **Related:** `ToNumber`
  */
 export type AsNumber<T> = T extends number
-  ? T
-  : T extends `${number}`
-    ? ParseInt<T>
-    : never;
+    ? T
+    : T extends `${number}`
+        ? ParseInt<T>
+        : never;

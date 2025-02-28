@@ -18,15 +18,15 @@ import type { Chars, Concat, Handle, IsEqual, Pop, Tuple } from "inferred-types/
  * **Related:** `Pop`, `Last`, `AfterFirst`, `First`
  */
 export type BeforeLast<
-  T extends Tuple | string,
+    T extends Tuple | string,
 > = T extends string
-  ? string extends T
-    ? string
-    : IsEqual<T, ""> extends true
-      ? ""
-      : Pop<Chars<T>> extends readonly string[]
-        ? Concat<Pop<Chars<T>>>
-        : never
-  : T extends Tuple
-    ? Handle<Pop<T>, never, []>
-    : never;
+    ? string extends T
+        ? string
+        : IsEqual<T, ""> extends true
+            ? ""
+            : Pop<Chars<T>> extends readonly string[]
+                ? Concat<Pop<Chars<T>>>
+                : never
+    : T extends Tuple
+        ? Handle<Pop<T>, never, []>
+        : never;

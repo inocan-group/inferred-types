@@ -1,18 +1,18 @@
 import type { IsUnion, TupleToUnion, UnionToTuple } from "inferred-types/types";
 
 type ConvertUnion<
-  T extends readonly unknown[],
-  THandle extends "drop" | "proxy",
+    T extends readonly unknown[],
+    THandle extends "drop" | "proxy",
 > = TupleToUnion<{
-  [K in keyof T]: T[K] extends string
-    ? T[K]
-    : T[K] extends number
-      ? `${T[K]}`
-      : T[K] extends boolean
-        ? `${T[K]}`
-        : THandle extends "drop"
-          ? never
-          : T[K];
+    [K in keyof T]: T[K] extends string
+        ? T[K]
+        : T[K] extends number
+            ? `${T[K]}`
+            : T[K] extends boolean
+                ? `${T[K]}`
+                : THandle extends "drop"
+                    ? never
+                    : T[K];
 }>;
 
 /**
@@ -34,16 +34,16 @@ type ConvertUnion<
  * `THandle` is set to "proxy"
  */
 export type AsStringUnion<
-  T,
-  THandle extends "drop" | "proxy" = "drop",
+    T,
+    THandle extends "drop" | "proxy" = "drop",
 > = IsUnion<T> extends true
-  ? ConvertUnion<UnionToTuple<T>, THandle>
-  : T extends string
-    ? T
-    : T extends number
-      ? `${T}`
-      : T extends boolean
-        ? `${T}`
-        : THandle extends "drop"
-          ? never
-          : T;
+    ? ConvertUnion<UnionToTuple<T>, THandle>
+    : T extends string
+        ? T
+        : T extends number
+            ? `${T}`
+            : T extends boolean
+                ? `${T}`
+                : THandle extends "drop"
+                    ? never
+                    : T;

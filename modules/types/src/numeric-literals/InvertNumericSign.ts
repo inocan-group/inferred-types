@@ -1,8 +1,8 @@
 import type {
-  Abs,
-  AsNegativeNumber,
-  IsNegativeNumber,
-  NumberLike,
+    Abs,
+    AsNegativeNumber,
+    IsNegativeNumber,
+    NumberLike,
 } from "inferred-types/types";
 
 /**
@@ -12,5 +12,5 @@ import type {
  * positive and visa versa).
  */
 export type InvertNumericSign<T extends NumberLike> = IsNegativeNumber<T> extends true
-  ? Abs<T>
-  : AsNegativeNumber<T>;
+    ? Abs<T>
+    : AsNegativeNumber<T>;

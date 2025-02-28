@@ -11,10 +11,10 @@ import type { AnyObject, AsRecord, EmptyObject, ExplicitlyEmptyObject, IsEqual, 
  * **Related:** `IsNonEmptyObject`
  */
 export type IsEmptyObject<T> = T extends AnyObject
-  ? Or<[IsEqual<T, EmptyObject>, IsEqual<T, ExplicitlyEmptyObject>]> extends true
-    ? true
-    : Keys<AsRecord<T>>["length"] extends 0 ? true : false
-  : false;
+    ? Or<[IsEqual<T, EmptyObject>, IsEqual<T, ExplicitlyEmptyObject>]> extends true
+        ? true
+        : Keys<AsRecord<T>>["length"] extends 0 ? true : false
+    : false;
 
 /**
  * **IsNonEmptyObject**`<T>`
@@ -27,11 +27,11 @@ export type IsEmptyObject<T> = T extends AnyObject
  * **Related:** `IsEmptyObject`
  */
 export type IsNonEmptyObject<T> = T extends AnyObject
-  ? Or<[IsEqual<T, EmptyObject>, IsEqual<T, ExplicitlyEmptyObject>]> extends true
-    ? false
-    : Keys<AsRecord<T>>["length"] extends 0
-      ? false
-      : IsNumericLiteral<Keys<AsRecord<T>>["length"]> extends true
-        ? true
-        : false
-  : false;
+    ? Or<[IsEqual<T, EmptyObject>, IsEqual<T, ExplicitlyEmptyObject>]> extends true
+        ? false
+        : Keys<AsRecord<T>>["length"] extends 0
+            ? false
+            : IsNumericLiteral<Keys<AsRecord<T>>["length"]> extends true
+                ? true
+                : false
+    : false;

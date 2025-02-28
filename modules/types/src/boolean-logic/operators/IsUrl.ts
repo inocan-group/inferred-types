@@ -1,30 +1,30 @@
 import type {
-  And,
-  Extends,
-  GetUrlPath,
-  GetUrlSource,
-  IsNever,
-  IsStringLiteral,
-  NetworkProtocol,
-  NetworkProtocolPrefix,
-  Not,
-  Or,
+    And,
+    Extends,
+    GetUrlPath,
+    GetUrlSource,
+    IsNever,
+    IsStringLiteral,
+    NetworkProtocol,
+    NetworkProtocolPrefix,
+    Not,
+    Or,
 } from "inferred-types/types";
 
 export type HasUrlPath<T extends string> = And<[
-  Not<IsNever<GetUrlPath<T>>>,
-  Or<[
-    Extends<GetUrlPath<T>, "">,
-    Extends<GetUrlPath<T>, `/${string}`>,
-    string extends GetUrlPath<T> ? true : false,
-  ]>,
+    Not<IsNever<GetUrlPath<T>>>,
+    Or<[
+        Extends<GetUrlPath<T>, "">,
+        Extends<GetUrlPath<T>, `/${string}`>,
+        string extends GetUrlPath<T> ? true : false,
+    ]>,
 ]>;
 
 export type HasUrlSource<T extends string> = Not<IsNever<GetUrlSource<T>>>;
 
 export type HasNetworkProtocolReference<
-  TTest extends string,
-  TProto extends NetworkProtocol,
+    TTest extends string,
+    TProto extends NetworkProtocol,
 > = Extends<TTest, `${NetworkProtocolPrefix<TProto>}${string}`>;
 
 /**
@@ -42,22 +42,22 @@ export type HasNetworkProtocolReference<
  * without a protocol.
  */
 export type IsUrl<
-  TTest,
-  TProtocol extends NetworkProtocol | "optional" = "https",
+    TTest,
+    TProtocol extends NetworkProtocol | "optional" = "https",
 > = TTest extends string
-  ? IsStringLiteral<TTest> extends true
-    ? And<[
-      Or<[
-        HasNetworkProtocolReference<
-          TTest,
-          TProtocol extends NetworkProtocol
-            ? TProtocol
-            : "https"
-        >,
-        Extends<"optional", TProtocol>,
-      ]>,
-      HasUrlPath<TTest>,
-      HasUrlSource<TTest>,
-    ]>
-    : boolean
-  : false;
+    ? IsStringLiteral<TTest> extends true
+        ? And<[
+            Or<[
+                HasNetworkProtocolReference<
+                    TTest,
+                    TProtocol extends NetworkProtocol
+                        ? TProtocol
+                        : "https"
+                >,
+                Extends<"optional", TProtocol>,
+            ]>,
+            HasUrlPath<TTest>,
+            HasUrlSource<TTest>,
+        ]>
+        : boolean
+    : false;

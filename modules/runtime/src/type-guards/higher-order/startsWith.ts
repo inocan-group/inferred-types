@@ -7,7 +7,7 @@ import { isNumber, isString } from "inferred-types/runtime";
  * A type guard built using the `startsWith` utility.
  */
 export type StartingWithTypeGuard<TStartsWith extends string> = <
-  TValue extends Narrowable,
+    TValue extends Narrowable,
 >(val: TValue
 ) => val is TValue & `${TStartsWith}${string}`;
 
@@ -29,17 +29,17 @@ export type StartingWithTypeGuard<TStartsWith extends string> = <
  * ```
  */
 export function startsWith<
-  TStartsWith extends string,
+    TStartsWith extends string,
 >(startingWith: TStartsWith): StartingWithTypeGuard<TStartsWith> {
-  return <
-    TValue extends Narrowable,
-  >(val: TValue): val is TValue & `${TStartsWith}${string}` => {
-    return (
-      isString(val)
-        ? !!val.startsWith(startingWith)
-        : isNumber(val)
-          ? !!String(val).startsWith(startingWith)
-          : false
-    );
-  };
+    return <
+        TValue extends Narrowable,
+    >(val: TValue): val is TValue & `${TStartsWith}${string}` => {
+        return (
+            isString(val)
+                ? !!val.startsWith(startingWith)
+                : isNumber(val)
+                    ? !!String(val).startsWith(startingWith)
+                    : false
+        );
+    };
 }

@@ -1,10 +1,10 @@
 import type {
-  AfterFirst,
-  AlphaChar,
-  AlphaNumericChar,
-  Chars,
-  First,
-  VariableChar,
+    AfterFirst,
+    AlphaChar,
+    AlphaNumericChar,
+    Chars,
+    First,
+    VariableChar,
 } from "inferred-types/types";
 
 /**
@@ -20,17 +20,17 @@ import type {
 export type Variable = `${AlphaChar}${string}${AlphaNumericChar}`;
 
 type ValidChars<T extends readonly string[]> = [] extends T
-  ? true
-  : First<T> extends VariableChar
-    ? ValidChars<AfterFirst<T>>
-    : false;
+    ? true
+    : First<T> extends VariableChar
+        ? ValidChars<AfterFirst<T>>
+        : false;
 
 /**
  * Boolean operator which returns `true` when `T` is a valid variable
  * name.
  */
 export type IsVariable<T extends string> = T extends Variable
-  ? ValidChars<Chars<T>> extends true
-    ? true
-    : false
-  : false;
+    ? ValidChars<Chars<T>> extends true
+        ? true
+        : false
+    : false;

@@ -7,18 +7,18 @@ type TemperatureMetricsLookup = typeof TEMPERATURE_METRICS_LOOKUP;
  * The singular name for metrics associated with **Temperature**.
  */
 export type TemperatureMetrics = {
-  [K in keyof TemperatureMetricsLookup]: "name" extends keyof TemperatureMetricsLookup[K]
-    ? TemperatureMetricsLookup[K]["name"]
-    : never
+    [K in keyof TemperatureMetricsLookup]: "name" extends keyof TemperatureMetricsLookup[K]
+        ? TemperatureMetricsLookup[K]["name"]
+        : never
 }[number];
 
 /**
  * Unit of measure for metrics associated with **Temperature**.
  */
 export type TemperatureUom = {
-  [K in keyof TemperatureMetricsLookup]: "abbrev" extends keyof TemperatureMetricsLookup[K]
-    ? TemperatureMetricsLookup[K]["abbrev"]
-    : never
+    [K in keyof TemperatureMetricsLookup]: "abbrev" extends keyof TemperatureMetricsLookup[K]
+        ? TemperatureMetricsLookup[K]["abbrev"]
+        : never
 }[number];
 
 /***

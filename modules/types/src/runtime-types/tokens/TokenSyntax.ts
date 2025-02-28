@@ -9,33 +9,33 @@ import type { Dictionary, StringEncoder } from "inferred-types/types";
  * matching.
  */
 export interface TokenSyntax<
-  TName extends string = string,
-  TEnc extends StringEncoder = StringEncoder,
-  TDec extends StringEncoder = StringEncoder,
+    TName extends string = string,
+    TEnc extends StringEncoder = StringEncoder,
+    TDec extends StringEncoder = StringEncoder,
 > {
-  kind: "TokenSyntax";
-  /** the name of the Token Syntax */
-  name: TName;
-  /** the initial starting character's of a token */
-  start: string;
-  /** a token's  */
-  end: string;
-  /** the initial starting character's of a token */
-  sep: string;
+    kind: "TokenSyntax";
+    /** the name of the Token Syntax */
+    name: TName;
+    /** the initial starting character's of a token */
+    start: string;
+    /** a token's  */
+    end: string;
+    /** the initial starting character's of a token */
+    sep: string;
 
-  /**
-   * the encode/decode definition
-   */
-  encodingDefinition: Dictionary<string, string>;
+    /**
+     * the encode/decode definition
+     */
+    encodingDefinition: Dictionary<string, string>;
 
-  /**
-   * An encoder for parameter values to ensure parsing
-   * mistakes on the token are avoided.
-   */
-  encode: TEnc;
-  /**
-   * A decoder for parameter values to allow
-   * decoding of the _encoded_ safe type.
-   */
-  decode: TDec;
+    /**
+     * An encoder for parameter values to ensure parsing
+     * mistakes on the token are avoided.
+     */
+    encode: TEnc;
+    /**
+     * A decoder for parameter values to allow
+     * decoding of the _encoded_ safe type.
+     */
+    decode: TDec;
 }

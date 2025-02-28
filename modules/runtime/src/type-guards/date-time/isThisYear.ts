@@ -14,18 +14,18 @@ import { asDate, isNumber, isObject, isString } from "inferred-types/runtime";
  * **Note:** an invalidate date/datetime passed in will always resolve to `false`
  */
 export function isThisYear(val: unknown): boolean {
-  // Get current year
-  const currentYear = new Date().getFullYear();
+    // Get current year
+    const currentYear = new Date().getFullYear();
 
-  if (isObject(val) || isNumber(val) || isString(val)) {
-    const date = asDate(val);
-    if (date) {
-      return date.getFullYear() === currentYear;
+    if (isObject(val) || isNumber(val) || isString(val)) {
+        const date = asDate(val);
+        if (date) {
+            return date.getFullYear() === currentYear;
+        }
+        else {
+            return false;
+        }
     }
-    else {
-      return false;
-    }
-  }
 
-  return false;
+    return false;
 }

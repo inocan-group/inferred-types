@@ -10,9 +10,9 @@ import type { IsStringLiteral } from "./IsStringLiteral";
  * - `false` for all other conditions
  */
 export type IsEmptyString<T> = T extends string
-  ? IsStringLiteral<T> extends true
-    ? IsEqual<T, ""> extends true
-      ? true
-      : false
-    : boolean
-  : false;
+    ? IsStringLiteral<T> extends true
+        ? IsEqual<T, ""> extends true
+            ? true
+            : false
+        : boolean
+    : false;

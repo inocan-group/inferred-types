@@ -5,19 +5,19 @@ import type { AnyObject } from "inferred-types/types";
  * keys.
  */
 export function hasOverlappingKeys<
-  A extends AnyObject,
-  B extends AnyObject,
+    A extends AnyObject,
+    B extends AnyObject,
 >(
-  a: A,
-  b: B,
+    a: A,
+    b: B,
 ): boolean {
-  const keys = Object.keys(a);
+    const keys = Object.keys(a);
 
-  for (const k of keys) {
-    if (k in b) {
-      return true;
+    for (const k of keys) {
+        if (k in b) {
+            return true;
+        }
     }
-  }
 
-  return false;
+    return false;
 }

@@ -18,5 +18,5 @@
  * **Related:** `IsAllLowercase`
  */
 export type IsAllCaps<T extends string> = string extends T
-  ? boolean
-  : T extends Uppercase<T> ? true : false;
+    ? boolean
+    : T extends Uppercase<T> ? true : false;

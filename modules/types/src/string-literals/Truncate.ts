@@ -1,24 +1,24 @@
 import type {
-  Chars,
-  Concat,
-  If,
-  IsEqual,
-  IsGreaterThan,
-  StrLen,
-  TakeFirst,
+    Chars,
+    Concat,
+    If,
+    IsEqual,
+    IsGreaterThan,
+    StrLen,
+    TakeFirst,
 } from "inferred-types/types";
 
 type Ellipsis<T extends boolean | string> = T extends string
-  ? T
-  : T extends true ? "..." : "";
+    ? T
+    : T extends true ? "..." : "";
 
 type _Truncate<
-  TStr extends readonly string[],
-  TMaxLen extends number,
-  TEllipsis extends string,
+    TStr extends readonly string[],
+    TMaxLen extends number,
+    TEllipsis extends string,
 > = TakeFirst<TStr, TMaxLen> extends readonly string[]
-  ? Concat<[...TakeFirst<TStr, TMaxLen>, TEllipsis]>
-  : never;
+    ? Concat<[...TakeFirst<TStr, TMaxLen>, TEllipsis]>
+    : never;
 
 /**
  * **Truncate**`<TStr,TMaxLen,[TEllipsis]>`
@@ -33,25 +33,25 @@ type _Truncate<
  * add a string literal value to the `TEllipsis` property
  */
 export type Truncate<
-  TContent extends string,
-  TMaxLen extends number,
-  TEllipsis extends boolean | string = false,
+    TContent extends string,
+    TMaxLen extends number,
+    TEllipsis extends boolean | string = false,
 > = TContent extends string
-  ? If<
-    IsEqual<TMaxLen, number>,
-    // non-literal value for max
-    never,
-    If<
-      IsGreaterThan<StrLen<TContent>, TMaxLen>,
-      // truncation required
-      _Truncate<
-        Chars<TContent>,
-        TMaxLen,
-        Ellipsis<TEllipsis>
-      >,
-      // no truncation required
-      TContent
+    ? If<
+        IsEqual<TMaxLen, number>,
+        // non-literal value for max
+        never,
+        If<
+            IsGreaterThan<StrLen<TContent>, TMaxLen>,
+            // truncation required
+            _Truncate<
+                Chars<TContent>,
+                TMaxLen,
+                Ellipsis<TEllipsis>
+            >,
+            // no truncation required
+            TContent
+        >
     >
-  >
 
-  : never;
+    : never;

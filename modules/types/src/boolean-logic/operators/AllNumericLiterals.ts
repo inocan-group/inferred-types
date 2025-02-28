@@ -8,7 +8,7 @@ import type { IsNumericLiteral } from "./IsNumericLiteral";
  * passed in elements are _numeric literals_.
  */
 export type AllNumericLiterals<
-  T extends readonly unknown[],
+    T extends readonly unknown[],
 > = And<{
-  [K in keyof T]: IsNumericLiteral<T[K]>
+    [K in keyof T]: IsNumericLiteral<T[K]>
 }>;

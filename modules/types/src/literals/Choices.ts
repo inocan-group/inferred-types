@@ -1,18 +1,18 @@
 import type {
-  AfterFirst,
-  AnyObject,
-  As,
-  AsString,
-  Dictionary,
-  EmptyObject,
-  ExpandRecursively,
-  First,
-  HandleDoneFn,
-  If,
-  IsTrue,
-  MergeObjects,
-  Scalar,
-  ShapeCallback,
+    AfterFirst,
+    AnyObject,
+    As,
+    AsString,
+    Dictionary,
+    EmptyObject,
+    ExpandRecursively,
+    First,
+    HandleDoneFn,
+    If,
+    IsTrue,
+    MergeObjects,
+    Scalar,
+    ShapeCallback,
 } from "inferred-types/types";
 
 /**
@@ -25,17 +25,17 @@ import type {
  * - or if left _undefined_ the value will be set to the name
  */
 export type CreateChoice = <
-  TName extends string,
-  TValue extends ChoiceValue,
+    TName extends string,
+    TValue extends ChoiceValue,
 >(name: TName,
-  value?: TValue
+    value?: TValue
 ) => Choice;
 
 export type ChoiceCallback = (cb: CreateChoice) => Choice;
 
 export interface Choice<
-  K extends string = string,
-  V = unknown,
+    K extends string = string,
+    V = unknown,
 > { name: K; value: V }
 
 export type ChoiceValue = ShapeCallback | Scalar | Dictionary | undefined;
@@ -46,76 +46,76 @@ export type ChoiceValue = ShapeCallback | Scalar | Dictionary | undefined;
  * Converts a name/value pairing from createChoice() into a Choice.
  */
 export type AsChoice<
-  TName extends string = string,
-  TValue extends ChoiceValue = ChoiceValue,
+    TName extends string = string,
+    TValue extends ChoiceValue = ChoiceValue,
 > = [TValue] extends [ShapeCallback]
-  ? { name: TName; value: HandleDoneFn<ReturnType<TValue>> }
-  : [TValue] extends [Scalar | Dictionary]
-      ? { name: TName; value: TValue }
-      : { name: TName; value: TName };
+    ? { name: TName; value: HandleDoneFn<ReturnType<TValue>> }
+    : [TValue] extends [Scalar | Dictionary]
+        ? { name: TName; value: TValue }
+        : { name: TName; value: TName };
 
 type ProcessChoices<
-  T extends string | [string, Scalar] | Choice | ChoiceCallback,
+    T extends string | [string, Scalar] | Choice | ChoiceCallback,
 > = T extends string
-  ? Choice<T, T>
-  : T extends [string, Scalar]
-    ? Choice<T[0], T[1]>
-    : T extends Choice
-      ? T
-      : T extends ChoiceCallback
-        ? ReturnType<ChoiceCallback>
-        : never;
+    ? Choice<T, T>
+    : T extends [string, Scalar]
+        ? Choice<T[0], T[1]>
+        : T extends Choice
+            ? T
+            : T extends ChoiceCallback
+                ? ReturnType<ChoiceCallback>
+                : never;
 
 export type ToChoices<
-  T extends readonly (string | [string, Scalar] | Choice | ChoiceCallback)[],
+    T extends readonly (string | [string, Scalar] | Choice | ChoiceCallback)[],
 > = {
-  [K in keyof T]: ProcessChoices<T[K]>
+    [K in keyof T]: ProcessChoices<T[K]>
 };
 
 export interface ChoiceApiOptions {
-  /**
-   * A choice may only be chosen once
-   */
-  unique: boolean;
-  max: number | null;
-  /**
-   * the API style as it's presented after configuration
-   */
-  style: "fn" | "object";
+    /**
+     * A choice may only be chosen once
+     */
+    unique: boolean;
+    max: number | null;
+    /**
+     * the API style as it's presented after configuration
+     */
+    style: "fn" | "object";
 }
 
 export type ChoiceApi<
-  _TChoices extends readonly Choice[],
-  _TOptions extends ChoiceApiOptions,
+    _TChoices extends readonly Choice[],
+    _TOptions extends ChoiceApiOptions,
 > = EmptyObject;
 
 export interface ChoiceApiConfig<
-  TChoices extends readonly Choice[],
-  TOptions extends ChoiceApiOptions,
+    TChoices extends readonly Choice[],
+    TOptions extends ChoiceApiOptions,
 > {
-  done: () => ChoiceApi<TChoices, TOptions>;
-  allowChoicesToBeUsedOnlyOnce: () => ChoiceApiConfig<
-    TChoices,
-    As<MergeObjects<TOptions, { unique: true }>, ChoiceApiOptions>
-  >;
-  /**
-   * configured choices can be _reused_ multiple times
-   */
-  allowChoicesToBeUsedMultipleTimes: () => ChoiceApiConfig<
-    TChoices,
-    As<MergeObjects<TOptions, { unique: false }>, ChoiceApiOptions>
-  >;
-  setStyle: <TStyle extends "fn" | "object">(style: TStyle) => ChoiceApiConfig<
-    TChoices,
-    As<MergeObjects<TOptions, { style: TStyle }>, ChoiceApiOptions>
-  >;
-  /**
-   * set a maximum number of choices that should be allowed
-   */
-  maximumChoices: <TMax extends number>(max: TMax) => ChoiceApiConfig<
-    TChoices,
-    As<MergeObjects<TOptions, { max: TMax }>, ChoiceApiOptions>
-  >;
+    done: () => ChoiceApi<TChoices, TOptions>;
+    allowChoicesToBeUsedOnlyOnce: () => ChoiceApiConfig<
+        TChoices,
+        As<MergeObjects<TOptions, { unique: true }>, ChoiceApiOptions>
+    >;
+    /**
+     * configured choices can be _reused_ multiple times
+     */
+    allowChoicesToBeUsedMultipleTimes: () => ChoiceApiConfig<
+        TChoices,
+        As<MergeObjects<TOptions, { unique: false }>, ChoiceApiOptions>
+    >;
+    setStyle: <TStyle extends "fn" | "object">(style: TStyle) => ChoiceApiConfig<
+        TChoices,
+        As<MergeObjects<TOptions, { style: TStyle }>, ChoiceApiOptions>
+    >;
+    /**
+     * set a maximum number of choices that should be allowed
+     */
+    maximumChoices: <TMax extends number>(max: TMax) => ChoiceApiConfig<
+        TChoices,
+        As<MergeObjects<TOptions, { max: TMax }>, ChoiceApiOptions>
+    >;
 }
 
 // /**
@@ -171,32 +171,32 @@ export interface ChoiceApiConfig<
 // > = ToLookup<TInput>;
 
 export interface MultipleChoice<
-  TChoices extends Dictionary<string> = Dictionary<string>,
-  TForceUnique extends boolean = boolean,
-  TState extends readonly unknown[] = [],
-  TExclude extends string = never,
+    TChoices extends Dictionary<string> = Dictionary<string>,
+    TForceUnique extends boolean = boolean,
+    TState extends readonly unknown[] = [],
+    TExclude extends string = never,
 > {
-  selected: TState;
-  forceUnique: TForceUnique;
-  choices: TChoices;
-  <T extends string & Exclude<keyof TChoices, TExclude>>(s: T):
-  MultipleChoice<
-    TChoices,
-    TForceUnique,
-    [
-      ...TState,
-      T extends keyof TChoices
-        ? TChoices[T]
-        : never,
-    ],
-    AsString<If<
-      IsTrue<TForceUnique>,
+    selected: TState;
+    forceUnique: TForceUnique;
+    choices: TChoices;
+    <T extends string & Exclude<keyof TChoices, TExclude>>(s: T):
+    MultipleChoice<
+        TChoices,
+        TForceUnique,
+        [
+            ...TState,
+            T extends keyof TChoices
+                ? TChoices[T]
+                : never,
+        ],
+        AsString<If<
+            IsTrue<TForceUnique>,
         TExclude | T,
         TExclude
-    >>
-  >;
-  /** return the selected choices */
-  done: () => TState;
+        >>
+    >;
+    /** return the selected choices */
+    done: () => TState;
 }
 
 /**
@@ -210,21 +210,21 @@ export interface MultipleChoice<
  * `.done()` then this is done for them.
  */
 export type MultiChoiceCallback<TApi extends MultipleChoice> = <
-  CB extends ((c: TApi) => unknown),
+    CB extends ((c: TApi) => unknown),
 >(cb: CB
 ) => HandleDoneFn<ReturnType<CB>>;
 
 type MergeKVs<
-  TInput extends readonly AnyObject[],
-  TOutput extends Dictionary = EmptyObject,
+    TInput extends readonly AnyObject[],
+    TOutput extends Dictionary = EmptyObject,
 > = [] extends TInput
-  ? ExpandRecursively<TOutput>
-  : MergeKVs<
-    AfterFirst<TInput>,
-    First<TInput> extends keyof TOutput
-      ? TOutput
-      : TOutput & First<TInput>
-  >;
+    ? ExpandRecursively<TOutput>
+    : MergeKVs<
+        AfterFirst<TInput>,
+        First<TInput> extends keyof TOutput
+            ? TOutput
+            : TOutput & First<TInput>
+    >;
 
 /**
  * **ChoiceBuilder**
@@ -232,15 +232,15 @@ type MergeKVs<
  * Builds a Choice API surface:
  */
 export type ChoiceBuilder = <
-  TChoices extends readonly Choice[],
+    TChoices extends readonly Choice[],
 >(...choices: TChoices) => ({
-  chooseMany: <
-    TForce extends boolean,
-  >(force: TForce) =>
-  MultipleChoice<
-    MergeKVs<TChoices> extends Dictionary<string>
-      ? MergeKVs<TChoices>
-      : never,
-    TForce
-  >;
+    chooseMany: <
+        TForce extends boolean,
+    >(force: TForce) =>
+    MultipleChoice<
+        MergeKVs<TChoices> extends Dictionary<string>
+            ? MergeKVs<TChoices>
+            : never,
+        TForce
+    >;
 });

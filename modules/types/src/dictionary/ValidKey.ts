@@ -9,7 +9,7 @@ import type { AsArray, Container, Keys, TupleToUnion } from "inferred-types/type
  * **Related**: `Keys`
  */
 export type ValidKey<
-  TContainer extends Container,
+    TContainer extends Container,
 > = TupleToUnion<
-  AsArray<Keys<TContainer>>
+    AsArray<Keys<TContainer>>
 >;

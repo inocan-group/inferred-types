@@ -15,10 +15,10 @@ import { asChars } from "inferred-types/runtime";
  * **Related:** `stripChars()`, `retainWhile()`, `retainUntil()`
  */
 export function retainChars<
-  TContent extends string,
-  TRetain extends readonly string[],
+    TContent extends string,
+    TRetain extends readonly string[],
 >(content: TContent, ...retain: TRetain): RetainChars<TContent, TupleToUnion<TRetain>> {
-  const chars: readonly string[] = asChars(content);
+    const chars: readonly string[] = asChars(content);
 
-  return chars.filter(c => retain.includes(c)).join("") as unknown as RetainChars<TContent, TupleToUnion<TRetain>>;
+    return chars.filter(c => retain.includes(c)).join("") as unknown as RetainChars<TContent, TupleToUnion<TRetain>>;
 }

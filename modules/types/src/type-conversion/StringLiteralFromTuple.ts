@@ -1,22 +1,22 @@
 import type { AfterFirst, First, IsNumericLiteral, IsStringLiteral } from "inferred-types/types";
 
 type LitString<
-  TItems extends readonly unknown[],
-  TLiteral extends string = "",
+    TItems extends readonly unknown[],
+    TLiteral extends string = "",
 > = [] extends TItems
-  ? TLiteral
-  : LitString<
-    AfterFirst<TItems>,
-    First<TItems> extends string
-      ? IsStringLiteral<First<TItems>> extends true
-        ? `${TLiteral}${First<TItems>}`
-        : `${TLiteral}${string}`
-      : First<TItems> extends number
-        ? IsNumericLiteral<First<TItems>> extends true
-          ? `${TLiteral}${First<TItems>}`
-          : `${TLiteral}${number}`
-        : TLiteral
-  >;
+    ? TLiteral
+    : LitString<
+        AfterFirst<TItems>,
+        First<TItems> extends string
+            ? IsStringLiteral<First<TItems>> extends true
+                ? `${TLiteral}${First<TItems>}`
+                : `${TLiteral}${string}`
+            : First<TItems> extends number
+                ? IsNumericLiteral<First<TItems>> extends true
+                    ? `${TLiteral}${First<TItems>}`
+                    : `${TLiteral}${number}`
+                : TLiteral
+    >;
 
 /**
  * **StringLiteralFromTuple**`<T>`
@@ -32,5 +32,5 @@ type LitString<
  * ```
  */
 export type StringLiteralFromTuple<
-  T extends readonly unknown[],
+    T extends readonly unknown[],
 > = LitString<T>;

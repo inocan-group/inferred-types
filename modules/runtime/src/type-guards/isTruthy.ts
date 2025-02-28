@@ -8,5 +8,5 @@ import { FALSY_VALUES } from "inferred-types/constants";
  * in Javascript.
  */
 export function isTruthy<V>(val: V): val is Exclude<V, FalsyValue> {
-  return !FALSY_VALUES.includes(val as any);
+    return !FALSY_VALUES.includes(val as any);
 }

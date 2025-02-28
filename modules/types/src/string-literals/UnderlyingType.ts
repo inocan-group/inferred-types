@@ -1,12 +1,12 @@
 import type { AsBoolean, AsNumber, BooleanLike, NumberLike } from "inferred-types/types";
 
 type Process<
-  T,
+    T,
 > = T extends NumberLike
-  ? AsNumber<T>
-  : T extends BooleanLike
-    ? AsBoolean<T>
-    : T;
+    ? AsNumber<T>
+    : T extends BooleanLike
+        ? AsBoolean<T>
+        : T;
 
 /**
  * **UnderlyingType**`<T>`
@@ -20,9 +20,9 @@ type Process<
  * In all other cases it simply proxies the type of `T` through.
  */
 export type UnderlyingType<
-  T,
+    T,
 > = T extends readonly unknown[]
-  ? {
-      [K in keyof T]: Process<T[K]>
+    ? {
+        [K in keyof T]: Process<T[K]>
     }
-  : Process<T>;
+    : Process<T>;

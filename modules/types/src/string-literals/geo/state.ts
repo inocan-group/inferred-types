@@ -5,15 +5,15 @@ type UsStateLookup = Mutable<typeof US_STATE_LOOKUP>;
 type UsProvinceLookup = Mutable<typeof US_STATE_LOOKUP_PROVINCES>;
 
 type _UsStateAbbrev = {
-  [K in keyof UsStateLookup]: UsStateLookup[K] extends { abbrev: infer A extends string }
-    ? A
-    : never;
+    [K in keyof UsStateLookup]: UsStateLookup[K] extends { abbrev: infer A extends string }
+        ? A
+        : never;
 }[number];
 
 type _UsProvinceAbbrev = {
-  [K in keyof UsProvinceLookup]: UsProvinceLookup[K] extends { abbrev: infer A extends string }
-    ? A
-    : never;
+    [K in keyof UsProvinceLookup]: UsProvinceLookup[K] extends { abbrev: infer A extends string }
+        ? A
+        : never;
 }[number];
 
 /**
@@ -28,21 +28,21 @@ type _UsProvinceAbbrev = {
  * **Related:** `UsStateAbbrev`
  */
 export type UsStateAbbrev<TStrict extends boolean = false> = IsTrue<TStrict> extends true
-  ? Exclude<_UsStateAbbrev, _UsProvinceAbbrev>
-  : _UsStateAbbrev;
+    ? Exclude<_UsStateAbbrev, _UsProvinceAbbrev>
+    : _UsStateAbbrev;
 
 type _UsStateName = {
-  [K in keyof UsStateLookup]: UsStateLookup[K] extends {
-    name: infer A extends string;
-  }
-    ? A
-    : never;
+    [K in keyof UsStateLookup]: UsStateLookup[K] extends {
+        name: infer A extends string;
+    }
+        ? A
+        : never;
 }[number];
 
 type _UsProvinceName = {
-  [K in keyof UsProvinceLookup]: UsProvinceLookup[K] extends { name: infer A extends string }
-    ? A
-    : never;
+    [K in keyof UsProvinceLookup]: UsProvinceLookup[K] extends { name: infer A extends string }
+        ? A
+        : never;
 }[number];
 
 /**
@@ -54,5 +54,5 @@ type _UsProvinceName = {
  * **Related:** `UsStateAbbrev`
  */
 export type UsStateName<TStrict extends boolean = false> = IsTrue<TStrict> extends true
-  ? Exclude<_UsStateName, _UsProvinceName>
-  : _UsStateName;
+    ? Exclude<_UsStateName, _UsProvinceName>
+    : _UsStateName;

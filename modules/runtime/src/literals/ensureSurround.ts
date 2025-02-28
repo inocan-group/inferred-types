@@ -12,19 +12,19 @@ import { ensureLeading, ensureTrailing } from "inferred-types/runtime";
  * **Related:** `surround()`
  */
 export function ensureSurround<
-  TPrefix extends string,
-  TPostfix extends string,
+    TPrefix extends string,
+    TPostfix extends string,
 >(prefix: TPrefix, postfix: TPostfix) {
-  const fn = <TInput extends string>(
-    input: TInput,
-  ): EnsureSurround<TInput, TPrefix, TPostfix> => {
-    let result: string = input;
+    const fn = <TInput extends string>(
+        input: TInput,
+    ): EnsureSurround<TInput, TPrefix, TPostfix> => {
+        let result: string = input;
 
-    result = ensureLeading(result, prefix);
-    result = ensureTrailing(result, postfix);
+        result = ensureLeading(result, prefix);
+        result = ensureTrailing(result, postfix);
 
-    return result as EnsureSurround<TInput, TPrefix, TPostfix>;
-  };
+        return result as EnsureSurround<TInput, TPrefix, TPostfix>;
+    };
 
-  return fn;
+    return fn;
 }

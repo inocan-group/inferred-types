@@ -13,17 +13,17 @@ import { isBoolean } from "inferred-types/runtime";
  * @param notBoolean the value (strongly typed) returned if val is NOT a _boolean
  */
 export function ifBoolean<
-  TContent extends Narrowable,
-  TIf extends Narrowable,
-  TElse extends Narrowable,
+    TContent extends Narrowable,
+    TIf extends Narrowable,
+    TElse extends Narrowable,
 >(
-  val: TContent,
-  ifBoolean: <V extends boolean>(v: V & TContent) => TIf,
-  notBoolean: <V extends Exclude<TContent, boolean>>(v: V) => TElse,
+    val: TContent,
+    ifBoolean: <V extends boolean>(v: V & TContent) => TIf,
+    notBoolean: <V extends Exclude<TContent, boolean>>(v: V) => TElse,
 ) {
-  return (
-    isBoolean(val)
-      ? ifBoolean(val as TContent & boolean)
-      : notBoolean(val as Exclude<TContent, boolean>)
-  ) as unknown as [IsBoolean<TContent>] extends [true] ? TIf : TElse;
+    return (
+        isBoolean(val)
+            ? ifBoolean(val as TContent & boolean)
+            : notBoolean(val as Exclude<TContent, boolean>)
+    ) as unknown as [IsBoolean<TContent>] extends [true] ? TIf : TElse;
 }

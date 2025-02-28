@@ -4,18 +4,18 @@ import type { First } from "../lists/First";
 import type { ExpandRecursively } from "../literals/ExpandRecursively";
 
 type Process<
-  TInput extends readonly { [key: string]: unknown }[],
-  TOutput extends Dictionary = EmptyObject,
+    TInput extends readonly { [key: string]: unknown }[],
+    TOutput extends Dictionary = EmptyObject,
 > = [] extends TInput
-  ? TOutput extends Record<string, unknown>
-    ? ExpandRecursively<TOutput>
-    : never
-  : Process<
-    AfterFirst<TInput>,
-    First<TInput> extends keyof TOutput
-      ? TOutput
-      : TOutput & First<TInput>
-  >;
+    ? TOutput extends Record<string, unknown>
+        ? ExpandRecursively<TOutput>
+        : never
+    : Process<
+        AfterFirst<TInput>,
+        First<TInput> extends keyof TOutput
+            ? TOutput
+            : TOutput & First<TInput>
+    >;
 
 /**
  * **MergeKVs**`<TKVs>`
@@ -26,5 +26,5 @@ type Process<
  * **Note:** _if key is repeated in the set, only the first one's value will be retained_
  */
 export type MergeKVs<
-  TInput extends readonly { [key: string]: unknown }[],
+    TInput extends readonly { [key: string]: unknown }[],
 > = Process<TInput>;

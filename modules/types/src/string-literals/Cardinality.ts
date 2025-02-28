@@ -39,12 +39,12 @@ export type Cardinality0 = ZeroToOne | ZeroToMany | OneToOne | OneToMany;
  * 1, or many outputs.
  */
 export type CardinalityFilter0 =
-  | ZeroToOne
-  | ZeroToMany
-  | OneToOne
-  | OneToMany
-  | OneToZero
-  | ZeroToZero;
+    | ZeroToOne
+    | ZeroToMany
+    | OneToOne
+    | OneToMany
+    | OneToZero
+    | ZeroToZero;
 
 export type CardinalityExplicit = `${number}:${number}`;
 
@@ -52,12 +52,12 @@ export type CardinalityExplicit = `${number}:${number}`;
  * Cardinality of any sort between two types
  */
 export type Cardinality =
-  | CardinalityFilter0
-  | CardinalityFilter1
-  | ManyToMany
-  | ManyToOne
-  | ManyToZero
-  | CardinalityExplicit;
+    | CardinalityFilter0
+    | CardinalityFilter1
+    | ManyToMany
+    | ManyToOne
+    | ManyToZero
+    | CardinalityExplicit;
 
 /**
  * The first or _input_ part of the Cardinality relationship
@@ -68,14 +68,14 @@ export type CardinalityIn<T extends Cardinality> = T extends `${infer IN}:${stri
  * The second or _output_ part of the Cardinality relationship
  */
 export type CardinalityOut<T extends Cardinality> = T extends `${string}:${infer OUT}`
-  ? OUT
-  : never;
+    ? OUT
+    : never;
 
 export type CardinalityInput<
-  T,
-  C extends Cardinality,
+    T,
+    C extends Cardinality,
 > = UnionToTuple<C> extends readonly unknown[]
-  ? First<UnionToTuple<C>> extends 1
-    ? T
-    : T[]
-  : T | undefined;
+    ? First<UnionToTuple<C>> extends 1
+        ? T
+        : T[]
+    : T | undefined;

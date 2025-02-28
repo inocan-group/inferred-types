@@ -8,7 +8,7 @@ import { isString } from "./isString";
  * **Related:** `isLikeRegExp`
  */
 export function isRegExp(val: unknown): val is RegExp {
-  return val instanceof RegExp;
+    return val instanceof RegExp;
 }
 
 /**
@@ -19,19 +19,19 @@ export function isRegExp(val: unknown): val is RegExp {
  * **Related:** `isRegExp`
  */
 export function isLikeRegExp(val: unknown): val is LikeRegExp {
-  if (isRegExp(val)) {
-    return true;
-  }
-
-  if (isString(val)) {
-    try {
-      const _re = new RegExp(val);
-      return true;
+    if (isRegExp(val)) {
+        return true;
     }
-    catch {
-      return false;
-    }
-  }
 
-  return false;
+    if (isString(val)) {
+        try {
+            const _re = new RegExp(val);
+            return true;
+        }
+        catch {
+            return false;
+        }
+    }
+
+    return false;
 }

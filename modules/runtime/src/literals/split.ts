@@ -11,8 +11,8 @@ import type { Chars, IsEqual } from "inferred-types/types";
  * All are other types are disallowed.
  */
 export function split<
-  T extends string,
-  S extends string,
+    T extends string,
+    S extends string,
 >(str: T, sep: S = "" as S) {
-  return str.split(sep) as unknown as IsEqual<S, ""> extends true ? Chars<T> : readonly string[];
+    return str.split(sep) as unknown as IsEqual<S, ""> extends true ? Chars<T> : readonly string[];
 }

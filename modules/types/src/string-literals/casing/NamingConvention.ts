@@ -7,7 +7,7 @@
  * **Related:** `NamingModifier`
  */
 export type NamingConvention =
-  | "camelCase"
-  | "PascalCase"
-  | "kebab-case"
-  | "snake_case";
+    | "camelCase"
+    | "PascalCase"
+    | "kebab-case"
+    | "snake_case";

@@ -1,27 +1,27 @@
 import type {
-  AfterFirst,
-  Dictionary,
-  EmptyObject,
-  ErrorCondition,
-  ExpandRecursively,
-  Extends,
-  Fail,
-  First,
-  HasEscapeFunction,
-  If,
-  IsEscapeFunction,
-  KeyOf,
-  PublicKeyOf,
-  ReduceValues,
-  RemoveNever,
-  Throw,
-  Tuple,
-  TupleToUnion,
-  TypedFunction,
-  Unset,
-  UpsertKeyValue,
-  Values,
-  WhenNever,
+    AfterFirst,
+    Dictionary,
+    EmptyObject,
+    ErrorCondition,
+    ExpandRecursively,
+    Extends,
+    Fail,
+    First,
+    HasEscapeFunction,
+    If,
+    IsEscapeFunction,
+    KeyOf,
+    PublicKeyOf,
+    ReduceValues,
+    RemoveNever,
+    Throw,
+    Tuple,
+    TupleToUnion,
+    TypedFunction,
+    Unset,
+    UpsertKeyValue,
+    Values,
+    WhenNever,
 } from "inferred-types/types";
 
 /**
@@ -35,23 +35,23 @@ import type {
  * ```
  */
 export type ValueCallback<
-  TVal,
-  TReturn,
+    TVal,
+    TReturn,
 > = <V extends TVal>(v: V) => TReturn;
 
 type _GetEscapeFunction<
-  T extends readonly unknown[],
+    T extends readonly unknown[],
 > = WhenNever<
-  First<
-    RemoveNever<{
-      [K in keyof T]: If<
-        IsEscapeFunction<T[K]>,
-        T[K],
-        never
-      >
-    }>
-  >,
-  Throw<"no-escape-function">
+    First<
+        RemoveNever<{
+            [K in keyof T]: If<
+                IsEscapeFunction<T[K]>,
+                T[K],
+                never
+            >
+        }>
+    >,
+    Throw<"no-escape-function">
 >;
 
 /**
@@ -61,47 +61,47 @@ type _GetEscapeFunction<
  * if it exists. If it does not exist then returns an ErrorCondition.
  */
 export type GetEscapeFunction<
-  T extends Dictionary | TypedFunction | Api,
+    T extends Dictionary | TypedFunction | Api,
 > = T extends Api
-  ? _GetEscapeFunction<Values<T["surface"]>>
-  : _GetEscapeFunction<Values<T>>;
+    ? _GetEscapeFunction<Values<T["surface"]>>
+    : _GetEscapeFunction<Values<T>>;
 
 export interface FluentState<T> {
-  state: T;
-  config: {
-    useOnce: keyof T[];
-    used: keyof T[];
-  };
+    state: T;
+    config: {
+        useOnce: keyof T[];
+        used: keyof T[];
+    };
 }
 
 export interface FluentFn<
-  TState,
-  TName extends string,
-  TFn extends <TCb extends (
-    <T extends FluentState<TState>>(state: T) => TypedFunction<TState>), TOnce extends boolean>(cb: TCb,
-    useOnce?: TOnce
-  ) => void,
-  TOnce extends boolean = false,
+    TState,
+    TName extends string,
+    TFn extends <TCb extends (
+        <T extends FluentState<TState>>(state: T) => TypedFunction<TState>), TOnce extends boolean>(cb: TCb,
+        useOnce?: TOnce
+    ) => void,
+    TOnce extends boolean = false,
 > {
-  name: TName;
-  fn: TFn;
-  useOnce: TOnce;
+    name: TName;
+    fn: TFn;
+    useOnce: TOnce;
 }
 
 type ExpandFluentFns<
-  TFluentState extends FluentState<any>,
-  TFns extends readonly FluentFn<TFluentState["state"], any, any>[],
-  TFluentApi extends Dictionary = EmptyObject,
+    TFluentState extends FluentState<any>,
+    TFns extends readonly FluentFn<TFluentState["state"], any, any>[],
+    TFluentApi extends Dictionary = EmptyObject,
 > = [] extends TFns
-  ? TFluentApi
-  : ExpandFluentFns<
-    TFluentState,
-    AfterFirst<TFns>,
-    TFluentApi & Record<
-      First<TFns>["name"],
-      First<TFns>["fn"]
-    >
-  >;
+    ? TFluentApi
+    : ExpandFluentFns<
+        TFluentState,
+        AfterFirst<TFns>,
+        TFluentApi & Record<
+            First<TFns>["name"],
+            First<TFns>["fn"]
+        >
+    >;
 
 /**
  * **FluentApi**`<TSurface,TState,TFluentFns>`
@@ -110,9 +110,9 @@ type ExpandFluentFns<
  * Fluent API.
  */
 export type FluentApi<
-  TSurface extends Dictionary | TypedFunction,
-  TState,
-  TFluentFns extends readonly FluentFn<TState, any, any>[],
+    TSurface extends Dictionary | TypedFunction,
+    TState,
+    TFluentFns extends readonly FluentFn<TState, any, any>[],
 > = <T extends FluentState<TState>>(state: T) => ExpandRecursively<
   TSurface & ExpandFluentFns<FluentState<TState>, TFluentFns>
 >;
@@ -133,12 +133,12 @@ export type ApiState = Dictionary | Tuple;
  * the current _state_ you are in.
  */
 export interface ApiConfig<
-  TSurface extends ApiSurface<Api> = ApiSurface<Api>,
-  TState extends ApiState = ApiState,
+    TSurface extends ApiSurface<Api> = ApiSurface<Api>,
+    TState extends ApiState = ApiState,
 > {
-  callOnce: readonly string[];
-  called: readonly string[];
-  mask: ((state: TState, called: readonly string[]) => readonly (KeyOf<TSurface>)[]);
+    callOnce: readonly string[];
+    called: readonly string[];
+    mask: ((state: TState, called: readonly string[]) => readonly (KeyOf<TSurface>)[]);
 }
 
 /**
@@ -147,26 +147,26 @@ export interface ApiConfig<
  * The _options_ which go into defining an API surface.
  */
 export interface ApiOptions<
-  TSurface extends Dictionary | TypedFunction | Unset = Unset,
+    TSurface extends Dictionary | TypedFunction | Unset = Unset,
 > {
-  /**
-   * any _state_ which the API is managing (making it a `FluentApi`)
-   *
-   * @default Unset;
-   */
-  state: Unset | Dictionary;
+    /**
+     * any _state_ which the API is managing (making it a `FluentApi`)
+     *
+     * @default Unset;
+     */
+    state: Unset | Dictionary;
 
-  /**
-   * An array of _keys_ to the API surface which should only be allowed
-   * to be called once (and will be _masked_ thereafter from runtime).
-   *
-   * **Note:** _this only really makes sense when you're managing state_.
-   */
-  callOnce: TSurface extends Unset
-    ? readonly PropertyKey[]
-    : TSurface extends Dictionary | TypedFunction
-      ? readonly PublicKeyOf<AsApi<TSurface>>[]
-      : never;
+    /**
+     * An array of _keys_ to the API surface which should only be allowed
+     * to be called once (and will be _masked_ thereafter from runtime).
+     *
+     * **Note:** _this only really makes sense when you're managing state_.
+     */
+    callOnce: TSurface extends Unset
+        ? readonly PropertyKey[]
+        : TSurface extends Dictionary | TypedFunction
+            ? readonly PublicKeyOf<AsApi<TSurface>>[]
+            : never;
 
 }
 
@@ -179,10 +179,10 @@ export interface ApiOptions<
  * **Related:** `FluentApi`, `AsFluentApi`
  */
 export interface Api<
-  TSurface extends Dictionary | TypedFunction = Dictionary | TypedFunction,
+    TSurface extends Dictionary | TypedFunction = Dictionary | TypedFunction,
 > {
-  _kind: "api";
-  surface: TSurface;
+    _kind: "api";
+    surface: TSurface;
 }
 
 /**
@@ -194,12 +194,12 @@ export interface Api<
  * Note: this does not consider the possibility of a user
  */
 export type ApiReturn<
-  T extends Api,
+    T extends Api,
 > = "surface" extends keyof T
-  ? T["surface"] extends Dictionary
-    ? TupleToUnion<ReduceValues<T["surface"]>>
-    : never
-  : unknown;
+    ? T["surface"] extends Dictionary
+        ? TupleToUnion<ReduceValues<T["surface"]>>
+        : never
+    : unknown;
 
 /**
  * **ApiSurface**`<T>`
@@ -220,18 +220,18 @@ export type ApiSurface<T extends Api> = T["surface"];
  * **Related:** `HandleApiCallback`, `ApiCallbackInfo`
  */
 export type ApiCallback<
-  TApi extends Api,
+    TApi extends Api,
 > = <TCall extends (api: ApiSurface<TApi>) => unknown>(cb: TCall) => ReturnType<TCall>;
 
 type _Fluent<
-  _TStateDefn extends Dictionary,
-  _TState extends _TStateDefn,
-  _TConfig extends {
-    called: readonly KeyOf<_TState>[];
-    callOnce: readonly KeyOf<_TState>[];
-  },
-  _TCaller extends KeyOf<_TState>,
-  _TUpdate extends _TStateDefn,
+    _TStateDefn extends Dictionary,
+    _TState extends _TStateDefn,
+    _TConfig extends {
+        called: readonly KeyOf<_TState>[];
+        callOnce: readonly KeyOf<_TState>[];
+    },
+    _TCaller extends KeyOf<_TState>,
+    _TUpdate extends _TStateDefn,
 > = any;
 
 /**
@@ -241,13 +241,13 @@ type _Fluent<
  * if valid. If not valid you'll get a `ErrorCondition`.
  */
 export type AsApi<
-  TSurface extends Dictionary | TypedFunction,
+    TSurface extends Dictionary | TypedFunction,
 > = HasEscapeFunction<TSurface> extends true
-  ? Api<TSurface>
-  : Throw<"no-escape-function">;
+    ? Api<TSurface>
+    : Throw<"no-escape-function">;
 
 export type ApiStateInitializer<
-  TApi,
+    TApi,
 > = <T extends Dictionary>(state: T) => TApi;
 
 /**
@@ -256,27 +256,27 @@ export type ApiStateInitializer<
  * Note: ironically this is **not** a stateless API.
  */
 export interface DefineStatelessApi<
-  T extends Dictionary = EmptyObject,
-  _C extends {
-    called: readonly KeyOf<T>[];
-    callOnce: ["escapeFunction"];
-  } = { called: []; callOnce: ["escapeFunction"] },
+    T extends Dictionary = EmptyObject,
+    _C extends {
+        called: readonly KeyOf<T>[];
+        callOnce: ["escapeFunction"];
+    } = { called: []; callOnce: ["escapeFunction"] },
 > {
-  escapeFunction: (state: T) => <
-    TKey extends string,
-    TFn extends () => unknown,
-  >(
-    key: Fail<TKey, Extends<TKey, KeyOf<T>>>,
-    fn: TFn
-  ) => ReturnType<TFn>;
-  addFn: (state: T) => <
-    TKey extends string,
-    TFn extends TypedFunction,
-  >(key: Fail<TKey, KeyOf<T>>,
-    fn: TFn) =>
-  ExpandRecursively<T["surface"] & Record<TKey, TFn>> extends T["surface"]
-    ? UpsertKeyValue<T, "surface", ExpandRecursively<T["surface"] & Record<TKey, TFn>>>
-    : never;
+    escapeFunction: (state: T) => <
+        TKey extends string,
+        TFn extends () => unknown,
+    >(
+        key: Fail<TKey, Extends<TKey, KeyOf<T>>>,
+        fn: TFn
+    ) => ReturnType<TFn>;
+    addFn: (state: T) => <
+        TKey extends string,
+        TFn extends TypedFunction,
+    >(key: Fail<TKey, KeyOf<T>>,
+        fn: TFn) =>
+    ExpandRecursively<T["surface"] & Record<TKey, TFn>> extends T["surface"]
+        ? UpsertKeyValue<T, "surface", ExpandRecursively<T["surface"] & Record<TKey, TFn>>>
+        : never;
 
 }
 
@@ -287,14 +287,14 @@ export interface DefineStatelessApi<
  * the escape function.
  */
 export type ApiEscape<
-  T extends Dictionary | TypedFunction | ApiCallback<Api>,
+    T extends Dictionary | TypedFunction | ApiCallback<Api>,
 > = T extends ApiCallback<Api>
-  ? T extends TypedFunction
-    ? Parameters<T>[0] extends Dictionary | TypedFunction
-      ? GetEscapeFunction<Parameters<T>[0]>
-      : never
-    : never
-  : GetEscapeFunction<T>;
+    ? T extends TypedFunction
+        ? Parameters<T>[0] extends Dictionary | TypedFunction
+            ? GetEscapeFunction<Parameters<T>[0]>
+            : never
+        : never
+    : GetEscapeFunction<T>;
 
 // /**
 //  * **HandleApiCallback**`<TReturn, TApi>`
@@ -317,6 +317,6 @@ export type ApiEscape<
  * An API handler for a specific API
  */
 export type ApiHandler<
-  TApi extends Api,
-  _THandle extends (t: unknown, e: ErrorCondition) => unknown,
+    TApi extends Api,
+    _THandle extends (t: unknown, e: ErrorCondition) => unknown,
 > = (api: TApi) => <R>(result: R) => unknown;

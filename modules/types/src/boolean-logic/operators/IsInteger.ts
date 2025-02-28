@@ -7,11 +7,11 @@ import type { HasCharacters, IsNever, IsStringLiteral, NumberLike } from "inferr
  * a `NumberLike` type `T`.
  */
 export type IsInteger<T> = [IsNever<T>] extends [true]
-  ? false
-  : [T] extends [NumberLike]
-      ? [IsStringLiteral<`${T}`>] extends [true]
-          ? [HasCharacters<`${T}`, ".">] extends [true]
-              ? false
-              : true
-          : boolean
-      : false;
+    ? false
+    : [T] extends [NumberLike]
+        ? [IsStringLiteral<`${T}`>] extends [true]
+            ? [HasCharacters<`${T}`, ".">] extends [true]
+                ? false
+                : true
+            : boolean
+        : false;

@@ -1,5 +1,5 @@
 import type {
-  WHITESPACE_CHARS,
+    WHITESPACE_CHARS,
 } from "inferred-types/constants";
 
 /**

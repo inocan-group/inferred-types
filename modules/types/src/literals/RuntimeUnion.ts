@@ -7,10 +7,10 @@ import type { TupleToUnion } from "../type-conversion";
  * union type of the member in the `members` array.
  */
 export interface RuntimeUnion<
-  T extends readonly unknown[],
+    T extends readonly unknown[],
 > {
-  kind: "Union";
-  members: T;
-  type: TupleToUnion<T>;
-  includes: (v: unknown) => boolean;
+    kind: "Union";
+    members: T;
+    type: TupleToUnion<T>;
+    includes: (v: unknown) => boolean;
 }

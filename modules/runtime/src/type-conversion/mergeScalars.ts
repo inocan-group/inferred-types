@@ -8,8 +8,8 @@ import { isUndefined } from "../type-guards/isUndefined";
  * undefined.
  */
 export function mergeScalars<
-  A extends Scalar | undefined,
-  B extends Scalar | undefined,
+    A extends Scalar | undefined,
+    B extends Scalar | undefined,
 >(a: A, b: B) {
-  return (isUndefined(b) ? a : b) as MergeScalars<A, B>;
+    return (isUndefined(b) ? a : b) as MergeScalars<A, B>;
 }

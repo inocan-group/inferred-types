@@ -1,57 +1,57 @@
 import type { Marked } from "inferred-types/constants";
 
 import type {
-  AfterFirst,
-  As,
-  Container,
-  Dictionary,
-  EmptyObject,
-  First,
-  IsEmptyContainer,
-  IsEmptyString,
-  IsNever,
-  IsNull,
-  IsUndefined,
-  Or,
-  RemoveMarked,
-  StringKeys,
-  Tuple,
+    AfterFirst,
+    As,
+    Container,
+    Dictionary,
+    EmptyObject,
+    First,
+    IsEmptyContainer,
+    IsEmptyString,
+    IsNever,
+    IsNull,
+    IsUndefined,
+    Or,
+    RemoveMarked,
+    StringKeys,
+    Tuple,
 } from "inferred-types/types";
 
 type IsEmpty<T> = Or<[
-  IsNull<T>,
-  T extends Container ? IsEmptyContainer<T> : false,
-  IsEmptyString<T>,
-  IsUndefined<T>,
-  IsNever<T>,
+    IsNull<T>,
+    T extends Container ? IsEmptyContainer<T> : false,
+    IsEmptyString<T>,
+    IsUndefined<T>,
+    IsNever<T>,
 ]> extends true ? true : false;
 
 type ProcessTup<
-  T extends Tuple,
-  Result extends Tuple = [],
+    T extends Tuple,
+    Result extends Tuple = [],
 > = [] extends T
-  ? Result
-  : ProcessTup<
-    AfterFirst<T>,
-    [
-      ...Result,
-      IsEmpty<First<T>> extends true ? Marked : First<T>,
-    ]
-  >;
+    ? Result
+    : ProcessTup<
+        AfterFirst<T>,
+        [
+            ...Result,
+            IsEmpty<First<T>> extends true ? Marked : First<T>,
+        ]
+    >;
 
 type ProcessObj<
-  TObj extends Dictionary,
-  TKeys extends readonly (keyof TObj)[],
-  TResult extends Dictionary = EmptyObject,
+    TObj extends Dictionary,
+    TKeys extends readonly (keyof TObj)[],
+    TResult extends Dictionary = EmptyObject,
 > = [] extends TKeys
-  ? TResult
-  : ProcessObj<
-    TObj,
-    AfterFirst<TKeys>,
-    IsEmpty<First<TKeys>> extends true
-      ? TResult & Record<First<TKeys>, TObj[First<TKeys>]>
-      : TResult
-  >;
+    ? TResult
+    : ProcessObj<
+        TObj,
+        AfterFirst<TKeys>,
+        IsEmpty<First<TKeys>> extends true
+            ? TResult & Record<First<TKeys>, TObj[First<TKeys>]>
+            : TResult
+    >;
 
 /**
  * **RemoveEmpty**
@@ -67,7 +67,7 @@ type ProcessObj<
  * is just passed through.
  */
 export type RemoveEmpty<T> = T extends Tuple
-  ? As<RemoveMarked<ProcessTup<T>>, readonly unknown[]>
-  : T extends Dictionary
-    ? As<RemoveMarked<ProcessObj<T, StringKeys<T>>>, Dictionary>
-    : T;
+    ? As<RemoveMarked<ProcessTup<T>>, readonly unknown[]>
+    : T extends Dictionary
+        ? As<RemoveMarked<ProcessObj<T, StringKeys<T>>>, Dictionary>
+        : T;

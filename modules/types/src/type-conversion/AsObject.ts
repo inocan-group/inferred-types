@@ -7,5 +7,5 @@ import type { AnyObject } from "src/base-types";
  * convert a `KeyValueTuple` into an object.
  */
 export type AsObject<T> = T extends AnyObject
-  ? T
-  : never;
+    ? T
+    : never;

@@ -42,22 +42,22 @@ export * from "./us";
  * URLs which point to prominent news sites around the world.
  */
 export type NewsUrls =
-  | AustralianNewsUrls
-  | BelgianNewsUrls
-  | CanadianNewsUrls
-  | ChineseNewsUrls
-  | DanishNewsUrls
-  | DutchNewsUrls
-  | FrenchNewsUrls
-  | GermanNewsUrls
-  | IndianNewsUrls
-  | ItalianNewsUrls
-  | JapaneseNewsUrls
-  | MexicanNewsUrls
-  | NorwegianNewsUrls
-  | SouthKoreanNewsUrls
-  | SpanishNewsUrls
-  | SwissNewsUrls
-  | TurkishNewsUrls
-  | UkNewsUrls
-  | UsNewsUrls;
+    | AustralianNewsUrls
+    | BelgianNewsUrls
+    | CanadianNewsUrls
+    | ChineseNewsUrls
+    | DanishNewsUrls
+    | DutchNewsUrls
+    | FrenchNewsUrls
+    | GermanNewsUrls
+    | IndianNewsUrls
+    | ItalianNewsUrls
+    | JapaneseNewsUrls
+    | MexicanNewsUrls
+    | NorwegianNewsUrls
+    | SouthKoreanNewsUrls
+    | SpanishNewsUrls
+    | SwissNewsUrls
+    | TurkishNewsUrls
+    | UkNewsUrls
+    | UsNewsUrls;

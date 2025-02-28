@@ -5,10 +5,10 @@ import type { TupleToUnion } from "./TupleToUnion";
 import type { UnionToTuple } from "./UnionToTuple";
 
 type InvalidCast<T> = Throw<
-  "invalid-cast",
-  `An attempt to cast a type as being non-null based was unsuccessful!`,
-  "AsNonNull",
-  { library: "inferred-types/constants"; value: T }
+    "invalid-cast",
+    `An attempt to cast a type as being non-null based was unsuccessful!`,
+    "AsNonNull",
+    { library: "inferred-types/constants"; value: T }
 >;
 
 /**
@@ -21,17 +21,17 @@ type InvalidCast<T> = Throw<
  * will be raised.
  */
 export type AsNonNull<T> = If<
-  IsEqual<T, null>,
-  InvalidCast<T>,
-  IsUnion<T> extends true
-    ? TupleToUnion<Filter<UnionToTuple<T>, null>>
-    : T
-> extends null
-  ? never
-  : If<
     IsEqual<T, null>,
     InvalidCast<T>,
     IsUnion<T> extends true
-      ? TupleToUnion<Filter<UnionToTuple<T>, null>>
-      : T
-  >;
+        ? TupleToUnion<Filter<UnionToTuple<T>, null>>
+        : T
+> extends null
+    ? never
+    : If<
+        IsEqual<T, null>,
+        InvalidCast<T>,
+        IsUnion<T> extends true
+            ? TupleToUnion<Filter<UnionToTuple<T>, null>>
+            : T
+    >;

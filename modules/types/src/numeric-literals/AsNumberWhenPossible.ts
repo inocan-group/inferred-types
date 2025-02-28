@@ -1,19 +1,19 @@
 import type { If, IsUnion, ToNumber, TupleToUnion, UnionToTuple } from "inferred-types/types";
 
 type Convert<T> = T extends `${number}`
-  ? ToNumber<T>
-  : T;
+    ? ToNumber<T>
+    : T;
 
 type ConvertTuple<T> = T extends unknown[]
-  ? {
-      [K in keyof T]: Convert<T[K]>
+    ? {
+        [K in keyof T]: Convert<T[K]>
     }
-  : never;
+    : never;
 
 type ConvertUnion<T> = If<
-  IsUnion<T>,
-  TupleToUnion<ConvertTuple<UnionToTuple<T>>>,
-  never
+    IsUnion<T>,
+    TupleToUnion<ConvertTuple<UnionToTuple<T>>>,
+    never
 >;
 
 /**
@@ -30,9 +30,9 @@ type ConvertUnion<T> = If<
  * still be a _union_.
  */
 export type AsNumberWhenPossible<T> = If<
-  IsUnion<T>,
-  ConvertUnion<T>,
-  T extends readonly unknown[]
-    ? ConvertTuple<T>
-    : Convert<T>
+    IsUnion<T>,
+    ConvertUnion<T>,
+    T extends readonly unknown[]
+        ? ConvertTuple<T>
+        : Convert<T>
 >;

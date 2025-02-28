@@ -19,5 +19,5 @@ import type { ExpandDictionary, ExpandRecursively, FnProps } from "inferred-type
 export type EscapeFunction = () => any & { escape: true };
 
 export type AsEscapeFunction<T> = T extends EscapeFunction
-  ? ExpandRecursively<T & ExpandDictionary<Record<"escape", true> & FnProps<T>>>
-  : never;
+    ? ExpandRecursively<T & ExpandDictionary<Record<"escape", true> & FnProps<T>>>
+    : never;

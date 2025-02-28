@@ -2,11 +2,11 @@ import type { ExpandRecursively } from "../literals/ExpandRecursively";
 import type { ErrorCondition } from "./ErrorCondition";
 
 export interface PartialErrorDefn {
-  kind?: string;
-  message?: string;
-  utility?: string;
-  library?: string;
-  underlying?: ErrorCondition;
+    kind?: string;
+    message?: string;
+    utility?: string;
+    library?: string;
+    underlying?: ErrorCondition;
 }
 
 /**
@@ -16,7 +16,7 @@ export interface PartialErrorDefn {
  * and then complete it with `CompleteError`.
  */
 export type PartialError<
-  TConfig extends PartialErrorDefn = PartialErrorDefn,
+    TConfig extends PartialErrorDefn = PartialErrorDefn,
 > = ExpandRecursively<
   { __kind: "PartialError" } & TConfig
 >;

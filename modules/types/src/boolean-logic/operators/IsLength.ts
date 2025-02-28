@@ -7,8 +7,8 @@ import type { IfEqual, Length } from "inferred-types/types";
  * the correct length for `T` is specified.
  */
 export type IsLength<
-  T,
-  LEN extends number,
+    T,
+    LEN extends number,
 > = T extends readonly unknown[]
-  ? IfEqual<Length<T>, LEN, true, false>
-  : false;
+    ? IfEqual<Length<T>, LEN, true, false>
+    : false;

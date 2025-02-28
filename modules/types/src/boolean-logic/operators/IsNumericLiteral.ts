@@ -7,9 +7,9 @@ import type { DoesExtend, IfEqual, IfNever } from "inferred-types/types";
  * numeric literal.
  */
 export type IsNumericLiteral<T> = IfNever<
-  T,
-  never,
-  DoesExtend<T, number> extends true
-    ? IfEqual<T, number, false, true>
-    : false
+    T,
+    never,
+    DoesExtend<T, number> extends true
+        ? IfEqual<T, number, false, true>
+        : false
 >;

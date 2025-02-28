@@ -12,9 +12,9 @@ import type { AsNumber } from "../type-conversion";
  * - all other types are converted to `never` and removed
  */
 export type AsNumericArray<T> = T extends readonly unknown[]
-  ? RemoveNever<{
-    [K in keyof T]: T[K] extends NumberLike
-      ? AsNumber<T[K]>
-      : never
-  }>
-  : never;
+    ? RemoveNever<{
+        [K in keyof T]: T[K] extends NumberLike
+            ? AsNumber<T[K]>
+            : never
+    }>
+    : never;

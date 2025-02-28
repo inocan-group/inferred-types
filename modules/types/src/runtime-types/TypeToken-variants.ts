@@ -1,19 +1,19 @@
 /* eslint-disable no-template-curly-in-string */
 import type {
-  TYPE_TOKEN_REC_KEY_VARIANTS,
-  TYPE_TOKEN_REC_VARIANTS,
-  TYPE_TOKEN_STRING_SET_VARIANTS,
-  TYPE_TOKEN_UNION_SET_VARIANTS,
+    TYPE_TOKEN_REC_KEY_VARIANTS,
+    TYPE_TOKEN_REC_VARIANTS,
+    TYPE_TOKEN_STRING_SET_VARIANTS,
+    TYPE_TOKEN_UNION_SET_VARIANTS,
 } from "inferred-types/constants";
 import type { MetricCategory, ReplaceAll } from "inferred-types/types";
 import type { TypeTokenDelimiter, TypeTokenKind } from "./TypeToken";
 
 type MakeDynamic<T extends readonly string[]> = {
-  [K in keyof T]: ReplaceAll<
-    ReplaceAll<T[K], "${string}", `${string}`>,
-    "${Metric}",
-    MetricCategory
-  >
+    [K in keyof T]: ReplaceAll<
+        ReplaceAll<T[K], "${string}", `${string}`>,
+        "${Metric}",
+        MetricCategory
+    >
 };
 
 /**
@@ -33,9 +33,9 @@ export type TypeToken__StringSet = MakeDynamic<typeof TYPE_TOKEN_STRING_SET_VARI
 export type TypeToken__Number = `::${number}`;
 
 export type TypeToken__NumberSet =
-  | "bigInt" | `bigInt::${bigint}`
-  | "digit" | `digit::${2 | 3 | 4}`
-  | "integer";
+    | "bigInt" | `bigInt::${bigint}`
+    | "digit" | `digit::${2 | 3 | 4}`
+    | "integer";
 
 type params = string;
 type rtn = string;
@@ -46,8 +46,8 @@ export type TypeToken__Fn = `[${params}]` | `[${params}]${D}${rtn}` | `any::${rt
 export type TypeToken__Gen = `[${params}]` | `[${params}]${D}${rtn}` | `gen${D}any${D}${rtn}`;
 
 export type TypeToken__FnSet =
-  | `withoutParams` | `withoutParams${D}${rtn}`
-  | `booleanLogic` | `booleanLogic${D}[${params}]`;
+    | `withoutParams` | `withoutParams${D}${rtn}`
+    | `booleanLogic` | `booleanLogic${D}[${params}]`;
 
 export type RecVariant = typeof TYPE_TOKEN_REC_VARIANTS[number];
 export type RecKeyVariant = typeof TYPE_TOKEN_REC_KEY_VARIANTS[number];
@@ -65,27 +65,27 @@ export type TypeToken__Unknown = "";
 export type TypeToken__UnionSet = typeof TYPE_TOKEN_UNION_SET_VARIANTS[number];
 
 interface _TypeTokenLookup {
-  "string": TypeToken__String;
-  "string-set": TypeToken__StringSet;
-  "number": TypeToken__Number;
-  "number-set": TypeToken__NumberSet;
+    "string": TypeToken__String;
+    "string-set": TypeToken__StringSet;
+    "number": TypeToken__Number;
+    "number-set": TypeToken__NumberSet;
 
-  "undefined": TypeToken__Undefined;
-  "null": TypeToken__Null;
-  "boolean": TypeToken__Boolean;
-  "true": TypeToken__True;
-  "false": TypeToken__False;
-  "never": TypeToken__Never;
-  "unknown": TypeToken__Unknown;
-  "fn": TypeToken__Fn;
-  "fn-set": TypeToken__FnSet;
-  "gen": TypeToken__Gen;
-  "rec": TypeToken__Rec;
-  "arr": "";
-  "map": "";
-  "weak": "";
-  "union": "";
-  "union-set": TypeToken__UnionSet;
+    "undefined": TypeToken__Undefined;
+    "null": TypeToken__Null;
+    "boolean": TypeToken__Boolean;
+    "true": TypeToken__True;
+    "false": TypeToken__False;
+    "never": TypeToken__Never;
+    "unknown": TypeToken__Unknown;
+    "fn": TypeToken__Fn;
+    "fn-set": TypeToken__FnSet;
+    "gen": TypeToken__Gen;
+    "rec": TypeToken__Rec;
+    "arr": "";
+    "map": "";
+    "weak": "";
+    "union": "";
+    "union-set": TypeToken__UnionSet;
 
 }
 /**
@@ -94,5 +94,5 @@ interface _TypeTokenLookup {
  * Adds allowed string literal variants for a given `TypeTokenKind`
  */
 export type TypeTokenLookup<T extends TypeTokenKind> = T extends keyof _TypeTokenLookup
-  ? _TypeTokenLookup[T]
-  : "";
+    ? _TypeTokenLookup[T]
+    : "";

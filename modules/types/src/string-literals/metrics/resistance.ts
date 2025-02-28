@@ -7,18 +7,18 @@ type ResistanceMetricsLookup = typeof RESISTANCE_METRICS_LOOKUP;
  * The singular name for metrics associated with **resistance**.
  */
 export type ResistanceMetrics = {
-  [K in keyof ResistanceMetricsLookup]: "name" extends keyof ResistanceMetricsLookup[K]
-    ? ResistanceMetricsLookup[K]["name"]
-    : never
+    [K in keyof ResistanceMetricsLookup]: "name" extends keyof ResistanceMetricsLookup[K]
+        ? ResistanceMetricsLookup[K]["name"]
+        : never
 }[number];
 
 /**
  * Unit of measure for metrics associated with **resistance**.
  */
 export type ResistanceUom = {
-  [K in keyof ResistanceMetricsLookup]: "abbrev" extends keyof ResistanceMetricsLookup[K]
-    ? ResistanceMetricsLookup[K]["abbrev"]
-    : never
+    [K in keyof ResistanceMetricsLookup]: "abbrev" extends keyof ResistanceMetricsLookup[K]
+        ? ResistanceMetricsLookup[K]["abbrev"]
+        : never
 }[number];
 
 /***

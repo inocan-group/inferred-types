@@ -10,5 +10,5 @@ import type { Whitespace } from "inferred-types/types";
  * ```
  */
 export type TrimLeft<S extends string> = string extends S ? string :
-  S extends `${Whitespace}${infer Right}` ?
-    TrimLeft<Right> : S;
+    S extends `${Whitespace}${infer Right}` ?
+        TrimLeft<Right> : S;

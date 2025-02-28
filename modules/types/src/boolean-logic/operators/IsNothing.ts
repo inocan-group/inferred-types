@@ -7,5 +7,5 @@ import type { Nothing } from "inferred-types/types";
  * `null` or `undefined`).
  */
 export type IsNothing<T> = [T] extends [Nothing]
-  ? true
-  : false;
+    ? true
+    : false;

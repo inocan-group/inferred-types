@@ -10,7 +10,7 @@ import type { If, IsUndefined, Tuple } from "inferred-types/types";
  * **Related:** `AsArray`
  */
 export type AsTuple<T> = T extends Tuple
-  ? T
-  : T extends unknown[]
-    ? readonly [...T]
-    : If<IsUndefined<T>, readonly [], readonly [T]>;
+    ? T
+    : T extends unknown[]
+        ? readonly [...T]
+        : If<IsUndefined<T>, readonly [], readonly [T]>;

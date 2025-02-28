@@ -7,10 +7,10 @@ import type { Contains, IsUnion, Not, UnionToTuple } from "inferred-types/types"
  * **Related:** `IsRequired`
  */
 export type IsOptional<T> = IsUnion<T> extends true
-  ? Contains<UnionToTuple<T>, undefined> extends true
-    ? true
-    : false
-  : false;
+    ? Contains<UnionToTuple<T>, undefined> extends true
+        ? true
+        : false
+    : false;
 
 /**
  * Tests to see if `T` is a union type and if it is, it validates that

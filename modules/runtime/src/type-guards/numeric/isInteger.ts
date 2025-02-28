@@ -6,5 +6,5 @@ import { isNumber } from "inferred-types/runtime";
  * also a valid Integer number.
  */
 export function isInteger(val: unknown): val is Integer {
-  return isNumber(val) && Number.isInteger(val);
+    return isNumber(val) && Number.isInteger(val);
 }

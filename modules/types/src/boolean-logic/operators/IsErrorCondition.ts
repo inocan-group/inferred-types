@@ -9,11 +9,11 @@ import type { ErrorCondition } from "inferred-types/types";
  * also use the optional `TKind` generic.
  */
 export type IsErrorCondition<
-  TEval,
-  TKind extends string | null = null,
+    TEval,
+    TKind extends string | null = null,
 > = TEval extends ErrorCondition
-  ? TKind extends string
-    ? TEval extends ErrorCondition<TKind>
-      ? true : false
-    : true
-  : false;
+    ? TKind extends string
+        ? TEval extends ErrorCondition<TKind>
+            ? true : false
+        : true
+    : false;

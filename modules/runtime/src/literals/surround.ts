@@ -1,6 +1,6 @@
 export type SurroundWith<
-  TPrefix extends string,
-  TPostfix extends string,
+    TPrefix extends string,
+    TPostfix extends string,
 > = <TInput extends string>(input: TInput) => `${TPrefix}${TInput}${TPostfix}`;
 
 /**
@@ -13,8 +13,8 @@ export type SurroundWith<
  * **Related:** `ensureSurround()`
  */
 export function surround<
-  TPrefix extends string,
-  TPostfix extends string,
+    TPrefix extends string,
+    TPostfix extends string,
 >(prefix: TPrefix, postfix: TPostfix): SurroundWith<TPrefix, TPostfix> {
-  return input => `${prefix}${input}${postfix}`;
+    return input => `${prefix}${input}${postfix}`;
 }

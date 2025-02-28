@@ -11,10 +11,10 @@ import type { If, IsThenable } from "inferred-types/types";
  * **Related:** `Awaited`, `IsThenable`
  */
 export type AsyncFunction<
-  TParams extends readonly unknown[] = readonly unknown[],
-  TReturns = unknown,
+    TParams extends readonly unknown[] = readonly unknown[],
+    TReturns = unknown,
 > = (...params: TParams) => If<
-  IsThenable<TReturns>,
-  TReturns,
-  Promise<TReturns>
+    IsThenable<TReturns>,
+    TReturns,
+    Promise<TReturns>
 >;

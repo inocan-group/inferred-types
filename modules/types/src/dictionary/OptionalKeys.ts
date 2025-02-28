@@ -1,11 +1,11 @@
 import type {
-  Dictionary,
-  EmptyObject,
-  If,
-  IsEqual,
-  ObjectKey,
-  UnionToTuple,
-  Unset,
+    Dictionary,
+    EmptyObject,
+    If,
+    IsEqual,
+    ObjectKey,
+    UnionToTuple,
+    Unset,
 } from "inferred-types/types";
 
 /**
@@ -28,16 +28,16 @@ import type {
  * **Related:** `RequiredKeys`, `RequiredProps`
  */
 export type OptionalKeys<
-  T,
-  V = Unset,
+    T,
+    V = Unset,
 > = T extends Dictionary
 
-  ? {
-      [K in keyof T]-?: EmptyObject extends { [P in K]: T[K] }
-        ? If<IsEqual<V, Unset>, K, K extends V ? K : never>
-        : never;
+    ? {
+        [K in keyof T]-?: EmptyObject extends { [P in K]: T[K] }
+            ? If<IsEqual<V, Unset>, K, K extends V ? K : never>
+            : never;
     }[keyof T]
-  : never;
+    : never;
 
 /**
  * **OptionalKeysTuple**`<T>`
@@ -48,10 +48,10 @@ export type OptionalKeys<
  * **Related:** `RequiredKeys`, `OptionalProps`
  */
 export type OptionalKeysTuple<
-  T,
+    T,
 > = T extends Dictionary
 
-  ? UnionToTuple<OptionalKeys<T>> extends readonly ObjectKey[]
-    ? UnionToTuple<OptionalKeys<T>>
-    : never
-  : never;
+    ? UnionToTuple<OptionalKeys<T>> extends readonly ObjectKey[]
+        ? UnionToTuple<OptionalKeys<T>>
+        : never
+    : never;

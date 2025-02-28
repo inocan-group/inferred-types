@@ -1,25 +1,25 @@
 import type { Marked } from "inferred-types/constants";
 import type {
-  As,
-  Chars,
-  Concat,
-  IsWideType,
-  Or,
-  RemoveMarked,
+    As,
+    Chars,
+    Concat,
+    IsWideType,
+    Or,
+    RemoveMarked,
 } from "inferred-types/types";
 
 type Strip<
-  TChars extends readonly string[],
-  TStrip extends string,
+    TChars extends readonly string[],
+    TStrip extends string,
 > = {
-  [K in keyof TChars]: TChars[K] extends TStrip
-    ? Marked
-    : TChars[K]
+    [K in keyof TChars]: TChars[K] extends TStrip
+        ? Marked
+        : TChars[K]
 };
 
 type Process<
-  TChars extends readonly string[],
-  TStrip extends string,
+    TChars extends readonly string[],
+    TStrip extends string,
 > = As<RemoveMarked<Strip<TChars, TStrip>>, readonly string[]>;
 
 /**
@@ -33,13 +33,13 @@ type Process<
  * `ErrorCondition<"invalid-strip-char">`
  */
 export type StripChars<
-  TContent extends string,
-  TStrip extends string,
+    TContent extends string,
+    TStrip extends string,
 > = Or<[IsWideType<TContent>, IsWideType<TStrip>]> extends true
-  ? string
-  : // both TContent and TStrip are literals
-  Chars<TContent> extends readonly string[]
-    ? Concat<Process<Chars<TContent>, TStrip>> extends string
-      ? Concat<Process<Chars<TContent>, TStrip>>
-      : never
-    : never;
+    ? string
+    : // both TContent and TStrip are literals
+    Chars<TContent> extends readonly string[]
+        ? Concat<Process<Chars<TContent>, TStrip>> extends string
+            ? Concat<Process<Chars<TContent>, TStrip>>
+            : never
+        : never;

@@ -11,7 +11,7 @@ import type { Tuple } from "inferred-types/types";
  * to a cleaner type.
  */
 export function isReadonlyArray<
-  T,
+    T,
 >(value: T): value is Readonly<Exclude<T, undefined | string | null | boolean | number>> & Tuple {
-  return (Array.isArray(value) === true);
+    return (Array.isArray(value) === true);
 }

@@ -6,5 +6,5 @@
  * runtime value).
  */
 export function unionize<T, U>(value: T, _inUnionWith: U): T | U {
-  return value as T | U;
+    return value as T | U;
 }

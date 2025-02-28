@@ -11,7 +11,7 @@ import type { Dictionary, Narrowable, ObjectKey } from "inferred-types/types";
  * **Related:** `isNarrowableObject()`
  */
 export function isObject(value: unknown): value is Dictionary {
-  return typeof value === "object" && value !== null && Array.isArray(value) === false;
+    return typeof value === "object" && value !== null && Array.isArray(value) === false;
 }
 
 /**
@@ -23,5 +23,5 @@ export function isObject(value: unknown): value is Dictionary {
  * **Related:** `isObject()`
  */
 export function isNarrowableObject(value: unknown): value is Dictionary<ObjectKey, Narrowable> {
-  return isObject(value) && Object.keys(value).every(key => ["string", "number", "boolean", "symbol", "object", "undefined", "void", "null"].includes(typeof value[key]));
+    return isObject(value) && Object.keys(value).every(key => ["string", "number", "boolean", "symbol", "object", "undefined", "void", "null"].includes(typeof value[key]));
 }

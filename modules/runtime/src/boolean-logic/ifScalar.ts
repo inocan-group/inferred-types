@@ -1,9 +1,9 @@
 import type {
-  Dictionary,
-  If,
-  IsScalar,
-  Narrowable,
-  Scalar,
+    Dictionary,
+    If,
+    IsScalar,
+    Narrowable,
+    Scalar,
 } from "inferred-types/types";
 import { isScalar } from "inferred-types/runtime";
 
@@ -21,21 +21,21 @@ import { isScalar } from "inferred-types/runtime";
  * ```
  */
 export function ifScalar<
-  T extends Narrowable,
-  TIf extends Narrowable,
-  TElse extends Narrowable,
+    T extends Narrowable,
+    TIf extends Narrowable,
+    TElse extends Narrowable,
 >(
-  value: T,
-  ifCallback: <
-    V extends Exclude<T, undefined | Dictionary | unknown[]>,
-  >(v: V
-  ) => TIf,
-  notCallback: <V extends Exclude<T, Scalar>>(v: V) => TElse,
+    value: T,
+    ifCallback: <
+        V extends Exclude<T, undefined | Dictionary | unknown[]>,
+    >(v: V
+    ) => TIf,
+    notCallback: <V extends Exclude<T, Scalar>>(v: V) => TElse,
 ) {
-  const result = isScalar(value)
-    ? ifCallback(
-        value as Exclude<T, undefined | Dictionary | unknown[]>,
-      )
-    : notCallback(value as Exclude<T, Scalar>);
-  return result as typeof result & If<IsScalar<T>, TIf, TElse>;
+    const result = isScalar(value)
+        ? ifCallback(
+            value as Exclude<T, undefined | Dictionary | unknown[]>,
+        )
+        : notCallback(value as Exclude<T, Scalar>);
+    return result as typeof result & If<IsScalar<T>, TIf, TElse>;
 }

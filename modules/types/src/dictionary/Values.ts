@@ -1,46 +1,46 @@
 import type {
-  AfterFirst,
-  AnyObject,
-  Dictionary,
-  First,
-  Keys,
-  ObjectKey,
-  StringKeys,
+    AfterFirst,
+    AnyObject,
+    Dictionary,
+    First,
+    Keys,
+    ObjectKey,
+    StringKeys,
 } from "inferred-types/types";
 
 type Process<
-  TKeys extends readonly ObjectKey[],
-  TObj extends Record<ObjectKey, unknown>,
-  TResult extends readonly unknown[] = [],
+    TKeys extends readonly ObjectKey[],
+    TObj extends Record<ObjectKey, unknown>,
+    TResult extends readonly unknown[] = [],
 > = [] extends TKeys
-  ? TResult
-  : Process<
-    AfterFirst<TKeys>,
-    TObj,
-    [
-      ...TResult,
-      First<TKeys> extends keyof TObj
-        ? TObj[First<TKeys>]
-        : never,
-    ]
-  >;
+    ? TResult
+    : Process<
+        AfterFirst<TKeys>,
+        TObj,
+        [
+            ...TResult,
+            First<TKeys> extends keyof TObj
+                ? TObj[First<TKeys>]
+                : never,
+        ]
+    >;
 
 type ProcessStr<
-  TKeys extends readonly string[],
-  TObj extends AnyObject,
-  TResult extends readonly unknown[] = [],
+    TKeys extends readonly string[],
+    TObj extends AnyObject,
+    TResult extends readonly unknown[] = [],
 > = [] extends TKeys
-  ? TResult
-  : Process<
-    AfterFirst<TKeys>,
-    TObj,
-    [
-      ...TResult,
-      First<TKeys> extends keyof TObj
-        ? TObj[First<TKeys>]
-        : never,
-    ]
-  >;
+    ? TResult
+    : Process<
+        AfterFirst<TKeys>,
+        TObj,
+        [
+            ...TResult,
+            First<TKeys> extends keyof TObj
+                ? TObj[First<TKeys>]
+                : never,
+        ]
+    >;
 
 /**
  * **Values**`<T>`
@@ -52,22 +52,22 @@ type ProcessStr<
  * to true to get a slightly higher performing type inference.
  */
 export type Values<
-  TObj extends Dictionary | readonly unknown[],
-  TOnlyStr extends boolean = false,
+    TObj extends Dictionary | readonly unknown[],
+    TOnlyStr extends boolean = false,
 > = TObj extends readonly unknown[]
-  ? TObj
-  : TObj extends Dictionary
+    ? TObj
+    : TObj extends Dictionary
 
-    ? [TOnlyStr] extends [true]
-        ? ProcessStr<
-          StringKeys<TObj>,
-          TObj
-        >
+        ? [TOnlyStr] extends [true]
+            ? ProcessStr<
+                StringKeys<TObj>,
+                TObj
+            >
 
-        : Process<
-          Keys<TObj> extends readonly ObjectKey[]
-            ? Keys<TObj>
-            : never,
-          TObj
-        >
-    : never;
+            : Process<
+                Keys<TObj> extends readonly ObjectKey[]
+                    ? Keys<TObj>
+                    : never,
+                TObj
+            >
+        : never;

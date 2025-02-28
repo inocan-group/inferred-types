@@ -13,7 +13,7 @@ import type { IfEqual } from "inferred-types/types";
  * **Related:** `KeysWithValue`
  */
 export type KeysEqualValue<TObj extends object, TWithValue> = {
-  [K in keyof TObj]: TObj[K] extends readonly unknown[]
-    ? IfEqual<TObj[K], TWithValue, K, never>
-    : IfEqual<TObj[K], TWithValue, K, never>
+    [K in keyof TObj]: TObj[K] extends readonly unknown[]
+        ? IfEqual<TObj[K], TWithValue, K, never>
+        : IfEqual<TObj[K], TWithValue, K, never>
 }[keyof TObj];

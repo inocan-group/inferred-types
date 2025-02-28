@@ -7,18 +7,18 @@ type EnergyMetricsLookup = typeof ENERGY_METRICS_LOOKUP;
  * The singular name for metrics associated with **Energy**.
  */
 export type EnergyMetrics = {
-  [K in keyof EnergyMetricsLookup]: "name" extends keyof EnergyMetricsLookup[K]
-    ? EnergyMetricsLookup[K]["name"]
-    : never
+    [K in keyof EnergyMetricsLookup]: "name" extends keyof EnergyMetricsLookup[K]
+        ? EnergyMetricsLookup[K]["name"]
+        : never
 }[number];
 
 /**
  * Unit of measure for metrics associated with **Energy**.
  */
 export type EnergyUom = {
-  [K in keyof EnergyMetricsLookup]: "abbrev" extends keyof EnergyMetricsLookup[K]
-    ? EnergyMetricsLookup[K]["abbrev"]
-    : never
+    [K in keyof EnergyMetricsLookup]: "abbrev" extends keyof EnergyMetricsLookup[K]
+        ? EnergyMetricsLookup[K]["abbrev"]
+        : never
 }[number];
 
 /***

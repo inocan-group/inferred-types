@@ -5,7 +5,7 @@
  * to being a **symbol** when condition is met.
  */
 export function isSymbol<T>(value: T): value is T & symbol {
-  return (typeof value === "symbol") as T extends symbol
-    ? true
-    : false;
+    return (typeof value === "symbol") as T extends symbol
+        ? true
+        : false;
 }

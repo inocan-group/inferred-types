@@ -13,8 +13,8 @@ import type { Narrowable, TypeGuard } from "inferred-types/types";
  * not represent a full-fledged `Type<T>`.
  */
 export type TypeTuple<
-  TType extends Narrowable = Narrowable,
-  TDesc extends string = string,
+    TType extends Narrowable = Narrowable,
+    TDesc extends string = string,
 > = [
   type: TType,
   guard: TypeGuard<TType>,

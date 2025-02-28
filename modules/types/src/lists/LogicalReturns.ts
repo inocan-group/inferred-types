@@ -1,12 +1,12 @@
 import type { LogicFunction } from "../functions";
 
 type Process<
-  TValues extends readonly (boolean | LogicFunction)[],
-  _TParams extends readonly unknown[] = [],
+    TValues extends readonly (boolean | LogicFunction)[],
+    _TParams extends readonly unknown[] = [],
 > = {
-  [K in keyof TValues]: TValues[K] extends ((...args: any[]) => boolean)
-    ? ReturnType<TValues[K]>
-    : TValues[K]
+    [K in keyof TValues]: TValues[K] extends ((...args: any[]) => boolean)
+        ? ReturnType<TValues[K]>
+        : TValues[K]
 };
 
 /**
@@ -20,8 +20,8 @@ type Process<
  * **Related**: `ReturnTypes` and `TruthyReturns`
  */
 export type LogicalReturns<
-  TValues extends readonly (boolean | LogicFunction)[],
-  _TParams extends readonly unknown[] = [],
+    TValues extends readonly (boolean | LogicFunction)[],
+    _TParams extends readonly unknown[] = [],
 > = Process<TValues, _TParams> extends readonly boolean[]
-  ? Process<TValues, _TParams>
-  : never;
+    ? Process<TValues, _TParams>
+    : never;

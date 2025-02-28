@@ -1,37 +1,37 @@
 import type {
-  As,
-  Concat,
-  DashUppercase,
-  LeftWhitespace,
-  LowerAllCaps,
-  Replace,
-  RightWhitespace,
-  Trim,
+    As,
+    Concat,
+    DashUppercase,
+    LeftWhitespace,
+    LowerAllCaps,
+    Replace,
+    RightWhitespace,
+    Trim,
 } from "inferred-types/types";
 
 type Process<
-  TString extends string,
-  TPreserve extends boolean = false,
+    TString extends string,
+    TPreserve extends boolean = false,
 > = TPreserve extends true
-  ? // preserve
-  Concat<[
-    LeftWhitespace<TString>,
-    KebabCase<TString, false>,
-    RightWhitespace<TString>,
-  ]>
+    ? // preserve
+    Concat<[
+        LeftWhitespace<TString>,
+        KebabCase<TString, false>,
+        RightWhitespace<TString>,
+    ]>
 
-  : // remove whitespace
-  string extends TString
-    ? string
-    : DashUppercase<Trim<LowerAllCaps<TString>>> extends `${infer Begin}${"_" | " "}${infer Rest}`
-      ? KebabCase<`${Lowercase<Begin>}-${Rest}`>
-      : Replace<
-        Lowercase<
-          DashUppercase<Uncapitalize<Trim<LowerAllCaps<TString>>>>
-        >,
-        "--",
-        "-"
-      >;
+    : // remove whitespace
+    string extends TString
+        ? string
+        : DashUppercase<Trim<LowerAllCaps<TString>>> extends `${infer Begin}${"_" | " "}${infer Rest}`
+            ? KebabCase<`${Lowercase<Begin>}-${Rest}`>
+            : Replace<
+                Lowercase<
+                    DashUppercase<Uncapitalize<Trim<LowerAllCaps<TString>>>>
+                >,
+                "--",
+                "-"
+            >;
 
 /**
  * **KebabCase**`<TString,TPreserve>`
@@ -49,16 +49,16 @@ type Process<
  * ```
  */
 export type KebabCase<
-  TInput extends string | readonly unknown[],
-  TPreserve extends boolean = false,
+    TInput extends string | readonly unknown[],
+    TPreserve extends boolean = false,
 > = TInput extends string
-  ? Process<TInput, TPreserve> extends string
-    ? Process<TInput, TPreserve>
-    : never
-  : TInput extends readonly unknown[]
-    ? As<{
-      [K in keyof TInput]: TInput[K] extends string
-        ? KebabCase<TInput[K]>
-        : TInput[K]
-    }, readonly unknown[]>
-    : never;
+    ? Process<TInput, TPreserve> extends string
+        ? Process<TInput, TPreserve>
+        : never
+    : TInput extends readonly unknown[]
+        ? As<{
+            [K in keyof TInput]: TInput[K] extends string
+                ? KebabCase<TInput[K]>
+                : TInput[K]
+        }, readonly unknown[]>
+        : never;

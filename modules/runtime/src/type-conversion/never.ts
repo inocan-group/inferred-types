@@ -8,5 +8,5 @@
  * there is also the `Never` constant which can be used.
  */
 export function never(val: unknown): never {
-  return val as never;
+    return val as never;
 }

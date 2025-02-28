@@ -1,17 +1,17 @@
 import type {
 
-  TT_ATOMICS,
-  TT_CONTAINERS,
-  TT_DELIMITER,
-  TT_FUNCTIONS,
-  TT_SETS,
-  TT_SINGLETONS,
-  TT_START,
-  TT_STOP,
+    TT_ATOMICS,
+    TT_CONTAINERS,
+    TT_DELIMITER,
+    TT_FUNCTIONS,
+    TT_SETS,
+    TT_SINGLETONS,
+    TT_START,
+    TT_STOP,
 } from "inferred-types/constants";
 import type {
-  IsEqual,
-  IsUnion,
+    IsEqual,
+    IsUnion,
 } from "inferred-types/types";
 import type { TypeTokenLookup } from "./TypeToken-variants";
 
@@ -44,11 +44,11 @@ export type TypeTokenSets = typeof TT_SETS[number];
  * token identifier)
  */
 export type TypeTokenKind =
-  | TypeTokenAtomics
-  | TypeTokenContainers
-  | TypeTokenFunctions
-  | TypeTokenSets
-  | TypeTokenSingletons;
+    | TypeTokenAtomics
+    | TypeTokenContainers
+    | TypeTokenFunctions
+    | TypeTokenSets
+    | TypeTokenSingletons;
 
 /**
  * string which indicates the start of a `TypeToken`
@@ -75,19 +75,19 @@ type Delim = TypeTokenDelimiter;
  * if you like but by default all are represented.
  */
 export type TypeToken<
-  T extends TypeTokenKind = TypeTokenKind,
+    T extends TypeTokenKind = TypeTokenKind,
 > = IsEqual<T, TypeTokenKind> extends true
-  ? `${TypeTokenStart}${T}${"" | `${Delim}${string}`}${TypeTokenStop}`
-  : T extends TypeTokenKind
-    ? IsUnion<T> extends true
-      ? null
-      : T extends TypeTokenSets
-        ? `${TypeTokenStart}${T}${Delim}${TypeTokenLookup<T>}${TypeTokenStop}`
-        : T extends TypeTokenAtomics
-          ? `${TypeTokenStart}${T}${TypeTokenStop}`
-          : `${TypeTokenStart}${T}${TypeTokenStop}`
-            | `${TypeTokenStart}${T}${Delim}${TypeTokenLookup<T>}${TypeTokenStop}`
-    : never;
+    ? `${TypeTokenStart}${T}${"" | `${Delim}${string}`}${TypeTokenStop}`
+    : T extends TypeTokenKind
+        ? IsUnion<T> extends true
+            ? null
+            : T extends TypeTokenSets
+                ? `${TypeTokenStart}${T}${Delim}${TypeTokenLookup<T>}${TypeTokenStop}`
+                : T extends TypeTokenAtomics
+                    ? `${TypeTokenStart}${T}${TypeTokenStop}`
+                    : `${TypeTokenStart}${T}${TypeTokenStop}`
+                        | `${TypeTokenStart}${T}${Delim}${TypeTokenLookup<T>}${TypeTokenStop}`
+        : never;
 
 /**
  * the shape of `TypeToken` variants which represent one of the Singleton variants

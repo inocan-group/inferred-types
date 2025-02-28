@@ -13,12 +13,12 @@ import { stripLeading, stripTrailing } from "inferred-types/runtime";
  * parameter
  */
 export function pathJoin<T extends readonly string[]>(
-  ...segments: T
+    ...segments: T
 ): PathJoin<T> {
-  const clean_path = segments.map(i => stripTrailing(stripLeading(i, "/"), "/")).join("/");
-  const original_path = segments.join("/");
-  const pre = original_path.startsWith("/") ? "/" : "";
-  const post = original_path.endsWith("/") ? "/" : "";
+    const clean_path = segments.map(i => stripTrailing(stripLeading(i, "/"), "/")).join("/");
+    const original_path = segments.join("/");
+    const pre = original_path.startsWith("/") ? "/" : "";
+    const post = original_path.endsWith("/") ? "/" : "";
 
-  return `${pre}${clean_path}${post}` as PathJoin<T>;
+    return `${pre}${clean_path}${post}` as PathJoin<T>;
 }

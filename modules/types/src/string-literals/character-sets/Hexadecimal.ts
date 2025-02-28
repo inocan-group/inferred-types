@@ -1,6 +1,6 @@
 import type {
-  NumericChar,
-  Suggest,
+    NumericChar,
+    Suggest,
 } from "inferred-types/types";
 
 /**

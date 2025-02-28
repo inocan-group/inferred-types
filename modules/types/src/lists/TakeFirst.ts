@@ -1,21 +1,21 @@
 import type {
-  AfterFirst,
-  Decrement,
-  First,
+    AfterFirst,
+    Decrement,
+    First,
 } from "inferred-types/types";
 
 type Take<
-  TContent extends readonly unknown[],
-  TLen extends number,
-  TResult extends readonly unknown[] = [],
+    TContent extends readonly unknown[],
+    TLen extends number,
+    TResult extends readonly unknown[] = [],
 > = TLen extends 0
-  ? TResult
-  : [] extends TContent
-      ? TResult
-      : Take<AfterFirst<TContent>, Decrement<TLen>, [
-        ...TResult,
-        First<TContent>,
-      ]>;
+    ? TResult
+    : [] extends TContent
+        ? TResult
+        : Take<AfterFirst<TContent>, Decrement<TLen>, [
+            ...TResult,
+            First<TContent>,
+        ]>;
 
 /**
  * **TakeFirst**`<TContent,TLen,[THandle]>`
@@ -27,6 +27,6 @@ type Take<
  * `TContent` then the remaining elements will be returned.
  */
 export type TakeFirst<
-  TContent extends readonly unknown[],
-  TLen extends number,
+    TContent extends readonly unknown[],
+    TLen extends number,
 > = Take<TContent, TLen>;

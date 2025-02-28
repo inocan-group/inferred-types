@@ -8,7 +8,7 @@ import { stripTrailing } from "inferred-types/runtime";
  * data parameters from the token.
  */
 export function getTokenData<T extends Shape>(token: T) {
-  const [_name, ...rest] = stripTrailing(token, ">>").split("::");
+    const [_name, ...rest] = stripTrailing(token, ">>").split("::");
 
-  return rest;
+    return rest;
 }

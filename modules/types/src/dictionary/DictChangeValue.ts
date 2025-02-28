@@ -15,20 +15,20 @@ import type { SimplifyObject } from "inferred-types/types";
  * ```
  */
 export type DictChangeValue<
-  /** the object who's value-type we're changing */
-  I extends Record<string, unknown>,
-  /** the return type that functions should be modified to have */
-  T,
-  /**
-   *The type we expect in the value; if the value extends type `V` then the value will
-   * be converted to type `O`; if not then the KV pair will be discarded
-   */
-  V = unknown,
+    /** the object who's value-type we're changing */
+    I extends Record<string, unknown>,
+    /** the return type that functions should be modified to have */
+    T,
+    /**
+     *The type we expect in the value; if the value extends type `V` then the value will
+     * be converted to type `O`; if not then the KV pair will be discarded
+     */
+    V = unknown,
 > = SimplifyObject<
-  {
-    [K in keyof I]: I[K] extends V
-      ? // it's a function (or at least the scoped down type of function we're looking for)
-      Record<K, T>
-      : never;
-  }[keyof I]
+    {
+        [K in keyof I]: I[K] extends V
+            ? // it's a function (or at least the scoped down type of function we're looking for)
+            Record<K, T>
+            : never;
+    }[keyof I]
 >;

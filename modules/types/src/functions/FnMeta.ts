@@ -1,8 +1,8 @@
 import type {
-  AnyFunction,
-  Dictionary,
-  IsNarrowingFn,
-  IsNonEmptyObject,
+    AnyFunction,
+    Dictionary,
+    IsNarrowingFn,
+    IsNonEmptyObject,
 } from "inferred-types/types";
 
 /**
@@ -17,16 +17,16 @@ import type {
  * key/values are found it will be set to `no-props`.
  */
 export interface FnMeta<
-  TFn extends AnyFunction = AnyFunction,
-  TArgs extends readonly any[] = readonly any[],
-  TReturn = unknown,
-  TProps extends Dictionary = Dictionary,
+    TFn extends AnyFunction = AnyFunction,
+    TArgs extends readonly any[] = readonly any[],
+    TReturn = unknown,
+    TProps extends Dictionary = Dictionary,
 > {
-  fn: TFn;
-  args: TArgs;
-  returns: TReturn;
-  props: TProps;
-  hasProps: [IsNonEmptyObject<TProps>] extends [true] ? true : false;
-  hasArgs: TArgs["length"] extends 0 ? false : true;
-  isNarrowingFn: IsNarrowingFn<TFn>;
+    fn: TFn;
+    args: TArgs;
+    returns: TReturn;
+    props: TProps;
+    hasProps: [IsNonEmptyObject<TProps>] extends [true] ? true : false;
+    hasArgs: TArgs["length"] extends 0 ? false : true;
+    isNarrowingFn: IsNarrowingFn<TFn>;
 }

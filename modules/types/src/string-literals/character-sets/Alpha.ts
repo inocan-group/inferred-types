@@ -10,9 +10,9 @@ import type { AlphaChar, AsArray, Chars, If, IfAllExtend, IsStringLiteral } from
  * - `never` - all other types of `T` are converted to never
  */
 export type Alpha<T> = T extends string
-  ? If<
-    IsStringLiteral<T>,
-    IfAllExtend<AsArray<Chars<T>>, AlphaChar, T, never>,
-    string
-  >
-  : never;
+    ? If<
+        IsStringLiteral<T>,
+        IfAllExtend<AsArray<Chars<T>>, AlphaChar, T, never>,
+        string
+    >
+    : never;

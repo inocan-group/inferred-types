@@ -8,9 +8,9 @@ import { retainAfterInclusive } from "./retainAfter";
  * Extracts and returns the whitespace on the _right_ part of the string.
  */
 export function rightWhitespace<T extends string>(content: T) {
-  const trimmed = content.trimStart() as string;
-  return retainAfterInclusive(
-    trimmed,
-    ...WHITESPACE_CHARS,
-  ) as unknown as RetainAfter<TrimLeft<T>, Whitespace, true>;
+    const trimmed = content.trimStart() as string;
+    return retainAfterInclusive(
+        trimmed,
+        ...WHITESPACE_CHARS,
+    ) as unknown as RetainAfter<TrimLeft<T>, Whitespace, true>;
 }

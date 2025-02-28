@@ -5,6 +5,6 @@
  * to anther type of string.
  */
 export type StringEncoder<R extends string = string> = <
-  T extends string,
+    T extends string,
 >(input: T
 ) => R;

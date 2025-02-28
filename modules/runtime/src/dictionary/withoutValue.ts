@@ -3,8 +3,8 @@ import { doesExtend } from "inferred-types/runtime";
 import { keysOf } from "./keysOf";
 
 export type DictionaryWithoutValueFilter<Without extends Narrowable> = <
-  T extends Record<ObjectKey, N>,
-  N extends Narrowable,
+    T extends Record<ObjectKey, N>,
+    N extends Narrowable,
 >(obj: T
 ) => WithoutValue<T, Without>;
 
@@ -24,22 +24,22 @@ export type DictionaryWithoutValueFilter<Without extends Narrowable> = <
  * repectively.
  */
 export function withoutValue<TWithout extends SimpleToken>(
-  wo: TWithout,
+    wo: TWithout,
 ): DictionaryWithoutValueFilter<FromSimpleToken<TWithout>> {
-  return <
-    T extends Record<ObjectKey, N>,
-    N extends Narrowable,
-  >(
-    obj: T,
-  ): WithoutValue<T, FromSimpleToken<TWithout>> => {
-    const output: Dictionary = {};
+    return <
+        T extends Record<ObjectKey, N>,
+        N extends Narrowable,
+    >(
+        obj: T,
+    ): WithoutValue<T, FromSimpleToken<TWithout>> => {
+        const output: Dictionary = {};
 
-    for (const key of keysOf(obj)) {
-      const val = obj[key];
-      if (!doesExtend(wo)(val)) {
-        output[key] = val;
-      }
-    }
-    return output as unknown as WithoutValue<T, FromSimpleToken<TWithout>>;
-  };
+        for (const key of keysOf(obj)) {
+            const val = obj[key];
+            if (!doesExtend(wo)(val)) {
+                output[key] = val;
+            }
+        }
+        return output as unknown as WithoutValue<T, FromSimpleToken<TWithout>>;
+    };
 }

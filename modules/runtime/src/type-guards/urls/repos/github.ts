@@ -1,13 +1,13 @@
 import type {
-  GithubOrgUrl,
-  GithubRepoIssuesListUrl,
-  GithubRepoIssueUrl,
-  GithubRepoProjectsUrl,
-  GithubRepoProjectUrl,
-  GithubRepoReleasesUrl,
-  GithubRepoReleaseTagUrl,
-  GithubRepoUrl,
-  GithubUrl,
+    GithubOrgUrl,
+    GithubRepoIssuesListUrl,
+    GithubRepoIssueUrl,
+    GithubRepoProjectsUrl,
+    GithubRepoProjectUrl,
+    GithubRepoReleasesUrl,
+    GithubRepoReleaseTagUrl,
+    GithubRepoUrl,
+    GithubUrl,
 } from "inferred-types/types";
 import { isString, stripLeading, stripTrailing } from "inferred-types/runtime";
 
@@ -18,16 +18,16 @@ import { isString, stripLeading, stripTrailing } from "inferred-types/runtime";
  * **Github** URL.
  */
 export function isGithubUrl(val: unknown): val is GithubUrl {
-  const valid = [
-    "https://github.com",
-    "https://www.github.com",
-    "https://github.io",
-  ];
-  return isString(val) && valid.some(i =>
-    val === i
-    || val.startsWith(`${i}/`)
-    || val.startsWith(`${i}?`),
-  );
+    const valid = [
+        "https://github.com",
+        "https://www.github.com",
+        "https://github.io",
+    ];
+    return isString(val) && valid.some(i =>
+        val === i
+        || val.startsWith(`${i}/`)
+        || val.startsWith(`${i}?`),
+    );
 }
 
 /**
@@ -37,17 +37,17 @@ export function isGithubUrl(val: unknown): val is GithubUrl {
  * **Github** _organization_ URL.
  */
 export function isGithubOrgUrl<T>(val: T): val is GithubOrgUrl & T {
-  return isString(val) && (
-    val.startsWith("https://github.com/")
-    && stripper(val).length === 2
-  );
+    return isString(val) && (
+        val.startsWith("https://github.com/")
+        && stripper(val).length === 2
+    );
 }
 
 function stripper(s: string) {
-  return stripTrailing(
-    stripLeading(s, "https://github.com/"),
-    "/",
-  );
+    return stripTrailing(
+        stripLeading(s, "https://github.com/"),
+        "/",
+    );
 }
 
 /**
@@ -57,10 +57,10 @@ function stripper(s: string) {
  * **Github** _repo_ URL.
  */
 export function isGithubRepoUrl<T>(val: T): val is GithubRepoUrl & T {
-  return !!(isString(val) && (
-    val.startsWith("https://github.com/")
-    && stripper(val).split("/").length === 2
-  ));
+    return !!(isString(val) && (
+        val.startsWith("https://github.com/")
+        && stripper(val).split("/").length === 2
+    ));
 }
 
 /**
@@ -72,11 +72,11 @@ export function isGithubRepoUrl<T>(val: T): val is GithubRepoUrl & T {
  * **Related:** `isGithubRepoReleaseTagUrl`
  */
 export function isGithubRepoReleasesUrl<T>(val: T): val is GithubRepoReleasesUrl & T {
-  return isString(val) && (
-    val.startsWith("https://github.com/")
-    && val.includes("/releases")
-    && stripper(val).split("/").length === 3
-  );
+    return isString(val) && (
+        val.startsWith("https://github.com/")
+        && val.includes("/releases")
+        && stripper(val).split("/").length === 3
+    );
 }
 
 /**
@@ -88,11 +88,11 @@ export function isGithubRepoReleasesUrl<T>(val: T): val is GithubRepoReleasesUrl
  * **Related:** `isGithubRepoReleasesUrl`
  */
 export function isGithubRepoReleaseTagUrl<T>(val: T): val is GithubRepoReleaseTagUrl & T {
-  return isString(val) && (
-    val.startsWith("https://github.com/")
-    && val.includes("/releases/tag/")
-    && stripper(val).length === 4
-  );
+    return isString(val) && (
+        val.startsWith("https://github.com/")
+        && val.includes("/releases/tag/")
+        && stripper(val).length === 4
+    );
 }
 
 /**
@@ -104,9 +104,9 @@ export function isGithubRepoReleaseTagUrl<T>(val: T): val is GithubRepoReleaseTa
  * **Related:** `isGithubIssueUrl`
  */
 export function isGithubIssuesListUrl<T>(val: T): val is GithubRepoIssuesListUrl & T {
-  return isString(val)
-    && val.startsWith("https://github.com/")
-    && val.includes("/issues");
+    return isString(val)
+        && val.startsWith("https://github.com/")
+        && val.includes("/issues");
 }
 
 /**
@@ -118,10 +118,10 @@ export function isGithubIssuesListUrl<T>(val: T): val is GithubRepoIssuesListUrl
  * **Related:** `isGithubIssuesListUrl`
  */
 export function isGithubIssueUrl<T>(val: T): val is GithubRepoIssueUrl & T {
-  return isString(val) && (
-    val.startsWith("https://github.com/")
-    && val.includes("/issues/")
-  );
+    return isString(val) && (
+        val.startsWith("https://github.com/")
+        && val.includes("/issues/")
+    );
 }
 
 /**
@@ -133,11 +133,11 @@ export function isGithubIssueUrl<T>(val: T): val is GithubRepoIssueUrl & T {
  * **Related:** `isGithubProjectUrl`
  */
 export function isGithubProjectsListUrl<T>(val: T): val is GithubRepoProjectsUrl & T {
-  return isString(val) && (
-    val.startsWith("https://github.com/")
-    && (val.includes("/projects?") || val.trim().endsWith("/projects"))
-    && stripper(val).split("/").length === 3
-  );
+    return isString(val) && (
+        val.startsWith("https://github.com/")
+        && (val.includes("/projects?") || val.trim().endsWith("/projects"))
+        && stripper(val).split("/").length === 3
+    );
 }
 
 /**
@@ -149,11 +149,11 @@ export function isGithubProjectsListUrl<T>(val: T): val is GithubRepoProjectsUrl
  * **Related:** `isGithubProjectsListUrl`
  */
 export function isGithubProjectUrl<T>(val: T): val is GithubRepoProjectUrl & T {
-  return isString(val) && (
-    val.startsWith("https://github.com/")
-    && val.includes("/projects/")
-    && stripper(val).split("/").length === 4
-  );
+    return isString(val) && (
+        val.startsWith("https://github.com/")
+        && val.includes("/projects/")
+        && stripper(val).split("/").length === 4
+    );
 }
 
 /**
@@ -165,11 +165,11 @@ export function isGithubProjectUrl<T>(val: T): val is GithubRepoProjectUrl & T {
  * **Related:** `isGithubReleaseTagUrl`
  */
 export function isGithubReleasesListUrl<T>(val: T): val is GithubRepoReleasesUrl & T {
-  return isString(val) && (
-    val.startsWith("https://github.com/")
-    && (val.includes("/releases?") || val.trim().endsWith("/releases"))
-    && stripper(val).split("/").length === 3
-  );
+    return isString(val) && (
+        val.startsWith("https://github.com/")
+        && (val.includes("/releases?") || val.trim().endsWith("/releases"))
+        && stripper(val).split("/").length === 3
+    );
 }
 
 /**
@@ -181,9 +181,9 @@ export function isGithubReleasesListUrl<T>(val: T): val is GithubRepoReleasesUrl
  * **Related:** `isGithubReleasesListUrl`
  */
 export function isGithubReleaseTagUrl<T>(val: T): val is GithubRepoProjectUrl & T {
-  return isString(val) && (
-    val.startsWith("https://github.com/")
-    && val.includes("/releases/tag/")
-    && stripper(val).split("/").length === 5
-  );
+    return isString(val) && (
+        val.startsWith("https://github.com/")
+        && val.includes("/releases/tag/")
+        && stripper(val).split("/").length === 5
+    );
 }

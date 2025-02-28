@@ -8,9 +8,9 @@ import { stripSurround } from "inferred-types/runtime";
  * `kind` variant name.
  */
 export function getTokenKind<T extends TypeToken>(token: T): TypeTokenKind {
-  const bare = stripSurround("<<", ">>")(token);
-  const parts = bare.split("::");
-  const kind = parts.pop() as TypeTokenKind;
+    const bare = stripSurround("<<", ">>")(token);
+    const parts = bare.split("::");
+    const kind = parts.pop() as TypeTokenKind;
 
-  return kind;
+    return kind;
 }

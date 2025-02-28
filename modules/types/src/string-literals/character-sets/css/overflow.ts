@@ -2,11 +2,11 @@ import type { CssGlobal } from "./global";
 import type { CssSizing } from "./sizing";
 
 type Overflow =
-  | "visible"
-  | "hidden"
-  | "clip"
-  | "scroll"
-  | "auto";
+    | "visible"
+    | "hidden"
+    | "clip"
+    | "scroll"
+    | "auto";
 
 /**
  * **CssOverflowX**
@@ -48,25 +48,25 @@ export type CssOverflowAnchor = "auto" | "none";
  * overflow clip edge of the box.
  */
 export type CssOverflowClipMargin =
-  | CssSizing
-  | `content-box ${CssSizing}`
-  | CssGlobal;
+    | CssSizing
+    | `content-box ${CssSizing}`
+    | CssGlobal;
 
 export interface CssOverflowProperties {
-  /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow) */
-  "overflow"?: string;
-  /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-anchor) */
-  "overflow-anchor"?: CssOverflowAnchor | CssGlobal;
-  /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-block) */
-  "overflow-block"?: CssOverflowBlock | CssGlobal;
-  /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-clip-margin) */
-  "overflow-clip-margin"?: string;
-  /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-inline) */
-  "overflow-inline"?: CssOverflowInline | CssGlobal;
-  /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-wrap) */
-  "overflow-wrap"?: string;
-  /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-x) */
-  "overflow-x"?: CssOverflowX | CssGlobal;
-  /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-y) */
-  "overflow-y"?: CssOverflowY | CssGlobal;
+    /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow) */
+    "overflow"?: string;
+    /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-anchor) */
+    "overflow-anchor"?: CssOverflowAnchor | CssGlobal;
+    /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-block) */
+    "overflow-block"?: CssOverflowBlock | CssGlobal;
+    /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-clip-margin) */
+    "overflow-clip-margin"?: string;
+    /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-inline) */
+    "overflow-inline"?: CssOverflowInline | CssGlobal;
+    /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-wrap) */
+    "overflow-wrap"?: string;
+    /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-x) */
+    "overflow-x"?: CssOverflowX | CssGlobal;
+    /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-y) */
+    "overflow-y"?: CssOverflowY | CssGlobal;
 }

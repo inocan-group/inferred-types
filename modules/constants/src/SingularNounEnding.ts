@@ -4,10 +4,10 @@
  * **Related:** `SingularNounEnding`
  */
 export const SINGULAR_NOUN_ENDINGS = [
-  "s",
-  "sh",
-  "ch",
-  "x",
-  "z",
-  "o",
+    "s",
+    "sh",
+    "ch",
+    "x",
+    "z",
+    "o",
 ] as const;

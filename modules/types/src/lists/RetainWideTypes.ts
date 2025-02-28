@@ -4,13 +4,13 @@ import type { If } from "../boolean-logic/branching/If";
 import type { RemoveMarked } from "../containers";
 
 type Process<
-  T extends readonly unknown[],
+    T extends readonly unknown[],
 > = RemoveMarked<{
-  [K in keyof T]: If<
-    IsWideType<T[K]>,
-    T[K],
-    Constant<"Marked">
-  >
+    [K in keyof T]: If<
+        IsWideType<T[K]>,
+        T[K],
+        Constant<"Marked">
+    >
 }>;
 
 /**
@@ -25,7 +25,7 @@ type Process<
  * **Related:** `Retain`, `RetainLiterals`, `FilterWideTypes`
  */
 export type RetainWideTypes<
-  T extends readonly unknown[],
+    T extends readonly unknown[],
 > = Process<T> extends readonly unknown[]
-  ? Process<T>
-  : never;
+    ? Process<T>
+    : never;

@@ -11,5 +11,5 @@ const s = Symbol("Rec");
  * to the type not being able to be reassigned.
  */
 export type Rec<T extends Dictionary = Dictionary, ID extends string = string> = {
-  [s]: ID;
+    [s]: ID;
 } & T;

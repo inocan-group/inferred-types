@@ -1,26 +1,26 @@
 import type {
-  AMAZON_DNS,
-  APPLE_DNS,
-  BEST_BUY_DNS,
-  CHEWY_DNS,
-  COSTCO_DNS,
-  CVS_DNS,
-  DELL_DNS,
-  EBAY_DNS,
-  ETSY_DNS,
-  HM_DNS,
-  HOME_DEPOT_DNS,
-  IKEA_DNS,
-  KROGER_DNS,
-  LOWES_DNS,
-  MACYS_DNS,
-  NIKE_DNS,
-  TARGET_DNS,
-  WALGREENS_DNS,
-  WALMART_DNS,
-  WAYFAIR_DNS,
-  WHOLE_FOODS_DNS,
-  ZARA_DNS,
+    AMAZON_DNS,
+    APPLE_DNS,
+    BEST_BUY_DNS,
+    CHEWY_DNS,
+    COSTCO_DNS,
+    CVS_DNS,
+    DELL_DNS,
+    EBAY_DNS,
+    ETSY_DNS,
+    HM_DNS,
+    HOME_DEPOT_DNS,
+    IKEA_DNS,
+    KROGER_DNS,
+    LOWES_DNS,
+    MACYS_DNS,
+    NIKE_DNS,
+    TARGET_DNS,
+    WALGREENS_DNS,
+    WALMART_DNS,
+    WAYFAIR_DNS,
+    WHOLE_FOODS_DNS,
+    ZARA_DNS,
 } from "inferred-types/constants";
 import type { UrlsFrom } from "./Url";
 
@@ -53,7 +53,7 @@ export type WholeFoodsUrl = UrlsFrom<typeof WHOLE_FOODS_DNS>;
  * represents URL patterns of many of the top worldwide retailers
  */
 export type RetailUrl =
-  | AmazonUrl | WalmartUrl | AppleUrl | HomeDepotUrl | EbayUrl | TargetUrl
-  | EtsyUrl | CostCoUrl | BestBuyUrl | MacysUrl | ChewyUrl
-  | WayFairUrl | NikeUrl | LowesUrl | IkeaUrl | DellUrl
-  | HandMUrl | ZaraUrl | KrogerUrl | WalgreensUrl | CvsUrl | WholeFoodsUrl;
+    | AmazonUrl | WalmartUrl | AppleUrl | HomeDepotUrl | EbayUrl | TargetUrl
+    | EtsyUrl | CostCoUrl | BestBuyUrl | MacysUrl | ChewyUrl
+    | WayFairUrl | NikeUrl | LowesUrl | IkeaUrl | DellUrl
+    | HandMUrl | ZaraUrl | KrogerUrl | WalgreensUrl | CvsUrl | WholeFoodsUrl;

@@ -1,14 +1,14 @@
 import type { Constant } from "inferred-types/constants";
 import type {
-  AfterFirst,
-  Contains,
-  Dictionary,
-  EmptyObject,
-  ExpandDictionary,
-  First,
-  MakeKeysOptional,
-  RemoveMarked,
-  Widen,
+    AfterFirst,
+    Contains,
+    Dictionary,
+    EmptyObject,
+    ExpandDictionary,
+    First,
+    MakeKeysOptional,
+    RemoveMarked,
+    Widen,
 } from "inferred-types/types";
 
 const s = Symbol("Dict");
@@ -22,58 +22,58 @@ const s = Symbol("Dict");
  * to the type not being able to be reassigned.
  */
 export type Dict<T extends Dictionary = EmptyObject, ID extends string = string> = {
-  [s]: ID;
+    [s]: ID;
 } & T;
 
 export type OptDictProps<
-  T extends readonly string[],
+    T extends readonly string[],
 > = RemoveMarked<{
-  [K in keyof T]: T[K] extends `opt:${infer Prop}`
-    ? Prop extends string
-      ? Prop
-      : Constant<"Marked">
-    : Constant<"Marked">
+    [K in keyof T]: T[K] extends `opt:${infer Prop}`
+        ? Prop extends string
+            ? Prop
+            : Constant<"Marked">
+        : Constant<"Marked">
 }>;
 
 export type NarrowDictProps<
-  T extends readonly string[],
+    T extends readonly string[],
 > = [] extends T
-  ? T
-  : RemoveMarked<{
-    [K in keyof T]: T[K] extends `opt:${string}`
-      ? Constant<"Marked">
-      : T[K]
-  }>;
+    ? T
+    : RemoveMarked<{
+        [K in keyof T]: T[K] extends `opt:${string}`
+            ? Constant<"Marked">
+            : T[K]
+    }>;
 
 export type CreateDictShape<
-  TObj extends Dictionary,
-  TKeys extends readonly (string & keyof TObj)[],
-  TNarrow extends readonly string[],
-  TOpt extends readonly string[],
-  TResult extends Dictionary = EmptyObject,
+    TObj extends Dictionary,
+    TKeys extends readonly (string & keyof TObj)[],
+    TNarrow extends readonly string[],
+    TOpt extends readonly string[],
+    TResult extends Dictionary = EmptyObject,
 > = [] extends TKeys
-  ? OptDictProps<TKeys> extends readonly string[]
-    ? MakeKeysOptional<
-      ExpandDictionary<TResult>,
-      TOpt
-    >
+    ? OptDictProps<TKeys> extends readonly string[]
+        ? MakeKeysOptional<
+            ExpandDictionary<TResult>,
+            TOpt
+        >
 
-    : never
-  : CreateDictShape<
-    TObj,
-    AfterFirst<TKeys>,
-    TNarrow,
-    TOpt,
-    TResult & Record<
-      First<TKeys>,
-      Contains<TNarrow, First<TKeys>> extends true
-        ? TObj[First<TKeys>]
-        : Widen<TObj[First<TKeys>]>
-    >
-  >;
+        : never
+    : CreateDictShape<
+        TObj,
+        AfterFirst<TKeys>,
+        TNarrow,
+        TOpt,
+        TResult & Record<
+            First<TKeys>,
+            Contains<TNarrow, First<TKeys>> extends true
+                ? TObj[First<TKeys>]
+                : Widen<TObj[First<TKeys>]>
+        >
+    >;
 
 export type CreateDictHash<
-  TValues extends readonly unknown[],
-  TNarrowProps extends readonly string[],
-  TOpt extends readonly string[],
+    TValues extends readonly unknown[],
+    TNarrowProps extends readonly string[],
+    TOpt extends readonly string[],
 > = `${TValues["length"]}${TNarrowProps["length"]}${TOpt["length"]}`;

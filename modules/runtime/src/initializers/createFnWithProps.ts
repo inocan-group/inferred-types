@@ -1,10 +1,10 @@
 import type {
-  AnyObject,
-  If,
-  IsTrue,
-  Narrowable,
-  ObjectKey,
-  TypedFunction,
+    AnyObject,
+    If,
+    IsTrue,
+    Narrowable,
+    ObjectKey,
+    TypedFunction,
 } from "inferred-types/types";
 import { isTrue } from "inferred-types/runtime";
 
@@ -19,26 +19,26 @@ import { isTrue } from "inferred-types/runtime";
  * instead.
  */
 export function createFnWithProps<
-  TArgs extends readonly unknown[],
-  TReturn extends Narrowable,
-  N extends Narrowable,
-  TProps extends Record<ObjectKey, N>,
-  TNarrowing extends boolean = false,
+    TArgs extends readonly unknown[],
+    TReturn extends Narrowable,
+    N extends Narrowable,
+    TProps extends Record<ObjectKey, N>,
+    TNarrowing extends boolean = false,
 >(fn: (...args: TArgs) => TReturn, props: TProps, narrowing: TNarrowing = false as TNarrowing) {
-  const fnWithProps: any = fn;
-  for (const prop of Object.keys(props)) {
-    fnWithProps[prop] = props[prop];
-  }
+    const fnWithProps: any = fn;
+    for (const prop of Object.keys(props)) {
+        fnWithProps[prop] = props[prop];
+    }
 
-  return (
-    isTrue(narrowing)
-      ? fnWithProps as (<A extends Readonly<TArgs>>(...args: A) => TReturn) & TProps
-      : fnWithProps as ((...args: TArgs) => TReturn) & TProps
-  ) as If<
-    IsTrue<TNarrowing>,
+    return (
+        isTrue(narrowing)
+            ? fnWithProps as (<A extends Readonly<TArgs>>(...args: A) => TReturn) & TProps
+            : fnWithProps as ((...args: TArgs) => TReturn) & TProps
+    ) as If<
+        IsTrue<TNarrowing>,
     (<A extends TArgs>(...args: A) => TReturn) & TProps,
     ((...args: TArgs) => TReturn) & TProps
-  >;
+    >;
 }
 
 /**
@@ -50,13 +50,13 @@ export function createFnWithProps<
  * expects you to type the function and properties yourself.
  */
 export function createFnWithPropsExplicit<
-  TFn extends TypedFunction,
-  TProps extends AnyObject,
+    TFn extends TypedFunction,
+    TProps extends AnyObject,
 >(fn: TFn, props: TProps) {
-  const fnWithProps: any = fn;
-  for (const prop of Object.keys(props)) {
-    fnWithProps[prop] = props[prop as keyof typeof props];
-  }
+    const fnWithProps: any = fn;
+    for (const prop of Object.keys(props)) {
+        fnWithProps[prop] = props[prop as keyof typeof props];
+    }
 
-  return fnWithProps as TFn & TProps;
+    return fnWithProps as TFn & TProps;
 }

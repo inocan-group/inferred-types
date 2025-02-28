@@ -8,5 +8,5 @@
  * **Related:** `unset()`
  */
 export interface Unset {
-  kind: "Unset";
+    kind: "Unset";
 }

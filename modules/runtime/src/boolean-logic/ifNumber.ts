@@ -13,17 +13,17 @@ import { isNumber } from "inferred-types/runtime";
  * @param elseVal the value (strongly typed) returned if val is NOT a number
  */
 export function ifNumber<
-  TContent extends Narrowable,
-  TIf extends Narrowable,
-  TElse extends Narrowable,
+    TContent extends Narrowable,
+    TIf extends Narrowable,
+    TElse extends Narrowable,
 >(
-  val: TContent,
-  ifVal: <V extends TContent & number>(v: V) => TIf,
-  elseVal: <V extends Exclude<TContent, number>>(v: V) => TElse,
+    val: TContent,
+    ifVal: <V extends TContent & number>(v: V) => TIf,
+    elseVal: <V extends Exclude<TContent, number>>(v: V) => TElse,
 ) {
-  return (
-    isNumber(val)
-      ? ifVal(val as TContent & number)
-      : elseVal(val as Exclude<TContent, number>)
-  ) as unknown as IsNumber<TContent> extends true ? TIf : TElse;
+    return (
+        isNumber(val)
+            ? ifVal(val as TContent & number)
+            : elseVal(val as Exclude<TContent, number>)
+    ) as unknown as IsNumber<TContent> extends true ? TIf : TElse;
 }

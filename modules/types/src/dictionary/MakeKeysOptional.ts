@@ -1,22 +1,22 @@
 import type {
-  AnyObject,
-  Dictionary,
-  ExpandDictionary,
-  IsWideContainer,
-  ObjectKey,
-  WithKeys,
-  WithoutKeys,
+    AnyObject,
+    Dictionary,
+    ExpandDictionary,
+    IsWideContainer,
+    ObjectKey,
+    WithKeys,
+    WithoutKeys,
 } from "inferred-types/types";
 
 type ProcessTupleKeys<
-  TObj extends Dictionary,
-  TKeys extends readonly ObjectKey[],
+    TObj extends Dictionary,
+    TKeys extends readonly ObjectKey[],
 > = ExpandDictionary<
-  WithoutKeys<TObj, TKeys> & {
-    [K in keyof WithKeys<TObj, TKeys>]?: K extends keyof TObj
-      ? TObj[K]
-      : never
-  }
+    WithoutKeys<TObj, TKeys> & {
+        [K in keyof WithKeys<TObj, TKeys>]?: K extends keyof TObj
+            ? TObj[K]
+            : never
+    }
 >;
 
 /**
@@ -29,10 +29,10 @@ type ProcessTupleKeys<
  * **Related:** `MakeKeysRequired`
  */
 export type MakeKeysOptional<
-  TObj extends AnyObject,
-  TKeys extends readonly ObjectKey[],
+    TObj extends AnyObject,
+    TKeys extends readonly ObjectKey[],
 > = IsWideContainer<TObj> extends true
-  ? TObj
-  : TObj extends Dictionary
-    ? ProcessTupleKeys<TObj, TKeys>
-    : never;
+    ? TObj
+    : TObj extends Dictionary
+        ? ProcessTupleKeys<TObj, TKeys>
+        : never;

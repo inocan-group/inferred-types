@@ -1,28 +1,28 @@
 import type {
-  IsEqual,
-  NumericChar,
-  NumericCharZeroToThree,
-  NumericCharZeroToTwo,
-  Slice,
+    IsEqual,
+    NumericChar,
+    NumericCharZeroToThree,
+    NumericCharZeroToTwo,
+    Slice,
 } from "inferred-types/types";
 
 type YMD<T> = T extends `${number}-${number}-${number}`
-  ? T extends `${infer Year}-${infer Month}-${infer Day}`
-    ? [Year, Month, Day]
-    : never
-  : T extends `${number}`
-    ? [Slice<T, 0, 4>, Slice<T, 4, 2>, Slice<T, 6, 2>]
-    : never;
+    ? T extends `${infer Year}-${infer Month}-${infer Day}`
+        ? [Year, Month, Day]
+        : never
+    : T extends `${number}`
+        ? [Slice<T, 0, 4>, Slice<T, 4, 2>, Slice<T, 6, 2>]
+        : never;
 
 type Validate<T> = T extends readonly [string, string, string]
-  ? T[0] extends `${NumericChar}${NumericChar}${NumericChar}${NumericChar}`
-    ? T[1] extends `${NumericCharZeroToTwo}${NumericChar}`
-      ? T[2] extends `${NumericCharZeroToThree}${NumericChar}`
-        ? true
+    ? T[0] extends `${NumericChar}${NumericChar}${NumericChar}${NumericChar}`
+        ? T[1] extends `${NumericCharZeroToTwo}${NumericChar}`
+            ? T[2] extends `${NumericCharZeroToThree}${NumericChar}`
+                ? true
+                : false
+            : false
         : false
-      : false
-    : false
-  : false;
+    : false;
 
 /**
  * **IsIsoExplicitDate**`<T>`
@@ -31,12 +31,12 @@ type Validate<T> = T extends readonly [string, string, string]
  * format `YYYY-MM-DD`.
  */
 export type IsIsoExplicitDate<T> = IsEqual<T, string> extends true
-  ? boolean
-  : T extends `${number}-${number}-${number}`
-    ? Validate<YMD<T>> extends true
-      ? true
-      : false
-    : false;
+    ? boolean
+    : T extends `${number}-${number}-${number}`
+        ? Validate<YMD<T>> extends true
+            ? true
+            : false
+        : false;
 
 /**
  * **IsIsoImplicitDate**`<T>`
@@ -45,12 +45,12 @@ export type IsIsoExplicitDate<T> = IsEqual<T, string> extends true
  * format `YYYYMMDD`.
  */
 export type IsIsoImplicitDate<T> = IsEqual<T, string> extends true
-  ? boolean
-  : T extends `${number}`
-    ? Validate<YMD<T>> extends true
-      ? true
-      : false
-    : false;
+    ? boolean
+    : T extends `${number}`
+        ? Validate<YMD<T>> extends true
+            ? true
+            : false
+        : false;
 
 /**
  * **IsIsoDate**`<T>`
@@ -59,9 +59,9 @@ export type IsIsoImplicitDate<T> = IsEqual<T, string> extends true
  * format `YYYYMMDD` or `YYYY-MM-DD`.
  */
 export type IsIsoDate<T> = IsEqual<T, string> extends true
-  ? boolean
-  : IsIsoExplicitDate<T> extends true
-    ? true
-    : IsIsoImplicitDate<T> extends true
-      ? true
-      : false;
+    ? boolean
+    : IsIsoExplicitDate<T> extends true
+        ? true
+        : IsIsoImplicitDate<T> extends true
+            ? true
+            : false;

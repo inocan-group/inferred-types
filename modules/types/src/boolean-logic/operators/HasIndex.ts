@@ -1,5 +1,5 @@
 import type {
-  Container,
+    Container,
 } from "inferred-types/types";
 
 /**
@@ -9,10 +9,10 @@ import type {
  * index value `TIdx`.
  */
 export type HasIndex<
-  TContainer,
-  TIdx extends PropertyKey,
+    TContainer,
+    TIdx extends PropertyKey,
 > = TContainer extends Container
-  ? TIdx extends keyof TContainer
-    ? true
-    : false
-  : false;
+    ? TIdx extends keyof TContainer
+        ? true
+        : false
+    : false;

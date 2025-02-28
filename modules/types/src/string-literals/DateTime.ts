@@ -1,17 +1,17 @@
 import type {
-  DateSeparator,
-  HoursMinutes,
-  HoursMinutesSeconds,
-  NumericChar,
-  NumericCharZeroToFive,
-  Opt,
-  OptNumber,
-  Time,
-  TimeNomenclature,
-  TimeResolution,
-  TypeRequired,
-  TZ,
-  YMD,
+    DateSeparator,
+    HoursMinutes,
+    HoursMinutesSeconds,
+    NumericChar,
+    NumericCharZeroToFive,
+    Opt,
+    OptNumber,
+    Time,
+    TimeNomenclature,
+    TimeResolution,
+    TypeRequired,
+    TZ,
+    YMD,
 } from "inferred-types/types";
 
 /**
@@ -25,11 +25,11 @@ export type Timezone = `${Opt<"Z">}${"+" | "-"}${number}` | `${Opt<"Z">}${"+" | 
  * The date and time with time resolution of minutes.
  */
 export type DateTimeMinutes<
-  S extends DateSeparator = DateSeparator,
+    S extends DateSeparator = DateSeparator,
 > = `${YMD<S>} ${HoursMinutes<{ strength: "simple" }>}`;
 
 export type DateTimeSeconds<
-  S extends DateSeparator = DateSeparator,
+    S extends DateSeparator = DateSeparator,
 > = `${YMD<S>} ${HoursMinutesSeconds<{ strength: "simple" }>}`;
 
 /**
@@ -42,10 +42,10 @@ export type DateTimeSeconds<
  * datetime representation.
  */
 export type DateTime<
-  TResolution extends TimeResolution = "HH:MM:SS",
-  TNomenclature extends TimeNomenclature = "military",
-  TTimezone extends TypeRequired = "exclude",
-  TSep extends DateSeparator = "-",
+    TResolution extends TimeResolution = "HH:MM:SS",
+    TNomenclature extends TimeNomenclature = "military",
+    TTimezone extends TypeRequired = "exclude",
+    TSep extends DateSeparator = "-",
 > = `${YMD<TSep>} ${Time<TResolution, TNomenclature, { timezone: TTimezone; strength: "simple" }>}`;
 
 type IsoExplicitness = "both" | "explicit" | "implicit";
@@ -64,12 +64,12 @@ type Date = `${"0" | "1" | "2"}${NumericChar}` | "30" | "31";
  * allow both formats for the date.
  */
 export type Iso8601Date<
-  T extends IsoExplicitness = "explicit",
+    T extends IsoExplicitness = "explicit",
 > = T extends "explicit"
-  ? `${number}-${Month}-${Date}`
-  : T extends "implicit"
-    ? `${number}${Month}${Date}`
-    : `${number}-${Month}-${Date}` | `${number}${Month}${Date}`;
+    ? `${number}-${Month}-${Date}`
+    : T extends "implicit"
+        ? `${number}${Month}${Date}`
+        : `${number}-${Month}-${Date}` | `${number}${Month}${Date}`;
 
 /**
  * **Iso8601Year**
@@ -83,10 +83,10 @@ export type Iso8601Date<
 export type Iso8601Year = `${NumericChar}${NumericChar}${NumericChar}${NumericChar}` | `${"+" | "-"}${number}`;
 
 type IsoTimeSymbol<T extends IsoExplicitness> = T extends "both"
-  ? "T" | ""
-  : T extends "explicit"
-    ? "T"
-    : "";
+    ? "T" | ""
+    : T extends "explicit"
+        ? "T"
+        : "";
 type IsoHour = `${"0" | "1" | "2"}${NumericChar}`;
 type IsoMonth = `${NumericCharZeroToFive}${NumericChar}`;
 
@@ -107,13 +107,13 @@ type IsoMonth = `${NumericCharZeroToFive}${NumericChar}`;
  * A time can express a _timezone_ along with the numeric value. A time with a timezone
  */
 export type Iso8601Time<
-  TExplicit extends IsoExplicitness = "both",
-  TZ extends Timezone | "" = "",
+    TExplicit extends IsoExplicitness = "both",
+    TZ extends Timezone | "" = "",
 > = TExplicit extends "explicit"
-  ? `${IsoTimeSymbol<TExplicit>}${IsoHour}:${IsoMonth}${TZ}`
-  : TExplicit extends "implicit"
-    ? `${IsoTimeSymbol<TExplicit>}${IsoHour}:${IsoMonth}:${number}${TZ}`
-    : `${IsoTimeSymbol<TExplicit>}${IsoHour}:${IsoMonth}${TZ}` | `${IsoTimeSymbol<TExplicit>}${IsoHour}:${IsoMonth}:${number}${TZ}`;
+    ? `${IsoTimeSymbol<TExplicit>}${IsoHour}:${IsoMonth}${TZ}`
+    : TExplicit extends "implicit"
+        ? `${IsoTimeSymbol<TExplicit>}${IsoHour}:${IsoMonth}:${number}${TZ}`
+        : `${IsoTimeSymbol<TExplicit>}${IsoHour}:${IsoMonth}${TZ}` | `${IsoTimeSymbol<TExplicit>}${IsoHour}:${IsoMonth}:${number}${TZ}`;
 
 /**
  * **Iso8601DateTime**`<[TZ]>`
@@ -125,7 +125,7 @@ export type Iso8601Time<
  * generic.
  */
 export type Iso8601DateTime<
-  TZ extends Timezone | "" = Timezone | "",
+    TZ extends Timezone | "" = Timezone | "",
 > = `${number}-${number}-${number}T${number}:${number}:${number}${TZ}`;
 
 /**
@@ -138,7 +138,7 @@ export type Iso8601DateTime<
  * - a timezone is optional by default but can be isolated to "required" or "excluded"
  */
 export type Iso8601<
-  TTimezone extends TypeRequired = "optional",
+    TTimezone extends TypeRequired = "optional",
 > = `${number}-${number}-${number}T${number}:${number}:${number}.${number}${TZ<TTimezone>}`;
 
 /**
@@ -157,13 +157,13 @@ export type Iso8601<
  *    - **Javascript**'s Date object
  */
 export type DateLike = number
-  | `${number}`
-  | `${number}-${number}-${number}`
-  | `${number}-${number}-${number}T${number}:${number}:${number}Z`
-  | { isValid: () => boolean; toDate: () => Date } // MomentJS DateTime
-  | { toDate: () => Date } // Luxon DateTime
-  | { getTime: () => number } // Javascript Date object
-  | { startOfDay: () => Date }; // DateFns-like object
+    | `${number}`
+    | `${number}-${number}-${number}`
+    | `${number}-${number}-${number}T${number}:${number}:${number}Z`
+    | { isValid: () => boolean; toDate: () => Date } // MomentJS DateTime
+    | { toDate: () => Date } // Luxon DateTime
+    | { getTime: () => number } // Javascript Date object
+    | { startOfDay: () => Date }; // DateFns-like object
 
 /**
  * **Iso8601DateRepresentation**
@@ -173,7 +173,7 @@ export type DateLike = number
  * **Related:** `Iso8601Date`, `Iso8601DateTime`
  */
 export type Iso8601DateRepresentation = `${number}-${number}-${number}` & {
-  brand: "Iso8601Date";
+    brand: "Iso8601Date";
 };
 
 /**
@@ -184,7 +184,7 @@ export type Iso8601DateRepresentation = `${number}-${number}-${number}` & {
  * **Related:** `Iso8601Time`, `Iso8601Date`, `Iso8601DateTime`
  */
 export type Iso8601TimeRepresentation = `${number}:${number}` | `${number}:${number}:${number}${OptNumber<".">}` & {
-  brand: "Iso8601Time";
+    brand: "Iso8601Time";
 };
 
 /**
@@ -195,9 +195,9 @@ export type Iso8601TimeRepresentation = `${number}:${number}` | `${number}:${num
  * **Related:** `Iso8601Time`, `Iso8601Date`, `Iso8601DateTime`
  */
 export type Iso8601DateTimeRepresentation = `${number}-${number}-${number}T${number}:${number}`
-  | `${number}-${number}-${number}T${number}:${number}:${number}${OptNumber<".">}` & {
-    brand: "Iso8601DateTime";
-  };
+    | `${number}-${number}-${number}T${number}:${number}:${number}${OptNumber<".">}` & {
+        brand: "Iso8601DateTime";
+    };
 
 declare const __epochinms: unique symbol;
 
@@ -211,7 +211,7 @@ declare const __epochinms: unique symbol;
  * **Related:** `isEpochInMilliseconds()`, `isEpoch()`
  */
 export type EpochInMs = number & {
-  [__epochinms]: "EpochInMs";
+    [__epochinms]: "EpochInMs";
 };
 
 declare const __epochinseconds: unique symbol;
@@ -226,5 +226,5 @@ declare const __epochinseconds: unique symbol;
  * **Related:** `isEpochInSeconds()`, `isEpoch()`
  */
 export type EpochInSeconds = number & {
-  [__epochinseconds]: "EpochInSeconds";
+    [__epochinseconds]: "EpochInSeconds";
 };

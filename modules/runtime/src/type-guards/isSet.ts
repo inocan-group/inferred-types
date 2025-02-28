@@ -9,7 +9,7 @@ import { isObject } from "./isObject";
  * **Related:** `isUnset()`
  */
 export function isSet<T>(val: T): val is Exclude<T, Unset> {
-  return isObject(val)
-    ? val.kind !== "Unset"
-    : true;
+    return isObject(val)
+        ? val.kind !== "Unset"
+        : true;
 }
