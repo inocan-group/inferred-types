@@ -1,11 +1,11 @@
 import {
-  getTomorrow,
-  isDate,
-  isIsoExplicitDate,
-  isLuxonDateTime,
-  isMoment,
-  isString,
-  stripAfter,
+    getTomorrow,
+    isDate,
+    isIsoExplicitDate,
+    isLuxonDateTime,
+    isMoment,
+    isString,
+    stripAfter,
 } from "inferred-types/runtime";
 
 /**
@@ -18,20 +18,20 @@ import {
  *   - [Luxon](https://moment.github.io/luxon/#/?id=luxon) DateTime object
  */
 export function isTomorrow(test: unknown): boolean {
-  if (isString(test)) {
-    const justDate = stripAfter(test, "T");
-    return isIsoExplicitDate(justDate) && justDate === getTomorrow();
-  }
-  else if (isMoment(test) || isDate(test)) {
-    return (
-      stripAfter(test.toISOString(), "T") === getTomorrow()
-    );
-  }
-  else if (isLuxonDateTime(test)) {
-    return (
-      stripAfter(test.toISO(), "T") === getTomorrow()
-    );
-  }
+    if (isString(test)) {
+        const justDate = stripAfter(test, "T");
+        return isIsoExplicitDate(justDate) && justDate === getTomorrow();
+    }
+    else if (isMoment(test) || isDate(test)) {
+        return (
+            stripAfter(test.toISOString(), "T") === getTomorrow()
+        );
+    }
+    else if (isLuxonDateTime(test)) {
+        return (
+            stripAfter(test.toISO(), "T") === getTomorrow()
+        );
+    }
 
-  return false;
+    return false;
 }

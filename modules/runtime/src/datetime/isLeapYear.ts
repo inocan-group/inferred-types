@@ -7,12 +7,12 @@ import { asDate } from "./asDate";
  * - a leap year is a year divisible by 4 but not by 100 (unless also divisible by 400)
  */
 export function isLeapYear(val: NumberLike | Record<string, any> | Date | number) {
-  const year = asDate(val)?.getUTCFullYear();
-  if (!year) {
-    throw new Error(`Invalid date passed into isLeapYear(${String(val)})`);
-  }
+    const year = asDate(val)?.getUTCFullYear();
+    if (!year) {
+        throw new Error(`Invalid date passed into isLeapYear(${String(val)})`);
+    }
 
-  return year % 100 === 0
-    ? year % 400 === 0
-    : year % 4 === 0;
+    return year % 100 === 0
+        ? year % 400 === 0
+        : year % 4 === 0;
 }

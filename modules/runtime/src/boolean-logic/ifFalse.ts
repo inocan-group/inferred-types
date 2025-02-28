@@ -17,9 +17,9 @@ import { isFalse } from "inferred-types/runtime";
  * encountered the _type_ will the union of `IF` and `ELSE`.
  */
 export function ifFalse<T extends boolean, IF extends Narrowable, ELSE extends Narrowable>(
-  val: T,
-  ifVal: IF,
-  elseVal: ELSE,
+    val: T,
+    ifVal: IF,
+    elseVal: ELSE,
 ) {
-  return (isFalse(val) ? ifVal : elseVal) as If<IsFalse<T>, IF, ELSE>;
+    return (isFalse(val) ? ifVal : elseVal) as If<IsFalse<T>, IF, ELSE>;
 }

@@ -7,18 +7,18 @@ type VoltageMetricsLookup = typeof VOLTAGE_METRICS_LOOKUP;
  * The singular name for metrics associated with **Voltage**.
  */
 export type VoltageMetrics = {
-  [K in keyof VoltageMetricsLookup]: "name" extends keyof VoltageMetricsLookup[K]
-    ? VoltageMetricsLookup[K]["name"]
-    : never
+    [K in keyof VoltageMetricsLookup]: "name" extends keyof VoltageMetricsLookup[K]
+        ? VoltageMetricsLookup[K]["name"]
+        : never
 }[number];
 
 /**
  * Unit of measure for metrics associated with **Voltage**.
  */
 export type VoltageUom = {
-  [K in keyof VoltageMetricsLookup]: "abbrev" extends keyof VoltageMetricsLookup[K]
-    ? VoltageMetricsLookup[K]["abbrev"]
-    : never
+    [K in keyof VoltageMetricsLookup]: "abbrev" extends keyof VoltageMetricsLookup[K]
+        ? VoltageMetricsLookup[K]["abbrev"]
+        : never
 }[number];
 
 /***

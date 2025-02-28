@@ -13,15 +13,15 @@ import type { Join } from "../string-literals/Join";
  * **Related:** `ToString`
  */
 export type AsString<T> = T extends string
-  ? T & string
-  : T extends number
-    ? `${T}`
-    : T extends boolean
-      ? `${T}`
-      : string extends T
-        ? string
-        : T extends string[]
-          ? IsWideType<T> extends true
-            ? never
-            : Join<T>
-          : never;
+    ? T & string
+    : T extends number
+        ? `${T}`
+        : T extends boolean
+            ? `${T}`
+            : string extends T
+                ? string
+                : T extends string[]
+                    ? IsWideType<T> extends true
+                        ? never
+                        : Join<T>
+                    : never;

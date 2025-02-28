@@ -1,32 +1,32 @@
 import type {
-  AfterFirst,
-  ComparatorOperation,
-  Compare,
-  Dictionary,
-  EmptyObject,
-  ExpandDictionary,
-  First,
-  ObjectKey,
-  StringKeys,
+    AfterFirst,
+    ComparatorOperation,
+    Compare,
+    Dictionary,
+    EmptyObject,
+    ExpandDictionary,
+    First,
+    ObjectKey,
+    StringKeys,
 } from "inferred-types/types";
 
 type Process<
-  TObj extends Dictionary,
-  TComparator,
-  TOp extends ComparatorOperation,
-  TKeys extends readonly ObjectKey[],
-  TResult extends Dictionary = EmptyObject,
-> = [] extends TKeys
-  ? ExpandDictionary<TResult>
-  : Process<
-    TObj,
+    TObj extends Dictionary,
     TComparator,
-    TOp,
-    AfterFirst<TKeys>,
-    Compare<TObj[First<TKeys>], TOp, TComparator> extends true
-      ? TResult
-      : TResult & Record<First<TKeys>, TObj[First<TKeys>]>
-  >;
+    TOp extends ComparatorOperation,
+    TKeys extends readonly ObjectKey[],
+    TResult extends Dictionary = EmptyObject,
+> = [] extends TKeys
+    ? ExpandDictionary<TResult>
+    : Process<
+        TObj,
+        TComparator,
+        TOp,
+        AfterFirst<TKeys>,
+        Compare<TObj[First<TKeys>], TOp, TComparator> extends true
+            ? TResult
+            : TResult & Record<First<TKeys>, TObj[First<TKeys>]>
+    >;
 
 /**
  * **FilterProps**`<TObj, TComparator, [TOp]>`
@@ -39,12 +39,12 @@ type Process<
  * `equals`, `startsWith`, `endsWith`, ...
  */
 export type FilterProps<
-  TObj extends Dictionary,
-  TComparator,
-  TOp extends ComparatorOperation = "extends",
+    TObj extends Dictionary,
+    TComparator,
+    TOp extends ComparatorOperation = "extends",
 > = Process<
-  TObj,
-  TComparator,
-  TOp,
-  StringKeys<TObj>
+    TObj,
+    TComparator,
+    TOp,
+    StringKeys<TObj>
 >;

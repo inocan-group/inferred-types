@@ -12,21 +12,21 @@ import { isTrue } from "inferred-types/runtime";
  * - **IF | ELSE** - returned when T is a `boolean` type
  */
 export function ifTrue<
-  TContent extends Narrowable,
-  TIf extends Narrowable,
-  TElse extends Narrowable,
+    TContent extends Narrowable,
+    TIf extends Narrowable,
+    TElse extends Narrowable,
 >(
-  val: TContent,
-  ifVal: <V extends TContent & true>(val: V) => TIf,
-  elseVal: <V extends Exclude<TContent, true>>(val: V) => TElse,
+    val: TContent,
+    ifVal: <V extends TContent & true>(val: V) => TIf,
+    elseVal: <V extends Exclude<TContent, true>>(val: V) => TElse,
 ) {
-  return (
+    return (
     //
-    isTrue(val)
-      ? ifVal(val as TContent & true)
-      : elseVal(val as Exclude<TContent, true>)
-  ) as unknown as
+        isTrue(val)
+            ? ifVal(val as TContent & true)
+            : elseVal(val as Exclude<TContent, true>)
+    ) as unknown as
     [IsTrue<TContent>] extends [true]
-      ? TIf
-      : [IsFalse<TContent>] extends [true] ? TElse : TIf | TElse;
+        ? TIf
+        : [IsFalse<TContent>] extends [true] ? TElse : TIf | TElse;
 }

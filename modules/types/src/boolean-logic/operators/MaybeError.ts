@@ -1,12 +1,12 @@
 import type { Contains, ErrorCondition, IsUnion, UnionToTuple } from "inferred-types/types";
 
 type AnyError<
-  T extends readonly unknown[],
+    T extends readonly unknown[],
 > = Contains<T, ErrorCondition> extends true
-  ? true
-  : Contains<T, Error> extends true
     ? true
-    : false;
+    : Contains<T, Error> extends true
+        ? true
+        : false;
 
 /**
  * **MaybeError**`<T>`
@@ -24,7 +24,7 @@ type AnyError<
  * **Related**: `IsError`, `IsErrorCondition`
  */
 export type MaybeError<T> = IsUnion<T> extends true
-  ? AnyError<UnionToTuple<T>>
-  : false;
+    ? AnyError<UnionToTuple<T>>
+    : false;
 
 ;

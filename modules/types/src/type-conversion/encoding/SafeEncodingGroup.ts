@@ -1,4 +1,4 @@
 export type SafeEncodingGroup =
-  | "whitespace"
-  | "brackets"
-  | "quotes";
+    | "whitespace"
+    | "brackets"
+    | "quotes";

@@ -1,11 +1,11 @@
 import type { AsString } from "inferred-types/types";
 import {
-  isArray,
-  isBoolean,
-  isNumber,
-  isObject,
-  isString,
-  keysOf,
+    isArray,
+    isBoolean,
+    isNumber,
+    isObject,
+    isString,
+    keysOf,
 } from "inferred-types/runtime";
 
 /**
@@ -26,17 +26,17 @@ import {
  * type of the string will be
  */
 export function asString<T>(value: T): AsString<T> {
-  return (
-    isString(value)
-      ? value
-      : isNumber(value)
-        ? `${value}`
-        : isBoolean(value)
-          ? `${value}`
-          : isObject(value)
-            ? `{ ... ${keysOf(value)} ... }`
-            : isArray(value)
-              ? `any[]`
-              : String(value)
-  ) as unknown as AsString<T>;
+    return (
+        isString(value)
+            ? value
+            : isNumber(value)
+                ? `${value}`
+                : isBoolean(value)
+                    ? `${value}`
+                    : isObject(value)
+                        ? `{ ... ${keysOf(value)} ... }`
+                        : isArray(value)
+                            ? `any[]`
+                            : String(value)
+    ) as unknown as AsString<T>;
 }

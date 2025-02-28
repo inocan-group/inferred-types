@@ -11,19 +11,19 @@ import type { Throw } from "./Throw";
  * **Related:** `ProxyError`
  */
 export type MapError<
-  // the error being proxied
-  TError extends ErrorConditionShape,
-  // the new "kind" of error to map to
-  TKind extends string,
-  // the type utility catching the error condition
-  TUtility extends string,
-  // the generic parameter which received the error
-  TGeneric extends string | null = null,
+    // the error being proxied
+    TError extends ErrorConditionShape,
+    // the new "kind" of error to map to
+    TKind extends string,
+    // the type utility catching the error condition
+    TUtility extends string,
+    // the generic parameter which received the error
+    TGeneric extends string | null = null,
 > = Throw<
-  TKind,
-  TGeneric extends string
-    ? `The "${TUtility}" type utility received an ErrorCondition<"${TError["kind"]}"> in it's ${TGeneric} parameter. The underlying error was: ${TError["msg"]}`
-    : `The "${TUtility}" type utility an ErrorCondition<"${TError["kind"]}">. The underlying error was: ${TError["msg"]}`,
-  TUtility,
-  { underlying: TError }
+    TKind,
+    TGeneric extends string
+        ? `The "${TUtility}" type utility received an ErrorCondition<"${TError["kind"]}"> in it's ${TGeneric} parameter. The underlying error was: ${TError["msg"]}`
+        : `The "${TUtility}" type utility an ErrorCondition<"${TError["kind"]}">. The underlying error was: ${TError["msg"]}`,
+    TUtility,
+    { underlying: TError }
 >;

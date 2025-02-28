@@ -8,11 +8,11 @@ import { asChars } from "inferred-types/runtime";
  * until a character specified in `until` is found.
  */
 export function stripUntil<
-  TContent extends string,
-  TUntil extends readonly string[],
+    TContent extends string,
+    TUntil extends readonly string[],
 >(content: TContent, ...until: TUntil) {
-  const stopIdx = asChars(content)
-    .findIndex(c => until.includes(c));
+    const stopIdx = asChars(content)
+        .findIndex(c => until.includes(c));
 
-  return content.slice(stopIdx) as unknown as StripUntil<TContent, TupleToUnion<TUntil>>;
+    return content.slice(stopIdx) as unknown as StripUntil<TContent, TupleToUnion<TUntil>>;
 }

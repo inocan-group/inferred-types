@@ -1,6 +1,6 @@
 import type {
-  RepoSource,
-  SemanticVersion,
+    RepoSource,
+    SemanticVersion,
 } from "inferred-types/types";
 import { REPO_SOURCES } from "inferred-types/constants";
 import { isString, stripLeading } from "inferred-types/runtime";
@@ -12,7 +12,7 @@ import { isString, stripLeading } from "inferred-types/runtime";
  * `RepoSource`.
  */
 export function isRepoSource<T>(v: T): v is T & RepoSource {
-  return isString(v) && REPO_SOURCES.includes(v as any);
+    return isString(v) && REPO_SOURCES.includes(v as any);
 }
 
 /**
@@ -27,16 +27,16 @@ export function isRepoSource<T>(v: T): v is T & RepoSource {
  * - by default the `allowPrefix` option is set to false
  */
 export function isSemanticVersion<T, P extends boolean>(v: T, allowPrefix: P = false as P): v is T & SemanticVersion<P> {
-  return (
-    isString(v)
-    && v.split(".").length === 3
-    && !Number.isNaN(Number(v.split(".")[1]))
-    && !Number.isNaN(Number(v.split(".")[2]))
-    && (
-      !Number.isNaN(Number(v.split(".")[0]))
-      || (
-        allowPrefix && !Number.isNaN(Number(stripLeading(v.split(".")[0], "v").trim()))
-      )
-    )
-  );
+    return (
+        isString(v)
+        && v.split(".").length === 3
+        && !Number.isNaN(Number(v.split(".")[1]))
+        && !Number.isNaN(Number(v.split(".")[2]))
+        && (
+            !Number.isNaN(Number(v.split(".")[0]))
+            || (
+                allowPrefix && !Number.isNaN(Number(stripLeading(v.split(".")[0], "v").trim()))
+            )
+        )
+    );
 }

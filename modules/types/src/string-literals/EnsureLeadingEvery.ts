@@ -12,10 +12,10 @@ import type { AsString, EnsureLeading, UnionToTuple } from "inferred-types/types
  * **Related:** `EnsureLeading`, `EnsureTrailing`
  */
 export type EnsureLeadingEvery<
-  TList extends readonly (string | number | boolean)[],
-  TLeader extends string,
+    TList extends readonly (string | number | boolean)[],
+    TLeader extends string,
 > = UnionToTuple<{
-  [K in keyof TList]: AsString<TList[K]> extends string
-    ? EnsureLeading<AsString<TList[K]>, TLeader>
-    : never
+    [K in keyof TList]: AsString<TList[K]> extends string
+        ? EnsureLeading<AsString<TList[K]>, TLeader>
+        : never
 }[number]>;

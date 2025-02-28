@@ -1,19 +1,19 @@
 import type { Constant } from "inferred-types/constants";
 import type {
-  Chars,
-  IsWideType,
-  Join,
-  Or,
-  RemoveMarked,
+    Chars,
+    IsWideType,
+    Join,
+    Or,
+    RemoveMarked,
 } from "inferred-types/types";
 
 type Process<
-  TChars extends readonly string[],
-  TRetain extends string,
+    TChars extends readonly string[],
+    TRetain extends string,
 > = RemoveMarked<{
-  [K in keyof TChars]: TChars[K] extends TRetain
-    ? TChars[K]
-    : Constant<"Marked">
+    [K in keyof TChars]: TChars[K] extends TRetain
+        ? TChars[K]
+        : Constant<"Marked">
 }>;
 
 /**
@@ -24,10 +24,10 @@ type Process<
  * other characters are removed.
  */
 export type RetainChars<
-  TContent extends string,
-  TRetain extends string,
+    TContent extends string,
+    TRetain extends string,
 > = Or<[IsWideType<TContent>, IsWideType<TRetain>]> extends true
-  ? string
-  : Process<Chars<TContent>, TRetain> extends readonly string[]
-    ? Join<Process<Chars<TContent>, TRetain>>
-    : never;
+    ? string
+    : Process<Chars<TContent>, TRetain> extends readonly string[]
+        ? Join<Process<Chars<TContent>, TRetain>>
+        : never;

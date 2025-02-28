@@ -5,5 +5,5 @@
  * all values extend `PropertyKey`
  */
 export type AsPropertyKey<T> = T extends PropertyKey
-  ? T
-  : never;
+    ? T
+    : never;

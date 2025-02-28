@@ -10,11 +10,11 @@ type GrowExp<A extends any[], N extends number, P extends any[][], L extends num
 type MapItemType<T, I> = { [K in keyof T]: I };
 
 type Process<
-  T,
-  N extends number,
+    T,
+    N extends number,
 > = N extends 0
-  ? []
-  : MapItemType<GrowExp<[0], N, []>, T>;
+    ? []
+    : MapItemType<GrowExp<[0], N, []>, T>;
 
 /**
  * **FixedLengthArray**`<TType,TLen,[TOpt]>`
@@ -25,13 +25,13 @@ type Process<
  * continuation of the type to unlimited length
  */
 export type FixedLengthArray<
-  TType,
-  TLen extends number,
-  TExtends extends boolean = false,
+    TType,
+    TLen extends number,
+    TExtends extends boolean = false,
 > = TExtends extends true
-  ? Process<TType, TLen> extends readonly unknown[]
-    ? [...Process<TType, TLen>, ...TType[]]
-    : never
-  : Process<TType, TLen> extends readonly unknown[]
-    ? Process<TType, TLen>
-    : never;
+    ? Process<TType, TLen> extends readonly unknown[]
+        ? [...Process<TType, TLen>, ...TType[]]
+        : never
+    : Process<TType, TLen> extends readonly unknown[]
+        ? Process<TType, TLen>
+        : never;

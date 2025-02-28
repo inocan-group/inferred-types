@@ -7,5 +7,5 @@ import type { AnyFunction, AsFnMeta } from "inferred-types/types";
  * any key/values that were stored alongside it.
  */
 export type OnlyFnProps<
-  T extends AnyFunction,
+    T extends AnyFunction,
 > = AsFnMeta<T>["props"];

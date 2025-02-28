@@ -1,8 +1,8 @@
 import type {
-  AnyFunction,
-  If,
-  IsFunction,
-  Narrowable,
+    AnyFunction,
+    If,
+    IsFunction,
+    Narrowable,
 } from "inferred-types/types";
 
 /**
@@ -14,17 +14,17 @@ import type {
  * **Related:** `isFunction`
  */
 export function ifFunction<
-  TValue extends Narrowable,
-  Fn extends Narrowable,
-  NotFn extends Narrowable,
+    TValue extends Narrowable,
+    Fn extends Narrowable,
+    NotFn extends Narrowable,
 >(
-  value: TValue,
-  isFnCallback: (fn: TValue & AnyFunction) => Fn,
-  notFnCallback: (payload: Exclude<TValue, AnyFunction>) => NotFn,
+    value: TValue,
+    isFnCallback: (fn: TValue & AnyFunction) => Fn,
+    notFnCallback: (payload: Exclude<TValue, AnyFunction>) => NotFn,
 ): If<IsFunction<TValue>, Fn, NotFn> {
-  return (
-    typeof value === "function"
-      ? isFnCallback(value)
-      : notFnCallback(value as any)
-  ) as unknown as If<IsFunction<TValue>, Fn, NotFn>;
+    return (
+        typeof value === "function"
+            ? isFnCallback(value)
+            : notFnCallback(value as any)
+    ) as unknown as If<IsFunction<TValue>, Fn, NotFn>;
 }

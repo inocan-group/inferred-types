@@ -1,8 +1,8 @@
 import type {
-  AsString,
-  IsEqual,
-  IsWideType,
-  NumberLike,
+    AsString,
+    IsEqual,
+    IsWideType,
+    NumberLike,
 } from "inferred-types/types";
 
 /**
@@ -13,11 +13,11 @@ import type {
  * a number.
  */
 export type IsNegativeNumber<
-  T extends NumberLike,
+    T extends NumberLike,
 > = IsWideType<T> extends true
-  ? boolean
-  : IsEqual<T, NumberLike> extends true
     ? boolean
-    : AsString<T> extends `-${number}`
-      ? true
-      : false;
+    : IsEqual<T, NumberLike> extends true
+        ? boolean
+        : AsString<T> extends `-${number}`
+            ? true
+            : false;

@@ -7,18 +7,18 @@ import type { MergeObjects, Narrowable, ObjectKey } from "inferred-types/types";
  * narrow typing.
  */
 export function withDefaults<
-  TDefaults extends Record<ObjectKey, N>,
-  N extends Narrowable,
+    TDefaults extends Record<ObjectKey, N>,
+    N extends Narrowable,
 >(with_defaults: TDefaults) {
-  return <
-    TObj extends Record<ObjectKey, W>,
-    W extends Narrowable,
-  >(obj: TObj) => {
-    const merged = {
-      ...with_defaults,
-      ...obj,
-    };
+    return <
+        TObj extends Record<ObjectKey, W>,
+        W extends Narrowable,
+    >(obj: TObj) => {
+        const merged = {
+            ...with_defaults,
+            ...obj,
+        };
 
-    return merged as unknown as MergeObjects<Required<TDefaults>, TObj>;
-  };
+        return merged as unknown as MergeObjects<Required<TDefaults>, TObj>;
+    };
 }

@@ -8,5 +8,5 @@ import type { AllLiteral, Tuple } from "inferred-types/types";
  */
 export type IfAllLiteral<TTuple extends Tuple, IF, ELSE> =
 AllLiteral<TTuple> extends true
-  ? IF
-  : ELSE;
+    ? IF
+    : ELSE;

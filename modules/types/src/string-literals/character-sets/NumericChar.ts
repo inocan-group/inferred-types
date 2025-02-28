@@ -1,6 +1,6 @@
 import type {
-  NON_ZERO_NUMERIC_CHAR,
-  NUMERIC_CHAR,
+    NON_ZERO_NUMERIC_CHAR,
+    NUMERIC_CHAR,
 } from "inferred-types/constants";
 
 /**

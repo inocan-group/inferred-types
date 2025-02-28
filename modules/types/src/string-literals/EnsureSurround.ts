@@ -8,10 +8,10 @@ import type { EnsureLeading, EnsureTrailing } from "inferred-types/types";
  * **Related:** `Surround`
  */
 export type EnsureSurround<
-  TInput extends string,
-  TPrefix extends string,
-  TPostfix extends string,
+    TInput extends string,
+    TPrefix extends string,
+    TPostfix extends string,
 > = EnsureTrailing<
-  EnsureLeading<TInput, TPrefix>,
-  TPostfix
+    EnsureLeading<TInput, TPrefix>,
+    TPostfix
 >;

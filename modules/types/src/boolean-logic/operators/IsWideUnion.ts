@@ -1,20 +1,20 @@
 import type {
-  IsNull,
-  IsUndefined,
-  IsUnion,
-  IsWideType,
-  Or,
-  UnionToTuple,
+    IsNull,
+    IsUndefined,
+    IsUnion,
+    IsWideType,
+    Or,
+    UnionToTuple,
 } from "inferred-types/types";
 
 type Process<
-  T extends readonly unknown[],
+    T extends readonly unknown[],
 > = {
-  [K in keyof T]: IsWideType<T[K]> extends true
-    ? true
-    : Or<[IsUndefined<T[K]>, IsNull<T[K]>]> extends true
-      ? true
-      : false
+    [K in keyof T]: IsWideType<T[K]> extends true
+        ? true
+        : Or<[IsUndefined<T[K]>, IsNull<T[K]>]> extends true
+            ? true
+            : false
 };
 
 /**
@@ -26,7 +26,7 @@ type Process<
  * **Related:** `IsNonLiteralUnion`
  */
 export type IsWideUnion<T> = [IsUnion<T>] extends [true]
-  ? [Process<UnionToTuple<T>>] extends [readonly true[]]
-      ? true
-      : false
-  : false;
+    ? [Process<UnionToTuple<T>>] extends [readonly true[]]
+        ? true
+        : false
+    : false;

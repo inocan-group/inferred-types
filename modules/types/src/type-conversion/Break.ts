@@ -13,10 +13,10 @@
  */
 export type Break<T extends string, D extends string> = (
   string extends T ? [string, string] : (
-    T extends `${infer F}${D}${infer _R}` ? (
-      F extends `${infer _X}${D}${infer _Y}` ? never : (
-        T extends `${F}${infer R}` ? [F, R] : never
-      )
-    ) : [T, ""]
+      T extends `${infer F}${D}${infer _R}` ? (
+          F extends `${infer _X}${D}${infer _Y}` ? never : (
+              T extends `${F}${infer R}` ? [F, R] : never
+          )
+      ) : [T, ""]
   )
 );

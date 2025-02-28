@@ -1,11 +1,11 @@
 import type {
-  SIMPLE_ARRAY_TOKENS,
-  SIMPLE_DICT_TOKENS,
-  SIMPLE_MAP_TOKENS,
-  SIMPLE_OPT_SCALAR_TOKENS,
-  SIMPLE_SCALAR_TOKENS,
-  SIMPLE_SET_TOKENS,
-  SIMPLE_UNION_TOKENS,
+    SIMPLE_ARRAY_TOKENS,
+    SIMPLE_DICT_TOKENS,
+    SIMPLE_MAP_TOKENS,
+    SIMPLE_OPT_SCALAR_TOKENS,
+    SIMPLE_SCALAR_TOKENS,
+    SIMPLE_SET_TOKENS,
+    SIMPLE_UNION_TOKENS,
 } from "inferred-types/constants";
 
 /**
@@ -52,10 +52,10 @@ export type SimpleSetToken = typeof SIMPLE_SET_TOKENS[number];
  * _container_ types via a simple token.
  */
 export type SimpleContainerToken =
-  | SimpleDictToken
-  | SimpleArrayToken
-  | SimpleMapToken
-  | SimpleArrayToken;
+    | SimpleDictToken
+    | SimpleArrayToken
+    | SimpleMapToken
+    | SimpleArrayToken;
 
 /**
  * **SimpleScalarToken**
@@ -66,8 +66,8 @@ export type SimpleContainerToken =
  * **Note:** this includes both `RequiredSimpleScalarTokens` and `OptionalSimpleScalarTokens`.
  */
 export type SimpleScalarToken =
-  | RequiredSimpleScalarTokens
-  | OptionalSimpleScalarTokens;
+    | RequiredSimpleScalarTokens
+    | OptionalSimpleScalarTokens;
 
 /**
  * **SimpleToken**
@@ -81,9 +81,9 @@ export type SimpleScalarToken =
  * - `TypeToken`
  */
 export type SimpleToken =
-  | SimpleScalarToken
-  | SimpleArrayToken
-  | SimpleDictToken
-  | SimpleMapToken
-  | SimpleSetToken
-  | SimpleUnionToken;
+    | SimpleScalarToken
+    | SimpleArrayToken
+    | SimpleDictToken
+    | SimpleMapToken
+    | SimpleSetToken
+    | SimpleUnionToken;

@@ -5,36 +5,36 @@ import type { AfterFirst, AnyObject, First, Get } from "inferred-types/types";
  * the property P
  */
 type HasMissingInstance<
-  T extends readonly AnyObject[],
-  P extends string,
+    T extends readonly AnyObject[],
+    P extends string,
 > = [] extends T
-  ? false
-  : P extends keyof First<T>
-    ? HasMissingInstance<
-      AfterFirst<T>,
-      P
-    >
-    : true;
+    ? false
+    : P extends keyof First<T>
+        ? HasMissingInstance<
+            AfterFirst<T>,
+            P
+        >
+        : true;
 
 /**
  * removes objects that do not have the property P
  */
 type RemoveMissing<
-  T extends readonly AnyObject[],
-  P extends string,
-  R extends readonly AnyObject[] = [],
+    T extends readonly AnyObject[],
+    P extends string,
+    R extends readonly AnyObject[] = [],
 > = [] extends T
-  ? R[number]
-  : RemoveMissing<
-    AfterFirst<T>,
-    P,
-    P extends keyof First<T>
-      ? [
-          ...R,
-          First<T>,
-        ]
-      : R
-  >;
+    ? R[number]
+    : RemoveMissing<
+        AfterFirst<T>,
+        P,
+        P extends keyof First<T>
+            ? [
+                ...R,
+                First<T>,
+            ]
+            : R
+    >;
 
 /**
  * **UnionFromProp**
@@ -57,8 +57,8 @@ type RemoveMissing<
  * ```
  */
 export type UnionFromProp<
-  T extends readonly AnyObject[],
-  P extends string,
+    T extends readonly AnyObject[],
+    P extends string,
 > = HasMissingInstance<T, P> extends true
-  ? Get<RemoveMissing<T, P>, P> | undefined
-  : Get<T[number], P>;
+    ? Get<RemoveMissing<T, P>, P> | undefined
+    : Get<T[number], P>;

@@ -12,14 +12,14 @@ import { toPascalCase } from "inferred-types/runtime";
  * **Related:** `toKebabCase`, `toPascalCase`, `toSnakeCase`
  */
 export function toCamelCase<
-  TString extends string,
+    TString extends string,
 >(input: TString): CamelCase<TString> {
-  const pascal = toPascalCase(input);
-  const [_, _preWhite, focus, _postWhite] = /^(\s*)(.*?)(\s*)$/.exec(
-    pascal,
-  ) as RegExpExecArray;
+    const pascal = toPascalCase(input);
+    const [_, _preWhite, focus, _postWhite] = /^(\s*)(.*?)(\s*)$/.exec(
+        pascal,
+    ) as RegExpExecArray;
 
-  const camel = focus.replace(/^.*?(\d*[a-z|])/is, (_, p1) => p1.toLowerCase()) as unknown as CamelCase<TString>;
+    const camel = focus.replace(/^.*?(\d*[a-z|])/is, (_, p1) => p1.toLowerCase()) as unknown as CamelCase<TString>;
 
-  return camel;
+    return camel;
 }

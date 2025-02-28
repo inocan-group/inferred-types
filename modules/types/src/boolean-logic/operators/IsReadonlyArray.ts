@@ -6,7 +6,7 @@
 export type IsReadonlyArray<T> =
 
 T extends unknown[]
-  ? false
-  : T extends readonly unknown[]
-    ? true
-    : false;
+    ? false
+    : T extends readonly unknown[]
+        ? true
+        : false;

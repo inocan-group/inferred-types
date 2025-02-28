@@ -1,28 +1,28 @@
 import type {
-  AfterFirst,
-  AnyObject,
-  As,
-  First,
-  IsObjectLiteral,
-  Keys,
-  KeyValue,
-  ObjectKey,
+    AfterFirst,
+    AnyObject,
+    As,
+    First,
+    IsObjectLiteral,
+    Keys,
+    KeyValue,
+    ObjectKey,
 } from "inferred-types/types";
 
 type Process<
-  TObj extends AnyObject,
-  TKeys extends readonly (ObjectKey & keyof TObj)[],
-  TKv extends readonly KeyValue[] = [],
+    TObj extends AnyObject,
+    TKeys extends readonly (ObjectKey & keyof TObj)[],
+    TKv extends readonly KeyValue[] = [],
 > = [] extends TKeys
-  ? TKv
-  : Process<
-    TObj,
-    AfterFirst<TKeys>,
-    [
-      ...TKv,
-      { key: First<TKeys>; value: TObj[First<TKeys>] },
-    ]
-  >;
+    ? TKv
+    : Process<
+        TObj,
+        AfterFirst<TKeys>,
+        [
+            ...TKv,
+            { key: First<TKeys>; value: TObj[First<TKeys>] },
+        ]
+    >;
 
 /**
  * **ToKv**`<TObj, [TKeys]>`
@@ -47,12 +47,12 @@ type Process<
  * **Related:** `KeyValue`, `FromKv`, `ObjectToTuple`, `TupleToObject`
  */
 export type ToKv<
-  TObj extends AnyObject,
-  TKeys extends (readonly (ObjectKey & keyof TObj)[]) | false = As<Keys<TObj>, (readonly (ObjectKey & keyof TObj)[])>,
+    TObj extends AnyObject,
+    TKeys extends (readonly (ObjectKey & keyof TObj)[]) | false = As<Keys<TObj>, (readonly (ObjectKey & keyof TObj)[])>,
 > = IsObjectLiteral<TObj> extends true
-  ? TKeys extends readonly (ObjectKey & keyof TObj)[]
-    ? Process<TObj, TKeys>
-    : Array<
-      { [K in keyof TObj]: { key: K; value: TObj[K] } }[keyof TObj]
-    >
-  : KeyValue[];
+    ? TKeys extends readonly (ObjectKey & keyof TObj)[]
+        ? Process<TObj, TKeys>
+        : Array<
+            { [K in keyof TObj]: { key: K; value: TObj[K] } }[keyof TObj]
+        >
+    : KeyValue[];

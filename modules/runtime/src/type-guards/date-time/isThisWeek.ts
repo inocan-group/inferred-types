@@ -9,14 +9,14 @@ import { asDate, getWeekNumber } from "inferred-types/runtime";
  * Luxon DateTime objects, and Moment.js objects.
  */
 export function isThisWeek<T extends number | string | Date | Record<string, any>>(date: T): boolean {
-  const targetDate = asDate(date);
+    const targetDate = asDate(date);
 
-  if (!targetDate) {
-    return false;
-  }
+    if (!targetDate) {
+        return false;
+    }
 
-  const currentWeek = getWeekNumber();
-  const targetWeek = getWeekNumber(targetDate);
+    const currentWeek = getWeekNumber();
+    const targetWeek = getWeekNumber(targetDate);
 
-  return currentWeek === targetWeek;
+    return currentWeek === targetWeek;
 }

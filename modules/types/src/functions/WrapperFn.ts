@@ -21,17 +21,17 @@ import type { AsNarrowingFn } from "./NarrowingFn";
  * ```
  */
 export type WrapperFn<
-  TFn extends TypedFunction,
-  TTransform extends <TRtn extends ReturnType<TFn>>(rtn: TRtn) => unknown,
-  TState extends Container | Unset = Unset,
+    TFn extends TypedFunction,
+    TTransform extends <TRtn extends ReturnType<TFn>>(rtn: TRtn) => unknown,
+    TState extends Container | Unset = Unset,
 > = If<
-  IsUnset<TState>,
-  FnFrom<
-    Parameters<TFn>,
-    ReturnType<AsNarrowingFn<TTransform>>
-  >,
-  <T extends TState>(state: T) => FnFrom<
-    Parameters<TFn>,
-    ReturnType<AsNarrowingFn<TTransform>>
-  >
+    IsUnset<TState>,
+    FnFrom<
+        Parameters<TFn>,
+        ReturnType<AsNarrowingFn<TTransform>>
+    >,
+    <T extends TState>(state: T) => FnFrom<
+        Parameters<TFn>,
+        ReturnType<AsNarrowingFn<TTransform>>
+    >
 >;

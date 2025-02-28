@@ -1,10 +1,10 @@
 import type {
-  AnyArray,
-  AnyFunction,
-  AnyObject,
-  IfEqual,
-  IfNever,
-  Scalar,
+    AnyArray,
+    AnyFunction,
+    AnyObject,
+    IfEqual,
+    IfNever,
+    Scalar,
 } from "inferred-types/types";
 
 /**
@@ -24,19 +24,19 @@ import type {
  * - if we resolve to `unknown` or `any` then all we can logically do is wrap it into a readonly array (e.g. `[unknown]` or `[any]` respectively).
  */
 export type ToContainer<T> = IfNever<
-  Exclude<T, Scalar | undefined | AnyFunction>,
+    Exclude<T, Scalar | undefined | AnyFunction>,
   AnyObject | AnyArray,
   // all non-never values
   IfEqual<
-    Exclude<T, Scalar | undefined | AnyFunction>,
-    any,
-    [any],
-    IfEqual<
       Exclude<T, Scalar | undefined | AnyFunction>,
-      unknown,
-      [unknown],
-      Exclude<T, Scalar | undefined | AnyFunction>
-    >
+      any,
+      [any],
+      IfEqual<
+          Exclude<T, Scalar | undefined | AnyFunction>,
+          unknown,
+          [unknown],
+          Exclude<T, Scalar | undefined | AnyFunction>
+      >
   >
 
 >;

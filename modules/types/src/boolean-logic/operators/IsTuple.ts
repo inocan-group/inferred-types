@@ -1,12 +1,12 @@
 import type { IsNever } from "./IsNever";
 
 type Process<T> = [IsNever<T>] extends [true]
-  ? false
-  : T extends readonly unknown[]
-    ? number extends T["length"]
-      ? false
-      : true
-    : false;
+    ? false
+    : T extends readonly unknown[]
+        ? number extends T["length"]
+            ? false
+            : true
+        : false;
 
 /**
  * **IsTuple**`<T>`
@@ -21,5 +21,5 @@ type Process<T> = [IsNever<T>] extends [true]
  * do not discretely specify a length of elements
  */
 export type IsTuple<T> = Process<T> extends boolean
-  ? Process<T>
-  : never;
+    ? Process<T>
+    : never;

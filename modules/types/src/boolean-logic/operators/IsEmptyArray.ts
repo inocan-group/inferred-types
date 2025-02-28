@@ -7,9 +7,9 @@
  * If `T` is a wide type it will return `boolean`.
  */
 export type IsEmptyArray<T> = T extends any[]
-  ? number extends T["length"]
-    ? boolean
-    : T["length"] extends 0
-      ? true
-      : false
-  : false;
+    ? number extends T["length"]
+        ? boolean
+        : T["length"] extends 0
+            ? true
+            : false
+    : false;

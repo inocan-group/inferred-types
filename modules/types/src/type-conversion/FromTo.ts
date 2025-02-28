@@ -7,6 +7,6 @@
  * so both TFrom and TTo _default_ to `string`.
  */
 export interface FromTo<
-  TFrom = string,
-  TTo = string,
+    TFrom = string,
+    TTo = string,
 > { from: TFrom; to: TTo }

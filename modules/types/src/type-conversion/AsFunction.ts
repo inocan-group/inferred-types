@@ -6,6 +6,6 @@
  * **Related:** `ToString`
  */
 export type AsFunction<
-  TTest,
-  TParams extends readonly unknown[] = readonly unknown[],
+    TTest,
+    TParams extends readonly unknown[] = readonly unknown[],
 > = TTest & (<TArgs extends TParams>(args: TArgs) => unknown);

@@ -7,6 +7,6 @@ import { asChars, isNumericString, isString } from "inferred-types/runtime";
  * are hexadecimal characters.
  */
 export function isHexadecimal<T>(val: T): val is T {
-  return isString(val)
-    && asChars(val).every(i => isNumericString(i) || ["a", "b", "c", "d", "e", "f"].includes(i.toLowerCase()));
+    return isString(val)
+        && asChars(val).every(i => isNumericString(i) || ["a", "b", "c", "d", "e", "f"].includes(i.toLowerCase()));
 }

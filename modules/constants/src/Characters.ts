@@ -1,6 +1,6 @@
 export const WHITESPACE_CHARS = [
-  " ",
-  "\n",
-  "\t",
-  "\b",
+    " ",
+    "\n",
+    "\t",
+    "\b",
 ] as const;

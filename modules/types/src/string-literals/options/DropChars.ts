@@ -1,10 +1,10 @@
 import type {
-  AfterFirst,
-  Chars,
-  First,
-  IsUnion,
-  ReplaceAll,
-  UnionToTuple,
+    AfterFirst,
+    Chars,
+    First,
+    IsUnion,
+    ReplaceAll,
+    UnionToTuple,
 } from "inferred-types/types";
 
 /**
@@ -12,14 +12,14 @@ import type {
  * character OR a sequence of characters
  */
 type DropSequence<
-  TContent extends string,
-  TDrop extends readonly string[],
+    TContent extends string,
+    TDrop extends readonly string[],
 > = [] extends TDrop
-  ? TContent
-  : DropSequence<
-    ReplaceAll<TContent, First<TDrop>, "">,
-    AfterFirst<TDrop>
-  >;
+    ? TContent
+    : DropSequence<
+        ReplaceAll<TContent, First<TDrop>, "">,
+        AfterFirst<TDrop>
+    >;
 
 /**
  * **DropChars**`<TContent,TDrop>`
@@ -37,10 +37,10 @@ type DropSequence<
  * ```
  */
 export type DropChars<
-  TContent extends string,
-  TDrop extends string,
+    TContent extends string,
+    TDrop extends string,
 > = IsUnion<TDrop> extends true
-  ? UnionToTuple<TDrop> extends string[]
-    ? DropSequence<TContent, UnionToTuple<TDrop>>
-    : never
-  : DropSequence<TContent, Chars<TDrop>>;
+    ? UnionToTuple<TDrop> extends string[]
+        ? DropSequence<TContent, UnionToTuple<TDrop>>
+        : never
+    : DropSequence<TContent, Chars<TDrop>>;

@@ -6,5 +6,5 @@
  * **Related:** `ifNull`
  */
 export function isNull<T>(value: T): value is T & null {
-  return (value === null);
+    return (value === null);
 }

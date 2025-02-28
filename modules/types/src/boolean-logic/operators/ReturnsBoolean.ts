@@ -9,5 +9,5 @@ import type { IsBoolean, TypedFunction } from "inferred-types/types";
  * Note: any non-functions passed in as `T` are always a **false** value
  */
 export type ReturnsBoolean<T> = T extends TypedFunction
-  ? IsBoolean<ReturnType<T>>
-  : false;
+    ? IsBoolean<ReturnType<T>>
+    : false;

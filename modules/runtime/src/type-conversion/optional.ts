@@ -7,9 +7,9 @@ import type { Narrowable } from "inferred-types/types";
  * a union with _undefined_.
  */
 export function optional<
-  T extends Narrowable,
+    T extends Narrowable,
 >(value: T) {
-  return value as T | undefined;
+    return value as T | undefined;
 }
 
 /**
@@ -19,7 +19,7 @@ export function optional<
  * currently is _in union with_ `null`.
  */
 export function orNull<T extends Narrowable>(value: T) {
-  return value as T | null;
+    return value as T | null;
 }
 
 /**
@@ -31,5 +31,5 @@ export function orNull<T extends Narrowable>(value: T) {
  * **Related:** `optional()`, `orNull()`
  */
 export function optionalOrNull<T extends Narrowable>(value: T) {
-  return value as T | null | undefined;
+    return value as T | null | undefined;
 }

@@ -10,11 +10,11 @@ import { split } from "inferred-types/runtime";
  * **Related:** `isNumberLike`
  */
 export function isNumericString<T>(value: T): value is T & `${number}` {
-  const numericChars = [...NUMERIC_CHAR];
+    const numericChars = [...NUMERIC_CHAR];
 
-  return typeof value === "string" && (
-    split(value).every(i => numericChars.includes(i as any))
-  );
+    return typeof value === "string" && (
+        split(value).every(i => numericChars.includes(i as any))
+    );
 }
 
 /**
@@ -28,11 +28,11 @@ export function isNumericString<T>(value: T): value is T & `${number}` {
  * **Related:** `isNumericString`
  */
 export function isNumberLike<T>(value: T): value is T & NumberLike {
-  const numericChars = [...NUMERIC_CHAR];
+    const numericChars = [...NUMERIC_CHAR];
 
-  return typeof value === "string" && (
-    split(value).every(i => numericChars.includes(i as any))
-  )
-    ? true
-    : typeof value === "number";
+    return typeof value === "string" && (
+        split(value).every(i => numericChars.includes(i as any))
+    )
+        ? true
+        : typeof value === "number";
 }

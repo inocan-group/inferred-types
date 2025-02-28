@@ -16,8 +16,8 @@ import type { If, IsTruthy, TupleToUnion, TypedFunction } from "inferred-types/t
  * **See Also**: `ReturnTypes` and `LogicalReturns`
  */
 export type TruthyReturns<T extends readonly unknown[]> = TupleToUnion<{
-  [K in keyof T]: //
-  T[K] extends TypedFunction
-    ? If<IsTruthy<ReturnType<T[K]>>, true, false, boolean>
-    : If<IsTruthy<T[K]>, true, false, boolean>;
+    [K in keyof T]: //
+    T[K] extends TypedFunction
+        ? If<IsTruthy<ReturnType<T[K]>>, true, false, boolean>
+        : If<IsTruthy<T[K]>, true, false, boolean>;
 }>;

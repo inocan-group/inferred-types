@@ -8,5 +8,5 @@ import { isString } from "./isString";
  * and also appears to be an inline SVG image.
  */
 export function isInlineSvg<T>(v: T): v is T & InlineSvg {
-  return isString(v) && v.trim().startsWith(`<svg`) && v.trim().endsWith(`</svg>`);
+    return isString(v) && v.trim().startsWith(`<svg`) && v.trim().endsWith(`</svg>`);
 }

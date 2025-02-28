@@ -8,5 +8,5 @@ import type { EmptyString, TupleToUnion } from "inferred-types/types";
  */
 export type EmptyStringOr<T extends string | readonly string[]> =
   T extends readonly string[]
-    ? EmptyString | TupleToUnion<T & readonly string[]>
-    : EmptyString | (T & string);
+      ? EmptyString | TupleToUnion<T & readonly string[]>
+      : EmptyString | (T & string);

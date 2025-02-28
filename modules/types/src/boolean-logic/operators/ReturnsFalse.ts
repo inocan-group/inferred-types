@@ -9,7 +9,7 @@ import type { IsEqual, TypedFunction } from "inferred-types/types";
  * Note: any non-functions passed in as `T` are removed from the result set
  */
 export type ReturnsFalse<T> = T extends TypedFunction
-  ? ReturnType<T> extends false
-    ? true
-    : IsEqual<ReturnType<T>, boolean> extends true ? boolean : false
-  : false;
+    ? ReturnType<T> extends false
+        ? true
+        : IsEqual<ReturnType<T>, boolean> extends true ? boolean : false
+    : false;

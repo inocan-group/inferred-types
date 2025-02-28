@@ -13,5 +13,5 @@ import { stripTrailing } from "inferred-types/runtime";
  * ```
  */
 export function ip6GroupExpansion<T extends string>(ip: T) {
-  return stripTrailing(ip.replaceAll("::", ":0000:"), ":") as Ip6GroupExpansion<T>;
+    return stripTrailing(ip.replaceAll("::", ":0000:"), ":") as Ip6GroupExpansion<T>;
 }

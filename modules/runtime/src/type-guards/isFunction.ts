@@ -8,5 +8,5 @@ import type { TypedFunction } from "inferred-types/types";
  * **Related:** `isFnWithParams`, `ifFunction`
  */
 export function isFunction(value: unknown): value is TypedFunction {
-  return typeof value === "function";
+    return typeof value === "function";
 }

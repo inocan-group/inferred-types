@@ -1,15 +1,15 @@
 import type {
-  IsWideType,
-  ReplaceAll,
-  TupleToUnion,
+    IsWideType,
+    ReplaceAll,
+    TupleToUnion,
 } from "inferred-types/types";
 
 type Process<
-  TStr extends string,
-  TChars extends string,
+    TStr extends string,
+    TChars extends string,
 > = ReplaceAll<TStr, TChars, ""> extends ""
-  ? false
-  : true;
+    ? false
+    : true;
 
 /**
  * **HasOtherCharacters**`<TStr,TChars>`
@@ -23,14 +23,14 @@ type Process<
  * **Related:** `HasCharacters`
  */
 export type HasOtherCharacters<
-  TStr extends string,
-  TChars extends string | readonly string[],
+    TStr extends string,
+    TChars extends string | readonly string[],
 > = [IsWideType<TStr>] extends [true]
-  ? boolean
-  : [TChars] extends [string]
-      ? IsWideType<TChars> extends true
-        ? boolean
-        : Process<TStr, TChars>
-      : TChars extends readonly string[]
-        ? Process<TStr, TupleToUnion<TChars>>
-        : never;
+    ? boolean
+    : [TChars] extends [string]
+        ? IsWideType<TChars> extends true
+            ? boolean
+            : Process<TStr, TChars>
+        : TChars extends readonly string[]
+            ? Process<TStr, TupleToUnion<TChars>>
+            : never;

@@ -15,5 +15,5 @@
  * - `IsRef<T>`, `isRef()`, `VueComputedRef<T>`
  */
 export interface VueRef<T = any> {
-  value: T;
+    value: T;
 }

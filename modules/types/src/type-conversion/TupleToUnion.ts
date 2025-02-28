@@ -12,7 +12,7 @@ import type { Keys } from "inferred-types/types";
  * **Note:** an empty array will be converted to a `string` type.
  */
 export type TupleToUnion<T> = T extends readonly unknown[]
-  ? Keys<T>["length"] extends 0
-    ? never
-    : T[number]
-  : never;
+    ? Keys<T>["length"] extends 0
+        ? never
+        : T[number]
+    : never;

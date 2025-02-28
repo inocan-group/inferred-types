@@ -1,8 +1,8 @@
 import type {
-  Dictionary,
-  FromKv,
-  KeyValue,
-  Narrowable,
+    Dictionary,
+    FromKv,
+    KeyValue,
+    Narrowable,
 } from "inferred-types/types";
 
 /**
@@ -11,15 +11,15 @@ import type {
  * Converts a `KeyValue` tuple into an object.
  */
 export function fromKeyValue<
-  T extends readonly KeyValue<K, N>[],
-  K extends string,
-  N extends Narrowable,
+    T extends readonly KeyValue<K, N>[],
+    K extends string,
+    N extends Narrowable,
 >(kvs: T) {
-  const obj: Dictionary = {};
+    const obj: Dictionary = {};
 
-  for (const kv of kvs) {
-    obj[kv.key] = kv.value;
-  }
+    for (const kv of kvs) {
+        obj[kv.key] = kv.value;
+    }
 
-  return obj as unknown as FromKv<T>;
+    return obj as unknown as FromKv<T>;
 }

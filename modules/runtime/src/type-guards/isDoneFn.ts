@@ -8,5 +8,5 @@ import { isObject } from "inferred-types/runtime";
  * property which is a function.
  */
 export function isDoneFn<T>(val: T): val is AsDoneFn<T> {
-  return isObject(val) && "done" in val && typeof val.done === "function";
+    return isObject(val) && "done" in val && typeof val.done === "function";
 }

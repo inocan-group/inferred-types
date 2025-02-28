@@ -14,5 +14,5 @@ export * from "./isSemanticVersion";
  * Type guard which validates that the value passed in is a valid Repo URL
  */
 export function isRepoUrl(val: unknown): val is RepoUrls {
-  return isGithubUrl(val) || isBitbucketUrl(val) || isCodeCommitUrl(val);
+    return isGithubUrl(val) || isBitbucketUrl(val) || isCodeCommitUrl(val);
 }

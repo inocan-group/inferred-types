@@ -1,14 +1,14 @@
 import type { MONTH_ABBR, MONTH_NAME } from "inferred-types/constants";
 import type {
-  NonZeroNumericChar,
-  NumericChar,
+    NonZeroNumericChar,
+    NumericChar,
 } from "inferred-types/types";
 
 export type Year<
-  T extends "strong" | "simple" = "strong",
+    T extends "strong" | "simple" = "strong",
 > = T extends "strong"
-  ? `${"1" | "2"}${NumericChar}${NumericChar}${NumericChar}`
-  : `${"1" | "2"}${number}`;
+    ? `${"1" | "2"}${NumericChar}${NumericChar}${NumericChar}`
+    : `${"1" | "2"}${number}`;
 
 type ZeroThenDigit = `0${NumericChar}`;
 
@@ -49,7 +49,7 @@ export type DateSeparator = "-" | "/" | ".";
  * > Note: you may optionally change the DateSeparator to suit your needs
  */
 export type YMD<
-  TSep extends DateSeparator = "-",
+    TSep extends DateSeparator = "-",
 > = `${"1" | "2"}${number}${TSep}${MonthNumeric}${TSep}${number}`;
 
 /**

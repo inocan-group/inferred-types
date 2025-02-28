@@ -13,12 +13,12 @@ import type { IsStringLiteral } from "inferred-types/types";
  * ```
  */
 export type StripBefore<
-  TStr extends string,
-  TBreak extends string,
+    TStr extends string,
+    TBreak extends string,
 > = IsStringLiteral<TStr> extends true
-  ? IsStringLiteral<TBreak> extends true
-    ? TStr extends `${string}${TBreak}${infer REST}`
-      ? `${REST}`
-      : TStr
-    : string
-  : string;
+    ? IsStringLiteral<TBreak> extends true
+        ? TStr extends `${string}${TBreak}${infer REST}`
+            ? `${REST}`
+            : TStr
+        : string
+    : string;

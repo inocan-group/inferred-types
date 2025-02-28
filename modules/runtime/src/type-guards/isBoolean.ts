@@ -6,5 +6,5 @@
  * **Related:** `isBooleanLike()`
  */
 export function isBoolean(value: unknown): value is boolean {
-  return typeof value === "boolean";
+    return typeof value === "boolean";
 }

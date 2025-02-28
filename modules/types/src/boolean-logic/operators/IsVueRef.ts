@@ -2,16 +2,16 @@ import type { If, IsEqual, ObjectKey, RemoveIndexKeys, Retain, UnionToTuple } fr
 
 type _Keys<T extends object> = UnionToTuple<keyof RemoveIndexKeys<T>> extends
 readonly ObjectKey[]
-  ? UnionToTuple<keyof RemoveIndexKeys<T>>
-  : never;
+    ? UnionToTuple<keyof RemoveIndexKeys<T>>
+    : never;
 
 type _Len<T extends object> = _Keys<T> extends ObjectKey[]
-  ? _Keys<T>["length"]
-  : 0;
+    ? _Keys<T>["length"]
+    : 0;
 
 type _Validate<T extends object> = "value" extends keyof T
-  ? true
-  : false;
+    ? true
+    : false;
 
 /**
  * **IsVueRef**`<T>`
@@ -21,11 +21,11 @@ type _Validate<T extends object> = "value" extends keyof T
  * (which serves as a lightweight proxy type for Vue's `Ref`).
  */
 export type IsVueRef<T> = T extends object
-  ? If<
-    IsEqual<_Len<T>, 0>,
-    false,
-    Retain<_Keys<T>, string>["length"] extends 1
-      ? _Validate<T>
-      : false
-  >
-  : false;
+    ? If<
+        IsEqual<_Len<T>, 0>,
+        false,
+        Retain<_Keys<T>, string>["length"] extends 1
+            ? _Validate<T>
+            : false
+    >
+    : false;

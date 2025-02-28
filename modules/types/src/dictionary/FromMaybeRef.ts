@@ -7,7 +7,7 @@ import type { IsVueRef } from "inferred-types/types";
  * returns `T` as is.
  */
 export type FromMaybeRef<T> = IsVueRef<T> extends true
-  ? "value" extends keyof T
-    ? T["value"]
-    : never
-  : T;
+    ? "value" extends keyof T
+        ? T["value"]
+        : never
+    : T;

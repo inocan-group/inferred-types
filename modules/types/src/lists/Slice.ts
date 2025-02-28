@@ -1,59 +1,59 @@
 import type {
-  Abs,
-  Chars,
-  Concat,
-  FixedLengthArray,
-  IsNegativeNumber,
-  TakeFirst,
-  TakeLast,
+    Abs,
+    Chars,
+    Concat,
+    FixedLengthArray,
+    IsNegativeNumber,
+    TakeFirst,
+    TakeLast,
 } from "inferred-types/types";
 
 export type DropLeading<
-  TList extends readonly unknown[],
-  TStart extends number,
+    TList extends readonly unknown[],
+    TStart extends number,
 > = TList extends readonly [
-  ...FixedLengthArray<unknown, TStart>,
-  ...infer REST,
+    ...FixedLengthArray<unknown, TStart>,
+    ...infer REST,
 ]
-  ? REST
-  : never;
+    ? REST
+    : never;
 
 export type DropTrailing<
-  TList extends readonly unknown[],
-  TStart extends number,
+    TList extends readonly unknown[],
+    TStart extends number,
 > = TList extends readonly [
-  ...infer LEAD,
-  ...FixedLengthArray<unknown, TStart>,
+    ...infer LEAD,
+    ...FixedLengthArray<unknown, TStart>,
 ]
-  ? LEAD
-  : never;
+    ? LEAD
+    : never;
 
 export type TruncateAtLen<
-  TList extends readonly unknown[],
-  TLen extends number | undefined,
+    TList extends readonly unknown[],
+    TLen extends number | undefined,
 > = TLen extends number
-  ? IsNegativeNumber<TLen> extends true
-    ? DropTrailing<TList, Abs<TLen>>
-    : TakeFirst<TList, TLen>
-  : TList;
+    ? IsNegativeNumber<TLen> extends true
+        ? DropTrailing<TList, Abs<TLen>>
+        : TakeFirst<TList, TLen>
+    : TList;
 
 type ProcessList<
-  TList extends readonly unknown[],
-  TStart extends number,
-  TLen extends number | undefined,
+    TList extends readonly unknown[],
+    TStart extends number,
+    TLen extends number | undefined,
 > = TList extends readonly unknown[]
-  ? IsNegativeNumber<TStart> extends true
-    ? TakeLast<TList, Abs<TStart>>
-    : TruncateAtLen<DropLeading<TList, TStart>, TLen>
-  : never;
+    ? IsNegativeNumber<TStart> extends true
+        ? TakeLast<TList, Abs<TStart>>
+        : TruncateAtLen<DropLeading<TList, TStart>, TLen>
+    : never;
 
 type ProcessChars<
-  TList extends readonly string[],
-  TStart extends number,
-  TLen extends number | undefined,
+    TList extends readonly string[],
+    TStart extends number,
+    TLen extends number | undefined,
 > = ProcessList<TList, TStart, TLen> extends readonly string[]
-  ? Concat<ProcessList<TList, TStart, TLen>>
-  : never;
+    ? Concat<ProcessList<TList, TStart, TLen>>
+    : never;
 
 /**
  * **Slice**`<TList, TStart, TLen>`
@@ -67,13 +67,13 @@ type ProcessChars<
  * will drop that many values off the end of the tuple
  */
 export type Slice<
-  TList extends readonly unknown[] | string,
-  TStart extends number,
-  TLen extends number | undefined = undefined,
+    TList extends readonly unknown[] | string,
+    TStart extends number,
+    TLen extends number | undefined = undefined,
 > = TList extends string
-  ? Chars<TList> extends readonly string[]
-    ? ProcessChars<Chars<TList>, TStart, TLen>
-    : never
-  : TList extends readonly unknown[]
-    ? ProcessList<TList, TStart, TLen>
-    : never;
+    ? Chars<TList> extends readonly string[]
+        ? ProcessChars<Chars<TList>, TStart, TLen>
+        : never
+    : TList extends readonly unknown[]
+        ? ProcessList<TList, TStart, TLen>
+        : never;

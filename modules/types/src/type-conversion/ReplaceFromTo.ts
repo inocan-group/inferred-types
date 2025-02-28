@@ -1,27 +1,27 @@
 import type {
-  AfterFirst,
-  First,
-  FromTo,
-  IsGreaterThan,
-  IsStringLiteral,
-  Replace,
-  TakeFirst,
+    AfterFirst,
+    First,
+    FromTo,
+    IsGreaterThan,
+    IsStringLiteral,
+    Replace,
+    TakeFirst,
 } from "inferred-types/types";
 
 type ProcessFromTo<
-  TText extends string,
-  TFromTo extends readonly FromTo[],
+    TText extends string,
+    TFromTo extends readonly FromTo[],
 > = [] extends TFromTo
-  ? TText
-  : First<TFromTo> extends { from: infer From extends string; to: infer To extends string }
-    ? ProcessFromTo<Replace<TText, From, To>, AfterFirst<TFromTo>>
-    : never;
+    ? TText
+    : First<TFromTo> extends { from: infer From extends string; to: infer To extends string }
+        ? ProcessFromTo<Replace<TText, From, To>, AfterFirst<TFromTo>>
+        : never;
 
 type MAX = 35;
 
 type ExcessProcessor<
-  TText extends string,
-  TFromTo extends readonly FromTo[],
+    TText extends string,
+    TFromTo extends readonly FromTo[],
 > = ProcessFromTo<TText, TakeFirst<TFromTo, MAX>>;
 
 /**
@@ -45,14 +45,14 @@ type ExcessProcessor<
  * the numbers are converted to a `NumberLike` type
  */
 export type ReplaceFromTo<
-  TText extends string | symbol | number,
-  TFromTo extends readonly FromTo[],
+    TText extends string | symbol | number,
+    TFromTo extends readonly FromTo[],
 > = TText extends string
-  ? IsStringLiteral<TText> extends true
-    ? IsGreaterThan<TFromTo["length"], MAX> extends true
-      ? ExcessProcessor<TText, TFromTo>
-      : ProcessFromTo<TText, TFromTo>
-    : string
-  : TText extends number
-    ? ReplaceFromTo<`${TText}`, TFromTo>
-    : TText;
+    ? IsStringLiteral<TText> extends true
+        ? IsGreaterThan<TFromTo["length"], MAX> extends true
+            ? ExcessProcessor<TText, TFromTo>
+            : ProcessFromTo<TText, TFromTo>
+        : string
+    : TText extends number
+        ? ReplaceFromTo<`${TText}`, TFromTo>
+        : TText;

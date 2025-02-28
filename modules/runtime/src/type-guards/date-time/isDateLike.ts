@@ -12,9 +12,9 @@ import { isInteger, isIsoDate, isIsoDateTime, isNumber, isObject, isString } fro
  *    - Luxon Date object
  */
 export function isDateLike(val: unknown) {
-  return (
-    (isNumber(val) && isInteger(val) && val > 0)
-    || (isString(val) && (isIsoDate(val) || isIsoDateTime(val)))
-    || (isObject(val))
-  );
+    return (
+        (isNumber(val) && isInteger(val) && val > 0)
+        || (isString(val) && (isIsoDate(val) || isIsoDateTime(val)))
+        || (isObject(val))
+    );
 }

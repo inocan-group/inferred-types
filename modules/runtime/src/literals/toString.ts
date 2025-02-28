@@ -7,5 +7,5 @@ import type { Narrowable, ToString } from "inferred-types/types";
  * preserving literal types.
  */
 export function toString<T extends Narrowable>(val: T): ToString<T> {
-  return String(val) as ToString<T>;
+    return String(val) as ToString<T>;
 }

@@ -3,11 +3,11 @@ import type { AfterFirst } from "./AfterFirst";
 import type { First } from "./First";
 
 type Process<
-  TTup extends Tuple,
-  TResult = First<TTup>,
+    TTup extends Tuple,
+    TResult = First<TTup>,
 > = [] extends TTup
-  ? TResult
-  : Process<AfterFirst<TTup>, TResult & First<TTup>>;
+    ? TResult
+    : Process<AfterFirst<TTup>, TResult & First<TTup>>;
 
 /**
  * **Intersect**`<TList>`

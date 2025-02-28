@@ -11,5 +11,5 @@ import type { AnyObject } from "inferred-types/types";
  * **Related:** `StringKeys`
  */
 export type NonStringKeys<T extends AnyObject> = {
-  [K in keyof T]: K extends string ? never : Readonly<K>;
+    [K in keyof T]: K extends string ? never : Readonly<K>;
 }[keyof T];

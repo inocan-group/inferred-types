@@ -11,21 +11,21 @@ import type { KebabCase } from "inferred-types/types";
  * **Related:** `toPascalCase`, `toCamelCase`, `toSnakeCase`
  */
 export function toKebabCase<
-  S extends string,
-  P extends boolean = false,
+    S extends string,
+    P extends boolean = false,
 >(input: S, _preserveWhitespace: P = false as P) {
-  const [_, preWhite, focus, postWhite] = /^(\s*)(.*?)(\s*)$/.exec(input) as RegExpExecArray;
+    const [_, preWhite, focus, postWhite] = /^(\s*)(.*?)(\s*)$/.exec(input) as RegExpExecArray;
 
-  const replaceWhitespace = (i: string) => i.replace(/\s/g, "-");
-  const replaceUppercase = (i: string) => i.replace(/[A-Z]/g, c => `-${c[0].toLowerCase()}`);
-  const replaceLeadingDash = (i: string) => i.replace(/^-/, "");
-  const replaceTrailingDash = (i: string) => i.replace(/-$/, "");
-  const replaceUnderscore = (i: string) => i.replace(/_/g, "-");
-  const removeDupDashes = (i: string) => i.replace(/-+/g, "-");
+    const replaceWhitespace = (i: string) => i.replace(/\s/g, "-");
+    const replaceUppercase = (i: string) => i.replace(/[A-Z]/g, c => `-${c[0].toLowerCase()}`);
+    const replaceLeadingDash = (i: string) => i.replace(/^-/, "");
+    const replaceTrailingDash = (i: string) => i.replace(/-$/, "");
+    const replaceUnderscore = (i: string) => i.replace(/_/g, "-");
+    const removeDupDashes = (i: string) => i.replace(/-+/g, "-");
 
-  return removeDupDashes(`${preWhite}${replaceUnderscore(
-    replaceTrailingDash(
-      replaceLeadingDash(removeDupDashes(replaceWhitespace(replaceUppercase(focus)))),
-    ),
-  )}${postWhite}`) as unknown as KebabCase<S, P>;
+    return removeDupDashes(`${preWhite}${replaceUnderscore(
+        replaceTrailingDash(
+            replaceLeadingDash(removeDupDashes(replaceWhitespace(replaceUppercase(focus)))),
+        ),
+    )}${postWhite}`) as unknown as KebabCase<S, P>;
 }

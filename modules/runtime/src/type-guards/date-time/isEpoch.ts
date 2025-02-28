@@ -1,7 +1,7 @@
 import type {
-  EpochInMs,
-  EpochInSeconds,
-  NumberLike,
+    EpochInMs,
+    EpochInSeconds,
+    NumberLike,
 } from "inferred-types/types";
 
 /** the epoch timestamp (in seconds) for the date 2500-01-01 */
@@ -18,7 +18,7 @@ const EPOCH_1970_07_14 = 16761600000;
  * **Related:** `isEpochInSeconds`
  */
 export function isEpochInSeconds(timestamp: NumberLike): timestamp is EpochInSeconds {
-  return Number(timestamp) >= 0 && Number(timestamp) <= EPOCH_2500;
+    return Number(timestamp) >= 0 && Number(timestamp) <= EPOCH_2500;
 }
 
 /**
@@ -37,5 +37,5 @@ export function isEpochInSeconds(timestamp: NumberLike): timestamp is EpochInSec
  * **Related:** `isEpochInSeconds`
  */
 export function isEpochInMilliseconds(timestamp: NumberLike): timestamp is EpochInMs {
-  return Number(timestamp) >= EPOCH_1970_07_14;
+    return Number(timestamp) >= EPOCH_1970_07_14;
 }

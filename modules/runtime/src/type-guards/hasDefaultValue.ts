@@ -11,6 +11,6 @@ import { isSpecificConstant } from "./isSpecificConstant";
  * Probably a better way to phrase this. :)
  */
 export function hasDefaultValue<T extends Narrowable>(value: T): value is Exclude<T, NoDefaultValue> {
-  const noDefault = isSpecificConstant("no-default-value");
-  return !noDefault(value);
+    const noDefault = isSpecificConstant("no-default-value");
+    return !noDefault(value);
 }

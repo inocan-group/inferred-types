@@ -17,25 +17,25 @@ import { asDate } from "inferred-types/runtime";
  * **Related:** `getDayName`
  */
 export function getDay(date: Date | string | number): number {
-  const d = asDate(date);
-  if (!(d)) {
-    throw new Error(`Invalid date passed to getDay()!`);
-  }
-  return d.getDay();
+    const d = asDate(date);
+    if (!(d)) {
+        throw new Error(`Invalid date passed to getDay()!`);
+    }
+    return d.getDay();
 }
 
 export function getDayName(date: Date | string | number): DayOfWeek {
-  const lookup: DayOfWeek[] = [
-    "Sun",
-    "Mon",
-    "Tue",
-    "Wed",
-    "Thu",
-    "Fri",
-    "Sat",
-  ];
+    const lookup: DayOfWeek[] = [
+        "Sun",
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat",
+    ];
 
-  return lookup[
-    getDay(date)
-  ];
+    return lookup[
+        getDay(date)
+    ];
 }

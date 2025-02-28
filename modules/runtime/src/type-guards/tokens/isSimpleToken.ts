@@ -15,12 +15,12 @@ const scalar_split_tokens = SIMPLE_SCALAR_TOKENS.map(i => i.split("TOKEN"));
  * **Related:** `isSimpleTokenTuple`
  */
 export function isSimpleToken(val: unknown): val is SimpleToken {
-  return isString(val) && split_tokens.some(
-    i => (
-      (i.length === 1 && val === i[0])
-      || (val.startsWith(i[0]) && val.endsWith(i.slice(-1)[0]) && i.every(p => val.includes(p)))
-    ),
-  );
+    return isString(val) && split_tokens.some(
+        i => (
+            (i.length === 1 && val === i[0])
+            || (val.startsWith(i[0]) && val.endsWith(i.slice(-1)[0]) && i.every(p => val.includes(p)))
+        ),
+    );
 }
 
 /**
@@ -31,12 +31,12 @@ export function isSimpleToken(val: unknown): val is SimpleToken {
  * **Related:** `isSimpleToken()`, `isSimpleContainerToken()`
  */
 export function isSimpleScalarToken(val: unknown): val is SimpleScalarToken {
-  return isString(val) && scalar_split_tokens.some(
-    i => (
-      (i.length === 1 && val === i[0])
-      || (val.startsWith(i[0]) && val.endsWith(i.slice(-1)[0]) && i.every(p => val.includes(p)))
-    ),
-  );
+    return isString(val) && scalar_split_tokens.some(
+        i => (
+            (i.length === 1 && val === i[0])
+            || (val.startsWith(i[0]) && val.endsWith(i.slice(-1)[0]) && i.every(p => val.includes(p)))
+        ),
+    );
 }
 
 /**
@@ -48,12 +48,12 @@ export function isSimpleScalarToken(val: unknown): val is SimpleScalarToken {
  * **Related:** `isSimpleToken()`, `isSimpleScalarToken()`
  */
 export function isSimpleContainerToken(val: unknown): val is SimpleContainerToken {
-  return isString(val) && scalar_split_tokens.some(
-    i => (
-      (i.length === 1 && val === i[0])
-      || (val.startsWith(i[0]) && val.endsWith(i.slice(-1)[0]) && i.every(p => val.includes(p)))
-    ),
-  );
+    return isString(val) && scalar_split_tokens.some(
+        i => (
+            (i.length === 1 && val === i[0])
+            || (val.startsWith(i[0]) && val.endsWith(i.slice(-1)[0]) && i.every(p => val.includes(p)))
+        ),
+    );
 }
 
 /**
@@ -64,8 +64,8 @@ export function isSimpleContainerToken(val: unknown): val is SimpleContainerToke
  * **Related:** `isSimpleToken()`, `isSimpleTokenTuple()`
  */
 export function isSimpleTokenTuple(val: unknown): val is SimpleToken[] {
-  return isArray(val) && val.length !== 0
-    && val.every(isSimpleToken);
+    return isArray(val) && val.length !== 0
+        && val.every(isSimpleToken);
 }
 
 /**
@@ -77,8 +77,8 @@ export function isSimpleTokenTuple(val: unknown): val is SimpleToken[] {
  * **Related:** `isSimpleToken()`, `isSimpleTokenTuple()`
  */
 export function isSimpleScalarTokenTuple(val: unknown): val is SimpleScalarToken[] {
-  return isArray(val) && val.length !== 0
-    && val.every(isSimpleScalarToken);
+    return isArray(val) && val.length !== 0
+        && val.every(isSimpleScalarToken);
 }
 
 /**
@@ -90,6 +90,6 @@ export function isSimpleScalarTokenTuple(val: unknown): val is SimpleScalarToken
  * **Related:** `isSimpleToken()`, `isSimpleTokenTuple()`
  */
 export function isSimpleContainerTokenTuple(val: unknown): val is SimpleContainerToken[] {
-  return isArray(val) && val.length !== 0
-    && val.every(isSimpleContainerToken);
+    return isArray(val) && val.length !== 0
+        && val.every(isSimpleContainerToken);
 }

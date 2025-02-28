@@ -1,7 +1,7 @@
 import type {
-  AlphaChar,
-  TokenSyntax,
-  TypedFunction,
+    AlphaChar,
+    TokenSyntax,
+    TypedFunction,
 } from "inferred-types/types";
 
 export type TokenName = `${AlphaChar}${string}`;
@@ -12,18 +12,18 @@ export type TokenName = `${AlphaChar}${string}`;
  * which the
  */
 export type TokenParamsConstraint =
-  | "none"
-  | readonly unknown[];
+    | "none"
+    | readonly unknown[];
 
 export type TokenType = "static" | "dynamic";
 
 export type TokenIsStatic<T extends TokenParamsConstraint> = T extends "none"
-  ? true
-  : false;
+    ? true
+    : false;
 
 export type ResolvedTokenType<
-  T = any,
-  TG extends TypedFunction = TypedFunction,
+    T = any,
+    TG extends TypedFunction = TypedFunction,
 > = [type: T, tg: TG];
 
 /**
@@ -37,10 +37,10 @@ export type ResolvedTokenType<
  * function which validates this variant state.
  */
 export type TokenResolver = <
-  TSyntax extends TokenSyntax,
+    TSyntax extends TokenSyntax,
 >(syntax: TSyntax) => <TParams extends readonly string[]>(...params: TParams) => {
-  type: unknown;
-  typeGuard: (val: unknown) => boolean;
+    type: unknown;
+    typeGuard: (val: unknown) => boolean;
 };
 
 /**
@@ -53,46 +53,46 @@ export type TokenResolver = <
  * the token's eventual parameters for this variant
  */
 export type Tokenizer = (
-  ...args: readonly any[]
+    ...args: readonly any[]
 ) => readonly string[];
 
 export interface DynamicToken<
-  TToken extends TokenName = TokenName,
-  TResolver extends TokenResolver = TokenResolver,
-  TTokenizer extends Tokenizer = Tokenizer,
+    TToken extends TokenName = TokenName,
+    TResolver extends TokenResolver = TokenResolver,
+    TTokenizer extends Tokenizer = Tokenizer,
 > {
-  kind: "DynamicToken";
-  /**
-   * boolean flag indicating whether the token is static or is _dynamic_
-   * (which multiple variants possible).
-   */
-  isStatic: false;
-  /** the name of the token */
-  name: TToken;
-  resolver: TResolver;
-  tokenizer: TTokenizer;
+    kind: "DynamicToken";
+    /**
+     * boolean flag indicating whether the token is static or is _dynamic_
+     * (which multiple variants possible).
+     */
+    isStatic: false;
+    /** the name of the token */
+    name: TToken;
+    resolver: TResolver;
+    tokenizer: TTokenizer;
 }
 
 export interface StaticToken<
-  TToken extends TokenName = TokenName,
-  TType = unknown,
-  TG extends (val: unknown) => boolean = (val: unknown) => boolean,
+    TToken extends TokenName = TokenName,
+    TType = unknown,
+    TG extends (val: unknown) => boolean = (val: unknown) => boolean,
 > {
-  kind: "StaticToken";
-  /**
-   * boolean flag indicating whether the token is static or is _dynamic_
-   * (which multiple variants possible).
-   */
-  isStatic: true;
-  name: TToken;
-  type: TType;
-  typeGuard: TG;
+    kind: "StaticToken";
+    /**
+     * boolean flag indicating whether the token is static or is _dynamic_
+     * (which multiple variants possible).
+     */
+    isStatic: true;
+    name: TToken;
+    type: TType;
+    typeGuard: TG;
 }
 
 export type Token<
-  TToken extends TokenName = TokenName,
-  T1 = any,
-  T2 extends TypedFunction = any,
+    TToken extends TokenName = TokenName,
+    T1 = any,
+    T2 extends TypedFunction = any,
 > = T1 extends TypedFunction
-  ? DynamicToken<TToken, T1, T2>
-  : StaticToken<TToken, T1, T2>;
+    ? DynamicToken<TToken, T1, T2>
+    : StaticToken<TToken, T1, T2>;

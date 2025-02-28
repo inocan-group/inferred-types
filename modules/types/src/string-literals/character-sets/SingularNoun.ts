@@ -29,9 +29,9 @@ export type SingularNounEnding = TupleToUnion<Mutable<typeof SINGULAR_NOUN_ENDIN
  * **Related:** `IsSingularNoun`
  */
 export type SingularNoun<T extends string> = T extends `${infer Prelude}${SingularNounEnding}`
-  ? If<
-    AllExtend<Chars<Prelude>, AlphaChar>,
-    T,
-    never
-  >
-  : never;
+    ? If<
+        AllExtend<Chars<Prelude>, AlphaChar>,
+        T,
+        never
+    >
+    : never;

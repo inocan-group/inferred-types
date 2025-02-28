@@ -1,86 +1,86 @@
 import type {
-  DefineObject,
-  RestMethod,
-  Uri,
-  UrlPath,
+    DefineObject,
+    RestMethod,
+    Uri,
+    UrlPath,
 } from "inferred-types/types";
 
 interface State {
-  base: Uri<"http" | "https">;
-  endpoints?: any[];
+    base: Uri<"http" | "https">;
+    endpoints?: any[];
 }
 
 type Response = [format: "text"]
-  | [format: "md"]
-  | [format: "html"]
-  | [format: "json", structure: DefineObject];
+    | [format: "md"]
+    | [format: "html"]
+    | [format: "json", structure: DefineObject];
 
 export interface ConfigRestApi<
-  TMethod extends RestMethod,
-  TState extends State,
+    TMethod extends RestMethod,
+    TState extends State,
 > {
-  queryParameters: TMethod extends "GET"
-    ? <T extends DefineObject>(body: T) => ConfigRestApi<TMethod, TState>
-    : never;
+    queryParameters: TMethod extends "GET"
+        ? <T extends DefineObject>(body: T) => ConfigRestApi<TMethod, TState>
+        : never;
 
-  requestBody: TMethod extends "GET"
-    ? never
-    : <T extends DefineObject>(body: T) => ConfigRestApi<TMethod, TState>;
+    requestBody: TMethod extends "GET"
+        ? never
+        : <T extends DefineObject>(body: T) => ConfigRestApi<TMethod, TState>;
 
-  response: (
-    <TArgs extends Response>(...args: TArgs) => ConfigRestApi<TMethod, TState>
-  );
+    response: (
+        <TArgs extends Response>(...args: TArgs) => ConfigRestApi<TMethod, TState>
+    );
 
-  done: () => EndpointGenerator<TState>;
+    done: () => EndpointGenerator<TState>;
 }
 
 type ConfigCallback<
-  _TMethod extends RestMethod,
+    _TMethod extends RestMethod,
 > = any;
 
 export interface EndpointGenerator<
-  TState extends State,
+    TState extends State,
 > {
-  get: <
-    TPath extends UrlPath,
-    TName extends string,
-  >(
-    path: TPath,
-    name: TName,
-    cb?: ConfigCallback<"GET">
-  ) => EndpointGenerator<TState>;
-  put: <
-    TPath extends UrlPath,
-    TName extends string,
-  >(
-    path: TPath,
-    name: TName,
-    cb?: ConfigCallback<"PUT">
-  ) => EndpointGenerator<TState>;
-  post: <
-    TPath extends UrlPath,
-    TName extends string,
-  >(
-    path: TPath,
-    name: TName,
-    cb?: ConfigCallback<"POST">
-  ) => EndpointGenerator<TState>;
-  patch: <
-    TPath extends UrlPath,
-    TName extends string,
-  >(
-    path: TPath,
-    name: TName,
-    cb?: ConfigCallback<"PATCH">
-  ) => EndpointGenerator<TState>;
-  delete: <
-    TPath extends UrlPath,
-    TName extends string,
-  >(
-    path: TPath,
-    name: TName,
-    cb?: ConfigCallback<"DELETE">
-  ) => EndpointGenerator<TState>;
+    get: <
+        TPath extends UrlPath,
+        TName extends string,
+    >(
+        path: TPath,
+        name: TName,
+        cb?: ConfigCallback<"GET">
+    ) => EndpointGenerator<TState>;
+    put: <
+        TPath extends UrlPath,
+        TName extends string,
+    >(
+        path: TPath,
+        name: TName,
+        cb?: ConfigCallback<"PUT">
+    ) => EndpointGenerator<TState>;
+    post: <
+        TPath extends UrlPath,
+        TName extends string,
+    >(
+        path: TPath,
+        name: TName,
+        cb?: ConfigCallback<"POST">
+    ) => EndpointGenerator<TState>;
+    patch: <
+        TPath extends UrlPath,
+        TName extends string,
+    >(
+        path: TPath,
+        name: TName,
+        cb?: ConfigCallback<"PATCH">
+    ) => EndpointGenerator<TState>;
+    delete: <
+        TPath extends UrlPath,
+        TName extends string,
+    >(
+        path: TPath,
+        name: TName,
+        cb?: ConfigCallback<"DELETE">
+    ) => EndpointGenerator<TState>;
 
 }
 

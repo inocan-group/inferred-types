@@ -10,5 +10,5 @@ import type { NumericChar, PhoneNumberDelimiter } from "inferred-types/types";
  * **Related:** `CountryPhoneNumber`, `InternationalPhoneNumber`, `PhoneNumber`
  */
 export type LocalPhoneNumber<
-  TDelimiter extends PhoneNumberDelimiter = PhoneNumberDelimiter,
+    TDelimiter extends PhoneNumberDelimiter = PhoneNumberDelimiter,
 > = `${NumericChar}${number}${TDelimiter}${number}`;

@@ -13,5 +13,5 @@
  * Note: _if the value passed in is a "string" then the result will be "unknown"_
  */
 export type IsCapitalized<T extends string> = string extends T
-  ? "unknown"
-  : T extends Capitalize<T> ? true : false;
+    ? "unknown"
+    : T extends Capitalize<T> ? true : false;

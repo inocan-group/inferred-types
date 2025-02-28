@@ -8,11 +8,11 @@ import type { Replace, TrimLeft } from "inferred-types/types";
  * ```
  */
 export type LeftWhitespace<S extends string> = string extends S
-  ? string
-  : Replace<
-    S,
-    TrimLeft<S> extends string
-      ? TrimLeft<S>
-      : never,
-    ""
-  >;
+    ? string
+    : Replace<
+        S,
+        TrimLeft<S> extends string
+            ? TrimLeft<S>
+            : never,
+        ""
+    >;

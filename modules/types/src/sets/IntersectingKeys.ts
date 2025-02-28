@@ -7,8 +7,8 @@ import type { AsRecord, Container, UnionToTuple } from "inferred-types/types";
  * containers passed in `A` and `B`.
  */
 export type IntersectingKeys<
-  L extends Container | object,
-  R extends Container | object,
+    L extends Container | object,
+    R extends Container | object,
 > = UnionToTuple<
   (keyof AsRecord<L>) & (keyof AsRecord<R>)
 >;

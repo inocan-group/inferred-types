@@ -1,8 +1,8 @@
 import type { AnyFunction, NodeCallback } from "src/base-types";
 
 type Result<T extends NodeCallback> = Parameters<T>["length"] extends 2
-  ? Parameters<T>[1]
-  : void;
+    ? Parameters<T>[1]
+    : void;
 
 /**
  * **Promisify**`<T>`
@@ -13,5 +13,5 @@ type Result<T extends NodeCallback> = Parameters<T>["length"] extends 2
  */
 export type Promisify<T extends AnyFunction> =
   T extends (...args: [...infer Args, infer Cb extends NodeCallback]) => void
-    ? (...args: Args) => Promise<Result<Cb>>
-    : never;
+      ? (...args: Args) => Promise<Result<Cb>>
+      : never;

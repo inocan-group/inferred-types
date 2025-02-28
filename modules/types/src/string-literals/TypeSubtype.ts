@@ -3,5 +3,5 @@
  * a Type-and-Subtype relationship.
  */
 export type TypeSubtype = `${string}/${string}` & {
-  brand: "type-subtype";
+    brand: "type-subtype";
 };

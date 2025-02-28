@@ -8,7 +8,7 @@ import { stripLeading, stripTrailing } from "inferred-types/runtime";
  * as any leading or trailing parenthesis characters.
  */
 export function stripParenthesis<
-  T extends string,
+    T extends string,
 >(val: T) {
-  return stripTrailing(stripLeading(val.trim(), "("), ")").trim() as unknown as Trim<StripSurround<Trim<T>, "(" | ")">>;
+    return stripTrailing(stripLeading(val.trim(), "("), ")").trim() as unknown as Trim<StripSurround<Trim<T>, "(" | ")">>;
 }

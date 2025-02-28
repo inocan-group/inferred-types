@@ -13,21 +13,21 @@ import type { If, IfEqual, IsNumericLiteral, IsStringLiteral, Length, Tuple } fr
  * type.
  */
 export type IfLength<
-  TEvaluate extends Tuple | string,
-  TLength extends number,
-  IF,
-  ELSE = TEvaluate,
-  MAYBE = IF | ELSE,
+    TEvaluate extends Tuple | string,
+    TLength extends number,
+    IF,
+    ELSE = TEvaluate,
+    MAYBE = IF | ELSE,
 > = TEvaluate extends readonly unknown[]
-  ? IsNumericLiteral<TLength> extends true
-    ? IfEqual<Length<TEvaluate>, TLength, IF, ELSE>
-    : MAYBE
-  : TEvaluate extends unknown[]
-    ? MAYBE
-    : TEvaluate extends string
-      ? If<
-        IsStringLiteral<TEvaluate>,
-        IfEqual<Length<TEvaluate>, TLength, IF, ELSE>,
-        MAYBE
-      >
-      : MAYBE;
+    ? IsNumericLiteral<TLength> extends true
+        ? IfEqual<Length<TEvaluate>, TLength, IF, ELSE>
+        : MAYBE
+    : TEvaluate extends unknown[]
+        ? MAYBE
+        : TEvaluate extends string
+            ? If<
+                IsStringLiteral<TEvaluate>,
+                IfEqual<Length<TEvaluate>, TLength, IF, ELSE>,
+                MAYBE
+            >
+            : MAYBE;

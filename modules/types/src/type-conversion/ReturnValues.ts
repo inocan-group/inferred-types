@@ -1,14 +1,14 @@
 import type { AfterFirst, Dictionary, First, TypedFunction, Values } from "inferred-types/types";
 
 type ProcessTuple<
-  TArray extends readonly unknown[] | unknown[],
-  TResults extends readonly unknown[] = [],
+    TArray extends readonly unknown[] | unknown[],
+    TResults extends readonly unknown[] = [],
 > = //
   [] extends TArray
-    ? TResults
-    : First<TArray> extends TypedFunction
-      ? ProcessTuple<AfterFirst<TArray>, [...TResults, ReturnType<First<TArray>>]>
-      : ProcessTuple<AfterFirst<TArray>, TResults>;
+      ? TResults
+      : First<TArray> extends TypedFunction
+          ? ProcessTuple<AfterFirst<TArray>, [...TResults, ReturnType<First<TArray>>]>
+          : ProcessTuple<AfterFirst<TArray>, TResults>;
 /**
  * **ReturnValues**`<TContainer>`
  *
@@ -22,9 +22,9 @@ type ProcessTuple<
  * **Related:** `ReduceValues`
  */
 export type ReturnValues<
-  TContainer extends readonly unknown[] | Dictionary,
+    TContainer extends readonly unknown[] | Dictionary,
 > = TContainer extends readonly unknown[]
-  ? ProcessTuple<TContainer>
-  : TContainer extends Dictionary
-    ? ProcessTuple<Values<TContainer>>
-    : never;
+    ? ProcessTuple<TContainer>
+    : TContainer extends Dictionary
+        ? ProcessTuple<Values<TContainer>>
+        : never;

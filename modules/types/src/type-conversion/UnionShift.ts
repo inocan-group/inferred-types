@@ -1,10 +1,10 @@
 import type { IsUnion, LastInUnion } from "inferred-types/types";
 
 type Process<U, Last = LastInUnion<U>> = [U] extends [never]
-  ? []
-  : [IsUnion<U>] extends [true]
-      ? [Last, Exclude<U, Last>]
-      : U;
+    ? []
+    : [IsUnion<U>] extends [true]
+        ? [Last, Exclude<U, Last>]
+        : U;
 
 /**
  * **ShiftUnion**`<U>`
@@ -25,5 +25,5 @@ type Process<U, Last = LastInUnion<U>> = [U] extends [never]
  */
 export type UnionShift<U, Last = LastInUnion<U>> =
   Process<U, Last> extends readonly unknown[]
-    ? IsUnion<U> extends true ? [Last, Exclude<U, Last>] : U
-    : [never, IsUnion<U> extends true ? [Last, Exclude<U, Last>] : U];
+      ? IsUnion<U> extends true ? [Last, Exclude<U, Last>] : U
+      : [never, IsUnion<U> extends true ? [Last, Exclude<U, Last>] : U];

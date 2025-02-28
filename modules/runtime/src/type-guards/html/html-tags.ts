@@ -1,11 +1,11 @@
 import type {
-  AsHtmlTag,
-  Html__AtomicTag,
-  Html__BlockTag,
+    AsHtmlTag,
+    Html__AtomicTag,
+    Html__BlockTag,
 } from "inferred-types/types";
 import {
-  HTML_ATOMIC_TAGS,
-  HTML_BLOCK_TAGS,
+    HTML_ATOMIC_TAGS,
+    HTML_BLOCK_TAGS,
 } from "inferred-types/constants";
 import { isString, validHtmlAttributes } from "inferred-types/runtime";
 
@@ -16,7 +16,7 @@ import { isString, validHtmlAttributes } from "inferred-types/runtime";
  * **Note:** this will _not_ match with leading or trailing whitespace
  */
 export function isValidBlockTag(val: unknown): val is string {
-  return isString(val) && HTML_BLOCK_TAGS.includes(val.toLowerCase() as any);
+    return isString(val) && HTML_BLOCK_TAGS.includes(val.toLowerCase() as any);
 }
 
 /**
@@ -26,7 +26,7 @@ export function isValidBlockTag(val: unknown): val is string {
  * **Note:** this will _not_ match with leading or trailing whitespace
  */
 export function isValidAtomicTag(val: unknown): val is string {
-  return isString(val) && HTML_ATOMIC_TAGS.includes(val.toLowerCase() as any);
+    return isString(val) && HTML_ATOMIC_TAGS.includes(val.toLowerCase() as any);
 }
 
 /**
@@ -41,47 +41,47 @@ export function isValidAtomicTag(val: unknown): val is string {
  * that of the tag and the brackets.
  */
 export function isValidHtmlTag<
-  T extends readonly (Html__BlockTag | Html__AtomicTag)[],
+    T extends readonly (Html__BlockTag | Html__AtomicTag)[],
 >(...tags: T) {
-  return <V>(val: V): val is V & AsHtmlTag<V, T[number]> => {
-    if (typeof val !== "string")
-      return false;
+    return <V>(val: V): val is V & AsHtmlTag<V, T[number]> => {
+        if (typeof val !== "string")
+            return false;
 
-    const trimmedVal = val.trim();
+        const trimmedVal = val.trim();
 
-    // Match opening, closing, and atomic tags
-    const tagRegex = /^<\/?(\w+)(.*?)>$/;
-    const match = tagRegex.exec(trimmedVal);
+        // Match opening, closing, and atomic tags
+        const tagRegex = /^<\/?(\w+)(.*?)>$/;
+        const match = tagRegex.exec(trimmedVal);
 
-    if (!match) {
-      return false; // Not a valid HTML tag structure
-    }
+        if (!match) {
+            return false; // Not a valid HTML tag structure
+        }
 
-    const [, tagName, attributes] = match;
-    const normalizedTagName = tagName.toLowerCase(); // Normalize to lowercase
-    const isClosingTag = trimmedVal.startsWith("</");
-    const isAtomicTag = HTML_ATOMIC_TAGS.includes(normalizedTagName as any);
-    const isBlockTag = HTML_BLOCK_TAGS.includes(normalizedTagName as any);
+        const [, tagName, attributes] = match;
+        const normalizedTagName = tagName.toLowerCase(); // Normalize to lowercase
+        const isClosingTag = trimmedVal.startsWith("</");
+        const isAtomicTag = HTML_ATOMIC_TAGS.includes(normalizedTagName as any);
+        const isBlockTag = HTML_BLOCK_TAGS.includes(normalizedTagName as any);
 
-    if (
-      // Validate tag name is within the provided `tags` scope
-      !tags.map(t => t.toLowerCase()).includes(normalizedTagName as any)
-    ) {
-      return false;
-    }
+        if (
+        // Validate tag name is within the provided `tags` scope
+            !tags.map(t => t.toLowerCase()).includes(normalizedTagName as any)
+        ) {
+            return false;
+        }
 
-    if (isClosingTag) {
-      return attributes.trim() === "" && !isAtomicTag;
-    }
+        if (isClosingTag) {
+            return attributes.trim() === "" && !isAtomicTag;
+        }
 
-    if (isAtomicTag) {
-      return attributes.trim() === "" || validHtmlAttributes(attributes);
-    }
+        if (isAtomicTag) {
+            return attributes.trim() === "" || validHtmlAttributes(attributes);
+        }
 
-    if (isBlockTag) {
-      return validHtmlAttributes(attributes);
-    }
+        if (isBlockTag) {
+            return validHtmlAttributes(attributes);
+        }
 
-    return false;
-  };
+        return false;
+    };
 }

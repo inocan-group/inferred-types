@@ -14,11 +14,11 @@ import type { RemoveMarked } from "../containers";
  * **Related:** `Filter`, `FilterLiterals`, `RetainWideTypes`
  */
 export type FilterWideTypes<
-  T extends readonly unknown[],
+    T extends readonly unknown[],
 > = RemoveMarked<{
-  [K in keyof T]: If<
-    IsWideType<T[K]>,
-    Constant<"Marked">,
-    T[K]
-  >
+    [K in keyof T]: If<
+        IsWideType<T[K]>,
+        Constant<"Marked">,
+        T[K]
+    >
 }>;

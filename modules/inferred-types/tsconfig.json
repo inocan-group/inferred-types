@@ -1,46 +1,46 @@
 {
-  "compilerOptions": {
-    "composite": true,
-    "target": "ESNext",
-    "baseUrl": ".",
-    "rootDir": ".",
-    "moduleResolution": "Bundler",
-    "paths": {
-      "inferred-types/types": [
-        "../types/dist/index"
-      ],
-      "inferred-types/constants": [
-        "../constants/dist/index"
-      ],
-      "inferred-types/runtime": [
-        "../runtime/dist/index"
-      ]
+    "compilerOptions": {
+        "composite": true,
+        "target": "ESNext",
+        "baseUrl": ".",
+        "rootDir": ".",
+        "moduleResolution": "Bundler",
+        "paths": {
+            "inferred-types/types": [
+                "../types/dist/index"
+            ],
+            "inferred-types/constants": [
+                "../constants/dist/index"
+            ],
+            "inferred-types/runtime": [
+                "../runtime/dist/index"
+            ]
+        },
+        "strict": true,
+        "declaration": true,
+        "declarationMap": true,
+        "outDir": "dist",
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true
     },
-    "strict": true,
-    "declaration": true,
-    "declarationMap": true,
-    "outDir": "dist",
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true
-  },
-  // this project serves only as a means to reference all sub-projects
-  // and allow constants, types, and runtime symbols to be exported
-  // as a single NPM package.
-  "references": [
-    {
-      "path": "../constants"
-    },
-    {
-      "path": "../types"
-    },
-    {
-      "path": "../runtime"
-    }
-  ],
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+    // this project serves only as a means to reference all sub-projects
+    // and allow constants, types, and runtime symbols to be exported
+    // as a single NPM package.
+    "references": [
+        {
+            "path": "../constants"
+        },
+        {
+            "path": "../types"
+        },
+        {
+            "path": "../runtime"
+        }
+    ],
+    "include": [
+        "src/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
 }

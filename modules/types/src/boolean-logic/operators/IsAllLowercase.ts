@@ -18,5 +18,5 @@ import type { HasCharacters, If, UpperAlphaChar } from "inferred-types/types";
  * ```
  */
 export type IsAllLowercase<T extends string> = string extends T
-  ? boolean
-  : If<HasCharacters<T, UpperAlphaChar>, true, false>;
+    ? boolean
+    : If<HasCharacters<T, UpperAlphaChar>, true, false>;

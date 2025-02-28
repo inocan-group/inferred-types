@@ -6,5 +6,5 @@ import type { NotNull } from "inferred-types/types";
  * Type guard which validates the passed in value is **not** the `null` value.
  */
 export function isNotNull<T>(value: T): value is T & NotNull {
-  return (value === null);
+    return (value === null);
 }

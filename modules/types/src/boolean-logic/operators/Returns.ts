@@ -7,10 +7,10 @@ import type { TypedFunction } from "inferred-types/types";
  * and _extends_ `TExpected` in it's return type.
  */
 export type Returns<
-  TFn,
-  TExpected,
+    TFn,
+    TExpected,
 > = TFn extends TypedFunction
-  ? ReturnType<TFn> extends TExpected
-    ? true
-    : false
-  : false;
+    ? ReturnType<TFn> extends TExpected
+        ? true
+        : false
+    : false;

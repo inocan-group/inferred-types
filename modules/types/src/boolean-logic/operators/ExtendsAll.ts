@@ -1,14 +1,14 @@
 import type { And } from "inferred-types/types";
 
 type _Extends<
-  TValue,
-  TList extends readonly unknown[],
-  Processed extends readonly boolean[] = [],
+    TValue,
+    TList extends readonly unknown[],
+    Processed extends readonly boolean[] = [],
 > = TList extends [infer First, ...infer Rest]
-  ? First extends TValue
-    ? _Extends<TValue, Rest, readonly [...Processed, true]>
-    : _Extends<TValue, Rest, readonly [...Processed, false]>
-  : And<Processed>;
+    ? First extends TValue
+        ? _Extends<TValue, Rest, readonly [...Processed, true]>
+        : _Extends<TValue, Rest, readonly [...Processed, false]>
+    : And<Processed>;
 
 /**
  * **ExtendsAll**`<TValue, TList>`
@@ -19,6 +19,6 @@ type _Extends<
  * **Related:** `ExtendsSome`, `IfExtendsAll`, `DoesExtend`
  */
 export type ExtendsAll<
-  TValue,
-  TList extends readonly unknown[],
+    TValue,
+    TList extends readonly unknown[],
 > = _Extends<TValue, TList>;

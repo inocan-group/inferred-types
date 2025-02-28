@@ -7,5 +7,5 @@ import type { ExpandRecursively, UnionToIntersection } from "inferred-types/type
  * This type utility will cleanup an object and return a simple dictionary definition for it.
  */
 export type SimplifyObject<T extends object> = ExpandRecursively<
-  UnionToIntersection<ExpandRecursively<T>>
+    UnionToIntersection<ExpandRecursively<T>>
 >;

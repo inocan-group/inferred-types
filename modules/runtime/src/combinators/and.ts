@@ -5,7 +5,7 @@ import type { And } from "inferred-types/types";
  * the logical **AND** operator
  */
 export function and<
-  TList extends readonly boolean[],
+    TList extends readonly boolean[],
 >(...values: TList): And<TList> {
-  return values.every(i => i === true) as And<TList>;
+    return values.every(i => i === true) as And<TList>;
 }

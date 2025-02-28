@@ -8,5 +8,5 @@ import { FALSY_VALUES } from "inferred-types/constants";
  * Javascript.
  */
 export function isFalsy<V extends Narrowable>(val: V): val is V & FalsyValue {
-  return FALSY_VALUES.includes(val as any);
+    return FALSY_VALUES.includes(val as any);
 }

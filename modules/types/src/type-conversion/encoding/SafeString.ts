@@ -13,11 +13,11 @@ export type SafeStringSymbol = typeof SAFE_STRING;
  * - use `safeDecode()` or `SafeDecode<T>` utilities to move back to the original string value.
  */
 export type SafeString<
-  T extends string = string,
-  G extends readonly SafeEncodingGroup[] = SafeEncodingGroup[],
+    T extends string = string,
+    G extends readonly SafeEncodingGroup[] = SafeEncodingGroup[],
 > = T & {
-  SafeStringSymbol: "SafeString";
-  groups: G;
-  origin: SafeDecode<T, G>;
-  encoded: T;
+    SafeStringSymbol: "SafeString";
+    groups: G;
+    origin: SafeDecode<T, G>;
+    encoded: T;
 };

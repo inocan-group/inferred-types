@@ -15,20 +15,20 @@ import { isFunction, isObject } from "inferred-types/runtime";
  * ```
  */
 export function hasKeys<
-  P extends readonly N[],
-  N extends PropertyKey,
+    P extends readonly N[],
+    N extends PropertyKey,
 >(...keys: P) {
-  if (keys.length === 0) {
-    return Never;
-  }
+    if (keys.length === 0) {
+        return Never;
+    }
 
   type Props = P extends readonly string[]
-    ? P
-    : never;
+      ? P
+      : never;
 
   return (val: unknown): val is EnsureKeys<EmptyObject, Props> => {
-    return !!((
-      isFunction(val) || isObject(val)
-    ) && keys.every(k => k in (val as object)));
+      return !!((
+          isFunction(val) || isObject(val)
+      ) && keys.every(k => k in (val as object)));
   };
 }

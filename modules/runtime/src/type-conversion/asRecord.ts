@@ -8,7 +8,7 @@ import type { AsRecord, ObjectKey } from "inferred-types/types";
  * is indexable.
  */
 export function asRecord<
-  T extends Record<ObjectKey, unknown> | object,
+    T extends Record<ObjectKey, unknown> | object,
 >(obj: T): AsRecord<T> {
-  return obj as AsRecord<T>;
+    return obj as AsRecord<T>;
 }

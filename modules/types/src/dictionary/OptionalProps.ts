@@ -7,5 +7,5 @@ import type { EmptyObject, OptionalKeys, RemoveIndexKeys } from "inferred-types/
  */
 export type OptionalProps<T extends object> =
 EmptyObject extends RemoveIndexKeys<Pick<T, OptionalKeys<T>>>
-  ? RemoveIndexKeys<Pick<T, OptionalKeys<T>>>
-  : never;
+    ? RemoveIndexKeys<Pick<T, OptionalKeys<T>>>
+    : never;

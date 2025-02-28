@@ -1,24 +1,24 @@
 import type {
-  AfterFirst,
-  AnyObject,
-  Dictionary,
-  ExpandDictionary,
-  First,
-  Keys,
-  ObjectKey,
+    AfterFirst,
+    AnyObject,
+    Dictionary,
+    ExpandDictionary,
+    First,
+    Keys,
+    ObjectKey,
 } from "inferred-types/types";
 
 type Convert<
-  TKeys extends readonly (ObjectKey & keyof TObj)[],
-  TObj extends Dictionary,
-  TResult extends Dictionary,
+    TKeys extends readonly (ObjectKey & keyof TObj)[],
+    TObj extends Dictionary,
+    TResult extends Dictionary,
 > = [] extends TKeys
-  ? ExpandDictionary<TResult>
-  : Convert<
-    AfterFirst<TKeys>,
-    TObj,
+    ? ExpandDictionary<TResult>
+    : Convert<
+        AfterFirst<TKeys>,
+        TObj,
     TResult & Record<First<TKeys>, <T extends TObj[First<TKeys>]>() => T>
-  >;
+    >;
 
 /**
  * **ObjectToApi**`<TObj>`
@@ -32,20 +32,20 @@ type Convert<
  * use utilities like `shape()`, `union()` etc. to define
  */
 export type ObjectToApi<
-  TObj extends AnyObject,
-  TDef = never,
+    TObj extends AnyObject,
+    TDef = never,
 > = Keys<TObj> extends readonly (ObjectKey & keyof TObj)[]
-  ? Convert<
-    Keys<TObj>,
-    TObj,
-    { __kind: "ObjectApi"; done: () => TDef }
-  >
-  : never;
+    ? Convert<
+        Keys<TObj>,
+        TObj,
+        { __kind: "ObjectApi"; done: () => TDef }
+    >
+    : never;
 
 /**
  * A callback signature for an object converted via `ObjectToApi`
  */
 export type ObjectApiCallback<
-  TObj extends AnyObject,
-  TDef = never,
+    TObj extends AnyObject,
+    TDef = never,
 > = ((api: ObjectToApi<TObj, TDef>) => unknown);

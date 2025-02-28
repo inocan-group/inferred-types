@@ -8,22 +8,22 @@ import type { Narrowable } from "inferred-types/types";
  * callback functions: `same` or `notSame`.
  */
 export function ifSameType<
-  TValue extends Narrowable,
-  TType extends string | number | boolean | object,
-  IF extends Narrowable,
-  ELSE extends Narrowable,
+    TValue extends Narrowable,
+    TType extends string | number | boolean | object,
+    IF extends Narrowable,
+    ELSE extends Narrowable,
 >(
-  value: TValue,
-  comparator: TType,
-  same: <T extends TType & TValue>(v: T) => IF,
-  notSame: <T extends Exclude<TValue, TType>>(v: T) => ELSE,
+    value: TValue,
+    comparator: TType,
+    same: <T extends TType & TValue>(v: T) => IF,
+    notSame: <T extends Exclude<TValue, TType>>(v: T) => ELSE,
 ) {
-  return (
+    return (
     // runtime values match
-    (
-      typeof value === typeof comparator
-        ? same(value as TType & TValue)
-        : notSame(value as Exclude<TValue, TType>)
-    ) as TValue extends TType ? IF : ELSE
-  );
+        (
+            typeof value === typeof comparator
+                ? same(value as TType & TValue)
+                : notSame(value as Exclude<TValue, TType>)
+        ) as TValue extends TType ? IF : ELSE
+    );
 }

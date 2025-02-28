@@ -19,8 +19,8 @@ import type { AnyObject, AsArray, ExpandRecursively, Mutable, ObjectKey, Simplif
  * **Related:** `MutablePropsExclusive`
  */
 export type MakePropsMutable<
-  TObj extends AnyObject,
-  TMutProps extends ObjectKey[] | ObjectKey,
+    TObj extends AnyObject,
+    TMutProps extends ObjectKey[] | ObjectKey,
 > = SimplifyObject<Mutable<WithKeys<TObj, TMutProps>>
 & WithoutKeys<TObj, TMutProps>>;
 
@@ -43,8 +43,8 @@ export type MakePropsMutable<
  * **Related:** `MutableProps`
  */
 export type MutablePropsExclusive<
-  T extends AnyObject,
-  M extends readonly (keyof T & ObjectKey)[],
+    T extends AnyObject,
+    M extends readonly (keyof T & ObjectKey)[],
 > = ExpandRecursively<
   Mutable<WithKeys<T, M>> & Readonly<WithoutKeys<T, AsArray<M>>>
 >;

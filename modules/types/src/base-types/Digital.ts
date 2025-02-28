@@ -9,8 +9,8 @@ import type { Digit, NumericChar, NumericSign } from "inferred-types/types";
  * **Related:** `DigitalLiteral`
  */
 export type Digital = [
-  NumericSign,
-  readonly [Digit, ...Digit[]],
+    NumericSign,
+    readonly [Digit, ...Digit[]],
 ];
 
 /**
@@ -22,6 +22,6 @@ export type Digital = [
  * **Related:** `Digital`
  */
 export type DigitalLiteral = [
-  NumericSign,
-  readonly [`${NumericChar}`, ...`${NumericChar}`[]],
+    NumericSign,
+    readonly [`${NumericChar}`, ...`${NumericChar}`[]],
 ];

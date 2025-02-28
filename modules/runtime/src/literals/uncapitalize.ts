@@ -5,5 +5,5 @@
  * string literal types.
  */
 export function uncapitalize<T extends string>(str: T): Uncapitalize<T> {
-  return `${str?.slice(0, 1).toLowerCase()}${str?.slice(1)}` as Uncapitalize<T>;
+    return `${str?.slice(0, 1).toLowerCase()}${str?.slice(1)}` as Uncapitalize<T>;
 }

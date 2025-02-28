@@ -8,12 +8,12 @@
  * the `Tif` and `TElse` generics.
  */
 export type HasProp<
-  TTest,
-  TProp extends string,
-  TIf = true,
-  TElse = false,
+    TTest,
+    TProp extends string,
+    TIf = true,
+    TElse = false,
 > = TTest extends object
-  ? TProp extends keyof TTest
-    ? TIf
-    : TElse
-  : TElse;
+    ? TProp extends keyof TTest
+        ? TIf
+        : TElse
+    : TElse;

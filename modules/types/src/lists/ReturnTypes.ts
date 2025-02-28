@@ -11,9 +11,9 @@ import type { TypedFunction } from "inferred-types/types";
  * **See Also**: `LogicalReturns` and `TruthyReturns`
  */
 export type ReturnTypes<T extends readonly unknown[]> = {
-  [K in keyof T]: T[K] extends TypedFunction
-    ? ReturnType<T[K]> extends boolean
-      ? ReturnType<T[K]>
-      : never
-    : never;
+    [K in keyof T]: T[K] extends TypedFunction
+        ? ReturnType<T[K]> extends boolean
+            ? ReturnType<T[K]>
+            : never
+        : never;
 };

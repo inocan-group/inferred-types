@@ -10,8 +10,8 @@
  * **Related:** `Second`, `Last`
  */
 export type First<
-  T,
-  ELSE = never,
+    T,
+    ELSE = never,
 > = T extends readonly unknown[]
-  ? T[0] extends T[number] ? T[0] : ELSE
-  : never;
+    ? T[0] extends T[number] ? T[0] : ELSE
+    : never;

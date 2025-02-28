@@ -9,6 +9,6 @@ import type { ExtendsSome, Not } from "inferred-types/types";
  * **Related:** `ExtendsSome`, `IfExtendsAll`, `DoesExtend`
  */
 export type ExtendsNone<
-  TValue,
-  TList extends readonly unknown[],
+    TValue,
+    TList extends readonly unknown[],
 > = Not<ExtendsSome<TValue, TList>>;

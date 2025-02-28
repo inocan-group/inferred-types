@@ -16,7 +16,7 @@ import type { Widen } from "inferred-types/types";
  * ```
  */
 export type AreSameType<A, B> = Widen<A, true> extends Widen<B, true>
-  ? Widen<B, true> extends Widen<A, true>
-    ? true
-    : false
-  : false;
+    ? Widen<B, true> extends Widen<A, true>
+        ? true
+        : false
+    : false;

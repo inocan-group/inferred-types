@@ -10,7 +10,7 @@ import type { IsUnion } from "./IsUnion";
  * is `null` then this will return `boolean`.
  */
 export type IsNull<T> = IsUnion<T> extends true
-  ? [null] extends [T]
-      ? boolean
-      : false
-  : [T] extends [null] ? true : false;
+    ? [null] extends [T]
+        ? boolean
+        : false
+    : [T] extends [null] ? true : false;

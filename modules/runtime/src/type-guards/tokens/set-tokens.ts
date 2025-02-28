@@ -8,15 +8,15 @@ import { getTokenKind, isString, isTypeToken } from "inferred-types/runtime";
  * valid `TypeToken` who's name "kind" ends in `-set`.
  */
 export function isSetBasedToken(val: unknown): val is TT_Set {
-  if (isTypeToken(val)) {
-    const kind = getTokenKind(val);
-    return kind.endsWith(`-set`);
-  }
+    if (isTypeToken(val)) {
+        const kind = getTokenKind(val);
+        return kind.endsWith(`-set`);
+    }
 
-  return false;
+    return false;
 }
 
 export function isSetBasedKind(val: unknown): val is TypeTokenSets {
-  return isString(val)
-    && val.endsWith(`-set`);
+    return isString(val)
+        && val.endsWith(`-set`);
 }

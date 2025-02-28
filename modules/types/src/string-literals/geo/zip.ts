@@ -18,10 +18,10 @@ type Z2S = Mutable<typeof ZIP_TO_STATE>;
  * Converts a zip code into a _union type_ of
  */
 export type ZipToState<
-  T extends string,
+    T extends string,
 > = First<Chars<T>> extends keyof Z2S
-  ? TupleToUnion<Z2S[First<Chars<T>>]>
-  : never;
+    ? TupleToUnion<Z2S[First<Chars<T>>]>
+    : never;
 
 export type ZipPlus4 = `${Zip5}-${number}`;
 

@@ -7,9 +7,9 @@ import type { ElementOf, IsEqual, IsUnion } from "inferred-types/types";
  * a _union type_.
  */
 export type IsUnionArray<T> = T extends readonly any[]
-  ? IsEqual<T["length"], number> extends true
-    ? IsUnion<ElementOf<T>> extends true
-      ? true
-      : false
-    : false
-  : false;
+    ? IsEqual<T["length"], number> extends true
+        ? IsUnion<ElementOf<T>> extends true
+            ? true
+            : false
+        : false
+    : false;

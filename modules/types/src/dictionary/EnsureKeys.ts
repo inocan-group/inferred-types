@@ -1,15 +1,15 @@
 import type { CreateKV, Dictionary, ExpandRecursively } from "inferred-types/types";
 
 type BuildObj<
-  T extends readonly string[] | Dictionary | [Dictionary],
-  TType,
+    T extends readonly string[] | Dictionary | [Dictionary],
+    TType,
 > = T extends Dictionary
-  ? T
-  : T extends [Dictionary]
-    ? T[0]
-    : T extends string[]
-      ? CreateKV<T, TType>
-      : never;
+    ? T
+    : T extends [Dictionary]
+        ? T[0]
+        : T extends string[]
+            ? CreateKV<T, TType>
+            : never;
 
 /**
  * **EnsureKeys**`<TObj,TKeys,[TType]>`
@@ -24,9 +24,9 @@ type BuildObj<
  * - otherwise, the optional `TType` (set to `unknown` by default) is used.
  */
 export type EnsureKeys<
-  TObj extends object,
-  TKeys extends readonly string[] | Dictionary | [Dictionary],
-  TType = unknown,
+    TObj extends object,
+    TKeys extends readonly string[] | Dictionary | [Dictionary],
+    TType = unknown,
 > = ExpandRecursively<
   TObj & BuildObj<TKeys, TType>
 >;

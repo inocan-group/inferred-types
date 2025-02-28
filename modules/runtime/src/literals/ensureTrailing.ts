@@ -7,14 +7,14 @@ import type { EnsureTrailing } from "inferred-types/types";
  * substring `ensure` at the end and adds it if not present.
  */
 export function ensureTrailing<
-  T extends string,
-  U extends string,
+    T extends string,
+    U extends string,
 >(
-  content: T,
-  ensure: U,
+    content: T,
+    ensure: U,
 ): EnsureTrailing<T, U> {
-  return (
+    return (
     //
-    (content.endsWith(ensure) ? content : `${content}${ensure}`) as EnsureTrailing<T, U>
-  );
+        (content.endsWith(ensure) ? content : `${content}${ensure}`) as EnsureTrailing<T, U>
+    );
 }

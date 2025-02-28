@@ -1,18 +1,18 @@
 import type {
-  And,
-  AsNumber,
-  AsStringUnion,
-  IsStringLiteral,
+    And,
+    AsNumber,
+    AsStringUnion,
+    IsStringLiteral,
 } from "inferred-types/types";
 
 type Process<
-  TContent extends string,
-  TStrip extends string,
+    TContent extends string,
+    TStrip extends string,
 > = And<[ IsStringLiteral<TContent>, IsStringLiteral<TStrip>]> extends true
-  ? TContent extends `${TStrip & string}${infer After}`
-    ? After
-    : TContent
-  : string;
+    ? TContent extends `${TStrip & string}${infer After}`
+        ? After
+        : TContent
+    : string;
 
 /**
  * **StripLeading**`<T, U>`
@@ -31,18 +31,18 @@ type Process<
  *   - same applies to `U`
  */
 export type StripLeading<
-  TContent extends string | number,
-  TStrip extends string | number,
+    TContent extends string | number,
+    TStrip extends string | number,
 > = TContent extends number
-  ? AsNumber<
-    Process<
+    ? AsNumber<
+        Process<
       `${TContent}`,
-      AsStringUnion<TStrip>
+            AsStringUnion<TStrip>
+        >
     >
-  >
-  : TContent extends string
-    ? Process<
-      TContent,
-      AsStringUnion<TStrip>
-    >
-    : never;
+    : TContent extends string
+        ? Process<
+            TContent,
+            AsStringUnion<TStrip>
+        >
+        : never;

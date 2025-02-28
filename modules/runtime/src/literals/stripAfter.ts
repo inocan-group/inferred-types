@@ -13,8 +13,8 @@ import type { StripAfter } from "inferred-types/types";
  * ```
  */
 export function stripAfter<
-  TContent extends string,
-  TBreak extends string,
+    TContent extends string,
+    TBreak extends string,
 >(content: TContent, find: TBreak) {
-  return content.split(find).shift() as unknown as StripAfter<TContent, TBreak>;
+    return content.split(find).shift() as unknown as StripAfter<TContent, TBreak>;
 }

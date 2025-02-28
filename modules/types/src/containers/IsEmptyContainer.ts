@@ -9,13 +9,13 @@ import type { Container, Dictionary, ExplicitlyEmptyObject, Keys } from "inferre
  * **Related:** `NonEmptyContainer`
  */
 export type IsEmptyContainer<
-  T extends Container,
+    T extends Container,
 > = T extends Dictionary
-  ? T extends ExplicitlyEmptyObject
-    ? true
+    ? T extends ExplicitlyEmptyObject
+        ? true
+        : Keys<T>["length"] extends 0
+            ? true
+            : false
     : Keys<T>["length"] extends 0
-      ? true
-      : false
-  : Keys<T>["length"] extends 0
-    ? true
-    : false;
+        ? true
+        : false;

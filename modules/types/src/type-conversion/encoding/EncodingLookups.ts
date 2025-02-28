@@ -1,17 +1,17 @@
 import type {
-  SAFE_ENCODING__BRACKETS,
-  SAFE_ENCODING__QUOTES,
-  SAFE_ENCODING__WHITESPACE,
+    SAFE_ENCODING__BRACKETS,
+    SAFE_ENCODING__QUOTES,
+    SAFE_ENCODING__WHITESPACE,
 } from "inferred-types/constants";
 import type {
-  AfterFirst,
-  AsFromTo,
-  First,
-  FromTo,
-  Mutable,
-  ReverseLookup,
-  SafeEncodingGroup,
-  Values,
+    AfterFirst,
+    AsFromTo,
+    First,
+    FromTo,
+    Mutable,
+    ReverseLookup,
+    SafeEncodingGroup,
+    Values,
 } from "inferred-types/types";
 
 type SafeEncoding__Quotes = Mutable<typeof SAFE_ENCODING__QUOTES>;
@@ -27,43 +27,43 @@ export type SafeDecodingKey__Whitespace = Values<SafeEncoding__Whitespace>[numbe
 export type SafeDecodingKey__Brackets = Values<SafeEncoding__Brackets>[number];
 
 export type SafeEncodingConversion<
-  T extends readonly SafeEncodingGroup[],
-  R extends readonly FromTo[] = [],
+    T extends readonly SafeEncodingGroup[],
+    R extends readonly FromTo[] = [],
 > = [] extends T
-  ? R
-  : SafeEncodingConversion<
-    AfterFirst<T>,
-    [
-      ...R,
-      ...(
-        First<T> extends "quotes"
-          ? AsFromTo<SafeEncoding__Quotes>
-          : First<T> extends "brackets"
-            ? AsFromTo<SafeEncoding__Brackets>
-            : First<T> extends "whitespace"
-              ? AsFromTo<SafeEncoding__Whitespace>
-              : []
-      ),
-    ]
-  >;
+    ? R
+    : SafeEncodingConversion<
+        AfterFirst<T>,
+        [
+            ...R,
+            ...(
+                First<T> extends "quotes"
+                    ? AsFromTo<SafeEncoding__Quotes>
+                    : First<T> extends "brackets"
+                        ? AsFromTo<SafeEncoding__Brackets>
+                        : First<T> extends "whitespace"
+                            ? AsFromTo<SafeEncoding__Whitespace>
+                            : []
+            ),
+        ]
+    >;
 
 export type SafeDecodingConversion<
-  T extends readonly SafeEncodingGroup[],
-  R extends readonly FromTo[] = [],
+    T extends readonly SafeEncodingGroup[],
+    R extends readonly FromTo[] = [],
 > = [] extends T
-  ? R
-  : SafeDecodingConversion<
-    AfterFirst<T>,
-    [
-      ...R,
-      ...(
-        First<T> extends "quotes"
-          ? AsFromTo<ReverseLookup<SafeEncoding__Quotes>>
-          : First<T> extends "brackets"
-            ? AsFromTo<ReverseLookup<SafeEncoding__Brackets>>
-            : First<T> extends "whitespace"
-              ? AsFromTo<ReverseLookup<SafeEncoding__Whitespace>>
-              : []
-      ),
-    ]
-  >;
+    ? R
+    : SafeDecodingConversion<
+        AfterFirst<T>,
+        [
+            ...R,
+            ...(
+                First<T> extends "quotes"
+                    ? AsFromTo<ReverseLookup<SafeEncoding__Quotes>>
+                    : First<T> extends "brackets"
+                        ? AsFromTo<ReverseLookup<SafeEncoding__Brackets>>
+                        : First<T> extends "whitespace"
+                            ? AsFromTo<ReverseLookup<SafeEncoding__Whitespace>>
+                            : []
+            ),
+        ]
+    >;

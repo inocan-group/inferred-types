@@ -10,5 +10,5 @@ import type { Dictionary, IsEqual, ReadonlyKeys } from "inferred-types/types";
  * - Note: objects with no properties return `false`
  */
 export type IsReadonlyObject<T> = T extends Dictionary
-  ? IsEqual<ReadonlyKeys<T>, keyof T>
-  : false;
+    ? IsEqual<ReadonlyKeys<T>, keyof T>
+    : false;

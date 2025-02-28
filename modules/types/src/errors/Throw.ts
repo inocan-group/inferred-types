@@ -1,29 +1,29 @@
 import type {
-  EmptyObject,
-  ErrorCondition,
-  IfNever,
-  TypeErrorInfo,
+    EmptyObject,
+    ErrorCondition,
+    IfNever,
+    TypeErrorInfo,
 } from "inferred-types/types";
 
 type Stack<
-  TRest extends TypeErrorInfo,
+    TRest extends TypeErrorInfo,
 > = "underlying" extends keyof TRest
-  ? TRest["underlying"] extends ErrorCondition
-    ? "stack" extends keyof TRest["underlying"]
-      ? TRest["underlying"]["stack"] extends readonly string[]
-        ? TRest["underlying"]["stack"]
+    ? TRest["underlying"] extends ErrorCondition
+        ? "stack" extends keyof TRest["underlying"]
+            ? TRest["underlying"]["stack"] extends readonly string[]
+                ? TRest["underlying"]["stack"]
+                : never
+            : never
         : never
-      : never
-    : never
-  : never;
+    : never;
 
 type HandleStack<
-  TUtility extends string,
-  TRest extends TypeErrorInfo,
+    TUtility extends string,
+    TRest extends TypeErrorInfo,
 > = IfNever<
-  TUtility,
-  IfNever<Stack<TRest>, never, ["unspecified", ...Stack<TRest>]>,
-  IfNever<Stack<TRest>, [TUtility], [TUtility, ...Stack<TRest>]>
+    TUtility,
+    IfNever<Stack<TRest>, never, ["unspecified", ...Stack<TRest>]>,
+    IfNever<Stack<TRest>, [TUtility], [TUtility, ...Stack<TRest>]>
 >;
 
 /**
@@ -42,15 +42,15 @@ type HandleStack<
  * defined by `TypeErrorInfo` -- which can further describe the error.
  */
 export type Throw<
-  TKind extends string,
-  TMessage extends string = never,
-  TUtility extends string = never,
-  TRest extends TypeErrorInfo = EmptyObject,
-  TStack extends readonly string[] = HandleStack<TUtility, TRest>,
+    TKind extends string,
+    TMessage extends string = never,
+    TUtility extends string = never,
+    TRest extends TypeErrorInfo = EmptyObject,
+    TStack extends readonly string[] = HandleStack<TUtility, TRest>,
 > = ErrorCondition<
-  TKind,
-  TMessage,
-  TUtility,
-  TStack,
-  TRest
+    TKind,
+    TMessage,
+    TUtility,
+    TStack,
+    TRest
 >;

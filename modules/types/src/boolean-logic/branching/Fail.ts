@@ -3,15 +3,15 @@ import type { Or } from "../combinators";
 import type { IsFalse, IsNever } from "../operators";
 
 type ShouldFail<TTest> = [IsNever<TTest>] extends [true]
-  ? true
-  : [IsFalse<TTest>] extends [true]
-      ? true
-      : false;
+    ? true
+    : [IsFalse<TTest>] extends [true]
+        ? true
+        : false;
 
 type Iterate<
-  TTest extends readonly unknown[],
+    TTest extends readonly unknown[],
 > = Or<{
-  [K in keyof TTest]: ShouldFail<[TTest[K]]>
+    [K in keyof TTest]: ShouldFail<[TTest[K]]>
 }>;
 
 /**
@@ -26,12 +26,12 @@ type Iterate<
  * the tests fail then the condition fails.
  */
 export type Fail<
-  TVal,
-  TTest,
+    TVal,
+    TTest,
 > = [TTest] extends [Tuple]
-  ? [Iterate<TTest>] extends [true]
-      ? never
-      : TVal
-  : [ShouldFail<TTest>] extends [true]
-      ? never
-      : TVal;
+    ? [Iterate<TTest>] extends [true]
+        ? never
+        : TVal
+    : [ShouldFail<TTest>] extends [true]
+        ? never
+        : TVal;

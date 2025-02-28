@@ -8,5 +8,5 @@ import { isString } from "inferred-types/runtime";
  * string.
  */
 export function isCsv(val: unknown): val is Csv {
-  return isString(val) && val.includes(",") && !val.startsWith(",");
+    return isString(val) && val.includes(",") && !val.startsWith(",");
 }

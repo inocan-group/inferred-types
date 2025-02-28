@@ -10,8 +10,8 @@
  */
 
 export interface VueComputedRef<T = any> {
-  value: T;
-  effect: any;
+    value: T;
+    effect: any;
 }
 
 /**
@@ -21,8 +21,8 @@ export interface VueComputedRef<T = any> {
  * property from **VueJS**.
  */
 export type IsComputedRef<T> = T extends { value: unknown; effect: object }
-  ? true
-  : false;
+    ? true
+    : false;
 
 /**
  * **AsVueComputedRef**
@@ -34,5 +34,5 @@ export type IsComputedRef<T> = T extends { value: unknown; effect: object }
  * **Related:** `VueComputedRef`, `IsVueComputedRef`
  */
 export type AsVueComputedRef<T> = T extends VueComputedRef
-  ? T & VueComputedRef
-  : never;
+    ? T & VueComputedRef
+    : never;

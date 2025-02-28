@@ -13,8 +13,8 @@ import type { Narrowable, VueRef } from "inferred-types/types";
  * not actually exporting VueJS symbols (like inferred-types).
  */
 export function asVueRef<T extends Narrowable>(value: T) {
-  return ({
-    value,
-    _value: null,
-  }) as unknown as VueRef<T>;
+    return ({
+        value,
+        _value: null,
+    }) as unknown as VueRef<T>;
 }

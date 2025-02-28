@@ -1,14 +1,14 @@
 import type {
-  As,
-  CountryPhoneNumber,
-  ErrorCondition,
-  InternationalPhoneNumber,
-  IsNumericLiteral,
-  IsStringLiteral,
-  LocalPhoneNumber,
-  OnPass,
-  PhoneCountryCode,
-  PhoneNumberDelimiter,
+    As,
+    CountryPhoneNumber,
+    ErrorCondition,
+    InternationalPhoneNumber,
+    IsNumericLiteral,
+    IsStringLiteral,
+    LocalPhoneNumber,
+    OnPass,
+    PhoneCountryCode,
+    PhoneNumberDelimiter,
 } from "inferred-types/types";
 
 // /** T or ErrorCondition */
@@ -64,15 +64,15 @@ import type {
 //         : true;
 
 type Process<
-  T extends string,
-  _TDelimiter extends PhoneNumberDelimiter = PhoneNumberDelimiter,
+    T extends string,
+    _TDelimiter extends PhoneNumberDelimiter = PhoneNumberDelimiter,
 > = OnPass<
-  [
+    [
     // _ValidChars<RemovePhoneCountryCode<T>>,
     // _InvalidCountryCode<T>,
     // _AppropriateNumerics<T>
-  ],
-  T
+    ],
+    T
 >;
 
 /**
@@ -95,19 +95,19 @@ type Process<
  * - Related: `PhoneNumberWithCountryCode`, `UsPhoneNumber`
  */
 export type PhoneNumber<
-  T extends number | string | null = null,
-  TDelimiter extends PhoneNumberDelimiter = PhoneNumberDelimiter,
+    T extends number | string | null = null,
+    TDelimiter extends PhoneNumberDelimiter = PhoneNumberDelimiter,
 > = T extends null
-  ? LocalPhoneNumber<TDelimiter> | CountryPhoneNumber<TDelimiter> | InternationalPhoneNumber<TDelimiter>
-  : IsStringLiteral<T> extends true
-    ? Process<As<T, string>, TDelimiter>
-    : IsNumericLiteral<T> extends true
-      ? Process<`${As<T, number>}`, TDelimiter>
-      : T extends string
-        ? string | ErrorCondition<"invalid-phone-number">
-        : T extends number
-          ? number | ErrorCondition<"invalid-phone-number">
-          : never;
+    ? LocalPhoneNumber<TDelimiter> | CountryPhoneNumber<TDelimiter> | InternationalPhoneNumber<TDelimiter>
+    : IsStringLiteral<T> extends true
+        ? Process<As<T, string>, TDelimiter>
+        : IsNumericLiteral<T> extends true
+            ? Process<`${As<T, number>}`, TDelimiter>
+            : T extends string
+                ? string | ErrorCondition<"invalid-phone-number">
+                : T extends number
+                    ? number | ErrorCondition<"invalid-phone-number">
+                    : never;
 
 export type PhoneNumberWithCountryCode = `+${PhoneCountryCode} ${string}`;
 

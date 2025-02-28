@@ -2,8 +2,8 @@ import type { AnyFunction } from "inferred-types/types";
 import type { IsEqual } from "./IsEqual";
 
 type RegularFn<Fn> = Fn extends ((...args: any[]) => any)
-  ? (...args: Parameters<Fn>) => ReturnType<Fn>
-  : false;
+    ? (...args: Parameters<Fn>) => ReturnType<Fn>
+    : false;
 
 /**
  * **IsLiteralFn**`<TFn>`
@@ -16,5 +16,5 @@ type RegularFn<Fn> = Fn extends ((...args: any[]) => any)
  * **Related:** `LiteralFn`, `IsNarrowFn`
  */
 export type IsLiteralFn<TFn> = TFn extends AnyFunction
-  ? IsEqual<RegularFn<TFn>, TFn>
-  : false;
+    ? IsEqual<RegularFn<TFn>, TFn>
+    : false;

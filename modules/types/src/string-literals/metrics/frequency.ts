@@ -7,18 +7,18 @@ type FrequencyMetricsLookup = typeof FREQUENCY_METRICS_LOOKUP;
  * The singular name for metrics associated with **Frequency**.
  */
 export type FrequencyMetrics = {
-  [K in keyof FrequencyMetricsLookup]: "name" extends keyof FrequencyMetricsLookup[K]
-    ? FrequencyMetricsLookup[K]["name"]
-    : never
+    [K in keyof FrequencyMetricsLookup]: "name" extends keyof FrequencyMetricsLookup[K]
+        ? FrequencyMetricsLookup[K]["name"]
+        : never
 }[number];
 
 /**
  * Unit of measure for metrics associated with **Frequency**.
  */
 export type FrequencyUom = {
-  [K in keyof FrequencyMetricsLookup]: "abbrev" extends keyof FrequencyMetricsLookup[K]
-    ? FrequencyMetricsLookup[K]["abbrev"]
-    : never
+    [K in keyof FrequencyMetricsLookup]: "abbrev" extends keyof FrequencyMetricsLookup[K]
+        ? FrequencyMetricsLookup[K]["abbrev"]
+        : never
 }[number];
 
 /***

@@ -1,12 +1,12 @@
 import type { IsNonEmptyContainer, IsReadonlyArray, ToNumber, Tuple } from "inferred-types/types";
 
 type _Convert<
-  TInput extends Tuple,
+    TInput extends Tuple,
 > = IsNonEmptyContainer<TInput> extends true
-  ? {
-      [K in keyof TInput]: ToNumber<TInput[K]>
+    ? {
+        [K in keyof TInput]: ToNumber<TInput[K]>
     }
-  : number[];
+    : number[];
 
 /**
  * **ToNumericArray**`<TList>`
@@ -19,7 +19,7 @@ type _Convert<
  * possible
  */
 export type ToNumericArray<
-  TList extends Tuple,
+    TList extends Tuple,
 > = IsReadonlyArray<TList> extends true
-  ? Readonly<_Convert<TList>>
-  : _Convert<TList>;
+    ? Readonly<_Convert<TList>>
+    : _Convert<TList>;

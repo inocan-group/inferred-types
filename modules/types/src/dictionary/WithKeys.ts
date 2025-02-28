@@ -5,7 +5,7 @@ type MakeIntoUnion<K extends PropertyKey | readonly PropertyKey[]> =
 
 // TODO: this needs to convert a KV (with keys such as "0", "1", etc.) into an array
 type MakeNumericIndex<
-  T,
+    T,
 > = T;
 
 /**
@@ -26,17 +26,17 @@ type MakeNumericIndex<
  * ```
  */
 export type WithKeys<
-  T extends AnyObject | Tuple,
-  K extends PropertyKey | readonly PropertyKey[],
+    T extends AnyObject | Tuple,
+    K extends PropertyKey | readonly PropertyKey[],
 > =
 ExpandRecursively<
-  UnionToIntersection<
-    MakeIntoUnion<K> extends keyof T
-      ? T extends Tuple
-        ? // Tuple based container
-        MakeNumericIndex<Pick<T, MakeIntoUnion<K>>>
-        : // Object based container
-        Pick<T, MakeIntoUnion<K>>
-      : never
-  >
+    UnionToIntersection<
+        MakeIntoUnion<K> extends keyof T
+            ? T extends Tuple
+                ? // Tuple based container
+                MakeNumericIndex<Pick<T, MakeIntoUnion<K>>>
+                : // Object based container
+                Pick<T, MakeIntoUnion<K>>
+            : never
+    >
 >;

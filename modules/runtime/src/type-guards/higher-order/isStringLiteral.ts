@@ -8,7 +8,7 @@ import { isString } from "../isString";
  * is the defined set of values of the first call
  */
 export function isStringLiteral<TLit extends readonly string[]>(...literals: TLit) {
-  return (val: unknown): val is TLit[number] => {
-    return isString(val) && literals.includes(val);
-  };
+    return (val: unknown): val is TLit[number] => {
+        return isString(val) && literals.includes(val);
+    };
 }

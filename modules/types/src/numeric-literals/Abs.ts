@@ -1,15 +1,15 @@
 import type {
-  AsNumber,
-  If,
-  IsStringLiteral,
-  NumberLike,
-  StripLeading,
+    AsNumber,
+    If,
+    IsStringLiteral,
+    NumberLike,
+    StripLeading,
 } from "inferred-types/types";
 
 type Process<T extends `${number}`> = If<
-  IsStringLiteral<T>,
-  StripLeading<T, "-">,
-  string
+    IsStringLiteral<T>,
+    StripLeading<T, "-">,
+    string
 >;
 
 /**
@@ -21,9 +21,9 @@ type Process<T extends `${number}`> = If<
  * preserving string literal type
  */
 export type Abs<T extends NumberLike> = T extends number
-  ? AsNumber<
-    Process<`${T}`>
-  >
-  : T extends `${number}`
-    ? Process<T>
-    : never;
+    ? AsNumber<
+        Process<`${T}`>
+    >
+    : T extends `${number}`
+        ? Process<T>
+        : never;

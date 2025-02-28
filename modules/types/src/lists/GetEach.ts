@@ -1,31 +1,31 @@
 import type {
-  FnProps,
-  Get,
-  IndexOf,
-  IsReadonlyArray,
-  IsValidDotPath,
-  Mutable,
-  RemoveNever,
-  TypedFunction,
+    FnProps,
+    Get,
+    IndexOf,
+    IsReadonlyArray,
+    IsValidDotPath,
+    Mutable,
+    RemoveNever,
+    TypedFunction,
 } from "inferred-types/types";
 /**
  * extract props from functions
  */
 type F<T> = T extends TypedFunction
-  ? FnProps<T>
-  : T;
+    ? FnProps<T>
+    : T;
 
 type Process<
-  TList extends readonly unknown[],
-  TKey extends string,
+    TList extends readonly unknown[],
+    TKey extends string,
 > = RemoveNever<{
-  [K in keyof TList]: [TKey] extends [keyof F<TList[K]>]
-    ? [IndexOf<F<TList[K]>, TKey>] extends [undefined]
-        ? never
-        : IndexOf<F<TList[K]>, TKey>
-    : [IsValidDotPath<F<TList[K]>, TKey>] extends [true]
-        ? Mutable<Get<F<TList[K]>, TKey, never>> // valid
-        : never // TKey does not extends TList[K]
+    [K in keyof TList]: [TKey] extends [keyof F<TList[K]>]
+        ? [IndexOf<F<TList[K]>, TKey>] extends [undefined]
+            ? never
+            : IndexOf<F<TList[K]>, TKey>
+        : [IsValidDotPath<F<TList[K]>, TKey>] extends [true]
+            ? Mutable<Get<F<TList[K]>, TKey, never>> // valid
+            : never // TKey does not extends TList[K]
 }>;
 
 /**
@@ -48,12 +48,12 @@ type Process<
  * ```
  */
 export type GetEach<
-  TList extends readonly unknown[],
-  TKey extends string | null,
+    TList extends readonly unknown[],
+    TKey extends string | null,
 > = TKey extends null
-  ? TList
-  : TKey extends ""
     ? TList
-    : IsReadonlyArray<TList> extends true
-      ? Readonly<Process<[...TList], Exclude<TKey, null>>>
-      : Process<TList, Exclude<TKey, null>>;
+    : TKey extends ""
+        ? TList
+        : IsReadonlyArray<TList> extends true
+            ? Readonly<Process<[...TList], Exclude<TKey, null>>>
+            : Process<TList, Exclude<TKey, null>>;

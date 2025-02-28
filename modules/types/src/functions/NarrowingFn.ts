@@ -1,13 +1,13 @@
 import type {
-  AnyFunction,
-  Dictionary,
-  EmptyObject,
-  IsEqual,
-  IsNarrowingFn,
-  IsNonEmptyObject,
-  Throw,
-  Tuple,
-  TypedFunction,
+    AnyFunction,
+    Dictionary,
+    EmptyObject,
+    IsEqual,
+    IsNarrowingFn,
+    IsNonEmptyObject,
+    Throw,
+    Tuple,
+    TypedFunction,
 } from "inferred-types/types";
 
 /**
@@ -28,19 +28,19 @@ import type {
  * **Related:** `LiteralFn`, `IsNarrowingFn`
  */
 export type NarrowingFn<
-  TFn extends AnyFunction,
+    TFn extends AnyFunction,
 > = TFn extends TypedFunction
-  ? IsEqual<Parameters<TFn>, []> extends true
-    ? Throw<
-      "no-parameters",
-      `To make a function a NarrowingFn it must have at least one parameter!`,
-      "NarrowingFn",
-      { library: "inferred-types/constants"; params: TFn }
-    >
-    : IsNarrowingFn<TFn> extends true
-      ? TFn
-      : (<T extends Parameters<TFn>>(...args: T) => ReturnType<TFn>)
-  : NarrowingFn<TypedFunction>;
+    ? IsEqual<Parameters<TFn>, []> extends true
+        ? Throw<
+            "no-parameters",
+            `To make a function a NarrowingFn it must have at least one parameter!`,
+            "NarrowingFn",
+            { library: "inferred-types/constants"; params: TFn }
+        >
+        : IsNarrowingFn<TFn> extends true
+            ? TFn
+            : (<T extends Parameters<TFn>>(...args: T) => ReturnType<TFn>)
+    : NarrowingFn<TypedFunction>;
 
 /**
  * **AsNarrowingFn**`<TParams,TReturns,TProps>`
@@ -51,18 +51,18 @@ export type NarrowingFn<
  * **Related:** `LiteralFn`, `NarrowingFn`, `AsLiteralFn`
  */
 export type AsNarrowingFn<
-  TParams extends Tuple | TypedFunction,
-  TReturn = unknown,
-  TProps extends Dictionary = EmptyObject,
+    TParams extends Tuple | TypedFunction,
+    TReturn = unknown,
+    TProps extends Dictionary = EmptyObject,
 > =
 TParams extends TypedFunction
-  ? NarrowingFn<TParams>
-  : TParams extends Tuple // this is the normal call structure
-    ? [IsNonEmptyObject<TProps>] extends [true]
-        ? [IsEqual<TParams, []>] extends [true]
-            ? (() => TReturn) & TProps
-            : (<T extends TParams>(...args: T) => TReturn) & TProps
-        : [IsEqual<TParams, []>] extends [true]
-            ? () => TReturn
-            : <T extends TParams>(...args: T) => TReturn
-    : never;
+    ? NarrowingFn<TParams>
+    : TParams extends Tuple // this is the normal call structure
+        ? [IsNonEmptyObject<TProps>] extends [true]
+            ? [IsEqual<TParams, []>] extends [true]
+                ? (() => TReturn) & TProps
+                : (<T extends TParams>(...args: T) => TReturn) & TProps
+            : [IsEqual<TParams, []>] extends [true]
+                ? () => TReturn
+                : <T extends TParams>(...args: T) => TReturn
+        : never;

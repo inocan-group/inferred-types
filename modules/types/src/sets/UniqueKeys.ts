@@ -28,9 +28,9 @@ import type { AsNumberWhenPossible, Container, LeftRight, UnionToTuple } from "i
  * **Related:** `UniqueKeysUnion`
  */
 export type UniqueKeys<
-  L extends Container,
-  R extends Container,
+    L extends Container,
+    R extends Container,
 > = LeftRight<
-  AsNumberWhenPossible<UnionToTuple<Exclude<keyof L, keyof R>>>,
-  AsNumberWhenPossible<UnionToTuple<Exclude<keyof R, keyof L>>>
+    AsNumberWhenPossible<UnionToTuple<Exclude<keyof L, keyof R>>>,
+    AsNumberWhenPossible<UnionToTuple<Exclude<keyof R, keyof L>>>
 >;

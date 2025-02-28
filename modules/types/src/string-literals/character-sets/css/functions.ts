@@ -18,7 +18,7 @@ export type CssTranslateFn = `translate(${CssSizing})` | `translate(0)` | `trans
  * The CSS [`round()`](https://developer.mozilla.org/en-US/docs/Web/CSS/round) function
  */
 export type CssRound = `round(${CssVar}, ${CssSizing})`
-  | `round(${"up" | "down" | "nearest" | "to-zero"}, ${CssVar | CssSizing}, ${string})`;
+    | `round(${"up" | "down" | "nearest" | "to-zero"}, ${CssVar | CssSizing}, ${string})`;
 
 /**
  * The CSS [clamp](https://developer.mozilla.org/en-US/docs/Web/CSS/clamp) function

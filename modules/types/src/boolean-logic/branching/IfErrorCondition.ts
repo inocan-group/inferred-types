@@ -9,11 +9,11 @@ import type { ErrorConditionShape, IsErrorCondition } from "inferred-types/types
  * **Related:** `IfError`
  */
 export type IfErrorCondition<
-  T,
-  IF,
-  ELSE = T,
+    T,
+    IF,
+    ELSE = T,
 > = IsErrorCondition<T> extends true
-  ? T extends ErrorConditionShape
-    ? IF
-    : never
-  : ELSE;
+    ? T extends ErrorConditionShape
+        ? IF
+        : never
+    : ELSE;

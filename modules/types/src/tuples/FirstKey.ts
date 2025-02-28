@@ -7,10 +7,10 @@ import type { Dictionary, Keys, Tuple, UnionToTuple } from "inferred-types/types
  * for a key/value pair where only one key is expected
  */
 export type FirstKey<T extends Dictionary | Tuple> = T extends Tuple
-  ? T extends [infer First extends unknown, ...unknown[]]
-    ? First
-    : never
+    ? T extends [infer First extends unknown, ...unknown[]]
+        ? First
+        : never
 
-  : UnionToTuple<Keys<T>> extends readonly unknown[]
-    ? UnionToTuple<Keys<T>>[0]
-    : never;
+    : UnionToTuple<Keys<T>> extends readonly unknown[]
+        ? UnionToTuple<Keys<T>>[0]
+        : never;

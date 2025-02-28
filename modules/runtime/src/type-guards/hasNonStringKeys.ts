@@ -5,5 +5,5 @@ import { isObject } from "inferred-types/runtime";
  * keys.
  */
 export function hasNonStringKeys(val: unknown) {
-  return isObject(val) && Object.getOwnPropertySymbols(val).length > 0;
+    return isObject(val) && Object.getOwnPropertySymbols(val).length > 0;
 }

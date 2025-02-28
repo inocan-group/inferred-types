@@ -1,16 +1,16 @@
 import type {
-  HandleDoneFn,
-  Shape,
-  ShapeCallback,
-  ShapeTupleOrUnion,
-  ShapeApi as TShapeApi,
+    HandleDoneFn,
+    Shape,
+    ShapeCallback,
+    ShapeTupleOrUnion,
+    ShapeApi as TShapeApi,
 } from "inferred-types/types";
 import { SHAPE_PREFIXES } from "inferred-types/constants";
 import {
-  handleDoneFn,
-  hasKeys,
-  isObject,
-  isString,
+    handleDoneFn,
+    hasKeys,
+    isObject,
+    isString,
 } from "inferred-types/runtime";
 import { boolean, nullType, undefinedType, unknown } from "./shape-helpers/atomics";
 import { fn } from "./shape-helpers/functions";
@@ -20,7 +20,7 @@ import { union } from "./shape-helpers/union";
 import { array, map, record, set, weakMap } from "./shape-helpers/wide-containers";
 
 function isAddOrDone<T>(val: T): val is ShapeTupleOrUnion & T {
-  return isObject(val) && hasKeys("add", "done") && typeof val.done === "function" && typeof val.add === "function";
+    return isObject(val) && hasKeys("add", "done") && typeof val.done === "function" && typeof val.add === "function";
 }
 
 /*
@@ -41,21 +41,21 @@ function isAddOrDone<T>(val: T): val is ShapeTupleOrUnion & T {
  * ```
  */
 export const ShapeApiImplementation = {
-  string,
-  number,
-  boolean,
-  unknown,
-  undefined: undefinedType,
-  null: nullType,
-  union,
-  fn,
-  record,
-  array,
-  set,
-  map,
-  weakMap,
-  dictionary,
-  tuple,
+    string,
+    number,
+    boolean,
+    unknown,
+    undefined: undefinedType,
+    null: nullType,
+    union,
+    fn,
+    record,
+    array,
+    set,
+    map,
+    weakMap,
+    dictionary,
+    tuple,
 } as unknown as TShapeApi;
 
 /**
@@ -67,12 +67,12 @@ export const ShapeApiImplementation = {
  * **Related:** `isShape(val)`
  */
 export function shape<
-  T extends ShapeCallback,
+    T extends ShapeCallback,
 >(cb: T): HandleDoneFn<ReturnType<T>> {
-  const rtn = cb(ShapeApiImplementation);
-  return handleDoneFn(
-    isAddOrDone(rtn) ? rtn.done() : rtn,
-  ) as unknown as HandleDoneFn<ReturnType<T>>;
+    const rtn = cb(ShapeApiImplementation);
+    return handleDoneFn(
+        isAddOrDone(rtn) ? rtn.done() : rtn,
+    ) as unknown as HandleDoneFn<ReturnType<T>>;
 }
 
 /**
@@ -81,8 +81,8 @@ export function shape<
  * Type guard which tests whether a value is a _type_ defined by a `Shape`.
  */
 export function isShape(v: unknown): v is Shape {
-  return !!(isString(v)
-    && v.startsWith("<<")
-    && v.endsWith(">>")
-    && SHAPE_PREFIXES.some(i => v.startsWith(`<<${i}`)));
+    return !!(isString(v)
+        && v.startsWith("<<")
+        && v.endsWith(">>")
+        && SHAPE_PREFIXES.some(i => v.startsWith(`<<${i}`)));
 }

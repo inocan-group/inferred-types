@@ -1,10 +1,10 @@
 import type {
-  If,
-  IfLength,
-  IsArray,
-  Narrowable,
-  Scalar,
-  Tuple,
+    If,
+    IfLength,
+    IsArray,
+    Narrowable,
+    Scalar,
+    Tuple,
 } from "inferred-types/types";
 
 /**
@@ -19,20 +19,20 @@ import type {
  * @param elseVal the value (strongly typed) returned if val is NOT of given length
  */
 export function ifLength<
-  TList extends readonly unknown[],
-  TLen extends number,
-  IF extends Narrowable | Tuple,
-  ELSE extends Narrowable | Tuple,
+    TList extends readonly unknown[],
+    TLen extends number,
+    IF extends Narrowable | Tuple,
+    ELSE extends Narrowable | Tuple,
 >(
-  value: TList,
-  length: TLen,
-  ifVal: <V extends Exclude<TList, Scalar | undefined> & Tuple>(v: V) => IF,
-  elseVal: <V extends If<IsArray<TList>, TList, Exclude<TList, Tuple>>>(v: V) => ELSE,
+    value: TList,
+    length: TLen,
+    ifVal: <V extends Exclude<TList, Scalar | undefined> & Tuple>(v: V) => IF,
+    elseVal: <V extends If<IsArray<TList>, TList, Exclude<TList, Tuple>>>(v: V) => ELSE,
 ) {
-  return (
-    Array.isArray(value) && (value as unknown[]).length === length
+    return (
+        Array.isArray(value) && (value as unknown[]).length === length
 
-      ? ifVal(value as any)
-      : elseVal(value as Exclude<TList, Tuple>)
-  ) as unknown as IfLength<TList, TLen, IF, ELSE>;
+            ? ifVal(value as any)
+            : elseVal(value as Exclude<TList, Tuple>)
+    ) as unknown as IfLength<TList, TLen, IF, ELSE>;
 }

@@ -9,12 +9,12 @@ import { asChars } from "inferred-types/runtime";
  * **Related:** `retainChars()`
  */
 export function stripChars<
-  TContent extends string,
-  TRetain extends readonly string[],
+    TContent extends string,
+    TRetain extends readonly string[],
 >(content: TContent, ...strip: TRetain): StripChars<TContent, TRetain[number]> {
-  const chars: readonly string[] = asChars(content);
+    const chars: readonly string[] = asChars(content);
 
-  return (
-    chars.filter(c => !strip.includes(c)).join("")
-  ) as unknown as StripChars<TContent, TRetain[number]>;
+    return (
+        chars.filter(c => !strip.includes(c)).join("")
+    ) as unknown as StripChars<TContent, TRetain[number]>;
 }

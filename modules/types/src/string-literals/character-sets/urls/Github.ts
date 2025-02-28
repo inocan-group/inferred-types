@@ -3,9 +3,9 @@ import type { As, IsTrue, IsUnion, Keys, TupleToUnion, UnionToTuple } from "infe
 import type { AddUrlPathSegment, OptUrlQueryParameters, UrlsFrom } from "./Url";
 
 export type GithubUrl = UrlsFrom<[
-  "https://github.com",
-  "https://www.github.com",
-  "https://github.io",
+    "https://github.com",
+    "https://www.github.com",
+    "https://github.io",
 ]>;
 
 /** a Github _organization_ URL */
@@ -101,17 +101,17 @@ export type GithubRepoProjectUrl = `${GithubRepoUrl}/projects/${number}${OptUrlQ
  */
 export type GithubActionsUrl<TOnlySummary extends boolean = false> =
 IsTrue<TOnlySummary> extends true
-  ? `https://github.com/${string}/${string}/actions`
-  : `https://github.com/${string}/${string}/actions` | `https://github.com/${string}/${string}/actions/${string}`;
+    ? `https://github.com/${string}/${string}/actions`
+    : `https://github.com/${string}/${string}/actions` | `https://github.com/${string}/${string}/actions/${string}`;
 
 type GithubLookup = typeof GITHUB_INSIGHT_CATEGORY_LOOKUP;
 type GhLookup = {
-  [K in keyof GithubLookup]: GithubLookup[K] extends string
-    ? AddUrlPathSegment<
+    [K in keyof GithubLookup]: GithubLookup[K] extends string
+        ? AddUrlPathSegment<
         `https://github.com/${string}`,
-      GithubLookup[K]
-    >
-    : never;
+            GithubLookup[K]
+        >
+        : never;
 };
 
 /**
@@ -124,13 +124,13 @@ type GhLookup = {
 export type GithubInsightPageType = TupleToUnion<Keys<GithubLookup>>;
 
 type _GithubInsightUrl<
-  T extends readonly GithubInsightPageType[],
+    T extends readonly GithubInsightPageType[],
 > = {
-  [K in keyof T]: T[K] extends string
-    ? T[K] extends keyof GhLookup
-      ? GhLookup[T[K]]
-      : never
-    : never
+    [K in keyof T]: T[K] extends string
+        ? T[K] extends keyof GhLookup
+            ? GhLookup[T[K]]
+            : never
+        : never
 
 };
 
@@ -144,11 +144,11 @@ type _GithubInsightUrl<
  * matching for you can specify `T` as some union type of `GithubInsightPageType`
  */
 export type GithubInsightUrl<
-  T extends GithubInsightPageType = GithubInsightPageType,
+    T extends GithubInsightPageType = GithubInsightPageType,
 > = IsUnion<T> extends true
-  ? TupleToUnion<
-    _GithubInsightUrl<As<UnionToTuple<T>, readonly GithubInsightPageType[]>>
-  >
-  : T extends keyof GhLookup
-    ? GhLookup[T]
-    : never;
+    ? TupleToUnion<
+        _GithubInsightUrl<As<UnionToTuple<T>, readonly GithubInsightPageType[]>>
+    >
+    : T extends keyof GhLookup
+        ? GhLookup[T]
+        : never;

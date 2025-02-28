@@ -2,16 +2,16 @@ import type { ElementOf } from "../lists/ElementOf";
 
 // Existing utility: UnionToTuple (unchanged)
 type UnionToIntersection<U> = (
-  U extends unknown ? (arg: U) => 0 : never
+    U extends unknown ? (arg: U) => 0 : never
 ) extends (arg: infer I) => 0 ? I : never;
 
 type LastInUnion<U> = UnionToIntersection<
-  U extends unknown ? (x: U) => 0 : never
+    U extends unknown ? (x: U) => 0 : never
 > extends (x: infer L) => 0 ? L : never;
 
 type UnionToTuple<U, Last = LastInUnion<U>> = [U] extends [never]
-  ? []
-  : [...UnionToTuple<Exclude<U, Last>>, Last];
+    ? []
+    : [...UnionToTuple<Exclude<U, Last>>, Last];
 
 /**
  * **UnionArrayToTuple**`<T>`
@@ -22,5 +22,5 @@ type UnionToTuple<U, Last = LastInUnion<U>> = [U] extends [never]
  * **Related:** `UnionToTuple`
  */
 export type UnionArrayToTuple<T> = T extends any[]
-  ? UnionToTuple<ElementOf<T>>
-  : never;
+    ? UnionToTuple<ElementOf<T>>
+    : never;

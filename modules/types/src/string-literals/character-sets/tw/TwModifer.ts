@@ -25,7 +25,7 @@ export type TwModifier__Size = TwSizeResponsive;
  * **Related:** `TwState__Core`, `TwState__Order`, `TwState__Reln`, `TwPrefix`
  */
 export type TwModifier<T extends string = never> = TwModifier__Core
-  | TwModifier__Order
-  | TwModifier__Reln
-  | TwModifier__Size
-  | T;
+    | TwModifier__Order
+    | TwModifier__Reln
+    | TwModifier__Size
+    | T;

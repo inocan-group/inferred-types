@@ -1,9 +1,9 @@
 import type {
-  ToStringArray,
+    ToStringArray,
 } from "inferred-types/types";
 
 type SuggestString<
-  T extends readonly string[],
+    T extends readonly string[],
 > = T[number] | (string & {});
 
 /**
@@ -20,16 +20,16 @@ type SuggestString<
  * just a wide string as no suggestions are possible
  */
 export type Suggest<
-  T extends readonly unknown[] | string,
+    T extends readonly unknown[] | string,
 > = T extends readonly unknown[]
-  ? ToStringArray<T> extends readonly string[]
-    ? SuggestString<ToStringArray<T>> extends string
-      ? SuggestString<ToStringArray<T>>
-      : never
-    : never
-  : T extends string
-    ? T | (string & {})
-    : never;
+    ? ToStringArray<T> extends readonly string[]
+        ? SuggestString<ToStringArray<T>> extends string
+            ? SuggestString<ToStringArray<T>>
+            : never
+        : never
+    : T extends string
+        ? T | (string & {})
+        : never;
 
 /**
  * **SuggestNumeric**`<T>`

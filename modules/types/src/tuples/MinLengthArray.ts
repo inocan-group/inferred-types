@@ -10,6 +10,6 @@ import type { FixedLengthArray } from "./FixedLengthArray";
  * **Related:** `FixedLengthArray`
  */
 export type MinLengthArray<
-  T,
-  L extends number,
+    T,
+    L extends number,
 > = [...FixedLengthArray<T, L>, ...T[]];

@@ -4,9 +4,9 @@ import { Never } from "inferred-types/constants";
 import { get, isErrorCondition } from "inferred-types/runtime";
 
 export interface GetEachOptions<
-  THandleErrors,
+    THandleErrors,
 > {
-  handleErrors?: THandleErrors;
+    handleErrors?: THandleErrors;
 }
 
 /**
@@ -23,25 +23,25 @@ export interface GetEachOptions<
  * over them without the need to offset by `.value`
  */
 export function getEach<
-  TList extends readonly unknown[],
-  TDotPath extends string | null,
+    TList extends readonly unknown[],
+    TDotPath extends string | null,
 >(
-  list: TList,
-  dotPath: TDotPath,
+    list: TList,
+    dotPath: TDotPath,
 ): GetEach<[...TList], TDotPath> {
-  const result: unknown = list
-    .map(i => dotPath === null
-      ? i
-      : typeof i === "object"
-        ? get(i as Narrowable, dotPath as string)
-        : Array.isArray(i)
-          ? get(i as readonly unknown[], dotPath as string)
-          : Never,
-    )
-    .filter(i => !isErrorCondition(i));
+    const result: unknown = list
+        .map(i => dotPath === null
+            ? i
+            : typeof i === "object"
+                ? get(i as Narrowable, dotPath as string)
+                : Array.isArray(i)
+                    ? get(i as readonly unknown[], dotPath as string)
+                    : Never,
+        )
+        .filter(i => !isErrorCondition(i));
 
-  return result as unknown as GetEach<
-    [...TList],
-    TDotPath
-  >;
+    return result as unknown as GetEach<
+        [...TList],
+        TDotPath
+    >;
 }

@@ -1,40 +1,40 @@
 import type {
-  AfterFirst,
-  As,
-  First,
-  IsEqual,
-  IsFalse,
-  IsNever,
-  IsTrue,
-  LogicFunction,
+    AfterFirst,
+    As,
+    First,
+    IsEqual,
+    IsFalse,
+    IsNever,
+    IsTrue,
+    LogicFunction,
 } from "inferred-types/types";
 
 type Negate<
-  TVal,
+    TVal,
 > = IsNever<TVal> extends true
-  ? never
-  : [TVal] extends [boolean]
-      ? IsTrue<TVal> extends true
-        ? false
-        : IsFalse<TVal> extends true ? true : boolean
-      : [TVal] extends [LogicFunction]
-          ? Negate<ReturnType<LogicFunction>>
-          : never;
+    ? never
+    : [TVal] extends [boolean]
+        ? IsTrue<TVal> extends true
+            ? false
+            : IsFalse<TVal> extends true ? true : boolean
+        : [TVal] extends [LogicFunction]
+            ? Negate<ReturnType<LogicFunction>>
+            : never;
 
 type NegateTuple<
-  TTuple extends readonly (boolean | LogicFunction)[],
-  TResults extends readonly (boolean | LogicFunction)[] = [],
+    TTuple extends readonly (boolean | LogicFunction)[],
+    TResults extends readonly (boolean | LogicFunction)[] = [],
 > = [] extends TTuple
-  ? IsEqual<TResults, [], false, TResults>
-  : NegateTuple<
-    AfterFirst<TTuple>,
-    [
-      ...TResults,
-      First<TTuple> extends LogicFunction
-        ? Negate<ReturnType<First<TTuple>>>
-        : Negate<First<TTuple>>,
-    ]
-  >;
+    ? IsEqual<TResults, [], false, TResults>
+    : NegateTuple<
+        AfterFirst<TTuple>,
+        [
+            ...TResults,
+            First<TTuple> extends LogicFunction
+                ? Negate<ReturnType<First<TTuple>>>
+                : Negate<First<TTuple>>,
+        ]
+    >;
 
 /**
  * **Not**`<T,[TError]>`
@@ -50,12 +50,12 @@ type NegateTuple<
  * ```
  */
 export type Not<
-  TVal,
-  TNotBoolean extends boolean = false,
+    TVal,
+    TNotBoolean extends boolean = false,
 > = [TVal] extends [boolean]
-  ? Exclude<As<Negate<TVal>, boolean>, any[]>
-  : [TVal] extends [LogicFunction]
-      ? As<Negate<ReturnType<TVal>>, boolean>
-      : [TVal] extends [readonly (LogicFunction | boolean)[]]
-          ? As<NegateTuple<TVal>, readonly boolean[]>
-          : TNotBoolean;
+    ? Exclude<As<Negate<TVal>, boolean>, any[]>
+    : [TVal] extends [LogicFunction]
+        ? As<Negate<ReturnType<TVal>>, boolean>
+        : [TVal] extends [readonly (LogicFunction | boolean)[]]
+            ? As<NegateTuple<TVal>, readonly boolean[]>
+            : TNotBoolean;

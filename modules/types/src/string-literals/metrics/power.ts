@@ -7,18 +7,18 @@ type PowerMetricsLookup = typeof POWER_METRICS_LOOKUP;
  * The singular name for metrics associated with **Power**.
  */
 export type PowerMetrics = {
-  [K in keyof PowerMetricsLookup]: "name" extends keyof PowerMetricsLookup[K]
-    ? PowerMetricsLookup[K]["name"]
-    : never
+    [K in keyof PowerMetricsLookup]: "name" extends keyof PowerMetricsLookup[K]
+        ? PowerMetricsLookup[K]["name"]
+        : never
 }[number];
 
 /**
  * Unit of measure for metrics associated with **Power**.
  */
 export type PowerUom = {
-  [K in keyof PowerMetricsLookup]: "abbrev" extends keyof PowerMetricsLookup[K]
-    ? PowerMetricsLookup[K]["abbrev"]
-    : never
+    [K in keyof PowerMetricsLookup]: "abbrev" extends keyof PowerMetricsLookup[K]
+        ? PowerMetricsLookup[K]["abbrev"]
+        : never
 }[number];
 
 /***

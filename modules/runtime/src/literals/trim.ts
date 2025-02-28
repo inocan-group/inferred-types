@@ -7,7 +7,7 @@ import type { Trim, TrimLeft, TrimRight } from "inferred-types/types";
  * and returns a type-strong string literal where possible.
  */
 export function trim<T extends string>(input: T): Trim<T> {
-  return input.trim() as Trim<T>;
+    return input.trim() as Trim<T>;
 }
 
 /**
@@ -19,7 +19,7 @@ export function trim<T extends string>(input: T): Trim<T> {
  * @deprecated prefer use of `trimStart` instead
  */
 export function trimLeft<T extends string>(input: T): TrimLeft<T> {
-  return input.trimStart() as TrimLeft<T>;
+    return input.trimStart() as TrimLeft<T>;
 }
 
 /**
@@ -29,7 +29,7 @@ export function trimLeft<T extends string>(input: T): TrimLeft<T> {
  * and returns a type-strong string literal where possible.
  */
 export function trimStart<T extends string>(input: T): TrimLeft<T> {
-  return input.trimStart() as TrimLeft<T>;
+    return input.trimStart() as TrimLeft<T>;
 }
 
 /**
@@ -41,7 +41,7 @@ export function trimStart<T extends string>(input: T): TrimLeft<T> {
  * @deprecated prefer use of `trimEnd` instead
  */
 export function trimRight<T extends string>(input: T): TrimRight<T> {
-  return input.trimEnd() as TrimRight<T>;
+    return input.trimEnd() as TrimRight<T>;
 }
 
 /**
@@ -51,5 +51,5 @@ export function trimRight<T extends string>(input: T): TrimRight<T> {
  * and returns a type-strong string literal where possible.
  */
 export function trimEnd<T extends string>(input: T): TrimRight<T> {
-  return input.trimEnd() as TrimRight<T>;
+    return input.trimEnd() as TrimRight<T>;
 }

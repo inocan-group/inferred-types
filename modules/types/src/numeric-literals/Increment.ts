@@ -1,8 +1,8 @@
 import type {
-  AsNumber,
-  FixedLengthArray,
-  ToString,
-  Tuple,
+    AsNumber,
+    FixedLengthArray,
+    ToString,
+    Tuple,
 } from "inferred-types/types";
 
 type Push<T extends Tuple> = [...T, unknown]["length"];
@@ -20,7 +20,7 @@ type Push<T extends Tuple> = [...T, unknown]["length"];
  * ```
  */
 export type Increment<T extends number | `${number}`> = T extends number
-  ? Push<FixedLengthArray<unknown, T>>
-  : T extends `${number}`
-    ? ToString<Increment<AsNumber<T>>>
-    : never;
+    ? Push<FixedLengthArray<unknown, T>>
+    : T extends `${number}`
+        ? ToString<Increment<AsNumber<T>>>
+        : never;

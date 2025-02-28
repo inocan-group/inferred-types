@@ -1,12 +1,12 @@
 import type { If, IsUndefined, Mutable, Tuple } from "inferred-types/types";
 
 type _AsArray<T> = T extends Tuple
-  ? Mutable<T>
-  : If<
-    IsUndefined<T>,
-    [],
-    [T]
-  >;
+    ? Mutable<T>
+    : If<
+        IsUndefined<T>,
+        [],
+        [T]
+    >;
 
 /**
  * **AsArray**`<T>`
@@ -16,5 +16,5 @@ type _AsArray<T> = T extends Tuple
  * non-array type.
  */
 export type AsArray<T> = _AsArray<T> extends any[]
-  ? _AsArray<T>
-  : never;
+    ? _AsArray<T>
+    : never;

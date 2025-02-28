@@ -9,8 +9,8 @@ import type { IsNever } from "../operators";
  * **Note:** if not specified, `TMapTo` will be set to **false**.
  */
 export type WhenNever<
-  T,
-  TMapTo = false,
+    T,
+    TMapTo = false,
 > = IsNever<T> extends true
-  ? TMapTo
-  : T;
+    ? TMapTo
+    : T;

@@ -1,14 +1,14 @@
 import type {
-  AnyObject,
-  AsRecord,
-  Concat,
-  Contains,
-  ErrorCondition,
-  If,
-  Keys,
-  Narrowable,
-  SimplifyObject,
-  ToString,
+    AnyObject,
+    AsRecord,
+    Concat,
+    Contains,
+    ErrorCondition,
+    If,
+    Keys,
+    Narrowable,
+    SimplifyObject,
+    ToString,
 } from "inferred-types/types";
 
 /**
@@ -22,11 +22,11 @@ import type {
  * you want this condition to result in an overwrite.
  */
 export type AddKeyValue<
-  TObj extends AnyObject,
-  K extends PropertyKey,
-  V extends Narrowable,
+    TObj extends AnyObject,
+    K extends PropertyKey,
+    V extends Narrowable,
 > = If<
-  Contains<Keys<AsRecord<TObj>>, K>,
-  ErrorCondition<"duplicate-key", Concat<["The object passed into AddKeyValue already has the key '", ToString<K>, "'. This is not allowed. If you intended this then consider using UpsertKeyValue instead."]>>,
-  SimplifyObject<TObj & Record<K, V>>
+    Contains<Keys<AsRecord<TObj>>, K>,
+    ErrorCondition<"duplicate-key", Concat<["The object passed into AddKeyValue already has the key '", ToString<K>, "'. This is not allowed. If you intended this then consider using UpsertKeyValue instead."]>>,
+    SimplifyObject<TObj & Record<K, V>>
 >;

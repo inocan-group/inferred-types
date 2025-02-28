@@ -7,18 +7,18 @@ type VolumeMetricsLookup = typeof VOLUME_METRICS_LOOKUP;
  * The singular name for metrics associated with **distance**.
  */
 export type VolumeMetrics = {
-  [K in keyof VolumeMetricsLookup]: "name" extends keyof VolumeMetricsLookup[K]
-    ? VolumeMetricsLookup[K]["name"]
-    : never
+    [K in keyof VolumeMetricsLookup]: "name" extends keyof VolumeMetricsLookup[K]
+        ? VolumeMetricsLookup[K]["name"]
+        : never
 }[number];
 
 /**
  * Unit of measure for metrics associated with **Volume**.
  */
 export type VolumeUom = {
-  [K in keyof VolumeMetricsLookup]: "abbrev" extends keyof VolumeMetricsLookup[K]
-    ? VolumeMetricsLookup[K]["abbrev"]
-    : never
+    [K in keyof VolumeMetricsLookup]: "abbrev" extends keyof VolumeMetricsLookup[K]
+        ? VolumeMetricsLookup[K]["abbrev"]
+        : never
 }[number];
 
 /***

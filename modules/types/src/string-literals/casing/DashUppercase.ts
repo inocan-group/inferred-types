@@ -15,9 +15,9 @@ type _DU<T extends string> = T extends Lowercase<T> ? T : `-${Lowercase<T>}`;
  */
 export type DashUppercase<T extends string> =
 HasUppercase<T> extends false
-  ? T
-  : T extends `${infer C0}${infer C1}${infer R}`
-    ? `${_DU<C0>}${_DU<C1>}${DashUppercase<R>}`
-    : T extends `${infer C0}${infer R}`
-      ? `${_DU<C0>}${DashUppercase<R>}`
-      : "";
+    ? T
+    : T extends `${infer C0}${infer C1}${infer R}`
+        ? `${_DU<C0>}${_DU<C1>}${DashUppercase<R>}`
+        : T extends `${infer C0}${infer R}`
+            ? `${_DU<C0>}${DashUppercase<R>}`
+            : "";

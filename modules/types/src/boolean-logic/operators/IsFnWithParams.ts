@@ -1,11 +1,11 @@
 import type {
-  And,
-  AnyFunction,
-  AnyObject,
-  DoesExtend,
-  If,
-  IsEmptyObject,
-  IsEqual,
+    And,
+    AnyFunction,
+    AnyObject,
+    DoesExtend,
+    If,
+    IsEmptyObject,
+    IsEqual,
 } from "inferred-types/types";
 
 /**
@@ -18,20 +18,20 @@ import type {
  * the params included in the function.
  */
 export type IsFnWithParams<
-  TFn,
-  TParamMatch extends AnyObject | undefined = undefined,
+    TFn,
+    TParamMatch extends AnyObject | undefined = undefined,
 > = TFn extends AnyFunction
-  ? IsEmptyObject<TFn> extends true
-    ? false
-    : // there are some props on TFn
-    If<
-      And<[
-        // the Fn extends the param matcher
-        DoesExtend<TFn, TParamMatch>,
-        // TParamMatch is set
-        DoesExtend<TParamMatch, AnyObject>,
-      ]>,
-      true,
-      If<IsEqual<TParamMatch, undefined>, true, false>
-    >
-  : false;
+    ? IsEmptyObject<TFn> extends true
+        ? false
+        : // there are some props on TFn
+        If<
+            And<[
+                // the Fn extends the param matcher
+                DoesExtend<TFn, TParamMatch>,
+                // TParamMatch is set
+                DoesExtend<TParamMatch, AnyObject>,
+            ]>,
+            true,
+            If<IsEqual<TParamMatch, undefined>, true, false>
+        >
+    : false;

@@ -1,11 +1,11 @@
 export type StackPairing = [enter: string, exist: string];
 
 export interface Stack {
-  /**
-   * this represents a _complete_ structure because there are
-   * the same number -- and sequence of -- the tokens in the string
-   */
-  isBalanced: boolean;
+    /**
+     * this represents a _complete_ structure because there are
+     * the same number -- and sequence of -- the tokens in the string
+     */
+    isBalanced: boolean;
 }
 
 /**
@@ -19,11 +19,11 @@ export interface Stack {
  * stack depth.
  */
 export interface StackEval<
-  T extends readonly StackPairing[],
+    T extends readonly StackPairing[],
 > {
-  kind: "StackEval";
-  pairings: T;
-  evaluate: <U extends string>(string: U) => any;
+    kind: "StackEval";
+    pairings: T;
+    evaluate: <U extends string>(string: U) => any;
 }
 
 export type ConfigureStackEval = <T extends readonly StackPairing[]>(tokens: T) =>

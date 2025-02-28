@@ -9,11 +9,11 @@ import { asChars } from "inferred-types/runtime";
  * passed in for `retain[]`
  */
 export function retainWhile<
-  TContent extends string,
-  TRetain extends readonly string[],
+    TContent extends string,
+    TRetain extends readonly string[],
 >(content: TContent, ...retain: TRetain) {
-  const stopIdx = asChars(content)
-    .findIndex(c => !retain.includes(c));
+    const stopIdx = asChars(content)
+        .findIndex(c => !retain.includes(c));
 
-  return content.slice(0, stopIdx) as unknown as RetainWhile<TContent, TupleToUnion<TRetain>>;
+    return content.slice(0, stopIdx) as unknown as RetainWhile<TContent, TupleToUnion<TRetain>>;
 }

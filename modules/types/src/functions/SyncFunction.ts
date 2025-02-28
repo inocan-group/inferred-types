@@ -13,8 +13,8 @@ import type { IsThenable } from "inferred-types/types";
  * - `Awaited`, `IsThenable`
  */
 export type SyncFunction<
-  TParams extends readonly unknown[] = readonly unknown[],
-  TReturns = unknown,
+    TParams extends readonly unknown[] = readonly unknown[],
+    TReturns = unknown,
 > = IsThenable<TReturns> extends true
-  ? never
-  : (...params: TParams) => TReturns;
+    ? never
+    : (...params: TParams) => TReturns;

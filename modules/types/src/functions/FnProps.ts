@@ -1,17 +1,17 @@
 import type {
-  AnyFunction,
-  EmptyObject,
-  IsEqual,
-  ObjectKey,
+    AnyFunction,
+    EmptyObject,
+    IsEqual,
+    ObjectKey,
 } from "inferred-types/types";
 
 type Process<
-  T extends AnyFunction,
+    T extends AnyFunction,
 > = IsEqual<T, Function> extends true
-  ? EmptyObject
-  : keyof T extends ObjectKey
-    ? Pick<T, keyof T>
-    : never;
+    ? EmptyObject
+    : keyof T extends ObjectKey
+        ? Pick<T, keyof T>
+        : never;
 
 /**
  * **FnProps**`<T>`
@@ -20,5 +20,5 @@ type Process<
  * pairs are assigned to the function base then an empty object is returned.
  */
 export type FnProps<
-  T extends AnyFunction,
+    T extends AnyFunction,
 > = Process<T>;

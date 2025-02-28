@@ -6,16 +6,16 @@ import type { Narrowable, ObjectKey, Tuple, Values } from "inferred-types/types"
  * Converts an object into a strongly typed tuple of the _values_ of
  */
 export function objectValues<
-  T extends Record<ObjectKey, N>,
-  N extends Narrowable,
+    T extends Record<ObjectKey, N>,
+    N extends Narrowable,
 >(obj: T) {
-  const tuple: Tuple = Object.keys(obj).reduce(
-    (acc, key) => [
-      ...acc,
-      obj[key],
-    ],
-    [] as Tuple,
-  );
+    const tuple: Tuple = Object.keys(obj).reduce(
+        (acc, key) => [
+            ...acc,
+            obj[key],
+        ],
+        [] as Tuple,
+    );
 
-  return tuple as Values<T>;
+    return tuple as Values<T>;
 }

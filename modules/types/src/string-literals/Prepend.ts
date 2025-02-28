@@ -12,6 +12,6 @@ import type { AsString } from "inferred-types/types";
  * **Related:** `EnsureLeading`
  */
 export type Prepend<
-  TStr extends string,
-  TPrepend extends string | number | boolean,
+    TStr extends string,
+    TPrepend extends string | number | boolean,
 > = `${AsString<TPrepend>}${TStr}`;

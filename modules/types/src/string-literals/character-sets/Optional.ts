@@ -1,14 +1,14 @@
 import type { AfterFirst, First } from "inferred-types/types";
 
 type Cascade<
-  T extends readonly string[],
-  TResult extends string = "",
+    T extends readonly string[],
+    TResult extends string = "",
 > = [] extends T
-  ? TResult
-  : Cascade<
-    AfterFirst<T>,
+    ? TResult
+    : Cascade<
+        AfterFirst<T>,
     `${TResult}${First<T> | ""}`
-  >;
+    >;
 
 /**
  * **Optional**`<T>`
@@ -20,10 +20,10 @@ type Cascade<
  * string literal up left-to-right.
  */
 export type Optional<
-  T extends string | readonly string[],
+    T extends string | readonly string[],
 > = T extends readonly string[]
-  ? Cascade<T>
-  : T | "";
+    ? Cascade<T>
+    : T | "";
 
 /**
  * **Opt**`<T>`
@@ -50,6 +50,6 @@ export type OptPercent = "%" | "";
  * An optional number (with generics for a prefix or postfix)
  */
 export type OptNumber<
-  TPre extends string = "",
-  TPost extends string = "",
+    TPre extends string = "",
+    TPost extends string = "",
 > = `${TPre}${number}${TPost}` | "";

@@ -1,11 +1,11 @@
 import type {
-  AnyFunction,
-  AsFnMeta,
-  Dictionary,
-  EmptyObject,
-  IsEqual,
-  IsNonEmptyObject,
-  Tuple,
+    AnyFunction,
+    AsFnMeta,
+    Dictionary,
+    EmptyObject,
+    IsEqual,
+    IsNonEmptyObject,
+    Tuple,
 } from "inferred-types/types";
 
 /**
@@ -17,15 +17,15 @@ import type {
  * **Related:** `IsLiteralFn`, `NarrowingFn`
  */
 export type LiteralFn<
-  TFn extends AnyFunction,
+    TFn extends AnyFunction,
 > =
 AsFnMeta<TFn>["hasProps"] extends true
-  ? AsFnMeta<TFn>["hasArgs"] extends true
-    ? ((...args: AsFnMeta<TFn>["args"]) => AsFnMeta<TFn>["returns"]) & AsFnMeta<TFn>["props"]
-    : (() => AsFnMeta<TFn>["returns"]) & AsFnMeta<TFn>["props"]
-  : AsFnMeta<TFn>["hasArgs"] extends true
-    ? (...args: AsFnMeta<TFn>["args"]) => AsFnMeta<TFn>["returns"]
-    : () => AsFnMeta<TFn>["returns"];
+    ? AsFnMeta<TFn>["hasArgs"] extends true
+        ? ((...args: AsFnMeta<TFn>["args"]) => AsFnMeta<TFn>["returns"]) & AsFnMeta<TFn>["props"]
+        : (() => AsFnMeta<TFn>["returns"]) & AsFnMeta<TFn>["props"]
+    : AsFnMeta<TFn>["hasArgs"] extends true
+        ? (...args: AsFnMeta<TFn>["args"]) => AsFnMeta<TFn>["returns"]
+        : () => AsFnMeta<TFn>["returns"];
 
 /**
  * **AsLiteralFn**`<TParams,TReturns,TProps>`
@@ -36,17 +36,17 @@ AsFnMeta<TFn>["hasProps"] extends true
  * **Related:** `LiteralFn`, `NarrowingFn`, `AsNarrowingFn`
  */
 export type AsLiteralFn<
-  TParams extends Tuple | AnyFunction,
-  TReturn = unknown,
-  TProps extends Dictionary = EmptyObject,
+    TParams extends Tuple | AnyFunction,
+    TReturn = unknown,
+    TProps extends Dictionary = EmptyObject,
 > = TParams extends AnyFunction
-  ? LiteralFn<TParams>
-  : TParams extends Tuple
-    ? IsNonEmptyObject<TProps> extends true
-      ? IsEqual<TParams, []> extends true
-        ? (() => TReturn) & TProps
-        : ((...args: TParams) => TReturn) & TProps
-      : IsEqual<TParams, []> extends true
-        ? () => TReturn
-        : (...args: TParams) => TReturn
-    : never;
+    ? LiteralFn<TParams>
+    : TParams extends Tuple
+        ? IsNonEmptyObject<TProps> extends true
+            ? IsEqual<TParams, []> extends true
+                ? (() => TReturn) & TProps
+                : ((...args: TParams) => TReturn) & TProps
+            : IsEqual<TParams, []> extends true
+                ? () => TReturn
+                : (...args: TParams) => TReturn
+        : never;

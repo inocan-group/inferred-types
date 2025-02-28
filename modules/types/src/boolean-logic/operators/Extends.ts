@@ -7,7 +7,7 @@ import type { DoesExtend, IsNever } from "inferred-types/types";
  * **true** or **false**. This is an _alias_ for `DoesExtend`.
  */
 export type Extends<T, U> = IsNever<T> extends true
-  ? IsNever<U> extends true
-    ? true
-    : false
-  : DoesExtend<T, U>;
+    ? IsNever<U> extends true
+        ? true
+        : false
+    : DoesExtend<T, U>;

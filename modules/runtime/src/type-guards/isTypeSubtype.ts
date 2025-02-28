@@ -7,5 +7,5 @@ import { isString } from "inferred-types/runtime";
  * **Related:** `TypeSubtype`, `getTypeSubtype()`
  */
 export function isTypeSubtype(val: unknown): val is TypeSubtype {
-  return isString(val) && val.split("/").length === 2;
+    return isString(val) && val.split("/").length === 2;
 }

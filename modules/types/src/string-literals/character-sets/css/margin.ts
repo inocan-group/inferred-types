@@ -2,7 +2,7 @@ import type { Opt } from "../Optional";
 import type { CssSizingLight } from "./sizing";
 
 export type CssMargin = CssSizingLight
-  | `${CssSizingLight}, ${CssSizingLight}${Opt<`, ${CssSizingLight}`>}${string}`;
+    | `${CssSizingLight}, ${CssSizingLight}${Opt<`, ${CssSizingLight}`>}${string}`;
 
 export type CssMarginBlock = `${CssSizingLight}${Opt<`, ${CssSizingLight}`>}${string}`; ;
 
@@ -19,16 +19,16 @@ export type CssMarginTop = CssSizingLight;
 export type CssMarginBottom = CssSizingLight;
 
 export interface CssMarginProperties {
-  "margin"?: CssMargin;
-  "margin-block"?: CssMarginBlock;
-  "margin-block-end"?: CssMarginBlockEnd;
-  "margin-block-start"?: CssMarginBlockStart;
-  "margin-inline"?: CssMarginInline;
-  "margin-inline-end"?: CssMarginInlineEnd;
-  "margin-inline-start"?: CssMarginInlineStart;
-  "margin-left"?: CssMarginLeft;
-  "margin-right"?: CssMarginRight;
-  "margin-top"?: CssMarginTop;
-  "margin-bottom"?: CssMarginBottom;
-  "margin-trim"?: string;
+    "margin"?: CssMargin;
+    "margin-block"?: CssMarginBlock;
+    "margin-block-end"?: CssMarginBlockEnd;
+    "margin-block-start"?: CssMarginBlockStart;
+    "margin-inline"?: CssMarginInline;
+    "margin-inline-end"?: CssMarginInlineEnd;
+    "margin-inline-start"?: CssMarginInlineStart;
+    "margin-left"?: CssMarginLeft;
+    "margin-right"?: CssMarginRight;
+    "margin-top"?: CssMarginTop;
+    "margin-bottom"?: CssMarginBottom;
+    "margin-trim"?: string;
 }

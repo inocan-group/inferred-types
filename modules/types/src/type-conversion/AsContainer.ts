@@ -7,10 +7,10 @@ import type { Dictionary } from "../base-types/Dictionary";
  * container.
  */
 export type AsContainer<
-  T,
-  TError = never,
+    T,
+    TError = never,
 > = T extends readonly unknown[]
-  ? T & readonly unknown[]
-  : T extends Dictionary
-    ? T & Dictionary
-    : TError;
+    ? T & readonly unknown[]
+    : T extends Dictionary
+        ? T & Dictionary
+        : TError;

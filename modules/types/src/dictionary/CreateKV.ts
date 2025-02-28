@@ -4,16 +4,16 @@ import type { AfterFirst, First } from "../lists";
 import type { ExpandRecursively } from "../literals";
 
 type Process<
-  TKeys extends readonly string[],
-  TValue,
-  TObj extends Dictionary = EmptyObject,
-> = [] extends TKeys
-  ? TObj
-  : Process<
-    AfterFirst<TKeys>,
+    TKeys extends readonly string[],
     TValue,
+    TObj extends Dictionary = EmptyObject,
+> = [] extends TKeys
+    ? TObj
+    : Process<
+        AfterFirst<TKeys>,
+        TValue,
     TObj & Record<First<TKeys>, TValue>
-  >;
+    >;
 
 /**
  * **CreateKV**`<TKeys,[TValue]>`
@@ -23,8 +23,8 @@ type Process<
  * of `TValue` (which defaults to `unknown`)
  */
 export type CreateKV<
-  TKeys extends readonly string[],
-  TValue = unknown,
+    TKeys extends readonly string[],
+    TValue = unknown,
 > = ExpandRecursively<
-  Process<TKeys, TValue>
+    Process<TKeys, TValue>
 >;

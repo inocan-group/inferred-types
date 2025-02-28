@@ -1,36 +1,36 @@
 import type {
-  AfterFirst,
-  First,
-  IsGreaterThan,
-  TakeFirst,
-  ToStringArray,
+    AfterFirst,
+    First,
+    IsGreaterThan,
+    TakeFirst,
+    ToStringArray,
 } from "inferred-types/types";
 
 type Process<
-  TTuple extends readonly string[],
-  TSeparator extends string,
-  TResult extends string = "",
+    TTuple extends readonly string[],
+    TSeparator extends string,
+    TResult extends string = "",
 > = [] extends TTuple
-  ? TResult
-  : Process<
-    AfterFirst<TTuple>,
-    TSeparator,
-    TResult extends ""
-      ? First<TTuple> extends ""
-        ? TResult
-        : `${First<TTuple>}`
-      : First<TTuple> extends ""
-        ? TResult
-        : `${TResult}${TSeparator}${First<TTuple>}`
-  >;
+    ? TResult
+    : Process<
+        AfterFirst<TTuple>,
+        TSeparator,
+        TResult extends ""
+            ? First<TTuple> extends ""
+                ? TResult
+                : `${First<TTuple>}`
+            : First<TTuple> extends ""
+                ? TResult
+                : `${TResult}${TSeparator}${First<TTuple>}`
+    >;
 
 type Slicer<
-  TTuple extends readonly string[],
-  TMax extends number,
-  TEllipsis extends string | false,
+    TTuple extends readonly string[],
+    TMax extends number,
+    TEllipsis extends string | false,
 > = TEllipsis extends string
-  ? [...TakeFirst<TTuple, TMax>, TEllipsis]
-  : TakeFirst<TTuple, TMax>;
+    ? [...TakeFirst<TTuple, TMax>, TEllipsis]
+    : TakeFirst<TTuple, TMax>;
 
 /**
  * **Join**`<TArr,[TSeparator],[TMax]>`
@@ -46,12 +46,12 @@ type Slicer<
  * **Related:** `Concat<TArr>`
  */
 export type Join<
-  TTuple extends readonly unknown[],
-  TSeparator extends string = "",
-  TMax extends number | null = null,
-  TEllipsis extends string | false = "...",
+    TTuple extends readonly unknown[],
+    TSeparator extends string = "",
+    TMax extends number | null = null,
+    TEllipsis extends string | false = "...",
 > = TMax extends number
-  ? IsGreaterThan<TTuple["length"], TMax> extends true
-    ? Process<Slicer<ToStringArray<TTuple>, TMax, TEllipsis>, TSeparator>
-    : Process<ToStringArray<TTuple>, TSeparator>
-  : Process<ToStringArray<TTuple>, TSeparator>;
+    ? IsGreaterThan<TTuple["length"], TMax> extends true
+        ? Process<Slicer<ToStringArray<TTuple>, TMax, TEllipsis>, TSeparator>
+        : Process<ToStringArray<TTuple>, TSeparator>
+    : Process<ToStringArray<TTuple>, TSeparator>;

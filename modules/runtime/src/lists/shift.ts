@@ -1,23 +1,23 @@
 import type {
-  First,
-  IsEqual,
-  IsUndefined,
-  Narrowable,
+    First,
+    IsEqual,
+    IsUndefined,
+    Narrowable,
 } from "inferred-types/types";
 import { isDefined } from "inferred-types/runtime";
 
 type Rtn<
-  T extends readonly K[] | K[] | undefined,
-  K extends Narrowable,
+    T extends readonly K[] | K[] | undefined,
+    K extends Narrowable,
 > = IsUndefined<T> extends true
-  ? undefined
-  : T extends readonly K[] | K[]
-    ? IsEqual<T["length"], number> extends true
-      ? undefined | string
-      : T["length"] extends 0
-        ? undefined
-        : First<T>
-    : never;
+    ? undefined
+    : T extends readonly K[] | K[]
+        ? IsEqual<T["length"], number> extends true
+            ? undefined | string
+            : T["length"] extends 0
+                ? undefined
+                : First<T>
+        : never;
 
 /**
  * **shift**(list)
@@ -37,30 +37,30 @@ type Rtn<
  *
  */
 export function shift<
-  T extends readonly K[] | K[] | undefined,
-  K extends Narrowable,
+    T extends readonly K[] | K[] | undefined,
+    K extends Narrowable,
 >(list: T): Rtn<T, K> {
-  let rtn;
-  if (isDefined(list)) {
-    rtn = (
-      list.length === 0
-        ? undefined
-        : list[0]
-    ) as First<T>;
+    let rtn;
+    if (isDefined(list)) {
+        rtn = (
+            list.length === 0
+                ? undefined
+                : list[0]
+        ) as First<T>;
 
-    try {
-      // remove item from source array where possible
-      // note: not possible when array is frozen by being
-      // made readonly
-      list = list.slice(1) as any;
+        try {
+            // remove item from source array where possible
+            // note: not possible when array is frozen by being
+            // made readonly
+            list = list.slice(1) as any;
+        }
+        catch {
+            // ignore
+        }
     }
-    catch {
-      // ignore
+    else {
+        rtn = undefined;
     }
-  }
-  else {
-    rtn = undefined;
-  }
 
-  return rtn as Rtn<T, K>;
+    return rtn as Rtn<T, K>;
 }

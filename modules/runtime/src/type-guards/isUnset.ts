@@ -9,5 +9,5 @@ import { isObject } from "./isObject";
  * **Related:** `isSet()`
  */
 export function isUnset(val: unknown): val is Unset {
-  return isObject(val) && val.kind === "Unset";
+    return isObject(val) && val.kind === "Unset";
 }

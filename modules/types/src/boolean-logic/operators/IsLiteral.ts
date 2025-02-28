@@ -1,24 +1,24 @@
 import type {
-  IfEqual,
-  IsBooleanLiteral,
-  IsNumericLiteral,
-  IsObjectLiteral,
-  IsStringLiteral,
-  IsTuple,
-  IsUnion,
+    IfEqual,
+    IsBooleanLiteral,
+    IsNumericLiteral,
+    IsObjectLiteral,
+    IsStringLiteral,
+    IsTuple,
+    IsUnion,
 } from "inferred-types/types";
 
 type Validations<T> = IsStringLiteral<T> extends true
-  ? true
-  : IsNumericLiteral<T> extends true
     ? true
-    : IsTuple<T> extends true
-      ? true
-      : IsBooleanLiteral<T> extends true
+    : IsNumericLiteral<T> extends true
         ? true
-        : IsObjectLiteral<T> extends true
-          ? true
-          : false;
+        : IsTuple<T> extends true
+            ? true
+            : IsBooleanLiteral<T> extends true
+                ? true
+                : IsObjectLiteral<T> extends true
+                    ? true
+                    : false;
 
 /**
  * **IsLiteral**`<T>`
@@ -37,8 +37,8 @@ type Validations<T> = IsStringLiteral<T> extends true
  * **Related:** `IsUnion`, `IsWideUnion`, `IsLiteralUnion`
  */
 export type IsLiteral<T> = [IsUnion<T>] extends [true]
-  ? false
-  : Validations<T>;
+    ? false
+    : Validations<T>;
 
 // TODO: for reasons unknown we can't add in the `IsObjectLiteral<T>` test!
 

@@ -5,5 +5,5 @@
  * string literal types.
  */
 export function uppercase<T extends string>(str: T): Uppercase<T> {
-  return str.toUpperCase() as Uppercase<T>;
+    return str.toUpperCase() as Uppercase<T>;
 }

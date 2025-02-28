@@ -1,6 +1,6 @@
 import type {
-  IfNever,
-  Scalar,
+    IfNever,
+    Scalar,
 } from "inferred-types/types";
 
 /**

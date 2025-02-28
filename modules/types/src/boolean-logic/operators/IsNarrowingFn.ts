@@ -10,8 +10,8 @@ import type { AnyFunction, IsEqual, LiteralFn, Not } from "inferred-types/types"
  * **Related:** `NarrowingFn`, `IsLiteralFn`
  */
 export type IsNarrowingFn<TFn> = TFn extends AnyFunction
-  ? Not<IsEqual<
-    LiteralFn<TFn>,
-    TFn
-  >>
-  : false;
+    ? Not<IsEqual<
+        LiteralFn<TFn>,
+        TFn
+    >>
+    : false;

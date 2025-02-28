@@ -13,17 +13,17 @@ import { isNull } from "inferred-types/runtime";
  * @param elseVal callback fn which responds when _val_ is not **null**
  */
 export function ifNull<
-  T extends Narrowable,
-  IF extends Narrowable,
-  ELSE extends Narrowable,
+    T extends Narrowable,
+    IF extends Narrowable,
+    ELSE extends Narrowable,
 >(
-  val: T,
-  ifVal: () => IF,
-  elseVal: (v: Exclude<T, null>) => ELSE,
+    val: T,
+    ifVal: () => IF,
+    elseVal: (v: Exclude<T, null>) => ELSE,
 ) {
-  return (
-    isNull(val)
-      ? ifVal()
-      : elseVal(val as unknown as Exclude<T, null>)
-  ) as IsNull<T> extends true ? IF : ELSE;
+    return (
+        isNull(val)
+            ? ifVal()
+            : elseVal(val as unknown as Exclude<T, null>)
+    ) as IsNull<T> extends true ? IF : ELSE;
 }

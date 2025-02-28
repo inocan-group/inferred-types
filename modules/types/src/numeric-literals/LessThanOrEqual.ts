@@ -1,16 +1,16 @@
 import type { IsEqual } from "inferred-types/types";
 
 type Calc<
-  A extends number,
-  B extends number,
-  Count extends 1[] = [],
+    A extends number,
+    B extends number,
+    Count extends 1[] = [],
 > = Count["length"] extends B
-  ? false
-  : Count["length"] extends A
-    ? true
-    : IsEqual<A, B> extends true
-      ? true
-      : Calc<A, B, [...Count, 1]>;
+    ? false
+    : Count["length"] extends A
+        ? true
+        : IsEqual<A, B> extends true
+            ? true
+            : Calc<A, B, [...Count, 1]>;
 
 /**
  * **LessThanOrEqual**`<A,B>`

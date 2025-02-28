@@ -1,47 +1,47 @@
 import type {
-  ComparatorOperation,
-  Compare,
-  Get,
-  IfNever,
-  IsDotPath,
-  RemoveNever,
-  Throw,
+    ComparatorOperation,
+    Compare,
+    Get,
+    IfNever,
+    IsDotPath,
+    RemoveNever,
+    Throw,
 } from "inferred-types/types";
 
 /**
  * Iterates over each element of the Tuple
  */
 type SingleFilter<
-  TList extends readonly unknown[],
-  TComparator,
-  TProp extends string,
-  TOp extends ComparatorOperation,
-  Result extends unknown[] = [],
+    TList extends readonly unknown[],
+    TComparator,
+    TProp extends string,
+    TOp extends ComparatorOperation,
+    Result extends unknown[] = [],
 > = TList extends [infer Head, ...infer Rest]
-  ? [
-      Compare<
-        Get<Head, TProp>,
-        TOp,
-        TComparator
-      >,
+    ? [
+        Compare<
+            Get<Head, TProp>,
+            TOp,
+            TComparator
+        >,
     ] extends [true]
-      ? SingleFilter<Rest, TComparator, TProp, TOp, Result> // filter out
-      : SingleFilter<Rest, TComparator, TProp, TOp, [...Result, Head]>
-  : Result;
+        ? SingleFilter<Rest, TComparator, TProp, TOp, Result> // filter out
+        : SingleFilter<Rest, TComparator, TProp, TOp, [...Result, Head]>
+    : Result;
 
 type Process<
-  TList extends readonly unknown[],
-  TComparator,
-  TProp extends string,
-  TOp extends ComparatorOperation,
+    TList extends readonly unknown[],
+    TComparator,
+    TProp extends string,
+    TOp extends ComparatorOperation,
 > = TList extends unknown[]
-  ? SingleFilter<TList, TComparator, TProp, TOp>
-  : // readonly only tuples
-  TList extends readonly unknown[]
-    ? Readonly<
-      SingleFilter<[...TList], TComparator, TProp, TOp>
-    >
-    : never;
+    ? SingleFilter<TList, TComparator, TProp, TOp>
+    : // readonly only tuples
+    TList extends readonly unknown[]
+        ? Readonly<
+            SingleFilter<[...TList], TComparator, TProp, TOp>
+        >
+        : never;
 
 /**
  * **FilterByProp**`<TList, TComparator, TProp, [TOp]>`
@@ -56,29 +56,29 @@ type Process<
  * **Related:** `RetainByProp`, `Filter`, `RetainFromList`, `RemoveFromList`, `FilterProps`
  */
 export type FilterByProp<
-  TList extends readonly unknown[],
-  TComparator,
-  TProp extends string,
-  TOp extends ComparatorOperation = "extends",
+    TList extends readonly unknown[],
+    TComparator,
+    TProp extends string,
+    TOp extends ComparatorOperation = "extends",
 > = IsDotPath<TProp> extends false
-  ? Throw<"invalid-dot-path", `the property value TProp must be a valid dotpath but "${TProp}" is not valid!`>
+    ? Throw<"invalid-dot-path", `the property value TProp must be a valid dotpath but "${TProp}" is not valid!`>
 
-  : TList extends readonly unknown[]
-    ? IfNever<
-      TComparator,
-      RemoveNever<TList>,
-      TComparator extends any[]
-        ? Process<
-          TList,
-          TComparator[number],
-          TProp,
-          TOp
+    : TList extends readonly unknown[]
+        ? IfNever<
+            TComparator,
+            RemoveNever<TList>,
+            TComparator extends any[]
+                ? Process<
+                    TList,
+                    TComparator[number],
+                    TProp,
+                    TOp
+                >
+                : Process<
+                    TList,
+                    TComparator,
+                    TProp,
+                    TOp
+                >
         >
-        : Process<
-          TList,
-          TComparator,
-          TProp,
-          TOp
-        >
-    >
-    : never;
+        : never;

@@ -7,5 +7,5 @@ import { isConstant } from "inferred-types/runtime";
  * (which also has a _type_ of **never**).
  */
 export function isNever(val: unknown): val is never {
-  return isConstant(val) && val.kind === "never";
+    return isConstant(val) && val.kind === "never";
 }

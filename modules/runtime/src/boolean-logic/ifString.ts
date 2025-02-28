@@ -12,22 +12,22 @@ import type { If, IsFalse, IsString, IsTrue, Narrowable } from "inferred-types/t
  * @param elseVal the value (strongly typed) returned if val is NOT a _string
  */
 export function ifString<
-  TContent,
-  TIf extends Narrowable,
-  TElse extends Narrowable,
+    TContent,
+    TIf extends Narrowable,
+    TElse extends Narrowable,
 >(
-  val: TContent,
-  ifVal: <V extends TContent & string>(t: V & TContent) => TIf,
-  elseVal: <V extends Exclude<TContent, string>>(v: V & TContent) => TElse,
+    val: TContent,
+    ifVal: <V extends TContent & string>(t: V & TContent) => TIf,
+    elseVal: <V extends Exclude<TContent, string>>(v: V & TContent) => TElse,
 ) {
-  return (
-    typeof val === "string"
-      ? ifVal(val as string & TContent)
-      : elseVal(val as Exclude<TContent, string>)
-  ) as unknown as
+    return (
+        typeof val === "string"
+            ? ifVal(val as string & TContent)
+            : elseVal(val as Exclude<TContent, string>)
+    ) as unknown as
     If<
-      IsTrue<IsString<TContent>>,
-      TIf,
-      If<IsFalse<IsString<TContent>>, TElse, TIf | TElse>
+        IsTrue<IsString<TContent>>,
+        TIf,
+        If<IsFalse<IsString<TContent>>, TElse, TIf | TElse>
     >;
 }

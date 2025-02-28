@@ -7,18 +7,18 @@ import type { First, Narrowable, UnionToTuple, Unique } from "inferred-types/typ
  * provides a unique values contained in each set.
  */
 export function unique<
-  N extends Narrowable,
-  K extends number,
-  T extends readonly (Record<K, N> | Narrowable)[],
+    N extends Narrowable,
+    K extends number,
+    T extends readonly (Record<K, N> | Narrowable)[],
 >(...values: T) {
-  const u: any[] = [];
-  for (const i of values.flat()) {
-    if (!u.includes(i)) {
-      u.push(i);
+    const u: any[] = [];
+    for (const i of values.flat()) {
+        if (!u.includes(i)) {
+            u.push(i);
+        }
     }
-  }
 
-  return u as First<T> extends readonly (Record<K, N> | Narrowable)[]
-    ? Unique<UnionToTuple<First<T>>>
-    : Unique<T>;
+    return u as First<T> extends readonly (Record<K, N> | Narrowable)[]
+        ? Unique<UnionToTuple<First<T>>>
+        : Unique<T>;
 }

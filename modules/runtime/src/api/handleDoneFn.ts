@@ -11,16 +11,16 @@ import { isDoneFn, isFunction, isObject } from "inferred-types/runtime";
  * call that too, you can set the `call_bare_fn` to **true**.
  */
 export function handleDoneFn<
-  TVal,
-  TBareFn extends boolean,
+    TVal,
+    TBareFn extends boolean,
 >(val: TVal, call_bare_fn: TBareFn = false as TBareFn) {
-  return isObject(val) || isFunction(val)
-    ? isDoneFn(val)
-      ? val.done()
-      : isFunction(val)
-        ? call_bare_fn ? val() : val
-        : val
-    : isFunction(val)
-      ? call_bare_fn ? val() : val
-      : val;
+    return isObject(val) || isFunction(val)
+        ? isDoneFn(val)
+            ? val.done()
+            : isFunction(val)
+                ? call_bare_fn ? val() : val
+                : val
+        : isFunction(val)
+            ? call_bare_fn ? val() : val
+            : val;
 }

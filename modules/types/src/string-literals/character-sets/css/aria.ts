@@ -2,48 +2,48 @@
  * [**Document Structure Aria Roles**]([**Aria Role**](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles#1._document_structure_roles)
  */
 export type AriaDocStructureRoles = "alert"
-  | "toolbar"
-  | "tooltip"
-  | "feed"
-  | "math"
-  | "presentation"
-  | "none"
-  | "note";
+    | "toolbar"
+    | "tooltip"
+    | "feed"
+    | "math"
+    | "presentation"
+    | "none"
+    | "note";
 
 export type AriaWidgetRoles = "scrollbar"
-  | "searchbox"
-  | "separator"
-  | "slider"
-  | "spinbutton"
-  | "switch"
-  | "tab"
-  | "tabpanel"
-  | "treeitem"
-  | "combobox"
-  | "grid"
-  | "menu"
-  | "menubar"
-  | "tablist"
-  | "tree"
-  | "treegrid";
+    | "searchbox"
+    | "separator"
+    | "slider"
+    | "spinbutton"
+    | "switch"
+    | "tab"
+    | "tabpanel"
+    | "treeitem"
+    | "combobox"
+    | "grid"
+    | "menu"
+    | "menubar"
+    | "tablist"
+    | "tree"
+    | "treegrid";
 
 export type AriaLandmarkRoles = "banner"
-  | "complementary"
-  | "contentinfo"
-  | "form"
-  | "main"
-  | "navigation"
-  | "region"
-  | "search";
+    | "complementary"
+    | "contentinfo"
+    | "form"
+    | "main"
+    | "navigation"
+    | "region"
+    | "search";
 
 export type AriaLiveRegionRoles = "alert"
-  | "log"
-  | "marquee"
-  | "status"
-  | "timer";
+    | "log"
+    | "marquee"
+    | "status"
+    | "timer";
 
 export type AriaWindowRoles = "alertdialog"
-  | "dialog";
+    | "dialog";
 
 /**
  * [**Aria Role**](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles)
@@ -56,8 +56,8 @@ export type AriaWindowRoles = "alertdialog"
  * > [Role definitions](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles#roles_defined_on_mdn).
  */
 export type AriaRole =
-  | AriaDocStructureRoles
-  | AriaWidgetRoles
-  | AriaLandmarkRoles
-  | AriaLiveRegionRoles
-  | AriaWindowRoles;
+    | AriaDocStructureRoles
+    | AriaWidgetRoles
+    | AriaLandmarkRoles
+    | AriaLiveRegionRoles
+    | AriaWindowRoles;

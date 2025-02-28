@@ -7,18 +7,18 @@ type AccelerationMetricsLookup = typeof ACCELERATION_METRICS_LOOKUP;
  * The singular name for metrics associated with **distance**.
  */
 export type AccelerationMetrics = {
-  [K in keyof AccelerationMetricsLookup]: "name" extends keyof AccelerationMetricsLookup[K]
-    ? AccelerationMetricsLookup[K]["name"]
-    : never
+    [K in keyof AccelerationMetricsLookup]: "name" extends keyof AccelerationMetricsLookup[K]
+        ? AccelerationMetricsLookup[K]["name"]
+        : never
 }[number];
 
 /**
  * Unit of measure for metrics associated with **Acceleration**.
  */
 export type AccelerationUom = {
-  [K in keyof AccelerationMetricsLookup]: "abbrev" extends keyof AccelerationMetricsLookup[K]
-    ? AccelerationMetricsLookup[K]["abbrev"]
-    : never
+    [K in keyof AccelerationMetricsLookup]: "abbrev" extends keyof AccelerationMetricsLookup[K]
+        ? AccelerationMetricsLookup[K]["abbrev"]
+        : never
 }[number];
 
 /***

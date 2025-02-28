@@ -11,8 +11,8 @@ import type { AnyObject, Narrowable } from "inferred-types/types";
  * ```
  */
 export type KeysWithoutValue<
-  TObj extends AnyObject,
-  TValue extends Narrowable,
+    TObj extends AnyObject,
+    TValue extends Narrowable,
 > = {
-  [K in keyof TObj]: TObj[K] extends TValue ? never : Readonly<K>;
+    [K in keyof TObj]: TObj[K] extends TValue ? never : Readonly<K>;
 }[keyof TObj];

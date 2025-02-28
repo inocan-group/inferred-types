@@ -16,21 +16,21 @@ import { asChars } from "inferred-types/runtime";
  * **Related:** `retainUntilInclusive()`
  */
 export function retainUntil<
-  TContent extends string,
-  TFind extends readonly string[],
+    TContent extends string,
+    TFind extends readonly string[],
 >(content: TContent, ...find: TFind) {
-  const chars = asChars(content) as readonly string[];
+    const chars = asChars(content) as readonly string[];
 
-  let idx = 0;
-  while (!find.includes(chars[idx]) && idx <= chars.length) {
-    idx = idx + 1;
-  }
+    let idx = 0;
+    while (!find.includes(chars[idx]) && idx <= chars.length) {
+        idx = idx + 1;
+    }
 
-  return (
-    idx === 0
-      ? ""
-      : content.slice(0, idx)
-  ) as unknown as RetainUntil<TContent, TFind[number]>;
+    return (
+        idx === 0
+            ? ""
+            : content.slice(0, idx)
+    ) as unknown as RetainUntil<TContent, TFind[number]>;
 }
 
 /**
@@ -48,19 +48,19 @@ export function retainUntil<
  * **Related:** `retainUntil()`
  */
 export function retainUntilInclusive<
-  TContent extends string,
-  TFind extends readonly string[],
+    TContent extends string,
+    TFind extends readonly string[],
 >(content: TContent, ...find: TFind) {
-  const chars = asChars(content) as readonly string[];
+    const chars = asChars(content) as readonly string[];
 
-  let idx = 0;
-  while (!find.includes(chars[idx]) && idx <= chars.length) {
-    idx = idx + 1;
-  }
+    let idx = 0;
+    while (!find.includes(chars[idx]) && idx <= chars.length) {
+        idx = idx + 1;
+    }
 
-  return (
-    idx === 0
-      ? content.slice(0, 1)
-      : content.slice(0, idx + 1)
-  ) as unknown as RetainUntil<TContent, TFind[number], true>;
+    return (
+        idx === 0
+            ? content.slice(0, 1)
+            : content.slice(0, idx + 1)
+    ) as unknown as RetainUntil<TContent, TFind[number], true>;
 }

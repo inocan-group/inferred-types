@@ -1,9 +1,9 @@
 import type {
-  IsStringLiteral,
-  PhoneNumberDelimiter,
-  RetainUntil,
-  StartsWith,
-  Trim,
+    IsStringLiteral,
+    PhoneNumberDelimiter,
+    RetainUntil,
+    StartsWith,
+    Trim,
 } from "inferred-types/types";
 
 /**
@@ -18,11 +18,11 @@ import type {
  * - if `T` is a _wide_ string string then this will return `string` back
  */
 export type GetPhoneCountryCode<T> = T extends string
-  ? [IsStringLiteral<T>] extends [true]
-      ? StartsWith<Trim<T>, "+" | "00"> extends true
-        ? [Trim<T>] extends [`${"+" | "00"}${infer CC}${PhoneNumberDelimiter}${string}`]
-            ? RetainUntil<CC, " ">
+    ? [IsStringLiteral<T>] extends [true]
+        ? StartsWith<Trim<T>, "+" | "00"> extends true
+            ? [Trim<T>] extends [`${"+" | "00"}${infer CC}${PhoneNumberDelimiter}${string}`]
+                ? RetainUntil<CC, " ">
+                : ""
             : ""
-        : ""
-      : string
-  : never;
+        : string
+    : never;

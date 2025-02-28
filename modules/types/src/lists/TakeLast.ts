@@ -1,6 +1,6 @@
 import type {
-  Reverse,
-  TakeFirst,
+    Reverse,
+    TakeFirst,
 } from "inferred-types/types";
 
 /**
@@ -13,9 +13,9 @@ import type {
  * is fine and instead of getting precisely `TLen` elements you'll get
  */
 export type TakeLast<
-  TContent extends readonly unknown[],
-  TLen extends number,
+    TContent extends readonly unknown[],
+    TLen extends number,
 > = Reverse<TakeFirst<
-  Reverse<TContent>,
-  TLen
+    Reverse<TContent>,
+    TLen
 >>;

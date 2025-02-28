@@ -7,18 +7,18 @@ type AreaMetricsLookup = typeof AREA_METRICS_LOOKUP;
  * The singular name for metrics associated with **distance**.
  */
 export type AreaMetrics = {
-  [K in keyof AreaMetricsLookup]: "name" extends keyof AreaMetricsLookup[K]
-    ? AreaMetricsLookup[K]["name"]
-    : never
+    [K in keyof AreaMetricsLookup]: "name" extends keyof AreaMetricsLookup[K]
+        ? AreaMetricsLookup[K]["name"]
+        : never
 }[number];
 
 /**
  * Unit of measure for metrics associated with **Area**.
  */
 export type AreaUom = {
-  [K in keyof AreaMetricsLookup]: "abbrev" extends keyof AreaMetricsLookup[K]
-    ? AreaMetricsLookup[K]["abbrev"]
-    : never
+    [K in keyof AreaMetricsLookup]: "abbrev" extends keyof AreaMetricsLookup[K]
+        ? AreaMetricsLookup[K]["abbrev"]
+        : never
 }[number];
 
 /***

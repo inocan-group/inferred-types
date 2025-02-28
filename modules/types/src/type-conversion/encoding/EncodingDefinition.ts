@@ -7,8 +7,8 @@ import type { Dictionary } from "src/base-types";
  * string literal type to another.
  */
 export interface EncodingDefinition<
-  TDefn extends Dictionary<string, string>,
+    TDefn extends Dictionary<string, string>,
 > {
-  kind: "EncodingDefinition";
-  defn: TDefn;
+    kind: "EncodingDefinition";
+    defn: TDefn;
 }

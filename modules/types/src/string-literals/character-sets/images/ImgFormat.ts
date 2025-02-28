@@ -18,11 +18,11 @@ export type ImgFormat = GetEach<typeof IMAGE_FORMAT_LOOKUP, "ext">[number];
  * **Related:** `ImageFormat`
  */
 export type ImgFormatWeb = GetEach<
-  FilterByProp<
+    FilterByProp<
     typeof IMAGE_FORMAT_LOOKUP,
-    false,
-    "webFormat",
-    "equals"
-  >,
-  "ext"
+        false,
+        "webFormat",
+        "equals"
+    >,
+    "ext"
 >[number];

@@ -12,13 +12,13 @@
  * ```
  */
 export type RemoveIndex<T extends Record<any, any>> = {
-  [
-  P in keyof T as string extends P
-    ? never
-    : number extends P
-      ? never
-      : symbol extends P
+    [
+    P in keyof T as string extends P
         ? never
-        : P
-  ]: T[P]
+        : number extends P
+            ? never
+            : symbol extends P
+                ? never
+                : P
+    ]: T[P]
 };

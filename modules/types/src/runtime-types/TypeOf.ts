@@ -39,15 +39,15 @@ export type TypeOfExtended = TypeOf | "null" | "array" | "function-with-props";
  * operator.
  */
 export type GetTypeOf<T> = (T extends string
-  ? "string"
-  : [T] extends [number] ? "number"
-      : [T] extends [boolean] ? "boolean"
-          : [T] extends [AnyFunction] ? "function"
-              : [T] extends [AnyObject] | null | unknown[] ? "object"
-                  : [T] extends [bigint] ? "bigint"
-                      : [IsUndefined<T>] extends [true] ? "undefined"
-                          : [T] extends [symbol] ? "symbol"
-                              : never
+    ? "string"
+    : [T] extends [number] ? "number"
+        : [T] extends [boolean] ? "boolean"
+            : [T] extends [AnyFunction] ? "function"
+                : [T] extends [AnyObject] | null | unknown[] ? "object"
+                    : [T] extends [bigint] ? "bigint"
+                        : [IsUndefined<T>] extends [true] ? "undefined"
+                            : [T] extends [symbol] ? "symbol"
+                                : never
 ) & TypeOf;
 
 /**
@@ -65,12 +65,12 @@ export type GetTypeOf<T> = (T extends string
  * have dictionary props.
  */
 export type ConvertTypeOf<T extends TypeOf> = T extends "string"
-  ? string
-  : T extends "number" ? number
-    : T extends "object" ? AnyObject | null | unknown[]
-      : T extends "undefined" ? undefined
-        : T extends "function" ? AnyFunction
-          : T extends "bigint" ? number
-            : T extends "symbol" ? symbol
-              : T extends "boolean" ? boolean
-                : never;
+    ? string
+    : T extends "number" ? number
+        : T extends "object" ? AnyObject | null | unknown[]
+            : T extends "undefined" ? undefined
+                : T extends "function" ? AnyFunction
+                    : T extends "bigint" ? number
+                        : T extends "symbol" ? symbol
+                            : T extends "boolean" ? boolean
+                                : never;

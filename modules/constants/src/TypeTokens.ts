@@ -2,11 +2,11 @@
  * **Type Tokens** which have zero configuration elements.
  */
 export const TT_ATOMICS = [
-  "undefined",
-  "null",
-  "boolean",
-  "true",
-  "false",
+    "undefined",
+    "null",
+    "boolean",
+    "true",
+    "false",
 ] as const;
 
 /**
@@ -14,15 +14,15 @@ export const TT_ATOMICS = [
  * the _single_ configuration of this type which is available.
  */
 export const TT_SINGLETONS = [
-  "string",
-  "number",
+    "string",
+    "number",
 ] as const;
 
 export const TT_SETS = [
-  "string-set",
-  "numeric-set",
-  "fn-set",
-  "union-set",
+    "string-set",
+    "numeric-set",
+    "fn-set",
+    "union-set",
 ] as const;
 
 /**
@@ -30,8 +30,8 @@ export const TT_SETS = [
  * variety or Generator functions).
  */
 export const TT_FUNCTIONS = [
-  "fn",
-  "gen",
+    "fn",
+    "gen",
 ] as const;
 
 /**
@@ -39,21 +39,21 @@ export const TT_FUNCTIONS = [
  * identity.
  */
 export const TT_CONTAINERS = [
-  "rec",
-  "arr",
-  "set",
-  "map",
-  "union",
-  "obj",
-  "tuple",
+    "rec",
+    "arr",
+    "set",
+    "map",
+    "union",
+    "obj",
+    "tuple",
 ] as const;
 
 export const TT_KIND_VARIANTS = [
-  ...TT_ATOMICS,
-  ...TT_CONTAINERS,
-  ...TT_FUNCTIONS,
-  ...TT_SETS,
-  ...TT_SINGLETONS,
+    ...TT_ATOMICS,
+    ...TT_CONTAINERS,
+    ...TT_FUNCTIONS,
+    ...TT_SETS,
+    ...TT_SINGLETONS,
 ] as const;
 
 export const TT_START = "<<" as const;

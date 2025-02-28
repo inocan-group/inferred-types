@@ -12,5 +12,5 @@ import type { UpperAlphaChar } from "inferred-types/types";
  * ```
  */
 export type HasUppercase<T extends string> = string extends T
-  ? "unknown"
-  : T extends `${string}${UpperAlphaChar}${string}` ? true : false;
+    ? "unknown"
+    : T extends `${string}${UpperAlphaChar}${string}` ? true : false;

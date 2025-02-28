@@ -1,53 +1,53 @@
 import type {
-  ComparatorOperation,
-  Compare,
-  IsEqual,
-  Or,
-  RemoveNever,
-  TupleToUnion,
+    ComparatorOperation,
+    Compare,
+    IsEqual,
+    Or,
+    RemoveNever,
+    TupleToUnion,
 } from "inferred-types/types";
 
 /**
  * Iterates over each element of the Tuple
  */
 type SingleFilter<
-  TList extends readonly unknown[],
-  TFilter,
-  TOp extends ComparatorOperation,
-  Result extends unknown[] = [],
+    TList extends readonly unknown[],
+    TFilter,
+    TOp extends ComparatorOperation,
+    Result extends unknown[] = [],
 > = TList extends [infer Head, ...infer Rest]
-  ? [Compare<Head, TOp, TFilter>] extends [true]
-      ? SingleFilter<Rest, TFilter, TOp, [...Result, Head]>
-      : SingleFilter<Rest, TFilter, TOp, Result> // filter out
-  : Result;
+    ? [Compare<Head, TOp, TFilter>] extends [true]
+        ? SingleFilter<Rest, TFilter, TOp, [...Result, Head]>
+        : SingleFilter<Rest, TFilter, TOp, Result> // filter out
+    : Result;
 
 type Process<
-  TList extends readonly unknown[],
-  TComparator,
-  TOp extends ComparatorOperation,
+    TList extends readonly unknown[],
+    TComparator,
+    TOp extends ComparatorOperation,
 > = TList extends unknown[]
-  ? SingleFilter<TList, TComparator, TOp>
-  : // readonly only tuples
-  TList extends readonly unknown[]
-    ? Readonly<
-      SingleFilter<[...TList], TComparator, TOp>
-    >
-    : never;
+    ? SingleFilter<TList, TComparator, TOp>
+    : // readonly only tuples
+    TList extends readonly unknown[]
+        ? Readonly<
+            SingleFilter<[...TList], TComparator, TOp>
+        >
+        : never;
 
 type PrepList<
-  T extends readonly unknown[],
-  O extends ComparatorOperation,
+    T extends readonly unknown[],
+    O extends ComparatorOperation,
 > = Or<[
-  IsEqual<O, "contains">,
-  IsEqual<O, "startsWith">,
-  IsEqual<O, "endsWith">,
+    IsEqual<O, "contains">,
+    IsEqual<O, "startsWith">,
+    IsEqual<O, "endsWith">,
 ]> extends true
-  ? RemoveNever<{
-    [K in keyof T]: T[K] extends string | number
-      ? T[K]
-      : never
-  }>
-  : T;
+    ? RemoveNever<{
+        [K in keyof T]: T[K] extends string | number
+            ? T[K]
+            : never
+    }>
+    : T;
 
 /**
  * **Retain**`<TList, TFilter>`
@@ -61,20 +61,20 @@ type PrepList<
  * **Related:** `Filter`
  */
 export type Retain<
-  TList extends readonly unknown[],
-  TComparator,
-  TOp extends ComparatorOperation = "extends",
+    TList extends readonly unknown[],
+    TComparator,
+    TOp extends ComparatorOperation = "extends",
 
 > = PrepList<TList, TOp> extends readonly unknown[]
-  ? [TComparator] extends [unknown[]]
-      ? Process<
-        PrepList<TList, TOp>,
-        TupleToUnion<TComparator>,
-        TOp
-      >
-      : Process<
-        PrepList<TList, TOp>,
-        TComparator,
-        TOp
-      >
-  : never;
+    ? [TComparator] extends [unknown[]]
+        ? Process<
+            PrepList<TList, TOp>,
+            TupleToUnion<TComparator>,
+            TOp
+        >
+        : Process<
+            PrepList<TList, TOp>,
+            TComparator,
+            TOp
+        >
+    : never;

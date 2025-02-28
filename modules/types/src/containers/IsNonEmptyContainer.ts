@@ -11,5 +11,5 @@ import type { IsEmptyContainer } from "./IsEmptyContainer";
  * **Related:** `EmptyContainer`
  */
 export type IsNonEmptyContainer<
-  T extends Container,
+    T extends Container,
 > = IsEmptyContainer<T> extends true ? false : true;

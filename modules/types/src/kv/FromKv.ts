@@ -1,12 +1,12 @@
 import type {
-  ExpandDictionary,
-  KeyValue,
-  UnionToIntersection,
+    ExpandDictionary,
+    KeyValue,
+    UnionToIntersection,
 } from "inferred-types/types";
 
 /** Converts a single KeyValue into a one-key object */
 type KeyValueToObj<KV extends { key: PropertyKey; value: unknown }> = {
-  [P in KV["key"]]: KV["value"];
+    [P in KV["key"]]: KV["value"];
 };
 
 /**
@@ -26,11 +26,11 @@ type KeyValueToObj<KV extends { key: PropertyKey; value: unknown }> = {
  */
 export type FromKv<T extends readonly KeyValue[]> =
 ExpandDictionary<
-  UnionToIntersection<
-    T[number] extends infer U
-      ? U extends KeyValue
-        ? KeyValueToObj<U>
-        : never
-      : never
-  >
+    UnionToIntersection<
+        T[number] extends infer U
+            ? U extends KeyValue
+                ? KeyValueToObj<U>
+                : never
+            : never
+    >
 >;

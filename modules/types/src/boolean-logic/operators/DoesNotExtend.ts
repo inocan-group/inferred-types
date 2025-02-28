@@ -5,8 +5,8 @@
  * not extend_ `TNotExtends`.
  */
 export type DoesNotExtend<
-  TValue,
-  TNotExtends,
+    TValue,
+    TNotExtends,
 > = TValue extends TNotExtends
-  ? false
-  : true;
+    ? false
+    : true;

@@ -2,7 +2,7 @@ import type { Narrowable } from "inferred-types/types";
 import { isNumber, isString } from "inferred-types/runtime";
 
 export type EndingWithTypeGuard<T extends string> = <
-  V extends Narrowable,
+    V extends Narrowable,
 >(val: V
 ) => val is V & `${string}${T}`;
 
@@ -13,13 +13,13 @@ export type EndingWithTypeGuard<T extends string> = <
  * particular string literal.
  */
 export function endsWith<
-  T extends string,
+    T extends string,
 >(endingIn: T): EndingWithTypeGuard<T> {
-  return <V extends Narrowable>(val: V): val is V & `${string}${T}` => {
-    return isString(val)
-      ? !!val.endsWith(endingIn)
-      : isNumber(val)
-        ? !!String(val).endsWith(endingIn)
-        : false;
-  };
+    return <V extends Narrowable>(val: V): val is V & `${string}${T}` => {
+        return isString(val)
+            ? !!val.endsWith(endingIn)
+            : isNumber(val)
+                ? !!String(val).endsWith(endingIn)
+                : false;
+    };
 }

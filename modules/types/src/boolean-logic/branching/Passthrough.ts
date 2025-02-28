@@ -9,20 +9,20 @@ import type { IfEquals } from "./IfEqual";
  * **Related:** `THandle`
  */
 export type Passthrough<
-  TContent,
-  TPass,
-  THandle,
-  TSpecificity extends "extends" | "equals" = "extends",
-> = IfEquals<
-  TSpecificity,
-  "extends",
-  TContent extends TPass
-    ? TContent
-    : THandle,
-  IfEquals<
     TContent,
     TPass,
-    TContent,
-    THandle
-  >
+    THandle,
+    TSpecificity extends "extends" | "equals" = "extends",
+> = IfEquals<
+    TSpecificity,
+    "extends",
+    TContent extends TPass
+        ? TContent
+        : THandle,
+    IfEquals<
+        TContent,
+        TPass,
+        TContent,
+        THandle
+    >
 >;

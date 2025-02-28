@@ -1,9 +1,9 @@
 import type { Opt } from "../Optional";
 import type {
-  TwColor,
-  TwColorTarget,
-  TwColorWithLuminosity,
-  TwColorWithLuminosityOpacity,
+    TwColor,
+    TwColorTarget,
+    TwColorWithLuminosity,
+    TwColorWithLuminosityOpacity,
 } from "./TwColor";
 
 /**

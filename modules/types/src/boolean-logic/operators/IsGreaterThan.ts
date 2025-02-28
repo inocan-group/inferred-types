@@ -1,15 +1,15 @@
 import type { AsNumber, If, IsEqual, NumberLike, Or } from "inferred-types/types";
 
 type Calc<
-  A extends number,
-  B extends number,
-  Count extends 1[] = [],
+    A extends number,
+    B extends number,
+    Count extends 1[] = [],
 > =
 Count["length"] extends A
-  ? false
-  : Count["length"] extends B
-    ? true
-    : Calc<A, B, [...Count, 1]>;
+    ? false
+    : Count["length"] extends B
+        ? true
+        : Calc<A, B, [...Count, 1]>;
 
 /**
  * **IsGreaterThan**`<A,B>`
@@ -20,12 +20,12 @@ Count["length"] extends A
  * **Note:** does not take negative numbers into account
  */
 export type IsGreaterThan<
-  A extends NumberLike,
-  B extends NumberLike,
+    A extends NumberLike,
+    B extends NumberLike,
 > = If<
-  Or<[IsEqual<A, number>, IsEqual<B, number>, IsEqual<A, `${number}`>, IsEqual<B, `${number}`>]>,
-  boolean,
-  Calc<AsNumber<A>, AsNumber<B>>
+    Or<[IsEqual<A, number>, IsEqual<B, number>, IsEqual<A, `${number}`>, IsEqual<B, `${number}`>]>,
+    boolean,
+    Calc<AsNumber<A>, AsNumber<B>>
 >;
 
 /**
@@ -34,8 +34,8 @@ export type IsGreaterThan<
  * Test whether `A` is _greater than_ or _equal_ to `B`.
  */
 export type IsGreaterThanOrEqual<
-  A extends NumberLike,
-  B extends NumberLike,
+    A extends NumberLike,
+    B extends NumberLike,
 > = IsEqual<A, B> extends true
-  ? true
-  : IsGreaterThan<A, B>;
+    ? true
+    : IsGreaterThan<A, B>;

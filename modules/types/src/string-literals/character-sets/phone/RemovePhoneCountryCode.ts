@@ -25,13 +25,13 @@ import type { GetPhoneCountryCode, IsStringLiteral, Trim } from "inferred-types/
  * problems).
  */
 export type RemovePhoneCountryCode<
-  T,
+    T,
 > = T extends string
-  ? IsStringLiteral<T> extends true
-    ? GetPhoneCountryCode<Trim<T>> extends ""
-      ? T
-      : Trim<T> extends `+${GetPhoneCountryCode<Trim<T>>} ${infer Rest}`
-        ? Rest
-        : T
-    : string
-  : never;
+    ? IsStringLiteral<T> extends true
+        ? GetPhoneCountryCode<Trim<T>> extends ""
+            ? T
+            : Trim<T> extends `+${GetPhoneCountryCode<Trim<T>>} ${infer Rest}`
+                ? Rest
+                : T
+        : string
+    : never;

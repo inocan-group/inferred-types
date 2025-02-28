@@ -13,11 +13,11 @@ import type { StripBefore } from "inferred-types/types";
  * ```
  */
 export function stripBefore<
-  TContent extends string,
-  TBreak extends string,
+    TContent extends string,
+    TBreak extends string,
 >(content: TContent, find: TBreak) {
-  return content
-    .split(find)
-    .slice(1)
-    .join(find) as StripBefore<TContent, TBreak>;
+    return content
+        .split(find)
+        .slice(1)
+        .join(find) as StripBefore<TContent, TBreak>;
 }

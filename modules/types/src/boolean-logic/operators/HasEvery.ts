@@ -10,10 +10,10 @@ import type { And, Or } from "inferred-types/types";
  * - Use `ExtendsEvery` if you want to looser operation
  */
 export type HasEvery<
-  T extends readonly unknown[],
-  U extends readonly unknown[],
+    T extends readonly unknown[],
+    U extends readonly unknown[],
 > = And<{
-  [K in keyof U]: Or<{
-    [Key in keyof T]: U[K] extends T[Key] ? true : false
-  }>
+    [K in keyof U]: Or<{
+        [Key in keyof T]: U[K] extends T[Key] ? true : false
+    }>
 }>;

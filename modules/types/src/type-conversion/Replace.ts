@@ -1,20 +1,20 @@
 import type {
-  If,
-  IsEqual,
-  IsStringLiteral,
+    If,
+    IsEqual,
+    IsStringLiteral,
 } from "inferred-types/types";
 
 type Process<
-  TText extends string,
-  TFind extends string,
-  TReplace extends string,
+    TText extends string,
+    TFind extends string,
+    TReplace extends string,
 > = TText extends ""
-  ? If<IsEqual<TFind, "">, TReplace, "">
-  : TFind extends ""
-    ? TText
-    : TText extends `${infer F}${TFind}${infer E}`
-      ? `${F}${TReplace}${E}`
-      : TText;
+    ? If<IsEqual<TFind, "">, TReplace, "">
+    : TFind extends ""
+        ? TText
+        : TText extends `${infer F}${TFind}${infer E}`
+            ? `${F}${TReplace}${E}`
+            : TText;
 
 /**
  * **Replace**`<TText,TFind,TReplace>`
@@ -43,9 +43,9 @@ type Process<
  * **Related:** `ReplaceAll`, `ReplaceToFrom`, `ReplaceAllToFrom`
  */
 export type Replace<
-  TText extends string,
-  TFind extends string,
-  TReplace extends string,
+    TText extends string,
+    TFind extends string,
+    TReplace extends string,
 > = IsStringLiteral<TText> extends true
-  ? Process<TText, TFind, TReplace>
-  : string;
+    ? Process<TText, TFind, TReplace>
+    : string;

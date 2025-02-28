@@ -2,7 +2,6 @@
   "git.ignoreLimitWarning": true,
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "javascript.preferences.importModuleSpecifier": "non-relative",
-  "editor.formatOnSave": true,
   "cSpell.words": [
     "abcnews",
     "Abendblatt",
@@ -153,10 +152,13 @@
   ],
   // Auto fix
   "eslint.useFlatConfig": true,
+  "editor.tabSize": 4,
+  "editor.formatOnSave": false,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit",
-    "source.organizeImports": "never"
+    "source.fixAll.eslint": "explicit"
   },
+  "editor.defaultFormatter": null,
+  "eslint.format.enable": true,
   // Silent the stylistic rules in you IDE, but still auto fix them
   "eslint.rules.customizations": [
     {
