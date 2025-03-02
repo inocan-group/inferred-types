@@ -39,6 +39,15 @@ describe("asType(token)", () => {
     ];
   });
 
+  it("string literals", () => {
+    const fooBar = asType("String(foo) | String(bar)");
+    const starting = asType("String(foo_{{string}})");
+
+    type cases = [
+        Expect<Equal<typeof fooBar, "foo" | "bar">>,
+        Expect<Equal<typeof starting, `foo_${string}`>>
+    ];
+  });
 
   it("object definition", () => {
     const fooBar = asType({foo: "string", bar: "number"});
