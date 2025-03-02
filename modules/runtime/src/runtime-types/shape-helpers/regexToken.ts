@@ -1,4 +1,4 @@
-import type { AsType, SimpleToken } from "inferred-types/types";
+import type { AsSimpleType, SimpleToken } from "inferred-types/types";
 import { isRegExp, isString } from "inferred-types/runtime";
 
 /**
@@ -43,5 +43,5 @@ export function regexToken<
     // exp has been validated as valid
     const token = `<<string-set::regexp::${encodeURIComponent(exp)}>>`;
 
-    return token as AsType<TRep>;
+    return token as AsSimpleType<TRep>;
 }

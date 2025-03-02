@@ -42,10 +42,3 @@ describe("Suggest<T>", () => {
   });
 
 });
-function asCamelCase(arg0: string) {
-  throw new Error("Function not implemented.");
-}
-
-function asPascalCase(arg0: string) {
-  throw new Error("Function not implemented.");
-}

@@ -1,118 +1,108 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { describe, expect, it } from "vitest";
 import { asType } from "inferred-types/runtime";
-import { AsType, Dictionary, Zip5 } from "inferred-types/types";
+import { Contains, Extends } from "transpiled/types";
+import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+describe("asType(token)", () => {
 
-
-describe("AsType<T>", () => {
-
-  it("happy path", () => {
-    type OptStr = AsType<"Opt<string>">;
-    type OptNum = AsType<"Opt<number>">;
-    type Bool = AsType<"boolean">;
-    type NumArr = AsType<"Array<number>">;
-    type Dict = AsType<"Dict">;
-    type StrDict = AsType<"Dict<string, string>">;
-    type NumDict = AsType<"Dict<string, number>">;
-
-    type Foo = AsType<"Dict<{foo: string}>">;
-    type FooBar = AsType<"Dict<{foo: number, bar: string}>">;
-
-    type M = AsType<"Map">;
-    type M2 = AsType<"Map<number, Array>">;
+  it("wide types", () => {
+    const str = asType("string");
+    const num = asType("number");
+    const undef = asType("undefined");
 
     type cases = [
-      Expect<Equal<OptStr, string | undefined>>, //
-      Expect<Equal<OptNum, number | undefined>>,
-      Expect<Equal<Bool, boolean>>,
-      Expect<Equal<NumArr, number[]>>,
-      Expect<Equal<Dict, Dictionary>>,
-      Expect<Equal<StrDict, Record<string, string>>>,
-      Expect<Equal<NumDict, Record<string, number>>>,
-
-
-      Expect<Equal<Foo, { foo: string;[key: string | symbol]: unknown }>>,
-      Expect<Equal<FooBar, { foo: number; bar: string;[key: string | symbol]: unknown }>>,
-
-      Expect<Equal<M, Map<any, any>>>,
-      Expect<Equal<M2, Map<number, any[]>>>,
-
-    ];
-    const cases: cases = [
-      true, true, true, true, true, true, true,
-      true, true,
-      true, true,
+        Expect<Equal<typeof str, string>>,
+        Expect<Equal<typeof num, number>>,
+        Expect<Equal<typeof undef, undefined>>,
     ];
   });
 
-});
 
-describe("asType(val)", () => {
+  it("union of wide types", () => {
+    const strNum = asType("string | number");
+    const optStr = asType("string | undefined");
 
-  it("happy path", () => {
-    const strToken = asType("string");
-    const numToken = asType("number");
-    const optStr = asType("Opt<string>");
-    const foo = asType("Dict<{foo: string}>");
-
-    expect(strToken).toBe("string");
-    expect(numToken).toBe("number");
-    expect(optStr).toBe("Opt<string>");
-    expect(foo).toBe("Dict<{foo: string}>");
-
-    type StrToken = typeof strToken;
-    type NumToken = typeof numToken;
-
-    // @ts-ignore
     type cases = [
-      Expect<Equal<StrToken, string>>,
-      Expect<Equal<NumToken, number>>,
-      Expect<Equal<typeof optStr, string | undefined>>,
-      Expect<Equal<typeof foo, { foo: string;[key: string | symbol]: unknown }>>
+        Expect<Equal<typeof strNum, string | number>>,
+        Expect<Equal<typeof optStr, string | undefined>>,
     ];
-
   });
 
 
-  it("asType(obj) works with DefineObject shape", () => {
-    const fooBar = asType({
-      foo: "number",
-      bar: "string",
-      baz: o => o.string().zip()
+  it("union of mixed wide and narrow", () => {
+    const strNum = asType("String(foo) | number");
+    const optStr = asType("String(bar) | undefined");
+
+    type cases = [
+        Expect<Equal<typeof strNum, "foo" | number>>,
+        Expect<Equal<typeof optStr, "bar" | undefined>>,
+    ];
+  });
+
+
+  it("object definition", () => {
+    const fooBar = asType({foo: "string", bar: "number"});
+    const fuzzy = asType({
+        foo: "string | undefined",
+        bar: "Array<boolean> | Boolean(false)"
     });
 
-    expect(fooBar).toEqual({
-      foo: "number",
-      bar: "string",
-      baz: "<<string-set::Zip5>>"
-    })
+    const propError = asType({
+        foo: "number",
+        bar: "Array<number"
+    });
 
-    // @ts-ignore
+
     type cases = [
-      Expect<Equal<typeof fooBar, { foo: number; bar: string; baz: Zip5 }>>
+        Expect<Equal<typeof fooBar, { foo: string; bar: number}>>,
+        Expect<Equal<typeof fuzzy, { foo: string | undefined; bar: false | boolean[]}>>,
+        Expect<Extends<typeof propError, Error>>,
+        Expect<Contains<typeof propError["message"], "The token 'Array<number' is not a valid input">>
     ];
   });
 
-  it("asType(tuple) works with a tuple using DefnFn<T>", () => {
-    const myTuple = asType(
-      s => s.string(),
-      s => s.number(),
-      s => s.number(0, 42, 256)
-    );
+  it("array definition", () => {
+    const strArr = asType("Array<string>");
+    const fnArr = asType("Array<function>");
+    const objArr = asType("Array<object>");
+    const unionArr = asType("Array<string | number>");
+    const unionArr2 = asType("Array<string | undefined>");
+    const unionArr3 = asType("Array<String(foo) | String(bar)>");
 
-    expect(myTuple).toEqual([
-      "<<string>>",
-      "<<number>>",
-      "<<union::<<number::0>>,<<number::42>>,<<number::256>>>>"
-    ])
-
-    // @ts-ignore
     type cases = [
-      Expect<Equal<typeof myTuple, [string, number, 0 | 42 | 256]>>
-    ];
+        Expect<Equal<typeof strArr, string[]>>,
+        Expect<Equal<typeof fnArr, ((...args: any[]) => any)[]>>,
+        Expect<Equal<typeof objArr, Object[]>>,
+        Expect<Equal<typeof unionArr, (string | number)[]>>,
+        Expect<Equal<typeof unionArr2, (string | undefined)[]>>,
+        Expect<Equal<typeof unionArr3, ("foo" | "bar")[]>>,
+    ]
   })
+
+
+  it("Set definition", () => {
+    const str = asType("Set<string>");
+    const num = asType("Set<number>");
+    const union = asType("Set<string | number>");
+
+    type cases = [
+        Expect<Equal<typeof str, Set<string>>>,
+        Expect<Equal<typeof num, Set<number>>>,
+        Expect<Equal<typeof union, Set<string | number>>>,
+    ];
+  });
+
+  it("Map definition", () => {
+    const str = asType("Map<string,string>");
+    const num = asType("Map<number, object>");
+    const union = asType("Map<string | number, Array<string>>");
+
+    type cases = [
+        Expect<Equal<typeof str, Map<string,string>>>,
+        Expect<Equal<typeof num, Map<number, Object>>>,
+        Expect<Equal<typeof union, Map<string | number, string[]>>>,
+    ];
+  });
+
+
 });

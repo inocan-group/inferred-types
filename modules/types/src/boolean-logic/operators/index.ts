@@ -97,6 +97,7 @@ export * from "./IsUrl";
 export * from "./IsValidDotPath";
 export * from "./IsValidIndex";
 export * from "./IsVueRef";
+export * from "./IsError";
 export * from "./IsWideNumber";
 export * from "./IsWideString";
 export * from "./IsWideType";
