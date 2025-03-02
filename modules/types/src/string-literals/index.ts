@@ -48,3 +48,4 @@ export * from "./TypeSubtype";
 export * from "./UnderlyingType";
 export * from "./UUID";
 export * from "./RemoveWhitespace";
+export * from "./StringLiteralTemplate"
