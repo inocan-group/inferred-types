@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { sort, tuple } from "inferred-types/runtime";
-import { Sort, SortOptions } from "inferred-types/types";
+import { Sort } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("Sort<T>", () => {

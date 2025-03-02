@@ -1,4 +1,4 @@
-export * from "./AsType";
+export * from "./AsSimpleType";
 export * from "./Dict";
 export * from "./FromLiteralTokens";
 export * from "./Shape";

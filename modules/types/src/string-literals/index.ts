@@ -47,3 +47,4 @@ export * from "./Truncate";
 export * from "./TypeSubtype";
 export * from "./UnderlyingType";
 export * from "./UUID";
+export * from "./RemoveWhitespace";

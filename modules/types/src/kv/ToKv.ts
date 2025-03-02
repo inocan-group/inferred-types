@@ -2,6 +2,7 @@ import type {
     AfterFirst,
     AnyObject,
     As,
+    Dictionary,
     First,
     IsObjectLiteral,
     Keys,
@@ -47,12 +48,24 @@ type Process<
  * **Related:** `KeyValue`, `FromKv`, `ObjectToTuple`, `TupleToObject`
  */
 export type ToKv<
-    TObj extends AnyObject,
+    TObj extends Dictionary,
     TKeys extends (readonly (ObjectKey & keyof TObj)[]) | false = As<Keys<TObj>, (readonly (ObjectKey & keyof TObj)[])>,
-> = IsObjectLiteral<TObj> extends true
+> = (
+    IsObjectLiteral<TObj> extends true
     ? TKeys extends readonly (ObjectKey & keyof TObj)[]
         ? Process<TObj, TKeys>
         : Array<
             { [K in keyof TObj]: { key: K; value: TObj[K] } }[keyof TObj]
         >
-    : KeyValue[];
+    : KeyValue[]
+) extends readonly KeyValue[]
+? (
+    IsObjectLiteral<TObj> extends true
+    ? TKeys extends readonly (ObjectKey & keyof TObj)[]
+        ? Process<TObj, TKeys>
+        : Array<
+            { [K in keyof TObj]: { key: K; value: TObj[K] } }[keyof TObj]
+        >
+    : KeyValue[]
+)
+: never;

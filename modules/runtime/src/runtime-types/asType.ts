@@ -1,4 +1,16 @@
-import type { AsType, DefineObject, FromDefn, ShapeCallback, SimpleScalarToken, SimpleToken, SimpleType } from "inferred-types/types";
+import type {
+    AsSimpleType,
+    DefineObject,
+    FromDefn,
+    FromInputToken,
+    IT_FunctionLiteralToken,
+    IT_ObjectLiteralDefinition,
+    IT_TokenSuggest,
+    ShapeCallback,
+    SimpleScalarToken,
+    SimpleToken,
+    SimpleType
+} from "inferred-types/types";
 import { isDefineObject, isFunction } from "inferred-types/runtime";
 import { handleDoneFn } from "../api";
 import { asDefineObject } from "./asDefineObject";
@@ -16,7 +28,7 @@ import { ShapeApiImplementation } from "./shape";
  * is not fully reverse engineerable at this point; this will
  * be added later
  */
-export function asType<
+export function asSimpleType<
     T extends [SimpleToken | DefineObject ] | readonly (SimpleToken | DefineObject | ShapeCallback)[],
 >(...token: T) {
     return (
@@ -41,5 +53,14 @@ export function asType<
 export function asStringLiteral<
     T extends readonly SimpleScalarToken[],
 >(...values: T) {
-    return values.map(i => i as unknown as AsType<typeof i>);
+    return values.map(i => i as unknown as AsSimpleType<typeof i>);
+}
+
+
+export function asType<
+    T extends IT_TokenSuggest
+    | IT_FunctionLiteralToken
+    | IT_ObjectLiteralDefinition
+>(token: T) {
+    return token as unknown as FromInputToken<T>;
 }

@@ -48,14 +48,14 @@ type Iterate<
     >;
 
 /**
- * **AsType**`<T>`
+ * **AsSimpleType**`<T>`
  *
  * converts either a `SimpleToken` or a `TypeToken` into the
  * _type_ it represents.
  *
  * NOTE: only implemented for `SimpleToken` at the moment.
  */
-export type AsType<
+export type AsSimpleType<
     T extends SimpleToken | readonly SimpleToken[] | TypeToken,
 > = T extends readonly SimpleToken[]
     ? Iterate<T>
