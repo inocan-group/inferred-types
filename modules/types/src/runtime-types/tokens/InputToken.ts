@@ -21,6 +21,7 @@ import {
     KeyValue,
     ToKv,
     As,
+    StringLiteralTemplate,
 } from "inferred-types/types";
 import { FailFast } from "src/boolean-logic/branching/FailFast";
 
@@ -281,7 +282,7 @@ type ConvertObjectLiteral<
 type ConvertLiteral<
     T extends IT_LiteralToken
 > = T extends `String(${infer Lit})`
-? `${Lit}`
+? StringLiteralTemplate<Lit>
 : T extends `Number(${infer Lit extends number})`
 ? Lit
 : T extends `Boolean(${infer Lit extends "true" | "false"})`
