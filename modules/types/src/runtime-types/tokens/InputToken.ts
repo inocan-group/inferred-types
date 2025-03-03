@@ -1,14 +1,12 @@
 import {
     Contains,
     Suggest,
-    Split,
     AfterFirst,
     First,
     Trim,
     OptSpace,
     Dictionary,
     AsLiteralFn,
-    TypedFunction,
     ToJson,
     MakeKeysOptional,
     ObjectKey,
@@ -19,10 +17,15 @@ import {
     As,
     StringLiteralTemplate,
     Err,
+    RetainAfter,
+    RetainUntil,
+    IsEmpty,
+    GetTypeOf,
 } from "inferred-types/types";
+import { FailFast } from "src/boolean-logic/branching/FailFast";
 
 type BaseSuggest =
-| `${IT_WideToken}`
+| `${IT_AtomicToken}`
 | `string | undefined`
 | `number | undefined`
 | `boolean | undefined`
@@ -80,7 +83,7 @@ export type IT_ObjectLiteralDefinition = Record<string, IT_TokenSuggest>;
  *          ["string", { name: "getAge" } ]
  * ```
  */
-export type IT_FunctionLiteralToken = (...args: readonly any[]) => Suggest<IT_WideToken | "void"> | [returns: Suggest<IT_WideToken | "void">, props: Dictionary];
+export type IT_FunctionLiteralToken = (...args: readonly any[]) => Suggest<IT_AtomicToken | "void"> | [returns: Suggest<IT_AtomicToken | "void">, props: Dictionary];
 
 export type IT_LiteralToken =
 | IT_StringLiteralToken
@@ -88,7 +91,19 @@ export type IT_LiteralToken =
 | IT_BooleanLiteralToken
 | IT_FunctionLiteralToken;
 
-export type IT_WideToken = "string" | "number" | "boolean" | "undefined" | "unknown" | "any" | "null" | "object" | "Object" | "function";
+export type IT_AtomicToken =
+| "string"
+| "number"
+| "boolean"
+| "true"
+| "false"
+| "undefined"
+| "unknown"
+| "any"
+| "null"
+| "object"
+| "Object"
+| "function";
 
 type MapToken = `Map<${string},${string}>`;
 type SetToken = `Set<${string}>`;
@@ -104,7 +119,7 @@ export type IT_ContainerToken =
 export type IT_UnionToken = `${string}|${string}`
 
 
-type ConvertWide<T extends IT_WideToken> = T extends "string"
+type ConvertAtomic<T extends IT_AtomicToken> = T extends "string"
 ? string
 : T extends "number"
 ? number
@@ -118,6 +133,10 @@ type ConvertWide<T extends IT_WideToken> = T extends "string"
 ? unknown
 : T extends "any"
 ? any
+: T extends "true"
+? true
+: T extends "false"
+? false
 : Lowercase<T> extends "object"
 ? Object
 : T extends "function"
@@ -142,33 +161,77 @@ type Handle<
 type ArrToken<T extends string = string> = `Array<${T}>`;
 
 type ConvertArr<T extends string> = T extends `Array<${infer Type}>`
-? Type extends IT_WideToken
-    ? Array<ConvertWide<Type>>
+? Type extends IT_AtomicToken
+    ? Array<ConvertAtomic<Type>>
     : Contains<Type, "|"> extends true
         ? Handle<
             "array",
             `Array definition -- ${T} -- failed: `,
-            ConvertUnion<Split<Type, "|">>,
-            Array<ConvertUnion<Split<Type, "|">>>
+            Union<Type>,
+            Array<Union<Type>>
         >
         : Err<"invalid-token/array", `Array definition failed [${T}]`>
     : Err<"invalid-token/array", `Array definition failed [${T}]`>;
 
+/**
+ * Takes one known type off the lead of the string and returns
+ * it's type along with the _remaining_ string.
+ *
+ * ```ts
+ * [ type: T, remaining: string ]
+ * ```
+ */
+type Take<
+    T extends string
+> = T extends ""
+? Err<`invalid`, `empty string passed into Take!`>
+: T extends `${IT_AtomicToken}${infer Rest}`
+? T extends `${infer Atomic}${Rest}`
+    ? { type: ConvertAtomic<As<Atomic, IT_AtomicToken >>, leftover: Trim<Rest>}
+    : Err<`invalid-token/atomic`, `The token "${T}" appeared to be an atomic token but was unable to be resolved.`>
+: T extends `Array<${string}`
+? { type: FromInputToken<`${RetainUntil<T,">">}>`>, leftover: RetainAfter<T,">">}
+: T extends `Record<${string}`
+? { type: FromInputToken<`${RetainUntil<T,">">}>`>, leftover: RetainAfter<T,">">}
+: T extends `Map<${string}`
+? {type: FromInputToken<`${RetainUntil<T,">">}>`>, leftover: RetainAfter<T,">">}
+: T extends `String(${infer Lit}`
+? { type: StringLiteralTemplate<RetainUntil<Lit,")">>, leftover: RetainAfter<Lit,")">}
+: T extends `Number(${string}`
+? {type: FromInputToken<`${RetainUntil<T,")">})`>, leftover: RetainAfter<T,")">}
+: T extends `Boolean(true)${infer Rest}`
+    ? {type: true, leftover: Rest}
+: T extends `Boolean(false)${infer Rest}`
+    ? {type: false, leftover: Rest}
+
+: Err<`invalid-token`, `unknown token: ${T}`>
+;
 
 
-type ConvertUnion<
-    TElements extends readonly string[],
-    TAll extends readonly string[] = TElements,
-    U = never
-> = [] extends TElements
-? U
-: ValidatedConvert<First<TAll>> extends Error
-    ? Err<`invalid-token/union`, `the union type has an invalid token: ${First<TAll>} `>
-    : ConvertUnion<
-        AfterFirst<TElements>,
-        TAll,
-        U | ValidatedConvert<First<TElements>>
-    >;
+type Next<
+    T extends { leftover: string; types: readonly any[]}
+> = Trim<T["leftover"]> extends `|${infer Rest}`
+        ? Take<Trim<Rest>>
+        : Take<Trim<T["leftover"]>>
+;
+
+type Union<
+    /** the original token string the full type is derived from */
+    TOrigin extends string,
+    T extends { leftover: string; types: readonly any[]} = {
+        leftover: TOrigin,
+        types: []
+    }
+> = Trim<T["leftover"]> extends ""
+? T["types"][number]
+: Next<T> extends Error
+    ? Next<T>
+    : Next<T> extends { leftover: string; type: any }
+        ? Trim<Next<T>["leftover"]> extends ""
+            ? [...T["types"], Next<T>["type"]][number]
+            : Union<TOrigin, { leftover: Next<T>["leftover"]; types: [...T["types"], Next<T>["type"]]}>
+        : Err<`invalid-format`,`The return from Take() was unexpected; must exit: ${T["leftover"]} -> ${GetTypeOf<Next<T>>}`>;
+
 
 type ConvertSet<
     T extends SetToken
@@ -200,13 +263,9 @@ T extends `Map<${infer Key},${infer Val}>`
     >
 : Err<"invalid-token/map", `Failed to define Map type: ${T}`>;
 
-type F<T extends readonly string[]> = Trim<First<T>>;
-
-type FnProps<T extends TypedFunction> = ReturnType<T> extends [string, infer Props extends Dictionary]
-? Props
-: never;
-
-type FnReturns<T extends ((...args: any[]) => string | [token: string, props: Dictionary])> = ReturnType<T> extends [infer R extends string, Dictionary]
+type FnReturns<
+    T extends ((...args: any[]) => string | [token: string, props: Dictionary])
+> = ReturnType<T> extends [infer R extends string, Dictionary]
 ? R
 : ReturnType<T> extends string
 ? ReturnType<T>
@@ -293,11 +352,11 @@ type TestConvert<
     TModule extends string,
     TPrefix extends string,
     TPostfix extends string = ""
-> = Trim<TToken> extends IT_WideToken
+> = Trim<TToken> extends IT_AtomicToken
 ? Handle<
     TModule,
     TPrefix,
-    ConvertWide<Trim<TToken>> ,
+    ConvertAtomic<Trim<TToken>> ,
     TSuccess,
     TPostfix
 >
@@ -346,7 +405,7 @@ type TestConvert<
 ? Handle<
     TModule,
     TPrefix,
-    ConvertUnion<Split<Trim<TToken>,"|">>,
+    Union<Trim<TToken>>,
     TSuccess,
     TPostfix
 >
@@ -354,8 +413,8 @@ type TestConvert<
 
 type ValidatedConvert<
     T extends string
-> = Trim<T> extends IT_WideToken
-? ConvertWide<Trim<T>>
+> = Trim<T> extends IT_AtomicToken
+? ConvertAtomic<Trim<T>>
 : Trim<T> extends IT_LiteralToken
 ? ConvertLiteral<Trim<T>>
 : Trim<T> extends ArrToken
@@ -367,7 +426,7 @@ type ValidatedConvert<
 : Trim<T> extends IT_ObjectLiteralDefinition
 ? ConvertObjectLiteral<Trim<T>>
 : Trim<T> extends IT_UnionToken
-? ConvertUnion<Split<Trim<T>,"|">>
+? Union<T>
 : Err<`invalid-token/unknown`, `A supposedly 'validated' token ran into an error; this should not happen`>;
 
 /**
@@ -388,21 +447,24 @@ export type InputToken = string | IT_FunctionLiteralToken | IT_ObjectLiteralDefi
  * the error.
  */
 export type FromInputToken<
-    T extends InputToken
-> = T extends IT_WideToken
-    ? ConvertWide<T>
-    : T extends IT_LiteralToken
-    ? ConvertLiteral<T>
-    : T extends ArrToken
-    ? ConvertArr<T>
-    : T extends SetToken
-    ? ConvertSet<T>
-    : T extends MapToken
-    ? ConvertMap<T>
-    : T extends IT_ObjectLiteralDefinition
-    ? ConvertObjectLiteral<T>
-    : T extends IT_UnionToken
-    ? ConvertUnion<Split<T,"|">
+    T extends InputToken,
+    TR = T extends string ? Trim<T> : T
+> = TR extends IT_AtomicToken
+    ? ConvertAtomic<TR>
+    : TR extends `String(${infer Literal}`
+    ? Union<
+        RetainAfter<Literal, ")">,
+        { types: [StringLiteralTemplate<RetainUntil<Literal,")">>], leftover: RetainAfter<Literal, ")"> }
+    >
+    : TR extends ArrToken
+    ? ConvertArr<TR>
+    : TR extends SetToken
+    ? ConvertSet<TR>
+    : TR extends MapToken
+    ? ConvertMap<TR>
+    : TR extends IT_ObjectLiteralDefinition
+    ? ConvertObjectLiteral<TR>
+    : TR extends IT_UnionToken
+    ? Union<TR>
     : Err<`invalid-token/unknown`, `The token '${Trim<AsType<T>>}' is not a valid input token!`>;
-
 

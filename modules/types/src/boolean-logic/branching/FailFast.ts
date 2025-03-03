@@ -1,28 +1,27 @@
-import { IsNever, AfterFirst, First, Unset, If, IsUnset, IsTrue, IsFalse, IsError } from "inferred-types/types";
+import { IsNever, AfterFirst, First, Unset, If, IsUnset, IsTrue, IsFalse, IsError, Extends, Or } from "inferred-types/types";
 
+type Rtn<T, TErr> = IsNever<T> extends true
+? If<IsUnset<TErr>, never, TErr>
+: IsFalse<T> extends true
+? If<IsUnset<TErr>, false, TErr>
+: IsError<T> extends true
+? T
+: never;
 
-type Test<
-    T extends readonly unknown[],
-    TErr extends Unset | Error
-> = [] extends T
-? true
-: IsNever<First<T>> extends true
-    ? If<IsUnset<TErr>, never, TErr>
-    : IsFalse<First<T>> extends true
-    ? If<IsUnset<TErr>, false, TErr>
-    : IsError<First<T>> extends true
-    ? First<T>
-    : Test<AfterFirst<T>, TErr>;
+type IsFail<T> = Or<[
+    IsNever<T>,
+    IsFalse<T>,
+    Extends<T, Error>
+]>;
 
-;
 /**
  * **FailFast**`<TTests, TSuccess, [TErr]>`
  *
  * Accepts a tuple of types and immediately returns a
  * _failure_ condition as soon as one is encountered in `TTest`.
  *
- * If no _failures_ are encountered in `TTest` then the `TSuccess`
- * type if returned.
+ * Tests which _do not_ fail are passed over until the last test is processed
+ * and if that is processed successfully then
  *
  * - a "failure" is a `never` value, a `false` value, or any type which extends the
  * `Error` class.
@@ -32,8 +31,18 @@ type Test<
  */
 export type FailFast<
     TTests extends readonly unknown[],
-    TSuccess,
     TErr extends Unset | Error = Unset
-> = IsTrue<Test<TTests,TErr>> extends true
-? TSuccess
-: Test<TTests,TErr>;
+> = [] extends TTests
+? undefined
+: [any] extends TTests
+? IsFail<TTests[0]> extends true
+    ? Rtn<TTests[0], TErr>
+    : TTests[0] // success
+: IsFail<First<TTests>> extends true
+? Rtn<First<TTests>, TErr>
+
+: FailFast<
+    AfterFirst<TTests>,
+    TErr
+>
+
