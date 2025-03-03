@@ -1,20 +1,21 @@
-import type { Constant } from "inferred-types/constants";
 import type {
-    Chars,
     IsWideType,
-    Join,
     Or,
-    RemoveMarked,
 } from "inferred-types/types";
 
-type Process<
-    TChars extends readonly string[],
-    TRetain extends string,
-> = RemoveMarked<{
-    [K in keyof TChars]: TChars[K] extends TRetain
-        ? TChars[K]
-        : Constant<"Marked">
-}>;
+
+
+type Retention<
+    TContent extends string,
+    TRemove extends string,
+    TCollect extends string = ""
+> = TContent extends `${infer Head}${infer Remaining}`
+    ? Retention<
+        Remaining,
+        TRemove,
+        `${TCollect}${Head extends TRemove ? Head : ""}`
+    >
+    : TCollect;
 
 /**
  * **RetainChars**`<TContent,TRetain>`
@@ -28,6 +29,4 @@ export type RetainChars<
     TRetain extends string,
 > = Or<[IsWideType<TContent>, IsWideType<TRetain>]> extends true
     ? string
-    : Process<Chars<TContent>, TRetain> extends readonly string[]
-        ? Join<Process<Chars<TContent>, TRetain>>
-        : never;
+    : Retention<TContent,TRetain>;
