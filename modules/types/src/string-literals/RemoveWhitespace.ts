@@ -1,20 +1,9 @@
 import {
-    AfterFirst,
-    Chars,
-    First,
     IsStringLiteral,
+    StripChars,
     Whitespace
 } from "inferred-types/types";
 
-
-type Remove<
-    T extends readonly string[],
-    S extends string = ""
-> = [] extends T
-? S
-: First<T> extends Whitespace
-    ? Remove<AfterFirst<T>, S>
-    : Remove<AfterFirst<T>, `${S}${First<T>}`>;
 
 
 /**
@@ -29,7 +18,7 @@ type Remove<
  * ```
  */
 export type RemoveWhitespace<T extends string> = IsStringLiteral<T> extends true
-? Remove<Chars<T>>
+? StripChars<T, Whitespace>
 : string;
 
 

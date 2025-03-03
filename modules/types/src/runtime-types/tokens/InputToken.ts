@@ -5,14 +5,10 @@ import {
     AfterFirst,
     First,
     Trim,
-    Expand,
-    PascalCase,
     OptSpace,
     Dictionary,
     AsLiteralFn,
     TypedFunction,
-    DefineObject,
-    FromDefineObject,
     ToJson,
     MakeKeysOptional,
     ObjectKey,
@@ -22,8 +18,8 @@ import {
     ToKv,
     As,
     StringLiteralTemplate,
+    Err,
 } from "inferred-types/types";
-import { FailFast } from "src/boolean-logic/branching/FailFast";
 
 type BaseSuggest =
 | `${IT_WideToken}`
@@ -135,7 +131,7 @@ type Handle<
     TTest,
     TType,
     TPostfix extends string = ""
-> = TTest extends ErrBase
+> = TTest extends Error
         ? Err<
             `invalid-token/${TModule}`,
             `${TPrefix}${TTest["message"]}${TPostfix}`
@@ -159,24 +155,6 @@ type ConvertArr<T extends string> = T extends `Array<${infer Type}>`
     : Err<"invalid-token/array", `Array definition failed [${T}]`>;
 
 
-type ErrBase = Error & {
-    type: string;
-    subType?: string;
-}
-
-type Err<
-    TType extends string = string,
-    TMsg extends string = string
-> =
-TType extends `${infer Type}/${infer Subtype}`
-? Expand<
-    Error &
-    { name: PascalCase<Type>; type: Type; subType: Subtype; message: TMsg }
->
-: Expand<
-    Error &
-    { name: PascalCase<TType>; type: TType; message: TMsg }
->
 
 type ConvertUnion<
     TElements extends readonly string[],
@@ -199,7 +177,7 @@ type ConvertSet<
             Type,
             Set<ValidatedConvert<Type>>,
             `set`,
-            `Failed to define Set type -- ${T} -- `,
+            `Failed to define Set type -- ${T} -- `
 
         >
 
@@ -424,7 +402,7 @@ export type FromInputToken<
     : T extends IT_ObjectLiteralDefinition
     ? ConvertObjectLiteral<T>
     : T extends IT_UnionToken
-    ? ConvertUnion<Split<T, "|">>
+    ? ConvertUnion<Split<T,"|">
     : Err<`invalid-token/unknown`, `The token '${Trim<AsType<T>>}' is not a valid input token!`>;
 
 
