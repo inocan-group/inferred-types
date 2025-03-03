@@ -19,7 +19,7 @@ describe("asType(token)", () => {
 
 
   it("union of wide types", () => {
-    const strNum = asType("string | number");
+    const strNum = asType("string | number ");
     const optStr = asType("string | undefined");
 
     type cases = [
@@ -39,13 +39,15 @@ describe("asType(token)", () => {
     ];
   });
 
-  it("string literals", () => {
+  it("string literals (including template literals)", () => {
     const fooBar = asType("String(foo) | String(bar)");
     const starting = asType("String(foo_{{string}})");
+    const multi = asType("String({{number}} x {{number}})")
 
     type cases = [
         Expect<Equal<typeof fooBar, "foo" | "bar">>,
-        Expect<Equal<typeof starting, `foo_${string}`>>
+        Expect<Equal<typeof starting, `foo_${string}`>>,
+        Expect<Equal<typeof multi, `${number} x ${number}`>>,
     ];
   });
 

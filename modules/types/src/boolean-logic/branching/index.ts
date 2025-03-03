@@ -10,6 +10,7 @@ export * from "./IfLength";
 export * from "./IfNever";
 export * from "./IfUnset";
 export * from "./OnPass";
+export * from "./FailFast";
 export * from "./Passthrough";
 export * from "./When";
 export * from "./WhenNever";

@@ -1,4 +1,4 @@
-import { Dictionary, Expand, IsDefined, PascalCase } from "inferred-types/types";
+import { Dictionary, Expand, IsDefined, PascalCase, RetainUntil } from "inferred-types/types";
 
 
 
@@ -17,7 +17,8 @@ TType extends `${infer Type}/${infer Subtype}`
 ? Expand<
     Error &
     {
-        name: PascalCase<TOpt["name"] extends string ? TOpt["name"] : TType>; type: Type;
+        name: PascalCase<TOpt["name"] extends string ? TOpt["name"] : RetainUntil<TType, "/">>;
+        type: Type;
         subType: Subtype;
         message: TMsg;
         context: IsDefined<TOpt["context"]> extends true ? TOpt["context"] : never
@@ -26,7 +27,7 @@ TType extends `${infer Type}/${infer Subtype}`
 : Expand<
     Error &
     {
-        name: PascalCase<TOpt["name"] extends string ? TOpt["name"] : TType>; type: TType;
+        name: PascalCase<TOpt["name"] extends string ? TOpt["name"] : RetainUntil<TType, "/">>; type: TType;
         message: TMsg
         context: IsDefined<TOpt["context"]> extends true ? TOpt["context"] : never
     }
