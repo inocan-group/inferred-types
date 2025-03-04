@@ -1,10 +1,8 @@
-import {
+import type {
     IsStringLiteral,
     StripChars,
     Whitespace
 } from "inferred-types/types";
-
-
 
 /**
  * **RemovesWhitespace**`<T>`
@@ -18,7 +16,5 @@ import {
  * ```
  */
 export type RemoveWhitespace<T extends string> = IsStringLiteral<T> extends true
-? StripChars<T, Whitespace>
-: string;
-
-
+    ? StripChars<T, Whitespace>
+    : string;

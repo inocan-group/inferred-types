@@ -1,4 +1,3 @@
-import type { Marked } from "inferred-types/constants";
 import type {
     IsWideType,
     Or,
@@ -27,4 +26,4 @@ export type StripChars<
     TStrip extends string,
 > = Or<[IsWideType<TContent>, IsWideType<TStrip>]> extends true
     ? string
-    : Removal<TContent,TStrip>
+    : Removal<TContent, TStrip>;

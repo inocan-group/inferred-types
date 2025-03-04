@@ -1,4 +1,4 @@
-import { IsStringLiteral } from "src/boolean-logic"
+import type { IsStringLiteral } from "src/boolean-logic";
 
 /**
  * **StringLiteralTemplate**`<T>`
@@ -11,12 +11,12 @@ export type StringLiteralTemplate<T extends string | number | boolean> = IsStrin
     ? T extends number
         ? `${number}`
         : T extends boolean
-        ? `${boolean}`
-        : T extends `${infer Before}{{string}}${infer After}`
-        ? StringLiteralTemplate<`${Before}${string}${After}`>
-        : T extends `${infer Before}{{number}}${infer After}`
-        ? StringLiteralTemplate<`${Before}${number}${After}`>
-        : T extends `${infer Before}{{boolean}}${infer After}`
-        ? StringLiteralTemplate<`${Before}${boolean}${After}`>
-        : T
+            ? `${boolean}`
+            : T extends `${infer Before}{{string}}${infer After}`
+                ? StringLiteralTemplate<`${Before}${string}${After}`>
+                : T extends `${infer Before}{{number}}${infer After}`
+                    ? StringLiteralTemplate<`${Before}${number}${After}`>
+                    : T extends `${infer Before}{{boolean}}${infer After}`
+                        ? StringLiteralTemplate<`${Before}${boolean}${After}`>
+                        : T
     : never;

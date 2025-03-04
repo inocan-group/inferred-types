@@ -1,5 +1,3 @@
-
-
 /**
  * **Suggest**`<T>`
  *
@@ -20,9 +18,3 @@ export type Suggest<
     : T extends string
         ? T | (string & {})
         : never;
-
-
-
-
-
-

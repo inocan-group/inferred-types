@@ -5,4 +5,4 @@
 export type TypeSubtype<
     T extends string = string,
     S extends string = string
-> = `${string}/${string}`;
+> = `${T}/${S}`;

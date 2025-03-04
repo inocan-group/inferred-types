@@ -1,6 +1,5 @@
 import type {
     FromDefn,
-    IsEqual,
     Narrowable,
     SimpleToken,
 } from "inferred-types/types";
@@ -11,7 +10,7 @@ export type RuntimeSort<
 > = {
     first?: readonly F[];
     last?: readonly S[];
-    offset?: string
+    offset?: string;
 };
 
 type ToConfig<
@@ -30,54 +29,38 @@ export function sort<
     sort: S,
 ) {
     let first: unknown[] = [];
-    let rest: unknown[] = [];
-    let last: unknown[] = [];
+    const rest: unknown[] = [];
+    const last: unknown[] = [];
 
     first = sort?.offset
         ? []
-        :
+        : [];
 
     return (
         container
     ) as unknown as S;
 }
 
-// const a = sort([1, 2, "foo", 55, "bar"], { first: ["string(bar)", "number(55)"] });
-
 type ArrayToken = `Array<${string}>` & {
-    kind: "ArrayToken"
+    kind: "ArrayToken";
 };
 
 type WideToken = "string" | "number" | "boolean" | "undefined" | "unknown" | "any";
 
 type ConvertWide<T extends WideToken> = T extends "string"
-? string
-: T extends "number"
-? number
-: T extends "boolean"
-? boolean
-: T extends "null"
-? null
-: T extends "undefined"
-? undefined
-: T extends "unknown"
-? unknown
-: T extends "any"
-? any
-: never;
+    ? string
+    : T extends "number"
+        ? number
+        : T extends "boolean"
+            ? boolean
+            : T extends "null"
+                ? null
+                : T extends "undefined"
+                    ? undefined
+                    : T extends "unknown"
+                        ? unknown
+                        : T extends "any"
+                            ? any
+                            : never;
 
 ;
-
-
-type A<T extends `Array<${string}>` = `Array<${string}>`> =
-? T extends `Array<string>`
-    ? string[]
-    : T extends `Array<${infer W}>`
-        ? W extends WideToken
-            ? Array<ConvertWide<W>>
-            : "not wide"
-    : never;
-
-const fn = <T extends `Array<${string}>`>(arr: T) => arr as unknown as A<T>;
-
-const a = fn("Array<string>")

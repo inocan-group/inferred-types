@@ -3,8 +3,6 @@ import type {
     Or,
 } from "inferred-types/types";
 
-
-
 type Retention<
     TContent extends string,
     TRemove extends string,
@@ -29,4 +27,4 @@ export type RetainChars<
     TRetain extends string,
 > = Or<[IsWideType<TContent>, IsWideType<TRetain>]> extends true
     ? string
-    : Retention<TContent,TRetain>;
+    : Retention<TContent, TRetain>;

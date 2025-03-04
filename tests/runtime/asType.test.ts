@@ -1,7 +1,32 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { asType } from "inferred-types/runtime";
-import { Contains, Extends } from "transpiled/types";
 import { describe, it } from "vitest";
+import { asType } from "inferred-types/runtime";
+import { FromInputToken } from "inferred-types/types";
+import { Contains, Extends } from "inferred-types/types";
+import { TypedFunction } from "transpiled/types";
+
+describe("FromInputToken<Token>", () => {
+
+
+    it("unions", () => {
+      type U = FromInputToken<"number | String(bar)">;
+
+      type cases = [
+        Expect<Equal<U, number | "bar">>
+      ];
+    });
+
+
+    it("tuple", () => {
+      type T = FromInputToken<["number", "string", "true | Object"]>
+
+      type cases = [
+        Expect<Equal<T, [ number, string, true | Object ]>>
+      ];
+    });
+
+})
+
 
 describe("asType(token)", () => {
 
@@ -51,8 +76,19 @@ describe("asType(token)", () => {
     ];
   });
 
+
+  it("all literal types", () => {
+    const all = asType("Number(1) | Number(2) | Boolean(false)")
+
+    type cases = [
+      Expect<Equal<typeof all, 1 | 2 | false>>
+    ];
+  });
+
+
   it("object definition", () => {
     const fooBar = asType({foo: "string", bar: "number"});
+
     const fuzzy = asType({
         foo: "string | undefined",
         bar: "Array<boolean> | Boolean(false)"
@@ -68,7 +104,7 @@ describe("asType(token)", () => {
         Expect<Equal<typeof fooBar, { foo: string; bar: number}>>,
         Expect<Equal<typeof fuzzy, { foo: string | undefined; bar: false | boolean[]}>>,
         Expect<Extends<typeof propError, Error>>,
-        Expect<Contains<typeof propError["message"], "The token 'Array<number' is not a valid input">>
+        Expect<Contains<typeof propError["message"], "problem with 'bar' key">>
     ];
   });
 
@@ -76,6 +112,7 @@ describe("asType(token)", () => {
     const strArr = asType("Array<string>");
     const fnArr = asType("Array<function>");
     const objArr = asType("Array<object>");
+    const fooArr = asType("Array<String(foo)>");
     const unionArr = asType("Array<string | number>");
     const unionArr2 = asType("Array<string | undefined>");
     const unionArr3 = asType("Array<String(foo) | String(bar)>");
@@ -84,11 +121,34 @@ describe("asType(token)", () => {
         Expect<Equal<typeof strArr, string[]>>,
         Expect<Equal<typeof fnArr, ((...args: any[]) => any)[]>>,
         Expect<Equal<typeof objArr, Object[]>>,
+        Expect<Equal<typeof fooArr, "foo"[]>>,
         Expect<Equal<typeof unionArr, (string | number)[]>>,
         Expect<Equal<typeof unionArr2, (string | undefined)[]>>,
         Expect<Equal<typeof unionArr3, ("foo" | "bar")[]>>,
     ]
-  })
+  });
+
+
+  it("tuple definition", () => {
+    const tup = asType(["String(foo)", "Array<String(bar)>"]);
+
+    type cases = [
+      /** type tests */
+    ];
+  });
+
+
+  it("Record<K,V>", () => {
+    const obj = asType("Record<string, function>");
+    const union = asType("Record<string, Object> | Record<string, number>")
+
+    type cases = [
+      Expect<Equal<typeof obj, Record<string, TypedFunction>>>,
+      Expect<Equal<typeof union, Record<string, Object> | Record<string, number>>>
+    ];
+  });
+
+
 
 
   it("Set definition", () => {

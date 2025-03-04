@@ -1,8 +1,8 @@
 import type { DefineObject, FromDefn, ShapeCallback } from "inferred-types/types";
 import { Never } from "inferred-types/constants";
-import { isDoneFn, isFunction, isSimpleToken } from "inferred-types/runtime";
+import { asSimpleType, isDoneFn, isFunction, isSimpleToken } from "inferred-types/runtime";
 import { handleDoneFn } from "../api/handleDoneFn";
-import { asSimpleType } from "./asType";
+
 import { ShapeApiImplementation } from "./shape";
 
 export function asDefineObject<T extends DefineObject>(defn: T) {

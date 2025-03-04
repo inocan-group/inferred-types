@@ -1,3 +1,4 @@
+export * from "./asSimpleType";
 export * from "./asToken";
 export * from "./asType";
 export * from "./asUnion";
