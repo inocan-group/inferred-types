@@ -1,5 +1,6 @@
 export * from "./Default";
 export * from "./Fail";
+export * from "./FailFast";
 export * from "./Handle";
 export * from "./If";
 export * from "./IfAllExtend";
@@ -10,7 +11,6 @@ export * from "./IfLength";
 export * from "./IfNever";
 export * from "./IfUnset";
 export * from "./OnPass";
-export * from "./FailFast";
 export * from "./Passthrough";
 export * from "./When";
 export * from "./WhenNever";

@@ -1,12 +1,12 @@
-import { IsNever, AfterFirst, First, Unset, If, IsUnset, IsTrue, IsFalse, IsError, Extends, Or } from "inferred-types/types";
+import type { AfterFirst, Extends, First, If, IsError, IsFalse, IsNever, IsUnset, Or, Unset } from "inferred-types/types";
 
 type Rtn<T, TErr> = IsNever<T> extends true
-? If<IsUnset<TErr>, never, TErr>
-: IsFalse<T> extends true
-? If<IsUnset<TErr>, false, TErr>
-: IsError<T> extends true
-? T
-: never;
+    ? If<IsUnset<TErr>, never, TErr>
+    : IsFalse<T> extends true
+        ? If<IsUnset<TErr>, false, TErr>
+        : IsError<T> extends true
+            ? T
+            : never;
 
 type IsFail<T> = Or<[
     IsNever<T>,
@@ -33,16 +33,15 @@ export type FailFast<
     TTests extends readonly unknown[],
     TErr extends Unset | Error = Unset
 > = [] extends TTests
-? undefined
-: [any] extends TTests
-? IsFail<TTests[0]> extends true
-    ? Rtn<TTests[0], TErr>
-    : TTests[0] // success
-: IsFail<First<TTests>> extends true
-? Rtn<First<TTests>, TErr>
+    ? undefined
+    : [any] extends TTests
+        ? IsFail<TTests[0]> extends true
+            ? Rtn<TTests[0], TErr>
+            : TTests[0] // success
+        : IsFail<First<TTests>> extends true
+            ? Rtn<First<TTests>, TErr>
 
-: FailFast<
-    AfterFirst<TTests>,
-    TErr
->
-
+            : FailFast<
+                AfterFirst<TTests>,
+                TErr
+            >;

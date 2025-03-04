@@ -20,7 +20,7 @@ export * from "./optional";
 export * from "./safe-string-encoding";
 export * from "./stripParenthesis";
 export * from "./toJSON";
-export * from "./toKeyValue";
+// export * from "./toKeyValue";
 export * from "./toNumber";
 export * from "./tw-conversion";
 export * from "./unionize";

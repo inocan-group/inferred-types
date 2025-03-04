@@ -52,20 +52,20 @@ export type ToKv<
     TKeys extends (readonly (ObjectKey & keyof TObj)[]) | false = As<Keys<TObj>, (readonly (ObjectKey & keyof TObj)[])>,
 > = (
     IsObjectLiteral<TObj> extends true
-    ? TKeys extends readonly (ObjectKey & keyof TObj)[]
-        ? Process<TObj, TKeys>
-        : Array<
-            { [K in keyof TObj]: { key: K; value: TObj[K] } }[keyof TObj]
-        >
-    : KeyValue[]
+        ? TKeys extends readonly (ObjectKey & keyof TObj)[]
+            ? Process<TObj, TKeys>
+            : Array<
+                { [K in keyof TObj]: { key: K; value: TObj[K] } }[keyof TObj]
+            >
+        : KeyValue[]
 ) extends readonly KeyValue[]
-? (
-    IsObjectLiteral<TObj> extends true
-    ? TKeys extends readonly (ObjectKey & keyof TObj)[]
-        ? Process<TObj, TKeys>
-        : Array<
-            { [K in keyof TObj]: { key: K; value: TObj[K] } }[keyof TObj]
-        >
-    : KeyValue[]
-)
-: never;
+    ? (
+        IsObjectLiteral<TObj> extends true
+            ? TKeys extends readonly (ObjectKey & keyof TObj)[]
+                ? Process<TObj, TKeys>
+                : Array<
+                    { [K in keyof TObj]: { key: K; value: TObj[K] } }[keyof TObj]
+                >
+            : KeyValue[]
+    )
+    : never;

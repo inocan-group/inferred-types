@@ -13,7 +13,6 @@ export type TrimRight<S extends string> = string extends S ? string :
     S extends `${infer Right}${Whitespace}` ?
         TrimRight<Right> : S;
 
-
 /**
  * Trims off whitespace on end of the string
  * ```ts
