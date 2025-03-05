@@ -1,5 +1,4 @@
 import type {
-    FromDefn,
     Narrowable,
     SimpleToken,
 } from "inferred-types/types";
@@ -13,13 +12,6 @@ export type RuntimeSort<
     offset?: string;
 };
 
-type ToConfig<
-    T extends RuntimeSort
-> = {
-    first: FromDefn<T["first"]>;
-    last: FromDefn<T["last"]>;
-};
-
 export function sort<
     T extends readonly N[],
     N extends Narrowable,
@@ -28,11 +20,11 @@ export function sort<
     container: T,
     sort: S,
 ) {
-    let first: unknown[] = [];
-    const rest: unknown[] = [];
-    const last: unknown[] = [];
+    let _first: unknown[] = [];
+    const _rest: unknown[] = [];
+    const _last: unknown[] = [];
 
-    first = sort?.offset
+    _first = sort?.offset
         ? []
         : [];
 
@@ -40,27 +32,3 @@ export function sort<
         container
     ) as unknown as S;
 }
-
-type ArrayToken = `Array<${string}>` & {
-    kind: "ArrayToken";
-};
-
-type WideToken = "string" | "number" | "boolean" | "undefined" | "unknown" | "any";
-
-type ConvertWide<T extends WideToken> = T extends "string"
-    ? string
-    : T extends "number"
-        ? number
-        : T extends "boolean"
-            ? boolean
-            : T extends "null"
-                ? null
-                : T extends "undefined"
-                    ? undefined
-                    : T extends "unknown"
-                        ? unknown
-                        : T extends "any"
-                            ? any
-                            : never;
-
-;

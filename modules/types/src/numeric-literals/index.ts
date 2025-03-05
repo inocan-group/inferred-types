@@ -1,4 +1,4 @@
-;export * from "./Abs";
+; export * from "./Abs";
 export * from "./AbsMaybe";
 export * from "./Add";
 export * from "./AsNegativeNumber";
@@ -22,4 +22,6 @@ export * from "./PriorDigit";
 export * from "./Subtract";
 export * from "./ToInteger";
 export * from "./ToNumericArray";
+export * from "./Length";
 export * from "./Zero";
+export * from "./CompareNumbers"

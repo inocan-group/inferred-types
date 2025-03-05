@@ -18,3 +18,4 @@ export * from "./ifScalar";
 export * from "./ifString";
 export * from "./ifTrue";
 export * from "./ifUndefined";
+export * from "./ifError"

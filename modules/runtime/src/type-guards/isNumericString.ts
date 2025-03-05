@@ -1,6 +1,6 @@
 import type { NumberLike } from "inferred-types/types";
 import { NUMERIC_CHAR } from "inferred-types/constants";
-import { split } from "inferred-types/runtime";
+import { asChars } from "inferred-types/runtime";
 
 /**
  * **isNumericString**(value)
@@ -13,7 +13,7 @@ export function isNumericString<T>(value: T): value is T & `${number}` {
     const numericChars = [...NUMERIC_CHAR];
 
     return typeof value === "string" && (
-        split(value).every(i => numericChars.includes(i as any))
+        asChars(value).every(i => numericChars.includes(i as any))
     );
 }
 
@@ -31,7 +31,7 @@ export function isNumberLike<T>(value: T): value is T & NumberLike {
     const numericChars = [...NUMERIC_CHAR];
 
     return typeof value === "string" && (
-        split(value).every(i => numericChars.includes(i as any))
+        asChars(value).every(i => numericChars.includes(i as any))
     )
         ? true
         : typeof value === "number";

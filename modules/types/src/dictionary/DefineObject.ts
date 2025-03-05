@@ -1,5 +1,5 @@
-import type { FromDefn } from "../literals";
-import type { ShapeCallback, SimpleToken } from "../runtime-types";
+import type { FromDefn, ShapeCallback, SimpleToken } from "inferred-types/types";
+
 
 /**
  * **DefineObject**

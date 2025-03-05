@@ -1,5 +1,6 @@
 import type {
     Container,
+    Err,
     ErrorCondition,
     IsEmptyObject,
     IsEqual,
@@ -63,12 +64,10 @@ type GetKeys<
 export type IsWideContainer<T> = IsEmptyObject<T> extends true
     ? false
     : T extends Container
-        ? T extends readonly unknown[]
-            ? "length" extends keyof T
+        ? T extends readonly any[]
                 ? IsEqual<T["length"], number> extends true
                     ? true
                     : false
-                : false
             : T extends object
                 ? "length" extends keyof GetKeys<T>
                     ? IsEqual<GetKeys<T>["length"], number> extends true
@@ -78,12 +77,7 @@ export type IsWideContainer<T> = IsEmptyObject<T> extends true
                 : false
         : false;
 
-type InvalidNever = Throw<
-    "invalid-never",
-    `The value of T when calling IsWideType<T> was "never" which makes the comparison invalid! If you want prefer to instead allow this condition then set the TNever generic to true or false depending on your preferred outcome`,
-    "IsWideType",
-    { library: "inferred-types/constants" }
->;
+
 
 /**
  * **IsWideType**`<T, [TNever]>`
@@ -102,16 +96,11 @@ type InvalidNever = Throw<
  * - If an ErrorCondition is in `T` then it will be bubbled up
  */
 export type IsWideType<
-    T,
-    TNever = InvalidNever,
-> = [IsNever<T>] extends [true]
-    ? TNever
-    : [T] extends [ErrorCondition]
-        ? ProxyError<T, "IsWideType">
-        : IsWideScalar<T> extends true
+    T
+> = [IsWideScalar<T>] extends [true]
+        ? true
+        : IsWideContainer<T> extends true
             ? true
-            : IsWideContainer<T> extends true
+            : IsWideUnion<T> extends true
                 ? true
-                : IsWideUnion<T> extends true
-                    ? true
-                    : false;
+                : false;

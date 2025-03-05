@@ -1,6 +1,7 @@
 import type {
     ComparatorOperation,
     Compare,
+    CompareNumbers,
     If,
     IfNever,
     IsArray,

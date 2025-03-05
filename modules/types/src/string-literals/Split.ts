@@ -1,5 +1,6 @@
 import type {
     AfterFirst,
+    Err,
     ErrMsg,
     Filter,
     First,
@@ -100,7 +101,7 @@ type Process<
     TPolicy extends Policy = "omit",
 > = IsLiteral<TSep> extends true
     ? TSep extends ""
-        ? ErrMsg<
+        ? Err<
             "invalid-separator",
             `Split<T>: an empty string was used as a separator. Use Chars<T> if you want to split a string into characters!`
         >
@@ -135,6 +136,8 @@ export type Split<
     ? IsUnion<TSep> extends true
         ? UnionToTuple<TSep> extends readonly string[]
             ? Split<TContent, UnionToTuple<TSep>, TPolicy>
-            : ErrMsg<"invalid-union">
-        : Process<TContent, TSep, TPolicy>
+            : Err<"invalid-union", `Split<...> unable to convert union type to Tuple!`, {content: TContent}>
+        : Process<TContent, TSep, TPolicy> extends readonly string[]
+            ? Process<TContent, TSep, TPolicy>
+            : never
     : string[];

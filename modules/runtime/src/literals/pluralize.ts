@@ -4,7 +4,7 @@ import {
     PLURAL_EXCEPTIONS,
     SINGULAR_NOUN_ENDINGS,
 } from "inferred-types/constants";
-import { rightWhitespace, split, stripTrailing } from "inferred-types/runtime";
+import { asChars, rightWhitespace, split, stripTrailing } from "inferred-types/runtime";
 
 const isException = <T extends string>(word: T) => Object.keys(PLURAL_EXCEPTIONS).includes(word);
 
@@ -29,7 +29,7 @@ function endingIn<
             return word.endsWith(postfix) ? `${word}es` : undefined;
         case "singular-noun":
             return SINGULAR_NOUN_ENDINGS.some(i => word.endsWith(i))
-                ? split(word).every(i => [...ALPHA_CHARS].includes(i as any))
+                ? asChars(word).every(i => [...ALPHA_CHARS].includes(i as any))
                     ? `${word}es`
                     : undefined
                 : undefined;

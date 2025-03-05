@@ -1,5 +1,6 @@
 // markdown lint file
 {
   "MD041": false,
-  "MD013": false
+  "MD013": false,
+  "MD007": false
 }
