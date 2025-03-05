@@ -26,17 +26,12 @@ export type IsEqual<
     X,
     Y,
     TRUE = true,
-    FALSE = false,
-    AllowNever = false,
-> = [IsAny<X>] extends [true]
-    ? [IsAny<Y>] extends [true]
-        ? [IsTrue<AllowNever>] extends [true] ? true : never
-        : [IsTrue<AllowNever>] extends [true] ? false : never
-    : [boolean] extends [X]
-        ? [boolean] extends [Y]
-            ? true
-            : false
-        : Test<X, Y, TRUE, FALSE>;
+    FALSE = false
+> = [X] extends [Y]
+? [Y] extends [X]
+    ? TRUE
+    : FALSE
+: FALSE;
 
 /**
  * **Equals**`<X,Y>`

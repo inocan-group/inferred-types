@@ -21,7 +21,7 @@ describe("FromInputToken<Token>", () => {
       type T = FromInputToken<["number", "string", "true | Object"]>
 
       type cases = [
-        Expect<Equal<T, [ number, string, true | Object ]>>
+        Expect<Equal<T, [ number, string, true | object ]>>
       ];
     });
 
@@ -120,7 +120,7 @@ describe("asType(token)", () => {
     type cases = [
         Expect<Equal<typeof strArr, string[]>>,
         Expect<Equal<typeof fnArr, ((...args: any[]) => any)[]>>,
-        Expect<Equal<typeof objArr, Object[]>>,
+        Expect<Equal<typeof objArr, object[]>>,
         Expect<Equal<typeof fooArr, "foo"[]>>,
         Expect<Equal<typeof unionArr, (string | number)[]>>,
         Expect<Equal<typeof unionArr2, (string | undefined)[]>>,
@@ -144,11 +144,9 @@ describe("asType(token)", () => {
 
     type cases = [
       Expect<Equal<typeof obj, Record<string, TypedFunction>>>,
-      Expect<Equal<typeof union, Record<string, Object> | Record<string, number>>>
+      Expect<Equal<typeof union, Record<string, object> | Record<string, number>>>
     ];
   });
-
-
 
 
   it("Set definition", () => {
@@ -170,7 +168,7 @@ describe("asType(token)", () => {
 
     type cases = [
         Expect<Equal<typeof str, Map<string,string>>>,
-        Expect<Equal<typeof num, Map<number, Object>>>,
+        Expect<Equal<typeof num, Map<number, object>>>,
         Expect<Equal<typeof union, Map<string | number, string[]>>>,
     ];
   });

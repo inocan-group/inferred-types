@@ -56,6 +56,7 @@ export * from "./isTruthy";
 export * from "./isTypeSubtype";
 export * from "./isTypeTuple";
 export * from "./isUndefined";
+export * from "./isError";
 
 export * from "./isUnset";
 export * from "./isUrl";

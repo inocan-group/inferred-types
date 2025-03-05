@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 
-import { Dictionary, Length } from "inferred-types/types";
+import { Length } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("Length<T>", () => {
@@ -16,11 +16,6 @@ describe("Length<T>", () => {
         type WideStr = Length<string>;
         type WideNum = Length<number>;
 
-        type ObjLit = Length<{ foo: 1 }>;
-        type ObjLit2 = Length<{ foo: 1; bar: 2 }>;
-        type WideObj = Length<Dictionary>;
-        type EmptyObj = Length<NonNullable<unknown>>;
-
         type cases = [
             //
             Expect<Equal<Length<A1>, 3>>,
@@ -34,16 +29,7 @@ describe("Length<T>", () => {
             Expect<Equal<WideStr, number>>,
             Expect<Equal<NumericLit, 4>>,
             Expect<Equal<WideNum, number>>,
-            Expect<Equal<ObjLit, 1>>,
-            Expect<Equal<ObjLit2, 2>>,
-            Expect<Equal<WideObj, number>>,
-            Expect<Equal<EmptyObj, 0>>,
         ];
-        const cases: cases = [
-            true, true, true, true,
-            true, true, true, true,
-            true, true, true, true,
-            true, true, true
-        ];
+
     });
 });

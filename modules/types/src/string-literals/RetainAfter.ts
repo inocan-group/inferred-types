@@ -4,7 +4,7 @@ import type {
     IsNever,
     IsTrue,
     IsUnion,
-    MaxLength,
+    FindMaxLength,
     UnionToTuple,
 } from "inferred-types/types";
 
@@ -51,7 +51,7 @@ export type RetainAfter<
 > = IsNever<_RetainAfter<TStr, TBreak, TInclude>> extends true
     ? ""
     : IsUnion<_RetainAfter<TStr, TBreak, TInclude>> extends true
-        ? MaxLength<UnionToTuple<_RetainAfter<TStr, TBreak, TInclude>>>
+        ? FindMaxLength<UnionToTuple<_RetainAfter<TStr, TBreak, TInclude>>>
         : _RetainAfter<TStr, TBreak, TInclude>;
 
 export type RetainAfterLast<

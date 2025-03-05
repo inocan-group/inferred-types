@@ -1,5 +1,6 @@
 import type {
     AnyObject,
+    EmptyObject,
     KeyValue,
     Narrowable,
     NarrowObject,
@@ -34,7 +35,7 @@ import { sort } from "inferred-types/runtime";
 export function toKeyValue<
     T extends NarrowObject<N> | AnyObject,
     N extends Narrowable,
-    TSort extends SortOptions<StringKeys<T>, StringKeys<T>> = {},
+    TSort extends SortOptions<StringKeys<T>, StringKeys<T>> = EmptyObject,
 >(
     obj: T,
     opt?: <S extends SortOptions>(cb: S) => void,

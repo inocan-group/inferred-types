@@ -1,34 +1,54 @@
-import type { Dictionary, EmptyObject, Expand, IsDefined, MergeObjects, PascalCase, RetainUntil } from "inferred-types/types";
+import type {
+    Dictionary,
+    EmptyObject,
+    Expand,
+    KebabCase,
+    PascalCase,
+    RetainUntil
+} from "inferred-types/types";
 
-export type ErrOptions = {
-    name?: string;
-    context?: Record<string, any>;
-};
+/**
+ * **TypedError**
+ *
+ * An `Error` which is guarenteed to have a `type` property
+ * and may optionally have a `subType` property.
+ */
+export type TypedError<
+    T extends string = string,
+    S extends string | undefined = string | undefined
+> = Expand<
+    Error &
+    {
+        type: T;
+        subType: S;
+        [key: string]: any;
+    }
+>
+
 
 export type Err<
     TType extends string = string,
     TMsg extends string = string,
-    TOpt extends ErrOptions = EmptyObject
+    TCtx extends Record<string,any> = EmptyObject
 > =
 TType extends `${infer Type}/${infer Subtype}`
     ? Expand<
     Error &
     {
-        name: PascalCase<TOpt["name"] extends string ? TOpt["name"] : RetainUntil<TType, "/">>;
-        type: Type;
-        subType: Subtype;
+        name: PascalCase<TCtx["name"] extends string ? TCtx["name"] : RetainUntil<TType, "/">>;
+        type: KebabCase<Type>;
+        subType: Subtype extends string ? KebabCase<Subtype> : undefined;
         message: TMsg;
-        context: IsDefined<TOpt["context"]> extends true ? TOpt["context"] : never;
-    }
+    } & TCtx
     >
     : Expand<
     Error &
     {
-        name: PascalCase<TOpt["name"] extends string ? TOpt["name"] : RetainUntil<TType, "/">>;
+        name: PascalCase<TCtx["name"] extends string ? TCtx["name"] : RetainUntil<TType, "/">>;
         type: TType;
+        subType: undefined;
         message: TMsg;
-        context: IsDefined<TOpt["context"]> extends true ? TOpt["context"] : never;
-    }
+    } & TCtx
     >;
 
 /**
@@ -37,17 +57,9 @@ TType extends `${infer Type}/${infer Subtype}`
 export type ErrContext<
     T extends Error,
     C extends Dictionary
-> = "context" extends keyof T
-    ? T["context"] extends Dictionary
-        ? Expand<
-            Omit<T, "context"> & Record<"contect", MergeObjects<T["context"], C>>
-        >
-        : Expand<
-            Omit<T, "context" & Record<"context", C>>
-        >
-    : Expand<
-    T & Record<"context", C>
-    >;
+> = Expand<Omit<T, keyof C> & C> extends Error
+? Expand<Omit<T, keyof C> & C>
+: never;
 
 /**
  * **WhenErr**`<T,C>`

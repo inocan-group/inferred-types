@@ -1,6 +1,7 @@
 import type { NETWORK_PROTOCOL_LOOKUP, PROTOCOL_DEFAULT_PORTS } from "inferred-types/constants";
 import type {
     AlphaNumericChar,
+    AlphaNumericPlus,
     AsNumber,
     AsString,
     Contains,
@@ -18,6 +19,7 @@ import type {
     NumericChar,
     RemoveEmpty,
     RetainWhile,
+    StartsWith,
     StripAfter,
     StripBefore,
     StripChars,
@@ -123,7 +125,7 @@ export type GetDefaultPort<T> = GetUrlProtocol<T> extends keyof ProtocolPortLook
 /**
  * **GetUrlPort**`<T, [R]>`
  *
- * Returns the port designated in the URL passed in if found.
+ * Returns the port designated in the URL passed in (if found).
  *
  * - if `T` is a literal string and port not found then value is "default"
  * - if `T` is a wide string then the value will be `number | "default"`
@@ -217,7 +219,7 @@ export type RemoveNetworkProtocol<
     ? Rest
     : TContent;
 
-export type UrlPathChars = AlphaNumericChar | "_" | "@" | "." | "-";
+export type UrlPathChars = AlphaNumericChar | "_" | "@" | "." | "-" | "/";
 
 /**
  * **UrlPath**`<T>`
@@ -235,14 +237,14 @@ export type UrlPathChars = AlphaNumericChar | "_" | "@" | "." | "-";
 export type UrlPath<T extends string | null = null> = T extends null
     ? "" | `/${UrlPathChars}${string}`
     : T extends string
-        ? IsStringLiteral<T> extends true
-            ? T extends `${string}/`
-                ? never
-                : StripChars<T, UrlPathChars | "/"> extends ""
-                    ? T
+        ? string extends T
+            ? never
+            : T extends `/${AlphaNumericChar}${infer Rest}`
+                    ? AlphaNumericPlus<Rest, "_" | "@" | "." | "-" | "/"> extends Error
+                        ? never
+                        : T
                     : never
-            : never
-        : never; // when not string or null
+            : never; // when not string or null
 
 /**
  * **GetUrlSource**`<T>`

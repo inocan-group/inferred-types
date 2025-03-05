@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { MaxLength } from "inferred-types/types";
+import { FindMaxLength } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -9,10 +9,10 @@ import { describe, it } from "vitest";
 describe("MaxLength<T>", () => {
 
     it("happy path", () => {
-        type FooBar = MaxLength<["foo", "bar", "foobar", "baz"]>;
-        type FooBar2 = MaxLength<["foo", "bar", "foobar"]>;
-        type FooBar3 = MaxLength<["foobar", "bar", "foo", "baz"]>;
-        type FooBar4 = MaxLength<["foobar"]>;
+        type FooBar = FindMaxLength<["foo", "bar", "foobar", "baz"]>;
+        type FooBar2 = FindMaxLength<["foo", "bar", "foobar"]>;
+        type FooBar3 = FindMaxLength<["foobar", "bar", "foo", "baz"]>;
+        type FooBar4 = FindMaxLength<["foobar"]>;
 
 
         // @ts-ignore

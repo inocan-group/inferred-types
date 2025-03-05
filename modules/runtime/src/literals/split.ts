@@ -1,18 +1,24 @@
-import type { Chars, IsEqual } from "inferred-types/types";
+import type { Chars, IsEqual, Split } from "inferred-types/types";
+
+type Policy = "omit" | "before" | "after";
 
 /**
- * **split**(str, sep)
+ * **split**`(str, sep, [policy = "omit"])`
  *
  * Splits a string on a given separator while preserving string literal typing
- * where available. Behavior with non-string types is:
- *
- * - `number` - converted to string and then split
- *
- * All are other types are disallowed.
+ * when possible.
  */
 export function split<
     T extends string,
     S extends string,
->(str: T, sep: S = "" as S) {
-    return str.split(sep) as unknown as IsEqual<S, ""> extends true ? Chars<T> : readonly string[];
+    P extends Policy = "omit"
+>(
+    str: T,
+    sep: S,
+    policy: P = "omit" as P
+) {
+    return str.split(sep) as unknown as IsEqual<S, ""> extends true
+        ? Chars<T>
+        : Split<T,S,P>
 }
+

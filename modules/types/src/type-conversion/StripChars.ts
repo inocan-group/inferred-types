@@ -11,6 +11,8 @@ type Removal<
     ? Removal<Remaining, TRemove, `${TCollect}${Head extends TRemove ? "" : Head}`>
     : TCollect;
 
+
+
 /**
  * **StripChars**`<TContent,TStrip>`
  *

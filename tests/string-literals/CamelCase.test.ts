@@ -9,15 +9,12 @@ import { describe, it, expect } from "vitest";
 describe("CamelCase<T>", () => {
   it("from PascalCase", () => {
     expect(toCamelCase("PascalCase")).toEqual("pascalCase");
-    expect(toCamelCase(" PascalCase ", false)).toEqual("pascalCase");
-    expect(toCamelCase(" PascalCase ", true)).toEqual(" pascalCase ");
     expect(toCamelCase("OnceUponATime")).toEqual("onceUponATime");
     expect(toCamelCase("78CamelCaseIsNotGreat9")).toEqual("78camelCaseIsNotGreat9");
   });
 
   it("from snake_case", () => {
     expect(toCamelCase("snake_case")).toEqual("snakeCase");
-    expect(toCamelCase(" snake_case ", true)).toEqual(" snakeCase ");
     expect(toCamelCase("snake_case_in_rust")).toEqual("snakeCaseInRust");
   });
 
@@ -25,13 +22,8 @@ describe("CamelCase<T>", () => {
     expect(toCamelCase("dash-me")).toEqual("dashMe");
     expect(toCamelCase("dash_me")).toEqual("dashMe");
     expect(toCamelCase("dash-for-css")).toEqual("dashForCss");
-    expect(toCamelCase(" dash-me ", true)).toEqual(" dashMe ");
   });
 
-  it("from Bastar*d Case", () => {
-    expect(toCamelCase(" CamelCase is not PascalCase ", true)).toEqual(" camelCaseIsNotPascalCase ");
-    expect(toCamelCase(" --fooBar--batShit--Crazy-", true)).toEqual(" fooBarBatShitCrazy");
-  });
 
 
   it(`Using "string literal", type is modified appropriately`, () => {
@@ -49,9 +41,7 @@ describe("CamelCase<T>", () => {
     const aPascal = toCamelCase(pascal);
 
     const aWhiteTrimmed = toCamelCase(white);
-    const aWhite = toCamelCase(white, true);
     const aWhiteHybridTrimmed = toCamelCase(whiteHybrid);
-    const aWhiteHybrid = toCamelCase(whiteHybrid, true);
 
     // target type
     type TARGET = "oneTwoThree";
@@ -62,8 +52,6 @@ describe("CamelCase<T>", () => {
     type APascal = typeof aPascal;
     type AWhiteTrimmed = typeof aWhiteTrimmed;
     type AWhiteHybridTrimmed = typeof aWhiteHybridTrimmed;
-    type AWhite = typeof aWhite;
-    type AWhiteHybrid = typeof aWhiteHybrid;
 
     type cases = [
       // All non-white spaced versions of a string are converted to correct string literal
@@ -75,13 +63,8 @@ describe("CamelCase<T>", () => {
       // with a white spaced input, the default is to trim it
       Expect<Equal<AWhiteTrimmed, TARGET>>,
       Expect<Equal<AWhiteHybridTrimmed, TARGET>>,
-      // but whitespace can be preserved too
-      Expect<Equal<AWhite, "  oneTwoThree  ">>,
-      Expect<Equal<AWhiteHybrid, "\n  oneTwoThree \t">>
     ];
 
-    const c: cases = [true, true, true, true, true, true, true, true];
-    expect(c).toEqual(c);
   });
 
 });

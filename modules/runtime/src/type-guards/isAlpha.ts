@@ -1,6 +1,6 @@
 import type { Alpha, AlphaChar, Narrowable } from "inferred-types/types";
 import { ALPHA_CHARS } from "inferred-types/constants";
-import { isString, split } from "inferred-types/runtime";
+import { asChars, isString, split } from "inferred-types/runtime";
 
 /**
  * **isAlpha**(value)
@@ -9,5 +9,5 @@ import { isString, split } from "inferred-types/runtime";
  * alphabetic characters.
  */
 export function isAlpha<T extends Narrowable>(value: T): value is T & Alpha<T> {
-    return isString(value) && split(value).every(v => ALPHA_CHARS.includes(v as AlphaChar));
+    return isString(value) && asChars(value).every(v => ALPHA_CHARS.includes(v as AlphaChar));
 }

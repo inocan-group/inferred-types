@@ -1,11 +1,15 @@
 import type { IsEmpty, Narrowable, NarrowObject, Tuple } from "inferred-types/types";
 import { isEmpty } from "inferred-types/runtime";
 
+/**
+ * **ifEmpty(val, empty, notEmpty)**
+ *
+ * A boolean branching operator
+ */
 export function ifEmpty<
-    T extends Tuple<N> | NarrowObject<N>,
-    N extends Narrowable,
-    TEmpty,
-    TNotEmpty,
+    T,
+    TEmpty extends Narrowable,
+    TNotEmpty extends Narrowable,
 >(
     val: T,
     empty: TEmpty,

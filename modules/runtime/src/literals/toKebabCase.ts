@@ -11,10 +11,10 @@ import type { KebabCase } from "inferred-types/types";
  * **Related:** `toPascalCase`, `toCamelCase`, `toSnakeCase`
  */
 export function toKebabCase<
-    S extends string,
+    S extends string | undefined,
     P extends boolean = false,
 >(input: S, _preserveWhitespace: P = false as P) {
-    const [_, preWhite, focus, postWhite] = /^(\s*)(.*?)(\s*)$/.exec(input) as RegExpExecArray;
+    const [_, preWhite, focus, postWhite] = /^(\s*)(.*?)(\s*)$/.exec(input || "") as RegExpExecArray;
 
     const replaceWhitespace = (i: string) => i.replace(/\s/g, "-");
     const replaceUppercase = (i: string) => i.replace(/[A-Z]/g, c => `-${c[0].toLowerCase()}`);
@@ -27,5 +27,5 @@ export function toKebabCase<
         replaceTrailingDash(
             replaceLeadingDash(removeDupDashes(replaceWhitespace(replaceUppercase(focus)))),
         ),
-    )}${postWhite}`) as unknown as KebabCase<S, P>;
+    )}${postWhite}`) as unknown as S extends string ? KebabCase<S, P> : undefined;
 }

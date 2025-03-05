@@ -235,5 +235,8 @@
     "scss",
     "pcss",
     "postcss"
-  ]
+],
+"[markdown]": {
+    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+}
 }

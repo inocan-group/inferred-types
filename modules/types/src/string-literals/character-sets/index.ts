@@ -1,6 +1,4 @@
-export * from "./Alpha";
 export * from "./AlphaChar";
-export * from "./AlphaNumeric";
 export * from "./brackets/index";
 export * from "./CarriageReturn";
 export * from "./Consonants";

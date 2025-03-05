@@ -1,12 +1,5 @@
-type Calc<
-    A extends number,
-    B extends number,
-    Count extends 1[] = [],
-> = Count["length"] extends B
-    ? false
-    : Count["length"] extends A
-        ? true
-        : Calc<A, B, [...Count, 1]>;
+import { CompareNumbers } from "inferred-types/types";
+
 
 /**
  * **LessThan**`<A,B>`
@@ -20,4 +13,4 @@ type Calc<
 export type LessThan<
     A extends number,
     B extends number,
-> = Calc<A, B>;
+> = CompareNumbers<A,B> extends "less" ? true : false;
