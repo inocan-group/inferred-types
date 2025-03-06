@@ -1,24 +1,143 @@
-import type { Chars, IsEqual, Split } from "inferred-types/types";
+import type { Split } from "inferred-types/types";
+import { createFnWithPropsExplicit, isEven, last, nbsp } from "inferred-types/runtime";
+import {  } from "inferred-types/runtime";
+import { log } from "node:console";
 
-type Policy = "omit" | "before" | "after";
+type Policy = "omit" | "before" | "after" | "inline";
+
+const SEP = `sep:\u00A0` as const;
+
+function splitUp<
+    T extends readonly string[]
+>(
+    content: string[],
+    sep: T,
+    policy: Policy = "omit"
+) {
+    let inline = content;
+
+    for (const s of sep) {
+        let pass: string[] = [];
+        for (const c of inline) {
+            if(c.includes(s) && !c.startsWith(SEP)) {
+                const splits = c.split(s);
+                let all: string[] = []
+                for (const [idx, split] of splits.entries()) {
+                    if (isEven(idx) && idx <= splits.length) {
+                        all.push(split, `${SEP}${s}`)
+                    } else {
+                        all.push(split)
+                    }
+                }
+                pass.push(...all)
+            } else {
+                pass.push(c)
+            }
+        }
+        inline = pass;
+    }
+
+    if (policy === "omit") {
+        inline = inline.filter(i => !i.startsWith(SEP))
+    } else if (policy === "before") {
+        let before: string[] = [];
+        for (const [idx, el] of inline.entries()) {
+            if(el.startsWith(SEP)) {
+                const val = el.replace(SEP, "");
+                const priorVal = last(before);
+
+                before = [...before.slice(0,-1), `${priorVal}${val}`]
+            } else {
+                before.push(el)
+            }
+        }
+        inline = before;
+    } else if (policy === "after") {
+        let after: string[] = [];
+        let next: undefined | string = undefined;
+        for (const [idx, el] of inline.entries()) {
+            if(el.startsWith(SEP)) {
+                next = el.replace(SEP, "");
+            } else {
+                if(next) {
+                    after.push(`${next}${el}`);
+                    next = undefined;
+                } else {
+                    after.push(el)
+                }
+            }
+        }
+        log(`after`, after)
+        inline = after;
+    } else if (policy === "inline") {
+        inline = inline.map(i => i.startsWith(SEP) ? i.replace(SEP,"") : i )
+    }
+
+    return inline;
+}
+
+
+
+
+
+function omit<
+    T extends string,
+    S extends readonly string[]
+>(
+    str: T,
+    ...sep: S
+) {
+    return splitUp([str], sep) as unknown as Split<T, S, "omit">;
+}
+
+
+function before<
+    T extends string,
+    S extends readonly string[]
+>(
+    str: T,
+    ...sep: S
+) {
+    return splitUp([str], sep, "before") as unknown as Split<T, S, "before">;
+}
 
 /**
- * **split**`(str, sep, [policy = "omit"])`
+ * Splits the content using the seperator(s) and includes the separator in
+ * the element _after_ the
+ */
+function after<
+    T extends string,
+    S extends readonly string[]
+>(
+    str: T,
+    ...sep: S
+) {
+    return splitUp([str], sep, "after") as unknown as Split<T, S, "after">;
+}
+
+function inline<
+    T extends string,
+    S extends readonly string[]
+>(
+    str: T,
+    ...sep: S
+) {
+    return splitUp([str], sep, "inline") as unknown as Split<T, S, "inline">;
+}
+
+
+/**
+ * **split**`(str, sep)`
  *
  * Splits a string on a given separator while preserving string literal typing
  * when possible.
+ *
+ * - The default "policy" is to _omit_ the seperator from the return tuple
+ * - If you want to use the `before`, `after`, or `inline` policy types
+ * they are available as properties of this function.
  */
-export function split<
-    T extends string,
-    S extends string,
-    P extends Policy = "omit"
->(
-    str: T,
-    sep: S,
-    policy: P = "omit" as P
-) {
-    return str.split(sep) as unknown as IsEqual<S, ""> extends true
-        ? Chars<T>
-        : Split<T,S,P>
-}
-
+export const split = createFnWithPropsExplicit(omit, {
+    before,
+    after,
+    inline
+})

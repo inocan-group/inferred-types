@@ -1,17 +1,12 @@
 import type {
     Container,
-    Err,
-    ErrorCondition,
     IsEmptyObject,
     IsEqual,
-    IsNever,
     IsVueRef,
     IsWideUnion,
     ObjectKey,
-    ProxyError,
     RemoveIndexKeys,
     Scalar,
-    Throw,
     UnionToTuple,
 } from "inferred-types/types";
 
@@ -65,9 +60,9 @@ export type IsWideContainer<T> = IsEmptyObject<T> extends true
     ? false
     : T extends Container
         ? T extends readonly any[]
-                ? IsEqual<T["length"], number> extends true
-                    ? true
-                    : false
+            ? IsEqual<T["length"], number> extends true
+                ? true
+                : false
             : T extends object
                 ? "length" extends keyof GetKeys<T>
                     ? IsEqual<GetKeys<T>["length"], number> extends true
@@ -76,8 +71,6 @@ export type IsWideContainer<T> = IsEmptyObject<T> extends true
                     : false
                 : false
         : false;
-
-
 
 /**
  * **IsWideType**`<T, [TNever]>`
@@ -98,9 +91,9 @@ export type IsWideContainer<T> = IsEmptyObject<T> extends true
 export type IsWideType<
     T
 > = [IsWideScalar<T>] extends [true]
+    ? true
+    : IsWideContainer<T> extends true
         ? true
-        : IsWideContainer<T> extends true
+        : IsWideUnion<T> extends true
             ? true
-            : IsWideUnion<T> extends true
-                ? true
-                : false;
+            : false;

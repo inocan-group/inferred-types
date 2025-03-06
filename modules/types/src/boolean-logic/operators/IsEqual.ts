@@ -1,19 +1,3 @@
-import type { IsAny } from "./IsAny";
-import type { IsTrue } from "./IsTrue";
-
-type Test<
-    X,
-    Y,
-    TRUE = true,
-    FALSE = false,
-> = (
-    <T>() => T extends X
-        ? 1
-        : 2
-) extends <T>() => T extends Y ? 1 : 2
-    ? TRUE
-    : FALSE;
-
 /**
  * **IsEqual**`<X,Y>`
  *
@@ -28,10 +12,10 @@ export type IsEqual<
     TRUE = true,
     FALSE = false
 > = [X] extends [Y]
-? [Y] extends [X]
-    ? TRUE
-    : FALSE
-: FALSE;
+    ? [Y] extends [X]
+        ? TRUE
+        : FALSE
+    : FALSE;
 
 /**
  * **Equals**`<X,Y>`

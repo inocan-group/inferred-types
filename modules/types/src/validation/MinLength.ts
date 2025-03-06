@@ -1,4 +1,4 @@
-import { CompareNumbers, Length } from "inferred-types/types";
+import type { CompareNumbers, Length } from "inferred-types/types";
 
 /**
  * **MinLength**`<TTest,TMin,[TInvalid]>`
@@ -11,5 +11,5 @@ export type MinLength<
     TMin extends number,
     TInvalid = never
 > = CompareNumbers<Length<TTest>, TMin> extends "less"
-? TInvalid
-: TTest;
+    ? TInvalid
+    : TTest;

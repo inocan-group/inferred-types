@@ -23,13 +23,12 @@ export type TypedError<
         subType: S;
         [key: string]: any;
     }
->
-
+>;
 
 export type Err<
     TType extends string = string,
     TMsg extends string = string,
-    TCtx extends Record<string,any> = EmptyObject
+    TCtx extends Record<string, any> = EmptyObject
 > =
 TType extends `${infer Type}/${infer Subtype}`
     ? Expand<
@@ -58,8 +57,8 @@ export type ErrContext<
     T extends Error,
     C extends Dictionary
 > = Expand<Omit<T, keyof C> & C> extends Error
-? Expand<Omit<T, keyof C> & C>
-: never;
+    ? Expand<Omit<T, keyof C> & C>
+    : never;
 
 /**
  * **WhenErr**`<T,C>`

@@ -1,4 +1,4 @@
-import {
+import type {
     CompareNumbers,
     Err,
     IsWideNumber,
@@ -21,12 +21,11 @@ export type MaxLength<
     IsWideNumber<TMax>,
     IsWideType<TTest>
 ]> extends true
-? Err<
-    `invalid-verifier`,
-    `MaxLength<TTest, TMax> requires that both generics be literal values but at least one is a wide type!`,
-    { test: TTest, max: TMax }
->
-: CompareNumbers<Length<TTest>, TMax> extends "greater"
-? TInvalid
-: TTest;
-
+    ? Err<
+        `invalid-verifier`,
+        `MaxLength<TTest, TMax> requires that both generics be literal values but at least one is a wide type!`,
+        { test: TTest; max: TMax }
+    >
+    : CompareNumbers<Length<TTest>, TMax> extends "greater"
+        ? TInvalid
+        : TTest;

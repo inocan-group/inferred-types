@@ -1,4 +1,3 @@
-
 /**
  * **TypeToken**
  *
@@ -7,6 +6,4 @@
  *
  * **Related:** `isTypeToken()`, `asTypeToken()`, `ToTypeToken<T>`
  */
-export type TypeToken<T extends string> = `<<${T}>>`
-
-
+export type TypeToken<T extends string> = `<<${T}>>`;

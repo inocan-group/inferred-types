@@ -3,13 +3,12 @@ import type {
     StripLeading,
 } from "inferred-types/types";
 
-
 type _Length<
     T extends string,
     TCount extends number[] = []
 > = T extends `${string}${infer Tail}`
-? _Length<Tail, [...TCount, 0]>
-: TCount["length"];
+    ? _Length<Tail, [...TCount, 0]>
+    : TCount["length"];
 
 /**
  * Utility type which returns the length of:
@@ -28,12 +27,9 @@ export type Length<
 > = T extends readonly any[]
     ? T["length"]
     : IsWideType<T> extends true
-    ? number
-    : T extends number
+        ? number
+        : T extends number
             ? _Length<StripLeading<`${T}`, "-">>
-        : T extends string
-            ? _Length<T>
-            : never;
-
-
-
+            : T extends string
+                ? _Length<T>
+                : never;

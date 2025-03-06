@@ -1,6 +1,5 @@
 import type { FromDefn, ShapeCallback, SimpleToken } from "inferred-types/types";
 
-
 /**
  * **DefineObject**
  *

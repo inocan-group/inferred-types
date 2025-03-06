@@ -1,4 +1,3 @@
-
 /**
  * **isError**`(val)`
  *
@@ -6,5 +5,5 @@
  * instance of `Error`.
  */
 export function isError(val: unknown): val is Error {
-    return val instanceof Error ? true : false;
+    return val instanceof Error;
 }

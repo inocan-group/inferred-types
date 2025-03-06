@@ -19,10 +19,8 @@ import type {
     NumericChar,
     RemoveEmpty,
     RetainWhile,
-    StartsWith,
     StripAfter,
     StripBefore,
-    StripChars,
     StripLeading,
     StripTrailing,
     StripWhile,
@@ -240,11 +238,11 @@ export type UrlPath<T extends string | null = null> = T extends null
         ? string extends T
             ? never
             : T extends `/${AlphaNumericChar}${infer Rest}`
-                    ? AlphaNumericPlus<Rest, "_" | "@" | "." | "-" | "/"> extends Error
-                        ? never
-                        : T
-                    : never
-            : never; // when not string or null
+                ? AlphaNumericPlus<Rest, "_" | "@" | "." | "-" | "/"> extends Error
+                    ? never
+                    : T
+                : never
+        : never; // when not string or null
 
 /**
  * **GetUrlSource**`<T>`
