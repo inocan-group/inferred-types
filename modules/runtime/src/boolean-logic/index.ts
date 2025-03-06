@@ -5,6 +5,7 @@ export * from "./ifChar";
 export * from "./ifContainer";
 export * from "./ifEmpty";
 export * from "./ifEqual";
+export * from "./ifError";
 export * from "./ifFalse";
 export * from "./ifFunction";
 export * from "./ifHasKey";
@@ -18,4 +19,3 @@ export * from "./ifScalar";
 export * from "./ifString";
 export * from "./ifTrue";
 export * from "./ifUndefined";
-export * from "./ifError"

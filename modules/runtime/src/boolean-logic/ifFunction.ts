@@ -1,9 +1,9 @@
-import { isFunction } from "inferred-types/runtime";
 import type {
     IsFunction,
     Narrowable,
     TypedFunction,
 } from "inferred-types/types";
+import { isFunction } from "inferred-types/runtime";
 
 /**
  * **ifFunction**(value, isFn, notFn)

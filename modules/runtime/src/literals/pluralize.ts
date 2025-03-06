@@ -4,7 +4,7 @@ import {
     PLURAL_EXCEPTIONS,
     SINGULAR_NOUN_ENDINGS,
 } from "inferred-types/constants";
-import { asChars, rightWhitespace, split, stripTrailing } from "inferred-types/runtime";
+import { asChars, rightWhitespace, stripTrailing } from "inferred-types/runtime";
 
 const isException = <T extends string>(word: T) => Object.keys(PLURAL_EXCEPTIONS).includes(word);
 

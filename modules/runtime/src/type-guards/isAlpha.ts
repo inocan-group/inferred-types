@@ -1,6 +1,6 @@
 import type { Alpha, AlphaChar, Narrowable } from "inferred-types/types";
 import { ALPHA_CHARS } from "inferred-types/constants";
-import { asChars, isString, split } from "inferred-types/runtime";
+import { asChars, isString } from "inferred-types/runtime";
 
 /**
  * **isAlpha**(value)

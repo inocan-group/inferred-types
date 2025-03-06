@@ -1,7 +1,7 @@
-import {
-    Length,
-    IsLessThan,
+import type {
     IsGreaterThan,
+    IsLessThan,
+    Length,
     Or
 } from "inferred-types/types";
 
@@ -20,5 +20,5 @@ export type LengthInRange<
     IsLessThan<Length<T>, TMin>,
     IsGreaterThan<Length<T>, TMax>
 ]> extends true
-? TInvalid
-: T;
+    ? TInvalid
+    : T;

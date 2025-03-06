@@ -21,6 +21,7 @@ export * from "./isDefined";
 export * from "./isDoneFn";
 export * from "./isEmail";
 export * from "./isEmpty";
+export * from "./isError";
 export * from "./isErrorCondition";
 export * from "./isFalse";
 export * from "./isFalsy";
@@ -56,8 +57,8 @@ export * from "./isTruthy";
 export * from "./isTypeSubtype";
 export * from "./isTypeTuple";
 export * from "./isUndefined";
-export * from "./isError";
-
+export * from "./isOdd";
+export * from "./isEven";
 export * from "./isUnset";
 export * from "./isUrl";
 export * from "./isVariable";

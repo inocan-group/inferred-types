@@ -1,18 +1,14 @@
-
-
-
-
 type _Compare<
     A extends number,
     B extends number,
     TCount extends number[] = []
 > = A extends B
-? "equal"
-: TCount["length"] extends A
-? "less"
-: TCount["length"] extends B
-? "greater"
-: _Compare<A, B, [...TCount,0]>
+    ? "equal"
+    : TCount["length"] extends A
+        ? "less"
+        : TCount["length"] extends B
+            ? "greater"
+            : _Compare<A, B, [...TCount, 0]>;
 
 /**
  * **Compare**`<A,B>`
@@ -34,4 +30,4 @@ type _Compare<
 export type CompareNumbers<
     A extends number,
     B extends number
-> = _Compare<A,B>;
+> = _Compare<A, B>;

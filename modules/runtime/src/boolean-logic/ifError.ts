@@ -1,4 +1,4 @@
-import { IsError, Narrowable } from "inferred-types/types";
+import type { IsError, Narrowable } from "inferred-types/types";
 import { isError } from "src/type-guards";
 
 /**
@@ -17,7 +17,7 @@ export function ifError<
 ) {
     return (
         isError(val)
-        ? wasError
-        : wasNotError
-    ) as IsError<T> extends true ? E : NE
+            ? wasError
+            : wasNotError
+    ) as IsError<T> extends true ? E : NE;
 }

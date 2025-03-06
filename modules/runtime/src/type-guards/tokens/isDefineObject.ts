@@ -1,6 +1,5 @@
 import type { DefineObject } from "inferred-types/types";
 import { isObject } from "../isObject";
-import { isShapeCallback } from "./isShapeCallback";
 import { isShapeToken } from "./isShapeToken";
 import { isSimpleToken } from "./isSimpleToken";
 

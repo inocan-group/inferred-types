@@ -1,4 +1,4 @@
-import type { IsEmpty, Narrowable, NarrowObject, Tuple } from "inferred-types/types";
+import type { IsEmpty, Narrowable } from "inferred-types/types";
 import { isEmpty } from "inferred-types/runtime";
 
 /**

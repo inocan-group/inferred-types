@@ -1,4 +1,4 @@
-import { Or, CompareNumbers } from "inferred-types/types";
+import type { CompareNumbers, Or } from "inferred-types/types";
 
 /**
  * **LessThanOrEqual**`<A,B>`
@@ -10,6 +10,6 @@ import { Or, CompareNumbers } from "inferred-types/types";
  * try to address negative numbers or other edge cases
  */
 export type LessThanOrEqual<A extends number, B extends number> = Or<[
-    CompareNumbers<A,B> extends "less" ? true : false,
-    CompareNumbers<A,B> extends "equal" ? true : false
-]>
+    CompareNumbers<A, B> extends "less" ? true : false,
+    CompareNumbers<A, B> extends "equal" ? true : false
+]>;

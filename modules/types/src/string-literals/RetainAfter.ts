@@ -1,10 +1,10 @@
 import type {
+    FindMaxLength,
     If,
     IfAllLiteral,
     IsNever,
     IsTrue,
     IsUnion,
-    FindMaxLength,
     UnionToTuple,
 } from "inferred-types/types";
 

@@ -1,5 +1,4 @@
-import { CompareNumbers } from "inferred-types/types";
-
+import type { CompareNumbers } from "inferred-types/types";
 
 /**
  * **LessThan**`<A,B>`
@@ -13,4 +12,4 @@ import { CompareNumbers } from "inferred-types/types";
 export type LessThan<
     A extends number,
     B extends number,
-> = CompareNumbers<A,B> extends "less" ? true : false;
+> = CompareNumbers<A, B> extends "less" ? true : false;

@@ -4,5 +4,5 @@ export * from "./createToken";
 export * from "./createTokenSyntax";
 export * from "./fromDefineObject";
 export * from "./getTokenKind";
-export * from "./simpleToken";
 export * from "./input-tokens-runtime";
+export * from "./simpleToken";

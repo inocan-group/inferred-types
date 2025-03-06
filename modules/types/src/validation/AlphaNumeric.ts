@@ -17,8 +17,9 @@ type AlphaNumericAcc<
         : E extends Error
             ? T extends `${infer Invalid}${string}`
                 ? ErrContext<E, {
-                    actual: TResult,
-                    expected: "Alphanumeric characters", invalid: Invalid
+                    actual: TResult;
+                    expected: "Alphanumeric characters";
+                    invalid: Invalid;
                 }>
                 : never
             : E;
@@ -55,13 +56,14 @@ type _AlphaNumericPlus<
         : T extends `${P}${infer REST}`
             ? _AlphaNumericPlus<REST, P, TResult, E>
             : E extends Error
-            ? T extends `${infer Invalid}${string}`
-                ? ErrContext<E, {
-                    actual: TResult,
-                    expected: "Alphanumeric characters", invalid: Invalid
-                }>
-                : never
-            : E;
+                ? T extends `${infer Invalid}${string}`
+                    ? ErrContext<E, {
+                        actual: TResult;
+                        expected: "Alphanumeric characters";
+                        invalid: Invalid;
+                    }>
+                    : never
+                : E;
 
 export type AlphaNumericPlus<
     T extends string,

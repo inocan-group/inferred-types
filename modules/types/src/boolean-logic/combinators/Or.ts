@@ -20,11 +20,11 @@ export type Or<
     TConditions extends readonly (boolean | LogicFunction)[],
     TEmpty extends boolean = false,
 > = [] extends TConditions
-? TEmpty
-: First<TConditions> extends true
-    ? true
-    : First<TConditions> extends TypedFunction
-        ? ReturnType<First<TConditions>> extends true
-            ? true
-            : Or<AfterFirst<TConditions>, TEmpty>
-    : Or<AfterFirst<TConditions>, TEmpty>;
+    ? TEmpty
+    : First<TConditions> extends true
+        ? true
+        : First<TConditions> extends TypedFunction
+            ? ReturnType<First<TConditions>> extends true
+                ? true
+                : Or<AfterFirst<TConditions>, TEmpty>
+            : Or<AfterFirst<TConditions>, TEmpty>;

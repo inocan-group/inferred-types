@@ -1,4 +1,4 @@
-import { AlphaNumericChar } from "inferred-types/types";
+import type { AlphaNumericChar } from "inferred-types/types";
 
 /**
  * **VariableChar**
