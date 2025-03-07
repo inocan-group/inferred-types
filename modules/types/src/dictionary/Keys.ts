@@ -4,17 +4,13 @@ import type {
     As,
     Container,
     Dictionary,
-    EmptyObject,
     First,
-    IsEqual,
     IsObjectLiteral,
-    IsUnion,
     IsWideUnion,
     NumericKeys,
     ObjectKey,
     RemoveIndexKeys,
     TupleToUnion,
-    UnionArrayToTuple,
     UnionToTuple,
 } from "inferred-types/types";
 
@@ -23,21 +19,20 @@ type _Keys<
 > = UnionToTuple<keyof RemoveIndexKeys<T>>;
 
 type WideObject<T extends Dictionary> = [IsObjectLiteral<T>] extends [true]
-? []
-: [T] extends [Record<infer K, any>]
-    ? K[]
-    : unknown[];
-
+    ? []
+    : [T] extends [Record<infer K, any>]
+        ? K[]
+        : unknown[];
 
 type GetKeys<
     T extends Dictionary,
 > = _Keys<T> extends [symbol]
-        ? ObjectKey[]
-        : _Keys<T> extends []
-            ? UnionToTuple<keyof T> extends [ObjectKey]
-                ? (keyof T)[]
-                : ObjectKey[]
-            : _Keys<T>;
+    ? ObjectKey[]
+    : _Keys<T> extends []
+        ? UnionToTuple<keyof T> extends [ObjectKey]
+            ? (keyof T)[]
+            : ObjectKey[]
+        : _Keys<T>;
 
 type ProcessObj<
     TContainer extends object,
@@ -92,12 +87,6 @@ type _Public<
             ? TOutput
             : [...TOutput, First<TInput>]
     >;
-
-type X = IsEqual<Record<string, string>, EmptyObject>;
-type Y = IsObjectLiteral<{}>;
-type R = RemoveIndexKeys<{}>;
-type K = WideObject<{}>;
-
 
 /**
  * **PublicKeys**`<TContainer>`

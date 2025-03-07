@@ -16,13 +16,12 @@ import type {
     Tuple,
 } from "inferred-types/types";
 
-
 type Enc<
     T extends string,
     TOpt extends Required<ToJsonOptions>
 > = TOpt["encode"] extends true
-? SafeEncode<T>
-: T;
+    ? SafeEncode<T>
+    : T;
 
 type AsJsonArray<T extends Tuple> = Join<
     [
@@ -64,7 +63,7 @@ export type ToJsonValue<
 
 type InnerArray<
     T extends readonly unknown[],
-    O extends Required<ToJsonOptions> = { quote: "\"", encode: false }
+    O extends Required<ToJsonOptions> = { quote: "\""; encode: false }
 > = {
     [K in keyof T]: T[K] extends string
         ? `${O["quote"]}${T[K]}${O["quote"]}`
@@ -91,13 +90,13 @@ type InnerArray<
  */
 export type ToJsonArray<
     T extends readonly unknown[],
-    O extends Required<ToJsonOptions> = { quote: "\"", encode: false }
+    O extends Required<ToJsonOptions> = { quote: "\""; encode: false }
 > = `[ ${Join<InnerArray<T, O>, ", ">} ]`;
 
 type InnerObject<
     T extends AnyObject,
     K extends readonly (keyof T & string)[],
-    O extends Required<ToJsonOptions> = { quote: "\"", encode: false },
+    O extends Required<ToJsonOptions> = { quote: "\""; encode: false },
     R extends readonly string[] = [],
 > = [] extends K
     ? Join<R, ", ">
@@ -134,7 +133,7 @@ type InnerObject<
  */
 export type ToJsonObject<
     T extends AnyObject,
-    O extends Required<ToJsonOptions> = { quote: "\"", encode: false }
+    O extends Required<ToJsonOptions> = { quote: "\""; encode: false }
 > = `{ ${InnerObject<T, StringKeys<T>, O>} }`;
 
 /**
@@ -146,21 +145,21 @@ export type ToJsonObject<
  */
 export type ToJsonScalar<
     T extends Exclude<Scalar, symbol>,
-    O extends Required<ToJsonOptions> = { quote: "\"", encode: false }
+    O extends Required<ToJsonOptions> = { quote: "\""; encode: false }
 > = T extends string
-    ? `${O["quote"]}${Enc<T,O>}${O["quote"]}`
+    ? `${O["quote"]}${Enc<T, O>}${O["quote"]}`
     : `${T}`;
 
 export type ToJsonOptions = {
     quote?: QuoteCharacter;
-    encode?: boolean
-}
+    encode?: boolean;
+};
 
 type O<
     T extends ToJsonOptions
-> = MergeObjects<{ quote: "\""; encode: false },T> extends Required<ToJsonOptions>
-? MergeObjects<{ quote: "\""; encode: false },T>
-: never;
+> = MergeObjects<{ quote: "\""; encode: false }, T> extends Required<ToJsonOptions>
+    ? MergeObjects<{ quote: "\""; encode: false }, T>
+    : never;
 
 /**
  * Converts an object, array or scalar value to a
@@ -170,7 +169,7 @@ type O<
  */
 export type ToJson<
     T extends Exclude<Scalar, symbol> | AnyObject | Tuple,
-    Opt extends ToJsonOptions = { quote: "\"", encode: false },
+    Opt extends ToJsonOptions = { quote: "\""; encode: false },
 > = T extends Exclude<Scalar, symbol>
     ? ToJsonScalar<T, As<O<Opt>, Required<ToJsonOptions>>>
     : T extends AnyObject
@@ -178,4 +177,3 @@ export type ToJson<
         : T extends Tuple
             ? ToJsonArray<T, As<O<Opt>, Required<ToJsonOptions>>>
             : never;
-
