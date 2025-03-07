@@ -7,7 +7,5 @@ import type {
 export function asType<
     T extends InputToken
 >(token: T) {
-    return token as unknown as T extends any[]
-        ? UnionArrayToTuple<FromInputToken<T>>
-        : FromInputToken<T>;
+    return token as unknown as FromInputToken<T>;
 }

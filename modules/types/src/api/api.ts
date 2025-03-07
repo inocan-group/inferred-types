@@ -223,16 +223,7 @@ export type ApiCallback<
     TApi extends Api,
 > = <TCall extends (api: ApiSurface<TApi>) => unknown>(cb: TCall) => ReturnType<TCall>;
 
-type _Fluent<
-    _TStateDefn extends Dictionary,
-    _TState extends _TStateDefn,
-    _TConfig extends {
-        called: readonly KeyOf<_TState>[];
-        callOnce: readonly KeyOf<_TState>[];
-    },
-    _TCaller extends KeyOf<_TState>,
-    _TUpdate extends _TStateDefn,
-> = any;
+
 
 /**
  * **Api**`<TSurface>`

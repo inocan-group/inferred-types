@@ -52,6 +52,6 @@ export function toKeyValue<
 
     return tuple as unknown as Sort<
         ToKv<T>,
-    Omit<TSort, "offset"> & Record<"offset", "key">
+        Omit<TSort, "offset"> & Record<"offset", "key">
     >;
 }

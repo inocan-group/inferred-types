@@ -3,6 +3,7 @@ import type {
     AnyObject,
     Dictionary,
     First,
+    IsObjectLiteral,
     Keys,
     ObjectKey,
     StringKeys,
@@ -57,17 +58,20 @@ export type Values<
 > = TObj extends readonly unknown[]
     ? TObj
     : TObj extends Dictionary
+        ? IsObjectLiteral<TObj> extends true
+            ? [TOnlyStr] extends [true]
+                ? ProcessStr<
+                    StringKeys<TObj>,
+                    TObj
+                >
 
-        ? [TOnlyStr] extends [true]
-            ? ProcessStr<
-                StringKeys<TObj>,
-                TObj
-            >
-
-            : Process<
-                Keys<TObj> extends readonly ObjectKey[]
-                    ? Keys<TObj>
-                    : never,
-                TObj
-            >
+                : Process<
+                    Keys<TObj> extends readonly ObjectKey[]
+                        ? Keys<TObj>
+                        : never,
+                    TObj
+                >
+            : TObj extends Record<ObjectKey, infer Val>
+                ? Val[]
+                : never
         : never;

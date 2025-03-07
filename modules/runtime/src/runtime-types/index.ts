@@ -1,5 +1,4 @@
-export * from "./asToken";
-export * from "./asType";
+
 export * from "./asUnion";
 export * from "./choices";
 export * from "./doesExtend";

@@ -2,7 +2,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
 import { isTypeToken } from "inferred-types/runtime";
-import { TypeToken } from "inferred-types/types";
+import { AsOutputToken } from "inferred-types/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -25,7 +25,7 @@ describe("isTypeToken(val)", () => {
       type cases2 = [
         // inside the type guard the type has been
         // changed to
-        Expect<Equal<Token, TypeToken>>
+        Expect<Equal<Token, AsOutputToken>>
       ];
       const cases2: cases2 = [true];
 

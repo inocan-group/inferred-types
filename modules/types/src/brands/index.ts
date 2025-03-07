@@ -1,2 +1,2 @@
-export * from "./EvenNumber"
-export * from "./OddNumber"
+export * from "./EvenNumber";
+export * from "./OddNumber";

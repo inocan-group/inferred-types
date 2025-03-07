@@ -17,15 +17,15 @@ describe("Values<T>", () => {
     type VObj = Values<Obj>;
     type VEmpty = Values<Dictionary>;
     type VRecord = Values<Record<ObjectKey, unknown>>;
+    type VUnion = Values<Record<ObjectKey, number | string>>;
 
     type cases = [
       ExpectTrue<HasSameValues<VObj, [1, "bar", true]>>,
-      Expect<Equal<VEmpty, []>>,
-      Expect<Equal<VRecord, []>>,
+      Expect<Equal<VEmpty, any[]>>,
+      Expect<Equal<VRecord, unknown[]>>,
+      Expect<Equal<VUnion, (number | string)[]>>,
     ];
-    const cases: cases = [
-      true, true, true
-    ];
+
   });
 
   it("Values<T> where T is an array", () => {
@@ -42,10 +42,7 @@ describe("Values<T>", () => {
       Expect<Equal<VMixedTuple, [number, string, boolean]>>,
       Expect<Equal<VUnion, (string | number)[]>>,
     ];
-    const cases: cases = [
-      true, true, true,
-      true, true,
-    ];
+
   });
 });
 
@@ -70,7 +67,7 @@ describe("valuesOf()", () => {
       ExpectTrue<HasSameValues<typeof v_infer, [1, "bar", true]>>,
       Expect<Equal<typeof v_empty, []>>,
     ];
-    const cases: cases = [true, true, true];
+
   });
 
 });

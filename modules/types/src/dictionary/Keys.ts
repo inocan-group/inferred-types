@@ -4,14 +4,17 @@ import type {
     As,
     Container,
     Dictionary,
+    EmptyObject,
     First,
+    IsEqual,
     IsObjectLiteral,
-    IsVueRef,
+    IsUnion,
     IsWideUnion,
     NumericKeys,
     ObjectKey,
     RemoveIndexKeys,
     TupleToUnion,
+    UnionArrayToTuple,
     UnionToTuple,
 } from "inferred-types/types";
 
@@ -19,11 +22,16 @@ type _Keys<
     T extends Dictionary,
 > = UnionToTuple<keyof RemoveIndexKeys<T>>;
 
+type WideObject<T extends Dictionary> = [IsObjectLiteral<T>] extends [true]
+? []
+: [T] extends [Record<infer K, any>]
+    ? K[]
+    : unknown[];
+
+
 type GetKeys<
     T extends Dictionary,
-> = IsVueRef<T> extends true
-    ? ["value"]
-    : _Keys<T> extends [symbol]
+> = _Keys<T> extends [symbol]
         ? ObjectKey[]
         : _Keys<T> extends []
             ? UnionToTuple<keyof T> extends [ObjectKey]
@@ -41,12 +49,12 @@ type ProcessTuple<
     ? NumericKeys<TContainer>
     : never;
 
-type Process<
+type ProcessObject<
     TContainer extends Dictionary,
 > = [IsObjectLiteral<RemoveIndexKeys<TContainer>>] extends [true]
     ? ProcessObj<RemoveIndexKeys<TContainer>> extends readonly (keyof TContainer & ObjectKey)[]
         ? As<ProcessObj<RemoveIndexKeys<TContainer>>, readonly ObjectKey[]>
-        : never
+        : WideObject<TContainer>
     : ObjectKey[];
 
 /**
@@ -70,7 +78,7 @@ export type Keys<
 > = TContainer extends readonly unknown[]
     ? ProcessTuple<TContainer>
     : TContainer extends Dictionary
-        ? Process<TContainer>
+        ? ProcessObject<TContainer>
         : never;
 
 type _Public<
@@ -84,6 +92,12 @@ type _Public<
             ? TOutput
             : [...TOutput, First<TInput>]
     >;
+
+type X = IsEqual<Record<string, string>, EmptyObject>;
+type Y = IsObjectLiteral<{}>;
+type R = RemoveIndexKeys<{}>;
+type K = WideObject<{}>;
+
 
 /**
  * **PublicKeys**`<TContainer>`

@@ -1,4 +1,3 @@
-
 export type EvenNumber = number & {
-    brand: "EvenNumber"
-}
+    brand: "EvenNumber";
+};

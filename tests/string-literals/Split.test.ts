@@ -161,6 +161,7 @@ describe("split()", () => {
     it("inline variant", () => {
         const fooBar = split.inline("foo, bar", ", ");
         const fooBarBaz = split.inline("foo, bar; baz", ", ", "; ")
+        type X = Split<"foo, bar; baz", [", ", "; "], "inline">
 
         expect(fooBar).toEqual(["foo", ", ", "bar"])
         expect(fooBarBaz).toEqual(["foo", ", ", "bar", "; ", "baz"])

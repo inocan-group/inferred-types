@@ -7,8 +7,8 @@
 // directory exports
 export * from "./api/index";
 export * from "./base-types/index";
-export * from "./brands/index";
 export * from "./boolean-logic/index";
+export * from "./brands/index";
 export * from "./classes/index";
 export * from "./containers/index";
 export * from "./dictionary/index";

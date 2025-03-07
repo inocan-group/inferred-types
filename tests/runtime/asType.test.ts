@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { describe, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { asType } from "inferred-types/runtime";
 import { FromInputToken } from "inferred-types/types";
 import { Contains, Extends } from "inferred-types/types";
@@ -46,6 +46,8 @@ describe("asType(token)", () => {
   it("union of wide types", () => {
     const strNum = asType("string | number ");
     const optStr = asType("string | undefined");
+
+    expect(strNum).toEqual("<<'string | number'>>")
 
     type cases = [
         Expect<Equal<typeof strNum, string | number>>,

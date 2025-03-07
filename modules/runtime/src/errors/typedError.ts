@@ -8,7 +8,7 @@ export function typedError<
     type: T,
     message: M = "" as M
 ) {
-    const err = new Error() as TypedError<string, string | undefined>;
+    const err = new Error(message) as TypedError<string, string | undefined>;
     const [t, subType] = type.split("/");
     err.type = toKebabCase(t);
     err.subType = toKebabCase(subType);

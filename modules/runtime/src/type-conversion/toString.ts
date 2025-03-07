@@ -1,13 +1,13 @@
 import type { Narrowable, NarrowObject, Scalar, ToJson, ToJsonOptions } from "inferred-types/types";
 
 /**
- * **toJSON**`(val)`
+ * **toString**`(val)`
  *
- * Converts a string value to a strongly typed JSON value
+ * Converts a value into a _string_ representation of that value.
  *
- * **Related:** `jsonValues()`
+ * **Related:** `toJSON()`
  */
-export function toJSON<
+export function toString<
     T extends Exclude<Scalar, symbol> | NarrowObject<N> | readonly N[],
     N extends Narrowable,
     O extends ToJsonOptions = { quote: "\"", encode: false }

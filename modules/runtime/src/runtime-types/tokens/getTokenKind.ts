@@ -1,4 +1,4 @@
-import type { TypeToken, TypeTokenKind } from "inferred-types/types";
+import type { AsOutputToken, TypeTokenKind } from "inferred-types/types";
 import { stripSurround } from "inferred-types/runtime";
 
 /**
@@ -7,7 +7,7 @@ import { stripSurround } from "inferred-types/runtime";
  * Given a `TypeToken`, this function will extract the
  * `kind` variant name.
  */
-export function getTokenKind<T extends TypeToken>(token: T): TypeTokenKind {
+export function getTokenKind<T extends AsOutputToken>(token: T): TypeTokenKind {
     const bare = stripSurround("<<", ">>")(token);
     const parts = bare.split("::");
     const kind = parts.pop() as TypeTokenKind;

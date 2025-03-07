@@ -9,6 +9,7 @@ import type {
   Dictionary,
   HasSameValues,
   HasSameKeys,
+  Narrowable,
 } from "inferred-types/types";
 import { defineObj, keysOf, narrow } from "inferred-types/runtime";
 import { Ref } from "vue";
@@ -44,33 +45,33 @@ describe("NumericKeys<T>", () => {
 describe("Keys<T> with object targets", () => {
   type OBJ = { foo: 1; bar: 2 };
 
+
   type Foobar = Keys<OBJ>;
   type FooBar_RO =Keys<Readonly<OBJ>>;
   type FooBar_EXT = Keys<{ foo: 1; bar: 2; [x: string]: unknown }>;
   type EmptyObj = Keys<EmptyObject>;
   type Uno = Keys<{baz: 3}>;
   type StrRec = Keys<Record<string, string>>;
+  type UnionRec = Keys<Record<"foo" | "bar", number>>;
   type KeyVal = Keys<Dictionary>;
 
   type Curly = Keys<EmptyObject>;
 
   it("object resolution", () => {
     type cases = [
-      Expect<Equal<EmptyObj, ObjectKey[]>>,
-      Expect<Equal<Curly, ObjectKey[]>>,
+      Expect<Equal<EmptyObj, []>>,
+      Expect<Equal<Curly, []>>,
       Expect<HasSameValues<Foobar, ["foo", "bar"]>>,
       Expect<HasSameValues<FooBar_RO, ["foo", "bar"]>>,
       Expect<HasSameValues<FooBar_EXT, ["foo", "bar"]>>,
       Expect<HasSameValues<Uno, ["baz"]>>,
 
-      Expect<Equal<StrRec, ObjectKey[]>>,
+      Expect<Equal<StrRec, string[]>>,
+      Expect<Equal<UnionRec, ["foo", "bar"]>>,
       Expect<Equal<KeyVal, ObjectKey[]>>,
     ];
 
-    const cases: cases = [
-      true, true, true, true, true, true,
-      true, true
-    ];
+
   });
 
 

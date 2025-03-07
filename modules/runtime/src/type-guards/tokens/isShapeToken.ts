@@ -1,4 +1,4 @@
-import type { TypeToken } from "inferred-types/types";
+import type { AsOutputToken } from "inferred-types/types";
 import {
     TT_ATOMICS,
     TT_CONTAINERS,
@@ -22,7 +22,7 @@ const token_types = [
  * Type guard which validates whether the value passed in is a
  * valid "shape token" of some sort.
  */
-export function isShapeToken(val: unknown): val is TypeToken {
+export function isShapeToken(val: unknown): val is AsOutputToken {
     return isString(val)
         && val.startsWith("<<")
         && val.endsWith(">>")

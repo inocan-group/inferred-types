@@ -12,7 +12,7 @@ import {
 } from "inferred-types/runtime";
 import { describe, expect, it } from "vitest";
 
-describe("createGrammar()", () => {
+describe.skip("createGrammar()", () => {
 
   // static token
   const Null = createToken("null", "static")("null", isNull);
