@@ -1,9 +1,9 @@
 import type {
+    AsOutputToken,
     SimpleContainerToken,
     SimpleScalarToken,
     SimpleType,
     SimpleUnionToken,
-    AsOutputToken,
 } from "inferred-types/types";
 import { Never } from "inferred-types/constants";
 import {

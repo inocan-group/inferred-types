@@ -16,7 +16,6 @@ describe("FromInputToken<Token>", () => {
       ];
     });
 
-
     it("tuple", () => {
       type T = FromInputToken<["number", "string", "true | Object"]>
 
@@ -24,7 +23,6 @@ describe("FromInputToken<Token>", () => {
         Expect<Equal<T, [ number, string, true | object ]>>
       ];
     });
-
 })
 
 

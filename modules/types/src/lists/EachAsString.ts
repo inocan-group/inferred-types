@@ -1,4 +1,4 @@
-import type { AnyObject, AsString, ToJsonArray, ObjectToString } from "inferred-types/types";
+import type { AnyObject, AsString, ObjectToString, ToJsonArray } from "inferred-types/types";
 
 export type EachAsString<
     T extends readonly unknown[],

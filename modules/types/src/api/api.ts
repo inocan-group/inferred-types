@@ -223,8 +223,6 @@ export type ApiCallback<
     TApi extends Api,
 > = <TCall extends (api: ApiSurface<TApi>) => unknown>(cb: TCall) => ReturnType<TCall>;
 
-
-
 /**
  * **Api**`<TSurface>`
  *

@@ -1,6 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { ToString } from "inferred-types/types";
+import { ToString, UnionToString } from "inferred-types/types";
 import { describe, it } from "vitest";
+
 
 describe("ToString<T>", () => {
 
@@ -15,6 +16,7 @@ describe("ToString<T>", () => {
         type Arr = ToString<string[]>;
         type Arr2 = ToString<number[]>;
         type U1 = ToString<string | number>;
+        type U2 = UnionToString<string | number>;
 
         type cases = [
             Expect<Equal<Obj, "{ foo: 1, bar: 'hi', baz: { color: 'red' } }">>,
@@ -26,6 +28,9 @@ describe("ToString<T>", () => {
             Expect<Equal<S, "Set<string[]>">>,
             Expect<Equal<Arr, "string[]">>,
             Expect<Equal<Arr2, "number[]">>,
+
+            Expect<Equal<U1, "Union<...>">>,
+            Expect<Equal<U2, "string | number">>,
         ];
     });
 

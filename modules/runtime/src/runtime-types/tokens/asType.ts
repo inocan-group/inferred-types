@@ -1,7 +1,6 @@
 import type {
     FromInputToken,
-    InputToken,
-    UnionArrayToTuple
+    InputToken
 } from "inferred-types/types";
 
 export function asType<

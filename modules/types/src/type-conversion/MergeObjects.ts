@@ -1,6 +1,5 @@
 import type {
     AfterFirst,
-    AnyObject,
     As,
     CombinedKeys,
     Dictionary,
