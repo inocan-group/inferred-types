@@ -35,8 +35,14 @@ describe("sort(tuple, options)", () => {
   const items = tuple([1, 2, "foo", "bar", 3]);
 
   it.todo("TODO", () => {
-    const barFirst = sort(items, { first: ["bar"] });
-    const bar2First = sort(items, { first: ["bar", 2] });
+    const barFirst = sort(
+        items,
+        { first: ["String(bar)"] }
+    );
+    const bar2First = sort(
+        items,
+        { first: ["String(bar)", "Number(2)"] }
+    );
 
 
     type cases = [

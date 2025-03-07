@@ -6,13 +6,23 @@ import type {
     Extends,
     First,
     Join,
+    MergeObjects,
     Or,
     QuoteCharacter,
+    SafeEncode,
     Scalar,
     StringKeys,
     ToStringArray,
     Tuple,
 } from "inferred-types/types";
+
+
+type Enc<
+    T extends string,
+    TOpt extends Required<ToJsonOptions>
+> = TOpt["encode"] extends true
+? SafeEncode<T>
+: T;
 
 type AsJsonArray<T extends Tuple> = Join<
     [
@@ -54,10 +64,10 @@ export type ToJsonValue<
 
 type InnerArray<
     T extends readonly unknown[],
-    Q extends QuoteCharacter,
+    O extends Required<ToJsonOptions> = { quote: "\"", encode: false }
 > = {
     [K in keyof T]: T[K] extends string
-        ? `${Q}${T[K]}${Q}`
+        ? `${O["quote"]}${T[K]}${O["quote"]}`
         : Or<[
             Extends<T[K], number>,
             Extends<T[K], boolean>,
@@ -66,9 +76,9 @@ type InnerArray<
         ]> extends true
             ? `${As<T[K], number | boolean | null | undefined>}`
             : T[K] extends readonly unknown[]
-                ? ToJsonArray<T[K], Q>
+                ? ToJsonArray<T[K], O>
                 : T[K] extends AnyObject
-                    ? `{ ${InnerObject<T[K], StringKeys<T[K]>, Q>} }`
+                    ? `{ ${InnerObject<T[K], StringKeys<T[K]>, O>} }`
                     : never
 };
 
@@ -81,20 +91,20 @@ type InnerArray<
  */
 export type ToJsonArray<
     T extends readonly unknown[],
-    Q extends QuoteCharacter = "\"",
-> = `[ ${Join<InnerArray<T, Q>, ", ">} ]`;
+    O extends Required<ToJsonOptions> = { quote: "\"", encode: false }
+> = `[ ${Join<InnerArray<T, O>, ", ">} ]`;
 
 type InnerObject<
     T extends AnyObject,
     K extends readonly (keyof T & string)[],
-    Q extends QuoteCharacter,
+    O extends Required<ToJsonOptions> = { quote: "\"", encode: false },
     R extends readonly string[] = [],
 > = [] extends K
     ? Join<R, ", ">
     : InnerObject<
         T,
         AfterFirst<K>,
-        Q,
+        O,
         [
             ...R,
             Or<[
@@ -103,13 +113,13 @@ type InnerObject<
                 Equals<T[First<K>], null>,
                 Equals<T[First<K>], undefined>,
             ]> extends true
-                ? `${Q}${First<K>}${Q}: ${As<T[First<K>], boolean | number | null | undefined>}`
+                ? `${O["quote"]}${First<K>}${O["quote"]}: ${As<T[First<K>], boolean | number | null | undefined>}`
                 : T[First<K>] extends string
-                    ? `${Q}${First<K>}${Q}: ${Q}${T[First<K>]}${Q}`
+                    ? `${O["quote"]}${First<K>}${O["quote"]}: ${O["quote"]}${T[First<K>]}${O["quote"]}`
                     : T[First<K>] extends readonly unknown[]
-                        ? `${Q}${First<K>}${Q}: ${ToJsonArray<T[First<K>], Q>}`
+                        ? `${O["quote"]}${First<K>}${O["quote"]}: ${ToJsonArray<T[First<K>], O>}`
                         : T[First<K>] extends AnyObject
-                            ? `${Q}${First<K>}${Q}: ${ToJsonObject<T[First<K>]>}`
+                            ? `${O["quote"]}${First<K>}${O["quote"]}: ${ToJsonObject<T[First<K>]>}`
                             : never,
         ]
     >
@@ -124,8 +134,8 @@ type InnerObject<
  */
 export type ToJsonObject<
     T extends AnyObject,
-    Q extends QuoteCharacter = "\"",
-> = `{ ${InnerObject<T, StringKeys<T>, Q>} }`;
+    O extends Required<ToJsonOptions> = { quote: "\"", encode: false }
+> = `{ ${InnerObject<T, StringKeys<T>, O>} }`;
 
 /**
  * **ToJsonScalar**`<T>`
@@ -136,10 +146,21 @@ export type ToJsonObject<
  */
 export type ToJsonScalar<
     T extends Exclude<Scalar, symbol>,
-    Q extends QuoteCharacter = "\"",
+    O extends Required<ToJsonOptions> = { quote: "\"", encode: false }
 > = T extends string
-    ? `${Q}${T}${Q}`
+    ? `${O["quote"]}${Enc<T,O>}${O["quote"]}`
     : `${T}`;
+
+export type ToJsonOptions = {
+    quote?: QuoteCharacter;
+    encode?: boolean
+}
+
+type O<
+    T extends ToJsonOptions
+> = MergeObjects<{ quote: "\""; encode: false },T> extends Required<ToJsonOptions>
+? MergeObjects<{ quote: "\""; encode: false },T>
+: never;
 
 /**
  * Converts an object, array or scalar value to a
@@ -149,11 +170,12 @@ export type ToJsonScalar<
  */
 export type ToJson<
     T extends Exclude<Scalar, symbol> | AnyObject | Tuple,
-    Q extends QuoteCharacter = "\"",
+    Opt extends ToJsonOptions = { quote: "\"", encode: false },
 > = T extends Exclude<Scalar, symbol>
-    ? ToJsonScalar<T, Q>
+    ? ToJsonScalar<T, As<O<Opt>, Required<ToJsonOptions>>>
     : T extends AnyObject
-        ? ToJsonObject<T, Q>
+        ? ToJsonObject<T, As<O<Opt>, Required<ToJsonOptions>>>
         : T extends Tuple
-            ? ToJsonArray<T, Q>
+            ? ToJsonArray<T, As<O<Opt>, Required<ToJsonOptions>>>
             : never;
+

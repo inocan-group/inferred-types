@@ -1,15 +1,10 @@
-import type { AsNumber, CompareNumbers, IsEqual, NumberLike, Or } from "inferred-types/types";
-
-type Calc<
-    A extends number,
-    B extends number,
-    Count extends 1[] = [],
-> =
-Count["length"] extends A
-    ? false
-    : Count["length"] extends B
-        ? true
-        : Calc<A, B, [...Count, 1]>;
+import type {
+    AsNumber,
+    CompareNumbers,
+    IsEqual,
+    NumberLike,
+    Or
+} from "inferred-types/types";
 
 /**
  * **IsGreaterThan**`<A,B>`

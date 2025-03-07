@@ -3,7 +3,7 @@ import type {
     SimpleScalarToken,
     SimpleType,
     SimpleUnionToken,
-    TypeToken,
+    AsOutputToken,
 } from "inferred-types/types";
 import { Never } from "inferred-types/constants";
 import {
@@ -147,6 +147,6 @@ export function simpleContainerTokenToTypeToken<T extends SimpleContainerToken>(
 }
 
 // TODO
-export function asTypeToken<T extends TypeToken>(_val: T) {
+export function asTypeToken<T extends AsOutputToken>(_val: T) {
     return "not ready";
 }

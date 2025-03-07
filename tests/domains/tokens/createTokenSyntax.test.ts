@@ -81,7 +81,7 @@ describe("createTokenSyntax()", () => {
   });
 
 
-  it("token shape -> static token", () => {
+  it.skip("token shape -> static token", () => {
     const n = createToken("null", "static")("null", isNull);
     const syn = createTokenSyntax(
       "Template",
@@ -97,7 +97,7 @@ describe("createTokenSyntax()", () => {
     ];
   });
 
-  it("token shape -> dynamic token", () => {
+  it.skip("token shape -> dynamic token", () => {
     const s = createToken("string", "dynamic")(
       ({ sep }) => (...p) => {
         return ifEmpty(

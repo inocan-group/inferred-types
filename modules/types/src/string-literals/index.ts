@@ -1,4 +1,5 @@
 export * from "./AfterFirstChar";
+export * from "./AsTypeSubtype";
 export * from "./Brand";
 export * from "./Calendar";
 export * from "./Cardinality";

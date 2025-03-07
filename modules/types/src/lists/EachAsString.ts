@@ -1,4 +1,4 @@
-import type { AnyObject, AsString, ToJsonArray, ToJsonObject } from "inferred-types/types";
+import type { AnyObject, AsString, ToJsonArray, ObjectToString } from "inferred-types/types";
 
 export type EachAsString<
     T extends readonly unknown[],
@@ -10,7 +10,7 @@ export type EachAsString<
             : T[K] extends boolean
                 ? `${T[K]}`
                 : T[K] extends AnyObject
-                    ? ToJsonObject<T[K]>
+                    ? ObjectToString<T[K]>
                     : T[K] extends readonly any[]
                         ? ToJsonArray<T[K]>
                         : T[K] extends Map<infer Key, infer Val>

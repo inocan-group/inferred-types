@@ -1,7 +1,7 @@
 import { Expect, Equal } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { TypeToken, Extends } from "inferred-types/types"
+import { AsOutputToken, Extends } from "inferred-types/types"
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -10,8 +10,8 @@ import { TypeToken, Extends } from "inferred-types/types"
 describe("TypeToken<T>", () => {
 
   it("happy path", () => {
-    type Str = TypeToken<"string">;
-    type StrSet = TypeToken<"string-set">;
+    type Str = AsOutputToken<"string">;
+    type StrSet = AsOutputToken<"string-set">;
 
     // @ts-ignore
     type cases = [

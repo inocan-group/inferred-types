@@ -33,7 +33,7 @@ type Merged<
  * A type utility that _shallowly merges_ two object types.
  */
 export type MergeObjects<
-    TDef extends AnyObject,
+    TDef extends Dictionary,
     TOverride extends Dictionary,
 > = TDef extends Dictionary
 

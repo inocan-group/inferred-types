@@ -2,8 +2,6 @@ import type {
     AfterFirst,
     Dictionary,
     First,
-    IsEmpty,
-    IsError,
     Tuple,
     TypedFunction
 } from "inferred-types/types";
@@ -14,23 +12,6 @@ import {
 } from "inferred-types/runtime";
 
 type Payload = string | number | boolean | symbol | Dictionary | Tuple | undefined | null | ((input?: Payload) => Payload);
-
-type PipelineStep<
-    V extends Payload,
-    S extends readonly Payload[]
-> = IsEmpty<S> extends true
-    ? V
-    : IsError<V> extends true
-        ? V
-        : First<S> extends TypedFunction
-            ? PipelineStep<
-                ReturnType<First<S>>,
-                AfterFirst<S>
-            >
-            : PipelineStep<
-                First<S>,
-                AfterFirst<S>
-            >;
 
 type Pipeline<
     TSteps extends readonly Payload[],

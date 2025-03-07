@@ -364,8 +364,10 @@ type Convert<
  * - A dictionary where the values are _string_ tokens
  * - A tuple who's elements are all _string_ tokens
  */
-export type InputToken = IT_TokenSuggest | IT_FunctionLiteralToken | IT_ObjectLiteralDefinition |
-readonly IT_TokenSuggest[];
+export type InputToken = IT_TokenSuggest
+| IT_FunctionLiteralToken
+| IT_ObjectLiteralDefinition
+| readonly IT_TokenSuggest[];
 
 /**
  * **FromInputToken**`<T>`
@@ -381,11 +383,12 @@ export type FromInputToken<
     ? ConvertObjectLiteral<TR>
     : TR extends readonly InputToken[]
         ? {
-            [K in keyof T]: T[K] extends InputToken ? FromInputToken<T[K]> : never
+            [K in keyof TR]: TR[K] extends InputToken
+                ? FromInputToken<TR[K]>
+                : never
         }
         : TR extends string
             ? Convert<TR>
-
             : TR extends IT_UnionToken
                 ? Union<TR>
                 : Err<`invalid-token/unknown`, `The token '${Trim<AsType<T>>}' is not a valid input token!`>;

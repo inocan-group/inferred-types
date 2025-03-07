@@ -1,4 +1,4 @@
-import type { TypeToken } from "inferred-types/types";
+import type { AsOutputToken } from "inferred-types/types";
 import { isTypeToken } from "inferred-types/runtime";
 
 /**
@@ -7,6 +7,6 @@ import { isTypeToken } from "inferred-types/runtime";
  * Type guard which validates whether the value passed in is a
  * valid **union** variant of a `TypeToken`.
  */
-export function isUnionToken(val: unknown): val is TypeToken<"union"> {
+export function isUnionToken(val: unknown): val is AsOutputToken<"union"> {
     return isTypeToken(val, "union");
 }

@@ -1,4 +1,4 @@
-import type { TypeToken, TypeTokenKind } from "inferred-types/types";
+import type { AsOutputToken, TypeTokenKind } from "inferred-types/types";
 import { TT_KIND_VARIANTS } from "inferred-types/constants";
 import { isAtomicKind, isSetBasedKind, isString, stripSurround } from "inferred-types/runtime";
 
@@ -10,7 +10,7 @@ import { isAtomicKind, isSetBasedKind, isString, stripSurround } from "inferred-
  * is _any_ kind of `TypeToken`
  * - specifying a kind will narrow the check to that specific kind variant
  */
-export function isTypeToken<T extends TypeTokenKind = TypeTokenKind>(val: unknown, kind?: T): val is TypeToken<T> {
+export function isTypeToken<T extends TypeTokenKind = TypeTokenKind>(val: unknown, kind?: T): val is AsOutputToken<T> {
     if (isString(val) && val.startsWith("<<") && val.endsWith(">>")) {
         const stripped = stripSurround("<<", ">>")(val);
 
