@@ -1,0 +1,8 @@
+import { isError } from "src/type-guards/isError";
+
+/**
+ * type guard which validates that `val` is _not_ an `Error` type.
+ */
+export function isNotError(val: unknown): val is Exclude<unknown, Error> {
+    return isError(val) ? false : true
+}

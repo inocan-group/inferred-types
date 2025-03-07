@@ -62,6 +62,8 @@ export * from "./isUndefined";
 export * from "./isUnset";
 export * from "./isUrl";
 export * from "./isVariable";
+export * from "./isNotError";
+
 export * from "./metrics/index";
 export * from "./network-tg";
 export * from "./numeric/index";

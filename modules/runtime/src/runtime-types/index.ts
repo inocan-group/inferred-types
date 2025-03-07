@@ -3,5 +3,6 @@ export * from "./choices";
 export * from "./doesExtend";
 export * from "./list";
 export * from "./shape";
+export * from "./asTypedErr";
 
 export * from "./tokens/index";

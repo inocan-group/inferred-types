@@ -1,10 +1,16 @@
 import type {
     FromInputToken,
-    InputToken
+    InputTokenLike
 } from "inferred-types/types";
 
+
+/**
+ *
+ *
+ * **Related:** `fromInputToken()
+ */
 export function asType<
-    T extends InputToken
+    T extends InputTokenLike
 >(token: T) {
     return token as unknown as FromInputToken<T>;
 }

@@ -8,3 +8,6 @@ export * from "./isShapeCallback";
 export * from "./isSimpleToken";
 export * from "./set-tokens";
 export * from "./singletons";
+export * from "./isInputToken";
+export * from "./isOutputToken";
+export * from "./isObjectLiteralDefinition";

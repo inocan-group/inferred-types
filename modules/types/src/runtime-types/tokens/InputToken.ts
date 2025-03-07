@@ -1,3 +1,4 @@
+import { IT_ATOMIC_TOKENS } from "inferred-types/constants";
 import type {
     AfterFirst,
     As,
@@ -90,19 +91,7 @@ export type IT_LiteralToken =
 | IT_BooleanLiteralToken
 | IT_FunctionLiteralToken;
 
-export type IT_AtomicToken =
-| "string"
-| "number"
-| "boolean"
-| "true"
-| "false"
-| "undefined"
-| "unknown"
-| "any"
-| "null"
-| "object"
-| "Object"
-| "function";
+export type IT_AtomicToken = typeof IT_ATOMIC_TOKENS[number];
 
 type MapToken = `Map<${string},${string}>`;
 type SetToken = `Set<${string}>`;
@@ -259,7 +248,7 @@ type FnReturns<
         ? ReturnType<T>
         : never;
 
-export type AsType<T extends InputToken> = T extends string
+export type AsType<T extends InputTokenLike> = T extends string
     ? T
     : T extends ((...args: any[]) => string | [token: string, props: Dictionary])
         ? `(...args: any[]) => ${FnReturns<T>}`
@@ -268,7 +257,7 @@ export type AsType<T extends InputToken> = T extends string
             : "";
 
 type _ConvertObjectLiteral<T extends Required<IT_ObjectLiteralDefinition>> = {
-    [K in keyof T]: T[K] extends InputToken
+    [K in keyof T]: T[K] extends InputTokenLike
         ? FromInputToken<T[K]>
         : never
 };
@@ -364,10 +353,13 @@ type Convert<
  * - A dictionary where the values are _string_ tokens
  * - A tuple who's elements are all _string_ tokens
  */
-export type InputToken = IT_TokenSuggest
-| IT_FunctionLiteralToken
+export type InputTokenLike = IT_TokenSuggest
 | IT_ObjectLiteralDefinition
 | readonly IT_TokenSuggest[];
+
+export type InputToken = InputTokenLike & {
+    brand: "InputToken"
+}
 
 /**
  * **FromInputToken**`<T>`
@@ -377,13 +369,13 @@ export type InputToken = IT_TokenSuggest
  * the error.
  */
 export type FromInputToken<
-    T extends InputToken,
+    T extends InputTokenLike,
     TR = T extends string ? Trim<T> : T
 > = TR extends IT_ObjectLiteralDefinition
     ? ConvertObjectLiteral<TR>
-    : TR extends readonly InputToken[]
+    : TR extends readonly InputTokenLike[]
         ? {
-            [K in keyof TR]: TR[K] extends InputToken
+            [K in keyof TR]: TR[K] extends InputTokenLike
                 ? FromInputToken<TR[K]>
                 : never
         }
@@ -392,3 +384,5 @@ export type FromInputToken<
             : TR extends IT_UnionToken
                 ? Union<TR>
                 : Err<`invalid-token/unknown`, `The token '${Trim<AsType<T>>}' is not a valid input token!`>;
+
+
