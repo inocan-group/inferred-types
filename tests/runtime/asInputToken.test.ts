@@ -1,9 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import { asType } from "inferred-types/runtime";
-import { FromInputToken, TypedFunction } from "inferred-types/types";
+import { FromInputToken } from "inferred-types/types";
 import { Contains, Extends } from "inferred-types/types";
-
 
 describe("FromInputToken<Token>", () => {
 

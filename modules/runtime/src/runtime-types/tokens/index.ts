@@ -8,3 +8,5 @@ export * from "./fromDefineObject";
 export * from "./getTokenKind";
 export * from "./input-tokens-runtime";
 export * from "./simpleToken";
+export * from "./asInputToken";
+export * from "./asOutputToken";

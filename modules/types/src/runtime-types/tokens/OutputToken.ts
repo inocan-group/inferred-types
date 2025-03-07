@@ -1,7 +1,7 @@
 import type {
     AfterFirst,
     First,
-    InputToken,
+    InputTokenLike,
     IT_ObjectLiteralDefinition,
     IT_TokenSuggest,
     SafeEncode,
@@ -19,9 +19,20 @@ export type IT_TupleToOutputToken<
         R extends ""
             ? `"${SafeEncode<First<T>>}"`
             : `${R}, "${SafeEncode<First<T>>}"`
-    >
+    >;
 
-;
+/**
+ * **OutputToken**
+ *
+ * An _output token_ is a variant of an _input token_ which is always a string
+ * based value which represents a "type" in full fidelity.
+ *
+ * - this is a _branded_ type and to validate that a value is of this
+ * type you should use the `isOutputToken()` type guard.
+ */
+export type OutputToken = `<<${string}>>` & {
+    brand: "OutputToken"
+}
 
 /**
  * **TypeToken**
@@ -31,7 +42,7 @@ export type IT_TupleToOutputToken<
  *
  * **Related:** `isTypeToken()`, `asTypeToken()`, `ToTypeToken<T>`
  */
-export type AsOutputToken<T extends InputToken> = T extends string
+export type AsOutputToken<T extends InputTokenLike> = T extends string
     ? `<<"${SafeEncode<T>}">>`
     : T extends IT_ObjectLiteralDefinition
         ? `<<${ToJson<T>}>>`
