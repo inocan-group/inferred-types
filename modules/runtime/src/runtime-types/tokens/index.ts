@@ -10,3 +10,4 @@ export * from "./input-tokens-runtime";
 export * from "./simpleToken";
 export * from "./asInputToken";
 export * from "./asOutputToken";
+export * from "./parseInputToken";

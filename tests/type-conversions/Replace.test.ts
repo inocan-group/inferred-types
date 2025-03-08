@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { describe, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import {
   ReplaceAllFromTo,
@@ -10,6 +10,7 @@ import {
   ReplaceAll,
   UpperAlphaChar
 } from "inferred-types/types";
+import { replace, replaceAll, replaceAllFromTo } from "inferred-types/runtime";
 
 describe("Replace<TText,TFind,TReplace>", () => {
 
@@ -59,6 +60,21 @@ describe("Replace<TText,TFind,TReplace>", () => {
     ];
   });
 });
+
+describe("replace()", () => {
+
+    it("happy path", () => {
+      const fooBarb = replace("booBarb", "b", "f");
+
+      expect(fooBarb).toEqual("fooBarb")
+
+      type cases = [
+        Expect<Equal<typeof fooBarb, "fooBarb">>,
+      ];
+    });
+
+
+})
 
 
 
@@ -172,3 +188,30 @@ describe("ReplaceAllFromTo<TText,TFromTo>", () => {
   });
 });
 
+describe("replaceAll()", () => {
+    it("happy path", () => {
+      const fooBarf = replaceAll("booBarb", "b", "f");
+      expect(fooBarf).toEqual("fooBarf")
+
+      type cases = [
+        Expect<Equal<typeof fooBarf, "fooBarf">>,
+      ];
+    });
+})
+
+describe("replaceAllFromTo()", () => {
+    it("happy path", () => {
+      const template = replaceAllFromTo(
+        "There I was, in the {{string}}! As well as some {{number}} year monkey.",
+        {
+            "{{string}}": "jungle",
+            "{{number}}": "5"
+        }
+        );
+      expect(template).toEqual("There I was, in the jungle! As well as some 5 year monkey.")
+
+      type cases = [
+        Expect<Equal<typeof template, "There I was, in the jungle! As well as some 5 year monkey.">>,
+      ];
+    });
+})

@@ -46,3 +46,4 @@ export * from "./uncapitalize";
 export * from "./unset";
 export * from "./uppercase";
 export * from "./widen";
+export * from "./replace"
