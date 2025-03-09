@@ -224,7 +224,6 @@ describe("createTemplateRegExp", () => {
         type One = typeof t1[1];
         type Two = typeof t1[2];
         type Three = typeof t1[3];
-        type Four = typeof t1[4];
 
         expect(a1).toEqual([
             `- Name: Bob, Age: 55`,
