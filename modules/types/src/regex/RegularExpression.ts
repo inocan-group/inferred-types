@@ -1,5 +1,6 @@
 import type {
     AsFromTo,
+    IsEqual,
     IsStringLiteral,
     RegexArray,
     ReplaceAllFromTo,
@@ -17,7 +18,7 @@ type AsTemplateString<
     T extends string
 > = T extends `^${infer Inner}$`
     ? ReplaceAllFromTo<Inner, RegexToTemplate>
-    : T extends `.*${infer Inner}.*`
+    : T extends `.*(${infer Inner}).*`
         ? `${string}${ReplaceAllFromTo<Inner, RegexToTemplate>}${string}`
         : never;
 
@@ -55,3 +56,11 @@ export type RegularExpression<
     exec: RegexExecFn<TLitTemplate>;
     pattern: TLitTemplate;
 };
+
+type F<T extends string> = T extends `${infer First}${infer Rest}`
+? IsEqual<First, string> extends true
+    ? F<Rest>
+    : First
+: never;
+
+type X = F<`${number}Name: {{string}}, Age: {{number}}${string}`>;
