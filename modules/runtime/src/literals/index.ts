@@ -24,6 +24,7 @@ export * from "./retainWhile";
 export * from "./rightWhitespace";
 export * from "./split";
 export * from "./stripAfter";
+export * from "./stripAfterLast";
 export * from "./stripBefore";
 export * from "./stripChars";
 export * from "./stripLeading";

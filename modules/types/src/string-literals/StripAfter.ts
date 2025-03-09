@@ -22,3 +22,7 @@ export type StripAfter<
             : TStr
         : string
     : string;
+
+
+
+
