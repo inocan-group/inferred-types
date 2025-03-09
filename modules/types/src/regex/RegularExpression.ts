@@ -2,7 +2,8 @@ import type {
     AsFromTo,
     IsStringLiteral,
     RegexArray,
-    ReplaceAllFromTo
+    ReplaceAllFromTo,
+    RetainAfter
 } from "inferred-types/types";
 
 type RegexToTemplate = AsFromTo<{
@@ -11,11 +12,12 @@ type RegexToTemplate = AsFromTo<{
     "(true|false)": `${boolean}`;
 }>;
 
+
 type AsTemplateString<
     T extends string
 > = T extends `^${infer Inner}$`
     ? ReplaceAllFromTo<Inner, RegexToTemplate>
-    : T extends `.*(${infer Inner}).*`
+    : T extends `.*${infer Inner}.*`
         ? `${string}${ReplaceAllFromTo<Inner, RegexToTemplate>}${string}`
         : never;
 

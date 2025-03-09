@@ -161,15 +161,40 @@ describe("split()", () => {
     it("inline variant", () => {
         const fooBar = split.inline("foo, bar", ", ");
         const fooBarBaz = split.inline("foo, bar; baz", ", ", "; ")
-        type X = Split<"foo, bar; baz", [", ", "; "], "inline">
+
+
 
         expect(fooBar).toEqual(["foo", ", ", "bar"])
         expect(fooBarBaz).toEqual(["foo", ", ", "bar", "; ", "baz"])
+
+
 
         type cases = [
             Expect<Equal<typeof fooBar, ["foo", ", ", "bar"]>>,
             Expect<Equal<typeof fooBarBaz, ["foo", ", ", "bar", "; ", "baz"]>>,
         ];
     });
+
+
+    it("inline variant with spaces", () => {
+    const spaced = split.inline("hello world monkey", " ");
+    expect(spaced).toEqual(["hello", " ", "world", " ", "monkey"])
+
+
+      type cases = [
+        Expect<Equal<typeof spaced, ["hello", " ", "world", " ", "monkey"]>>
+      ];
+    });
+
+    it("inline variant with longer sequence", () => {
+        const four = split.inline("1, 2, 3, 4", ", ");
+        expect(four).toEqual(["1",", ","2", ", ", "3", ", ", "4"]);
+
+          type cases = [
+            Expect<Equal<typeof four, ["1",", ","2",", ", "3", ", ", "4"]>>
+          ];
+    });
+
+
 
 })

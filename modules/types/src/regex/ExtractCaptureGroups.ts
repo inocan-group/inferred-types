@@ -10,18 +10,16 @@ type SegmentToType<S extends TemplateSegment> = S extends "{{string}}"
             ? boolean
             : never;
 
-type IsRegexSubsetStrategy<T extends string> = T extends `.*(${string}`
-    ? true
-    : false;
+
 
 /**
  * Extracts the capture groups in a RegExp and their type.
  */
 export type ExtractCaptureGroups<
-    T extends string,
-    TSubset extends boolean = IsRegexSubsetStrategy<T>,
+    TTmpl extends string,
+    TSubset extends boolean,
     Acc extends RegexGroupValue[] = [],
-> = T extends `${infer _Before}{{${infer Segment}}}${infer After}`
+> = TTmpl extends `${infer _Before}{{${infer Segment}}}${infer After}`
     ? Segment extends "string" | "number" | "boolean"
         ? ExtractCaptureGroups<After, TSubset, [...Acc, SegmentToType<`{{${Segment}}}`>]>
         : ExtractCaptureGroups<After, TSubset, Acc>

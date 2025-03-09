@@ -8,6 +8,8 @@ import type {
     RegexHandlingStrategy,
     RemoveIndexKeys,
     ReplaceAllFromTo,
+    RetainAfter,
+    StripAfter,
 } from "inferred-types/types";
 
 export type RegexGroupValue = string | number | bigint | boolean | null | undefined;
@@ -28,6 +30,7 @@ type PrettyRegexToTemplate = AsFromTo<{
     "(\\d+)": `{{number}}`;
     "(true|false)": `{{boolean}}`;
 }>;
+type Extract<T extends string> = StripAfter<RetainAfter<T, "(">, ")"> ;
 
 
 
@@ -88,6 +91,10 @@ type _RegexArray<
     TResults & Record<TIdx, `${First<TGroups>}`>
     >;
 
+type IsRegexSubsetStrategy<T extends string> = T extends `.*(${string}`
+    ? true
+    : false;
+
 /***
  * **RegexArray**`<TGroups, [TValue]>`
  *
@@ -103,7 +110,7 @@ export type RegexArray<
     TTempl extends string,
     TValue extends string = string
 > = _RegexArray<
-    ExtractCaptureGroups<AsTemplateString<TTempl>>,
+    ExtractCaptureGroups<AsTemplateString<TTempl>, IsRegexSubsetStrategy<TTempl>>,
     AsTemplateString<TTempl>,
     TTempl extends `.*(${string}`
         ? "subset"

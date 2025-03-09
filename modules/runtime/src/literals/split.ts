@@ -1,5 +1,4 @@
 import type { Split } from "inferred-types/types";
-import { log } from "node:console";
 import { createFnWithPropsExplicit, isEven, last } from "inferred-types/runtime";
 
 type Policy = "omit" | "before" | "after" | "inline";
@@ -22,10 +21,9 @@ function splitUp<
                 const splits = c.split(s);
                 const all: string[] = [];
                 for (const [idx, split] of splits.entries()) {
-                    if (isEven(idx) && idx <= splits.length) {
+                    if (idx < splits.length - 1) { // Corrected condition
                         all.push(split, `${SEP}${s}`);
-                    }
-                    else {
+                    } else {
                         all.push(split);
                     }
                 }
@@ -73,7 +71,6 @@ function splitUp<
                 }
             }
         }
-        log(`after`, after);
         inline = after;
     }
     else if (policy === "inline") {
