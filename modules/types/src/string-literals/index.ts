@@ -37,6 +37,7 @@ export * from "./Split";
 export * from "./SplitAlt";
 export * from "./StringLiteralTemplate";
 export * from "./StripAfter";
+export * from "./StripAfterLast";
 export * from "./StripBefore";
 export * from "./StripLeading";
 export * from "./StripSurround";
