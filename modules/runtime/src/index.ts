@@ -12,9 +12,9 @@ export * from "./lists/index";
 export * from "./literals/index";
 export * from "./meta/index";
 export * from "./queues/index";
+export * from "./regex/index";
 export * from "./runtime-types/index";
 export * from "./sets/index";
 export * from "./type-conversion/index";
 export * from "./type-guards/index";
 export * from "./vuejs/index";
-export * from "./comparison/index"

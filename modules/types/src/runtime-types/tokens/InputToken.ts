@@ -1,4 +1,4 @@
-import { IT_ATOMIC_TOKENS } from "inferred-types/constants";
+import type { IT_ATOMIC_TOKENS, IT_CONTAINER_TOKENS, IT_LITERAL_TOKENS } from "inferred-types/constants";
 import type {
     AfterFirst,
     As,
@@ -23,6 +23,33 @@ import type {
     UnionToTuple,
     WhenErr
 } from "inferred-types/types";
+
+type IT_AtomicToken = typeof IT_ATOMIC_TOKENS[number];
+
+type LiteralRaw = typeof IT_LITERAL_TOKENS;
+/**
+ * **IT_LiteralToken**
+ *
+ * The literal type tokens which can express a type literal or a
+ * union of type literals
+ */
+type IT_LiteralToken = {
+    [K in keyof LiteralRaw]: LiteralRaw[K] extends string
+        ? StringLiteralTemplate<LiteralRaw[K]>
+        : never
+}[number];
+
+type ContainerRaw = typeof IT_CONTAINER_TOKENS;
+/**
+ * **IT_ContainerToken**
+ *
+ * An internal token which represents a _container type_ of some sort.
+ */
+export type IT_ContainerToken = {
+    [K in keyof ContainerRaw]: ContainerRaw[K] extends string
+        ? StringLiteralTemplate<ContainerRaw[K]>
+        : never
+}[number];
 
 type BaseSuggest =
 | `${IT_AtomicToken}`
@@ -85,24 +112,10 @@ export type IT_ObjectLiteralDefinition = Record<string, IT_TokenSuggest>;
  */
 export type IT_FunctionLiteralToken = (...args: readonly any[]) => Suggest<IT_AtomicToken | "void"> | [returns: Suggest<IT_AtomicToken | "void">, props: Dictionary];
 
-export type IT_LiteralToken =
-| IT_StringLiteralToken
-| IT_NumericLiteralToken
-| IT_BooleanLiteralToken
-| IT_FunctionLiteralToken;
-
-export type IT_AtomicToken = typeof IT_ATOMIC_TOKENS[number];
-
 type MapToken = `Map<${string},${string}>`;
 type SetToken = `Set<${string}>`;
 type WeakMapToken = `WeakMap<${string},${string}>`;
 type RecordToken = `Record<${string},${string}>`;
-
-export type IT_ContainerToken =
-| MapToken
-| SetToken
-| WeakMapToken
-| RecordToken;
 
 export type IT_UnionToken = `${string}|${string}`;
 
@@ -358,8 +371,8 @@ export type InputTokenLike = IT_TokenSuggest
 | readonly IT_TokenSuggest[];
 
 export type InputToken = InputTokenLike & {
-    brand: "InputToken"
-}
+    brand: "InputToken";
+};
 
 /**
  * **FromInputToken**`<T>`
@@ -384,5 +397,3 @@ export type FromInputToken<
             : TR extends IT_UnionToken
                 ? Union<TR>
                 : Err<`invalid-token/unknown`, `The token '${Trim<AsType<T>>}' is not a valid input token!`>;
-
-

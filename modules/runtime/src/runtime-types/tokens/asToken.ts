@@ -1,5 +1,4 @@
 import type {
-    AsOutputToken,
     SimpleContainerToken,
     SimpleScalarToken,
     SimpleType,
@@ -146,7 +145,7 @@ export function simpleContainerTokenToTypeToken<T extends SimpleContainerToken>(
     // TODO
 }
 
-// TODO
-export function asTypeToken<T extends AsOutputToken>(_val: T) {
-    return "not ready";
-}
+// // TODO
+// export function asTypeToken<T extends AsOutputToken>(_val: T) {
+//     return "not ready";
+// }

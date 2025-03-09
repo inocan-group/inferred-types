@@ -27,8 +27,8 @@ type From<S extends RuntimeSort> = {
 };
 
 export type RuntimeSort<
-    F extends readonly IT_TokenSuggest[],
-    S extends readonly IT_TokenSuggest[]
+    F extends readonly IT_TokenSuggest[] = IT_TokenSuggest[],
+    S extends readonly IT_TokenSuggest[] = IT_TokenSuggest[]
 > = {
     first?: F;
     last?: S;

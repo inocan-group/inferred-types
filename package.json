@@ -42,6 +42,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "bash build",
+    "prompt": "prompt",
     "lint": "eslint modules",
     "trace": "npx tsc --noEmit --diagnostics && npx analyze-trace trace",
     "test": "vitest",
@@ -71,6 +72,7 @@
     "@typescript-eslint/parser": "^8.25.0",
     "@typescript/analyze-trace": "^0.10.1",
     "@vitest/ui": "^3.0.7",
+    "@yankeeinlondon/promptly": "^0.1.0",
     "bumpp": "^10.0.3",
     "chalk": "^5.4.1",
     "cross-env": "^7.0.3",

@@ -16,6 +16,7 @@ export * from "./nbsp";
 export * from "./pathJoin";
 export * from "./phone/index";
 export * from "./pluralize";
+export * from "./replace";
 export * from "./retainAfter";
 export * from "./retainChars";
 export * from "./retainUntil";
@@ -46,4 +47,3 @@ export * from "./uncapitalize";
 export * from "./unset";
 export * from "./uppercase";
 export * from "./widen";
-export * from "./replace"

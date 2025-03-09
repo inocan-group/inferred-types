@@ -16,6 +16,7 @@ export * from "./HashTable";
 export * from "./HTML";
 export * from "./Http";
 export * from "./Images";
+export * from "./InputTokenConstants";
 export * from "./ISO3166";
 export * from "./Marked";
 export * from "./Markers";
@@ -45,4 +46,3 @@ export * from "./Types";
 export * from "./TypeTokens";
 export * from "./TypeTokenVariants";
 export * from "./TypeTransforms";
-export * from "./InputTokenConstants"

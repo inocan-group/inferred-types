@@ -1,15 +1,13 @@
-import { InputToken } from "inferred-types/types";
+import type { InputToken } from "inferred-types/types";
 import {
-    fromInputToken,
+    asType,
+    isNotError,
     isObjectLiteralDefinition,
-    isString,
-    isNotError
+    isString
 } from "inferred-types/runtime";
 
-
-
 export function isInputToken__String(val: unknown) {
-    return isString(val) && isNotError(fromInputToken(val));
+    return isString(val) && isNotError(asType(val));
 }
 
 /**

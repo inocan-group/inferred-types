@@ -1,6 +1,6 @@
-import { IT_ObjectLiteralDefinition } from "inferred-types/types";
-import { isObject, isInputToken__String, isString } from "inferred-types/runtime";
+import type { IT_ObjectLiteralDefinition } from "inferred-types/types";
+import { isInputToken__String, isObject, isString } from "inferred-types/runtime";
 
 export function isObjectLiteralDefinition(val: unknown): val is IT_ObjectLiteralDefinition {
-    return isObject(val) && Object.values(val).every(i => isString(val) && isInputToken__String(val))
+    return isObject(val) && Object.values(val).every(i => isString(val) && isInputToken__String(val));
 }

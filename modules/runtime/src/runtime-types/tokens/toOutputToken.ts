@@ -1,5 +1,5 @@
-import type { Err, InputToken, OutputToken  } from "inferred-types/types";
-import { asString, toJSON, toJsonArray, isArray, isObject, isString, asTypedError } from "inferred-types/runtime";
+import type { Err, InputToken } from "inferred-types/types";
+import { asString, asTypedError, isInputToken, isString } from "inferred-types/runtime";
 
 /**
  * **toOutputToken**`(input)`
@@ -26,14 +26,16 @@ import { asString, toJSON, toJsonArray, isArray, isObject, isString, asTypedErro
  *
  * **Related:** `isInputToken()`, `isOutputToken()`, `fromOutputToken()`
  */
-export function toOutputToken<T extends InputToken>(input: T): OutputToken | Err<`invalid-token/input-token`> {
+export function toOutputToken<T extends InputToken>(input: T): string | Err<`invalid-token/input-token`> {
     return isInputToken(input)
         ? isString(input)
-            ? `<<'${input}'>>`
-            : isObject(input)
-                ? toJSON(input)
-                : isArray(input)
-                    ? toJsonArray(input)
-                    : ""
+            ? "<<string>>"
+            : "<<shit>>"
+            // ? `<<'${input}'>>`
+            // : isObject(input)
+            //     ? toJSON(input)
+            //     : isArray(input)
+            //         ? toJsonArray(input)
+            //         : ""
         : asTypedError("invalid-token/input-token", `The input token -- ${asString(input)} -- is not a valid InputToken and therefore can not be converted!`);
 }
