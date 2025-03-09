@@ -1,5 +1,5 @@
-import { Err } from "inferred-types/types";
-import { toKebabCase, asTypeSubtype, toPascalCase } from "inferred-types/runtime";
+import type { Err } from "inferred-types/types";
+import { asTypeSubtype, toKebabCase, toPascalCase } from "inferred-types/runtime";
 
 export function asTypedError<
     TType extends string,
@@ -8,8 +8,8 @@ export function asTypedError<
     classification: TType,
     msg: TMsg
 ) {
-    const [type,subType] = asTypeSubtype(classification);
-    const err = new Error(msg) as Err<TType,TMsg>;
+    const [type, subType] = asTypeSubtype(classification);
+    const err = new Error(msg) as Err<TType, TMsg>;
     err.name = toPascalCase(type);
     err.type = toKebabCase(type);
     err.subType = toKebabCase(subType);

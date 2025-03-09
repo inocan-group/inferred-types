@@ -1,5 +1,4 @@
-import { AsFromTo, Dictionary, Replace, ReplaceAll, ReplaceAllFromTo } from "inferred-types/types";
-
+import type { AsFromTo, Dictionary, Replace, ReplaceAll, ReplaceAllFromTo } from "inferred-types/types";
 
 /**
  * **replace**`(content, find, replace)`
@@ -18,9 +17,8 @@ export function replace<
     find: TFind,
     replace: TReplace
 ) {
-    return content.replace(find, replace) as Replace<TContent, TFind, TReplace>
+    return content.replace(find, replace) as Replace<TContent, TFind, TReplace>;
 }
-
 
 /**
  * **replaceAll**`(content, find, replace)`
@@ -39,9 +37,8 @@ export function replaceAll<
     find: TFind,
     replace: TReplace
 ) {
-    return content.replaceAll(find, replace) as ReplaceAll<TContent, TFind, TReplace>
+    return content.replaceAll(find, replace) as ReplaceAll<TContent, TFind, TReplace>;
 }
-
 
 /**
  * **replaceAllFromTo**`(content, defn)`
@@ -54,7 +51,7 @@ export function replaceAll<
  */
 export function replaceAllFromTo<
     TContent extends string,
-    TFromTo extends Dictionary<K,V>,
+    TFromTo extends Dictionary<K, V>,
     K extends string,
     V extends string
 >(
@@ -64,7 +61,7 @@ export function replaceAllFromTo<
     let output: string = content;
 
     for (const key of Object.keys(fromTo)) {
-        output = replaceAll(output, key, fromTo[key as K])
+        output = replaceAll(output, key, fromTo[key as K]);
     }
 
     return output as unknown as ReplaceAllFromTo<TContent, AsFromTo<TFromTo>>;

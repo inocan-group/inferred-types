@@ -33,6 +33,7 @@ export * from "./isIndexable";
 export * from "./isInlineSvg";
 export * from "./isMap";
 export * from "./isNever";
+export * from "./isNotError";
 export * from "./isNothing";
 export * from "./isNotNull";
 export * from "./isNull";
@@ -62,7 +63,6 @@ export * from "./isUndefined";
 export * from "./isUnset";
 export * from "./isUrl";
 export * from "./isVariable";
-export * from "./isNotError";
 
 export * from "./metrics/index";
 export * from "./network-tg";

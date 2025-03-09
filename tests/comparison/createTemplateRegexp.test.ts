@@ -1,8 +1,9 @@
-import { } from "@type-challenges/utils";
+import { Equal, Expect, ExpectFalse } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import { createTemplateRegExp } from "inferred-types/runtime";
+import { Extends, RegularExpression } from "inferred-types/types";
 
-describe("createTemplateRegExp(template)", () => {
+describe("createTemplateRegExp", () => {
 
     const testCases = [
         {
@@ -48,7 +49,197 @@ describe("createTemplateRegExp(template)", () => {
             ).toBe(expected)
         });
     }
-});
 
-const a = createTemplateRegExp(`Price: {{number}}.{{number}}`)
-console.log(String(a))
+    const subsetCases = [
+        {
+            name: `An exact match still matches`,
+            template: `Number({{number}})`,
+            test: "Number(5)",
+            expected: true
+        },
+        {
+            name: "Leading whitespace",
+            template: `Number({{number}})`,
+            test: "     Number(5)",
+            expected: true
+        },
+        {
+            name: "Leading and trailing whitespace",
+            template: `Number({{number}})`,
+            test: "     Number(5)      ",
+            expected: true
+        },
+
+        {
+            name: "Leading and trailing special characters",
+            template: `Number({{number}})`,
+            test: ".*+?^$  Number(5)   .*+?^$",
+            expected: true
+        },
+
+        {
+            name: "Unexpected space in described template",
+            template: `Number({{number}})`,
+            test: ".*+?^$  Number( 5)   .*+?^$",
+            expected: false
+        },
+        {
+            name: "Multiple dynamic segment types",
+            template: `Name: {{string}}, Age: {{number}}`,
+            test: `   Name: Bob Marley, Age: 55   `,
+            expected: true
+        }
+    ]
+
+    for (const { name, template, test, expected } of subsetCases) {
+        const re = createTemplateRegExp(template, "subset");
+
+        it(`RegExp[subset] >> ${name} >> ${expected ? "expected to match" : "expected NOT to match"}`, () => {
+
+            expect(
+                re.test(test),
+                `Test "${name}" failed!\nThe regex which was used was: ${String(re)}`
+            ).toBe(expected)
+        });
+    }
+
+    it("type test for exact match's pattern property", () => {
+        const re = createTemplateRegExp(`Age: {{number}}`);
+
+        type cases = [
+            Expect<Equal<typeof re, RegularExpression<`^Age: (\\d+)$`>>>
+        ]
+    })
+
+    it("type test for subset match's pattern property", () => {
+        const re = createTemplateRegExp(`Age: {{number}}`, "subset");
+
+        type cases = [
+            Expect<Equal<typeof re, RegularExpression<`.*(Age: (\\d+)).*`>>>
+        ]
+    })
+
+
+    it("type testing of test() function when exact match", () => {
+        const re = createTemplateRegExp(`Name: {{string}}`, "exact");
+
+        const s1 = re.test("Name: Bob");
+        const s2 = re.test("Name: Bob Marley ");
+        const s3 = re.test("Name: Bob Marley " as string);
+
+        const n = createTemplateRegExp(`Age: {{number}}`);
+
+        const nt = n.test("Age: 42");
+        const nf = n.test("Age: 42!");
+
+        expect(s1).toBe(true);
+        expect(s2).toBe(true);
+        expect(s3).toBe(true);
+
+        expect(nt).toBe(true);
+        expect(nf).toBe(false);
+
+      type cases = [
+        Expect<Equal<typeof s1, true>>,
+        Expect<Equal<typeof s2, true>>,
+        Expect<Equal<typeof s3, boolean>>,
+
+        Expect<Equal<typeof nt, true>>,
+        Expect<Equal<typeof nf, false>>,
+      ];
+    });
+
+    it("type testing of test() function when subset match", () => {
+        const re = createTemplateRegExp(`Name: {{string}}`, "subset");
+        console.log("re", re)
+        const s1 = re.test("Name: Bob");
+        const s2 = re.test("Name: Bob Marley ");
+        const s3 = re.test("Name: Bob Marley " as string);
+        const s4 = re.test("  Name: Bob    ");
+
+        expect(s1).toBe(true);
+        expect(s2).toBe(true);
+        expect(s3).toBe(true); // boolean type when input string is wide
+        expect(s4).toBe(true);
+
+        const n = createTemplateRegExp(`Age: {{number}}`, "subset");
+
+        const nt1 = n.test("Age: 42");
+        const nt2 = n.test("Age: 42!");
+        const nt3 = n.test("Age: 42" as `Age: ${number}`);
+        const nf = n.test("Aged: 42!");
+
+        expect(nt1).toBe(true);
+        expect(nt2).toBe(true);
+        expect(nt3).toBe(true);
+        expect(nf).toBe(false);
+
+      type cases = [
+        Expect<Equal<typeof s1, true>>,
+        Expect<Equal<typeof s2, true>>,
+        // boolean type when input string is wide
+        Expect<Equal<typeof s3, boolean>>,
+        Expect<Equal<typeof s4, true>>,
+
+        Expect<Equal<typeof nt1, true>>,
+        Expect<Equal<typeof nt2, true>>,
+        Expect<Equal<typeof nt3, true>>,
+        Expect<Equal<typeof nf, false>>,
+      ];
+    });
+
+
+    it("type testing of exec() function with exact match", () => {
+        const re = createTemplateRegExp(`Name: {{string}}, Age: {{number}}`, "exact");
+        const execFunction = re.exec;
+
+        const t1 = re.exec(`Name: Bob, Age: 55`);
+        const a1 = Array.from(t1);
+
+        type Len = typeof t1["length"];
+        type Full = typeof t1[0];
+        type One = typeof t1[1];
+        type Two = typeof t1[2];
+
+        expect(a1).toEqual([`Name: Bob, Age: 55`, `Bob`, `55`]);
+
+      type cases = [
+        Expect<Extends<typeof t1, RegExpExecArray>>,
+        Expect<Equal<Len, 2>>,
+        Expect<Equal<Full, "Name: Bob, Age: 55">>,
+        Expect<Equal<One, string>>,
+        Expect<Equal<Two, `${number}`>>,
+        ExpectFalse<3 extends keyof typeof t1 ? true : false>
+      ];
+    });
+
+    it("type testing of exec() function with subset match", () => {
+        const re = createTemplateRegExp(`Name: {{string}}, Age: {{number}}`, "subset");
+        const execFunction = re.exec;
+
+        const t1 = re.exec(`- Name: Bob, Age: 55`);
+        const a1 = Array.from(t1);
+
+        type Full = typeof t1[0];
+        type One = typeof t1[1];
+        type Two = typeof t1[2];
+        type Three = typeof t1[3];
+        type Four = typeof t1[4];
+
+        expect(a1).toEqual([
+            `- Name: Bob, Age: 55`,
+            `Name: Bob, Age: 55`,
+            `Bob`,
+            `55`
+        ]);
+
+      type cases = [
+        Expect<Extends<typeof t1, RegExpExecArray>>,
+        Expect<Equal<Full, "- Name: Bob, Age: 55">>,
+        Expect<Equal<One, "Name: Bob, Age: 55">>, // TYPE ERROR
+        Expect<Equal<Two, "Bob">>, // TYPE ERROR
+        Expect<Equal<Three, "55">>, // TYPE ERROR
+      ];
+    });
+
+});

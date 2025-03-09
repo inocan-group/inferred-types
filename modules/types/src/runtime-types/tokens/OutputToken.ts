@@ -31,8 +31,8 @@ export type IT_TupleToOutputToken<
  * type you should use the `isOutputToken()` type guard.
  */
 export type OutputToken = `<<${string}>>` & {
-    brand: "OutputToken"
-}
+    brand: "OutputToken";
+};
 
 /**
  * **TypeToken**

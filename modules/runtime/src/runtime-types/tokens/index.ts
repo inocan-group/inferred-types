@@ -1,3 +1,5 @@
+export * from "./asInputToken";
+export * from "./asOutputToken";
 export * from "./asToken";
 export * from "./asType";
 export * from "./brands";
@@ -7,7 +9,5 @@ export * from "./createTokenSyntax";
 export * from "./fromDefineObject";
 export * from "./getTokenKind";
 export * from "./input-tokens-runtime";
-export * from "./simpleToken";
-export * from "./asInputToken";
-export * from "./asOutputToken";
 export * from "./parseInputToken";
+export * from "./simpleToken";
