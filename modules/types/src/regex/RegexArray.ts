@@ -9,7 +9,9 @@ import type {
     RemoveIndexKeys,
     ReplaceAllFromTo,
     RetainAfter,
+    StringLiteralTemplate,
     StripAfter,
+    StripSurroundingStringTemplate,
 } from "inferred-types/types";
 
 export type RegexGroupValue = string | number | bigint | boolean | null | undefined;
@@ -30,8 +32,6 @@ type PrettyRegexToTemplate = AsFromTo<{
     "(\\d+)": `{{number}}`;
     "(true|false)": `{{boolean}}`;
 }>;
-type Extract<T extends string> = StripAfter<RetainAfter<T, "(">, ")"> ;
-
 
 
 type AsTemplateString<
@@ -72,10 +72,22 @@ type _RegexArray<
         TResults &
         Record<"kind", "RegexArray"> &
         Record<"gt", TGroups> &
-        Record<"template", TTmpl> &
+        Record<"matchStrategy", TStrat> &
+        (TStrat extends "subset"
+            ? Record<"template", StripSurroundingStringTemplate<TTmpl>>
+            : Record<"template", TTmpl>
+        ) &
         RegExpExecArray &
         TGroupTypes &
         Record<0, TValue> &
+        (
+            TStrat extends "subset"
+                ? Record<
+                    1,
+                    StringLiteralTemplate<StripSurroundingStringTemplate<TTmpl>>
+                >
+                : {}
+        ) &
         Record<"length", TLen> &
         Record<"input", TValue>
     >
@@ -88,7 +100,7 @@ type _RegexArray<
         TLen,
         TGroupTypes,
         Increment<TIdx>,
-    TResults & Record<TIdx, `${First<TGroups>}`>
+        TResults & Record<TIdx, `${First<TGroups>}`>
     >;
 
 type IsRegexSubsetStrategy<T extends string> = T extends `.*(${string}`

@@ -4,7 +4,6 @@ import type {
     IsStringLiteral,
     RegexArray,
     ReplaceAllFromTo,
-    RetainAfter
 } from "inferred-types/types";
 
 type RegexToTemplate = AsFromTo<{

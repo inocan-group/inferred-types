@@ -48,7 +48,6 @@ describe("ReplaceInterpolation Utilities", () => {
         [2,2]
     >;
 
-
     type cases = [
       Expect<Equal<TheAnswer, `42 is the answer`>>,
       Expect<Equal<PartialMulti, `42: 2 x 2 = ${number}`>>,
@@ -82,6 +81,4 @@ describe("ReplaceInterpolation Utilities", () => {
       Expect<Equal<Multi, `Employed: true; Married: false`>>
     ];
   });
-
-
 });

@@ -235,9 +235,9 @@ describe("createTemplateRegExp", () => {
       type cases = [
         Expect<Extends<typeof t1, RegExpExecArray>>,
         Expect<Equal<Full, "- Name: Bob, Age: 55">>,
-        Expect<Equal<One, "Name: Bob, Age: 55">>, // TYPE ERROR
-        Expect<Equal<Two, "Bob">>, // TYPE ERROR
-        Expect<Equal<Three, "55">>, // TYPE ERROR
+        Expect<Equal<One, `Name: ${string}, Age: ${number}`>>, // TYPE ERROR
+        Expect<Equal<Two, string>>, // TYPE ERROR
+        Expect<Equal<Three, `${number}`>>, // TYPE ERROR
       ];
     });
 
