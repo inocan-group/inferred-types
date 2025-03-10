@@ -205,10 +205,10 @@ describe("createTemplateRegExp", () => {
 
       type cases = [
         Expect<Extends<typeof t1, RegExpExecArray>>,
-        Expect<Equal<Len, 2>>,
+        Expect<Equal<Len, 3>>,
         Expect<Equal<Full, "Name: Bob, Age: 55">>,
-        Expect<Equal<One, string>>,
-        Expect<Equal<Two, `${number}`>>,
+        Expect<Equal<One, "Bob">>,
+        Expect<Equal<Two, `55`>>,
         ExpectFalse<3 extends keyof typeof t1 ? true : false>
       ];
     });
@@ -220,6 +220,7 @@ describe("createTemplateRegExp", () => {
         const t1 = re.exec(`- Name: Bob, Age: 55`);
         const a1 = Array.from(t1);
 
+        type Len = typeof t1["length"];
         type Full = typeof t1[0];
         type One = typeof t1[1];
         type Two = typeof t1[2];
@@ -234,10 +235,11 @@ describe("createTemplateRegExp", () => {
 
       type cases = [
         Expect<Extends<typeof t1, RegExpExecArray>>,
+        Expect<Equal<Len, 4>>,
         Expect<Equal<Full, "- Name: Bob, Age: 55">>,
-        Expect<Equal<One, `Name: ${string}, Age: ${number}`>>, // TYPE ERROR
-        Expect<Equal<Two, string>>, // TYPE ERROR
-        Expect<Equal<Three, `${number}`>>, // TYPE ERROR
+        Expect<Equal<One, `Name: ${string}, Age: ${number}`>>,
+        Expect<Equal<Two, "Bob">>,
+        Expect<Equal<Three, `55`>>,
       ];
     });
 

@@ -35,7 +35,6 @@ export * from "./RetainAfter";
 export * from "./RetainUntil";
 export * from "./Split";
 export * from "./SplitAlt";
-export * from "./StringLiteralTemplate";
 export * from "./StripAfter";
 export * from "./StripAfterLast";
 export * from "./StripBefore";

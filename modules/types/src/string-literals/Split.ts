@@ -4,6 +4,7 @@ import type {
     Filter,
     First,
     Flatten,
+    IsEqual,
     IsStringLiteral,
     IsUnion,
     NonBreakingSpace,
@@ -121,6 +122,43 @@ type Ensure<T> = T extends readonly string[]
     : never;
 
 /**
+ * **SplitOnNumericLiteral**`<TContent>`
+ *
+ * Splits `TContent` on every occurance of `${number}` found.
+ */
+export type SplitOnNumericLiteral<
+    TContent extends string,
+    TPolicy extends Policy,
+    TAcc extends string = "",
+    TResult extends readonly string[] = []
+> = TContent extends `${infer First}${infer Rest}`
+? IsEqual<First, `${number}`> extends true
+    ? SplitOnNumericLiteral<
+        Rest,
+        TPolicy,
+        TPolicy extends "after"
+        ? `${number}`
+        : "",
+        TPolicy extends "inline"
+        ? [ ...TResult, TAcc, `${number}` ]
+        : TPolicy extends "after"
+            ? [ ...TResult, `${TAcc}` ]
+            : TPolicy extends "before"
+            ? [ ...TResult, `${TAcc}${number}` ]
+            : [ ...TResult, TAcc ]
+    >
+    : SplitOnNumericLiteral<
+        Rest,
+        TPolicy,
+        `${TAcc}${First}`,
+        TResult
+    >
+: TAcc extends ""
+    ? TResult
+    : [...TResult, TAcc];
+
+
+/**
  * **Split**`<TContent,TSep,[TPolicy]>`
  *
  * Type conversion utility which receives a string `TContent`,
@@ -135,8 +173,12 @@ export type Split<
     TContent extends string,
     TSep extends string | readonly string[],
     TPolicy extends Policy = "omit",
-> = IsUnion<TSep> extends true
+> = IsEqual<TSep, `${boolean}`> extends true
+    ? Split<TContent, [`${true}`, `${false}`], TPolicy>
+    : IsUnion<TSep> extends true
     ? Err<`split/union-type`, `The separator passed into Split was a union type; please convert this to a tuple and call Split with a Tuple seperator!`>
+    : IsEqual<TSep, `${number}`> extends true
+    ? SplitOnNumericLiteral<TContent, TPolicy>
     : TSep extends readonly string[]
         ? _SplitUnion<[TContent], TSep, TPolicy>
         : TSep extends string
@@ -150,3 +192,6 @@ export type Split<
                             : Ensure<InlinePolicy<_Split<TContent, TSep>>>
                 : string[]
             : never;
+
+
+
