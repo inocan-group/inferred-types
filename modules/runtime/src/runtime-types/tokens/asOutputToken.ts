@@ -1,3 +1,3 @@
-export function asOutputFunction<T extends string>(val: T) {
+export function asOutputFunction<T extends string>(_val: T) {
 
 }

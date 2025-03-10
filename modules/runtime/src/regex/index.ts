@@ -1,2 +1,2 @@
 export * from "./createTemplateRegExp";
-export * from "./match";
+export * from "./createMatchTemplate";

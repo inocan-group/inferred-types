@@ -1,5 +1,5 @@
 import type { Split } from "inferred-types/types";
-import { createFnWithPropsExplicit, isEven, last } from "inferred-types/runtime";
+import { createFnWithPropsExplicit, last } from "inferred-types/runtime";
 
 type Policy = "omit" | "before" | "after" | "inline";
 
@@ -23,7 +23,8 @@ function splitUp<
                 for (const [idx, split] of splits.entries()) {
                     if (idx < splits.length - 1) { // Corrected condition
                         all.push(split, `${SEP}${s}`);
-                    } else {
+                    }
+                    else {
                         all.push(split);
                     }
                 }

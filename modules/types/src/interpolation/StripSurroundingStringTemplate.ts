@@ -1,4 +1,4 @@
-import { Chars, IsEqual, IsStringLiteral, Join } from "inferred-types/types";
+import type { Chars, IsEqual, IsStringLiteral, Join } from "inferred-types/types";
 
 /**
  * **StripLeadingStringTemplate**`<T>`
@@ -11,10 +11,10 @@ import { Chars, IsEqual, IsStringLiteral, Join } from "inferred-types/types";
  * ```
  */
 export type StripLeadingStringTemplate<T extends string> = T extends `${infer First}${infer Rest}`
-? IsEqual<First, string> extends true
-    ? StripLeadingStringTemplate<Rest>
-    : T
-: never;
+    ? IsEqual<First, string> extends true
+        ? StripLeadingStringTemplate<Rest>
+        : T
+    : never;
 
 /**
  * **StripTrailingStringTemplate**`<T>`
@@ -27,9 +27,8 @@ export type StripLeadingStringTemplate<T extends string> = T extends `${infer Fi
  * ```
  */
 export type StripTrailingStringTemplate<T extends string> = IsStringLiteral<T> extends true
-? Join<Chars<T>>
-: never;
-
+    ? Join<Chars<T>>
+    : never;
 
 /**
  * **StripSurroundingStringTemplate**`<T>`
@@ -42,7 +41,7 @@ export type StripTrailingStringTemplate<T extends string> = IsStringLiteral<T> e
  * ```
  */
 export type StripSurroundingStringTemplate<T extends string> = IsStringLiteral<T> extends true
-? StripTrailingStringTemplate<
-    StripLeadingStringTemplate<T>
->
-: never;
+    ? StripTrailingStringTemplate<
+        StripLeadingStringTemplate<T>
+    >
+    : never;

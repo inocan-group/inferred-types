@@ -1,6 +1,5 @@
 import type {
     AsFromTo,
-    IsEqual,
     IsStringLiteral,
     RegexArray,
     ReplaceAllFromTo,
@@ -11,7 +10,6 @@ type RegexToTemplate = AsFromTo<{
     "(\\d+)": `${number}`;
     "(true|false)": `${boolean}`;
 }>;
-
 
 type AsTemplateString<
     T extends string
@@ -55,11 +53,3 @@ export type RegularExpression<
     exec: RegexExecFn<TLitTemplate>;
     pattern: TLitTemplate;
 };
-
-type F<T extends string> = T extends `${infer First}${infer Rest}`
-? IsEqual<First, string> extends true
-    ? F<Rest>
-    : First
-: never;
-
-type X = F<`${number}Name: {{string}}, Age: {{number}}${string}`>;

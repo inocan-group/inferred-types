@@ -8,4 +8,4 @@ import type { As, AsString } from "inferred-types/types";
  */
 export type ToStringArray<T extends readonly unknown[]> = As<{
     [K in keyof T]: AsString<T[K]>
-}, readonly string[]>
+}, readonly string[]>;

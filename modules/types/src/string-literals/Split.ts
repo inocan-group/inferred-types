@@ -132,31 +132,30 @@ export type SplitOnNumericLiteral<
     TAcc extends string = "",
     TResult extends readonly string[] = []
 > = TContent extends `${infer First}${infer Rest}`
-? IsEqual<First, `${number}`> extends true
-    ? SplitOnNumericLiteral<
-        Rest,
-        TPolicy,
-        TPolicy extends "after"
-        ? `${number}`
-        : "",
-        TPolicy extends "inline"
-        ? [ ...TResult, TAcc, `${number}` ]
-        : TPolicy extends "after"
-            ? [ ...TResult, `${TAcc}` ]
-            : TPolicy extends "before"
-            ? [ ...TResult, `${TAcc}${number}` ]
-            : [ ...TResult, TAcc ]
-    >
-    : SplitOnNumericLiteral<
-        Rest,
-        TPolicy,
+    ? IsEqual<First, `${number}`> extends true
+        ? SplitOnNumericLiteral<
+            Rest,
+            TPolicy,
+            TPolicy extends "after"
+                ? `${number}`
+                : "",
+            TPolicy extends "inline"
+                ? [ ...TResult, TAcc, `${number}` ]
+                : TPolicy extends "after"
+                    ? [ ...TResult, `${TAcc}` ]
+                    : TPolicy extends "before"
+                        ? [ ...TResult, `${TAcc}${number}` ]
+                        : [ ...TResult, TAcc ]
+        >
+        : SplitOnNumericLiteral<
+            Rest,
+            TPolicy,
         `${TAcc}${First}`,
         TResult
-    >
-: TAcc extends ""
-    ? TResult
-    : [...TResult, TAcc];
-
+        >
+    : TAcc extends ""
+        ? TResult
+        : [...TResult, TAcc];
 
 /**
  * **Split**`<TContent,TSep,[TPolicy]>`
@@ -176,22 +175,19 @@ export type Split<
 > = IsEqual<TSep, `${boolean}`> extends true
     ? Split<TContent, [`${true}`, `${false}`], TPolicy>
     : IsUnion<TSep> extends true
-    ? Err<`split/union-type`, `The separator passed into Split was a union type; please convert this to a tuple and call Split with a Tuple seperator!`>
-    : IsEqual<TSep, `${number}`> extends true
-    ? SplitOnNumericLiteral<TContent, TPolicy>
-    : TSep extends readonly string[]
-        ? _SplitUnion<[TContent], TSep, TPolicy>
-        : TSep extends string
-            ? IsStringLiteral<TContent> extends true
-                ? TPolicy extends "omit"
-                    ? Ensure<OmitPolicy<_Split<TContent, TSep>>>
-                    : TPolicy extends "before"
-                        ? Ensure<BeforePolicy<_Split<TContent, TSep>>>
-                        : TPolicy extends "after"
-                            ? Ensure<AfterPolicy<_Split<TContent, TSep>>>
-                            : Ensure<InlinePolicy<_Split<TContent, TSep>>>
-                : string[]
-            : never;
-
-
-
+        ? Err<`split/union-type`, `The separator passed into Split was a union type; please convert this to a tuple and call Split with a Tuple seperator!`>
+        : IsEqual<TSep, `${number}`> extends true
+            ? SplitOnNumericLiteral<TContent, TPolicy>
+            : TSep extends readonly string[]
+                ? _SplitUnion<[TContent], TSep, TPolicy>
+                : TSep extends string
+                    ? IsStringLiteral<TContent> extends true
+                        ? TPolicy extends "omit"
+                            ? Ensure<OmitPolicy<_Split<TContent, TSep>>>
+                            : TPolicy extends "before"
+                                ? Ensure<BeforePolicy<_Split<TContent, TSep>>>
+                                : TPolicy extends "after"
+                                    ? Ensure<AfterPolicy<_Split<TContent, TSep>>>
+                                    : Ensure<InlinePolicy<_Split<TContent, TSep>>>
+                        : string[]
+                    : never;
