@@ -1,13 +1,13 @@
-import { EachAsStringLiteralTemplate, FromLiteralTemplate, Split, StringLiteralTemplate, TemplateBlocks } from "inferred-types/types";
+import type { FromLiteralTemplate, Split, StringLiteralTemplate, TemplateBlocks } from "inferred-types/types";
 
 type Finalize<
     TResults extends readonly string[],
     TWithType extends boolean | null
 > = TWithType extends true
-? {
-    [K in keyof TResults]: StringLiteralTemplate<TResults[K]>
-}
-: TResults;
+    ? {
+        [K in keyof TResults]: StringLiteralTemplate<TResults[K]>
+    }
+    : TResults;
 
 /**
  * **StaticTemplateSections**`<TTemplate, [TWithType]>`
@@ -27,8 +27,8 @@ export type StaticTemplateSections<
         FromLiteralTemplate<TTemplate>,
         TemplateBlocks,
         TWithType extends null
-        ? "omit"
-        : "before"
+            ? "omit"
+            : "before"
     >,
     TWithType
->
+>;

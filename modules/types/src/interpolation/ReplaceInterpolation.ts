@@ -1,4 +1,4 @@
-import {
+import type {
     AfterFirst,
     As,
     First,
@@ -19,18 +19,16 @@ export type ReplaceStringInterpolation<
     TReplace extends string,
     TResult extends string = ""
 > = TContent extends `${infer First}${infer Rest}`
-? ReplaceStringInterpolation<
-    Rest,
-    TReplace,
-    IsEqual<First, string> extends true
-    ? `${TResult}${TReplace}`
-    : `${TResult}${First}`
->
-: IsEqual<TContent, StripTrailingStringTemplate<TContent>> extends true
-    ? TResult
-    : `${TResult}${TReplace}`;
-
-
+    ? ReplaceStringInterpolation<
+        Rest,
+        TReplace,
+        IsEqual<First, string> extends true
+            ? `${TResult}${TReplace}`
+            : `${TResult}${First}`
+    >
+    : IsEqual<TContent, StripTrailingStringTemplate<TContent>> extends true
+        ? TResult
+        : `${TResult}${TReplace}`;
 
 type Replace<
     T extends readonly string[],
@@ -40,7 +38,7 @@ type Replace<
     [K in keyof T]: IsEqual<T[K], F> extends true
         ? R
         : T[K]
-}, readonly string[]>
+}, readonly string[]>;
 
 type ReplaceFirst<
     I extends readonly string[],
@@ -48,38 +46,36 @@ type ReplaceFirst<
     TReplace extends string,
     TFound extends boolean = false,
     O extends readonly string[] = []
->=[] extends I
-? O
-: ReplaceFirst<
-    AfterFirst<I>,
-    TFind,
-    TReplace,
-    IsEqual<First<I>, TFind> extends true
-        ? true
-        : TFound,
-    [
-        ...O,
-        TFound extends false
-            ? IsEqual<First<I>, TFind> extends true
-                ? TReplace
+> = [] extends I
+    ? O
+    : ReplaceFirst<
+        AfterFirst<I>,
+        TFind,
+        TReplace,
+        IsEqual<First<I>, TFind> extends true
+            ? true
+            : TFound,
+        [
+            ...O,
+            TFound extends false
+                ? IsEqual<First<I>, TFind> extends true
+                    ? TReplace
+                    : First<I>
                 : First<I>
-            : First<I>
-    ]
->;
-
+        ]
+    >;
 
 type ReplaceStack<
     T extends readonly string[],
     F extends string,
     R extends readonly string[]
 > = [] extends R
-? T
-: ReplaceStack<
-    ReplaceFirst<T,F,First<R>>,
-    F,
-    AfterFirst<R>
->
-
+    ? T
+    : ReplaceStack<
+        ReplaceFirst<T, F, First<R>>,
+        F,
+        AfterFirst<R>
+    >;
 
 /**
  * **ReplaceNumericInterpolation**`<TContent, TReplace>`
@@ -95,24 +91,24 @@ type ReplaceStack<
  */
 export type ReplaceNumericInterpolation<
     TContent extends string,
-    TReplace extends string | readonly (string|number|boolean)[],
+    TReplace extends string | readonly (string | number | boolean)[],
 > = TReplace extends string
-? Join<
-    Replace<
-        Split<TContent, `${number}`, "inline">,
+    ? Join<
+        Replace<
+            Split<TContent, `${number}`, "inline">,
         `${number}`,
         TReplace
+        >
     >
->
-: TReplace extends (string|number|boolean)[]
-? Join<ReplaceStack<
-    Split<TContent, `${number}`, "inline">,
+    : TReplace extends (string | number | boolean)[]
+        ? Join<ReplaceStack<
+            Split<TContent, `${number}`, "inline">,
     `${number}`,
     ToStringArray<TReplace> extends readonly string[]
         ? ToStringArray<TReplace>
         : never
->>
-: never;
+        >>
+        : never;
 
 /**
  * **ReplaceNumericInterpolation**`<TContent, TReplace>`
@@ -128,23 +124,21 @@ export type ReplaceNumericInterpolation<
  */
 export type ReplaceBooleanInterpolation<
     TContent extends string,
-    TReplace extends string | readonly (string|number|boolean)[],
+    TReplace extends string | readonly (string | number | boolean)[],
 > = TReplace extends string
-? Join<
-    Replace<
-        Split<TContent, [`${true}`,`${false}`], "inline">,
+    ? Join<
+        Replace<
+            Split<TContent, [`${true}`, `${false}`], "inline">,
         `${boolean}`,
         TReplace
+        >
     >
->
-: TReplace extends (string|number|boolean)[]
-? Join<ReplaceStack<
-    Split<TContent, [`${true}`,`${false}`], "inline">,
+    : TReplace extends (string | number | boolean)[]
+        ? Join<ReplaceStack<
+            Split<TContent, [`${true}`, `${false}`], "inline">,
     `${boolean}`,
     ToStringArray<TReplace> extends readonly string[]
         ? ToStringArray<TReplace>
         : never
->>
-: never;
-
-
+        >>
+        : never;

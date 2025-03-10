@@ -1,5 +1,4 @@
-import { IsStringLiteral, Join,  Split } from "inferred-types/types";
-
+import type { IsStringLiteral, Join, Split } from "inferred-types/types";
 
 /**
  * **StripAfterLast**`<TStr, TBreak>`
@@ -14,15 +13,13 @@ import { IsStringLiteral, Join,  Split } from "inferred-types/types";
  * ```
  */
 export type StripAfterLast<
-TStr extends string,
-TBreak extends string,
+    TStr extends string,
+    TBreak extends string,
 > = IsStringLiteral<TStr> extends true
-? IsStringLiteral<TBreak> extends true
-    ? Split<TStr,TBreak,"inline"> extends readonly [...infer Front, string, string]
-    ? Join<Front>
-    : []
+    ? IsStringLiteral<TBreak> extends true
+        ? Split<TStr, TBreak, "inline"> extends readonly [...infer Front, string, string]
+            ? Join<Front>
+            : []
 
-
-: string
-: string;
-
+        : string
+    : string;

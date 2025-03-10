@@ -30,7 +30,7 @@ export type AsMatchTemplate<
 /**
  * **createMatchTemplate**`(defn)`
  *
- * A _match template_'s definitoin is typically provided as a dictionary:
+ * A _match template_'s definition is typically provided as a dictionary:
  *
  * - who's **keys** are a "name" for one of the patterns you want to match for
  * - who's **values** are a String Literal Template's; which are:
@@ -76,14 +76,4 @@ export function createMatchTemplate<
                 }
             } satisfies AsMatchTemplate<T>
     );
-}
-
-export function match<
-    TFind,
-    TIn extends readonly string[]
->(
-    find: TFind,
-    ...from: TIn
-) {
-
 }

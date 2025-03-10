@@ -1,13 +1,8 @@
 import type {
-    AfterFirst,
     ApplyTemplate,
     As,
     AsFromTo,
-    EmptyObject,
     Expand,
-    ExtractCaptureGroups,
-    First,
-    Increment,
     RegexHandlingStrategy,
     RemoveIndexKeys,
     ReplaceAllFromTo,
@@ -16,7 +11,6 @@ import type {
 } from "inferred-types/types";
 
 export type RegexGroupValue = string | number | bigint | boolean | null | undefined;
-
 
 /**
  * Converts the psuedo Regex (which hasn't been escaped to be "real" regex)
@@ -33,54 +27,38 @@ type PrettyRegexToTemplate = AsFromTo<{
  * Converts from _pretty_ regex to block template mode with `{{string}}`, etc.
  */
 type AsTemplateString<
-T extends string
+    T extends string
 > = T extends `^${infer Inner}$`
-? ReplaceAllFromTo<Inner, PrettyRegexToTemplate>
-: T extends `.*(${infer Inner}).*`
-    ? `${string}${ReplaceAllFromTo<Inner, PrettyRegexToTemplate>}${string}`
-    : never;
+    ? ReplaceAllFromTo<Inner, PrettyRegexToTemplate>
+    : T extends `.*(${infer Inner}).*`
+        ? `${string}${ReplaceAllFromTo<Inner, PrettyRegexToTemplate>}${string}`
+        : never;
 
-
-type GroupTypes<
-    T extends readonly RegexGroupValue[],
-    Idx extends number = 1,
-    R extends Record<number, string> = {}
-> = [] extends T
-    ? Expand<R> extends Record<number, string>
-        ? Expand<R>
-        : never
-    : GroupTypes<
-        AfterFirst<T>,
-        Increment<Idx>,
-    R & Record<Idx, `${First<T>}`>
-    >;
-
-type GT<
+type Groups<
     TValue extends string,
     TTemplate extends string,
     TStrategy extends RegexHandlingStrategy
 > = TStrategy extends "exact"
-? As<ApplyTemplate<TValue, TTemplate>, readonly string[]>
-: TStrategy extends "subset"
-? [
-    TValue,
-    StringLiteralTemplate<StripSurroundingStringTemplate<TTemplate>>,
-    ...(
-        ApplyTemplate<TValue, TTemplate> extends readonly [string, ...infer Rest]
-        ? Rest
-        : []
-    )
-]
-: never;
-
+    ? As<ApplyTemplate<TValue, TTemplate>, readonly string[]>
+    : TStrategy extends "subset"
+        ? [
+            TValue,
+            StringLiteralTemplate<StripSurroundingStringTemplate<TTemplate>>,
+            ...(
+                ApplyTemplate<TValue, TTemplate> extends readonly [string, ...infer Rest]
+                    ? Rest
+                    : []
+            )
+        ]
+        : never;
 
 type _RegexArray<
     TTemplate extends string,
     TStrat extends RegexHandlingStrategy,
     TValue extends string,
 > = RemoveIndexKeys<
-        Expand<
-            GT<TValue,TTemplate,TStrat> &
+    Expand<
+            Groups<TValue, TTemplate, TStrat> &
             Record<"kind", "RegexArray"> &
             (TStrat extends "subset"
                 ? Record<"template", StripSurroundingStringTemplate<TTemplate>>
@@ -89,13 +67,8 @@ type _RegexArray<
             Record<"matchStrategy", TStrat> &
             RegExpExecArray &
             Record<"input", TValue>
-        >
     >
-
-
-type IsRegexSubsetStrategy<T extends string> = T extends `.*(${string}`
-    ? true
-    : false;
+>;
 
 /***
  * **RegexArray**`<TGroups, [TValue]>`
@@ -118,4 +91,3 @@ export type RegexArray<
         : "exact",
     TValue
 >;
-

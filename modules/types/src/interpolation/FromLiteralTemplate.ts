@@ -1,4 +1,4 @@
-import {
+import type {
     ReplaceBooleanInterpolation,
     ReplaceNumericInterpolation,
     ReplaceStringInterpolation
@@ -21,6 +21,4 @@ export type FromLiteralTemplate<T extends string> = ReplaceStringInterpolation<
         "{{boolean}}"
     >,
     "{{string}}"
->
-
-
+>;

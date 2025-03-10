@@ -6,14 +6,7 @@ import type {
     ReplaceAllFromTo,
     Surround,
 } from "inferred-types/types";
-import { reverseLookup } from "src/dictionary";
 
-const templateToRegex = {
-    "{{string}}": "(.+?)",
-    "{{number}}": "(\\d+)",
-    "{{boolean}}": "(true|false)"
-} as const;
-const regexToTemplate = reverseLookup(templateToRegex);
 type TemplateToRegex = AsFromTo<{
     "{{string}}": "(.+?)";
     "{{number}}": "(\\d+)";

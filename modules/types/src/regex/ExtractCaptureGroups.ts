@@ -10,8 +10,6 @@ type SegmentToType<S extends TemplateSegment> = S extends "{{string}}"
             ? boolean
             : never;
 
-
-
 /**
  * Extracts the capture groups in a RegExp and their type.
  */

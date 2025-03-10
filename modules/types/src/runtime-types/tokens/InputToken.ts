@@ -1,4 +1,8 @@
-import type { IT_ATOMIC_TOKENS, IT_CONTAINER_TOKENS, IT_LITERAL_TOKENS } from "inferred-types/constants";
+import type {
+    IT_ATOMIC_TOKENS,
+    IT_CONTAINER_TOKENS,
+    IT_LITERAL_TOKENS
+} from "inferred-types/constants";
 import type {
     AfterFirst,
     As,
@@ -114,7 +118,7 @@ export type IT_FunctionLiteralToken = (...args: readonly any[]) => Suggest<IT_At
 
 type MapToken = `Map<${string},${string}>`;
 type SetToken = `Set<${string}>`;
-type WeakMapToken = `WeakMap<${string},${string}>`;
+// type WeakMapToken = `WeakMap<${string},${string}>`;
 type RecordToken = `Record<${string},${string}>`;
 
 export type IT_UnionToken = `${string}|${string}`;

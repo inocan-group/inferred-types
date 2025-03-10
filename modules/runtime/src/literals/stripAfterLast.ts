@@ -17,5 +17,5 @@ export function stripAfterLast<
     TContent extends string,
     TBreak extends string,
 >(content: TContent, find: TBreak) {
-    return split.inline(content, find).slice(0,-2).join("") as unknown as StripAfterLast<TContent, TBreak>;
+    return split.inline(content, find).slice(0, -2).join("") as unknown as StripAfterLast<TContent, TBreak>;
 }
