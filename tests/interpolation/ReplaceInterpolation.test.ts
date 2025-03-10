@@ -1,5 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import {  ReplaceBooleanInterpolation, ReplaceNumericInterpolation, ReplaceStringInterpolation } from "inferred-types/types";
+import {
+    ReplaceBooleanInterpolation,
+    ReplaceNumericInterpolation,
+    ReplaceStringInterpolation
+} from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("ReplaceInterpolation Utilities", () => {
@@ -19,16 +23,19 @@ describe("ReplaceInterpolation Utilities", () => {
 
   it("ReplaceNumericInterpolation<...> with single replacement value", () => {
     type TheAnswer = ReplaceNumericInterpolation<`${number} is the answer`, "42">;
+    type Foey = ReplaceNumericInterpolation<`foo${number}`, "{{number}}">;
     type Multi = ReplaceNumericInterpolation<`42: ${number} x ${number} = ${number}`, "{{number}}">;
 
     type cases = [
       Expect<Equal<TheAnswer, `42 is the answer`>>,
+      Expect<Equal<Foey, `foo{{number}}`>>,
       Expect<Equal<Multi, `42: {{number}} x {{number}} = {{number}}`>>
     ];
   });
 
   it("ReplaceNumericInterpolation<...> with an array of values", () => {
     type TheAnswer = ReplaceNumericInterpolation<`${number} is the answer`, ["42"]>;
+    type Foey = ReplaceNumericInterpolation<`foo${number},${number}`, ["9","000"]>;
     type PartialMulti = ReplaceNumericInterpolation<
         `42: ${number} x ${number} = ${number}`,
         ["2","2"]

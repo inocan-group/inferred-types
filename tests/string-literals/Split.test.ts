@@ -6,6 +6,7 @@ import {
     UpperAlphaChar,
     IsEqual,
     UnionToTuple,
+    SplitOnNumericLiteral,
 } from "inferred-types/types";
 import { split } from "inferred-types/runtime";
 import { Extends } from "transpiled/types";
@@ -114,6 +115,26 @@ describe("Split<T,SEP>", () => {
         ];
     });
 
+    it("split with a numeric template value", () => {
+        type StartsWith = Split<`${number}Age: ${number}, FavNumber: ${number}, Color: red`, `${number}`>;
+        type Numeric = Split<`Age: ${number}, FavNumber: ${number}, Color: red`, `${number}`>;
+
+        type cases = [
+            Expect<Equal<StartsWith, ["", "Age: ", ", FavNumber: ", ", Color: red" ]>>,
+            Expect<Equal<Numeric, ["Age: ", ", FavNumber: ", ", Color: red" ]>>
+        ];
+      });
+
+      it("split with a boolean template value", () => {
+        type Logical = Split<
+            `Employed: ${boolean}, Insurance: ${boolean}, Age: ${number}`, `${boolean}`
+        >;
+
+        type cases = [
+            Expect<Equal<Logical, ["Employed: ", ", Insurance: ", `, Age: ${number}` ]>>
+        ];
+      });
+
 
 });
 
@@ -194,6 +215,8 @@ describe("split()", () => {
             Expect<Equal<typeof four, ["1",", ","2",", ", "3", ", ", "4"]>>
           ];
     });
+
+
 
 
 

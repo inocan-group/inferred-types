@@ -32,8 +32,6 @@ export type ReplaceStringInterpolation<
 
 
 
-
-
 type Replace<
     T extends readonly string[],
     F extends string,
