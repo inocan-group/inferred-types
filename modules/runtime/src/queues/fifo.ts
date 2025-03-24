@@ -34,7 +34,7 @@ function queue<
             state.splice(0, quantity || 1);
             return result as FixedLengthArray<T[number], Q extends undefined ? 1 : Q>;
         },
-        *[Symbol.iterator]() {
+        * [Symbol.iterator]() {
             for (let i = 0; i < state.length; i++) {
                 yield state[i] as T[number];
             }

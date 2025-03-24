@@ -27,9 +27,9 @@ else
   log ""
 fi
 
+cd '../types' || exit
 log "👷‍♂️ building types"
 log ""
-cd '../types' || exit
 
 tsup
 # shellcheck disable=SC2181
@@ -39,12 +39,17 @@ if [ $? -ne 0 ]; then
     log ""
     exit 1;
 else
-  # shellcheck disable=SC2034
-  types_time=$( epoch )
-  log ""
-  log "${GREEN}✓${RESET} ${BOLD}types${RESET} successfully transpiled ${ITALIC}in${RESET} $(timing const_time types_time)!"
-  log ""
+    # shellcheck disable=SC2034
+    types_time=$( epoch )
+    log ""
+    log "${GREEN}✓${RESET} ${BOLD}types${RESET} successfully transpiled ${ITALIC}in${RESET} $(timing const_time types_time)!"
+    log ""
+    log "🌏 building global types"
+    log ""
+    tsup --config ./globals.config.ts
+    log ""
 fi
+
 
 log "👷‍♂️ building runtime"
 log ""

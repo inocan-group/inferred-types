@@ -19,13 +19,13 @@ export * from "./AsRecord";
 export * from "./AsRef";
 export * from "./AsString";
 export * from "./AsStringUnion";
-// file exports
 export * from "./Awaited";
 export * from "./Break";
 export * from "./encoding/index";
 export * from "./form-fields";
 export * from "./FromKeyValueTuple";
 export * from "./FromTo";
+export * from "./Immutable";
 export * from "./IntersectionToTuple";
 export * from "./IntersectWithAll";
 export * from "./JSON";
@@ -61,7 +61,6 @@ export * from "./ToKeyValueTuple";
 export * from "./ToNumber";
 export * from "./ToString";
 export * from "./ToStringArray";
-
 export * from "./ToUnion";
 export * from "./Trim";
 export * from "./TrimLeft";
@@ -76,6 +75,5 @@ export * from "./UnionToTuple";
 export * from "./UnionWithAll";
 export * from "./ValueOrReturnValue";
 export * from "./Widen";
-
 export * from "./WidenValues";
 export * from "./WithDefault";

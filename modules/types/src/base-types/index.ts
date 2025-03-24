@@ -1,5 +1,6 @@
 export * from "./AnyArray";
 export * from "./AnyObject";
+export * from "./BaseType";
 export * from "./Container";
 export * from "./Defined";
 export * from "./Dictionary";

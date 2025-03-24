@@ -1,7 +1,7 @@
 import type {
     AfterFirst,
-    AnyObject,
     As,
+    Dictionary,
     Equals,
     Extends,
     First,
@@ -62,9 +62,9 @@ export type ToJsonValue<
                         : never;
 
 type InnerArray<
-    T extends readonly unknown[],
+    T extends readonly any[],
     O extends Required<ToJsonOptions> = { quote: "\""; encode: false }
-> = {
+> = As<{
     [K in keyof T]: T[K] extends string
         ? `${O["quote"]}${T[K]}${O["quote"]}`
         : Or<[
@@ -74,12 +74,12 @@ type InnerArray<
             Extends<T[K], undefined>,
         ]> extends true
             ? `${As<T[K], number | boolean | null | undefined>}`
-            : T[K] extends readonly unknown[]
+            : T[K] extends readonly any[]
                 ? ToJsonArray<T[K], O>
-                : T[K] extends AnyObject
+                : T[K] extends Dictionary
                     ? `{ ${InnerObject<T[K], StringKeys<T[K]>, O>} }`
                     : never
-};
+}, readonly string[]>;
 
 /**
  * **ToJsonArray**`<T,[Q]>`
@@ -89,12 +89,12 @@ type InnerArray<
  * **Related:** `ToJson`, `ToJsonObject`, `ToJsonScalar`
  */
 export type ToJsonArray<
-    T extends readonly unknown[],
+    T extends readonly any[],
     O extends Required<ToJsonOptions> = { quote: "\""; encode: false }
 > = `[ ${Join<InnerArray<T, O>, ", ">} ]`;
 
 type InnerObject<
-    T extends AnyObject,
+    T extends Dictionary,
     K extends readonly (keyof T & string)[],
     O extends Required<ToJsonOptions> = { quote: "\""; encode: false },
     R extends readonly string[] = [],
@@ -116,8 +116,10 @@ type InnerObject<
                 : T[First<K>] extends string
                     ? `${O["quote"]}${First<K>}${O["quote"]}: ${O["quote"]}${T[First<K>]}${O["quote"]}`
                     : T[First<K>] extends readonly unknown[]
-                        ? `${O["quote"]}${First<K>}${O["quote"]}: ${ToJsonArray<T[First<K>], O>}`
-                        : T[First<K>] extends AnyObject
+                        ? ""
+                    // TODO: this type became too complex!
+                    // `${O["quote"]}${First<K>}${O["quote"]}: ${ToJsonArray<T[First<K>], O>}`
+                        : T[First<K>] extends Dictionary
                             ? `${O["quote"]}${First<K>}${O["quote"]}: ${ToJsonObject<T[First<K>]>}`
                             : never,
         ]
@@ -132,7 +134,7 @@ type InnerObject<
  * **Related:** `ToJson`, `ToJsonArray`, `ToJsonScalar`
  */
 export type ToJsonObject<
-    T extends AnyObject,
+    T extends Dictionary,
     O extends Required<ToJsonOptions> = { quote: "\""; encode: false }
 > = `{ ${InnerObject<T, StringKeys<T>, O>} }`;
 
@@ -168,11 +170,11 @@ type O<
  * **Related:** `ToJsonObject`, `ToJsonArray`, `ToJsonScalar`
  */
 export type ToJson<
-    T extends Exclude<Scalar, symbol> | AnyObject | Tuple,
+    T extends Exclude<Scalar, symbol> | Dictionary | Tuple,
     Opt extends ToJsonOptions = { quote: "\""; encode: false },
 > = T extends Exclude<Scalar, symbol>
     ? ToJsonScalar<T, As<O<Opt>, Required<ToJsonOptions>>>
-    : T extends AnyObject
+    : T extends Dictionary
         ? ToJsonObject<T, As<O<Opt>, Required<ToJsonOptions>>>
         : T extends Tuple
             ? ToJsonArray<T, As<O<Opt>, Required<ToJsonOptions>>>
