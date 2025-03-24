@@ -26,5 +26,9 @@ export type Or<
         : First<TConditions> extends TypedFunction
             ? ReturnType<First<TConditions>> extends true
                 ? true
-                : Or<AfterFirst<TConditions>, TEmpty>
-            : Or<AfterFirst<TConditions>, TEmpty>;
+                : First<TConditions> extends false
+                    ? Or<AfterFirst<TConditions>, TEmpty>
+                    : Or<AfterFirst<TConditions>, boolean>
+            : First<TConditions> extends false
+                ? Or<AfterFirst<TConditions>, TEmpty>
+                : Or<AfterFirst<TConditions>, boolean>;
