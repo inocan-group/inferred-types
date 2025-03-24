@@ -40,7 +40,8 @@ export default antfu(
             destructuredArrayIgnorePattern: "^_|^cases$",
           },
         ],
-        "ts/no-unsafe-function-type": ["off"]
+        "ts/no-unsafe-function-type": ["off"],
+        "ts/method-signature-style": ["off"]
       },
     }
   }

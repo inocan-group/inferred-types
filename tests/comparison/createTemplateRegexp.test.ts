@@ -215,7 +215,6 @@ describe("createTemplateRegExp", () => {
 
     it("type testing of exec() function with subset match", () => {
         const re = createTemplateRegExp(`Name: {{string}}, Age: {{number}}`, "subset");
-        const execFunction = re.exec;
 
         const t1 = re.exec(`- Name: Bob, Age: 55`);
         const a1 = Array.from(t1);

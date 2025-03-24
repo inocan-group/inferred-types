@@ -15,6 +15,7 @@ export const MIME_TYPES = [
     "application/x-www-form-urlencoded",
     "application/vnd.api+json",
     "application/msword",
+    "application/grpc",
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     "application/vnd.ms-excel",
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",

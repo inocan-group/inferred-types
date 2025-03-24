@@ -28,14 +28,3 @@ export type Mutable<T> = [T] extends [readonly unknown[]]
     : [T] extends [boolean]
         ? T
         : [IsObjectLiteral<T>] extends [true] ? MutableObject<T> : T;
-
-/**
- * **Immutable**`<T>`
- *
- * Makes a _mutable_ value _immutable_.
- */
-export type Immutable<T extends { [propName: string]: unknown }> = {
-    readonly [key in keyof T]: T[key] extends { [propName: string]: unknown }
-        ? Immutable<T[key]>
-        : T[key]
-};

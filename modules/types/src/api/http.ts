@@ -1,5 +1,5 @@
 import type { MIME_TYPES } from "inferred-types/constants";
-import type { Suggest } from "inferred-types/types";
+import type { RemoveIndexKeys, Suggest } from "inferred-types/types";
 
 /**
  * A union of all of MIME types.
@@ -14,6 +14,9 @@ export type MimeTypes = typeof MIME_TYPES[number];
  * the string type through the Record<string, string> intersection.
  */
 export type HttpHeaders = {
+    Authorization?: Suggest<
+        "Bearer adfasdfasdfasfd"
+    >;
     /**
      * The "Accept" request HTTP header advertises which content types,
      * expressed as MIME types, the client is able to understand.
@@ -24,7 +27,14 @@ export type HttpHeaders = {
         "application/json",
         "text/html",
         "text/plain",
+        "text/xml",
         "application/xml",
+        "image/jpeg",
+        "image/avif",
+        "image/png",
+        "image/gif",
+        "image/svg+xml",
+        "multipart/form-data"
     ]>;
 
     /**
@@ -74,6 +84,9 @@ export type HttpHeaders = {
         "application/json",
         "text/html",
         "text/plain",
+        "text/csv",
+        "text/tsv",
+        "application/csv",
         "text/markdown",
         "application/xml",
         "application/pdf",
@@ -144,6 +157,8 @@ export type HttpHeaders = {
      */
 } & Record<string, string>;
 
+export type HttpHeadingKeys = Suggest<keyof RemoveIndexKeys<HttpHeaders>>;
+
 /**
  * A singular key/value representing a HTTP Header key/value.
  */
@@ -151,3 +166,33 @@ export type HttpHeader<T extends keyof HttpHeaders> = [
   heading: Suggest<T>,
   value: Suggest<HttpHeaders[T]>,
 ];
+
+/**
+ * **HttpVerb**
+ *
+ * The available HTTP _verbs_.
+ */
+export type HttpVerb =
+| "GET"
+| "PUT"
+| "POST"
+| "PATCH"
+| "HEAD"
+| "CONNECT"
+| "OPTIONS"
+| "UPDATE"
+| "DELETE";
+
+/**
+ * HTTP verbs which _have_ -- or at least _can have_ -- a `body` property
+ */
+export type HttpVerbsWithBody =
+| "POST"
+| "PUT"
+| "DELETE"
+| "UPDATE";
+
+/**
+ * HTTP verbs which do **not** have a `body` property
+ */
+export type HttpVerbsWithoutBody = Exclude<HttpVerb, HttpVerbsWithBody>;

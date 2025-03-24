@@ -1,16 +1,10 @@
-// #autoindex
-// #region auto-indexed files
-// index last changed at: 8th Aug, 2022, 09:51 AM ( GMT-7 )
-// hash-code: fbd4603a
-
-// file exports
-// directory exports
 export * from "./api/index";
 export * from "./base-types/index";
 export * from "./boolean-logic/index";
 export * from "./brands/index";
 export * from "./classes/index";
 export * from "./containers/index";
+export * from "./crdt/index";
 export * from "./dictionary/index";
 export * from "./errors/index";
 export * from "./functional/index";

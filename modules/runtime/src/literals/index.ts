@@ -1,4 +1,3 @@
-export * from "./box";
 export * from "./capitalize";
 export * from "./color/index";
 export * from "./ensureLeading";
