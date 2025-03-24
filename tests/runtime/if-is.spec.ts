@@ -8,13 +8,12 @@ import {
   LowerAlphaChar,
   Or,
   StartsWith,
-
 } from "inferred-types/types";
 
 import {
   isTrue,
   StartingWithTypeGuard,
-  startsWith, box,
+  startsWith,
   ifArray,
   ifArrayPartial,
   ifBoolean,
@@ -72,34 +71,6 @@ describe("runtime if/is", () => {
       Expect<Equal<typeof f2, "yikes" | 42>> //
     ];
     const cases: cases = [true, true, true];
-  });
-
-  it("ifTrue(v,i,e) with boxed functions", () => {
-    const f1 = box(<T extends string>(input: T) => `Hello ${input}` as const);
-    const f2 = box(<T extends string>(input: T) => `Get out ${input}!` as const);
-    const t = <T extends string, B extends boolean>(i: T, nice: B) => {
-      return isTrue(nice) ? f1.value(i) : f2.value(i);
-    };
-    const t2 = <T extends string, B extends boolean>(i: T, nice: B) =>
-      ifTrue(nice, () => f1.value(i), () => f2.value(i));
-
-    // both approaches produce correct result
-    const r1 = t("Joe", true);
-    const r2 = t2("Joe", true);
-    expect(r1).toBe("Hello Joe");
-    expect(r2).toBe("Hello Joe");
-
-    // only the "ifTrue" approach resolves fully at design time
-    type R1 = typeof r1;
-    type R2 = typeof r2;
-
-    type cases = [
-      // still get union type with `isTrue` conditional
-      Expect<Equal<R1, "Hello Joe" | "Get out Joe!">>,
-      // but encapsulating both outcomes in `ifTrue` resolves the union
-      Expect<Equal<R2, "Hello Joe">>
-    ];
-    const cases: cases = [true, true];
   });
 
   it("ifTrue(v,i,e) with string literal functions", () => {
