@@ -1,9 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import { asType } from "inferred-types/runtime";
-import { FromInputToken } from "inferred-types/types";
+import { FromInputToken, FromInputTokenTuple } from "inferred-types/types";
 import { Contains, Extends } from "inferred-types/types";
-import { UnionArrayToTuple } from "inferred-types/types";
 
 describe("FromInputToken<Token>", () => {
 
@@ -17,7 +16,7 @@ it("unions", () => {
     });
 
     it("tuple", () => {
-      type T = FromInputToken<["number", "string", "true | Object"]>
+      type T = FromInputTokenTuple<["number", "string", "true | Object"]>
 
       type cases = [
         Expect<Equal<T, [ number, string, true | object ]>>
@@ -39,6 +38,20 @@ describe("asType(token)", () => {
         Expect<Equal<typeof undef, undefined>>,
     ];
   });
+
+
+  it("literal types", () => {
+    const foo = asType("String(foo)");
+    const num = asType("Number(42)");
+    const yes = asType("Boolean(true)");
+
+    type cases = [
+        Expect<Equal<typeof foo, "foo">>,
+        Expect<Equal<typeof num, 42>>,
+        Expect<Equal<typeof yes, true>>,
+    ];
+  });
+
 
 
   it("union of wide types", () => {
@@ -72,6 +85,7 @@ describe("asType(token)", () => {
 
     type cases = [
         Expect<Equal<typeof fooBar, "foo" | "bar">>,
+        Expect<Equal<typeof foo42, "foo" | 42>>,
         Expect<Equal<typeof starting, `foo_${string}`>>,
         Expect<Equal<typeof multi, `${number} x ${number}`>>,
     ];

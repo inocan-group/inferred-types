@@ -6,6 +6,7 @@ import type {
 import type {
     AfterFirst,
     As,
+    AsNumber,
     Dictionary,
     Err,
     First,
@@ -322,55 +323,52 @@ type LiteralTokenStart = "String(" | "Number(" | "Boolean(";
 
 type LiteralBlock<
     T extends `${LiteralTokenStart}${string}`,
-    v extends string = "",
-> = T extends `${infer Start extends LiteralTokenStart}${infer Rest}`
-?
+> = {
+    kind: RetainUntil<T, "(">,
+    variant: RetainUntil<
+        RetainAfter<T, "(">,
+        ")"
+    >
+   rest: RetainAfter<RetainAfter<T, "(">,")">
+}
 
-;
-
-type Text = "String(foo) | String(bar)";
-type X = RetainUntil<
-    RetainAfter<Text,"String(">,
-    ")"
->;
-type Y = RetainAfter<Text,")">;
-;
+type Complete<T extends {
+    kind: string,
+    variant: string,
+    rest: string
+}> = T["kind"] extends "String"
+? StringLiteralTemplate<T["variant"]>
+: T["kind"] extends "Boolean"
+    ? T["variant"] extends "true" ? true : false
+: T["kind"] extends "Number"
+    ? AsNumber<T["variant"]>
+    : Err<"invalid-type/unknown-literal-type", `The literal type starting with ${T["kind"]} is now known!`>
 
 /**
  * Converts a Literal token to it's literal type.
- *
- * - because Typescript can "overextend" the literal token we must
- * first explicitly define the block's termination
  */
 type ConvertLiteral<
     T extends `${LiteralTokenStart}${string}`
-> = T extends `String(${infer Lit})`
-    ? StringLiteralTemplate<Lit>
-    : Trim<T> extends `Number(${infer Lit extends number})`
-        ? Lit
-        : Trim<T> extends `Boolean(${infer Lit extends "true" | "false"})`
-            ? Lit extends "true" ? true : false
-            // : Trim<T> extends `(${infer _Args})${OptSpace}=>${infer _Returns}`
-            //     ? T extends IT_FunctionLiteralToken
-            //         ? ReturnType<T> extends [string, Dictionary]
-            //             ? AsLiteralFn<
-            //                 Parameters<T>,
-            //                 FromInputToken<ReturnType<T>[0]>
-            //             > & ReturnType<T>[1]
-            //             : ReturnType<T> extends string
-            //                 ? AsLiteralFn<
-            //                     Parameters<T>,
-            //                     FromInputToken<ReturnType<T>>
-            //                 >
-            //                 : Err<`invalid-token/fn`, `The return type of the function literal was invalid. Return type should either be a token or a [token, Dictionary]!`>
-            //         : Err<`invalid-token/fn`, `The function literal is invalid, return type is `>
+> = Trim<LiteralBlock<T>["rest"]> extends ""
+? Complete<LiteralBlock<T>>
+: // there remains content after the literal type
+  Trim<LiteralBlock<T>["rest"]> extends `|${string}`
+    ? Union<
+        T,
+        {
+            leftover: LiteralBlock<T>["rest"],
+            types: [ Complete<LiteralBlock<T>> ]
+        }
+    >
+    : never
 
-                : Err<"invalid-token/literal", `Failed to define Literal type: ${AsType<T>}`>;
+;
 
 
 
+type ContainerType = "Union" | "Tuple" | "Object";
 
-
+;
 
 /** converts a string token to a type where possible */
 type Convert<
