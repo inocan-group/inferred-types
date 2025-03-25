@@ -3,11 +3,12 @@ import { describe, expect, it } from "vitest";
 import { asType } from "inferred-types/runtime";
 import { FromInputToken } from "inferred-types/types";
 import { Contains, Extends } from "inferred-types/types";
+import { UnionArrayToTuple } from "inferred-types/types";
 
 describe("FromInputToken<Token>", () => {
 
 
-    it("unions", () => {
+it("unions", () => {
       type U = FromInputToken<"number | String(bar)">;
 
       type cases = [
@@ -65,6 +66,7 @@ describe("asType(token)", () => {
 
   it("string literals (including template literals)", () => {
     const fooBar = asType("String(foo) | String(bar)");
+    const foo42 = asType("String(foo) | Number(42)");
     const starting = asType("String(foo_{{string}})");
     const multi = asType("String({{number}} x {{number}})")
 
@@ -76,14 +78,13 @@ describe("asType(token)", () => {
   });
 
 
-  it("all literal types", () => {
+  it("different literal types", () => {
     const all = asType("Number(1) | Number(2) | Boolean(false)")
 
     type cases = [
       Expect<Equal<typeof all, 1 | 2 | false>>
     ];
   });
-
 
   it("object definition", () => {
     const fooBar = asType({foo: "string", bar: "number"});
@@ -129,12 +130,40 @@ describe("asType(token)", () => {
 
 
   it("tuple definition", () => {
-    const tup = asType(["String(foo)", "Array<String(bar)>"]);
+    const tup = asType("String(foo)", "Array<String(bar)>");
+    const tup2 = asType("Number(1)", "Number(2)", "Number(3)");
+    const tup3 = asType("Number(1) | Number(2)", "Number(3) | Number(4)");
+    const tupObj = asType("string", {
+        foo: "number",
+        bar: "Number(1) | Number(2)"
+    });
 
     type cases = [
-      /** type tests */
+        Expect<Equal<typeof tup, [ "foo", "bar"[]]>>,
+        Expect<Equal<typeof tup2, [ 1,2,3 ]>>,
+        Expect<Equal<typeof tup3, [ 1|2,3|4 ]>>,
+        Expect<Equal<
+            typeof tupObj,
+            [string, {
+                foo: number;
+                bar: 1 | 2;
+            }]
+        >>
     ];
   });
+
+
+  it("invalid tuple definition attempt", () => {
+    const inv1 = asType(["String(foo)", "String(bar)"]);
+    type E = typeof inv1;
+
+    type cases = [
+        Expect<Equal<E["type"], "invalid-token">>,
+        Expect<Equal<E["subType"], "tuple">>,
+    ];
+  });
+
+
 
 
   it("Record<K,V>", () => {
@@ -142,11 +171,10 @@ describe("asType(token)", () => {
     const union = asType("Record<string, Object> | Record<string, number>")
 
     type cases = [
-      Expect<Equal<typeof obj, Record<string, TypedFunction>>>,
+      Expect<Equal<typeof obj, Record<string, (...args: any[]) => any>>>,
       Expect<Equal<typeof union, Record<string, object> | Record<string, number>>>
     ];
   });
-
 
   it("Set definition", () => {
     const str = asType("Set<string>");

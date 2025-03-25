@@ -45,7 +45,7 @@ describe("asType(token)", () => {
     const strNum = asType("string | number ");
     const optStr = asType("string | undefined");
 
-    expect(strNum).toEqual("<<'string | number'>>")
+    expect(strNum).toEqual("string | number")
 
     type cases = [
         Expect<Equal<typeof strNum, string | number>>,

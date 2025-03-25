@@ -17,7 +17,7 @@ describe("FromDefineObject<T>", () => {
   type XX = FromDefn<{
     foo: "string",
     bar: "number",
-    baz: "<<string-set::endsWith::foo>>"
+    baz: "{{string}}foo"
   }>
 
   const s = shape(s => s.number());
@@ -37,7 +37,6 @@ describe("FromDefineObject<T>", () => {
     ];
 
   });
-
 })
 
 
@@ -46,17 +45,16 @@ describe("FromDefn<T>", () => {
 
   it("happy path", () => {
     // pass through
-    type Num = FromDefn<42>;
+    type Num = FromDefn<"Number(42)">;
     type ArrNum = FromDefn<[42, 56]>;
     type Obj = FromDefn<{ foo: 1 }>;
 
     // definitions
-    const fn = <
-      V extends TypeDefinition,
-      T extends readonly (TypeDefinition | DictTypeDefinition<V>)[],
+    const cb = <
+      T extends readonly (TypeDefinition | DefineObject)[],
     >(...s: T) => s;
 
-    const objDefn = fn({ foo: s => s.string("foo", "bar"), bar: 42 });
+    const objDefn = cb({ foo: s => s.string("foo", "bar"), bar: "number(42)" });
     type ObjDefn = FromDefn<typeof objDefn>;
 
 

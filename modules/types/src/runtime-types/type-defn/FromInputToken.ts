@@ -6,7 +6,6 @@ import type {
 import type {
     AfterFirst,
     As,
-    AsLiteralFn,
     Dictionary,
     Err,
     First,
@@ -15,7 +14,6 @@ import type {
     MakeKeysOptional,
     ObjectKey,
     OptionalKeys,
-    OptSpace,
     RetainAfter,
     RetainChars,
     RetainUntil,
@@ -70,7 +68,7 @@ type LiteralSuggest =
 | `Number(1)` | `Number(42)`
 | `Boolean(true)` | `Boolean(false)`;
 
-export type IT_TokenSuggest = Suggest<
+export type InputTokenSuggestions = Suggest<
     | BaseSuggest
     | LiteralSuggest
     | `Array<${BaseSuggest}>`
@@ -80,6 +78,8 @@ export type IT_TokenSuggest = Suggest<
     | `Record<string, ${BaseSuggest}>`
     | `Record<string|symbol, ${BaseSuggest}>`
 >;
+
+
 
 /**
  * a string literal (aka, `foo`, `bar`, etc.)
@@ -98,7 +98,7 @@ export type IT_BooleanLiteralToken = `Boolean(${"true" | "false"})`;
  *
  * A dictionary object which is converted to an object literal definition.
  */
-export type IT_ObjectLiteralDefinition = Record<string, IT_TokenSuggest>;
+export type IT_ObjectLiteralDefinition = Record<string, InputTokenSuggestions>;
 
 /**
  * A literal definition of a function.
@@ -315,36 +315,69 @@ type ConvertObjectLiteral<
     `Failed to define object literal: `
 >;
 
+/**
+ * The start of a literal token
+ */
+type LiteralTokenStart = "String(" | "Number(" | "Boolean(";
+
+type LiteralBlock<
+    T extends `${LiteralTokenStart}${string}`,
+    v extends string = "",
+> = T extends `${infer Start extends LiteralTokenStart}${infer Rest}`
+?
+
+;
+
+type Text = "String(foo) | String(bar)";
+type X = RetainUntil<
+    RetainAfter<Text,"String(">,
+    ")"
+>;
+type Y = RetainAfter<Text,")">;
+;
+
+/**
+ * Converts a Literal token to it's literal type.
+ *
+ * - because Typescript can "overextend" the literal token we must
+ * first explicitly define the block's termination
+ */
 type ConvertLiteral<
-    T extends string
+    T extends `${LiteralTokenStart}${string}`
 > = T extends `String(${infer Lit})`
     ? StringLiteralTemplate<Lit>
-    : T extends `Number(${infer Lit extends number})`
+    : Trim<T> extends `Number(${infer Lit extends number})`
         ? Lit
-        : T extends `Boolean(${infer Lit extends "true" | "false"})`
+        : Trim<T> extends `Boolean(${infer Lit extends "true" | "false"})`
             ? Lit extends "true" ? true : false
-            : T extends `(${infer _Args})${OptSpace}=>${infer _Returns}`
-                ? T extends IT_FunctionLiteralToken
-                    ? ReturnType<T> extends [string, Dictionary]
-                        ? AsLiteralFn<
-                            Parameters<T>,
-                            FromInputToken<ReturnType<T>[0]>
-                        > & ReturnType<T>[1]
-                        : ReturnType<T> extends string
-                            ? AsLiteralFn<
-                                Parameters<T>,
-                                FromInputToken<ReturnType<T>>
-                            >
-                            : Err<`invalid-token/fn`, `The return type of the function literal was invalid. Return type should either be a token or a [token, Dictionary]!`>
-                    : Err<`invalid-token/fn`, `The function literal is invalid, return type is `>
+            // : Trim<T> extends `(${infer _Args})${OptSpace}=>${infer _Returns}`
+            //     ? T extends IT_FunctionLiteralToken
+            //         ? ReturnType<T> extends [string, Dictionary]
+            //             ? AsLiteralFn<
+            //                 Parameters<T>,
+            //                 FromInputToken<ReturnType<T>[0]>
+            //             > & ReturnType<T>[1]
+            //             : ReturnType<T> extends string
+            //                 ? AsLiteralFn<
+            //                     Parameters<T>,
+            //                     FromInputToken<ReturnType<T>>
+            //                 >
+            //                 : Err<`invalid-token/fn`, `The return type of the function literal was invalid. Return type should either be a token or a [token, Dictionary]!`>
+            //         : Err<`invalid-token/fn`, `The function literal is invalid, return type is `>
 
                 : Err<"invalid-token/literal", `Failed to define Literal type: ${AsType<T>}`>;
 
+
+
+
+
+
+/** converts a string token to a type where possible */
 type Convert<
     T extends string
 > = Trim<T> extends IT_AtomicToken
     ? ConvertAtomic<Trim<T>>
-    : Trim<T> extends IT_LiteralToken
+    : Trim<T> extends `${LiteralTokenStart}${string}`
         ? ConvertLiteral<Trim<T>>
         : Trim<T> extends ArrToken
             ? ConvertArr<Trim<T>>
@@ -370,10 +403,14 @@ type Convert<
  * - A dictionary where the values are _string_ tokens
  * - A tuple who's elements are all _string_ tokens
  */
-export type InputTokenLike = IT_TokenSuggest
+export type InputTokenLike = InputTokenSuggestions
 | IT_ObjectLiteralDefinition
-| readonly IT_TokenSuggest[];
+| readonly InputTokenSuggestions[];
 
+/**
+ * A branded type of `InputToken` which indicates that the _value_ has
+ * been validated to be an `InputToken`.
+ */
 export type InputToken = InputTokenLike & {
     brand: "InputToken";
 };
@@ -384,6 +421,19 @@ export type InputToken = InputTokenLike & {
  * Converts an input token to a type, or produces an error with type
  * of `invalid-token` and a "subType" of whichever type structure caught
  * the error.
+ *
+ * InputToken's consist primarily as _string_ tokens of one of the following
+ * variants:
+ *
+ * - an _atomic_ token (e.g., true, null, undefined, boolean, etc.)
+ * - a _literal_ token (e.g., String(v), Number(v), Boolean(v), Record(k,v))
+ * - an _object_ token (e.g., `{ ... }`)
+ * - a _tuple_ token (e.g., `[ ... ]`)
+ * - a _function_ token (e.g., `fn(...) => token` _or_ `async fn() => token )
+ * - a _generator_ token (e.g., `gen(...) => token`)
+ *
+ *
+ * **Related:** `FromInputTokenTuple`
  */
 export type FromInputToken<
     T extends InputTokenLike,
@@ -391,13 +441,19 @@ export type FromInputToken<
 > = TR extends IT_ObjectLiteralDefinition
     ? ConvertObjectLiteral<TR>
     : TR extends readonly InputTokenLike[]
-        ? {
-            [K in keyof TR]: TR[K] extends InputTokenLike
-                ? FromInputToken<TR[K]>
-                : never
-        }
-        : TR extends string
-            ? Convert<TR>
-            : TR extends IT_UnionToken
-                ? Union<TR>
-                : Err<`invalid-token/unknown`, `The token '${Trim<AsType<T>>}' is not a valid input token!`>;
+        ? Err<"invalid-token/tuple",`A tuple being used as an InputToken definition should always be passed into FromInputTokenTuple rather than a tuple slotted into the first array parameter of FromInputToken!`, { tuple: T } >
+
+    : TR extends string
+        ? Convert<TR>
+        : TR extends IT_UnionToken
+            ? Union<TR>
+            : Err<`invalid-token/unknown`, `The token '${Trim<AsType<T>>}' is not a valid input token!`>;
+
+
+export type FromInputTokenTuple<
+    T extends readonly InputTokenLike[]
+> = {
+    [K in keyof T]: T[K] extends InputTokenLike
+        ? FromInputToken<T[K]>
+        : never
+}

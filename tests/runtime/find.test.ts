@@ -2,7 +2,6 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import { find, narrow } from "inferred-types/runtime";
 
-
 describe("find(list,[deref])", () => {
 
   it("happy path", () => {

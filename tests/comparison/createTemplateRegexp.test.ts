@@ -139,14 +139,14 @@ describe("createTemplateRegExp", () => {
         expect(nt).toBe(true);
         expect(nf).toBe(false);
 
-      type cases = [
-        Expect<Equal<typeof s1, true>>,
-        Expect<Equal<typeof s2, true>>,
-        Expect<Equal<typeof s3, boolean>>,
+        type cases = [
+            Expect<Equal<typeof s1, true>>,
+            Expect<Equal<typeof s2, true>>,
+            Expect<Equal<typeof s3, boolean>>,
 
-        Expect<Equal<typeof nt, true>>,
-        Expect<Equal<typeof nf, false>>,
-      ];
+            Expect<Equal<typeof nt, true>>,
+            Expect<Equal<typeof nf, false>>,
+        ];
     });
 
     it("type testing of test() function when subset match", () => {
@@ -174,18 +174,18 @@ describe("createTemplateRegExp", () => {
         expect(nt3).toBe(true);
         expect(nf).toBe(false);
 
-      type cases = [
-        Expect<Equal<typeof s1, true>>,
-        Expect<Equal<typeof s2, true>>,
-        // boolean type when input string is wide
-        Expect<Equal<typeof s3, boolean>>,
-        Expect<Equal<typeof s4, true>>,
+        type cases = [
+            Expect<Equal<typeof s1, true>>,
+            Expect<Equal<typeof s2, true>>,
+            // boolean type when input string is wide
+            Expect<Equal<typeof s3, boolean>>,
+            Expect<Equal<typeof s4, true>>,
 
-        Expect<Equal<typeof nt1, true>>,
-        Expect<Equal<typeof nt2, true>>,
-        Expect<Equal<typeof nt3, true>>,
-        Expect<Equal<typeof nf, false>>,
-      ];
+            Expect<Equal<typeof nt1, true>>,
+            Expect<Equal<typeof nt2, true>>,
+            Expect<Equal<typeof nt3, true>>,
+            Expect<Equal<typeof nf, false>>,
+        ];
     });
 
 
@@ -203,14 +203,14 @@ describe("createTemplateRegExp", () => {
 
         expect(a1).toEqual([`Name: Bob, Age: 55`, `Bob`, `55`]);
 
-      type cases = [
-        Expect<Extends<typeof t1, RegExpExecArray>>,
-        Expect<Equal<Len, 3>>,
-        Expect<Equal<Full, "Name: Bob, Age: 55">>,
-        Expect<Equal<One, "Bob">>,
-        Expect<Equal<Two, `55`>>,
-        ExpectFalse<3 extends keyof typeof t1 ? true : false>
-      ];
+        type cases = [
+            Expect<Extends<typeof t1, RegExpExecArray>>,
+            Expect<Equal<Len, 3>>,
+            Expect<Equal<Full, "Name: Bob, Age: 55">>,
+            Expect<Equal<One, "Bob">>,
+            Expect<Equal<Two, `55`>>,
+            ExpectFalse<3 extends keyof typeof t1 ? true : false>
+        ];
     });
 
     it("type testing of exec() function with subset match", () => {
@@ -232,14 +232,14 @@ describe("createTemplateRegExp", () => {
             `55`
         ]);
 
-      type cases = [
-        Expect<Extends<typeof t1, RegExpExecArray>>,
-        Expect<Equal<Len, 4>>,
-        Expect<Equal<Full, "- Name: Bob, Age: 55">>,
-        Expect<Equal<One, `Name: ${string}, Age: ${number}`>>,
-        Expect<Equal<Two, "Bob">>,
-        Expect<Equal<Three, `55`>>,
-      ];
+        type cases = [
+            Expect<Extends<typeof t1, RegExpExecArray>>,
+            Expect<Equal<Len, 4>>,
+            Expect<Equal<Full, "- Name: Bob, Age: 55">>,
+            Expect<Equal<One, `Name: ${string}, Age: ${number}`>>,
+            Expect<Equal<Two, "Bob">>,
+            Expect<Equal<Three, `55`>>,
+        ];
     });
 
 });

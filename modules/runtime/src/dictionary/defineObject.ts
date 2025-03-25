@@ -1,17 +1,27 @@
-import type { DefineObject, FromDefineObject, MakeKeysOptional } from "inferred-types/types";
+import type {
+    DefineObject,
+    FromDefineObject,
+    MakeKeysOptional
+} from "inferred-types/types";
 
-type Returns<T extends DefineObject, P extends readonly (keyof T & string)[]> = P["length"] extends 0
+type Returns<
+    T extends DefineObject,
+    P extends readonly (keyof T & string)[]
+> = P["length"] extends 0
     ? FromDefineObject<T>
     : MakeKeysOptional<T, P> extends DefineObject
         ? FromDefineObject<MakeKeysOptional<T, P>>
         : never;
 
 /**
- * Takes an object definition where the values are either
- * `SimpleToken` representations of a type or a `ShapeCallback`.
+ * Takes an object definition where the values are one of the following
+ * types:
+ *      - `SimpleToken` representations of a type
+ *      - a `ShapeCallback` which returns a type, or
+ *      - an `InputToken` representation of a type.
  *
- * In both cases the runtime type is left unchanged but the
- * type is converted to represent the designed object shape.
+ * The runtime type is left unchanged but the _type_ returned is that which
+ * the token or callback expresses.
  */
 export function defineObject<
     T extends DefineObject,
