@@ -9,63 +9,70 @@ import { defineObject } from "inferred-types/runtime"
 
 describe("defineObject()", () => {
 
-  it("using tokens to define", () => {
-    const fooBar = defineObject({
-      foo: "Opt<string>",
-      bar: "string(foo,bar)"
+    it("using tokens to define", () => {
+        const fooBar = defineObject({
+            foo: "string | undefined",
+            bar: "String(foo) | String(bar) | String(baz)"
+        });
+
+        expect(fooBar).toEqual({
+            foo: "Opt<string>",
+            bar: "string(foo,bar)"
+        });
+
+        type FooBar = typeof fooBar;
+
+        type cases = [
+            Expect<Equal<FooBar, {
+                foo: string | undefined,
+                bar: "foo" | "bar" | "baz"
+            }>>
+        ];
     });
 
-    expect(fooBar).toEqual({
-      foo: "Opt<string>",
-      bar: "string(foo,bar)"
+    it("using callbacks to define", () => {
+        const fooBar = defineObject({
+            foo: t => t.string().endsWith("bar"),
+            bar: t => t.string("foo", "bar")
+        });
+
+        type FooBar = typeof fooBar;
+
+        type cases = [
+            Expect<Equal<FooBar, {
+                foo: `${string}bar`,
+                bar: "foo" | "bar"
+            }>>
+        ];
     });
 
-    type FooBar = typeof fooBar;
 
-    // @ts-ignore
-    type cases = [
-      Expect<Equal<FooBar, {
-        foo: string | undefined,
-        bar: "foo" | "bar"
-      }>>
-    ];
-  });
+    it("using optional property syntax", () => {
+        const fooBar = defineObject({
+            foo: "string | undefined",
+            bar: "String(foo) | String(bar)"
+        }, "foo", "bar");
 
-  it("using callbacks to define", () => {
-    const fooBar = defineObject({
-      foo: t => t.string().endsWith("bar"),
-      bar: t => t.string("foo", "bar")
+
+        type cases = [
+            Expect<Equal<typeof fooBar, {
+                foo?: string | undefined,
+                bar?: "foo" | "bar" | undefined
+            }>>
+        ];
+
     });
 
-    type FooBar = typeof fooBar;
-
-    // @ts-ignore
-    type cases = [
-      Expect<Equal<FooBar, {
-        foo: `${string}bar`,
-        bar: "foo" | "bar"
-      }>>
-    ];
-  });
 
 
-  it("using optional property syntax", () => {
-    const fooBar = defineObject({
-      foo: "Opt<string>",
-      bar: "string(foo,bar)"
-    }, "foo", "bar");
+    it("providing a string-based InputToken to define the type", () => {
+        const fooBar = defineObject({foo: `Number(1) | Number(2) | Number(3)`});
 
 
-    // @ts-ignore
-    type cases = [
-      Expect<Equal<typeof fooBar, {
-        foo?: string | undefined,
-        bar?: "foo" | "bar" | undefined
-      }>>
-    ];
-
-  });
-
+        type cases = [
+            /** type tests */
+        ];
+    });
 
 
 });

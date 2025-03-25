@@ -1,11 +1,11 @@
-import type { FromDefn, ShapeCallback, SimpleToken } from "inferred-types/types";
+import type { FromDefn, InputTokenSuggestions, ShapeCallback, SimpleToken } from "inferred-types/types";
 
 /**
  * **DefineObject**
  *
  * A dictionary which _defines_ the type of a dictionary.
  *
- * - values can be a `SimpleToken` or the `ShapeApi`
+ * - values can be a `SimpleToken`, an `InputToken`, or a `ShapeApi` callback
  *
  *   **Example:**
  *   ```ts
@@ -16,9 +16,9 @@ import type { FromDefn, ShapeCallback, SimpleToken } from "inferred-types/types"
  *   }
  *   ```
  *
- * - typically used alongside `FromDefn` or `FromDefineObject`
+ * - typically used `FromDefn` or `FromDefineObject` utilities
  */
-export interface DefineObject { [key: string]: SimpleToken | ShapeCallback }
+export type DefineObject = { [key: string]: InputTokenSuggestions | ShapeCallback }
 
 /**
  * **DefineObjectApi**

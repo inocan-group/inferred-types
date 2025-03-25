@@ -2,6 +2,7 @@ import type {
     Contains,
     DefineObject,
     Dictionary,
+    FromInputToken,
     FromSimpleRecordKey,
     FromWideTokens,
     HandleDoneFn,
@@ -100,12 +101,14 @@ type _FromDefineObject<T extends Required<DefineObject>> = {
         ? FromSimpleToken<T[K]>
         : T[K] extends ShapeCallback
             ? FromShapeCallback<T[K]>
+            : T[K] extends string
+            ? FromInputToken<T[K]>
             : never
 };
 
 /**
- * Converts a `DefineObject` definition into the type that it is
- * defining.
+ * Converts a `DefineObject` _definition_ into the **type** which it
+ * it defines.
  */
 export type FromDefineObject<T extends DefineObject> =
   MakeKeysOptional<

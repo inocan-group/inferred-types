@@ -7,7 +7,6 @@ export * from "./ContainerKeyGuarantee";
 export * from "./date-time-objects";
 export * from "./DoneFnTuple";
 export * from "./ExpandRecursively";
-export * from "./FromDefn";
 export * from "./FromTokenNames";
 export * from "./Narrow";
 export * from "./Narrowable";

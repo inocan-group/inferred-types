@@ -11,7 +11,6 @@ export * from "./CombinedKeys";
 export * from "./ConstrainObject";
 export * from "./CreateKV";
 export * from "./CreateLookup";
-export * from "./DefineObject";
 export * from "./DictChangeValue";
 export * from "./EnsureKeys";
 export * from "./FilterProps";

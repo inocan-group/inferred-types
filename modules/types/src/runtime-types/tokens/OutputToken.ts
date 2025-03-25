@@ -3,14 +3,14 @@ import type {
     First,
     InputTokenLike,
     IT_ObjectLiteralDefinition,
-    IT_TokenSuggest,
+    InputTokenSuggestions,
     SafeEncode,
     Surround,
     ToJson
 } from "inferred-types/types";
 
 export type IT_TupleToOutputToken<
-    T extends readonly IT_TokenSuggest[],
+    T extends readonly InputTokenSuggestions[],
     R extends string = ""
 > = [] extends T
     ? Surround<R, "<<[ ", " ]>>">
@@ -46,7 +46,7 @@ export type AsOutputToken<T extends InputTokenLike> = T extends string
     ? `<<"${SafeEncode<T>}">>`
     : T extends IT_ObjectLiteralDefinition
         ? `<<${ToJson<T>}>>`
-        : T extends readonly IT_TokenSuggest[]
+        : T extends readonly InputTokenSuggestions[]
             ? IT_TupleToOutputToken<T>
             : never;
 

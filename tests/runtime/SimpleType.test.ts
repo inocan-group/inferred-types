@@ -71,9 +71,9 @@ describe("SimpleType<T>", () => {
 
     type cases = [
       Expect<Equal<D1, Dictionary>>,
-      Expect<Equal<DId, { id: number;[key: string | symbol]: unknown }>>,
-      Expect<Equal<DFoo, { foo: number;[key: string | symbol]: unknown }>>,
-      Expect<Equal<DFooBar, { foo: string; bar: boolean | undefined;[key: string | symbol]: unknown }>>,
+      Expect<Equal<DId, { id: number;[key: string | symbol]: any }>>,
+      Expect<Equal<DFoo, { foo: number;[key: string | symbol]: any }>>,
+      Expect<Equal<DFooBar, { foo: string; bar: boolean | undefined;[key: string | symbol]: any }>>,
     ];
     const cases: cases = [
       true, true, true, true,

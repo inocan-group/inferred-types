@@ -2,21 +2,21 @@ import type {
     As,
     FromInputToken,
     InputToken,
-    IT_TokenSuggest,
+    InputTokenSuggestions,
     Narrowable,
     Sort,
     SortOptions,
 } from "inferred-types/types";
 
 type From<S extends RuntimeSort> = {
-    first: S["first"] extends readonly IT_TokenSuggest[]
+    first: S["first"] extends readonly InputTokenSuggestions[]
         ? {
             [K in keyof S["first"]]: S["first"][K] extends InputToken
                 ? FromInputToken<S["first"][K]>
                 : never
         }
         : [];
-    last: S["last"] extends readonly IT_TokenSuggest[]
+    last: S["last"] extends readonly InputTokenSuggestions[]
         ? {
             [K in keyof S["last"]]: S["last"][K] extends InputToken
                 ? FromInputToken<S["last"][K]>
@@ -27,8 +27,8 @@ type From<S extends RuntimeSort> = {
 };
 
 export type RuntimeSort<
-    F extends readonly IT_TokenSuggest[] = IT_TokenSuggest[],
-    S extends readonly IT_TokenSuggest[] = IT_TokenSuggest[]
+    F extends readonly InputTokenSuggestions[] = InputTokenSuggestions[],
+    S extends readonly InputTokenSuggestions[] = InputTokenSuggestions[]
 > = {
     first?: F;
     last?: S;

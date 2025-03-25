@@ -78,7 +78,7 @@ export interface FluentFn<
     TState,
     TName extends string,
     TFn extends <TCb extends (
-        <T extends FluentState<TState>>(state: T) => TypedFunction<TState>), TOnce extends boolean>(cb: TCb,
+        <T extends FluentState<TState>>(state: T) => TypedFunction), TOnce extends boolean>(cb: TCb,
         useOnce?: TOnce
     ) => void,
     TOnce extends boolean = false,
