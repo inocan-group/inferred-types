@@ -44,6 +44,7 @@ export * from "./RemoveFromStart";
 export * from "./RemoveIndex";
 export * from "./RenameKey";
 export * from "./Replace";
+export * from "./ReplaceType";
 export * from "./ReplaceAll";
 export * from "./ReplaceAllFromTo";
 export * from "./ReplaceAllToFrom";
