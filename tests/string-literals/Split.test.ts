@@ -6,7 +6,6 @@ import {
     UpperAlphaChar,
     IsEqual,
     UnionToTuple,
-    SplitOnNumericLiteral,
 } from "inferred-types/types";
 import { split } from "inferred-types/runtime";
 import { Extends } from "transpiled/types";
@@ -45,6 +44,18 @@ describe("Split<T,SEP>", () => {
         ];
 
     });
+
+
+    it("Split with before strategy", () => {
+        type FooBarBazBefore = Split<"foo, bar, baz", ", ", "before">;
+        type FooBarBefore = Split<"foo, bar", ", ", "before">;
+        type Tricky = Split<"foo,,bar", ",", "before">;
+
+        type cases = [
+            /** type tests */
+        ];
+    });
+
 
     it("Split<T, SEP> with string literals", () => {
         const str = "hello world, nice to meet you" as const;
@@ -120,20 +131,20 @@ describe("Split<T,SEP>", () => {
         type Numeric = Split<`Age: ${number}, FavNumber: ${number}, Color: red`, `${number}`>;
 
         type cases = [
-            Expect<Equal<StartsWith, ["", "Age: ", ", FavNumber: ", ", Color: red" ]>>,
-            Expect<Equal<Numeric, ["Age: ", ", FavNumber: ", ", Color: red" ]>>
+            Expect<Equal<StartsWith, ["", "Age: ", ", FavNumber: ", ", Color: red"]>>,
+            Expect<Equal<Numeric, ["Age: ", ", FavNumber: ", ", Color: red"]>>
         ];
-      });
+    });
 
-      it("split with a boolean template value", () => {
+    it("split with a boolean template value", () => {
         type Logical = Split<
             `Employed: ${boolean}, Insurance: ${boolean}, Age: ${number}`, `${boolean}`
         >;
 
         type cases = [
-            Expect<Equal<Logical, ["Employed: ", ", Insurance: ", `, Age: ${number}` ]>>
+            Expect<Equal<Logical, ["Employed: ", ", Insurance: ", `, Age: ${number}`]>>
         ];
-      });
+    });
 
 
 });
@@ -198,22 +209,22 @@ describe("split()", () => {
 
 
     it("inline variant with spaces", () => {
-    const spaced = split.inline("hello world monkey", " ");
-    expect(spaced).toEqual(["hello", " ", "world", " ", "monkey"])
+        const spaced = split.inline("hello world monkey", " ");
+        expect(spaced).toEqual(["hello", " ", "world", " ", "monkey"])
 
 
-      type cases = [
-        Expect<Equal<typeof spaced, ["hello", " ", "world", " ", "monkey"]>>
-      ];
+        type cases = [
+            Expect<Equal<typeof spaced, ["hello", " ", "world", " ", "monkey"]>>
+        ];
     });
 
     it("inline variant with longer sequence", () => {
         const four = split.inline("1, 2, 3, 4", ", ");
-        expect(four).toEqual(["1",", ","2", ", ", "3", ", ", "4"]);
+        expect(four).toEqual(["1", ", ", "2", ", ", "3", ", ", "4"]);
 
-          type cases = [
-            Expect<Equal<typeof four, ["1",", ","2",", ", "3", ", ", "4"]>>
-          ];
+        type cases = [
+            Expect<Equal<typeof four, ["1", ", ", "2", ", ", "3", ", ", "4"]>>
+        ];
     });
 
 

@@ -157,6 +157,31 @@ export type SplitOnNumericLiteral<
         ? TResult
         : [...TResult, TAcc];
 
+type Process<
+TContent extends string,
+TSep extends string | readonly string[],
+TPolicy extends Policy = "omit",
+> = IsEqual<TSep, `${boolean}`> extends true
+? Split<TContent, [`${true}`, `${false}`], TPolicy>
+: IsUnion<TSep> extends true
+    ? Err<`split/union-type`, `The separator passed into Split was a union type; please convert this to a tuple and call Split with a Tuple seperator!`>
+    : IsEqual<TSep, `${number}`> extends true
+        ? SplitOnNumericLiteral<TContent, TPolicy>
+        : TSep extends readonly string[]
+            ? _SplitUnion<[TContent], TSep, TPolicy>
+            : TSep extends string
+                ? IsStringLiteral<TContent> extends true
+                    ? TPolicy extends "omit"
+                        ? Ensure<OmitPolicy<_Split<TContent, TSep>>>
+                        : TPolicy extends "before"
+                            ? Ensure<BeforePolicy<_Split<TContent, TSep>>>
+                            : TPolicy extends "after"
+                                ? Ensure<AfterPolicy<_Split<TContent, TSep>>>
+                                : Ensure<InlinePolicy<_Split<TContent, TSep>>>
+                    : string[]
+                : never;
+
+
 /**
  * **Split**`<TContent,TSep,[TPolicy]>`
  *
@@ -172,22 +197,6 @@ export type Split<
     TContent extends string,
     TSep extends string | readonly string[],
     TPolicy extends Policy = "omit",
-> = IsEqual<TSep, `${boolean}`> extends true
-    ? Split<TContent, [`${true}`, `${false}`], TPolicy>
-    : IsUnion<TSep> extends true
-        ? Err<`split/union-type`, `The separator passed into Split was a union type; please convert this to a tuple and call Split with a Tuple seperator!`>
-        : IsEqual<TSep, `${number}`> extends true
-            ? SplitOnNumericLiteral<TContent, TPolicy>
-            : TSep extends readonly string[]
-                ? _SplitUnion<[TContent], TSep, TPolicy>
-                : TSep extends string
-                    ? IsStringLiteral<TContent> extends true
-                        ? TPolicy extends "omit"
-                            ? Ensure<OmitPolicy<_Split<TContent, TSep>>>
-                            : TPolicy extends "before"
-                                ? Ensure<BeforePolicy<_Split<TContent, TSep>>>
-                                : TPolicy extends "after"
-                                    ? Ensure<AfterPolicy<_Split<TContent, TSep>>>
-                                    : Ensure<InlinePolicy<_Split<TContent, TSep>>>
-                        : string[]
-                    : never;
+> = Process<TContent,TSep, TPolicy> extends readonly string[]
+? Process<TContent,TSep, TPolicy>
+: never;
