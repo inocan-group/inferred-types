@@ -1,4 +1,5 @@
 export * from "./AfterFirstChar";
+export * from "./AfterLast";
 export * from "./AsTypeSubtype";
 export * from "./BackTick";
 export * from "./Brand";

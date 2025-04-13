@@ -1,5 +1,5 @@
 import type { Split } from "inferred-types/types";
-import { createFnWithPropsExplicit, last } from "inferred-types/runtime";
+import { createFnWithProps, last } from "inferred-types/runtime";
 
 type Policy = "omit" | "before" | "after" | "inline";
 
@@ -135,7 +135,7 @@ function inline<
  * - If you want to use the `before`, `after`, or `inline` policy types
  * they are available as properties of this function.
  */
-export const split = createFnWithPropsExplicit(omit, {
+export const split = createFnWithProps(omit, {
     before,
     after,
     inline
