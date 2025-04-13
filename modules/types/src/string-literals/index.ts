@@ -50,5 +50,6 @@ export * from "./Time";
 export * from "./Truncate";
 export * from "./TypeSubtype";
 export * from "./UnderlyingType";
+export * from "./UntilLast";
 export * from "./UUID";
 
