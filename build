@@ -8,7 +8,7 @@ start_time=$( epoch )
 log ""
 log "Building ${BOLD}inferred-types${RESET} with TSUP"
 log ""
-log "👷‍♂️ building constants"
+log "𝌸 building constants"
 log ""
 cd './modules/constants' || exit
 tsup
@@ -51,7 +51,7 @@ else
 fi
 
 
-log "👷‍♂️ building runtime"
+log "🏃 building runtime"
 log ""
 cd '../runtime' || exit
 tsup
@@ -70,7 +70,7 @@ else
   log ""
 fi
 
-log "👷‍♂️ building inferred-types"
+log "📦 building inferred-types"
 log ""
 cd '../inferred-types' || exit
 tsup

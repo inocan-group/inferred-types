@@ -20,11 +20,11 @@ import {
     FromStringInputToken,
     GetEach,
     If,
+    IsBalanced,
     IsDefined,
     IsGreaterThan,
     IsLessThan,
     Join,
-    JustFunction,
     Length,
     Or,
     Replace,
@@ -32,14 +32,12 @@ import {
     Split,
     StripAfter,
     StripLeading,
-    StripTrailing,
     Suggest,
     Synchronous,
     Trim,
     TypedParameter,
     Unset,
     UntilLast,
-    Whitespace
 } from "inferred-types/types";
 import {
     IT_AtomicToken,
@@ -74,8 +72,8 @@ export type FnReturns<
         ? ReturnType<T>
         : never;
 
-type Strip<T extends string> = Exclude<T,Whitespace>;
 type Start = "async " | AlphaChar | "(";
+
 
 type IsNarrowing<
     T extends string
@@ -127,24 +125,15 @@ type ParseArgs<
     ]
 >;
 
-type IsEnclosed<T extends string> = Trim<T> extends `(${string}(${string}`
-? FirstChar<AfterFirstChar<Trim<T>>,""> extends ")"
+
+type IsEnclosed<T extends string> = Trim<T> extends `((${string}`
+? true
+: Trim<T> extends `(${infer Between}(${string}`
+? Contains<Between, ":"> extends true
     ? false
-    : RetainAfter<AfterFirstChar<Trim<T>>, ")"> extends `${string}${FunctionReturnSymbol}${string}`
-        ? true
-        : false
-
-
-// And<[
-//     StartsWith<Trim<T>, "(">,
-//     Not<
-//         Contains<
-//             RetainAfter<AfterFirstChar<Trim<T>>, ")">,
-//             FunctionReturnSymbol
-//         >
-//     >,
-//     Not<StartsWith<AfterFirstChar<Trim<T>>,")">>
-// ]>
+    : FirstChar<AfterFirstChar<Trim<T>>,""> extends ")"
+    ? false
+    : true
 : false;
 
 /**
@@ -164,6 +153,12 @@ type IsolatePreamble<T extends string> = StripAfter<Enclosure<T>, "(">;
 type ParseName<T extends string> = T extends `${string}(${string}`
 ? Trim<StripLeading<IsolatePreamble<T>, "async">>
 : never;
+
+type HasName<T extends string> = ParseName<T> extends string
+    ? ParseName<T> extends ""
+        ? false
+        : true
+    : false;
 
 
 /**
@@ -186,7 +181,9 @@ type FunctionKeyValue<T extends string> = Or<[
         parameters: ParseArgs<T>,
         returns: ParseReturn<T>
     }
-    : undefined;
+    : HasName<T> extends true
+        ? { name: ParseName<T> }
+        : undefined;
 
 type RetainUntilLast<
     T extends string,
@@ -213,19 +210,11 @@ type IsolateArgs<
 
 type IsolateReturn<
     T extends string
-> = Trim<
-    IsEnclosed<T> extends true
-        ? Trim<
-            StripTrailing<
-            RetainUntilLast<
-                RetainAfter<Enclosure<T>, FunctionReturnSymbol>,
-                ")"
-            >,
-            ")"
-            >
-        >
-        : Trim<RetainAfter<Enclosure<T>, FunctionReturnSymbol>>
->;
+> = T extends `${string}${IsolatePreamble<T>}(${string}${FunctionReturnSymbol}${infer Rest}`
+    ? IsEnclosed<T> extends true
+        ? UntilLast<Trim<Rest>, ")">
+        : Trim<Rest>
+    : never
 
 /** returned from Info<T> utility */
 type InfoBlock = {
@@ -239,7 +228,7 @@ type InfoBlock = {
     props?: unknown
 }
 
-type IsAsync<T extends string> = Contains<StripAfter<Enclosure<T>, FunctionReturnSymbol>,"async">;
+type IsAsync<T extends string> = Contains<StripAfter<Enclosure<T>, FunctionReturnSymbol>,"async ">;
 
 type Info<T extends string> = As<
     Trim<T> extends `${string}(${string})${string}`
@@ -346,7 +335,9 @@ export type IT_TakeFunction<
     TInner extends readonly any[] = [],
     TContainers extends readonly IT_ContainerType[] = []
 > = Trim<T> extends `${Start}${string}`
-? FailFast<[
+? Contains<T, "function*"> extends true
+    ? Unset
+: FailFast<[
     Parse<T>,
     Rest<T>,
     FromStringInputToken<
@@ -360,18 +351,18 @@ export type IT_TakeFunction<
 
 // DEBUGGING SUPPORT BELOW
 
-type T = "(name: string) =+> string";
-type TEnclosed = IsEnclosed<T>;
-type TPreample = IsolatePreamble<T>;
-type TArgsToken = IsolateArgs<T>;
-type TReturnToken = IsolateReturn<T>;
+// type T = "greet() => String(hi)";
+// type TEnclosed = [IsEnclosed<T>, Enclosure<T>];
+// type TPreample = IsolatePreamble<T>;
+// type TArgsToken = IsolateArgs<T>;
+// type TReturnToken = IsolateReturn<T>;
 
-type TName = ParseName<T>;
-type TAsync = IsAsync<T>;
-type TArgs = ParseArgs<T>;
-type TReturn = ParseReturn<T>;
-type TKeyValue = FunctionKeyValue<T>;
+// type TName = ParseName<T>;
+// type TAsync = IsAsync<T>;
+// type TArgs = ParseArgs<T>;
+// type TReturn = ParseReturn<T>;
+// type TKeyValue = FunctionKeyValue<T>;
 
-type TInfo = Info<T>;
-type TRest = Rest<T>;
-type TParse = Parse<T>;
+// type TInfo = Info<T>;
+// type TRest = Rest<T>;
+// type TParse = Parse<T>;

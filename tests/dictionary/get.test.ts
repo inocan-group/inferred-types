@@ -1,8 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import {
+    asType,
   get,
-  defineObj,
+
   isErrorCondition,
 } from "inferred-types/runtime";
 import type {
@@ -12,7 +13,12 @@ import { ref } from "vue";
 
 describe("Get<T, K> type utility", () => {
   it("type: shallow path", () => {
-    const input = defineObj({ id: 1234 })({ foo: 1, bar: "hi" });
+    const input = asType({
+        id: "Number(1234)",
+        foo: "number",
+        bar: "string"
+    })
+
     type Input = typeof input;
 
     type Id = Get<Input, "id">;

@@ -1,5 +1,6 @@
 import type {
     AfterFirst,
+    And,
     Err,
     Filter,
     First,
@@ -9,6 +10,7 @@ import type {
     IsUnion,
     NonBreakingSpace,
     RemoveNever,
+    UnionToTuple,
 } from "inferred-types/types";
 
 type Policy = "omit" | "before" | "after" | "inline";
@@ -197,6 +199,13 @@ export type Split<
     TContent extends string,
     TSep extends string | readonly string[],
     TPolicy extends Policy = "omit",
-> = Process<TContent,TSep, TPolicy> extends readonly string[]
+> = And<[
+    TSep extends string ? true : false,
+    IsUnion<TSep>
+]> extends true
+? UnionToTuple<TSep> extends readonly string[]
+    ? Split<TContent, UnionToTuple<TSep>, TPolicy>
+    : never
+: Process<TContent,TSep, TPolicy> extends readonly [string, ...string[]]
 ? Process<TContent,TSep, TPolicy>
 : never;

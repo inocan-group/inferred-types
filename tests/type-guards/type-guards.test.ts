@@ -11,8 +11,8 @@ import {
   isRef,
   isConstant,
   isSpecificConstant,
-  defineObj,
   isNumericString,
+  asType,
 
 } from "inferred-types/runtime";
 import {
@@ -114,7 +114,7 @@ describe("isDefined(value)", () => {
 });
 
 describe("isRef - testing for VueJS reference types", () => {
-  const obj = defineObj({ foo: 1, bar: 2 })();
+  const obj = asType({ foo: "Number(1)", bar: "Number(2)" });
   const refObj = ref(obj);
 
   it("positive tests", () => {

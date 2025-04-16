@@ -6,6 +6,8 @@ import type {
 import type {
     AfterFirst,
     AsFromTo,
+    BackTick,
+    Concat,
     First,
     FromTo,
     Mutable,
@@ -46,6 +48,36 @@ export type SafeEncodingConversion<
             ),
         ]
     >;
+
+type Esc<T extends readonly FromTo[]> = {
+    [K in keyof T]: {
+        from: Concat<[ BackTick, T[K]["from"]]>;
+        to: T[K]["to"];
+    }
+};
+
+export type EscapedSafeEncodingConversion<
+    T extends readonly SafeEncodingGroup[],
+    R extends readonly FromTo[] = [],
+> = [] extends T
+    ? R
+    : SafeEncodingConversion<
+        AfterFirst<T>,
+        [
+            ...R,
+            ...(
+                First<T> extends "quotes"
+                    ? Esc<AsFromTo<SafeEncoding__Quotes>>
+                    : First<T> extends "brackets"
+                        ? Esc<AsFromTo<SafeEncoding__Brackets>>
+                        : First<T> extends "whitespace"
+                            ? Esc<AsFromTo<SafeEncoding__Whitespace>>
+                            : []
+            ),
+        ]
+    >;
+
+type X = Esc<AsFromTo<SafeEncoding__Brackets>>;
 
 export type SafeDecodingConversion<
     T extends readonly SafeEncodingGroup[],

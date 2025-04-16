@@ -6,8 +6,9 @@ import type {
     DefineObject,
     FromDefineObject,
     Narrowable,
+    TypedFunction,
 } from "inferred-types/types";
-import { createFnWithPropsExplicit } from "inferred-types/runtime";
+import { createFnWithProps } from "inferred-types/runtime";
 
 function callback<Constraint extends AnyObject>(): ConstrainedObjectCallback<Constraint> {
     return <TReturn>(
@@ -47,12 +48,12 @@ function narrowFn<TDefn extends AnyObject>() {
 export function narrowObjectTo<
     TDefn extends DefineObject,
 >(_defn: TDefn): ConstrainedObjectIdentity<FromDefineObject<TDefn>> {
-    return createFnWithPropsExplicit(
-        narrowFn<FromDefineObject<TDefn>>(),
+    return createFnWithProps(
+        narrowFn<FromDefineObject<TDefn>>() as TypedFunction,
         {
             asCallback: callback<TDefn>(),
         },
-    );
+    ) as unknown as ConstrainedObjectIdentity<FromDefineObject<TDefn>>;
 }
 
 /**
@@ -71,10 +72,10 @@ export function narrowObjectTo<
  * **Related:** `ConstrainedObjectIdentity`, `narrowObjectTo`
  */
 export function narrowObjectToType<TDefn extends AnyObject>(): ConstrainedObjectIdentity<TDefn> {
-    return createFnWithPropsExplicit(
+    return createFnWithProps(
         narrowFn<TDefn>(),
         {
             asCallback: callback<TDefn>(),
         },
-    );
+    ) as unknown as ConstrainedObjectIdentity<TDefn>;
 }

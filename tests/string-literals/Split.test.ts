@@ -23,7 +23,6 @@ describe("Split<T,SEP>", () => {
         type FooBarBazAfter = Split<"foo, bar, baz", ", ", "after">;
         type FooBarBazInline = Split<"foo, bar, baz", ", ", "inline">;
 
-
         type FooBarBazUnion = Split<"foo, bar, baz", ", " | "; ">;
 
         type Empty = Split<"", "">;
@@ -37,7 +36,7 @@ describe("Split<T,SEP>", () => {
             Expect<Equal<FooBarBazAfter, ["foo", ", bar", ", baz"]>>,
             Expect<Equal<FooBarBazInline, ["foo", ", ", "bar", ", ", "baz"]>>,
 
-            Expect<Extends<FooBarBazUnion, Error>>,
+            Expect<Extends<FooBarBazUnion, ["foo","bar","baz"]>>,
 
             ExpectTrue<Equal<Empty, []>>,
             Expect<Equal<EmptyToo, []>>,

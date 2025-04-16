@@ -1,4 +1,5 @@
 import type {
+    EscapedSafeEncodingConversion,
     IsStringLiteral,
     ReplaceAllFromTo,
     SafeEncodingConversion,
@@ -17,6 +18,8 @@ import type {
  * - and "brackets"
  *
  * By default ALL are used.
+ *
+ * **Related:** `SafeEncodeEscaped`
  */
 export type SafeEncode<
     T extends string,
@@ -24,3 +27,18 @@ export type SafeEncode<
 > = IsStringLiteral<T> extends true
     ? ReplaceAllFromTo<T, SafeEncodingConversion<G>>
     : SafeString<string, G>;
+
+
+/**
+ * **SafeEncodingEscaped**`<T,[G]>`
+ *
+ * Looks for _escaped characters_ in `T` and applies safe encoding to
+ * only those characters which have been explicitly marked via the `\`
+ * escape notation.
+ */
+export type SafeEncodeEscaped<
+    T extends string,
+    G extends readonly SafeEncodingGroup[] = ["whitespace", "brackets", "quotes"]
+> = IsStringLiteral<T> extends true
+? ReplaceAllFromTo<T, EscapedSafeEncodingConversion<G>>
+: SafeString<string, G>;

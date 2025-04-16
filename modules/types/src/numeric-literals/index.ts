@@ -3,6 +3,7 @@ export * from "./AbsMaybe";
 export * from "./Add";
 export * from "./AsNegativeNumber";
 export * from "./AsNumberWhenPossible";
+export * from "./CharCount";
 export * from "./CompareNumbers";
 export * from "./CSV";
 export * from "./Decrement";
@@ -25,3 +26,4 @@ export * from "./Subtract";
 export * from "./ToInteger";
 export * from "./ToNumericArray";
 export * from "./Zero";
+

@@ -1,3 +1,26 @@
+import { Dictionary } from "src/base-types";
+
+type Obj<T> = {
+    [K in keyof T as string extends K
+        ? never
+        : number extends K
+            ? never
+            : symbol extends K
+                ? never
+                : K]: T[K]
+};
+
+type Arr<T> = {
+    [K in keyof T as number extends K
+        ? never
+        : string extends K
+            ? never
+            : symbol extends K
+                ? never
+                : K]: T[K]
+}
+
+
 /**
  * **RemoveIndexKeys**`<T>`
  *
@@ -10,12 +33,8 @@
  * type Obj2 = RemoveIndexKeys<Obj>;
  * ```
  */
-export type RemoveIndexKeys<T> = {
-    [K in keyof T as string extends K
-        ? never
-        : number extends K
-            ? never
-            : symbol extends K
-                ? never
-                : K]: T[K]
-};
+export type RemoveIndexKeys<T> = T extends Dictionary
+    ? Obj<T>
+    : T extends readonly any[]
+        ? Arr<T>
+        : never;

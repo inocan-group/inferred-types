@@ -6,27 +6,26 @@ import {
   Dictionary,
   AnyFunction
 } from "inferred-types/types";
-import { createFnWithProps, defineObj } from "inferred-types/runtime";
+import { createFnWithProps } from "inferred-types/runtime";
 
 
-const obj = defineObj({
+const obj = {
   id: "foobar",
   foo2: 2,
   success: true,
   fail: false,
   narrowFn: (name: string) => `hi ${name}`,
-  narrowFnWithProps: createFnWithProps(() => "hi", { foo: "there" })
-})({
+  narrowFnWithProps: createFnWithProps(() => "hi", { foo: "there" }),
   foo: 1,
   bar: true,
   message: "hi there",
-  numericArr: [1, 2, 3],
-  strArr: ["foo", "bar"],
+  numericArr: [1, 2, 3] as number[],
+  strArr: ["foo", "bar"] as string[],
   fn: () => "hi",
   fnWithProp: createFnWithProps(() => "hi", { foo: "there" }),
   baz: { foo: 1, bar: 2 },
   emptyBaz: {}
-});
+} as const;
 
 describe("KeysWithValue<T> utility", () => {
 

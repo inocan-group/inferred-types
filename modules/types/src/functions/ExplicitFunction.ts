@@ -8,7 +8,7 @@ import { TypedParameter } from "src/functions/TypedParameter";
  * system about it's name, parameters, and what it returns.
  */
 export type ExplicitFunction = TypedFunction & {
-    name?: string;
+    name: string;
     parameters: readonly TypedParameter[];
     returns: unknown;
 }

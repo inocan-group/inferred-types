@@ -4,10 +4,6 @@ import { describe, expect, it } from "vitest";
 import { getEach } from "inferred-types/runtime";
 import { GetEach } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
-
 describe("GetEach<T,P>", () => {
 
   it("happy path", () => {
@@ -26,7 +22,6 @@ describe("GetEach<T,P>", () => {
       Expect<Equal<Value, readonly ["foo", "bar", "baz"]>>,
       Expect<Equal<Cost, readonly [5, 15]>>
     ];
-    const cases: cases = [true, true, true];
   });
 
 
@@ -51,7 +46,6 @@ describe("GetEach<T,P>", () => {
       Expect<Equal<FavNotRO, ["blue", "green"]>>,
       Expect<Equal<Owns, readonly ["grey"]>>,
     ];
-    const cases: cases = [true, true, true];
   });
 
 

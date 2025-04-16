@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { Err, UntilLast } from "inferred-types/types";
+import { Err, Split, UntilLast } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("UntilLast<TText, TFind, [TBreak]>", () => {
@@ -8,17 +8,22 @@ describe("UntilLast<TText, TFind, [TBreak]>", () => {
     type T1 = UntilLast<"Array<Record<string, string>>", ">">;
     type T2 = UntilLast<"Array<Record<string, string>>  ", ">">;
     type T3 = UntilLast<"Array<Record<string, string>>  abc", ">">;
-
     type T4 = UntilLast<`Array<Record<string, string >>  `, ">">;
 
     type T5 = UntilLast<"Foo, Bar, Baz, Bax", ",">;
+    type T6 = UntilLast<
+        "Array<Record<string, string> | Array<string>>",">"
+    >;
+
 
     type cases = [
         Expect<Equal<T1, "Array<Record<string, string>">>,
         Expect<Equal<T2, "Array<Record<string, string>">>,
         Expect<Equal<T3, "Array<Record<string, string>">>,
-
         Expect<Equal<T4, "Array<Record<string, string >">>,
+
+        Expect<Equal<T5, "Foo, Bar, Baz">>,
+        Expect<Equal<T6, "Array<Record<string, string> | Array<string>">>,
     ];
   });
 
@@ -27,9 +32,9 @@ describe("UntilLast<TText, TFind, [TBreak]>", () => {
     type T1 = UntilLast<
         "Array<Record<string, string>> | Array<string>",
         ">",
-        "|"
+        { break: "|" }
     >;
-    type T2 = UntilLast<"Array<string>", ">", "|" >
+    type T2 = UntilLast<"Array<string>", ">", {break: "|"} >
 
     type cases = [
         Expect<Equal<T1, "Array<Record<string, string>">>,
@@ -37,9 +42,11 @@ describe("UntilLast<TText, TFind, [TBreak]>", () => {
     ];
   });
 
+
+
   it("no match with TFind character (no break char)", () => {
     type T1 = UntilLast<"FooBar", ">">;
-    type E1 = UntilLast<"FooBar", ">", never, Err<"oops">>;
+    type E1 = UntilLast<"FooBar", ">", { handle: Err<"oops"> }>;
 
     type cases = [
       Expect<Equal<T1, "FooBar">>,
@@ -48,8 +55,12 @@ describe("UntilLast<TText, TFind, [TBreak]>", () => {
   });
 
   it("no match with TFind character (with break char)", () => {
-    type T1 = UntilLast<"FooBar | Baz", ">", "|">;
-    type E1 = UntilLast<"FooBar | Baz", ">", "|", Err<"oops">>;
+    type T1 = UntilLast<"FooBar | Baz", ">", { break: "|" } >;
+    type E1 = UntilLast<
+        "FooBar | Baz",
+        ">",
+        { break: "|", handle: Err<"oops"> }
+    >;
 
     type cases = [
       Expect<Equal<T1, "FooBar ">>,

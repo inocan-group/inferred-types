@@ -87,8 +87,8 @@ function omit<
 >(
     str: T,
     ...sep: S
-) {
-    return splitUp([str], sep) as unknown as Split<T, S, "omit">;
+): Split<T, S, "omit"> {
+    return splitUp([str], sep, "omit") as unknown as Split<T, S, "omit">;
 }
 
 function before<
@@ -97,7 +97,7 @@ function before<
 >(
     str: T,
     ...sep: S
-) {
+): Split<T, S, "before"> {
     return splitUp([str], sep, "before") as unknown as Split<T, S, "before">;
 }
 

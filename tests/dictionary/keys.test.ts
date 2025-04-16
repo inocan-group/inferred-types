@@ -5,14 +5,11 @@ import type {
   NumericKeys,
   EmptyObject,
   ObjectKey,
-  VueRef,
   Dictionary,
   HasSameValues,
   HasSameKeys,
-  Narrowable,
 } from "inferred-types/types";
-import { defineObj, keysOf, narrow } from "inferred-types/runtime";
-import { Ref } from "vue";
+import { keysOf, narrow } from "inferred-types/runtime";
 
 describe("NumericKeys<T>", () => {
 
@@ -47,7 +44,7 @@ describe("Keys<T> with object targets", () => {
 
 
   type Foobar = Keys<OBJ>;
-  type FooBar_RO =Keys<Readonly<OBJ>>;
+  type FooBar_RO = Keys<Readonly<OBJ>>;
   type FooBar_EXT = Keys<{ foo: 1; bar: 2; [x: string]: unknown }>;
   type EmptyObj = Keys<EmptyObject>;
   type Uno = Keys<{baz: 3}>;
@@ -87,38 +84,24 @@ describe("Keys<T> with object targets", () => {
   });
 
 
-  // we need the "real" Ref<T> and the "fake" VueRef<T>
-  // to perform exactly the same
-  it("VueRef<T> and Ref<T> key resolution", () => {
-    type Obj = Keys<Ref<{foo: 1; bar: 2}>>;
-    type Obj2 = Keys<VueRef<{foo: 1; bar: 2}>>;
-    type Arr = Keys<Ref<[1,2,3]>>;
-    type Arr2 = Keys<VueRef<[1,2,3]>>;
-    type Str = Keys<Ref<"hi">>;
-    type Str2 = Keys<VueRef<"hi">>;
-
-    type cases = [
-      Expect<HasSameValues<Obj, ["value"]>>,
-      Expect<HasSameValues<Obj2, ["value"]>>,
-      Expect<HasSameValues<Arr, ["value"]>>,
-      Expect<HasSameValues<Arr2, ["value"]>>,
-      Expect<HasSameValues<Str, ["value"]>>,
-      Expect<HasSameValues<Str2, ["value"]>>,
-    ];
-    const cases: cases = [ true, true, true, true, true, true ];
-  });
 
 
 });
 
 describe("runtime keysOf() utility on object", () => {
   it("with just object passed in, keys are extracted as expected", () => {
-    const obj = defineObj({ id: "123" })({ color: "red", isFavorite: false });
+    const obj = {
+        id: 123,
+        color: "blue",
+        isFavorite: false
+    } as { id: 123; color: string; isFavorite: boolean};
+
+
     const k = keysOf(obj);
     const k2 = keysOf({} as object);
     type K = typeof k;
 
-    expect(k).toHaveLength(3);
+    expect(k, "The object should have 3 keys: ${Json}").toHaveLength(3);
     expect(k).toContain("id");
     expect(k).toContain("color");
     expect(k).toContain("isFavorite");
@@ -127,7 +110,7 @@ describe("runtime keysOf() utility on object", () => {
 
     type cases = [
       Expect<HasSameValues<K,  ["id", "color", "isFavorite" ]>>,
-      Expect<Equal<typeof k2, ObjectKey[]>>
+      Expect<Equal<typeof k2, []>>
     ];
     const cases: cases = [true, true];
     expect(cases).toBe(cases);

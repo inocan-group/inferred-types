@@ -69,12 +69,14 @@ type ProcessObject<
  * **Related:** `ValidKey`, `PublicKeys`
  */
 export type Keys<
-    TContainer extends readonly unknown[] | AnyObject,
+    TContainer extends readonly unknown[] | Dictionary,
 > = TContainer extends readonly unknown[]
     ? ProcessTuple<TContainer>
     : TContainer extends Dictionary
-        ? ProcessObject<TContainer>
-        : never;
+            ?  ProcessObject<TContainer> extends readonly (ObjectKey & keyof TContainer)[]
+                ? ProcessObject<TContainer>
+                : never
+            : never;
 
 type _Public<
     TInput extends readonly PropertyKey[],

@@ -51,13 +51,12 @@ export type NarrowingFn<
  * **Related:** `LiteralFn`, `NarrowingFn`, `AsLiteralFn`
  */
 export type AsNarrowingFn<
-    TParams extends Tuple | TypedFunction,
+    TParams extends readonly any[] | TypedFunction,
     TReturn = unknown,
     TProps extends Dictionary = EmptyObject,
-> =
-TParams extends TypedFunction
+> = TParams extends TypedFunction
     ? NarrowingFn<TParams>
-    : TParams extends Tuple // this is the normal call structure
+    : TParams extends readonly any[] // this is the normal call structure
         ? [IsNonEmptyObject<TProps>] extends [true]
             ? [IsEqual<TParams, []>] extends [true]
                 ? (() => TReturn) & TProps
@@ -66,3 +65,4 @@ TParams extends TypedFunction
                 ? () => TReturn
                 : <T extends TParams>(...args: T) => TReturn
         : never;
+

@@ -32,8 +32,6 @@ describe("MergeObjects<A,B>", () => {
       ];
     });
 
-
-
     it("can override base type", () => {
         type T1 = MergeObjects<{ foo: 1; bar: 2 }, { foo: "foo"; bar: "bar" }>;
 
@@ -41,8 +39,20 @@ describe("MergeObjects<A,B>", () => {
         type cases = [
             Expect<Equal<T1, { foo: "foo"; bar: "bar" }>>,
         ];
-
     });
+
+
+    it("merging with optional params overriding", () => {
+        type T1 = MergeObjects<
+            { foo: 1; bar: 2 },
+            { bar: 4; baz?: "howdy"
+        }>;
+
+        type cases = [
+            /** type tests */
+        ];
+    });
+
 
 
 });

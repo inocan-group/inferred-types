@@ -2,19 +2,44 @@ import type {
     AfterFirst,
     Dictionary,
     EmptyObject,
-    ExpandDictionary,
+    Expand,
     First,
     KeyValue,
+    MakeKeysOptional,
+    ObjectKey,
 } from "inferred-types/types";
 
+type AddRequiredKey<
+    TObj extends Dictionary,
+    TKey extends ObjectKey,
+    TVal
+> = TObj & Record<TKey, TVal>;
+
+type AddOptionalKey<
+    TObj extends Dictionary,
+    TKey extends ObjectKey,
+    TVal,
+    TKeys extends readonly ObjectKey[] = readonly [TKey]
+> = MakeKeysOptional<
+    Expand<TObj & Record<TKey, TVal>> extends Dictionary
+        ? Expand<TObj & Record<TKey, TVal>>
+        : never,
+    TKeys
+>
+
+
 type Process<
-    T extends readonly KeyValue[],
-    O extends Dictionary = EmptyObject,
-> = [] extends T
-    ? ExpandDictionary<O>
+    TIn extends readonly KeyValue[],
+    TOut extends Dictionary = EmptyObject
+> = [] extends TIn
+    ? Expand<TOut>
     : Process<
-        AfterFirst<T>,
-    O & Record<First<T>["key"], First<T>["value"]>
+        AfterFirst<TIn>,
+        "required" extends keyof First<TIn>
+            ? First<TIn>["required"] extends false
+                ? AddOptionalKey<TOut,First<TIn>["key"],First<TIn>["value"]>
+                : AddRequiredKey<TOut,First<TIn>["key"],First<TIn>["value"]>
+            : AddRequiredKey<TOut,First<TIn>["key"],First<TIn>["value"]>
     >;
 
 /**

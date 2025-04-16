@@ -5,3 +5,4 @@ export * from "./Or";
 export * from "./Some";
 export * from "./FirstDefined";
 export * from "./FirstValue";
+export * from "./FirstSet";

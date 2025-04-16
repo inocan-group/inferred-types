@@ -18,10 +18,15 @@ type _Pop<
  * - to provide additional utility, you can also pass
  * in a string literal and get back the literal with the last
  * character removed.
+ * - when popping an empty tuple/array, the type remains `[]`
  */
 export type Pop<
-    TList extends Tuple | string,
-> = TList extends string
+    TList extends readonly unknown[] | string,
+> = TList extends readonly unknown[]
+? TList extends [...(infer Front extends [unknown, ...unknown[]]), unknown ]
+    ? Front
+    : []
+: TList extends string
     ? IsWideType<TList> extends true
         ? string
         : IsStringLiteral<TList> extends true
