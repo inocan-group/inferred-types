@@ -5,7 +5,6 @@ import type {
     Dictionary,
     EndsWith,
     Err,
-    FailFast,
     First,
     FromInputToken,
     FromKeyValueTuple,

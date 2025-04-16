@@ -55,7 +55,7 @@ export type ToJsonValue<
                 ? "undefined"
                 : T extends null
                     ? "null"
-                    : T extends Tuple
+                    : T extends readonly unknown[]
                         ? AsJsonArray<
                             As<{ [K in keyof T]: ToJsonValue<T[K]> }, string>
                         >

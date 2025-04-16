@@ -1,13 +1,16 @@
-import type { And, AsNumber, IsStringLiteral } from "inferred-types/types";
+import type {
+    As,
+    AsNumber,
+    IsWideNumber,
+    IsWideString
+} from "inferred-types/types";
 
 type Process<
     TContent extends string,
     TStrip extends string,
-> = And<[ IsStringLiteral<TContent>, IsStringLiteral<TStrip>]> extends true
-    ? TContent extends `${infer Before}${TStrip}`
+> = TContent extends `${infer Before}${TStrip}`
         ? Before
-        : TContent
-    : string;
+        : TContent;
 
 /**
  * **StripEnding**`<TContent, TStrip>`
@@ -25,26 +28,13 @@ type Process<
 export type StripTrailing<
     TContent extends string | number,
     TStrip extends string | number,
-> = TContent extends number
-    ? AsNumber<
-        Process<
-      `${TContent}`,
-      `${TStrip}`
-        > extends `${number}`
-            ? Process<
-          `${TContent}`,
-          `${TStrip}`
-            >
-            : never
-    >
-    : TContent extends string
-        ? Process<
-      `${TContent}`,
-      `${TStrip}`
-        > extends string
-            ? Process<
-          `${TContent}`,
-          `${TStrip}`
-            >
-            : never
-        : never;
+> = As<
+    IsWideNumber<TContent> extends true
+        ? number
+        : IsWideString<TContent> extends true
+        ? string
+        : TContent extends number
+            ? AsNumber<Process<`${TContent}`,`${TStrip}`>>
+            : Process<`${TContent}`,`${TStrip}`>,
+        string
+>;

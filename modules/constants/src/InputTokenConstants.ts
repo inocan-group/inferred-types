@@ -8,6 +8,7 @@ export const IT_ATOMIC_TOKENS = [
     "unknown",
     "any",
     "null",
+    "bigint",
     "object",
     "Object",
     "function",

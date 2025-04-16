@@ -1,5 +1,11 @@
 import type { CssDefinition } from "inferred-types/types";
-import { createFnWithProps, ensureTrailing, isDefined, isString, isUndefined } from "inferred-types/runtime";
+import {
+    createFnWithProps,
+    ensureTrailing,
+    isDefined,
+    isString,
+    isUndefined
+} from "inferred-types/runtime";
 
 export interface CssFromDefnOption {
     indent?: string;
@@ -49,5 +55,5 @@ export function defineCss<T extends CssDefinition>(defn: T) {
     return createFnWithProps(
         fn,
         { defn },
-    ) as { defn: T } & (<S extends string>(selector?: S) => string);
+    ) as unknown as { defn: T } & (<S extends string>(selector?: S) => string);
 }

@@ -1,4 +1,4 @@
-import type { InputToken } from "inferred-types/types";
+import type { InputTokenLike } from "inferred-types/types";
 import {
     asType,
     isNotError,
@@ -15,6 +15,6 @@ export function isInputToken__String(val: unknown) {
  *
  * A type guard which validates that `val` is a valid `InputToken`
  */
-export function isInputToken(val: unknown): val is InputToken {
+export function isInputToken(val: unknown): val is InputTokenLike {
     return isInputToken__String(val) || isObjectLiteralDefinition(val);
 }

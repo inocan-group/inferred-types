@@ -248,22 +248,33 @@ export type FnReturnTypeDefn = WideTokenNames | ShapeCallback;
  */
 export type FnPropertiesDefn = DictionaryTypeDefn;
 
-interface ShapeApi__Functions {
+// type ShapeApi__Functions = {
+//     fn: <TArgs extends readonly FnArgsDefn[]>(...args: TArgs) =>({
+//         returns: <TReturn extends FnReturnTypeDefn>(rtn: TReturn) => ({
+//             addProperties: <
+//                 TProps extends FnPropertiesDefn,
+//             >(kv: TProps) => AsLiteralFn<
+//                 FromWideTokens<TArgs, FromDefn<TArgs>>,
+//                 FromWideTokens<TReturn, FromDefn<TReturn>>,
+//                 FromDefn<TProps>
+//             >;
+//             done: () => AsLiteralFn<
+//                 FromDefn<TArgs>,
+//                 FromDefn<TReturn>
+//             >;
+//         });
+//         done: () => AsLiteralFn<FromDefn<TArgs>>;
+//     });
+// }
+type ShapeApi__Functions = {
     fn: <TArgs extends readonly FnArgsDefn[]>(...args: TArgs) =>({
         returns: <TReturn extends FnReturnTypeDefn>(rtn: TReturn) => ({
             addProperties: <
                 TProps extends FnPropertiesDefn,
-            >(kv: TProps) => AsLiteralFn<
-                FromWideTokens<TArgs, FromDefn<TArgs>>,
-                FromWideTokens<TReturn, FromDefn<TReturn>>,
-                FromDefn<TProps>
-            >;
-            done: () => AsLiteralFn<
-                FromDefn<TArgs>,
-                FromDefn<TReturn>
-            >;
+            >(kv: TProps) => any;
+            done: () => any;
         });
-        done: () => AsLiteralFn<FromDefn<TArgs>>;
+        done: () => any;
     });
 }
 

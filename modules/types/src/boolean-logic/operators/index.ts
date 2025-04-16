@@ -34,6 +34,7 @@ export * from "./HasWideValues";
 export * from "./HaveSameNumericSign";
 export * from "./IsAllCaps";
 export * from "./IsAllLowercase";
+export * from "./IsAny";
 export * from "./IsArray";
 export * from "./IsBalanced";
 export * from "./IsBoolean";

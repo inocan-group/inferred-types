@@ -5,7 +5,6 @@ import type {
     EmptyObject,
     IsEqual,
     IsNonEmptyObject,
-    Tuple,
 } from "inferred-types/types";
 
 /**
@@ -36,15 +35,15 @@ AsFnMeta<TFn>["hasProps"] extends true
  * **Related:** `LiteralFn`, `NarrowingFn`, `AsNarrowingFn`
  */
 export type AsLiteralFn<
-    TParams extends Tuple | AnyFunction,
+    TParams extends readonly any[] | AnyFunction,
     TReturn = unknown,
     TProps extends Dictionary = EmptyObject,
 > = TParams extends AnyFunction
     ? LiteralFn<TParams>
-    : TParams extends Tuple
+    : TParams extends readonly any[]
         ? IsNonEmptyObject<TProps> extends true
             ? IsEqual<TParams, []> extends true
-                ? (() => TReturn) & TProps
+                ? (() => TReturn)
                 : ((...args: TParams) => TReturn) & TProps
             : IsEqual<TParams, []> extends true
                 ? () => TReturn

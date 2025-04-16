@@ -1,25 +1,22 @@
 import type {
     As,
-    FromInputToken,
-    InputToken,
+    FromStringInputToken,
     InputTokenSuggestions,
     Narrowable,
-    Sort,
-    SortOptions,
 } from "inferred-types/types";
 
 type From<S extends RuntimeSort> = {
     first: S["first"] extends readonly InputTokenSuggestions[]
         ? {
-            [K in keyof S["first"]]: S["first"][K] extends InputToken
-                ? FromInputToken<S["first"][K]>
+            [K in keyof S["first"]]: S["first"][K] extends InputTokenSuggestions
+                ? FromStringInputToken<S["first"][K]>
                 : never
         }
         : [];
     last: S["last"] extends readonly InputTokenSuggestions[]
         ? {
-            [K in keyof S["last"]]: S["last"][K] extends InputToken
-                ? FromInputToken<S["last"][K]>
+            [K in keyof S["last"]]: S["last"][K] extends InputTokenSuggestions
+                ? FromStringInputToken<S["last"][K]>
                 : never
         }
         : [];
@@ -34,6 +31,8 @@ export type RuntimeSort<
     last?: S;
     offset?: string;
 };
+
+// TODO: fix strong typing
 
 export function sort<
     T extends readonly N[],
@@ -69,7 +68,7 @@ export function sort<
     }
 
     // Combine the arrays in the correct order
-    return [..._first, ..._rest, ..._last] as unknown as Sort<T, As<From<S>, SortOptions>>;
+    return [..._first, ..._rest, ..._last] //as unknown as Sort<T, From<S>>;
 }
 
 // Helper function to check if an item should be placed first

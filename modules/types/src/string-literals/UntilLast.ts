@@ -1,75 +1,98 @@
 import {
-    AfterFirst,
     As,
-    First,
-    IsEqual,
+    Contains,
+    EmptyObject,
+    Err,
+    If,
+    IsDefined,
+    IsSet,
     IsUnset,
     Join,
-    Replace,
-    RetainAfter,
-    RetainUntil,
+    Last,
+    MergeObjects,
+    Or,
+    Pop,
     Split,
-    StripLeading,
+    StripAfter,
     Unset
 } from "inferred-types/types";
 
-type DropAfter<
-    T extends readonly string[],
-    F extends string,
-    R extends readonly string[] = []
-> = [] extends T
-? R
-: IsEqual<F, First<T>> extends true
-? R
-: DropAfter<
-    AfterFirst<T>,
-    F,
-    [...R, First<T>]
->
 
-;
 
 type Until<
-    TText extends string,
+    TParts extends readonly string[],
     TFind extends string,
-> = Split<TText,TFind, "before"> extends readonly [...infer Remaining, string]
-? Remaining extends readonly string[]
-    ? Join<
-        DropAfter<Remaining, TFind>
-    >
-    : never
-: never;
+> = Last<TParts> extends TFind
+? Join<Pop<TParts>>
+: Last<TParts> extends `${infer Lead}${TFind}`
+    ? Lead
+: Last<Pop<TParts>> extends `${string}${TFind}`
+    ? Join<Pop<TParts>> extends `${infer Value extends string}${TFind}`
+        ? Value
+        : Join<Pop<TParts>>
+    : Err<`until`, ``>;
+
+
+export type UntilLastOptions = {
+    break?: Unset | string;
+    handle?: Error | string;
+}
+
+type Break<T extends UntilLastOptions> = T["break"] extends string
+    ? T["break"]
+    : Unset;
+
+type Handle<
+    T extends string,
+    O extends UntilLastOptions
+> = Or<[
+    O["handle"] extends string ? true : false,
+    O["handle"] extends Error ? true : false,
+]> extends true
+? O["handle"]
+: T;
 
 /**
- * ***UntilLast**`<TText,TFind,[TBreak]>`
+ * **UntilLast**`<TText,TFind,[TBreak],[THandle]>`
+ *
+ * Provides the text in `TText` up to (but not including) the `TFind`
+ * character.
+ *
+ * - if the `TBreak` character is provided then all text in `TText`
+ * after the _first_ occurance of the break character will be discarded
+ * before looking for the last `TFind` character.
+ * - if no instances of `TFind` are found then `THandle` will be returned
+ *      - by default `THandle` is just `TText` but you can set it
+ * what ever is most appropriate
+ *      - note that any string literal value provided will have the content
+ * _after_ the `TBreak` character removed from the string literal
+ *
+ * **Related:** `AfterLast`
  */
 export type UntilLast<
     TText extends string,
     TFind extends string,
-    TBreak extends string | Unset = Unset
-> = IsUnset<TBreak> extends true
-? Until<TText,TFind>
-: Until<RetainUntil<TText,As<TBreak, string>>, TFind>;
-
-
-type After<
-TText extends string,
-TFind extends string,
-> = Split<TText,TFind, "before"> extends readonly [...string[], infer Last extends string]
-    ? StripLeading<Last, TFind>
-    : never;
-
-
-/**
- * ***AfterLast**`<TText,TFind,[TBreak]>`
- */
-export type AfterLast<
-    TText extends string,
-    TFind extends string,
-    TBreak extends string | Unset = Unset
-> = IsUnset<TBreak> extends true
-? After<TText, TFind>
-: Join<[
-    After<RetainUntil<TText,As<TBreak, string>>, TFind>,
-    Replace<TText, RetainUntil<TText,As<TBreak, string>>, "">
-]>;
+    TOpt extends UntilLastOptions = { break: Unset, handle: TText }
+> = Contains<TText,TFind> extends true
+? As<
+    Break<TOpt> extends string
+        ? Until<
+            Split<
+                StripAfter<TText,As<Break<TOpt>, string>>,
+                TFind,
+                "before"
+            >,
+            TFind
+        >
+        : Until<
+            Split<TText,TFind, "before">,
+            TFind
+        >,
+    string
+>
+: // TFind not found
+    Handle<TText,TOpt> extends string
+        ? Break<TOpt> extends string
+            ? StripAfter<Handle<TText,TOpt>,Break<TOpt>>
+            : Handle<TText,TOpt>
+        : Handle<TText,TOpt>;

@@ -1,7 +1,6 @@
 import type {
-    AnyObject,
     Dictionary,
-    ExpandDictionary,
+    Expand,
     IsWideContainer,
     ObjectKey,
     WithKeys,
@@ -11,7 +10,7 @@ import type {
 type ProcessTupleKeys<
     TObj extends Dictionary,
     TKeys extends readonly ObjectKey[],
-> = ExpandDictionary<
+> = Expand<
     WithoutKeys<TObj, TKeys> & {
         [K in keyof WithKeys<TObj, TKeys>]?: K extends keyof TObj
             ? TObj[K]
@@ -29,10 +28,11 @@ type ProcessTupleKeys<
  * **Related:** `MakeKeysRequired`
  */
 export type MakeKeysOptional<
-    TObj extends AnyObject,
+    TObj extends Dictionary,
     TKeys extends readonly ObjectKey[],
 > = IsWideContainer<TObj> extends true
     ? TObj
     : TObj extends Dictionary
         ? ProcessTupleKeys<TObj, TKeys>
         : never;
+

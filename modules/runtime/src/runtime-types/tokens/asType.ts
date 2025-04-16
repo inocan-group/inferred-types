@@ -1,11 +1,22 @@
 import { Never } from "inferred-types/constants";
 import type {
     Err,
+    First,
     FromInputToken,
-    FromInputTokenTuple,
     InputTokenLike,
     IsGreaterThan
 } from "inferred-types/types";
+
+type AsType<T extends readonly InputTokenLike[]> = T extends [InputTokenLike]
+    ? FromInputToken<T[0]>
+    : T["length"] extends 0
+    ? Err<"invalid-token/missing","no tokens were passed into asType() function!">
+    : IsGreaterThan<T["length"], 1> extends true
+        ? T extends readonly InputTokenLike[]
+            ? FromInputToken<T>
+            : never
+    : never;
+
 
 /**
  * Receives an `InputToken` and converts the type to the
@@ -18,17 +29,9 @@ export function asType<
 >(...token: T) {
     return (
         token.length === 1
-        ? String(token[0]).trim() as unknown as FromInputToken<T[0]>
+        ? String(token[0]).trim()
         : token.length > 1
         ? "foo"
         : Never
-    ) as unknown as T["length"] extends 1
-        ? FromInputToken<T[0]>
-        : T["length"] extends 0
-        ? Err<"invalid-token/missing","no tokens were passed into asType() function!">
-        : IsGreaterThan<T["length"], 1> extends true
-            ? T extends readonly InputTokenLike[]
-                ? FromInputTokenTuple<T>
-                : never
-        : never;
+    ) as unknown as AsType<T>;
 }

@@ -2,7 +2,7 @@ import type {
     Contains,
     DefineObject,
     Dictionary,
-    FromInputToken,
+    FromStringInputToken,
     FromSimpleRecordKey,
     FromWideTokens,
     HandleDoneFn,
@@ -102,7 +102,7 @@ type _FromDefineObject<T extends Required<DefineObject>> = {
         : T[K] extends ShapeCallback
             ? FromShapeCallback<T[K]>
             : T[K] extends string
-            ? FromInputToken<T[K]>
+            ? FromStringInputToken<T[K]>
             : never
 };
 

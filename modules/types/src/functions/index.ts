@@ -1,5 +1,6 @@
 export * from "./AsFnMeta";
 export * from "./AsyncFunction";
+export * from "./ExplicitFunction";
 export * from "./FnFrom";
 export * from "./FnMeta";
 export * from "./FnProps";
@@ -15,5 +16,7 @@ export * from "./Promisify";
 export * from "./RemoveFnProps";
 export * from "./SyncFunction";
 export * from "./ToFn";
+export * from "./TypedParameter";
 export * from "./TypeGuard";
 export * from "./WrapperFn";
+

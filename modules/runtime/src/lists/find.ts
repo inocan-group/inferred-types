@@ -22,6 +22,8 @@ export type Finder<
     TDeref
 >;
 
+// TODO: Fix this typing once the runtime types have settled
+
 /**
  * **find**(list, [deref]) => (value) => el | undefined
  *
@@ -31,10 +33,14 @@ export type Finder<
 export function find<
     TList extends Tuple,
     TDeref extends string | number | null = null,
->(list: TList, deref: TDeref = null as TDeref): Finder<TList, TDeref> {
+>(
+    list: TList,
+    deref: TDeref = null as TDeref
+) {
+
     return <
         TExtends extends Narrowable | ShapeCallback,
-    >(comparator: TExtends): Find<TList, "equals", FromDefn<TExtends>, TDeref> => {
+    >(comparator: TExtends) => {
         return list.find((i: any) => {
             const val: any = deref
                 ? isObject(i) || isArray(i)

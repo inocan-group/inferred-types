@@ -18,7 +18,7 @@ type Process<
     TComparator,
 > = [] extends TElements
     ? false
-    : [WhenNever<Compare<First<TElements>, TOp, TComparator>>] extends [true]
+    : [Compare<First<TElements>, TOp, TComparator>] extends [true]
         ? true
         : Process<
             AfterFirst<TElements>,

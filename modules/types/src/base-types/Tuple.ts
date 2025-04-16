@@ -6,7 +6,7 @@ type _Tuple<
     TType = unknown,
     TLength extends number | TupleRange | `${number}+` = 0,
 > = 0 extends TLength
-    ? TType extends any[]
+    ? TType extends unknown[]
         ? Readonly<TType>
         : readonly TType[]
     : TLength extends number

@@ -1,6 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 import { Not } from "inferred-types/types";
+import { LogicFunction } from "transpiled/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -24,8 +25,9 @@ describe("Not<T>", () => {
             Expect<Equal<FnFalse, false>>,
             Expect<Equal<FnTrue, true>>,
         ];
-        const cases: cases = [true, true, true, true, true, true];
     });
+
+    type X = (()=> true) extends LogicFunction ? true : false;
 
 
     it("with tuple value", () => {

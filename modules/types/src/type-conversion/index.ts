@@ -1,9 +1,5 @@
 // #autoindex
 
-// #region auto-indexed files
-// index last changed at: 8th Aug, 2022, 09:51 AM ( GMT-7 )
-// hash-code: 200001fa
-
 export * from "./AsBoolean";
 export * from "./AsContainer";
 export * from "./AsDefined";
@@ -38,24 +34,27 @@ export * from "./ObjectToJsonString";
 export * from "./ObjectToJsString";
 export * from "./ObjectToKeyframeString";
 export * from "./ObjectToTuple";
+export * from "./Promised";
 export * from "./ReduceValues";
 export * from "./RemoveFromEnd";
 export * from "./RemoveFromStart";
 export * from "./RemoveIndex";
 export * from "./RenameKey";
 export * from "./Replace";
-export * from "./ReplaceType";
 export * from "./ReplaceAll";
 export * from "./ReplaceAllFromTo";
 export * from "./ReplaceAllToFrom";
 export * from "./ReplaceFromTo";
 export * from "./ReplaceKeys";
+export * from "./ReplaceType";
 export * from "./RetainChars";
 export * from "./ReturnValues";
 export * from "./RightWhitespace";
+export * from "./TrimDictionary";
 export * from "./StringLength";
 export * from "./StringLiteralFromTuple";
 export * from "./StripChars";
+export * from "./Synchronous";
 export * from "./ToBoolean";
 export * from "./ToContainer";
 export * from "./ToKeyValueTuple";
@@ -64,6 +63,7 @@ export * from "./ToString";
 export * from "./ToStringArray";
 export * from "./ToUnion";
 export * from "./Trim";
+export * from "./TrimEach";
 export * from "./TrimLeft";
 export * from "./TrimRight";
 export * from "./TupleToUnion";
@@ -78,3 +78,4 @@ export * from "./ValueOrReturnValue";
 export * from "./Widen";
 export * from "./WidenValues";
 export * from "./WithDefault";
+

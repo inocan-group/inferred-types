@@ -1,4 +1,4 @@
-import type { Whitespace } from "inferred-types/types";
+import type { As, Whitespace } from "inferred-types/types";
 
 type Process<
     S extends string,
@@ -21,6 +21,10 @@ type Process<
  */
 export type Trim<
     S extends string,
-> = Process<S> extends string
-    ? Process<S>
-    : never;
+> = As<
+    Process<S> extends string
+        ? Process<S>
+        : never,
+    string
+>;
+

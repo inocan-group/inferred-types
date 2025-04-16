@@ -14,7 +14,7 @@ export default defineConfig({
     dir: "tests",
     typecheck: {
       include: ["tests/**/*.{test,spec}.ts"]
-    }
+    },
   },
   plugins: [],
 });

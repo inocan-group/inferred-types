@@ -4,7 +4,7 @@ import type {
     ObjectMapConversion,
 } from "inferred-types/types";
 import {
-    createFnWithPropsExplicit,
+    createFnWithProps,
     isFunction,
 } from "inferred-types/runtime";
 
@@ -34,7 +34,7 @@ function asMapper<
         },
     };
 
-    return createFnWithPropsExplicit(fn, props) as unknown as Mapper<
+    return createFnWithProps(fn, props) as unknown as Mapper<
         TFrom,
         TTo
     >;

@@ -1,3 +1,4 @@
+import { IsLiteralFn } from "src/boolean-logic";
 import type { TypedFunction } from "./TypedFunction";
 
 /**
@@ -8,4 +9,4 @@ import type { TypedFunction } from "./TypedFunction";
  */
 export type JustFunction<
     TFn extends TypedFunction,
-> = <T extends readonly unknown[]>(...args: T & Parameters<TFn>) => ReturnType<TFn>;
+> = (...args: Parameters<TFn>) => ReturnType<TFn>;

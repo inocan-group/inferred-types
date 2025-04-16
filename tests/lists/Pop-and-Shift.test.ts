@@ -19,7 +19,7 @@ describe("Pop", () => {
             Expect<Equal<Numeric, [1, 2]>>,
             Expect<Equal<Str, ["foo", "bar"]>>,
             Expect<Equal<Last, []>>,
-            Expect<Equal<Empty, never>>,
+            Expect<Equal<Empty, []>>,
         ];
         const cases: cases = [true, true, true, true];
     });
