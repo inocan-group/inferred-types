@@ -1,35 +1,34 @@
 import type {
-    Container,
-    NumericKeys,
-    SKeys,
-    Tuple,
+    As,
+    Keys,
+    Narrowable,
+    NarrowContainer,
+    ObjectKey,
 } from "inferred-types/types";
 import { isVueRef } from "inferred-types/runtime";
 
 /**
  * **keysOf**(container)
  *
- * Provides a read-only array of the _keys_ of an object (or array) contains.
+ * Provides a read-only array of the _keys_ of an object contains.
  *
  * **Note:** this function is aware of Ref<T> types from VueJS and will return
  * `readonly ["value"]` as the keys array when detected rather than reporting
  * on props like `__v_isRef`, etc.
  */
 export function keysOf<
-    TContainer extends Container,
+    TObj extends NarrowContainer<N>,
+    N extends Narrowable
 >(
-    container: TContainer,
+    container: TObj,
 ) {
     const keys: unknown = (
         isVueRef(container)
             ? ["value"]
-            : Array.isArray(container)
-                ? Object.keys(container).map(i => Number(i))
-                : Object.keys(container)
+            : Object.keys(container)
     );
-    return keys as TContainer extends Tuple
-        ? NumericKeys<TContainer>
-        : TContainer extends object
-            ? SKeys<TContainer>
-            : never;
+
+    return keys as As<Keys<TObj>, Array<keyof TObj & ObjectKey>>
 }
+
+
