@@ -5,11 +5,8 @@ import { describe, it } from "vitest";
 describe("NestedSplit<TContent,TSplit,TNesting,TPolicy>", () => {
 
     it("avoiding objects", () => {
-        type T1 = NestedSplit<
-            "WeakMap<{id: number, data: Array<string>}, string>",
-            ",",
-            { "{":"}" }
-        >;
+        type Text = "WeakMap<{id: number, data: Array<string>}, string>";
+        type T1 = NestedSplit<Text,",",{ "{":"}" }>;
 
         type cases = [
             Expect<Equal<
@@ -30,9 +27,27 @@ describe("NestedSplit<TContent,TSplit,TNesting,TPolicy>", () => {
         >;
 
         type cases = [
+            Expect<Equal<T1, ["string | Number<4>", " | string"]>>
+        ];
+    });
+
+
+    it("last character is split character leaves an empty string at end of tuple result", () => {
+        type T1 = NestedSplit<"Foobar>", ">">;
+
+        type cases = [
+
+        ];
+    });
+
+    it("no split character found results in a tuple of length 1", () => {
+        type T1 = NestedSplit<"Foobar", ">">;
+
+        type cases = [
             /** type tests */
         ];
     });
+
 
 
 });

@@ -18,3 +18,13 @@ export function typedError<
 
     return err as Err<T, M>;
 }
+
+export function err<
+    T extends string,
+    M extends string,
+>(
+    type: T,
+    message: M = "" as M
+) {
+    return typedError(type,message);
+}

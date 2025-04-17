@@ -11,7 +11,9 @@ import {
     Pop,
     Err,
     Join,
-    IsGreaterThan
+    IsGreaterThan,
+    IsWideString,
+    Or
 } from "inferred-types/types";
 
 /**
@@ -137,6 +139,13 @@ type Process<
 : Err<`nested-split/unbalanced`, `The Parse<...> utility had an imbalanced nesting with ${Length<TNesting>} nesting layers remaining: ${Join<TNesting, ", ">}`>;
 
 
+type DefaultNesting = {
+    "{":"}",
+    "[": "]",
+    "<":">",
+    "(":")"
+};
+
 /**
  * **NestedSplit**`<TContent,TSplit,TNesting,[TPolicy]>`
  *
@@ -155,20 +164,27 @@ type Process<
  * before completion
  * - The `TPolicy` settings defaults to "omit" which means
  * that
+ * - If no nesting policy is provided then the default policy
+ * is to use all bracket characters: `{ "{":"}", "[": "]", "<":">", "(":")" }`
  */
 export type NestedSplit<
     TContent extends string,
     TSplit extends string,
-    TNesting extends Record<string,string>,
+    TNesting extends Record<string,string> = DefaultNesting,
     TPolicy extends Policy = "omit"
-> = Process<TContent,TSplit,TNesting, TPolicy>;
+> = Or<[
+    IsWideString<TContent>,
+    IsWideString<TSplit>
+]> extends true
+? string[]
+: Process<TContent,TSplit,TNesting, TPolicy>;
 
 
 
 
 // DEBUGGING
-type T = "WeakMap<{id: number, data: Array<string>}, string>"
-type TParse = NestedSplit<T, ",", { "{": "}" }>
+// type T = "WeakMap<{id: number, data: Array<string>}, string>"
+// type TParse = NestedSplit<T, ",", { "{": "}" }>
 //      ^?
 
 

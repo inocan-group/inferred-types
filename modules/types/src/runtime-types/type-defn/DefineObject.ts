@@ -1,4 +1,7 @@
-import type { FromDefn, InputTokenSuggestions, ShapeCallback, SimpleToken } from "inferred-types/types";
+import type {
+    FromDefn,
+    InputTokenLike,
+} from "inferred-types/types";
 
 /**
  * **DefineObject**
@@ -18,7 +21,7 @@ import type { FromDefn, InputTokenSuggestions, ShapeCallback, SimpleToken } from
  *
  * - typically used `FromDefn` or `FromDefineObject` utilities
  */
-export type DefineObject = { [key: string]: InputTokenSuggestions | ShapeCallback }
+export type DefineObject = { [key: string]: InputTokenLike }
 
 /**
  * **DefineObjectApi**

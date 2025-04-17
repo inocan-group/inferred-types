@@ -178,7 +178,7 @@ describe("asType(token)", () => {
 
         const fuzzy = asType({
             foo: "string | undefined",
-            bar: "Array<boolean> | Boolean(false)"
+            bar: "Array<boolean> | false"
         });
 
         const propError = asType({
@@ -189,6 +189,7 @@ describe("asType(token)", () => {
         type cases = [
             Expect<Equal<typeof fooBar, { foo: string; bar: number }>>,
             Expect<Equal<typeof fuzzy, { foo: string | undefined; bar: false | boolean[] }>>,
+
             Expect<Extends<typeof propError, Error>>,
             Expect<Contains<typeof propError["message"], "problem with 'bar' key">>
         ];

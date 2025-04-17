@@ -16,7 +16,11 @@ export type IT_TakeAtomic<
     TContainers extends readonly IT_ContainerType[] = []
 > = Trim<T> extends `${IT_AtomicToken}${infer Rest}`
     ? Trim<T> extends `${infer Token extends IT_AtomicToken}${Rest}`
-    ? FromStringInputToken<Rest, [...TInner, ConvertAtomic<Token>], TContainers>
+    ? FromStringInputToken<
+        Rest,
+        [...TInner, ConvertAtomic<Token>],
+        TContainers
+    >
     : never
     : Unset;
 
@@ -34,6 +38,8 @@ type ConvertAtomic<
     ? null
     : T extends "undefined"
     ? undefined
+    : T extends "void"
+    ? void
     : T extends "unknown"
     ? unknown
     : T extends "any"
@@ -49,4 +55,3 @@ type ConvertAtomic<
     : Err<"invalid-token/atomic", `The token '${T}' is not a valid atomic token!`>;
 
 
-type X = IT_TakeAtomic<"number">;

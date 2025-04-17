@@ -1,25 +1,12 @@
 import type {
-    AfterFirst,
-    AnyObject,
-    As,
-    First,
+    Dictionary,
     IsWideContainer,
-    Keys,
-    ObjectKey,
     Or,
+    Some,
+    StringKeys,
 } from "inferred-types/types";
 
-type Overlap<
-    TKeys extends readonly ObjectKey[],
-    TComparator extends AnyObject,
-> = [] extends TKeys
-    ? false
-    : First<TKeys> extends keyof TComparator
-        ? true
-        : Overlap<
-            AfterFirst<TKeys>,
-            TComparator
-        >;
+
 
 /**
  * **KeysOverlap**`<A,B>`
@@ -27,12 +14,13 @@ type Overlap<
  * Boolean operator which tests whether two objects -- `A` and `B` -- have
  * overlapping keys.
  */
-export type KeysOverlap<A extends AnyObject, B extends AnyObject> = Or<[
+export type KeysOverlap<A extends Dictionary, B extends Dictionary> = Or<[
     IsWideContainer<A>,
     IsWideContainer<B>,
 ]> extends true
     ? boolean
-    : Overlap<
-        As<Keys<A>, readonly ObjectKey[]>,
-        B
-    >;
+    : Some<
+        StringKeys<A>,
+        "extends",
+        StringKeys<B>
+    >

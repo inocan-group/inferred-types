@@ -1,72 +1,131 @@
 import type {
+    As,
     Err,
     FailFast,
     FromStringInputToken,
-    Narrowable,
+    IsWideString,
+    Join,
+    NestedSplit,
     ObjectKey,
+    RetainAfter,
+    Success,
     Trim,
     Unset,
+    WhenErr,
 } from "inferred-types/types";
 import type {
     IT_ContainerType
 } from "src/runtime-types/type-defn/input-tokens/_base";
 
+type InnerRest = { inner: string; rest: string }
 
-type RecordKey<
-    K extends string,
-    V extends string
-> = FromStringInputToken<K> extends Error
-? Err<
-    `invalid-token/record`,
-    `Invalid Record Key!`,
+type Segment<
+    T extends string,
+    U extends readonly string[] = NestedSplit<RetainAfter<T, "Record<">,">">
+> = U extends [infer I extends string, ...infer REST extends string[]]
+? {
+    inner: Trim<I>,
+    rest: Trim<Join<REST>>
+}
+: Err<`invalid-token/record`, `Unable to parse Record Token: ${Trim<T>}`>;
+
+type Rest<T extends string> = Segment<T> extends InnerRest
+? Segment<T>["rest"]
+: "";
+
+type Key<
+    T extends string,
+    S extends InnerRest | Error = Segment<T>
+> = IsWideString<T> extends true
+? string | Error
+: S extends InnerRest
+    ? NestedSplit<S["inner"],",">[0] extends string
+        ? NestedSplit<S["inner"],",">[0]
+        : never
+    : S extends Error
+        ? S
+        : never;
+
+type KeyType<
+    T extends string,
+    K extends string = Success<Key<T>>,
+    V extends string = Success<Value<T>>
+> = IsWideString<T> extends true
+? unknown | Error
+: WhenErr<
+    FromStringInputToken<K>,
     {
-        token: K,
-        cause: `the key for the Record<${K},${V}> type could not be parsed!`,
-        subType: "record"
+        in: `Map<${K}, ${V}>`,
+        message: `Could not parse the Key token in Map<${K}, ${V}>`
     }
->
-: FromStringInputToken<K> extends ObjectKey
-    ? FromStringInputToken<K>
+>;
+
+type ValidKey<
+    T extends string,
+    KT extends unknown = Success<KeyType<T>>,
+    K extends string = Success<Key<T>>,
+    V extends string = Success<Value<T>>
+> = IsWideString<T> extends true
+? ObjectKey | Error
+: KT extends ObjectKey
+    ? KT
     : Err<
         `invalid-token/record`,
-        `The key token for Record<${K},${V}> was parsed but doesn't extends string or symbol!`
-    >;
+        `The Record<${K},${V}> had both key and value parsed into types but the key does not extend ObjectKey!`,
+        { key: KT }
 
-type RecordValue<
-    K extends string,
-    V extends string
-> = FromStringInputToken<V> extends Error
-? Err<`invalid-token/record`, `The Record<${K},${V}> had an invalid value!`, {
-    in: `Record<${K},${V}>`,
-    cause: `The value token for the Record was invalid!`
-}>
-: FromStringInputToken<V>;
+    >
+
+;
+type Value<
+    T extends string,
+    S extends InnerRest | Error = Segment<T>
+> = IsWideString<T> extends true
+? string | Error
+: S extends InnerRest
+? NestedSplit<S["inner"],","> extends [infer Val extends string, ...string[]]
+    ? Val
+    : Err<
+        `invalid-token/map`,
+        `The Map token did not provide a ',' separator to delinate the key token from the value token!`,
+        { key: S["inner"][0], rest: Rest<T>, token: Trim<T>}
+    >
+: S;
+
+type ValueType<
+    T extends string,
+    K extends string = Success<Key<T>>,
+    V extends string = Success<Value<T>>
+> = IsWideString<T> extends true
+? unknown | Error
+: WhenErr<
+    FromStringInputToken<V>,
+    {
+        subType: "record",
+        in: `Record<${K},${V}>`,
+        message: `Could not parse the Value token of Map<${K},${V}>`
+    }
+>;
+
+type Parse<
+    T extends string
+> = FailFast<[
+    KeyType<T>,
+    ValueType<T>,
+    ValidKey<T>,
+    Record<Success<ValidKey<T>>, Success<ValueType<T>>>
+]>
 
 export type IT_TakeRecord<
     T extends string,
     TInner extends readonly any[] = [],
-    _TContainers extends readonly IT_ContainerType[] = []
-> = Trim<T> extends `Record<${infer Key extends string},${infer Val extends string}>${infer Rest}`
-    ? FailFast<
-        [
-            RecordKey<Key,Val>,
-            RecordValue<Key, Val>,
-            RecordKey<Key,Val> extends ObjectKey
-                ? undefined
-                : Err<`invalid-token/record`, `The key in Record<${Key}, ${Val}> was parsed but did not meet the requirement of being a string or symbol type!`>,
-            FromStringInputToken<
-                Rest,
-                [
-                    ...TInner,
-                    Record<
-                        RecordKey<Key,Val> & ObjectKey,
-                        RecordValue<Key,Val>
-                    >
-                ]
-            >
-
-        ],
-        { failureConditions: { error: true }}
+    TContainers extends readonly IT_ContainerType[] = []
+> = Trim<T> extends `Record<${string}`
+? Parse<T> extends Error
+    ? Parse<T>
+    : FromStringInputToken<
+        Rest<T>,
+        [ ...TInner, Parse<T> ],
+        TContainers
     >
-    : Unset;
-
+: Unset;
