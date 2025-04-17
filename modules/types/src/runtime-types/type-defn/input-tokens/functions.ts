@@ -335,7 +335,11 @@ export type IT_TakeFunction<
     TInner extends readonly any[] = [],
     TContainers extends readonly IT_ContainerType[] = []
 > = Trim<T> extends `${Start}${string}`
-? Contains<T, "function*"> extends true
+? Or<[
+    Trim<T> extends `Generator<${string}` ? true : false,
+    Trim<T> extends `AsyncGenerator<${string}` ? true : false,
+    Trim<T> extends `${string}function *${string}` ? true : false
+]> extends true
     ? Unset
 : FailFast<[
     Parse<T>,

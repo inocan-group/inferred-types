@@ -30,22 +30,6 @@ describe("defineObject()", () => {
         ];
     });
 
-    it("using callbacks to define", () => {
-        const fooBar = defineObject({
-            foo: t => t.string().endsWith("bar"),
-            bar: t => t.string("foo", "bar")
-        });
-
-        type FooBar = typeof fooBar;
-
-        type cases = [
-            Expect<Equal<FooBar, {
-                foo: `${string}bar`,
-                bar: "foo" | "bar"
-            }>>
-        ];
-    });
-
 
     it("using optional property syntax", () => {
         const fooBar = defineObject({

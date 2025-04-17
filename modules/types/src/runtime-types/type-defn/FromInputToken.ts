@@ -32,9 +32,10 @@ import type {
     IT_TakeTerminalDelimiter,
     IT_TakeUnionDelimiter,
     IT_TakeFunction,
+    IT_TakeGenerator,
     IT_TakeObject
 } from "./input-tokens/index";
-import { IT_TakeGenerator } from "src/runtime-types/type-defn/input-tokens/generators";
+
 
 export type {
     IT_ArrToken,
@@ -151,7 +152,7 @@ export type FromStringInputToken<
     IT_TakeObject<TToken, TInner, TContainers>,
     IT_TakeTuple<TToken, TInner, TContainers>,
     IT_TakeFunction<TToken, TInner, TContainers>,
-    // IT_TakeGenerator<TToken, TInner, TContainers>,
+    IT_TakeGenerator<TToken, TInner, TContainers>,
 
     IT_TakeTerminalDelimiter<TToken, TInner, TContainers>,
     IT_TakeUnionDelimiter<TToken, TInner, TContainers>,

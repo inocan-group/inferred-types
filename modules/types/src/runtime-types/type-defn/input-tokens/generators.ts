@@ -2,10 +2,12 @@ import type {
     Contains,
     Err,
     FromStringInputToken,
+    Join,
     NestedSplit,
     RetainAfter,
     RetainBetween,
     StripLeading,
+    StripTrailing,
     Trim,
     Unset,
     WhenErr
@@ -16,16 +18,14 @@ import {
 
 type IsolateParams<
     T extends string,
-    P extends readonly [string, ...string[]] = NestedSplit<
+    P = NestedSplit<
         RetainAfter<T, `function* ${string}(`>,
-        ")",
-        {
-            "{":"}",
-            "[":"]",
-            "(":")"
-        }
+        ")"
         >
-> = P[0];
+> = P extends readonly [string, ...string[]]
+? P[0]
+: never;
+
 
 type IsolateName<
     T extends string
@@ -46,46 +46,41 @@ type IsolateReturn<
  */
 type IsolateGenerator<
     T extends string,
-    I extends readonly [string, ...string[]] = NestedSplit<
+    I = NestedSplit<
         StripLeading<Trim<T>, `${"Async" | ""}Generator<`>,
-            ">",
-            {
-                "{":"}",
-                "[":"]",
-                "(":")"
-            }
+            ">"
         >
-> = I[0];
+> = I extends readonly [infer Gen extends string, ...string[]]
+? Gen
+: never;
 
+/** The REST of the Token after an explicit Generator/AsyncGenerator token */
 type GeneratorRest<
     T extends string,
-    I extends readonly [string, ...string[]] = NestedSplit<
+    I = NestedSplit<
         StripLeading<Trim<T>, `${"Async" | ""}Generator<`>,
-            ">",
-            {
-                "{":"}",
-                "[":"]",
-                "(":")"
-            }
+            ">"
         >
-> = Trim<I[1]>;
+> = I extends readonly [string, infer Rest extends readonly string[]]
+? Trim<Join<Rest>>
+: never;
 
+/**
+ * Parse the types expressed in the Generator type
+ */
 type ParseGenerator<
     T extends string,
     P extends readonly string[] = NestedSplit<
         StripLeading<Trim<T>, `${"Async" | ""}Generator<`>,
-        ",",
-        {
-            "{":"}",
-            "[":"]",
-            "(":")"
-        }
+        ","
     >
-> = {
-    [K in keyof P]: P[K] extends string
-        ? FromStringInputToken<Trim<P[K]>>
-        : never
-}
+> = P extends [infer A extends string, infer B extends string, infer C extends string]
+? [
+    FromStringInputToken<Trim<A>>,
+    FromStringInputToken<Trim<B>>,
+    FromStringInputToken<StripTrailing<Trim<C>,">">>
+]
+: never;
 
 type FinalizeGenerator<
     T extends string,
@@ -115,7 +110,7 @@ export type IT_TakeGenerator<
         [...TInner, FinalizeGenerator<T>],
         TContainers
     >
-: Trim<T> extends `${"async " | ""}${string}function*${string}(`
+: Trim<T> extends `${string}function* ${string}(`
 ? Err<`invalid-token/generator`, 'runtime syntax not ready', { generator: IsolateGenerator<T>}>
 : Unset;
 

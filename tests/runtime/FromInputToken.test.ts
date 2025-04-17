@@ -157,9 +157,19 @@ describe("FromInputToken<Token>", () => {
         type G1 = FromInputToken<
             "Generator<number,string,boolean>"
         >;
+        type G2 = FromInputToken<
+            "AsyncGenerator<number,void,string>"
+        >;
 
         type cases = [
-            /** type tests */
+            Expect<Equal<
+                G1,
+                Generator<number, string, boolean>
+            >>,
+            Expect<Equal<
+                G2,
+                AsyncGenerator<number, void, string>
+            >>,
         ];
     });
 
@@ -263,6 +273,7 @@ describe("FromInputToken<Token>", () => {
         type AN = FromInputToken<"Array<number>">;
         type AR = FromInputToken<"Array<Record<string,string>>">;
         type AU = FromInputToken<"Array<string | number>">;
+        type AB = FromInputToken<"Array<boolean>">;
 
         type Incomplete = FromInputToken<"Array<string">;
 
@@ -271,8 +282,23 @@ describe("FromInputToken<Token>", () => {
             Expect<Equal<AN, number[]>>,
             Expect<Equal<AR, Record<string, string>[]>>,
             Expect<Equal<AU, (string | number)[]>>,
+            Expect<Equal<AB, boolean[]>>,
 
             Expect<Extends<Incomplete, Err<"invalid-token/array">>>,
+        ];
+    });
+
+
+    it("Array<...> as part of union", () => {
+        type AU1 = FromInputToken<"Array<boolean> | false">;
+        type AU2 = FromInputToken<"Array<boolean> | string">;
+
+        type AU3 = FromInputToken<"false | Array<boolean>">;
+
+        type cases = [
+            Expect<Equal<AU1, false | boolean[]>>,
+            Expect<Equal<AU2, string | boolean[]>>,
+            Expect<Equal<AU3, false | boolean[]>>,
         ];
     });
 
@@ -282,11 +308,10 @@ describe("FromInputToken<Token>", () => {
         type S2 = FromInputToken<"Set<string | number>">;
 
         type cases = [
-            /** type tests */
+            Expect<Equal<S1, Set<string>>>,
+            Expect<Equal<S2, Set<string | number>>>,
         ];
     });
-
-
 
     it("parse Map<k,v> type", () => {
         type M1 = FromInputToken<"Map<Object, Object>">;

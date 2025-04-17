@@ -1,7 +1,14 @@
 import type {
     DefineObject,
+    Dictionary,
+    Err,
     FromDefineObject,
-    MakeKeysOptional
+    Length,
+    MakeKeysOptional,
+    Some,
+    Values,
+    KeysWithError,
+    ToKeyValueTuple,
 } from "inferred-types/types";
 
 type Returns<
@@ -13,12 +20,18 @@ type Returns<
         ? FromDefineObject<MakeKeysOptional<T, P>>
         : never;
 
+type HandleError<T> = T extends Dictionary
+? Some<Values<T>, "extends", Error> extends true
+    ? Err<
+        `invalid-token/object`,
+        `At least one key in the defined object have errors`,
+        { keys: KeysWithError<T>, obj: T}
+    >
+    : T
+: never;
+
 /**
- * Takes an object definition where the values are one of the following
- * types:
- *      - `SimpleToken` representations of a type
- *      - a `ShapeCallback` which returns a type, or
- *      - an `InputToken` representation of a type.
+ * Takes an object definition where the values are an `InputToken`:
  *
  * The runtime type is left unchanged but the _type_ returned is that which
  * the token or callback expresses.
@@ -29,6 +42,33 @@ export function defineObject<
 >(
     defn: T,
     ..._optProps: P
-): Returns<T, P> {
-    return defn as unknown as Returns<T, P>;
+): HandleError<Returns<T, P>> {
+    return defn as unknown as HandleError<Returns<T, P>>;
 }
+
+
+type T = {
+    foo: number;
+    bar: {
+        name: "InvalidToken";
+        message: "An Array<...> token was encountered but the '<' and '>' characters were not in balance!";
+        stack?: string | undefined;
+        cause?: unknown;
+        type: "invalid-token";
+        subType: "array";
+    };
+}
+
+type KV = ToKeyValueTuple<T>;
+type K = KeysWithError<T>
+type T2 = HandleError<T>;
+
+type Test = {
+    name: "InvalidToken";
+    message: "An Array<...> token was encountered but the '<' and '>' characters were not in balance!";
+    stack?: string | undefined;
+    cause?: unknown;
+    type: "invalid-token";
+    subType: "array";
+}
+type X = Test extends Error ? true : false;

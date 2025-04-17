@@ -22,6 +22,11 @@ import type {
     Values,
     WideContainerNames,
     WideTokenNames,
+    InputTokenLike,
+    FromInputToken,
+    Some,
+    Err,
+    FromDefineObject,
 } from "inferred-types/types";
 
 type ProcessUnion<
@@ -96,27 +101,6 @@ export type FromShapeCallback<
  */
 export type FromSimpleToken<T extends SimpleToken> = SimpleType<T>;
 
-type _FromDefineObject<T extends Required<DefineObject>> = {
-    [K in keyof T]: T[K] extends SimpleToken
-        ? FromSimpleToken<T[K]>
-        : T[K] extends ShapeCallback
-            ? FromShapeCallback<T[K]>
-            : T[K] extends string
-            ? FromStringInputToken<T[K]>
-            : never
-};
-
-/**
- * Converts a `DefineObject` _definition_ into the **type** which it
- * it defines.
- */
-export type FromDefineObject<T extends DefineObject> =
-  MakeKeysOptional<
-      _FromDefineObject<Required<T>>,
-      UnionToTuple<OptionalKeys<T>> extends readonly ObjectKey[]
-          ? UnionToTuple<OptionalKeys<T>>
-          : never
-  >;
 
 /**
  * **FromDefn**`<T, [TElse]>`

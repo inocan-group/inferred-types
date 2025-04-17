@@ -2,6 +2,7 @@ import type {
     AfterFirst,
     AlphaChar,
     AlphaNumericChar,
+    As,
     CsvToUnion,
     Dictionary,
     EmptyObject,
@@ -14,8 +15,11 @@ import type {
     IsVariable,
     Keys,
     KeysOverlap,
+    MergeObjects,
     SimpleToken,
+    Some,
     Split,
+    StringKeys,
     Variable,
 } from "inferred-types/types";
 
@@ -101,15 +105,16 @@ type PathDynamics<
  */
 export type GetUrlPathDynamics<
     T extends string,
-> = PathDynamics<
+> = As<PathDynamics<
     Split<T, "<", "after">
+>, Record<string,unknown>
 >;
 
 type QueryParameterDynamics<
     T extends readonly string[],
     R extends Dictionary = EmptyObject,
 > = [] extends T
-    ? ExpandDictionary<R>
+    ? As<ExpandDictionary<R>, Record<string, unknown>>
     : QueryParameterDynamics<
         AfterFirst<T>,
         First<T> extends `${infer Var}=<string(${infer Params})>`
@@ -129,14 +134,22 @@ export type GetQueryParameterDynamics<
         : Split<GetUrlQueryParams<T>, "&">
 >;
 
-type PathAndQueryDynamics<T extends string> = KeysOverlap<
-    GetUrlPathDynamics<GetUrlPath<T>>,
-    GetQueryParameterDynamics<GetUrlQueryParams<T>>
-> extends true
-    ? ErrMsg<"overlapping-keys", { path: Keys<GetUrlPathDynamics<GetUrlPath<T>>>; qp: Keys<GetQueryParameterDynamics<GetUrlQueryParams<T>>> }>
-    : ExpandDictionary<
-  GetUrlPathDynamics<GetUrlPath<T>> & GetQueryParameterDynamics<GetUrlQueryParams<T>>
-    >;
+type PathAndQueryDynamics<T extends string> = GetUrlPathDynamics<GetUrlPath<T>> extends Dictionary
+    ? GetQueryParameterDynamics<GetUrlQueryParams<T>> extends Dictionary
+        ? Some<
+            StringKeys<GetUrlPathDynamics<GetUrlPath<T>>>,
+            "extends",
+            GetQueryParameterDynamics<GetUrlQueryParams<T>>
+        > extends true
+            ?  ErrMsg<"overlapping-keys", { path: Keys<GetUrlPathDynamics<GetUrlPath<T>>>; qp: Keys<GetQueryParameterDynamics<GetUrlQueryParams<T>>> }>
+            : MergeObjects<
+                GetUrlPathDynamics<GetUrlPath<T>>,
+                GetQueryParameterDynamics<GetUrlQueryParams<T>>
+            >
+        : never
+    : never;
+
+
 
 export interface GetUrlDynamics<T extends string> {
     /**
