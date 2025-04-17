@@ -1,4 +1,4 @@
-import type { Dictionary } from "inferred-types/types";
+import type { Dictionary, Narrowable, ObjectKey } from "inferred-types/types";
 
 /**
  * **Container**
@@ -12,3 +12,13 @@ import type { Dictionary } from "inferred-types/types";
 export type Container =
     | Dictionary
     | readonly unknown[];
+
+/**
+ * **NarrowContainer**`<N>`
+ *
+ * Produces a type which has maximal runtime inference capabilility
+ * of either a Tuple or Dictionary container type.
+ */
+export type NarrowContainer<N extends Narrowable> =
+| Dictionary<ObjectKey,N>
+| readonly N[];
