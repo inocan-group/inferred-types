@@ -7,7 +7,7 @@ import {
     FromStringInputToken,
     FromTupleInputToken,
 } from "inferred-types/types";
-import { Extends, TypedFunction } from "transpiled/types";
+import { Extends, TypedFunction } from "inferred-types/types";
 
 describe("FromInputToken<Token>", () => {
     it("atomic tokens with FromStringInputToken<...>", () => {

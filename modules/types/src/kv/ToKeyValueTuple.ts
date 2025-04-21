@@ -1,6 +1,6 @@
 import type {
     AnyObject,
-    ObjectToTuple,
+    ToKv,
 } from "inferred-types/types";
 
 /**
@@ -14,8 +14,10 @@ import type {
  * type T = ToKeyValueTuple<{ foo: 1 }>
  * ```
  *
- * **Related:** `ObjectToTuple`, `FromKeyValueTuple`
+ * **Related:** `ToKv`, `FromKv`
+ *
+ * @deprecated prefer use of `ToKv`
  */
 export type ToKeyValueTuple<
     TObj extends AnyObject,
-> = ObjectToTuple<TObj, false>;
+> = ToKv<TObj, false>;
