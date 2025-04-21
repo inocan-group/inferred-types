@@ -1,23 +1,23 @@
 import { Never } from "inferred-types/constants";
 import type {
-    Err,
     FromInputToken,
     InputTokenLike,
-    IsGreaterThan
 } from "inferred-types/types";
-import { defineObject } from "src/dictionary";
-import { err } from "src/errors";
-import { isDefineObject, isString } from "src/type-guards";
+import {
+    defineObject,
+    err,
+    isDefineObject,
+    isString
+} from "inferred-types/runtime";
+
 
 type AsType<T extends readonly InputTokenLike[]> = T extends [InputTokenLike]
     ? FromInputToken<T[0]>
-    : T["length"] extends 0
-    ? Err<"invalid-token/missing","no tokens were passed into asType() function!">
-    : IsGreaterThan<T["length"], 1> extends true
-        ? T extends readonly InputTokenLike[]
-            ? FromInputToken<T>
-            : never
-    : never;
+    : T extends readonly InputTokenLike[]
+            ? {
+                [K in keyof T]: FromInputToken<T[K]>
+            }
+            : never;
 
 
 /**
@@ -40,7 +40,7 @@ export function asType<
                     `invalid-token/structure`,
                     `Call to asType() passed in a singular type value but it was neither an object or string definition! If you wanted to create a tuple type then pass in the items in the tuple inline.`)
         : token.length > 1
-        ? "foo"
+        ? "TUPLE"
         : Never
     ) as unknown as AsType<T>;
 }

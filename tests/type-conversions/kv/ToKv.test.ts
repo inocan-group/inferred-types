@@ -1,5 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import {  ToKv } from "inferred-types/types";
+import { defineObj, toKeyValue } from "inferred-types/runtime";
+import {  NarrowObject, ToKv } from "inferred-types/types";
+import { Narrowable } from "transpiled/types";
 import { describe, it } from "vitest";
 
 
@@ -7,25 +9,40 @@ describe("ToKv<T>", () => {
 
     it("happy path", () => {
         type Foobar = ToKv<{ foo: 1; bar: "hi" }>;
-        type FoobarNoSort = ToKv<{ foo: 1; bar: "hi" }, false>;
-        type Manual = ToKv<{ foo: 1; bar: "hi" }, ["bar", "foo"]>;
 
-
-        // @ts-ignore
         type cases = [
             Expect<Equal<Foobar, [
                 { key: "foo"; value: 1 },
                 { key: "bar"; value: "hi" }
-            ]>>,
-            Expect<Equal<FoobarNoSort, (
-                { key: "foo"; value: 1 } |
-                { key: "bar"; value: "hi" }
-            )[]>>,
-            Expect<Equal<Manual, [
-                { key: "bar"; value: "hi" },
-                { key: "foo"; value: 1 },
-            ]>>,
+            ]>>
+        ];
+    });
 
+    it("with optional parameter", () => {
+        type Foobar = ToKv<{ foo?: 1; bar: "hi" }>;
+
+        type cases = [
+            Expect<Equal<Foobar, [
+                { key: "foo"; value: 1 | undefined; required: false },
+                { key: "bar"; value: "hi" }
+            ]>>
+        ];
+    });
+
+
+    it("interacting with runtime and narrow objects", () => {
+        const obj = defineObj({ foo: 1, bar: "hi" })()
+        function fn<
+            T extends NarrowObject<N>,
+            N extends Narrowable
+        >(obj: T) {
+            return obj as NarrowObject<N> & T;
+        }
+        const kv = fn(obj);
+        type KV = ToKv<typeof kv>;
+
+        type cases = [
+            /** type tests */
         ];
     });
 

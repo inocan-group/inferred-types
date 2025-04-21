@@ -1,5 +1,4 @@
-import { IsLiteralFn } from "src/boolean-logic";
-import type { TypedFunction } from "./TypedFunction";
+import type { TypedFunction } from "inferred-types/types";
 
 /**
  * **JustFunction**`<T>`

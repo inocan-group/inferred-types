@@ -1,59 +1,99 @@
-// import { Filter,   Comparison } from "inferred-types/types";
-// import { isSameTypeOf } from "../type-guards/higher-order/isSameTypeOf";
-// import {  endsWith,startsWith } from "../type-guards";
-// import { asArray } from "./asArray";
-// import { Never } from "inferred-types/constants";
+import { err } from "inferred-types/runtime";
+import {
+    DateLike,
+    IsDefined,
+    Narrowable,
+    StringKeys,
+    InputToken__SimpleTokens,
+    Defined,
+    Dictionary
+} from "inferred-types/types";
+import { isDateLike } from "inferred-types/runtime";
 
-// /**
-//  * **createFilter**(op,comparator) → (list) → _filtered results_
-//  *
-//  * A higher order runtime utility.
-//  *
-//  * - on it's first call it specifies the comparison that will be
-//  * made in the future
-//  * ```ts
-//  * const filterOutStrings = createFilter("extends", s => s.string())
-//  * ```
-//  *  - all subsequent calls will receive an array of items and _filter out_
-//  * the specified criteria
-//  * ```ts
-//  * // ["foo", "bar"]
-//  * filterOutStrings([1,2,"foo","bar"]);
-//  * ```
-//  */
-// export const createFilter = <
-//   TComparison extends Comparison
-// >(
-//   comparison: TComparison
-// ) => <
-//  TList extends readonly unknown[]
-// >(list: TList) => {
-//   let result: unknown;
+type Op = {params: readonly Narrowable[], accept?: Narrowable}
 
-//   switch(op) {
-//     case "equals":
-//       result = list.filter(i => i === comparator);
-//       break;
-//     case "extends":
-//       result = list.filter(i => isSameTypeOf(i)(comparator));
-//       break;
-//     case "startsWith":
-//       result =  list.filter(i => startsWith(String(comparator))(String(i)));
-//       break;
-//     case "endsWith":
-//       result = list.filter(i => endsWith(String(comparator))(String(i)));
-//       break;
-//     case "contains":
-//       result = list.filter(i => contains(asArray(comparator))(i));
-//       break;
-//     case "containsAll":
-//       // result = list.filter(i => contains())
-//       break;
-//     default:
-//       result = Never
-//   }
+type Lookup = {
+    extends: {params: [type: InputToken__SimpleTokens]};
+    startsWith: {params: [start: string | readonly [string, ...string[]]]};
+    endsWith: {params: [end: string]};
+    endsWithNumber: {params: [], accept: string};
+    contains: {params: [substring: string], accept: string};
+    greaterThan: {params: [value: number]};
+    lessThan: {params: [value: number]};
+    between: {params: [greaterThan: number, lessThan: number]};
+    equalTo: {params: [value: Narrowable]};
+    errors: {params: []};
+    errorsOfType: {params: [type: string], accept: Narrowable};
+    before: {params: [date: DateLike], accept: DateLike};
+    after: {params: [date: DateLike], accept: DateLike};
+    truthy: {params: []};
+    falsy: {params: [], accept: Narrowable};
+    keyEquals: {params: [ key: string, value: Narrowable ], accept: Dictionary};
+    keyIsOfType: {params: [key: string, type: InputToken__SimpleTokens], accept: Dictionary};
+    keyStartsWith: { params: [start: string], accept: Dictionary };
+    keyEndsWith: { params: [start: string], accept: Dictionary };
+} & Record<string, Op>;
 
-//   return result as Filter<TList, TComparator, TOp>;
-// };
+type BaseType<
+    T extends keyof Lookup
+> = Lookup[T]["accept"] extends Defined
+    ? Lookup[T]["accept"]
+    : Narrowable;
 
-export const filter = "NOT READY";
+type Accept<
+    T extends keyof Lookup
+> = BaseType<T> | readonly BaseType<T>[];
+
+export type FilterFn<
+    TOp extends StringKeys<Lookup>[number],
+    TParams extends readonly Narrowable[],
+> = <T extends Accept<TOp>>(val: T) => T extends any[]
+    ? readonly BaseType<TOp>[] | Error
+    : boolean | Error;
+
+type X = BaseType<"keyEndsWith">;
+
+/**
+ * **filter**`(op, [details])` => (val) => boolean
+ *
+ * A set of filter functions which provide strong (and narrow)
+ * typing support.
+ *
+ * - The first call sets up the filter operation and returns a
+ * function which can be used as a filter
+ * - the second call (aka, the actual filter function) will accept
+ * either a singular element or an array of elements.
+ *
+ * **Related:** `retain()`
+ */
+export function filter<
+    TOp extends StringKeys<Lookup>[number],
+    TParams extends Lookup[TOp]["params"]
+>(
+    op: TOp,
+    ...params: TParams
+): FilterFn<TOp, TParams> {
+
+    return <T extends Accept<TOp>>(val: T) => {
+        switch(op) {
+            case "after":
+            case "before":
+                if(isDateLike(op)) {
+                    // process
+                } else {
+                    return err(`invalid-param/${op}`, `The "${op}" parameter expects a Date or ISO8601 based date or datetime string`)
+                }
+        }
+        return err(
+                `unknown-op/filter`,
+                `An unknown filter operation '${op}' was provided to the filter() function!`
+        )
+    }
+}
+
+const a = filter("startsWith", "foo");
+const b = filter("startsWith", ["foo","bar","baz"]);
+const d = filter("before", "2010-01-01");
+
+const v = a(["foo","bar"]);
+

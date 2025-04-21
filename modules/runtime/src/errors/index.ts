@@ -1,3 +1,3 @@
 export * from "./createErrorCondition";
-export * from "./typedError";
+export * from "./err";
 export * from "./keysWithError";

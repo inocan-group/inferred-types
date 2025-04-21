@@ -1,4 +1,4 @@
-import type { Dictionary } from "src/base-types";
+import type { Dictionary } from "inferred-types/types";
 
 /**
  * **EncodingDefinition**`<T>`

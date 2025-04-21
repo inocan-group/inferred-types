@@ -1,4 +1,4 @@
-import type { IsWideString } from "src/boolean-logic";
+import type { IsWideString } from "inferred-types/types";
 
 export type AsTypeSubtype<T extends string> = IsWideString<T> extends true
     ? [ string, string | undefined]

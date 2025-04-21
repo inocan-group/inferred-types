@@ -1,10 +1,14 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { sort, tuple } from "inferred-types/runtime";
-import { Sort } from "inferred-types/types";
+import { AsNumber, Dictionary, NumericKeys, RemoveNever, Sort, StringKeys } from "inferred-types/types";
+import { KeyValue } from "transpiled/types";
 import { describe, it } from "vitest";
+
+
 
 describe("Sort<T>", () => {
   it("sorting without offset", () => {
+
     type StringFirst = Sort<["foo", "bar", 42, "baz", 99], { first: [string] }>
     type BazFirst = Sort<["foo", "bar", 42, "baz", 99], { first: ["baz"] }>
     type NumberToNumber = Sort<["foo", "bar", 42, "baz", 99], { first: [99], last: [42] }>;

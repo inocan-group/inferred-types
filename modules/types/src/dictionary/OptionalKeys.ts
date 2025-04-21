@@ -50,7 +50,6 @@ export type OptionalKeys<
 export type OptionalKeysTuple<
     T,
 > = T extends Dictionary
-
     ? UnionToTuple<OptionalKeys<T>> extends readonly ObjectKey[]
         ? UnionToTuple<OptionalKeys<T>>
         : never

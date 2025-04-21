@@ -1,11 +1,11 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { defineObjectType } from "inferred-types/runtime";
-import { DictionaryWithoutValueFilter, withoutValue } from "inferred-types/runtime";
+
+import { defineObj, DictionaryWithoutValueFilter, withoutValue } from "inferred-types/runtime";
 import { describe, expect, it } from "vitest";
 
 
 describe("withoutValue(wo) => (obj) => obj", () => {
-  const obj = defineObjectType({ foo: "hi", bar: 42, baz: 99, bax: "bye" })();
+  const obj = defineObj({ foo: "hi", bar: 42, baz: 99, bax: "bye" })();
 
   it("strings", () => {
 

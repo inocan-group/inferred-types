@@ -3,13 +3,13 @@ import type {
     Dictionary,
     Err,
     FromDefineObject,
-    Length,
     MakeKeysOptional,
     Some,
     Values,
     KeysWithError,
-    ToKeyValueTuple,
+    ToKv,
 } from "inferred-types/types";
+import { toJSON } from "inferred-types/runtime";
 
 type Returns<
     T extends DefineObject,
@@ -43,7 +43,7 @@ export function defineObject<
     defn: T,
     ..._optProps: P
 ): HandleError<Returns<T, P>> {
-    return defn as unknown as HandleError<Returns<T, P>>;
+    return toJSON(defn) as unknown as HandleError<Returns<T, P>>;
 }
 
 
@@ -59,7 +59,7 @@ type T = {
     };
 }
 
-type KV = ToKeyValueTuple<T>;
+type KV = ToKv<T>;
 type K = KeysWithError<T>
 type T2 = HandleError<T>;
 

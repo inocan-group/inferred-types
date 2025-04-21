@@ -1,5 +1,4 @@
-import type { AnyObject } from "src/base-types";
-import type { ReplaceKeys } from "./ReplaceKeys";
+import type { AnyObject, ReplaceKeys } from "inferred-types/types";
 
 /**
  * **RenameKey**`<T, TFrom, TTo>`

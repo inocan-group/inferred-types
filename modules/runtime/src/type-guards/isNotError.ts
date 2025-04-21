@@ -1,4 +1,4 @@
-import { isError } from "src/type-guards/isError";
+import { isError } from "inferred-types/runtime";
 
 /**
  * type guard which validates that `val` is _not_ an `Error` type.

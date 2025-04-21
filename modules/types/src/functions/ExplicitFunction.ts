@@ -1,5 +1,4 @@
-import { TypedFunction } from "src/base-types";
-import { TypedParameter } from "src/functions/TypedParameter";
+import { TypedFunction, TypedParameter } from "inferred-types/types";
 
 /**
  * **ExplicitFunction**

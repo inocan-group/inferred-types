@@ -99,6 +99,7 @@ export * from "./IsUrl";
 export * from "./IsValidDotPath";
 export * from "./IsValidIndex";
 export * from "./IsVueRef";
+export * from "./IsWhitespace";
 export * from "./IsWideNumber";
 export * from "./IsWideString";
 export * from "./IsWideType";

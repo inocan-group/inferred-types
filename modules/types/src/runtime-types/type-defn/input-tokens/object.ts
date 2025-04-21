@@ -7,7 +7,7 @@ import type {
     Err,
     First,
     FromInputToken,
-    FromKeyValueTuple,
+    FromKv,
     FromStringInputToken,
     KeyValue,
     MakeKeysOptional,
@@ -124,8 +124,8 @@ export type IT_TakeObject<
             [
                 ...TInner,
                 ParseObject<T> extends readonly KeyValue[]
-                    ? FromKeyValueTuple<ParseObject<T>> extends Dictionary
-                        ? FromKeyValueTuple<ParseObject<T>>
+                    ? FromKv<ParseObject<T>> extends Dictionary
+                        ? FromKv<ParseObject<T>>
                         : never
                     : never
             ],
@@ -141,5 +141,5 @@ export type IT_TakeObject<
 // type T = "{ foo?: number, bar: string, baz: String(baz) }| string"
 // type TParse = ParseObject<T>;
 // type TRest = Rest<T>;
-// type TObj = FromKeyValueTuple<ParseObject<T>>;
+// type TObj = FromKv<ParseObject<T>>;
 // type TTake = IT_TakeObject<T>;

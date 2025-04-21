@@ -1,13 +1,47 @@
 import type {
-    ExpandDictionary,
+    AfterFirst,
+    Dictionary,
+    EmptyObject,
+    Expand,
+    First,
+    IsWideContainer,
     KeyValue,
-    UnionToIntersection,
+    MakeKeysOptional,
+    ObjectKey,
 } from "inferred-types/types";
 
-/** Converts a single KeyValue into a one-key object */
-type KeyValueToObj<KV extends { key: PropertyKey; value: unknown }> = {
-    [P in KV["key"]]: KV["value"];
-};
+type AddRequiredKey<
+    TObj extends Dictionary,
+    TKey extends ObjectKey,
+    TVal
+> = TObj & Record<TKey, TVal>;
+
+type AddOptionalKey<
+    TObj extends Dictionary,
+    TKey extends ObjectKey,
+    TVal,
+    TKeys extends readonly ObjectKey[] = readonly [TKey]
+> = MakeKeysOptional<
+    Expand<TObj & Record<TKey, TVal>> extends Dictionary
+        ? Expand<TObj & Record<TKey, TVal>>
+        : never,
+    TKeys
+>
+
+
+type Process<
+    TIn extends readonly KeyValue[],
+    TOut extends Dictionary = EmptyObject
+> = [] extends TIn
+    ? Expand<TOut>
+    : Process<
+        AfterFirst<TIn>,
+        "required" extends keyof First<TIn>
+            ? First<TIn>["required"] extends false
+                ? AddOptionalKey<TOut,First<TIn>["key"],First<TIn>["value"]>
+                : AddRequiredKey<TOut,First<TIn>["key"],First<TIn>["value"]>
+            : AddRequiredKey<TOut,First<TIn>["key"],First<TIn>["value"]>
+    >;
 
 /**
  * **FromKv**`<T>`
@@ -24,13 +58,6 @@ type KeyValueToObj<KV extends { key: PropertyKey; value: unknown }> = {
  *
  * **Related:** `ToKv`, `KeyValue`
  */
-export type FromKv<T extends readonly KeyValue[]> =
-ExpandDictionary<
-    UnionToIntersection<
-        T[number] extends infer U
-            ? U extends KeyValue
-                ? KeyValueToObj<U>
-                : never
-            : never
-    >
->;
+export type FromKv<T extends readonly KeyValue[]> = IsWideContainer<T> extends true
+? Dictionary
+: Process<T>

@@ -32,7 +32,6 @@ export type RuntimeSort<
     offset?: string;
 };
 
-// TODO: fix strong typing
 
 export function sort<
     T extends readonly N[],
@@ -42,33 +41,11 @@ export function sort<
     tuple: T,
     sort: S,
 ) {
-    const _first: unknown[] = [];
-    const _rest: unknown[] = [];
-    const _last: unknown[] = [];
+    const first = tuple.map((i: any) => {
+        const val = tuple[i];
+    })
 
-    // Extract values to be placed first and last
-    const firstValues = sort.first || [];
-    const lastValues = sort.last || [];
-    const offset = sort.offset;
 
-    // Process each item in the tuple
-    for (const item of tuple) {
-        // Check if this item should be placed first
-        if (shouldBePlacedFirst(item, firstValues, offset)) {
-            _first.push(item);
-        }
-        // Check if this item should be placed last
-        else if (shouldBePlacedLast(item, lastValues, offset)) {
-            _last.push(item);
-        }
-        // Otherwise, it goes in the middle
-        else {
-            _rest.push(item);
-        }
-    }
-
-    // Combine the arrays in the correct order
-    return [..._first, ..._rest, ..._last] //as unknown as Sort<T, From<S>>;
 }
 
 // Helper function to check if an item should be placed first

@@ -1,4 +1,4 @@
-import type { AnyFunction, NodeCallback } from "src/base-types";
+import type { AnyFunction, NodeCallback } from "inferred-types/types";
 
 type Result<T extends NodeCallback> = Parameters<T>["length"] extends 2
     ? Parameters<T>[1]

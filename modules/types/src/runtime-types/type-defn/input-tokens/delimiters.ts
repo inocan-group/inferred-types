@@ -3,7 +3,7 @@ import type {
     As,
     Extends,
     FromStringInputToken,
-    FromKeyValueTuple,
+    FromKv,
     Last,
     Or,
     Pop,
@@ -40,7 +40,7 @@ type IT_UnwrapContainer<
 > = Last<TContainers> extends "Array"
 ? TEl[0]
 : Last<TContainers> extends "Object"
-? FromKeyValueTuple<TEl>
+? FromKv<TEl>
 : TEl[0];
 
 export type IT_TakeTerminalDelimiter<

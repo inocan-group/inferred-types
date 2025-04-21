@@ -1,8 +1,11 @@
-import type { Expand } from "inferred-types/types";
-import type { Dictionary, EmptyObject } from "src/base-types";
-import type { AfterFirst, First } from "src/lists";
-import type { DynamicToken, StaticToken, Token, TokenName } from "./Token";
-import type { TokenSyntax } from "./TokenSyntax";
+import type {
+    Expand,
+    Dictionary, EmptyObject,
+    AfterFirst, First,
+    TokenSyntax,
+    DynamicToken, StaticToken, Token, TokenName
+} from "inferred-types/types";
+
 
 type AddGrammarMethod<
     _S extends TokenSyntax,

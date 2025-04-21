@@ -1,7 +1,6 @@
 import type {
     As,
     AsArray,
-    AsLiteralFn,
     AsUnion,
     CivilianTime,
     Container,
@@ -26,8 +25,9 @@ import type {
     Zip5,
     ZipCode,
     ZipPlus4,
+    WideContainerNames, WideTokenNames
 } from "inferred-types/types";
-import type { FromWideTokens, WideContainerNames, WideTokenNames } from "../literals/FromTokenNames";
+
 
 type Narrow = Exclude<Narrowable, symbol>;
 

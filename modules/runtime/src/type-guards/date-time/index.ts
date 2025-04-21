@@ -1,4 +1,5 @@
 export * from "./isDate";
+export * from "./isDateLike";
 export * from "./isDateTime";
 export * from "./isEpoch";
 export * from "./isIsoDate";
@@ -12,3 +13,4 @@ export * from "./isThisYear";
 export * from "./isToday";
 export * from "./isTomorrow";
 export * from "./isYesterday";
+

@@ -1,5 +1,6 @@
 import type {
     AnyObject,
+    Dictionary,
     ToKv,
 } from "inferred-types/types";
 
@@ -19,5 +20,5 @@ import type {
  * @deprecated prefer use of `ToKv`
  */
 export type ToKeyValueTuple<
-    TObj extends AnyObject,
-> = ToKv<TObj, false>;
+    TObj extends Dictionary,
+> = ToKv<TObj>;

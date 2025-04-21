@@ -1,6 +1,14 @@
-import type { AnyObject, ExplicitlyEmptyObject, IsWideContainer, Join, ObjectKey, Surround } from "inferred-types/types";
-import type { AsString } from "./AsString";
-import type { ObjectToTuple } from "./ObjectToTuple";
+import type {
+    AnyObject,
+    ExplicitlyEmptyObject,
+    IsWideContainer,
+    Join,
+    ObjectKey,
+    Surround,
+    ToKv,
+    AsString
+} from "inferred-types/types";
+
 
 type Process<
     T extends readonly Record<ObjectKey, any>[],
@@ -24,7 +32,7 @@ export type ObjectToJsonString<
     : IsWideContainer<TObj> extends true
         ? string
         : Surround<
-            Process<ObjectToTuple<TObj, true>>,
+            Process<ToKv<TObj>>,
             "{ ",
             " }"
         >;
