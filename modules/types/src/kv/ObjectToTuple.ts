@@ -51,6 +51,7 @@ type Compact<
  * ```
  *
  * **Related:** `ToKv`, `FromKv`
+ * @deprecated prefer use of `ToKv`
  */
 export type ObjectToTuple<
     TObj extends Dictionary,

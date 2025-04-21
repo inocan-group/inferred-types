@@ -39,11 +39,9 @@ type Process<
  * **Note:**
  * - you are converting from an **object** which has no official "natural sort order"
  * for the keys to an array which very much _does_ have a sort order
+ * - While an object doesn't "officially" have a sort order it does have a fairly _predictable_ sort order
  * - by default we do provide you with a natural sort order and you can override this
- * if you like by passing in your own sort order into `TKeys`
- * - finally if you've heard enough about sort orders and want to take nuetral position
- * you can get a somewhat less strict tuple type by setting `TKeys` to `false`
- * - Ok ... _now that you're sorted_ ...
+ * if you like by passing in your own order into `TKeys`
  *
  * **Related:** `KeyValue`, `FromKv`, `ObjectToTuple`, `TupleToObject`
  */

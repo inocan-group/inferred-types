@@ -1,15 +1,14 @@
 import type {
-    AnyObject,
-    EmptyObject,
-    KeyValue,
     Narrowable,
     NarrowObject,
-    Sort,
-    SortOptions,
-    StringKeys,
     ToKv,
+    SortByKey,
+    KeyValue,
+    SortByKeyOptions
 } from "inferred-types/types";
-import { sort } from "inferred-types/runtime";
+import { asArray, keysOf } from "inferred-types/runtime";
+
+
 
 /**
  * **toKeyValue**`(obj)` -> tuple
@@ -19,7 +18,7 @@ import { sort } from "inferred-types/runtime";
  * - a Tuple representation benefits from two main things:
  *    - ensured **order**
  *    - it is an **iterable** structure
- * - narrow types are preserved wherever possible
+ * - narrow types are preserved whereever possible
  * - you may optionally position certain key's at the "top"
  * or "bottom" of the stack by using the sort callback.
  *
@@ -33,25 +32,41 @@ import { sort } from "inferred-types/runtime";
  * ```
  */
 export function toKeyValue<
-    T extends NarrowObject<N> | AnyObject,
+    T extends NarrowObject<N>,
     N extends Narrowable,
-    TSort extends SortOptions<StringKeys<T>, StringKeys<T>> = EmptyObject,
+    S extends SortByKeyOptions = {start: [], end: []},
+    KV extends readonly KeyValue[] = ToKv<T>
 >(
     obj: T,
-    opt?: <S extends SortOptions>(cb: S) => void,
-) {
-    const natural = Object.keys(obj);
-    const sorted = opt
-        ? sort(natural, opt)
-        : natural;
-    const tuple: KeyValue[] = [];
-
-    for (const k of sorted) {
-        tuple.push({ key: k, value: obj[k as keyof typeof obj] });
+    sort: S = {start: [], end: []} as S,
+): SortByKey<KV, "key", S> {
+    const kv: readonly KeyValue[] = keysOf(obj).map(
+        k => ({ key: k, value: obj[k]})
+    );
+    const s = {
+        start: sort.start ? asArray(sort.start) : [],
+        end: sort.end ? asArray(sort.end) : [],
     }
 
-    return tuple as unknown as Sort<
-        ToKv<T>,
-        Omit<TSort, "offset"> & Record<"offset", "key">
-    >;
+    const start: readonly any[] = kv.filter(
+        i =>  asArray(s.start).includes(i["key"])
+    );
+    const end: readonly any[] = kv.filter(
+        i =>  asArray(s.end).includes(i["key"])
+    );
+    const taken = [
+        ...start.map(i => i.key),
+        ...end.map(i => i.key)
+    ];
+    const remaining = kv.filter(
+        i => taken.includes(i.key) ? false : true
+    )
+
+
+
+    return [
+        ...start,
+        ...remaining,
+        ...end
+    ] as unknown as SortByKey<KV, "key", S>
 }

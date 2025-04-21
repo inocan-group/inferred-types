@@ -2,10 +2,8 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
 import { Extends, KeyValue } from "inferred-types/types";
-// import { asChars } from "inferred-types/runtime"
 import { toKeyValue, fromKeyValue } from "inferred-types/runtime";
 
-// const a = asChars("foobar");
 
 describe("toKeyValue(obj)", () => {
 
@@ -29,7 +27,8 @@ describe("toKeyValue(obj)", () => {
   });
 
   it("forcing a key to top", () => {
-    const fooBar = toKeyValue({ foo: 1, bar: "hi", id: 123 }, o => o.toTop("id"));
+    const fooBar = toKeyValue({ foo: 1, bar: "hi", id: 123 }, { start: "id" });
+    const kv = toKeyValue({ foo: 1, bar: "hi", id: 123 });
 
     expect(fooBar, JSON.stringify(fooBar)).toEqual([
       { key: "id", value: 123 },
@@ -61,7 +60,7 @@ describe("toKeyValue(obj)", () => {
       "desc": "The fast and lightweight sibling in the Claude family (Anthropic)",
       "subcategory": "[[Lightweight Model]]",
       "type": "[[kind/types/AI.md|AI]]"
-    }, o => o.toTop("type", "kind", "category", "subcategory").toBottom("desc"));
+    }, {start: ["type", "kind", "category", "subcategory"], end: "desc"});
 
     const keys = fmKv.map(i => i.key);
 
@@ -102,8 +101,6 @@ describe("toKeyValue(obj)", () => {
   });
 
 });
-
-
 
 describe("fromKeyValue(kvs)", () => {
   const fooBar = fromKeyValue([
