@@ -1,5 +1,4 @@
-import { RetainAfter } from "src/string-literals/RetainAfter";
-import { StripAfter } from "src/string-literals/StripAfter";
+import type { RetainAfter, StripAfter } from "inferred-types/types";
 
 
 export type RetainBetween<

@@ -17,9 +17,7 @@ export * from "./AsString";
 export * from "./AsStringUnion";
 export * from "./Awaited";
 export * from "./Break";
-export * from "./encoding/index";
 export * from "./form-fields";
-export * from "./FromKeyValueTuple";
 export * from "./FromTo";
 export * from "./Immutable";
 export * from "./IntersectionToTuple";
@@ -33,7 +31,6 @@ export * from "./ObjectToCssString";
 export * from "./ObjectToJsonString";
 export * from "./ObjectToJsString";
 export * from "./ObjectToKeyframeString";
-export * from "./ObjectToTuple";
 export * from "./Promised";
 export * from "./ReduceValues";
 export * from "./RemoveFromEnd";
@@ -57,7 +54,6 @@ export * from "./StripChars";
 export * from "./Synchronous";
 export * from "./ToBoolean";
 export * from "./ToContainer";
-export * from "./ToKeyValueTuple";
 export * from "./ToNumber";
 export * from "./ToString";
 export * from "./ToStringArray";
@@ -78,4 +74,7 @@ export * from "./ValueOrReturnValue";
 export * from "./Widen";
 export * from "./WidenValues";
 export * from "./WithDefault";
+
+export * from "./encoding/index";
+
 

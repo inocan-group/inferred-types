@@ -1,16 +1,17 @@
 import { describe, it, expect } from "vitest";
 
 import type { Expect, Equal } from "@type-challenges/utils";
-import { defineObjectType } from "inferred-types/runtime";
+import { defineObj } from "inferred-types/runtime";
+
 
 describe("defineType() utility", () => {
   it("only specify a wide type", () => {
-    const t = defineObjectType({})({ foo: "", bar: 0 });
+    const t = defineObj({})({ foo: "", bar: 0 });
 
     expect(t.foo).toBe("");
     expect(t.bar).toBe(0);
 
-    const t2 = defineObjectType()({ foo: "", bar: 0 });
+    const t2 = defineObj()({ foo: "", bar: 0 });
 
     expect(t2.foo).toBe("");
     expect(t2.bar).toBe(0);
@@ -25,14 +26,14 @@ describe("defineType() utility", () => {
   });
 
   it("only specify a literal type", () => {
-    const t = defineObjectType({ foo: 1, bar: "hi" })();
+    const t = defineObj({ foo: 1, bar: "hi" })();
     type cases = [Expect<Equal<typeof t, { foo: 1; bar: "hi" }>>];
     const cases: cases = [true];
     expect(cases).toBe(cases);
   });
 
   it("specify both wide and literal merged type", () => {
-    const t = defineObjectType({ bar: 1 })({ foo: "" });
+    const t = defineObj({ bar: 1 })({ foo: "" });
 
     type cases = [Expect<Equal<typeof t, { foo: string; bar: 1 }>>];
     const cases: cases = [true];

@@ -1,4 +1,13 @@
-import type { AnyObject, AsString, ExplicitlyEmptyObject, IsWideContainer, Join, ObjectKey, ObjectToTuple, Surround } from "inferred-types/types";
+import type {
+    AnyObject,
+    AsString,
+    ExplicitlyEmptyObject,
+    IsWideContainer,
+    Join,
+    ObjectKey,
+    Surround,
+    ToKv
+} from "inferred-types/types";
 
 type Prefix<T extends boolean> = T extends true
     ? "\n  "
@@ -30,7 +39,7 @@ export type ObjectToKeyframeString<
     : IsWideContainer<TObj> extends true
         ? string
         : Surround<
-            Process<ObjectToTuple<TObj, true>, false>,
+            Process<ToKv<TObj>, false>,
             TExpand extends false ? "{ " : "{\n  ",
             TExpand extends false ? " }" : "\n}"
         >;

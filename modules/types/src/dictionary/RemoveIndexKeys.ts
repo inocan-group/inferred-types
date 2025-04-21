@@ -1,4 +1,4 @@
-import { Dictionary } from "src/base-types";
+import { Dictionary } from "inferred-types/types";
 
 type Obj<T> = {
     [K in keyof T as string extends K

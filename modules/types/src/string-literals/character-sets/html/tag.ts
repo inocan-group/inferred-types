@@ -1,6 +1,6 @@
 import type { HTML_ATOMIC_TAGS, HTML_BLOCK_TAGS } from "inferred-types/constants";
-import type { KebabCase, PascalCase, StripSurround } from "inferred-types/types";
-import type { IsWideString } from "src/boolean-logic";
+import type { KebabCase, PascalCase, StripSurround, IsWideString } from "inferred-types/types";
+
 
 /**
  * a valid HTML "block tag" (aka, a tag which requires

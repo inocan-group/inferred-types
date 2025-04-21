@@ -1,14 +1,23 @@
-import type { Delta } from "inferred-types/types";
-import type { IsLessThan } from "src/boolean-logic";
-import type { FixedLengthArray } from "src/tuples/FixedLengthArray";
+import type {
+    Delta,
+    IsLessThan,
+    FixedLengthArray,
+} from "inferred-types/types";
 
 export type WithMinLength<
-    TTup extends readonly any[],
+    TTup extends readonly unknown[],
     TLen extends number,
     TFill = undefined
 > = IsLessThan<
     TTup["length"],
     TLen
 > extends true
-    ? [...TTup, ...FixedLengthArray<TFill, Delta<TTup["length"], TLen>>]
+    ? Delta<TTup["length"], TLen> extends number
+            ? FixedLengthArray<TFill, Delta<TTup["length"], TLen>> extends readonly unknown[]
+                ? [
+                    ...TTup,
+                    ...FixedLengthArray<TFill, Delta<TTup["length"], TLen>>
+                ]
+                : never
+            : never
     : TTup;

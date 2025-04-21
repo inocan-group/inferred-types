@@ -15,4 +15,5 @@ export * from "./reverse";
 export * from "./shift";
 export * from "./slice";
 export * from "./sort";
+export * from "./sortByKey";
 export * from "./unique";

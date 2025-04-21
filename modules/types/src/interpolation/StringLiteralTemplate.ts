@@ -1,5 +1,5 @@
-import type { IsStringLiteral } from "src/boolean-logic";
-import type { AfterFirst, First } from "src/lists";
+import type { IsStringLiteral, AfterFirst, First } from "inferred-types/types";
+
 
 type _StringLiteralTemplate<T extends string | number | boolean> = T extends number
     ? `${number}`

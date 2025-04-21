@@ -1,4 +1,11 @@
-import type { Narrowable, NarrowObject, Scalar, ToJson, ToJsonArray, ToJsonOptions } from "inferred-types/types";
+import type {
+    Narrowable,
+    NarrowObject,
+    Scalar,
+    ToJson,
+    ToJsonArray,
+    ToJsonOptions
+} from "inferred-types/types";
 
 /**
  * **toJSON**`(val)`
@@ -25,3 +32,4 @@ export function toJsonArray<
 ) {
     return elements as unknown as ToJsonArray<T>;
 }
+

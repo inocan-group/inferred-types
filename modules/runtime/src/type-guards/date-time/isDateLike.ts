@@ -1,4 +1,13 @@
-import { isInteger, isIsoDate, isIsoDateTime, isNumber, isObject, isString } from "inferred-types/runtime";
+import {
+    isDate,
+    isInteger,
+    isIsoDate,
+    isIsoDateTime,
+    isLuxonDateTime,
+    isMoment,
+    isNumber,
+    isString
+} from "inferred-types/runtime";
 
 /**
  * A type guard which checks if `val` is _date like_:
@@ -13,8 +22,8 @@ import { isInteger, isIsoDate, isIsoDateTime, isNumber, isObject, isString } fro
  */
 export function isDateLike(val: unknown) {
     return (
-        (isNumber(val) && isInteger(val) && val > 0)
-        || (isString(val) && (isIsoDate(val) || isIsoDateTime(val)))
-        || (isObject(val))
+        (isNumber(val) && isInteger(val) && val > 0) // epoch
+        || (isString(val) && (isIsoDate(val) || isIsoDateTime(val))) // ISO
+        || (isDate(val) || isMoment(val) || isLuxonDateTime(val)) // Object based
     );
 }

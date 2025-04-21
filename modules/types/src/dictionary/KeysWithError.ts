@@ -4,7 +4,7 @@ import {
     First,
     KeyValue,
     ObjectKey,
-    ToKeyValueTuple,
+    ToKv,
 } from "inferred-types/types";
 
 
@@ -21,7 +21,6 @@ type Process<
 >
 
 
-
 /**
  * **KeysWithError**`<T>`
  *
@@ -29,4 +28,4 @@ type Process<
  */
 export type KeysWithError<
     T extends Dictionary
-> = Process<ToKeyValueTuple<T>>;
+> = Process<ToKv<T>>;

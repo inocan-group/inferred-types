@@ -1,11 +1,11 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { ExplicitlyEmptyObject, FromKv } from "inferred-types/types";
+import {  FromKv } from "inferred-types/types";
+import { EmptyObject } from "transpiled/types";
 import { describe, it } from "vitest";
 
 
 
 describe("FromKv<T>", () => {
-
     it("happy path", () => {
         type Foobar = FromKv<[
             { key: "foo", value: 1 },
@@ -19,11 +19,10 @@ describe("FromKv<T>", () => {
             Expect<Equal<Foobar, { foo: 1; bar: "hi" }>>,
             Expect<Equal<
                 Empty,
-                ExplicitlyEmptyObject
+                EmptyObject
             >>
         ];
     });
-
 
     it("with optional props", () => {
         type FooBar = FromKv<[
@@ -50,6 +49,4 @@ describe("FromKv<T>", () => {
             Expect<Equal<MoreComplex, { foo?: 1, bar: 2, baz?: "baz", bax: string | number }>>,
         ];
     });
-
-
 });

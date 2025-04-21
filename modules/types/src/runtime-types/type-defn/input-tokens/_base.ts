@@ -63,6 +63,17 @@ type LiteralSuggest =
 | `Number(1)` | `Number(42)`
 | `Boolean(true)` | `Boolean(false)`;
 
+/**
+ * A set of fairly simple `InputTokens` which can be used as a type
+ * or a suggested type.
+ */
+export type InputToken__SimpleTokens =
+| BaseSuggest
+| `Array<string>` | `Array<number>` | `Array<boolean>` | `Array<unknown>`
+| `Array<string | number>`
+| `Array<string | undefined>` | `Array<number | undefined>` | `Array<boolean | undefined>`
+| `Array<boolean | function => boolean>`
+
 export type InputTokenSuggestions = Suggest<
     | BaseSuggest
     | LiteralSuggest

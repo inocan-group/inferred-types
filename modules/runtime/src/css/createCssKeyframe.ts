@@ -93,7 +93,10 @@ function frameToCss<T extends readonly [CssKeyframeTimestamp, CssDefinition][]>(
 export function createCssKeyframe<
     TName extends string,
     TKeyframes extends CssKeyframeCallback,
->(name: TName, keyframes: TKeyframes) {
+>(
+    name: TName,
+    keyframes: TKeyframes
+) {
     /** api surface */
     const surface = api([]);
     /** return from user callback */
@@ -110,5 +113,5 @@ export function createCssKeyframe<
       name,
       keyframes: frames,
       css: `@keyframes ${name} {\n${frameToCss(frames)}\n}` as unknown as `@keyframes ${TName} ${Returns}`,
-  };
+  } as unknown as FrameToCSS<Frames>;
 }

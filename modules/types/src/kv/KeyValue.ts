@@ -1,7 +1,10 @@
 import type { As, ObjectKey, Unset } from "inferred-types/types";
 
 /**
- * A dictionary which contains a `key` and `value` property.
+ * **KeyValue**
+ *
+ * A type used by utilities like `ToKv` and `FromKv` to convert
+ * a Dictionary into a tuple of KeyValue's (or visa-versa).
  *
  * - you may optionally provide a `required` property
  */

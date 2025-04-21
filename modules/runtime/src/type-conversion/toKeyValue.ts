@@ -3,12 +3,12 @@ import type {
     NarrowObject,
     ToKv,
     SortByKey,
-    KeyValue,
-    SortByKeyOptions
+    SortByKeyOptions,
+    MergeObjects,
+    As,
+    Dictionary,
 } from "inferred-types/types";
 import { asArray, keysOf } from "inferred-types/runtime";
-
-
 
 /**
  * **toKeyValue**`(obj)` -> tuple
@@ -32,27 +32,34 @@ import { asArray, keysOf } from "inferred-types/runtime";
  * ```
  */
 export function toKeyValue<
-    T extends NarrowObject<N>,
-    N extends Narrowable,
-    S extends SortByKeyOptions = {start: [], end: []},
-    KV extends readonly KeyValue[] = ToKv<T>
+    TObj extends NarrowObject<O>,
+    O extends Narrowable,
+    S extends Narrowable,
+    TSort extends SortByKeyOptions<S> | undefined = undefined,
+    TSorted = SortByKey<
+        ToKv<TObj>, "key",
+        TSort extends undefined
+            ? { start: [], end: []}
+            : MergeObjects<{ start: [], end: [] }, As<TSort, Dictionary>>
+    >
 >(
-    obj: T,
-    sort: S = {start: [], end: []} as S,
-): SortByKey<KV, "key", S> {
-    const kv: readonly KeyValue[] = keysOf(obj).map(
+    obj: TObj,
+    sort: TSort = undefined as TSort,
+): TSorted {
+    const kv = keysOf(obj).map(
         k => ({ key: k, value: obj[k]})
     );
+
     const s = {
-        start: sort.start ? asArray(sort.start) : [],
-        end: sort.end ? asArray(sort.end) : [],
-    }
+        start: sort?.start ? asArray(sort.start) : undefined,
+        end: sort?.end ? asArray(sort?.end) : undefined,
+    } satisfies SortByKeyOptions
 
     const start: readonly any[] = kv.filter(
-        i =>  asArray(s.start).includes(i["key"])
+        i =>  s.start?.includes(i["key"])
     );
     const end: readonly any[] = kv.filter(
-        i =>  asArray(s.end).includes(i["key"])
+        i =>  s.end?.includes(i["key"])
     );
     const taken = [
         ...start.map(i => i.key),
@@ -62,11 +69,9 @@ export function toKeyValue<
         i => taken.includes(i.key) ? false : true
     )
 
-
-
     return [
         ...start,
         ...remaining,
         ...end
-    ] as unknown as SortByKey<KV, "key", S>
+    ] as unknown as TSorted
 }

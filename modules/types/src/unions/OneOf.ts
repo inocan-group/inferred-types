@@ -1,4 +1,4 @@
-import type { EmptyObject } from "src/base-types";
+import type { EmptyObject } from "inferred-types/types";
 
 type MergeTypes<
     TTypes extends readonly any[],

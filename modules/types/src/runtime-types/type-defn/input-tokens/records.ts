@@ -49,7 +49,7 @@ type Key<
 type KeyType<
     T extends string,
     K extends string = Success<Key<T>>,
-    V extends string = Success<Value<T>>
+    V extends string = As<Value<T>, string>
 > = IsWideString<T> extends true
 ? unknown | Error
 : WhenErr<
@@ -64,7 +64,7 @@ type ValidKey<
     T extends string,
     KT extends unknown = Success<KeyType<T>>,
     K extends string = Success<Key<T>>,
-    V extends string = Success<Value<T>>
+    V extends string = As<Value<T>, string>
 > = IsWideString<T> extends true
 ? ObjectKey | Error
 : KT extends ObjectKey
@@ -83,8 +83,8 @@ type Value<
 > = IsWideString<T> extends true
 ? string | Error
 : S extends InnerRest
-? NestedSplit<S["inner"],","> extends [infer Val extends string, ...string[]]
-    ? Val
+? NestedSplit<S["inner"],",">[1] extends string
+    ? NestedSplit<S["inner"],",">[1]
     : Err<
         `invalid-token/map`,
         `The Map token did not provide a ',' separator to delinate the key token from the value token!`,
@@ -95,7 +95,7 @@ type Value<
 type ValueType<
     T extends string,
     K extends string = Success<Key<T>>,
-    V extends string = Success<Value<T>>
+    V extends string = As<Value<T>, string>
 > = IsWideString<T> extends true
 ? unknown | Error
 : WhenErr<
@@ -129,3 +129,11 @@ export type IT_TakeRecord<
         TContainers
     >
 : Unset;
+
+
+// DEBUG
+// type T = "Record<string, string | number>"
+// type TKey = Key<T>;
+// type TValue = Value<T>;
+// type TKeyType = KeyType<T>;
+// type TValueType = ValueType<T>;
