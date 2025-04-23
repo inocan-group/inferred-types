@@ -8,7 +8,6 @@ import type { IsEqual, Unset } from "inferred-types/types";
  */
 export type IsUnset<T> = IsEqual<T, Unset>;
 
-
 /**
  * **IsSet**`<T>`
  *

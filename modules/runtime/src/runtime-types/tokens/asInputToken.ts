@@ -18,8 +18,8 @@ export function asInputToken<
 >(token: T): InputTokenSuggestions | Err<`invalid-token/${E}`> {
     return (
         isString(token)
-        ? token.trim() as unknown as FromStringInputToken<T>
-        : "string" as any
+            ? token.trim() as unknown as FromStringInputToken<T>
+            : "string" as any
     ) as unknown as InputTokenSuggestions | Err<`invalid-token/${E}`>
     ;
 }

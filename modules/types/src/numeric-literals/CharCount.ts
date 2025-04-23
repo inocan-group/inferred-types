@@ -1,5 +1,4 @@
-import { RetainChars, IsWideString, Or, Length } from "inferred-types/types";
-
+import type { IsWideString, Length, Or, RetainChars } from "inferred-types/types";
 
 /**
  * **CharCount**`<T,C>`
@@ -10,6 +9,6 @@ import { RetainChars, IsWideString, Or, Length } from "inferred-types/types";
 export type CharCount<
     T extends string,
     C extends string
-> = Or<[IsWideString<T>,IsWideString<C>]> extends true
-? number
-: Length<RetainChars<T,C>>;
+> = Or<[IsWideString<T>, IsWideString<C>]> extends true
+    ? number
+    : Length<RetainChars<T, C>>;

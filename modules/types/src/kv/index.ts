@@ -1,4 +1,4 @@
-export * from "./FromKeyValueTuple"
+export * from "./FromKeyValueTuple";
 export * from "./FromKv";
 export * from "./KeyValue";
 export * from "./KvTuple";

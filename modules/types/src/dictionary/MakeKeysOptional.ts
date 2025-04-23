@@ -35,4 +35,3 @@ export type MakeKeysOptional<
     : TObj extends Dictionary
         ? ProcessTupleKeys<TObj, TKeys>
         : never;
-

@@ -1,56 +1,54 @@
 import type {
+    AfterFirst,
     Dictionary,
+    EmptyObject,
     Err,
+    ExpandDictionary,
+    First,
+    FirstSet,
+    InputTokenLike,
     Join,
     Last,
     Length,
+    StringKeys,
     ToJson,
     ToStringArray,
     Trim,
-    FirstSet,
-    EmptyObject,
-    StringKeys,
-    AfterFirst,
-    First,
-    ExpandDictionary,
-    InputTokenLike,
 } from "inferred-types/types";
 
 import type {
     FnReturns,
-    IT_ObjectLiteralDefinition,
-    IT_TakeAtomic,
-    IT_ContainerType,
     InputTokenSuggestions,
-    IT_TakeLiteral,
-    IT_TakeRecord,
-    IT_TakeTuple,
-    IT_TakeSet,
-    IT_TakeMap,
-    IT_TakeWeakMap,
+    IT_ContainerType,
+    IT_ObjectLiteralDefinition,
     IT_TakeArray,
-    IT_TakeTerminalDelimiter,
-    IT_TakeUnionDelimiter,
+    IT_TakeAtomic,
     IT_TakeFunction,
     IT_TakeGenerator,
-    IT_TakeObject
+    IT_TakeLiteral,
+    IT_TakeMap,
+    IT_TakeObject,
+    IT_TakeRecord,
+    IT_TakeSet,
+    IT_TakeTerminalDelimiter,
+    IT_TakeTuple,
+    IT_TakeUnionDelimiter,
+    IT_TakeWeakMap
 } from "./input-tokens/index";
 
-
 export type {
+    InputTokenLike,
+    InputTokenSuggestions,
     IT_ArrToken,
+    IT_AtomicToken,
     IT_BooleanLiteralToken,
     IT_ContainerToken,
-    IT_AtomicToken,
     IT_LiteralToken,
     IT_MapToken,
-    IT_SetToken,
-    IT_WeakMapToken,
-    InputTokenLike,
     IT_ObjectLiteralDefinition,
-    InputTokenSuggestions
-} from "./input-tokens/index"
-
+    IT_SetToken,
+    IT_WeakMapToken
+} from "./input-tokens/index";
 
 export type AsType<T extends InputTokenLike> = T extends string
     ? T
@@ -64,17 +62,16 @@ type UnwrapContainers<
     T extends readonly unknown[],
     C extends readonly IT_ContainerType[]
 > = Last<C> extends "Union"
-? T[number]
-: Last<C> extends "Tuple"
-? T
-: Last<C> extends "Array"
-    ? T["length"] extends 1
-        ? Array<T[0]>
-        : T["length"] extends 0
-        ? unknown[]
-        : Err<`invalid-token/array`, `An array token expects only a singular value for the array type but multiple types were found`, {types: T}>
-: never;
-
+    ? T[number]
+    : Last<C> extends "Tuple"
+        ? T
+        : Last<C> extends "Array"
+            ? T["length"] extends 1
+                ? Array<T[0]>
+                : T["length"] extends 0
+                    ? unknown[]
+                    : Err<`invalid-token/array`, `An array token expects only a singular value for the array type but multiple types were found`, { types: T }>
+            : never;
 
 /**
  * Finalizes the type for a given level and unwraps
@@ -84,26 +81,26 @@ type FinalizeInputToken<
     TTypes extends readonly unknown[],
     TContainers extends readonly IT_ContainerType[]
 > = Length<TContainers> extends 0
-? Length<TTypes> extends 1
-    ? TTypes[0]
-    : Err<`invalid-token/unparsed-types`,`no container nesting found to combine types tuple [${TTypes["length"]}]!`, {
-        types: Join<ToStringArray<TTypes>, ", ">,
-        containers: TContainers,
-    }>
-: UnwrapContainers<TTypes,TContainers>;
+    ? Length<TTypes> extends 1
+        ? TTypes[0]
+        : Err<`invalid-token/unparsed-types`, `no container nesting found to combine types tuple [${TTypes["length"]}]!`, {
+            types: Join<ToStringArray<TTypes>, ", ">;
+            containers: TContainers;
+        }>
+    : UnwrapContainers<TTypes, TContainers>;
 
 type InvalidTokenSegment<
     TToken extends string,
     TTypes extends readonly unknown[],
     TContainers extends readonly IT_ContainerType[]
 > = Err<
-    `invalid-token/unknown`, `The token "${TToken}" is not recognized!`,
-    {
-        types: TTypes,
-        containers: TContainers
-    }
+    `invalid-token/unknown`,
+`The token "${TToken}" is not recognized!`,
+{
+    types: TTypes;
+    containers: TContainers;
+}
 >;
-
 
 /**
  * **FromInputToken**`<TToken, [TInner], [TContainers]>`
@@ -127,53 +124,51 @@ type InvalidTokenSegment<
 export type FromInputToken<
     T extends InputTokenLike | readonly InputTokenLike[],
 > = T extends string
-? FromStringInputToken<T>
-: T extends readonly InputTokenLike[]
-? FromTupleInputToken<T>
-: T extends Record<string,string>
-? FromDictionaryInputToken<T>
-: never;
-
+    ? FromStringInputToken<T>
+    : T extends readonly InputTokenLike[]
+        ? FromTupleInputToken<T>
+        : T extends Record<string, string>
+            ? FromDictionaryInputToken<T>
+            : never;
 
 export type FromStringInputToken<
     TToken extends string,
     TInner extends readonly unknown[] = [],
     TContainers extends readonly IT_ContainerType[] = [],
 > = Trim<TToken> extends ""
-? FinalizeInputToken<TInner,TContainers>
-: FirstSet<[
-    IT_TakeAtomic<TToken, TInner, TContainers>,
-    IT_TakeLiteral<TToken, TInner, TContainers>,
-    IT_TakeRecord<TToken, TInner, TContainers>,
-    IT_TakeArray<TToken, TInner, TContainers>,
-    IT_TakeMap<TToken, TInner, TContainers>,
-    IT_TakeWeakMap<TToken, TInner, TContainers>,
-    IT_TakeSet<TToken, TInner, TContainers>,
-    IT_TakeObject<TToken, TInner, TContainers>,
-    IT_TakeTuple<TToken, TInner, TContainers>,
-    IT_TakeFunction<TToken, TInner, TContainers>,
-    IT_TakeGenerator<TToken, TInner, TContainers>,
+    ? FinalizeInputToken<TInner, TContainers>
+    : FirstSet<[
+        IT_TakeAtomic<TToken, TInner, TContainers>,
+        IT_TakeLiteral<TToken, TInner, TContainers>,
+        IT_TakeRecord<TToken, TInner, TContainers>,
+        IT_TakeArray<TToken, TInner, TContainers>,
+        IT_TakeMap<TToken, TInner, TContainers>,
+        IT_TakeWeakMap<TToken, TInner, TContainers>,
+        IT_TakeSet<TToken, TInner, TContainers>,
+        IT_TakeObject<TToken, TInner, TContainers>,
+        IT_TakeTuple<TToken, TInner, TContainers>,
+        IT_TakeFunction<TToken, TInner, TContainers>,
+        IT_TakeGenerator<TToken, TInner, TContainers>,
 
-    IT_TakeTerminalDelimiter<TToken, TInner, TContainers>,
-    IT_TakeUnionDelimiter<TToken, TInner, TContainers>,
+        IT_TakeTerminalDelimiter<TToken, TInner, TContainers>,
+        IT_TakeUnionDelimiter<TToken, TInner, TContainers>,
 
-    InvalidTokenSegment<TToken,TInner,TContainers>
-]>;
+        InvalidTokenSegment<TToken, TInner, TContainers>
+    ]>;
 
 type Convert<
     T extends InputTokenLike,
     K extends string,
     I extends string | number,
 > = T extends string
-? FromStringInputToken<T>
-: T extends Record<string,InputTokenLike>
-? FromDictionaryInputToken<T>
-: T extends readonly InputTokenLike[]
-? FromTupleInputToken<T>
-: Err<`invalid-token/${K}`, `The key "${I}" from a ${K} definition was invalid`, {
-    container: T
-}>;
-
+    ? FromStringInputToken<T>
+    : T extends Record<string, InputTokenLike>
+        ? FromDictionaryInputToken<T>
+        : T extends readonly InputTokenLike[]
+            ? FromTupleInputToken<T>
+            : Err<`invalid-token/${K}`, `The key "${I}" from a ${K} definition was invalid`, {
+                container: T;
+            }>;
 
 /**
  * Takes a tuple of `InputTokens` to create a **Tuple** type.
@@ -184,17 +179,17 @@ export type FromTupleInputToken<
     [K in keyof T]: T[K] extends InputTokenSuggestions
         ? FromStringInputToken<T[K]>
         : never
-}
+};
 
 type _FromInputTokenDictionary<
-    T extends Record<string,InputTokenLike>,
+    T extends Record<string, InputTokenLike>,
     K extends readonly (string & keyof T)[],
-    R extends Record<string,unknown> = EmptyObject
+    R extends Record<string, unknown> = EmptyObject
 > = [] extends K
-? ExpandDictionary<R>
-: _FromInputTokenDictionary<
-    T,
-    AfterFirst<K>,
+    ? ExpandDictionary<R>
+    : _FromInputTokenDictionary<
+        T,
+        AfterFirst<K>,
     R & Record<
         First<K>,
         Convert<
@@ -203,11 +198,11 @@ type _FromInputTokenDictionary<
             First<K>
         >
     >
->
+    >;
 
 /**
  * Takes a tuple of `InputTokens` to create a **Tuple** type.
  */
 export type FromDictionaryInputToken<
-    T extends Record<string,InputTokenLike>
-> = _FromInputTokenDictionary<T, StringKeys<T>>
+    T extends Record<string, InputTokenLike>
+> = _FromInputTokenDictionary<T, StringKeys<T>>;

@@ -1,4 +1,4 @@
-import {
+import type {
     AfterFirst,
     Dictionary,
     First,
@@ -7,19 +7,17 @@ import {
     ToKv,
 } from "inferred-types/types";
 
-
 type Process<
     T extends readonly KeyValue[],
     R extends readonly ObjectKey[] = []
 > = [] extends T
-? R
-: Process<
-    AfterFirst<T>,
-    First<T>["value"] extends Error
-        ? [...R, First<T>["key"]]
-        : R
->
-
+    ? R
+    : Process<
+        AfterFirst<T>,
+        First<T>["value"] extends Error
+            ? [...R, First<T>["key"]]
+            : R
+    >;
 
 /**
  * **KeysWithError**`<T>`

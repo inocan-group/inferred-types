@@ -1,9 +1,8 @@
-import {
+import type {
     AfterFirst,
     First,
     Unset
 } from "inferred-types/types";
-
 
 /**
  * **FirstSet**`<T>`
@@ -17,7 +16,7 @@ export type FirstSet<
     T extends any[],
     U = undefined
 > = [] extends T
-? U
-: First<T> extends Unset
-    ? FirstSet<AfterFirst<T>, U>
-    : First<T>;
+    ? U
+    : First<T> extends Unset
+        ? FirstSet<AfterFirst<T>, U>
+        : First<T>;

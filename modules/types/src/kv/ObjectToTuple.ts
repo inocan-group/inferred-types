@@ -3,7 +3,6 @@ import type {
     ToKv,
 } from "inferred-types/types";
 
-
 /**
  * **ObjectToTuple**`<TObj,[TCompact]>`
  *

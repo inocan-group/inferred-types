@@ -37,7 +37,6 @@ export function find<
     list: TList,
     deref: TDeref = null as TDeref
 ) {
-
     return <
         TExtends extends Narrowable | ShapeCallback,
     >(comparator: TExtends) => {

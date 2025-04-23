@@ -21,9 +21,9 @@ export function entries<
     const iterable = {
         * [Symbol.iterator]() {
             for (const k of keysOf(obj)) {
-        // const [k, v] = entry as KeyValue<T, First<typeof entry>>;
-        type K = typeof k;
-        yield ({ key: k, value: obj[k] }) as { key: K; value: K extends keyof T ? T[K] : never };
+                // const [k, v] = entry as KeyValue<T, First<typeof entry>>;
+                type K = typeof k;
+                yield ({ key: k, value: obj[k] }) as { key: K; value: K extends keyof T ? T[K] : never };
             }
         },
     };

@@ -1,5 +1,4 @@
 import type {
-    Dictionary,
     FnProps,
     LiteralFn,
     MergeObjects,
@@ -9,17 +8,14 @@ import type {
 } from "inferred-types/types";
 import { fnProps } from "src/functions";
 
-
-
 type FnWithProps<
     TFn extends TypedFunction,
     TProps extends Record<ObjectKey, Narrowable>,
     TNarrowing extends boolean,
-    Fn extends <A extends Parameters<TFn>>(...args: A) => ReturnType<TFn>=<A extends Parameters<TFn>>(...args: A) => ReturnType<TFn>
+    Fn extends <A extends Parameters<TFn>>(...args: A) => ReturnType<TFn> = <A extends Parameters<TFn>>(...args: A) => ReturnType<TFn>
 > = TNarrowing extends true
     ? Fn & MergeObjects<FnProps<TFn>, TProps>
-    : LiteralFn<Fn> & MergeObjects<FnProps<TFn>, TProps> ;
-
+    : LiteralFn<Fn> & MergeObjects<FnProps<TFn>, TProps>;
 
 /**
  * **createFnWithProps**`(fn, props)`
@@ -42,16 +38,15 @@ export function createFnWithProps<
 >(
     fn: TFn,
     props: TProps,
-    // @ts-ignore
-    narrowing: TNarrowing = false as TNarrowing
+    _narrowing: TNarrowing = false as TNarrowing
 ) {
     let fnWithProps: any = fn;
     const p = {
         ...(fnProps(fn)),
         ...props
-    }
+    };
     for (const prop of Object.keys(p)) {
-        if(prop !== "name") {
+        if (prop !== "name") {
             fnWithProps[prop] = p[prop];
         }
     }
@@ -59,15 +54,15 @@ export function createFnWithProps<
     if ("name" in props) {
         fnWithProps = Object.defineProperties(fnWithProps, {
             name: {
-                value: p["name"],
+                value: p.name,
                 writable: false
             }
-        })
+        });
     }
 
     return fnWithProps as unknown as FnWithProps<
         TFn,
         TProps,
         TNarrowing
-    >
+    >;
 }

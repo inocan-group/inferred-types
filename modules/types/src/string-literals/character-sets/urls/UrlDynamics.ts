@@ -14,7 +14,6 @@ import type {
     GetUrlQueryParams,
     IsVariable,
     Keys,
-    KeysOverlap,
     MergeObjects,
     SimpleToken,
     Some,
@@ -107,8 +106,7 @@ export type GetUrlPathDynamics<
     T extends string,
 > = As<PathDynamics<
     Split<T, "<", "after">
->, Record<string,unknown>
->;
+>, Record<string, unknown>>;
 
 type QueryParameterDynamics<
     T extends readonly string[],
@@ -141,15 +139,13 @@ type PathAndQueryDynamics<T extends string> = GetUrlPathDynamics<GetUrlPath<T>> 
             "extends",
             GetQueryParameterDynamics<GetUrlQueryParams<T>>
         > extends true
-            ?  ErrMsg<"overlapping-keys", { path: Keys<GetUrlPathDynamics<GetUrlPath<T>>>; qp: Keys<GetQueryParameterDynamics<GetUrlQueryParams<T>>> }>
+            ? ErrMsg<"overlapping-keys", { path: Keys<GetUrlPathDynamics<GetUrlPath<T>>>; qp: Keys<GetQueryParameterDynamics<GetUrlQueryParams<T>>> }>
             : MergeObjects<
                 GetUrlPathDynamics<GetUrlPath<T>>,
                 GetQueryParameterDynamics<GetUrlQueryParams<T>>
             >
         : never
     : never;
-
-
 
 export interface GetUrlDynamics<T extends string> {
     /**

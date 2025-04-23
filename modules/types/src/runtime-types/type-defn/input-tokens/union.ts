@@ -1,4 +1,4 @@
-import { FromStringInputToken, Last, Trim } from "inferred-types/types";
+import type { FromStringInputToken, Trim } from "inferred-types/types";
 import type {
     IT_ContainerType
 } from "src/runtime-types/type-defn/input-tokens/_base";
@@ -8,7 +8,7 @@ export type IT_TakeUnionDelimiter<
     TInner extends readonly any[] = [],
     TContainers extends readonly IT_ContainerType[] = []
 > = Trim<T> extends `|${infer Rest}`
-? TContainers extends [...any[], "Union"]
-    ? FromStringInputToken<Trim<Rest>, TInner, TContainers>
-    : FromStringInputToken<Trim<Rest>, TInner, [...TContainers, "Union"]>
-: undefined;
+    ? TContainers extends [...any[], "Union"]
+        ? FromStringInputToken<Trim<Rest>, TInner, TContainers>
+        : FromStringInputToken<Trim<Rest>, TInner, [...TContainers, "Union"]>
+    : undefined;

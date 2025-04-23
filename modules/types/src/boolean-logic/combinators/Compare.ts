@@ -15,7 +15,6 @@ import type {
     StartsWith,
     Tuple,
     TypedFunction,
-    WhenNever,
 } from "inferred-types/types";
 
 /**

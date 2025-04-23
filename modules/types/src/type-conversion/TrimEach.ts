@@ -1,6 +1,4 @@
-import {  Trim } from "inferred-types/types";
-
-
+import type { Trim } from "inferred-types/types";
 
 /**
  * **TrimEach**`<T>`
@@ -17,4 +15,4 @@ export type TrimEach<
     [K in keyof T]: T[K] extends string
         ? Trim<T[K]>
         : T[K]
-}
+};

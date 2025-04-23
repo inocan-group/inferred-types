@@ -1,5 +1,4 @@
-import type { IsStringLiteral, AfterFirst, First } from "inferred-types/types";
-
+import type { AfterFirst, First, IsStringLiteral } from "inferred-types/types";
 
 type _StringLiteralTemplate<T extends string | number | boolean> = T extends number
     ? `${number}`

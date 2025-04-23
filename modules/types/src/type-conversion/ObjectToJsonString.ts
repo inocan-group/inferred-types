@@ -1,14 +1,13 @@
 import type {
     AnyObject,
+    AsString,
     ExplicitlyEmptyObject,
     IsWideContainer,
     Join,
     ObjectKey,
     Surround,
-    ToKv,
-    AsString
+    ToKv
 } from "inferred-types/types";
-
 
 type Process<
     T extends readonly Record<ObjectKey, any>[],

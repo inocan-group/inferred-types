@@ -1,19 +1,19 @@
-import {
-    Length,
+import type {
     And,
+    DoesExtend,
+    Err,
     Extends,
     IsEqual,
-    StringKeys,
-    DoesExtend,
-    Values,
-    ReverseLookup,
-    Last,
-    Pop,
-    Err,
-    Join,
     IsGreaterThan,
     IsWideString,
-    Or
+    Join,
+    Last,
+    Length,
+    Or,
+    Pop,
+    ReverseLookup,
+    StringKeys,
+    Values
 } from "inferred-types/types";
 
 /**
@@ -28,7 +28,7 @@ type ShouldBreak<
     N extends readonly string[]
 > = And<[
     IsEqual<Length<N>, 0>,
-    Extends<T,S>,
+    Extends<T, S>,
 ]>;
 
 /**
@@ -38,9 +38,9 @@ type ShouldBreak<
  */
 type ShouldNest<
     T extends string,
-    B extends Record<string,string>
+    B extends Record<string, string>
 > = And<[
-    DoesExtend<T,StringKeys<B>[number]>
+    DoesExtend<T, StringKeys<B>[number]>
 ]>;
 
 /**
@@ -52,10 +52,10 @@ type ShouldNest<
  */
 type ShouldUnwrap<
     T extends string,
-    B extends Record<string,string>,
+    B extends Record<string, string>,
     N extends readonly string[]
 > = And<[
-    DoesExtend<T,Values<B>[number]>,
+    DoesExtend<T, Values<B>[number]>,
     IsGreaterThan<Length<N>, 0>,
     DoesExtend<
         ReverseLookup<B>[T],
@@ -65,85 +65,86 @@ type ShouldUnwrap<
 
 type Policy = "omit" | "before" | "inline";
 
-
 type Process<
     TContent extends string,
     TSplit extends string,
-    TBrackets extends Record<string,string>,
+    TBrackets extends Record<string, string>,
     TPolicy extends Policy,
     TParts extends readonly string[] = [],
     TNesting extends readonly string[] = [],
     TPartial extends string = ""
 > = TContent extends `${infer HEAD}${infer REST}`
-? ShouldUnwrap<
-    HEAD,
-    TBrackets,
-    TNesting
-> extends true
-    ? Process<
-        REST,
-        TSplit,
+    ? ShouldUnwrap<
+        HEAD,
         TBrackets,
-        TPolicy,
-        TParts,
-        Pop<TNesting>,
+        TNesting
+    > extends true
+        ? Process<
+            REST,
+            TSplit,
+            TBrackets,
+            TPolicy,
+            TParts,
+            Pop<TNesting>,
         `${TPartial}${HEAD}`
-    >
-: ShouldBreak<
-    HEAD,TSplit,TNesting
-> extends true
-    ? Process<
-        REST,
-        TSplit,
-        TBrackets,
-        TPolicy,
-        [
-            ...TParts,
-            ...(
-                TPolicy extends "before"
-                    ? [`${TPartial}${HEAD}`]
-                : TPolicy extends "omit"
-                    ? [TPartial]
-                : TPolicy extends "inline"
-                    ? [TPartial,HEAD]
-                : never
-            )
+        >
+        : ShouldBreak<
+            HEAD,
+            TSplit,
+            TNesting
+        > extends true
+            ? Process<
+                REST,
+                TSplit,
+                TBrackets,
+                TPolicy,
+                [
+                    ...TParts,
+                    ...(
+                        TPolicy extends "before"
+                            ? [`${TPartial}${HEAD}`]
+                            : TPolicy extends "omit"
+                                ? [TPartial]
+                                : TPolicy extends "inline"
+                                    ? [TPartial, HEAD]
+                                    : never
+                    )
 
-        ], // parts
-        TNesting,
-        "" // reset
-    >
-: ShouldNest<
-    HEAD,TBrackets
-> extends true
-    ? Process<
-        REST,
-        TSplit,
-        TBrackets,
-        TPolicy,
-        TParts,
-        [...TNesting, HEAD],
+                ], // parts
+                TNesting,
+                ""
+            >
+            : ShouldNest<
+                HEAD,
+                TBrackets
+            > extends true
+                ? Process<
+                    REST,
+                    TSplit,
+                    TBrackets,
+                    TPolicy,
+                    TParts,
+                    [...TNesting, HEAD],
         `${TPartial}${HEAD}`
-    >
-    : Process<
-        REST,
-        TSplit,
-        TBrackets,
-        TPolicy,
-        TParts,
-        TNesting,
+                >
+                : Process<
+                    REST,
+                    TSplit,
+                    TBrackets,
+                    TPolicy,
+                    TParts,
+                    TNesting,
         `${TPartial}${HEAD}`
-    >
-: Length<TNesting> extends 0
-? [...TParts, TPartial]
-: Err<`nested-split/unbalanced`, `The Parse<...> utility had an imbalanced nesting with ${Length<TNesting>} nesting layers remaining: ${Join<TNesting, ", ">}`>;
-
+                >
+    : Length<TNesting> extends 0
+        ? [...TParts, TPartial]
+        : Err<`nested-split/unbalanced`, `The Parse<...> utility had an imbalanced nesting with ${Length<TNesting>} nesting layers remaining: ${Join<TNesting, ", ">}`>;
 
 type DefaultNesting = {
-    "{":"}",
-    "[": "]",
-    "<":">",
-    "(":")"
+    "{": "}";
+    "[": "]";
+    "<": ">";
+    "(": ")";
 };
 
 /**
@@ -170,21 +171,16 @@ type DefaultNesting = {
 export type NestedSplit<
     TContent extends string,
     TSplit extends string,
-    TNesting extends Record<string,string> = DefaultNesting,
+    TNesting extends Record<string, string> = DefaultNesting,
     TPolicy extends Policy = "omit"
 > = Or<[
     IsWideString<TContent>,
     IsWideString<TSplit>
 ]> extends true
-? string[]
-: Process<TContent,TSplit,TNesting, TPolicy>;
-
-
-
+    ? string[]
+    : Process<TContent, TSplit, TNesting, TPolicy>;
 
 // DEBUGGING
 // type T = "WeakMap<{id: number, data: Array<string>}, string>"
 // type TParse = NestedSplit<T, ",", { "{": "}" }>
 //      ^?
-
-

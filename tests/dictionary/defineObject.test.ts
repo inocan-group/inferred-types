@@ -15,10 +15,10 @@ describe("defineObject()", () => {
             bar: "String(foo) | String(bar) | String(baz)"
         });
 
-        expect(fooBar).toEqual({
-            foo: "Opt<string>",
-            bar: "string(foo,bar)"
-        });
+        // dictionary converted to string evivalent
+        expect(fooBar).toEqual(
+            `foo: "string | undefined",bar: "String(foo) | String(bar) | String(baz)`
+        );
 
         type FooBar = typeof fooBar;
 

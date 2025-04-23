@@ -1,4 +1,9 @@
-import type { Immutable, Narrowable, NarrowObject } from "inferred-types/types";
+import type {
+    Dictionary,
+    Immutable,
+    Narrowable,
+    NarrowObject
+} from "inferred-types/types";
 import { isArray, keysOf } from "inferred-types/runtime";
 
 /**
@@ -10,11 +15,11 @@ import { isArray, keysOf } from "inferred-types/runtime";
 export function freeze<
     T extends NarrowObject<N> | readonly N[],
     N extends Narrowable
->(container: T) {
-    const output: any = isArray(container) ? [] : {};
+>(obj: T & Dictionary) {
+    const output: any = isArray(obj) ? [] : {};
 
-    for (const key of keysOf(container)) {
-        const value = container[key as keyof typeof container];
+    for (const key of keysOf(obj)) {
+        const value = obj[key as keyof typeof obj];
 
         output[key] = typeof value === "object"
             ? freeze(value as NarrowObject<Narrowable> | readonly Narrowable[])

@@ -1,6 +1,5 @@
 import type {
     AfterFirst,
-    AnyObject,
     As,
     Contains,
     Dictionary,
@@ -12,12 +11,11 @@ import type {
     OptionalKeysTuple,
 } from "inferred-types/types";
 
-
 type Process<
     TObj extends Dictionary,
     TKeys extends readonly (ObjectKey & keyof TObj)[] = As<Keys<TObj>, readonly (keyof TObj & ObjectKey)[]>,
     TOptional extends readonly ObjectKey[] = OptionalKeysTuple<TObj>,
-    TKv extends readonly KeyValue[]= [],
+    TKv extends readonly KeyValue[] = [],
 > = [] extends TKeys
     ? TKv
     : Process<
@@ -27,15 +25,15 @@ type Process<
         [
             ...TKv,
             Contains<TOptional, First<TKeys>> extends true
-            ? {
-                key: First<TKeys>,
-                value: TObj[First<TKeys>],
-                required: false
-            }
-            :{
-                key: First<TKeys>,
-                value: TObj[First<TKeys>]
-            }
+                ? {
+                    key: First<TKeys>;
+                    value: TObj[First<TKeys>];
+                    required: false;
+                }
+                : {
+                    key: First<TKeys>;
+                    value: TObj[First<TKeys>];
+                }
         ]
     >;
 
@@ -56,5 +54,4 @@ export type ToKv<
     TObj extends Dictionary
 > = IsObjectLiteral<TObj> extends true
     ? As<Process<TObj>, readonly KeyValue[]>
-    : KeyValue[]
-
+    : KeyValue[];

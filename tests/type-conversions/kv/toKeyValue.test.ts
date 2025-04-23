@@ -2,7 +2,8 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
 import { Extends, KeyValue } from "inferred-types/types";
-import { toKeyValue, fromKeyValue } from "inferred-types/runtime";
+import { toKeyValue, tuple, defineObj } from "inferred-types/runtime";
+import { log } from "console";
 
 
 describe("toKeyValue(obj)", () => {
@@ -52,10 +53,10 @@ describe("toKeyValue(obj)", () => {
     it("forcing a key to end position", () => {
         const fooBar = toKeyValue({ foo: 1, bar: "hi", id: 123 }, { end: "bar" });
 
-        expect(fooBar, JSON.stringify(fooBar)).toEqual([
-            { key: "bar", value: "hi" },
-            { key: "id", value: 123 },
+        expect(fooBar, `End key should be "bar": ${Object.keys(fooBar)}`).toEqual([
             { key: "foo", value: 1 },
+            { key: "id", value: 123 },
+            { key: "bar", value: "hi" },
         ])
 
         type cases = [
@@ -72,8 +73,8 @@ describe("toKeyValue(obj)", () => {
 
 
 
-    it("Obsidian example", () => {
-        const fmKv = toKeyValue({
+    it("Forcing both start and end keys", () => {
+        const obj = defineObj({
             "company": "[[Anthropic]]",
             "kind": "[[AI Model]]",
             "category": "[[LLM]]",
@@ -83,41 +84,31 @@ describe("toKeyValue(obj)", () => {
             "desc": "The fast and lightweight sibling in the Claude family (Anthropic)",
             "subcategory": "[[Lightweight Model]]",
             "type": "[[kind/types/AI.md|AI]]"
-        }, { start: ["type", "kind", "category", "subcategory"], end: "desc" });
+        })();
 
-        const keys = fmKv.map(i => i.key);
-
-        expect(keys, `Expect keys to be reordered; starting with "type" and ending with "desc"`).toEqual([
-            "type", "kind", "category", "subcategory",
-            "company", "aliases",
-            "desc"
-        ]);
-
-        const fm = fromKeyValue(fmKv);
-
-        expect(fm).toEqual({
-            type: "[[kind/types/AI.md|AI]]",
-            kind: "[[AI Model]]",
-            category: "[[LLM]]",
-            subcategory: "[[Lightweight Model]]",
-            company: "[[Anthropic]]",
-            aliases: ["Haiku"],
-            desc: "The fast and lightweight sibling in the Claude family (Anthropic)"
+        const fromObj = toKeyValue(obj, {
+            start: ["type", "kind", "category", "subcategory"],
+            end: "desc"
         });
+        log({fromObj})
+
+        const kv = tuple(
+            { key: "type", value: "[[kind/types/AI.md|AI]]" },
+            { key: "kind", value: "[[AI Model]]" },
+            { key: "category", value: "[[LLM]]" },
+            { key: "subcategory", value: "[[Lightweight Model]]" },
+            { key: "company", value: "[[Anthropic]]" },
+            { key: "aliases", value: ["Haiku"] },
+            { key: "desc", value: "The fast and lightweight sibling in the Claude family (Anthropic)" },
+        );
+
+        expect(fromObj).toEqual(kv);
 
         type cases = [
-            Expect<Extends<typeof fmKv, KeyValue[]>>,
+            Expect<Extends<typeof fromObj, KeyValue[]>>,
             Expect<Equal<
-                typeof fm,
-                {
-                    type: "[[kind/types/AI.md|AI]]";
-                    kind: "[[AI Model]]";
-                    category: "[[LLM]]";
-                    subcategory: "[[Lightweight Model]]";
-                    company: "[[Anthropic]]";
-                    aliases: string[];
-                    desc: "The fast and lightweight sibling in the Claude family (Anthropic)";
-                }
+                typeof fromObj,
+                typeof kv
             >>
         ];
 

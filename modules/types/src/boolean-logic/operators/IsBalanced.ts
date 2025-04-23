@@ -1,62 +1,61 @@
-import {
+import type {
     AfterFirst,
     Chars,
     Contains,
+    Dictionary,
     Err,
     First,
-    Dictionary,
-    StringKeys, Values,
-    ToString,
+    Last,
     Length,
     ReverseLookup,
-    Last
+    StringKeys,
+    ToString,
+    Values
 } from "inferred-types/types";
 
 type Inv<
     TVal extends string,
-    TKv extends Dictionary<string,string>,
-    TLookup extends Dictionary<string,string> = ReverseLookup<TKv>
+    TKv extends Dictionary<string, string>,
+    TLookup extends Dictionary<string, string> = ReverseLookup<TKv>
 > = TVal extends keyof TLookup
-? TLookup[TVal]
-: never;
+    ? TLookup[TVal]
+    : never;
 
 type Check<
     TInput extends readonly string[],
-    TStartEnd extends Dictionary<string,string>,
+    TStartEnd extends Dictionary<string, string>,
     TCount extends readonly string[] = [],
 > = [] extends TInput
-? TCount["length"] extends 0
-    ? true
-    : false
-: First<TInput> extends keyof TStartEnd
-    ? Check<
-        AfterFirst<TInput>,
-        TStartEnd,
-        [...TCount, First<TInput>]
-    >
-    : Contains<Values<TStartEnd>, First<TInput>> extends true
-        ? Inv<First<TInput>, TStartEnd> extends Last<TCount>
-            ? TCount extends readonly [string, ...infer Remaining extends string[]]
-                ? Check<
-                    AfterFirst<TInput>,
-                    TStartEnd,
-                    Remaining
-                >
-                : never
-            : false
-    : Check<
-        AfterFirst<TInput>,
-        TStartEnd,
-        TCount
-    >;
-
+    ? TCount["length"] extends 0
+        ? true
+        : false
+    : First<TInput> extends keyof TStartEnd
+        ? Check<
+            AfterFirst<TInput>,
+            TStartEnd,
+            [...TCount, First<TInput>]
+        >
+        : Contains<Values<TStartEnd>, First<TInput>> extends true
+            ? Inv<First<TInput>, TStartEnd> extends Last<TCount>
+                ? TCount extends readonly [string, ...infer Remaining extends string[]]
+                    ? Check<
+                        AfterFirst<TInput>,
+                        TStartEnd,
+                        Remaining
+                    >
+                    : never
+                : false
+            : Check<
+                AfterFirst<TInput>,
+                TStartEnd,
+                TCount
+            >;
 
 type LengthOne<T extends readonly string[]> = [] extends T
     ? true
     : Length<First<T>> extends 1
         ? LengthOne<AfterFirst<T>>
         : false;
-
 
 /**
  * Boolean operator which tests whether the string literal `T` has an equal
@@ -70,9 +69,7 @@ type LengthOne<T extends readonly string[]> = [] extends T
  */
 export type IsBalanced<
     T extends string,
-    U extends Dictionary<string,string>
+    U extends Dictionary<string, string>
 > = LengthOne<[...StringKeys<U>, ...Values<U>]> extends true
-    ? Check<Chars<T>,U>
+    ? Check<Chars<T>, U>
     : Err<"invalid-key-value/is-balanced", `The IsBalanced<T,U> utility expects U to be a key/value dictionary where both keys and values are one character strings.`, { kv: ToString<U> }>;
-
-

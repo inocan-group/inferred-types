@@ -1,4 +1,4 @@
-import {
+import type {
     IT_ATOMIC_TOKENS,
     IT_LITERAL_TOKENS
 } from "inferred-types/constants";
@@ -34,7 +34,6 @@ export type IT_NumericLiteralToken = `Number(${number})`;
  * a literal value of `true` or `false`
  */
 export type IT_BooleanLiteralToken = `Boolean(${"true" | "false"})`;
-
 
 /**
  * **IT_LiteralToken**
@@ -72,7 +71,7 @@ export type InputToken__SimpleTokens =
 | `Array<string>` | `Array<number>` | `Array<boolean>` | `Array<unknown>`
 | `Array<string | number>`
 | `Array<string | undefined>` | `Array<number | undefined>` | `Array<boolean | undefined>`
-| `Array<boolean | function => boolean>`
+| `Array<boolean | function => boolean>`;
 
 export type InputTokenSuggestions = Suggest<
     | BaseSuggest
@@ -84,7 +83,6 @@ export type InputTokenSuggestions = Suggest<
     | `Record<string, ${BaseSuggest}>`
     | `Record<string|symbol, ${BaseSuggest}>`
 >;
-
 
 /**
  * **IT_ObjectLiteralDefinition**

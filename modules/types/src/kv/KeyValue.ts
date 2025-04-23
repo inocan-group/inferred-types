@@ -1,4 +1,4 @@
-import type { As, ObjectKey, Unset } from "inferred-types/types";
+import type { ObjectKey } from "inferred-types/types";
 
 /**
  * **KeyValue**
@@ -11,4 +11,4 @@ import type { As, ObjectKey, Unset } from "inferred-types/types";
 export type KeyValue<
     K = ObjectKey,
     V = any
-> = { key: K; value: V; required?: boolean }
+> = { key: K; value: V; required?: boolean };

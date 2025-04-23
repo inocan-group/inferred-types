@@ -2,8 +2,8 @@ import type {
     AfterFirst,
     First,
     InputTokenLike,
-    IT_ObjectLiteralDefinition,
     InputTokenSuggestions,
+    IT_ObjectLiteralDefinition,
     SafeEncode,
     Surround,
     ToJson

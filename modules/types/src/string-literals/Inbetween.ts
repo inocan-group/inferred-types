@@ -1,9 +1,9 @@
-import { And, Concat, Contains, IsWideString, Or, RetainUntil, StripAfter, StripBefore, StripUntil } from "inferred-types/types";
+import type { And, Concat, Contains, IsWideString, Or, StripAfter, StripBefore } from "inferred-types/types";
 
 export type InbetweenOptions = {
     policy?: "inclusive" | "exclusive";
     noMatch?: unknown;
-}
+};
 
 /**
  * **Inbetween**`<T,TStart,TEnd>`
@@ -28,18 +28,18 @@ export type Inbetween<
     IsWideString<TStart>,
     IsWideString<TEnd>
 ]> extends true
-? string
+    ? string
 
-: And<[
-    Contains<T,TStart>,
-    Contains<T,TEnd>,
-]> extends true
-    ? TOpt["policy"] extends "inclusive"
-        ? Concat<[
-            TStart,
-            StripBefore<StripAfter<T,TEnd>, TStart>,
-            TEnd
-        ]>
+    : And<[
+        Contains<T, TStart>,
+        Contains<T, TEnd>,
+    ]> extends true
+        ? TOpt["policy"] extends "inclusive"
+            ? Concat<[
+                TStart,
+                StripBefore<StripAfter<T, TEnd>, TStart>,
+                TEnd
+            ]>
 
-        : StripBefore<StripAfter<T,TEnd>, TStart>
-    : TOpt["noMatch"];
+            : StripBefore<StripAfter<T, TEnd>, TStart>
+        : TOpt["noMatch"];

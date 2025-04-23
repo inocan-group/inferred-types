@@ -1,4 +1,3 @@
-
 /**
  * **ReplaceType**
  *
@@ -8,5 +7,5 @@
  */
 export type ReplaceType<TContent, TFind, TReplace> =
   TContent extends readonly any[]
-    ? { [K in keyof TContent]: ReplaceType<TContent[K], TFind, TReplace> }
-    : [TContent] extends [TFind] ? TReplace : TContent;
+      ? { [K in keyof TContent]: ReplaceType<TContent[K], TFind, TReplace> }
+      : [TContent] extends [TFind] ? TReplace : TContent;

@@ -1,4 +1,4 @@
-import { Thenable } from "inferred-types/types";
+import type { Thenable } from "inferred-types/types";
 
 /**
  * **Awaited**`<T>`
@@ -11,4 +11,3 @@ export type Awaited<T> = T extends Thenable
         ? Type
         : ReturnType<T["then"]>
     : never;
-

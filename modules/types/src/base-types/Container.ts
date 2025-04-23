@@ -20,5 +20,5 @@ export type Container =
  * of either a Tuple or Dictionary container type.
  */
 export type NarrowContainer<N extends Narrowable> =
-| Dictionary<ObjectKey,N>
+| Dictionary<ObjectKey, N>
 | readonly N[];

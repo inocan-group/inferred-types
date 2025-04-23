@@ -2,6 +2,7 @@ export * from "./asArray";
 export * from "./createConverter";
 export * from "./createFixedLengthArray";
 export * from "./filter";
+export * from "./retain";
 export * from "./filterEmpty";
 export * from "./filterUndefined";
 export * from "./find";
@@ -14,6 +15,6 @@ export * from "./logicalReturns";
 export * from "./reverse";
 export * from "./shift";
 export * from "./slice";
-export * from "./sort";
 export * from "./sortByKey";
 export * from "./unique";
+

@@ -22,12 +22,12 @@ import type {
     Tuple,
     TupleToUnion,
     TypeTokenKind,
+    WideContainerNames,
+    WideTokenNames,
     Zip5,
     ZipCode,
-    ZipPlus4,
-    WideContainerNames, WideTokenNames
+    ZipPlus4
 } from "inferred-types/types";
-
 
 type Narrow = Exclude<Narrowable, symbol>;
 
@@ -271,12 +271,13 @@ type ShapeApi__Functions = {
         returns: <TReturn extends FnReturnTypeDefn>(rtn: TReturn) => ({
             addProperties: <
                 TProps extends FnPropertiesDefn,
-            >(kv: TProps) => any;
+            >(kv: TProps
+            ) => any;
             done: () => any;
         });
         done: () => any;
     });
-}
+};
 
 /** used in Shape callbacks */
 export type RecordKeyWideTokens = "string" | "symbol" | "string | symbol";

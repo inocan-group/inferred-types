@@ -1,16 +1,16 @@
-import { AfterFirst, As, Dictionary, EmptyObject, Expand, First, Keys, ObjectKey, Trim } from "inferred-types/types";
+import type { AfterFirst, As, Dictionary, EmptyObject, Expand, First, Keys, ObjectKey, Trim } from "inferred-types/types";
 
 export type _TrimDict<
     T extends Dictionary,
     K extends readonly (keyof T & ObjectKey)[],
     R extends Dictionary = EmptyObject
 > = [] extends K
-? Expand<R>
-: _TrimDict<
-    T,
-    AfterFirst<K>,
+    ? Expand<R>
+    : _TrimDict<
+        T,
+        AfterFirst<K>,
     R & Record<First<K>, T[First<K>] extends string ? Trim<T[First<K>]> : T[First<K>]>
->;
+    >;
 
 /**
  * **TrimDictionary**`<T>`

@@ -1,6 +1,5 @@
 import type {
     AfterFirst,
-    AnyObject,
     As,
     Container,
     Dictionary,
@@ -73,10 +72,10 @@ export type Keys<
 > = TContainer extends readonly unknown[]
     ? ProcessTuple<TContainer>
     : TContainer extends Dictionary
-            ?  ProcessObject<TContainer> extends readonly (ObjectKey & keyof TContainer)[]
-                ? ProcessObject<TContainer>
-                : never
-            : never;
+        ? ProcessObject<TContainer> extends readonly (ObjectKey & keyof TContainer)[]
+            ? ProcessObject<TContainer>
+            : never
+        : never;
 
 type _Public<
     TInput extends readonly PropertyKey[],

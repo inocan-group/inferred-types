@@ -107,11 +107,10 @@ export function createCssKeyframe<
     ) as unknown as HandleDoneFn<ReturnType<TKeyframes>>;
 
   type Frames = typeof frames;
-  type Returns = FrameToCSS<Frames>;
 
   return {
       name,
       keyframes: frames,
-      css: `@keyframes ${name} {\n${frameToCss(frames)}\n}` as unknown as `@keyframes ${TName} ${Returns}`,
+      css: `@keyframes ${name} {\n${frameToCss(frames)}\n}` as string,
   } as unknown as FrameToCSS<Frames>;
 }

@@ -1,14 +1,15 @@
 import type {
-    Narrowable,
-    NarrowObject,
-    ToKv,
-    SortByKey,
-    SortByKeyOptions,
-    MergeObjects,
     As,
     Dictionary,
+    MergeObjects,
+    Narrowable,
+    NarrowObject,
+    ObjectKey,
+    SortByKey,
+    SortByKeyOptions,
+    ToKv,
 } from "inferred-types/types";
-import { asArray, keysOf } from "inferred-types/runtime";
+import { asArray, keysOf, sortByKey } from "inferred-types/runtime";
 
 /**
  * **toKeyValue**`(obj)` -> tuple
@@ -34,44 +35,27 @@ import { asArray, keysOf } from "inferred-types/runtime";
 export function toKeyValue<
     TObj extends NarrowObject<O>,
     O extends Narrowable,
-    S extends Narrowable,
+    S extends ObjectKey,
     TSort extends SortByKeyOptions<S> | undefined = undefined,
     TSorted = SortByKey<
-        ToKv<TObj>, "key",
+        ToKv<TObj>,
+        "key",
         TSort extends undefined
-            ? { start: [], end: []}
-            : MergeObjects<{ start: [], end: [] }, As<TSort, Dictionary>>
+            ? { start: []; end: [] }
+            : MergeObjects<{ start: []; end: [] }, As<TSort, Dictionary>>
     >
 >(
     obj: TObj,
     sort: TSort = undefined as TSort,
 ): TSorted {
     const kv = keysOf(obj).map(
-        k => ({ key: k, value: obj[k]})
+        k => ({ key: k, value: obj[k] })
     );
 
     const s = {
         start: sort?.start ? asArray(sort.start) : undefined,
         end: sort?.end ? asArray(sort?.end) : undefined,
-    } satisfies SortByKeyOptions
+    } satisfies SortByKeyOptions;
 
-    const start: readonly any[] = kv.filter(
-        i =>  s.start?.includes(i["key"])
-    );
-    const end: readonly any[] = kv.filter(
-        i =>  s.end?.includes(i["key"])
-    );
-    const taken = [
-        ...start.map(i => i.key),
-        ...end.map(i => i.key)
-    ];
-    const remaining = kv.filter(
-        i => taken.includes(i.key) ? false : true
-    )
-
-    return [
-        ...start,
-        ...remaining,
-        ...end
-    ] as unknown as TSorted
+    return sortByKey(kv, "key", s) as unknown as TSorted;
 }

@@ -32,4 +32,3 @@ export function toJsonArray<
 ) {
     return elements as unknown as ToJsonArray<T>;
 }
-

@@ -1,8 +1,5 @@
-import { IT_CONTAINER_TOKENS } from "inferred-types/constants";
-import { StringLiteralTemplate } from "inferred-types/types";
-
-
-
+import type { IT_CONTAINER_TOKENS } from "inferred-types/constants";
+import type { StringLiteralTemplate } from "inferred-types/types";
 
 type ContainerRaw = typeof IT_CONTAINER_TOKENS;
 /**

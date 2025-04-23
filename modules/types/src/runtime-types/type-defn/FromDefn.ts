@@ -2,14 +2,11 @@ import type {
     Contains,
     DefineObject,
     Dictionary,
-    FromStringInputToken,
+    FromDefineObject,
     FromSimpleRecordKey,
     FromWideTokens,
     HandleDoneFn,
-    MakeKeysOptional,
     NarrowableScalar,
-    ObjectKey,
-    OptionalKeys,
     RecordKeyWideTokens,
     ShapeCallback,
     SimpleToken,
@@ -17,16 +14,10 @@ import type {
     Tuple,
     TupleToUnion,
     UnionElDefn,
-    UnionToTuple,
     Unset,
     Values,
     WideContainerNames,
     WideTokenNames,
-    InputTokenLike,
-    FromInputToken,
-    Some,
-    Err,
-    FromDefineObject,
 } from "inferred-types/types";
 
 type ProcessUnion<
@@ -100,7 +91,6 @@ export type FromShapeCallback<
  * converts a `SimpleToken` into the _type_ which it is defining
  */
 export type FromSimpleToken<T extends SimpleToken> = SimpleType<T>;
-
 
 /**
  * **FromDefn**`<T, [TElse]>`
