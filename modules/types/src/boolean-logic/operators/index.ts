@@ -120,4 +120,3 @@ export * from "./SomeUnionElement";
 export * from "./StartsWith";
 export * from "./UnionHasArray";
 export * from "./Validate";
-

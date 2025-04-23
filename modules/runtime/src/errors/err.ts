@@ -1,7 +1,6 @@
 import type { Err, Narrowable, TypedError } from "inferred-types/types";
 import { keysOf, toKebabCase } from "inferred-types/runtime";
 
-
 /**
  * **typedError**(type, message, [ctx])
  *
@@ -42,9 +41,9 @@ export function err<
     if (message) {
         err.message = message;
     }
-    if(ctx) {
+    if (ctx) {
         for (const k of keysOf(ctx)) {
-            err[k] =  ctx[k];
+            err[k] = ctx[k];
         }
     }
 

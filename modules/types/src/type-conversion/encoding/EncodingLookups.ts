@@ -77,8 +77,6 @@ export type EscapedSafeEncodingConversion<
         ]
     >;
 
-type X = Esc<AsFromTo<SafeEncoding__Brackets>>;
-
 export type SafeDecodingConversion<
     T extends readonly SafeEncodingGroup[],
     R extends readonly FromTo[] = [],

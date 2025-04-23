@@ -1,6 +1,5 @@
 import type { AnyObject, ExplicitlyEmptyObject, IsWideContainer, Join, ObjectKey, Surround, ToKv } from "inferred-types/types";
 import type { AsString } from "./AsString";
-import type { ObjectToTuple } from "../kv/ObjectToTuple";
 
 type Prefix<T extends boolean> = T extends true
     ? "\n  "

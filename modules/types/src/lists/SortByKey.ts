@@ -1,10 +1,10 @@
-import {
+import type {
     As,
     AsArray,
     AsNumber,
     Dictionary,
+    Flatten,
     IsDefined,
-    Narrowable,
     NumericKeys,
     ObjectKey,
     RemoveNever,
@@ -16,34 +16,50 @@ type Seperation = {
     sep: readonly number[];
     /** remaining keys not impacted by `Separate` utility */
     rest: readonly number[];
-}
+};
+
+type FilterIndex<
+    TFind,
+    TList extends readonly Dictionary[],
+    TKey extends ObjectKey,
+> = RemoveNever<{
+    [K in keyof TList]: TList[K][TKey] extends TFind
+        ? AsNumber<K>
+        : never
+}>;
+
+type Ordering<
+    TList extends readonly Dictionary[],
+    TKey extends ObjectKey,
+    TType extends readonly unknown[]
+> = Flatten<{
+    [K in keyof TType]: FilterIndex<TType[K], TList, TKey>
+}>
+
+;
 
 type Separate<
     TList extends readonly Dictionary[],
     TKey extends ObjectKey,
-    TType
+    TType extends readonly unknown[]
 > = {
-    sep: RemoveNever<{
-        [K in keyof TList]: K extends keyof TList
-            ? TList[K][TKey] extends TType
-                ? AsNumber<K>
-                : never
-            : never
-    }>,
+    sep: Ordering<TList, TKey, TType>;
     rest: RemoveNever<{
         [K in keyof TList]: K extends keyof TList
-            ? TList[K]["key"] extends TType
+            ? TList[K]["key"] extends TType[number]
                 ? never
                 : AsNumber<K>
             : AsNumber<K>
-    }>
+    }>;
 };
 
-export type SortByKeyOptions<T = Narrowable> = {
+export type SortByKeyOptions<
+    T extends ObjectKey = ObjectKey
+> = {
     /** Object Key's  */
-    start?: T | readonly T[],
-    end?: T | readonly T[],
-}
+    start?: T | readonly T[];
+    end?: T | readonly T[];
+};
 
 type Sort<
     TList extends readonly Dictionary[],
@@ -54,20 +70,19 @@ type Sort<
         : never
 };
 
-
 type Start<
     TList extends readonly Dictionary[],
     TKey extends ObjectKey,
     TSort extends SortByKeyOptions
 > = As<
     IsDefined<TSort["start"]> extends true
-        ? Separate<TList, TKey, AsArray<TSort["start"]>[number]>
+        ? Separate<TList, TKey, AsArray<TSort["start"]>>
         : {
-            sep: [] & readonly number[],
-            rest: NumericKeys<TList> & readonly number[]
+            sep: [];
+            rest: NumericKeys<TList>;
         },
     Seperation
->
+>;
 
 type End<
     TList extends readonly Dictionary[],
@@ -75,22 +90,13 @@ type End<
     TSort extends SortByKeyOptions,
 > = As<
     IsDefined<TSort["end"]> extends true
-    ? Separate<TList, TKey, AsArray<TSort["end"]>[number]>
-    : {
-        sep: [],
-        rest: NumericKeys<TList>
-    },
+        ? Separate<TList, TKey, AsArray<TSort["end"]>>
+        : {
+            sep: [];
+            rest: NumericKeys<TList>;
+        },
     Seperation
 >;
-
-type Reduce<
-    T extends readonly number[],
-    U extends readonly number[]
-> = As<RemoveNever<{
-    [K in keyof T]: K extends U[number]
-        ? never
-        : T[K]
-}>, readonly number[]>;
 
 /**
  * the keys which remain after Start removed those assigned
@@ -102,7 +108,7 @@ type Remaining<
     TSort extends SortByKeyOptions,
 > = Retain<
     End<TList, TKey, TSort>["rest"],
-    Start<TList, TKey, TSort>["rest"]
+    Start<TList, TKey, TSort>["rest"][number]
 >;
 
 type Order<
@@ -132,18 +138,26 @@ export type SortByKey<
     TSort extends SortByKeyOptions,
 > = Sort<
     TList,
-    Order<TList,TKey,TSort>
+    Order<TList, TKey, TSort>
 >;
-
 
 // DEBUG
 // type KV = [
-//     {key: "foo", value: 1 },
-//     {key: "bar", value: "hi" },
-//     {key: "baz", value: 1 },
+//     { key: "company", value: "[[Anthropic]]" },
+//     { key: "kind", value: "[[AI Model]]" },
+//     { key: "category", value: "[[LLM]]" },
+//     { key: "aliases", value: ["Haiku"] },
+//     { key: "desc", value: "The fast and lightweight sibling in the Claude family (Anthropic)" },
+//     { key: "subcategory", value: "[[Lightweight Model]]" },
+//     { key: "type", value: "[[kind/types/AI.md|AI]]" },
 // ]
-// type TSeparate = Separate<KV, "key", "baz">["sep"];
-// type TStart = Start<KV, "key", { start: "baz"}>;
-// type TEnd = End<KV, "key", { end: "foo"}>;
-// type TRemaining = Remaining<KV, "key", {start: "baz", end: "foo"}>;
-// type TOrder = Order<KV,"key", {start: "baz", end: "foo"}>
+// type TConfig = {
+//     start: ["type", "kind", "category", "subcategory"],
+//     end: "desc"
+// };
+
+// type TStart = Start<KV, "key", TConfig>;
+// type TOrdering = Ordering<KV, "key", TConfig["start"]>
+// type TEnd = End<KV, "key", TConfig>;
+// type TRemaining = Remaining<KV, "key", TConfig>;
+// type TOrder = Order<KV,"key", TConfig>

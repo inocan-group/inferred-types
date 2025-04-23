@@ -1,4 +1,18 @@
-import type { AfterFirst, And, Extends, First, If, IsError, IsFalse, IsNever, IsTrue, IsUnset, MergeObjects, Or, Unset } from "inferred-types/types";
+import type {
+    AfterFirst,
+    And,
+    Extends,
+    First,
+    If,
+    IsError,
+    IsFalse,
+    IsNever,
+    IsTrue,
+    IsUnset,
+    MergeObjects,
+    Or,
+    Unset
+} from "inferred-types/types";
 
 type Rtn<
     T,
@@ -6,10 +20,10 @@ type Rtn<
 > = IsNever<T> extends true
     ? If<IsUnset<TErr>, never, TErr>
     : IsFalse<T> extends true
-    ? If<IsUnset<TErr>, false, TErr>
-    : IsError<T> extends true
-    ? T
-    : never;
+        ? If<IsUnset<TErr>, false, TErr>
+        : IsError<T> extends true
+            ? T
+            : never;
 
 type IsFail<
     T,
@@ -20,9 +34,7 @@ type IsFail<
     And<[Extends<T, Error>, IsTrue<TErr["error"]>]>
 ]>;
 
-type FailureCondition =  "error" | "never" | "false";
-
-export interface FailFastOptions  {
+export interface FailFastOptions {
     err?: Unset | Error;
     failureConditions?: Record<string, boolean>;
 }
@@ -30,10 +42,10 @@ export interface FailFastOptions  {
 interface DefaultOption extends Required<FailFastOptions> {
     err: Unset;
     failureConditions: {
-        error: true,
-        never: true,
-        false: true
-    }
+        error: true;
+        never: true;
+        false: true;
+    };
 }
 
 type Opt<T extends FailFastOptions> = MergeObjects<DefaultOption, T> extends Required<FailFastOptions> ? MergeObjects<DefaultOption, T> : never;
@@ -59,13 +71,13 @@ export type FailFast<
 > = [] extends TTests
     ? undefined
     : [any] extends TTests
-    ? IsFail<TTests[0], Opt<TOpt>["failureConditions"]> extends true
-    ? Rtn<TTests[0], Opt<TOpt>["err"]>
-    : TTests[0] // success
-    : IsFail<First<TTests>, Opt<TOpt>["failureConditions"]> extends true
-    ? Rtn<First<TTests>, Opt<TOpt>["err"]>
+        ? IsFail<TTests[0], Opt<TOpt>["failureConditions"]> extends true
+            ? Rtn<TTests[0], Opt<TOpt>["err"]>
+            : TTests[0] // success
+        : IsFail<First<TTests>, Opt<TOpt>["failureConditions"]> extends true
+            ? Rtn<First<TTests>, Opt<TOpt>["err"]>
 
-    : FailFast<
-        AfterFirst<TTests>,
-        TOpt
-    >;
+            : FailFast<
+                AfterFirst<TTests>,
+                TOpt
+            >;

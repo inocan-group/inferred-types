@@ -3,7 +3,6 @@ import type {
     KeyValue,
 } from "inferred-types/types";
 
-
 /**
  * **FromKeyValueTuple**`<T>`
  *

@@ -1,6 +1,3 @@
-import { IsUnion, UnionFilter } from "inferred-types/types";
-
-
 /**
  * **Sucess**`<T>`
  *

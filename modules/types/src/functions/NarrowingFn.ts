@@ -6,7 +6,6 @@ import type {
     IsNarrowingFn,
     IsNonEmptyObject,
     Throw,
-    Tuple,
     TypedFunction,
 } from "inferred-types/types";
 
@@ -65,4 +64,3 @@ export type AsNarrowingFn<
                 ? () => TReturn
                 : <T extends TParams>(...args: T) => TReturn
         : never;
-

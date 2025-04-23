@@ -1,6 +1,5 @@
 import type { RetainAfter, StripAfter } from "inferred-types/types";
 
-
 export type RetainBetween<
     TContent extends string,
     TBegin extends string,

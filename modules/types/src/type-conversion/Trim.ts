@@ -27,4 +27,3 @@ export type Trim<
         : never,
     string
 >;
-

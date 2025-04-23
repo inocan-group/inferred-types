@@ -1,10 +1,9 @@
-import { IsWideString, Whitespace, StripChars } from "inferred-types/types";
-
+import type { IsWideString, StripChars, Whitespace } from "inferred-types/types";
 
 export type IsWhitespace<T> = T extends string
-? IsWideString<T> extends true
-    ? boolean
-    : StripChars<T,Whitespace> extends ""
-        ? true
-        : false
-: false;
+    ? IsWideString<T> extends true
+        ? boolean
+        : StripChars<T, Whitespace> extends ""
+            ? true
+            : false
+    : false;

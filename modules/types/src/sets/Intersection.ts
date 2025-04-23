@@ -1,11 +1,14 @@
 import type { MARKED } from "inferred-types/constants";
 import type {
+    As,
     Container,
     Contains,
     GetEach,
     If,
     IsNull,
+    IsWideContainer,
     NarrowlyContains,
+    Or,
     RemoveMarked,
     RemoveNever,
     Throw,
@@ -13,15 +16,13 @@ import type {
 
 type Marked = typeof MARKED;
 
-type _NoDeref<
+type NoDeref<
     A extends readonly unknown[],
     B extends readonly unknown[],
 > = RemoveNever<{
-    [K in keyof A]: If<
-        Contains<B, A[K]>,
-        A[K],
-        never
-    >
+    [K in keyof A]: A[K] extends B[number]
+        ? A[K]
+        : never
 }>;
 
 type DerefNoReport<
@@ -133,17 +134,21 @@ export type Intersection<
     B extends readonly unknown[],
     TDeref extends string | null = null,
     TReport extends boolean = false,
-> = If<
-    IsNull<TDeref>,
-    // no dereferencing
-    _NoDeref<A, B>,
-    // dereference the array elements
-    TDeref extends PropertyKey
-        ? HandleDeref<A, B, TDeref, TReport>
-        : Throw<
-            "invalid-deref",
-            "The TDeref property was set but must be extended from a PropertyKey!",
-            "Intersection",
-            { index: TDeref }
-        >
->;
+> = Or<[IsWideContainer<A>, IsWideContainer<B>]> extends true
+    ? (A[number] | B[number])[]
+
+    : As<
+        IsNull<TDeref> extends true
+        // no dereferencing
+            ? NoDeref<A, B>
+        // dereference the array elements
+            : TDeref extends PropertyKey
+                ? HandleDeref<A, B, TDeref, TReport>
+                : Throw<
+                    "invalid-deref",
+                    "The TDeref property was set but must be extended from a PropertyKey!",
+                    "Intersection",
+                    { index: TDeref }
+                >,
+        readonly (A[number] | B[number])[]
+    >;

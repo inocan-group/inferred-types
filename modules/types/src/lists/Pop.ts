@@ -23,19 +23,19 @@ type _Pop<
 export type Pop<
     TList extends readonly unknown[] | string,
 > = TList extends readonly unknown[]
-? TList extends [...(infer Front extends [unknown, ...unknown[]]), unknown ]
-    ? Front
-    : []
-: TList extends string
-    ? IsWideType<TList> extends true
-        ? string
-        : IsStringLiteral<TList> extends true
-            ? TList extends string
-                ? TList extends ""
-                    ? ""
-                    : Chars<TList> extends readonly string[]
-                        ? Concat<_Pop<Chars<TList>>>
-                        : never
-                : never
-            : string
-    : _Pop<Exclude<TList, string>>;
+    ? TList extends [...(infer Front extends [unknown, ...unknown[]]), unknown ]
+        ? Front
+        : []
+    : TList extends string
+        ? IsWideType<TList> extends true
+            ? string
+            : IsStringLiteral<TList> extends true
+                ? TList extends string
+                    ? TList extends ""
+                        ? ""
+                        : Chars<TList> extends readonly string[]
+                            ? Concat<_Pop<Chars<TList>>>
+                            : never
+                    : never
+                : string
+        : _Pop<Exclude<TList, string>>;

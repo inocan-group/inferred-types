@@ -1,11 +1,8 @@
-import { As, Contains, IsSet, IsUnset, Join, Replace, RetainAfter, RetainUntil, Split, StripLeading, Trim, Unset } from "inferred-types/types";
-
-
-
+import type { As, Contains, IsSet, IsUnset, Join, Replace, RetainAfter, RetainUntil, Split, StripLeading, Trim, Unset } from "inferred-types/types";
 
 type After<
-TText extends string,
-TFind extends string,
+    TText extends string,
+    TFind extends string,
 > = Split<
     TText,
     TFind,
@@ -13,7 +10,6 @@ TFind extends string,
 > extends readonly [...[string, ...string[]], infer Last extends string]
     ? StripLeading<Last, TFind>
     : never;
-
 
 /**
  * ***AfterLast**`<TText,TFind,[TBreak],[TTrim]>`
@@ -38,20 +34,20 @@ export type AfterLast<
     TFind extends string,
     TBreak extends string | Unset = Unset,
     TTrim extends boolean = false
-> = Contains<TText,TFind> extends true
-? IsUnset<TBreak> extends true
-    ? After<TText, TFind>
-    : TTrim extends true
-      ? Trim<Join<[
-        After<RetainUntil<TText,As<TBreak, string>>, TFind>,
-        Replace<TText, RetainUntil<TText,As<TBreak, string>>, "">
-        ]>>
-        : Join<[
-            After<RetainUntil<TText,As<TBreak, string>>, TFind>,
-            Replace<TText, RetainUntil<TText,As<TBreak, string>>, "">
+> = Contains<TText, TFind> extends true
+    ? IsUnset<TBreak> extends true
+        ? After<TText, TFind>
+        : TTrim extends true
+            ? Trim<Join<[
+                After<RetainUntil<TText, As<TBreak, string>>, TFind>,
+                Replace<TText, RetainUntil<TText, As<TBreak, string>>, "">
+            ]>>
+            : Join<[
+                After<RetainUntil<TText, As<TBreak, string>>, TFind>,
+                Replace<TText, RetainUntil<TText, As<TBreak, string>>, "">
             ]>
-: IsSet<TBreak> extends true
-    ? TTrim extends true
-        ? Trim<RetainAfter<TText,TFind, true>>
-        : RetainAfter<TText,TFind, true>
-    : "";
+    : IsSet<TBreak> extends true
+        ? TTrim extends true
+            ? Trim<RetainAfter<TText, TFind, true>>
+            : RetainAfter<TText, TFind, true>
+        : "";

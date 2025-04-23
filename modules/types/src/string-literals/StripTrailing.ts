@@ -9,8 +9,8 @@ type Process<
     TContent extends string,
     TStrip extends string,
 > = TContent extends `${infer Before}${TStrip}`
-        ? Before
-        : TContent;
+    ? Before
+    : TContent;
 
 /**
  * **StripEnding**`<TContent, TStrip>`
@@ -32,9 +32,9 @@ export type StripTrailing<
     IsWideNumber<TContent> extends true
         ? number
         : IsWideString<TContent> extends true
-        ? string
-        : TContent extends number
-            ? AsNumber<Process<`${TContent}`,`${TStrip}`>>
-            : Process<`${TContent}`,`${TStrip}`>,
-        string
+            ? string
+            : TContent extends number
+                ? AsNumber<Process<`${TContent}`, `${TStrip}`>>
+                : Process<`${TContent}`, `${TStrip}`>,
+    string
 >;

@@ -28,7 +28,6 @@ export type SafeEncode<
     ? ReplaceAllFromTo<T, SafeEncodingConversion<G>>
     : SafeString<string, G>;
 
-
 /**
  * **SafeEncodingEscaped**`<T,[G]>`
  *
@@ -40,5 +39,5 @@ export type SafeEncodeEscaped<
     T extends string,
     G extends readonly SafeEncodingGroup[] = ["whitespace", "brackets", "quotes"]
 > = IsStringLiteral<T> extends true
-? ReplaceAllFromTo<T, EscapedSafeEncodingConversion<G>>
-: SafeString<string, G>;
+    ? ReplaceAllFromTo<T, EscapedSafeEncodingConversion<G>>
+    : SafeString<string, G>;

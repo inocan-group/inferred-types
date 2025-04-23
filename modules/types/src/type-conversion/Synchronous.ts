@@ -1,4 +1,4 @@
-import { Thenable, Awaited } from "inferred-types/types";
+import type { Awaited, Thenable } from "inferred-types/types";
 
 /**
  * **Synchronous**`<T>`

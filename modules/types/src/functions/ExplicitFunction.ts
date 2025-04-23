@@ -1,4 +1,4 @@
-import { TypedFunction, TypedParameter } from "inferred-types/types";
+import type { TypedFunction, TypedParameter } from "inferred-types/types";
 
 /**
  * **ExplicitFunction**
@@ -10,4 +10,4 @@ export type ExplicitFunction = TypedFunction & {
     name: string;
     parameters: readonly TypedParameter[];
     returns: unknown;
-}
+};

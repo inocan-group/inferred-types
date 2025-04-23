@@ -1,4 +1,4 @@
-import {
+import type {
     KeysWithError,
     Narrowable,
     ObjectKey
@@ -11,17 +11,13 @@ import { keysOf } from "inferred-types/runtime";
  * Returns a list of _keys_ where the passed in object is
  */
 export function keysWithError<
-    T extends Record<K,V>,
+    T extends Record<K, V>,
     K extends ObjectKey,
     V extends Narrowable
 >(obj: T) {
-    const keys = keysOf(obj).filter(k => {
-        return obj[k] instanceof Error
-            ? true
-            : false
-    }) as KeysWithError<T>
+    const keys = keysOf(obj).filter((k) => {
+        return obj[k] instanceof Error;
+    }) as KeysWithError<T>;
 
     return keys;
 }
-
-

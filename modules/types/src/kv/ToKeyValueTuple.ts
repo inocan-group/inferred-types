@@ -1,5 +1,4 @@
 import type {
-    AnyObject,
     Dictionary,
     ToKv,
 } from "inferred-types/types";

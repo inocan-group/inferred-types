@@ -1,4 +1,4 @@
-import { AfterFirst, First, IsDefined } from "inferred-types/types";
+import type { AfterFirst, First, IsDefined } from "inferred-types/types";
 
 /**
  * **FirstDefined**`<T>`
@@ -12,7 +12,7 @@ export type FirstDefined<
     T extends any[],
     U = undefined
 > = [] extends T
-? U
-: IsDefined<First<T>> extends true
-    ? First<T>
-    : FirstDefined<AfterFirst<T>, U>;
+    ? U
+    : IsDefined<First<T>> extends true
+        ? First<T>
+        : FirstDefined<AfterFirst<T>, U>;

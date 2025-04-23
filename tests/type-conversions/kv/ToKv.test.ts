@@ -1,7 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { defineObj, toKeyValue } from "inferred-types/runtime";
-import {  NarrowObject, ToKv } from "inferred-types/types";
-import { Narrowable } from "transpiled/types";
+import { ToKv } from "inferred-types/types";
+
 import { describe, it } from "vitest";
 
 
@@ -26,23 +25,6 @@ describe("ToKv<T>", () => {
                 { key: "foo"; value: 1 | undefined; required: false },
                 { key: "bar"; value: "hi" }
             ]>>
-        ];
-    });
-
-
-    it("interacting with runtime and narrow objects", () => {
-        const obj = defineObj({ foo: 1, bar: "hi" })()
-        function fn<
-            T extends NarrowObject<N>,
-            N extends Narrowable
-        >(obj: T) {
-            return obj as NarrowObject<N> & T;
-        }
-        const kv = fn(obj);
-        type KV = ToKv<typeof kv>;
-
-        type cases = [
-            /** type tests */
         ];
     });
 

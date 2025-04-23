@@ -6,8 +6,6 @@ import type {
     StringKeys,
 } from "inferred-types/types";
 
-
-
 /**
  * **KeysOverlap**`<A,B>`
  *
@@ -23,4 +21,4 @@ export type KeysOverlap<A extends Dictionary, B extends Dictionary> = Or<[
         StringKeys<A>,
         "extends",
         StringKeys<B>
-    >
+    >;

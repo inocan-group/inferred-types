@@ -5,7 +5,6 @@
  * callback hook.
  */
 export interface Thenable extends PromiseLike<any> {
-    then: (...args: any[]) => any
+    then: (...args: any[]) => any;
     // finally?: ((...args: any[]) => any) | (() => any);
 }
-

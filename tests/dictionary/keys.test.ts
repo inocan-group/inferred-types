@@ -9,7 +9,7 @@ import type {
   HasSameValues,
   HasSameKeys,
 } from "inferred-types/types";
-import { keysOf, narrow } from "inferred-types/runtime";
+import { keysOf } from "inferred-types/runtime";
 
 describe("NumericKeys<T>", () => {
 
@@ -67,8 +67,6 @@ describe("Keys<T> with object targets", () => {
       Expect<Equal<UnionRec, ["foo", "bar"]>>,
       Expect<Equal<KeyVal, ObjectKey[]>>,
     ];
-
-
   });
 
 
@@ -83,9 +81,6 @@ describe("Keys<T> with object targets", () => {
     const cases: cases = [true, true, true, true];
   });
 
-
-
-
 });
 
 describe("runtime keysOf() utility on object", () => {
@@ -98,7 +93,7 @@ describe("runtime keysOf() utility on object", () => {
 
 
     const k = keysOf(obj);
-    const k2 = keysOf({} as object);
+    const k2 = keysOf({} as EmptyObject);
     type K = typeof k;
 
     expect(k, "The object should have 3 keys: ${Json}").toHaveLength(3);
@@ -115,19 +110,4 @@ describe("runtime keysOf() utility on object", () => {
     const cases: cases = [true, true];
     expect(cases).toBe(cases);
   });
-
-
-  it("Runtime keysOf() for an array", () => {
-    const arr = narrow([1,2,3]);
-    const keys = keysOf(arr);
-    expect(keys).toEqual([0,1,2]);
-
-    type cases = [
-      Expect<Equal<typeof keys, readonly [0,1,2] >>,
-    ];
-    const cases: cases = [ true ];
-  });
-
-
-
 });

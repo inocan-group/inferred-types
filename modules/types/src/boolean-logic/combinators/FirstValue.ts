@@ -1,4 +1,4 @@
-import { AfterFirst, First, Something } from "inferred-types/types";
+import type { AfterFirst, First, Something } from "inferred-types/types";
 
 /**
  * **FirstValue**`<T>`
@@ -12,7 +12,7 @@ export type FirstValue<
     T extends any[],
     U = undefined
 > = [] extends T
-? U
-: First<T> extends Something
-    ? First<T>
-    : FirstValue<AfterFirst<T>, U>;
+    ? U
+    : First<T> extends Something
+        ? First<T>
+        : FirstValue<AfterFirst<T>, U>;

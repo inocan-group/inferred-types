@@ -26,8 +26,7 @@ type AddOptionalKey<
         ? Expand<TObj & Record<TKey, TVal>>
         : never,
     TKeys
->
-
+>;
 
 type Process<
     TIn extends readonly KeyValue[],
@@ -38,9 +37,9 @@ type Process<
         AfterFirst<TIn>,
         "required" extends keyof First<TIn>
             ? First<TIn>["required"] extends false
-                ? AddOptionalKey<TOut,First<TIn>["key"],First<TIn>["value"]>
-                : AddRequiredKey<TOut,First<TIn>["key"],First<TIn>["value"]>
-            : AddRequiredKey<TOut,First<TIn>["key"],First<TIn>["value"]>
+                ? AddOptionalKey<TOut, First<TIn>["key"], First<TIn>["value"]>
+                : AddRequiredKey<TOut, First<TIn>["key"], First<TIn>["value"]>
+            : AddRequiredKey<TOut, First<TIn>["key"], First<TIn>["value"]>
     >;
 
 /**
@@ -59,5 +58,5 @@ type Process<
  * **Related:** `ToKv`, `KeyValue`
  */
 export type FromKv<T extends readonly KeyValue[]> = IsWideContainer<T> extends true
-? Dictionary
-: Process<T>
+    ? Dictionary
+    : Process<T>;

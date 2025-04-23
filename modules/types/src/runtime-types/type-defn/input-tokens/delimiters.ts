@@ -2,8 +2,8 @@ import type {
     And,
     As,
     Extends,
-    FromStringInputToken,
     FromKv,
+    FromStringInputToken,
     Last,
     Or,
     Pop,
@@ -31,33 +31,33 @@ type IsTerminalChar<
         Extends<Last<TContainers>, "Literal">,
         Extends<T, ")">
     ]> extends true
-    ? true
-    : false;
+        ? true
+        : false;
 
 type IT_UnwrapContainer<
     TEl extends readonly any[],
     TContainers extends readonly IT_ContainerType[]
 > = Last<TContainers> extends "Array"
-? TEl[0]
-: Last<TContainers> extends "Object"
-? FromKv<TEl>
-: TEl[0];
+    ? TEl[0]
+    : Last<TContainers> extends "Object"
+        ? FromKv<TEl>
+        : TEl[0];
 
 export type IT_TakeTerminalDelimiter<
     T extends string,
     TInner extends readonly any[] = [],
     TContainers extends readonly IT_ContainerType[] = []
-> =  Trim<T> extends `${infer First}${infer Rest}`
-? IsTerminalChar<First, TContainers> extends true
-    ? Trim<Rest> extends ""
-        ? IT_UnwrapContainer<
-            TInner,
-            As<Pop<TContainers>, readonly IT_ContainerType[]>
-        >
-        : FromStringInputToken<
-            Rest,
-            TInner,
-            As<Pop<TContainers>, readonly IT_ContainerType[]>
-        >
-    : Unset
-: Unset;
+> = Trim<T> extends `${infer First}${infer Rest}`
+    ? IsTerminalChar<First, TContainers> extends true
+        ? Trim<Rest> extends ""
+            ? IT_UnwrapContainer<
+                TInner,
+                As<Pop<TContainers>, readonly IT_ContainerType[]>
+            >
+            : FromStringInputToken<
+                Rest,
+                TInner,
+                As<Pop<TContainers>, readonly IT_ContainerType[]>
+            >
+        : Unset
+    : Unset;

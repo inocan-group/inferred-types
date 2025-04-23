@@ -17,6 +17,7 @@ export * from "./AsString";
 export * from "./AsStringUnion";
 export * from "./Awaited";
 export * from "./Break";
+export * from "./encoding/index";
 export * from "./form-fields";
 export * from "./FromTo";
 export * from "./Immutable";
@@ -47,7 +48,6 @@ export * from "./ReplaceType";
 export * from "./RetainChars";
 export * from "./ReturnValues";
 export * from "./RightWhitespace";
-export * from "./TrimDictionary";
 export * from "./StringLength";
 export * from "./StringLiteralFromTuple";
 export * from "./StripChars";
@@ -59,6 +59,7 @@ export * from "./ToString";
 export * from "./ToStringArray";
 export * from "./ToUnion";
 export * from "./Trim";
+export * from "./TrimDictionary";
 export * from "./TrimEach";
 export * from "./TrimLeft";
 export * from "./TrimRight";
@@ -73,8 +74,5 @@ export * from "./UnionWithAll";
 export * from "./ValueOrReturnValue";
 export * from "./Widen";
 export * from "./WidenValues";
+
 export * from "./WithDefault";
-
-export * from "./encoding/index";
-
-

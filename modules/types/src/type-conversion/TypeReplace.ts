@@ -1,5 +1,4 @@
-import type {  ReplaceType } from "inferred-types/types";
-
+import type { ReplaceType } from "inferred-types/types";
 
 /**
  * **TypeReplace**`<TContent, TFind, TReplace>`
@@ -10,4 +9,4 @@ export type TypeReplace<
     TContent,
     TFind,
     TReplace,
-> = ReplaceType<TContent,TFind,TReplace>;
+> = ReplaceType<TContent, TFind, TReplace>;

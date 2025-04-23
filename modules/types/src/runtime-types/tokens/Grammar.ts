@@ -1,11 +1,15 @@
 import type {
+    AfterFirst,
+    Dictionary,
+    DynamicToken,
+    EmptyObject,
     Expand,
-    Dictionary, EmptyObject,
-    AfterFirst, First,
-    TokenSyntax,
-    DynamicToken, StaticToken, Token, TokenName
+    First,
+    StaticToken,
+    Token,
+    TokenName,
+    TokenSyntax
 } from "inferred-types/types";
-
 
 type AddGrammarMethod<
     _S extends TokenSyntax,

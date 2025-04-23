@@ -6,11 +6,11 @@ export * from "./SimpleToken";
 export * from "./SimpleType";
 export * from "./StringLiteralToken";
 export * from "./TokenizeStringLiteral";
+export * from "./tokens/index";
 export * from "./Type";
+export * from "./type-defn/index";
 export * from "./TypeOf";
 export * from "./TypeToken";
+
 export * from "./TypeToken-variants";
 export * from "./TypeTuple";
-
-export * from "./tokens/index";
-export * from "./type-defn/index"

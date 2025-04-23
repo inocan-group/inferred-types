@@ -1,7 +1,6 @@
 import type {
     Contains,
     Err,
-    FromInputToken,
     FromStringInputToken,
     Join,
     NestedSplit,
@@ -9,7 +8,7 @@ import type {
     Trim,
     Unset
 } from "inferred-types/types";
-import {
+import type {
     IT_ContainerType
 } from "src/runtime-types/type-defn/input-tokens";
 
@@ -17,9 +16,9 @@ type Isolate<T extends string> = NestedSplit<
     RetainAfter<T, "[">,
     "]",
     {
-        "<":">",
-        "(":")",
-        "{":"}"
+        "<": ">";
+        "(": ")";
+        "{": "}";
     }
 >;
 
@@ -28,12 +27,12 @@ type Content<T extends string> = Isolate<T> extends readonly [infer C extends st
     : never;
 
 type Rest<T extends string> = Isolate<T> extends readonly [string, ...infer R extends readonly string[]]
-? Trim<Join<R>>
-: never;
+    ? Trim<Join<R>>
+    : never;
 
 type Parse<
     T extends string,
-    P extends readonly string[] = NestedSplit<Content<T>, ",", { "{":"}", "[":"]" }>
+    P extends readonly string[] = NestedSplit<Content<T>, ",", { "{": "}"; "[": "]" }>
 > = {
     [K in keyof P]: P[K] extends string
         ? FromStringInputToken<P[K]>
@@ -49,9 +48,7 @@ type HasError<T extends readonly unknown[]> = Contains<
 
 type PresentError<T> = T extends readonly unknown[]
     ? Err<`invalid-token/tuple`>
-    : Err<`invalid-token/tuple`>
-
-
+    : Err<`invalid-token/tuple`>;
 
 export type IT_TakeTuple<
     T extends string,
@@ -60,13 +57,13 @@ export type IT_TakeTuple<
 > = Trim<T> extends `[${string}`
     ? Isolate<T> extends Error
         ? Isolate<T>
-    : HasError<Parse<T>> extends true
-        ? PresentError<Parse<T>>
-    : FromStringInputToken<
-        Rest<T>,
-        [ ...TInner, Parse<T> ],
-        TContainers
-    >
+        : HasError<Parse<T>> extends true
+            ? PresentError<Parse<T>>
+            : FromStringInputToken<
+                Rest<T>,
+                [ ...TInner, Parse<T> ],
+                TContainers
+            >
     : Unset;
 
 // DEBUG TUPLE
@@ -75,4 +72,3 @@ export type IT_TakeTuple<
 // type TContent = Content<T>;
 // type TRest = Rest<T>;
 // type TParse = Parse<T>;
-

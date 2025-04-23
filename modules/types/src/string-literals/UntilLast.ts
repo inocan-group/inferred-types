@@ -1,15 +1,9 @@
-import {
+import type {
     As,
     Contains,
-    EmptyObject,
     Err,
-    If,
-    IsDefined,
-    IsSet,
-    IsUnset,
     Join,
     Last,
-    MergeObjects,
     Or,
     Pop,
     Split,
@@ -17,26 +11,23 @@ import {
     Unset
 } from "inferred-types/types";
 
-
-
 type Until<
     TParts extends readonly string[],
     TFind extends string,
 > = Last<TParts> extends TFind
-? Join<Pop<TParts>>
-: Last<TParts> extends `${infer Lead}${TFind}`
-    ? Lead
-: Last<Pop<TParts>> extends `${string}${TFind}`
-    ? Join<Pop<TParts>> extends `${infer Value extends string}${TFind}`
-        ? Value
-        : Join<Pop<TParts>>
-    : Err<`until`, ``>;
-
+    ? Join<Pop<TParts>>
+    : Last<TParts> extends `${infer Lead}${TFind}`
+        ? Lead
+        : Last<Pop<TParts>> extends `${string}${TFind}`
+            ? Join<Pop<TParts>> extends `${infer Value extends string}${TFind}`
+                ? Value
+                : Join<Pop<TParts>>
+            : Err<`until`, ``>;
 
 export type UntilLastOptions = {
     break?: Unset | string;
     handle?: Error | string;
-}
+};
 
 type Break<T extends UntilLastOptions> = T["break"] extends string
     ? T["break"]
@@ -49,8 +40,8 @@ type Handle<
     O["handle"] extends string ? true : false,
     O["handle"] extends Error ? true : false,
 ]> extends true
-? O["handle"]
-: T;
+    ? O["handle"]
+    : T;
 
 /**
  * **UntilLast**`<TText,TFind,[TBreak],[THandle]>`
@@ -72,27 +63,27 @@ type Handle<
 export type UntilLast<
     TText extends string,
     TFind extends string,
-    TOpt extends UntilLastOptions = { break: Unset, handle: TText }
-> = Contains<TText,TFind> extends true
-? As<
-    Break<TOpt> extends string
-        ? Until<
-            Split<
-                StripAfter<TText,As<Break<TOpt>, string>>,
-                TFind,
-                "before"
+    TOpt extends UntilLastOptions = { break: Unset; handle: TText }
+> = Contains<TText, TFind> extends true
+    ? As<
+        Break<TOpt> extends string
+            ? Until<
+                Split<
+                    StripAfter<TText, As<Break<TOpt>, string>>,
+                    TFind,
+                    "before"
+                >,
+                TFind
+            >
+            : Until<
+                Split<TText, TFind, "before">,
+                TFind
             >,
-            TFind
-        >
-        : Until<
-            Split<TText,TFind, "before">,
-            TFind
-        >,
-    string
->
-: // TFind not found
-    Handle<TText,TOpt> extends string
+        string
+    >
+    : // TFind not found
+    Handle<TText, TOpt> extends string
         ? Break<TOpt> extends string
-            ? StripAfter<Handle<TText,TOpt>,Break<TOpt>>
-            : Handle<TText,TOpt>
-        : Handle<TText,TOpt>;
+            ? StripAfter<Handle<TText, TOpt>, Break<TOpt>>
+            : Handle<TText, TOpt>
+        : Handle<TText, TOpt>;

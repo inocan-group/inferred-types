@@ -1,4 +1,4 @@
-import { Thenable } from "inferred-types/types";
+import type { Thenable } from "inferred-types/types";
 
 /**
  * **Promised**`<T>`
@@ -12,7 +12,6 @@ import { Thenable } from "inferred-types/types";
 export type Promised<T> = T extends Thenable
     ? T
     : Promise<T>;
-
 
 /***
  * **Asynchronous**`<T>`

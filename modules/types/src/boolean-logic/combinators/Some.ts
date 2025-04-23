@@ -9,7 +9,6 @@ import type {
     NumberLike,
     Or,
     Values,
-    WhenNever,
 } from "inferred-types/types";
 
 type Process<

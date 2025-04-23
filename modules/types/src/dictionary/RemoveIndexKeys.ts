@@ -1,4 +1,4 @@
-import { Dictionary } from "inferred-types/types";
+import type { Dictionary } from "inferred-types/types";
 
 type Obj<T> = {
     [K in keyof T as string extends K
@@ -18,8 +18,7 @@ type Arr<T> = {
             : symbol extends K
                 ? never
                 : K]: T[K]
-}
-
+};
 
 /**
  * **RemoveIndexKeys**`<T>`

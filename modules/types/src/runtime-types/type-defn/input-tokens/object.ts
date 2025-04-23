@@ -30,7 +30,6 @@ import type {
     IT_ObjectLiteralDefinition
 } from "src/runtime-types/type-defn/input-tokens";
 
-
 type CheckForPropertyErrors<
     TKv extends readonly KeyValue[],
     TSuccess,
@@ -53,7 +52,6 @@ type CheckForPropertyErrors<
             TPrefix
         >;
 
-
 type _ConvertObjectLiteral<T extends Required<IT_ObjectLiteralDefinition>> = {
     [K in keyof T]: T[K] extends InputTokenLike
         ? FromStringInputToken<T[K]>
@@ -74,7 +72,7 @@ export type IT_ConvertObjectLiteral<
     `Failed to define object literal: `
 >;
 
-type Key<T extends string> = StripTrailing<T, "?">
+type Key<T extends string> = StripTrailing<T, "?">;
 
 type AsKv<
     T extends readonly string[]
@@ -86,12 +84,11 @@ type AsKv<
                 value: FromInputToken<
                     Trim<Split<T[K], ":">[1]>
                 >;
-                required: Not<EndsWith<Trim<Split<T[K], ":">[0]>, "?">>
+                required: Not<EndsWith<Trim<Split<T[K], ":">[0]>, "?">>;
             }
             : Err<`invalid-token/object`, `The key/value pair '${T[K]}' is invalid!`>
         : never
 };
-
 
 type ParseObjectDefinition<
     T extends string,
@@ -109,7 +106,7 @@ type ParseObject<T extends string> = T extends `${string}}${string}`
             >
             : never
     >
-    : Err<`invalid-token/object`, `The token indicated an object with the '{' character but the '}' character was not found to terminate the definition!`, { token: T}>;
+    : Err<`invalid-token/object`, `The token indicated an object with the '{' character but the '}' character was not found to terminate the definition!`, { token: T }>;
 
 type Rest<T extends string> = Trim<RetainAfter<T, "}">>;
 
@@ -118,8 +115,8 @@ export type IT_TakeObject<
     TInner extends readonly any[] = [],
     TContainers extends readonly IT_ContainerType[] = []
 > = Trim<T> extends `{${string}`
-? Trim<T> extends `{${string}}${string}`
-    ? FromStringInputToken<
+    ? Trim<T> extends `{${string}}${string}`
+        ? FromStringInputToken<
             Rest<T>,
             [
                 ...TInner,
@@ -132,9 +129,8 @@ export type IT_TakeObject<
             TContainers
         >
 
-    : Err<"invalid-token/object", `An object token was started with the '{' character but no terminating '}' was found!`, { token: T }>
-: Unset;
-
+        : Err<"invalid-token/object", `An object token was started with the '{' character but no terminating '}' was found!`, { token: T }>
+    : Unset;
 
 // DEBUG CODE BELOW
 
