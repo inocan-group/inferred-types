@@ -5,7 +5,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 // NOTE: "withKeys" and "retain" are aliases of one another
 // so these tests really pertain to both
 
-import { retain, withKeys } from "inferred-types/runtime";
+import { retainKeys, withKeys } from "inferred-types/runtime";
 import { DoesExtend, ErrorCondition, WithKeys } from "inferred-types/types";
 
 describe("WithKeys<T, K> utility with tuples", () => {
@@ -88,7 +88,7 @@ describe("withKeys() runtime with objects", () => {
 
 
   it("runtime: when keys includes a value which is a union the type is ErrorCondition", () => {
-    const obj = retain({ foo: 1, bar: 2, baz: 3 }, "bar" as "bar" | "baz");
+    const obj = retainKeys({ foo: 1, bar: 2, baz: 3 }, "bar" as "bar" | "baz");
 
     // true runtime value is returned
     expect(obj).toEqual({ bar: 2 });

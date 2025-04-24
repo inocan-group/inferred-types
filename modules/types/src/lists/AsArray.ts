@@ -17,6 +17,7 @@ type _AsArray<T> = T extends Tuple
  *
  * - if `T` is undefined then it is converted to an empty array `[]`
  */
-export type AsArray<T> = _AsArray<T> extends any[]
+export type AsArray<T> = _AsArray<T> extends readonly unknown[]
     ? _AsArray<T>
     : never;
+

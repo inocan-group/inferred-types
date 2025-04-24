@@ -8,12 +8,12 @@ import type {
 } from "inferred-types/types";
 
 /**
- * **MaxLength**`<TTest,TMax,[TInvalid]>`
+ * **EnsureMaxLength**`<TTest,TMax,[TInvalid]>`
  *
  * A validation function that checks that the _length_ of `TTest`
  * is at most that of `TMax`.
  */
-export type MaxLength<
+export type EnsureMaxLength<
     TTest extends string | number | readonly any[],
     TMax extends number,
     TInvalid = never

@@ -1,4 +1,4 @@
-import type { AsString, IsStringLiteral, Or } from "inferred-types/types";
+import type { AsString, IsStringLiteral, IsWideType, Or } from "inferred-types/types";
 
 type Test<
     TValue extends string,
@@ -46,9 +46,13 @@ type PreProcess<
 export type EndsWith<
     TValue extends string | number,
     TComparator extends string | number | readonly string[],
-> = PreProcess<
-    AsString<TValue>,
-    TComparator extends number
-        ? AsString<TComparator>
-        : TComparator
->;
+> = [IsWideType<TValue>] extends [true]
+    ? boolean
+    : [IsWideType<TComparator>] extends [true]
+        ? boolean
+    : PreProcess<
+        AsString<TValue>,
+        TComparator extends number
+            ? AsString<TComparator>
+            : TComparator
+    >;

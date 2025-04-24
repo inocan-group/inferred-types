@@ -1,5 +1,5 @@
 export * from "./Alpha";
 export * from "./AlphaNumeric";
 export * from "./LengthInRange";
-export * from "./MaxLength";
-export * from "./MinLength";
+export * from "./EnsureMaxLength";
+export * from "./EnsureMinLength";

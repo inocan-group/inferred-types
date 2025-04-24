@@ -1,4 +1,4 @@
-import type { If, IsEqual, ObjectKey, RemoveIndexKeys, Retain, UnionToTuple } from "inferred-types/types";
+import type { If, IsEqual, ObjectKey, RemoveIndexKeys, Filter, UnionToTuple } from "inferred-types/types";
 
 type _Keys<T extends object> = UnionToTuple<keyof RemoveIndexKeys<T>> extends
 readonly ObjectKey[]
@@ -24,7 +24,7 @@ export type IsVueRef<T> = T extends object
     ? If<
         IsEqual<_Len<T>, 0>,
         false,
-        Retain<_Keys<T>, string>["length"] extends 1
+        Filter<_Keys<T>, string>["length"] extends 1
             ? _Validate<T>
             : false
     >

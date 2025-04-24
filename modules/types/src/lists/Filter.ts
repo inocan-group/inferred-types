@@ -1,9 +1,8 @@
 import type {
     ComparatorOperation,
     Compare,
-    If,
-    IfNever,
-    IsArray,
+    IsEqual,
+    Or,
     RemoveNever,
     TupleToUnion,
 } from "inferred-types/types";
@@ -18,66 +17,64 @@ type SingleFilter<
     Result extends unknown[] = [],
 > = TList extends [infer Head, ...infer Rest]
     ? [Compare<Head, TOp, TFilter>] extends [true]
-        ? SingleFilter<Rest, TFilter, TOp, Result> // filter out
-        : SingleFilter<Rest, TFilter, TOp, [...Result, Head]>
+        ? SingleFilter<Rest, TFilter, TOp, [...Result, Head]>
+        : SingleFilter<Rest, TFilter, TOp, Result> // filter out
     : Result;
 
 type Process<
-    TList extends unknown[] | readonly unknown[],
-    TFilter,
+    TList extends readonly unknown[],
+    TComparator,
     TOp extends ComparatorOperation,
 > = TList extends unknown[]
-    ? SingleFilter<TList, TFilter, TOp>
+    ? SingleFilter<TList, TComparator, TOp>
     : // readonly only tuples
     TList extends readonly unknown[]
         ? Readonly<
-            SingleFilter<[...TList], TFilter, TOp>
+            SingleFilter<[...TList], TComparator, TOp>
         >
         : never;
 
+type PrepList<
+    T extends readonly unknown[],
+    O extends ComparatorOperation,
+> = Or<[
+    IsEqual<O, "contains">,
+    IsEqual<O, "startsWith">,
+    IsEqual<O, "endsWith">,
+]> extends true
+    ? RemoveNever<{
+        [K in keyof T]: T[K] extends string | number
+            ? T[K]
+            : never
+    }>
+    : T;
+
 /**
- * **Filter**`<TList, TComparator, [TOp]>`
+ * **Filter**`<TList, TFilter>`
  *
- * Allows a known tuple `TList` to be reduced to a subset with the value `TFilter`:
+ * Allows a known tuple `TList` to be reduced to just those elements which
+ * _extend_ type `TFilter`.
  *
- * - How the list is reduced depends on `TOp` which defaults to "extends"
- * - other values include "equals", "does-not-extend", "does-not-equal"
+ * - `TFilter` can be single value or a array of values
+ * - when the filter is an array then they are combined in a logical OR operation
  *
- * By default `TOp` is set to _extends_ which ensures that those values in the list which
- * _extend_ `TValue` are retained but the remaining filtered out.
- *
- * ```ts
- * type T = [1,"foo",3];
- * // [1,3]
- * type T2 = Filter<T, string>;
- * ```
- * - `TFilter` can be single value or a Tuple of values
- * - in the case of a Tuple of values, an "OR" operation will be used ... meaning that
- * the elements in `TList` will be kept if an element extends _any_ of the `TFilter`
- * entries
- *
- * **Related:** `RetainFromList`, `RemoveFromList`
+ * **Related:** `Filter`
  */
 export type Filter<
     TList extends readonly unknown[],
     TComparator,
     TOp extends ComparatorOperation = "extends",
-> = TList extends readonly unknown[]
-    ? IfNever<
-        TComparator,
-        RemoveNever<TList>,
-        If<
-            IsArray<TComparator>,
-            Process<
-                TList,
-                TupleToUnion<TComparator>,
-                TOp
-            >,
-            Process<
-                TList,
-                TComparator,
-                TOp
-            >
+
+> = PrepList<TList, TOp> extends readonly unknown[]
+    ? [TComparator] extends [unknown[]]
+        ? Process<
+            PrepList<TList, TOp>,
+            TupleToUnion<TComparator>,
+            TOp
         >
-    >
+        : Process<
+            PrepList<TList, TOp>,
+            TComparator,
+            TOp
+        >
     : never;

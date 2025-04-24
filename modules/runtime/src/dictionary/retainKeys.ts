@@ -1,14 +1,14 @@
 import type { HasUnionType, Narrowable, NarrowObject, ObjectKey, Throw, WithKeys } from "inferred-types/types";
 
 /**
- * **retain**(obj,...keys)
+ * **retainKeys**(obj,...keys)
  *
  * Reduces the key/value pairs in an object to those keys
  * explicitly stated.
  *
- * **Related:** `createRetainer`, `omit`
+ * **Related:** `createRetainer`, `omitKeys`
  */
-export function retain<
+export function retainKeys<
     N extends Narrowable,
     TObj extends NarrowObject<N>,
     TKeys extends readonly (ObjectKey & keyof TObj)[],

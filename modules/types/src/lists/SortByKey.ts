@@ -8,7 +8,7 @@ import type {
     NumericKeys,
     ObjectKey,
     RemoveNever,
-    Retain
+    Filter
 } from "inferred-types/types";
 
 type Seperation = {
@@ -106,7 +106,7 @@ type Remaining<
     TList extends readonly Dictionary[],
     TKey extends ObjectKey,
     TSort extends SortByKeyOptions,
-> = Retain<
+> = Filter<
     End<TList, TKey, TSort>["rest"],
     Start<TList, TKey, TSort>["rest"][number]
 >;

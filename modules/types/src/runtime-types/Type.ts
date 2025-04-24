@@ -13,7 +13,7 @@ import type {
     Box,
     ErrorCondition,
     Extends,
-    Filter,
+    NotFilter,
     If,
     IsArray,
     IsEqual,
@@ -134,14 +134,14 @@ type ToBaseType<
                                                                       : never
                                                                   : TKind extends "union"
                                                                       ? TUnderlying extends readonly unknown[]
-                                                                          ? TupleToUnion<Filter<
+                                                                          ? TupleToUnion<NotFilter<
                                                                               TUnderlying,
                                                                               { kind: TypeKind; required: TypeIsRequired; underlying: readonly unknown[] | "none" }
                                                                           >>
                                                                           : never
                                                                       : TKind extends "intersection"
                                                                           ? TUnderlying extends readonly unknown[]
-                                                                              ? UnionToIntersection<TupleToUnion<Filter<
+                                                                              ? UnionToIntersection<TupleToUnion<NotFilter<
                                                                                   TUnderlying,
                                                                                   { kind: TypeKind; required: TypeIsRequired; underlying: readonly unknown[] | "none" }
                                                                               >>>

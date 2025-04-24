@@ -7,7 +7,7 @@ import type {
 } from "inferred-types/types";
 
 /**
- * **omit**(obj, excluding)
+ * **omitKeys**(obj, excluding)
  *
  * Runtime utility which _excludes_ certain **keys** from an object.
  *
@@ -21,9 +21,9 @@ import type {
  * const obj = omit({ foo: 1, bar: 2: baz: 3 }, "foo", "bar");
  * ```
  *
- * **Related:** `createOmission`, `withoutKeys`
+ * **Related:** `createOmission`, `withoutKeys`, `retainKeys`
  */
-export function omit<
+export function omitKeys<
     TObj extends NarrowObject<N> | AnyObject,
     N extends Narrowable,
     TKeys extends readonly string[],

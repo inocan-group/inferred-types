@@ -1,4 +1,5 @@
 import type {
+    AsArray,
     AsString,
     IsEqual,
     IsWideType,
@@ -41,11 +42,19 @@ type Process<
  */
 export type StartsWith<
     TValue extends string | number,
-    TComparator extends string | number | readonly string[],
+    TComparator extends string | number | readonly (string | number)[],
 > = [IsWideType<TValue>] extends [true]
     ? boolean
     : [IsWideType<TComparator>] extends [true]
         ? boolean
-        : IsEqual<Process<AsString<TValue>, TComparator>, boolean> extends true
+        : IsEqual<
+            Process<AsString<TValue>,
+            AsArray<TComparator>[number]>,
+            boolean
+        > extends true
             ? true
-            : Process<AsString<TValue>, TComparator>;
+            : Process<
+                AsString<TValue>,
+                AsArray<TComparator>[number]
+            >;
+

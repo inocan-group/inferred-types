@@ -4,3 +4,4 @@ export * from "./FixedLengthArray";
 export * from "./LastOfEach";
 export * from "./MinLengthArray";
 export * from "./SecondOfEach";
+export * from "./TupleMeta";

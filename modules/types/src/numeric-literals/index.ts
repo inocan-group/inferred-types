@@ -17,6 +17,8 @@ export * from "./InvertNumericSign";
 export * from "./Length";
 export * from "./LessThan";
 export * from "./LessThanOrEqual";
+export * from "./Max";
+export * from "./Min";
 export * from "./Negative";
 export * from "./NextDigit";
 export * from "./NumberLike";
@@ -26,3 +28,4 @@ export * from "./Subtract";
 export * from "./ToInteger";
 export * from "./ToNumericArray";
 export * from "./Zero";
+

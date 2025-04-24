@@ -2,7 +2,7 @@ import type {
     AfterFirst,
     And,
     Err,
-    Filter,
+    NotFilter,
     First,
     Flatten,
     IsEqual,
@@ -62,7 +62,7 @@ type _SplitUnion<
         TPolicy,
         _SplitSeperator<TContent, First<TSep>> extends readonly string[]
             ? TPolicy extends "omit"
-                ? Filter<[..._SplitSeperator<TContent, First<TSep>>], S, "startsWith">
+                ? NotFilter<[..._SplitSeperator<TContent, First<TSep>>], S, "startsWith">
                 : TPolicy extends "before"
                     ? BeforePolicy<[..._SplitSeperator<TContent, First<TSep>>]>
                     : TPolicy extends "after"

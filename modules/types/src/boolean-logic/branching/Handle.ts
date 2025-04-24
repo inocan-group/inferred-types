@@ -1,5 +1,5 @@
 import type {
-    Filter,
+    NotFilter,
     If,
     IsEqual,
     IsUnion,
@@ -12,8 +12,8 @@ type Narrow<
     THandle,
 > = IsUnion<TContent> extends true
     ? UnionToTuple<TContent> extends readonly unknown[]
-        ? Filter<UnionToTuple<TContent>, THandle> extends readonly unknown[]
-            ? TupleToUnion<Filter<UnionToTuple<TContent>, THandle>>
+        ? NotFilter<UnionToTuple<TContent>, THandle> extends readonly unknown[]
+            ? TupleToUnion<NotFilter<UnionToTuple<TContent>, THandle>>
             : never
         : never
     : TContent;

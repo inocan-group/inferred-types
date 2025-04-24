@@ -1,5 +1,6 @@
 export * from "./And";
 export * from "./Compare";
+export * from "./ComparisonLookup";
 export * from "./FirstDefined";
 export * from "./FirstSet";
 export * from "./FirstValue";
