@@ -11,7 +11,7 @@ export type KeysUnion<T extends object> = {
     [K in keyof T]: K extends string ? Readonly<K> : never;
 }[keyof T];
 
-type _SKeys<T extends AnyObject> = UnionToTuple<
+type _StringKeys<T extends AnyObject> = UnionToTuple<
     {
         [K in keyof T]: K extends string ? Readonly<K> : never;
     }[keyof T]
@@ -22,12 +22,13 @@ type _SKeys<T extends AnyObject> = UnionToTuple<
  *
  * Creates a tuple of all _string_ keys of `T`.
  *
- * **Related:** `Keys`, `SKeys`
+ * **Related:** `Keys`, `StringKeys`
+ * @deprecated prefer use of `StringKeys`
  */
 export type SKeys<T extends AnyObject> = IsVueRef<T> extends true
     ? ["value"]
-    : _SKeys<T> extends readonly string[]
-        ? _SKeys<T>
+    : _StringKeys<T> extends readonly string[]
+        ? _StringKeys<T>
         : never;
 
 /**
@@ -37,6 +38,8 @@ export type SKeys<T extends AnyObject> = IsVueRef<T> extends true
  *
  * **Related:** `Keys`
  */
-export type StringKeys<T extends AnyObject> = SKeys<T> extends readonly (keyof T & string)[]
-    ? SKeys<T>
+export type StringKeys<T extends AnyObject> = IsVueRef<T> extends true
+? ["value"]
+: _StringKeys<T> extends readonly string[]
+    ? _StringKeys<T>
     : never;

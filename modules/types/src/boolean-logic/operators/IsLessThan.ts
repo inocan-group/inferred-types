@@ -1,4 +1,11 @@
-import type { AsNumber, CompareNumbers, LessThanOrEqual, NumberLike } from "inferred-types/types";
+import type {
+    AsNumber,
+    CompareNumbers,
+    IsWideType,
+    LessThanOrEqual,
+    NumberLike,
+    Or
+} from "inferred-types/types";
 
 /**
  * **IsLessThan**`<A,B>`
@@ -11,7 +18,9 @@ import type { AsNumber, CompareNumbers, LessThanOrEqual, NumberLike } from "infe
 export type IsLessThan<
     A extends NumberLike,
     B extends NumberLike,
-> = CompareNumbers<AsNumber<A>, AsNumber<B>> extends "less" ? true : false;
+> = Or<[ IsWideType<A>, IsWideType<B> ]> extends true
+? boolean
+: CompareNumbers<AsNumber<A>, AsNumber<B>> extends "less" ? true : false;
 
 /**
  * **IsLessThanOrEqual**`<A,B>`
@@ -21,4 +30,6 @@ export type IsLessThan<
 export type IsLessThanOrEqual<
     A extends NumberLike,
     B extends NumberLike,
-> = LessThanOrEqual<AsNumber<A>, AsNumber<B>>;
+> = Or<[ IsWideType<A>, IsWideType<B> ]> extends true
+? boolean
+: LessThanOrEqual<AsNumber<A>, AsNumber<B>>;

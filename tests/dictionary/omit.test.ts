@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { omit } from "inferred-types/runtime";
+import { omitKeys } from "inferred-types/runtime";
 import { EmptyObject } from "inferred-types/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -11,10 +11,10 @@ import { EmptyObject } from "inferred-types/types";
 describe("omit()", () => {
 
   it("happy path", () => {
-    const all = omit({ foo: 1, bar: 2, baz: 3 }, "");
-    const noFoo = omit({ foo: 1, bar: 2, baz: 3 }, "foo");
-    const justBar = omit({ foo: 1, bar: 2, baz: 3 }, "foo", "baz");
-    const none = omit({ foo: 1, bar: 2, baz: 3 }, "foo", "bar", "baz");
+    const all = omitKeys({ foo: 1, bar: 2, baz: 3 }, "");
+    const noFoo = omitKeys({ foo: 1, bar: 2, baz: 3 }, "foo");
+    const justBar = omitKeys({ foo: 1, bar: 2, baz: 3 }, "foo", "baz");
+    const none = omitKeys({ foo: 1, bar: 2, baz: 3 }, "foo", "bar", "baz");
 
 
     expect(all).toEqual({ foo: 1, bar: 2, baz: 3 });
@@ -35,7 +35,7 @@ describe("omit()", () => {
 
   it("Narrowing a typed object", () => {
     const input: { foo: 1; bar: 2; baz: 3 } = { foo: 1, bar: 2, baz: 3 };
-    const test = omit(input, "foo");
+    const test = omitKeys(input, "foo");
 
     type cases = [
       Expect<Equal<typeof test, { bar: 2; baz: 3 }>>
@@ -52,7 +52,7 @@ describe("omit()", () => {
       baz: ["testing", "something"]
     };
 
-    const test = omit(input, "foo");
+    const test = omitKeys(input, "foo");
 
     type cases = [
       Expect<Equal<typeof test, { bar: 2; baz: ["testing", "something"] }>>

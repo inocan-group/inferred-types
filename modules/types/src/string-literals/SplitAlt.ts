@@ -3,7 +3,7 @@ import type {
     As,
     BeforeLast,
     Chars,
-    Filter,
+    NotFilter,
     First,
     IsStringLiteral,
     IsUnion,
@@ -65,7 +65,7 @@ type LiteralSplit<
             TUnionPolicy extends "omit" ? Block : `${Block}${TSep}`,
         ]
     >
-    : Filter<[...TResults, TContent], "">;
+    : NotFilter<[...TResults, TContent], "">;
 
 type Process<
     TContent extends string,

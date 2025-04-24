@@ -1,4 +1,12 @@
-import type { AnyObject, AsArray, ExpandRecursively, Mutable, ObjectKey, SimplifyObject, WithKeys, WithoutKeys } from "inferred-types/types";
+import type {
+    AnyObject,
+    ExpandRecursively,
+    Mutable,
+    ObjectKey,
+    SimplifyObject,
+    WithKeys,
+    WithoutKeys
+} from "inferred-types/types";
 
 /**
  * **MakePropsMutable**`<TObj,TMutProps>`
@@ -46,5 +54,5 @@ export type MutablePropsExclusive<
     T extends AnyObject,
     M extends readonly (keyof T & ObjectKey)[],
 > = ExpandRecursively<
-  Mutable<WithKeys<T, M>> & Readonly<WithoutKeys<T, AsArray<M>>>
+  Mutable<WithKeys<T, M>> & Readonly<WithoutKeys<T, M>>
 >;

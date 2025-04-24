@@ -2,6 +2,7 @@ import type {
     AsNumber,
     CompareNumbers,
     IsEqual,
+    IsWideType,
     NumberLike,
     Or
 } from "inferred-types/types";
@@ -17,7 +18,9 @@ import type {
 export type IsGreaterThan<
     A extends NumberLike,
     B extends NumberLike,
-> = CompareNumbers<AsNumber<A>, AsNumber<B>> extends "greater"
+> = Or<[ IsWideType<A>, IsWideType<B> ]> extends true
+? boolean
+: CompareNumbers<AsNumber<A>, AsNumber<B>> extends "greater"
     ? true
     : false;
 
@@ -29,7 +32,9 @@ export type IsGreaterThan<
 export type IsGreaterThanOrEqual<
     A extends NumberLike,
     B extends NumberLike,
-> = Or<[
+> = Or<[ IsWideType<A>, IsWideType<B> ]> extends true
+? boolean
+: Or<[
     IsEqual<AsNumber<A>, AsNumber<B>>,
     IsGreaterThan<A, B>
 ]>;

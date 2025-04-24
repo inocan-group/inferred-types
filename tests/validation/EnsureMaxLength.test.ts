@@ -1,21 +1,21 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { MaxLength } from "inferred-types/types";
+import { EnsureMaxLength } from "inferred-types/types";
 import { Extends, TypedError } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("MaxLength", () => {
 
   it("happy path", () => {
-    type T1 = MaxLength<"hello", 5>;
-    type T2 = MaxLength<[1,2,3,4,5], 5>;
-    type T3 = MaxLength<12345, 5>;
+    type T1 = EnsureMaxLength<"hello", 5>;
+    type T2 = EnsureMaxLength<[1,2,3,4,5], 5>;
+    type T3 = EnsureMaxLength<12345, 5>;
 
-    type F1 = MaxLength<"hello", 4>;
-    type F2 = MaxLength<[1,2,3,4,5], 4>;
-    type F3 = MaxLength<12345, 4>;
+    type F1 = EnsureMaxLength<"hello", 4>;
+    type F2 = EnsureMaxLength<[1,2,3,4,5], 4>;
+    type F3 = EnsureMaxLength<12345, 4>;
 
-    type W = MaxLength<string, 4>;
-    type W2 = MaxLength<"hello", number>;
+    type W = EnsureMaxLength<string, 4>;
+    type W2 = EnsureMaxLength<"hello", number>;
 
 
 

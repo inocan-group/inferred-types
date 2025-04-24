@@ -1,4 +1,4 @@
-import type { FromLiteralTemplate, Retain, Split, TemplateBlocks } from "inferred-types/types";
+import type { FromLiteralTemplate, Filter, Split, TemplateBlocks } from "inferred-types/types";
 
 type TemplateTupleToTypeTuple<T extends readonly TemplateBlocks[]> = {
     [K in keyof T]: T[K] extends "{{string}}"
@@ -18,7 +18,7 @@ type TemplateTupleToTypeTuple<T extends readonly TemplateBlocks[]> = {
 export type TemplateParams<
     T extends string
 > = TemplateTupleToTypeTuple<
-    Retain<
+    Filter<
         Split<
             FromLiteralTemplate<T>,
             TemplateBlocks,

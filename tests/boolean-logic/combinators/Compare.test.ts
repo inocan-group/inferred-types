@@ -1,5 +1,5 @@
-import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { CompareNumbers, IsBoolean, UpperAlphaChar, IsFalse } from "inferred-types/types";
+import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
+import { Compare, IsBoolean, UpperAlphaChar, IsFalse } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -9,45 +9,59 @@ import { describe, it } from "vitest";
 describe("Compare<TVal,TOp,TComparator", () => {
 
     it("happy path", () => {
-        type T1 = CompareNumbers<42, "extends", number>;
-        type T2 = CompareNumbers<42, "equals", 42>;
-        type T3 = CompareNumbers<420, "startsWith", 42>;
-        type T4 = CompareNumbers<"foobar", "startsWith", "foo">;
-        type T5 = CompareNumbers<["foo", "bar"], "contains", "bar">;
-        type T6 = CompareNumbers<"Foo", "startsWith", UpperAlphaChar>;
-        type T7 = CompareNumbers<42, "greaterThan", 30>;
+        type T1 = Compare<42, "extends", number>;
+        type T1a = Compare<42, "extends", [number]>;
 
-        type F1 = CompareNumbers<number, "extends", 42>;
-        type F2 = CompareNumbers<["foo", "bar"], "contains", "baz">;
-        type F3 = CompareNumbers<"foo", "startsWith", UpperAlphaChar>;
+        type T2 = Compare<42, "equals", 42>;
+        type T2a = Compare<42, "equals", [42]>;
+        type T2b = Compare<42, "equals", [42, 99]>;
 
-        type O1 = CompareNumbers<"foobar", "greaterThan", 42>;
-        type O2 = CompareNumbers<number, "greaterThan", 42>;
-        type O3 = CompareNumbers<string, "startsWith", "foo">;
+        type T2s = Compare<42, "equalsSome", 42>;
+        type T2sb = Compare<42, "equalsSome", [42, 99]>;
+        type T2sc = Compare<99, "equalsSome", [42, 99]>;
+
+        type T3 = Compare<420, "startsWith", 42>;
+        type T4 = Compare<"foobar", "startsWith", "foo">;
+        type T5 = Compare<["foo", "bar"], "containsSome", "bar">;
+        type T6 = Compare<"Foo", "startsWith", UpperAlphaChar>;
+        type T7 = Compare<42, "greaterThan", 30>;
+
+        type F1 = Compare<number, "extends", 42>;
+        type F2 = Compare<["foo", "bar"], "containsSome", "baz">;
+        type F3 = Compare<"foo", "startsWith", UpperAlphaChar>;
+
+        type O1 = Compare<"foobar", "greaterThan", 42>;
+        type O2 = Compare<number, "greaterThan", 42>;
+        type O3 = Compare<string, "startsWith", "foo">;
 
 
         type cases = [
-            ExpectTrue<T1>,
-            ExpectTrue<T2>,
-            ExpectTrue<T3>,
-            ExpectTrue<T4>,
-            ExpectTrue<T5>,
-            ExpectTrue<T6>,
-            ExpectTrue<T7>,
+            Expect<Equal<T1, true>>,
+            Expect<Equal<T1a, true>>,
 
-            ExpectFalse<F1>,
-            ExpectFalse<F2>,
-            ExpectFalse<F3>,
+            Expect<Equal<T2, true>>,
+            Expect<Equal<T2a, true>>,
+            Expect<Equal<T2b, never>>, // only allows single param
 
-            IsFalse<O1>,
-            IsBoolean<O2>,
-            IsBoolean<O3>
+            // "equalsSome" requires at least two params
+            Expect<Equal<T2s, never>>,
+            Expect<Equal<T2sb, true>>,
+            Expect<Equal<T2sc, true>>,
+
+            Expect<Equal<T3, true>>,
+            Expect<Equal<T4, true>>,
+            Expect<Equal<T5, true>>,
+            Expect<Equal<T6, true>>,
+            Expect<Equal<T7, true>>,
+            Expect<Equal<F1, false>>,
+            Expect<Equal<F2, false>>,
+            Expect<Equal<F3, false>>,
+
+            Expect<Equal<O1, false>>,
+            Expect<Equal<O2, boolean>>,
+            Expect<Equal<O3, boolean>>,
         ];
-        const cases: cases = [
-            true, true, true, true, true, true, true,
-            false, false, false,
-            true, true, true
-        ];
+
     });
 
 });

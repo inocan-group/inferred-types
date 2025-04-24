@@ -1,5 +1,5 @@
 import type { Dictionary, Narrowable, ObjectKey } from "inferred-types/types";
-import { retain } from "./retain";
+import { retainKeys } from "./retainKeys";
 
 /**
  * **withKeys**(obj,keys)
@@ -14,5 +14,5 @@ export function withKeys<
     N extends Narrowable,
     TKeys extends readonly (ObjectKey & keyof TObj)[],
 >(dict: TObj, ...keys: TKeys) {
-    return retain(dict, ...keys);
+    return retainKeys(dict, ...keys);
 }

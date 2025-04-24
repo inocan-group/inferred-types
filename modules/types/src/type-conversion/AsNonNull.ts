@@ -1,6 +1,6 @@
 import type { If, IsEqual, IsUnion } from "../boolean-logic";
 import type { Throw } from "../errors";
-import type { Filter } from "../lists/Filter";
+import type { NotFilter } from "../lists/NotFilter";
 import type { TupleToUnion } from "./TupleToUnion";
 import type { UnionToTuple } from "./UnionToTuple";
 
@@ -24,7 +24,7 @@ export type AsNonNull<T> = If<
     IsEqual<T, null>,
     InvalidCast<T>,
     IsUnion<T> extends true
-        ? TupleToUnion<Filter<UnionToTuple<T>, null>>
+        ? TupleToUnion<NotFilter<UnionToTuple<T>, null>>
         : T
 > extends null
     ? never
@@ -32,6 +32,6 @@ export type AsNonNull<T> = If<
         IsEqual<T, null>,
         InvalidCast<T>,
         IsUnion<T> extends true
-            ? TupleToUnion<Filter<UnionToTuple<T>, null>>
+            ? TupleToUnion<NotFilter<UnionToTuple<T>, null>>
             : T
     >;

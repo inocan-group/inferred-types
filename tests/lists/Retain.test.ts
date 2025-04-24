@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { Retain, UpperAlphaChar } from "inferred-types/types";
+import { Filter, UpperAlphaChar } from "inferred-types/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -9,9 +9,9 @@ import { Retain, UpperAlphaChar } from "inferred-types/types";
 describe("Retain", () => {
 
     it("read-write Tuple, single filter", () => {
-        type T1 = Retain<[1, 2, "foo", "bar"], string>;
-        type T2 = Retain<[1, 2, "foo", "bar"], number>;
-        type T3 = Retain<[1, 2, "foo", "bar"], 1>;
+        type T1 = Filter<[1, 2, "foo", "bar"], string>;
+        type T2 = Filter<[1, 2, "foo", "bar"], number>;
+        type T3 = Filter<[1, 2, "foo", "bar"], 1>;
 
         type cases = [
             Expect<Equal<T1, ["foo", "bar"]>>,
@@ -22,9 +22,9 @@ describe("Retain", () => {
     });
 
     it("readonly Tuple, single filter", () => {
-        type T1 = Retain<readonly [1, 2, "foo", "bar"], string>;
-        type T2 = Retain<readonly [1, 2, "foo", "bar"], number>;
-        type T3 = Retain<readonly [1, 2, "foo", "bar"], 1>;
+        type T1 = Filter<readonly [1, 2, "foo", "bar"], string>;
+        type T2 = Filter<readonly [1, 2, "foo", "bar"], number>;
+        type T3 = Filter<readonly [1, 2, "foo", "bar"], 1>;
 
         type cases = [
             Expect<Equal<T1, readonly ["foo", "bar"]>>,
@@ -35,9 +35,9 @@ describe("Retain", () => {
     });
 
     it("read-write Tuple, OR/SOME filter", () => {
-        type T1 = Retain<[1, 2, "foo", "bar"], ["foo", 1, 7]>;
-        type T2 = Retain<[1, 2, "foo", "bar", false], [number, string]>;
-        type T3 = Retain<[1, 2, "foo", "bar", true], [string, boolean]>;
+        type T1 = Filter<[1, 2, "foo", "bar"], ["foo", 1, 7]>;
+        type T2 = Filter<[1, 2, "foo", "bar", false], [number, string]>;
+        type T3 = Filter<[1, 2, "foo", "bar", true], [string, boolean]>;
 
         type cases = [
             Expect<Equal<T1, [1, "foo"]>>,
@@ -49,9 +49,9 @@ describe("Retain", () => {
 
 
     it("Retain using a tuple comparator", () => {
-        type T1 = Retain<[1, 2, "foo", "bar", 1], [1, "foo"]>;
-        type T2 = Retain<[1, 2, "foo", "bar", false], [number, string]>;
-        type T3 = Retain<[1, 2, "foo", "bar", true], [string, boolean]>;
+        type T1 = Filter<[1, 2, "foo", "bar", 1], [1, "foo"]>;
+        type T2 = Filter<[1, 2, "foo", "bar", false], [number, string]>;
+        type T3 = Filter<[1, 2, "foo", "bar", true], [string, boolean]>;
 
         type cases = [
             Expect<Equal<T1, [1, "foo", 1]>>,
@@ -65,9 +65,9 @@ describe("Retain", () => {
 
 
     it("Using operators other than extends", () => {
-        type One = Retain<[1, 2, "foo", "bar", 1], 1, "equals">;
-        type FooBar = Retain<[1, "foo", 42, false, "foobar"], "foo", "contains">;
-        type Cappy = Retain<["foo", "Bar", "Baz"], UpperAlphaChar, "startsWith">;
+        type One = Filter<[1, 2, "foo", "bar", 1], 1, "equals">;
+        type FooBar = Filter<[1, "foo", 42, false, "foobar"], "foo", "contains">;
+        type Cappy = Filter<["foo", "Bar", "Baz"], UpperAlphaChar, "startsWith">;
 
         type cases = [
             Expect<Equal<One, [1, 1]>>,

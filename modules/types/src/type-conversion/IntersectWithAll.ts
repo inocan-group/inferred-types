@@ -1,4 +1,4 @@
-import type { Filter } from "inferred-types/types";
+import type { NotFilter } from "inferred-types/types";
 
 /**
  * **IntersectWithAll**`<TList,TIntersection>`
@@ -16,6 +16,6 @@ import type { Filter } from "inferred-types/types";
 export type IntersectWithAll<
     TList extends readonly unknown[],
     TIntersection,
-> = Filter<{
+> = NotFilter<{
     [K in keyof TList]: TList[K] & TIntersection
 }, never>;

@@ -84,7 +84,7 @@ interface _TypeTokenLookup {
     "arr": "";
     "map": "";
     "weak": "";
-    "union": "";
+    "asUnion": "";
     "union-set": TypeToken__UnionSet;
 
 }
