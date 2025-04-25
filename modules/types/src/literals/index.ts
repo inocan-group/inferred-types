@@ -4,7 +4,6 @@ export * from "./Choices";
 export * from "./Color";
 export * from "./ContainerBlockKey";
 export * from "./ContainerKeyGuarantee";
-export * from "./date-time-objects";
 export * from "./DoneFnTuple";
 export * from "./ExpandRecursively";
 export * from "./FromTokenNames";

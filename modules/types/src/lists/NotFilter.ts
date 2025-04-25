@@ -1,83 +1,47 @@
 import type {
-    ComparatorOperation,
     Compare,
-    If,
-    IfNever,
-    IsArray,
     RemoveNever,
-    TupleToUnion,
+    ComparisonOperation,
+    ComparisonLookup,
+    Flexy
 } from "inferred-types/types";
 
-/**
- * Iterates over each element of the Tuple
- */
-type SingleFilter<
-    TList extends readonly unknown[],
-    TFilter,
-    TOp extends ComparatorOperation,
-    Result extends unknown[] = [],
-> = TList extends [infer Head, ...infer Rest]
-    ? [Compare<Head, TOp, TFilter>] extends [true]
-        ? SingleFilter<Rest, TFilter, TOp, Result> // filter out
-        : SingleFilter<Rest, TFilter, TOp, [...Result, Head]>
-    : Result;
+
 
 type Process<
-    TList extends unknown[] | readonly unknown[],
-    TFilter,
-    TOp extends ComparatorOperation,
-> = TList extends unknown[]
-    ? SingleFilter<TList, TFilter, TOp>
-    : // readonly only tuples
-    TList extends readonly unknown[]
-        ? Readonly<
-            SingleFilter<[...TList], TFilter, TOp>
-        >
-        : never;
+    TList extends readonly unknown[],
+    TOp extends ComparisonOperation,
+    TParams extends Flexy<ComparisonLookup[TOp]["params"]>
+> = RemoveNever<{
+    [K in keyof TList]: Compare<TList[K], TOp, TParams> extends true
+        ? never
+        : TList[K]
+}>;
+
 
 /**
- * **Filter**`<TList, TComparator, [TOp]>`
+ * **NotFilter**`<TList, TOp, TFilter>`
  *
- * Allows a known tuple `TList` to be reduced to a subset with the value `TFilter`:
+ * Performs the same task as `Filter` but with the opposite results.
  *
- * - How the list is reduced depends on `TOp` which defaults to "extends"
- * - other values include "equals", "does-not-extend", "does-not-equal"
+ * - when elements are evaluated to `true` on their comparison operation
+ * they are _removed_
  *
- * By default `TOp` is set to _extends_ which ensures that those values in the list which
- * _extend_ `TValue` are retained but the remaining filtered out.
+ * **Related:** `Filter`
  *
  * ```ts
- * type T = [1,"foo",3];
- * // [1,3]
- * type T2 = Filter<T, string>;
+ * // ["foo","bar"]
+ * type NotNum = NotFilter<[1,2,3,"foo","bar"], "extends", number>;
  * ```
- * - `TFilter` can be single value or a Tuple of values
- * - in the case of a Tuple of values, an "OR" operation will be used ... meaning that
- * the elements in `TList` will be kept if an element extends _any_ of the `TFilter`
- * entries
- *
- * **Related:** `RetainFromList`, `RemoveFromList`
  */
 export type NotFilter<
     TList extends readonly unknown[],
-    TComparator,
-    TOp extends ComparatorOperation = "extends",
-> = TList extends readonly unknown[]
-    ? IfNever<
-        TComparator,
-        RemoveNever<TList>,
-        If<
-            IsArray<TComparator>,
-            Process<
-                TList,
-                TupleToUnion<TComparator>,
-                TOp
-            >,
-            Process<
-                TList,
-                TComparator,
-                TOp
-            >
-        >
-    >
-    : never;
+    TOp extends ComparisonOperation,
+    TParams extends Flexy<ComparisonLookup[TOp]["params"]>
+> = Process<
+    TList,
+    TOp,
+    TParams
+>
+
+

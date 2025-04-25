@@ -19,7 +19,6 @@ import type {
     LowerAlphaChar,
     NumericChar,
     Split,
-    SplitAlt,
 } from "inferred-types/types";
 
 /**
@@ -95,7 +94,7 @@ export type IsIp4Address<T> =
 T extends string
     ? IsStringLiteral<T> extends true
         ? T extends Ip4AddressLike
-            ? SplitAlt<T, ".">["length"] extends 4
+            ? Split<T, ".">["length"] extends 4
                 ? DeepOctetCheck<Split<T, ".">>
                 : false
             : false
@@ -170,8 +169,8 @@ type _BeforeTLD<T extends readonly string[]> = [] extends T
 export type IsDomainName<T> = T extends string
     ? IsStringLiteral<T> extends true
         ? T extends `${string}.${string}`
-            ? _TLD<Last<SplitAlt<T, ".">>> extends true
-                ? _BeforeTLD<BeforeLast<SplitAlt<T, ".">>> extends true
+            ? _TLD<Last<Split<T, ".">>> extends true
+                ? _BeforeTLD<BeforeLast<Split<T, ".">>> extends true
                     ? true
                     : false
                 : false

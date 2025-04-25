@@ -1,6 +1,5 @@
-import type { If } from "../boolean-logic";
-import type { AfterFirst, First } from "../lists";
-import type { Chars } from "./Chars";
+import type { If, AfterFirst, First, Chars } from "inferred-types/types";
+
 
 type Process<
     TChars extends readonly string[],

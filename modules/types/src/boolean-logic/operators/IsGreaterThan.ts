@@ -38,3 +38,4 @@ export type IsGreaterThanOrEqual<
     IsEqual<AsNumber<A>, AsNumber<B>>,
     IsGreaterThan<A, B>
 ]>;
+

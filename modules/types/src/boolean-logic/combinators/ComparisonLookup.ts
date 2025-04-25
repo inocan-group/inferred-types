@@ -8,6 +8,7 @@ import {
     InputToken__SimpleTokens,
     Keys,
     Narrowable,
+    NumberLike,
     ToStringArray
 } from "inferred-types/types";
 
@@ -74,11 +75,12 @@ type X = AsArray<(string | number) |[string | number, ...readonly (string | numb
  */
 export type ComparisonLookup<T extends ComparisonMode = "design-time"> = {
     extends: {
-        params: [
-            types: T extends "run-time"
-                ? InputToken__SimpleTokens
-                : unknown, ...readonly unknown[]
-        ]
+        params:
+            T extends "run-time"
+                ? [types: InputToken__SimpleTokens, ...InputToken__SimpleTokens[]]
+                : [types: unknown, ...unknown[]]
+
+        accept: Narrowable;
     };
     startsWith: {
         params: [string | number, ...readonly (string | number)[]],
@@ -98,12 +100,6 @@ export type ComparisonLookup<T extends ComparisonMode = "design-time"> = {
         params: [substring: string | number];
         accept: string | number;
     }
-
-    containsSome: {
-        params: [substrings: string | number, ...readonly (string | number)[]];
-        accept: string | number;
-        convertAll: ["stringArray", "union"]
-    };
 
     containsAll: {
         params: [substrings: string | number, ...readonly (string | number)[]];
@@ -127,17 +123,54 @@ export type ComparisonLookup<T extends ComparisonMode = "design-time"> = {
         params: [value: number]
     };
 
-    "between (inclusive)": {
+    objectKeyValueGreaterThan: {
+        params: [
+            key: string,
+            type: NumberLike
+        ];
+        accept: Dictionary;
+    };
+
+    objectKeyValueGreaterThanOrEqual: {
+        params: [
+            key: string,
+            type: NumberLike
+        ];
+        accept: Dictionary;
+    };
+
+    objectKeyValueLessThan: {
+        params: [
+            key: string,
+            type: number
+        ];
+        convertFirst: "token"
+        accept: Dictionary;
+    };
+
+    objectKeyValueLessThanOrEqual: {
+        params: [
+            key: string,
+            type: number
+        ];
+        convertFirst: "token"
+        accept: Dictionary;
+    };
+
+
+    "betweenInclusively": {
         params: [greaterThan: number, lessThan: number]
     };
 
-    "between (exclusive)": {
+    "betweenExclusively": {
         params: [greaterThan: number, lessThan: number]
     };
 
     equals: {
         params: [
-            value: T extends "run-time" ? Narrowable : unknown
+            value: T extends "run-time"
+                ? Narrowable
+                : unknown
         ]
     };
 
@@ -157,12 +190,34 @@ export type ComparisonLookup<T extends ComparisonMode = "design-time"> = {
     };
 
     before: {
-        params: [date: DateLike]; accept: DateLike
+        params: [date: DateLike];
+        accept: DateLike
     };
 
     after: {
-        params: [date: DateLike]; accept: DateLike
+        params: [date: DateLike];
+        accept: DateLike
     };
+
+    sameDay: {
+        params: [date: DateLike];
+        accept: DateLike;
+    };
+
+    sameMonth: {
+        params: [date: DateLike];
+        accept: DateLike;
+    };
+
+    sameMonthYear: {
+        params: [date: DateLike];
+        accept: DateLike;
+    };
+
+    sameYear: {
+        params: [date: DateLike];
+        accept: DateLike;
+    }
 
     truthy: {
         params: []
@@ -182,34 +237,55 @@ export type ComparisonLookup<T extends ComparisonMode = "design-time"> = {
         accept: Narrowable;
     };
 
-    "keyEquals (object)": {
+    objectKeyEquals: {
         params: [key: string, value: Narrowable];
         accept: Dictionary
     };
-    "valuesExtend (object)": {
-        params: [key: string, type: InputToken__SimpleTokens];
+    objectKeyExtends: {
+        params: [
+            key: string,
+            type: T extends "run-time"
+                ? InputToken__SimpleTokens
+                : unknown
+        ];
         accept: Dictionary;
     };
-    "valuesEqual (object)": {
+
+    objectKeyStartsWith: {
+        params: [key: string, value: Narrowable];
+        accept: Dictionary;
+    };
+    objectKeyEndsWith: {
+        params: [key: string, value: Narrowable];
+        accept: Dictionary;
+    };
+    objectValueEquals: {
         params: [value: Narrowable];
         accept: Dictionary;
     };
-    "keyStartsWith (object)": {
-        params: [key: string, value: Narrowable];
+    objectValueExtends: {
+        params: [
+            type: T extends "run-time"
+                ? InputToken__SimpleTokens
+                : unknown
+        ];
+        convertFirst: "token"
         accept: Dictionary;
     };
-    "keyEndsWith (object)": {
-        params: [key: string, value: Narrowable];
+
+    objectKeyValueExtends: {
+        params: [
+            key: string,
+            type: T extends "run-time"
+                ? InputToken__SimpleTokens
+                : unknown
+        ];
+        convertFirst: "token"
         accept: Dictionary;
     };
-    "keyInValuesEqual (object)": {
-        params: [key: string, value: Narrowable];
-        accept: Dictionary;
-    };
-    "keyInValuesExtend (object)": {
-        params: [key: string, type: InputToken__SimpleTokens];
-        accept: Dictionary;
-    };
+
+
+
     returnEquals: {
         params: [ validReturnTypes: unknown, ...unknown[] ]
     };

@@ -1,4 +1,4 @@
-import type { AsUnion, UnionElDefn } from "inferred-types/types";
+import type { AsUnionToken, UnionElDefn } from "inferred-types/types";
 
 /**
  * **union**
@@ -10,5 +10,5 @@ export function union<U extends readonly [UnionElDefn, ...UnionElDefn[]]>(...ele
     // TODO
     });
 
-    return result as AsUnion<U>;
+    return result as AsUnionToken<U>;
 }

@@ -14,6 +14,7 @@ export * from "./DoesNotExtend";
 export * from "./EndsWith";
 export * from "./EveryLength";
 export * from "./EveryUnionElement";
+export * from "./Expect";
 export * from "./Extends";
 export * from "./ExtendsAll";
 export * from "./ExtendsEvery";
@@ -120,3 +121,4 @@ export * from "./SomeUnionElement";
 export * from "./StartsWith";
 export * from "./UnionHasArray";
 export * from "./Validate";
+

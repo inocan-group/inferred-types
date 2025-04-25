@@ -1,25 +1,47 @@
+import { Or,IsAny } from "inferred-types/types";
+
+
 /**
  * **IsEqual**`<X,Y>`
  *
- * Type utility which tests whether two types -- `X` and `Y` -- are exactly the same type.
+ * Type utility which tests whether two types -- `X` and `Y` -- are
+ * exactly the same type.
  *
- * - by default if either `X` or `Y` is an `any` value then this returns `never`
- * - if you'd like to allow the **any** type to be considered set `AllowNever` to true
+ * - if either `X` or `Y` are **any** then this test resolves to **false**
+ *
+ * **Alias:** `Equals`
  */
 export type IsEqual<
     X,
     Y,
-    TRUE = true,
-    FALSE = false
+    TTrue = true,
+    TFalse = false
 > = [X] extends [Y]
-    ? [Y] extends [X]
-        ? TRUE
-        : FALSE
-    : FALSE;
+? [Y] extends [X]
+    ? TTrue
+: TFalse
+: TFalse;
 
 /**
  * **Equals**`<X,Y>`
  *
- * Type utility which tests whether two types -- `X` and `Y` -- are exactly the same type
+ * Type utility which tests whether two types -- `X` and `Y` -- are
+ * exactly the same type.
+ *
+ * - if either `X` or `Y` are **any** then this test resolves to **false**
+ *
+ * **Alias:** `IsEqual`
  */
-export type Equals<X, Y, TTrue = true, TFalse = false> = IsEqual<X, Y, TTrue, TFalse>;
+export type Equals<
+    X, Y,
+    TTrue = true,
+    TFalse = false
+> = [IsAny<X>] extends [true]
+    ? false
+: [IsAny<Y>] extends [true]
+    ? false
+: [X] extends [Y]
+    ? [Y] extends [X]
+        ? TTrue
+    : TFalse
+: TFalse;

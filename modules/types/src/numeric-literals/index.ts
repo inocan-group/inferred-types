@@ -1,4 +1,4 @@
-; export * from "./Abs";
+export * from "./Abs";
 export * from "./AbsMaybe";
 export * from "./Add";
 export * from "./AsNegativeNumber";
@@ -14,10 +14,12 @@ export * from "./DigitNonZero";
 export * from "./Increment";
 export * from "./Integer";
 export * from "./InvertNumericSign";
+export * from "./IsBetween";
 export * from "./Length";
 export * from "./LessThan";
 export * from "./LessThanOrEqual";
 export * from "./Max";
+export * from "./MaxSafeInteger";
 export * from "./Min";
 export * from "./Negative";
 export * from "./NextDigit";

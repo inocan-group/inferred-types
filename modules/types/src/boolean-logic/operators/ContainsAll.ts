@@ -1,17 +1,26 @@
-import type { And, Contains } from "inferred-types/types";
+import type { And, AsString, Contains, IsWideContainer } from "inferred-types/types";
 
 /**
- * **ContainsAll**`<TList, THasAll>`
+ * **ContainsAll**`<TContent, THasAll>`
  *
  * Type utility which provides a boolean response based on
- * whether the list `TList` contains _all_ of the values passed
- * in.
+ * whether _all_ of the values in `THasAll` are _contained_ by `TContent`.
  *
- * **Related:** `DoesExtend`, `ContainsSome`
+ * - `TContent` can be either a tuple value or a string/numeric value
+ * - for _string_ content all of the substrings found in `THasAll`
+ * must be found in that string
+ * - all numeric content is first converted to a string literal before
+ * making any comparisons.
+ *
+ * **Related:** `Contains`, `NarrowlyContains`
  */
 export type ContainsAll<
-    TList extends readonly unknown[],
+    TContent extends string | number | readonly unknown[],
     THasAll extends readonly unknown[],
-> = And<{
-    [K in keyof THasAll]: Contains<TList, THasAll[K]>
+> = IsWideContainer<TContent> extends true
+? boolean
+: And<{
+    [K in keyof THasAll]: TContent extends number
+        ? Contains<AsString<TContent>, THasAll[K]>
+        : Contains<TContent, THasAll[K]>
 }>;

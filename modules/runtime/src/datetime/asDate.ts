@@ -4,11 +4,12 @@ import {
     isIsoExplicitDate,
     isIsoImplicitDate,
     isIsoYear,
-    isLuxonDateTime,
+    isLuxonDate,
     isMoment,
     isNumber,
     stripAfter,
 } from "inferred-types/runtime";
+import { DateLike } from "inferred-types/types";
 
 /**
  * **asDate**`(input)`
@@ -27,7 +28,7 @@ export function asDate<
         return input.toDate();
     }
 
-    if (isLuxonDateTime(input)) {
+    if (isLuxonDate(input)) {
         return new Date(input.toMillis());
     }
 
@@ -66,4 +67,45 @@ export function asDate<
     }
 
     return undefined;
+}
+
+function toDate(value: DateLike): Date {
+    if (typeof value === "number" || (typeof value === "string" && /^\d+$/.test(value))) {
+        return new Date(Number(value));
+    }
+
+    if (typeof value === "string") {
+        const parsed = new Date(value);
+        if (!isNaN(parsed.getTime())) return parsed;
+        throw new Error(`Invalid ISO string format: ${value}`);
+    }
+
+    if (value instanceof Date) {
+        return value;
+    }
+
+    if (value && typeof value === "object") {
+        if ("toDate" in value && typeof value.toDate === "function") {
+            const result = value.toDate();
+            if (result instanceof Date && !isNaN(result.getTime())) return result;
+        }
+
+        if ("startOfDay" in value && typeof value.startOfDay === "function") {
+            const result = value.startOfDay();
+            if (result instanceof Date && !isNaN(result.getTime())) return result;
+        }
+
+        if ("getTime" in value && typeof value.getTime === "function") {
+            const ts = value.getTime();
+            if (typeof ts === "number" && !isNaN(ts)) return new Date(ts);
+        }
+
+        if ("toJSON" in value && typeof value.toJSON === "function") {
+            const iso = value.toJSON();
+            const result = new Date(iso);
+            if (!isNaN(result.getTime())) return result;
+        }
+    }
+
+    throw new Error("Unsupported DateLike input");
 }

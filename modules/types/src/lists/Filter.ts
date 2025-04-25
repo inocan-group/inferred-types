@@ -1,80 +1,54 @@
 import type {
-    ComparatorOperation,
     Compare,
-    IsEqual,
-    Or,
     RemoveNever,
-    TupleToUnion,
+    ComparisonOperation,
+    ComparisonLookup,
+    Flexy,
+    As
 } from "inferred-types/types";
 
-/**
- * Iterates over each element of the Tuple
- */
-type SingleFilter<
-    TList extends readonly unknown[],
-    TFilter,
-    TOp extends ComparatorOperation,
-    Result extends unknown[] = [],
-> = TList extends [infer Head, ...infer Rest]
-    ? [Compare<Head, TOp, TFilter>] extends [true]
-        ? SingleFilter<Rest, TFilter, TOp, [...Result, Head]>
-        : SingleFilter<Rest, TFilter, TOp, Result> // filter out
-    : Result;
+
 
 type Process<
     TList extends readonly unknown[],
-    TComparator,
-    TOp extends ComparatorOperation,
-> = TList extends unknown[]
-    ? SingleFilter<TList, TComparator, TOp>
-    : // readonly only tuples
-    TList extends readonly unknown[]
-        ? Readonly<
-            SingleFilter<[...TList], TComparator, TOp>
-        >
-        : never;
+    TOp extends ComparisonOperation,
+    TParams extends Flexy<ComparisonLookup[TOp]["params"]>
+> = RemoveNever<{
+    [K in keyof TList]: Compare<TList[K], TOp, TParams> extends true
+        ? TList[K]
+        : never
+}>;
 
-type PrepList<
-    T extends readonly unknown[],
-    O extends ComparatorOperation,
-> = Or<[
-    IsEqual<O, "contains">,
-    IsEqual<O, "startsWith">,
-    IsEqual<O, "endsWith">,
-]> extends true
-    ? RemoveNever<{
-        [K in keyof T]: T[K] extends string | number
-            ? T[K]
-            : never
-    }>
-    : T;
 
 /**
- * **Filter**`<TList, TFilter>`
+ * **Filter**`<TList, TOp, TFilter>`
  *
  * Allows a known tuple `TList` to be reduced to just those elements which
  * _extend_ type `TFilter`.
  *
- * - `TFilter` can be single value or a array of values
- * - when the filter is an array then they are combined in a logical OR operation
+ * - `TFilter` can be single value, an array of values, or even no values at all
+ * - the number of parameters is dictated by the operation
+ * - if _either_ zero or one parameters are required you may also just
+ * express the first parameter outside of array syntax.
  *
- * **Related:** `Filter`
+ * **Related:** `NotFilter`
+ *
+ * ```ts
+ * // [1,2,3]
+ * type Num = Filter<[1,2,3,"foo","bar"], "extends", number>;
+ * ```
  */
 export type Filter<
     TList extends readonly unknown[],
-    TComparator,
-    TOp extends ComparatorOperation = "extends",
+    TOp extends ComparisonOperation,
+    TParams extends Flexy<ComparisonLookup[TOp]["params"]>
+> = As<
+    Process<
+        TList,
+        TOp,
+        TParams
+    >,
+    Flexy<readonly unknown[]>
+>
 
-> = PrepList<TList, TOp> extends readonly unknown[]
-    ? [TComparator] extends [unknown[]]
-        ? Process<
-            PrepList<TList, TOp>,
-            TupleToUnion<TComparator>,
-            TOp
-        >
-        : Process<
-            PrepList<TList, TOp>,
-            TComparator,
-            TOp
-        >
-    : never;
+

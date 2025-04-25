@@ -1,11 +1,16 @@
 import type {
+    DateFnsLike,
     DateSeparator,
+    DayJsLike,
     HoursMinutes,
     HoursMinutesSeconds,
+    LuxonLike,
+    MomentLike,
     NumericChar,
     NumericCharZeroToFive,
     Opt,
     OptNumber,
+    TemporalLike,
     Time,
     TimeNomenclature,
     TimeResolution,
@@ -156,14 +161,21 @@ export type Iso8601<
  *    - **Luxon**'s DateTime object
  *    - **Javascript**'s Date object
  */
-export type DateLike = number
+export type DateLike =
+    | number
+    | Date
     | `${number}`
     | `${number}-${number}-${number}`
-    | `${number}-${number}-${number}T${number}:${number}:${number}Z`
-    | { isValid: () => boolean; toDate: () => Date } // MomentJS DateTime
-    | { toDate: () => Date } // Luxon DateTime
-    | { getTime: () => number } // Javascript Date object
-    | { startOfDay: () => Date }; // DateFns-like object
+    | `${number}-${number}-${number}T${number}:${number}:${number}`
+    | `${number}-${number}-${number}T${number}:${number}:${number}.${number}`
+    | `${number}-${number}-${number}T${number}:${number}:${number}${'Z' | `${'+' | '-'}${number}:${number}`}`
+    | { getTime: () => number; [key: string]: any } // JS Date
+    | LuxonLike
+    | DayJsLike
+    | MomentLike
+    | DateFnsLike
+    | TemporalLike;
+
 
 /**
  * **Iso8601DateRepresentation**

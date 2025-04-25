@@ -1,14 +1,15 @@
 import type {
-    ComparatorOperation,
+    As,
+    AsUnion,
     Compare,
+    ComparisonLookup,
+    ComparisonOperation,
+    Flexy,
     Get,
-    If,
     IfNever,
-    IsArray,
     IsDotPath,
     RemoveNever,
     Throw,
-    TupleToUnion,
 } from "inferred-types/types";
 
 /**
@@ -18,13 +19,13 @@ type SingleFilter<
     TList extends readonly unknown[],
     TComparator,
     TProp extends string,
-    TOp extends ComparatorOperation,
+    TOp extends ComparisonOperation,
     Result extends unknown[] = [],
 > = TList extends [infer Head, ...infer Rest]
     ? [Compare<
         Get<Head, TProp>,
         TOp,
-        TComparator
+        As<TComparator, Flexy<ComparisonLookup[TOp]["params"]>>
     >] extends [true]
         ? SingleFilter<Rest, TComparator, TProp, TOp, [...Result, Head]>
         : SingleFilter<Rest, TComparator, TProp, TOp, Result> // filter out
@@ -34,7 +35,7 @@ type Process<
     TList extends unknown[] | readonly unknown[],
     TComparator,
     TProp extends string,
-    TOp extends ComparatorOperation,
+    TOp extends ComparisonOperation,
 > = TList extends unknown[]
     ? SingleFilter<TList, TComparator, TProp, TOp>
     : // readonly only tuples
@@ -75,7 +76,7 @@ export type RetainByProp<
     TList extends readonly unknown[],
     TComparator,
     TProp extends string,
-    TOp extends ComparatorOperation = "extends",
+    TOp extends ComparisonOperation = "extends",
 > = IsDotPath<TProp> extends false
     ? Throw<"invalid-dot-path", `the property value TProp must be a valid dotpath but "${TProp}" is not valid!`>
 
@@ -83,20 +84,11 @@ export type RetainByProp<
         ? IfNever<
             TComparator,
             RemoveNever<TList>,
-            If<
-                IsArray<TComparator>,
-                Process<
-                    TList,
-                    TupleToUnion<TComparator>,
-                    TProp,
-                    TOp
-                >,
-                Process<
-                    TList,
-                    TComparator,
-                    TProp,
-                    TOp
-                >
+            Process<
+                TList,
+                AsUnion<TComparator>,
+                TProp,
+                TOp
             >
         >
         : never;

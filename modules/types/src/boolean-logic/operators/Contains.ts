@@ -1,4 +1,6 @@
 import type {
+    AsString,
+    AsUnion,
     IsWideType,
     Or,
     TupleToUnion,
@@ -36,13 +38,12 @@ type ProcessTuple<
 type PreProcess<
     TContent,
     TComparator,
-> =
-TContent extends readonly unknown[]
+> = TContent extends readonly unknown[]
     ? TComparator extends readonly unknown[]
         ? ProcessTuple<TContent, TupleToUnion<TComparator>>
         : ProcessTuple<TContent, TComparator>
     : TContent extends ToStringLiteral
-        ? TComparator extends readonly unknown[]
+        ? TComparator extends readonly (string | number | boolean)[]
             ? ProcessStr<`${TContent}`, TupleToUnion<TComparator>>
             : ProcessStr<`${TContent}`, TComparator>
         : never;
@@ -61,6 +62,16 @@ TContent extends readonly unknown[]
 export type Contains<
     TContent extends string | number | readonly unknown[],
     TComparator,
-> = [IsWideType<TContent>] extends [true]
+> = Or<[IsWideType<TContent>, IsWideType<TComparator>]> extends true
     ? boolean
-    : PreProcess<TContent, TComparator>;
+    : TContent extends string | number
+        ? IsSubstring<AsString<TContent>, AsString<AsUnion<TComparator>>>
+        : PreProcess<TContent, TComparator>;
+
+
+export type IsSubstring<
+    TContent extends string,
+    TFind extends string
+> = TContent extends `${string}${TFind}${string}`
+? true
+: false;

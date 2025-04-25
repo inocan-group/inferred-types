@@ -1,4 +1,4 @@
-import { isLuxonDateTime } from "./isLuxonDateTime";
+import { isLuxonDate } from "./isLuxonDateTime";
 import { isMoment } from "./isMoment";
 
 /**
@@ -22,7 +22,7 @@ export function isThisMonth(val: unknown): boolean {
             && (typeof monthValue === "number" ? monthValue + 1 : monthValue) === currentMonth;
     }
 
-    if (isLuxonDateTime(val)) {
+    if (isLuxonDate(val)) {
         return val.year === currentYear
             && val.month === currentMonth;
     }

@@ -1,5 +1,5 @@
 import type { Iso8601Date, Iso8601DateTime, LuxonJs, MomentJs } from "inferred-types/types";
-import { isDate, isIsoExplicitDate, isLuxonDateTime, isMoment, isString, stripAfter } from "inferred-types/runtime";
+import { isDate, isIsoExplicitDate, isLuxonDate, isMoment, isString, stripAfter } from "inferred-types/runtime";
 
 function strip(str: string) {
     return stripAfter(str, "T") as unknown as Iso8601Date<"explicit">;
@@ -17,7 +17,7 @@ export function asIsoDate<
         ? strip(input.toISOString())
         : isMoment(input)
             ? strip(input.toISOString())
-            : isLuxonDateTime(input)
+            : isLuxonDate(input)
                 ? input.toISODate() as unknown as Iso8601Date<"explicit">
                 : isIsoExplicitDate(input)
                     ? input

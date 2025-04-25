@@ -1,12 +1,14 @@
 import {
     isDate,
+    isDateFnsDate,
     isInteger,
     isIsoDate,
     isIsoDateTime,
-    isLuxonDateTime,
+    isLuxonDate,
     isMoment,
     isNumber,
-    isString
+    isString,
+    isTemporalDate
 } from "inferred-types/runtime";
 
 /**
@@ -24,6 +26,12 @@ export function isDateLike(val: unknown) {
     return (
         (isNumber(val) && isInteger(val) && val > 0) // epoch
         || (isString(val) && (isIsoDate(val) || isIsoDateTime(val))) // ISO
-        || (isDate(val) || isMoment(val) || isLuxonDateTime(val)) // Object based
+        || (
+            isDate(val) ||
+            isMoment(val) ||
+            isLuxonDate(val) ||
+            isTemporalDate(val) ||
+            isDateFnsDate(val)
+        ) // Object based
     );
 }

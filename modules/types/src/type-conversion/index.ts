@@ -15,6 +15,8 @@ export * from "./AsRecord";
 export * from "./AsRef";
 export * from "./AsString";
 export * from "./AsStringUnion";
+export * from "./AsTuple";
+export * from "./AsUnion";
 export * from "./Awaited";
 export * from "./Break";
 export * from "./encoding/index";

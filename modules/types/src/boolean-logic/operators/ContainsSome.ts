@@ -7,7 +7,9 @@ import type { Contains, Or } from "inferred-types/types";
  * whether the list `TList` contains _some_ of the values passed
  * in for `TFind`.
  *
- * **Related:** `DoesExtend`, `ContainsSome`
+ * **Related:** `DoesExtend`, `Contains`
+ *
+ * @deprecated use `Contains` instead
  */
 export type ContainsSome<
     TList extends readonly unknown[],
