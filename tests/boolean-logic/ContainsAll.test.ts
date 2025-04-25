@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { ContainsAll, ContainsSome } from "inferred-types/types";
+import {  ContainsAll } from "inferred-types/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
@@ -22,21 +22,18 @@ describe("ContainsAll<TList,THasAll>", () => {
     ];
   });
 
-});
+  it("happy path for a string input", () => {
 
-describe("ContainsSome<TList,THasAll>", () => {
+    type T1 = ContainsAll<"FooBar", ["Foo", "Bar"]>;
+    type F1 = ContainsAll<"FooBar", ["Foo", "Bax"]>;
 
-  it("happy path", () => {
-    type Arr = ["foo", "bar", "baz"];
-    type T1 = ContainsSome<["foo", "bar"], Arr>;
 
-    type F1 = ContainsSome<Arr, ["uno","dos","tres"]>;
-
-    // @ts-ignore
     type cases = [
-      Expect<Equal<T1, true>>,
-      Expect<Equal<F1, false>>,
+        Expect<Equal<T1, true>>,
+        Expect<Equal<F1, false>>,
     ];
   });
 
 });
+
+

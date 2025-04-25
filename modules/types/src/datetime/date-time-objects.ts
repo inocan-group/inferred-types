@@ -395,6 +395,60 @@ export interface MomentJs {
     [key: string]: any;
 }
 
+export interface MomentLike {
+    _isAMomentObject: boolean;
+    isValid(): boolean;
+    toDate(): Date;
+    format(formatStr?: string): string;
+    utc(): MomentLike;
+    local(): MomentLike;
+    add(amount: number, unit: string): MomentLike;
+    subtract(amount: number, unit: string): MomentLike;
+    [key: string]: any;
+}
+
+export interface TemporalLike {
+    toString(): string;
+    toJSON(): string;
+    toPlainDate?(): object;
+    toPlainTime?(): object;
+    toInstant?(): { epochSeconds: number };
+    [key: string]: any;
+}
+
+export interface DayJsLike {
+    isValid(): boolean;
+    /** converts a DayJS object to a Javascript Date */
+    toDate(): Date;
+    format(formatStr?: string): string;
+    utc(): DayJsLike;
+    local(): DayJsLike;
+    add(amount: number, unit: string): DayJsLike;
+    subtract(amount: number, unit: string): DayJsLike;
+    [key: string]: any;
+}
+
+export interface LuxonLike {
+    toJSDate(): Date;
+    toISO(): string;
+    toISODate(): string;
+    toISOTime(): string;
+    toMillis(): number;
+    plus(duration: object): LuxonLike;
+    minus(duration: object): LuxonLike;
+    isValid: boolean;
+    [key: string]: any;
+}
+
+export interface DateFnsLike {
+    startOfDay(): Date;
+    endOfDay(): Date;
+    isSameDay(other: Date): boolean;
+    toISOString(): string;
+    getTime(): number;
+    [key: string]: any;
+}
+
 /**
  * A representation of the [Luxon](https://moment.github.io/luxon/#/?id=luxon) library's type system
  */
@@ -411,7 +465,7 @@ export interface LuxonJs {
     };
 
     Duration: {
-    // Static factory methods
+        // Static factory methods
 
         /**
          * Create a Duration from an object specifying units and their values.
@@ -526,7 +580,7 @@ export interface LuxonJs {
     };
 
     DateTime: {
-    // Static factory methods
+        // Static factory methods
 
         /**
          * Create a DateTime instance from a string and a format.
@@ -565,7 +619,7 @@ export interface LuxonJs {
          * Create a DateTime instance from an object specifying date and time components.
          * @param config - Object with properties like `year`, `month`, `day`, etc.
          */
-        fromObject: (config: { zone?: string; locale?: string; numberingSystem?: string; [key: string]: any }) => LuxonJs["DateTime"];
+        fromObject: (config: { zone?: string; locale?: string; numberingSystem?: string;[key: string]: any }) => LuxonJs["DateTime"];
 
         /**
          * Create a DateTime instance from a JavaScript Date object.

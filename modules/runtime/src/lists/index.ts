@@ -2,7 +2,6 @@ export * from "./asArray";
 export * from "./createConverter";
 export * from "./createFixedLengthArray";
 export * from "./filter";
-export * from "./retain";
 export * from "./filterEmpty";
 export * from "./filterUndefined";
 export * from "./find";

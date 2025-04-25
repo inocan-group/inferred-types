@@ -1,4 +1,32 @@
-import type { And, AsTuple, Container, DoesExtend, HasSameValues, IsTuple, ObjectKey, RemoveIndexKeys, UnionToTuple } from "inferred-types/types";
+import type {
+    And,
+    Container,
+    DoesExtend,
+    HasSameValues,
+    If,
+    IsTuple,
+    IsUndefined,
+    ObjectKey,
+    RemoveIndexKeys,
+    Tuple,
+    UnionToTuple
+} from "inferred-types/types";
+
+/**
+ * **AsTuple**`<T>`
+ *
+ * Type utility which ensures that `T` is tuple value
+ * encapsulating it as a single item array if it is a
+ * non-array type.
+ *
+ * **Related:** `AsArray`
+ */
+type AsTuple<T> = T extends Tuple
+    ? T
+    : T extends unknown[]
+        ? readonly [...T]
+        : If<IsUndefined<T>, readonly [], readonly [T]>;
+
 
 type Process<
     A extends readonly unknown[],

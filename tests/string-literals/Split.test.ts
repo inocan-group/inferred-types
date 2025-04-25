@@ -32,8 +32,8 @@ describe("Split<T,SEP>", () => {
         type cases = [
             Expect<Equal<FooBarBaz, ["foo", "bar", "baz"]>>,
             Expect<Equal<FooBarBazTup, ["foo", "bar", "baz"]>>,
-            Expect<Equal<FooBarBazBefore, ["foo, ", "bar, ", "baz"]>>,
-            Expect<Equal<FooBarBazAfter, ["foo", ", bar", ", baz"]>>,
+            Expect<Equal<FooBarBazAfter, ["foo, ", "bar, ", "baz"]>>,
+            Expect<Equal<FooBarBazBefore, ["foo", ", bar", ", baz"]>>,
             Expect<Equal<FooBarBazInline, ["foo", ", ", "bar", ", ", "baz"]>>,
 
             Expect<Extends<FooBarBazUnion, ["foo","bar","baz"]>>,
@@ -74,10 +74,13 @@ describe("Split<T,SEP>", () => {
         const str = "hello world" as const;
         type S2 = Split<typeof str, typeof str>;
 
+        type S3 = Split<Str,Str,"inline">
+
         // @ts-ignore
         type cases = [
-            Expect<Equal<S1, [""]>>,
-            Expect<Equal<S2, [""]>>
+            Expect<Equal<S1, []>>,
+            Expect<Equal<S2, []>>,
+            Expect<Equal<S3, ["hello"]>>
         ];
     });
 

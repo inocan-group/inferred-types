@@ -1,4 +1,5 @@
 import type {
+    As,
     IsUnion,
     IsWideType,
     Max,
@@ -60,13 +61,15 @@ type RequiredPrefixLength<T extends readonly unknown[], Count extends unknown[] 
  *
  * **Related:** `Length`, `MaxLength`, `TupleMeta`
  */
-export type MinLength<T extends readonly unknown[]> =
+export type MinLength<T extends readonly unknown[]> = As<
     T extends readonly [...infer Head, ...infer Tail]
     ? Tail extends []
     ? Head['length']
     : // If it has a spread (rest), count how many required elements are in front
     RequiredPrefixLength<T>
-    : 0;
+    : 0,
+    number
+>;
 
 type MaxUnion<
     T extends readonly unknown[]

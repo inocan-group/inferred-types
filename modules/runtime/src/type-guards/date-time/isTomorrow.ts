@@ -2,7 +2,7 @@ import {
     getTomorrow,
     isDate,
     isIsoExplicitDate,
-    isLuxonDateTime,
+    isLuxonDate,
     isMoment,
     isString,
     stripAfter,
@@ -27,7 +27,7 @@ export function isTomorrow(test: unknown): boolean {
             stripAfter(test.toISOString(), "T") === getTomorrow()
         );
     }
-    else if (isLuxonDateTime(test)) {
+    else if (isLuxonDate(test)) {
         return (
             stripAfter(test.toISO(), "T") === getTomorrow()
         );

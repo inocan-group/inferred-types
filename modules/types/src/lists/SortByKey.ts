@@ -108,6 +108,7 @@ type Remaining<
     TSort extends SortByKeyOptions,
 > = Filter<
     End<TList, TKey, TSort>["rest"],
+    "extends",
     Start<TList, TKey, TSort>["rest"][number]
 >;
 
@@ -115,11 +116,18 @@ type Order<
     TList extends readonly Dictionary[],
     TKey extends ObjectKey,
     TSort extends SortByKeyOptions,
-> = [
+> = Start<TList, TKey, TSort>["sep"] extends readonly number[]
+? Remaining<TList, TKey, TSort> extends readonly number[]
+? End<TList, TKey, TSort>["sep"] extends readonly number[]
+
+?[
     ...(Start<TList, TKey, TSort>["sep"]),
     ...(Remaining<TList, TKey, TSort>),
     ...(End<TList, TKey, TSort>["sep"]),
-];
+]
+: never
+: never
+: never;
 
 /**
  * **SortByKey**`<TList, TKey, TSort>`

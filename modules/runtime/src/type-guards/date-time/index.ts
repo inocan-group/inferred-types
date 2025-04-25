@@ -13,3 +13,6 @@ export * from "./isThisYear";
 export * from "./isToday";
 export * from "./isTomorrow";
 export * from "./isYesterday";
+export * from "./isDayJs";
+export * from "./isDateFnsDate";
+export * from "./isTemporalDate";

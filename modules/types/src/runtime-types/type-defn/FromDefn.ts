@@ -37,7 +37,7 @@ type IterateUnion<T extends readonly UnionElDefn[]> = {
  * Receives a `UnionTokenSet`, a `ShapeCallback` or just a tuple of values
  * and makes this into _union type_.
  */
-export type AsUnion<T extends UnionElDefn | readonly [UnionElDefn, ...UnionElDefn[]]> = T extends UnionElDefn[]
+export type AsUnionToken<T extends UnionElDefn | readonly [UnionElDefn, ...UnionElDefn[]]> = T extends UnionElDefn[]
     ? TupleToUnion<IterateUnion<T>>
     : T extends UnionElDefn
         ? ProcessUnion<T>

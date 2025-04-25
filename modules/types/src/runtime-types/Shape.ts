@@ -1,7 +1,7 @@
 import type {
     As,
     AsArray,
-    AsUnion,
+    AsUnionToken,
     CivilianTime,
     Container,
     FromDefn,
@@ -222,7 +222,7 @@ export type ShapeApi__Scalars<
 export type UnionElDefn = ShapeCallback | Tuple;
 
 interface ShapeApi__Union {
-    union: <U extends readonly [UnionElDefn, ...UnionElDefn[]]>(...elements: U) => AsUnion<U>;
+    union: <U extends readonly [UnionElDefn, ...UnionElDefn[]]>(...elements: U) => AsUnionToken<U>;
 }
 
 export type DictionaryTypeDefn = Record<ObjectKey, ShapeCallback>;

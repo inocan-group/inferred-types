@@ -1,4 +1,4 @@
-import { getYesterday, isDate, isIsoExplicitDate, isLuxonDateTime, isMoment, isString, stripAfter } from "inferred-types/runtime";
+import { getYesterday, isDate, isIsoExplicitDate, isLuxonDate, isMoment, isString, stripAfter } from "inferred-types/runtime";
 
 /**
  * **isYesterday`(val)`**
@@ -19,7 +19,7 @@ export function isYesterday(test: unknown): boolean {
             stripAfter(test.toISOString(), "T") === getYesterday()
         );
     }
-    else if (isLuxonDateTime(test)) {
+    else if (isLuxonDate(test)) {
         return (
             stripAfter(test.toISO(), "T") === getYesterday()
         );

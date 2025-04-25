@@ -1,5 +1,5 @@
 import type { IMAGE_FORMAT_LOOKUP } from "inferred-types/constants";
-import type { FilterByProp, GetEach } from "inferred-types/types";
+import type { Filter, GetEach } from "inferred-types/types";
 
 /**
  * **ImgFormat**
@@ -18,11 +18,10 @@ export type ImgFormat = GetEach<typeof IMAGE_FORMAT_LOOKUP, "ext">[number];
  * **Related:** `ImageFormat`
  */
 export type ImgFormatWeb = GetEach<
-    FilterByProp<
-    typeof IMAGE_FORMAT_LOOKUP,
-        false,
-        "webFormat",
-        "equals"
+    Filter<
+        typeof IMAGE_FORMAT_LOOKUP,
+        "objectKeyEquals",
+        ["webFormat", true]
     >,
     "ext"
->[number];
+>[number]

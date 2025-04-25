@@ -1,159 +1,99 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-
-import { NotFilter, HasSameValues } from "inferred-types/types";
+import { Filter, UpperAlphaChar } from "inferred-types/types";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
 // standpoint so always be sure to run `tsc --noEmit` over your test files to
 // gain validation that no new type vulnerabilities have cropped up.
 
-describe("Filter using extends operation", () => {
+describe("Filter", () => {
 
     it("read-write Tuple, single filter", () => {
-        type Foobar = NotFilter<[1, 2, "foo", "bar"], number>;
-        type Foobar2 = NotFilter<[1, 2, "foo", "bar"], number, "extends">;
-
-        type Numeric = NotFilter<[1, 2, "foo", "bar"], string>;
-        type Hybrid = NotFilter<[1, 2, "foo", "bar"], 1>;
+        type T1 = Filter<[1, 2, "foo", "bar"], "extends", string>;
+        type T2 = Filter<[1, 2, "foo", "bar"], "extends", number>;
+        type T3 = Filter<[1, 2, "foo", "bar", 1], "extends", 1>;
 
         type cases = [
-            Expect<Equal<Foobar, ["foo", "bar"]>>, //
-            Expect<Equal<Foobar2, ["foo", "bar"]>>,
-            Expect<Equal<Numeric, [1, 2]>>,
-            Expect<Equal<Hybrid, [2, "foo", "bar"]>>,
+            Expect<Equal<T1, ["foo", "bar"]>>,
+            Expect<Equal<T2, [1, 2]>>,
+            Expect<Equal<T3, [1, 1]>>,
         ];
-        const cases: cases = [true, true, true, true];
+        const cases: cases = [true, true, true];
     });
-
 
     it("readonly Tuple, single filter", () => {
-        type Foobar = NotFilter<readonly [1, 2, "foo", "bar"], number>;
-        type Foobar2 = NotFilter<readonly [1, 2, "foo", "bar"], number, "extends">;
-        type Numeric = NotFilter<readonly [1, 2, "foo", "bar"], string>;
-        type Hybrid = NotFilter<readonly [1, 2, "foo", "bar"], 1>;
+        type T1 = Filter<readonly [1, 2, "foo", "bar"], "extends", string>;
+        type T2 = Filter<readonly [1, 2, "foo", "bar"], "extends", number>;
+        type T3 = Filter<readonly [1, 2, "foo", "bar"], "extends", 1>;
 
         type cases = [
-            Expect<Equal<Foobar, readonly ["foo", "bar"]>>, //
-            Expect<Equal<Foobar2, readonly ["foo", "bar"]>>,
-            Expect<Equal<Numeric, readonly [1, 2]>>,
-            Expect<Equal<Hybrid, readonly [2, "foo", "bar"]>>,
+            Expect<Equal<T1,  ["foo", "bar"]>>,
+            Expect<Equal<T2,  [1, 2]>>,
+            Expect<Equal<T3,  [1]>>,
         ];
-        const cases: cases = [true, true, true, true];
+        const cases: cases = [true, true, true];
     });
 
-
-
-    it("startsWith operation", () => {
-        type Foo = NotFilter<[1, 2, "foo", "foobar", "bar"], "foo", "startsWith">;
+    it("read-write Tuple, OR/SOME filter", () => {
+        type T1 = Filter<[1, 2, "foo", "bar"], "extends", ["foo", 1, 7]>;
+        type T2 = Filter<[1, 2, "foo", "bar", false], "extends", [number, string]>;
+        type T3 = Filter<[1, 2, "foo", "bar", true], "extends", [string, boolean]>;
 
         type cases = [
-            Expect<Equal<Foo, [1, 2, "bar"]>>,
+            Expect<Equal<T1, [1, "foo"]>>,
+            Expect<Equal<T2, [1, 2, "foo", "bar"]>>,
+            Expect<Equal<T3, ["foo", "bar", true]>>,
+        ];
+        const cases: cases = [true, true, true];
+    });
+
+    it("using a tuple comparator", () => {
+        type T1 = Filter<[1, 2, "foo", "bar", 1], "extends", [1, "foo"]>;
+        type T2 = Filter<[1, 2, "foo", "bar", false], "extends", [number, string]>;
+        type T3 = Filter<[1, 2, "foo", "bar", true], "extends", [string, boolean]>;
+
+        type cases = [
+            Expect<Equal<T1, [1, "foo", 1]>>,
+            Expect<Equal<T2, [1, 2, "foo", "bar"]>>,
+            Expect<Equal<T3, ["foo", "bar", true]>>,
         ];
         const cases: cases = [
-            true
+            true, true, true
         ];
-
     });
 
 
-    it("filter out wide types, including never", () => {
-        type StripNumbers = NotFilter<[1, never, "foo", number, "bar"], number>;
-        type StripStrings = NotFilter<[never, 1, never, "foo", never, "bar", false], string>;
-        type StripNever = NotFilter<[1, never, "foo", number, "bar"], never>;
+    it("using keyEquals", () => {
+        type Objects = [
+            { foo: 1, bar: "hi" },
+            { foo: 2, bar: "bye" },
+            { foo: 3, bar: "hello again", color: "blue" }
+        ];
+        type Isolate = Filter<Objects, "objectKeyEquals", ["foo", 2]>
 
         type cases = [
-            Expect<Equal<StripNumbers, [never, "foo", "bar"]>>,
-            Expect<Equal<StripStrings, [never, 1, never, never, false]>>,
-            Expect<Equal<StripNever, [1, "foo", number, "bar"]>>,
+            Expect<Equal<
+                Isolate,
+                [ { foo: 2, bar: "bye" } ]
+            >>
         ];
-        const cases: cases = [true, true, true];
     });
 
-    it("read-write Tuple, multiple extends filters (OR)", () => {
-        type T1 = NotFilter<[1, 2, "foo", "bar"], ["bar", 1, 7]>;
-        type T2 = NotFilter<[1, 2, "foo", "bar"], "bar" | 1 | 7>;
-        type T3 = NotFilter<[1, 2, "foo", "bar"], [1, "foo"]>;
-        type T4 = NotFilter<[1, 2, "foo", "bar", true], [string, boolean]>;
+
+
+    it("Using operators other than extends", () => {
+        type One = Filter<[1, 2, "foo", "bar", 1], "equals", 1>;
+        type FooBar = Filter<[1, "foo", 42, false, "foobar"], "contains", "foo">;
+        type Cappy = Filter<["foo", "Bar", "Baz"], "startsWith", UpperAlphaChar>;
 
         type cases = [
-            Expect<Equal<T1, [2, "foo"]>>,
-            Expect<Equal<T2, [2, "foo"]>>,
-            Expect<Equal<T3, [2, "bar"]>>,
-            Expect<Equal<T4, [1, 2]>>,
+            Expect<Equal<One, [1, 1]>>,
+            Expect<Equal<FooBar, ["foo", "foobar"]>>,
+            Expect<Equal<Cappy, ["Bar", "Baz"]>>,
         ];
-        const cases: cases = [true, true, true, true];
-    });
-
-    it("readonly Tuple, Tuple Filter", () => {
-        type T1 = NotFilter<readonly [1, 2, "foo", "bar"], [number, boolean]>;
-        type T2 = NotFilter<readonly [1, 2, "foo", "bar"], [1, "foo"]>;
-        type T3 = NotFilter<readonly [1, 2, "foo", "bar", true], [string, boolean]>;
-
-        type cases = [
-            Expect<Equal<T1, readonly ["foo", "bar"]>>,
-            Expect<Equal<T2, readonly [2, "bar"]>>,
-            Expect<Equal<T3, readonly [1, 2]>>,
+        const cases: cases = [
+            true, true, true
         ];
-        const cases: cases = [true, true, true];
-    });
-
-    it("Filtering with r/w no-equal and equals", () => {
-        type List = [1, 2, "foo", "bar", never, 1];
-
-        type One = NotFilter<List, 1, "equals">;
-
-
-        type cases = [
-            Expect<Equal<One, [2, "foo", "bar", never]>>,
-        ];
-        const cases: cases = [true];
-    });
-
-    it("Filtering with readonly no-equal and equals", () => {
-        type List = readonly [1, 2, "foo", "bar", never, 1];
-
-        type One = NotFilter<List, 1, "equals">;
-
-        type cases = [
-            Expect<Equal<One, readonly [2, "foo", "bar", never]>>,
-        ];
-        const cases: cases = [true];
-    });
-
-    it("Filter array with equals", () => {
-        type T1 = NotFilter<
-            [1, 2, "foo", "bar", "baz", never],
-            "foo",
-            "equals"
-        >;
-
-        type cases = [
-            Expect<HasSameValues<T1, [1, 2, "bar", "baz", never]>>,
-        ];
-        const cases: cases = [true];
 
     });
-
-
 });
-
-describe.skip("filter() runtime", () => {
-
-    it("using extends", () => {
-
-    });
-
-
-    it("using equals", () => {
-
-
-        type cases = [
-            /** type tests */
-        ];
-        const cases: cases = [];
-
-    });
-
-
-});
-

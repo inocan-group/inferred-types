@@ -1,10 +1,14 @@
-import type { Container } from "../base-types";
-import type { As, IsStringLiteral } from "../boolean-logic";
-import type { IsEqual } from "../boolean-logic/operators/IsEqual";
-import type { Get } from "../dictionary/Get";
-import type { AsNumericArray } from "./AsNumericArray";
-import type { RetainByProp } from "./RetainByProp";
-import type { Reverse } from "./Reverse";
+import type {
+    Filter,
+    Container,
+    As,
+    IsStringLiteral,
+    IsEqual,
+    Get,
+    AsNumericArray,
+    RetainByProp,
+    Reverse
+} from "inferred-types/types";
 
 type Iterator<
     N,
@@ -100,25 +104,33 @@ type _Sort<
 type _SortOffset<
     TContainers extends readonly Container[],
     TOffset extends string,
-> = TContainers extends [infer head extends Container, ...infer rest extends Container[]]
+> = TContainers extends [infer Head extends Container, ...infer Rest extends Container[]]
     ? [
         ..._SortOffset<
-            As<RetainByProp<
-                rest,
-                Get<head, TOffset>,
-                TOffset,
-                "lessThanOrEqual"
-            >, Container[]>,
+            As<
+                Filter<
+                    Rest,
+                    "objectKeyValueGreaterThanOrEqual",
+                    [
+                        TOffset,
+                        As<Get<Head, TOffset>, number>
+                    ]
+                >,
+                Container[]
+            >,
             TOffset
         >,
-        head,
+        Head,
         ..._SortOffset<
-            As<RetainByProp<
-                rest,
-                Get<head, TOffset>,
-                TOffset,
-                "greaterThan"
-            >, Container[]>,
+            As<
+                RetainByProp<
+                    Rest,
+                    Get<Head, TOffset>,
+                    TOffset,
+                    "greaterThan"
+                >,
+                Container[]
+            >,
             TOffset
         >,
     ]
@@ -175,3 +187,5 @@ export type NumericSort<
             ? true
             : false
     >;
+
+

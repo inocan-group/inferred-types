@@ -36,9 +36,7 @@ type Finalize<
     TOnlyStringLit extends boolean
 > = TOnlyStringLit extends true
     ? [TContent, ...TApplied]
-    : [TContent, ...ToBaseType<TApplied> ]
-
-;
+    : [TContent, ...ToBaseType<TApplied> ];
 
 type Apply<
     TContent extends string,

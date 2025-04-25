@@ -5,7 +5,7 @@ import { isObject } from "inferred-types/runtime";
  * Type guard which validates that the passed in `val` is a
  * [LuxonJS](https://moment.github.io/luxon/#/?id=luxon) DateTime object.
  */
-export function isLuxonDateTime(val: unknown): val is LuxonJs["DateTime"] {
+export function isLuxonDate(val: unknown): val is LuxonJs["DateTime"] {
     return isObject(val)
         && typeof val === "object"
         && val !== null

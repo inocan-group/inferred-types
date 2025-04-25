@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { FilterByProp, NumericSort, RetainByProp } from "inferred-types/types";
+import {  NumericSort } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -16,8 +16,6 @@ describe("Sort<TValues,[TReverse]>", () => {
         type SR1 = NumericSort<[2, 3, 4, 1], { order: "DESC" }>;
         type SR2 = NumericSort<[22, 33, 44, 11, 11], { order: "DESC" }>;
         type SR3 = NumericSort<[1, 2, 3, 4], { order: "DESC" }>;
-
-
 
         // @ts-ignore
         type cases = [
@@ -51,8 +49,6 @@ describe("Sort<TValues,[TReverse]>", () => {
             Expect<Equal<SR3, [4, 3, 2, 1]>>,
         ];
     });
-
-
 
     it("numeric sort on an offset", () => {
         type DATA = [
