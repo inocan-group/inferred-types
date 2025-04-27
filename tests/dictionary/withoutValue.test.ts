@@ -20,11 +20,11 @@ describe("withoutValue(wo) => (obj) => obj", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<typeof wide, DictionaryWithoutValueFilter<string>>>,
-      Expect<Equal<typeof narrow, DictionaryWithoutValueFilter<"hi" | "hello">>>,
+      Expect<Test<typeof wide, "equals",  DictionaryWithoutValueFilter<string>>>,
+      Expect<Test<typeof narrow, "equals",  DictionaryWithoutValueFilter<"hi" | "hello">>>,
 
-      Expect<Equal<typeof wideObj, { bar: 42; baz: 99 }>>,
-      Expect<Equal<typeof narrowObj, { bar: 42; baz: 99; bax: "bye" }>>,
+      Expect<Test<typeof wideObj, "equals",  { bar: 42; baz: 99 }>>,
+      Expect<Test<typeof narrowObj, "equals",  { bar: 42; baz: 99; bax: "bye" }>>,
     ];
   });
 

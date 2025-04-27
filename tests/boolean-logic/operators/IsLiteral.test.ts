@@ -1,10 +1,7 @@
-import { ExpectTrue } from "@type-challenges/utils";
-import { IsLiteral } from "inferred-types/types";
+import { Expect, IsLiteral, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("IsLiteral<T>", () => {
 
@@ -16,14 +13,12 @@ describe("IsLiteral<T>", () => {
 
 
         type cases = [
-            ExpectTrue<T1>,
-            ExpectTrue<T2>,
-            ExpectTrue<T3>,
-            ExpectTrue<T4>,
+            Expect<Test<T1, "equals", true>>,
+            Expect<Test<T2, "equals", true>>,
+            Expect<Test<T3, "equals", true>>,
+            Expect<Test<T4, "equals", true>>,
         ];
-        const cases: cases = [
-            true, true, true, true
-        ];
+
     });
 
 });

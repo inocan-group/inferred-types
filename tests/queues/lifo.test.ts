@@ -1,12 +1,8 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-
 import { createLifoQueue, widen } from "inferred-types/runtime"
-import { LifoQueue } from "inferred-types/types";
+import { Expect, LifoQueue, Test } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("LIFO Queue tests", () => {
 
@@ -22,12 +18,10 @@ describe("LIFO Queue tests", () => {
 
 
     type cases = [
-      Expect<Equal<typeof q, LifoQueue<1 | 2 | 3>>>,
-      Expect<Equal<typeof wq, LifoQueue<number>>>
+      Expect<Test<typeof q, "equals",  LifoQueue<1 | 2 | 3>>>,
+      Expect<Test<typeof wq, "equals",  LifoQueue<number>>>
     ];
-    const cases: cases = [
-      true, true
-    ];
+
   });
 
 });

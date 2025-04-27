@@ -12,20 +12,20 @@ describe("TupleMeta<T>", () => {
         type ZeroOrMore = TupleMeta<[...string[]]>;
 
         type cases = [
-            Expect<Equal<Nada["range"], "empty">>,
-            Expect<Equal<Single["range"], "[ 1..1 ]">>,
-            Expect<Equal<OneOrTwo["range"], "[ 1..2 ]">>,
-            Expect<Equal<OneOrMore["range"], "[ 1..* ]">>,
-            Expect<Equal<ZeroOrMore["range"], "[ 0..* ]">>,
+            Expect<Test<Nada["range"], "equals",  "empty">>,
+            Expect<Test<Single["range"], "equals",  "[ 1..1 ]">>,
+            Expect<Test<OneOrTwo["range"], "equals",  "[ 1..2 ]">>,
+            Expect<Test<OneOrMore["range"], "equals",  "[ 1..* ]">>,
+            Expect<Test<ZeroOrMore["range"], "equals",  "[ 0..* ]">>,
 
-            Expect<Equal<Nada["isEmpty"], true>>,
-            Expect<Equal<Single["isEmpty"], false>>,
+            Expect<Test<Nada["isEmpty"], "equals",  true>>,
+            Expect<Test<Single["isEmpty"], "equals",  false>>,
 
-            Expect<Equal<OneOrMore["isUnbounded"], true>>,
-            Expect<Equal<Single["isUnbounded"], false>>,
+            Expect<Test<OneOrMore["isUnbounded"], "equals",  true>>,
+            Expect<Test<Single["isUnbounded"], "equals",  false>>,
 
-            Expect<Equal<ZeroOrMore["isOptional"], true>>,
-            Expect<Equal<Single["isOptional"], false>>,
+            Expect<Test<ZeroOrMore["isOptional"], "equals",  true>>,
+            Expect<Test<Single["isOptional"], "equals",  false>>,
         ];
     });
 

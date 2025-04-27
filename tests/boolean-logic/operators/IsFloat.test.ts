@@ -1,10 +1,8 @@
 import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { IsFloat } from "inferred-types/types";
+import { Expect, IsFloat, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("IsFloat<T>", () => {
 
@@ -19,17 +17,14 @@ describe("IsFloat<T>", () => {
 
 
         type cases = [
-            ExpectTrue<T1>,
-            ExpectTrue<T2>,
-            ExpectTrue<T3>,
+            Expect<Test<T1, "equals", true>>,
+            Expect<Test<T2, "equals", true>>,
+            Expect<Test<T3, "equals", true>>,
 
-            ExpectFalse<F1>,
-            ExpectFalse<F2>,
-            ExpectFalse<F3>, // unfortunately a numeric 1.0 doesn't preserve the decimal
-        ];
-        const cases: cases = [
-            true, true, true,
-            false, false, false
+            Expect<Test<F1, "equals", false>>,
+            Expect<Test<F2, "equals", false>>,
+            Expect<Test<F3, "equals", false>>,
+
         ];
     });
 

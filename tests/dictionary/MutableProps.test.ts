@@ -15,8 +15,8 @@ describe("MutableProp<T,M> and MutableProps<T,M>", () => {
         type Bar = MutablePropsExclusive<Test, ["bar"]>
 
         type cases = [
-            Expect<Equal<Mut, { foo: string; bar?: number | undefined; baz: boolean }>>,
-            Expect<Equal<Foo, { foo: string; bar?: number | undefined; readonly baz: boolean }>>,
+            Expect<Test<Mut, "equals",  { foo: string; bar?: number | undefined; baz: boolean }>>,
+            Expect<Test<Foo, "equals",  { foo: string; bar?: number | undefined; readonly baz: boolean }>>,
             Expect<Equal<Bar, {
                 readonly foo: string;
                 bar?: number | undefined;

@@ -6,6 +6,7 @@ import {
     FromInputToken,
     FromStringInputToken,
     FromTupleInputToken,
+    Test,
 } from "inferred-types/types";
 import { Extends, TypedFunction } from "inferred-types/types";
 
@@ -17,10 +18,10 @@ describe("FromInputToken<Token>", () => {
         type Unknown = FromStringInputToken<"unknown">;
 
         type cases = [
-            Expect<Equal<Str, string>>,
-            Expect<Equal<Str2, string>>,
-            Expect<Equal<Num, number>>,
-            Expect<Equal<Unknown, unknown>>,
+            Expect<Test<Str, "equals",  string>>,
+            Expect<Test<Str2, "equals",  string>>,
+            Expect<Test<Num, "equals",  number>>,
+            Expect<Test<Unknown, "equals",  unknown>>,
         ];
     });
 
@@ -31,10 +32,10 @@ describe("FromInputToken<Token>", () => {
         type Unknown = FromInputToken<"unknown">;
 
         type cases = [
-            Expect<Equal<Str, string>>,
-            Expect<Equal<Str2, string>>,
-            Expect<Equal<Num, number>>,
-            Expect<Equal<Unknown, unknown>>,
+            Expect<Test<Str, "equals",  string>>,
+            Expect<Test<Str2, "equals",  string>>,
+            Expect<Test<Num, "equals",  number>>,
+            Expect<Test<Unknown, "equals",  unknown>>,
         ];
     });
 
@@ -42,7 +43,7 @@ describe("FromInputToken<Token>", () => {
         type U = FromStringInputToken<"number | String(bar)">;
 
         type cases = [
-            Expect<Equal<U, number | "bar">>
+            Expect<Test<U, "equals",  number | "bar">>
         ];
     });
 
@@ -51,7 +52,7 @@ describe("FromInputToken<Token>", () => {
         type U = FromStringInputToken<"string | number | unknown">;
 
         type cases = [
-            Expect<Equal<U, unknown>>
+            Expect<Test<U, "equals",  unknown>>
         ];
     });
 
@@ -60,7 +61,7 @@ describe("FromInputToken<Token>", () => {
         type U = FromInputToken<"number | String(bar)">;
 
         type cases = [
-            Expect<Equal<U, number | "bar">>
+            Expect<Test<U, "equals",  number | "bar">>
         ];
     });
 
@@ -77,22 +78,28 @@ describe("FromInputToken<Token>", () => {
             Expect<Extends<F, TypedFunction>>,
             Expect<Extends<FN, TypedFunction>>,
 
-            Expect<Equal<Parameters<F>, [string, number, "red" | "blue"]>>,
-            Expect<Equal<ReturnType<F>, string>>,
-            Expect<Equal<FnProps<F>, { name: "foo" }>>,
+            Expect<Test<Parameters<F>, "equals", [
+                string, number,  "red" | "blue"
+            ]>>,
+            Expect<Test<ReturnType<F>, "equals",  string>>,
+            Expect<Test<FnProps<F>,  "equals", { name: "foo" }>>,
 
-            Expect<Equal<Parameters<FN>, [string, number, "red" | "blue"]>>,
-            Expect<Equal<ReturnType<FN>, string>>,
-            Expect<Equal<FnProps<FN>, { name: "foo" }>>,
+            Expect<Test<Parameters<FN>, "equals", [
+                string, number, "red" | "blue"
+            ]>>,
+            Expect<Test<ReturnType<FN>, "equals",  string>>,
+            Expect<Test<FnProps<FN>, "equals",  { name: "foo" }>>,
 
-            Expect<Equal<
+            Expect<Test<
                 F,
+                "equals",
                 ((args_0: string, args_1: number, args_2: "red" | "blue") => string) & {
                     name: "foo";
                 }
             >>,
-            Expect<Equal<
+            Expect<Test<
                 FN,
+                "equals",
                 (<T extends [string, number, "red" | "blue"]>(...args: T) => string) & {
                     name: "foo";
                 }
@@ -113,13 +120,13 @@ describe("FromInputToken<Token>", () => {
             Expect<Extends<FN, TypedFunction>>,
 
 
-            Expect<Equal<Parameters<F>, [string, number, "red" | "blue"]>>,
-            Expect<Equal<ReturnType<F>, Promise<string>>>,
-            Expect<Equal<FnProps<F>, { name: "foo" }>>,
+            Expect<Test<Parameters<F>, [string, number, "equals",  "red" | "blue"]>>,
+            Expect<Test<ReturnType<F>, "equals",  Promise<string>>>,
+            Expect<Test<FnProps<F>, "equals",  { name: "foo" }>>,
 
-            Expect<Equal<Parameters<FN>, [string, number, "red" | "blue"]>>,
-            Expect<Equal<ReturnType<FN>, Promise<string>>>,
-            Expect<Equal<FnProps<FN>, { name: "foo" }>>,
+            Expect<Test<Parameters<FN>, [string, number, "equals",  "red" | "blue"]>>,
+            Expect<Test<ReturnType<FN>, "equals",  Promise<string>>>,
+            Expect<Test<FnProps<FN>, "equals",  { name: "foo" }>>,
 
             Expect<Equal<
                 F,
@@ -144,11 +151,11 @@ describe("FromInputToken<Token>", () => {
         type N2 = FromInputToken<"(greet(name: string) => string)">;
 
         type cases = [
-            Expect<Equal<A1, () => "hi">>,
-            Expect<Equal<A2, (name: string) => string>>,
+            Expect<Test<A1, "equals",  () => "hi">>,
+            Expect<Test<A2, "equals",  (name: string) => string>>,
 
-            Expect<Equal<N1, (() => "hi") & { name: "greet" }>>,
-            Expect<Equal<N2, ((name: string) => string) & { name: "greet" }>>,
+            Expect<Test<N1, "equals",  (() => "hi") & { name: "greet" }>>,
+            Expect<Test<N2, "equals",  ((name: string) => string) & { name: "greet" }>>,
         ];
     });
 
@@ -179,7 +186,7 @@ describe("FromInputToken<Token>", () => {
         type O1 = FromInputToken<"{ foo: Number(1); bar: number }">;
 
         type cases = [
-            Expect<Equal<O1, { foo: 1, bar: number }>>
+            Expect<Test<O1, { foo: 1, "equals",  bar: number }>>
         ];
     });
 
@@ -190,9 +197,9 @@ describe("FromInputToken<Token>", () => {
         type O3 = FromInputToken<"{ id: number; data: unknown }">;
 
         type cases = [
-            Expect<Equal<O1, { foo?: 1, bar: number }>>,
-            Expect<Equal<O2, { foo?: number, bar: string, baz?: "baz" }>>,
-            Expect<Equal<O3, { id: number, data: unknown }>>
+            Expect<Test<O1, { foo?: 1, "equals",  bar: number }>>,
+            Expect<Test<O2, { foo?: number, bar: string, "equals",  baz?: "baz" }>>,
+            Expect<Test<O3, { id: number, "equals",  data: unknown }>>
         ];
     });
 
@@ -234,8 +241,8 @@ describe("FromInputToken<Token>", () => {
         type U2 = FromInputToken<"(() => string | number) | string">;
 
         type cases = [
-            Expect<Equal<U1, (() => string) | string>>,
-            Expect<Equal<U2, (() => string | number) | string>>,
+            Expect<Test<U1, "equals",  (() => string) | string>>,
+            Expect<Test<U2, "equals",  (() => string | number) | string>>,
         ];
     });
 
@@ -244,8 +251,8 @@ describe("FromInputToken<Token>", () => {
         type FNN = FromInputToken<"greet(name: string) -+> string">;
 
         type cases = [
-            Expect<Equal<Parameters<FA>, [string]>>,
-            Expect<Equal<ReturnType<FA>, string>>,
+            Expect<Test<Parameters<FA>, "equals",  [string]>>,
+            Expect<Test<ReturnType<FA>, "equals",  string>>,
             Expect<Equal<FnProps<FA>, {
                 name: "";
                 parameters: [{ name: "name", type: string }];
@@ -264,7 +271,7 @@ describe("FromInputToken<Token>", () => {
         type R1 = FromInputToken<"Record<string,string>">;
 
         type cases = [
-            Expect<Equal<R1, Record<string, string>>>
+            Expect<Test<R1, Record<string, "equals",  string>>>
         ];
     });
 
@@ -278,11 +285,11 @@ describe("FromInputToken<Token>", () => {
         type Incomplete = FromInputToken<"Array<string">;
 
         type cases = [
-            Expect<Equal<AS, string[]>>,
-            Expect<Equal<AN, number[]>>,
-            Expect<Equal<AR, Record<string, string>[]>>,
-            Expect<Equal<AU, (string | number)[]>>,
-            Expect<Equal<AB, boolean[]>>,
+            Expect<Test<AS, "equals",  string[]>>,
+            Expect<Test<AN, "equals",  number[]>>,
+            Expect<Test<AR, Record<string, "equals",  string>[]>>,
+            Expect<Test<AU, "equals",  (string | number)[]>>,
+            Expect<Test<AB, "equals",  boolean[]>>,
 
             Expect<Extends<Incomplete, Err<"invalid-token/array">>>,
         ];
@@ -296,9 +303,9 @@ describe("FromInputToken<Token>", () => {
         type AU3 = FromInputToken<"false | Array<boolean>">;
 
         type cases = [
-            Expect<Equal<AU1, false | boolean[]>>,
-            Expect<Equal<AU2, string | boolean[]>>,
-            Expect<Equal<AU3, false | boolean[]>>,
+            Expect<Test<AU1, "equals",  false | boolean[]>>,
+            Expect<Test<AU2, "equals",  string | boolean[]>>,
+            Expect<Test<AU3, "equals",  false | boolean[]>>,
         ];
     });
 
@@ -308,8 +315,8 @@ describe("FromInputToken<Token>", () => {
         type S2 = FromInputToken<"Set<string | number>">;
 
         type cases = [
-            Expect<Equal<S1, Set<string>>>,
-            Expect<Equal<S2, Set<string | number>>>,
+            Expect<Test<S1, "equals",  Set<string>>>,
+            Expect<Test<S2, "equals",  Set<string | number>>>,
         ];
     });
 
@@ -320,10 +327,10 @@ describe("FromInputToken<Token>", () => {
         type M4 = FromInputToken<"Map<string | number, { id: number, data: unknown }>">;
 
         type cases = [
-            Expect<Equal<M1, Map<object,object>>>,
-            Expect<Equal<M2, Map<string,object>>>,
-            Expect<Equal<M3, Map<string|number,object>>>,
-            Expect<Equal<M4, Map<string|number, { id: number, data: unknown }>>>,
+            Expect<Test<M1, Map<object, "equals", object>>>,
+            Expect<Test<M2, Map<string, "equals", object>>>,
+            Expect<Test<M3, Map<string|number, "equals", object>>>,
+            Expect<Test<M4, Map<string|number, { id: number, "equals",  data: unknown }>>>,
         ];
     });
 
@@ -334,8 +341,8 @@ describe("FromInputToken<Token>", () => {
         type M4 = FromInputToken<"WeakMap<Set<string>, string">;
 
         type cases = [
-            Expect<Equal<M1, WeakMap<object,object>>>,
-            Expect<Equal<M2, WeakMap<object,string>>>,
+            Expect<Test<M1, WeakMap<object, "equals", object>>>,
+            Expect<Test<M2, WeakMap<object, "equals", string>>>,
             Expect<Equal<M3, WeakMap<
                 {id: number, data: string[]},
                 string
@@ -362,8 +369,8 @@ describe("FromInputToken<Token>", () => {
         type T2 = FromInputToken<"[string|number,boolean]">;
 
         type cases = [
-            Expect<Equal<T1, [ number, number, string ]>>,
-            Expect<Equal<T2, [ string|number, boolean ]>>,
+            Expect<Test<T1, [ number, number, "equals",  string ]>>,
+            Expect<Test<T2, [ string|number, "equals",  boolean ]>>,
         ];
     });
 
@@ -371,7 +378,7 @@ describe("FromInputToken<Token>", () => {
         type T = FromTupleInputToken<["number", "string", "true | Object"]>
 
         type cases = [
-            Expect<Equal<T, [number, string, true | object]>>
+            Expect<Test<T, [number, string, "equals",  true | object]>>
         ];
     });
 
@@ -379,7 +386,7 @@ describe("FromInputToken<Token>", () => {
         type T = FromInputToken<["number", "string", "true | Object"]>
 
         type cases = [
-            Expect<Equal<T, [number, string, true | object]>>
+            Expect<Test<T, [number, string, "equals",  true | object]>>
         ];
     });
 
@@ -395,9 +402,9 @@ describe("FromInputToken<Token>", () => {
         }>;
 
         type cases = [
-            Expect<Equal<D1, { foo: string; bar: number }>>,
-            Expect<Equal<D2, { foo: (string | number)[]; bar: number }>>,
-            Expect<Equal<D3, { foo: (string | number)[]; bar: () => "hi" }>>
+            Expect<Test<D1, "equals",  { foo: string; bar: number }>>,
+            Expect<Test<D2, "equals",  { foo: (string | number)[]; bar: number }>>,
+            Expect<Test<D3, "equals",  { foo: (string | number)[]; bar: () => "hi" }>>
         ];
     });
 

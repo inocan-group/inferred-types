@@ -1,11 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import { intersection } from "inferred-types/runtime";
-import { Intersection } from "inferred-types/types";
+import { Intersection, Test } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("Set Intersection", () => {
 
@@ -17,9 +15,9 @@ describe("Set Intersection", () => {
       type None = Intersection<["foo"], ["bar"]>;
 
       type cases = [
-        Expect<Equal<Foo, ["foo"]>>,
-        Expect<Equal<All, ["foo", "bar"]>>,
-        Expect<Equal<None, []>>,
+        Expect<Test<Foo, "equals",  ["foo"]>>,
+        Expect<Test<All, "equals",  ["foo", "bar"]>>,
+        Expect<Test<None, "equals",  []>>,
       ];
 
       const cases: cases = [true, true, true];
@@ -39,12 +37,10 @@ describe("Set Intersection", () => {
       >
 
       type cases = [
-        Expect<Equal<One, [1]>>,
-        Expect<Equal<Two, [1, 2]>>,
+        Expect<Test<One, "equals", [1]>>,
+        Expect<Test<Two, "equals", [1, 2]>>,
       ];
-      const cases: cases = [
-        true, true
-      ];
+
     });
 
 
@@ -61,11 +57,9 @@ describe("Set Intersection", () => {
       ]
 
       type cases = [
-        Expect<Equal<One, ExpectOne>>,
+        Expect<Test<One, "equals",  ExpectOne>>,
       ];
-      const cases: cases = [
-        true
-      ];
+
     });
 
   });

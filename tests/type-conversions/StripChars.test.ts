@@ -1,6 +1,11 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { AlphaNumericChar, NumericChar, StripChars } from "inferred-types/types";
+import {
+    Expect,
+    AlphaNumericChar,
+    NumericChar,
+    StripChars,
+    Test
+} from "inferred-types/types";
 
 
 describe("StripChars<TContent,TStrip>", () => {
@@ -11,13 +16,12 @@ describe("StripChars<TContent,TStrip>", () => {
         type NothingLeft = StripChars<"Hello World5", AlphaNumericChar | " ">;
 
         type cases = [
-            Expect<Equal<NoChange, "Hello World">>,
-            Expect<Equal<StripNum, "Hello World">>,
-            Expect<Equal<NothingLeft, "">>,
+            Expect<Test<NoChange, "equals",  "Hello World">>,
+            Expect<Test<StripNum, "equals",  "Hello World">>,
+            Expect<Test<NothingLeft, "equals", "">>,
         ];
-        const cases: cases = [
-            true, true, true
-        ];
+
     });
 
 });
+

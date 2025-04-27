@@ -14,9 +14,9 @@ describe("ReplaceInterpolation Utilities", () => {
     type Everywhere = ReplaceStringInterpolation<`${string} Foo${string} Bar${string}`,"Baz">;
 
     type cases = [
-        Expect<Equal<Middle, `FooBaz Bar`>>,
-        Expect<Equal<MiddleAndEnd, `FooBaz BarBaz`>>,
-        Expect<Equal<Everywhere, `Baz FooBaz BarBaz`>>,
+        Expect<Test<Middle, "equals",  `FooBaz Bar`>>,
+        Expect<Test<MiddleAndEnd, "equals",  `FooBaz BarBaz`>>,
+        Expect<Test<Everywhere, "equals",  `Baz FooBaz BarBaz`>>,
     ];
   });
 
@@ -27,9 +27,9 @@ describe("ReplaceInterpolation Utilities", () => {
     type Multi = ReplaceNumericInterpolation<`42: ${number} x ${number} = ${number}`, "{{number}}">;
 
     type cases = [
-      Expect<Equal<TheAnswer, `42 is the answer`>>,
-      Expect<Equal<Foey, `foo{{number}}`>>,
-      Expect<Equal<Multi, `42: {{number}} x {{number}} = {{number}}`>>
+      Expect<Test<TheAnswer, "equals",  `42 is the answer`>>,
+      Expect<Test<Foey, "equals",  `foo{{number}}`>>,
+      Expect<Test<Multi, "equals",  `42: {{number}} x {{number}} = {{number}}`>>
     ];
   });
 
@@ -56,11 +56,11 @@ describe("ReplaceInterpolation Utilities", () => {
     >;
 
     type cases = [
-      Expect<Equal<TheAnswer, `42 is the answer`>>,
-      Expect<Equal<PartialMulti, `42: 2 x 2 = ${number}`>>,
-      Expect<Equal<PartialMultiWithNumbers, `42: 2 x 2 = ${number}`>>,
-      Expect<Equal<Multi, `42: 2 x 2 = 4`>>,
-      Expect<Equal<TooMany, `42: 2 x 2 = 4`>>,
+      Expect<Test<TheAnswer, "equals",  `42 is the answer`>>,
+      Expect<Test<PartialMulti, "equals",  `42: 2 x 2 = ${number}`>>,
+      Expect<Test<PartialMultiWithNumbers, "equals",  `42: 2 x 2 = ${number}`>>,
+      Expect<Test<Multi, "equals",  `42: 2 x 2 = 4`>>,
+      Expect<Test<TooMany, "equals",  `42: 2 x 2 = 4`>>,
     ];
   });
 
@@ -73,7 +73,7 @@ describe("ReplaceInterpolation Utilities", () => {
     >
 
     type cases = [
-      Expect<Equal<Multi, `Employed: {{boolean}}; Married: {{boolean}}`>>
+      Expect<Test<Multi, "equals",  `Employed: {{boolean}}; Married: {{boolean}}`>>
     ];
   });
 
@@ -85,7 +85,7 @@ describe("ReplaceInterpolation Utilities", () => {
     >
 
     type cases = [
-      Expect<Equal<Multi, `Employed: true; Married: false`>>
+      Expect<Test<Multi, "equals",  `Employed: true; Married: false`>>
     ];
   });
 });

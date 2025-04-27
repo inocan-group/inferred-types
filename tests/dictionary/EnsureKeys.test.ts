@@ -1,11 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { EnsureKeys, HasSameKeys } from "inferred-types/types";
+import { EnsureKeys, HasSameKeys, Test } from "inferred-types/types";
 import { hasKeys } from "inferred-types/runtime";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("EnsureKeys<TContainer,TKeys,TType>", () => {
 
@@ -25,16 +23,12 @@ describe("EnsureKeys<TContainer,TKeys,TType>", () => {
       Expect<HasSameKeys<Overlap, { foo: 5; bar: 3 }>>,
       Expect<HasSameKeys<Overlap2, { foo: 5; bar: 3 }>>,
 
-      Expect<Equal<A_FooBar, { foo: 1; bar: unknown }>>,
+      Expect<Test<A_FooBar, "equals",  { foo: 1; bar: unknown }>>,
 
-      Expect<Equal<Obj, { foo: unknown }>>,
-      Expect<Equal<Obj2, { foo: unknown }>>,
+      Expect<Test<Obj, "equals",  { foo: unknown }>>,
+      Expect<Test<Obj2, "equals",  { foo: unknown }>>,
     ];
-    const cases: cases = [
-      true, true, true,
-      true,
-      true, true
-    ];
+
   });
 
 });

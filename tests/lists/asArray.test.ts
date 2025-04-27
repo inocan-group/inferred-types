@@ -12,9 +12,9 @@ describe("AsArray<T>", () => {
 
     type cases = [
       //
-      Expect<Equal<T1, [4]>>,
-      Expect<Equal<T2, [4, 5, 6]>>,
-      Expect<Equal<T3, [4, 5, 6]>>,
+      Expect<Test<T1, "equals",  [4]>>,
+      Expect<Test<T2, [4, 5, "equals",  6]>>,
+      Expect<Test<T3, [4, 5, "equals",  6]>>,
     ];
     const cases: cases = [true, true, true];
   });
@@ -25,7 +25,7 @@ describe("AsArray<T>", () => {
     type T1 = AsArray<X>;
 
     type cases = [
-      Expect<Equal<T1, unknown[] | [unknown[]]>>
+      Expect<Test<T1, "equals",  unknown[] | [unknown[]]>>
     ];
     const cases: cases = [true];
 
@@ -43,7 +43,7 @@ describe("asArray() function", () => {
     expect(o).toEqual(["a"]);
     // design-time
     type cases = [
-      Expect<Equal<O, ["a"]>>, //
+      Expect<Test<O, "equals",  ["a"]>>, //
     ];
     const cases: cases = [true];
   });
@@ -56,7 +56,7 @@ describe("asArray() function", () => {
     // run-time
     expect(o).toEqual(["a"]);
     // design-time
-    type cases = [Expect<Equal<O, string[]>>];
+    type cases = [Expect<Test<O, "equals",  string[]>>];
     const cases: cases = [true];
   });
 
@@ -75,8 +75,8 @@ describe("asArray() function", () => {
     expect(o2).toEqual([]);
     // design-time
     type cases = [
-      Expect<Equal<O, []>>, //
-      Expect<Equal<O2, [] | [string]>>,
+      Expect<Test<O, "equals",  []>>, //
+      Expect<Test<O2, "equals",  [] | [string]>>,
     ];
     const cases: cases = [true, true];
   });
@@ -95,8 +95,8 @@ describe("asArray() function", () => {
     expect(o2).toEqual([undefined, "foobar"]);
     // design-time
     type cases = [
-      Expect<Equal<O, (string | undefined)[]>>, //
-      Expect<Equal<O2, T[]>>
+      Expect<Test<O, "equals",  (string | undefined)[]>>, //
+      Expect<Test<O2, "equals",  T[]>>
     ];
     const cases: cases = [true, true];
   });

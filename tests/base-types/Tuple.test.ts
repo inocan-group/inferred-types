@@ -1,10 +1,7 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { Tuple } from "inferred-types/types";
+import { Expect, Test, Tuple } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("Tuple<T,N>", () => {
 
@@ -16,19 +13,28 @@ describe("Tuple<T,N>", () => {
         type Explicit = Tuple<[string, number, boolean]>;
 
         type cases = [
-            Expect<Equal<Default, readonly unknown[]>>,
-            Expect<Equal<FixedLength, readonly [string, string, string, string]>>,
-            Expect<Equal<
+            Expect<Test<Default, "equals",  readonly unknown[]>>,
+            Expect<Test<
+                FixedLength,
+                "equals",
+                readonly [string, string, string, string]
+            >>,
+            Expect<Test<
                 FixedWithOptional,
+                "equals",
                 readonly [string, string, string, string, string | undefined, string | undefined]
             >>,
-            Expect<Equal<
+            Expect<Test<
                 Expandable,
+                "equals",
                 readonly [string, string, string, ...string[]]
             >>,
-            Expect<Equal<Explicit, readonly [string, number, boolean]>>,
+            Expect<Test<
+                Explicit,
+                "equals",
+                readonly [string, number, boolean]
+            >>,
         ];
-        const cases: cases = [true, true, true, true, true];
     });
 
 });

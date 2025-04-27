@@ -1,11 +1,8 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { EnsureLeading } from "inferred-types/types";
+import { Expect, EnsureLeading, Test } from "inferred-types/types";
 import { ensureLeading } from "inferred-types/runtime";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("EnsureLeading", () => {
 
@@ -21,22 +18,16 @@ describe("EnsureLeading", () => {
     type PrefixOne = EnsureLeading<5, 1>;
 
     type cases = [
-      Expect<Equal<SuperWide, string>>,
-      Expect<Equal<NumSuperWide, number>>,
+      Expect<Test<SuperWide, "equals",  string>>,
+      Expect<Test<NumSuperWide, "equals",  number>>,
 
-      Expect<Equal<WideContent, `wide${string}`>>,
-      Expect<Equal<WideLeading, `${string}wide`>>,
+      Expect<Test<WideContent, "equals",  `wide${string}`>>,
+      Expect<Test<WideLeading, "equals",  `${string}wide`>>,
 
-      Expect<Equal<NoChange, "FooBar">>,
-      Expect<Equal<FooBar, "FooBar">>,
+      Expect<Test<NoChange, "equals",  "FooBar">>,
+      Expect<Test<FooBar, "equals",  "FooBar">>,
 
-      Expect<Equal<PrefixOne, 15>>,
-    ];
-    const cases: cases = [
-      true, true,
-      true, true,
-      true, true,
-      true
+      Expect<Test<PrefixOne, "equals",  15>>,
     ];
   });
 
@@ -46,10 +37,9 @@ describe("EnsureLeading", () => {
     type Foo = EnsureLeading<["Foo", "Bar"], "Foo">;
 
     type cases = [
-      Expect<Equal<SuperWide, [string, number]>>,
-      Expect<Equal<Foo, ["Foo", "FooBar"]>>
+      Expect<Test<SuperWide, "equals", [string, number]>>,
+      Expect<Test<Foo, "equals", ["Foo", "FooBar"]>>
     ];
-    const cases: cases = [true, true];
   });
 });
 
@@ -63,10 +53,9 @@ describe("ensureLeading()", () => {
     expect(fooBar).toEqual("FooBar");
 
     type cases = [
-      Expect<Equal<typeof noChange, "FooBar">>,
-      Expect<Equal<typeof fooBar, "FooBar">>,
+      Expect<Test<typeof noChange, "equals",  "FooBar">>,
+      Expect<Test<typeof fooBar, "equals",  "FooBar">>,
     ];
-    const cases: cases = [true, true]
   });
 
 

@@ -1,6 +1,5 @@
-import { describe, it } from "vitest";
-import type { Expect, Equal } from "@type-challenges/utils";
-import { RequiredKeysTuple } from "inferred-types/types";
+import { describe, it } from "vitest";;
+import { Expect, RequiredKeysTuple, Test } from "inferred-types/types";
 
 describe("RequiredKeysTuple<T>", () => {
 
@@ -10,11 +9,10 @@ describe("RequiredKeysTuple<T>", () => {
     type None = RequiredKeysTuple<{foo?: 1; bar?: 2; baz?: 3; bax?: 4; bay?: 5}>;
 
     type cases = [
-      Expect<Equal<T1, ["foo", "bar", "baz"]>>,
-      Expect<Equal<T2, ["foo", "bar"]>>,
-      Expect<Equal<None, []>>,
+      Expect<Test<T1, "equals",  ["foo", "bar", "baz"]>>,
+      Expect<Test<T2, "equals",  ["foo", "bar"]>>,
+      Expect<Test<None, "equals",  []>>,
     ];
-    const cases: cases = [ true, true, true ];
   });
 
 

@@ -11,9 +11,9 @@ describe("RemoveWhitespace<T>", () => {
     type FooBar3 = RemoveWhitespace<"Fo o         B  \na     r">;
 
     type cases = [
-        Expect<Equal<FooBar, "FooBar">>,
-        Expect<Equal<FooBar2, "FooBar">>,
-        Expect<Equal<FooBar3, "FooBar">>,
+        Expect<Test<FooBar, "equals",  "FooBar">>,
+        Expect<Test<FooBar2, "equals",  "FooBar">>,
+        Expect<Test<FooBar3, "equals",  "FooBar">>,
     ];
   });
 

@@ -1,10 +1,7 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { EmptyObject, RemoveNever } from "inferred-types/types";
+import { Expect, EmptyObject, RemoveNever, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("RemoveNever<T>", () => {
 
@@ -16,15 +13,13 @@ describe("RemoveNever<T>", () => {
     type Tailing = RemoveNever<[1, 2, 3, never]>;
 
     type cases = [
-      Expect<Equal<Identity, [1, 2, 3]>>,
-      Expect<Equal<OneGone, [1, 2, 3]>>,
-      Expect<Equal<AllGone, []>>,
-      Expect<Equal<Leading, [1, 2, 3]>>,
-      Expect<Equal<Tailing, [1, 2, 3]>>,
+      Expect<Test<Identity, "equals", [1, 2,  3]>>,
+      Expect<Test<OneGone, "equals", [1, 2,  3]>>,
+      Expect<Test<AllGone, "equals", []>>,
+      Expect<Test<Leading, "equals", [1, 2,  3]>>,
+      Expect<Test<Tailing, "equals", [1, 2,  3]>>,
     ];
-    const cases: cases = [
-      true, true, true, true, true
-    ];
+
   });
 
   it("object tests", () => {
@@ -34,13 +29,11 @@ describe("RemoveNever<T>", () => {
     type NothingToBegin = RemoveNever<EmptyObject>;
 
     type cases = [
-      Expect<Equal<Identity, { foo: 1 }>>,
-      Expect<Equal<NoBar, { foo: 1 }>>,
-      Expect<Equal<NothingLeft, EmptyObject>>,
-      Expect<Equal<NothingToBegin, EmptyObject>>,
+      Expect<Test<Identity, "equals",  { foo: 1 }>>,
+      Expect<Test<NoBar, "equals",  { foo: 1 }>>,
+      Expect<Test<NothingLeft, "equals",  EmptyObject>>,
+      Expect<Test<NothingToBegin, "equals",  EmptyObject>>,
     ];
-    const cases: cases = [
-      true, true, true, true
-    ];
+
   });
 });

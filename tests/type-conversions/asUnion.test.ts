@@ -9,7 +9,7 @@ describe("asUnion(elements,sep,pre,post)", () => {
     expect(u).toBe(`foo | bar`);
 
     type cases = [
-      Expect<Equal<typeof u, "foo" | "bar">>,
+      Expect<Test<typeof u, "equals",  "foo" | "bar">>,
     ];
   });
 
@@ -18,7 +18,7 @@ describe("asUnion(elements,sep,pre,post)", () => {
     expect(u).toBe(`foo::bar`);
 
     type cases = [
-      Expect<Equal<typeof u, "foo" | "bar">>,
+      Expect<Test<typeof u, "equals",  "foo" | "bar">>,
     ];
   });
 
@@ -27,7 +27,7 @@ describe("asUnion(elements,sep,pre,post)", () => {
     expect(u).toBe(`string::foo::bar`);
 
     type cases = [
-      Expect<Equal<typeof u, "foo" | "bar">>,
+      Expect<Test<typeof u, "equals",  "foo" | "bar">>,
     ];
   });
 
@@ -40,7 +40,7 @@ describe("asUnion(elements,sep,pre,post)", () => {
     expect(u).toBe(`string::f<<1>>::f<<2>>`);
 
     type cases = [
-      Expect<Equal<typeof u, "f(1)" | "f(2)">>,
+      Expect<Test<typeof u, "equals",  "f(1)" | "f(2)">>,
     ];
   });
 

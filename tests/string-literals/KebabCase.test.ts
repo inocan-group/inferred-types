@@ -45,11 +45,11 @@ describe("toKebabCase() function", () => {
     expect(kebab5).toEqual("one-two-three");
 
     type cases = [
-      Expect<Equal<typeof kebab1, "one-two-three">>,
-      Expect<Equal<typeof kebab2, "one-two-three">>,
-      Expect<Equal<typeof kebab3, "one-two-three">>,
-      Expect<Equal<typeof kebab4, "one-two-three">>,
-      Expect<Equal<typeof kebab5, "one-two-three">>,
+      Expect<Test<typeof kebab1, "equals",  "one-two-three">>,
+      Expect<Test<typeof kebab2, "equals",  "one-two-three">>,
+      Expect<Test<typeof kebab3, "equals",  "one-two-three">>,
+      Expect<Test<typeof kebab4, "equals",  "one-two-three">>,
+      Expect<Test<typeof kebab5, "equals",  "one-two-three">>,
     ];
     const cases: cases = [true, true, true, true, true];
 
@@ -88,17 +88,17 @@ describe("toKebabCase() function", () => {
 
     type cases = [
       // All non-white spaced versions of a string are converted to correct string literal
-      Expect<Equal<ADash, TARGET>>,
-      Expect<Equal<ASnake, TARGET>>,
-      Expect<Equal<APascal, TARGET>>,
+      Expect<Test<ADash, "equals",  TARGET>>,
+      Expect<Test<ASnake, "equals",  TARGET>>,
+      Expect<Test<APascal, "equals",  TARGET>>,
       // that includes those which need no transformation
-      Expect<Equal<ACamel, TARGET>>,
+      Expect<Test<ACamel, "equals",  TARGET>>,
       // with a white spaced input, the default is to trim it
-      Expect<Equal<AWhiteTrimmed, TARGET>>,
-      Expect<Equal<AWhiteHybridTrimmed, TARGET>>,
+      Expect<Test<AWhiteTrimmed, "equals",  TARGET>>,
+      Expect<Test<AWhiteHybridTrimmed, "equals",  TARGET>>,
       // but whitespace can be preserved too
-      Expect<Equal<AWhite, "  one-two-three  ">>,
-      Expect<Equal<AWhiteHybrid, "\n  one-two-three \t">>,
+      Expect<Test<AWhite, "equals",  "  one-two-three  ">>,
+      Expect<Test<AWhiteHybrid, "equals",  "\n  one-two-three \t">>,
     ];
 
     const c: cases = [true, true, true, true, true, true, true, true];

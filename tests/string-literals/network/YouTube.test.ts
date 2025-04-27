@@ -1,11 +1,8 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { GetYouTubePageType } from "inferred-types/types";
+import { Expect, GetYouTubePageType, Test } from "inferred-types/types";
 import { getYouTubePageType, isYouTubeFeedUrl, youtubeMeta } from "inferred-types/runtime";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("YouTube utilities", () => {
 
@@ -29,23 +26,23 @@ describe("YouTube utilities", () => {
 
 
     type cases = [
-      Expect<Equal<Home, "home">>,
-      Expect<Equal<Home2, "home">>,
+      Expect<Test<Home, "equals",  "home">>,
+      Expect<Test<Home2, "equals",  "home">>,
 
-      Expect<Equal<Playlists, "feed::playlists">>,
-      Expect<Equal<History, "feed::history">>,
+      Expect<Test<Playlists, "equals",  "feed::playlists">>,
+      Expect<Test<History, "equals",  "feed::history">>,
 
-      Expect<Equal<Featured, "creator::featured">>,
-      Expect<Equal<Featured2, "creator::featured">>,
-      Expect<Equal<Videos, "creator::videos">>,
-      Expect<Equal<CreatorPlaylists, "creator::playlists">>,
+      Expect<Test<Featured, "equals",  "creator::featured">>,
+      Expect<Test<Featured2, "equals",  "creator::featured">>,
+      Expect<Test<Videos, "equals",  "creator::videos">>,
+      Expect<Test<CreatorPlaylists, "equals",  "creator::playlists">>,
 
-      Expect<Equal<WatchVideo, "play::video::solo">>,
-      Expect<Equal<WatchVideoWithShareLink, "play::video::solo::share-link">>,
-      Expect<Equal<WatchVideo, "play::video::solo">>,
-      Expect<Equal<ShareLinkWithTimestamp, "play::video::solo::share-link::with-timestamp">>,
+      Expect<Test<WatchVideo, "equals",  "play::video::solo">>,
+      Expect<Test<WatchVideoWithShareLink, "equals",  "play::video::solo::share-link">>,
+      Expect<Test<WatchVideo, "equals",  "play::video::solo">>,
+      Expect<Test<ShareLinkWithTimestamp, "equals",  "play::video::solo::share-link::with-timestamp">>,
 
-      Expect<Equal<ShowVideosInPlaylist, "playlist::show">>
+      Expect<Test<ShowVideosInPlaylist, "equals",  "playlist::show">>
     ];
     const cases: cases = [
       true, true,
@@ -78,9 +75,9 @@ describe("YouTube utilities", () => {
     expect(featured).toBe("creator::featured")
 
     type cases = [
-      Expect<Equal<typeof playlists, "feed::playlists">>,
-      Expect<Equal<typeof showVideosInPlaylist, "playlist::show">>,
-      Expect<Equal<typeof featured, "creator::featured">>,
+      Expect<Test<typeof playlists, "equals",  "feed::playlists">>,
+      Expect<Test<typeof showVideosInPlaylist, "equals",  "playlist::show">>,
+      Expect<Test<typeof featured, "equals",  "creator::featured">>,
     ];
     const cases: cases = [
       true, true, true,

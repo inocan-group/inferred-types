@@ -1,11 +1,6 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
+import { Expect, Test, WithDefault } from "inferred-types/types";
 
-import { WithDefault } from "inferred-types/types";
-
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
 
 describe("WithDefault<T,D>", () => {
 
@@ -16,12 +11,11 @@ describe("WithDefault<T,D>", () => {
     type Empty = WithDefault<"", "bar">;
 
     type cases = [
-      Expect<Equal<Foo, "foo">>,
-      Expect<Equal<Bar, "bar">>,
-      Expect<Equal<Bar2, "bar">>,
-      Expect<Equal<Empty, "">>,
+      Expect<Test<Foo, "equals",  "foo">>,
+      Expect<Test<Bar, "equals",  "bar">>,
+      Expect<Test<Bar2, "equals",  "bar">>,
+      Expect<Test<Empty, "equals",  "">>,
     ];
-    const cases: cases = [true, true, true, true];
   });
 
   it("with falsy policy for default values", () => {
@@ -31,12 +25,11 @@ describe("WithDefault<T,D>", () => {
     type Empty = WithDefault<"", "bar", "falsy">;
 
     type cases = [
-      Expect<Equal<Foo, "foo">>,
-      Expect<Equal<Bar, "bar">>,
-      Expect<Equal<Bar2, "bar">>,
-      Expect<Equal<Empty, "bar">>,
+      Expect<Test<Foo, "equals",  "foo">>,
+      Expect<Test<Bar, "equals",  "bar">>,
+      Expect<Test<Bar2, "equals",  "bar">>,
+      Expect<Test<Empty, "equals",  "bar">>,
     ];
-    const cases: cases = [true, true, true, true];
   });
 
 });

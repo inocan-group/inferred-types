@@ -1,11 +1,14 @@
-import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { AreSameType, Dictionary, Tuple } from "inferred-types/types";
+import {
+    AreSameType,
+    Dictionary,
+    Expect,
+    Test,
+    Tuple
+} from "inferred-types/types";
 import { describe, it } from "vitest";
 
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("AreSameType<A,B>", () => {
 
@@ -23,22 +26,20 @@ describe("AreSameType<A,B>", () => {
         type F2 = AreSameType<Dictionary, Tuple>;
 
         type cases = [
-            ExpectTrue<T1>,
-            ExpectTrue<T2>,
-            ExpectTrue<T3>,
-            ExpectTrue<T4>,
-            ExpectTrue<T5>,
-            ExpectTrue<T6>,
-            ExpectTrue<T7>,
-            ExpectTrue<T8>,
+            Expect<Test<T1, "equals", true>>,
+            Expect<Test<T2, "equals", true>>,
+            Expect<Test<T3, "equals", true>>,
+            Expect<Test<T4, "equals", true>>,
+            Expect<Test<T5, "equals", true>>,
+            Expect<Test<T6, "equals", true>>,
+            Expect<Test<T7, "equals", true>>,
+            Expect<Test<T8, "equals", true>>,
 
-            ExpectFalse<F1>,
-            ExpectFalse<F2>,
+            Expect<Test<F1, "equals", false>>,
+            Expect<Test<F2, "equals", false>>,
+
         ];
-        const cases: cases = [
-            true, true, true, true, true, true, true, true,
-            false, false
-        ];
+
     });
 
 });

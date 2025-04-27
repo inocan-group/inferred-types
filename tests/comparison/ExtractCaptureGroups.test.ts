@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { ExtractCaptureGroups } from "inferred-types/types";
+import { ExtractCaptureGroups, Test } from "inferred-types/types";
 
 describe("ExtractCaptureGroups<T>", () => {
 
@@ -9,8 +9,8 @@ describe("ExtractCaptureGroups<T>", () => {
     type T2 = ExtractCaptureGroups<`.*(Name: {{string}}; Age: {{number}}).*`>;
 
     type cases = [
-        Expect<Equal<T1, [string, number]>>,
-        Expect<Equal<T2, [string, string, number]>>,
+        Expect<Test<T1, "equals", [string,  number]>>,
+        Expect<Test<T2, "equals", [string, string,  number]>>,
     ];
   });
 

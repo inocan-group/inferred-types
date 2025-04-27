@@ -16,7 +16,7 @@ describe("FromKv<T>", () => {
 
         // @ts-ignore
         type cases = [
-            Expect<Equal<Foobar, { foo: 1; bar: "hi" }>>,
+            Expect<Test<Foobar, "equals",  { foo: 1; bar: "hi" }>>,
             Expect<Equal<
                 Empty,
                 EmptyObject
@@ -44,9 +44,9 @@ describe("FromKv<T>", () => {
         ]>;
 
         type cases = [
-            Expect<Equal<FooBar, { foo?: 1, bar: 2, baz: "baz" }>>,
-            Expect<Equal<FooBar, { foo?: 1, bar: 2, baz: "baz" }>>,
-            Expect<Equal<MoreComplex, { foo?: 1, bar: 2, baz?: "baz", bax: string | number }>>,
+            Expect<Test<FooBar, { foo?: 1, bar: 2, "equals",  baz: "baz" }>>,
+            Expect<Test<FooBar, { foo?: 1, bar: 2, "equals",  baz: "baz" }>>,
+            Expect<Test<MoreComplex, { foo?: 1, bar: 2, baz?: "baz", "equals",  bax: string | number }>>,
         ];
     });
 });

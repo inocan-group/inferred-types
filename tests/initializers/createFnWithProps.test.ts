@@ -28,7 +28,7 @@ describe("createFnWithProps()", () => {
         const n_fooNarrowing = createFnWithProps(fnNarrowing, { foo: 42 }, true);
 
         type cases = [
-            Expect<Equal<typeof foo, (() => "hi") & { foo: 42 }>>,
+            Expect<Test<typeof foo, "equals",  (() => "hi") & { foo: 42 }>>,
             Expect<Equal<
                 typeof fooWithParam,
                 ((name: string) => `hi ${string}`) & { foo: 42 }
@@ -71,7 +71,7 @@ describe("createFnWithProps()", () => {
         type Anon = typeof anon["name"];
 
         type cases = [
-            Expect<Equal<Anon, string>>,
+            Expect<Test<Anon, "equals",  string>>,
         ];
     });
 
@@ -84,7 +84,7 @@ describe("createFnWithProps()", () => {
         type Named = typeof named["name"];
 
         type cases = [
-            Expect<Equal<Named, string>>,
+            Expect<Test<Named, "equals",  string>>,
         ];
     });
 
@@ -97,7 +97,7 @@ describe("createFnWithProps()", () => {
         type Anon = typeof anon["name"];
 
         type cases = [
-            Expect<Equal<Anon, "Foo">>,
+            Expect<Test<Anon, "equals",  "Foo">>,
         ];
     });
 
@@ -112,7 +112,7 @@ describe("createFnWithProps()", () => {
         type Anon = typeof anon["name"];
 
         type cases = [
-            Expect<Equal<Anon, "Foo">>,
+            Expect<Test<Anon, "equals",  "Foo">>,
         ];
     });
 
@@ -128,7 +128,7 @@ describe("createFnWithProps()", () => {
         expect(fn()).toBe("hi");
 
         type cases = [
-            Expect<Equal<FnProps<typeof original>, { foo: 42 }>>,
+            Expect<Test<FnProps<typeof original>, "equals",  { foo: 42 }>>,
             Expect<Equal<
                 typeof fn,
                 (() => "hi") & { foo: 42; bar: 99 }
@@ -147,7 +147,7 @@ describe("createFnWithProps()", () => {
         expect(fn()).toBe("hi");
 
         type cases = [
-            Expect<Equal<FnProps<typeof original>, { foo: 42, bar: 50 }>>,
+            Expect<Test<FnProps<typeof original>, { foo: 42, "equals",  bar: 50 }>>,
             Expect<Equal<
                 typeof fn,
                 (() => string) & { foo: 42; bar: 99 }

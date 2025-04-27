@@ -1,10 +1,7 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { Delta } from "inferred-types/types";
+import { Expect, Delta, Test } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("Delta<A,B>", () => {
 
@@ -15,15 +12,13 @@ describe("Delta<A,B>", () => {
         type T5b = Delta<5, 10>;
 
         type cases = [
-            Expect<Equal<T1a, 1>>,
-            Expect<Equal<T1b, 1>>,
-            Expect<Equal<T5a, 5>>,
-            Expect<Equal<T5b, 5>>,
+            Expect<Test<T1a, "equals",  1>>,
+            Expect<Test<T1b, "equals",  1>>,
+            Expect<Test<T5a, "equals",  5>>,
+            Expect<Test<T5b, "equals",  5>>,
 
         ];
-        const cases: cases = [
-            true, true, true, true,
-        ];
+
     });
 
     it("with string numerics", () => {
@@ -33,15 +28,13 @@ describe("Delta<A,B>", () => {
         type T5b = Delta<"5", "10">;
 
         type cases = [
-            Expect<Equal<T1a, "1">>,
-            Expect<Equal<T1b, "1">>,
-            Expect<Equal<T5a, "5">>,
-            Expect<Equal<T5b, "5">>,
+            Expect<Test<T1a, "equals",  "1">>,
+            Expect<Test<T1b, "equals",  "1">>,
+            Expect<Test<T5a, "equals",  "5">>,
+            Expect<Test<T5b, "equals",  "5">>,
 
         ];
-        const cases: cases = [
-            true, true, true, true,
-        ];
+
     });
 
 
@@ -50,13 +43,11 @@ describe("Delta<A,B>", () => {
         type SixAlt = Delta<-5, 1>;
 
         type cases = [
-            Expect<Equal<Six, 6>>,
-            Expect<Equal<SixAlt, 6>>,
+            Expect<Test<Six, "equals",  6>>,
+            Expect<Test<SixAlt, "equals",  6>>,
 
         ];
-        const cases: cases = [
-            true, true
-        ];
+
 
     });
 

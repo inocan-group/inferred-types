@@ -7,7 +7,8 @@ import {
   IsIsoDate,
   IsLuxonDateTime,
   Iso8601Date,
-  Iso8601DateTime
+  Iso8601DateTime,
+  Test
 } from "inferred-types/types";
 import { DateTime } from "luxon";
 import moment from "moment";
@@ -36,7 +37,7 @@ describe("getDaysBetween()", () => {
       type D = typeof getDaysBetween;
       // @ts-ignore
       type _cases = [
-        Expect<Equal<ReturnType<D>, number>>
+        Expect<Test<ReturnType<D>, "equals",  number>>
       ];
     }
   });
@@ -75,10 +76,10 @@ describe("getDaysBetween()", () => {
 
     if (getDaysBetween(date1, date2)) {
       type ThisDate = typeof date1;
-      // @ts-ignore
+
       type _cases = [
         ExpectTrue<Iso>,
-        Expect<Extends<ThisDate, Iso8601DateTime>>
+        Expect<Test<ThisDate, "extends", Iso8601DateTime>>
       ];
     }
   });
@@ -92,10 +93,10 @@ describe("getDaysBetween()", () => {
 
     if (getDaysBetween(date1, date2)) {
       type ThisDate = typeof date1;
-      // @ts-ignore
+
       type _cases = [
         ExpectTrue<Iso>,
-        Expect<Extends<ThisDate, Iso8601Date>>
+        Expect<Test<ThisDate, "extends", Iso8601Date>>
       ];
     }
   });

@@ -15,10 +15,10 @@ describe("Asynchronous<T>", () => {
     type PP = Asynchronous<Promise<string>>;
 
     type cases = [
-        Expect<Equal<Str, Promise<string>>>,
-        Expect<Equal<AStr, Promise<string>>>,
-        Expect<Equal<LStr, LStr>>,
-        Expect<Equal<PP, Promise<string>>>,
+        Expect<Test<Str, "equals",  Promise<string>>>,
+        Expect<Test<AStr, "equals",  Promise<string>>>,
+        Expect<Test<LStr, "equals",  LStr>>,
+        Expect<Test<PP, "equals",  Promise<string>>>,
     ];
   });
 

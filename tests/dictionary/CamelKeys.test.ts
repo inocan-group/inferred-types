@@ -1,6 +1,5 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { CamelKeys } from "inferred-types/types";
+import { Expect, CamelKeys, Test } from "inferred-types/types";
 
 
 describe("CamelKeys<T>", () => {
@@ -10,7 +9,7 @@ describe("CamelKeys<T>", () => {
     type T = CamelKeys<Obj>;
 
     type cases = [
-      Expect<Equal<T, { fooBar: 42; barBaz: 55; opt?: "maybe" | undefined }>>
+      Expect<Test<T, "equals",  { fooBar: 42; barBaz: 55; opt?: "maybe" | undefined }>>
     ];
   });
 
@@ -22,7 +21,7 @@ describe("CamelKeys<T>", () => {
     type TD = CamelKeys<Deep>;
 
     type cases = [
-      Expect<Equal<T, { fooBar: { barBaz: 42 }; upDown: 44 }>>
+      Expect<Test<T, "equals",  { fooBar: { barBaz: 42 }; upDown: 44 }>>
     ];
   });
 

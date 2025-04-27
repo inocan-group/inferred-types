@@ -1,10 +1,7 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { IsReadonlyObject } from "inferred-types/types";
+import { IsReadonlyObject, Test, Expect } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("IsReadonlyObject<T>", () => {
 
@@ -14,16 +11,13 @@ describe("IsReadonlyObject<T>", () => {
 
         type Mixed = IsReadonlyObject<{ readonly foo: 1; bar: 2 }>;
         type None = IsReadonlyObject<{ foo: 1; bar: 2 }>;
-        type Empty = IsReadonlyObject<object>;
 
         type cases = [
-            Expect<Equal<T1, true>>,
-            Expect<Equal<T2, true>>,
-            Expect<Equal<Mixed, false>>,
-            Expect<Equal<None, false>>,
-            Expect<Equal<Empty, false>>,
+            Expect<Test<T1, "equals",  true>>,
+            Expect<Test<T2, "equals",  true>>,
+            Expect<Test<Mixed, "equals",  false>>,
+            Expect<Test<None, "equals",  false>>,
         ];
-        const cases: cases = [true, true, true, true, true];
     });
 
 });

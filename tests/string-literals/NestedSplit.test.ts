@@ -27,7 +27,7 @@ describe("NestedSplit<TContent,TSplit,TNesting,TPolicy>", () => {
         >;
 
         type cases = [
-            Expect<Equal<T1, ["string | Number<4>", " | string"]>>
+            Expect<Test<T1, ["string | Number<4>", "equals",  " | string"]>>
         ];
     });
 

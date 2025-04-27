@@ -1,10 +1,7 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { IsUnionArray } from "inferred-types/types"
+import { Expect, IsUnionArray, Test } from "inferred-types/types"
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("IsUnionArray<T>", () => {
 
@@ -16,9 +13,9 @@ describe("IsUnionArray<T>", () => {
 
         // @ts-ignore
         type cases = [
-            Expect<Equal<T1, true>>,
-            Expect<Equal<F1, false>>,
-            Expect<Equal<F2, false>>,
+            Expect<Test<T1, "equals",  true>>,
+            Expect<Test<F1, "equals",  false>>,
+            Expect<Test<F2, "equals",  false>>,
         ];
     });
 

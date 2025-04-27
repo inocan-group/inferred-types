@@ -71,7 +71,7 @@ describe("asFromTo", () => {
     expect(big.length).toEqual(43);
 
     type cases = [
-      Expect<Equal<Size, 43>>
+      Expect<Test<Size, "equals",  43>>
     ];
 
   });

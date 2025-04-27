@@ -2,9 +2,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { If } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("If<T,TIf,TElse,TMaybe>", () => {
 
@@ -20,16 +18,16 @@ describe("If<T,TIf,TElse,TMaybe>", () => {
         type InvalidUnion = If<"foo" | "bar">;
 
         type cases = [
-            Expect<Equal<True, true>>,
-            Expect<Equal<False, false>>,
-            Expect<Equal<Yes, "yes">>,
-            Expect<Equal<No, "no">>,
+            Expect<Test<True, "equals",  true>>,
+            Expect<Test<False, "equals",  false>>,
+            Expect<Test<Yes, "equals",  "yes">>,
+            Expect<Test<No, "equals",  "no">>,
 
-            Expect<Equal<BaseMaybe, boolean>>,
-            Expect<Equal<Maybe, "maybe">>,
+            Expect<Test<BaseMaybe, "equals",  boolean>>,
+            Expect<Test<Maybe, "equals",  "maybe">>,
 
-            Expect<Equal<YesNo, "yes" | "no">>,
-            Expect<Equal<InvalidUnion, never>>,
+            Expect<Test<YesNo, "equals",  "yes" | "no">>,
+            Expect<Test<InvalidUnion, "equals",  never>>,
         ];
         const cases: cases = [
             true, true, true, true,

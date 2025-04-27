@@ -1,10 +1,7 @@
-import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { IsString } from "inferred-types/types";
+import { Expect, IsString, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("IsString<T>", () => {
 
@@ -15,16 +12,12 @@ describe("IsString<T>", () => {
         type Arr = IsString<[]>;
 
         type cases = [
-            ExpectTrue<Wide>,
-            ExpectTrue<Literal>,
+            Expect<Test<Wide, "equals", true>>,
+            Expect<Test<Literal, "equals", true>>,
 
-            ExpectFalse<Num>,
-            ExpectFalse<Arr>,
+            Expect<Test<Num, "equals", false>>,
+            Expect<Test<Arr, "equals", false>>,
 
-        ];
-        const cases: cases = [
-            true, true,
-            false, false,
         ];
     });
 
@@ -34,17 +27,10 @@ describe("IsString<T>", () => {
         type MixedUnion = IsString<"foo" | 42>;
         type NonStrUnion = IsString<42 | 56 | false>;
 
-
         type cases = [
-            ExpectTrue<StrUnion>,
-            Expect<Equal<MixedUnion, boolean>>,
-            ExpectFalse<NonStrUnion>,
+            Expect<Test<StrUnion, "equals", true>>,
+            Expect<Test<MixedUnion, "equals",  boolean>>,
+            Expect<Test<NonStrUnion, "equals", false>>,
         ];
-        const cases: cases = [
-            true, true, false,
-        ];
-
     });
-
-
 });

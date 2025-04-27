@@ -9,8 +9,8 @@ describe("ReplaceAll<TText,TFind,TReplace>", () => {
     type Three = ReplaceAll<"FooBarFoo", "Foo", "Bar">;
 
     type cases = [
-      Expect<Equal<FooBaz, "FooBaz">>,
-      Expect<Equal<Three, "BarBarBar">>,
+      Expect<Test<FooBaz, "equals",  "FooBaz">>,
+      Expect<Test<Three, "equals",  "BarBarBar">>,
     ];
   });
 
@@ -19,7 +19,7 @@ describe("ReplaceAll<TText,TFind,TReplace>", () => {
     type Foo = ReplaceAll<["Foo", "Bar"], "Bar", "Foo">
 
     type cases = [
-      Expect<Equal<Foo, ["Foo", "Foo"]>>
+      Expect<Test<Foo, ["Foo", "equals",  "Foo"]>>
     ];
   });
 

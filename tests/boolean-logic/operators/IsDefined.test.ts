@@ -1,11 +1,9 @@
 import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { IsDefined } from "inferred-types/types";
+import { Expect, IsDefined, Test } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("IsDefined", () => {
 
@@ -16,11 +14,11 @@ describe("IsDefined", () => {
         type F1 = IsDefined<undefined>;
 
         type cases = [
-            ExpectTrue<T1>,
-            ExpectTrue<T2>,
-            ExpectFalse<F1>
+            Expect<Test<T1, "equals", true>>,
+            Expect<Test<T2, "equals", true>>,
+            Expect<Test<F1, "equals", false>>,
         ];
-        const cases: cases = [true, true, false];
+
     });
 
 });

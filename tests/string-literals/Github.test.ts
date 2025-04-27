@@ -1,11 +1,21 @@
-import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
+import {  ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { isGithubIssuesListUrl, isGithubIssueUrl, isGithubProjectsListUrl, isGithubProjectUrl, isGithubReleasesListUrl, isGithubReleaseTagUrl, isGithubRepoUrl } from "inferred-types/runtime";
-import { DoesNotExtend, Extends, GithubRepoIssuesListUrl, GithubRepoIssueUrl, GithubRepoProjectsUrl, GithubRepoProjectUrl, GithubRepoReleasesUrl, GithubRepoReleaseTagUrl, GithubRepoUrl } from "inferred-types/types";
+import {
+    Expect,
+    DoesNotExtend,
+    Extends,
+    GithubRepoIssuesListUrl,
+    GithubRepoIssueUrl,
+    GithubRepoProjectsUrl,
+    GithubRepoProjectUrl,
+    GithubRepoReleasesUrl,
+    GithubRepoReleaseTagUrl,
+    GithubRepoUrl,
+    Test
+} from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("Github types and type guards", () => {
 
@@ -23,13 +33,13 @@ describe("Github types and type guards", () => {
     if (isGithubRepoUrl(repo)) {
       // @ts-ignore
       type cases1 = [
-        Expect<Equal<typeof repo, typeof repo>>
+        Expect<Test<typeof repo, "equals",  typeof repo>>
       ]
     }
     if (isGithubRepoUrl(repoWide)) {
       // @ts-ignore
       type cases1 = [
-        Expect<Equal<typeof repoWide, GithubRepoUrl>>
+        Expect<Test<typeof repoWide, "equals",  GithubRepoUrl>>
       ]
     }
 
@@ -39,7 +49,7 @@ describe("Github types and type guards", () => {
     if (isGithubRepoUrl(bad)) {
       // @ts-ignore
       type cases1 = [
-        Expect<Equal<typeof bad, never>>
+        Expect<Test<typeof bad, "equals",  never>>
       ]
     }
 
@@ -73,11 +83,11 @@ describe("Github types and type guards", () => {
 
     // @ts-ignore
     type cases = [
-      ExpectTrue<T1>,
-      ExpectTrue<T2>,
-      ExpectTrue<T3>,
+        Expect<Test<T1, "equals", true>>,
+        Expect<Test<T2, "equals", true>>,
+        Expect<Test<T3, "equals", true>>,
 
-      ExpectTrue<F1>
+        Expect<Test<F1, "equals", false>>,
     ];
 
   });
@@ -104,14 +114,13 @@ describe("Github types and type guards", () => {
     expect(isGithubProjectsListUrl(malformedList)).toBe(false);
     expect(isGithubProjectUrl(malformedProject)).toBe(false);
 
-    // @ts-ignore
     type cases = [
-      ExpectTrue<T1>,
-      ExpectTrue<T2>,
-      ExpectTrue<T3>,
+        Expect<Test<T1, "equals", true>>,
+        Expect<Test<T2, "equals", true>>,
+        Expect<Test<T3, "equals", true>>,
 
-      ExpectTrue<F1>,
-      ExpectTrue<F2>,
+        Expect<Test<F1, "equals", false>>,
+        Expect<Test<F2, "equals", false>>,
     ];
 
   });
@@ -138,14 +147,13 @@ describe("Github types and type guards", () => {
     expect(isGithubReleasesListUrl(malformedList)).toBe(false);
     expect(isGithubReleaseTagUrl(malformedRelease)).toBe(false);
 
-    // @ts-ignore
     type cases = [
-      ExpectTrue<T1>,
-      ExpectTrue<T2>,
-      ExpectTrue<T3>,
+        Expect<Test<T1, "equals", true>>,
+        Expect<Test<T2, "equals", true>>,
+        Expect<Test<T3, "equals", true>>,
 
-      ExpectTrue<F1>,
-      ExpectTrue<F2>,
+        Expect<Test<F1, "equals", false>>,
+        Expect<Test<F2, "equals", false>>,
     ];
 
   });

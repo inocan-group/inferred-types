@@ -1,11 +1,7 @@
-; import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
+import { Expect, Subtract, Test } from "inferred-types/types";
 
-import { Subtract } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
 
 describe("Subtract<A,B>", () => {
 
@@ -17,14 +13,12 @@ describe("Subtract<A,B>", () => {
         type TwoS = Subtract<"500", "498">;
 
         type cases = [
-            Expect<Equal<One, 1>>,
-            Expect<Equal<OneS, "1">>,
-            Expect<Equal<Two, 2>>,
-            Expect<Equal<TwoS, "2">>,
+            Expect<Test<One, "equals",  1>>,
+            Expect<Test<OneS, "equals",  "1">>,
+            Expect<Test<Two, "equals",  2>>,
+            Expect<Test<TwoS, "equals",  "2">>,
         ];
-        const cases: cases = [
-            true, true, true, true
-        ];
+
     });
 
 
@@ -35,13 +29,10 @@ describe("Subtract<A,B>", () => {
         type NegTwoS = Subtract<"498", "500">;
 
         type cases = [
-            Expect<Equal<NegOne, -1>>,
-            Expect<Equal<NegOneS, "-1">>,
-            Expect<Equal<NegTwo, -2>>,
-            Expect<Equal<NegTwoS, "-2">>,
-        ];
-        const cases: cases = [
-            true, true, true, true
+            Expect<Test<NegOne, "equals",  -1>>,
+            Expect<Test<NegOneS, "equals",  "-1">>,
+            Expect<Test<NegTwo, "equals",  -2>>,
+            Expect<Test<NegTwoS, "equals",  "-2">>,
         ];
     });
 

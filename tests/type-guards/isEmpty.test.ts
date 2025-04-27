@@ -1,12 +1,8 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-
 import { isEmpty, isNotEmpty } from "inferred-types/runtime"
-import { Empty } from "inferred-types/types";
+import { Expect, Empty, Test } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("isEmpty(val)", () => {
 
@@ -42,7 +38,7 @@ describe("isEmpty(val)", () => {
 
       // @ts-ignore
       type cases = [
-        Expect<Equal<T, string[] & Empty>>
+        Expect<Test<T, "equals",  string[] & Empty>>
       ];
     }
 
@@ -51,7 +47,7 @@ describe("isEmpty(val)", () => {
 
       // @ts-ignore
       type cases = [
-        Expect<Equal<T, string & Empty>>
+        Expect<Test<T, "equals",  string & Empty>>
       ];
     }
   });
@@ -89,9 +85,8 @@ describe("isNotEmpty(val)", () => {
     if(isNotEmpty(foo)) {
       type T = typeof foo;
 
-      // @ts-ignore
       type cases = [
-        Expect<Equal<T, string[]>>
+        Expect<Test<T, "equals",  string[]>>
       ];
     }
 
@@ -100,7 +95,7 @@ describe("isNotEmpty(val)", () => {
 
       // @ts-ignore
       type cases = [
-        Expect<Equal<T, "howdy">>
+        Expect<Test<T, "equals",  "howdy">>
       ];
     }
   });

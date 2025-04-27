@@ -1,12 +1,7 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-
-import { StripAfterLast } from "inferred-types/types";
+import { Expect, StripAfterLast, Test } from "inferred-types/types";
 import { stripAfterLast } from "inferred-types/runtime";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
 
 describe("StripAfterLast<TStr,TBreak>", () => {
 
@@ -18,11 +13,11 @@ describe("StripAfterLast<TStr,TBreak>", () => {
     type BothWide = StripAfterLast<string, string>;
 
     type cases = [
-      Expect<Equal<HelloWorld, "hello world">>,
-      Expect<Equal<FooBar, "foo, bar">>,
-      Expect<Equal<WideBreak, string>>,
-      Expect<Equal<WideContent, string>>,
-      Expect<Equal<BothWide, string>>,
+      Expect<Test<HelloWorld, "equals",  "hello world">>,
+      Expect<Test<FooBar, "equals", "foo, bar">>,
+      Expect<Test<WideBreak, "equals",  string>>,
+      Expect<Test<WideContent, "equals",  string>>,
+      Expect<Test<BothWide, "equals",  string>>,
     ];
 
   });
@@ -43,10 +38,10 @@ describe("stripAfterLast(contend,find) runtime utility", () => {
     expect(twice).toBe("foo[");
 
     type cases = [
-      Expect<Equal<typeof hello, "hello world">>, //
-      Expect<Equal<typeof foo, "foo, bar">>, //
-      Expect<Equal<typeof justOne, "foo">>, //
-      Expect<Equal<typeof twice, "foo[">>, //
+      Expect<Test<typeof hello, "equals",  "hello world">>, //
+      Expect<Test<typeof foo, "equals", "foo, bar">>,
+      Expect<Test<typeof justOne, "equals",  "foo">>,
+      Expect<Test<typeof twice, "equals",  "foo[">>,
     ];
 
   });

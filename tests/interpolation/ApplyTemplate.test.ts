@@ -12,8 +12,8 @@ describe("ApplyTemplate<TContent,TTemplate>", () => {
         type Applied2 = ApplyTemplate<Actual, Template, false>;
 
         type cases = [
-            Expect<Equal<Applied, [Actual, "42","190","Bob", "true"]>>,
-            Expect<Equal<Applied2, [Actual, 42, 190, "Bob", true]>>,
+            Expect<Test<Applied, [Actual, "42","190","Bob", "equals",  "true"]>>,
+            Expect<Test<Applied2, [Actual, 42, 190, "Bob", "equals",  true]>>,
         ];
     });
 
@@ -25,8 +25,8 @@ describe("ApplyTemplate<TContent,TTemplate>", () => {
         type Applied2 = ApplyTemplate<Actual, Template, false>;
 
         type cases = [
-            Expect<Equal<Applied, [Actual, "42","190","true", "Bob"]>>,
-            Expect<Equal<Applied2, [Actual, 42, 190, true, "Bob"]>>,
+            Expect<Test<Applied, [Actual, "42","190","true", "equals",  "Bob"]>>,
+            Expect<Test<Applied2, [Actual, 42, 190, true, "equals",  "Bob"]>>,
         ];
     });
 
@@ -38,8 +38,8 @@ describe("ApplyTemplate<TContent,TTemplate>", () => {
         type Applied2 = ApplyTemplate<Actual, Template, false>;
 
         type cases = [
-            Expect<Equal<Applied, [Actual, "42","190","Bob", "true", " That's all."]>>,
-            Expect<Equal<Applied2, [Actual, 42, 190, "Bob", true, " That's all."]>>,
+            Expect<Test<Applied, [Actual, "42","190","Bob", "true", "equals",  " That's all."]>>,
+            Expect<Test<Applied2, [Actual, 42, 190, "Bob", true, "equals",  " That's all."]>>,
         ];
     });
 

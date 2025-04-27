@@ -1,20 +1,19 @@
 import type {
     AfterFirst,
-    ComparatorOperation,
+    ComparisonOperation,
     Compare,
     Container,
     Dictionary,
     First,
-    IsEqual,
-    NumberLike,
-    Or,
     Values,
+    Flexy,
+    ComparisonLookup,
 } from "inferred-types/types";
 
 type Process<
     TElements extends readonly unknown[],
-    TOp extends ComparatorOperation,
-    TComparator,
+    TOp extends ComparisonOperation,
+    TComparator extends Flexy<ComparisonLookup[TOp]["params"]>,
 > = [] extends TElements
     ? false
     : [Compare<First<TElements>, TOp, TComparator>] extends [true]
@@ -28,14 +27,7 @@ type Process<
 export type Some<
     TContainer extends Container,
     TOp extends "extends" | "equals" | "startsWith" | "endsWith" | "lessThan" | "greaterThan",
-    TComparator extends Or<[
-        IsEqual<TOp, "startsWith">,
-        IsEqual<TOp, "endsWith">,
-    ]> extends true
-        ? string
-        : Or<[IsEqual<TOp, "lessThan">, IsEqual<TOp, "greaterThan">]> extends true
-            ? NumberLike
-            : unknown,
+    TComparator extends Flexy<ComparisonLookup[TOp]["params"]>,
 > = TContainer extends readonly unknown[]
     ? Process<TContainer, TOp, TComparator>
     : TContainer extends Dictionary

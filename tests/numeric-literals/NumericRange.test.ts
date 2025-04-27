@@ -1,11 +1,7 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
+import {Expect, NumericRange, Test } from "inferred-types/types";
 
-import { NumericRange } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
 
 describe("NumericRange<TLow,THigh>", () => {
 
@@ -14,10 +10,9 @@ describe("NumericRange<TLow,THigh>", () => {
         type R2 = NumericRange<5, 6>;
 
         type cases = [
-            Expect<Equal<R1, 2 | 3 | 4 | 5 | 6 | 7>>,
-            Expect<Equal<R2, 5 | 6>>
+            Expect<Test<R1, "equals",  2 | 3 | 4 | 5 | 6 | 7>>,
+            Expect<Test<R2, "equals",  5 | 6>>
         ];
-        const cases: cases = [true, true];
     });
 
 });

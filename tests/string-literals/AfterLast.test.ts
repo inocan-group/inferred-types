@@ -11,9 +11,9 @@ describe("AfterLast<TText, TFind, [TBreak]>", () => {
 
 
     type cases = [
-        Expect<Equal<T1, "">>,
-        Expect<Equal<T2, "  ">>,
-        Expect<Equal<T3, "  abc">>,
+        Expect<Test<T1, "equals",  "">>,
+        Expect<Test<T2, "equals",  "  ">>,
+        Expect<Test<T3, "equals",  "  abc">>,
     ];
   });
 
@@ -26,7 +26,7 @@ describe("AfterLast<TText, TFind, [TBreak]>", () => {
     >;
 
     type cases = [
-        Expect<Equal<T1, " | Array<string>">>,
+        Expect<Test<T1, "equals",  " | Array<string>">>,
     ];
   });
 
@@ -38,7 +38,7 @@ describe("AfterLast<TText, TFind, [TBreak]>", () => {
     >;
 
     type cases = [
-        Expect<Equal<T1, " | Array<string>">>,
+        Expect<Test<T1, "equals",  " | Array<string>">>,
     ];
   });
 
@@ -47,8 +47,8 @@ describe("AfterLast<TText, TFind, [TBreak]>", () => {
     type T2 = AfterLast<`Array<Record<string, string>>   `, ")">;
 
     type cases = [
-        Expect<Equal<T1, "">>,
-        Expect<Equal<T2, "">>,
+        Expect<Test<T1, "equals",  "">>,
+        Expect<Test<T2, "equals",  "">>,
     ];
   });
 
@@ -63,8 +63,8 @@ describe("AfterLast<TText, TFind, [TBreak]>", () => {
     >;
 
     type cases = [
-        Expect<Equal<T1, " |after">>,
-        Expect<Equal<T2, "|after">>,
+        Expect<Test<T1, "equals",  " |after">>,
+        Expect<Test<T2, "equals",  "|after">>,
     ];
   });
 

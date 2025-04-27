@@ -3,9 +3,7 @@ import { describe, it } from "vitest";
 
 import { ToNumericArray } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("ToNumericArray<T>", () => {
 
@@ -18,12 +16,12 @@ describe("ToNumericArray<T>", () => {
         type None_RO = ToNumericArray<readonly number[]>;
 
         type cases = [
-            Expect<Equal<Mixed, [1, 2, 3, 4]>>,
-            Expect<Equal<Mixed_RO, readonly [1, 2, 3, 4]>>,
-            Expect<Equal<AllStr, [1, 2, 3, 4]>>,
-            Expect<Equal<AllStr_RO, readonly [1, 2, 3, 4]>>,
-            Expect<Equal<None, number[]>>,
-            Expect<Equal<None_RO, readonly number[]>>,
+            Expect<Test<Mixed, [1, 2, 3, "equals",  4]>>,
+            Expect<Test<Mixed_RO, readonly [1, 2, 3, "equals",  4]>>,
+            Expect<Test<AllStr, [1, 2, 3, "equals",  4]>>,
+            Expect<Test<AllStr_RO, readonly [1, 2, 3, "equals",  4]>>,
+            Expect<Test<None, "equals",  number[]>>,
+            Expect<Test<None_RO, "equals",  readonly number[]>>,
         ];
         const cases: cases = [
             true, true, true,

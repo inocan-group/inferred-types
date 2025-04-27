@@ -39,7 +39,7 @@ describe("isThisMonth()", () => {
       // @ts-ignore
       type _cases = [
         ExpectTrue<Iso>,
-        Expect<Equal<D, Date>>
+        Expect<Test<D, "equals",  Date>>
       ];
     }
   });

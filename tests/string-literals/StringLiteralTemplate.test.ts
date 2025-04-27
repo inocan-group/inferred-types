@@ -9,8 +9,8 @@ describe("StringLiteralTemplate<T>", () => {
     type Multiply = StringLiteralTemplate<"{{number}} x {{number}}">;
 
     type cases = [
-        Expect<Equal<FooSomething, `Foo${string}`>>,
-        Expect<Equal<Multiply, `${number} x ${number}`>>,
+        Expect<Test<FooSomething, "equals",  `Foo${string}`>>,
+        Expect<Test<Multiply, "equals",  `${number} x ${number}`>>,
     ];
   });
 

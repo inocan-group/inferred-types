@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { MaxLength } from "inferred-types/types";
+import { MaxLength, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("MaxLength<T>", () => {
@@ -13,12 +13,12 @@ describe("MaxLength<T>", () => {
         type M6 = MaxLength<[string, number]>;          // 2
 
         type cases = [
-            Expect<Equal<M1, 0>>,
-            Expect<Equal<M2, 1>>,
-            Expect<Equal<M3, 2>>,
-            Expect<Equal<M4, number>>,
-            Expect<Equal<M5, number>>,
-            Expect<Equal<M6, 2>>,
+            Expect<Test<M1, "equals",  0>>,
+            Expect<Test<M2, "equals",  1>>,
+            Expect<Test<M3, "equals",  2>>,
+            Expect<Test<M4, "equals",  number>>,
+            Expect<Test<M5, "equals",  number>>,
+            Expect<Test<M6, "equals",  2>>,
         ];
     });
 

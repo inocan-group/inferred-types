@@ -1,10 +1,7 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { Find } from "inferred-types/types";
+import { Expect, Find, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("Find<TList, 'equals', TValue, TIndex>", () => {
 
@@ -15,11 +12,10 @@ describe("Find<TList, 'equals', TValue, TIndex>", () => {
         type T3 = Find<List, "equals", 3, "id">;
 
         type cases = [
-            Expect<Equal<T1, { id: 1; val: "hi" }>>,
-            Expect<Equal<T2, { id: 2; val: "bye" }>>,
-            Expect<Equal<T3, undefined>>,
+            Expect<Test<T1, "equals",  { id: 1; val: "hi" }>>,
+            Expect<Test<T2, "equals",  { id: 2; val: "bye" }>>,
+            Expect<Test<T3, "equals",  undefined>>,
         ];
-        const cases: cases = [true, true, true];
     });
 
 });
@@ -37,20 +33,15 @@ describe("Find<TList, 'extends', TValue, TIndex>", () => {
         type FooBar = Find<List, "extends", "foo" | "bar">;
 
         type cases = [
-            Expect<Equal<Num, number>>,
-            Expect<Equal<Two, 2>>,
-            Expect<Equal<Str, string>>,
-            Expect<Equal<Foo, "foo">>,
+            Expect<Test<Num, "equals",  number>>,
+            Expect<Test<Two, "equals",  2>>,
+            Expect<Test<Str, "equals",  string>>,
+            Expect<Test<Foo, "equals",  "foo">>,
 
-            Expect<Equal<Missing, undefined>>,
-            Expect<Equal<Num, number>>,
-            Expect<Equal<FooBar, "foo">>,
+            Expect<Test<Missing, "equals",  undefined>>,
+            Expect<Test<Num, "equals",  number>>,
+            Expect<Test<FooBar, "equals",  "foo">>,
         ];
-        const cases: cases = [
-            true, true, true, true,
-            true, true, true
-        ];
-
     });
 
 
@@ -61,11 +52,10 @@ describe("Find<TList, 'extends', TValue, TIndex>", () => {
         type T3 = Find<List, "extends", 3, "id">;
 
         type cases = [
-            Expect<Equal<T1, { id: 1; val: "hi" }>>,
-            Expect<Equal<T2, { id: 2; val: "bye" }>>,
-            Expect<Equal<T3, undefined>>,
+            Expect<Test<T1, "equals",  { id: 1; val: "hi" }>>,
+            Expect<Test<T2, "equals",  { id: 2; val: "bye" }>>,
+            Expect<Test<T3, "equals",  undefined>>,
         ];
-        const cases: cases = [true, true, true];
     });
 
 });

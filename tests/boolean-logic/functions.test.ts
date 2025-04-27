@@ -1,14 +1,18 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { describe, expect, it } from "vitest";
+import {  describe, expect, it } from "vitest";
 
-import { createFnWithProps, isFnWithParams, isFunction } from "inferred-types/runtime";
-import type { AnyFunction, IsFunction } from "inferred-types/types";
-import { ifFunction } from "inferred-types/runtime";
+import {
+    createFnWithProps,
+    isFnWithParams,
+    isFunction,
+    ifFunction
+} from "inferred-types/runtime";
+import type {
+    Expect,
+    AnyFunction,
+    IsFunction,
+    Test
+} from "inferred-types/types";
 
-
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
 
 describe("Boolean Logic for functions", () => {
 
@@ -25,14 +29,14 @@ describe("Boolean Logic for functions", () => {
     type F4 = IsFunction<42>;
 
     type cases = [
-      Expect<Equal<T1, true>>, //
-      Expect<Equal<T2, true>>,
-      Expect<Equal<T3, true>>,
-      Expect<Equal<T4, true>>,
-      Expect<Equal<F1, false>>, //
-      Expect<Equal<F2, false>>,
-      Expect<Equal<F3, false>>,
-      Expect<Equal<F4, false>>,
+      Expect<Test<T1, "equals",  true>>, //
+      Expect<Test<T2, "equals",  true>>,
+      Expect<Test<T3, "equals",  true>>,
+      Expect<Test<T4, "equals",  true>>,
+      Expect<Test<F1, "equals",  false>>, //
+      Expect<Test<F2, "equals",  false>>,
+      Expect<Test<F3, "equals",  false>>,
+      Expect<Test<F4, "equals",  false>>,
     ];
     const cases: cases = [true, true, true, true, true, true, true, true];
   });
@@ -93,8 +97,8 @@ describe("Boolean Logic for functions", () => {
       expect(f1).toBe(false);
 
       type cases = [
-        Expect<Equal<typeof t1, true>>, //
-        Expect<Equal<typeof f1, false>>
+        Expect<Test<typeof t1, "equals",  true>>, //
+        Expect<Test<typeof f1, "equals",  false>>
       ];
       const cases: cases = [true, true];
     });
@@ -111,7 +115,7 @@ describe("Boolean Logic for functions", () => {
         expect(true).toBe(true);
         // validate narrowing
         type cases = [
-          Expect<Equal<typeof fnUnion, typeof fn1>>, //
+          Expect<Test<typeof fnUnion, "equals",  typeof fn1>>, //
         ];
         const cases: cases = [true];
       }

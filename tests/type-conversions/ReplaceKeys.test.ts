@@ -12,7 +12,7 @@ describe("ReplaceKeys<TText,TFromTo>", () => {
     ]>
 
     type cases = [
-      Expect<Equal<FooBarBaz, { Foo: 1; Bar: 2; Baz: 3 }>>,
+      Expect<Test<FooBarBaz, "equals",  { Foo: 1; Bar: 2; Baz: 3 }>>,
     ];
   });
 
@@ -25,7 +25,7 @@ describe("ReplaceKeys<TText,TFromTo>", () => {
     }>
 
     type cases = [
-      Expect<Equal<FooBarBaz, { Foo: 1; Bar: 2; Baz: 3 }>>,
+      Expect<Test<FooBarBaz, "equals",  { Foo: 1; Bar: 2; Baz: 3 }>>,
     ];
   });
 
@@ -44,8 +44,8 @@ describe("ReplaceKeys<TText,TFromTo>", () => {
     ]>
 
     type cases = [
-      Expect<Equal<FooBarBaz, { Foo: { Bar: 2; Baz: 3 } }>>,
-      Expect<Equal<Explicit, { Foo: { Bar: 2; Baz: 3 } }>>,
+      Expect<Test<FooBarBaz, "equals",  { Foo: { Bar: 2; Baz: 3 } }>>,
+      Expect<Test<Explicit, "equals",  { Foo: { Bar: 2; Baz: 3 } }>>,
     ];
   });
 
@@ -59,7 +59,7 @@ describe("ReplaceKeys<TText,TFromTo>", () => {
     ], { replaceAll: false }>
 
     type cases = [
-      Expect<Equal<FooBarBaz, { Foo_: { Bar_: 2; Baz: 3 } }>>,
+      Expect<Test<FooBarBaz, "equals",  { Foo_: { Bar_: 2; Baz: 3 } }>>,
     ];
   });
 
@@ -73,10 +73,10 @@ describe("ReplaceKeys<TText,TFromTo>", () => {
     type Snake = ReplaceKeys<Obj, { foo: "foey" }, { casing: "SnakeCase" }>;
 
     type cases = [
-      Expect<Equal<Camel, { foeyBar: { barBaz: 2 } }>>,
-      Expect<Equal<Pascal, { FoeyBar: { BarBaz: 2 } }>>,
-      Expect<Equal<Kebab, { "foey-bar": { "bar-baz": 2 } }>>,
-      Expect<Equal<Snake, { foey_bar: { bar_baz: 2 } }>>,
+      Expect<Test<Camel, "equals",  { foeyBar: { barBaz: 2 } }>>,
+      Expect<Test<Pascal, "equals",  { FoeyBar: { BarBaz: 2 } }>>,
+      Expect<Test<Kebab, "equals",  { "foey-bar": { "bar-baz": 2 } }>>,
+      Expect<Test<Snake, "equals",  { foey_bar: { bar_baz: 2 } }>>,
     ];
   });
 

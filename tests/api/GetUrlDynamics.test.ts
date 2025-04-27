@@ -23,12 +23,12 @@ describe("GetUrlPathDynamics<T>", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<Nothing, {}>>,
-      Expect<Equal<DynPath, { action: string; id: string }>>,
-      Expect<Equal<TypedDynPath, { id: number; user: string; type: "foo" | "bar" }>>,
-      Expect<Equal<TypedDynPath2, { id: number; user: string; type: "foo" | "bar" }>>,
-      Expect<Equal<TypedDynPath3, { id: string; user: string; type: "foo" | "bar" }>>,
-      Expect<Equal<TypedDynPath4, { id: string; user: string; type: "foo" | "bar" }>>,
+      Expect<Test<Nothing, "equals",  {}>>,
+      Expect<Test<DynPath, "equals",  { action: string; id: string }>>,
+      Expect<Test<TypedDynPath, "equals",  { id: number; user: string; type: "foo" | "bar" }>>,
+      Expect<Test<TypedDynPath2, "equals",  { id: number; user: string; type: "foo" | "bar" }>>,
+      Expect<Test<TypedDynPath3, "equals",  { id: string; user: string; type: "foo" | "bar" }>>,
+      Expect<Test<TypedDynPath4, "equals",  { id: string; user: string; type: "foo" | "bar" }>>,
     ];
   });
 
@@ -51,11 +51,11 @@ describe("GetQueryParameterDynamics<T>", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<Nothing, {}>>,
-      Expect<Equal<Nothing2, {}>>,
-      Expect<Equal<DynPathWithQp, { foo: number; bar: string }>>,
-      Expect<Equal<StaticAndDynamic, { foo: number; bar: "howdy" }>>,
-      Expect<Equal<Unionized, { foo: "foo" | "bar" }>>,
+      Expect<Test<Nothing, "equals",  {}>>,
+      Expect<Test<Nothing2, "equals",  {}>>,
+      Expect<Test<DynPathWithQp, "equals",  { foo: number; bar: string }>>,
+      Expect<Test<StaticAndDynamic, "equals",  { foo: number; bar: "howdy" }>>,
+      Expect<Test<Unionized, "equals",  { foo: "foo" | "bar" }>>,
     ]
 
   });
@@ -74,9 +74,9 @@ describe("GetUrlDynamics", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<Path, { id: string; action: string}>>,
-      Expect<Equal<Qp, { foo: number; bar: string}>>,
-      Expect<Equal<All, { id: string; action: string;  foo: number; bar: string}>>,
+      Expect<Test<Path, "equals",  { id: string; action: string}>>,
+      Expect<Test<Qp, "equals",  { foo: number; bar: string}>>,
+      Expect<Test<All, "equals",  { id: string; action: string;  foo: number; bar: string}>>,
     ];
   });
 
@@ -90,8 +90,8 @@ describe("GetUrlDynamics", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<Path, { id: string; bar: string}>>,
-      Expect<Equal<Qp, { foo: number; bar: string}>>,
+      Expect<Test<Path, "equals",  { id: string; bar: string}>>,
+      Expect<Test<Qp, "equals",  { foo: number; bar: string}>>,
       ExpectTrue<IsErrMsg<All, "overlapping-keys">>,
     ];
   });

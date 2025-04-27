@@ -1,10 +1,7 @@
-import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { IsVariable } from "inferred-types/types";
+import { Expect, IsVariable, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("IsVariable<T>", () => {
 
@@ -20,13 +17,13 @@ describe("IsVariable<T>", () => {
 
     // @ts-ignore
     type cases = [
-      ExpectTrue<T1>,
-      ExpectTrue<T2>,
-      ExpectTrue<T3>,
+        Expect<Test<T1, "equals", true>>,
+        Expect<Test<T2, "equals", true>>,
+        Expect<Test<T3, "equals", true>>,
 
-      ExpectFalse<F1>,
-      ExpectFalse<F2>,
-      ExpectFalse<F3>,
+        Expect<Test<F1, "equals", false>>,
+        Expect<Test<F2, "equals", false>>,
+        Expect<Test<F3, "equals", false>>,
     ];
   });
 

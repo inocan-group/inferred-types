@@ -1,11 +1,5 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-
-import { AllCaps } from "inferred-types/types";
-
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+import { Expect, AllCaps, Test } from "inferred-types/types";
 
 describe("AllCaps<T>", () => {
 
@@ -14,10 +8,9 @@ describe("AllCaps<T>", () => {
         type MixedCase = AllCaps<"HEllo wORLd">;
 
         type cases = [
-            Expect<Equal<HelloWorld, "HELLO WORLD">>,
-            Expect<Equal<MixedCase, "HELLO WORLD">>
+            Expect<Test<HelloWorld, "equals",  "HELLO WORLD">>,
+            Expect<Test<MixedCase, "equals",  "HELLO WORLD">>
         ];
-        const cases: cases = [true, true];
     });
 
 });

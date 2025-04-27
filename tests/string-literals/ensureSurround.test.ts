@@ -39,9 +39,9 @@ describe("ensureSurround()", () => {
     expect(tr_foo).toEqual("((foo))");
 
     type cases = [
-      Expect<Equal<typeof s_foo, "[[foo]]">>,
-      Expect<Equal<typeof c_foo, "{{foo}}">>,
-      Expect<Equal<typeof r_foo, "((foo))">>,
+      Expect<Test<typeof s_foo, "equals",  "[[foo]]">>,
+      Expect<Test<typeof c_foo, "equals",  "{{foo}}">>,
+      Expect<Test<typeof r_foo, "equals",  "((foo))">>,
     ];
     const cases: cases = [
       true, true, true

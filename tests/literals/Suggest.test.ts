@@ -11,8 +11,8 @@ describe("Suggest<T>", () => {
     type FooBarUnion = Suggest<"foo" | "bar">;
 
     type cases = [
-      Expect<Equal<FooBar, "foo" | "bar" | (string & {})>>,
-      Expect<Equal<FooBarUnion, "foo" | "bar" | (string & {})>>,
+      Expect<Test<FooBar, "equals",  "foo" | "bar" | (string & {})>>,
+      Expect<Test<FooBarUnion, "equals",  "foo" | "bar" | (string & {})>>,
     ];
     const cases: cases = [
       true, true
@@ -34,9 +34,9 @@ describe("Suggest<T>", () => {
     expect(nuts).toBe("nuts");
 
     type cases = [
-      Expect<Equal<PFn, [choose: "foo" | "bar" | "baz" | (string & {})] >>,
-      Expect<Equal<typeof foo, "foo">>,
-      Expect<Equal<typeof nuts, "nuts">>,
+      Expect<Test<PFn, "equals",  [choose: "foo" | "bar" | "baz" | (string & {})] >>,
+      Expect<Test<typeof foo, "equals",  "foo">>,
+      Expect<Test<typeof nuts, "equals",  "nuts">>,
     ];
     const cases: cases = [true, true, true];
   });

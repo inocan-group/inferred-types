@@ -1,10 +1,7 @@
-import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { SomeEqual } from "inferred-types/types";
+import { Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
+import { SomeEqual, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
 
 describe("IfSomeEqual & SomeEqual", () => {
 
@@ -17,23 +14,23 @@ describe("IfSomeEqual & SomeEqual", () => {
 
         type cases = [
             // numeric literals
-            Expect<Equal<SomeEqual<OneTwo, 1>, true>>,
-            Expect<Equal<SomeEqual<OneTwo, 2>, true>>,
-            Expect<Equal<SomeEqual<OneTwo, 3>, false>>,
+            Expect<Test<SomeEqual<OneTwo, 1>, "equals",  true>>,
+            Expect<Test<SomeEqual<OneTwo, 2>, "equals",  true>>,
+            Expect<Test<SomeEqual<OneTwo, 3>, "equals",  false>>,
             //,
-            Expect<Equal<SomeEqual<FooBar, "foo">, true>>,
-            Expect<Equal<SomeEqual<FooBar, "bar">, true>>,
-            Expect<Equal<SomeEqual<FooBar, "baz">, false>>,
+            Expect<Test<SomeEqual<FooBar, "foo">, "equals",  true>>,
+            Expect<Test<SomeEqual<FooBar, "bar">, "equals",  true>>,
+            Expect<Test<SomeEqual<FooBar, "baz">, "equals",  false>>,
 
             // never
-            Expect<Equal<SomeEqual<NeverFoo, "foo">, true>>,
-            Expect<Equal<SomeEqual<Never, never>, true>>,
-            Expect<Equal<SomeEqual<Never, "foo">, false>>,
+            Expect<Test<SomeEqual<NeverFoo, "foo">, "equals",  true>>,
+            Expect<Test<SomeEqual<Never, never>, "equals",  true>>,
+            Expect<Test<SomeEqual<Never, "foo">, "equals",  false>>,
 
             // wide types
-            Expect<Equal<SomeEqual<Wide, "foo">, false>>,
-            Expect<Equal<SomeEqual<Wide, 42>, false>>,
-            Expect<Equal<SomeEqual<Wide, number>, true>>,
+            Expect<Test<SomeEqual<Wide, "foo">, "equals",  false>>,
+            Expect<Test<SomeEqual<Wide, 42>, "equals",  false>>,
+            Expect<Test<SomeEqual<Wide, number>, "equals",  true>>,
 
         ];
         const cases: cases = [

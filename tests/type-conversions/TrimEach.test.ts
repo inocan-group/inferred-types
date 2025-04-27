@@ -10,8 +10,8 @@ describe("TrimEach<T>", () => {
 
 
         type cases = [
-            Expect<Equal<T1, ["foo","bar","baz"]>>,
-            Expect<Equal<T2, ["foo","bar","baz", 42]>>,
+            Expect<Test<T1, ["foo","bar", "equals", "baz"]>>,
+            Expect<Test<T2, ["foo","bar","baz", "equals",  42]>>,
 
         ];
     });

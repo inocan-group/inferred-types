@@ -1,10 +1,8 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { narrowObjectTo, narrowObjectToType } from "inferred-types/runtime";
+import { Expect, Test } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("narrowObjectTo(constraint) -> (obj) -> obj", () => {
 
@@ -20,8 +18,8 @@ describe("narrowObjectTo(constraint) -> (obj) -> obj", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<typeof b, { foo: "foo"; bar: 42 }>>,
-      Expect<Equal<typeof b2, { foo: "foo"; bar: 42 }>>
+      Expect<Test<typeof b, "equals",  { foo: "foo"; bar: 42 }>>,
+      Expect<Test<typeof b2, "equals",  { foo: "foo"; bar: 42 }>>
     ];
   });
 
@@ -37,7 +35,7 @@ describe("narrowObjectTo(constraint) -> (obj) -> obj", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<typeof whoDat, `${string} is da foo`>>
+      Expect<Test<typeof whoDat, "equals",  `${string} is da foo`>>
     ];
 
   });

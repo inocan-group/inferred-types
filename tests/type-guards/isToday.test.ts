@@ -41,7 +41,7 @@ describe("isToday()", () => {
 
       // @ts-ignore
       type _cases = [
-        Expect<Equal<D, Date>>
+        Expect<Test<D, "equals",  Date>>
       ];
     }
   });

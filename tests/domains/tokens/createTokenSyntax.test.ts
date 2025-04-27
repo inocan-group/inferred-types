@@ -49,13 +49,13 @@ describe("createTokenSyntax()", () => {
 
     type cases = [
       Expect<Extends<typeof syn, TokenSyntax<"Template">>>,
-      Expect<Equal<Name, "Template">>,
-      Expect<Equal<Start, "{{">>,
-      Expect<Equal<Sep, "::">>,
-      Expect<Equal<SepVal, "^sep!">>,
+      Expect<Test<Name, "equals",  "Template">>,
+      Expect<Test<Start, "equals",  "{{">>,
+      Expect<Test<Sep, "equals",  "::">>,
+      Expect<Test<SepVal, "equals",  "^sep!">>,
 
-      Expect<Equal<Enc, `^open!string^close! is the best`>>,
-      Expect<Equal<Dec, `{{string}} is the best`>>
+      Expect<Test<Enc, "equals",  `^open!string^close! is the best`>>,
+      Expect<Test<Dec, "equals",  `{{string}} is the best`>>
     ];
   });
 
@@ -75,8 +75,8 @@ describe("createTokenSyntax()", () => {
     type cases = [
       ExpectTrue<typeof syn extends TokenSyntax<"Template"> ? true : false>,
 
-      Expect<Equal<typeof encoded, `^start!string^end! is the ^sq!best^sq!`>>,
-      Expect<Equal<typeof decoded, `{{string}} is the 'best'`>>,
+      Expect<Test<typeof encoded, "equals",  `^start!string^end! is the ^sq!best^sq!`>>,
+      Expect<Test<typeof decoded, "equals",  `{{string}} is the 'best'`>>,
     ];
   });
 
@@ -93,7 +93,7 @@ describe("createTokenSyntax()", () => {
     const shape = syn.tokenShape(n);
 
     type cases = [
-      Expect<Equal<typeof shape, "{{null}}">>,
+      Expect<Test<typeof shape, "equals",  "{{null}}">>,
     ];
   });
 
@@ -124,7 +124,7 @@ describe("createTokenSyntax()", () => {
     const shape = syn.tokenShape(s);
 
     type cases = [
-      Expect<Equal<typeof shape, "{{string}}" | `{{string::${string}}}`>>,
+      Expect<Test<typeof shape, "equals",  "{{string}}" | `{{string::${string}}}`>>,
     ];
   });
 

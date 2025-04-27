@@ -3,9 +3,7 @@ import { describe, it } from "vitest";
 
 import { IsNever, IfNever, Something, Nothing } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("IsNever<T>", () => {
 
@@ -45,8 +43,8 @@ describe("IsNever<T>", () => {
         type B2 = IfNever<true, "yup", "nope">;
 
         type cases = [
-            Expect<Equal<B1, "yup">>,
-            Expect<Equal<B2, "nope">>,
+            Expect<Test<B1, "equals",  "yup">>,
+            Expect<Test<B2, "equals",  "nope">>,
         ];
         const cases: cases = [true, true];
 

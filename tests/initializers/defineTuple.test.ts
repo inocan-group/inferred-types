@@ -18,9 +18,9 @@ describe("createTuple(...values) runtime utility", () => {
     expect(wideFoo).toEqual(["<<string>>", "bar"]);
 
     type cases = [
-      Expect<Equal<typeof foobar, ["foo", "bar"]>>,
-      Expect<Equal<typeof takeTwo, ["foo", "bar"]>>,
-      Expect<Equal<typeof wideFoo, [string, "bar"]>>,
+      Expect<Test<typeof foobar, ["foo", "equals",  "bar"]>>,
+      Expect<Test<typeof takeTwo, ["foo", "equals",  "bar"]>>,
+      Expect<Test<typeof wideFoo, [string, "equals",  "bar"]>>,
     ];
     const cases: cases = [true, true, true];
   });
@@ -33,7 +33,7 @@ describe("createTuple(...values) runtime utility", () => {
     expect(foobar).toEqual(["foo", "bar"]);
 
     type cases = [
-      Expect<Equal<typeof foobar, ["foo", "bar"]>>,
+      Expect<Test<typeof foobar, ["foo", "equals",  "bar"]>>,
     ];
     const cases: cases = [true];
   });

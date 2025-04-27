@@ -8,9 +8,7 @@ import {
     Suggest
 } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("Name", () => {
     type myRef = Ref<{ age: number; address: string }>;
@@ -41,7 +39,7 @@ describe("Name", () => {
         const bespoke: Suggestion = "bespoke";
 
         type cases = [
-            Expect<Equal<Scalar, "">>,
+            Expect<Test<Scalar, "equals",  "">>,
 
             Expect<DoesExtend<"foo", Path>>,
             Expect<DoesExtend<"baz.c.ca", Path>>,
@@ -66,8 +64,8 @@ describe("Name", () => {
         type Suggestion = Suggest<ExampleArr>;
 
         type cases = [
-            Expect<Equal<ExampleArr, Expected>>,
-            Expect<Equal<Suggestion, Expected | (string & {})>>, //
+            Expect<Test<ExampleArr, "equals",  Expected>>,
+            Expect<Test<Suggestion, "equals",  Expected | (string & {})>>, //
         ];
         const cases: cases = [true, true];
     });
@@ -111,9 +109,9 @@ describe("Name", () => {
         type TStr = DotPathFor<"foobar">;
 
         type cases = [
-            Expect<Equal<TObj, "">>,
-            Expect<Equal<TNum, "">>,
-            Expect<Equal<TStr, "">>,
+            Expect<Test<TObj, "equals",  "">>,
+            Expect<Test<TNum, "equals",  "">>,
+            Expect<Test<TStr, "equals",  "">>,
         ];
         const cases: cases = [true, true, true];
     });

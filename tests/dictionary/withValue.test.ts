@@ -36,10 +36,10 @@ describe("WithValue<TObj,TVal> type util", () => {
     type Wide = WithValue<Dictionary, string>;
 
     type cases = [
-      Expect<Equal<Str, { id: "foobar"; message: string }>>,
-      Expect<Equal<Num, { foo: number; foo2: 2; foo3: 3 }>>,
-      Expect<Equal<Bool, { success: true; fail: false; bar: boolean }>>,
-      Expect<Equal<Wide, EmptyObject>>
+      Expect<Test<Str, "equals",  { id: "foobar"; message: string }>>,
+      Expect<Test<Num, "equals",  { foo: number; foo2: 2; foo3: 3 }>>,
+      Expect<Test<Bool, "equals",  { success: true; fail: false; bar: boolean }>>,
+      Expect<Test<Wide, "equals",  EmptyObject>>
     ];
     const cases: cases = [true, true, true, true];
   });
@@ -51,9 +51,9 @@ describe("WithValue<TObj,TVal> type util", () => {
 
     type cases = [
       //
-      Expect<Equal<Str, { id: "foobar"; message: string }>>,
-      Expect<Equal<Num, { foo: number; foo2: 2; foo3: 3 }>>,
-      Expect<Equal<Bool, { bar: boolean }>>,
+      Expect<Test<Str, "equals",  { id: "foobar"; message: string }>>,
+      Expect<Test<Num, "equals",  { foo: number; foo2: 2; foo3: 3 }>>,
+      Expect<Test<Bool, "equals",  { bar: boolean }>>,
     ];
     const cases: cases = [true, true, true];
   });
@@ -76,11 +76,11 @@ describe("withValue(wo) => (obj) => obj", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<typeof wide, DictionaryWithValueFilter<string>>>,
-      Expect<Equal<typeof narrow, DictionaryWithValueFilter<"hi" | "hello">>>,
+      Expect<Test<typeof wide, "equals",  DictionaryWithValueFilter<string>>>,
+      Expect<Test<typeof narrow, "equals",  DictionaryWithValueFilter<"hi" | "hello">>>,
 
-      Expect<Equal<typeof wideObj, { foo: "hi", bax: "bye" }>>,
-      Expect<Equal<typeof narrowObj, { foo: "hi" }>>,
+      Expect<Test<typeof wideObj, { foo: "hi", "equals",  bax: "bye" }>>,
+      Expect<Test<typeof narrowObj, "equals",  { foo: "hi" }>>,
     ];
   });
 

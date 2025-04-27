@@ -2,9 +2,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 import { AsSomething } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("AsSomething<T>", () => {
 
@@ -16,11 +14,11 @@ describe("AsSomething<T>", () => {
         type Nada = AsSomething<null, "nada">;
 
         type cases = [
-            Expect<Equal<Foo, "foo">>,
-            Expect<Equal<Foo2, "foo">>,
-            Expect<Equal<Proxy, "foo">>,
-            Expect<Equal<Never, never>>,
-            Expect<Equal<Nada, "nada">>,
+            Expect<Test<Foo, "equals",  "foo">>,
+            Expect<Test<Foo2, "equals",  "foo">>,
+            Expect<Test<Proxy, "equals",  "foo">>,
+            Expect<Test<Never, "equals",  never>>,
+            Expect<Test<Nada, "equals",  "nada">>,
 
         ];
         const cases: cases = [

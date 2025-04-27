@@ -1,12 +1,8 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-
-import { StripAfter } from "inferred-types/types";
+import { Expect, StripAfter, Test } from "inferred-types/types";
 import { stripAfter } from "inferred-types/runtime";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("StripAfter<TStr,TBreak>", () => {
 
@@ -18,14 +14,13 @@ describe("StripAfter<TStr,TBreak>", () => {
     type BothWide = StripAfter<string, string>;
 
     type cases = [
-      Expect<Equal<Hello, "hello">>,
-      Expect<Equal<Foo, "foo">>,
-      Expect<Equal<WideBreak, string>>,
-      Expect<Equal<WideContent, string>>,
-      Expect<Equal<BothWide, string>>,
+      Expect<Test<Hello, "equals",  "hello">>,
+      Expect<Test<Foo, "equals",  "foo">>,
+      Expect<Test<WideBreak, "equals",  string>>,
+      Expect<Test<WideContent, "equals",  string>>,
+      Expect<Test<BothWide, "equals",  string>>,
     ];
 
-    const cases: cases = [true, true, true, true, true];
   });
 
 });
@@ -46,11 +41,9 @@ describe("stripAfter(contend,find) runtime utility", () => {
     expect(multi).toBe("foo");
 
     type cases = [
-      Expect<Equal<typeof hello, "hello">>, //
-      Expect<Equal<typeof foo, "foo">>, //
-
+      Expect<Test<typeof hello, "equals",  "hello">>, //
+      Expect<Test<typeof foo, "equals",  "foo">>, //
     ];
-    const cases: cases = [true, true];
 
   });
 

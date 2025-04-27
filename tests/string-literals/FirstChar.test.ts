@@ -11,8 +11,8 @@ describe("FirstChar<T>", () => {
         type EmptyStr = FirstChar<"">;
 
         type cases = [
-            Expect<Equal<Foobar, "F">>,
-            Expect<Equal<EmptyStr, never>>,
+            Expect<Test<Foobar, "equals",  "F">>,
+            Expect<Test<EmptyStr, "equals",  never>>,
         ];
         const cases: cases = [true, true];
     });
@@ -22,7 +22,7 @@ describe("FirstChar<T>", () => {
         type FooBarBaz = FirstChar<["foo", "bar", "baz"]>;
 
         type cases = [
-            Expect<Equal<FooBarBaz, ["f", "b", "b"]>>
+            Expect<Test<FooBarBaz, ["f", "b", "equals",  "b"]>>
         ];
         const cases: cases = [true];
 

@@ -11,10 +11,10 @@ describe("Max<T>", () => {
         type Big = Max<[0, 8000, 1]>;
 
         type cases = [
-            Expect<Equal<Nada, undefined>>,
-            Expect<Equal<InOrder, 5>>,
-            Expect<Equal<Chaotic, 8>>,
-            Expect<Equal<Big, 8000>>,
+            Expect<Test<Nada, "equals",  undefined>>,
+            Expect<Test<InOrder, "equals",  5>>,
+            Expect<Test<Chaotic, "equals",  8>>,
+            Expect<Test<Big, "equals",  8000>>,
         ];
     });
 

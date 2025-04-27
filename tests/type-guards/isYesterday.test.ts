@@ -41,7 +41,7 @@ describe("isYesterday()", () => {
 
       // @ts-ignore
       type _cases = [
-        Expect<Equal<D, Date>>
+        Expect<Test<D, "equals",  Date>>
       ];
     }
   });
@@ -129,7 +129,7 @@ describe("isYesterday()", () => {
       type WideDay = typeof wide;
 
       type _cases = [
-        Expect<Equal<IsoWide, boolean>>,
+        Expect<Test<IsoWide, "equals",  boolean>>,
         Expect<Extends<WideDay, string>>
       ];
     }

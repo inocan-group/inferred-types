@@ -32,8 +32,8 @@ describe("runtime if/is", () => {
     const f = ifString(-1, () => "yikes", () => 42);
 
     type cases = [
-      Expect<Equal<typeof t, 42>>, //
-      Expect<Equal<typeof f, 42>> //
+      Expect<Test<typeof t, "equals",  42>>, //
+      Expect<Test<typeof f, "equals",  42>> //
     ];
     const cases: cases = [true, true];
   });
@@ -43,8 +43,8 @@ describe("runtime if/is", () => {
     const f = ifNumber("foo", () => "yikes", () => 42);
 
     type cases = [
-      Expect<Equal<typeof t, 42>>, //
-      Expect<Equal<typeof f, 42>> //
+      Expect<Test<typeof t, "equals",  42>>, //
+      Expect<Test<typeof f, "equals",  42>> //
     ];
     const cases: cases = [true, true];
   });
@@ -54,8 +54,8 @@ describe("runtime if/is", () => {
     const f = ifBoolean(undefined, () => "yikes", () => 42);
 
     type cases = [
-      Expect<Equal<typeof t, 42>>, //
-      Expect<Equal<typeof f, 42>> //
+      Expect<Test<typeof t, "equals",  42>>, //
+      Expect<Test<typeof f, "equals",  42>> //
     ];
     const cases: cases = [true, true];
   });
@@ -66,9 +66,9 @@ describe("runtime if/is", () => {
     const f2 = ifTrue(true as boolean, () => "yikes", () => 42);
 
     type cases = [
-      Expect<Equal<typeof t, 42>>, //
-      Expect<Equal<typeof f, 42>>, //
-      Expect<Equal<typeof f2, "yikes" | 42>> //
+      Expect<Test<typeof t, "equals",  42>>, //
+      Expect<Test<typeof f, "equals",  42>>, //
+      Expect<Test<typeof f2, "equals",  "yikes" | 42>> //
     ];
     const cases: cases = [true, true, true];
   });
@@ -93,9 +93,9 @@ describe("runtime if/is", () => {
 
     type cases = [
       // still get union type with `isTrue` conditional
-      Expect<Equal<R1, "Hello Joe" | "Get out Joe!">>,
+      Expect<Test<R1, "equals",  "Hello Joe" | "Get out Joe!">>,
       // but encapsulating both outcomes in `ifTrue` resolves the union
-      Expect<Equal<R2, "Hello Joe">>
+      Expect<Test<R2, "equals",  "Hello Joe">>
     ];
     const cases: cases = [true, true];
   });
@@ -107,10 +107,10 @@ describe("runtime if/is", () => {
     type T4 = Or<[boolean, boolean, boolean]>;
 
     type cases = [
-      Expect<Equal<T1, true>>,
-      Expect<Equal<T2, false>>,
-      Expect<Equal<T3, true>>,
-      Expect<Equal<T4, boolean>>
+      Expect<Test<T1, "equals",  true>>,
+      Expect<Test<T2, "equals",  false>>,
+      Expect<Test<T3, "equals",  true>>,
+      Expect<Test<T4, "equals",  boolean>>
     ];
     const cases: cases = [true, true, true, true];
   });
@@ -122,10 +122,10 @@ describe("runtime if/is", () => {
     const t4 = or(false as boolean, false as boolean, true as boolean);
 
     type cases = [
-      Expect<Equal<typeof t1, true>>,
-      Expect<Equal<typeof t2, false>>,
-      Expect<Equal<typeof t3, true>>,
-      Expect<Equal<typeof t4, boolean>>
+      Expect<Test<typeof t1, "equals",  true>>,
+      Expect<Test<typeof t2, "equals",  false>>,
+      Expect<Test<typeof t3, "equals",  true>>,
+      Expect<Test<typeof t4, "equals",  boolean>>
     ];
     const cases: cases = [true, true, true, true];
 
@@ -138,9 +138,9 @@ describe("runtime if/is", () => {
   it("Extends<T,EXTENDS> with single clause", () => {
     type cases = [
       //
-      Expect<Equal<DoesExtend<1, number>, true>>,
-      Expect<Equal<DoesExtend<2, string>, false>>,
-      Expect<Equal<DoesExtend<2, 2 | 3>, true>>
+      Expect<Test<DoesExtend<1, number>, "equals",  true>>,
+      Expect<Test<DoesExtend<2, string>, "equals",  false>>,
+      Expect<Test<DoesExtend<2, 2 | 3>, "equals",  true>>
     ];
     const cases: cases = [true, true, true];
   });
@@ -174,10 +174,10 @@ describe("runtime if/is", () => {
     );
 
     type cases = [
-      Expect<Equal<typeof fn0, `I'm not an array, I am ${string}`>>,
-      Expect<Equal<typeof fn1, `I'm not an array, I am foobar`>>,
-      Expect<Equal<typeof fn2, `I'm an array, my length is 2`>>,
-      Expect<Equal<typeof fn3, `I'm an array, my length is ${number}`>>
+      Expect<Test<typeof fn0, `I'm not an array, "equals",  I am ${string}`>>,
+      Expect<Test<typeof fn1, `I'm not an array, "equals",  I am foobar`>>,
+      Expect<Test<typeof fn2, `I'm an array, "equals",  my length is 2`>>,
+      Expect<Test<typeof fn3, `I'm an array, "equals",  my length is ${number}`>>
     ];
     const cases: cases = [true, true, true, true];
   });
@@ -192,8 +192,8 @@ describe("runtime if/is", () => {
     const t2 = arrTest(["foo", "bar"]);
 
     type cases = [
-      Expect<Equal<typeof t1, `I'm not an array, I am ${string}`>>,
-      Expect<Equal<typeof t2, `I'm an array, my length is ${number}`>>
+      Expect<Test<typeof t1, `I'm not an array, "equals",  I am ${string}`>>,
+      Expect<Test<typeof t2, `I'm an array, "equals",  my length is ${number}`>>
     ];
     const cases: cases = [true, true];
   });
@@ -204,9 +204,9 @@ describe("runtime if/is", () => {
     const f2 = ifUndefined("", () => "yikes", () => 42);
 
     type cases = [
-      Expect<Equal<typeof t, 42>>, //
-      Expect<Equal<typeof f, 42>>, //
-      Expect<Equal<typeof f2, 42>> //
+      Expect<Test<typeof t, "equals",  42>>, //
+      Expect<Test<typeof f, "equals",  42>>, //
+      Expect<Test<typeof f2, "equals",  42>> //
     ];
     const cases: cases = [true, true, true];
   });
@@ -226,19 +226,19 @@ describe("runtime if/is", () => {
     type T10 = StartsWith<42, "5">;
 
     type cases = [
-      Expect<Equal<T1, true>>, //
-      Expect<Equal<T2, false>>,
+      Expect<Test<T1, "equals",  true>>, //
+      Expect<Test<T2, "equals",  false>>,
       // if either the "start with" or "val" props are wide then we can't resolve at design time
-      Expect<Equal<T3, boolean>>,
-      Expect<Equal<T4, boolean>>,
-      Expect<Equal<T5, boolean>>,
+      Expect<Test<T3, "equals",  boolean>>,
+      Expect<Test<T4, "equals",  boolean>>,
+      Expect<Test<T5, "equals",  boolean>>,
       // LowerAlpha is a string literal
-      Expect<Equal<T6, true>>,
-      Expect<Equal<T7, false>>,
+      Expect<Test<T6, "equals",  true>>,
+      Expect<Test<T7, "equals",  false>>,
 
-      Expect<Equal<T8, true>>,
-      Expect<Equal<T9, boolean>>,
-      Expect<Equal<T10, false>>,
+      Expect<Test<T8, "equals",  true>>,
+      Expect<Test<T9, "equals",  boolean>>,
+      Expect<Test<T10, "equals",  false>>,
     ];
     const cases: cases = [true, true, true, true, true, true, true, true, true, true];
   });
@@ -251,11 +251,11 @@ describe("runtime if/is", () => {
     type T5 = EndsWith<string, string>;
 
     type cases = [
-      Expect<Equal<T1, true>>, //
-      Expect<Equal<T2, false>>,
-      Expect<Equal<T3, boolean>>,
-      Expect<Equal<T4, boolean>>,
-      Expect<Equal<T5, boolean>>
+      Expect<Test<T1, "equals",  true>>, //
+      Expect<Test<T2, "equals",  false>>,
+      Expect<Test<T3, "equals",  boolean>>,
+      Expect<Test<T4, "equals",  boolean>>,
+      Expect<Test<T5, "equals",  boolean>>
     ];
     const cases: cases = [true, true, true, true, true];
   });
@@ -270,8 +270,8 @@ describe("runtime if/is", () => {
 
     // design time
     type cases = [
-      Expect<Equal<typeof foo, StartingWithTypeGuard<"foo">>>, //
-      Expect<Equal<typeof foot, StartingWithTypeGuard<"foot">>> //
+      Expect<Test<typeof foo, "equals",  StartingWithTypeGuard<"foo">>>, //
+      Expect<Test<typeof foot, "equals",  StartingWithTypeGuard<"foot">>> //
     ];
     const cases: cases = [true, true];
   });
@@ -324,15 +324,15 @@ describe("runtime if/is", () => {
 
     type cases = [
       // matches (narrow)
-      Expect<Equal<typeof t1, "Hello foo">>,
+      Expect<Test<typeof t1, "equals",  "Hello foo">>,
       // does not match (narrow)
-      Expect<Equal<typeof t2, `Goodbye 42`>>,
+      Expect<Test<typeof t2, "equals",  `Goodbye 42`>>,
       // matches (wide)
-      Expect<Equal<typeof t3, `Hello ${string}`>>,
+      Expect<Test<typeof t3, "equals",  `Hello ${string}`>>,
       // does not match (wide)
-      Expect<Equal<typeof t4, `Goodbye ${number}`>>,
+      Expect<Test<typeof t4, "equals",  `Goodbye ${number}`>>,
       // nested
-      Expect<Equal<typeof nested, `I'm a boolean value of false`>>
+      Expect<Test<typeof nested, "equals",  `I'm a boolean value of false`>>
     ];
     const cases: cases = [true, true, true, true, true];
   });

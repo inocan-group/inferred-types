@@ -1,23 +1,23 @@
-import { Expect, Equal } from "@type-challenges/utils";
 import { describe, it } from "vitest";
+import { Expect, AsOutputToken, Extends, Test } from "inferred-types/types"
 
-import { AsOutputToken, Extends } from "inferred-types/types"
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
 
 describe("TypeToken<T>", () => {
 
-  it("happy path", () => {
-    type Str = AsOutputToken<"string">;
-    type StrSet = AsOutputToken<"string-set">;
+    it("happy path", () => {
+        type Str = AsOutputToken<"string">;
+        type StrSet = AsOutputToken<"string-set">;
 
-    // @ts-ignore
-    type cases = [
-      Expect<Equal<Str, "<<string>>" | `<<string::${string}>>`>>,
-      Expect<Extends<"<<string-set::militaryTime>>", StrSet>>,
-    ];
-  });
+        // @ts-ignore
+        type cases = [
+            Expect<Test<
+                Str, "equals", "<<string>>" | `<<string::${string}>>`
+            >>,
+            Expect<Test<
+                "<<string-set::militaryTime>>", "extends", StrSet
+            >>,
+        ];
+    });
 
 });

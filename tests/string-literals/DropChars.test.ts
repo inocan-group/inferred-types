@@ -1,11 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { DropChars, UpperAlphaChar } from "inferred-types/types";
+import { DropChars, Test, UpperAlphaChar } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("DropChars<TContent,TDrop>", () => {
     it("dropping using a single string sequence", () => {
@@ -14,9 +12,9 @@ describe("DropChars<TContent,TDrop>", () => {
         type All = DropChars<"foo", "fo">;
 
         type cases = [
-            Expect<Equal<Foobar, "ooar">>,
-            Expect<Equal<Foobarbaz, "foo,ar,az">>,
-            Expect<Equal<All, "">>,
+            Expect<Test<Foobar, "equals",  "ooar">>,
+            Expect<Test<Foobarbaz, "equals", "foo,ar,az">>,
+            Expect<Test<All, "equals",  "">>,
         ];
         const cases: cases = [true, true, true];
     });
@@ -27,9 +25,8 @@ describe("DropChars<TContent,TDrop>", () => {
         type FooBarBaz2 = DropChars<"Foo, Bar, Baz", UpperAlphaChar>;
 
         type cases = [
-            Expect<Equal<FooBarBaz, "oo, ar, az">>,
-            Expect<Equal<FooBarBaz2, "oo, ar, az">>,
+            Expect<Test<FooBarBaz, "equals", "oo, ar, az">>,
+            Expect<Test<FooBarBaz2,"equals", "oo, ar, az">>,
         ];
-        const cases: cases = [true, true];
     });
 });

@@ -10,7 +10,7 @@ describe("Uom<T>", () => {
     type B = Uom<"Speed" | "Acceleration">;
 
     type cases = [
-      Expect<Equal<A, AccelerationUom>>,
+      Expect<Test<A, "equals",  AccelerationUom>>,
       Expect<Extends<B, AccelerationUom | SpeedUom>>,
     ];
   });
@@ -24,7 +24,7 @@ describe("Metric<T>", () => {
     type B = Metric<"Speed" | "Acceleration">;
 
     type cases = [
-      Expect<Equal<A, Acceleration>>,
+      Expect<Test<A, "equals",  Acceleration>>,
       Expect<Extends<B, Acceleration | Speed>>,
     ];
   });
@@ -45,8 +45,8 @@ describe("isUomCategory(c)(v)", () => {
     expect(t1).toBe(true);
 
     type cases = [
-      Expect<Equal<typeof isSpeed, UomTypeGuard<["Speed"]>>>,
-      Expect<Equal<typeof isSpeedOrAccel, UomTypeGuard<["Speed", "Acceleration"]>>>,
+      Expect<Test<typeof isSpeed, "equals",  UomTypeGuard<["Speed"]>>>,
+      Expect<Test<typeof isSpeedOrAccel, UomTypeGuard<["Speed", "equals",  "Acceleration"]>>>,
     ];
   });
 });
@@ -73,8 +73,8 @@ describe("isMetricCategory(c)(v)", () => {
     expect(f2).toBe(false);
 
     type cases = [
-      Expect<Equal<typeof isSpeed, MetricTypeGuard<["Speed"]>>>,
-      Expect<Equal<typeof isSpeedOrAccel, MetricTypeGuard<["Speed", "Acceleration"]>>>,
+      Expect<Test<typeof isSpeed, "equals",  MetricTypeGuard<["Speed"]>>>,
+      Expect<Test<typeof isSpeedOrAccel, MetricTypeGuard<["Speed", "equals",  "Acceleration"]>>>,
     ];
   });
 });

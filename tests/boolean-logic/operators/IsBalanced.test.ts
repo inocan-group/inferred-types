@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { Extends, IsBalanced, TypedError } from "inferred-types/types";
+import { Extends, IsBalanced, Test, TypedError } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("IsBalanced<T,U>", () => {
@@ -12,10 +12,10 @@ describe("IsBalanced<T,U>", () => {
     type F2 = IsBalanced<"0] square brackets once", {"[":"]"}>;
 
     type cases = [
-        Expect<Equal<T1, true>>,
-        Expect<Equal<T2, true>>,
-        Expect<Equal<F1, false>>,
-        Expect<Equal<F2, false>>,
+        Expect<Test<T1, "equals",  true>>,
+        Expect<Test<T2, "equals",  true>>,
+        Expect<Test<F1, "equals",  false>>,
+        Expect<Test<F2, "equals",  false>>,
     ];
   });
 
@@ -37,11 +37,11 @@ describe("IsBalanced<T,U>", () => {
     type Imbalanced = IsBalanced<"<<1> monkey went to the market, <0> bacon was purchased", { "<":">" }>;
 
     type cases = [
-        Expect<Equal<Basic, true>>,
-        Expect<Equal<Nested, true>>,
-        Expect<Equal<OuterNesting, true>>,
+        Expect<Test<Basic, "equals",  true>>,
+        Expect<Test<Nested, "equals",  true>>,
+        Expect<Test<OuterNesting, "equals",  true>>,
 
-        Expect<Equal<Imbalanced, false>>,
+        Expect<Test<Imbalanced, "equals",  false>>,
     ];
   });
 
@@ -63,9 +63,9 @@ describe("IsBalanced<T,U>", () => {
     }>;
 
     type cases = [
-        Expect<Equal<T1, true>>,
-        Expect<Equal<F1, false>>,
-        Expect<Equal<F2, false>>,
+        Expect<Test<T1, "equals",  true>>,
+        Expect<Test<F1, "equals",  false>>,
+        Expect<Test<F2, "equals",  false>>,
     ];
   });
 

@@ -1,25 +1,38 @@
 import { describe, it, expect } from "vitest";
-import type { Expect, Equal } from "@type-challenges/utils";
-import type { RequiredKeys, First, Narrowable, RequiredKeysTuple, HasSameKeys } from "inferred-types/types";
+import type {
+    Test,
+    Expect,
+    RequiredKeys,
+    First,
+    Narrowable,
+    RequiredKeysTuple,
+} from "inferred-types/types";
 
-type Test = { title: string; value: number; color?: string };
+type TestObj = { title: string; value: number; color?: string };
 
 describe("RequiredKeys<T, V>", () => {
     it("basic usage without filtering on value", () => {
-        type T = RequiredKeys<Test>;
+        type T = RequiredKeys<TestObj>;
 
-        type cases = [Expect<Equal<T, "title" | "value">>];
-        const cases: cases = [true];
-        expect(cases).toBe(cases);
+        type cases = [
+            Expect<Test<
+                T,
+                "equals",
+                "title" | "value"
+            >>
+        ];
+
+
     });
 
     it("basic usage with a value filter", () => {
-        type T1 = RequiredKeys<Test, string>;
-        type T2 = RequiredKeys<Test, number>;
+        type T1 = RequiredKeys<TestObj, string>;
+        type T2 = RequiredKeys<TestObj, number>;
 
-        type cases = [Expect<Equal<T1, "title">>, Expect<Equal<T2, "value">>];
-        const cases: cases = [true, true];
-        expect(cases).toBe(cases);
+        type cases = [
+            Expect<Test<T1, "equals", "title">>,
+            Expect<Test<T2, "equals", "value">>
+        ];
     });
 
     it("typed explicitly", () => {
@@ -44,8 +57,8 @@ describe("RequiredKeys<T, V>", () => {
         type T2 = RequiredKeys<First<V>, string>;
 
         type cases = [
-            Expect<Equal<T1, "id" | "name" | "title">>, //
-            Expect<Equal<T2, "name" | "title">>
+            Expect<Test<T1, "equals",  "id" | "name" | "title">>, //
+            Expect<Test<T2, "equals",  "name" | "title">>
         ];
         const cases: cases = [true, true];
     });
@@ -53,14 +66,12 @@ describe("RequiredKeys<T, V>", () => {
 
 describe("RequiredKeysTuple<T, V>", () => {
     it("basic usage without filtering on value", () => {
-        type T = RequiredKeysTuple<Test>;
+        type T = RequiredKeysTuple<TestObj>;
 
-        type cases = [
-            //
-            Expect<Equal<T, ["title", "value"]>>
+        type cases = [ //
+            Expect<Test<T, "equals", ["title",  "value"]>>
         ];
-        const cases: cases = [true];
-        expect(cases).toBe(cases);
+
     });
 
 
@@ -85,8 +96,7 @@ describe("RequiredKeysTuple<T, V>", () => {
         type T1 = RequiredKeysTuple<First<V>>;
 
         type cases = [
-            Expect<HasSameKeys<T1, ["id", "name", "title"]>>, //
+            Expect<Test<T1, "hasSameKeys", ["id", "name", "title"]>>, //
         ];
-        const cases: cases = [true];
     });
 });

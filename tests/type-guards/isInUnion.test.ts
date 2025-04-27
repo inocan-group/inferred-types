@@ -11,7 +11,7 @@ describe("isInUnion(elements) => TypeGuard", () => {
     expect(typeof tg).toBe("function");
 
     type cases = [
-      Expect<Equal<typeof tg, (val: unknown) => val is 1 | 2 | 3>>,
+      Expect<Test<typeof tg, "equals",  (val: unknown) => val is 1 | 2 | 3>>,
     ];
   });
 

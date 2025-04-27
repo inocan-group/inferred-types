@@ -22,10 +22,10 @@ describe("find(list,[deref])", () => {
     expect(mark).toEqual({ id: 2, name: "Mark" });
 
     type cases = [
-      Expect<Equal<typeof foo, "foo">>,
-      Expect<Equal<typeof num, 42>>,
-      Expect<Equal<typeof bob, { id: 1, name: "Bob" }>>,
-      Expect<Equal<typeof mark, { id: 2, name: "Mark" }>>,
+      Expect<Test<typeof foo, "equals",  "foo">>,
+      Expect<Test<typeof num, "equals",  42>>,
+      Expect<Test<typeof bob, { id: 1, "equals",  name: "Bob" }>>,
+      Expect<Test<typeof mark, { id: 2, "equals",  name: "Mark" }>>,
     ];
     const cases: cases = [
       true, true, true, true

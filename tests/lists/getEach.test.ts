@@ -18,9 +18,9 @@ describe("GetEach<T,P>", () => {
         type Cost = GetEach<List, "cost">;
 
         type cases = [
-            Expect<Equal<ID, readonly [1, 2, 3]>>,
-            Expect<Equal<Value, readonly ["foo", "bar", "baz"]>>,
-            Expect<Equal<Cost, readonly [5, 15]>>
+            Expect<Test<ID, readonly [1, 2, "equals",  3]>>,
+            Expect<Test<Value, readonly ["foo", "bar", "equals",  "baz"]>>,
+            Expect<Test<Cost, readonly [5, "equals",  15]>>
         ];
     });
 
@@ -42,9 +42,9 @@ describe("GetEach<T,P>", () => {
         type Owns = GetEach<List, "color.owns">;
 
         type cases = [
-            Expect<Equal<Fav, readonly ["blue", "green"]>>,
-            Expect<Equal<FavNotRO, ["blue", "green"]>>,
-            Expect<Equal<Owns, readonly ["grey"]>>,
+            Expect<Test<Fav, readonly ["blue", "equals",  "green"]>>,
+            Expect<Test<FavNotRO, ["blue", "equals",  "green"]>>,
+            Expect<Test<Owns, "equals",  readonly ["grey"]>>,
         ];
     });
 
@@ -60,9 +60,9 @@ describe("GetEach<T,P>", () => {
         type Empty = GetEach<List, "colors.5">;
 
         type cases = [
-            Expect<Equal<First, ["blue", "purple"]>>,
-            Expect<Equal<Incomplete, ["fuchsia"]>>,
-            Expect<Equal<Empty, []>>,
+            Expect<Test<First, ["blue", "equals",  "purple"]>>,
+            Expect<Test<Incomplete, "equals",  ["fuchsia"]>>,
+            Expect<Test<Empty, "equals",  []>>,
         ];
         const cases: cases = [true, true, true];
     });
@@ -78,9 +78,9 @@ describe("GetEach<T,P>", () => {
         type Empty = GetEach<List, "colors.5">;
 
         type cases = [
-            Expect<Equal<First, readonly ["blue", "purple"]>>,
-            Expect<Equal<Incomplete, readonly ["fuchsia"]>>,
-            Expect<Equal<Empty, readonly []>>,
+            Expect<Test<First, readonly ["blue", "equals",  "purple"]>>,
+            Expect<Test<Incomplete, "equals",  readonly ["fuchsia"]>>,
+            Expect<Test<Empty, "equals",  readonly []>>,
         ];
         const cases: cases = [true, true, true];
     });
@@ -106,8 +106,8 @@ describe("GetEach<T,P>", () => {
 
         // @ts-ignore
         type cases = [
-            Expect<Equal<Fav, ['blue', 'green']>>,
-            Expect<Equal<Owns, ['grey']>>,
+            Expect<Test<Fav, ['blue', "equals",  'green']>>,
+            Expect<Test<Owns, "equals",  ['grey']>>,
         ];
     });
 });
@@ -137,7 +137,7 @@ describe("getEach(list, prop)", () => {
         expect(each).toEqual(["foo","baz"]);
 
         type cases = [
-            Expect<Equal<typeof each, ["foo","baz"]>>
+            Expect<Test<typeof each, ["foo", "equals", "baz"]>>
         ];
     });
 

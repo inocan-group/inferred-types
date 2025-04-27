@@ -30,12 +30,8 @@ export type NarrowingFn<
     TFn extends AnyFunction,
 > = TFn extends TypedFunction
     ? IsEqual<Parameters<TFn>, []> extends true
-        ? Throw<
-            "no-parameters",
-            `To make a function a NarrowingFn it must have at least one parameter!`,
-            "NarrowingFn",
-            { library: "inferred-types/constants"; params: TFn }
-        >
+        // no parameters so no change
+        ? TFn
         : IsNarrowingFn<TFn> extends true
             ? TFn
             : (<T extends Parameters<TFn>>(...args: T) => ReturnType<TFn>)

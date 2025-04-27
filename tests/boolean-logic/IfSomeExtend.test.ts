@@ -2,9 +2,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { Dictionary, SomeExtend } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("SomeExtend<TList,TExtend> and IfSomeExtend<TList,TExtend>", () => {
 
@@ -22,12 +20,12 @@ describe("SomeExtend<TList,TExtend> and IfSomeExtend<TList,TExtend>", () => {
         type F3 = SomeExtend<LiteralList, unknown[]>;
 
         type cases = [
-            Expect<Equal<T1, true>>,
-            Expect<Equal<T2, true>>,
-            Expect<Equal<T3, true>>,
-            Expect<Equal<F1, false>>,
-            Expect<Equal<F2, false>>,
-            Expect<Equal<F3, false>>,
+            Expect<Test<T1, "equals",  true>>,
+            Expect<Test<T2, "equals",  true>>,
+            Expect<Test<T3, "equals",  true>>,
+            Expect<Test<F1, "equals",  false>>,
+            Expect<Test<F2, "equals",  false>>,
+            Expect<Test<F3, "equals",  false>>,
         ];
         const cases: cases = [true, true, true, true, true, true];
     });

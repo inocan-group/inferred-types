@@ -1,10 +1,9 @@
 import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { KeysOverlap } from "inferred-types/types";
+import { Expect, ExplicitlyEmptyObject, KeysOverlap, Test } from "inferred-types/types";
+import { IsWideContainer } from "transpiled/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("KeysOverlap<A,B>", () => {
 
@@ -14,18 +13,21 @@ describe("KeysOverlap<A,B>", () => {
 
 
     type F1 = KeysOverlap<{foo: 1}, {bar: 1}>;
-    type F2 = KeysOverlap<{foo: 1}, {}>;
-    type F3 = KeysOverlap<{}, {foo: 1}>;
+    type F2 = KeysOverlap<{foo: 1}, ExplicitlyEmptyObject>;
 
-    // @ts-ignore
+    type B1 = KeysOverlap<{foo: 1}, {}>;
+    type B2 = KeysOverlap<{}, {foo: 1}>;
+
     type cases = [
-      ExpectTrue<T1>,
-      ExpectTrue<T2>,
+        Expect<Test<T1, "equals", true>>,
+        Expect<Test<T2, "equals", true>>,
 
-      ExpectFalse<F1>,
-      ExpectFalse<F2>,
-      ExpectFalse<F3>,
+        Expect<Test<F1, "equals", false>>,
+
+        Expect<Test<B1, "equals", boolean>>,
+        Expect<Test<B2, "equals", boolean>>,
     ];
   });
 
 });
+

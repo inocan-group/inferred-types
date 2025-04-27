@@ -1,11 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { HasSameValues, Unique } from "inferred-types/types";
+import { HasSameValues, Test, Unique } from "inferred-types/types";
 import { unique } from "inferred-types/runtime";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("Unique properties in Sets", () => {
   describe("Unique<A,B,Deref>", () => {
@@ -22,14 +20,13 @@ describe("Unique properties in Sets", () => {
       type T3 = Unique<[...[Obj1, Obj2], ...[Obj2, Obj3]]>;
 
       type cases = [
-        Expect<HasSameValues<T0, [2, 3, 1]>>,
-        Expect<HasSameValues<T1, [1, 2, 3, 4, 5, 6]>>,
-        Expect<HasSameValues<T2, [3, 4, 5, 6, 1, 2]>>,
+        Expect<Test<T0, "hasSameValues", [2, 3, 1]>>,
+        Expect<Test<T1, "hasSameValues", [1, 2, 3, 4, 5, 6]>>,
+        Expect<Test<T2, "hasSameValues", [3, 4, 5, 6, 1, 2]>>,
         // object testing
-        Expect<Equal<T3, [Obj1, Obj2, Obj3]>>,
+        Expect<Test<T3, "equals", [Obj1, Obj2,  Obj3]>>,
       ];
 
-      const cases: cases = [true, true, true, true];
     });
 
   });
@@ -43,9 +40,8 @@ describe("Unique properties in Sets", () => {
       expect(t1).toEqual([1, 2, 3, 4, 5, 6, 8]);
 
       type cases = [
-        Expect<HasSameValues<typeof t1, [1, 2, 3, 4, 5, 6, 8]>>
+        Expect<Test<typeof t1, "hasSameValues", [1, 2, 3, 4, 5, 6, 8]>>
       ];
-      const cases: cases = [true];
     });
 
   });

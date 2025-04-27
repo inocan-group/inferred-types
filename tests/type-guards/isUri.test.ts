@@ -1,10 +1,8 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import { isUri } from "inferred-types/runtime";
+import { Expect, Test } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("isUri(val) type guard", () => {
 
@@ -23,7 +21,7 @@ describe("isUri(val) type guard", () => {
 
 
       type cases = [
-        Expect<Equal<typeof http, `http://${string}` | `https://${string}`>>
+        Expect<Test<typeof http, "equals",  `http://${string}` | `https://${string}`>>
       ];
       const cases: cases = [
         true

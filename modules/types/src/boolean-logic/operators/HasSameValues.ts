@@ -1,4 +1,15 @@
-import type { And, Dictionary, If, IsNever, Or, Values } from "inferred-types/types";
+import type {
+    And,
+    As,
+    Container,
+    Dictionary,
+    IsAny,
+    IsNever,
+    IsObject,
+    IsWideContainer,
+    Or,
+    Values
+} from "inferred-types/types";
 
 type Find<
     TList extends readonly unknown[],
@@ -39,14 +50,47 @@ type _HasSameValues<
  * **HasSameValues**`<TContainer,TComparator>`
  *
  * Boolean type utility which determines if the values in
- * `TList` and `TComparator` are the same (even if the order
+ * `TContainer` and `TComparator` are the same (even if the order
  * is different).
+ *
+ * - if _either_ `TContainer` or `TComparator` are wide types then
+ * this utility will evaluate to `boolean` rather than the typical `true`
+ * or `false` literals
+ *
+ * #### `any` and `never`
+ *
+ * - if _either_ `TContainer` or `TComparator` or _both_ are equal to
+ * `never` then this utility will resolve in `false`!
+ * - the same logic applies to _either_or _both_ being typed as `any`
+ * - in these cases, if you want the result to be something _other_
+ * than `false` you can override the optional `TException` generic
+ * to whatever you need it to be.
  */
 export type HasSameValues<
-    TContainer extends readonly unknown[],
-    TComparator extends readonly unknown[],
-> = If<
-    IsNever<TContainer>,
-    If<IsNever<TComparator>, true, false>,
-    If<IsNever<TComparator>, false, _HasSameValues<TContainer, TComparator>>
->;
+    TContainer extends Container,
+    TComparator extends Container,
+    TException = false
+> = [IsAny<TContainer>] extends [true]
+? TException
+: [IsAny<TComparator>] extends [true]
+? TException
+: IsObject<TContainer> extends true
+? HasSameValues<Values<TContainer>, TComparator>
+: IsObject<TComparator> extends true
+    ? HasSameValues<TContainer, Values<TComparator>>
+
+: [IsNever<TContainer>] extends [true]
+    ? false
+: [IsNever<TComparator>] extends [true]
+    ? false
+
+: Or<[
+    IsWideContainer<TContainer>, IsWideContainer<TComparator>
+]> extends true
+? boolean
+
+: _HasSameValues<
+    As<TContainer, readonly unknown[]>,
+    As<TComparator, readonly unknown[]>
+>
+

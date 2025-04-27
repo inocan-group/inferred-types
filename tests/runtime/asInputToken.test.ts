@@ -16,9 +16,9 @@ describe("FromInputToken<Token>", () => {
         type Nada = FromStringInputToken<"undefined">;
 
         type cases = [
-            Expect<Equal<Str, string>>,
-            Expect<Equal<Null, null>>,
-            Expect<Equal<Nada, undefined>>,
+            Expect<Test<Str, "equals",  string>>,
+            Expect<Test<Null, "equals",  null>>,
+            Expect<Test<Nada, "equals",  undefined>>,
         ];
     });
 
@@ -28,9 +28,9 @@ describe("FromInputToken<Token>", () => {
         type Num = FromStringInputToken<"Number(42)">;
 
         type cases = [
-            Expect<Equal<Str, "foo">>,
-            Expect<Equal<Whitespace, "foo">>,
-            Expect<Equal<Num, 42>>,
+            Expect<Test<Str, "equals",  "foo">>,
+            Expect<Test<Whitespace, "equals",  "foo">>,
+            Expect<Test<Num, "equals",  42>>,
         ];
     });
 
@@ -40,9 +40,9 @@ describe("FromInputToken<Token>", () => {
         type T3 = FromStringInputToken<"Record<string, string | number>">;
 
         type cases = [
-            Expect<Equal<T1, Record<string, string>>>,
-            Expect<Equal<T2, Record<string, number>>>,
-            Expect<Equal<T3, Record<string, string | number>>>,
+            Expect<Test<T1, Record<string, "equals",  string>>>,
+            Expect<Test<T2, Record<string, "equals",  number>>>,
+            Expect<Test<T3, Record<string, "equals",  string | number>>>,
         ]
     });
 
@@ -54,10 +54,10 @@ describe("FromInputToken<Token>", () => {
         type U4 = FromStringInputToken<"  String(bar) | boolean">;
 
         type cases = [
-            Expect<Equal<U, number | "bar">>,
-            Expect<Equal<U2, "bar" | number>>,
-            Expect<Equal<U3, "bar" | 42>>,
-            Expect<Equal<U4, "bar" | boolean>>,
+            Expect<Test<U, "equals",  number | "bar">>,
+            Expect<Test<U2, "equals",  "bar" | number>>,
+            Expect<Test<U3, "equals",  "bar" | 42>>,
+            Expect<Test<U4, "equals",  "bar" | boolean>>,
         ];
     });
 
@@ -65,7 +65,7 @@ describe("FromInputToken<Token>", () => {
         type T = FromTupleInputToken<["number", "string", "true | Object"]>
 
         type cases = [
-            Expect<Equal<T, [number, string, true | object]>>
+            Expect<Test<T, [number, string, "equals",  true | object]>>
         ];
     });
 
@@ -81,11 +81,11 @@ describe("asType(token)", () => {
         const bool = asType("boolean");
 
         type cases = [
-            Expect<Equal<typeof str, string>>,
-            Expect<Equal<typeof num, number>>,
-            Expect<Equal<typeof undef, undefined>>,
-            Expect<Equal<typeof yes, true>>,
-            Expect<Equal<typeof bool, boolean>>,
+            Expect<Test<typeof str, "equals",  string>>,
+            Expect<Test<typeof num, "equals",  number>>,
+            Expect<Test<typeof undef, "equals",  undefined>>,
+            Expect<Test<typeof yes, "equals",  true>>,
+            Expect<Test<typeof bool, "equals",  boolean>>,
         ];
     });
 
@@ -95,9 +95,9 @@ describe("asType(token)", () => {
         const undef = asType(" undefined  ");
 
         type cases = [
-            Expect<Equal<typeof str, string>>,
-            Expect<Equal<typeof num, number>>,
-            Expect<Equal<typeof undef, undefined>>,
+            Expect<Test<typeof str, "equals",  string>>,
+            Expect<Test<typeof num, "equals",  number>>,
+            Expect<Test<typeof undef, "equals",  undefined>>,
         ];
     });
 
@@ -107,9 +107,9 @@ describe("asType(token)", () => {
         const yes = asType("Boolean(true)");
 
         type cases = [
-            Expect<Equal<typeof foo, "foo">>,
-            Expect<Equal<typeof num, 42>>,
-            Expect<Equal<typeof yes, true>>,
+            Expect<Test<typeof foo, "equals",  "foo">>,
+            Expect<Test<typeof num, "equals",  42>>,
+            Expect<Test<typeof yes, "equals",  true>>,
         ];
     });
 
@@ -119,9 +119,9 @@ describe("asType(token)", () => {
         const yes = asType("   Boolean(true)   \n\t");
 
         type cases = [
-            Expect<Equal<typeof foo, "foo">>,
-            Expect<Equal<typeof num, 42>>,
-            Expect<Equal<typeof yes, true>>,
+            Expect<Test<typeof foo, "equals",  "foo">>,
+            Expect<Test<typeof num, "equals",  42>>,
+            Expect<Test<typeof yes, "equals",  true>>,
         ];
     });
 
@@ -132,8 +132,8 @@ describe("asType(token)", () => {
         expect(strNum).toEqual("<<'string | number'>>")
 
         type cases = [
-            Expect<Equal<typeof strNum, string | number>>,
-            Expect<Equal<typeof optStr, string | undefined>>,
+            Expect<Test<typeof strNum, "equals",  string | number>>,
+            Expect<Test<typeof optStr, "equals",  string | undefined>>,
         ];
     });
 
@@ -144,9 +144,9 @@ describe("asType(token)", () => {
         const optStr = asType("String(bar) | undefined");
 
         type cases = [
-            Expect<Equal<typeof strNum1, "foo" | number>>,
-            Expect<Equal<typeof strNum2, "foo" | number>>,
-            Expect<Equal<typeof optStr, "bar" | undefined>>,
+            Expect<Test<typeof strNum1, "equals",  "foo" | number>>,
+            Expect<Test<typeof strNum2, "equals",  "foo" | number>>,
+            Expect<Test<typeof optStr, "equals",  "bar" | undefined>>,
         ];
     });
 
@@ -157,10 +157,10 @@ describe("asType(token)", () => {
         const multi = asType("String({{number}} x {{number}})")
 
         type cases = [
-            Expect<Equal<typeof fooBar, "foo" | "bar">>,
-            Expect<Equal<typeof foo42, "foo" | 42>>,
-            Expect<Equal<typeof starting, `foo_${string}`>>,
-            Expect<Equal<typeof multi, `${number} x ${number}`>>,
+            Expect<Test<typeof fooBar, "equals",  "foo" | "bar">>,
+            Expect<Test<typeof foo42, "equals",  "foo" | 42>>,
+            Expect<Test<typeof starting, "equals",  `foo_${string}`>>,
+            Expect<Test<typeof multi, "equals",  `${number} x ${number}`>>,
         ];
     });
 
@@ -169,7 +169,7 @@ describe("asType(token)", () => {
         const all = asType("Number(1) | Number(2) | Boolean(false)")
 
         type cases = [
-            Expect<Equal<typeof all, 1 | 2 | false>>
+            Expect<Test<typeof all, "equals",  1 | 2 | false>>
         ];
     });
 
@@ -187,8 +187,8 @@ describe("asType(token)", () => {
         });
 
         type cases = [
-            Expect<Equal<typeof fooBar, { foo: string; bar: number }>>,
-            Expect<Equal<typeof fuzzy, { foo: string | undefined; bar: false | boolean[] }>>,
+            Expect<Test<typeof fooBar, "equals",  { foo: string; bar: number }>>,
+            Expect<Test<typeof fuzzy, "equals",  { foo: string | undefined; bar: false | boolean[] }>>,
 
             Expect<Extends<typeof propError, Error>>,
             Expect<Contains<typeof propError["message"], "problem with 'bar' key">>
@@ -206,14 +206,14 @@ describe("asType(token)", () => {
         const unionArr3 = asType("Array<String(foo) | String(bar)>");
 
         type cases = [
-            Expect<Equal<typeof strArr, string[]>>,
-            Expect<Equal<typeof fnArr, ((...args: any[]) => any)[]>>,
-            Expect<Equal<typeof objArr, object[]>>,
-            Expect<Equal<typeof boolArr, boolean[]>>,
-            Expect<Equal<typeof fooArr, "foo"[]>>,
-            Expect<Equal<typeof unionArr, (string | number)[]>>,
-            Expect<Equal<typeof unionArr2, (string | undefined)[]>>,
-            Expect<Equal<typeof unionArr3, ("foo" | "bar")[]>>,
+            Expect<Test<typeof strArr, "equals",  string[]>>,
+            Expect<Test<typeof fnArr, "equals",  ((...args: any[]) => any)[]>>,
+            Expect<Test<typeof objArr, "equals",  object[]>>,
+            Expect<Test<typeof boolArr, "equals",  boolean[]>>,
+            Expect<Test<typeof fooArr, "equals",  "foo"[]>>,
+            Expect<Test<typeof unionArr, "equals",  (string | number)[]>>,
+            Expect<Test<typeof unionArr2, "equals",  (string | undefined)[]>>,
+            Expect<Test<typeof unionArr3, "equals",  ("foo" | "bar")[]>>,
         ]
     });
 
@@ -226,11 +226,11 @@ describe("asType(token)", () => {
         const mixed2 = asType("Array<string> | String(foo) | String(bar)")
 
         type cases = [
-            Expect<Equal<typeof bool, true | boolean[]>>,
-            Expect<Equal<typeof bool2, true | boolean[]>>,
+            Expect<Test<typeof bool, "equals",  true | boolean[]>>,
+            Expect<Test<typeof bool2, "equals",  true | boolean[]>>,
 
-            Expect<Equal<typeof mixed, "foo" | "bar" | string[]>>,
-            Expect<Equal<typeof mixed2, "foo" | "bar" | string[]>>,
+            Expect<Test<typeof mixed, "equals",  "foo" | "bar" | string[]>>,
+            Expect<Test<typeof mixed2, "equals",  "foo" | "bar" | string[]>>,
         ];
     });
 
@@ -246,9 +246,9 @@ describe("asType(token)", () => {
         });
 
         type cases = [
-            Expect<Equal<typeof tup, ["foo", "bar"[]]>>,
-            Expect<Equal<typeof tup2, [1, 2, 3]>>,
-            Expect<Equal<typeof tup3, [1 | 2, 3 | 4]>>,
+            Expect<Test<typeof tup, ["foo", "equals",  "bar"[]]>>,
+            Expect<Test<typeof tup2, [1, 2, "equals",  3]>>,
+            Expect<Test<typeof tup3, [1 | 2, "equals",  3 | 4]>>,
             Expect<Equal<
                 typeof tupObj,
                 [string, {
@@ -265,8 +265,8 @@ describe("asType(token)", () => {
         type E = typeof inv1;
 
         type cases = [
-            Expect<Equal<E["type"], "invalid-token">>,
-            Expect<Equal<E["subType"], "tuple">>,
+            Expect<Test<E["type"], "equals",  "invalid-token">>,
+            Expect<Test<E["subType"], "equals",  "tuple">>,
         ];
     });
 
@@ -277,9 +277,9 @@ describe("asType(token)", () => {
         const union = asType("Record<string, Object> | Record<string, number>")
 
         type cases = [
-            Expect<Equal<typeof obj, Record<string, (...args: any[]) => any>>>,
-            Expect<Equal<typeof obj2, Record<string, number>>>,
-            Expect<Equal<typeof union, Record<string, object> | Record<string, number>>>
+            Expect<Test<typeof obj, Record<string, "equals",  (...args: any[]) => any>>>,
+            Expect<Test<typeof obj2, Record<string, "equals",  number>>>,
+            Expect<Test<typeof union, Record<string, object> | Record<string, "equals",  number>>>
         ];
     });
 
@@ -299,9 +299,9 @@ describe("asType(token)", () => {
         const union = asType("Set<string | number>");
 
         type cases = [
-            Expect<Equal<typeof str, Set<string>>>,
-            Expect<Equal<typeof num, Set<number>>>,
-            Expect<Equal<typeof union, Set<string | number>>>,
+            Expect<Test<typeof str, "equals",  Set<string>>>,
+            Expect<Test<typeof num, "equals",  Set<number>>>,
+            Expect<Test<typeof union, "equals",  Set<string | number>>>,
         ];
     });
 
@@ -311,9 +311,9 @@ describe("asType(token)", () => {
         const union = asType("Map<string | number, Array<string>>");
 
         type cases = [
-            Expect<Equal<typeof str, Map<string, string>>>,
-            Expect<Equal<typeof num, Map<number, object>>>,
-            Expect<Equal<typeof union, Map<string | number, string[]>>>,
+            Expect<Test<typeof str, Map<string, "equals",  string>>>,
+            Expect<Test<typeof num, Map<number, "equals",  object>>>,
+            Expect<Test<typeof union, Map<string | number, "equals",  string[]>>>,
         ];
     });
 
@@ -323,9 +323,9 @@ describe("asType(token)", () => {
         const union = asType("WeakMap<string | number, Array<string>>");
 
         type cases = [
-            Expect<Equal<typeof str, WeakMap<string, string>>>,
-            Expect<Equal<typeof num, WeakMap<object, number>>>,
-            Expect<Equal<typeof union, WeakMap<string | number, string[]>>>,
+            Expect<Test<typeof str, WeakMap<string, "equals",  string>>>,
+            Expect<Test<typeof num, WeakMap<object, "equals",  number>>>,
+            Expect<Test<typeof union, WeakMap<string | number, "equals",  string[]>>>,
         ];
 
 

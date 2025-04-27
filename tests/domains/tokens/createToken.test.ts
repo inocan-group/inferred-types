@@ -29,9 +29,9 @@ describe("createToken(...)", () => {
     type T2 = ReturnType<typeof t2>
 
     type cases = [
-      Expect<Equal<typeof t1, StaticTokenApi<"null">>>,
-      Expect<Equal<typeof t2, DynamicTokenApi<"string">>>,
-      Expect<Equal<typeof t3, DynamicTokenApi<"union">>>,
+      Expect<Test<typeof t1, "equals",  StaticTokenApi<"null">>>,
+      Expect<Test<typeof t2, "equals",  DynamicTokenApi<"string">>>,
+      Expect<Test<typeof t3, "equals",  DynamicTokenApi<"union">>>,
     ];
   });
 
@@ -79,7 +79,7 @@ describe("createToken(...)", () => {
     type cases = [
       ExpectTrue<typeof Str extends DynamicToken ? true : false>,
       ExpectTrue<typeof Str extends Token ? true : false>,
-      Expect<Equal<typeof Str["name"], "string">>
+      Expect<Test<typeof Str["name"], "equals",  "string">>
     ];
   });
 
@@ -96,8 +96,8 @@ describe("createToken(...)", () => {
     expect(variantTg("bax"), String(variantTg)).toBe(false);
 
     type cases = [
-      Expect<Equal<typeof base["type"], string>>,
-      Expect<Equal<typeof variant["type"], "foo" | "bar" | "baz">>,
+      Expect<Test<typeof base["type"], "equals",  string>>,
+      Expect<Test<typeof variant["type"], "equals",  "foo" | "bar" | "baz">>,
     ];
   });
 
@@ -107,7 +107,7 @@ describe("createToken(...)", () => {
     expect(tokenizer).toEqual(["foo", "bar", "baz"])
 
     type cases = [
-      Expect<Equal<typeof tokenizer, ["foo", "bar", "baz"]>>,
+      Expect<Test<typeof tokenizer, ["foo", "bar", "equals",  "baz"]>>,
     ];
   });
 

@@ -22,7 +22,7 @@ describe("isTypeSubtype(val)", () => {
 
             // @ts-ignore
             type cases = [
-                Expect<Equal<FB, "foo/bar" & { brand: "type-subtype" }>>,
+                Expect<Test<FB, "equals",  "foo/bar" & { brand: "type-subtype" }>>,
                 Expect<Extends<FB, TypeSubtype>>
             ];
         }
@@ -33,7 +33,7 @@ describe("isTypeSubtype(val)", () => {
 
             // @ts-ignore
             type cases = [
-                Expect<Equal<FB, `${string}/${string}` & { brand: "type-subtype" }>>,
+                Expect<Test<FB, "equals",  `${string}/${string}` & { brand: "type-subtype" }>>,
                 Expect<Extends<FB, TypeSubtype>>
             ];
         }
@@ -56,8 +56,8 @@ describe("getTypeSubtype(str)", () => {
 
         // @ts-ignore
         type cases = [
-            Expect<Equal<typeof t1, "foo">>,
-            Expect<Equal<typeof st1, "bar">>,
+            Expect<Test<typeof t1, "equals",  "foo">>,
+            Expect<Test<typeof st1, "equals",  "bar">>,
         ];
     });
 

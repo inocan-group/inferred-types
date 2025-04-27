@@ -18,7 +18,7 @@ describe("pipeline()", () => {
     expect(p1).toBe("baz");
 
     type cases = [
-      Expect<Equal<typeof p1, "baz">>
+      Expect<Test<typeof p1, "equals",  "baz">>
     ];
   });
 
@@ -57,7 +57,7 @@ describe("pipeline()", () => {
     expect(p1).toBe(`foo-bar-baz`)
 
     type cases = [
-      Expect<Equal<typeof p1, "foo-bar-baz">>
+      Expect<Test<typeof p1, "equals",  "foo-bar-baz">>
     ];
   });
 

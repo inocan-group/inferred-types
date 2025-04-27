@@ -1,11 +1,8 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { Email } from "inferred-types/types"
+import { Expect, Email, Test } from "inferred-types/types"
 import { isEmail } from "inferred-types/runtime"
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("isEmail(val)", () => {
 
@@ -29,9 +26,8 @@ describe("isEmail(val)", () => {
         if (isEmail(bob)) {
             type Bob = typeof bob;
 
-            // @ts-ignore
             type cases = [
-                Expect<Equal<Bob, Email>>
+                Expect<Test<Bob, "equals",  Email>>
             ];
         }
 

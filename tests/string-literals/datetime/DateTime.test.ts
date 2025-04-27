@@ -3,9 +3,7 @@ import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { IsIsoDate, IsIsoExplicitDate, IsIsoImplicitDate, IsIsoTime } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("Operators", () => {
 

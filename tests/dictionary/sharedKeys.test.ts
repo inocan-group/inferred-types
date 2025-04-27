@@ -2,12 +2,10 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import type { Contains, HasSameValues, SharedKeys } from "inferred-types/types";
+import type { Contains, HasSameValues, SharedKeys, Test } from "inferred-types/types";
 import { sharedKeys } from "inferred-types/runtime";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("SharedKeys", () => {
 
@@ -23,8 +21,8 @@ describe("SharedKeys", () => {
       Expect<HasSameValues<Shared, ["bar", "color"]>>,
       Expect<HasSameValues<Identity, ["foo", "bar", "color"]>>,
       Expect<ExpectTrue<Contains<Identity, "foo">>>,
-      Expect<Equal<None, []>>,
-      Expect<Equal<None2, []>>,
+      Expect<Test<None, "equals",  []>>,
+      Expect<Test<None2, "equals",  []>>,
     ];
     const cases: cases = [true, true, true, true, true];
   });

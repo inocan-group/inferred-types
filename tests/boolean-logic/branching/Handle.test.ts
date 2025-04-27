@@ -2,9 +2,7 @@ import { Equal, Expect, ExpectFalse } from "@type-challenges/utils";
 import { Handle } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("Handle<TContent,TPass,THandle,TSpecificity>", () => {
 
@@ -23,15 +21,15 @@ describe("Handle<TContent,TPass,THandle,TSpecificity>", () => {
         type Nope = Handle<"foo", string, false>;
 
         type cases = [
-            Expect<Equal<Foo, "foo">>,
+            Expect<Test<Foo, "equals",  "foo">>,
 
-            Expect<Equal<StillFoo, "foo">>,
-            Expect<Equal<StillFoo2, "foo">>,
-            Expect<Equal<UFoo, "foo">>,
+            Expect<Test<StillFoo, "equals",  "foo">>,
+            Expect<Test<StillFoo2, "equals",  "foo">>,
+            Expect<Test<UFoo, "equals",  "foo">>,
             ExpectFalse<NarrowFoo>,
 
-            Expect<Equal<UnionHandler, "union">>,
-            Expect<Equal<UnionContent, "foo" | "bar">>,
+            Expect<Test<UnionHandler, "equals",  "union">>,
+            Expect<Test<UnionContent, "equals",  "foo" | "bar">>,
 
             ExpectFalse<Nope>
         ];
@@ -52,11 +50,11 @@ describe("Handle<TContent,TPass,THandle,TSpecificity>", () => {
         type UnhandledFoo = Handle<"foo", "foo" | "bar", "handled", "equals">;
 
         type cases = [
-            Expect<Equal<WideCondition, "foo">>,
-            Expect<Equal<WideValue, string>>,
+            Expect<Test<WideCondition, "equals",  "foo">>,
+            Expect<Test<WideValue, "equals",  string>>,
 
-            Expect<Equal<Foo, "handled">>,
-            Expect<Equal<UnhandledFoo, "foo">>,
+            Expect<Test<Foo, "equals",  "handled">>,
+            Expect<Test<UnhandledFoo, "equals",  "foo">>,
         ];
         const cases: cases = [
             true, true,
@@ -69,7 +67,7 @@ describe("Handle<TContent,TPass,THandle,TSpecificity>", () => {
         type BoolIsTrue = Handle<boolean, boolean, true, "equals">;
 
         type cases = [
-            Expect<Equal<BoolIsTrue, true>>
+            Expect<Test<BoolIsTrue, "equals",  true>>
         ];
         const cases: cases = [
             true

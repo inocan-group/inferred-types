@@ -1,7 +1,6 @@
-import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-
 import {
+    Expect,
     CivilianTime,
     DoesExtend,
     DoesNotExtend,
@@ -13,35 +12,28 @@ import {
     HoursMinutesSecondsMilliseconds12,
     MilitaryTime,
     Mutable,
+    Test,
     Time,
     TimeInMilliseconds,
     TimeInMinutes,
     TimeInSeconds
 } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("Time types", () => {
 
     it("Time<TResolution>", () => {
         type cases = [
-            Expect<DoesExtend<"09:45pm", Time<"HH:MM", "civilian">>>,
-            Expect<DoesExtend<"9:45pm", Time<"HH:MM", "civilian">>>,
-            Expect<DoesExtend<"13:00", Time<"HH:MM", "military">>>,
+            Expect<Test<"09:45pm", "extends", Time<"HH:MM", "civilian">>>,
+            Expect<Test<"9:45pm", "extends", Time<"HH:MM", "civilian">>>,
+            Expect<Test<"13:00", "extends", Time<"HH:MM", "military">>>,
 
             Expect<DoesNotExtend<"13:00pm", Time<"HH:MM", "military">>>,
             Expect<DoesNotExtend<"13:00pm", Time<"HH:MM", "civilian">>>,
             Expect<DoesNotExtend<"09:45", Time<"HH:MM", "civilian">>>,
             Expect<DoesNotExtend<"13:00pm", Time<"HH:MM">>>,
-
         ];
-        const cases: cases = [
-            true, true, true,
-            true, true, true, true,
-        ];
-
     });
 
 
@@ -60,20 +52,16 @@ describe("Time types", () => {
         type IV2 = DoesExtend<"9:85", HoursMinutes>;
 
         type cases = [
-            ExpectTrue<V0>,
-            ExpectTrue<V1>,
-            ExpectTrue<V2>,
-            ExpectTrue<V3>,
-            ExpectTrue<V4>,
-            ExpectTrue<V5>,
+            Expect<Test<V0, "equals", true>>,
+            Expect<Test<V1, "equals", true>>,
+            Expect<Test<V2, "equals", true>>,
+            Expect<Test<V3, "equals", true>>,
+            Expect<Test<V4, "equals", true>>,
+            Expect<Test<V5, "equals", true>>,
 
-            ExpectFalse<IV0>,
-            ExpectFalse<IV1>,
-            ExpectFalse<IV2>
-        ];
-        const cases: cases = [
-            true, true, true, true, true, true,
-            false, false, false,
+            Expect<Test<IV0, "equals", false>>,
+            Expect<Test<IV1, "equals", false>>,
+            Expect<Test<IV2, "equals", false>>,
         ];
     });
 
@@ -93,20 +81,16 @@ describe("Time types", () => {
 
 
         type cases = [
-            ExpectTrue<V0>,
-            ExpectTrue<V1>,
-            ExpectTrue<V2>,
-            ExpectTrue<V3>,
+            Expect<Test<V0, "equals", true>>,
+            Expect<Test<V1, "equals", true>>,
+            Expect<Test<V2, "equals", true>>,
+            Expect<Test<V3, "equals", true>>,
 
-            ExpectFalse<IV0>,
-            ExpectFalse<IV1>,
-            ExpectFalse<IV2>,
-            ExpectFalse<IV3>,
-            ExpectFalse<IV4>,
-        ];
-        const cases: cases = [
-            true, true, true, true,
-            false, false, false, false, false
+            Expect<Test<IV0, "equals", false>>,
+            Expect<Test<IV1, "equals", false>>,
+            Expect<Test<IV2, "equals", false>>,
+            Expect<Test<IV3, "equals", false>>,
+            Expect<Test<IV4, "equals", false>>,
         ];
     });
 
@@ -124,20 +108,16 @@ describe("Time types", () => {
         type IV4 = DoesExtend<"21:45", HoursMinutes12<{ amPmCase: "upper" }>>;
 
         type cases = [
-            ExpectTrue<V0>,
-            ExpectTrue<V1>,
-            ExpectTrue<V2>,
-            ExpectTrue<V3>,
+            Expect<Test<V0, "equals", true>>,
+            Expect<Test<V1, "equals", true>>,
+            Expect<Test<V2, "equals", true>>,
+            Expect<Test<V3, "equals", true>>,
 
-            ExpectFalse<IV0>,
-            ExpectFalse<IV1>,
-            ExpectFalse<IV2>,
-            ExpectFalse<IV3>,
-            ExpectFalse<IV4>,
-        ];
-        const cases: cases = [
-            true, true, true, true,
-            false, false, false, false, false
+            Expect<Test<IV0, "equals", false>>,
+            Expect<Test<IV1, "equals", false>>,
+            Expect<Test<IV2, "equals", false>>,
+            Expect<Test<IV3, "equals", false>>,
+            Expect<Test<IV4, "equals", false>>,
         ];
     });
 
@@ -156,20 +136,16 @@ describe("Time types", () => {
 
 
         type cases = [
-            ExpectTrue<V0>,
-            ExpectTrue<V1>,
-            ExpectTrue<V2>,
-            ExpectTrue<V3>,
+            Expect<Test<V0, "equals", true>>,
+            Expect<Test<V1, "equals", true>>,
+            Expect<Test<V2, "equals", true>>,
+            Expect<Test<V3, "equals", true>>,
 
-            ExpectFalse<IV0>,
-            ExpectFalse<IV1>,
-            ExpectFalse<IV2>,
-            ExpectFalse<IV3>,
-            ExpectFalse<IV4>,
-        ];
-        const cases: cases = [
-            true, true, true, true,
-            false, false, false, false, false
+            Expect<Test<IV0, "equals", false>>,
+            Expect<Test<IV1, "equals", false>>,
+            Expect<Test<IV2, "equals", false>>,
+            Expect<Test<IV3, "equals", false>>,
+            Expect<Test<IV4, "equals", false>>,
         ];
     });
 
@@ -201,66 +177,57 @@ describe("Time types", () => {
         type CIV3 = DoesExtend<"21:45pm", CivilianTime<"HH:MM">>;
 
         type cases = [
-            ExpectTrue<MV0>,
-            ExpectTrue<MV1>,
-            ExpectTrue<MV2>,
-            ExpectTrue<MV3>,
-            ExpectTrue<MV4>,
-            ExpectTrue<MV5>,
+            Expect<Test<MV0, "equals", true>>,
+            Expect<Test<MV1, "equals", true>>,
+            Expect<Test<MV2, "equals", true>>,
+            Expect<Test<MV3, "equals", true>>,
+            Expect<Test<MV4, "equals", true>>,
+            Expect<Test<MV5, "equals", true>>,
 
-            ExpectFalse<MIV0>,
-            ExpectFalse<MIV1>,
-            ExpectFalse<MIV2>,
-            ExpectFalse<MIV3>,
+            Expect<Test<MIV0, "equals", false>>,
+            Expect<Test<MIV1, "equals", false>>,
+            Expect<Test<MIV2, "equals", false>>,
+            Expect<Test<MIV3, "equals", false>>,
 
-            ExpectTrue<CV0>,
-            ExpectTrue<CV1>,
-            ExpectTrue<CV2>,
-            ExpectTrue<CV3>,
+            Expect<Test<CV0, "equals", true>>,
+            Expect<Test<CV1, "equals", true>>,
+            Expect<Test<CV2, "equals", true>>,
+            Expect<Test<CV3, "equals", true>>,
 
-            ExpectFalse<CIV0>,
-            ExpectFalse<CIV1>,
-            ExpectFalse<CIV2>,
-            ExpectFalse<CIV3>,
-        ];
-        const cases: cases = [
-            true, true, true, true, true, true,
-            false, false, false, false,
-            true, true, true, true,
-            false, false, false, false
+            Expect<Test<CIV0, "equals", false>>,
+            Expect<Test<CIV1, "equals", false>>,
+            Expect<Test<CIV2, "equals", false>>,
+            Expect<Test<CIV3, "equals", false>>,
         ];
     });
 
 
     it("TimeInMinutes<military> and TimeInMinutes<civilian> equivalency", () => {
         type cases = [
-            Expect<Equal<TimeInMinutes<"military">, HoursMinutes>>,
-            Expect<Equal<TimeInMinutes<"military">, MilitaryTime<"HH:MM">>>,
-            Expect<Equal<TimeInMinutes<"civilian">, HoursMinutes12>>,
-            Expect<Equal<TimeInMinutes<"civilian">, CivilianTime<"HH:MM">>>,
+            Expect<Test<TimeInMinutes<"military">, "equals",  HoursMinutes>>,
+            Expect<Test<TimeInMinutes<"military">, "equals",  MilitaryTime<"HH:MM">>>,
+            Expect<Test<TimeInMinutes<"civilian">, "equals",  HoursMinutes12>>,
+            Expect<Test<TimeInMinutes<"civilian">, "equals",  CivilianTime<"HH:MM">>>,
         ];
-        const cases: cases = [true, true, true, true];
     });
 
 
     it("TimeInSeconds<military> and TimeInSeconds<civilian> equivalency", () => {
         type cases = [
-            Expect<Equal<TimeInSeconds<"military">, HoursMinutesSeconds>>,
-            Expect<Equal<TimeInSeconds<"military">, MilitaryTime<"HH:MM:SS">>>,
-            Expect<Equal<TimeInSeconds<"civilian">, HoursMinutesSeconds12>>,
-            Expect<Equal<TimeInSeconds<"civilian">, CivilianTime<"HH:MM:SS">>>,
+            Expect<Test<TimeInSeconds<"military">, "equals",  HoursMinutesSeconds>>,
+            Expect<Test<TimeInSeconds<"military">, "equals",  MilitaryTime<"HH:MM:SS">>>,
+            Expect<Test<TimeInSeconds<"civilian">, "equals",  HoursMinutesSeconds12>>,
+            Expect<Test<TimeInSeconds<"civilian">, "equals",  CivilianTime<"HH:MM:SS">>>,
         ];
-        const cases: cases = [true, true, true, true];
     });
 
     it("TimeInMilliseconds<military> and TimeInMilliseconds<civilian> equivalency", () => {
         type cases = [
-            Expect<Equal<TimeInMilliseconds<"military">, HoursMinutesSecondsMilliseconds>>,
-            Expect<Equal<TimeInMilliseconds<"military">, MilitaryTime<"HH:MM:SS.ms">>>,
-            Expect<Equal<TimeInMilliseconds<"civilian">, HoursMinutesSecondsMilliseconds12>>,
-            Expect<Equal<TimeInMilliseconds<"civilian">, CivilianTime<"HH:MM:SS.ms">>>,
+            Expect<Test<TimeInMilliseconds<"military">, "equals",  HoursMinutesSecondsMilliseconds>>,
+            Expect<Test<TimeInMilliseconds<"military">, "equals",  MilitaryTime<"HH:MM:SS.ms">>>,
+            Expect<Test<TimeInMilliseconds<"civilian">, "equals",  HoursMinutesSecondsMilliseconds12>>,
+            Expect<Test<TimeInMilliseconds<"civilian">, "equals",  CivilianTime<"HH:MM:SS.ms">>>,
         ];
-        const cases: cases = [true, true, true, true];
     });
 
     // this allows that we can define a type with stronger typing
@@ -278,9 +245,6 @@ describe("Time types", () => {
         type cases = [
             Expect<DoesExtend<Mutable<typeof times>, Simple[]>>,
         ];
-
-        const cases: cases = [true];
-
     });
 
 

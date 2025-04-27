@@ -18,17 +18,17 @@ describe("Length<T>", () => {
 
         type cases = [
             //
-            Expect<Equal<Length<A1>, 3>>,
-            Expect<Equal<Length<A2>, 6>>,
-            Expect<Equal<Length<[1, 2, 3, 4, 5]>, 5>>,
-            Expect<Equal<Length<string[]>, number>>,
-            Expect<Equal<Length<readonly []>, 0>>,
-            Expect<Equal<Length<[]>, 0>>,
-            Expect<Equal<StringArray, number>>,
-            Expect<Equal<Foo, 3>>,
-            Expect<Equal<WideStr, number>>,
-            Expect<Equal<NumericLit, 4>>,
-            Expect<Equal<WideNum, number>>,
+            Expect<Test<Length<A1>, "equals",  3>>,
+            Expect<Test<Length<A2>, "equals",  6>>,
+            Expect<Test<Length<[1, 2, 3, 4, 5]>, "equals",  5>>,
+            Expect<Test<Length<string[]>, "equals",  number>>,
+            Expect<Test<Length<readonly []>, "equals",  0>>,
+            Expect<Test<Length<[]>, "equals",  0>>,
+            Expect<Test<StringArray, "equals",  number>>,
+            Expect<Test<Foo, "equals",  3>>,
+            Expect<Test<WideStr, "equals",  number>>,
+            Expect<Test<NumericLit, "equals",  4>>,
+            Expect<Test<WideNum, "equals",  number>>,
         ];
 
     });

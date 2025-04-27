@@ -1,7 +1,5 @@
 import { describe, it, expect } from "vitest";
-import type { Expect, Equal } from "@type-challenges/utils";
-
-import { RequireProps } from "inferred-types/types";
+import { Expect, RequireProps, Test } from "inferred-types/types";
 
 describe("RequireProps<T,R>", () => {
     it("works as expected", () => {
@@ -11,11 +9,10 @@ describe("RequireProps<T,R>", () => {
         type Both = RequireProps<Start, "foo" | "bar">;
 
         type cases = [
-            Expect<Equal<Foo, { foo: string; bar?: number }>>,
-            Expect<Equal<Bar, { foo?: string; bar: number }>>,
-            Expect<Equal<Both, { foo: string; bar: number }>>
+            Expect<Test<Foo, "equals",  { foo: string; bar?: number }>>,
+            Expect<Test<Bar, "equals",  { foo?: string; bar: number }>>,
+            Expect<Test<Both, "equals",  { foo: string; bar: number }>>
         ];
-        const cases: cases = [true, true, true];
-        expect(cases).toBe(cases);
+
     });
 });

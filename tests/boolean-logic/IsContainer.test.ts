@@ -1,12 +1,5 @@
-/* eslint-disable ts/ban-types */
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-
-import { IsContainer, Tuple } from "inferred-types/types";
-
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+import { Expect, IsContainer, Test, Tuple } from "inferred-types/types";
 
 describe("IsContainer<T>", () => {
 
@@ -18,13 +11,10 @@ describe("IsContainer<T>", () => {
 
 
         type cases = [
-            Expect<Equal<ObjLit, true>>,
-            Expect<Equal<Empty, true>>,
-            Expect<Equal<GenericObj, true>>,
-            Expect<Equal<Rec, true>>,
-        ];
-        const cases: cases = [
-            true, true, true, true
+            Expect<Test<ObjLit, "equals",  true>>,
+            Expect<Test<Empty, "equals",  true>>,
+            Expect<Test<GenericObj, "equals",  true>>,
+            Expect<Test<Rec, "equals",  true>>,
         ];
     });
 
@@ -35,13 +25,10 @@ describe("IsContainer<T>", () => {
         type Arr = IsContainer<string[]>;
 
         type cases = [
-            Expect<Equal<TupleLit, true>>,
-            Expect<Equal<Empty, true>>,
-            Expect<Equal<GenericTuple, true>>,
-            Expect<Equal<Arr, true>>,
-        ];
-        const cases: cases = [
-            true, true, true, true
+            Expect<Test<TupleLit, "equals",  true>>,
+            Expect<Test<Empty, "equals",  true>>,
+            Expect<Test<GenericTuple, "equals",  true>>,
+            Expect<Test<Arr, "equals",  true>>,
         ];
     });
 
@@ -54,14 +41,12 @@ describe("IsContainer<T>", () => {
         type Never = IsContainer<never>;
 
         type cases = [
-            Expect<Equal<Num, false>>,
-            Expect<Equal<Str, false>>,
-            Expect<Equal<Nada, false>>,
-            Expect<Equal<Nada2, false>>,
-            Expect<Equal<Never, false>>,
+            Expect<Test<Num, "equals",  false>>,
+            Expect<Test<Str, "equals",  false>>,
+            Expect<Test<Nada, "equals",  false>>,
+            Expect<Test<Nada2, "equals",  false>>,
+            Expect<Test<Never, "equals",  false>>,
         ];
-        const cases: cases = [true, true, true, true, true];
-
     });
 
 

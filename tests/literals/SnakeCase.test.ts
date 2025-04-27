@@ -11,7 +11,7 @@ describe("SnakeCase<T> type utility", () => {
         type T2 = SnakeCase<"\n TwoThreeFour ">;
 
         type cases = [
-            Expect<Equal<T1, TARGET>>, Expect<Equal<T2, TARGET>> //
+            Expect<Test<T1, TARGET>>, Expect<Equal<T2, "equals",  TARGET>> //
         ];
         const c: cases = [true, true];
         expect(c).toBe(c);
@@ -20,7 +20,7 @@ describe("SnakeCase<T> type utility", () => {
     it("SnakeCase<T> transform snake_case type", () => {
         type T1 = SnakeCase<"two_three_four">;
 
-        type cases = [Expect<Equal<T1, TARGET>>];
+        type cases = [Expect<Test<T1, "equals",  TARGET>>];
         const c: cases = [true];
         expect(c).toBe(c);
     });
@@ -29,7 +29,7 @@ describe("SnakeCase<T> type utility", () => {
         type T1 = SnakeCase<"twoThreeFour">;
         type T2 = SnakeCase<"  twoThreeFour \t">;
 
-        type cases = [Expect<Equal<T1, TARGET>>, Expect<Equal<T2, TARGET>>];
+        type cases = [Expect<Test<T1, TARGET>>, Expect<Equal<T2, "equals",  TARGET>>];
         const c: cases = [true, true];
         expect(c).toBe(c);
     });
@@ -43,12 +43,12 @@ describe("SnakeCase<T> type utility", () => {
         // type T6 = SnakeCase<"twoThreeFourFiveSixSevenEightNineTenEleven">;
 
         type cases = [
-            Expect<Equal<T1, TARGET>>,
-            Expect<Equal<T2, "two_three_four_five">>,
-            Expect<Equal<T3, "two_three_four_five_six">>,
-            Expect<Equal<T4, "two_three_four_five_six_seven">>,
-            Expect<Equal<T5, "two_three_four_five_six_seven_eight">>
-            // Expect<Equal<T6, "TwoThreeFourFiveSixSevenEightNineTenEleven">>,
+            Expect<Test<T1, "equals",  TARGET>>,
+            Expect<Test<T2, "equals",  "two_three_four_five">>,
+            Expect<Test<T3, "equals",  "two_three_four_five_six">>,
+            Expect<Test<T4, "equals",  "two_three_four_five_six_seven">>,
+            Expect<Test<T5, "equals",  "two_three_four_five_six_seven_eight">>
+            // Expect<Test<T6, "equals",  "TwoThreeFourFiveSixSevenEightNineTenEleven">>,
         ];
         const c: cases = [true, true, true, true, true];
         expect(c).toBe(c);
@@ -57,7 +57,7 @@ describe("SnakeCase<T> type utility", () => {
     it("SnakeCase<T> transforms interior space to SnakeCased type", () => {
         type T1 = SnakeCase<"two three four">;
 
-        type cases = [Expect<Equal<T1, TARGET>>];
+        type cases = [Expect<Test<T1, "equals",  TARGET>>];
         const c: cases = [true];
         expect(c).toBe(c);
     });
@@ -68,9 +68,9 @@ describe("SnakeCase<T> type utility", () => {
         type T3 = SnakeCase<"\n TWO-THREE-FOUR ">;
 
         type cases = [
-            Expect<Equal<T1, TARGET>>, //
-            Expect<Equal<T2, TARGET>>,
-            Expect<Equal<T3, TARGET>>
+            Expect<Test<T1, "equals",  TARGET>>, //
+            Expect<Test<T2, "equals",  TARGET>>,
+            Expect<Test<T3, "equals",  TARGET>>
         ];
         const c: cases = [true, true, true];
         expect(c).toBe(c);
@@ -81,8 +81,8 @@ describe("SnakeCase<T> type utility", () => {
         type T2 = SnakeCase<"\n  one two three ">;
 
         type cases = [
-            Expect<Equal<T1, "one_two_three">>,
-            Expect<Equal<T2, "one_two_three">>
+            Expect<Test<T1, "equals",  "one_two_three">>,
+            Expect<Test<T2, "equals",  "one_two_three">>
         ];
         const c: cases = [true, true];
         expect(c).toBe(c);
@@ -91,7 +91,7 @@ describe("SnakeCase<T> type utility", () => {
     it("SnakeCase<T> returns 'string' type when passed a non-literal string", () => {
         type T1 = SnakeCase<string>;
 
-        type cases = [Expect<Equal<T1, string>>];
+        type cases = [Expect<Test<T1, "equals",  string>>];
         const c: cases = [true];
         expect(c).toBe(c);
     });
@@ -105,11 +105,11 @@ describe("SnakeCase<T> type utility", () => {
         type T5 = SnakeCase<"\n one-two-three-four_five_six_seven eight_nine \t">;
 
         type cases = [
-            Expect<Equal<T1, "one_two_three_four_five_six_seven_eight_nine">>,
-            Expect<Equal<T2, "one_two_three_four_five_six_seven_eight_nine">>,
-            Expect<Equal<T3, "one_two_three_four_five_six_seven_eight_nine">>,
-            Expect<Equal<T4, "one_two_three_four_five_six_seven_eight_nine">>,
-            Expect<Equal<T5, "one_two_three_four_five_six_seven_eight_nine">>
+            Expect<Test<T1, "equals",  "one_two_three_four_five_six_seven_eight_nine">>,
+            Expect<Test<T2, "equals",  "one_two_three_four_five_six_seven_eight_nine">>,
+            Expect<Test<T3, "equals",  "one_two_three_four_five_six_seven_eight_nine">>,
+            Expect<Test<T4, "equals",  "one_two_three_four_five_six_seven_eight_nine">>,
+            Expect<Test<T5, "equals",  "one_two_three_four_five_six_seven_eight_nine">>
         ];
         const c: cases = [true, true, true, true, true];
         expect(c).toBe(c);

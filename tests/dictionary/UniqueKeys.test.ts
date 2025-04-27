@@ -1,12 +1,8 @@
-/* eslint-disable ts/ban-types */
-import { Equal, Expect } from "@type-challenges/utils";
-import { LeftRight, UniqueKeys } from "inferred-types/types";
+import { Expect, LeftRight, Test, UniqueKeys } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 import { uniqueKeys } from "inferred-types/runtime";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("UniqueKeys<A,B>", () => {
 
@@ -19,17 +15,14 @@ describe("UniqueKeys<A,B>", () => {
     type NumShortLong = UniqueKeys<[1, 2], [1, 2, 3, 4]>;
 
     type cases = [
-      Expect<Equal<NoOverlap, LeftRight<["foo"], ["bar", "baz"]>>>,
-      Expect<Equal<Override, LeftRight<[], ["bar", "baz"]>>>,
-      Expect<Equal<EmptyLeft, LeftRight<[], ["bar", "baz"]>>>,
-      Expect<Equal<EmptyRight, LeftRight<["foo"], []>>>,
+      Expect<Test<NoOverlap, "equals", LeftRight<["foo"], ["bar",  "baz"]>>>,
+      Expect<Test<Override, "equals", LeftRight<[], ["bar",  "baz"]>>>,
+      Expect<Test<EmptyLeft, "equals", LeftRight<[], ["bar",  "baz"]>>>,
+      Expect<Test<EmptyRight, "equals", LeftRight<["foo"],  []>>>,
 
-      Expect<Equal<NumShortLong, LeftRight<[], [2, 3]>>>,
+      Expect<Test<NumShortLong, "equals", LeftRight<[], [2,  3]>>>,
     ];
-    const cases: cases = [
-      true, true, true, true,
-      true
-    ];
+
   });
 
 });

@@ -31,9 +31,9 @@ describe("FromDefineObject<T>", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<Foo, { foo: number }>>,
-      Expect<Equal<OptFoo, { foo: number | undefined }>>,
-      Expect<Equal<MaybeFoo, { foo?: number | undefined }>>,
+      Expect<Test<Foo, "equals",  { foo: number }>>,
+      Expect<Test<OptFoo, "equals",  { foo: number | undefined }>>,
+      Expect<Test<MaybeFoo, "equals",  { foo?: number | undefined }>>,
     ];
 
   });
@@ -59,11 +59,11 @@ describe("FromDefn<T>", () => {
 
 
     type cases = [
-      Expect<Equal<Num, 42>>,
-      Expect<Equal<ArrNum, [42, 56]>>,
-      Expect<Equal<Obj, { foo: 1 }>>,
+      Expect<Test<Num, "equals",  42>>,
+      Expect<Test<ArrNum, [42, "equals",  56]>>,
+      Expect<Test<Obj, "equals",  { foo: 1 }>>,
 
-      Expect<Equal<ObjDefn, [{ foo: "foo" | "bar"; bar: 42 }]>>,
+      Expect<Test<ObjDefn, "equals",  [{ foo: "foo" | "bar"; bar: 42 }]>>,
 
     ];
     const cases: cases = [
@@ -80,8 +80,8 @@ describe("FromDefn<T>", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<Num, number>>,
-      Expect<Equal<Union, 4 | 5 | 6>>,
+      Expect<Test<Num, "equals",  number>>,
+      Expect<Test<Union, "equals",  4 | 5 | 6>>,
     ];
 
   });

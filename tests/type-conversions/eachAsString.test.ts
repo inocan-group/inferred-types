@@ -10,7 +10,7 @@ describe("eachAsString(list)", () => {
     expect(t1).toEqual(["foo", "bar", "42"])
 
     type cases = [
-      Expect<Equal<typeof t1, ["foo", "bar", "42"]>>
+      Expect<Test<typeof t1, ["foo", "bar", "equals",  "42"]>>
     ];
   });
 

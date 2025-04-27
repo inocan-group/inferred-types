@@ -1,11 +1,7 @@
-import { Equal, ExpectTrue, ExpectFalse, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
+import { Expect, HasOtherCharacters, HexadecimalChar, Test } from "inferred-types/types";
 
-import { HasOtherCharacters, HexadecimalChar } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
 
 describe("HasOtherCharacters<TStr,TChars>", () => {
 
@@ -22,21 +18,17 @@ describe("HasOtherCharacters<TStr,TChars>", () => {
 
 
         type cases = [
-            ExpectTrue<T1>,
-            ExpectTrue<T2>,
+            Expect<Test<T1, "equals", true>>,
+            Expect<Test<T2, "equals", true>>,
 
-            ExpectFalse<F1>,
-            ExpectFalse<F2>,
-            ExpectFalse<F3>,
+            Expect<Test<F1, "equals", false>>,
+            Expect<Test<F2, "equals", false>>,
+            Expect<Test<F3, "equals", false>>,
 
-            Expect<Equal<B1, boolean>>,
-            Expect<Equal<B2, boolean>>,
+            Expect<Test<B1, "equals",  boolean>>,
+            Expect<Test<B2, "equals",  boolean>>,
         ];
-        const cases: cases = [
-            true, true,
-            false, false, false,
-            true, true
-        ];
+
     });
 
 });

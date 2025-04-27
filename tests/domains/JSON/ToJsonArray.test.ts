@@ -8,7 +8,7 @@ describe("ToJsonArray()", () => {
     type T = ToJsonArray<[1,2,"foo", null]>;
 
     type cases = [
-      Expect<Equal<T, `[ 1, 2, "foo", null ]`>>
+      Expect<Test<T, `[ 1, 2, "foo", "equals",  null ]`>>
     ];
   });
 
@@ -16,7 +16,7 @@ describe("ToJsonArray()", () => {
     type T = ToJsonArray<[[1,1], ["2","2"]]>;
 
     type cases = [
-      Expect<Equal<T, `[ [ 1, 1 ], [ "2", "2" ] ]`>>
+      Expect<Test<T, `[ [ 1, 1 ], [ "2", "equals",  "2" ] ]`>>
     ];
   });
 
@@ -24,7 +24,7 @@ describe("ToJsonArray()", () => {
     type T = ToJsonArray<[  {id: "foo"}, { id: "bar"}]>;
 
     type cases = [
-      Expect<Equal<T, `[ { "id": "foo" }, { "id": "bar" } ]`>>
+      Expect<Test<T, `[ { "id": "foo" }, "equals",  { "id": "bar" } ]`>>
     ];
   });
 
@@ -32,7 +32,7 @@ describe("ToJsonArray()", () => {
     type T = ToJsonArray<[]>;
 
     type cases = [
-      Expect<Equal<T, `[  ]`>>
+      Expect<Test<T, "equals",  `[  ]`>>
     ];
   });
 });

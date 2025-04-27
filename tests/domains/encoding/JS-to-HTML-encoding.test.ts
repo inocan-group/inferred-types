@@ -21,8 +21,8 @@ describe("Encoding JS to HTML string and back", () => {
         typeof asHtml,
         `Everyone knows that 5 &gt; 4, but if they don&#39;t I&#39;ve copyrighted it here &rarr; &copy; 2025`
       >>,
-      Expect<Equal<typeof fromHtml, typeof jsStr>>,
-      Expect<Equal<typeof back, typeof jsStr>>
+      Expect<Test<typeof fromHtml, "equals",  typeof jsStr>>,
+      Expect<Test<typeof back, "equals",  typeof jsStr>>
     ];
   });
 
