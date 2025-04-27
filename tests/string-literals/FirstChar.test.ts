@@ -1,7 +1,5 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-
-import { FirstChar } from "inferred-types/types";
+import { Expect, FirstChar, Test } from "inferred-types/types";
 
 
 describe("FirstChar<T>", () => {
@@ -22,11 +20,8 @@ describe("FirstChar<T>", () => {
         type FooBarBaz = FirstChar<["foo", "bar", "baz"]>;
 
         type cases = [
-            Expect<Test<FooBarBaz, ["f", "b", "equals",  "b"]>>
+            Expect<Test<FooBarBaz, "equals", ["f", "b", "b"]>>
         ];
-        const cases: cases = [true];
 
     });
-
-
 });

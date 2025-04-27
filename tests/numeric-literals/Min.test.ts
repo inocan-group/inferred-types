@@ -1,5 +1,4 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { Min } from "inferred-types/types";
+import { Expect, Min, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("Min<T>", () => {
@@ -17,5 +16,4 @@ describe("Min<T>", () => {
             Expect<Test<Zero, "equals",  0>>,
         ];
     });
-
 });

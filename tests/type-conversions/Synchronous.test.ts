@@ -1,5 +1,4 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { Synchronous } from "inferred-types/types";
+import { Expect, Synchronous, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("Synchronous<T>", () => {

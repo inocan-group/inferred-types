@@ -1,11 +1,12 @@
 /* eslint-disable ts/ban-types */
 import { describe, it } from "vitest";
-import { Equal, Expect } from "@type-challenges/utils";
 import { Ref } from "vue";
 import {
+    Expect,
     DoesExtend,
     DotPathFor,
-    Suggest
+    Suggest,
+    Test
 } from "inferred-types/types";
 
 
@@ -39,7 +40,7 @@ describe("Name", () => {
         const bespoke: Suggestion = "bespoke";
 
         type cases = [
-            Expect<Test<Scalar, "equals",  "">>,
+            Expect<Test<Scalar, "equals", "">>,
 
             Expect<DoesExtend<"foo", Path>>,
             Expect<DoesExtend<"baz.c.ca", Path>>,
@@ -50,11 +51,6 @@ describe("Name", () => {
             Expect<DoesExtend<typeof takeSuggestion, Suggestion>>,
             Expect<DoesExtend<typeof bespoke, Suggestion>>,
         ];
-        const cases: cases = [
-            true,
-            true, true, true,
-            true, true
-        ];
     });
 
     it("using an array target", () => {
@@ -64,8 +60,8 @@ describe("Name", () => {
         type Suggestion = Suggest<ExampleArr>;
 
         type cases = [
-            Expect<Test<ExampleArr, "equals",  Expected>>,
-            Expect<Test<Suggestion, "equals",  Expected | (string & {})>>, //
+            Expect<Test<ExampleArr, "equals", Expected>>,
+            Expect<Test<Suggestion, "equals", Expected | (string & {})>>, //
         ];
         const cases: cases = [true, true];
     });
@@ -97,9 +93,7 @@ describe("Name", () => {
             Expect<DoesExtend<ScalarPaths, "">>,
             Expect<DoesExtend<"", ObjPaths>>,
         ];
-        const cases: cases = [
-            true, true,
-        ];
+
     });
 
 
@@ -109,11 +103,10 @@ describe("Name", () => {
         type TStr = DotPathFor<"foobar">;
 
         type cases = [
-            Expect<Test<TObj, "equals",  "">>,
-            Expect<Test<TNum, "equals",  "">>,
-            Expect<Test<TStr, "equals",  "">>,
+            Expect<Test<TObj, "equals", "">>,
+            Expect<Test<TNum, "equals", "">>,
+            Expect<Test<TStr, "equals", "">>,
         ];
-        const cases: cases = [true, true, true];
     });
 
 });

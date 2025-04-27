@@ -1,8 +1,5 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { ToStringArray } from "inferred-types/types";
+import { Expect, Test, ToStringArray } from "inferred-types/types";
 import { describe, it } from "vitest";
-
-
 
 describe("ToStringArray<T>", () => {
 
@@ -13,13 +10,10 @@ describe("ToStringArray<T>", () => {
         type Empty = ToStringArray<[]>;
 
         type cases = [
-            Expect<Test<Str, ["foo", "equals",  "bar"]>>,
-            Expect<Test<Num, ["1", "equals",  "2"]>>,
-            Expect<Test<Bool, ["true", "false", "equals",  "true" | "false"]>>,
+            Expect<Test<Str, "equals", ["foo", "bar"]>>,
+            Expect<Test<Num, "equals", ["1", "2"]>>,
+            Expect<Test<Bool, "equals", ["true", "false", "true" | "false"]>>,
             Expect<Test<Empty, "equals",  []>>,
-        ];
-        const cases: cases = [
-            true, true, true, true
         ];
     });
 

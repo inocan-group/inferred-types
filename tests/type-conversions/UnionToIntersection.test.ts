@@ -1,4 +1,4 @@
-import { UnionToIntersection , Equal, Expect } from "@type-challenges/utils";
+import { Test, UnionToIntersection, Expect } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: while type tests clearly fail visible inspection, they pass from Vitest
@@ -7,17 +7,12 @@ import { describe, it } from "vitest";
 
 describe("UnionToIntersection<U>", () => {
 
-  it("Intersecting KVs", () => {
-    type Foobar = UnionToIntersection<{foo: string} | {bar: string}>;
+    it("Intersecting KVs", () => {
+        type Foobar = UnionToIntersection<{ foo: string } | { bar: string }>;
 
-    type cases = [
-      Expect<Test<Foobar, "equals",  {foo: string} & {bar: string}>>
-    ];
-    const cases: cases = [ true ];
-  });
-
-
-
-
+        type cases = [
+            Expect<Test<Foobar, "equals", { foo: string } & { bar: string }>>
+        ];
+    });
 
 });

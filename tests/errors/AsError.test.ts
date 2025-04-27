@@ -1,7 +1,12 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { describe, it } from "vitest";
 
-import { AsError, DoesExtend, ErrorCondition, Throw } from "inferred-types/types";
+import { describe, it } from "vitest";
+import {
+    Expect,
+    AsError,
+    ErrorCondition,
+    Test,
+    Throw
+} from "inferred-types/types";
 
 describe("AsError<T>", () => {
     type Err = Throw<"err", "oops", "Utility">;
@@ -12,9 +17,6 @@ describe("AsError<T>", () => {
             Expect<Test<Err["msg"], "equals",  "oops">>,
             Expect<Test<Err["stack"], "equals",  ["Utility"]>>,
         ];
-        const cases: cases = [
-            true, true, true,
-        ];
     });
 
     it("proxy an ErrorCondition", () => {
@@ -23,7 +25,6 @@ describe("AsError<T>", () => {
         type cases = [
             Expect<Test<Proxy, "equals",  Err>>
         ];
-        const cases: cases = [true];
     });
 
     it("handle JS Error class", () => {
@@ -33,9 +34,8 @@ describe("AsError<T>", () => {
         type Runtime = AsError<typeof err>;
 
         type cases = [
-            Expect<DoesExtend<Runtime, ErrorCondition<"runtime-error">>>
+            Expect<Test<Runtime, "extends", ErrorCondition<"runtime-error">>>
         ];
-        const cases: cases = [true];
     });
 
 
@@ -44,10 +44,9 @@ describe("AsError<T>", () => {
         type WithContext = AsError<["err", "oops", { ctx: { foo: 1; bar: 2 } }]>;
 
         type cases = [
-            Expect<Test<SimpleErr, ErrorCondition<"err", "equals",  "oops">>>,
-            Expect<DoesExtend<WithContext, ErrorCondition<"err", "oops">>>,
+            Expect<Test<SimpleErr, "equals",  ErrorCondition<"err", "oops">>>,
+            Expect<Test<WithContext, "extends", ErrorCondition<"err", "oops">>>,
         ];
-        const cases: cases = [true, true];
 
     });
 

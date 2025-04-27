@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { StaticTemplateSections, TemplateParams } from "inferred-types/types";
+import { StaticTemplateSections, TemplateParams, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("StaticTemplateSections", () => {

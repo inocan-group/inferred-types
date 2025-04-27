@@ -1,8 +1,11 @@
-import { Equal, Expect, } from "@type-challenges/utils";
-import { DoesExtend, ErrorCondition, IsDotPath, Validate } from "inferred-types/types";
+import {
+    Expect,
+    Test,
+    ErrorCondition,
+    IsDotPath,
+    Validate
+} from "inferred-types/types";
 import { describe, it } from "vitest";
-
-
 
 
 describe("Validate<T>", () => {
@@ -35,12 +38,7 @@ describe("Validate<T>", () => {
             Expect<Test<F5, "equals",  never>>,
             Expect<Test<F6, "equals",  never>>,
 
-            Expect<DoesExtend<E1, ErrorCondition<"wide-return-not-allowed">>>,
-        ];
-        const cases: cases = [
-            true, true, true, true,
-            true, true, true, true, true, true,
-            true
+            Expect<Test<E1, "extends", ErrorCondition<"wide-return-not-allowed">>>,
         ];
     });
 

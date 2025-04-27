@@ -1,7 +1,11 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { setupSafeStringEncoding } from "inferred-types/runtime";
-import { SafeEncode, SafeDecode, SafeEncodeEscaped } from "inferred-types/types";
-import { RetainUntil } from "transpiled/types";
+import {
+    Expect,
+    SafeEncode,
+    SafeDecode,
+    SafeEncodeEscaped,
+    Test
+} from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
 type test = `There I was, "in the jungle (or maybe forest)"`;
@@ -12,7 +16,10 @@ describe("SafeEncode<T,G>", () => {
         type D = SafeDecode<E, ["quotes"]>;
 
         type cases = [
-            Expect<Test<E, "There I was, "equals",  ^<dq>in the jungle (or maybe forest)^<dq>">>,
+            Expect<Test<
+                E, "equals",
+                "There I was, ^<dq>in the jungle (or maybe forest)^<dq>"
+            >>,
             Expect<Test<D, "equals",  test>>
         ];
     });
@@ -22,7 +29,10 @@ describe("SafeEncode<T,G>", () => {
         type D = SafeDecode<E, ["brackets"]>;
 
         type cases = [
-            Expect<Test<E, "There I was, "equals",  \"in the jungle ^<op>or maybe forest^<cp>\"">>,
+            Expect<Test<
+                E, "equals",
+                "There I was, \"in the jungle ^<op>or maybe forest^<cp>\""
+            >>,
             Expect<Test<D, "equals",  test>>
         ];
     });
@@ -32,7 +42,10 @@ describe("SafeEncode<T,G>", () => {
         type D = SafeDecode<E, ["whitespace"]>;
 
         type cases = [
-            Expect<Test<E, "There^<sp>I^<sp>was, "equals", ^<sp>\"in^<sp>the^<sp>jungle^<sp>(or^<sp>maybe^<sp>forest)\"">>,
+            Expect<
+                Test<E, "equals",
+                "There^<sp>I^<sp>was, ^<sp>\"in^<sp>the^<sp>jungle^<sp>(or^<sp>maybe^<sp>forest)\""
+            >>,
             Expect<Test<D, "equals",  test>>
         ];
     });
@@ -42,8 +55,9 @@ describe("SafeEncode<T,G>", () => {
         type D = SafeDecode<E>;
 
         type cases = [
-            Expect<Equal<
+            Expect<Test<
                 E,
+                "equals",
                 "There^<sp>I^<sp>was,^<sp>^<dq>in^<sp>the^<sp>jungle^<sp>^<op>or^<sp>maybe^<sp>forest^<cp>^<dq>"
             >>,
             Expect<Test<D, "equals",  test>>
@@ -55,8 +69,9 @@ describe("SafeEncode<T,G>", () => {
         type D = SafeDecode<E>;
 
         type cases = [
-            Expect<Equal<
+            Expect<Test<
                 E,
+                "equals",
                 "There^<sp>I^<sp>was,^<sp>^<dq>in^<sp>the^<sp>jungle^<sp>^<op>or^<sp>maybe^<sp>forest^<cp>^<dq>">
             >,
             Expect<Test<D, "equals",  test>>
@@ -136,9 +151,20 @@ describe("Safe Encoding of Escaped Characters", () => {
         type S3 = SafeEncodeEscaped<sq, ["quotes"]>;
 
         type cases = [
-            Expect<Test<S1, "There I was, "equals",  \"in the jungle (or maybe forest)\"">>,
-            Expect<Test<S2, "There I was, "equals",  ^<dq>in the jungle (or maybe forest)^<dq>">>,
-            Expect<Test<S3, "There I was, "equals",  ^<dq>in the jungle (or maybe forest)^<dq>">>,
+            Expect<Test<
+                S1, "equals",
+                "There I was, \"in the jungle (or maybe forest)\""
+            >>,
+            Expect<Test<
+                S2,
+                "equals",
+                "There I was, ^<dq>in the jungle (or maybe forest)^<dq>"
+            >>,
+            Expect<Test<
+                S3,
+                "equals",
+                "There I was, ^<dq>in the jungle (or maybe forest)^<dq>"
+            >>,
         ];
     });
     it("parenthesis", () => {
@@ -148,7 +174,10 @@ describe("Safe Encoding of Escaped Characters", () => {
         type S1 = SafeEncodeEscaped<implicit, ["brackets"]>;
 
         type cases = [
-            Expect<Test<S1, "equals",  "There were (1) people whom ^<op>had^<cp> seen it">>
+            Expect<Test<
+                S1, "equals",
+                "There were (1) people whom ^<op>had^<cp> seen it"
+            >>
         ];
 
     });

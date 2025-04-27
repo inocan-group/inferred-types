@@ -1,7 +1,5 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { Awaited } from "inferred-types/types";
-
+import { Expect, Awaited, Test } from "inferred-types/types";
 
 
 describe("Awaited<T>", () => {
@@ -16,7 +14,6 @@ describe("Awaited<T>", () => {
             Expect<Test<NumLit, "equals",  42>>,
             Expect<Test<NumLit2, "equals",  42>>,
         ];
-        const cases: cases = [true, true, true];
     });
 
 });

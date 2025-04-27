@@ -1,5 +1,4 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { TrimDictionary } from "inferred-types/types";
+import { Expect, Test, TrimDictionary } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("TrimDictionary<T>", () => {
@@ -14,8 +13,8 @@ describe("TrimDictionary<T>", () => {
         }>;
 
         type cases = [
-            Expect<Test<T1, { foo: "foo", "equals",  bar: "bar" }>>,
-            Expect<Test<T2, {foo: "foo", bar: "bar", "equals",  baz: 42}>>,
+            Expect<Test<T1, "equals", { foo: "foo", bar: "bar" }>>,
+            Expect<Test<T2, "equals", {foo: "foo", bar: "bar", baz: 42}>>,
         ];
     });
 

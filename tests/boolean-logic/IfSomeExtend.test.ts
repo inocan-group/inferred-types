@@ -1,5 +1,4 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { Dictionary, SomeExtend } from "inferred-types/types";
+import { Expect, Dictionary, SomeExtend, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 
@@ -27,7 +26,6 @@ describe("SomeExtend<TList,TExtend> and IfSomeExtend<TList,TExtend>", () => {
             Expect<Test<F2, "equals",  false>>,
             Expect<Test<F3, "equals",  false>>,
         ];
-        const cases: cases = [true, true, true, true, true, true];
     });
 
 });

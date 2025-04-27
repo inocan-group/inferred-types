@@ -1,5 +1,4 @@
-import { Expect } from "@type-challenges/utils";
-import { DoesExtend } from "inferred-types/types";
+import { Expect, Test } from "inferred-types/types";
 import { isTypeToken } from "inferred-types/runtime";
 import { describe, expect, it } from "vitest";
 
@@ -25,10 +24,10 @@ describe("isTypeToken(token, kind)", () => {
 
       // @ts-ignore
       type cases = [
-        Expect<DoesExtend<`<<fn>>`, V>>,
-        Expect<DoesExtend<`<<fn::[${string}]>>`, V>>,
-        Expect<DoesExtend<`<<fn::[${string}]::${string}>>`, V>>,
-        Expect<DoesExtend<`<<fn::any::${string}>>`, V>>,
+        Expect<Test<`<<fn>>`, "extends", V>>,
+        Expect<Test<`<<fn::[${string}]>>`, "extends", V>>,
+        Expect<Test<`<<fn::[${string}]::${string}>>`, "extends", V>>,
+        Expect<Test<`<<fn::any::${string}>>`, "extends", V>>,
       ];
     }
 

@@ -1,9 +1,10 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-
-import { AsString, Something } from "inferred-types/types";
-
-
+import {
+    Expect,
+    AsString,
+    Something,
+    Test
+} from "inferred-types/types";
 
 describe("AsString<T>", () => {
 
@@ -40,13 +41,6 @@ describe("AsString<T>", () => {
             Expect<Test<AsString<null>, "equals",  never>>,
             Expect<Test<AsString<undefined>, "equals",  never>>,
 
-        ];
-        const cases: cases = [
-            true, true,
-            true, true, true,
-            true, true,
-            true, true,
-            true, true, true, true
         ];
     });
 

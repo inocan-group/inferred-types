@@ -1,7 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { Equal, Expect } from "@type-challenges/utils";
-
-import { AsArray } from "inferred-types/types";
+import { Expect, AsArray, Test } from "inferred-types/types";
 import { asArray } from "inferred-types/runtime";
 
 describe("AsArray<T>", () => {
@@ -13,10 +11,9 @@ describe("AsArray<T>", () => {
     type cases = [
       //
       Expect<Test<T1, "equals",  [4]>>,
-      Expect<Test<T2, [4, 5, "equals",  6]>>,
-      Expect<Test<T3, [4, 5, "equals",  6]>>,
+      Expect<Test<T2, "equals", [4, 5, 6]>>,
+      Expect<Test<T3, "equals", [4, 5, 6]>>,
     ];
-    const cases: cases = [true, true, true];
   });
 
 
@@ -27,8 +24,6 @@ describe("AsArray<T>", () => {
     type cases = [
       Expect<Test<T1, "equals",  unknown[] | [unknown[]]>>
     ];
-    const cases: cases = [true];
-
   });
 
 });
@@ -56,8 +51,9 @@ describe("asArray() function", () => {
     // run-time
     expect(o).toEqual(["a"]);
     // design-time
-    type cases = [Expect<Test<O, "equals",  string[]>>];
-    const cases: cases = [true];
+    type cases = [
+        Expect<Test<O, "equals",  string[]>>
+    ];
   });
 
 
@@ -78,7 +74,6 @@ describe("asArray() function", () => {
       Expect<Test<O, "equals",  []>>, //
       Expect<Test<O2, "equals",  [] | [string]>>,
     ];
-    const cases: cases = [true, true];
   });
 
   it("handling array element which contains undefined is unaffected", () => {
@@ -98,6 +93,5 @@ describe("asArray() function", () => {
       Expect<Test<O, "equals",  (string | undefined)[]>>, //
       Expect<Test<O2, "equals",  T[]>>
     ];
-    const cases: cases = [true, true];
   });
 });

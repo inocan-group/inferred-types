@@ -1,5 +1,4 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { ReplaceType, Unset } from "inferred-types/types";
+import { Expect, ReplaceType, Test, Unset } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("ReplaceType<TContent,TFind,TReplace>", () => {
@@ -8,14 +7,14 @@ describe("ReplaceType<TContent,TFind,TReplace>", () => {
         type T1 = ReplaceType<number, number, string>;
 
         type cases = [
-            Expect<Test<T1, "equals",  string>>,
+            Expect<Test<T1, "equals", string>>,
         ];
     });
     it("numeric literal to string literal", () => {
         type T1 = ReplaceType<42, 42, "foo">;
 
         type cases = [
-            Expect<Test<T1, "equals",  "foo">>,
+            Expect<Test<T1, "equals", "foo">>,
         ];
     });
 
@@ -24,7 +23,7 @@ describe("ReplaceType<TContent,TFind,TReplace>", () => {
         type T1 = ReplaceType<null, null, string>;
 
         type cases = [
-            Expect<Test<T1, "equals",  string>>,
+            Expect<Test<T1, "equals", string>>,
         ];
     });
 
@@ -32,7 +31,7 @@ describe("ReplaceType<TContent,TFind,TReplace>", () => {
         type T1 = ReplaceType<string, string, null>;
 
         type cases = [
-            Expect<Test<T1, "equals",  null>>,
+            Expect<Test<T1, "equals", null>>,
         ];
     });
 
@@ -40,7 +39,7 @@ describe("ReplaceType<TContent,TFind,TReplace>", () => {
         type T1 = ReplaceType<number, number, null>;
 
         type cases = [
-            Expect<Test<T1, "equals",  null>>,
+            Expect<Test<T1, "equals", null>>,
         ];
     });
 
@@ -48,7 +47,7 @@ describe("ReplaceType<TContent,TFind,TReplace>", () => {
         type T1 = ReplaceType<null, null, number>;
 
         type cases = [
-            Expect<Test<T1, "equals",  number>>,
+            Expect<Test<T1, "equals", number>>,
         ];
     });
 
@@ -56,7 +55,7 @@ describe("ReplaceType<TContent,TFind,TReplace>", () => {
         type T1 = ReplaceType<42, 42, null>;
 
         type cases = [
-            Expect<Test<T1, "equals",  null>>,
+            Expect<Test<T1, "equals", null>>,
         ];
     });
 
@@ -64,7 +63,7 @@ describe("ReplaceType<TContent,TFind,TReplace>", () => {
         type T1 = ReplaceType<undefined, undefined, 42>;
 
         type cases = [
-            Expect<Test<T1, "equals",  42>>,
+            Expect<Test<T1, "equals", 42>>,
         ];
     });
 
@@ -72,7 +71,7 @@ describe("ReplaceType<TContent,TFind,TReplace>", () => {
         type T1 = ReplaceType<Unset, Unset, undefined>;
 
         type cases = [
-            Expect<Test<T1, "equals",  undefined>>,
+            Expect<Test<T1, "equals", undefined>>,
         ];
     });
 
@@ -80,7 +79,7 @@ describe("ReplaceType<TContent,TFind,TReplace>", () => {
         type T1 = ReplaceType<boolean, boolean, number>;
 
         type cases = [
-            Expect<Test<T1, "equals",  number>>,
+            Expect<Test<T1, "equals", number>>,
         ];
     });
 
@@ -88,7 +87,7 @@ describe("ReplaceType<TContent,TFind,TReplace>", () => {
         type T1 = ReplaceType<true, true, number>;
 
         type cases = [
-            Expect<Test<T1, "equals",  number>>,
+            Expect<Test<T1, "equals", number>>,
         ];
     });
 
@@ -96,7 +95,7 @@ describe("ReplaceType<TContent,TFind,TReplace>", () => {
         type T1 = ReplaceType<false, false, number>;
 
         type cases = [
-            Expect<Test<T1, "equals",  number>>,
+            Expect<Test<T1, "equals", number>>,
         ];
     });
 
@@ -104,7 +103,7 @@ describe("ReplaceType<TContent,TFind,TReplace>", () => {
         type T1 = ReplaceType<false, false, 42>;
 
         type cases = [
-            Expect<Test<T1, "equals",  42>>,
+            Expect<Test<T1, "equals", 42>>,
         ];
     });
 
@@ -112,7 +111,7 @@ describe("ReplaceType<TContent,TFind,TReplace>", () => {
         type T1 = ReplaceType<[1, 2, 3, true], true, 4>;
 
         type cases = [
-            Expect<Test<T1, [1, 2, 3, "equals",  4]>>,
+            Expect<Test<T1, [1, 2, 3, "equals", 4]>>,
         ];
     });
 
@@ -121,7 +120,7 @@ describe("ReplaceType<TContent,TFind,TReplace>", () => {
         type T1 = ReplaceType<[42, 99, 99], 99, "foo">;
 
         type cases = [
-            Expect<Test<T1, [42,"foo", "equals", "foo"]>>
+            Expect<Test<T1, [42, "foo", "equals", "foo"]>>
         ];
     });
 
@@ -130,7 +129,7 @@ describe("ReplaceType<TContent,TFind,TReplace>", () => {
         type T1 = ReplaceType<1 | 2 | 3, 3, 4>;
 
         type cases = [
-            Expect<Test<T1, "equals",  1 | 2 | 4>>,
+            Expect<Test<T1, "equals", 1 | 2 | 4>>,
         ];
     });
 
@@ -139,7 +138,7 @@ describe("ReplaceType<TContent,TFind,TReplace>", () => {
         type T1 = ReplaceType<1 | 2 | 3 | true, true, 4>;
 
         type cases = [
-            Expect<Test<T1, "equals",  1 | 2 | 3 | 4>>,
+            Expect<Test<T1, "equals", 1 | 2 | 3 | 4>>,
         ];
     });
 

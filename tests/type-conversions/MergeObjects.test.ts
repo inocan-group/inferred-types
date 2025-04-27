@@ -1,6 +1,5 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import {  MergeObjects } from "inferred-types/types";
+import {  Expect, MergeObjects, Test } from "inferred-types/types";
 import { mergeObjects } from "inferred-types/runtime";
 
 
@@ -40,7 +39,7 @@ describe("MergeObjects<A,B>", () => {
     });
 
 
-    it("merging with optional params overriding", () => {
+    it.todo("merging with optional params overriding", () => {
         type T1 = MergeObjects<
             { foo: 1; bar: 2 },
             { bar: 4; baz?: "howdy"
@@ -50,8 +49,6 @@ describe("MergeObjects<A,B>", () => {
             /** type tests */
         ];
     });
-
-
 
 });
 

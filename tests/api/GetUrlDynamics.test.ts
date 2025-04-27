@@ -1,7 +1,12 @@
-import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-
-import { GetQueryParameterDynamics, GetUrlDynamics, GetUrlPathDynamics, IsErrMsg } from "inferred-types/types";
+import {
+    Expect,
+    Test,
+    GetQueryParameterDynamics,
+    GetUrlDynamics,
+    GetUrlPathDynamics,
+    IsErrMsg,
+} from "inferred-types/types";
 
 describe("GetUrlPathDynamics<T>", () => {
 
@@ -76,7 +81,10 @@ describe("GetUrlDynamics", () => {
     type cases = [
       Expect<Test<Path, "equals",  { id: string; action: string}>>,
       Expect<Test<Qp, "equals",  { foo: number; bar: string}>>,
-      Expect<Test<All, "equals",  { id: string; action: string;  foo: number; bar: string}>>,
+      Expect<Test<
+        All, "equals",
+        { id: string; action: string;  foo: number; bar: string}
+    >>,
     ];
   });
 
@@ -92,7 +100,7 @@ describe("GetUrlDynamics", () => {
     type cases = [
       Expect<Test<Path, "equals",  { id: string; bar: string}>>,
       Expect<Test<Qp, "equals",  { foo: number; bar: string}>>,
-      ExpectTrue<IsErrMsg<All, "overlapping-keys">>,
+      Expect<Test<IsErrMsg<All, "overlapping-keys">, "equals", true>>,
     ];
   });
 

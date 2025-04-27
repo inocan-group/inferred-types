@@ -1,7 +1,6 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-
 import { defineTuple } from "inferred-types/runtime";
+import { Expect, Test } from "inferred-types/types";
 
 
 
@@ -18,11 +17,11 @@ describe("createTuple(...values) runtime utility", () => {
     expect(wideFoo).toEqual(["<<string>>", "bar"]);
 
     type cases = [
-      Expect<Test<typeof foobar, ["foo", "equals",  "bar"]>>,
-      Expect<Test<typeof takeTwo, ["foo", "equals",  "bar"]>>,
-      Expect<Test<typeof wideFoo, [string, "equals",  "bar"]>>,
+      Expect<Test<typeof foobar, "equals", ["foo", "bar"]>>,
+      Expect<Test<typeof takeTwo,"equals", ["foo", "bar"]>>,
+      Expect<Test<typeof wideFoo,"equals", [string, "bar"]>>,
     ];
-    const cases: cases = [true, true, true];
+
   });
 
 
@@ -33,8 +32,7 @@ describe("createTuple(...values) runtime utility", () => {
     expect(foobar).toEqual(["foo", "bar"]);
 
     type cases = [
-      Expect<Test<typeof foobar, ["foo", "equals",  "bar"]>>,
+      Expect<Test<typeof foobar, "equals",  ["foo", "bar"]>>,
     ];
-    const cases: cases = [true];
   });
 });

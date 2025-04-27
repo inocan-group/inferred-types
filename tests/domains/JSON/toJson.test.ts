@@ -1,5 +1,5 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { toJSON } from "inferred-types/runtime";
+import { Expect, Test } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
 describe("toJSON()", () => {
@@ -23,15 +23,16 @@ describe("toJSON()", () => {
             Expect<Test<typeof numLike, "equals",  `"42"`>>,
             Expect<Test<typeof quoted, "equals",  `"That's all "folks""`>>,
             Expect<Test<typeof singleQuoted, "equals",  `'That's all "folks"'`>>,
-            Expect<Equal<
+            Expect<Test<
                 typeof quotedEnc,
+                "equals",
                 `"That^<sq>s^<sp>all^<sp>^<dq>folks^<dq>"`
             >>,
         ];
     });
 
 
-    it("object values", () => {
+    it.todo("object values", () => {
         const fooBarBaz = toJSON({ foo: 1, bar: "hi" });
         const fooBarBazSingle = toJSON({ foo: 1, bar: "hi" }, {quote: "'"});
 

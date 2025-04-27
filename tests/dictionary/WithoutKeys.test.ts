@@ -1,8 +1,6 @@
 
 import { describe, it, expect } from "vitest";
-import { Equal, Expect } from "@type-challenges/utils";
-
-import { UnionToTuple, WithoutKeys } from "inferred-types/types";
+import { Expect, Test, UnionToTuple, WithoutKeys } from "inferred-types/types";
 import { withoutKeys } from "inferred-types/runtime";
 
 describe("WithoutKeys<T, K> utility", () => {
@@ -23,7 +21,6 @@ describe("WithoutKeys<T, K> utility", () => {
       Expect<Test<BazRW, "equals",  { foo: 1; bar: 2 }>>,
       Expect<Test<FooBazArr, "equals",  { bar: 2 }>>,
     ];
-    const cases: cases = [true, true, true, true, true, true];
   });
 
   it("runtime: happy path", () => {
@@ -54,7 +51,6 @@ describe("WithoutKeys<T, K> utility", () => {
       Expect<Test<typeof t1b, "equals",  { baz: string }>>,
       Expect<Test<typeof t2b, "equals",  { bar: number | undefined }>>,
     ];
-    const cases: cases = [true, true, true, true];
   });
 
 });

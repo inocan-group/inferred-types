@@ -1,80 +1,80 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { asFromTo } from "inferred-types/runtime";
+import { Expect, Test } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
 describe("asFromTo", () => {
 
-  it("happy path", () => {
-    const t1 = asFromTo({ a: "b", c: "d" });
+    it("happy path", () => {
+        const t1 = asFromTo({ a: "b", c: "d" });
 
-    type cases = [
-      Expect<Equal<
-        typeof t1,
-        [
-          { from: "a"; to: "b" },
-          { from: "c"; to: "d" }
-        ]
-      >>
-    ];
-  });
-
-
-  it("large key/value", () => {
-    const big = asFromTo({
-      ["<"]: "&lt;",
-      [">"]: "&gt;",
-      ['"']: "&quot;",
-      ["'"]: "&#39;",
-      ["\u00A0"]: "&nbsp;",
-      ["\u2003"]: "&emsp;",
-      ["\u2002"]: "&ensp;",
-      ["\u2009"]: "&thinsp;",
-      ["©"]: "&copy;",
-      ["®"]: "&reg;",
-      ["™"]: "&trade;",
-      ["€"]: "&euro;",
-      ["£"]: "&pound;",
-      ["¥"]: "&yen;",
-      ["¢"]: "&cent;",
-      ["§"]: "&sect;",
-      ["¶"]: "&para;",
-      ["•"]: "&bull;",
-      ["…"]: "&hellip;",
-      ["°"]: "&deg;",
-      ["±"]: "&plusmn;",
-      ["÷"]: "&divide;",
-      ["×"]: "&times;",
-      ["¼"]: "&frac14;",
-      ["½"]: "&frac12;",
-      ["¾"]: "&frac34;",
-      ["∞"]: "&infin;",
-      ["∑"]: "&sum;",
-      ["∏"]: "&prod;",
-      ["∫"]: "&int;",
-      ["√"]: "&radic;",
-      ["∂"]: "&part;",
-      ["≈"]: "&asymp;",
-      ["≠"]: "&ne;",
-      ["≡"]: "&equiv;",
-      ["≤"]: "&le;",
-      ["≥"]: "&ge;",
-      ["∧"]: "&and;",
-      ["¬"]: "&not;",
-      ["←"]: "&larr;",
-      ["→"]: "&rarr;",
-      ["↑"]: "&uarr;",
-      ["↓"]: "&darr;",
+        type cases = [
+            Expect<Test<
+                typeof t1,
+                "equals",
+                [
+                    { from: "a"; to: "b" },
+                    { from: "c"; to: "d" }
+                ]
+            >>
+        ];
     });
 
-    type Size = typeof big["length"]
+    it("large key/value", () => {
+        const big = asFromTo({
+            ["<"]: "&lt;",
+            [">"]: "&gt;",
+            ['"']: "&quot;",
+            ["'"]: "&#39;",
+            ["\u00A0"]: "&nbsp;",
+            ["\u2003"]: "&emsp;",
+            ["\u2002"]: "&ensp;",
+            ["\u2009"]: "&thinsp;",
+            ["©"]: "&copy;",
+            ["®"]: "&reg;",
+            ["™"]: "&trade;",
+            ["€"]: "&euro;",
+            ["£"]: "&pound;",
+            ["¥"]: "&yen;",
+            ["¢"]: "&cent;",
+            ["§"]: "&sect;",
+            ["¶"]: "&para;",
+            ["•"]: "&bull;",
+            ["…"]: "&hellip;",
+            ["°"]: "&deg;",
+            ["±"]: "&plusmn;",
+            ["÷"]: "&divide;",
+            ["×"]: "&times;",
+            ["¼"]: "&frac14;",
+            ["½"]: "&frac12;",
+            ["¾"]: "&frac34;",
+            ["∞"]: "&infin;",
+            ["∑"]: "&sum;",
+            ["∏"]: "&prod;",
+            ["∫"]: "&int;",
+            ["√"]: "&radic;",
+            ["∂"]: "&part;",
+            ["≈"]: "&asymp;",
+            ["≠"]: "&ne;",
+            ["≡"]: "&equiv;",
+            ["≤"]: "&le;",
+            ["≥"]: "&ge;",
+            ["∧"]: "&and;",
+            ["¬"]: "&not;",
+            ["←"]: "&larr;",
+            ["→"]: "&rarr;",
+            ["↑"]: "&uarr;",
+            ["↓"]: "&darr;",
+        });
 
-    expect(big.length).toEqual(43);
+        type Size = typeof big["length"]
 
-    type cases = [
-      Expect<Test<Size, "equals",  43>>
-    ];
+        expect(big.length).toEqual(43);
 
-  });
+        type cases = [
+            Expect<Test<Size, "equals", 43>>
+        ];
+
+    });
 
 
 });

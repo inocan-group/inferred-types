@@ -1,5 +1,5 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
+import { Expect, Test } from "inferred-types/types";
 import { find, narrow } from "inferred-types/runtime";
 
 describe("find(list,[deref])", () => {
@@ -24,11 +24,8 @@ describe("find(list,[deref])", () => {
     type cases = [
       Expect<Test<typeof foo, "equals",  "foo">>,
       Expect<Test<typeof num, "equals",  42>>,
-      Expect<Test<typeof bob, { id: 1, "equals",  name: "Bob" }>>,
-      Expect<Test<typeof mark, { id: 2, "equals",  name: "Mark" }>>,
-    ];
-    const cases: cases = [
-      true, true, true, true
+      Expect<Test<typeof bob, "equals", { id: 1, name: "Bob" }>>,
+      Expect<Test<typeof mark,"equals", { id: 2, name: "Mark" }>>,
     ];
   });
 

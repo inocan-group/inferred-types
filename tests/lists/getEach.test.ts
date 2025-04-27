@@ -1,8 +1,6 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-
 import { getEach, tuple } from "inferred-types/runtime";
-import { GetEach } from "inferred-types/types";
+import type { Expect, GetEach, Test } from "inferred-types/types";
 
 describe("GetEach<T,P>", () => {
 
@@ -18,9 +16,9 @@ describe("GetEach<T,P>", () => {
         type Cost = GetEach<List, "cost">;
 
         type cases = [
-            Expect<Test<ID, readonly [1, 2, "equals",  3]>>,
-            Expect<Test<Value, readonly ["foo", "bar", "equals",  "baz"]>>,
-            Expect<Test<Cost, readonly [5, "equals",  15]>>
+            Expect<Test<ID, "equals", readonly [1, 2, 3]>>,
+            Expect<Test<Value, "equals", readonly ["foo", "bar", "baz"]>>,
+            Expect<Test<Cost, "equals", readonly [5, 15]>>
         ];
     });
 
@@ -42,8 +40,8 @@ describe("GetEach<T,P>", () => {
         type Owns = GetEach<List, "color.owns">;
 
         type cases = [
-            Expect<Test<Fav, readonly ["blue", "equals",  "green"]>>,
-            Expect<Test<FavNotRO, ["blue", "equals",  "green"]>>,
+            Expect<Test<Fav, "equals",  readonly ["blue", "green"]>>,
+            Expect<Test<FavNotRO, "equals",  ["blue", "green"]>>,
             Expect<Test<Owns, "equals",  readonly ["grey"]>>,
         ];
     });
@@ -60,7 +58,7 @@ describe("GetEach<T,P>", () => {
         type Empty = GetEach<List, "colors.5">;
 
         type cases = [
-            Expect<Test<First, ["blue", "equals",  "purple"]>>,
+            Expect<Test<First,"equals", ["blue", "purple"]>>,
             Expect<Test<Incomplete, "equals",  ["fuchsia"]>>,
             Expect<Test<Empty, "equals",  []>>,
         ];
@@ -78,7 +76,7 @@ describe("GetEach<T,P>", () => {
         type Empty = GetEach<List, "colors.5">;
 
         type cases = [
-            Expect<Test<First, readonly ["blue", "equals",  "purple"]>>,
+            Expect<Test<First,  "equals", readonly ["blue", "purple"]>>,
             Expect<Test<Incomplete, "equals",  readonly ["fuchsia"]>>,
             Expect<Test<Empty, "equals",  readonly []>>,
         ];
@@ -106,7 +104,7 @@ describe("GetEach<T,P>", () => {
 
         // @ts-ignore
         type cases = [
-            Expect<Test<Fav, ['blue', "equals",  'green']>>,
+            Expect<Test<Fav, "equals", ['blue',  'green']>>,
             Expect<Test<Owns, "equals",  ['grey']>>,
         ];
     });
@@ -137,7 +135,7 @@ describe("getEach(list, prop)", () => {
         expect(each).toEqual(["foo","baz"]);
 
         type cases = [
-            Expect<Test<typeof each, ["foo", "equals", "baz"]>>
+            Expect<Test<typeof each, "equals", ["foo", "baz"]>>
         ];
     });
 

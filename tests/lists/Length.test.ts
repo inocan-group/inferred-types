@@ -1,6 +1,4 @@
-import { Equal, Expect } from "@type-challenges/utils";
-
-import { Length } from "inferred-types/types";
+import { Expect, Length, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("Length<T>", () => {

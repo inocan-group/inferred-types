@@ -1,9 +1,5 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-
-import { ValueOrReturnValue } from "inferred-types/types";
-
-
+import { Expect, Test, ValueOrReturnValue } from "inferred-types/types";
 
 describe("ValueOrReturnValue<T>", () => {
 
@@ -19,9 +15,7 @@ describe("ValueOrReturnValue<T>", () => {
             Expect<Test<Foobar, "equals",  "foobar">>,
             Expect<Test<RtnFoobar, "equals",  "foobar">>,
         ];
-        const cases: cases = [
-            true, true, true, true
-        ];
+
     });
 
 
@@ -30,12 +24,9 @@ describe("ValueOrReturnValue<T>", () => {
         type Mixed = ValueOrReturnValue<[true, () => false, "foo", () => `bar`]>;
 
         type cases = [
-            Expect<Test<Bool, readonly [true, false, "equals",  true]>>,
-            Expect<Test<Mixed, [true, false, "foo", "equals",  "bar"]>>,
+            Expect<Test<Bool, "equals", readonly [true, false,  true]>>,
+            Expect<Test<Mixed,"equals", [true, false, "foo",  "bar"]>>,
         ];
-        const cases: cases = [true, true];
 
     });
-
-
 });

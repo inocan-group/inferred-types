@@ -2,8 +2,6 @@ import { isShape, shape } from "inferred-types/runtime";
 import { Expect, Ip4Address, Test, ZipCode } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
-
-
 describe("shape(s => s.[api])", () => {
 
   it("strings", () => {

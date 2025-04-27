@@ -1,6 +1,6 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it, expect } from "vitest";
 import { createConverter } from "inferred-types/runtime";
+import { Expect, Test } from "inferred-types/types";
 
 
 // Note: while type tests fail visible inspection they pass from Vitest
@@ -27,6 +27,5 @@ describe("createConverter()", () => {
       Expect<Test<typeof t2, "equals",  `The number was ${number}`>>,
       Expect<Test<typeof t3, "equals",  `An object with keys ${string}`>>
     ];
-    const cases: cases = [true, true, true];
   });
 });

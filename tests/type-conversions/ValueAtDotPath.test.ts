@@ -1,9 +1,6 @@
-import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 import { Ref } from "vue";
-import { IsValidDotPath, ValueAtDotPath } from "inferred-types/types";
-
-
+import { Expect, IsValidDotPath, Test, ValueAtDotPath } from "inferred-types/types";
 
 
 describe("ValueAtDotPath", () => {
@@ -35,20 +32,14 @@ describe("ValueAtDotPath", () => {
         type ImplicitInfo = ValueAtDotPath<Obj, "info.age">;
 
         type cases = [
-            ExpectTrue<Valid>,
-            Expect<Test<Foo, "equals",  1>>,
-            Expect<Test<Bar, "equals",  number[]>>,
-            Expect<Test<Baz_c_ca, "equals",  1>>,
+            Expect<Test<Valid, "equals", true>>,
+            Expect<Test<Foo, "equals", 1>>,
+            Expect<Test<Bar, "equals", number[]>>,
+            Expect<Test<Baz_c_ca, "equals", 1>>,
 
-            Expect<Test<ExplicitInfo, "equals",  number>>,
-            Expect<Test<ImplicitInfo, "equals",  number>>,
+            Expect<Test<ExplicitInfo, "equals", number>>,
+            Expect<Test<ImplicitInfo, "equals", number>>,
+        ];
 
-        ];
-        const cases: cases = [
-            true, true, true, true,
-            true, true
-        ];
     });
-
-
 });

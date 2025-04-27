@@ -1,6 +1,5 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { keysWithError } from "inferred-types/runtime";
-import { KeysWithError } from "inferred-types/types";
+import { Expect, KeysWithError, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("KeysWithError", () => {

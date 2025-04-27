@@ -1,8 +1,9 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { IntersectWithAll } from "inferred-types/types";
-
-
+import {
+    Expect,
+    IntersectWithAll,
+    Test
+} from "inferred-types/types";
 
 describe("IntersectWithAll<TList,TIntersect>", () => {
 
@@ -11,10 +12,9 @@ describe("IntersectWithAll<TList,TIntersect>", () => {
         type Narrow = IntersectWithAll<[number | string, number | boolean], number>;
 
         type cases = [
-            Expect<Test<DropStrings, [1, 2, "equals",  3]>>,
-            Expect<Test<Narrow, [number, "equals",  number]>>,
+            Expect<Test<DropStrings, "equals", [1, 2, 3]>>,
+            Expect<Test<Narrow, "equals", [number, number]>>,
         ];
-        const cases: cases = [true, true];
     });
 
 });

@@ -1,5 +1,4 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { ToString, UnionToString } from "inferred-types/types";
+import { Expect, Test, ToString, UnionToString } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 
@@ -19,12 +18,12 @@ describe("ToString<T>", () => {
         type U2 = UnionToString<string | number>;
 
         type cases = [
-            Expect<Test<Obj, "{ foo: 1, bar: 'hi', "equals",  baz: { color: 'red' } }">>,
-            Expect<Test<Tup, "[ 1, 2, "equals",  'foo' ]">>,
-            Expect<Test<Tup2, "[ 2, 3, { foo: 1, "equals",  bar: 'hi' } ]">>,
-            Expect<Test<Rec, "Record<string, "equals",  boolean>">>,
-            Expect<Test<Rec2, "Record<string, "equals",  true>">>,
-            Expect<Test<M, "Map<string, "equals",  number>">>,
+            Expect<Test<Obj, "equals",  "{ foo: 1, bar: 'hi',  baz: { color: 'red' } }">>,
+            Expect<Test<Tup, "equals",  "[ 1, 2,  'foo' ]">>,
+            Expect<Test<Tup2, "equals",  "[ 2, 3, { foo: 1,  bar: 'hi' } ]">>,
+            Expect<Test<Rec, "equals",  "Record<string,  boolean>">>,
+            Expect<Test<Rec2, "equals",  "Record<string,  true>">>,
+            Expect<Test<M, "equals",  "Map<string,  number>">>,
             Expect<Test<S, "equals",  "Set<string[]>">>,
             Expect<Test<Arr, "equals",  "string[]">>,
             Expect<Test<Arr2, "equals",  "number[]">>,

@@ -1,5 +1,4 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import {  AlphaNumeric, AlphaNumericPlus, Err, Extends } from "inferred-types/types";
+import {  Expect, AlphaNumeric, AlphaNumericPlus, Err, Extends, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("Alphanumeric<T>", () => {

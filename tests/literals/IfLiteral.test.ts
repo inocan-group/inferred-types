@@ -1,7 +1,7 @@
-import { ExpectTrue, ExpectFalse } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-
 import {
+    Expect,
+    Test,
     IsLiteral,
     EmptyObject,
     IsObjectLiteral,
@@ -22,14 +22,13 @@ describe("IsLiteral<T>", () => {
         type T6 = IsLiteral<["foo", "bar", "baz"]>;
 
         type cases = [
-            ExpectTrue<T1>,
-            ExpectTrue<T2>,
-            ExpectTrue<T3>,
-            ExpectTrue<T4>,
-            ExpectTrue<T5>,
-            ExpectTrue<T6>,
+            Expect<Test<T1, "equals", true>>,
+            Expect<Test<T2, "equals", true>>,
+            Expect<Test<T3, "equals", true>>,
+            Expect<Test<T4, "equals", true>>,
+            Expect<Test<T5, "equals", true>>,
+            Expect<Test<T6, "equals", true>>,
         ];
-        const cases: cases = [true, true, true, true, true, true];
     });
 
 
@@ -42,15 +41,13 @@ describe("IsLiteral<T>", () => {
         type F6 = IsLiteral<readonly string[]>;
 
         type cases = [
-            ExpectFalse<F1>,
-            ExpectFalse<F2>,
-            ExpectFalse<F3>,
-            ExpectFalse<F4>,
-            ExpectFalse<F5>,
-            ExpectFalse<F6>,
+            Expect<Test<F1, "equals", false>>,
+            Expect<Test<F2, "equals", false>>,
+            Expect<Test<F3, "equals", false>>,
+            Expect<Test<F4, "equals", false>>,
+            Expect<Test<F5, "equals", false>>,
+            Expect<Test<F6, "equals", false>>,
         ];
-        const cases: cases = [false, false, false, false, false, false];
-
     });
 
 
@@ -64,20 +61,19 @@ describe("IsLiteral<T>", () => {
         type cases = [
             // an empty object still allows key/value pairs to be added after it
             // is declared so it is NOT a literal
-            ExpectFalse<Empty>,
+            Expect<Test<Empty, "equals", false>>,
             // an explicitly empty object -- which has it's index keys set to _never_
             // -- can never have any key/values and therefore IS a literal
-            ExpectTrue<Explicit>,
+            Expect<Test<Explicit, "equals", true>>,
             // a type marked at `Dictionary` is generic; it can take any normal key/value
             // pair that an object is allowed so therefore it is NOT literal
-            ExpectFalse<BaseDictionary>,
+            Expect<Test<BaseDictionary, "equals", false>>,
             // the `{}` type is quite misunderstood and really should be called
             // `Something` (which we do export as a symbol in this lib). Effectively
             // it is just any value except for **null** and **undefined**.
-            ExpectFalse<Curly>,
+            Expect<Test<Curly, "equals", false>>,
 
         ];
-        const cases: cases = [false, true, false, false];
 
     });
 

@@ -1,8 +1,9 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import {
+    Expect,
     ReplaceBooleanInterpolation,
     ReplaceNumericInterpolation,
-    ReplaceStringInterpolation
+    ReplaceStringInterpolation,
+    Test
 } from "inferred-types/types";
 import { describe, it } from "vitest";
 

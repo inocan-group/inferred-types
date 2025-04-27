@@ -1,5 +1,5 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { asUnion, createEncoder } from "inferred-types/runtime";
+import { Expect, Test } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
 describe("asUnion(elements,sep,pre,post)", () => {

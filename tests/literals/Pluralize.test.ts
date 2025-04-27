@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Expect, Equal } from "@type-challenges/utils";
-import type { Pluralize } from "inferred-types/types";
+import type { Expect, Pluralize, Test } from "inferred-types/types";
 import { pluralize } from "inferred-types/runtime";
 
 type Bugs = Pluralize<"bug">;
@@ -20,7 +19,6 @@ describe("Pluralize<T>", () => {
       Expect<Test<Man, "equals",  "men">>,
       Expect<Test<People, "equals",  "people">>
     ];
-    const cases: cases = [true, true, true, true, true, true];
   });
 
 
@@ -30,7 +28,6 @@ describe("Pluralize<T>", () => {
     type cases = [
       Expect<Test<Wide, "equals",  string>>
     ];
-    const cases: cases = [true];
   });
 
 });
@@ -53,7 +50,6 @@ describe("pluralize(word)", () => {
       Expect<Test<typeof man, "equals",  "men">>, //
       Expect<Test<typeof person, "equals",  "people">>, //
     ];
-    const cases: cases = [true, true];
   });
 
 
@@ -66,7 +62,6 @@ describe("pluralize(word)", () => {
     type cases = [
       Expect<Test<typeof miss, "equals",  "misses">>,
     ];
-    const cases: cases = [true];
   });
 
 
@@ -77,7 +72,6 @@ describe("pluralize(word)", () => {
     type cases = [
       Expect<Test<typeof rich, "equals",  "riches">>
     ];
-    const cases: cases = [true];
   });
 
   it("words ending in f", () => {
@@ -87,7 +81,6 @@ describe("pluralize(word)", () => {
     type cases = [
       Expect<Test<typeof elf, "equals",  "elves">>
     ];
-    const cases: cases = [true];
   });
 
   it("words ending in fe", () => {
@@ -96,7 +89,6 @@ describe("pluralize(word)", () => {
     expect(knife).toBe("knives");
     expect(knife_sp).toBe("knives  ");
 
-    // @ts-ignore
     type cases = [
       Expect<Test<typeof knife, "equals",  "knives">>,
       Expect<Test<typeof knife_sp, "equals",  "knives  ">>
@@ -113,7 +105,6 @@ describe("pluralize(word)", () => {
     expect(c2).toEqual("currencies ");
     expect(Currency).toEqual("Currencies");
 
-    // @ts-ignore
     type cases = [
       Expect<Test<typeof currency, "equals",  "currencies">>,
       Expect<Test<typeof c2, "equals",  "currencies ">>,
@@ -130,7 +121,6 @@ describe("pluralize(word)", () => {
     type cases = [
       Expect<Test<typeof money, "equals",  "monies">>
     ];
-    const cases: cases = [true];
   });
 
   it("fallback pluralization", () => {
@@ -140,7 +130,6 @@ describe("pluralize(word)", () => {
     type cases = [
       Expect<Test<typeof cat, "equals",  "cats">>
     ];
-    const cases: cases = [true];
   });
 
 });

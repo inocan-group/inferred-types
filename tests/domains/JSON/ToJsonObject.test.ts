@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { EmptyObject } from "inferred-types/types";
+import { EmptyObject, Test } from "inferred-types/types";
 import { ObjectToString } from "inferred-types/types";
 import { describe, it } from "vitest";
 
@@ -9,7 +9,10 @@ describe("ToJsonObject<T>", () => {
         type FooBar = ObjectToString<{ foo: 1; bar: 2 }>;
 
         type cases = [
-            Expect<Test<FooBar, `{ "foo": 1, "equals",  "bar": 2 }`>>
+            Expect<Test<
+                FooBar, "equals",
+                `{ "foo": 1, "bar": 2 }`
+            >>
         ];
     });
 
@@ -17,7 +20,10 @@ describe("ToJsonObject<T>", () => {
         type FooBar = ObjectToString<{ foo: "1"; bar: "2" }>;
 
         type cases = [
-            Expect<Test<FooBar, `{ "foo": "1", "equals",  "bar": "2" }`>>
+            Expect<Test<
+                FooBar, "equals",
+                `{ "foo": "1", "bar": "2" }`
+            >>
         ];
     });
 
@@ -33,7 +39,10 @@ describe("ToJsonObject<T>", () => {
         type FooBar = ObjectToString<{ foo: { bar: 1, baz: 2 }, bax: 1 }>;
 
         type cases = [
-            Expect<Test<FooBar, `{ "foo": { "bar": 1, "baz": 2 }, "equals",  "bax": 1 }`>>
+            Expect<Test<
+                FooBar, "equals",
+                `{ "foo": { "bar": 1, "baz": 2 }, "bax": 1 }`
+            >>
         ];
     });
 
@@ -41,7 +50,9 @@ describe("ToJsonObject<T>", () => {
         type FooBar = ObjectToString<{ foo: [1, 2], bar: ["hey", "ho"] }>;
 
         type cases = [
-            Expect<Test<FooBar, `{ "foo": [ 1, 2 ], "bar": [ "hey", "equals",  "ho" ] }`>>
+            Expect<Test<FooBar, "equals",
+                `{ "foo": [ 1, 2 ], "bar": [ "hey", "ho" ] }`
+            >>
         ];
     });
 
@@ -49,7 +60,7 @@ describe("ToJsonObject<T>", () => {
         type FooBar = ObjectToString<EmptyObject>;
 
         type cases = [
-            Expect<Test<FooBar, "equals",  `{  }`>>
+            Expect<Test<FooBar, "equals", `{  }`>>
         ];
     });
 

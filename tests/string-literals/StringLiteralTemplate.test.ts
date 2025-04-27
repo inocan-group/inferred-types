@@ -1,6 +1,5 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { StringLiteralTemplate } from "inferred-types/types";
+import { Expect, StringLiteralTemplate, Test } from "inferred-types/types";
 
 describe("StringLiteralTemplate<T>", () => {
 

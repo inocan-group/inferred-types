@@ -1,5 +1,9 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { AsRecord, ObjectKey } from "inferred-types/types";
+import {
+    Expect,
+    AsRecord,
+    ObjectKey,
+    Test
+} from "inferred-types/types";
 import { describe, it } from "vitest";
 
 
@@ -17,9 +21,6 @@ describe("AsRecord<T>", () => {
             Expect<Test<Obj, "equals",  NonNullable<unknown>>>,
             Expect<Test<Rec, Record<ObjectKey, "equals",  number>>>,
             Expect<Test<FooBar, "equals",  { foo: 1; bar: 2 }>>
-        ];
-        const cases: cases = [
-            true, true, true, true
         ];
     });
 

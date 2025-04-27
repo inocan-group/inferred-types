@@ -1,5 +1,8 @@
-import { Equal, Expect, ExpectFalse } from "@type-challenges/utils";
-import { Passthrough } from "inferred-types/types";
+import {
+    Expect,
+    Passthrough,
+    Test
+} from "inferred-types/types";
 import { describe, it } from "vitest";
 
 
@@ -26,13 +29,9 @@ describe("Passthrough<TContent,TPass,THandle,TSpecificity>", () => {
             Expect<Test<Union, "equals",  "foo" | "bar" | false>>,
             Expect<Test<Removal, "equals",  "foo" | "bar">>,
 
-            ExpectFalse<Nope>
+            Expect<Test<Nope, "equals", false>>
         ];
-        const cases: cases = [
-            true, true, true, true,
-            true, true,
-            false
-        ];
+
     });
 
 
@@ -44,15 +43,11 @@ describe("Passthrough<TContent,TPass,THandle,TSpecificity>", () => {
         type NotFoo = Passthrough<"foo", "foo" | "bar", false, "equals">;
 
         type cases = [
-            ExpectFalse<TooWide>,
-            ExpectFalse<InReverse>,
+            Expect<Test<TooWide, "equals", false>>,
+            Expect<Test<InReverse, "equals", false>>,
 
             Expect<Test<Foo, "equals",  "foo">>,
-            ExpectFalse<NotFoo>
-        ];
-        const cases: cases = [
-            false, false,
-            true, false,
+            Expect<Test<NotFoo, "equals", false>>,
         ];
 
     });

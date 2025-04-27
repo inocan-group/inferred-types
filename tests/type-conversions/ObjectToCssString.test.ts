@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { ObjectToCssString } from "inferred-types/types";
+import { ObjectToCssString, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 

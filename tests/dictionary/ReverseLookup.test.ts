@@ -1,5 +1,4 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { ReverseLookup } from "inferred-types/types";
+import { Expect, ReverseLookup, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("ReverseLookup<T>", () => {
