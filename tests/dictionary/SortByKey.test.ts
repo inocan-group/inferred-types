@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { Mutable, SortByKey } from "inferred-types/types";
+import { Mutable, SortByKey, Test } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 import {  sortByKey, getEach,  tuple } from "inferred-types/runtime";
 
@@ -51,13 +51,13 @@ describe("SortByKey<KV, Key, Config>", () => {
             { key: "desc", value: "The fast and lightweight sibling in the Claude family (Anthropic)" },
         ];
 
-        type Test = SortByKey<Before, "key", {
+        type TestObj = SortByKey<Before, "key", {
             start: ["type", "kind", "category", "subcategory"],
             end: "desc"
         }>
 
         type cases = [
-            Expect<Equal<Test, After>>
+            Expect<Test<TestObj, "equals",  After>>
         ];
     });
 
@@ -126,7 +126,7 @@ describe("sortByKey(kv, key, config)", () => {
             end: "desc"
         });
 
-        type Test = Mutable<typeof test>;
+        type TestObj = Mutable<typeof test>;
         type T2 = Mutable<SortByKey<typeof before, "key", {
             start: ["type", "kind", "category", "subcategory"],
             end: "desc"
@@ -135,12 +135,8 @@ describe("sortByKey(kv, key, config)", () => {
 
         expect(test).toEqual(after);
 
-        // TODO: the literal type on the runtime side is being interfered
-        // with because the `start` and `end` parameters are ending up as
-        // an array of a union type instead of a tuple
         type cases = [
-            // Expect<Equal<Test, After>>,
-            Expect<Equal<T2, After>>,
+            Expect<Test<T2, "equals",  After>>,
         ];
     });
 

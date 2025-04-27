@@ -12,11 +12,11 @@ describe("MaxLength<T>", () => {
         type M5 = MinLength<[string?, ...number[]]>;   // 0
 
         type cases = [
-            Expect<Equal<M1, 0>>,
-            Expect<Equal<M2, 1>>,
-            Expect<Equal<M3, 1>>,
-            Expect<Equal<M4, 1>>,
-            Expect<Equal<M5, 0>>,
+            Expect<Test<M1, "equals",  0>>,
+            Expect<Test<M2, "equals",  1>>,
+            Expect<Test<M3, "equals",  1>>,
+            Expect<Test<M4, "equals",  1>>,
+            Expect<Test<M5, "equals",  0>>,
         ];
     });
 

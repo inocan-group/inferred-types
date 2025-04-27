@@ -1,12 +1,8 @@
-import { Expect, Equal } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-
 import { list, ifArray } from "inferred-types/runtime"
-import { Extends, List } from "inferred-types/types";
+import { Expect, List, Test } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("list() utility", () => {
 
@@ -48,20 +44,17 @@ describe("list() utility", () => {
     expect(l2).toEqual([1, 2, 3]);
 
     type cases = [
-      Expect<Equal<typeof l1, List<number, "32123">>>,
-      Expect<Equal<typeof l2, List<number, "02">>>,
-      Expect<Equal<typeof l3, List<unknown, "04">>>,
-      Expect<Equal<typeof l3, typeof l4>>,
-      Expect<Equal<typeof mixed, List<number | string, "3921f2">>>,
+      Expect<Test<typeof l1, "equals", List<number, "32123">>>,
+      Expect<Test<typeof l2, "equals", List<number, "02">>>,
+      Expect<Test<typeof l3, "equals", List<unknown, "04">>>,
+      Expect<Test<typeof l3, "equals", typeof l4>>,
+      Expect<Test<typeof mixed, "equals", List<number | string, "3921f2">>>,
 
-      Expect<Extends<typeof l1, List<number>>>,
-      Expect<Extends<typeof l2, List<number>>>,
-      Expect<Extends<typeof mixed, List<number | string>>>,
+      Expect<Test<typeof l1, "extends", List<number>>>,
+      Expect<Test<typeof l2, "extends", List<number>>>,
+      Expect<Test<typeof mixed, "extends", List<number | string>>>,
     ];
-    const cases: cases = [
-      true, true, true, true, true,
-      true, true, true
-    ];
+
   });
 
 
@@ -75,7 +68,7 @@ describe("list() utility", () => {
     ]);
 
     type cases = [
-      Expect<Equal<typeof m, List<string, "2212 -> mapped">>>,
+      Expect<Test<typeof m, "equals", List<string, "2212 -> mapped">>>,
     ];
     const cases: cases = [true];
 
@@ -95,12 +88,9 @@ describe("list() utility", () => {
     expect(superFlat).toEqual([1, 2, 3, 4, 5, "foo"]);
 
     type cases = [
-      Expect<Equal<typeof deep, List<string | number | number[], "49312f">>>,
-      Expect<Equal<typeof flat, List<string | number, "49312f -> flattened">>>,
-      Expect<Equal<typeof kindaFlat, List<string | number | number[], "49312f -> flattened">>>,
-    ];
-    const cases: cases = [
-      true, true, true
+      Expect<Test<typeof deep, "equals",  List<string | number | number[], "49312f">>>,
+      Expect<Test<typeof flat, "equals",  List<string | number, "49312f -> flattened">>>,
+      Expect<Test<typeof kindaFlat, "equals",  List<string | number | number[], "49312f -> flattened">>>,
     ];
 
   });
@@ -127,13 +117,9 @@ describe("list() utility", () => {
     let narrow = deep.flatMap(narrowCb);
 
     type cases = [
-      Expect<Extends<typeof wide, List<string | number>>>,
-      Expect<Extends<typeof narrow, List<`found a ${string}` | `found a ${number}`>>>,
+      Expect<Test<typeof wide, "extends", List<string | number>>>,
+      Expect<Test<typeof narrow, "extends", List<`found a ${string}` | `found a ${number}`>>>,
     ];
-    const cases: cases = [
-      true, true
-    ];
-
   });
 
 

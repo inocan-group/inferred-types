@@ -9,8 +9,8 @@ describe("Flexy<T>", () => {
         type Empty2 = Flexy<readonly []>;
 
         type cases = [
-            Expect<Equal<Empty, []>>,
-            Expect<Equal<Empty2, readonly []>>,
+            Expect<Test<Empty, "equals",  []>>,
+            Expect<Test<Empty2, "equals",  readonly []>>,
         ];
     });
 
@@ -20,8 +20,8 @@ describe("Flexy<T>", () => {
         type Opti = Flexy<[number?]>;
 
         type cases = [
-            Expect<Equal<One, number | [number]>>,
-            Expect<Equal<Opti, number | undefined | [number?]>>,
+            Expect<Test<One, "equals",  number | [number]>>,
+            Expect<Test<Opti, "equals",  number | undefined | [number?]>>,
         ];
     });
 
@@ -31,8 +31,8 @@ describe("Flexy<T>", () => {
         type ZeroToTwo = Flexy<[number?, string?]>;
 
         type cases = [
-            Expect<Equal<OneOrTwo, number | [number, string?]>>,
-            Expect<Equal<ZeroToTwo, undefined | number | [number?, string?]>>,
+            Expect<Test<OneOrTwo, number | [number, "equals",  string?]>>,
+            Expect<Test<ZeroToTwo, undefined | number | [number?, "equals",  string?]>>,
         ];
     });
 
@@ -42,8 +42,8 @@ describe("Flexy<T>", () => {
         type Three = Flexy<[number, string, string?]>;
 
         type cases = [
-            Expect<Equal<Two, [number, string]>>,
-            Expect<Equal<Three, [number, string, string?]>>,
+            Expect<Test<Two, [number, "equals",  string]>>,
+            Expect<Test<Three, [number, string, "equals",  string?]>>,
         ];
     });
 });

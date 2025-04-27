@@ -55,7 +55,7 @@ describe.skip("createGrammar()", () => {
     expect(names).toEqual(["null", "undefined", "true", "string"])
 
     type cases = [
-      Expect<Equal<typeof names, ["null", "undefined", "true", "string"]>>,
+      Expect<Test<typeof names, ["null", "undefined", "true", "equals",  "string"]>>,
     ];
   });
 
@@ -66,7 +66,7 @@ describe.skip("createGrammar()", () => {
     const str = g.tokenShape(Str);
 
     type cases = [
-      Expect<Equal<typeof nada, `{{null}}`>>,
+      Expect<Test<typeof nada, "equals",  `{{null}}`>>,
     ];
 
   });

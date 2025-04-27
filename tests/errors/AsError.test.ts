@@ -8,9 +8,9 @@ describe("AsError<T>", () => {
 
     it("raw property check on ErrorCondition", () => {
         type cases = [
-            Expect<Equal<Err["kind"], "err">>,
-            Expect<Equal<Err["msg"], "oops">>,
-            Expect<Equal<Err["stack"], ["Utility"]>>,
+            Expect<Test<Err["kind"], "equals",  "err">>,
+            Expect<Test<Err["msg"], "equals",  "oops">>,
+            Expect<Test<Err["stack"], "equals",  ["Utility"]>>,
         ];
         const cases: cases = [
             true, true, true,
@@ -21,7 +21,7 @@ describe("AsError<T>", () => {
         type Proxy = AsError<Err>;
 
         type cases = [
-            Expect<Equal<Proxy, Err>>
+            Expect<Test<Proxy, "equals",  Err>>
         ];
         const cases: cases = [true];
     });
@@ -44,7 +44,7 @@ describe("AsError<T>", () => {
         type WithContext = AsError<["err", "oops", { ctx: { foo: 1; bar: 2 } }]>;
 
         type cases = [
-            Expect<Equal<SimpleErr, ErrorCondition<"err", "oops">>>,
+            Expect<Test<SimpleErr, ErrorCondition<"err", "equals",  "oops">>>,
             Expect<DoesExtend<WithContext, ErrorCondition<"err", "oops">>>,
         ];
         const cases: cases = [true, true];

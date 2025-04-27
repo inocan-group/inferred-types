@@ -8,7 +8,7 @@ describe("ReverseLookup<T>", () => {
         type T1 = ReverseLookup<{ foo: "1"; bar: "bax" }>
 
         type cases = [
-            Expect<Equal<T1, { "1": "foo"; bax: "bar" }>>
+            Expect<Test<T1, "equals",  { "1": "foo"; bax: "bar" }>>
         ];
     });
 
@@ -62,7 +62,7 @@ describe("ReverseLookup<T>", () => {
         type Reverse = ReverseLookup<Lookup>;
 
         type cases = [
-            Expect<Equal<Reverse["&copy;"], "©">>
+            Expect<Test<Reverse["&copy;"], "equals",  "©">>
         ];
     });
 

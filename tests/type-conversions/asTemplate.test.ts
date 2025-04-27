@@ -4,9 +4,7 @@ import { asTemplate } from "inferred-types/runtime";
 import { Csv, Integer, Iso8601DateRepresentation } from "inferred-types/types";
 
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("asTemplate()", () => {
 
@@ -18,7 +16,7 @@ describe("asTemplate()", () => {
     expect(t_integer).toEqual(integer);
 
     type cases = [
-      Expect<Equal<Int, `I'm a little ${Integer}`>>
+      Expect<Test<Int, "equals",  `I'm a little ${Integer}`>>
     ];
   });
 
@@ -30,7 +28,7 @@ describe("asTemplate()", () => {
     expect(t_date).toEqual(date);
 
     type cases = [
-      Expect<Equal<D, `I'm a little ${Iso8601DateRepresentation}`>>
+      Expect<Test<D, "equals",  `I'm a little ${Iso8601DateRepresentation}`>>
     ];
   });
 
@@ -42,7 +40,7 @@ describe("asTemplate()", () => {
     expect(t_csv).toEqual(csv);
 
     type cases = [
-      Expect<Equal<D, `I'm a little ${Csv}`>>
+      Expect<Test<D, "equals",  `I'm a little ${Csv}`>>
     ];
   });
 

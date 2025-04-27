@@ -1,10 +1,8 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import { stripParenthesis } from "inferred-types/runtime";
+import { Expect, Test } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("stripParenthesis(val)", () => {
 
@@ -18,11 +16,10 @@ describe("stripParenthesis(val)", () => {
     expect(t3).toEqual("foo bar");
 
 
-    // @ts-ignore
     type cases = [
-      Expect<Equal<typeof t1, "foo bar">>,
-      Expect<Equal<typeof t2, "foo bar">>,
-      Expect<Equal<typeof t3, "foo bar">>,
+      Expect<Test<typeof t1, "equals",  "foo bar">>,
+      Expect<Test<typeof t2, "equals",  "foo bar">>,
+      Expect<Test<typeof t3, "equals",  "foo bar">>,
     ];
   });
 

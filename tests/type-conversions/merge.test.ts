@@ -20,8 +20,8 @@ describe("MergeObjects<A,B>", () => {
     type M2 = MergeObjects<O1, O2>;
 
     type cases = [
-      Expect<Equal<M1, { foo: 1; bar: 2; baz: 4 }>>,
-      Expect<Equal<M2, { foo: 1; bar: 3; baz: 4 }>>,
+      Expect<Test<M1, "equals",  { foo: 1; bar: 2; baz: 4 }>>,
+      Expect<Test<M2, "equals",  { foo: 1; bar: 3; baz: 4 }>>,
     ];
     const cases: cases = [true, true];
   });
@@ -33,7 +33,7 @@ describe("MergeObjects<A,B>", () => {
     type M1 = MergeObjects<O2, O1>;
 
     type cases = [
-      Expect<Equal<M1, { foo: 1; bar: 2; baz: 4; deep: { a: 1 } }>>,
+      Expect<Test<M1, "equals",  { foo: 1; bar: 2; baz: 4; deep: { a: 1 } }>>,
     ];
     const cases: cases = [true];
 
@@ -50,10 +50,10 @@ describe("MergeTuples<TDefault,TOverride>", () => {
     type Eclipsed = MergeTuples<["foo", "bar"], ["baz", "bar", "foo"]>;
 
     type cases = [
-      Expect<Equal<Nothing, readonly []>>,
-      Expect<Equal<Unchanged, readonly ["foo", "bar"]>>,
-      Expect<Equal<Barbar, readonly ["bar", "bar"]>>,
-      Expect<Equal<Eclipsed, readonly ["baz", "bar", "foo"]>>,
+      Expect<Test<Nothing, "equals",  readonly []>>,
+      Expect<Test<Unchanged, readonly ["foo", "equals",  "bar"]>>,
+      Expect<Test<Barbar, readonly ["bar", "equals",  "bar"]>>,
+      Expect<Test<Eclipsed, readonly ["baz", "bar", "equals",  "foo"]>>,
     ];
 
     const cases: cases = [true, true, true, true];
@@ -75,12 +75,12 @@ describe("MergeScalars", () => {
   it("happy path", () => {
 
     type cases = [
-      Expect<Equal<MergeScalars<4, 5>, 5>>, // override prevails
-      Expect<Equal<MergeScalars<4, undefined>, 4>>, // no override, default prevails
-      Expect<Equal<MergeScalars<number, 5>, 5>>, // wide type for default is ignored
-      Expect<Equal<MergeScalars<4, number>, number>>, // type widened to fit override
-      Expect<Equal<MergeScalars<number, 5>, 5>>, // override being wide has no bearing
-      Expect<Equal<MergeScalars<number, number>, number>>
+      Expect<Test<MergeScalars<4, 5>, "equals",  5>>, // override prevails
+      Expect<Test<MergeScalars<4, undefined>, "equals",  4>>, // no override, default prevails
+      Expect<Test<MergeScalars<number, 5>, "equals",  5>>, // wide type for default is ignored
+      Expect<Test<MergeScalars<4, number>, "equals",  number>>, // type widened to fit override
+      Expect<Test<MergeScalars<number, 5>, "equals",  5>>, // override being wide has no bearing
+      Expect<Test<MergeScalars<number, number>, "equals",  number>>
     ];
 
     const cases: cases = [true, true, true, true, true, true];
@@ -112,9 +112,9 @@ describe("Merge Tuples", () => {
     type OverExtend = MergeTuples<Lengthy, Foobar>;
 
     type cases = [
-      Expect<Equal<OverrideFully, Baz42>>,
-      Expect<Equal<PartialOverride, readonly ["baz", "bar"]>>,
-      Expect<Equal<OverExtend, readonly ["foo", "bar", "three", "four", "five"]>>
+      Expect<Test<OverrideFully, "equals",  Baz42>>,
+      Expect<Test<PartialOverride, readonly ["baz", "equals",  "bar"]>>,
+      Expect<Test<OverExtend, readonly ["foo", "bar", "three", "four", "equals",  "five"]>>
     ];
     const cases: cases = [true, true, true];
   });
@@ -154,9 +154,9 @@ describe("Merge Objects", () => {
 
 
     type cases = [
-      Expect<Equal<JustExtend, { foo: 1; bar: 2; baz: 3 }>>,
-      Expect<Equal<JustExtend2, { foo: 1; bar: 2; baz: 3 }>>,
-      Expect<Equal<FullyOverride, { foo: 2; bar: 3 }>>
+      Expect<Test<JustExtend, "equals",  { foo: 1; bar: 2; baz: 3 }>>,
+      Expect<Test<JustExtend2, "equals",  { foo: 1; bar: 2; baz: 3 }>>,
+      Expect<Test<FullyOverride, "equals",  { foo: 2; bar: 3 }>>
     ];
 
   });
@@ -183,12 +183,12 @@ describe("Merge<A,B>", () => {
     type Nothing = Merge<null, undefined>;
 
     type cases = [
-      Expect<Equal<FooBar, { foo: 1; bar: 2 }>>,
-      Expect<Equal<Replaced, { foo: 1; bar: 2 }>>,
-      Expect<Equal<Both, { foo: 1; bar: 2; baz: 3 }>>,
+      Expect<Test<FooBar, "equals",  { foo: 1; bar: 2 }>>,
+      Expect<Test<Replaced, "equals",  { foo: 1; bar: 2 }>>,
+      Expect<Test<Both, "equals",  { foo: 1; bar: 2; baz: 3 }>>,
 
-      Expect<Equal<ObjFromNada, { foo: 1 }>>,
-      Expect<Equal<ObjFromNull, { foo: 1 }>>,
+      Expect<Test<ObjFromNada, "equals",  { foo: 1 }>>,
+      Expect<Test<ObjFromNull, "equals",  { foo: 1 }>>,
 
       ExpectTrue<IsErrorCondition<Invalid, "invalid-merge">>,
       ExpectTrue<IsErrorCondition<Nothing, "invalid-merge">>,

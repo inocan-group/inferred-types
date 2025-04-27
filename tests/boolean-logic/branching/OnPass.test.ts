@@ -2,9 +2,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { ErrorCondition, OnPass } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("OnPass<TTest,TPass", () => {
 
@@ -24,16 +22,16 @@ describe("OnPass<TTest,TPass", () => {
 
 
         type cases = [
-            Expect<Equal<P1, "pass">>,
-            Expect<Equal<P2, "pass">>,
-            Expect<Equal<P3, "pass">>,
+            Expect<Test<P1, "equals",  "pass">>,
+            Expect<Test<P2, "equals",  "pass">>,
+            Expect<Test<P3, "equals",  "pass">>,
 
-            Expect<Equal<FF, false>>,
-            Expect<Equal<FN, never>>,
-            Expect<Equal<FE, ErrorCondition<"bad-juju">>>,
+            Expect<Test<FF, "equals",  false>>,
+            Expect<Test<FN, "equals",  never>>,
+            Expect<Test<FE, "equals",  ErrorCondition<"bad-juju">>>,
 
-            Expect<Equal<RF, "mapped">>,
-            Expect<Equal<RE, "mapped">>,
+            Expect<Test<RF, "equals",  "mapped">>,
+            Expect<Test<RE, "equals",  "mapped">>,
         ];
         const cases: cases = [
             true, true, true,

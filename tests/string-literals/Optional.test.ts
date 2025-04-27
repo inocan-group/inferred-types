@@ -1,10 +1,7 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { Optional } from "inferred-types/types";
+import { Expect, Optional, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("Optional<T>", () => {
 
@@ -18,20 +15,18 @@ describe("Optional<T>", () => {
 
 
         type cases = [
-            Expect<Equal<FooMaybeBar, "foo" | "foobar">>,
-            Expect<Equal<Nested, "foo" | "foobar" | "foobarbaz">>,
-            Expect<Equal<FooUnion, "foo" | "foobar" | "foobaz">>,
+            Expect<Test<FooMaybeBar, "equals",  "foo" | "foobar">>,
+            Expect<Test<Nested, "equals",  "foo" | "foobar" | "foobarbaz">>,
+            Expect<Test<FooUnion, "equals",  "foo" | "foobar" | "foobaz">>,
 
-            Expect<Equal<Multi, "" | "bar" | "foo" | "foobar">>,
-            Expect<Equal<
+            Expect<Test<Multi, "equals",  "" | "bar" | "foo" | "foobar">>,
+            Expect<Test<
                 MultiUnion,
+                "equals",
                 "" | "bar" | "foo" | "foobar" | "barbar" | "barfoo" | "foofoo"
             >>
         ];
-        const cases: cases = [
-            true, true, true,
-            true, true
-        ];
+
     });
 
 });

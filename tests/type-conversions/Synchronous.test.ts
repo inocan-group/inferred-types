@@ -17,11 +17,11 @@ describe("Synchronous<T>", () => {
     type PP = Synchronous<Promise<string>>;
 
     type cases = [
-        Expect<Equal<Str, string>>,
-        Expect<Equal<AStr, string>>,
-        Expect<Equal<LStr, string>>,
-        Expect<Equal<L2Str, string>>,
-        Expect<Equal<PP, string>>,
+        Expect<Test<Str, "equals",  string>>,
+        Expect<Test<AStr, "equals",  string>>,
+        Expect<Test<LStr, "equals",  string>>,
+        Expect<Test<L2Str, "equals",  string>>,
+        Expect<Test<PP, "equals",  string>>,
     ];
   });
 

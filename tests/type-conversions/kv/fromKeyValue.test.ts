@@ -16,7 +16,7 @@ describe("fromKeyValue()", () => {
 
         // @ts-ignore
         type cases = [
-            Expect<Equal<typeof obj, { foo: "hi", bar: 42 }>>,
+            Expect<Test<typeof obj, { foo: "hi", "equals",  bar: 42 }>>,
         ]
     });
 

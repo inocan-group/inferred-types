@@ -1,13 +1,9 @@
-/* eslint-disable ts/ban-types */
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { IsScalar, Scalar } from "inferred-types/types";
+import { Expect, IsScalar, Scalar, Test } from "inferred-types/types";
 import { isScalar } from "inferred-types/runtime"
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("IsScalar<T>", () => {
 
@@ -25,17 +21,17 @@ describe("IsScalar<T>", () => {
     type F6 = IsScalar<never>;
 
     type cases = [
-      Expect<Equal<T1, true>>,
-      Expect<Equal<T2, true>>,
-      Expect<Equal<T3, true>>,
-      Expect<Equal<T4, true>>,
+      Expect<Test<T1, "equals",  true>>,
+      Expect<Test<T2, "equals",  true>>,
+      Expect<Test<T3, "equals",  true>>,
+      Expect<Test<T4, "equals",  true>>,
 
-      Expect<Equal<F1, false>>,
-      Expect<Equal<F2, false>>,
-      Expect<Equal<F3, false>>,
-      Expect<Equal<F4, false>>,
-      Expect<Equal<F5, false>>,
-      Expect<Equal<F6, false>>,
+      Expect<Test<F1, "equals",  false>>,
+      Expect<Test<F2, "equals",  false>>,
+      Expect<Test<F3, "equals",  false>>,
+      Expect<Test<F4, "equals",  false>>,
+      Expect<Test<F5, "equals",  false>>,
+      Expect<Test<F6, "equals",  false>>,
     ];
     const cases: cases = [
       true, true, true, true,
@@ -50,9 +46,9 @@ describe("IsScalar<T>", () => {
     type None = IsScalar<string[] | number[]>;
 
     type cases = [
-      Expect<Equal<MixedUnion, boolean>>,
-      Expect<Equal<AllScalarUnion, true>>,
-      Expect<Equal<None, false>>,
+      Expect<Test<MixedUnion, "equals",  boolean>>,
+      Expect<Test<AllScalarUnion, "equals",  true>>,
+      Expect<Test<None, "equals",  false>>,
     ];
     const cases: cases = [true, true, true];
   });
@@ -96,7 +92,7 @@ describe("isScalar(value) runtime type guard", () => {
       expect(true).toBe(true);
 
       type cases = [
-        Expect<Equal<Val, Scalar>>
+        Expect<Test<Val, "equals",  Scalar>>
       ];
       const cases: cases = [true];
     } else {

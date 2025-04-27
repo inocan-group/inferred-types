@@ -14,7 +14,7 @@ describe("WithKeys<T, K> utility with tuples", () => {
     // type FooBaz = WithKeys<["foo","bar","baz"], [0,2]>;
 
     type cases = [
-      // Expect<Equal<FooBaz, ["foo", "baz"]>>
+      // Expect<Test<FooBaz, ["foo", "equals",  "baz"]>>
     ];
     const cases: cases = [];
 
@@ -33,12 +33,12 @@ describe("WithKeys<T, K> utility with objects", () => {
     type FooBaz2 = WithKeys<O, ["foo", "baz"]>;
 
     type cases = [
-      Expect<Equal<FooBar, { foo: 1; bar: 2 }>>,
-      Expect<Equal<FooBar2, { foo: 1; bar: 2 }>>,
-      Expect<Equal<Baz, { baz: "hi" }>>,
-      Expect<Equal<Baz2, { baz: "hi" }>>,
-      Expect<Equal<FooBaz, { foo: 1; baz: "hi" }>>,
-      Expect<Equal<FooBaz2, { foo: 1; baz: "hi" }>>,
+      Expect<Test<FooBar, "equals",  { foo: 1; bar: 2 }>>,
+      Expect<Test<FooBar2, "equals",  { foo: 1; bar: 2 }>>,
+      Expect<Test<Baz, "equals",  { baz: "hi" }>>,
+      Expect<Test<Baz2, "equals",  { baz: "hi" }>>,
+      Expect<Test<FooBaz, "equals",  { foo: 1; baz: "hi" }>>,
+      Expect<Test<FooBaz2, "equals",  { foo: 1; baz: "hi" }>>,
     ];
     const c: cases = [true, true, true, true, true, true];
     expect(c).toBe(c);
@@ -48,7 +48,7 @@ describe("WithKeys<T, K> utility with objects", () => {
     type Obj = { foo: 1; bar?: number; baz: "hi" };
     type FooBar = WithKeys<Obj, "foo" | "bar">;
 
-    type cases = [Expect<Equal<FooBar, { foo: 1; bar?: number }>>];
+    type cases = [Expect<Test<FooBar, "equals",  { foo: 1; bar?: number }>>];
     const c: cases = [true];
     expect(c).toBe(c);
   });
@@ -80,8 +80,8 @@ describe("withKeys() runtime with objects", () => {
     expect(t2b.baz).toBe("hi");
 
     type cases = [
-      Expect<Equal<typeof t1, { readonly foo: 1; readonly bar: number | undefined }>>,
-      Expect<Equal<typeof t2, { readonly foo: 1; readonly baz: "hi" }>>
+      Expect<Test<typeof t1, "equals",  { readonly foo: 1; readonly bar: number | undefined }>>,
+      Expect<Test<typeof t2, "equals",  { readonly foo: 1; readonly baz: "hi" }>>
     ];
     const cases: cases = [true, true];
   });

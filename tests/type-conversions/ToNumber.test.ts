@@ -4,9 +4,7 @@ import { describe, expect, it } from "vitest";
 import { ToNumber } from "inferred-types/types";
 import { narrow, toNumber } from "inferred-types/runtime";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("ToNumber<T>", () => {
 
@@ -21,14 +19,14 @@ describe("ToNumber<T>", () => {
     type Nan = ToNumber<"foobar">;
 
     type cases = [
-      Expect<Equal<Num, 42>>,
-      Expect<Equal<StrNum, 42>>,
-      Expect<Equal<True, 1>>,
-      Expect<Equal<False, 0>>,
-      Expect<Equal<Bool, 1 | 0>>,
-      Expect<Equal<Nada, never>>,
-      Expect<Equal<Nada2, never>>,
-      Expect<Equal<Nan, never>>,
+      Expect<Test<Num, "equals",  42>>,
+      Expect<Test<StrNum, "equals",  42>>,
+      Expect<Test<True, "equals",  1>>,
+      Expect<Test<False, "equals",  0>>,
+      Expect<Test<Bool, "equals",  1 | 0>>,
+      Expect<Test<Nada, "equals",  never>>,
+      Expect<Test<Nada2, "equals",  never>>,
+      Expect<Test<Nan, "equals",  never>>,
     ];
     const cases: cases = [
       true, true, true,
@@ -52,17 +50,17 @@ describe("ToNumber<T>", () => {
     type TrueFalse = ToNumber<[true, true, false]>;
 
     type cases = [
-      Expect<Equal<NumericArray, [1, 2, 3]>>,
-      Expect<Equal<RoNumericArray, readonly [1, 2, 3]>>,
-      Expect<Equal<StrNum, [1, 2, 3]>>,
-      Expect<Equal<RoStrNum, readonly [1, 2, 3]>>,
+      Expect<Test<NumericArray, [1, 2, "equals",  3]>>,
+      Expect<Test<RoNumericArray, readonly [1, 2, "equals",  3]>>,
+      Expect<Test<StrNum, [1, 2, "equals",  3]>>,
+      Expect<Test<RoStrNum, readonly [1, 2, "equals",  3]>>,
 
-      Expect<Equal<PartBad, [1, 2, never]>>,
-      Expect<Equal<AllBad, [never, never, never]>>,
-      Expect<Equal<Empty, []>>,
+      Expect<Test<PartBad, [1, 2, "equals",  never]>>,
+      Expect<Test<AllBad, [never, never, "equals",  never]>>,
+      Expect<Test<Empty, "equals",  []>>,
 
-      Expect<Equal<Bool, [0 | 1, 0 | 1, 0 | 1]>>,
-      Expect<Equal<TrueFalse, [1, 1, 0]>>,
+      Expect<Test<Bool, [0 | 1, 0 | 1, "equals",  0 | 1]>>,
+      Expect<Test<TrueFalse, [1, 1, "equals",  0]>>,
 
     ];
     const cases: cases = [
@@ -91,11 +89,11 @@ describe("ToNumber<T>", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<typeof str, 42>>,
-      Expect<Equal<typeof passthrough, 42>>,
-      Expect<Equal<typeof emptyArr, readonly number[]>>,
-      Expect<Equal<GoodArr, readonly [1, 2, 3]>>,
-      Expect<Equal<typeof mixedArr, readonly [1, never, 2]>>,
+      Expect<Test<typeof str, "equals",  42>>,
+      Expect<Test<typeof passthrough, "equals",  42>>,
+      Expect<Test<typeof emptyArr, "equals",  readonly number[]>>,
+      Expect<Test<GoodArr, readonly [1, 2, "equals",  3]>>,
+      Expect<Test<typeof mixedArr, readonly [1, never, "equals",  2]>>,
     ];
   });
 

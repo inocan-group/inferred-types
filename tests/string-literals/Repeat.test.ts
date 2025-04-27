@@ -1,10 +1,5 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { Repeat } from "inferred-types/types";
+import { Expect, Repeat, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
-
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
 
 describe("Repeat<TStr,TCount>", () => {
 
@@ -13,10 +8,9 @@ describe("Repeat<TStr,TCount>", () => {
         type T2 = Repeat<"foo", 3>;
 
         type cases = [
-            Expect<Equal<T1, "aaaaa">>,
-            Expect<Equal<T2, "foofoofoo">>,
+            Expect<Test<T1, "equals",  "aaaaa">>,
+            Expect<Test<T2, "equals",  "foofoofoo">>,
         ];
-        const cases: cases = [true, true];
     });
 
 });

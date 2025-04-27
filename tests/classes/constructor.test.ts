@@ -1,7 +1,5 @@
 import { describe, it, expect } from "vitest";
-
-import { Expect, Equal } from "@type-challenges/utils";
-import { Constructor } from "inferred-types/types";
+import { Expect, Constructor, Test } from "inferred-types/types";
 
 class TestClass {
     public foo: number;
@@ -27,12 +25,10 @@ describe("Constructor<Ctor, Klass>", () => {
         type Instance = typeof inst;
 
         type cases = [
-            // prep
-            Expect<Equal<Instance, { foo: number; bar: string }>>,
-            Expect<Equal<Instance, KlassInstance>>,
-            Expect<Equal<KlassParams, [foo: number, bar: string]>>,
-            //
-            Expect<Equal<SynReturn, TestClass>>
+            Expect<Test<Instance, "equals",  { foo: number; bar: string }>>,
+            Expect<Test<Instance, "equals",  KlassInstance>>,
+            Expect<Test<KlassParams, "equals", [foo: number,  bar: string]>>,
+            Expect<Test<SynReturn, "equals",  TestClass>>
         ];
 
         const c: cases = [true, true, true, true];

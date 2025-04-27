@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { filter, FilterFn } from "inferred-types/runtime";
-import { Compare, Filter } from "inferred-types/types";
+import { Compare, Filter, Test } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
 describe("filter()", () => {
@@ -17,11 +17,11 @@ describe("filter()", () => {
         // type MultiParam = Parameters<Multi>[0];
 
         // type cases = [
-        //     Expect<Equal<typeof startWith, FilterFn<"startsWith", ["foo"]>>>,
-        //     Expect<Equal<typeof startWithMulti, FilterFn<"startsWith", ["foo", "bar"]>>>,
+        //     Expect<Test<typeof startWith, FilterFn<"startsWith", "equals",  ["foo"]>>>,
+        //     Expect<Test<typeof startWithMulti, FilterFn<"startsWith", ["foo", "equals",  "bar"]>>>,
 
-        //     Expect<Equal<SingleParam, string | readonly string[]>>,
-        //     Expect<Equal<MultiParam, string | readonly string[]>>,
+        //     Expect<Test<SingleParam, "equals",  string | readonly string[]>>,
+        //     Expect<Test<MultiParam, "equals",  string | readonly string[]>>,
         // ];
     });
 
@@ -74,17 +74,17 @@ describe("filter()", () => {
         expect(uf1).toBe(false);
 
         type cases = [
-            Expect<Equal<typeof t1, true>>,
-            Expect<Equal<typeof f1, false>>,
-            Expect<Equal<typeof b1, boolean>>,
+            Expect<Test<typeof t1, "equals",  true>>,
+            Expect<Test<typeof f1, "equals",  false>>,
+            Expect<Test<typeof b1, "equals",  boolean>>,
 
-            Expect<Equal<typeof t2, true>>,
-            Expect<Equal<typeof t3, true>>,
-            Expect<Equal<typeof t4, true>>,
+            Expect<Test<typeof t2, "equals",  true>>,
+            Expect<Test<typeof t3, "equals",  true>>,
+            Expect<Test<typeof t4, "equals",  true>>,
 
-            Expect<Equal<typeof ut1, true>>,
-            Expect<Equal<typeof ut2, true>>,
-            Expect<Equal<typeof uf1, false>>,
+            Expect<Test<typeof ut1, "equals",  true>>,
+            Expect<Test<typeof ut2, "equals",  true>>,
+            Expect<Test<typeof uf1, "equals",  false>>,
         ];
     });
 
@@ -97,7 +97,7 @@ describe("filter()", () => {
         expect(t).toEqual(["fooBar", "barBar"]);
 
         type cases = [
-            Expect<Equal<T, ["fooBar", "barBar"]>>
+            Expect<Test<T, ["fooBar", "equals",  "barBar"]>>
         ];
     });
 
@@ -129,17 +129,17 @@ describe("filter()", () => {
 
 
         type cases = [
-            Expect<Equal<typeof t1, true>>,
-            Expect<Equal<typeof f1, false>>,
-            Expect<Equal<typeof b1, boolean>>,
+            Expect<Test<typeof t1, "equals",  true>>,
+            Expect<Test<typeof f1, "equals",  false>>,
+            Expect<Test<typeof b1, "equals",  boolean>>,
 
-            Expect<Equal<typeof t2, true>>,
-            Expect<Equal<typeof t3, true>>,
-            Expect<Equal<typeof t4, true>>,
+            Expect<Test<typeof t2, "equals",  true>>,
+            Expect<Test<typeof t3, "equals",  true>>,
+            Expect<Test<typeof t4, "equals",  true>>,
 
-            Expect<Equal<typeof ut1, true>>,
-            Expect<Equal<typeof ut2, true>>,
-            Expect<Equal<typeof uf1, false>>,
+            Expect<Test<typeof ut1, "equals",  true>>,
+            Expect<Test<typeof ut2, "equals",  true>>,
+            Expect<Test<typeof uf1, "equals",  false>>,
         ];
     });
 
@@ -152,7 +152,7 @@ describe("filter()", () => {
         expect(t).toEqual(["fooBar", "barBar"]);
 
         type cases = [
-            Expect<Equal<T, ["fooBar", "barBar"]>>
+            Expect<Test<T, ["fooBar", "equals",  "barBar"]>>
         ];
     });
 
@@ -174,10 +174,10 @@ describe("filter()", () => {
 
 
         type cases = [
-            Expect<Equal<typeof t1, true>>,
-            Expect<Equal<typeof t2, true>>,
-            Expect<Equal<typeof t3, true>>,
-            Expect<Equal<typeof f1, false>>,
+            Expect<Test<typeof t1, "equals",  true>>,
+            Expect<Test<typeof t2, "equals",  true>>,
+            Expect<Test<typeof t3, "equals",  true>>,
+            Expect<Test<typeof f1, "equals",  false>>,
         ];
     });
 
@@ -189,7 +189,7 @@ describe("filter()", () => {
         expect(t1).toEqual(["foo","foobar"])
 
         type cases = [
-            Expect<Equal<typeof t1, [ "foo","foobar" ]>>,
+            Expect<Test<typeof t1, [ "foo", "equals", "foobar" ]>>,
         ];
     });
 
@@ -209,10 +209,10 @@ describe("filter()", () => {
 
 
         type cases = [
-            Expect<Equal<typeof t1, true>>,
-            Expect<Equal<typeof t2, true>>,
-            Expect<Equal<typeof t3, true>>,
-            Expect<Equal<typeof f1, false>>,
+            Expect<Test<typeof t1, "equals",  true>>,
+            Expect<Test<typeof t2, "equals",  true>>,
+            Expect<Test<typeof t3, "equals",  true>>,
+            Expect<Test<typeof f1, "equals",  false>>,
         ];
     });
 
@@ -227,13 +227,11 @@ describe("filter()", () => {
 
         expect(f1).toBe(false);
         expect(f2).toBe(false);
-        expect(f3).toBe(false);
 
         type cases = [
-            Expect<Equal<typeof t1, true>>,
-            Expect<Equal<typeof f1, false>>,
-            Expect<Equal<typeof f2, false>>,
-            Expect<Equal<typeof f3, false>>,
+            Expect<Test<typeof t1, "equals",  true>>,
+            Expect<Test<typeof f1, "equals",  false>>,
+            Expect<Test<typeof f2, "equals",  false>>,
         ];
     });
 

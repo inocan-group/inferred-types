@@ -2,9 +2,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import { ifScalar } from "inferred-types/runtime";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("ifScalar(value)", () => {
 
@@ -26,9 +24,9 @@ describe("ifScalar(value)", () => {
     expect(t2).toBe(42);
 
     type cases = [
-      Expect<Equal<typeof t1, `${number} is the meaning of life`>>,
-      Expect<Equal<typeof t2, 42>>,
-      Expect<Equal<typeof t3, "no">>,
+      Expect<Test<typeof t1, "equals",  `${number} is the meaning of life`>>,
+      Expect<Test<typeof t2, "equals",  42>>,
+      Expect<Test<typeof t3, "equals",  "no">>,
     ];
     const cases: cases = [true, true, true];
 

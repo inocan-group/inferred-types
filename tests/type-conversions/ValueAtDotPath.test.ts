@@ -4,9 +4,7 @@ import { Ref } from "vue";
 import { IsValidDotPath, ValueAtDotPath } from "inferred-types/types";
 
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("ValueAtDotPath", () => {
 
@@ -38,12 +36,12 @@ describe("ValueAtDotPath", () => {
 
         type cases = [
             ExpectTrue<Valid>,
-            Expect<Equal<Foo, 1>>,
-            Expect<Equal<Bar, number[]>>,
-            Expect<Equal<Baz_c_ca, 1>>,
+            Expect<Test<Foo, "equals",  1>>,
+            Expect<Test<Bar, "equals",  number[]>>,
+            Expect<Test<Baz_c_ca, "equals",  1>>,
 
-            Expect<Equal<ExplicitInfo, number>>,
-            Expect<Equal<ImplicitInfo, number>>,
+            Expect<Test<ExplicitInfo, "equals",  number>>,
+            Expect<Test<ImplicitInfo, "equals",  number>>,
 
         ];
         const cases: cases = [

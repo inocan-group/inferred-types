@@ -9,9 +9,7 @@ import {
 } from "inferred-types/types";
 import { csv } from "inferred-types/runtime";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("CsvToTuple<T> and CsvToTupleStr<T>", () => {
 
@@ -24,12 +22,12 @@ describe("CsvToTuple<T> and CsvToTupleStr<T>", () => {
     type Mixed = CsvToTuple<"foo, 42, 56,bar">;
 
     type cases = [
-      Expect<Equal<OneTwoThree, [1, 2, 3]>>,
-      Expect<Equal<OneTwoThreeAlt, [1, 2, 3]>>,
-      Expect<Equal<OneTwoThreeStr, ["1", "2", "3"]>>,
+      Expect<Test<OneTwoThree, [1, 2, "equals",  3]>>,
+      Expect<Test<OneTwoThreeAlt, [1, 2, "equals",  3]>>,
+      Expect<Test<OneTwoThreeStr, ["1", "2", "equals",  "3"]>>,
 
-      Expect<Equal<FooBarBaz, ["foo", "bar", "baz"]>>,
-      Expect<Equal<Mixed, ["foo", 42, 56, "bar"]>>,
+      Expect<Test<FooBarBaz, ["foo", "bar", "equals",  "baz"]>>,
+      Expect<Test<Mixed, ["foo", 42, 56, "equals",  "bar"]>>,
 
     ];
     const cases: cases = [
@@ -47,9 +45,9 @@ describe("CsvToJsonTuple<T>", () => {
     type Mixed = CsvToJsonTuple<"foo, 42, 56,bar">;
 
     type cases = [
-      Expect<Equal<OneTwoThree, [1, 2, 3]>>,
-      Expect<Equal<FooBarBaz, ["\"foo\"", "\"bar\"", "\"baz\""]>>,
-      Expect<Equal<Mixed, ["\"foo\"", 42, 56, "\"bar\""]>>,
+      Expect<Test<OneTwoThree, [1, 2, "equals",  3]>>,
+      Expect<Test<FooBarBaz, ["\"foo\"", "\"bar\"", "equals",  "\"baz\""]>>,
+      Expect<Test<Mixed, ["\"foo\"", 42, 56, "equals",  "\"bar\""]>>,
     ];
     const cases: cases = [
       true, true, true
@@ -68,10 +66,10 @@ describe("CsvToUnion<T> and CsvToStrUnion<T>", () => {
     type MixedAsStr = CsvToStrUnion<"foo, 42, 56,bar">;
 
     type cases = [
-      Expect<Equal<OneTwoThree, 1 | 2 | 3>>,
-      Expect<Equal<OneTwoThreeAlt, 1 | 2 | 3>>,
-      Expect<Equal<Mixed, "foo" | "bar" | 42 | 56>>,
-      Expect<Equal<MixedAsStr, "foo" | "bar" | "42" | "56">>,
+      Expect<Test<OneTwoThree, "equals",  1 | 2 | 3>>,
+      Expect<Test<OneTwoThreeAlt, "equals",  1 | 2 | 3>>,
+      Expect<Test<Mixed, "equals",  "foo" | "bar" | 42 | 56>>,
+      Expect<Test<MixedAsStr, "equals",  "foo" | "bar" | "42" | "56">>,
     ]
 
     const cases: cases = [
@@ -97,10 +95,10 @@ describe("csv(content,format) runtime", () => {
 
 
     type cases = [
-      Expect<Equal<typeof abc, ["a", "b", "c", 42]>>,
-      Expect<Equal<typeof abcJson, ["\"a\"", "\"b\"", "\"c\"", 42]>>,
-      Expect<Equal<typeof abcStr, ["a", "b", "c", "42"]>>,
-      Expect<Equal<typeof bool, ["\"foo\"", true, false, true]>>,
+      Expect<Test<typeof abc, ["a", "b", "c", "equals",  42]>>,
+      Expect<Test<typeof abcJson, ["\"a\"", "\"b\"", "\"c\"", "equals",  42]>>,
+      Expect<Test<typeof abcStr, ["a", "b", "c", "equals",  "42"]>>,
+      Expect<Test<typeof bool, ["\"foo\"", true, false, "equals",  true]>>,
     ];
     const cases: cases = [
       true, true, true, true

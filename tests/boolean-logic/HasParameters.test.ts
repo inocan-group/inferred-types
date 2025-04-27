@@ -1,5 +1,4 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { HasParameters } from "inferred-types/types";
+import { Expect, HasParameters, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 // Note: type tests fail visible inspection but pass from Vitest
@@ -19,14 +18,13 @@ describe("HasParameters<T>", () => {
 
         type cases = [
             // single
-            Expect<Equal<F1, true>>,
-            Expect<Equal<F2, true>>,
+            Expect<Test<F1, "equals",  true>>,
+            Expect<Test<F2, "equals",  true>>,
             // none
-            Expect<Equal<HasParameters<typeof fn3>, false>>,
-            Expect<Equal<HasParameters<typeof fn4>, false>>,
+            Expect<Test<HasParameters<typeof fn3>, "equals",  false>>,
+            Expect<Test<HasParameters<typeof fn4>, "equals",  false>>,
             // multiple
-            Expect<Equal<HasParameters<typeof fn5>, true>>
+            Expect<Test<HasParameters<typeof fn5>, "equals",  true>>
         ];
-        const cases: cases = [true, true, true, true, true];
     });
 });

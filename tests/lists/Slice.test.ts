@@ -1,10 +1,7 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { Slice } from "inferred-types/types";
+import { Slice, Test, Expect } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("Slice<TList, TStart, TEnd>", () => {
     type List = [1, 2, 3, 4, 5, 6, 7, 8];
@@ -28,20 +25,20 @@ describe("Slice<TList, TStart, TEnd>", () => {
         type RoSkipLastTwo = Slice<ListRO, 0, -2>;
 
         type cases = [
-            Expect<Equal<LastTwo, [7, 8]>>,
-            Expect<Equal<RoLastTwo, [7, 8]>>,
+            Expect<Test<LastTwo, "equals", [7, 8]>>,
+            Expect<Test<RoLastTwo, "equals", [7, 8]>>,
 
-            Expect<Equal<FirstTwo, [1, 2]>>,
-            Expect<Equal<FirstThree, [1, 2, 3]>>,
-            Expect<Equal<OneToThree, [2, 3, 4]>>,
-            Expect<Equal<ThreeOnward, [4, 5, 6, 7, 8]>>,
-            Expect<Equal<SkipLastTwo, [1, 2, 3, 4, 5, 6]>>,
+            Expect<Test<FirstTwo, "equals", [1, 2]>>,
+            Expect<Test<FirstThree, "equals", [1, 2, 3]>>,
+            Expect<Test<OneToThree, "equals", [2, 3, 4]>>,
+            Expect<Test<ThreeOnward, "equals", [4, 5, 6, 7, 8]>>,
+            Expect<Test<SkipLastTwo, "equals", [1, 2, 3, 4, 5, 6]>>,
 
-            Expect<Equal<RoFirstTwo, [1, 2]>>,
-            Expect<Equal<RoFirstThree, [1, 2, 3]>>,
-            Expect<Equal<RoOneToThree, [2, 3, 4]>>,
-            Expect<Equal<RoThreeOnward, [4, 5, 6, 7, 8]>>,
-            Expect<Equal<RoSkipLastTwo, [1, 2, 3, 4, 5, 6]>>,
+            Expect<Test<RoFirstTwo, "equals", [1, 2]>>,
+            Expect<Test<RoFirstThree, "equals", [1, 2, 3]>>,
+            Expect<Test<RoOneToThree, "equals", [2, 3, 4]>>,
+            Expect<Test<RoThreeOnward, "equals", [4, 5, 6, 7, 8]>>,
+            Expect<Test<RoSkipLastTwo, "equals", [1, 2, 3, 4, 5, 6]>>,
         ];
 
     });
@@ -52,11 +49,10 @@ describe("Slice<TList, TStart, TEnd>", () => {
         type Bar2 = Slice<"FooBar", 3>;
 
         type cases = [
-            Expect<Equal<Foo, "Foo">>,
-            Expect<Equal<Bar, "Bar">>,
-            Expect<Equal<Bar2, "Bar">>,
+            Expect<Test<Foo, "equals",  "Foo">>,
+            Expect<Test<Bar, "equals",  "Bar">>,
+            Expect<Test<Bar2, "equals",  "Bar">>,
         ];
-
     });
 
 });

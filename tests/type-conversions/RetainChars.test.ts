@@ -1,10 +1,12 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { AlphaChar, AlphaNumericChar, NumericChar, RetainChars } from "inferred-types/types";
-
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+import {
+    Expect,
+    AlphaChar,
+    AlphaNumericChar,
+    NumericChar,
+    RetainChars,
+    Test
+} from "inferred-types/types";
 
 describe("RetainChars<TContent,TStrip>", () => {
 
@@ -14,12 +16,21 @@ describe("RetainChars<TContent,TStrip>", () => {
         type RemoveNum = RetainChars<"Hello World5", AlphaChar | " ">;
 
         type cases = [
-            Expect<Equal<Nada, "">>,
-            Expect<Equal<NoChange, "Hello World">>,
-            Expect<Equal<RemoveNum, "Hello World">>,
+            Expect<Test<Nada, "equals",  "">>,
+            Expect<Test<NoChange, "equals",  "Hello World">>,
+            Expect<Test<RemoveNum, "equals",  "Hello World">>,
         ];
-        const cases: cases = [
-            true, true, true
+
+    });
+
+
+    it("using wide values", () => {
+        type WideContent = RetainChars<string, NumericChar>;
+        type WideChar = RetainChars<"Hello World", string>;
+
+        type cases = [
+            Expect<Test<WideContent, "equals", string>>,
+            Expect<Test<WideChar, "equals", string>>,
         ];
     });
 

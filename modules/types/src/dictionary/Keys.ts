@@ -3,11 +3,17 @@ import type {
     As,
     Container,
     Dictionary,
+    ExplicitlyEmptyObject,
     First,
+    IsEqual,
+    IsNever,
     IsObjectLiteral,
+    IsWideContainer,
+    IsWideType,
     IsWideUnion,
     NumericKeys,
     ObjectKey,
+    Or,
     RemoveIndexKeys,
     TupleToUnion,
     UnionToTuple,
@@ -45,11 +51,15 @@ type ProcessTuple<
 
 type ProcessObject<
     TContainer extends Dictionary,
-> = [IsObjectLiteral<RemoveIndexKeys<TContainer>>] extends [true]
+> = IsEqual<ExplicitlyEmptyObject, TContainer> extends true
+? []
+: [IsObjectLiteral<RemoveIndexKeys<TContainer>>] extends [true]
     ? ProcessObj<RemoveIndexKeys<TContainer>> extends readonly (keyof TContainer & ObjectKey)[]
         ? As<ProcessObj<RemoveIndexKeys<TContainer>>, readonly ObjectKey[]>
-        : WideObject<TContainer>
-    : ObjectKey[];
+        : never
+    : IsEqual<TContainer, ExplicitlyEmptyObject> extends true
+        ? []
+        : ObjectKey[];
 
 /**
  * **Keys**`<TContainer>`
@@ -71,11 +81,39 @@ export type Keys<
     TContainer extends readonly unknown[] | Dictionary,
 > = TContainer extends readonly unknown[]
     ? ProcessTuple<TContainer>
-    : TContainer extends Dictionary
-        ? ProcessObject<TContainer> extends readonly (ObjectKey & keyof TContainer)[]
-            ? ProcessObject<TContainer>
-            : never
-        : never;
+    : As<
+        TContainer extends Dictionary
+        ?
+            ProcessObject<TContainer> extends readonly (ObjectKey & keyof TContainer)[]
+                ? ProcessObject<TContainer>
+                : never
+        : never,
+        readonly ObjectKey[]
+    >;
+
+
+/**
+ * **ObjectKeys**`<TObj>`
+ *
+ * Provides the keys of a given object. If a _wide_ representation of
+ * an object is sent in -- in most cases -- the value returned will with
+ * a _wide_ array. The one exception is if the keys can still be determined
+ * even in the wide format (for instance, `Record<"foo" | "bar", any>` we know
+ * the keys must be `["foo", "bar"])
+ */
+export type ObjectKeys<
+    TObj extends object
+> = IsWideContainer<TObj> extends true
+    ? IsEqual<TObj, object> extends true
+        ? ObjectKey[]
+        : TObj extends Record<infer Key, any>
+            ? Or<[IsWideUnion<Key>, IsWideType<Key>]> extends true
+                ? IsNever<Key> extends true
+                    ? []
+                    : Key[]
+                : UnionToTuple<Key>
+            : ObjectKey[]
+        : ProcessObject<TObj>;
 
 type _Public<
     TInput extends readonly PropertyKey[],

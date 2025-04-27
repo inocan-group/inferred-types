@@ -20,13 +20,13 @@ describe("MaxLength", () => {
 
 
     type cases = [
-        Expect<Equal<T1, "hello">>,
-        Expect<Equal<T2, [1,2,3,4,5]>>,
-        Expect<Equal<T3, 12345>>,
+        Expect<Test<T1, "equals",  "hello">>,
+        Expect<Test<T2, [1,2,3,4, "equals", 5]>>,
+        Expect<Test<T3, "equals",  12345>>,
 
-        Expect<Equal<F1, never>>,
-        Expect<Equal<F2, never>>,
-        Expect<Equal<F3, never>>,
+        Expect<Test<F1, "equals",  never>>,
+        Expect<Test<F2, "equals",  never>>,
+        Expect<Test<F3, "equals",  never>>,
 
         Expect<Extends<W, TypedError<"invalid-verifier">>>,
         Expect<Extends<W2, TypedError<"invalid-verifier">>>,

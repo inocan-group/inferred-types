@@ -1,11 +1,13 @@
-/* eslint-disable ts/ban-ts-comment */
-import { getWeekNumber, isThisWeek } from "inferred-types/runtime";
+import { describe, expect, it, beforeEach, afterEach, vi } from "vitest";
+import {
+    getWeekNumber,
+    isThisWeek
+} from "inferred-types/runtime";
 import {
   LuxonJs
 } from "inferred-types/types";
 import { DateTime } from "luxon";
 import moment from "moment";
-import { describe, expect, it, beforeEach, afterEach, vi } from "vitest";
 
 describe("isThisWeek()", () => {
   const mockDate = new Date(2024, 0, 15); // Monday, January 15, 2024

@@ -11,10 +11,10 @@ describe("Min<T>", () => {
         type Zero = Min<[0,8,1]>;
 
         type cases = [
-            Expect<Equal<Nada, undefined>>,
-            Expect<Equal<InOrder, 1>>,
-            Expect<Equal<Chaotic, 1>>,
-            Expect<Equal<Zero, 0>>,
+            Expect<Test<Nada, "equals",  undefined>>,
+            Expect<Test<InOrder, "equals",  1>>,
+            Expect<Test<Chaotic, "equals",  1>>,
+            Expect<Test<Zero, "equals",  0>>,
         ];
     });
 

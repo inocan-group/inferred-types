@@ -32,7 +32,7 @@ describe("UniqueForProp<T, P>", () => {
 
         type cases = [
             // the expected keys are part of the union
-            Expect<Equal<U, 123 | 456>>
+            Expect<Test<U, "equals",  123 | 456>>
         ];
 
         const c: cases = [true];
@@ -44,7 +44,7 @@ describe("UniqueForProp<T, P>", () => {
 
         type cases = [
             // the keys are rolled up the wide type
-            Expect<Equal<U, number>>
+            Expect<Test<U, "equals",  number>>
         ];
 
         const c: cases = [true];
@@ -53,7 +53,7 @@ describe("UniqueForProp<T, P>", () => {
 
     it("wide data only knows the wide type", () => {
         type U = UnionFromProp<HybridData, "id">;
-        type cases = [Expect<Equal<U, number>>];
+        type cases = [Expect<Test<U, "equals",  number>>];
         const c: cases = [true];
         expect(c).toBe(c);
     });

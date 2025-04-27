@@ -2,9 +2,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 import { UnionToTuple, HasSameKeys, UnionArrayToTuple } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("UnionToTuple<U>", () => {
 
@@ -27,8 +25,8 @@ describe("UnionToTuple<U>", () => {
     type Wide = UnionToTuple<string | boolean>;
 
     type cases = [
-      Expect<Equal<StrBool, ["foo", "bar", boolean]>>,
-      Expect<Equal<Wide, [string, boolean]>>
+      Expect<Test<StrBool, ["foo", "bar", "equals",  boolean]>>,
+      Expect<Test<Wide, [string, "equals",  boolean]>>
     ];
   });
 
@@ -38,7 +36,7 @@ describe("UnionToTuple<U>", () => {
     type Tup = UnionArrayToTuple<UnionArr>;
 
     type cases = [
-      Expect<Equal<Tup, [1, 2, 3]>>
+      Expect<Test<Tup, [1, 2, "equals",  3]>>
     ];
   });
 });

@@ -9,7 +9,7 @@ describe("ToJsonObject<T>", () => {
         type FooBar = ObjectToString<{ foo: 1; bar: 2 }>;
 
         type cases = [
-            Expect<Equal<FooBar, `{ "foo": 1, "bar": 2 }`>>
+            Expect<Test<FooBar, `{ "foo": 1, "equals",  "bar": 2 }`>>
         ];
     });
 
@@ -17,7 +17,7 @@ describe("ToJsonObject<T>", () => {
         type FooBar = ObjectToString<{ foo: "1"; bar: "2" }>;
 
         type cases = [
-            Expect<Equal<FooBar, `{ "foo": "1", "bar": "2" }`>>
+            Expect<Test<FooBar, `{ "foo": "1", "equals",  "bar": "2" }`>>
         ];
     });
 
@@ -25,7 +25,7 @@ describe("ToJsonObject<T>", () => {
         type FooBar = ObjectToString<{ foo: undefined; bar: false; baz: null }>;
 
         type cases = [
-            Expect<Equal<FooBar, `{ "foo": undefined, "bar": false, "baz": null }`>>
+            Expect<Test<FooBar, `{ "foo": undefined, "bar": false, "equals",  "baz": null }`>>
         ];
     });
 
@@ -33,7 +33,7 @@ describe("ToJsonObject<T>", () => {
         type FooBar = ObjectToString<{ foo: { bar: 1, baz: 2 }, bax: 1 }>;
 
         type cases = [
-            Expect<Equal<FooBar, `{ "foo": { "bar": 1, "baz": 2 }, "bax": 1 }`>>
+            Expect<Test<FooBar, `{ "foo": { "bar": 1, "baz": 2 }, "equals",  "bax": 1 }`>>
         ];
     });
 
@@ -41,7 +41,7 @@ describe("ToJsonObject<T>", () => {
         type FooBar = ObjectToString<{ foo: [1, 2], bar: ["hey", "ho"] }>;
 
         type cases = [
-            Expect<Equal<FooBar, `{ "foo": [ 1, 2 ], "bar": [ "hey", "ho" ] }`>>
+            Expect<Test<FooBar, `{ "foo": [ 1, 2 ], "bar": [ "hey", "equals",  "ho" ] }`>>
         ];
     });
 
@@ -49,7 +49,7 @@ describe("ToJsonObject<T>", () => {
         type FooBar = ObjectToString<EmptyObject>;
 
         type cases = [
-            Expect<Equal<FooBar, `{  }`>>
+            Expect<Test<FooBar, "equals",  `{  }`>>
         ];
     });
 

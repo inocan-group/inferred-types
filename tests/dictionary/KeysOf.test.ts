@@ -1,7 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { KeyOf, PublicKeyOf } from "inferred-types/types";
+import { KeyOf, PublicKeyOf, Test } from "inferred-types/types";
 
 describe("KeyOf<T> and PublicKeyOf<T>", () => {
 
@@ -12,12 +12,10 @@ describe("KeyOf<T> and PublicKeyOf<T>", () => {
         type KPubObj = PublicKeyOf<FooBarBaz>;
 
         type cases = [
-            Expect<Equal<KObj, "_kind" | "foo" | "bar" | "baz">>,
-            Expect<Equal<KPubObj, "foo" | "bar" | "baz">>,
+            Expect<Test<KObj, "equals",  "_kind" | "foo" | "bar" | "baz">>,
+            Expect<Test<KPubObj, "equals",  "foo" | "bar" | "baz">>,
         ];
-        const cases: cases = [
-            true, true
-        ];
+
     });
 
 });

@@ -1,11 +1,8 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { FirstOfEach, Chars, LastOfEach } from "inferred-types/types";
+import { Expect, FirstOfEach, Chars, LastOfEach, Test } from "inferred-types/types";
 
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("FirstOfEach<TList>", () => {
 
@@ -15,10 +12,9 @@ describe("FirstOfEach<TList>", () => {
 
 
         type cases = [
-            Expect<Equal<Arr, "foo" | "bar">>,
-            Expect<Equal<Foo, "F" | "B">>,
+            Expect<Test<Arr, "equals",  "foo" | "bar">>,
+            Expect<Test<Foo, "equals",  "F" | "B">>,
         ];
-        const cases: cases = [true, true];
     });
 
 });
@@ -32,10 +28,9 @@ describe("LastOfEach<TList>", () => {
 
 
         type cases = [
-            Expect<Equal<Arr, [1, 2]>>,
-            Expect<Equal<Foo, ["o", "r"]>>,
+            Expect<Test<Arr, "equals", [1,  2]>>,
+            Expect<Test<Foo, "equals", ["o",  "r"]>>,
         ];
-        const cases: cases = [true, true];
     });
 
 });

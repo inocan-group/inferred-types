@@ -1,4 +1,4 @@
-import type { ExtendsSome, FalsyValue, If } from "inferred-types/types";
+import type { FalsyValue} from "inferred-types/types";
 
 /**
  * **IsFalsy**`<T>`

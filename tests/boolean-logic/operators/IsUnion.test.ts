@@ -1,11 +1,7 @@
-import { ExpectTrue, ExpectFalse } from "@type-challenges/utils";
 import { describe, it } from "vitest";
+import { Expect, IsUnion, Test } from "inferred-types/types";
 
-import { IsUnion } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
 
 describe("IsUnion<T>", () => {
 
@@ -22,21 +18,18 @@ describe("IsUnion<T>", () => {
         type F6 = IsUnion<string[]>;
 
         type cases = [
-            ExpectTrue<T1>,
-            ExpectTrue<T2>,
-            ExpectTrue<T3>,
+            Expect<Test<T1, "equals", true>>,
+            Expect<Test<T2, "equals", true>>,
+            Expect<Test<T3, "equals", true>>,
 
-            ExpectFalse<F1>,
-            ExpectFalse<F2>,
-            ExpectFalse<F3>,
-            ExpectFalse<F4>,
-            ExpectFalse<F5>,
-            ExpectFalse<F6>,
+            Expect<Test<F1, "equals", false>>,
+            Expect<Test<F2, "equals", false>>,
+            Expect<Test<F3, "equals", false>>,
+            Expect<Test<F4, "equals", false>>,
+            Expect<Test<F5, "equals", false>>,
+            Expect<Test<F6, "equals", false>>,
         ];
-        const cases: cases = [
-            true, true, true,
-            false, false, false, false, false, false
-        ];
+
     });
 
 });

@@ -3,9 +3,7 @@ import { DoesExtend, ErrorCondition, IsDotPath, Validate } from "inferred-types/
 import { describe, it } from "vitest";
 
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("Validate<T>", () => {
     it("happy path", () => {
@@ -25,17 +23,17 @@ describe("Validate<T>", () => {
 
 
         type cases = [
-            Expect<Equal<T1, "foo.bar.baz">>, //
-            Expect<Equal<T2, "foo_bar.baz-me">>,
-            Expect<Equal<T3, "foobar">>,
-            Expect<Equal<T4, "foot123">>,
+            Expect<Test<T1, "equals",  "foo.bar.baz">>, //
+            Expect<Test<T2, "equals",  "foo_bar.baz-me">>,
+            Expect<Test<T3, "equals",  "foobar">>,
+            Expect<Test<T4, "equals",  "foot123">>,
 
-            Expect<Equal<F1, never>>,
-            Expect<Equal<F2, never>>,
-            Expect<Equal<F3, never>>,
-            Expect<Equal<F4, never>>,
-            Expect<Equal<F5, never>>,
-            Expect<Equal<F6, never>>,
+            Expect<Test<F1, "equals",  never>>,
+            Expect<Test<F2, "equals",  never>>,
+            Expect<Test<F3, "equals",  never>>,
+            Expect<Test<F4, "equals",  never>>,
+            Expect<Test<F5, "equals",  never>>,
+            Expect<Test<F6, "equals",  never>>,
 
             Expect<DoesExtend<E1, ErrorCondition<"wide-return-not-allowed">>>,
         ];

@@ -1,4 +1,3 @@
-import { } from "@type-challenges/utils";
 import { createMatchTemplate } from "inferred-types/runtime";
 import { describe, expect, it } from "vitest";
 

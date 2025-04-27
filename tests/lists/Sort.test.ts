@@ -14,9 +14,9 @@ describe("Sort<T>", () => {
     type NumberToNumber = Sort<["foo", "bar", 42, "baz", 99], { first: [99], last: [42] }>;
 
     type cases = [
-      Expect<Equal<StringFirst, ["foo", "bar", "baz", 42, 99]>>,
-      Expect<Equal<BazFirst, ["baz", "foo", "bar", 42, 99]>>,
-      Expect<Equal<NumberToNumber, [99, "foo", "bar", "baz", 42,]>>,
+      Expect<Test<StringFirst, ["foo", "bar", "baz", 42, "equals",  99]>>,
+      Expect<Test<BazFirst, ["baz", "foo", "bar", 42, "equals",  99]>>,
+      Expect<Test<NumberToNumber, [99, "foo", "bar", "baz", 42, "equals", ]>>,
     ];
   });
 
@@ -29,8 +29,8 @@ describe("Sort<T>", () => {
     type OrangeToo = Sort<[O1, O2, O3], { first: ["orange"], offset: "color" }>
 
     type cases = [
-      Expect<Equal<Orange, [O3, O1, O2]>>,
-      Expect<Equal<OrangeToo, [O3, O1, O2]>>,
+      Expect<Test<Orange, [O3, O1, "equals",  O2]>>,
+      Expect<Test<OrangeToo, [O3, O1, "equals",  O2]>>,
     ];
   });
 });

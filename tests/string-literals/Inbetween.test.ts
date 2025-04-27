@@ -15,14 +15,14 @@ describe("Inbetween<T,S,E>", () => {
     type NoMatchExplicit = Inbetween<"FooBar", "Baz", "Foo", { noMatch: "no"}>;
 
     type cases = [
-        Expect<Equal<Bar, "Bar">>,
-        Expect<Equal<Bar2, "Bar">>,
+        Expect<Test<Bar, "equals",  "Bar">>,
+        Expect<Test<Bar2, "equals",  "Bar">>,
 
-        Expect<Equal<FirstMatch, "FooBar">>,
-        Expect<Equal<Inclusive, "[foobar]">>,
+        Expect<Test<FirstMatch, "equals",  "FooBar">>,
+        Expect<Test<Inclusive, "equals",  "[foobar]">>,
 
-        Expect<Equal<NoMatch, "">>,
-        Expect<Equal<NoMatchExplicit, "no">>,
+        Expect<Test<NoMatch, "equals",  "">>,
+        Expect<Test<NoMatchExplicit, "equals",  "no">>,
     ];
   });
 

@@ -1,10 +1,8 @@
-import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
+import {  Expect, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { AllowNonTupleWhenSingular, AsArray, ErrorCondition, IsEqual } from "inferred-types/types";
+import { AllowNonTupleWhenSingular, AsArray, ErrorCondition, IsEqual, Test } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("AllowNonTupleWhenSingular<TTuple>", () => {
 
@@ -13,8 +11,8 @@ describe("AllowNonTupleWhenSingular<TTuple>", () => {
         type Nope = AllowNonTupleWhenSingular<["foo", "bar"]>;
 
         type cases = [
-            Expect<Equal<Yup, "foo" | ["foo"]>>,
-            Expect<Equal<Nope, ["foo", "bar"]>>
+            Expect<Test<Yup, "equals",  "foo" | ["foo"]>>,
+            Expect<Test<Nope, "equals", ["foo", "bar"]>>
         ];
         const cases: cases = [true, true];
     });
@@ -35,8 +33,8 @@ describe("AllowNonTupleWhenSingular<TTuple>", () => {
         type T2 = AsArray<T>;
 
         type cases = [
-            Expect<Equal<T, readonly unknown[] | [readonly unknown[]]>>,
-            Expect<Equal<T2, unknown[] | [unknown[]]>>
+            Expect<Test<T, "equals",  readonly unknown[] | [readonly unknown[]]>>,
+            Expect<Test<T2, "equals",  unknown[] | [unknown[]]>>
         ];
         const cases: cases = [true, true];
 

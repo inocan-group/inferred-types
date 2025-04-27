@@ -1,6 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { SetKeyForce, SetKey } from "inferred-types/types";
+import { SetKeyForce, SetKey, Test } from "inferred-types/types";
 
 describe("SetKey<T,K,V>", () => {
 
@@ -9,7 +9,7 @@ describe("SetKey<T,K,V>", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<FooBar, { foo: 2; bar: "hi"}>>
+      Expect<Test<FooBar, "equals",  { foo: 2; bar: "hi"}>>
     ];
   });
 
@@ -23,8 +23,8 @@ describe("ForceSetKey<T,K,V>", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<FooBar, { foo: 2; bar: "hi"}>>,
-      Expect<Equal<Forced, { foo: "forced"; bar: "hi"}>>,
+      Expect<Test<FooBar, "equals",  { foo: 2; bar: "hi"}>>,
+      Expect<Test<Forced, "equals",  { foo: "forced"; bar: "hi"}>>,
     ];
   });
 

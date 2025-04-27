@@ -11,9 +11,9 @@ describe("JustFunction<T>", () => {
 
 
     type cases = [
-        Expect<Equal<F1, () => "hi">>,
-        Expect<Equal<F2, () => "hi">>,
-        Expect<Equal<F3, (nam: string) => `hi ${string}`>>,
+        Expect<Test<F1, "equals",  () => "hi">>,
+        Expect<Test<F2, "equals",  () => "hi">>,
+        Expect<Test<F3, "equals",  (nam: string) => `hi ${string}`>>,
     ];
   });
 

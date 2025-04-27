@@ -4,9 +4,7 @@ import {  MergeObjects } from "inferred-types/types";
 import { mergeObjects } from "inferred-types/runtime";
 
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("MergeObjects<A,B>", () => {
 
@@ -17,8 +15,8 @@ describe("MergeObjects<A,B>", () => {
 
         // @ts-ignore
         type cases = [
-            Expect<Equal<T1, { foo: 1; bar: 4; baz: "howdy" }>>,
-            Expect<Equal<T2, { foo: 1; bar: 2; baz: "howdy" }>>,
+            Expect<Test<T1, "equals",  { foo: 1; bar: 4; baz: "howdy" }>>,
+            Expect<Test<T2, "equals",  { foo: 1; bar: 2; baz: "howdy" }>>,
         ];
 
     });
@@ -28,7 +26,7 @@ describe("MergeObjects<A,B>", () => {
       type T = MergeObjects<{ foo: 1; bar: 2}, {}>;
 
       type cases = [
-        Expect<Equal<T, { foo: 1; bar: 2}>>
+        Expect<Test<T, "equals",  { foo: 1; bar: 2}>>
       ];
     });
 
@@ -37,7 +35,7 @@ describe("MergeObjects<A,B>", () => {
 
         // @ts-ignore
         type cases = [
-            Expect<Equal<T1, { foo: "foo"; bar: "bar" }>>,
+            Expect<Test<T1, "equals",  { foo: "foo"; bar: "bar" }>>,
         ];
     });
 
@@ -72,10 +70,10 @@ describe("mergeObjects(a,b)", () => {
 
         // @ts-ignore
         type cases = [
-            Expect<Equal<typeof t1, { foo: 1; bar: 4; baz: "howdy" }>>,
-            Expect<Equal<typeof t2, { foo: 1; bar: 2; baz: "howdy" }>>,
-            Expect<Equal<typeof t3, { foo: 1; }>>,
-            Expect<Equal<typeof t4, { foo: 1; }>>,
+            Expect<Test<typeof t1, "equals",  { foo: 1; bar: 4; baz: "howdy" }>>,
+            Expect<Test<typeof t2, "equals",  { foo: 1; bar: 2; baz: "howdy" }>>,
+            Expect<Test<typeof t3, "equals",  { foo: 1; }>>,
+            Expect<Test<typeof t4, "equals",  { foo: 1; }>>,
         ];
 
     });

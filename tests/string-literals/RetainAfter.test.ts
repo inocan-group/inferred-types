@@ -20,15 +20,15 @@ describe("RetainAfter<TStr,TBreak>", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<World, "world">>,
-      Expect<Equal<WorldInc, " world">>,
+      Expect<Test<World, "equals",  "world">>,
+      Expect<Test<WorldInc, "equals",  " world">>,
 
-      Expect<Equal<BarBaz, "bar, baz">>,
-      Expect<Equal<WideBreak, string>>,
-      Expect<Equal<WideContent, string>>,
-      Expect<Equal<BothWide, string>>,
+      Expect<Test<BarBaz, "bar, "equals",  baz">>,
+      Expect<Test<WideBreak, "equals",  string>>,
+      Expect<Test<WideContent, "equals",  string>>,
+      Expect<Test<BothWide, "equals",  string>>,
 
-      Expect<Equal<Nada, "">>,
+      Expect<Test<Nada, "equals",  "">>,
     ];
 
   });
@@ -44,11 +44,11 @@ describe("RetainAfter<TStr,TBreak>", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<World, "world">>,
-      Expect<Equal<WorldInc, " world">>,
-      Expect<Equal<World2, "world">>,
-      Expect<Equal<FooBarBaz, "bar\nbaz">>,
-      Expect<Equal<FooBarBazInc, "\tbar\nbaz">>,
+      Expect<Test<World, "equals",  "world">>,
+      Expect<Test<WorldInc, "equals",  " world">>,
+      Expect<Test<World2, "equals",  "world">>,
+      Expect<Test<FooBarBaz, "equals",  "bar\nbaz">>,
+      Expect<Test<FooBarBazInc, "equals",  "\tbar\nbaz">>,
     ];
   });
 
@@ -66,8 +66,8 @@ describe("retainAfter(contend,find) runtime utility", () => {
     expect(barBaz).toBe("bar, baz");
 
     type cases = [
-      Expect<Equal<typeof world, "world">>, //
-      Expect<Equal<typeof barBaz, "bar, baz">>, //
+      Expect<Test<typeof world, "equals",  "world">>, //
+      Expect<Test<typeof barBaz, "bar, "equals",  baz">>, //
 
     ];
     const cases: cases = [true, true];
@@ -82,7 +82,7 @@ describe("retainAfter(contend,find) runtime utility", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<typeof barBaz, "bar\tbaz">>
+      Expect<Test<typeof barBaz, "equals",  "bar\tbaz">>
     ];
 
   });

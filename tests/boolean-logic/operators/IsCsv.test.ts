@@ -1,7 +1,7 @@
 import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { IsCsv, Variable } from "inferred-types/types";
+import { Expect, IsCsv, Test, Variable } from "inferred-types/types";
 
 describe("IsCsv<T,[K]>", () => {
 
@@ -19,14 +19,13 @@ describe("IsCsv<T,[K]>", () => {
 
     // @ts-ignore
     type cases = [
-      ExpectTrue<T1>,
-      ExpectTrue<T2>,
-      ExpectTrue<T3>,
+        Expect<Test<T1, "equals", true>>,
+        Expect<Test<T2, "equals", true>>,
+        Expect<Test<T3, "equals", true>>,
 
-
-      ExpectFalse<F1>,
-      ExpectFalse<F2>,
-      ExpectFalse<F3>,
+        Expect<Test<F1, "equals", false>>,
+        Expect<Test<F2, "equals", false>>,
+        Expect<Test<F3, "equals", false>>,
     ];
   });
 

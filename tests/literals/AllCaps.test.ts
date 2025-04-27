@@ -10,9 +10,9 @@ describe("AllCaps<T> type utility", () => {
         type T3 = AllCaps<"YUP YUP YESSSSSSSSSSSSSS">;
 
         type cases = [
-            Expect<Equal<T1, "YUP">>,
-            Expect<Equal<T2, "YUP ">>,
-            Expect<Equal<T3, "YUP YUP YESSSSSSSSSSSSSS">>
+            Expect<Test<T1, "equals",  "YUP">>,
+            Expect<Test<T2, "equals",  "YUP ">>,
+            Expect<Test<T3, "equals",  "YUP YUP YESSSSSSSSSSSSSS">>
         ];
         const c: cases = [true, true, true];
         expect(c).toBe(c);
@@ -23,8 +23,8 @@ describe("AllCaps<T> type utility", () => {
         type T2 = AllCaps<"  noo nooo noooooooooooooo">;
 
         type cases = [
-            Expect<Equal<T1, "NOPE">>,
-            Expect<Equal<T2, "  NOO NOOO NOOOOOOOOOOOOOO">>
+            Expect<Test<T1, "equals",  "NOPE">>,
+            Expect<Test<T2, "equals",  "  NOO NOOO NOOOOOOOOOOOOOO">>
         ];
         const c: cases = [true, true];
         expect(c).toBe(c);
@@ -33,7 +33,7 @@ describe("AllCaps<T> type utility", () => {
     it("when passed a non literal string, returns string", () => {
         type T1 = AllCaps<string>;
 
-        type cases = [Expect<Equal<T1, string>>];
+        type cases = [Expect<Test<T1, "equals",  string>>];
         const c: cases = [true];
         expect(c).toBe(c);
     });

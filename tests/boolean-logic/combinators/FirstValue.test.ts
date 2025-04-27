@@ -1,5 +1,5 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { FirstValue } from "inferred-types/types";
+import {  Expect } from "@type-challenges/utils";
+import { FirstValue, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("FirstValue<T,U>", () => {
@@ -16,14 +16,14 @@ describe("FirstValue<T,U>", () => {
 
 
     type cases = [
-        Expect<Equal<Empty, undefined>>,
-        Expect<Equal<EmptyWithDef, 4>>,
+        Expect<Test<Empty, "equals",  undefined>>,
+        Expect<Test<EmptyWithDef, "equals",  4>>,
 
-        Expect<Equal<Immediate, 1>>,
-        Expect<Equal<Middling, 1>>,
-        Expect<Equal<Terminal, 1>>,
+        Expect<Test<Immediate, "equals",  1>>,
+        Expect<Test<Middling, "equals",  1>>,
+        Expect<Test<Terminal, "equals",  1>>,
 
-        Expect<Equal<Null, 1>>,
+        Expect<Test<Null, "equals",  1>>,
     ];
   });
 

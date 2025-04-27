@@ -1,10 +1,7 @@
-import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
-import { IsErrorCondition, Reverse, TakeLast } from "inferred-types/types";
+import { Expect, TakeLast, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("TakeLast<TContent,TLen,[THandle]>", () => {
 
@@ -16,9 +13,9 @@ describe("TakeLast<TContent,TLen,[THandle]>", () => {
     type Biggie = TakeLast<Arr, 100>;
 
     type cases = [
-      Expect<Equal<Two, ["foo", "bar"]>>,
-      Expect<Equal<Three, [3, "foo", "bar"]>>,
-      Expect<Equal<Biggie, Arr>>,
+      Expect<Test<Two, "equals", ["foo", "bar"]>>,
+      Expect<Test<Three, "equals", [3, "foo", "bar"]>>,
+      Expect<Test<Biggie, "equals", Arr>>,
 
     ];
   });

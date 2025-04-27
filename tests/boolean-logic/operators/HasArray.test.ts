@@ -1,10 +1,7 @@
-import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { HasArray } from "inferred-types/types";
+import { Expect, HasArray, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("HasArray<T>", () => {
 
@@ -16,16 +13,14 @@ describe("HasArray<T>", () => {
         type F2 = HasArray<[]>;
 
         type cases = [
-            ExpectTrue<T1>,
-            ExpectTrue<T2>,
+            Expect<Test<T1, "equals", true>>,
+            Expect<Test<T2, "equals", true>>,
 
-            ExpectFalse<F1>,
-            ExpectFalse<F2>,
+            Expect<Test<F1, "equals", false>>,
+            Expect<Test<F2, "equals", false>>,
+
         ];
-        const cases: cases = [
-            true, true,
-            false, false
-        ];
+
     });
 
 });

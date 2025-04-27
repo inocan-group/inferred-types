@@ -1,10 +1,7 @@
-import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { StartsWith, UpperAlphaChar } from "inferred-types/types";
+import { Expect,StartsWith, Test, UpperAlphaChar } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("StartsWith<TValue,TTest>", () => {
 
@@ -25,27 +22,20 @@ describe("StartsWith<TValue,TTest>", () => {
         type WideContent = StartsWith<string, "foo">;
 
         type cases = [
-            ExpectTrue<Foo>,
-            ExpectFalse<NoFoo>,
+            Expect<Test<Foo, "equals", true>>,
+            Expect<Test<NoFoo, "equals", false>>,
 
-            ExpectTrue<MultiFoo>,
-            ExpectFalse<NotMultiFoo>,
+            Expect<Test<MultiFoo, "equals", true>>,
+            Expect<Test<NotMultiFoo, "equals", false>>,
 
-            ExpectTrue<Num>,
-            ExpectFalse<NotNum>,
+            Expect<Test<Num, "equals", true>>,
+            Expect<Test<NotNum, "equals", false>>,
 
-            ExpectTrue<Upper>,
-            ExpectFalse<NotUpper>,
+            Expect<Test<Upper, "equals", true>>,
+            Expect<Test<NotUpper, "equals", false>>,
 
-            Expect<Equal<WideComparator, boolean>>,
-            Expect<Equal<WideContent, boolean>>,
-        ];
-        const cases: cases = [
-            true, false,
-            true, false,
-            true, false,
-            true, false,
-            true, true
+            Expect<Test<WideComparator, "equals", boolean>>,
+            Expect<Test<WideContent, "equals", boolean>>,
         ];
     });
 

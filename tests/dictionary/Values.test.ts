@@ -1,8 +1,8 @@
-import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
+import {  ExpectTrue } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
 import { valuesOf } from "inferred-types/runtime";
-import { HasSameValues, Dictionary, ObjectKey, Values, EmptyObject } from "inferred-types/types";
+import { Expect, HasSameValues, Dictionary, ObjectKey, Values, EmptyObject, Test } from "inferred-types/types";
 
 
 describe("Values<T>", () => {
@@ -20,10 +20,10 @@ describe("Values<T>", () => {
     type VUnion = Values<Record<ObjectKey, number | string>>;
 
     type cases = [
-      ExpectTrue<HasSameValues<VObj, [1, "bar", true]>>,
-      Expect<Equal<VEmpty, any[]>>,
-      Expect<Equal<VRecord, unknown[]>>,
-      Expect<Equal<VUnion, (number | string)[]>>,
+      Expect<Test<VObj, "hasSameValues", [1, "bar", true]>>,
+      Expect<Test<VEmpty, "equals",  any[]>>,
+      Expect<Test<VRecord, "equals",  unknown[]>>,
+      Expect<Test<VUnion, "equals",  (number | string)[]>>,
     ];
 
   });
@@ -36,11 +36,11 @@ describe("Values<T>", () => {
     type VUnion = Values<(string | number)[]>
 
     type cases = [
-      Expect<Equal<VArr, [1, 2, 3]>>,
-      Expect<Equal<VEmpty, []>>,
-      Expect<Equal<VStrArr, string[]>>,
-      Expect<Equal<VMixedTuple, [number, string, boolean]>>,
-      Expect<Equal<VUnion, (string | number)[]>>,
+      Expect<Test<VArr, "equals", [1, 2,  3]>>,
+      Expect<Test<VEmpty,  "equals", []>>,
+      Expect<Test<VStrArr, "equals",  string[]>>,
+      Expect<Test<VMixedTuple, "equals", [number, string,  boolean]>>,
+      Expect<Test<VUnion, "equals",  (string | number)[]>>,
     ];
 
   });
@@ -63,9 +63,9 @@ describe("valuesOf()", () => {
     expect(v_empty).toEqual([]);
 
     type cases = [
-      ExpectTrue<HasSameValues<typeof v_obj, [1, "bar", true]>>,
-      ExpectTrue<HasSameValues<typeof v_infer, [1, "bar", true]>>,
-      Expect<Equal<typeof v_empty, []>>,
+      Expect<Test<typeof v_obj, "hasSameValues", [1, "bar", true]>>,
+      Expect<Test<typeof v_infer, "hasSameValues", [1, "bar", true]>>,
+      Expect<Test<typeof v_empty, "equals",  []>>,
     ];
 
   });

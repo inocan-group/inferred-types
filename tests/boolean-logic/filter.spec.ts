@@ -16,8 +16,8 @@ describe.skip("filter() utility function", () => {
 
   //   // design time
   //   type cases = [
-  //     Expect<Equal<P[0], string | undefined>>, //
-  //     Expect<Equal<R, boolean>>
+  //     Expect<Test<P[0], "equals",  string | undefined>>, //
+  //     Expect<Test<R, "equals",  boolean>>
   //   ];
   //   const cases: cases = [true, true];
   // });
@@ -36,8 +36,8 @@ describe.skip("filter() utility function", () => {
 
   //   // design time
   //   type cases = [
-  //     Expect<Equal<P[0], number | undefined>>, //
-  //     Expect<Equal<R, boolean>>
+  //     Expect<Test<P[0], "equals",  number | undefined>>, //
+  //     Expect<Test<R, "equals",  boolean>>
   //   ];
   //   const cases: cases = [true, true];
   // });
@@ -49,8 +49,8 @@ describe.skip("filter() utility function", () => {
   //   expect(remaining).toEqual([".baz"]);
   // });
 
-  
-  // // TODO: this needs to be reworked and there is a start with f2 
+
+  // // TODO: this needs to be reworked and there is a start with f2
   // it.skip("combining positive search condition with negative", () => {
   //   const f1 = createFilter({ startsWith: "b", not: {equals: ["bar", "banana"]}}, "AND");
   //   const f2 = createFilter({ startsWith: "b", notEqual: ["bar", "banana"]}, "AND");
@@ -63,7 +63,7 @@ describe.skip("filter() utility function", () => {
   //   const r2 = values.filter(f2);
   //   expect(r1).toEqual(["baz"]);
   //   expect(r2).toEqual(["baz"]);
-  
+
   // });
-  
+
 });

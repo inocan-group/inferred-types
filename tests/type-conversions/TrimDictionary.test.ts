@@ -14,8 +14,8 @@ describe("TrimDictionary<T>", () => {
         }>;
 
         type cases = [
-            Expect<Equal<T1, { foo: "foo", bar: "bar" }>>,
-            Expect<Equal<T2, {foo: "foo", bar: "bar", baz: 42}>>,
+            Expect<Test<T1, { foo: "foo", "equals",  bar: "bar" }>>,
+            Expect<Test<T2, {foo: "foo", bar: "bar", "equals",  baz: 42}>>,
         ];
     });
 

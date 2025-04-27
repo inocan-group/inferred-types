@@ -1,10 +1,7 @@
-import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { AnyFunction, DoesExtend, KvFn } from "inferred-types/types";
+import { Expect,AnyFunction,  KvFn, Test } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("KvFn", () => {
 
@@ -19,12 +16,9 @@ describe("KvFn", () => {
 
         type cases = [
             // greet prop is a function
-            ExpectTrue<DoesExtend<Hi["greet"], AnyFunction>>,
+            Expect<Test<Hi["greet"], "extends", AnyFunction>>,
             // greet prop also exposes a `desc` prop
-            Expect<Equal<Hi["greet"]["desc"], "greet the user">>,
-        ];
-        const cases: cases = [
-            true, true
+            Expect<Test<Hi["greet"]["desc"], "equals",  "greet the user">>,
         ];
     });
 

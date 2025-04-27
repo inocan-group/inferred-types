@@ -18,16 +18,16 @@ describe("PathJoin<T,U>", () => {
 
     type cases = [
       // neither have divider
-      Expect<Equal<T1, "foo/bar">>,
+      Expect<Test<T1, "equals",  "foo/bar">>,
       // one has, one does not
-      Expect<Equal<T2, "foo/bar">>,
-      Expect<Equal<T3, "foo/bar">>,
+      Expect<Test<T2, "equals",  "foo/bar">>,
+      Expect<Test<T3, "equals",  "foo/bar">>,
       // both have
-      Expect<Equal<T4, "foo/bar">>,
+      Expect<Test<T4, "equals",  "foo/bar">>,
       // leading slash
-      Expect<Equal<T5, "/foo/bar">>,
+      Expect<Test<T5, "equals",  "/foo/bar">>,
       // trailing slash
-      Expect<Equal<T6, "foo/bar/">>
+      Expect<Test<T6, "equals",  "foo/bar/">>
     ];
     const cases: cases = [true, true, true, true, true, true];
   });
@@ -39,9 +39,9 @@ describe("PathJoin<T,U>", () => {
 
     type cases = [
       //
-      Expect<Equal<T1, "foo/bar/baz">>,
-      Expect<Equal<T2, "/foo/bar/baz/">>,
-      Expect<Equal<T3, "/foo/bar/baz">>
+      Expect<Test<T1, "equals",  "foo/bar/baz">>,
+      Expect<Test<T2, "equals",  "/foo/bar/baz/">>,
+      Expect<Test<T3, "equals",  "/foo/bar/baz">>
     ];
     const cases: cases = [true, true, true];
   });
@@ -53,10 +53,10 @@ describe("PathJoin<T,U>", () => {
     type T4 = PathJoin<[string, "bar"]>;
 
     type cases = [
-      Expect<Equal<T1, `foo/${string}`>>,
-      Expect<Equal<T2, `foo/${string}`>>,
-      Expect<Equal<T3, `${string}/bar`>>,
-      Expect<Equal<T4, `${string}/bar`>>
+      Expect<Test<T1, "equals",  `foo/${string}`>>,
+      Expect<Test<T2, "equals",  `foo/${string}`>>,
+      Expect<Test<T3, "equals",  `${string}/bar`>>,
+      Expect<Test<T4, "equals",  `${string}/bar`>>
     ];
     const cases: cases = [true, true, true, true];
   });
@@ -103,8 +103,8 @@ describe("pathJoin() runtime util", () => {
     // design time
     type cases = [
       //
-      Expect<Equal<typeof t1, "foo">>,
-      Expect<Equal<typeof t2, "foo/">>
+      Expect<Test<typeof t1, "equals",  "foo">>,
+      Expect<Test<typeof t2, "equals",  "foo/">>
     ];
     const cases: cases = [true, true];
   });

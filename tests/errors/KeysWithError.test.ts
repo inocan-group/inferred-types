@@ -21,7 +21,7 @@ describe("KeysWithError", () => {
         type Err = KeysWithError<Obj>;
 
         type cases = [
-            Expect<Equal<Err, ["bar"]>>
+            Expect<Test<Err, "equals",  ["bar"]>>
         ];
     });
 
@@ -39,7 +39,7 @@ describe("keysWithError(obj)", () => {
         const e = keysWithError(a);
 
         type cases = [
-            Expect<Equal<typeof e, ["bar"]>>
+            Expect<Test<typeof e, "equals",  ["bar"]>>
         ];
     });
 

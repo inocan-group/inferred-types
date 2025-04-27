@@ -14,7 +14,7 @@ describe("isStringLiteral()()", () => {
 
 
     type cases = [
-      Expect<Equal<typeof tg, (val: unknown) => val is "foo" | "bar" | "baz">>,
+      Expect<Test<typeof tg, "equals",  (val: unknown) => val is "foo" | "bar" | "baz">>,
     ];
   });
 

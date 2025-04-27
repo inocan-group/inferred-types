@@ -16,8 +16,8 @@ describe("FailFast<[]>", () => {
     >;
 
     type cases = [
-      Expect<Equal<One, 1>>,
-      Expect<Equal<Almost, false>>,
+      Expect<Test<One, "equals",  1>>,
+      Expect<Test<Almost, "equals",  false>>,
       Expect<Extends<Oops, Error>>,
       Expect<Extends<Finally, 1>>,
       Expect<Extends<Override, Err<"biscuit">>>,
@@ -37,8 +37,8 @@ describe("FailFast<[]>", () => {
 >;
 
     type cases = [
-        Expect<Equal<Fail, Err<"oops">>>,
-        Expect<Equal<Pass, 1>>
+        Expect<Test<Fail, "equals",  Err<"oops">>>,
+        Expect<Test<Pass, "equals",  1>>
     ];
   });
 

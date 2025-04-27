@@ -2,9 +2,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { KeyValue, ObjectKey, ObjectToTuple } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("ObjectToTuple<T>", () => {
 
@@ -15,9 +13,9 @@ describe("ObjectToTuple<T>", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<FooBar, [ {key: "foo", value: 1}, {key: "bar", value: 2} ]>>,
-      Expect<Equal<Empty, []>>,
-      Expect<Equal<Wide, KeyValue[]>>
+      Expect<Test<FooBar, [ {key: "foo", value: 1}, {key: "bar", "equals",  value: 2} ]>>,
+      Expect<Test<Empty, "equals",  []>>,
+      Expect<Test<Wide, "equals",  KeyValue[]>>
     ];
   });
 
@@ -29,9 +27,9 @@ describe("ObjectToTuple<T>", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<FooBar, [ Record<"foo", 1>, Record<"bar", 2> ]>>,
-      Expect<Equal<Empty, []>>,
-      Expect<Equal<Wide, Record<ObjectKey, any>[]>>
+      Expect<Test<FooBar, [ Record<"foo", 1>, Record<"bar", "equals",  2> ]>>,
+      Expect<Test<Empty, "equals",  []>>,
+      Expect<Test<Wide, Record<ObjectKey, "equals",  any>[]>>
     ];
 
   });

@@ -1,11 +1,8 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { TwModifier } from "inferred-types/types";
+import { Expect, Test, TwModifier } from "inferred-types/types";
 import { isTailwindModifier } from "inferred-types/runtime";
 import { describe, expect, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("isTailwindModifier(val)", () => {
 
@@ -31,9 +28,8 @@ describe("isTailwindModifier(val)", () => {
     if(isTailwindModifier(test)) {
       type T = typeof test;
 
-      // @ts-ignore
       type cases = [
-        Expect<Equal<T, TwModifier>>
+        Expect<Test<T, "equals",  TwModifier>>
       ];
     }
 

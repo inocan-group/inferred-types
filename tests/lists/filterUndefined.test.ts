@@ -11,7 +11,7 @@ describe("filterUndefined", () => {
     expect(t1).toEqual([1, 2, "foo", ""]);
 
     type cases = [
-      Expect<Equal<typeof t1, [1, 2, string, ""]>>
+      Expect<Test<typeof t1, [1, 2, string, "equals",  ""]>>
     ];
   });
 

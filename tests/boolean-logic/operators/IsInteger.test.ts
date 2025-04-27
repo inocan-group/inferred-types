@@ -1,10 +1,7 @@
-import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { IsInteger } from "inferred-types/types";
+import { Expect, IsInteger, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("IsInteger<T>", () => {
 
@@ -18,17 +15,14 @@ describe("IsInteger<T>", () => {
 
 
         type cases = [
-            ExpectTrue<T1>,
-            ExpectTrue<T2>,
-            ExpectTrue<T3>,
+            Expect<Test<T1, "equals", true>>,
+            Expect<Test<T2, "equals", true>>,
+            Expect<Test<T3, "equals", true>>,
 
-            ExpectFalse<F1>,
-            ExpectFalse<F2>
+            Expect<Test<F1, "equals", false>>,
+            Expect<Test<F2, "equals", false>>,
         ];
-        const cases: cases = [
-            true, true, true,
-            false, false
-        ];
+
     });
 
 });

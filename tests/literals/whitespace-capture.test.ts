@@ -8,7 +8,7 @@ describe("LeftWhitespace<T> utility", () => {
         type T1 = LeftWhitespace<"foobar">;
         type T2 = LeftWhitespace<"foobar \n">;
 
-        type cases = [Expect<Equal<T1, "">>, Expect<Equal<T2, "">>];
+        type cases = [Expect<Test<T1, "">>, Expect<Equal<T2, "equals",  "">>];
         const c: cases = [true, true];
         expect(c).toBe(c);
     });
@@ -17,7 +17,7 @@ describe("LeftWhitespace<T> utility", () => {
         type T1 = LeftWhitespace<" foobar">;
         type T2 = LeftWhitespace<"\n\t foobar \n">;
 
-        type cases = [Expect<Equal<T1, " ">>, Expect<Equal<T2, "\n\t ">>];
+        type cases = [Expect<Test<T1, " ">>, Expect<Equal<T2, "equals",  "\n\t ">>];
         const c: cases = [true, true];
         expect(c).toBe(c);
     });
@@ -25,7 +25,7 @@ describe("LeftWhitespace<T> utility", () => {
     it("a 'string' type passed in returns a string", () => {
         type T1 = LeftWhitespace<string>;
 
-        type cases = [Expect<Equal<T1, string>>];
+        type cases = [Expect<Test<T1, "equals",  string>>];
         const c: cases = [true];
         expect(c).toBe(c);
     });
@@ -36,7 +36,7 @@ describe("RightWhitespace<T> utility", () => {
         type T1 = RightWhitespace<"foobar">;
         type T2 = RightWhitespace<"\n\tfoobar">;
 
-        type cases = [Expect<Equal<T1, "">>, Expect<Equal<T2, "">>];
+        type cases = [Expect<Test<T1, "">>, Expect<Equal<T2, "equals",  "">>];
         const c: cases = [true, true];
         expect(c).toBe(c);
     });
@@ -45,7 +45,7 @@ describe("RightWhitespace<T> utility", () => {
         type T1 = RightWhitespace<"foobar ">;
         type T2 = RightWhitespace<"\n\t foobar \n">;
 
-        type cases = [Expect<Equal<T1, " ">>, Expect<Equal<T2, " \n">>];
+        type cases = [Expect<Test<T1, " ">>, Expect<Equal<T2, "equals",  " \n">>];
         const c: cases = [true, true];
         expect(c).toBe(c);
     });
@@ -53,7 +53,7 @@ describe("RightWhitespace<T> utility", () => {
     it("a 'string' type passed in returns a string", () => {
         type T1 = RightWhitespace<string>;
 
-        type cases = [Expect<Equal<T1, string>>];
+        type cases = [Expect<Test<T1, "equals",  string>>];
         const c: cases = [true];
         expect(c).toBe(c);
     });

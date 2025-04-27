@@ -10,7 +10,7 @@ import type { Dictionary, Narrowable, ObjectKey } from "inferred-types/types";
  *  - any `Map<K,V>`, `WeakMap<K,V>`, or `Set<T>`
  */
 export type Container =
-    | Dictionary
+    | object
     | readonly unknown[];
 
 /**

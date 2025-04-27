@@ -1,11 +1,7 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
+import { Expect, Increment, Test } from "inferred-types/types";
 
-import { Increment } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
 
 describe("Increment<T>", () => {
 
@@ -15,11 +11,10 @@ describe("Increment<T>", () => {
         type Zero = Increment<0>;
 
         type cases = [
-            Expect<Equal<Ten, 11>>,
-            Expect<Equal<Thirty, 31>>,
-            Expect<Equal<Zero, 1>>
+            Expect<Test<Ten, "equals",  11>>,
+            Expect<Test<Thirty, "equals",  31>>,
+            Expect<Test<Zero, "equals",  1>>
         ];
-        const cases: cases = [true, true, true];
     });
 
     it("happy path (string literals)", () => {
@@ -28,11 +23,10 @@ describe("Increment<T>", () => {
         type Zero = Increment<"0">;
 
         type cases = [
-            Expect<Equal<Ten, "11">>,
-            Expect<Equal<Thirty, "31">>,
-            Expect<Equal<Zero, "1">>
+            Expect<Test<Ten, "equals",  "11">>,
+            Expect<Test<Thirty, "equals",  "31">>,
+            Expect<Test<Zero, "equals",  "1">>
         ];
-        const cases: cases = [true, true, true];
     });
 
 });

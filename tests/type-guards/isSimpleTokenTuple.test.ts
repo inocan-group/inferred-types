@@ -3,9 +3,7 @@ import { SimpleToken } from "inferred-types/types";
 import { isSimpleTokenTuple } from "inferred-types/runtime"
 
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("isSimpleTokenTuple(val)", () => {
   const t = <T extends SimpleToken>(token: T) => token;

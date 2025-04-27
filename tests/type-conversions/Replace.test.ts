@@ -20,9 +20,9 @@ describe("Replace<TText,TFind,TReplace>", () => {
     type WideStr = Replace<string, "a", "b">;
 
     type cases = [
-      Expect<Equal<Foobar, "Must be foobar">>,
-      Expect<Equal<Duplicate, "Must be foobar; really it must be [[T]]">>,
-      Expect<Equal<WideStr, string>>
+      Expect<Test<Foobar, "equals",  "Must be foobar">>,
+      Expect<Test<Duplicate, "equals",  "Must be foobar; really it must be [[T]]">>,
+      Expect<Test<WideStr, "equals",  string>>
     ];
     const cases: cases = [
       true, true, true
@@ -35,8 +35,8 @@ describe("Replace<TText,TFind,TReplace>", () => {
     type BothEmpty = Replace<"", "", "bar">;
 
     type cases = [
-      Expect<Equal<EmptyText, "">>,
-      Expect<Equal<BothEmpty, "bar">>,
+      Expect<Test<EmptyText, "equals",  "">>,
+      Expect<Test<BothEmpty, "equals",  "bar">>,
     ];
   });
 
@@ -46,7 +46,7 @@ describe("Replace<TText,TFind,TReplace>", () => {
     type R = Replace<Text, "foo", "bar">;
 
     type cases = [
-      Expect<Equal<R, "barbar" | "bazbar">>,
+      Expect<Test<R, "equals",  "barbar" | "bazbar">>,
     ];
   });
 
@@ -56,7 +56,7 @@ describe("Replace<TText,TFind,TReplace>", () => {
     type R = Replace<Text, "foo", "bar">;
 
     type cases = [
-      Expect<Equal<R, "barbar, foo" | "bazbar, foo">>,
+      Expect<Test<R, "barbar, foo" | "bazbar, "equals",  foo">>,
     ];
   });
 });
@@ -69,7 +69,7 @@ describe("replace()", () => {
       expect(fooBarb).toEqual("fooBarb")
 
       type cases = [
-        Expect<Equal<typeof fooBarb, "fooBarb">>,
+        Expect<Test<typeof fooBarb, "equals",  "fooBarb">>,
       ];
     });
 
@@ -87,10 +87,10 @@ describe("ReplaceAll<TText,TFind,TReplace>", () => {
     type Curly = ReplaceAll<"https://www.amazon.com/{{ string }}storeType=ebooks{{ string }}", "{{ string }}", `${string}`>
 
     type cases = [
-      Expect<Equal<Foobar, "Must be foobar">>,
-      Expect<Equal<Duplicate, "Must be foobar; really it must be foobar">>,
-      Expect<Equal<WideStr, string>>,
-      Expect<Equal<Curly, `https://www.amazon.com/${string}storeType=ebooks${string}`>>
+      Expect<Test<Foobar, "equals",  "Must be foobar">>,
+      Expect<Test<Duplicate, "equals",  "Must be foobar; really it must be foobar">>,
+      Expect<Test<WideStr, "equals",  string>>,
+      Expect<Test<Curly, "equals",  `https://www.amazon.com/${string}storeType=ebooks${string}`>>
     ];
   });
 
@@ -100,8 +100,8 @@ describe("ReplaceAll<TText,TFind,TReplace>", () => {
     type Raised = ReplaceAll<"And there she WAS", LowerAlphaChar | " ", "">;
 
     type cases = [
-      Expect<Equal<Lowered, "nd there she ">>,
-      Expect<Equal<Raised, "AWAS">>,
+      Expect<Test<Lowered, "equals",  "nd there she ">>,
+      Expect<Test<Raised, "equals",  "AWAS">>,
     ];
     const cases: cases = [
       true, true
@@ -115,7 +115,7 @@ describe("ReplaceAll<TText,TFind,TReplace>", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<R, "barbar" | "bazbar">>,
+      Expect<Test<R, "equals",  "barbar" | "bazbar">>,
     ];
   });
 
@@ -129,8 +129,8 @@ describe("ReplaceAll<TText,TFind,TReplace>", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<R, "barbar, bar" | "bazbar, bar">>,
-      Expect<Equal<R2, "foobar, foo" | "foobaz, foo">>,
+      Expect<Test<R, "barbar, bar" | "bazbar, "equals",  bar">>,
+      Expect<Test<R2, "foobar, foo" | "foobaz, "equals",  foo">>,
     ];
   });
 
@@ -170,7 +170,7 @@ describe("ReplaceFromTo<TText,TFromTo>", () => {
     ]>
 
     type cases = [
-      Expect<Equal<Pooey, "Pooey">>,
+      Expect<Test<Pooey, "equals",  "Pooey">>,
     ];
   });
 });
@@ -183,7 +183,7 @@ describe("ReplaceAllFromTo<TText,TFromTo>", () => {
     ]>
 
     type cases = [
-      Expect<Equal<Dashing, "Foo-bar-baz">>,
+      Expect<Test<Dashing, "equals",  "Foo-bar-baz">>,
     ];
   });
 });
@@ -194,7 +194,7 @@ describe("replaceAll()", () => {
       expect(fooBarf).toEqual("fooBarf")
 
       type cases = [
-        Expect<Equal<typeof fooBarf, "fooBarf">>,
+        Expect<Test<typeof fooBarf, "equals",  "fooBarf">>,
       ];
     });
 })
@@ -211,7 +211,7 @@ describe("replaceAllFromTo()", () => {
       expect(template).toEqual("There I was, in the jungle! As well as some 5 year monkey.")
 
       type cases = [
-        Expect<Equal<typeof template, "There I was, in the jungle! As well as some 5 year monkey.">>,
+        Expect<Test<typeof template, "There I was, "equals",  in the jungle! As well as some 5 year monkey.">>,
       ];
     });
 })

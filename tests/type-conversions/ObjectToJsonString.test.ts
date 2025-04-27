@@ -1,10 +1,7 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import {  ObjectToJsonString } from "inferred-types/types";
+import {  Expect, ObjectToJsonString, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("ObjectToCssString<T>", () => {
 
@@ -14,8 +11,8 @@ describe("ObjectToCssString<T>", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<FooBar, `{ "foo": 1, "bar": 2 }` >>,
-      Expect<Equal<StrBool, `{ "foo": "20px", "bar": "40px" }` >>,
+      Expect<Test<FooBar, "equals",  `{ "foo": 1, "bar": 2 }` >>,
+      Expect<Test<StrBool, "equals",  `{ "foo": "20px", "bar": "40px" }` >>,
     ];
   });
 

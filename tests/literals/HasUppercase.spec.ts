@@ -9,7 +9,7 @@ describe("HasUppercase<T> type utility", () => {
         type T2 = HasUppercase<"yUp">;
         type T3 = HasUppercase<"YUP">;
 
-        type cases = [Expect<Equal<T1, true>>, Expect<Equal<T2, true>>, Expect<Equal<T3, true>>];
+        type cases = [Expect<Test<T1, true>>, Expect<Equal<T2, true>>, Expect<Equal<T3, "equals",  true>>];
         const c: cases = [true, true, true];
         expect(c).toBe(c);
     });
@@ -18,7 +18,7 @@ describe("HasUppercase<T> type utility", () => {
         type T1 = HasUppercase<"nope">;
         type T2 = HasUppercase<"  noo nooo noooooooooooooo">;
 
-        type cases = [Expect<Equal<T1, false>>, Expect<Equal<T2, false>>];
+        type cases = [Expect<Test<T1, false>>, Expect<Equal<T2, "equals",  false>>];
         const c: cases = [true, true];
         expect(c).toBe(c);
     });
@@ -26,7 +26,7 @@ describe("HasUppercase<T> type utility", () => {
     it("when passed a non literal string, returns 'unknown'", () => {
         type T1 = HasUppercase<string>;
 
-        type cases = [Expect<Equal<T1, "unknown">>];
+        type cases = [Expect<Test<T1, "equals",  "unknown">>];
         const c: cases = [true];
         expect(c).toBe(c);
     });

@@ -23,10 +23,10 @@ describe("defineObj(literals)(wide) runtime utility", () => {
     expect(wideFnWithProps.fn.foo).toBe(1);
 
     type cases = [
-      Expect<Equal<typeof fooBarBaz, { foo: 1; bar: number; baz: number }>>,
+      Expect<Test<typeof fooBarBaz, "equals",  { foo: 1; bar: number; baz: number }>>,
 
-      Expect<Equal<typeof narrowFn, { fn: () => "hi"}>>,
-      Expect<Equal<typeof wideFn, { fn: () => string}>>,
+      Expect<Test<typeof narrowFn, "equals",  { fn: () => "hi"}>>,
+      Expect<Test<typeof wideFn, "equals",  { fn: () => string}>>,
 
       Expect<Equal<typeof narrowFnWithProps, {
         fn: (() => "hi") &

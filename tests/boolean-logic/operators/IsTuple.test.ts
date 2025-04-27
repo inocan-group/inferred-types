@@ -1,10 +1,7 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { IsTuple } from "inferred-types/types";
+import { Expect, IsTuple, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("IsTuple<T>", () => {
 
@@ -17,14 +14,13 @@ describe("IsTuple<T>", () => {
         type Empty = IsTuple<[]>;
 
         type cases = [
-            Expect<Equal<Scalar, false>>,
-            Expect<Equal<Obj, false>>,
-            Expect<Equal<StrArr, false>>,
-            Expect<Equal<Tup, true>>,
-            Expect<Equal<TupRo, true>>,
-            Expect<Equal<Empty, true>>,
+            Expect<Test<Scalar, "equals",  false>>,
+            Expect<Test<Obj, "equals",  false>>,
+            Expect<Test<StrArr, "equals",  false>>,
+            Expect<Test<Tup, "equals",  true>>,
+            Expect<Test<TupRo, "equals",  true>>,
+            Expect<Test<Empty, "equals",  true>>,
         ];
-        const cases: cases = [true, true, true, true, true, true];
     });
 
 });

@@ -12,7 +12,7 @@ describe("StaticTemplateSections", () => {
         type T3 = StaticTemplateSections<Template, false>;
 
         type cases = [
-            Expect<Equal<T1, ["Age: ", ", Weight: ", ", Name: ", ", Employed: "]>>,
+            Expect<Test<T1, ["Age: ", ", Weight: ", ", Name: ", ", "equals",  Employed: "]>>,
             Expect<Equal<
                 T2,
                 [
@@ -61,7 +61,7 @@ describe("TemplateParams", () => {
         type T1 = TemplateParams<Template>;
 
         type cases = [
-            Expect<Equal<T1, [number, number, string, boolean]>>,
+            Expect<Test<T1, [number, number, string, "equals",  boolean]>>,
         ];
     });
 

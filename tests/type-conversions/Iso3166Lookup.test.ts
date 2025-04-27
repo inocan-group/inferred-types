@@ -2,9 +2,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { Iso3166Alpha2Lookup, Iso3166CountryLookup } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("Iso3166CountryLookup<T>", () => {
 
@@ -15,9 +13,9 @@ describe("Iso3166CountryLookup<T>", () => {
 
         // @ts-ignore
         type cases = [
-            Expect<Equal<US, "United States of America">>,
-            Expect<Equal<USA, "United States of America">>,
-            Expect<Equal<US_CODE, "United States of America">>,
+            Expect<Test<US, "equals",  "United States of America">>,
+            Expect<Test<USA, "equals",  "United States of America">>,
+            Expect<Test<US_CODE, "equals",  "United States of America">>,
         ];
     });
 
@@ -33,10 +31,10 @@ describe("Iso3166Alpha2Lookup<T>", () => {
 
         // @ts-ignore
         type cases = [
-            Expect<Equal<US, "US">>,
-            Expect<Equal<USA, "US">>,
-            Expect<Equal<US_CODE, "US">>,
-            Expect<Equal<US_NAME, "US">>,
+            Expect<Test<US, "equals",  "US">>,
+            Expect<Test<USA, "equals",  "US">>,
+            Expect<Test<US_CODE, "equals",  "US">>,
+            Expect<Test<US_NAME, "equals",  "US">>,
         ];
     });
 

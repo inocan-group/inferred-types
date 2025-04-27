@@ -4,9 +4,7 @@ import { describe, expect, it } from "vitest";
 import { narrow, isContainer, optional } from "inferred-types/runtime";
 import { Container, DoesExtend } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("isContainer(val)", () => {
   const lit_obj = { id: 1 } as { id: 1 } | null;

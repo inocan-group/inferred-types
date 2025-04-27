@@ -1,11 +1,7 @@
-import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { HasCharacters } from "inferred-types/types";
-
+import { Expect, HasCharacters, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("HasCharacter", () => {
 
@@ -23,14 +19,14 @@ describe("HasCharacter", () => {
         type NoBracket3 = HasCharacters<Without, ["[", "]", "*"]>;
 
         type cases = [
-            Expect<Equal<HasBracket1, true>>,
-            Expect<Equal<HasBracket2, true>>,
-            Expect<Equal<HasBracket2b, true>>,
-            Expect<Equal<HasBracket3, true>>,
+            Expect<Test<HasBracket1, "equals",  true>>,
+            Expect<Test<HasBracket2, "equals",  true>>,
+            Expect<Test<HasBracket2b, "equals",  true>>,
+            Expect<Test<HasBracket3, "equals",  true>>,
 
-            Expect<Equal<NoBracket1, false>>,
-            Expect<Equal<NoBracket2, false>>,
-            Expect<Equal<NoBracket3, false>>,
+            Expect<Test<NoBracket1, "equals",  false>>,
+            Expect<Test<NoBracket2, "equals",  false>>,
+            Expect<Test<NoBracket3, "equals",  false>>,
         ];
         const cases: cases = [
             true, true, true, true,
@@ -44,12 +40,10 @@ describe("HasCharacter", () => {
         type Without = HasCharacters<"42", ["h", "i"]>;
 
         type cases = [
-            ExpectTrue<With>,
-            ExpectFalse<Without>
+            Expect<Test<With, "equals", true>>,
+            Expect<Test<Without, "equals", false>>
         ];
-        const cases: cases = [
-            true, false
-        ];
+
 
     });
 
@@ -58,10 +52,10 @@ describe("HasCharacter", () => {
         type Without = HasCharacters<"42", "h" | "i">;
 
         type cases = [
-            ExpectTrue<With>,
-            ExpectFalse<Without>
+            Expect<Test<With, "equals", true>>,
+            Expect<Test<Without, "equals", false>>
         ];
-        const cases: cases = [true, false];
+
 
     });
 

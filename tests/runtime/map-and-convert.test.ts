@@ -23,9 +23,9 @@ describe("createConverter()", () => {
 
     type cases = [
       // TODO: get the final narrowness resolved ... this should be doable
-      Expect<Equal<typeof t1, `Hello ${string}`>>,
-      Expect<Equal<typeof t2, `The number was ${number}`>>,
-      Expect<Equal<typeof t3, `An object with keys ${string}`>>
+      Expect<Test<typeof t1, "equals",  `Hello ${string}`>>,
+      Expect<Test<typeof t2, "equals",  `The number was ${number}`>>,
+      Expect<Test<typeof t3, "equals",  `An object with keys ${string}`>>
     ];
     const cases: cases = [true, true, true];
   });

@@ -45,15 +45,15 @@ describe("toSnakeCase() function", () => {
     const whiteHybrid = "\n  one-two-three \t";
 
     type cases = [
-      Expect<Equal<SnakeCase<typeof dash>, "one_two_three">>,
-      Expect<Equal<SnakeCase<typeof snake>, "one_two_three">>,
-      Expect<Equal<SnakeCase<typeof pascal>, "one_two_three">>,
-      Expect<Equal<SnakeCase<typeof camel>, "one_two_three">>,
-      Expect<Equal<SnakeCase<typeof white>, "one_two_three">>,
-      Expect<Equal<SnakeCase<typeof whiteHybrid>, "one_two_three">>,
+      Expect<Test<SnakeCase<typeof dash>, "equals",  "one_two_three">>,
+      Expect<Test<SnakeCase<typeof snake>, "equals",  "one_two_three">>,
+      Expect<Test<SnakeCase<typeof pascal>, "equals",  "one_two_three">>,
+      Expect<Test<SnakeCase<typeof camel>, "equals",  "one_two_three">>,
+      Expect<Test<SnakeCase<typeof white>, "equals",  "one_two_three">>,
+      Expect<Test<SnakeCase<typeof whiteHybrid>, "equals",  "one_two_three">>,
 
-      Expect<Equal<SnakeCase<typeof white, true>, "  one_two_three  ">>,
-      Expect<Equal<SnakeCase<typeof whiteHybrid, true>, "\n  one_two_three \t">>,
+      Expect<Test<SnakeCase<typeof white, true>, "equals",  "  one_two_three  ">>,
+      Expect<Test<SnakeCase<typeof whiteHybrid, true>, "equals",  "\n  one_two_three \t">>,
     ];
     const cases: cases = [true, true, true, true, true, true, true, true];
 

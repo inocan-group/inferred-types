@@ -1,10 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import {  NumericSort } from "inferred-types/types";
+import {  NumericSort, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("Sort<TValues,[TReverse]>", () => {
 
@@ -19,13 +17,13 @@ describe("Sort<TValues,[TReverse]>", () => {
 
         // @ts-ignore
         type cases = [
-            Expect<Equal<S1, [1, 2, 3, 4]>>,
-            Expect<Equal<S2, [11, 11, 22, 33, 44]>>,
-            Expect<Equal<S3, [1, 2, 3, 4]>>,
+            Expect<Test<S1, "equals", [1, 2, 3,  4]>>,
+            Expect<Test<S2, "equals", [11, 11, 22, 33,  44]>>,
+            Expect<Test<S3, "equals", [1, 2, 3,  4]>>,
 
-            Expect<Equal<SR1, [4, 3, 2, 1]>>,
-            Expect<Equal<SR2, [44, 33, 22, 11, 11]>>,
-            Expect<Equal<SR3, [4, 3, 2, 1]>>,
+            Expect<Test<SR1, "equals", [4, 3, 2,  1]>>,
+            Expect<Test<SR2, "equals", [44, 33, 22, 11,  11]>>,
+            Expect<Test<SR3, "equals", [4, 3, 2, 1]>>,
         ];
     });
 
@@ -40,13 +38,13 @@ describe("Sort<TValues,[TReverse]>", () => {
 
         // @ts-ignore
         type cases = [
-            Expect<Equal<S1, [1, 2, 3, 4]>>,
-            Expect<Equal<S2, [11, 11, 22, 33, 44]>>,
-            Expect<Equal<S3, [1, 2, 3, 4]>>,
+            Expect<Test<S1, "equals", [1, 2, 3, 4]>>,
+            Expect<Test<S2, "equals", [11, 11, 22, 33, 44]>>,
+            Expect<Test<S3, "equals", [1, 2, 3, 4]>>,
 
-            Expect<Equal<SR1, [4, 3, 2, 1]>>,
-            Expect<Equal<SR2, [44, 33, 22, 11, 11]>>,
-            Expect<Equal<SR3, [4, 3, 2, 1]>>,
+            Expect<Test<SR1, "equals", [4, 3, 2,  1]>>,
+            Expect<Test<SR2, "equals", [44, 33, 22, 11, 11]>>,
+            Expect<Test<SR3, "equals", [4, 3, 2, 1]>>,
         ];
     });
 
@@ -63,16 +61,18 @@ describe("Sort<TValues,[TReverse]>", () => {
 
         // @ts-ignore
         type cases = [
-            Expect<Equal<
+            Expect<Test<
                 Asc,
+                "equals",
                 [
                     { id: "baz", value: 0 },
                     { id: "bar", value: 2 },
                     { id: "foo", value: 14 },
                 ]
             >>,
-            Expect<Equal<
+            Expect<Test<
                 Desc,
+                "equals",
                 [
                     { id: "foo", value: 14 },
                     { id: "bar", value: 2 },

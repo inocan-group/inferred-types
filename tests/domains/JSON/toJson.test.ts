@@ -18,11 +18,11 @@ describe("toJSON()", () => {
         expect(numLike).toBe(`\"42\"`)
 
         type cases = [
-            Expect<Equal<typeof foo, `"foo"`>>,
-            Expect<Equal<typeof num, `42`>>,
-            Expect<Equal<typeof numLike, `"42"`>>,
-            Expect<Equal<typeof quoted, `"That's all "folks""`>>,
-            Expect<Equal<typeof singleQuoted, `'That's all "folks"'`>>,
+            Expect<Test<typeof foo, "equals",  `"foo"`>>,
+            Expect<Test<typeof num, "equals",  `42`>>,
+            Expect<Test<typeof numLike, "equals",  `"42"`>>,
+            Expect<Test<typeof quoted, "equals",  `"That's all "folks""`>>,
+            Expect<Test<typeof singleQuoted, "equals",  `'That's all "folks"'`>>,
             Expect<Equal<
                 typeof quotedEnc,
                 `"That^<sq>s^<sp>all^<sp>^<dq>folks^<dq>"`

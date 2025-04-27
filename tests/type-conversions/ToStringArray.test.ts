@@ -2,9 +2,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { ToStringArray } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("ToStringArray<T>", () => {
 
@@ -15,10 +13,10 @@ describe("ToStringArray<T>", () => {
         type Empty = ToStringArray<[]>;
 
         type cases = [
-            Expect<Equal<Str, ["foo", "bar"]>>,
-            Expect<Equal<Num, ["1", "2"]>>,
-            Expect<Equal<Bool, ["true", "false", "true" | "false"]>>,
-            Expect<Equal<Empty, []>>,
+            Expect<Test<Str, ["foo", "equals",  "bar"]>>,
+            Expect<Test<Num, ["1", "equals",  "2"]>>,
+            Expect<Test<Bool, ["true", "false", "equals",  "true" | "false"]>>,
+            Expect<Test<Empty, "equals",  []>>,
         ];
         const cases: cases = [
             true, true, true, true

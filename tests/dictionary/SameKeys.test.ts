@@ -1,7 +1,5 @@
-import { describe, it, expect } from "vitest";
-
-import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import type { HasSameKeys } from "inferred-types/types";
+import { describe, it } from "vitest";
+import type { Expect, HasSameKeys, Test } from "inferred-types/types";
 
 describe("SameKeys<T> utility", () => {
 
@@ -10,16 +8,29 @@ describe("SameKeys<T> utility", () => {
 
 
         type cases = [
-            ExpectFalse<HasSameKeys<{ id: "abc" }, { id: "abc"; favorite: false }>>,
-            ExpectTrue<HasSameKeys<{ id: "abc" }, { id: "syz" }>>,
+            Expect<Test<
+                HasSameKeys<{ id: "abc" }, { id: "abc"; favorite: false }>,
+                "equals",
+                false
+            >>,
+            Expect<Test<
+                { id: "abc" },
+                "hasSameKeys",
+                { id: "syz" }
+            >>,
 
-            ExpectFalse<HasSameKeys<[1, 2], [1, 2, 3]>>,
-            ExpectTrue<HasSameKeys<[1, 2], [3, 4]>>
+            Expect<Test<
+                HasSameKeys<[1, 2], [1, 2, 3]>,
+                "equals",
+                false
+            >>,
+            Expect<Test<
+                [1, 2],
+                "hasSameKeys",
+                [3, 4]
+            >>,
+
         ];
-        const cases: cases = [
-            false, true,
-            false, true,
-        ];
-        expect(cases).toBe(cases);
+
     });
 });

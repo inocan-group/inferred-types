@@ -1,11 +1,7 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
+import { Expect, AfterFirstChar, Test } from "inferred-types/types";
 
-import { AfterFirstChar } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
 
 describe("LastChar<T>", () => {
 
@@ -14,8 +10,8 @@ describe("LastChar<T>", () => {
         type EmptyStr = AfterFirstChar<"">;
 
         type cases = [
-            Expect<Equal<Foobar, "oobar">>,
-            Expect<Equal<EmptyStr, "">>,
+            Expect<Test<Foobar, "equals",  "oobar">>,
+            Expect<Test<EmptyStr, "equals",  "">>,
         ];
         const cases: cases = [true, true];
     });
@@ -25,9 +21,8 @@ describe("LastChar<T>", () => {
         type FooBarBaz = AfterFirstChar<["foo", "bar", "baz"]>;
 
         type cases = [
-            Expect<Equal<FooBarBaz, ["oo", "ar", "az"]>>
+            Expect<Test<FooBarBaz, "equals",  ["oo", "ar", "az"]>>
         ];
-        const cases: cases = [true];
 
     });
 

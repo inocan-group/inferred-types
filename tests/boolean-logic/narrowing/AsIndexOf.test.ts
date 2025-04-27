@@ -1,11 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
-import { AsIndexOf, DoesExtend, ErrorCondition } from "inferred-types/types";
+import { AsIndexOf, DoesExtend, ErrorCondition, Test } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("AsIndexOf<T,K>", () => {
 
@@ -21,12 +19,12 @@ describe("AsIndexOf<T,K>", () => {
         type E2 = AsIndexOf<O1, "foobar", "you fool!">;
 
         type cases = [
-            Expect<Equal<T1, 1>>,
-            Expect<Equal<T2, 2>>,
-            Expect<Equal<T3, number>>,
+            Expect<Test<T1, "equals",  1>>,
+            Expect<Test<T2, "equals",  2>>,
+            Expect<Test<T3, "equals",  number>>,
 
             Expect<DoesExtend<E1, ErrorCondition<"invalid-key">>>,
-            Expect<Equal<E2, "you fool!">>
+            Expect<Test<E2, "equals",  "you fool!">>
         ];
         const cases: cases = [
             true, true, true,

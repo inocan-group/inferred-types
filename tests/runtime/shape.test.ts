@@ -13,7 +13,7 @@ describe("shape", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<typeof foobar, { foo: string; bar: ZipCode }>>
+      Expect<Test<typeof foobar, "equals",  { foo: string; bar: ZipCode }>>
     ];
   });
 

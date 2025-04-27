@@ -10,9 +10,9 @@ describe("TupleToUnion<T> type utility", () => {
         type Empty = TupleToUnion<[]>;
 
         type cases = [
-            Expect<Equal<Arr, 1 | 2 | 3>>,
-            Expect<Equal<RoArr, 1 | 2 | 3>>,
-            Expect<Equal<Empty, never>>
+            Expect<Test<Arr, "equals",  1 | 2 | 3>>,
+            Expect<Test<RoArr, "equals",  1 | 2 | 3>>,
+            Expect<Test<Empty, "equals",  never>>
         ];
 
         const c: cases = [true, true, true];

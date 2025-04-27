@@ -1,10 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { ObjectToJsString } from "inferred-types/types";
+import { ObjectToJsString, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("ObjectToJsString<T>", () => {
 
@@ -14,8 +12,16 @@ describe("ObjectToJsString<T>", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<FooBar, "{ foo: 1, bar: 2 }" >>,
-      Expect<Equal<StrBool, `{ foo: "bar", bar: false }` >>,
+        Expect<Test<
+            FooBar,
+            "equals",
+            "{ foo: 1, bar: 2 }"
+        >>,
+        Expect<Test<
+            StrBool,
+            "equals",
+            `{ foo: "bar", bar: false }`
+        >>,
     ];
   });
 

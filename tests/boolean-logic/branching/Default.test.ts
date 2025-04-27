@@ -2,9 +2,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { Default } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("Default<TVal,TDefault,[TProtect]>", () => {
 
@@ -14,9 +12,9 @@ describe("Default<TVal,TDefault,[TProtect]>", () => {
         type Null = Default<null, "foo">;
 
         type cases = [
-            Expect<Equal<NoChange, "foo">>,
-            Expect<Equal<Undef, "foo">>,
-            Expect<Equal<Null, "foo">>,
+            Expect<Test<NoChange, "equals",  "foo">>,
+            Expect<Test<Undef, "equals",  "foo">>,
+            Expect<Test<Null, "equals",  "foo">>,
 
         ];
         const cases: cases = [

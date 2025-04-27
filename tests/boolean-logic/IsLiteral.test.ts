@@ -5,7 +5,8 @@ import {
     ExplicitlyEmptyObject,
     IsBooleanLiteral,
     IsLiteral,
-    IsObjectLiteral
+    IsObjectLiteral,
+    Test
 } from "inferred-types/types";
 
 describe("IsObjectLiteral<T>", () => {
@@ -17,15 +18,15 @@ describe("IsObjectLiteral<T>", () => {
             // an empty object is still allowed to take on keys after it is
             // defined without error. The type will remain showing as empty
             // but there is no typing error when more characters are added
-            Expect<Equal<IsObjectLiteral<EmptyObject>, false>>,
+            Expect<Test<IsObjectLiteral<EmptyObject>, "equals",  false>>,
             // when we explicitly strip out the index keys then this
             // becomes an explicit literal type with zero keys
-            Expect<Equal<IsObjectLiteral<ExplicitlyEmptyObject>, true>>,
-            Expect<Equal<IsObjectLiteral<{ foo: 1; bar: 2 }>, true>>,
-            Expect<Equal<IsObjectLiteral<object>, false>>,
-            Expect<Equal<IsObjectLiteral<Record<string, unknown>>, false>>,
+            Expect<Test<IsObjectLiteral<ExplicitlyEmptyObject>, "equals",  true>>,
+            Expect<Test<IsObjectLiteral<{ foo: 1; bar: 2 }>, "equals",  true>>,
+            Expect<Test<IsObjectLiteral<object>, "equals",  false>>,
+            Expect<Test<IsObjectLiteral<Record<string, unknown>>, "equals",  false>>,
         ];
-        const cases: cases = [true, true, true, true, true];
+
     });
 });
 
@@ -36,8 +37,8 @@ describe("IsLiteral<T> type utility", () => {
         const sl = "hi" as const;
 
         type cases = [
-            Expect<Equal<IsLiteral<typeof s>, false>>,
-            Expect<Equal<IsLiteral<typeof sl>, true>>
+            Expect<Test<IsLiteral<typeof s>, "equals",  false>>,
+            Expect<Test<IsLiteral<typeof sl>, "equals",  true>>
         ];
         const cases: cases = [true, true];
         expect(typeof s).toBe("string");
@@ -49,8 +50,8 @@ describe("IsLiteral<T> type utility", () => {
         const vl = 42 as const;
 
         type cases = [
-            Expect<Equal<IsLiteral<typeof v>, false>>,
-            Expect<Equal<IsLiteral<typeof vl>, true>>
+            Expect<Test<IsLiteral<typeof v>, "equals",  false>>,
+            Expect<Test<IsLiteral<typeof vl>, "equals",  true>>
         ];
         const cases: cases = [true, true];
 
@@ -62,10 +63,10 @@ describe("IsLiteral<T> type utility", () => {
         type cases = [
             // wide
             ExpectFalse<IsBooleanLiteral<boolean>>,
-            Expect<Equal<IsLiteral<boolean>, false>>,
+            Expect<Test<IsLiteral<boolean>, "equals",  false>>,
             // literal
-            Expect<Equal<IsBooleanLiteral<false>, true>>,
-            Expect<Equal<IsLiteral<false>, true>>
+            Expect<Test<IsBooleanLiteral<false>, "equals",  true>>,
+            Expect<Test<IsLiteral<false>, "equals",  true>>
         ];
         const cases: cases = [false, true, true, true];
     });
@@ -76,9 +77,9 @@ describe("IsLiteral<T> type utility", () => {
         const vn = 42 as 42 | undefined;
 
         type cases = [
-            Expect<Equal<IsLiteral<Exclude<typeof vb, undefined>>, true>>, //
-            Expect<Equal<IsLiteral<Exclude<typeof vs, undefined>>, true>>, //
-            Expect<Equal<IsLiteral<Exclude<typeof vn, undefined>>, true>>, //
+            Expect<Test<IsLiteral<Exclude<typeof vb, undefined>>, "equals",  true>>, //
+            Expect<Test<IsLiteral<Exclude<typeof vs, undefined>>, "equals",  true>>, //
+            Expect<Test<IsLiteral<Exclude<typeof vn, undefined>>, "equals",  true>>, //
         ];
         const cases: cases = [true, true, true];
     });
@@ -96,16 +97,16 @@ describe("IsLiteral<T> type utility", () => {
 
 
         type cases = [
-            Expect<Equal<StringArr, false>>,
-            Expect<Equal<NumericArr, false>>,
-            Expect<Equal<UnionArr, false>>,
-            Expect<Equal<StringTuple, true>>,
-            Expect<Equal<RO_StringTuple, true>>,
-            Expect<Equal<TupleWithWide, true>>,
-            Expect<Equal<TupleWithWide_RO, true>>,
-            Expect<Equal<TupleOnlyWide, true>>,
+            Expect<Test<StringArr, "equals",  false>>,
+            Expect<Test<NumericArr, "equals",  false>>,
+            Expect<Test<UnionArr, "equals",  false>>,
+            Expect<Test<StringTuple, "equals",  true>>,
+            Expect<Test<RO_StringTuple, "equals",  true>>,
+            Expect<Test<TupleWithWide, "equals",  true>>,
+            Expect<Test<TupleWithWide_RO, "equals",  true>>,
+            Expect<Test<TupleOnlyWide, "equals",  true>>,
         ];
-        const cases: cases = [true, true, true, true, true, true, true, true];
+
 
     });
 
@@ -119,14 +120,13 @@ describe("IsLiteral<T> type utility", () => {
         type Keyed = IsLiteral<{ foo: 1 }>;
 
         type cases = [
-            Expect<Equal<IsLiteral<Record<string, unknown>>, false>>,
-            Expect<Equal<GenericString, false>>,
-            Expect<Equal<GenericUnion, false>>,
-            Expect<Equal<Empty, false>>,
-            Expect<Equal<Loose, false>>,
-            Expect<Equal<Keyed, true>>,
+            Expect<Test<IsLiteral<Record<string, unknown>>, "equals",  false>>,
+            Expect<Test<GenericString, "equals",  false>>,
+            Expect<Test<GenericUnion, "equals",  false>>,
+            Expect<Test<Empty, "equals",  false>>,
+            Expect<Test<Loose, "equals",  false>>,
+            Expect<Test<Keyed, "equals",  true>>,
         ];
-        const cases: cases = [true, true, true, true, true, true];
 
     });
 

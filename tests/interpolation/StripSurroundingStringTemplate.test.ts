@@ -11,9 +11,9 @@ describe("StripSurroundingStringTemplate<T>", () => {
 
 
     type cases = [
-        Expect<Equal<T1, `${number}Foobar${string}`>>,
-        Expect<Equal<T2, `${string}${number}Foobar`>>,
-        Expect<Equal<T3, `${number}Foobar`>>,
+        Expect<Test<T1, "equals",  `${number}Foobar${string}`>>,
+        Expect<Test<T2, "equals",  `${string}${number}Foobar`>>,
+        Expect<Test<T3, "equals",  `${number}Foobar`>>,
     ];
   });
 

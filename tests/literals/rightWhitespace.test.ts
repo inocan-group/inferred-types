@@ -1,10 +1,6 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { rightWhitespace } from "inferred-types/runtime";
+import { Expect, Test } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
-
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
 
 describe("rightWhitespace(content)", () => {
 
@@ -22,10 +18,10 @@ describe("rightWhitespace(content)", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<typeof one, " ">>,
-      Expect<Equal<typeof two, "  ">>,
-      Expect<Equal<typeof mixed, "  \n\t">>,
-      Expect<Equal<typeof onlyRight, " ">>,
+      Expect<Test<typeof one, "equals",  " ">>,
+      Expect<Test<typeof two, "equals",  "  ">>,
+      Expect<Test<typeof mixed, "equals",  "  \n\t">>,
+      Expect<Test<typeof onlyRight, "equals",  " ">>,
     ];
   });
 

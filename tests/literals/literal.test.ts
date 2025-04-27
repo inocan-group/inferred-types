@@ -19,7 +19,7 @@ describe("literal enforcement", () => {
     expect(typeof l2.id).toBe("number"); // run time type of "number"
 
     type cases = [
-      Expect<Equal<T1, T2>>, // without using explicit cast to literal, TS sees as equivalent
+      Expect<Test<T1, "equals",  T2>>, // without using explicit cast to literal, TS sees as equivalent
       Expect<NotEqual<L1, L2>>, // TS types, are literals and therefore not equal
       Expect<NotEqual<L1, number>>,
       Expect<NotEqual<L2, number>>
@@ -43,7 +43,7 @@ describe("literal enforcement", () => {
 
     // real test is literals being accumulated rather than being widened up to "number"
     type cases = [
-      Expect<Equal<L1, L2>>,
+      Expect<Test<L1, "equals",  L2>>,
       Expect<NotEqual<L1, NonIndexedId>>,
       Expect<NotEqual<L1, number>>,
       Expect<NotEqual<L2, number>>
@@ -66,15 +66,15 @@ describe("literal enforcement", () => {
     type Nope = typeof nope;
 
     type cases = [
-      Expect<Equal<Wide, { foo: number; bar: boolean; baz: string }>>,
-      Expect<Equal<Narrow, { foo: 1; bar: false; baz: "hi" }>>,
+      Expect<Test<Wide, "equals",  { foo: number; bar: boolean; baz: string }>>,
+      Expect<Test<Narrow, "equals",  { foo: 1; bar: false; baz: "hi" }>>,
       // Narrow _does_ extend the Wide definition
       Expect<ExpectExtends<Wide, Narrow>>,
       // but the opposite is not true
       ExpectFalse<ExpectExtends<Narrow, Wide>>,
       // now unfortunately, using literal() on a variable who's type
       // has already been inferred does not get us to Narrow
-      Expect<Equal<Wide, Nope>>
+      Expect<Test<Wide, "equals",  Nope>>
     ];
     const cases: cases = [true, true, true, false, true];
     expect(cases).toBe(cases);

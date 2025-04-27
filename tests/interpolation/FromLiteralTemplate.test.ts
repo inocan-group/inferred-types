@@ -8,7 +8,7 @@ describe("FromLiteralTemplate<T>", () => {
     type T1 = FromLiteralTemplate<`${string}fooBar: ${number}, fooBaz: ${boolean}`>
 
     type cases = [
-      Expect<Equal<T1, `{{string}}fooBar: {{number}}, fooBaz: {{boolean}}`>>
+      Expect<Test<T1, `{{string}}fooBar: {{number}}, "equals",  fooBaz: {{boolean}}`>>
     ];
   });
 

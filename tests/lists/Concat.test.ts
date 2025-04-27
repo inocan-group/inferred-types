@@ -1,10 +1,7 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { Concat } from "inferred-types/types";
+import { Expect, Concat, Test } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("Concat<T>", () => {
 
@@ -15,12 +12,11 @@ describe("Concat<T>", () => {
         type T4 = Concat<["foo", "-is-", true]>;
 
         type cases = [
-            Expect<Equal<T1, "foo">>, //
-            Expect<Equal<T2, "foobarbaz">>,
-            Expect<Equal<T3, "foo42bar">>,
-            Expect<Equal<T4, "foo-is-true">>,
+            Expect<Test<T1, "equals",  "foo">>, //
+            Expect<Test<T2, "equals",  "foobarbaz">>,
+            Expect<Test<T3, "equals",  "foo42bar">>,
+            Expect<Test<T4, "equals",  "foo-is-true">>,
         ];
-        const cases: cases = [true, true, true, true];
     });
 
 
@@ -31,14 +27,11 @@ describe("Concat<T>", () => {
         type T4 = Concat<[string, number, boolean]>;
 
         type cases = [
-            Expect<Equal<T1, string>>, //
-            Expect<Equal<T2, string>>,
-            Expect<Equal<T3, `${string}${number}${string}`>>,
-            Expect<Equal<T4, `${string}${number}${boolean}`>>,
+            Expect<Test<T1, "equals",  string>>, //
+            Expect<Test<T2, "equals",  string>>,
+            Expect<Test<T3, "equals",  `${string}${number}${string}`>>,
+            Expect<Test<T4, "equals",  `${string}${number}${boolean}`>>,
         ];
-
-        const cases: cases = [true, true, true, true];
-
     });
 
     it("mixed", () => {
@@ -46,12 +39,9 @@ describe("Concat<T>", () => {
         type T3 = Concat<[string, 42, string]>;
 
         type cases = [
-            Expect<Equal<T2, `${string}-${string}`>>,
-            Expect<Equal<T3, `${string}42${string}`>>,
+            Expect<Test<T2, "equals",  `${string}-${string}`>>,
+            Expect<Test<T3, "equals",  `${string}42${string}`>>,
         ];
-
-        const cases: cases = [true, true];
-
     });
 
 

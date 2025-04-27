@@ -53,7 +53,7 @@ describe("infer(templ) → (test) → RESULT", () => {
       >>,
 
       // type system KNOWS that no match will be made
-      Expect<Equal<typeof noMatch, false>>,
+      Expect<Test<typeof noMatch, "equals",  false>>,
       // type system KNOWS that there will be a match
       Expect<Equal<typeof strMatch, {
           Model: string;

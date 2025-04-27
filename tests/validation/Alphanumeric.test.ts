@@ -16,13 +16,13 @@ describe("Alphanumeric<T>", () => {
     type E1 = AlphaNumeric<"Hello-", Err<`invalid-char`>>;
 
     type cases = [
-        Expect<Equal<T1, "hello">>,
-        Expect<Equal<T2, "HeLLo">>,
-        Expect<Equal<T3, "HeLLo123">>,
+        Expect<Test<T1, "equals",  "hello">>,
+        Expect<Test<T2, "equals",  "HeLLo">>,
+        Expect<Test<T3, "equals",  "HeLLo123">>,
 
-        Expect<Equal<F1, never>>,
-        Expect<Equal<F2, never>>,
-        Expect<Equal<F3, never>>,
+        Expect<Test<F1, "equals",  never>>,
+        Expect<Test<F2, "equals",  never>>,
+        Expect<Test<F3, "equals",  never>>,
 
         Expect<Extends<E1, Error>>
     ];
@@ -40,8 +40,8 @@ describe("AlphanumericPlus<T,Plus>", () => {
       type F1 = AlphaNumericPlus<"hello_", "-">
 
       type cases = [
-        Expect<Equal<T1, "hello_">>,
-        Expect<Equal<F1, never>>,
+        Expect<Test<T1, "equals",  "hello_">>,
+        Expect<Test<F1, "equals",  never>>,
       ];
     });
 

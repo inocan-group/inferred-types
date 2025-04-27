@@ -1,10 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import {  UnionFromProp } from "inferred-types/types";
+import {  Test, UnionFromProp } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("UnionFromProp<T,P>", () => {
   type D1 = [
@@ -20,10 +18,10 @@ describe("UnionFromProp<T,P>", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<Id, 1 | 2>>,
-      Expect<Equal<Foo, "bar" | "baz">>,
-      Expect<Equal<Bar, 42 | undefined>>,
-      Expect<Equal<Baz, 99 | undefined>>,
+      Expect<Test<Id, "equals",  1 | 2>>,
+      Expect<Test<Foo, "equals",  "bar" | "baz">>,
+      Expect<Test<Bar, "equals",  42 | undefined>>,
+      Expect<Test<Baz, "equals",  99 | undefined>>,
     ];
   });
 

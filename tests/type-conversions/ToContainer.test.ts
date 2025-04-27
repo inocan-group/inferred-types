@@ -24,15 +24,15 @@ describe("ToContainer<T>", () => {
     type Any = ToContainer<any>;
 
     type cases = [
-      Expect<Equal<ScalarOrObject, Obj>>,
-      Expect<Equal<JustScalar, Never>>,
-      Expect<Equal<FnOrObj, Obj>>,
-      Expect<Equal<FnScalarAndObj, Obj>>,
-      Expect<Equal<RoArrScalar, RoArr>>,
-      Expect<Equal<ArrScalar, Arr>>,
+      Expect<Test<ScalarOrObject, "equals",  Obj>>,
+      Expect<Test<JustScalar, "equals",  Never>>,
+      Expect<Test<FnOrObj, "equals",  Obj>>,
+      Expect<Test<FnScalarAndObj, "equals",  Obj>>,
+      Expect<Test<RoArrScalar, "equals",  RoArr>>,
+      Expect<Test<ArrScalar, "equals",  Arr>>,
 
-      Expect<Equal<Unknown, [unknown]>>,
-      Expect<Equal<Any, [any]>>,
+      Expect<Test<Unknown, "equals",  [unknown]>>,
+      Expect<Test<Any, "equals",  [any]>>,
     ];
     const cases: cases = [true, true, true, true, true, true, true, true];
   });

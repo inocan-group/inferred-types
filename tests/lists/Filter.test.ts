@@ -1,10 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { Filter, UpperAlphaChar } from "inferred-types/types";
+import { Filter, Test, UpperAlphaChar } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("Filter", () => {
 
@@ -14,9 +12,9 @@ describe("Filter", () => {
         type T3 = Filter<[1, 2, "foo", "bar", 1], "extends", 1>;
 
         type cases = [
-            Expect<Equal<T1, ["foo", "bar"]>>,
-            Expect<Equal<T2, [1, 2]>>,
-            Expect<Equal<T3, [1, 1]>>,
+            Expect<Test<T1, "equals", ["foo", "bar"]>>,
+            Expect<Test<T2, "equals", [1, 2]>>,
+            Expect<Test<T3, "equals", [1, 1]>>,
         ];
         const cases: cases = [true, true, true];
     });
@@ -27,9 +25,9 @@ describe("Filter", () => {
         type T3 = Filter<readonly [1, 2, "foo", "bar"], "extends", 1>;
 
         type cases = [
-            Expect<Equal<T1,  ["foo", "bar"]>>,
-            Expect<Equal<T2,  [1, 2]>>,
-            Expect<Equal<T3,  [1]>>,
+            Expect<Test<T1, "equals",  ["foo",  "bar"]>>,
+            Expect<Test<T2, "equals",  [1,  2]>>,
+            Expect<Test<T3, "equals",   [1]>>,
         ];
         const cases: cases = [true, true, true];
     });
@@ -40,9 +38,9 @@ describe("Filter", () => {
         type T3 = Filter<[1, 2, "foo", "bar", true], "extends", [string, boolean]>;
 
         type cases = [
-            Expect<Equal<T1, [1, "foo"]>>,
-            Expect<Equal<T2, [1, 2, "foo", "bar"]>>,
-            Expect<Equal<T3, ["foo", "bar", true]>>,
+            Expect<Test<T1, "equals", [1,   "foo"]>>,
+            Expect<Test<T2, "equals", [1, 2, "foo",  "bar"]>>,
+            Expect<Test<T3, "equals", ["foo", "bar",  true]>>,
         ];
         const cases: cases = [true, true, true];
     });
@@ -53,13 +51,11 @@ describe("Filter", () => {
         type T3 = Filter<[1, 2, "foo", "bar", true], "extends", [string, boolean]>;
 
         type cases = [
-            Expect<Equal<T1, [1, "foo", 1]>>,
-            Expect<Equal<T2, [1, 2, "foo", "bar"]>>,
-            Expect<Equal<T3, ["foo", "bar", true]>>,
+            Expect<Test<T1, "equals", [1, "foo",  1]>>,
+            Expect<Test<T2, "equals", [1, 2, "foo",  "bar"]>>,
+            Expect<Test<T3, "equals", ["foo", "bar",  true]>>,
         ];
-        const cases: cases = [
-            true, true, true
-        ];
+
     });
 
 
@@ -87,12 +83,9 @@ describe("Filter", () => {
         type Cappy = Filter<["foo", "Bar", "Baz"], "startsWith", UpperAlphaChar>;
 
         type cases = [
-            Expect<Equal<One, [1, 1]>>,
-            Expect<Equal<FooBar, ["foo", "foobar"]>>,
-            Expect<Equal<Cappy, ["Bar", "Baz"]>>,
-        ];
-        const cases: cases = [
-            true, true, true
+            Expect<Test<One, "equals", [1,   1]>>,
+            Expect<Test<FooBar, "equals", ["foo",   "foobar"]>>,
+            Expect<Test<Cappy, "equals", ["Bar",   "Baz"]>>,
         ];
 
     });

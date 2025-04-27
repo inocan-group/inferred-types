@@ -1,10 +1,7 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { FindMaxLength } from "inferred-types/types";
+import { Expect, FindMaxLength, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("MaxLength<T>", () => {
 
@@ -14,13 +11,11 @@ describe("MaxLength<T>", () => {
         type FooBar3 = FindMaxLength<["foobar", "bar", "foo", "baz"]>;
         type FooBar4 = FindMaxLength<["foobar"]>;
 
-
-        // @ts-ignore
         type cases = [
-            Expect<Equal<FooBar, "foobar">>,
-            Expect<Equal<FooBar2, "foobar">>,
-            Expect<Equal<FooBar3, "foobar">>,
-            Expect<Equal<FooBar4, "foobar">>,
+            Expect<Test<FooBar, "equals",  "foobar">>,
+            Expect<Test<FooBar2, "equals",  "foobar">>,
+            Expect<Test<FooBar3, "equals",  "foobar">>,
+            Expect<Test<FooBar4, "equals",  "foobar">>,
         ];
     });
 

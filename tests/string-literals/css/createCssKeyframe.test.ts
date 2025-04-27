@@ -29,7 +29,7 @@ describe("createCssKeyframe()", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<KF["name"], "scroll-show">>,
+      Expect<Test<KF["name"], "equals",  "scroll-show">>,
       Expect<Equal<KF["keyframes"], readonly [
         ["from", {
           opacity: "0";
@@ -40,7 +40,7 @@ describe("createCssKeyframe()", () => {
           transform: "rotate(360deg)";
         }]
       ]>>,
-      Expect<Equal<KF["css"], `@keyframes scroll-show {\n  from { opacity: 0; transform: rotate(0deg) }\n  to { opacity: 1; transform: rotate(360deg) }\n}`>>,
+      Expect<Test<KF["css"], "equals",  `@keyframes scroll-show {\n  from { opacity: 0; transform: rotate(0deg) }\n  to { opacity: 1; transform: rotate(360deg) }\n}`>>,
     ];
   });
 

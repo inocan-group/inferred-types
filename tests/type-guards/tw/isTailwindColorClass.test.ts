@@ -40,7 +40,7 @@ describe("isTailwindColorClass(val)", () => {
 
       // @ts-ignore
       type cases = [
-        Expect<Equal<T, E>>,
+        Expect<Test<T, "equals",  E>>,
       ];
     }
   });
@@ -62,7 +62,7 @@ describe("isTailwindColorClass(val)", () => {
 
       // @ts-ignore
       type cases = [
-        Expect<Equal<T, E>>
+        Expect<Test<T, "equals",  E>>
       ];
     }
 

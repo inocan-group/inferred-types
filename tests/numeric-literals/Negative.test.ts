@@ -1,10 +1,7 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { Negative } from "inferred-types/types";
+import { Expect, Negative, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("Negative<T>", () => {
 
@@ -15,12 +12,11 @@ describe("Negative<T>", () => {
         type PosStr = Negative<"42">;
 
         type cases = [
-            Expect<Equal<Neg, -42>>,
-            Expect<Equal<Pos, -42>>,
-            Expect<Equal<NegStr, "-42">>,
-            Expect<Equal<PosStr, "-42">>,
+            Expect<Test<Neg, "equals",  -42>>,
+            Expect<Test<Pos, "equals",  -42>>,
+            Expect<Test<NegStr, "equals",  "-42">>,
+            Expect<Test<PosStr, "equals",  "-42">>,
         ];
-        const cases: cases = [true, true, true, true];
     });
 
 });

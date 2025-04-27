@@ -17,13 +17,13 @@ describe("UntilLast<TText, TFind, [TBreak]>", () => {
 
 
     type cases = [
-        Expect<Equal<T1, "Array<Record<string, string>">>,
-        Expect<Equal<T2, "Array<Record<string, string>">>,
-        Expect<Equal<T3, "Array<Record<string, string>">>,
-        Expect<Equal<T4, "Array<Record<string, string >">>,
+        Expect<Test<T1, "Array<Record<string, "equals",  string>">>,
+        Expect<Test<T2, "Array<Record<string, "equals",  string>">>,
+        Expect<Test<T3, "Array<Record<string, "equals",  string>">>,
+        Expect<Test<T4, "Array<Record<string, "equals",  string >">>,
 
-        Expect<Equal<T5, "Foo, Bar, Baz">>,
-        Expect<Equal<T6, "Array<Record<string, string> | Array<string>">>,
+        Expect<Test<T5, "Foo, Bar, "equals",  Baz">>,
+        Expect<Test<T6, "Array<Record<string, "equals",  string> | Array<string>">>,
     ];
   });
 
@@ -37,8 +37,8 @@ describe("UntilLast<TText, TFind, [TBreak]>", () => {
     type T2 = UntilLast<"Array<string>", ">", {break: "|"} >
 
     type cases = [
-        Expect<Equal<T1, "Array<Record<string, string>">>,
-        Expect<Equal<T2, "Array<string">>,
+        Expect<Test<T1, "Array<Record<string, "equals",  string>">>,
+        Expect<Test<T2, "equals",  "Array<string">>,
     ];
   });
 
@@ -49,8 +49,8 @@ describe("UntilLast<TText, TFind, [TBreak]>", () => {
     type E1 = UntilLast<"FooBar", ">", { handle: Err<"oops"> }>;
 
     type cases = [
-      Expect<Equal<T1, "FooBar">>,
-      Expect<Equal<E1, Err<"oops">>>,
+      Expect<Test<T1, "equals",  "FooBar">>,
+      Expect<Test<E1, "equals",  Err<"oops">>>,
     ];
   });
 
@@ -63,8 +63,8 @@ describe("UntilLast<TText, TFind, [TBreak]>", () => {
     >;
 
     type cases = [
-      Expect<Equal<T1, "FooBar ">>,
-      Expect<Equal<E1, Err<"oops">>>,
+      Expect<Test<T1, "equals",  "FooBar ">>,
+      Expect<Test<E1, "equals",  Err<"oops">>>,
     ];
   });
 

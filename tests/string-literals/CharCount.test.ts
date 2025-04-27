@@ -9,7 +9,7 @@ describe("CharCount<T,C>", () => {
     type T1 = CharCount<"(a(b(c()))", "(">;
 
     type cases = [
-      Expect<Equal<T1, 4>>,
+      Expect<Test<T1, "equals",  4>>,
     ];
   });
 
@@ -18,8 +18,8 @@ describe("CharCount<T,C>", () => {
     type T2 = CharCount<"(a(b(c([])))", "(" | "[">;
 
     type cases = [
-        Expect<Equal<T1, 4>>,
-        Expect<Equal<T2, 5>>,
+        Expect<Test<T1, "equals",  4>>,
+        Expect<Test<T2, "equals",  5>>,
     ];
   });
 
@@ -29,8 +29,8 @@ describe("CharCount<T,C>", () => {
     type T2 = CharCount<"abc", string>;
 
     type cases = [
-        Expect<Equal<T1, number>>,
-        Expect<Equal<T2, number>>,
+        Expect<Test<T1, "equals",  number>>,
+        Expect<Test<T2, "equals",  number>>,
     ];
   });
 

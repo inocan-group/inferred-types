@@ -26,7 +26,7 @@ describe("isProtocol()", () => {
 
       // @ts-ignore
       type cases = [
-        Expect<Equal<P, "http" | "https">>
+        Expect<Test<P, "equals",  "http" | "https">>
       ];
     }
   });
@@ -54,7 +54,7 @@ describe("isProtocolPrefix()", () => {
 
       // @ts-ignore
       type cases = [
-        Expect<Equal<P, "https://" | "http://" >>
+        Expect<Test<P, "equals",  "https://" | "http://" >>
       ];
     }
   });
@@ -81,7 +81,7 @@ describe("hasProtocolPrefix()", () => {
 
       // @ts-ignore
       type cases = [
-        Expect<Equal<P, `http://${string}` | `https://${string}`>>
+        Expect<Test<P, "equals",  `http://${string}` | `https://${string}`>>
       ];
     }
   });

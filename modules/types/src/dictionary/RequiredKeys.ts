@@ -61,7 +61,9 @@ type KeyList<
  * **Related:** `OptionalKeys`, `RequiredProps`, `RequiredKeys`
  */
 export type RequiredKeysTuple<
-    T extends AnyObject,
-> = Keys<T> extends readonly (ObjectKey & keyof T)[]
+    T extends Dictionary,
+> = As<Keys<T> extends readonly (ObjectKey & keyof T)[]
     ? KeyList<T, Keys<T>>
-    : never;
+    : never,
+    readonly ObjectKey[]
+>;

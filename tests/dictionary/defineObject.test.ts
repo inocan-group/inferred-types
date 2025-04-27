@@ -2,10 +2,9 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
 import { defineObject } from "inferred-types/runtime"
+import { Test } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("defineObject()", () => {
 
@@ -23,10 +22,14 @@ describe("defineObject()", () => {
         type FooBar = typeof fooBar;
 
         type cases = [
-            Expect<Equal<FooBar, {
-                foo: string | undefined,
-                bar: "foo" | "bar" | "baz"
-            }>>
+            Expect<Test<
+                FooBar,
+                "equals",
+                {
+                    foo: string | undefined,
+                    bar: "foo" | "bar" | "baz"
+                }
+            >>
         ];
     });
 
@@ -39,10 +42,14 @@ describe("defineObject()", () => {
 
 
         type cases = [
-            Expect<Equal<typeof fooBar, {
-                foo?: string | undefined,
-                bar?: "foo" | "bar" | undefined
-            }>>
+            Expect<Test<
+                typeof fooBar,
+                "equals",
+                {
+                    foo?: string | undefined,
+                    bar?: "foo" | "bar" | undefined
+                }
+            >>
         ];
 
     });

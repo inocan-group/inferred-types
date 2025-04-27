@@ -1,10 +1,7 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { isEqual } from "inferred-types/runtime";
+import { Expect, Test } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
+import { isEqual } from "inferred-types/runtime";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
 
 describe("isEqual(a)(b) type guard", () => {
 
@@ -37,13 +34,13 @@ describe("isEqual(a)(b) type guard", () => {
       type V = typeof passing;
 
       type cases = [
-        Expect<Equal<V, "bar">>
+        Expect<Test<V, "equals",  "bar">>
       ];
     } else {
       type NV = typeof passing;
 
       type cases = [
-        Expect<Equal<NV, never>>
+        Expect<Test<NV, "equals",  never>>
       ];
     }
 
@@ -51,13 +48,13 @@ describe("isEqual(a)(b) type guard", () => {
       type V = typeof failing;
 
       type cases = [
-        Expect<Equal<V, never>>
+        Expect<Test<V, "equals",  never>>
       ];
     } else {
       type NV = typeof failing;
 
       type cases = [
-        Expect<Equal<NV, "bart">>
+        Expect<Test<NV, "equals",  "bart">>
       ];
     }
 
@@ -65,13 +62,13 @@ describe("isEqual(a)(b) type guard", () => {
       type V = typeof widePass;
 
       type cases = [
-        Expect<Equal<V, "foo" | "bar">>
+        Expect<Test<V, "equals",  "foo" | "bar">>
       ];
     } else {
       type NV = typeof widePass;
 
       type cases = [
-        Expect<Equal<NV, string | undefined>>
+        Expect<Test<NV, "equals",  string | undefined>>
       ];
     }
 
@@ -80,13 +77,13 @@ describe("isEqual(a)(b) type guard", () => {
       type V = typeof fooBarBaz;
 
       type cases = [
-        Expect<Equal<V, "foo" | "bar">>
+        Expect<Test<V, "equals",  "foo" | "bar">>
       ];
     } else {
       type NV = typeof fooBarBaz;
 
       type cases = [
-        Expect<Equal<NV, "baz">>
+        Expect<Test<NV, "equals",  "baz">>
       ];
     }
 

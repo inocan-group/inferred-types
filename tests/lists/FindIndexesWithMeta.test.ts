@@ -1,10 +1,13 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { FindFirstIndex, FindIndexesWithMeta, FindLastIndex } from "inferred-types/types";
+import {
+    Expect,
+    FindFirstIndex,
+    FindIndexesWithMeta,
+    FindLastIndex,
+    Test
+} from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("FindIndexesWithMeta<TContent,TFind,[TOp]>, FindFirstIndexMeta<..>, FindLastIndexMeta<..>", () => {
 
@@ -17,20 +20,18 @@ describe("FindIndexesWithMeta<TContent,TFind,[TOp]>, FindFirstIndexMeta<..>, Fin
         type F_FooBarBaz = FindFirstIndex<"foo,bar, baz", ",">
         type L_FooBarBaz = FindLastIndex<"foo,bar, baz", ",">
 
-
-        // @ts-ignore
         type cases = [
-            Expect<Equal<FooBarBaz, [
+            Expect<Test<FooBarBaz, "equals", [
                 { start: 3; end: 4; break: "," },
                 { start: 7; end: 8; break: "," }
             ]>>,
-            Expect<Equal<Union, [
+            Expect<Test<Union, "equals", [
                 { start: 3; end: 4; break: " " },
                 { start: 7; end: 8; break: "," }
             ]>>,
 
-            Expect<Equal<F_FooBarBaz, 3>>,
-            Expect<Equal<L_FooBarBaz, 7>>,
+            Expect<Test<F_FooBarBaz, "equals",  3>>,
+            Expect<Test<L_FooBarBaz, "equals",  7>>,
 
         ];
     });
@@ -41,9 +42,8 @@ describe("FindIndexesWithMeta<TContent,TFind,[TOp]>, FindFirstIndexMeta<..>, Fin
         type Foo42 = FindIndexesWithMeta<["foo", "bar", "baz", 0, 42], "foo" | 42>;
 
 
-        // @ts-ignore
         type cases = [
-            Expect<Equal<Foo42, [
+            Expect<Test<Foo42, "equals", [
                 { index: 0; break: "foo" },
                 { index: 4; break: 42 }
             ]>>,

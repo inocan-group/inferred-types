@@ -1,16 +1,15 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
 
 import {
+    Expect,
     IsValidIndex,
     Dictionary,
     ExplicitlyEmptyObject,
-    EmptyObject
+    EmptyObject,
+    Test
 } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("IsValidKey<T>", () => {
 
@@ -33,30 +32,25 @@ describe("IsValidKey<T>", () => {
         type BF3 = IsValidIndex<EmptyObject, "foo">;
 
         type cases = [
-            Expect<Equal<T1, true>>,
-            Expect<Equal<T2, true>>,
-            Expect<Equal<T3, true>>,
-            Expect<Equal<T4, true>>,
+            Expect<Test<T1, "equals",  true>>,
+            Expect<Test<T2, "equals",  true>>,
+            Expect<Test<T3, "equals",  true>>,
+            Expect<Test<T4, "equals",  true>>,
 
-            Expect<Equal<F1, false>>,
-            Expect<Equal<F2, false>>,
-            Expect<Equal<F3, false>>,
-            Expect<Equal<F4, false>>,
-            Expect<Equal<F5, false>>,
+            Expect<Test<F1, "equals",  false>>,
+            Expect<Test<F2, "equals",  false>>,
+            Expect<Test<F3, "equals",  false>>,
+            Expect<Test<F4, "equals",  false>>,
+            Expect<Test<F5, "equals",  false>>,
 
-            Expect<Equal<B1, boolean>>,
-            Expect<Equal<BF1, boolean>>,
+            Expect<Test<B1, "equals",  boolean>>,
+            Expect<Test<BF1, "equals",  boolean>>,
 
-            Expect<Equal<B2, boolean>>,
-            Expect<Equal<BF2, boolean>>,
-            Expect<Equal<BF3, boolean>>,
+            Expect<Test<B2, "equals",  boolean>>,
+            Expect<Test<BF2, "equals",  boolean>>,
+            Expect<Test<BF3, "equals",  boolean>>,
         ];
-        const cases: cases = [
-            true, true, true, true,
-            true, true, true, true, true,
-            true, true,
-            true, true, true
-        ];
+
     });
 
 });

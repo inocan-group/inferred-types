@@ -16,12 +16,12 @@ describe("WithoutKeys<T, K> utility", () => {
     type FooBazArr = WithoutKeys<O, ["foo", "baz"]>;
 
     type cases = [
-      Expect<Equal<FooBarUnion, { baz: "hi" }>>,
-      Expect<Equal<FooBarUnion2, { baz: "hi" }>>,
-      Expect<Equal<FooBarRO, { baz: "hi" }>>,
-      Expect<Equal<FooBarRW, { baz: "hi" }>>,
-      Expect<Equal<BazRW, { foo: 1; bar: 2 }>>,
-      Expect<Equal<FooBazArr, { bar: 2 }>>,
+      Expect<Test<FooBarUnion, "equals",  { baz: "hi" }>>,
+      Expect<Test<FooBarUnion2, "equals",  { baz: "hi" }>>,
+      Expect<Test<FooBarRO, "equals",  { baz: "hi" }>>,
+      Expect<Test<FooBarRW, "equals",  { baz: "hi" }>>,
+      Expect<Test<BazRW, "equals",  { foo: 1; bar: 2 }>>,
+      Expect<Test<FooBazArr, "equals",  { bar: 2 }>>,
     ];
     const cases: cases = [true, true, true, true, true, true];
   });
@@ -49,10 +49,10 @@ describe("WithoutKeys<T, K> utility", () => {
     expect((t2b as any).baz).toBeUndefined;
 
     type cases = [
-      Expect<Equal<typeof t1, { readonly baz: "hi" }>>,
-      Expect<Equal<typeof t2, { readonly bar: number | undefined }>>,
-      Expect<Equal<typeof t1b, { baz: string }>>,
-      Expect<Equal<typeof t2b, { bar: number | undefined }>>,
+      Expect<Test<typeof t1, "equals",  { readonly baz: "hi" }>>,
+      Expect<Test<typeof t2, "equals",  { readonly bar: number | undefined }>>,
+      Expect<Test<typeof t1b, "equals",  { baz: string }>>,
+      Expect<Test<typeof t2b, "equals",  { bar: number | undefined }>>,
     ];
     const cases: cases = [true, true, true, true];
   });

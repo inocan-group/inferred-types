@@ -1,12 +1,7 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import { defineTuple, shift } from "inferred-types/runtime";
-import { Shift } from "inferred-types/types";
-
-
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+import { Shift, Test } from "inferred-types/types";
 
 describe("Shift<T>", () => {
 
@@ -15,9 +10,8 @@ describe("Shift<T>", () => {
 
 
     type cases = [
-      Expect<Equal<Bar, ["bar"]>>,
+      Expect<Test<Bar, "equals",  ["bar"]>>,
     ]
-    const cases: cases = [true];
   });
 
 
@@ -25,12 +19,8 @@ describe("Shift<T>", () => {
     type Nada = Shift<[]>;
 
     type cases = [
-      Expect<Equal<Nada, undefined>>
+      Expect<Test<Nada, "equals",  undefined>>
     ];
-    const cases: cases = [
-      true
-    ];
-
   });
 
 
@@ -38,9 +28,8 @@ describe("Shift<T>", () => {
     type Bar = Shift<"#bar">;
 
     type cases = [
-      Expect<Equal<Bar, "bar">>,
+      Expect<Test<Bar, "equals",  "bar">>,
     ]
-    const cases: cases = [true];
   })
 
 
@@ -48,10 +37,8 @@ describe("Shift<T>", () => {
     type Empty = Shift<"">;
 
     type cases = [
-      Expect<Equal<Empty, undefined>>
+      Expect<Test<Empty, "equals",  undefined>>
     ];
-    const cases: cases = [true];
-
   });
 
 
@@ -75,12 +62,11 @@ describe("shift()", () => {
     expect(wideArray).toBe(undefined);
 
     type cases = [
-      Expect<Equal<typeof val, 1>>,
-      Expect<Equal<typeof val2, 1>>,
-      Expect<Equal<typeof empty, undefined>>,
-      Expect<Equal<typeof wideArray, undefined | string>>,
+      Expect<Test<typeof val, "equals",  1>>,
+      Expect<Test<typeof val2, "equals",  1>>,
+      Expect<Test<typeof empty, "equals",  undefined>>,
+      Expect<Test<typeof wideArray, "equals",  undefined | string>>,
     ];
-    const cases: cases = [true, true, true, true];
   });
 
 

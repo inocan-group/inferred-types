@@ -1,10 +1,8 @@
 import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
-import { ErrorCondition, Extends, Or } from "inferred-types/types";
+import { ErrorCondition, Extends, Or, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("Or<T>", () => {
 
@@ -17,14 +15,13 @@ describe("Or<T>", () => {
         type T6 = Or<never>;
 
         type cases = [
-            Expect<Equal<T1, true>>, //
-            Expect<Equal<T2, false>>,
-            Expect<Equal<T3, false>>,
-            Expect<Equal<T4, true>>,
-            Expect<Equal<T5, boolean>>,
+            Expect<Test<T1, "equals",  true>>, //
+            Expect<Test<T2, "equals",  false>>,
+            Expect<Test<T3, "equals",  false>>,
+            Expect<Test<T4, "equals",  true>>,
+            Expect<Test<T5, "equals",  boolean>>,
             ExpectTrue<Extends<T6, ErrorCondition<"invalid-never">>>,
         ];
-        const cases: cases = [true, true, true, true, true, true];
     });
 
     it("functions no params", () => {
@@ -36,13 +33,12 @@ describe("Or<T>", () => {
 
 
         type cases = [
-            Expect<Equal<T1, true>>, //
-            Expect<Equal<T2, false>>,
-            // Expect<Equal<T3, never>>,
-            Expect<Equal<T4, true>>,
-            Expect<Equal<T5, boolean>>,
+            Expect<Test<T1, "equals",  true>>, //
+            Expect<Test<T2, "equals",  false>>,
+            // Expect<Test<T3, "equals",  never>>,
+            Expect<Test<T4, "equals",  true>>,
+            Expect<Test<T5, "equals",  boolean>>,
         ];
-        const cases: cases = [true, true, true, true];
     });
 
 

@@ -1,10 +1,7 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { ExtendsSome } from "inferred-types/types";
+import { Expect, ExtendsSome, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("ExtendsSome<V,T>", () => {
 
@@ -18,14 +15,13 @@ describe("ExtendsSome<V,T>", () => {
         type T3 = ExtendsSome<"foo" | "bar", ["foo", "bar"]>;
 
         type cases = [
-            Expect<Equal<F1, false>>,//
-            Expect<Equal<F2, false>>,
-            Expect<Equal<T0, true>>,
-            Expect<Equal<T1, true>>,
-            Expect<Equal<T2, true>>,
-            Expect<Equal<T3, true>>,
+            Expect<Test<F1, "equals",  false>>,//
+            Expect<Test<F2, "equals",  false>>,
+            Expect<Test<T0, "equals",  true>>,
+            Expect<Test<T1, "equals",  true>>,
+            Expect<Test<T2, "equals",  true>>,
+            Expect<Test<T3, "equals",  true>>,
         ];
-        const cases: cases = [true, true, true, true, true, true];
     });
 });
 

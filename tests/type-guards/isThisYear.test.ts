@@ -41,7 +41,7 @@ describe("isThisYear()", () => {
 
       // @ts-ignore
       type _cases = [
-        Expect<Equal<D, Date>>
+        Expect<Test<D, "equals",  Date>>
       ];
     }
   });
@@ -120,7 +120,7 @@ describe("isThisYear()", () => {
       type WideYear = typeof wide;
       // @ts-ignore
       type _cases = [
-        Expect<Equal<IsoWide, boolean>>,
+        Expect<Test<IsoWide, "equals",  boolean>>,
         Expect<Extends<WideYear, string>>
       ];
     }

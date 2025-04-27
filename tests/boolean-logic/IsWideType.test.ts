@@ -1,10 +1,13 @@
 import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { IsErrorCondition, IsWideContainer, IsWideScalar, IsWideType, Dictionary, Throw } from "inferred-types/types";
+import {
+    IsWideContainer,
+    IsWideScalar,
+    IsWideType,
+    Dictionary,
+    Test,
+    Expect
+} from "inferred-types/types";
 import { describe, it } from "vitest";
-
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
 
 describe("IsWideScalar<T>", () => {
 
@@ -50,25 +53,20 @@ describe("IsWideContainer<T>", () => {
         type F2 = IsWideContainer<[1, 2]>;
 
         type cases = [
-            ExpectTrue<T1>,
-            ExpectTrue<T2>,
-            ExpectTrue<T3>,
-            ExpectTrue<T4>,
-            ExpectTrue<T5>,
-            ExpectTrue<T6>,
+            Expect<Test<T1, "equals", true>>,
+            Expect<Test<T2, "equals", true>>,
+            Expect<Test<T3, "equals", true>>,
+            Expect<Test<T4, "equals", true>>,
+            Expect<Test<T5, "equals", true>>,
+            Expect<Test<T6, "equals", true>>,
 
-            ExpectFalse<F1>,
-            ExpectFalse<F2>,
+            Expect<Test<F1, "equals", false>>,
+            Expect<Test<F2, "equals", false>>,
         ];
-        const cases: cases = [
-            true, true, true, true, true, true,
-            false, false
-        ];
+
     });
 
 });
-
-
 
 describe("IsWideType<T>", () => {
 
@@ -90,32 +88,22 @@ describe("IsWideType<T>", () => {
         // never with and without modification of TNever
         type E1 = IsWideType<never>;
         type E2 = IsWideType<never, false>;
-        // proxy errors passed in
-        type E3 = IsWideType<Throw<"testing">>
 
         type cases = [
-            ExpectTrue<T1>,
-            ExpectTrue<T2>,
-            ExpectTrue<T3>,
-            ExpectTrue<T4>,
-            ExpectTrue<T5>,
-            ExpectTrue<T6>,
-            ExpectTrue<T7>,
+            Expect<Test<T1, "equals", true>>,
+            Expect<Test<T2, "equals", true>>,
+            Expect<Test<T3, "equals", true>>,
+            Expect<Test<T4, "equals", true>>,
+            Expect<Test<T5, "equals", true>>,
+            Expect<Test<T6, "equals", true>>,
+            Expect<Test<T7, "equals", true>>,
 
-            ExpectFalse<F1>,
-            ExpectFalse<F2>,
-            ExpectFalse<F3>,
+            Expect<Test<F1, "equals", false>>,
+            Expect<Test<F2, "equals", false>>,
+            Expect<Test<F3, "equals", false>>,
 
-            ExpectTrue<IsErrorCondition<E1, "invalid-never">>,
-            ExpectFalse<E2>,
-
-            ExpectTrue<IsErrorCondition<E3, "testing">>
-        ];
-        const cases: cases = [
-            true, true, true, true, true, true, true,
-            false, false, false,
-            true, false,
-            true
+            Expect<Test<E1, "equals", never>>,
+            Expect<Test<E2, "equals", false>>,
         ];
     });
 

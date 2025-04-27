@@ -16,8 +16,8 @@ describe("AsyncFunction", () => {
         Default,
         (...params: readonly unknown[]) => Promise<unknown>
       >>,
-      Expect<Equal<AsIs, () => Promise<{ foo: number }>>>,
-      Expect<Equal<Wrap, () => Promise<{ foo: number }>>>,
+      Expect<Test<AsIs, "equals",  () => Promise<{ foo: number }>>>,
+      Expect<Test<Wrap, "equals",  () => Promise<{ foo: number }>>>,
     ]
   })
 

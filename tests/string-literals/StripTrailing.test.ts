@@ -1,12 +1,9 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { StripTrailing } from "inferred-types/types";
+import { Expect, StripTrailing, Test } from "inferred-types/types";
 import { stripTrailing } from "inferred-types/runtime";
 
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("StripTrailing", () => {
 
@@ -16,13 +13,11 @@ describe("StripTrailing", () => {
     type Num = StripTrailing<4000, "000">;
 
     type cases = [
-      Expect<Equal<RemoveBar, "Foo">>,
-      Expect<Equal<SameAsItEverWas, "Foo">>,
-      Expect<Equal<Num, 4>>,
+      Expect<Test<RemoveBar, "equals",  "Foo">>,
+      Expect<Test<SameAsItEverWas, "equals",  "Foo">>,
+      Expect<Test<Num, "equals",  4>>,
     ];
-    const cases: cases = [
-      true, true, true
-    ];
+
   });
 
 
@@ -31,12 +26,10 @@ describe("StripTrailing", () => {
     type NoChange = StripTrailing<42, 9>;
 
     type cases = [
-      Expect<Equal<TheMeaning, 42>>,
-      Expect<Equal<NoChange, 42>>,
+      Expect<Test<TheMeaning, "equals",  42>>,
+      Expect<Test<NoChange, "equals",  42>>,
     ];
-    const cases: cases = [
-      true, true
-    ];
+
   });
 
 
@@ -44,12 +37,8 @@ describe("StripTrailing", () => {
     type Foo = StripTrailing<"foobar", "foo" | "bar">;
 
     type cases = [
-      Expect<Equal<Foo, "foo">>
+      Expect<Test<Foo, "equals",  "foo">>
     ];
-    const cases: cases = [
-      true
-    ];
-
   });
 
 
@@ -68,8 +57,8 @@ describe("stripTrailing() runtime", () => {
 
 
     type cases = [
-      Expect<Equal<typeof foo, "foo">>,
-      Expect<Equal<typeof noChange, "foobar">>,
+      Expect<Test<typeof foo, "equals",  "foo">>,
+      Expect<Test<typeof noChange, "equals",  "foobar">>,
 
     ];
     const cases: cases = [
@@ -84,11 +73,9 @@ describe("stripTrailing() runtime", () => {
     expect(theAnswer).toBe(42);
 
     type cases = [
-      Expect<Equal<typeof theAnswer, 42>>,
+      Expect<Test<typeof theAnswer, "equals",  42>>,
     ];
-    const cases: cases = [
-      true
-    ];
+
   });
 
 
@@ -100,13 +87,9 @@ describe("stripTrailing() runtime", () => {
     expect(foo2).toBe("foo");
 
     type cases = [
-      Expect<Equal<typeof foo, "foo">>,
-      Expect<Equal<typeof foo2, "foo">>,
+      Expect<Test<typeof foo, "equals",  "foo">>,
+      Expect<Test<typeof foo2, "equals",  "foo">>,
     ];
-    const cases: cases = [
-      true, true
-    ];
-
   });
 
 

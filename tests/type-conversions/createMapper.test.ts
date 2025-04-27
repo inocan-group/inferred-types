@@ -33,7 +33,7 @@ describe("createMapper<TFrom,TTo>()", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<typeof result, [IdAgeColor, IdAgeColor]>>
+      Expect<Test<typeof result, [IdAgeColor, "equals",  IdAgeColor]>>
     ];
   });
 

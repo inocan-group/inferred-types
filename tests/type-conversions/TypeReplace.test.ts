@@ -14,12 +14,12 @@ describe("TypeReplace", () => {
     type Medium = TypeReplace<42, number, string, "medium">;
 
     type cases = [
-      Expect<Equal<Nada, "nada">>,
-      Expect<Equal<Undef, "undefined">>,
-      Expect<Equal<Narrow, "42">>,
-      Expect<Equal<Narrow2, "42">>,
-      Expect<Equal<Wide, string>>,
-      Expect<Equal<Medium, `${number}`>>,
+      Expect<Test<Nada, "equals",  "nada">>,
+      Expect<Test<Undef, "equals",  "undefined">>,
+      Expect<Test<Narrow, "equals",  "42">>,
+      Expect<Test<Narrow2, "equals",  "42">>,
+      Expect<Test<Wide, "equals",  string>>,
+      Expect<Test<Medium, "equals",  `${number}`>>,
     ];
   });
 
@@ -30,9 +30,9 @@ describe("TypeReplace", () => {
     type Wide = TypeReplace<[42, 56, "foo", true], number, string, "wide">
 
     type cases = [
-      Expect<Equal<Narrow, ["42", "56", "foo", true]>>,
-      Expect<Equal<Medium, [`${number}`, `${number}`, "foo", true]>>,
-      Expect<Equal<Wide, [string, string, "foo", true]>>,
+      Expect<Test<Narrow, ["42", "56", "foo", "equals",  true]>>,
+      Expect<Test<Medium, [`${number}`, `${number}`, "foo", "equals",  true]>>,
+      Expect<Test<Wide, [string, string, "foo", "equals",  true]>>,
     ];
   });
 
@@ -45,10 +45,10 @@ describe("TypeReplace", () => {
     type Wide = TypeReplace<[42, 56, "foo", true], number | boolean, string, "wide">
 
     type cases = [
-      Expect<Equal<Narrow, ["42", "56", "foo", true]>>,
-      Expect<Equal<Narrow2, ["42", "56", "foo", "true"]>>,
-      Expect<Equal<Medium, [`${number}`, `${number}`, "foo", `${true}`]>>,
-      Expect<Equal<Wide, [string, string, "foo", string]>>,
+      Expect<Test<Narrow, ["42", "56", "foo", "equals",  true]>>,
+      Expect<Test<Narrow2, ["42", "56", "foo", "equals",  "true"]>>,
+      Expect<Test<Medium, [`${number}`, `${number}`, "foo", "equals",  `${true}`]>>,
+      Expect<Test<Wide, [string, string, "foo", "equals",  string]>>,
     ];
 
   });

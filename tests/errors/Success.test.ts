@@ -10,9 +10,9 @@ describe("Success<T>", () => {
         type Union = Success<Error | string | number>;
 
         type cases = [
-            Expect<Equal<Never, never>>,
-            Expect<Equal<Str, string>>,
-            Expect<Equal<Union, string | number>>,
+            Expect<Test<Never, "equals",  never>>,
+            Expect<Test<Str, "equals",  string>>,
+            Expect<Test<Union, "equals",  string | number>>,
         ];
     });
 
@@ -21,7 +21,7 @@ describe("Success<T>", () => {
         type T1 = Success<Err<`Oops`> | string>;
 
         type cases = [
-            Expect<Equal<T1, string>>
+            Expect<Test<T1, "equals",  string>>
         ];
     });
 
@@ -30,7 +30,7 @@ describe("Success<T>", () => {
         type T1 = Success<string>;
 
         type cases = [
-            Expect<Equal<T1, string>>
+            Expect<Test<T1, "equals",  string>>
         ];
     });
 
