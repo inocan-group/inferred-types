@@ -1,5 +1,9 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { ErrorCondition, OnPass } from "inferred-types/types";
+import {
+    Expect,
+    Test,
+    ErrorCondition,
+    OnPass,
+} from "inferred-types/types";
 import { describe, it } from "vitest";
 
 
@@ -33,11 +37,7 @@ describe("OnPass<TTest,TPass", () => {
             Expect<Test<RF, "equals",  "mapped">>,
             Expect<Test<RE, "equals",  "mapped">>,
         ];
-        const cases: cases = [
-            true, true, true,
-            true, true, true,
-            true, true
-        ];
+
     });
 
 });

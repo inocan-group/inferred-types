@@ -1,5 +1,5 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { fromKeyValue } from "inferred-types/runtime";
+import { Expect, Test } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
 describe("fromKeyValue()", () => {
@@ -14,9 +14,8 @@ describe("fromKeyValue()", () => {
 
         expect(obj).toEqual({ foo: "hi", bar: 42 })
 
-        // @ts-ignore
         type cases = [
-            Expect<Test<typeof obj, { foo: "hi", "equals",  bar: 42 }>>,
+            Expect<Test<typeof obj, "equals", { foo: "hi", bar: 42 }>>,
         ]
     });
 

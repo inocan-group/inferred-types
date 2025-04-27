@@ -1,6 +1,22 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { isMetricCategory, isSpeedMetric, isSpeedUom, isUomCategory, MetricTypeGuard, UomTypeGuard } from "inferred-types/runtime";
-import { Uom, AccelerationUom, SpeedUom, Extends, Metric, Acceleration, Speed } from "inferred-types/types";
+import {
+    isMetricCategory,
+    isSpeedMetric,
+    isSpeedUom,
+    isUomCategory,
+    MetricTypeGuard,
+    UomTypeGuard
+} from "inferred-types/runtime";
+import {
+    Expect,
+    Test,
+    Uom,
+    AccelerationUom,
+    SpeedUom,
+    Extends,
+    Metric,
+    Acceleration,
+    Speed,
+} from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
 describe("Uom<T>", () => {
@@ -46,7 +62,7 @@ describe("isUomCategory(c)(v)", () => {
 
     type cases = [
       Expect<Test<typeof isSpeed, "equals",  UomTypeGuard<["Speed"]>>>,
-      Expect<Test<typeof isSpeedOrAccel, UomTypeGuard<["Speed", "equals",  "Acceleration"]>>>,
+      Expect<Test<typeof isSpeedOrAccel, "equals",  UomTypeGuard<["Speed", "Acceleration"]>>>,
     ];
   });
 });
@@ -74,7 +90,7 @@ describe("isMetricCategory(c)(v)", () => {
 
     type cases = [
       Expect<Test<typeof isSpeed, "equals",  MetricTypeGuard<["Speed"]>>>,
-      Expect<Test<typeof isSpeedOrAccel, MetricTypeGuard<["Speed", "equals",  "Acceleration"]>>>,
+      Expect<Test<typeof isSpeedOrAccel, "equals",  MetricTypeGuard<["Speed", "Acceleration"]>>>,
     ];
   });
 });

@@ -1,7 +1,5 @@
 import { describe, it, expect } from "vitest";
-
-import { Equal, Expect } from "@type-challenges/utils";
-import { PascalCase } from "inferred-types/types";
+import { Expect, PascalCase, Test } from "inferred-types/types";
 
 const target = "TwoThreeFour";
 type TARGET = typeof target;
@@ -11,26 +9,28 @@ describe("PascalCase<T> type utility", () => {
         type T1 = PascalCase<"TwoThreeFour">;
         type T2 = PascalCase<"\n TwoThreeFour ">;
 
-        type cases = [Expect<Test<T1, TARGET>>, Expect<Equal<T2, "equals",  TARGET>>];
-        const c: cases = [true, true];
-        expect(c).toBe(c);
+        type cases = [
+            Expect<Test<T1, "equals", TARGET>>,
+            Expect<Test<T2, "equals",  TARGET>>
+        ];
     });
 
     it("PascalCase<T> transform snake_case type", () => {
         type T1 = PascalCase<"two_three_four">;
 
-        type cases = [Expect<Test<T1, "equals",  TARGET>>];
-        const c: cases = [true];
-        expect(c).toBe(c);
+        type cases = [
+            Expect<Test<T1, "equals",  TARGET>>
+        ];
     });
 
     it("PascalCase<T> transforms camelCase type", () => {
         type T1 = PascalCase<"twoThreeFour">;
         type T2 = PascalCase<"  twoThreeFour \t">;
 
-        type cases = [Expect<Test<T1, TARGET>>, Expect<Equal<T2, "equals",  TARGET>>];
-        const c: cases = [true, true];
-        expect(c).toBe(c);
+        type cases = [
+            Expect<Test<T1, "equals", TARGET>>,
+            Expect<Test<T2, "equals",  TARGET>>
+        ];
     });
 
     it("PascalCase<T> transforms camelCase type up to any length", () => {
@@ -66,7 +66,11 @@ describe("PascalCase<T> type utility", () => {
         type T2 = PascalCase<"\n TWO_THREE_FOUR ">;
         type T3 = PascalCase<"\n TWO-THREE-FOUR ">;
 
-        type cases = [Expect<Test<T1, TARGET>>, Expect<Equal<T2, TARGET>>, Expect<Equal<T3, "equals",  TARGET>>];
+        type cases = [
+            Expect<Test<T1, "equals", TARGET>>,
+            Expect<Test<T2, "equals", TARGET>>,
+            Expect<Test<T3, "equals", TARGET>>
+        ];
         const c: cases = [true, true, true];
         expect(c).toBe(c);
     });
@@ -75,17 +79,16 @@ describe("PascalCase<T> type utility", () => {
         type T1 = PascalCase<"  one two three ">;
         type T2 = PascalCase<"\n  one two three ">;
 
-        type cases = [Expect<Test<T1, "OneTwoThree">>, Expect<Equal<T2, "equals",  "OneTwoThree">>];
-        const c: cases = [true, true];
-        expect(c).toBe(c);
+        type cases = [
+            Expect<Test<T1, "equals", "OneTwoThree">>,
+            Expect<Test<T2, "equals",  "OneTwoThree">>
+        ];
     });
 
     it("PascalCase<T> returns 'string' type when passed a non-literal string", () => {
         type T1 = PascalCase<string>;
 
         type cases = [Expect<Test<T1, "equals",  string>>];
-        const c: cases = [true];
-        expect(c).toBe(c);
     });
 
     it("PascalCase<T> can handle long strings which do not have caps (unless they're ALL CAPS)", () => {
@@ -103,7 +106,5 @@ describe("PascalCase<T> type utility", () => {
             Expect<Test<T4, "equals",  "OneTwoThreeFourFiveSixSevenEightNine">>,
             Expect<Test<T5, "equals",  "OneTwoThreeFourFiveSixSevenEightNine">>
         ];
-        const c: cases = [true, true, true, true, true];
-        expect(c).toBe(c);
     });
 });

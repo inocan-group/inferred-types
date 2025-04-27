@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { ReplaceKeys } from "inferred-types/types";
+import { ReplaceKeys, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("ReplaceKeys<TText,TFromTo>", () => {

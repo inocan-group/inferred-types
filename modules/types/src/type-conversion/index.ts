@@ -1,5 +1,3 @@
-// #autoindex
-
 export * from "./AsBoolean";
 export * from "./AsContainer";
 export * from "./AsDefined";
@@ -76,5 +74,5 @@ export * from "./UnionWithAll";
 export * from "./ValueOrReturnValue";
 export * from "./Widen";
 export * from "./WidenValues";
-
 export * from "./WithDefault";
+

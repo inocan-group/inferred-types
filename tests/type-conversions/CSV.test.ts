@@ -5,7 +5,8 @@ import {
   CsvToStrUnion,
   CsvToTuple,
   CsvToTupleStr,
-  CsvToUnion
+  CsvToUnion,
+  Test
 } from "inferred-types/types";
 import { csv } from "inferred-types/runtime";
 
@@ -22,17 +23,13 @@ describe("CsvToTuple<T> and CsvToTupleStr<T>", () => {
     type Mixed = CsvToTuple<"foo, 42, 56,bar">;
 
     type cases = [
-      Expect<Test<OneTwoThree, [1, 2, "equals",  3]>>,
-      Expect<Test<OneTwoThreeAlt, [1, 2, "equals",  3]>>,
-      Expect<Test<OneTwoThreeStr, ["1", "2", "equals",  "3"]>>,
+      Expect<Test<OneTwoThree,"equals", [1, 2,  3]>>,
+      Expect<Test<OneTwoThreeAlt,"equals", [1, 2,  3]>>,
+      Expect<Test<OneTwoThreeStr,"equals", ["1", "2",  "3"]>>,
 
-      Expect<Test<FooBarBaz, ["foo", "bar", "equals",  "baz"]>>,
-      Expect<Test<Mixed, ["foo", 42, 56, "equals",  "bar"]>>,
+      Expect<Test<FooBarBaz,"equals", ["foo", "bar",  "baz"]>>,
+      Expect<Test<Mixed,"equals", ["foo", 42, 56,  "bar"]>>,
 
-    ];
-    const cases: cases = [
-      true, true, true,
-      true, true
     ];
   });
 });
@@ -45,12 +42,9 @@ describe("CsvToJsonTuple<T>", () => {
     type Mixed = CsvToJsonTuple<"foo, 42, 56,bar">;
 
     type cases = [
-      Expect<Test<OneTwoThree, [1, 2, "equals",  3]>>,
-      Expect<Test<FooBarBaz, ["\"foo\"", "\"bar\"", "equals",  "\"baz\""]>>,
-      Expect<Test<Mixed, ["\"foo\"", 42, 56, "equals",  "\"bar\""]>>,
-    ];
-    const cases: cases = [
-      true, true, true
+      Expect<Test<OneTwoThree, "equals", [1, 2,  3]>>,
+      Expect<Test<FooBarBaz, "equals", ["\"foo\"", "\"bar\"",  "\"baz\""]>>,
+      Expect<Test<Mixed, "equals", ["\"foo\"", 42, 56,  "\"bar\""]>>,
     ];
   });
 
@@ -72,10 +66,6 @@ describe("CsvToUnion<T> and CsvToStrUnion<T>", () => {
       Expect<Test<MixedAsStr, "equals",  "foo" | "bar" | "42" | "56">>,
     ]
 
-    const cases: cases = [
-      true, true, true, true
-    ];
-
   });
 
 });
@@ -93,15 +83,11 @@ describe("csv(content,format) runtime", () => {
     expect(abcStr).toEqual(["a", "b", "c", "42"])
     expect(bool).toEqual(["\"foo\"", true, false, true])
 
-
     type cases = [
-      Expect<Test<typeof abc, ["a", "b", "c", "equals",  42]>>,
-      Expect<Test<typeof abcJson, ["\"a\"", "\"b\"", "\"c\"", "equals",  42]>>,
-      Expect<Test<typeof abcStr, ["a", "b", "c", "equals",  "42"]>>,
-      Expect<Test<typeof bool, ["\"foo\"", true, false, "equals",  true]>>,
-    ];
-    const cases: cases = [
-      true, true, true, true
+      Expect<Test<typeof abc, "equals", ["a", "b", "c",  42]>>,
+      Expect<Test<typeof abcJson, "equals", ["\"a\"", "\"b\"", "\"c\"",  42]>>,
+      Expect<Test<typeof abcStr, "equals", ["a", "b", "c",  "42"]>>,
+      Expect<Test<typeof bool, "equals", ["\"foo\"", true, false,  true]>>,
     ];
   });
 

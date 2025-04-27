@@ -1,9 +1,7 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
-import { Extends, KeyValue } from "inferred-types/types";
+import { Expect, Extends, KeyValue, Test } from "inferred-types/types";
 import { toKeyValue, tuple, defineObj } from "inferred-types/runtime";
-import { log } from "console";
 
 
 describe("toKeyValue(obj)", () => {
@@ -17,8 +15,9 @@ describe("toKeyValue(obj)", () => {
         ])
 
         type cases = [
-            Expect<Equal<
+            Expect<Test<
                 typeof fooBar,
+                "equals",
                 [
                     { key: "foo", value: 1 },
                     { key: "bar", value: "hi" }
@@ -38,8 +37,9 @@ describe("toKeyValue(obj)", () => {
         ])
 
         type cases = [
-            Expect<Equal<
+            Expect<Test<
                 typeof fooBar,
+                "equals",
                 [
                     { key: "id", value: 123 },
                     { key: "foo", value: 1 },
@@ -60,8 +60,9 @@ describe("toKeyValue(obj)", () => {
         ])
 
         type cases = [
-            Expect<Equal<
+            Expect<Test<
                 typeof fooBar,
+                "equals",
                 [
                     { key: "foo", value: 1 },
                     { key: "id", value: 123 },
@@ -90,7 +91,6 @@ describe("toKeyValue(obj)", () => {
             start: ["type", "kind", "category", "subcategory"],
             end: "desc"
         });
-        log({fromObj})
 
         const kv = tuple(
             { key: "type", value: "[[kind/types/AI.md|AI]]" },
@@ -106,8 +106,9 @@ describe("toKeyValue(obj)", () => {
 
         type cases = [
             Expect<Extends<typeof fromObj, KeyValue[]>>,
-            Expect<Equal<
+            Expect<Test<
                 typeof fromObj,
+                "equals",
                 typeof kv
             >>
         ];

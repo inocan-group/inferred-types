@@ -1,8 +1,5 @@
-/* eslint-disable ts/ban-ts-comment */
 import { describe, it } from "vitest";
-import { Expect, ExpectTrue } from "@type-challenges/utils";
-
-import { Extends, MomentJs } from "inferred-types/types";
+import { Expect, IsMoment, Test } from "inferred-types/types";
 import moment from "moment";
 
 
@@ -13,7 +10,7 @@ describe("MomentJS", () => {
 
         // @ts-ignore
         type _cases = [
-            ExpectTrue<IsMomentJs<MomentInstance>>,
+            Expect<Test<IsMoment<MomentInstance>, "equals", true >>,
         ];
 
     });

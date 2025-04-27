@@ -1,6 +1,14 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { getPhoneCountryCode, removePhoneCountryCode } from "inferred-types/runtime";
-import { GetPhoneCountryCode, GetPhoneNumberType, RemovePhoneCountryCode } from "inferred-types/types";
+import {
+    getPhoneCountryCode,
+    removePhoneCountryCode
+} from "inferred-types/runtime";
+import {
+    Expect,
+    GetPhoneCountryCode,
+    GetPhoneNumberType,
+    RemovePhoneCountryCode,
+    Test
+} from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
 describe("asPhoneNumber() and supporting utils", () => {

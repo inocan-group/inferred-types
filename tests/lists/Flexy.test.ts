@@ -1,5 +1,4 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { Flexy, TupleMeta } from "inferred-types/types";
+import { Expect, Flexy, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("Flexy<T>", () => {
@@ -31,8 +30,8 @@ describe("Flexy<T>", () => {
         type ZeroToTwo = Flexy<[number?, string?]>;
 
         type cases = [
-            Expect<Test<OneOrTwo, number | [number, "equals",  string?]>>,
-            Expect<Test<ZeroToTwo, undefined | number | [number?, "equals",  string?]>>,
+            Expect<Test<OneOrTwo, "equals", number | [number, string?]>>,
+            Expect<Test<ZeroToTwo,"equals",  undefined | number | [number?, string?]>>,
         ];
     });
 
@@ -42,8 +41,8 @@ describe("Flexy<T>", () => {
         type Three = Flexy<[number, string, string?]>;
 
         type cases = [
-            Expect<Test<Two, [number, "equals",  string]>>,
-            Expect<Test<Three, [number, string, "equals",  string?]>>,
+            Expect<Test<Two, "equals", [number,  string]>>,
+            Expect<Test<Three,"equals", [number, string,  string?]>>,
         ];
     });
 });

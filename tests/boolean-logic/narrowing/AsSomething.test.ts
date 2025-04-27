@@ -1,6 +1,5 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { AsSomething } from "inferred-types/types";
+import { Expect, AsSomething, Test } from "inferred-types/types";
 
 
 
@@ -20,9 +19,6 @@ describe("AsSomething<T>", () => {
             Expect<Test<Never, "equals",  never>>,
             Expect<Test<Nada, "equals",  "nada">>,
 
-        ];
-        const cases: cases = [
-            true, true, true, true, true
         ];
     });
 

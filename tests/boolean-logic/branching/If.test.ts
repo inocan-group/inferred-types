@@ -1,5 +1,4 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { If } from "inferred-types/types";
+import { Expect, If, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 
@@ -28,11 +27,6 @@ describe("If<T,TIf,TElse,TMaybe>", () => {
 
             Expect<Test<YesNo, "equals",  "yes" | "no">>,
             Expect<Test<InvalidUnion, "equals",  never>>,
-        ];
-        const cases: cases = [
-            true, true, true, true,
-            true, true,
-            true, true
         ];
     });
 

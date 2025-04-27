@@ -1,5 +1,4 @@
-import { Equal, Expect, ExpectFalse } from "@type-challenges/utils";
-import { Handle } from "inferred-types/types";
+import { Expect, Handle, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 
@@ -26,18 +25,12 @@ describe("Handle<TContent,TPass,THandle,TSpecificity>", () => {
             Expect<Test<StillFoo, "equals",  "foo">>,
             Expect<Test<StillFoo2, "equals",  "foo">>,
             Expect<Test<UFoo, "equals",  "foo">>,
-            ExpectFalse<NarrowFoo>,
+            Expect<Test<NarrowFoo, "equals", false>>,
 
             Expect<Test<UnionHandler, "equals",  "union">>,
             Expect<Test<UnionContent, "equals",  "foo" | "bar">>,
 
-            ExpectFalse<Nope>
-        ];
-        const cases: cases = [
-            true,
-            true, true, true, false,
-            true, true,
-            false
+            Expect<Test<Nope, "equals", false>>,
         ];
     });
 
@@ -74,7 +67,5 @@ describe("Handle<TContent,TPass,THandle,TSpecificity>", () => {
         ];
 
     });
-
-
 
 });

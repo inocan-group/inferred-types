@@ -1,6 +1,5 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { RemoveWhitespace } from "inferred-types/types";
+import { Expect, RemoveWhitespace, Test } from "inferred-types/types";
 
 describe("RemoveWhitespace<T>", () => {
 

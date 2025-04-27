@@ -1,6 +1,5 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { TrimEach } from "../../modules/types/src/type-conversion/TrimEach";
+import { Expect, Test, TrimEach } from "inferred-types/types";
 
 describe("TrimEach<T>", () => {
 
@@ -8,10 +7,9 @@ describe("TrimEach<T>", () => {
         type T1 = TrimEach<["foo"," bar ", "\bbaz"]>;
         type T2 = TrimEach<["foo"," bar ", "\bbaz", 42]>;
 
-
         type cases = [
-            Expect<Test<T1, ["foo","bar", "equals", "baz"]>>,
-            Expect<Test<T2, ["foo","bar","baz", "equals",  42]>>,
+            Expect<Test<T1, "equals", ["foo","bar", "baz"]>>,
+            Expect<Test<T2, "equals", ["foo","bar","baz",  42]>>,
 
         ];
     });

@@ -1,6 +1,5 @@
 
-import { Equal, Expect } from "@type-challenges/utils";
-import { Narrowable, RemoveIndex } from "inferred-types/types";
+import { Expect, Narrowable, RemoveIndex, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 
@@ -22,7 +21,6 @@ describe("RemoveIndex<T>", () => {
             Expect<Test<LiteralWithNarrowableIdx, "equals",  { foo: "bar" }>>,
 
         ];
-        const cases: cases = [true, true, true, true, true,];
     });
 
 });

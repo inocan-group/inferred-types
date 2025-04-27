@@ -1,7 +1,5 @@
 import { describe, it, expect } from "vitest";
-
-import { Equal, Expect } from "@type-challenges/utils";
-import { HasUppercase } from "inferred-types/types";
+import type { Expect, HasUppercase, Test } from "inferred-types/types";
 
 describe("HasUppercase<T> type utility", () => {
     it("finds capitals where they exist", () => {
@@ -9,7 +7,11 @@ describe("HasUppercase<T> type utility", () => {
         type T2 = HasUppercase<"yUp">;
         type T3 = HasUppercase<"YUP">;
 
-        type cases = [Expect<Test<T1, true>>, Expect<Equal<T2, true>>, Expect<Equal<T3, "equals",  true>>];
+        type cases = [
+            Expect<Test<T1, "equals", true>>,
+            Expect<Test<T2, "equals", true>>,
+            Expect<Test<T3, "equals", true>>
+        ];
         const c: cases = [true, true, true];
         expect(c).toBe(c);
     });
@@ -18,16 +20,18 @@ describe("HasUppercase<T> type utility", () => {
         type T1 = HasUppercase<"nope">;
         type T2 = HasUppercase<"  noo nooo noooooooooooooo">;
 
-        type cases = [Expect<Test<T1, false>>, Expect<Equal<T2, "equals",  false>>];
-        const c: cases = [true, true];
-        expect(c).toBe(c);
+        type cases = [
+            Expect<Test<T1, "equals", false>>,
+            Expect<Test<T2, "equals", false>>
+        ];
     });
 
     it("when passed a non literal string, returns 'unknown'", () => {
         type T1 = HasUppercase<string>;
 
-        type cases = [Expect<Test<T1, "equals",  "unknown">>];
-        const c: cases = [true];
-        expect(c).toBe(c);
+        type cases = [
+            Expect<Test<T1, "equals", "unknown">>
+        ];
+
     });
 });

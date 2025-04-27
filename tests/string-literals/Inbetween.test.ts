@@ -1,6 +1,5 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { Inbetween } from "inferred-types/types";
+import { Expect, Inbetween, Test } from "inferred-types/types";
 
 describe("Inbetween<T,S,E>", () => {
 

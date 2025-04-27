@@ -5,7 +5,7 @@ import {
     createFnWithProps,
     fnProps
 } from "inferred-types/runtime";
-import { FnProps } from "inferred-types/types";
+import { FnProps, Test } from "inferred-types/types";
 
 
 const fn = () => "hi" as const;
@@ -29,33 +29,40 @@ describe("createFnWithProps()", () => {
 
         type cases = [
             Expect<Test<typeof foo, "equals",  (() => "hi") & { foo: 42 }>>,
-            Expect<Equal<
+            Expect<Test<
                 typeof fooWithParam,
+                "equals",
                 ((name: string) => `hi ${string}`) & { foo: 42 }
             >>,
-            Expect<Equal<
+            Expect<Test<
                 typeof fooWithTwo,
+                "equals",
                 ((name: string, age: number) => `hi ${string}, you are ${number}`) & { foo: 42 }
             >>,
-            Expect<Equal<
+            Expect<Test<
                 typeof fooNarrowing,
+                "equals",
                 ((name: string) => `hi ${string}`) & { foo: 42 }
             >>,
 
-            Expect<Equal<
+            Expect<Test<
                 typeof n_foo,
+                "equals",
                 (<A extends []>(...args: A) => "hi") & { foo: 42 }
             >>,
-            Expect<Equal<
+            Expect<Test<
                 typeof n_fooWithParam,
+                "equals",
                 (<A extends [name: string]>(...args: A) => `hi ${string}`) & { foo: 42 }
             >>,
-            Expect<Equal<
+            Expect<Test<
                 typeof n_fooWithTwo,
+                "equals",
                 (<A extends [name: string, age: number]>(...args: A) => `hi ${string}, you are ${number}`) & { foo: 42 }
             >>,
-            Expect<Equal<
+            Expect<Test<
                 typeof n_fooNarrowing,
+                "equals",
                 (<A extends [name: string]>(...args: A) => `hi ${string}`) & { foo: 42 }
             >>,
         ];
@@ -147,7 +154,11 @@ describe("createFnWithProps()", () => {
         expect(fn()).toBe("hi");
 
         type cases = [
-            Expect<Test<FnProps<typeof original>, { foo: 42, "equals",  bar: 50 }>>,
+            Expect<Test<
+                FnProps<typeof original>,
+                "equals",
+                { foo: 42, bar: 50 }
+            >>,
             Expect<Equal<
                 typeof fn,
                 (() => string) & { foo: 42; bar: 99 }

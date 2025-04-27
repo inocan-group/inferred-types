@@ -1,6 +1,5 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { filter, FilterFn } from "inferred-types/runtime";
-import { Compare, Filter, Test } from "inferred-types/types";
+import { filter } from "inferred-types/runtime";
+import { Expect, Test } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
 describe("filter()", () => {
@@ -234,8 +233,4 @@ describe("filter()", () => {
             Expect<Test<typeof f2, "equals",  false>>,
         ];
     });
-
-
-
-
 });

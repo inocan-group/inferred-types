@@ -1,11 +1,13 @@
 /* eslint-disable ts/ban-ts-comment */
-import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
+import { Equal,  ExpectTrue } from "@type-challenges/utils";
 import { isThisMonth } from "inferred-types/runtime";
 import {
+    Expect,
   Extends,
   IsJsDate,
   IsLuxonDateTime,
   LuxonJs,
+  Test,
 } from "inferred-types/types";
 import { DateTime } from "luxon";
 import moment from "moment";
@@ -69,8 +71,8 @@ describe("isThisMonth()", () => {
       type ThisMonth = typeof thisMonth;
       // @ts-ignore
       type _cases = [
-        ExpectTrue<Luxon>,
-        Expect<Extends<LuxonJs["DateTime"], ThisMonth>>
+        Expect<Test<Luxon, "equals", true>>,
+        Expect<Test<LuxonJs["DateTime"], "extends", ThisMonth>>
       ];
     }
   });

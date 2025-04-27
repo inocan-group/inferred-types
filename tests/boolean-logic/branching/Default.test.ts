@@ -1,8 +1,5 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { Default } from "inferred-types/types";
+import { Expect, Default, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
-
-
 
 describe("Default<TVal,TDefault,[TProtect]>", () => {
 
@@ -16,9 +13,6 @@ describe("Default<TVal,TDefault,[TProtect]>", () => {
             Expect<Test<Undef, "equals",  "foo">>,
             Expect<Test<Null, "equals",  "foo">>,
 
-        ];
-        const cases: cases = [
-            true, true, true
         ];
     });
 

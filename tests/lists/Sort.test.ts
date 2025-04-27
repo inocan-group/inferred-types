@@ -1,58 +1,54 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { sort, tuple } from "inferred-types/runtime";
-import { AsNumber, Dictionary, NumericKeys, RemoveNever, Sort, StringKeys } from "inferred-types/types";
-import { KeyValue } from "transpiled/types";
+import {  tuple } from "inferred-types/runtime";
+import { Expect, Sort, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-
-
 describe("Sort<T>", () => {
-  it("sorting without offset", () => {
+    it("sorting without offset", () => {
 
-    type StringFirst = Sort<["foo", "bar", 42, "baz", 99], { first: [string] }>
-    type BazFirst = Sort<["foo", "bar", 42, "baz", 99], { first: ["baz"] }>
-    type NumberToNumber = Sort<["foo", "bar", 42, "baz", 99], { first: [99], last: [42] }>;
+        type StringFirst = Sort<["foo", "bar", 42, "baz", 99], { first: [string] }>
+        type BazFirst = Sort<["foo", "bar", 42, "baz", 99], { first: ["baz"] }>
+        type NumberToNumber = Sort<["foo", "bar", 42, "baz", 99], { first: [99], last: [42] }>;
 
-    type cases = [
-      Expect<Test<StringFirst, ["foo", "bar", "baz", 42, "equals",  99]>>,
-      Expect<Test<BazFirst, ["baz", "foo", "bar", 42, "equals",  99]>>,
-      Expect<Test<NumberToNumber, [99, "foo", "bar", "baz", 42, "equals", ]>>,
-    ];
-  });
+        type cases = [
+            Expect<Test<StringFirst, "equals", ["foo", "bar", "baz", 42, 99]>>,
+            Expect<Test<BazFirst, "equals", ["baz", "foo", "bar", 42, 99]>>,
+            Expect<Test<NumberToNumber, "equals", [99, "foo", "bar", "baz", 42]>>,
+        ];
+    });
 
-  it("sorting with offset", () => {
-    type O1 = { id: 1; color: "blue" }
-    type O2 = { id: 2; color: "red" }
-    type O3 = { id: 3; color: "orange"; price: 55 }
+    it("sorting with offset", () => {
+        type O1 = { id: 1; color: "blue" }
+        type O2 = { id: 2; color: "red" }
+        type O3 = { id: 3; color: "orange"; price: 55 }
 
-    type Orange = Sort<[O1, O2, O3], { first: [3], offset: "id" }>
-    type OrangeToo = Sort<[O1, O2, O3], { first: ["orange"], offset: "color" }>
+        type Orange = Sort<[O1, O2, O3], { first: [3], offset: "id" }>
+        type OrangeToo = Sort<[O1, O2, O3], { first: ["orange"], offset: "color" }>
 
-    type cases = [
-      Expect<Test<Orange, [O3, O1, "equals",  O2]>>,
-      Expect<Test<OrangeToo, [O3, O1, "equals",  O2]>>,
-    ];
-  });
+        type cases = [
+            Expect<Test<Orange, "equals", [O3, O1, O2]>>,
+            Expect<Test<OrangeToo, "equals", [O3, O1, O2]>>,
+        ];
+    });
 });
 
-describe("sort(tuple, options)", () => {
-  const items = tuple([1, 2, "foo", "bar", 3]);
+describe.todo("sort(tuple, options)", () => {
+    const items = tuple([1, 2, "foo", "bar", 3]);
 
-  it.todo("TODO", () => {
-    const barFirst = sort(
-        items,
-        { first: ["String(bar)"] }
-    );
-    const bar2First = sort(
-        items,
-        { first: ["String(bar)", "Number(2)"] }
-    );
+    it.todo("TODO", () => {
+        const barFirst = sort(
+            items,
+            { first: ["String(bar)"] }
+        );
+        const bar2First = sort(
+            items,
+            { first: ["String(bar)", "Number(2)"] }
+        );
 
 
-    type cases = [
-      /** type tests */
-    ];
-  });
+        type cases = [
+            /** type tests */
+        ];
+    });
 
 
 });

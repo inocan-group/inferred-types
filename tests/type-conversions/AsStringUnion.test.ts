@@ -1,6 +1,9 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { AsStringUnion } from "inferred-types/types";
 import { describe, it } from "vitest";
+import {
+    Expect,
+    AsStringUnion,
+    Test
+} from "inferred-types/types";
 
 
 
@@ -21,14 +24,10 @@ describe("AsStringUnion<T>", () => {
             Expect<Test<WideNum, "equals",  "foo" | `${number}`>>,
             Expect<Test<NoChange, "equals",  "foo" | "bar">>,
             Expect<Test<Ignored, "equals",  "foo" | "bar">>,
-            Expect<Test<Allowed, "foo" | "bar" | [1, 2, "equals",  3]>>,
+            Expect<Test<Allowed, "equals", "foo" | "bar" | [1, 2,  3]>>,
 
             Expect<Test<Num, "equals",  "42">>,
             Expect<Test<True, "equals",  "true">>,
-        ];
-        const cases: cases = [
-            true, true, true, true, true,
-            true, true
         ];
     });
 

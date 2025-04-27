@@ -1,6 +1,9 @@
-import { Equal, Expect } from "@type-challenges/utils";
-
-import { defineObj, DictionaryWithoutValueFilter, withoutValue } from "inferred-types/runtime";
+import {
+    defineObj,
+    DictionaryWithoutValueFilter,
+    withoutValue
+} from "inferred-types/runtime";
+import { Expect, Test } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
 

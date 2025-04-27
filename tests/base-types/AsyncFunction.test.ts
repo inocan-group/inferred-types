@@ -1,7 +1,5 @@
-/* eslint-disable ts/ban-ts-comment */
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe,  it } from "vitest";
-import { AsyncFunction } from "inferred-types/types";
+import { Expect, AsyncFunction, Test } from "inferred-types/types";
 
 describe("AsyncFunction", () => {
 
@@ -12,8 +10,9 @@ describe("AsyncFunction", () => {
 
     // @ts-ignore
     type _cases = [
-      Expect<Equal<
+      Expect<Test<
         Default,
+        "equals",
         (...params: readonly unknown[]) => Promise<unknown>
       >>,
       Expect<Test<AsIs, "equals",  () => Promise<{ foo: number }>>>,

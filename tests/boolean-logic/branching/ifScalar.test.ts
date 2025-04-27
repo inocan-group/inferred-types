@@ -1,6 +1,6 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import { ifScalar } from "inferred-types/runtime";
+import { Expect, Test } from "inferred-types/types";
 
 
 
@@ -28,7 +28,6 @@ describe("ifScalar(value)", () => {
       Expect<Test<typeof t2, "equals",  42>>,
       Expect<Test<typeof t3, "equals",  "no">>,
     ];
-    const cases: cases = [true, true, true];
 
   });
 

@@ -1,6 +1,6 @@
 
 import { Equal, Expect } from "@type-challenges/utils";
-import { AnyArray, AnyObject, Scalar, ToContainer } from "inferred-types/types";
+import { AnyArray, AnyObject, Scalar, Test, ToContainer } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 
@@ -34,7 +34,6 @@ describe("ToContainer<T>", () => {
       Expect<Test<Unknown, "equals",  [unknown]>>,
       Expect<Test<Any, "equals",  [any]>>,
     ];
-    const cases: cases = [true, true, true, true, true, true, true, true];
   });
 
 });

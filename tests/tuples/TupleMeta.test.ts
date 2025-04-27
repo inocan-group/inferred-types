@@ -1,5 +1,4 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { TupleMeta } from "inferred-types/types";
+import { Expect, Test, TupleMeta } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("TupleMeta<T>", () => {

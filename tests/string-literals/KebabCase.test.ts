@@ -1,9 +1,8 @@
 import { describe, it, expect } from "vitest";
-import { Equal, Expect } from "@type-challenges/utils";
 import { toKebabCase } from "inferred-types/runtime";
+import { Expect, Test } from "inferred-types/types";
 
 describe("toKebabCase() function", () => {
-
 
   it("camelCase is converted correctly", () => {
     expect(toKebabCase("camelCase")).toEqual("camel-case");
@@ -51,8 +50,6 @@ describe("toKebabCase() function", () => {
       Expect<Test<typeof kebab4, "equals",  "one-two-three">>,
       Expect<Test<typeof kebab5, "equals",  "one-two-three">>,
     ];
-    const cases: cases = [true, true, true, true, true];
-
   });
 
   it(`Using "string literal", type is modified appropriately`, () => {
@@ -100,9 +97,6 @@ describe("toKebabCase() function", () => {
       Expect<Test<AWhite, "equals",  "  one-two-three  ">>,
       Expect<Test<AWhiteHybrid, "equals",  "\n  one-two-three \t">>,
     ];
-
-    const c: cases = [true, true, true, true, true, true, true, true];
-    expect(c).toEqual(c);
   });
 
 });

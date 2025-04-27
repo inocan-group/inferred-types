@@ -1,5 +1,4 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { Err, FailFast } from "inferred-types/types";
+import { Expect, Err, FailFast, Test } from "inferred-types/types";
 import { Extends } from "transpiled/types";
 import { describe, it } from "vitest";
 

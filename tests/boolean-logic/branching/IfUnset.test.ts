@@ -1,6 +1,12 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { Dictionary, IfUnset, IfUnsetOrUndefined, Unset } from "inferred-types/types";
+import {
+    Expect,
+    Test,
+    Dictionary,
+    IfUnset,
+    IfUnsetOrUndefined,
+    Unset
+} from "inferred-types/types";
 
 
 
@@ -14,7 +20,6 @@ describe("IfUnset<TTest,TElse>", () => {
         type cases = [
             Expect<Test<T1, "equals",  Dictionary | "oops">>,
         ];
-        const cases: cases = [true];
     });
 
 });
@@ -29,7 +34,6 @@ describe("IfUnsetOrUndefined<TTest,TElse>", () => {
         type cases = [
             Expect<Test<T1, "equals",  Dictionary | "oops">>,
         ];
-        const cases: cases = [true];
     });
 
 });

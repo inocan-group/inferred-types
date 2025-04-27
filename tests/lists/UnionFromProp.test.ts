@@ -1,6 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { Expect, Equal } from "@type-challenges/utils";
-import { UnionFromProp } from "inferred-types/types";
+import { describe, it } from "vitest";
+import type { Expect, Test, UnionFromProp } from "inferred-types/types";
 
 const narrow_data = [
     { id: 123, color: "blue" },
@@ -34,9 +33,6 @@ describe("UniqueForProp<T, P>", () => {
             // the expected keys are part of the union
             Expect<Test<U, "equals",  123 | 456>>
         ];
-
-        const c: cases = [true];
-        expect(c).toBe(c);
     });
 
     it("wide data only knows the wide type", () => {
@@ -46,15 +42,10 @@ describe("UniqueForProp<T, P>", () => {
             // the keys are rolled up the wide type
             Expect<Test<U, "equals",  number>>
         ];
-
-        const c: cases = [true];
-        expect(c).toBe(c);
     });
 
     it("wide data only knows the wide type", () => {
         type U = UnionFromProp<HybridData, "id">;
         type cases = [Expect<Test<U, "equals",  number>>];
-        const c: cases = [true];
-        expect(c).toBe(c);
     });
 });

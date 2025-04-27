@@ -1,5 +1,4 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { ToJsonArray } from "inferred-types/types";
+import { Expect, Test, ToJsonArray } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("ToJsonArray()", () => {
@@ -8,7 +7,7 @@ describe("ToJsonArray()", () => {
     type T = ToJsonArray<[1,2,"foo", null]>;
 
     type cases = [
-      Expect<Test<T, `[ 1, 2, "foo", "equals",  null ]`>>
+      Expect<Test<T, "equals", `[ 1, 2, "foo", null ]`>>
     ];
   });
 
@@ -16,7 +15,7 @@ describe("ToJsonArray()", () => {
     type T = ToJsonArray<[[1,1], ["2","2"]]>;
 
     type cases = [
-      Expect<Test<T, `[ [ 1, 1 ], [ "2", "equals",  "2" ] ]`>>
+      Expect<Test<T, "equals", `[ [ 1, 1 ], [ "2", "2" ] ]`>>
     ];
   });
 
@@ -24,7 +23,7 @@ describe("ToJsonArray()", () => {
     type T = ToJsonArray<[  {id: "foo"}, { id: "bar"}]>;
 
     type cases = [
-      Expect<Test<T, `[ { "id": "foo" }, "equals",  { "id": "bar" } ]`>>
+      Expect<Test<T, "equals", `[ { "id": "foo" }, { "id": "bar" } ]`>>
     ];
   });
 
@@ -32,7 +31,7 @@ describe("ToJsonArray()", () => {
     type T = ToJsonArray<[]>;
 
     type cases = [
-      Expect<Test<T, "equals",  `[  ]`>>
+      Expect<Test<T, "equals", `[  ]`>>
     ];
   });
 });

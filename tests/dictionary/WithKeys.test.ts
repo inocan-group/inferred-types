@@ -1,12 +1,14 @@
-
 import { describe, it, expect } from "vitest";
-import { Equal, Expect } from "@type-challenges/utils";
-
-// NOTE: "withKeys" and "retain" are aliases of one another
-// so these tests really pertain to both
-
 import { retainKeys, withKeys } from "inferred-types/runtime";
-import { DoesExtend, ErrorCondition, WithKeys } from "inferred-types/types";
+import {
+    Expect,
+    Test,
+    DoesExtend,
+    ErrorCondition,
+    WithKeys
+} from "inferred-types/types";
+// NOTE: "withKeys" and "retainKeys" are aliases of one another
+// so these tests really pertain to both
 
 describe("WithKeys<T, K> utility with tuples", () => {
 
@@ -40,8 +42,7 @@ describe("WithKeys<T, K> utility with objects", () => {
       Expect<Test<FooBaz, "equals",  { foo: 1; baz: "hi" }>>,
       Expect<Test<FooBaz2, "equals",  { foo: 1; baz: "hi" }>>,
     ];
-    const c: cases = [true, true, true, true, true, true];
-    expect(c).toBe(c);
+
   });
 
   it("types: optional params and literals", () => {
@@ -49,8 +50,6 @@ describe("WithKeys<T, K> utility with objects", () => {
     type FooBar = WithKeys<Obj, "foo" | "bar">;
 
     type cases = [Expect<Test<FooBar, "equals",  { foo: 1; bar?: number }>>];
-    const c: cases = [true];
-    expect(c).toBe(c);
   });
 
 });
@@ -83,7 +82,6 @@ describe("withKeys() runtime with objects", () => {
       Expect<Test<typeof t1, "equals",  { readonly foo: 1; readonly bar: number | undefined }>>,
       Expect<Test<typeof t2, "equals",  { readonly foo: 1; readonly baz: "hi" }>>
     ];
-    const cases: cases = [true, true];
   });
 
 
@@ -96,7 +94,6 @@ describe("withKeys() runtime with objects", () => {
     type cases = [
       DoesExtend<typeof obj, ErrorCondition<"invalid-union">>,
     ];
-    const cases: cases = [true];
   });
 
 });

@@ -1,8 +1,5 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import {  FromKv } from "inferred-types/types";
-import { EmptyObject } from "transpiled/types";
+import { Expect, FromKv, Test, EmptyObject } from "inferred-types/types";
 import { describe, it } from "vitest";
-
 
 
 describe("FromKv<T>", () => {
@@ -13,12 +10,11 @@ describe("FromKv<T>", () => {
         ]>
         type Empty = FromKv<[]>;
 
-
-        // @ts-ignore
         type cases = [
             Expect<Test<Foobar, "equals",  { foo: 1; bar: "hi" }>>,
-            Expect<Equal<
+            Expect<Test<
                 Empty,
+                "equals",
                 EmptyObject
             >>
         ];
@@ -44,9 +40,12 @@ describe("FromKv<T>", () => {
         ]>;
 
         type cases = [
-            Expect<Test<FooBar, { foo?: 1, bar: 2, "equals",  baz: "baz" }>>,
-            Expect<Test<FooBar, { foo?: 1, bar: 2, "equals",  baz: "baz" }>>,
-            Expect<Test<MoreComplex, { foo?: 1, bar: 2, baz?: "baz", "equals",  bax: string | number }>>,
+            Expect<Test<FooBar, "equals", { foo?: 1, bar: 2,  baz: "baz" }>>,
+            Expect<Test<FooBar, "equals", { foo?: 1, bar: 2,  baz: "baz" }>>,
+            Expect<Test<
+                MoreComplex, "equals",
+                { foo?: 1, bar: 2, baz?: "baz",  bax: string | number }
+            >>,
         ];
     });
 });

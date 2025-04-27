@@ -1,7 +1,6 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it, expect } from "vitest";
-
 import { toPascalCase } from "inferred-types/runtime";
+import { Expect, Test } from "inferred-types/types";
 
 describe("toPascalCase() function", () => {
   it("camelCase is converted correctly", () => {
@@ -53,9 +52,6 @@ describe("toPascalCase() function", () => {
       Expect<Test<AWhiteTrimmed, "equals",  "OneTwoThree">>,
       Expect<Test<AWhite, "equals",  "  OneTwoThree  ">>
     ];
-
-    const c: cases = [true, true, true, true];
-    expect(c).toEqual(c);
   });
 
   it(`Using "string literal", type is modified appropriately`, () => {
@@ -97,9 +93,6 @@ describe("toPascalCase() function", () => {
       Expect<Test<AWhitePreserved, "equals",  "  OneTwoThree  ">>,
       Expect<Test<AWhitePreserved2, "equals",  "\n  OneTwoThree  \t">>
     ];
-
-    const c: cases = [true, true, true, true, true, true, true];
-    expect(c).toEqual(c);
   });
 
 });

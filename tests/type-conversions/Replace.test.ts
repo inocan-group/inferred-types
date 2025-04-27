@@ -8,7 +8,8 @@ import {
   LowerAlphaChar,
   Replace,
   ReplaceAll,
-  UpperAlphaChar
+  UpperAlphaChar,
+  Test
 } from "inferred-types/types";
 import { replace, replaceAll, replaceAllFromTo } from "inferred-types/runtime";
 
@@ -56,7 +57,7 @@ describe("Replace<TText,TFind,TReplace>", () => {
     type R = Replace<Text, "foo", "bar">;
 
     type cases = [
-      Expect<Test<R, "barbar, foo" | "bazbar, "equals",  foo">>,
+      Expect<Test<R, "equals",  "barbar, foo" | "bazbar, foo">>,
     ];
   });
 });
@@ -129,8 +130,8 @@ describe("ReplaceAll<TText,TFind,TReplace>", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Test<R, "barbar, bar" | "bazbar, "equals",  bar">>,
-      Expect<Test<R2, "foobar, foo" | "foobaz, "equals",  foo">>,
+      Expect<Test<R, "equals", "barbar, bar" | "bazbar, bar">>,
+      Expect<Test<R2,  "equals","foobar, foo" | "foobaz, foo">>,
     ];
   });
 
@@ -211,7 +212,7 @@ describe("replaceAllFromTo()", () => {
       expect(template).toEqual("There I was, in the jungle! As well as some 5 year monkey.")
 
       type cases = [
-        Expect<Test<typeof template, "There I was, "equals",  in the jungle! As well as some 5 year monkey.">>,
+        Expect<Test<typeof template, "equals", "There I was, in the jungle! As well as some 5 year monkey.">>,
       ];
     });
 })

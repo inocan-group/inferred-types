@@ -1,5 +1,4 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { JustFunction } from "inferred-types/types";
+import { Expect, JustFunction, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("JustFunction<T>", () => {
@@ -8,7 +7,6 @@ describe("JustFunction<T>", () => {
     type F1 = JustFunction<() => "hi">;
     type F2 = JustFunction<(() => "hi") & { foo: 1 }>;
     type F3 = JustFunction<((name: string) => `hi ${string}`) & {name: "greet"}>;
-
 
     type cases = [
         Expect<Test<F1, "equals",  () => "hi">>,

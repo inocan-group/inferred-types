@@ -1,6 +1,5 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { asString, isError, pipeline } from "inferred-types/runtime";
-import { Equals, Err, Extends } from "inferred-types/types";
+import { Equals, Expect, Test } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 import { typedError } from "inferred-types/runtime";
 
