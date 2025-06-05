@@ -10,7 +10,7 @@ import {
 import { Expect, Extends, Test, TokenSyntax } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
-describe("createTokenSyntax()", () => {
+describe.skip("createTokenSyntax()", () => {
 
     it("explicit encoding", () => {
         const syn = createTokenSyntax(

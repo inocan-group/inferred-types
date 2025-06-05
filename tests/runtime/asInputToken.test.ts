@@ -41,9 +41,9 @@ describe("FromInputToken<Token>", () => {
         type T3 = FromStringInputToken<"Record<string, string | number>">;
 
         type cases = [
-            Expect<Test<T1, Record<string, "equals", string>>>,
-            Expect<Test<T2, Record<string, "equals", number>>>,
-            Expect<Test<T3, Record<string, "equals", string | number>>>,
+            Expect<Test<T1, "equals", Record<string,  string>>>,
+            Expect<Test<T2, "equals", Record<string,  number>>>,
+            Expect<Test<T3, "equals", Record<string,  string | number>>>,
         ]
     });
 
@@ -66,7 +66,7 @@ describe("FromInputToken<Token>", () => {
         type T = FromTupleInputToken<["number", "string", "true | Object"]>
 
         type cases = [
-            Expect<Test<T, [number, string, "equals", true | object]>>
+            Expect<Test<T, "equals", [number, string, true | object]>>
         ];
     });
 
@@ -197,7 +197,10 @@ describe("asType(token)", () => {
                 { foo: string | undefined; bar: false | boolean[] }
             >>,
 
-            Expect<Extends<typeof propError, Error>>,
+            Expect<Extends<
+                typeof propError,
+                Error
+            >>,
             Expect<Contains<typeof propError["message"], "problem with 'bar' key">>
         ];
     });
