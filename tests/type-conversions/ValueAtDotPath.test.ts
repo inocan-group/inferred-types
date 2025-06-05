@@ -1,12 +1,18 @@
 import { describe, it } from "vitest";
 import { Ref } from "vue";
-import { Expect, IsValidDotPath, Test, ValueAtDotPath } from "inferred-types/types";
+import {
+    Expect,
+    IsValidDotPath,
+    Test,
+    ValueAtDotPath
+} from "inferred-types/types";
 
 
 describe("ValueAtDotPath", () => {
 
     it("happy path", () => {
         type myRef = Ref<{ age: number; address: string }>;
+
         type Obj = {
             foo: 1;
             bar: number[];

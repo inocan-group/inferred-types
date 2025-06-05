@@ -9,6 +9,7 @@ import {
     NarrowingFn,
     Test
 } from "inferred-types/types";
+import { IsEqual } from "transpiled/types";
 
 
 
@@ -40,8 +41,11 @@ describe("NarrowingFn<T>", () => {
 
   it("happy path", () => {
     type Fn1 = NarrowingFn<(name: string) => string>;
+    // calling type utility multiple times creates no change to type
     type Idempotent = NarrowingFn<Fn1>;
-    type Fn2 = <T extends string>(name: T) => string;
+
+    type Fn2 = <T extends readonly [name: string]>(...args: T) => string;
+    type Fn3 = NarrowingFn<(<T extends string>(name: T) => string)>;
 
     type NoParams = NarrowingFn<() => string>;
 
@@ -53,12 +57,13 @@ describe("NarrowingFn<T>", () => {
         Expect<Test<
             Fn1,
             "equals",
-            <T extends [name: string]>(...args: T) => string
+            <T extends readonly [name: string]>(...args: T) => string
         >>,
         Expect<Test<Idempotent, "equals",  Fn1>>,
         Expect<Test<IsNarrowingFn<Fn1>, "equals", true>>,
         Expect<Test<IsNarrowingFn<Idempotent>, "equals", true>>,
         Expect<Test<IsNarrowingFn<Fn2>, "equals", true>>,
+        Expect<Test<IsNarrowingFn<Fn3>, "equals", true>>,
 
         // no parameter functions have no _narrowing_ variant
         Expect<Test<NoParams, "equals", () => string>>,
@@ -128,11 +133,11 @@ describe("AsNarrowingFn<TParam,TReturn,TProps>", () => {
 
     type cases = [
       Expect<Test<Basic, "equals",  () => "hi">>,
-      Expect<Test<WithParams, "equals",  <T extends [name: string]>(...args: T) => "hi">>,
+      Expect<Test<WithParams, "equals",  <T extends readonly [name: string]>(...args: T) => "hi">>,
       Expect<Test<
         WithProps,
         "equals",
-        (<T extends [name: string]>(...args: T) => "hi") & {
+        (<T extends readonly [name: string]>(...args: T) => "hi") & {
           foo: 1;
       }>>,
     ];

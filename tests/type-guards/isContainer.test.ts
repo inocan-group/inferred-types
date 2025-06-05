@@ -2,14 +2,14 @@ import { ExpectTrue } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
 import { narrow, isContainer, optional } from "inferred-types/runtime";
-import { Container, DoesExtend } from "inferred-types/types";
+import { Container, DoesExtend, Expect, Test } from "inferred-types/types";
 
 
 
 describe("isContainer(val)", () => {
   const lit_obj = { id: 1 } as { id: 1 } | null;
   const wide_obj = { id: 1 } as { id: number } | null;
-  const lit_arr = optional(narrow([1, 2, 3]))
+  const lit_arr = narrow([1, 2, 3]) as unknown as readonly [1,2,3] | undefined;
   const wide_arr = [1, 2, 3] as number[] | undefined;
 
   it("literal object", () => {
@@ -23,7 +23,6 @@ describe("isContainer(val)", () => {
       type cases = [
         ExpectTrue<DoesExtend<Value, { id: 1 }>>
       ];
-      const cases: cases = [true];
     } else {
       throw new Error("lit_obj was NOT seen as a Container!");
     }
@@ -40,7 +39,6 @@ describe("isContainer(val)", () => {
       type cases = [
         ExpectTrue<DoesExtend<Value, { id: number }>>
       ];
-      const cases: cases = [true];
     } else {
       throw new Error("lit_obj was NOT seen as a Container!");
     }
@@ -55,9 +53,8 @@ describe("isContainer(val)", () => {
 
       type Value = typeof lit_arr;
       type cases = [
-        ExpectTrue<DoesExtend<Value, readonly [1, 2, 3]>>
+        Expect<Test<Value, "extends", readonly [1, 2, 3]>>
       ];
-      const cases: cases = [true];
     } else {
       throw new Error("lit_arr was NOT seen as a Container!");
     }
@@ -74,7 +71,6 @@ describe("isContainer(val)", () => {
       type cases = [
         ExpectTrue<DoesExtend<Value, Container>>
       ];
-      const cases: cases = [true];
     } else {
       throw new Error("wide_arr was NOT seen as a Container!");
     }

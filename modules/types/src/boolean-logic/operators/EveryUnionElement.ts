@@ -1,15 +1,17 @@
 import type {
     And,
-    ComparatorOperation,
+    ComparisonOperation,
     Compare,
     IsUnion,
     UnionToTuple,
+    ComparisonLookup,
+    Flexy,
 } from "inferred-types/types";
 
 type UnionComparison<
     TTarget extends readonly unknown[],
-    TOp extends ComparatorOperation,
-    TComparator,
+    TOp extends ComparisonOperation,
+    TComparator extends Flexy<ComparisonLookup[TOp]["params"]>,
     TIf,
     TElse,
 > = And<{
@@ -36,10 +38,16 @@ type UnionComparison<
  */
 export type EveryUnionElement<
     TTarget,
-    TOp extends ComparatorOperation,
-    TComparator,
+    TOp extends ComparisonOperation,
+    TComparator extends Flexy<ComparisonLookup[TOp]["params"]>,
     TIf = true,
     TElse = false,
 > = IsUnion<TTarget> extends true
-    ? UnionComparison<UnionToTuple<TTarget>, TOp, TComparator, TIf, TElse>
+    ? UnionComparison<
+        UnionToTuple<TTarget>,
+        TOp,
+        TComparator,
+        TIf,
+        TElse
+    >
     : Compare<TTarget, TOp, TComparator>;

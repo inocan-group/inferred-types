@@ -30,9 +30,9 @@ describe("isFnWithParams(test, ...params)", () => {
 
     if (isFnWithParams(mystery, "string")) {
       type M = typeof mystery;
-      // @ts-ignore
+
       type cases = [
-        Expect<Test<M, "equals",  <T extends [string]>(...args: T) => unknown>>
+        Expect<Test<M, "equals",  <T extends readonly [string]>(...args: T) => unknown>>
       ];
     }
 

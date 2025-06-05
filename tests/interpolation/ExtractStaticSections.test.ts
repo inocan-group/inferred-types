@@ -1,6 +1,6 @@
 import { } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { ExtractStaticSections, StaticTemplateSections } from "inferred-types/types";
+import { ExtractTemplateSections, Split, StaticTemplateSections, TemplateBlock } from "inferred-types/types";
 
 describe("StaticTemplateSections", () => {
     type T1 = StaticTemplateSections<
@@ -10,8 +10,7 @@ describe("StaticTemplateSections", () => {
 
 
 describe("ExtractStaticSections", () => {
-    type T1 = ExtractStaticSections<
-        `Age: 15, Weight: 120, Name: Bob`,
+    type T1 = ExtractTemplateSections<
         `Age: {{number}}, Weight: {{number}}, Name: {{string}}`
     >;
 
@@ -24,3 +23,9 @@ describe("ExtractStaticSections", () => {
   });
 
 });
+
+
+type X = Split<
+    `Age: {{number}}, Weight: {{number}}, Name: {{string}}`,
+    TemplateBlock
+>

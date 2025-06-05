@@ -20,7 +20,6 @@ describe("StripChars<TContent,TStrip>", () => {
             Expect<Test<StripNum, "equals",  "Hello World">>,
             Expect<Test<NothingLeft, "equals", "">>,
         ];
-
     });
 
 });

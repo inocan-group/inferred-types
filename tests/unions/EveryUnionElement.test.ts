@@ -1,6 +1,4 @@
-import { Equal, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { IsUnion } from "inferred-types/types";
-import { EveryUnionElement, SomeUnionElement } from "inferred-types/types";
+import { Expect, Test, EveryUnionElement } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("EveryUnionElement<TTarget, TOp, TComparator>", () => {
@@ -19,14 +17,14 @@ describe("EveryUnionElement<TTarget, TOp, TComparator>", () => {
     type F3 = EveryUnionElement<D1, "extends", false>;
 
     type cases = [
-      ExpectTrue<T1>,
-      ExpectTrue<T2>,
-      ExpectTrue<T3>,
-      ExpectTrue<T4>,
+        Expect<Test<T1, "equals", true>>,
+        Expect<Test<T2, "equals", true>>,
+        Expect<Test<T3, "equals", true>>,
+        Expect<Test<T4, "equals", true>>,
 
-      ExpectFalse<F1>,
-      ExpectFalse<F2>,
-      ExpectFalse<F3>,
+        Expect<Test<F1, "equals", false>>,
+        Expect<Test<F2, "equals", false>>,
+        Expect<Test<F3, "equals", false>>,
     ];
   });
 
@@ -40,20 +38,20 @@ describe("EveryUnionElement<TTarget, TOp, TComparator>", () => {
     type F3 = EveryUnionElement<42, "extends", 99>;
 
     type cases = [
-      ExpectTrue<T1>,
-      ExpectTrue<T2>,
-      ExpectTrue<T3>,
+        Expect<Test<T1, "equals", true>>,
+        Expect<Test<T2, "equals", true>>,
+        Expect<Test<T3, "equals", true>>,
 
-      ExpectFalse<F1>,
-      ExpectFalse<F2>,
-      ExpectFalse<F3>,
+        Expect<Test<F1, "equals", false>>,
+        Expect<Test<F2, "equals", false>>,
+        Expect<Test<F3, "equals", false>>,
     ];
   });
 
   it("equals comparison", () => {
     type T1 = EveryUnionElement<number, "equals", number>;
     type T2 = EveryUnionElement<"foo", "equals", "foo">;
-    type T4 = EveryUnionElement<boolean, "equals", boolean>;
+    type T3 = EveryUnionElement<boolean, "equals", boolean>;
 
     type F1 = EveryUnionElement<D1, "equals", "foo">;
     type F2 = EveryUnionElement<D1, "equals", 42>;
@@ -61,14 +59,14 @@ describe("EveryUnionElement<TTarget, TOp, TComparator>", () => {
     type F4 = EveryUnionElement<"foo", "equals", string>;
 
     type cases = [
-      ExpectTrue<T1>,
-      ExpectTrue<T2>,
-      ExpectTrue<T4>,
+        Expect<Test<T1, "equals", true>>,
+        Expect<Test<T2, "equals", true>>,
+        Expect<Test<T3, "equals", true>>,
 
-      ExpectFalse<F1>,
-      ExpectFalse<F2>,
-      ExpectFalse<F3>,
-      ExpectFalse<F4>,
+        Expect<Test<F1, "equals", false>>,
+        Expect<Test<F2, "equals", false>>,
+        Expect<Test<F3, "equals", false>>,
+        Expect<Test<F4, "equals", false>>,
     ];
   });
 
@@ -77,8 +75,8 @@ describe("EveryUnionElement<TTarget, TOp, TComparator>", () => {
     type F1 = EveryUnionElement<"_foo" | "bar", "startsWith", "_">;
 
     type cases = [
-      ExpectTrue<T1>,
-      ExpectFalse<F1>
+        Expect<Test<T1, "equals", true>>,
+        Expect<Test<F1, "equals", false>>,
     ];
   });
 
@@ -87,8 +85,8 @@ describe("EveryUnionElement<TTarget, TOp, TComparator>", () => {
     type F1 = EveryUnionElement<"foo_" | "bar", "startsWith", "_">;
 
     type cases = [
-      ExpectTrue<T1>,
-      ExpectFalse<F1>
+        Expect<Test<T1, "equals", true>>,
+        Expect<Test<F1, "equals", false>>,
     ];
   });
 

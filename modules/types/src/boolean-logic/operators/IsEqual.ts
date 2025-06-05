@@ -1,4 +1,4 @@
-import { Or,IsAny } from "inferred-types/types";
+import { IsAny } from "inferred-types/types";
 
 
 /**

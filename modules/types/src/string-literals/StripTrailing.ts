@@ -1,8 +1,6 @@
 import type {
-    As,
     AsNumber,
-    IsWideNumber,
-    IsWideString
+    IsWideType
 } from "inferred-types/types";
 
 type Process<
@@ -28,13 +26,17 @@ type Process<
 export type StripTrailing<
     TContent extends string | number,
     TStrip extends string | number,
-> = As<
-    IsWideNumber<TContent> extends true
-        ? number
-        : IsWideString<TContent> extends true
-            ? string
-            : TContent extends number
-                ? AsNumber<Process<`${TContent}`, `${TStrip}`>>
-                : Process<`${TContent}`, `${TStrip}`>,
-    string
->;
+> = TContent extends number
+? number extends TContent
+    ? number
+    : IsWideType<TStrip> extends true
+    ? number
+    : AsNumber<Process<`${TContent}`, `${TStrip}`>>
+: TContent extends string
+    ? string extends TContent
+        ? string
+    : IsWideType<TStrip> extends true
+        ? string
+    : Process<TContent, `${TStrip}`>
+: never;
+

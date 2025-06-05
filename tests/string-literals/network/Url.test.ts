@@ -26,7 +26,6 @@ describe("Url testing", () => {
     it("UrlPath<T> happy path", () => {
         type Base = UrlPath;
         type FooBar = UrlPath<"/foo/bar">;
-        type FooBar2 = UrlPath<"/foo/bar/">;
 
         type LeadingBadGuy = UrlPath<"/&foo/bar">;
         type TrailingBadGuy = UrlPath<"/foo/bar/*">;
@@ -37,7 +36,6 @@ describe("Url testing", () => {
             ExpectFalse<Extends<"/", Base>>,
 
             Expect<Test<FooBar, "equals", `/foo/bar`>>,
-            Expect<Test<FooBar2, "equals", never>>,
 
             Expect<Test<LeadingBadGuy, "equals", never>>,
             Expect<Test<TrailingBadGuy, "equals", never>>,

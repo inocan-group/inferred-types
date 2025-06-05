@@ -1,5 +1,13 @@
 import {  ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { isGithubIssuesListUrl, isGithubIssueUrl, isGithubProjectsListUrl, isGithubProjectUrl, isGithubReleasesListUrl, isGithubReleaseTagUrl, isGithubRepoUrl } from "inferred-types/runtime";
+import {
+    isGithubIssuesListUrl,
+    isGithubIssueUrl,
+    isGithubProjectsListUrl,
+    isGithubProjectUrl,
+    isGithubReleasesListUrl,
+    isGithubReleaseTagUrl,
+    isGithubRepoUrl
+} from "inferred-types/runtime";
 import {
     Expect,
     DoesNotExtend,
@@ -71,23 +79,20 @@ describe("Github types and type guards", () => {
 
     const malformedIssue = "https://github.com/inferred-types/issues/001";
 
-    type T1 = Extends<typeof validIssueList, GithubRepoIssuesListUrl>;
-    type T2 = Extends<typeof validIssue, GithubRepoIssueUrl>;
-    type T3 = Extends<typeof validIssueWithQuery, GithubRepoIssueUrl>;
-
-    type F1 = DoesNotExtend<typeof malformedIssue, GithubRepoIssueUrl>;
 
     expect(isGithubIssuesListUrl(validIssueList)).toBe(true);
     expect(isGithubIssueUrl(validIssue)).toBe(true);
     expect(isGithubIssueUrl(validIssueWithQuery)).toBe(true);
 
-    // @ts-ignore
     type cases = [
-        Expect<Test<T1, "equals", true>>,
-        Expect<Test<T2, "equals", true>>,
-        Expect<Test<T3, "equals", true>>,
+        Expect<Test<typeof validIssueList, "extends", GithubRepoIssuesListUrl>>,
+        Expect<Test<typeof validIssue, "extends", GithubRepoIssueUrl>>,
+        Expect<Test<typeof validIssueWithQuery, "extends", GithubRepoIssueUrl>>,
 
-        Expect<Test<F1, "equals", false>>,
+        Expect<Test<
+            typeof malformedIssue, "doesNotExtend",
+            GithubRepoIssueUrl
+        >>,
     ];
 
   });
@@ -100,13 +105,6 @@ describe("Github types and type guards", () => {
     const malformedList = "https://github.com/inocan-group/projects"
     const malformedProject = "https://github.com/inocan-group/projects/001"
 
-    type T1 = Extends<typeof validProjectList, GithubRepoProjectsUrl>;
-    type T2 = Extends<typeof validProject, GithubRepoProjectUrl>;
-    type T3 = Extends<typeof validProjectWithQuery, GithubRepoProjectUrl>;
-
-    type F1 = DoesNotExtend<typeof malformedList, GithubRepoProjectsUrl>;
-    type F2 = DoesNotExtend<typeof malformedProject, GithubRepoProjectUrl>;
-
     expect(isGithubProjectsListUrl(validProjectList)).toBe(true);
     expect(isGithubProjectUrl(validProject)).toBe(true);
     expect(isGithubProjectUrl(validProjectWithQuery)).toBe(true);
@@ -115,12 +113,12 @@ describe("Github types and type guards", () => {
     expect(isGithubProjectUrl(malformedProject)).toBe(false);
 
     type cases = [
-        Expect<Test<T1, "equals", true>>,
-        Expect<Test<T2, "equals", true>>,
-        Expect<Test<T3, "equals", true>>,
+        Expect<Test<typeof validProjectList, "extends", GithubRepoProjectsUrl>>,
+        Expect<Test<typeof validProject, "extends", GithubRepoProjectUrl>>,
+        Expect<Test<typeof validProjectWithQuery, "extends", GithubRepoProjectUrl>>,
 
-        Expect<Test<F1, "equals", false>>,
-        Expect<Test<F2, "equals", false>>,
+        Expect<Test<typeof malformedList, "doesNotExtend", GithubRepoProjectsUrl>>,
+        Expect<Test<typeof malformedProject, "doesNotExtend", GithubRepoProjectUrl>>,
     ];
 
   });
@@ -148,16 +146,14 @@ describe("Github types and type guards", () => {
     expect(isGithubReleaseTagUrl(malformedRelease)).toBe(false);
 
     type cases = [
-        Expect<Test<T1, "equals", true>>,
-        Expect<Test<T2, "equals", true>>,
-        Expect<Test<T3, "equals", true>>,
+        Expect<Test<typeof validReleaseList, "extends", GithubRepoReleasesUrl>>,
+        Expect<Test<typeof validRelease, "extends", GithubRepoReleaseTagUrl>>,
+        Expect<Test<typeof validReleaseWithQuery, "extends", GithubRepoReleaseTagUrl>>,
 
-        Expect<Test<F1, "equals", false>>,
-        Expect<Test<F2, "equals", false>>,
+        Expect<Test<typeof malformedList, "doesNotExtend", GithubRepoReleasesUrl>>,
+        Expect<Test<typeof malformedRelease, "doesNotExtend", GithubRepoReleaseTagUrl>>,
     ];
 
   });
-
-
 
 });

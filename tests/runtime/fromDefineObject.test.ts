@@ -1,14 +1,14 @@
-import { Equal, Expect } from "@type-challenges/utils";
+
 import { describe, it } from "vitest";
 import { fromDefineObject } from "inferred-types/runtime"
-import { Test } from "inferred-types/types";
+import { Expect, Test } from "inferred-types/types";
 
 
 
 describe("fromDefineObject", () => {
 
   it("type tests", () => {
-    const foo = fromDefineObject({ foo: "number(1,2,3)" });
+    const foo = fromDefineObject({ foo: "Number(1) | Number(2) | Number(3)")" });
 
     // @ts-ignore
     type cases = [

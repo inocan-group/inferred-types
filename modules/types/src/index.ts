@@ -10,7 +10,7 @@ export * from "./dictionary/index";
 export * from "./errors/index";
 export * from "./functional/index";
 export * from "./functions/index";
-// export * from "./interpolation/index";
+export * from "./interpolation/index";
 export * from "./kv/index";
 export * from "./lists/index";
 export * from "./literals/index";

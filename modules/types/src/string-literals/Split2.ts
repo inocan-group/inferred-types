@@ -76,7 +76,7 @@ type Process<
  * type FooBarBaz = Split<"foo, bar, baz", ", ">;
  * ```
  */
-export type Split<
+export type Split2<
     TContent extends string,
     TSep extends string | readonly string[],
     TPolicy extends Policy = "omit"
@@ -85,5 +85,3 @@ export type Split<
 : TContent extends ""
     ? []
 : Process<TContent, AsUnion<TSep>, TPolicy>;
-
-

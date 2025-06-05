@@ -60,6 +60,7 @@ describe("literal enforcement", () => {
         /** but with the literal function we can force this to narrow */
         const narrow = literal({ foo: 1, bar: false, baz: "hi" });
         type Narrow = typeof narrow;
+
         /**
          * would be nice if this worked but it doesn't; once the type is set, it's set
          */
@@ -69,10 +70,7 @@ describe("literal enforcement", () => {
         type cases = [
             Expect<Test<Wide, "equals", { foo: number; bar: boolean; baz: string }>>,
             Expect<Test<Narrow, "equals", { foo: 1; bar: false; baz: "hi" }>>,
-            // Narrow _does_ extend the Wide definition
-            Expect<Test<Wide, "extends", Narrow>>,
-            // but the opposite is not true
-            Expect<Extends<Narrow, Wide>, "equals", false>,
+            Expect<Test<Narrow, "extends", Wide>>,
             // now unfortunately, using literal() on a variable who's type
             // has already been inferred does not get us to Narrow
             Expect<Test<Wide, "equals", Nope>>

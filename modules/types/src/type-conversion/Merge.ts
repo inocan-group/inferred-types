@@ -5,6 +5,7 @@ import type {
     AsDictionary,
     Dictionary,
     DoesExtend,
+    Err,
     First,
     If,
     IsNothing,
@@ -101,21 +102,10 @@ export type Merge<
     TOverride,
 > = AreSameType<TDefault, TOverride> extends true
     ? Process<TDefault, TOverride>
-    : Or<[
-        IsNothing<TDefault>,
-        IsNothing<TOverride>,
-    ]> extends true
-        ? And<[IsNothing<TDefault>, IsNothing<TOverride>]> extends true
-            ? Throw<
+    : IsNothing<TDefault> extends true
+            ? TOverride
+            : Err<
                 "invalid-merge",
                 `Merge<TDef,TOver> received two empty values; at least one needs to have a value!`,
-                "Merge",
                 { library: "inferred-types/constants"; TDef: TDefault; TOver: TOverride }
-            >
-            : Process<TDefault, TOverride>
-        : Throw<
-            "invalid-merge",
-            `the Merge<TDef,TOver> utility can merge various types but both types must be of the same base type and they were not!`,
-            "Merge",
-            { library: "inferred-types/constants"; TDef: TDefault; TOver: TOverride }
-        >;
+            >;

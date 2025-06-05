@@ -39,7 +39,7 @@ type NotEmpty<T> = UnionFilter<T, Empty> extends T
  * - empty array
  * - empty object
  */
-export function isNotEmpty<T>(val: T): val is NotEmpty<T> {
+export function isNotEmpty<T>(val: T): val is Exclude<T, Empty> {
     return !(
         isUndefined(val)
         || isNull(val)

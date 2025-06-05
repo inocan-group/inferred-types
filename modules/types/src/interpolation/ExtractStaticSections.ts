@@ -1,4 +1,15 @@
-import type { AfterFirst, First, Replace, StaticTemplateSections, StringLiteralTemplate } from "inferred-types/types";
+import type {
+    AfterFirst,
+    First,
+    Replace,
+    Split,
+    Split2,
+    StartsWith,
+    StaticTemplateSections,
+    StringLiteralTemplate,
+    TemplateBlock,
+    TemplateBlock__BARE
+} from "inferred-types/types";
 
 type Remove<
     TContent extends string,
@@ -15,12 +26,41 @@ type Remove<
         ]
     >;
 
-export type ExtractStaticSections<
-    TContent extends string,
-    TTemplate extends string
-> = TContent extends StringLiteralTemplate<TTemplate>
-    ? Remove<
-        TContent,
-        StaticTemplateSections<TTemplate>
-    >
-    : never;
+export type TemplateSection<T extends TemplateBlock = TemplateBlock> = {
+    before: string;
+    type: T;
+} | { after: string };
+
+export type ExtractTemplateSections<
+    TTemplate extends string,
+    TSection extends readonly TemplateSection[] = []
+> = TTemplate extends `${string}{{${infer Block extends TemplateBlock__BARE}${string}`
+    ? TTemplate extends `${infer Before}${Block}`
+        ? TakeSection<Before, Block> extends Error
+            ? [
+                ...TSection,
+
+            ]
+        : never
+
+
+
+
+: TTemplate extends ""
+    ? TSection
+    : [
+        ...TSection,
+        {
+            after: TTemplate
+        }
+    ];
+
+
+
+
+// TContent extends StringLiteralTemplate<TTemplate>
+//     ? Remove<
+//         TContent,
+//         StaticTemplateSections<TTemplate>
+//     >
+//     : never;

@@ -1,6 +1,6 @@
 import type { If, IsUndefined, Mutable, Tuple } from "inferred-types/types";
 
-type _AsArray<T> = T extends Tuple
+type _AsArray<T> = T extends readonly unknown[]
     ? Mutable<T>
     : If<
         IsUndefined<T>,

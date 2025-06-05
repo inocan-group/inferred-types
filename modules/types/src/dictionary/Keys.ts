@@ -23,11 +23,7 @@ type _Keys<
     T extends Dictionary,
 > = UnionToTuple<keyof RemoveIndexKeys<T>>;
 
-type WideObject<T extends Dictionary> = [IsObjectLiteral<T>] extends [true]
-    ? []
-    : [T] extends [Record<infer K, any>]
-        ? K[]
-        : unknown[];
+
 
 type GetKeys<
     T extends Dictionary,

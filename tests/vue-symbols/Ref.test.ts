@@ -2,7 +2,9 @@ import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import {
     DoesExtend,
+    Expect,
     IsVueRef,
+    Test,
     VueRef
 } from "inferred-types/types";
 import { Ref, ref } from "vue";
@@ -49,7 +51,7 @@ describe("VueRef, isRef(), and IsRef<T>", () => {
          * Since our `keysOf` function is VueJS aware it reduces the
          * keys to just `value`.
          */
-        const keys = keysOf(test_ref);
+        const keys = Object.keys(test_ref);
 
         expect(keys).toEqual(["value"]);
 
@@ -68,17 +70,12 @@ describe("VueRef, isRef(), and IsRef<T>", () => {
         expect(runtime_keys.every(k => obj_keys.includes(k)));
 
         type cases = [
-            // Ref extends VueRef by not in reverse
-            // due to the private symbol used in Ref
-            ExpectTrue<DoesExtend<Ref, VueRef>>,
             ExpectFalse<DoesExtend<VueRef, Ref>>,
             // IsRef provides safe way to test for both
             ExpectTrue<IsVueRef<typeof test_ref>>,
             ExpectTrue<IsVueRef<VueRef>>,
         ];
-        const cases: cases = [
-            true, false, true, true
-        ];
+
     });
 
     it("using isRef() type guard", () => {

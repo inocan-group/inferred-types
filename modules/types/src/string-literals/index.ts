@@ -36,6 +36,7 @@ export * from "./RetainAfter";
 export * from "./RetainBetween";
 export * from "./RetainUntil";
 export * from "./Split";
+export * from "./Split2";
 export * from "./StripAfter";
 export * from "./StripAfterLast";
 export * from "./StripBefore";

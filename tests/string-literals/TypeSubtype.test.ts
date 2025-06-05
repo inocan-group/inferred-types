@@ -1,6 +1,5 @@
 import { Expect, Test, TypeSubtype } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
-import { Extends } from "inferred-types/types";
 import { isTypeSubtype, getTypeSubtype } from "inferred-types/runtime";
 
 
@@ -21,9 +20,9 @@ describe("isTypeSubtype(val)", () => {
             type cases = [
                 Expect<Test<
                     FB, "equals",
-                    "foo/bar" & { brand: "type-subtype" }
+                    "foo/bar"
                 >>,
-                Expect<Extends<FB, TypeSubtype>>
+                Expect<Test<FB, "extends", TypeSubtype>>
             ];
         }
 
@@ -35,9 +34,9 @@ describe("isTypeSubtype(val)", () => {
             type cases = [
                 Expect<Test<
                     FB, "equals",
-                    `${string}/${string}` & { brand: "type-subtype" }
+                    `${string}/${string}`
                 >>,
-                Expect<Extends<FB, TypeSubtype>>
+                Expect<Test<FB, "extends", TypeSubtype>>
             ];
         }
 

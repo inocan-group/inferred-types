@@ -44,9 +44,9 @@ describe("ToNumber<T>", () => {
 
         type cases = [
             Expect<Test<NumericArray, "equals", [1, 2, 3]>>,
-            Expect<Test<RoNumericArray, readonly "equals", [1, 2, 3]>>,
+            Expect<Test<RoNumericArray, "equals", readonly [1, 2, 3]>>,
             Expect<Test<StrNum, "equals", [1, 2, 3]>>,
-            Expect<Test<RoStrNum, readonly "equals", [1, 2, 3]>>,
+            Expect<Test<RoStrNum, "equals", readonly [1, 2, 3]>>,
 
             Expect<Test<PartBad, "equals", [1, 2, never]>>,
             Expect<Test<AllBad, "equals", [never, never, never]>>,

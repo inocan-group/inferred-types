@@ -1,17 +1,14 @@
-import {  ExpectTrue } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 
 import {
     Expect,
     Split,
     UpperAlphaChar,
-    IsEqual,
     UnionToTuple,
     Test,
+    Extends
 } from "inferred-types/types";
 import { split } from "inferred-types/runtime";
-import { Extends } from "transpiled/types";
-
 
 
 describe("Split<T,SEP>", () => {
@@ -28,12 +25,11 @@ describe("Split<T,SEP>", () => {
         type Empty = Split<"", "">;
         type EmptyToo = Split<"", ",">;
 
-        // @ts-ignore
         type cases = [
             Expect<Test<FooBarBaz, "equals", ["foo", "bar", "baz"]>>,
             Expect<Test<FooBarBazTup, "equals", ["foo", "bar", "baz"]>>,
-            Expect<Test<FooBarBazAfter, "equals", ["foo, ", "bar, ", "baz"]>>,
-            Expect<Test<FooBarBazBefore, "equals", ["foo", ", bar", ", baz"]>>,
+            Expect<Test<FooBarBazBefore, "equals", ["foo, ", "bar, ", "baz"]>>,
+            Expect<Test<FooBarBazAfter, "equals", ["foo", ", bar", ", baz"]>>,
             Expect<Test<FooBarBazInline, "equals", ["foo", ", ", "bar", ", ", "baz"]>>,
 
             Expect<Extends<FooBarBazUnion, ["foo","bar","baz"]>>,
@@ -61,7 +57,6 @@ describe("Split<T,SEP>", () => {
         type Space = Split<typeof str, " ">;
         type Comma = Split<typeof str, ", ">;
 
-        // @ts-ignore
         type cases = [
             Expect<Test<Space, "equals", ["hello", "world,", "nice", "to", "meet",  "you"]>>,
             Expect<Test<Comma, "equals", ["hello world", "nice to meet you"]>>,
@@ -76,7 +71,6 @@ describe("Split<T,SEP>", () => {
 
         type S3 = Split<Str,Str,"inline">
 
-        // @ts-ignore
         type cases = [
             Expect<Test<S1, "equals",  []>>,
             Expect<Test<S2, "equals",  []>>,
@@ -97,11 +91,10 @@ describe("Split<T,SEP>", () => {
         type FooBarBefore = Split<"FooBar", ["F", "B"], "before">;
         type FooBarAfter = Split<"FooBar", ["F", "B"], "after">;
 
-        // @ts-ignore
         type cases = [
             Expect<Test<FooBar, "equals", ["oo",  "ar"]>>,
-            Expect<Test<FooBarBefore, "equals", ["F", "ooB", "ar"]>>,
-            Expect<Test<FooBarAfter, "equals", ["Foo", "Bar"]>>,
+            Expect<Test<FooBarAfter, "equals", ["F", "ooB", "ar"]>>,
+            Expect<Test<FooBarBefore, "equals", ["Foo", "Bar"]>>,
         ];
     });
 
@@ -111,7 +104,6 @@ describe("Split<T,SEP>", () => {
         type FooBarBefore = Split<"FooBar", UnionToTuple<UpperAlphaChar>, "before">;
         type FooBarAfter = Split<"FooBar", UnionToTuple<UpperAlphaChar>, "after">;
 
-        // @ts-ignore
         type cases = [
             Expect<Test<FooBar, "equals", ["oo",  "ar"]>>,
             Expect<Test<FooBarBefore, "equals", ["F", "ooB", "ar"]>>,
@@ -124,16 +116,22 @@ describe("Split<T,SEP>", () => {
         type U = Split<"FooBar", "F" | "B">;
 
         type cases = [
-            /** type tests */
+            Expect<Test<U, "equals", ["oo", "ar"]>>
         ];
     });
 
     it("split with a numeric template value", () => {
-        type StartsWith = Split<`${number}Age: ${number}, FavNumber: ${number}, Color: red`, `${number}`>;
-        type Numeric = Split<`Age: ${number}, FavNumber: ${number}, Color: red`, `${number}`>;
+        type Template = Split<
+            `${number}Age: ${number}, FavNumber: ${number}, Color: red`,
+            `${number}`
+        >;
+        type Numeric = Split<
+            `Age: ${number}, FavNumber: ${number}, Color: red`,
+            `${number}`
+        >;
 
         type cases = [
-            Expect<Test<StartsWith, "equals", [
+            Expect<Test<Template, "equals", [
                 "", "Age: ", ", FavNumber: ", ", "equals",  Color: red"
             ]>>,
             Expect<Test<Numeric, "equals", [

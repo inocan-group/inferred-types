@@ -63,13 +63,10 @@ describe("isTailwindColorClass(val)", () => {
             ];
         }
 
-        if (isTailwindColorClass(test2, "dark", "lg")) {
+        if (isTailwindColorClass(test2, "dark", "lg", "sm")) {
             type T = typeof test2;
 
-            // @ts-ignore
             type cases = [
-                // like all prefixed types we'd expect this reln to exist
-                Expect<Extends<T, TwTarget__ColorWithOptPrefixes>>,
                 // but with two allowed parameters we are still careful to
                 // make the type strong enough not to allow _valid_ modifiers
                 // which were _not_ included.

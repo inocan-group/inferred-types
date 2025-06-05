@@ -16,7 +16,6 @@ export type UndefinedArrayIsUnknown<T extends unknown[]> = undefined[] extends T
  * is of type `string` not the literal `abc`. If you want to keep literal types then
  * change the optional _widen_ parameter to _false_.
  */
-
 export function asArray<T extends Narrowable>(thing: T) {
     return (
         Array.isArray(thing) === true

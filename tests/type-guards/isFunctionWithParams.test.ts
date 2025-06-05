@@ -55,7 +55,7 @@ describe("isFnWithParams(val) type-guard", () => {
             type Fn = typeof unknown;
 
             type cases = [
-                Expect<Test<Fn, "equals", <T extends [string, number]>(...args: T) => unknown>>
+                Expect<Test<Fn, "equals", <T extends readonly [string, number]>(...args: T) => unknown>>
             ];
         }
 

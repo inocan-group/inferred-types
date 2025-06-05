@@ -46,7 +46,7 @@ export function toKeyValue<
     >
 >(
     obj: TObj,
-    sort: TSort = undefined as TSort,
+    sort?: TSort,
 ): TSorted {
     const kv = keysOf(obj).map(
         k => ({ key: k, value: obj[k] })

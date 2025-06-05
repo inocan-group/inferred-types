@@ -1,10 +1,10 @@
-import type { ComparatorOperation, Compare } from "../combinators";
+import type { ComparisonOperation, Compare, ComparisonLookup } from "inferred-types/types";
 
 export type When<
     TVal,
-    TComparator,
+    TComparator extends ComparisonLookup[TOp]["params"],
     TThen extends never,
-    TOp extends ComparatorOperation = "extends",
+    TOp extends ComparisonOperation = "extends",
 > = Compare<TVal, TOp, TComparator> extends true
     ? TThen
     : TVal;

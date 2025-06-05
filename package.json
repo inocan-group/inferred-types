@@ -1,120 +1,121 @@
 {
-  "name": "inferred-types",
-  "version": "0.55.23",
-  "description": "Functions which provide useful type inference on TS projects",
-  "license": "MIT",
-  "author": "Ken Snyder<ken@ken.net>",
-  "type": "module",
-  "module": "./modules/inferred-types/dist/index.js",
-  "main": "./modules/inferred-types/dist/index.cjs",
-  "typings": "./modules/inferred-types/dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./modules/inferred-types/dist/index.d.ts",
-      "import": "./modules/inferred-types/dist/index.js",
-      "require": "./modules/inferred-types/dist/index.cjs"
+    "name": "inferred-types",
+    "version": "0.55.23",
+    "description": "Functions which provide useful type inference on TS projects",
+    "license": "MIT",
+    "author": "Ken Snyder<ken@ken.net>",
+    "type": "module",
+    "module": "./modules/inferred-types/dist/index.js",
+    "main": "./modules/inferred-types/dist/index.cjs",
+    "typings": "./modules/inferred-types/dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./modules/inferred-types/dist/index.d.ts",
+            "import": "./modules/inferred-types/dist/index.js",
+            "require": "./modules/inferred-types/dist/index.cjs"
+        },
+        "./types": {
+            "types": "./modules/types/dist/index.d.ts",
+            "import": "./modules/types/dist/index.js",
+            "require": "./modules/types/dist/index.cjs"
+        },
+        "./runtime": {
+            "types": "./modules/runtime/dist/index.d.ts",
+            "import": "./modules/runtime/dist/index.js",
+            "require": "./modules/runtime/dist/index.cjs"
+        },
+        "./constants": {
+            "types": "./modules/constants/dist/index.d.ts",
+            "import": "./modules/constants/dist/index.js",
+            "require": "./modules/constants/dist/index.cjs"
+        },
+        "./globals": {
+            "types": "./modules/types/dist/globals.d.ts"
+        }
     },
-    "./types": {
-      "types": "./modules/types/dist/index.d.ts",
-      "import": "./modules/types/dist/index.js",
-      "require": "./modules/types/dist/index.cjs"
+
+    "files": [
+        "modules/constants/dist",
+        "modules/inferred-types/dist",
+        "modules/runtime/dist",
+        "modules/types/dist"
+    ],
+    "repository": {
+        "url": "https://github.com/inocan-group/inferred-types"
     },
-    "./runtime": {
-      "types": "./modules/runtime/dist/index.d.ts",
-      "import": "./modules/runtime/dist/index.js",
-      "require": "./modules/runtime/dist/index.cjs"
+    "sideEffects": false,
+    "scripts": {
+        "build": "bash build",
+        "prompt": "prompt",
+        "lint": "eslint modules",
+        "trace": "npx tsc --noEmit --diagnostics && npx analyze-trace trace",
+        "test": "vitest",
+        "test:ui": "vitest --ui",
+        "bench": "cd benches && tsx ./index.ts",
+        "test:ci": "vitest run",
+        "test:types": "typed test -w 6133 -w 6307",
+        "test:source": "typed test -c modules/types/tsconfig.json -w 6133 -w 6307",
+        "audit:fix": "pnpm audit --fix",
+        "audit:types": "typed source -c modules/types/tsconfig.json -w 6133 -w 6307",
+        "audit:runtime": "typed source -c modules/runtime/tsconfig.json -w 2304 -w 6133 -w 6307",
+        "audit:constants": "typed source -c modules/constants/tsconfig.json --warn 6133",
+        "release": "run-s lint release:latest test:ci audit:fix release:bump",
+        "release:latest": "pnpm install",
+        "release:bump": "bumpp",
+        "prepublishOnly": "npm run build",
+        "watch": "bash watch",
+        "prepare": "husky"
     },
-    "./constants": {
-      "types": "./modules/constants/dist/index.d.ts",
-      "import": "./modules/constants/dist/index.js",
-      "require": "./modules/constants/dist/index.cjs"
+    "devDependencies": {
+        "@antfu/eslint-config": "^4.12.0",
+        "@eslint/js": "^9.25.1",
+        "@type-challenges/utils": "~0.1.1",
+        "@types/luxon": "^3.6.2",
+        "@types/node": "^22.15.3",
+        "@typescript-eslint/eslint-plugin": "^8.31.1",
+        "@typescript-eslint/parser": "^8.31.1",
+        "@typescript/analyze-trace": "^0.10.1",
+        "@vitest/ui": "^3.1.2",
+        "@yankeeinlondon/promptly": "^0.1.0",
+        "bumpp": "^10.1.0",
+        "chalk": "^5.4.1",
+        "cross-env": "^7.0.3",
+        "eslint": "^9.25.1",
+        "eslint-plugin-promise": "^7.2.1",
+        "glob": "^11.0.2",
+        "husky": "^9.1.7",
+        "jiti": "^2.4.2",
+        "luxon": "^3.6.1",
+        "moment": "^2.30.1",
+        "npm-run-all": "~4.1.5",
+        "pathe": "^2.0.3",
+        "rimraf": "^6.0.1",
+        "ts-patch": "^3.3.0",
+        "tsup": "^8.4.0",
+        "tsx": "^4.19.4",
+        "typecheck": "^0.1.2",
+        "typed-tester": "^0.6.3",
+        "typescript": "^5.8.3",
+        "typescript-eslint": "^8.31.1",
+        "typescript-transform-paths": "^3.5.5",
+        "typescript-transformer-esm": "^1.1.0",
+        "vite": "^6.3.3",
+        "vite-node": "^3.1.2",
+        "vitest": "^3.1.2",
+        "vue": "^3.5.13"
     },
-    "./globals": {
-      "types": "./modules/types/dist/globals.d.ts"
+    "pnpm": {
+        "overrides": {
+            "tar@<6.2.1": ">=6.2.1",
+            "braces@<3.0.3": ">=3.0.3",
+            "micromatch@<4.0.8": ">=4.0.8",
+            "vite@>=5.4.0 <=5.4.5": ">=5.4.6"
+        },
+        "onlyBuiltDependencies": [
+            "esbuild"
+        ]
+    },
+    "dependencies": {
+        "eslint-plugin-format": "^1.0.1"
     }
-  },
-  "files": [
-    "modules/constants/dist",
-    "modules/inferred-types/dist",
-    "modules/runtime/dist",
-    "modules/types/dist"
-  ],
-  "repository": {
-    "url": "https://github.com/inocan-group/inferred-types"
-  },
-  "sideEffects": false,
-  "scripts": {
-    "build": "bash build",
-    "prompt": "prompt",
-    "lint": "eslint modules",
-    "trace": "npx tsc --noEmit --diagnostics && npx analyze-trace trace",
-    "test": "vitest",
-    "test:ui": "vitest --ui",
-    "bench": "cd benches && tsx ./index.ts",
-    "test:ci": "vitest run",
-    "test:types": "typed test -w 6133 -w 6307",
-    "test:source": "typed test -c modules/types/tsconfig.json -w 6133 -w 6307",
-    "audit:fix": "pnpm audit --fix",
-    "audit:types": "typed source -c modules/types/tsconfig.json -w 6133 -w 6307",
-    "audit:runtime": "typed source -c modules/runtime/tsconfig.json -w 2304 -w 6133 -w 6307",
-    "audit:constants": "typed source -c modules/constants/tsconfig.json --warn 6133",
-    "release": "run-s lint release:latest test:ci audit:fix release:bump",
-    "release:latest": "pnpm install",
-    "release:bump": "bumpp",
-    "prepublishOnly": "npm run build",
-    "watch": "bash watch",
-    "prepare": "husky"
-  },
-  "devDependencies": {
-    "@antfu/eslint-config": "^4.11.0",
-    "@eslint/js": "^9.23.0",
-    "@type-challenges/utils": "~0.1.1",
-    "@types/luxon": "^3.4.2",
-    "@types/node": "^22.13.14",
-    "@typescript-eslint/eslint-plugin": "^8.29.0",
-    "@typescript-eslint/parser": "^8.29.0",
-    "@typescript/analyze-trace": "^0.10.1",
-    "@vitest/ui": "^3.1.1",
-    "@yankeeinlondon/promptly": "^0.1.0",
-    "bumpp": "^10.1.0",
-    "chalk": "^5.4.1",
-    "cross-env": "^7.0.3",
-    "eslint": "^9.23.0",
-    "eslint-plugin-promise": "^7.2.1",
-    "glob": "^11.0.1",
-    "husky": "^9.1.7",
-    "jiti": "^2.4.2",
-    "luxon": "^3.6.1",
-    "moment": "^2.30.1",
-    "npm-run-all": "~4.1.5",
-    "pathe": "^2.0.3",
-    "rimraf": "^6.0.1",
-    "ts-patch": "^3.3.0",
-    "tsup": "^8.4.0",
-    "tsx": "^4.19.3",
-    "typecheck": "^0.1.2",
-    "typed-tester": "^0.6.3",
-    "typescript": "^5.8.2",
-    "typescript-eslint": "^8.29.0",
-    "typescript-transform-paths": "^3.5.5",
-    "typescript-transformer-esm": "^1.1.0",
-    "vite": "^6.2.4",
-    "vite-node": "^3.1.1",
-    "vitest": "^3.1.1",
-    "vue": "^3.5.13"
-  },
-  "pnpm": {
-    "overrides": {
-      "tar@<6.2.1": ">=6.2.1",
-      "braces@<3.0.3": ">=3.0.3",
-      "micromatch@<4.0.8": ">=4.0.8",
-      "vite@>=5.4.0 <=5.4.5": ">=5.4.6"
-    },
-    "onlyBuiltDependencies": [
-      "esbuild"
-    ]
-  },
-  "dependencies": {
-    "eslint-plugin-format": "^1.0.1"
-  }
 }

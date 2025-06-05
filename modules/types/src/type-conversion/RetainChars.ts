@@ -1,10 +1,4 @@
-import type {
-    AfterFirst,
-    Chars,
-    First,
-    IsWideType,
-    Or,
-} from "inferred-types/types";
+
 
 type Retention<
     TChar extends string,
@@ -18,14 +12,6 @@ type Retention<
 
 
 
-// TContent extends `${infer Head}${infer Remaining}`
-//     ? Retention<
-//         Remaining,
-//         TRemove,
-//         `${TCollect}${Head extends TRemove ? Head : ""}`
-//     >
-//     : TCollect;
-
 /**
  * **RetainChars**`<TContent,TRetain>`
  *
@@ -36,6 +22,8 @@ type Retention<
 export type RetainChars<
     TContent extends string,
     TRetain extends string,
-> = Or<[IsWideType<TContent>, IsWideType<TRetain>]> extends true
+> = string extends TContent
+    ? string
+: string extends TRetain
     ? string
     : Retention<TContent, TRetain>;

@@ -1,4 +1,4 @@
-import { isString } from "../isString";
+import { isString } from "inferred-types/runtime";
 
 /**
  * Higher order type guard which:

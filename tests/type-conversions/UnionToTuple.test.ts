@@ -34,12 +34,13 @@ describe("UnionToTuple<U>", () => {
     });
 
 
-    it("will convert a Union array into a tuple correctly", () => {
+    it("will convert a Union array into a tuple", () => {
         type UnionArr = (1 | 2 | 3)[];
         type Tup = UnionArrayToTuple<UnionArr>;
 
         type cases = [
-            Expect<Test<Tup, "equals", [1, 2, 3]>>
+            // array order CAN vary
+            Expect<Test<Tup, "hasSameValues", [1, 2, 3]>>
         ];
     });
 });
