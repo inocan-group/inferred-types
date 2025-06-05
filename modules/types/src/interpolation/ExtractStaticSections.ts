@@ -41,6 +41,7 @@ export type ExtractTemplateSections<
                 ...TSection,
 
             ]
+            : []
         : never
 
 

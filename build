@@ -11,7 +11,7 @@ log ""
 log "𝌸 building constants"
 log ""
 cd './modules/constants' || exit
-tsup
+tsdown
 
 # shellcheck disable=SC2181
 if [ $? -ne 0 ]; then
@@ -31,7 +31,7 @@ cd '../types' || exit
 log "👷‍♂️ building types"
 log ""
 
-tsup
+tsdown
 # shellcheck disable=SC2181
 if [ $? -ne 0 ]; then
     log ""
@@ -46,7 +46,7 @@ else
     log ""
     log "🌏 building global types"
     log ""
-    tsup --config ./globals.config.ts
+    tsdown --config ./globals.config.ts
     log ""
 fi
 
@@ -54,7 +54,7 @@ fi
 log "🏃 building runtime"
 log ""
 cd '../runtime' || exit
-tsup
+tsdown
 
 # shellcheck disable=SC2181
 if [ $? -ne 0 ]; then
@@ -73,7 +73,7 @@ fi
 log "📦 building inferred-types"
 log ""
 cd '../inferred-types' || exit
-tsup
+tsdown
 
 # shellcheck disable=SC2181
 if [ $? -ne 0 ]; then

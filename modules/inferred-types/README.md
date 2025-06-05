@@ -1,3 +1,5 @@
 # Inferred Types
 
-This is the TS project which will exported to NPM and simply aggregates the symbols contained from the three other TS projects under `src/`.
+The _types_ for the `inferred-types` project.
+
+- these symbols will be available from a straight import of the `inferred-types` **npm** package but if you _only_ want types you can also import with `inferred-types/types`.
