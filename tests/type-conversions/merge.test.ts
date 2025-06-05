@@ -169,8 +169,8 @@ describe("Merge<A,B>", () => {
             Expect<Test<ObjFromNada, "equals", { foo: 1 }>>,
             Expect<Test<ObjFromNull, "equals", { foo: 1 }>>,
 
-            Expect<Test<IsErrorCondition<Invalid, "invalid-merge">, "equals", true>>,
-            Expect<Test<IsErrorCondition<Nothing, "invalid-merge">, "equals", true>>,
+            Expect<Test<Invalid, "isError", Error>>,
+            Expect<Test<Nothing, "equals", undefined>>,
         ];
 
     });

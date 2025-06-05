@@ -1,19 +1,23 @@
 import type {
-    ComparatorOperation,
+    ComparisonOperation,
     Compare,
     IsUnion,
     Or,
     UnionToTuple,
+    ComparisonLookup,
+    Flexy,
 } from "inferred-types/types";
 
 type UnionComparison<
     TTarget extends readonly unknown[],
-    TOp extends ComparatorOperation,
-    TComparator,
+    TOp extends ComparisonOperation,
+    TComparator extends Flexy<ComparisonLookup[TOp]["params"]>,
     TIf,
     TElse,
 > = Or<{
-    [K in keyof TTarget]: Compare<TTarget[K], TOp, TComparator>
+    [K in keyof TTarget]: Compare<TTarget[K], TOp, TComparator> extends boolean
+        ? Compare<TTarget[K], TOp, TComparator>
+        : false
 }> extends true
     ? TIf
     : TElse;
@@ -36,8 +40,8 @@ type UnionComparison<
  */
 export type SomeUnionElement<
     TTarget,
-    TOp extends ComparatorOperation,
-    TComparator,
+    TOp extends ComparisonOperation,
+    TComparator extends Flexy<ComparisonLookup[TOp]["params"]>,
     TIf = true,
     TElse = false,
 > = IsUnion<TTarget> extends true

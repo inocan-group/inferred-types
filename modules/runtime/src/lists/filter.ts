@@ -1,7 +1,5 @@
 import type {
     AfterFirst,
-    RuntimeComparisonOperation,
-    ComparisonLookup,
     Compare,
     Defined,
     Err,

@@ -4,16 +4,22 @@ import type {
     ExplicitlyEmptyObject,
     IsWideContainer,
     Join,
-    ObjectKey,
-    Surround,
+    KeyValue,
     ToKv
 } from "inferred-types/types";
 
+type Prefix<T extends boolean> = T extends true
+    ? "\n  "
+    : "";
+
 type Process<
-    T extends readonly Record<ObjectKey, any>[],
+    T extends readonly KeyValue[],
+    E extends boolean,
 > = Join<{
-    [K in keyof T]: T[K] extends Record<infer Key extends string, infer Value>
-        ? `${Surround<Key, `"`, `"`>}: ${Value extends string ? `"${Value}"` : `${AsString<Value>}`}`
+    [K in keyof T]: T[K]["key"] extends string
+        ? T[K]["value"] extends string
+            ? `${Prefix<E>}"${T[K]["key"]}": "${T[K]["value"]}"`
+            : `${Prefix<E>}"${T[K]["key"]}": ${AsString<T[K]["value"]>}`
         : never
 }, ", ">;
 
@@ -26,12 +32,11 @@ type Process<
  */
 export type ObjectToJsonString<
     TObj extends AnyObject,
+    TExpand extends boolean = false,
 > = TObj extends ExplicitlyEmptyObject
     ? "{}"
     : IsWideContainer<TObj> extends true
         ? string
-        : Surround<
-            Process<ToKv<TObj>>,
-            "{ ",
-            " }"
-        >;
+        : `{ ${Process<ToKv<TObj>, TExpand>} }`
+
+

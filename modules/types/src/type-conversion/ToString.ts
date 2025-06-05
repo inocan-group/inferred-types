@@ -30,6 +30,9 @@ type _UnionToString<
             : TOut
     >;
 
+/**
+ * Converts a union type to a string representation of the type.
+ */
 export type UnionToString<
     T,
     TEl extends readonly unknown[] = UnionToTuple<T>,

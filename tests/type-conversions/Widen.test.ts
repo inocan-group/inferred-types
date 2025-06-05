@@ -35,7 +35,9 @@ describe("Widen<T>", () => {
 
     type Fn = Widen<() => "hi">;
     type NarrowFnReturn = Widen<<T extends string>(name: T) => `hi ${T}`>;
-    type NarrowFnParams = Widen<<T extends "Bob" | "Nancy">(name: T) => `hi ${T}`>;
+    type NarrowFnParams = Widen<
+        <T extends "Bob" | "Nancy">(name: T) => `hi ${T}`
+    >;
     type FnWithProps = Widen<(() => "hi") & { foo: 1; bar: 2}>;
     type FnAsProp = Widen<{foo: () => "hi"}>;
     type FnWithPropAsProp = Widen<{foo: (() => "hi") & { bar: 1}}>;

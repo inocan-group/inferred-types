@@ -1,4 +1,12 @@
-import type { AnyObject, ExplicitlyEmptyObject, IsWideContainer, Join, ObjectKey, Surround, ToKv } from "inferred-types/types";
+import type {
+    AnyObject,
+    ExplicitlyEmptyObject,
+    IsWideContainer,
+    Join,
+    KeyValue,
+    Surround,
+    ToKv
+} from "inferred-types/types";
 import type { AsString } from "./AsString";
 
 type Prefix<T extends boolean> = T extends true
@@ -6,11 +14,17 @@ type Prefix<T extends boolean> = T extends true
     : "";
 
 type Process<
-    T extends readonly Record<ObjectKey, any>[],
+    T extends readonly KeyValue[],
     E extends boolean,
 > = Join<{
-    [K in keyof T]: T[K] extends Record<infer Key extends string, infer Value>
-        ? `${Prefix<E>}${Key}: ${Value extends string ? `"${Value}"` : `${AsString<Value>}`}`
+    [K in keyof T]: T[K]["key"] extends string
+        ? T[K]["value"] extends string
+            ? `${Prefix<E>}${T[K]["key"]}: "${T[K]["value"]}"`
+            : `${Prefix<E>}${T[K]["key"]}: ${AsString<T[K]["value"]>}`
+        : T[K]["key"] extends symbol
+            ? T[K]["value"] extends string
+                ? `${Prefix<E>}[key: symbol]: "${T[K]["value"]}"`
+                : `${Prefix<E>}[key: symbol]: ${AsString<T[K]["value"]>}`
         : never
 }, ", ">;
 
@@ -28,8 +42,6 @@ export type ObjectToJsString<
     ? "{}"
     : IsWideContainer<TObj> extends true
         ? string
-        : Surround<
-            Process<ToKv<TObj>, TExpand>,
-            "{ ",
-            " }"
-        >;
+        : `{ ${Process<ToKv<TObj>, TExpand>} }`;
+
+

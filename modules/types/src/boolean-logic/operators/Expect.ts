@@ -2,6 +2,8 @@ import {
     And,
     As,
     Container,
+    ContainsAll,
+    DoesNotExtend,
     Err,
     Extends,
     HasSameKeys,
@@ -10,12 +12,11 @@ import {
     IsEqual,
     IsNever,
     IsString,
-    IsStringLiteral,
     Join,
     Keys
 } from "inferred-types/types";
 
-export type AssertionType = "equals" | "extends" | "hasSameKeys" | "hasSameValues" | "isError";
+export type AssertionType = "equals" | "extends" | "hasSameKeys" | "hasSameValues" | "isError" | "containsAll" | "doesNotExtend";
 
 export type TypeError<
     TType extends string,
@@ -127,6 +128,14 @@ type Assert<
         `The type being tested did not extend the expected type!`,
         { test: TTest, expected: TExpected }
     >
+: TOp extends "doesNotExtend"
+    ? DoesNotExtend<TTest, TExpected> extends true
+    ? true
+    : TypeError<
+        `failed/doesNotExtend`,
+        `The test type extended the comparison type but was not supposed to!`,
+        { test: TTest, expected: TExpected }
+    >
 : TOp extends "hasSameKeys"
 ? TTest extends Container
     ? TExpected extends Container
@@ -170,7 +179,7 @@ type Assert<
 : TOp extends `isError`
 ? IsValidExpectedError<TExpected> extends true
     ? IsString<TExpected> extends true
-        ? ValidateErrorType<TTest, TExpected>
+        ? ValidateErrorType<TTest, As<TExpected, string>>
 
 
     : TExpected extends null | undefined | true
@@ -207,6 +216,27 @@ type Assert<
         `The expected error type is not a valid type! Using a string value is allowed to indicate the error's "type", Using 'null', 'undefined', or 'true' are also valid to allow matching on any error type, and of course any type which extends Error is also valid!`,
         { test: TTest, expected: TExpected }
     >
+
+: TOp extends "containsAll"
+    ? TExpected extends readonly string[]
+        ? TTest extends string
+            ? ContainsAll<TTest, TExpected> extends true
+                ? true
+                : TypeError<
+                    `failed/containsAll`,
+                    `The test string -- '${TTest}' -- did not extend all of the substrings it was supposed to!`,
+                    { test: TTest, expected: TExpected }
+                >
+            : TypeError<
+                `failed/containsAll`,
+                `The test value for a 'containsAll' assertion was not a string!`,
+                { test: TTest, expected: TExpected }
+            >
+        : TypeError<
+            `invalid-test/containsAll`,
+            `The expected type for a 'containsAll' assertion must be a tuple of strings!`,
+            { test: TTest, expected: TExpected }
+        >
 
 : never;
 

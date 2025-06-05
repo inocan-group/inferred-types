@@ -23,7 +23,6 @@ import type {
     RemoveFnProps,
     Scalar,
     StringKeys,
-    Tuple,
     TypedFunction,
     UnionToTuple,
 } from "inferred-types/types";
@@ -181,34 +180,34 @@ export type WidenContainer<
     TForce extends boolean = false,
 > =
   [TForce] extends [true]
-      ? T extends Tuple ? Tuple
-          : T extends Dictionary ? Dictionary
-              : T extends Map<unknown, unknown> ? Map<unknown, unknown>
-                  : T extends Set<unknown> ? Set<unknown>
-                      : T extends WeakMap<object, unknown> ? WeakMap<object, unknown>
-                          : never
-      : T extends AnyFunction
-          ? T extends TypedFunction
-              ? WidenFn<
-                  IsNarrowingFn<T>,
-                  Parameters<T>,
-                  ReturnType<T>,
-                  ExpandDictionary<FnProps<T>>
-              >
-              : Function
-          : T extends Dictionary
-              ? [IsObjectLiteral<T>] extends [true]
-                  ? Keys<T> extends readonly (keyof T)[]
-                      ? Mutable<ExpandRecursively<WidenObj<T, Keys<T>>>>
-                      : never
-                  : EmptyObject
-              : T extends readonly unknown[] ? WidenTuple<T>
-                  : T extends Map<infer K, infer V> ? Map<Widen<K>, Widen<V>>
-                      : T extends WeakMap<infer O, infer V>
-                          ? WeakMap<O, Widen<V>>
-                          : T extends Set<infer V>
-                              ? Set<Widen<V>>
-                              : object;
+      ? T extends readonly unknown[] ? readonly unknown[]
+        : T extends Map<unknown, unknown> ? Map<unknown, unknown>
+        : T extends Set<unknown> ? Set<unknown>
+        : T extends WeakMap<object, unknown> ? WeakMap<object, unknown>
+        : T extends Dictionary ? Dictionary
+        : never
+    : T extends AnyFunction
+            ? T extends TypedFunction
+                ? WidenFn<
+                    IsNarrowingFn<T>,
+                    Parameters<T>,
+                    ReturnType<T>,
+                    ExpandDictionary<FnProps<T>>
+                >
+            : Function
+    : T extends readonly unknown[] ? WidenTuple<T>
+        : T extends Dictionary
+            ? [IsObjectLiteral<T>] extends [true]
+                ? Keys<T> extends readonly (keyof T)[]
+                    ? Mutable<ExpandRecursively<WidenObj<T, Keys<T>>>>
+                    : never
+                : EmptyObject
+                : T extends Map<infer K, infer V> ? Map<Widen<K>, Widen<V>>
+                    : T extends WeakMap<infer O, infer V>
+                        ? WeakMap<O, Widen<V>>
+                        : T extends Set<infer V>
+                            ? Set<Widen<V>>
+                            : object;
 
 /**
  * **Widen**`<T, [TForce]>`

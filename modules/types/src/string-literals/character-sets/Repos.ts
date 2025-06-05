@@ -3,6 +3,7 @@ import type {
     Flatten,
     Mutable,
     Opt,
+    Suggest,
     TupleToUnion,
     Unset,
     UrlsFrom,
@@ -33,20 +34,21 @@ export type RepoUrls = UrlsFrom<Flatten<
  *
  * Provides a type for _sematic versions_.
  *
- * - by default it only allows the `v${major}.${minor}.${patch}`
- * - setting `TPrefix to` `true` allows a version with or without
- * the leading "v"
+ * - by default it only allows the numeric `${major}.${minor}.${patch}` type
+ * - setting `TPrefix to` `true` indicates that a leading `v` is required to prefix the version number: `v${major}.${minor}.${patch}`
+ * - setting TPrefix to `either" means you may optionally use or ignore the `v` prefix
  *    - `0.10.1` - valid
  *    - `v0.10.1` - also valid
  * - setting to `false` eliminates any prefix
- * - if you pass in a string `TPrefix` then it will be used directly
+ * - if you pass in a string `TPrefix` then it will be used directly as the value required to
+ * prefix the number with
  */
 export type SemanticVersion<
     TPrefix extends boolean | string | Unset = Unset,
 > = TPrefix extends Unset
-    ? `v${number}.${number}.${number}`
+    ? `${number}.${number}.${number}`
     : TPrefix extends true
-        ? `${"v" | ""}${number}.${number}.${number}`
+        ? `v${number}.${number}.${number}`
         : TPrefix extends false
             ? `${number}.${number}.${number}`
             : TPrefix extends string
@@ -61,15 +63,28 @@ export type SemanticVersion<
  */
 export type GitRef = `git@${string}.${string}:${string}.git`;
 
-type NpmPrefix = "" | "^" | ">=" | ">" | "~";
-type NpmVersionNum = `${number}${Opt<`.${number}`>}${Opt<`.${number}`>}`;
+type DependencyPrefix = "" | "^" | ">=" | ">" | "~";
+type SemanticSegment = `${number}${Opt<`.${number}`>}${Opt<`.${number}`>}`;
 
 /**
  * **NpmVersion**
  *
  * an [npm](https://npmjs.org) version / variant range.
+ *
+ * **Related:** `SemanticDependency`
  */
-export type NpmVersion = `${NpmPrefix}${NpmVersionNum}`;
+export type NpmVersion = `${DependencyPrefix}${SemanticSegment}`;
+
+/**
+ * Allow you to express the semantec version(s) which you would allow
+ * for a particular dependency.
+ *
+ * **Note:** this is identical to the `NpmVersion` type
+ */
+export type SemanticDependency = `${DependencyPrefix}${SemanticSegment}`;
+
+
+type RelativePath = `.${string}`
 
 /**
  * The general structure of a `package.json` file.
@@ -83,8 +98,10 @@ export interface PackageJson {
     description?: string;
     /** The entry point of the package, usually for CommonJS modules. */
     main?: string;
+    /** The module entry point for ES modules. */
+    module?: string;
     /** Defines shortcut commands for package scripts. */
-    scripts?: Record<string, string>;
+    scripts?: Record<Suggest<"build"|"test"|"release"|"watch">, string>;
     /** A map of package dependencies required for the project. */
     dependencies?: Record<string, NpmVersion>;
     /** A map of development-only dependencies. */
@@ -104,7 +121,7 @@ export interface PackageJson {
     /** The license for the package, typically an SPDX identifier. */
     license?: string;
     /** Repository information for the package. */
-    repository?: string | { type: string; url: string; directory?: string };
+    repository?: string | { type?: string; url: string; directory?: string };
     /** Information about how to report bugs in the package. */
     bugs?: string | { url?: string; email?: string };
     /** The URL to the homepage of the package. */
@@ -128,7 +145,7 @@ export interface PackageJson {
     /** User-defined configuration values for package-specific settings. */
     config?: Record<string, any>;
     /** Defines the package's entry points for exports. */
-    exports?: Record<string, string | Record<string, string>>;
+    exports?: Record<RelativePath, Record<Suggest<"types" | "import" | "require">, RelativePath>>;
     /** Defines the package's entry points for imports. */
     imports?: Record<string, string | Record<string, string>>;
     /** A list of files included when the package is published. */
@@ -139,7 +156,7 @@ export interface PackageJson {
     man?: string | string[];
     /** Specifies various directories used by the package. */
     directories?: {
-    /** The directory for library files. */
+        /** The directory for library files. */
         lib?: string;
         /** The directory for executable binaries. */
         bin?: string;
@@ -156,8 +173,6 @@ export interface PackageJson {
     type?: "module" | "commonjs";
     /** Configuration for how the package is published. */
     publishConfig?: Record<string, any>;
-    /** The module entry point for ES modules. */
-    module?: string;
     /** Specifies the type definition file for the package. */
     types?: string;
     /** An alias for `types`, specifying the type definition file. */
@@ -172,7 +187,8 @@ export interface PackageJson {
     style?: string;
 
     pnpm?: {
-        overrides: Record<string, string>;
+        overrides?: Record<string, NpmVersion>;
+        onlyBuiltDependencies?: string[];
         [key: string]: unknown;
     };
 

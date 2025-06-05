@@ -17,9 +17,9 @@ describe("AsRecord<T>", () => {
         type FooBar = AsRecord<{ foo: 1; bar: 2 }>;
 
         type cases = [
-            Expect<Test<Tup, [1, 2, "equals",  3]>>,
+            Expect<Test<Tup, "equals", [1, 2,  3]>>,
             Expect<Test<Obj, "equals",  NonNullable<unknown>>>,
-            Expect<Test<Rec, Record<ObjectKey, "equals",  number>>>,
+            Expect<Test<Rec, "equals",  Record<ObjectKey, number>>>,
             Expect<Test<FooBar, "equals",  { foo: 1; bar: 2 }>>
         ];
     });

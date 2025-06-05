@@ -1,7 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-
-import { AsStringLiteral } from "inferred-types/types"
 import { UsStateAbbrev } from "inferred-types/types";
 
 

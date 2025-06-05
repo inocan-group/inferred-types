@@ -113,7 +113,7 @@ export type ReplaceNumericInterpolation<
 /**
  * **ReplaceNumericInterpolation**`<TContent, TReplace>`
  *
- * Replaces all instances of `${number}` in `TContent` with `TReplace`
+ * Replaces all instances of `${boolean}` in `TContent` with `TReplace`
  *
  * - when `TReplace` is single string then all instances are replaced with
  * this value

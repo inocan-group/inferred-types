@@ -136,14 +136,20 @@ type ToBaseType<
                                                                       ? TUnderlying extends readonly unknown[]
                                                                           ? TupleToUnion<NotFilter<
                                                                               TUnderlying,
-                                                                              { kind: TypeKind; required: TypeIsRequired; underlying: readonly unknown[] | "none" }
+                                                                              "extends",
+                                                                              {
+                                                                                kind: TypeKind; required: TypeIsRequired; underlying: readonly unknown[] | "none"
+                                                                            }
                                                                           >>
                                                                           : never
                                                                       : TKind extends "intersection"
                                                                           ? TUnderlying extends readonly unknown[]
                                                                               ? UnionToIntersection<TupleToUnion<NotFilter<
                                                                                   TUnderlying,
-                                                                                  { kind: TypeKind; required: TypeIsRequired; underlying: readonly unknown[] | "none" }
+                                                                                  "extends",
+                                                                                  {
+                                                                                    kind: TypeKind; required: TypeIsRequired; underlying: readonly unknown[] | "none"
+                                                                                }
                                                                               >>>
                                                                               : never
                                                                           : unknown;

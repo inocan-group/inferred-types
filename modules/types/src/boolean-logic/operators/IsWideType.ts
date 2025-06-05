@@ -1,11 +1,9 @@
 import type {
     Container,
-    EmptyObject,
     ExplicitlyEmptyObject,
     IsEqual,
     IsNever,
     IsUnion,
-    IsVueRef,
     IsWideUnion,
     Keys,
     ObjectKey,
@@ -74,8 +72,6 @@ export type IsWideContainer<T> = T extends Container
             : false
     : IsWideObject<T>
 : false;
-
-
 
 /**
  * **IsWideType**`<T, [TNever]>`

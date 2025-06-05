@@ -1,12 +1,16 @@
-import type { ComparatorOperation, Compare } from "../boolean-logic";
+import type {
+    ComparisonOperation,
+    Compare,
+    ComparisonLookup
+} from "../boolean-logic";
 import type { AfterFirst, First, Last } from "../lists";
 import type { Increment } from "../numeric-literals";
 import type { Chars } from "./Chars";
 
 type _FindIndexes<
     TContent extends readonly unknown[],
-    TFind,
-    TOp extends ComparatorOperation = "extends",
+    TFind extends ComparisonLookup[TOp]["params"],
+    TOp extends ComparisonOperation = "extends",
     TIdx extends number = 0,
     TResults extends readonly number[] = [],
 > = [] extends TContent
@@ -38,8 +42,8 @@ type _FindIndexes<
  */
 export type FindIndexes<
     TContent extends string | readonly unknown[],
-    TFind,
-    TOp extends ComparatorOperation = "extends",
+    TFind extends ComparisonLookup[TOp]["params"],
+    TOp extends ComparisonOperation = "extends",
 > = TContent extends string
     ? _FindIndexes<
         Chars<TContent>,
@@ -58,14 +62,14 @@ export type FindIndexes<
  */
 export type FindFirstIndex<
     TContent extends string | readonly unknown[],
-    TFind,
-    TOp extends ComparatorOperation = "extends",
+    TFind extends ComparisonLookup[TOp]["params"],
+    TOp extends ComparisonOperation = "extends",
 > = First<FindIndexes<TContent, TFind, TOp>>;
 
 export type FindLastIndex<
     TContent extends string | readonly unknown[],
-    TFind,
-    TOp extends ComparatorOperation = "extends",
+    TFind extends ComparisonLookup[TOp]["params"],
+    TOp extends ComparisonOperation = "extends",
 > = Last<FindIndexes<TContent, TFind, TOp>>;
 
 export interface FindIndexMetaOfString {
@@ -83,8 +87,8 @@ export interface FindIndexMetaOfTuple {
 type _FindIndexesWithMeta__String<
     TOriginal extends readonly unknown[],
     TContent extends readonly unknown[],
-    TFind,
-    TOp extends ComparatorOperation = "extends",
+    TFind extends ComparisonLookup[TOp]["params"],
+    TOp extends ComparisonOperation = "extends",
     TIdx extends number = 0,
     TResults extends readonly FindIndexMetaOfString[] | [] = [],
 > = [] extends TContent
@@ -110,8 +114,8 @@ type _FindIndexesWithMeta__String<
 type _FindIndexesWithMeta__Tuple<
     TOriginal extends readonly unknown[],
     TContent extends readonly unknown[],
-    TFind,
-    TOp extends ComparatorOperation = "extends",
+    TFind extends ComparisonLookup[TOp]["params"],
+    TOp extends ComparisonOperation = "extends",
     TIdx extends number = 0,
     TResults extends readonly FindIndexMetaOfTuple[] | [] = [],
 > = [] extends TContent
@@ -147,8 +151,8 @@ type _FindIndexesWithMeta__Tuple<
  */
 export type FindIndexesWithMeta<
     TContent extends string | readonly unknown[],
-    TFind,
-    TOp extends ComparatorOperation = "extends",
+    TFind extends ComparisonLookup[TOp]["params"],
+    TOp extends ComparisonOperation = "extends",
 > = TContent extends string
     ? _FindIndexesWithMeta__String<
         Chars<TContent>,

@@ -1,4 +1,24 @@
-import type { IsStringLiteral } from "inferred-types/types";
+import type {
+    As,
+    IsStringLiteral,
+    IsUnion,
+    RemoveNever,
+    Shortest,
+    UnionToTuple
+} from "inferred-types/types";
+
+
+type ProcessUnion<
+    TStr extends string,
+    TMatch extends readonly string[]
+> = Shortest<
+    As<RemoveNever<{
+        [K in keyof TMatch]: TStr extends `${infer Before}${TMatch[K]}${string}`
+            ? Before
+            : never
+    }>, readonly string[]>
+>;
+
 
 /**
  * **StripAfter**`<TStr, TBreak>`
@@ -15,10 +35,18 @@ import type { IsStringLiteral } from "inferred-types/types";
 export type StripAfter<
     TStr extends string,
     TBreak extends string,
-> = IsStringLiteral<TStr> extends true
+> = As<
+IsStringLiteral<TStr> extends true
     ? IsStringLiteral<TBreak> extends true
-        ? TStr extends `${infer Before}${TBreak}${string}`
+        ? IsUnion<TBreak> extends true
+            ? UnionToTuple<TBreak> extends readonly string[]
+                ? ProcessUnion<TStr, UnionToTuple<TBreak>>
+                : never
+            : TStr extends `${infer Before}${TBreak}${string}`
             ? Before
             : TStr
         : string
-    : string;
+    : string,
+    string
+>
+

@@ -1,4 +1,9 @@
-import type { FromLiteralTemplate, Split, StringLiteralTemplate, TemplateBlocks } from "inferred-types/types";
+import type {
+    FromLiteralTemplate,
+    Split,
+    StringLiteralTemplate,
+    TemplateBlock
+} from "inferred-types/types";
 
 type Finalize<
     TResults extends readonly string[],
@@ -22,13 +27,10 @@ type Finalize<
 export type StaticTemplateSections<
     TTemplate extends string,
     TWithType extends boolean | null = null
-> = Finalize<
-    Split<
-        FromLiteralTemplate<TTemplate>,
-        TemplateBlocks,
-        TWithType extends null
-            ? "omit"
-            : "before"
-    >,
-    TWithType
->;
+> = Split<
+FromLiteralTemplate<TTemplate>,
+TemplateBlock,
+TWithType extends null
+    ? "omit"
+    : "before"
+>

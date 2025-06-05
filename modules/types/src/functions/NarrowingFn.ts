@@ -5,7 +5,6 @@ import type {
     IsEqual,
     IsNarrowingFn,
     IsNonEmptyObject,
-    Throw,
     TypedFunction,
 } from "inferred-types/types";
 
@@ -34,7 +33,7 @@ export type NarrowingFn<
         ? TFn
         : IsNarrowingFn<TFn> extends true
             ? TFn
-            : (<T extends Parameters<TFn>>(...args: T) => ReturnType<TFn>)
+            : (<T extends readonly [...Parameters<TFn>]>(...args: T) => ReturnType<TFn>)
     : NarrowingFn<TypedFunction>;
 
 /**
@@ -51,12 +50,12 @@ export type AsNarrowingFn<
     TProps extends Dictionary = EmptyObject,
 > = TParams extends TypedFunction
     ? NarrowingFn<TParams>
-    : TParams extends readonly any[] // this is the normal call structure
+    : TParams extends readonly unknown[] // this is the normal call structure
         ? [IsNonEmptyObject<TProps>] extends [true]
             ? [IsEqual<TParams, []>] extends [true]
                 ? (() => TReturn) & TProps
-                : (<T extends TParams>(...args: T) => TReturn) & TProps
+                : (<T extends readonly [...TParams]>(...args: T) => TReturn) & TProps
             : [IsEqual<TParams, []>] extends [true]
                 ? () => TReturn
-                : <T extends TParams>(...args: T) => TReturn
+                : <T extends readonly [...TParams]>(...args: T) => TReturn
         : never;

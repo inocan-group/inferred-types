@@ -1,8 +1,8 @@
 import type {
     AsNarrowingFn,
+    FromStringInputToken,
+    InputTokenSuggestions,
     IsLiteral,
-    SimpleToken,
-    SimpleType,
     Tuple,
     TypedFunction,
 } from "inferred-types/types";
@@ -19,7 +19,7 @@ import type {
  * correct amount of parameters are set but can only _assume_ the types of
  * the parameters are as you have expressed
  */
-export function isFnWithParams<T, P extends (readonly SimpleToken[]) | [number]>(
+export function isFnWithParams<T, P extends (readonly InputTokenSuggestions[]) | [number]>(
     input: T,
     ...params: P
 ): input is T & AsNarrowingFn<
@@ -29,9 +29,9 @@ export function isFnWithParams<T, P extends (readonly SimpleToken[]) | [number]>
                 ? Tuple<any, P["length"]>
                 : [any, ...any[]]
             : [any, ...any[]]
-        : P extends readonly SimpleToken[]
+        : P extends readonly InputTokenSuggestions[]
             ? {
-                [K in keyof P]: SimpleType<P[K]>
+                [K in keyof P]: FromStringInputToken<P[K]>
             }
             : P extends [number]
                 ? Tuple<any, P[0]>

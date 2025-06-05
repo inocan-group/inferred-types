@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { Expect, Extends, KeyValue, Test } from "inferred-types/types";
+import { Expect, Extends, GetEach, Keys, KeyValue, Last, Test } from "inferred-types/types";
 import { toKeyValue, tuple, defineObj } from "inferred-types/runtime";
 
 
@@ -52,6 +52,7 @@ describe("toKeyValue(obj)", () => {
 
     it("forcing a key to end position", () => {
         const fooBar = toKeyValue({ foo: 1, bar: "hi", id: 123 }, { end: "bar" });
+        type L = Last<GetEach<typeof fooBar, "key">>;
 
         expect(fooBar, `End key should be "bar": ${Object.keys(fooBar)}`).toEqual([
             { key: "foo", value: 1 },
@@ -60,9 +61,10 @@ describe("toKeyValue(obj)", () => {
         ])
 
         type cases = [
+            Expect<Test<L, "equals", "bar">>,
             Expect<Test<
                 typeof fooBar,
-                "equals",
+                "hasSameValues",
                 [
                     { key: "foo", value: 1 },
                     { key: "id", value: 123 },
@@ -71,7 +73,6 @@ describe("toKeyValue(obj)", () => {
             >>
         ];
     });
-
 
 
     it("Forcing both start and end keys", () => {
@@ -106,11 +107,8 @@ describe("toKeyValue(obj)", () => {
 
         type cases = [
             Expect<Extends<typeof fromObj, KeyValue[]>>,
-            Expect<Test<
-                typeof fromObj,
-                "equals",
-                typeof kv
-            >>
+            Expect<Test<typeof fromObj, "hasSameKeys", typeof kv>>,
+            Expect<Test<typeof fromObj, "hasSameValues", typeof kv>>,
         ];
 
     });

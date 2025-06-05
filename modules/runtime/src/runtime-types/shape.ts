@@ -86,3 +86,6 @@ export function isShape(v: unknown): v is Shape {
         && v.endsWith(">>")
         && SHAPE_PREFIXES.some(i => v.startsWith(`<<${i}`)));
 }
+
+
+const ex = shape(s => s.dictionary({ foo: i => i.number(), bar: i => i.string() }));

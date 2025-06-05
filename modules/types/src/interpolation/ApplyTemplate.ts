@@ -65,6 +65,12 @@ type Apply<
 /**
  * **ApplyTemplate**`<TContent,TTemplate,[TOnlyStringLit]>`
  *
+ * If the content found in `TContent` is a match for `TTemplate`, then
+ * the type returned will be the dynamic segments defined in the template.
+ *
+ * Alternatively, if `TContent` _does not_ match the dynamic segments
+ * defined in `TTemplate` then a **invalid-content** error will be returned.
+ *
  * Returns a tuple of the format:
  *
  * - [ full, p1, p2, p3, ... ]

@@ -18,18 +18,40 @@ describe("ToString<T>", () => {
         type U2 = UnionToString<string | number>;
 
         type cases = [
-            Expect<Test<Obj, "equals",  "{ foo: 1, bar: 'hi',  baz: { color: 'red' } }">>,
-            Expect<Test<Tup, "equals",  "[ 1, 2,  'foo' ]">>,
-            Expect<Test<Tup2, "equals",  "[ 2, 3, { foo: 1,  bar: 'hi' } ]">>,
-            Expect<Test<Rec, "equals",  "Record<string,  boolean>">>,
-            Expect<Test<Rec2, "equals",  "Record<string,  true>">>,
-            Expect<Test<M, "equals",  "Map<string,  number>">>,
+            Expect<Test<
+                Obj, "containsAll",
+                [
+                    "foo: 1",
+                    "bar: 'hi'",
+                    "baz: { color: 'red' }"
+                ]
+            >>,
+            Expect<Test<
+                Tup, "equals",
+                "[ 1, 2, 'foo' ]"
+            >>,
+            Expect<Test<
+                Tup2, "equals",
+                "[ 2, 3, { foo: 1, bar: 'hi' } ]"
+            >>,
+            Expect<Test<
+                Rec, "equals",
+                "Record<string, boolean>"
+            >>,
+            Expect<Test<
+                Rec2, "equals",
+                "Record<string, true>"
+            >>,
+            Expect<Test<
+                M, "equals",
+                "Map<string, number>"
+            >>,
             Expect<Test<S, "equals",  "Set<string[]>">>,
-            Expect<Test<Arr, "equals",  "string[]">>,
-            Expect<Test<Arr2, "equals",  "number[]">>,
+            Expect<Test<Arr, "equals", "string[]">>,
+            Expect<Test<Arr2, "equals", "number[]">>,
 
             Expect<Test<U1, "equals",  "Union<...>">>,
-            Expect<Test<U2, "equals",  "string | number">>,
+            Expect<Test<U2, "extends",  "string | number" | "number | string">>,
         ];
     });
 

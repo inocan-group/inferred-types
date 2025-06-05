@@ -1,3 +1,6 @@
+
+const VueRef = Symbol("VueRef");
+
 /**
  * **VueRef**`<T>`
  *
@@ -15,5 +18,6 @@
  * - `IsRef<T>`, `isRef()`, `VueComputedRef<T>`
  */
 export interface VueRef<T = any> {
+    [VueRef]: "VueRef",
     value: T;
 }

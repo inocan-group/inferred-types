@@ -6,8 +6,10 @@ import type { Thenable } from "inferred-types/types";
  * Unwraps the expected return value inside a promise-like
  * result.
  */
-export type Awaited<T> = T extends Thenable
-    ? T extends Promise<infer Type>
+export type Awaited<T> = T extends Promise<infer Type>
         ? Type
-        : ReturnType<T["then"]>
-    : never;
+    : T extends PromiseLike<infer Type>
+        ? Type
+    : T extends Thenable
+        ? ReturnType<T["then"]>
+        : never;

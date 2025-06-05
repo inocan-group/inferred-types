@@ -12,8 +12,8 @@ type Narrow<
     THandle,
 > = IsUnion<TContent> extends true
     ? UnionToTuple<TContent> extends readonly unknown[]
-        ? NotFilter<UnionToTuple<TContent>, THandle> extends readonly unknown[]
-            ? TupleToUnion<NotFilter<UnionToTuple<TContent>, THandle>>
+        ? NotFilter<UnionToTuple<TContent>, "extends", THandle> extends readonly unknown[]
+            ? TupleToUnion<NotFilter<UnionToTuple<TContent>, "extends", THandle>>
             : never
         : never
     : TContent;
