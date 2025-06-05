@@ -12,7 +12,12 @@ import {
     isObject,
     isString,
 } from "inferred-types/runtime";
-import { boolean, nullType, undefinedType, unknown } from "./shape-helpers/atomics";
+import {
+    boolean,
+    nullType,
+    undefinedType,
+    unknown
+} from "./shape-helpers/atomics";
 import { fn } from "./shape-helpers/functions";
 import { dictionary, tuple } from "./shape-helpers/literal-containers";
 import { number, string } from "./shape-helpers/singletons";
@@ -88,4 +93,3 @@ export function isShape(v: unknown): v is Shape {
 }
 
 
-const ex = shape(s => s.dictionary({ foo: i => i.number(), bar: i => i.string() }));

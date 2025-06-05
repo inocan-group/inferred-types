@@ -13,7 +13,7 @@ import type {
     UnionToString,
     Filter,
 } from "inferred-types/types";
-import { isArray, isBoolean, isNumber, isString } from "src/type-guards";
+import { isArray, isBoolean, isNumber, isString } from "inferred-types/runtime";
 
 type Conversion = "union" | "token" | "stringLiteral" | "stringArray";
 

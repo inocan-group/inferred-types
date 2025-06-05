@@ -1,5 +1,5 @@
 import type { AfterFirst, First, IsEqual, Narrowable, RemoveNever } from "inferred-types/types";
-import { isDefined } from "src/type-guards";
+import { isDefined } from "inferred-types/runtime";
 
 type NotUndefined<
     T extends readonly unknown[],

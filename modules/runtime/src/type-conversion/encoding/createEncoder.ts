@@ -1,5 +1,5 @@
 import type {
-    AnyObject,
+    Dictionary,
     AsFromTo,
     IsGreaterThan,
     NarrowObject,
@@ -11,7 +11,7 @@ import { reverseLookup } from "inferred-types/runtime";
 type MAX = 35;
 
 function encode<
-    TDefn extends NarrowObject<N> & AnyObject,
+    TDefn extends NarrowObject<N> & Dictionary,
     N extends string,
 >(defn: TDefn) {
     return <E extends string>(input: E) => {
@@ -33,7 +33,7 @@ function encode<
 }
 
 function decode<
-    TDefn extends NarrowObject<N> & AnyObject,
+    TDefn extends NarrowObject<N> & Dictionary,
     N extends string,
 >(defn: TDefn) {
     return <D extends string>(encoded: D) => {
@@ -71,7 +71,7 @@ function decode<
  *    - the runtime value will always use the full encoding and decoding
  */
 export function createEncoder<
-    TDefn extends NarrowObject<N> & AnyObject,
+    TDefn extends NarrowObject<N> & Dictionary,
     N extends string,
 >(
     defn: TDefn,

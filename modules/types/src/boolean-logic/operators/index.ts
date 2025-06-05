@@ -12,6 +12,7 @@ export * from "./datetime/index";
 export * from "./DoesExtend";
 export * from "./DoesNotExtend";
 export * from "./EndsWith";
+export * from "./IsError";
 export * from "./EveryLength";
 export * from "./EveryUnionElement";
 export * from "./Expect";

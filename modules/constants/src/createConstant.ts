@@ -1,4 +1,4 @@
-import type { Constant } from "./Constant";
+import type { Constant } from "inferred-types/constants";
 
 /**
  * **createConstant**(kind)

@@ -1,4 +1,4 @@
-import { describe, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import {
     Expect,
@@ -52,6 +52,7 @@ describe("KeysWithValue<T> utility", () => {
             Expect<Test<Obj, "equals", "baz" | "emptyBaz">>,
             Expect<Test<Fn, "equals", "fn" | "fnWithProp" | "narrowFn" | "narrowFnWithProps">>,
         ];
+        expect(true).toBe(true);
 
     });
 

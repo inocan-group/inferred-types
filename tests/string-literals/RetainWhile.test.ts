@@ -1,8 +1,12 @@
 import { describe, it } from "vitest";
-
-import { Expect, NumericChar, RetainWhile, Test, } from "inferred-types/types";
+import { NUMERIC_CHAR } from "inferred-types/constants";
+import {
+    Expect,
+    NumericChar,
+    RetainWhile,
+    Test,
+} from "inferred-types/types";
 import { retainWhile, } from "inferred-types/runtime"
-import { NUMERIC_CHAR } from "inferred-types/constants"
 
 
 describe("RetainWhile<TContent,TComparator>", () => {

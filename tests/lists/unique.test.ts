@@ -1,6 +1,6 @@
-import { Equal, Expect } from "@type-challenges/utils";
+import {  Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { HasSameValues, Test, Unique } from "inferred-types/types";
+import {  Test, Unique } from "inferred-types/types";
 import { unique } from "inferred-types/runtime";
 
 
