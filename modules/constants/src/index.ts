@@ -1,3 +1,4 @@
+export * from "./createConstant";
 export * from "./Alpha";
 export * from "./Books";
 export * from "./Brands";
@@ -7,7 +8,6 @@ export * from "./Comma";
 export * from "./CommonObjProps";
 export * from "./Consonants";
 export * from "./Constant";
-export * from "./createConstant";
 export * from "./DateTime";
 export * from "./FalsyValues";
 export * from "./Editor";

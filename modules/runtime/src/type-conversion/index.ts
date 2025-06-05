@@ -6,7 +6,6 @@ export * from "./asTemplate";
 export * from "./asTypeSubtype";
 export * from "./csv";
 export * from "./eachAsString";
-export * from "./encoding/index";
 export * from "./fromKeyValue";
 export * from "./intersect";
 export * from "./ip6GroupExpansion";
@@ -24,3 +23,5 @@ export * from "./toKeyValue";
 export * from "./toNumber";
 export * from "./tw-conversion";
 export * from "./unionize";
+
+// export * from "./encoding/index";

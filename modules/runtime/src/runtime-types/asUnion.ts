@@ -1,4 +1,4 @@
-import { isFunction } from "src/type-guards";
+import { isFunction } from "inferred-types/runtime";
 
 export interface AsUnionOptions {
     /** prefix text for runtime type if desired */

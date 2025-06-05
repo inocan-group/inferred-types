@@ -6,7 +6,7 @@ import type {
     ObjectKey,
     TypedFunction,
 } from "inferred-types/types";
-import { fnProps } from "src/functions";
+import { fnProps } from "inferred-types/runtime";
 
 type FnWithProps<
     TFn extends TypedFunction,

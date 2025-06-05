@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { Expect, Equal } from "@type-challenges/utils";
 import { createFnWithProps } from "inferred-types/runtime";
-import { EmptyObject, Dictionary, WithValue } from "inferred-types/types";
+import { EmptyObject, Dictionary, WithValue, Test } from "inferred-types/types";
 import {
     DictionaryWithValueFilter,
     withValue,

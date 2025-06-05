@@ -1,5 +1,5 @@
 import type { IsError, Narrowable } from "inferred-types/types";
-import { isError } from "src/type-guards";
+import { isError } from "inferred-types/runtime";
 
 /**
  * **ifError(val, wasError, wasNotError)**

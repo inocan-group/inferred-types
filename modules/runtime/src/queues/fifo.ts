@@ -1,4 +1,8 @@
-import type { FifoQueue, FixedLengthArray, Narrowable } from "inferred-types/types";
+import type {
+    FifoQueue,
+    FixedLengthArray,
+    Narrowable
+} from "inferred-types/types";
 
 function queue<
     T extends unknown[],
