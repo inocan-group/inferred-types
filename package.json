@@ -33,7 +33,6 @@
             "types": "./modules/types/dist/globals.d.ts"
         }
     },
-
     "files": [
         "modules/constants/dist",
         "modules/inferred-types/dist",
@@ -91,6 +90,7 @@
         "pathe": "^2.0.3",
         "rimraf": "^6.0.1",
         "ts-patch": "^3.3.0",
+        "tsdown": "^0.12.7",
         "tsup": "^8.4.0",
         "tsx": "^4.19.4",
         "typecheck": "^0.1.2",

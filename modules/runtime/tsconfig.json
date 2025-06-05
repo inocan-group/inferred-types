@@ -36,8 +36,7 @@
         }
     ],
     "include": [
-        "src/**/*.ts",
-        "src/regex/createMatchTemplate.hold"
+        "src/**/*.ts"
     ],
     "exclude": [
         "node_modules",

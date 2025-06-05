@@ -1,5 +1,4 @@
-import type { IsWideType } from "../boolean-logic";
-import type { Join } from "../string-literals/Join";
+import type { IsWideType, Join } from "inferred-types/types";
 
 /**
  * **AsString**<T>

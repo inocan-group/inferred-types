@@ -1,10 +1,7 @@
-import { defineConfig } from "tsup";
+import { defineConfig } from "tsdown";
 
 export default defineConfig({
     entry: ["src/globals/globals.ts"],
-    dts: {
-        entry: ["src/globals/globals.ts"],
-        only: true
-    },
-    tsconfig: "./tsconfig.tsup.json"
+    dts: true,
+    tsconfig: "./tsconfig.tsdown.json"
 });
