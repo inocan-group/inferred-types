@@ -19,8 +19,10 @@ import type {
     ObjectKey,
     Scalar,
     ToStringLiteral,
+    Tuple,
     IsObjectKeyRequiringQuotes,
-    IsString
+    IsString,
+    ToStringLiteral__Tuple
 } from "inferred-types/types";
 
 /**
@@ -73,7 +75,7 @@ function mutateObjectKeys<T extends Record<ObjectKey, unknown>>(
 ) {
     let result: Record<ObjectKey, string> = {};
     for (const k of Object.keys(obj)) {
-        result[k] = toStringLiteral(indexOf(obj,k));
+        result[k] = toStringLiteral(indexOf(obj,k)) as unknown as string;
     }
 
     return result;
@@ -99,12 +101,12 @@ function scalarValue<T extends Scalar>(val: T) {
 
 export function toStringLiteral__Tuple<
     T extends readonly N[],
-    N extends Scalar | Record<ObjectKey, V>,
+    N extends Scalar | Record<ObjectKey, V> | Tuple,
     V extends Narrowable
 >(
     tup: T
 ) {
-    return `[ ${tup.map(i => toStringLiteral(i) ).join(", ")} ]`
+    return `[ ${tup.map(i => toStringLiteral(i as any) ).join(", ")} ]` as ToStringLiteral__Tuple<T>
 }
 
 /**
@@ -124,7 +126,7 @@ export function toStringLiteral<
 
     return (
         isArray(val)
-            ? toStringLiteral__Tuple(val as readonly any[])
+            ? toStringLiteral__Tuple(val as any)
             : isObject(val)
             ? toStringLiteral__Object(mutateObjectKeys(val))
             : isTrue(val)

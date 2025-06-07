@@ -2,14 +2,11 @@ import type {
     AfterFirst,
     AlphaNumericChar,
     As,
-    As,
     Chars,
     Dictionary,
     Equals,
     Extends,
     First,
-    HasCharacters,
-    HasOtherCharacters,
     If,
     IsBoolean,
     IsFalse,
@@ -19,9 +16,12 @@ import type {
     IsSymbol,
     IsTrue,
     IsUnion,
+    IsWideContainer,
     IsWideScalar,
     Join,
+    Length,
     MergeObjects,
+    Narrowable,
     Or,
     QuoteCharacter,
     SafeEncode,
@@ -29,8 +29,10 @@ import type {
     StringKeys,
     ToStringArray,
     Tuple,
+    TupleMeta,
     UnionToTuple,
 } from "inferred-types/types";
+import { TypeOfArray } from "src/type-conversion/TypeOfArray";
 
 type Enc<
     T extends string,
@@ -97,6 +99,23 @@ type InnerArray<
                     : never
 }, readonly string[]>;
 
+
+type Wrap<
+    T extends string
+> = `(${T})[]`;
+
+type AsUnionArrayString<
+    T extends readonly unknown[],
+    O extends readonly string[] = []
+> = [] extends T
+? Wrap<Join<O, " | ">>
+: AsUnionArrayString<
+    AfterFirst<T>,
+    ToStringLiteral<First<T>> extends infer Type extends string
+        ? [...O, Type]
+        : O
+>
+
 /**
  * **ToJsonArray**`<T,[Q]>`
  *
@@ -105,9 +124,25 @@ type InnerArray<
  * **Related:** `ToJson`, `ToJsonObject`, `ToJsonScalar`
  */
 export type ToStringLiteral__Tuple<
-    T extends readonly any[],
+    T extends readonly unknown[],
     O extends Required<ToJsValueOptions> = { quote: "\""; encode: false }
-> = `[ ${Join<InnerArray<T, O>, ", ">} ]`;
+> =
+[TupleMeta<T>["isWide"]] extends [true]
+? [T] extends [readonly (infer Type)[]]
+    ? [IsUnion<Type>] extends [true]
+        ? [UnionToTuple<Type>] extends [readonly unknown[]]
+            ? AsUnionArrayString<UnionToTuple<Type>>
+            : never
+    : [Type] extends [Scalar]
+        ? `${ToStringLiteral__Scalar<Type>}[]`
+    : [Type] extends [Dictionary]
+        ? `${ToStringLiteral__Object<Type>}[]`
+        : never
+    : never
+: // TUPLE
+  [T["length"]] extends [0]
+    ? `[]`
+    :  `[ ${Join<InnerArray<T, O>, ", ">} ]`;
 
 
 /**
@@ -177,7 +212,6 @@ type InnerObject<
     ]
 >;
 
-
 /**
  * **ToJsonObject**`<T>`
  *
@@ -236,6 +270,14 @@ export type ToStringLiteral__Union<
     [K in keyof T]: ToStringLiteral<T[K]>
 }, " | ">;
 
+export type ToStringLiteral__Array<
+    TArr extends unknown[],
+> = [TypeOfArray<TArr>] extends [Scalar]
+? `${ToStringLiteral__Scalar<TypeOfArray<TArr>>}[]`
+: "nope";
+
+
+
 export type ToJsValueOptions = {
     quote?: QuoteCharacter;
     encode?: boolean;
@@ -247,13 +289,8 @@ type O<
     ? MergeObjects<{ quote: "\""; encode: false }, T>
     : never;
 
-/**
- * Converts any Typescript variable to a string literal
- * representation of that variable.
- *
- * **Related:** `ToJsonObject`, `ToJsonArray`, `ToJsonScalar`
- */
-export type ToStringLiteral<
+
+type _ToStringLiteral<
     T,
     Opt extends ToJsValueOptions = { quote: "\""; encode: false },
 > = [undefined] extends [T]
@@ -266,4 +303,17 @@ export type ToStringLiteral<
     ? ToStringLiteral__Scalar<T, As<O<Opt>, Required<ToJsValueOptions>>>
 : [T] extends [Dictionary]
     ? ToStringLiteral__Object<T, As<O<Opt>, Required<ToJsValueOptions>>>
+: never;
+
+/**
+ * Converts any Typescript variable to a string literal
+ * representation of that variable.
+ *
+ * **Related:** `ToJsonObject`, `ToJsonArray`, `ToJsonScalar`
+ */
+export type ToStringLiteral<
+    T,
+    Opt extends ToJsValueOptions = { quote: "\""; encode: false },
+> = [_ToStringLiteral<T>] extends [string]
+? _ToStringLiteral<T>
 : never;
