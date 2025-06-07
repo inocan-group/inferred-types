@@ -3,7 +3,7 @@ import type {
     ExpandDictionary,
     NarrowObject,
 } from "inferred-types/types";
-import { createEncoder } from "inferred-types/runtime";
+// import { createEncoder } from "inferred-types/runtime";
 
 export type GrammarEncoder<
     TReq extends readonly string[],
@@ -56,7 +56,7 @@ export function createTokenSyntax<
     sep: TSep,
     encoding: TEncode = defaultEncoder(start, end, sep) as unknown as TEncode,
 ) {
-    const { encoder: encode, decoder: decode } = createEncoder(encoding);
+    // const { encoder: encode, decoder: decode } = createEncoder(encoding);
 
     const tg = {
         kind: "TokenSyntax" as const,
@@ -65,8 +65,8 @@ export function createTokenSyntax<
         end,
         sep,
         encodingDefinition: encoding,
-        encode,
-        decode,
+        encode: "not-implemented",
+        decode: "not-implemented",
     };
 
     return tg;

@@ -3,14 +3,14 @@ import type {
     NarrowObject,
     Scalar,
     ToJson,
-    ToJsonArray,
     ToJsonOptions
 } from "inferred-types/types";
 
 /**
  * **toJSON**`(val)`
  *
- * Converts a string value to a strongly typed JSON value
+ * Converts the passed in value to a strongly typed string
+ * literal representation.
  *
  * **Related:** `jsonValues()`
  */
@@ -25,10 +25,3 @@ export function toJSON<
     return JSON.stringify(val) as unknown as ToJson<T, O>;
 }
 
-export function toJsonArray<
-    T extends readonly unknown[]
->(
-    ...elements: T
-) {
-    return elements as unknown as ToJsonArray<T>;
-}

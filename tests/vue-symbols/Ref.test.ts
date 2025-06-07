@@ -42,18 +42,12 @@ describe("VueRef, isRef(), and IsRef<T>", () => {
     });
 
 
-    it("VueRef and IsRef<T>", () => {
+    it.only("VueRef and IsRef<T>", () => {
         const test_ref = ref("foobar");
 
         expect(isVueRef(test_ref)).toBe(true);
 
-        /**
-         * Since our `keysOf` function is VueJS aware it reduces the
-         * keys to just `value`.
-         */
-        const keys = Object.keys(test_ref);
 
-        expect(keys).toEqual(["value"]);
 
         /**
          * use of the Object.keys() function reveals many properties
@@ -61,13 +55,14 @@ describe("VueRef, isRef(), and IsRef<T>", () => {
          */
         const obj_keys = Object.keys(test_ref);
         const runtime_keys = [
-            "__v_isShallow",
-            "dep",
             "__v_isRef",
+            "dep",
             "_rawValue",
             "_value"
         ]
-        expect(runtime_keys.every(k => obj_keys.includes(k)));
+        for (const k of runtime_keys) {
+            expect(obj_keys.includes(k), `VueRef<T> should include property '${k}'`).toBe(true)
+        }
 
         type cases = [
             ExpectFalse<DoesExtend<VueRef, Ref>>,

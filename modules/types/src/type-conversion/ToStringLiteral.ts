@@ -1,0 +1,269 @@
+import type {
+    AfterFirst,
+    AlphaNumericChar,
+    As,
+    As,
+    Chars,
+    Dictionary,
+    Equals,
+    Extends,
+    First,
+    HasCharacters,
+    HasOtherCharacters,
+    If,
+    IsBoolean,
+    IsFalse,
+    IsNull,
+    IsNumber,
+    IsString,
+    IsSymbol,
+    IsTrue,
+    IsUnion,
+    IsWideScalar,
+    Join,
+    MergeObjects,
+    Or,
+    QuoteCharacter,
+    SafeEncode,
+    Scalar,
+    StringKeys,
+    ToStringArray,
+    Tuple,
+    UnionToTuple,
+} from "inferred-types/types";
+
+type Enc<
+    T extends string,
+    TOpt extends Required<ToJsValueOptions>
+> = TOpt["encode"] extends true
+    ? SafeEncode<T>
+    : T;
+
+type AsJsonArray<T extends Tuple> = Join<
+    [
+        "[ ",
+        ...ToStringArray<T>,
+        " ]",
+    ]
+>;
+
+/**
+ * **ToJsonValue**`<T>`
+ *
+ * Converts the value in `T` to a form appropriate for a
+ * JSON value.
+ *
+ * Note: all outputs are a _string_ but:
+ *
+ * - string are placed in double quotes
+ * - tuples are processed recursively
+ */
+type ToJsonValue<
+    T,
+    Q extends QuoteCharacter = "\"",
+> = T extends string
+    ? `${Q}${T}${Q}`
+    : T extends number
+        ? `${T}`
+        : T extends boolean
+            ? `${T}`
+            : T extends undefined
+                ? "undefined"
+                : T extends null
+                    ? "null"
+                    : T extends readonly unknown[]
+                        ? AsJsonArray<
+                            As<{ [K in keyof T]: ToJsonValue<T[K]> }, string>
+                        >
+                        : never;
+
+type InnerArray<
+    T extends readonly any[],
+    O extends Required<ToJsValueOptions> = { quote: "\""; encode: false }
+> = As<{
+    [K in keyof T]: T[K] extends string
+        ? `${O["quote"]}${T[K]}${O["quote"]}`
+        : Or<[
+            Extends<T[K], number>,
+            Extends<T[K], boolean>,
+            Extends<T[K], null>,
+            Extends<T[K], undefined>,
+        ]> extends true
+            ? `${As<T[K], number | boolean | null | undefined>}`
+            : T[K] extends readonly any[]
+                ? ToStringLiteral__Tuple<T[K], O>
+                : T[K] extends Dictionary
+                    ? `{ ${InnerObject<T[K], StringKeys<T[K]>, O>} }`
+                    : never
+}, readonly string[]>;
+
+/**
+ * **ToJsonArray**`<T,[Q]>`
+ *
+ * Converts an array to a JSON string of the same type.
+ *
+ * **Related:** `ToJson`, `ToJsonObject`, `ToJsonScalar`
+ */
+export type ToStringLiteral__Tuple<
+    T extends readonly any[],
+    O extends Required<ToJsValueOptions> = { quote: "\""; encode: false }
+> = `[ ${Join<InnerArray<T, O>, ", ">} ]`;
+
+
+/**
+ * Object keys typically do not need be surrounded by quotations
+ * marks at least if they are of the `PascalCase` or `camelCase`
+ * variety but if they contain spaces, dashes, or really any character
+ * other than alphanumeric characters then they must be quoted.
+ */
+export type IsObjectKeyRequiringQuotes<
+    T extends string,
+    TChars extends readonly string[] = Chars<T>
+> = [] extends TChars
+? false
+: First<TChars> extends AlphaNumericChar
+    ? IsObjectKeyRequiringQuotes<T, AfterFirst<TChars>>
+    : true;
+
+/**
+ * Adds quotation marks around property names which require it
+ */
+type Prop<
+    TProp extends string,
+    TOpt extends Required<ToJsValueOptions>
+> = [IsObjectKeyRequiringQuotes<TProp>] extends [true]
+? `${TOpt["quote"]}${TProp}${TOpt["quote"]}`
+: TProp;
+
+
+/**
+ * Builds out the key/value pairs in the an object
+ * but doesn't both with the curly brackets.
+ */
+type InnerObject<
+    T extends Dictionary,
+    K extends readonly (keyof T & string)[],
+    O extends Required<ToJsValueOptions> = { quote: "\""; encode: false },
+    R extends readonly string[] = [],
+> = [] extends K
+? Join<R, ", ">
+: InnerObject<
+    T,
+    AfterFirst<K>,
+    O,
+    [
+        ...R,
+        Or<[
+            Extends<T[First<K>], number>,
+            Equals<T[First<K>], null>,
+            Equals<T[First<K>], undefined>,
+        ]> extends true
+            ? `${Prop<First<K>, O>}: ${As<T[First<K>], boolean | number | null | undefined>}`
+        : [T[First<K>]] extends [boolean]
+            ? If<
+                IsTrue<T[First<K>]>,
+                `${Prop<First<K>, O>}: true`,
+                IsFalse<T[First<K>]> extends true
+                    ? `${Prop<First<K>, O>}: false`
+                    : `${Prop<First<K>, O>}: boolean`
+                >
+        : T[First<K>] extends string
+            ? `${Prop<First<K>, O>}: ${O["quote"]}${T[First<K>]}${O["quote"]}`
+        : T[First<K>] extends readonly unknown[]
+            ? `${Prop<First<K>, O>}: ${ToStringLiteral__Tuple<T[First<K>]>}`
+        : T[First<K>] extends Dictionary
+            ? `${Prop<First<K>, O>}: ${ToStringLiteral__Object<T[First<K>]>}`
+        : never,
+    ]
+>;
+
+
+/**
+ * **ToJsonObject**`<T>`
+ *
+ * Converts an object type `T` to a JSON string of the same type.
+ *
+ * **Related:** `ToJson`, `ToJsonArray`, `ToJsonScalar`
+ */
+export type ToStringLiteral__Object<
+    T extends Dictionary,
+    O extends Required<ToJsValueOptions> = { quote: "\""; encode: false }
+> = `{ ${InnerObject<T, StringKeys<T>, O>} }`;
+
+/**
+ * **ToJsonScalar**`<T>`
+ *
+ * Converts a scalar value to the JSON string representation.
+ *
+ * **Related:** `ToJson`, `ToJsonArray`, `ToJsonObject`
+ */
+export type ToStringLiteral__Scalar<
+    T extends Scalar,
+    O extends Required<ToJsValueOptions> = { quote: "\""; encode: false }
+> = [T] extends [string]
+    ? [string] extends [T]
+        ? "string"
+        : `${O["quote"]}${Enc<T, O>}${O["quote"]}`
+    : [T] extends [boolean]
+        ? [T] extends [true]
+            ? "true"
+            : [T] extends [false]
+                ? "false"
+                : "boolean"
+    : [IsWideScalar<T>] extends [true]
+        ? If<
+            IsString<T>,
+            "string",
+            [IsNumber<T>] extends [true]
+                ? "number"
+                : [IsNull<T>] extends [true]
+                ? "null"
+                : [IsBoolean<T>] extends [true]
+                ? "boolean"
+                : [IsSymbol<T>] extends [true]
+                ? "symbol"
+                : never
+        >
+    : [T] extends [Symbol]
+        ? "symbol"
+        : [T] extends [string|number|boolean]
+            ? `${T}`
+            : never;
+
+export type ToStringLiteral__Union<
+    T extends readonly unknown[]
+> = Join<{
+    [K in keyof T]: ToStringLiteral<T[K]>
+}, " | ">;
+
+export type ToJsValueOptions = {
+    quote?: QuoteCharacter;
+    encode?: boolean;
+};
+
+type O<
+    T extends ToJsValueOptions
+> = MergeObjects<{ quote: "\""; encode: false }, T> extends Required<ToJsValueOptions>
+    ? MergeObjects<{ quote: "\""; encode: false }, T>
+    : never;
+
+/**
+ * Converts any Typescript variable to a string literal
+ * representation of that variable.
+ *
+ * **Related:** `ToJsonObject`, `ToJsonArray`, `ToJsonScalar`
+ */
+export type ToStringLiteral<
+    T,
+    Opt extends ToJsValueOptions = { quote: "\""; encode: false },
+> = [undefined] extends [T]
+? "undefined"
+: [IsUnion<T>] extends [true]
+? ToStringLiteral__Union<UnionToTuple<T>>
+: [T] extends [readonly unknown[]]
+    ? ToStringLiteral__Tuple<T, As<O<Opt>, Required<ToJsValueOptions>>>
+: [T] extends [Scalar]
+    ? ToStringLiteral__Scalar<T, As<O<Opt>, Required<ToJsValueOptions>>>
+: [T] extends [Dictionary]
+    ? ToStringLiteral__Object<T, As<O<Opt>, Required<ToJsValueOptions>>>
+: never;

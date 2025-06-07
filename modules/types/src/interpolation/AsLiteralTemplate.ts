@@ -1,7 +1,7 @@
 import { ReplaceAll } from "inferred-types/types";
 
 
-export type AsStringLiteral<T extends string | number> = T extends number
+export type AsLiteralTemplate<T extends string | number> = T extends number
     ? `${T}`
     : T extends string
         ? ReplaceAll<

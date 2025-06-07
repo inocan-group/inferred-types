@@ -1,4 +1,4 @@
-export * from "./AsStringLiteral";
+export * from "./AsLiteralTemplate";
 export * from "./ApplyTemplate";
 export * from "./ExtractStaticSections";
 export * from "./FromLiteralTemplate";

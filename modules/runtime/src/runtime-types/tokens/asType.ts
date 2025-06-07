@@ -19,8 +19,8 @@ type AsType<T extends readonly InputTokenLike[]> = T extends [InputTokenLike]
         : never;
 
 /**
- * Receives an `InputTokenLike` token and converts the type to the
- * type this token references while ensuring that the runtime type
+ * Receives an `InputTokenLike` token and converts it to the
+ * _type_ this token represents while ensuring that the runtime type
  * is the string representation of the token.
  *
  * **Related:** `fromInputToken()`

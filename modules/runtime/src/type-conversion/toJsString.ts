@@ -5,9 +5,12 @@ import {
     toJSON,
     toKeyValue
 } from "inferred-types/runtime";
+import { Dictionary, NarrowObject } from "inferred-types";
 
-function kv<T extends Record<ObjectKey, N>, N extends Narrowable>(obj: T) {
-    const kv = toKeyValue(obj);
+function kv<T extends Dictionary<ObjectKey,N>, N extends Narrowable>(
+    obj: T
+) {
+    const kv = toKeyValue(obj as unknown as NarrowObject<Narrowable>);
 
     return map(kv, (v: KeyValue) => {
         return isString(v.key)

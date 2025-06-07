@@ -1,5 +1,5 @@
 import type { Scalar } from "inferred-types/types";
-import { isNull, isNumber, isString, isSymbol } from "inferred-types/runtime";
+import { isBoolean, isFalse, isNull, isNumber, isString, isSymbol, isTrue } from "inferred-types/runtime";
 
 /**
  * **isScalar**(value)
@@ -7,5 +7,5 @@ import { isNull, isNumber, isString, isSymbol } from "inferred-types/runtime";
  * Type guard to check whether the value passed in is a _scalar_ value.
  */
 export function isScalar<T>(value: T): value is T & Scalar {
-    return isString(value) || isNumber(value) || isSymbol(value) || isNull(value);
+    return isString(value) || isNumber(value) || isSymbol(value) || isNull(value) || isTrue(value) || isFalse(value);
 }

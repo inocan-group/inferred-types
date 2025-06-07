@@ -8,7 +8,7 @@ import type {
     Some,
     Values,
 } from "inferred-types/types";
-import { toJSON } from "inferred-types/runtime";
+import { asType } from "inferred-types/runtime";
 
 type Returns<
     T extends DefineObject,
@@ -30,10 +30,37 @@ type HandleError<T> = T extends Dictionary
     : never;
 
 /**
- * Takes an object definition where the values are an `InputToken`:
+ * **defineObject**`(defn, ...[optional]) -> (object type)`
  *
- * The runtime type is left unchanged but the _type_ returned is that which
- * the token or callback expresses.
+ * Defines an object **type** while preserving a runtime-token
+ * which _identifies_ the type.
+ *
+ * ### Example
+ *
+ * ```ts
+ * const person = defineObject(
+ *   {
+ *      firstName: "string",
+ *      lastName: "string",
+ *      address: "string | object"
+ *    },
+ *    "lastName", "address"
+ * )
+ * ```
+ *
+ * - the _type_ of `person` will be:
+ *
+ *   ```ts
+ *   type person = {
+ *       firstName: string,
+ *       lastName?: string,
+ *       address?: object | string
+ *   }
+ *   ```
+ *
+ * - but the runtime value will be a string literal token _representing_
+ * that type.
+ *
  */
 export function defineObject<
     T extends DefineObject,
@@ -42,5 +69,5 @@ export function defineObject<
     defn: T,
     ..._optProps: P
 ): HandleError<Returns<T, P>> {
-    return toJSON(defn) as unknown as HandleError<Returns<T, P>>;
+    return asInputToken(defn);
 }

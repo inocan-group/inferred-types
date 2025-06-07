@@ -9,7 +9,7 @@ import type {
     SortByKeyOptions,
     ToKv,
 } from "inferred-types/types";
-import { asArray, keysOf, sortByKey } from "inferred-types/runtime";
+import {  keysOf, sortByKey } from "inferred-types/runtime";
 
 /**
  * **toKeyValue**`(obj)` -> tuple
@@ -48,14 +48,12 @@ export function toKeyValue<
     obj: TObj,
     sort?: TSort,
 ): TSorted {
+    /**
+     * an unsorted tuple of `KeyValue`'s
+     */
     const kv = keysOf(obj).map(
         k => ({ key: k, value: obj[k] })
     );
 
-    const s = {
-        start: sort?.start ? asArray(sort.start) : undefined,
-        end: sort?.end ? asArray(sort?.end) : undefined,
-    } satisfies SortByKeyOptions;
-
-    return sortByKey(kv, "key", s) as unknown as TSorted;
+    return sortByKey(kv, "key", sort || {}) as unknown as TSorted;
 }
