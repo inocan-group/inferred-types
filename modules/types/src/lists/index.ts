@@ -45,6 +45,7 @@ export * from "./TakeFirst";
 export * from "./TakeLast";
 export * from "./ToCSV";
 export * from "./TruthyReturns";
+export * from "./TypeOfArray";
 export * from "./UnionFromProp";
 export * from "./Variatic";
 

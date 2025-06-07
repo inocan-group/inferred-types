@@ -40,7 +40,10 @@ describe("ToStringLiteral<T>", () => {
 
     it("dictionary object", () => {
         type FooBar = ToStringLiteral<{ foo: "hi"; bar: 42 }>;
-        type FooBarSingle = ToStringLiteral<{ foo: "hi"; bar: 42 }, { quote: "'"}>;
+        type FooBarSingle = ToStringLiteral<
+            { foo: "hi"; bar: 42 },
+            { quote: "'"}
+        >;
         type Nested = ToStringLiteral<{
             uno: { foo: "hi"; bar: [1,2,3] };
             dos: [4,5,6]
@@ -60,9 +63,8 @@ describe("ToStringLiteral<T>", () => {
     });
 
 
-    it("tuple", () => {
+    it("tuple (literal types)", () => {
         type Nums = ToStringLiteral<[1,2,3]>;
-        type Mixed = ToStringLiteral<[1,"foo",3]>;
         type Obj = ToStringLiteral<[
             { id: 1},
             { id: 2}
@@ -71,19 +73,55 @@ describe("ToStringLiteral<T>", () => {
             [1,2],
             [3,4]
         ]>
+
+        type Mixed = ToStringLiteral<[1,"foo",3]>;
         type Mixed2 = ToStringLiteral<[
-            1,2,
-            "foo",
+            1,2, "foo",
             { id: 1 }
-        ]>
+        ]>;
+
 
         type cases = [
             Expect<Test<Nums, "equals", `[ 1, 2, 3 ]`>>,
-            Expect<Test<Mixed, "equals", `[ 1, "foo", 3 ]`>>,
             Expect<Test<Obj, "equals", `[ { id: 1 }, { id: 2 } ]`>>,
-            Expect<Test<MultiDim, "equals", `[ [ 1, 2 ], [ 3, 4 ] ]`>>
+            Expect<Test<MultiDim, "equals", `[ [ 1, 2 ], [ 3, 4 ] ]`>>,
+            Expect<Test<Mixed, "equals", `[ 1, "foo", 3 ]`>>,
+            Expect<Test<
+                Mixed2, "equals",
+                `[ 1, 2, "foo", { id: 1 } ]`
+            >>,
         ];
     });
+
+    it("tuple (wide types)", () => {
+        type StrArr = ToStringLiteral<string[]>;
+        type NumArr = ToStringLiteral<number[]>;
+        type BoolArr = ToStringLiteral<boolean[]>;
+
+        type UnionArr = ToStringLiteral<(4 | "foo")[]>;
+
+        type cases = [
+            Expect<Test<StrArr, "equals", `string[]`>>,
+            Expect<Test<NumArr, "equals", `number[]`>>,
+            Expect<Test<BoolArr, "equals", `boolean[]`>>,
+
+            Expect<Test<
+                UnionArr, "extends",
+                "(\"foo\" | 4)[]" |
+                `("foo" | 4)[]`
+            >>,
+        ];
+    })
+
+
+    it("tuple (empty)", () => {
+        type Empty = ToStringLiteral<[]>;
+
+        type cases = [
+            Expect<Test<Empty, "equals", "[]">>
+        ];
+    });
+
 
     it("Union type", () => {
         type StrNum = ToStringLiteral<string | number>;
@@ -179,7 +217,10 @@ describe("toStringLiteral(val)", () => {
         expect(tup).toBe(`[ 1, 2, "foo", { id: 1 } ]`)
 
         type cases = [
-            /** type tests */
+            Expect<Test<
+                typeof tup, "equals",
+                `[ 1, 2, "foo", { id: 1 } ]`
+            >>
         ];
     });
 });
