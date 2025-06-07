@@ -16,7 +16,7 @@ describe("defineObject()", () => {
 
         // dictionary converted to string evivalent
         expect(fooBar).toEqual(
-            `foo: "string | undefined",bar: "String(foo) | String(bar) | String(baz)`
+            `{ foo: "string | undefined", bar: "String(foo) | String(bar) | String(baz)`
         );
 
         type FooBar = typeof fooBar;

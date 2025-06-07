@@ -27,7 +27,7 @@ import type {
 import type {
     InputTokenLike,
     IT_ContainerType,
-    IT_ObjectLiteralDefinition
+    InputToken__Object
 } from "src/runtime-types/type-defn/input-tokens";
 
 type CheckForPropertyErrors<
@@ -52,14 +52,14 @@ type CheckForPropertyErrors<
             TPrefix
         >;
 
-type _ConvertObjectLiteral<T extends Required<IT_ObjectLiteralDefinition>> = {
+type _ConvertObjectLiteral<T extends Required<InputToken__Object>> = {
     [K in keyof T]: T[K] extends InputTokenLike
         ? FromStringInputToken<T[K]>
         : never
 };
 
 export type IT_ConvertObjectLiteral<
-    T extends IT_ObjectLiteralDefinition
+    T extends InputToken__Object
 > = CheckForPropertyErrors<
     As<ToKv<_ConvertObjectLiteral<Required<T>>>, readonly KeyValue[]>,
     MakeKeysOptional<

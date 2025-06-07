@@ -167,7 +167,9 @@ type O<
  * Converts an object, array or scalar value to a
  * strongly typed JSON string.
  *
- * **Related:** `ToJsonObject`, `ToJsonArray`, `ToJsonScalar`
+ * **Related:**
+ * - `ToJsonObject`, `ToJsonArray`, `ToJsonScalar`
+ * - `ToStringLiteral`
  */
 export type ToJson<
     T extends Exclude<Scalar, symbol> | Dictionary | Tuple,

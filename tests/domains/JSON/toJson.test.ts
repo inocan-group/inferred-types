@@ -18,11 +18,11 @@ describe("toJSON()", () => {
         expect(numLike).toBe(`\"42\"`)
 
         type cases = [
-            Expect<Test<typeof foo, "equals",  `"foo"`>>,
-            Expect<Test<typeof num, "equals",  `42`>>,
-            Expect<Test<typeof numLike, "equals",  `"42"`>>,
-            Expect<Test<typeof quoted, "equals",  `"That's all "folks""`>>,
-            Expect<Test<typeof singleQuoted, "equals",  `'That's all "folks"'`>>,
+            Expect<Test<typeof foo, "equals", `"foo"`>>,
+            Expect<Test<typeof num, "equals", `42`>>,
+            Expect<Test<typeof numLike, "equals", `"42"`>>,
+            Expect<Test<typeof quoted, "equals", `"That's all "folks""`>>,
+            Expect<Test<typeof singleQuoted, "equals", `'That's all "folks"'`>>,
             Expect<Test<
                 typeof quotedEnc,
                 "equals",
@@ -32,13 +32,21 @@ describe("toJSON()", () => {
     });
 
 
-    it.todo("object values", () => {
-        const fooBarBaz = toJSON({ foo: 1, bar: "hi" });
-        const fooBarBazSingle = toJSON({ foo: 1, bar: "hi" }, {quote: "'"});
+    it("object values", () => {
+        const obj = { foo: 1, bar: "hi" } as const;
+        const fooBarBaz = toJSON(obj);
+        const fooBarBazSingle = toJSON(obj, { quote: "'" });
 
-      type cases = [
-        /** type tests */
-      ];
+        type cases = [
+            Expect<Test<
+                typeof fooBarBaz, "equals",
+                "{ \"foo\": 1, \"bar\": \"hi\" }"
+            >>,
+            Expect<Test<
+                typeof fooBarBazSingle, "equals",
+                "{ 'foo': 1, 'bar': 'hi' }"
+            >>,
+        ];
     });
 
 

@@ -6,16 +6,16 @@ import type {
     TupleToUnion,
 } from "inferred-types/types";
 
-export type ToStringLiteral = string | number | boolean;
+export type StringLiteralType = string | number | boolean;
 
 type ProcessStr<
     TContent extends string,
     TComparator,
 > = IsWideType<TComparator> extends true
     ? boolean
-    : TComparator extends readonly ToStringLiteral[]
+    : TComparator extends readonly StringLiteralType[]
         ? ProcessStr<TContent, TupleToUnion<TComparator>>
-        : TComparator extends ToStringLiteral
+        : TComparator extends StringLiteralType
             ? TContent extends `${string}${TComparator}${string}`
                 ? true
                 : false
@@ -42,7 +42,7 @@ type PreProcess<
     ? TComparator extends readonly unknown[]
         ? ProcessTuple<TContent, TupleToUnion<TComparator>>
         : ProcessTuple<TContent, TComparator>
-    : TContent extends ToStringLiteral
+    : TContent extends StringLiteralType
         ? TComparator extends readonly (string | number | boolean)[]
             ? ProcessStr<`${TContent}`, TupleToUnion<TComparator>>
             : ProcessStr<`${TContent}`, TComparator>

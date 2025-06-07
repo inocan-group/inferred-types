@@ -21,6 +21,7 @@ export * from "./stripParenthesis";
 export * from "./toJSON";
 export * from "./toKeyValue";
 export * from "./toNumber";
+export * from "./toStringLiteral";
 export * from "./tw-conversion";
 export * from "./unionize";
 

@@ -20,7 +20,7 @@ import type {
     FnReturns,
     InputTokenSuggestions,
     IT_ContainerType,
-    IT_ObjectLiteralDefinition,
+    InputToken__Object,
     IT_TakeArray,
     IT_TakeAtomic,
     IT_TakeFunction,
@@ -45,7 +45,7 @@ export type {
     IT_ContainerToken,
     IT_LiteralToken,
     IT_MapToken,
-    IT_ObjectLiteralDefinition,
+    InputToken__Object as IT_ObjectLiteralDefinition,
     IT_SetToken,
     IT_WeakMapToken
 } from "./input-tokens/index";
@@ -54,7 +54,7 @@ export type AsType<T extends InputTokenLike> = T extends string
     ? T
     : T extends ((...args: unknown[]) => string | [token: string, props: Dictionary])
         ? `(...args: any[]) => ${FnReturns<T>}`
-        : T extends IT_ObjectLiteralDefinition
+        : T extends InputToken__Object
             ? `Object<${ToJson<T>}>`
             : "";
 

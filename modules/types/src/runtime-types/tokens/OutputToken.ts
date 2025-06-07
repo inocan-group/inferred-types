@@ -3,7 +3,7 @@ import type {
     First,
     InputTokenLike,
     InputTokenSuggestions,
-    IT_ObjectLiteralDefinition,
+    InputToken__Object,
     SafeEncode,
     Surround,
     ToJson
@@ -44,7 +44,7 @@ export type OutputToken = `<<${string}>>` & {
  */
 export type AsOutputToken<T extends InputTokenLike> = T extends string
     ? `<<"${SafeEncode<T>}">>`
-    : T extends IT_ObjectLiteralDefinition
+    : T extends InputToken__Object
         ? `<<${ToJson<T>}>>`
         : T extends readonly InputTokenSuggestions[]
             ? IT_TupleToOutputToken<T>
