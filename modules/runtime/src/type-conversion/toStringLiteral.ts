@@ -12,7 +12,8 @@ import {
     isUndefined,
     keysOf,
     stripChars,
-    isTrue
+    isTrue,
+    isInputToken__String
 } from "inferred-types/runtime";
 import type {
     Narrowable,
@@ -22,8 +23,11 @@ import type {
     Tuple,
     IsObjectKeyRequiringQuotes,
     IsString,
-    ToStringLiteral__Tuple
+    ToStringLiteral__Tuple,
+    ToJsonOptions,
+    ToLiteralOptions
 } from "inferred-types/types";
+import { log } from "node:console";
 
 /**
  * Object keys typically do not need be surrounded by quotations
@@ -71,19 +75,30 @@ function toStringLiteral__Object<
 }
 
 function mutateObjectKeys<T extends Record<ObjectKey, unknown>>(
-    obj: T
+    obj: T,
+    opt?: ToLiteralOptions
 ) {
     let result: Record<ObjectKey, string> = {};
     for (const k of Object.keys(obj)) {
-        result[k] = toStringLiteral(indexOf(obj,k)) as unknown as string;
+        result[k] = toStringLiteral(indexOf(obj,k), opt) as unknown as string;
     }
 
     return result;
 }
 
-function scalarValue<T extends Scalar>(val: T) {
+function scalarValue<
+    T extends Scalar,
+    O extends ToLiteralOptions
+>(
+    val: T,
+    opt: O
+) {
     return isString(val)
-        ? `"${val}"`
+        ? isTrue(opt.tokensAllowed)
+            ? isInputToken__String(val)
+                ? val
+                : `"${val}"`
+            : `"${val}"`
         : isNumber(val)
             ? `${val}`
             : isUndefined(val)
@@ -104,9 +119,10 @@ export function toStringLiteral__Tuple<
     N extends Scalar | Record<ObjectKey, V> | Tuple,
     V extends Narrowable
 >(
-    tup: T
+    tup: T,
+    opt?: ToLiteralOptions
 ) {
-    return `[ ${tup.map(i => toStringLiteral(i as any) ).join(", ")} ]` as ToStringLiteral__Tuple<T>
+    return `[ ${tup.map(i => toStringLiteral(i as any, opt) ).join(", ")} ]` as ToStringLiteral__Tuple<T>
 }
 
 /**
@@ -115,26 +131,33 @@ export function toStringLiteral__Tuple<
  * Converts any value into a string literal which _represents_ the
  * value.
  *
- * **Related:** `toJSON()`
+ * **Related:** `toJson()`
  */
 export function toStringLiteral<
     T extends Scalar | Record<ObjectKey, V> | readonly (Scalar | Record<ObjectKey, V>)[],
     V extends Narrowable,
+    O extends ToLiteralOptions
 >(
-    val: T
+    val: T,
+    opt: O = {} as O
 ): ToStringLiteral<T> {
+    const o = {
+        tokensAllowed: false,
+        quote: "\"",
+        ...(opt || {})
+    } as ToLiteralOptions
 
     return (
         isArray(val)
-            ? toStringLiteral__Tuple(val as any)
+            ? toStringLiteral__Tuple(val as any, o)
             : isObject(val)
-            ? toStringLiteral__Object(mutateObjectKeys(val))
+            ? toStringLiteral__Object(mutateObjectKeys(val, o))
             : isTrue(val)
             ? "true"
             : isFalse(val)
             ? "false"
             : isScalar(val)
-            ? scalarValue(val)
+            ? scalarValue(val, o)
             : Never
     ) as unknown as ToStringLiteral<T>
 }

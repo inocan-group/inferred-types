@@ -1,6 +1,10 @@
-import { } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { ExtractTemplateSections, Split, StaticTemplateSections, TemplateBlock } from "inferred-types/types";
+import {
+    ExtractTemplateSections,
+    Split,
+    StaticTemplateSections,
+    TemplateBlock
+} from "inferred-types/types";
 
 describe("StaticTemplateSections", () => {
     type T1 = StaticTemplateSections<

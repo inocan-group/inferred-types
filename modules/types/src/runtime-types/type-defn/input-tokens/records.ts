@@ -2,7 +2,7 @@ import type {
     As,
     Err,
     FailFast,
-    FromStringInputToken,
+    FromInputToken__String,
     IsWideString,
     Join,
     NestedSplit,
@@ -53,7 +53,7 @@ type KeyType<
 > = IsWideString<T> extends true
     ? unknown | Error
     : WhenErr<
-        FromStringInputToken<K>,
+        FromInputToken__String<K>,
         {
             in: `Map<${K}, ${V}>`;
             message: `Could not parse the Key token in Map<${K}, ${V}>`;
@@ -99,7 +99,7 @@ type ValueType<
 > = IsWideString<T> extends true
     ? unknown | Error
     : WhenErr<
-        FromStringInputToken<V>,
+        FromInputToken__String<V>,
         {
             subType: "record";
             in: `Record<${K},${V}>`;
@@ -123,7 +123,7 @@ export type IT_TakeRecord<
 > = Trim<T> extends `Record<${string}`
     ? Parse<T> extends Error
         ? Parse<T>
-        : FromStringInputToken<
+        : FromInputToken__String<
             Rest<T>,
             [ ...TInner, Parse<T> ],
             TContainers

@@ -1,4 +1,5 @@
 import type {
+    As,
     Dictionary,
     EmptyObject,
     Expand,
@@ -29,26 +30,27 @@ export type Err<
     TType extends string = string,
     TMsg extends string = string,
     TCtx extends Record<string, any> = EmptyObject
-> =
-TType extends `${infer Type}/${infer Subtype}`
-    ? Expand<
-    Error &
-    {
-        name: PascalCase<TCtx["name"] extends string ? TCtx["name"] : RetainUntil<TType, "/">>;
-        type: KebabCase<Type>;
-        subType: Subtype extends string ? KebabCase<Subtype> : undefined;
-        message: TMsg;
-    } & TCtx
+> = TType extends `${infer Type}/${infer Subtype}`
+    ? As<
+    Expand<
+        {
+            name: PascalCase<TCtx["name"] extends string ? TCtx["name"] : RetainUntil<TType, "/">>;
+            type: KebabCase<Type>;
+            subType: Subtype extends string ? KebabCase<Subtype> : undefined;
+            message: TMsg;
+        } & TCtx
+        >,
+        Error
     >
-    : Expand<
-    Error &
+    : As<Expand<
+
     {
         name: PascalCase<TCtx["name"] extends string ? TCtx["name"] : RetainUntil<TType, "/">>;
         type: TType;
         subType: undefined;
         message: TMsg;
     } & TCtx
-    >;
+    >, Error>;
 
 /**
  * Adds "context" to an existing `Error`.
@@ -57,7 +59,7 @@ export type ErrContext<
     T extends Error,
     C extends Dictionary
 > = Expand<Omit<T, keyof C> & C> extends Error
-    ? Expand<Omit<T, keyof C> & C>
+    ? Expand<Omit<T, keyof C> & C> & Error
     : never;
 
 /**
@@ -71,5 +73,5 @@ export type WhenErr<
     T,
     C extends Dictionary
 > = T extends Error
-    ? ErrContext<T, C>
+    ? ErrContext<T, C> & Error
     : T;

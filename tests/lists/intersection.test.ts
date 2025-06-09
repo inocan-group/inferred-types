@@ -70,7 +70,6 @@ describe("Set Intersection", () => {
     it("scalar arrays passed in; no deref", () => {
       const three = intersection([1, 2, 3], [3, 4, 5]);
       const none = intersection([1, 2, 3], [4, 5, 6]);
-      console.log({ result: three });
 
       expect(three).toHaveLength(1); // scalars return a single array
       expect(three).toEqual([3]);

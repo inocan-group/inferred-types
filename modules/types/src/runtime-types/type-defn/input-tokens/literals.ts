@@ -1,7 +1,7 @@
 import type {
     AsBoolean,
     AsNumber,
-    FromStringInputToken,
+    FromInputToken__String,
     RetainAfter,
     RetainUntil,
     StringLiteralTemplate,
@@ -52,7 +52,7 @@ export type IT_TakeLiteral<
     TInner extends readonly any[] = [],
     TContainers extends readonly IT_ContainerType[] = []
 > = Trim<T> extends `${LiteralTokenStart}${string}`
-    ? FromStringInputToken<
+    ? FromInputToken__String<
         Trim<LiteralBlock<Trim<T>>["rest"]>,
         [...TInner, ConvertLiteral<RetainUntil<Trim<T>, ")">>],
         TContainers

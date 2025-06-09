@@ -151,7 +151,7 @@ describe("createTemplateRegExp", () => {
 
     it("type testing of test() function when subset match", () => {
         const re = createTemplateRegExp(`Name: {{string}}`, "subset");
-        console.log("re", re)
+
         const s1 = re.test("Name: Bob");
         const s2 = re.test("Name: Bob Marley ");
         const s3 = re.test("Name: Bob Marley " as string);

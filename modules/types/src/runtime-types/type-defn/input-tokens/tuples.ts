@@ -1,7 +1,7 @@
 import type {
     Contains,
     Err,
-    FromStringInputToken,
+    FromInputToken__String,
     Join,
     NestedSplit,
     RetainAfter,
@@ -35,7 +35,7 @@ type Parse<
     P extends readonly string[] = NestedSplit<Content<T>, ",", { "{": "}"; "[": "]" }>
 > = {
     [K in keyof P]: P[K] extends string
-        ? FromStringInputToken<P[K]>
+        ? FromInputToken__String<P[K]>
         : never
 };
 
@@ -59,7 +59,7 @@ export type IT_TakeTuple<
         ? Isolate<T>
         : HasError<Parse<T>> extends true
             ? PresentError<Parse<T>>
-            : FromStringInputToken<
+            : FromInputToken__String<
                 Rest<T>,
                 [ ...TInner, Parse<T> ],
                 TContainers

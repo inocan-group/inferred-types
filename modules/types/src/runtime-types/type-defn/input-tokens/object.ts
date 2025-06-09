@@ -8,7 +8,7 @@ import type {
     First,
     FromInputToken,
     FromKv,
-    FromStringInputToken,
+    FromInputToken__String,
     KeyValue,
     MakeKeysOptional,
     Not,
@@ -54,7 +54,7 @@ type CheckForPropertyErrors<
 
 type _ConvertObjectLiteral<T extends Required<InputToken__Object>> = {
     [K in keyof T]: T[K] extends InputTokenLike
-        ? FromStringInputToken<T[K]>
+        ? FromInputToken__String<T[K]>
         : never
 };
 
@@ -116,7 +116,7 @@ export type IT_TakeObject<
     TContainers extends readonly IT_ContainerType[] = []
 > = Trim<T> extends `{${string}`
     ? Trim<T> extends `{${string}}${string}`
-        ? FromStringInputToken<
+        ? FromInputToken__String<
             Rest<T>,
             [
                 ...TInner,

@@ -1,6 +1,6 @@
 import type {
     Err,
-    FromStringInputToken,
+    FromInputToken__String,
     Join,
     NestedSplit,
     RetainAfter,
@@ -21,7 +21,7 @@ type Isolate<T extends string> = NestedSplit<
 >;
 
 type Parse<T extends string> = Isolate<T> extends [infer Inner extends string, ...string[]]
-    ? FromStringInputToken<Trim<Inner>>
+    ? FromInputToken__String<Trim<Inner>>
     : never;
 
 type Rest<T extends string> = Isolate<T> extends [string, ...infer R extends readonly string[]]
@@ -46,7 +46,7 @@ export type IT_TakeSet<
         ? WhenErr<Parse<T>, { in: Trim<T>; subType: "set" }>
         : Set<Parse<T>> extends Error
             ? Err<`invalid-token/set`, `Was able to convert type but unable to use it as the type for Set<T>`, { type: Parse<T>; token: T }>
-            : FromStringInputToken<
+            : FromInputToken__String<
                 Rest<T>,
                 [ ...TInner, Set<Parse<T>>],
                 TContainers

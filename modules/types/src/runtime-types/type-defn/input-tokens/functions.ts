@@ -17,7 +17,7 @@ import type {
     First,
     FirstChar,
     FromInputToken,
-    FromStringInputToken,
+    FromInputToken__String,
     GetEach,
     If,
     IsDefined,
@@ -375,7 +375,7 @@ export type IT_TakeFunction<
                 >
                 : Parse<T>,
             Rest<T>,
-            FromStringInputToken<
+            FromInputToken__String<
                 Rest<T>,
                 [...TInner, Parse<T>],
                 TContainers

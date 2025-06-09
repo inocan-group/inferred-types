@@ -4,18 +4,18 @@ import {
     Err,
     FnProps,
     FromInputToken,
-    FromStringInputToken,
-    FromTupleInputToken,
+    FromInputToken__String,
+    FromInputToken__Tuple,
     Test,
 } from "inferred-types/types";
 import { Extends, TypedFunction } from "inferred-types/types";
 
 describe("FromInputToken<Token>", () => {
     it("atomic tokens with FromStringInputToken<...>", () => {
-        type Str = FromStringInputToken<"string">;
-        type Str2 = FromStringInputToken<"   string    ">;
-        type Num = FromStringInputToken<"number">;
-        type Unknown = FromStringInputToken<"unknown">;
+        type Str = FromInputToken__String<"string">;
+        type Str2 = FromInputToken__String<"   string    ">;
+        type Num = FromInputToken__String<"number">;
+        type Unknown = FromInputToken__String<"unknown">;
 
         type cases = [
             Expect<Test<Str, "equals",  string>>,
@@ -40,7 +40,7 @@ describe("FromInputToken<Token>", () => {
     });
 
     it("unions with FromStringInputToken", () => {
-        type U = FromStringInputToken<"number | String(bar)">;
+        type U = FromInputToken__String<"number | String(bar)">;
 
         type cases = [
             Expect<Test<U, "equals",  number | "bar">>
@@ -49,7 +49,7 @@ describe("FromInputToken<Token>", () => {
 
 
     it("union with 'unknown' as an element resolves to just 'unknown'", () => {
-        type U = FromStringInputToken<"string | number | unknown">;
+        type U = FromInputToken__String<"string | number | unknown">;
 
         type cases = [
             Expect<Test<U, "equals",  unknown>>
@@ -389,7 +389,7 @@ describe("FromInputToken<Token>", () => {
     });
 
     it("tuple with FromTupleInputToken", () => {
-        type T = FromTupleInputToken<["number", "string", "true | Object"]>
+        type T = FromInputToken__Tuple<["number", "string", "true | Object"]>
 
         type cases = [
             Expect<Test<T, "equals",  [number, string, true | object]>>

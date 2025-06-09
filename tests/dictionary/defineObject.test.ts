@@ -16,7 +16,7 @@ describe("defineObject()", () => {
 
         // dictionary converted to string evivalent
         expect(fooBar).toEqual(
-            `{ foo: "string | undefined", bar: "String(foo) | String(bar) | String(baz)`
+            `{ foo: string | undefined, bar: String(foo) | String(bar) | String(baz) }`
         );
 
         type FooBar = typeof fooBar;
@@ -40,6 +40,9 @@ describe("defineObject()", () => {
             bar: "String(foo) | String(bar)"
         }, "foo", "bar");
 
+        expect(fooBar).toBe(
+            `{ foo: string | undefined, bar: String(foo) | String(bar) }`
+        );
 
         type cases = [
             Expect<Test<
@@ -54,14 +57,16 @@ describe("defineObject()", () => {
 
     });
 
-
-
     it("providing a string-based InputToken to define the type", () => {
-        const fooBar = defineObject({foo: `Number(1) | Number(2) | Number(3)`});
-
+        const fooBar = defineObject(
+            {foo: `Number(1) | Number(2) | Number(3)`}
+        );
 
         type cases = [
-            /** type tests */
+            Expect<Test<
+                typeof fooBar, "equals",
+                { foo: 1 | 2 | 3 }
+            >>
         ];
     });
 

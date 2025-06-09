@@ -15,7 +15,7 @@ export function toStringToken<
     T extends InputTokenLike
 >(token: T) {
     if (isInputToken__Object(token)) {
-        return toStringLiteral(token);
+        return toStringLiteral(token, { tokensAllowed: true});
     }
 
 }

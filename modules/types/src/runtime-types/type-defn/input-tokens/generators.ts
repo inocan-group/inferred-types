@@ -1,7 +1,7 @@
 import type {
     Contains,
     Err,
-    FromStringInputToken,
+    FromInputToken__String,
     Join,
     NestedSplit,
     StripLeading,
@@ -69,9 +69,9 @@ type ParseGenerator<
     >
 > = P extends [infer A extends string, infer B extends string, infer C extends string]
     ? [
-        FromStringInputToken<Trim<A>>,
-        FromStringInputToken<Trim<B>>,
-        FromStringInputToken<StripTrailing<Trim<C>, ">">>
+        FromInputToken__String<Trim<A>>,
+        FromInputToken__String<Trim<B>>,
+        FromInputToken__String<StripTrailing<Trim<C>, ">">>
     ]
     : never;
 
@@ -97,7 +97,7 @@ export type IT_TakeGenerator<
         ? WhenErr<ParseGenerator<T>, { subType: "generator" }>
         : FinalizeGenerator<T> extends Error
             ? FinalizeGenerator<T>
-            : FromStringInputToken<
+            : FromInputToken__String<
                 GeneratorRest<T>,
                 [...TInner, FinalizeGenerator<T>],
                 TContainers

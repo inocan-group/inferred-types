@@ -2,7 +2,7 @@ import type {
     Contains,
     Err,
     FailFast,
-    FromStringInputToken,
+    FromInputToken__String,
     IsWideString,
     Join,
     NestedSplit,
@@ -61,7 +61,7 @@ type Key<
 type KeyType<T extends string> = IsWideString<T> extends true
     ? unknown | Error
     : WhenErr<
-        FromStringInputToken<Success<Key<T>>>,
+        FromInputToken__String<Success<Key<T>>>,
         {
             in: `Map<${Success<Key<T>>},${Success<Value<T>>}>`;
             message: `Could not parse the Key token in Map<${Success<Key<T>>},${Success<Value<T>>}>`;
@@ -83,7 +83,7 @@ type Value<T extends string, S extends InnerRest | Error = Segment<T>> = IsWideS
 type ValueType<T extends string> = IsWideString<T> extends true
     ? unknown | Error
     : WhenErr<
-        FromStringInputToken<Success<Value<T>>>,
+        FromInputToken__String<Success<Value<T>>>,
         {
             in: `Map<${Success<Key<T>>},${Success<Value<T>>}>`;
             message: `Could not parse the Value token of Map<${Success<Key<T>>},${Success<Value<T>>}>`;
@@ -120,7 +120,7 @@ export type IT_TakeMap<
 > = Trim<T> extends `Map<${string}`
     ? Parse<T> extends Error
         ? Parse<T>
-        : FromStringInputToken<
+        : FromInputToken__String<
             Rest<T>,
             [...TInner, Success<Parse<T>>],
             TContainers

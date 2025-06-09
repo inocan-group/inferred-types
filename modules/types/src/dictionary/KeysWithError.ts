@@ -1,5 +1,6 @@
 import type {
     AfterFirst,
+    As,
     Dictionary,
     First,
     KeyValue,
@@ -26,4 +27,4 @@ type Process<
  */
 export type KeysWithError<
     T extends Dictionary
-> = Process<ToKv<T>>;
+> = As<Process<ToKv<T>>, readonly ObjectKey[]>;

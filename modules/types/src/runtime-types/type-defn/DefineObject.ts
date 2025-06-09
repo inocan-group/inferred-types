@@ -21,7 +21,9 @@ import type {
  *
  * - typically used `FromDefn` or `FromDefineObject` utilities
  */
-export type DefineObject = { [key: string]: InputTokenLike };
+export type DefineObject = {
+    [key: string]: InputTokenLike
+};
 
 /**
  * **DefineObjectApi**

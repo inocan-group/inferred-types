@@ -1,5 +1,4 @@
 import type { VueRef } from "inferred-types/types";
-import { isObject } from "inferred-types";
 
 export function isVueRef(val: unknown): val is VueRef {
     if (typeof val === "object") {
@@ -8,7 +7,6 @@ export function isVueRef(val: unknown): val is VueRef {
             "dep",
             "__v_isRef"
         ].every(i => props.includes(i));
-        console.log({props, isVueRef})
 
 
         return isVueRef

@@ -34,7 +34,6 @@ export function ifEqual<
         ifTrue: TIf,
         ifFalse: TElse = (v => v) as TElse,
     ) => {
-        log({ val, comparator });
 
         if (JSON.stringify(comparator) === JSON.stringify(val)) {
             return ifTrue(val as any) as Rtn<TComparator, TVal, TIf, TElse>;

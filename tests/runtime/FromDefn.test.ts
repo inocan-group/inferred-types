@@ -22,8 +22,6 @@ describe("FromDefineObject<T>", () => {
 
     const s = shape(s => s.number());
 
-    console.log(s)
-
     it("using SimpleTokens", () => {
         type Foo = FromDefineObject<{ foo: "number" }>;
         type OptFoo = FromDefineObject<{ foo: "Opt<number>" }>;

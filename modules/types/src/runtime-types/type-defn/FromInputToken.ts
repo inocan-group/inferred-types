@@ -3,6 +3,7 @@ import type {
     Dictionary,
     EmptyObject,
     Err,
+    Expand,
     ExpandDictionary,
     First,
     FirstSet,
@@ -10,10 +11,14 @@ import type {
     Join,
     Last,
     Length,
+    MakeKeysOptional,
+    ObjectKey,
+    OptionalKeys,
     StringKeys,
     ToJson,
     ToStringArray,
     Trim,
+    UnionToTuple,
 } from "inferred-types/types";
 
 import type {
@@ -124,14 +129,14 @@ type InvalidTokenSegment<
 export type FromInputToken<
     T extends InputTokenLike | readonly InputTokenLike[],
 > = T extends string
-    ? FromStringInputToken<T>
+    ? FromInputToken__String<T>
     : T extends readonly InputTokenLike[]
-        ? FromTupleInputToken<T>
+        ? FromInputToken__Tuple<T>
         : T extends Record<string, string>
-            ? FromDictionaryInputToken<T>
+            ? FromInputToken__Object<T>
             : never;
 
-export type FromStringInputToken<
+export type FromInputToken__String<
     TToken extends string,
     TInner extends readonly unknown[] = [],
     TContainers extends readonly IT_ContainerType[] = [],
@@ -161,11 +166,11 @@ type Convert<
     K extends string,
     I extends string | number,
 > = T extends string
-    ? FromStringInputToken<T>
+    ? FromInputToken__String<T>
     : T extends Record<string, InputTokenLike>
-        ? FromDictionaryInputToken<T>
+        ? FromInputToken__Object<T>
         : T extends readonly InputTokenLike[]
-            ? FromTupleInputToken<T>
+            ? FromInputToken__Tuple<T>
             : Err<`invalid-token/${K}`, `The key "${I}" from a ${K} definition was invalid`, {
                 container: T;
             }>;
@@ -173,36 +178,32 @@ type Convert<
 /**
  * Takes a tuple of `InputTokens` to create a **Tuple** type.
  */
-export type FromTupleInputToken<
+export type FromInputToken__Tuple<
     T extends readonly InputTokenLike[]
 > = {
     [K in keyof T]: T[K] extends InputTokenSuggestions
-        ? FromStringInputToken<T[K]>
+        ? FromInputToken__String<T[K]>
         : never
 };
 
-type _FromInputTokenDictionary<
+type _FromInputToken__Object<
     T extends Record<string, InputTokenLike>,
-    K extends readonly (string & keyof T)[],
-    R extends Record<string, unknown> = EmptyObject
-> = [] extends K
-    ? ExpandDictionary<R>
-    : _FromInputTokenDictionary<
-        T,
-        AfterFirst<K>,
-    R & Record<
-        First<K>,
-        Convert<
-            T[First<K>],
-            "dictionary",
-            First<K>
-        >
-    >
-    >;
+> = {
+    [K in keyof T]: T[K] extends string
+        ? FromInputToken__String<T[K]>
+        : T[K] extends InputTokenLike
+            ? FromInputToken<T[K]>
+            : never
+};
 
 /**
  * Takes a tuple of `InputTokens` to create a **Tuple** type.
  */
-export type FromDictionaryInputToken<
+export type FromInputToken__Object<
     T extends Record<string, InputTokenLike>
-> = _FromInputTokenDictionary<T, StringKeys<T>>;
+> = MakeKeysOptional<
+    _FromInputToken__Object<Required<T>>,
+    UnionToTuple<OptionalKeys<T>> extends readonly ObjectKey[]
+            ? UnionToTuple<OptionalKeys<T>>
+            : never
+>;

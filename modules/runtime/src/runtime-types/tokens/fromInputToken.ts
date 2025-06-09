@@ -1,9 +1,6 @@
 import type {
-    Err,
-    FromStringInputToken,
-    InputTokenSuggestions,
     InputTokenLike,
-    FromInputToken
+    FromInputToken,
 } from "inferred-types/types";
 import {
     err,
@@ -12,6 +9,8 @@ import {
     isInputToken__Tuple,
     toStringToken
 } from "inferred-types/runtime";
+
+
 
 /**
  * **asInputToken**`(token)`
@@ -23,12 +22,10 @@ import {
  *
  */
 export function fromInputToken<
-    T extends InputTokenSuggestions
+    T extends InputTokenLike
 >(
     token: T
 ) {
-
-
     return (
         isInputToken__String(token)
             ? token
