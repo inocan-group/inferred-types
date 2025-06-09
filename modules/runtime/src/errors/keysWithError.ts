@@ -1,9 +1,8 @@
 import type {
+    Dictionary,
     KeysWithError,
-    Narrowable,
-    ObjectKey
 } from "inferred-types/types";
-import { keysOf } from "inferred-types/runtime";
+import { indexOf, isError } from "inferred-types/runtime";
 
 /**
  * **keysWithError**`(obj)`
@@ -11,13 +10,11 @@ import { keysOf } from "inferred-types/runtime";
  * Returns a list of _keys_ where the passed in object is
  */
 export function keysWithError<
-    T extends Record<K, V>,
-    K extends ObjectKey,
-    V extends Narrowable
+    T extends Dictionary<string>,
 >(obj: T) {
-    const keys = keysOf(obj).filter((k) => {
-        return obj[k] instanceof Error;
-    }) as KeysWithError<T>;
+    const keys = Object.keys(obj).filter((k) => {
+        return isError(indexOf(obj, k));
+    });
 
     return keys;
 }

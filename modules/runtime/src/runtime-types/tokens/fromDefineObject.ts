@@ -1,5 +1,17 @@
+import { toStringLiteral } from "inferred-types/runtime";
 import type { DefineObject, FromDefineObject } from "inferred-types/types";
 
-export function fromDefineObject<T extends DefineObject>(defn: T) {
-    return defn as unknown as FromDefineObject<T>;
+/**
+ * Takes an `DefineObject` definition and:
+ *
+ * - converts it to a string-based `InputToken` representation at runtime
+ * - converts the _type_ to be the type this token is representing.
+ */
+export function fromDefineObject<
+    T extends DefineObject
+>(defn: T) {
+    return toStringLiteral(
+        defn,
+        { tokensAllowed: true }
+    ) as unknown as FromDefineObject<T>;
 }

@@ -1,5 +1,9 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { StaticTemplateSections, TemplateParams, Test } from "inferred-types/types";
+import {
+    StaticTemplateSections,
+    TemplateParams,
+     Test
+} from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("StaticTemplateSections", () => {
@@ -12,7 +16,10 @@ describe("StaticTemplateSections", () => {
         type T3 = StaticTemplateSections<Template, false>;
 
         type cases = [
-            Expect<Test<T1, ["Age: ", ", Weight: ", ", Name: ", ", "equals",  Employed: "]>>,
+            Expect<Test<
+                T1, "equals",
+                ["Age: ", ", Weight: ", ", Name: ", ", Employed: "]
+            >>,
             Expect<Equal<
                 T2,
                 [
@@ -61,7 +68,7 @@ describe("TemplateParams", () => {
         type T1 = TemplateParams<Template>;
 
         type cases = [
-            Expect<Test<T1, [number, number, string, "equals",  boolean]>>,
+            Expect<Test<T1, "equals", [number, number, string, boolean]>>,
         ];
     });
 

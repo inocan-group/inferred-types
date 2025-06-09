@@ -136,6 +136,7 @@ function inline<
  * they are available as properties of this function.
  */
 export const split = createFnWithProps(omit, {
+    omit,
     before,
     after,
     inline

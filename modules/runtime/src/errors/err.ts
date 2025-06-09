@@ -1,5 +1,6 @@
 import type { Err, Narrowable, TypedError } from "inferred-types/types";
 import { keysOf, toKebabCase } from "inferred-types/runtime";
+import { EmptyObject, IsNever } from "inferred-types";
 
 /**
  * **typedError**(type, message, [ctx])
@@ -28,7 +29,8 @@ export function typedError<
 export function err<
     T extends string,
     M extends string = "",
-    C extends Record<string, Narrowable> = never
+    C extends Record<string, N> = never,
+    N extends Narrowable = Narrowable
 >(
     type: T,
     message?: M,
@@ -42,10 +44,10 @@ export function err<
         err.message = message;
     }
     if (ctx) {
-        for (const k of keysOf(ctx)) {
+        for (const k of Object.keys(ctx)) {
             err[k] = ctx[k];
         }
     }
 
-    return err as Err<T, M, C>;
+    return err as Err<T, M, IsNever<C> extends true ? EmptyObject : C>;
 }

@@ -3,7 +3,7 @@ import type {
     As,
     Extends,
     FromKv,
-    FromStringInputToken,
+    FromInputToken__String,
     Last,
     Or,
     Pop,
@@ -54,7 +54,7 @@ export type IT_TakeTerminalDelimiter<
                 TInner,
                 As<Pop<TContainers>, readonly IT_ContainerType[]>
             >
-            : FromStringInputToken<
+            : FromInputToken__String<
                 Rest,
                 TInner,
                 As<Pop<TContainers>, readonly IT_ContainerType[]>

@@ -1,4 +1,5 @@
 import type {
+    As,
     DefineObject,
     Dictionary,
     Err,
@@ -8,7 +9,7 @@ import type {
     Some,
     Values,
 } from "inferred-types/types";
-import { asType } from "inferred-types/runtime";
+import { asType, err, fromDefineObject, fromInputToken, isError, keysOf } from "inferred-types/runtime";
 
 type Returns<
     T extends DefineObject,
@@ -23,10 +24,10 @@ type HandleError<T> = T extends Dictionary
     ? Some<Values<T>, "extends", Error> extends true
         ? Err<
             `invalid-token/object`,
-            `At least one key in the defined object have errors`,
+            `At least one key in the defined object have errors!`,
             { keys: KeysWithError<T>; obj: T }
         >
-        : T
+        : As<T, Dictionary>
     : never;
 
 /**
@@ -69,5 +70,21 @@ export function defineObject<
     defn: T,
     ..._optProps: P
 ): HandleError<Returns<T, P>> {
-    return asInputToken(defn);
-}
+    const errProps = Object.keys(defn).reduce(
+        (acc, i) => isError(defn[i])
+            ? { ...acc, [i]: defn[i] }
+            : acc,
+            {}
+    );
+
+        return (
+            keysOf(errProps).length > 0
+                ? err(
+                    `invalid-token/object`,
+                    `At least one key in the defined object have errors!`,
+                    { keys: errProps, obj: defn }
+                ) as any
+                : fromDefineObject(defn) as any
+        ) as unknown as HandleError<Returns<T, P>>
+    }
+

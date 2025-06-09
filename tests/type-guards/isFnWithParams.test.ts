@@ -19,7 +19,6 @@ describe("isFnWithParams(test, ...params)", () => {
     const t3 = isFnWithParams(hello, "string");
 
     const f1 = isFnWithParams(greet, "string", "number");
-    console.log(Object.keys(hello))
 
     expect(t1).toBe(true);
     expect(t2).toBe(true);

@@ -1,4 +1,5 @@
 import type {
+    As,
     FromLiteralTemplate,
     Split,
     StringLiteralTemplate,
@@ -27,10 +28,13 @@ type Finalize<
 export type StaticTemplateSections<
     TTemplate extends string,
     TWithType extends boolean | null = null
-> = Split<
-FromLiteralTemplate<TTemplate>,
-TemplateBlock,
-TWithType extends null
-    ? "omit"
-    : "before"
->
+> = Finalize<
+As<Split<
+    FromLiteralTemplate<TTemplate>,
+    TemplateBlock,
+    TWithType extends null
+        ? "omit"
+        : "before"
+>, readonly string[]>,
+TWithType
+>;

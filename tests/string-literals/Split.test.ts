@@ -125,14 +125,17 @@ describe("Split<T,SEP>", () => {
             `${number}Age: ${number}, FavNumber: ${number}, Color: red`,
             `${number}`
         >;
+
         type Numeric = Split<
             `Age: ${number}, FavNumber: ${number}, Color: red`,
             `${number}`
         >;
 
         type cases = [
-            Expect<Test<Template, "equals", [
-                "", "Age: ", ", FavNumber: ", ", "equals",  Color: red"
+            Expect<Test<
+                Template, "equals",
+                [
+                    "", "Age: ", ", FavNumber: ", ", Color: red"
             ]>>,
             Expect<Test<Numeric, "equals", [
                 "Age: ", ", FavNumber: ", ", Color: red"

@@ -1,6 +1,6 @@
 import type {
     Err,
-    FromStringInputToken,
+    FromInputToken__String,
     IsWideString,
     Join,
     NestedSplit,
@@ -40,7 +40,7 @@ type Type<
     ? unknown | Error
     : S extends InnerRest
         ? WhenErr<
-            FromStringInputToken<S["inner"]>,
+            FromInputToken__String<S["inner"]>,
             {
                 subType: "array";
                 in: `Array<${S["inner"]}>`;
@@ -75,7 +75,7 @@ export type IT_TakeArray<
     : Trim<T> extends `Array<${string}`
         ? Parse<T> extends Error
             ? Parse<T>
-            : FromStringInputToken<
+            : FromInputToken__String<
                 Rest<T>,
                 [ ...TInner, Parse<T> ],
                 TContainers

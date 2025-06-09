@@ -1,6 +1,6 @@
 import type {
     FirstChar,
-    FromStringInputToken,
+    FromInputToken__String,
     IT_AtomicToken,
     Trim,
     Unset,
@@ -24,7 +24,7 @@ export type IT_TakeAtomic<
     ? Trim<T> extends `${infer Token extends IT_AtomicToken}${Rest}`
         ? ConvertAtomic<Token, IsTerminal<Rest>> extends Unset
             ? ConvertAtomic<Token, IsTerminal<Rest>>
-            : FromStringInputToken<
+            : FromInputToken__String<
                 Rest,
                 [
                     ...TInner,

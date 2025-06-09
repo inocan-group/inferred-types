@@ -16,12 +16,9 @@ import type {
     IsSymbol,
     IsTrue,
     IsUnion,
-    IsWideContainer,
     IsWideScalar,
     Join,
-    Length,
     MergeObjects,
-    Narrowable,
     Or,
     QuoteCharacter,
     SafeEncode,
@@ -31,8 +28,19 @@ import type {
     Tuple,
     TupleMeta,
     UnionToTuple,
+    TypeOfArray
 } from "inferred-types/types";
-import { TypeOfArray } from "src/type-conversion/TypeOfArray";
+
+export type ToLiteralOptions = {
+    quote?: QuoteCharacter;
+    encode?: boolean;
+    /**
+     * by default all scalar values are taken to be _what they are_
+     * but if this flag is set to `true` then string literals will
+     * be evaluated as being an `InputToken`.
+     */
+    tokensAllowed?: boolean;
+}
 
 type Enc<
     T extends string,
@@ -41,7 +49,7 @@ type Enc<
     ? SafeEncode<T>
     : T;
 
-type AsJsonArray<T extends Tuple> = Join<
+type AsJsArray<T extends Tuple> = Join<
     [
         "[ ",
         ...ToStringArray<T>,
@@ -49,35 +57,7 @@ type AsJsonArray<T extends Tuple> = Join<
     ]
 >;
 
-/**
- * **ToJsonValue**`<T>`
- *
- * Converts the value in `T` to a form appropriate for a
- * JSON value.
- *
- * Note: all outputs are a _string_ but:
- *
- * - string are placed in double quotes
- * - tuples are processed recursively
- */
-type ToJsonValue<
-    T,
-    Q extends QuoteCharacter = "\"",
-> = T extends string
-    ? `${Q}${T}${Q}`
-    : T extends number
-        ? `${T}`
-        : T extends boolean
-            ? `${T}`
-            : T extends undefined
-                ? "undefined"
-                : T extends null
-                    ? "null"
-                    : T extends readonly unknown[]
-                        ? AsJsonArray<
-                            As<{ [K in keyof T]: ToJsonValue<T[K]> }, string>
-                        >
-                        : never;
+
 
 type InnerArray<
     T extends readonly any[],
@@ -315,5 +295,5 @@ export type ToStringLiteral<
     T,
     Opt extends ToJsValueOptions = { quote: "\""; encode: false },
 > = [_ToStringLiteral<T>] extends [string]
-? _ToStringLiteral<T>
+? _ToStringLiteral<T, Opt>
 : never;

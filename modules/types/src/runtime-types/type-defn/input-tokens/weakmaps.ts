@@ -2,7 +2,7 @@ import type {
     Contains,
     Dictionary,
     Err,
-    FromStringInputToken,
+    FromInputToken__String,
     IsWideString,
     Join,
     NestedSplit,
@@ -61,7 +61,7 @@ type Key<
 type KeyType<T extends string> = IsWideString<T> extends true
     ? unknown | Error
     : WhenErr<
-        FromStringInputToken<Success<Key<T>>>,
+        FromInputToken__String<Success<Key<T>>>,
         {
             in: `WeakMap<${Success<Key<T>>},${Success<Value<T>>}>`;
             message: `Could not parse the Key token in WeakMap<${Success<Key<T>>},${Success<Value<T>>}>`;
@@ -83,7 +83,7 @@ type Value<T extends string, S extends InnerRest | Error = Segment<T>> = IsWideS
 type ValueType<T extends string> = IsWideString<T> extends true
     ? unknown | Error
     : WhenErr<
-        FromStringInputToken<Success<Value<T>>>,
+        FromInputToken__String<Success<Value<T>>>,
         {
             in: `WeakMap<${Success<Key<T>>},${Success<Value<T>>}>`;
             message: `Could not parse the Value token of WeakMap<${Success<Key<T>>},${Success<Value<T>>}>`;
@@ -126,7 +126,7 @@ export type IT_TakeWeakMap<
 > = Trim<T> extends `WeakMap<${string}`
     ? Parse<T> extends Error
         ? Parse<T>
-        : FromStringInputToken<
+        : FromInputToken__String<
             Rest<T>,
             [...TInner, Success<Parse<T>>],
             TContainers

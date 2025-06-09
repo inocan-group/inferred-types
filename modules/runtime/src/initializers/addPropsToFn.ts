@@ -36,6 +36,3 @@ export function addFnToProps<
     };
 }
 
-// export const narrowFn = <
-//   TFn extends AnyFunction
-// >(fn: TFn) => <TArgs extends AsFnMeta<TFn>["args"]>(...args: TArgs) => <R extends AsFnMeta<TFn>["returns"]>(fn(args): R) =>  ;

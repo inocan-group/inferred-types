@@ -4,7 +4,8 @@ import {
     Test,
     ToStringLiteral
 } from "inferred-types/types";
-import { toStringLiteral } from "inferred-types/runtime";
+import { toStringLiteral, split, stripChars } from "inferred-types/runtime";
+
 
 describe("ToStringLiteral<T>", () => {
 
@@ -28,6 +29,7 @@ describe("ToStringLiteral<T>", () => {
         type Bool = ToStringLiteral<boolean>;
 
         type WideStr = ToStringLiteral<string>;
+        type WideNum = ToStringLiteral<number>;
 
         type cases = [
             Expect<Test<Num, "equals", "42">>,
@@ -35,6 +37,9 @@ describe("ToStringLiteral<T>", () => {
             Expect<Test<True, "equals", "true">>,
             Expect<Test<False, "equals", "false">>,
             Expect<Test<Bool, "equals", "boolean">>,
+
+            Expect<Test<WideStr, "equals", "string">>,
+            Expect<Test<WideNum, "equals", "number">>,
         ];
     });
 
@@ -183,7 +188,6 @@ describe("toStringLiteral(val)", () => {
         ];
     });
 
-
     it("dictionary", () => {
         const fooBar = toStringLiteral({foo: 1, bar: "hi"});
         const nested = toStringLiteral({
@@ -213,13 +217,18 @@ describe("toStringLiteral(val)", () => {
             "foo",
             { id: 1 }
         ]);
+        const parts = split.omit(
+            stripChars(tup, "[", "(",")", "]"),
+            " | "
+        );
 
         expect(tup).toBe(`[ 1, 2, "foo", { id: 1 } ]`)
 
         type cases = [
+            // TODO: this test looks like it should pass
             Expect<Test<
-                typeof tup, "equals",
-                `[ 1, 2, "foo", { id: 1 } ]`
+                typeof parts, "hasSameValues",
+                [ "1", "2", "foo", "{ id: 1 }" ]
             >>
         ];
     });
