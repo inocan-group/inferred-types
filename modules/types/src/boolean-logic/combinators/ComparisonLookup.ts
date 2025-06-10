@@ -86,13 +86,41 @@ export type ComparisonLookup<T extends ComparisonMode = "design-time"> = {
         params: [string | number, ...readonly (string | number)[]],
         convertAll: ["stringArray", "union"]
     };
+
     endsWith: {
         params: [string | number, ...readonly (string | number)[]],
         convertAll: ["stringArray", "union"]
+        desc: "tests whether the value ends with any of the parameters provided"
+        accept: string | number
     };
 
     endsWithNumber: {
         params: [];
+        desc: "tests whether a string literal ends with a numeric value"
+        accept: string
+    };
+
+    startsWithNumber: {
+        params: [];
+        desc: "tests whether a string literal starts with a numeric value"
+        accept: string
+    };
+
+    onlyNumbers: {
+        params: [];
+        desc: "tests whether a string literal contains only numeric characters"
+        accept: string
+    };
+
+    alphaNumeric: {
+        params: [];
+        desc: "tests whether a string literal contains only alphabetic and numeric characters"
+        accept: string
+    };
+
+    onlyLetters: {
+        params: [];
+        desc: "tests whether a string literal contains only letter characters"
         accept: string
     };
 
@@ -104,7 +132,13 @@ export type ComparisonLookup<T extends ComparisonMode = "design-time"> = {
     containsAll: {
         params: [substrings: string | number, ...readonly (string | number)[]];
         accept: string | number;
-        convertAll: ["stringArray"]
+        convertAll: ["stringArray"];
+    };
+
+    containsSome: {
+        params: [substrings: string | number, ...readonly (string|number)[]],
+        accept: string | number;
+        convertAll: ["stringArray"];
     };
 
     greaterThan: {
@@ -158,12 +192,14 @@ export type ComparisonLookup<T extends ComparisonMode = "design-time"> = {
     };
 
 
-    "betweenInclusively": {
-        params: [greaterThan: number, lessThan: number]
+    betweenInclusively: {
+        params: [greaterThan: number, lessThan: number],
+        accept: number
     };
 
-    "betweenExclusively": {
-        params: [greaterThan: number, lessThan: number]
+    betweenExclusively: {
+        params: [greaterThan: number, lessThan: number],
+        accept: number
     };
 
     equals: {
@@ -292,7 +328,7 @@ export type ComparisonLookup<T extends ComparisonMode = "design-time"> = {
     returnExtends: {
         params: [ validReturnTypes: unknown, ...unknown[] ]
     };
-} & Record<string, ComparisonOp<T>>
+}
 
 /**
  * **ComparisonOperation**

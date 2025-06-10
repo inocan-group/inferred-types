@@ -1,19 +1,29 @@
 import type {
     AfterFirst,
-    Compare,
-    Defined,
-    Err,
     First,
     FromInputToken,
-    IsUnionArray,
-    Join,
     Narrowable,
     ToStringArray,
-    UnionArrayToTuple,
-    UnionToString,
     Filter,
+    RuntimeComparisonOperation,
+    ComparisonLookup,
+    As,
+    Flexy,
+    AsArray,
+    DateLike,
 } from "inferred-types/types";
-import { isArray, isBoolean, isNumber, isString } from "inferred-types/runtime";
+import {
+    isArray,
+    isBoolean,
+    isNumber,
+    isTruthy,
+    isString,
+    isDateLike,
+    isBefore,
+    isAfter,
+    between,
+    toDate
+} from "inferred-types/runtime";
 
 type Conversion = "union" | "token" | "stringLiteral" | "stringArray";
 
@@ -45,60 +55,15 @@ type Convert<
 >;
 
 
-/**
- * the definition of a _comparator_ operation
- */
-type Op = {
-    params: readonly Narrowable[];
-    accept?: Narrowable;
-    /** convert first parameter's type  */
-    convertP1?: Conversion[];
-    /** convert type using all parameters as a group */
-    convertAll?: Conversion[];
-};
-
 type Lookup = ComparisonLookup<"run-time">;
 
-type OpDesc<T extends readonly string[]> = {
-    startsWith: `tests whether value starts with: ${Join<T, " | ">}`,
-    endsWith: `tests whether value ends with: ${Join<T, " | ">}`,
-    contains: `tests whether the value contains a substring of: ${Join<T, " | ">}`
-} & Record<keyof Lookup, string>
-
-
-// type OpChoice = Keys<Lookup>[number];
-
-type BaseType<
-    T extends keyof Lookup
-> = Lookup[T]["accept"] extends Defined
-    ? Lookup[T]["accept"]
-    : Lookup[T]["params"]["length"] extends 0
-        ? Narrowable
-        : Lookup[T]["params"][number];
-
-type Accept<
-    T extends keyof Lookup
-> = BaseType<T> | readonly BaseType<T>[];
-
-type P1<
-    TParams extends string | readonly unknown[],
-> = TParams extends readonly unknown[]
-? First<TParams> extends string
-    ? First<TParams>
-    : ""
-: UnionToString<TParams> extends string
-? UnionToString<TParams>
-: "";
-
-
-
 type Desc<
-    TKey extends keyof Lookup,
-    TParams extends readonly unknown[],
-    TOp extends Op = Lookup[TKey]
-> = TKey extends keyof OpDesc<ToStringArray<TParams>>
-? OpDesc<ToStringArray<TParams>>[TKey]
-: "";
+    TKey extends keyof Lookup
+> = "desc" extends keyof Lookup[TKey]
+? Lookup[TKey]["desc"] extends string
+    ? Lookup[TKey]["desc"]
+    : undefined
+: undefined;
 
 
 /**
@@ -107,29 +72,28 @@ type Desc<
 type Comp<
     TOp extends keyof Lookup,
     TParams extends Lookup[TOp]["params"],
-    TConvertP1 extends readonly Conversion[] | undefined = Lookup[TOp]["convertP1"],
-    TConvertAll extends readonly Conversion[] | undefined = Lookup[TOp]["convertAll"]
-> = TConvertP1 extends readonly Conversion[]
-    ? [Convert<TParams[0], TConvertP1> ]
-    : TConvertAll extends Conversion[]
-        ? Convert<TParams, TConvertAll>
-        : TParams;
+> = "convertP1" extends keyof Lookup[TOp]
+? Lookup[TOp]["convertP1"] extends readonly Conversion[]
+    ? [ Convert<AsArray<TParams>[0], Lookup[TOp]["convertP1"]>]
+: "convertAll" extends keyof Lookup[TOp]
+    ? Lookup[TOp]["convertAll"] extends readonly Conversion[]
+        ? Convert<TParams, Lookup[TOp]["convertAll"]>
+        : TParams
+    : TParams
+: TParams;
+
 
 type Returns<
-    TOp extends keyof Lookup,
+    TOp extends keyof Lookup ,
     TParams extends Lookup[TOp]["params"],
     TVal extends unknown | readonly unknown[]
-> = IsUnionArray<TVal> extends true
-? Returns<TOp,TParams, UnionArrayToTuple<TVal>>
-
-: TOp extends RuntimeComparisonOperation
-? TVal extends readonly unknown[]
-? Filter<TVal, Comp<TOp, TParams>, TOp>
-: Compare<TVal, TOp, Comp<TOp,TParams>>
-: Err<`operation-not-implemented/${TOp}`>;
-
-
-
+> = TVal extends readonly unknown[]
+? Filter<
+    TVal, TOp, As<TParams, Flexy<Lookup[TOp]["params"]>>
+>
+: TVal extends Comp<TOp, TParams>
+    ? true
+    : false;
 
 /**
  * **FilterFn**`<Operation, OpParams>`
@@ -139,10 +103,12 @@ type Returns<
  * an array/tuple of values.
  */
 export type FilterFn<
-    TOp extends keyof Lookup,
-    TParams extends Lookup[TOp]["params"],
-    TDesc extends string = Desc<TOp, TParams>
-> = <T extends N | readonly N[], N extends Narrowable>(val: T) => Returns<TOp,TParams,T>;
+    TOp extends keyof Lookup ,
+    TParams extends Lookup[TOp]["params"]
+> = <
+    T extends N | readonly N[],
+    N extends Narrowable
+>(val: T) => Returns<TOp,TParams, T>;
 
 /**
  * **filter**`(op, [details])` => (comparator) => boolean
@@ -168,14 +134,23 @@ export function filter<
     op: TOp,
     ...params: TParams
 ): FilterFn<TOp, TParams> {
-    return <T extends N | readonly N[], N extends Narrowable>(
+    return <
+        T extends N | readonly N[],
+        N extends Narrowable
+    >(
         val: T
-    ) => {
+    ): Returns<TOp,TParams,T> => {
         switch(op) {
+            case "truthy":
+                return (
+                    isArray(val)
+                    ? val.filter(i => isTruthy(i))
+                    : isTruthy(val)
+                 ) as Returns<TOp,TParams,T>;
             case "startsWith":
                 return (
                     isArray(val)
-                        ? (val as any).filter(
+                        ? (val as readonly unknown[]).filter(
                             (v: unknown) => (
                                 isString(v) || isNumber(v) || isBoolean(v)
                             ) && params.some(i => String(v).startsWith(i as string))
@@ -187,7 +162,7 @@ export function filter<
             case "endsWith":
                 return (
                     isArray(val)
-                    ? (val as any).filter(
+                    ? (val as readonly unknown[]).filter(
                         (v: unknown) => (
                             isString(v) || isNumber(v) || isBoolean(v)
                         ) && params.some(i => String(v).endsWith(i as string))
@@ -207,7 +182,496 @@ export function filter<
                         : (isString(val) || isNumber(val) || isBoolean(val)) &&
                             params.some(i => String(val).includes(String(i)))
                 ) as Returns<TOp,TParams,T>;
+
+            case "after":
+                return (
+                    isArray(val)
+                    ? val.filter(i => isDateLike(i) && isAfter(params[0] as DateLike)(i))
+                    : isAfter(params[0] as DateLike)(val)
+                ) as Returns<TOp,TParams,T>;
+            case "before":
+                return (
+                    isArray(val)
+                    ? val.filter(i => isDateLike(i) && isBefore(params[0] as DateLike)(i))
+                    : isBefore(params[0] as DateLike)(val)
+                ) as Returns<TOp,TParams,T>;
+            case "betweenExclusively":
+                return (
+                    isArray(val)
+                        ? val.filter(
+                            i => between(
+                                params[0] as number,
+                                params[1] as number,
+                                "exclusively"
+                            )(i as number)
+                        )
+                        : between(
+                            params[0] as number,
+                            params[1] as number,
+                            "exclusively"
+                        )(val as number)
+                ) as Returns<TOp,TParams,T>;
+            case "betweenInclusively":
+                return (
+                    isArray(val)
+                        ? val.filter(
+                            i => between(
+                                params[0] as number,
+                                params[1] as number,
+                                "inclusively"
+                            )(i as number)
+                        )
+                        : between(
+                            params[0] as number,
+                            params[1] as number,
+                            "inclusively"
+                        )(val as number)
+                ) as Returns<TOp,TParams,T>;
+            case "containsAll":
+                return (
+                    isArray(val)
+                        ? val.filter(
+                            v => (
+                                isString(v) || isNumber(v) || isBoolean(v)
+                            ) && params.every(i => String(v).includes(String(i)))
+                        )
+                        : (isString(val) || isNumber(val) || isBoolean(val)) &&
+                            params.every(i => String(val).includes(String(i)))
+                ) as Returns<TOp,TParams,T>;
+
+            case "containsSome":
+                return (
+                    isArray(val)
+                        ? val.filter(
+                            v => (
+                                isString(v) || isNumber(v) || isBoolean(v)
+                            ) && params.some(i => String(v).includes(String(i)))
+                        )
+                        : (isString(val) || isNumber(val) || isBoolean(val)) &&
+                            params.some(i => String(val).includes(String(i)))
+                ) as Returns<TOp,TParams,T>;
+
+            case "equals":
+                return (
+                    isArray(val)
+                        ? val.filter(v => params.some(p => v === p))
+                        : params.some(p => val === p)
+                ) as Returns<TOp,TParams,T>;
+
+            case "equalsSome":
+                return (
+                    isArray(val)
+                        ? val.filter(v => params.some(p => v === p))
+                        : params.some(p => val === p)
+                ) as Returns<TOp,TParams,T>;
+
+            case "extends":
+                // This is a type-level operation, runtime approximation
+                return (
+                    isArray(val)
+                        ? val.filter(v => params.some(p => typeof v === typeof p))
+                        : params.some(p => typeof val === typeof p)
+                ) as Returns<TOp,TParams,T>;
+
+            case "true":
+                return (
+                    isArray(val)
+                        ? val.filter(v => v === true)
+                        : val === true
+                ) as Returns<TOp,TParams,T>;
+
+            case "false":
+                return (
+                    isArray(val)
+                        ? val.filter(v => v === false)
+                        : val === false
+                ) as Returns<TOp,TParams,T>;
+
+            case "falsy":
+                return (
+                    isArray(val)
+                        ? val.filter(v => !v)
+                        : !val
+                ) as Returns<TOp,TParams,T>;
+
+            case "greaterThan":
+                return (
+                    isArray(val)
+                        ? val.filter(v => isNumber(v) && v > (params[0] as number))
+                        : isNumber(val) && val > (params[0] as number)
+                ) as Returns<TOp,TParams,T>;
+
+            case "greaterThanOrEqual":
+                return (
+                    isArray(val)
+                        ? val.filter(v => isNumber(v) && v >= (params[0] as number))
+                        : isNumber(val) && val >= (params[0] as number)
+                ) as Returns<TOp,TParams,T>;
+
+            case "lessThan":
+                return (
+                    isArray(val)
+                        ? val.filter(v => isNumber(v) && v < (params[0] as number))
+                        : isNumber(val) && val < (params[0] as number)
+                ) as Returns<TOp,TParams,T>;
+
+            case "lessThanOrEqual":
+                return (
+                    isArray(val)
+                        ? val.filter(v => isNumber(v) && v <= (params[0] as number))
+                        : isNumber(val) && val <= (params[0] as number)
+                ) as Returns<TOp,TParams,T>;
+
+            case "endsWithNumber":
+                return (
+                    isArray(val)
+                        ? val.filter(v => {
+                            const str = String(v);
+                            return /\d$/.test(str);
+                        })
+                        : /\d$/.test(String(val))
+                ) as Returns<TOp,TParams,T>;
+
+            // Object-related operations
+            case "objectKeyEndsWith":
+                return (
+                    isArray(val)
+                        ? val.filter(v =>
+                            typeof v === 'object' && v !== null &&
+                            Object.keys(v).some(key =>
+                                params.some(p => key.endsWith(String(p)))
+                            )
+                        )
+                        : typeof val === 'object' && val !== null &&
+                          Object.keys(val).some(key =>
+                              params.some(p => key.endsWith(String(p)))
+                          )
+                ) as Returns<TOp,TParams,T>;
+
+            case "objectKeyEquals":
+                return (
+                    isArray(val)
+                        ? val.filter(v =>
+                            typeof v === 'object' && v !== null &&
+                            Object.keys(v).some(key =>
+                                params.some(p => key === String(p))
+                            )
+                        )
+                        : typeof val === 'object' && val !== null &&
+                          Object.keys(val).some(key =>
+                              params.some(p => key === String(p))
+                          )
+                ) as Returns<TOp,TParams,T>;
+
+            case "objectKeyExtends":
+                return (
+                    isArray(val)
+                        ? val.filter(v =>
+                            typeof v === 'object' && v !== null &&
+                            Object.keys(v).some(key =>
+                                params.some(p => typeof key === typeof p)
+                            )
+                        )
+                        : typeof val === 'object' && val !== null &&
+                          Object.keys(val).some(key =>
+                              params.some(p => typeof key === typeof p)
+                          )
+                ) as Returns<TOp,TParams,T>;
+
+            case "objectKeyStartsWith":
+                return (
+                    isArray(val)
+                        ? val.filter(v =>
+                            typeof v === 'object' && v !== null &&
+                            Object.keys(v).some(key =>
+                                params.some(p => key.startsWith(String(p)))
+                            )
+                        )
+                        : typeof val === 'object' && val !== null &&
+                          Object.keys(val).some(key =>
+                              params.some(p => key.startsWith(String(p)))
+                          )
+                ) as Returns<TOp,TParams,T>;
+
+            case "objectKeyValueExtends":
+                return (
+                    isArray(val)
+                        ? val.filter(v =>
+                            typeof v === 'object' && v !== null &&
+                            Object.entries(v).some(([key, value]) =>
+                                params.some(p => typeof value === typeof p)
+                            )
+                        )
+                        : typeof val === 'object' && val !== null &&
+                          Object.entries(val).some(([key, value]) =>
+                              params.some(p => typeof value === typeof p)
+                          )
+                ) as Returns<TOp,TParams,T>;
+
+            case "objectKeyValueGreaterThan":
+                return (
+                    isArray(val)
+                        ? val.filter(v =>
+                            typeof v === 'object' && v !== null &&
+                            Object.entries(v).some(([key, value]) =>
+                                isNumber(value) && value > (params[0] as number)
+                            )
+                        )
+                        : typeof val === 'object' && val !== null &&
+                          Object.entries(val).some(([key, value]) =>
+                              isNumber(value) && value > (params[0] as number)
+                          )
+                ) as Returns<TOp,TParams,T>;
+
+            case "objectKeyValueGreaterThanOrEqual":
+                return (
+                    isArray(val)
+                        ? val.filter(v =>
+                            typeof v === 'object' && v !== null &&
+                            Object.entries(v).some(([key, value]) =>
+                                isNumber(value) && value >= (params[0] as number)
+                            )
+                        )
+                        : typeof val === 'object' && val !== null &&
+                          Object.entries(val).some(([key, value]) =>
+                              isNumber(value) && value >= (params[0] as number)
+                          )
+                ) as Returns<TOp,TParams,T>;
+
+            case "objectKeyValueLessThan":
+                return (
+                    isArray(val)
+                        ? val.filter(v =>
+                            typeof v === 'object' && v !== null &&
+                            Object.entries(v).some(([key, value]) =>
+                                isNumber(value) && value < (params[0] as number)
+                            )
+                        )
+                        : typeof val === 'object' && val !== null &&
+                          Object.entries(val).some(([key, value]) =>
+                              isNumber(value) && value < (params[0] as number)
+                          )
+                ) as Returns<TOp,TParams,T>;
+
+            case "objectKeyValueLessThanOrEqual":
+                return (
+                    isArray(val)
+                        ? val.filter(v =>
+                            typeof v === 'object' && v !== null &&
+                            Object.entries(v).some(([key, value]) =>
+                                isNumber(value) && value <= (params[0] as number)
+                            )
+                        )
+                        : typeof val === 'object' && val !== null &&
+                          Object.entries(val).some(([key, value]) =>
+                              isNumber(value) && value <= (params[0] as number)
+                          )
+                ) as Returns<TOp,TParams,T>;
+
+            case "objectValueEquals":
+                return (
+                    isArray(val)
+                        ? val.filter(v =>
+                            typeof v === 'object' && v !== null &&
+                            Object.values(v).some(value =>
+                                params.some(p => value === p)
+                            )
+                        )
+                        : typeof val === 'object' && val !== null &&
+                          Object.values(val).some(value =>
+                              params.some(p => value === p)
+                          )
+                ) as Returns<TOp,TParams,T>;
+
+            case "objectValueExtends":
+                return (
+                    isArray(val)
+                        ? val.filter(v =>
+                            typeof v === 'object' && v !== null &&
+                            Object.values(v).some(value =>
+                                params.some(p => typeof value === typeof p)
+                            )
+                        )
+                        : typeof val === 'object' && val !== null &&
+                          Object.values(val).some(value =>
+                              params.some(p => typeof value === typeof p)
+                          )
+                ) as Returns<TOp,TParams,T>;
+
+            // Error-related operations
+            case "errors":
+            case "errorsOfType":
+                return (
+                    isArray(val)
+                        ? val.filter(v => v instanceof Error)
+                        : val instanceof Error
+                ) as Returns<TOp,TParams,T>;
+
+            // Function return type operations
+            case "returnEquals":
+                return (
+                    isArray(val)
+                        ? val.filter(v => {
+                            if (typeof v !== 'function') return false;
+                            try {
+                                const result = (v as Function)();
+                                return params.some(p => result === p);
+                            } catch {
+                                return false;
+                            }
+                        })
+                        : (() => {
+                            if (typeof val !== 'function') return false;
+                            try {
+                                const result = (val as Function)();
+                                return params.some(p => result === p);
+                            } catch {
+                                return false;
+                            }
+                        })()
+                ) as Returns<TOp,TParams,T>;
+
+            case "returnExtends":
+                return (
+                    isArray(val)
+                        ? val.filter(v => {
+                            if (typeof v !== 'function') return false;
+                            try {
+                                const result = (v as Function)();
+                                return params.some(p => typeof result === typeof p);
+                            } catch {
+                                return false;
+                            }
+                        })
+                        : (() => {
+                            if (typeof val !== 'function') return false;
+                            try {
+                                const result = (val as Function)();
+                                return params.some(p => typeof result === typeof p);
+                            } catch {
+                                return false;
+                            }
+                        })()
+                ) as Returns<TOp,TParams,T>;
+
+            // Additional string operations
+            case "startsWithNumber":
+                return (
+                    isArray(val)
+                        ? val.filter(v => {
+                            const str = String(v);
+                            return /^\d/.test(str);
+                        })
+                        : /^\d/.test(String(val))
+                ) as Returns<TOp,TParams,T>;
+
+            case "onlyNumbers":
+                return (
+                    isArray(val)
+                        ? val.filter(v => {
+                            const str = String(v);
+                            return /^\d+$/.test(str);
+                        })
+                        : /^\d+$/.test(String(val))
+                ) as Returns<TOp,TParams,T>;
+
+            case "onlyLetters":
+                return (
+                    isArray(val)
+                        ? val.filter(v => {
+                            const str = String(v);
+                            return /^[a-zA-Z]+$/.test(str);
+                        })
+                        : /^[a-zA-Z]+$/.test(String(val))
+                ) as Returns<TOp,TParams,T>;
+
+            case "alphaNumeric":
+                return (
+                    isArray(val)
+                        ? val.filter(v => {
+                            const str = String(v);
+                            return /^[a-zA-Z0-9]+$/.test(str);
+                        })
+                        : /^[a-zA-Z0-9]+$/.test(String(val))
+                ) as Returns<TOp,TParams,T>;
+
+            // Date-related operations
+            case "sameDay":
+                return (
+                    isArray(val)
+                        ? val.filter(v => {
+                            if (!isDateLike(v) || !isDateLike(params[0])) return false;
+                            const d1 = toDate(v);
+                            const d2 = toDate(params[0] as DateLike);
+                            return d1.getFullYear() === d2.getFullYear() &&
+                                   d1.getMonth() === d2.getMonth() &&
+                                   d1.getDate() === d2.getDate();
+                        })
+                        : (() => {
+                            if (!isDateLike(val) || !isDateLike(params[0])) return false;
+                            const d1 = toDate(val);
+                            const d2 = toDate(params[0] as DateLike);
+                            return d1.getFullYear() === d2.getFullYear() &&
+                                   d1.getMonth() === d2.getMonth() &&
+                                   d1.getDate() === d2.getDate();
+                        })()
+                ) as Returns<TOp,TParams,T>;
+
+            case "sameMonth":
+                return (
+                    isArray(val)
+                        ? val.filter(v => {
+                            if (!isDateLike(v) || !isDateLike(params[0])) return false;
+                            const d1 = toDate(v);
+                            const d2 = toDate(params[0] as DateLike);
+                            return d1.getMonth() === d2.getMonth();
+                        })
+                        : (() => {
+                            if (!isDateLike(val) || !isDateLike(params[0])) return false;
+                            const d1 = toDate(val);
+                            const d2 = toDate(params[0] as DateLike);
+                            return d1.getMonth() === d2.getMonth();
+                        })()
+                ) as Returns<TOp,TParams,T>;
+
+            case "sameMonthYear":
+                return (
+                    isArray(val)
+                        ? val.filter(v => {
+                            if (!isDateLike(v) || !isDateLike(params[0])) return false;
+                            const d1 = toDate(v);
+                            const d2 = toDate(params[0] as DateLike);
+                            return d1.getFullYear() === d2.getFullYear() &&
+                                   d1.getMonth() === d2.getMonth();
+                        })
+                        : (() => {
+                            if (!isDateLike(val) || !isDateLike(params[0])) return false;
+                            const d1 = toDate(val);
+                            const d2 = toDate(params[0] as DateLike);
+                            return d1.getFullYear() === d2.getFullYear() &&
+                                   d1.getMonth() === d2.getMonth();
+                        })()
+                ) as Returns<TOp,TParams,T>;
+
+            case "sameYear":
+                return (
+                    isArray(val)
+                        ? val.filter(v => {
+                            if (!isDateLike(v) || !isDateLike(params[0])) return false;
+                            const d1 = toDate(v);
+                            const d2 = toDate(params[0] as DateLike);
+                            return d1.getFullYear() === d2.getFullYear();
+                        })
+                        : (() => {
+                            if (!isDateLike(val) || !isDateLike(params[0])) return false;
+                            const d1 = toDate(val);
+                            const d2 = toDate(params[0] as DateLike);
+                            return d1.getFullYear() === d2.getFullYear();
+                        })()
+                ) as Returns<TOp,TParams,T>;
+
+            default:
+                throw new Error(`Unknown filter operation: ${op}`);
         }
     }
 }
-

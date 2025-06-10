@@ -17,11 +17,12 @@ import {
  * **Related:** `AsArray`
  */
 export type Flexy<
-    TParams extends readonly unknown[]
-> = And<[
-    TupleMeta<TParams>["minLength"] extends 0 | 1 ? true : false,
-    IsGreaterThan<TupleMeta<TParams>["maxLength"], 0>,
-    IsLessThan<TupleMeta<TParams>["minLength"], 2>
+    TParams extends readonly unknown[],
+    TMeta extends TupleMeta<TParams> = TupleMeta<TParams>
+> =  And<[
+    TMeta["minLength"] extends 0 | 1 ? true : false,
+    IsGreaterThan<TMeta["maxLength"], 0>,
+    IsLessThan<TMeta["minLength"], 2>
 ]> extends true
     ? First<TParams> | TParams
     : TParams;
