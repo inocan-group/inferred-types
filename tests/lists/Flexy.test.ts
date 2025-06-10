@@ -9,7 +9,7 @@ describe("Flexy<T>", () => {
 
         type cases = [
             Expect<Test<Empty, "equals",  []>>,
-            Expect<Test<Empty2, "equals",  readonly []>>,
+            Expect<Test<Empty2, "equals", readonly []>>,
         ];
     });
 
@@ -31,7 +31,10 @@ describe("Flexy<T>", () => {
 
         type cases = [
             Expect<Test<OneOrTwo, "equals", number | [number, string?]>>,
-            Expect<Test<ZeroToTwo,"equals",  undefined | number | [number?, string?]>>,
+            Expect<Test<
+                ZeroToTwo, "equals",
+                undefined | number | [number?, string?]
+            >>,
         ];
     });
 

@@ -1,4 +1,7 @@
+export * from "./isBefore";
+export * from "./isAfter";
 export * from "./isDate";
+export * from "./isDayJs";
 export * from "./isDateLike";
 export * from "./isDateTime";
 export * from "./isEpoch";
@@ -16,3 +19,4 @@ export * from "./isYesterday";
 export * from "./isDayJs";
 export * from "./isDateFnsDate";
 export * from "./isTemporalDate";
+export * from "./toDate";

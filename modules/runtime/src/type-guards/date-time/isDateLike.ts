@@ -10,6 +10,7 @@ import {
     isString,
     isTemporalDate
 } from "inferred-types/runtime";
+import { DateLike } from "inferred-types/types";
 
 /**
  * A type guard which checks if `val` is _date like_:
@@ -22,7 +23,7 @@ import {
  *    - MomentJS Date object
  *    - Luxon Date object
  */
-export function isDateLike(val: unknown) {
+export function isDateLike(val: unknown): val is DateLike {
     return (
         (isNumber(val) && isInteger(val) && val > 0) // epoch
         || (isString(val) && (isIsoDate(val) || isIsoDateTime(val))) // ISO

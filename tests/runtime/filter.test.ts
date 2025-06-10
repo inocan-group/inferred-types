@@ -1,38 +1,19 @@
-import { filter } from "inferred-types/runtime";
+import { filter, FilterFn } from "inferred-types/runtime";
 import { Expect, Test } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
 describe("filter()", () => {
 
-    it("partial application of startsWith (parameters suggest fn parameters)", () => {
-        // const startWith = filter("startsWith", "foo");
-        // const startWithMulti = filter("startsWith", "foo", "bar");
-
-        // type Single = typeof startWith;
-        // type SingleParam = Parameters<Single>[0];
-        // type SingleReturns = ReturnType<Single>;
-
-        // type Multi = typeof startWithMulti;
-        // type MultiParam = Parameters<Multi>[0];
-
-        // type cases = [
-        //     Expect<Test<typeof startWith, FilterFn<"startsWith", "equals",  ["foo"]>>>,
-        //     Expect<Test<typeof startWithMulti, FilterFn<"startsWith", ["foo", "equals",  "bar"]>>>,
-
-        //     Expect<Test<SingleParam, "equals",  string | readonly string[]>>,
-        //     Expect<Test<MultiParam, "equals",  string | readonly string[]>>,
-        // ];
-    });
-
-
     it("partial application of truthy (no params, no accept clause)", () => {
         const truthy = filter("truthy");
 
-        type Truthy = typeof truthy;
-        type TruthyParam = Parameters<Truthy>[0];
+        type Params = Parameters<typeof truthy>;
 
         type cases = [
-            /** type tests */
+            Expect<Test<
+                typeof truthy, "equals",
+                FilterFn<"truthy", [], string>
+            >>
         ];
     });
 
@@ -44,8 +25,6 @@ describe("filter()", () => {
         //     /** type tests */
         // ];
     });
-
-
 
     it("startsWith filter used as singular function", () => {
         const t1 = filter("startsWith", "foo")("foobar");

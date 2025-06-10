@@ -13,4 +13,7 @@ type Process<L, C extends unknown[] = [], R = L> =
  * type Range = NumericRange<2,7>;
  * ```
  */
-export type NumericRange<TLow, THigh> = TLow | Exclude<Process<THigh>, Process<TLow>>;
+export type NumericRange<
+    TLow,
+    THigh
+> = TLow | Exclude<Process<THigh>, Process<TLow>>;
