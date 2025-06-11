@@ -1,8 +1,8 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { MinLength } from "inferred-types/types";
+import { MinLength, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-describe("MaxLength<T>", () => {
+describe("MinLength<T>", () => {
 
     it("happy path", () => {
         type M1 = MinLength<[]>;                       // 0

@@ -11,6 +11,9 @@ import type {
     Flexy,
     AsArray,
     DateLike,
+    Compare,
+    Comparator,
+    GetOpConfig,
 } from "inferred-types/types";
 import {
     isArray,
@@ -24,6 +27,7 @@ import {
     between,
     toDate
 } from "inferred-types/runtime";
+import { GetComparator } from "@inferred-types/types/src";
 
 type Conversion = "union" | "token" | "stringLiteral" | "stringArray";
 
@@ -57,43 +61,22 @@ type Convert<
 
 type Lookup = ComparisonLookup<"run-time">;
 
-type Desc<
-    TKey extends keyof Lookup
-> = "desc" extends keyof Lookup[TKey]
-? Lookup[TKey]["desc"] extends string
-    ? Lookup[TKey]["desc"]
-    : undefined
-: undefined;
 
 
-/**
- * Determines what the _comparator_ **type** should be.
- */
-type Comp<
-    TOp extends keyof Lookup,
-    TParams extends Lookup[TOp]["params"],
-> = "convertP1" extends keyof Lookup[TOp]
-? Lookup[TOp]["convertP1"] extends readonly Conversion[]
-    ? [ Convert<AsArray<TParams>[0], Lookup[TOp]["convertP1"]>]
-: "convertAll" extends keyof Lookup[TOp]
-    ? Lookup[TOp]["convertAll"] extends readonly Conversion[]
-        ? Convert<TParams, Lookup[TOp]["convertAll"]>
-        : TParams
-    : TParams
-: TParams;
-
+type X = GetOpConfig<"startsWith">;
+type Y = GetComparator<X, ["foo", "bar"]>;
 
 type Returns<
-    TOp extends keyof Lookup ,
-    TParams extends Lookup[TOp]["params"],
-    TVal extends unknown | readonly unknown[]
+    TOp extends keyof Lookup,
+    TParams extends readonly Narrowable[],
+    TVal,
+    TConfig = GetOpConfig<TOp>
 > = TVal extends readonly unknown[]
 ? Filter<
-    TVal, TOp, As<TParams, Flexy<Lookup[TOp]["params"]>>
+    TVal, TOp, GetOpConfig<TConfig,TParams>
 >
-: TVal extends Comp<TOp, TParams>
-    ? true
-    : false;
+: Compare<TVal, TOp, GetOpConfig<TConfig,TParams>>
+
 
 /**
  * **FilterFn**`<Operation, OpParams>`

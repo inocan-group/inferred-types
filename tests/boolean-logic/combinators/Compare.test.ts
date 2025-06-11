@@ -17,7 +17,6 @@ describe("Compare<TVal,TOp,TComparator", () => {
 
         type T2 = Compare<42, "equals", 42>;
         type T2a = Compare<42, "equals", [42]>;
-        type T2b = Compare<42, "equals", [42, 99]>; // Error
 
         type T2s = Compare<42, "equalsSome", 42>; // Error
         type T2sb = Compare<42, "equalsSome", [42, 99]>;
@@ -30,6 +29,8 @@ describe("Compare<TVal,TOp,TComparator", () => {
 
         type F1 = Compare<number, "extends", 42>;
         type F2 = Compare<"foo", "startsWith", UpperAlphaChar>;
+
+        type B1 = Compare<number, "equals", 42>;
 
         type O1 = Compare<"foobar", "greaterThan", 42>;
         type O2 = Compare<number, "greaterThan", 42>;

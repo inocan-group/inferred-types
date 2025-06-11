@@ -1,5 +1,5 @@
 import { filter, FilterFn } from "inferred-types/runtime";
-import { Expect, Test } from "inferred-types/types";
+import { Compare, Expect, Filter, Test } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
 describe("filter()", () => {
@@ -27,9 +27,17 @@ describe("filter()", () => {
     });
 
     it("startsWith filter used as singular function", () => {
+        type T1f = Filter<["foobar"], "startsWith", "foo">;
+        type T1c = Compare<"foobar", "startsWith", "foo">;
         const t1 = filter("startsWith", "foo")("foobar");
+
         const f1 = filter("startsWith", "foo")("barbar");
+        type F1f = Filter<["barbar"], "startsWith", "foo">;
+        type F1c = Compare<"barbar", "startsWith", "foo">;
+
         const b1 = filter("startsWith", "foo")("barbar" as string);
+        type B1f = Filter<["barbar"], "startsWith", string>;
+        type B1c = Compare<"barbar", "startsWith", string>;
 
         const t2 = filter("startsWith", "42")(420);
         const t3 = filter("startsWith", 42)(420);

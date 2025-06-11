@@ -1,18 +1,26 @@
 import type {
+    AlphaChar,
+    AlphaNumericChar,
     And,
     As,
-    AsArray,
-    AsString,
+    ComparisonInputDefault,
+    ComparisonInputToTuple,
     ComparisonLookup,
+    ComparisonOpConfig,
     ComparisonOperation,
     Contains,
+    ContainsAll,
     DateLike,
     DoesExtend,
     EndsWith,
+    Equals,
     Err,
     Extends,
     First,
-    Flexy,
+    FirstChar,
+    GetComparator,
+    GetComparisonParamInput,
+    GetOpConfig,
     Integer,
     IsBetweenExclusively,
     IsBetweenInclusively,
@@ -26,17 +34,23 @@ import type {
     IsIsoDate,
     IsLessThan,
     IsLessThanOrEqual,
+    IsLiteral,
+    IsNumberLike,
+    IsObject,
+    IsObjectLiteral,
+    IsString,
+    IsStringLiteral,
     IsTrue,
     IsTruthy,
-    IsUnion,
-    Join,
+    LastChar,
     NumberLike,
+    NumericChar,
     Or,
+    RetainChars,
     Second,
     SomeEqual,
     StartsWith,
     Tuple,
-    TypedFunction
 } from "inferred-types/types";
 
 /**
@@ -52,61 +66,16 @@ export type Comparator<
 > = [
     op: T,
     ...P
-]
-
-/**
- * Get's the parameters from a `Comparator` or a `ComparisonOperation`
- */
-type Params<
-    T extends Comparator<ComparisonOperation> | ComparisonOperation
-> = T extends readonly [ComparisonOperation, ...infer Rest]
-? Rest
-: T extends ComparisonOperation
-    ? ComparisonLookup[T]["params"]
-    : never;
-
-/**
- * Get's the `ComparisonOperation` from a `Comparator`.
- */
-type Op<T extends Comparator<ComparisonOperation>> = T[0];
-
-
-
-/**
- * **Comparison**`<TOp,TArgs>`
- *
- * A strongly typed comparison which can be used in runtime utilities
- * like `filter`, `retain`, and `map`.
- *
- * - typically generated with the `createComparison(op,...params)` runtime utility.
- *
- * ```ts
- * // Comparison<"equals",[true]>
- * const isTrue = createComparison("equals", true);
- * //
- * const filtered = filter(isTrue)(listOfStuff);
- * ```
- */
-export type Comparison<
-    TOp extends ComparisonOperation = ComparisonOperation,
-    TParams extends readonly unknown[] = IsUnion<TOp> extends true
-    ? readonly unknown[]
-    : ComparisonLookup<"design-time">[TOp]["params"],
-    TFn extends TypedFunction = TypedFunction,
-> = {
-    kind: "Comparison";
-    op: TOp;
-    args: TParams;
-    fn: TFn;
-};
-
+];
 
 
 type Process<
     TVal,
-    TComparator extends Comparator,
-    TOp extends ComparisonOperation = Op<TComparator>,
-    TParams extends ComparisonLookup[TOp]["params"] = Params<TComparator>
+    TOp extends ComparisonOperation,
+    TParams extends ComparisonLookup<"design-time">[TOp]["params"],
+
+    TConfig extends ComparisonOpConfig = GetOpConfig<TOp>,
+    TComparator extends GetComparator<TConfig, TParams> = GetComparator<TConfig, TParams>
 > = TOp extends "after"
     ? And<[
         Extends<TVal, DateLike>,
@@ -116,7 +85,7 @@ type Process<
             IsInteger<TVal>,
             IsInteger<First<TParams>>
         ]> extends true
-            ? IsGreaterThan<As<TVal, Integer>, As<First<TParams>, Integer>>
+            ? IsGreaterThan<As<TVal, NumberLike>, As<First<TParams>, NumberLike>>
             : boolean
         : false
 : TOp extends "before"
@@ -128,14 +97,14 @@ type Process<
         IsInteger<TVal>,
         IsInteger<First<TParams>>
     ]> extends true
-        ? IsLessThan<As<TVal, Integer>, As<First<TParams>, Integer>>
+        ? IsLessThan<As<TVal, Integer>, As<TComparator, Integer>>
         : boolean
     : false
 
 : TOp extends "sameDay"
     ? And<[
-        Extends<TVal, DateLike>,
-        Extends<First<TParams>, DateLike>
+        TVal extends DateLike ? true : false,
+        First<TParams> extends  DateLike ? true : false
     ]> extends true
         ? And<[
             Or<[IsIsoDate<TVal>, IsIso8601DateTime<TVal>]>,
@@ -215,25 +184,41 @@ type Process<
     ? DoesExtend<TVal, TParams[number]>
 
     : TOp extends "equals"
-    ? SomeEqual<TComparator, TVal>
+        ? IsLiteral<TVal> extends true
+            ? IsLiteral<TComparator> extends true
+                ? Equals<TComparator, TVal>
+                : boolean
+        : boolean
+
 
     : TOp extends "equalsSome"
-    ? SomeEqual<TComparator, TVal>
-
+        ? SomeEqual<TParams, TVal>
 
     : TOp extends "contains"
-    ? [TVal] extends [string | number | Tuple]
-        ? TVal extends Tuple
-            ? Contains<TVal, TParams[number]>
-            : Contains<TVal, AsString<TParams[number]>>
+        ? TVal extends string | number
+            ? IsLiteral<TVal> extends true
+                ? IsStringLiteral<TComparator> extends true
+                    ? Contains<TVal, TComparator>
+                    : boolean
+            : boolean
         : false
 
-    : TOp extends "containsAll"
-    ? [TVal] extends [string | number | Tuple]
-        ? [TComparator] extends [string | number | readonly string[]]
-            ? Contains<TVal, TParams>
-            : false
+    : TOp extends "containsSome"
+        ? TVal extends string | number
+            ? IsLiteral<TVal> extends true
+                ? IsStringLiteral<TComparator> extends true
+                    ? Contains<TVal, TComparator>
+                    : boolean
+            : boolean
         : false
+
+
+    : TOp extends "containsAll"
+        ? [TVal] extends [string | number | Tuple]
+            ? [TComparator] extends [readonly string[]]
+                ? ContainsAll<TVal, TParams>
+                : false
+            : false
 
     : TOp extends "startsWith"
         ? And<[
@@ -254,65 +239,71 @@ type Process<
 
     : TOp extends "greaterThan"
         ? And<[
-            Extends<First<TParams>, NumberLike>,
-            Extends<TVal, NumberLike>
-        ]> extends true
-            ? IsGreaterThan<
+            IsNumberLike<TVal>,
+            IsNumberLike<TComparator>,
+            IsGreaterThan<
                 As<TVal, NumberLike>,
-                As<First<TParams>, NumberLike>
+                As<TComparator, NumberLike>
             >
-            : false
+        ]>
 
     : TOp extends "greaterThanOrEqual"
         ? And<[
-            Extends<First<TParams>, NumberLike>,
-            Extends<TVal, NumberLike>
-        ]> extends true
-            ? IsGreaterThanOrEqual<
+            IsNumberLike<TVal>,
+            IsNumberLike<TComparator>,
+            IsGreaterThanOrEqual<
                 As<TVal, NumberLike>,
-                As<First<TParams>, NumberLike>
+                As<TComparator, NumberLike>
             >
-            : false
+        ]>
 
     : TOp extends "lessThan"
         ? And<[
-            Extends<First<TParams>, NumberLike>,
-            Extends<TVal, NumberLike>
-        ]> extends true
-            ? IsLessThan<
+            IsNumberLike<TVal>,
+            IsNumberLike<TComparator>,
+            IsLessThan<
                 As<TVal, NumberLike>,
-                As<First<TParams>, NumberLike>
+                As<TComparator, NumberLike>
             >
-            : false
+        ]>
 
     : TOp extends "lessThanOrEqual"
         ? And<[
-            Extends<First<TParams>, NumberLike>,
-            Extends<TVal, NumberLike>
-        ]> extends true
-            ? IsLessThanOrEqual<
+            IsNumberLike<TVal>,
+            IsNumberLike<TComparator>,
+            IsLessThanOrEqual<
                 As<TVal, NumberLike>,
-                As<First<TParams>, NumberLike>
+                As<TComparator, NumberLike>
             >
-            : false
+        ]>
 
     : TOp extends "betweenExclusively"
-        ? TVal extends NumberLike
-            ? First<TParams> extends NumberLike
-                ? Second<TParams> extends NumberLike
-                    ? IsBetweenExclusively<TVal,First<TParams>,Second<TParams> >
-                    : false
-                : false
-            : false
+        ? And<[
+            First<TComparator> extends NumberLike ? true : false,
+            Second<TComparator> extends NumberLike ? true : false,
+            TVal extends NumberLike ? true : false,
+            TComparator extends [NumberLike, NumberLike]
+            ? IsBetweenExclusively<
+                As<TVal, NumberLike>,
+                TComparator[0],
+                TComparator[1]
+            >
+            : never
+        ]>
 
     : TOp extends "betweenInclusively"
-        ? TVal extends NumberLike
-            ? First<TParams> extends NumberLike
-                ? Second<TParams> extends NumberLike
-                    ? IsBetweenInclusively<TVal,First<TParams>,Second<TParams> >
-                    : false
-                : false
-            : false
+        ? And<[
+            First<TComparator> extends NumberLike ? true : false,
+            Second<TComparator> extends NumberLike ? true : false,
+            TVal extends NumberLike ? true : false,
+            TComparator extends [NumberLike, NumberLike]
+            ? IsBetweenInclusively<
+                As<TVal, NumberLike>,
+                TComparator[0],
+                TComparator[1]
+            >
+            : never
+        ]>
 
 
     : TOp extends "objectKeyValueGreaterThan"
@@ -370,7 +361,6 @@ type Process<
                 : false
             : false
 
-
     : TOp extends "errors"
         ? TVal extends Error
             ? true
@@ -413,24 +403,68 @@ type Process<
     : TOp extends "truthy"
         ? IsTruthy<TVal>
 
+
     : TOp extends "objectKeyEquals"
-        ? TVal extends object
-            ? First<TParams> extends keyof TVal
-                ? IsEqual<
-                    TVal[First<TParams>],
-                    Second<TParams>>
-                : false
+        ? IsObjectLiteral<TVal> extends true
+            ? TComparator extends [ infer Key extends string, infer Val ]
+                ? IsStringLiteral<Key> extends true
+                    ? IsEqual<TVal[As<Key, keyof TVal>], Val>
+                    : boolean
             : false
+        : IsObject<TVal> extends true ? boolean : false
 
     : TOp extends "objectKeyExtends"
-        ? TVal extends object
-            ? First<TParams> extends keyof TVal
-                ? Extends<
-                    TVal[First<TParams>],
-                    Second<TParams>
-                >
-                : false
+        ? IsObjectLiteral<TVal> extends true
+            ? TComparator extends [ infer Key extends string, infer Type ]
+                ? IsStringLiteral<Key> extends true
+                    ? Extends<TVal[As<Key, keyof TVal>], Type>
+                    : boolean
             : false
+        : IsObject<TVal> extends true ? boolean : false
+
+    : TOp extends "objectExtends"
+        ? IsObjectLiteral<TVal> extends true
+            ? Extends<TVal, TComparator>
+            : IsObject<TVal> extends true ? boolean : false
+
+    : TOp extends "endsWithNumber"
+        ? IsStringLiteral<TVal> extends true
+            ? LastChar<As<TVal, string>> extends NumericChar
+                ? true
+                : false
+        : IsString<TVal> extends true ? boolean : false
+
+    : TOp extends "startsWithNumber"
+        ? IsStringLiteral<TVal> extends true
+            ? FirstChar<As<TVal, string>> extends NumericChar
+                ? true
+                : false
+        : IsString<TVal> extends true ? boolean : false
+
+    : TOp extends "onlyNumbers"
+        ? IsStringLiteral<TVal> extends true
+            ? IsEqual<
+                RetainChars<As<TVal, string>, NumericChar>,
+                TVal
+            >
+        : IsString<TVal> extends true ? boolean : false
+
+
+    : TOp extends "onlyLetters"
+        ? IsStringLiteral<TVal> extends true
+            ? IsEqual<
+                RetainChars<As<TVal, string>, AlphaChar>,
+                TVal
+            >
+        : IsString<TVal> extends true ? boolean : false
+
+    : TOp extends "alphaNumeric"
+            ? IsStringLiteral<TVal> extends true
+            ? IsEqual<
+                RetainChars<As<TVal, string>, AlphaNumericChar>,
+                TVal
+            >
+        : IsString<TVal> extends true ? boolean : false
 
     : Err<
         `invalid-operation/compare`,
@@ -447,22 +481,9 @@ type Process<
 export type Compare<
     TVal,
     TOp extends ComparisonOperation,
-    TParams extends Flexy<ComparisonLookup[TOp]["params"]>,
-    THandle extends "error" | "never" = "error"
-> = [ TOp, ...AsArray<TParams> ] extends Comparator<TOp>
-    ? Process<
-        TVal,
-        As<[ TOp, ...AsArray<TParams> ], Comparator>
-    >
-    : THandle extends "error"
-        ? Err<
-            `invalid-comparator`,
-            `The Compare<${AsString<TVal>}, ${TOp}, [ ${Join<AsArray<TParams>, ", "> } ]> utility was called with invalid parameters! Expected: [ ${Join<ComparisonLookup[TOp]["params"], ", ">} ]`,
-            {
-                params: Join<AsArray<TParams>, ", ">,
-                op: TOp,
-                expected: Join<ComparisonLookup[TOp]["params"], ", ">
-            }
-        >
-        : never;
-
+    TParams extends GetComparisonParamInput<TOp> = ComparisonInputDefault<TOp>
+> = Process<
+    TVal,
+    TOp,
+    ComparisonInputToTuple<TOp,TParams>
+>
