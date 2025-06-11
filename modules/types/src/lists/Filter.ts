@@ -3,8 +3,8 @@ import type {
     RemoveNever,
     ComparisonOperation,
     ComparisonLookup,
-    Flexy,
-    As
+     ComparisonInputToTuple,
+     GetComparisonParamInput
 } from "inferred-types/types";
 
 
@@ -12,7 +12,7 @@ import type {
 type Process<
     TList extends readonly unknown[],
     TOp extends ComparisonOperation,
-    TParams extends Flexy<ComparisonLookup[TOp]["params"]>
+    TParams extends ComparisonLookup[TOp]["params"]
 > = RemoveNever<{
     [K in keyof TList]: Compare<TList[K], TOp, TParams> extends true
         ? TList[K]
@@ -41,14 +41,12 @@ type Process<
 export type Filter<
     TList extends readonly unknown[],
     TOp extends ComparisonOperation,
-    TParams extends Flexy<ComparisonLookup[TOp]["params"]>
-> = As<
-    Process<
-        TList,
-        TOp,
-        TParams
-    >,
-    Flexy<readonly unknown[]>
+    TParams extends GetComparisonParamInput<TOp>
+> = Process<
+    TList,
+    TOp,
+    ComparisonInputToTuple<TOp, TParams>
 >
 
 
+type Y = Filter<[1,2,3], "greaterThan", 1>;

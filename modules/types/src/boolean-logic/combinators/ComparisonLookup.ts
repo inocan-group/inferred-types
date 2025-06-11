@@ -1,55 +1,29 @@
 import {
-    AfterFirst,
-    AsArray,
     DateLike,
     Dictionary,
-    First,
-    FromInputToken,
     InputToken__SimpleTokens,
+    InputTokenLike,
     Keys,
     Narrowable,
     NumberLike,
-    ToStringArray
 } from "inferred-types/types";
 
-
-export type ComparisonConversionType =
+/**
+ * Ways to convert conversion parameters to a `Comparator`
+ * type when the `convertAll` configuration is active.
+ */
+export type ComparisonParamConvert =
 | "union"
-| "token"
+| "string-union" // convert to string array then union
+| "token" // converts an InputToken to the type it represents
 | "stringLiteral"
 | "stringArray";
-
-export type ComparisonConversion<
-    T,
-    U extends readonly ComparisonConversionType[]
-> = [] extends U
-    ? T
-    : ComparisonConversion<
-        First<U> extends "union"
-        ? T extends readonly Narrowable[]
-        ? T[number]
-        : never
-        : First<U> extends "token"
-        ? T extends string
-        ? FromInputToken<T>
-        : never
-        : First<U> extends "stringLiteral"
-        ? T extends string | number | boolean
-        ? `${T}`
-        : never
-        : First<U> extends "stringArray"
-        ? T extends readonly unknown[]
-        ? ToStringArray<T>
-        : never
-        : never,
-        AfterFirst<U>
-    >;
 
 
 /**
  * the definition of a _comparator_ operation
  */
-export type ComparisonOp<T extends ComparisonMode> = {
+export type ComparisonOpConfig<T extends ComparisonMode = ComparisonMode> = {
     params: T extends "run-time"
         ? readonly Narrowable[]
         : readonly unknown[];
@@ -58,103 +32,133 @@ export type ComparisonOp<T extends ComparisonMode> = {
      * into strict mode. If not stated, it will be inferred based on the
      * parameters.
      */
-    accept?: Narrowable;
-    /** convert first parameter's type (for runtime) */
-    convertP1?: ComparisonConversionType[];
-    /** convert type using all parameters as a group (for runtime) */
-    convertAll?: ComparisonConversionType[];
+    accept?: T extends "run-time" ? Narrowable : unknown;
+
+    /**
+     * how many parameters the function expects to take
+     */
+    take?: 0 | 1 | 2 | 3 | "*";
+    /**
+     * conversion of the parameters before comparison starts
+     *
+     * - if a tuple then the conversion is done element by element
+     * of the parameters received
+     * - if not a tuple then the operation is performed across
+     * all the parameters
+     *
+     * **Note:** some operations -- like `union` -- when applied across
+     * parameters will change the parameter count; this is likely
+     * desired but just make sure you consider this.
+     */
+    convert?: ComparisonParamConvert | readonly ComparisonParamConvert[];
 };
 
 /** the _mode_ you're using the `ComparisonLookup` table in */
 export type ComparisonMode = "run-time" | "design-time";
 
-type X = AsArray<(string | number) |[string | number, ...readonly (string | number)[]]>;
 
 /**
  * A type which provides a lookup table for standard conversion types.
  */
 export type ComparisonLookup<T extends ComparisonMode = "design-time"> = {
     extends: {
-        params:
-            T extends "run-time"
-                ? [types: InputToken__SimpleTokens, ...InputToken__SimpleTokens[]]
+        params: T extends "run-time"
+                ? [
+                    types: InputTokenLike,
+                    ...InputTokenLike[]
+                ]
                 : [types: unknown, ...unknown[]]
 
-        accept: Narrowable;
+        accept: T extends "run-time" ? Narrowable : unknown;
     };
+
     startsWith: {
-        params: [string | number, ...readonly (string | number)[]],
-        convertAll: ["stringArray", "union"]
+        params: [string | number, ...readonly (string | number)[]];
+        convert: "string-union";
+        take: 1;
     };
 
     endsWith: {
         params: [string | number, ...readonly (string | number)[]],
-        convertAll: ["stringArray", "union"]
-        desc: "tests whether the value ends with any of the parameters provided"
-        accept: string | number
+        convert: "string-union";
+        accept: string | number;
+        take: 1;
     };
 
     endsWithNumber: {
         params: [];
-        desc: "tests whether a string literal ends with a numeric value"
-        accept: string
+        desc: "tests whether a string literal ends with a numeric value";
+        accept: string;
+        take: 0;
     };
 
     startsWithNumber: {
         params: [];
         desc: "tests whether a string literal starts with a numeric value"
-        accept: string
+        accept: string;
+        take: 0;
     };
 
     onlyNumbers: {
         params: [];
         desc: "tests whether a string literal contains only numeric characters"
-        accept: string
+        accept: string;
+        take: 0;
     };
 
     alphaNumeric: {
         params: [];
         desc: "tests whether a string literal contains only alphabetic and numeric characters"
-        accept: string
+        accept: string;
+        take: 0;
     };
 
     onlyLetters: {
         params: [];
         desc: "tests whether a string literal contains only letter characters"
-        accept: string
+        accept: string;
+        take: 0;
     };
 
     contains: {
         params: [substring: string | number];
+        convert: ["stringLiteral"];
         accept: string | number;
+        take: 1;
     }
 
     containsAll: {
         params: [substrings: string | number, ...readonly (string | number)[]];
         accept: string | number;
-        convertAll: ["stringArray"];
+        convert: "stringArray";
+        take: "*"
     };
 
     containsSome: {
         params: [substrings: string | number, ...readonly (string|number)[]],
         accept: string | number;
-        convertAll: ["stringArray"];
+        convert: "string-union";
+        take: "1"
     };
 
     greaterThan: {
-        params: [value: number]
+        params: [value: NumberLike]
+        take: 1;
     };
 
     greaterThanOrEqual: {
-        params: [value: number]
+        params: [value: NumberLike];
+        take: 1;
     };
 
     lessThan: {
-        params: [value: number]
+        params: [value: NumberLike];
+        take: 1;
     };
 
     lessThanOrEqual: {
-        params: [value: number]
+        params: [value: NumberLike];
+        take: 1;
     };
 
     objectKeyValueGreaterThan: {
@@ -163,6 +167,7 @@ export type ComparisonLookup<T extends ComparisonMode = "design-time"> = {
             type: NumberLike
         ];
         accept: Dictionary;
+        take: 2;
     };
 
     objectKeyValueGreaterThanOrEqual: {
@@ -171,162 +176,178 @@ export type ComparisonLookup<T extends ComparisonMode = "design-time"> = {
             type: NumberLike
         ];
         accept: Dictionary;
+        take: 2;
     };
 
     objectKeyValueLessThan: {
         params: [
             key: string,
-            type: number
+            type: NumberLike
         ];
-        convertFirst: "token"
+        take: 2;
         accept: Dictionary;
     };
 
     objectKeyValueLessThanOrEqual: {
         params: [
             key: string,
-            type: number
+            type: NumberLike
         ];
-        convertFirst: "token"
+        take: 2;
         accept: Dictionary;
     };
 
 
     betweenInclusively: {
         params: [greaterThan: number, lessThan: number],
-        accept: number
+        accept: number;
+        take: 2;
     };
 
     betweenExclusively: {
         params: [greaterThan: number, lessThan: number],
-        accept: number
+        accept: number;
+        take: 2;
     };
 
     equals: {
         params: [
-            value: T extends "run-time"
+            T extends "run-time"
                 ? Narrowable
                 : unknown
-        ]
+        ];
+        accept: T extends "run-time" ? Narrowable : unknown;
+        take: 1;
     };
 
     equalsSome: {
-        params:
-            T extends "run-time"
-                ? [values: Narrowable, Narrowable,  ...Narrowable[]]
-                : [values: unknown, unknown, ...unknown[]]
+        params: T extends "run-time"
+            ? [values: Narrowable, Narrowable,  ...Narrowable[]]
+            : [values: unknown, unknown, ...unknown[]];
+        take: "*";
     };
 
     errors: {
-        params: []
+        params: [];
+        take: 0;
     };
 
     errorsOfType: {
-        params: [type: string]; accept: Narrowable
+        params: [type: string | Error];
+        accept: Narrowable;
+        take: 1;
     };
 
     before: {
         params: [date: DateLike];
-        accept: DateLike
+        accept: DateLike;
+        take: 1;
     };
 
     after: {
         params: [date: DateLike];
-        accept: DateLike
+        accept: DateLike;
+        take: 1;
     };
 
     sameDay: {
         params: [date: DateLike];
         accept: DateLike;
+        take: 1;
     };
 
     sameMonth: {
         params: [date: DateLike];
         accept: DateLike;
+        take: 1;
     };
 
     sameMonthYear: {
         params: [date: DateLike];
         accept: DateLike;
+        take: 1;
     };
 
     sameYear: {
         params: [date: DateLike];
         accept: DateLike;
+        take: 1;
     }
 
     truthy: {
-        params: []
+        params: [];
+        accept: T extends "run-time" ? Narrowable : unknown;
+        take: 0;
     };
 
     falsy: {
-        params: []; accept: Narrowable
+        params: [];
+        accept: T extends "run-time" ? Narrowable : unknown;
+        take: 0;
     };
 
     true: {
         params: [];
-        accept: Narrowable;
+        accept: T extends "run-time" ? Narrowable : unknown;
+        take: 0;
     };
 
     false: {
         params: [];
-        accept: Narrowable;
+        accept: T extends "run-time" ? Narrowable : unknown;
+        take: 0;
     };
 
     objectKeyEquals: {
-        params: [key: string, value: Narrowable];
-        accept: Dictionary
+        params: [
+            key: string,
+            value: T extends "run-time" ? Narrowable : unknown
+        ];
+        accept: Dictionary;
+        take: 2;
     };
+
     objectKeyExtends: {
         params: [
             key: string,
             type: T extends "run-time"
-                ? InputToken__SimpleTokens
+                ? InputTokenLike
                 : unknown
         ];
         accept: Dictionary;
+        convert: [
+            "none",
+            T extends "run-time"
+                ? "token"
+                : "none"
+        ]
+        take: 2;
     };
 
-    objectKeyStartsWith: {
-        params: [key: string, value: Narrowable];
-        accept: Dictionary;
-    };
-    objectKeyEndsWith: {
-        params: [key: string, value: Narrowable];
-        accept: Dictionary;
-    };
-    objectValueEquals: {
-        params: [value: Narrowable];
-        accept: Dictionary;
-    };
-    objectValueExtends: {
+
+    objectExtends: {
         params: [
             type: T extends "run-time"
-                ? InputToken__SimpleTokens
+                ? InputTokenLike
                 : unknown
         ];
-        convertFirst: "token"
-        accept: Dictionary;
-    };
-
-    objectKeyValueExtends: {
-        params: [
-            key: string,
-            type: T extends "run-time"
-                ? InputToken__SimpleTokens
-                : unknown
+        convert: [
+            T extends "runtime" ? "token" : "none"
         ];
-        convertFirst: "token"
+        take: 1;
         accept: Dictionary;
     };
-
 
 
     returnEquals: {
-        params: [ validReturnTypes: unknown, ...unknown[] ]
+        params: [ validReturnTypes: unknown, ...unknown[] ];
+        take: "*";
     };
+
     returnExtends: {
         params: [ validReturnTypes: unknown, ...unknown[] ]
+        take: "1";
+        convert: "union";
     };
 }
 

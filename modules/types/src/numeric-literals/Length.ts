@@ -1,8 +1,10 @@
 import type {
     As,
+    IsNumericLiteral,
     IsUnion,
     IsWideType,
     Max,
+    Min,
     StripLeading,
     UnionToTuple,
 } from "inferred-types/types";
@@ -28,8 +30,8 @@ type _Length<
  * ```
  */
 export type Length<
-    T extends readonly any[] | string | number,
-> = T extends readonly any[]
+    T extends readonly unknown[] | string | number,
+> = T extends readonly unknown[]
     ? T["length"]
     : IsWideType<T> extends true
     ? number
@@ -41,9 +43,7 @@ export type Length<
 
 type RequiredPrefixLength<T extends readonly unknown[], Count extends unknown[] = []> =
     T extends readonly [infer First, ...infer Rest]
-    ? undefined extends First // handle optional
-    ? Count['length']
-    : RequiredPrefixLength<Rest, [...Count, 1]>
+    ? RequiredPrefixLength<Rest, [...Count, 1]>
     : Count['length'];
 
 
@@ -61,13 +61,22 @@ type RequiredPrefixLength<T extends readonly unknown[], Count extends unknown[] 
  *
  * **Related:** `Length`, `MaxLength`, `TupleMeta`
  */
-export type MinLength<T extends readonly unknown[]> = As<
+export type MinLength<T extends readonly unknown[]> = IsNumericLiteral<Length<T>> extends true
+? As<
+    IsUnion<Length<T>> extends true
+    ? UnionToTuple<Length<T>> extends readonly number[]
+        ? Min<UnionToTuple<Length<T>>>
+        : never
+    : Length<T>,
+    number
+>
+
+: As<
     T extends readonly [...infer Head, ...infer Tail]
-    ? Tail extends []
-    ? Head['length']
-    : // If it has a spread (rest), count how many required elements are in front
-    RequiredPrefixLength<T>
-    : 0,
+        ? Tail extends []
+            ? Head['length']
+        : RequiredPrefixLength<T> // If it has a spread (rest), count how many required elements are in front
+        : 0,
     number
 >;
 
