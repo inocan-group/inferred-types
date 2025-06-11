@@ -1,57 +1,12 @@
 import {
     DateLike,
     Dictionary,
-    InputToken__SimpleTokens,
     InputTokenLike,
     Keys,
     Narrowable,
     NumberLike,
 } from "inferred-types/types";
 
-/**
- * Ways to convert conversion parameters to a `Comparator`
- * type when the `convertAll` configuration is active.
- */
-export type ComparisonParamConvert =
-| "union"
-| "string-union" // convert to string array then union
-| "token" // converts an InputToken to the type it represents
-| "stringLiteral"
-| "stringArray";
-
-
-/**
- * the definition of a _comparator_ operation
- */
-export type ComparisonOpConfig<T extends ComparisonMode = ComparisonMode> = {
-    params: T extends "run-time"
-        ? readonly Narrowable[]
-        : readonly unknown[];
-    /**
-     * Explicitly state the _type_ the runtime function can take when moved
-     * into strict mode. If not stated, it will be inferred based on the
-     * parameters.
-     */
-    accept?: T extends "run-time" ? Narrowable : unknown;
-
-    /**
-     * how many parameters the function expects to take
-     */
-    take?: 0 | 1 | 2 | 3 | "*";
-    /**
-     * conversion of the parameters before comparison starts
-     *
-     * - if a tuple then the conversion is done element by element
-     * of the parameters received
-     * - if not a tuple then the operation is performed across
-     * all the parameters
-     *
-     * **Note:** some operations -- like `union` -- when applied across
-     * parameters will change the parameter count; this is likely
-     * desired but just make sure you consider this.
-     */
-    convert?: ComparisonParamConvert | readonly ComparisonParamConvert[];
-};
 
 /** the _mode_ you're using the `ComparisonLookup` table in */
 export type ComparisonMode = "run-time" | "design-time";
@@ -74,13 +29,13 @@ export type ComparisonLookup<T extends ComparisonMode = "design-time"> = {
 
     startsWith: {
         params: [string | number, ...readonly (string | number)[]];
-        convert: "string-union";
+        convert: "stringUnion";
         take: 1;
     };
 
     endsWith: {
         params: [string | number, ...readonly (string | number)[]],
-        convert: "string-union";
+        convert: "stringUnion";
         accept: string | number;
         take: 1;
     };
@@ -137,7 +92,7 @@ export type ComparisonLookup<T extends ComparisonMode = "design-time"> = {
     containsSome: {
         params: [substrings: string | number, ...readonly (string|number)[]],
         accept: string | number;
-        convert: "string-union";
+        convert: "stringUnion";
         take: "1"
     };
 
@@ -161,7 +116,7 @@ export type ComparisonLookup<T extends ComparisonMode = "design-time"> = {
         take: 1;
     };
 
-    objectKeyValueGreaterThan: {
+    objectKeyGreaterThan: {
         params: [
             key: string,
             type: NumberLike
@@ -170,7 +125,7 @@ export type ComparisonLookup<T extends ComparisonMode = "design-time"> = {
         take: 2;
     };
 
-    objectKeyValueGreaterThanOrEqual: {
+    objectKeyGreaterThanOrEqual: {
         params: [
             key: string,
             type: NumberLike
@@ -179,7 +134,7 @@ export type ComparisonLookup<T extends ComparisonMode = "design-time"> = {
         take: 2;
     };
 
-    objectKeyValueLessThan: {
+    objectKeyLessThan: {
         params: [
             key: string,
             type: NumberLike
@@ -188,7 +143,7 @@ export type ComparisonLookup<T extends ComparisonMode = "design-time"> = {
         accept: Dictionary;
     };
 
-    objectKeyValueLessThanOrEqual: {
+    objectKeyLessThanOrEqual: {
         params: [
             key: string,
             type: NumberLike
@@ -352,23 +307,14 @@ export type ComparisonLookup<T extends ComparisonMode = "design-time"> = {
 }
 
 /**
- * **ComparisonOperation**
+ * **ComparisonOperation**`<T>`
  *
  * Operations known by the `Compare<T>` and `compare()` utilities
  * and leveraged by utilities like `Filter<T>`/`filter()`, etc.
+ *
+ * - the generic `T` is used to switch between `run-time` and `design-time`
+ * modes
  */
-export type ComparisonOperation
- = Keys<ComparisonLookup<"design-time">>[number];
+export type ComparisonOperation<T extends ComparisonMode = "design-time">
+ = Keys<ComparisonLookup<T>>[number];
 
- /**
-  * **RuntimeComparisonOperation**
-  *
-  * Same as `ComparisonOperation` excluding a few operations which
-  * revolve around functions where the runtime system does not
-  * have enough information to play a useful role.
-  */
-export type RuntimeComparisonOperation
-= Exclude<
-    Keys<ComparisonLookup<"run-time">>[number],
-    "returnsEquals" | "returnsExtends"
->

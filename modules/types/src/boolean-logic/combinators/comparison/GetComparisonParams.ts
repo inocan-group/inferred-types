@@ -18,8 +18,8 @@ import {
 export type GetComparisonParamInput<
     TOp extends ComparisonOperation,
     TMode extends ComparisonMode = "design-time",
-    TConfig extends ComparisonOpConfig<TMode> = GetOpConfig<TOp, TMode>,
-    TParams extends readonly unknown[] = TConfig["params"],
+    TConfig extends ComparisonOpConfig<TMode> | Error = GetOpConfig<TOp, TMode>,
+    TParams extends readonly unknown[] = TConfig extends ComparisonOpConfig<TMode> ? TConfig["params"] : [],
     TMeta extends TupleMeta<any> = TupleMeta<TParams>
 > = TMeta["minLength"] extends 1
     ? TParams | TParams[0]
@@ -52,11 +52,15 @@ export type ComparisonInputToTuple<
  * any parameters.
  */
 export type ComparisonInputDefault<
-    TOp extends ComparisonOperation,
+    TOp extends ComparisonOperation<TMode>,
     TMode extends ComparisonMode = "design-time",
-    TConfig extends ComparisonOpConfig<TMode> = GetOpConfig<TOp, TMode>,
-    TParams extends readonly unknown[] = TConfig["params"],
+    TConfig extends ComparisonOpConfig<TMode> | Error = GetOpConfig<TOp, TMode>,
+    TParams extends readonly unknown[] = TConfig extends ComparisonOpConfig<TMode> ? TConfig["params"] : [],
     TMeta extends TupleMeta<any> = TupleMeta<TParams>
 > = TMeta["minLength"] extends 0
     ? []
-    : Err<`missing-params`>;
+    : Err<
+        `invalid/params`,
+        `The operation '${TOp}' requires parameters but none were provided!`,
+        { params: TParams }
+    >;

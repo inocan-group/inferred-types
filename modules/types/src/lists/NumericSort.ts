@@ -110,7 +110,7 @@ type _SortOffset<
             As<
                 Filter<
                     Rest,
-                    "objectKeyValueGreaterThanOrEqual",
+                    "objectKeyGreaterThanOrEqual",
                     [
                         TOffset,
                         As<Get<Head, TOffset>, number>

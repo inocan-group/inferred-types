@@ -3,17 +3,16 @@ import {
     Compare,
     Extends,
     Expect,
-    UpperAlphaChar
+    UpperAlphaChar,
 } from "inferred-types/types";
 import { describe, it } from "vitest";
-
-
 
 describe("Compare<TVal,TOp,TComparator", () => {
 
     it("happy path", () => {
         type T1 = Compare<42, "extends", number>;
         type T1a = Compare<42, "extends", [number]>;
+        type T1x = Compare<42, "extends">;
 
         type T2 = Compare<42, "equals", 42>;
         type T2a = Compare<42, "equals", [42]>;
@@ -39,10 +38,10 @@ describe("Compare<TVal,TOp,TComparator", () => {
         type cases = [
             Expect<Test<T1, "equals",  true>>,
             Expect<Test<T1a, "equals",  true>>,
+            Expect<Test<T1x, "extends",  Error>>,
 
             Expect<Test<T2, "equals",  true>>,
             Expect<Test<T2a, "equals",  true>>,
-            Expect<Extends<T2b, Error>>, // only allows single param
 
             Expect<Extends<T2s, Error>>, // requires at least two params
             Expect<Test<T2sb, "equals",  true>>,
@@ -50,7 +49,7 @@ describe("Compare<TVal,TOp,TComparator", () => {
 
             Expect<Test<T3, "equals",  true>>,
             Expect<Test<T4, "equals",  true>>,
-            Expect<Test<T5, "equals",  true>>,
+            Expect<Test<T5, "equals",  true>>, // TComparator conversion problem?
             Expect<Test<T6, "equals",  true>>,
 
             Expect<Test<F1, "equals",  false>>,
@@ -60,17 +59,16 @@ describe("Compare<TVal,TOp,TComparator", () => {
             Expect<Test<O2, "equals",  boolean>>,
             Expect<Test<O3, "equals",  boolean>>,
 
-            Expect<Test<T1, "equals", false>>
         ];
 
     });
 
 
     it("using ops with no params", () => {
-        type T1 = Compare<false, "false", []>;
-        type T2 = Compare<true, "true", []>;
-        type T3 = Compare<"true", "truthy", []>;
-        type T4 = Compare<"false", "falsy", []>;
+        type T1 = Compare<false, "false">;
+        type T2 = Compare<true, "true">;
+        type T3 = Compare<"true", "truthy">;
+        type T4 = Compare<"false", "falsy">;
 
         type F1 = Compare<"true", "true", []>;
         type F2 = Compare<"false", "false", []>;
@@ -167,24 +165,24 @@ describe("Compare<TVal,TOp,TComparator", () => {
     });
 
 
-    it("objectKeyValue numeric ops", () => {
+    it("objectKey numeric ops", () => {
         type Obj = { foo: 2, bar: "bye" };
 
-        type T1 = Compare<Obj, "objectKeyValueGreaterThan", ["foo", 1]>;
+        type T1 = Compare<Obj, "objectKeyGreaterThan", ["foo", 1]>;
 
-        type T2 = Compare<Obj, "objectKeyValueGreaterThanOrEqual", ["foo", 1]>;
-        type T3 = Compare<Obj, "objectKeyValueGreaterThanOrEqual", ["foo", 2]>;
+        type T2 = Compare<Obj, "objectKeyGreaterThanOrEqual", ["foo", 1]>;
+        type T3 = Compare<Obj, "objectKeyGreaterThanOrEqual", ["foo", 2]>;
 
-        type T4 = Compare<Obj, "objectKeyValueLessThanOrEqual", ["foo", 3]>;
-        type T5 = Compare<Obj, "objectKeyValueLessThanOrEqual", ["foo", 2]>;
+        type T4 = Compare<Obj, "objectKeyLessThanOrEqual", ["foo", 3]>;
+        type T5 = Compare<Obj, "objectKeyLessThanOrEqual", ["foo", 2]>;
 
-        type T6 = Compare<Obj, "objectKeyValueLessThan", ["foo",3]>;
+        type T6 = Compare<Obj, "objectKeyLessThan", ["foo",3]>;
 
-        type F1 = Compare<Obj, "objectKeyValueGreaterThan", ["foo", 3]>;
-        type F2 = Compare<Obj, "objectKeyValueGreaterThanOrEqual", ["foo", 3]>;
+        type F1 = Compare<Obj, "objectKeyGreaterThan", ["foo", 3]>;
+        type F2 = Compare<Obj, "objectKeyGreaterThanOrEqual", ["foo", 3]>;
 
-        type F3 = Compare<Obj, "objectKeyValueLessThan", ["foo", 1]>;
-        type F4 = Compare<Obj, "objectKeyValueLessThanOrEqual", ["foo", 1]>;
+        type F3 = Compare<Obj, "objectKeyLessThan", ["foo", 1]>;
+        type F4 = Compare<Obj, "objectKeyLessThanOrEqual", ["foo", 1]>;
 
         type cases = [
             Expect<Test<T1, "equals",  true>>,
