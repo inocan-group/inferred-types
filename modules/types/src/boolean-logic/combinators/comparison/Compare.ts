@@ -221,15 +221,14 @@ type Process<
             : false
 
     : TOp extends "startsWith"
-        ? And<[
-            Extends<TParams[number], string | number>,
-            Extends<TVal, string | number>
-        ]> extends true
-            ? StartsWith<
-                As<TVal, string | number>,
-                As<TParams[number], string | number>
-            >
+        ? TComparator extends  string | number
+            ? TVal extends  string | number
+                ? StartsWith<
+                    TVal,
+                    TComparator
+                >
             : false
+        : false
 
     : TOp extends "false"
         ? IsFalse<TVal>
@@ -306,7 +305,7 @@ type Process<
         ]>
 
 
-    : TOp extends "objectKeyValueGreaterThan"
+    : TOp extends "objectKeyGreaterThan"
         ? And<[
             Extends<Second<TParams>, NumberLike>,
             Extends<TVal, object>
@@ -320,7 +319,7 @@ type Process<
         : false
 
 
-    : TOp extends "objectKeyValueGreaterThanOrEqual"
+    : TOp extends "objectKeyGreaterThanOrEqual"
         ? And<[
             Extends<Second<TParams>, NumberLike>,
             Extends<TVal, object>
@@ -333,8 +332,7 @@ type Process<
                 : false
             : false
 
-
-    : TOp extends "objectKeyValueLessThan"
+    : TOp extends "objectKeyLessThan"
         ? And<[
             Extends<Second<TParams>, NumberLike>,
             Extends<TVal, object>
@@ -348,7 +346,7 @@ type Process<
             : false
 
 
-    : TOp extends "objectKeyValueLessThanOrEqual"
+    : TOp extends "objectKeyLessThanOrEqual"
         ? And<[
             Extends<Second<TParams>, NumberLike>,
             Extends<TVal, object>
@@ -481,9 +479,18 @@ type Process<
 export type Compare<
     TVal,
     TOp extends ComparisonOperation,
-    TParams extends GetComparisonParamInput<TOp> = ComparisonInputDefault<TOp>
-> = Process<
-    TVal,
-    TOp,
-    ComparisonInputToTuple<TOp,TParams>
->
+    TParams extends GetComparisonParamInput<TOp> | Error = ComparisonInputDefault<TOp>
+> = TParams extends Error
+? TParams
+: TParams extends GetComparisonParamInput<TOp>
+    ? Process<
+        TVal,
+        TOp,
+        ComparisonInputToTuple<TOp,TParams>
+    >
+    : Err<
+        "invalid/parameters",
+        `The parameters passed into the Compare<TVal,${TOp},TParams> were not of the right type!`
+    >;
+
+

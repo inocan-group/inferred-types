@@ -1,9 +1,13 @@
 import {
+    AfterFirst,
     ComparisonMode,
     ComparisonOpConfig,
+    ComparisonParamConvert__Unit,
+    Err,
     First,
     FromInputToken,
     InputTokenLike,
+    Length,
     Slice,
     ToStringArray,
 } from "inferred-types/types";
@@ -21,18 +25,63 @@ type TakeCount<
 
 type Take<
     TParams extends readonly unknown[],
-    T extends ComparisonOpConfig<ComparisonMode>,
-> = TakeCount<T> extends 0
+    TConfig extends ComparisonOpConfig<ComparisonMode>,
+> = TakeCount<TConfig> extends 0
 ? undefined
-: TakeCount<T> extends 1
+: TakeCount<TConfig> extends 1
 ? First<TParams>
-: TakeCount<T> extends "*"
+: TakeCount<TConfig> extends "*"
 ? TParams
-: TakeCount<T> extends number
-    ? Slice<TParams,0,TakeCount<T>>
+: TakeCount<TConfig> extends number
+    ? Slice<TParams,0,TakeCount<TConfig>>
     : never;
 
 
+type ConvertUnit<
+    TConvert extends ComparisonParamConvert__Unit,
+    TParam
+> = TConvert extends "stringLiteral"
+? TParam extends string | number | boolean
+    ? `${TParam}`
+    : Err<
+        `invalid-conversion/${TConvert}`,
+        `The '${TConvert}' conversion was used on a parameter whose type is not allowed. This operation should be used to convert strings, number, or booleans into string literals.`,
+        { param: TParam }
+    >
+: TConvert extends "token"
+    ? TParam extends InputTokenLike
+        ? FromInputToken<TParam>
+        : never
+: TConvert extends "none"
+    ? TParam
+    : TParam
+;
+
+/**
+ * Called when the "convert" rule is a tuple of rules.
+ */
+type GetTupleComparator<
+    TConvert extends readonly ComparisonParamConvert__Unit[],
+    TParams extends readonly unknown[],
+    TMode extends ComparisonMode,
+    TResult extends readonly unknown[] = []
+> = [] extends TParams
+? TResult
+: GetTupleComparator<
+    Length<TConvert> extends 1
+        ? TConvert // maintain last rule if more params than rules
+        : AfterFirst<TConvert>,
+    AfterFirst<TParams>,
+    TMode,
+    [
+        ...TResult,
+        ConvertUnit<
+            First<TConvert>,
+            First<TParams>
+        >
+    ]
+>
+;
 /**
  * **GetComparator**`<TConfig, TParams, [TMode]>`
  *
@@ -53,7 +102,7 @@ export type GetComparator<
     ? Take<ToStringArray<TParams>, TConfig>
 : TConfig["convert"] extends "union"
     ? Take<[TParams[number]], TConfig>
-: TConfig["convert"] extends "string-union"
+: TConfig["convert"] extends "stringUnion"
     ? Take<[ToStringArray<TParams>[number]], TConfig>
 : TConfig["convert"] extends "token"
     ? Take<{
@@ -67,5 +116,9 @@ export type GetComparator<
             ? `${TParams[K]}`
             : never
     }, TConfig>
+: TConfig["convert"] extends readonly ComparisonParamConvert__Unit[]
+    ? GetTupleComparator<
+        TConfig["convert"], TParams, TMode
+    >
 : Take<TParams, TConfig>;
 

@@ -1,24 +1,23 @@
 import type {
     IfEqual,
     IsBooleanLiteral,
+    IsLiteralUnion,
     IsNumericLiteral,
     IsObjectLiteral,
     IsStringLiteral,
     IsTuple,
     IsUnion,
+    Or,
 } from "inferred-types/types";
 
-type Validations<T> = IsStringLiteral<T> extends true
-    ? true
-    : IsNumericLiteral<T> extends true
-        ? true
-        : IsTuple<T> extends true
-            ? true
-            : IsBooleanLiteral<T> extends true
-                ? true
-                : IsObjectLiteral<T> extends true
-                    ? true
-                    : false;
+type Validations<T> = Or<[
+    IsStringLiteral<T>,
+    IsNumericLiteral<T>,
+    IsTuple<T>,
+    IsBooleanLiteral<T>,
+    IsObjectLiteral<T>
+]>;
+
 
 /**
  * **IsLiteral**`<T>`
@@ -31,15 +30,17 @@ type Validations<T> = IsStringLiteral<T> extends true
  * - object literal
  * - or a tuple literal
  *
- * Note: when `T` is a _union type_, even if there are literal types
- * in the union, this will return `false`.
+ * Note: when `T` is a _union type_ this utilty returns `false` if
+ * any of the union members are a wide type
  *
  * **Related:** `IsUnion`, `IsWideUnion`, `IsLiteralUnion`
  */
 export type IsLiteral<T> = [IsUnion<T>] extends [true]
-    ? false
+    ? [IsLiteralUnion<T>] extends [true]
+        ? true
+        : false
     : Validations<T>;
 
-// TODO: for reasons unknown we can't add in the `IsObjectLiteral<T>` test!
 
 export type IsOptionalLiteral<T> = IfEqual<T, undefined, true, IsLiteral<T>>;
+

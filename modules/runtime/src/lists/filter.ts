@@ -5,7 +5,7 @@ import type {
     Narrowable,
     ToStringArray,
     Filter,
-    RuntimeComparisonOperation,
+    ComparisonOperation,
     ComparisonLookup,
     As,
     Flexy,
@@ -29,42 +29,8 @@ import {
 } from "inferred-types/runtime";
 import { GetComparator } from "@inferred-types/types/src";
 
-type Conversion = "union" | "token" | "stringLiteral" | "stringArray";
-
-
-type Convert<
-    T,
-    U extends readonly Conversion[]
-> = [] extends U
-? T
-: Convert<
-    First<U> extends "union"
-    ? T extends readonly Narrowable[]
-        ? T[number]
-        : never
-    : First<U> extends "token"
-        ? T extends string
-            ? FromInputToken<T>
-            : never
-    : First<U> extends "stringLiteral"
-        ? T extends string | number | boolean
-            ? `${T}`
-            : never
-    : First<U> extends "stringArray"
-        ? T extends readonly unknown[]
-            ? ToStringArray<T>
-            : never
-    : never,
-    AfterFirst<U>
->;
-
-
 type Lookup = ComparisonLookup<"run-time">;
 
-
-
-type X = GetOpConfig<"startsWith">;
-type Y = GetComparator<X, ["foo", "bar"]>;
 
 type Returns<
     TOp extends keyof Lookup,
@@ -111,7 +77,7 @@ export type FilterFn<
  * **Related:** `retain()`
  */
 export function filter<
-    TOp extends RuntimeComparisonOperation,
+    TOp extends ComparisonOperation<"run-time">,
     TParams extends Lookup[TOp]["params"]
 >(
     op: TOp,
@@ -391,7 +357,7 @@ export function filter<
                           )
                 ) as Returns<TOp,TParams,T>;
 
-            case "objectKeyValueGreaterThan":
+            case "objectKeyGreaterThan":
                 return (
                     isArray(val)
                         ? val.filter(v =>
@@ -406,7 +372,7 @@ export function filter<
                           )
                 ) as Returns<TOp,TParams,T>;
 
-            case "objectKeyValueGreaterThanOrEqual":
+            case "objectKeyGreaterThanOrEqual":
                 return (
                     isArray(val)
                         ? val.filter(v =>
@@ -421,7 +387,7 @@ export function filter<
                           )
                 ) as Returns<TOp,TParams,T>;
 
-            case "objectKeyValueLessThan":
+            case "objectKeyLessThan":
                 return (
                     isArray(val)
                         ? val.filter(v =>
@@ -436,7 +402,7 @@ export function filter<
                           )
                 ) as Returns<TOp,TParams,T>;
 
-            case "objectKeyValueLessThanOrEqual":
+            case "objectKeyLessThanOrEqual":
                 return (
                     isArray(val)
                         ? val.filter(v =>

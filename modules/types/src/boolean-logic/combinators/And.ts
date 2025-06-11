@@ -1,5 +1,6 @@
 import type {
     AfterFirst,
+    As,
     First,
     IfEqual,
     IsEqual,
@@ -29,14 +30,16 @@ type Process<
 export type And<
     TConditions,
     TEmpty extends boolean = false,
-> = TConditions extends readonly (boolean | LogicFunction)[]
-
-    ? IsEqual<TConditions, []> extends true
-        ? TEmpty
-        : LogicalReturns<TConditions> extends readonly boolean[]
-            ? Process<
-                LogicalReturns<TConditions>,
-                NarrowlyContains<LogicalReturns<TConditions>, boolean>
-            >
-            : never
-    : never;
+> = As<
+    TConditions extends readonly (boolean | LogicFunction)[]
+        ? IsEqual<TConditions, []> extends true
+            ? TEmpty
+            : LogicalReturns<TConditions> extends readonly boolean[]
+                ? Process<
+                    LogicalReturns<TConditions>,
+                    NarrowlyContains<LogicalReturns<TConditions>, boolean>
+                >
+                : never
+        : never,
+    boolean
+>

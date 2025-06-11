@@ -23,10 +23,11 @@ type Process<
  * Boolean utility which checks whether `T` is both a _union type_
  * and that it's elements are all considered _wide types_.
  *
- * **Related:** `IsNonLiteralUnion`
+ * **Related:** `IsNonLiteralUnion`, `IsLiteralUnion`
  */
 export type IsWideUnion<T> = [IsUnion<T>] extends [true]
     ? [Process<UnionToTuple<T>>] extends [readonly true[]]
         ? true
         : false
     : false;
+
