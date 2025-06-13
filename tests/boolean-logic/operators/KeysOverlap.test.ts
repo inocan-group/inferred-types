@@ -1,9 +1,10 @@
-import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { Expect, ExplicitlyEmptyObject, KeysOverlap, Test } from "inferred-types/types";
-import { IsWideContainer } from "transpiled/types";
+import {
+    Expect,
+    ExplicitlyEmptyObject,
+    KeysOverlap,
+    Test
+} from "inferred-types/types";
 import { describe, it } from "vitest";
-
-
 
 describe("KeysOverlap<A,B>", () => {
 

@@ -1,6 +1,5 @@
 import {
     ComparisonLookup,
-    ComparisonMode,
     ComparisonOpConfig,
     ComparisonOperation,
     Err,
@@ -14,12 +13,11 @@ import {
  * a specific comparison operation.
  */
 export type GetOpConfig<
-    TOp extends ComparisonOperation<TMode>,
-    TMode extends ComparisonMode = "design-time",
-    TConfig = ComparisonLookup<TMode>[TOp]
-> = TConfig extends ComparisonOpConfig<TMode>
+    TOp extends ComparisonOperation,
+    TConfig = ComparisonLookup[TOp]
+> = TConfig extends ComparisonOpConfig
 ? TConfig
-: TOp extends keyof ComparisonLookup<TMode>
+: TOp extends keyof ComparisonLookup
     ? Err<
         `malformed-operation/${TOp}`,
         `The configuration for '${TOp}' was found but is malformed and does not extend the 'ComparisonOpConfig' type!`,

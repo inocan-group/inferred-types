@@ -4,13 +4,16 @@ import type {
     ComparisonOperation,
     ComparisonLookup,
      ComparisonInputToTuple,
-     GetComparisonParamInput
+     GetComparisonParamInput,
+     ComparisonAccept,
+     Err,
+     ComparisonInputDefault,
 } from "inferred-types/types";
 
 
 
 type Process<
-    TList extends readonly unknown[],
+    TList extends readonly ComparisonAccept<TOp>[],
     TOp extends ComparisonOperation,
     TParams extends ComparisonLookup[TOp]["params"]
 > = RemoveNever<{
@@ -39,14 +42,23 @@ type Process<
  * ```
  */
 export type Filter<
-    TList extends readonly unknown[],
+    TList extends readonly ComparisonAccept<TOp>[],
     TOp extends ComparisonOperation,
-    TParams extends GetComparisonParamInput<TOp>
-> = Process<
+    TParams extends GetComparisonParamInput<TOp> | Error = ComparisonInputDefault<TOp>
+> = [TParams] extends [Error]
+? TParams
+: [ComparisonInputToTuple<TOp, TParams>] extends [ComparisonLookup[TOp]["params"]]
+
+? Process<
     TList,
     TOp,
     ComparisonInputToTuple<TOp, TParams>
 >
 
+: [ComparisonInputToTuple<TOp, TParams>] extends [Error]
+    ? ComparisonInputToTuple<TOp, TParams>
+    : Err<
+        `invalid-filter`,
+        `The filter operation '${TOp}' received invalid parameters!`
+    >;
 
-type Y = Filter<[1,2,3], "greaterThan", 1>;

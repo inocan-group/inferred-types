@@ -75,3 +75,5 @@ export type IsSubstring<
 > = TContent extends `${string}${TFind}${string}`
 ? true
 : false;
+
+type X = Contains<["foo","bar",42], string>;

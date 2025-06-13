@@ -241,6 +241,23 @@ type Assert<
 : never;
 
 
+
+/**
+ * **Test**`<TTest, TOp, TExpected>`
+ *
+ * A type test which `TTest` when _compared_ using the `TOp` operation
+ * to `TExpected` results in a true outcome.
+ *
+ * ### Operations
+ *
+ * - `equals`
+ * - `extends`
+ * - `doesNotExtend`
+ * - `hasSameKeys`
+ * - `hasSameValues`
+ * - `isError`
+ * - `containsAll`
+ */
 export type Test<
     TTest,
     TOp extends AssertionType,

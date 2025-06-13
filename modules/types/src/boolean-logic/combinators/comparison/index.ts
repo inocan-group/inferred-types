@@ -7,3 +7,5 @@ export * from "./GetComparisonParams";
 export * from "./GetOpConfig";
 export * from "./GetComparisonParams";
 export * from "./ComparisonOpConfig";
+export * from "./ComparisonFn";
+export * from "./ComparisonAccept";

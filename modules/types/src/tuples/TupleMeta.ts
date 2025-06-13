@@ -24,7 +24,7 @@ import {
  * - `isOptional`
  * - `isEmpty`
  */
-export type TupleMeta<T extends readonly unknown[]> = {
+export type TupleMeta<T extends readonly unknown[] = any> = {
     /** textual description of the range of lengths available */
     range: And<[
         IsEqual<MinLength<T>, 0>,

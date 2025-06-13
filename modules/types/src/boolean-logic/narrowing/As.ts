@@ -6,6 +6,6 @@
 export type As<
     TContent,
     TType,
-> = TContent extends TType
+> = [TContent] extends [TType]
     ? TContent
     : never;

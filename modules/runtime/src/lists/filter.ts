@@ -14,6 +14,8 @@ import type {
     Compare,
     Comparator,
     GetOpConfig,
+    FilterFn,
+    Equals,
 } from "inferred-types/types";
 import {
     isArray,
@@ -27,37 +29,15 @@ import {
     between,
     toDate
 } from "inferred-types/runtime";
-import { GetComparator } from "@inferred-types/types/src";
 
-type Lookup = ComparisonLookup<"run-time">;
+type Lookup = ComparisonLookup;
 
+type Accept<TOp extends ComparisonOperation> = "accept" extends keyof ComparisonLookup[TOp]
+? Equals<ComparisonLookup[TOp]["accept"], unknown> extends true
+    ? Narrowable
+    : ComparisonLookup[TOp]["accept"]
+: Narrowable;
 
-type Returns<
-    TOp extends keyof Lookup,
-    TParams extends readonly Narrowable[],
-    TVal,
-    TConfig = GetOpConfig<TOp>
-> = TVal extends readonly unknown[]
-? Filter<
-    TVal, TOp, GetOpConfig<TConfig,TParams>
->
-: Compare<TVal, TOp, GetOpConfig<TConfig,TParams>>
-
-
-/**
- * **FilterFn**`<Operation, OpParams>`
- *
- * A defined function from the `filter()` runtime utility which provides
- * a function which can accept both singular values to test against or
- * an array/tuple of values.
- */
-export type FilterFn<
-    TOp extends keyof Lookup ,
-    TParams extends Lookup[TOp]["params"]
-> = <
-    T extends N | readonly N[],
-    N extends Narrowable
->(val: T) => Returns<TOp,TParams, T>;
 
 /**
  * **filter**`(op, [details])` => (comparator) => boolean
@@ -77,25 +57,25 @@ export type FilterFn<
  * **Related:** `retain()`
  */
 export function filter<
-    TOp extends ComparisonOperation<"run-time">,
+    TOp extends ComparisonOperation,
     TParams extends Lookup[TOp]["params"]
 >(
     op: TOp,
     ...params: TParams
 ): FilterFn<TOp, TParams> {
     return <
-        T extends N | readonly N[],
-        N extends Narrowable
+        T extends Accept<TOp> | readonly N[],
+        N extends Accept<TOp>
     >(
         val: T
-    ): Returns<TOp,TParams,T> => {
+    ) => {
         switch(op) {
             case "truthy":
                 return (
                     isArray(val)
                     ? val.filter(i => isTruthy(i))
                     : isTruthy(val)
-                 ) as Returns<TOp,TParams,T>;
+                 ) as Filter<T, TOp,TParams>;
             case "startsWith":
                 return (
                     isArray(val)
@@ -107,7 +87,7 @@ export function filter<
                         : (
                             isString(val) || isNumber(val) || isBoolean(val)
                         ) && params.some(i => String(val).startsWith(i as string))
-                ) as Returns<TOp,TParams,T>;
+                ) as Filter<T, TOp,TParams>;
             case "endsWith":
                 return (
                     isArray(val)
@@ -119,7 +99,7 @@ export function filter<
                     : (
                         isString(val) || isNumber(val) || isBoolean(val)
                     ) && params.some(i => String(val).endsWith(i as string))
-                ) as Returns<TOp,TParams,T>;
+                ) as Filter<T, TOp,TParams>;
             case "contains":
                 return (
                     isArray(val)

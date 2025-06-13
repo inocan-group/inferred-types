@@ -4,13 +4,13 @@ type ConvertUnion<
     T extends readonly unknown[],
     THandle extends "drop" | "proxy",
 > = TupleToUnion<{
-    [K in keyof T]: T[K] extends string
+    [K in keyof T]: [T[K]] extends [string]
         ? T[K]
-        : T[K] extends number
+        : [T[K]] extends [number]
             ? `${T[K]}`
-            : T[K] extends boolean
+            : [T[K]] extends [boolean]
                 ? `${T[K]}`
-                : THandle extends "drop"
+                : [THandle] extends ["drop"]
                     ? never
                     : T[K];
 }>;
@@ -36,14 +36,14 @@ type ConvertUnion<
 export type AsStringUnion<
     T,
     THandle extends "drop" | "proxy" = "drop",
-> = IsUnion<T> extends true
+> = [IsUnion<T>] extends [true]
     ? ConvertUnion<UnionToTuple<T>, THandle>
-    : T extends string
+    : [T] extends [string]
         ? T
-        : T extends number
+        : [T] extends [number]
             ? `${T}`
-            : T extends boolean
+            : [T] extends [boolean]
                 ? `${T}`
-                : THandle extends "drop"
+                : [THandle] extends ["drop"]
                     ? never
                     : T;

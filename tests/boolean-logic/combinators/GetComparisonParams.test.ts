@@ -34,7 +34,7 @@ describe("GetComparisonParamInput<TOp,TInput>", () => {
         ];
     });
 
-    it("extends (design-time)", () => {
+    it("extends", () => {
         type C1 = GetOpConfig<"extends">;
         type I1 = GetComparisonParamInput<"extends">;
         type D1 = ComparisonInputDefault<"extends">;
@@ -47,21 +47,7 @@ describe("GetComparisonParamInput<TOp,TInput>", () => {
         ];
     });
 
-    it("extends (run-time)", () => {
-        type C1 = GetOpConfig<"extends", "run-time">;
-        type I1 = GetComparisonParamInput<"extends", "run-time">;
-        type D1 = ComparisonInputDefault<"extends", "run-time">;
 
-
-        type cases = [
-            Expect<Test<C1["params"], "equals", [InputTokenLike, ...InputTokenLike[]]>>,
-            Expect<Test<
-                I1, "equals",
-                InputTokenLike | [types: InputTokenLike, ...InputTokenLike[]]
-            >>,
-            Expect<Test<D1, "extends", Error>>,
-        ];
-    });
 
     it("truthy", () => {
         type C1 = GetOpConfig<"truthy">;
@@ -99,6 +85,18 @@ describe("GetComparisonParamInput<TOp,TInput>", () => {
         type C1 = GetOpConfig<"objectKeyExtends">;
         type I1 = GetComparisonParamInput<"objectKeyExtends">;
         type D1 = ComparisonInputDefault<"objectKeyExtends">;
+
+        type cases = [
+            Expect<Test<C1["params"], "equals", [key: string, type: unknown]>>,
+            Expect<Test<I1, "equals", [key: string, type: unknown]>>,
+            Expect<Test<D1, "extends", Error>>,
+        ];
+    });
+
+    it("containsSome", () => {
+        type C1 = GetOpConfig<"containsSome">;
+        type I1 = GetComparisonParamInput<"containsSome">;
+        type D1 = ComparisonInputDefault<"containsSome">;
 
         type cases = [
             Expect<Test<C1["params"], "equals", [key: string, type: unknown]>>,

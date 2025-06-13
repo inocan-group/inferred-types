@@ -5,62 +5,106 @@ import {
     Expect,
     UpperAlphaChar,
 } from "inferred-types/types";
+import { Contains } from "transpiled/types";
 import { describe, it } from "vitest";
 
 describe("Compare<TVal,TOp,TComparator", () => {
 
-    it("happy path", () => {
+
+    it("equals", () => {
+        type T1 = Compare<42, "equals", 42>;
+        type T2 = Compare<42, "equals", [42]>;
+        type T3 = Compare<"foo", "equals", ["foo"]>;
+
+        type B1 = Compare<string, "equals", ["foo"]>;
+        type B2 = Compare<string, "equals", [string]>;
+        type B3 = Compare<"foo", "equals", [string]>;
+
+        type F1 = Compare<"foo", "equals", ["bar"]>;
+        type F2 = Compare<"foo", "equals", [42]>;
+
+        type E1 = Compare<"foo", "equals">;
+        type E2 = Compare<"foo", "equals", ["foo", "bar"]>;
+
+        type cases = [
+            Expect<Test<T1, "equals",  true>>,
+            Expect<Test<T2, "equals",  true>>,
+            Expect<Test<T3, "equals",  true>>,
+
+            Expect<Test<B1, "equals",  boolean>>,
+            Expect<Test<B2, "equals",  boolean>>,
+            Expect<Test<B3, "equals",  boolean>>,
+
+            Expect<Test<F1, "equals",  false>>,
+            Expect<Test<F2, "equals",  false>>,
+
+            Expect<Test<E1, "isError", "invalid-parameters">>,
+            Expect<Test<E2, "isError", "invalid-parameters">>,
+        ];
+    });
+
+
+    it("extends", () => {
         type T1 = Compare<42, "extends", number>;
         type T1a = Compare<42, "extends", [number]>;
         type T1x = Compare<42, "extends">;
-
-        type T2 = Compare<42, "equals", 42>;
-        type T2a = Compare<42, "equals", [42]>;
-
-        type T2s = Compare<42, "equalsSome", 42>; // Error
-        type T2sb = Compare<42, "equalsSome", [42, 99]>;
-        type T2sc = Compare<99, "equalsSome", [42, 99]>;
-
-        type T3 = Compare<420, "startsWith", 42>;
-        type T4 = Compare<"foobar", "startsWith", "foo">;
-        type T5 = Compare<"Foo", "startsWith", UpperAlphaChar>;
-        type T6 = Compare<42, "greaterThan", 30>;
-
-        type F1 = Compare<number, "extends", 42>;
-        type F2 = Compare<"foo", "startsWith", UpperAlphaChar>;
-
-        type B1 = Compare<number, "equals", 42>;
-
-        type O1 = Compare<"foobar", "greaterThan", 42>;
-        type O2 = Compare<number, "greaterThan", 42>;
-        type O3 = Compare<string, "startsWith", "foo">;
 
         type cases = [
             Expect<Test<T1, "equals",  true>>,
             Expect<Test<T1a, "equals",  true>>,
             Expect<Test<T1x, "extends",  Error>>,
+        ];
+    });
 
+
+    it("equalsSome", () => {
+        type T1 = Compare<42, "equalsSome", [42, 99]>;
+        type T2 = Compare<99, "equalsSome", [42, 99]>;
+
+        // @ts-ignore
+        type E1 = Compare<42, "equalsSome", 42>; // Error
+        // @ts-ignore
+        type E2 = Compare<42, "equalsSome", [42]>; // Error
+
+        type cases = [
+            Expect<Test<T1, "equals",  true>>,
             Expect<Test<T2, "equals",  true>>,
-            Expect<Test<T2a, "equals",  true>>,
+            Expect<Test<E1, "isError", "invalid-parameters">>,
+            Expect<Test<E2, "isError", "invalid-parameters">>,
+        ];
+    });
 
-            Expect<Extends<T2s, Error>>, // requires at least two params
-            Expect<Test<T2sb, "equals",  true>>,
-            Expect<Test<T2sc, "equals",  true>>,
 
+
+    it("startsWith", () => {
+        type T1 = Compare<420, "startsWith", 42>;
+        type T2 = Compare<"foobar", "startsWith", "foo">;
+        type T3 = Compare<"Foo", "startsWith", UpperAlphaChar>;
+
+        type F1 = Compare<"foo", "startsWith", UpperAlphaChar>;
+
+        type cases = [
+            Expect<Test<T1, "equals",  true>>,
+            Expect<Test<T2, "equals",  true>>,
             Expect<Test<T3, "equals",  true>>,
-            Expect<Test<T4, "equals",  true>>,
-            Expect<Test<T5, "equals",  true>>, // TComparator conversion problem?
-            Expect<Test<T6, "equals",  true>>,
 
             Expect<Test<F1, "equals",  false>>,
-            Expect<Test<F2, "equals",  false>>,
+        ];
+    });
 
+
+
+    it("greaterThan", () => {
+        type T6 = Compare<42, "greaterThan", 30>;
+
+        type O1 = Compare<"foobar", "greaterThan", 42>;
+        type O2 = Compare<number, "greaterThan", 42>;
+
+        type cases = [
+            Expect<Test<T6, "equals",  true>>,
             Expect<Test<O1, "equals",  false>>,
             Expect<Test<O2, "equals",  boolean>>,
-            Expect<Test<O3, "equals",  boolean>>,
-
         ];
-
     });
 
 
@@ -70,8 +114,8 @@ describe("Compare<TVal,TOp,TComparator", () => {
         type T3 = Compare<"true", "truthy">;
         type T4 = Compare<"false", "falsy">;
 
-        type F1 = Compare<"true", "true", []>;
-        type F2 = Compare<"false", "false", []>;
+        type F1 = Compare<"true", "true">;
+        type F2 = Compare<"false", "false">;
 
         type cases = [
             Expect<Test<T1, "equals",  true>>,
@@ -85,12 +129,59 @@ describe("Compare<TVal,TOp,TComparator", () => {
     });
 
 
-    it("using contains op with a string input", () => {
+    it("contains with string input", () => {
         type T1 = Compare<"foobar", "contains", "foo">;
+        type T2 = Compare<"foo", "contains", string>;
+
+        type B1 = Compare<string, "contains", "foo">;
+
         type F1 = Compare<"foobar", "contains", "bax">;
 
         type cases = [
             Expect<Test<T1, "equals",  true>>,
+            Expect<Test<T2, "equals",  true>>,
+            Expect<Test<B1, "equals",  boolean>>,
+            Expect<Test<F1, "equals",  false>>,
+        ];
+    });
+
+    it("contains with tuple input", () => {
+        type Tup = ["foo","bar",42];
+        type T1 = Compare<Tup, "contains", "foo">;
+        type T2 = Compare<Tup, "contains", string>;
+        type T3 = Compare<Tup, "contains", number>;
+        type T3a = Contains<Tup, number>;
+        type T4 = Compare<Tup, "contains", 42>;
+        type T4a = Contains<Tup, 42>;
+
+        type F1 = Compare<Tup, "contains", "bax">;
+        type F2 = Compare<Tup, "contains", 99>;
+
+        type cases = [
+            Expect<Test<T1, "equals",  true>>,
+            Expect<Test<T2, "equals",  true>>,
+            Expect<Test<T3, "equals",  true>>,
+            Expect<Test<T3a, "equals",  true>>,
+            Expect<Test<T4, "equals",  true>>,
+            Expect<Test<T4a, "equals",  true>>,
+
+            Expect<Test<F1, "equals",  false>>,
+            Expect<Test<F2, "equals",  false>>,
+        ];
+    });
+
+    it("containsSome with string input", () => {
+        type T1 = Compare<"foobar", "containsSome", ["foo", "bar"]>;
+        type T2 = Compare<"foo", "containsSome", [string, number]>;
+
+        type B1 = Compare<string, "contains", "foo">;
+
+        type F1 = Compare<"foobar", "contains", "bax">;
+
+        type cases = [
+            Expect<Test<T1, "equals",  true>>,
+            Expect<Test<T2, "equals",  true>>,
+            Expect<Test<B1, "equals",  boolean>>,
             Expect<Test<F1, "equals",  false>>,
         ];
     });

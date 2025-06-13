@@ -56,7 +56,7 @@ export type DateTime<
 type IsoExplicitness = "both" | "explicit" | "implicit";
 
 type Month = `0${NumericChar}` | `10` | `11` | `12`;
-type Date = `${"0" | "1" | "2"}${NumericChar}` | "30" | "31";
+type DateNum = `${"0" | "1" | "2"}${NumericChar}` | "30" | "31";
 
 /**
  * A calendar date -- by the [**ISO8601**](https://en.wikipedia.org/wiki/ISO_8601) standard --
@@ -71,10 +71,10 @@ type Date = `${"0" | "1" | "2"}${NumericChar}` | "30" | "31";
 export type Iso8601Date<
     T extends IsoExplicitness = "explicit",
 > = T extends "explicit"
-    ? `${number}-${Month}-${Date}`
+    ? `${number}-${Month}-${DateNum}`
     : T extends "implicit"
-        ? `${number}${Month}${Date}`
-        : `${number}-${Month}-${Date}` | `${number}${Month}${Date}`;
+        ? `${number}${Month}${DateNum}`
+        : `${number}-${Month}-${DateNum}` | `${number}${Month}${DateNum}`;
 
 /**
  * **Iso8601Year**

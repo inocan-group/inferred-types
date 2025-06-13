@@ -11,6 +11,7 @@ describe("AsStringUnion<T>", () => {
 
     it("happy path", () => {
         type LitNum = AsStringUnion<42 | 56>;
+        type MixedLit = AsStringUnion<42 | "foo" | false>;
         type WideNum = AsStringUnion<"foo" | number>;
         type NoChange = AsStringUnion<"foo" | "bar">;
         type Ignored = AsStringUnion<"foo" | "bar" | [1, 2, 3]>;
@@ -21,6 +22,7 @@ describe("AsStringUnion<T>", () => {
 
         type cases = [
             Expect<Test<LitNum, "equals",  "42" | "56">>,
+            Expect<Test<MixedLit, "equals",  "42" | "foo" | "false">>,
             Expect<Test<WideNum, "equals",  "foo" | `${number}`>>,
             Expect<Test<NoChange, "equals",  "foo" | "bar">>,
             Expect<Test<Ignored, "equals",  "foo" | "bar">>,
