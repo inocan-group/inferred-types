@@ -6,7 +6,7 @@ import { describe, expect, it } from "vitest";
 const datum = "Llama-3.3-70B-Instruct-f16/Llama-3.3-70B-Instruct-f16-00001-of-00004.gguf" as const;
 
 
-describe("infer(templ) → (test) → RESULT", () => {
+describe("infer(template) → (test) → RESULT", () => {
 
     it("happy path", () => {
         const inference = infer(
@@ -26,7 +26,6 @@ describe("infer(templ) → (test) → RESULT", () => {
 
         const strMatch = strInference(datum);
         expect(strMatch).toBeTypeOf("object");
-
 
         type cases = [
             Expect<Test<
@@ -57,7 +56,10 @@ describe("infer(templ) → (test) → RESULT", () => {
             >>,
 
             // type system KNOWS that no match will be made
-            Expect<Test<typeof noMatch, "equals", false>>,
+            Expect<Test<
+                typeof noMatch, "equals",
+                false
+            >>,
             // type system KNOWS that there will be a match
             Expect<Equal<typeof strMatch, {
                 Model: string;

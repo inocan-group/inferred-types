@@ -1,11 +1,10 @@
 import {
     Test,
     Compare,
-    Extends,
     Expect,
     UpperAlphaChar,
+    Contains,
 } from "inferred-types/types";
-import { Contains } from "transpiled/types";
 import { describe, it } from "vitest";
 
 describe("Compare<TVal,TOp,TComparator", () => {
@@ -79,34 +78,36 @@ describe("Compare<TVal,TOp,TComparator", () => {
     it("startsWith", () => {
         type T1 = Compare<420, "startsWith", 42>;
         type T2 = Compare<"foobar", "startsWith", "foo">;
-        type T3 = Compare<"Foo", "startsWith", UpperAlphaChar>;
+        type T3 = Compare<"Foo", "startsWith", [UpperAlphaChar]>;
+        type T4 = Compare<"Foo", "startsWith", UpperAlphaChar>;
 
         type F1 = Compare<"foo", "startsWith", UpperAlphaChar>;
+        type F2 = Compare<"foo", "startsWith", [UpperAlphaChar]>;
 
         type cases = [
             Expect<Test<T1, "equals",  true>>,
             Expect<Test<T2, "equals",  true>>,
             Expect<Test<T3, "equals",  true>>,
+            Expect<Test<T4, "equals",  true>>,
 
             Expect<Test<F1, "equals",  false>>,
+            Expect<Test<F2, "equals",  false>>,
         ];
     });
-
-
 
     it("greaterThan", () => {
-        type T6 = Compare<42, "greaterThan", 30>;
-
-        type O1 = Compare<"foobar", "greaterThan", 42>;
-        type O2 = Compare<number, "greaterThan", 42>;
+        type T1 = Compare<42, "greaterThan", 30>;
+        type T2 = Compare<"42", "greaterThan", 30>;
+        type F1 = Compare<"42", "greaterThan", 42>;
+        type B1 = Compare<number, "greaterThan", 42>;
 
         type cases = [
-            Expect<Test<T6, "equals",  true>>,
-            Expect<Test<O1, "equals",  false>>,
-            Expect<Test<O2, "equals",  boolean>>,
+            Expect<Test<T1, "equals",  true>>,
+            Expect<Test<T2, "equals",  true>>,
+            Expect<Test<F1, "equals",  false>>,
+            Expect<Test<B1, "equals",  boolean>>,
         ];
     });
-
 
     it("using ops with no params", () => {
         type T1 = Compare<false, "false">;

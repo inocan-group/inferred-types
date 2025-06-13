@@ -137,8 +137,9 @@ describe("ToStringLiteral<T>", () => {
 
         type cases = [
             Expect<Test<
-                StrNum, "equals",
-                "string | number"
+                StrNum, "extends",
+                "string | number" |
+                "number | string"
             >>,
             /** the ordering of a union type can vary */
             Expect<Test<

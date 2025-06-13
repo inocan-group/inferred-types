@@ -100,7 +100,7 @@ describe("FromInputToken<Token>", () => {
             Expect<Test<
                 FN,
                 "equals",
-                (<T extends [string, number, "red" | "blue"]>(...args: T) => string) & {
+                (<T extends readonly [string, number, "red" | "blue"]>(...args: T) => string) & {
                     name: "foo";
                 }
             >>,
@@ -121,17 +121,15 @@ describe("FromInputToken<Token>", () => {
 
 
             Expect<Test<
-                "equals",
-                Parameters<F>,
-                [string, number, "equals",  "red" | "blue"]
+                Parameters<F>, "equals",
+                [string, number, "red" | "blue"]
             >>,
             Expect<Test<ReturnType<F>, "equals",  Promise<string>>>,
             Expect<Test<FnProps<F>, "equals",  { name: "foo" }>>,
 
             Expect<Test<
-                "equals",
-                Parameters<FN>,
-                [string, number, "equals",  "red" | "blue"]
+                Parameters<FN>, "equals",
+                [string, number,  "red" | "blue"]
             >>,
             Expect<Test<ReturnType<FN>, "equals",  Promise<string>>>,
             Expect<Test<FnProps<FN>, "equals",  { name: "foo" }>>,
@@ -146,7 +144,7 @@ describe("FromInputToken<Token>", () => {
             Expect<Test<
                 FN,
                 "equals",
-                (<T extends [string, number, "red" | "blue"]>(...args: T) => Promise<string>) & {
+                (<T extends readonly [string, number, "red" | "blue"]>(...args: T) => Promise<string>) & {
                     name: "foo";
                 }
             >>,
@@ -355,8 +353,8 @@ describe("FromInputToken<Token>", () => {
         type M4 = FromInputToken<"WeakMap<Set<string>, string">;
 
         type cases = [
-            Expect<Test<M1, WeakMap<object, "equals", object>>>,
-            Expect<Test<M2, WeakMap<object, "equals", string>>>,
+            Expect<Test<M1, "equals", WeakMap<object, object>>>,
+            Expect<Test<M2, "equals", WeakMap<object, string>>>,
             Expect<Equal<M3, WeakMap<
                 {id: number, data: string[]},
                 string

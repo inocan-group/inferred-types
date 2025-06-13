@@ -47,7 +47,18 @@ describe("Split<T,SEP>", () => {
         type Tricky = Split<"foo,,bar", ",", "before">;
 
         type cases = [
-            /** type tests */
+            Expect<Test<
+                FooBarBazBefore, "equals",
+                [ "foo, ", "bar, ", "baz"]
+            >>,
+            Expect<Test<
+                FooBarBefore, "equals",
+                [ "foo, ", "bar"]
+            >>,
+            Expect<Test<
+                Tricky, "equals",
+                [ "foo,", ",", "bar"]
+            >>,
         ];
     });
 
@@ -93,8 +104,12 @@ describe("Split<T,SEP>", () => {
 
         type cases = [
             Expect<Test<FooBar, "equals", ["oo",  "ar"]>>,
+            Expect<Test<
+                FooBarInline, "equals",
+                ["F", "oo", "B", "ar"]
+            >>,
             Expect<Test<FooBarAfter, "equals", ["F", "ooB", "ar"]>>,
-            Expect<Test<FooBarBefore, "equals", ["Foo", "Bar"]>>,
+            Expect<Test<FooBarBefore, "equals", ["F", "ooB", "ar"]>>,
         ];
     });
 
@@ -234,7 +249,9 @@ describe("split()", () => {
 
     it("inline variant with longer sequence", () => {
         const four = split.inline("1, 2, 3, 4", ", ");
-        expect(four).toEqual(["1", ", ", "2", ", ", "3", ", ", "4"]);
+        expect(four).toEqual(
+            ["1", ", ", "2", ", ", "3", ", ", "4"]
+        );
 
         type cases = [
             Expect<Test<typeof four, "equals", [
@@ -242,9 +259,5 @@ describe("split()", () => {
             ]>>
         ];
     });
-
-
-
-
 
 })

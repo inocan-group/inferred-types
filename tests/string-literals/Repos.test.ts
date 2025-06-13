@@ -18,16 +18,13 @@ describe("Repo related utilities", () => {
             ExpectFalse<Extends<"http://github.com/", RepoUrls>>,
 
         ];
-        const cases: cases = [
-            true, true, true, true, true,
-            false, false,
-        ];
+
     });
 
 
     it("SemanticVersion", () => {
-        type T1 = Extends<"1.1.1", SemanticVersion<true>>;
-        type T2 = Extends<"v1.1.1", SemanticVersion>;
+        type T1 = Extends<"1.1.1", SemanticVersion>;
+        type T2 = Extends<"v1.1.1", SemanticVersion<true>>;
         type T3 = Extends<"v 1.1.1", SemanticVersion>;
         type T4 = Extends<"1.1.1", SemanticVersion<false>>;
 
@@ -45,10 +42,7 @@ describe("Repo related utilities", () => {
             ExpectFalse<F2>,
             ExpectFalse<F3>,
         ];
-        const cases: cases = [
-            true, true, true, true,
-            false, false, false
-        ];
+
     });
 
 

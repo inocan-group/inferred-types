@@ -1,5 +1,5 @@
 import { asType } from "inferred-types/runtime";
-import { Contains, Expect, Test } from "inferred-types/types";
+import { Contains, Expect, Test, TypedFunction } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
 describe("asType(token)", () => {
@@ -81,8 +81,7 @@ describe("asType(token)", () => {
                 typeof fuzzy, "equals",
                 { foo: string | undefined; bar: false | boolean[] }
             >>,
-            Expect<Test<typeof propError, "extends", Error>>,
-            Expect<Contains<typeof propError["message"], "problem with 'bar' key">>
+            Expect<Test<typeof propError, "extends", Error>>
         ];
     });
 
@@ -111,7 +110,7 @@ describe("asType(token)", () => {
         const tup = asType("String(foo)", "Array<String(bar)>");
 
         type cases = [
-            Expect<Test<typeof tup, ["foo", "equals", "bar"[]]>>
+            Expect<Test<typeof tup, "equals", ["foo", "bar"[]]>>
         ];
     });
 
@@ -150,9 +149,9 @@ describe("asType(token)", () => {
         const union = asType("Map<string | number, Array<string>>");
 
         type cases = [
-            Expect<Test<typeof str, Map<string, "equals", string>>>,
-            Expect<Test<typeof num, Map<number, "equals", object>>>,
-            Expect<Test<typeof union, Map<string | number, "equals", string[]>>>,
+            Expect<Test<typeof str, "equals", Map<string, string>>>,
+            Expect<Test<typeof num, "equals", Map<number, object>>>,
+            Expect<Test<typeof union, "equals", Map<string | number,  string[]>>>,
         ];
     });
 

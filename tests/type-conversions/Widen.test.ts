@@ -34,7 +34,9 @@ describe("Widen<T>", () => {
     type TupleForced = Widen<readonly string[], true>;
 
     type Fn = Widen<() => "hi">;
-    type NarrowFnReturn = Widen<<T extends string>(name: T) => `hi ${T}`>;
+    type NarrowFnReturn = Widen<
+        <T extends string>(name: T) => `hi ${T}`
+    >;
     type NarrowFnParams = Widen<
         <T extends "Bob" | "Nancy">(name: T) => `hi ${T}`
     >;
@@ -64,7 +66,9 @@ describe("Widen<T>", () => {
       Expect<Test<TupleForced, "equals",  readonly unknown[]>>,
 
       Expect<Test<Fn, "equals",  () => string>>,
-      Expect<Test<NarrowFnReturn, "equals",  <T extends [name: string]>(...args: T) => string>>,
+      Expect<Test<
+        NarrowFnReturn, "equals",
+        <T extends readonly [name: string]>(...args: T) => string>>,
       // this was unexpected by the `ReturnType` utility can't handle the union type
       // in the params
       Expect<Test<

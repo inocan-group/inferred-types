@@ -1,40 +1,11 @@
 import type {
-    AfterFirst,
     As,
-    First,
-    IsEqual,
+    IsBoolean,
     IsFalse,
-    IsNever,
     IsTrue,
-    LogicFunction,
+    Logic,
+    LogicHandler,
 } from "inferred-types/types";
-
-type Negate<
-    TVal,
-> = IsNever<TVal> extends true
-    ? never
-    : [TVal] extends [boolean]
-        ? IsTrue<TVal> extends true
-            ? false
-            : IsFalse<TVal> extends true ? true : boolean
-        : [TVal] extends [LogicFunction]
-            ? Negate<ReturnType<LogicFunction>>
-            : never;
-
-type NegateTuple<
-    TTuple extends readonly (boolean | LogicFunction)[],
-    TResults extends readonly (boolean | LogicFunction)[] = [],
-> = [] extends TTuple
-    ? IsEqual<TResults, [], false, TResults>
-    : NegateTuple<
-        AfterFirst<TTuple>,
-        [
-            ...TResults,
-            First<TTuple> extends LogicFunction
-                ? Negate<ReturnType<First<TTuple>>>
-                : Negate<First<TTuple>>,
-        ]
-    >;
 
 /**
  * **Not**`<T,[TError]>`
@@ -48,14 +19,25 @@ type NegateTuple<
  * // [ false, true, boolean ]
  * type Multi = Not<[true,false,boolean]>;
  * ```
+ *
+ * **Related:** `Inverse`
  */
 export type Not<
     TVal,
-    TNotBoolean extends boolean = false,
-> = [TVal] extends [boolean]
-    ? Exclude<As<Negate<TVal>, boolean>, any[]>
-    : [TVal] extends [LogicFunction]
-        ? As<Negate<ReturnType<TVal>>, boolean>
-        : [TVal] extends [readonly (LogicFunction | boolean)[]]
-            ? As<NegateTuple<TVal>, readonly boolean[]>
-            : TNotBoolean;
+    TNotBoolean extends LogicHandler = "false",
+> = As<
+    [TVal] extends [readonly unknown[]]
+        ? {
+            [K in keyof TVal]: Logic<TVal,TNotBoolean>
+        }
+        : [IsTrue<Logic<TVal,TNotBoolean>>] extends [true]
+            ? false
+        : [IsFalse<Logic<TVal,TNotBoolean>>] extends [true]
+            ? true
+        : [IsBoolean<Logic<TVal,TNotBoolean>>] extends [true]
+            ? boolean
+            : never,
+
+    boolean
+>;
+

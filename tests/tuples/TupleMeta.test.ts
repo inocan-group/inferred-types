@@ -1,6 +1,5 @@
 import { Length } from "inferred-types";
-import { Expect, Test, TupleMeta } from "inferred-types/types";
-import { MaxSafeInteger } from "transpiled/types";
+import { Expect, MaxSafeInteger, Test, TupleMeta } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("TupleMeta<T>", () => {
@@ -63,7 +62,10 @@ describe("TupleMeta<T>", () => {
             Expect<Test<Num["minLength"], "equals", 1>>,
 
             Expect<Test<Undef["maxLength"], "equals", MaxSafeInteger>>,
-            Expect<Test<Unknown["maxLength"], "equals", MaxSafeInteger>>,
+            Expect<Test<
+                Unknown["maxLength"], "equals",
+                MaxSafeInteger
+            >>,
             Expect<Test<Num["maxLength"], "equals", MaxSafeInteger>>,
         ];
     });

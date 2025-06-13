@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { NestedSplit } from "inferred-types/types";
+import { NestedSplit, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("NestedSplit<TContent,TSplit,TNesting,TPolicy>", () => {
@@ -27,7 +27,9 @@ describe("NestedSplit<TContent,TSplit,TNesting,TPolicy>", () => {
         >;
 
         type cases = [
-            Expect<Test<T1, ["string | Number<4>", "equals",  " | string"]>>
+            Expect<Test<
+                T1, "equals",
+                ["string | Number<4>",  " | string"]>>
         ];
     });
 
@@ -36,7 +38,10 @@ describe("NestedSplit<TContent,TSplit,TNesting,TPolicy>", () => {
         type T1 = NestedSplit<"Foobar>", ">">;
 
         type cases = [
-
+            Expect<Test<
+                T1, "equals",
+                ["Foobar", ""]
+            >>
         ];
     });
 
@@ -44,7 +49,10 @@ describe("NestedSplit<TContent,TSplit,TNesting,TPolicy>", () => {
         type T1 = NestedSplit<"Foobar", ">">;
 
         type cases = [
-            /** type tests */
+            Expect<Test<
+                T1, "equals",
+                ["Foobar"]
+            >>
         ];
     });
 
