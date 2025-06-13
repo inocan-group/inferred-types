@@ -21,6 +21,7 @@ export * from "./LessThanOrEqual";
 export * from "./Max";
 export * from "./MaxSafeInteger";
 export * from "./Min";
+export * from "./Multiply";
 export * from "./Negative";
 export * from "./NextDigit";
 export * from "./NumberLike";
@@ -30,3 +31,4 @@ export * from "./Subtract";
 export * from "./ToInteger";
 export * from "./ToNumericArray";
 export * from "./Zero";
+
