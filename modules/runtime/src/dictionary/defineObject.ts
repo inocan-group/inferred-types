@@ -9,7 +9,7 @@ import type {
     Some,
     Values,
 } from "inferred-types/types";
-import { asType, err, fromDefineObject, fromInputToken, isError, keysOf } from "inferred-types/runtime";
+import { err, fromDefineObject, isError, keysOf } from "inferred-types/runtime";
 
 type Returns<
     T extends DefineObject,
@@ -74,17 +74,16 @@ export function defineObject<
         (acc, i) => isError(defn[i])
             ? { ...acc, [i]: defn[i] }
             : acc,
-            {}
+        {}
     );
 
-        return (
-            keysOf(errProps).length > 0
-                ? err(
-                    `invalid-token/object`,
-                    `At least one key in the defined object have errors!`,
-                    { keys: errProps, obj: defn }
-                ) as any
-                : fromDefineObject(defn) as any
-        ) as unknown as HandleError<Returns<T, P>>
-    }
-
+    return (
+        keysOf(errProps).length > 0
+            ? err(
+                `invalid-token/object`,
+                `At least one key in the defined object have errors!`,
+                { keys: errProps, obj: defn }
+            ) as any
+            : fromDefineObject(defn) as any
+    ) as unknown as HandleError<Returns<T, P>>;
+}

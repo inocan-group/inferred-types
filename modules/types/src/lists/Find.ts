@@ -13,7 +13,8 @@ import type {
 type FindAcc<
     TList extends readonly unknown[],
     TOp extends ComparisonOperation,
-    TParams extends ComparisonLookup[TOp]["params"],    TDeref extends string | number | null,
+    TParams extends ComparisonLookup[TOp]["params"],
+    TDeref extends string | number | null,
 > = [] extends TList
     ? undefined
     : TDeref extends keyof First<TList>

@@ -12,4 +12,3 @@ export * from "./input-tokens-runtime";
 export * from "./parseInputToken";
 export * from "./simpleToken";
 export * from "./toStringToken";
-

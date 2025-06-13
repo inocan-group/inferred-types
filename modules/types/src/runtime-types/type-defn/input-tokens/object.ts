@@ -7,8 +7,8 @@ import type {
     Err,
     First,
     FromInputToken,
-    FromKv,
     FromInputToken__String,
+    FromKv,
     KeyValue,
     MakeKeysOptional,
     Not,
@@ -25,9 +25,9 @@ import type {
     Unset,
 } from "inferred-types/types";
 import type {
+    InputToken__Object,
     InputTokenLike,
-    IT_ContainerType,
-    InputToken__Object
+    IT_ContainerType
 } from "src/runtime-types/type-defn/input-tokens";
 
 type CheckForPropertyErrors<

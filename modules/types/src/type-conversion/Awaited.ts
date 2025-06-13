@@ -7,9 +7,9 @@ import type { Thenable } from "inferred-types/types";
  * result.
  */
 export type Awaited<T> = T extends Promise<infer Type>
-        ? Type
+    ? Type
     : T extends PromiseLike<infer Type>
         ? Type
-    : T extends Thenable
-        ? ReturnType<T["then"]>
-        : never;
+        : T extends Thenable
+            ? ReturnType<T["then"]>
+            : never;

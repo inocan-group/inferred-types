@@ -1,7 +1,6 @@
 import type {
     AfterFirst,
     Dictionary,
-    ExplicitlyEmptyObject,
     First,
     IsWideContainer,
     ObjectKey,
@@ -13,11 +12,10 @@ type Process<
     K extends readonly ObjectKey[],
     O extends Dictionary
 > = [] extends K
-? false
-: First<K> extends keyof O
-    ? true
-    : Process<AfterFirst<K>, O>;
-
+    ? false
+    : First<K> extends keyof O
+        ? true
+        : Process<AfterFirst<K>, O>;
 
 /**
  * **KeysOverlap**`<A,B>`
@@ -37,5 +35,3 @@ export type KeysOverlap<
         ObjectKeys<A>,
         B
     >;
-
-

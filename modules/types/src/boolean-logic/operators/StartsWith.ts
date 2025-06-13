@@ -49,10 +49,8 @@ export type StartsWith<
         ? boolean
         :
 
-
         IsEqual<
-            Process<AsString<TValue>,
-            AsArray<TComparator>[number]>,
+            Process<AsString<TValue>, AsArray<TComparator>[number]>,
             boolean
         > extends true
             ? true
@@ -60,4 +58,3 @@ export type StartsWith<
                 AsString<TValue>,
                 AsArray<TComparator>[number]
             >;
-

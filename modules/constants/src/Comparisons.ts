@@ -1,4 +1,3 @@
-
 export const COMPARISON_OPERATIONS = [
     "extends",
     "startsWith",

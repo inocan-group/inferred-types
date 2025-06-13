@@ -11,8 +11,8 @@ type OnlyString<T extends readonly unknown[]> = As<RemoveNever<{
     [K in keyof T]: T[K] extends string
         ? T[K]
         : [T[K]] extends [number | boolean]
-        ? `${T[K]}`
-        : never
+            ? `${T[K]}`
+            : never
 }>, readonly string[]>;
 
 /**
@@ -38,7 +38,6 @@ export type AsString<T> = [T] extends [string]
                     ? [IsWideType<T>] extends [true]
                         ? never
                         : Join<T>
-                : [IsUnion<T>] extends [true]
-                    ? OnlyString<UnionToTuple<T>>[number]
-                    : never;
-
+                    : [IsUnion<T>] extends [true]
+                        ? OnlyString<UnionToTuple<T>>[number]
+                        : never;

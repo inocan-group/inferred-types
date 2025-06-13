@@ -27,16 +27,15 @@ export type StripTrailing<
     TContent extends string | number,
     TStrip extends string | number,
 > = TContent extends number
-? number extends TContent
-    ? number
-    : IsWideType<TStrip> extends true
-    ? number
-    : AsNumber<Process<`${TContent}`, `${TStrip}`>>
-: TContent extends string
-    ? string extends TContent
-        ? string
-    : IsWideType<TStrip> extends true
-        ? string
-    : Process<TContent, `${TStrip}`>
-: never;
-
+    ? number extends TContent
+        ? number
+        : IsWideType<TStrip> extends true
+            ? number
+            : AsNumber<Process<`${TContent}`, `${TStrip}`>>
+    : TContent extends string
+        ? string extends TContent
+            ? string
+            : IsWideType<TStrip> extends true
+                ? string
+                : Process<TContent, `${TStrip}`>
+        : never;

@@ -17,4 +17,3 @@ export type AsContainer<
     : T extends Dictionary
         ? T & Dictionary
         : TError;
-

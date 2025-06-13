@@ -1,4 +1,4 @@
-import { Logic, LogicHandler, Not } from "inferred-types/types";
+import type { Logic, LogicHandler, Not } from "inferred-types/types";
 /**
  * **Inverse**`<T,[U]>`
  *
@@ -20,4 +20,4 @@ export type Inverse<
     U extends LogicHandler = "truthy"
 > = {
     [K in keyof T]: Not<Logic<T[K], U>>
-}
+};

@@ -16,7 +16,6 @@ type _Length<
     ? _Length<Tail, [...TCount, 0]>
     : TCount["length"];
 
-
 /**
  * Utility type which returns the length of:
  *
@@ -34,18 +33,17 @@ export type Length<
 > = T extends readonly unknown[]
     ? T["length"]
     : IsWideType<T> extends true
-    ? number
-    : T extends number
-    ? _Length<StripLeading<`${T}`, "-">>
-    : T extends string
-    ? _Length<T>
-    : never;
+        ? number
+        : T extends number
+            ? _Length<StripLeading<`${T}`, "-">>
+            : T extends string
+                ? _Length<T>
+                : never;
 
 type RequiredPrefixLength<T extends readonly unknown[], Count extends unknown[] = []> =
-    T extends readonly [infer First, ...infer Rest]
-    ? RequiredPrefixLength<Rest, [...Count, 1]>
-    : Count['length'];
-
+    T extends readonly [infer _First, ...infer Rest]
+        ? RequiredPrefixLength<Rest, [...Count, 1]>
+        : Count["length"];
 
 /**
  * **MinLength**`<T>`
@@ -62,29 +60,29 @@ type RequiredPrefixLength<T extends readonly unknown[], Count extends unknown[] 
  * **Related:** `Length`, `MaxLength`, `TupleMeta`
  */
 export type MinLength<T extends readonly unknown[]> = IsNumericLiteral<Length<T>> extends true
-? As<
-    IsUnion<Length<T>> extends true
-    ? UnionToTuple<Length<T>> extends readonly number[]
-        ? Min<UnionToTuple<Length<T>>>
-        : never
-    : Length<T>,
-    number
->
+    ? As<
+        IsUnion<Length<T>> extends true
+            ? UnionToTuple<Length<T>> extends readonly number[]
+                ? Min<UnionToTuple<Length<T>>>
+                : never
+            : Length<T>,
+        number
+    >
 
-: As<
-    T extends readonly [...infer Head, ...infer Tail]
-        ? Tail extends []
-            ? Head['length']
-        : RequiredPrefixLength<T> // If it has a spread (rest), count how many required elements are in front
-        : 0,
-    number
->;
+    : As<
+        T extends readonly [...infer Head, ...infer Tail]
+            ? Tail extends []
+                ? Head["length"]
+                : RequiredPrefixLength<T> // If it has a spread (rest), count how many required elements are in front
+            : 0,
+        number
+    >;
 
 type MaxUnion<
     T extends readonly unknown[]
 > = T extends readonly number[]
-? Max<T>
-: never;
+    ? Max<T>
+    : never;
 
 /**
  * **MaxLength**`<T>`
@@ -105,11 +103,8 @@ type MaxUnion<
  *
  * **Related:** `Length`, `MinLength`, `TupleMeta`
  */
-export type MaxLength<T extends readonly unknown[]> = number extends T['length']
+export type MaxLength<T extends readonly unknown[]> = number extends T["length"]
     ? number
-    : IsUnion<T['length']> extends true
-        ? MaxUnion<UnionToTuple<T['length']>>
-        : T['length'];
-
-
-
+    : IsUnion<T["length"]> extends true
+        ? MaxUnion<UnionToTuple<T["length"]>>
+        : T["length"];

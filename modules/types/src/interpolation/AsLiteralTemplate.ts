@@ -1,5 +1,4 @@
-import { ReplaceAll } from "inferred-types/types";
-
+import type { ReplaceAll } from "inferred-types/types";
 
 export type AsLiteralTemplate<T extends string | number> = T extends number
     ? `${T}`
@@ -9,4 +8,4 @@ export type AsLiteralTemplate<T extends string | number> = T extends number
             "{{number}}",
             `${number}`
         >
-    : never;
+        : never;

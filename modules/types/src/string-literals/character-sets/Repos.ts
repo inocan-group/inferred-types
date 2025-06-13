@@ -80,8 +80,7 @@ export type NpmVersion = `${DependencyPrefix}${SemanticSegment}`;
  */
 export type SemanticDependency = `${DependencyPrefix}${SemanticSegment}`;
 
-
-type RelativePath = `.${string}`
+type RelativePath = `.${string}`;
 
 /**
  * The general structure of a `package.json` file.
@@ -98,7 +97,7 @@ export interface PackageJson {
     /** The module entry point for ES modules. */
     module?: string;
     /** Defines shortcut commands for package scripts. */
-    scripts?: Record<Suggest<"build"|"test"|"release"|"watch">, string>;
+    scripts?: Record<Suggest<"build" | "test" | "release" | "watch">, string>;
     /** A map of package dependencies required for the project. */
     dependencies?: Record<string, NpmVersion>;
     /** A map of development-only dependencies. */

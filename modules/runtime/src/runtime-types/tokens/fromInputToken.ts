@@ -1,16 +1,14 @@
 import type {
-    InputTokenLike,
     FromInputToken,
+    InputTokenLike,
 } from "inferred-types/types";
 import {
     err,
-    isInputToken__String,
     isInputToken__Object,
+    isInputToken__String,
     isInputToken__Tuple,
     toStringToken
 } from "inferred-types/runtime";
-
-
 
 /**
  * **asInputToken**`(token)`
@@ -29,14 +27,10 @@ export function fromInputToken<
     return (
         isInputToken__String(token)
             ? token
-        : isInputToken__Object(token)
-            ? toStringToken(token) // convert to string based definition of an object
-        : isInputToken__Tuple(token)
-            ? toStringToken(token)
-        : err("invalid-token", `The input token provided was invalid!`, { token })
-    ) as unknown as FromInputToken<T>
-
-
+            : isInputToken__Object(token)
+                ? toStringToken(token) // convert to string based definition of an object
+                : isInputToken__Tuple(token)
+                    ? toStringToken(token)
+                    : err("invalid-token", `The input token provided was invalid!`, { token })
+    ) as unknown as FromInputToken<T>;
 }
-
-

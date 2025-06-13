@@ -1,4 +1,4 @@
-import { InputTokenLike } from "inferred-types/types";
+import type { InputTokenLike } from "inferred-types/types";
 import {
     isInputToken__Object,
     toStringLiteral
@@ -15,7 +15,6 @@ export function toStringToken<
     T extends InputTokenLike
 >(token: T) {
     if (isInputToken__Object(token)) {
-        return toStringLiteral(token, { tokensAllowed: true});
+        return toStringLiteral(token, { tokensAllowed: true });
     }
-
 }

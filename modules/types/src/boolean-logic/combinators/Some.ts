@@ -1,13 +1,13 @@
 import type {
     AfterFirst,
-    ComparisonOperation,
     Compare,
+    ComparisonLookup,
+    ComparisonOperation,
     Container,
     Dictionary,
     First,
-    Values,
     Flexy,
-    ComparisonLookup,
+    Values,
 } from "inferred-types/types";
 
 type Process<

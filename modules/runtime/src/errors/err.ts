@@ -1,6 +1,6 @@
+import type { EmptyObject, IsNever } from "inferred-types";
 import type { Err, Narrowable, TypedError } from "inferred-types/types";
-import { keysOf, toKebabCase } from "inferred-types/runtime";
-import { EmptyObject, IsNever } from "inferred-types";
+import { toKebabCase } from "inferred-types/runtime";
 
 /**
  * **typedError**(type, message, [ctx])

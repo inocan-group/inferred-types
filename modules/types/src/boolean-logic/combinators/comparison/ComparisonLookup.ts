@@ -1,14 +1,12 @@
-import { COMPARISON_OPERATIONS } from "inferred-types/constants";
-import {
+import type { COMPARISON_OPERATIONS } from "inferred-types/constants";
+import type {
     DateLike,
     Dictionary,
     NumberLike,
 } from "inferred-types/types";
 
-
 /** the _mode_ you're using the `ComparisonLookup` table in */
 export type ComparisonMode = "run-time" | "design-time";
-
 
 /**
  * **ComparisonOperation**`<T>`
@@ -21,13 +19,12 @@ export type ComparisonMode = "run-time" | "design-time";
  */
 export type ComparisonOperation = typeof COMPARISON_OPERATIONS[number];
 
-
 /**
  * A type which provides a lookup table for standard conversion types.
  */
 export type ComparisonLookup = {
     extends: {
-        params: [types: unknown, ...unknown[]]
+        params: [types: unknown, ...unknown[]];
 
         accept: unknown;
     };
@@ -40,7 +37,7 @@ export type ComparisonLookup = {
     };
 
     endsWith: {
-        params: [string | number, ...readonly (string | number)[]],
+        params: [string | number, ...readonly (string | number)[]];
         convert: "stringUnion";
         accept: string | number;
         take: 1;
@@ -55,28 +52,28 @@ export type ComparisonLookup = {
 
     startsWithNumber: {
         params: [];
-        desc: "tests whether a string literal starts with a numeric value"
+        desc: "tests whether a string literal starts with a numeric value";
         accept: string;
         take: 0;
     };
 
     onlyNumbers: {
         params: [];
-        desc: "tests whether a string literal contains only numeric characters"
+        desc: "tests whether a string literal contains only numeric characters";
         accept: string;
         take: 0;
     };
 
     alphaNumeric: {
         params: [];
-        desc: "tests whether a string literal contains only alphabetic and numeric characters"
+        desc: "tests whether a string literal contains only alphabetic and numeric characters";
         accept: string;
         take: 0;
     };
 
     onlyLetters: {
         params: [];
-        desc: "tests whether a string literal contains only letter characters"
+        desc: "tests whether a string literal contains only letter characters";
         accept: string;
         take: 0;
     };
@@ -86,24 +83,24 @@ export type ComparisonLookup = {
         convert: ["stringLiteral"];
         accept: string | number | readonly unknown[];
         take: 1;
-    }
+    };
 
     containsAll: {
         params: [substrings: string | number, ...readonly (string | number)[]];
         accept: string | number | readonly unknown[];
         convert: "stringArray";
-        take: "*"
+        take: "*";
     };
 
     containsSome: {
         params: [
             val1: string | number,
             val2: string | number,
-            ...(string|number)[]
-        ],
+            ...(string | number)[]
+        ];
         accept: string | number | readonly unknown[];
         convert: "stringUnion";
-        take: "1"
+        take: "1";
     };
 
     greaterThan: {
@@ -166,15 +163,14 @@ export type ComparisonLookup = {
         accept: Dictionary;
     };
 
-
     betweenInclusively: {
-        params: [greaterThan: NumberLike, lessThan: NumberLike],
+        params: [greaterThan: NumberLike, lessThan: NumberLike];
         accept: NumberLike;
         take: 2;
     };
 
     betweenExclusively: {
-        params: [greaterThan: NumberLike, lessThan: NumberLike],
+        params: [greaterThan: NumberLike, lessThan: NumberLike];
         accept: NumberLike;
         take: 2;
     };
@@ -236,7 +232,7 @@ export type ComparisonLookup = {
         params: [date: DateLike];
         accept: DateLike;
         take: 1;
-    }
+    };
 
     truthy: {
         params: [];
@@ -280,13 +276,11 @@ export type ComparisonLookup = {
         take: 2;
     };
 
-
     objectExtends: {
         params: [type: unknown];
         take: 1;
         accept: Dictionary;
     };
-
 
     returnEquals: {
         params: [ validReturnTypes: unknown, ...unknown[] ];
@@ -294,9 +288,8 @@ export type ComparisonLookup = {
     };
 
     returnExtends: {
-        params: [ validReturnTypes: unknown, ...unknown[] ]
+        params: [ validReturnTypes: unknown, ...unknown[] ];
         take: "1";
         convert: "union";
     };
-}
-
+};

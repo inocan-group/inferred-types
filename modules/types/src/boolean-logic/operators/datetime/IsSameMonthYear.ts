@@ -1,17 +1,16 @@
-import {
-    DateLike,
-    IsIsoYear,
-    IsStringLiteral,
+import type {
     And,
+    As,
+    DateLike,
     IsEqual,
     IsIsoExplicitDate,
     IsIsoImplicitDate,
-    Split,
+    IsIsoYear,
     Iso8601Date,
-    As,
+    IsStringLiteral,
     Slice,
-} from "inferred-types/types"
-
+    Split,
+} from "inferred-types/types";
 
 /**
  * **IsSameMonthYear**`<A,B>`
@@ -31,19 +30,18 @@ import {
 export type IsSameMonthYear<
     A extends DateLike,
     B extends DateLike
-> = And<[IsStringLiteral<A>,IsStringLiteral<B>]> extends true
-    ? And<[IsIsoExplicitDate<A>,IsIsoExplicitDate<B>]> extends true
+> = And<[IsStringLiteral<A>, IsStringLiteral<B>]> extends true
+    ? And<[IsIsoExplicitDate<A>, IsIsoExplicitDate<B>]> extends true
         ? IsEqual<
             Split<As<A, Iso8601Date<"explicit">>, "-">[1],
             Split<As<A, Iso8601Date<"explicit">>, "-">[1]
         >
-    : And<[IsIsoImplicitDate<A>,IsIsoImplicitDate<B>]> extends true
-        ? IsEqual<
-            Slice<As<A, Iso8601Date<"implicit">>,5,2>,
-            Slice<As<B, Iso8601Date<"implicit">>,5,2>
-        >
-    : And<[IsIsoYear<A>,IsIsoYear<B>]> extends true
-        ? IsEqual<A,B>
-    : boolean
-: boolean;
-
+        : And<[IsIsoImplicitDate<A>, IsIsoImplicitDate<B>]> extends true
+            ? IsEqual<
+                Slice<As<A, Iso8601Date<"implicit">>, 5, 2>,
+                Slice<As<B, Iso8601Date<"implicit">>, 5, 2>
+            >
+            : And<[IsIsoYear<A>, IsIsoYear<B>]> extends true
+                ? IsEqual<A, B>
+                : boolean
+    : boolean;

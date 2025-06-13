@@ -1,4 +1,4 @@
-import {
+import type {
     As,
     AsArray,
     ComparisonLookup,
@@ -22,16 +22,13 @@ export type GetComparisonParamInput<
     TParams extends readonly unknown[] = ComparisonLookup[TOp]["params"],
 > = IsGreaterThan<TupleMeta<TParams>["minLength"], 1> extends true
     ? TParams
-: TupleMeta<TParams>["minLength"] extends 1
-    ? TParams | TParams[0]
-: TupleMeta<TParams>["minLength"] extends 0
-    ? TupleMeta<TParams>["maxLength"] extends 0
-        ? []
-        : [] | TParams
-: TParams;
-
-
-
+    : TupleMeta<TParams>["minLength"] extends 1
+        ? TParams | TParams[0]
+        : TupleMeta<TParams>["minLength"] extends 0
+            ? TupleMeta<TParams>["maxLength"] extends 0
+                ? []
+                : [] | TParams
+            : TParams;
 
 /**
  * the parameters associated with a comparison can be
@@ -45,17 +42,17 @@ export type ComparisonInputToTuple<
     TInput,
     TUsedIn extends "Filter" | "NotFilter" | "Compare" = "Compare"
 > = [TInput] extends [ComparisonLookup[TOp]["params"]]
-? TInput
-: [AsArray<TInput>] extends [ComparisonLookup[TOp]["params"]]
-? AsArray<TInput>
-: Err<
-    `invalid-parameters`,
+    ? TInput
+    : [AsArray<TInput>] extends [ComparisonLookup[TOp]["params"]]
+        ? AsArray<TInput>
+        : Err<
+            `invalid-parameters`,
     `The parameters added to the ${TUsedIn}<Val,'${TOp}',Params> operation were invalid!`,
     {
         expected: ComparisonLookup[TOp]["params"];
-        got: ToStringLiteral<AsArray<TInput>>
+        got: ToStringLiteral<AsArray<TInput>>;
     }
->;
+        >;
 
 /**
  * To allow people using a comparison operation which

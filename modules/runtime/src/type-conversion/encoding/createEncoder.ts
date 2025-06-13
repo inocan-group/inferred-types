@@ -1,6 +1,6 @@
 import type {
-    Dictionary,
     AsFromTo,
+    Dictionary,
     IsGreaterThan,
     NarrowObject,
     ReplaceAllFromTo,

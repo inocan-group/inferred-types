@@ -1,9 +1,9 @@
 import type {
-    FromLiteralTemplate,
+    As,
     Filter,
+    FromLiteralTemplate,
     Split,
-    TemplateBlock,
-    As
+    TemplateBlock
 } from "inferred-types/types";
 
 type TemplateTupleToTypeTuple<T extends readonly TemplateBlock[]> = {
@@ -25,15 +25,15 @@ export type TemplateParams<
     T extends string
 > = TemplateTupleToTypeTuple<
     As<
-    Filter<
-        Split<
-            FromLiteralTemplate<T>,
-            TemplateBlock,
-            "inline"
+        Filter<
+            Split<
+                FromLiteralTemplate<T>,
+                TemplateBlock,
+                "inline"
+            >,
+            "extends",
+            TemplateBlock
         >,
-        "extends",
-        TemplateBlock
-    >,
-    readonly TemplateBlock[]
+        readonly TemplateBlock[]
     >
 >;

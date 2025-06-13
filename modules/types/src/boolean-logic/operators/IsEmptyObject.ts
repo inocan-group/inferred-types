@@ -1,4 +1,4 @@
-import type { AnyObject, AsRecord, ExplicitlyEmptyObject, IsEqual, IsNumericLiteral, Keys, Or } from "inferred-types/types";
+import type { AnyObject, AsRecord, ExplicitlyEmptyObject, IsEqual, IsNumericLiteral, Keys } from "inferred-types/types";
 
 /**
  * **IsEmptyObject**`<T>`
@@ -38,4 +38,3 @@ export type IsNonEmptyObject<T> = T extends AnyObject
                 ? true
                 : false
     : false;
-

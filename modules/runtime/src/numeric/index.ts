@@ -1,2 +1,2 @@
-export * from "./toInteger";
 export * from "./between";
+export * from "./toInteger";

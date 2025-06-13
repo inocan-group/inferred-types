@@ -68,12 +68,9 @@ export type Contains<
         ? IsSubstring<AsString<TContent>, AsString<AsUnion<TComparator>>>
         : PreProcess<TContent, TComparator>;
 
-
 export type IsSubstring<
     TContent extends string,
     TFind extends string
 > = TContent extends `${string}${TFind}${string}`
-? true
-: false;
-
-type X = Contains<["foo","bar",42], string>;
+    ? true
+    : false;

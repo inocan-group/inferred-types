@@ -1,4 +1,4 @@
-import { IsBetweenExclusively, IsBetweenInclusively } from "inferred-types/types";
+import type { IsBetweenExclusively, IsBetweenInclusively } from "inferred-types/types";
 
 export type BetweenScope = "exclusively" | "inclusively";
 
@@ -18,17 +18,15 @@ export function between<
     max: TMax,
     scope: TScope = "exclusively" as TScope
 ) {
-
     return <TVal extends number>(val: TVal) => {
         return (
             scope === "inclusively"
                 ? val > min && val < max
                 : val >= min && val <= max
         ) as TScope extends "inclusively"
-            ? IsBetweenInclusively<TVal,TMin,TMax>
+            ? IsBetweenInclusively<TVal, TMin, TMax>
             : TScope extends "exclusively"
-            ? IsBetweenExclusively<TVal,TMin,TMax>
-            : never
-    }
-
+                ? IsBetweenExclusively<TVal, TMin, TMax>
+                : never;
+    };
 }

@@ -1,11 +1,10 @@
-import {
+import type {
     And,
     First,
     IsGreaterThan,
     IsLessThan,
     TupleMeta
 } from "inferred-types/types";
-
 
 /**
  * **Flexy**`<TParams>`
@@ -19,13 +18,10 @@ import {
 export type Flexy<
     TParams extends readonly unknown[],
     TMeta extends TupleMeta<TParams> = TupleMeta<TParams>
-> =  And<[
+> = And<[
     TMeta["minLength"] extends 0 | 1 ? true : false,
     IsGreaterThan<TMeta["maxLength"], 0>,
     IsLessThan<TMeta["minLength"], 2>
 ]> extends true
     ? First<TParams> | TParams
     : TParams;
-
-
-

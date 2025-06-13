@@ -1,5 +1,4 @@
-import { DateLike } from "inferred-types/types";
-
+import type { DateLike } from "inferred-types/types";
 
 export function asIsoDateTime<T extends DateLike>(dt: T): string {
     const d = asDate(dt);

@@ -1,8 +1,8 @@
 import type {
-    NotFilter,
     If,
     IsEqual,
     IsUnion,
+    NotFilter,
     TupleToUnion,
     UnionToTuple,
 } from "inferred-types/types";

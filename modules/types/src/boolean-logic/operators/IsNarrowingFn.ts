@@ -1,7 +1,6 @@
-import type {  IsEqual,  LiteralFn,  TypedFunction } from "inferred-types/types";
+import type { IsEqual, LiteralFn, TypedFunction } from "inferred-types/types";
 
 type Not<B extends boolean> = B extends true ? false : true;
-
 
 /**
  * **IsNarrowingFn**`<TFn>`
@@ -18,4 +17,3 @@ export type IsNarrowingFn<TFn> = TFn extends TypedFunction
         TFn
     >>
     : false;
-

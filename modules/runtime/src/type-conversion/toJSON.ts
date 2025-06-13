@@ -24,4 +24,3 @@ export function toJSON<
 ): ToJson<T, O> {
     return JSON.stringify(val) as unknown as ToJson<T, O>;
 }
-

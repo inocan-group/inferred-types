@@ -1,7 +1,7 @@
-import {
+import type {
     INTERPOLATION_BLOCKS
 } from "inferred-types/constants";
-import { Mutable } from "inferred-types/types";
+import type { Mutable } from "inferred-types/types";
 
 type Blocks = Mutable<typeof INTERPOLATION_BLOCKS>;
 
@@ -20,4 +20,4 @@ export type TemplateBlock__BARE = {
     [K in keyof Blocks]: Blocks[K] extends `{{${infer Bare extends string}}}`
         ? Bare
         : never
-}[number]
+}[number];

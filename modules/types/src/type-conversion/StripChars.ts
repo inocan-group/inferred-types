@@ -1,5 +1,3 @@
-
-
 type Removal<
     TContent extends string,
     TRemove extends string,
@@ -26,6 +24,6 @@ export type StripChars<
     TStrip extends string,
 > = string extends TContent
     ? string
-: string extends TStrip
-    ? string
-    : Removal<TContent, TStrip>;
+    : string extends TStrip
+        ? string
+        : Removal<TContent, TStrip>;

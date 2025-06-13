@@ -3,12 +3,12 @@ import type {
     AsArray,
     AsNumber,
     Dictionary,
+    Filter,
     Flatten,
     IsDefined,
     NumericKeys,
     ObjectKey,
-    RemoveNever,
-    Filter
+    RemoveNever
 } from "inferred-types/types";
 
 type Seperation = {
@@ -117,17 +117,17 @@ type Order<
     TKey extends ObjectKey,
     TSort extends SortByKeyOptions,
 > = Start<TList, TKey, TSort>["sep"] extends readonly number[]
-? Remaining<TList, TKey, TSort> extends readonly number[]
-? End<TList, TKey, TSort>["sep"] extends readonly number[]
+    ? Remaining<TList, TKey, TSort> extends readonly number[]
+        ? End<TList, TKey, TSort>["sep"] extends readonly number[]
 
-?[
-    ...(Start<TList, TKey, TSort>["sep"]),
-    ...(Remaining<TList, TKey, TSort>),
-    ...(End<TList, TKey, TSort>["sep"]),
-]
-: never
-: never
-: never;
+            ? [
+                ...(Start<TList, TKey, TSort>["sep"]),
+                ...(Remaining<TList, TKey, TSort>),
+                ...(End<TList, TKey, TSort>["sep"]),
+            ]
+            : never
+        : never
+    : never;
 
 /**
  * **SortByKey**`<TList, TKey, TSort>`
@@ -150,22 +150,23 @@ export type SortByKey<
 >;
 
 // DEBUG
-type KV = [
-    { key: "company", value: "[[Anthropic]]" },
-    { key: "kind", value: "[[AI Model]]" },
-    { key: "category", value: "[[LLM]]" },
-    { key: "aliases", value: ["Haiku"] },
-    { key: "desc", value: "The fast and lightweight sibling in the Claude family (Anthropic)" },
-    { key: "subcategory", value: "[[Lightweight Model]]" },
-    { key: "type", value: "[[kind/types/AI.md|AI]]" },
-]
-type TConfig = {
-    start: ["type", "kind", "category", "subcategory"],
-    end: "desc"
-};
+// type KV = [
+//     { key: "company"; value: "[[Anthropic]]" },
+//     { key: "kind"; value: "[[AI Model]]" },
+//     { key: "category"; value: "[[LLM]]" },
+//     { key: "aliases"; value: ["Haiku"] },
+//     { key: "desc"; value: "The fast and lightweight sibling in the Claude family (Anthropic)" },
+//     { key: "subcategory"; value: "[[Lightweight Model]]" },
+//     { key: "type"; value: "[[kind/types/AI.md|AI]]" },
+// ];
 
-type TStart = Start<KV, "key", TConfig>;
-type TOrdering = Ordering<KV, "key", TConfig["start"]>;
-type TEnd = End<KV, "key", TConfig>;
-type TRemaining = Remaining<KV, "key", TConfig>;
-type TOrder = Order<KV,"key", TConfig>;
+// type TConfig = {
+//     start: ["type", "kind", "category", "subcategory"];
+//     end: "desc";
+// };
+
+// type TStart = Start<KV, "key", TConfig>;
+// type TOrdering = Ordering<KV, "key", TConfig["start"]>;
+// type TEnd = End<KV, "key", TConfig>;
+// type TRemaining = Remaining<KV, "key", TConfig>;
+// type TOrder = Order<KV, "key", TConfig>;

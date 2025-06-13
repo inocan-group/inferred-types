@@ -37,6 +37,4 @@ export type ObjectToJsonString<
     ? "{}"
     : IsWideContainer<TObj> extends true
         ? string
-        : `{ ${Process<ToKv<TObj>, TExpand>} }`
-
-
+        : `{ ${Process<ToKv<TObj>, TExpand>} }`;

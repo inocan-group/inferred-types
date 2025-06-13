@@ -1,7 +1,7 @@
 import type {
-    ComparisonOperation,
     Compare,
-    ComparisonLookup
+    ComparisonLookup,
+    ComparisonOperation
 } from "../boolean-logic";
 import type { AfterFirst, First, Last } from "../lists";
 import type { Increment } from "../numeric-literals";

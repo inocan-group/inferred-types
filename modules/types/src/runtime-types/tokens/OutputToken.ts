@@ -1,9 +1,9 @@
 import type {
     AfterFirst,
     First,
+    InputToken__Object,
     InputTokenLike,
     InputTokenSuggestions,
-    InputToken__Object,
     SafeEncode,
     Surround,
     ToJson

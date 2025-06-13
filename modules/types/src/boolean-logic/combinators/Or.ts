@@ -3,34 +3,32 @@ import type {
     Err,
     First,
     IsBoolean,
-    IsEqual,
     IsFalse,
     IsNever,
     IsTrue,
     Logic,
     LogicFunction,
-    LogicHandler,
 } from "inferred-types/types";
 
 type Result<
     T extends readonly (boolean | never)[],
     THasBoolean extends boolean = false,
 > = [] extends T
-? [IsTrue<THasBoolean>] extends [true]
-    ? boolean
-    : false
-: [IsBoolean<First<T>>] extends [true]
-    ? [IsTrue<First<T>>] extends [true]
-        ? true
-    : [IsFalse<First<T>>] extends [true]
-            ? Result<
-                AfterFirst<T>,
-                THasBoolean
-            >
-            : Result<
-                AfterFirst<T>,
-                true
-            >
+    ? [IsTrue<THasBoolean>] extends [true]
+        ? boolean
+        : false
+    : [IsBoolean<First<T>>] extends [true]
+        ? [IsTrue<First<T>>] extends [true]
+            ? true
+            : [IsFalse<First<T>>] extends [true]
+                ? Result<
+                    AfterFirst<T>,
+                    THasBoolean
+                >
+                : Result<
+                    AfterFirst<T>,
+                    true
+                >
         : never;
 
 /**
@@ -47,16 +45,15 @@ type Result<
 export type Or<
     T extends readonly (boolean | LogicFunction)[]
 > = [IsNever<T>] extends [true]
-? Err<
-    `invalid/never`,
-    `The Or<...> logical combinator was passed never as a value! Or is expecting a tuple of boolean values.`,
-    { library: "inferred-types" }
->
+    ? Err<
+        `invalid/never`,
+        `The Or<...> logical combinator was passed never as a value! Or is expecting a tuple of boolean values.`,
+        { library: "inferred-types" }
+    >
 
-: Result<{
-    [K in keyof T]: Logic<T[K],"never">
-}>
-
+    : Result<{
+        [K in keyof T]: Logic<T[K], "never">
+    }>;
 
 // [] extends TConditions
 //     ? TEmpty

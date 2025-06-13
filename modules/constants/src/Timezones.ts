@@ -1,5 +1,3 @@
-
-
 export const IANA_TIMEZONES__AFRICA = [
     "Africa/Abidjan",
     "Africa/Accra",
@@ -300,7 +298,7 @@ export const IANA_TIMEZONES__ASIA = [
     "Asia/Yangon",
     "Asia/Yekaterinburg",
     "Asia/Yerevan",
-] as const
+] as const;
 export const IANA_TIMEZONES__ATLANTIC = [
     "Atlantic/Azores",
     "Atlantic/Bermuda",
@@ -442,8 +440,8 @@ export const IANA_TIMEZONES__PACIFIC = [
 ] as const;
 
 export const IANA_TIMEZONES__OTHER = [
-"UTC",
-"Zulu"
+    "UTC",
+    "Zulu"
 ] as const;
 
 export const IANA_TIMEZONES = [
@@ -458,4 +456,3 @@ export const IANA_TIMEZONES = [
     ...IANA_TIMEZONES__OTHER,
     ...IANA_TIMEZONES__PACIFIC
 ] as const;
-

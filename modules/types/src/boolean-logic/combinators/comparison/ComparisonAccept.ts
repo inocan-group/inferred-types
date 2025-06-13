@@ -1,4 +1,4 @@
-import { ComparisonLookup, ComparisonOperation } from "inferred-types/types";
+import type { ComparisonLookup, ComparisonOperation } from "inferred-types/types";
 
 /**
  * **ComparisonAccept**`<TOp>`
@@ -9,5 +9,5 @@ import { ComparisonLookup, ComparisonOperation } from "inferred-types/types";
  * in their definitions will be assigned the type `unknown`.
  */
 export type ComparisonAccept<TOp extends ComparisonOperation> = "accept" extends keyof ComparisonLookup[TOp]
-? ComparisonLookup[TOp]["accept"]
-: unknown;
+    ? ComparisonLookup[TOp]["accept"]
+    : unknown;

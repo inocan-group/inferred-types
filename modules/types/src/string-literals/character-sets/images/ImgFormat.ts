@@ -24,4 +24,4 @@ export type ImgFormatWeb = GetEach<
         ["webFormat", true]
     >,
     "ext"
->[number]
+>[number];

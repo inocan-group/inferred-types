@@ -1,4 +1,4 @@
-import {
+import type {
     And,
     IsGreaterThan,
     IsGreaterThanOrEqual,
@@ -6,7 +6,6 @@ import {
     IsLessThanOrEqual,
     NumberLike
 } from "inferred-types/types";
-
 
 /**
  * **IsBetweenExclusively**`<TVal, TMin, TMax>`
@@ -26,7 +25,6 @@ export type IsBetweenExclusively<
     IsGreaterThan<TVal, TMin>,
     IsLessThan<TVal, TMax>
 ]>;
-
 
 /**
  * **IsBetweenInclusively**`<TVal, TMin, TMax>`

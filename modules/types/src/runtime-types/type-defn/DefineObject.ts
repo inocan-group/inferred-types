@@ -22,7 +22,7 @@ import type {
  * - typically used `FromDefn` or `FromDefineObject` utilities
  */
 export type DefineObject = {
-    [key: string]: InputTokenLike
+    [key: string]: InputTokenLike;
 };
 
 /**

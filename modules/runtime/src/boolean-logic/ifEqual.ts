@@ -1,5 +1,4 @@
 import type { If, IsEqual, IsWideType, Narrowable, Or } from "inferred-types/types";
-import { log } from "node:console";
 
 type Rtn<
     TComparator,
@@ -34,7 +33,6 @@ export function ifEqual<
         ifTrue: TIf,
         ifFalse: TElse = (v => v) as TElse,
     ) => {
-
         if (JSON.stringify(comparator) === JSON.stringify(val)) {
             return ifTrue(val as any) as Rtn<TComparator, TVal, TIf, TElse>;
         }

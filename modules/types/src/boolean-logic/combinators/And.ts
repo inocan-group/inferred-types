@@ -42,4 +42,4 @@ export type And<
                 : never
         : never,
     boolean
->
+>;

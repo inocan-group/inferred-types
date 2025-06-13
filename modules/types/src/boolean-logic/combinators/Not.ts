@@ -28,16 +28,15 @@ export type Not<
 > = As<
     [TVal] extends [readonly unknown[]]
         ? {
-            [K in keyof TVal]: Logic<TVal,TNotBoolean>
+            [K in keyof TVal]: Logic<TVal, TNotBoolean>
         }
-        : [IsTrue<Logic<TVal,TNotBoolean>>] extends [true]
+        : [IsTrue<Logic<TVal, TNotBoolean>>] extends [true]
             ? false
-        : [IsFalse<Logic<TVal,TNotBoolean>>] extends [true]
-            ? true
-        : [IsBoolean<Logic<TVal,TNotBoolean>>] extends [true]
-            ? boolean
-            : never,
+            : [IsFalse<Logic<TVal, TNotBoolean>>] extends [true]
+                ? true
+                : [IsBoolean<Logic<TVal, TNotBoolean>>] extends [true]
+                    ? boolean
+                    : never,
 
     boolean
 >;
-

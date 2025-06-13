@@ -1,6 +1,5 @@
 import type {
     Dictionary,
-    KeysWithError,
 } from "inferred-types/types";
 import { indexOf, isError } from "inferred-types/runtime";
 

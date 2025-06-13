@@ -1,4 +1,4 @@
-import { DateLike } from "inferred-types/types";
+import type { DateLike } from "inferred-types/types";
 import { toDate } from "src/type-guards/date-time/toDate";
 
 export function asEpochTimestamp<T extends DateLike>(dt: T): number {

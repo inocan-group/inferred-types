@@ -1,5 +1,4 @@
-import type { If, AfterFirst, First, Chars } from "inferred-types/types";
-
+import type { AfterFirst, Chars, First, If } from "inferred-types/types";
 
 type Process<
     TChars extends readonly string[],

@@ -27,7 +27,6 @@ type AsTuple<T> = T extends Tuple
         ? readonly [...T]
         : If<IsUndefined<T>, readonly [], readonly [T]>;
 
-
 type Process<
     A extends readonly unknown[],
     B extends readonly unknown[],

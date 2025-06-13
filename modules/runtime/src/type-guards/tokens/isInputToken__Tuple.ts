@@ -1,4 +1,4 @@
-import { InputTokenLike } from "inferred-types/types";
+import type { InputTokenLike } from "inferred-types/types";
 import { isArray, isInputToken } from "inferred-types/runtime";
 
 /**
@@ -10,5 +10,5 @@ export function isInputToken__Tuple(
 ): val is readonly InputTokenLike[] {
     return isArray(val) && val.every(
         i => isInputToken(i)
-    )
+    );
 }

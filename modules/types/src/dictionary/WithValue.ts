@@ -16,13 +16,11 @@ type Process<
     TOp extends "equals" | "extends",
 > = RemoveMarked<{
     [K in keyof TObj]: If<
-        TOp extends "equals" ? IsEqual<TValue,TObj[K]> : Extends<TObj[K], TValue>,
+        TOp extends "equals" ? IsEqual<TValue, TObj[K]> : Extends<TObj[K], TValue>,
         TObj[K],
         Marked
     >
 }>;
-
-
 
 /**
  * **WithValue**`<TObj,TValue>`

@@ -19,8 +19,8 @@ export type IsLessThan<
     A extends NumberLike,
     B extends NumberLike,
 > = Or<[ IsWideType<A>, IsWideType<B> ]> extends true
-? boolean
-: CompareNumbers<AsNumber<A>, AsNumber<B>> extends "less" ? true : false;
+    ? boolean
+    : CompareNumbers<AsNumber<A>, AsNumber<B>> extends "less" ? true : false;
 
 /**
  * **IsLessThanOrEqual**`<A,B>`
@@ -31,5 +31,5 @@ export type IsLessThanOrEqual<
     A extends NumberLike,
     B extends NumberLike,
 > = Or<[ IsWideType<A>, IsWideType<B> ]> extends true
-? boolean
-: LessThanOrEqual<AsNumber<A>, AsNumber<B>>;
+    ? boolean
+    : LessThanOrEqual<AsNumber<A>, AsNumber<B>>;

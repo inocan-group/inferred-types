@@ -1,5 +1,5 @@
-export * from "./AsLiteralTemplate";
 export * from "./ApplyTemplate";
+export * from "./AsLiteralTemplate";
 export * from "./FromLiteralTemplate";
 export * from "./ReplaceInterpolation";
 export * from "./StaticTemplateSections";

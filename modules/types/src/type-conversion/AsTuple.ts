@@ -1,5 +1,4 @@
-import { IsArray, IsTuple, IsUnion, UnionToTuple } from "inferred-types/types";
-
+import type { IsArray, IsUnion, UnionToTuple } from "inferred-types/types";
 
 /**
  * **AsTuple**`<T>`
