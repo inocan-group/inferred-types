@@ -1,5 +1,7 @@
 import type {
     IsEqual,
+    IsStringLiteral,
+    Length,
     NumericChar,
     NumericCharZeroToThree,
     NumericCharZeroToTwo,
@@ -41,7 +43,7 @@ export type IsIsoExplicitDate<T> = IsEqual<T, string> extends true
 /**
  * **IsIsoImplicitDate**`<T>`
  *
- * Boolean operator which returns `true` when `T` is an _impplicit_ date string of the
+ * Boolean operator which returns `true` when `T` is an _implicit_ date string of the
  * format `YYYYMMDD`.
  */
 export type IsIsoImplicitDate<T> = IsEqual<T, string> extends true
@@ -65,3 +67,15 @@ export type IsIsoDate<T> = IsEqual<T, string> extends true
         : IsIsoImplicitDate<T> extends true
             ? true
             : false;
+
+/**
+ * Boolean operator which tests whether `T` is a ISO Year (
+ * a four digit year)
+*/
+export type IsIsoYear<T> = IsStringLiteral<T> extends true
+    ? T extends `${number}`
+        ? Length<T> extends 4
+            ? true
+            : false
+    : false
+    : boolean;

@@ -44,7 +44,7 @@ describe("SafeEncode<T,G>", () => {
         type cases = [
             Expect<
                 Test<E, "equals",
-                "There^<sp>I^<sp>was, ^<sp>\"in^<sp>the^<sp>jungle^<sp>(or^<sp>maybe^<sp>forest)\""
+                "There^<sp>I^<sp>was,^<sp>\"in^<sp>the^<sp>jungle^<sp>(or^<sp>maybe^<sp>forest)\""
             >>,
             Expect<Test<D, "equals",  test>>
         ];

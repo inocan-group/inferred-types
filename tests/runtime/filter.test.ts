@@ -18,13 +18,7 @@ describe("filter()", () => {
     });
 
 
-    it("partial application of keyEndsWith (has accept clause)", () => {
-        // const keyEndsWith = filter("keyEndsWith", "_");
 
-        // type cases = [
-        //     /** type tests */
-        // ];
-    });
 
     it("startsWith filter used as singular function", () => {
         type T1f = Filter<["foobar"], "startsWith", "foo">;

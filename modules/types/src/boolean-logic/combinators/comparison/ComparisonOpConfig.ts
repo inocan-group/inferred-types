@@ -1,7 +1,4 @@
-import {
-    ComparisonMode,
-    Narrowable
-} from "inferred-types/types";
+
 
 /**
  * Operations to perform across all parameters in a comparision
@@ -35,16 +32,14 @@ export type ComparisonParamConvert =
 /**
  * The definition of a _comparator's_ configuration
  */
-export type ComparisonOpConfig<T extends ComparisonMode = ComparisonMode> = {
-    params: T extends "run-time"
-        ? readonly Narrowable[]
-        : readonly unknown[];
+export type ComparisonOpConfig = {
+    params: readonly unknown[];
     /**
      * Explicitly state the _type_ the runtime function can take when moved
      * into strict mode. If not stated, it will be inferred based on the
      * parameters.
      */
-    accept?: T extends "run-time" ? Narrowable : unknown;
+    accept?: unknown;
 
     /**
      * how many parameters the function expects to take

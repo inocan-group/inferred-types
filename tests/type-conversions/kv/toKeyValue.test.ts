@@ -1,6 +1,13 @@
 import { describe, expect, it } from "vitest";
 
-import { Expect, Extends, GetEach, Keys, KeyValue, Last, Test } from "inferred-types/types";
+import {
+    Expect,
+    Extends,
+    GetEach,
+    KeyValue,
+    Last,
+    Test
+} from "inferred-types/types";
 import { toKeyValue, tuple, defineObj } from "inferred-types/runtime";
 
 

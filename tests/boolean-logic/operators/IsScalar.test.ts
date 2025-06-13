@@ -33,10 +33,6 @@ describe("IsScalar<T>", () => {
       Expect<Test<F5, "equals",  false>>,
       Expect<Test<F6, "equals",  false>>,
     ];
-    const cases: cases = [
-      true, true, true, true,
-      true, true, true, true, true, true
-    ];
   });
 
 
@@ -50,7 +46,6 @@ describe("IsScalar<T>", () => {
       Expect<Test<AllScalarUnion, "equals",  true>>,
       Expect<Test<None, "equals",  false>>,
     ];
-    const cases: cases = [true, true, true];
   });
 
 

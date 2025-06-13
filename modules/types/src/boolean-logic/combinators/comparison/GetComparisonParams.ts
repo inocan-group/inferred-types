@@ -1,11 +1,13 @@
 import {
+    As,
     AsArray,
     ComparisonLookup,
-    ComparisonMode,
     ComparisonOpConfig,
     ComparisonOperation,
     Err,
     GetOpConfig,
+    IsGreaterThan,
+    ToStringLiteral,
     TupleMeta
 } from "inferred-types/types";
 
@@ -17,17 +19,19 @@ import {
  */
 export type GetComparisonParamInput<
     TOp extends ComparisonOperation,
-    TMode extends ComparisonMode = "design-time",
-    TConfig extends ComparisonOpConfig<TMode> | Error = GetOpConfig<TOp, TMode>,
-    TParams extends readonly unknown[] = TConfig extends ComparisonOpConfig<TMode> ? TConfig["params"] : [],
-    TMeta extends TupleMeta<any> = TupleMeta<TParams>
-> = TMeta["minLength"] extends 1
+    TParams extends readonly unknown[] = ComparisonLookup[TOp]["params"],
+> = IsGreaterThan<TupleMeta<TParams>["minLength"], 1> extends true
+    ? TParams
+: TupleMeta<TParams>["minLength"] extends 1
     ? TParams | TParams[0]
-: TMeta["minLength"] extends 0
-    ? TMeta["maxLength"] extends 0
+: TupleMeta<TParams>["minLength"] extends 0
+    ? TupleMeta<TParams>["maxLength"] extends 0
         ? []
         : [] | TParams
 : TParams;
+
+
+
 
 /**
  * the parameters associated with a comparison can be
@@ -38,11 +42,20 @@ export type GetComparisonParamInput<
  */
 export type ComparisonInputToTuple<
     TOp extends ComparisonOperation,
-    TInput
-> = AsArray<TInput> extends ComparisonLookup[TOp]["params"]
+    TInput,
+    TUsedIn extends "Filter" | "NotFilter" | "Compare" = "Compare"
+> = [TInput] extends [ComparisonLookup[TOp]["params"]]
+? TInput
+: [AsArray<TInput>] extends [ComparisonLookup[TOp]["params"]]
 ? AsArray<TInput>
-: never;
-
+: Err<
+    `invalid-parameters`,
+    `The parameters added to the ${TUsedIn}<Val,'${TOp}',Params> operation were invalid!`,
+    {
+        expected: ComparisonLookup[TOp]["params"];
+        got: ToStringLiteral<AsArray<TInput>>
+    }
+>;
 
 /**
  * To allow people using a comparison operation which
@@ -52,15 +65,17 @@ export type ComparisonInputToTuple<
  * any parameters.
  */
 export type ComparisonInputDefault<
-    TOp extends ComparisonOperation<TMode>,
-    TMode extends ComparisonMode = "design-time",
-    TConfig extends ComparisonOpConfig<TMode> | Error = GetOpConfig<TOp, TMode>,
-    TParams extends readonly unknown[] = TConfig extends ComparisonOpConfig<TMode> ? TConfig["params"] : [],
+    TOp extends ComparisonOperation,
+    TConfig extends ComparisonOpConfig | Error = GetOpConfig<TOp>,
+    TParams extends readonly unknown[] = TConfig extends ComparisonOpConfig ? TConfig["params"] : [],
     TMeta extends TupleMeta<any> = TupleMeta<TParams>
-> = TMeta["minLength"] extends 0
-    ? []
-    : Err<
-        `invalid/params`,
-        `The operation '${TOp}' requires parameters but none were provided!`,
-        { params: TParams }
-    >;
+> = As<
+    TMeta["minLength"] extends 0
+        ? []
+        : Err<
+            `invalid-parameters`,
+            `The operation '${TOp}' requires a minimum of ${TupleMeta<TParams>["minLength"]} parameters but none were provided!`,
+            { params: TParams }
+        >,
+    Error | GetComparisonParamInput<TOp>
+>;

@@ -1,6 +1,6 @@
 import type { If, IsUndefined, Mutable, Tuple } from "inferred-types/types";
 
-type _AsArray<T> = T extends readonly unknown[]
+type _AsArray<T> = [T] extends [readonly unknown[]]
     ? Mutable<T>
     : If<
         IsUndefined<T>,
@@ -17,7 +17,7 @@ type _AsArray<T> = T extends readonly unknown[]
  *
  * - if `T` is undefined then it is converted to an empty array `[]`
  */
-export type AsArray<T> = _AsArray<T> extends readonly unknown[]
+export type AsArray<T> = [_AsArray<T>] extends [readonly unknown[]]
     ? _AsArray<T>
     : never;
 

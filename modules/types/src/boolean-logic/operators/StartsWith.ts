@@ -9,7 +9,7 @@ import type {
 type Check<
     TValue extends string,
     TComparator extends string | number,
-> = TValue extends `${TComparator}${string}`
+> = [TValue] extends [`${TComparator}${string}`]
     ? true
     : false;
 
@@ -47,7 +47,10 @@ export type StartsWith<
     ? boolean
     : [IsWideType<TComparator>] extends [true]
         ? boolean
-        : IsEqual<
+        :
+
+
+        IsEqual<
             Process<AsString<TValue>,
             AsArray<TComparator>[number]>,
             boolean
