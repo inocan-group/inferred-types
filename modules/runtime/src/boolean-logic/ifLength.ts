@@ -15,6 +15,7 @@ import type {
  * narrowed types for these two conditions.
  *
  * @param value the value being tested
+ * @param length
  * @param ifVal the value (strongly typed) returned if val is of appropriate length
  * @param elseVal the value (strongly typed) returned if val is NOT of given length
  */

@@ -13,9 +13,7 @@ import type {
     MergeObjects,
     Narrowable,
     Nothing,
-    Or,
     Scalar,
-    Throw,
 } from "inferred-types/types";
 
 // 1. Keep all unique keys in `TValue`
@@ -103,9 +101,9 @@ export type Merge<
 > = AreSameType<TDefault, TOverride> extends true
     ? Process<TDefault, TOverride>
     : IsNothing<TDefault> extends true
-            ? TOverride
-            : Err<
-                "invalid-merge",
-                `Merge<TDef,TOver> received two empty values; at least one needs to have a value!`,
-                { library: "inferred-types/constants"; TDef: TDefault; TOver: TOverride }
-            >;
+        ? TOverride
+        : Err<
+            "invalid-merge",
+            `Merge<TDef,TOver> received two empty values; at least one needs to have a value!`,
+            { library: "inferred-types/constants"; TDef: TDefault; TOver: TOverride }
+        >;

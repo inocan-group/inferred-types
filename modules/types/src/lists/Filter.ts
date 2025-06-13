@@ -1,16 +1,14 @@
 import type {
     Compare,
-    RemoveNever,
-    ComparisonOperation,
+    ComparisonAccept,
+    ComparisonInputDefault,
+    ComparisonInputToTuple,
     ComparisonLookup,
-     ComparisonInputToTuple,
-     GetComparisonParamInput,
-     ComparisonAccept,
-     Err,
-     ComparisonInputDefault,
+    ComparisonOperation,
+    Err,
+    GetComparisonParamInput,
+    RemoveNever,
 } from "inferred-types/types";
-
-
 
 type Process<
     TList extends readonly ComparisonAccept<TOp>[],
@@ -21,7 +19,6 @@ type Process<
         ? TList[K]
         : never
 }>;
-
 
 /**
  * **Filter**`<TList, TOp, TFilter>`
@@ -46,19 +43,18 @@ export type Filter<
     TOp extends ComparisonOperation,
     TParams extends GetComparisonParamInput<TOp> | Error = ComparisonInputDefault<TOp>
 > = [TParams] extends [Error]
-? TParams
-: [ComparisonInputToTuple<TOp, TParams>] extends [ComparisonLookup[TOp]["params"]]
+    ? TParams
+    : [ComparisonInputToTuple<TOp, TParams>] extends [ComparisonLookup[TOp]["params"]]
 
-? Process<
-    TList,
-    TOp,
-    ComparisonInputToTuple<TOp, TParams>
->
+        ? Process<
+            TList,
+            TOp,
+            ComparisonInputToTuple<TOp, TParams>
+        >
 
-: [ComparisonInputToTuple<TOp, TParams>] extends [Error]
-    ? ComparisonInputToTuple<TOp, TParams>
-    : Err<
-        `invalid-filter`,
+        : [ComparisonInputToTuple<TOp, TParams>] extends [Error]
+            ? ComparisonInputToTuple<TOp, TParams>
+            : Err<
+                `invalid-filter`,
         `The filter operation '${TOp}' received invalid parameters!`
-    >;
-
+            >;

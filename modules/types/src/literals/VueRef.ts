@@ -1,5 +1,4 @@
-
-const VueRef = Symbol("VueRef");
+const Ref = Symbol("VueRef");
 
 /**
  * **VueRef**`<T>`
@@ -18,6 +17,6 @@ const VueRef = Symbol("VueRef");
  * - `IsRef<T>`, `isRef()`, `VueComputedRef<T>`
  */
 export interface VueRef<T = any> {
-    [VueRef]: "VueRef",
+    [Ref]: "VueRef";
     value: T;
 }

@@ -1,13 +1,10 @@
 import type {
-    AnyObject,
     AsString,
     Dictionary,
     ExplicitlyEmptyObject,
-    IsWideContainer,
     Join,
     Keys,
     KeyValue,
-    ObjectKey,
     Or,
     Surround,
     ToKv
@@ -42,7 +39,7 @@ export type ObjectToCssString<
 ]> extends true
     ? "{}"
     : Surround<
-            Process<ToKv<TObj>, false>,
-            TExpand extends false ? "{ " : "{",
-            TExpand extends false ? " }" : "\n}"
-        >;
+        Process<ToKv<TObj>, false>,
+        TExpand extends false ? "{ " : "{",
+        TExpand extends false ? " }" : "\n}"
+    >;

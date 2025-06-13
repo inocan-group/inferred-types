@@ -71,26 +71,26 @@ export type HasSameValues<
     TComparator extends Container,
     TException = false
 > = [IsAny<TContainer>] extends [true]
-? TException
-: [IsAny<TComparator>] extends [true]
-? TException
-: IsObject<TContainer> extends true
-? HasSameValues<Values<TContainer>, TComparator>
-: IsObject<TComparator> extends true
-    ? HasSameValues<TContainer, Values<TComparator>>
+    ? TException
+    : [IsAny<TComparator>] extends [true]
+        ? TException
+        : IsObject<TContainer> extends true
+            ? HasSameValues<Values<TContainer>, TComparator>
+            : IsObject<TComparator> extends true
+                ? HasSameValues<TContainer, Values<TComparator>>
 
-: [IsNever<TContainer>] extends [true]
-    ? false
-: [IsNever<TComparator>] extends [true]
-    ? false
+                : [IsNever<TContainer>] extends [true]
+                    ? false
+                    : [IsNever<TComparator>] extends [true]
+                        ? false
 
-: Or<[
-    IsWideContainer<TContainer>, IsWideContainer<TComparator>
-]> extends true
-? boolean
+                        : Or<[
+                            IsWideContainer<TContainer>,
+                            IsWideContainer<TComparator>
+                        ]> extends true
+                            ? boolean
 
-: _HasSameValues<
-    As<TContainer, readonly unknown[]>,
-    As<TComparator, readonly unknown[]>
->
-
+                            : _HasSameValues<
+                                As<TContainer, readonly unknown[]>,
+                                As<TComparator, readonly unknown[]>
+                            >;

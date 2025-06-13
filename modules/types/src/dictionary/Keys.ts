@@ -23,8 +23,6 @@ type _Keys<
     T extends Dictionary,
 > = UnionToTuple<keyof RemoveIndexKeys<T>>;
 
-
-
 type GetKeys<
     T extends Dictionary,
 > = _Keys<T> extends [symbol]
@@ -48,14 +46,14 @@ type ProcessTuple<
 type ProcessObject<
     TContainer extends Dictionary,
 > = IsEqual<ExplicitlyEmptyObject, TContainer> extends true
-? []
-: [IsObjectLiteral<RemoveIndexKeys<TContainer>>] extends [true]
-    ? ProcessObj<RemoveIndexKeys<TContainer>> extends readonly (keyof TContainer & ObjectKey)[]
-        ? As<ProcessObj<RemoveIndexKeys<TContainer>>, readonly ObjectKey[]>
-        : never
-    : IsEqual<TContainer, ExplicitlyEmptyObject> extends true
-        ? []
-        : ObjectKey[];
+    ? []
+    : [IsObjectLiteral<RemoveIndexKeys<TContainer>>] extends [true]
+        ? ProcessObj<RemoveIndexKeys<TContainer>> extends readonly (keyof TContainer & ObjectKey)[]
+            ? As<ProcessObj<RemoveIndexKeys<TContainer>>, readonly ObjectKey[]>
+            : never
+        : IsEqual<TContainer, ExplicitlyEmptyObject> extends true
+            ? []
+            : ObjectKey[];
 
 /**
  * **Keys**`<TContainer>`
@@ -79,14 +77,13 @@ export type Keys<
     ? ProcessTuple<TContainer>
     : As<
         TContainer extends Dictionary
-        ?
+            ?
             ProcessObject<TContainer> extends readonly (ObjectKey & keyof TContainer)[]
                 ? ProcessObject<TContainer>
                 : never
-        : never,
+            : never,
         readonly ObjectKey[]
     >;
-
 
 /**
  * **ObjectKeys**`<TObj>`
@@ -109,7 +106,7 @@ export type ObjectKeys<
                     : Key[]
                 : UnionToTuple<Key>
             : ObjectKey[]
-        : ProcessObject<TObj>;
+    : ProcessObject<TObj>;
 
 type _Public<
     TInput extends readonly PropertyKey[],

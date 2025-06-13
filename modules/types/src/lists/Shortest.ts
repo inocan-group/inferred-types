@@ -1,34 +1,33 @@
-import {
-    First,
-    IsLessThan, IsStringLiteral,
+import type {
     AfterFirst,
-    Unset,
+    First,
+    IsLessThan,
+    IsStringLiteral,
+    Length,
     MaxSafeInteger,
     Min,
-    Length,
+    Unset,
 } from "inferred-types/types";
-
-
 
 type Process<
     T extends readonly string[],
     TShortest extends number = MaxSafeInteger,
     TResult extends string | Unset = Unset
 > = [] extends T
-? TResult extends Unset
-    ? string
-    : TResult
-: Process<
-    AfterFirst<T>,
-    IsStringLiteral<First<T>> extends true
-        ? Min<[TShortest, Length<First<T>>]>
-        : TShortest,
-    IsStringLiteral<First<T>> extends true
-        ? IsLessThan<Length<First<T>>, TShortest> extends true
-            ? First<T>
-            : TResult
+    ? TResult extends Unset
+        ? string
         : TResult
->;
+    : Process<
+        AfterFirst<T>,
+        IsStringLiteral<First<T>> extends true
+            ? Min<[TShortest, Length<First<T>>]>
+            : TShortest,
+        IsStringLiteral<First<T>> extends true
+            ? IsLessThan<Length<First<T>>, TShortest> extends true
+                ? First<T>
+                : TResult
+            : TResult
+    >;
 
 /**
  * **Shortest**`<T>`

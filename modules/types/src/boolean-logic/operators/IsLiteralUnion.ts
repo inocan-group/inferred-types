@@ -1,4 +1,4 @@
-import type { And, IsFalse, IsNull, IsNumericLiteral, IsObjectLiteral, IsStringLiteral, IsTrue, IsTuple, IsUndefined, IsUnion, RetainLiterals, UnionToTuple } from "inferred-types/types";
+import type { And, IsFalse, IsNull, IsNumericLiteral, IsObjectLiteral, IsStringLiteral, IsTrue, IsTuple, IsUndefined, IsUnion, UnionToTuple } from "inferred-types/types";
 
 type Process<
     T extends readonly unknown[]
@@ -20,8 +20,7 @@ type Process<
                                 : IsFalse<T[K]> extends true
                                     ? true
                                     : false
-}>
-
+}>;
 
 /**
  * **IsLiteralUnion**`<T>`

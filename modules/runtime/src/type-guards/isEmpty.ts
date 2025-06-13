@@ -1,4 +1,4 @@
-import type { Empty, UnionFilter } from "inferred-types/types";
+import type { Empty } from "inferred-types/types";
 import {
     isArray,
     isNull,
@@ -24,10 +24,6 @@ export function isEmpty<T>(val: T): val is T & Empty {
         || (isObject(val) && Object.keys(val).length === 0)
         || (isArray(val) && val.length === 0);
 }
-
-type NotEmpty<T> = UnionFilter<T, Empty> extends T
-    ? UnionFilter<T, Empty>
-    : T;
 
 /**
  * **isNotEmpty**(val)

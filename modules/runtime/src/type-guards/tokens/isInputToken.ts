@@ -4,7 +4,6 @@ import {
     isInputToken__String
 } from "inferred-types/runtime";
 
-
 /**
  * **isInputToken**`(val)`
  *

@@ -1,4 +1,4 @@
-import type { ComparisonOperation, Compare, ComparisonLookup } from "inferred-types/types";
+import type { Compare, ComparisonLookup, ComparisonOperation } from "inferred-types/types";
 
 export type When<
     TVal,

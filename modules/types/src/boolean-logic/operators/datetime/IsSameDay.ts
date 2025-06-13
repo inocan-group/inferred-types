@@ -1,16 +1,15 @@
-import {
-    IsEqual,
-    IsNumericLiteral,
+import type {
     And,
-    IsInteger,
     DateLike,
-    IsNumber,
+    IsEqual,
+    IsInteger,
     IsIsoExplicitDate,
-    IsStringLiteral,
     IsIsoImplicitDate,
-    IsIsoYear
+    IsIsoYear,
+    IsNumber,
+    IsNumericLiteral,
+    IsStringLiteral
 } from "inferred-types/types";
-
 
 /**
  * **IsSameDay**`<A,B>`
@@ -23,19 +22,19 @@ import {
 export type IsSameDay<
     A extends DateLike,
     B extends DateLike
-> = And<[IsNumber<A>,IsNumber<B>]> extends true
-    ? And<[IsNumericLiteral<A>,IsNumericLiteral<B>]> extends true
-        ? And<[IsInteger<A>,IsInteger<B>]> extends true
-            ? IsEqual<A,B>
+> = And<[IsNumber<A>, IsNumber<B>]> extends true
+    ? And<[IsNumericLiteral<A>, IsNumericLiteral<B>]> extends true
+        ? And<[IsInteger<A>, IsInteger<B>]> extends true
+            ? IsEqual<A, B>
             : false
-    : boolean
+        : boolean
 
-: And<[IsStringLiteral<A>,IsStringLiteral<B>]> extends true
-    ? And<[IsIsoExplicitDate<A>,IsIsoExplicitDate<B>]> extends true
-        ? IsEqual<A,B>
-    : And<[IsIsoImplicitDate<A>,IsIsoImplicitDate<B>]> extends true
-        ? IsEqual<A,B>
-    : And<[IsIsoYear<A>,IsIsoYear<B>]> extends true
-        ? IsEqual<A,B>
-    : boolean
-: boolean;
+    : And<[IsStringLiteral<A>, IsStringLiteral<B>]> extends true
+        ? And<[IsIsoExplicitDate<A>, IsIsoExplicitDate<B>]> extends true
+            ? IsEqual<A, B>
+            : And<[IsIsoImplicitDate<A>, IsIsoImplicitDate<B>]> extends true
+                ? IsEqual<A, B>
+                : And<[IsIsoYear<A>, IsIsoYear<B>]> extends true
+                    ? IsEqual<A, B>
+                    : boolean
+        : boolean;

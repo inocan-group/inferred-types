@@ -35,4 +35,3 @@ export function addFnToProps<
         return localFn as FnWithProps<TFn, TProps, TClone>;
     };
 }
-

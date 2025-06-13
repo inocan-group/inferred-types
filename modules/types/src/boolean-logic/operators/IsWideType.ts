@@ -40,23 +40,21 @@ type _Keys<
     T extends object,
 > = UnionToTuple<keyof RemoveIndexKeys<T>>;
 
-
-
 /**
  * **IsWideObject**`<T>`
  *
  * Tests whether `T` is a _wide_ variant of an object.
  */
-export type IsWideObject<T> = Record<ObjectKey,any> extends T
-? true
-: T extends object
-? [IsEqual<T, ExplicitlyEmptyObject>] extends [true]
-    ? false
-    : [IsNever<keyof T>] extends [true]
-        ? true
-        : number extends Keys<T>["length"]
-            ? true
-            : false
+export type IsWideObject<T> = Record<ObjectKey, any> extends T
+    ? true
+    : T extends object
+        ? [IsEqual<T, ExplicitlyEmptyObject>] extends [true]
+            ? false
+            : [IsNever<keyof T>] extends [true]
+                ? true
+                : number extends Keys<T>["length"]
+                    ? true
+                    : false
         : true;
 
 /**
@@ -70,8 +68,8 @@ export type IsWideContainer<T> = T extends Container
         ? IsEqual<T["length"], number> extends true
             ? true
             : false
-    : IsWideObject<T>
-: false;
+        : IsWideObject<T>
+    : false;
 
 /**
  * **IsWideType**`<T, [TNever]>`
@@ -91,17 +89,17 @@ export type IsWideContainer<T> = T extends Container
  */
 export type IsWideType<
     T,
-    TNever  = never
+    TNever = never
 > = IsNever<T> extends true
-? TNever
-: IsUnion<T> extends true
-? IsWideUnion<T>
-: [T] extends [Scalar]
-    ? [IsWideScalar<T>] extends [true]
-        ? true
-        : false
-    : [T] extends Container
-        ? IsWideContainer<T> extends true
-        ? true
-        : false
-: never;
+    ? TNever
+    : IsUnion<T> extends true
+        ? IsWideUnion<T>
+        : [T] extends [Scalar]
+            ? [IsWideScalar<T>] extends [true]
+                ? true
+                : false
+            : [T] extends Container
+                ? IsWideContainer<T> extends true
+                    ? true
+                    : false
+                : never;

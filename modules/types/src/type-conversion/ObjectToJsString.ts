@@ -4,7 +4,6 @@ import type {
     IsWideContainer,
     Join,
     KeyValue,
-    Surround,
     ToKv
 } from "inferred-types/types";
 import type { AsString } from "./AsString";
@@ -25,7 +24,7 @@ type Process<
             ? T[K]["value"] extends string
                 ? `${Prefix<E>}[key: symbol]: "${T[K]["value"]}"`
                 : `${Prefix<E>}[key: symbol]: ${AsString<T[K]["value"]>}`
-        : never
+            : never
 }, ", ">;
 
 /**
@@ -43,5 +42,3 @@ export type ObjectToJsString<
     : IsWideContainer<TObj> extends true
         ? string
         : `{ ${Process<ToKv<TObj>, TExpand>} }`;
-
-

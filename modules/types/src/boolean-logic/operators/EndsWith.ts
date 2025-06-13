@@ -50,9 +50,9 @@ export type EndsWith<
     ? boolean
     : [IsWideType<TComparator>] extends [true]
         ? boolean
-    : PreProcess<
-        AsString<TValue>,
-        TComparator extends number
-            ? AsString<TComparator>
-            : TComparator
-    >;
+        : PreProcess<
+            AsString<TValue>,
+            TComparator extends number
+                ? AsString<TComparator>
+                : TComparator
+        >;

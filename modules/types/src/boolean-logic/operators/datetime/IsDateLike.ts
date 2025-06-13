@@ -1,5 +1,4 @@
-import { DateLike, IsInteger, IsIsoDate, IsIsoYear, IsLiteral, IsNumber, IsString, Or } from "inferred-types/types";
-
+import type { DateLike, IsInteger, IsIsoDate, IsIsoYear, IsLiteral, IsNumber, IsString, Or } from "inferred-types/types";
 
 /**
  * Boolean operator which tests whether `T` is truely `DateLike`
@@ -10,8 +9,8 @@ export type IsDateLike<T> = T extends DateLike
     ? IsLiteral<T> extends true
         ? IsNumber<T> extends true
             ? IsInteger<T>
-        : IsString<T> extends true
-            ? Or<[IsIsoDate<T>, IsIsoYear<T>]>
+            : IsString<T> extends true
+                ? Or<[IsIsoDate<T>, IsIsoYear<T>]>
+                : boolean
         : boolean
-    : boolean
-: false;
+    : false;

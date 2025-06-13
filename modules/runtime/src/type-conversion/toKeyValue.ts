@@ -9,7 +9,7 @@ import type {
     SortByKeyOptions,
     ToKv,
 } from "inferred-types/types";
-import {  keysOf, sortByKey } from "inferred-types/runtime";
+import { keysOf, sortByKey } from "inferred-types/runtime";
 
 /**
  * **toKeyValue**`(obj)` -> tuple

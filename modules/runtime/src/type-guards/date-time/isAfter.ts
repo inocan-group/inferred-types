@@ -1,5 +1,5 @@
-import { DateLike } from "inferred-types/types";
-import { toDate, isDateLike } from "inferred-types/runtime";
+import type { DateLike } from "inferred-types/types";
+import { isDateLike, toDate } from "inferred-types/runtime";
 
 /**
  * **isAfter**`(comparator) -> (value) -> boolean`
@@ -13,8 +13,7 @@ export function isAfter(
     comparator: DateLike
 ) {
     return (val: unknown): val is DateLike => {
-
         return isDateLike(val)
-            && toDate(comparator).toISOString() < toDate(val).toISOString()
-    }
+            && toDate(comparator).toISOString() < toDate(val).toISOString();
+    };
 }

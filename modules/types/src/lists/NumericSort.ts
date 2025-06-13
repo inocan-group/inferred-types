@@ -1,11 +1,11 @@
 import type {
-    Filter,
-    Container,
     As,
-    IsStringLiteral,
-    IsEqual,
-    Get,
     AsNumericArray,
+    Container,
+    Filter,
+    Get,
+    IsEqual,
+    IsStringLiteral,
     RetainByProp,
     Reverse
 } from "inferred-types/types";
@@ -187,5 +187,3 @@ export type NumericSort<
             ? true
             : false
     >;
-
-

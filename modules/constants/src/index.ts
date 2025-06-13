@@ -1,4 +1,3 @@
-export * from "./createConstant";
 export * from "./Alpha";
 export * from "./Books";
 export * from "./Brands";
@@ -9,6 +8,7 @@ export * from "./CommonObjProps";
 export * from "./Comparisons";
 export * from "./Consonants";
 export * from "./Constant";
+export * from "./createConstant";
 export * from "./DateTime";
 export * from "./Editor";
 export * from "./FalsyValues";
@@ -50,4 +50,3 @@ export * from "./Types";
 export * from "./TypeTokens";
 export * from "./TypeTokenVariants";
 export * from "./TypeTransforms";
-

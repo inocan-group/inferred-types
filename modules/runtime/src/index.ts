@@ -20,4 +20,3 @@ export * from "./sets/index";
 export * from "./type-conversion/index";
 export * from "./type-guards/index";
 export * from "./vuejs/index";
-

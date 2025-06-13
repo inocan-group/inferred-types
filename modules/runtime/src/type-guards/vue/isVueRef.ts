@@ -8,8 +8,7 @@ export function isVueRef(val: unknown): val is VueRef {
             "__v_isRef"
         ].every(i => props.includes(i));
 
-
-        return isVueRef
+        return isVueRef;
     }
 
     return false;

@@ -1,5 +1,4 @@
 import type {
-    AnyFunction,
     AsFnMeta,
     Dictionary,
     EmptyObject,
@@ -43,7 +42,7 @@ export type AsLiteralFn<
     : TParams extends readonly any[]
         ? IsNonEmptyObject<TProps> extends true
             ? IsEqual<TParams, []> extends true
-                ? (() => TReturn)  & TProps
+                ? (() => TReturn) & TProps
                 : ((...args: TParams) => TReturn) & TProps
             : IsEqual<TParams, []> extends true
                 ? () => TReturn

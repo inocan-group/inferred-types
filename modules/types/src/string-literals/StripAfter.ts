@@ -7,7 +7,6 @@ import type {
     UnionToTuple
 } from "inferred-types/types";
 
-
 type ProcessUnion<
     TStr extends string,
     TMatch extends readonly string[]
@@ -18,7 +17,6 @@ type ProcessUnion<
             : never
     }>, readonly string[]>
 >;
-
 
 /**
  * **StripAfter**`<TStr, TBreak>`
@@ -36,17 +34,16 @@ export type StripAfter<
     TStr extends string,
     TBreak extends string,
 > = As<
-IsStringLiteral<TStr> extends true
-    ? IsStringLiteral<TBreak> extends true
-        ? IsUnion<TBreak> extends true
-            ? UnionToTuple<TBreak> extends readonly string[]
-                ? ProcessUnion<TStr, UnionToTuple<TBreak>>
-                : never
-            : TStr extends `${infer Before}${TBreak}${string}`
-            ? Before
-            : TStr
-        : string
-    : string,
+    IsStringLiteral<TStr> extends true
+        ? IsStringLiteral<TBreak> extends true
+            ? IsUnion<TBreak> extends true
+                ? UnionToTuple<TBreak> extends readonly string[]
+                    ? ProcessUnion<TStr, UnionToTuple<TBreak>>
+                    : never
+                : TStr extends `${infer Before}${TBreak}${string}`
+                    ? Before
+                    : TStr
+            : string
+        : string,
     string
->
-
+>;

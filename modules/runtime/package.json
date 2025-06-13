@@ -4,7 +4,7 @@
         "scripts": {
         "build": "tsdown",
         "test": "vitest run",
-        "lint": "lint src --fix",
+        "lint": "eslint src --fix",
 
         "watch": "run-p watch:*",
         "watch:build": "tsdown --watch",

@@ -1,11 +1,6 @@
 import type {
-    AfterFirst,
     Dictionary,
-    EmptyObject,
     Err,
-    Expand,
-    ExpandDictionary,
-    First,
     FirstSet,
     InputTokenLike,
     Join,
@@ -14,7 +9,6 @@ import type {
     MakeKeysOptional,
     ObjectKey,
     OptionalKeys,
-    StringKeys,
     ToJson,
     ToStringArray,
     Trim,
@@ -23,9 +17,9 @@ import type {
 
 import type {
     FnReturns,
+    InputToken__Object,
     InputTokenSuggestions,
     IT_ContainerType,
-    InputToken__Object,
     IT_TakeArray,
     IT_TakeAtomic,
     IT_TakeFunction,
@@ -161,20 +155,6 @@ export type FromInputToken__String<
         InvalidTokenSegment<TToken, TInner, TContainers>
     ]>;
 
-type Convert<
-    T extends InputTokenLike,
-    K extends string,
-    I extends string | number,
-> = T extends string
-    ? FromInputToken__String<T>
-    : T extends Record<string, InputTokenLike>
-        ? FromInputToken__Object<T>
-        : T extends readonly InputTokenLike[]
-            ? FromInputToken__Tuple<T>
-            : Err<`invalid-token/${K}`, `The key "${I}" from a ${K} definition was invalid`, {
-                container: T;
-            }>;
-
 /**
  * Takes a tuple of `InputTokens` to create a **Tuple** type.
  */
@@ -204,6 +184,6 @@ export type FromInputToken__Object<
 > = MakeKeysOptional<
     _FromInputToken__Object<Required<T>>,
     UnionToTuple<OptionalKeys<T>> extends readonly ObjectKey[]
-            ? UnionToTuple<OptionalKeys<T>>
-            : never
+        ? UnionToTuple<OptionalKeys<T>>
+        : never
 >;

@@ -16,10 +16,9 @@ export type HasRequiredProps<
 > = Keys<T>["length"] extends number
     ? boolean // wide type
     : RequiredKeysTuple<T> extends readonly ObjectKey[]
-         ? RequiredKeysTuple<T>["length"] extends number
-        ? boolean
-        : RequiredKeysTuple<T>["length"] extends 0
-        ? false
-        : true
+        ? RequiredKeysTuple<T>["length"] extends number
+            ? boolean
+            : RequiredKeysTuple<T>["length"] extends 0
+                ? false
+                : true
         : never;
-

@@ -29,12 +29,12 @@ export type StaticTemplateSections<
     TTemplate extends string,
     TWithType extends boolean | null = null
 > = Finalize<
-As<Split<
-    FromLiteralTemplate<TTemplate>,
-    TemplateBlock,
-    TWithType extends null
-        ? "omit"
-        : "before"
->, readonly string[]>,
-TWithType
+    As<Split<
+        FromLiteralTemplate<TTemplate>,
+        TemplateBlock,
+        TWithType extends null
+            ? "omit"
+            : "before"
+    >, readonly string[]>,
+    TWithType
 >;

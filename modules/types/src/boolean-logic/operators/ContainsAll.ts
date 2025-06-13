@@ -18,9 +18,9 @@ export type ContainsAll<
     TContent extends string | number | readonly unknown[],
     THasAll extends readonly unknown[],
 > = IsWideContainer<TContent> extends true
-? boolean
-: And<{
-    [K in keyof THasAll]: TContent extends number
-        ? Contains<AsString<TContent>, THasAll[K]>
-        : Contains<TContent, THasAll[K]>
-}>;
+    ? boolean
+    : And<{
+        [K in keyof THasAll]: TContent extends number
+            ? Contains<AsString<TContent>, THasAll[K]>
+            : Contains<TContent, THasAll[K]>
+    }>;

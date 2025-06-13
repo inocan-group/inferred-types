@@ -30,4 +30,3 @@ export type IsWideUnion<T> = [IsUnion<T>] extends [true]
         ? true
         : false
     : false;
-

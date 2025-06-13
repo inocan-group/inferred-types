@@ -1,4 +1,5 @@
 import {
+    err,
     isDate,
     isIsoDateTime,
     isIsoExplicitDate,
@@ -7,9 +8,8 @@ import {
     isLuxonDate,
     isMoment,
     isNumber,
-    stripAfter,
+    stripAfter
 } from "inferred-types/runtime";
-import { DateLike } from "inferred-types/types";
 
 /**
  * **asDate**`(input)`
@@ -18,7 +18,7 @@ import { DateLike } from "inferred-types/types";
  */
 export function asDate<
     T extends number | string | Record<string, any> | Date,
->(input: T): Date | undefined {
+>(input: T): Date {
     if (isDate(input)) {
         input.setHours(0, 0, 0, 0); // strip time
         return input;
@@ -56,7 +56,7 @@ export function asDate<
     }
 
     if (isNumber(input)) {
-    // appears to be year literal
+        // appears to be year literal
         if (`${input}`.length === 4) {
             return new Date(`${input}-01-01`);
         }
@@ -66,46 +66,5 @@ export function asDate<
         }
     }
 
-    return undefined;
-}
-
-function toDate(value: DateLike): Date {
-    if (typeof value === "number" || (typeof value === "string" && /^\d+$/.test(value))) {
-        return new Date(Number(value));
-    }
-
-    if (typeof value === "string") {
-        const parsed = new Date(value);
-        if (!isNaN(parsed.getTime())) return parsed;
-        throw new Error(`Invalid ISO string format: ${value}`);
-    }
-
-    if (value instanceof Date) {
-        return value;
-    }
-
-    if (value && typeof value === "object") {
-        if ("toDate" in value && typeof value.toDate === "function") {
-            const result = value.toDate();
-            if (result instanceof Date && !isNaN(result.getTime())) return result;
-        }
-
-        if ("startOfDay" in value && typeof value.startOfDay === "function") {
-            const result = value.startOfDay();
-            if (result instanceof Date && !isNaN(result.getTime())) return result;
-        }
-
-        if ("getTime" in value && typeof value.getTime === "function") {
-            const ts = value.getTime();
-            if (typeof ts === "number" && !isNaN(ts)) return new Date(ts);
-        }
-
-        if ("toJSON" in value && typeof value.toJSON === "function") {
-            const iso = value.toJSON();
-            const result = new Date(iso);
-            if (!isNaN(result.getTime())) return result;
-        }
-    }
-
-    throw new Error("Unsupported DateLike input");
+    throw err(`invalid/date`, `The date-like value you passed to 'asDate()' function was unable to be converted to a Javascript Date object!`, { date: input });
 }

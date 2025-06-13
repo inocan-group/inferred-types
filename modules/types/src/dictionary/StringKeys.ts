@@ -39,7 +39,7 @@ export type SKeys<T extends AnyObject> = IsVueRef<T> extends true
  * **Related:** `Keys`
  */
 export type StringKeys<T extends AnyObject> = IsVueRef<T> extends true
-? ["value"]
-: _StringKeys<T> extends readonly string[]
-    ? _StringKeys<T>
-    : never;
+    ? ["value"]
+    : _StringKeys<T> extends readonly string[]
+        ? _StringKeys<T>
+        : never;

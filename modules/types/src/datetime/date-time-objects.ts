@@ -619,7 +619,7 @@ export interface LuxonJs {
          * Create a DateTime instance from an object specifying date and time components.
          * @param config - Object with properties like `year`, `month`, `day`, etc.
          */
-        fromObject: (config: { zone?: string; locale?: string; numberingSystem?: string;[key: string]: any }) => LuxonJs["DateTime"];
+        fromObject: (config: { zone?: string; locale?: string; numberingSystem?: string; [key: string]: any }) => LuxonJs["DateTime"];
 
         /**
          * Create a DateTime instance from a JavaScript Date object.

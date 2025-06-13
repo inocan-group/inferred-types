@@ -1,22 +1,20 @@
-import { As, IsLessThan, AfterFirst, First, Unset } from "inferred-types/types";
-
-
+import type { AfterFirst, As, First, IsLessThan, Unset } from "inferred-types/types";
 
 type Process<
     T extends readonly number[],
     M extends number | Unset = Unset
 > = [] extends T
-? M extends Unset
-    ? undefined
-    : M
-: Process<
-    AfterFirst<T>,
-    M extends Unset
-        ? First<T>
-        : IsLessThan<First<T>,As<M, number>> extends true
+    ? M extends Unset
+        ? undefined
+        : M
+    : Process<
+        AfterFirst<T>,
+        M extends Unset
             ? First<T>
-            : M
->
+            : IsLessThan<First<T>, As<M, number>> extends true
+                ? First<T>
+                : M
+    >;
 
 /**
  * **Min**`<T>`
@@ -26,5 +24,3 @@ type Process<
 export type Min<
     T extends readonly number[],
 > = Process<T>;
-
-

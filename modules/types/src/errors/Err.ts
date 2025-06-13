@@ -32,7 +32,7 @@ export type Err<
     TCtx extends Record<string, any> = EmptyObject
 > = TType extends `${infer Type}/${infer Subtype}`
     ? As<
-    Expand<
+        Expand<
         {
             name: PascalCase<TCtx["name"] extends string ? TCtx["name"] : RetainUntil<TType, "/">>;
             type: KebabCase<Type>;

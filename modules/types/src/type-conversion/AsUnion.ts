@@ -1,4 +1,3 @@
-
 /**
  * **AsUnion**`<T>`
  *
@@ -6,5 +5,5 @@
  * simply passes `T` through unchanged.
  */
 export type AsUnion<T> = T extends readonly any[]
-? T[number]
-: T;
+    ? T[number]
+    : T;

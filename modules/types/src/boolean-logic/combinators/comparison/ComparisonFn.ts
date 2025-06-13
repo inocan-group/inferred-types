@@ -1,6 +1,4 @@
-import { Compare, ComparisonAccept, ComparisonDesc, ComparisonLookup, ComparisonOperation, Filter } from "inferred-types/types";
-
-
+import type { Compare, ComparisonAccept, ComparisonDesc, ComparisonLookup, ComparisonOperation, Filter } from "inferred-types/types";
 
 /**
  * **ComparisonFn**
@@ -14,12 +12,12 @@ export type ComparisonFn<
     TOp extends ComparisonOperation,
     TParams extends ComparisonLookup[TOp]["params"]
 > = (
-ComparisonDesc<TOp,TParams> extends string
+ComparisonDesc<TOp, TParams> extends string
     ? {
         kind: "Comparison Function";
         operation: TOp;
         params: TParams;
-        desc: ComparisonDesc<TOp,TParams>
+        desc: ComparisonDesc<TOp, TParams>;
     }
     : {
         kind: "Comparison Function";
@@ -32,7 +30,7 @@ ComparisonDesc<TOp,TParams> extends string
         : T extends ComparisonAccept<TOp>
             ? Compare<T, TOp, TParams>
             : never
-)
+);
 
 /**
  * **FilterFn**
@@ -44,12 +42,12 @@ export type FilterFn<
     TOp extends ComparisonOperation,
     TParams extends ComparisonLookup[TOp]["params"]
 > = (
-ComparisonDesc<TOp,TParams> extends string
+ComparisonDesc<TOp, TParams> extends string
     ? {
         kind: "Comparison Function";
         operation: TOp;
         params: TParams;
-        desc: ComparisonDesc<TOp,TParams>
+        desc: ComparisonDesc<TOp, TParams>;
     }
     : {
         kind: "Comparison Function";
@@ -62,4 +60,4 @@ ComparisonDesc<TOp,TParams> extends string
         : T extends ComparisonAccept<TOp>
             ? Compare<T, TOp, TParams>
             : never
-)
+);

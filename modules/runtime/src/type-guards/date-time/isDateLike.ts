@@ -1,3 +1,4 @@
+import type { DateLike } from "inferred-types/types";
 import {
     isDate,
     isDateFnsDate,
@@ -10,7 +11,6 @@ import {
     isString,
     isTemporalDate
 } from "inferred-types/runtime";
-import { DateLike } from "inferred-types/types";
 
 /**
  * A type guard which checks if `val` is _date like_:
@@ -28,11 +28,11 @@ export function isDateLike(val: unknown): val is DateLike {
         (isNumber(val) && isInteger(val) && val > 0) // epoch
         || (isString(val) && (isIsoDate(val) || isIsoDateTime(val))) // ISO
         || (
-            isDate(val) ||
-            isMoment(val) ||
-            isLuxonDate(val) ||
-            isTemporalDate(val) ||
-            isDateFnsDate(val)
+            isDate(val)
+            || isMoment(val)
+            || isLuxonDate(val)
+            || isTemporalDate(val)
+            || isDateFnsDate(val)
         ) // Object based
     );
 }

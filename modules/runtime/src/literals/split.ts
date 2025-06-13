@@ -141,8 +141,8 @@ export const split = createFnWithProps(omit, {
     after,
     inline
 }) as typeof omit & {
-    omit: typeof omit,
-    before: typeof before,
-    after: typeof after,
-    inline: typeof inline
+    omit: typeof omit;
+    before: typeof before;
+    after: typeof after;
+    inline: typeof inline;
 };

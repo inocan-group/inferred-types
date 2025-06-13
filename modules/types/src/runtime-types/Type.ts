@@ -13,7 +13,6 @@ import type {
     Box,
     ErrorCondition,
     Extends,
-    NotFilter,
     If,
     IsArray,
     IsEqual,
@@ -21,6 +20,7 @@ import type {
     IsStringLiteral,
     IsUnion,
     Narrowable,
+    NotFilter,
     Or,
     TupleToUnion,
     TypeGuard,
@@ -138,8 +138,10 @@ type ToBaseType<
                                                                               TUnderlying,
                                                                               "extends",
                                                                               {
-                                                                                kind: TypeKind; required: TypeIsRequired; underlying: readonly unknown[] | "none"
-                                                                            }
+                                                                                  kind: TypeKind;
+                                                                                  required: TypeIsRequired;
+                                                                                  underlying: readonly unknown[] | "none";
+                                                                              }
                                                                           >>
                                                                           : never
                                                                       : TKind extends "intersection"
@@ -148,8 +150,10 @@ type ToBaseType<
                                                                                   TUnderlying,
                                                                                   "extends",
                                                                                   {
-                                                                                    kind: TypeKind; required: TypeIsRequired; underlying: readonly unknown[] | "none"
-                                                                                }
+                                                                                      kind: TypeKind;
+                                                                                      required: TypeIsRequired;
+                                                                                      underlying: readonly unknown[] | "none";
+                                                                                  }
                                                                               >>>
                                                                               : never
                                                                           : unknown;

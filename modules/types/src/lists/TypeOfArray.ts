@@ -1,4 +1,4 @@
-import { IsTuple } from "inferred-types/types";
+import type { IsTuple } from "inferred-types/types";
 
 /**
  * **TypeOfArray**`<T>`
@@ -21,9 +21,7 @@ import { IsTuple } from "inferred-types/types";
  */
 export type TypeOfArray<T extends unknown[]> =
 IsTuple<T> extends true
-? never
-: T extends (infer Type)[]
-? Type
-: never;
-
-
+    ? never
+    : T extends (infer Type)[]
+        ? Type
+        : never;

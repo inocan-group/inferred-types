@@ -9,8 +9,8 @@ import { isDefined, isUndefined } from "inferred-types/runtime";
  * of this criteria.
  *
  * @param val the value being tested
- * @param ifVal the value (strongly typed) returned if val is `undefined`
- * @param elseVal the value (strongly typed) returned if val is NOT `undefined`
+ * @param ifUndefined the value (strongly typed) returned if val is `undefined`
+ * @param ifDefined the value (strongly typed) returned if val is NOT `undefined`
  */
 export function ifUndefined<
     T extends Narrowable,

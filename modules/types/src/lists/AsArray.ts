@@ -1,4 +1,4 @@
-import type { If, IsUndefined, Mutable, Tuple } from "inferred-types/types";
+import type { If, IsUndefined, Mutable } from "inferred-types/types";
 
 type _AsArray<T> = [T] extends [readonly unknown[]]
     ? Mutable<T>
@@ -20,4 +20,3 @@ type _AsArray<T> = [T] extends [readonly unknown[]]
 export type AsArray<T> = [_AsArray<T>] extends [readonly unknown[]]
     ? _AsArray<T>
     : never;
-

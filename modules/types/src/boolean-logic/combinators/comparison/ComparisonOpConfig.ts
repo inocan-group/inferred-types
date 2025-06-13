@@ -1,5 +1,3 @@
-
-
 /**
  * Operations to perform across all parameters in a comparision
  * to create a `Comparator`. These operations will reduce all
@@ -9,7 +7,6 @@ export type ComparisonParamConvert__List =
 | "union"
 | "stringUnion"
 | "stringArray";
-
 
 /**
  * Operations to perform on one (or all) parameters in a

@@ -1,5 +1,5 @@
-import { toStringLiteral } from "inferred-types/runtime";
 import type { DefineObject, FromDefineObject } from "inferred-types/types";
+import { toStringLiteral } from "inferred-types/runtime";
 
 /**
  * Takes an `DefineObject` definition and:

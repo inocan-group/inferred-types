@@ -29,8 +29,8 @@ export type IsObjectLiteral<T> = [IsNever<T>] extends [true]
     ? false
     : [T] extends [readonly any[]]
         ? false
-    : T extends Dictionary
-        ? IsEqual<T, ExplicitlyEmptyObject> extends true
-            ? true
-            : CheckIt<T>
-        : false;
+        : T extends Dictionary
+            ? IsEqual<T, ExplicitlyEmptyObject> extends true
+                ? true
+                : CheckIt<T>
+            : false;

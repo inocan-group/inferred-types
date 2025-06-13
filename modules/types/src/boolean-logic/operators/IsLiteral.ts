@@ -1,17 +1,12 @@
 import type {
-    And,
-    Extends,
     IfEqual,
     IsBooleanLiteral,
-    IsEqual,
     IsLiteralUnion,
     IsNumericLiteral,
     IsObjectLiteral,
     IsStringLiteral,
     IsTuple,
     IsUnion,
-    Mutable,
-    Not,
     Or,
 } from "inferred-types/types";
 
@@ -22,7 +17,6 @@ type Validations<T> = Or<[
     IsBooleanLiteral<T>,
     IsObjectLiteral<T>
 ]>;
-
 
 /**
  * **IsLiteral**`<T>`
@@ -46,7 +40,4 @@ export type IsLiteral<T> = [IsUnion<T>] extends [true]
         : false
     : Validations<T>;
 
-
 export type IsOptionalLiteral<T> = IfEqual<T, undefined, true, IsLiteral<T>>;
-
-
