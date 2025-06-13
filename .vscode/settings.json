@@ -91,6 +91,7 @@
     "nesw",
     "nexstar",
     "noembed",
+    "Nums",
     "nytimes",
     "oasises",
     "okhsl",
@@ -139,7 +140,7 @@
     "youtu",
     "Zeitung",
     "µmol"
-  ],
+],
   "references.preferredLocation": "peek",
   "json.schemas": [
     {

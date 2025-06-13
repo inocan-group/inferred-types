@@ -102,7 +102,7 @@ function before<
 }
 
 /**
- * Splits the content using the seperator(s) and includes the separator in
+ * Splits the content using the separator(s) and includes the separator in
  * the element _after_ the
  */
 function after<
@@ -131,7 +131,7 @@ function inline<
  * Splits a string on a given separator while preserving string literal typing
  * when possible.
  *
- * - The default "policy" is to _omit_ the seperator from the return tuple
+ * - The default "policy" is to _omit_ the separator from the return tuple
  * - If you want to use the `before`, `after`, or `inline` policy types
  * they are available as properties of this function.
  */
@@ -140,4 +140,9 @@ export const split = createFnWithProps(omit, {
     before,
     after,
     inline
-});
+}) as typeof omit & {
+    omit: typeof omit,
+    before: typeof before,
+    after: typeof after,
+    inline: typeof inline
+};

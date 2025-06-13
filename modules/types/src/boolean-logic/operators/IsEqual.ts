@@ -1,4 +1,4 @@
-import { IsAny } from "inferred-types/types";
+import { As, IsAny } from "inferred-types/types";
 
 
 /**
@@ -36,7 +36,8 @@ export type Equals<
     X, Y,
     TTrue = true,
     TFalse = false
-> = [IsAny<X>] extends [true]
+> = As<
+[IsAny<X>] extends [true]
     ? false
 : [IsAny<Y>] extends [true]
     ? false
@@ -44,4 +45,6 @@ export type Equals<
     ? [Y] extends [X]
         ? TTrue
     : TFalse
-: TFalse;
+: TFalse,
+TTrue | TFalse
+>

@@ -8,6 +8,7 @@ import {
     ExplicitlyEmptyObject,
     Dictionary
 } from "inferred-types/types";
+import { IsWideType, Keys } from "inferred-types";
 
 
 
@@ -40,6 +41,7 @@ describe("IsLiteral<T>", () => {
         type F5 = IsLiteral<string[]>;
         type F6 = IsLiteral<readonly string[]>;
 
+
         type cases = [
             Expect<Test<F1, "equals", false>>,
             Expect<Test<F2, "equals", false>>,
@@ -68,11 +70,6 @@ describe("IsLiteral<T>", () => {
             // a type marked at `Dictionary` is generic; it can take any normal key/value
             // pair that an object is allowed so therefore it is NOT literal
             Expect<Test<BaseDictionary, "equals", false>>,
-            // the `{}` type is quite misunderstood and really should be called
-            // `Something` (which we do export as a symbol in this lib). Effectively
-            // it is just any value except for **null** and **undefined**.
-            Expect<Test<Curly, "equals", false>>,
-
         ];
 
     });

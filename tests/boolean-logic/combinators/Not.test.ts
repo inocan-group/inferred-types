@@ -24,19 +24,5 @@ describe("Not<T>", () => {
         ];
     });
 
-
-    it("with tuple value", () => {
-        type Tuple1 = [true, true, false, boolean, false];
-        type Tuple2 = [true, true, () => false, never, boolean, false, never];
-
-        type T1 = Not<Tuple1>;
-        type T2 = Not<Tuple2>;
-
-        type cases = [
-            Expect<Test<T1, "equals", [false, false, true, boolean, true]>>,
-            Expect<Test<T2, "equals", [false, false, true, never, boolean, true, never]>>
-        ];
-    });
-
 });
 

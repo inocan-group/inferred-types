@@ -21,15 +21,6 @@
       "inferred-types/constants": [
         "../modules/constants/src"
       ],
-      "transpiled/types": [
-        "../modules/inferred-types/dist"
-      ],
-      "transpiled/runtime": [
-        "../modules/inferred-types/dist"
-      ],
-      "transpiled/constants": [
-        "../modules/inferred-types/dist"
-      ]
     }
   },
   "include": [

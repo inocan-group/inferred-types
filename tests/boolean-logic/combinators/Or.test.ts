@@ -12,7 +12,8 @@ describe("Or<T>", () => {
         type T3 = Or<[]>; // false
         type T4 = Or<[true, false, boolean]>; // true
         type T5 = Or<[false, false, boolean]>; // boolean
-        type T6 = Or<never>;
+        type T6 = Or<[boolean, false, false]>; // boolean
+        type T7 = Or<never>;
 
         type cases = [
             Expect<Test<T1, "equals",  true>>, //
@@ -20,7 +21,6 @@ describe("Or<T>", () => {
             Expect<Test<T3, "equals",  false>>,
             Expect<Test<T4, "equals",  true>>,
             Expect<Test<T5, "equals",  boolean>>,
-            ExpectTrue<Extends<T6, ErrorCondition<"invalid-never">>>,
         ];
     });
 

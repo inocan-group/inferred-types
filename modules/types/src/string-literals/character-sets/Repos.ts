@@ -34,11 +34,8 @@ export type RepoUrls = UrlsFrom<Flatten<
  *
  * Provides a type for _sematic versions_.
  *
- * - by default it only allows the numeric `${major}.${minor}.${patch}` type
+ * - by default it only allows the numeric `${major}.${minor}.${patch}` type _or_ the version with a `v` prefix: `v${major}.${minor}.${patch}
  * - setting `TPrefix to` `true` indicates that a leading `v` is required to prefix the version number: `v${major}.${minor}.${patch}`
- * - setting TPrefix to `either" means you may optionally use or ignore the `v` prefix
- *    - `0.10.1` - valid
- *    - `v0.10.1` - also valid
  * - setting to `false` eliminates any prefix
  * - if you pass in a string `TPrefix` then it will be used directly as the value required to
  * prefix the number with
@@ -46,7 +43,7 @@ export type RepoUrls = UrlsFrom<Flatten<
 export type SemanticVersion<
     TPrefix extends boolean | string | Unset = Unset,
 > = TPrefix extends Unset
-    ? `${number}.${number}.${number}`
+    ? `${number}.${number}.${number}` | `v${number}.${number}.${number}`
     : TPrefix extends true
         ? `v${number}.${number}.${number}`
         : TPrefix extends false

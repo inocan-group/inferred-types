@@ -4,6 +4,8 @@ export * from "./FirstSet";
 export * from "./FirstValue";
 export * from "./Not";
 export * from "./Or";
+export * from "./Logic";
+export * from "./Inverse";
 export * from "./Some";
 
 export * from "./comparison/index"
