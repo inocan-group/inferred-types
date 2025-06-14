@@ -59,6 +59,8 @@ export type IsIsoImplicitDate<T> = IsEqual<T, string> extends true
  *
  * Boolean operator which returns `true` when `T` is a valid ISO 8601 date string of the
  * format `YYYYMMDD` or `YYYY-MM-DD`.
+ *
+ * **Related:** `IsIsoExplicitDate`, `IsIsoImplicitDate`
  */
 export type IsIsoDate<T> = IsEqual<T, string> extends true
     ? boolean

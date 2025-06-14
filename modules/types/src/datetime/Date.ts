@@ -24,7 +24,7 @@ export type MonthName = typeof MONTH_NAME[number];
  *
  * The month of the year represented in an abbreviated string format.
  */
-export type MonthAbbr = typeof MONTH_ABBR[number];
+export type MonthAbbrev = typeof MONTH_ABBR[number];
 
 /**
  * **MonthNumeric**
@@ -58,7 +58,7 @@ export type YMD<
  * The day of the month followed by an abbreviated string representation
  * of the month (e.g., `4 July`)
  */
-export type DateThenMonth = `${MonthDay} ${MonthAbbr}`;
+export type DateThenMonth = `${MonthDay} ${MonthAbbrev}`;
 
 /**
  * **DateThenMonthThenYear**
@@ -66,7 +66,7 @@ export type DateThenMonth = `${MonthDay} ${MonthAbbr}`;
  * The day of the month followed by an abbreviated string representation
  * of the month and finishing with the year (e.g., `4 July 2021`)
  */
-export type DateThenMonthThenYear = `${MonthDay} ${MonthAbbr}${` ${Year<"simple">}`}`;
+export type DateThenMonthThenYear = `${MonthDay} ${MonthAbbrev}${` ${Year<"simple">}`}`;
 
 export type MonthPostfix = "" | "st" | "rd" | "th";
 
@@ -76,7 +76,7 @@ export type MonthPostfix = "" | "st" | "rd" | "th";
  * The month's name -- either abbreviate or full -- followed by the
  * day in the month (e.g., `July 28, 1970`, or `July 28th, 1970`)
  */
-export type MonthThenDateThenYear = `${MonthAbbr | MonthName} ${MonthDay}${MonthPostfix}${`, ${Year<"simple">}`}`;
+export type MonthThenDateThenYear = `${MonthAbbrev | MonthName} ${MonthDay}${MonthPostfix}${`, ${Year<"simple">}`}`;
 
 /**
  * **MonthThenDate**
@@ -84,7 +84,7 @@ export type MonthThenDateThenYear = `${MonthAbbr | MonthName} ${MonthDay}${Month
  * The month's name -- either abbreviate or full -- followed by the
  * day in the month (e.g., `July 28`, `July 28th`)
  */
-export type MonthThenDate = `${MonthAbbr | MonthName} ${MonthDay}${MonthPostfix}`;
+export type MonthThenDate = `${MonthAbbrev | MonthName} ${MonthDay}${MonthPostfix}`;
 
 export type MonthThenDate_Simple = ``;
 
@@ -98,7 +98,7 @@ export type MonthThenDate_Simple = ``;
  * const date: MonthAbbrThenDate[] = ["Jun 6", "Jun 06", "Jun 6th"]
  * ```
  */
-export type MonthAbbrThenDate = `${MonthAbbr} ${MonthDay}${MonthPostfix}`;
+export type MonthAbbrThenDate = `${MonthAbbrev} ${MonthDay}${MonthPostfix}`;
 
 /**
  * **MonthAbbrThenDateAndYear**
@@ -113,7 +113,7 @@ export type MonthAbbrThenDate = `${MonthAbbr} ${MonthDay}${MonthPostfix}`;
  * const date: MonthAbbrThenDateAndYear[] = ["Jun 6, 2020", "Jun 06, 2020", "Jun 6th, 2020"]
  * ```
  */
-export type MonthAbbrThenDateAndYear = `${MonthAbbr} ${MonthDay}${MonthPostfix}${`, ${Year<"simple">}`}`;
+export type MonthAbbrThenDateAndYear = `${MonthAbbrev} ${MonthDay}${MonthPostfix}${`, ${Year<"simple">}`}`;
 
 /**
  * **FullDate**

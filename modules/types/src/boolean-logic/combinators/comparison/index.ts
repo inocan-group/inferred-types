@@ -1,5 +1,4 @@
 export * from "./Compare";
-export * from "./Compare";
 export * from "./ComparisonAccept";
 export * from "./ComparisonDesc";
 export * from "./ComparisonFn";

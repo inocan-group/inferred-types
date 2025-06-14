@@ -1,5 +1,3 @@
-export * from "./isAfter";
-export * from "./isBefore";
 export * from "./isDate";
 export * from "./isDateFnsDate";
 export * from "./isDateLike";
@@ -19,4 +17,4 @@ export * from "./isThisYear";
 export * from "./isToday";
 export * from "./isTomorrow";
 export * from "./isYesterday";
-export * from "./toDate";
+export * from "../../datetime/toDate";

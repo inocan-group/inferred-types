@@ -8,7 +8,8 @@ import type {
     IsIsoYear,
     IsNumber,
     IsNumericLiteral,
-    IsStringLiteral
+    IsStringLiteral,
+    IsWideType
 } from "inferred-types/types";
 
 /**
@@ -22,7 +23,12 @@ import type {
 export type IsSameDay<
     A extends DateLike,
     B extends DateLike
-> = And<[IsNumber<A>, IsNumber<B>]> extends true
+> = IsWideType<A> extends true
+? boolean
+: IsWideType<B> extends true
+? boolean
+
+: And<[IsNumber<A>, IsNumber<B>]> extends true
     ? And<[IsNumericLiteral<A>, IsNumericLiteral<B>]> extends true
         ? And<[IsInteger<A>, IsInteger<B>]> extends true
             ? IsEqual<A, B>

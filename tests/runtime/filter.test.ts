@@ -1,18 +1,19 @@
-import { filter, FilterFn } from "inferred-types/runtime";
-import { Compare, Expect, Filter, Test } from "inferred-types/types";
+import { filter } from "inferred-types/runtime";
+import { Compare, Expect, Filter, Test, FilterFn } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
 describe("filter()", () => {
 
     it("partial application of truthy (no params, no accept clause)", () => {
         const truthy = filter("truthy");
+        const greaterThanFive = filter("greaterThan", 5);
 
         type Params = Parameters<typeof truthy>;
 
         type cases = [
             Expect<Test<
                 typeof truthy, "equals",
-                FilterFn<"truthy", [], string>
+                FilterFn<"truthy", []>
             >>
         ];
     });

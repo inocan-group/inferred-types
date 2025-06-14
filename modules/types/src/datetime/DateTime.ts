@@ -169,7 +169,6 @@ export type DateLike =
     | `${number}-${number}-${number}T${number}:${number}:${number}`
     | `${number}-${number}-${number}T${number}:${number}:${number}.${number}`
     | `${number}-${number}-${number}T${number}:${number}:${number}${"Z" | `${"+" | "-"}${number}:${number}`}`
-    | { getTime: () => number; [key: string]: any } // JS Date
     | LuxonLike
     | DayJsLike
     | MomentLike
