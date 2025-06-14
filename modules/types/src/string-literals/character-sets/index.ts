@@ -1,6 +1,7 @@
 export * from "./AlphaChar";
 export * from "./brackets/index";
 export * from "./CarriageReturn";
+export * from "./CodePointOf";
 export * from "./Consonants";
 export * from "./Country";
 export * from "./css/index";
@@ -27,7 +28,6 @@ export * from "./Punctuation";
 export * from "./quotation-marks/index";
 export * from "./QuoteCharacter";
 export * from "./Repos";
-
 export * from "./SingularNoun";
 export * from "./SpecialChar";
 export * from "./StringDelimiter";
@@ -39,3 +39,4 @@ export * from "./ValueAtDotPath";
 export * from "./Variable";
 export * from "./Whitespace";
 export * from "./YouTube";
+
