@@ -21,4 +21,16 @@ describe("AsNumber<T>", () => {
         ];
     });
 
+
+    it("can handle leading zeros", () => {
+        type Five = AsNumber<"005">;
+        type NegFive = AsNumber<"-005">;
+
+        type cases = [
+            Expect<Test<Five, "equals", 5>>,
+            Expect<Test<NegFive, "equals", -5>>,
+        ];
+    });
+
+
 });

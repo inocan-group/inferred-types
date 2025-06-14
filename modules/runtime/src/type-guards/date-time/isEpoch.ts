@@ -37,5 +37,7 @@ export function isEpochInSeconds(timestamp: NumberLike): timestamp is EpochInSec
  * **Related:** `isEpochInSeconds`
  */
 export function isEpochInMilliseconds(timestamp: NumberLike): timestamp is EpochInMs {
-    return Number(timestamp) >= EPOCH_1970_07_14;
+    return isNegativeNumber(timestamp)
+        ? false
+        : Number(timestamp) >= EPOCH_1970_07_14;
 }

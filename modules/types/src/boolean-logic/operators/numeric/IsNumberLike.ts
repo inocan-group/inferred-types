@@ -1,6 +1,6 @@
-import type { DoesExtend } from "./DoesExtend";
+import type { DoesExtend } from "../DoesExtend";
 
-import type { IsNever } from "./IsNever";
+import type { IsNever } from "../IsNever";
 import type { IsNumber } from "./IsNumber";
 
 /**

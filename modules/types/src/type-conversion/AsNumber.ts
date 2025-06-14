@@ -1,3 +1,5 @@
+import { StripWhile } from "inferred-types/types";
+
 /**
  * **ParseInt**`<T>`
  *
@@ -23,5 +25,12 @@ export type ParseInt<T> = T extends `${infer N extends number}`
 export type AsNumber<T> = T extends number
     ? T
     : T extends `${number}`
-        ? ParseInt<T>
+        ? T extends `-${infer Numeric}`
+            ? ParseInt<
+                `-${StripWhile<Numeric, "0">}`
+            >
+            : ParseInt<
+                StripWhile<T, "0">
+            >
         : never;
+

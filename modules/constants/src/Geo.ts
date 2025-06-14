@@ -1,3 +1,22 @@
+export const HEMISPHERE = [
+    "northern",
+    "southern"
+] as const;
+
+/**
+ * The continents on planet earth
+ */
+export const CONTINENTS = [
+    "Africa",
+    "Australia",
+    "Antarctica",
+    "Asia",
+    "Europe",
+    "North America",
+    "South America"
+] as const;
+
+
 /**
  * The 50 US states: `[name, abbrev, true]`
  */

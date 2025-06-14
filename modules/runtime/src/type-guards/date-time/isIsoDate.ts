@@ -3,9 +3,9 @@ import { isNumberLike, isString } from "inferred-types/runtime";
 
 /**
  * Type guard which validates whether the passed in `val` is an ISO 8601 date
- * representation with an explicit `-` seperator between units (YYYY-MM-DD).
+ * representation with an explicit `-` separator between units (YYYY-MM-DD).
  *
- * **Related:** `isIsoDate`, `isIsoImplictDate`
+ * **Related:** `isIsoDate`, `isIsoImplicitDate`
  */
 export function isIsoExplicitDate(val: unknown): val is Iso8601Date<"explicit"> {
     if (isString(val)) {
@@ -24,9 +24,9 @@ export function isIsoExplicitDate(val: unknown): val is Iso8601Date<"explicit"> 
 
 /**
  * Type guard which validates whether the passed in `val` is an ISO 8601 date
- * representation without an explicit `-` seperator between units (YYYYMMDD).
+ * representation without an explicit `-` separator between units (YYYYMMDD).
  *
- * **Related:** `isIsoDate`, `isIsoExplictDate`
+ * **Related:** `isIsoDate`, `isIsoExplicitDate`
  */
 export function isIsoImplicitDate(val: unknown): val is Iso8601Date<"implicit"> {
     if (isString(val) && val.length === 8 && isNumberLike(val)) {
@@ -47,7 +47,7 @@ export function isIsoImplicitDate(val: unknown): val is Iso8601Date<"implicit"> 
  * Type guard which validates whether the passed in `val` is an ISO 8601 date
  * representation.
  *
- * **Related:** `isIsoExplictDate`, `isIsoImplictDate`
+ * **Related:** `isIsoExplicitDate`, `isIsoImplicitDate`
  */
 export function isIsoDate(val: unknown): val is Iso8601Date<"both"> {
     if (isString(val)) {
