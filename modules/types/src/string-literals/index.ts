@@ -53,3 +53,4 @@ export * from "./TypeSubtype";
 export * from "./UnderlyingType";
 export * from "./UntilLast";
 export * from "./UUID";
+export * from "./sort"
