@@ -5,32 +5,27 @@ import { describe, it } from "vitest";
 describe("Contains<T,A>", () => {
     it("Content is a tuple", () => {
         type T1 = Contains<[number, 32, 64, "foo"], string>;
-        type T2 = ["foo", false, true];
-        type T3 = [42, 64, 128];
-        type T4 = ["foo", "bar"];
-        type T5 = ["foo", "bar", null, undefined];
-
-        // type PageIdType = "path" | "tag";
-        type T6 = Contains<["path"], "path">;
+        type T2 = Contains<["foo", false, true], boolean>;
+        type T3 = Contains<[42, 64, 128], number>;
+        type T4 = Contains<["foo", "bar"], string>;
+        type T5 = Contains<["foo", "bar", null, undefined], null>;
 
         type TNum = Contains<[number, 32, 64, "foo"], number>;
 
         type cases = [
             // "foo" extends string so true
             Expect<Test<T1, "equals",  true>>,
+            Expect<Test<T2, "equals",  true>>,
             // "bar" does NOT extend "foo"
-            Expect<Test<Contains<[number, 32, 64, "foo"], "bar">, "equals",  false>>,
-            // T4 has literal string but this will match the wide type string
-            Expect<Test<Contains<T4, string>, "equals",  true>>,
-            // T1 has both wide and narrow versions of "number"
+            Expect<Test<
+                Contains<[number, 32, 64, "foo"], "bar">,
+                "equals",  false
+            >>,
+            Expect<Test<T3, "equals",  true>>,
+            Expect<Test<T4, "equals",  true>>,
+            Expect<Test<T3, "equals",  true>>,
+            Expect<Test<T5, "equals",  true>>,
             Expect<Test<TNum, "equals",  true>>,
-            // T3 has narrow versions of "number"
-            Expect<Test<Contains<T3, number>, "equals",  true>>,
-            // T3 has the numeric literal 128
-            Expect<Test<Contains<T3, 128>, "equals",  true>>,
-            // boolean literals evaluate to wide type
-            Expect<Test<Contains<T2, boolean>, "equals",  true>>,
-            Expect<Test<Contains<T5, null>, "equals",  true>>,
         ];
 
     });

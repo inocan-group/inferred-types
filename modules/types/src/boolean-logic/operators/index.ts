@@ -110,5 +110,8 @@ export * from "./SomeEqual";
 export * from "./SomeExtend";
 export * from "./StartsWith";
 export * from "./UnionHasArray";
-
 export * from "./Validate";
+
+export * from "./string/index";
+export * from "./numeric/index";
+export * from "./datetime/index";
