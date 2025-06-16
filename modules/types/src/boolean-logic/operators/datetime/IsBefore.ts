@@ -7,8 +7,9 @@ import type {
     IsIsoDateTime,
     IsIsoYear,
     IsWideType,
+    Not,
     Or,
-    StringSort
+    StringIsAfter,
 } from "inferred-types/types";
 
 /**
@@ -30,11 +31,10 @@ export type IsBefore<
         ]>] extends [true]
             ? IsEqual<A, B> extends true
                 ? false
-                : IsEqual<
-                    StringSort<[
-                        As<A, string>,
+                : Not<
+                    StringIsAfter<
+                        As<A,string>,
                         As<B, string>
-                    ]>,
-                    [A, B]
+                    >
                 >
             : boolean;

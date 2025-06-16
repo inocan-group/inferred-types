@@ -1,25 +1,22 @@
-import type { Narrowable } from "inferred-types/types";
 import { isNumber, isString } from "inferred-types/runtime";
-
-export type EndingWithTypeGuard<T extends string> = <
-    V extends Narrowable,
->(val: V
-) => val is V & `${string}${T}`;
+import { EndsWith } from "inferred-types/types";
 
 /**
- * **endsWith**(endingIn) => (val)
+ * **endsWith**(startingWith) => (val)
  *
- * Creates a TypeGuard which checks whether a value _ends with_ a
- * particular string literal.
+ * A higher-level builder pattern which is used to create a TypeGuard
+ * which checks whether a string _ends with_ another substring.
  */
 export function endsWith<
-    T extends string,
->(endingIn: T): EndingWithTypeGuard<T> {
-    return <V extends Narrowable>(val: V): val is V & `${string}${T}` => {
-        return isString(val)
-            ? !!val.endsWith(endingIn)
-            : isNumber(val)
-                ? !!String(val).endsWith(endingIn)
-                : false;
+    const TStartsWith extends readonly (string | number)[],
+>(...startingWith: TStartsWith) {
+    return <
+        const TValue extends string | number,
+    >(val: TValue): val is TValue & `${TStartsWith[number]}${string}` => {
+        return (
+            isString(val) || isNumber(val)
+                ? startingWith.some(i => String(val).endsWith(String(i)))
+                : false
+        ) as EndsWith<TValue, TStartsWith[number]>
     };
 }

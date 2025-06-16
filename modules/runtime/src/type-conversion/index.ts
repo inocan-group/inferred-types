@@ -24,5 +24,6 @@ export * from "./toNumber";
 export * from "./toStringLiteral";
 export * from "./tw-conversion";
 export * from "./unionize";
+export * from "./lastChar"
 
 // export * from "./encoding/index";

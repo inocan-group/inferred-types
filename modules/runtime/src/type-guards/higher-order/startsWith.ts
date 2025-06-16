@@ -1,5 +1,5 @@
-import type { Narrowable } from "inferred-types/types";
-import { isNumber, isString } from "inferred-types/runtime";
+import type { Narrowable, StartsWith } from "inferred-types/types";
+import { asString, isNumber, isString } from "inferred-types/runtime";
 
 /**
  * **StartingWithTypeGuard**`<literal>`
@@ -16,30 +16,17 @@ export type StartingWithTypeGuard<TStartsWith extends string> = <
  *
  * A higher-level builder pattern which is used to create a TypeGuard
  * which checks whether a string _starts with_ another substring.
- *
- * ```ts
- * // StartingWithTypeGuard<"foo">
- * const foo = startsWith("foo");
- * // true
- * const yup = foo("foobar");
- * // false
- * const nope = foo("bar");
- * // boolean
- * const weWillSee = foo(string);
- * ```
  */
 export function startsWith<
-    TStartsWith extends string,
->(startingWith: TStartsWith): StartingWithTypeGuard<TStartsWith> {
+    const TStartsWith extends readonly (string | number)[],
+>(...startingWith: TStartsWith) {
     return <
-        TValue extends Narrowable,
-    >(val: TValue): val is TValue & `${TStartsWith}${string}` => {
+        const TValue extends string | number,
+    >(val: TValue): val is TValue & `${TStartsWith[number]}${string}` => {
         return (
-            isString(val)
-                ? !!val.startsWith(startingWith)
-                : isNumber(val)
-                    ? !!String(val).startsWith(startingWith)
-                    : false
-        );
+            isString(val) || isNumber(val)
+                ? startingWith.some(i => String(val).startsWith(String(i)))
+                : false
+        ) as StartsWith<TValue, TStartsWith[number]>
     };
 }
