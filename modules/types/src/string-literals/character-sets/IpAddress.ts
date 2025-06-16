@@ -6,7 +6,7 @@ import type {
     IsStringLiteral,
     IsWideNumber,
     NumericChar,
-    NumericCharZeroToFive,
+    NumericChar__ZeroToFive,
     Opt,
     ReplaceAll,
     StripTrailing,
@@ -19,7 +19,7 @@ import type {
  * A high resolution typing for a single octet of an **IP version 4** IP address.
  */
 export type Ip4Octet =
-    | `25${NumericCharZeroToFive}`
+    | `25${NumericChar__ZeroToFive}`
     | `24${NumericChar}`
     | `23${NumericChar}`
     | `22${NumericChar}`

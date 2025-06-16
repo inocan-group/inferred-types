@@ -1,4 +1,11 @@
-import { createConstant } from "./createConstant";
+import { Constant } from "inferred-types/constants";
+
+function createConstant<TKind extends string>(kind: TKind) {
+    return {
+        _type: "Constant",
+        kind,
+    } as Constant<TKind>;
+}
 
 /**
  * A constant which indicates that a particular

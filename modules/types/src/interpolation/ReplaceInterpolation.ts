@@ -1,9 +1,14 @@
 import type {
     AfterFirst,
+    Even,
     First,
     IsEqual,
+    IsLessThan,
+    IsUnion,
+    ReplaceAll,
+    TupleToUnion,
+    UnionToTuple,
 } from "inferred-types/types";
-
 
 /**
  * determine replacement type
@@ -25,7 +30,6 @@ type Next<T extends string | readonly (string|number|boolean)[]> = T extends str
     ? AfterFirst<T>
     : never;
 
-
 /**
  * **ReplaceStringInterpolation**`<TContent, TReplace>`
  *
@@ -33,25 +37,26 @@ type Next<T extends string | readonly (string|number|boolean)[]> = T extends str
  */
 export type ReplaceStringInterpolation<
     TContent extends string,
-    TReplace extends string,
+    TReplace extends string | readonly (string | number | boolean)[],
     TResult extends string = ""
 > = TContent extends `${infer First}${infer Rest}`
-? `${string}` extends First
-    ? ReplaceStringInterpolation<
-        Rest,
-        Next<TReplace>,
-        `${TResult}${R<TReplace, `${string}`>}`
-    >
-    : ReplaceStringInterpolation<
-        Rest,
-        TReplace,
-        `${TResult}${First}`
-    >
+    ? [IsEqual<First, `${string}`>] extends [true]
+        ? ReplaceStringInterpolation<
+            Rest,
+            Next<TReplace>,
+            `${TResult}${R<TReplace, `${string}`>}`
+        >
+        : ReplaceStringInterpolation<
+            Rest,
+            TReplace,
+            `${TResult}${First}`
+        >
 
-: IsEqual<`${string}`, TContent> extends true
-    ? `${R<TContent, `${string}`>}${TResult}`
-    : TResult;
-
+: [TContent] extends [""]
+    ? TResult
+    : [IsEqual<TContent, `${string}`>] extends [true]
+        ? `${TResult}${R<TReplace, `${string}`>}`
+        : `${TResult}${TContent}`
 
 /**
  * **ReplaceNumericInterpolation**`<TContent, TReplace>`
@@ -70,7 +75,7 @@ export type ReplaceNumericInterpolation<
     TReplace extends string | readonly (string | number | boolean)[],
     TResult extends string = ""
 > = TContent extends `${infer First}${infer Rest}`
-? `${number}` extends First
+? [IsEqual<First, `${number}`>] extends [true]
     ? ReplaceNumericInterpolation<
         Rest,
         Next<TReplace>,
@@ -81,41 +86,53 @@ export type ReplaceNumericInterpolation<
         TReplace,
         `${TResult}${First}`
     >
+: [TContent] extends [""]
+    ? TResult
+    : [IsEqual<TContent, `${number}`>] extends [true]
+        ? `${TResult}${R<TReplace, `${number}`>}`
+        : `${TResult}${TContent}`;
 
-: `${number}` extends TContent
-    ? `${R<TContent, `${number}`>}${TResult}`
-    : TResult;
 
+type ReplaceTrueFalse<
+    T extends readonly string[],
+    R extends string,
+    TResult extends readonly string[] = []
+> = [] extends T
+? TResult[number]
+: ReplaceTrueFalse<
+    AfterFirst<T>,
+    R,
+    [
+        ...TResult,
+        ReplaceAll<First<T>, "true" | "false", R>
+    ]
+>
+
+;
 
 /**
- * **ReplaceNumericInterpolation**`<TContent, TReplace>`
+ * **ReplaceBooleanInterpolation**`<TContent, TReplace>`
  *
  * Replaces all instances of `${boolean}` in `TContent` with `TReplace`
  *
- * - when `TReplace` is single string then all instances are replaced with
- * this value
- * - when `TReplace` is an array of strings then strings are pulled off in a FIFO
- * manner to replace
+ * **Note:**
+ * - the `${boolean}` type is far more difficult to work with then
+ * the `${string}` and `${number}` template literals.
+ * - this is due to the fact that Typescript immediately converts a `${boolean}` into a union type
  *
- * **Related:** `ReplaceStringInterpolation`
+ * **Related:** `ReplaceStringInterpolation`, `ReplaceNumericInterpolation`
  */
 export type ReplaceBooleanInterpolation<
     TContent extends string,
-    TReplace extends string | readonly (string | number | boolean)[],
-    TResult extends string = ""
-> = [TContent] extends [`${infer First}${infer Rest}`]
-? [`${boolean}`] extends [First]
-    ? ReplaceBooleanInterpolation<
-        Rest,
-        Next<TReplace>,
-        `${TResult}${R<TReplace, `${boolean}`>}`
-    >
-    : ReplaceBooleanInterpolation<
-        Rest,
-        TReplace,
-        `${TResult}${First}`
-    >
+    TReplace extends string,
+> = IsUnion<TContent> extends true
+? UnionToTuple<TContent>["length"] extends number
+    ? IsLessThan<UnionToTuple<TContent>["length"], 10> extends true
+        ? UnionToTuple<TContent> extends readonly string[]
+            ? ReplaceTrueFalse<UnionToTuple<TContent>, TReplace>
+            : TContent
+    : TContent
+    : TContent
+: TContent;
 
-: [`${boolean}`] extends [TContent]
-    ? `${R<TContent, `${boolean}`>}${TResult}`
-    : TResult;
+

@@ -1,4 +1,5 @@
 export * from "./asDate";
+export * from "./asEpochTimestamp"
 export * from "./asIsoDate";
 export * from "./getDaysBetween";
 export * from "./getMonthAbbrev";
@@ -6,6 +7,10 @@ export * from "./getToday";
 export * from "./getTomorrow";
 export * from "./getWeekNumber";
 export * from "./getYesterday";
+export * from "./getMonthAbbrev";
+export * from "./getMonthName";
+export * from "./getMonthNumber";
+export * from "./getYear";
 export * from "./isLeapYear";
 export * from "./isAfter";
 export * from "./isBefore";
@@ -13,3 +18,4 @@ export * from "./isSameDay";
 export * from "./isSameMonth";
 export * from "./isSameMonthYear";
 export * from "./isSameYear";
+// export * from "./toDate"; // REMOVE?

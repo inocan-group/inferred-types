@@ -21,6 +21,7 @@ export function isSameMonthYear<
         const v = asDate(val);
         return (
             v.getFullYear() === comp.getFullYear()
+            && v.getMonth() === comp.getMonth()
          ) as IsSameMonthYear<TVal,TComparator>
     }
 }

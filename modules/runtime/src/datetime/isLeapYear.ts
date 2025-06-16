@@ -1,5 +1,5 @@
 import type { NumberLike } from "inferred-types/types";
-import { asDate } from "./asDate";
+import { asDate } from "inferred-types/runtime";
 
 /**
  * Determines in the passed in date/year is a _leap year_.

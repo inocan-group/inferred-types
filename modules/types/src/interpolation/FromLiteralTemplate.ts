@@ -16,9 +16,8 @@ import type {
  * This type utility is the _inverse_ of `StringLiteralTemplate`.
  */
 export type FromLiteralTemplate<T extends string> = ReplaceStringInterpolation<
-    ReplaceBooleanInterpolation<
-        ReplaceNumericInterpolation<T, "{{number}}">,
-        "{{boolean}}"
-    >,
+    ReplaceNumericInterpolation<T, "{{number}}">,
     "{{string}}"
 >;
+
+
