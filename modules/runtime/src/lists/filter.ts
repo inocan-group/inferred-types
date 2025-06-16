@@ -1,5 +1,5 @@
-import type { Unset } from "inferred-types";
 import type {
+    Unset,
     ComparisonLookup,
     ComparisonOperation,
     DateLike,
@@ -14,6 +14,7 @@ import {
     isAfter,
     isBefore,
     isDateLike,
+    isInputToken,
     isUnset,
     unset
 } from "inferred-types/runtime";
@@ -31,6 +32,45 @@ function handle_string<TOp extends ComparisonOperation, TParams extends Lookup[T
     op: TOp,
     params: TParams
 ): boolean | Error | Unset {
+    return unset;
+}
+
+function handle_general<TOp extends ComparisonOperation, TParams extends Lookup[TOp]["params"]>(
+    val: Accept<TOp>,
+    op: TOp,
+    params: TParams
+): boolean | Error | Unset {
+
+    switch(op) {
+        case "extends":
+            if (!isInputToken(params[0])) {
+                return err(
+                    `compare/extends`,
+                    `A filter operation based on the 'extends' operation passed in a parameter which was not an InputToken so we are not able to convert this into a type!`,
+
+                )
+            }
+
+        case "equals":
+
+        case "false":
+
+        case "true":
+
+        case "truthy":
+
+        case "equalsSome":
+
+        case "contains":
+
+        case "containsSome":
+
+        case "containsAll":
+
+
+    }
+
+
     return unset;
 }
 
@@ -124,7 +164,7 @@ function filterFn<
 >(
     op: TOp,
     params: TParams
-) {
+): FilterFn<TOp,TParams> {
     return <T extends Accept<TOp>>(val: T) => {
         const str = handle_string(val, op, params);
         if (isUnset(str)) {

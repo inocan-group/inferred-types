@@ -20,7 +20,9 @@ type Process<
 export type Chars<
     TStr extends string,
 > = IsStringLiteral<TStr> extends true
-    ? Process<TStr> extends readonly string[]
+    ? Process<TStr> extends  string[]
         ? Process<TStr>
         : never
-    : readonly string[];
+    :  string[];
+
+

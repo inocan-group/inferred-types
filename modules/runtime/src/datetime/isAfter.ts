@@ -18,6 +18,6 @@ export function isAfter<
         val: TVal
     ) => {
         const v = asDate(val);
-        return v.getTime() > comp.getTime() as IsAfter<TVal, TComparator>;
+        return v.getTime() > comp.getTime() as unknown as IsAfter<TVal, TComparator>;
     };
 }
