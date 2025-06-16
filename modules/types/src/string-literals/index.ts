@@ -55,3 +55,4 @@ export * from "./UntilLast";
 export * from "./UUID";
 export * from "./sort"
 
+export * from "./take/index"
