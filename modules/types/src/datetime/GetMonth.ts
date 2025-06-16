@@ -1,21 +1,15 @@
-import { MONTH_ABBR, MONTH_NAME } from "inferred-types/constants";
-import {
-    As,
+import type { MONTH_ABBR, MONTH_NAME } from "inferred-types/constants";
+import type {
     AsNumber,
     DateLike,
-    Decrement,
-    Increment,
-    IsIsoExplicitDate,
-    IsIsoImplicitDate,
     IsIsoYear,
     IsWideType,
     MonthAbbrev,
     MonthName,
-    NumberLike,
-    Slice,
-    Split
+    ParseDate,
+    ParsedDate
 } from "inferred-types/types";
-import { MonthNumber } from "luxon";
+import type { MonthNumber } from "luxon";
 
 /**
  * **GetMonthAbbrev**`<T>`
@@ -30,21 +24,12 @@ export type GetMonthAbbrev<T extends DateLike> = IsWideType<T> extends true
     : T extends string
         ? [IsIsoYear<T>] extends [true]
             ? `Jan`
-        : IsIsoExplicitDate<T> extends true
-            ? Split<T,"-"> extends readonly [string, infer DateNum, string]
-                ? Decrement<AsNumber<DateNum>> extends keyof typeof MONTH_ABBR
-                    ? typeof MONTH_ABBR[Decrement<AsNumber<DateNum>>]
+            : ParseDate<T> extends ParsedDate
+                ? ParseDate<T>["1"] extends keyof typeof MONTH_ABBR
+                    ? typeof MONTH_ABBR[ParseDate<T>["1"]]
                     : MonthAbbrev
-            : MonthAbbrev
-        : IsIsoImplicitDate<T> extends true
-            ? Slice<T,5,2> extends `${number}`
-                ? Decrement<AsNumber<Slice<T,5,2>>> extends keyof typeof MONTH_ABBR
-                    ? typeof MONTH_ABBR[Decrement<AsNumber<Slice<T,5,2>>>]
-                    : MonthAbbrev
-            : MonthAbbrev
-        : MonthAbbrev
-    : MonthAbbrev;
-
+                : MonthAbbrev
+        : MonthAbbrev;
 
 /**
  * **GetMonthName**`<T>`
@@ -55,24 +40,16 @@ export type GetMonthAbbrev<T extends DateLike> = IsWideType<T> extends true
  * - if not possible then the union type `MonthName`
  */
 export type GetMonthName<T extends DateLike> = IsWideType<T> extends true
-? MonthName
-: T extends string
-    ? IsIsoYear<T> extends true
-        ? `January`
-    : IsIsoExplicitDate<T> extends true
-        ? Split<T,"-"> extends readonly [string, infer DateNum, string]
-            ? Decrement<AsNumber<DateNum>> extends keyof typeof MONTH_NAME
-                ? typeof MONTH_NAME[Decrement<AsNumber<DateNum>>]
+    ? MonthName
+    : T extends string
+        ? [IsIsoYear<T>] extends [true]
+            ? `Jan`
+            : ParseDate<T> extends ParsedDate
+                ? ParseDate<T>["1"] extends keyof typeof MONTH_NAME
+                    ? typeof MONTH_NAME[ParseDate<T>["1"]]
+                    : MonthName
                 : MonthName
-        : MonthName
-    : IsIsoImplicitDate<T> extends true
-        ? Slice<T,5,2> extends `${number}`
-            ? Decrement<AsNumber<Slice<T,5,2>>> extends keyof typeof MONTH_NAME
-                ? typeof MONTH_NAME[Decrement<AsNumber<Slice<T,5,2>>>]
-                : MonthName
-        : MonthName
-    : MonthName
-: MonthName;
+        : MonthName;
 
 /**
  * Takes any `DateLike` value and converts it into:
@@ -81,20 +58,11 @@ export type GetMonthName<T extends DateLike> = IsWideType<T> extends true
  * - if not possible a union type of the possible values
  */
 export type GetMonthNumber<T extends DateLike> = IsWideType<T> extends true
-? MonthNumber
-: T extends string
-    ? IsIsoYear<T> extends true
-        ? 1
-    : IsIsoExplicitDate<T> extends true
-        ? Split<T,"-"> extends readonly [string, infer DateNum, string]
-            ? DateNum extends NumberLike
-                ? AsNumber<Increment<DateNum>>
-                : MonthNumber
-        : MonthNumber
-    : IsIsoImplicitDate<T> extends true
-        ? Slice<T,5,2> extends `${number}`
-            ? AsNumber<Increment<Slice<T,5,2>>>
-            : MonthNumber
-        : MonthNumber
-: MonthNumber;
-
+    ? MonthNumber
+    : T extends string
+        ? IsIsoYear<T> extends true
+            ? 1
+            : ParseDate<T> extends ParsedDate
+                ? AsNumber<ParseDate<T>["1"]>
+                : MonthName
+        : MonthNumber;

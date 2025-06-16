@@ -1,15 +1,14 @@
-import {
+import type {
     As,
+    EmptyObject,
     Err,
     HasLeadingTemplateLiteral,
     IsTrue,
-    IsWideContainer,
     IsWideType,
     NumericChar,
     StartsWith,
     StripLeading
 } from "inferred-types/types";
-
 
 export type TakeNumericOptions = {
     /**
@@ -27,11 +26,11 @@ export type TakeNumericOptions = {
      * - a common choice would be the `,` character
      */
     ignore?: string;
-}
+};
 
 type Chars<T extends boolean> = [IsTrue<T>] extends [true]
-? NumericChar
-: NumericChar | ".";
+    ? NumericChar
+    : NumericChar | ".";
 
 type Finish<
     TRemaining extends string,
@@ -40,11 +39,10 @@ type Finish<
 > = TOpt["mustFollow"] extends string
     ? IsWideType<TOpt["mustFollow"]> extends true
         ? Err<`invalid-follow`, `The TakeNumeric utility was passed a wide string for the optional 'mustFollow' property!`>
-    : StartsWith<TRemaining, TOpt["mustFollow"]> extends true
-        ? [ TTake, TRemaining ]
-        : [ undefined, `${TTake}${TRemaining}`]
-: [TTake, TRemaining];
-
+        : StartsWith<TRemaining, TOpt["mustFollow"]> extends true
+            ? [ TTake, TRemaining ]
+            : [ undefined, `${TTake}${TRemaining}`]
+    : [TTake, TRemaining];
 
 type Take<
     TRemaining extends string,
@@ -61,15 +59,14 @@ type Take<
             : TDecimal
     >
     : TOpt["ignore"] extends string
-        ? TRemaining extends `${infer Ignore extends TOpt["ignore"]}${infer Rest extends string}`
+        ? TRemaining extends `${infer _Ignore extends TOpt["ignore"]}${infer Rest extends string}`
             ? Take<
                 Rest,
                 TOpt,
                 TTake
             >
-        : Finish<TRemaining,TOpt,TTake>
-    : Finish<TRemaining, TOpt, TTake>;
-
+            : Finish<TRemaining, TOpt, TTake>
+        : Finish<TRemaining, TOpt, TTake>;
 
 /**
  * **TakeNumeric**`<T, [TOpt]>`
@@ -105,22 +102,21 @@ type Take<
  */
 export type TakeNumeric<
     T extends string,
-    TOpt extends TakeNumericOptions = {},
+    TOpt extends TakeNumericOptions = EmptyObject,
 > = As<
     IsWideType<T> extends true
-    ? [`${number}` | undefined, string]
-    : HasLeadingTemplateLiteral<T> extends true
         ? [`${number}` | undefined, string]
-    : StartsWith<T, `-.${Chars<true>}`> extends true
-        ? Take<StripLeading<T, "-.">, TOpt, "-.", true>
-        : StartsWith<T, `.${Chars<true>}`> extends true
-        ? Take<StripLeading<T, ".">, TOpt, ".", true>
-        : StartsWith<T, `-${Chars<true>}`> extends true
-        ? Take<StripLeading<T, "-">, TOpt, "-">
-        : StartsWith<T, Chars<true>> extends true
-            ? Take<T, TOpt, "">
-            : [undefined, T],
+        : HasLeadingTemplateLiteral<T> extends true
+            ? [`${number}` | undefined, string]
+            : StartsWith<T, `-.${Chars<true>}`> extends true
+                ? Take<StripLeading<T, "-.">, TOpt, "-.", true>
+                : StartsWith<T, `.${Chars<true>}`> extends true
+                    ? Take<StripLeading<T, ".">, TOpt, ".", true>
+                    : StartsWith<T, `-${Chars<true>}`> extends true
+                        ? Take<StripLeading<T, "-">, TOpt, "-">
+                        : StartsWith<T, Chars<true>> extends true
+                            ? Take<T, TOpt, "">
+                            : [undefined, T],
     [ take: `${number}` | undefined, remaining: string ]
     | Error
 >;
-

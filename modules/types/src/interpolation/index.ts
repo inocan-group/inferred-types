@@ -5,8 +5,7 @@ export * from "./HasTemplateLiterals";
 export * from "./ReplaceInterpolation";
 export * from "./StaticTemplateSections";
 export * from "./StringLiteralTemplate";
+export * from "./StripLeadingTemplate";
 export * from "./StripSurroundingStringTemplate";
 export * from "./TemplateBlocks";
 export * from "./TemplateParams";
-export * from "./StripLeadingTemplate";
-

@@ -1,12 +1,10 @@
 import type {
     AfterFirst,
-    Even,
     First,
     IsEqual,
     IsLessThan,
     IsUnion,
     ReplaceAll,
-    TupleToUnion,
     UnionToTuple,
 } from "inferred-types/types";
 
@@ -14,21 +12,21 @@ import type {
  * determine replacement type
  */
 type R<
-    T extends string | readonly (string|number|boolean)[],
+    T extends string | readonly (string | number | boolean)[],
     D
 > = T extends string
-? T
-: T extends readonly (string|number|boolean)[]
-? T["length"] extends 0
-    ? D
-    : First<T>
-: never;
+    ? T
+    : T extends readonly (string | number | boolean)[]
+        ? T["length"] extends 0
+            ? D
+            : First<T>
+        : never;
 
-type Next<T extends string | readonly (string|number|boolean)[]> = T extends string
-? T
-: T extends readonly (string|number|boolean)[]
-    ? AfterFirst<T>
-    : never;
+type Next<T extends string | readonly (string | number | boolean)[]> = T extends string
+    ? T
+    : T extends readonly (string | number | boolean)[]
+        ? AfterFirst<T>
+        : never;
 
 /**
  * **ReplaceStringInterpolation**`<TContent, TReplace>`
@@ -52,11 +50,11 @@ export type ReplaceStringInterpolation<
             `${TResult}${First}`
         >
 
-: [TContent] extends [""]
-    ? TResult
-    : [IsEqual<TContent, `${string}`>] extends [true]
-        ? `${TResult}${R<TReplace, `${string}`>}`
-        : `${TResult}${TContent}`
+    : [TContent] extends [""]
+        ? TResult
+        : [IsEqual<TContent, `${string}`>] extends [true]
+            ? `${TResult}${R<TReplace, `${string}`>}`
+            : `${TResult}${TContent}`;
 
 /**
  * **ReplaceNumericInterpolation**`<TContent, TReplace>`
@@ -75,38 +73,37 @@ export type ReplaceNumericInterpolation<
     TReplace extends string | readonly (string | number | boolean)[],
     TResult extends string = ""
 > = TContent extends `${infer First}${infer Rest}`
-? [IsEqual<First, `${number}`>] extends [true]
-    ? ReplaceNumericInterpolation<
-        Rest,
-        Next<TReplace>,
+    ? [IsEqual<First, `${number}`>] extends [true]
+        ? ReplaceNumericInterpolation<
+            Rest,
+            Next<TReplace>,
         `${TResult}${R<TReplace, `${number}`>}`
-    >
-    : ReplaceNumericInterpolation<
-        Rest,
-        TReplace,
+        >
+        : ReplaceNumericInterpolation<
+            Rest,
+            TReplace,
         `${TResult}${First}`
-    >
-: [TContent] extends [""]
-    ? TResult
-    : [IsEqual<TContent, `${number}`>] extends [true]
-        ? `${TResult}${R<TReplace, `${number}`>}`
-        : `${TResult}${TContent}`;
-
+        >
+    : [TContent] extends [""]
+        ? TResult
+        : [IsEqual<TContent, `${number}`>] extends [true]
+            ? `${TResult}${R<TReplace, `${number}`>}`
+            : `${TResult}${TContent}`;
 
 type ReplaceTrueFalse<
     T extends readonly string[],
     R extends string,
     TResult extends readonly string[] = []
 > = [] extends T
-? TResult[number]
-: ReplaceTrueFalse<
-    AfterFirst<T>,
-    R,
-    [
-        ...TResult,
-        ReplaceAll<First<T>, "true" | "false", R>
-    ]
->
+    ? TResult[number]
+    : ReplaceTrueFalse<
+        AfterFirst<T>,
+        R,
+        [
+            ...TResult,
+            ReplaceAll<First<T>, "true" | "false", R>
+        ]
+    >
 
 ;
 
@@ -126,13 +123,11 @@ export type ReplaceBooleanInterpolation<
     TContent extends string,
     TReplace extends string,
 > = IsUnion<TContent> extends true
-? UnionToTuple<TContent>["length"] extends number
-    ? IsLessThan<UnionToTuple<TContent>["length"], 10> extends true
-        ? UnionToTuple<TContent> extends readonly string[]
-            ? ReplaceTrueFalse<UnionToTuple<TContent>, TReplace>
+    ? UnionToTuple<TContent>["length"] extends number
+        ? IsLessThan<UnionToTuple<TContent>["length"], 10> extends true
+            ? UnionToTuple<TContent> extends readonly string[]
+                ? ReplaceTrueFalse<UnionToTuple<TContent>, TReplace>
+                : TContent
             : TContent
-    : TContent
-    : TContent
-: TContent;
-
-
+        : TContent
+    : TContent;

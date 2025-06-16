@@ -1,5 +1,5 @@
+import type { DateLike, GetMonthName } from "inferred-types/types";
 import { MONTH_NAME } from "inferred-types/constants";
-import { DateLike, GetMonthName } from "inferred-types/types";
 import { asDate } from "inferred-types/runtime";
 
 /**
@@ -12,6 +12,5 @@ import { asDate } from "inferred-types/runtime";
 export function getMonthName<T extends DateLike>(date: T): GetMonthName<T> {
     const d = asDate(date);
 
-    return MONTH_NAME[d.getMonth()] as GetMonthName<T>
+    return MONTH_NAME[d.getMonth()] as GetMonthName<T>;
 }
-

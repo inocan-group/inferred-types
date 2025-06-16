@@ -1,11 +1,8 @@
 import type {
-    As,
     AsArray,
     ComparisonLookup,
-    ComparisonOpConfig,
     ComparisonOperation,
     Err,
-    GetOpConfig,
     IsGreaterThan,
     ToStringLiteral,
     TupleMeta
@@ -65,9 +62,9 @@ export type ComparisonInputDefault<
     TOp extends ComparisonOperation,
     TParams extends readonly unknown[] = ComparisonLookup[TOp]["params"]
 > = TupleMeta<TParams>["minLength"] extends 0
-        ? []
-        : Err<
-            `invalid-parameters`,
+    ? []
+    : Err<
+        `invalid-parameters`,
             `The operation '${TOp}' requires a minimum of ${TupleMeta<TParams>["minLength"]} parameters but none were provided!`,
             { params: TParams }
-        >;
+    >;

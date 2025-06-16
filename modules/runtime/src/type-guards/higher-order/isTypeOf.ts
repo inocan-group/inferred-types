@@ -16,6 +16,7 @@ export function isTypeOf<
     TType extends TypeOf,
 >(type: TType): TypeOfTypeGuard<TType> {
     return <TValue>(value: TValue): value is TValue & ConvertTypeOf<TType> => {
+        // eslint-disable-next-line valid-typeof
         return typeof value === type;
     };
 }

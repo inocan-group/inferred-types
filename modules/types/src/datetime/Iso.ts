@@ -1,12 +1,11 @@
-import {
+import type {
+    FourDigitYear,
     NumericChar,
     TimeZone,
     TwoDigitDate,
     TwoDigitHour,
-    TwoDigitMonth,
-    FourDigitYear
+    TwoDigitMonth
 } from "inferred-types/types";
-
 
 /**
  * **Iso8601Year**
@@ -19,7 +18,6 @@ import {
  */
 export type IsoYear = `${NumericChar}${NumericChar}${NumericChar}${NumericChar}` | `${"+" | "-"}${number}`;
 
-
 // — date part: “YYYY-MM-DD” (or any numeric segments)
 type DatePart = `${number}-${TwoDigitMonth}-${TwoDigitDate}`;
 
@@ -28,7 +26,6 @@ type TimePart =
   | `${number}:${number}`
   | `${number}:${number}:${number}`
   | `${number}:${number}:${number}.${number}`;
-
 
 /**
  * [IsoDateLike](https://en.wikipedia.org/wiki/ISO_8601)
@@ -62,9 +59,8 @@ export type IsoDateLike =
  * - `--MM-DD`  - _for a year-independent date_
  */
 export type IsoDate = IsoDateLike & {
-    kind: "IsoDate"
-}
-
+    kind: "IsoDate";
+};
 
 /**
  * [IsoDateTimeLike](https://en.wikipedia.org/wiki/ISO_8601)
@@ -81,7 +77,6 @@ export type IsoDate = IsoDateLike & {
 export type IsoDateTimeLike =
   `${DatePart}T${TimePart}${"" | TimeZone}`;
 
-
 /**
  * **IsoDateTime**
  *
@@ -90,7 +85,7 @@ export type IsoDateTimeLike =
  * to be an IsoDateTime.
  */
 export type IsoDateTime = IsoDateTimeLike & {
-    kind: "ISO DateTime"
+    kind: "ISO DateTime";
 };
 
 /**
@@ -128,14 +123,11 @@ export type IsoDateTime = IsoDateTimeLike & {
  */
 export type IsoTimeLike<
     THour extends TwoDigitHour = TwoDigitHour,
-    TMin extends number = number,
     TZ extends TimeZone | "" = TimeZone | ""
 > =
-| `${THour}:${TMin}${TZ}`
-| `${THour}:${TMin}:${number}${TZ}`
-| `${THour}:${TMin}:${number}.${number}${TZ}`;
-
-
+| `${THour}:${number}${TZ}`
+| `${THour}:${number}:${number}${TZ}`
+| `${THour}:${number}:${number}.${number}${TZ}`;
 
 /**
  * **IsoTime**`<[TExplicit], [TZ]>`
@@ -157,12 +149,38 @@ export type IsoTimeLike<
  */
 export type IsoTime<
     THour extends TwoDigitHour = TwoDigitHour,
-    TMin extends `${number}` = `${number}`,
-    TMilli extends `.${number}` | "" =  `.${number}` | "",
     TZ extends TimeZone | "" = TimeZone
-> = IsoTimeLike<THour,TMin,TMilli,TZ> & {
-    kind: "ISO Time"
-}
+> = IsoTimeLike<THour,TZ> & {
+    kind: "ISO Time";
+};
+
+/**
+ * **IsoYearMonthLike**
+ *
+ * A type shape representing an ISO Date that represents a year
+ * and month but not explicit date:
+ *
+ * - `-YYYY-MM` _or_ `-YYYYMM`
+ */
+export type IsoYearMonthLike =
+    | `-${FourDigitYear}-${TwoDigitMonth}`
+    | `-${FourDigitYear}${TwoDigitMonth}`
 
 
+export type IsoYearMonthLike__Explicit = `-${FourDigitYear}-${TwoDigitMonth}`;
+export type IsoYearMonthLike__Implicit = `-${FourDigitYear}${TwoDigitMonth}`;
 
+/**
+ * **IsoMonthDateLike**
+ *
+ * A type shape representing an ISO Date that represents a month
+ * and date but is independent of year:
+ *
+ * - `--MM-DD` _or_ `--MMDD`
+ */
+export type IsoMonthDateLike =
+    | `--${TwoDigitMonth}-${TwoDigitDate}`
+    | `--${TwoDigitMonth}${TwoDigitDate}`;
+
+export type IsoMonthDateLike__Explicit = `--${TwoDigitMonth}-${TwoDigitDate}`;
+export type IsoMonthDateLike__Implicit = `--${TwoDigitMonth}${TwoDigitDate}`;

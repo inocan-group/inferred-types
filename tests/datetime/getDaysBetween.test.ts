@@ -3,7 +3,7 @@ import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
 import { getDaysBetween } from "inferred-types/runtime";
 import {
   Extends,
-  IsIso8601DateTime,
+  IsIsoDateTime,
   IsIsoDate,
   IsLuxonDateTime,
   Iso8601Date,
@@ -70,7 +70,7 @@ describe("getDaysBetween()", () => {
   it("should correctly calculate days between ISO 8601 datetime strings", () => {
     const date1 = "2024-01-01T00:00:00Z";
     const date2 = "2024-01-15T23:59:59Z";
-    type Iso = IsIso8601DateTime<typeof date1>;
+    type Iso = IsIsoDateTime<typeof date1>;
 
     expect(getDaysBetween(date1, date2)).toBe(14);
 

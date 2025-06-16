@@ -1,10 +1,9 @@
-import {  NumericChar, NumericChar__NonZero } from "inferred-types/types";
+import type { NumericChar, NumericChar__NonZero } from "inferred-types/types";
 
 /**
  * common characters used to separate date representations
  */
 export type DateSeparator = "-" | "/" | ".";
-
 
 export type TwoDigitHour =
     | `0${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
@@ -23,18 +22,17 @@ export type TwoDigitSecond = TwoDigitMinute;
 
 export type ThreeDigitMillisecond = `${NumericChar}${NumericChar}${NumericChar}`;
 
-
 export type TwoDigitMonth = `0${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}` | `1${0 | 1 | 2}`;
 
 export type TwoDigitDate<T extends "weak" | "normal" = "normal"> =
 T extends "normal"
-?
+    ?
     | `0${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     | `1${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     | `2${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     | `3${0 | 1}`
 
-:   | `0${number}`
+    : | `0${number}`
     | `1${number}`
     | `2${number}`
     | `3${number}`;
@@ -51,12 +49,12 @@ T extends "normal"
 export type MinimalDigitDate<
     T extends "weak" | "normal" = "normal"
 > = T extends "normal"
-?
+    ?
     | NumericChar__NonZero
     | `1${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     | `2${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     | `3${0 | 1}`
-:
+    :
     | `0${number}`
     | `1${number}`
     | `2${number}`
@@ -112,7 +110,7 @@ export type FourDigitYear<
     : T extends "normal"
         ? `${"1" | "2"}${NumericChar}${number}`
         | `${"0" | "3" | "4" | "5" | "6" | "7" | "8" | "9"}${number}`
-        : `${NumericChar}${number}` // weak;
+        : `${NumericChar}${number}`; // weak;
 
 /**
  * **TimeZone**`<[T]`>
@@ -131,13 +129,12 @@ export type FourDigitYear<
  */
 export type TimeZone<T extends "strong" | "normal" = "normal"> =
     T extends "normal"
-    ? | `Z`
-    | `${'+' | '-'}${number}`
-    | `${'+' | '-'}${number}${number}`
-    | `${'+' | '-'}${number}:${number}`
-    :
+        ? | `Z`
+    | `${"+" | "-"}${number}`
+    | `${"+" | "-"}${number}${number}`
+    | `${"+" | "-"}${number}:${number}`
+        :
     | `Z`
-    | `${'+' | '-'}${TwoDigitHour}`
-    | `${'+' | '-'}${TwoDigitHour}${TwoDigitMinute}`
-    | `${'+' | '-'}${TwoDigitHour}:${TwoDigitMinute}`;
-
+    | `${"+" | "-"}${TwoDigitHour}`
+    | `${"+" | "-"}${TwoDigitHour}${TwoDigitMinute}`
+    | `${"+" | "-"}${TwoDigitHour}:${TwoDigitMinute}`;

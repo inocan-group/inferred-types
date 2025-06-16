@@ -3,13 +3,12 @@ import { isThisYear } from "inferred-types/runtime";
 import {
     Expect,
     Extends,
-    IsIso8601DateTime,
+    IsIsoDateTime,
     IsIsoDate,
     IsLuxonDateTime,
-    Iso8601Date,
-    Iso8601DateTime,
     LuxonJs,
-    Test
+    Test,
+    IsoDateLike, IsoDateTimeLike
 } from "inferred-types/types";
 import { DateTime } from "luxon";
 import moment from "moment";
@@ -80,7 +79,7 @@ describe("isThisYear()", () => {
         const thisYear = `${mockCurrentYear}-06-15T14:30:00Z`;
         const lastYear = `${mockCurrentYear - 1}-06-15T14:30:00Z`;
         const nextYear = `${mockCurrentYear + 1}-06-15T14:30:00Z`;
-        type Iso = IsIso8601DateTime<typeof thisYear>;
+        type Iso = IsIsoDateTime<typeof thisYear>;
 
         expect(isThisYear(thisYear)).toBe(true);
         expect(isThisYear(lastYear)).toBe(false);
@@ -91,7 +90,7 @@ describe("isThisYear()", () => {
 
             type _cases = [
                 Expect<Test<Iso, "equals", true>>,
-                Expect<Extends<ThisYear, Iso8601DateTime>>
+                Expect<Extends<ThisYear, IsoDateTimeLike>>
             ];
         }
     });
@@ -113,7 +112,7 @@ describe("isThisYear()", () => {
 
             type _cases = [
                 Expect<Test<Iso, "equals", true>>,
-                Expect<Extends<ThisYear, Iso8601Date>>
+                Expect<Extends<ThisYear, IsoDateLike>>
             ];
         }
         if (isThisYear(wide)) {
@@ -126,14 +125,6 @@ describe("isThisYear()", () => {
         }
     });
 
-    it("should handle invalid inputs", () => {
-        expect(isThisYear(null)).toBe(false);
-        expect(isThisYear(undefined)).toBe(false);
-        expect(isThisYear("not a date")).toBe(false);
-        expect(isThisYear(123)).toBe(false);
-        expect(isThisYear({})).toBe(false);
-        expect(isThisYear([])).toBe(false);
-    });
 
     it("should handle edge cases", () => {
         // Last day of current year

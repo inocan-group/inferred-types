@@ -1,5 +1,5 @@
+import type { DateLike, IsBefore } from "inferred-types/types";
 import { asDate } from "inferred-types/runtime";
-import {  DateLike, IsBefore } from "inferred-types/types";
 
 /**
  * **isBefore**`(comparator) -> (date) -> boolean
@@ -18,6 +18,6 @@ export function isBefore<
         val: TVal
     ) => {
         const v = asDate(val);
-        return v.getTime() < comp.getTime() as IsBefore<TVal,TComparator>;
-    }
+        return v.getTime() < comp.getTime() as IsBefore<TVal, TComparator>;
+    };
 }

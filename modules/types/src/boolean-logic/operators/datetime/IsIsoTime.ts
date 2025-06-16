@@ -1,45 +1,19 @@
 import type {
-    NumericChar,
-    NumericChar__ZeroToFive,
-    NumericChar__ZeroToThree,
-    Opt,
-    StripAfter,
-    StripLeading,
-    Timezone,
+    IsoTimeLike,
+    ParseTime,
 } from "inferred-types/types";
-
-type JustTime<T extends `${Opt<"T">}${number}:${number}:${number}${Opt<Timezone>}`> =
-  StripAfter<
-      StripLeading<T, "T">,
-      "Z"
-  >;
-
-type HMS<T extends `${Opt<"T">}${number}:${number}:${number}${Opt<Timezone>}`> =
-  JustTime<T> extends `${number}:${number}:${number}`
-      ? JustTime<T> extends `${infer H}:${infer M}:${infer S}`
-          ? [H, M, S]
-          : never
-      : never;
-
-type Validate<T extends readonly [string, string, string]> =
-  T[0] extends `${NumericChar__ZeroToThree}${NumericChar}`
-      ? T[1] extends `${NumericChar__ZeroToFive}${NumericChar}`
-          ? T[2] extends `${NumericChar__ZeroToFive}${number}`
-              ? true
-              : false
-          : false
-      : false;
 
 /**
  * **IsIsoTime**`<T>`
  *
- * Boolean operator which returns `true` when `T` is a valid ISO 8601 time string of the
- * format `HH:MM:SS`, `HH:MM:SS.ms`, `HH:MM:SSZ`, etc.
+ * Boolean operator which returns `true` when `T` is a valid
+ * [ISO 8601 time](https://en.wikipedia.org/wiki/ISO_8601#Times)
+ * string of the format:
  *
- * Note: starting the uppercase "T" is optional but a valid way to start the string.
+ * - `HH:MM:SS`, `HH:MM:SS.ms`, `HH:MM:SSZ`, etc.
  */
-export type IsIsoTime<T> = T extends `${Opt<"T">}${number}:${number}:${number}${Opt<Timezone>}`
-    ? Validate<HMS<T>> extends true
-        ? true
-        : false
+export type IsIsoTime<T> = T extends IsoTimeLike
+    ? ParseTime<T> extends Error
+        ? false
+        : true
     : false;

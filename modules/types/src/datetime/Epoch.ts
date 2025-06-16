@@ -1,4 +1,3 @@
-
 declare const __epochinms: unique symbol;
 
 /**

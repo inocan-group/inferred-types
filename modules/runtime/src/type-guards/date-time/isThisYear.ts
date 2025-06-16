@@ -1,31 +1,29 @@
-import { asDate, isNumber, isObject, isString } from "inferred-types/runtime";
+import type { DateLike } from "inferred-types/types";
+import { asDate } from "inferred-types/runtime";
 
 /**
- * A validation -- not typeguard -- on whether the passed in `val` is a date or date-time
- * representation and that it's year is the same as the current year.
+ * A validation -- not type guard -- on whether the passed in `val` is a
+ * date or date-time representation and that it's year is the same as the
+ * current year.
  *
  * Types correctly handled are:
  *
  * - **JS Date** object
  * - **ISO Date** or **ISO Datetime**
- * - a number representing a **epoch** timestamp (in seconds, not miliseconds)
+ * - a number representing a **epoch** timestamp (in seconds, not milliseconds)
  * - **MomentJS** and **Luxon** datetime objects
  *
  * **Note:** an invalidate date/datetime passed in will always resolve to `false`
  */
-export function isThisYear(val: unknown): boolean {
-    // Get current year
+export function isThisYear(val: DateLike): boolean {
     const currentYear = new Date().getFullYear();
 
-    if (isObject(val) || isNumber(val) || isString(val)) {
-        const date = asDate(val);
-        if (date) {
-            return date.getFullYear() === currentYear;
-        }
-        else {
-            return false;
-        }
-    }
+    try {
+        const d = asDate(val);
 
-    return false;
+        return d.getFullYear() === currentYear;
+    }
+    catch {
+        return false;
+    }
 }

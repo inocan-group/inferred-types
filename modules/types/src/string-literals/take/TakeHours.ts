@@ -1,6 +1,4 @@
-import { IsWideString, Replace, TwoDigitHour } from "inferred-types/types";
-
-
+import type { IsWideString, Replace, TwoDigitHour } from "inferred-types/types";
 
 /**
  * **TakeHours**`<T>`
@@ -13,9 +11,9 @@ import { IsWideString, Replace, TwoDigitHour } from "inferred-types/types";
 export type TakeHours<
     T extends string,
 > = IsWideString<T> extends true
-? string
-: T extends `${TwoDigitHour}${infer Rest extends string}`
-? Replace<T, Rest, ""> extends TwoDigitHour
-    ? [ Replace<T, Rest, "">, Rest ]
-    : [ undefined, T ]
-: [ undefined, T ];
+    ? string
+    : T extends `${TwoDigitHour}${infer Rest extends string}`
+        ? Replace<T, Rest, ""> extends TwoDigitHour
+            ? [ Replace<T, Rest, "">, Rest ]
+            : [ undefined, T ]
+        : [ undefined, T ];

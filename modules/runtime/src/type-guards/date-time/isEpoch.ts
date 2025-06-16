@@ -5,7 +5,7 @@ import type {
 } from "inferred-types/types";
 import {
     isNegativeNumber
-} from "inferred-types/runtime"
+} from "inferred-types/runtime";
 
 /** the epoch timestamp (in seconds) for the date 2500-01-01 */
 const EPOCH_2500 = 16725225600;

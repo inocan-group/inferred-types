@@ -1,11 +1,10 @@
-import { SEASON_TO_MONTH_LOOKUP, SEASONS } from "inferred-types/constants";
-import { Hemisphere } from "inferred-types/types";
+import type { SEASON_TO_MONTH_LOOKUP, SEASONS } from "inferred-types/constants";
+import type { Hemisphere } from "inferred-types/types";
 
 /**
  * A season of the year
  */
 export type Season = typeof SEASONS[number];
-
 
 /**
  * **MonthInSeason**`<T,[U]>`
@@ -23,4 +22,3 @@ export type MonthInSeason<
     T extends Season,
     U extends Hemisphere = "northern"
 > = typeof SEASON_TO_MONTH_LOOKUP[T][U];
-

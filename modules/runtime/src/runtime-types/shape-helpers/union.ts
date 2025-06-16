@@ -6,9 +6,9 @@ import type { AsUnionToken, UnionElDefn } from "inferred-types/types";
  * provides API implementation for defining a union
  */
 export function union<U extends readonly [UnionElDefn, ...UnionElDefn[]]>(...elements: U) {
-    const result: unknown = elements.map((_el) => {
-    // TODO
-    });
+    // const result: unknown = elements.map((_el) => {
+    // // TODO
+    // });
 
-    return result as AsUnionToken<U>;
+    return elements as AsUnionToken<U>;
 }

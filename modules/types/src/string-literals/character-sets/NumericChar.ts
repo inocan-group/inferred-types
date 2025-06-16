@@ -30,4 +30,4 @@ export type NumericChar__OneToThree = "1" | "2" | "3";
 export type NumericChar__OneToFour = "1" | "2" | "3" | "4";
 export type NumericChar__OneToFive = "1" | "2" | "3" | "4" | "5";
 
-export type NumericChar__NonZero = Exclude<NumericChar, "0">
+export type NumericChar__NonZero = Exclude<NumericChar, "0">;

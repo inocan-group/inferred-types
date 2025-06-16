@@ -35,6 +35,7 @@ export * from "./Repeat";
 export * from "./RetainAfter";
 export * from "./RetainBetween";
 export * from "./RetainUntil";
+export * from "./sort";
 export * from "./Split";
 export * from "./Split2";
 export * from "./StripAfter";
@@ -47,12 +48,11 @@ export * from "./StripUntil";
 export * from "./StrLen";
 export * from "./Suggest";
 export * from "./Surround";
+export * from "./take/index";
 export * from "./Time";
 export * from "./Truncate";
 export * from "./TypeSubtype";
 export * from "./UnderlyingType";
 export * from "./UntilLast";
-export * from "./UUID";
-export * from "./sort"
 
-export * from "./take/index"
+export * from "./UUID";

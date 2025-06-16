@@ -3,7 +3,7 @@ import {
     Expect,
     Test,
     Extends,
-    IsIso8601DateTime,
+    IsIsoDateTime,
     IsIsoDate,
     IsLuxonDateTime,
     Iso8601Date,
@@ -88,7 +88,7 @@ describe("isYesterday()", () => {
         const yesterday = "2024-01-14T14:30:00Z";
         const today = "2024-01-15T14:30:00Z";
         const dayBeforeYesterday = "2024-01-13T14:30:00Z";
-        type Iso = IsIso8601DateTime<typeof yesterday>;
+        type Iso = IsIsoDateTime<typeof yesterday>;
 
         expect(isYesterday(yesterday)).toBe(true);
         expect(isYesterday(today)).toBe(false);

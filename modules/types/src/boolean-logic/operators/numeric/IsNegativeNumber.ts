@@ -12,15 +12,15 @@ import type {
  * a number.
  */
 export type IsNegativeNumber<T> = T extends NumberLike
-? IsWideType<T> extends true
-    ? boolean
-    : T extends number
-        ? AsString<T> extends `-${number}`
-            ? true
-            : false
-    : T extends string
-        ? T extends `-${number}`
-        ? true
-        : false
-    : false
-: false;
+    ? IsWideType<T> extends true
+        ? boolean
+        : T extends number
+            ? AsString<T> extends `-${number}`
+                ? true
+                : false
+            : T extends string
+                ? T extends `-${number}`
+                    ? true
+                    : false
+                : false
+    : false;

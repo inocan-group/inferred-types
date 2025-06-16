@@ -101,6 +101,7 @@ export * from "./NarrowlyContains";
 export * from "./Network-operators";
 export * from "./NotEqual";
 export * from "./NotLength";
+export * from "./numeric/index";
 export * from "./PhoneOperators";
 export * from "./Returns";
 export * from "./ReturnsFalse";
@@ -109,6 +110,5 @@ export * from "./SomeEqual";
 export * from "./SomeExtend";
 export * from "./StartsWith";
 export * from "./UnionHasArray";
-export * from "./Validate";
 
-export * from "./numeric/index"
+export * from "./Validate";

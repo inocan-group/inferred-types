@@ -1,5 +1,5 @@
+import type { DateLike, IsSameDay } from "inferred-types/types";
 import { asDate } from "inferred-types/runtime";
-import { DateLike,  IsSameDay } from "inferred-types/types";
 
 /**
  * **isSameDay**`(comparator) -> (date) -> boolean
@@ -23,6 +23,6 @@ export function isSameDay<
             v.getDate() === comp.getDate()
             && v.getMonth() === comp.getMonth()
             && v.getFullYear() === comp.getFullYear()
-         ) as IsSameDay<TVal,TComparator>
-    }
+        ) as IsSameDay<TVal, TComparator>;
+    };
 }

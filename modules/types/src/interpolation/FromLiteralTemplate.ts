@@ -1,5 +1,4 @@
 import type {
-    ReplaceBooleanInterpolation,
     ReplaceNumericInterpolation,
     ReplaceStringInterpolation
 } from "inferred-types/types";
@@ -19,5 +18,3 @@ export type FromLiteralTemplate<T extends string> = ReplaceStringInterpolation<
     ReplaceNumericInterpolation<T, "{{number}}">,
     "{{string}}"
 >;
-
-

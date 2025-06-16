@@ -1,5 +1,5 @@
+import type { DateLike, IsAfter } from "inferred-types/types";
 import { asDate } from "inferred-types/runtime";
-import { DateLike, IsAfter } from "inferred-types/types";
 
 /**
  * **isAfter**`(comparator) -> (date) -> boolean
@@ -18,6 +18,6 @@ export function isAfter<
         val: TVal
     ) => {
         const v = asDate(val);
-        return v.getTime() > comp.getTime() as IsAfter<TVal,TComparator>
-    }
+        return v.getTime() > comp.getTime() as IsAfter<TVal, TComparator>;
+    };
 }

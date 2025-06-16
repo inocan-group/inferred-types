@@ -4,9 +4,9 @@ import type {
     First,
     Integer,
     Ip4Address,
-    Iso8601DateRepresentation,
-    Iso8601DateTimeRepresentation,
-    Iso8601TimeLike,
+    IsoDateLike,
+    IsoDateTimeLike,
+    IsoTimeLike,
     Keys,
     ReplaceAll,
 } from "inferred-types/types";
@@ -16,10 +16,10 @@ interface DefaultLookup {
     "{{boolean}}": `${boolean}`;
     "{{number}}": `${number}`;
     "{{integer}}": `${Integer}`;
-    "{{date}}": `${Iso8601DateRepresentation}`;
+    "{{date}}": `${IsoDateLike}`;
     "{{csv}}": `${Csv}`;
-    "{{time}}": `${Iso8601TimeLike}`;
-    "{{datetime}}": `${Iso8601DateTimeRepresentation}`;
+    "{{time}}": `${IsoTimeLike}`;
+    "{{datetime}}": `${IsoDateTimeLike}`;
     "{{ipv4}}": `${Ip4Address}`;
 }
 
