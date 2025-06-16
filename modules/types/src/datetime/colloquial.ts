@@ -1,4 +1,4 @@
-import { MonthAbbrev, MonthName, FourDigitYear, MonthDateDigit, MinimalDigitDate__Suffixed } from "inferred-types/types";
+import type { FourDigitYear, MinimalDigitDate__Suffixed, MonthAbbrev, MonthDateDigit, MonthName } from "inferred-types/types";
 
 /**
  * **DateMonthAbbrev**
@@ -18,7 +18,6 @@ import { MonthAbbrev, MonthName, FourDigitYear, MonthDateDigit, MinimalDigitDate
  */
 export type DateMonthAbbrev =
     | `${MonthDateDigit} ${MonthAbbrev}`;
-
 
 /**
  * **DateMonthAbbrevYearLike**
@@ -51,7 +50,6 @@ export type DateMonthAbbrevYearLike =
 export type DateMonth =
     | `${MonthDateDigit} ${MonthName}`;
 
-
 /**
  * **DateMonthYearLike**`<{T}>`
  *
@@ -78,8 +76,6 @@ export type DateMonth =
 export type DateMonthYearLike<T extends "weak" | "normal" = "weak"> =
     | `${MonthDateDigit<T>} ${MonthAbbrev}, ${FourDigitYear<"weak">}`;
 
-
-
 /**
  * **DateMonthYear**
  *
@@ -93,7 +89,7 @@ export type DateMonthYearLike<T extends "weak" | "normal" = "weak"> =
  * This style of date format is common across Europe.
  */
 export type DateMonthYear = DateMonthAbbrevYearLike & {
-    kind: "DateMonthYear"
+    kind: "DateMonthYear";
 };
 
 /**
@@ -115,7 +111,6 @@ export type DateMonthYear = DateMonthAbbrevYearLike & {
  */
 export type MonthAbbrevDate =
     | `${MonthName} ${MonthDateDigit | MinimalDigitDate__Suffixed}`;
-
 
 /**
  * **MonthDate**
@@ -158,7 +153,6 @@ export type MonthDateYearLike =
     | `${MonthName} ${MonthDateDigit<"weak">
     | MinimalDigitDate__Suffixed<"normal">}`;
 
-
 /**
  * **MonthDateYear**
  *
@@ -173,7 +167,7 @@ export type MonthDateYearLike =
  * `IsMonthDateYear` to validate the `MonthDateYearLike` type.
  */
 export type MonthDateYear = MonthDateYearLike & {
-    kind: "MonthDateYear"
+    kind: "MonthDateYear";
 };
 
 export type MonthAbbrevDateYearLike =
@@ -181,7 +175,5 @@ export type MonthAbbrevDateYearLike =
     | `${MonthAbbrev} ${MinimalDigitDate__Suffixed<"normal">}`;
 
 export type MonthAbbrevDateYear = MonthAbbrevDateYearLike & {
-    kind: "MonthDateAbbrevYear"
-}
-
-
+    kind: "MonthDateAbbrevYear";
+};

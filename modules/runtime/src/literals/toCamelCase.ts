@@ -15,10 +15,12 @@ export function toCamelCase<
     TString extends string,
 >(input: TString): CamelCase<TString> {
     const pascal = toPascalCase(input);
+    // eslint-disable-next-line regexp/no-super-linear-backtracking
     const [_, _preWhite, focus, _postWhite] = /^(\s*)(.*?)(\s*)$/.exec(
         pascal,
     ) as RegExpExecArray;
 
+    // eslint-disable-next-line regexp/no-super-linear-backtracking
     const camel = focus.replace(/^.*?(\d*[a-z|])/is, (_, p1) => p1.toLowerCase()) as unknown as CamelCase<TString>;
 
     return camel;

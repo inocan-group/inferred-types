@@ -1,15 +1,15 @@
 import type {
     And,
+    As,
     DateLike,
+    Extends,
     IsEqual,
     IsInteger,
-    IsIsoExplicitDate,
-    IsIsoImplicitDate,
-    IsIsoYear,
     IsNumber,
-    IsNumericLiteral,
-    IsStringLiteral,
-    IsWideType
+    IsString,
+    IsWideType,
+    ParseDate,
+    ParsedDate
 } from "inferred-types/types";
 
 /**
@@ -24,23 +24,29 @@ export type IsSameDay<
     A extends DateLike,
     B extends DateLike
 > = IsWideType<A> extends true
-? boolean
-: IsWideType<B> extends true
-? boolean
+    ? boolean
+    : IsWideType<B> extends true
+        ? boolean
 
-: And<[IsNumber<A>, IsNumber<B>]> extends true
-    ? And<[IsNumericLiteral<A>, IsNumericLiteral<B>]> extends true
-        ? And<[IsInteger<A>, IsInteger<B>]> extends true
-            ? IsEqual<A, B>
-            : false
-        : boolean
-
-    : And<[IsStringLiteral<A>, IsStringLiteral<B>]> extends true
-        ? And<[IsIsoExplicitDate<A>, IsIsoExplicitDate<B>]> extends true
-            ? IsEqual<A, B>
-            : And<[IsIsoImplicitDate<A>, IsIsoImplicitDate<B>]> extends true
-                ? IsEqual<A, B>
-                : And<[IsIsoYear<A>, IsIsoYear<B>]> extends true
-                    ? IsEqual<A, B>
-                    : boolean
-        : boolean;
+        : And<[
+            IsString<A>,
+            IsString<B>,
+        ]> extends true
+            ? And<[
+                Extends<ParseDate<As<A, string>>, ParsedDate>,
+                Extends<ParseDate<As<B, string>>, ParsedDate>,
+            ]> extends true
+                ? As<ParseDate<As<A, string>>, ParsedDate>["1"] extends
+                As<ParseDate<As<B, string>>, ParsedDate>["1"]
+                    ? true
+                    : false
+                : boolean
+            : And<[
+                IsNumber<A>,
+                IsNumber<B>,
+                IsEqual<A, B>
+            ]> extends true
+                ? And<[IsInteger<A>, IsInteger<B>]> extends true
+                    ? true
+                    : false
+                : boolean;

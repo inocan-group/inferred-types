@@ -1,4 +1,4 @@
-import { Constant } from "inferred-types/constants";
+import type { Constant } from "inferred-types/constants";
 
 function createConstant<TKind extends string>(kind: TKind) {
     return {

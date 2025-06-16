@@ -1,19 +1,19 @@
-import {  First, IsEqual, IsTuple, IsUnion, IsWideString, Or, TupleToUnion, UnionToTuple } from "inferred-types/types";
+import type { First, IsEqual, IsUnion, IsWideString, Or, UnionToTuple } from "inferred-types/types";
 
 type Check<
     T extends string,
     K
 > = [K] extends ["all"]
-? Or<[
-    IsEqual<T, `${string}`>,
-    IsEqual<T, `${number}`>,
-]>
+    ? Or<[
+        IsEqual<T, `${string}`>,
+        IsEqual<T, `${number}`>,
+    ]>
 
-: [K] extends ["string"]
-    ? IsEqual<T, `${string}`>
-: [K] extends ["number"]
-    ? IsEqual<T, `${number}`>
-: false;
+    : [K] extends ["string"]
+        ? IsEqual<T, `${string}`>
+        : [K] extends ["number"]
+            ? IsEqual<T, `${number}`>
+            : false;
 
 type FixUnion<
     T extends string
@@ -21,7 +21,7 @@ type FixUnion<
     ? First<UnionToTuple<T>> extends `${"true" | "false"}${infer Rest}`
         ? Rest
         : T
-: T;
+    : T;
 
 /**
  * **StripLeadingTemplate**`<T, [K]>`
@@ -34,10 +34,9 @@ export type StripLeadingTemplate<
     K extends "all" | "string" | "number" | "boolean" = "all"
 > =
 [IsWideString<T>] extends [true]
-? string
-: [T] extends [`${infer First}${infer Rest}`]
-    ? [Check<First, K>] extends [true]
-        ? Rest
-        : FixUnion<T>
-    : ""
-
+    ? string
+    : [T] extends [`${infer First}${infer Rest}`]
+        ? [Check<First, K>] extends [true]
+            ? Rest
+            : FixUnion<T>
+        : "";

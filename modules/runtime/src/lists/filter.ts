@@ -1,31 +1,22 @@
+import type { Unset } from "inferred-types";
 import type {
     ComparisonLookup,
     ComparisonOperation,
     DateLike,
     Equals,
-    Filter,
     FilterFn,
     Narrowable,
 } from "inferred-types/types";
+import { COMPARISON_OPERATIONS } from "inferred-types/constants";
 import {
     asDate,
-    between,
     err,
     isAfter,
-    isArray,
     isBefore,
-    isBoolean,
     isDateLike,
-    isError,
-    isNumber,
-    isString,
-    isTruthy,
     isUnset,
-    toDate,
     unset
 } from "inferred-types/runtime";
-import { Unset } from "inferred-types";
-import { COMPARISON_OPERATIONS } from "inferred-types/constants";
 
 type Lookup = ComparisonLookup;
 
@@ -34,7 +25,6 @@ type Accept<TOp extends ComparisonOperation> = "accept" extends keyof Comparison
         ? Narrowable
         : ComparisonLookup[TOp]["accept"]
     : Narrowable;
-
 
 function handle_string<TOp extends ComparisonOperation, TParams extends Lookup[TOp]["params"]>(
     val: Accept<TOp>,
@@ -49,7 +39,7 @@ function handle_numeric<TOp extends ComparisonOperation, TParams extends Lookup[
     op: TOp,
     params: TParams
 ): boolean | Error | Unset {
-    return unset
+    return unset;
 }
 
 function handle_object<TOp extends ComparisonOperation, TParams extends Lookup[TOp]["params"]>(
@@ -68,27 +58,26 @@ function handle_datetime<
     op: TOp,
     params: TParams
 ): boolean | Error | Unset {
-    if(!isDateLike(val)) {
+    if (!isDateLike(val)) {
         return err(
             `invalid-input/date-like`,
             `The '${op}' operation expects a DateLike value as an input but got something else!`,
             { type: typeof val, params, op }
         );
     }
-    if(!params.every(i => isDateLike(i))) {
+    if (!params.every(i => isDateLike(i))) {
         return err(
             `invalid-params/date-like`,
             `The '${op}' operation was configured with an invalid parameter; it expects the parameter(s) to be a DateLike value(s)`,
             { type: typeof val, val, params, op }
-        )
+        );
     }
 
-    const p = params as unknown as [DateLike, DateLike, ...DateLike[]]
+    const p = params as unknown as [DateLike, DateLike, ...DateLike[]];
     const value = asDate(val);
     const comparator = asDate(p[0]);
 
-    switch(op) {
-
+    switch (op) {
         case "sameDay": {
             return value.getFullYear() === comparator.getFullYear()
                         && value.getMonth() === comparator.getMonth()
@@ -96,7 +85,7 @@ function handle_datetime<
         }
 
         case "sameMonth": {
-            return value.getMonth() === comparator.getMonth()
+            return value.getMonth() === comparator.getMonth();
         }
         case "sameMonthYear": {
             return value.getMonth() === comparator.getMonth()
@@ -113,9 +102,7 @@ function handle_datetime<
         case "before": {
             return isBefore(value)(comparator);
         }
-
     }
-
 
     return unset;
 }
@@ -131,7 +118,6 @@ function handle_other<
     return unset;
 }
 
-
 function filterFn<
     TOp extends ComparisonOperation,
     TParams extends Lookup[TOp]["params"]
@@ -139,18 +125,17 @@ function filterFn<
     op: TOp,
     params: TParams
 ) {
-
     return <T extends Accept<TOp>>(val: T) => {
-        const str = handle_string(val,op,params);
-        if(isUnset(str)) {
+        const str = handle_string(val, op, params);
+        if (isUnset(str)) {
             const numeric = handle_numeric(val, op, params);
             if (isUnset(numeric)) {
                 const obj = handle_object(val, op, params);
-                if(isUnset(obj)) {
+                if (isUnset(obj)) {
                     const dt = handle_datetime(val, op, params);
-                    if(isUnset(dt)) {
+                    if (isUnset(dt)) {
                         const other = handle_other(val, op, params);
-                        if(isUnset(other)) {
+                        if (isUnset(other)) {
                             // type safety should stop this from happening
                             // but for Javascript consumers and bad actors
                             // we still need to check
@@ -158,7 +143,7 @@ function filterFn<
                                 `invalid-operation/compare`,
                                 `The operation '${op}' is not a recognized comparison operation!`,
                                 { op, params, validOps: COMPARISON_OPERATIONS }
-                            )
+                            );
                         }
                         else {
                             return other;
@@ -177,9 +162,8 @@ function filterFn<
             return str;
         }
 
-        return null as unknown as ReturnType<FilterFn<TOp,TParams>>;
-    }
-
+        return null as unknown as ReturnType<FilterFn<TOp, TParams>>;
+    };
 }
 
 /**

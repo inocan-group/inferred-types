@@ -1,5 +1,5 @@
+import type { DateLike, IsSameYear } from "inferred-types/types";
 import { asDate } from "inferred-types/runtime";
-import { DateLike,  IsSameYear } from "inferred-types/types";
 
 /**
  * **isSameYear**`(comparator) -> (date) -> boolean
@@ -21,6 +21,6 @@ export function isSameYear<
         const v = asDate(val);
         return (
             v.getFullYear() === comp.getFullYear()
-         ) as IsSameYear<TVal,TComparator>
-    }
+        ) as IsSameYear<TVal, TComparator>;
+    };
 }

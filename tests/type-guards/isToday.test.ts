@@ -3,7 +3,7 @@ import { isToday } from "inferred-types/runtime";
 import {
     Expect,
     Extends,
-    IsIso8601DateTime,
+    IsIsoDateTime,
     IsIsoDate,
     IsLuxonDateTime,
     Iso8601Date,
@@ -81,7 +81,7 @@ describe("isToday()", () => {
         const today = "2024-01-15T14:30:00Z";
         const yesterday = "2024-01-14T14:30:00Z";
         const tomorrow = "2024-01-16T14:30:00Z";
-        type Iso = IsIso8601DateTime<typeof today>;
+        type Iso = IsIsoDateTime<typeof today>;
 
         expect(isToday(today)).toBe(true);
         expect(isToday(yesterday)).toBe(false);

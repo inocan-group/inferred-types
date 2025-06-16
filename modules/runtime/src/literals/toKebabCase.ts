@@ -14,7 +14,8 @@ export function toKebabCase<
     S extends string | undefined,
     P extends boolean = false,
 >(input: S, _preserveWhitespace: P = false as P) {
-    const [_, preWhite, focus, postWhite] = /^(\s*)(.*?)(\s*)$/.exec(input || "") as RegExpExecArray;
+    // eslint-disable-next-line regexp/no-super-linear-backtracking
+    const [_, preWhite, focus, postWhite] = /^(\s*)([\s\S]*?)(\s*)$/.exec(input || "") as RegExpExecArray;
 
     const replaceWhitespace = (i: string) => i.replace(/\s/g, "-");
     const replaceUppercase = (i: string) => i.replace(/[A-Z]/g, c => `-${c[0].toLowerCase()}`);

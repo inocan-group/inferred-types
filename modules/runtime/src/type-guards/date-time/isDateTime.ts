@@ -1,4 +1,4 @@
-import type { Iso8601DateTime } from "inferred-types/types";
+import type { IsoDateTime } from "inferred-types/types";
 import { isString } from "inferred-types/runtime";
 
 /**
@@ -13,7 +13,7 @@ import { isString } from "inferred-types/runtime";
  * - `2024-01-01T00:00`                      (Minutes precision)
  * - `2024-01-01T00:00:00`                   (Seconds precision)
  */
-export function isIsoDateTime(val: unknown): val is Iso8601DateTime {
+export function isIsoDateTime(val: unknown): val is IsoDateTime {
     if (!isString(val)) {
         return false;
     }

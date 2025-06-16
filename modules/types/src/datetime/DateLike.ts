@@ -1,4 +1,4 @@
-import { DateFnsLike, DayJsLike, LuxonLike, MomentLike, TemporalLike } from "inferred-types/types";
+import type { DateFnsLike, DayJsLike, LuxonLike, MomentLike, TemporalLike } from "inferred-types/types";
 
 /**
  * **DateLike**

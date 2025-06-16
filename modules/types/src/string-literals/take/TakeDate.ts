@@ -1,7 +1,4 @@
-import { IsWideString, Replace, TwoDigitDate } from "inferred-types/types";
-
-
-
+import type { IsWideString, Replace, TwoDigitDate } from "inferred-types/types";
 
 /**
  * **TakeDate**`<T, [TOpt]>`
@@ -14,9 +11,9 @@ import { IsWideString, Replace, TwoDigitDate } from "inferred-types/types";
 export type TakeDate<
     T extends string,
 > = IsWideString<T> extends true
-? string
-: T extends `${TwoDigitDate}${infer Rest extends string}`
-? Replace<T, Rest, ""> extends TwoDigitDate
-    ? [ Replace<T, Rest, "">, Rest ]
-    : [ undefined, T ]
-: [ undefined, T ];
+    ? string
+    : T extends `${TwoDigitDate}${infer Rest extends string}`
+        ? Replace<T, Rest, ""> extends TwoDigitDate
+            ? [ Replace<T, Rest, "">, Rest ]
+            : [ undefined, T ]
+        : [ undefined, T ];

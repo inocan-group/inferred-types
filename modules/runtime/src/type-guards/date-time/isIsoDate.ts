@@ -1,4 +1,4 @@
-import type { Iso8601Date } from "inferred-types/types";
+import type { IsoDate } from "inferred-types/types";
 import { isNumberLike, isString } from "inferred-types/runtime";
 
 /**
@@ -7,7 +7,7 @@ import { isNumberLike, isString } from "inferred-types/runtime";
  *
  * **Related:** `isIsoDate`, `isIsoImplicitDate`
  */
-export function isIsoExplicitDate(val: unknown): val is Iso8601Date<"explicit"> {
+export function isIsoExplicitDate(val: unknown): val is IsoDate {
     if (isString(val)) {
         const parts = val.split("-").map(i => Number(i));
 
@@ -28,7 +28,7 @@ export function isIsoExplicitDate(val: unknown): val is Iso8601Date<"explicit"> 
  *
  * **Related:** `isIsoDate`, `isIsoExplicitDate`
  */
-export function isIsoImplicitDate(val: unknown): val is Iso8601Date<"implicit"> {
+export function isIsoImplicitDate(val: unknown): val is IsoDate {
     if (isString(val) && val.length === 8 && isNumberLike(val)) {
         const year = Number(val.slice(0, 4));
         const month = Number(val.slice(4, 6));
@@ -49,7 +49,7 @@ export function isIsoImplicitDate(val: unknown): val is Iso8601Date<"implicit"> 
  *
  * **Related:** `isIsoExplicitDate`, `isIsoImplicitDate`
  */
-export function isIsoDate(val: unknown): val is Iso8601Date<"both"> {
+export function isIsoDate(val: unknown): val is IsoDate {
     if (isString(val)) {
         return val.includes("-")
             ? isIsoExplicitDate(val)

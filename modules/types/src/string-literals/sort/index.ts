@@ -1,3 +1,2 @@
-export * from "./SortOrder"
-export * from "./StringSort"
-
+export * from "./SortOrder";
+export * from "./StringSort";

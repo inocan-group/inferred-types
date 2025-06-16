@@ -2,14 +2,12 @@ import type {
     And,
     As,
     DateLike,
+    Extends,
     IsEqual,
-    IsIsoExplicitDate,
-    IsIsoImplicitDate,
-    IsIsoYear,
-    Iso8601Date,
     IsStringLiteral,
-    Slice,
-    Split,
+    NotEqual,
+    ParseDate,
+    ParsedDate,
 } from "inferred-types/types";
 
 /**
@@ -31,17 +29,21 @@ export type IsSameYear<
     A extends DateLike,
     B extends DateLike
 > = And<[IsStringLiteral<A>, IsStringLiteral<B>]> extends true
-    ? And<[IsIsoExplicitDate<A>, IsIsoExplicitDate<B>]> extends true
-        ? IsEqual<
-            Split<As<A, Iso8601Date<"explicit">>, "-">[0],
-            Split<As<A, Iso8601Date<"explicit">>, "-">[0]
-        >
-        : And<[IsIsoImplicitDate<A>, IsIsoImplicitDate<B>]> extends true
-            ? IsEqual<
-                Slice<As<A, Iso8601Date<"implicit">>, 0, 4>,
-                Slice<As<B, Iso8601Date<"implicit">>, 0, 4>
+    ? And<[
+        Extends<ParseDate<As<A, string>>, ParsedDate>,
+        Extends<ParseDate<As<B, string>>, ParsedDate>,
+    ]> extends true
+        ? And<[
+            IsEqual<
+                As<ParseDate<As<A, string>>, ParsedDate>["0"],
+                As<ParseDate<As<B, string>>, ParsedDate>["0"]
+            >,
+            NotEqual<
+                As<ParseDate<As<A, string>>, ParsedDate>["0"],
+                null
             >
-            : And<[IsIsoYear<A>, IsIsoYear<B>]> extends true
-                ? IsEqual<A, B>
-                : boolean
+        ]> extends true
+            ? true
+            : false
+        : boolean
     : boolean;

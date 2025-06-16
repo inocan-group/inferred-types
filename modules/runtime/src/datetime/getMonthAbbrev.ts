@@ -1,5 +1,5 @@
+import type { DateLike, GetMonthAbbrev } from "inferred-types/types";
 import { MONTH_ABBR } from "inferred-types/constants";
-import { DateLike, GetMonthAbbrev } from "inferred-types/types";
 import { asDate } from "inferred-types/runtime";
 
 /**
@@ -14,9 +14,5 @@ export function getMonthAbbrev<T extends DateLike>(
 ): GetMonthAbbrev<T> {
     const d = asDate(date);
 
-    return MONTH_ABBR[d.getMonth()] as GetMonthAbbrev<T>
+    return MONTH_ABBR[d.getMonth()] as GetMonthAbbrev<T>;
 }
-
-
-
-

@@ -3,7 +3,6 @@ import type {
     NonZeroNumericChar,
 } from "inferred-types/types";
 
-
 /**
  * **MonthName**
  *
@@ -24,5 +23,3 @@ export type MonthAbbrev = typeof MONTH_ABBR[number];
  * The month of the year represented in a numeric format.
  */
 export type MonthNumeric = "10" | "11" | "12" | `${"0" | ""}${NonZeroNumericChar}`;
-
-

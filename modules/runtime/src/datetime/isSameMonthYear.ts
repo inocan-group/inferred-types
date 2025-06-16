@@ -1,5 +1,5 @@
+import type { DateLike, IsSameMonthYear } from "inferred-types/types";
 import { asDate } from "inferred-types/runtime";
-import { DateLike,  IsSameMonthYear } from "inferred-types/types";
 
 /**
  * **isSameMonthYear**`(comparator) -> (date) -> boolean
@@ -22,6 +22,6 @@ export function isSameMonthYear<
         return (
             v.getFullYear() === comp.getFullYear()
             && v.getMonth() === comp.getMonth()
-         ) as IsSameMonthYear<TVal,TComparator>
-    }
+        ) as IsSameMonthYear<TVal, TComparator>;
+    };
 }

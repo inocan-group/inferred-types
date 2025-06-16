@@ -1,4 +1,4 @@
-import { StripWhile } from "inferred-types/types";
+import type { StripWhile } from "inferred-types/types";
 
 /**
  * **ParseInt**`<T>`
@@ -33,4 +33,3 @@ export type AsNumber<T> = T extends number
                 StripWhile<T, "0">
             >
         : never;
-

@@ -2,12 +2,12 @@ import type {
     And,
     As,
     DateLike,
+    Extends,
     IsEqual,
-    IsIsoYear,
-    IsoDateLike,
     IsStringLiteral,
-    Slice,
-    Split,
+    NotEqual,
+    ParseDate,
+    ParsedDate,
 } from "inferred-types/types";
 
 /**
@@ -29,10 +29,22 @@ export type IsSameMonth<
     A extends DateLike,
     B extends DateLike
 > = And<[IsStringLiteral<A>, IsStringLiteral<B>]> extends true
-    ? And<[IsIsoExplicitDate<A>, IsIsoExplicitDate<B>]> extends true
-        ? IsEqual<
-            Split<As<A, IsoDateLike>, "-">[1],
-            Split<As<B, IsoDateLike>, "-">[1]
-        >
+    ? And<[
+        Extends<ParseDate<As<A, string>>, ParsedDate>,
+        Extends<ParseDate<As<B, string>>, ParsedDate>,
+    ]> extends true
+        ? And<[
+            IsEqual<
+                As<ParseDate<As<A, string>>, ParsedDate>["1"],
+                As<ParseDate<As<B, string>>, ParsedDate>["1"]
+            >,
+            NotEqual<
+                As<ParseDate<As<A, string>>, ParsedDate>["1"],
+                null
+            >
+        ]> extends true
+            ? true
+            : false
+        : boolean
 
     : boolean;
