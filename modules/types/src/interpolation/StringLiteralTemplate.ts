@@ -21,7 +21,7 @@ type _StringLiteralTemplate<T extends string | number | boolean> = T extends num
  *
  * Converts a string literal into a "template" by replacing tokens
  * like `{{string}}`, `{{number}}`, or `{{boolean}}` with the
- * cooresponding string literal equivalent.
+ * corresponding string literal equivalent.
  *
  * **Related:** `EachAsStringLiteralTemplate`, `ObjectValuesAsStringLiteralTemplate`
  */

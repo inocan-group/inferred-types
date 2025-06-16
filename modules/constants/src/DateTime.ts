@@ -61,7 +61,7 @@ export const SEASON_TO_MONTH_LOOKUP = {
 } as const as Record<Season, { northern: MonthAbbr[]; southern: MonthAbbr[] }>
 
 
-export const WEEK_DAY = [
+export const WEEK_DAY_ABBREV = [
     "Mon",
     "Tue",
     "Wed",
@@ -69,9 +69,22 @@ export const WEEK_DAY = [
     "Fri"
 ] as const;
 
-export const WEEKEND_DAY = [
+export const WEEK_DAY = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday"
+] as const;
+
+export const WEEKEND_DAY_ABBREV = [
     "Sat",
     "Sun"
+] as const;
+
+export const WEEKEND_DAY = [
+    "Saturday",
+    "Sunday"
 ] as const;
 
 export const DAYS_OF_WEEK__Sun = [

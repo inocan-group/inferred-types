@@ -1,9 +1,12 @@
 export * from "./ApplyTemplate";
 export * from "./AsLiteralTemplate";
 export * from "./FromLiteralTemplate";
+export * from "./HasTemplateLiterals";
 export * from "./ReplaceInterpolation";
 export * from "./StaticTemplateSections";
 export * from "./StringLiteralTemplate";
 export * from "./StripSurroundingStringTemplate";
 export * from "./TemplateBlocks";
 export * from "./TemplateParams";
+export * from "./StripLeadingTemplate";
+

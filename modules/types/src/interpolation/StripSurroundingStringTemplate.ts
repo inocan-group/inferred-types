@@ -45,3 +45,4 @@ export type StripSurroundingStringTemplate<T extends string> = IsStringLiteral<T
         StripLeadingStringTemplate<T>
     >
     : never;
+

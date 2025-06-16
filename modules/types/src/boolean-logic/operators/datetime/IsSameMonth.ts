@@ -3,10 +3,8 @@ import type {
     As,
     DateLike,
     IsEqual,
-    IsIsoExplicitDate,
-    IsIsoImplicitDate,
     IsIsoYear,
-    Iso8601Date,
+    IsoDateLike,
     IsStringLiteral,
     Slice,
     Split,
@@ -33,15 +31,8 @@ export type IsSameMonth<
 > = And<[IsStringLiteral<A>, IsStringLiteral<B>]> extends true
     ? And<[IsIsoExplicitDate<A>, IsIsoExplicitDate<B>]> extends true
         ? IsEqual<
-            Split<As<A, Iso8601Date<"explicit">>, "-">[1],
-            Split<As<A, Iso8601Date<"explicit">>, "-">[1]
+            Split<As<A, IsoDateLike>, "-">[1],
+            Split<As<B, IsoDateLike>, "-">[1]
         >
-        : And<[IsIsoImplicitDate<A>, IsIsoImplicitDate<B>]> extends true
-            ? IsEqual<
-                Slice<As<A, Iso8601Date<"implicit">>, 5, 2>,
-                Slice<As<B, Iso8601Date<"implicit">>, 5, 2>
-            >
-            : And<[IsIsoYear<A>, IsIsoYear<B>]> extends true
-                ? IsEqual<A, B>
-                : boolean
+
     : boolean;

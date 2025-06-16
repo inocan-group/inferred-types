@@ -6,7 +6,7 @@ import type {
     Ip4Address,
     Iso8601DateRepresentation,
     Iso8601DateTimeRepresentation,
-    Iso8601TimeRepresentation,
+    Iso8601TimeLike,
     Keys,
     ReplaceAll,
 } from "inferred-types/types";
@@ -18,7 +18,7 @@ interface DefaultLookup {
     "{{integer}}": `${Integer}`;
     "{{date}}": `${Iso8601DateRepresentation}`;
     "{{csv}}": `${Csv}`;
-    "{{time}}": `${Iso8601TimeRepresentation}`;
+    "{{time}}": `${Iso8601TimeLike}`;
     "{{datetime}}": `${Iso8601DateTimeRepresentation}`;
     "{{ipv4}}": `${Ip4Address}`;
 }

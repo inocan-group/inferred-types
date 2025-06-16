@@ -1,4 +1,5 @@
-import type { Iso8601DateTime } from "inferred-types/types";
+import { IsoDateTime, IsoDateTimeLike } from "src/datetime/Iso";
+
 
 type RelativeTimeKey = "s" | "ss" | "m" | "mm" | "h" | "hh" | "d" | "dd" | "w" | "ww" | "M" | "MM" | "y" | "yy";
 type CalendarKey = "sameDay" | "nextDay" | "lastDay" | "nextWeek" | "lastWeek" | "sameElse" | string;
@@ -73,7 +74,7 @@ export interface MomentJs {
      * Sets specific configuration values for the moment object.
      * @param config - An object containing configuration keys and values.
      */
-    toISOString: () => Iso8601DateTime;
+    toISOString: () => IsoDateTime;
 
     /**
      * Converts the MomentJS object to a JavaScript Date object.

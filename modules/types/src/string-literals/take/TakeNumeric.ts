@@ -100,9 +100,8 @@ type Take<
  *
  *      - When we're _taking_ in characters we take in all numeric characters
  *      and the `.` character to pick up decimal values.
- *      -
- *
- *
+ *      - Sometimes -- like in the case of `,` -- we might want to continue
+ *      moving into the numeric value while ignoring some characters
  */
 export type TakeNumeric<
     T extends string,

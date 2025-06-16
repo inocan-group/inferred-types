@@ -1,7 +1,7 @@
 import type {
     NumericChar,
-    NumericCharZeroToFive,
-    NumericCharZeroToThree,
+    NumericChar__ZeroToFive,
+    NumericChar__ZeroToThree,
     Opt,
     StripAfter,
     StripLeading,
@@ -22,9 +22,9 @@ type HMS<T extends `${Opt<"T">}${number}:${number}:${number}${Opt<Timezone>}`> =
       : never;
 
 type Validate<T extends readonly [string, string, string]> =
-  T[0] extends `${NumericCharZeroToThree}${NumericChar}`
-      ? T[1] extends `${NumericCharZeroToFive}${NumericChar}`
-          ? T[2] extends `${NumericCharZeroToFive}${number}`
+  T[0] extends `${NumericChar__ZeroToThree}${NumericChar}`
+      ? T[1] extends `${NumericChar__ZeroToFive}${NumericChar}`
+          ? T[2] extends `${NumericChar__ZeroToFive}${number}`
               ? true
               : false
           : false
@@ -36,7 +36,7 @@ type Validate<T extends readonly [string, string, string]> =
  * Boolean operator which returns `true` when `T` is a valid ISO 8601 time string of the
  * format `HH:MM:SS`, `HH:MM:SS.ms`, `HH:MM:SSZ`, etc.
  *
- * Note: starting the upppercase "T" is optional but a valid way to start the string.
+ * Note: starting the uppercase "T" is optional but a valid way to start the string.
  */
 export type IsIsoTime<T> = T extends `${Opt<"T">}${number}:${number}:${number}${Opt<Timezone>}`
     ? Validate<HMS<T>> extends true

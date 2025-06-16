@@ -15,4 +15,3 @@ export function getMonthName<T extends DateLike>(date: T): GetMonthName<T> {
     return MONTH_NAME[d.getMonth()] as GetMonthName<T>
 }
 
-const a = getMonthName("2024-10-02");

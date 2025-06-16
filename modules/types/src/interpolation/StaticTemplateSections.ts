@@ -18,7 +18,7 @@ type Finalize<
 /**
  * **StaticTemplateSections**`<TTemplate, [TWithType]>`
  *
- * Segments the various static sections definied in the `TTemplate`.
+ * Segments the various static sections defined in the `TTemplate`.
  *
  * - if you optionally set the `TWithType` generic to `true` then the
  * string literal templates will be added
