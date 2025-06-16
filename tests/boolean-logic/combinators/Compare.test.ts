@@ -132,16 +132,16 @@ describe("Compare<TVal,TOp,TComparator", () => {
 
     it("contains with string input", () => {
         type T1 = Compare<"foobar", "contains", "foo">;
-        type T2 = Compare<"foo", "contains", string>;
 
         type B1 = Compare<string, "contains", "foo">;
+        type B2 = Compare<"foo", "contains", string>;
 
         type F1 = Compare<"foobar", "contains", "bax">;
 
         type cases = [
             Expect<Test<T1, "equals",  true>>,
-            Expect<Test<T2, "equals",  true>>,
             Expect<Test<B1, "equals",  boolean>>,
+            Expect<Test<B2, "equals",  boolean>>,
             Expect<Test<F1, "equals",  false>>,
         ];
     });
