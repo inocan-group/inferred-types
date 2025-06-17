@@ -1,6 +1,12 @@
-import type { Dictionary, FromSimpleToken, Narrowable, ObjectKey, SimpleToken, WithoutValue } from "inferred-types/types";
-import { doesExtend } from "inferred-types/runtime";
-import { keysOf } from "./keysOf";
+import type {
+    Dictionary,
+    FromSimpleToken,
+    Narrowable,
+    ObjectKey,
+    SimpleToken,
+    WithoutValue
+} from "inferred-types/types";
+import { doesExtend, keysOf } from "inferred-types/runtime";
 
 export type DictionaryWithoutValueFilter<Without extends Narrowable> = <
     T extends Record<ObjectKey, N>,
@@ -14,14 +20,16 @@ export type DictionaryWithoutValueFilter<Without extends Narrowable> = <
  * A _higher-order_ runtime utility which allow you to first specify a **type**
  * which you will want to look for in future objects/dictionaries.
  *
+ * ### Example
+ *
  * ```ts
  * const withoutStrings = withoutValue("string");
  * const withoutFooBar = withoutValue("string(foo,bar)");
  * ```
  *
- * The returned utility will now receive dictonary objects and -- in a type strong
+ * The returned utility will now receive dictionary objects and -- in a type strong
  * manner -- removed the key/values where the value extends `string` or `"foo" | "bar"`
- * repectively.
+ * respectively.
  */
 export function withoutValue<TWithout extends SimpleToken>(
     wo: TWithout,

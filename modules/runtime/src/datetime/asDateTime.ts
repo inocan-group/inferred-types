@@ -69,17 +69,17 @@ export function asDateTime<T extends DateLike>(input: T): Date {
         return new Date(`${input}-01-01T00:00:00.000Z`);
     }
 
-    if (isIsoDate(input)) {
-        // e.g. 2023-06-16 (no time info)
-        return new Date(`${input}T00:00:00.000Z`);
-    }
-
     if (isIsoImplicitDate(input)) {
         // e.g. 20230616 (no time info)
         const year = Number((input as string).slice(0, 4));
         const month = Number((input as string).slice(4, 6));
         const day = Number((input as string).slice(6, 8));
         return new Date(Date.UTC(year, month - 1, day));
+    }
+
+    if (isIsoDate(input)) {
+        // e.g. 2023-06-16 (no time info)
+        return new Date(`${input}T00:00:00.000Z`);
     }
 
     throw err(`invalid/date`, `The date-like value you passed to 'asDateTime()' function was unable to be converted to a Javascript Date object!`, { date: input });

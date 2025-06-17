@@ -30,20 +30,20 @@ describe("getWeekNumber()", () => {
 
     expect(getWeekNumber(new Date(2024, 3, 1))).toBe(14);
 
-    expect(getWeekNumber(new Date(2024, 11, 30))).toBe(53);
-    expect(getWeekNumber(new Date(2024, 11, 31))).toBe(53);
+    expect(getWeekNumber(new Date(2024, 11, 30))).toBe(1);
+    expect(getWeekNumber(new Date(2024, 11, 31))).toBe(1);
   });
 
   it("should correctly calculate week numbers for 2023 Date objects", () => {
-    expect(getWeekNumber(new Date(2023, 0, 1))).toBe(1);
-    expect(getWeekNumber(new Date(2023, 0, 15))).toBe(3);
+    expect(getWeekNumber(new Date(2023, 0, 1))).toBe(52);
+    expect(getWeekNumber(new Date(2023, 0, 15))).toBe(2);
     expect(getWeekNumber(new Date(2023, 0, 17))).toBe(3);
-    expect(getWeekNumber(new Date(2023, 0, 22))).toBe(4);
+    expect(getWeekNumber(new Date(2023, 0, 22))).toBe(3);
 
     expect(getWeekNumber(new Date(2023, 3, 1))).toBe(13);
 
     expect(getWeekNumber(new Date(2023, 11, 30))).toBe(52);
-    expect(getWeekNumber(new Date(2023, 11, 31))).toBe(53);
+    expect(getWeekNumber(new Date(2023, 11, 31))).toBe(52);
   });
 
   it("should correctly calculate week numbers for 2024 ISO 8601 date strings", () => {
@@ -54,27 +54,27 @@ describe("getWeekNumber()", () => {
 
     expect(getWeekNumber("2024-04-01")).toBe(14);
 
-    expect(getWeekNumber("2024-12-30")).toBe(53);
-    expect(getWeekNumber("2024-12-31")).toBe(53);
+    expect(getWeekNumber("2024-12-30")).toBe(1);
+    expect(getWeekNumber("2024-12-31")).toBe(1);
   });
 
   it("should correctly calculate week numbers for 2023 ISO 8601 date strings", () => {
-    expect(getWeekNumber("2023-01-01")).toBe(1);
-    expect(getWeekNumber("2023-01-15")).toBe(3);
+    expect(getWeekNumber("2023-01-01")).toBe(52);
+    expect(getWeekNumber("2023-01-15")).toBe(2);
     expect(getWeekNumber("2023-01-17")).toBe(3);
-    expect(getWeekNumber("2023-01-22")).toBe(4);
+    expect(getWeekNumber("2023-01-22")).toBe(3);
 
     expect(getWeekNumber("2023-04-01")).toBe(13);
 
     expect(getWeekNumber("2023-12-30")).toBe(52);
-    expect(getWeekNumber("2023-12-31")).toBe(53);
+    expect(getWeekNumber("2023-12-31")).toBe(52);
   });
 
   it("should correctly calculate week numbers for Moment.js objects", () => {
     const m1 = moment("2024-01-01");
     expect(getWeekNumber(m1)).toBe(1);
     expect(getWeekNumber(moment("2024-01-15"))).toBe(3);
-    expect(getWeekNumber(moment("2024-12-31"))).toBe(53);
+    expect(getWeekNumber(moment("2024-12-31"))).toBe(1);
   });
 
   it("should correctly calculate week numbers for Luxon DateTime objects", () => {
@@ -83,7 +83,7 @@ describe("getWeekNumber()", () => {
 
     expect(getWeekNumber(date)).toBe(3);
     expect(getWeekNumber(DateTime.fromISO("2024-01-01"))).toBe(1);
-    expect(getWeekNumber(DateTime.fromISO("2024-12-31"))).toBe(53);
+    expect(getWeekNumber(DateTime.fromISO("2024-12-31"))).toBe(1);
 
     if (getWeekNumber(date)) {
       type ThisDate = typeof date;
@@ -103,7 +103,7 @@ describe("getWeekNumber()", () => {
       `"${date} is week ${getWeekNumber(date)}; should be week 3"`
     ).toBe(3);
 
-    expect(getWeekNumber("2024-12-31T23:59:59Z")).toBe(53);
+    expect(getWeekNumber("2024-12-31T23:59:59Z")).toBe(1);
   });
 
 

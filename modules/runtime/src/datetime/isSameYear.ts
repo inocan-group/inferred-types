@@ -20,7 +20,7 @@ export function isSameYear<
     ) => {
         const v = asDate(val);
         return (
-            v.getFullYear() === comp.getFullYear()
+            v.getUTCFullYear() === comp.getUTCFullYear()
         ) as IsSameYear<TVal, TComparator>;
     };
 }

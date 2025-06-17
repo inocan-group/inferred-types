@@ -49,7 +49,8 @@
     "scripts": {
         "build:old": "bash build",
         "nuke": "",
-        "test": "vitest",
+        "test": "vitest run",
+        "test:watch": "vitest",
         "test:ui": "vitest --ui",
         "audit:fix": "pnpm audit --fix",
         "test:types": "type-test",

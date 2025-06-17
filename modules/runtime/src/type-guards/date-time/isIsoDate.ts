@@ -1,5 +1,6 @@
 import type { IsoDate } from "inferred-types/types";
-import { isNumberLike, isString } from "inferred-types/runtime";
+import { isNumberLike } from "../isNumericString";
+import { isString } from "../isString";
 
 /**
  * Type guard which validates whether the passed in `val` is an ISO 8601 date

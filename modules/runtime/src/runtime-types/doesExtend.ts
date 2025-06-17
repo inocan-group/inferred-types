@@ -1,19 +1,12 @@
 import type {
     FromInputToken,
-    FromSimpleToken,
-    InputTokenLike,
     InputTokenSuggestions,
     Narrowable,
-    SimpleToken,
 } from "inferred-types/types";
 import {
     err,
-    infer,
-    isArray,
     isBoolean,
     isFalse,
-    isMap,
-    isNarrowableObject,
     isNull,
     isNumber,
     isObject,
@@ -71,7 +64,7 @@ export function doesExtend<TType extends InputTokenSuggestions>(
 
         };
 
-        throw err(`not-done/doesExtend`, `the doesExtend function is not yet complete!`, { type, val })
+        return err(`not-done/doesExtend`, `the doesExtend function is not yet complete!`, { type, val })
     }
 }
 
