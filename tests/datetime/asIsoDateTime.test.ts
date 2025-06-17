@@ -44,9 +44,16 @@ describe("asIsoDateTime(dt) -> string", () => {
         expect(result).toBe("2024-06-15T14:30:00.000Z");
     });
 
-    it("time info is stripped ", () => {
+    it("time info is preserved", () => {
         const dateWithMs = new Date("2024-06-15T14:30:45.123Z");
         const result = asIsoDateTime(dateWithMs);
+
+        expect(result).toBe("2024-06-15T14:30:45.123Z");
+    });
+
+    it("date-only inputs get midnight time", () => {
+        const dateOnlyInput = "2024-06-15"; // ISO date without time
+        const result = asIsoDateTime(dateOnlyInput);
 
         expect(result).toBe("2024-06-15T00:00:00.000Z");
     });

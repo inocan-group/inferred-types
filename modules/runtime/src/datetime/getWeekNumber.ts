@@ -1,6 +1,5 @@
 import {
     asDate,
-    getDaysBetween,
 } from "inferred-types/runtime";
 
 /**
@@ -22,8 +21,25 @@ export function getWeekNumber<
         throw new Error(`invalid date passed into getWeekNumber${String(date)}`);
     }
 
-    const daysIntoYear = getDaysBetween(new Date(d.getFullYear(), 0, 1), d);
-    const week = Math.floor(daysIntoYear / 7) + 1;
+    // Copy date so we don't mutate input
+    const dateCopy = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
 
-    return week;
+    // Set to nearest Thursday: current date + 4 - current day number (Monday=1, Sunday=7)
+    // ISO 8601: week starts on Monday, week 1 is the week with the first Thursday
+    const dayNum = dateCopy.getUTCDay() || 7; // Sunday is 0 in JS, make it 7
+    dateCopy.setUTCDate(dateCopy.getUTCDate() + 4 - dayNum);
+
+    // Get year of the adjusted date (the year this Thursday belongs to)
+    const yearOfThursday = dateCopy.getUTCFullYear();
+
+    // Get first Thursday of that year
+    const jan1 = new Date(Date.UTC(yearOfThursday, 0, 1));
+    const jan1DayNum = jan1.getUTCDay() || 7;
+    const firstThursday = new Date(jan1);
+    firstThursday.setUTCDate(jan1.getUTCDate() + ((4 - jan1DayNum + 7) % 7));
+
+    // Calculate week number: number of weeks between this Thursday and the first Thursday
+    const weekNo = Math.floor((dateCopy.getTime() - firstThursday.getTime()) / (7 * 24 * 60 * 60 * 1000)) + 1;
+
+    return weekNo;
 }

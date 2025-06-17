@@ -1,12 +1,13 @@
 import type { IsoDate } from "inferred-types/types";
 
 /**
- * Returns a
- * [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date string
- * for tomorrow.
+ * **getTomorrow**`(now?)`
+ *
+ * Returns an ISO 8601 date string for tomorrow.
+ * - Optional `now` parameter for testing purposes
  */
-export function getTomorrow(): IsoDate {
-    const tomorrow = new Date();
+export function getTomorrow(now: Date = new Date()): IsoDate {
+    const tomorrow = new Date(now);
     tomorrow.setDate(tomorrow.getDate() + 1);
     return tomorrow.toISOString().split("T")[0] as IsoDate;
 }

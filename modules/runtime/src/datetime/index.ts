@@ -20,4 +20,9 @@ export * from "./isSameMonth";
 export * from "./isSameMonthYear";
 export * from "./isSameYear";
 export * from "./parseIsoDate";
-
+export * from "./isThisMonth";
+export * from "./isThisYear";
+export * from "./isThisWeek";
+export * from "./isToday";
+export * from "./isTomorrow";
+export * from "./isYesterday";

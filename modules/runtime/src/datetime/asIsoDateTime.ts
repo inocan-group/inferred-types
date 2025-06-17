@@ -1,7 +1,7 @@
 import type { DateLike, IsoDateTime } from "inferred-types/types";
-import { asDate } from "inferred-types/runtime";
+import { asDateTime } from "inferred-types/runtime";
 
 export function asIsoDateTime<T extends DateLike>(dt: T): string {
-    const d = asDate(dt);
+    const d = asDateTime(dt);
     return d.toISOString() as IsoDateTime;
 }

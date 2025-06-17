@@ -15,13 +15,13 @@ import { asDate } from "inferred-types/runtime";
  *
  * **Note:** an invalidate date/datetime passed in will always resolve to `false`
  */
-export function isThisYear(val: DateLike): boolean {
-    const currentYear = new Date().getFullYear();
+export function isThisYear(val: DateLike, now: Date = new Date()): boolean {
+    const currentYear = now.getFullYear();
 
     try {
         const d = asDate(val);
 
-        return d.getFullYear() === currentYear;
+        return d.getUTCFullYear() === currentYear;
     }
     catch {
         return false;

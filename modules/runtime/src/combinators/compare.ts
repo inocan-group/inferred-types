@@ -1,4 +1,32 @@
-import { asChars, asDate, asDateTime, doesExtend, endsWith, err, firstChar, fromInputToken, hasIndexOf, isAfter, isAlpha, isArray, isBefore, isDateLike, isEqual, isFalse, isFalsy, isFunction, isInputToken, isNarrowableTuple, isNumber, isNumberLike, isObject, isString, isStringOrNumericArray, isTrue, isTruthy, isTuple, isUnset, lastChar, startsWith, unset } from "inferred-types/runtime";
+import {
+    asChars,
+    asDate,
+    asDateTime,
+    endsWith,
+    err,
+    firstChar,
+    hasIndexOf,
+    isAlpha,
+    isArray,
+    isDateLike,
+    isEqual,
+    isFalse,
+    isFalsy,
+    isFunction,
+    isInputToken,
+    isNarrowableTuple,
+    isNumber,
+    isNumberLike,
+    isObject,
+    isString,
+    isStringOrNumericArray,
+    isTrue,
+    isTruthy,
+    isUnset,
+    lastChar,
+    startsWith,
+    unset
+} from "inferred-types/runtime";
 import type {
     ComparisonLookup,
     ComparisonOperation,
@@ -482,7 +510,12 @@ function compareFn<
     }
 }
 
-
+/**
+ * **compare**`(op, params) -> (val) -> boolean`
+ *
+ * A higher order function which can perform type-strong comparison
+ * operations.
+ */
 export function compare<
     const TOp extends ComparisonOperation,
     const TParams extends Lookup[TOp]["params"]

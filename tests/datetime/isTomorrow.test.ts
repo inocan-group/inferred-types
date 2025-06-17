@@ -12,31 +12,21 @@ import {
 } from "inferred-types/types";
 import { DateTime } from "luxon";
 import moment from "moment";
-import { describe, expect, it, beforeEach, afterEach, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 
 describe("isTomorrow()", () => {
-    const mockDate = new Date(2024, 0, 15); // January 15, 2024
-
-    beforeEach(() => {
-        // Mock the current date to ensure consistent tests
-        vi.useFakeTimers();
-        vi.setSystemTime(mockDate);
-    });
-
-    afterEach(() => {
-        vi.useRealTimers();
-    });
+    const mockNow = new Date(2024, 0, 15); // January 15, 2024
 
     it("should correctly validate Date objects", () => {
         const tomorrow = new Date(2024, 0, 16);
         const today = new Date(2024, 0, 15);
         const dayAfterTomorrow = new Date(2024, 0, 17);
 
-        expect(isTomorrow(tomorrow)).toBe(true);
-        expect(isTomorrow(today)).toBe(false);
-        expect(isTomorrow(dayAfterTomorrow)).toBe(false);
+        expect(isTomorrow(tomorrow, mockNow)).toBe(true);
+        expect(isTomorrow(today, mockNow)).toBe(false);
+        expect(isTomorrow(dayAfterTomorrow, mockNow)).toBe(false);
 
-        if (isTomorrow(tomorrow)) {
+        if (isTomorrow(tomorrow, mockNow)) {
             type D = typeof tomorrow;
 
             type cases = [
@@ -50,9 +40,9 @@ describe("isTomorrow()", () => {
         const today = moment("2024-01-15");
         const dayAfterTomorrow = moment("2024-01-17");
 
-        expect(isTomorrow(tomorrow)).toBe(true);
-        expect(isTomorrow(today)).toBe(false);
-        expect(isTomorrow(dayAfterTomorrow)).toBe(false);
+        expect(isTomorrow(tomorrow, mockNow)).toBe(true);
+        expect(isTomorrow(today, mockNow)).toBe(false);
+        expect(isTomorrow(dayAfterTomorrow, mockNow)).toBe(false);
 
     });
 
@@ -62,11 +52,11 @@ describe("isTomorrow()", () => {
         const dayAfterTomorrow = DateTime.fromISO("2024-01-17");
         type Luxon = IsLuxonDateTime<typeof tomorrow>;
 
-        expect(isTomorrow(tomorrow)).toBe(true);
-        expect(isTomorrow(today)).toBe(false);
-        expect(isTomorrow(dayAfterTomorrow)).toBe(false);
+        expect(isTomorrow(tomorrow, mockNow)).toBe(true);
+        expect(isTomorrow(today, mockNow)).toBe(false);
+        expect(isTomorrow(dayAfterTomorrow, mockNow)).toBe(false);
 
-        if (isTomorrow(tomorrow)) {
+        if (isTomorrow(tomorrow, mockNow)) {
             type NextDay = typeof tomorrow;
 
             type cases = [
@@ -82,11 +72,11 @@ describe("isTomorrow()", () => {
         const dayAfterTomorrow = "2024-01-17T14:30:00Z";
         type Iso = IsIsoDateTime<typeof tomorrow>;
 
-        expect(isTomorrow(tomorrow)).toBe(true);
-        expect(isTomorrow(today)).toBe(false);
-        expect(isTomorrow(dayAfterTomorrow)).toBe(false);
+        expect(isTomorrow(tomorrow, mockNow)).toBe(true);
+        expect(isTomorrow(today, mockNow)).toBe(false);
+        expect(isTomorrow(dayAfterTomorrow, mockNow)).toBe(false);
 
-        if (isTomorrow(tomorrow)) {
+        if (isTomorrow(tomorrow, mockNow)) {
             type NextDay = typeof tomorrow;
 
             type cases = [
@@ -104,11 +94,11 @@ describe("isTomorrow()", () => {
         type Iso = IsIsoDate<typeof tomorrow>;
         type IsoWide = IsIsoDate<typeof wide>;
 
-        expect(isTomorrow(tomorrow)).toBe(true);
-        expect(isTomorrow(today)).toBe(false);
-        expect(isTomorrow(dayAfterTomorrow)).toBe(false);
+        expect(isTomorrow(tomorrow, mockNow)).toBe(true);
+        expect(isTomorrow(today, mockNow)).toBe(false);
+        expect(isTomorrow(dayAfterTomorrow, mockNow)).toBe(false);
 
-        if (isTomorrow(tomorrow)) {
+        if (isTomorrow(tomorrow, mockNow)) {
             type NextDay = typeof tomorrow;
             // @ts-ignore
             type _cases = [
@@ -116,7 +106,7 @@ describe("isTomorrow()", () => {
                 Expect<Test<NextDay, "extends", Iso8601Date>>
             ];
         }
-        if (isTomorrow(wide)) {
+        if (isTomorrow(wide, mockNow)) {
             type WideDay = typeof wide;
             // @ts-ignore
             type _cases = [
@@ -127,34 +117,34 @@ describe("isTomorrow()", () => {
     });
 
     it("should handle invalid inputs", () => {
-        expect(isTomorrow(null)).toBe(false);
-        expect(isTomorrow(undefined)).toBe(false);
-        expect(isTomorrow("not a date")).toBe(false);
-        expect(isTomorrow("2024")).toBe(false);
-        expect(isTomorrow(123)).toBe(false);
-        expect(isTomorrow({})).toBe(false);
-        expect(isTomorrow([])).toBe(false);
+        // @ts-expect-error
+        expect(() => isTomorrow(null, mockNow)).toThrow();
+        // @ts-expect-error
+        expect(() => isTomorrow(undefined, mockNow)).toThrow();
+        expect(() => isTomorrow("not a date", mockNow)).toThrow();
+        expect(isTomorrow("2024", mockNow)).toBe(false); // Valid year, but Jan 1 != Jan 16
+        expect(isTomorrow(123, mockNow)).toBe(false); // Valid epoch, but different date
+        expect(() => isTomorrow({}, mockNow)).toThrow();
+        expect(() => isTomorrow([], mockNow)).toThrow();
     });
 
     it("should handle edge cases", () => {
         // Different times on tomorrow should still return true
-        expect(isTomorrow("2024-01-16T00:00:00Z")).toBe(true);
-        expect(isTomorrow("2024-01-16T23:59:59Z")).toBe(true);
+        expect(isTomorrow("2024-01-16T00:00:00Z", mockNow)).toBe(true);
+        expect(isTomorrow("2024-01-16T23:59:59Z", mockNow)).toBe(true);
 
         // Month boundary
-        const lastDayOfMonth = new Date(2024, 0, 31);
-        vi.setSystemTime(lastDayOfMonth);
-        expect(isTomorrow("2024-02-01")).toBe(true);
+        const lastDayOfMonth = new Date(2024, 0, 31); // Jan 31, 2024
+        expect(isTomorrow("2024-02-01", lastDayOfMonth)).toBe(true);
 
         // Year boundary
-        const lastDayOfYear = new Date(2024, 11, 31);
-        vi.setSystemTime(lastDayOfYear);
-        expect(isTomorrow("2025-01-01")).toBe(true);
+        const lastDayOfYear = new Date(2024, 11, 31); // Dec 31, 2024
+        expect(isTomorrow("2025-01-01", lastDayOfYear)).toBe(true);
 
         // Malformed ISO strings
-        expect(isTomorrow("2024-01")).toBe(false);
-        expect(isTomorrow("2024-01-")).toBe(false);
-        expect(isTomorrow("2024-01-32")).toBe(false);
-        expect(isTomorrow("2024-13-16")).toBe(false);
+        expect(() => isTomorrow("2024-01", mockNow)).toThrow();
+        expect(() => isTomorrow("2024-01-", mockNow)).toThrow();
+        expect(() => isTomorrow("2024-01-32", mockNow)).toThrow();
+        expect(() => isTomorrow("2024-13-16", mockNow)).toThrow();
     });
 });
