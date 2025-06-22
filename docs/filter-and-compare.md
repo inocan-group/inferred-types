@@ -168,12 +168,26 @@ type T1 = Compare<string, "startsWith", "foo">;
 - the runtime value of `t1` is "foobar"
 - the type system type of `T1` can only resolve to `string` type as the literal type has been masked
 - the return **value** of `t1` can't be "boolean" as the runtime system only knows about `true` and `false` values
--
 
+### The `compare()` function
+
+```ts
+// false
+const nope = compare(4, "greaterThan", [5]);
+```
+
+- the compare function always returns either a _true_ or _false_ value
+- the compare function is located at `/modules/runtime/src/combinators/compare.ts`
+- it's job is nearly identical to the `Compare<T,Op,Comparator>` type utility except that it works in the runtime system.
+  - In fact, to make sure that the runtime `compare()` function provides nice narrow types as a result it will defer it's typing responsibilities onto `Compare<...>` to do that in most cases
+
+- the _operations_ which the runtime compare can use are the same as the type system's too and for reference you can find the official list in the `modules/types/boolean-logic/combinators/comparison/ComparisonLookup.ts`
+- the "ideal" end state is that we have enough type information to ALWAYS know at runtime whether the **type** is `true` or `false` but we may settle for `boolean in the short term.
 
 
 ### The `filter()` function
 
-TBD
+Where the `compare()` function is about making a single comparison resulting in a `true` or `false`, the **filter** function is intended to take an array of values and filter down to only those which -- when _compared_ -- resolve to a `true` value.
 
+- the `filter()` function is found at `/modules/runtime/src/lists/filter.ts`
 
