@@ -1,11 +1,11 @@
 import type {
     FourDigitYear,
-    IsIsoDate,
+    IsoDateTimeLike,
     NumericChar,
     ParseDate,
     ParsedDate,
     ParsedTime,
-    TwoDigitDate,
+    TwoDigitMinute,
     TwoDigitMonth
 } from "inferred-types/types";
 
@@ -14,17 +14,29 @@ import type {
  *
  * boolean operator which test whether `T` is a valid ISO 8601 DateTime string.
  */
-export type IsIsoDateTime<T> = T extends `${string}T${string}`
-    ? IsIsoDate<T> extends Error
-        ? false
-        : IsIsoDate<T> extends [
-            FourDigitYear | null,
+export type IsIsoDateTime<T> = T extends IsoDateTimeLike
+    ? ParseDate<T> extends [
+        FourDigitYear,
+        TwoDigitMonth,
+        TwoDigitMinute,
+        ParsedTime
+    ]
+        ? true
+        : ParseDate<T> extends [
+            null,
             TwoDigitMonth,
-            TwoDigitDate | null,
+            TwoDigitMinute,
             ParsedTime
         ]
             ? true
-            : false
+        : ParseDate<T> extends [
+            FourDigitYear,
+            TwoDigitMonth,
+            null,
+            ParsedTime
+        ]
+            ? true
+        : false
     : false;
 
 
@@ -37,10 +49,13 @@ export type IsIsoDateTime<T> = T extends `${string}T${string}`
  * **Related:** `IsIsoYearMonth`
  */
 export type IsIsoYearMonthTime<T> =  T extends `-${NumericChar}${string}T${string}`
-    ? ParseDate<T> extends ParsedDate
-        ? ParseDate<T>[5] extends ParsedTime
+    ? ParseDate<T> extends [
+            FourDigitYear,
+            TwoDigitMonth,
+            null,
+            ParsedTime
+        ]
             ? true
-            : false
         : false
 : false;
 
@@ -53,9 +68,12 @@ export type IsIsoYearMonthTime<T> =  T extends `-${NumericChar}${string}T${strin
  * **Related:** `IsIsoMonthDate`
  */
 export type IsIsoMonthDateTime<T> = T extends `--${string}T${string}`
-    ? ParseDate<T> extends ParsedDate
-        ? ParseDate<T>[5] extends ParsedTime
+    ? ParseDate<T> extends [
+            null,
+            TwoDigitMonth,
+            TwoDigitMinute,
+            ParsedTime
+        ]
             ? true
-            : false
         : false
     : false;

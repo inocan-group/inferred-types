@@ -9,17 +9,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Architecture
 
 ### Monorepo Structure (PNPM Workspace)
+
 - **`modules/constants/`** - Runtime constants and enumerated types
-- **`modules/types/`** - Core type utilities (heart of the project)  
+- **`modules/types/`** - Core type utilities (heart of the project)
 - **`modules/runtime/`** - Runtime functions with strong type information
 - **`modules/inferred-types/`** - Main package that exports everything
 
 ### Key Design Principle
+
 Many runtime functions have corresponding types (e.g., `ensureLeading()` ↔ `EnsureLeading<T>`). This synchronization between design-time types and runtime values is fundamental to the library's architecture.
 
 ## Common Development Commands
 
 ### Building
+
 ```bash
 # Build all modules
 pnpm build
@@ -29,6 +32,7 @@ pnpm watch
 ```
 
 ### Testing
+
 ```bash
 # Run all tests
 pnpm test
@@ -44,6 +48,7 @@ pnpm test:types
 ```
 
 ### Linting & Quality
+
 ```bash
 # Lint all modules
 pnpm lint
@@ -55,26 +60,37 @@ pnpm audit:constants
 ```
 
 ### Single Test Execution
+
 Use Vitest's filtering for specific tests:
+
 ```bash
 # Run specific test file
 pnpm test datetime/asDate.test.ts
 
 # Run tests matching pattern
 pnpm test --grep "EnsureLeading"
+
+# Run tests from current working directory
+pnpm test
 ```
 
 ## Module-Level Development
 
 Each module (`constants`, `types`, `runtime`, `inferred-types`) has consistent scripts:
+
 - `pnpm -C modules/[module-name] build` - Build specific module
-- `pnpm -C modules/[module-name] test` - Test specific module  
+- `pnpm -C modules/[module-name] test` - Test specific module
 - `pnpm -C modules/[module-name] lint` - Lint specific module
 - `pnpm -C modules/[module-name] watch` - Watch mode for specific module
 
 ## Build System
 
 - **Primary tool**: `tsdown` for TypeScript compilation
+
+    ```bash
+    pnpm build # will run tsdown with correct configuration
+    ```
+
 - **Output formats**: ESM, CJS, and TypeScript declarations
 - **Custom type testing**: `type-test.mjs` CLI tool for TypeScript type behavior validation
 - **Dependencies**: Modules have workspace dependencies allowing cross-module imports
@@ -97,7 +113,7 @@ This runs: lint → install latest → test CI → audit fix → version bump
 
 ## Important File Patterns
 
-- **Type utilities**: Located in `modules/types/src/` with extensive subcategorization
+- **Type utilities**: Located in `modules/types/src/` with extensive sub-categorization
 - **Runtime functions**: Located in `modules/runtime/src/` mirroring type structure
 - **Constants**: Located in `modules/constants/src/` for shared enums and values
 - **Tests**: Organized in `/tests/` with same structure as source modules

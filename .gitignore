@@ -60,3 +60,4 @@ trace/*
 .ts-source*
 .aider*
 .ts-*.json
+.ai

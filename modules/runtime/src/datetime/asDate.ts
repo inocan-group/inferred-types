@@ -4,7 +4,7 @@ import {
     isDateFnsDate,
     isEpochInMilliseconds,
     isEpochInSeconds,
-    isIsoDate, isIsoExplicitDate, isIsoImplicitDate,
+    isIsoDate, isIsoImplicitDate,
     isIsoDateTime, isIsoYear, isLuxonDate, isMoment,
     isNumber, isTemporalDate, stripAfter
 } from "inferred-types/runtime";
@@ -65,11 +65,6 @@ export function asDate<T extends number | string | Record<string, any> | Date>(i
         return new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0));
     }
 
-    // if (isIsoExplicitDate(input)) {
-    //     // e.g. 2023-06-16
-    //     const [year, month, day] = (input as string).split("-").map(Number);
-    //     return new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0));
-    // }
 
     if (isNumber(input) && isEpochInMilliseconds(input)) {
         return toUtcMidnight(new Date(input));
@@ -83,6 +78,12 @@ export function asDate<T extends number | string | Record<string, any> | Date>(i
         // e.g. 2023
         return new Date(Date.UTC(Number(input), 0, 1, 0, 0, 0, 0));
     }
+
+    // if (isIsoExplicitDate(input)) {
+    //     // e.g. 2023-06-16
+    //     const [year, month, day] = (input as string).split("-").map(Number);
+    //     return new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0));
+    // }
 
     if (isIsoImplicitDate(input)) {
         // e.g. 20230616
