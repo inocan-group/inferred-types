@@ -2,6 +2,7 @@ export * from "./asDate";
 export * from "./asDateTime";
 export * from "./asEpochTimestamp";
 export * from "./asIsoDate";
+export * from "./asIsoDateTime";
 export * from "./getDaysBetween";
 export * from "./getMonthAbbrev";
 export * from "./getMonthName";

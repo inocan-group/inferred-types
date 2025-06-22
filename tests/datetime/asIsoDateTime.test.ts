@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { Test, Expect } from "inferred-types/types";
-import { asIsoDateTime } from "../../modules/runtime/src/datetime/asIsoDateTime";
-import { DateLike } from "../../modules/inferred-types/dist";
+import { asIsoDateTime } from "inferred-types/runtime";
+import { DateLike } from "inferred-types/types";
 
 // Always use UTC dates in tests to avoid local timezone issues
 
