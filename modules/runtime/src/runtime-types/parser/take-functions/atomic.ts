@@ -1,5 +1,6 @@
 import type { TakeFunction, TakeResult } from "../types";
-import { unset, ATOMIC_TOKENS, trimToken } from "../utils";
+import { unset } from "inferred-types/runtime";
+import { ATOMIC_TOKENS, trimToken } from "../utils";
 import { atomicRuntimeType } from "../runtime-types/atomic";
 
 /**

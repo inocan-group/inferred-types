@@ -1,5 +1,6 @@
 import type { TakeFunction, TakeResult } from "../types";
-import { unset, LITERAL_PREFIXES, trimToken, extractBetweenDelimiters } from "../utils";
+import { unset } from "inferred-types/runtime";
+import { LITERAL_PREFIXES, trimToken, extractBetweenDelimiters } from "../utils";
 import { literalRuntimeType } from "../runtime-types/literal";
 
 /**
