@@ -189,48 +189,48 @@ type Process__General<
         : TOp extends "false"
             ? IsFalse<TVal>
 
-        : TOp extends "falsy"
-            ? IsFalsy<TVal>
+            : TOp extends "falsy"
+                ? IsFalsy<TVal>
 
-        : TOp extends "true"
-            ? IsTrue<TVal>
+                : TOp extends "true"
+                    ? IsTrue<TVal>
 
-        : TOp extends "truthy"
-            ? IsTruthy<TVal>
+                    : TOp extends "truthy"
+                        ? IsTruthy<TVal>
 
-        : TOp extends "equalsSome"
-            ? SomeEqual<TParams, TVal>
+                        : TOp extends "equalsSome"
+                            ? SomeEqual<TParams, TVal>
 
-        : TOp extends "contains"
-            ? TParams extends Base<"contains">
-                ? TVal extends Accept<"contains">
-                    ? Contains<
-                        As<TVal, Accept<"contains">>,
-                        TParams[0]
-                    >
-                : false
-            : false
+                            : TOp extends "contains"
+                                ? TParams extends Base<"contains">
+                                    ? TVal extends Accept<"contains">
+                                        ? Contains<
+                                            As<TVal, Accept<"contains">>,
+                                            TParams[0]
+                                        >
+                                        : false
+                                    : false
 
-        : TOp extends "containsSome"
-            ? TParams extends Base<"containsSome">
-                ? TVal extends Accept<"containsSome">
-                    ? Contains<
-                        As<TVal, Accept<"containsSome">>,
-                        TParams
-                    >
-                    : false
-                : false
+                                : TOp extends "containsSome"
+                                    ? TParams extends Base<"containsSome">
+                                        ? TVal extends Accept<"containsSome">
+                                            ? Contains<
+                                                As<TVal, Accept<"containsSome">>,
+                                                TParams
+                                            >
+                                            : false
+                                        : false
 
-        : TOp extends "containsAll"
-            ? TParams extends Base<"containsAll">
-                ? TVal extends Accept<"containsAll">
-                    ? ContainsAll<
-                        As<TVal, Accept<"containsAll">>,
-                        TParams
-                    >
-                    : false
-                : false
-        : Unset;
+                                    : TOp extends "containsAll"
+                                        ? TParams extends Base<"containsAll">
+                                            ? TVal extends Accept<"containsAll">
+                                                ? ContainsAll<
+                                                    As<TVal, Accept<"containsAll">>,
+                                                    TParams
+                                                >
+                                                : false
+                                            : false
+                                        : Unset;
 
 type Process__String<
     TVal,
@@ -299,38 +299,38 @@ type Process__String<
                     : false
                 : IsString<TVal> extends true ? boolean : false
 
-        : TOp extends "startsWithNumber"
-            ? IsStringLiteral<TVal> extends true
-                ? FirstChar<As<TVal, string>> extends NumericChar
-                    ? true
-                    : false
-                : IsString<TVal> extends true ? boolean : false
+            : TOp extends "startsWithNumber"
+                ? IsStringLiteral<TVal> extends true
+                    ? FirstChar<As<TVal, string>> extends NumericChar
+                        ? true
+                        : false
+                    : IsString<TVal> extends true ? boolean : false
 
-        : TOp extends "onlyNumbers"
-            ? IsStringLiteral<TVal> extends true
-                ? IsEqual<
-                    RetainChars<As<TVal, string>, NumericChar>,
-                    TVal
-                >
-                : IsString<TVal> extends true ? boolean : false
+                : TOp extends "onlyNumbers"
+                    ? IsStringLiteral<TVal> extends true
+                        ? IsEqual<
+                            RetainChars<As<TVal, string>, NumericChar>,
+                            TVal
+                        >
+                        : IsString<TVal> extends true ? boolean : false
 
-        : TOp extends "onlyLetters"
-            ? IsStringLiteral<TVal> extends true
-                ? IsEqual<
-                    RetainChars<As<TVal, string>, AlphaChar>,
-                    TVal
-                >
-                : IsString<TVal> extends true ? boolean : false
+                    : TOp extends "onlyLetters"
+                        ? IsStringLiteral<TVal> extends true
+                            ? IsEqual<
+                                RetainChars<As<TVal, string>, AlphaChar>,
+                                TVal
+                            >
+                            : IsString<TVal> extends true ? boolean : false
 
-        : TOp extends "alphaNumeric"
-            ? IsStringLiteral<TVal> extends true
-                ? IsEqual<
-                    RetainChars<As<TVal, string>, AlphaNumericChar>,
-                    TVal
-                >
-                : IsString<TVal> extends true ? boolean : false
+                        : TOp extends "alphaNumeric"
+                            ? IsStringLiteral<TVal> extends true
+                                ? IsEqual<
+                                    RetainChars<As<TVal, string>, AlphaNumericChar>,
+                                    TVal
+                                >
+                                : IsString<TVal> extends true ? boolean : false
 
-            : Unset;
+                            : Unset;
 
 type Process__Object<
     TVal,
@@ -509,39 +509,39 @@ type Process__Other<
                 : false
             : false
 
-    : TOp extends "returnEquals"
-        ? TVal extends ((...args: any[]) => any)
-            ? IsEqual<ReturnType<TVal>, TParams>
-            : false
-
-    : TOp extends "returnExtends"
-        ? TVal extends ((...args: any[]) => any)
-            ? Extends<ReturnType<TVal>, TParams>
-            : false
-        : TOp extends "errors"
-            ? TVal extends Error
-                ? true
-                : false
-
-        : TOp extends "errorsOfType"
-            ? TVal extends Error
-                ? "type" extends keyof TVal
-                    ? First<TParams> extends TVal["type"]
-                        ? true
-                        : false
-                    : false
-                : false
-
         : TOp extends "returnEquals"
             ? TVal extends ((...args: any[]) => any)
                 ? IsEqual<ReturnType<TVal>, TParams>
                 : false
 
-        : TOp extends "returnExtends"
-            ? TVal extends ((...args: any[]) => any)
-                ? Extends<ReturnType<TVal>, TParams>
-                : false
-            : Unset;
+            : TOp extends "returnExtends"
+                ? TVal extends ((...args: any[]) => any)
+                    ? Extends<ReturnType<TVal>, TParams>
+                    : false
+                : TOp extends "errors"
+                    ? TVal extends Error
+                        ? true
+                        : false
+
+                    : TOp extends "errorsOfType"
+                        ? TVal extends Error
+                            ? "type" extends keyof TVal
+                                ? First<TParams> extends TVal["type"]
+                                    ? true
+                                    : false
+                                : false
+                            : false
+
+                        : TOp extends "returnEquals"
+                            ? TVal extends ((...args: any[]) => any)
+                                ? IsEqual<ReturnType<TVal>, TParams>
+                                : false
+
+                            : TOp extends "returnExtends"
+                                ? TVal extends ((...args: any[]) => any)
+                                    ? Extends<ReturnType<TVal>, TParams>
+                                    : false
+                                : Unset;
 
 /**
  * process the type for the comparison

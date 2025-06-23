@@ -150,7 +150,7 @@ export type IsoTimeLike<
 export type IsoTime<
     THour extends TwoDigitHour = TwoDigitHour,
     TZ extends TimeZone | "" = TimeZone
-> = IsoTimeLike<THour,TZ> & {
+> = IsoTimeLike<THour, TZ> & {
     kind: "ISO Time";
 };
 
@@ -164,8 +164,7 @@ export type IsoTime<
  */
 export type IsoYearMonthLike =
     | `-${FourDigitYear}-${TwoDigitMonth}`
-    | `-${FourDigitYear}${TwoDigitMonth}`
-
+    | `-${FourDigitYear}${TwoDigitMonth}`;
 
 export type IsoYearMonthLike__Explicit = `-${FourDigitYear}-${TwoDigitMonth}`;
 export type IsoYearMonthLike__Implicit = `-${FourDigitYear}${TwoDigitMonth}`;

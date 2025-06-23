@@ -1,5 +1,5 @@
 import type { Narrowable, StartsWith } from "inferred-types/types";
-import { asString, isNumber, isString } from "inferred-types/runtime";
+import { isNumber, isString } from "inferred-types/runtime";
 
 /**
  * **StartingWithTypeGuard**`<literal>`
@@ -27,6 +27,6 @@ export function startsWith<
             isString(val) || isNumber(val)
                 ? startingWith.some(i => String(val).startsWith(String(i)))
                 : false
-        ) as StartsWith<TValue, TStartsWith[number]>
+        ) as StartsWith<TValue, TStartsWith[number]>;
     };
 }

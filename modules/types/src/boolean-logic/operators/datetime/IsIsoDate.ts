@@ -25,7 +25,6 @@ export type IsIsoDate<T> = T extends IsoDateLike
         : true
     : false;
 
-
 /**
  * Tests whether `T` is a valid ISO Date which captures year
  * and month but not date:
@@ -35,14 +34,14 @@ export type IsIsoDate<T> = T extends IsoDateLike
  * **Related:** `IsIsoYearMonthTime`
  */
 export type IsIsoYearMonth<T> = T extends IsoYearMonthLike
-? IsWideString<T> extends true
-    ? boolean
-    : ParseDate<T> extends ParsedDate
-        ? ParseDate<T> extends [ FourDigitYear, TwoDigitDate, null, any, any]
-            ? true
+    ? IsWideString<T> extends true
+        ? boolean
+        : ParseDate<T> extends ParsedDate
+            ? ParseDate<T> extends [ FourDigitYear, TwoDigitDate, null, any, any]
+                ? true
+                : false
             : false
-        : false
-: false;
+    : false;
 
 /**
  * Tests whether `T` is a valid **ISO Date** which captures month
@@ -53,14 +52,14 @@ export type IsIsoYearMonth<T> = T extends IsoYearMonthLike
  * **Related:** `IsIsoMonthDateTime`
  */
 export type IsIsoMonthDate<T> = T extends IsoYearMonthLike
-? IsWideString<T> extends true
-    ? boolean
-    : ParseDate<T> extends ParsedDate
-        ? ParseDate<T> extends [ FourDigitYear, TwoDigitDate, null, any, any]
-            ? true
+    ? IsWideString<T> extends true
+        ? boolean
+        : ParseDate<T> extends ParsedDate
+            ? ParseDate<T> extends [ FourDigitYear, TwoDigitDate, null, any, any]
+                ? true
+                : false
             : false
-        : false
-: false;
+    : false;
 
 /**
  * Boolean operator which tests whether `T` is a ISO Year (

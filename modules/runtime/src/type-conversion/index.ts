@@ -9,6 +9,7 @@ export * from "./eachAsString";
 export * from "./fromKeyValue";
 export * from "./intersect";
 export * from "./ip6GroupExpansion";
+export * from "./lastChar";
 export * from "./lookupCountry";
 export * from "./mergeObjects";
 export * from "./mergeScalars";
@@ -24,6 +25,5 @@ export * from "./toNumber";
 export * from "./toStringLiteral";
 export * from "./tw-conversion";
 export * from "./unionize";
-export * from "./lastChar"
 
 // export * from "./encoding/index";

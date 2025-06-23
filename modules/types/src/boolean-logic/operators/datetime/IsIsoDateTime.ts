@@ -3,7 +3,6 @@ import type {
     IsoDateTimeLike,
     NumericChar,
     ParseDate,
-    ParsedDate,
     ParsedTime,
     TwoDigitMinute,
     TwoDigitMonth
@@ -29,16 +28,15 @@ export type IsIsoDateTime<T> = T extends IsoDateTimeLike
             ParsedTime
         ]
             ? true
-        : ParseDate<T> extends [
-            FourDigitYear,
-            TwoDigitMonth,
-            null,
-            ParsedTime
-        ]
-            ? true
-        : false
+            : ParseDate<T> extends [
+                FourDigitYear,
+                TwoDigitMonth,
+                null,
+                ParsedTime
+            ]
+                ? true
+                : false
     : false;
-
 
 /**
  * **IsIsoYearMonthTime**
@@ -48,16 +46,16 @@ export type IsIsoDateTime<T> = T extends IsoDateTimeLike
  *
  * **Related:** `IsIsoYearMonth`
  */
-export type IsIsoYearMonthTime<T> =  T extends `-${NumericChar}${string}T${string}`
+export type IsIsoYearMonthTime<T> = T extends `-${NumericChar}${string}T${string}`
     ? ParseDate<T> extends [
-            FourDigitYear,
-            TwoDigitMonth,
-            null,
-            ParsedTime
-        ]
-            ? true
+        FourDigitYear,
+        TwoDigitMonth,
+        null,
+        ParsedTime
+    ]
+        ? true
         : false
-: false;
+    : false;
 
 /**
  * **IsIsoMonthDateTime**
@@ -69,11 +67,11 @@ export type IsIsoYearMonthTime<T> =  T extends `-${NumericChar}${string}T${strin
  */
 export type IsIsoMonthDateTime<T> = T extends `--${string}T${string}`
     ? ParseDate<T> extends [
-            null,
-            TwoDigitMonth,
-            TwoDigitMinute,
-            ParsedTime
-        ]
-            ? true
+        null,
+        TwoDigitMonth,
+        TwoDigitMinute,
+        ParsedTime
+    ]
+        ? true
         : false
     : false;

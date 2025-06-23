@@ -8,7 +8,6 @@ export * from "./omitKeys";
 export * from "./retainKeys";
 export * from "./reverseLookup";
 export * from "./sharedKeys";
-export * from "./takeProp";
 export * from "./valuesOf";
 export * from "./withDefaults";
 export * from "./withKeys";

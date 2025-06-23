@@ -1,4 +1,4 @@
-import { As } from "inferred-types/types";
+import type { As } from "inferred-types/types";
 
 /**
  * **IsSubstring**`<TContent, TFind>`
@@ -10,8 +10,8 @@ export type IsSubstring<
     TContent extends string,
     TFind extends string
 > = As<
-TContent extends `${string}${TFind}${string}`
-    ? true
-    : false,
-boolean
+    TContent extends `${string}${TFind}${string}`
+        ? true
+        : false,
+    boolean
 >;

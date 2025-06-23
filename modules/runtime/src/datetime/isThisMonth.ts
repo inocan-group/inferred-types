@@ -10,24 +10,25 @@ import { asDate } from "./asDate";
  * - Optional `now` parameter for testing purposes
  */
 export function isThisMonth(
-  input: string | number | Record<string, any> | Date,
-  now: Date = new Date()
+    input: string | number | Record<string, any> | Date,
+    now: Date = new Date()
 ): boolean {
-  try {
-    const date = asDate(input);
+    try {
+        const date = asDate(input);
 
-    // Compare year and month using UTC methods since asDate returns UTC dates
-    const inputYear = date.getUTCFullYear();
-    const inputMonth = date.getUTCMonth();
-    
-    // Convert now to UTC for comparison
-    const nowUtc = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
-    const nowYear = nowUtc.getUTCFullYear();
-    const nowMonth = nowUtc.getUTCMonth();
+        // Compare year and month using UTC methods since asDate returns UTC dates
+        const inputYear = date.getUTCFullYear();
+        const inputMonth = date.getUTCMonth();
 
-    return inputYear === nowYear && inputMonth === nowMonth;
-  } catch (e) {
+        // Convert now to UTC for comparison
+        const nowUtc = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+        const nowYear = nowUtc.getUTCFullYear();
+        const nowMonth = nowUtc.getUTCMonth();
+
+        return inputYear === nowYear && inputMonth === nowMonth;
+    }
+    catch (e) {
     // asDate throws for invalid input, rethrow for consistency
-    throw e;
-  }
+        throw e;
+    }
 }

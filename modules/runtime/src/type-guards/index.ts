@@ -1,4 +1,6 @@
 export * from "./api-tg";
+export * from "./arrays/index";
+export * from "./arrays/isStringArray";
 export * from "./date-time/index";
 export * from "./finance/index";
 export * from "./geo/index";
@@ -49,7 +51,6 @@ export * from "./isSet";
 export * from "./isSetContainer";
 export * from "./isSpecificConstant";
 export * from "./isString";
-export * from "./arrays/isStringArray";
 export * from "./isSymbol";
 export * from "./isThenable";
 export * from "./isTrimmable";
@@ -60,15 +61,13 @@ export * from "./isTypeTuple";
 export * from "./isUndefined";
 export * from "./isUnset";
 export * from "./isUrl";
-export * from "./isVariable";
 
+export * from "./isVariable";
 export * from "./metrics/index";
 export * from "./network-tg";
 export * from "./numeric/index";
 export * from "./protocol";
 export * from "./tokens/index";
-export * from "./arrays/index";
 export * from "./tw/index";
 export * from "./urls/index";
 export * from "./vue/index";
-

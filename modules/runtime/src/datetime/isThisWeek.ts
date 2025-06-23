@@ -11,33 +11,34 @@ import { getWeekNumber } from "./getWeekNumber";
  * - Optional `now` parameter for testing purposes
  */
 export function isThisWeek(
-  input: string | number | Record<string, any> | Date,
-  now: Date = new Date()
+    input: string | number | Record<string, any> | Date,
+    now: Date = new Date()
 ): boolean {
-  try {
-    const date = asDate(input);
+    try {
+        const date = asDate(input);
 
-    // Compare ISO week number and year
-    const inputWeek = getWeekNumber(date);
-    const nowWeek = getWeekNumber(now);
+        // Compare ISO week number and year
+        const inputWeek = getWeekNumber(date);
+        const nowWeek = getWeekNumber(now);
 
-    const inputYear = date.getFullYear();
-    const nowYear = now.getFullYear();
+        const inputYear = date.getFullYear();
+        const nowYear = now.getFullYear();
 
-    // Handle ISO week 1 that may belong to previous/next year
-    // Use the Thursday of the week to determine the ISO year
-    const getIsoWeekYear = (d: Date) => {
-      const thursday = new Date(d);
-      thursday.setDate(d.getDate() + 4 - (d.getDay() || 7));
-      return thursday.getFullYear();
-    };
+        // Handle ISO week 1 that may belong to previous/next year
+        // Use the Thursday of the week to determine the ISO year
+        const getIsoWeekYear = (d: Date) => {
+            const thursday = new Date(d);
+            thursday.setDate(d.getDate() + 4 - (d.getDay() || 7));
+            return thursday.getFullYear();
+        };
 
-    return (
-      inputWeek === nowWeek &&
-      getIsoWeekYear(date) === getIsoWeekYear(now)
-    );
-  } catch (e) {
+        return (
+            inputWeek === nowWeek
+      && getIsoWeekYear(date) === getIsoWeekYear(now)
+        );
+    }
+    catch (e) {
     // asDate throws for invalid input, rethrow for consistency
-    throw e;
-  }
+        throw e;
+    }
 }

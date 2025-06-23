@@ -1,23 +1,41 @@
 import type {
-    Unset,
     ComparisonLookup,
     ComparisonOperation,
     DateLike,
     Equals,
     FilterFn,
     Narrowable,
+    Unset,
 } from "inferred-types/types";
-import { COMPARISON_OPERATIONS } from "inferred-types/constants";
+import { NUMERIC_CHAR } from "inferred-types";
 import {
+    asChars,
     asDate,
+    endsWith,
     err,
+    firstChar,
     isAfter,
+    isAlpha,
+    isArray,
     isBefore,
     isDateLike,
+    isEqual,
+    isFalse,
+    isFalsy,
     isInputToken,
+    isNarrowableTuple,
+    isNumber,
+    isNumberLike,
+    isString,
+    isStringOrNumericArray,
+    isTrue,
+    isTruthy,
     isUnset,
+    lastChar,
+    startsWith,
     unset
 } from "inferred-types/runtime";
+import { contains } from "../combinators/contains";
 
 type Lookup = ComparisonLookup;
 
@@ -32,46 +50,113 @@ function handle_string<TOp extends ComparisonOperation, TParams extends Lookup[T
     op: TOp,
     params: TParams
 ): boolean | Error | Unset {
+    switch (op) {
+        case "startsWith":
+            return (isString(val) || isNumber(val)) && isStringOrNumericArray(params)
+                ? startsWith(...params as readonly (string | number)[])(val)
+                : false;
+
+        case "endsWith":
+            return (isString(val) || isNumber(val)) && isStringOrNumericArray(params)
+                ? endsWith(...params as readonly (string | number)[])(val)
+                : false;
+
+        case "endsWithNumber":
+            return isString(val) || isNumber(val)
+                ? NUMERIC_CHAR.includes(lastChar(String(val)) as any)
+                : false;
+
+        case "startsWithNumber":
+            return isString(val) || isNumber(val)
+                ? NUMERIC_CHAR.includes(firstChar(String(val)) as any)
+                : false;
+
+        case "onlyNumbers":
+            return isString(val)
+                ? asChars(val).every(c => isNumberLike(c))
+                : false;
+
+        case "onlyLetters":
+            return isString(val)
+                ? isAlpha(val)
+                : false;
+
+        case "alphaNumeric":
+            return isString(val)
+                ? asChars(val).every(c => isNumberLike(c) || isAlpha(c))
+                : false;
+    }
+
     return unset;
 }
 
-function handle_general<TOp extends ComparisonOperation, TParams extends Lookup[TOp]["params"]>(
-    val: Accept<TOp>,
+function handle_general<
+    TOp extends ComparisonOperation,
+    TParams extends Lookup[TOp]["params"],
+    TVal extends Accept<TOp> & Narrowable = Accept<TOp> & Narrowable
+>(
+    val: TVal,
     op: TOp,
     params: TParams
 ): boolean | Error | Unset {
-
-    switch(op) {
+    switch (op) {
         case "extends":
             if (!isInputToken(params[0])) {
                 return err(
                     `compare/extends`,
                     `A filter operation based on the 'extends' operation passed in a parameter which was not an InputToken so we are not able to convert this into a type!`,
-
-                )
+                );
             }
+            return err(
+                `not-ready/doesExtend`,
+                `The "extends" comparison operation depends on doesExtend() and that is not completed yet!`,
+                { val, params }
+            );
 
         case "equals":
+            return isEqual(val)(params[0] as any);
 
         case "false":
+            return isFalse(val);
 
         case "true":
+            return isTrue(val);
 
         case "truthy":
+            return isTruthy(val);
+
+        case "falsy":
+            return isFalsy(val);
 
         case "equalsSome":
+            return params.includes(val);
 
         case "contains":
+            return isString(val) || isNumber(val) || isNarrowableTuple(val)
+                ? contains(val, params)
+                : false;
 
         case "containsSome":
+            return (isString(val) || isNumber(val) || isNarrowableTuple(val)) && isArray(params)
+                ? params.some(
+                    i => contains(val, i as Narrowable)
+                )
+                : false;
 
         case "containsAll":
-
-
+            return (isString(val) || isNumber(val) || isNarrowableTuple(val)) && isArray(params)
+                ? params.every(
+                    i => contains(val, i as Narrowable)
+                )
+                : false;
     }
 
-
-    return unset;
+    // If we get here, it's not a recognized operation
+    return err(
+        `invalid-comparison`,
+        `The operation '${op}' is not a supported operation!`,
+        { op, params }
+    );
 }
 
 function handle_numeric<TOp extends ComparisonOperation, TParams extends Lookup[TOp]["params"]>(
@@ -79,13 +164,95 @@ function handle_numeric<TOp extends ComparisonOperation, TParams extends Lookup[
     op: TOp,
     params: TParams
 ): boolean | Error | Unset {
+    switch (op) {
+        case "greaterThan":
+            if (!isNumberLike(val))
+                return false;
+            if (!isNumberLike(params[0])) {
+                return err(
+                    `invalid-params/greaterThan`,
+                    `The 'greaterThan' operation requires a numeric parameter`,
+                    { params }
+                );
+            }
+            return Number(val) > Number(params[0]);
+
+        case "greaterThanOrEqual":
+            if (!isNumberLike(val))
+                return false;
+            if (!isNumberLike(params[0])) {
+                return err(
+                    `invalid-params/greaterThanOrEqual`,
+                    `The 'greaterThanOrEqual' operation requires a numeric parameter`,
+                    { params }
+                );
+            }
+            return Number(val) >= Number(params[0]);
+
+        case "lessThan":
+            if (!isNumberLike(val))
+                return false;
+            if (!isNumberLike(params[0])) {
+                return err(
+                    `invalid-params/lessThan`,
+                    `The 'lessThan' operation requires a numeric parameter`,
+                    { params }
+                );
+            }
+            return Number(val) < Number(params[0]);
+
+        case "lessThanOrEqual":
+            if (!isNumberLike(val))
+                return false;
+            if (!isNumberLike(params[0])) {
+                return err(
+                    `invalid-params/lessThanOrEqual`,
+                    `The 'lessThanOrEqual' operation requires a numeric parameter`,
+                    { params }
+                );
+            }
+            return Number(val) <= Number(params[0]);
+
+        case "betweenExclusively": {
+            if (!isNumberLike(val))
+                return false;
+            if (!isNumberLike(params[0]) || !isNumberLike(params[1])) {
+                return err(
+                    `invalid-params/betweenExclusively`,
+                    `The 'betweenExclusively' operation requires two numeric parameters`,
+                    { params }
+                );
+            }
+            const valNumExcl = Number(val);
+            const minExcl = Number(params[0]);
+            const maxExcl = Number(params[1]);
+            return valNumExcl > minExcl && valNumExcl < maxExcl;
+        }
+
+        case "betweenInclusively": {
+            if (!isNumberLike(val))
+                return false;
+            if (!isNumberLike(params[0]) || !isNumberLike(params[1])) {
+                return err(
+                    `invalid-params/betweenInclusively`,
+                    `The 'betweenInclusively' operation requires two numeric parameters`,
+                    { params }
+                );
+            }
+            const valNumIncl = Number(val);
+            const minIncl = Number(params[0]);
+            const maxIncl = Number(params[1]);
+            return valNumIncl >= minIncl && valNumIncl <= maxIncl;
+        }
+    }
+
     return unset;
 }
 
 function handle_object<TOp extends ComparisonOperation, TParams extends Lookup[TOp]["params"]>(
-    val: Accept<TOp>,
-    op: TOp,
-    params: TParams
+    _val: Accept<TOp>,
+    _op: TOp,
+    _params: TParams
 ): boolean | Error | Unset {
     return unset;
 }
@@ -151,9 +318,9 @@ function handle_other<
     TOp extends ComparisonOperation,
     TParams extends Lookup[TOp]["params"]
 >(
-    val: Accept<TOp>,
-    op: TOp,
-    params: TParams
+    _val: Accept<TOp>,
+    _op: TOp,
+    _params: TParams
 ): boolean | Error | Unset {
     return unset;
 }
@@ -164,46 +331,76 @@ function filterFn<
 >(
     op: TOp,
     params: TParams
-): FilterFn<TOp,TParams> {
+): FilterFn<TOp, TParams> {
     return <T extends Accept<TOp>>(val: T) => {
-        const str = handle_string(val, op, params);
-        if (isUnset(str)) {
-            const numeric = handle_numeric(val, op, params);
-            if (isUnset(numeric)) {
-                const obj = handle_object(val, op, params);
-                if (isUnset(obj)) {
-                    const dt = handle_datetime(val, op, params);
-                    if (isUnset(dt)) {
-                        const other = handle_other(val, op, params);
-                        if (isUnset(other)) {
-                            // type safety should stop this from happening
-                            // but for Javascript consumers and bad actors
-                            // we still need to check
-                            throw err(
-                                `invalid-operation/compare`,
-                                `The operation '${op}' is not a recognized comparison operation!`,
-                                { op, params, validOps: COMPARISON_OPERATIONS }
-                            );
-                        }
-                        else {
-                            return other;
-                        }
-                    }
+        // Handle array case - filter the array
+        if (isArray(val)) {
+            return val.filter((item) => {
+                const result = compareValue(item, op, params);
+                if (result instanceof Error) {
+                    throw result;
                 }
-                else {
-                    return obj;
-                }
-            }
-            else {
-                return numeric;
-            }
-        }
-        else {
-            return str;
+                return result === true;
+            }) as any;
         }
 
-        return null as unknown as ReturnType<FilterFn<TOp, TParams>>;
+        // Handle single value case - return boolean
+        const result = compareValue(val, op, params);
+        if (result instanceof Error) {
+            throw result;
+        }
+        return result as any;
     };
+}
+
+// Helper function to perform the actual comparison
+function compareValue<
+    TOp extends ComparisonOperation,
+    TParams extends Lookup[TOp]["params"]
+>(
+    val: Accept<TOp>,
+    op: TOp,
+    params: TParams
+): boolean | Error {
+    let result: Error | Unset | boolean = unset;
+
+    // Route to appropriate handler based on operation type
+
+    // DateTime operations
+    if (["after", "before", "sameDay", "sameMonth", "sameMonthYear", "sameYear"].includes(op)) {
+        result = handle_datetime(val, op, params);
+    }
+    // String operations
+    else if (["startsWith", "endsWith", "endsWithNumber", "startsWithNumber", "onlyNumbers", "onlyLetters", "alphaNumeric"].includes(op)) {
+        result = handle_string(val, op, params);
+    }
+    // Numeric operations
+    else if (["greaterThan", "greaterThanOrEqual", "lessThan", "lessThanOrEqual", "betweenExclusively", "betweenInclusively"].includes(op)) {
+        result = handle_numeric(val, op, params);
+    }
+    // Object operations
+    else if (["objectKeyGreaterThan", "objectKeyGreaterThanOrEqual", "objectKeyLessThan", "objectKeyLessThanOrEqual", "objectKeyEquals", "objectKeyExtends"].includes(op)) {
+        result = handle_object(val, op, params);
+    }
+    // Other operations
+    else if (["errors", "errorsOfType", "returnEquals", "returnExtends"].includes(op)) {
+        result = handle_other(val, op, params);
+    }
+    // General operations (default)
+    else {
+        result = handle_general(val, op, params);
+    }
+
+    // If still unset, the operation is not supported
+    if (isUnset(result)) {
+        return err(
+            `invalid-comparison`,
+            `The operation '${op}' is not a supported operation!`,
+            { op, params }
+        );
+    }
+
+    return result;
 }
 
 /**

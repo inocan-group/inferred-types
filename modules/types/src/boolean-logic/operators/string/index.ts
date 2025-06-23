@@ -1,1 +1,1 @@
-export * from "./IsSubstring"
+export * from "./IsSubstring";

@@ -19,8 +19,6 @@ export type DoesExtendTypeguard<
     T extends Narrowable,
 > = <TVal extends Narrowable>(val: TVal) => val is T & TVal;
 
-
-
 /**
  * **doesExtend**`(type) => (value) => boolean`
  *
@@ -32,12 +30,12 @@ export function doesExtend<TType extends InputTokenSuggestions>(
     type: TType,
 ) {
     return <T extends Narrowable>(val: T): val is FromInputToken<TType> => {
-        let response: boolean = false;
+        const response: boolean = false;
 
-        if(isString(type)) {
+        if (isString(type)) {
             const token = type.trim();
 
-            if(token === "string") {
+            if (token === "string") {
                 return isString(val);
             }
             else if (token === "number") {
@@ -58,13 +56,11 @@ export function doesExtend<TType extends InputTokenSuggestions>(
             else if (token === "undefined") {
                 return isUndefined(val);
             }
-            else if ( token === "object" ) {
+            else if (token === "object") {
                 return isObject(val);
             }
-
         };
 
-        return err(`not-done/doesExtend`, `the doesExtend function is not yet complete!`, { type, val })
-    }
+        return err(`not-done/doesExtend`, `the doesExtend function is not yet complete!`, { type, val });
+    };
 }
-
