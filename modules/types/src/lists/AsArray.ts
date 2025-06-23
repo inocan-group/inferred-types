@@ -18,9 +18,9 @@ type _AsArray<T> = [T] extends [readonly unknown[]]
  * - if `T` is undefined then it is converted to an empty array `[]`
  */
 export type AsArray<T> = As<
-[_AsArray<T>] extends [readonly unknown[]]
-    ? _AsArray<T>
-    : never,
+    [_AsArray<T>] extends [readonly unknown[]]
+        ? _AsArray<T>
+        : never,
     _AsArray<T> extends readonly (infer Type)[]
         ? readonly Type[]
         : readonly unknown[]

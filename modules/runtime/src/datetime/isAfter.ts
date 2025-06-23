@@ -6,10 +6,10 @@ import { asDate } from "inferred-types/runtime";
  */
 function isYearOnly(input: unknown): input is number {
     return (
-        typeof input === "number" &&
-        Number.isInteger(input) &&
-        input >= 1000 &&
-        input <= 9999
+        typeof input === "number"
+        && Number.isInteger(input)
+        && input >= 1000
+        && input <= 9999
     );
 }
 

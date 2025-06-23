@@ -33,7 +33,7 @@ export type IsBefore<
                 ? false
                 : Not<
                     StringIsAfter<
-                        As<A,string>,
+                        As<A, string>,
                         As<B, string>
                     >
                 >

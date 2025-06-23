@@ -11,19 +11,20 @@ import { getTomorrow } from "./getTomorrow";
  * - Optional `now` parameter for testing purposes
  */
 export function isTomorrow(
-  input: string | number | Record<string, any> | Date,
-  now: Date = new Date()
+    input: string | number | Record<string, any> | Date,
+    now: Date = new Date()
 ): boolean {
-  try {
-    const date = asDate(input);
-    const tomorrowDate = getTomorrow(now);
-    
-    // Extract ISO date string from the input date and compare
-    const inputDateStr = date.toISOString().split("T")[0];
-    
-    return inputDateStr === tomorrowDate;
-  } catch (e) {
+    try {
+        const date = asDate(input);
+        const tomorrowDate = getTomorrow(now);
+
+        // Extract ISO date string from the input date and compare
+        const inputDateStr = date.toISOString().split("T")[0];
+
+        return inputDateStr === tomorrowDate;
+    }
+    catch (e) {
     // asDate throws for invalid input, rethrow for consistency
-    throw e;
-  }
+        throw e;
+    }
 }

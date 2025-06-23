@@ -5,7 +5,34 @@
 The two primary types representing these tokens are:
 
 1. `InputTokensLike` - represents the broad shapes which are allowed as input tokens and enables the type system to direct users to valid input tokens
-2. `InputTokens` - a _branded_ type which has been run through runtime validation to ensure that the value is indeed a valid input token.
+2. `InputTokens` - is a _branded_ type which has been run through runtime validation to ensure that the value is indeed a valid input token and that it has been converted to a string variant of `InputTokensLike`
+
+### `FromInputToken` - from Token to Type
+
+- source: `modules/types/runtime-types/type-defn/FromInputToken.ts`
+- tests: `tests/runtime/FromInputToken.test.ts`
+
+The `FromInputToken<T>` utility is responsible for evaluating a token and converting that into the "type" the token represents (or an Error if it's not a valid token).
+
+```ts
+// "foo" | "bar" | "baz"
+type union = FromInputToken<`String(foo) | String(bar) | String(baz)`>
+// { id: number; name: string }
+type obj = FromInputToken<`{ id: number, name: string }`>;
+```
+
+The big part of the way that `FromInputToken<T>` works is by _taking_ the first recognizable part of the string token, classifying it, and then processing the remaining part of the string literal until there is no string literal left.
+
+There are type utilities such as:
+
+- IT_TakeArray
+- IT_TakeAtomic (source: `/modules/types/src/runtime-types/type-defn/input-tokens/atomics.ts`)
+- IT_TakeFunction (source: `/modules/types/src/runtime-types/type-defn/input-tokens/functions.ts`)
+- IT_TakeGenerator (source: `/modules/types/src/runtime-types/type-defn/input-tokens/generators.ts`)
+- IT_TakeMap (source: `/modules/types/src/runtime-types/type-defn/input-tokens/maps.ts`)
+- etc.
+
+Which
 
 **Notes:**
 

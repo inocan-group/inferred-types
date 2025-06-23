@@ -1,3 +1,4 @@
+import type { DateLike } from "inferred-types/types";
 import {
     err,
     isDate,
@@ -14,7 +15,6 @@ import {
     isNumber,
     isTemporalDate
 } from "inferred-types/runtime";
-import type { DateLike } from "inferred-types/types";
 
 /**
  * **asDateTime**`(input)`

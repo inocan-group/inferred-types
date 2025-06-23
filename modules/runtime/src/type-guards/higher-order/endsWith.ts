@@ -1,5 +1,5 @@
+import type { EndsWith } from "inferred-types/types";
 import { isNumber, isString } from "inferred-types/runtime";
-import { EndsWith } from "inferred-types/types";
 
 /**
  * **endsWith**(startingWith) => (val)
@@ -17,6 +17,6 @@ export function endsWith<
             isString(val) || isNumber(val)
                 ? startingWith.some(i => String(val).endsWith(String(i)))
                 : false
-        ) as EndsWith<TValue, TStartsWith[number]>
+        ) as EndsWith<TValue, TStartsWith[number]>;
     };
 }

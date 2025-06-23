@@ -1,6 +1,6 @@
 /* eslint-disable ts/ban-ts-comment */
 import { ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import { IsIsoDate, IsIsoExplicitDate, IsIsoImplicitDate, IsIsoTime } from "inferred-types/types";
+import {  IsIsoDate, IsIsoTime } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 
@@ -12,15 +12,15 @@ describe("Operators", () => {
     type T2 = IsIsoTime<"12:34:56Z">;
     type T3 = IsIsoTime<"12:34:56.123">;
     type T4 = IsIsoTime<"12:34:56.123Z">;
-    type T5 = IsIsoTime<"12:34:56.123Z+00:00">;
-    type T6 = IsIsoTime<"12:34:56.123Z-00:00">;
+    type T5 = IsIsoTime<"12:34:56.123+00:00">;
+    type T6 = IsIsoTime<"12:34:56.123-00:00">;
 
     type T7 = IsIsoTime<"T12:34:56">;
     type T8 = IsIsoTime<"T12:34:56Z">;
     type T9 = IsIsoTime<"T12:34:56.123">;
     type T10 = IsIsoTime<"T12:34:56.123Z">;
-    type T11 = IsIsoTime<"T12:34:56.123Z+00:00">;
-    type T12 = IsIsoTime<"T12:34:56.123Z-00:00">;
+    type T11 = IsIsoTime<"T12:34:56.123+00:00">;
+    type T12 = IsIsoTime<"T12:34:56.123-00:00">;
 
 
     type F1 = IsIsoTime<"12:34:56.123+00:00:00">;
@@ -29,7 +29,6 @@ describe("Operators", () => {
     type F4 = IsIsoTime<"12:34:5">;
     type F5 = IsIsoTime<"T12:34:5">;
 
-    // @ts-ignore
     type _cases = [
       ExpectTrue<T1>,
       ExpectTrue<T2>,
@@ -54,16 +53,15 @@ describe("Operators", () => {
   });
 
   it("IsIsoExplicitDate<T>", () => {
-    type T1 = IsIsoExplicitDate<"2024-12-25">;
-    type T2 = IsIsoExplicitDate<"0000-01-01">;
-    type T3 = IsIsoExplicitDate<"9999-12-31">;
+    type T1 = IsIsoDate<"2024-12-25">;
+    type T2 = IsIsoDate<"0000-01-01">;
+    type T3 = IsIsoDate<"9999-12-31">;
 
-    type F1 = IsIsoExplicitDate<"2024-12-55">;
-    type F2 = IsIsoExplicitDate<"2024-42-25">;
-    type F3 = IsIsoExplicitDate<"2024a-12-25">;
-    type F4 = IsIsoExplicitDate<"20241225">;
+    type F1 = IsIsoDate<"2024-12-55">;
+    type F2 = IsIsoDate<"2024-42-25">;
+    type F3 = IsIsoDate<"2024a-12-25">;
+    type F4 = IsIsoDate<"20241225">;
 
-    // @ts-ignore
     type _cases = [
       ExpectTrue<T1>,
       ExpectTrue<T2>,
@@ -77,16 +75,16 @@ describe("Operators", () => {
   });
 
   it("IsIsoImplicitDate<T>", () => {
-    type T1 = IsIsoImplicitDate<"20241225">;
-    type T2 = IsIsoImplicitDate<"00000101">;
-    type T3 = IsIsoImplicitDate<"99991231">;
+    type T1 = IsIsoDate<"20241225">;
+    type T2 = IsIsoDate<"00000101">;
+    type T3 = IsIsoDate<"99991231">;
 
-    type F1 = IsIsoImplicitDate<"20241255">;
-    type F2 = IsIsoImplicitDate<"20244225">;
-    type F3 = IsIsoImplicitDate<"2024a1225">;
-    type F4 = IsIsoImplicitDate<"2024-12-25">;
+    type F1 = IsIsoDate<"20241255">;
+    type F2 = IsIsoDate<"20244225">;
+    type F3 = IsIsoDate<"2024a1225">;
+    type F4 = IsIsoDate<"2024-12-25">;
 
-    // @ts-ignore
+
     type _cases = [
       ExpectTrue<T1>,
       ExpectTrue<T2>,

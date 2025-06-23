@@ -1,6 +1,6 @@
-import { LastChar } from "inferred-types/types";
+import type { FirstChar } from "inferred-types";
+import type { LastChar } from "inferred-types/types";
 import { asChars } from "inferred-types/runtime";
-import { FirstChar } from "inferred-types";
 
 export function lastChar<T extends string>(str: T) {
     const char = asChars(str).at(-1);

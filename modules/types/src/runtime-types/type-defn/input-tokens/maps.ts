@@ -32,7 +32,7 @@ type Segment<
         }
         : Err<
             `invalid-token/map`,
-            `A Map token did not provide a ',' seperator to delinate the key token from the value token!`,
+            `A Map token did not provide a ',' separator to delineate the key token from the value token!`,
             { token: I; rest: Join<REST> }
         >
     : Err<
@@ -49,7 +49,7 @@ type Key<
     T extends string,
     S extends InnerRest | Error = Segment<T>
 > = IsWideString<T> extends true
-    ? string | Error
+    ? string | ErrorIsString
     : S extends InnerRest
         ? NestedSplit<S["inner"], ",">[0] extends string
             ? NestedSplit<S["inner"], ",">[0]
@@ -75,7 +75,7 @@ type Value<T extends string, S extends InnerRest | Error = Segment<T>> = IsWideS
             ? NestedSplit<S["inner"], ",">[1]
             : Err<
                 `invalid-token/map`,
-                `The Map token did not provide a ',' separator to delinate the key token from the value token!`,
+                `The Map token did not provide a ',' separator to delineate the key token from the value token!`,
                 { key: S["inner"][0]; rest: Rest<T>; token: Trim<T> }
             >
         : S;

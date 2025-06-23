@@ -4,9 +4,17 @@ import {
     isDateFnsDate,
     isEpochInMilliseconds,
     isEpochInSeconds,
-    isIsoDate, isIsoImplicitDate,
-    isIsoDateTime, isIsoYear, isLuxonDate, isMoment,
-    isNumber, isTemporalDate, stripAfter
+    isError,
+    isIsoDate,
+    isIsoDateTime,
+    isIsoExplicitDate,
+    isIsoImplicitDate,
+    isIsoYear,
+    isLuxonDate,
+    isMoment,
+    isNumber,
+    isTemporalDate,
+    parseIsoDate
 } from "inferred-types/runtime";
 
 /**
@@ -29,7 +37,10 @@ export function asDate<T extends number | string | Record<string, any> | Date>(i
             d.getFullYear(),
             d.getMonth(),
             d.getDate(),
-            0, 0, 0, 0
+            0,
+            0,
+            0,
+            0
         ));
         return utc;
     };
@@ -58,13 +69,16 @@ export function asDate<T extends number | string | Record<string, any> | Date>(i
 
     if (isIsoDateTime(input)) {
         // e.g. 2023-06-16T12:34:56Z or 2023-06-16T12:34:56+02:00
-        const [date] = stripAfter(input as string, "T").split("T");
-        const [year, month, day] = (date as string).split("-").map(Number);
-        // Parse as local date, then strip time
-        // Construct a UTC date at midnight
+        const parsed = parseIsoDate(input as string);
+        if (isError(parsed)) {
+            throw parsed;
+        }
+        // Use only the date components, ignore time
+        const year = Number(parsed.year);
+        const month = Number(parsed.month);
+        const day = Number(parsed.date);
         return new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0));
     }
-
 
     if (isNumber(input) && isEpochInMilliseconds(input)) {
         return toUtcMidnight(new Date(input));
@@ -76,26 +90,47 @@ export function asDate<T extends number | string | Record<string, any> | Date>(i
 
     if (isIsoYear(input)) {
         // e.g. 2023
-        return new Date(Date.UTC(Number(input), 0, 1, 0, 0, 0, 0));
+        const parsed = parseIsoDate(input as string);
+        if (isError(parsed)) {
+            throw parsed;
+        }
+        const year = Number(parsed.year);
+        return new Date(Date.UTC(year, 0, 1, 0, 0, 0, 0));
     }
 
-    // if (isIsoExplicitDate(input)) {
-    //     // e.g. 2023-06-16
-    //     const [year, month, day] = (input as string).split("-").map(Number);
-    //     return new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0));
-    // }
+    if (isIsoExplicitDate(input)) {
+        // e.g. 2023-06-16
+        const parsed = parseIsoDate(input as string);
+        if (isError(parsed)) {
+            throw parsed;
+        }
+        const year = Number(parsed.year);
+        const month = Number(parsed.month);
+        const day = Number(parsed.date);
+        return new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0));
+    }
 
     if (isIsoImplicitDate(input)) {
         // e.g. 20230616
-        const year = Number((input as string).slice(0, 4));
-        const month = Number((input as string).slice(4, 6));
-        const day = Number((input as string).slice(6, 8));
+        const parsed = parseIsoDate(input as string);
+        if (isError(parsed)) {
+            throw parsed;
+        }
+        const year = Number(parsed.year);
+        const month = Number(parsed.month);
+        const day = Number(parsed.date);
         return new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0));
     }
 
     if (isIsoDate(input)) {
-        // e.g. 2023-06-16
-        const [year, month, day] = (input as string).split("-").map(Number);
+        // e.g. This might be for other ISO date formats
+        const parsed = parseIsoDate(input as string);
+        if (isError(parsed)) {
+            throw parsed;
+        }
+        const year = Number(parsed.year);
+        const month = Number(parsed.month);
+        const day = Number(parsed.date);
         return new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0));
     }
 

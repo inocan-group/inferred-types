@@ -15,7 +15,7 @@ type CompareTuple<
     [K in keyof TContent]: [TContent[K]] extends [TComparator]
         ? true
         : false
-}>
+}>;
 
 /**
  * **Contains**`<TContent, TComparator>`
@@ -32,11 +32,10 @@ export type Contains<
     TContent extends string | number | readonly unknown[],
     TComparator,
 > = [TContent] extends [string | number]
-? Or<[IsWideType<TContent>, IsWideType<TComparator>]> extends true
-    ? boolean
-    : IsSubstring<AsString<TContent>, AsString<AsUnion<TComparator>>>
+    ? Or<[IsWideType<TContent>, IsWideType<TComparator>]> extends true
+        ? boolean
+        : IsSubstring<AsString<TContent>, AsString<AsUnion<TComparator>>>
 
-: [TContent] extends [readonly unknown[]]
-    ? CompareTuple<TContent, AsUnion<TComparator>>
-    : never;
-
+    : [TContent] extends [readonly unknown[]]
+        ? CompareTuple<TContent, AsUnion<TComparator>>
+        : never;

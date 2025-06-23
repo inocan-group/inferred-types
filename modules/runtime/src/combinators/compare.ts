@@ -1,3 +1,14 @@
+import type { ObjectKey } from "inferred-types";
+import type {
+    ComparisonLookup,
+    ComparisonOperation,
+    DateLike,
+    Equals,
+    IsEqual,
+    Narrowable,
+    Unset
+} from "inferred-types/types";
+import { NUMERIC_CHAR } from "inferred-types";
 import {
     asChars,
     asDate,
@@ -27,18 +38,7 @@ import {
     startsWith,
     unset
 } from "inferred-types/runtime";
-import type {
-    ComparisonLookup,
-    ComparisonOperation,
-    DateLike,
-    Equals,
-    IsEqual,
-    Narrowable,
-    Unset
-} from "inferred-types/types";
 import { contains } from "./contains";
-import { NUMERIC_CHAR, ObjectKey } from "inferred-types";
-
 
 type Lookup = ComparisonLookup;
 
@@ -48,7 +48,6 @@ type Accept<TOp extends ComparisonOperation> = "accept" extends keyof Comparison
         : ComparisonLookup[TOp]["accept"]
     : Narrowable;
 
-
 function handle_string<
     TOp extends ComparisonOperation,
     TParams extends Lookup[TOp]["params"]
@@ -57,16 +56,15 @@ function handle_string<
     op: TOp,
     params: TParams
 ): boolean | Error | Unset {
-
-    switch(op) {
+    switch (op) {
         case "startsWith":
             return (isString(val) || isNumber(val)) && isStringOrNumericArray(params)
-                ? startsWith(...params as readonly (string|number)[])(val)
+                ? startsWith(...params as readonly (string | number)[])(val)
                 : false;
 
         case "endsWith":
             return (isString(val) || isNumber(val)) && isStringOrNumericArray(params)
-                ? endsWith(...params as readonly (string|number)[])(val)
+                ? endsWith(...params as readonly (string | number)[])(val)
                 : false;
 
         case "endsWithNumber":
@@ -93,8 +91,6 @@ function handle_string<
             return isString(val)
                 ? asChars(val).every(c => isNumberLike(c) || isAlpha(c))
                 : false;
-
-
     }
 
     return unset;
@@ -109,14 +105,13 @@ function handle_general<
     op: TOp,
     params: TParams
 ): boolean | Error | Unset {
-
-    switch(op) {
+    switch (op) {
         case "extends":
             if (!isInputToken(params[0])) {
                 return err(
                     `compare/extends`,
                     `A filter operation based on the 'extends' operation passed in a parameter which was not an InputToken so we are not able to convert this into a type!`,
-                )
+                );
             }
             return err(
                 `not-ready/doesExtend`,
@@ -125,7 +120,7 @@ function handle_general<
             );
 
         case "equals":
-            return isEqual(val)(params[0] as any) as IsEqual<TVal,TParams[0]>;
+            return isEqual(val)(params[0] as any) as IsEqual<TVal, TParams[0]>;
 
         case "false":
             return isFalse(val);
@@ -140,7 +135,7 @@ function handle_general<
             return isFalsy(val);
 
         case "equalsSome":
-            return params.some(i => i === val);
+            return params.includes(val);
 
         case "contains":
             return isString(val) || isNumber(val) || isNarrowableTuple(val)
@@ -160,7 +155,6 @@ function handle_general<
                     i => contains(val, i as Narrowable)
                 )
                 : false;
-
     }
 
     // If we get here, it's not a recognized operation
@@ -176,10 +170,10 @@ function handle_numeric<TOp extends ComparisonOperation, TParams extends Lookup[
     op: TOp,
     params: TParams
 ): boolean | Error | Unset {
-
-    switch(op) {
+    switch (op) {
         case "greaterThan":
-            if (!isNumberLike(val)) return false;
+            if (!isNumberLike(val))
+                return false;
             if (!isNumberLike(params[0])) {
                 return err(
                     `invalid-params/greaterThan`,
@@ -190,7 +184,8 @@ function handle_numeric<TOp extends ComparisonOperation, TParams extends Lookup[
             return Number(val) > Number(params[0]);
 
         case "greaterThanOrEqual":
-            if (!isNumberLike(val)) return false;
+            if (!isNumberLike(val))
+                return false;
             if (!isNumberLike(params[0])) {
                 return err(
                     `invalid-params/greaterThanOrEqual`,
@@ -201,7 +196,8 @@ function handle_numeric<TOp extends ComparisonOperation, TParams extends Lookup[
             return Number(val) >= Number(params[0]);
 
         case "lessThan":
-            if (!isNumberLike(val)) return false;
+            if (!isNumberLike(val))
+                return false;
             if (!isNumberLike(params[0])) {
                 return err(
                     `invalid-params/lessThan`,
@@ -212,7 +208,8 @@ function handle_numeric<TOp extends ComparisonOperation, TParams extends Lookup[
             return Number(val) < Number(params[0]);
 
         case "lessThanOrEqual":
-            if (!isNumberLike(val)) return false;
+            if (!isNumberLike(val))
+                return false;
             if (!isNumberLike(params[0])) {
                 return err(
                     `invalid-params/lessThanOrEqual`,
@@ -223,7 +220,8 @@ function handle_numeric<TOp extends ComparisonOperation, TParams extends Lookup[
             return Number(val) <= Number(params[0]);
 
         case "betweenExclusively":
-            if (!isNumberLike(val)) return false;
+            if (!isNumberLike(val))
+                return false;
             if (!isNumberLike(params[0]) || !isNumberLike(params[1])) {
                 return err(
                     `invalid-params/betweenExclusively`,
@@ -237,7 +235,8 @@ function handle_numeric<TOp extends ComparisonOperation, TParams extends Lookup[
             return valNumExcl > minExcl && valNumExcl < maxExcl;
 
         case "betweenInclusively":
-            if (!isNumberLike(val)) return false;
+            if (!isNumberLike(val))
+                return false;
             if (!isNumberLike(params[0]) || !isNumberLike(params[1])) {
                 return err(
                     `invalid-params/betweenInclusively`,
@@ -262,21 +261,20 @@ function handle_object<
     op: TOp,
     params: TParams
 ): boolean | Error | Unset {
-
-    switch(op) {
+    switch (op) {
         case "objectKeyGreaterThan":
             const [key, compare] = params as [ObjectKey, number];
             return isObject(val)
                 ? hasIndexOf(val, key)
                     ? isNumberLike(val[key])
                         ? Number(val[key]) > compare
+                        : false
                     : false
-                : false
-            : err(
-                `invalid-type/objectKeyGreaterThan`,
-                `The comparison using the 'objectKeyGreaterThan' operation was unable to be performed because the value passed in was not an object!`,
-                { op, params }
-            );
+                : err(
+                    `invalid-type/objectKeyGreaterThan`,
+                    `The comparison using the 'objectKeyGreaterThan' operation was unable to be performed because the value passed in was not an object!`,
+                    { op, params }
+                );
 
         case "objectKeyGreaterThanOrEqual": {
             const [key, compare] = params as [ObjectKey, number];
@@ -284,13 +282,13 @@ function handle_object<
                 ? hasIndexOf(val, key)
                     ? isNumberLike(val[key])
                         ? Number(val[key]) >= compare
+                        : false
                     : false
-                : false
-            : err(
-                `invalid-type/objectKeyGreaterThanOrEqual`,
-                `The comparison using the 'objectKeyGreaterThanOrEqual' operation was unable to be performed because the value passed in was not an object!`,
-                { op, params }
-            );
+                : err(
+                    `invalid-type/objectKeyGreaterThanOrEqual`,
+                    `The comparison using the 'objectKeyGreaterThanOrEqual' operation was unable to be performed because the value passed in was not an object!`,
+                    { op, params }
+                );
         }
         case "objectKeyLessThan": {
             const [key, compare] = params as [ObjectKey, number];
@@ -298,13 +296,13 @@ function handle_object<
                 ? hasIndexOf(val, key)
                     ? isNumberLike(val[key])
                         ? Number(val[key]) < compare
+                        : false
                     : false
-                : false
-            : err(
-                `invalid-type/objectKeyLessThan`,
-                `The comparison using the 'objectKeyLessThan' operation was unable to be performed because the value passed in was not an object!`,
-                { op, params }
-            );
+                : err(
+                    `invalid-type/objectKeyLessThan`,
+                    `The comparison using the 'objectKeyLessThan' operation was unable to be performed because the value passed in was not an object!`,
+                    { op, params }
+                );
         }
         case "objectKeyLessThanOrEqual": {
             const [key, compare] = params as [ObjectKey, number];
@@ -312,37 +310,33 @@ function handle_object<
                 ? hasIndexOf(val, key)
                     ? isNumberLike(val[key])
                         ? Number(val[key]) <= compare
+                        : false
                     : false
-                : false
-            : err(
-                `invalid-type/objectKeyLessThanOrEqual`,
-                `The comparison using the 'objectKeyLessThanOrEqual' operation was unable to be performed because the value passed in was not an object!`,
-                { op, params }
-            );
+                : err(
+                    `invalid-type/objectKeyLessThanOrEqual`,
+                    `The comparison using the 'objectKeyLessThanOrEqual' operation was unable to be performed because the value passed in was not an object!`,
+                    { op, params }
+                );
         }
         case "objectKeyEquals": {
             const [key, compare] = params as [ObjectKey, unknown];
             return isObject(val)
                 ? hasIndexOf(val, key)
                     ? val[key] === compare
-                : false
-            : err(
-                `invalid-type/objectKeyEquals`,
-                `The comparison using the 'objectKeyEquals' operation was unable to be performed because the value passed in was not an object!`,
-                { op, params }
-            );
+                    : false
+                : err(
+                    `invalid-type/objectKeyEquals`,
+                    `The comparison using the 'objectKeyEquals' operation was unable to be performed because the value passed in was not an object!`,
+                    { op, params }
+                );
         }
         case "objectKeyExtends": {
-            return err(`not-done`, `the 'objectKeyExtends' operation is not yet implemented in the runtime`)
+            return err(`not-done`, `the 'objectKeyExtends' operation is not yet implemented in the runtime`);
         }
-
     }
-
 
     return unset;
 }
-
-
 
 function handle_datetime<
     const TOp extends ComparisonOperation,
@@ -419,13 +413,13 @@ function handle_other<
     op: TOp,
     params: TParams
 ): boolean | Error | Unset {
-
-    switch(op) {
+    switch (op) {
         case "errors":
             return val instanceof Error;
 
         case "errorsOfType":
-            if (!(val instanceof Error)) return false;
+            if (!(val instanceof Error))
+                return false;
             if (!params[0]) {
                 return err(
                     `invalid-params/errorsOfType`,
@@ -436,7 +430,8 @@ function handle_other<
             return "type" in val && val.type === params[0];
 
         case "returnEquals":
-            if (!isFunction(val)) return false;
+            if (!isFunction(val))
+                return false;
             // Note: We cannot check return type equality at runtime without executing the function
             // This would require runtime type information that JavaScript doesn't provide
             return err(
@@ -446,7 +441,8 @@ function handle_other<
             );
 
         case "returnExtends":
-            if (!isFunction(val)) return false;
+            if (!isFunction(val))
+                return false;
             // Note: We cannot check return type extension at runtime without executing the function
             // This would require runtime type information that JavaScript doesn't provide
             return err(
@@ -458,7 +454,6 @@ function handle_other<
 
     return unset;
 }
-
 
 function compareFn<
     const TOp extends ComparisonOperation,
@@ -507,7 +502,7 @@ function compareFn<
         }
 
         return result;
-    }
+    };
 }
 
 /**
