@@ -34,6 +34,7 @@ export * from "./isHexadecimal";
 export * from "./isIndexable";
 export * from "./isInlineSvg";
 export * from "./isMap";
+export * from "./isNarrowable";
 export * from "./isNever";
 export * from "./isNotError";
 export * from "./isNothing";
@@ -71,3 +72,4 @@ export * from "./tokens/index";
 export * from "./tw/index";
 export * from "./urls/index";
 export * from "./vue/index";
+
