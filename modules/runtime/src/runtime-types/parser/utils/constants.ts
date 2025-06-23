@@ -1,10 +1,11 @@
 import type { Narrowable } from "inferred-types/types";
 
 /**
- * Import the standard unset value and type
+ * Import the standard unset value and type for internal use
+ * Note: Not exported to avoid conflicts with main runtime exports
  */
-export { unset } from "inferred-types/runtime";
-export type { Unset } from "inferred-types/types";
+import { unset } from "inferred-types/runtime";
+import type { Unset } from "inferred-types/types";
 
 /**
  * Parser operator symbols

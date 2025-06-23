@@ -1,6 +1,7 @@
 import type { TakeFunction, TakeResult } from "../types";
 import type { RuntimeType } from "../runtime-types";
-import { unset, OPERATORS, trimToken, extractBetweenDelimiters, splitRespectingNesting } from "../utils";
+import { unset } from "inferred-types/runtime";
+import { OPERATORS, trimToken, extractBetweenDelimiters, splitRespectingNesting } from "../utils";
 import { objectRuntimeType } from "../runtime-types/object";
 
 // Parser interface to avoid circular imports
