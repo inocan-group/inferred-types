@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { describe, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import {
     Err,
     FnProps,
@@ -9,6 +9,7 @@ import {
     Test,
 } from "inferred-types/types";
 import { Extends, TypedFunction } from "inferred-types/types";
+import { fromInputToken } from "inferred-types/runtime";
 
 describe("FromInputToken<Token>", () => {
     it("atomic tokens with FromStringInputToken<...>", () => {
@@ -428,5 +429,24 @@ describe("FromInputToken<Token>", () => {
             >>
         ];
     });
+
+})
+
+
+describe("fromInputToken(token)", () => {
+
+
+    it("simple types", () => {
+        const t1 = fromInputToken("Array<boolean>");
+        const t2 = fromInputToken("string | number");
+
+        expect(t1).toBe("Array<boolean>");
+
+        type cases = [
+            Expect<Test<typeof t1, "equals", boolean[]>>,
+            Expect<Test<typeof t2, "equals", string | number>>,
+        ];
+    });
+
 
 })

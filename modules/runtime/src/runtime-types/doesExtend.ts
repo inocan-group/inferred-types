@@ -1,12 +1,19 @@
 import type {
     FromInputToken,
+    InputTokenLike,
     InputTokenSuggestions,
     Narrowable,
 } from "inferred-types/types";
 import {
     err,
+    isArray,
     isBoolean,
     isFalse,
+    isInputToken,
+    isInputToken__Object,
+    isInputToken__String,
+    isInputToken__Tuple,
+    isNarrowable,
     isNull,
     isNumber,
     isObject,
@@ -26,41 +33,66 @@ export type DoesExtendTypeguard<
  * and the subsequent call tests whether the value passed in _extends_
  * the type.
  */
-export function doesExtend<TType extends InputTokenSuggestions>(
+export function doesExtend<
+    TType extends InputTokenLike
+>(
     type: TType,
 ) {
-    return <T extends Narrowable>(val: T): val is FromInputToken<TType> => {
-        const response: boolean = false;
+    return <T extends Narrowable>(val: T): boolean => {
+        if (isInputToken(type)) {
 
-        if (isString(type)) {
-            const token = type.trim();
+            if (isString(type)) {
 
-            if (token === "string") {
-                return isString(val);
+                if (type === "string") {
+                    return isString(val);
+                }
+                else if (type === "number") {
+                    return isNumber(val);
+                }
+                else if (type === "boolean") {
+                    return isBoolean(val);
+                }
+                else if (type === "true") {
+                    return isTrue(val);
+                }
+                else if (type === "false") {
+                    return isFalse(val);
+                }
+                else if (type === "null") {
+                    return isNull(val);
+                }
+                else if (type === "undefined") {
+                    return isUndefined(val);
+                }
+                else if (type === "object") {
+                    return isObject(val);
+                }
             }
-            else if (token === "number") {
-                return isNumber(val);
+            else if (isInputToken__Object(type)) {
+                if(isObject(val)) {
+                    return Object.keys(type).every(
+                        (k) => isInputToken(type[k]) && isNarrowable(val[k]) && doesExtend(type[k])(val[k])
+                    )
+                } else {
+                    return false;
+                }
             }
-            else if (token === "boolean") {
-                return isBoolean(val);
-            }
-            else if (token === "true") {
-                return isTrue(val);
-            }
-            else if (token === "false") {
-                return isFalse(val);
-            }
-            else if (token === "null") {
-                return isNull(val);
-            }
-            else if (token === "undefined") {
-                return isUndefined(val);
-            }
-            else if (token === "object") {
-                return isObject(val);
-            }
-        };
 
-        return err(`not-done/doesExtend`, `the doesExtend function is not yet complete!`, { type, val });
-    };
+            else if (isInputToken__Tuple(type)) {
+                if (isArray(val)) {
+                    return val.length === type.length
+                        ? type.every(
+                            (t, i) => isInputToken(t) && isNarrowable(val[i]) && doesExtend(t)(val[i])
+                        )
+                        : false
+                } else {
+                    return false;
+                }
+            }
+            else {
+                return false;
+            }
+        }
+        return false;
+    }
 }
