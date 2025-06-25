@@ -9,20 +9,24 @@ import {
     toStringLiteral,
     isNestingEndMatch,
     isNestingTuple,
+    asArray,
 } from "inferred-types/runtime";
-import { DefaultNesting, Nesting, RetainUntil__Nested } from "inferred-types/types";
+import { AsArray, DefaultNesting, Nesting, RetainUntil__Nested, TupleToUnion } from "inferred-types/types";
 
 function findIdx<
     TChars extends readonly string[],
+    TFind extends string | readonly string[],
     TNesting extends Nesting,
 >(
     chars: TChars,
-    find: string,
+    find: TFind,
     nesting: TNesting,
     stack: readonly string[] = [],
     result: string = "",
     idx: number = 0
 ) {
+    const f = asArray(find) as string[];
+
     if(chars.length === 0) {
         if(stack.length > 0) {
             return err(
@@ -40,18 +44,18 @@ function findIdx<
         }
     }
 
-    if(chars[0] === find && stack.length === 0) {
+    if(f.includes(chars[0]) && stack.length === 0) {
         return idx;
     }
 
     if(isNestingEndMatch(chars[0], stack, nesting) === true) {
         const newStack = [...stack].slice(0,-1);
-        
+
         // Special check: if this character ends nesting AND is our target AND stack becomes empty
         if (chars[0] === find && newStack.length === 0) {
             return idx;
         }
-        
+
         return findIdx(
             afterFirst(chars),
             find,
@@ -99,7 +103,7 @@ function findIdx<
  */
 export function retainUntil__Nested<
     const TStr extends string,
-    const TFind extends string,
+    const TFind extends string | readonly string[],
     const TInclude extends boolean = true,
     const TNesting extends Nesting = DefaultNesting
 
@@ -114,9 +118,17 @@ export function retainUntil__Nested<
 
     if(isNumber(idx)) {
         const endIdx = incl ? idx + 1 : idx;
-        return str.slice(0, endIdx) as RetainUntil__Nested<TStr,TFind,TInclude,TNesting>;
+        return str.slice(0, endIdx) as TFind extends readonly string[]
+            ? RetainUntil__Nested<TStr,TFind[number],TInclude,TNesting>
+            : TFind extends string
+                ? RetainUntil__Nested<TStr, TFind,TInclude,TNesting>
+                : never;
     } else {
-        return idx as RetainUntil__Nested<TStr,TFind,TInclude,TNesting>;
+        return idx as TFind extends readonly string[]
+         ? RetainUntil__Nested<TStr, TFind[number],TInclude,TNesting>
+         : TFind extends string
+            ? RetainUntil__Nested<TStr, TFind,TInclude,TNesting>
+            : never;
     }
 
 }

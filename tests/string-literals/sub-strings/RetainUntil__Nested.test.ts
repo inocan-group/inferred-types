@@ -233,4 +233,23 @@ describe("retainUntil__Nested(str, find, incl, nesting)", () => {
     });
 
 
+    it("multiple find chars", () => {
+        const t1 = retainUntil__Nested(
+            `Once tested. Twice tried!`,
+            ["!", "."]
+        )
+        const t2 = retainUntil__Nested(
+            `Once tested (a bit). Twice tried!`,
+            ["!", "."]
+        )
+
+        expect(t1).toBe("Once tested.")
+        expect(t2).toBe("Once tested (a bit).")
+
+        type cases = [
+            Expect<Test<typeof t1, "equals", "Once tested.">>,
+            Expect<Test<typeof t2, "equals", "Once tested (a bit).">>,
+        ];
+    });
+
 })

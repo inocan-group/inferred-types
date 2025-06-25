@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { parseInputToken } from "../../modules/runtime/src/runtime-types/parser";
+import { parseInputToken } from "inferred-types/runtime";
 
 describe("Runtime Parser - Literal Types", () => {
   describe("String literals", () => {

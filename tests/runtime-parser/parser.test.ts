@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { parseInputToken } from "../../modules/runtime/src/runtime-types/parser";
+import { parseInputToken } from "inferred-types/runtime";
 
 describe("Runtime Parser - Core Functionality", () => {
   describe("error handling", () => {
@@ -45,7 +45,7 @@ describe("Runtime Parser - Core Functionality", () => {
     it("should work as type guard for atomic types", () => {
       const stringType = parseInputToken("string");
       const value: unknown = "hello";
-      
+
       if (stringType.extends(value)) {
         // TypeScript should narrow value to string here
         expect(typeof value).toBe("string");
@@ -55,7 +55,7 @@ describe("Runtime Parser - Core Functionality", () => {
     it("should work as type guard for literal types", () => {
       const literalType = parseInputToken("String(hello)");
       const value: unknown = "hello";
-      
+
       if (literalType.extends(value)) {
         // TypeScript should narrow value to "hello" here
         expect(value).toBe("hello");
@@ -66,17 +66,17 @@ describe("Runtime Parser - Core Functionality", () => {
   describe("performance and caching", () => {
     it("should handle multiple parsing calls efficiently", () => {
       const start = performance.now();
-      
+
       for (let i = 0; i < 100; i++) {
         parseInputToken("string");
         parseInputToken("number");
         parseInputToken("String(test)");
         parseInputToken("Number(42)");
       }
-      
+
       const end = performance.now();
       const duration = end - start;
-      
+
       // Should complete 400 parsing operations in under 100ms
       expect(duration).toBeLessThan(100);
     });

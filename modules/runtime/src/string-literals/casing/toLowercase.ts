@@ -3,7 +3,7 @@ import { ifLowercaseChar, lowercase } from "inferred-types/runtime";
 /**
  * Converts a string to the "all lowercase" equivalent.
  *
- * Note: non-alpha characters are left "as is"
+ * **Related:** `toAllCaps`, `capitalize`, `uncapitalize`
  */
 export function toLowercase<T extends string>(str: T): Lowercase<T> {
     return str
