@@ -1,5 +1,5 @@
 import { ALPHA_CHARS, WHITESPACE_CHARS } from "inferred-types/constants";
-import { createTakeWhileFunction } from "inferred-types/runtime";
+import { createTakeWhileFunction } from "./create/createTakeWhileFunction";
 import { RuntimeType__Atomic } from "inferred-types/types";
 
 type AtomicLookup<T extends string> = [T] extends ["null"]

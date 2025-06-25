@@ -1,4 +1,4 @@
-import type { ObjectKey } from "inferred-types";
+import type { ObjectKey } from "../../../inferred-types/dist";
 import type {
     ComparisonLookup,
     ComparisonOperation,
@@ -8,7 +8,7 @@ import type {
     Narrowable,
     Unset
 } from "inferred-types/types";
-import { NUMERIC_CHAR } from "inferred-types";
+import { NUMERIC_CHAR } from "../../../inferred-types/dist";
 import {
     asChars,
     asDate,

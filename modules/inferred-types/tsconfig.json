@@ -5,17 +5,6 @@
         "baseUrl": ".",
         "rootDir": ".",
         "moduleResolution": "Bundler",
-        "paths": {
-            "inferred-types/types": [
-                "../types/dist/index"
-            ],
-            "inferred-types/constants": [
-                "../constants/dist/index"
-            ],
-            "inferred-types/runtime": [
-                "../runtime/dist/index"
-            ]
-        },
         "strict": true,
         "declaration": true,
         "declarationMap": true,

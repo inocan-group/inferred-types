@@ -10,7 +10,7 @@ export function isNestingStart<
 ) {
     if (isNestingTuple(nesting)) {
         const [ start, _ ] = nesting;
-        // I think we need start to be a tuple not a union
+        return start.includes(char);
     } else if (isNestingKeyValue(nesting)) {
         return Object.keys(nesting).includes(char);
     } else {

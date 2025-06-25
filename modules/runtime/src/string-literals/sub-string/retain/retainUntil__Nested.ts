@@ -7,7 +7,8 @@ import {
     isNumber,
     mutable,
     toStringLiteral,
-    isNestingEndMatch
+    isNestingEndMatch,
+    isNestingTuple,
 } from "inferred-types/runtime";
 import { DefaultNesting, Nesting, RetainUntil__Nested } from "inferred-types/types";
 
@@ -43,16 +44,43 @@ function findIdx<
         return idx;
     }
 
-    if(isNestingEndMatch(chars[0], stack, nesting) && stack.length === 1) {
-        return idx;
-    }
-
-    else if (isNestingStart(chars[0], nesting) === true) {
+    if(isNestingEndMatch(chars[0], stack, nesting) === true) {
+        const newStack = [...stack].slice(0,-1);
+        
+        // Special check: if this character ends nesting AND is our target AND stack becomes empty
+        if (chars[0] === find && newStack.length === 0) {
+            return idx;
+        }
+        
         return findIdx(
             afterFirst(chars),
             find,
             nesting,
-            [...stack, chars[0]],
+            newStack,
+            `${result}${chars[0]}`,
+            idx+1
+        )
+    }
+    else if (isNestingStart(chars[0], nesting) === true) {
+        // Special handling for NestingTuple: only allow stack depth of 1
+        const shouldLimitStack = isNestingTuple(nesting) && stack.length > 0;
+
+        return findIdx(
+            afterFirst(chars),
+            find,
+            nesting,
+            shouldLimitStack ? stack : [...stack, chars[0]],
+            `${result}${chars[0]}`,
+            idx+1
+        )
+    }
+    else {
+        // Regular character, continue
+        return findIdx(
+            afterFirst(chars),
+            find,
+            nesting,
+            stack,
             `${result}${chars[0]}`,
             idx+1
         )
@@ -85,7 +113,8 @@ export function retainUntil__Nested<
     const idx = findIdx(asChars(str), find, nesting);
 
     if(isNumber(idx)) {
-        return str.slice(0,idx)  as RetainUntil__Nested<TStr,TFind,TInclude,TNesting>;
+        const endIdx = incl ? idx + 1 : idx;
+        return str.slice(0, endIdx) as RetainUntil__Nested<TStr,TFind,TInclude,TNesting>;
     } else {
         return idx as RetainUntil__Nested<TStr,TFind,TInclude,TNesting>;
     }

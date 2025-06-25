@@ -1,6 +1,15 @@
 {
     "name": "@inferred-types/types",
     "private": true,
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js",
+            "require": "./dist/index.js"
+        }
+    },
     "scripts": {
         "build": "tsdown",
         "test": "vitest run",

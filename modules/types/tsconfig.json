@@ -27,7 +27,8 @@
     "references": [
         {
             // depends on constants to derive some types
-            "path": "../constants"
+            "path": "../constants",
+            "types/*": [ "src/*"]
         }
     ],
     "include": [

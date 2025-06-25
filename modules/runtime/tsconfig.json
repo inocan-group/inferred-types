@@ -8,14 +8,15 @@
         "moduleResolution": "Bundler",
         "paths": {
             "inferred-types/types": [
-                "../types/dist"
+                "../types/src/index.ts"
             ],
             "inferred-types/constants": [
-                "../constants/dist"
+                "../constants/src/index.ts"
             ],
             "inferred-types/runtime": [
                 "./src/index.ts"
-            ]
+            ],
+            "runtime/*": [ "src/*"]
         },
         "strict": true,
         "declaration": true,

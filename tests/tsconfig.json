@@ -13,14 +13,15 @@
     "outDir": "../../dist/none",
     "paths": {
       "inferred-types/types": [
-        "../modules/types/src"
+        "../modules/types/src/index.ts"
       ],
       "inferred-types/runtime": [
-        "../modules/runtime/src"
+        "../modules/runtime/src/index.ts"
       ],
       "inferred-types/constants": [
-        "../modules/constants/src"
+        "../modules/constants/src/index.ts"
       ],
+      "runtime/*": [ "../modules/runtime/src/*"]
     }
   },
   "include": [

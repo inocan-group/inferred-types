@@ -1,4 +1,4 @@
-import { isObject } from "src/type-guards/isObject";
+import { isObject } from "runtime/type-guards/isObject";
 
 /**
  * type-guard which validates that `val` is an object with **only** symbol

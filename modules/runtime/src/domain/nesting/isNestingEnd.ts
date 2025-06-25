@@ -10,9 +10,14 @@ export function isNestingEnd<
 ) {
     if (isNestingTuple(nesting)) {
         const [ start, end ] = nesting;
-        // I think we need start to be a tuple not a union
+        if (end) {
+            return end.includes(char);
+        } else {
+            // When end is undefined, any non-start character ends the nesting
+            return !start.includes(char);
+        }
     } else if (isNestingKeyValue(nesting)) {
-        return Object.keys(nesting).includes(char);
+        return Object.values(nesting).includes(char);
     } else {
         return err(
             `invalid-type/nesting`,

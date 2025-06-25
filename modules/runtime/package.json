@@ -1,11 +1,21 @@
 {
     "name": "@inferred-types/runtime",
     "private": true,
-        "scripts": {
+    "type": "module",
+    "main": "dist/index.cjs",
+    "module": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js",
+            "require": "./dist/index.cjs"
+        }
+    },
+    "scripts": {
         "build": "tsdown",
         "test": "vitest run",
         "lint": "eslint src --fix",
-
         "watch": "run-p watch:*",
         "watch:build": "tsdown --watch",
         "watch:test": "vitest"
