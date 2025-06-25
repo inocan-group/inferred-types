@@ -1,4 +1,4 @@
-import { isString } from "inferred-types/runtime";
+import { asNumber, isString } from "inferred-types/runtime";
 import { Add, NumberLike } from "inferred-types/types";
 
 export function add<

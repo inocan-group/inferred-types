@@ -3,7 +3,7 @@ import {
     RuntimeTakeFunction,
     RuntimeType
 } from "inferred-types/types";
-import { takeAtomicToken } from "src/take/takeAtomicToken";
+import { takeAtomicToken } from "inferred-types/runtime";
 
 type Layer = "union" | "intersection" | "anonymous";
 

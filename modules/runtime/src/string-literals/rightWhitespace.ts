@@ -1,6 +1,6 @@
-import type { RetainAfter, TrimLeft, Whitespace } from "inferred-types/types";
+import type { RetainAfter,  TrimStart, Whitespace } from "inferred-types/types";
 import { WHITESPACE_CHARS } from "inferred-types/constants";
-import { retainAfterInclusive } from "./retainAfter";
+import { retainAfterInclusive } from "inferred-types/runtime";
 
 /**
  * **rightWhitespace**`(content)`
@@ -12,5 +12,5 @@ export function rightWhitespace<T extends string>(content: T) {
     return retainAfterInclusive(
         trimmed,
         ...WHITESPACE_CHARS,
-    ) as unknown as RetainAfter<TrimLeft<T>, Whitespace, true>;
+    ) as unknown as RetainAfter<TrimStart<T>, Whitespace, true>;
 }

@@ -1,11 +1,5 @@
 import type { Narrowable } from "inferred-types/types";
 
-/**
- * Import the standard unset value and type for internal use
- * Note: Not exported to avoid conflicts with main runtime exports
- */
-import { unset } from "inferred-types/runtime";
-import type { Unset } from "inferred-types/types";
 
 /**
  * Parser operator symbols
@@ -53,7 +47,7 @@ export const ATOMIC_TOKENS = {
  */
 export const LITERAL_PREFIXES = {
   STRING: "String",
-  NUMBER: "Number", 
+  NUMBER: "Number",
   BOOLEAN: "Boolean",
 } as const;
 

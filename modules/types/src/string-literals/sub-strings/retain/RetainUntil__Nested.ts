@@ -1,4 +1,4 @@
-import { AfterFirst, And, Chars, DefaultNesting, Err, Extends, First, IsNestingEnd, IsNestingMatchEnd, IsNestingStart, Nesting, Pop } from "inferred-types/types";
+import { AfterFirst, And, Chars, DefaultNesting, Err,  First, IsNestingEnd, IsNestingMatchEnd, IsNestingStart, Join, Nesting, Pop, ToStringLiteral } from "inferred-types/types";
 
 type FindLast<
     TChars extends readonly string[],
@@ -9,8 +9,19 @@ type FindLast<
     TLevel extends readonly string[] = []
 > = [] extends TChars
 ? TLevel["length"] extends 0
-    ? TRtn
-    : [TLevel, TRtn]
+    ? Err<
+        `not-found/retain-until-nested`,
+        `The character '${TFind}' was not found anywhere at the base level of the nesting stack!`,
+        {
+            find: TFind,
+            content: TRtn,
+            nesting: ToStringLiteral<TNesting>
+        }
+    >
+    : Err<
+        `unbalanced/retain-until-nested`,
+        `After reaching the end of the characters of the string, it appears that the nesting stack is not balanced! There are still the following items on the stack: ${Join<TLevel, ", ">}`
+    >
 : And<[
     First<TChars> extends TFind ? true : false,
     TLevel["length"] extends 0 ? true : false
@@ -56,10 +67,7 @@ type FindLast<
         TInclude,
         `${TRtn}${First<TChars>}`,
         TLevel
-    >
-
-;
-
+    >;
 
 /**
  * **RetainUntil__Nested**`<TStr, TFind, [TInclude], [TNesting]>`
@@ -86,7 +94,7 @@ export type RetainUntil__Nested<
 : TStr extends Error
     ? TStr
     : Err<
-        "invalid/string",
+        "invalid-type/string",
         `The AfterLast__Nested utility was passed a non-string value to TStr!`,
         { str: TStr }
     >;
