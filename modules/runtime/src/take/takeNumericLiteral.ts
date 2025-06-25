@@ -1,12 +1,8 @@
-import { createTakeFunction } from "src/take/create";
+import { createTakeFunction } from "runtime/take/create/createTakeFunction";
 
 export const takeStringToken = createTakeFunction("start-end")
     .startEndMarkers({
         "`": "`",
         "'": "'",
         '"': '"'
-    }).options({
-        handler(str) {
-            return str
-        }
     })

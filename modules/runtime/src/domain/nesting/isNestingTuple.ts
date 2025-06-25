@@ -9,10 +9,10 @@ import { isArray, isString, isUndefined } from "inferred-types/runtime";
 export function isNestingTuple(val: unknown): val is NestingTuple {
     return isArray(val)
         && val.length === 2
-        && isString(val[0])
-        && val[0].length === 1
+        && isArray(val[0])
+        && val[0].every(isString)
         && (
-            ( isString(val[1]) && val[1].length === 1 )
+            (isArray(val[1]) && val[1].every(isString))
             || isUndefined(val[1])
         )
 }

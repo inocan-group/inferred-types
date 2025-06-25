@@ -1,4 +1,4 @@
-import type { FirstChar } from "inferred-types";
+import type { FirstChar } from "../../../inferred-types/dist";
 import type { LastChar } from "inferred-types/types";
 import { asChars } from "inferred-types/runtime";
 

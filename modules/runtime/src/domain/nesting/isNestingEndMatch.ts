@@ -1,4 +1,4 @@
-import { valuesOf } from "inferred-types";
+import { valuesOf } from "../../../../inferred-types/dist";
 import { Nesting } from "inferred-types/types";
 import { isNestingEnd, isNestingKeyValue, isNestingTuple, isUndefined, last, reverseLookup } from "inferred-types/runtime";
 

@@ -4,7 +4,9 @@ import {
     RetainUntil__Nested,
     Test,
 } from "inferred-types/types";
-import { retainUntil__Nested } from "inferred-types/runtime";
+import { isError, retainUntil__Nested } from "inferred-types/runtime";
+import { ALPHA_CHARS, NUMERIC_CHAR } from "inferred-types";
+import { QUOTE_NESTING } from "inferred-types/constants";
 
 describe("RetainUntil__Nested<TStr,TFind,TNesting>", () => {
     type Fn = `function greet(name: string) { return "hi" + name; };`
@@ -108,11 +110,125 @@ describe("retainUntil__Nested(str, find, incl, nesting)", () => {
 
     it("no nesting chars", () => {
         const t1 = retainUntil__Nested("Hi! Welcome.", "!");
+        const t2 = retainUntil__Nested("Hi! Welcome.", "!", false);
 
         expect(t1).toBe("Hi!")
+        expect(t2).toBe("Hi")
 
         type cases = [
-            /** type tests */
+            Expect<Test<typeof t1, "equals", "Hi!">>,
+            Expect<Test<typeof t2, "equals", "Hi">>,
+        ];
+    });
+
+    it("single nesting stack", () => {
+        const t1 = retainUntil__Nested("Hi! { Welcome }.", "!");
+        const t2 = retainUntil__Nested("Hi{! Welcome}.!", "!");
+        const t3 = retainUntil__Nested("Hi{! Welcome}.! Welcome.", "!");
+
+        expect(t1).toBe("Hi!")
+        expect(t2).toBe("Hi{! Welcome}.!")
+        expect(t3).toBe("Hi{! Welcome}.!")
+
+        type cases = [
+            Expect<Test<typeof t1, "equals", "Hi!">>,
+            Expect<Test<typeof t2, "equals", "Hi{! Welcome}.!">>,
+            Expect<Test<typeof t3, "equals", "Hi{! Welcome}.!">>,
+        ];
+    });
+
+    it("multi-nesting stack with same START, END chars", () => {
+        const t1 = retainUntil__Nested("Hi! {{ Welcome }}.", "!");
+        const t2 = retainUntil__Nested("Hi{{! Welcome}}.!", "!");
+        const t3 = retainUntil__Nested("Hi{{! Welcome}}.! Welcome.", "!");
+
+        expect(t1).toBe("Hi!")
+        expect(t2).toBe("Hi{{! Welcome}}.!")
+        expect(t3).toBe("Hi{{! Welcome}}.!")
+
+        type cases = [
+            Expect<Test<typeof t1, "equals", "Hi!">>,
+            Expect<Test<typeof t2, "equals", "Hi{{! Welcome}}.!">>,
+            Expect<Test<typeof t3, "equals", "Hi{{! Welcome}}.!">>,
+        ];
+    });
+
+
+    it("using NestingTuple with undefined for END", () => {
+        const t1 = retainUntil__Nested(
+            "Hi,12456 is a number", " ", true,
+            [NUMERIC_CHAR, undefined]
+        )
+
+        expect(t1).toBe("Hi,12456 ");
+
+        type cases = [
+            Expect<Test<typeof t1, "equals", "Hi,12456 ">>,
+        ];
+    });
+
+    it("using NestingTuple with START and END chars", () => {
+        // the "1" character should add to the stack
+        // the "i" character should remove from the stack
+        const t1 = retainUntil__Nested(
+            "Hi,12456 is a number", " ", true,
+            [NUMERIC_CHAR, ALPHA_CHARS]
+        )
+
+        expect(t1).toBe("Hi,12456 is ");
+
+        type cases = [
+            Expect<Test<typeof t1, "equals", "Hi,12456 is ">>,
+        ];
+    });
+
+
+
+    it("using quotes nesting config", () => {
+        const t1 = retainUntil__Nested(
+            `he said, "do it!", and of course we did! right?`,
+            "!",
+            true,
+            QUOTE_NESTING
+        )
+        const t2 = retainUntil__Nested(
+            `he said, 'do it!', and of course we did! right?`,
+            "!",
+            true,
+            QUOTE_NESTING
+        )
+        const t3 = retainUntil__Nested(
+            'he said, `do it!`, and of course we did! right?',
+            "!",
+            true,
+            QUOTE_NESTING
+        )
+
+        expect(t1).toBe(`he said, "do it!", and of course we did!`);
+        expect(t2).toBe(`he said, 'do it!', and of course we did!`);
+        expect(t3).toBe('he said, `do it!`, and of course we did!');
+
+        type cases = [
+            Expect<Test<typeof t1, "equals", `he said, "do it!", and of course we did!`>>,
+            Expect<Test<typeof t2, "equals", `he said, 'do it!', and of course we did!`>>,
+            Expect<Test<typeof t3, "equals", 'he said, `do it!`, and of course we did!'>>,
+        ];
+    });
+
+
+
+    it("one type of quote to start, another quote type in attempt to close results in error", () => {
+        const t1 = retainUntil__Nested(
+            `he said, 'do it!", and of course we did! right?`,
+            "!",
+            true,
+            QUOTE_NESTING
+        )
+
+        expect(isError(t1)).toBe(true);
+
+        type cases = [
+            Expect<Test<typeof t1, "isError", "unbalanced">>,
         ];
     });
 

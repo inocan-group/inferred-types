@@ -1,6 +1,16 @@
 {
     "name": "@inferred-types/constants",
     "private": true,
+    "type":"module",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js",
+            "require": "./dist/index.cjs"
+        }
+    },
     "scripts": {
         "build": "tsdown",
         "test": "vitest run",
