@@ -1,5 +1,5 @@
 import { isIsoExplicitDate, isIsoImplicitDate } from "inferred-types/runtime";
-import { Expect, Iso8601Date, Test } from "inferred-types/types"
+import { Expect, IsoDate, IsoDateLike, Test } from "inferred-types/types"
 import { describe, expect, it } from "vitest";
 
 
@@ -28,7 +28,7 @@ describe("isIsoDate()", () => {
             type D = typeof d;
 
             type cases = [
-                Expect<Test<D, "equals", Iso8601Date<"explicit">>>
+                Expect<Test<D, "equals", IsoDate>>
             ];
         }
     });
@@ -55,7 +55,7 @@ describe("isIsoDate()", () => {
             type D = typeof d;
 
             type cases = [
-                Expect<Test<D, "equals", Iso8601Date<"implicit">>>
+                Expect<Test<D, "equals", IsoDate>>
             ];
         }
     });

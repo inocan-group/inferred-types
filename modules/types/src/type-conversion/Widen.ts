@@ -9,7 +9,7 @@ import type {
     ExpandDictionary,
     ExpandRecursively,
     First,
-    FnProps,
+    FnKeyValue,
     IsEqual,
     IsLiteral,
     IsLiteralUnion,
@@ -29,10 +29,10 @@ import type {
 
 type GetKeys<
     T extends AnyFunction,
-> = FnProps<T> extends Dictionary
-    ? Keys<FnProps<T>> extends readonly ObjectKey[]
-        ? Keys<FnProps<T>> extends readonly (keyof FnProps<T>)[]
-            ? Keys<FnProps<T>>
+> = FnKeyValue<T> extends Dictionary
+    ? Keys<FnKeyValue<T>> extends readonly ObjectKey[]
+        ? Keys<FnKeyValue<T>> extends readonly (keyof FnKeyValue<T>)[]
+            ? Keys<FnKeyValue<T>>
             : never
         : never
     : never;
@@ -65,7 +65,7 @@ type Process<T> = T extends Scalar
         : T extends AnyFunction
             ? GetKeys<T>["length"] extends 0
                 ? RemoveFnProps<T>
-                : RemoveFnProps<T> & ExpandRecursively<WidenObj<FnProps<T>, GetKeys<T>>>
+                : RemoveFnProps<T> & ExpandRecursively<WidenObj<FnKeyValue<T>, GetKeys<T>>>
             : T;
 
 type WidenObj<
@@ -85,7 +85,7 @@ type WidenObj<
                     IsNarrowingFn<T[First<TKeys>]>,
                     Parameters<T[First<TKeys>]>,
                     ReturnType<T[First<TKeys>]>,
-                    ExpandDictionary<FnProps<T[First<TKeys>]>>
+                    ExpandDictionary<FnKeyValue<T[First<TKeys>]>>
                 >
                 : IsLiteral<T[First<TKeys>]> extends true
                     ? WidenLiteral<T[First<TKeys>]>
@@ -192,7 +192,7 @@ export type WidenContainer<
                   IsNarrowingFn<T>,
                   Parameters<T>,
                   ReturnType<T>,
-                  ExpandDictionary<FnProps<T>>
+                  ExpandDictionary<FnKeyValue<T>>
               >
               : Function
           : T extends readonly unknown[] ? WidenTuple<T>

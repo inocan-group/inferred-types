@@ -226,10 +226,9 @@ describe("toStringLiteral(val)", () => {
         expect(tup).toBe(`[ 1, 2, "foo", { id: 1 } ]`)
 
         type cases = [
-            // TODO: this test looks like it should pass
             Expect<Test<
                 typeof parts, "hasSameValues",
-                [ "1", "2", "foo", "{ id: 1 }" ]
+                [ "1", "2", "\"foo\"", "{ id: 1 }" ]
             >>
         ];
     });

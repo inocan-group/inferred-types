@@ -3,7 +3,7 @@ export * from "./AsyncFunction";
 export * from "./ExplicitFunction";
 export * from "./FnFrom";
 export * from "./FnMeta";
-export * from "./FnProps";
+export * from "./FnKeyValue";
 export * from "./FnWithDescription";
 export * from "./FnWithProps";
 export * from "./HandleDoneFn";

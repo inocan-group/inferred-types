@@ -126,9 +126,15 @@ export type InputTokenLike = InputTokenSuggestions
 | readonly InputTokenSuggestions[];
 
 /**
- * A branded type of `InputToken` which indicates that the _value_ has
- * been validated to be an `InputToken`.
+ * A branded type of `InputTokenLike` which indicates that the _value_ has
+ * been validated to be a valid string-based **InputToken**.
+ *
+ * **Note:**
+ * - use `isInputToken()` in runtime to validate a string-based
+ * token that is `InputTokenLike`
+ * - to convert a non-string token use `fromInputToken()` as it
+ * will first convert non-string tokens to a string and then validate.
  */
-export type InputToken = InputTokenSuggestions & {
+export type InputToken = string & {
     brand: "InputToken";
 };

@@ -1,4 +1,4 @@
-import type { AnyFunction, Dictionary, FnProps } from "inferred-types/types";
+import type { AnyFunction, Dictionary, FnKeyValue } from "inferred-types/types";
 
 /**
  * **fnProps**`(fn)`
@@ -18,5 +18,5 @@ export function fnProps<T extends AnyFunction>(fn: T) {
         }
     }
 
-    return props as FnProps<T>;
+    return props as FnKeyValue<T>;
 }

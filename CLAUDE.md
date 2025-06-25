@@ -98,7 +98,23 @@ Each module (`constants`, `types`, `runtime`, `inferred-types`) has consistent s
 ## Testing Framework
 
 - **Runtime tests**: Vitest with configuration in `vitest.config.ts`
-- **Type tests**: Custom `type-test` CLI for validating TypeScript behavior
+
+    ```sh
+    # test all
+    pnpm test
+    # test matching
+    pnpm test datetime
+    ```
+
+- **Type tests**: Use `pnpm test:types` or `typed test` to test type files
+
+    ```sh
+    # type test all test files
+    pnpm test:types
+    # type test a filtered down set of files
+    pnpm test:types --filter datetime
+    ```
+
 - **Test organization**: `/tests/` directory with subdirectories by feature area
 - **Module aliases**: Configured in Vitest for clean imports during testing
 

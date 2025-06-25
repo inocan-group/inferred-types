@@ -1,4 +1,4 @@
-import type { AfterFirst, AnyFunction, AsLiteralFn, AsNarrowingFn, Decrement, Dictionary, First, FnProps, IsNarrowingFn, IsUnion, Tuple, TupleToUnion, TypedFunction, UnionToTuple } from "inferred-types/types";
+import type { AfterFirst, AnyFunction, AsLiteralFn, AsNarrowingFn, Decrement, Dictionary, First, FnKeyValue, IsNarrowingFn, IsUnion, Tuple, TupleToUnion, TypedFunction, UnionToTuple } from "inferred-types/types";
 
 type _ExpandTuple<
     TLength extends number,
@@ -18,8 +18,8 @@ type ExpandParameters<
     TResults extends readonly unknown[] = [],
 > = [] extends TParams
     ? IsNarrowingFn<TFn> extends true
-        ? AsNarrowingFn<TResults, ReturnType<TFn>, ExpandDictionary<FnProps<TFn>>>
-        : AsLiteralFn<TResults, ReturnType<TFn>, ExpandDictionary<FnProps<TFn>>>
+        ? AsNarrowingFn<TResults, ReturnType<TFn>, ExpandDictionary<FnKeyValue<TFn>>>
+        : AsLiteralFn<TResults, ReturnType<TFn>, ExpandDictionary<FnKeyValue<TFn>>>
     : ExpandParameters<
         TFn,
         AfterFirst<TParams>,

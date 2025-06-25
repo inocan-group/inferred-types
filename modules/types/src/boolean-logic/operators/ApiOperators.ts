@@ -3,7 +3,7 @@ import type {
     Dictionary,
     ErrorCondition,
     EscapeFunction,
-    FnProps,
+    FnKeyValue,
     GetEscapeFunction,
     TypedFunction,
 } from "inferred-types/types";
@@ -21,7 +21,7 @@ export type HasEscapeFunction<
 
 export type IsEscapeFunction<T> = T extends TypedFunction
     ? T extends EscapeFunction
-        ? FnProps<T> extends { escape: true }
+        ? FnKeyValue<T> extends { escape: true }
             ? true
             : false
         : false

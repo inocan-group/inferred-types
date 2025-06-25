@@ -3,7 +3,7 @@ import type {
     EmptyObject,
     ExpandDictionary,
     FnMeta,
-    FnProps,
+    FnKeyValue,
     IsNonEmptyObject,
     TypedFunction,
 } from "inferred-types/types";
@@ -16,12 +16,12 @@ import type {
 export type AsFnMeta<
     TFn extends AnyFunction,
 > = TFn extends TypedFunction
-    ? [IsNonEmptyObject<FnProps<TFn>>] extends [true]
+    ? [IsNonEmptyObject<FnKeyValue<TFn>>] extends [true]
         ? FnMeta<
             TFn,
             Parameters<TFn>,
             ReturnType<TFn>,
-            ExpandDictionary<FnProps<TFn>>
+            ExpandDictionary<FnKeyValue<TFn>>
         >
         : FnMeta<TFn, Parameters<TFn>, ReturnType<TFn>, EmptyObject>
 

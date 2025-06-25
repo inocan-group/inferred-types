@@ -22,7 +22,7 @@ import {
     isEqual,
     isFalse,
     isFalsy,
-    isInputToken,
+    isInputTokenLike,
     isNarrowableTuple,
     isNumber,
     isNumberLike,
@@ -101,7 +101,7 @@ function handle_general<
 ): boolean | Error | Unset {
     switch (op) {
         case "extends":
-            if (!isInputToken(params[0])) {
+            if (!isInputTokenLike(params[0])) {
                 return err(
                     `compare/extends`,
                     `A filter operation based on the 'extends' operation passed in a parameter which was not an InputToken so we are not able to convert this into a type!`,

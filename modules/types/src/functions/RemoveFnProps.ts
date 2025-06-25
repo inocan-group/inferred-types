@@ -8,4 +8,4 @@ import type { AnyFunction, AsFnMeta } from "inferred-types/types";
  */
 export type RemoveFnProps<
     T extends AnyFunction,
-> = (...args: AsFnMeta<T>["args"]) => AsFnMeta<T>["returns"];
+> = (...args: AsFnMeta<T>["params"]) => AsFnMeta<T>["returns"];

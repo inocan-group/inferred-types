@@ -11,6 +11,8 @@ export * from "./Type";
 export * from "./type-defn/index";
 export * from "./TypeOf";
 export * from "./TypeToken";
+export * from "./RuntimeTakeFunction"
 
 export * from "./TypeToken-variants";
 export * from "./TypeTuple";
+export * from "./runtime-parser/index";

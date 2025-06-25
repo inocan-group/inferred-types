@@ -53,7 +53,7 @@
         "test:watch": "vitest",
         "test:ui": "vitest --ui",
         "audit:fix": "pnpm audit --fix",
-        "test:types": "type-test",
+        "test:types": "typed test",
         "audit:types": "typed source -c modules/types/tsconfig.json -w 6133 -w 6307",
         "audit:runtime": "typed source -c modules/runtime/tsconfig.json -w 2304 -w 6133 -w 6307",
         "audit:constants": "typed source -c modules/constants/tsconfig.json --warn 6133",
