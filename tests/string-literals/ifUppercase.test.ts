@@ -1,5 +1,5 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { toUppercase, ifUppercaseChar } from "inferred-types/runtime";
+import {  ifUppercaseChar, toAllCaps } from "inferred-types/runtime";
 import { Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
@@ -10,8 +10,8 @@ describe("ifUppercase()", () => {
   it("ifUpperCaseChar()", () => {
     const lower = ifUppercaseChar("l", () => "was upper", () => "was lower");
     const upper = ifUppercaseChar("U", () => "was upper", () => "was lower");
-    const capLower = ifUppercaseChar("h", v => v, v => toUppercase(v));
-    const capUpper = ifUppercaseChar("H", v => v, v => toUppercase(v));
+    const capLower = ifUppercaseChar("h", v => v, v => toAllCaps(v));
+    const capUpper = ifUppercaseChar("H", v => v, v => toAllCaps(v));
 
     type cases = [
       Expect<Test<typeof lower, "equals",  "was lower">>,

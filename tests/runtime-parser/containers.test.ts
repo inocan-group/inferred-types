@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { parseInputToken } from "../../modules/runtime/src/runtime-types/parser";
+import { parseInputToken } from "inferred-types/runtime";
 
 describe("Runtime Parser - Container Types", () => {
   describe("Array types", () => {
@@ -60,11 +60,11 @@ describe("Runtime Parser - Container Types", () => {
       const result = parseInputToken("Map<string, number>");
       expect(result.kind).toBe("container");
       expect((result as any).containerType).toBe("map");
-      
+
       const validMap = new Map([["key1", 1], ["key2", 2]]);
       const invalidKeyMap = new Map([[1, 1], [2, 2]]);
       const invalidValueMap = new Map([["key1", "value1"], ["key2", "value2"]]);
-      
+
       expect(result.extends(validMap)).toBe(true);
       expect(result.extends(invalidKeyMap)).toBe(false);
       expect(result.extends(invalidValueMap)).toBe(false);
@@ -90,7 +90,7 @@ describe("Runtime Parser - Container Types", () => {
       const result = parseInputToken("Record<string, number>");
       expect(result.kind).toBe("container");
       expect((result as any).containerType).toBe("record");
-      
+
       expect(result.extends({ key1: 1, key2: 2 })).toBe(true);
       expect(result.extends({ key1: "value1", key2: "value2" })).toBe(false);
       expect(result.extends([])).toBe(false);

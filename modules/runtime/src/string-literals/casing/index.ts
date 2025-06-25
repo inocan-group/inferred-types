@@ -6,5 +6,4 @@ export * from "./toPascalCase";
 export * from "./toSnakeCase";
 export * from "./toAllCaps";
 export * from "./uncapitalize";
-export * from "./uppercase";
 

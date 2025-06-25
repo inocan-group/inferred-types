@@ -1,11 +1,11 @@
 import { capitalize, ifLowercaseChar } from "inferred-types/runtime";
 
 /**
- * **toAllCaps**`<T>`
+ * **toAllCaps**`(str)`
  *
  * Converts a string to the "all caps" equivalent.
  *
- * Note: non-alpha characters are left "as is"
+ * **Related:** `toLowercase`, `capitalize`, `uncapitalize`
  */
 export function toAllCaps<T extends string>(str: T): Uppercase<T> {
     return str
