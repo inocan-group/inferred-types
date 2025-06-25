@@ -1,10 +1,11 @@
 import {
     asArray,
     asChars,
-    isUndefined,
-    stripLeading
+    isUnset,
+    stripLeading,
+    unset
 } from "inferred-types/runtime";
-import { Defined } from "inferred-types/types";
+import { Defined, Unset } from "inferred-types/types";
 
 
 type WhileOptions = {
@@ -38,14 +39,14 @@ type WhileOptions = {
      */
     ignore?: string | readonly string[];
 
-    callback?: <R extends { head: string; rest: string }>(result: R) => [ undefined, string ] | [ Defined, string ];
+    callback?: <R extends { head: string; rest: string }>(result: R) => [ Unset, string ] | [ Defined, string ];
 }
 
 function takeWhile(
     chars: string[],
     match: string[],
     opts: WhileOptions
-): [undefined, string] | [ string, string ] {
+): [Unset, string] | [ string, string ] {
     let head = "";
 
     for (const char of chars) {
@@ -55,7 +56,7 @@ function takeWhile(
     }
 
     return head === ""
-        ? [ undefined, chars.join()]
+        ? [ unset, chars.join()]
         : [ head, stripLeading(chars.join(), head).trim() ]
 }
 
@@ -78,8 +79,9 @@ export function createTakeWhileFunction<
             opts
         );
 
-        if (isUndefined(head)) {
-            return [ undefined, str ];
+        if (isUnset(head)) {
+            // did not find the pattern
+            return [ unset, str ];
         }
 
         if(opts.callback) {

@@ -45,7 +45,8 @@ describe("decrement(val)", () => {
         expect(twoStr).toBe("1");
 
         type cases = [
-            /** type tests */
+            Expect<Test<typeof two, "equals", 1>>,
+            Expect<Test<typeof twoStr, "equals", "1">>,
         ];
     });
 

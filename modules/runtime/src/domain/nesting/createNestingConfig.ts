@@ -1,6 +1,5 @@
-import { BracketNesting, DefaultNesting, Nesting, QuoteNesting } from "@inferred-types/types/src";
-import { err } from "src/errors";
-import { isString } from "src/type-guards";
+import { BracketNesting, DefaultNesting, Nesting, QuoteNesting } from "inferred-types/types";
+import { err, isString } from "inferred-types/runtime";
 
 type NamedNestingConfig = "default" | "brackets" | "quotes";
 

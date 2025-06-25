@@ -1,5 +1,6 @@
-import { describe, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { Expect, Increment, Test } from "inferred-types/types";
+import { increment } from "inferred-types/runtime";
 
 
 
@@ -30,3 +31,23 @@ describe("Increment<T>", () => {
     });
 
 });
+
+
+describe("increment(val)", () => {
+
+
+    it("happy path", () => {
+        const two = increment(2);
+        const twoStr = increment("2");
+
+        expect(two).toBe(3);
+        expect(twoStr).toBe("3");
+
+        type cases = [
+            Expect<Test<typeof two, "equals", 3>>,
+            Expect<Test<typeof twoStr, "equals", "3">>,
+        ];
+    });
+
+
+})

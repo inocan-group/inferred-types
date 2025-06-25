@@ -1,5 +1,5 @@
 import type { Unset } from "inferred-types/types";
-import { isObject } from "./isObject";
+import { isObject } from "inferred-types/runtime";
 
 /**
  * **isUnset**`(val)`

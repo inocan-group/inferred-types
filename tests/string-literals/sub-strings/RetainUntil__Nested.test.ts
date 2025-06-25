@@ -1,11 +1,10 @@
-import { describe, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import {
-    DefaultNesting,
     Expect,
     RetainUntil__Nested,
     Test,
 } from "inferred-types/types";
-import { Default } from "inferred-types";
+import { retainUntil__Nested } from "inferred-types/runtime";
 
 describe("RetainUntil__Nested<TStr,TFind,TNesting>", () => {
     type Fn = `function greet(name: string) { return "hi" + name; };`
@@ -74,5 +73,48 @@ describe("RetainUntil__Nested<TStr,TFind,TNesting>", () => {
         ];
     });
 
+    it("error when can't find terminal char", () => {
+        type E1 = RetainUntil__Nested<`abcd`, "}">;
+
+        type cases = [
+            Expect<Test<E1, "isError", "not-found">>,
+        ];
+    });
+
+    it("error when nesting stack is unbalanced", () => {
+        type E1 = RetainUntil__Nested<`{ foo {}`, "}">;
+
+        type cases = [
+            Expect<Test<E1, "isError", "unbalanced">>,
+        ];
+    });
+
+    it("error when non-string value passed into TStr", () => {
+        type E1 = RetainUntil__Nested<99, "}">;
+
+        type cases = [
+            Expect<Test<E1, "isError", "invalid-type">>,
+        ];
+    });
 
 });
+
+
+// RUNTIME
+// -----------------------------------------------------------------
+
+describe("retainUntil__Nested(str, find, incl, nesting)", () => {
+
+
+    it("no nesting chars", () => {
+        const t1 = retainUntil__Nested("Hi! Welcome.", "!");
+
+        expect(t1).toBe("Hi!")
+
+        type cases = [
+            /** type tests */
+        ];
+    });
+
+
+})

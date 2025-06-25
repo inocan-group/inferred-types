@@ -1,3 +1,4 @@
+export * from "./afterFirst";
 export * from "./asArray";
 export * from "./createConverter";
 export * from "./createFixedLengthArray";
@@ -16,3 +17,4 @@ export * from "./shift";
 export * from "./slice";
 export * from "./sortByKey";
 export * from "./unique";
+

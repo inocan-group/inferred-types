@@ -1,4 +1,5 @@
-import { Err, IndexOf, Keys, Last, ReverseLookup, Values } from "inferred-types/types";
+import { DEFAULT_NESTING, QUOTE_NESTING } from "inferred-types/constants";
+import { AllLengthOf, AllStringLiterals, And, Err, IndexOf, IsUnion, Keys, Last, Length, ReverseLookup, StringKeys, ToStringLiteral, Values } from "inferred-types/types";
 
 /**
  * **NestingKeyValue**
@@ -15,13 +16,13 @@ export type NestingKeyValue = Record<string, string>;
  *
  * - `[ start, end ]`
  *
- *     - where `start` is a string union of all characters allowed to
+ *     - where `start` is a tuple of strings representing all characters allowed to
  *      start the nesting
- *     - where `end` is either a string union of characters which
+ *     - where `end` is either a tuple of characters which
  *      terminate the nesting, or if `end` is _undefined_ then the
  *      nesting terminates when the characters in `start` end.
  */
-export type NestingTuple = [ start: string, end: string | undefined ];
+export type NestingTuple = [ start: readonly string[], end: readonly string[] | undefined ];
 
 
 
@@ -41,23 +42,13 @@ export type Nesting = NestingKeyValue | NestingTuple;
  * for brackets as a key-value pairing to be used
  * with utilities that deal with `Nesting`.
  */
-export type DefaultNesting = {
-    "{": "}";
-    "[": "]";
-    "<": ">";
-    "(": ")";
-};
+export type DefaultNesting = typeof DEFAULT_NESTING;
 
 /**
  * nesting configuration which has matching opening and closing
- * brackets based on
+ * brackets based on bracketing characters.
  */
-export type BracketNesting = {
-    "{": "}";
-    "[": "]";
-    "<": ">";
-    "(": ")";
-};
+export type BracketNesting = typeof DEFAULT_NESTING;
 
 /**
  * nesting configuration which treats all quote characters as
@@ -67,11 +58,80 @@ export type BracketNesting = {
  * - if you start with `'`, you end with `'`.
  * - if you start with \`, you end with \`.
  */
-export type QuoteNesting = {
-    '"': '"',
-    '\'': '\'',
-    '`': '`'
-};
+export type QuoteNesting = typeof QUOTE_NESTING;
+
+
+
+/**
+ * IsNestingTuple<T>
+ *
+ * A boolean-ish operator which returns `true` when `T` is a valid `NestingTuple`
+ *
+ * - if `Start` or `End` tuple elements are still a union type then this
+ * return `boolean`
+ * - when used in the runtime, however, it should resolve the union to a literal
+ * - instead of returning `false` this utility returns an error which will help
+ * debug the problem.
+ *
+ * **Related:**
+ * - `IsNestingKeyValue<T>`
+ * - `isNestingTuple(val)`, `isNestingKeyValue(val)`
+ */
+export type IsNestingTuple<T> = T extends [
+    infer Start extends readonly string[],
+    infer End extends readonly string[] | undefined
+]
+    ? [AllStringLiterals<Start>] extends [true]
+        ? [AllLengthOf<Start, 1>] extends [true]
+            ? [End] extends [readonly string[]]
+                ? [AllStringLiterals<End>] extends [true]
+                    ? [AllLengthOf<End, 1>] extends [true]
+                        ? true
+                    : Err<
+                        `invalid-nesting/tuple`,
+                        `the tuple being tested had END tokens which were longer than a single character!`,
+                        { end: ToStringLiteral<End> }
+                    >
+                : boolean
+            : [End] extends [undefined]
+                ? true
+                : Err<
+                    `invalid-nesting/tuple`,
+                    `The END segment (aka, 2nd element) of the tuple should be either undefined or a 'readonly string[]'. It was neither!`,
+                    { end: ToStringLiteral<End>, tuple: ToStringLiteral<T> }
+                >
+        : Err<
+            `invalid-nesting/tuple`,
+            `The START segment (aka, 1st element) had character strings which were longer than a single character! This is not allowed.`,
+            { start: ToStringLiteral<Start>, tuple: ToStringLiteral<T> }
+        >
+    : false
+: false;
+
+/**
+ * Returns `true` if `T` is a valid `NestingKeyValue` otherwise returns a `invalid-nesting`
+ * Error
+ */
+export type IsNestingKeyValue<T> = T extends Record<string, string>
+    ? AllLengthOf<StringKeys<T>, 1> extends true
+        ? AllLengthOf<Values<T>, 1> extends true
+            ? true
+            : Err<
+                `invalid-nesting/key-value`,
+                `Some of the values in this key-value were not a single character in length!`,
+                { values: ToStringLiteral<Values<T>> }
+            >
+    : Err<
+        `invalid-nesting/key-value`,
+        `Some of the keys in this key-value were not a single character in length!`,
+        { keys: ToStringLiteral<StringKeys<T>> }
+    >
+: Err<
+    `invalid-nesting/key-value`,
+    `Not a key-value type!`,
+    { type: ToStringLiteral<T> }
+>;
+
 
 
 /**
@@ -88,14 +148,10 @@ export type IsNestingStart<
     ? true
     : false
 : [TNesting] extends [NestingTuple]
-    ? TNesting[1] extends string
-        ?  TChar extends TNesting[1]
+    ? TNesting[0] extends readonly string[]
+        ?  TChar extends TNesting[0][number]
             ? true
             : false
-    : TNesting[1] extends undefined
-        ? TChar extends TNesting[0]
-            ? false
-            : true
     : never
 : never;
 
@@ -115,12 +171,12 @@ export type IsNestingEnd<
     ? true
     : false
 : [TNesting] extends [NestingTuple]
-    ? [TNesting[1]] extends [string]
-        ?  [TChar] extends [TNesting[1]]
+    ? [TNesting[1]] extends [readonly string[]]
+        ?  [TChar] extends [TNesting[1][number]]
             ? true
             : false
     : [TNesting[1]] extends [undefined]
-        ? [TChar] extends [TNesting[0]]
+        ? [TChar] extends [TNesting[0][number]]
             ? false
             : true
     : never
