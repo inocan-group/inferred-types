@@ -12,7 +12,7 @@ type _Props<TFn extends AnyFunction> = AsFnMeta<TFn>["props"];
  */
 export function fnMeta<TFn extends AnyFunction>(func: TFn) {
     const fn = <
-        A extends AsFnMeta<TFn>["args"],
+        A extends AsFnMeta<TFn>["params"],
     >(...args: A) => func(...args);
 
     const props = Object.keys(fn).reduce(

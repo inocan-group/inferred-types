@@ -5,7 +5,7 @@ import {
     createFnWithProps,
     fnProps
 } from "inferred-types/runtime";
-import { FnProps, Test } from "inferred-types/types";
+import { FnKeyValue, Test } from "inferred-types/types";
 
 
 const fn = () => "hi" as const;
@@ -135,7 +135,7 @@ describe("createFnWithProps()", () => {
         expect(fn()).toBe("hi");
 
         type cases = [
-            Expect<Test<FnProps<typeof original>, "equals",  { foo: 42 }>>,
+            Expect<Test<FnKeyValue<typeof original>, "equals",  { foo: 42 }>>,
             Expect<Equal<
                 typeof fn,
                 (() => "hi") & { foo: 42; bar: 99 }
@@ -155,7 +155,7 @@ describe("createFnWithProps()", () => {
 
         type cases = [
             Expect<Test<
-                FnProps<typeof original>,
+                FnKeyValue<typeof original>,
                 "equals",
                 { foo: 42, bar: 50 }
             >>,

@@ -1,5 +1,5 @@
 import type { Err, InputToken } from "inferred-types/types";
-import { asString, asTypedError, isInputToken, isString } from "inferred-types/runtime";
+import { asString, asTypedError, isInputTokenLike, isString } from "inferred-types/runtime";
 
 /**
  * **toOutputToken**`(input)`
@@ -27,7 +27,7 @@ import { asString, asTypedError, isInputToken, isString } from "inferred-types/r
  * **Related:** `isInputToken()`, `isOutputToken()`, `fromOutputToken()`
  */
 export function toOutputToken<T extends InputToken>(input: T): string | Err<`invalid-token/input-token`> {
-    return isInputToken(input)
+    return isInputTokenLike(input)
         ? isString(input)
             ? "<<string>>"
             : "<<shit>>"

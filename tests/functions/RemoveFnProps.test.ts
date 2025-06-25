@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { Expect, FnProps, RemoveFnProps, Test } from "inferred-types/types";
+import { Expect, FnKeyValue, RemoveFnProps, Test } from "inferred-types/types";
 
 
 describe("RemoveFnProps<Fn>", () => {
@@ -11,7 +11,7 @@ describe("RemoveFnProps<Fn>", () => {
     it("isolating fn and dict with type utils", () => {
         type F1 = Fn & Dict;
         type JustFn = RemoveFnProps<F1>;
-        type JustProps = FnProps<F1>;
+        type JustProps = FnKeyValue<F1>;
 
         type cases = [
             Expect<Test<JustFn, "equals",  Fn>>,

@@ -1,5 +1,5 @@
 import type {
-    FnProps,
+    FnKeyValue,
     LiteralFn,
     MergeObjects,
     Narrowable,
@@ -14,8 +14,8 @@ type FnWithProps<
     TNarrowing extends boolean,
     Fn extends <A extends Parameters<TFn>>(...args: A) => ReturnType<TFn> = <A extends Parameters<TFn>>(...args: A) => ReturnType<TFn>
 > = TNarrowing extends true
-    ? Fn & MergeObjects<FnProps<TFn>, TProps>
-    : LiteralFn<Fn> & MergeObjects<FnProps<TFn>, TProps>;
+    ? Fn & MergeObjects<FnKeyValue<TFn>, TProps>
+    : LiteralFn<Fn> & MergeObjects<FnKeyValue<TFn>, TProps>;
 
 /**
  * **createFnWithProps**`(fn, props)`

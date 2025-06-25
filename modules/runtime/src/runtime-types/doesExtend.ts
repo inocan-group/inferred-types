@@ -9,7 +9,7 @@ import {
     isArray,
     isBoolean,
     isFalse,
-    isInputToken,
+    isInputTokenLike,
     isInputToken__Object,
     isInputToken__String,
     isInputToken__Tuple,
@@ -39,7 +39,7 @@ export function doesExtend<
     type: TType,
 ) {
     return <T extends Narrowable>(val: T): boolean => {
-        if (isInputToken(type)) {
+        if (isInputTokenLike(type)) {
 
             if (isString(type)) {
 
@@ -71,7 +71,7 @@ export function doesExtend<
             else if (isInputToken__Object(type)) {
                 if(isObject(val)) {
                     return Object.keys(type).every(
-                        (k) => isInputToken(type[k]) && isNarrowable(val[k]) && doesExtend(type[k])(val[k])
+                        (k) => isInputTokenLike(type[k]) && isNarrowable(val[k]) && doesExtend(type[k])(val[k])
                     )
                 } else {
                     return false;
@@ -82,7 +82,7 @@ export function doesExtend<
                 if (isArray(val)) {
                     return val.length === type.length
                         ? type.every(
-                            (t, i) => isInputToken(t) && isNarrowable(val[i]) && doesExtend(t)(val[i])
+                            (t, i) => isInputTokenLike(t) && isNarrowable(val[i]) && doesExtend(t)(val[i])
                         )
                         : false
                 } else {

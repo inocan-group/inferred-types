@@ -18,15 +18,15 @@ import type {
  */
 export interface FnMeta<
     TFn extends AnyFunction = AnyFunction,
-    TArgs extends readonly any[] = readonly any[],
+    TParams extends readonly any[] = readonly any[],
     TReturn = unknown,
-    TProps extends Dictionary = Dictionary,
+    TKv extends Dictionary = Dictionary,
 > {
     fn: TFn;
-    args: TArgs;
+    params: TParams;
     returns: TReturn;
-    props: TProps;
-    hasProps: [IsNonEmptyObject<TProps>] extends [true] ? true : false;
-    hasArgs: TArgs["length"] extends 0 ? false : true;
+    props: TKv;
+    hasProps: [IsNonEmptyObject<TKv>] extends [true] ? true : false;
+    hasArgs: TParams["length"] extends 0 ? false : true;
     isNarrowingFn: IsNarrowingFn<TFn>;
 }

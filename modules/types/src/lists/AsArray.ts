@@ -1,12 +1,19 @@
-import type { As, If, IsUndefined, Mutable } from "inferred-types/types";
+import type { IsUndefined, IsUnion, Mutable, UnionToTuple } from "inferred-types/types";
 
-type _AsArray<T> = [T] extends [readonly unknown[]]
-    ? Mutable<T>
-    : If<
-        IsUndefined<T>,
-        [],
-        [T]
-    >;
+
+type TupleToArray<
+    T extends readonly unknown[]
+> = {
+    [K in keyof T]: T[K] extends any[]
+        ? T[K]
+        : T[K][]
+}[number] extends any[]
+? {
+    [K in keyof T]: T[K] extends any[]
+        ? T[K]
+        : T[K][]
+}[number]
+: never;
 
 /**
  * **AsArray**`<T>`
@@ -17,11 +24,11 @@ type _AsArray<T> = [T] extends [readonly unknown[]]
  *
  * - if `T` is undefined then it is converted to an empty array `[]`
  */
-export type AsArray<T> = As<
-    [_AsArray<T>] extends [readonly unknown[]]
-        ? _AsArray<T>
-        : never,
-    _AsArray<T> extends readonly (infer Type)[]
-        ? readonly Type[]
-        : readonly unknown[]
->;
+export type AsArray<T> = [IsUnion<T>] extends [true]
+? TupleToArray<Mutable<UnionToTuple<T>>>
+: [T] extends [ any[]]
+    ? Mutable<T>
+    : [IsUndefined<T>] extends [true]
+        ? []
+        : [Mutable<T>];
+

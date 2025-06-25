@@ -2,7 +2,7 @@ import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import {
     Err,
-    FnProps,
+    FnKeyValue,
     FromInputToken,
     FromInputToken__String,
     FromInputToken__Tuple,
@@ -83,13 +83,13 @@ describe("FromInputToken<Token>", () => {
                 string, number,  "red" | "blue"
             ]>>,
             Expect<Test<ReturnType<F>, "equals",  string>>,
-            Expect<Test<FnProps<F>,  "equals", { name: "foo" }>>,
+            Expect<Test<FnKeyValue<F>,  "equals", { name: "foo" }>>,
 
             Expect<Test<Parameters<FN>, "equals", [
                 string, number, "red" | "blue"
             ]>>,
             Expect<Test<ReturnType<FN>, "equals",  string>>,
-            Expect<Test<FnProps<FN>, "equals",  { name: "foo" }>>,
+            Expect<Test<FnKeyValue<FN>, "equals",  { name: "foo" }>>,
 
             Expect<Test<
                 F,
@@ -126,14 +126,14 @@ describe("FromInputToken<Token>", () => {
                 [string, number, "red" | "blue"]
             >>,
             Expect<Test<ReturnType<F>, "equals",  Promise<string>>>,
-            Expect<Test<FnProps<F>, "equals",  { name: "foo" }>>,
+            Expect<Test<FnKeyValue<F>, "equals",  { name: "foo" }>>,
 
             Expect<Test<
                 Parameters<FN>, "equals",
                 [string, number,  "red" | "blue"]
             >>,
             Expect<Test<ReturnType<FN>, "equals",  Promise<string>>>,
-            Expect<Test<FnProps<FN>, "equals",  { name: "foo" }>>,
+            Expect<Test<FnKeyValue<FN>, "equals",  { name: "foo" }>>,
 
             Expect<Test<
                 F,
@@ -263,13 +263,13 @@ describe("FromInputToken<Token>", () => {
         type cases = [
             Expect<Test<Parameters<FA>, "equals",  [string]>>,
             Expect<Test<ReturnType<FA>, "equals",  string>>,
-            Expect<Equal<FnProps<FA>, {
+            Expect<Equal<FnKeyValue<FA>, {
                 name: "";
                 parameters: [{ name: "name", type: string }];
                 returns: string
             }>>,
 
-            Expect<Equal<FnProps<FNN>, {
+            Expect<Equal<FnKeyValue<FNN>, {
                 name: "greet";
                 parameters: [{ name: "name", type: string }];
                 returns: string

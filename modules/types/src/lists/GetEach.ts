@@ -1,5 +1,5 @@
 import type {
-    FnProps,
+    FnKeyValue,
     Get,
     IndexOf,
     IsReadonlyArray,
@@ -12,7 +12,7 @@ import type {
  * extract props from functions
  */
 type F<T> = T extends TypedFunction
-    ? FnProps<T>
+    ? FnKeyValue<T>
     : T;
 
 type Process<

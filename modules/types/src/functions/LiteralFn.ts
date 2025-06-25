@@ -19,10 +19,10 @@ export type LiteralFn<
     TFn extends TypedFunction,
 > = AsFnMeta<TFn>["hasProps"] extends true
     ? AsFnMeta<TFn>["hasArgs"] extends true
-        ? ((...args: AsFnMeta<TFn>["args"]) => AsFnMeta<TFn>["returns"]) & AsFnMeta<TFn>["props"]
+        ? ((...args: AsFnMeta<TFn>["params"]) => AsFnMeta<TFn>["returns"]) & AsFnMeta<TFn>["props"]
         : (() => AsFnMeta<TFn>["returns"]) & AsFnMeta<TFn>["props"]
     : AsFnMeta<TFn>["hasArgs"] extends true
-        ? (...args: AsFnMeta<TFn>["args"]) => AsFnMeta<TFn>["returns"]
+        ? (...args: AsFnMeta<TFn>["params"]) => AsFnMeta<TFn>["returns"]
         : () => AsFnMeta<TFn>["returns"];
 
 /**
