@@ -1,4 +1,4 @@
-import { ObjectKey } from "inferred-types/types";
+import type { ObjectKey } from "inferred-types/types";
 import { isObject } from "runtime/type-guards/isObject";
 
 /**
@@ -8,5 +8,5 @@ import { isObject } from "runtime/type-guards/isObject";
  * **Related:** `hasOnlySymbolKeys()`, `hasOnlyStringKeys()`
  */
 export function hasSymbolKeys(val: unknown): val is Record<ObjectKey, unknown> {
-    return isObject(val) && Object.getOwnPropertySymbols(val).length > 0
+    return isObject(val) && Object.getOwnPropertySymbols(val).length > 0;
 }

@@ -1,7 +1,7 @@
-import { Join, Narrowable } from "inferred-types/types";
-import { RuntimeType } from "src/runtime-types/runtime-parser/RuntimeType-variants";
+import type { Join, Narrowable } from "inferred-types/types";
+import type { RuntimeType } from "src/runtime-types/runtime-parser/RuntimeType-variants";
 
-import { TupleToIntersection, TupleToUnion } from "src/type-conversion";
+import type { TupleToIntersection, TupleToUnion } from "src/type-conversion";
 
 /**
  * a _union_ set variant for `RuntimeType<T,U>`
@@ -19,8 +19,6 @@ export type RuntimeSetType__Union<
     readonly type: TupleToUnion<U>;
 };
 
-
-
 /**
  * a _union_ set variant for `RuntimeType<T,U>`
  */
@@ -37,7 +35,6 @@ export type RuntimeSetType__Intersection<
     readonly type: TupleToIntersection<U>;
 };
 
-
 /**
  * **RuntimeSetType**`<T,U>`
  *
@@ -49,4 +46,4 @@ export type RuntimeSetType__Intersection<
 export type RuntimeSetType<
     T extends readonly string[],
     U extends readonly RuntimeType<string, Narrowable>[]
-> = RuntimeSetType__Intersection<T,U> | RuntimeSetType__Union<T,U>;
+> = RuntimeSetType__Intersection<T, U> | RuntimeSetType__Union<T, U>;

@@ -20,6 +20,5 @@ export function asArray<
             : typeof thing === "undefined"
                 ? ([] as T[])
                 : [thing]
-    ) as AsArray<T>
+    ) as AsArray<T>;
 }
-

@@ -1,5 +1,5 @@
+import type { Increment, NumberLike } from "inferred-types/types";
 import { asNumber, isString } from "inferred-types/runtime";
-import { Increment, NumberLike } from "inferred-types/types";
 
 /**
  * **increment**`(val)`

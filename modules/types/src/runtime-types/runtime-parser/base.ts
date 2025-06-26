@@ -1,5 +1,3 @@
-
-
 /**
  * Base interface for all runtime types
  */
@@ -42,4 +40,3 @@ export interface BaseRuntimeType<
      */
     toString(): string;
 }
-

@@ -1,4 +1,4 @@
-import { BracketNesting, DefaultNesting, Nesting, QuoteNesting } from "inferred-types/types";
+import type { BracketNesting, DefaultNesting, Nesting, QuoteNesting } from "inferred-types/types";
 import { err, isString } from "inferred-types/runtime";
 
 type NamedNestingConfig = "default" | "brackets" | "quotes";
@@ -6,23 +6,22 @@ type NamedNestingConfig = "default" | "brackets" | "quotes";
 type Returns<
     T extends Nesting | NamedNestingConfig
 > = T extends string
-? T extends "default"
-    ? DefaultNesting
-: T extends "brackets"
-    ? BracketNesting
-: T extends "quotes"
-    ? QuoteNesting
-: never
-: T & Nesting;
+    ? T extends "default"
+        ? DefaultNesting
+        : T extends "brackets"
+            ? BracketNesting
+            : T extends "quotes"
+                ? QuoteNesting
+                : never
+    : T & Nesting;
 
 export function createNestingConfig<
     const T extends Nesting | NamedNestingConfig
 >(
     config: T
 ): Returns<T> {
-
     if (isString(config)) {
-        if(config === "default" || config === "brackets") {
+        if (config === "default" || config === "brackets") {
             return {
                 "{": "}",
                 "[": "]",
@@ -32,18 +31,16 @@ export function createNestingConfig<
         }
         else if (config === "quotes") {
             return {
-                '"': '"',
-                '\'': '\'',
-                '`': '`'
-            } as Returns<T>
+                "\"": "\"",
+                "'": "'",
+                "`": "`"
+            } as Returns<T>;
         }
         else {
-            throw err("invalid/named-nesting", `An unknown named nesting type of "${config}" was passed into createNestingConfig()!`)
+            throw err("invalid/named-nesting", `An unknown named nesting type of "${config}" was passed into createNestingConfig()!`);
         }
-    } else {
+    }
+    else {
         return config as Returns<T>;
     }
-
 }
-
-

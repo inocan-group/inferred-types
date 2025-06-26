@@ -59,7 +59,7 @@ export * from "./ToStringLiteral";
 export * from "./ToUnion";
 export * from "./TrimDictionary";
 export * from "./TrimEach";
-export * from './TupleToIntersection';
+export * from "./TupleToIntersection";
 export * from "./TupleToUnion";
 export * from "./TypeReplace";
 export * from "./UnionArrayToTuple";
@@ -72,4 +72,3 @@ export * from "./ValueOrReturnValue";
 export * from "./Widen";
 export * from "./WidenValues";
 export * from "./WithDefault";
-

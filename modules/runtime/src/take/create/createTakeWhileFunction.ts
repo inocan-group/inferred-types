@@ -1,3 +1,4 @@
+import type { Defined, Unset } from "inferred-types/types";
 import {
     asArray,
     asChars,
@@ -5,8 +6,6 @@ import {
     stripLeading,
     unset
 } from "inferred-types/runtime";
-import { Defined, Unset } from "inferred-types/types";
-
 
 type WhileOptions = {
     /**
@@ -28,7 +27,7 @@ type WhileOptions = {
      * entry
      * - the _values_ are the `nesting` exit
      */
-    nesting?: Record<string,string>;
+    nesting?: Record<string, string>;
 
     /**
      * Allows you to specify characters which when encountered
@@ -40,7 +39,7 @@ type WhileOptions = {
     ignore?: string | readonly string[];
 
     callback?: <R extends { head: string; rest: string }>(result: R) => [ Unset, string ] | [ Defined, string ];
-}
+};
 
 function takeWhile(
     chars: string[],
@@ -50,14 +49,14 @@ function takeWhile(
     let head = "";
 
     for (const char of chars) {
-        if(match.includes(char)) {
-            head = `${head}${char}`
+        if (match.includes(char)) {
+            head = `${head}${char}`;
         }
     }
 
     return head === ""
-        ? [ unset, chars.join()]
-        : [ head, stripLeading(chars.join(), head).trim() ]
+        ? [unset, chars.join()]
+        : [head, stripLeading(chars.join(), head).trim()];
 }
 
 /**
@@ -71,7 +70,6 @@ export function createTakeWhileFunction<
     match: TMatch,
     opts: TOpt
 ) {
-
     return <TParse extends string>(str: TParse) => {
         const [head, rest] = takeWhile(
             asChars(str),
@@ -81,12 +79,11 @@ export function createTakeWhileFunction<
 
         if (isUnset(head)) {
             // did not find the pattern
-            return [ unset, str ];
+            return [unset, str];
         }
 
-        if(opts.callback) {
-            return
-        }
+        if (opts.callback) {
 
-    }
+        }
+    };
 }

@@ -1,5 +1,5 @@
+import type { Add, NumberLike } from "inferred-types/types";
 import { asNumber, isString } from "inferred-types/runtime";
-import { Add, NumberLike } from "inferred-types/types";
 
 export function add<
     A extends NumberLike,
@@ -9,6 +9,6 @@ export function add<
     b: B
 ) {
     return isString(a) || isString(b)
-       ? String(asNumber(a) + asNumber(b)) as Add<A,B>
-       : asNumber(a) + asNumber(b) as Add<A,B>
+        ? String(asNumber(a) + asNumber(b)) as Add<A, B>
+        : asNumber(a) + asNumber(b) as Add<A, B>;
 }

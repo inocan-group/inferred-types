@@ -1,5 +1,5 @@
+import type { Decrement, NumberLike } from "inferred-types/types";
 import { asNumber, isString } from "inferred-types/runtime";
-import { Decrement, NumberLike } from "inferred-types/types";
 
 /**
  * **decrement**`(val)`

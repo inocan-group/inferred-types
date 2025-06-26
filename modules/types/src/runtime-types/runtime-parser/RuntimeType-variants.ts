@@ -1,23 +1,24 @@
-import {
-    Narrowable,
+import type {
     BaseRuntimeType,
-    ObjectKey, TypedFunction, TypedFunctionWithDictionary,
-    FnKeyValue
+    FnKeyValue,
+    Narrowable,
+    ObjectKey,
+    TypedFunction,
+    TypedFunctionWithDictionary
 } from "inferred-types/types";
 
 type Atomic = null | undefined | true | false | boolean | symbol;
 type Literal = string | number;
 type Kv = Record<ObjectKey, Narrowable> | Map<Narrowable, Narrowable> | WeakMap<Narrowable & object, Narrowable>;
 type RuntimeSet = Set<Narrowable>;
-type Fn =TypedFunction<Narrowable[],any>
+type Fn = TypedFunction<Narrowable[], any>
         | TypedFunctionWithDictionary<
             Narrowable[],
             any,
             Record<ObjectKey, Narrowable>
         >;
 
-type RuntimeGenerator = Generator<unknown,any,any>;
-
+type RuntimeGenerator = Generator<unknown, any, any>;
 
 /**
  * an _atomic_ variant of `RuntimeType<T,U>`
@@ -29,8 +30,7 @@ export type RuntimeType__Atomic<
     readonly kind: "atomic";
     readonly token: T;
     readonly type: U;
-} & BaseRuntimeType<T,U>;
-
+} & BaseRuntimeType<T, U>;
 
 /**
  * a _literal_ variant of `RuntimeType<T,U>`
@@ -42,8 +42,7 @@ export type RuntimeType__Literal<
     readonly kind: "literal";
     readonly token: T;
     readonly type: U;
-} & BaseRuntimeType<T,U>;
-
+} & BaseRuntimeType<T, U>;
 
 /**
  * a _kv_ variant of `RuntimeType<T,U>`
@@ -55,7 +54,7 @@ export type RuntimeType__Kv<
     readonly kind: "kv";
     readonly token: T;
     readonly type: U;
-} & BaseRuntimeType<T,U>;
+} & BaseRuntimeType<T, U>;
 
 /**
  * a _set_ variant of `RuntimeType<T,U>`
@@ -67,7 +66,7 @@ export type RuntimeType__Set<
     readonly kind: "set";
     readonly token: T;
     readonly type: U;
-} & BaseRuntimeType<T,U>;
+} & BaseRuntimeType<T, U>;
 
 /**
  * a _function_ variant of `RuntimeType<T,U>`
@@ -82,7 +81,7 @@ export type RuntimeType__Function<
     readonly params: Parameters<U>;
     readonly returns: ReturnType<U>;
     readonly type: U;
-} & BaseRuntimeType<T,U>;
+} & BaseRuntimeType<T, U>;
 
 /**
  * a _generator_ variant of `RuntimeType<T,U>`
@@ -94,9 +93,7 @@ export type RuntimeType__Generator<
     readonly kind: "generator";
     readonly token: T;
     readonly type: U;
-} & BaseRuntimeType<T,U>;
-
-
+} & BaseRuntimeType<T, U>;
 
 /**
  * **RuntimeType**`<T,U>`
@@ -118,16 +115,15 @@ export type RuntimeType<
     T extends string = string,
     U = any,
 > = U extends Atomic
-? RuntimeType__Atomic<T,U>
-: U extends Literal
-? RuntimeType__Literal<T,U>
-: U extends Kv
-? RuntimeType__Kv<T,U>
-: U extends RuntimeSet
-? RuntimeType__Set<T,U>
-: U extends Fn
-? RuntimeType__Function<T,U>
-: U extends RuntimeGenerator
-? RuntimeType__Generator<T,U>
-: never;
-
+    ? RuntimeType__Atomic<T, U>
+    : U extends Literal
+        ? RuntimeType__Literal<T, U>
+        : U extends Kv
+            ? RuntimeType__Kv<T, U>
+            : U extends RuntimeSet
+                ? RuntimeType__Set<T, U>
+                : U extends Fn
+                    ? RuntimeType__Function<T, U>
+                    : U extends RuntimeGenerator
+                        ? RuntimeType__Generator<T, U>
+                        : never;

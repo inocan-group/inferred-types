@@ -1,5 +1,5 @@
-import { ObjectKey } from "src/base-types/ObjectKey";
-import { Narrowable } from "src/literals";
+import type { ObjectKey } from "src/base-types/ObjectKey";
+import type { Narrowable } from "src/literals";
 
 /**
  * **TypedFunction**`<[P],[R]>`
@@ -12,7 +12,6 @@ export type TypedFunction<
     P extends readonly any[] = readonly any[],
     R = any
 > = ((...args: P) => R);
-
 
 export type TypedFunctionWithDictionary<
     P extends readonly any[] = readonly any[],

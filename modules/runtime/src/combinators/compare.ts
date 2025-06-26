@@ -1,4 +1,3 @@
-import type { ObjectKey } from "../../../inferred-types/dist";
 import type {
     ComparisonLookup,
     ComparisonOperation,
@@ -8,7 +7,7 @@ import type {
     Narrowable,
     Unset
 } from "inferred-types/types";
-import { NUMERIC_CHAR } from "../../../inferred-types/dist";
+import type { ObjectKey } from "../../../inferred-types/dist";
 import {
     asChars,
     asDate,
@@ -38,6 +37,7 @@ import {
     startsWith,
     unset
 } from "inferred-types/runtime";
+import { NUMERIC_CHAR } from "../../../inferred-types/dist";
 import { contains } from "./contains";
 
 type Lookup = ComparisonLookup;

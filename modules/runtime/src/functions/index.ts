@@ -1,4 +1,4 @@
 export * from "./fnMeta";
 export * from "./fnProps";
-export * from "./wrapFn";
 export * from "./identity";
+export * from "./wrapFn";

@@ -1,4 +1,4 @@
-import { NestingTuple } from "inferred-types/types";
+import type { NestingTuple } from "inferred-types/types";
 import { isArray, isString, isUndefined } from "inferred-types/runtime";
 
 /**
@@ -14,5 +14,5 @@ export function isNestingTuple(val: unknown): val is NestingTuple {
         && (
             (isArray(val[1]) && val[1].every(isString))
             || isUndefined(val[1])
-        )
+        );
 }
