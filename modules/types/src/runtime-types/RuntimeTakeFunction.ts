@@ -6,10 +6,9 @@ import type { Narrowable, Unset } from "src/literals";
  * A `take` function which tries to take the _head_ of the string
  * for the token/thing it wants to extract. It returns either:
  *
- * - `unset`
- *     - returns an `unset` runtime value when it didn't find what
- *      it was looking for
- *     - Note: this is of the type `Unset`
+ * - `Unset`
+ *     - returns an `Unset` type when this take function didn't find
+ *     anything to work with at the HEAD of the parse string.
  *
  * - `[T, string]`
  *     - a tuple is returned when the take function finds and extracts
@@ -26,5 +25,6 @@ import type { Narrowable, Unset } from "src/literals";
 export type RuntimeTakeFunction<
     T = Narrowable,
     E extends Error = Error
-> = <TParseStr extends string>(input: TParseStr) => Unset
-| [T, string] | E;
+> = <
+    TParseStr extends string
+>(input: TParseStr) => Unset | [T, string] | E;

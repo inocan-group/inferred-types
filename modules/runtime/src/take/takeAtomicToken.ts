@@ -29,7 +29,10 @@ export const takeAtomicToken = createTakeWhileFunction(
 
                 },
                 r.rest
-            ] as [ RuntimeType__Atomic<typeof r.head, AtomicLookup<typeof r.head>>, string ];
+            ] as [
+                RuntimeType__Atomic<typeof r.head,
+                AtomicLookup<typeof r.head>>, string
+            ];
         }
     }
 );
