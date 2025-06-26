@@ -19,7 +19,7 @@ import type {
     ToStringLiteral__Tuple
 } from "inferred-types/types";
 
-export type NestedSplitPolicy = "omit" | "before" | "inline";
+export type NestedSplitPolicy = "omit" | "before" | "inline" | "after";
 
 type P2<
     TChars extends readonly string[],
