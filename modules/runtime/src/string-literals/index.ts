@@ -10,7 +10,6 @@ export * from "./pathJoin";
 export * from "./pluralize";
 export * from "./replace";
 export * from "./rightWhitespace";
-export * from "./split";
 export * from "./surround";
 export * from "./takeNumericCharacters";
 export * from "./toNumericArray";
@@ -25,4 +24,5 @@ export * from "./color/index";
 export * from "./ensure/index";
 export * from "./phone/index";
 export * from "./sub-string/index";
+export * from "./split-and-join/index";
 

@@ -4,7 +4,7 @@ import {
     RetainUntil__Nested,
     Test,
 } from "inferred-types/types";
-import { isError, retainUntil__Nested } from "inferred-types/runtime";
+import { isError, nesting, retainUntil__Nested } from "inferred-types/runtime";
 import { ALPHA_CHARS, NUMERIC_CHAR } from "inferred-types";
 import { QUOTE_NESTING } from "inferred-types/constants";
 
@@ -251,5 +251,68 @@ describe("retainUntil__Nested(str, find, incl, nesting)", () => {
             Expect<Test<typeof t2, "equals", "Once tested (a bit).">>,
         ];
     });
+
+})
+
+
+describe("calling via nesting(config) HOF", () => {
+
+
+    it("no nesting chars", () => {
+        const t1 = nesting("default").retainUntil("Hi! Welcome.", "!");
+        const t2 = nesting("default").retainUntil("Hi! Welcome.", "!", false);
+
+        expect(t1).toBe("Hi!")
+        expect(t2).toBe("Hi")
+
+        type cases = [
+            Expect<Test<typeof t1, "equals", "Hi!">>,
+            Expect<Test<typeof t2, "equals", "Hi">>,
+        ];
+    });
+
+        it("using NestingTuple with START and END chars", () => {
+        // the "1" character should add to the stack
+        // the "i" character should remove from the stack
+        const config = nesting([NUMERIC_CHAR, ALPHA_CHARS]);
+        const t1 = config.retainUntil(
+            "Hi,12456 is a number", " "
+        )
+
+        expect(t1).toBe("Hi,12456 is ");
+
+        type cases = [
+            Expect<Test<typeof t1, "equals", "Hi,12456 is ">>,
+        ];
+    });
+
+        it("using quotes nesting config", () => {
+            const quotes = nesting("quotes");
+            const t1 = quotes.retainUntil(
+                `he said, "do it!", and of course we did! right?`,
+                "!"
+            )
+            const t2 = quotes.retainUntil(
+                `he said, 'do it!', and of course we did! right?`,
+                "!",
+                true
+            )
+            const t3 = quotes.retainUntil(
+                'he said, `do it!`, and of course we did! right?',
+                "!"
+            )
+
+        expect(t1).toBe(`he said, "do it!", and of course we did!`);
+        expect(t2).toBe(`he said, 'do it!', and of course we did!`);
+        expect(t3).toBe('he said, `do it!`, and of course we did!');
+
+        type cases = [
+            Expect<Test<typeof t1, "equals", `he said, "do it!", and of course we did!`>>,
+            Expect<Test<typeof t2, "equals", `he said, 'do it!', and of course we did!`>>,
+            Expect<Test<typeof t3, "equals", 'he said, `do it!`, and of course we did!'>>,
+        ];
+
+    });
+
 
 })

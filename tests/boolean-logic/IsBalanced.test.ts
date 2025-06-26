@@ -19,13 +19,13 @@ describe("IsBalanced<T,U>", () => {
     type cases = [
         Expect<Test<T1, "equals",  true>>,
         Expect<Test<T2, "equals",  true>>,
-        Expect<Test<F1, "equals",  false>>,
-        Expect<Test<F2, "equals",  false>>,
+        Expect<Test<F1, "isError",  "unbalanced">>,
+        Expect<Test<F2, "isError",  "unbalanced">>,
     ];
   });
 
   it("Invalid KV results in error", () => {
-    type E = IsBalanced<"adfasdf", {"foo": "bar"}>;
+    type E = IsBalanced<"apple", {"foo": "bar"}>;
 
     type cases = [
       Expect<Extends<E, TypedError<"invalid-key-value">>>

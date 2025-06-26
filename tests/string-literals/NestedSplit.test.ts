@@ -1,5 +1,6 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { NestedSplit, Test } from "inferred-types/types";
+import { typeof UPPER_ALPHA_CHARS } from "inferred-types/constants";
+import { AlphaChar, NestedSplit, Test, UpperAlphaChar } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("NestedSplit<TContent,TSplit,TNesting,TPolicy>", () => {
@@ -57,5 +58,29 @@ describe("NestedSplit<TContent,TSplit,TNesting,TPolicy>", () => {
     });
 
 
+    it("using named presets and tuple splitters", () => {
+        type T1 = NestedSplit<"Foo(Bar)Baz", typeof UPPER_ALPHA_CHARS, "brackets", "before">;
+        type T2 = NestedSplit<"'Foo'BarBaz", typeof UPPER_ALPHA_CHARS, {"'":"'"}, "before">;
+
+        type cases = [
+            Expect<Test<
+                T1, "equals",
+                ["Foo(Bar)", "Baz"]
+            >>,
+            Expect<Test<
+                T2, "equals",
+                ["'Foo'", "Bar", "Baz"]
+            >>
+        ];
+    });
+
 
 });
+
+describe("nestedSplit()", () => {
+
+});
+
+describe("via the nested(config) HOF", () => {
+
+})
