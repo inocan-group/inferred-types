@@ -1,5 +1,5 @@
-import type { DefaultNesting, Nesting, RetainUntil__Nested } from "inferred-types/types";
-import { DEFAULT_NESTING } from "inferred-types/constants";
+import type { DefaultNesting, FromNamedNestingConfig, Nesting, NestingConfig__Named, RetainUntil__Nested } from "inferred-types/types";
+import { DEFAULT_NESTING, Never, QUOTE_NESTING } from "inferred-types/constants";
 import {
     afterFirst,
     asArray,
@@ -9,6 +9,7 @@ import {
     isNestingStart,
     isNestingTuple,
     isNumber,
+    isString,
     mutable,
     toStringLiteral,
 } from "inferred-types/runtime";
@@ -104,7 +105,7 @@ export function retainUntil__Nested<
     const TStr extends string,
     const TFind extends string | readonly string[],
     const TInclude extends boolean = true,
-    const TNesting extends Nesting = DefaultNesting
+    const TNesting extends Nesting  | NestingConfig__Named= DefaultNesting
 
 >(
     str: TStr,
@@ -112,21 +113,28 @@ export function retainUntil__Nested<
     incl: TInclude = true as TInclude,
     nesting: TNesting = mutable(DEFAULT_NESTING) as TNesting
 ) {
-    const idx = findIdx(asChars(str), find, nesting);
+    const config = isString(nesting)
+        ? nesting === "default" || nesting === "brackets"
+            ? DEFAULT_NESTING
+        : nesting === "quotes"
+            ? QUOTE_NESTING
+            : Never
+        : nesting as Nesting;
+    const idx = findIdx(asChars(str), find, config);
 
     if (isNumber(idx)) {
         const endIdx = incl ? idx + 1 : idx;
         return str.slice(0, endIdx) as TFind extends readonly string[]
-            ? RetainUntil__Nested<TStr, TFind[number], TInclude, TNesting>
+            ? RetainUntil__Nested<TStr, TFind[number], TInclude, FromNamedNestingConfig<TNesting>>
             : TFind extends string
-                ? RetainUntil__Nested<TStr, TFind, TInclude, TNesting>
+                ? RetainUntil__Nested<TStr, TFind, TInclude, FromNamedNestingConfig<TNesting>>
                 : never;
     }
     else {
         return idx as TFind extends readonly string[]
-            ? RetainUntil__Nested<TStr, TFind[number], TInclude, TNesting>
+            ? RetainUntil__Nested<TStr, TFind[number], TInclude, FromNamedNestingConfig<TNesting>>
             : TFind extends string
-                ? RetainUntil__Nested<TStr, TFind, TInclude, TNesting>
+                ? RetainUntil__Nested<TStr, TFind, TInclude, FromNamedNestingConfig<TNesting>>
                 : never;
     }
 }

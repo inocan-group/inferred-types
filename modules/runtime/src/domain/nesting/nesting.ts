@@ -13,6 +13,7 @@ import {
     isNestingKeyValue,
     isNestingTuple,
     isString,
+    nestedSplit,
     retainUntil__Nested
 } from "inferred-types/runtime";
 
@@ -43,7 +44,7 @@ export type NestingApi<TNesting extends Nesting> = {
     ): NestedSplit<TContent, TSplit, TNesting, TPolicy>;
 };
 
-function apiSurface<T extends Nesting>(nesting: T) {
+function apiSurface<T extends Nesting | NestingConfig__Named>(nesting: T) {
     return {
         /**
          * calls the `retainUntil__Nested()` function with your nesting configuration.
@@ -60,12 +61,16 @@ function apiSurface<T extends Nesting>(nesting: T) {
         ) {
             return retainUntil__Nested(str, find, incl, nesting);
         },
-        split(
-            content,
-            split,
-            policy = "omit"
+        split<
+            const TContent extends string,
+            const TSplit extends string,
+            const TPolicy extends NestedSplitPolicy = "omit"
+        >(
+            content: TContent,
+            split: TSplit,
+            policy: TPolicy = "omit" as TPolicy
         ) {
-
+            return nestedSplit(content, split, nesting, policy)
         }
 
     };

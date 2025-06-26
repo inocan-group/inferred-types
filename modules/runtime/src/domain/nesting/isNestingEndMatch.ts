@@ -1,6 +1,5 @@
 import type { Nesting } from "inferred-types/types";
-import { isNestingEnd, isNestingKeyValue, isNestingTuple, isUndefined, last, reverseLookup } from "inferred-types/runtime";
-import { valuesOf } from "../../../../inferred-types/dist";
+import { isNestingEnd, isNestingKeyValue, isNestingTuple, isUndefined, last, reverseLookup, valuesOf } from "inferred-types/runtime";
 
 export function isNestingEndMatch<
     TChar extends string,
