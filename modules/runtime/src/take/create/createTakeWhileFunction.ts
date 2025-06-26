@@ -1,4 +1,4 @@
-import type { Defined, Unset } from "inferred-types/types";
+import type { Defined, IsFunction, Unset } from "inferred-types/types";
 import {
     asArray,
     asChars,
@@ -6,6 +6,7 @@ import {
     stripLeading,
     unset
 } from "inferred-types/runtime";
+import { TypedFunction } from "@inferred-types/types";
 
 type WhileOptions = {
     /**
@@ -38,14 +39,14 @@ type WhileOptions = {
      */
     ignore?: string | readonly string[];
 
-    callback?: <R extends { head: string; rest: string }>(result: R) => [ Unset, string ] | [ Defined, string ];
+    callback?: <R extends { head: string; rest: string }>(result: R) => [Unset, string] | [Defined, string];
 };
 
 function takeWhile(
     chars: string[],
     match: string[],
     opts: WhileOptions
-): [Unset, string] | [ string, string ] {
+): [Unset, string] | [string, string] {
     let head = "";
 
     for (const char of chars) {
@@ -69,7 +70,9 @@ export function createTakeWhileFunction<
 >(
     match: TMatch,
     opts: TOpt
-) {
+): TOpt["callback"] extends TypedFunction
+    ? [ReturnType<TOpt["callback"]>, string] | Error | Unset
+    : Error | Unset | [string, string] {
     return <TParse extends string>(str: TParse) => {
         const [head, rest] = takeWhile(
             asChars(str),
@@ -79,11 +82,15 @@ export function createTakeWhileFunction<
 
         if (isUnset(head)) {
             // did not find the pattern
-            return [unset, str];
+            return unset as TOpt["callback"] extends TypedFunction
+                ? [ReturnType<TOpt["callback"]>, string] | Error | Unset
+                : Error | Unset | [string, string]
         }
 
-        if (opts.callback) {
+        return [head, rest] as TOpt["callback"] extends TypedFunction
+            ? [ReturnType<TOpt["callback"]>, string] | Error | Unset
+            : Error | Unset | [string, string]
 
-        }
+
     };
 }
