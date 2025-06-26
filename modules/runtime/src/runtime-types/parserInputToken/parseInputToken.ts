@@ -1,4 +1,4 @@
-import {
+import type {
     Narrowable,
     RuntimeTakeFunction,
     RuntimeType
@@ -24,7 +24,6 @@ type Layer = "union" | "intersection" | "anonymous";
 function parser<const TExtract extends readonly RuntimeTakeFunction[]>(
     ...extract: TExtract
 ) {
-
     return <
         const TParse extends string,
         const TTypes extends readonly RuntimeType<TToken, TType>[] | [],
@@ -35,18 +34,10 @@ function parser<const TExtract extends readonly RuntimeTakeFunction[]>(
         parseString: TParse,
         types: TTypes = [] as TTypes,
         layers: TLayer = [] as TLayer
-    ) =>  {
+    ) => {
 
-    }
-
+    };
 }
-
-
-
-
-
-
-
 
 /**
  * **parseInputToken**`(token) -> RuntimeType<T,U>`

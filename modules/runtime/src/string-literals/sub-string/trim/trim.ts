@@ -9,4 +9,3 @@ import type { Trim } from "inferred-types/types";
 export function trim<T extends string>(input: T): Trim<T> {
     return input.trim() as Trim<T>;
 }
-

@@ -1,9 +1,16 @@
 export * from "./api-tg";
+export * from "./arrays/index";
+export * from "./date-time/index";
+export * from "./dictionary/index";
+export * from "./finance/index";
+export * from "./geo/index";
 export * from "./hasDefaultValue";
 export * from "./hasIndexOf";
 export * from "./hasKeys";
 export * from "./hasNonStringKeys";
 export * from "./hasWhitespace";
+export * from "./higher-order/index";
+export * from "./html/index";
 export * from "./isAlpha";
 export * from "./isArray";
 export * from "./isBoolean";
@@ -48,6 +55,7 @@ export * from "./isString";
 export * from "./isSymbol";
 export * from "./isThenable";
 export * from "./isTrimmable";
+
 export * from "./isTrue";
 export * from "./isTruthy";
 export * from "./isTypeSubtype";
@@ -55,13 +63,6 @@ export * from "./isTypeTuple";
 export * from "./isUndefined";
 export * from "./isUnset";
 export * from "./isUrl";
-
-export * from "./arrays/index";
-export * from "./date-time/index";
-export * from "./finance/index";
-export * from "./geo/index";
-export * from "./higher-order/index";
-export * from "./html/index";
 export * from "./isVariable";
 export * from "./metrics/index";
 export * from "./network-tg";
@@ -71,6 +72,3 @@ export * from "./tokens/index";
 export * from "./tw/index";
 export * from "./urls/index";
 export * from "./vue/index";
-export * from "./dictionary/index";
-
-

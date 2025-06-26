@@ -7,6 +7,7 @@ export * from "./dutch";
 export * from "./french";
 export * from "./german";
 export * from "./indian";
+export * from "./isNewsUrl";
 export * from "./italian";
 export * from "./japanese";
 export * from "./mexican";
@@ -16,6 +17,5 @@ export * from "./spanish";
 export * from "./swiss";
 export * from "./turkish";
 export * from "./uk";
-export * from "./us";
 
-export * from "./isNewsUrl"
+export * from "./us";

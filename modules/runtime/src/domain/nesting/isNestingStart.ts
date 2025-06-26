@@ -1,4 +1,4 @@
-import { Nesting } from "inferred-types/types";
+import type { Nesting } from "inferred-types/types";
 import { err, isNestingKeyValue, isNestingTuple } from "inferred-types/runtime";
 
 export function isNestingStart<
@@ -9,16 +9,17 @@ export function isNestingStart<
     nesting: TNesting
 ) {
     if (isNestingTuple(nesting)) {
-        const [ start, _ ] = nesting;
+        const [start, _] = nesting;
         return start.includes(char);
-    } else if (isNestingKeyValue(nesting)) {
+    }
+    else if (isNestingKeyValue(nesting)) {
         return Object.keys(nesting).includes(char);
-    } else {
+    }
+    else {
         return err(
             `invalid-type/nesting`,
             `The isNestingStart('${char}', nesting) function received an invalid nesting type. Remember that start and end characters MUST be single length characters`,
             { nesting, char }
-        )
+        );
     }
-
 }

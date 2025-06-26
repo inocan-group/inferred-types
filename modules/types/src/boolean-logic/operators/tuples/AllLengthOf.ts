@@ -1,4 +1,4 @@
-import { And, StrLen } from "inferred-types/types";
+import type { And, StrLen } from "inferred-types/types";
 
 /**
  * **AllLengthOf**`<TList, TLen>`

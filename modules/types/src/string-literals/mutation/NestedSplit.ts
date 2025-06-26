@@ -2,37 +2,24 @@ import type {
     AfterFirst,
     AllLengthOf,
     And,
-    As,
     Chars,
     DefaultNesting,
-    DoesExtend,
     Err,
-    Extends,
     First,
     FromNamedNestingConfig,
-    IsEqual,
-    IsGreaterThan,
     IsNestingMatchEnd,
     IsNestingStart,
     IsWideString,
-    Join,
-    Last,
-    Length,
     Nesting,
     NestingConfig__Named,
     Or,
     Pop,
-    ReverseLookup,
-    StringKeys,
     StrLen,
     ToStringLiteral,
-    ToStringLiteral__Tuple,
-    Values
+    ToStringLiteral__Tuple
 } from "inferred-types/types";
 
-
 export type NestedSplitPolicy = "omit" | "before" | "inline";
-
 
 type P2<
     TChars extends readonly string[],
@@ -43,71 +30,71 @@ type P2<
     TWaiting extends string = "",
     TResult extends string[] = [],
 > = [] extends TChars
-? TStack["length"] extends 0
-    ? [...TResult, TWaiting]
-    : Err<
-        `unbalanced/nested-split`,
-        `The nesting stack was unbalanced, so the nested split can not be completed!`,
-        { stack: ToStringLiteral__Tuple<TStack> }
-    >
-: And<[
-    First<TChars> extends TSplit ? true : false,
-    TStack["length"] extends 0 ? true : false
-]> extends true
-    ? P2<
-        AfterFirst<TChars>,
-        TSplit,
-        TNesting,
-        TPolicy,
-        TStack,
-        TPolicy extends "before"
-            ? First<TChars>
-        : "",
-        TPolicy extends "omit"
-            ? [...TResult, TWaiting]
-        : TPolicy extends "inline"
-            ? [...TResult, TWaiting, First<TChars>]
-        : TPolicy extends "before"
-            ? And<[
-                TWaiting extends "" ? true : false,
-                TResult["length"] extends 0 ? true : false
-            ]> extends true
-                ? []
-                : [...TResult, TWaiting]
-        : TPolicy extends "after"
-            ? [...TResult, `${TWaiting}${First<TChars>}`]
-        : never
-    >
-    : IsNestingMatchEnd<First<TChars>,TStack,TNesting> extends true
+    ? TStack["length"] extends 0
+        ? [...TResult, TWaiting]
+        : Err<
+            `unbalanced/nested-split`,
+            `The nesting stack was unbalanced, so the nested split can not be completed!`,
+            { stack: ToStringLiteral__Tuple<TStack> }
+        >
+    : And<[
+        First<TChars> extends TSplit ? true : false,
+        TStack["length"] extends 0 ? true : false
+    ]> extends true
         ? P2<
             AfterFirst<TChars>,
             TSplit,
             TNesting,
             TPolicy,
-            Pop<TStack>,
+            TStack,
+            TPolicy extends "before"
+                ? First<TChars>
+                : "",
+            TPolicy extends "omit"
+                ? [...TResult, TWaiting]
+                : TPolicy extends "inline"
+                    ? [...TResult, TWaiting, First<TChars>]
+                    : TPolicy extends "before"
+                        ? And<[
+                            TWaiting extends "" ? true : false,
+                            TResult["length"] extends 0 ? true : false
+                        ]> extends true
+                            ? []
+                            : [...TResult, TWaiting]
+                        : TPolicy extends "after"
+                            ? [...TResult, `${TWaiting}${First<TChars>}`]
+                            : never
+        >
+        : IsNestingMatchEnd<First<TChars>, TStack, TNesting> extends true
+            ? P2<
+                AfterFirst<TChars>,
+                TSplit,
+                TNesting,
+                TPolicy,
+                Pop<TStack>,
             `${TWaiting}${First<TChars>}`,
             TResult
-        >
-    : IsNestingStart<First<TChars>,TNesting> extends true
-        ? P2<
-            AfterFirst<TChars>,
-            TSplit,
-            TNesting,
-            TPolicy,
-            [...TStack, First<TChars>],
+            >
+            : IsNestingStart<First<TChars>, TNesting> extends true
+                ? P2<
+                    AfterFirst<TChars>,
+                    TSplit,
+                    TNesting,
+                    TPolicy,
+                    [...TStack, First<TChars>],
             `${TWaiting}${First<TChars>}`,
             TResult
-        >
+                >
 
-    : P2<
-        AfterFirst<TChars>,
-        TSplit,
-        TNesting,
-        TPolicy,
-        TStack,
+                : P2<
+                    AfterFirst<TChars>,
+                    TSplit,
+                    TNesting,
+                    TPolicy,
+                    TStack,
         `${TWaiting}${First<TChars>}`,
         TResult
-    >
+                >
 
 ;
 
@@ -134,7 +121,7 @@ type P2<
  */
 export type NestedSplit<
     TContent extends string,
-    /** the split character(s) **/
+    /** the split character(s) */
     TSplit extends string | readonly string[],
     TNesting extends Nesting | NestingConfig__Named = DefaultNesting,
     TPolicy extends NestedSplitPolicy = "omit"
@@ -149,7 +136,7 @@ export type NestedSplit<
             : Err<
                 `invalid-nesting/nested-split`,
                 `A tuple of strings were passed into to form a union type of characters which would provide the 'split', however, at least one of these were longer than a single character!`,
-                { split: ToStringLiteral<TSplit>, content: TContent }
+                { split: ToStringLiteral<TSplit>; content: TContent }
             >
         : TSplit extends string
             ? StrLen<TSplit> extends 1
@@ -157,11 +144,11 @@ export type NestedSplit<
                 : Err<
                     `invalid-nesting/nested-split`,
                     `A strings of more than one character was provided as the 'split' character; this is not allowed!`,
-                    { split: TSplit, content: TContent }
+                    { split: TSplit; content: TContent }
                 >
-        : never;
+            : never;
 
-    // Process<TContent, TSplit, TNesting, TPolicy>;
+// Process<TContent, TSplit, TNesting, TPolicy>;
 
 // DEBUGGING
 // type T = "WeakMap<{id: number, data: Array<string>}, string>"

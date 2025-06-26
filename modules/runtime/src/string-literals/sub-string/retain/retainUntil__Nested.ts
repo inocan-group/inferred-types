@@ -1,17 +1,17 @@
+import type { DefaultNesting, Nesting, RetainUntil__Nested } from "inferred-types/types";
 import { DEFAULT_NESTING } from "inferred-types/constants";
 import {
     afterFirst,
+    asArray,
     asChars,
     err,
+    isNestingEndMatch,
     isNestingStart,
+    isNestingTuple,
     isNumber,
     mutable,
     toStringLiteral,
-    isNestingEndMatch,
-    isNestingTuple,
-    asArray,
 } from "inferred-types/runtime";
-import { AsArray, DefaultNesting, Nesting, RetainUntil__Nested, TupleToUnion } from "inferred-types/types";
 
 function findIdx<
     TChars extends readonly string[],
@@ -27,8 +27,8 @@ function findIdx<
 ) {
     const f = asArray(find) as string[];
 
-    if(chars.length === 0) {
-        if(stack.length > 0) {
+    if (chars.length === 0) {
+        if (stack.length > 0) {
             return err(
                 `unbalanced/retainUntil__Nested`,
                 `The characters passed into retainUntil_Nested were unbalanced in the nesting!`,
@@ -44,12 +44,12 @@ function findIdx<
         }
     }
 
-    if(f.includes(chars[0]) && stack.length === 0) {
+    if (f.includes(chars[0]) && stack.length === 0) {
         return idx;
     }
 
-    if(isNestingEndMatch(chars[0], stack, nesting) === true) {
-        const newStack = [...stack].slice(0,-1);
+    if (isNestingEndMatch(chars[0], stack, nesting) === true) {
+        const newStack = [...stack].slice(0, -1);
 
         // Special check: if this character ends nesting AND is our target AND stack becomes empty
         if (chars[0] === find && newStack.length === 0) {
@@ -62,8 +62,8 @@ function findIdx<
             nesting,
             newStack,
             `${result}${chars[0]}`,
-            idx+1
-        )
+            idx + 1
+        );
     }
     else if (isNestingStart(chars[0], nesting) === true) {
         // Special handling for NestingTuple: only allow stack depth of 1
@@ -75,8 +75,8 @@ function findIdx<
             nesting,
             shouldLimitStack ? stack : [...stack, chars[0]],
             `${result}${chars[0]}`,
-            idx+1
-        )
+            idx + 1
+        );
     }
     else {
         // Regular character, continue
@@ -86,10 +86,9 @@ function findIdx<
             nesting,
             stack,
             `${result}${chars[0]}`,
-            idx+1
-        )
+            idx + 1
+        );
     }
-
 }
 
 /**
@@ -113,22 +112,21 @@ export function retainUntil__Nested<
     incl: TInclude = true as TInclude,
     nesting: TNesting = mutable(DEFAULT_NESTING) as TNesting
 ) {
-
     const idx = findIdx(asChars(str), find, nesting);
 
-    if(isNumber(idx)) {
+    if (isNumber(idx)) {
         const endIdx = incl ? idx + 1 : idx;
         return str.slice(0, endIdx) as TFind extends readonly string[]
-            ? RetainUntil__Nested<TStr,TFind[number],TInclude,TNesting>
+            ? RetainUntil__Nested<TStr, TFind[number], TInclude, TNesting>
             : TFind extends string
-                ? RetainUntil__Nested<TStr, TFind,TInclude,TNesting>
+                ? RetainUntil__Nested<TStr, TFind, TInclude, TNesting>
                 : never;
-    } else {
-        return idx as TFind extends readonly string[]
-         ? RetainUntil__Nested<TStr, TFind[number],TInclude,TNesting>
-         : TFind extends string
-            ? RetainUntil__Nested<TStr, TFind,TInclude,TNesting>
-            : never;
     }
-
+    else {
+        return idx as TFind extends readonly string[]
+            ? RetainUntil__Nested<TStr, TFind[number], TInclude, TNesting>
+            : TFind extends string
+                ? RetainUntil__Nested<TStr, TFind, TInclude, TNesting>
+                : never;
+    }
 }

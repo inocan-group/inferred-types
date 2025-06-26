@@ -1,4 +1,4 @@
-import { RuntimeTakeFunction } from "inferred-types/types";
+import type { RuntimeTakeFunction } from "inferred-types/types";
 
 export type Take__StartEndOptions = {
     /**
@@ -20,12 +20,10 @@ export type Take__StartEndOptions = {
      * entry
      * - the _values_ are the `nesting` exit
      */
-    nesting?: Record<string,string>;
+    nesting?: Record<string, string>;
 
-    handler?: RuntimeTakeFunction
-}
-
-
+    handler?: RuntimeTakeFunction;
+};
 
 /**
  * **createTakeStartEndFunction**`(startEnd, opts) -> take fn`
@@ -40,11 +38,7 @@ export function createTakeStartEndFunction<
     startEnd: TStartEnd,
     opts: TOpt
 ) {
-
     return <TParse extends string>(str: TParse) => {
 
-    }
-
-
-
+    };
 }

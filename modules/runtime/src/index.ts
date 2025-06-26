@@ -3,9 +3,9 @@ export * from "./boolean-logic/index";
 export * from "./combinators/index";
 export * from "./containers/index";
 export * from "./css/index";
-export * from "./domain/index"
 export * from "./datetime/index";
 export * from "./dictionary/index";
+export * from "./domain/index";
 export * from "./errors/index";
 export * from "./functional/index";
 export * from "./functions/index";
@@ -22,4 +22,3 @@ export * from "./take/index";
 export * from "./type-conversion/index";
 export * from "./type-guards/index";
 export * from "./vuejs/index";
-

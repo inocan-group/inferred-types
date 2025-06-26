@@ -1,18 +1,14 @@
 import type {
-    FromInputToken,
     InputTokenLike,
-    InputTokenSuggestions,
     Narrowable,
 } from "inferred-types/types";
 import {
-    err,
     isArray,
     isBoolean,
     isFalse,
-    isInputTokenLike,
     isInputToken__Object,
-    isInputToken__String,
     isInputToken__Tuple,
+    isInputTokenLike,
     isNarrowable,
     isNull,
     isNumber,
@@ -40,9 +36,7 @@ export function doesExtend<
 ) {
     return <T extends Narrowable>(val: T): boolean => {
         if (isInputTokenLike(type)) {
-
             if (isString(type)) {
-
                 if (type === "string") {
                     return isString(val);
                 }
@@ -69,11 +63,12 @@ export function doesExtend<
                 }
             }
             else if (isInputToken__Object(type)) {
-                if(isObject(val)) {
+                if (isObject(val)) {
                     return Object.keys(type).every(
-                        (k) => isInputTokenLike(type[k]) && isNarrowable(val[k]) && doesExtend(type[k])(val[k])
-                    )
-                } else {
+                        k => isInputTokenLike(type[k]) && isNarrowable(val[k]) && doesExtend(type[k])(val[k])
+                    );
+                }
+                else {
                     return false;
                 }
             }
@@ -84,8 +79,9 @@ export function doesExtend<
                         ? type.every(
                             (t, i) => isInputTokenLike(t) && isNarrowable(val[i]) && doesExtend(t)(val[i])
                         )
-                        : false
-                } else {
+                        : false;
+                }
+                else {
                     return false;
                 }
             }
@@ -94,5 +90,5 @@ export function doesExtend<
             }
         }
         return false;
-    }
+    };
 }

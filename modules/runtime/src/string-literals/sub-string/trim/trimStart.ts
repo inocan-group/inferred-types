@@ -1,4 +1,4 @@
-import { TrimStart } from "inferred-types/types";
+import type { TrimStart } from "inferred-types/types";
 
 /**
  * **trimStart**`(input)`

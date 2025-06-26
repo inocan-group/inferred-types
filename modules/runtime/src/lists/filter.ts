@@ -7,7 +7,6 @@ import type {
     Narrowable,
     Unset,
 } from "inferred-types/types";
-import { NUMERIC_CHAR } from "../../../inferred-types/dist";
 import {
     asChars,
     asDate,
@@ -35,6 +34,7 @@ import {
     startsWith,
     unset
 } from "inferred-types/runtime";
+import { NUMERIC_CHAR } from "../../../inferred-types/dist";
 import { contains } from "../combinators/contains";
 
 type Lookup = ComparisonLookup;

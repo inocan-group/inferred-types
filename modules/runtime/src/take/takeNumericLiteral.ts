@@ -4,5 +4,5 @@ export const takeStringToken = createTakeFunction("start-end")
     .startEndMarkers({
         "`": "`",
         "'": "'",
-        '"': '"'
-    })
+        "\"": "\""
+    });

@@ -6,6 +6,5 @@
  */
 export type TupleToIntersection<T extends readonly unknown[]> =
   T extends [infer Head, ...infer Rest]
-    ? Head & TupleToIntersection<Rest>
-    : unknown;
-
+      ? Head & TupleToIntersection<Rest>
+      : unknown;

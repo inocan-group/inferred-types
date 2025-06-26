@@ -2,8 +2,8 @@ import type {
     AnyFunction,
     EmptyObject,
     ExpandDictionary,
-    FnMeta,
     FnKeyValue,
+    FnMeta,
     IsNonEmptyObject,
     TypedFunction,
 } from "inferred-types/types";

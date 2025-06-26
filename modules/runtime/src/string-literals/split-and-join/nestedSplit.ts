@@ -1,4 +1,4 @@
-import { DefaultNesting, NestedSplitPolicy, Nesting } from "inferred-types/types";
+import type { DefaultNesting, NestedSplitPolicy, Nesting } from "inferred-types/types";
 
 /**
  * **nestedSplit**`(content, split, [nesting], [policy])`

@@ -28,7 +28,6 @@ type Process<
         `${TResult}${First<TChars>}`
             >;
 
-
 /**
  * **RetainWhile**`<TContent,TComparator>`
  *

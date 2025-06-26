@@ -1,4 +1,4 @@
-import { TrimEnd } from "inferred-types/types";
+import type { TrimEnd } from "inferred-types/types";
 
 /**
  * **trimEnd**(input)

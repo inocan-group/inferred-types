@@ -1,4 +1,4 @@
-import type { RetainAfter,  TrimStart, Whitespace } from "inferred-types/types";
+import type { RetainAfter, TrimStart, Whitespace } from "inferred-types/types";
 import { WHITESPACE_CHARS } from "inferred-types/constants";
 import { retainAfterInclusive } from "inferred-types/runtime";
 
