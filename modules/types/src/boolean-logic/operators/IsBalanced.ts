@@ -1,63 +1,73 @@
 import type {
     AfterFirst,
+    And,
     Chars,
     Contains,
     Dictionary,
     Err,
     First,
+    FromNamedNestingConfig,
+    IsNestingConfig,
+    IsNestingEnd,
+    IsNestingKeyValue,
+    IsNestingMatchEnd,
+    IsNestingStart,
+    Join,
     Last,
-    Length,
+    Nesting,
+    NestingConfig__Named,
+    Pop,
     ReverseLookup,
-    StringKeys,
     ToString,
+    ToStringLiteral,
+    ToStringLiteral__Tuple,
     Values
 } from "inferred-types/types";
 
-type Inv<
-    TVal extends string,
-    TKv extends Dictionary<string, string>,
-    TLookup extends Dictionary<string, string> = ReverseLookup<TKv>
-> = TVal extends keyof TLookup
-    ? TLookup[TVal]
-    : never;
+
 
 type Check<
     TInput extends readonly string[],
-    TStartEnd extends Dictionary<string, string>,
-    TCount extends readonly string[] = [],
+    TNesting extends Nesting,
+    TStack extends readonly string[] = [],
 > = [] extends TInput
-    ? TCount["length"] extends 0
+    ? [TStack["length"]] extends [0]
         ? true
-        : false
-    : First<TInput> extends keyof TStartEnd
+        : Err<
+            `unbalanced/is-balanced`,
+            `The characters passed to 'IsBalanced<T,U>' are not balanced for the given nesting configuration. On completing a full pass the stack still has items on it: ${Join<TStack, ", ">}`
+        >
+    : [IsNestingStart<First<TInput>, TNesting>] extends  [true]
         ? Check<
             AfterFirst<TInput>,
-            TStartEnd,
-            [...TCount, First<TInput>]
+            TNesting,
+            [...TStack, First<TInput>]
         >
-        : Contains<Values<TStartEnd>, First<TInput>> extends true
-            ? Inv<First<TInput>, TStartEnd> extends Last<TCount>
-                ? TCount extends readonly [string, ...infer Remaining extends string[]]
-                    ? Check<
-                        AfterFirst<TInput>,
-                        TStartEnd,
-                        Remaining
-                    >
-                    : never
-                : false
-            : Check<
-                AfterFirst<TInput>,
-                TStartEnd,
-                TCount
-            >;
+    : [IsNestingMatchEnd<First<TInput>, TStack, TNesting>] extends [true]
+        ? Check<
+            AfterFirst<TInput>,
+            TNesting,
+            Pop<TStack>
+        >
+    : And<[
+        IsNestingEnd<First<TInput>, TNesting>,
+        TStack["length"] extends 0 ? true : false]
+    > extends true
+        ? Err<
+            "unbalanced/is-balanced",
+            `The stack moved into negative territory when the character '${First<TInput>}' -- an END character -- while the stack was already empty!`,
+            { char: First<TInput>, stack: ToStringLiteral__Tuple<TStack> }
+        >
+    : Check<
+        AfterFirst<TInput>,
+        TNesting,
+        TStack
+    >;
 
-type LengthOne<T extends readonly string[]> = [] extends T
-    ? true
-    : Length<First<T>> extends 1
-        ? LengthOne<AfterFirst<T>>
-        : false;
 
 /**
+ * **IsBalanced**`<T,U>`
+ *
  * Boolean operator which tests whether the string literal `T` has an equal
  * number of "start" and "end" characters in it.
  *
@@ -69,7 +79,15 @@ type LengthOne<T extends readonly string[]> = [] extends T
  */
 export type IsBalanced<
     T extends string,
-    U extends Dictionary<string, string>
-> = LengthOne<[...StringKeys<U>, ...Values<U>]> extends true
-    ? Check<Chars<T>, U>
-    : Err<"invalid-key-value/is-balanced", `The IsBalanced<T,U> utility expects U to be a key/value dictionary where both keys and values are one character strings.`, { kv: ToString<U> }>;
+    U extends Nesting | NestingConfig__Named = "default"
+> = IsNestingConfig<FromNamedNestingConfig<U>> extends true
+    ? Check<Chars<T>, FromNamedNestingConfig<U>>
+    : IsNestingConfig<FromNamedNestingConfig<U>> extends Error
+        ? IsNestingConfig<FromNamedNestingConfig<U>>
+        : Err<
+            "invalid-key-value/is-balanced",
+            `The IsBalanced<T,U> utility expects U to be a key/value dictionary where both keys and values are one character strings.`,
+            { kv: ToStringLiteral<U> }
+        >;
+
+type X = IsBalanced<"[0] square brackets once">

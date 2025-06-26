@@ -25,6 +25,17 @@ export type NestingKeyValue = Record<string, string>;
 export type NestingTuple = [ start: readonly string[], end: readonly string[] | undefined ];
 
 
+export type NestingConfig__Named = "default" | "brackets" | "quotes";
+
+export type FromNamedNestingConfig<T extends Nesting | NestingConfig__Named> = T extends Nesting
+? T
+: T extends "default"
+? DefaultNesting
+: T extends "brackets"
+? BracketNesting
+: T extends "quotes"
+? QuoteNesting
+: never;
 
 /**
  * A means of defining the scope nesting by:
@@ -202,4 +213,11 @@ export type IsNestingMatchEnd<
             : false
         : never
 : true
+: false;
+
+
+export type IsNestingConfig<T> = IsNestingKeyValue<T> extends true
+? true
+: IsNestingTuple<T> extends true
+? true
 : false;

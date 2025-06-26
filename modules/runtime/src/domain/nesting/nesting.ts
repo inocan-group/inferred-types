@@ -1,24 +1,75 @@
-import { BracketNesting, DefaultNesting, Nesting, QuoteNesting } from "inferred-types/types";
-import { err, isError, isNestingKeyValue, isNestingTuple, isString } from "inferred-types/runtime";
+import {
+    FromNamedNestingConfig,
+    IsNestingConfig,
+    NestedSplit,
+    NestedSplitPolicy,
+    Nesting,
+    NestingConfig__Named,
+    RetainUntil__Nested
+} from "inferred-types/types";
+import {
+    err,
+    isError,
+    isNestingKeyValue,
+    isNestingTuple,
+    isString,
+    retainUntil__Nested
+} from "inferred-types/runtime";
 
-type NamedNestingConfig = "default" | "brackets" | "quotes";
 
-type Returns<
-    T extends Nesting | NamedNestingConfig
-> = T extends string
-? T extends "default"
-    ? DefaultNesting
-: T extends "brackets"
-    ? BracketNesting
-: T extends "quotes"
-    ? QuoteNesting
-: never
-: T & Nesting;
+type Returns<T extends Nesting | NestingConfig__Named> = IsNestingConfig<T> extends true
+    ? NestingApi<FromNamedNestingConfig<T>>
+    : Error
+
+export type NestingApi<TNesting extends Nesting> = {
+    retainUntil<
+            const TStr extends string,
+            const TFind extends string | readonly string[],
+            const TInclude extends boolean = true
+        >(
+            str: TStr,
+            find: TFind,
+            incl?: TInclude
+        ): TFind extends string
+            ? RetainUntil__Nested<TStr, TFind, TInclude, TNesting>
+            : RetainUntil__Nested<TStr, TFind[number], TInclude, TNesting>;
+    split<
+        const TContent extends string,
+        const TSplit extends string,
+        const TPolicy extends NestedSplitPolicy = "omit"
+    >(
+        content: TContent,
+        split: TSplit,
+        policy?: TPolicy
+    ): NestedSplit<TContent,TSplit, TNesting, TPolicy>
+}
+
 
 function apiSurface<T extends Nesting>(nesting: T) {
 
     return {
-        retainUntil: null,
+        /**
+         * calls the `retainUntil__Nested()` function with your nesting configuration.
+         */
+        retainUntil<
+            const TStr extends string,
+            const TFind extends string | readonly string[],
+            const TInclude extends boolean = true
+
+        >(
+            str: TStr,
+            find: TFind,
+            incl: TInclude = true as TInclude
+        ) {
+            return retainUntil__Nested(str, find, incl, nesting)
+        },
+        split(
+            content,
+            split,
+            policy = "omit"
+        ) {
+
+        }
 
     }
 
@@ -26,10 +77,10 @@ function apiSurface<T extends Nesting>(nesting: T) {
 
 
 export function nesting<
-    const T extends Nesting | NamedNestingConfig
+    const T extends Nesting | NestingConfig__Named
 >(
     config: T
-) {
+): Returns<T> {
     let nesting: Nesting;
 
     if (isString(config)) {
@@ -55,13 +106,13 @@ export function nesting<
         if(isNestingTuple(config) || isNestingKeyValue(config)) {
             nesting = config;
         } else if (isError(config)) {
-            return config;
+            return config as unknown as Returns<T>;
         } else {
-            return err("invalid-nesting", `The configuration provided to the 'nesting()' function was not a valid nesting configuration`)
+            return err("invalid-nesting", `The configuration provided to the 'nesting()' function was not a valid nesting configuration`) as unknown as Returns<T>
         }
     }
 
-    return apiSurface(nesting);
+    return apiSurface(nesting) as Returns<T>;
 
 }
 
