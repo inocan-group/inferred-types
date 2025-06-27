@@ -1,17 +1,12 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { ensureSurround } from "inferred-types";
+import { ensureSurround } from "inferred-types/runtime";
+import { Expect, Test } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
 
 describe("ensureSurround()", () => {
   const square = ensureSurround("[[", "]]");
   const curly = ensureSurround("{{", "}}");
   const round = ensureSurround("((", "))");
-
-
 
   it("second call resolution", () => {
     const s_foo = square("foo");
@@ -39,12 +34,10 @@ describe("ensureSurround()", () => {
     expect(tr_foo).toEqual("((foo))");
 
     type cases = [
-      Expect<Equal<typeof s_foo, "[[foo]]">>,
-      Expect<Equal<typeof c_foo, "{{foo}}">>,
-      Expect<Equal<typeof r_foo, "((foo))">>,
+      Expect<Test<typeof s_foo, "equals",  "[[foo]]">>,
+      Expect<Test<typeof c_foo, "equals",  "{{foo}}">>,
+      Expect<Test<typeof r_foo, "equals",  "((foo))">>,
     ];
-    const cases: cases = [
-      true, true, true
-    ];
+
   });
 });

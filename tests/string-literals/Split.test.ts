@@ -1,83 +1,263 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { describe, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
-import { Split, UpperAlphaChar } from "@inferred-types/types";
+import {
+    Expect,
+    Split,
+    UpperAlphaChar,
+    UnionToTuple,
+    Test,
+    Extends
+} from "inferred-types/types";
+import { split } from "inferred-types/runtime";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
 
 describe("Split<T,SEP>", () => {
 
-  it("happy path", () => {
-    type FooBarBaz = Split<"foo, bar, baz", ", ">;
-    type FooBarBaz2 = Split<"foo, bar, baz", ", ", "include">;
-    type Characters = Split<"hello","">;
-    type Empty = Split<"","">;
-    type EmptyToo = Split<"",",">;
+    it("happy path", () => {
+        type FooBarBaz = Split<"foo, bar, baz", ", ">;
+        type FooBarBazTup = Split<"foo, bar, baz", [", ", "; "]>;
+        type FooBarBazBefore = Split<"foo, bar, baz", ", ", "before">;
+        type FooBarBazAfter = Split<"foo, bar, baz", ", ", "after">;
+        type FooBarBazInline = Split<"foo, bar, baz", ", ", "inline">;
 
-    type cases = [
-      Expect<Equal<FooBarBaz, ["foo", "bar", "baz"]>>,
-      Expect<Equal<FooBarBaz2, ["foo, ", "bar, ", "baz"]>>,
-      Expect<Equal<
-        Characters,
-        ["h", "e", "l", "l", "o"]
-      >>,
-      Expect<Equal<Empty, []>>,
-      Expect<Equal<EmptyToo, []>>,
-    ];
+        type FooBarBazUnion = Split<"foo, bar, baz", ", " | "; ">;
 
-    const cases: cases = [
-      true, true, true, true, true
-    ];
-  });
+        type Empty = Split<"", "">;
+        type EmptyToo = Split<"", ",">;
 
-  it("Split<T, SEP> with string literals", () => {
-    const str = "hello world, nice to meet you" as const;
-    type Space = Split<typeof str, " ">;
-    type Comma = Split<typeof str, ", ">;
-    type Chars = Split<"hello","">;
+        type cases = [
+            Expect<Test<FooBarBaz, "equals", ["foo", "bar", "baz"]>>,
+            Expect<Test<FooBarBazTup, "equals", ["foo", "bar", "baz"]>>,
+            Expect<Test<FooBarBazBefore, "equals", ["foo, ", "bar, ", "baz"]>>,
+            Expect<Test<FooBarBazAfter, "equals", ["foo", ", bar", ", baz"]>>,
+            Expect<Test<FooBarBazInline, "equals", ["foo", ", ", "bar", ", ", "baz"]>>,
 
-    type cases = [
-      Expect<Equal<Space, ["hello", "world,", "nice", "to", "meet", "you"]>>,
-      Expect<Equal<Comma, ["hello world", "nice to meet you"]>>,
-      Expect<Equal<Chars, ["h","e","l","l","o"]>>
-    ];
-    const cases: cases = [true, true, true ];
-  });
+            Expect<Extends<FooBarBazUnion, ["foo","bar","baz"]>>,
 
-  it("Split<T, SEP> where string and separator are same", () => {
-    type Str = "hello";
-    type S1 = Split<Str,Str>;
-    const str = "hello world" as const;
-    type S2 = Split<typeof str, typeof str>;
+            Expect<Test<Empty, "equals", []>>,
+            Expect<Test<EmptyToo, "equals",  []>>,
+        ];
 
-    type cases = [
-      Expect<Equal<S1, []>>,
-      Expect<Equal<S2, []>>
-    ];
-    const cases: cases = [true, true];
-  });
+    });
 
-  it("Split with separator as wide type", () => {
-    type S = Split<string, ",">;
 
-    type cases = [Expect<Equal<S, string[]>>];
-    const cases: cases = [true];
-  });
+    it("Split with before strategy", () => {
+        type FooBarBazBefore = Split<"foo, bar, baz", ", ", "before">;
+        type FooBarBefore = Split<"foo, bar", ", ", "before">;
+        type Tricky = Split<"foo,,bar", ",", "before">;
 
-  it("Split with a union type", () => {
-    // type LongText = Split<"Hello world, Nice to meet you", UpperAlphaChar>;
-    type FooBar = Split<"FooBar", UpperAlphaChar>;
-    type FooBarOmitExplicit = Split<"FooBar", UpperAlphaChar, "omit">;
-    type FooBarIncluded = Split<"FooBar", UpperAlphaChar, "include">;
+        type cases = [
+            Expect<Test<
+                FooBarBazBefore, "equals",
+                [ "foo, ", "bar, ", "baz"]
+            >>,
+            Expect<Test<
+                FooBarBefore, "equals",
+                [ "foo, ", "bar"]
+            >>,
+            Expect<Test<
+                Tricky, "equals",
+                [ "foo,", ",", "bar"]
+            >>,
+        ];
+    });
 
-    type cases = [
-      Expect<Equal<FooBar, ["oo", "ar"]>>,
-      Expect<Equal<FooBarOmitExplicit, ["oo", "ar"]>>,
-      Expect<Equal<FooBarIncluded, ["Foo", "Bar"]>>,
-    ];
-    const cases: cases = [ true, true, true ];
-  });
+
+    it("Split<T, SEP> with string literals", () => {
+        const str = "hello world, nice to meet you" as const;
+        type Space = Split<typeof str, " ">;
+        type Comma = Split<typeof str, ", ">;
+
+        type cases = [
+            Expect<Test<Space, "equals", ["hello", "world,", "nice", "to", "meet",  "you"]>>,
+            Expect<Test<Comma, "equals", ["hello world", "nice to meet you"]>>,
+        ];
+    });
+
+    it("Split<T, SEP> where string and separator are same", () => {
+        type Str = "hello";
+        type S1 = Split<Str, Str>;
+        const str = "hello world" as const;
+        type S2 = Split<typeof str, typeof str>;
+
+        type S3 = Split<Str,Str,"inline">
+
+        type cases = [
+            Expect<Test<S1, "equals",  []>>,
+            Expect<Test<S2, "equals",  []>>,
+            Expect<Test<S3, "equals",  ["hello"]>>
+        ];
+    });
+
+    it("Split with separator as wide type", () => {
+        type S = Split<string, ",">;
+
+        type cases = [Expect<Test<S, "equals",  string[]>>];
+        const cases: cases = [true];
+    });
+
+    it("Split with a tuple separator", () => {
+        type FooBar = Split<"FooBar", ["F", "B"], "omit">;
+        type FooBarInline = Split<"FooBar", ["F", "B"], "inline">;
+        type FooBarBefore = Split<"FooBar", ["F", "B"], "before">;
+        type FooBarAfter = Split<"FooBar", ["F", "B"], "after">;
+
+        type cases = [
+            Expect<Test<FooBar, "equals", ["oo",  "ar"]>>,
+            Expect<Test<
+                FooBarInline, "equals",
+                ["F", "oo", "B", "ar"]
+            >>,
+            Expect<Test<FooBarAfter, "equals", ["F", "ooB", "ar"]>>,
+            Expect<Test<FooBarBefore, "equals", ["F", "ooB", "ar"]>>,
+        ];
+    });
+
+
+    it("Split with a union separator converted to tuple", () => {
+        type FooBar = Split<"FooBar", UnionToTuple<UpperAlphaChar>, "omit">;
+        type FooBarBefore = Split<"FooBar", UnionToTuple<UpperAlphaChar>, "before">;
+        type FooBarAfter = Split<"FooBar", UnionToTuple<UpperAlphaChar>, "after">;
+
+        type cases = [
+            Expect<Test<FooBar, "equals", ["oo",  "ar"]>>,
+            Expect<Test<FooBarBefore, "equals", ["F", "ooB", "ar"]>>,
+            Expect<Test<FooBarAfter, "equals", ["Foo", "Bar"]>>,
+        ];
+    });
+
+
+    it("Split called with a union separator", () => {
+        type U = Split<"FooBar", "F" | "B">;
+
+        type cases = [
+            Expect<Test<U, "equals", ["oo", "ar"]>>
+        ];
+    });
+
+    it("split with a numeric template value", () => {
+        type Template = Split<
+            `${number}Age: ${number}, FavNumber: ${number}, Color: red`,
+            `${number}`
+        >;
+
+        type Numeric = Split<
+            `Age: ${number}, FavNumber: ${number}, Color: red`,
+            `${number}`
+        >;
+
+        type cases = [
+            Expect<Test<
+                Template, "equals",
+                [
+                    "", "Age: ", ", FavNumber: ", ", Color: red"
+            ]>>,
+            Expect<Test<Numeric, "equals", [
+                "Age: ", ", FavNumber: ", ", Color: red"
+            ]>>
+        ];
+    });
+
+    it("split with a boolean template value", () => {
+        type Logical = Split<
+            `Employed: ${boolean}, Insurance: ${boolean}, Age: ${number}`, `${boolean}`
+        >;
+
+        type cases = [
+            Expect<Test<Logical, "equals", [
+                "Employed: ", ", Insurance: ", `,   Age: ${number}`
+            ]>>
+        ];
+    });
+
 
 });
+
+describe("split()", () => {
+
+    it("omit variant", () => {
+        const fooBar = split("foo, bar", ", ");
+        const fooBarBaz = split("foo, bar; baz", ", ", "; ")
+
+        expect(fooBar).toEqual(["foo", "bar"])
+        expect(fooBarBaz).toEqual(["foo", "bar", "baz"])
+
+        type cases = [
+            Expect<Test<typeof fooBar, "equals", ["foo",  "bar"]>>,
+            Expect<Test<typeof fooBarBaz, "equals", ["foo", "bar", "baz"]>>,
+        ];
+    });
+
+    it("before variant", () => {
+        const fooBar = split.before("foo, bar", ", ");
+        const fooBarBaz = split.before("foo, bar; baz", ", ", "; ")
+
+        expect(fooBar).toEqual(["foo, ", "bar"])
+        expect(fooBarBaz).toEqual(["foo, ", "bar; ", "baz"])
+
+        type cases = [
+            Expect<Test<typeof fooBar, "equals", ["foo, ", "bar"]>>,
+            Expect<Test<typeof fooBarBaz, "equals", ["foo, ", "bar; ", "baz"]>>,
+        ];
+    });
+
+    it("after variant", () => {
+        const fooBar = split.after("foo, bar", ", ");
+        const fooBarBaz = split.after("foo, bar; baz", ", ", "; ")
+
+        expect(fooBar).toEqual(["foo", ", bar"])
+        expect(fooBarBaz).toEqual(["foo", ", bar", "; baz"])
+
+        type cases = [
+            Expect<Test<typeof fooBar, "equals", [
+                "foo", "bar"
+            ]>>,
+            Expect<Test<typeof fooBarBaz, "equals", [
+                "foo", ", bar",  "; baz"
+            ]>>,
+        ];
+    });
+
+    it("inline variant", () => {
+        const fooBar = split.inline("foo, bar", ", ");
+        const fooBarBaz = split.inline("foo, bar; baz", ", ", "; ")
+
+        expect(fooBar).toEqual(["foo", ", ", "bar"])
+        expect(fooBarBaz).toEqual(["foo", ", ", "bar", "; ", "baz"])
+
+        type cases = [
+            Expect<Test<typeof fooBar, "equals", [
+                "foo", ", ",  "bar"
+            ]>>,
+            Expect<Test<typeof fooBarBaz, "equals", [
+                "foo", ", ", "bar", "; ",  "baz"
+            ]>>,
+        ];
+    });
+
+
+    it("inline variant with spaces", () => {
+        const spaced = split.inline("hello world monkey", " ");
+        expect(spaced).toEqual(["hello", " ", "world", " ", "monkey"])
+
+        type cases = [
+            Expect<Test<typeof spaced, "equals", [
+                "hello", " ", "world", " ",  "monkey"
+            ]>>
+        ];
+    });
+
+    it("inline variant with longer sequence", () => {
+        const four = split.inline("1, 2, 3, 4", ", ");
+        expect(four).toEqual(
+            ["1", ", ", "2", ", ", "3", ", ", "4"]
+        );
+
+        type cases = [
+            Expect<Test<typeof four, "equals", [
+                "1", ", ", "2", ", ", "3", ", ",  "4"
+            ]>>
+        ];
+    });
+
+})

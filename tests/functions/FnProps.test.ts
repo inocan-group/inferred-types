@@ -1,29 +1,24 @@
-/* eslint-disable @typescript-eslint/ban-types */
-import { Equal, Expect } from "@type-challenges/utils";
-import {  EmptyObject, FnProps } from "@inferred-types/types";
+import { Expect, EmptyObject, FnKeyValue, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("FnProps", () => {
 
-  it("happy path", () => {
-    type Fn = () => "hi";
-    type Obj = { foo: 1; bar: 2 };
-    type Hybrid = Fn & Obj;
+    it("happy path", () => {
+        type Fn = () => "hi";
+        type Obj = { foo: 1; bar: 2 };
+        type Hybrid = Fn & Obj;
 
-    type Props = FnProps<Hybrid>;
-    type Empty = FnProps<Fn>;
-    type Func = FnProps<Function>;
+        type Props = FnKeyValue<Hybrid>;
+        type Empty = FnKeyValue<Fn>;
+        type Func = FnKeyValue<Function>;
 
-    type cases = [
-      Expect<Equal<Props, { foo: 1; bar: 2 }>>,
-      Expect<Equal<Empty, EmptyObject>>,
-      Expect<Equal<Func, EmptyObject>>
-    ];
-    const cases: cases = [true, true, true];
-  });
+        type cases = [
+            Expect<Test<Props, "equals",  { foo: 1; bar: 2 }>>,
+            Expect<Test<Empty, "equals",  EmptyObject>>,
+            Expect<Test<Func, "equals",  EmptyObject>>
+        ];
+    });
 
 });

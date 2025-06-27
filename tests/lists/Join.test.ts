@@ -1,11 +1,6 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { Join , EnsureLeading } from "@inferred-types/types";
 import { describe, expect, it } from "vitest";
-import { Joiner, joinWith } from "inferred-types";
-
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+import { Expect, Join , EnsureLeading, Test } from "inferred-types/types";
+import {  Joiner, joinWith } from "inferred-types/runtime";
 
 describe("Join<T,S>", () => {
 
@@ -18,13 +13,12 @@ describe("Join<T,S>", () => {
 
 
     type cases = [
-      Expect<Equal<T1, "foobar">>,
-      Expect<Equal<T2, "foo\nbar">>,
-      Expect<Equal<T3, "- foo\n- bar">>,
-      Expect<Equal<IgnoreBlanks, "foo,bar,baz">>,
-      Expect<Equal<IgnoreBlanks2, "foo">>,
+      Expect<Test<T1, "equals",  "foobar">>,
+      Expect<Test<T2, "equals",  "foo\nbar">>,
+      Expect<Test<T3, "equals",  "- foo\n- bar">>,
+      Expect<Test<IgnoreBlanks, "equals", "foo,bar,baz">>,
+      Expect<Test<IgnoreBlanks2, "equals",  "foo">>,
     ];
-    const cases: cases = [true, true, true, true, true];
   });
 
 
@@ -33,14 +27,13 @@ describe("Join<T,S>", () => {
     type Mixed = Join<[true,false,boolean,42]>;
 
     type cases = [
-      Expect<Equal<Arr1, "123">>,
-      Expect<Equal<
+      Expect<Test<Arr1, "equals",  "123">>,
+      Expect<Test<
         Mixed,
+        "equals",
         "truefalsefalse42" | "truefalsetrue42"
       >>
     ];
-    const cases: cases = [ true, true ];
-
   });
 
 
@@ -51,18 +44,16 @@ describe("Join<T,S>", () => {
     type NoEllipsis = Join<[1,2,3,4,5], ", ", 3, false>;
 
     type cases = [
-      Expect<Equal<NoTrunc, "1, 2, 3">>,
-      Expect<Equal<WithTrunc, "1, 2, 3, ...">>,
-      Expect<Equal<CustomEllipsis, "1, 2, 3, ... more">>,
-      Expect<Equal<NoEllipsis, "1, 2, 3">>,
+      Expect<Test<NoTrunc, "equals", "1, 2, 3">>,
+      Expect<Test<WithTrunc, "equals", "1, 2, 3, ...">>,
+      Expect<Test<CustomEllipsis, "equals", "1, 2, 3, ... more">>,
+      Expect<Test<NoEllipsis, "equals", "1, 2, 3">>,
     ];
-    const cases: cases = [ true, true, true, true ];
-
   });
 
 });
 
-describe("join()() runtime utility", () => {
+describe("joinWith()() runtime utility", () => {
 
   it("join happy path", () => {
     const helloWorld = joinWith("")("hello", " ", "world");
@@ -73,12 +64,11 @@ describe("join()() runtime utility", () => {
     const partial = joinWith(" | ");
 
     type cases = [
-      Expect<Equal<typeof helloWorld, "hello world">>,
-      Expect<Equal<typeof list, "foo, bar, baz">>,
-      Expect<Equal<typeof partial, Joiner<" | ">>>
+      Expect<Test<typeof helloWorld, "equals",  "hello world">>,
+      Expect<Test<typeof list, "equals",  "foo, bar, baz">>,
+      Expect<Test<typeof partial, "equals",  Joiner<" | ">>>
     ];
-    const cases: cases = [ true, true, true ];
-
   });
 
 });
+

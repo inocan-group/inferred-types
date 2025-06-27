@@ -1,35 +1,29 @@
-import {  ExpectFalse, ExpectTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
+import { AllLiteral, Expect, Test } from "inferred-types/types";
 
-import { AllLiteral } from "@inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
 
 describe("AllLiteral<T>", () => {
 
-  it("happy path", () => {
-    type T1 = AllLiteral<[1,2,3]>;
-    type T2 = AllLiteral<["foo", "bar", "baz"]>;
-    type T3 = AllLiteral<[{foo: 1; bar: number}]>;
-    type T4 = AllLiteral<[true, false, 42]>;
+    it("happy path", () => {
+        type T1 = AllLiteral<[1, 2, 3]>;
+        type T2 = AllLiteral<["foo", "bar", "baz"]>;
+        type T3 = AllLiteral<[{ foo: 1; bar: number }]>;
+        type T4 = AllLiteral<[true, false, 42]>;
 
-    type F1 = AllLiteral<[1,2,number]>;
-    type F2 = AllLiteral<[string, string, string]>;
+        type F1 = AllLiteral<[1, 2, number]>;
+        type F2 = AllLiteral<[string, string, string]>;
 
-    type cases = [
-      ExpectTrue<T1>,
-      ExpectTrue<T2>,
-      ExpectTrue<T3>,
-      ExpectTrue<T4>,
-      ExpectFalse<F1>,
-      ExpectFalse<F2>,
-    ];
-    const cases: cases = [
-      true,true,true,true,
-      false,false
-    ];
-  });
+        type cases = [
+            Expect<Test<T1, "equals", true>>,
+            Expect<Test<T2, "equals", true>>,
+            Expect<Test<T3, "equals", true>>,
+            Expect<Test<T4, "equals", true>>,
+            Expect<Test<F1, "equals", false>>,
+            Expect<Test<F2, "equals", false>>,
+
+        ];
+
+    });
 
 });

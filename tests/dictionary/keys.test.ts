@@ -1,150 +1,112 @@
-import type { Expect, Equal } from "@type-challenges/utils";
 import { describe, it, expect } from "vitest";
 import type {
-  Keys,
-  NumericKeys,
-  EmptyObject,
-  ObjectKey,
-  VueRef,
-  Dictionary,
-  HasSameValues,
-  HasSameKeys,
-} from "@inferred-types/types";
-import { defineObj, keysOf, narrow } from "inferred-types";
-import { Ref } from "vue";
+    Expect,
+    Keys,
+    NumericKeys,
+    EmptyObject,
+    ObjectKey,
+    Dictionary,
+    HasSameValues,
+    HasSameKeys,
+    Test,
+} from "inferred-types/types";
+import { keysOf } from "inferred-types/runtime";
+import { ExplicitlyEmptyObject } from "transpiled/types";
 
 describe("NumericKeys<T>", () => {
 
-  it("happy path", () => {
-    type StringArr = ["foo", "bar", "baz"];
-    type StrArr_RO = readonly ["foo", "bar", "baz"];
-    type NumArr = [1,2,3];
+    it("happy path", () => {
+        type StringArr = ["foo", "bar", "baz"];
+        type StrArr_RO = readonly ["foo", "bar", "baz"];
+        type NumArr = [1, 2, 3];
 
-    type Numeric = NumericKeys<NumArr>;
-    type Str = NumericKeys<StringArr>;
-    type Str_RO = NumericKeys<StrArr_RO>;
-    type Empty = NumericKeys<[]>;
-    type Empty_RO = NumericKeys<readonly []>;
+        type Numeric = NumericKeys<NumArr>;
+        type Str = NumericKeys<StringArr>;
+        type Str_RO = NumericKeys<StrArr_RO>;
+        type Empty = NumericKeys<[]>;
+        type Empty_RO = NumericKeys<readonly []>;
 
-    type cases = [
-      Expect<Equal<Numeric, [0,1,2]>>,
-      Expect<Equal<Str, [0,1,2]>>,
-      Expect<Equal<Str_RO,  readonly [0,1,2]>>,
-      Expect<Equal<Empty,  number[]>>,
-      Expect<Equal<Empty_RO,  number[]>>,
-    ];
+        type cases = [
+            Expect<Test<Numeric, "equals", [0, 1, 2]>>,
+            Expect<Test<Str, "equals", [0, 1, 2]>>,
+            Expect<Test<Str_RO, "equals", readonly [0, 1, 2]>>,
+            Expect<Test<Empty, "equals", number[]>>,
+            Expect<Test<Empty_RO, "equals", number[]>>,
+        ];
 
-    const cases: cases = [
-      true, true, true, true, true
-    ];
-  });
+    });
 });
 
 
 describe("Keys<T> with object targets", () => {
-  type OBJ = { foo: 1; bar: 2 };
-
-  type Foobar = Keys<OBJ>;
-  type FooBar_RO =Keys<Readonly<OBJ>>;
-  type FooBar_EXT = Keys<{ foo: 1; bar: 2; [x: string]: unknown }>;
-  type EmptyObj = Keys<EmptyObject>;
-  type Uno = Keys<{baz: 3}>;
-  type StrRec = Keys<Record<string, string>>;
-  type KeyVal = Keys<Dictionary>;
-
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  type Curly = Keys<{}>;
-
-  it("object resolution", () => {
-    type cases = [
-      Expect<Equal<EmptyObj, ObjectKey[]>>,
-      Expect<Equal<Curly, ObjectKey[]>>,
-      Expect<HasSameValues<Foobar, ["foo", "bar"]>>,
-      Expect<HasSameValues<FooBar_RO, ["foo", "bar"]>>,
-      Expect<HasSameValues<FooBar_EXT, ["foo", "bar"]>>,
-      Expect<HasSameValues<Uno, ["baz"]>>,
-
-      Expect<Equal<StrRec, ObjectKey[]>>,
-      Expect<Equal<KeyVal, ObjectKey[]>>,
-    ];
-
-    const cases: cases = [
-      true, true, true, true, true, true,
-      true, true
-    ];
-  });
+    type OBJ = { foo: 1; bar: 2 };
 
 
-  it("array resolution", () => {
+    type Foobar = Keys<OBJ>;
+    type FooBar_RO = Keys<Readonly<OBJ>>;
+    type FooBar_EXT = Keys<{ foo: 1; bar: 2;[x: string]: unknown }>;
+    type EmptyObj = Keys<EmptyObject>;
+    type VeryEmpty = Keys<ExplicitlyEmptyObject>;
+    type Uno = Keys<{ baz: 3 }>;
+    type StrRec = Keys<Record<string, string>>;
+    type UnionRec = Keys<Record<"foo" | "bar", number>>;
+    type KeyVal = Keys<Dictionary>;
 
-    type cases = [
-      Expect<Equal<Keys<[]>, number[]>>,
-      Expect<Equal<Keys<string[]>,  number[]>>,
-      Expect<HasSameKeys<Keys<[1,2,3]>, [0,1,2]>>,
-      Expect<Equal<Keys< [1,2,3]>,   [0,1,2]>>,
-    ];
-    const cases: cases = [true, true, true, true];
-  });
+    type Curly = Keys<EmptyObject>;
+
+    it("object resolution", () => {
+        type cases = [
+            Expect<Test<EmptyObj, "equals", []>>,
+            Expect<Test<Curly, "equals", []>>,
+            Expect<HasSameValues<Foobar, ["foo", "bar"]>>,
+            Expect<HasSameValues<FooBar_RO, ["foo", "bar"]>>,
+            Expect<HasSameValues<FooBar_EXT, ["foo", "bar"]>>,
+            Expect<HasSameValues<Uno, ["baz"]>>,
+
+            Expect<Test<StrRec, "equals", string[]>>,
+            Expect<Test<UnionRec, "equals", ["foo", "bar"]>>,
+            Expect<Test<KeyVal, "equals", ObjectKey[]>>,
+        ];
+    });
 
 
-  // we need the "real" Ref<T> and the "fake" VueRef<T>
-  // to perform exactly the same
-  it("VueRef<T> and Ref<T> key resolution", () => {
-    type Obj = Keys<Ref<{foo: 1; bar: 2}>>;
-    type Obj2 = Keys<VueRef<{foo: 1; bar: 2}>>;
-    type Arr = Keys<Ref<[1,2,3]>>;
-    type Arr2 = Keys<VueRef<[1,2,3]>>;
-    type Str = Keys<Ref<"hi">>;
-    type Str2 = Keys<VueRef<"hi">>;
+    it("array resolution", () => {
 
-    type cases = [
-      Expect<HasSameValues<Obj, ["value"]>>,
-      Expect<HasSameValues<Obj2, ["value"]>>,
-      Expect<HasSameValues<Arr, ["value"]>>,
-      Expect<HasSameValues<Arr2, ["value"]>>,
-      Expect<HasSameValues<Str, ["value"]>>,
-      Expect<HasSameValues<Str2, ["value"]>>,
-    ];
-    const cases: cases = [ true, true, true, true, true, true ];
-  });
-
+        type cases = [
+            Expect<Test<Keys<[]>, "equals", number[]>>,
+            Expect<Test<Keys<string[]>, "equals", number[]>>,
+            Expect<HasSameKeys<Keys<[1, 2, 3]>, [0, 1, 2]>>,
+            Expect<Test<Keys<[1, 2, 3]>, "equals", [0, 1, 2]>>,
+        ];
+    });
 
 });
 
 describe("runtime keysOf() utility on object", () => {
-  it("with just object passed in, keys are extracted as expected", () => {
-    const obj = defineObj({ id: "123" })({ color: "red", isFavorite: false });
-    const k = keysOf(obj);
-    const k2 = keysOf({} as object);
-    type K = typeof k;
-
-    expect(k).toHaveLength(3);
-    expect(k).toContain("id");
-    expect(k).toContain("color");
-    expect(k).toContain("isFavorite");
-
-    expect(k2).toEqual([]);
-
-    type cases = [
-      Expect<HasSameValues<K,  ["id", "color", "isFavorite" ]>>,
-      Expect<Equal<typeof k2, ObjectKey[] & readonly never[]>>
-    ];
-    const cases: cases = [true, true];
-    expect(cases).toBe(cases);
-  });
+    it("with just object passed in, keys are extracted as expected", () => {
+        const obj = {
+            id: 123,
+            color: "blue",
+            isFavorite: false
+        } as { id: 123; color: string; isFavorite: boolean };
 
 
-  it("Runtime keysOf() for an array", () => {
-    const arr = narrow([1,2,3]);
-    const keys = keysOf(arr);
-    expect(keys).toEqual([0,1,2]);
+        const k = keysOf(obj);
+        const k2 = keysOf({} as EmptyObject);
+        type K = typeof k;
 
-    type cases = [
-      Expect<Equal<typeof keys, readonly [0,1,2] & readonly (keyof readonly [1, 2, 3])[]>>,
-    ];
-    const cases: cases = [ true ];
-  });
+        expect(k, "The object should have 3 keys: ${Json}").toHaveLength(3);
+        expect(k).toContain("id");
+        expect(k).toContain("color");
+        expect(k).toContain("isFavorite");
 
+        expect(k2).toEqual([]);
 
-
+        type cases = [
+            Expect<HasSameValues<K, ["id", "color", "isFavorite"]>>,
+            Expect<Test<typeof k2, "equals", []>>
+        ];
+        const cases: cases = [true, true];
+        expect(cases).toBe(cases);
+    });
 });

@@ -1,6 +1,14 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { getPhoneCountryCode, removePhoneCountryCode } from "inferred-types";
-import { GetPhoneCountryCode, GetPhoneNumberType, RemovePhoneCountryCode } from "@inferred-types/types";
+import {
+    getPhoneCountryCode,
+    removePhoneCountryCode
+} from "inferred-types/runtime";
+import {
+    Expect,
+    GetPhoneCountryCode,
+    GetPhoneNumberType,
+    RemovePhoneCountryCode,
+    Test
+} from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
 describe("asPhoneNumber() and supporting utils", () => {
@@ -13,11 +21,11 @@ describe("asPhoneNumber() and supporting utils", () => {
     type US2 = GetPhoneCountryCode<"+1 798-947-9178">;
 
     type cases = [
-      Expect<Equal<None, "">>,
-      Expect<Equal<UK, "44">>,
-      Expect<Equal<UK2, "44">>,
-      Expect<Equal<US, "1">>,
-      Expect<Equal<US2, "1">>,
+      Expect<Test<None, "equals",  "">>,
+      Expect<Test<UK, "equals",  "44">>,
+      Expect<Test<UK2, "equals",  "44">>,
+      Expect<Test<US, "equals",  "1">>,
+      Expect<Test<US2, "equals",  "1">>,
     ];
     const cases: cases = [
       true, true, true, true, true
@@ -31,9 +39,9 @@ describe("asPhoneNumber() and supporting utils", () => {
     type Local = RemovePhoneCountryCode<"555-1212">;
 
     type cases = [
-      Expect<Equal<Global, "07989479178">>,
-      Expect<Equal<Country, "07989479178">>,
-      Expect<Equal<Local, "555-1212">>,
+      Expect<Test<Global, "equals",  "07989479178">>,
+      Expect<Test<Country, "equals",  "07989479178">>,
+      Expect<Test<Local, "equals",  "555-1212">>,
     ];
     const cases: cases = [
       true, true, true
@@ -55,24 +63,24 @@ describe("asPhoneNumber() and supporting utils", () => {
     type Regional4 = GetPhoneNumberType<"  4864455 ">;
 
     type cases = [
-      Expect<Equal<Intl, "international">>,
-      Expect<Equal<Intl2, "international">>,
+      Expect<Test<Intl, "equals",  "international">>,
+      Expect<Test<Intl2, "equals",  "international">>,
 
-      Expect<Equal<Country, "country">>,
-      Expect<Equal<Country2, "country">>,
-      Expect<Equal<Country3, "country">>,
-      Expect<Equal<Country4, "country">>,
+      Expect<Test<Country, "equals",  "country">>,
+      Expect<Test<Country2, "equals",  "country">>,
+      Expect<Test<Country3, "equals",  "country">>,
+      Expect<Test<Country4, "equals",  "country">>,
 
-      Expect<Equal<Regional, "regional">>,
-      Expect<Equal<Regional2, "regional">>,
-      Expect<Equal<Regional3, "regional">>,
-      Expect<Equal<Regional4, "regional">>,
+      Expect<Test<Regional, "equals",  "regional">>,
+      Expect<Test<Regional2, "equals",  "regional">>,
+      Expect<Test<Regional3, "equals",  "regional">>,
+      Expect<Test<Regional4, "equals",  "regional">>,
 
     ];
     const cases: cases = [
-      true,true,
-      true,true,true,true,
-      true,true,true,true,
+      true, true,
+      true, true, true, true,
+      true, true, true, true,
     ];
 
   });
@@ -91,12 +99,12 @@ describe("asPhoneNumber() and supporting utils", () => {
     expect(us).toBe("1");
 
     type cases = [
-      Expect<Equal<typeof none, "">>,
-      Expect<Equal<typeof uk, "44">>,
-      Expect<Equal<typeof uk2, "44">>,
-      Expect<Equal<typeof us, "1">>,
+      Expect<Test<typeof none, "equals",  "">>,
+      Expect<Test<typeof uk, "equals",  "44">>,
+      Expect<Test<typeof uk2, "equals",  "44">>,
+      Expect<Test<typeof us, "equals",  "1">>,
     ];
-    const cases: cases = [ true, true, true, true ];
+    const cases: cases = [true, true, true, true];
 
   });
 

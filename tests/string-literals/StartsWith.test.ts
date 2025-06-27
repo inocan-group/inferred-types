@@ -1,53 +1,43 @@
-import { Equal, Expect, ExpectFalse, ExpectTrue } from "@type-challenges/utils";
-import {  StartsWith, UpperAlphaChar } from "@inferred-types/types";
+import { Expect,StartsWith, Test, UpperAlphaChar } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("StartsWith<TValue,TTest>", () => {
 
-  it("happy path", () => {
-    type Foo = StartsWith<"foobar", "foo">;
-    type NoFoo = StartsWith<"barfoo", "foo">;
+    it("happy path", () => {
+        type Foo = StartsWith<"foobar", "foo">;
+        type NoFoo = StartsWith<"barfoo", "foo">;
 
-    type MultiFoo = StartsWith<"foobar", ["foo", "bar"]>;
-    type NotMultiFoo = StartsWith<"foobar", ["bar", "baz"]>;
+        type MultiFoo = StartsWith<"foobar", ["foo", "bar"]>;
+        type NotMultiFoo = StartsWith<"foobar", ["bar", "baz"]>;
 
-    type Num = StartsWith<420,42>;
-    type NotNum = StartsWith<520,42>;
+        type Num = StartsWith<420, 42>;
+        type NotNum = StartsWith<520, 42>;
 
-    type Upper = StartsWith<"Bar", UpperAlphaChar>;
-    type NotUpper = StartsWith<"bar", UpperAlphaChar>;
+        type Upper = StartsWith<"Bar", UpperAlphaChar>;
+        type NotUpper = StartsWith<"bar", UpperAlphaChar>;
 
-    type WideComparator = StartsWith<"Foo", string>;
-    type WideContent = StartsWith<string, "foo">;
+        type WideComparator = StartsWith<"Foo", string>;
+        type WideContent = StartsWith<string, "foo">;
 
-    type cases = [
-      ExpectTrue<Foo>,
-      ExpectFalse<NoFoo>,
+        type cases = [
+            Expect<Test<Foo, "equals", true>>,
+            Expect<Test<NoFoo, "equals", false>>,
 
-      ExpectTrue<MultiFoo>,
-      ExpectFalse<NotMultiFoo>,
+            Expect<Test<MultiFoo, "equals", true>>,
+            Expect<Test<NotMultiFoo, "equals", false>>,
 
-      ExpectTrue<Num>,
-      ExpectFalse<NotNum>,
+            Expect<Test<Num, "equals", true>>,
+            Expect<Test<NotNum, "equals", false>>,
 
-      ExpectTrue<Upper>,
-      ExpectFalse<NotUpper>,
+            Expect<Test<Upper, "equals", true>>,
+            Expect<Test<NotUpper, "equals", false>>,
 
-      Expect<Equal<WideComparator, boolean>>,
-      Expect<Equal<WideContent, boolean>>,
-    ];
-    const cases: cases = [
-      true, false,
-      true, false,
-      true, false,
-      true, false,
-      true, true
-    ];
-  });
+            Expect<Test<WideComparator, "equals", boolean>>,
+            Expect<Test<WideContent, "equals", boolean>>,
+        ];
+    });
 
 });
 

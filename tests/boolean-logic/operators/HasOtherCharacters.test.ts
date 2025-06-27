@@ -1,43 +1,35 @@
-import { Equal, ExpectTrue, ExpectFalse, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
+import { Expect, HasOtherCharacters, HexadecimalChar, Test } from "inferred-types/types";
 
-import { HasOtherCharacters, HexadecimalChar } from "@inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
 
 describe("HasOtherCharacters<TStr,TChars>", () => {
 
-  it("happy path", () => {
-    type T1 = HasOtherCharacters<"#AC04FFk", HexadecimalChar | "#">;
-    type T2 = HasOtherCharacters<"abcd", "a">;
+    it("happy path", () => {
+        type T1 = HasOtherCharacters<"#AC04FFk", HexadecimalChar | "#">;
+        type T2 = HasOtherCharacters<"abcd", "a">;
 
-    type F1 = HasOtherCharacters<"#AC04FF", HexadecimalChar | "#">;
-    type F2 = HasOtherCharacters<"abcd", "a"| "b"| "c"| "d">;
-    type F3 = HasOtherCharacters<"abcd", ["a", "b", "c", "d"]>;
+        type F1 = HasOtherCharacters<"#AC04FF", HexadecimalChar | "#">;
+        type F2 = HasOtherCharacters<"abcd", "a" | "b" | "c" | "d">;
+        type F3 = HasOtherCharacters<"abcd", ["a", "b", "c", "d"]>;
 
-    type B1 = HasOtherCharacters<string, "a">;
-    type B2 = HasOtherCharacters<"a", string>;
+        type B1 = HasOtherCharacters<string, "a">;
+        type B2 = HasOtherCharacters<"a", string>;
 
 
-    type cases = [
-      ExpectTrue<T1>,
-      ExpectTrue<T2>,
+        type cases = [
+            Expect<Test<T1, "equals", true>>,
+            Expect<Test<T2, "equals", true>>,
 
-      ExpectFalse<F1>,
-      ExpectFalse<F2>,
-      ExpectFalse<F3>,
+            Expect<Test<F1, "equals", false>>,
+            Expect<Test<F2, "equals", false>>,
+            Expect<Test<F3, "equals", false>>,
 
-      Expect<Equal<B1, boolean>>,
-      Expect<Equal<B2, boolean>>,
-    ];
-    const cases: cases = [
-      true, true,
-      false, false, false,
-      true, true
-    ];
-  });
+            Expect<Test<B1, "equals",  boolean>>,
+            Expect<Test<B2, "equals",  boolean>>,
+        ];
+
+    });
 
 });
 

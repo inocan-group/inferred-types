@@ -1,7 +1,6 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it, expect } from "vitest";
-
-import { toPascalCase } from "inferred-types";
+import { toPascalCase } from "inferred-types/runtime";
+import { Expect, Test } from "inferred-types/types";
 
 describe("toPascalCase() function", () => {
   it("camelCase is converted correctly", () => {
@@ -48,14 +47,11 @@ describe("toPascalCase() function", () => {
     type AWhite = typeof aWhite;
 
     type cases = [
-      Expect<Equal<ADash, "OneTwoThree">>,
-      Expect<Equal<ASnake, "OneTwoThree">>,
-      Expect<Equal<AWhiteTrimmed, "OneTwoThree">>,
-      Expect<Equal<AWhite, "  OneTwoThree  ">>
+      Expect<Test<ADash, "equals",  "OneTwoThree">>,
+      Expect<Test<ASnake, "equals",  "OneTwoThree">>,
+      Expect<Test<AWhiteTrimmed, "equals",  "OneTwoThree">>,
+      Expect<Test<AWhite, "equals",  "  OneTwoThree  ">>
     ];
-
-    const c: cases = [true, true, true, true];
-    expect(c).toEqual(c);
   });
 
   it(`Using "string literal", type is modified appropriately`, () => {
@@ -86,20 +82,17 @@ describe("toPascalCase() function", () => {
 
     type cases = [
       // All non-white spaced versions of a string are converted to correct string literal
-      Expect<Equal<ADash, "OneTwoThree">>,
-      Expect<Equal<ASnake, "OneTwoThree">>,
+      Expect<Test<ADash, "equals",  "OneTwoThree">>,
+      Expect<Test<ASnake, "equals",  "OneTwoThree">>,
       // that includes those which need no transformation
-      Expect<Equal<APascal, "OneTwoThree">>,
+      Expect<Test<APascal, "equals",  "OneTwoThree">>,
       // with a white spaced input, the default is to trim it
-      Expect<Equal<AWhiteTrimmed, "OneTwoThree">>,
-      Expect<Equal<AWhiteTrimmed2, "OneTwoThree">>,
+      Expect<Test<AWhiteTrimmed, "equals",  "OneTwoThree">>,
+      Expect<Test<AWhiteTrimmed2, "equals",  "OneTwoThree">>,
       // but whitespace can be preserved too
-      Expect<Equal<AWhitePreserved, "  OneTwoThree  ">>,
-      Expect<Equal<AWhitePreserved2, "\n  OneTwoThree  \t">>
+      Expect<Test<AWhitePreserved, "equals",  "  OneTwoThree  ">>,
+      Expect<Test<AWhitePreserved2, "equals",  "\n  OneTwoThree  \t">>
     ];
-
-    const c: cases = [true, true, true, true, true, true, true];
-    expect(c).toEqual(c);
   });
 
 });

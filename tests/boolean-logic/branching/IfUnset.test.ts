@@ -1,37 +1,39 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { Dictionary, IfUnset, IfUnsetOrUndefined, Unset } from "@inferred-types/types";
+import {
+    Expect,
+    Test,
+    Dictionary,
+    IfUnset,
+    IfUnsetOrUndefined,
+    Unset
+} from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("IfUnset<TTest,TElse>", () => {
 
-  it("first test", () => {
-    type U = Dictionary | Unset;
+    it("first test", () => {
+        type U = Dictionary | Unset;
 
-    type T1 = IfUnset<U, "oops">;
+        type T1 = IfUnset<U, "oops">;
 
-    type cases = [
-      Expect<Equal<T1, Dictionary | "oops">>,
-    ];
-    const cases: cases = [ true ];
-  });
+        type cases = [
+            Expect<Test<T1, "equals",  Dictionary | "oops">>,
+        ];
+    });
 
 });
 
 describe("IfUnsetOrUndefined<TTest,TElse>", () => {
 
-  it("first test", () => {
-    type U = Dictionary | Unset | undefined;
+    it("first test", () => {
+        type U = Dictionary | Unset | undefined;
 
-    type T1 = IfUnsetOrUndefined<U, "oops">;
+        type T1 = IfUnsetOrUndefined<U, "oops">;
 
-    type cases = [
-      Expect<Equal<T1, Dictionary | "oops">>,
-    ];
-    const cases: cases = [ true ];
-  });
+        type cases = [
+            Expect<Test<T1, "equals",  Dictionary | "oops">>,
+        ];
+    });
 
 });

@@ -1,18 +1,13 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { isShape, shape } from "inferred-types";
-import { Ip4Address, ZipCode } from "@inferred-types/types";
+import { isShape, shape } from "inferred-types/runtime";
+import { Expect, Ip4Address, Test, ZipCode } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
-
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
 
 describe("shape(s => s.[api])", () => {
 
   it("strings", () => {
     const str = shape(s => s.string());
     const strLit = shape(s => s.string("foo"));
-    const strUnion = shape(s => s.string("foo","bar"));
+    const strUnion = shape(s => s.string("foo", "bar"));
     const ipAddress = shape(s => s.string().ipv4Address());
     const zip = shape(s => s.string().zipCode());
 
@@ -26,16 +21,13 @@ describe("shape(s => s.[api])", () => {
     expect(isShape(zip)).toBe(true);
 
     type cases = [
-      Expect<Equal<typeof str, string>>,
-      Expect<Equal<typeof strLit, "foo">>,
-      Expect<Equal<typeof strUnion, "foo" | "bar">>,
-      Expect<Equal<typeof ipAddress, Ip4Address>>,
-      Expect<Equal<typeof zip, ZipCode>>
+      Expect<Test<typeof str, "equals",  string>>,
+      Expect<Test<typeof strLit, "equals",  "foo">>,
+      Expect<Test<typeof strUnion, "equals",  "foo" | "bar">>,
+      Expect<Test<typeof ipAddress, "equals",  Ip4Address>>,
+      Expect<Test<typeof zip, "equals",  ZipCode>>
     ];
 
-    const cases: cases = [
-      true, true, true, true, true
-    ];
   });
 
 
@@ -43,7 +35,7 @@ describe("shape(s => s.[api])", () => {
     // should create a string literal type which has a backing regex for validation
     const zip = shape(s => s.string().regex(
       /[0-9]{5}(-[0-9]{4}){0,1}/,
-      "number","opt(-)", "opt(number)"
+      "number", "opt(-)", "opt(number)"
     ))
   })
 

@@ -1,27 +1,22 @@
-import { Equal, Expect } from "@type-challenges/utils";
+import {  Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { AsPropertyKey } from "@inferred-types/types";
+import { AsPropertyKey, Test } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("AsPropertyKey<T,[C]>", () => {
 
-  it("without container", () => {
-    type Foo = AsPropertyKey<"foo">;
-    type One = AsPropertyKey<1>;
-    type Err = AsPropertyKey<true>;
-    type cases = [
-      Expect<Equal<Foo, "foo">>,
-      Expect<Equal<One, 1>>,
-      Expect<Equal<Err, never>>
-    ];
-    const cases: cases = [
-      true, true,
-      true
-    ];
-  });
+    it("without container", () => {
+        type Foo = AsPropertyKey<"foo">;
+        type One = AsPropertyKey<1>;
+        type Err = AsPropertyKey<true>;
+        type cases = [
+            Expect<Test<Foo, "equals",  "foo">>,
+            Expect<Test<One, "equals",  1>>,
+            Expect<Test<Err, "equals",  never>>
+        ];
+
+    });
 
 
 });

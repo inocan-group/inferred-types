@@ -1,20 +1,15 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { find, narrow } from "inferred-types";
-
-
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+import { Expect, Test } from "inferred-types/types";
+import { find, narrow } from "inferred-types/runtime";
 
 describe("find(list,[deref])", () => {
 
   it("happy path", () => {
-    let scalars = narrow(42,56,"foo","bar",false);
+    let scalars = narrow(42, 56, "foo", "bar", false);
     let objects = narrow(
-      {id: 1, name: "Bob"},
-      {id: 2, name: "Mark"},
-      {id: 3, name: "Mary"},
+      { id: 1, name: "Bob" },
+      { id: 2, name: "Mark" },
+      { id: 3, name: "Mary" },
     );
     let findScalar = find(scalars);
     let foo = findScalar("foo");
@@ -22,18 +17,15 @@ describe("find(list,[deref])", () => {
 
     let findObj = find(objects, "id");
     let bob = findObj(1);
-    expect(bob).toEqual({id: 1, name: "Bob"});
+    expect(bob).toEqual({ id: 1, name: "Bob" });
     let mark = findObj(2);
-    expect(mark).toEqual({id: 2, name: "Mark"});
+    expect(mark).toEqual({ id: 2, name: "Mark" });
 
     type cases = [
-      Expect<Equal<typeof foo, "foo">>,
-      Expect<Equal<typeof num, 42>>,
-      Expect<Equal<typeof bob, {id: 1, name: "Bob" }>>,
-      Expect<Equal<typeof mark, {id: 2, name: "Mark" }>>,
-    ];
-    const cases: cases = [
-      true,true, true, true
+      Expect<Test<typeof foo, "equals",  "foo">>,
+      Expect<Test<typeof num, "equals",  42>>,
+      Expect<Test<typeof bob, "equals", { id: 1, name: "Bob" }>>,
+      Expect<Test<typeof mark,"equals", { id: 2, name: "Mark" }>>,
     ];
   });
 

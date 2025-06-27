@@ -1,10 +1,7 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import {  KebabKeys } from "@inferred-types/types";
+import { Expect, KebabKeys, Test } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("KebabKeys<T>", () => {
 
@@ -14,7 +11,11 @@ describe("KebabKeys<T>", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<T, {"foo-bar": 42; "bar-baz": 55; opt: "maybe" | undefined}>>
+      Expect<Test<
+        T,
+        "equals",
+        { "foo-bar": 42; "bar-baz": 55; opt?: "maybe" | undefined }
+    >>
     ];
   });
 

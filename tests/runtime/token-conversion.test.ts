@@ -1,10 +1,8 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { simpleScalarTokenToTypeToken } from "inferred-types";
+import { simpleScalarTokenToTypeToken } from "inferred-types/runtime";
+import { Expect, Test } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("token conversion", () => {
 
@@ -42,20 +40,20 @@ describe("token conversion", () => {
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<typeof str, string>>,
-      Expect<Equal<typeof num, number>>,
-      Expect<Equal<typeof bool, boolean>>,
-      Expect<Equal<typeof Null, null>>,
+      Expect<Test<typeof str, "equals",  string>>,
+      Expect<Test<typeof num, "equals",  number>>,
+      Expect<Test<typeof bool, "equals",  boolean>>,
+      Expect<Test<typeof Null, "equals",  null>>,
 
-      Expect<Equal<typeof strLit, "foobar">>,
-      Expect<Equal<typeof numLit, 42>>,
+      Expect<Test<typeof strLit, "equals",  "foobar">>,
+      Expect<Test<typeof numLit, "equals",  42>>,
 
-      Expect<Equal<typeof strUnion, "foo" | "bar">>,
-      Expect<Equal<typeof numUnion, 42 | 56>>,
+      Expect<Test<typeof strUnion, "equals",  "foo" | "bar">>,
+      Expect<Test<typeof numUnion, "equals",  42 | 56>>,
 
 
-      Expect<Equal<typeof strOpt, string | undefined>>,
-      Expect<Equal<typeof numOpt, number | undefined>>,
+      Expect<Test<typeof strOpt, "equals",  string | undefined>>,
+      Expect<Test<typeof numOpt, "equals",  number | undefined>>,
 
     ];
 

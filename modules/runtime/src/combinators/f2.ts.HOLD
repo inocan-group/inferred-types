@@ -1,0 +1,241 @@
+import { AfterFirst,  First,  SimplifyObject, TupleToUnion, UnionToTuple, WithoutValue } from "inferred-types/types";
+import { AsArray } from "inferred-types/types";
+import { withoutValue } from "inferred-types/types";
+
+/** ways in which an "undefined" value should be handled in a filter function */
+export type FilterUndefinedBehavior = "filter out" | "throw error" | "do not allow";
+
+/** the configuration of a filter */
+export interface FilterConfig {
+  config: Readonly<WithoutValue<undefined, {}>>;
+  equals: readonly (string | number)[] | undefined;
+  notEqual: readonly (string | number)[] | undefined;
+  contains: readonly string[] | undefined;
+  startsWith: readonly string[] | undefined;
+  endsWith: readonly string[] | undefined;
+  greaterThan: number | undefined;
+  lessThan: number | undefined;
+  boolean: boolean | undefined;
+  undefined: FilterUndefinedBehavior;
+};
+
+
+export type AddProp<D extends {}, K extends string & keyof FilterConfig, V> = SimplifyObject<D & Record<K,V>> & FilterConfig;
+
+
+export type FilterApi<TExclude extends string[], TConfig extends FilterConfig> = Exclude<{
+  /**
+   * Current filter configuration
+   */
+  config: Readonly<WithoutValue<undefined, TConfig>>;
+  /**
+   * **startsWith**
+   *
+   * A _string_ condition which tests whether a string **starts** with
+   * a substring.
+   *
+   * Note: _if an array is passed in this is always logically OR'd together_
+   */
+  startsWith<S extends readonly string[]>(...v: S): FilterApi<[...TExclude, "startsWith"], AddProp<TConfig, "startsWith", AsArray<S>>>;
+  /**
+   * **endsWith**
+   *
+   * A _string_ condition which tests whether a string **ends** with
+   * a substring.
+   *
+   * Note: _if an array is passed in this is always logically OR'd together_
+   */
+  endsWith<S extends readonly string[]>(...v: S): FilterApi<[...TExclude, "endsWith"], AddProp<TConfig, "endsWith", AsArray<S>>>;
+  /**
+   * **contains**
+   *
+   * A _string_ condition which tests whether a string **contains** a given substring.
+   *
+   * Note: _if an array is passed in this is always logically OR'd together_
+   */
+  contains<S extends readonly string[]>(...v: S): FilterApi<[...TExclude, "contains"], AddProp<TConfig, "contains", S>>;
+
+  /**
+   * **equals**
+   *
+   * A _string_ or a _numeric_ condition which tests whether the passed in element
+   * is **Equal** to the value/values stated here.
+   *
+   * Note: _if an array is passed in this is always logically OR'd together_
+   */
+  equals<M extends readonly (string | number)[]>(v: M): FilterApi<[...TExclude, "equals"], AddProp<TConfig, "equals", M>>;
+
+  /**
+   * **notEqual**
+   *
+   * A _string_ or a _numeric_ condition which tests whether the passed in element
+   * is **NOT Equal** to the value/values stated here.
+   *
+   * Note: _if an array is passed in this is always logically OR'd together_
+   */
+  notEqual<M extends readonly (string | number)[]>(...v: M): FilterApi<[...TExclude, "notEqual"], AddProp<TConfig, "startsWith", AsArray<M>>>;
+
+  /**
+   * **lessThan**
+   *
+   * A _numeric_ condition which tests whether values passed in
+   * are **less than** in value than the amount expressed here.
+   *
+   * Note: _if an array is passed in this is always logically OR'd together_
+   */
+  lessThan<N extends number>(v: N): FilterApi<[...TExclude, "lessThan"], AddProp<TConfig, "lessThan", N>>;
+
+  /**
+   * **greaterThan**
+   *
+   * A _numeric_ condition which tests whether values passed in
+   * are **greater than** in value than the amount expressed here.
+   *
+   * Note: _if an array is passed in this is always logically OR'd together_
+   */
+  greaterThan<N extends number | readonly number[]>(v: N): FilterApi<[...TExclude, "greaterThan"], AddProp<TConfig, "greaterThan", N>>;
+
+  /**
+   * **handleUndefined**
+   *
+   * Allows appropriate handling of undefined values:
+   *
+   * - `filter out` - default behavior which just returns **false** when encountered
+   * - `throw error` - the input type will _allow_ an undefined value but will throw an error if
+   * it encounters one
+   * - `do not allow` - the input type will not allow an undefined type
+   */
+  handleUndefined<H extends FilterUndefinedBehavior>(v: H): FilterApi<[...TExclude, "handleUndefined"], AddProp<TConfig, "undefined", H>>;
+
+  /**
+   * **isTrue**
+   *
+   * A _boolean_ condition which tests whether values passed in
+   * are **true**.
+   */
+  isTrue(): FilterApi<[...TExclude , "isTrue" , "isFalse"], AddProp<TConfig, "boolean", true>>;
+
+  /**
+   * **isFalse**
+   *
+   * A _boolean_ condition which tests whether values passed in
+   * are **false**.
+   */
+  isFalse(): FilterApi<[...TExclude , "isTrue" , "isFalse"], AddProp<TConfig, "boolean", false>>;
+
+
+
+}, TupleToUnion<TExclude>>;
+
+type FilterLookup<T extends string> = T extends "isFalse"
+  ? boolean
+  : T extends "isTrue"
+    ? boolean
+    : T extends "greaterThan"
+      ? number
+      : T extends "lessThan"
+        ? number
+        : T extends "notEqual"
+          ? string | number
+          : T extends "equals"
+            ? string | number
+            : T extends "startsWith"
+              ? string
+              : T extends "endsWith"
+                ? string
+                : T extends "contains"
+                  ? string
+                  : unknown;
+
+type FilterInputArr<TOutput extends readonly any[], TInput extends readonly any[]> = [] extends TInput
+  ? TOutput
+  : FilterInputArr<[...TOutput, FilterLookup<First<TInput>>], AfterFirst<TInput>>;
+
+/**
+ * Type utility which receives the conditions which were used in a filter
+ * to determine the filter's possible values it can receive.
+ */
+export type FilterInput<T extends string> = TupleToUnion<FilterInputArr<[], UnionToTuple<T>>>;
+
+/**
+ * **FilterDefn**
+ *
+ * A filter definition which came from the createFilter utility.
+ */
+export type FilterDefn<TCond> = <T extends TCond>(input: T) => boolean;
+
+
+/**
+ * **createFilter**
+ *
+ * A runtime utility that makes creating simple filters super easy and in a type-safe manner.
+ *
+ * ```ts
+ * const filter = createFilter(c => c.startsWith("foo").notEqual("foobar"))
+ * ```
+ */
+export const createFilter = <T extends readonly string[]>(cb: <C extends FilterConfig>(defn: FilterApi<[], any>) => FilterApi<T, C>) => {
+  const initialConfig = {
+    config: {},
+    equals: undefined,
+    notEqual: undefined,
+    contains: undefined,
+    startsWith: undefined,
+    endsWith: undefined,
+    greaterThan: undefined,
+    lessThan: undefined,
+    boolean: undefined,
+    undefined: "filter out"
+  } satisfies FilterConfig;
+
+  const api = apiDefn(initialConfig)([]);
+  const state = cb(api);
+
+  return <I extends FilterInput<T>>(input: I) => {
+    //
+  };
+};
+
+const onlyConfigured = withoutValue(c => c.undefined());
+
+/**
+ * The implementation of the API which maintains the state while user is manipulating it
+ */
+const apiDefn = <TConfig extends FilterConfig>(config: TConfig) => <TExclude extends readonly (string & keyof FilterConfig)[]>(exclude: TExclude) => {
+  const api: FilterApi<[], TConfig> = {
+    config: onlyConfigured(config),
+    equals(...v) {
+      return apiDefn({...config, equals: v})([...exclude, "equals"]);
+    },
+    notEqual(...v) {
+      return apiDefn({...config, notEqual: v})([...exclude, "notEqual"]);
+    },
+    contains(...v) {
+      return apiDefn({...config, contains: v})([...exclude, "contains"]);
+    },
+    startsWith(...v) {
+      return apiDefn({...config, startsWith:v})([...exclude, "startsWith"]);
+    },
+    endsWith(...v) {
+      return apiDefn({...config, endsWith: v})([...exclude, "endsWith"]);
+    },
+    lessThan(v) {
+      return apiDefn({...config, lessThan: v})([...exclude, "lessThan"]);
+    },
+    greaterThan(v) {
+      return apiDefn({...config, greaterThan: v})([...exclude, "greaterThan"]);
+    },
+    isTrue() {
+      return apiDefn({...config, boolean: true})([...exclude, "boolean"]);
+    },
+    isFalse() {
+      return apiDefn({...config, boolean: false})([...exclude, "boolean"]);
+    },
+    handleUndefined(v) {
+      return apiDefn({...config, undefined: v})([...exclude, "undefined"]);
+    },
+  };
+
+  return api as FilterApi<TExclude, TConfig>;
+};
+

@@ -1,0 +1,30 @@
+{
+    "compilerOptions": {
+        "composite": true,
+        "target": "ESNext",
+        "module": "ESNext",
+        "moduleResolution": "Bundler",
+        "paths": {
+            "inferred-types/constants": [
+                "./src/index.ts"
+            ]
+        },
+        "strict": true,
+        "declaration": true,
+        "declarationMap": true,
+        "outDir": "./dist",
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "stripInternal": false,
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "tests",
+        "dist"
+    ]
+}

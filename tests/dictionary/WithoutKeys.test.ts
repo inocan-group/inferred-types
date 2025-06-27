@@ -1,9 +1,7 @@
 
 import { describe, it, expect } from "vitest";
-import { Equal, Expect } from "@type-challenges/utils";
-
-import {  UnionToTuple, WithoutKeys } from "@inferred-types/types";
-import { withoutKeys } from "inferred-types";
+import { Expect, Test, UnionToTuple, WithoutKeys } from "inferred-types/types";
+import { withoutKeys } from "inferred-types/runtime";
 
 describe("WithoutKeys<T, K> utility", () => {
   it("base test", () => {
@@ -11,24 +9,23 @@ describe("WithoutKeys<T, K> utility", () => {
     type FooBarUnion = WithoutKeys<O, UnionToTuple<"foo" | "bar">>;
     type FooBarUnion2 = Omit<O, "foo" | "bar">;
     type FooBarRO = WithoutKeys<O, readonly ["foo", "bar"]>;
-    type FooBarRW = WithoutKeys<O,  ["foo", "bar"]>;
+    type FooBarRW = WithoutKeys<O, ["foo", "bar"]>;
     type BazRW = WithoutKeys<O, ["baz"]>;
     type FooBazArr = WithoutKeys<O, ["foo", "baz"]>;
 
     type cases = [
-      Expect<Equal<FooBarUnion, { baz: "hi" }>>,
-      Expect<Equal<FooBarUnion2, { baz: "hi" }>>,
-      Expect<Equal<FooBarRO, { baz: "hi" }>>,
-      Expect<Equal<FooBarRW, { baz: "hi" }>>,
-      Expect<Equal<BazRW, { foo: 1; bar: 2 }>>,
-      Expect<Equal<FooBazArr, { bar: 2 }>>,
+      Expect<Test<FooBarUnion, "equals",  { baz: "hi" }>>,
+      Expect<Test<FooBarUnion2, "equals",  { baz: "hi" }>>,
+      Expect<Test<FooBarRO, "equals",  { baz: "hi" }>>,
+      Expect<Test<FooBarRW, "equals",  { baz: "hi" }>>,
+      Expect<Test<BazRW, "equals",  { foo: 1; bar: 2 }>>,
+      Expect<Test<FooBazArr, "equals",  { bar: 2 }>>,
     ];
-    const cases: cases = [true, true, true, true, true, true];
   });
 
   it("runtime: happy path", () => {
-    const literalObj = {foo: 1, bar: 42 as number | undefined, baz: "hi"} as const;
-    const obj = {foo: 1, bar: 42 as number | undefined, baz: "hi"};
+    const literalObj = { foo: 1, bar: 42 as number | undefined, baz: "hi" } as const;
+    const obj = { foo: 1, bar: 42 as number | undefined, baz: "hi" };
     const t1 = withoutKeys(literalObj, "foo", "bar");
     const t1b = withoutKeys(obj, "foo", "bar");
     const t2 = withoutKeys(literalObj, "foo", "baz");
@@ -49,12 +46,11 @@ describe("WithoutKeys<T, K> utility", () => {
     expect((t2b as any).baz).toBeUndefined;
 
     type cases = [
-      Expect<Equal<typeof t1, { readonly baz: "hi"}>>,
-      Expect<Equal<typeof t2, { readonly bar: number | undefined}>>,
-      Expect<Equal<typeof t1b, { baz: string}>>,
-      Expect<Equal<typeof t2b, {  bar: number | undefined}>>,
+      Expect<Test<typeof t1, "equals",  { readonly baz: "hi" }>>,
+      Expect<Test<typeof t2, "equals",  { readonly bar: number | undefined }>>,
+      Expect<Test<typeof t1b, "equals",  { baz: string }>>,
+      Expect<Test<typeof t2b, "equals",  { bar: number | undefined }>>,
     ];
-    const cases: cases = [ true, true, true, true ];
   });
 
 });

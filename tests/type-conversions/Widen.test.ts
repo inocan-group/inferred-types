@@ -1,10 +1,13 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { EmptyObject, Dictionary,  Widen } from "@inferred-types/types";
+import {
+    Expect,
+    EmptyObject,
+    Dictionary,
+    Widen,
+    Test
+} from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("Widen<T>", () => {
 
@@ -30,44 +33,62 @@ describe("Widen<T>", () => {
     type TupleForced = Widen<readonly string[], true>;
 
     type Fn = Widen<() => "hi">;
-    type NarrowFnReturn = Widen<<T extends string>(name: T) => `hi ${T}`>;
-    type NarrowFnParams = Widen<<T extends "Bob" | "Nancy">(name: T) => `hi ${T}`>;
+    type NarrowFnReturn = Widen<
+        <T extends string>(name: T) => `hi ${T}`
+    >;
+    type NarrowFnParams = Widen<
+        <T extends "Bob" | "Nancy">(name: T) => `hi ${T}`
+    >;
     type FnWithProps = Widen<(() => "hi") & { foo: 1; bar: 2}>;
     type FnAsProp = Widen<{foo: () => "hi"}>;
     type FnWithPropAsProp = Widen<{foo: (() => "hi") & { bar: 1}}>;
 
     // @ts-ignore
     type cases = [
-      Expect<Equal<NumLiteral, number>>, //
-      Expect<Equal<StrLiteral, string>>,
+      Expect<Test<NumLiteral, "equals",  number>>, //
+      Expect<Test<StrLiteral, "equals",  string>>,
 
-      Expect<Equal<LiteralObj, { foo: number; bar: string}>>,
-      Expect<Equal<WideObj, { foo: number; bar: string}>>,
-      Expect<Equal<ObjInObj, { foo: { bar: number; baz: number}}>>,
-      Expect<Equal<KeyValue, EmptyObject>>,
-      Expect<Equal<Obj, object>>,
+      Expect<Test<LiteralObj, "equals",  { foo: number; bar: string}>>,
+      Expect<Test<WideObj, "equals",  { foo: number; bar: string}>>,
+      Expect<Test<ObjInObj, "equals",  { foo: { bar: number; baz: number}}>>,
+      Expect<Test<KeyValue, "equals",  EmptyObject>>,
+      Expect<Test<Obj, "equals",  object>>,
 
-      Expect<Equal<Arr, [string, boolean, number]>>,
-      Expect<Equal<ArrInObj, {foo: [string, string]; bar: number}>>,
-      Expect<Equal<WideArr, string[]>>,
+      Expect<Test<Arr, "equals", [string, boolean, number]>>,
+      Expect<Test<ArrInObj, "equals", {foo: [string, string]; bar: number}>>,
+      Expect<Test<WideArr, "equals",  string[]>>,
 
-      Expect<Equal<Union, string | number>>,
+      Expect<Test<Union, "equals",  string | number>>,
 
-      Expect<Equal<DictForced, Dictionary>>,
-      Expect<Equal<ObjLitForced, Dictionary>>,
-      Expect<Equal<TupleForced, readonly unknown[]>>,
+      Expect<Test<DictForced, "equals",  Dictionary>>,
+      Expect<Test<ObjLitForced, "equals",  Dictionary>>,
+      Expect<Test<MapForced, "equals", Map<unknown, unknown>>>,
+      Expect<Test<TupleForced, "equals",  readonly unknown[]>>,
 
-      Expect<Equal<Fn, () => string>>,
-      Expect<Equal<NarrowFnReturn, <T extends [name: string]>(...args: T) => string>>,
+      Expect<Test<Fn, "equals",  () => string>>,
+      Expect<Test<
+        NarrowFnReturn, "equals",
+        <T extends readonly [name: string]>(...args: T) => string>>,
       // this was unexpected by the `ReturnType` utility can't handle the union type
       // in the params
-      Expect<Equal<NarrowFnParams, <T extends [name: string]>(...args: T) => unknown>>,
-      Expect<Equal<FnWithProps, (()=> string) & {foo: number; bar: number}>>,
-      Expect<Equal<FnAsProp, {foo: () => string}>>,
-      Expect<Equal<FnWithPropAsProp, {foo: (() => string) & {bar: number}}>>
+      Expect<Test<
+        NarrowFnParams, "equals",
+            <T extends [name: string]>(...args: T) => unknown
+        >>,
+        Expect<Test<
+            FnWithProps, "equals",
+            (()=> string) & {foo: number; bar: number}
+        >>,
+        Expect<Test<
+            FnAsProp, "equals",
+            {foo: () => string}
+        >>,
+        Expect<Test<
+            FnWithPropAsProp, "equals",
+            {foo: (() => string) & {bar: number}}
+        >>
     ];
 
   });
 
 });
-

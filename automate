@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+
+# For all remaining conflicted files:
+for file in $(git diff --name-only --diff-filter=U); do
+  # Try to check out "theirs" version; if it fails, remove the file
+  git checkout --theirs "$file" 2>/dev/null || git rm "$file"
+done
+
+git add .
+git commit
+
