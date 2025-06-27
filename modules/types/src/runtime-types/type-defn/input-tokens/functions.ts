@@ -242,9 +242,14 @@ type Info<T extends string> = As<
                 async: IsAsync<Trim<T>>;
                 name: "";
                 args: [...args: any[]];
-                return: NestedSplit<Rest, ")">[0];
+                return: NestedSplit<Rest, ")"> extends readonly string[]
+                    ?  NestedSplit<Rest, ")">[0]
+                    : never;
                 narrowing: IsNarrowing<T>;
-                rest: Trim<Join<Pop<NestedSplit<Rest, ")">>>>;
+                rest: NestedSplit<Rest, ")"> extends readonly string[]
+                    ? Trim<Join<Pop<NestedSplit<Rest, ")">>>>
+                    : never;
+
                 props: EmptyObject;
                 onlyReturn: true;
             }

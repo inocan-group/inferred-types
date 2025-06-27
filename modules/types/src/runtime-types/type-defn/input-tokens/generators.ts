@@ -14,25 +14,6 @@ import type {
     IT_ContainerType
 } from "src/runtime-types/type-defn/input-tokens";
 
-// type IsolateParams<
-//     T extends string,
-//     P = NestedSplit<
-//         RetainAfter<T, `function* ${string}(`>,
-//         ")"
-//     >
-// > = P extends readonly [string, ...string[]]
-//     ? P[0]
-//     : never;
-
-// type IsolateName<
-//     T extends string
-// > = Trim<
-//     RetainBetween<
-//         T,
-//         "function* ",
-//         "("
-//     >
-// >;
 
 /**
  * isolates based on explicit `Generator<...>` definition syntax
@@ -63,7 +44,7 @@ type GeneratorRest<
  */
 type ParseGenerator<
     T extends string,
-    P extends readonly string[] = NestedSplit<
+    P  = NestedSplit<
         StripLeading<Trim<T>, `${"Async" | ""}Generator<`>,
         ","
     >

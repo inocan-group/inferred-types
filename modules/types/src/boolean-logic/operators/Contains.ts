@@ -34,7 +34,7 @@ export type Contains<
 > = [TContent] extends [string | number]
     ? Or<[IsWideType<TContent>, IsWideType<TComparator>]> extends true
         ? boolean
-        : IsSubstring<AsString<TContent>, AsString<AsUnion<TComparator>>>
+        : IsSubstring<`${TContent}`, AsString<AsUnion<TComparator>>>
 
     : [TContent] extends [readonly unknown[]]
         ? CompareTuple<TContent, AsUnion<TComparator>>

@@ -2,6 +2,7 @@ import type {
     AfterFirst,
     AllLengthOf,
     And,
+    As,
     Chars,
     DefaultNesting,
     Err,
@@ -125,7 +126,8 @@ export type NestedSplit<
     TSplit extends string | readonly string[],
     TNesting extends Nesting | NestingConfig__Named = DefaultNesting,
     TPolicy extends NestedSplitPolicy = "omit"
-> = Or<[
+> =
+Or<[
     IsWideString<TContent>,
     IsWideString<TSplit>
 ]> extends true

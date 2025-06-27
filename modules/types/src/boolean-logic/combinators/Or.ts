@@ -43,17 +43,19 @@ type Result<
  * **Related:** `And`
  */
 export type Or<
-    T extends readonly (boolean | LogicFunction)[]
+    T extends readonly unknown[]
 > = [IsNever<T>] extends [true]
     ? Err<
         `invalid/never`,
         `The Or<...> logical combinator was passed never as a value! Or is expecting a tuple of boolean values.`,
         { library: "inferred-types" }
     >
+    : T extends (boolean | LogicFunction)[]
 
-    : Result<{
+    ? Result<{
         [K in keyof T]: Logic<T[K], "never">
-    }>;
+    }>
+    : false;
 
 // [] extends TConditions
 //     ? TEmpty

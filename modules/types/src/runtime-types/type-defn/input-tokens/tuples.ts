@@ -1,4 +1,5 @@
 import type {
+    As,
     Contains,
     Err,
     FromInputToken__String,
@@ -32,12 +33,12 @@ type Rest<T extends string> = Isolate<T> extends readonly [string, ...infer R ex
 
 type Parse<
     T extends string,
-    P extends readonly string[] = NestedSplit<Content<T>, ",", { "{": "}"; "[": "]" }>
-> = {
+    P  = NestedSplit<Content<T>, ",", { "{": "}"; "[": "]" }>
+> = As<{
     [K in keyof P]: P[K] extends string
         ? FromInputToken__String<P[K]>
         : never
-};
+}, readonly string[]>;
 
 type HasError<T extends readonly unknown[]> = Contains<
     T,
