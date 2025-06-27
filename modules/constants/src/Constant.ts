@@ -8,3 +8,4 @@ export interface Constant<TKind extends string, TVal = unknown> {
     kind: TKind;
     value: TVal;
 }
+

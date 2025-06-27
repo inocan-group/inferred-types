@@ -12,7 +12,18 @@
         "sourceMap": true,
         "stripInternal": false,
         "forceConsistentCasingInFileNames": true,
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "paths": {
+            "inferred-types/runtime": [
+                "../runtime/src/index.ts"
+            ],
+            "inferred-types/types": [
+                "../types/src/index.ts"
+            ],
+            "inferred-types/constants": [
+                "../constants/src/index.ts"
+            ]
+        },
     },
     // this project serves only as a means to reference all sub-projects
     // and allow constants, types, and runtime symbols to be exported

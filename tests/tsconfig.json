@@ -1,5 +1,4 @@
 {
-  "extends": "../ts-base.json",
   "compilerOptions": {
     "noEmit": true,
     "incremental": true,
@@ -21,7 +20,9 @@
       "inferred-types/constants": [
         "../modules/constants/src/index.ts"
       ],
-      "runtime/*": [ "../modules/runtime/src/*"]
+      "runtime/*": [ "../modules/runtime/src/*"],
+      "constants/*": [ "../modules/constants/src/*"],
+      "types/*": [ "../modules/types/src/*"],
     }
   },
   "include": [

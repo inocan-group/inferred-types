@@ -44,7 +44,6 @@
     },
     "sideEffects": false,
     "scripts": {
-        "build:old": "bash build",
         "nuke": "",
         "test": "vitest run",
         "test:watch": "vitest",
@@ -60,6 +59,9 @@
         "prepublishOnly": "npm run build",
         "prepare": "husky",
         "build": "pnpm -r build",
+        "build:constants": "pnpm --filter constants build",
+        "build:types": "pnpm --filter types build",
+        "build:runtime": "pnpm --filter runtime build",
         "watch": "pnpm -r watch",
         "lint": "pnpm -r lint"
     },

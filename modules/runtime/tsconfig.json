@@ -16,7 +16,10 @@
             "inferred-types/runtime": [
                 "./src/index.ts"
             ],
-            "runtime/*": [ "src/*"]
+            "runtime/*": [ "src/*"],
+            "constants/*": [
+                "../constants/src/*"
+            ]
         },
         "strict": true,
         "declaration": true,

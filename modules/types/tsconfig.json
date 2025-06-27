@@ -12,6 +12,9 @@
             ],
             "inferred-types/constants": [
                 "../constants/src/index.ts"
+            ],
+            "constants/*": [
+                "../constants/*"
             ]
         },
         "strict": true,

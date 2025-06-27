@@ -15,6 +15,7 @@ export default defineConfig({
       "inferred-types": join(root, "/modules/inferred-types/src/index"),
       "runtime/": join(root, "/modules/runtime/src/"),
       "types/": join(root, "/modules/types/src/"),
+      "constants/": join(root, "/modules/constants/src/"),
     },
   },
   test: {
