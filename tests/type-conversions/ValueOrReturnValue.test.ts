@@ -1,43 +1,32 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-
-import {  ValueOrReturnValue } from "@inferred-types/types";
-
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+import { Expect, Test, ValueOrReturnValue } from "inferred-types/types";
 
 describe("ValueOrReturnValue<T>", () => {
 
-  it("happy path for non-tuple input", () => {
-    type True = ValueOrReturnValue<true>;
-    type RtnTrue = ValueOrReturnValue<() => true>;
-    type Foobar = ValueOrReturnValue<"foobar">;
-    type RtnFoobar = ValueOrReturnValue<() => `foobar`>;
+    it("happy path for non-tuple input", () => {
+        type True = ValueOrReturnValue<true>;
+        type RtnTrue = ValueOrReturnValue<() => true>;
+        type Foobar = ValueOrReturnValue<"foobar">;
+        type RtnFoobar = ValueOrReturnValue<() => `foobar`>;
 
-    type cases = [
-      Expect<Equal<True, true>>,
-      Expect<Equal<RtnTrue, true>>,
-      Expect<Equal<Foobar, "foobar">>,
-      Expect<Equal<RtnFoobar, "foobar">>,
-    ];
-    const cases: cases = [
-      true, true, true, true
-    ];
-  });
+        type cases = [
+            Expect<Test<True, "equals",  true>>,
+            Expect<Test<RtnTrue, "equals",  true>>,
+            Expect<Test<Foobar, "equals",  "foobar">>,
+            Expect<Test<RtnFoobar, "equals",  "foobar">>,
+        ];
+
+    });
 
 
-  it("happy path for tuple input", () => {
-    type Bool = ValueOrReturnValue<readonly [true, () => false, true]>;
-    type Mixed = ValueOrReturnValue<[true, () => false, "foo", () => `bar`]>;
+    it("happy path for tuple input", () => {
+        type Bool = ValueOrReturnValue<readonly [true, () => false, true]>;
+        type Mixed = ValueOrReturnValue<[true, () => false, "foo", () => `bar`]>;
 
-    type cases = [
-      Expect<Equal<Bool, readonly [true, false, true]>>,
-      Expect<Equal<Mixed, [true, false, "foo", "bar"]>>,
-    ];
-    const cases: cases = [ true, true ];
+        type cases = [
+            Expect<Test<Bool, "equals", readonly [true, false,  true]>>,
+            Expect<Test<Mixed,"equals", [true, false, "foo",  "bar"]>>,
+        ];
 
-  });
-
-
+    });
 });

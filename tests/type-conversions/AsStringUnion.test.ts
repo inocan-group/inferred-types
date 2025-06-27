@@ -1,37 +1,36 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { AsStringUnion } from "@inferred-types/types";
 import { describe, it } from "vitest";
+import {
+    Expect,
+    AsStringUnion,
+    Test
+} from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("AsStringUnion<T>", () => {
 
-  it("happy path", () => {
-    type LitNum = AsStringUnion<42 | 56>;
-    type WideNum = AsStringUnion<"foo" | number>;
-    type NoChange = AsStringUnion<"foo" | "bar">;
-    type Ignored = AsStringUnion<"foo" | "bar" | [1,2,3]>;
-    type Allowed = AsStringUnion<"foo" | "bar" | [1,2,3], "proxy">;
+    it("happy path", () => {
+        type LitNum = AsStringUnion<42 | 56>;
+        type MixedLit = AsStringUnion<42 | "foo" | false>;
+        type WideNum = AsStringUnion<"foo" | number>;
+        type NoChange = AsStringUnion<"foo" | "bar">;
+        type Ignored = AsStringUnion<"foo" | "bar" | [1, 2, 3]>;
+        type Allowed = AsStringUnion<"foo" | "bar" | [1, 2, 3], "proxy">;
 
-    type Num = AsStringUnion<42>;
-    type True = AsStringUnion<true>;
+        type Num = AsStringUnion<42>;
+        type True = AsStringUnion<true>;
 
-    type cases = [
-      Expect<Equal<LitNum, "42" | "56">>,
-      Expect<Equal<WideNum, "foo" | `${number}`>>,
-      Expect<Equal<NoChange, "foo" | "bar">>,
-      Expect<Equal<Ignored, "foo" | "bar">>,
-      Expect<Equal<Allowed, "foo" | "bar" | [1,2,3]>>,
+        type cases = [
+            Expect<Test<LitNum, "equals",  "42" | "56">>,
+            Expect<Test<MixedLit, "equals",  "42" | "foo" | "false">>,
+            Expect<Test<WideNum, "equals",  "foo" | `${number}`>>,
+            Expect<Test<NoChange, "equals",  "foo" | "bar">>,
+            Expect<Test<Ignored, "equals",  "foo" | "bar">>,
+            Expect<Test<Allowed, "equals", "foo" | "bar" | [1, 2,  3]>>,
 
-      Expect<Equal<Num, "42">>,
-      Expect<Equal<True, "true">>,
-    ];
-    const cases: cases = [
-      true, true, true, true, true,
-      true, true
-    ];
-  });
+            Expect<Test<Num, "equals",  "42">>,
+            Expect<Test<True, "equals",  "true">>,
+        ];
+    });
 
 });

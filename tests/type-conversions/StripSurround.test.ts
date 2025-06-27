@@ -1,11 +1,12 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { UpperAlphaChar, StripSurround } from "@inferred-types/types";
-import { stripSurround } from "inferred-types";
+import {
+    Expect,
+    UpperAlphaChar,
+    StripSurround,
+    Test
+} from "inferred-types/types";
+import { stripSurround } from "inferred-types/runtime";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
 
 describe("StripSurround<TContent,TStrip>", () => {
 
@@ -14,11 +15,8 @@ describe("StripSurround<TContent,TStrip>", () => {
     type Lower = StripSurround<"Hello World", UpperAlphaChar>;
 
     type cases = [
-      Expect<Equal<Hi, "Hi">>,
-      Expect<Equal<Lower, "ello World">>,
-    ];
-    const cases: cases = [
-      true, true
+      Expect<Test<Hi, "equals",  "Hi">>,
+      Expect<Test<Lower, "equals",  "ello World">>,
     ];
   });
 
@@ -36,11 +34,10 @@ describe("stripSurround(content, ...strip)", () => {
     expect(noChange).toBe(" hi ");
 
     type cases = [
-      Expect<Equal<typeof hi, " hi ">>,
-      Expect<Equal<typeof noChange, " hi ">>,
+      Expect<Test<typeof hi, "equals",  " hi ">>,
+      Expect<Test<typeof noChange, "equals",  " hi ">>,
 
     ];
-    const cases: cases = [ true, true ];
   });
 
 });

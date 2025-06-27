@@ -1,6 +1,7 @@
 {
   "git.ignoreLimitWarning": true,
-  "editor.formatOnSave": true,
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "javascript.preferences.importModuleSpecifier": "non-relative",
   "cSpell.words": [
     "abcnews",
     "Abendblatt",
@@ -35,8 +36,10 @@
     "Concat",
     "Cornsilk",
     "Courrier",
+    "crdt",
     "Croix",
     "CTPAD",
+    "cyclometric",
     "dailymail",
     "dailyrecord",
     "Dasherize",
@@ -48,6 +51,8 @@
     "ello",
     "engineerable",
     "ensureleading",
+    "epochinms",
+    "epochinseconds",
     "ESRC",
     "fencedframe",
     "foey",
@@ -63,6 +68,8 @@
     "hematocrit",
     "homedepot",
     "huffpost",
+    "IGNORABLES",
+    "iobhaveagreatday",
     "ises",
     "kiloampere",
     "kiloohm",
@@ -82,6 +89,7 @@
     "megatonne",
     "merkur",
     "microliter",
+    "MMDD",
     "mmol",
     "msnbc",
     "Münchner",
@@ -89,6 +97,7 @@
     "nesw",
     "nexstar",
     "noembed",
+    "Nums",
     "nytimes",
     "oasises",
     "okhsl",
@@ -137,6 +146,104 @@
     "youtu",
     "Zeitung",
     "µmol"
+],
+  "references.preferredLocation": "peek",
+  "json.schemas": [
+    {
+      "url": "https://cdn.jsdelivr.net/npm/tsup/schema.json",
+      "fileMatch": [
+        "package.json",
+        "tsup.config.json"
+      ]
+    }
   ],
-  "references.preferredLocation": "peek"
+  // Auto fix
+  "eslint.useFlatConfig": true,
+  "editor.tabSize": 4,
+  "editor.formatOnSave": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "editor.defaultFormatter": null,
+  "eslint.format.enable": true,
+  // Silent the stylistic rules in you IDE, but still auto fix them
+  "eslint.rules.customizations": [
+    {
+      "rule": "style/*",
+      "severity": "off",
+      "fixable": true
+    },
+    {
+      "rule": "format/*",
+      "severity": "off",
+      "fixable": true
+    },
+    {
+      "rule": "*-indent",
+      "severity": "off",
+      "fixable": true
+    },
+    {
+      "rule": "*-spacing",
+      "severity": "off",
+      "fixable": true
+    },
+    {
+      "rule": "*-spaces",
+      "severity": "off",
+      "fixable": true
+    },
+    {
+      "rule": "*-order",
+      "severity": "off",
+      "fixable": true
+    },
+    {
+      "rule": "*-dangle",
+      "severity": "off",
+      "fixable": true
+    },
+    {
+      "rule": "*-newline",
+      "severity": "off",
+      "fixable": true
+    },
+    {
+      "rule": "*quotes",
+      "severity": "off",
+      "fixable": true
+    },
+    {
+      "rule": "*semi",
+      "severity": "off",
+      "fixable": true
+    }
+  ],
+  // Enable eslint for all supported languages
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "vue",
+    "html",
+    "markdown",
+    "json",
+    "jsonc",
+    "yaml",
+    "toml",
+    "xml",
+    "gql",
+    "graphql",
+    "astro",
+    "svelte",
+    "css",
+    "less",
+    "scss",
+    "pcss",
+    "postcss"
+],
+"[markdown]": {
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+}
 }

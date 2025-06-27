@@ -1,11 +1,7 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { createCssSelector } from "inferred-types";
+import { createCssSelector } from "inferred-types/runtime";
+import { Test, Expect } from "inferred-types/types";
 
-
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
 
 describe("createCssSelector(opt) -> (selectors) -> selector", () => {
 
@@ -24,11 +20,8 @@ describe("createCssSelector(opt) -> (selectors) -> selector", () => {
     expect(b).toEqual(`#bar:hover() .left:active() #bar`);
 
     type cases = [
-      Expect<Equal<typeof a, `.foobar #id address aside`>>,
-      Expect<Equal<typeof b, `#bar:hover() .left:active() #bar`>>,
-    ];
-    const cases: cases = [
-      true, true
+      Expect<Test<typeof a, "equals",  `.foobar #id address aside`>>,
+      Expect<Test<typeof b, "equals",  `#bar:hover() .left:active() #bar`>>,
     ];
   });
 

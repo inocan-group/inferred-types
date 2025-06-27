@@ -1,12 +1,8 @@
-;import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
+import { Expect, StripLeading, Test} from "inferred-types/types";
+import { stripLeading } from "inferred-types/runtime";
 
-import {StripLeading} from "@inferred-types/types";
-import { stripLeading } from "inferred-types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
 
 describe("StripLeading<TStr,TRemove>", () => {
 
@@ -15,10 +11,9 @@ describe("StripLeading<TStr,TRemove>", () => {
     type Missing = StripLeading<"World", "Hello">;
 
     type cases = [
-      Expect<Equal<World, "World">>,
-      Expect<Equal<Missing, "World">>,
+      Expect<Test<World, "equals",  "World">>,
+      Expect<Test<Missing, "equals",  "World">>,
     ];
-    const cases: cases = [ true, true ];
   });
 
 });
@@ -36,12 +31,11 @@ describe("stripLeading(content, remove)", () => {
     expect(no_change).toBe("foobar");
 
     type cases = [
-      Expect<Equal<typeof bar, "bar">>,
-      Expect<Equal<typeof foo, "foo">>,
-      Expect<Equal<typeof no_change, "foobar">>,
+      Expect<Test<typeof bar, "equals",  "bar">>,
+      Expect<Test<typeof foo, "equals",  "foo">>,
+      Expect<Test<typeof no_change, "equals",  "foobar">>,
 
     ];
-    const cases: cases = [ true, true, true ];
   });
 
 
@@ -55,14 +49,25 @@ describe("stripLeading(content, remove)", () => {
     expect(bar2).toBe("bar");
 
     type cases = [
-      Expect<Equal<typeof bar, "bar">>,
-      Expect<Equal<typeof bar2, "bar">>,
+      Expect<Test<typeof bar, "equals",  "bar">>,
+      Expect<Test<typeof bar2, "equals",  "bar">>,
     ];
-    const cases: cases = [
-      true, true
+
+
+  });
+
+
+  it("stripLeading(undefined, ...)", () => {
+    const nada = stripLeading(undefined, "foo");
+
+    expect(nada).toBe(undefined);
+
+    type cases = [
+      Expect<Test<typeof nada, "equals",  undefined>>
     ];
 
   });
+
 
 
 });

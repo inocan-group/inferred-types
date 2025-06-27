@@ -1,35 +1,31 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { Dictionary, SomeExtend } from "@inferred-types/types";
+import { Expect, Dictionary, SomeExtend, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("SomeExtend<TList,TExtend> and IfSomeExtend<TList,TExtend>", () => {
 
-  it("happy path", () => {
-    type LiteralList = [1,2,"foo","bar"];
-    type WideList = [string, boolean];
-    type WideUnion = string | boolean;
+    it("happy path", () => {
+        type LiteralList = [1, 2, "foo", "bar"];
+        type WideList = [string, boolean];
+        type WideUnion = string | boolean;
 
-    type T1 = SomeExtend<LiteralList, "foo">;
-    type T2 = SomeExtend<WideList, boolean>;
-    type T3 = SomeExtend<LiteralList, WideUnion>;
+        type T1 = SomeExtend<LiteralList, "foo">;
+        type T2 = SomeExtend<WideList, boolean>;
+        type T3 = SomeExtend<LiteralList, WideUnion>;
 
-    type F1 = SomeExtend<LiteralList, false>;
-    type F2 = SomeExtend<LiteralList,Dictionary>;
-    type F3 = SomeExtend<LiteralList, unknown[]>;
+        type F1 = SomeExtend<LiteralList, false>;
+        type F2 = SomeExtend<LiteralList, Dictionary>;
+        type F3 = SomeExtend<LiteralList, unknown[]>;
 
-    type cases = [
-      Expect<Equal<T1, true>>,
-      Expect<Equal<T2, true>>,
-      Expect<Equal<T3, true>>,
-      Expect<Equal<F1, false>>,
-      Expect<Equal<F2, false>>,
-      Expect<Equal<F3, false>>,
-    ];
-    const cases: cases = [ true, true, true, true, true, true ];
-  });
+        type cases = [
+            Expect<Test<T1, "equals",  true>>,
+            Expect<Test<T2, "equals",  true>>,
+            Expect<Test<T3, "equals",  true>>,
+            Expect<Test<F1, "equals",  false>>,
+            Expect<Test<F2, "equals",  false>>,
+            Expect<Test<F3, "equals",  false>>,
+        ];
+    });
 
 });

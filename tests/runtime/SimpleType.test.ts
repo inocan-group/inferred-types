@@ -1,11 +1,8 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { Dictionary, SimpleType } from "@inferred-types/types";
-import { simpleType } from "inferred-types";
+import { Expect, Dictionary, SimpleType, Test } from "inferred-types/types";
+import { simpleType } from "inferred-types/runtime";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("SimpleType<T>", () => {
 
@@ -18,15 +15,12 @@ describe("SimpleType<T>", () => {
     type Null = SimpleType<"null">;
 
     type cases = [
-      Expect<Equal<Str, string>>,
-      Expect<Equal<Num, number>>,
-      Expect<Equal<Bool, boolean>>,
-      Expect<Equal<True, true>>,
-      Expect<Equal<False, false>>,
-      Expect<Equal<Null, null>>,
-    ];
-    const cases: cases = [
-      true, true, true, true, true, true
+      Expect<Test<Str, "equals",  string>>,
+      Expect<Test<Num, "equals",  number>>,
+      Expect<Test<Bool, "equals",  boolean>>,
+      Expect<Test<True, "equals",  true>>,
+      Expect<Test<False, "equals",  false>>,
+      Expect<Test<Null, "equals",  null>>,
     ];
   });
 
@@ -38,13 +32,10 @@ describe("SimpleType<T>", () => {
     type OneTwo = SimpleType<"number(1,2)">;
 
     type cases = [
-      Expect<Equal<Answer, "42">>, //
-      Expect<Equal<Answer2, 42>>, //
-      Expect<Equal<FooBar, "foo" | "bar">>, //
-      Expect<Equal<OneTwo, 1 | 2>>, //
-    ];
-    const cases: cases = [
-      true, true, true, true
+      Expect<Test<Answer, "equals",  "42">>, //
+      Expect<Test<Answer2, "equals",  42>>, //
+      Expect<Test<FooBar, "equals",  "foo" | "bar">>, //
+      Expect<Test<OneTwo, "equals",  1 | 2>>, //
     ];
   })
 
@@ -54,12 +45,9 @@ describe("SimpleType<T>", () => {
     type Bool = SimpleType<"Opt<boolean>">;
 
     type cases = [
-      Expect<Equal<Str, string | undefined>>,
-      Expect<Equal<Num, number | undefined>>,
-      Expect<Equal<Bool, boolean | undefined>>,
-    ];
-    const cases: cases = [
-      true, true, true
+      Expect<Test<Str, "equals",  string | undefined>>,
+      Expect<Test<Num, "equals",  number | undefined>>,
+      Expect<Test<Bool, "equals",  boolean | undefined>>,
     ];
   });
 
@@ -70,13 +58,10 @@ describe("SimpleType<T>", () => {
     type DFooBar = SimpleType<"Dict<{foo: string, bar: Opt<boolean>}>">;
 
     type cases = [
-      Expect<Equal<D1, Dictionary>>,
-      Expect<Equal<DId, {id: number; [key: string|symbol]: unknown}>>,
-      Expect<Equal<DFoo, {foo: number; [key: string|symbol]: unknown}>>,
-      Expect<Equal<DFooBar, {foo: string; bar: boolean | undefined; [key: string|symbol]: unknown}>>,
-    ];
-    const cases: cases = [
-      true, true, true, true,
+      Expect<Test<D1, "equals",  Dictionary>>,
+      Expect<Test<DId, "equals",  { id: number;[key: string | symbol]: any }>>,
+      Expect<Test<DFoo, "equals",  { foo: number;[key: string | symbol]: any }>>,
+      Expect<Test<DFooBar, "equals",  { foo: string; bar: boolean | undefined;[key: string | symbol]: any }>>,
     ];
   });
 
@@ -91,24 +76,18 @@ describe("SimpleType<T>", () => {
     type M3 = SimpleType<"Map<Dict, Dict<string, Opt<number>>>">;
 
     type cases = [
-      Expect<Equal<S1, Set<any>>>,
-      Expect<Equal<S2, Set<string>>>,
-      Expect<Equal<S3, Set<number>>>,
+      Expect<Test<S1, "equals", Set<any>>>,
+      Expect<Test<S2, "equals", Set<string>>>,
+      Expect<Test<S3, "equals", Set<number>>>,
 
-      Expect<Equal<M1, Map<any,any>>>,
-      Expect<Equal<M2, Map<number,string>>>,
-      Expect<Equal<
+      Expect<Test<M1, "equals", Map<any, any>>>,
+      Expect<Test<M2, "equals", Map<number, string>>>,
+      Expect<Test<
         M3,
+        "equals",
         Map<Dictionary, Dictionary<string, number | undefined>>
       >>,
-
     ];
-    const cases: cases = [
-      true, true, true,
-      true, true, true,
-
-    ];
-
   });
 });
 
@@ -116,22 +95,18 @@ describe("SimpleType<T>", () => {
 describe("simpleType()", () => {
 
   it("happy path", () => {
-      const str = simpleType("string");
-      const num = simpleType("number");
-      const bool = simpleType("boolean");
+    const str = simpleType("string");
+    const num = simpleType("number");
+    const bool = simpleType("boolean");
 
-      expect(str).toBe("string")
-      expect(num).toBe("number")
-      expect(bool).toBe("boolean")
+    expect(str).toBe("string")
+    expect(num).toBe("number")
+    expect(bool).toBe("boolean")
 
     type cases = [
-      Expect<Equal<typeof str, string>>,
-      Expect<Equal<typeof num, number>>,
-      Expect<Equal<typeof bool, boolean>>,
-
-    ];
-    const cases: cases = [
-      true,  true, true
+      Expect<Test<typeof str, "equals",  string>>,
+      Expect<Test<typeof num, "equals",  number>>,
+      Expect<Test<typeof bool, "equals",  boolean>>,
     ];
   });
 
@@ -144,11 +119,8 @@ describe("simpleType()", () => {
     expect(strUnion).toBe("string(foo,bar)");
 
     type cases = [
-      Expect<Equal<typeof strLit, "foo">>,
-      Expect<Equal<typeof strUnion, "foo" | "bar">>,
-    ];
-    const cases: cases = [
-      true, true
+      Expect<Test<typeof strLit, "equals",  "foo">>,
+      Expect<Test<typeof strUnion, "equals",  "foo" | "bar">>,
     ];
   });
 

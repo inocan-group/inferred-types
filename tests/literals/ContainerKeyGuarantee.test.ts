@@ -1,29 +1,25 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { ContainerKeyGuarantee } from "@inferred-types/types";
+import { Expect, ContainerKeyGuarantee, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("ContainerKeyGuarantee<T>", () => {
 
-  it("happy path", () => {
-    type Obj = {foo: 1};
-    type Tup = [1,2,3];
-    type StrArr = string[];
+    it("happy path", () => {
+        type Obj = { foo: 1 };
+        type Tup = [1, 2, 3];
+        type StrArr = string[];
 
-    type Bar = ContainerKeyGuarantee<Obj, "bar">;
-    type Two = ContainerKeyGuarantee<Tup, 2>;
-    type ThreeArr = ContainerKeyGuarantee<StrArr, 3>;
+        type Bar = ContainerKeyGuarantee<Obj, "bar">;
+        type Two = ContainerKeyGuarantee<Tup, 2>;
+        type ThreeArr = ContainerKeyGuarantee<StrArr, 3>;
 
 
-    type cases = [
-      Expect<Equal<Bar, { foo: 1; bar: unknown }>>,
-      Expect<Equal<Two, Tup & readonly [unknown, unknown, unknown]>>,
-      Expect<Equal<ThreeArr, ThreeArr & readonly [unknown, unknown, unknown, unknown] >>,
-    ];
-    const cases: cases = [ true, true, true];
-  });
+        type cases = [
+            Expect<Test<Bar, "equals",  { foo: 1; bar: unknown }>>,
+            Expect<Test<Two, "equals",  Tup & readonly [unknown, unknown, unknown]>>,
+            Expect<Test<ThreeArr, "equals",  ThreeArr & readonly [unknown, unknown, unknown, unknown]>>,
+        ];
+    });
 
 });

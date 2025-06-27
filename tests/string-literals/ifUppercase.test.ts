@@ -1,26 +1,25 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { toUppercase ,  ifUppercaseChar } from "inferred-types";
-import { describe,  it } from "vitest";
+import {  ifUppercaseChar, toAllCaps } from "inferred-types/runtime";
+import { Test } from "inferred-types/types";
+import { describe, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("ifUppercase()", () => {
 
   it("ifUpperCaseChar()", () => {
     const lower = ifUppercaseChar("l", () => "was upper", () => "was lower");
     const upper = ifUppercaseChar("U", () => "was upper", () => "was lower");
-    const capLower = ifUppercaseChar("h", v => v, v => toUppercase(v));
-    const capUpper = ifUppercaseChar("H", v => v, v => toUppercase(v));
+    const capLower = ifUppercaseChar("h", v => v, v => toAllCaps(v));
+    const capUpper = ifUppercaseChar("H", v => v, v => toAllCaps(v));
 
     type cases = [
-      Expect<Equal<typeof lower, "was lower">>,
-      Expect<Equal<typeof upper, "was upper">>,
-      Expect<Equal<typeof capLower, "H">>,
-      Expect<Equal<typeof capUpper, "H">>,
+      Expect<Test<typeof lower, "equals",  "was lower">>,
+      Expect<Test<typeof upper, "equals",  "was upper">>,
+      Expect<Test<typeof capLower, "equals",  "H">>,
+      Expect<Test<typeof capUpper, "equals",  "H">>,
     ];
-    const cases: cases = [ true, true, true, true];
+
   });
 
   // it("testing ifUppercase() with a character", () => {
@@ -30,10 +29,10 @@ describe("ifUppercase()", () => {
   //   const capUpper = ifUppercase("H", v => v, v => toUppercase(v));
 
   //   type cases = [
-  //     Expect<Equal<typeof lower, "was lower">>,
-  //     Expect<Equal<typeof upper, "was upper">>,
-  //     Expect<Equal<typeof capLower, "H">>,
-  //     Expect<Equal<typeof capUpper, "H">>,
+  //     Expect<Test<typeof lower, "equals",  "was lower">>,
+  //     Expect<Test<typeof upper, "equals",  "was upper">>,
+  //     Expect<Test<typeof capLower, "equals",  "H">>,
+  //     Expect<Test<typeof capUpper, "equals",  "H">>,
   //   ];
   //   const cases: cases = [ true, true, true, true];
   // });
@@ -44,7 +43,7 @@ describe("ifUppercase()", () => {
   //   expect(fooBar).toBe("fooPar");
 
   //   type cases = [
-  //     Expect<Equal<typeof fooBar, "fooPar">>,
+  //     Expect<Test<typeof fooBar, "equals",  "fooPar">>,
   //   ];
   //   const cases: cases = [ true ];
 

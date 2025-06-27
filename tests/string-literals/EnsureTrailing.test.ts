@@ -1,12 +1,7 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { ensureTrailing } from "inferred-types";
-import { EnsureTrailing } from "@inferred-types/types";
+import { ensureTrailing } from "inferred-types/runtime";
+import { Expect, EnsureTrailing, Test } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
-
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
 
 describe("EnsureTrailing", () => {
 
@@ -20,26 +15,21 @@ describe("EnsureTrailing", () => {
     type NoChange = EnsureTrailing<"FooBar", "Bar">;
     type FooBar = EnsureTrailing<"Foo", "Bar">;
 
-    type PostfixOne = EnsureTrailing<5,1>;
+    type PostfixOne = EnsureTrailing<5, 1>;
 
     type cases = [
-      Expect<Equal<SuperWide, string>>,
-      Expect<Equal<NumSuperWide, number>>,
+      Expect<Test<SuperWide, "equals",  string>>,
+      Expect<Test<NumSuperWide, "equals",  number>>,
 
-      Expect<Equal<WideContent, `${string}wide`>>,
-      Expect<Equal<WideTrailer, `wide${string}`>>,
+      Expect<Test<WideContent, "equals",  `${string}wide`>>,
+      Expect<Test<WideTrailer, "equals",  `wide${string}`>>,
 
-      Expect<Equal<NoChange, "FooBar">>,
-      Expect<Equal<FooBar, "FooBar">>,
+      Expect<Test<NoChange, "equals",  "FooBar">>,
+      Expect<Test<FooBar, "equals",  "FooBar">>,
 
-      Expect<Equal<PostfixOne, 51>>
+      Expect<Test<PostfixOne, "equals",  51>>
     ];
-    const cases: cases = [
-      true, true,
-      true, true,
-      true, true,
-      true
-    ];
+
   });
 
 });
@@ -54,16 +44,15 @@ describe("ensureTrailing()", () => {
     expect(fooBar).toEqual("FooBar");
 
     type cases = [
-      Expect<Equal<typeof noChange, "FooBar">>,
-      Expect<Equal<typeof fooBar, "FooBar">>,
+      Expect<Test<typeof noChange, "equals",  "FooBar">>,
+      Expect<Test<typeof fooBar, "equals",  "FooBar">>,
     ];
-    const cases: cases = [ true, true ]
   });
 
   it("brackets", () => {
     const square = ensureTrailing("FooBar", "]]");
-    const curly =  ensureTrailing("FooBar", "}}");
-    const rounded =ensureTrailing("FooBar", "))");
+    const curly = ensureTrailing("FooBar", "}}");
+    const rounded = ensureTrailing("FooBar", "))");
 
     expect(square).toEqual("FooBar]]");
     expect(curly).toEqual("FooBar}}");

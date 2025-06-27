@@ -1,38 +1,53 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { describe, it } from "vitest";
+import { describe, expect, it } from "vitest";
+import { Expect, Increment, Test } from "inferred-types/types";
+import { increment } from "inferred-types/runtime";
 
-import { Increment } from "@inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
 
 describe("Increment<T>", () => {
 
-  it("happy path (numbers)", () => {
-    type Ten = Increment<10>;
-    type Thirty = Increment<30>;
-    type Zero = Increment<0>;
+    it("happy path (numbers)", () => {
+        type Ten = Increment<10>;
+        type Thirty = Increment<30>;
+        type Zero = Increment<0>;
 
-    type cases = [
-      Expect<Equal<Ten, 11>>,
-      Expect<Equal<Thirty, 31>>,
-      Expect<Equal<Zero, 1>>
-    ];
-    const cases: cases = [ true, true, true ];
-  });
+        type cases = [
+            Expect<Test<Ten, "equals",  11>>,
+            Expect<Test<Thirty, "equals",  31>>,
+            Expect<Test<Zero, "equals",  1>>
+        ];
+    });
 
-  it("happy path (string literals)", () => {
-    type Ten = Increment<"10">;
-    type Thirty = Increment<"30">;
-    type Zero = Increment<"0">;
+    it("happy path (string literals)", () => {
+        type Ten = Increment<"10">;
+        type Thirty = Increment<"30">;
+        type Zero = Increment<"0">;
 
-    type cases = [
-      Expect<Equal<Ten, "11">>,
-      Expect<Equal<Thirty, "31">>,
-      Expect<Equal<Zero, "1">>
-    ];
-    const cases: cases = [ true, true, true ];
-  });
+        type cases = [
+            Expect<Test<Ten, "equals",  "11">>,
+            Expect<Test<Thirty, "equals",  "31">>,
+            Expect<Test<Zero, "equals",  "1">>
+        ];
+    });
 
 });
+
+
+describe("increment(val)", () => {
+
+
+    it("happy path", () => {
+        const two = increment(2);
+        const twoStr = increment("2");
+
+        expect(two).toBe(3);
+        expect(twoStr).toBe("3");
+
+        type cases = [
+            Expect<Test<typeof two, "equals", 3>>,
+            Expect<Test<typeof twoStr, "equals", "3">>,
+        ];
+    });
+
+
+})

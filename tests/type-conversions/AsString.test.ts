@@ -1,55 +1,47 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-
-import { AsString, Something } from "@inferred-types/types";
-
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+import {
+    Expect,
+    AsString,
+    Something,
+    Test
+} from "inferred-types/types";
 
 describe("AsString<T>", () => {
 
-  it("happy path", () => {
-    type Foobar = AsString<"Foobar">;
-    type WideStr = AsString<string>;
-    type U1 = AsString<string | readonly string[]>;
-    type U2 = AsString<Something>;
-    type SU = AsString<"foobar" | null>;
+    it("happy path", () => {
+        type Foobar = AsString<"Foobar">;
+        type WideStr = AsString<string>;
+        type U1 = AsString<string | readonly string[]>;
+        type U2 = AsString<Something>;
+        type SU = AsString<"foobar" | null>;
 
-    type Num = AsString<42>;
-    type NU = AsString<42 | null>;
+        type Num = AsString<42>;
+        type NU = AsString<42 | null>;
 
-    type B1 = AsString<true>;
-    type BU = AsString<boolean>;
+        type B1 = AsString<true>;
+        type BU = AsString<boolean>;
 
-    type SA = AsString<string[]>;
+        type SA = AsString<string[]>;
 
-    type cases = [
-      Expect<Equal<Foobar, "Foobar">>,
-      Expect<Equal<WideStr, string>>,
-      Expect<Equal<U1, string>>,
-      Expect<Equal<U2, string>>,
-      Expect<Equal<SU, "foobar">>,
+        type cases = [
+            Expect<Test<Foobar, "equals",  "Foobar">>,
+            Expect<Test<WideStr, "equals",  string>>,
+            Expect<Test<U1, "equals",  string>>,
+            Expect<Test<U2, "equals",  string>>,
+            Expect<Test<SU, "equals",  "foobar">>,
 
-      Expect<Equal<Num, "42">>,
-      Expect<Equal<NU, "42">>,
+            Expect<Test<Num, "equals",  "42">>,
+            Expect<Test<NU, "equals",  "42">>,
 
-      Expect<Equal<B1, "true">>,
-      Expect<Equal<BU, "true" | "false">>,
+            Expect<Test<B1, "equals",  "true">>,
+            Expect<Test<BU, "equals",  "true" | "false">>,
 
-      Expect<Equal<SA, never>>,
-      Expect<Equal<AsString<string[] | string>, string>>,
-      Expect<Equal<AsString<null>, never>>,
-      Expect<Equal<AsString<undefined>, never>>,
+            Expect<Test<SA, "equals",  never>>,
+            Expect<Test<AsString<string[] | string>, "equals",  string>>,
+            Expect<Test<AsString<null>, "equals",  never>>,
+            Expect<Test<AsString<undefined>, "equals",  never>>,
 
-    ];
-    const cases: cases = [
-      true, true,
-      true, true, true,
-      true, true,
-      true, true,
-      true, true, true, true
-   ];
-  });
+        ];
+    });
 
 });

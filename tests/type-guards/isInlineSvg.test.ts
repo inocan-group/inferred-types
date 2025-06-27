@@ -1,10 +1,8 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { isInlineSvg } from "inferred-types";
+import { isInlineSvg } from "inferred-types/runtime";
+import { Expect, Test } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("isInlineSvg(val)", () => {
 
@@ -25,12 +23,12 @@ describe("isInlineSvg(val)", () => {
     expect(t3).toBe(true);
     expect(t4).toBe(true);
 
-    if(isInlineSvg(svg1)) {
+    if (isInlineSvg(svg1)) {
       type T = typeof svg1;
 
       // @ts-ignore
       type cases = [
-        Expect<Equal<T, `<svg${string}</svg>`>>,
+        Expect<Test<T, "equals",  `<svg${string}</svg>`>>,
       ];
     }
 

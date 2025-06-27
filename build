@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+
+source "./shared.sh"
+
+# shellcheck disable=SC2034
+start_time=$( epoch )
+
+log ""
+log "Building ${BOLD}inferred-types${RESET} with TSUP"
+log ""
+log "𝌸 building constants"
+log ""
+cd './modules/constants' || exit
+tsdown
+
+# shellcheck disable=SC2181
+if [ $? -ne 0 ]; then
+    log ""
+    log "💩 failed to transpile ${BOLD}constants${RESET}!"
+    log ""
+    exit 1;
+else
+  # shellcheck disable=SC2034
+  const_time=$( epoch )
+  log ""
+  log "${GREEN}✓${RESET} ${BOLD}constants${RESET} successfully transpiled ${ITALIC}in${RESET} $(timing start_time const_time)!"
+  log ""
+fi
+
+cd '../types' || exit
+log "👷‍♂️ building types"
+log ""
+
+tsdown
+# shellcheck disable=SC2181
+if [ $? -ne 0 ]; then
+    log ""
+    log "💩 failed to transpile ${BOLD}types${RESET}!"
+    log ""
+    exit 1;
+else
+    # shellcheck disable=SC2034
+    types_time=$( epoch )
+    log ""
+    log "${GREEN}✓${RESET} ${BOLD}types${RESET} successfully transpiled ${ITALIC}in${RESET} $(timing const_time types_time)!"
+    log ""
+    log "🌏 building global types"
+    log ""
+    tsdown --config ./globals.config.ts
+    log ""
+fi
+
+
+log "🏃 building runtime"
+log ""
+cd '../runtime' || exit
+tsdown
+
+# shellcheck disable=SC2181
+if [ $? -ne 0 ]; then
+  log ""
+  log "💩 failed to transpile ${BOLD}runtime${RESET}!"
+  log ""
+  exit 1;
+else
+  # shellcheck disable=SC2034
+  runtime_time=$( epoch )
+  log ""
+  log "${GREEN}✓${RESET} ${BOLD}runtime${RESET} successfully transpiled ${ITALIC}in${RESET} $(timing types_time runtime_time)!"
+  log ""
+fi
+
+log "📦 building inferred-types"
+log ""
+cd '../inferred-types' || exit
+tsdown
+
+# shellcheck disable=SC2181
+if [ $? -ne 0 ]; then
+    log ""
+    log "💩 failed to transpile ${BOLD}inferred-types${RESET}!"
+    log ""
+    exit 1;
+else
+  # shellcheck disable=SC2034
+  inferred_time=$(epoch)
+  log ""
+  log "${GREEN}✓${RESET} ${BOLD}inferred-types${RESET} successfully transpiled ${ITALIC}in${RESET} $(timing types_time inferred_time)!"
+  log ""
+fi
+# shellcheck disable=SC2034
+end_time=$( epoch )
+log "🚀 Build complete ${ITALIC}in${RESET} $(timingSec start_time end_time)"
+log ""

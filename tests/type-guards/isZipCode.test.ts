@@ -1,11 +1,8 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
-import { isZipCode, isZipCode5, isZipPlus4 } from "inferred-types";
-import { Zip5, ZipCode, ZipPlus4 } from "@inferred-types/types";
+import { isZipCode, isZipCode5, isZipPlus4 } from "inferred-types/runtime";
+import { Expect, Test, Zip5, ZipCode, ZipPlus4 } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("isZipCode()", () => {
 
@@ -17,11 +14,11 @@ describe("isZipCode()", () => {
     expect(t1).toBe(true);
     expect(t2).toBe(true);
 
-    if(isZipCode(zc)) {
+    if (isZipCode(zc)) {
       type T = typeof zc;
-      // @ts-ignore
+
       type cases = [
-        Expect<Equal<T, ZipCode>>,
+        Expect<Test<T, "equals",  ZipCode>>,
       ];
     }
   });
@@ -35,11 +32,11 @@ describe("isZipCode()", () => {
     expect(t1).toBe(true);
     expect(t2).toBe(true);
 
-    if(isZipCode(zc)) {
+    if (isZipCode(zc)) {
       type T = typeof zc;
-      // @ts-ignore
+
       type cases = [
-        Expect<Equal<T, ZipCode>>,
+        Expect<Test<T, "equals",  ZipCode>>,
       ];
     }
   });
@@ -55,17 +52,16 @@ describe("isZipCode5", () => {
     const f1 = isZipCode5(zc2);
     const f2 = isZipCode5("90291-3106");
 
-
     expect(t1).toBe(true);
     expect(t2).toBe(true);
     expect(f1).toBe(false);
     expect(f2).toBe(false);
 
-    if(isZipCode5(zc)) {
+    if (isZipCode5(zc)) {
       type T = typeof zc;
-      // @ts-ignore
+
       type cases = [
-        Expect<Equal<T, Zip5>>,
+        Expect<Test<T, "equals",  Zip5>>,
       ];
     }
   });
@@ -80,17 +76,16 @@ describe("isZipPlus4", () => {
     const f1 = isZipPlus4(zc);
     const f2 = isZipPlus4("90291");
 
-
     expect(t1).toBe(true);
     expect(t2).toBe(true);
     expect(f1).toBe(false);
     expect(f2).toBe(false);
 
-    if(isZipPlus4(zc2)) {
+    if (isZipPlus4(zc2)) {
       type T = typeof zc2;
-      // @ts-ignore
+
       type cases = [
-        Expect<Equal<T, ZipPlus4>>,
+        Expect<Test<T, "equals",  ZipPlus4>>,
       ];
     }
   });

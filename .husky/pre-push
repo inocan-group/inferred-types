@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+echo "Validating HEAD before pushing to Origin"
+echo ""
+pnpm test:ci
+pnpm lint

@@ -1,12 +1,9 @@
-import { Equal, Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { narrow } from "inferred-types";
-import { Narrowable } from "@inferred-types/types";
+import { narrow } from "inferred-types/runtime";
+import { Expect, Narrowable, Test } from "inferred-types/types";
 
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("Narrowable", () => {
 
@@ -18,13 +15,12 @@ describe("Narrowable", () => {
     type Obj = object & Narrowable;
 
     type cases = [
-      Expect<Equal<Num, number>>,
-      Expect<Equal<Str, string>>,
-      Expect<Equal<NumericLiteral, 42>>,
-      Expect<Equal<StringLiteral, "foo">>,
-      Expect<Equal<Obj, object>>,
+      Expect<Test<Num, "equals",  number>>,
+      Expect<Test<Str, "equals",  string>>,
+      Expect<Test<NumericLiteral, "equals",  42>>,
+      Expect<Test<StringLiteral, "equals",  "foo">>,
+      Expect<Test<Obj, "equals",  object>>,
     ];
-    const cases: cases = [true,true,true,true,true];
   });
 
 
@@ -32,7 +28,7 @@ describe("Narrowable", () => {
     const stringLiteral = narrow("foo");
     const numericLiteral = narrow(42);
 
-    const obj = narrow({foo: 1, bar: 2, baz: [1,2,3] });
+    const obj = narrow({ foo: 1, bar: 2, baz: [1, 2, 3] });
     const arr = narrow("foo", "bar");
 
     const stringTuple1 = narrow(["foo", "bar"] as const);
@@ -45,23 +41,19 @@ describe("Narrowable", () => {
     const mixedTuple3 = narrow("foo", 42);
 
     type cases = [
-      Expect<Equal<typeof stringLiteral, "foo">>,
-      Expect<Equal<typeof numericLiteral, 42>>,
+      Expect<Test<typeof stringLiteral, "equals",  "foo">>,
+      Expect<Test<typeof numericLiteral, "equals",  42>>,
 
-      Expect<Equal<typeof obj, {foo: 1; bar: 2; baz: number[]}>>,
+      Expect<Test<typeof obj, "equals",  { foo: 1; bar: 2; baz: number[] }>>,
 
-      Expect<Equal<typeof stringTuple1, readonly ["foo", "bar"]>>,
-      Expect<Equal<typeof stringTuple2, readonly ["foo", "bar"]>>,
-      Expect<Equal<typeof stringTuple3, readonly ["foo", "bar"]>>,
-      Expect<Equal<typeof stringTuple4, readonly ["foo", "bar"]>>,
+      Expect<Test<typeof stringTuple1, "equals", readonly ["foo",  "bar"]>>,
+      Expect<Test<typeof stringTuple2, "equals", readonly ["foo",  "bar"]>>,
+      Expect<Test<typeof stringTuple3, "equals", readonly ["foo",  "bar"]>>,
+      Expect<Test<typeof stringTuple4, "equals", readonly ["foo",  "bar"]>>,
 
-      Expect<Equal<typeof mixedTuple1, readonly ["foo", 42]>>,
-      Expect<Equal<typeof mixedTuple2, readonly ["foo", 42]>>,
-      Expect<Equal<typeof mixedTuple3, readonly ["foo", 42]>>,
-    ];
-    const cases: cases = [
-      true, true, true, true, true,
-      true, true, true, true, true
+      Expect<Test<typeof mixedTuple1, "equals", readonly ["foo", 42]>>,
+      Expect<Test<typeof mixedTuple2, "equals", readonly ["foo", 42]>>,
+      Expect<Test<typeof mixedTuple3, "equals", readonly ["foo", 42]>>,
     ];
   });
 

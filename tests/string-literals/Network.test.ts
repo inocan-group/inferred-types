@@ -1,10 +1,8 @@
 import { ExpectFalse, ExpectTrue, IsFalse, IsTrue } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { IsDomainName, IsIp4Octet, IsIp6HexGroup, IsIpAddress } from "@inferred-types/types";
+import { IsDomainName, IsIp4Octet, IsIp6HexGroup, IsIpAddress } from "inferred-types/types";
 
-// Note: while type tests clearly fail visible inspection, they pass from Vitest
-// standpoint so always be sure to run `tsc --noEmit` over your test files to
-// gain validation that no new type vulnerabilities have cropped up.
+
 
 describe("Network utilities", () => {
 
@@ -31,7 +29,7 @@ describe("Network utilities", () => {
       ExpectFalse<F3>,
     ];
     const cases: cases = [
-      true, true,true, true,true,
+      true, true, true, true, true,
       false, false, false
 
     ];
@@ -65,7 +63,7 @@ describe("Network utilities", () => {
       ExpectFalse<F4>,
     ];
     const cases: cases = [
-      true,true,true,true,true,true,
+      true, true, true, true, true, true,
       false, false, false, false
     ];
   });
@@ -91,7 +89,7 @@ describe("Network utilities", () => {
       ExpectFalse<F2>,
     ];
     const cases: cases = [
-      true, true, true,true,
+      true, true, true, true,
       false, false,
     ];
 
@@ -131,12 +129,6 @@ describe("Network utilities", () => {
       IsFalse<F6>,
     ];
 
-    const cases: cases = [
-      true,true,true,
-      true,true,
-      false, false, false, false,
-      false, false
-    ];
 
   });
 
