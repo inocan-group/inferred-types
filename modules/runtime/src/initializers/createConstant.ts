@@ -1,3 +1,4 @@
+console.log("createConstant loaded from canonical source");
 import { Constant } from "inferred-types/constants";
 
 /**

@@ -1,4 +1,4 @@
-import type { Defined, IsFunction, Unset } from "inferred-types/types";
+import type { Defined, TypedFunction, Unset } from "inferred-types/types";
 import {
     asArray,
     asChars,
@@ -6,7 +6,7 @@ import {
     stripLeading,
     unset
 } from "inferred-types/runtime";
-import { TypedFunction } from "@inferred-types/types";
+
 
 type WhileOptions = {
     /**
