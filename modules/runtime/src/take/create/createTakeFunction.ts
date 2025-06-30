@@ -3,7 +3,7 @@ import type {
 } from "inferred-types/runtime";
 import {
     createTakeStartEndFunction,
-    createTakeStaticBlockFunction,
+    createStaticTakeFunction,
     createTakeWhileFunction,
     err
 } from "inferred-types/runtime";
@@ -29,7 +29,7 @@ type Returns<K extends TakeFunctionKind> = K extends "start-end"
 export function createTakeFunction<K extends TakeFunctionKind>(kind: K): Returns<K> {
     switch (kind) {
         case "static":
-            return createTakeStaticBlockFunction as Returns<K>;
+            return createStaticTakeFunction as Returns<K>;
         case "start-end":
             return {
                 startEndMarkers<const TStartEnd extends Record<string, S>, S extends string>(markers: TStartEnd) {

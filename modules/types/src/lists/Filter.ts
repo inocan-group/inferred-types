@@ -55,6 +55,6 @@ export type Filter<
         : [ComparisonInputToTuple<TOp, TParams>] extends [Error]
             ? ComparisonInputToTuple<TOp, TParams>
             : Err<
-                `invalid-filter`,
+                `invalid-parameters/filter`,
         `The filter operation '${TOp}' received invalid parameters!`
             >;

@@ -3,34 +3,30 @@ import type {
     As,
     AsArray,
     Compare,
+    ComparisonAccept,
+    ComparisonInputDefault,
+    ComparisonInputToTuple,
     ComparisonLookup,
     ComparisonOperation,
+    Err,
     First,
-    Flexy,
-    If
+    GetComparisonParamInput,
+    If,
+    Narrowable
 } from "inferred-types/types";
 
 type FindAcc<
-    TList extends readonly unknown[],
+    TList extends readonly ComparisonAccept<TOp>[],
     TOp extends ComparisonOperation,
-    TParams extends ComparisonLookup[TOp]["params"],
-    TDeref extends string | number | null,
+    TParams extends ComparisonLookup[TOp]["params"]
 > = [] extends TList
     ? undefined
-    : TDeref extends keyof First<TList>
-        ? If<
-            Compare<First<TList>[TDeref], TOp, TParams>,
-            First<TList>,
-            FindAcc<AfterFirst<TList>, TOp, TParams, TDeref>
-        >
-        : If<
-            Compare<First<TList>, TOp, TParams>,
-            First<TList>,
-            FindAcc<AfterFirst<TList>, TOp, TParams, TDeref>
-        >;
+    : Compare<First<TList>, TOp, TParams> extends true
+        ? First<TList>
+        : FindAcc<AfterFirst<TList>, TOp, TParams>;
 
 /**
- * **Find**`<TList,TOp,TComparator,[TDeref]>`
+ * **Find**`<TList,TOp,TComparator>`
  *
  * Type utility used to find the first value in `TList` which _equals_ `TValue`.
  * Will return _undefined_ if no matches found.
@@ -42,22 +38,21 @@ type FindAcc<
  * ```ts
  * type List = [ { id: 1, value: "hi" }, { id: 2, value: "bye" } ]
  * // { id: 1; value: "hi" }
- * type T = Find<List, 1, "id">
+ * type T = Find<List, "objectKeyWithValue", ["id", 1]>
  * ```
- *
- * **Related**: `FindExtends`
  */
 export type Find<
-    TList extends readonly unknown[],
+    TList extends readonly ComparisonAccept<TOp>[],
     TOp extends ComparisonOperation,
-    TParams extends Flexy<ComparisonLookup[TOp]["params"]>,
-    TDeref extends string | number | null = null,
-> = FindAcc<
-    TList,
-    TOp,
-    As<
-        AsArray<TParams>,
-        ComparisonLookup[TOp]["params"]
-    >,
-    TDeref
->;
+    TParams extends ComparisonLookup[TOp]["params"]
+> = FindAcc<TList, TOp, TParams>;
+
+export type FindFunction<
+    TOp extends ComparisonOperation,
+    TParams extends ComparisonLookup[TOp]["params"]
+> = <
+    TList extends readonly ComparisonAccept<TOp>[]>(list: TList) => Find<
+        TList,
+        TOp,
+        TParams
+    >;

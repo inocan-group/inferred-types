@@ -1,12 +1,14 @@
 import { Equal, Expect } from "@type-challenges/utils";
-import { describe, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import {
     Filter,
     Test,
     UnionToTuple,
     UpperAlphaChar,
+    EndsWith
 } from "inferred-types/types";
-import { EndsWith } from "inferred-types";
+import { filter } from "inferred-types/runtime";
+
 
 describe("Filter", () => {
 
@@ -425,5 +427,69 @@ describe("Filter", () => {
             Expect<Test<T1, "equals", [() => "hello", () => "world"]>>
         ];
     });
+
+});
+
+
+describe("filter()", () => {
+
+    it("partial application of truthy (no params, no accept clause)", () => {
+        const truthy = filter("truthy");
+        const greaterThanFive = filter("greaterThan", 5);
+
+        type Params = Parameters<typeof truthy>;
+
+        type cases = [
+            Expect<Test<
+                typeof truthy, "equals",
+                FilterFn<"truthy", []>
+            >>
+        ];
+    });
+
+    it("extends operation", () => {
+        const findFoo = filter("extends", "string" as string);
+        const t = findFoo(["foo", "" as string, 42, "bar", 99]);
+
+        expect(t).toEqual(["fooBar", "barBar"]);
+        type cases = [
+            Expect<Test<typeof t, "equals", ["foo", string, "bar"]>>
+        ];
+    });
+
+    it("equals operation", () => {
+        const findFoo = filter("equals", 42);
+        const literal = findFoo(["foo", "" as string, 42, "bar", 99]);
+
+        expect(literal).toEqual([42]);
+        type cases = [
+            Expect<Test<typeof literal, "equals", [42]>>
+        ];
+    });
+
+    it("startsWith operation", () => {
+        const findFoo = filter("startsWith", "foo");
+        const t = findFoo(["fooBar", "barBar", "baz", "boot", "foo"]);
+        type T = typeof t;
+
+        expect(t).toEqual(["fooBar", "foo"]);
+        type cases = [
+            Expect<Test<T, "equals", ["fooBar", "foo"]>>
+        ];
+    });
+
+    it("endsWith operation", () => {
+        const findFoo = filter("endsWith", "r");
+        const t = findFoo(["fooBar", "barBar", "baz", "boot", "foo"]);
+        type T = typeof t;
+
+        expect(t).toEqual(["fooBar", "barBar"]);
+
+        type cases = [
+            Expect<Test<T, "equals", ["fooBar", "barBar"]>>
+        ];
+    });
+
+
 
 });

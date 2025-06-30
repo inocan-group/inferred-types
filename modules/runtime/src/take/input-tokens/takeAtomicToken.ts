@@ -1,6 +1,7 @@
 import type { RuntimeType__Atomic } from "inferred-types/types";
 import { ALPHA_CHARS, WHITESPACE_CHARS } from "inferred-types/constants";
-import { createTakeWhileFunction } from "./create/createTakeWhileFunction";
+import { createTakeFunction } from "runtime/take/create";
+
 
 type AtomicLookup<T extends string> = [T] extends ["null"]
     ? null
@@ -16,7 +17,7 @@ type AtomicLookup<T extends string> = [T] extends ["null"]
                         ? symbol
                         : never;
 
-export const takeAtomicToken = createTakeWhileFunction(
+export const takeAtomicToken = createTakeFunction("static")(
     ALPHA_CHARS,
     {
         mustFollow: [...WHITESPACE_CHARS, "|", "&"],
