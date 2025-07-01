@@ -45,6 +45,7 @@ import type {
     IsTrue,
     IsTruthy,
     LastChar,
+    Narrowable,
     NumberLike,
     NumericChar,
     RetainChars,
@@ -175,17 +176,8 @@ type Process__General<
     ? DoesExtend<TVal, TParams[number]>
 
     : TOp extends "equals"
-    ? TParams extends Base<"equals">
-    ? IsLiteral<TVal> extends true
-    ? IsLiteral<C<"equals", TParams>> extends true
-    ? IsEqual<TVal, C<"equals", TParams>>
-    : TVal extends C<"equals", TParams>
-    ? boolean
-    : false
-    : C<"equals", TParams> extends TVal
-    ? boolean
-    : false
-    : false
+        ? IsEqual<TVal,TParams[0]>
+
     : TOp extends "false"
     ? IsFalse<TVal>
 
@@ -199,17 +191,13 @@ type Process__General<
     ? IsTruthy<TVal>
 
     : TOp extends "equalsSome"
-    ? SomeEqual<TParams, TVal>
+        ? SomeEqual<TParams, TVal>
 
     : TOp extends "contains"
-    ? TParams extends Base<"contains">
-    ? TVal extends Accept<"contains">
-    ? Contains<
-        As<TVal, Accept<"contains">>,
-        TParams[0]
-    >
-    : false
-    : false
+        ? Contains<
+            As<TVal, string | number | readonly Narrowable[]>,
+            As<TParams[0], Narrowable>
+        >
 
     : TOp extends "containsSome"
     ? TParams extends Base<"containsSome">
@@ -308,7 +296,9 @@ type Process__String<
 
     : TOp extends "onlyNumbers"
     ? IsStringLiteral<TVal> extends true
-    ? IsEqual<
+    ? TVal extends ""
+        ? false
+    : IsEqual<
         RetainChars<As<TVal, string>, NumericChar>,
         TVal
     >
@@ -316,7 +306,9 @@ type Process__String<
 
     : TOp extends "onlyLetters"
     ? IsStringLiteral<TVal> extends true
-    ? IsEqual<
+    ? TVal extends ""
+        ? false
+    : IsEqual<
         RetainChars<As<TVal, string>, AlphaChar>,
         TVal
     >
@@ -324,7 +316,9 @@ type Process__String<
 
     : TOp extends "alphaNumeric"
     ? IsStringLiteral<TVal> extends true
-    ? IsEqual<
+    ? TVal extends ""
+        ? false
+    : IsEqual<
         RetainChars<As<TVal, string>, AlphaNumericChar>,
         TVal
     >

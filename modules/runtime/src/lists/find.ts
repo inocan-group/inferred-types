@@ -1,11 +1,11 @@
 import type {
-    FindFunction
-} from "inferred-types/types";
-import { compare } from "inferred-types/runtime";
-import {
+    FindFunction,
+    Narrowable,
     ComparisonLookup,
     ComparisonOperation
-} from "@inferred-types/types";
+} from "inferred-types/types";
+import { compare } from "inferred-types/runtime";
+
 
 
 /**
@@ -16,7 +16,7 @@ import {
  */
 export function find<
     const TOp extends ComparisonOperation,
-    const TParams extends ComparisonLookup[TOp]["params"]
+    const TParams extends ComparisonLookup[TOp]["params"] & readonly Narrowable[]
 >(
     op: TOp,
     ...params: TParams
@@ -24,6 +24,6 @@ export function find<
     return (list) => {
         return list.find(
             i => compare(op, params)(i)
-        )
+        ) as ReturnType<FindFunction<TOp,TParams>>
     }
 }

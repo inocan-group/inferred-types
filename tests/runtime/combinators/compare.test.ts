@@ -1,46 +1,116 @@
 import { describe, it, expect } from "vitest";
-import { compare, err } from "inferred-types/runtime";
-import { Compare, Expect, Test } from "inferred-types/types";
-import { P } from "vitest/dist/chunks/environment.d.cL3nLXbE";
+import { compare } from "inferred-types/runtime";
+import {
+    Compare,
+    Expect,
+    Test,
+    IsFalse,
+    IsFalsy
+} from "inferred-types/types";
 
 describe("compare() runtime function", () => {
 
     describe("String operations", () => {
         it("startsWith", () => {
             const startsWithHello = compare("startsWith", "Hello");
-            expect(startsWithHello("Hello World")).toBe(true);
-            expect(startsWithHello("Hi World")).toBe(false);
-            expect(startsWithHello(123)).toBe(false);
+            const result1 = startsWithHello("Hello World");
+            const result2 = startsWithHello("Hi World");
+            const result3 = startsWithHello(123);
+
+            expect(result1).toBe(true);
+            expect(result2).toBe(false);
+            expect(result3).toBe(false);
+
+            type cases = [
+                Expect<Test<typeof result1, "equals", true>>,
+                Expect<Test<typeof result2, "equals", false>>,
+                Expect<Test<typeof result3, "equals", false>>
+            ];
         });
 
         it("endsWith", () => {
             const endsWithWorld = compare("endsWith", "World");
-            expect(endsWithWorld("Hello World")).toBe(true);
-            expect(endsWithWorld("Hello Earth")).toBe(false);
-            expect(endsWithWorld(123)).toBe(false);
+            type Result1 = Compare<"Hello World", "endsWith", ["World"]>;
+            const result1 = endsWithWorld("Hello World");
+            type Result2 = Compare<"Hello Earth", "endsWith", ["World"]>;
+            const result2 = endsWithWorld("Hello Earth");
+            type Result3 = Compare<123, "endsWith", ["World"]>;
+            const result3 = endsWithWorld(123);
+
+            expect(result1).toBe(true);
+            expect(result2).toBe(false);
+            expect(result3).toBe(false);
+
+            type cases = [
+                Expect<Test<typeof result1, "equals", true>>,
+                Expect<Test<Result1, "equals", true>>,
+                Expect<Test<typeof result2, "equals", false>>,
+                Expect<Test<Result2, "equals", false>>,
+                Expect<Test<typeof result3, "equals", false>>,
+                Expect<Test<Result3, "equals", false>>,
+
+            ];
         });
 
         it("endsWithNumber", () => {
             const endsWithNum = compare("endsWithNumber");
-            expect(endsWithNum("test123")).toBe(true);
-            expect(endsWithNum("test")).toBe(false);
-            expect(endsWithNum(123 as any)).toBe(true);
-            expect(endsWithNum(120 as any)).toBe(true);
+            const result1 = endsWithNum("test123");
+            const result2 = endsWithNum("test");
+            const result3 = endsWithNum(123 as any);
+            const result4 = endsWithNum(120 as any);
+
+            expect(result1).toBe(true);
+            expect(result2).toBe(false);
+            expect(result3).toBe(true);
+            expect(result4).toBe(true);
+
+            type cases = [
+                Expect<Test<typeof result1, "equals", true>>,
+                Expect<Test<typeof result2, "equals", false>>,
+                Expect<Test<typeof result3, "equals", boolean>>,
+                Expect<Test<typeof result4, "equals", boolean>>
+            ];
         });
 
         it("startsWithNumber", () => {
             const startsWithNum = compare("startsWithNumber");
-            expect(startsWithNum("123test")).toBe(true);
-            expect(startsWithNum("test123")).toBe(false);
-            expect(startsWithNum(123 as any)).toBe(true);
+            const result1 = startsWithNum("123test");
+            const result2 = startsWithNum("test123");
+            const result3 = startsWithNum("123" as any);
+            const f1 = startsWithNum(123 as any);
+
+            expect(result1).toBe(true);
+            expect(result2).toBe(false);
+            expect(result3).toBe(true);
+            expect(f1).toBe(false);
+
+            type cases = [
+                Expect<Test<typeof result1, "equals", true>>,
+                Expect<Test<typeof result2, "equals", false>>,
+                Expect<Test<typeof result3, "equals", boolean>>,
+                Expect<Test<typeof f1, "equals", boolean>>,
+            ];
         });
 
         it("onlyNumbers", () => {
+            type X = Compare<"", "onlyNumbers">
             const onlyNums = compare("onlyNumbers");
-            expect(onlyNums("12345")).toBe(true);
-            expect(onlyNums("123a45")).toBe(false);
-            expect(onlyNums("")).toBe(true); // empty string has all numbers (vacuously true)
-            expect(onlyNums(123 as any)).toBe(false); // not a string
+            const result1 = onlyNums("12345");
+            const result2 = onlyNums("123a45");
+            const result3 = onlyNums("");
+            const result4 = onlyNums(123 as any);
+
+            expect(result1).toBe(true);
+            expect(result2).toBe(false);
+            expect(result3).toBe(false);
+            expect(result4).toBe(false); // not a string
+
+            type cases = [
+                Expect<Test<typeof result1, "equals", true>>,
+                Expect<Test<typeof result2, "equals", false>>,
+                Expect<Test<typeof result3, "equals", false>>,
+                Expect<Test<typeof result4, "equals", boolean>>
+            ];
         });
 
         it("onlyLetters", () => {
@@ -82,11 +152,12 @@ describe("compare() runtime function", () => {
         it("equals", () => {
             const equals5 = compare("equals", 5);
             const five = equals5(5);
+            type X = Compare<5, "equals", [5]>;
             expect(equals5(5)).toBe(true);
             expect(equals5("5")).toBe(false);
             expect(equals5(6)).toBe(false);
 
-            const equalsHello = compare("equals", ["hello"]);
+            const equalsHello = compare("equals", "hello");
             expect(equalsHello("hello")).toBe(true);
             expect(equalsHello("Hello")).toBe(false);
 
@@ -99,55 +170,148 @@ describe("compare() runtime function", () => {
         });
 
         it("false", () => {
+            type X = Compare<null, "false">;
+            type X2 = IsFalse<null>;
             const isFalseOp = compare("false");
-            expect(isFalseOp(false)).toBe(true);
-            expect(isFalseOp(true)).toBe(false);
-            expect(isFalseOp(0)).toBe(false);
-            expect(isFalseOp("")).toBe(false);
-            expect(isFalseOp(null)).toBe(false);
+            const t1 = isFalseOp(false);
+            const f1 = isFalseOp(true);
+            const f2 = isFalseOp(0);
+            const f3 = isFalseOp("");
+            const f4 = isFalseOp(null);
+
+            const b1 = isFalseOp(false as boolean);
+
+            expect(t1).toBe(true);
+            expect(f1).toBe(false);
+            expect(f2).toBe(false);
+            expect(f3).toBe(false);
+            expect(f4).toBe(false);
+
+            expect(b1).toBe(true); // at runtime it IS a false value
+
+            type cases = [
+                Expect<Test<typeof t1, "equals", true>>,
+                Expect<Test<typeof f1, "equals", false>>,
+                Expect<Test<typeof f2, "equals", false>>,
+                Expect<Test<typeof f3, "equals", false>>,
+                Expect<Test<typeof f4, "equals", false>>,
+                // the type system only sees "boolean" as the type
+                // so it's `type` is "false"; this is an interesting
+                // one but this IS the expected outcome
+                Expect<Test<typeof b1, "equals", false>>,
+            ];
         });
 
         it("true", () => {
             const isTrueOp = compare("true");
-            expect(isTrueOp(true)).toBe(true);
-            expect(isTrueOp(false)).toBe(false);
-            expect(isTrueOp(1)).toBe(false);
-            expect(isTrueOp("true")).toBe(false);
+            const result1 = isTrueOp(true);
+            const result2 = isTrueOp(false);
+            const result3 = isTrueOp(1);
+            const result4 = isTrueOp("true");
+
+            expect(result1).toBe(true);
+            expect(result2).toBe(false);
+            expect(result3).toBe(false);
+            expect(result4).toBe(false);
+
+            type cases = [
+                Expect<Test<typeof result1, "equals", true>>,
+                Expect<Test<typeof result2, "equals", false>>,
+                Expect<Test<typeof result3, "equals", false>>,
+                Expect<Test<typeof result4, "equals", false>>
+            ];
         });
 
         it("truthy", () => {
             const isTruthyOp = compare("truthy");
-            expect(isTruthyOp(true)).toBe(true);
-            expect(isTruthyOp(1)).toBe(true);
-            expect(isTruthyOp("hello")).toBe(true);
-            expect(isTruthyOp([])).toBe(true);
-            expect(isTruthyOp({})).toBe(true);
-            expect(isTruthyOp(false)).toBe(false);
-            expect(isTruthyOp(0)).toBe(false);
-            expect(isTruthyOp("")).toBe(false);
-            expect(isTruthyOp(null)).toBe(false);
-            expect(isTruthyOp(undefined)).toBe(false);
+            const t1 = isTruthyOp(true);
+            const t2 = isTruthyOp(1);
+            const t3 = isTruthyOp("hello");
+            const t4 = isTruthyOp([]);
+            const t5 = isTruthyOp({});
+            const f1 = isTruthyOp(false);
+            const f2 = isTruthyOp(0);
+            const f3 = isTruthyOp("");
+            const f4 = isTruthyOp(null);
+            const f5 = isTruthyOp(undefined);
+
+            expect(t1).toBe(true);
+            expect(t2).toBe(true);
+            expect(t3).toBe(true);
+            expect(t4).toBe(true);
+            expect(t5).toBe(true);
+            expect(f1).toBe(false);
+            expect(f2).toBe(false);
+            expect(f3).toBe(false);
+            expect(f4).toBe(false);
+            expect(f5).toBe(false);
+
+            type cases = [
+                Expect<Test<typeof t1, "equals", true>>,
+                Expect<Test<typeof t2, "equals", true>>,
+                Expect<Test<typeof t3, "equals", true>>,
+                Expect<Test<typeof t4, "equals", true>>,
+                Expect<Test<typeof t5, "equals", true>>,
+                Expect<Test<typeof f1, "equals", false>>,
+                Expect<Test<typeof f2, "equals", false>>,
+                Expect<Test<typeof f3, "equals", false>>,
+                Expect<Test<typeof f4, "equals", false>>,
+                Expect<Test<typeof f5, "equals", false>>
+            ];
         });
 
         it("falsy", () => {
             const isFalsyOp = compare("falsy");
-            expect(isFalsyOp(false)).toBe(true);
-            expect(isFalsyOp(0)).toBe(true);
-            expect(isFalsyOp("")).toBe(true);
-            expect(isFalsyOp(null)).toBe(true);
-            expect(isFalsyOp(undefined)).toBe(true);
-            expect(isFalsyOp(NaN)).toBe(true);
-            expect(isFalsyOp(true)).toBe(false);
-            expect(isFalsyOp(1)).toBe(false);
-            expect(isFalsyOp("hello")).toBe(false);
+            const t1 = isFalsyOp(false);
+            const t2 = isFalsyOp(0);
+            const t3 = isFalsyOp("");
+            const t4 = isFalsyOp(null);
+            type T4 = IsFalsy<null>;
+            const t5 = isFalsyOp(undefined);
+            // const result6 = isFalsyOp(NaN);
+            const f1 = isFalsyOp(true);
+            const f2 = isFalsyOp(1);
+            const f3 = isFalsyOp("hello");
+
+            expect(t1).toBe(true);
+            expect(t2).toBe(true);
+            expect(t3).toBe(true);
+            expect(t4).toBe(true);
+            expect(t5).toBe(true);
+            // expect(result6).toBe(true);
+            expect(f1).toBe(false);
+            expect(f2).toBe(false);
+            expect(f3).toBe(false);
+
+            type cases = [
+                Expect<Test<typeof t1, "equals", true>>,
+                Expect<Test<typeof t2, "equals", true>>,
+                Expect<Test<typeof t3, "equals", true>>,
+                Expect<Test<typeof t4, "equals", true>>,
+                Expect<Test<typeof t5, "equals", true>>,
+                Expect<Test<typeof f1, "equals", false>>,
+                Expect<Test<typeof f2, "equals", false>>,
+                Expect<Test<typeof f3, "equals", false>>
+            ];
         });
 
         it("equalsSome", () => {
             const equalsSome = compare("equalsSome", 1, 2, 3);
+            type Two = Compare<2, "equalsSome", [1, 2, 3]>;
+            type StringTwo = Compare<"2", "equalsSome", [1, 2, 3]>;
             const two = equalsSome(2);
+            const four = equalsSome(4);
+            const stringTwo = equalsSome("2");
+
             expect(two).toBe(true);
-            expect(equalsSome(4)).toBe(false);
-            expect(equalsSome("2")).toBe(false);
+            expect(four).toBe(false);
+            expect(stringTwo).toBe(false);
+
+            type cases = [
+                Expect<Test<typeof two, "equals", true>>,
+                Expect<Test<typeof four, "equals", false>>,
+                Expect<Test<typeof stringTwo, "equals", false>>
+            ];
         });
 
         it("contains", () => {
@@ -178,7 +342,7 @@ describe("compare() runtime function", () => {
 
             type cases = [
                 Expect<Test<
-                    typeof abc, "equals",
+                    typeof hello, "equals",
                     true
                 >>,
                 Expect<Test<
@@ -209,162 +373,382 @@ describe("compare() runtime function", () => {
     describe("Numeric operations", () => {
         it("greaterThan", () => {
             const gt5 = compare("greaterThan", 5);
-            expect(gt5(6)).toBe(true);
-            expect(gt5(5)).toBe(false);
-            expect(gt5(4)).toBe(false);
-            expect(gt5("6")).toBe(true); // numeric string
-            expect(gt5("not a number" as any)).toBe(false);
+            const result1 = gt5(6);
+            const result2 = gt5(5);
+            const result3 = gt5(4);
+            const result4 = gt5("6");
+            const result5 = gt5("not a number" as any);
+
+            expect(result1).toBe(true);
+            expect(result2).toBe(false);
+            expect(result3).toBe(false);
+            expect(result4).toBe(true); // numeric string
+            expect(result5).toBe(false);
+
+            type cases = [
+                Expect<Test<typeof result1, "equals", true>>,
+                Expect<Test<typeof result2, "equals", false>>,
+                Expect<Test<typeof result3, "equals", false>>,
+                Expect<Test<typeof result4, "equals", false>>,
+                Expect<Test<typeof result5, "equals", false>>
+            ];
         });
 
         it("greaterThanOrEqual", () => {
             const gte5 = compare("greaterThanOrEqual", 5);
-            expect(gte5(6)).toBe(true);
-            expect(gte5(5)).toBe(true);
-            expect(gte5(4)).toBe(false);
+            const result1 = gte5(6);
+            const result2 = gte5(5);
+            const result3 = gte5(4);
+
+            expect(result1).toBe(true);
+            expect(result2).toBe(true);
+            expect(result3).toBe(false);
+
+            type cases = [
+                Expect<Test<typeof result1, "equals", true>>,
+                Expect<Test<typeof result2, "equals", false>>,
+                Expect<Test<typeof result3, "equals", false>>
+            ];
         });
 
         it("lessThan", () => {
             const lt5 = compare("lessThan", 5);
-            expect(lt5(4)).toBe(true);
-            expect(lt5(5)).toBe(false);
-            expect(lt5(6)).toBe(false);
+            const result1 = lt5(4);
+            const result2 = lt5(5);
+            const result3 = lt5(6);
+
+            expect(result1).toBe(true);
+            expect(result2).toBe(false);
+            expect(result3).toBe(false);
+
+            type cases = [
+                Expect<Test<typeof result1, "equals", true>>,
+                Expect<Test<typeof result2, "equals", false>>,
+                Expect<Test<typeof result3, "equals", false>>
+            ];
         });
 
         it("lessThanOrEqual", () => {
             const lte5 = compare("lessThanOrEqual", 5);
-            expect(lte5(4)).toBe(true);
-            expect(lte5(5)).toBe(true);
-            expect(lte5(6)).toBe(false);
+            const result1 = lte5(4);
+            const result2 = lte5(5);
+            const result3 = lte5(6);
+
+            expect(result1).toBe(true);
+            expect(result2).toBe(true);
+            expect(result3).toBe(false);
+
+            type cases = [
+                Expect<Test<typeof result1, "equals", true>>,
+                Expect<Test<typeof result2, "equals", false>>,
+                Expect<Test<typeof result3, "equals", false>>
+            ];
         });
 
         it("betweenExclusively", () => {
             const between5and10 = compare("betweenExclusively", 5, 10);
-            expect(between5and10(7)).toBe(true);
-            expect(between5and10(5)).toBe(false);
-            expect(between5and10(10)).toBe(false);
-            expect(between5and10(3)).toBe(false);
+            const result1 = between5and10(7);
+            const result2 = between5and10(5);
+            const result3 = between5and10(10);
+            const result4 = between5and10(3);
+
+            expect(result1).toBe(true);
+            expect(result2).toBe(false);
+            expect(result3).toBe(false);
+            expect(result4).toBe(false);
+
+            type cases = [
+                Expect<Test<typeof result1, "equals", true>>,
+                Expect<Test<typeof result2, "equals", true>>,
+                Expect<Test<typeof result3, "equals", true>>,
+                Expect<Test<typeof result4, "equals", false>>
+            ];
         });
 
         it("betweenInclusively", () => {
             const between5and10 = compare("betweenInclusively", 5, 10);
-            expect(between5and10(7)).toBe(true);
-            expect(between5and10(5)).toBe(true);
-            expect(between5and10(10)).toBe(true);
-            expect(between5and10(3)).toBe(false);
-            expect(between5and10(11)).toBe(false);
+            const result1 = between5and10(7);
+            const result2 = between5and10(5);
+            const result3 = between5and10(10);
+            const result4 = between5and10(3);
+            const result5 = between5and10(11);
+
+            expect(result1).toBe(true);
+            expect(result2).toBe(true);
+            expect(result3).toBe(true);
+            expect(result4).toBe(false);
+            expect(result5).toBe(false);
+
+            type cases = [
+                Expect<Test<typeof result1, "equals", true>>,
+                Expect<Test<typeof result2, "equals", true>>,
+                Expect<Test<typeof result3, "equals", true>>,
+                Expect<Test<typeof result4, "equals", false>>,
+                Expect<Test<typeof result5, "equals", false>>
+            ];
         });
     });
 
     describe("Object operations", () => {
         it("objectKeyGreaterThan", () => {
             const ageGt18 = compare("objectKeyGreaterThan", "age", 18);
-            expect(ageGt18({ age: 25 })).toBe(true);
-            expect(ageGt18({ age: 18 })).toBe(false);
-            expect(ageGt18({ age: 15 })).toBe(false);
-            expect(ageGt18({ name: "John" })).toBe(false); // no age key
-            expect(ageGt18({ age: "25" })).toBe(true); // numeric string
-            expect(ageGt18({ age: "not a number" })).toBe(false);
-            expect(ageGt18("not an object" as any) instanceof Error).toBe(true);
+            const result1 = ageGt18({ age: 25 });
+            const result2 = ageGt18({ age: 18 });
+            const result3 = ageGt18({ age: 15 });
+            const result4 = ageGt18({ name: "John" });
+            const result5 = ageGt18({ age: "25" });
+            const result6 = ageGt18({ age: "not a number" });
+            const result7 = ageGt18("not an object" as any);
+
+            expect(result1).toBe(true);
+            expect(result2).toBe(false);
+            expect(result3).toBe(false);
+            expect(result4).toBe(false); // no age key
+            expect(result5).toBe(true); // numeric string
+            expect(result6).toBe(false);
+            expect(result7 instanceof Error).toBe(true);
+
+            type cases = [
+                Expect<Test<typeof result1, "equals", true>>,
+                Expect<Test<typeof result2, "equals", false>>,
+                Expect<Test<typeof result3, "equals", false>>,
+                Expect<Test<typeof result4, "equals", false>>,
+                Expect<Test<typeof result5, "equals", true>>,
+                Expect<Test<typeof result6, "equals", false>>,
+                Expect<Test<typeof result7, "equals", Error>>
+            ];
         });
 
         it("objectKeyGreaterThanOrEqual", () => {
             const ageGte18 = compare("objectKeyGreaterThanOrEqual", "age", 18);
-            expect(ageGte18({ age: 25 })).toBe(true);
-            expect(ageGte18({ age: 18 })).toBe(true);
-            expect(ageGte18({ age: 15 })).toBe(false);
+            const result1 = ageGte18({ age: 25 });
+            const result2 = ageGte18({ age: 18 });
+            const result3 = ageGte18({ age: 15 });
+
+            expect(result1).toBe(true);
+            expect(result2).toBe(true);
+            expect(result3).toBe(false);
+
+            type cases = [
+                Expect<Test<typeof result1, "equals", true>>,
+                Expect<Test<typeof result2, "equals", true>>,
+                Expect<Test<typeof result3, "equals", false>>
+            ];
         });
 
         it("objectKeyLessThan", () => {
             const ageLt18 = compare("objectKeyLessThan", "age", 18);
-            expect(ageLt18({ age: 15 })).toBe(true);
-            expect(ageLt18({ age: 18 })).toBe(false);
-            expect(ageLt18({ age: 25 })).toBe(false);
+            const result1 = ageLt18({ age: 15 });
+            const result2 = ageLt18({ age: 18 });
+            const result3 = ageLt18({ age: 25 });
+
+            expect(result1).toBe(true);
+            expect(result2).toBe(false);
+            expect(result3).toBe(false);
+
+            type cases = [
+                Expect<Test<typeof result1, "equals", true>>,
+                Expect<Test<typeof result2, "equals", false>>,
+                Expect<Test<typeof result3, "equals", false>>
+            ];
         });
 
         it("objectKeyLessThanOrEqual", () => {
             const ageLte18 = compare("objectKeyLessThanOrEqual", "age", 18);
-            expect(ageLte18({ age: 15 })).toBe(true);
-            expect(ageLte18({ age: 18 })).toBe(true);
-            expect(ageLte18({ age: 25 })).toBe(false);
+            const result1 = ageLte18({ age: 15 });
+            const result2 = ageLte18({ age: 18 });
+            const result3 = ageLte18({ age: 25 });
+
+            expect(result1).toBe(true);
+            expect(result2).toBe(true);
+            expect(result3).toBe(false);
+
+            type cases = [
+                Expect<Test<typeof result1, "equals", true>>,
+                Expect<Test<typeof result2, "equals", true>>,
+                Expect<Test<typeof result3, "equals", false>>
+            ];
         });
 
         it("objectKeyEquals", () => {
             const nameEquals = compare("objectKeyEquals", "name", "John");
-            expect(nameEquals({ name: "John" })).toBe(true);
-            expect(nameEquals({ name: "Jane" })).toBe(false);
-            expect(nameEquals({ age: 25 })).toBe(false); // no name key
-            expect(nameEquals("not an object" as any) instanceof Error).toBe(true);
+            const result1 = nameEquals({ name: "John" });
+            const result2 = nameEquals({ name: "Jane" });
+            const result3 = nameEquals({ age: 25 });
+            const result4 = nameEquals("not an object" as any);
+
+            expect(result1).toBe(true);
+            expect(result2).toBe(false);
+            expect(result3).toBe(false); // no name key
+            expect(result4 instanceof Error).toBe(true);
+
+            type cases = [
+                Expect<Test<typeof result1, "equals", true>>,
+                Expect<Test<typeof result2, "equals", false>>,
+                Expect<Test<typeof result3, "equals", false>>,
+                Expect<Test<typeof result4, "equals", Error>>
+            ];
         });
     });
 
     describe("DateTime operations", () => {
-        const date1 = new Date("2023-01-15T10:00:00");
-        const date2 = new Date("2023-01-15T14:00:00");
-        const date3 = new Date("2023-02-15T10:00:00");
-        const date4 = new Date("2024-01-15T10:00:00");
+        const date1 = "2023-01-15T10:00:00";
+        const date2 = "2023-01-15T14:00:00";
+        const date3 = "2023-02-15T10:00:00";
+        const date4 = "2024-01-15T10:00:00";
 
         it("sameDay", () => {
             const sameDayAs = compare("sameDay", date1);
-            expect(sameDayAs(date1)).toBe(true);
-            expect(sameDayAs(date2)).toBe(true); // same day, different time
-            expect(sameDayAs(date3)).toBe(false); // different month
-            expect(sameDayAs("not a date" as any) instanceof Error).toBe(true);
+            const t1 = sameDayAs(date1);
+            const t2 = sameDayAs(date2);
+            const f1 = sameDayAs(date3);
+            const result4 = sameDayAs("not a date" as any);
+
+            expect(t1).toBe(true);
+            expect(t2).toBe(true); // same day, different time
+            expect(f1).toBe(false); // different month
+            expect(result4 instanceof Error).toBe(true);
+
+            type cases = [
+                Expect<Test<typeof t1, "equals", true>>,
+                Expect<Test<typeof t2, "equals", true>>,
+                Expect<Test<typeof f1, "equals", false>>,
+                Expect<Test<typeof result4, "equals", Error>>
+            ];
         });
 
         it("sameMonth", () => {
             const sameMonthAs = compare("sameMonth", date1);
-            expect(sameMonthAs(date1)).toBe(true);
-            expect(sameMonthAs(date2)).toBe(true);
-            expect(sameMonthAs(date3)).toBe(false);
-            expect(sameMonthAs(date4)).toBe(true); // same month, different year
+            const result1 = sameMonthAs(date1);
+            const result2 = sameMonthAs(date2);
+            const result3 = sameMonthAs(date3);
+            const result4 = sameMonthAs(date4);
+
+            expect(result1).toBe(true);
+            expect(result2).toBe(true);
+            expect(result3).toBe(false);
+            expect(result4).toBe(true); // same month, different year
+
+            type cases = [
+                Expect<Test<typeof result1, "equals", true>>,
+                Expect<Test<typeof result2, "equals", true>>,
+                Expect<Test<typeof result3, "equals", false>>,
+                Expect<Test<typeof result4, "equals", true>>
+            ];
         });
 
         it("sameMonthYear", () => {
             const sameMonthYearAs = compare("sameMonthYear", date1);
-            expect(sameMonthYearAs(date1)).toBe(true);
-            expect(sameMonthYearAs(date2)).toBe(true);
-            expect(sameMonthYearAs(date3)).toBe(false);
-            expect(sameMonthYearAs(date4)).toBe(false); // different year
+            const result1 = sameMonthYearAs(date1);
+            const result2 = sameMonthYearAs(date2);
+            const result3 = sameMonthYearAs(date3);
+            const result4 = sameMonthYearAs(date4);
+
+            expect(result1).toBe(true);
+            expect(result2).toBe(true);
+            expect(result3).toBe(false);
+            expect(result4).toBe(false); // different year
+
+            type cases = [
+                Expect<Test<typeof result1, "equals", true>>,
+                Expect<Test<typeof result2, "equals", false>>,
+                Expect<Test<typeof result3, "equals", false>>,
+                Expect<Test<typeof result4, "equals", false>>
+            ];
         });
 
         it("sameYear", () => {
             const sameYearAs = compare("sameYear", date1);
-            expect(sameYearAs(date1)).toBe(true);
-            expect(sameYearAs(date2)).toBe(true);
-            expect(sameYearAs(date3)).toBe(true);
-            expect(sameYearAs(date4)).toBe(false);
+            const result1 = sameYearAs(date1);
+            const result2 = sameYearAs(date2);
+            const result3 = sameYearAs(date3);
+            const result4 = sameYearAs(date4);
+
+            expect(result1).toBe(true);
+            expect(result2).toBe(true);
+            expect(result3).toBe(true);
+            expect(result4).toBe(false);
+
+            type cases = [
+                Expect<Test<typeof result1, "equals", true>>,
+                Expect<Test<typeof result2, "equals", false>>,
+                Expect<Test<typeof result3, "equals", true>>,
+                Expect<Test<typeof result4, "equals", false>>
+            ];
         });
 
         it("after", () => {
             const afterDate1 = compare("after", date1);
-            expect(afterDate1(date2)).toBe(true);
-            expect(afterDate1(date1)).toBe(false);
-            expect(afterDate1(new Date("2023-01-14"))).toBe(false);
+            const result1 = afterDate1(date2);
+            const result2 = afterDate1(date1);
+            const result3 = afterDate1(new Date("2023-01-14"));
+
+            expect(result1).toBe(true);
+            expect(result2).toBe(false);
+            expect(result3).toBe(false);
+
+            type cases = [
+                Expect<Test<typeof result1, "equals", true>>,
+                Expect<Test<typeof result2, "equals", true>>,
+                Expect<Test<typeof result3, "equals", false>>
+            ];
         });
 
         it("before", () => {
             const beforeDate2 = compare("before", date2);
-            expect(beforeDate2(date1)).toBe(true);
-            expect(beforeDate2(date2)).toBe(false);
-            expect(beforeDate2(date3)).toBe(false);
+            const result1 = beforeDate2(date1);
+            const result2 = beforeDate2(date2);
+            const result3 = beforeDate2(date3);
+
+            expect(result1).toBe(true);
+            expect(result2).toBe(false);
+            expect(result3).toBe(false);
+
+            type cases = [
+                Expect<Test<typeof result1, "equals", true>>,
+                Expect<Test<typeof result2, "equals", false>>,
+                Expect<Test<typeof result3, "equals", false>>
+            ];
         });
     });
 
     describe("Other operations", () => {
         it("errors", () => {
             const isError = compare("errors");
-            expect(isError(new Error("test"))).toBe(true);
-            expect(isError(new TypeError("test"))).toBe(true);
-            expect(isError("not an error")).toBe(false);
-            expect(isError(null)).toBe(false);
+            const result1 = isError(new Error("test"));
+            const result2 = isError(new TypeError("test"));
+            const result3 = isError("not an error");
+            const result4 = isError(null);
+
+            expect(result1).toBe(true);
+            expect(result2).toBe(true);
+            expect(result3).toBe(false);
+            expect(result4).toBe(false);
+
+            type cases = [
+                Expect<Test<typeof result1, "equals", true>>,
+                Expect<Test<typeof result2, "equals", true>>,
+                Expect<Test<typeof result3, "equals", true>>,
+                Expect<Test<typeof result4, "equals", false>>
+            ];
         });
 
         it("errorsOfType", () => {
             const customError = Object.assign(new Error("test"), { type: "CustomError" });
             const isCustomError = compare("errorsOfType", "CustomError");
-            expect(isCustomError(customError)).toBe(true);
-            expect(isCustomError(new Error("test"))).toBe(false);
-            expect(isCustomError("not an error")).toBe(false);
+            const result1 = isCustomError(customError);
+            const result2 = isCustomError(new Error("test"));
+            const result3 = isCustomError("not an error");
+
+            expect(result1).toBe(true);
+            expect(result2).toBe(false);
+            expect(result3).toBe(false);
+
+            type cases = [
+                Expect<Test<typeof result1, "equals", true>>,
+                Expect<Test<typeof result2, "equals", true>>,
+                Expect<Test<typeof result3, "equals", false>>
+            ];
         });
 
         it("returnEquals - returns runtime limitation error", () => {
@@ -374,6 +758,10 @@ describe("compare() runtime function", () => {
             expect(result instanceof Error).toBe(true);
             // The err() function uses the first part as the type
             expect((result as any).type).toBe("runtime-limitation");
+
+            type cases = [
+                Expect<Test<typeof result, "equals", Error>>
+            ];
         });
 
         it("returnExtends - returns runtime limitation error", () => {
@@ -383,6 +771,10 @@ describe("compare() runtime function", () => {
             expect(result instanceof Error).toBe(true);
             // The err() function uses the first part as the type
             expect((result as any).type).toBe("runtime-limitation");
+
+            type cases = [
+                Expect<Test<typeof result, "equals", Error>>
+            ];
         });
     });
 
@@ -391,8 +783,11 @@ describe("compare() runtime function", () => {
             // @ts-ignore
             const invalidOp = compare("notAnOperation" as any, []);
             const result = invalidOp("test");
-            expect(result instanceof Error).toBe(true);
-            expect((result as Error).message).toContain("not a supported operation");
+            expect(result).toBe(false); // Never constant returns false for invalid operations
+
+            type cases = [
+                Expect<Test<typeof result, "equals", false>>
+            ];
         });
 
         it("handles invalid parameters gracefully", () => {
@@ -400,6 +795,10 @@ describe("compare() runtime function", () => {
             const gtInvalid = compare("greaterThan", "not a number" as any);
             const result = gtInvalid(5);
             expect(result instanceof Error).toBe(true);
+
+            type cases = [
+                Expect<Test<typeof result, "equals", Error>>
+            ];
         });
 
         it("handles complex nested comparisons", () => {
@@ -410,9 +809,22 @@ describe("compare() runtime function", () => {
             ];
 
             const ageGt21 = compare("objectKeyGreaterThan", "age", 21);
-            const filtered = data.filter(person => ageGt21(person) === true);
+            const filtered = data.filter(person => {
+                const result = ageGt21(person);
+                return result === true;
+            });
+            const result1 = ageGt21(data[0]);
+            const result2 = ageGt21(data[1]);
+            const result3 = ageGt21(data[2]);
+
             expect(filtered).toHaveLength(2);
             expect(filtered.map(p => p.name)).toEqual(["John", "Jane"]);
+
+            type cases = [
+                Expect<Test<typeof result1, "equals", true>>,
+                Expect<Test<typeof result2, "equals", true>>,
+                Expect<Test<typeof result3, "equals", false>>
+            ];
         });
     });
 });

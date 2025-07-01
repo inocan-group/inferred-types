@@ -25,7 +25,9 @@ export function startsWithTypeguard<
 >(...startingWith: TStartsWith) {
     return <
         const TValue extends string | number,
-    >(val: TValue): val is TValue & `${TStartsWith[number]}${string}` => {
+    >(val: TValue): val is TValue extends string
+        ? TValue & `${TStartsWith[number]}${string}`
+        : TValue => {
         return (
             isString(val) || isNumber(val)
                 ? startingWith.some(i => String(val).startsWith(String(i)))

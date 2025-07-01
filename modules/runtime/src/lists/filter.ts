@@ -12,7 +12,7 @@ import {
     asChars,
     asDate,
     compare,
-    endsWith,
+    endsWithTypeguard,
     err,
     firstChar,
     isAfter,

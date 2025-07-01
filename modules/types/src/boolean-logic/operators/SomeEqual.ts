@@ -1,4 +1,4 @@
-import type { AfterFirst, First, IfEqual } from "inferred-types/types";
+import type {   IsEqual, Or } from "inferred-types/types";
 
 /**
  * **SomeEqual**`<TVal, TList>`
@@ -12,6 +12,7 @@ import type { AfterFirst, First, IfEqual } from "inferred-types/types";
 export type SomeEqual<
     TList extends readonly unknown[],
     TVal,
-> = [] extends TList
-    ? false
-    : IfEqual<TVal, First<TList>, true, SomeEqual<AfterFirst<TList>, TVal>>;
+> = Or<{
+    [K in keyof TList]: IsEqual<TList[K], TVal>
+}>
+

@@ -1,9 +1,14 @@
 import type {
     If,
+    IsArray,
     IsFalse,
+    IsNull,
     IsNumericLiteral,
+    IsObject,
     IsStringLiteral,
     IsTrue,
+    IsUndefined,
+    Or,
     SomeEqual,
 } from "inferred-types/types";
 
@@ -15,27 +20,33 @@ import type {
  *
  * **See Also:** `IfTruthy`, `IfSomeTruthy`, `IfAllTruthy`, and `TruthyReturns`
  */
-export type IsTruthy<T> = //
-  [T] extends [string]
-      ? T extends "" ? false : If<IsStringLiteral<T>, true, boolean>
-      : [T] extends [number]
-          ? If<
-              IsNumericLiteral<T>,
-              If<SomeEqual<[0, -0], T>, false, true>,
-              boolean
-          >
-          : [T] extends [boolean]
-              ? If<
-                  IsFalse<T>,
-                  false,
-                  If<
-                      IsTrue<T>,
-                      true,
-                      boolean
-                  >
-              >
-              : If<
-                  SomeEqual<[null, undefined, typeof Number.NaN], T>,
-                  false,
-                  boolean
-              >;
+export type IsTruthy<T> = [T] extends [string]
+    ? [T] extends [""]
+        ? false
+        : If<IsStringLiteral<T>, true, boolean>
+    : [T] extends [number]
+        ? If<
+            IsNumericLiteral<T>,
+            If<SomeEqual<[0, -0], T>, false, true>,
+            boolean
+        >
+    : If<
+        Or<[IsNull<T>, IsUndefined<T>]>,
+        false,
+        If<
+            Or<[IsArray<T>, IsObject<T>]>,
+            true,
+            [T] extends [boolean]
+                ? If<
+                    IsFalse<T>,
+                    false,
+                    If<
+                        IsTrue<T>,
+                        true,
+                        boolean
+                    >
+                >
+                : never
+        >
+
+    >;

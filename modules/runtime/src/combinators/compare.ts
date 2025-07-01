@@ -5,14 +5,17 @@ import type {
     ComparisonLookup,
     ComparisonOperation,
     DateLike,
-
-    IsAfter,
-
-    IsEqual,
     Narrowable,
     ObjectKey,
-    StartsWith,
-    Unset
+    StartsWithNumber,
+    Unset,
+    IsEqual, IsFalse,
+    Contains,
+    Expand,
+    IsFalsy,
+    IsTruthy,
+    SomeEqual,
+    ToStringArray
 } from "inferred-types/types";
 import {
     asChars,
@@ -20,6 +23,7 @@ import {
     asDateTime,
     contains,
     endsWith,
+    endsWithTypeguard,
     equalsSome,
     err,
     firstChar,
@@ -29,7 +33,6 @@ import {
     isArray,
     isBoolean,
     isDateLike,
-    isEqual,
     isError,
     isFalse,
     isFalsy,
@@ -48,15 +51,30 @@ import {
     startsWith,
     unset
 } from "inferred-types/runtime";
-import { Never, NUMERIC_CHAR } from "inferred-types/constants";
+import {  NUMERIC_CHAR } from "inferred-types/constants";
+import { EndsWith } from "@inferred-types/types";
 
 type Lookup = ComparisonLookup;
 
+type P<
+    TOp extends ComparisonOperation,
+    TParams
+> = TParams & ComparisonLookup[TOp]["params"];
+
+type V<
+    TOp extends ComparisonOperation,
+    TVal
+> = Expand<
+TVal & ComparisonAccept<TOp>
+>;
+
+
 function handle_string<
     TOp extends ComparisonOperation,
-    TParams extends Lookup[TOp]["params"]
+    TParams extends Lookup[TOp]["params"],
+    TVal extends ComparisonAccept<TOp>
 >(
-    val: ComparisonAccept<TOp>,
+    val: TVal,
     op: TOp,
     params: TParams
 ) {
@@ -67,8 +85,14 @@ function handle_string<
                 : false;
 
         case "endsWith":
-            return (isString(val) || isNumber(val)) && isStringOrNumericArray(params)
+            return (
+                (isString(val) || isNumber(val)) && isStringOrNumericArray(params)
                 ? endsWith(...params as readonly (string | number)[])(val)
+                : false
+            ) as TVal extends string | number
+                ? ToStringArray<TParams> extends readonly string[]
+                    ? EndsWith<TVal,ToStringArray<TParams>>
+                    : false
                 : false;
 
         case "endsWithNumber":
@@ -77,13 +101,17 @@ function handle_string<
                 : false;
 
         case "startsWithNumber":
-            return isString(val) || isNumber(val)
+            return (
+                isString(val)
                 ? NUMERIC_CHAR.includes(firstChar(String(val)) as any)
-                : false;
+                : false
+            ) as StartsWithNumber<TVal>;
 
         case "onlyNumbers":
             return isString(val)
-                ? asChars(val).every(c => isNumberLike(c))
+                ? val === ""
+                    ? false
+                    : asChars(val).every(c => isNumberLike(c))
                 : false;
 
         case "onlyLetters":
@@ -108,7 +136,7 @@ function handle_general<
     val: TVal,
     op: TOp,
     params: TParams
-): boolean | Error | Unset {
+) {
     switch (op) {
         case "extends":
             if (!isInputTokenLike(params[0])) {
@@ -124,27 +152,37 @@ function handle_general<
             );
 
         case "equals":
-            return val === params[0];
+            return (val === params[0]) as IsEqual<TVal, TParams[0]>;
 
         case "false":
-            return isFalse(val);
+            return (isFalse(val)) as IsFalse<TVal>;
 
         case "true":
             return isTrue(val);
 
         case "truthy":
-            return isTruthy(val);
+            return isTruthy(val) as IsTruthy<TVal>;
 
         case "falsy":
-            return isNarrowable(val) && isFalsy(val);
+            return (
+                isNarrowable(val) && isFalsy(val)
+            ) as IsFalsy<TVal>;
 
         case "equalsSome":
-            return isNarrowable(val) && equalsSome(params)(val);
+            return (
+                isNarrowable(val)
+                && isArray(params)
+                && equalsSome(...(params as Narrowable[]))(val)
+            ) as SomeEqual<TParams, TVal>;
 
         case "contains":
-            return isString(val) || isNumber(val) || isNarrowableTuple(val)
-                ? contains(val, params)
-                : false;
+            return (
+                isString(val) || isNumber(val) || isStringOrNumericArray(val)
+                    ? contains(val, params)
+                    : false
+            ) as TVal extends string | number | readonly (string|number)[]
+                ? Contains<TVal, TParams>
+                : false
 
         case "containsSome":
             return (isString(val) || isNumber(val) || isNarrowableTuple(val)) && isArray(params)
@@ -168,7 +206,7 @@ function handle_numeric<TOp extends ComparisonOperation, TParams extends Lookup[
     val: ComparisonAccept<TOp>,
     op: TOp,
     params: TParams
-): boolean | Error | Unset {
+) {
     switch (op) {
         case "greaterThan":
             if (!isNumberLike(val))
@@ -259,7 +297,7 @@ function handle_object<
     val: ComparisonAccept<TOp>,
     op: TOp,
     params: TParams
-): boolean | Error | Unset {
+) {
     switch (op) {
         case "objectKeyGreaterThan":
             const [key, compare] = params as [ObjectKey, number];
@@ -411,7 +449,7 @@ function handle_other<
     val: ComparisonAccept<TOp>,
     op: TOp,
     params: TParams
-): boolean | Error | Unset {
+) {
     switch (op) {
         case "errors":
             return val instanceof Error;
@@ -454,48 +492,6 @@ function handle_other<
     return unset;
 }
 
-// const handlers: Record<
-//    string,
-//     (<
-//             T extends Narrowable,
-//             P extends readonly (Narrowable)[]
-//         >(val: T, params: P) => boolean
-//     )
-// > = {
-//     after: (val, params) => (
-//         isDateLike(val) && isDateLike(params[0])
-//             ? asDateTime(val).getTime() > asDateTime(params[0]).getTime()
-//             : false
-//     ) as IsDateLike<typeof val> extends true
-//         ? IsDateLike<typeof params[0]> extends true
-//             ? IsAfter<As<typeof val, DateLike>, As<typeof params[0], DateLike>>
-//             : false
-//         : false,
-//     before: (val, params) => (
-//         isDateLike(val) && isDateLike(params[0])
-//             ? asDateTime(val).getTime() < asDateTime(params[0]).getTime()
-//             : false
-//     ) as IsDateLike<typeof val> extends true
-//         ? IsDateLike<typeof params[0]> extends true
-//             ? IsBefore<As<typeof val, DateLike>, As<typeof params[0], DateLike>>
-//             : false
-//         : false,
-//     startsWith: (val, params) => (
-//         (isString(val) || isNumber(val)) && isStringOrNumericArray(params)
-//             ? startsWith(...params)(val)
-//             : false
-//     ) as typeof val extends string | number
-//         ? typeof params extends readonly (string|number)[]
-//             ? StartsWith<typeof val, typeof params>
-//             : false
-//         : false,
-//     equalsSome: (val, params) => (
-//         equalsSome(params)(val)
-//     )
-
-
-// };
-
 export type CompareFn<
     TOp extends ComparisonOperation,
     TParams extends Lookup[TOp]["params"] & readonly Narrowable[]
@@ -503,20 +499,12 @@ export type CompareFn<
 
 function compareFn<
     const TOp extends ComparisonOperation,
-    const TParams extends Lookup[TOp]["params"] & readonly Narrowable[]
+    const TParams extends Lookup[TOp]["params"]
 >(
     op: TOp,
     ...params: TParams
 ) {
-    return <
-        const TVal extends ComparisonAccept<TOp> & Narrowable
-    >(
-        val: TVal
-    ): Compare<TVal,TOp,TParams> => {
-        // const fn = handlers[op];
-
-        // return fn(val, params) as Compare<TVal,TOp,TParams>;
-
+    return <const TVal extends ComparisonAccept<TOp>>(val: TVal): Compare<TVal,TOp,TParams> =>  {
         let result: unknown = unset;
 
         result = handle_string(val,op,params);
@@ -555,7 +543,7 @@ function compareFn<
             return result as Compare<TVal,TOp,TParams>
         }
 
-        return Never;
+        return false as Compare<TVal,TOp,TParams>;
 
     };
 }
@@ -568,7 +556,7 @@ function compareFn<
  */
 export function compare<
     const TOp extends ComparisonOperation,
-    const TParams extends Lookup[TOp]["params"]
+    const TParams extends readonly Narrowable[] & Lookup[TOp]["params"]
 >(
     op: TOp,
     ...params: TParams
