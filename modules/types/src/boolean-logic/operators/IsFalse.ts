@@ -16,11 +16,8 @@ export type IsFalse<T> = [IsNever<T>] extends [true]
     ? false
     : [T] extends [null]
         ? false
-    : [IsBoolean<T>] extends [true]
-        ? [T] extends [false]
-            ? true
-            : false
-        : false;
-
-
-
+        : [IsBoolean<T>] extends [true]
+            ? [T] extends [false]
+                ? true
+                : false
+            : false;

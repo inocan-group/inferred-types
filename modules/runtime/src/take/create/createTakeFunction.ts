@@ -1,14 +1,13 @@
+import type { StaticTakeFunction__CallBack, StaticTakeFunction__Rtn } from "inferred-types/runtime";
+import type { LexerState } from "inferred-types/types";
 import {
-    type StaticTakeFunction__CallBack,
-    type StaticTakeFunction__Rtn,
     createStaticTakeFunction,
     createTakeWhileFunction,
     err
+
 } from "inferred-types/runtime";
-import { LexerState } from "inferred-types/types";
 
 type TakeFunctionKind = "static" | "start-end" | "while";
-
 
 type StaticBuilder<O extends TakeFunction__Options> = {
     /**
@@ -20,17 +19,17 @@ type StaticBuilder<O extends TakeFunction__Options> = {
         callback<
             const TCb extends StaticTakeFunction__CallBack<TItems>
         >(cb: TCb):
-            <
-                const TLexer extends LexerState<TParse,TTokens>,
-                TParse extends string,
-                TTokens extends readonly unknown[]
-            >(state: TLexer) =>
-                StaticTakeFunction__Rtn<
-                    TLexer,
-                    TItems,
-                    ReturnType<TCb>
-                >
-    }
+        <
+            const TLexer extends LexerState<TParse, TTokens>,
+            TParse extends string,
+            TTokens extends readonly unknown[]
+        >(state: TLexer) =>
+        StaticTakeFunction__Rtn<
+            TLexer,
+            TItems,
+            ReturnType<TCb>
+        >;
+    };
 };
 
 export type TakeFunction__Options = {
@@ -59,36 +58,31 @@ export type TakeFunction__Options = {
 
 };
 
-
 type Returns<K extends TakeFunctionKind, O extends TakeFunction__Options> = K extends "start-end"
     ? unknown
     : K extends "static"
-    ? StaticBuilder<O>
-    : K extends "while"
-    ? any
-    : never;
-
+        ? StaticBuilder<O>
+        : K extends "while"
+            ? any
+            : never;
 
 function staticBuilder<O extends TakeFunction__Options>(opt: O) {
-
     const builder: StaticBuilder<O> = {
         enum<TItems extends readonly string[]>(...items: TItems) {
             return {
                 callback(cb) {
-
                     return (lexer) => {
                         const result = createStaticTakeFunction(items, cb)(lexer);
 
                         return result;
-                    }
+                    };
                 }
-            }
+            };
         }
     };
 
     return builder;
 }
-
 
 /**
  * **createTakeFunction**`(kind,[ opt ]) -> kind specific api`

@@ -1,5 +1,4 @@
-import { Constant } from "inferred-types/constants";
-
+import type { Constant } from "inferred-types/constants";
 
 /**
  * **createConstant**(kind)
@@ -12,7 +11,6 @@ function createConstant<TKind extends string>(kind: TKind) {
         kind,
     } as Constant<TKind>;
 }
-
 
 /**
  * **COMMA**

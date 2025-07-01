@@ -1,3 +1,1 @@
-import { createTakeFunction } from "runtime/take/create/createTakeFunction";
-
-export const takeStringToken = "not ready"
+export const takeStringToken = "not ready";

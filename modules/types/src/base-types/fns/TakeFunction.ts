@@ -1,4 +1,4 @@
-import { LexerState, Narrowable, Unset } from "inferred-types/types";
+import type { LexerState, Narrowable, Unset } from "inferred-types/types";
 
 /**
  * A _take function_ helps to extract a substring from the
@@ -11,4 +11,3 @@ export type TakeFunction = <
 >(token: TState) => Error
     | Unset
     | LexerState<string, [...TParsed, Narrowable]>;
-

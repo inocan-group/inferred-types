@@ -33,7 +33,7 @@ type Rest<T extends string> = Isolate<T> extends readonly [string, ...infer R ex
 
 type Parse<
     T extends string,
-    P  = NestedSplit<Content<T>, ",", { "{": "}"; "[": "]" }>
+    P = NestedSplit<Content<T>, ",", { "{": "}"; "[": "]" }>
 > = As<{
     [K in keyof P]: P[K] extends string
         ? FromInputToken__String<P[K]>

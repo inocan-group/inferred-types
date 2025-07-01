@@ -21,7 +21,7 @@ type InnerRest = { inner: string; rest: string };
 type Segment<
     T extends string,
     U extends readonly string[] = NestedSplit<RetainAfter<T, "WeakMap<">, ">"> extends readonly string[]
-        ?  NestedSplit<RetainAfter<T, "WeakMap<">, ">">
+        ? NestedSplit<RetainAfter<T, "WeakMap<">, ">">
         : []
 > = U extends [infer I extends string, ...(infer REST extends string[])]
     ? Contains<I, ","> extends true

@@ -30,13 +30,13 @@ type CompareTuple<
  * **Related:** `NarrowlyContains`
  */
 export type Contains<
-    TContent extends string | number | readonly Narrowable[],
-    TComparator extends Narrowable,
+    TContent extends string | number | readonly unknown[],
+    TComparator,
 > = [TContent] extends [string | number]
     ? Or<[IsWideType<TContent>, IsWideType<TComparator>]> extends true
         ? boolean
         : IsSubstring<`${TContent}`, AsString<AsUnion<TComparator>>>
 
-    : [TContent] extends [readonly Narrowable[]]
+    : [TContent] extends [readonly unknown[]]
         ? CompareTuple<TContent, AsUnion<TComparator>>
         : never;

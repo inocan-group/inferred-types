@@ -37,7 +37,7 @@ export type ComparisonLookup = {
     };
 
     endsWith: {
-        params: [string | number, ...readonly (string | number)[]];
+        params: readonly (string | number)[];
         convert: "stringUnion";
         accept: string | number;
         take: 1;
@@ -81,13 +81,13 @@ export type ComparisonLookup = {
     contains: {
         params: [substring: string | number];
         convert: ["stringLiteral"];
-        accept: string | number | readonly unknown[];
+        accept: string | number | readonly (string | number)[];
         take: 1;
     };
 
     containsAll: {
         params: [substrings: string | number, ...readonly (string | number)[]];
-        accept: string | number | readonly unknown[];
+        accept: string | number | readonly (string | number)[];
         convert: "stringArray";
         take: "*";
     };
@@ -98,7 +98,7 @@ export type ComparisonLookup = {
             val2: string | number,
             ...(string | number)[]
         ];
-        accept: string | number | readonly unknown[];
+        accept: string | number | readonly (string | number)[];
         convert: "stringUnion";
         take: "1";
     };
@@ -183,6 +183,7 @@ export type ComparisonLookup = {
 
     equalsSome: {
         params: [ potentialValues: unknown, unknown, ...unknown[] ];
+        accept: unknown;
         take: "*";
     };
 

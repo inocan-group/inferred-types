@@ -70,7 +70,7 @@ function apiSurface<T extends Nesting | NestingConfig__Named>(nesting: T) {
             split: TSplit,
             policy: TPolicy = "omit" as TPolicy
         ) {
-            return nestedSplit(content, split, nesting, policy)
+            return nestedSplit(content, split, nesting, policy);
         }
 
     };

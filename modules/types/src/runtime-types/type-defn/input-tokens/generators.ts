@@ -14,7 +14,6 @@ import type {
     IT_ContainerType
 } from "src/runtime-types/type-defn/input-tokens";
 
-
 /**
  * isolates based on explicit `Generator<...>` definition syntax
  */
@@ -44,7 +43,7 @@ type GeneratorRest<
  */
 type ParseGenerator<
     T extends string,
-    P  = NestedSplit<
+    P = NestedSplit<
         StripLeading<Trim<T>, `${"Async" | ""}Generator<`>,
         ","
     >

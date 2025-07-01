@@ -50,12 +50,12 @@ export type RetainAfter<
     TBreak extends string,
     TInclude extends boolean = false,
 > = As<
-IsNever<_RetainAfter<TStr, TBreak, TInclude>> extends true
-    ? ""
-    : IsUnion<_RetainAfter<TStr, TBreak, TInclude>> extends true
-        ? FindMaxLength<UnionToTuple<_RetainAfter<TStr, TBreak, TInclude>>>
-        : _RetainAfter<TStr, TBreak, TInclude>,
-string
+    IsNever<_RetainAfter<TStr, TBreak, TInclude>> extends true
+        ? ""
+        : IsUnion<_RetainAfter<TStr, TBreak, TInclude>> extends true
+            ? FindMaxLength<UnionToTuple<_RetainAfter<TStr, TBreak, TInclude>>>
+            : _RetainAfter<TStr, TBreak, TInclude>,
+    string
 >;
 
 export type RetainAfterLast<

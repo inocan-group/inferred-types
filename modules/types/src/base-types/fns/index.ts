@@ -9,4 +9,3 @@ export * from "./ParameterlessFn";
 export * from "./RegularFn";
 export * from "./TakeFunction";
 export * from "./TypedFunction";
-

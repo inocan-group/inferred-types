@@ -2,7 +2,6 @@ import type {
     AfterFirst,
     AllLengthOf,
     And,
-    As,
     Chars,
     DefaultNesting,
     Err,

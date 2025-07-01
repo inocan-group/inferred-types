@@ -15,7 +15,10 @@ import type {
     IsFalsy,
     IsTruthy,
     SomeEqual,
-    ToStringArray
+    ToStringArray,
+    EndsWithNumber,
+    EndsWith,
+    NumberLike
 } from "inferred-types/types";
 import {
     asChars,
@@ -23,12 +26,10 @@ import {
     asDateTime,
     contains,
     endsWith,
-    endsWithTypeguard,
     equalsSome,
     err,
     firstChar,
     hasIndexOf,
-    indexOf,
     isAlpha,
     isArray,
     isBoolean,
@@ -47,12 +48,13 @@ import {
     isStringOrNumericArray,
     isTrue,
     isTruthy,
-    lastChar,
     startsWith,
-    unset
+    last,
+    unset,
+    asNumber
 } from "inferred-types/runtime";
 import {  NUMERIC_CHAR } from "inferred-types/constants";
-import { EndsWith } from "@inferred-types/types";
+import { IsBetweenExclusively } from "@inferred-types/types";
 
 type Lookup = ComparisonLookup;
 
@@ -71,8 +73,8 @@ TVal & ComparisonAccept<TOp>
 
 function handle_string<
     TOp extends ComparisonOperation,
-    TParams extends Lookup[TOp]["params"],
-    TVal extends ComparisonAccept<TOp>
+    TParams extends readonly unknown[],
+    TVal extends Narrowable
 >(
     val: TVal,
     op: TOp,
@@ -80,9 +82,11 @@ function handle_string<
 ) {
     switch (op) {
         case "startsWith":
-            return (isString(val) || isNumber(val)) && isStringOrNumericArray(params)
+            return (
+                (isString(val) || isNumber(val)) && isStringOrNumericArray(params)
                 ? startsWith(...params as readonly (string | number)[])(val)
-                : false;
+                : false
+            );
 
         case "endsWith":
             return (
@@ -96,9 +100,15 @@ function handle_string<
                 : false;
 
         case "endsWithNumber":
-            return isString(val) || isNumber(val)
-                ? NUMERIC_CHAR.includes(lastChar(String(val)) as any)
-                : false;
+            return (
+                isString(val)
+                ? val === ""
+                    ? false
+                : asChars(val).length > 0
+                    ? NUMERIC_CHAR.includes(last(asChars(val)) as any)
+                    : false
+                : false
+            );
 
         case "startsWithNumber":
             return (
@@ -130,8 +140,8 @@ function handle_string<
 
 function handle_general<
     TOp extends ComparisonOperation,
-    TParams extends Lookup[TOp]["params"],
-    TVal extends ComparisonAccept<TOp>
+    TParams extends readonly unknown[],
+    TVal extends Narrowable
 >(
     val: TVal,
     op: TOp,
@@ -202,74 +212,43 @@ function handle_general<
     return unset;
 }
 
-function handle_numeric<TOp extends ComparisonOperation, TParams extends Lookup[TOp]["params"]>(
-    val: ComparisonAccept<TOp>,
+function handle_numeric<
+    TOp extends ComparisonOperation,
+    TParams extends readonly unknown[],
+    TVal extends Narrowable
+>(
+    val: TVal,
     op: TOp,
     params: TParams
 ) {
     switch (op) {
         case "greaterThan":
-            if (!isNumberLike(val))
-                return false;
-            if (!isNumberLike(params[0])) {
-                return err(
-                    `invalid-params/greaterThan`,
-                    `The 'greaterThan' operation requires a numeric parameter`,
-                    { params }
-                );
-            }
             return Number(val) > Number(params[0]);
 
         case "greaterThanOrEqual":
-            if (!isNumberLike(val))
-                return false;
-            if (!isNumberLike(params[0])) {
-                return err(
-                    `invalid-params/greaterThanOrEqual`,
-                    `The 'greaterThanOrEqual' operation requires a numeric parameter`,
-                    { params }
-                );
-            }
             return Number(val) >= Number(params[0]);
 
         case "lessThan":
-            if (!isNumberLike(val))
-                return false;
-            if (!isNumberLike(params[0])) {
-                return err(
-                    `invalid-params/lessThan`,
-                    `The 'lessThan' operation requires a numeric parameter`,
-                    { params }
-                );
-            }
             return Number(val) < Number(params[0]);
 
         case "lessThanOrEqual":
-            if (!isNumberLike(val))
-                return false;
-            if (!isNumberLike(params[0])) {
-                return err(
-                    `invalid-params/lessThanOrEqual`,
-                    `The 'lessThanOrEqual' operation requires a numeric parameter`,
-                    { params }
-                );
-            }
             return Number(val) <= Number(params[0]);
 
         case "betweenExclusively":
-            if (!isNumberLike(val))
-                return false;
-            if (!isNumberLike(params[0]) || !isNumberLike(params[1])) {
-                return err(
-                    `invalid-params/betweenExclusively`,
-                    `The 'betweenExclusively' operation requires two numeric parameters`,
-                    { params }
-                );
+            if(
+                isNumberLike(val)
+                && isNumberLike(params[0])
+                && isNumberLike(params[1])
+            ) {
+                const valNumExcl = Number(val);
+                const minExcl = asNumber(params[0]);
+                const maxExcl = asNumber(params[1]);
+                return (
+                    valNumExcl > minExcl && valNumExcl < maxExcl
+                ) as Compare<TVal, "betweenExclusively", TParams>;
+            } else {
+                return false as Compare<TVal, "betweenExclusively", TParams>;
             }
-            const valNumExcl = Number(val);
-            const minExcl = Number(params[0]);
-            const maxExcl = Number(params[1]);
-            return valNumExcl > minExcl && valNumExcl < maxExcl;
 
         case "betweenInclusively":
             if (!isNumberLike(val))
@@ -292,9 +271,10 @@ function handle_numeric<TOp extends ComparisonOperation, TParams extends Lookup[
 
 function handle_object<
     TOp extends ComparisonOperation,
-    TParams extends Lookup[TOp]["params"]
+    TParams extends readonly unknown[],
+    TVal extends Narrowable
 >(
-    val: ComparisonAccept<TOp>,
+    val: TVal,
     op: TOp,
     params: TParams
 ) {
@@ -377,10 +357,10 @@ function handle_object<
 
 function handle_datetime<
     const TOp extends ComparisonOperation,
-    const TParams extends Lookup[TOp]["params"],
-    const TAccept extends ComparisonAccept<TOp>
+    const TParams extends readonly unknown[],
+    const TVal extends Narrowable
 >(
-    val: TAccept,
+    val: TVal,
     op: TOp,
     params: TParams
 ): boolean | Error | Unset {
@@ -444,9 +424,10 @@ function handle_datetime<
 
 function handle_other<
     const TOp extends ComparisonOperation,
-    const TParams extends Lookup[TOp]["params"]
+    const TParams extends readonly unknown[],
+    const TVal extends Narrowable
 >(
-    val: ComparisonAccept<TOp>,
+    val: TVal,
     op: TOp,
     params: TParams
 ) {
@@ -494,18 +475,22 @@ function handle_other<
 
 export type CompareFn<
     TOp extends ComparisonOperation,
-    TParams extends Lookup[TOp]["params"] & readonly Narrowable[]
-> = <TVal extends ComparisonAccept<TOp> & Narrowable>(val: TVal) => Compare<TVal, TOp, TParams>;
+    TParams extends readonly unknown[]
+> = <TVal extends Narrowable>(val: TVal) => TParams extends ComparisonLookup[TOp]["params"]
+
+    ? Compare<TVal, TOp, TParams>
+    : false;
 
 function compareFn<
     const TOp extends ComparisonOperation,
-    const TParams extends Lookup[TOp]["params"]
+    const TParams extends readonly unknown[]
 >(
     op: TOp,
     ...params: TParams
 ) {
-    return <const TVal extends ComparisonAccept<TOp>>(val: TVal): Compare<TVal,TOp,TParams> =>  {
+    return <const TVal extends Narrowable>(val: TVal) =>  {
         let result: unknown = unset;
+
 
         result = handle_string(val,op,params);
 
@@ -556,7 +541,7 @@ function compareFn<
  */
 export function compare<
     const TOp extends ComparisonOperation,
-    const TParams extends readonly Narrowable[] & Lookup[TOp]["params"]
+    const TParams extends readonly unknown[]
 >(
     op: TOp,
     ...params: TParams

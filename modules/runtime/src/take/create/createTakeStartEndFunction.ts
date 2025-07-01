@@ -1,7 +1,3 @@
-import type { RuntimeTakeFunction } from "inferred-types/types";
-
-
-
 /**
  * **createTakeStartEndFunction**`(startEnd, opts) -> take fn`
  *

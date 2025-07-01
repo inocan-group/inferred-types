@@ -1,6 +1,6 @@
+import type { LexerState, TakeFunction } from "inferred-types/types";
 import { err } from "inferred-types/runtime";
-import { LexerState, TakeFunction } from "inferred-types/types";
-import { isArray, isError, isObject, isString, isUnset } from "runtime/type-guards";
+import { isArray, isError, isObject, isString } from "runtime/type-guards";
 
 type TrimType = "trim" | "trimStart" | "trimEnd" | "none";
 
@@ -10,13 +10,12 @@ type LexerOptions = {
      * the token string prior to passing to each take function.
      */
     trim: TrimType;
-}
-
+};
 
 export function isLexerState(val: unknown): val is LexerState {
     return isObject(val)
         && "remaining" in val && "tokens" in val
-        && isArray(val.tokens) && isString(val.remaining)
+        && isArray(val.tokens) && isString(val.remaining);
 }
 
 /**
@@ -41,9 +40,8 @@ export function createLexer<
     opt: TOpt,
     ...takeFns: TTake
 ) {
-
     return <TParse extends string>(token: TParse) => {
-        let state: LexerState = { parse: token, tokens: []};
+        let state: LexerState = { parse: token, tokens: [] };
 
         for (const take of takeFns) {
             switch (opt.trim) {
@@ -64,20 +62,18 @@ export function createLexer<
                         `parse/create-lexer`,
                         `The tokenizer provided as part of the createLexer() builder was called with a 'trim' option of '${String(opt.trim)} which is NOT known!`,
                         { trim: opt.trim }
-                    )
+                    );
             }
             const result = take(state);
-            if(isError(result)) {
+            if (isError(result)) {
                 return result; // fail fast
             }
 
-            if(isLexerState(result)) {
+            if (isLexerState(result)) {
                 state = result;
             }
         }
 
         return state;
-    }
-
-
+    };
 }

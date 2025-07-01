@@ -1,4 +1,4 @@
-import type {   IsEqual, Or } from "inferred-types/types";
+import type { IsEqual, Or } from "inferred-types/types";
 
 /**
  * **SomeEqual**`<TVal, TList>`
@@ -14,5 +14,4 @@ export type SomeEqual<
     TVal,
 > = Or<{
     [K in keyof TList]: IsEqual<TList[K], TVal>
-}>
-
+}>;

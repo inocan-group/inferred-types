@@ -5,4 +5,4 @@ import type { IsTruthy, Not } from "inferred-types/types";
  *
  * Boolean operator which tests whether `T` is _falsy_.
  */
-export type IsFalsy<T> = Not<IsTruthy<T>>
+export type IsFalsy<T> = Not<IsTruthy<T>>;

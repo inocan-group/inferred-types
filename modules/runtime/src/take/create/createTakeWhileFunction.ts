@@ -7,7 +7,6 @@ import {
     unset
 } from "inferred-types/runtime";
 
-
 type WhileOptions = {
     /**
      * A character or tuple of characters which _must follow_
@@ -71,8 +70,8 @@ export function createTakeWhileFunction<
     match: TMatch,
     opts: TOpt
 ): TOpt["callback"] extends TypedFunction
-    ? [ReturnType<TOpt["callback"]>, string] | Error | Unset
-    : Error | Unset | [string, string] {
+        ? [ReturnType<TOpt["callback"]>, string] | Error | Unset
+        : Error | Unset | [string, string] {
     return <TParse extends string>(str: TParse) => {
         const [head, rest] = takeWhile(
             asChars(str),
@@ -84,13 +83,11 @@ export function createTakeWhileFunction<
             // did not find the pattern
             return unset as TOpt["callback"] extends TypedFunction
                 ? [ReturnType<TOpt["callback"]>, string] | Error | Unset
-                : Error | Unset | [string, string]
+                : Error | Unset | [string, string];
         }
 
         return [head, rest] as TOpt["callback"] extends TypedFunction
             ? [ReturnType<TOpt["callback"]>, string] | Error | Unset
-            : Error | Unset | [string, string]
-
-
+            : Error | Unset | [string, string];
     };
 }

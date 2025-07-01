@@ -1,4 +1,4 @@
-import { Chars, First, FirstChar, NumericChar } from "inferred-types/types";
+import type { FirstChar, NumericChar } from "inferred-types/types";
 
 /**
  * **StartsWithNumber**`<T>`
@@ -7,11 +7,11 @@ import { Chars, First, FirstChar, NumericChar } from "inferred-types/types";
  * a numeric character.
  */
 export type StartsWithNumber<T> = T extends string
-? string extends T
-    ? boolean
-: T extends ""
-    ? false
-: FirstChar<T> extends NumericChar
-    ? true
-    : false
-: false;
+    ? string extends T
+        ? boolean
+        : T extends ""
+            ? false
+            : FirstChar<T> extends NumericChar
+                ? true
+                : false
+    : false;

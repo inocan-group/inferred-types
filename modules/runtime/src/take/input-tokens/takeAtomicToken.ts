@@ -1,7 +1,6 @@
 import type { RuntimeType__Atomic } from "inferred-types/types";
-import { createTakeFunction, createStaticTakeFunction } from "runtime/take/create";
-import { err, isNull, isNumber, isString, isUndefined, stripLeading, usingLookup } from "inferred-types/runtime";
-
+import { err, isNull, isNumber, isString, isUndefined } from "inferred-types/runtime";
+import { createStaticTakeFunction, createTakeFunction } from "runtime/take/create";
 
 type AtomicLookup<T extends string> = [T] extends ["null"]
     ? null
@@ -54,11 +53,17 @@ const Lookup = {
 
 export const takeAtomicToken = createTakeFunction("static")
     .enum(
-        "string", "number",
-        "true", "false", "boolean",
-        "null", "undefined", "symbol", "void"
+        "string",
+        "number",
+        "true",
+        "false",
+        "boolean",
+        "null",
+        "undefined",
+        "symbol",
+        "void"
     )
-    .callback(p => {
+    .callback((p) => {
         const { found, state } = p;
         const { parse, tokens } = state;
 
@@ -66,18 +71,15 @@ export const takeAtomicToken = createTakeFunction("static")
             throw err(`parser/atomic`);
         }
 
-        return Lookup[found as keyof typeof Lookup]
-
+        return Lookup[found as keyof typeof Lookup];
     });
 
-
-const a = takeAtomicToken({ parse: "stringy" })
-
+const a = takeAtomicToken({ parse: "stringy" });
 
 const b = createStaticTakeFunction(
     ["string", "number", "void", "true"],
-    payload => {
+    (payload) => {
         const { item, tokens } = payload;
     },
 
-)
+);

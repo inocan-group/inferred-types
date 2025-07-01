@@ -30,23 +30,23 @@ export type IsTruthy<T> = [T] extends [string]
             If<SomeEqual<[0, -0], T>, false, true>,
             boolean
         >
-    : If<
-        Or<[IsNull<T>, IsUndefined<T>]>,
-        false,
-        If<
-            Or<[IsArray<T>, IsObject<T>]>,
-            true,
-            [T] extends [boolean]
-                ? If<
-                    IsFalse<T>,
-                    false,
-                    If<
-                        IsTrue<T>,
-                        true,
-                        boolean
+        : If<
+            Or<[IsNull<T>, IsUndefined<T>]>,
+            false,
+            If<
+                Or<[IsArray<T>, IsObject<T>]>,
+                true,
+                [T] extends [boolean]
+                    ? If<
+                        IsFalse<T>,
+                        false,
+                        If<
+                            IsTrue<T>,
+                            true,
+                            boolean
+                        >
                     >
-                >
-                : never
-        >
+                    : never
+            >
 
-    >;
+        >;

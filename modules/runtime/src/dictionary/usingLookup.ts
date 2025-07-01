@@ -1,6 +1,5 @@
-import { Dictionary, Narrowable, StringKeys, Suggest, Unset } from "@inferred-types/types";
+import type { Dictionary, Narrowable, StringKeys, Suggest, Unset } from "@inferred-types/types";
 import { unset } from "inferred-types/runtime";
-
 
 export function usingLookup<
     const TLookup extends Dictionary<string>,
@@ -9,7 +8,6 @@ export function usingLookup<
     lookup: TLookup,
     missing: TMissing = unset as TMissing
 ) {
-
     return <
         const TKey extends Suggest<StringKeys<TLookup>[number]>,
     >(
@@ -20,6 +18,5 @@ export function usingLookup<
                 ? lookup[key]
                 : missing
         );
-    }
-
+    };
 }

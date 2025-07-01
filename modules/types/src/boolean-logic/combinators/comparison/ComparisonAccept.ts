@@ -10,6 +10,4 @@ import type { ComparisonLookup, ComparisonOperation, Narrowable } from "inferred
  */
 export type ComparisonAccept<
     TOp extends ComparisonOperation
-> = "accept" extends keyof ComparisonLookup[TOp]
-    ? ComparisonLookup[TOp]["accept"]
-    : Narrowable;
+> = Narrowable;

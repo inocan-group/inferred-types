@@ -44,8 +44,6 @@ export type Filter<
     TParams
 >;
 
-
-
 /**
  * **FilterFn**`<TOp, TParams>`
  *

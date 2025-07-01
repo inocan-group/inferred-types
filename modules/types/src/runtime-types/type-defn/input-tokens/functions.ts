@@ -243,7 +243,7 @@ type Info<T extends string> = As<
                 name: "";
                 args: [...args: any[]];
                 return: NestedSplit<Rest, ")"> extends readonly string[]
-                    ?  NestedSplit<Rest, ")">[0]
+                    ? NestedSplit<Rest, ")">[0]
                     : never;
                 narrowing: IsNarrowing<T>;
                 rest: NestedSplit<Rest, ")"> extends readonly string[]

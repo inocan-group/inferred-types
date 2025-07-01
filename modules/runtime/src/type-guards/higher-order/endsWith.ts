@@ -30,11 +30,11 @@ export function endsWith<
 >(...endingWith: TEndsWith) {
     return <
         const TValue extends string | number,
-    >(val: TValue): EndsWith<TValue, ToStringArray<TEndsWith>> => {
+    >(val: TValue): EndsWith<TValue, TEndsWith> => {
         return (
             isString(val) || isNumber(val)
                 ? endingWith.some(i => String(val).endsWith(String(i)))
                 : false
-        ) as EndsWith<TValue, ToStringArray<TEndsWith>> ;
+        ) as EndsWith<TValue, TEndsWith>;
     };
 }

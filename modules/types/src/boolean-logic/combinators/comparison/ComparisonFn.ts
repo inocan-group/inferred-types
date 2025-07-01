@@ -38,4 +38,3 @@ ComparisonDesc<TOp, TParams> extends string
             ? Compare<T, TOp, TParams>
             : never
 );
-

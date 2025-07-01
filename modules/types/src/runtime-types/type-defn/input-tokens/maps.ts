@@ -20,7 +20,7 @@ type InnerRest = { inner: string; rest: string };
 
 type Segment<
     T extends string,
-    U  = NestedSplit<
+    U = NestedSplit<
         RetainAfter<T, "Map<">,
         ">"
     >

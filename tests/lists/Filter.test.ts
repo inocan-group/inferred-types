@@ -452,7 +452,7 @@ describe("filter()", () => {
         const findFoo = filter("extends", "string" as string);
         const t = findFoo(["foo", "" as string, 42, "bar", 99]);
 
-        expect(t).toEqual(["fooBar", "barBar"]);
+        expect(t).toEqual(["foo", "", "bar"]);
         type cases = [
             Expect<Test<typeof t, "equals", ["foo", string, "bar"]>>
         ];
