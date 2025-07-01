@@ -1,18 +1,10 @@
 import type {
     AfterFirst,
-    As,
-    AsArray,
     Compare,
     ComparisonAccept,
-    ComparisonInputDefault,
-    ComparisonInputToTuple,
     ComparisonLookup,
     ComparisonOperation,
-    Err,
-    First,
-    GetComparisonParamInput,
-    If,
-    Narrowable
+    First
 } from "inferred-types/types";
 
 type FindAcc<

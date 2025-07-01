@@ -30,7 +30,7 @@ export type ComparisonLookup = {
     };
 
     startsWith: {
-        params: [string | number, ...readonly (string | number)[]];
+        params: readonly (string | number)[];
         convert: "stringUnion";
         accept: string | number;
         take: 1;

@@ -33,7 +33,7 @@ import {
     isTruthy,
     isUnset,
     lastChar,
-    startsWith,
+    startsWithTypeguard,
     unset
 } from "inferred-types/runtime";
 import { ComparisonAccept, NUMERIC_CHAR } from "../../../inferred-types/dist";

@@ -25,7 +25,7 @@ export function inputTokenParser<TToken extends string>(token: TToken) {
     const result = lexer(token);
 
     if(isLexerState(result)) {
-        if (result.remaining.trim() === "") {
+        if (result.parse.trim() === "") {
             if(hasUnionToken(result)) {
 
             } else if (hasIntersectionToken(result)) {
@@ -37,7 +37,7 @@ export function inputTokenParser<TToken extends string>(token: TToken) {
             if (result.tokens.length > 0) {
                 err(
                     "parse/leftover",
-                    `There were ${result.tokens.length} tokens which were resolved but then the remaining string -- '${result.remaining}' -- could not be parsed!`
+                    `There were ${result.tokens.length} tokens which were resolved but then the remaining string -- '${result.parse}' -- could not be parsed!`
 
                 )
             }

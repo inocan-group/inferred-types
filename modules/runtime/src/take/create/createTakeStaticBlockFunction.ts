@@ -1,37 +1,57 @@
 import {
+    Find,
     LexerState,
-    Narrowable,
-    StripLeading,
+    Or,
     Unset,
+    StartsWith, StripLeading
 } from "inferred-types/types";
 
 import {
-    err,
+    compare,
+    find,
+    startsWith,
     stripLeading,
-    toStringLiteral__Tuple,
     unset
 } from "inferred-types/runtime";
 
 
-type StaticCallBack<TItems extends readonly string[]> = <
-    T extends TItems[number]
->(item: T) => Narrowable;
-
-
-type Returns<
-    TRtn extends unknown,
+export type StaticTakeFunction__CallBack<
     TItems extends readonly string[],
-    TFound extends string,
+    TState extends Required<LexerState<TParse, TTokens>>,
+    TParse extends string = string,
+    TTokens extends readonly unknown[] = readonly unknown[]
+> = <
+    T extends TItems[number]
+>(payload: {
+    /** the static token found at the HEAD of the parse string */
+    found: T,
+    /** the parse string and tokens (updated with latest token) */
+    state: TState
+}) => unknown;
+
+
+export type StaticTakeFunction__Rtn<
     TState extends LexerState,
-> = TState extends {
-    remaining: infer Remain extends string;
-    tokens: infer Tokens extends readonly Narrowable[]
-}
-? {
-    remaining: StripLeading<Remain, TFound>,
-    tokens: [...Tokens, TRtn]
-}
-: Unset;
+    TItems extends readonly string[],
+    TRtn,
+    TRemain extends string = TState["parse"],
+    TTokens extends readonly unknown[] =
+        TState["tokens"] extends readonly unknown[]
+            ? TState["tokens"]
+            : [],
+> = Or<{
+    [K in keyof TItems]: StartsWith<TRemain, TItems[K]>
+}> extends true
+    ? {
+        parse: StripLeading<
+            TRemain,
+            Find<TItems, "startsWith",[ TRemain ]> extends string
+                ? Find<TItems, "startsWith", [ TRemain ]>
+                : never
+        >,
+        tokens: [...TTokens, TRtn]
+    }
+    : Unset;
 
 
 /**
@@ -41,58 +61,42 @@ type Returns<
  * in an enumerated set of
  */
 export function createStaticTakeFunction<
-    const TCb extends StaticCallBack<TItems>,
-    const TItems extends readonly string[]
+    const TCb extends StaticTakeFunction__CallBack<
+        TItems,
+        Required<LexerState>
+    >,
+    TItems extends readonly string[]
 >(
+    items: TItems,
     cb: TCb,
-    ...items: TItems
 ) {
     return <
-        const TState extends LexerState<TParse, TTokens>,
+        const TState extends Required<LexerState<TParse,TTokens>>,
         const TParse extends string,
-        const TTokens extends (readonly Narrowable[] | [])
+        const TTokens extends readonly unknown[]
     >(
         state: TState
     ) => {
-        try {
-            const found = items.find(i => state.remaining.startsWith(i));
+            const found = find("startsWith", state.parse)(items);
+
             if (found) {
-                const rtn = cb(found);
+                const rtn = cb({ found, state });
                 return {
-                    remaining: stripLeading(state.remaining, found),
-                    tokens: [...(state.tokens), rtn]
-                } satisfies LexerState as unknown as Returns<
-                    ReturnType<TCb>,
+                    parse: stripLeading(state.parse, found),
+                    tokens: [...(state.tokens || []), rtn]
+                } satisfies LexerState as StaticTakeFunction__Rtn<
+                    TState,
                     TItems,
-                    typeof found,
-                    TState
+                    ReturnType<TCb>
                 >
             }
 
-            return unset as Returns<
-                ReturnType<TCb>,
+            return unset as StaticTakeFunction__Rtn<
+                TState,
                 TItems,
-                "",
-                TState
+                ReturnType<TCb>
             >;
-        } catch (e) {
-            return err(
-                `parse/static`,
-                `the take function provided by createStaticTakeFunction() hit an error: ${e instanceof Error ? e.message : String(e) }`,
-                { cb, items: toStringLiteral__Tuple(items), remaining: state.remaining, tokens: state.tokens }
-            )
-        }
-
     }
 }
 
 
-const a = createStaticTakeFunction(
-    (i): string => i === "Chris"
-        ? "someone"
-        : i === "Bob" ? "yur uncle" : "who knows",
-    "Bob", "Chris", "Mary"
-)
-
-
-const b = a({remaining: "Bob is yur uncle", tokens: []});

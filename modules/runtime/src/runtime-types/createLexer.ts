@@ -43,18 +43,18 @@ export function createLexer<
 ) {
 
     return <TParse extends string>(token: TParse) => {
-        let state: LexerState = { remaining: token, tokens: []};
+        let state: LexerState = { parse: token, tokens: []};
 
         for (const take of takeFns) {
             switch (opt.trim) {
                 case "trim": {
-                    state.remaining = state.remaining.trim();
+                    state.parse = state.parse.trim();
                 }
                 case "trimEnd": {
-                    state.remaining = state.remaining.trimEnd();
+                    state.parse = state.parse.trimEnd();
                 }
                 case "trimStart": {
-                    state.remaining = state.remaining.trimStart();
+                    state.parse = state.parse.trimStart();
                 }
                 case "none": {
                     break;

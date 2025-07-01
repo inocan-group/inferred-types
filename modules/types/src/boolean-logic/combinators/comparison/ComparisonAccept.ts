@@ -1,4 +1,4 @@
-import type { ComparisonLookup, ComparisonOperation } from "inferred-types/types";
+import type { ComparisonLookup, ComparisonOperation, Equals, Narrowable } from "inferred-types/types";
 
 /**
  * **ComparisonAccept**`<TOp>`
@@ -8,6 +8,10 @@ import type { ComparisonLookup, ComparisonOperation } from "inferred-types/types
  * - those operations which don't state an explicit `accept` property
  * in their definitions will be assigned the type `unknown`.
  */
-export type ComparisonAccept<TOp extends ComparisonOperation> = "accept" extends keyof ComparisonLookup[TOp]
-    ? ComparisonLookup[TOp]["accept"]
-    : unknown;
+export type ComparisonAccept<
+    TOp extends ComparisonOperation
+> = "accept" extends keyof ComparisonLookup[TOp]
+    ? Equals<ComparisonLookup[TOp]["accept"], unknown> extends true
+        ? Narrowable
+        : ComparisonLookup[TOp]["accept"]
+    : Narrowable;

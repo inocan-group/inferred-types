@@ -1,5 +1,4 @@
-import { Equal, Expect, ExpectTrue } from "@type-challenges/utils";
-import { ErrorCondition, Extends, Or, Test } from "inferred-types/types";
+import {  Or, Expect, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 
@@ -21,6 +20,8 @@ describe("Or<T>", () => {
             Expect<Test<T3, "equals",  false>>,
             Expect<Test<T4, "equals",  true>>,
             Expect<Test<T5, "equals",  boolean>>,
+            Expect<Test<T6, "equals",  boolean>>,
+            Expect<Test<T7, "isError",  "invalid/never">>,
         ];
     });
 

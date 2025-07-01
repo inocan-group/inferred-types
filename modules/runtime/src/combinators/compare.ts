@@ -1,29 +1,41 @@
 import type {
+    As,
+    Compare,
+    ComparisonAccept,
     ComparisonLookup,
     ComparisonOperation,
     DateLike,
-    Equals,
+
+    IsAfter,
+
     IsEqual,
     Narrowable,
+    ObjectKey,
+    StartsWith,
     Unset
 } from "inferred-types/types";
-import type { ObjectKey } from "../../../inferred-types/dist";
 import {
     asChars,
     asDate,
     asDateTime,
+    contains,
     endsWith,
+    equalsSome,
     err,
     firstChar,
     hasIndexOf,
+    indexOf,
     isAlpha,
     isArray,
+    isBoolean,
     isDateLike,
     isEqual,
+    isError,
     isFalse,
     isFalsy,
     isFunction,
     isInputTokenLike,
+    isNarrowable,
     isNarrowableTuple,
     isNumber,
     isNumberLike,
@@ -32,30 +44,22 @@ import {
     isStringOrNumericArray,
     isTrue,
     isTruthy,
-    isUnset,
     lastChar,
     startsWith,
     unset
 } from "inferred-types/runtime";
-import { NUMERIC_CHAR } from "../../../inferred-types/dist";
-import { contains } from "./contains";
+import { Never, NUMERIC_CHAR } from "inferred-types/constants";
 
 type Lookup = ComparisonLookup;
-
-type Accept<TOp extends ComparisonOperation> = "accept" extends keyof ComparisonLookup[TOp]
-    ? Equals<ComparisonLookup[TOp]["accept"], unknown> extends true
-        ? Narrowable
-        : ComparisonLookup[TOp]["accept"]
-    : Narrowable;
 
 function handle_string<
     TOp extends ComparisonOperation,
     TParams extends Lookup[TOp]["params"]
 >(
-    val: Accept<TOp>,
+    val: ComparisonAccept<TOp>,
     op: TOp,
     params: TParams
-): boolean | Error | Unset {
+) {
     switch (op) {
         case "startsWith":
             return (isString(val) || isNumber(val)) && isStringOrNumericArray(params)
@@ -99,7 +103,7 @@ function handle_string<
 function handle_general<
     TOp extends ComparisonOperation,
     TParams extends Lookup[TOp]["params"],
-    TVal extends Accept<TOp> & Narrowable = Accept<TOp> & Narrowable
+    TVal extends ComparisonAccept<TOp>
 >(
     val: TVal,
     op: TOp,
@@ -116,11 +120,11 @@ function handle_general<
             return err(
                 `not-ready/doesExtend`,
                 `The "extends" comparison operation depends on doesExtend() and that is not completed yet!`,
-                { val, params }
+                { val: isNarrowable(val) ? val : typeof val, params }
             );
 
         case "equals":
-            return isEqual(val)(params[0] as any) as IsEqual<TVal, TParams[0]>;
+            return val === params[0];
 
         case "false":
             return isFalse(val);
@@ -132,10 +136,10 @@ function handle_general<
             return isTruthy(val);
 
         case "falsy":
-            return isFalsy(val);
+            return isNarrowable(val) && isFalsy(val);
 
         case "equalsSome":
-            return params.includes(val);
+            return isNarrowable(val) && equalsSome(params)(val);
 
         case "contains":
             return isString(val) || isNumber(val) || isNarrowableTuple(val)
@@ -157,16 +161,11 @@ function handle_general<
                 : false;
     }
 
-    // If we get here, it's not a recognized operation
-    return err(
-        `invalid-comparison`,
-        `The operation '${op}' is not a supported operation!`,
-        { op, params }
-    );
+    return unset;
 }
 
 function handle_numeric<TOp extends ComparisonOperation, TParams extends Lookup[TOp]["params"]>(
-    val: Accept<TOp>,
+    val: ComparisonAccept<TOp>,
     op: TOp,
     params: TParams
 ): boolean | Error | Unset {
@@ -257,7 +256,7 @@ function handle_object<
     TOp extends ComparisonOperation,
     TParams extends Lookup[TOp]["params"]
 >(
-    val: Accept<TOp>,
+    val: ComparisonAccept<TOp>,
     op: TOp,
     params: TParams
 ): boolean | Error | Unset {
@@ -341,7 +340,7 @@ function handle_object<
 function handle_datetime<
     const TOp extends ComparisonOperation,
     const TParams extends Lookup[TOp]["params"],
-    const TAccept extends Accept<TOp>
+    const TAccept extends ComparisonAccept<TOp>
 >(
     val: TAccept,
     op: TOp,
@@ -409,7 +408,7 @@ function handle_other<
     const TOp extends ComparisonOperation,
     const TParams extends Lookup[TOp]["params"]
 >(
-    val: Accept<TOp>,
+    val: ComparisonAccept<TOp>,
     op: TOp,
     params: TParams
 ): boolean | Error | Unset {
@@ -455,58 +454,114 @@ function handle_other<
     return unset;
 }
 
+// const handlers: Record<
+//    string,
+//     (<
+//             T extends Narrowable,
+//             P extends readonly (Narrowable)[]
+//         >(val: T, params: P) => boolean
+//     )
+// > = {
+//     after: (val, params) => (
+//         isDateLike(val) && isDateLike(params[0])
+//             ? asDateTime(val).getTime() > asDateTime(params[0]).getTime()
+//             : false
+//     ) as IsDateLike<typeof val> extends true
+//         ? IsDateLike<typeof params[0]> extends true
+//             ? IsAfter<As<typeof val, DateLike>, As<typeof params[0], DateLike>>
+//             : false
+//         : false,
+//     before: (val, params) => (
+//         isDateLike(val) && isDateLike(params[0])
+//             ? asDateTime(val).getTime() < asDateTime(params[0]).getTime()
+//             : false
+//     ) as IsDateLike<typeof val> extends true
+//         ? IsDateLike<typeof params[0]> extends true
+//             ? IsBefore<As<typeof val, DateLike>, As<typeof params[0], DateLike>>
+//             : false
+//         : false,
+//     startsWith: (val, params) => (
+//         (isString(val) || isNumber(val)) && isStringOrNumericArray(params)
+//             ? startsWith(...params)(val)
+//             : false
+//     ) as typeof val extends string | number
+//         ? typeof params extends readonly (string|number)[]
+//             ? StartsWith<typeof val, typeof params>
+//             : false
+//         : false,
+//     equalsSome: (val, params) => (
+//         equalsSome(params)(val)
+//     )
+
+
+// };
+
+export type CompareFn<
+    TOp extends ComparisonOperation,
+    TParams extends Lookup[TOp]["params"] & readonly Narrowable[]
+> = <TVal extends ComparisonAccept<TOp> & Narrowable>(val: TVal) => Compare<TVal, TOp, TParams>;
+
 function compareFn<
     const TOp extends ComparisonOperation,
-    const TParams extends Lookup[TOp]["params"]
+    const TParams extends Lookup[TOp]["params"] & readonly Narrowable[]
 >(
     op: TOp,
-    params: TParams
+    ...params: TParams
 ) {
-    return <TVal extends Accept<TOp> & Narrowable>(val: TVal) => {
-        let result: Error | Unset | boolean = unset;
+    return <
+        const TVal extends ComparisonAccept<TOp> & Narrowable
+    >(
+        val: TVal
+    ): Compare<TVal,TOp,TParams> => {
+        // const fn = handlers[op];
 
-        // Route to appropriate handler based on operation type
+        // return fn(val, params) as Compare<TVal,TOp,TParams>;
 
-        // DateTime operations
-        if (["after", "before", "sameDay", "sameMonth", "sameMonthYear", "sameYear"].includes(op)) {
-            result = handle_datetime(val, op, params);
-        }
-        // String operations
-        else if (["startsWith", "endsWith", "endsWithNumber", "startsWithNumber", "onlyNumbers", "onlyLetters", "alphaNumeric"].includes(op)) {
-            result = handle_string(val, op, params);
-        }
-        // Numeric operations
-        else if (["greaterThan", "greaterThanOrEqual", "lessThan", "lessThanOrEqual", "betweenExclusively", "betweenInclusively"].includes(op)) {
-            result = handle_numeric(val, op, params);
-        }
-        // Object operations
-        else if (["objectKeyGreaterThan", "objectKeyGreaterThanOrEqual", "objectKeyLessThan", "objectKeyLessThanOrEqual", "objectKeyEquals", "objectKeyExtends"].includes(op)) {
-            result = handle_object(val, op, params);
-        }
-        // Other operations
-        else if (["errors", "errorsOfType", "returnEquals", "returnExtends"].includes(op)) {
-            result = handle_other(val, op, params);
-        }
-        // General operations (default)
-        else {
-            result = handle_general(val, op, params);
+        let result: unknown = unset;
+
+        result = handle_string(val,op,params);
+
+        if (isBoolean(result) || isError(result)) {
+            return result as Compare<TVal,TOp,TParams>
         }
 
-        // If still unset, the operation is not supported
-        if (isUnset(result)) {
-            return err(
-                `invalid-comparison`,
-                `The operation '${op}' is not a supported operation!`,
-                { op, params }
-            );
+        result = handle_datetime(val, op, params);
+
+        if (isBoolean(result) || isError(result)) {
+            return result as Compare<TVal,TOp,TParams>
         }
 
-        return result;
+        result = handle_numeric(val, op, params);
+
+        if (isBoolean(result) || isError(result)) {
+            return result as Compare<TVal,TOp,TParams>
+        }
+
+        result = handle_object(val, op, params);
+
+        if (isBoolean(result) || isError(result)) {
+            return result as Compare<TVal,TOp,TParams>
+        }
+
+        result = handle_other(val, op, params);
+
+        if (isBoolean(result) || isError(result)) {
+            return result as Compare<TVal,TOp,TParams>
+        }
+
+        result = handle_general(val, op, params);
+
+        if (isBoolean(result) || isError(result)) {
+            return result as Compare<TVal,TOp,TParams>
+        }
+
+        return Never;
+
     };
 }
 
 /**
- * **compare**`(op, params) -> (val) -> boolean`
+ * **compare**`(op, ...params) -> (val) -> boolean`
  *
  * A higher order function which can perform type-strong comparison
  * operations.
@@ -516,7 +571,7 @@ export function compare<
     const TParams extends Lookup[TOp]["params"]
 >(
     op: TOp,
-    params: TParams
+    ...params: TParams
 ) {
-    return compareFn(op, params);
+    return compareFn<TOp,TParams>(op, ...params);
 }

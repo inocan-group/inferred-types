@@ -8,9 +8,11 @@ export * from "./omitKeys";
 export * from "./retainKeys";
 export * from "./reverseLookup";
 export * from "./sharedKeys";
+export * from "./usingLookup";
 export * from "./valuesOf";
 export * from "./withDefaults";
 export * from "./withKeys";
 export * from "./withoutKeys";
 export * from "./withoutValue";
 export * from "./withValue";
+

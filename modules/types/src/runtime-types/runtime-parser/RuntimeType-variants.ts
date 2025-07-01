@@ -7,7 +7,8 @@ import type {
     TypedFunctionWithDictionary
 } from "inferred-types/types";
 
-type Atomic = null | undefined | true | false | boolean | symbol;
+type AtomicType = null | undefined | true | false | boolean | symbol | string | number | void;
+
 type Literal = string | number;
 type Kv = Record<ObjectKey, Narrowable> | Map<Narrowable, Narrowable> | WeakMap<Narrowable & object, Narrowable>;
 type RuntimeSet = Set<Narrowable>;
@@ -24,8 +25,8 @@ type RuntimeGenerator = Generator<unknown, any, any>;
  * an _atomic_ variant of `RuntimeType<T,U>`
  */
 export type RuntimeType__Atomic<
-    T extends string,
-    U extends Atomic
+    T extends string = string,
+    U extends AtomicType = AtomicType
 > = {
     readonly kind: "atomic";
     readonly token: T;
@@ -114,7 +115,7 @@ export type RuntimeType__Generator<
 export type RuntimeType<
     T extends string = string,
     U = any,
-> = U extends Atomic
+> = U extends AtomicType
     ? RuntimeType__Atomic<T, U>
     : U extends Literal
         ? RuntimeType__Literal<T, U>

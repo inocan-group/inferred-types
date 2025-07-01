@@ -22,6 +22,8 @@ export function find<
     ...params: TParams
 ): FindFunction<TOp, TParams> {
     return (list) => {
-        return list.find(i => compare(op, params)(i))
+        return list.find(
+            i => compare(op, params)(i)
+        )
     }
 }

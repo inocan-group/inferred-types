@@ -1,10 +1,10 @@
-import { Narrowable } from "src/literals";
+
 
 
 export type LexerState<
     T extends string = string,
-    U extends readonly Narrowable[] = readonly Narrowable[]
+    U extends readonly unknown[] = readonly unknown[]
 > = {
-    remaining: T;
-    tokens: U;
+    parse: T;
+    tokens?: U;
 }
