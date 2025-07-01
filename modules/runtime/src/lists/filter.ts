@@ -1,45 +1,17 @@
 import type {
+    ComparisonAccept,
     ComparisonLookup,
     ComparisonOperation,
-    DateLike,
-    Equals,
     Filter,
     FilterFn,
-    Narrowable,
-    Unset,
 } from "inferred-types/types";
 import {
-    asChars,
-    asDate,
     compare,
-    endsWithTypeguard,
-    err,
-    firstChar,
-    isAfter,
-    isAlpha,
-    isArray,
-    isBefore,
-    isDateLike,
-    isEqual,
-    isFalse,
-    isFalsy,
-    isInputTokenLike,
-    isNarrowableTuple,
-    isNumber,
-    isNumberLike,
-    isString,
-    isStringOrNumericArray,
-    isTrue,
-    isTruthy,
-    isUnset,
-    lastChar,
-    startsWithTypeguard,
-    unset
 } from "inferred-types/runtime";
-import { ComparisonAccept, NUMERIC_CHAR } from "../../../inferred-types/dist";
-import { contains } from "../combinators/contains";
+
 
 type Lookup = ComparisonLookup;
+
 
 function filterFn<
     const TOp extends ComparisonOperation,
@@ -47,17 +19,19 @@ function filterFn<
 >(
     op: TOp,
     params: TParams
-) {
+): FilterFn<TOp,TParams> {
     return <const TList extends readonly ComparisonAccept<TOp>[]>(list: TList) => {
         return (
             list.filter((item) => {
-                const result = compare(op, params)(item as any);
-                if (result instanceof Error) {
-                    throw result;
-                }
+                const result = compare(op, params)(item as any) as unknown as boolean;
+
                 return result === true;
             })
-        ) as Filter<TList, TOp, TParams>;
+        ) as Filter<
+            TList,
+            TOp,
+            TParams
+        >;
     };
 }
 

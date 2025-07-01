@@ -118,6 +118,34 @@ Each module (`constants`, `types`, `runtime`, `inferred-types`) has consistent s
 - **Test organization**: `/tests/` directory with subdirectories by feature area
 - **Module aliases**: Configured in Vitest for clean imports during testing
 
+### Type Testing Philosophy
+
+Type testing is crucial in this repo focused on narrow, high-quality types:
+
+- **All type utilities** must be thoroughly tested to ensure intended function and avoid "complex and possibly infinite" type errors
+- **Runtime functions** should be tested for both runtime output AND types - these must always be aligned
+- **Type tests are valued equally** with runtime tests
+
+### Type Test Structure
+
+Type tests use the `Expect` and `Test` utilities:
+
+```ts
+import { Expect, Test } from "inferred-types/types";
+
+type cases = [
+    Expect<Test<ActualType, "equals", ExpectedType>>,
+    // More test cases...
+];
+```
+
+**Test comparison types:**
+- `equals` - exact type equality
+- `extends` - type extension relationship  
+- `hasSameKeys` - dictionary key comparison
+- `hasSameValues` - container value comparison (order-independent)
+- `isError<T>` - error type testing (supports Error types, string error types, or generic error checking)
+
 ## Release Process
 
 ```bash

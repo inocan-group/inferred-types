@@ -5,7 +5,8 @@ import {
     Test,
     UnionToTuple,
     UpperAlphaChar,
-    EndsWith
+    EndsWith,
+    NumberLike
 } from "inferred-types/types";
 import { filter } from "inferred-types/runtime";
 
@@ -13,9 +14,9 @@ import { filter } from "inferred-types/runtime";
 describe("Filter", () => {
 
     it("extends, read-write Tuple, single filter", () => {
-        type T1 = Filter<[1, 2, "foo", "bar"], "extends", string>;
-        type T2 = Filter<[1, 2, "foo", "bar"], "extends", number>;
-        type T3 = Filter<[1, 2, "foo", "bar", 1], "extends", 1>;
+        type T1 = Filter<[1, 2, "foo", "bar"], "extends", [string]>;
+        type T2 = Filter<[1, 2, "foo", "bar"], "extends", [number]>;
+        type T3 = Filter<[1, 2, "foo", "bar", 1], "extends", [1]>;
 
         type cases = [
             Expect<Test<T1, "equals", ["foo", "bar"]>>,
@@ -25,9 +26,9 @@ describe("Filter", () => {
     });
 
     it("extends, readonly Tuple, single filter", () => {
-        type T1 = Filter<readonly [1, 2, "foo", "bar"], "extends", string>;
-        type T2 = Filter<readonly [1, 2, "foo", "bar"], "extends", number>;
-        type T3 = Filter<readonly [1, 2, "foo", "bar"], "extends", 1>;
+        type T1 = Filter<readonly [1, 2, "foo", "bar"], "extends", [string]>;
+        type T2 = Filter<readonly [1, 2, "foo", "bar"], "extends", [number]>;
+        type T3 = Filter<readonly [1, 2, "foo", "bar"], "extends", [1]>;
 
         type cases = [
             Expect<Test<T1, "equals",  ["foo",  "bar"]>>,
@@ -83,13 +84,9 @@ describe("Filter", () => {
         type Cappy = Filter<
             ["foo", "Bar", "Baz"],
             "startsWith",
-            UpperAlphaChar
-        >;
-        type CappyBracketed = Filter<
-            ["foo", "Bar", "Baz"],
-            "startsWith",
             [UpperAlphaChar]
         >;
+
 
         type CappyTuple = Filter<
             ["foo", "Bar", "Baz"],
@@ -99,17 +96,15 @@ describe("Filter", () => {
 
         type cases = [
             Expect<Test<Cappy, "equals", ["Bar", "Baz"]>>,
-            Expect<Test<CappyBracketed, "equals", ["Bar", "Baz"]>>,
             Expect<Test<CappyTuple, "equals", ["Bar", "Baz"]>>,
         ]
 
     });
 
     it("endsWith", () => {
-        type T1 = Filter<["hello", "world", "testing"], "endsWith", "ing">;
-        type T2 = Filter<["foo", "bar", "baz"], "endsWith", "ar">;
+        type T1 = Filter<["hello", "world", "testing"], "endsWith", ["ing"]>;
+        type T2 = Filter<["foo", "bar", "baz"], "endsWith", ["ar"]>;
         type T3 = Filter<["hello", "world", "testing"], "endsWith", ["o", "ld"]>;
-        type T3b = Filter<["hello", "world", "testing"], "endsWith", "o" | "ld">;
 
         type X = EndsWith<"hello", ["o", "ld"]>;
 
@@ -117,7 +112,6 @@ describe("Filter", () => {
             Expect<Test<T1, "equals", ["testing"]>>,
             Expect<Test<T2, "equals", ["bar"]>>,
             Expect<Test<T3, "equals", ["hello", "world"]>>,
-            Expect<Test<T3b, "equals", ["hello", "world"]>>,
         ];
     });
 
@@ -172,9 +166,9 @@ describe("Filter", () => {
     });
 
     it("contains", () => {
-        type T1 = Filter<["hello", "world", "testing"], "contains", "ell">;
-        type T2 = Filter<["foo", "bar", "baz"], "contains", "a">;
-        type T3 = Filter<[["a", "b"], ["c", "d"], ["e", "f"]], "contains", "b">;
+        type T1 = Filter<["hello", "world", "testing"], "contains", ["ell"]>;
+        type T2 = Filter<["foo", "bar", "baz"], "contains", ["a"]>;
+        type T3 = Filter<[["a", "b"], ["c", "d"], ["e", "f"]], "contains", ["b"]>;
 
         type cases = [
             Expect<Test<T1, "equals", ["hello"]>>,
@@ -204,8 +198,8 @@ describe("Filter", () => {
     });
 
     it("greaterThan", () => {
-        type T1 = Filter<[1, 5, 3, 8, 2], "greaterThan", 3>;
-        type T2 = Filter<[10, 20, 15, 5], "greaterThan", 12>;
+        type T1 = Filter<[1, 5, 3, 8, 2], "greaterThan", [3]>;
+        type T2 = Filter<[10, 20, 15, 5], "greaterThan", [12]>;
 
         type cases = [
             Expect<Test<T1, "equals", [5, 8]>>,
@@ -214,8 +208,8 @@ describe("Filter", () => {
     });
 
     it("greaterThanOrEqual", () => {
-        type T1 = Filter<[1, 5, 3, 8, 2], "greaterThanOrEqual", 3>;
-        type T2 = Filter<[10, 20, 15, 5], "greaterThanOrEqual", 15>;
+        type T1 = Filter<[1, 5, 3, 8, 2], "greaterThanOrEqual", [3]>;
+        type T2 = Filter<[10, 20, 15, 5], "greaterThanOrEqual", [15]>;
 
         type cases = [
             Expect<Test<T1, "equals", [5, 3, 8]>>,
@@ -224,8 +218,8 @@ describe("Filter", () => {
     });
 
     it("lessThan", () => {
-        type T1 = Filter<[1, 5, 3, 8, 2], "lessThan", 3>;
-        type T2 = Filter<[10, 20, 15, 5], "lessThan", 12>;
+        type T1 = Filter<[1, 5, 3, 8, 2], "lessThan", [3]>;
+        type T2 = Filter<[10, 20, 15, 5], "lessThan", [12]>;
 
         type cases = [
             Expect<Test<T1, "equals", [1, 2]>>,
@@ -234,8 +228,8 @@ describe("Filter", () => {
     });
 
     it("lessThanOrEqual", () => {
-        type T1 = Filter<[1, 5, 3, 8, 2], "lessThanOrEqual", 3>;
-        type T2 = Filter<[10, 20, 15, 5], "lessThanOrEqual", 15>;
+        type T1 = Filter<[1, 5, 3, 8, 2], "lessThanOrEqual", [3]>;
+        type T2 = Filter<[10, 20, 15, 5], "lessThanOrEqual", [15]>;
 
         type cases = [
             Expect<Test<T1, "equals", [1, 3, 2]>>,
@@ -264,8 +258,8 @@ describe("Filter", () => {
     });
 
     it("equals", () => {
-        type T1 = Filter<[1, 2, 3, 2, 4], "equals", 2>;
-        type T2 = Filter<["foo", "bar", "foo"], "equals", "foo">;
+        type T1 = Filter<[1, 2, 3, 2, 4], "equals", [2]>;
+        type T2 = Filter<["foo", "bar", "foo"], "equals", ["foo"]>;
 
         type cases = [
             Expect<Test<T1, "equals", [2, 2]>>,
@@ -431,19 +425,26 @@ describe("Filter", () => {
 });
 
 
+// RUNTIME
+
 describe("filter()", () => {
 
     it("partial application of truthy (no params, no accept clause)", () => {
         const truthy = filter("truthy");
         const greaterThanFive = filter("greaterThan", 5);
 
-        type Params = Parameters<typeof truthy>;
+        type TruthyParams = Parameters<typeof truthy>;
+        type GtParams = Parameters<typeof greaterThanFive>;
 
         type cases = [
             Expect<Test<
-                typeof truthy, "equals",
-                FilterFn<"truthy", []>
-            >>
+                TruthyParams, "equals",
+                [ val: readonly unknown[] ]
+            >>,
+            Expect<Test<
+                GtParams, "equals",
+                [ val: readonly NumberLike[] ]
+            >>,
         ];
     });
 

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { Expect, Find, Test } from "inferred-types/types";
+import { Expect, Find, Test, FindFunction } from "inferred-types/types";
 import { find, narrow } from "inferred-types/runtime";
 
 describe("Find<TList, 'equals', TValue, TIndex>", () => {

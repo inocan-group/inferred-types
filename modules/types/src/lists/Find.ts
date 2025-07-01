@@ -9,9 +9,9 @@ import type {
 } from "inferred-types/types";
 
 type FindAcc<
-    TList extends readonly (Narrowable & ComparisonAccept<TOp>)[],
+    TList extends readonly (ComparisonAccept<TOp>)[],
     TOp extends ComparisonOperation,
-    TParams extends ComparisonLookup[TOp]["params"] & readonly Narrowable[]
+    TParams extends ComparisonLookup[TOp]["params"]
 > = [] extends TList
     ? undefined
     : First<TList> extends ComparisonAccept<TOp>
@@ -37,20 +37,27 @@ type FindAcc<
  * ```
  */
 export type Find<
-    TList extends readonly (Narrowable & ComparisonAccept<TOp>)[],
+    TList extends readonly (ComparisonAccept<TOp>)[],
     TOp extends ComparisonOperation,
-    TParams extends ComparisonLookup[TOp]["params"] & readonly Narrowable[]
+    TParams extends ComparisonLookup[TOp]["params"]
 > = FindAcc<TList, TOp, TParams>;
 
 
-
+/**
+ * **FindFunction**`<TOp, TParams>`
+ *
+ * a partially applied type resulting from a call to the
+ * runtime's `find()` utility.
+ */
 export type FindFunction<
     TOp extends ComparisonOperation,
-    TParams extends ComparisonLookup[TOp]["params"] & readonly Narrowable[]
-> = <
-    const TList extends readonly (Narrowable & ComparisonAccept<TOp>)[]
+    TParams extends ComparisonLookup[TOp]["params"]
+> =  <
+    const TList extends readonly (ComparisonAccept<TOp>)[]
 >(list: TList) => Find<
         TList,
         TOp,
         TParams
     >;
+
+

@@ -1,4 +1,4 @@
-import type { ComparisonLookup, ComparisonOperation, Equals, Narrowable } from "inferred-types/types";
+import type { ComparisonLookup, ComparisonOperation, Narrowable } from "inferred-types/types";
 
 /**
  * **ComparisonAccept**`<TOp>`
@@ -11,7 +11,5 @@ import type { ComparisonLookup, ComparisonOperation, Equals, Narrowable } from "
 export type ComparisonAccept<
     TOp extends ComparisonOperation
 > = "accept" extends keyof ComparisonLookup[TOp]
-    ? Equals<ComparisonLookup[TOp]["accept"], unknown> extends true
-        ? Narrowable
-        : ComparisonLookup[TOp]["accept"]
+    ? ComparisonLookup[TOp]["accept"]
     : Narrowable;

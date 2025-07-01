@@ -1,12 +1,8 @@
 import type {
     Compare,
     ComparisonAccept,
-    ComparisonInputDefault,
-    ComparisonInputToTuple,
     ComparisonLookup,
     ComparisonOperation,
-    Err,
-    GetComparisonParamInput,
     RemoveNever,
 } from "inferred-types/types";
 
@@ -41,20 +37,27 @@ type Process<
 export type Filter<
     TList extends readonly ComparisonAccept<TOp>[],
     TOp extends ComparisonOperation,
-    TParams extends GetComparisonParamInput<TOp> | Error = ComparisonInputDefault<TOp>
-> = [TParams] extends [Error]
-    ? TParams
-    : [ComparisonInputToTuple<TOp, TParams>] extends [ComparisonLookup[TOp]["params"]]
+    TParams extends ComparisonLookup[TOp]["params"] = ComparisonLookup[TOp]["params"]
+> = Process<
+    TList,
+    TOp,
+    TParams
+>;
 
-        ? Process<
-            TList,
-            TOp,
-            ComparisonInputToTuple<TOp, TParams>
-        >
 
-        : [ComparisonInputToTuple<TOp, TParams>] extends [Error]
-            ? ComparisonInputToTuple<TOp, TParams>
-            : Err<
-                `invalid-parameters/filter`,
-        `The filter operation '${TOp}' received invalid parameters!`
-            >;
+
+/**
+ * **FilterFn**`<TOp, TParams>`
+ *
+ * A type realized when partially applying the runtime's `filter()`
+ * utility. This partially-applied type can be reused as a comparator
+ * function which
+ */
+export type FilterFn<
+    TOp extends ComparisonOperation,
+    TParams extends ComparisonLookup[TOp]["params"]
+> = <TList extends readonly ComparisonAccept<TOp>[]>(list: TList) => Filter<
+    TList,
+    TOp,
+    TParams
+>;

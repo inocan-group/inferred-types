@@ -1,4 +1,11 @@
-import type { Compare, ComparisonAccept, ComparisonDesc, ComparisonLookup, ComparisonOperation, Filter } from "inferred-types/types";
+import type {
+    Compare,
+    ComparisonAccept,
+    ComparisonDesc,
+    ComparisonLookup,
+    ComparisonOperation,
+    Filter
+} from "inferred-types/types";
 
 /**
  * **ComparisonFn**
@@ -25,39 +32,10 @@ ComparisonDesc<TOp, TParams> extends string
         params: TParams;
     }
 ) & (
-    <T extends ComparisonAccept<TOp> | readonly ComparisonAccept<TOp>[]>(val: T) => T extends readonly unknown[]
-        ? Filter<T, TOp, TParams>
-        : T extends ComparisonAccept<TOp>
-            ? Compare<T, TOp, TParams>
-            : never
-);
-
-/**
- * **FilterFn**
- *
- * A function which performs a filter function that runs a
- * comparison operation on each value in the tuple passed in.
- */
-export type FilterFn<
-    TOp extends ComparisonOperation,
-    TParams extends ComparisonLookup[TOp]["params"]
-> = (
-ComparisonDesc<TOp, TParams> extends string
-    ? {
-        kind: "Comparison Function";
-        operation: TOp;
-        params: TParams;
-        desc: ComparisonDesc<TOp, TParams>;
-    }
-    : {
-        kind: "Comparison Function";
-        operation: TOp;
-        params: TParams;
-    }
-) & (
     <T extends readonly ComparisonAccept<TOp>[]>(val: T) => T extends readonly unknown[]
         ? Filter<T, TOp, TParams>
         : T extends ComparisonAccept<TOp>
             ? Compare<T, TOp, TParams>
             : never
 );
+

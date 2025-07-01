@@ -1,6 +1,3 @@
-import type {
-
-} from "inferred-types/runtime";
 import {
     type StaticTakeFunction__CallBack,
     type StaticTakeFunction__Rtn,
@@ -90,14 +87,19 @@ function staticBuilder<O extends TakeFunction__Options>(opt: O) {
     };
 
     return builder;
-
 }
 
 
-
-
-
-
+/**
+ * **createTakeFunction**`(kind,[ opt ]) -> kind specific api`
+ *
+ * A higher order builder function which allows you to choose a _kind_
+ * of take function from the following:
+ *
+ * - Static Block
+ * - Start/End Block
+ * - While Block
+ */
 export function createTakeFunction<
     K extends TakeFunctionKind,
     O extends TakeFunction__Options
