@@ -5,7 +5,10 @@ import {
     Expect,
     Test,
     IsFalse,
-    IsFalsy
+    IsFalsy,
+    IsIsoDate,
+    IsIsoDateTime,
+    IsDateLike
 } from "inferred-types/types";
 
 describe("compare() runtime function", () => {
@@ -595,16 +598,16 @@ describe("compare() runtime function", () => {
     });
 
     describe("DateTime operations", () => {
-        const date1 = "2023-01-15T10:00:00";
-        const date2 = "2023-01-15T14:00:00";
-        const date3 = "2023-02-15T10:00:00";
-        const date4 = "2024-01-15T10:00:00";
+        const dateTime1 = "2023-01-15T10:00:00";
+        const dateTime2 = "2023-01-15T14:00:00";
+        const dateTime3 = "2023-02-15T10:00:00";
+        const dateTime4 = "2024-01-15T10:00:00";
 
         it("sameDay", () => {
-            const sameDayAs = compare("sameDay", date1);
-            const t1 = sameDayAs(date1);
-            const t2 = sameDayAs(date2);
-            const f1 = sameDayAs(date3);
+            const sameDayAs = compare("sameDay", dateTime1);
+            const t1 = sameDayAs(dateTime1);
+            const t2 = sameDayAs(dateTime2);
+            const f1 = sameDayAs(dateTime3);
             const result4 = sameDayAs("not a date" as any);
 
             expect(t1).toBe(true);
@@ -621,11 +624,11 @@ describe("compare() runtime function", () => {
         });
 
         it("sameMonth", () => {
-            const sameMonthAs = compare("sameMonth", date1);
-            const result1 = sameMonthAs(date1);
-            const result2 = sameMonthAs(date2);
-            const result3 = sameMonthAs(date3);
-            const result4 = sameMonthAs(date4);
+            const sameMonthAs = compare("sameMonth", dateTime1);
+            const result1 = sameMonthAs(dateTime1);
+            const result2 = sameMonthAs(dateTime2);
+            const result3 = sameMonthAs(dateTime3);
+            const result4 = sameMonthAs(dateTime4);
 
             expect(result1).toBe(true);
             expect(result2).toBe(true);
@@ -641,11 +644,12 @@ describe("compare() runtime function", () => {
         });
 
         it("sameMonthYear", () => {
-            const sameMonthYearAs = compare("sameMonthYear", date1);
-            const result1 = sameMonthYearAs(date1);
-            const result2 = sameMonthYearAs(date2);
-            const result3 = sameMonthYearAs(date3);
-            const result4 = sameMonthYearAs(date4);
+            const sameMonthYearAs = compare("sameMonthYear", dateTime1);
+            type D = IsDateLike<Date>;
+            const result1 = sameMonthYearAs(dateTime1);
+            const result2 = sameMonthYearAs(dateTime2);
+            const result3 = sameMonthYearAs(dateTime3);
+            const result4 = sameMonthYearAs(dateTime4);
 
             expect(result1).toBe(true);
             expect(result2).toBe(true);
@@ -661,29 +665,29 @@ describe("compare() runtime function", () => {
         });
 
         it("sameYear", () => {
-            const sameYearAs = compare("sameYear", date1);
-            const result1 = sameYearAs(date1);
-            const result2 = sameYearAs(date2);
-            const result3 = sameYearAs(date3);
-            const result4 = sameYearAs(date4);
+            const sameYearAs = compare("sameYear", dateTime1);
+            const t1 = sameYearAs(dateTime1);
+            const t2 = sameYearAs(dateTime2);
+            const t3 = sameYearAs(dateTime3);
+            const f1 = sameYearAs(dateTime4);
 
-            expect(result1).toBe(true);
-            expect(result2).toBe(true);
-            expect(result3).toBe(true);
-            expect(result4).toBe(false);
+            expect(t1).toBe(true);
+            expect(t2).toBe(true);
+            expect(t3).toBe(true);
+            expect(f1).toBe(false);
 
             type cases = [
-                Expect<Test<typeof result1, "equals", true>>,
-                Expect<Test<typeof result2, "equals", false>>,
-                Expect<Test<typeof result3, "equals", true>>,
-                Expect<Test<typeof result4, "equals", false>>
+                Expect<Test<typeof t1, "equals", true>>,
+                Expect<Test<typeof t2, "equals", false>>,
+                Expect<Test<typeof t3, "equals", true>>,
+                Expect<Test<typeof f1, "equals", false>>
             ];
         });
 
         it("after", () => {
-            const afterDate1 = compare("after", date1);
-            const result1 = afterDate1(date2);
-            const result2 = afterDate1(date1);
+            const afterDate1 = compare("after", dateTime1);
+            const result1 = afterDate1(dateTime2);
+            const result2 = afterDate1(dateTime1);
             const result3 = afterDate1(new Date("2023-01-14"));
 
             expect(result1).toBe(true);
@@ -698,10 +702,10 @@ describe("compare() runtime function", () => {
         });
 
         it("before", () => {
-            const beforeDate2 = compare("before", date2);
-            const result1 = beforeDate2(date1);
-            const result2 = beforeDate2(date2);
-            const result3 = beforeDate2(date3);
+            const beforeDate2 = compare("before", dateTime2);
+            const result1 = beforeDate2(dateTime1);
+            const result2 = beforeDate2(dateTime2);
+            const result3 = beforeDate2(dateTime3);
 
             expect(result1).toBe(true);
             expect(result2).toBe(false);

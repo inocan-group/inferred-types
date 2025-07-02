@@ -16,9 +16,7 @@ import type {
     IsTruthy,
     SomeEqual,
     ToStringArray,
-    EndsWithNumber,
     EndsWith,
-    NumberLike
 } from "inferred-types/types";
 import {
     asChars,
@@ -54,21 +52,7 @@ import {
     asNumber
 } from "inferred-types/runtime";
 import {  NUMERIC_CHAR } from "inferred-types/constants";
-import { IsBetweenExclusively } from "@inferred-types/types";
 
-type Lookup = ComparisonLookup;
-
-type P<
-    TOp extends ComparisonOperation,
-    TParams
-> = TParams & ComparisonLookup[TOp]["params"];
-
-type V<
-    TOp extends ComparisonOperation,
-    TVal
-> = Expand<
-TVal & ComparisonAccept<TOp>
->;
 
 
 function handle_string<
@@ -235,20 +219,15 @@ function handle_numeric<
             return Number(val) <= Number(params[0]);
 
         case "betweenExclusively":
-            if(
+            return (
                 isNumberLike(val)
                 && isNumberLike(params[0])
                 && isNumberLike(params[1])
-            ) {
-                const valNumExcl = Number(val);
-                const minExcl = asNumber(params[0]);
-                const maxExcl = asNumber(params[1]);
-                return (
-                    valNumExcl > minExcl && valNumExcl < maxExcl
-                ) as Compare<TVal, "betweenExclusively", TParams>;
-            } else {
-                return false as Compare<TVal, "betweenExclusively", TParams>;
-            }
+            )
+                ? asNumber(val) > asNumber(params[0])
+                    && asNumber(val) < asNumber(params[1])
+                : false
+
 
         case "betweenInclusively":
             if (!isNumberLike(val))
@@ -364,10 +343,6 @@ function handle_datetime<
     op: TOp,
     params: TParams
 ): boolean | Error | Unset {
-    // Skip date validation for non-date operations
-    if (!["after", "before", "sameDay", "sameMonth", "sameMonthYear", "sameYear"].includes(op)) {
-        return unset;
-    }
 
     if (!isDateLike(val)) {
         return err(
@@ -546,5 +521,6 @@ export function compare<
     op: TOp,
     ...params: TParams
 ) {
+
     return compareFn<TOp,TParams>(op, ...params);
 }

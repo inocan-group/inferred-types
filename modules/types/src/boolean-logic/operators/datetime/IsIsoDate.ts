@@ -5,6 +5,7 @@ import type {
     IsStringLiteral,
     IsWideString,
     Length,
+    Or,
     ParseDate,
     ParsedDate,
     TwoDigitDate,
@@ -17,58 +18,14 @@ import type {
  * format:
  *
  *  - `YYYY-MM-DD`,
- *  - `--MM-DD` - _for year-independent dates_
+ *  - `--MM-DD` or `--MMDD` - _for year-independent dates_
+ *  - `-YYYY-DD` or `-YYYYDD` - _for year-month resolution with specific date_
+ *
+ * **Note:** this _does not_ match on DateTime combinations; use `IsIsoDateTime`
+ * for that.
  */
 export type IsIsoDate<T> = T extends IsoDateLike
-    ? ParseDate<T> extends Error
-        ? false
-        : true
+    ? Or<[]>
     : false;
 
-/**
- * Tests whether `T` is a valid ISO Date which captures year
- * and month but not date:
- *
- * - `-YYYY-MM` _or_ `-YYYYMM`
- *
- * **Related:** `IsIsoYearMonthTime`
- */
-export type IsIsoYearMonth<T> = T extends IsoYearMonthLike
-    ? IsWideString<T> extends true
-        ? boolean
-        : ParseDate<T> extends ParsedDate
-            ? ParseDate<T> extends [ FourDigitYear, TwoDigitDate, null, any, any]
-                ? true
-                : false
-            : false
-    : false;
 
-/**
- * Tests whether `T` is a valid **ISO Date** which captures month
- * and date but not year:
- *
- * - `-YYYY-MM` _or_ `-YYYYMM`
- *
- * **Related:** `IsIsoMonthDateTime`
- */
-export type IsIsoMonthDate<T> = T extends IsoYearMonthLike
-    ? IsWideString<T> extends true
-        ? boolean
-        : ParseDate<T> extends ParsedDate
-            ? ParseDate<T> extends [ FourDigitYear, TwoDigitDate, null, any, any]
-                ? true
-                : false
-            : false
-    : false;
-
-/**
- * Boolean operator which tests whether `T` is a ISO Year (
- * a four digit year)
- */
-export type IsIsoYear<T> = IsStringLiteral<T> extends true
-    ? T extends `${number}`
-        ? Length<T> extends 4
-            ? true
-            : false
-        : false
-    : boolean;

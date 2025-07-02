@@ -27,13 +27,75 @@ type TimePart =
   | `${number}:${number}:${number}`
   | `${number}:${number}:${number}.${number}`;
 
+
+/**
+ * **IsoMonthDateLike**
+ *
+ * A type shape representing an ISO Date that represents a month
+ * and date but is independent of year:
+ *
+ * - `--MM-DD` _or_ `--MMDD`
+ */
+export type IsoMonthDateLike =
+    | `--${TwoDigitMonth}-${TwoDigitDate}`
+    | `--${TwoDigitMonth}${TwoDigitDate}`;
+
+export type IsoMonthDateLike__Explicit = `--${TwoDigitMonth}-${TwoDigitDate}`;
+export type IsoMonthDateLike__Implicit = `--${TwoDigitMonth}${TwoDigitDate}`;
+
+/**
+ * **IsoYearMonthLike**
+ *
+ * A type shape representing an ISO Date that represents a year
+ * and month but not explicit date:
+ *
+ * - `-YYYY-MM` _or_ `-YYYYMM`
+ */
+export type IsoYearMonthLike =
+    | `-${FourDigitYear}-${TwoDigitMonth}`
+    | `-${FourDigitYear}${TwoDigitMonth}`;
+
+export type IsoYearMonthLike__Explicit = `-${FourDigitYear}-${TwoDigitMonth}`;
+export type IsoYearMonthLike__Implicit = `-${FourDigitYear}${TwoDigitMonth}`;
+
+
+/**
+ * Full ISO date format (no time info):
+ *
+ * - `YYYY-MM-DD`, _or_
+ * - `YYYYMMDD`
+ *
+ * **Related:**
+ * - `IsoFullDateTime`
+ * - `IsoDate`, `IsoMonthDateLike`, `IsoYearMonthLike`
+ */
+export type IsoFullDate =
+    | `${FourDigitYear}${TwoDigitMonth}${number}`
+    | `${FourDigitYear}-${TwoDigitMonth}-${number}`;
+
+/**
+ * Full ISO date format plus time info:
+ *
+ * - `YYYY-MM-DDT${time}`, _or_
+ * - `YYYYMMDDT${time}`
+ *
+ * **Related:**
+ * - `IsoFullDate`
+ * - `IsoDateTime`, `IsoMonthDateTimeLike`, `IsoYearMonthTimeLike`
+ */
+export type IsoFullDateTime =
+    | `${FourDigitYear}${TwoDigitMonth}${number}T${string}`
+    | `${FourDigitYear}-${TwoDigitMonth}-${number}T${string}`;
+
+
 /**
  * [IsoDateLike](https://en.wikipedia.org/wiki/ISO_8601)
  *
  * Shows the basic shape for an ISO **Date** string:
  *
- * - `YYYY-MM-DD`
- * - `--MM-DD` - _for a year-independent date_
+ * - `YYYY-MM-DD` _or_ `YYYYMMDD` - _for a full ISO Date_
+ * - `-YYYY-MM` _or_ `-YYYYMM` - _for date-independent year-month_
+ * - `--MM-DD` _or_ `--MMDD` - _for a year-independent date_
  *
  * Please note:
  * - this type is not _self-validating_; it matches all valid variants
@@ -44,8 +106,10 @@ type TimePart =
  *    - `IsIsoDate<T>` type utility
  */
 export type IsoDateLike =
-  `${FourDigitYear}-${TwoDigitMonth}-${number}`
-  | `--${TwoDigitMonth}-${TwoDigitDate}`;
+  `${FourDigitYear}-${number}-${number}`
+  | `${FourDigitYear}${number}`
+  | IsoMonthDateLike
+  | IsoYearMonthLike;
 
 /**
  * **[IsoDate](https://en.wikipedia.org/wiki/ISO_8601)**
@@ -75,7 +139,9 @@ export type IsoDate = IsoDateLike & {
  * this type to a `IsoDateTime` branded type.
  */
 export type IsoDateTimeLike =
-  `${DatePart}T${TimePart}${"" | TimeZone}`;
+  | `${DatePart}T${TimePart}${"" | TimeZone}`
+  | `${IsoMonthDateLike}T${string}`
+  | `${IsoYearMonthLike}T${string}`;
 
 /**
  * **IsoDateTime**
@@ -153,33 +219,3 @@ export type IsoTime<
 > = IsoTimeLike<THour, TZ> & {
     kind: "ISO Time";
 };
-
-/**
- * **IsoYearMonthLike**
- *
- * A type shape representing an ISO Date that represents a year
- * and month but not explicit date:
- *
- * - `-YYYY-MM` _or_ `-YYYYMM`
- */
-export type IsoYearMonthLike =
-    | `-${FourDigitYear}-${TwoDigitMonth}`
-    | `-${FourDigitYear}${TwoDigitMonth}`;
-
-export type IsoYearMonthLike__Explicit = `-${FourDigitYear}-${TwoDigitMonth}`;
-export type IsoYearMonthLike__Implicit = `-${FourDigitYear}${TwoDigitMonth}`;
-
-/**
- * **IsoMonthDateLike**
- *
- * A type shape representing an ISO Date that represents a month
- * and date but is independent of year:
- *
- * - `--MM-DD` _or_ `--MMDD`
- */
-export type IsoMonthDateLike =
-    | `--${TwoDigitMonth}-${TwoDigitDate}`
-    | `--${TwoDigitMonth}${TwoDigitDate}`;
-
-export type IsoMonthDateLike__Explicit = `--${TwoDigitMonth}-${TwoDigitDate}`;
-export type IsoMonthDateLike__Implicit = `--${TwoDigitMonth}${TwoDigitDate}`;

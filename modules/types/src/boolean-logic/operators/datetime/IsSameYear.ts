@@ -3,9 +3,9 @@ import type {
     As,
     DateLike,
     Extends,
+    First,
     IsEqual,
     IsStringLiteral,
-    NotEqual,
     ParseDate,
     ParsedDate,
 } from "inferred-types/types";
@@ -33,17 +33,12 @@ export type IsSameYear<
         Extends<ParseDate<As<A, string>>, ParsedDate>,
         Extends<ParseDate<As<B, string>>, ParsedDate>,
     ]> extends true
-        ? And<[
-            IsEqual<
-                As<ParseDate<As<A, string>>, ParsedDate>["0"],
-                As<ParseDate<As<B, string>>, ParsedDate>["0"]
-            >,
-            NotEqual<
-                As<ParseDate<As<A, string>>, ParsedDate>["0"],
-                null
-            >
-        ]> extends true
+        ? IsEqual<
+            First<As<ParseDate<As<A, string>>, ParsedDate>>,
+            First<As<ParseDate<As<B, string>>, ParsedDate>>
+        > extends true
             ? true
             : false
-        : boolean
+    : boolean
+
     : boolean;
