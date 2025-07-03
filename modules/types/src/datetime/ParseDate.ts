@@ -4,6 +4,7 @@ import type {
     ParsedTime,
     ParseTime,
     StartsWith,
+    StripAfter,
     StripLeading,
     TakeDate,
     TakeMonth,
@@ -26,6 +27,161 @@ export type ParsedDate = [
     time: ParsedTime | Error | null
 ];
 
+type ParseMonthDate<T extends string> = TakeMonth<T> extends [
+    infer Month extends TwoDigitMonth,
+    infer Rest extends string
+]
+    ? Month extends undefined
+        ? Err<
+            `parse-date/month`,
+            `The string passed in looked like a year independent date but after the initial '--' the month was unable to be parsed!`,
+            { parse: T, year: null, rest: Rest }
+        >
+    : TakeDate<StripLeading<Rest, "-">> extends [
+        infer Date extends TwoDigitDate,
+        infer Rest extends string
+    ]
+        ? Date extends undefined
+            ? Err<
+                `parse-date/date`,
+                `The string passed in looked like a year independent date but after the parsing the month, the rest was unable to be parsed: '${Rest}'`,
+                { parse: T, month: Month, rest: Rest }
+            >
+    : Rest extends ""
+        ? [ null, Month, Date ]
+    : Rest extends `T${infer Time extends string}`
+        ? ParseTime<Time> extends Error
+            ? Err<
+                `parse-date/time`,
+                `The date component -- a year independent, month and day -- was parsed from the string but the time included is not parsable: ${Time}. The underlying error message was: ${ParseTime<Time>["message"]}`,
+                { parse: T, month: Month, date: Date, time: Time }
+            >
+            : [ null, Month, Date, ParseTime<Time> ]
+        : Err<
+            `parse-date/time`,
+            `The date component -- a year independent, month and day -- was parsed from the string but the time included is not parsable: ${Rest}. The underlying error message was: ${ParseTime<Rest>["message"]}`,
+            { parse: T, month: Month, date: Date, time: Rest }
+        >
+    : Err<
+        `parse-date/date`,
+        `The string passed in looked like a year independent date but after the parsing the month, '${StripLeading<Rest,"-">}' was unable to be parsed as a date!`,
+        { parse: T, year: null, month: Month, rest: Rest }
+    >
+: Err<
+    `parse-date/month`,
+    `The string passed in looked like a year independent month and date but after the initial '--', the string '${StripAfter<T, "-">}' couldn't be parsed as a month!`,
+    { parse: T, year: null }
+>;
+
+type ParseYearMonth<T extends string> = TakeYear<T> extends [
+    infer Year extends FourDigitYear<"strong">,
+    infer Rest extends string
+]
+? TakeMonth<StripLeading<Rest, "-">> extends [
+    infer Month extends TwoDigitMonth,
+    infer Rest extends string
+]
+    ? Rest extends ""
+        ? [ Year, Month, null, null ]
+    : Rest extends `T${infer Time extends string}`
+        ? ParseTime<Time> extends Error
+            ? Err<
+                "parse-date/time",
+                `The string passed in appears to be a ISO DateTime string where the date component is a year/month date (and was successfully parsed) but the time component is invalid: ${Time}. The underlying error message was: ${ParseTime<Time>["message"]}`,
+                { parse: T, year: Year, month: Month, time: Time }
+            >
+            : [ Year, Month, null, ParseTime<Time> ]
+    : Err<
+        `parse-date/time`,
+        `The ISO string appears to be a year/month date with some time information but while the year and month were parsed, there were issues parsing the time.`,
+        {
+            year: Year;
+            month: Month;
+            date: null;
+            rest: Rest;
+            parse: T;
+        }
+    >
+    : Err<
+        `parse-date/month`,
+        `Problems parsing a year/month date resolution.`,
+        {
+            year: Year;
+            date: null;
+            rest: Rest;
+            parse: T;
+        }
+    >
+: Err<
+    `parse-date`,
+    `Unable to parse the year/month string passed in: ${T}`,
+    {
+        parse: T;
+    }
+>;
+
+type ParseFullDate<T extends string> = TakeYear<T> extends [
+    infer Year extends FourDigitYear<"strong">,
+    infer Rest extends string
+]
+    ? TakeMonth<StripLeading<Rest, "-">> extends [
+        infer Month extends TwoDigitMonth,
+        infer Rest extends string
+    ]
+        ? TakeDate<StripLeading<Rest, "-">> extends [
+            infer Date extends TwoDigitDate,
+            infer Rest extends string
+        ]
+            ? Rest extends ""
+                ? [ Year, Month, Date, null ]
+                : Rest extends `T${infer Time extends string}`
+                    ? ParseTime<Time> extends Error
+                        ? Err<
+                            `parse-date/time`,
+                            `A full date (year,month,date) was parsed from the provided string but the time component is invalid: ${Rest}. The underlying error message was: ${ParseTime<Time>["message"]}`,
+                            { parse: T, year: Year, month: Month, date: Date, time: Rest }
+                        >
+                    : [ Year, Month, Date, ParseTime<Time> ]
+                    : Err<
+                        "parse-date",
+                        `Problems parsing a date; year, month, and date were all parsed but the remaining content is invalid: ${Rest}`,
+                        {
+                            year: Year;
+                            month: Month;
+                            date: Date;
+                            rest: Rest;
+                            parse: T;
+                        }
+                            >
+                    : Err<
+                        `parse-date`,
+                        `Problems parsing a date; year and month were parsed but remaining content was invalid: ${Rest}`,
+                        {
+                            year: Year;
+                            month: Month;
+                            rest: Rest;
+                            parse: T;
+                        }
+                    >
+                : Rest extends ""
+                    ? [ Year, null, null, null ]
+                    : Err<
+                        `parse-date`,
+                `Unable to parse the string passed in: ${T}`,
+                {
+                    year: Year;
+                    rest: Rest;
+                    parse: T;
+                }
+                    >
+            : Err<
+                `parse-date`,
+                `Unable to parse the string passed in: ${T}`,
+                {
+                    parse: T;
+                }
+            >;
+
 /**
  * **ParseDate**`<T, [TSep]>`
  *
@@ -40,146 +196,14 @@ export type ParsedDate = [
 export type ParseDate<
     T,
 > = T extends string
-    ? StartsWith<T, "--"> extends true
-        ? TakeMonth<StripLeading<T, "--">> extends [
-            infer Month extends TwoDigitMonth,
-            infer Rest extends string
-        ]
-            ? TakeDate<StripLeading<Rest, "-">> extends [
-                infer Date extends TwoDigitDate,
-                infer Rest extends string
-            ]
-                ? Rest extends ""
-                    ? [ null, Month, Date ]
-                    : Rest extends `T${infer Time extends string}`
-                        ? [ null, Month, Date, ParseTime<Time> ]
-                        : Err<
-                            `parse/date`,
-                `Parsed out a year independent date but there was remaining content which could not be parsed: ${Rest}`,
-                {
-                    year: null;
-                    month: Month;
-                    date: Date;
-                    rest: Rest;
-                    string: T;
-                }
-                        >
-                : Err<
-                    `parse/date`,
-                    `Unable to parse out the date from a year independent date!`,
-                    {
-                        year: null;
-                        month: Month;
-                        rest: Rest;
-                        string: T;
-                    }
-                >
-            : Err<
-                `parse/date`,
-                `Bad structure for what was indicated to be a year independent date`,
-                {
-                    string: T;
-                }
-            >
+    ? T extends `--${infer Rest extends string}`
+        ? ParseMonthDate<Rest>
     // ----
-        : StartsWith<T, "-"> extends true
-            ? TakeYear<StripLeading<T, "-">> extends [
-                infer Year extends FourDigitYear<"strong">,
-                infer Rest extends string
-            ]
-                ? TakeMonth<StripLeading<Rest, "-">> extends [
-                    infer Month extends TwoDigitMonth,
-                    infer Rest extends string
-                ]
-                    ? Rest extends ""
-                        ? [ Year, Month, null, null ]
-                        : Rest extends `T${infer Time extends string}`
-                            ? [ Year, Month, null, ParseTime<Time> ]
-                            : Err<
-                                `parse/date`,
-                                `Problems parsing a year/month date resolution.`,
-                                {
-                                    year: Year;
-                                    month: Month;
-                                    date: null;
-                                    rest: Rest;
-                                    string: T;
-                                }
-                            >
-                    : Err<
-                        `parse/date`,
-                        `Problems parsing a year/month date resolution.`,
-                        {
-                            year: Year;
-                            date: null;
-                            rest: Rest;
-                            string: T;
-                        }
-                    >
-                : Err<
-                    `parse/date`,
-        `Unable to parse the year/month string passed in: ${T}`,
-        {
-            string: T;
-        }
-                >
-        // ----
-            : TakeYear<T> extends [
-                infer Year extends FourDigitYear<"strong">,
-                infer Rest extends string
-            ]
-                ? TakeMonth<StripLeading<Rest, "-">> extends [
-                    infer Month extends TwoDigitMonth,
-                    infer Rest extends string
-                ]
-                    ? TakeDate<StripLeading<Rest, "-">> extends [
-                        infer Date extends TwoDigitDate,
-                        infer Rest extends string
-                    ]
-                        ? Rest extends ""
-                            ? [ Year, Month, Date, null ]
-                            : Rest extends `T${infer Time extends string}`
-                                ? [ Year, Month, Date, ParseTime<Time> ]
-                                : Err<
-                                    "parse/date",
-                    `Problems parsing a date; year, month, and date were all parsed but the remaining content is invalid: ${Rest}`,
-                    {
-                        year: Year;
-                        month: Month;
-                        date: Date;
-                        rest: Rest;
-                        string: T;
-                    }
-                                >
-                        : Err<
-                            `parse/date`,
-                `Problems parsing a date; year and month were parsed but remaining content was invalid: ${Rest}`,
-                {
-                    year: Year;
-                    month: Month;
-                    rest: Rest;
-                    string: T;
-                }
-                        >
-                    : Rest extends ""
-                        ? [ Year, null, null, null ]
-                        : Err<
-                            `parse/date`,
-                    `Unable to parse the string passed in: ${T}`,
-                    {
-                        year: Year;
-                        rest: Rest;
-                        string: T;
-                    }
-                        >
-                : Err<
-                    `parse/date`,
-        `Unable to parse the string passed in: ${T}`,
-        {
-            string: T;
-        }
-                >
+    : T extends `-${infer Rest extends string}`
+        ? ParseYearMonth<Rest>
+    // ----
+    : ParseFullDate<T>
     : Err<
-        `parse/date`,
-        `A non-string type was passed into ParseDate<T>`
+        `parse-date/wrong-type`,
+        `A non-string type was passed into ParseDate<T>!`
     >;

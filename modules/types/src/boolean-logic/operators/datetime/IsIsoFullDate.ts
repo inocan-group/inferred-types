@@ -1,4 +1,4 @@
-import { IsoFullDate, ParseDate, ParsedDate } from "inferred-types/types";
+import { FourDigitYear, IsoFullDate, ParseDate, ParsedDate, TwoDigitDate, TwoDigitMonth } from "inferred-types/types";
 
 /**
  * **IsIsoFullDate**`<T>`
@@ -18,7 +18,12 @@ import { IsoFullDate, ParseDate, ParsedDate } from "inferred-types/types";
  */
 export type IsIsoFullDate<T> = T extends IsoFullDate
 ? ParseDate<T> extends ParsedDate
-    ? ParseDate<T> extends [number,number,number,null]
+    ? ParseDate<T> extends [
+        FourDigitYear<"strong">,
+        TwoDigitMonth,
+        TwoDigitDate,
+        null
+    ]
         ? true
         : false
     : false

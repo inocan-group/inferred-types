@@ -7,6 +7,8 @@ import type { IsFalse, IsNever, IsTrue } from "inferred-types/types";
  *
  * Boolean type utility which detects whether `T`
  * is a boolean literal (aka, is `true` or `false`)
+ *
+ * **Related:** `IsBoolean`, `IsBooleanExactly`
  */
 export type IsBooleanLiteral<
     T,

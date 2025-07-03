@@ -15,7 +15,7 @@ import type {
 export type TakeMinutes<
     T extends string,
 > = IsWideString<T> extends true
-    ? string
+    ? [ TwoDigitMinute, string ] | [ undefined, string ]
     : T extends `${TwoDigitMinute}${infer Rest extends string}`
         ? Replace<T, Rest, ""> extends TwoDigitMinute
             ? [ Replace<T, Rest, "">, Rest ]

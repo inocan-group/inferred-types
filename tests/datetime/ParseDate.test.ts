@@ -17,19 +17,19 @@ describe("ParseDate<T>", () => {
         type cases = [
             Expect<Test<
                 T1, "equals",
-                [ "2024", "06", "15" ]
+                [ "2024", "06", "15", null ]
             >>,
             Expect<Test<
                 T2, "equals",
-                [ "2024", "06", "15" ]
+                [ "2024", "06", "15", null ]
             >>,
             Expect<Test<
                 T3, "equals",
-                [ "1999", "12", "31" ]
+                [ "1999", "12", "31", null ]
             >>,
             Expect<Test<
                 T4, "equals",
-                [ "1999", "12", "31" ]
+                [ "1999", "12", "31", null ]
             >>
         ];
     });
@@ -43,19 +43,19 @@ describe("ParseDate<T>", () => {
         type cases = [
             Expect<Test<
                 T1, "equals",
-                [ "2024", "06", null ]
+                [ "2024", "06", null, null ]
             >>,
             Expect<Test<
                 T2, "equals",
-                [ "2024", "06", null ]
+                [ "2024", "06", null, null ]
             >>,
             Expect<Test<
                 T3, "equals",
-                [ "1999", "12", null ]
+                [ "1999", "12", null, null ]
             >>,
             Expect<Test<
                 T4, "equals",
-                [ "1999", "12", null ]
+                [ "1999", "12", null, null ]
             >>
         ];
     });
@@ -118,26 +118,23 @@ describe("ParseDate<T>", () => {
         type T3 = ParseDate<"--06-15T12:30:60">; // Invalid second
 
         type cases = [
-            Expect<Test<T1[3], "isError", "parse/time">>,
-            Expect<Test<T2[3], "isError", "parse/time">>,
-            Expect<Test<T3[3], "isError", "parse/time">>
+            Expect<Test<T1, "isError", "parse-date/time">>,
+            Expect<Test<T2, "isError", "parse-date/time">>,
+            Expect<Test<T3, "isError", "parse-date/time">>
         ];
     });
 
     it("error cases - invalid formats", () => {
         type Invalid1 = ParseDate<"2024-13-01">; // Invalid month
         type Invalid2 = ParseDate<"2024-06-32">; // Invalid day
-        type Invalid3 = ParseDate<"2024">; // Incomplete
         type Invalid4 = ParseDate<"not-a-date">;
         type Invalid5 = ParseDate<"2024-06-15Tnot-a-time">;
 
         type cases = [
-            Expect<Test<Invalid1, "isError", "parse/date">>,
-            Expect<Test<Invalid2, "isError", "parse/date">>,
-            Expect<Test<Invalid3, "isError", "parse/date">>,
-            Expect<Test<Invalid4, "isError", "parse/date">>,
-            // For Invalid5, the time part should be an Error
-            Expect<Test<Invalid5[3], "isError", "parse/time">>
+            Expect<Test<Invalid1, "isError", "parse-date/huh">>,
+            Expect<Test<Invalid2, "isError", "parse-date/huh">>,
+            Expect<Test<Invalid4, "isError", "parse-date/huh">>,
+            Expect<Test<Invalid5, "isError", "parse-date/time">>
         ];
     });
 
@@ -151,7 +148,7 @@ describe("ParseDate<T>", () => {
 
     it("edge cases", () => {
         type LeapYear = ParseDate<"2020-02-29">;
-        // Remove MinDate and MaxDate if not supported by parser
+        type IsLeap = IsLeapYear<"2020-02-29">;
 
         type cases = [
             Expect<Test<

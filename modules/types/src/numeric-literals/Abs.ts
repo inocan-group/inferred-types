@@ -1,6 +1,7 @@
 import type {
     AsNumber,
     If,
+    IsNegativeNumber,
     IsStringLiteral,
     NumberLike,
     StripLeading,
@@ -21,9 +22,15 @@ type Process<T extends `${number}`> = If<
  * preserving string literal type
  */
 export type Abs<T extends NumberLike> = T extends number
-    ? AsNumber<
-        Process<`${T}`>
-    >
+    ? number extends T
+        ? number
+    : number extends 0
+        ? 0
+    : IsNegativeNumber<T> extends true
+        ? AsNumber<
+            Process<`${T}`>
+        >
+        : T
     : T extends `${number}`
         ? Process<T>
         : never;

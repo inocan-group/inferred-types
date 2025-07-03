@@ -1,7 +1,5 @@
 import type { Constant } from "inferred-types/constants";
 
-console.log("createConstant loaded from canonical source");
-
 /**
  * **createConstant**(kind)
  *

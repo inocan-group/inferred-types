@@ -11,7 +11,7 @@ import type { IsWideString, Replace, TwoDigitSecond } from "inferred-types/types
 export type TakeSeconds<
     T extends string,
 > = IsWideString<T> extends true
-    ? string
+    ? [ TwoDigitSecond, string ] | [ undefined, string ]
     : T extends `${TwoDigitSecond}${infer Rest extends string}`
         ? Replace<T, Rest, ""> extends TwoDigitSecond
             ? [ Replace<T, Rest, "">, Rest ]

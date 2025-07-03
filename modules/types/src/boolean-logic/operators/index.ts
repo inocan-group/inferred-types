@@ -36,6 +36,7 @@ export * from "./IsAny";
 export * from "./IsArray";
 export * from "./IsBalanced";
 export * from "./IsBoolean";
+export * from "./IsBooleanExactly";
 export * from "./IsBooleanLiteral";
 export * from "./IsContainer";
 export * from "./IsCssHexadecimal";

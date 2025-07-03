@@ -101,6 +101,7 @@ describe("ParseTime<T>", () => {
         ];
     });
 
+
     it("HH:MM:SS.sss format", () => {
         type T1 = ParseTime<"14:30:45.123">;
         type T2 = ParseTime<"00:00:00.000">;
@@ -144,19 +145,26 @@ describe("ParseTime<T>", () => {
     });
 
     it("error cases - invalid formats", () => {
-        type Invalid1 = ParseTime<"25:00">; // Invalid hour
+        type Invalid1 = ParseTime<"25:00:00">; // Invalid hour
         type Invalid2 = ParseTime<"12:60">; // Invalid minute
-        type Invalid3 = ParseTime<"12">; // Missing minute
+        type Invalid3 = ParseTime<"12">; // structure
         type Invalid4 = ParseTime<"12:30:60">; // Invalid second
-        type Invalid5 = ParseTime<"not-a-time">;
+        type Invalid4b = ParseTime<"12:30:60.001">; // Invalid second
+        type Invalid5 = ParseTime<"not-a-time">; // structure
+        type Invalid6 = ParseTime<"12:55:55.abc">; // ms
+        type Invalid7 = ParseTime<"12:55:55.55">; // ms
+        type Invalid8 = ParseTime<"12:55:55.555Zb">; // timezone
 
         type cases = [
             // These should all return Error types
-            Expect<Test<Invalid1, "extends", Error>>,
-            Expect<Test<Invalid2, "extends", Error>>,
-            Expect<Test<Invalid3, "extends", Error>>,
-            Expect<Test<Invalid4, "extends", Error>>,
-            Expect<Test<Invalid5, "extends", Error>>
+            Expect<Test<Invalid1, "isError", "parse-time/hour">>,
+            Expect<Test<Invalid2, "isError", "parse-time/min">>,
+            Expect<Test<Invalid3, "isError", "parse-time/structure">>,
+            Expect<Test<Invalid4, "isError", "parse-time/sec">>,
+            Expect<Test<Invalid4b, "isError", "parse-time/sec">>,
+            Expect<Test<Invalid5, "isError", "parse-time/structure">>,
+            Expect<Test<Invalid6, "isError", "parse-time/ms">>,
+            Expect<Test<Invalid7, "isError", "parse-time/ms">>,
         ];
     });
 

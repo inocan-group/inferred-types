@@ -1,14 +1,9 @@
 import type {
-    FourDigitYear,
+    IsIsoFullDate,
+    IsIsoYearMonth,
+    IsIsoMonthDate,
     IsoDateLike,
-    IsoYearMonthLike,
-    IsStringLiteral,
-    IsWideString,
-    Length,
-    Or,
-    ParseDate,
-    ParsedDate,
-    TwoDigitDate,
+    IsIsoYear,
 } from "inferred-types/types";
 
 /**
@@ -25,7 +20,15 @@ import type {
  * for that.
  */
 export type IsIsoDate<T> = T extends IsoDateLike
-    ? Or<[]>
-    : false;
+    ? IsIsoFullDate<T> extends true
+        ? true
+    : IsIsoYearMonth<T> extends true
+        ? true
+    : IsIsoMonthDate<T> extends true
+        ? true
+    : IsIsoYear<T> extends true
+        ? true
+    : false
+: false;
 
 
