@@ -7,6 +7,7 @@
     "declaration": true,
     "declarationMap": true,
     "tsBuildInfoFile": ".tsbuildinfo",
+    "esModuleInterop": true,
     "rootDir": "..",
     "baseUrl": ".",
     "outDir": "../../dist/none",

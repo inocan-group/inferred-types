@@ -1,6 +1,6 @@
 // ---------------------------------------------------------
 
-import {  DateLike, FourDigitYear, ParseDate } from "inferred-types/types";
+import {  DateLike, FourDigitYear, IsGreaterThan, IsLessThan, ParseDate } from "inferred-types/types";
 
 type EndDiv4 =
   | '00' | '04' | '08' | '12' | '16' | '20' | '24' | '28'
@@ -36,7 +36,10 @@ export type IsLeapYear<T extends DateLike> = T extends string
     ? boolean
 : ParseDate<T> extends Error
     ? false
-    : ParseDate<T> extends [ infer Year extends FourDigitYear, ...unknown[]]
+    : ParseDate<T> extends [
+        infer Year extends FourDigitYear,
+        ...unknown[]
+    ]
         ? Detect<Year>
         : boolean
 : boolean;

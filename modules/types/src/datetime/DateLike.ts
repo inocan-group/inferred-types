@@ -1,4 +1,4 @@
-import type { DateFnsLike, DayJsLike, LuxonLike, MomentLike, TemporalLike } from "inferred-types/types";
+import type { DateFnsLike, DayJsLike, FourDigitYear, LuxonLike, MomentLike, TemporalLike } from "inferred-types/types";
 
 /**
  * **DateLike**
@@ -17,6 +17,7 @@ import type { DateFnsLike, DayJsLike, LuxonLike, MomentLike, TemporalLike } from
  */
 export type DateLike =
     | number
+    | FourDigitYear
     | Date
     | `${number}`
     | `${number}-${number}-${number}`

@@ -1,32 +1,29 @@
-import type { AfterFirst, Chars, First, If } from "inferred-types/types";
+import type { AfterFirst, Chars, First } from "inferred-types/types";
 
 type Process<
     TChars extends readonly string[],
-    TOp extends "is" | "not",
+    TOp extends "extends" | "doesNotExtend",
     TComparator extends string,
-    TInclude extends boolean = false,
-    TResult extends string = "",
+    TResponse extends string = ""
 > = [] extends TChars
-    ? TResult
-    : First<TChars> extends TComparator
-        ? TOp extends "is"
-            ? Process<
-                AfterFirst<TChars>,
-                TOp,
-                TComparator,
-                TInclude,
-        `${TResult}${First<TChars>}`
-            >
-            : If<TInclude, `${TResult}${First<TChars>}`, TResult>
-        : TOp extends "is"
-            ? If<TInclude, `${TResult}${First<TChars>}`, TResult>
-            : Process<
-                AfterFirst<TChars>,
-                TOp,
-                TComparator,
-                TInclude,
-        `${TResult}${First<TChars>}`
-            >;
+? TResponse
+: TOp extends "extends"
+    ? First<TChars> extends TComparator
+        ? Process<
+            AfterFirst<TChars>,
+            TOp,
+            TComparator,
+            `${TResponse}${First<TChars>}`
+        >
+        : TResponse
+    :  First<TChars> extends TComparator
+        ? TResponse
+        : Process<
+            AfterFirst<TChars>,
+            TOp,
+            TComparator,
+            `${TResponse}${First<TChars>}`
+        >;
 
 /**
  * **RetainWhile**`<TContent,TComparator>`
@@ -44,4 +41,10 @@ type Process<
 export type RetainWhile<
     TContent extends string,
     TComparator extends string,
-> = Process<Chars<TContent>, "is", TComparator>;
+    TOp extends "extends" | "doesNotExtend" = "extends"
+> = string extends TContent
+? string
+: string extends TComparator
+? string
+
+: Process<Chars<TContent>, TOp, TComparator>;

@@ -40,7 +40,7 @@ type Div<
  * A type utility that will divide two integers.
  */
 export type Divide<A extends number, B extends number> =
-    number extends A
+number extends A
     ? number
     : number extends B
     ? number
@@ -67,5 +67,3 @@ export type Divide<A extends number, B extends number> =
         `The Divide<${A},${B}> can only be used with integer values!`,
         { a: A, b: B }
     >;
-
-

@@ -4,6 +4,7 @@ import {
     ParseDate,
     Test,
     IsError,
+    IsLeapYear,
 } from "inferred-types/types";
 
 describe("ParseDate<T>", () => {
@@ -131,9 +132,9 @@ describe("ParseDate<T>", () => {
         type Invalid5 = ParseDate<"2024-06-15Tnot-a-time">;
 
         type cases = [
-            Expect<Test<Invalid1, "isError", "parse-date/huh">>,
-            Expect<Test<Invalid2, "isError", "parse-date/huh">>,
-            Expect<Test<Invalid4, "isError", "parse-date/huh">>,
+            Expect<Test<Invalid1, "isError", "parse-date/month">>,
+            Expect<Test<Invalid2, "isError", "parse-date/date">>,
+            Expect<Test<Invalid4, "isError", "parse-date/year">>,
             Expect<Test<Invalid5, "isError", "parse-date/time">>
         ];
     });
@@ -148,13 +149,28 @@ describe("ParseDate<T>", () => {
 
     it("edge cases", () => {
         type LeapYear = ParseDate<"2020-02-29">;
-        type IsLeap = IsLeapYear<"2020-02-29">;
+        type L = IsLeapYear<"2020">;
+        type NonLeapYear = ParseDate<"2021-02-29">;
+        type ThirtyDayMonth = ParseDate<"2020-04-31">;
+        type ThirtyOneDayMonth = ParseDate<"2020-05-31">;
 
         type cases = [
             Expect<Test<
                 LeapYear, "equals",
-                [ "2020", "02", "29" ]
-            >>
+                [ "2020", "02", "29", null ]
+            >>,
+            Expect<Test<
+                NonLeapYear, "isError",
+                "parse-date/invalid-date"
+            >>,
+            Expect<Test<
+                ThirtyDayMonth, "isError",
+                "parse-date/invalid-date"
+            >>,
+            Expect<Test<
+                ThirtyOneDayMonth, "equals",
+                ["2020", "05", "31", null]
+            >>,
         ];
     });
 
