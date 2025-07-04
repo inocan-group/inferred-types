@@ -1,7 +1,7 @@
 import {
     isArray,
     isEqual,
-    isObject,
+    isDictionary,
     isString,
     keysOf,
 } from "inferred-types/runtime";
@@ -26,7 +26,7 @@ export function isLength<
         ? !!isEqual((value as unknown[]).length)(len)
         : isString(value)
             ? !!isEqual(value.length)(len)
-            : isObject(value)
+            : isDictionary(value)
                 ? !!isEqual(keysOf(value))(len)
                 : false;
 }

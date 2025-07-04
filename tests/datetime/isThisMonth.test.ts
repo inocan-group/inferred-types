@@ -61,8 +61,7 @@ describe("isThisMonth()", () => {
 
     if (isThisMonth(thisMonth, mockNow)) {
       type ThisMonth = typeof thisMonth;
-      // @ts-ignore
-      type _cases = [
+      type cases = [
         Expect<Test<Luxon, "equals", true>>,
         Expect<Test<LuxonJs["DateTime"], "extends", ThisMonth>>
       ];
@@ -91,9 +90,7 @@ describe("isThisMonth()", () => {
   });
 
   it("should handle invalid inputs", () => {
-    // @ts-expect-error
     expect(() => isThisMonth(null, mockNow)).toThrow();
-    // @ts-expect-error
     expect(() => isThisMonth(undefined, mockNow)).toThrow();
     expect(() => isThisMonth("not a date", mockNow)).toThrow();
     expect(() => isThisMonth("2024-06", mockNow)).toThrow(); // Invalid date format

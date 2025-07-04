@@ -1,5 +1,5 @@
 import type { Constant } from "inferred-types/constants";
-import { isObject } from "inferred-types/runtime";
+import { isDictionary } from "inferred-types/runtime";
 
 /**
  * **isConstant**`(val)`
@@ -10,7 +10,7 @@ import { isObject } from "inferred-types/runtime";
 export function isConstant<
     K extends string,
 >(value: unknown): value is Constant<K> {
-    return !!(isObject(value)
+    return !!(isDictionary(value)
         && "_type" in value
         && "kind" in value
         && value._type === "Constant");

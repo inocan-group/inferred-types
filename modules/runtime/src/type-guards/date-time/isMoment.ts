@@ -1,5 +1,5 @@
 import type { MomentJs } from "inferred-types/types";
-import { isObject } from "inferred-types/runtime";
+import { isDictionary } from "inferred-types/runtime";
 
 /**
  * Type guard which validates that the passed in `val` is a
@@ -9,7 +9,7 @@ export function isMoment(val: unknown): val is MomentJs {
     if (val instanceof Date) {
         return false;
     }
-    return isObject(val)
+    return isDictionary(val)
     // Check for essential Moment.js methods
         && typeof val.format === "function"
         && typeof val.year === "function"

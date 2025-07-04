@@ -3,7 +3,7 @@ import type {
 } from "inferred-types/types";
 import {
     isInputTokenLike,
-    isObject,
+    isDictionary,
     isString
 } from "inferred-types/runtime";
 
@@ -13,7 +13,7 @@ import {
 export function isInputToken__Object(
     val: unknown
 ): val is InputToken__Object {
-    return isObject(val) && Object.values(val).every(
+    return isDictionary(val) && Object.values(val).every(
         i => isString(i) && isInputTokenLike(i)
     );
 }

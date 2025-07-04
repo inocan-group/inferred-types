@@ -1,5 +1,5 @@
 import type { Container, Dictionary, IsValidIndex, Tuple } from "inferred-types/types";
-import { isErrorCondition, isObject } from "inferred-types/runtime";
+import { isErrorCondition, isDictionary } from "inferred-types/runtime";
 
 /**
  * **hasIndexOf**(value, idx) => boolean
@@ -17,7 +17,7 @@ export function hasIndexOf<
         ? Record<TIndex, unknown>
         : never
 ) {
-    const result = isObject(value)
+    const result = isDictionary(value)
         ? String(idx) in value
         : Array.isArray(value)
             ? Number(idx) in value

@@ -1,6 +1,6 @@
 import type { LexerState, TakeFunction } from "inferred-types/types";
 import { err } from "inferred-types/runtime";
-import { isArray, isError, isObject, isString } from "runtime/type-guards";
+import { isArray, isError, isDictionary, isString } from "runtime/type-guards";
 
 type TrimType = "trim" | "trimStart" | "trimEnd" | "none";
 
@@ -13,7 +13,7 @@ type LexerOptions = {
 };
 
 export function isLexerState(val: unknown): val is LexerState {
-    return isObject(val)
+    return isDictionary(val)
         && "remaining" in val && "tokens" in val
         && isArray(val.tokens) && isString(val.remaining);
 }

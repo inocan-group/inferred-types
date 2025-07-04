@@ -165,6 +165,7 @@ describe("ParseTime<T>", () => {
             Expect<Test<Invalid5, "isError", "parse-time/structure">>,
             Expect<Test<Invalid6, "isError", "parse-time/ms">>,
             Expect<Test<Invalid7, "isError", "parse-time/ms">>,
+            Expect<Test<Invalid8, "isError", "parse-time/leftover">>,
         ];
     });
 

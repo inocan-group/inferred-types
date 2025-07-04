@@ -1,5 +1,5 @@
 import type { AsDoneFn } from "inferred-types/types";
-import { isObject } from "inferred-types/runtime";
+import { isDictionary } from "inferred-types/runtime";
 
 /**
  * **isDoneFn**(val)
@@ -8,5 +8,5 @@ import { isObject } from "inferred-types/runtime";
  * property which is a function.
  */
 export function isDoneFn<T>(val: T): val is AsDoneFn<T> {
-    return isObject(val) && "done" in val && typeof val.done === "function";
+    return isDictionary(val) && "done" in val && typeof val.done === "function";
 }

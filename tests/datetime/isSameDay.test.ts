@@ -1,11 +1,12 @@
 import { describe, it, expect } from "vitest";
 import { Test, Expect } from "inferred-types/types";
-import { isSameDay } from "../../modules/runtime/src/datetime/isSameDay";
+import { isSameDay, asDate } from "inferred-types/runtime";
 
 describe("isSameDay(comparator) -> (date) -> boolean", () => {
 
     it("same day with Date objects", () => {
         const comparator = new Date(2024, 5, 15); // June 15, 2024
+
         const checkFn = isSameDay(comparator);
 
         const sameDay = new Date(2024, 5, 15, 14, 30); // Same day, different time

@@ -1,8 +1,8 @@
 import type { DateFnsLike } from "inferred-types/types";
-import { isObject } from "inferred-types/runtime";
+import { isDictionary } from "inferred-types/runtime";
 
 export function isDateFnsDate(val: unknown): val is DateFnsLike {
-    if (isObject(val) && "startOfDay" in val && typeof val.startOfDay === "function") {
+    if (isDictionary(val) && "startOfDay" in val && typeof val.startOfDay === "function") {
         try {
             return val.startOfDay() instanceof Date;
         }

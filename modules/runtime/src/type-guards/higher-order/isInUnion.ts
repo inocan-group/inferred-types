@@ -1,5 +1,5 @@
 import type { Narrowable, SimpleToken } from "inferred-types/types";
-import { hasNonStringKeys, isBoolean, isNull, isNumber, isObject, isString, isUndefined } from "inferred-types/runtime";
+import { hasNonStringKeys, isBoolean, isNull, isNumber, isDictionary, isString, isUndefined } from "inferred-types/runtime";
 
 const TOKENS = [
     "undefined",
@@ -52,7 +52,7 @@ export function isInUnion<
                             return true;
                         }
                     case "Array<Dict>":
-                        if (Array.isArray(value) && value.every(i => isObject(i))) {
+                        if (Array.isArray(value) && value.every(i => isDictionary(i))) {
                             return true;
                         }
                     case "Array<boolean>":
@@ -68,7 +68,7 @@ export function isInUnion<
                             return true;
                         }
                     case "Dict":
-                        if (isObject(value)) {
+                        if (isDictionary(value)) {
                             return true;
                         }
                     case "Dict<string, unknown>":

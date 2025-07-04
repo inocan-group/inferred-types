@@ -1,3 +1,4 @@
+import { ObjectKey } from "inferred-types/types";
 import type { IsoDateTime } from "src/datetime/Iso";
 
 type RelativeTimeKey = "s" | "ss" | "m" | "mm" | "h" | "hh" | "d" | "dd" | "w" | "ww" | "M" | "MM" | "y" | "yy";
@@ -437,7 +438,7 @@ export interface LuxonLike {
     plus(duration: object): LuxonLike;
     minus(duration: object): LuxonLike;
     isValid: boolean;
-    [key: string]: any;
+    [key: ObjectKey]: any;
 }
 
 export interface DateFnsLike {
@@ -446,8 +447,22 @@ export interface DateFnsLike {
     isSameDay(other: Date): boolean;
     toISOString(): string;
     getTime(): number;
-    [key: string]: any;
+    [key: ObjectKey]: any;
 }
+
+export interface JsDateLike {
+    getTime(): number;
+    toIsoString(): string;
+    getFullYear(): number;
+    setFullYear(year: number, month?: number, date?: number): number;
+    getDate(): number;
+    /** Gets the day of the week, using local time. */
+    getDay(): number;
+    getHours(): number;
+    getMonth(): number;
+    getMinutes(): number;
+    [key: ObjectKey]: any;
+};
 
 /**
  * A representation of the [Luxon](https://moment.github.io/luxon/#/?id=luxon) library's type system

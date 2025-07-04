@@ -19,7 +19,10 @@ import type {
  * **Note:** this _does not_ match on DateTime combinations; use `IsIsoDateTime`
  * for that.
  */
-export type IsIsoDate<T> = T extends IsoDateLike
+export type IsIsoDate<T> =
+string extends T
+? boolean
+: T extends IsoDateLike
     ? IsIsoFullDate<T> extends true
         ? true
     : IsIsoYearMonth<T> extends true

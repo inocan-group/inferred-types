@@ -6,8 +6,6 @@ import {
     Test,
     IsFalse,
     IsFalsy,
-    IsIsoDate,
-    IsIsoDateTime,
     IsDateLike
 } from "inferred-types/types";
 

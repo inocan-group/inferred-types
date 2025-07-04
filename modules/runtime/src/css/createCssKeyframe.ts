@@ -12,7 +12,7 @@ import type {
 } from "inferred-types/types";
 
 import {
-    isObject,
+    isDictionary,
 } from "inferred-types/runtime";
 
 export interface KeyframeApi<
@@ -70,7 +70,7 @@ type FrameToCSS<
 export type CssKeyframeCallback = (cb: KeyframeApi<[]>) => unknown;
 
 function hasDone<T>(val: T): val is KeyframeApi<any[]> & T {
-    return isObject(val) && "done" in val && typeof val.done === "function";
+    return isDictionary(val) && "done" in val && typeof val.done === "function";
 }
 
 function frameToCss<T extends readonly [CssKeyframeTimestamp, CssDefinition][]>(

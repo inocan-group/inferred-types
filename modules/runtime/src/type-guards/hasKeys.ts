@@ -1,6 +1,6 @@
 import type { EmptyObject, EnsureKeys } from "inferred-types/types";
 import { Never } from "inferred-types/constants";
-import { isFunction, isObject } from "inferred-types/runtime";
+import { isFunction, isDictionary } from "inferred-types/runtime";
 
 /**
  * **hasKeys**(props) => (obj) => `HasKeys<O,P>`
@@ -28,7 +28,7 @@ export function hasKeys<
 
   return (val: unknown): val is EnsureKeys<EmptyObject, Props> => {
       return !!((
-          isFunction(val) || isObject(val)
+          isFunction(val) || isDictionary(val)
       ) && keys.every(k => k in (val as object)));
   };
 }

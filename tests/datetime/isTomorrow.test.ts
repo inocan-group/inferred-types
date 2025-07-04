@@ -5,10 +5,10 @@ import {
     IsIsoDateTime,
     IsIsoDate,
     IsLuxonDateTime,
-    Iso8601Date,
-    Iso8601DateTime,
     LuxonJs,
-    Test
+    Test,
+    IsoDateTimeLike,
+    IsoDateLike
 } from "inferred-types/types";
 import { DateTime } from "luxon";
 import moment from "moment";
@@ -81,7 +81,7 @@ describe("isTomorrow()", () => {
 
             type cases = [
                 Expect<Test<Iso, "equals", true>>,
-                Expect<Test<NextDay, "extends", Iso8601DateTime>>
+                Expect<Test<NextDay, "extends", IsoDateTimeLike>>
             ];
         }
     });
@@ -92,7 +92,7 @@ describe("isTomorrow()", () => {
         const today = "2024-01-15";
         const dayAfterTomorrow = "2024-01-17";
         type Iso = IsIsoDate<typeof tomorrow>;
-        type IsoWide = IsIsoDate<typeof wide>;
+        type IsoWide = IsIsoDate<string>;
 
         expect(isTomorrow(tomorrow, mockNow)).toBe(true);
         expect(isTomorrow(today, mockNow)).toBe(false);
@@ -103,7 +103,7 @@ describe("isTomorrow()", () => {
             // @ts-ignore
             type _cases = [
                 Expect<Test<Iso, "equals", true>>,
-                Expect<Test<NextDay, "extends", Iso8601Date>>
+                Expect<Test<NextDay, "extends", IsoDateLike>>
             ];
         }
         if (isTomorrow(wide, mockNow)) {
@@ -117,9 +117,7 @@ describe("isTomorrow()", () => {
     });
 
     it("should handle invalid inputs", () => {
-        // @ts-expect-error
         expect(() => isTomorrow(null, mockNow)).toThrow();
-        // @ts-expect-error
         expect(() => isTomorrow(undefined, mockNow)).toThrow();
         expect(() => isTomorrow("not a date", mockNow)).toThrow();
         expect(isTomorrow("2024", mockNow)).toBe(false); // Valid year, but Jan 1 != Jan 16

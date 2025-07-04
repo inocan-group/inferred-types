@@ -34,6 +34,7 @@ export function asDateTime<T extends DateLike>(input: T): Date {
     }
 
     if (isLuxonDate(input)) {
+        // Use toJSDate() directly; this preserves the exact instant in time and the offset
         return input.toJSDate();
     }
 

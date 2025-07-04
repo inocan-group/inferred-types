@@ -12,7 +12,7 @@ import {
     isNarrowable,
     isNull,
     isNumber,
-    isObject,
+    isDictionary,
     isString,
     isTrue,
     isUndefined,
@@ -59,11 +59,11 @@ export function doesExtend<
                     return isUndefined(val);
                 }
                 else if (type === "object") {
-                    return isObject(val);
+                    return isDictionary(val);
                 }
             }
             else if (isInputToken__Object(type)) {
-                if (isObject(val)) {
+                if (isDictionary(val)) {
                     return Object.keys(type).every(
                         k => isInputTokenLike(type[k]) && isNarrowable(val[k]) && doesExtend(type[k])(val[k])
                     );

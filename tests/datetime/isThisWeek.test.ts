@@ -70,9 +70,7 @@ describe("isThisWeek()", () => {
   });
 
   it("should handle invalid inputs", () => {
-    // @ts-expect-error
     expect(() => isThisWeek(null, mockNow)).toThrow();
-    // @ts-expect-error
     expect(() => isThisWeek(undefined, mockNow)).toThrow();
     expect(() => isThisWeek("not a date", mockNow)).toThrow();
     // "2024" is actually valid (year input) so it returns false instead of throwing

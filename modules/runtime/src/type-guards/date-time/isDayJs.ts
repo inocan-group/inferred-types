@@ -1,5 +1,5 @@
 import type { DayJsLike } from "inferred-types/types";
-import { isObject } from "inferred-types/runtime";
+import { isDictionary } from "inferred-types/runtime";
 
 /**
  * Type guard to detect whether the `val` passed in is a `Day.js` date
@@ -7,7 +7,7 @@ import { isObject } from "inferred-types/runtime";
  */
 export function isDayJs(val: unknown): val is DayJsLike {
     if (
-        isObject(val)
+        isDictionary(val)
         && "toDate" in val
         && typeof val.toDate === "function"
         && "subtract" in val

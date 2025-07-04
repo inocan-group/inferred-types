@@ -6,9 +6,9 @@ import {
     IsIsoDateTime,
     IsIsoDate,
     IsLuxonDateTime,
-    Iso8601Date,
-    Iso8601DateTime,
     LuxonJs,
+    IsoDateTimeLike,
+    IsoDateLike,
 } from "inferred-types/types";
 import { DateTime } from "luxon";
 import moment from "moment";
@@ -74,7 +74,7 @@ describe("isYesterday()", () => {
         }
     });
 
-    it("should correctly validate ISO 8601 datetime strings", () => {
+    it("should correctly validate ISO  datetime strings", () => {
         const yesterday = "2024-01-14T14:30:00Z";
         const today = "2024-01-15T14:30:00Z";
         const dayBeforeYesterday = "2024-01-13T14:30:00Z";
@@ -89,18 +89,18 @@ describe("isYesterday()", () => {
 
             type _cases = [
                 Expect<Test<Iso, "equals", true>>,
-                Expect<Extends<PrevDay, Iso8601DateTime>>
+                Expect<Extends<PrevDay, IsoDateTimeLike>>
             ];
         }
     });
 
-    it("should correctly validate ISO 8601 date strings", () => {
+    it("should correctly validate ISO  date strings", () => {
         const yesterday = "2024-01-14";
         const wide = yesterday as string;
         const today = "2024-01-15";
         const dayBeforeYesterday = "2024-01-13";
         type Iso = IsIsoDate<typeof yesterday>;
-        type IsoWide = IsIsoDate<typeof wide>;
+        type IsoWide = IsIsoDate<string>;
 
         expect(isYesterday(yesterday, mockNow)).toBe(true);
         expect(isYesterday(today, mockNow)).toBe(false);
@@ -111,7 +111,7 @@ describe("isYesterday()", () => {
 
             type _cases = [
                 Expect<Test<Iso, "equals", true>>,
-                Expect<Extends<PrevDay, Iso8601Date>>
+                Expect<Extends<PrevDay, IsoDateLike>>
             ];
         }
         if (isYesterday(wide, mockNow)) {
@@ -125,9 +125,7 @@ describe("isYesterday()", () => {
     });
 
     it("should handle invalid inputs", () => {
-        // @ts-expect-error
         expect(() => isYesterday(null, mockNow)).toThrow();
-        // @ts-expect-error
         expect(() => isYesterday(undefined, mockNow)).toThrow();
         expect(() => isYesterday("not a date", mockNow)).toThrow();
         expect(isYesterday("2024", mockNow)).toBe(false); // Valid year, but Jan 1 != Jan 14

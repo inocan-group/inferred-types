@@ -1,5 +1,4 @@
-import type { Err, Narrowable, TypedError } from "inferred-types/types";
-import type { EmptyObject, IsNever } from "../../../inferred-types/dist";
+import type { Err, Narrowable, TypedError, EmptyObject, IsNever } from "inferred-types/types";
 import { toKebabCase } from "inferred-types/runtime";
 
 /**

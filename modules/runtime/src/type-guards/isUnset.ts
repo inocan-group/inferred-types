@@ -1,5 +1,5 @@
 import type { Unset } from "inferred-types/types";
-import { isObject } from "inferred-types/runtime";
+import { isDictionary } from "inferred-types/runtime";
 
 /**
  * **isUnset**`(val)`
@@ -9,5 +9,5 @@ import { isObject } from "inferred-types/runtime";
  * **Related:** `isSet()`
  */
 export function isUnset(val: unknown): val is Unset {
-    return isObject(val) && val.kind === "Unset";
+    return isDictionary(val) && val.kind === "Unset";
 }

@@ -41,7 +41,7 @@ import {
     isNarrowableTuple,
     isNumber,
     isNumberLike,
-    isObject,
+    isDictionary,
     isString,
     isStringOrNumericArray,
     isTrue,
@@ -260,7 +260,7 @@ function handle_object<
     switch (op) {
         case "objectKeyGreaterThan":
             const [key, compare] = params as [ObjectKey, number];
-            return isObject(val)
+            return isDictionary(val)
                 ? hasIndexOf(val, key)
                     ? isNumberLike(val[key])
                         ? Number(val[key]) > compare
@@ -274,7 +274,7 @@ function handle_object<
 
         case "objectKeyGreaterThanOrEqual": {
             const [key, compare] = params as [ObjectKey, number];
-            return isObject(val)
+            return isDictionary(val)
                 ? hasIndexOf(val, key)
                     ? isNumberLike(val[key])
                         ? Number(val[key]) >= compare
@@ -288,7 +288,7 @@ function handle_object<
         }
         case "objectKeyLessThan": {
             const [key, compare] = params as [ObjectKey, number];
-            return isObject(val)
+            return isDictionary(val)
                 ? hasIndexOf(val, key)
                     ? isNumberLike(val[key])
                         ? Number(val[key]) < compare
@@ -302,7 +302,7 @@ function handle_object<
         }
         case "objectKeyLessThanOrEqual": {
             const [key, compare] = params as [ObjectKey, number];
-            return isObject(val)
+            return isDictionary(val)
                 ? hasIndexOf(val, key)
                     ? isNumberLike(val[key])
                         ? Number(val[key]) <= compare
@@ -316,7 +316,7 @@ function handle_object<
         }
         case "objectKeyEquals": {
             const [key, compare] = params as [ObjectKey, unknown];
-            return isObject(val)
+            return isDictionary(val)
                 ? hasIndexOf(val, key)
                     ? val[key] === compare
                     : false

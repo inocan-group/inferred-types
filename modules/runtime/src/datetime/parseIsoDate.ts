@@ -217,18 +217,11 @@ function shape(
 
     // Handle timezone/offset
     if (timezone && !isError(timezone)) {
-        if (timezone === "Z") {
-            result.timezone = timezone as TimeZone<"strong">;
-        }
-        else {
-            result.offset = timezone;
-        }
-    }
-    else if (pattern === "date") {
-        // For date-only patterns, tests expect offset: undefined
-        result.offset = undefined;
-    }
-    else if (pattern === "year" || pattern === "year-month" || pattern === "year-independent") {
+        result.timezone = timezone as TimeZone<"strong">;
+    } else if (pattern === "date") {
+        // For date-only patterns, tests expect timezone: undefined
+        result.timezone = undefined;
+    } else if (pattern === "year" || pattern === "year-month" || pattern === "year-independent") {
         // For these patterns, tests expect timezone: undefined
         result.timezone = undefined;
     }
@@ -246,7 +239,7 @@ function shape(
  */
 export function parseIsoDate<T extends string>(input: T): IsoMeta | Error {
     // ISO datetime regex (YYYY-MM-DDTHH:mm:ss(.sss)?(Z|±hh:mm)?)
-    const isoDateTime = /^(-?\d{4})-?(\d{2})-?(\d{2})[T ](\d{2}):(\d{2})(?::(\d{2})(?:\.(\d{1,3}))?)?(Z|[+-]\d{2}:?\d{2})?$/;
+    const isoDateTime = /^(-?\d{4})-?(\d{2})-?(\d{2})[T ](\d{2}):(\d{2})(?::(\d{2})(?:\.(\d{3}))?)?(Z|[+-]\d{2}:?\d{2})?$/;
     // ISO date (YYYY-MM-DD or YYYYMMDD)
     const isoDate = /^(-?\d{4})-?(\d{2})-?(\d{2})$/;
     // Year only
