@@ -1,5 +1,5 @@
 import type { VueRef } from "inferred-types/types";
-import { isDictionary } from "./isObject";
+import { isDictionary } from "inferred-types/runtime";
 
 /**
  * **isRef**(value)

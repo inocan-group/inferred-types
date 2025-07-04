@@ -1,5 +1,5 @@
 import type { ObjectKey } from "inferred-types/types";
-import { isDictionary } from "runtime/type-guards/isObject";
+import { isDictionary } from "inferred-types/runtime";
 
 /**
  * type-guard which validates that `val` is an object with at least one symbol

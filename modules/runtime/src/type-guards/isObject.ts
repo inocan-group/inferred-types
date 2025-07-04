@@ -1,27 +1,14 @@
-import type { Dictionary, Narrowable, ObjectKey } from "inferred-types/types";
-
-/**
- * **isDictionary**(value)
- *
- * Type guard used to detect whether the passed in value is an Object.
- *
- * Note: an _array_ will **not** pass this test (although the _typeof_ operator
- * would have said it was an object)
- *
- * **Related:** `isNarrowableObject()`
- */
-export function isDictionary(value: unknown): value is Dictionary {
-    return typeof value === "object" && value !== null && Array.isArray(value) === false;
-}
-
 /**
  * **isObject**(value)
  *
- * Type guard used to detect whether the passed in value is an Object and all of it's
- * values fit into the `Narrowable` type.
+ * Type guard used to detect whether the passed in value is an `object`.
  *
- * **Related:** `isObject()`
+ * - this includes matching on array's, Set's, Map's, and WeakMap's
+ *
+ * **Related:**
+ * - `isNarrowableDictionary()`,
+ * - `isObject()`, `isMap()`, `isSet()`, `isWeakMap()`
  */
-export function isNarrowableObject(value: unknown): value is Dictionary<ObjectKey, Narrowable> {
-    return isDictionary(value) && Object.keys(value).every(key => ["string", "number", "boolean", "symbol", "object", "undefined", "void", "null"].includes(typeof value[key]));
+export function isObject(value: unknown): value is object {
+    return typeof value === "object" && value !== null ;
 }

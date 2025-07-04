@@ -1,5 +1,5 @@
 import type { DefineObject } from "inferred-types/types";
-import { isDictionary } from "../isObject";
+import { isDictionary } from "inferred-types/runtime";
 import { isShapeToken } from "./isShapeToken";
 import { isSimpleToken } from "./isSimpleToken";
 

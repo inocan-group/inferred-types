@@ -1,4 +1,4 @@
-import { isDictionary } from "../isObject";
+import { isDictionary } from "inferred-types/runtime";
 
 /**
  * **isHtmlElement**`(val)`

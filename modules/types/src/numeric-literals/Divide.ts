@@ -1,6 +1,13 @@
-import { And, Err, IsInteger, FixedLengthArray, Abs, IsNegativeNumber, Xor, AsNegativeNumber } from "inferred-types/types";
-import { } from "src/tuples";
-
+import {
+    And,
+    Err,
+    IsInteger,
+    FixedLengthArray,
+    Abs,
+    IsNegativeNumber,
+    Xor,
+    AsNegativeNumber
+} from "inferred-types/types";
 
 type Gte<
     A extends unknown[],

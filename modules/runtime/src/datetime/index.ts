@@ -29,3 +29,4 @@ export * from "./isYesterday";
 export * from "./parseIsoDate";
 export * from "./parseDateObject"
 export * from "./parseNumericDate"
+export * from "./parseDate"

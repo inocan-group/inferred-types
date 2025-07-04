@@ -1,15 +1,8 @@
-import type { Unset } from "inferred-types/types";
-import { isDictionary } from "./isObject";
+
 
 /**
- * **isSet**`(val)`
- *
- * Type guard which validates that the value passed in is **not** `Unset`.
- *
- * **Related:** `isUnset()`
+ * type guard which tests `val` to see if it's a valid `Set<any>`
  */
-export function isSet<T>(val: T): val is Exclude<T, Unset> {
-    return isDictionary(val)
-        ? val.kind !== "Unset"
-        : true;
+export function isSet(val: unknown): val is Set<any> {
+    return val instanceof Set;
 }

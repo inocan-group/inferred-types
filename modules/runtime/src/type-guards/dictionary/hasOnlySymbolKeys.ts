@@ -1,4 +1,4 @@
-import { isDictionary } from "runtime/type-guards/isObject";
+import { isDictionary } from "inferred-types/runtime";
 
 /**
  * type-guard which validates that `val` is an object with **only** symbol
