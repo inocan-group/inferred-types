@@ -10,6 +10,12 @@ export type ParseInt<T> = T extends `${infer N extends number}`
     ? N
     : never;
 
+type JustZeros<T extends string> = T extends `${infer HEAD extends string}${infer REST extends string}`
+    ? HEAD extends "0"
+        ? JustZeros<REST>
+        : false
+    : true;
+
 /**
  * **AsNumber**`<T>`
  *
@@ -26,10 +32,14 @@ export type AsNumber<T> = T extends number
     ? T
     : T extends `${number}`
         ? T extends `-${infer Numeric}`
-            ? ParseInt<
-                `-${StripWhile<Numeric, "0">}`
-            >
-            : ParseInt<
-                StripWhile<T, "0">
-            >
+            ? JustZeros<T> extends true
+                ? 0
+                : ParseInt<
+                    `-${StripWhile<Numeric, "0">}`
+                >
+            : JustZeros<T> extends true
+                ? 0
+                : ParseInt<
+                    StripWhile<T, "0">
+                >
         : never;

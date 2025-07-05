@@ -19,6 +19,9 @@
             "runtime/*": [ "src/*"],
             "constants/*": [
                 "../constants/src/*"
+            ],
+            "types/*": [
+                "../types/src/*"
             ]
         },
         "strict": true,

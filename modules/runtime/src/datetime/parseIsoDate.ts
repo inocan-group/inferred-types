@@ -1,152 +1,83 @@
-import type { FourDigitYear, MinimalDigitDate, ThreeDigitMillisecond, TimeZone, TwoDigitDate, TwoDigitHour, TwoDigitMinute, TwoDigitMonth, TwoDigitSecond } from "inferred-types/types";
-import { err, isError, isString } from "inferred-types/runtime";
+import type {
+    FourDigitYear,
+    MinimalDigitDate,
+    ThreeDigitMillisecond,
+    TimeZone,
+    TwoDigitDate,
+    TwoDigitHour,
+    TwoDigitMinute,
+    TwoDigitMonth,
+    TwoDigitSecond,
+    ParseDate,
+    ParsedDate,
+    AsParsedDate,
+    IsUnion,
+    DateType,
+    DateMeta
+} from "inferred-types/types";
 
-export function isFourDigitYear(str: unknown): str is FourDigitYear {
-    const re = /^(-?\d{4})$/;
-
-    return isString(str) && re.test(str);
-}
-
-/**
- * Type-guard for TwoDigitHour
- * Matches "00"–"09", "10"–"19", or "20"–"23"
- */
-export function isTwoDigitHour(s: unknown): s is TwoDigitHour {
-    return isString(s) && /^(?:0\d|1\d|2[0-3])$/.test(s);
-}
-
-/**
- * Type-guard for TwoDigitMinute
- */
-export function isTwoDigitMinute(s: unknown): s is TwoDigitMinute {
-    return isString(s) && /^(?:0\d|1\d|2\d|3\d|4\d|5\d)$/.test(s);
-}
-
-/**
- * Type-guard for isTwoDigitSecond
- */
-export function isTwoDigitSecond(s: unknown): s is TwoDigitSecond {
-    return isString(s) && /^(?:0\d|1\d|2\d|3\d|4\d|5\d)$/.test(s);
-}
-
-export function isThreeDigitMillisecond(s: unknown): s is ThreeDigitMillisecond {
-    return isString(s) && /^\d\d\d$/.test(s);
-}
-
-/**
- * Type-guard for TwoDigitMonth
- * Matches "01"–"09" or "10"–"12"
- */
-export function isTwoDigitMonth(s: unknown): s is TwoDigitMonth {
-    return isString(s) && /^(?:0[1-9]|1[0-2])$/.test(s);
-}
-
-/**
- * TwoDigitDate = "01"–"09", "10"–"29", or "30"–"31"
- */
-export function isTwoDigitDate(s: unknown): s is TwoDigitDate {
-    return isString(s) && /^(?:0[1-9]|[12]\d|3[01])$/.test(s);
-}
-
-/**
- * MinimalDigitDate = "1"–"9", or "10"–"29", or "30"–"31"
- */
-export function isMinimalDigitDate(s: unknown): s is MinimalDigitDate {
-    return isString(s) && /^(?:[1-9]|[12]\d|3[01])$/.test(s);
-}
-
-/**
- * TimeZone =
- *   "Z"
- *   | ("+"|"-") + TwoDigitHour
- *   | ("+"|"-") + TwoDigitHour + TwoDigitMinute
- *   | ("+"|"-") + TwoDigitHour + ":" + TwoDigitMinute
- *
- * TwoDigitHour: 00–23
- * TwoDigitMinute: 00–59
- */
-export function isTimeZone(s: unknown): s is TimeZone {
-    return isString(s) && /^(?:Z|[+\-](?:0?\d|1\d|2[0-3])(?::?[0-5]\d)?)$/.test(s);
-}
+import { err } from "runtime/errors";
+import { isFourDigitYear, isThreeDigitMillisecond, isTimeZone, isTwoDigitDate, isTwoDigitHour, isTwoDigitMinute, isTwoDigitMonth, isTwoDigitSecond } from "runtime/type-guards/datetime"
+import { isError } from "runtime/type-guards/isError";
 
 function isUndefined(val: unknown): val is undefined {
     return val === undefined;
 }
 
-export type IsoDateType =
-    | "datetime"
-    | "date"
-    | "year-independent"
-    | "year-month"
-    | "year";
-
-export type IsoMeta = {
-    dateType: IsoDateType | "full";
-    hasTime?: boolean;
-    year?: FourDigitYear;
-    month?: TwoDigitMonth;
-    date?: TwoDigitDate;
-    hour?: TwoDigitHour;
-    minute?: TwoDigitMinute;
-    second?: TwoDigitSecond;
-    ms?: ThreeDigitMillisecond | undefined;
-    timezone?: TimeZone<"strong">;
-    offset?: string;
-};
 
 function shape(
     input: string,
-    pattern: IsoDateType,
+    pattern: DateType,
     match: readonly (string | undefined | Error)[]
 ) {
-    let [, year, month, date, hour, minute, second, ms, timezone] = match as (string | Error | undefined)[];
+    let [, year, month, date, hour, minute, second, ms, timezone] = match as (string | Error | null)[];
 
-    let hasTime: boolean = !!(hour && minute);
-
-    switch (pattern) {
-        case "datetime": {
-            hasTime = true;
-            break;
-        }
-        case "year-independent": {
-            year = undefined;
-            break;
-        }
-        case "year-month": {
-            date = undefined;
-            break;
-        }
-        case "year": {
-            month = undefined;
-            date = undefined;
-            break;
-        }
-    }
 
     year = isUndefined(year)
-        ? undefined
+        ? null
         : isFourDigitYear(year) ? year : err(`invalid`);
     month = isUndefined(month)
-        ? undefined
+        ? null
         : isTwoDigitMonth(month) ? month : err(`invalid`);
     date = isUndefined(date)
-        ? undefined
+        ? null
         : isTwoDigitDate(date) ? date : err(`invalid`);
     hour = isUndefined(hour)
-        ? undefined
+        ? null
         : isTwoDigitHour(hour) ? hour : err(`invalid`);
     minute = isUndefined(minute)
-        ? undefined
+        ? null
         : isTwoDigitMinute(minute) ? minute : err(`invalid`);
     second = isUndefined(second)
-        ? undefined
+        ? null
         : isTwoDigitSecond(second) ? second : err(`invalid`);
     ms = isUndefined(ms)
-        ? undefined
+        ? null
         : isThreeDigitMillisecond(ms) ? ms : err(`invalid`);
     timezone = isUndefined(timezone)
-        ? undefined
+        ? null
         : isTimeZone(timezone) ? timezone : err(`invalid`);
+
+
+    /**
+     * tests whether:
+     *
+     * 1. has `hour` and `minute` values
+     * 2. whether the time elements are all set to 0's
+     *
+     * The intent is for a date object -- which ALWAYS includes time
+     * info when converted to an ISO string -- for a UTC time that is
+     * exactly at midnight to report `false` for this metric.
+     */
+    let hasTime: boolean = input.includes("T")
+        ? (timezone === "Z" || timezone === undefined)
+            && hour === "00"
+            && minute === "00"
+            && (second === "00" || second === undefined)
+            && (ms === "000" || ms === undefined)
+            ? false : true
+        : false;
+
 
     const invalid: string[] = [];
 
@@ -180,40 +111,18 @@ function shape(
         );
     }
 
-    // Map dateType based on tests expectations
-    let mappedDateType: IsoDateType | "full";
-    if (pattern === "datetime" && timezone === "Z") {
-        mappedDateType = "datetime";
-    }
-    else if (pattern === "datetime" || pattern === "date") {
-        mappedDateType = "full";
-    }
-    else {
-        mappedDateType = pattern;
-    }
-
-    const result: any = {
-        dateType: mappedDateType,
-        year: isError(year) ? undefined : year as FourDigitYear | undefined,
-        month: isError(month) ? undefined : month as TwoDigitMonth | undefined,
-        date: isError(date) ? undefined : date as TwoDigitDate | undefined,
-        hour: isError(hour) ? undefined : hour as TwoDigitHour | undefined,
-        minute: isError(minute) ? undefined : minute as TwoDigitMinute | undefined,
-        second: isError(second) ? undefined : second as TwoDigitSecond | undefined,
-        ms: isError(ms) ? undefined : ms as ThreeDigitMillisecond | undefined
+    const result: DateMeta = {
+        dateType: pattern,
+        hasTime,
+        year: year as FourDigitYear | null,
+        month: month as TwoDigitMonth,
+        date: isError(date) ? undefined : date as TwoDigitDate | null,
+        hour: isError(hour) ? undefined : hour as TwoDigitHour | null,
+        minute: isError(minute) ? undefined : minute as TwoDigitMinute | null,
+        second: isError(second) ? undefined : second as TwoDigitSecond | null,
+        ms: isError(ms) ? undefined : ms as ThreeDigitMillisecond | null
     };
 
-    // Add hasTime only for specific cases based on test expectations
-    if (pattern === "datetime" && timezone === "Z") {
-        result.hasTime = true;
-    }
-    else if (pattern === "date") {
-        result.hasTime = false;
-    }
-    else if (pattern === "year" || pattern === "year-month" || pattern === "year-independent") {
-        result.hasTime = false;
-    }
-    // For datetime with offset, don't include hasTime field
 
     // Handle timezone/offset
     if (timezone && !isError(timezone)) {
@@ -226,8 +135,16 @@ function shape(
         result.timezone = undefined;
     }
 
-    return result as IsoMeta;
+    return result as DateMeta;
 }
+
+type Returns<T extends string> = [IsUnion<T>] extends [true]
+    ? DateMeta | Error
+    : ParseDate<T> extends Error
+        ? ParseDate<T> & Error
+    : ParseDate<T> extends ParsedDate
+        ? AsParsedDate<ParseDate<T>>
+        : Error;
 
 /**
  * Parses an ISO date or datetime string into its components.
@@ -237,7 +154,11 @@ function shape(
  * - time: { hour, minute, second, ms, offset } or null
  * Throws if the string is not a valid ISO date/datetime.
  */
-export function parseIsoDate<T extends string>(input: T): IsoMeta | Error {
+export function parseIsoDate<
+    const T extends string
+>(
+    input: T
+): Returns<T> {
     // ISO datetime regex (YYYY-MM-DDTHH:mm:ss(.sss)?(Z|±hh:mm)?)
     const isoDateTime = /^(-?\d{4})-?(\d{2})-?(\d{2})[T ](\d{2}):(\d{2})(?::(\d{2})(?:\.(\d{3}))?)?(Z|[+-]\d{2}:?\d{2})?$/;
     // ISO date (YYYY-MM-DD or YYYYMMDD)
@@ -263,7 +184,7 @@ export function parseIsoDate<T extends string>(input: T): IsoMeta | Error {
             dateTime = result;
         }
         else {
-            return shape(input, "datetime", match);
+            return shape(input, "datetime", match) as Returns<T>
         }
     }
 
@@ -273,7 +194,7 @@ export function parseIsoDate<T extends string>(input: T): IsoMeta | Error {
             date = result;
         }
         else {
-            return shape(input, "date", match);
+            return shape(input, "date", match)  as Returns<T>;
         }
     }
 
@@ -287,7 +208,7 @@ export function parseIsoDate<T extends string>(input: T): IsoMeta | Error {
             yearIndependent = result;
         }
         else {
-            return result;
+            return result  as Returns<T>;
         }
     }
 
@@ -297,7 +218,7 @@ export function parseIsoDate<T extends string>(input: T): IsoMeta | Error {
             yearMonth = result;
         }
         else {
-            return shape(input, "year-month", match);
+            return shape(input, "year-month", match) as Returns<T>;
         }
     }
 
@@ -307,9 +228,12 @@ export function parseIsoDate<T extends string>(input: T): IsoMeta | Error {
             year = result;
         }
         else {
-            return shape(input, "year", match);
+            return shape(input, "year", match)  as Returns<T>;
         }
     }
 
-    return err("parse/iso-date", "The string passed to parseIsoDate() was invalid!", { input, matched: { dateTime, date, yearMonth, yearIndependent, year } });
+    return err(
+        "parse/iso-date",
+        "The string passed to parseIsoDate() was invalid!", { input, matched: { dateTime, date, yearMonth, yearIndependent, year } }
+    ) as unknown as  Returns<T>;
 }

@@ -1,10 +1,14 @@
 import {
     err,
+    isError,
+    isNumber
+} from "inferred-types/runtime";
+
+import {
     isDate,
     isDateFnsDate,
     isEpochInMilliseconds,
     isEpochInSeconds,
-    isError,
     isIsoDate,
     isIsoDateTime,
     isIsoExplicitDate,
@@ -12,10 +16,9 @@ import {
     isIsoYear,
     isLuxonDate,
     isMoment,
-    isNumber,
     isTemporalDate,
-    parseIsoDate
-} from "inferred-types/runtime";
+} from "runtime/type-guards/datetime";
+import { parseIsoDate } from "runtime/datetime";
 
 /**
  * **asDate**`(input)`

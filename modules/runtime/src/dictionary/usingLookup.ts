@@ -1,4 +1,4 @@
-import type { Dictionary, Narrowable, StringKeys, Suggest, Unset } from "@inferred-types/types";
+import type { Dictionary, Narrowable, StringKeys, Suggest, Unset } from "inferred-types/types";
 import { unset } from "inferred-types/runtime";
 
 export function usingLookup<

@@ -1,6 +1,5 @@
-import type { EndsWith } from "inferred-types/types";
+import type { EndsWith, ToStringArray } from "inferred-types/types";
 import { isNumber, isString } from "inferred-types/runtime";
-import { ToStringArray } from "@inferred-types/types";
 
 /**
  * **endsWith**(endingWith) => (val) -> true | false
@@ -30,11 +29,11 @@ export function endsWith<
 >(...endingWith: TEndsWith) {
     return <
         const TValue extends string | number,
-    >(val: TValue): EndsWith<TValue, TEndsWith> => {
+    >(val: TValue): EndsWith<TValue, ToStringArray<TEndsWith>> => {
         return (
             isString(val) || isNumber(val)
                 ? endingWith.some(i => String(val).endsWith(String(i)))
                 : false
-        ) as EndsWith<TValue, TEndsWith>;
+        ) as EndsWith<TValue, ToStringArray<TEndsWith>>;
     };
 }

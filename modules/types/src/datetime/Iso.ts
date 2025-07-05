@@ -19,7 +19,7 @@ import type {
 export type IsoYear = `${NumericChar}${NumericChar}${NumericChar}${NumericChar}` | `${"+" | "-"}${number}`;
 
 // — date part: “YYYY-MM-DD” (or any numeric segments)
-type DatePart = `${number}-${TwoDigitMonth}-${TwoDigitDate}`;
+type DatePart = `${number}-${number}-${TwoDigitDate}`;
 
 // — time part: “hh:mm”   | “hh:mm:ss”   | “hh:mm:ss.sss…”
 type TimePart =
@@ -27,6 +27,10 @@ type TimePart =
   | `${number}:${number}:${number}`
   | `${number}:${number}:${number}.${number}`;
 
+
+
+export type IsoMonthDateLike__Explicit = `--${TwoDigitMonth}-${TwoDigitDate}`;
+export type IsoMonthDateLike__Implicit = `--${TwoDigitMonth}${TwoDigitDate}`;
 
 /**
  * **IsoMonthDateLike**
@@ -37,11 +41,25 @@ type TimePart =
  * - `--MM-DD` _or_ `--MMDD`
  */
 export type IsoMonthDateLike =
-    | `--${TwoDigitMonth}-${TwoDigitDate}`
-    | `--${TwoDigitMonth}${TwoDigitDate}`;
+    | `--${TwoDigitMonth}-${number}`
+    | `--${TwoDigitMonth}${number}`;
 
-export type IsoMonthDateLike__Explicit = `--${TwoDigitMonth}-${TwoDigitDate}`;
-export type IsoMonthDateLike__Implicit = `--${TwoDigitMonth}${TwoDigitDate}`;
+
+/**
+ * **IsoMonthDate**
+ *
+ * A branded type that comes from validating using a type guard
+ * like `isIsoMonthDate()`.
+ *
+ * **Related:**
+ * - `IsoMonthDateLike`
+ */
+export type IsoMonthDate =
+  IsoMonthDateLike
+ & {
+    kind: "IsoMonthDate"
+ };
+
 
 /**
  * **IsoYearMonthLike**
@@ -52,8 +70,8 @@ export type IsoMonthDateLike__Implicit = `--${TwoDigitMonth}${TwoDigitDate}`;
  * - `-YYYY-MM` _or_ `-YYYYMM`
  */
 export type IsoYearMonthLike =
-    | `-${FourDigitYear}-${TwoDigitMonth}`
-    | `-${FourDigitYear}${TwoDigitMonth}`;
+    | `-${FourDigitYear}-${number}`
+    | `-${FourDigitYear}${number}`;
 
 export type IsoYearMonthLike__Explicit = `-${FourDigitYear}-${TwoDigitMonth}`;
 export type IsoYearMonthLike__Implicit = `-${FourDigitYear}${TwoDigitMonth}`;
@@ -139,9 +157,7 @@ export type IsoDate = IsoDateLike & {
  * this type to a `IsoDateTime` branded type.
  */
 export type IsoDateTimeLike =
-  | `${DatePart}T${TimePart}${"" | TimeZone}`
-  | `${IsoMonthDateLike}T${string}`
-  | `${IsoYearMonthLike}T${string}`;
+  | `${FourDigitYear}-${number}-${number}T${number}-${number}${string}`;
 
 /**
  * **IsoDateTime**

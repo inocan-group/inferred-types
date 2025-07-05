@@ -65,7 +65,7 @@ export * from "./network-tg";
 export * from "./protocol";
 
 export * from "./arrays/index";
-export * from "./date-time/index";
+export * from "./datetime/index";
 export * from "./dictionary/index";
 export * from "./finance/index";
 export * from "./higher-order/index";

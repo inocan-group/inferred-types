@@ -47,11 +47,17 @@ export function isIsoImplicitDate(val: unknown): val is IsoDate {
  * Type guard which validates whether the passed in `val` is an ISO 8601 date
  * representation.
  *
- * **Related:** `isIsoExplicitDate`, `isIsoImplicitDate`
+ * - `YYYY-MM-DD` _or_ `YYYYMMDD`
+ * - `-YYYY-MM` _or_ `-YYYYMM`
+ * - `--MM-DD` _or_ `--MMDD`
+ *
+ * **Related:**
+ * - `isIsoExplicitDate`, `isIsoImplicitDate`
+ * - `isIsoYear()`, `isIsoYearMonth()`, `isIsoMonthDate()`
  */
 export function isIsoDate(val: unknown): val is IsoDate {
     if (isString(val)) {
-        return isIsoImplicitDate(val) || isIsoExplicitDate(val);
+        return isIsoImplicitDate(val) || isIsoExplicitDate(val) || isIsoYear() || isMonth;
     }
     else {
         return false;

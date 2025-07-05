@@ -1,6 +1,5 @@
-import type { IsLeapYear } from "inferred-types/types";
+import type { IsLeapYear, DateLike } from "inferred-types/types";
 import { asDate } from "inferred-types/runtime";
-import { DateLike } from "@inferred-types/types";
 
 /**
  * Determines in the passed in date/year is a _leap year_.

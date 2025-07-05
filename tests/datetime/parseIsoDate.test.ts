@@ -1,7 +1,6 @@
 import { describe, it, expect } from "vitest";
 import {
     isError,
-    IsoMeta,
     isFourDigitYear,
     isThreeDigitMillisecond,
     isTimeZone,
@@ -13,6 +12,7 @@ import {
     isMinimalDigitDate,
     parseIsoDate
 } from "inferred-types/runtime";
+import { DateMeta } from "types/datetime";
 
 describe("ISO type guards", () => {
 
@@ -271,9 +271,9 @@ describe("parseIsoDate()", () => {
 
 
     it("datetime, UTC", () => {
-        let str = "2024-01-15T12:34:56.789Z";
+        let str = "2024-01-15T12:34:56.789Z" as const;
         let result = parseIsoDate(str);
-        let expected: IsoMeta = {
+        let expected: DateMeta = {
             dateType: "datetime",
             hasTime: true,
             year: "2024",
@@ -326,7 +326,7 @@ describe("parseIsoDate()", () => {
             hour: "23",
             minute: "59",
             second: "59",
-            ms: undefined,
+            ms: null,
             offset: "+02:00"
         });
     });
@@ -339,10 +339,10 @@ describe("parseIsoDate()", () => {
             year: "2024",
             month: "01",
             date: "15",
-            hour: undefined,
-            minute: undefined,
-            ms: undefined,
-            offset: undefined
+            hour: null,
+            minute: null,
+            ms: null,
+            offset: null
         };
         expect(
             result,
@@ -358,10 +358,10 @@ describe("parseIsoDate()", () => {
             year: "2024",
             month: "01",
             date: "15",
-            hour: undefined,
-            minute: undefined,
-            ms: undefined,
-            offset: undefined
+            hour: null,
+            minute: null,
+            ms: null,
+            offset: null
         };
 
         if (isError(result)) {
@@ -379,12 +379,12 @@ describe("parseIsoDate()", () => {
             dateType: "year",
             hasTime: false,
             year: "2024",
-            month: undefined,
-            date: undefined,
-            hour: undefined,
-            minute: undefined,
-            ms: undefined,
-            timezone: undefined,
+            month: null,
+            date: null,
+            hour: null,
+            minute: null,
+            ms: null,
+            timezone: null,
         }
 
         if (isError(result)) {
@@ -399,17 +399,17 @@ describe("parseIsoDate()", () => {
 
     it("parses ISO year/month only (-YYYY-MM)", () => {
         const result = parseIsoDate("-2024-01");
-        const expected: IsoMeta = {
+        const expected: DateMeta = {
             dateType: "year-month",
             hasTime: false,
             year: "2024",
             month: "01",
-            date: undefined,
-            hour: undefined,
-            minute: undefined,
-            second: undefined,
-            ms: undefined,
-            timezone: undefined,
+            date: null,
+            hour: null,
+            minute: null,
+            second: null,
+            ms: null,
+            timezone: null,
         }
         if (isError(result)) {
             throw result
@@ -423,17 +423,17 @@ describe("parseIsoDate()", () => {
 
     it("parses ISO year/month only (-YYYYMM)", () => {
         const result = parseIsoDate("-202401");
-        const expected: IsoMeta = {
+        const expected: DateMeta = {
             dateType: "year-month",
             hasTime: false,
             year: "2024",
             month: "01",
-            date: undefined,
-            hour: undefined,
-            minute: undefined,
-            second: undefined,
-            ms: undefined,
-            timezone: undefined,
+            date: null,
+            hour: null,
+            minute: null,
+            second: null,
+            ms: null,
+            timezone: null,
         };
         if (isError(result)) {
             throw result
@@ -447,17 +447,17 @@ describe("parseIsoDate()", () => {
 
     it("parses ISO year-less month/day (--MM-DD)", () => {
         const result = parseIsoDate("--01-15");
-        const expected: IsoMeta = {
+        const expected: DateMeta = {
             dateType: "year-independent",
             hasTime: false,
-            year: undefined,
+            year: null,
             month: "01",
             date: "15",
-            hour: undefined,
-            minute: undefined,
-            second: undefined,
-            ms: undefined,
-            timezone: undefined
+            hour: null,
+            minute: null,
+            second: null,
+            ms: null,
+            timezone: null
         }
         expect(result).toEqual(expected);
 
@@ -469,17 +469,17 @@ describe("parseIsoDate()", () => {
 
     it("parses ISO year-less month/day (--MMDD)", () => {
         const result = parseIsoDate("--0115");
-        const expected: IsoMeta = {
+        const expected: DateMeta = {
             dateType: "year-independent",
             hasTime: false,
-            year: undefined,
+            year: null,
             month: "01",
             date: "15",
-            hour: undefined,
-            minute: undefined,
-            second: undefined,
-            ms: undefined,
-            timezone: undefined
+            hour: null,
+            minute: null,
+            second: null,
+            ms: null,
+            timezone: null
         }
         expect(result).toEqual(expected);
 

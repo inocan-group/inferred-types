@@ -1,13 +1,13 @@
 import { describe, it, expect } from "vitest";
 import { parseNumericDate } from "inferred-types/runtime";
-import type { IsoMeta } from "inferred-types/runtime";
+import type { DateMeta } from "inferred-types/runtime";
 
 describe("parseNumericDate()", () => {
   it("parses epoch milliseconds", () => {
     const date = new Date("2024-01-15T12:34:56.789Z");
     const ms = date.getTime();
     const result = parseNumericDate(ms);
-    const expected: IsoMeta = {
+    const expected: DateMeta = {
       dateType: "datetime",
       hasTime: true,
       year: "2024",
@@ -26,7 +26,7 @@ describe("parseNumericDate()", () => {
     const date = new Date("2024-01-15T12:34:56.000Z");
     const seconds = Math.floor(date.getTime() / 1000);
     const result = parseNumericDate(seconds);
-    const expected: IsoMeta = {
+    const expected: DateMeta = {
       dateType: "datetime",
       hasTime: true,
       year: "2024",
@@ -56,7 +56,7 @@ describe("parseNumericDate()", () => {
       second: date.toISOString().slice(17, 19),
       ms: date.toISOString().slice(20, 23),
       timezone: "Z",
-    } as IsoMeta;
+    } as DateMeta;
     expect(result).toEqual(expected);
   });
 
@@ -75,7 +75,7 @@ describe("parseNumericDate()", () => {
       second: date.toISOString().slice(17, 19),
       ms: date.toISOString().slice(20, 23),
       timezone: "Z",
-    } as IsoMeta;
+    } as DateMeta;
     expect(result).toEqual(expected);
   });
 

@@ -3,6 +3,7 @@ export * from "./asDateTime";
 export * from "./asEpochTimestamp";
 export * from "./asIsoDate";
 export * from "./asIsoDateTime";
+export * from "./dateObjectToIso";
 export * from "./getDaysBetween";
 export * from "./getMonthAbbrev";
 export * from "./getMonthName";
@@ -27,6 +28,7 @@ export * from "./isToday";
 export * from "./isTomorrow";
 export * from "./isYesterday";
 export * from "./parseIsoDate";
-export * from "./parseDateObject"
-export * from "./parseNumericDate"
-export * from "./parseDate"
+export * from "./parseDate";
+export * from "./parseDateObject";
+export * from "./parseNumericDate";
+export * from "./toIsoDateString"

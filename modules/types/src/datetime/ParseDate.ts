@@ -41,7 +41,7 @@ export type ParsedDate = [
      * - valid time info will set this to `ParsedTime`
      * - invalid time info will result in an error
      */
-    time: ParsedTime | Error | null
+    time: ParsedTime | null
 ];
 
 type ParseMonthDate<T extends string> = TakeMonth<T> extends [
@@ -65,7 +65,7 @@ type ParseMonthDate<T extends string> = TakeMonth<T> extends [
                 { parse: T, month: Month, rest: Rest }
             >
     : Rest extends ""
-        ? [ null, Month, Date ]
+        ? [ null, Month, Date, null ]
     : Rest extends `T${infer Time extends string}`
         ? ParseTime<Time> extends Error
             ? Err<

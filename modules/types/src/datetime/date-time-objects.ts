@@ -1,5 +1,4 @@
-import { ObjectKey } from "inferred-types/types";
-import type { IsoDateTime } from "src/datetime/Iso";
+import { ObjectKey, IsoDateTime } from "inferred-types/types";
 
 type RelativeTimeKey = "s" | "ss" | "m" | "mm" | "h" | "hh" | "d" | "dd" | "w" | "ww" | "M" | "MM" | "y" | "yy";
 type CalendarKey = "sameDay" | "nextDay" | "lastDay" | "nextWeek" | "lastWeek" | "sameElse" | string;

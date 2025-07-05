@@ -1,27 +1,47 @@
 import {
-    err,
-    isDateLike,
-    isNumber,
     isString,
-    parseDateObject,
+    isError,
+    isIsoDate,
+    isIsoDateTime,
+    isDictionary
+} from "runtime/type-guards";
+import {
     parseIsoDate,
-    parseNumericDate,
-    isObject,
-    IsoMeta
-} from "inferred-types/runtime";
-import { DateLike } from "inferred-types/types";
+    asDate
+} from "runtime/datetime";
 
-export function parseDate<T extends DateLike>(d: T): IsoMeta | Error {
+import { AsParsedDate, DateLike, ParseDate, ParsedDate } from "inferred-types/types";
+import { err } from "runtime/errors";
 
-    return isString(d)
-        ? parseIsoDate(d)
-        : isObject(d) && isDateLike(d)
-        ? parseDateObject(d)
-        : isNumber(d)
-        ? parseNumericDate(d)
-        : err(
-            `parse-date/invalid`,
-            `The DateLike object passed in wasn't able to be parsed!`,
-            { parse: d }
-        )
+// type Returns<T> = T extends string
+//     ? ParseDate<T> extends Error
+//         ? ParseDate<T>
+//     : ParseDate<T> extends ParsedDate
+//         ? AsParsedDate<ParseDate<T>>
+//         : never
+// : T extends object
+//     ? ParseDateObject<T> extends Error
+//         ? ParseDateObject<T>
+//         : Parse
+
+
+export function parseDate<
+    T extends DateLike
+>(d: T) {
+
+    const iso = isString(d)
+        ? d
+        : asDate(d).toISOString();
+
+    if(isError(iso)) {
+        return iso;
+    }
+
+    if(isString(iso)) {
+        return parseIsoDate(iso);
+    } else if (isIsoDateTime(iso)) {
+        return parseIsoDate(iso);
+    }
+
+    return err(`parse/structure`)
 }

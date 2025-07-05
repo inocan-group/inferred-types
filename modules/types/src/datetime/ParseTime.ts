@@ -9,7 +9,6 @@ import type {
     TakeMilliseconds,
     TakeMinutes,
     TakeSeconds,
-    TakeTimezone,
     ThreeDigitMillisecond,
     TimeZone,
     TwoDigitHour,
@@ -23,15 +22,18 @@ import type {
 export type ParsedTime = [
     hour: TwoDigitHour,
     minute: TwoDigitMinute,
-    second: TwoDigitSecond | undefined,
-    millisecond: ThreeDigitMillisecond | undefined,
-    tz: TimeZone<"strong"> | undefined
+    second: TwoDigitSecond | null,
+    millisecond: ThreeDigitMillisecond | null,
+    tz: TimeZone<"strong"> | null
 ];
 
-type X = TakeHours<"28:30"> extends [
-    infer Hour extends TwoDigitHour,
-    infer Rest extends string
-] ? [Hour,Rest] : "no";
+type EnsureNull<T extends readonly unknown[] | Error> = T extends Error
+? T
+: {
+    [K in keyof T]: T[K] extends undefined
+        ? null
+        : T[K]
+}
 
 /**
  * **ParseTime**`<T>`
@@ -46,7 +48,7 @@ type X = TakeHours<"28:30"> extends [
  */
 export type ParseTime<
     T extends string,
-> = As<
+> = As<EnsureNull<
     IsWideString<T> extends true
         ? Err<
             "parse/time",
@@ -77,8 +79,19 @@ export type ParseTime<
                     infer Sec extends TwoDigitSecond,
                     infer Rest extends string
                 ]
+                    ? Rest extends ""
+                            ? Sec extends TwoDigitSecond
+                                ? [ Hour, Min, Sec, null, null ]
+                                : Err<
+                                    `parse-time/sec`,
+                                    `After parsing hours and minutes, there was trouble in parsing out what appeared to be seconds: ${Rest}`,
+                                    { parse: T, rest: Rest, hour: Hour, minute: Min }
+                                >
                     // Valid seconds and appears to have Milliseconds
-                    ? And<[Rest extends `.${infer Rest}` ? true : false, Sec extends TwoDigitSecond ? true : false]> extends true
+                    : And<[
+                        Rest extends `.${infer Rest}` ? true : false,
+                        Sec extends TwoDigitSecond ? true : false
+                    ]> extends true
                         ? TakeMilliseconds<StripLeading<Rest, ".">> extends [
                             infer MS extends ThreeDigitMillisecond,
                             infer Rest extends string
@@ -90,7 +103,7 @@ export type ParseTime<
                                     { parse: T, rest: Rest }
                                 >
                             : Rest extends ""
-                                ? [ Hour, Min, Sec, MS, undefined ]
+                                ? [ Hour, Min, Sec, MS, null ]
                             : Rest extends TimeZone<"strong">
                                 ? [ Hour, Min, Sec, MS, Rest ]
                                 : Err<
@@ -105,16 +118,9 @@ export type ParseTime<
                                         rest: Rest;
                                     }
                                 >
-                        : Rest extends ""
-                            ? Sec extends TwoDigitSecond
-                                ? [ Hour, Min, Sec, undefined, undefined ]
-                                : Err<
-                                    `parse-time/sec`,
-                                    `After parsing hours and minutes, there was trouble in parsing out what appeared to be seconds: ${Rest}`,
-                                    { parse: T, rest: Rest, hour: Hour, minute: Min }
-                                >
+
                         : Rest extends TimeZone<"strong">
-                                ? [ Hour, Min, Sec, undefined, Rest ]
+                                ? [ Hour, Min, Sec, null, Rest ]
                                 : Err<
                                     `parse-time/leftover`,
                                     `Problems parsing an ISO Time string after extracting hours, minutes, and seconds: ${Rest}`,
@@ -126,10 +132,12 @@ export type ParseTime<
                                         rest: Rest;
                                     }
                                 >
+                    : Rest extends ""
+                            ? Sec extends undefined
+                                ? [ Hour, Min, null, null, null ]
+                                : [ Hour, Min, Sec, null, null ]
                     : Rest extends TimeZone<"strong">
-                        ? [ Hour, Min, Sec, undefined, Rest ]
-                        : Rest extends ""
-                            ? [ Hour, Min, Sec, undefined, undefined ]
+                        ? [ Hour, Min, Sec, null, Rest ]
                             : Err<
                                 `parse-time/sec`,
                                 `Problems parsing an ISO Time string after extracting hours and minutes: ${Rest}`,
@@ -163,6 +171,7 @@ export type ParseTime<
             `parse-time/structure`,
             `The value passed into the ParseTime<T> utility does not even start out as a valid structure for an ISO Time: ${T}`,
             { parse: T }
-    >,
+    >
+>,
     ParsedTime | Error
 >;

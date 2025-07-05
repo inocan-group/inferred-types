@@ -1,12 +1,6 @@
 import type {
-    DateFnsLike,
-    DayJsLike,
     FourDigitYear,
-    JsDateLike,
-    LuxonLike,
-    MomentLike,
-    TemporalLike,
-
+    TwoDigitMonth,
 } from "inferred-types/types";
 
 /**
@@ -26,15 +20,7 @@ import type {
  */
 export type DateLike =
     | number
-    | FourDigitYear
-    | JsDateLike
-    | `${number}`
-    | `${number}-${number}-${number}`
-    | `${number}-${number}-${number}T${number}:${number}:${number}`
-    | `${number}-${number}-${number}T${number}:${number}:${number}.${number}`
-    | `${number}-${number}-${number}T${number}:${number}:${number}${"Z" | `${"+" | "-"}${number}:${number}`}`
-    | LuxonLike
-    | DayJsLike
-    | MomentLike
-    | DateFnsLike
-    | TemporalLike;
+    | `${FourDigitYear}${string}` // matches full Date and DateTime and ISOYear
+    | `-${FourDigitYear}${"-"|""}${number}` //
+    | `--${TwoDigitMonth}${"-"|""}${number}`
+    | object;

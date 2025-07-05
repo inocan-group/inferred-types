@@ -1,4 +1,10 @@
-import type { Err, Narrowable, TypedError, EmptyObject, IsNever } from "inferred-types/types";
+import type {
+    Err,
+    Narrowable,
+    TypedError,
+    EmptyObject,
+    IsNever
+} from "inferred-types/types";
 import { toKebabCase } from "inferred-types/runtime";
 
 /**
@@ -26,14 +32,14 @@ export function typedError<
 }
 
 export function err<
-    T extends string,
-    M extends string = "",
-    C extends Record<string, N> = never,
-    N extends Narrowable = Narrowable
+    TType extends string,
+    TMsg extends string = "",
+    const TCtx extends Record<string, U> = never,
+    U = unknown
 >(
-    type: T,
-    message?: M,
-    ctx?: C
+    type: TType,
+    message?: TMsg,
+    ctx?: TCtx
 ) {
     const err = new Error(message) as TypedError<string, string | undefined>;
     const [t, subType] = type.split("/");
@@ -48,5 +54,5 @@ export function err<
         }
     }
 
-    return err as Err<T, M, IsNever<C> extends true ? EmptyObject : C>;
+    return err as Err<TType, TMsg, IsNever<TCtx> extends true ? EmptyObject : TCtx>;
 }
