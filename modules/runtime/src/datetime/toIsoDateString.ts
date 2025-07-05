@@ -14,20 +14,20 @@ import { IsoDateLike } from "@inferred-types/types";
 
 
 type Return<T extends DateMeta> = [IsUnion<T["dateType"]>] extends [true]
-? IsoDateLike | IsoDateTimeLike
-: [T["dateType"]] extends ["year"]
+    ? IsoDateLike | IsoDateTimeLike
+    : [T["dateType"]] extends ["year"]
     ? IsoYear
-: [T["dateType"]] extends ["year-independent"]
+    : [T["dateType"]] extends ["year-independent"]
     ? IsoMonthDate
-: [T["dateType"]] extends ["year-month"]
+    : [T["dateType"]] extends ["year-month"]
     ? IsoYearMonthLike
-: [T["dateType"]] extends ["date"]
+    : [T["dateType"]] extends ["date"]
     ? IsoDate
-: [T["dateType"]] extends ["datetime"]
+    : [T["dateType"]] extends ["datetime"]
     ? [T["hasTime"]] extends [true]
-        ? IsoDateTime
-        : IsoDate
-: Error;
+    ? IsoDateTime
+    : IsoDate
+    : Error;
 
 /**
  * **toIsoDateString**`(meta) -> IsoDate | IsoDateTime`
@@ -37,12 +37,10 @@ type Return<T extends DateMeta> = [IsUnion<T["dateType"]>] extends [true]
 export function toIsoDateString<T extends DateMeta>(
     parsed: T
 ): Return<T> {
-
-
     let resolved;
 
     if (parsed.hasTime === false) {
-        switch(parsed.dateType) {
+        switch (parsed.dateType) {
             case "date":
             case "datetime":
                 resolved = `${parsed.year}-${parsed.month}-${parsed.date}`
@@ -57,14 +55,14 @@ export function toIsoDateString<T extends DateMeta>(
                 resolved = `-${parsed.year}-${parsed.month}`
         }
 
-        if(isIsoDate(resolved)) {
+        if (isIsoDate(resolved)) {
             return resolved as Return<T>;
         } else {
             err(`parse/runtime`) as unknown as Return<T>
         }
     }
 
-    switch(parsed.dateType) {
+    switch (parsed.dateType) {
         case "date":
             return err("invalid-date", `The parsed 'type' of the date was 'date' but the 'hasTime' variable was set to true! This should not happen.`) as unknown as Return<T>
         case "datetime":

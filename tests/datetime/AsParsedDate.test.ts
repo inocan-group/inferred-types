@@ -2,7 +2,7 @@ import { describe, it } from "vitest";
 import {
     Expect,
     ParseDate,
-    AsParsedDate,
+    AsDateMeta,
     Test,
 } from "inferred-types/types";
 
@@ -10,7 +10,7 @@ describe("AsParsedDate<T>", () => {
 
     it("ISO Year", () => {
         type Parsed = ParseDate<"2022">;
-        type Meta = AsParsedDate<Parsed>;
+        type Meta = AsDateMeta<Parsed>;
 
         type cases = [
             Expect<Test<
@@ -33,7 +33,7 @@ describe("AsParsedDate<T>", () => {
 
     it("ISO Year Independent Date", () => {
         type Parsed = ParseDate<"--10-04">;
-        type Meta = AsParsedDate<Parsed>;
+        type Meta = AsDateMeta<Parsed>;
 
         type cases = [
             Expect<Test<
@@ -53,9 +53,9 @@ describe("AsParsedDate<T>", () => {
             >>
         ];
     });
-        it("ISO Year Month", () => {
+    it("ISO Year Month", () => {
         type Parsed = ParseDate<"-2024-10">;
-        type Meta = AsParsedDate<Parsed>;
+        type Meta = AsDateMeta<Parsed>;
 
         type cases = [
             Expect<Test<
@@ -78,7 +78,7 @@ describe("AsParsedDate<T>", () => {
 
     it("ISO Date", () => {
         type Parsed = ParseDate<"2022-10-04">;
-        type Meta = AsParsedDate<Parsed>;
+        type Meta = AsDateMeta<Parsed>;
 
         type cases = [
             Expect<Test<
@@ -101,7 +101,7 @@ describe("AsParsedDate<T>", () => {
 
     it("ISO DateTime", () => {
         type Parsed = ParseDate<"2022-10-04T12:34Z">;
-        type Meta = AsParsedDate<Parsed>;
+        type Meta = AsDateMeta<Parsed>;
 
         type cases = [
             Expect<Test<
@@ -124,7 +124,7 @@ describe("AsParsedDate<T>", () => {
 
     it("ISO DateTime at midnight in UTC -> a Date posing as a DateTime", () => {
         type Parsed = ParseDate<"2022-10-04T00:00Z">;
-        type Meta = AsParsedDate<Parsed>;
+        type Meta = AsDateMeta<Parsed>;
 
         type cases = [
             Expect<Test<

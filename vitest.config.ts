@@ -9,17 +9,27 @@ const root = resolve(fileURLToPath(new URL(".", import.meta.url)));
 export default defineConfig({
   resolve: {
     alias: {
-      "inferred-types/constants": join(root, "/modules/constants/src/index"),
-      "inferred-types/types": join(root, "/modules/types/src/index"),
-      "inferred-types/runtime": join(root, "/modules/runtime/src/index"),
-      "inferred-types": join(root, "/modules/inferred-types/src/index"),
-      "runtime/": join(root, "/modules/runtime/src/"),
-      "types/": join(root, "/modules/types/src/"),
+      "inferred-types/constants": join(root, "/modules/constants/src/index.ts"),
+      "inferred-types/types": join(root, "/modules/types/src/index.ts"),
+      "inferred-types/runtime": join(root, "/modules/runtime/src/index.ts"),
+      "inferred-types/": new URL("./modules/inferred-types/src/", import.meta.url).pathname,
+      "runtime/": new URL("./modules/runtime/src/", import.meta.url).pathname,
+      "types/": new URL("./modules/types/src/", import.meta.url).pathname,
       "constants/": join(root, "/modules/constants/src/"),
     },
+    conditions: ["import", "module", "node", "default"],
+    mainFields: ["module", "jsnext", "jsnext:main", "main"],
+    extensions: [".ts", ".tsx", ".js", ".jsx", ".json"],
   },
   test: {
     dir: "tests",
+    globals: true,
+    environment: "node",
+    pool: "forks",
+    deps: {
+      interopDefault: true,
+      moduleDirectories: ["node_modules", "modules"],
+    },
     // typecheck: {
     //   include: ["tests/**/*.{test,spec}.ts"]
     // },

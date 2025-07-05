@@ -1,8 +1,8 @@
 export * from "./isDate";
 export * from "./isDateFnsDate";
 export * from "./isDateLike";
-export * from "./isDateTime";
 export * from "./isDateMeta";
+export * from "./isDateTime";
 export * from "./isDayJs";
 export * from "./isEpoch";
 export * from "./isIsoDate";
@@ -15,5 +15,16 @@ export * from "./isMoment";
 export * from "./isMonthAbbrev";
 export * from "./isMonthName";
 export * from "./isTemporalDate";
-export * from "./parsing-typeguards";
 
+// Explicitly export parsing typeguards
+export {
+  isFourDigitYear,
+  isTwoDigitHour,
+  isTwoDigitMinute,
+  isTwoDigitSecond,
+  isThreeDigitMillisecond,
+  isTwoDigitMonth,
+  isTwoDigitDate,
+  isMinimalDigitDate,
+  isTimeZone
+} from "./parsing-typeguards";

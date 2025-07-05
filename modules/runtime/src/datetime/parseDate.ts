@@ -10,7 +10,7 @@ import {
     asDate
 } from "runtime/datetime";
 
-import { AsParsedDate, DateLike, ParseDate, ParsedDate } from "inferred-types/types";
+import { AsDateMeta, DateLike, ParseDate, ParsedDate } from "inferred-types/types";
 import { err } from "runtime/errors";
 
 // type Returns<T> = T extends string
@@ -33,11 +33,11 @@ export function parseDate<
         ? d
         : asDate(d).toISOString();
 
-    if(isError(iso)) {
+    if (isError(iso)) {
         return iso;
     }
 
-    if(isString(iso)) {
+    if (isString(iso)) {
         return parseIsoDate(iso);
     } else if (isIsoDateTime(iso)) {
         return parseIsoDate(iso);

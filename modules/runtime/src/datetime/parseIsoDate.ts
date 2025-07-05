@@ -1,150 +1,25 @@
 import type {
-    FourDigitYear,
-    MinimalDigitDate,
-    ThreeDigitMillisecond,
-    TimeZone,
-    TwoDigitDate,
-    TwoDigitHour,
-    TwoDigitMinute,
-    TwoDigitMonth,
-    TwoDigitSecond,
     ParseDate,
     ParsedDate,
-    AsParsedDate,
+    AsDateMeta,
     IsUnion,
-    DateType,
-    DateMeta
+    DateMeta,
 } from "inferred-types/types";
 
 import { err } from "runtime/errors";
+import { isEmpty, isString } from "runtime/type-guards";
 import { isFourDigitYear, isThreeDigitMillisecond, isTimeZone, isTwoDigitDate, isTwoDigitHour, isTwoDigitMinute, isTwoDigitMonth, isTwoDigitSecond } from "runtime/type-guards/datetime"
-import { isError } from "runtime/type-guards/isError";
-
-function isUndefined(val: unknown): val is undefined {
-    return val === undefined;
-}
+import { isTypedError } from "runtime/type-guards/isTypedError";
 
 
-function shape(
-    input: string,
-    pattern: DateType,
-    match: readonly (string | undefined | Error)[]
-) {
-    let [, year, month, date, hour, minute, second, ms, timezone] = match as (string | Error | null)[];
-
-
-    year = isUndefined(year)
-        ? null
-        : isFourDigitYear(year) ? year : err(`invalid`);
-    month = isUndefined(month)
-        ? null
-        : isTwoDigitMonth(month) ? month : err(`invalid`);
-    date = isUndefined(date)
-        ? null
-        : isTwoDigitDate(date) ? date : err(`invalid`);
-    hour = isUndefined(hour)
-        ? null
-        : isTwoDigitHour(hour) ? hour : err(`invalid`);
-    minute = isUndefined(minute)
-        ? null
-        : isTwoDigitMinute(minute) ? minute : err(`invalid`);
-    second = isUndefined(second)
-        ? null
-        : isTwoDigitSecond(second) ? second : err(`invalid`);
-    ms = isUndefined(ms)
-        ? null
-        : isThreeDigitMillisecond(ms) ? ms : err(`invalid`);
-    timezone = isUndefined(timezone)
-        ? null
-        : isTimeZone(timezone) ? timezone : err(`invalid`);
-
-
-    /**
-     * tests whether:
-     *
-     * 1. has `hour` and `minute` values
-     * 2. whether the time elements are all set to 0's
-     *
-     * The intent is for a date object -- which ALWAYS includes time
-     * info when converted to an ISO string -- for a UTC time that is
-     * exactly at midnight to report `false` for this metric.
-     */
-    let hasTime: boolean = input.includes("T")
-        ? (timezone === "Z" || timezone === undefined)
-            && hour === "00"
-            && minute === "00"
-            && (second === "00" || second === undefined)
-            && (ms === "000" || ms === undefined)
-            ? false : true
-        : false;
-
-
-    const invalid: string[] = [];
-
-    if (isError(year)) {
-        invalid.push("year");
-    }
-    if (isError(month)) {
-        invalid.push("month");
-    }
-    if (isError(date)) {
-        invalid.push("date");
-    }
-    if (isError(minute)) {
-        invalid.push("minute");
-    }
-    if (isError(second)) {
-        invalid.push("second");
-    }
-    if (isError(ms)) {
-        invalid.push("ms");
-    }
-    if (isError(timezone)) {
-        invalid.push("timezone");
-    }
-
-    if (invalid.length > 0) {
-        return err(
-            `parse/iso-date`,
-            `The string of '${input}' is not a valid ISO date! The following components were invalid: ${invalid.join(", ")}`,
-            { sections: invalid }
-        );
-    }
-
-    const result: DateMeta = {
-        dateType: pattern,
-        hasTime,
-        year: year as FourDigitYear | null,
-        month: month as TwoDigitMonth,
-        date: isError(date) ? undefined : date as TwoDigitDate | null,
-        hour: isError(hour) ? undefined : hour as TwoDigitHour | null,
-        minute: isError(minute) ? undefined : minute as TwoDigitMinute | null,
-        second: isError(second) ? undefined : second as TwoDigitSecond | null,
-        ms: isError(ms) ? undefined : ms as ThreeDigitMillisecond | null
-    };
-
-
-    // Handle timezone/offset
-    if (timezone && !isError(timezone)) {
-        result.timezone = timezone as TimeZone<"strong">;
-    } else if (pattern === "date") {
-        // For date-only patterns, tests expect timezone: undefined
-        result.timezone = undefined;
-    } else if (pattern === "year" || pattern === "year-month" || pattern === "year-independent") {
-        // For these patterns, tests expect timezone: undefined
-        result.timezone = undefined;
-    }
-
-    return result as DateMeta;
-}
 
 type Returns<T extends string> = [IsUnion<T>] extends [true]
     ? DateMeta | Error
     : ParseDate<T> extends Error
-        ? ParseDate<T> & Error
+    ? ParseDate<T> & Error
     : ParseDate<T> extends ParsedDate
-        ? AsParsedDate<ParseDate<T>>
-        : Error;
+    ? AsDateMeta<ParseDate<T>>
+    : Error;
 
 /**
  * Parses an ISO date or datetime string into its components.
@@ -159,8 +34,15 @@ export function parseIsoDate<
 >(
     input: T
 ): Returns<T> {
+    if (!isString(input)) {
+        return err(
+            "parse-date/wrong-type",
+            `The type passed into parseIsoDate() was a '${typeof input}' but must be a string!`
+        ) as unknown as Returns<T>
+    }
+
     // ISO datetime regex (YYYY-MM-DDTHH:mm:ss(.sss)?(Z|±hh:mm)?)
-    const isoDateTime = /^(-?\d{4})-?(\d{2})-?(\d{2})[T ](\d{2}):(\d{2})(?::(\d{2})(?:\.(\d{3}))?)?(Z|[+-]\d{2}:?\d{2})?$/;
+    const isoDateTime = /^(-?\d{4})-?(\d{2})-?(\d{2})[T]{1}(\d{2}):(\d{2})(?::(\d{2})(?:\.(\d{3}))?)?(Z|[+-]\d{2}:?\d{2})?$/;
     // ISO date (YYYY-MM-DD or YYYYMMDD)
     const isoDate = /^(-?\d{4})-?(\d{2})-?(\d{2})$/;
     // Year only
@@ -170,70 +52,205 @@ export function parseIsoDate<
     // Year-less: --MM-DD or --MMDD
     const isoMonthDay = /^--(\d{2})-?(\d{2})$/;
 
-    let match;
+    if (isoDateTime.test(input)) {
+        const match = input.match(isoDateTime);
+        if (match) {
+            const [_, yyyy, mm, dd, hh, min, sec, milli, tz] = match;
 
-    let dateTime: Error | null = null;
-    let date: Error | null = null;
-    let yearMonth: Error | null = null;
-    let yearIndependent: Error | null = null;
-    let year: Error | null = null;
+            const year = isFourDigitYear(yyyy)
+                ? yyyy
+                : isEmpty(yyyy)
+                    ? null
+                    : err("year");
 
-    if ((match = input.match(isoDateTime))) {
-        const result = shape(input, "datetime", match);
-        if (isError(result)) {
-            dateTime = result;
+            const month = isTwoDigitMonth(mm)
+                ? mm
+                : isEmpty(mm)
+                    ? null
+                    : err("month");
+
+            const date = isTwoDigitDate(dd)
+                ? dd
+                : isEmpty(dd)
+                    ? null
+                    : err("date");
+
+            const hour = isTwoDigitHour(hh)
+                ? hh
+                : isEmpty(hh)
+                    ? null
+                    : err("hour");
+
+            const minute = isTwoDigitMinute(min)
+                ? min
+                : isEmpty(min)
+                    ? null
+                    : err("minute");
+
+            const second = isTwoDigitSecond(sec)
+                ? sec
+                : isEmpty(sec)
+                    ? null
+                    : err("second");
+
+            const ms = isThreeDigitMillisecond(milli)
+                ? milli
+                : isEmpty(milli)
+                    ? null
+                    : err("milli");
+
+            const timezone = isTimeZone(tz)
+                ? tz
+                : isEmpty(tz)
+                    ? null
+                    : err("timezone");
+
+            const errors = [year, month, date, hour, minute, second, ms, timezone]
+                .filter(i => isTypedError("" as string)(i))
+                .map(i => i.type);
+            if (errors.length > 0) {
+                return err("parse-date", `The string passed in resembled a ISO DateTime but the following components failed: ${errors}`) as unknown as Returns<T>;
+            }
+
+            return {
+                dateType: "datetime",
+                hasTime: timezone === "Z" && hour === "00" && minute === "00" && (second === "00" || second === null) && (ms === "000" || ms === null)
+                    ? false
+                    : true,
+                year,
+                month,
+                date,
+                hour,
+                minute,
+                second,
+                ms,
+                timezone
+            } as Returns<T>
         }
-        else {
-            return shape(input, "datetime", match) as Returns<T>
+    } else if (isoYear.test(input)) {
+        const match = input.match(isoYear);
+        if (match) {
+            const [_, year] = match;
+
+            if (isFourDigitYear(year)) {
+                return {
+                    dateType: "year",
+                    hasTime: false,
+                    year,
+                    month: null,
+                    date: null,
+                    hour: null,
+                    minute: null,
+                    second: null,
+                    ms: null,
+                    timezone: null
+                } as Returns<T>
+            } else {
+                return err(
+                    `parse/iso-date`,
+                    `A string which matched the regex for IsoYear was invalid upon inspection`
+                ) as unknown as Returns<T>
+            }
+        } else {
+            return err(
+                `parse/iso-date`,
+                `A string which matched the regex for IsoYear was invalid upon inspection`
+            ) as unknown as Returns<T>
         }
+    } else if (isoYearMonth.test(input)) {
+        const match = input.match(isoYearMonth);
+        if (match) {
+            const [_, year, month] = match;
+
+            if (isFourDigitYear(year) && isTwoDigitMonth(month)) {
+                return {
+                    dateType: "year-month",
+                    hasTime: false,
+                    year,
+                    month,
+                    date: null,
+                    hour: null,
+                    minute: null,
+                    second: null,
+                    ms: null,
+                    timezone: null
+                } as Returns<T>
+            } else {
+                return err(
+                    `parse/iso-date`,
+                    `A string which matched the regex for IsoYearMonth was invalid upon inspection`
+                ) as unknown as Returns<T>
+            }
+        } else {
+            return err(
+                `parse/iso-date`,
+                `A string which matched the regex for IsoYearMonth was invalid upon inspection`
+            ) as unknown as Returns<T>
+        }
+
+    } else if (isoMonthDay.test(input)) {
+        const match = input.match(isoMonthDay);
+        if (match) {
+            const [_, month, date] = match;
+
+            if (isTwoDigitMonth(month) && isTwoDigitDate(date)) {
+                return {
+                    dateType: "year-independent",
+                    hasTime: false,
+                    year: null,
+                    month,
+                    date,
+                    hour: null,
+                    minute: null,
+                    second: null,
+                    ms: null,
+                    timezone: null
+                } as Returns<T>
+            } else {
+                return err(
+                    `parse/iso-date`,
+                    `A string which matched the regex for IsoMonthDay (aka, year-independent) was invalid upon inspection`
+                ) as unknown as Returns<T>
+            }
+        }
+        return err(
+            `parse/iso-date`,
+            `A string which matched the regex for IsoMonthDay (aka, year-independent) was invalid upon inspection`
+        ) as unknown as Returns<T>;
+
+    } else if (isoDate.test(input)) {
+        const match = input.match(isoDate);
+        if (match) {
+            const [_, year, month, date] = match;
+
+            if (isFourDigitYear(year) && isTwoDigitMonth(month) && isTwoDigitDate(date)) {
+                return {
+                    dateType: "year-independent",
+                    hasTime: false,
+                    year,
+                    month,
+                    date,
+                    hour: null,
+                    minute: null,
+                    second: null,
+                    ms: null,
+                    timezone: null
+                } as Returns<T>
+            }
+            return err(
+                `parse/iso-date`,
+                `A string which matched the regex for ISO Date was invalid upon inspection.`
+            ) as unknown as Returns<T>
+        }
+        return err(
+            `parse/iso-date`,
+            `A string which matched the regex for ISO Date was unable to then pull the expected match groups. This should not happen.`
+        ) as unknown as Returns<T>
     }
 
-    if (match = input.match(isoDate)) {
-        const result = shape(input, "date", match);
-        if (isError(result)) {
-            date = result;
-        }
-        else {
-            return shape(input, "date", match)  as Returns<T>;
-        }
-    }
-
-    if (match = input.match(isoMonthDay)) {
-        // For year-independent, we need to rearrange the match array
-        // because shape expects [full, year, month, date, ...]
-        // but isoMonthDay gives us [full, month, date]
-        const rearrangedMatch = [match[0], undefined, match[1], match[2]];
-        const result = shape(input, "year-independent", rearrangedMatch);
-        if (isError(result)) {
-            yearIndependent = result;
-        }
-        else {
-            return result  as Returns<T>;
-        }
-    }
-
-    if (match = input.match(isoYearMonth)) {
-        const result = shape(input, "year-month", match);
-        if (isError(result)) {
-            yearMonth = result;
-        }
-        else {
-            return shape(input, "year-month", match) as Returns<T>;
-        }
-    }
-
-    if (match = input.match(isoYear)) {
-        const result = shape(input, "year", match);
-        if (isError(result)) {
-            year = result;
-        }
-        else {
-            return shape(input, "year", match)  as Returns<T>;
-        }
-    }
 
     return err(
         "parse/iso-date",
-        "The string passed to parseIsoDate() was invalid!", { input, matched: { dateTime, date, yearMonth, yearIndependent, year } }
-    ) as unknown as  Returns<T>;
+        "The string passed to parseIsoDate() was invalid!"
+    ) as unknown as Returns<T>;
 }

@@ -1,5 +1,6 @@
 import type { IsoDate } from "inferred-types/types";
 import { isNumberLike, isString } from "inferred-types/runtime";
+import { isIsoYear } from "runtime/type-guards/datetime/isIsoYear"
 
 /**
  * Type guard which validates whether the passed in `val` is an ISO 8601 date
@@ -57,7 +58,7 @@ export function isIsoImplicitDate(val: unknown): val is IsoDate {
  */
 export function isIsoDate(val: unknown): val is IsoDate {
     if (isString(val)) {
-        return isIsoImplicitDate(val) || isIsoExplicitDate(val) || isIsoYear() || isMonth;
+        return isIsoImplicitDate(val) || isIsoExplicitDate(val) || isIsoYear(val);
     }
     else {
         return false;

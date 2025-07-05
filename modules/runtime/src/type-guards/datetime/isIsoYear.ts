@@ -1,5 +1,5 @@
 import type { IsoYear } from "inferred-types/types";
-import { isNumber, isString } from "inferred-types/runtime";
+import { isNumber, isString } from "runtime/type-guards";
 
 /**
  * A type guard which matches a valid ISO 8601 year (e.g., `YYYY`).

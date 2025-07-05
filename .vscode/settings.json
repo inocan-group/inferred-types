@@ -1,254 +1,52 @@
 {
-  "git.ignoreLimitWarning": true,
-  "typescript.preferences.importModuleSpecifier": "non-relative",
-  "javascript.preferences.importModuleSpecifier": "non-relative",
-  "cSpell.words": [
-    "abcnews",
-    "Abendblatt",
-    "Aint",
-    "Allgemeine",
-    "aminotransferase",
-    "Aperio",
-    "apnews",
-    "appr",
-    "arktype",
-    "arpa",
-    "aspartate",
-    "AWAS",
-    "barbar",
-    "barfoo",
-    "basises",
-    "Bastar",
-    "bazbar",
-    "bazfoo",
-    "bestbuy",
-    "BGRA",
-    "BILD",
-    "birminghammail",
-    "bostonglobe",
-    "cacheable",
-    "cbsnews",
-    "CCIRLEW",
-    "CCITT",
-    "CELLID",
-    "combinators",
-    "comparision",
-    "Concat",
-    "Cornsilk",
-    "Courrier",
-    "crdt",
-    "Croix",
-    "CTPAD",
-    "cyclometric",
-    "dailymail",
-    "dailyrecord",
-    "Dasherize",
-    "dasherized",
-    "Decomp",
-    "dotpath",
-    "Douyin",
-    "electronvolt",
-    "ello",
-    "engineerable",
-    "ensureleading",
-    "epochinms",
-    "epochinseconds",
-    "ESRC",
-    "fencedframe",
-    "foey",
-    "foobarbaz",
-    "foofoo",
-    "fooy",
-    "foxnews",
-    "Gainsboro",
-    "gigatonne",
-    "GPSH",
-    "Handelsblatt",
-    "Hebdo",
-    "hematocrit",
-    "homedepot",
-    "huffpost",
-    "IGNORABLES",
-    "iobhaveagreatday",
-    "ises",
-    "kiloampere",
-    "kiloohm",
-    "kinded",
-    "Krogers",
-    "Lerc",
-    "Libération",
-    "lowes",
-    "Lumi",
-    "LUMIN",
-    "LZMA",
-    "macys",
-    "manchestereveningnews",
-    "MCHC",
-    "Mediapart",
-    "megaohm",
-    "megatonne",
-    "merkur",
-    "microliter",
-    "MMDD",
-    "mmol",
-    "msnbc",
-    "Münchner",
-    "nbcnews",
-    "nesw",
-    "nexstar",
-    "noembed",
-    "Nums",
-    "nytimes",
-    "oasises",
-    "okhsl",
-    "oklch",
-    "ooar",
-    "Ouest",
-    "outfile",
-    "Packbits",
-    "parameterless",
-    "Parisien",
-    "PBGRA",
-    "Pinterest",
-    "PRGBA",
-    "Rebecca",
-    "RGBE",
-    "Rheinische",
-    "ruleset",
-    "Rundschau",
-    "singleline",
-    "stuttgarter",
-    "Subfile",
-    "subreddits",
-    "Süddeutsche",
-    "sueddeutsche",
-    "tagesschau",
-    "tagesspiegel",
-    "tageszeitung",
-    "Télérama",
-    "theatlantic",
-    "theguardian",
-    "thesun",
-    "thetimes",
-    "Thresholding",
-    "Thunderscan",
-    "Tnot",
-    "tokei",
-    "Trimable",
-    "Trimmable",
-    "typeguards",
-    "Uncapitalize",
-    "usatoday",
-    "washingtonpost",
-    "wayfair",
-    "weakmaps",
-    "Welle",
-    "Whitebalance",
-    "wholefoodsmarket",
-    "WLAN",
-    "youtu",
-    "YYYYDD",
-    "YYYYMMDDT",
-    "Zeitung",
-    "µmol"
-],
-  "references.preferredLocation": "peek",
-  "json.schemas": [
-    {
-      "url": "https://cdn.jsdelivr.net/npm/tsup/schema.json",
-      "fileMatch": [
-        "package.json",
-        "tsup.config.json"
-      ]
-    }
-  ],
-  // Auto fix
-  "eslint.useFlatConfig": true,
-  "editor.tabSize": 4,
-  "editor.formatOnSave": false,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
-  },
-  "editor.defaultFormatter": null,
-  "eslint.format.enable": true,
-  // Silent the stylistic rules in you IDE, but still auto fix them
-  "eslint.rules.customizations": [
-    {
-      "rule": "style/*",
-      "severity": "off",
-      "fixable": true
+    // TypeScript import preferences
+    "typescript.preferences.importModuleSpecifier": "non-relative",
+    "typescript.preferences.includePackageJsonAutoImports": "on",
+    // Prefer importing from the project's configured paths
+    "typescript.preferences.importModuleSpecifierEnding": "minimal",
+    // This helps TypeScript understand to use your module names instead of relative paths
+    "typescript.suggest.autoImports": true,
+    "typescript.suggest.includeCompletionsForImportStatements": true,
+    "typescript.suggest.includeAutomaticOptionalChainCompletions": true,
+    // Additional settings to influence import behavior
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    // For JavaScript files as well
+    "javascript.preferences.importModuleSpecifier": "non-relative",
+    "javascript.preferences.includePackageJsonAutoImports": "on",
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    // Editor settings that can help
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "never"
     },
-    {
-      "rule": "format/*",
-      "severity": "off",
-      "fixable": true
+    // Additional TypeScript settings to control imports
+    "typescript.tsserver.pluginPaths": [],
+    // Exclude certain patterns from IntelliSense
+    "typescript.tsserver.watchOptions": {
+        "excludeDirectories": [
+            "**/node_modules/@*"
+        ]
     },
-    {
-      "rule": "*-indent",
-      "severity": "off",
-      "fixable": true
+    // Path intellisense settings (if you have the extension installed)
+    "path-intellisense.mappings": {
+        "inferred-types/types": "${workspaceRoot}/modules/types/src",
+        "inferred-types/constants": "${workspaceRoot}/modules/constants/src",
+        "inferred-types/runtime": "${workspaceRoot}/modules/runtime/src"
     },
-    {
-      "rule": "*-spacing",
-      "severity": "off",
-      "fixable": true
+    // Additional workspace settings
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/bower_components": true,
+        "**/@*": true
     },
-    {
-      "rule": "*-spaces",
-      "severity": "off",
-      "fixable": true
+    // Format on save to ensure consistent imports
+    "editor.formatOnSave": true,
+    "[typescript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
     },
-    {
-      "rule": "*-order",
-      "severity": "off",
-      "fixable": true
+    "[javascript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
     },
-    {
-      "rule": "*-dangle",
-      "severity": "off",
-      "fixable": true
-    },
-    {
-      "rule": "*-newline",
-      "severity": "off",
-      "fixable": true
-    },
-    {
-      "rule": "*quotes",
-      "severity": "off",
-      "fixable": true
-    },
-    {
-      "rule": "*semi",
-      "severity": "off",
-      "fixable": true
-    }
-  ],
-  // Enable eslint for all supported languages
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact",
-    "vue",
-    "html",
-    "markdown",
-    "json",
-    "jsonc",
-    "yaml",
-    "toml",
-    "xml",
-    "gql",
-    "graphql",
-    "astro",
-    "svelte",
-    "css",
-    "less",
-    "scss",
-    "pcss",
-    "postcss"
-],
-"[markdown]": {
-    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
-}
+    "cSpell.words": [
+        "MMDD"
+    ]
 }

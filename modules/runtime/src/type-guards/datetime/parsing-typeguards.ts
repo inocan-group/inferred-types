@@ -1,5 +1,4 @@
-import { isString } from "runtime/type-guards/isString";
-import {
+import type {
     FourDigitYear,
     MinimalDigitDate,
     ThreeDigitMillisecond,
@@ -9,7 +8,8 @@ import {
     TwoDigitMinute,
     TwoDigitMonth,
     TwoDigitSecond
-} from "types/datetime"
+} from "inferred-types/types"
+import { isString } from "inferred-types/runtime";
 
 
 /**

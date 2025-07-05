@@ -27,6 +27,7 @@
         "strict": true,
         "declaration": true,
         "declarationMap": true,
+        "esModuleInterop": true,
         "outDir": "dist",
         "preserveConstEnums": true,
         "sourceMap": true,
