@@ -1,5 +1,5 @@
 import { And, Extends, IsNull, Or } from "types/boolean-logic";
-import { ParsedDate, ParsedTime } from "types/datetime";
+import { ParsedDate, ParsedTime, ToIsoString } from "types/datetime";
 
 type ParsedDateType<T extends ParsedDate> = T extends [
     infer Year,
@@ -86,5 +86,47 @@ export type AsDateMeta<T extends ParsedDate> = {
     minute: Minute<T[3]>,
     second: Second<T[3]>,
     ms: Millisecond<T[3]>,
-    timezone: Offset<T[3]>
+    timezone: Offset<T[3]>,
+    toString(): ToIsoString<
+        "auto",
+        ParsedDateType<T>, HasTime<T>,
+        T[0], T[1], T[2],
+        Hour<T[3]>, Minute<T[3]>, Second<T[3]>, Millisecond<T[3]>,
+        Offset<T[3]>
+    >;
+    asYear(): ToIsoString<
+        "year",
+        ParsedDateType<T>, HasTime<T>,
+        T[0], T[1], T[2],
+        Hour<T[3]>, Minute<T[3]>, Second<T[3]>, Millisecond<T[3]>,
+        Offset<T[3]>
+    >;
+    asYearIndependent(): ToIsoString<
+        "year-independent",
+        ParsedDateType<T>, HasTime<T>,
+        T[0], T[1], T[2],
+        Hour<T[3]>, Minute<T[3]>, Second<T[3]>, Millisecond<T[3]>,
+        Offset<T[3]>
+    >;
+    asYearMonth(): ToIsoString<
+        "year-month",
+        ParsedDateType<T>, HasTime<T>,
+        T[0], T[1], T[2],
+        Hour<T[3]>, Minute<T[3]>, Second<T[3]>, Millisecond<T[3]>,
+        Offset<T[3]>
+    >;
+    asDate(): ToIsoString<
+        "date",
+        ParsedDateType<T>, HasTime<T>,
+        T[0], T[1], T[2],
+        Hour<T[3]>, Minute<T[3]>, Second<T[3]>, Millisecond<T[3]>,
+        Offset<T[3]>
+    >;
+    asDateTime(): ToIsoString<
+        "datetime",
+        ParsedDateType<T>, HasTime<T>,
+        T[0], T[1], T[2],
+        Hour<T[3]>, Minute<T[3]>, Second<T[3]>, Millisecond<T[3]>,
+        Offset<T[3]>
+    >;
 };

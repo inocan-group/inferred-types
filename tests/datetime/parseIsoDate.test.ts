@@ -1,9 +1,10 @@
 import { describe, it, expect } from "vitest";
 import {
     isError,
+    keysOf,
     parseIsoDate
 } from "inferred-types/runtime";
-import { AsDateMeta, DateMeta, Expect, Test } from "inferred-types/types";
+import { AsDateMeta, DateMeta, Expect, Test, DateMetaNoFunctions } from 'inferred-types/types';
 
 describe("parseIsoDate()", () => {
     it("datetime, UTC", () => {
@@ -20,13 +21,11 @@ describe("parseIsoDate()", () => {
             second: "56",
             ms: "789",
             timezone: "Z"
-        } satisfies DateMeta;
-        type Result = typeof result;
+        } satisfies DateMetaNoFunctions;
 
-        expect(
-            result,
-            `${Object.keys(expected).filter(k => expected[k as keyof typeof expected] !== result[k as keyof typeof result]).join(', ')} keys were not equal!\n\t- ${Object.keys(expected).filter(k => expected[k as keyof typeof expected] !== result[k as keyof typeof result]).map(k => `${k}: ${expected[k as keyof typeof expected]} ≠ ${result[k as keyof typeof result]}`).join('\n\t -')}\n`
-        ).toEqual(expected);
+        for (const key of keysOf(expected)) {
+            expect(expected[key], `'${key}' should be: '${expected[key]}' but was '${result[key]}'\n\t`).toBe(result[key]);
+        }
 
         type cases = [
             Expect<Test<
@@ -40,7 +39,7 @@ describe("parseIsoDate()", () => {
     it("datetime, offset, no ms", () => {
         const str = "2024-01-15T23:59:59+02:00" as const;
         const result = parseIsoDate(str);
-        const expected: DateMeta = {
+        const expected: DateMetaNoFunctions = {
             dateType: "datetime",
             hasTime: true,
             year: "2024",
@@ -52,12 +51,9 @@ describe("parseIsoDate()", () => {
             ms: null,
             timezone: "+02:00"
         };
-        expect(result).toEqual(expected);
-
-        expect(
-            result,
-            `${Object.keys(expected).filter(k => expected[k as keyof typeof expected] !== result[k as keyof typeof result]).join(', ')} keys were not equal!\n\t- ${Object.keys(expected).filter(k => expected[k as keyof typeof expected] !== result[k as keyof typeof result]).map(k => `${k}: ${expected[k as keyof typeof expected]} ≠ ${result[k as keyof typeof result]}`).join('\n\t -')}\n`
-        ).toEqual(expected);
+        for (const key of keysOf(expected)) {
+            expect(expected[key], `'${key}' should be: '${expected[key]}' but was '${result[key]}'\n\t`).toBe(result[key]);
+        }
 
         type cases = [
             Expect<Test<
@@ -72,7 +68,7 @@ describe("parseIsoDate()", () => {
     it("parses ISO datetime with offset", () => {
         const str = "2024-01-15T23:59:59+02:00" as const;
         const result = parseIsoDate(str);
-        expect(result).toEqual({
+        const expected: DateMetaNoFunctions = {
             dateType: "datetime",
             hasTime: true,
             year: "2024",
@@ -83,7 +79,10 @@ describe("parseIsoDate()", () => {
             second: "59",
             ms: null,
             timezone: "+02:00"
-        });
+        }
+        for (const key of keysOf(expected)) {
+            expect(expected[key], `'${key}' should be: '${expected[key]}' but was '${result[key]}'\n\t`).toBe(result[key]);
+        }
 
         type cases = [
             Expect<Test<
@@ -96,7 +95,7 @@ describe("parseIsoDate()", () => {
     it("parses ISO date (YYYY-MM-DD)", () => {
         const str = "2024-01-15" as const;
         const result = parseIsoDate(str);
-        const expected = {
+        const expected: DateMetaNoFunctions = {
             dateType: "year-independent",
             hasTime: false,
             year: "2024",
@@ -108,10 +107,10 @@ describe("parseIsoDate()", () => {
             ms: null,
             timezone: null
         };
-        expect(
-            result,
-            `${Object.keys(expected).filter(k => expected[k as keyof typeof expected] !== result[k as keyof typeof result]).join(', ')} keys were not equal!\n\t- ${Object.keys(expected).filter(k => expected[k as keyof typeof expected] !== result[k as keyof typeof result]).map(k => `${k}: ${expected[k as keyof typeof expected]} ≠ ${result[k as keyof typeof result]}`).join('\n\t -')}\n`
-        ).toEqual(expected);
+
+        for (const key of keysOf(expected)) {
+            expect(expected[key], `'${key}' should be: '${expected[key]}' but was '${result[key]}'\n\t`).toBe(result[key]);
+        }
 
         type cases = [
             Expect<Test<
@@ -124,7 +123,7 @@ describe("parseIsoDate()", () => {
     it("parses ISO date (YYYYMMDD)", () => {
         const str = "20240115" as const;
         const result = parseIsoDate(str);
-        const expected: DateMeta = {
+        const expected: DateMetaNoFunctions = {
             dateType: "year-independent",
             hasTime: false,
             year: "2024",
@@ -140,10 +139,9 @@ describe("parseIsoDate()", () => {
         if (isError(result)) {
             throw new Error(`expected ISO string -- 20240115 -- to be parsable!`)
         }
-        expect(
-            result,
-            `${Object.keys(expected).filter(k => expected[k as keyof typeof expected] !== result[k as keyof typeof result]).join(', ')} keys were not equal!\n\t- ${Object.keys(expected).filter(k => expected[k as keyof typeof expected] !== result[k as keyof typeof result]).map(k => `${k}: ${expected[k as keyof typeof expected]} ≠ ${result[k as keyof typeof result]}`).join('\n\t -')}\n`
-        ).toEqual(expected);
+        for (const key of keysOf(expected)) {
+            expect(expected[key], `'${key}' should be: '${expected[key]}' but was '${result[key]}'\n\t`).toBe(result[key]);
+        }
 
         type cases = [
             Expect<Test<
@@ -156,7 +154,7 @@ describe("parseIsoDate()", () => {
     it("parses ISO year only (YYYY)", () => {
         const str = "2024" as const;
         const result = parseIsoDate(str);
-        const expected: DateMeta = {
+        const expected: DateMetaNoFunctions = {
             dateType: "year",
             hasTime: false,
             year: "2024",
@@ -173,10 +171,9 @@ describe("parseIsoDate()", () => {
             throw result
         }
 
-        expect(
-            result,
-            `${Object.keys(expected).filter(k => expected[k as keyof typeof expected] !== result[k as keyof typeof result]).join(', ')} keys were not equal!\n\t- ${Object.keys(expected).filter(k => expected[k as keyof typeof expected] !== result[k as keyof typeof result]).map(k => `${k}: ${expected[k as keyof typeof expected]} ≠ ${result[k as keyof typeof result]}`).join('\n\t -')}\n`
-        ).toEqual(expected);
+        for (const key of keysOf(expected)) {
+            expect(expected[key], `'${key}' should be: '${expected[key]}' but was '${result[key]}'\n\t`).toBe(result[key]);
+        }
 
         type cases = [
             Expect<Test<
@@ -189,7 +186,7 @@ describe("parseIsoDate()", () => {
     it("parses ISO year/month only (-YYYY-MM)", () => {
         const str = "-2024-01" as const;
         const result = parseIsoDate(str);
-        const expected: DateMeta = {
+        const expected: DateMetaNoFunctions = {
             dateType: "year-month",
             hasTime: false,
             year: "2024",
@@ -205,10 +202,9 @@ describe("parseIsoDate()", () => {
             throw result
         }
 
-        expect(
-            result,
-            `${Object.keys(expected).filter(k => expected[k as keyof typeof expected] !== result[k as keyof typeof result]).join(', ')} keys were not equal!\n\t- ${Object.keys(expected).filter(k => expected[k as keyof typeof expected] !== result[k as keyof typeof result]).map(k => `${k}: ${expected[k as keyof typeof expected]} ≠ ${result[k as keyof typeof result]}`).join('\n\t -')}\n`
-        ).toEqual(expected);
+        for (const key of keysOf(expected)) {
+            expect(expected[key], `'${key}' should be: '${expected[key]}' but was '${result[key]}'\n\t`).toBe(result[key]);
+        }
 
         type cases = [
             Expect<Test<
@@ -221,7 +217,7 @@ describe("parseIsoDate()", () => {
     it("parses ISO year/month only (-YYYYMM)", () => {
         const str = "-202401" as const;
         const result = parseIsoDate(str);
-        const expected: DateMeta = {
+        const expected: DateMetaNoFunctions = {
             dateType: "year-month",
             hasTime: false,
             year: "2024",
@@ -236,11 +232,9 @@ describe("parseIsoDate()", () => {
         if (isError(result)) {
             throw result
         }
-
-        expect(
-            result,
-            `${Object.keys(expected).filter(k => expected[k as keyof typeof expected] !== result[k as keyof typeof result]).join(', ')} keys were not equal!\n\t- ${Object.keys(expected).filter(k => expected[k as keyof typeof expected] !== result[k as keyof typeof result]).map(k => `${k}: ${expected[k as keyof typeof expected]} ≠ ${result[k as keyof typeof result]}`).join('\n\t -')}\n`
-        ).toEqual(expected);
+        for (const key of keysOf(expected)) {
+            expect(expected[key], `'${key}' should be: '${expected[key]}' but was '${result[key]}'\n\t`).toBe(result[key]);
+        }
 
         type cases = [
             Expect<Test<
@@ -253,7 +247,7 @@ describe("parseIsoDate()", () => {
     it("parses ISO year-less month/day (--MM-DD)", () => {
         const str = "--01-15" as const;
         const result = parseIsoDate(str);
-        const expected: DateMeta = {
+        const expected: DateMetaNoFunctions = {
             dateType: "year-independent",
             hasTime: false,
             year: null,
@@ -265,12 +259,10 @@ describe("parseIsoDate()", () => {
             ms: null,
             timezone: null
         }
-        expect(result).toEqual(expected);
 
-        expect(
-            result,
-            `${Object.keys(expected).filter(k => expected[k as keyof typeof expected] !== result[k as keyof typeof result]).join(', ')} keys were not equal!\n\t- ${Object.keys(expected).filter(k => expected[k as keyof typeof expected] !== result[k as keyof typeof result]).map(k => `${k}: ${expected[k as keyof typeof expected]} ≠ ${result[k as keyof typeof result]}`).join('\n\t -')}\n`
-        ).toEqual(expected);
+        for (const key of keysOf(expected)) {
+            expect(expected[key], `'${key}' should be: '${expected[key]}' but was '${result[key]}'\n\t`).toBe(result[key]);
+        }
 
         type cases = [
             Expect<Test<
@@ -283,7 +275,7 @@ describe("parseIsoDate()", () => {
     it("parses ISO year-less month/day (--MMDD)", () => {
         const str = "--0115" as const;
         const result = parseIsoDate(str);
-        const expected: DateMeta = {
+        const expected: DateMetaNoFunctions = {
             dateType: "year-independent",
             hasTime: false,
             year: null,
@@ -295,12 +287,10 @@ describe("parseIsoDate()", () => {
             ms: null,
             timezone: null
         }
-        expect(result).toEqual(expected);
 
-        expect(
-            result,
-            `${Object.keys(expected).filter(k => expected[k as keyof typeof expected] !== result[k as keyof typeof result]).join(', ')} keys were not equal!\n\t- ${Object.keys(expected).filter(k => expected[k as keyof typeof expected] !== result[k as keyof typeof result]).map(k => `${k}: ${expected[k as keyof typeof expected]} ≠ ${result[k as keyof typeof result]}`).join('\n\t -')}\n`
-        ).toEqual(expected);
+        for (const key of keysOf(expected)) {
+            expect(expected[key], `'${key}' should be: '${expected[key]}' but was '${result[key]}'\n\t`).toBe(result[key]);
+        }
 
         type cases = [
             Expect<Test<
@@ -330,6 +320,24 @@ describe("parseIsoDate()", () => {
                 typeof notADate, "isError", "parse-date/year"
             >>,
         ]
-
     });
+
+
+    it("toString() returns valid ISO string", () => {
+        const p = parseIsoDate("2023-03-05T12:55Z");
+        const str = p.toString();
+
+
+
+        type cases = [
+            Expect<Test<
+                typeof p, "equals",
+                AsDateMeta<[
+                    "2023", "03", "05", ["12", "55", null, null, "Z"]
+                ]>
+            >>,
+
+        ];
+    });
+
 });

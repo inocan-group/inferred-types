@@ -11,6 +11,7 @@ export * from "./Iso";
 export * from "./Month";
 export * from "./ParseDate";
 export * from "./ParseTime";
+export * from "./RenderTime";
 export * from "./seasonality";
 export * from "./Time";
 

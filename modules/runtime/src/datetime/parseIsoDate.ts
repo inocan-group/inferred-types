@@ -5,12 +5,19 @@ import type {
     IsUnion,
     DateMeta,
 } from "inferred-types/types";
+import {
+    toString,
+    asYear,
+    asYearMonth,
+    asYearIndependent,
+    asDate,
+    asDateTime
+} from "runtime/datetime/parseIsoDate_converters"
 
 import { err } from "runtime/errors";
 import { isEmpty, isString } from "runtime/type-guards";
 import { isFourDigitYear, isThreeDigitMillisecond, isTimeZone, isTwoDigitDate, isTwoDigitHour, isTwoDigitMinute, isTwoDigitMonth, isTwoDigitSecond } from "runtime/type-guards/datetime"
 import { isTypedError } from "runtime/type-guards/isTypedError";
-
 
 
 type Returns<T extends string> = [IsUnion<T>] extends [true]
@@ -20,6 +27,7 @@ type Returns<T extends string> = [IsUnion<T>] extends [true]
     : ParseDate<T> extends ParsedDate
     ? AsDateMeta<ParseDate<T>>
     : Error;
+
 
 /**
  * Parses an ISO date or datetime string into its components.
@@ -133,7 +141,7 @@ export function parseIsoDate<
             const [_, year] = match;
 
             if (isFourDigitYear(year)) {
-                return {
+                const val = {
                     dateType: "year",
                     hasTime: false,
                     year,
@@ -144,6 +152,21 @@ export function parseIsoDate<
                     second: null,
                     ms: null,
                     timezone: null
+                } satisfies Omit<
+                    DateMeta,
+                    | "toString"
+                    | "asYear" | "asYearIndependent" | "asYearMonth"
+                    | "asDate" | "asDateTime"
+                >;
+
+                return {
+                    ...val,
+                    toString: toString(val),
+                    asYear: asYear(val),
+                    asYearIndependent: asYearIndependent(val),
+                    asDate: asDate(val),
+                    asDateTime: asDateTime(val),
+                    asYearMonth: asYearMonth(val)
                 } as Returns<T>
             } else {
                 return err(
@@ -163,7 +186,7 @@ export function parseIsoDate<
             const [_, year, month] = match;
 
             if (isFourDigitYear(year) && isTwoDigitMonth(month)) {
-                return {
+                const val = {
                     dateType: "year-month",
                     hasTime: false,
                     year,
@@ -173,7 +196,23 @@ export function parseIsoDate<
                     minute: null,
                     second: null,
                     ms: null,
-                    timezone: null
+                    timezone: null,
+
+                } satisfies Omit<
+                    DateMeta,
+                    | "toString"
+                    | "asYear" | "asYearIndependent" | "asYearMonth"
+                    | "asDate" | "asDateTime"
+                >;
+
+                return {
+                    ...val,
+                    toString: toString(val),
+                    asYear: asYear(val),
+                    asYearIndependent: asYearIndependent(val),
+                    asDate: asDate(val),
+                    asDateTime: asDateTime(val),
+                    asYearMonth: asYearMonth(val)
                 } as Returns<T>
             } else {
                 return err(
@@ -194,7 +233,7 @@ export function parseIsoDate<
             const [_, month, date] = match;
 
             if (isTwoDigitMonth(month) && isTwoDigitDate(date)) {
-                return {
+                const val = {
                     dateType: "year-independent",
                     hasTime: false,
                     year: null,
@@ -205,6 +244,21 @@ export function parseIsoDate<
                     second: null,
                     ms: null,
                     timezone: null
+                } satisfies Omit<
+                    DateMeta,
+                    | "toString"
+                    | "asYear" | "asYearIndependent" | "asYearMonth"
+                    | "asDate" | "asDateTime"
+                >;
+
+                return {
+                    ...val,
+                    toString: toString(val),
+                    asYear: asYear(val),
+                    asYearIndependent: asYearIndependent(val),
+                    asDate: asDate(val),
+                    asDateTime: asDateTime(val),
+                    asYearMonth: asYearMonth(val)
                 } as Returns<T>
             } else {
                 return err(
@@ -224,7 +278,8 @@ export function parseIsoDate<
             const [_, year, month, date] = match;
 
             if (isFourDigitYear(year) && isTwoDigitMonth(month) && isTwoDigitDate(date)) {
-                return {
+
+                const val = {
                     dateType: "year-independent",
                     hasTime: false,
                     year,
@@ -234,7 +289,22 @@ export function parseIsoDate<
                     minute: null,
                     second: null,
                     ms: null,
-                    timezone: null
+                    timezone: null,
+                } satisfies Omit<
+                    DateMeta,
+                    | "toString"
+                    | "asYear" | "asYearIndependent" | "asYearMonth"
+                    | "asDate" | "asDateTime"
+                >;
+
+                return {
+                    ...val,
+                    toString: toString(val),
+                    asYear: asYear(val),
+                    asYearIndependent: asYearIndependent(val),
+                    asDate: asDate(val),
+                    asDateTime: asDateTime(val),
+                    asYearMonth: asYearMonth(val)
                 } as Returns<T>
             }
             return err(
