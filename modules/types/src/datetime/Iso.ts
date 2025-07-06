@@ -93,7 +93,7 @@ export type IsoFullDateLike =
     | `${number}-${TwoDigitMonth}-${number}`;
 
 /**
- * Full ISO date format plus time info:
+ * Basic shape for an ISO DateTime string:
  *
  * - `YYYY-MM-DDT${time}`, _or_
  * - `YYYYMMDDT${time}`
@@ -102,9 +102,9 @@ export type IsoFullDateLike =
  * - `IsoFullDate`
  * - `IsoDateTime`, `IsoMonthDateTimeLike`, `IsoYearMonthTimeLike`
  */
-export type IsoFullDateTime =
-    | `${FourDigitYear}${TwoDigitMonth}${number}T${string}`
-    | `${FourDigitYear}-${TwoDigitMonth}-${number}T${string}`;
+export type IsoFullDateTimeLike =
+    | `${number}${TwoDigitMonth}${number}T${string}`
+    | `${number}-${TwoDigitMonth}-${number}T${string}`;
 
 
 /**
@@ -126,8 +126,8 @@ export type IsoFullDateTime =
  */
 export type IsoDateLike =
     | IsoFullDateLike // full date
-    | `-${number}${Opt<'-'>}${number}` // IsoYearMOnth
-    | `--${number}${Opt<'-'>}${number}` // IsoMonthDate
+    | `-${number}${Opt<'-'>}${TwoDigitMonth}` // IsoYearMOnth
+    | `--${TwoDigitMonth}${Opt<'-'>}${number}` // IsoMonthDate
     | `${number}` // IsoDate
 
 /**
@@ -157,8 +157,7 @@ export type IsoDate = IsoDateLike & {
  * - to fully validate, run `isIsoDateTime()` and it will upgrade
  * this type to a `IsoDateTime` branded type.
  */
-export type IsoDateTimeLike =
-    | `${FourDigitYear}-${number}-${number}T${number}-${number}${string}`;
+export type IsoDateTimeLike = `${number}-${TwoDigitMonth}-${number}T${number}-${number}${string}`;
 
 /**
  * **IsoDateTime**
@@ -205,12 +204,13 @@ export type IsoDateTime = IsoDateTimeLike & {
  * - `IsoDateLike`, `IsoDateTimeLike`
  */
 export type IsoTimeLike<
-    THour extends TwoDigitHour = TwoDigitHour,
+    THour extends number = number,
+    TMin extends number = number,
     TZ extends TimezoneOffset | "" = TimezoneOffset | ""
 > =
-    | `${THour}:${number}${TZ}`
-    | `${THour}:${number}:${number}${TZ}`
-    | `${THour}:${number}:${number}.${number}${TZ}`;
+    | `${THour}:${TMin}${TZ}`
+    | `${THour}:${TMin}:${number}${TZ}`
+    | `${THour}:${TMin}:${number}.${number}${TZ}`;
 
 /**
  * **IsoTime**`<[TExplicit], [TZ]>`
@@ -231,8 +231,9 @@ export type IsoTimeLike<
  * And is a branded type of `IsoTimeLike`
  */
 export type IsoTime<
-    THour extends TwoDigitHour = TwoDigitHour,
+    THour extends number = number,
+    TMin extends number = number,
     TZ extends TimezoneOffset | "" = TimezoneOffset
-> = IsoTimeLike<THour, TZ> & {
+> = IsoTimeLike<THour, TMin, TZ> & {
     kind: "ISO Time";
 };

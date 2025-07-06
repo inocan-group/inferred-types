@@ -1,6 +1,6 @@
 import {
     FourDigitYear,
-    IsoFullDateTime,
+    IsoFullDateTimeLike,
     ParseDate,
     ParsedDate,
     ParsedTime,
@@ -24,16 +24,16 @@ import {
  * branded type of `IsoDateTime` but if your runtime uses the
  * `isIsoDateTime()` it will pass.
  */
-export type IsIsoFullDateTime<T> = T extends IsoFullDateTime
-? ParseDate<T> extends ParsedDate
+export type IsIsoFullDateTime<T> = T extends IsoFullDateTimeLike
+    ? ParseDate<T> extends ParsedDate
     ? ParseDate<T> extends [
         FourDigitYear<"strong">,
         TwoDigitMonth,
         TwoDigitDate,
         ParsedTime
     ]
-        ? true
-        : false
+    ? true
     : false
-: false;
+    : false
+    : false;
 
