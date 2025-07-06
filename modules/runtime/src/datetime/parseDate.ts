@@ -1,17 +1,15 @@
+import type { DateLike } from "inferred-types/types";
 import {
-    isString,
-    isError,
-    isIsoDate,
-    isIsoDateTime,
-    isDictionary
-} from "runtime/type-guards";
-import {
-    parseIsoDate,
-    asDate
+    asDate,
+    parseIsoDate
 } from "runtime/datetime";
 
-import { AsDateMeta, DateLike, ParseDate, ParsedDate } from "inferred-types/types";
 import { err } from "runtime/errors";
+import {
+    isError,
+    isIsoDateTime,
+    isString
+} from "runtime/type-guards";
 
 // type Returns<T> = T extends string
 //     ? ParseDate<T> extends Error
@@ -24,11 +22,9 @@ import { err } from "runtime/errors";
 //         ? ParseDateObject<T>
 //         : Parse
 
-
 export function parseDate<
     T extends DateLike
 >(d: T) {
-
     const iso = isString(d)
         ? d
         : asDate(d).toISOString();
@@ -39,9 +35,10 @@ export function parseDate<
 
     if (isString(iso)) {
         return parseIsoDate(iso);
-    } else if (isIsoDateTime(iso)) {
+    }
+    else if (isIsoDateTime(iso)) {
         return parseIsoDate(iso);
     }
 
-    return err(`parse/structure`)
+    return err(`parse/structure`);
 }

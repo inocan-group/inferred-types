@@ -83,6 +83,20 @@ Each module (`constants`, `types`, `runtime`, `inferred-types`) has consistent s
 - `pnpm -C modules/[module-name] lint` - Lint specific module
 - `pnpm -C modules/[module-name] watch` - Watch mode for specific module
 
+### Importing Rules
+
+- you should NEVER import from `@inferred-types/types`, `@inferred-types/runtime`, or `@inferred-types/constants`!
+- relative imports should also be avoided
+- in 99% of the cases you should import from one of the following sources:
+  - `inferred-types/constants`
+  - `inferred-types/types`
+  - `inferred-types/runtime`
+- if you need to resolve a circular dependency or reference a symbol then you can consider importing more deeply into the different modules with:
+  - `runtime/path/to/dep`
+  - `types/path/to/dep`
+  - `constants/path/to/dep`
+- typically this deeper import should only be done for deps within the same modules
+
 ## Build System
 
 - **Primary tool**: `tsdown` for TypeScript compilation
@@ -140,8 +154,9 @@ type cases = [
 ```
 
 **Test comparison types:**
+
 - `equals` - exact type equality
-- `extends` - type extension relationship  
+- `extends` - type extension relationship
 - `hasSameKeys` - dictionary key comparison
 - `hasSameValues` - container value comparison (order-independent)
 - `isError<T>` - error type testing (supports Error types, string error types, or generic error checking)

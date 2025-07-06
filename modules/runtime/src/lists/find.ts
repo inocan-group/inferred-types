@@ -1,13 +1,11 @@
 import type {
-    FindFunction,
+    ComparisonAccept,
     ComparisonLookup,
     ComparisonOperation,
-    ComparisonAccept,
-    Find
+    Find,
+    FindFunction
 } from "inferred-types/types";
 import { compare } from "inferred-types/runtime";
-
-
 
 /**
  * **find**(op, ...params) => (value) => el | undefined
@@ -28,9 +26,9 @@ export function find<
         return list.find(
             i => compare(op, params)(i)
         ) as Find<
-                TList,
-                TOp,
-                TParams
-            >;
-    }
+            TList,
+            TOp,
+            TParams
+        >;
+    };
 }

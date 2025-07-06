@@ -1,8 +1,8 @@
 import type { Empty } from "inferred-types/types";
 import {
     isArray,
-    isNull,
     isDictionary,
+    isNull,
     isString,
     isUndefined,
 } from "inferred-types/runtime";

@@ -1,9 +1,5 @@
-import { DateLike } from "inferred-types/types";
-import { parseIsoDate, asDateTime, isError } from "inferred-types/runtime";
-
-
-
-
+import type { DateLike } from "inferred-types/types";
+import { asDateTime, isError, parseIsoDate } from "inferred-types/runtime";
 
 /**
  * Parses an object-based Date container into a `ParsedDate` tuple.
@@ -12,7 +8,6 @@ import { parseIsoDate, asDateTime, isError } from "inferred-types/runtime";
 export function parseDateObject<T extends DateLike & object>(d: T) {
     const date = d instanceof Date ? d : asDateTime(d);
     const iso = date.toISOString();
-
 
     const parsed = parseIsoDate(iso);
     if (isError(parsed)) {

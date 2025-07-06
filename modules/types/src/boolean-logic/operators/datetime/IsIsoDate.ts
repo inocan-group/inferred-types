@@ -1,10 +1,11 @@
-import type {
+import {
     IsIsoFullDate,
-    IsIsoYearMonth,
     IsIsoMonthDate,
-    IsoDateLike,
     IsIsoYear,
-} from "inferred-types/types";
+    IsIsoYearMonth
+} from "types/boolean-logic/operators/datetime";
+import { IsoDateLike } from "types/datetime";
+
 
 /**
  * **IsIsoDate**`<T>`
@@ -19,19 +20,18 @@ import type {
  * **Note:** this _does not_ match on DateTime combinations; use `IsIsoDateTime`
  * for that.
  */
-export type IsIsoDate<T> =
-string extends T
-? boolean
-: T extends IsoDateLike
-    ? IsIsoFullDate<T> extends true
-        ? true
+export type IsIsoDate<T> = string extends T
+    ? boolean
+    : T extends IsoDateLike
+    ? IsIsoFullDate<T> extends true //
+    ? true
     : IsIsoYearMonth<T> extends true
-        ? true
+    ? true
     : IsIsoMonthDate<T> extends true
-        ? true
+    ? true
     : IsIsoYear<T> extends true
-        ? true
+    ? true
     : false
-: false;
+    : false;
 
 

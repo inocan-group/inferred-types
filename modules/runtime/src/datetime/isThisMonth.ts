@@ -1,4 +1,4 @@
-import { asDate } from "./asDate";
+import { asDate } from "runtime/datetime";
 
 /**
  * **isThisMonth**`(input, now?)`
@@ -28,7 +28,7 @@ export function isThisMonth(
         return inputYear === nowYear && inputMonth === nowMonth;
     }
     catch (e) {
-    // asDate throws for invalid input, rethrow for consistency
+        // asDate throws for invalid input, rethrow for consistency
         throw e;
     }
 }

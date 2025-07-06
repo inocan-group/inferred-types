@@ -47,6 +47,8 @@
         "editor.defaultFormatter": "vscode.typescript-language-features"
     },
     "cSpell.words": [
-        "MMDD"
+        "MMDD",
+        "typeguards",
+        "YYYYDD"
     ]
 }

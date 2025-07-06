@@ -1,5 +1,5 @@
-import { isMap, isSet, isWeakMap } from "inferred-types/runtime";
 import type { Dictionary, Narrowable, ObjectKey } from "inferred-types/types";
+import { isMap, isSet, isWeakMap } from "inferred-types/runtime";
 
 /**
  * **isDictionary**(value)

@@ -1,5 +1,4 @@
-import { asDate } from "./asDate";
-import { getWeekNumber } from "./getWeekNumber";
+import { asDate, getWeekNumber } from "runtime/datetime";
 
 /**
  * **isThisWeek**`(input, now?)`
@@ -34,11 +33,11 @@ export function isThisWeek(
 
         return (
             inputWeek === nowWeek
-      && getIsoWeekYear(date) === getIsoWeekYear(now)
+            && getIsoWeekYear(date) === getIsoWeekYear(now)
         );
     }
     catch (e) {
-    // asDate throws for invalid input, rethrow for consistency
+        // asDate throws for invalid input, rethrow for consistency
         throw e;
     }
 }

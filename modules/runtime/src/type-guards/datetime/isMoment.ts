@@ -1,5 +1,5 @@
 import type { MomentJs } from "inferred-types/types";
-import { isDictionary } from "inferred-types/runtime";
+import { isDictionary } from "runtime/type-guards";
 
 /**
  * Type guard which validates that the passed in `val` is a
@@ -10,18 +10,18 @@ export function isMoment(val: unknown): val is MomentJs {
         return false;
     }
     return isDictionary(val)
-    // Check for essential Moment.js methods
+        // Check for essential Moment.js methods
         && typeof val.format === "function"
         && typeof val.year === "function"
         && typeof val.month === "function"
         && typeof val.date === "function"
-    // Check for Moment-specific properties
+        // Check for Moment-specific properties
         && "_isAMomentObject" in val
         && "_isValid" in val
-    // Check for essential Moment.js manipulation methods
+        // Check for essential Moment.js manipulation methods
         && typeof val.add === "function"
         && typeof val.subtract === "function"
-    // Additional Moment.js specific methods
+        // Additional Moment.js specific methods
         && typeof val.toISOString === "function"
         && typeof val.isValid === "function";
 }

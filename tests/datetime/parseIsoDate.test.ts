@@ -4,7 +4,7 @@ import {
     keysOf,
     parseIsoDate
 } from "inferred-types/runtime";
-import { AsDateMeta, DateMeta, Expect, Test, DateMetaNoFunctions } from 'inferred-types/types';
+import { AsDateMeta, Expect, Test, DateMetaNoFunctions } from 'inferred-types/types';
 
 describe("parseIsoDate()", () => {
     it("datetime, UTC", () => {
@@ -323,10 +323,18 @@ describe("parseIsoDate()", () => {
     });
 
 
-    it("toString() returns valid ISO string", () => {
+    it("DateTime meta converted to string variants", () => {
         const p = parseIsoDate("2023-03-05T12:55Z");
         const str = p.toString();
+        const date = p.asDate();
+        const yearMonth = p.asYearMonth();
+        const yearIndependent = p.asYearIndependent();
+        const year = p.asYear();
 
+        expect(str).toBe("2023-03-05T12:55Z");
+        expect(date).toBe("2023-03-05");
+        expect(year).toBe("2023");
+        expect(yearIndependent).toBe("--03-05")
 
 
         type cases = [
@@ -336,7 +344,22 @@ describe("parseIsoDate()", () => {
                     "2023", "03", "05", ["12", "55", null, null, "Z"]
                 ]>
             >>,
-
+            Expect<Test<
+                typeof str, "equals",
+                "2023-03-05T12:55Z"
+            >>,
+            Expect<Test<
+                typeof date, "equals",
+                "2023-03-05"
+            >>,
+            Expect<Test<
+                typeof yearMonth, "equals",
+                "-2023-03"
+            >>,
+            Expect<Test<
+                typeof yearIndependent, "equals",
+                "--03-05"
+            >>,
         ];
     });
 

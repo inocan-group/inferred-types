@@ -4,7 +4,7 @@ import type {
     OptionalParamFn,
     TypedFunction,
 } from "inferred-types/types";
-import { isFunction, isDictionary } from "inferred-types/runtime";
+import { isDictionary, isFunction } from "inferred-types/runtime";
 
 export function isEscapeFunction<T>(val: T): val is T & (() => unknown) {
     return isFunction(val) && "escape" in val && val.escape === true;

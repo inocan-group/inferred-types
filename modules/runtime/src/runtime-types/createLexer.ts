@@ -1,6 +1,6 @@
 import type { LexerState, TakeFunction } from "inferred-types/types";
 import { err } from "inferred-types/runtime";
-import { isArray, isError, isDictionary, isString } from "runtime/type-guards";
+import { isArray, isDictionary, isError, isString } from "runtime/type-guards";
 
 type TrimType = "trim" | "trimStart" | "trimEnd" | "none";
 

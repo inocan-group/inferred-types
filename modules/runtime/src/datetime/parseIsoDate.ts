@@ -1,24 +1,119 @@
 import type {
+    AsDateMeta,
+    DateMeta,
+    DateMetaNoFunctions,
+    DateType,
+    IsUnion,
     ParseDate,
     ParsedDate,
-    AsDateMeta,
-    IsUnion,
-    DateMeta,
 } from "inferred-types/types";
-import {
-    toString,
-    asYear,
-    asYearMonth,
-    asYearIndependent,
-    asDate,
-    asDateTime
-} from "runtime/datetime/parseIsoDate_converters"
-
 import { err } from "runtime/errors";
 import { isEmpty, isString } from "runtime/type-guards";
-import { isFourDigitYear, isThreeDigitMillisecond, isTimeZone, isTwoDigitDate, isTwoDigitHour, isTwoDigitMinute, isTwoDigitMonth, isTwoDigitSecond } from "runtime/type-guards/datetime"
+import {
+    isFourDigitYear,
+    isThreeDigitMillisecond,
+    isTwoDigitDate,
+    isTwoDigitHour,
+    isTwoDigitMinute,
+    isTwoDigitMonth,
+    isTwoDigitSecond,
+    isTimezoneOffset
+} from "runtime/type-guards/datetime";
 import { isTypedError } from "runtime/type-guards/isTypedError";
 
+/**
+ * converts the parsed components of a `DateMeta` dictionary
+ * to the representative ISO String.
+ */
+function convert<
+    T extends DateMetaNoFunctions & { format: "auto" | DateType }
+>(
+    meta: T
+) {
+    let {
+        format,
+        dateType,
+        hasTime,
+        year,
+        month,
+        date,
+        hour,
+        minute,
+        second,
+        ms,
+        timezone
+    } = meta;
+
+    if (format === "auto") {
+        format = dateType;
+    }
+
+    switch (format) {
+        case "date":
+            return () => `${year}-${month}-${date}`;
+        case "datetime": {
+            let base: string;
+            if (hasTime) {
+                base = `${year}-${month}-${date}T${hour}:${minute}`;
+                if (second) {
+                    base = `${base}:${second}`;
+                    if (ms) {
+                        base = `${base}.${ms}`;
+                    }
+                }
+                if (timezone) {
+                    base = `${base}${timezone}`;
+                }
+                return () => base;
+            }
+            else {
+                return () => `${year}-${month}-${date}`;
+            }
+        }
+        case "year":
+            return () => `${year}`;
+        case "year-independent":
+            return () => `--${month}-${date}`;
+        case "year-month":
+            return () => `-${year}-${month}`;
+    }
+}
+
+function toString<
+    T extends DateMetaNoFunctions
+>(meta: T) {
+    return convert({ format: "auto", ...meta });
+}
+
+function asYear<
+    T extends DateMetaNoFunctions
+>(meta: T) {
+    return convert({ format: "year", ...meta });
+}
+
+function asYearIndependent<
+    T extends DateMetaNoFunctions
+>(meta: T) {
+    return convert({ format: "year-independent", ...meta });
+}
+
+function asYearMonth<
+    T extends DateMetaNoFunctions
+>(meta: T) {
+    return convert({ format: "year-month", ...meta });
+}
+
+function asDate<
+    T extends DateMetaNoFunctions
+>(meta: T) {
+    return convert({ format: "date", ...meta });
+}
+
+function asDateTime<
+    T extends DateMetaNoFunctions
+>(meta: T) {
+    return convert({ format: "datetime", ...meta });
+}
 
 type Returns<T extends string> = [IsUnion<T>] extends [true]
     ? DateMeta | Error
@@ -27,7 +122,6 @@ type Returns<T extends string> = [IsUnion<T>] extends [true]
     : ParseDate<T> extends ParsedDate
     ? AsDateMeta<ParseDate<T>>
     : Error;
-
 
 /**
  * Parses an ISO date or datetime string into its components.
@@ -46,11 +140,11 @@ export function parseIsoDate<
         return err(
             "parse-date/wrong-type",
             `The type passed into parseIsoDate() was a '${typeof input}' but must be a string!`
-        ) as unknown as Returns<T>
+        ) as unknown as Returns<T>;
     }
 
     // ISO datetime regex (YYYY-MM-DDTHH:mm:ss(.sss)?(Z|±hh:mm)?)
-    const isoDateTime = /^(-?\d{4})-?(\d{2})-?(\d{2})[T]{1}(\d{2}):(\d{2})(?::(\d{2})(?:\.(\d{3}))?)?(Z|[+-]\d{2}:?\d{2})?$/;
+    const isoDateTime = /^(-?\d{4})-?(\d{2})-?(\d{2})T(\d{2}):(\d{2})(?::(\d{2})(?:\.(\d{3}))?)?(Z|[+-]\d{2}:?\d{2})?$/;
     // ISO date (YYYY-MM-DD or YYYYMMDD)
     const isoDate = /^(-?\d{4})-?(\d{2})-?(\d{2})$/;
     // Year only
@@ -107,7 +201,7 @@ export function parseIsoDate<
                     ? null
                     : err("milli");
 
-            const timezone = isTimeZone(tz)
+            const timezone = isTimezoneOffset(tz)
                 ? tz
                 : isEmpty(tz)
                     ? null
@@ -120,11 +214,9 @@ export function parseIsoDate<
                 return err("parse-date", `The string passed in resembled a ISO DateTime but the following components failed: ${errors}`) as unknown as Returns<T>;
             }
 
-            return {
+            const val: DateMetaNoFunctions = {
                 dateType: "datetime",
-                hasTime: timezone === "Z" && hour === "00" && minute === "00" && (second === "00" || second === null) && (ms === "000" || ms === null)
-                    ? false
-                    : true,
+                hasTime: !(timezone === "Z" && hour === "00" && minute === "00" && (second === "00" || second === null) && (ms === "000" || ms === null)),
                 year,
                 month,
                 date,
@@ -132,10 +224,21 @@ export function parseIsoDate<
                 minute,
                 second,
                 ms,
-                timezone
-            } as Returns<T>
+                timezone,
+            } as DateMetaNoFunctions;
+
+            return {
+                ...val,
+                toString: toString(val),
+                asYear: asYear(val),
+                asYearIndependent: asYearIndependent(val),
+                asDate: asDate(val),
+                asDateTime: asDateTime(val),
+                asYearMonth: asYearMonth(val)
+            } as Returns<T>;
         }
-    } else if (isoYear.test(input)) {
+    }
+    else if (isoYear.test(input)) {
         const match = input.match(isoYear);
         if (match) {
             const [_, year] = match;
@@ -152,12 +255,7 @@ export function parseIsoDate<
                     second: null,
                     ms: null,
                     timezone: null
-                } satisfies Omit<
-                    DateMeta,
-                    | "toString"
-                    | "asYear" | "asYearIndependent" | "asYearMonth"
-                    | "asDate" | "asDateTime"
-                >;
+                } satisfies DateMetaNoFunctions;
 
                 return {
                     ...val,
@@ -167,20 +265,23 @@ export function parseIsoDate<
                     asDate: asDate(val),
                     asDateTime: asDateTime(val),
                     asYearMonth: asYearMonth(val)
-                } as Returns<T>
-            } else {
+                } as Returns<T>;
+            }
+            else {
                 return err(
                     `parse/iso-date`,
                     `A string which matched the regex for IsoYear was invalid upon inspection`
-                ) as unknown as Returns<T>
+                ) as unknown as Returns<T>;
             }
-        } else {
+        }
+        else {
             return err(
                 `parse/iso-date`,
                 `A string which matched the regex for IsoYear was invalid upon inspection`
-            ) as unknown as Returns<T>
+            ) as unknown as Returns<T>;
         }
-    } else if (isoYearMonth.test(input)) {
+    }
+    else if (isoYearMonth.test(input)) {
         const match = input.match(isoYearMonth);
         if (match) {
             const [_, year, month] = match;
@@ -198,12 +299,7 @@ export function parseIsoDate<
                     ms: null,
                     timezone: null,
 
-                } satisfies Omit<
-                    DateMeta,
-                    | "toString"
-                    | "asYear" | "asYearIndependent" | "asYearMonth"
-                    | "asDate" | "asDateTime"
-                >;
+                } satisfies DateMetaNoFunctions;
 
                 return {
                     ...val,
@@ -213,21 +309,23 @@ export function parseIsoDate<
                     asDate: asDate(val),
                     asDateTime: asDateTime(val),
                     asYearMonth: asYearMonth(val)
-                } as Returns<T>
-            } else {
+                } as Returns<T>;
+            }
+            else {
                 return err(
                     `parse/iso-date`,
                     `A string which matched the regex for IsoYearMonth was invalid upon inspection`
-                ) as unknown as Returns<T>
+                ) as unknown as Returns<T>;
             }
-        } else {
+        }
+        else {
             return err(
                 `parse/iso-date`,
                 `A string which matched the regex for IsoYearMonth was invalid upon inspection`
-            ) as unknown as Returns<T>
+            ) as unknown as Returns<T>;
         }
-
-    } else if (isoMonthDay.test(input)) {
+    }
+    else if (isoMonthDay.test(input)) {
         const match = input.match(isoMonthDay);
         if (match) {
             const [_, month, date] = match;
@@ -244,12 +342,7 @@ export function parseIsoDate<
                     second: null,
                     ms: null,
                     timezone: null
-                } satisfies Omit<
-                    DateMeta,
-                    | "toString"
-                    | "asYear" | "asYearIndependent" | "asYearMonth"
-                    | "asDate" | "asDateTime"
-                >;
+                } satisfies DateMetaNoFunctions;
 
                 return {
                     ...val,
@@ -259,26 +352,26 @@ export function parseIsoDate<
                     asDate: asDate(val),
                     asDateTime: asDateTime(val),
                     asYearMonth: asYearMonth(val)
-                } as Returns<T>
-            } else {
+                } as Returns<T>;
+            }
+            else {
                 return err(
                     `parse/iso-date`,
                     `A string which matched the regex for IsoMonthDay (aka, year-independent) was invalid upon inspection`
-                ) as unknown as Returns<T>
+                ) as unknown as Returns<T>;
             }
         }
         return err(
             `parse/iso-date`,
             `A string which matched the regex for IsoMonthDay (aka, year-independent) was invalid upon inspection`
         ) as unknown as Returns<T>;
-
-    } else if (isoDate.test(input)) {
+    }
+    else if (isoDate.test(input)) {
         const match = input.match(isoDate);
         if (match) {
             const [_, year, month, date] = match;
 
             if (isFourDigitYear(year) && isTwoDigitMonth(month) && isTwoDigitDate(date)) {
-
                 const val = {
                     dateType: "year-independent",
                     hasTime: false,
@@ -290,12 +383,7 @@ export function parseIsoDate<
                     second: null,
                     ms: null,
                     timezone: null,
-                } satisfies Omit<
-                    DateMeta,
-                    | "toString"
-                    | "asYear" | "asYearIndependent" | "asYearMonth"
-                    | "asDate" | "asDateTime"
-                >;
+                } satisfies DateMetaNoFunctions;
 
                 return {
                     ...val,
@@ -305,19 +393,18 @@ export function parseIsoDate<
                     asDate: asDate(val),
                     asDateTime: asDateTime(val),
                     asYearMonth: asYearMonth(val)
-                } as Returns<T>
+                } as Returns<T>;
             }
             return err(
                 `parse/iso-date`,
                 `A string which matched the regex for ISO Date was invalid upon inspection.`
-            ) as unknown as Returns<T>
+            ) as unknown as Returns<T>;
         }
         return err(
             `parse/iso-date`,
             `A string which matched the regex for ISO Date was unable to then pull the expected match groups. This should not happen.`
-        ) as unknown as Returns<T>
+        ) as unknown as Returns<T>;
     }
-
 
     return err(
         "parse/iso-date",

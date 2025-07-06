@@ -1,5 +1,5 @@
 import type { Narrowable, SimpleToken } from "inferred-types/types";
-import { hasNonStringKeys, isBoolean, isNull, isNumber, isDictionary, isString, isUndefined } from "inferred-types/runtime";
+import { hasNonStringKeys, isBoolean, isDictionary, isNull, isNumber, isString, isUndefined } from "inferred-types/runtime";
 
 const TOKENS = [
     "undefined",

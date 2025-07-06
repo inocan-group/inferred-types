@@ -4,6 +4,7 @@ import {
     isNumber
 } from "inferred-types/runtime";
 
+import { parseIsoDate } from "runtime/datetime";
 import {
     isDate,
     isDateFnsDate,
@@ -18,7 +19,6 @@ import {
     isMoment,
     isTemporalDate,
 } from "runtime/type-guards/datetime";
-import { parseIsoDate } from "runtime/datetime";
 
 /**
  * **asDate**`(input)`

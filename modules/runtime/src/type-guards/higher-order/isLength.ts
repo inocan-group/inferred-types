@@ -1,7 +1,7 @@
 import {
     isArray,
-    isEqual,
     isDictionary,
+    isEqual,
     isString,
     keysOf,
 } from "inferred-types/runtime";

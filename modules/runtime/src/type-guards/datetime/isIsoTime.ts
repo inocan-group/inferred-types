@@ -1,5 +1,6 @@
 import type { IsoDate } from "inferred-types/types";
-import { isString, stripAfter, stripLeading } from "inferred-types/runtime";
+import { stripAfter, stripLeading } from "runtime/string-literals";
+import { isString } from "runtime/type-guards";
 
 export function isIsoExplicitTime(val: unknown): val is IsoDate {
     if (isString(val)) {

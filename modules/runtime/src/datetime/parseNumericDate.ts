@@ -1,25 +1,28 @@
 import {
-    err,
     isEpochInSeconds,
-    parseIsoDate
-} from "inferred-types/runtime";
-import { DateMeta } from "inferred-types/types";
+} from "runtime/type-guards/datetime";
+import { log } from "console";
+import { parseIsoDate } from 'runtime/datetime';
+import { err } from 'runtime/errors';
 
 /**
  * Parses a number as a `epoch` timestamp (detects whether in
  * seconds or milliseconds) into a `IsoMeta` tuple.
  */
-export function parseNumericDate<T extends number>(d: T): DateMeta | Error {
+export function parseNumericDate<T extends number>(d: T) {
     try {
         const date = isEpochInSeconds(d)
-            ? new Date(d*1000)
+            ? new Date(d * 1000)
             : new Date(d);
 
+        log({ iso: date.toISOString() })
+
         return parseIsoDate(date.toISOString());
-    } catch {
+    }
+    catch {
         return err(
             `parse-date/numeric`,
             `The numeric value trying to be parsed as a epoch timestamp -- ${d} -- is invalid!`
-        )
+        );
     }
 }

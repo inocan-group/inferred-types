@@ -2,7 +2,7 @@ import { DATE_TYPE } from "inferred-types/constants";
 import {
     FourDigitYear,
     ThreeDigitMillisecond,
-    TimeZone,
+    TimezoneOffset,
     TwoDigitDate,
     TwoDigitHour,
     TwoDigitMinute,
@@ -26,7 +26,7 @@ type ToYear<
     TMin extends TwoDigitMinute | null = TwoDigitMinute | null,
     TSec extends TwoDigitSecond | null = TwoDigitSecond | null,
     TMs extends ThreeDigitMillisecond | null = ThreeDigitMillisecond | null,
-    TTz extends TimeZone<"strong"> | null = TimeZone<"strong"> | null
+    TTz extends TimezoneOffset<"strong"> | null = TimezoneOffset<"strong"> | null
 > = TYear extends FourDigitYear
     ? TYear
     : Err<
@@ -51,7 +51,7 @@ type ToYearIndependent<
     TMin extends TwoDigitMinute | null = TwoDigitMinute | null,
     TSec extends TwoDigitSecond | null = TwoDigitSecond | null,
     TMs extends ThreeDigitMillisecond | null = ThreeDigitMillisecond | null,
-    TTz extends TimeZone<"strong"> | null = TimeZone<"strong"> | null
+    TTz extends TimezoneOffset<"strong"> | null = TimezoneOffset<"strong"> | null
 > = TMonth extends TwoDigitMonth
     ? TDate extends TwoDigitDate
     ? `--${TMonth}-${TDate}`
@@ -90,7 +90,7 @@ type ToYearMonth<
     TMin extends TwoDigitMinute | null = TwoDigitMinute | null,
     TSec extends TwoDigitSecond | null = TwoDigitSecond | null,
     TMs extends ThreeDigitMillisecond | null = ThreeDigitMillisecond | null,
-    TTz extends TimeZone<"strong"> | null = TimeZone<"strong"> | null
+    TTz extends TimezoneOffset<"strong"> | null = TimezoneOffset<"strong"> | null
 > = TYear extends FourDigitYear
     ? TMonth extends TwoDigitDate
     ? `-${TYear}-${TMonth}`
@@ -129,7 +129,7 @@ type ToDate<
     TMin extends TwoDigitMinute | null = TwoDigitMinute | null,
     TSec extends TwoDigitSecond | null = TwoDigitSecond | null,
     TMs extends ThreeDigitMillisecond | null = ThreeDigitMillisecond | null,
-    TTz extends TimeZone<"strong"> | null = TimeZone<"strong"> | null
+    TTz extends TimezoneOffset<"strong"> | null = TimezoneOffset<"strong"> | null
 > = TYear extends FourDigitYear
     ? TMonth extends TwoDigitMonth
     ? TDate extends TwoDigitDate
@@ -182,7 +182,7 @@ type ToDateTime<
     TMin extends TwoDigitMinute | null = TwoDigitMinute | null,
     TSec extends TwoDigitSecond | null = TwoDigitSecond | null,
     TMs extends ThreeDigitMillisecond | null = ThreeDigitMillisecond | null,
-    TTz extends TimeZone<"strong"> | null = TimeZone<"strong"> | null
+    TTz extends TimezoneOffset<"strong"> | null = TimezoneOffset<"strong"> | null
 > = TYear extends FourDigitYear
     ? TMonth extends TwoDigitMonth
     ? TDate extends TwoDigitDate
@@ -250,7 +250,7 @@ export type ToIsoString<
     TMin extends TwoDigitMinute | null = TwoDigitMinute | null,
     TSec extends TwoDigitSecond | null = TwoDigitSecond | null,
     TMs extends ThreeDigitMillisecond | null = ThreeDigitMillisecond | null,
-    TTz extends TimeZone<"strong"> | null = TimeZone<"strong"> | null
+    TTz extends TimezoneOffset<"strong"> | null = TimezoneOffset<"strong"> | null
 > = F<TFormat, TType> extends "year"
     ? ToYear<TType, THas, TYear, TMonth, TDate, THour, TMin, TSec, TMs, TTz>
     : F<TFormat, TType> extends "year-independent"
@@ -274,7 +274,7 @@ export type DateType = typeof DATE_TYPE[number];
  *
  * metadata about a _parsed_ Date/DateTime value
  */
-export type DateMeta<
+export type DateMetaNoFunctions<
     TType extends DateType = DateType,
     THas extends boolean = boolean,
     TYear extends FourDigitYear | null = FourDigitYear | null,
@@ -284,7 +284,7 @@ export type DateMeta<
     TMin extends TwoDigitMinute | null = TwoDigitMinute | null,
     TSec extends TwoDigitSecond | null = TwoDigitSecond | null,
     TMs extends ThreeDigitMillisecond | null = ThreeDigitMillisecond | null,
-    TTz extends TimeZone<"strong"> | null = TimeZone<"strong"> | null
+    TTz extends TimezoneOffset<"strong"> | null = TimezoneOffset<"strong"> | null
 > = {
     dateType: TType;
     hasTime: THas;
@@ -296,54 +296,74 @@ export type DateMeta<
     second: TSec;
     ms: TMs;
     timezone: TTz;
-    toString(): ToIsoString<
-        "auto",
-        TType, THas,
-        TYear, TMonth, TDate,
-        THour, TMin, TSec, TMs,
-        TTz
-    >;
-    asYear(): ToIsoString<
-        "year",
-        TType, THas,
-        TYear, TMonth, TDate,
-        THour, TMin, TSec, TMs,
-        TTz
-    >;
-    asYearIndependent(): ToIsoString<
-        "year-independent",
-        TType, THas,
-        TYear, TMonth, TDate,
-        THour, TMin, TSec, TMs,
-        TTz
-    >;
-    asYearMonth(): ToIsoString<
-        "year-month",
-        TType, THas,
-        TYear, TMonth, TDate,
-        THour, TMin, TSec, TMs,
-        TTz
-    >;
-    asDate(): ToIsoString<
-        "date",
-        TType, THas,
-        TYear, TMonth, TDate,
-        THour, TMin, TSec, TMs,
-        TTz
-    >;
-    asDateTime(): ToIsoString<
-        "datetime",
-        TType, THas,
-        TYear, TMonth, TDate,
-        THour, TMin, TSec, TMs,
-        TTz
-    >;
 };
 
+/**
+ * NOTE:
+ * - This was meant to be the DateMetaNoFunctions type but with the
+ * addition of a number of handy and type strong functions attached
+ * but that blew up typescript complexity so for now we're back in
+ * design for that.
+ */
+export type DateMeta<
+    TType extends DateType = DateType,
+    THas extends boolean = boolean,
+    TYear extends FourDigitYear | null = FourDigitYear | null,
+    TMonth extends TwoDigitMonth | null = TwoDigitMonth | null,
+    TDate extends TwoDigitDate | null = TwoDigitDate | null,
+    THour extends TwoDigitHour | null = TwoDigitHour | null,
+    TMin extends TwoDigitMinute | null = TwoDigitMinute | null,
+    TSec extends TwoDigitSecond | null = TwoDigitSecond | null,
+    TMs extends ThreeDigitMillisecond | null = ThreeDigitMillisecond | null,
+    TTz extends TimezoneOffset<"strong"> | null = TimezoneOffset<"strong"> | null
+> = DateMetaNoFunctions<
+    TType, THas,
+    TYear, TMonth, TDate,
+    THour, TMin, TSec, TMs,
+    TTz
+>;
+// & {
+//     toString(): ToIsoString<
+//         "auto",
+//         TType, THas,
+//         TYear, TMonth, TDate,
+//         THour, TMin, TSec, TMs,
+//         TTz
+//     > & (string);
+//     asYear(): ToIsoString<
+//         "year",
+//         TType, THas,
+//         TYear, TMonth, TDate,
+//         THour, TMin, TSec, TMs,
+//         TTz
+//     >;
+//     asYearIndependent(): ToIsoString<
+//         "year-independent",
+//         TType, THas,
+//         TYear, TMonth, TDate,
+//         THour, TMin, TSec, TMs,
+//         TTz
+//     >;
+//     asYearMonth(): ToIsoString<
+//         "year-month",
+//         TType, THas,
+//         TYear, TMonth, TDate,
+//         THour, TMin, TSec, TMs,
+//         TTz
+//     >;
+//     asDate(): ToIsoString<
+//         "date",
+//         TType, THas,
+//         TYear, TMonth, TDate,
+//         THour, TMin, TSec, TMs,
+//         TTz
+//     >;
+//     asDateTime(): ToIsoString<
+//         "datetime",
+//         TType, THas,
+//         TYear, TMonth, TDate,
+//         THour, TMin, TSec, TMs,
+//         TTz
+//     >;
+// }
 
-export type DateMetaNoFunctions<T extends DateMeta = DateMeta> = Omit<
-    T,
-    | "toString"
-    | "asYear" | "asYearIndependent" | "asYearMonth"
-    | "asDate" | "asDateTime"
->

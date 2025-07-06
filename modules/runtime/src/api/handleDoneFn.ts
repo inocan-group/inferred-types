@@ -1,7 +1,7 @@
 import {
+    isDictionary,
     isDoneFn,
-    isFunction,
-    isDictionary
+    isFunction
 } from "inferred-types/runtime";
 
 /**

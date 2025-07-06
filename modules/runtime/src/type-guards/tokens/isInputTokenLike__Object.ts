@@ -2,8 +2,8 @@ import type {
     InputToken__Object
 } from "inferred-types/types";
 import {
-    isInputTokenLike,
     isDictionary,
+    isInputTokenLike,
     isString
 } from "inferred-types/runtime";
 

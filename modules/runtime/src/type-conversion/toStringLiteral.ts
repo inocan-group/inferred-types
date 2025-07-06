@@ -13,11 +13,11 @@ import { ALPHA_CHARS, Never } from "inferred-types/constants";
 import {
     indexOf,
     isArray,
+    isDictionary,
     isFalse,
     isInputToken__String,
     isNull,
     isNumber,
-    isDictionary,
     isScalar,
     isString,
     isSymbol,

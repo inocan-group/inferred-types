@@ -9,9 +9,7 @@ import {
     compare,
 } from "inferred-types/runtime";
 
-
 type Lookup = ComparisonLookup;
-
 
 function filterFn<
     const TOp extends ComparisonOperation,
@@ -19,7 +17,7 @@ function filterFn<
 >(
     op: TOp,
     params: TParams
-): FilterFn<TOp,TParams> {
+): FilterFn<TOp, TParams> {
     return <const TList extends readonly ComparisonAccept<TOp>[]>(list: TList) => {
         return (
             list.filter((item) => {

@@ -2,15 +2,14 @@ import type {
     FourDigitYear,
     MinimalDigitDate,
     ThreeDigitMillisecond,
-    TimeZone,
+    TimezoneOffset,
     TwoDigitDate,
     TwoDigitHour,
     TwoDigitMinute,
     TwoDigitMonth,
     TwoDigitSecond
-} from "inferred-types/types"
+} from "inferred-types/types";
 import { isString } from "inferred-types/runtime";
-
 
 /**
  * type-guard based on whether `str` is a `FourDigitYear`
@@ -70,15 +69,17 @@ export function isMinimalDigitDate(s: unknown): s is MinimalDigitDate {
 }
 
 /**
- * TimeZone =
- *   "Z"
- *   | ("+"|"-") + TwoDigitHour
- *   | ("+"|"-") + TwoDigitHour + TwoDigitMinute
- *   | ("+"|"-") + TwoDigitHour + ":" + TwoDigitMinute
  *
- * TwoDigitHour: 00–23
- * TwoDigitMinute: 00–59
+ * Valid formats include:
+ *  - "Z"
+ *  -  ("+"|"-") + TwoDigitHour
+ *  -  ("+"|"-") + TwoDigitHour + TwoDigitMinute
+ *  -  ("+"|"-") + TwoDigitHour + ":" + TwoDigitMinute
+ *
+ * Where:
+ * - `TwoDigitHour`: 00–23
+ * - `TwoDigitMinute`: 00–59
  */
-export function isTimeZone(s: unknown): s is TimeZone {
+export function isTimezoneOffset(s: unknown): s is TimezoneOffset<"strong"> {
     return isString(s) && /^(?:Z|[+\-](?:0?\d|1\d|2[0-3])(?::?[0-5]\d)?)$/.test(s);
 }

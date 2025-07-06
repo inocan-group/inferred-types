@@ -36,7 +36,6 @@ export function startsWithTypeguard<
     };
 }
 
-
 /**
  * **startsWith**`(startingWith) -> (val) -> true | false`
  *
@@ -51,16 +50,13 @@ export function startsWith<
 >(
     ...startingWith: TStartsWith
 ) {
-
     return <
         const TValue extends string | number,
     >(val: TValue) => {
         return (
             isString(val) || isNumber(val)
-                    ? startingWith.some(i => String(val).startsWith(String(i)))
-                    : false
-        ) as StartsWith<TValue, TStartsWith>
-    }
-
-
+                ? startingWith.some(i => String(val).startsWith(String(i)))
+                : false
+        ) as StartsWith<TValue, TStartsWith>;
+    };
 }

@@ -1,5 +1,5 @@
 import type { Narrowable } from "inferred-types/types";
-import { isBoolean, isNull, isNumber, isDictionary, isString, isSymbol, isUndefined } from "inferred-types/runtime";
+import { isBoolean, isDictionary, isNull, isNumber, isString, isSymbol, isUndefined } from "inferred-types/runtime";
 
 /**
  * type guard which validates that `val` is `Narrowable`

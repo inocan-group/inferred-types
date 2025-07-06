@@ -20,7 +20,7 @@ export function endsWithTypeguard<
             isString(val) || isNumber(val)
                 ? endingWith.some(i => String(val).endsWith(String(i)))
                 : false
-        ) ;
+        );
     };
 }
 

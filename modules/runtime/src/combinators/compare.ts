@@ -1,27 +1,27 @@
 import type {
-    As,
     Compare,
-    ComparisonAccept,
     ComparisonLookup,
     ComparisonOperation,
-    DateLike,
-    Narrowable,
-    ObjectKey,
-    StartsWithNumber,
-    Unset,
-    IsEqual, IsFalse,
     Contains,
-    Expand,
+    DateLike,
+    EndsWith,
+    IsEqual,
+    IsFalse,
     IsFalsy,
     IsTruthy,
+    Narrowable,
+    ObjectKey,
     SomeEqual,
+    StartsWithNumber,
     ToStringArray,
-    EndsWith,
+    Unset,
 } from "inferred-types/types";
+import { NUMERIC_CHAR } from "inferred-types/constants";
 import {
     asChars,
     asDate,
     asDateTime,
+    asNumber,
     contains,
     endsWith,
     equalsSome,
@@ -32,6 +32,7 @@ import {
     isArray,
     isBoolean,
     isDateLike,
+    isDictionary,
     isError,
     isFalse,
     isFalsy,
@@ -41,19 +42,14 @@ import {
     isNarrowableTuple,
     isNumber,
     isNumberLike,
-    isDictionary,
     isString,
     isStringOrNumericArray,
     isTrue,
     isTruthy,
-    startsWith,
     last,
-    unset,
-    asNumber
+    startsWith,
+    unset
 } from "inferred-types/runtime";
-import {  NUMERIC_CHAR } from "inferred-types/constants";
-
-
 
 function handle_string<
     TOp extends ComparisonOperation,
@@ -68,37 +64,37 @@ function handle_string<
         case "startsWith":
             return (
                 (isString(val) || isNumber(val)) && isStringOrNumericArray(params)
-                ? startsWith(...params as readonly (string | number)[])(val)
-                : false
+                    ? startsWith(...params as readonly (string | number)[])(val)
+                    : false
             );
 
         case "endsWith":
             return (
                 (isString(val) || isNumber(val)) && isStringOrNumericArray(params)
-                ? endsWith(...params as readonly (string | number)[])(val)
-                : false
+                    ? endsWith(...params as readonly (string | number)[])(val)
+                    : false
             ) as TVal extends string | number
                 ? ToStringArray<TParams> extends readonly string[]
-                    ? EndsWith<TVal,ToStringArray<TParams>>
+                    ? EndsWith<TVal, ToStringArray<TParams>>
                     : false
                 : false;
 
         case "endsWithNumber":
             return (
                 isString(val)
-                ? val === ""
-                    ? false
-                : asChars(val).length > 0
-                    ? NUMERIC_CHAR.includes(last(asChars(val)) as any)
+                    ? val === ""
+                        ? false
+                        : asChars(val).length > 0
+                            ? NUMERIC_CHAR.includes(last(asChars(val)) as any)
+                            : false
                     : false
-                : false
             );
 
         case "startsWithNumber":
             return (
                 isString(val)
-                ? NUMERIC_CHAR.includes(firstChar(String(val)) as any)
-                : false
+                    ? NUMERIC_CHAR.includes(firstChar(String(val)) as any)
+                    : false
             ) as StartsWithNumber<TVal>;
 
         case "onlyNumbers":
@@ -174,9 +170,9 @@ function handle_general<
                 isString(val) || isNumber(val) || isStringOrNumericArray(val)
                     ? contains(val, params)
                     : false
-            ) as TVal extends string | number | readonly (string|number)[]
+            ) as TVal extends string | number | readonly (string | number)[]
                 ? Contains<TVal, TParams>
-                : false
+                : false;
 
         case "containsSome":
             return (isString(val) || isNumber(val) || isNarrowableTuple(val)) && isArray(params)
@@ -226,8 +222,7 @@ function handle_numeric<
             )
                 ? asNumber(val) > asNumber(params[0])
                     && asNumber(val) < asNumber(params[1])
-                : false
-
+                : false;
 
         case "betweenInclusively":
             if (!isNumberLike(val))
@@ -343,7 +338,6 @@ function handle_datetime<
     op: TOp,
     params: TParams
 ): boolean | Error | Unset {
-
     if (!isDateLike(val)) {
         return err(
             `invalid-input/date-like`,
@@ -463,48 +457,46 @@ function compareFn<
     op: TOp,
     ...params: TParams
 ) {
-    return <const TVal extends Narrowable>(val: TVal) =>  {
+    return <const TVal extends Narrowable>(val: TVal) => {
         let result: unknown = unset;
 
-
-        result = handle_string(val,op,params);
+        result = handle_string(val, op, params);
 
         if (isBoolean(result) || isError(result)) {
-            return result as Compare<TVal,TOp,TParams>
+            return result as Compare<TVal, TOp, TParams>;
         }
 
         result = handle_datetime(val, op, params);
 
         if (isBoolean(result) || isError(result)) {
-            return result as Compare<TVal,TOp,TParams>
+            return result as Compare<TVal, TOp, TParams>;
         }
 
         result = handle_numeric(val, op, params);
 
         if (isBoolean(result) || isError(result)) {
-            return result as Compare<TVal,TOp,TParams>
+            return result as Compare<TVal, TOp, TParams>;
         }
 
         result = handle_object(val, op, params);
 
         if (isBoolean(result) || isError(result)) {
-            return result as Compare<TVal,TOp,TParams>
+            return result as Compare<TVal, TOp, TParams>;
         }
 
         result = handle_other(val, op, params);
 
         if (isBoolean(result) || isError(result)) {
-            return result as Compare<TVal,TOp,TParams>
+            return result as Compare<TVal, TOp, TParams>;
         }
 
         result = handle_general(val, op, params);
 
         if (isBoolean(result) || isError(result)) {
-            return result as Compare<TVal,TOp,TParams>
+            return result as Compare<TVal, TOp, TParams>;
         }
 
-        return false as Compare<TVal,TOp,TParams>;
-
+        return false as Compare<TVal, TOp, TParams>;
     };
 }
 
@@ -521,6 +513,5 @@ export function compare<
     op: TOp,
     ...params: TParams
 ) {
-
-    return compareFn<TOp,TParams>(op, ...params);
+    return compareFn<TOp, TParams>(op, ...params);
 }

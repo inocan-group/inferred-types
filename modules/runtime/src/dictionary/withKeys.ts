@@ -1,5 +1,5 @@
 import type { Dictionary, Narrowable, ObjectKey } from "inferred-types/types";
-import { retainKeys } from "./retainKeys";
+import { retainKeys } from "inferred-types/runtime";
 
 /**
  * **withKeys**(obj,keys)

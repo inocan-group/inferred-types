@@ -1,7 +1,8 @@
 import type {
     FourDigitYear,
     NumericChar,
-    TimeZone,
+    Opt,
+    TimezoneOffset,
     TwoDigitDate,
     TwoDigitHour,
     TwoDigitMonth
@@ -23,9 +24,9 @@ type DatePart = `${number}-${number}-${TwoDigitDate}`;
 
 // — time part: “hh:mm”   | “hh:mm:ss”   | “hh:mm:ss.sss…”
 type TimePart =
-  | `${number}:${number}`
-  | `${number}:${number}:${number}`
-  | `${number}:${number}:${number}.${number}`;
+    | `${number}:${number}`
+    | `${number}:${number}:${number}`
+    | `${number}:${number}:${number}.${number}`;
 
 
 
@@ -55,10 +56,10 @@ export type IsoMonthDateLike =
  * - `IsoMonthDateLike`
  */
 export type IsoMonthDate =
-  IsoMonthDateLike
- & {
-    kind: "IsoMonthDate"
- };
+    IsoMonthDateLike
+    & {
+        kind: "IsoMonthDate"
+    };
 
 
 /**
@@ -87,9 +88,9 @@ export type IsoYearMonthLike__Implicit = `-${FourDigitYear}${TwoDigitMonth}`;
  * - `IsoFullDateTime`
  * - `IsoDate`, `IsoMonthDateLike`, `IsoYearMonthLike`
  */
-export type IsoFullDate =
-    | `${FourDigitYear}${TwoDigitMonth}${number}`
-    | `${FourDigitYear}-${TwoDigitMonth}-${number}`;
+export type IsoFullDateLike =
+    | `${number}${TwoDigitMonth}${number}`
+    | `${number}-${TwoDigitMonth}-${number}`;
 
 /**
  * Full ISO date format plus time info:
@@ -113,7 +114,7 @@ export type IsoFullDateTime =
  *
  * - `YYYY-MM-DD` _or_ `YYYYMMDD` - _for a full ISO Date_
  * - `-YYYY-MM` _or_ `-YYYYMM` - _for date-independent year-month_
- * - `--MM-DD` _or_ `--MMDD` - _for a year-independent date_
+ * - `--MM-DD` _or_ `--MMDD` - _for a year-independent month-date_
  *
  * Please note:
  * - this type is not _self-validating_; it matches all valid variants
@@ -124,10 +125,10 @@ export type IsoFullDateTime =
  *    - `IsIsoDate<T>` type utility
  */
 export type IsoDateLike =
-  `${FourDigitYear}-${number}-${number}`
-  | `${FourDigitYear}${number}`
-  | IsoMonthDateLike
-  | IsoYearMonthLike;
+    | IsoFullDateLike // full date
+    | `-${number}${Opt<'-'>}${number}` // IsoYearMOnth
+    | `--${number}${Opt<'-'>}${number}` // IsoMonthDate
+    | `${number}` // IsoDate
 
 /**
  * **[IsoDate](https://en.wikipedia.org/wiki/ISO_8601)**
@@ -157,14 +158,14 @@ export type IsoDate = IsoDateLike & {
  * this type to a `IsoDateTime` branded type.
  */
 export type IsoDateTimeLike =
-  | `${FourDigitYear}-${number}-${number}T${number}-${number}${string}`;
+    | `${FourDigitYear}-${number}-${number}T${number}-${number}${string}`;
 
 /**
  * **IsoDateTime**
  *
  * A branded type indicating that this value not only fits the
  * shape of `IsoDateTimeLike` but has been validated at runtime
- * to be an IsoDateTime.
+ * to be a valid `IsoDateTime`.
  */
 export type IsoDateTime = IsoDateTimeLike & {
     kind: "ISO DateTime";
@@ -205,11 +206,11 @@ export type IsoDateTime = IsoDateTimeLike & {
  */
 export type IsoTimeLike<
     THour extends TwoDigitHour = TwoDigitHour,
-    TZ extends TimeZone | "" = TimeZone | ""
+    TZ extends TimezoneOffset | "" = TimezoneOffset | ""
 > =
-| `${THour}:${number}${TZ}`
-| `${THour}:${number}:${number}${TZ}`
-| `${THour}:${number}:${number}.${number}${TZ}`;
+    | `${THour}:${number}${TZ}`
+    | `${THour}:${number}:${number}${TZ}`
+    | `${THour}:${number}:${number}.${number}${TZ}`;
 
 /**
  * **IsoTime**`<[TExplicit], [TZ]>`
@@ -231,7 +232,7 @@ export type IsoTimeLike<
  */
 export type IsoTime<
     THour extends TwoDigitHour = TwoDigitHour,
-    TZ extends TimeZone | "" = TimeZone
+    TZ extends TimezoneOffset | "" = TimezoneOffset
 > = IsoTimeLike<THour, TZ> & {
     kind: "ISO Time";
 };

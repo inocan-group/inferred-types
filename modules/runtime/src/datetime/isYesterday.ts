@@ -1,5 +1,4 @@
-import { asDate } from "./asDate";
-import { getYesterday } from "./getYesterday";
+import { asDate, getYesterday } from "runtime/datetime";
 
 /**
  * **isYesterday**`(input, now?)`
@@ -24,7 +23,7 @@ export function isYesterday(
         return inputDateStr === yesterdayDate;
     }
     catch (e) {
-    // asDate throws for invalid input, rethrow for consistency
+        // asDate throws for invalid input, rethrow for consistency
         throw e;
     }
 }

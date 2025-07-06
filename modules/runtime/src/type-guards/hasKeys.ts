@@ -1,6 +1,6 @@
 import type { EmptyObject, EnsureKeys } from "inferred-types/types";
 import { Never } from "inferred-types/constants";
-import { isFunction, isDictionary } from "inferred-types/runtime";
+import { isDictionary, isFunction } from "inferred-types/runtime";
 
 /**
  * **hasKeys**(props) => (obj) => `HasKeys<O,P>`

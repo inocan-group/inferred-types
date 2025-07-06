@@ -1,5 +1,8 @@
 import type { FromDefn, Narrowable, ShapeCallback } from "inferred-types/types";
-import { handleDoneFn, isFunction, ShapeApiImplementation } from "inferred-types/runtime";
+import { handleDoneFn } from "runtime/api";
+import { ShapeApiImplementation } from "runtime/runtime-types";
+import { isFunction } from "runtime/type-guards";
+
 
 /**
  * **createTuple**(...values) -> (...values) -> Tuple

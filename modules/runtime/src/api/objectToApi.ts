@@ -8,8 +8,7 @@ import type {
     ObjectApiCallback,
     ObjectToApi,
 } from "inferred-types/types";
-import { createFnWithProps } from "inferred-types/runtime";
-import { handleDoneFn } from "./handleDoneFn";
+import { createFnWithProps, handleDoneFn } from "inferred-types/runtime";
 
 export function objectToApi<
     TObj extends Record<string, N>,
@@ -52,20 +51,20 @@ function mapper<
     TInput extends AnyObject,
     TOutput extends AnyObject,
 >() {
-  type Callback = ObjectApiCallback<TInput>;
+    type Callback = ObjectApiCallback<TInput>;
 
-  return <T extends Callback>(map: T) => {
-      // const mapFn = narrowObjectToType<TInput>().cb;
+    return <T extends Callback>(map: T) => {
+        // const mapFn = narrowObjectToType<TInput>().cb;
 
-      return <I extends Record<string, N>, N extends Narrowable>(
-          input: I & TInput,
-      ): MapperReturns<I, TOutput, T> => {
-          const api = objectToApi(input) as unknown as ObjectToApi<TInput>;
-          const rtn = map(api);
+        return <I extends Record<string, N>, N extends Narrowable>(
+            input: I & TInput,
+        ): MapperReturns<I, TOutput, T> => {
+            const api = objectToApi(input) as unknown as ObjectToApi<TInput>;
+            const rtn = map(api);
 
-          return handleDoneFn(rtn) as MapperReturns<I, TOutput, T>;
-      };
-  };
+            return handleDoneFn(rtn) as MapperReturns<I, TOutput, T>;
+        };
+    };
 }
 
 function objectApi<TInput extends AnyObject>() {

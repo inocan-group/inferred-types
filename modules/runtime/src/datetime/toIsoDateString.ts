@@ -1,17 +1,16 @@
-import {
+import type {
     DateMeta,
     IsoDate,
+    IsoDateLike,
     IsoDateTime,
     IsoDateTimeLike,
     IsoMonthDate,
     IsoYear,
-    IsoYearMonthLike
-} from "types/datetime";
+    IsoYearMonthLike,
+    IsUnion
+} from "inferred-types/types";
 import { err } from "runtime/errors";
 import { isIsoDate } from "runtime/type-guards/datetime";
-import { IsUnion } from "types/boolean-logic";
-import { IsoDateLike } from "@inferred-types/types";
-
 
 type Return<T extends DateMeta> = [IsUnion<T["dateType"]>] extends [true]
     ? IsoDateLike | IsoDateTimeLike
@@ -43,30 +42,31 @@ export function toIsoDateString<T extends DateMeta>(
         switch (parsed.dateType) {
             case "date":
             case "datetime":
-                resolved = `${parsed.year}-${parsed.month}-${parsed.date}`
+                resolved = `${parsed.year}-${parsed.month}-${parsed.date}`;
                 break;
             case "year":
                 resolved = parsed.year;
                 break;
             case "year-independent":
-                resolved = `--${parsed.month}-${parsed.date}`
+                resolved = `--${parsed.month}-${parsed.date}`;
                 break;
             case "year-month":
-                resolved = `-${parsed.year}-${parsed.month}`
+                resolved = `-${parsed.year}-${parsed.month}`;
         }
 
         if (isIsoDate(resolved)) {
             return resolved as Return<T>;
-        } else {
-            err(`parse/runtime`) as unknown as Return<T>
+        }
+        else {
+            err(`parse/runtime`) as unknown as Return<T>;
         }
     }
 
     switch (parsed.dateType) {
         case "date":
-            return err("invalid-date", `The parsed 'type' of the date was 'date' but the 'hasTime' variable was set to true! This should not happen.`) as unknown as Return<T>
+            return err("invalid-date", `The parsed 'type' of the date was 'date' but the 'hasTime' variable was set to true! This should not happen.`) as unknown as Return<T>;
         case "datetime":
-            return `${parsed.year}-${parsed.month}-${parsed.date}T${parsed.hour}:${parsed.minute}${parsed.second ? `:${parsed.second}${parsed.ms ? `.${parsed.ms}` : ""}` : ""}` as unknown as Return<T>
+            return `${parsed.year}-${parsed.month}-${parsed.date}T${parsed.hour}:${parsed.minute}${parsed.second ? `:${parsed.second}${parsed.ms ? `.${parsed.ms}` : ""}` : ""}` as unknown as Return<T>;
             break;
     }
 

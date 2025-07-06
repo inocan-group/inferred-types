@@ -1,5 +1,5 @@
 import type { Narrowable } from "inferred-types/types";
-import { isArray, isBoolean, isNull, isNumber, isDictionary, isString, isUndefined } from "inferred-types/runtime";
+import { isArray, isBoolean, isDictionary, isNull, isNumber, isString, isUndefined } from "inferred-types/runtime";
 
 export function isNarrowableTuple(val: unknown): val is readonly Narrowable[] {
     return isArray(val) && (

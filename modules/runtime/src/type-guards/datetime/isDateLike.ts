@@ -10,7 +10,7 @@ import {
     isNumber,
     isString,
     isTemporalDate
-} from "inferred-types/runtime";
+} from "runtime/type-guards";
 
 /**
  * A type guard which checks if `val` is _date like_:

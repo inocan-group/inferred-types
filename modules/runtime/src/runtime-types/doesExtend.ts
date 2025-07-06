@@ -5,6 +5,7 @@ import type {
 import {
     isArray,
     isBoolean,
+    isDictionary,
     isFalse,
     isInputToken__Object,
     isInputToken__Tuple,
@@ -12,7 +13,6 @@ import {
     isNarrowable,
     isNull,
     isNumber,
-    isDictionary,
     isString,
     isTrue,
     isUndefined,

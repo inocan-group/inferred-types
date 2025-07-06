@@ -1,9 +1,8 @@
 import type {
-    Err,
-    Narrowable,
-    TypedError,
     EmptyObject,
-    IsNever
+    Err,
+    IsNever,
+    TypedError
 } from "inferred-types/types";
 import { toKebabCase } from "inferred-types/runtime";
 

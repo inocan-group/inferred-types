@@ -1,4 +1,4 @@
-import type { IsLeapYear, DateLike } from "inferred-types/types";
+import type { DateLike, IsLeapYear } from "inferred-types/types";
 import { asDate } from "inferred-types/runtime";
 
 /**
@@ -19,4 +19,3 @@ export function isLeapYear<T extends DateLike>(val: T): IsLeapYear<T> {
             : year % 4 === 0
     ) as IsLeapYear<T>;
 }
-

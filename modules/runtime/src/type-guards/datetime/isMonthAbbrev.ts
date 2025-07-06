@@ -1,5 +1,5 @@
+import type { MonthAbbrev } from "inferred-types/types";
 import { MONTH_ABBR } from "inferred-types/constants";
-import { MonthAbbrev } from "inferred-types/types";
 import { isString } from "runtime/type-guards/index";
 
 /**

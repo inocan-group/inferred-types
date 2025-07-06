@@ -15,16 +15,5 @@ export * from "./isMoment";
 export * from "./isMonthAbbrev";
 export * from "./isMonthName";
 export * from "./isTemporalDate";
-
-// Explicitly export parsing typeguards
-export {
-  isFourDigitYear,
-  isTwoDigitHour,
-  isTwoDigitMinute,
-  isTwoDigitSecond,
-  isThreeDigitMillisecond,
-  isTwoDigitMonth,
-  isTwoDigitDate,
-  isMinimalDigitDate,
-  isTimeZone
-} from "./parsing-typeguards";
+export * from "./parsing-typeguards";
+export * from "./isIanaTimezone";

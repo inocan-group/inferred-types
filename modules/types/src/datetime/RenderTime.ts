@@ -1,5 +1,5 @@
 import { As } from "types/boolean-logic";
-import { ThreeDigitMillisecond, TimeZone, TwoDigitHour, TwoDigitMinute, TwoDigitSecond } from "types/datetime/general";
+import { ThreeDigitMillisecond, TimezoneOffset, TwoDigitHour, TwoDigitMinute, TwoDigitSecond } from "types/datetime/general";
 import { Err } from "types/errors";
 
 type N<
@@ -22,7 +22,7 @@ export type RenderTime<
     TMin extends TwoDigitMinute | null = "00",
     TSec extends TwoDigitSecond | null = null,
     TMs extends ThreeDigitMillisecond | null = null,
-    TTz extends TimeZone | null = "Z"
+    TTz extends TimezoneOffset | null = "Z"
 > = THour extends null
     ? Err<`render-time/hour`, `To render a time you MUST have an hour!`>
     : TMin extends null

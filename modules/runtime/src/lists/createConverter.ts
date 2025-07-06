@@ -8,7 +8,7 @@ import type {
 } from "inferred-types/types";
 
 import { Never } from "inferred-types/constants";
-import { isNothing, isDictionary } from "inferred-types/runtime";
+import { isDictionary, isNothing } from "inferred-types/runtime";
 
 type CallIfDefined<
     Handler,

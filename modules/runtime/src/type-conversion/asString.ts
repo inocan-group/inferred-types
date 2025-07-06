@@ -2,8 +2,8 @@ import type { AsString } from "inferred-types/types";
 import {
     isArray,
     isBoolean,
-    isNumber,
     isDictionary,
+    isNumber,
     isString,
     keysOf,
 } from "inferred-types/runtime";

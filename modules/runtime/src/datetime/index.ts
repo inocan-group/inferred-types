@@ -27,8 +27,8 @@ export * from "./isThisYear";
 export * from "./isToday";
 export * from "./isTomorrow";
 export * from "./isYesterday";
-export * from "./parseIsoDate";
 export * from "./parseDate";
 export * from "./parseDateObject";
+export * from "./parseIsoDate";
 export * from "./parseNumericDate";
-export * from "./toIsoDateString"
+export * from "./toIsoDateString";

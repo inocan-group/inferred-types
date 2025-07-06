@@ -1,15 +1,14 @@
-import { IsoMonthDateLike, IsoMonthDate } from "inferred-types/types";
+import type { IsoMonthDate, IsoMonthDateLike } from "inferred-types/types";
 import { isString, stripLeading } from "inferred-types/runtime";
 
 function validate(d: IsoMonthDateLike): boolean {
     const stripped = stripLeading(d, "--");
     const [month, date] = [
-        Number(stripped.slice(0,2)),
+        Number(stripped.slice(0, 2)),
         Number(stripLeading(stripped.slice(3), ":"))
     ];
 
     const daysInMonth = 31;
-
 }
 
 /**
@@ -24,6 +23,6 @@ function validate(d: IsoMonthDateLike): boolean {
 export function isIsoMonthDate(date: unknown): date is IsoMonthDate {
     return isString(date)
         && date.startsWith("--")
-        && date.replace(/--\d{2}-{0,1}[0123]{1}\d{1}/, "") === ""
-        && validate(date as IsoMonthDateLike)
+        && date.replace(/--\d{2}-?[0-3]\d/, "") === ""
+        && validate(date as IsoMonthDateLike);
 }

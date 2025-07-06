@@ -1,5 +1,5 @@
 import type { IsoDateTime } from "inferred-types/types";
-import { isString } from "inferred-types/runtime";
+import { isString } from "runtime/type-guards";
 
 /**
  * Type guard which validates that `val` is a valid ISO8601 DateTime string.

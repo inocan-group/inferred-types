@@ -1,5 +1,5 @@
 import type { Container, Dictionary, IsValidIndex, Tuple } from "inferred-types/types";
-import { isErrorCondition, isDictionary } from "inferred-types/runtime";
+import { isDictionary, isErrorCondition } from "inferred-types/runtime";
 
 /**
  * **hasIndexOf**(value, idx) => boolean

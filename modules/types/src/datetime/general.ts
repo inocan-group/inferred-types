@@ -30,7 +30,7 @@ export type TwoDigitMonth = `0${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}` | `1${0 | 1 
 export type MonthNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 
 export type TwoDigitDate<T extends "weak" | "normal" = "normal"> =
-T extends "normal"
+    T extends "normal"
     ?
     | `0${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     | `1${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
@@ -113,12 +113,16 @@ export type FourDigitYear<
     ? `${"1" | "2"}${NumericChar}${NumericChar}${NumericChar}`
     | `${"0" | "3" | "4" | "5" | "6" | "7" | "8" | "9"}${number}`
     : T extends "normal"
-        ? `${"1" | "2"}${NumericChar}${number}`
-        | `${"0" | "3" | "4" | "5" | "6" | "7" | "8" | "9"}${number}`
-        : `${NumericChar}${number}`; // weak;
+    ? `${"1" | "2"}${NumericChar}${number}`
+    | `${"0" | "3" | "4" | "5" | "6" | "7" | "8" | "9"}${number}`
+    : `${NumericChar}${number}`; // weak;
+
+export type TimeZoneExplicit = | `Z`
+    | `${"+" | "-"}${TwoDigitHour}`
+    | `${"+" | "-"}${TwoDigitHour}:${number}`
 
 /**
- * **TimeZone**`<[T]`>
+ * **TimezoneOffset**`<[strong | NORMAL]`>
  *
  * - “Z”
  * - “±hh”
@@ -132,13 +136,13 @@ export type FourDigitYear<
  * - when `T` is set to "strong" then it is _self-validating_ (aka, all
  * valid variants allowed and zero invalid variants allowed)
  */
-export type TimeZone<T extends "strong" | "normal" = "normal"> =
+export type TimezoneOffset<T extends "strong" | "normal" = "normal"> =
     T extends "normal"
-        ? | `Z`
+    ? | `Z`
     | `${"+" | "-"}${number}`
     | `${"+" | "-"}${number}${number}`
     | `${"+" | "-"}${number}:${number}`
-        :
+    :
     | `Z`
     | `${"+" | "-"}${TwoDigitHour}`
     | `${"+" | "-"}${TwoDigitHour}${TwoDigitMinute}`

@@ -1,5 +1,7 @@
 import type { Split } from "inferred-types/types";
-import { createFnWithProps, last } from "inferred-types/runtime";
+import { createFnWithProps } from "runtime/initializers";
+import { last } from "runtime/lists";
+
 
 type Policy = "omit" | "before" | "after" | "inline";
 
