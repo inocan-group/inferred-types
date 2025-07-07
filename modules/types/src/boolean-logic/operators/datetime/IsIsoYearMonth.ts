@@ -1,4 +1,4 @@
-import { FourDigitYear, IsoYearMonthLike, IsWideString, ParseDate, ParsedDate, TwoDigitDate } from "inferred-types/types";
+import { FourDigitYear, IsoYearMonth, IsWideString, ParseDate, ParsedDate, TwoDigitDate } from "inferred-types/types";
 
 /**
  * Tests whether `T` is a valid ISO Date which captures year
@@ -15,12 +15,12 @@ import { FourDigitYear, IsoYearMonthLike, IsWideString, ParseDate, ParsedDate, T
  * branded type of `IsoDate` but if your runtime uses the
  * `isIsoDate()` type guard it will pass and be upgraded.
  */
-export type IsIsoYearMonth<T> = T extends IsoYearMonthLike
+export type IsIsoYearMonth<T> = T extends IsoYearMonth
     ? IsWideString<T> extends true
-        ? boolean
-        : ParseDate<T> extends ParsedDate
-            ? ParseDate<T> extends [ FourDigitYear, TwoDigitDate, null, any, any]
-                ? true
-                : false
-            : false
+    ? boolean
+    : ParseDate<T> extends ParsedDate
+    ? ParseDate<T> extends [FourDigitYear, TwoDigitDate, null, any, any]
+    ? true
+    : false
+    : false
     : false;

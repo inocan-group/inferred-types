@@ -4,7 +4,7 @@ import {
     keysOf,
     parseIsoDate
 } from "inferred-types/runtime";
-import { AsDateMeta, Expect, Test, DateMetaNoFunctions } from 'inferred-types/types';
+import { AsDateMeta, Expect, Test, DateMeta } from 'inferred-types/types';
 
 describe("parseIsoDate()", () => {
     it("datetime, UTC", () => {
@@ -21,7 +21,7 @@ describe("parseIsoDate()", () => {
             second: "56",
             ms: "789",
             timezone: "Z"
-        } satisfies DateMetaNoFunctions;
+        } satisfies DateMeta;
 
         for (const key of keysOf(expected)) {
             expect(expected[key], `'${key}' should be: '${expected[key]}' but was '${result[key]}'\n\t`).toBe(result[key]);
@@ -39,7 +39,7 @@ describe("parseIsoDate()", () => {
     it("datetime, offset, no ms", () => {
         const str = "2024-01-15T23:59:59+02:00" as const;
         const result = parseIsoDate(str);
-        const expected: DateMetaNoFunctions = {
+        const expected: DateMeta = {
             dateType: "datetime",
             hasTime: true,
             year: "2024",
@@ -68,7 +68,7 @@ describe("parseIsoDate()", () => {
     it("parses ISO datetime with offset", () => {
         const str = "2024-01-15T23:59:59+02:00" as const;
         const result = parseIsoDate(str);
-        const expected: DateMetaNoFunctions = {
+        const expected: DateMeta = {
             dateType: "datetime",
             hasTime: true,
             year: "2024",
@@ -95,7 +95,7 @@ describe("parseIsoDate()", () => {
     it("parses ISO date (YYYY-MM-DD)", () => {
         const str = "2024-01-15" as const;
         const result = parseIsoDate(str);
-        const expected: DateMetaNoFunctions = {
+        const expected: DateMeta = {
             dateType: "year-independent",
             hasTime: false,
             year: "2024",
@@ -123,7 +123,7 @@ describe("parseIsoDate()", () => {
     it("parses ISO date (YYYYMMDD)", () => {
         const str = "20240115" as const;
         const result = parseIsoDate(str);
-        const expected: DateMetaNoFunctions = {
+        const expected: DateMeta = {
             dateType: "year-independent",
             hasTime: false,
             year: "2024",
@@ -154,7 +154,7 @@ describe("parseIsoDate()", () => {
     it("parses ISO year only (YYYY)", () => {
         const str = "2024" as const;
         const result = parseIsoDate(str);
-        const expected: DateMetaNoFunctions = {
+        const expected: DateMeta = {
             dateType: "year",
             hasTime: false,
             year: "2024",
@@ -186,7 +186,7 @@ describe("parseIsoDate()", () => {
     it("parses ISO year/month only (-YYYY-MM)", () => {
         const str = "-2024-01" as const;
         const result = parseIsoDate(str);
-        const expected: DateMetaNoFunctions = {
+        const expected: DateMeta = {
             dateType: "year-month",
             hasTime: false,
             year: "2024",
@@ -217,7 +217,7 @@ describe("parseIsoDate()", () => {
     it("parses ISO year/month only (-YYYYMM)", () => {
         const str = "-202401" as const;
         const result = parseIsoDate(str);
-        const expected: DateMetaNoFunctions = {
+        const expected: DateMeta = {
             dateType: "year-month",
             hasTime: false,
             year: "2024",
@@ -247,7 +247,7 @@ describe("parseIsoDate()", () => {
     it("parses ISO year-less month/day (--MM-DD)", () => {
         const str = "--01-15" as const;
         const result = parseIsoDate(str);
-        const expected: DateMetaNoFunctions = {
+        const expected: DateMeta = {
             dateType: "year-independent",
             hasTime: false,
             year: null,
@@ -275,7 +275,7 @@ describe("parseIsoDate()", () => {
     it("parses ISO year-less month/day (--MMDD)", () => {
         const str = "--0115" as const;
         const result = parseIsoDate(str);
-        const expected: DateMetaNoFunctions = {
+        const expected: DateMeta = {
             dateType: "year-independent",
             hasTime: false,
             year: null,

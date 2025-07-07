@@ -1,5 +1,11 @@
-import { And, Extends, IsNull, Or } from "types/boolean-logic";
-import { DateMeta, ParsedDate, ParsedTime, ToIsoString } from "types/datetime";
+import { As, Extends, IsNull,  Or } from "types/boolean-logic";
+import {
+    DateMeta,
+    ParseDate,
+    ParsedDate,
+    ParsedTime,
+
+} from "types/datetime";
 
 type ParsedDateType<T extends ParsedDate> = T extends [
     infer Year,
@@ -70,24 +76,40 @@ type Offset<T extends ParsedTime | null> = T extends null
     : never;
 
 
+type SetParsed<T extends ParsedDate> = As<{
+    dateType: ParsedDateType<T>,
+    hasTime: HasTime<T>,
+    year: T[0],
+    month: T[1],
+    date: T[2],
+    hour: Hour<T[3]>,
+    minute: Minute<T[3]>,
+    second: Second<T[3]>,
+    ms: Millisecond<T[3]>,
+    offset: Offset<T[3]>
+},
+    DateMeta
+>;
+
 /**
- * **AsParsedDate**`<T>`
+ * **AsDateMeta**`<T>`
  *
- * Takes a `ParsedDate` type which comes from the type system and
- * converts it into a key/value `IsoMeta` object for the runtime.
+ * Tests to see if `T` can be parsed into a `DateMeta` type.
+ *
+ * - if it can then `DateMeta` is returned
+ * - if not then an `Error` will be returned
+ *
+ * Note: if the value passed in as `T` is a `ParsedDate` type
+ * then this utility will never return an error as the validation
+ * has already been done.
  */
-export type AsDateMeta<T extends ParsedDate> = DateMeta<
-    ParsedDateType<T>,
-    HasTime<T>,
-    T[0],
-    T[1],
-    T[2],
-    Hour<T[3]>,
-    Minute<T[3]>,
-    Second<T[3]>,
-    Millisecond<T[3]>,
-    Offset<T[3]>
->
+export type AsDateMeta<
+    T
+> = T extends ParsedDate
+    ? SetParsed<T>
+    : ParseDate<T> extends Error
+    ? As<ParseDate<T>, Error>
+    : SetParsed<As<ParseDate<T>, ParsedDate>>;
 
 
 // {

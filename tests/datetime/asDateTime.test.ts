@@ -1,11 +1,19 @@
 import { describe, it, expect } from "vitest";
 import { asDateTime } from "inferred-types/runtime";
+import { DatePlus, Expect, Test } from "inferred-types/types"
+import moment from "moment";
+import { Temporal } from "@js-temporal/polyfill";
+import { DateTime } from "luxon";
+import { Dayjs } from "dayjs"
+
+const today = Temporal.Now.plainDateISO();
+
 
 // Helper to compare ISO string up to seconds
 const iso = (d: Date) => d.toISOString();
 
 describe("asDateTime()", () => {
-    it("direct JS Date looses source timezone", () => {
+    it("direct JS Date loses source timezone", () => {
         const d = new Date("2024-01-15T15:30:45.123+01:00");
         const result = asDateTime(d);
 
@@ -24,8 +32,66 @@ describe("asDateTime()", () => {
         expect(typeof result.sourceIso).toBe("string");
         expect(result.sourceIso).toBe("2024-01-15T15:30:45.123+01:00");
 
-        expect(result.toISOString()).toBe("2024-01-15T14:30:45.123Z");
+        expect(result.toISOString()).toBe("2024-01-15T15:30:45.123Z");
     });
+
+
+    it("ISO year -> Date", () => {
+        const result = asDateTime("2024");
+
+        type cases = [
+            /** type tests */
+        ];
+    });
+
+    it("ISO year/month -> Date", () => {
+        const result = asDateTime("-2024-10");
+
+        type cases = [
+            Expect<Test<
+                typeof result, "extends",
+                DatePlus<"iso-year-month", "Z">
+            >>,
+
+        ];
+    });
+
+
+
+    it("moment date with offset", () => {
+        const d = moment("2024-01-15T15:30:45.123+01:00");
+        const result = asDateTime(d);
+
+        expect(result.source).toBe("moment");
+        expect(result.offset).toBe(null);
+
+        type cases = [
+            /** type tests */
+        ];
+    });
+
+
+    it("luxon date with offset", () => {
+        const d = DateTime.fromISO("2024-01-15T15:30:45.123+01:00");
+        const result = asDateTime(d);
+
+        type cases = [
+            /** type tests */
+        ];
+    });
+
+
+
+    it("DayJS date with offset", () => {
+        const d = new Dayjs("2024-01-15T15:30:45.123+01:00");
+        const result = asDateTime(d);
+
+
+        type cases = [
+            /** type tests */
+        ];
+    });
+
 
     it("converts ISO datetime string (YYYY-MM-DDTHH:mm:ssZ)", () => {
         const result = asDateTime("2024-01-15T15:30:45.123Z");

@@ -1,7 +1,6 @@
 import type { DateLike } from "inferred-types/types";
 import {
     isDate,
-    isDateFnsDate,
     isInteger,
     isIsoDate,
     isIsoDateTime,
@@ -32,7 +31,6 @@ export function isDateLike(val: unknown): val is DateLike {
             || isMoment(val)
             || isLuxonDate(val)
             || isTemporalDate(val)
-            || isDateFnsDate(val)
         ) // Object based
     );
 }

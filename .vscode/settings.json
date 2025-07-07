@@ -39,7 +39,7 @@
         "**/@*": true
     },
     // Format on save to ensure consistent imports
-    "editor.formatOnSave": true,
+    "editor.formatOnSave": false,
     "[typescript]": {
         "editor.defaultFormatter": "vscode.typescript-language-features"
     },
@@ -48,6 +48,8 @@
     },
     "cSpell.words": [
         "MMDD",
+        "postformat",
+        "preparse",
         "typeguards",
         "YYYYDD",
         "YYYYMMDDT"

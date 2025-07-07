@@ -1,16 +1,26 @@
+import { FourDigitYear, IsJsDate, IsMoment } from "@inferred-types/types";
 import type {
     DateLike,
     DateMeta,
     DatePlus,
     IanaZone,
-    IsoDateTime
+    IsoDateTime,
+    IsoDateTimeLike,
+    IsoMonthDate,
+    IsoYear,
+    IsoYearMonth,
+    TimezoneOffset,
+    IsDayJs,
+    TwoDigitMonth,
+    Err,
+    As,
+    IsOk
 } from "inferred-types/types";
 import { parseIsoDate } from "runtime/datetime/parseIsoDate";
-import { err } from "runtime/errors";
-import { hasIndexOf, isFunction, isNumber } from 'runtime/type-guards';
+import { isNumber } from 'runtime/type-guards';
+import { TimezoneOffset as TimezoneOffset$1 } from 'types/datetime/general';
 import {
     isDate,
-    isDateFnsDate,
     isEpochInMilliseconds,
     isEpochInSeconds,
     isIsoDate,
@@ -25,10 +35,6 @@ import {
 } from "runtime/type-guards/datetime";
 
 
-/****************************************************************
- *  helpers
- ****************************************************************/
-
 const getLocalIanaZone = (() => {
     //  ❱❱  compute once, memoise
     const tz =
@@ -39,7 +45,7 @@ const getLocalIanaZone = (() => {
     return () => tz as IanaZone;
 })();
 
-/** Turn an offset in minutes (or Luxon’s `offset` property) into `"+HH:MM"` */
+
 function offsetMinutesToString(mins: number): TimezoneOffset {
     const sign = mins <= 0 ? "+" : "-";
     const abs = Math.abs(mins);
@@ -52,6 +58,44 @@ function offsetMinutesToString(mins: number): TimezoneOffset {
  *  the main function
  ****************************************************************/
 
+type Returns<T extends DateLike> = T extends IsoYear
+    ? DatePlus<"iso-year", "Z", `${T}-${number}-${number}T${string}` & IsoDateTime>
+    : T extends IsoYearMonth
+    ? DateMeta<T> extends Error
+    ? DateMeta<T>
+    : DatePlus<
+        "iso-year-month",
+        "Z",
+        IsoDateTimeLike<
+            IsOk<DateMeta<T>>["year"],
+            IsOk<DateMeta<T>>["month"]
+        >
+    >
+    : T extends IsoMonthDate
+    ? DatePlus<"iso-year-independent", "Z", `${number}`>
+    : T extends IsoDateTimeLike
+    ? DatePlus<"iso-datetime">
+    : T extends IsoDateLike
+    ? DatePlus<"iso-date">
+    : T extends number
+    ? DatePlus<"epoch" | "epoch-milliseconds">
+    : IsDayJs<T> extends true
+    ? DatePlus<"day.js">
+    : IsMoment<T> extends true
+    ? DatePlus<
+        "moment",
+        "offset" extends keyof T
+        ? T["offset"] extends TimezoneOffset
+        ? T["offset"]
+        : null
+        : null
+    >
+    : IsLuxonDateTime<T> extends true
+    ? DatePlus<"luxon">
+    : IsJsDate<T> extends true
+    ? DatePlus<"date", null>
+    : DatePlus
+    ;
 
 /**
  * **asDateTime**`(input)`
@@ -64,17 +108,19 @@ function offsetMinutesToString(mins: number): TimezoneOffset {
  * interface with a few extra properties to try and preserve the source
  * timezone where that's feasible
  */
-export function asDateTime<T extends DateLike>(input: T): DatePlus {
+export function asDateTime<T extends DateLike>(input: T) {
     // ——— Moment ————————————————————————————————————————————————
     if (isMoment(input)) {
-        const d = new Date(input.toISOString()) as DatePlus<"moment">;
+        const d = new Date(input.toISOString()) as DatePlus;
 
-        d.offset = isTimezoneOffset(input.format("Z")) ? input.format("Z") : null;
+        d.offset = isTimezoneOffset(input.format("Z"))
+            ? input.format("Z") as TimezoneOffset$1
+            : null;
         d.tz = isIanaTimezone((input as any)._z?.name) ? (input as any)._z.name : null;
 
         d.source = "moment";
-        d.sourceIso = input.toISOString(true) as IsoDateTime;      // → keeps offset when true
-        return d;
+        d.sourceIso = input.toISOString() as IsoDateTime;
+        return d as Returns<T>;
     }
 
     // ——— Luxon ————————————————————————————————————————————————
@@ -87,18 +133,9 @@ export function asDateTime<T extends DateLike>(input: T): DatePlus {
 
         d.source = "luxon";
         d.sourceIso = input.toISO() as IsoDateTime; // already has zone/offset
-        return d;
+        return d as Returns<T>;
     }
 
-    // ——— date-fns ————————————————————————————————————————————————
-    if (isDateFnsDate(input)) {
-        const d = new Date(input.getTime()) as DatePlus<"date-fns">; // faster than toISOString→Date
-        d.offset = null;
-        d.tz = null;
-        d.source = "date-fns";
-        d.sourceIso = input.toISOString() as IsoDateTime;
-        return d;
-    }
 
     // ——— Temporal ————————————————————————————————————————————————
     if (isTemporalDate(input)) {
@@ -113,31 +150,31 @@ export function asDateTime<T extends DateLike>(input: T): DatePlus {
         d.tz = isIanaTimezone(zdt.timeZone.id) ? zdt.timeZone.id : null;
         d.source = "temporal";
         d.sourceIso = zdt.toString() as IsoDateTime;               // keeps both offset + tz
-        return d;
+        return d as Returns<T>;
     }
 
     // ——— ISO strings ————————————————————————————————————————————
     if (isIsoDateTime(input)) {
-        const meta = parseIsoDate(input) as DateMeta;
-        const d = new Date(input) as DatePlus<"iso-datetime">;
+        const meta = parseIsoDate(input) as unknown as DateMeta;
+        const d = new Date(input) as DatePlus;
 
-        d.offset = meta.timezone;
+        d.offset = meta.timezone as TimezoneOffset;
         d.tz = null;                         // no zone in bare ISO
         d.source = "iso-datetime";
         d.sourceIso = input as IsoDateTime;
 
-        return d;
+        return d as Returns<T>;
     }
 
     if (isIsoYearMonth(input)) {
-        const meta = parseIsoDate(input) as DateMeta;
+        const meta = parseIsoDate(input) as unknown as DateMeta;
         const d = new Date(`${meta.year}-${meta.month}-01T00:00:00.000Z`) as DatePlus<"iso-year-month">;
 
         d.offset = "Z";
         d.tz = null;
         d.source = "iso-year-month";
         d.sourceIso = `${meta.year}-${meta.month}-01T00:00:00.000Z` as IsoDateTime;
-        return d;
+        return d as Returns<T>;
     }
 
     if (isIsoYear(input)) {
@@ -147,37 +184,37 @@ export function asDateTime<T extends DateLike>(input: T): DatePlus {
         d.tz = null;
         d.source = "iso-year";
         d.sourceIso = `${input}-01-01T00:00:00.000Z` as IsoDateTime;
-        return d;
+        return d as Returns<T>;
     }
 
     if (isIsoDate(input)) {
-        const meta = parseIsoDate(input) as DateMeta;
-        const d = new Date(`${input}T00:00:00.000Z`) as DatePlus<"iso-date">;
+        const meta = parseIsoDate(input) as unknown as DateMeta;
+        const d = new Date(`${meta.year}-${meta.month}-${meta.date}T00:00:00.000Z`) as DatePlus;
 
         d.offset = "Z";
         d.tz = null;
         d.source = `iso-${meta.dateType}`;
         d.sourceIso = `${input}T00:00:00.000Z` as IsoDateTime;
-        return d;
+        return d as Returns<T>;
     }
 
     // ——— Epoch numbers ——————————————————————————————————————————
     if (isNumber(input)) {
         if (isEpochInMilliseconds(input)) {
-            const d = new Date(input) as DatePlus<"epoch-milliseconds">;
+            const d = new Date(input) as DatePlus;
             d.offset = null;
             d.tz = null;
-            d.source = "epochMilliseconds";
+            d.source = "epoch-milliseconds";
             d.sourceIso = d.toISOString() as IsoDateTime;
-            return d;
+            return d as Returns<T>;
         }
         if (isEpochInSeconds(input)) {
-            const d = new Date(input * 1_000) as DatePlus<"epoch">;
+            const d = new Date(input * 1_000) as DatePlus;
             d.offset = null;
             d.tz = null;
             d.source = "epoch";
             d.sourceIso = d.toISOString() as IsoDateTime;
-            return d;
+            return d as Returns<T>;
         }
     }
 
@@ -188,7 +225,7 @@ export function asDateTime<T extends DateLike>(input: T): DatePlus {
         d.tz = null;
         d.source = "date";
         d.sourceIso = d.toISOString() as IsoDateTime;
-        return d;
+        return d as Returns<T>;
     }
 
     return null as never;

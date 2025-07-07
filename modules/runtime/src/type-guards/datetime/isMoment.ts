@@ -1,11 +1,11 @@
-import type { MomentJs } from "inferred-types/types";
+import { MomentLike } from "@inferred-types/types";
 import { isDictionary } from "runtime/type-guards";
 
 /**
  * Type guard which validates that the passed in `val` is a
  * [MomentJS](https://momentjs.com/docs/) object.
  */
-export function isMoment(val: unknown): val is MomentJs {
+export function isMoment(val: unknown): val is MomentLike {
     if (val instanceof Date) {
         return false;
     }

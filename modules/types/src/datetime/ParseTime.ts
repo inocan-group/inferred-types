@@ -19,13 +19,15 @@ import type {
 /**
  * a successfully parsed **ISO Time** string.
  */
-export type ParsedTime = [
-    hour: TwoDigitHour,
-    minute: TwoDigitMinute,
-    second: TwoDigitSecond | null,
-    millisecond: ThreeDigitMillisecond | null,
-    tz: TimezoneOffset<"strong"> | null
-];
+export type ParsedTime<
+    TComplexity extends "weak" | "normal" | "strong" = "normal"
+> = [
+        hour: TwoDigitHour<TComplexity>,
+        minute: TwoDigitMinute<TComplexity>,
+        second: TwoDigitSecond<TComplexity> | null,
+        millisecond: ThreeDigitMillisecond<TComplexity> | null,
+        tz: TimezoneOffset<TComplexity extends "strong" ? "strong" : "normal"> | null
+    ];
 
 type EnsureNull<T extends readonly unknown[] | Error> = T extends Error
     ? T
@@ -36,7 +38,7 @@ type EnsureNull<T extends readonly unknown[] | Error> = T extends Error
     }
 
 /**
- * **ParseTime**`<T>`
+ * **ParseTime**`<T, TComplexity>`
  *
  * Tries to parse `T` as an ISO Time. If successful it will result in a
  * tuple of the form of:
@@ -45,9 +47,15 @@ type EnsureNull<T extends readonly unknown[] | Error> = T extends Error
  *
  * - Values which are not represented are set to `undefined`.
  * - If it can't be parsed then an Error<"parse/time"> is returned.
+ *
+ * **Complexity Levels:**
+ * - `"weak"`: Fast, less type-safe fallbacks
+ * - `"normal"`: Balanced performance and safety (default)
+ * - `"strong"`: Full type safety, slower compilation
  */
 export type ParseTime<
     T extends string,
+    TComplexity extends "weak" | "normal" | "strong" = "normal"
 > = As<EnsureNull<
     IsWideString<T> extends true
     ? Err<
@@ -56,7 +64,7 @@ export type ParseTime<
     >
     : T extends `${number}:${number}${string}`
     ? TakeHours<T> extends [
-        infer Hour extends TwoDigitHour,
+        infer Hour extends TwoDigitHour<TComplexity>,
         infer Rest extends string
     ]
     ? IsUndefined<Hour> extends true
@@ -173,5 +181,5 @@ export type ParseTime<
         { parse: T }
     >
 >,
-    ParsedTime | Error
+    ParsedTime<TComplexity> | Error
 >;

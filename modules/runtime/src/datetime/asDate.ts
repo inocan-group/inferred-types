@@ -7,7 +7,6 @@ import {
 import { parseIsoDate } from "runtime/datetime";
 import {
     isDate,
-    isDateFnsDate,
     isEpochInMilliseconds,
     isEpochInSeconds,
     isIsoDate,

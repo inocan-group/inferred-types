@@ -1,5 +1,4 @@
 export * from "./isDate";
-export * from "./isDateFnsDate";
 export * from "./isDateLike";
 export * from "./isDateMeta";
 export * from "./isDateTime";

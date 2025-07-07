@@ -4,7 +4,7 @@ import {
     IsIsoYear,
     IsIsoYearMonth
 } from "types/boolean-logic/operators/datetime";
-import { IsoDateLike } from "types/datetime";
+import { IsoDate } from "types/datetime";
 
 
 /**
@@ -22,7 +22,9 @@ import { IsoDateLike } from "types/datetime";
  */
 export type IsIsoDate<T> = string extends T
     ? boolean
-    : T extends IsoDateLike
+    : T extends IsoDate<"branded">
+    ? true
+    : T extends IsoDate<"normal">
     ? IsIsoFullDate<T> extends true //
     ? true
     : IsIsoYearMonth<T> extends true

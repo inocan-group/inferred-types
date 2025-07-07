@@ -1,6 +1,8 @@
 import type {
-    FourDigitYear,
-    TwoDigitMonth,
+    IsoDate,
+    IsoDateTime,
+    IsoYear,
+    IsoYearMonth,
 } from "inferred-types/types";
 
 /**
@@ -20,7 +22,8 @@ import type {
  */
 export type DateLike =
     | number
-    | `${FourDigitYear}${string}` // matches full Date and DateTime and ISOYear
-    | `-${FourDigitYear}${"-"|""}${number}` //
-    | `--${TwoDigitMonth}${"-"|""}${number}`
+    | IsoYear<"weak">
+    | IsoYearMonth<"weak">
+    | IsoDate
+    | IsoDateTime
     | object;

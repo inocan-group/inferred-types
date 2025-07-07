@@ -55,7 +55,7 @@ export type DateSource =
 export interface DatePlus<
     TSource extends DateSource = DateSource,
     TOffset extends null | TimezoneOffset = null | TimezoneOffset,
-    TSourceIso extends null | IsoDateTime = null | IsoDateTime,
+    TSourceIso = null | IsoDateTime,
 > extends Date {
     /**
      * The originating timezone offset if the originating has a conception

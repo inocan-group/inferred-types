@@ -1,11 +1,11 @@
-import type { LuxonJs } from "inferred-types/types";
 import { isDictionary } from "inferred-types/runtime";
+import { LuxonLikeDateTime } from "inferred-types/types";
 
 /**
  * Type guard which validates that the passed in `val` is a
  * [LuxonJS](https://moment.github.io/luxon/#/?id=luxon) DateTime object.
  */
-export function isLuxonDate(val: unknown): val is LuxonJs["DateTime"] {
+export function isLuxonDate(val: unknown): val is LuxonLikeDateTime {
     return isDictionary(val)
         && typeof val === "object"
         && val !== null

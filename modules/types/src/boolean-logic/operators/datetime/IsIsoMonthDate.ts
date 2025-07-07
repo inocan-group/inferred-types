@@ -1,6 +1,6 @@
 import {
     FourDigitYear,
-    IsoYearMonthLike,
+    IsoYearMonth,
     IsWideString,
     ParseDate,
     ParsedDate,
@@ -23,14 +23,14 @@ import {
  * branded type of `IsoDate` but if your runtime uses the
  * `isIsoDate()` it will pass.
  */
-export type IsIsoMonthDate<T> = T extends IsoYearMonthLike
+export type IsIsoMonthDate<T> = T extends IsoYearMonth
     ? IsWideString<T> extends true
-        ? boolean
-        : ParseDate<T> extends ParsedDate
-            ? ParseDate<T> extends [ FourDigitYear, TwoDigitDate, null, null]
-                ? true
-                : false
-            : false
+    ? boolean
+    : ParseDate<T> extends ParsedDate
+    ? ParseDate<T> extends [FourDigitYear, TwoDigitDate, null, null]
+    ? true
+    : false
+    : false
     : false;
 
 

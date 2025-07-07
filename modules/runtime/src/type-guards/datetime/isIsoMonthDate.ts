@@ -1,14 +1,20 @@
-import type { IsoMonthDate, IsoMonthDateLike } from "inferred-types/types";
+import type { IsoMonthDate } from "inferred-types/types";
 import { isString, stripLeading } from "inferred-types/runtime";
+import { ISO_DATE_30, ISO_DATE_31, ISO_MONTH_WITH_30 } from "constants/DateTime";
 
-function validate(d: IsoMonthDateLike): boolean {
+function validate(d: IsoMonthDate): boolean {
     const stripped = stripLeading(d, "--");
     const [month, date] = [
-        Number(stripped.slice(0, 2)),
-        Number(stripLeading(stripped.slice(3), ":"))
+        stripped.slice(0, 2),
+        stripLeading(stripped.slice(3), ":")
     ];
+    if (month === "02" || ISO_MONTH_WITH_30.includes(date as any)) {
+        // because we can't be sure that it's not going to be
+        // a "double leap" then we need to accept it as valid
+        return ISO_DATE_30.includes(date as any);
+    }
 
-    const daysInMonth = 31;
+    return ISO_DATE_31.includes(date as any);
 }
 
 /**
@@ -24,5 +30,5 @@ export function isIsoMonthDate(date: unknown): date is IsoMonthDate {
     return isString(date)
         && date.startsWith("--")
         && date.replace(/--\d{2}-?[0-3]\d/, "") === ""
-        && validate(date as IsoMonthDateLike);
+        && validate(date as IsoMonthDate);
 }

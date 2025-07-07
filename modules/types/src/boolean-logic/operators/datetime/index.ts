@@ -13,10 +13,13 @@ export * from "./IsIsoYearMonth";
 export * from "./IsIsoYearMonthTime";
 export * from "./IsJsDate";
 export * from "./IsLeapYear";
+export * from "./IsDoubleLeap";
 export * from "./IsLuxonDateTime";
 export * from "./IsMoment";
 export * from "./IsSameDay";
 export * from "./IsSameMonth";
 export * from "./IsSameMonthYear";
 export * from "./IsSameYear";
+export * from "./IsDayJs";
 
+export * from "./validators/index";

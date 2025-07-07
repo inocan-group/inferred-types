@@ -1,7 +1,7 @@
 import type {
     AsDateMeta,
     DateMeta,
-    DateMetaNoFunctions,
+    DateMeta,
     DateType,
     IsUnion,
     ParseDate,
@@ -26,7 +26,7 @@ import { isTypedError } from "runtime/type-guards/isTypedError";
  * to the representative ISO String.
  */
 function convert<
-    T extends DateMetaNoFunctions & { format: "auto" | DateType }
+    T extends DateMeta & { format: "auto" | DateType }
 >(
     meta: T
 ) {
@@ -80,37 +80,37 @@ function convert<
 }
 
 function toString<
-    T extends DateMetaNoFunctions
+    T extends DateMeta
 >(meta: T) {
     return convert({ format: "auto", ...meta });
 }
 
 function asYear<
-    T extends DateMetaNoFunctions
+    T extends DateMeta
 >(meta: T) {
     return convert({ format: "year", ...meta });
 }
 
 function asYearIndependent<
-    T extends DateMetaNoFunctions
+    T extends DateMeta
 >(meta: T) {
     return convert({ format: "year-independent", ...meta });
 }
 
 function asYearMonth<
-    T extends DateMetaNoFunctions
+    T extends DateMeta
 >(meta: T) {
     return convert({ format: "year-month", ...meta });
 }
 
 function asDate<
-    T extends DateMetaNoFunctions
+    T extends DateMeta
 >(meta: T) {
     return convert({ format: "date", ...meta });
 }
 
 function asDateTime<
-    T extends DateMetaNoFunctions
+    T extends DateMeta
 >(meta: T) {
     return convert({ format: "datetime", ...meta });
 }
@@ -214,7 +214,7 @@ export function parseIsoDate<
                 return err("parse-date", `The string passed in resembled a ISO DateTime but the following components failed: ${errors}`) as unknown as Returns<T>;
             }
 
-            const val: DateMetaNoFunctions = {
+            const val: DateMeta = {
                 dateType: "datetime",
                 hasTime: !(timezone === "Z" && hour === "00" && minute === "00" && (second === "00" || second === null) && (ms === "000" || ms === null)),
                 year,
@@ -225,7 +225,7 @@ export function parseIsoDate<
                 second,
                 ms,
                 timezone,
-            } as DateMetaNoFunctions;
+            } as DateMeta;
 
             return {
                 ...val,
@@ -255,7 +255,7 @@ export function parseIsoDate<
                     second: null,
                     ms: null,
                     timezone: null
-                } satisfies DateMetaNoFunctions;
+                } satisfies DateMeta;
 
                 return {
                     ...val,
@@ -299,7 +299,7 @@ export function parseIsoDate<
                     ms: null,
                     timezone: null,
 
-                } satisfies DateMetaNoFunctions;
+                } satisfies DateMeta;
 
                 return {
                     ...val,
@@ -342,7 +342,7 @@ export function parseIsoDate<
                     second: null,
                     ms: null,
                     timezone: null
-                } satisfies DateMetaNoFunctions;
+                } satisfies DateMeta;
 
                 return {
                     ...val,
@@ -383,7 +383,7 @@ export function parseIsoDate<
                     second: null,
                     ms: null,
                     timezone: null,
-                } satisfies DateMetaNoFunctions;
+                } satisfies DateMeta;
 
                 return {
                     ...val,

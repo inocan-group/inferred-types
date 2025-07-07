@@ -1,7 +1,7 @@
 import {
     IsIsoMonthDateTime,
     IsIsoYearMonthTime,
-    IsoDateTimeLike,
+    IsoDateTime,
     IsIsoFullDateTime
 } from "inferred-types/types";
 
@@ -18,7 +18,12 @@ import {
  * branded type of `IsoDateTime` but if your runtime uses the
  * `isIsoDateTime()` type guard it will pass and be upgraded.
  */
-export type IsIsoDateTime<T> = T extends IsoDateTimeLike
+export type IsIsoDateTime<T> = T extends string
+? string extends T
+    ? boolean
+: T extends IsoDateTime<"branded">
+    ? true
+: T extends IsoDateTime<"normal">
 ? IsIsoFullDateTime<T> extends true
     ? true
     : IsIsoMonthDateTime<T> extends true
@@ -26,6 +31,7 @@ export type IsIsoDateTime<T> = T extends IsoDateTimeLike
     : IsIsoYearMonthTime<T> extends true
     ? true
     : false
+: false
 : false;
 
 

@@ -6,7 +6,7 @@ import type {
     IsoDateTimeLike,
     IsoMonthDate,
     IsoYear,
-    IsoYearMonthLike,
+    IsoYearMonth,
     IsUnion
 } from "inferred-types/types";
 import { err } from "runtime/errors";
@@ -19,7 +19,7 @@ type Return<T extends DateMeta> = [IsUnion<T["dateType"]>] extends [true]
     : [T["dateType"]] extends ["year-independent"]
     ? IsoMonthDate
     : [T["dateType"]] extends ["year-month"]
-    ? IsoYearMonthLike
+    ? IsoYearMonth
     : [T["dateType"]] extends ["date"]
     ? IsoDate
     : [T["dateType"]] extends ["datetime"]
