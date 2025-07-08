@@ -1,4 +1,4 @@
-import { MomentLike } from "inferred-types/types";
+import type { MomentLike } from "inferred-types/types";
 import { isDictionary } from "inferred-types/runtime";
 
 /**

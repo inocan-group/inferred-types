@@ -1,9 +1,9 @@
+import { log } from "node:console";
+import { parseIsoDate } from "runtime/datetime";
+import { err } from "runtime/errors";
 import {
     isEpochInSeconds,
 } from "runtime/type-guards/datetime";
-import { log } from "console";
-import { parseIsoDate } from 'runtime/datetime';
-import { err } from 'runtime/errors';
 
 /**
  * Parses a number as a `epoch` timestamp (detects whether in
@@ -15,7 +15,7 @@ export function parseNumericDate<T extends number>(d: T) {
             ? new Date(d * 1000)
             : new Date(d);
 
-        log({ iso: date.toISOString() })
+        log({ iso: date.toISOString() });
 
         return parseIsoDate(date.toISOString());
     }

@@ -2,7 +2,6 @@ import type { Split } from "inferred-types/types";
 import { createFnWithProps } from "runtime/initializers";
 import { last } from "runtime/lists";
 
-
 type Policy = "omit" | "before" | "after" | "inline";
 
 const SEP = `sep:\u00A0` as const;

@@ -1,5 +1,5 @@
+import type { LuxonLikeDateTime } from "inferred-types/types";
 import { isDictionary } from "runtime/type-guards";
-import { LuxonLikeDateTime } from "inferred-types/types";
 
 /**
  * Type guard which validates that the passed in `val` is a

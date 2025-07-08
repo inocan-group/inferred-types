@@ -1,4 +1,4 @@
-import type { ComparisonOperation, Narrowable } from "inferred-types/types";
+import type { Narrowable } from "inferred-types/types";
 
 /**
  * **ComparisonAccept**`<TOp>`
@@ -8,6 +8,4 @@ import type { ComparisonOperation, Narrowable } from "inferred-types/types";
  * - those operations which don't state an explicit `accept` property
  * in their definitions will be assigned the type `unknown`.
  */
-export type ComparisonAccept<
-    TOp extends ComparisonOperation
-> = Narrowable;
+export type ComparisonAccept = Narrowable;

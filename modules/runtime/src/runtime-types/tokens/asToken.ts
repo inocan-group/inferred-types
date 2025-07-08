@@ -6,16 +6,16 @@ import type {
 } from "inferred-types/types";
 import { Never } from "inferred-types/constants";
 import { identity } from "runtime/functions";
-import { isBooleanLike, isNumberLike } from "runtime/type-guards";
-import { isSimpleContainerToken, isSimpleScalarToken } from "runtime/type-guards/tokens";
 import { simpleScalarToken } from "runtime/runtime-types/tokens";
-import { 
+import {
     stripAfter,
     stripBefore,
     stripLeading,
     stripSurround,
     stripTrailing
 } from "runtime/string-literals/sub-string/strip";
+import { isBooleanLike, isNumberLike } from "runtime/type-guards";
+import { isSimpleContainerToken, isSimpleScalarToken } from "runtime/type-guards/tokens";
 
 const scalarToToken = identity({
     string: "<<string>>",

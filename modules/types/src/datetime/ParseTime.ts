@@ -18,38 +18,12 @@ import type {
  * a successfully parsed **ISO Time** string.
  */
 export type ParsedTime = [
-        hour: TwoDigitHour<"branded">,
-        minute: TwoDigitMinute<"branded">,
-        second: TwoDigitSecond<"branded"> | null,
-        millisecond: ThreeDigitMillisecond<"branded"> | null,
-        tz: TimezoneOffset<"branded" extends "strong" ? "strong" : "normal"> | null
+    hour: TwoDigitHour<"branded">,
+    minute: TwoDigitMinute<"branded">,
+    second: TwoDigitSecond<"branded"> | null,
+    millisecond: ThreeDigitMillisecond<"branded"> | null,
+    tz: TimezoneOffset<"branded" extends "strong" ? "strong" : "normal"> | null
 ];
-
-type ValidateHoursMinutes<
-    THours extends `${number}`,
-    TMinutes extends `${number}`,
-> = As<
-    THours extends TwoDigitHour<"strong">
-        ? TMinutes extends TwoDigitMinute<"strong">
-            ? {
-                hour: As<THours & TwoDigitHour<"branded">, TwoDigitHour<"branded">>;
-                minute: As<TMinutes & TwoDigitMinute<"branded">, TwoDigitMinute<"branded">>;
-            }
-            : Err<
-                `parse-time/minute`,
-        `The minutes component of the ISO time was invalid: ${TMinutes}`,
-        { hour: THours; minute: TMinutes }
-            >
-        : Err<
-            `parse-time/hour`,
-    `The hour component of the ISO time was initially parsed but found to be invalid: ${THours}`,
-    { hour: THours; minute: TMinutes }
-        >,
-{
-    hour: TwoDigitHour<"branded">;
-    minute: TwoDigitMinute<"branded">;
-} | Error
->;
 
 type GetHoursMinutes<T extends string> = As<
     TakeHours<T> extends {

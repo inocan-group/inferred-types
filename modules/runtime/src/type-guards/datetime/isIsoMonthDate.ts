@@ -1,7 +1,7 @@
 import type { IsoMonthDate } from "inferred-types/types";
-import { isString } from "runtime/type-guards";
-import { stripLeading } from "runtime/string-literals";
 import { ISO_DATE_30, ISO_DATE_31, ISO_MONTH_WITH_30 } from "constants/DateTime";
+import { stripLeading } from "runtime/string-literals";
+import { isString } from "runtime/type-guards";
 
 function validate(d: IsoMonthDate): boolean {
     const stripped = stripLeading(d, "--");

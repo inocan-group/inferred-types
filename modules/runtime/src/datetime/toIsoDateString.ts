@@ -13,18 +13,18 @@ import { isIsoDate } from "runtime/type-guards/datetime";
 type Return<T extends DateMeta> = [IsUnion<T["dateType"]>] extends [true]
     ? IsoDate | IsoDateTime
     : [T["dateType"]] extends ["year"]
-    ? IsoYear
-    : [T["dateType"]] extends ["year-independent"]
-    ? IsoMonthDate
-    : [T["dateType"]] extends ["year-month"]
-    ? IsoYearMonth
-    : [T["dateType"]] extends ["date"]
-    ? IsoDate
-    : [T["dateType"]] extends ["datetime"]
-    ? [T["hasTime"]] extends [true]
-    ? IsoDateTime
-    : IsoDate
-    : Error;
+        ? IsoYear
+        : [T["dateType"]] extends ["year-independent"]
+            ? IsoMonthDate
+            : [T["dateType"]] extends ["year-month"]
+                ? IsoYearMonth
+                : [T["dateType"]] extends ["date"]
+                    ? IsoDate
+                    : [T["dateType"]] extends ["datetime"]
+                        ? [T["hasTime"]] extends [true]
+                            ? IsoDateTime
+                            : IsoDate
+                        : Error;
 
 /**
  * **toIsoDateString**`(meta) -> IsoDate | IsoDateTime`

@@ -1,5 +1,5 @@
+import type { IanaZone } from "inferred-types/types";
 import { IANA_TIMEZONES } from "inferred-types/constants";
-import { IanaZone } from "inferred-types/types";
 import { isString } from "runtime/type-guards/isString";
 
 /**

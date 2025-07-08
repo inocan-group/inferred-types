@@ -11,12 +11,12 @@ import { isEmpty, isString } from "runtime/type-guards";
 import {
     isFourDigitYear,
     isThreeDigitMillisecond,
+    isTimezoneOffset,
     isTwoDigitDate,
     isTwoDigitHour,
     isTwoDigitMinute,
     isTwoDigitMonth,
-    isTwoDigitSecond,
-    isTimezoneOffset
+    isTwoDigitSecond
 } from "runtime/type-guards/datetime";
 import { isTypedError } from "runtime/type-guards/isTypedError";
 
@@ -117,10 +117,10 @@ function asDateTime<
 type Returns<T extends string> = [IsUnion<T>] extends [true]
     ? DateMeta | Error
     : ParseDate<T> extends Error
-    ? ParseDate<T> & Error
-    : ParseDate<T> extends ParsedDate
-    ? AsDateMeta<ParseDate<T>>
-    : Error;
+        ? ParseDate<T> & Error
+        : ParseDate<T> extends ParsedDate
+            ? AsDateMeta<ParseDate<T>>
+            : Error;
 
 /**
  * Parses an ISO date or datetime string into its components.

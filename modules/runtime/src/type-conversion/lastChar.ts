@@ -1,4 +1,4 @@
-import type { LastChar,FirstChar } from "inferred-types/types";
+import type { FirstChar, LastChar } from "inferred-types/types";
 import { asChars } from "inferred-types/runtime";
 
 export function lastChar<T extends string>(str: T) {
