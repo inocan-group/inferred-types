@@ -27,3 +27,4 @@ export * from "./Something";
 export * from "./Thenable";
 export * from "./Tuple";
 export * from "./Variable";
+export * from "./TakeUtility"

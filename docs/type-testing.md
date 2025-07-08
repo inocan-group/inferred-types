@@ -24,6 +24,8 @@ But you'll often want to scope down testing to just a single file or some subset
 typed test --filter datetime
 ```
 
+**NOTE**: this is NOT an `npm` command so do not try running it via **npm**.
+
 The above example will find all test files with `datetime` in the name and test only those.
 
 ## What is a Type Test
@@ -116,3 +118,60 @@ describe("filter()", () => {
 });
 ```
 
+
+
+### Best Practices
+
+- the number of generic parameters a type utility takes is irrelevant to the overall complexity of the type utilities resolution; never penalize a type utility for having a lot of parameters
+- template literal distribution can be OK for some situations but it is combinatorial so beware of exploding union types when using this
+- always try to find a way to reduce union members where you can
+  - this includes using conditional operations to split one union into a subset union before working on it
+- deeply nested conditional in a type utility are generally OK so long as you keep any union types in control
+  - but a large union type moving through deeply nested conditional utility is likely not efficient at all and should be avoided
+- use the `As` type utility within conditionals to help reduce complexity:
+
+    ```ts
+    /**
+     * **As**`<TContent,TType>`
+     *
+     * Ensures that `TContent` _extends_ `TType` or turns type to `never`.
+     */
+    export type As<
+        TContent,
+        TType,
+    > = [TContent] extends [TType]
+        ? TContent
+        : never;
+    ```
+
+    - this utility can be added to take a complex union type and reduce it to a more manageable union; for instance:
+
+        Imagine we want to test for a **valid** IsoYear, IsoYearMonth, or IsoMonthDate type.
+
+        - we want to return `false` if these types meet the meager type patterns that `T` is looking for but the string passed in is actually NOT a valid ISO Date string.
+
+        ```ts
+        type AsIsoPartial<
+            T extends `--${number}${string}` | `-${number}${string}`
+        > = As<
+            string extends T
+            ? boolean
+            : T extends `--${number}${string}` // lots of false positives
+                ? T extends `--${TwoDigitMonth}${TwoDigitDate}` // validated
+                    ? true
+                    : false
+            : T extends `-${number}${string}` // lots of false positives
+                ? T extends `-${FourDigitYear}${string}` // further validate
+                    ? T extends `-${number}-${TwoDigitMonth}` // finish validation
+                        ? T & `-${FourDigitYear}${TwoDigitMonth}`
+                        : Err<`iso-partial/month-date`>
+                    : Err<`iso-partial/month-date`>
+            : Err<`iso-partial`>,
+
+            `--${number}${string}` | `-${number}${string}` | Error
+        >
+        ```
+
+        - this shows two key strategies:
+          - the wrapping `As<..., \`--${number}${string}\` | \`-${number}${string}\` | Error>` allows consumers of this utility to see simple union type while maintaining literals
+          - the inspect of the string in _parts_ rather than as one single comparison reduces the union complexity in favor of conditional complexity (a benefit 99% of the time).

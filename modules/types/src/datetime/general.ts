@@ -1,7 +1,8 @@
 import { ISO_DATE_30, ISO_DATE_31, ISO_MONTH_WITH_30 } from "inferred-types/constants";
 import type {
     NumericChar,
-    NumericChar__NonZero
+    NumericChar__NonZero,
+    NumericChar__ZeroToFive
 } from "inferred-types/types";
 
 /**
@@ -22,7 +23,7 @@ export type IsoDate31 = typeof ISO_DATE_31[number];
 export type IsoMonthsWith30Days = typeof ISO_MONTH_WITH_30[number];
 
 export type TwoDigitHour<
-    T extends "weak" | "normal" | "strong" | "branded" = "normal"
+    T extends "weak" | "normal" | "strong" | "branded" | `${number}` = "normal"
 > =
     T extends "weak"
     ? `${number}`
@@ -35,10 +36,12 @@ export type TwoDigitHour<
     | `2${0 | 1 | 2 | 3}`
     : T extends "branded"
     ? `${number}` & { kind: "TwoDigitHour" }
+    : T extends `${number}`
+    ? T & { kind: "TwoDigitHour" }
     : never;
 
 export type TwoDigitMinute<
-    T extends "weak" | "normal" | "strong" | "branded" = "normal"
+    T extends "weak" | "normal" | "strong" | "branded" | `${number}` = "normal"
 > =
     T extends "weak"
     ? `${number}`
@@ -54,12 +57,22 @@ export type TwoDigitMinute<
     | `5${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     : T extends "branded"
     ? `${number}` & { kind: "TwoDigitMinute" }
+    : T extends `${number}`
+    ? T & { kind: "TwoDigitMinute" }
     : never;
 
 export type TwoDigitSecond<
-    T extends "weak" | "normal" | "strong" | "branded" = "normal"
+    T extends "normal" | "strong" | "branded" | `${number}` = "normal"
 > = T extends "branded"
     ? `${number}` & { kind: "TwoDigitSecond" }
+    : T extends "normal"
+        ? `${NumericChar__ZeroToFive}${number}` & `${number}`
+    : T extends "strong"
+        ? `${NumericChar__ZeroToFive}${NumericChar}` & `${number}`
+    : T extends `${number}`
+    ? T extends TwoDigitSecond<"strong">
+        ? T & { kind: "TwoDigitSecond" }
+        : never
     : TwoDigitMinute<T>;
 
 /**
@@ -77,7 +90,7 @@ export type TwoDigitSecond<
  * numeric string to be valid
  */
 export type ThreeDigitMillisecond<
-    T extends "weak" | "normal" | "strong" | "branded" = "normal"
+    T extends "weak" | "normal" | "strong" | "branded" | `${number}` = "normal"
 > =
     T extends "weak"
     ? `${number}`
@@ -87,6 +100,10 @@ export type ThreeDigitMillisecond<
     ? `${NumericChar}${NumericChar}${NumericChar}`
     : T extends "branded"
     ? `${number}` & { kind: "ThreeDigitMillisecond" }
+    : T extends `${number}`
+    ? T extends ThreeDigitMillisecond<"strong">
+        ? T & { kind: "ThreeDigitMillisecond" }
+        : never
     : never;
 
 
@@ -100,7 +117,7 @@ export type ThreeDigitMillisecond<
  * to a relatively weak "type" which is "branded"
  */
 export type TwoDigitMonth<
-    T extends "normal" | "weak" | "branded" = "normal"
+    T extends "normal" | "weak" | "branded" | `${number}` = "normal"
 > =
     T extends "normal"
     ? (`0${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}` | `1${0 | 1 | 2}`) & `${number}`
@@ -108,6 +125,8 @@ export type TwoDigitMonth<
     ? `${"0" | "1"}${number}` & `${number}`
     : T extends "branded"
     ? `${number}` & { kind: "TwoDigitMonth" }
+    : T extends `${number}`
+    ? T & { kind: "TwoDigitMonth" }
     : never;
 
 /**
@@ -131,7 +150,7 @@ export type MonthNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
  * - Note: the _branded_ variant is intentionally not super strong on "type" because
  * it's brand ensures other utilities will know it's validated.
  */
-export type TwoDigitDate<T extends "weak" | "normal" | "branded" = "normal"> =
+export type TwoDigitDate<T extends "weak" | "normal" | "branded" | `${number}` = "normal"> =
     T extends "normal"
     ?
     | `0${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
@@ -152,6 +171,8 @@ export type TwoDigitDate<T extends "weak" | "normal" | "branded" = "normal"> =
         | `2${number}`
         | `3${number}`
     ) & { kind: "TwoDigitDate" }
+    : T extends `${number}`
+    ? T & { kind: "TwoDigitDate" }
     : never;
 
 /**
@@ -221,9 +242,11 @@ export type MonthDateDigit<
  * - you may also opt for `branded` which indicates that it has been
  * validated to be `FourDigitYear<"strong">` but the typescript type
  * is reduced to just `${number}`
+ * - if you use a numeric value for `T` it will will intersect `T`
+ * with the branded type.
  */
 export type FourDigitYear<
-    T extends "strong" | "normal" | "weak" | "branded" = "normal"
+    T extends "strong" | "normal" | "weak" | "branded" | `${number}` = "normal"
 > = T extends "strong"
     ? (
         | `${"1" | "2"}${NumericChar}${NumericChar}${NumericChar}`
@@ -237,7 +260,9 @@ export type FourDigitYear<
     ? `${NumericChar}${number}` & `${number}`
     : T extends "branded"
     ? `${number}` & { kind: "FourDigitYear" }
-    : never;
+    : T extends `${number}`
+        ? T & { kind: "FourDigitYear" }
+        : never;
 
 export type TimeZoneExplicit = | `Z`
     | `${"+" | "-"}${TwoDigitHour}`
@@ -267,7 +292,7 @@ export type TimeZoneExplicit = | `Z`
  * respect the branded type as validated.
  */
 export type TimezoneOffset<
-    T extends "strong" | "normal" | "explicit" | "implicit" | "branded" = "normal"
+    T extends "strong" | "normal" | "explicit" | "implicit" | "branded" | `${"Z"|"+"|"-"}${string}` = "normal"
 > =
     T extends "normal"
     ? | `Z`
@@ -297,7 +322,10 @@ export type TimezoneOffset<
         | `${"+" | "-"}${number}${number}`
         | `${"+" | "-"}${number}:${number}`
     ) & { kind: "TimezoneOffset" }
+    : T extends `${"Z"|"+"|"-"}${string}`
+        ? T extends TimezoneOffset<"strong">
+            ? T & TimezoneOffset<"branded">
+            : never
     : never
     ;
-
 

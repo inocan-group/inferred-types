@@ -3,7 +3,14 @@ import {
     Expect,
     ParseTime,
     Test,
+    TwoDigitHour,
+    TwoDigitMinute,
+    TwoDigitSecond,
+    ThreeDigitMillisecond,
+    TimezoneOffset
 } from "inferred-types/types";
+
+
 
 describe("ParseTime<T>", () => {
 
@@ -15,15 +22,15 @@ describe("ParseTime<T>", () => {
         type cases = [
             Expect<Test<
                 T1, "equals",
-                [ "12", "55", undefined, undefined, undefined ]
+                [ TwoDigitHour<"12">, TwoDigitMinute<"55">, null, null, null ]
             >>,
             Expect<Test<
                 T2, "equals",
-                [ "00", "00", undefined, undefined, undefined ]
+                [ TwoDigitHour<"00">, TwoDigitMinute<"00">, null, null, null ]
             >>,
             Expect<Test<
                 T3, "equals",
-                [ "23", "59", undefined, undefined, undefined ]
+                [ TwoDigitHour<"23">, TwoDigitMinute<"59">, null, null, null ]
             >>
         ];
     });
@@ -38,23 +45,23 @@ describe("ParseTime<T>", () => {
         type cases = [
             Expect<Test<
                 UTC, "equals",
-                [ "12", "55", undefined, undefined, "Z" ]
+                [ TwoDigitHour<"12">, TwoDigitMinute<"55">, null, null, TimezoneOffset<"Z"> ]
             >>,
             Expect<Test<
                 Plus, "equals",
-                [ "13", "01", undefined, undefined, "+01" ]
+                [ TwoDigitHour<"13">, TwoDigitMinute<"01">, null, null, TimezoneOffset<"+01"> ]
             >>,
             Expect<Test<
                 PlusExtended, "equals",
-                [ "14", "30", undefined, undefined, "+05:30" ]
+                [ TwoDigitHour<"14">, TwoDigitMinute<"30">, null, null, TimezoneOffset<"+05:30"> ]
             >>,
             Expect<Test<
                 Minus, "equals",
-                [ "20", "59", undefined, undefined, "-01:30" ]
+                [ TwoDigitHour<"20">, TwoDigitMinute<"59">, null, null, TimezoneOffset<"-01:30"> ]
             >>,
             Expect<Test<
                 MinusShort, "equals",
-                [ "15", "45", undefined, undefined, "-08" ]
+                [ TwoDigitHour<"15">, TwoDigitMinute<"45">, null, null, TimezoneOffset<"-08"> ]
             >>
         ];
     });
@@ -67,15 +74,15 @@ describe("ParseTime<T>", () => {
         type cases = [
             Expect<Test<
                 T1, "equals",
-                [ "14", "30", "45", undefined, undefined ]
+                [ TwoDigitHour<"14">, TwoDigitMinute<"30">, TwoDigitSecond<"45">, null, null ]
             >>,
             Expect<Test<
                 T2, "equals",
-                [ "00", "00", "00", undefined, undefined ]
+                [ TwoDigitHour<"00">, TwoDigitMinute<"00">, TwoDigitSecond<"00">, null, null ]
             >>,
             Expect<Test<
                 T3, "equals",
-                [ "23", "59", "59", undefined, undefined ]
+                [ TwoDigitHour<"23">, TwoDigitMinute<"59">, TwoDigitSecond<"59">, null, null ]
             >>
         ];
     });
@@ -88,15 +95,15 @@ describe("ParseTime<T>", () => {
         type cases = [
             Expect<Test<
                 UTC, "equals",
-                [ "14", "30", "45", undefined, "Z" ]
+                [ TwoDigitHour<"14">, TwoDigitMinute<"30">, TwoDigitSecond<"45">, null, TimezoneOffset<"Z"> ]
             >>,
             Expect<Test<
                 Plus, "equals",
-                [ "09", "15", "30", undefined, "+02:00" ]
+                [ TwoDigitHour<"09">, TwoDigitMinute<"15">, TwoDigitSecond<"30">, null, TimezoneOffset<"+02:00"> ]
             >>,
             Expect<Test<
                 Minus, "equals",
-                [ "18", "45", "12", undefined, "-05:00" ]
+                [ TwoDigitHour<"18">, TwoDigitMinute<"45">, TwoDigitSecond<"12">, null, TimezoneOffset<"-05:00"> ]
             >>
         ];
     });
@@ -110,15 +117,15 @@ describe("ParseTime<T>", () => {
         type cases = [
             Expect<Test<
                 T1, "equals",
-                [ "14", "30", "45", "123", undefined ]
+                [ TwoDigitHour<"14">, TwoDigitMinute<"30">, TwoDigitSecond<"45">, ThreeDigitMillisecond<"123">, null ]
             >>,
             Expect<Test<
                 T2, "equals",
-                [ "00", "00", "00", "000", undefined ]
+                [ TwoDigitHour<"00">, TwoDigitMinute<"00">, TwoDigitSecond<"00">, ThreeDigitMillisecond<"000">, null ]
             >>,
             Expect<Test<
                 T3, "equals",
-                [ "23", "59", "59", "999", undefined ]
+                [ TwoDigitHour<"23">, TwoDigitMinute<"59">, TwoDigitSecond<"59">, ThreeDigitMillisecond<"999">, null ]
             >>
         ];
     });
@@ -131,15 +138,15 @@ describe("ParseTime<T>", () => {
         type cases = [
             Expect<Test<
                 UTC, "equals",
-                [ "14", "30", "45", "123", "Z" ]
+                [ TwoDigitHour<"14">, TwoDigitMinute<"30">, TwoDigitSecond<"45">, ThreeDigitMillisecond<"123">, TimezoneOffset<"Z"> ]
             >>,
             Expect<Test<
                 Plus, "equals",
-                [ "09", "15", "30", "456", "+02:00" ]
+                [ TwoDigitHour<"09">, TwoDigitMinute<"15">, TwoDigitSecond<"30">, ThreeDigitMillisecond<"456">, TimezoneOffset<"+02:00"> ]
             >>,
             Expect<Test<
                 Minus, "equals",
-                [ "18", "45", "12", "789", "-05:30" ]
+                [ TwoDigitHour<"18">, TwoDigitMinute<"45">, TwoDigitSecond<"12">, ThreeDigitMillisecond<"789">, TimezoneOffset<"-05:30"> ]
             >>
         ];
     });
@@ -185,15 +192,15 @@ describe("ParseTime<T>", () => {
         type cases = [
             Expect<Test<
                 Midnight, "equals",
-                [ "00", "00", "00", "000", "Z" ]
+                [ TwoDigitHour<"00">, TwoDigitMinute<"00">, TwoDigitSecond<"00">, ThreeDigitMillisecond<"000">, TimezoneOffset<"Z"> ]
             >>,
             Expect<Test<
                 EndOfDay, "equals",
-                [ "23", "59", "59", "999", "Z" ]
+                [ TwoDigitHour<"23">, TwoDigitMinute<"59">, TwoDigitSecond<"59">, ThreeDigitMillisecond<"999">, TimezoneOffset<"Z"> ]
             >>,
             Expect<Test<
                 Noon, "equals",
-                [ "12", "00", "00", undefined, "Z" ]
+                [ TwoDigitHour<"12">, TwoDigitMinute<"00">, TwoDigitSecond<"00">, null, TimezoneOffset<"Z"> ]
             >>
         ];
     });

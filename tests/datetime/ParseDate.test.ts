@@ -1,11 +1,22 @@
 import { describe, it } from "vitest";
+import { ParseTime } from 'inferred-types/types';
 import {
     Expect,
     ParseDate,
     Test,
     IsError,
     IsLeapYear,
+    FourDigitYear,
+    TwoDigitHour,
+    TwoDigitMinute,
+    TwoDigitSecond,
+    TwoDigitMonth,
+    TwoDigitDate,
+    TakeYear,
+    TakeMonth
 } from "inferred-types/types";
+import { ThreeDigitMillisecond, TimezoneOffset } from "../../modules/types/dist";
+
 
 describe("ParseDate<T>", () => {
 
@@ -18,19 +29,19 @@ describe("ParseDate<T>", () => {
         type cases = [
             Expect<Test<
                 T1, "equals",
-                [ "2024", "06", "15", null ]
+                [ FourDigitYear<"2024">, TwoDigitMonth<"06">, TwoDigitDate<"15">, null ]
             >>,
             Expect<Test<
                 T2, "equals",
-                [ "2024", "06", "15", null ]
+                [ FourDigitYear<"2024">, TwoDigitMonth<"06">, TwoDigitDate<"15">, null ]
             >>,
             Expect<Test<
                 T3, "equals",
-                [ "1999", "12", "31", null ]
+                [ FourDigitYear<"1999">, TwoDigitMonth<"12">, TwoDigitDate<"31">, null ]
             >>,
             Expect<Test<
                 T4, "equals",
-                [ "1999", "12", "31", null ]
+                [ FourDigitYear<"1999">, TwoDigitMonth<"12">, TwoDigitDate<"31">, null ]
             >>
         ];
     });
@@ -44,19 +55,19 @@ describe("ParseDate<T>", () => {
         type cases = [
             Expect<Test<
                 T1, "equals",
-                [ "2024", "06", null, null ]
+                [ FourDigitYear<"2024">, TwoDigitMonth<"06">, null, null ]
             >>,
             Expect<Test<
                 T2, "equals",
-                [ "2024", "06", null, null ]
+                [ FourDigitYear<"2024">, TwoDigitMonth<"06">, null, null ]
             >>,
             Expect<Test<
                 T3, "equals",
-                [ "1999", "12", null, null ]
+                [ FourDigitYear<"1999">, TwoDigitMonth<"12">, null, null ]
             >>,
             Expect<Test<
                 T4, "equals",
-                [ "1999", "12", null, null ]
+                [ FourDigitYear<"1999">, TwoDigitMonth<"12">, null, null ]
             >>
         ];
     });
@@ -70,25 +81,26 @@ describe("ParseDate<T>", () => {
         type cases = [
             Expect<Test<
                 T1, "equals",
-                [ null, "06", "15" ]
+                [ null, TwoDigitMonth<"06">, TwoDigitDate<"15">, null ]
             >>,
             Expect<Test<
                 T2, "equals",
-                [ null, "06", "15" ]
+                [ null, TwoDigitMonth<"06">, TwoDigitDate<"15">, null ]
             >>,
             Expect<Test<
                 T3, "equals",
-                [ null, "12", "31" ]
+                [ null, TwoDigitMonth<"12">, TwoDigitDate<"31">, null ]
             >>,
             Expect<Test<
                 T4, "equals",
-                [ null, "12", "31" ]
+                [ null, TwoDigitMonth<"12">, TwoDigitDate<"31">, null ]
             >>
         ];
     });
 
     it("Date with time info (valid time)", () => {
         type T1 = ParseDate<"2024-06-15T12:34">;
+        type TT1 = ParseTime<"12:34:15">;
         type T2 = ParseDate<"20240615T23:59:59.999Z">;
         type T3 = ParseDate<"-2024-06T00:00:00">;
         type T4 = ParseDate<"--06-15T14:30:45+02:00">;
@@ -96,19 +108,41 @@ describe("ParseDate<T>", () => {
         type cases = [
             Expect<Test<
                 T1, "equals",
-                [ "2024", "06", "15", [ "12", "34", undefined, undefined, undefined ] ]
+                [
+                    FourDigitYear<"2024">,
+                    TwoDigitMonth<"06">,
+                    TwoDigitDate<"15">,
+                    [
+                        TwoDigitHour<"12">,
+                        TwoDigitMinute<"34">,
+                        null,
+                        null,
+                        null
+                    ]
+                ]
             >>,
             Expect<Test<
                 T2, "equals",
-                [ "2024", "06", "15", [ "23", "59", "59", "999", "Z" ] ]
+                [
+                    FourDigitYear<"2024">,
+                    TwoDigitMonth<"06">,
+                    woDigitDate<"15">,
+                    [
+                        TwoDigitHour<"23">,
+                        TwoDigitMinute<"59">,
+                        TwoDigitSecond<"59">,
+                        ThreeDigitMillisecond<"999">,
+                        TimezoneOffset<"Z">
+                    ]
+                ]
             >>,
             Expect<Test<
                 T3, "equals",
-                [ "2024", "06", null, [ "00", "00", "00", undefined, undefined ] ]
+                [ FourDigitYear<"2024">, TwoDigitMonth<"06">, null, [ TwoDigitHour<"00">, TwoDigitMinute<"00">, TwoDigitSecond<"00">, undefined, undefined ] ]
             >>,
             Expect<Test<
-                T4, "equals",
-                [ null, "06", "15", [ "14", "30", "45", undefined, "+02:00" ] ]
+                T4, "isError",
+                "parse-date/leftover"
             >>
         ];
     });
@@ -157,7 +191,7 @@ describe("ParseDate<T>", () => {
         type cases = [
             Expect<Test<
                 LeapYear, "equals",
-                [ "2020", "02", "29", null ]
+                [ FourDigitYear<"2020">, TwoDigitMonth<"02">, TwoDigitDate<"29">, null ]
             >>,
             Expect<Test<
                 NonLeapYear, "isError",
@@ -169,7 +203,7 @@ describe("ParseDate<T>", () => {
             >>,
             Expect<Test<
                 ThirtyOneDayMonth, "equals",
-                ["2020", "05", "31", null]
+                [FourDigitYear<"2020">, TwoDigitMonth<"05">, TwoDigitDate<"31">, null]
             >>,
         ];
     });

@@ -1,23 +1,51 @@
 import type {
-    IsWideString,
-    Replace,
-    TwoDigitMinute
+    As,
+    HasLeadingTemplateLiteral,
+    NumericChar,
+    NumericChar__ZeroToFive,
+    StripLeading,
+    TwoDigitMinute,
 } from "inferred-types/types";
 
+type Take<T extends string> = string extends T
+    ? { take: null; rest: string } | { take: TwoDigitMinute<"branded">; rest: string }
+    : HasLeadingTemplateLiteral<T> extends true
+        ? { take: null; rest: string } | { take: TwoDigitMinute<"branded">; rest: string }
+        : T extends `${infer C1}${infer C2}${infer Rest}`
+            ? C1 extends NumericChar__ZeroToFive
+                ? C2 extends NumericChar
+                    ? { take: TwoDigitMinute<"branded"> & `${C1}${C2}`, rest: Rest }
+                    : { take: null, rest: T }
+                : { take: null, rest: T }
+            : { take: null, rest: T }
+
 /**
- * **TakeMinutes**`<T, [TOpt]>`
+ * **TakeMinutes**`<T, TIgnoreLeading>`
  *
- * Looks for `TwoDigitSecond` at front of the string and if it finds
+ * Looks for valid two-digit minutes (00-59) at front of the string and if it finds
  * it will return:
  *
- * - `[ TwoDigitMinute, Rest ]`
+ * - `{ take: TwoDigitMinute, rest: Rest }`
+ *
+ * If there is no match:
+ *
+ * - `{ take: null, rest: T }`
+ *
+ * @param TIgnoreLeading - Optional character to ignore if found at the beginning of the string
  */
 export type TakeMinutes<
     T extends string,
-> = IsWideString<T> extends true
-    ? [ TwoDigitMinute, string ] | [ undefined, string ]
-    : T extends `${TwoDigitMinute}${infer Rest extends string}`
-        ? Replace<T, Rest, ""> extends TwoDigitMinute
-            ? [ Replace<T, Rest, "">, Rest ]
-            : [ undefined, T ]
-        : [ undefined, T ];
+    TIgnoreLeading extends string | null = null
+> = TIgnoreLeading extends string
+        ? string extends TIgnoreLeading
+            ? never
+            : As<
+                Take<
+                    As<StripLeading<T, TIgnoreLeading>, string>
+                >,
+                { take: null; rest: string } | { take: TwoDigitMinute<"branded">; rest: string }
+            >
+    : As<
+        Take<T>,
+        { take: null; rest: string } | { take: TwoDigitMinute<"branded">; rest: string }
+    >;

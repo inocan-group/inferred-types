@@ -1,9 +1,7 @@
 import type {
     DateMeta,
     IsoDate,
-    IsoDateLike,
     IsoDateTime,
-    IsoDateTimeLike,
     IsoMonthDate,
     IsoYear,
     IsoYearMonth,
@@ -13,7 +11,7 @@ import { err } from "runtime/errors";
 import { isIsoDate } from "runtime/type-guards/datetime";
 
 type Return<T extends DateMeta> = [IsUnion<T["dateType"]>] extends [true]
-    ? IsoDateLike | IsoDateTimeLike
+    ? IsoDate | IsoDateTime
     : [T["dateType"]] extends ["year"]
     ? IsoYear
     : [T["dateType"]] extends ["year-independent"]

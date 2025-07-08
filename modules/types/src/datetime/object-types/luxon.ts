@@ -73,6 +73,8 @@ export interface LuxonLikeDateTime {
      */
     isDate: (input: unknown) => input is Date;
 
+    isOffsetFixed: boolean;
+
     /**
      * Create an invalid DateTime instance.
      * @param reason - A string describing why the instance is invalid.

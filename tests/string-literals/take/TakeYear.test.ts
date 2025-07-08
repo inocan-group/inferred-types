@@ -9,10 +9,12 @@ describe("TakeYear<T>", () => {
 
     it("happy path - strings starting with valid years", () => {
         type T1 = TakeYear<"2024 is the current year">;
+        type E1 = T1["take"] extends `${number}` ? true : false;
         type T2 = TakeYear<"1999 was the last year of the millennium">;
         type T3 = TakeYear<"2000-01-01">;
         type T4 = TakeYear<"1776 Declaration of Independence">;
         type T5 = TakeYear<"9999 is far in the future">;
+        type TT1 = TakeYear<"2024-06-15">;
 
         type cases = [
             Expect<Test<

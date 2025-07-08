@@ -80,6 +80,6 @@ export function isMinimalDigitDate(s: unknown): s is MinimalDigitDate {
  * - `TwoDigitHour`: 00–23
  * - `TwoDigitMinute`: 00–59
  */
-export function isTimezoneOffset(s: unknown): s is TimezoneOffset<"strong"> {
+export function isTimezoneOffset(s: unknown): s is TimezoneOffset<"branded"> {
     return isString(s) && /^(?:Z|[+\-](?:0?\d|1\d|2[0-3])(?::?[0-5]\d)?)$/.test(s);
 }

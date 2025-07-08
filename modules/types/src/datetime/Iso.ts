@@ -180,7 +180,7 @@ export type IsoFullDateTimeLike =
  * be treated by other utilities as having been validated.
  */
 export type IsoDate<
-    T extends "normal" | "branded"
+    T extends "normal" | "branded" = "normal"
 > = T extends "branded"
 ? (
     IsoFullDate<"weak"> | IsoYearMonth<"weak"> | IsoMonthDate<"weak"> | IsoYear<"weak">

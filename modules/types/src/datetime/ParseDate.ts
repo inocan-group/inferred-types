@@ -2,33 +2,19 @@ import type {
     As,
     Err,
     FourDigitYear,
-    IsLeapYear,
-    IsNull,
-    IsoDate30,
-    IsoDate31,
-    IsoYear,
-    IsUndefined,
+    IsFourDigitYear,
+    IsTwoDigitMonth,
     ParsedTime,
     ParseTime,
-    RetainAfter,
-    StripAfter,
-    StripLeading,
+    Split,
     TakeDate,
     TakeMonth,
     TakeYear,
     TwoDigitDate,
     TwoDigitMonth
 } from "inferred-types/types";
+import { IsTwoDigitDate } from "types/boolean-logic/operators/datetime";
 
-type FebDatesLeap =
-    "01" | "02" | "03" | "04" | "05" | "06" | "07" | "08" | "09" |
-    "10" | "11" | "12" | "13" | "14" | "15" | "16" | "17" | "18" | "19" |
-    "20" | "21" | "22" | "23" | "24" | "25" | "26" | "27" | "28" | "29";
-
-type FebDatesNonLeap =
-    "01" | "02" | "03" | "04" | "05" | "06" | "07" | "08" | "09" |
-    "10" | "11" | "12" | "13" | "14" | "15" | "16" | "17" | "18" | "19" |
-    "20" | "21" | "22" | "23" | "24" | "25" | "26" | "27" | "28";
 
 export type ParsedDate = [
     year: FourDigitYear<"branded"> | null,
@@ -46,219 +32,179 @@ export type ParsedDate = [
 
 type ParseMonthDate<
     T extends string
-> = TakeMonth<T> extends [
-    infer Month extends TwoDigitMonth,
-    infer Rest extends string
-]
-    ? Month extends undefined
-    ? Err<
+> = string extends T
+? never
+: TakeMonth<T> extends {
+    take: infer Month extends `${number}`
+    rest: infer Rest extends string
+}
+    ? TakeDate<Rest,"-"> extends {
+        take: infer IsoDate extends `${number}`
+        rest: infer Rest extends string
+    }
+        ? Rest extends ""
+            ? IsTwoDigitMonth<Month> extends true
+                ? IsTwoDigitDate<IsoDate, Month> extends true
+                    ? [
+                        null,
+                        Month & TwoDigitMonth<"branded">,
+                        IsoDate & TwoDigitDate<"branded">,
+                        null
+                    ]
+                    : Err<
+                        `parse-date/validation`,
+                        `The month and date were parsed but on detailed evaluation the date was not valid [${IsoDate}].`,
+                        { parse: T, month: Month, date: IsoDate, rest: Rest }
+                    >
+                : Err<
+                        `parse-date/validation`,
+                        `The month and date were parsed but on detailed evaluation the month was not valid [${Month}].`,
+                        { parse: T, month: Month, date: IsoDate, rest: Rest }
+                    >
+        : Err<
+            `parse-date/leftover`,
+            `A string which appeared to be a IsoMonthDate string had trailing content which was unparsable [${Rest}]!`,
+            { parse: T, month: Month, date: IsoDate, rest: Rest }
+        >
+    : Err<
         `parse-date/month`,
-        `The string passed in looked like a year independent date but after the initial '--' the month was unable to be parsed!`,
-        { parse: As<T, FourDigitYear<"branded">>, year: null, rest: Rest }
-    >
-    : TakeDate<StripLeading<Rest, "-">> extends [
-        infer Date extends TwoDigitDate,
-        infer Rest extends string
-    ]
-    ? Date extends undefined
-    ? Err<
-        `parse-date/date`,
-        `The string passed in looked like a year independent date but after the parsing the month, the rest was unable to be parsed: '${Rest}'`,
+        `A string which appeared to be a IsoMonthDate string had an invalid month [${Month}]!`,
         { parse: T, month: Month, rest: Rest }
     >
-    : Rest extends ""
-    ? [null, Month, Date, null]
-    : Rest extends `T${infer Time extends string}`
-    ? ParseTime<Time> extends Error
-    ? Err<
-        `parse - date / time`,
-        `The date component-- a year independent, month and day-- was parsed from the string but the time included is not parsable: ${Time}. The underlying error message was: ${ParseTime<Time>["message"]} `,
-        { parse: T, month: Month, date: Date, time: Time }
-    >
-    : [null, Month, Date, ParseTime<Time>]
-    : Err<
-        `parse - date / time`,
-        `The date component-- a year independent, month and day-- was parsed from the string but the time included is not parsable: ${Rest}. The underlying error message was: ${ParseTime<Rest>["message"]} `,
-        { parse: T, month: Month, date: Date, time: Rest }
-    >
-    : Err<
-        `parse - date / date`,
-        `The string passed in looked like a year independent date but after the parsing the month, '${StripLeading<Rest, "-">}' was unable to be parsed as a date!`,
-        { parse: T, year: null, month: Month, rest: Rest }
-    >
-    : Err<
-        `parse - date / month`,
-        `The string passed in looked like a year independent month and date but after the initial '--', the string '${StripAfter<T, "-">}' couldn't be parsed as a month!`,
-        { parse: T, year: null }
-    >;
+: Err<
+    `parse-date/month-date`,
+    `Unable to parse the month of what appeared to be an IsoMonthDate string`,
+    { parse: T }
+>;
 
-type ParseYearMonth<T extends string> = TakeYear<T> extends [
-    infer Year extends FourDigitYear<"strong">,
-    infer Rest extends string
+
+type ParseYearMonth<T extends string> = TakeYear<T> extends {
+    take: infer Year extends `${number}`
+    rest: infer Rest extends string
+}
+    ? TakeMonth<Rest, "-"> extends {
+        take: infer Month extends `${number}`
+        rest: infer Rest extends string
+    }
+        ? IsFourDigitYear<Year> extends true
+            ? IsTwoDigitMonth<Month> extends true
+                ? Rest extends ""
+                    ? [
+                        Year & FourDigitYear<"branded">,
+                        Month & TwoDigitMonth<"branded">,
+                        null,
+                        null
+                    ]
+                : Err<
+                    `parse-date/month`,
+                    `The string looks like an IsoYearMonth string and both year and month were parsed out but upon validation the month [${Month}] appears to be invalid!`,
+                    { parse: T, year: Year, month: Month }
+                >
+            : Err<
+                `parse-date/month`,
+                `The string looks like an IsoYearMonth string and both year and month were parsed out but upon validation the year [${Year}] appears to be invalid!`,
+                { parse: T, year: Year, month: Month }
+            >
+        : Err<
+            `parse-date/year-month`,
+            `The month in what appeared to be a IsoYearMonth string was unable to be parsed`,
+            { parse: T, year: Year, rest: Rest }
+        >
+    : Err<
+        `parse-date/year-month`,
+        `The month in what appeared to be a IsoYearMonth string was unable to be parsed`,
+        { parse: T, year: Year, rest: Rest }
+    >
+: Err<
+    `parse-date/year-month`,
+    `The year in what started out as a IsoYearMonth string was unable to be parsed`,
+    { parse: T }
+>;
+
+
+type ParseFullDate<T extends string> = TakeYear<T> extends {
+    take: infer Year extends `${number}`
+    rest: infer Rest extends string
+}
+    ? TakeMonth<Rest, "-"> extends {
+        take: infer Month extends `${number}`
+        rest: infer Rest extends string
+    }
+        ? TakeDate<Rest,"-"> extends {
+            take: infer Date extends `${number}`
+            rest: infer Rest extends string
+        }
+            ? IsFourDigitYear<Year> extends true
+                ? IsTwoDigitMonth<Month> extends true
+                    ? IsTwoDigitDate<Date,Month,Year> extends true
+                        ? As<
+                            [
+                                Year & FourDigitYear<"branded">,
+                                Month & TwoDigitMonth<"branded">,
+                                Date & TwoDigitDate<"branded">,
+                                null
+                            ],
+                            ParsedDate
+                        >
+                    : Err<
+                        `parse-date/date`,
+                        `Invalid date: ${Date}`,
+                        { year: Year, month: Month, date: Date }
+                    >
+                : Err<
+                    `parse-date/month`,
+                    `Invalid month: ${Month}`,
+                    { year: Year, month: Month, date: Date }
+                >
+            : Err<
+                `parse-date/year`,
+                `Invalid year: ${Year}`,
+                { year: Year, month: Month, date: Date }
+            >
+
+        : Err<
+            "parse-date/date", "Was unable to parse the date component",
+            { year: Year; month: Month; rest: Rest }
+        >
+    : Err<
+        "parse-date/month",
+        `Unable to parse the month!`,
+        { year: Year; rest: Rest }
+    >
+: Err<
+    "parse-date/year",
+    `Unable to parse the year!`,
+    { parse: T }
+>;
+
+type ParseDateTime<T extends `${string}T${string}`> = Split<T, "T"> extends [
+    infer DatePart extends string,
+    infer TimePart extends string
 ]
-    ? TakeMonth<StripLeading<Rest, "-">> extends [
-        infer Month extends TwoDigitMonth,
-        infer Rest extends string
-    ]
-    ? Rest extends ""
-    ? [Year, Month, null, null]
-    : Rest extends `T${infer Time extends string}`
-    ? ParseTime<Time> extends Error
-    ? Err<
-        "parse-date/time",
-        `The string passed in appears to be a ISO DateTime string where the date component is a year/month date (and was successfully parsed) but the time component is invalid: ${Time}. The underlying error message was: ${ParseTime<Time>["message"]}`,
-        { parse: T, year: Year, month: Month, time: Time }
-    >
-    : [Year, Month, null, ParseTime<Time>]
-    : Err<
-        `parse-date/time`,
-        `The ISO string appears to be a year/month date with some time information but while the year and month were parsed, there were issues parsing the time.`,
-        {
-            year: Year;
-            month: Month;
-            date: null;
-            rest: Rest;
-            parse: T;
-        }
-    >
-    : Err<
-        `parse-date/month`,
-        `Problems parsing a year/month date resolution.`,
-        {
-            year: Year;
-            date: null;
-            rest: Rest;
-            parse: T;
-        }
-    >
-    : Err<
-        `parse-date`,
-        `Unable to parse the year/month string passed in: ${T}`,
-        {
-            parse: T;
-        }
-    >;
+    ? ParseFullDate<DatePart> extends Error
+        ? Err<
+            `parse-date/datetime`,
+            `The date component of a DateTime string was invalid: ${ParseFullDate<DatePart>["message"]}`,
+            { parse: T, date: DatePart, time: TimePart }
+        >
+        : ParseTime<TimePart> extends Error
+            ? Err<
+                `parse-date/datetime`,
+                `The time component of a DateTime string was invalid: ${ParseTime<TimePart>["message"]}`,
+                { parse: T,  date: DatePart, time: TimePart }
+            >
+            : As<
+                [
+                    As<ParseDate<DatePart>, ParsedDate>[0],
+                    As<ParseDate<DatePart>, ParsedDate>[1],
+                    As<ParseDate<DatePart>, ParsedDate>[2],
+                    As<ParseTime<TimePart>, ParsedTime>
+                ],
+                ParsedDate
+            >
 
+    : Err<`parse-date/datetime`, `Invalid structure`, { parse: T }>;
 
-type ValidateMonthDate<
-    Year extends FourDigitYear,
-    Month extends TwoDigitMonth,
-    Date extends TwoDigitDate
-> = Month extends "02"
-    ? [IsLeapYear<Year>] extends [true]
-    ? [Date] extends [FebDatesLeap]
-    ? true
-    : Err<
-        `parse-date/invalid-date`,
-        `The year "${Year}" is a leap year but the date provided is still too large for February (${Date})`,
-        { year: Year, month: Month, date: Date }
-    >
-    : Date extends FebDatesNonLeap
-    ? true
-    : Err<
-        `parse-date/invalid-date`,
-        `The year "${Year}" is not a leap year so the date is too large for February (${Date})`,
-        { year: Year, month: Month, date: Date }
-    >
-    : Month extends IsoDate30
-    ? Date extends IsoDate30
-    ? true
-    : Err<
-        `parse-date/invalid-date`,
-        `The month "${Month}" only has 30 days, so the date "${Date}" is invalid!`,
-        { year: Year, month: Month, date: Date }
-    >
-    : Date extends IsoDate31
-    ? true
-    : Err<
-        `parse-date/invalid-date`,
-        `The month "${Month}" only allows dates up to 31, so the date "${Date}" is invalid!`,
-        { year: Year, month: Month, date: Date }
-    >;
-
-type ParseFullDate<T extends string> = TakeYear<T> extends [
-    infer Year extends ,
-    infer Rest extends string
-]
-    ? IsNull<Year["take"]> extends true
-    ? Err<
-        "parse-date/year",
-        `The string passed in is invalid, the year can not be parsed!`,
-        { parse: T }
-    >
-    : TakeMonth<StripLeading<Rest, "-">> extends [
-        infer Month extends TwoDigitMonth,
-        infer Rest extends string
-    ]
-    ? T extends IsoYear
-    ? [Year, null, null, null]
-    : IsUndefined<Month> extends true
-    ? Err<
-        `parse-date/month`,
-        `The month [${StripAfter<RetainAfter<T, "-">, "-">}] is not valid!`,
-        { parse: T, year: Year, month: Month, rest: Rest }
-    >
-    : TakeDate<StripLeading<Rest, "-">> extends [
-        infer Date extends TwoDigitDate,
-        infer Rest extends string
-    ]
-    ? IsUndefined<Date> extends true
-    ? Err<
-        `parse-date/date`,
-        `The date is not valid!`,
-        { parse: T, year: Year, month: Month, rest: Rest }
-    >
-    : ValidateMonthDate<Year, Month, Date> extends Error
-    ? ValidateMonthDate<Year, Month, Date>
-    : Rest extends ""
-    ? [Year, Month, Date, null]
-    : Rest extends `T${infer Time extends string}`
-    ? ParseTime<Time> extends Error
-    ? Err<
-        `parse-date/time`,
-        `A full date (year,month,date) was parsed from the provided string but the time component is invalid: ${Rest}. The underlying error message was: ${ParseTime<Time>["message"]}`,
-        { parse: T, year: Year, month: Month, date: Date, time: Rest }
-    >
-    : [Year, Month, Date, ParseTime<Time>]
-    : Err<
-        "parse-date",
-        `Problems parsing a date; it appears to be an issue with Timezone component: ${Rest}`,
-        {
-            year: Year;
-            month: Month;
-            date: Date;
-            rest: Rest;
-            parse: T;
-        }
-    >
-    : Err<
-        `parse-date`,
-        `Problems parsing a date; year and month were parsed but remaining content was invalid: ${Rest}`,
-        {
-            year: Year;
-            month: Month;
-            rest: Rest;
-            parse: T;
-        }
-    >
-    : Rest extends ""
-    ? [Year, null, null, null]
-    : Err<
-        `parse-date`,
-        `Unable to parse the string passed in: ${T}`,
-        {
-            year: Year;
-            rest: Rest;
-            parse: T;
-        }
-    >
-    : Err<
-        `parse-date`,
-        `Unable to parse the string passed in: ${T}`,
-        {
-            parse: T;
-        }
-    >;
 
 /**
  * **ParseDate**`<T, [TSep]>`
@@ -282,7 +228,9 @@ export type ParseDate<
     : T extends `-${infer Rest extends string}`
     ? ParseYearMonth<Rest>
     // ----
-    : ParseFullDate<T>
+    : T extends `${string}T${string}`
+        ? ParseDateTime<T>
+        : ParseFullDate<T>
     : Err<
         `parse-date/wrong-type`,
         `A non-string type was passed into ParseDate<T>!`

@@ -1,32 +1,59 @@
 import type {
-    EmptyObject,
-    IsWideString,
-    TakeNumeric,
-    TakeNumericOptions,
-    ThreeDigitMillisecond
+    As,
+    HasLeadingTemplateLiteral,
+    NumericChar,
+    StripLeading,
+    ThreeDigitMillisecond,
+    TimezoneOffset,
 } from "inferred-types/types";
 
-/**
- * options available to `TakeMilliseconds`
- */
-export type TakeMillisecondsOptions = TakeNumericOptions;
+type Take<T extends string> = As<
+    string extends T
+    ? { take: null; rest: string } | { take: ThreeDigitMillisecond<"branded">; rest: string}
+    : HasLeadingTemplateLiteral<T> extends true
+        ? { take: null; rest: string } | { take: ThreeDigitMillisecond<"branded">; rest: string}
+        : T extends `${infer C1}${infer C2}${infer C3}${infer Rest}`
+            ? C1 extends NumericChar
+                ? C2 extends NumericChar
+                    ? C3 extends NumericChar
+                        ? {
+                            take: `${C1}${C2}${C3}` & ThreeDigitMillisecond<"branded">,
+                            rest: Rest
+                        }
+                        : { take: null, rest: T }
+                    : { take: null, rest: T }
+                : { take: null, rest: T }
+            : { take: null, rest: T },
+    { take: null; rest: string } | { take: ThreeDigitMillisecond<"branded">; rest: string}
+>
 
 /**
- * **TakeMilliseconds**`<T, [TOpt]>`
+ * **TakeMilliseconds**`<T, TIgnoreLeading>`
  *
- * Looks for `TwoDigitSecond` at front of the string and if it finds
+ * Looks for `ThreeDigitMillisecond` at front of the string and if it finds
  * it will return:
  *
- * - `[ ThreeDigitMillisecond, Rest ]`
+ * - `{ take: ThreeDigitMillisecond, rest: Rest }`
+ *
+ * If there is no match:
+ *
+ * - `{ take: null, rest: Rest }`
+ *
+ * @param TIgnoreLeading - Optional character to ignore if found at the beginning of the string
  */
 export type TakeMilliseconds<
     T extends string,
-    TOpt extends TakeMillisecondsOptions = EmptyObject
-> = IsWideString<T> extends true
-    ? [ undefined | ThreeDigitMillisecond, string ]
-    : TakeNumeric<T, TOpt> extends [
-        infer MS extends ThreeDigitMillisecond,
-        infer Rest extends string
-    ]
-        ? [MS, Rest]
-        : [undefined, T];
+    TIgnoreLeading extends string | null = null
+> = TIgnoreLeading extends string
+    ? string extends TIgnoreLeading
+        ? never
+        : As<
+            Take<
+                As<StripLeading<T, TIgnoreLeading>, string>
+            >,
+            { take: null; rest: string } | { take: ThreeDigitMillisecond<"branded">; rest: string}
+        >
+: As<
+    Take<T>,
+    { take: null; rest: string } | { take: ThreeDigitMillisecond<"branded">; rest: string}
+>;

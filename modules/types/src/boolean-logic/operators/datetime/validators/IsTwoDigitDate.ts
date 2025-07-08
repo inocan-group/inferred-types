@@ -38,19 +38,22 @@ type TestFeb<
  */
 export type IsTwoDigitDate<
     T,
-    TMonth extends string,
-    TYear extends FourDigitYear<"branded"> | null
+    TMonth extends `${number}` | null = null,
+    TYear extends `${number}`| null = null
 > = T extends string
     ? string extends T
     ? boolean
     : TMonth extends "02"
-    ? TestFeb<T, TYear>
+        ? TestFeb<T, TYear>
+    : TMonth extends null
+        ? T extends IsoDate31
+            ? true
+            : false
     : TMonth extends IsoMonthsWith30Days
-    ? T extends IsoDate30
-    ? true
-    : false
-    : // 31 days
-    T extends IsoDate31
-    ? true
-    : false
+        ? T extends IsoDate30
+            ? true
+            : false
+    : T extends IsoDate31
+        ? true
+        : false
     : false;

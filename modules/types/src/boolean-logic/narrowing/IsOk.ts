@@ -10,7 +10,15 @@ import { IsUnion, UnionFilter } from "inferred-types/types";
  * - if `T` is not a union it outputs `never` when T extends Error,
  * otherwise it just proxies `T` through.
  */
-export type IsOk<T> = IsUnion<T> extends true
+export type IsOk<T> = T extends any
+    ? T extends Error
+        ? never
+        : T
+    : never;
+
+// Alternative implementation that preserves the original logic
+// but may have issues in generic contexts:
+export type IsOkOriginal<T> = IsUnion<T> extends true
     ? UnionFilter<T, Error>
     : T extends Error
     ? never
