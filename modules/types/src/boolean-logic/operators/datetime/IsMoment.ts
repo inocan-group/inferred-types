@@ -7,9 +7,17 @@ import type { Dictionary, HasFunctionKeys } from "inferred-types/types";
  */
 export type IsMoment<T> = T extends Dictionary
     ? HasFunctionKeys<T, [
-        "isValid", "toDate", "format", "add", "subtract", "longDateFormat",
-        "ordinal", "preparse", "relativeTime", "calendar"
+        "isValid",
+        "toDate",
+        "format",
+        "add",
+        "subtract",
+        "longDateFormat",
+        "ordinal",
+        "preparse",
+        "relativeTime",
+        "calendar"
     ]> extends true
-    ? true
-    : false
+        ? true
+        : false
     : false;

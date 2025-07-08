@@ -7,30 +7,30 @@ import type {
 } from "inferred-types/types";
 
 type Take<T extends string> = string extends T
-    ? { take: string | null, rest: string }
+    ? { take: string | null; rest: string }
     : HasLeadingTemplateLiteral<T> extends true
-        ? { take: string | null, rest: string }
+        ? { take: string | null; rest: string }
         : T extends `${infer C1}${infer C2}${infer Rest}`
             ? C1 extends "0"
                 ? C2 extends NumericChar
                     ? {
-                        take: TwoDigitHour<"branded"> & `${C1}${C2}`,
-                        rest: Rest
+                        take: TwoDigitHour<"branded"> & `${C1}${C2}`;
+                        rest: Rest;
                     }
-                    : { take: null, rest: T }
+                    : { take: null; rest: T }
                 : C1 extends "1"
                     ? C2 extends NumericChar
                         ? {
-                            take: TwoDigitHour<"branded"> & `${C1}${C2}`,
-                            rest: Rest
+                            take: TwoDigitHour<"branded"> & `${C1}${C2}`;
+                            rest: Rest;
                         }
-                        : { take: null, rest: T }
+                        : { take: null; rest: T }
                     : C1 extends "2"
                         ? C2 extends "0" | "1" | "2" | "3"
-                            ? { take: TwoDigitHour<"branded"> & `${C1}${C2}`, rest: Rest }
-                            : { take: null, rest: T }
-                        : { take: null, rest: T }
-            : { take: null, rest: T }
+                            ? { take: TwoDigitHour<"branded"> & `${C1}${C2}`; rest: Rest }
+                            : { take: null; rest: T }
+                        : { take: null; rest: T }
+            : { take: null; rest: T };
 
 /**
  * **TakeHours**`<T, TIgnoreLeading>`
@@ -48,12 +48,12 @@ export type TakeHours<
     T extends string,
     TIgnoreLeading extends string | null = null
 > = TIgnoreLeading extends string
-        ? string extends TIgnoreLeading
-            ? never
-            : As<
-                Take<
-                    As<StripLeading<T, TIgnoreLeading>, string>
-                >,
-                { take: null; rest: string} | { take: TwoDigitHour<"branded">; rest: string }
-            >
+    ? string extends TIgnoreLeading
+        ? never
+        : As<
+            Take<
+                As<StripLeading<T, TIgnoreLeading>, string>
+            >,
+                { take: null; rest: string } | { take: TwoDigitHour<"branded">; rest: string }
+        >
     : Take<T>;

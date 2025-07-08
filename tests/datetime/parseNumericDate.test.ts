@@ -1,13 +1,13 @@
 import { describe, it, expect } from "vitest";
 import { parseNumericDate, keysOf } from "inferred-types/runtime";
-import { DateMeta } from 'inferred-types/types';
+import { DateMeta, Expect, Test } from 'inferred-types/types';
 
 describe("parseNumericDate()", () => {
     it("parses epoch milliseconds", () => {
         const date = new Date("2024-01-15T12:34:56.789Z");
         const ms = date.getTime();
         const result = parseNumericDate(ms);
-        const expected: DateMeta = {
+        const expected = {
             dateType: "datetime",
             hasTime: true,
             year: "2024",
@@ -28,7 +28,7 @@ describe("parseNumericDate()", () => {
         const date = new Date("2024-01-15T12:34:56.000Z");
         const seconds = Math.floor(date.getTime() / 1000);
         const result = parseNumericDate(seconds);
-        const expected: DateMeta = {
+        const expected = {
             dateType: "datetime",
             hasTime: true,
             year: "2024",
@@ -88,6 +88,11 @@ describe("parseNumericDate()", () => {
     });
 
     it("throws on invalid input (NaN)", () => {
-        expect(() => parseNumericDate(NaN as any)).toThrow();
+        const nan = parseNumericDate(NaN as any);
+        expect(nan instanceof Error).toBe(true);
+
+        type cases = [
+            Expect<Test<typeof nan, "isError", Error>>,
+        ]
     });
 });

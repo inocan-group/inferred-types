@@ -7,4 +7,3 @@ export * from "./TakeNumeric";
 export * from "./TakeSeconds";
 export * from "./TakeTimezone";
 export * from "./TakeYear";
-

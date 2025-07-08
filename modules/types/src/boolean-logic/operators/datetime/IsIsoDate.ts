@@ -1,11 +1,10 @@
-import {
+import type {
     IsIsoFullDate,
     IsIsoMonthDate,
     IsIsoYear,
     IsIsoYearMonth
 } from "types/boolean-logic/operators/datetime";
-import { IsoDate } from "types/datetime";
-
+import type { IsoDate } from "types/datetime";
 
 /**
  * **IsIsoDate**`<T>`
@@ -23,17 +22,15 @@ import { IsoDate } from "types/datetime";
 export type IsIsoDate<T> = string extends T
     ? boolean
     : T extends IsoDate<"branded">
-    ? true
-    : T extends IsoDate<"normal">
-    ? IsIsoFullDate<T> extends true //
-    ? true
-    : IsIsoYearMonth<T> extends true
-    ? true
-    : IsIsoMonthDate<T> extends true
-    ? true
-    : IsIsoYear<T> extends true
-    ? true
-    : false
-    : false;
-
-
+        ? true
+        : T extends IsoDate<"normal">
+            ? IsIsoFullDate<T> extends true //
+                ? true
+                : IsIsoYearMonth<T> extends true
+                    ? true
+                    : IsIsoMonthDate<T> extends true
+                        ? true
+                        : IsIsoYear<T> extends true
+                            ? true
+                            : false
+            : false;

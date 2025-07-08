@@ -1,6 +1,8 @@
 export * from "./IsAfter";
 export * from "./IsBefore";
 export * from "./IsDateLike";
+export * from "./IsDayJs";
+export * from "./IsDoubleLeap";
 export * from "./IsIsoDate";
 export * from "./IsIsoDateTime";
 export * from "./IsIsoFullDate";
@@ -13,13 +15,11 @@ export * from "./IsIsoYearMonth";
 export * from "./IsIsoYearMonthTime";
 export * from "./IsJsDate";
 export * from "./IsLeapYear";
-export * from "./IsDoubleLeap";
 export * from "./IsLuxonDateTime";
 export * from "./IsMoment";
 export * from "./IsSameDay";
 export * from "./IsSameMonth";
 export * from "./IsSameMonthYear";
 export * from "./IsSameYear";
-export * from "./IsDayJs";
 
 export * from "./validators/index";

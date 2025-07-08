@@ -2,7 +2,7 @@ export * from "./AsDateMeta";
 export * from "./DateLike";
 export * from "./DateMeta";
 export * from "./DatePlus";
-export * from './DoubleLeap';
+export * from "./DoubleLeap";
 export * from "./Epoch";
 export * from "./general";
 export * from "./GetMonth";
@@ -11,11 +11,10 @@ export * from "./GetYear";
 export * from "./iana";
 export * from "./Iso";
 export * from "./Month";
+export * from "./object-types/index";
 export * from "./ParseDate";
 export * from "./ParseTime";
 export * from "./RenderTime";
 export * from "./seasonality";
+
 export * from "./Time";
-
-export * from "./object-types/index";
-

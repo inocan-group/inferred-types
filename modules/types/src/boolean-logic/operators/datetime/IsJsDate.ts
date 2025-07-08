@@ -1,5 +1,5 @@
-import { Dictionary } from "types/base-types";
-import { HasFunctionKeys } from "types/boolean-logic/operators/kv";
+import type { Dictionary } from "types/base-types";
+import type { HasFunctionKeys } from "types/boolean-logic/operators/kv";
 
 /**
  * **IsJsDate**`<T>`
@@ -16,6 +16,6 @@ export type IsJsDate<T> = T extends Dictionary
         "getUTCDay",
         "getUTCFullYear"
     ]> extends true
-    ? true
-    : false
+        ? true
+        : false
     : false;

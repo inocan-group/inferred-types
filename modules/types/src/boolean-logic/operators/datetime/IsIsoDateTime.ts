@@ -1,8 +1,8 @@
-import {
+import type {
+    IsIsoFullDateTime,
     IsIsoMonthDateTime,
     IsIsoYearMonthTime,
-    IsoDateTime,
-    IsIsoFullDateTime
+    IsoDateTime
 } from "inferred-types/types";
 
 /**
@@ -19,19 +19,17 @@ import {
  * `isIsoDateTime()` type guard it will pass and be upgraded.
  */
 export type IsIsoDateTime<T> = T extends string
-? string extends T
-    ? boolean
-: T extends IsoDateTime<"branded">
-    ? true
-: T extends IsoDateTime<"normal">
-? IsIsoFullDateTime<T> extends true
-    ? true
-    : IsIsoMonthDateTime<T> extends true
-    ? true
-    : IsIsoYearMonthTime<T> extends true
-    ? true
-    : false
-: false
-: false;
-
-
+    ? string extends T
+        ? boolean
+        : T extends IsoDateTime<"branded">
+            ? true
+            : T extends IsoDateTime<"normal">
+                ? IsIsoFullDateTime<T> extends true
+                    ? true
+                    : IsIsoMonthDateTime<T> extends true
+                        ? true
+                        : IsIsoYearMonthTime<T> extends true
+                            ? true
+                            : false
+                : false
+    : false;

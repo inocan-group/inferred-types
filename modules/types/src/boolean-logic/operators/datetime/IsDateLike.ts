@@ -10,18 +10,18 @@ export type IsDateLike<T> = Or<[
     IsMoment<T>,
     IsLuxonDateTime<T>,
 ]> extends true
-? true
+    ? true
 
-: T extends DateLike
-    ? IsLiteral<T> extends true
-        ? IsNumber<T> extends true
-            ? IsInteger<T>
-            : IsString<T> extends true
-                ? Or<[
-                    IsIsoDate<T>,
-                    IsIsoYear<T>,
-                    IsIsoDateTime<T>
-                ]>
-                : boolean
-        : boolean
-    : false;
+    : T extends DateLike
+        ? IsLiteral<T> extends true
+            ? IsNumber<T> extends true
+                ? IsInteger<T>
+                : IsString<T> extends true
+                    ? Or<[
+                        IsIsoDate<T>,
+                        IsIsoYear<T>,
+                        IsIsoDateTime<T>
+                    ]>
+                    : boolean
+            : boolean
+        : false;

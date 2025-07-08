@@ -24,7 +24,7 @@ export * from "./ObjectMap";
 export * from "./Scalar";
 export * from "./ScalarNotSymbol";
 export * from "./Something";
+export * from "./TakeUtility";
 export * from "./Thenable";
 export * from "./Tuple";
 export * from "./Variable";
-export * from "./TakeUtility"

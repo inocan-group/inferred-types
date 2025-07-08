@@ -39,6 +39,6 @@ export type IsSameYear<
         > extends true
             ? true
             : false
-    : boolean
+        : boolean
 
     : boolean;

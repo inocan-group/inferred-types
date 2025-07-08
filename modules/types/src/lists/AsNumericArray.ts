@@ -1,6 +1,4 @@
-import type { RemoveNever } from "inferred-types/types";
-import type { NumberLike } from "inferred-types/types";
-import type { AsNumber } from "inferred-types/types";
+import type { AsNumber, NumberLike, RemoveNever } from "inferred-types/types";
 
 /**
  * **AsNumericArray**`<T>`

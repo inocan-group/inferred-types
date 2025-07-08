@@ -43,7 +43,6 @@ import type {
     IsTrue,
     IsTruthy,
     IsWideScalar,
-    LastChar,
     Narrowable,
     NumberLike,
     NumericChar,
@@ -52,7 +51,6 @@ import type {
     Second,
     SomeEqual,
     StartsWith,
-    ToStringLiteral__Tuple,
     Unset,
 } from "inferred-types/types";
 
@@ -204,19 +202,19 @@ type Process__General<
 
                                 : TOp extends "containsSome"
                                     ? TVal extends string | number | readonly unknown[]
-                                            ? Contains<
-                                                As<TVal, Accept<"containsSome">>,
-                                                TParams
-                                            >
+                                        ? Contains<
+                                            As<TVal, Accept<"containsSome">>,
+                                            TParams
+                                        >
                                         : false
 
                                     : TOp extends "containsAll"
                                         ? TVal extends string | number | readonly unknown[]
-                                                ? ContainsAll<
-                                                    As<TVal, Accept<"containsAll">>,
-                                                    TParams
-                                                >
-                                                : false
+                                            ? ContainsAll<
+                                                As<TVal, Accept<"containsAll">>,
+                                                TParams
+                                            >
+                                            : false
                                         : Unset;
 
 type Process__String<
@@ -412,77 +410,77 @@ type Process__Numeric<
         ? TParams[0] extends NumberLike
             ? Or<[IsWideScalar<TVal>, IsWideScalar<TParams[0]>]> extends true
                 ? boolean
-            : IsGreaterThan<
-                TVal,
-                TParams[0]
-            >
+                : IsGreaterThan<
+                    TVal,
+                    TParams[0]
+                >
+            : false
         : false
-    :false
 
     : TOp extends "greaterThanOrEqual"
-    ? TVal extends NumberLike
-        ? TParams[0] extends NumberLike
-            ? Or<[IsWideScalar<TVal>, IsWideScalar<TParams[0]>]> extends true
-                ? boolean
-            : IsGreaterThanOrEqual<
-                TVal,
-                TParams[0]
-            >
-        : false
-    :false
-
-    : TOp extends "lessThan"
         ? TVal extends NumberLike
             ? TParams[0] extends NumberLike
                 ? Or<[IsWideScalar<TVal>, IsWideScalar<TParams[0]>]> extends true
                     ? boolean
-                : IsLessThan<
-                    TVal,
-                    TParams[0]
-                >
-            : false
-        :false
-
-    : TOp extends "lessThanOrEqual"
-        ? TVal extends NumberLike
-            ? TParams[0] extends NumberLike
-                ? Or<[IsWideScalar<TVal>, IsWideScalar<TParams[0]>]> extends true
-                    ? boolean
-                : IsLessThanOrEqual<
-                    TVal,
-                    TParams[0]
-                >
-            : false
-        :false
-
-    : TOp extends "betweenExclusively"
-            ? TVal extends NumberLike
-                ? TParams extends [
-                    infer Min extends NumberLike,
-                    infer Max extends NumberLike
-                ]
-                    ? IsBetweenExclusively<
+                    : IsGreaterThanOrEqual<
                         TVal,
-                        Min,
-                        Max
+                        TParams[0]
                     >
+                : false
+            : false
+
+        : TOp extends "lessThan"
+            ? TVal extends NumberLike
+                ? TParams[0] extends NumberLike
+                    ? Or<[IsWideScalar<TVal>, IsWideScalar<TParams[0]>]> extends true
+                        ? boolean
+                        : IsLessThan<
+                            TVal,
+                            TParams[0]
+                        >
                     : false
                 : false
 
-    : TOp extends "betweenInclusively"
-            ? TVal extends NumberLike
-                ? TParams extends [
-                    infer Min extends NumberLike,
-                    infer Max extends NumberLike
-                ]
-                    ? IsBetweenInclusively<
-                        TVal,
-                        Min,
-                        Max
-                    >
+            : TOp extends "lessThanOrEqual"
+                ? TVal extends NumberLike
+                    ? TParams[0] extends NumberLike
+                        ? Or<[IsWideScalar<TVal>, IsWideScalar<TParams[0]>]> extends true
+                            ? boolean
+                            : IsLessThanOrEqual<
+                                TVal,
+                                TParams[0]
+                            >
+                        : false
                     : false
-                : false
-: Unset;
+
+                : TOp extends "betweenExclusively"
+                    ? TVal extends NumberLike
+                        ? TParams extends [
+                            infer Min extends NumberLike,
+                            infer Max extends NumberLike
+                        ]
+                            ? IsBetweenExclusively<
+                                TVal,
+                                Min,
+                                Max
+                            >
+                            : false
+                        : false
+
+                    : TOp extends "betweenInclusively"
+                        ? TVal extends NumberLike
+                            ? TParams extends [
+                                infer Min extends NumberLike,
+                                infer Max extends NumberLike
+                            ]
+                                ? IsBetweenInclusively<
+                                    TVal,
+                                    Min,
+                                    Max
+                                >
+                                : false
+                            : false
+                        : Unset;
 
 type Process__Other<
     TVal,

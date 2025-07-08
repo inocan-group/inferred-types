@@ -1,4 +1,4 @@
-import {  IsBooleanExactly } from "inferred-types/types";
+import type { IsBooleanExactly } from "inferred-types/types";
 
 /**
  * **Xor**`<A,B>`
@@ -8,11 +8,9 @@ import {  IsBooleanExactly } from "inferred-types/types";
  */
 export type Xor<A extends boolean, B extends boolean> =
   IsBooleanExactly<A> extends true ? boolean
-  : IsBooleanExactly<B> extends true ? boolean
-  : A extends true
-    ? (B extends false ? true : false)
-    : (A extends false
-        ? (B extends true ? true : false)
-        : false);
-
-
+      : IsBooleanExactly<B> extends true ? boolean
+          : A extends true
+              ? (B extends false ? true : false)
+              : (A extends false
+                  ? (B extends true ? true : false)
+                  : false);

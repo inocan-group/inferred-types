@@ -1,7 +1,5 @@
 import type { Constant } from "inferred-types/constants";
-import type { IsLiteral } from "inferred-types/types";
-import type { If } from "inferred-types/types";
-import type { RemoveMarked } from "inferred-types/types";
+import type { If, IsLiteral, RemoveMarked } from "inferred-types/types";
 
 type Process<
     T extends readonly unknown[],

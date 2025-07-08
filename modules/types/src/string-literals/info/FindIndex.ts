@@ -1,10 +1,11 @@
 import type {
+    Chars,
     Compare,
     ComparisonLookup,
-    ComparisonOperation
+    ComparisonOperation,
+    Increment
 } from "inferred-types/types";
 import type { AfterFirst, First, Last } from "types/lists";
-import type { Increment, Chars } from "inferred-types/types";
 
 type _FindIndexes<
     TContent extends readonly unknown[],

@@ -1,4 +1,4 @@
-import type { ComparisonLookup, ComparisonOperation, Narrowable } from "inferred-types/types";
+import type { ComparisonOperation, Narrowable } from "inferred-types/types";
 
 /**
  * **ComparisonAccept**`<TOp>`

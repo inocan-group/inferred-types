@@ -1,5 +1,5 @@
-import { Dictionary } from "types/base-types";
-import { HasFunctionKeys } from "types/boolean-logic/operators/kv";
+import type { Dictionary } from "types/base-types";
+import type { HasFunctionKeys } from "types/boolean-logic/operators/kv";
 
 /**
  * **IsDayJs**`<T>`
@@ -8,11 +8,17 @@ import { HasFunctionKeys } from "types/boolean-logic/operators/kv";
  */
 export type IsDayJs<T> = T extends Dictionary
     ? HasFunctionKeys<T, [
-        "add", "clone", "date", "endOf", "isAfter", "isBefore", "daysInMonth",
+        "add",
+        "clone",
+        "date",
+        "endOf",
+        "isAfter",
+        "isBefore",
+        "daysInMonth",
         "millisecond"
     ]> extends true
-    ? "calendar" extends keyof T
-    ? false
-    : true
-    : false
+        ? "calendar" extends keyof T
+            ? false
+            : true
+        : false
     : false;

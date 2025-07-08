@@ -1,4 +1,4 @@
-import { ParseDate, ParsedTime, TwoDigitMinute, TwoDigitMonth } from "inferred-types/types";
+import type { ParseDate, ParsedTime, TwoDigitMinute, TwoDigitMonth } from "inferred-types/types";
 
 /**
  * **IsIsoMonthDateTime**
@@ -25,4 +25,3 @@ export type IsIsoMonthDateTime<T> = T extends `--${string}T${string}`
         ? true
         : false
     : false;
-

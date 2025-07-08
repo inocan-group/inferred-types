@@ -1,6 +1,5 @@
-import { DATE_TYPE } from "inferred-types/constants";
-import { As } from "types/boolean-logic";
-import {
+import type { DATE_TYPE } from "inferred-types/constants";
+import type {
     FourDigitYear,
     ThreeDigitMillisecond,
     TimezoneOffset,
@@ -10,9 +9,6 @@ import {
     TwoDigitMonth,
     TwoDigitSecond,
 } from "types/datetime/general";
-import { ParsedDate } from "types/datetime/ParseDate";
-
-
 
 /**
  * a property of `DateMeta`
@@ -38,7 +34,6 @@ export type DateMeta = {
     ms: ThreeDigitMillisecond<"branded"> | null;
     timezone: TimezoneOffset<"branded"> | null;
 };
-
 
 // & {
 //     toString(): ToIsoString<
@@ -84,4 +79,3 @@ export type DateMeta = {
 //         TTz
 //     >;
 // }
-

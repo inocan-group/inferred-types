@@ -1,4 +1,4 @@
-import { NumericChar } from "types/string-literals";
+import type { NumericChar } from "types/string-literals";
 
 /**
  * Boolean operator which validates that `T` is a
@@ -6,18 +6,16 @@ import { NumericChar } from "types/string-literals";
  */
 export type IsFourDigitYear<T> = T extends string
     ? string extends T
-    ? boolean
-    : T extends `${NumericChar}${infer Rest}`
-    ? Rest extends `${NumericChar}${infer Rest}`
-    ? Rest extends `${NumericChar}${infer Rest}`
-    ? Rest extends `${NumericChar}${infer Rest}`
-    ? Rest extends ""
-    ? true
-    : false
-    : false
-    : false
-    : false
-    : false
-    : false
-
-
+        ? boolean
+        : T extends `${NumericChar}${infer Rest}`
+            ? Rest extends `${NumericChar}${infer Rest}`
+                ? Rest extends `${NumericChar}${infer Rest}`
+                    ? Rest extends `${NumericChar}${infer Rest}`
+                        ? Rest extends ""
+                            ? true
+                            : false
+                        : false
+                    : false
+                : false
+            : false
+    : false;

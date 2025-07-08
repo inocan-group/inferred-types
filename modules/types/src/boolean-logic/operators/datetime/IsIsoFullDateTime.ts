@@ -1,4 +1,4 @@
-import {
+import type {
     FourDigitYear,
     IsoFullDateTimeLike,
     ParseDate,
@@ -26,14 +26,13 @@ import {
  */
 export type IsIsoFullDateTime<T> = T extends IsoFullDateTimeLike
     ? ParseDate<T> extends ParsedDate
-    ? ParseDate<T> extends [
-        FourDigitYear<"strong">,
-        TwoDigitMonth,
-        TwoDigitDate,
-        ParsedTime
-    ]
-    ? true
-    : false
-    : false
+        ? ParseDate<T> extends [
+            FourDigitYear<"strong">,
+            TwoDigitMonth,
+            TwoDigitDate,
+            ParsedTime
+        ]
+            ? true
+            : false
+        : false
     : false;
-

@@ -1,4 +1,4 @@
-import { IsoDateTime, TimezoneOffset, IanaZone } from "inferred-types/types";
+import type { IanaZone, IsoDateTime, TimezoneOffset } from "inferred-types/types";
 
 export type DateSource =
     | "date"

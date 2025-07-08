@@ -1,10 +1,10 @@
 import type {
     AnyFunction,
     AsArray,
+    BCP47,
     Dictionary,
     Fail,
     Flatten,
-    BCP47,
     IsInteger,
 } from "inferred-types/types";
 

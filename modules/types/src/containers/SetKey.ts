@@ -1,5 +1,5 @@
-import { Expand } from "inferred-types/types";
-import { Container } from "types/base-types";
+import type { Expand } from "inferred-types/types";
+import type { Container } from "types/base-types";
 
 /**
  * Sets a Key on a container.
@@ -12,5 +12,5 @@ export type SetIndex<
     K extends PropertyKey,
     V
 > = Expand<
-    Omit<T,K> & Record<K,V>
+    Omit<T, K> & Record<K, V>
 >;

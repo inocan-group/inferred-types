@@ -1,12 +1,12 @@
 import type {
+    AsNarrowingFn,
     Container,
-    TypedFunction,
-    Unset,
-    If, IsUnset,
     FnFrom,
-    AsNarrowingFn
+    If,
+    IsUnset,
+    TypedFunction,
+    Unset
 } from "inferred-types/types";
-
 
 /**
  * **WrapperFn**`<TFn,TTransform,[TState]>`

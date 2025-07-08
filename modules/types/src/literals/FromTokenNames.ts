@@ -1,5 +1,4 @@
-import type { ObjectKey, IsNever } from "inferred-types/types";
-
+import type { IsNever, ObjectKey } from "inferred-types/types";
 
 export type WideTokenNames = "string"
     | "number"

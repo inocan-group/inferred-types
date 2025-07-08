@@ -1,21 +1,20 @@
 import type {
+    Abs,
+    AfterFirst,
     And,
     As,
+    AsNumber,
+    AsString,
+    Decrement,
+    FixedLengthArray,
     If,
     IsNegativeNumber,
     IsString,
     IsWideType,
-    Or,
-    AfterFirst,
+    NumberLike,
     NumericChar,
-    FixedLengthArray,
-    AsNumber,
-    AsString,
-    Abs,
-    Decrement,
-    NumberLike
+    Or
 } from "inferred-types/types";
-
 
 type Either<left extends boolean, right extends boolean> =
   left extends true ? true : right extends true ? true : false;

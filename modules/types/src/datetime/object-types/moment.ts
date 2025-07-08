@@ -1,4 +1,4 @@
-import { IsoDateTime, TypedFunction } from "inferred-types/types";
+import type { IsoDateTime, TypedFunction } from "inferred-types/types";
 
 export interface MomentLike {
     _isAMomentObject: boolean;
@@ -111,13 +111,10 @@ export interface MomentLike {
      */
     isAfter: (other: MomentLike, granularity?: string) => boolean;
 
-
     /**
      * Checks if the MomentJS object is valid.
      */
     isValid: () => boolean;
-
-
 
     /**
      * Checks if the MomentJS object is between two other moments.
@@ -132,5 +129,3 @@ export interface MomentLike {
 
     [key: string]: any;
 }
-
-

@@ -1,4 +1,4 @@
-import { AsDateMeta, DateMeta } from "inferred-types/types";
+import type { AsDateMeta, DateMeta } from "inferred-types/types";
 
 /**
  * **IsIsoFullDate**`<T>`
@@ -19,10 +19,9 @@ import { AsDateMeta, DateMeta } from "inferred-types/types";
 export type IsIsoFullDate<T> = T extends string
     ? string extends T
         ? boolean
-    : AsDateMeta<T> extends DateMeta
-    ? AsDateMeta<T>["dateType"] extends "date"
-    ? true
-    : false
-    : false
+        : AsDateMeta<T> extends DateMeta
+            ? AsDateMeta<T>["dateType"] extends "date"
+                ? true
+                : false
+            : false
     : false;
-

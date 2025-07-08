@@ -14,10 +14,10 @@ type Take<T extends string> = string extends T
         : T extends `${infer C1}${infer C2}${infer Rest}`
             ? C1 extends NumericChar__ZeroToFive
                 ? C2 extends NumericChar
-                    ? { take: TwoDigitMinute<"branded"> & `${C1}${C2}`, rest: Rest }
-                    : { take: null, rest: T }
-                : { take: null, rest: T }
-            : { take: null, rest: T }
+                    ? { take: TwoDigitMinute<"branded"> & `${C1}${C2}`; rest: Rest }
+                    : { take: null; rest: T }
+                : { take: null; rest: T }
+            : { take: null; rest: T };
 
 /**
  * **TakeMinutes**`<T, TIgnoreLeading>`
@@ -37,14 +37,14 @@ export type TakeMinutes<
     T extends string,
     TIgnoreLeading extends string | null = null
 > = TIgnoreLeading extends string
-        ? string extends TIgnoreLeading
-            ? never
-            : As<
-                Take<
-                    As<StripLeading<T, TIgnoreLeading>, string>
-                >,
+    ? string extends TIgnoreLeading
+        ? never
+        : As<
+            Take<
+                As<StripLeading<T, TIgnoreLeading>, string>
+            >,
                 { take: null; rest: string } | { take: TwoDigitMinute<"branded">; rest: string }
-            >
+        >
     : As<
         Take<T>,
         { take: null; rest: string } | { take: TwoDigitMinute<"branded">; rest: string }

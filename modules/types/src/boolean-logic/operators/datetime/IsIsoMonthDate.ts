@@ -1,4 +1,4 @@
-import {
+import type {
     FourDigitYear,
     IsoYearMonth,
     IsWideString,
@@ -25,13 +25,10 @@ import {
  */
 export type IsIsoMonthDate<T> = T extends IsoYearMonth
     ? IsWideString<T> extends true
-    ? boolean
-    : ParseDate<T> extends ParsedDate
-    ? ParseDate<T> extends [FourDigitYear, TwoDigitDate, null, null]
-    ? true
-    : false
-    : false
+        ? boolean
+        : ParseDate<T> extends ParsedDate
+            ? ParseDate<T> extends [FourDigitYear, TwoDigitDate, null, null]
+                ? true
+                : false
+            : false
     : false;
-
-
-

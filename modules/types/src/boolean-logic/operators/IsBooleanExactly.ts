@@ -1,4 +1,3 @@
-
 /**
  * **IsBooleanExactly**`<T>`
  *
@@ -8,7 +7,6 @@
 export type IsBooleanExactly<T> = [T] extends [boolean]
     ? ([boolean] extends [T] ? true : false)
     : false;
-
 
 /**
  * **IsWideBoolean**`<T>`

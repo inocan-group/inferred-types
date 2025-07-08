@@ -1,6 +1,4 @@
-import type { IsGreaterThan } from "inferred-types/types";
-import type { If } from "inferred-types/types";
-import type { StrLen } from "inferred-types/types";
+import type { If, IsGreaterThan, StrLen } from "inferred-types/types";
 import type { AfterFirst } from "./AfterFirst";
 import type { First } from "./First";
 

@@ -1,6 +1,5 @@
 import type { TURKISH_NEWS } from "inferred-types/constants";
-import type { Mutable } from "inferred-types/types";
-import type { UrlsFrom } from "inferred-types/types";
+import type { Mutable, UrlsFrom } from "inferred-types/types";
 
 type Lookup = Mutable<typeof TURKISH_NEWS>;
 type Companies = {

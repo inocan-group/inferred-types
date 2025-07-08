@@ -2,12 +2,11 @@ import type {
     If,
     IsEqual,
     IsUnion,
-    Throw,
     NotFilter,
+    Throw,
     TupleToUnion,
     UnionToTuple
 } from "inferred-types/types";
-
 
 type InvalidCast<T> = Throw<
     "invalid-cast",

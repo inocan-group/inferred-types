@@ -1,4 +1,4 @@
-import {
+import type {
     IANA_TIMEZONES,
     IANA_TIMEZONES__AFRICA,
     IANA_TIMEZONES__AMERICA,
@@ -44,9 +44,8 @@ export type IanaZoneArea =
 export type IanaZone<T extends "normal" | "weak" = "normal"> = T extends "normal"
     ? typeof IANA_TIMEZONES[number]
     : T extends "weak"
-    ? `${IanaZoneArea}/${string}`
-    : never;
-
+        ? `${IanaZoneArea}/${string}`
+        : never;
 
 /**
  * The official IANA Timezone markers from the Americas.
@@ -63,7 +62,6 @@ export type IanaAsia = typeof IANA_TIMEZONES__ASIA[number];
  */
 export type IanaAfrica = typeof IANA_TIMEZONES__AFRICA[number];
 
-
 /**
  * The official IANA Timezone markers from Europe.
  */
@@ -74,10 +72,7 @@ export type IanaEurope = typeof IANA_TIMEZONES__EUROPE[number];
  */
 export type IanaAntarctica = typeof IANA_TIMEZONES__ANTARCTICA[number];
 
-
 /**
  * The official IANA Timezone markers from the Pacific.
  */
 export type IanaPacific = typeof IANA_TIMEZONES__PACIFIC[number];
-
-

@@ -1,4 +1,3 @@
-
 export interface JsDateLike extends Date {
     getTime(): number;
     toIsoString(): string;
@@ -12,4 +11,3 @@ export interface JsDateLike extends Date {
     getMinutes(): number;
     [key: string | symbol]: any;
 };
-

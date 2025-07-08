@@ -1,4 +1,4 @@
-import { ISO_DATE_30, ISO_DATE_31, ISO_MONTH_WITH_30 } from "inferred-types/constants";
+import type { ISO_DATE_30, ISO_DATE_31, ISO_MONTH_WITH_30 } from "inferred-types/constants";
 import type {
     NumericChar,
     NumericChar__NonZero,
@@ -26,40 +26,40 @@ export type TwoDigitHour<
     T extends "weak" | "normal" | "strong" | "branded" | `${number}` = "normal"
 > =
     T extends "weak"
-    ? `${number}`
-    : T extends "normal"
-    ? `0${number}` | `1${number}` | `2${0 | 1 | 2 | 3}`
-    : T extends "strong"
-    ?
+        ? `${number}`
+        : T extends "normal"
+            ? `0${number}` | `1${number}` | `2${0 | 1 | 2 | 3}`
+            : T extends "strong"
+                ?
     | `0${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     | `1${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     | `2${0 | 1 | 2 | 3}`
-    : T extends "branded"
-    ? `${number}` & { kind: "TwoDigitHour" }
-    : T extends `${number}`
-    ? T & { kind: "TwoDigitHour" }
-    : never;
+                : T extends "branded"
+                    ? `${number}` & { kind: "TwoDigitHour" }
+                    : T extends `${number}`
+                        ? T & { kind: "TwoDigitHour" }
+                        : never;
 
 export type TwoDigitMinute<
     T extends "weak" | "normal" | "strong" | "branded" | `${number}` = "normal"
 > =
     T extends "weak"
-    ? `${number}`
-    : T extends "normal"
-    ? `${0 | 1 | 2 | 3 | 4 | 5}${number}`
-    : T extends "strong"
-    ?
+        ? `${number}`
+        : T extends "normal"
+            ? `${0 | 1 | 2 | 3 | 4 | 5}${number}`
+            : T extends "strong"
+                ?
     | `0${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     | `1${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     | `2${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     | `3${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     | `4${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     | `5${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
-    : T extends "branded"
-    ? `${number}` & { kind: "TwoDigitMinute" }
-    : T extends `${number}`
-    ? T & { kind: "TwoDigitMinute" }
-    : never;
+                : T extends "branded"
+                    ? `${number}` & { kind: "TwoDigitMinute" }
+                    : T extends `${number}`
+                        ? T & { kind: "TwoDigitMinute" }
+                        : never;
 
 export type TwoDigitSecond<
     T extends "normal" | "strong" | "branded" | `${number}` = "normal"
@@ -67,13 +67,13 @@ export type TwoDigitSecond<
     ? `${number}` & { kind: "TwoDigitSecond" }
     : T extends "normal"
         ? `${NumericChar__ZeroToFive}${number}` & `${number}`
-    : T extends "strong"
-        ? `${NumericChar__ZeroToFive}${NumericChar}` & `${number}`
-    : T extends `${number}`
-    ? T extends TwoDigitSecond<"strong">
-        ? T & { kind: "TwoDigitSecond" }
-        : never
-    : TwoDigitMinute<T>;
+        : T extends "strong"
+            ? `${NumericChar__ZeroToFive}${NumericChar}` & `${number}`
+            : T extends `${number}`
+                ? T extends TwoDigitSecond<"strong">
+                    ? T & { kind: "TwoDigitSecond" }
+                    : never
+                : TwoDigitMinute<T>;
 
 /**
  * **ThreeDigitMillisecond**`<NORMAL|strong|branded>`
@@ -93,19 +93,18 @@ export type ThreeDigitMillisecond<
     T extends "weak" | "normal" | "strong" | "branded" | `${number}` = "normal"
 > =
     T extends "weak"
-    ? `${number}`
-    : T extends "normal"
-    ? `${NumericChar}${number}`
-    : T extends "strong"
-    ? `${NumericChar}${NumericChar}${NumericChar}`
-    : T extends "branded"
-    ? `${number}` & { kind: "ThreeDigitMillisecond" }
-    : T extends `${number}`
-    ? T extends ThreeDigitMillisecond<"strong">
-        ? T & { kind: "ThreeDigitMillisecond" }
-        : never
-    : never;
-
+        ? `${number}`
+        : T extends "normal"
+            ? `${NumericChar}${number}`
+            : T extends "strong"
+                ? `${NumericChar}${NumericChar}${NumericChar}`
+                : T extends "branded"
+                    ? `${number}` & { kind: "ThreeDigitMillisecond" }
+                    : T extends `${number}`
+                        ? T extends ThreeDigitMillisecond<"strong">
+                            ? T & { kind: "ThreeDigitMillisecond" }
+                            : never
+                        : never;
 
 /**
  * **TwoDigitMonth**`<normal|weak|branded>`
@@ -120,14 +119,14 @@ export type TwoDigitMonth<
     T extends "normal" | "weak" | "branded" | `${number}` = "normal"
 > =
     T extends "normal"
-    ? (`0${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}` | `1${0 | 1 | 2}`) & `${number}`
-    : T extends "weak"
-    ? `${"0" | "1"}${number}` & `${number}`
-    : T extends "branded"
-    ? `${number}` & { kind: "TwoDigitMonth" }
-    : T extends `${number}`
-    ? T & { kind: "TwoDigitMonth" }
-    : never;
+        ? (`0${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}` | `1${0 | 1 | 2}`) & `${number}`
+        : T extends "weak"
+            ? `${"0" | "1"}${number}` & `${number}`
+            : T extends "branded"
+                ? `${number}` & { kind: "TwoDigitMonth" }
+                : T extends `${number}`
+                    ? T & { kind: "TwoDigitMonth" }
+                    : never;
 
 /**
  * a union of valid month numbers
@@ -152,28 +151,28 @@ export type MonthNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
  */
 export type TwoDigitDate<T extends "weak" | "normal" | "branded" | `${number}` = "normal"> =
     T extends "normal"
-    ?
+        ?
     | `0${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     | `1${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     | `2${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     | `3${0 | 1}`
 
-    : T extends "weak"
-    ?
+        : T extends "weak"
+            ?
     | `0${number}`
     | `1${number}`
     | `2${number}`
     | `3${number}`
-    : T extends "branded"
-    ? (
+            : T extends "branded"
+                ? (
         | `0${number}`
         | `1${number}`
         | `2${number}`
         | `3${number}`
     ) & { kind: "TwoDigitDate" }
-    : T extends `${number}`
-    ? T & { kind: "TwoDigitDate" }
-    : never;
+                : T extends `${number}`
+                    ? T & { kind: "TwoDigitDate" }
+                    : never;
 
 /**
  * **MinimalDigitDate**
@@ -253,20 +252,20 @@ export type FourDigitYear<
         | `${"0" | "3" | "4" | "5" | "6" | "7" | "8" | "9"}${number}`
     ) & `${number}`
     : T extends "normal"
-    ? (`${"1" | "2"}${NumericChar}${number}`
+        ? (`${"1" | "2"}${NumericChar}${number}`
         | `${"0" | "3" | "4" | "5" | "6" | "7" | "8" | "9"}${number}`
     ) & `${number}`
-    : T extends "weak"
-    ? `${NumericChar}${number}` & `${number}`
-    : T extends "branded"
-    ? `${number}` & { kind: "FourDigitYear" }
-    : T extends `${number}`
-        ? T & { kind: "FourDigitYear" }
-        : never;
+        : T extends "weak"
+            ? `${NumericChar}${number}` & `${number}`
+            : T extends "branded"
+                ? `${number}` & { kind: "FourDigitYear" }
+                : T extends `${number}`
+                    ? T & { kind: "FourDigitYear" }
+                    : never;
 
 export type TimeZoneExplicit = | `Z`
     | `${"+" | "-"}${TwoDigitHour}`
-    | `${"+" | "-"}${TwoDigitHour}:${number}`
+    | `${"+" | "-"}${TwoDigitHour}:${number}`;
 
 /**
  * **TimezoneOffset**`<[strong | NORMAL | explicit | implicit | branded ]`>
@@ -292,40 +291,39 @@ export type TimeZoneExplicit = | `Z`
  * respect the branded type as validated.
  */
 export type TimezoneOffset<
-    T extends "strong" | "normal" | "explicit" | "implicit" | "branded" | `${"Z"|"+"|"-"}${string}` = "normal"
+    T extends "strong" | "normal" | "explicit" | "implicit" | "branded" | `${"Z" | "+" | "-"}${string}` = "normal"
 > =
     T extends "normal"
-    ? | `Z`
+        ? | `Z`
     | `${"+" | "-"}${number}`
     | `${"+" | "-"}${number}${number}`
     | `${"+" | "-"}${number}:${number}`
-    : T extends "strong"
-    ?
+        : T extends "strong"
+            ?
     | `Z`
     | `${"+" | "-"}${TwoDigitHour}`
     | `${"+" | "-"}${TwoDigitHour}${TwoDigitMinute}`
     | `${"+" | "-"}${TwoDigitHour}:${TwoDigitMinute}`
-    : T extends "explicit"
-    ?
+            : T extends "explicit"
+                ?
     | `Z`
     | `${"+" | "-"}${TwoDigitHour}`
     | `${"+" | "-"}${TwoDigitHour}:${TwoDigitMinute}`
-    : T extends "implicit"
-    ?
+                : T extends "implicit"
+                    ?
     | `Z`
     | `${"+" | "-"}${TwoDigitHour}`
     | `${"+" | "-"}${TwoDigitHour}${TwoDigitMinute}`
-    : T extends "branded"
-    ? (
+                    : T extends "branded"
+                        ? (
         | `Z`
         | `${"+" | "-"}${number}`
         | `${"+" | "-"}${number}${number}`
         | `${"+" | "-"}${number}:${number}`
     ) & { kind: "TimezoneOffset" }
-    : T extends `${"Z"|"+"|"-"}${string}`
-        ? T extends TimezoneOffset<"strong">
-            ? T & TimezoneOffset<"branded">
-            : never
-    : never
+                        : T extends `${"Z" | "+" | "-"}${string}`
+                            ? T extends TimezoneOffset<"strong">
+                                ? T & TimezoneOffset<"branded">
+                                : never
+                            : never
     ;
-

@@ -31,10 +31,10 @@ export type IsoYear<
         `${NumericChar}${number}${NumericChar}` | `${"+" | "-"}${number}`
     )
     : T extends "weak"
-    ? `${number}` | `${number}${"+" | "-"}${number}`
-    : T extends "branded"
-    ? `${number}` & { kind: "IsoYear" }
-    : never;
+        ? `${number}` | `${number}${"+" | "-"}${number}`
+        : T extends "branded"
+            ? `${number}` & { kind: "IsoYear" }
+            : never;
 
 /**
  * **IsoMonthDate**`<explicit|implicit|NORMAL|weak|branded>`
@@ -61,21 +61,21 @@ export type IsoMonthDate<
     | `--${TwoDigitMonth}-${number}`
     | `--${TwoDigitMonth}${number}`
     : T extends "weak"
-    ?
+        ?
     | `--${number}-${number}`
     | `--${number}`
-    : T extends "branded"
-    ? (
+        : T extends "branded"
+            ? (
         | `--${number}-${number}`
         | `--${number}`
     ) & {
-        kind: "IsoMonthDate"
+        kind: "IsoMonthDate";
     }
-    : T extends "explicit"
-    ? `--${TwoDigitMonth}-${TwoDigitDate}`
-    : T extends "implicit"
-    ? `--${TwoDigitMonth}${TwoDigitDate}`
-    : never;
+            : T extends "explicit"
+                ? `--${TwoDigitMonth}-${TwoDigitDate}`
+                : T extends "implicit"
+                    ? `--${TwoDigitMonth}${TwoDigitDate}`
+                    : never;
 
 /**
  * **IsoYearMonth**
@@ -97,21 +97,20 @@ export type IsoMonthDate<
  */
 export type IsoYearMonth<T extends "normal" | "weak" | "explicit" | "implicit" = "normal"> =
     T extends "normal"
-    ?
+        ?
     | `-${number}-${TwoDigitMonth}`
     | `-${number}${TwoDigitMonth}`
-    : T extends "weak"
-    ?
+        : T extends "weak"
+            ?
     | `-${number}-${number}`
     | `-${number}`
-    : T extends "explicit"
-    ?
+            : T extends "explicit"
+                ?
     | `-${FourDigitYear<"strong">}-${TwoDigitDate}`
-    : T extends "implicit"
-    ?
+                : T extends "implicit"
+                    ?
     | `-${FourDigitYear<"strong">}${TwoDigitDate}`
-    : never;
-
+                    : never;
 
 /**
  * Full ISO date format (no time info):
@@ -127,14 +126,14 @@ export type IsoFullDate<
     T extends "normal" | "weak" | "branded" = "normal"
 > =
     T extends "normal"
-    ?
+        ?
     | `${number}${TwoDigitMonth}${number}`
     | `${number}-${TwoDigitMonth}-${number}`
-    : T extends "weak"
-    ?
+        : T extends "weak"
+            ?
     | `${number}${TwoDigitMonth<"weak">}`
     | `${number}-${TwoDigitMonth<"weak">}-${number}`
-    : never;
+            : never;
 
 /**
  * Basic shape for an ISO DateTime string:
@@ -149,7 +148,6 @@ export type IsoFullDate<
 export type IsoFullDateTimeLike =
     | `${number}${TwoDigitMonth}${number}T${string}`
     | `${number}-${TwoDigitMonth}-${number}T${string}`;
-
 
 /**
  * [IsoDate](https://en.wikipedia.org/wiki/ISO_8601)
@@ -182,15 +180,14 @@ export type IsoFullDateTimeLike =
 export type IsoDate<
     T extends "normal" | "branded" = "normal"
 > = T extends "branded"
-? (
+    ? (
     IsoFullDate<"weak"> | IsoYearMonth<"weak"> | IsoMonthDate<"weak"> | IsoYear<"weak">
 ) & { kind: "IsoDate" }
-: T extends "normal"
-    ? IsoFullDate<"weak"> | IsoYearMonth<"weak"> | IsoMonthDate<"weak"> | IsoYear<"weak">
-: T extends "full"
-    ? IsoFullDate<"normal">
-: never;
-
+    : T extends "normal"
+        ? IsoFullDate<"weak"> | IsoYearMonth<"weak"> | IsoMonthDate<"weak"> | IsoYear<"weak">
+        : T extends "full"
+            ? IsoFullDate<"normal">
+            : never;
 
 /**
  * [IsoDateTime](https://en.wikipedia.org/wiki/ISO_8601)`<NORMAL | branded>`
@@ -208,11 +205,10 @@ export type IsoDate<
 export type IsoDateTime<
     T extends "normal" | "branded" = "normal"
 > = T extends "normal"
-? `${number}-${number}-${number}T${number}:${number}${string}`
-: `${number}-${number}-${number}T${number}:${number}${string}` & {
-    kind: "IsoDateTime"
-};
-
+    ? `${number}-${number}-${number}T${number}:${number}${string}`
+    : `${number}-${number}-${number}T${number}:${number}${string}` & {
+        kind: "IsoDateTime";
+    };
 
 /**
  * **[Iso8601TimeLike](https://en.wikipedia.org/wiki/ISO_8601)**

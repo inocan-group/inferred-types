@@ -1,4 +1,4 @@
-import type { Dictionary, EmptyObject,AfterFirst, ExpandRecursively, First } from "inferred-types/types";
+import type { AfterFirst, Dictionary, EmptyObject, ExpandRecursively, First } from "inferred-types/types";
 
 type Process<
     TInput extends readonly { [key: string]: unknown }[],

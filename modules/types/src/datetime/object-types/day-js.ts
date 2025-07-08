@@ -1,4 +1,3 @@
-
 export interface DayJsLike {
     isValid(): boolean;
     /** converts a DayJS object to a Javascript Date */

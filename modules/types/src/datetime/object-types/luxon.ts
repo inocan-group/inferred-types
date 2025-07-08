@@ -1,4 +1,4 @@
-import { TypedFunction } from "types/base-types";
+import type { TypedFunction } from "types/base-types";
 
 export interface LuxonStaticDateTime {
 
@@ -39,7 +39,7 @@ export interface LuxonStaticDateTime {
      * Create a DateTime instance from an object specifying date and time components.
      * @param config - Object with properties like `year`, `month`, `day`, etc.
      */
-    fromObject: (config: { zone?: string; locale?: string; numberingSystem?: string;[key: string]: any }) => LuxonLikeDateTime;
+    fromObject: (config: { zone?: string; locale?: string; numberingSystem?: string; [key: string]: any }) => LuxonLikeDateTime;
 
     /**
      * Create a DateTime instance from a JavaScript Date object.
@@ -63,7 +63,6 @@ export interface LuxonStaticDateTime {
     fromSeconds: (seconds: number, opts?: { zone?: string; locale?: string }) => LuxonLikeDateTime;
 
 }
-
 
 export interface LuxonLikeDateTime {
     /**

@@ -3,7 +3,6 @@ import type {
     AsUnion,
     IsSubstring,
     IsWideType,
-    Narrowable,
     Or,
 } from "inferred-types/types";
 

@@ -6,20 +6,19 @@ import type {
     TwoDigitMonth,
 } from "inferred-types/types";
 
-
 type Take<T extends string> = string extends T
-    ? { take: string | null, rest: string }
+    ? { take: string | null; rest: string }
     : HasLeadingTemplateLiteral<T> extends true
-        ? { take: string | null, rest: string }
-            : T extends `${infer C1}${infer C2}${infer Rest}`
-                ? C1 extends NumericChar
-                    ? C2 extends NumericChar
-                        ? `${C1}${C2}` extends TwoDigitMonth
-                            ? { take: `${C1}${C2}`, rest: Rest }
-                            : { take: null, rest: T }
-                        : { take: null, rest: T }
-                    : { take: null, rest: T }
-                : { take: null, rest: T }
+        ? { take: string | null; rest: string }
+        : T extends `${infer C1}${infer C2}${infer Rest}`
+            ? C1 extends NumericChar
+                ? C2 extends NumericChar
+                    ? `${C1}${C2}` extends TwoDigitMonth
+                        ? { take: `${C1}${C2}`; rest: Rest }
+                        : { take: null; rest: T }
+                    : { take: null; rest: T }
+                : { take: null; rest: T }
+            : { take: null; rest: T };
 
 /**
  * **TakeMonth**`<T, TIgnoreLeading>`
@@ -40,13 +39,13 @@ export type TakeMonth<
     TIgnoreLeading extends string | null = null
 > = As<
     TIgnoreLeading extends string
-    ? string extends TIgnoreLeading
-        ? never
-        : Take<
-            As<StripLeading<T, TIgnoreLeading>, string>
-        >
+        ? string extends TIgnoreLeading
+            ? never
+            : Take<
+                As<StripLeading<T, TIgnoreLeading>, string>
+            >
 
-    : Take<T>,
+        : Take<T>,
 
-    { take: null, rest: string} | { take: `${number}`, rest: string}
+    { take: null; rest: string } | { take: `${number}`; rest: string }
 >;

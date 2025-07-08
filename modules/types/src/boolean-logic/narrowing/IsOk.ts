@@ -1,5 +1,4 @@
-import { IsUnion, UnionFilter } from "inferred-types/types";
-
+import type { IsUnion, UnionFilter } from "inferred-types/types";
 
 /**
  * **IsOk**`<T>`
@@ -21,5 +20,5 @@ export type IsOk<T> = T extends any
 export type IsOkOriginal<T> = IsUnion<T> extends true
     ? UnionFilter<T, Error>
     : T extends Error
-    ? never
-    : T;
+        ? never
+        : T;

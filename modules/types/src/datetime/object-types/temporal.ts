@@ -1,4 +1,4 @@
-import { TypedFunction } from "inferred-types/types";
+import type { TypedFunction } from "inferred-types/types";
 
 export type TemporalInstanceLike = {
     equals: TypedFunction;
@@ -12,7 +12,7 @@ export type TemporalInstanceLike = {
     toJSON(): string;
     toString: TypedFunction;
     [key: string | symbol]: any;
-}
+};
 
 export type TemporalZonedDateTimeLike = {
     era: string | undefined;
@@ -37,8 +37,7 @@ export type TemporalZonedDateTimeLike = {
     offset: string;
     epochMilliseconds: number;
     [key: string | symbol]: any;
-}
-
+};
 
 export type TemporalTimeZoneLike = string | TemporalZonedDateTimeLike;
 
@@ -66,7 +65,7 @@ export type TemporalPlainDateTimeLike = {
     since: TypedFunction;
     toJSON(): string;
     toString: TypedFunction;
-    readonly [Symbol.toStringTag]: 'Temporal.PlainDateTime';
+    readonly [Symbol.toStringTag]: "Temporal.PlainDateTime";
     [key: string | symbol]: any;
 };
 

@@ -1,4 +1,4 @@
-import type { Tuple, Or, IsFalse, IsNever } from "inferred-types/types";
+import type { IsFalse, IsNever, Or, Tuple } from "inferred-types/types";
 
 type ShouldFail<TTest> = [IsNever<TTest>] extends [true]
     ? true

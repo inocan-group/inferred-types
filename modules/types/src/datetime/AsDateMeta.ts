@@ -1,5 +1,5 @@
-import { As, Extends, IsNull,  Or } from "types/boolean-logic";
-import {
+import type { As, Extends, IsNull, Or } from "types/boolean-logic";
+import type {
     DateMeta,
     ParseDate,
     ParsedDate,
@@ -14,82 +14,80 @@ type ParsedDateType<T extends ParsedDate> = T extends [
     infer Time
 ]
     ? Date extends null
-    ? Month extends null
-    ? "year"
-    : "year-month"
-    : Year extends null
-    ? "year-independent"
-    : Time extends null
-    ? "date"
-    : "datetime"
+        ? Month extends null
+            ? "year"
+            : "year-month"
+        : Year extends null
+            ? "year-independent"
+            : Time extends null
+                ? "date"
+                : "datetime"
     : never;
 
 type HasTime<T extends ParsedDate> = ParsedDateType<T> extends "datetime"
     ? T[3] extends [infer Hour, infer Minute, infer Second, infer MS, infer TZ]
-    ? Hour extends "00"
-    ? Minute extends "00"
-    ? Or<[Extends<Second, "00">, IsNull<Second>]> extends true
-    ? Or<[
-        Extends<MS, "000">, IsNull<MS>
-    ]> extends true
-    ? Or<[
-        Extends<TZ, "Z">,
-        IsNull<TZ>
-    ]> extends true
-    ? false
-    : true
-    : true
-    : true
-    : true
-    : true
-    : never
+        ? Hour extends "00"
+            ? Minute extends "00"
+                ? Or<[Extends<Second, "00">, IsNull<Second>]> extends true
+                    ? Or<[
+                        Extends<MS, "000">,
+                        IsNull<MS>
+                    ]> extends true
+                        ? Or<[
+                            Extends<TZ, "Z">,
+                            IsNull<TZ>
+                        ]> extends true
+                            ? false
+                            : true
+                        : true
+                    : true
+                : true
+            : true
+        : never
     : false;
 
 type Hour<T extends ParsedTime | null> = T extends null
     ? null
     : T extends ParsedTime
-    ? T[0]
-    : never;
+        ? T[0]
+        : never;
 
 type Minute<T extends ParsedTime | null> = T extends null
     ? null
     : T extends ParsedTime
-    ? T[1]
-    : never;
+        ? T[1]
+        : never;
 
 type Second<T extends ParsedTime | null> = T extends null
     ? null
     : T extends ParsedTime
-    ? T[2]
-    : never;
+        ? T[2]
+        : never;
 
 type Millisecond<T extends ParsedTime | null> = T extends null | undefined
     ? null
     : T extends ParsedTime
-    ? T[3]
-    : never;
+        ? T[3]
+        : never;
 
 type Offset<T extends ParsedTime | null> = T extends null
     ? null
     : T extends ParsedTime
-    ? T[4]
-    : never;
-
+        ? T[4]
+        : never;
 
 type SetParsed<T extends ParsedDate> = As<{
-    dateType: ParsedDateType<T>,
-    hasTime: HasTime<T>,
-    year: T[0],
-    month: T[1],
-    date: T[2],
-    hour: Hour<T[3]>,
-    minute: Minute<T[3]>,
-    second: Second<T[3]>,
-    ms: Millisecond<T[3]>,
-    offset: Offset<T[3]>
-},
-    DateMeta
->;
+    dateType: ParsedDateType<T>;
+    hasTime: HasTime<T>;
+    year: T[0];
+    month: T[1];
+    date: T[2];
+    hour: Hour<T[3]>;
+    minute: Minute<T[3]>;
+    second: Second<T[3]>;
+    ms: Millisecond<T[3]>;
+    offset: Offset<T[3]>;
+}, DateMeta>;
 
 /**
  * **AsDateMeta**`<T>`
@@ -108,9 +106,8 @@ export type AsDateMeta<
 > = T extends ParsedDate
     ? SetParsed<T>
     : ParseDate<T> extends Error
-    ? As<ParseDate<T>, Error>
-    : SetParsed<As<ParseDate<T>, ParsedDate>>;
-
+        ? As<ParseDate<T>, Error>
+        : SetParsed<As<ParseDate<T>, ParsedDate>>;
 
 // {
 //     dateType: ParsedDateType<T>,

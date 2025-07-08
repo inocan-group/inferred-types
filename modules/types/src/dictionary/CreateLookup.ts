@@ -1,4 +1,4 @@
-import type { ObjectKey, AfterFirst, First, ExpandRecursively,AsString } from "inferred-types/types";
+import type { AfterFirst, AsString, ExpandRecursively, First, ObjectKey } from "inferred-types/types";
 
 type Process<
     TPayload extends readonly Record<ObjectKey, unknown>[],

@@ -6,7 +6,6 @@ import type {
     TwoDigitMonth
 } from "inferred-types/types";
 
-
 /**
  * **IsIsoYearMonthTime**
  *

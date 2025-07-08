@@ -1,6 +1,5 @@
-import { Dictionary } from "types/base-types";
-import { HasFunctionKeys } from "types/boolean-logic/operators/kv";
-
+import type { Dictionary } from "types/base-types";
+import type { HasFunctionKeys } from "types/boolean-logic/operators/kv";
 
 /**
  * **IsLuxonDateTime`<T>`
@@ -9,6 +8,6 @@ import { HasFunctionKeys } from "types/boolean-logic/operators/kv";
  */
 export type IsLuxonDateTime<T> = T extends Dictionary
     ? HasFunctionKeys<T, ["diff", "diffNow", "hasSame", "getPossibleOffsets"]> extends true
-    ? true
-    : false
+        ? true
+        : false
     : false;

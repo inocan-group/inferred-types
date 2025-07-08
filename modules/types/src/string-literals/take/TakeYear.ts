@@ -1,27 +1,25 @@
 import type {
     As,
-    FourDigitYear,
     HasLeadingTemplateLiteral,
     NumericChar,
     StripLeading,
 } from "inferred-types/types";
-import { TakeUtility } from "types/base-types/TakeUtility";
 
 type Take<T extends string> = string extends T
-    ? { take: `${number}` | null, rest: string }
+    ? { take: `${number}` | null; rest: string }
     : HasLeadingTemplateLiteral<T> extends true
-        ? { take: string | null, rest: string }
+        ? { take: string | null; rest: string }
         : T extends `${infer C1}${infer C2}${infer C3}${infer C4}${infer Rest}`
             ? C1 extends NumericChar
                 ? C2 extends NumericChar
                     ? C3 extends NumericChar
                         ? C4 extends NumericChar
-                            ? { take: As<`${C1}${C2}${C3}${C4}`, `${number}`>, rest: Rest }
-                            : { take: null, rest: T }
-                        : { take: null, rest: T }
-                    : { take: null, rest: T }
-                : { take: null, rest: T }
-            : { take: null, rest: T }
+                            ? { take: As<`${C1}${C2}${C3}${C4}`, `${number}`>; rest: Rest }
+                            : { take: null; rest: T }
+                        : { take: null; rest: T }
+                    : { take: null; rest: T }
+                : { take: null; rest: T }
+            : { take: null; rest: T };
 
 /**
  * **TakeYear**`<T, TIgnoreLeading>`
@@ -42,12 +40,12 @@ export type TakeYear<
     TIgnoreLeading extends string | null = null
 > = As<
     TIgnoreLeading extends string
-    ? string extends TIgnoreLeading
-        ? never
-        : Take<
-            As<StripLeading<T, TIgnoreLeading>, string>
-        >
-    : Take<T>,
-    { take: null, rest: string} | { take: `${number}`, rest: string}
+        ? string extends TIgnoreLeading
+            ? never
+            : Take<
+                As<StripLeading<T, TIgnoreLeading>, string>
+            >
+        : Take<T>,
+    { take: null; rest: string } | { take: `${number}`; rest: string }
 >
 ;

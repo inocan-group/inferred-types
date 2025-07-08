@@ -11,7 +11,7 @@ type Take<T extends string> = string extends T
     : HasLeadingTemplateLiteral<T> extends true
         ? { take: null; rest: string } | { take: TimezoneOffset<"branded">; rest: string }
         : T extends `Z${infer Rest}`
-            ? { take: "Z" & TimezoneOffset<"branded">, rest: Rest }
+            ? { take: "Z" & TimezoneOffset<"branded">; rest: Rest }
             : T extends `${infer Sign}${infer H1}${infer H2}${infer Rest}`
                 ? Sign extends "+" | "-"
                     ? H1 extends NumericChar
@@ -25,45 +25,45 @@ type Take<T extends string> = string extends T
                                                 ? M2 extends NumericChar
                                                     // Check if valid minutes (00-59)
                                                     ? M1 extends "0" | "1" | "2" | "3" | "4" | "5"
-                                                        ? { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}:${M1}${M2}`, rest: Rest2 }
-                                                        : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`, rest: Rest }
-                                                    : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`, rest: Rest }
-                                                : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`, rest: Rest }
+                                                        ? { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}:${M1}${M2}`; rest: Rest2 }
+                                                        : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`; rest: Rest }
+                                                    : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`; rest: Rest }
+                                                : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`; rest: Rest }
                                             : Rest extends `${infer M1}${infer M2}${infer Rest2}`
                                                 ? M1 extends NumericChar
                                                     ? M2 extends NumericChar
                                                         // Check if valid minutes (00-59)
                                                         ? M1 extends "0" | "1" | "2" | "3" | "4" | "5"
-                                                            ? { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}${M1}${M2}`, rest: Rest2 }
-                                                            : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`, rest: Rest }
-                                                        : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`, rest: Rest }
-                                                    : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`, rest: Rest }
-                                                : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`, rest: Rest }
-                                        : { take: null, rest: T }
+                                                            ? { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}${M1}${M2}`; rest: Rest2 }
+                                                            : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`; rest: Rest }
+                                                        : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`; rest: Rest }
+                                                    : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`; rest: Rest }
+                                                : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`; rest: Rest }
+                                        : { take: null; rest: T }
                                     : Rest extends `:${infer M1}${infer M2}${infer Rest2}`
                                         ? M1 extends NumericChar
                                             ? M2 extends NumericChar
                                                 // Check if valid minutes (00-59)
                                                 ? M1 extends "0" | "1" | "2" | "3" | "4" | "5"
-                                                    ? { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}:${M1}${M2}`, rest: Rest2 }
-                                                    : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`, rest: Rest }
-                                                : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`, rest: Rest }
-                                            : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`, rest: Rest }
+                                                    ? { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}:${M1}${M2}`; rest: Rest2 }
+                                                    : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`; rest: Rest }
+                                                : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`; rest: Rest }
+                                            : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`; rest: Rest }
                                         : Rest extends `${infer M1}${infer M2}${infer Rest2}`
                                             ? M1 extends NumericChar
                                                 ? M2 extends NumericChar
                                                     // Check if valid minutes (00-59)
                                                     ? M1 extends "0" | "1" | "2" | "3" | "4" | "5"
-                                                        ? { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}${M1}${M2}`, rest: Rest2 }
-                                                        : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`, rest: Rest }
-                                                    : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`, rest: Rest }
-                                                : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`, rest: Rest }
-                                            : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`, rest: Rest }
-                                : { take: null, rest: T }
-                            : { take: null, rest: T }
-                        : { take: null, rest: T }
-                    : { take: null, rest: T }
-                : { take: null, rest: T }
+                                                        ? { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}${M1}${M2}`; rest: Rest2 }
+                                                        : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`; rest: Rest }
+                                                    : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`; rest: Rest }
+                                                : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`; rest: Rest }
+                                            : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`; rest: Rest }
+                                : { take: null; rest: T }
+                            : { take: null; rest: T }
+                        : { take: null; rest: T }
+                    : { take: null; rest: T }
+                : { take: null; rest: T };
 
 /**
  * **TakeTimezone**`<T, TIgnoreLeading>`
@@ -90,14 +90,14 @@ export type TakeTimezone<
     T extends string,
     TIgnoreLeading extends string | null = null
 > = TIgnoreLeading extends string
-        ? string extends TIgnoreLeading
-            ? never
-            : As<
-                Take<
-                    As<StripLeading<T, TIgnoreLeading>, string>
-                >,
+    ? string extends TIgnoreLeading
+        ? never
+        : As<
+            Take<
+                As<StripLeading<T, TIgnoreLeading>, string>
+            >,
                 { take: null; rest: string } | { take: TimezoneOffset<"branded">; rest: string }
-            >
+        >
     : As<
         Take<T>,
         { take: null; rest: string } | { take: TimezoneOffset<"branded">; rest: string }

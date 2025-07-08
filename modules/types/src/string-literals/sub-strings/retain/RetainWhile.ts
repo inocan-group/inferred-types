@@ -6,24 +6,24 @@ type Process<
     TComparator extends string,
     TResponse extends string = ""
 > = [] extends TChars
-? TResponse
-: TOp extends "extends"
-    ? First<TChars> extends TComparator
-        ? Process<
-            AfterFirst<TChars>,
-            TOp,
-            TComparator,
+    ? TResponse
+    : TOp extends "extends"
+        ? First<TChars> extends TComparator
+            ? Process<
+                AfterFirst<TChars>,
+                TOp,
+                TComparator,
             `${TResponse}${First<TChars>}`
-        >
-        : TResponse
-    :  First<TChars> extends TComparator
-        ? TResponse
-        : Process<
-            AfterFirst<TChars>,
-            TOp,
-            TComparator,
+            >
+            : TResponse
+        : First<TChars> extends TComparator
+            ? TResponse
+            : Process<
+                AfterFirst<TChars>,
+                TOp,
+                TComparator,
             `${TResponse}${First<TChars>}`
-        >;
+            >;
 
 /**
  * **RetainWhile**`<TContent,TComparator>`
@@ -43,8 +43,8 @@ export type RetainWhile<
     TComparator extends string,
     TOp extends "extends" | "doesNotExtend" = "extends"
 > = string extends TContent
-? string
-: string extends TComparator
-? string
+    ? string
+    : string extends TComparator
+        ? string
 
-: Process<Chars<TContent>, TOp, TComparator>;
+        : Process<Chars<TContent>, TOp, TComparator>;

@@ -1,4 +1,4 @@
-import { NUMERIC_CHAR } from "constants/NumericChar";
+import type { NUMERIC_CHAR } from "constants/NumericChar";
 
 /**
  * **MONTH_NAME**
@@ -47,15 +47,15 @@ type MonthAbbrev = typeof MONTH_ABBR[number];
 type NumericChar = typeof NUMERIC_CHAR[number];
 
 type MonthNameLookup = {
-    abbrev: MonthAbbrev,
-    num: number,
-    twoDigitStr: `${NumericChar}${NumericChar}`
+    abbrev: MonthAbbrev;
+    num: number;
+    twoDigitStr: `${NumericChar}${NumericChar}`;
 };
 
 type MonthAbbrevLookup = {
-    name: MonthName,
-    num: number,
-    twoDigitStr: `${NumericChar}${NumericChar}`
+    name: MonthName;
+    num: number;
+    twoDigitStr: `${NumericChar}${NumericChar}`;
 };
 
 export const MONTH_NAME_LOOKUP = {
@@ -189,7 +189,6 @@ export const DAYS_OF_WEEK__Mon = [
     "Sun"
 ] as const;
 
-
 export const DATE_TYPE = [
     "datetime", // date and time info
     "date", // just date info (YYYY-MM-DD)
@@ -202,25 +201,81 @@ export const DATE_TYPE = [
  * valid dates for months with 30 days
  */
 export const ISO_DATE_30 = [
-    "01", "02", "03", "04", "05", "06", "07", "08", "09",
-    "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
-    "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "18",
+    "19",
+    "20",
+    "21",
+    "22",
+    "23",
+    "24",
+    "25",
+    "26",
+    "27",
+    "28",
+    "29",
+    "30"
 ] as const;
 
 /**
  * valid dates for months with 30 days
  */
 export const ISO_DATE_31 = [
-    "01", "02", "03", "04", "05", "06", "07", "08", "09",
-    "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
-    "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30",
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "18",
+    "19",
+    "20",
+    "21",
+    "22",
+    "23",
+    "24",
+    "25",
+    "26",
+    "27",
+    "28",
+    "29",
+    "30",
     "31"
 ] as const;
-
 
 /**
  * the ISO month strings which map to a month with 30 days.
  */
 export const ISO_MONTH_WITH_30 = [
-    "04", "06", "09", "11"
+    "04",
+    "06",
+    "09",
+    "11"
 ] as const;

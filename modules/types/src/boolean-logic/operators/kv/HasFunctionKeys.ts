@@ -1,4 +1,4 @@
-import type { TypedFunction, First, AfterFirst, AnyFunction } from "inferred-types/types";
+import type { AfterFirst, AnyFunction, First, TypedFunction } from "inferred-types/types";
 
 /**
  * **HasTypedFunctionKeys**
@@ -14,11 +14,10 @@ export type HasTypedFunctionKeys<
 > = [] extends K
     ? true
     : First<K> extends keyof T
-    ? T[First<K>] extends TypedFunction
-    ? HasTypedFunctionKeys<T, AfterFirst<K>>
-    : false
-    : false;
-
+        ? T[First<K>] extends TypedFunction
+            ? HasTypedFunctionKeys<T, AfterFirst<K>>
+            : false
+        : false;
 
 /**
  * **HasFunctionKeys**
@@ -34,8 +33,7 @@ export type HasFunctionKeys<
 > = [] extends K
     ? true
     : First<K> extends keyof T
-    ? T[First<K>] extends AnyFunction
-    ? HasFunctionKeys<T, AfterFirst<K>>
-    : false
-    : false;
-
+        ? T[First<K>] extends AnyFunction
+            ? HasFunctionKeys<T, AfterFirst<K>>
+            : false
+        : false;

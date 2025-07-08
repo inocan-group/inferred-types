@@ -1,38 +1,37 @@
-import { Abs, And, Err, FixedLengthArray, IsInteger } from "inferred-types/types";
+import type { Abs, And, Err, FixedLengthArray, IsInteger } from "inferred-types/types";
 
 type Gte<
-  A extends unknown[],
-  B extends unknown[]
+    A extends unknown[],
+    B extends unknown[]
 > = B extends []
-      ? true
-      : A extends []
-          ? false
-          : A extends [infer _, ...infer ATail]
-              ? B extends [infer _, ...infer BTail]
-                  ? Gte<ATail, BTail>
-                  : never
-              : never;
+    ? true
+    : A extends []
+        ? false
+        : A extends [infer _, ...infer ATail]
+            ? B extends [infer _, ...infer BTail]
+                ? Gte<ATail, BTail>
+                : never
+            : never;
 
 type Sub<
-  A extends unknown[],
-  B extends unknown[]
+    A extends unknown[],
+    B extends unknown[]
 > = B extends []
-      ? A
-      : B extends [infer _, ...infer BTail]
-          ? A extends [infer _, ...infer ATail]
-              ? Sub<ATail, BTail>
-              : never
-          : never;
+    ? A
+    : B extends [infer _, ...infer BTail]
+        ? A extends [infer _, ...infer ATail]
+            ? Sub<ATail, BTail>
+            : never
+        : never;
 
 // modulus
 type Modulus<
-  A extends number[],
-  B extends number[]
+    A extends number[],
+    B extends number[]
 > = Gte<
     A,
     B
 > extends true ? Modulus<Sub<A, B>, B> : A;
-
 
 /**
  * **Mod**`<A,B>`
@@ -43,27 +42,26 @@ type Modulus<
 export type Mod<A extends number, B extends number> =
 number extends A
     ? number
-: number extends B
-    ? number
-: And<[
-    IsInteger<A>,
-    IsInteger<B>
-]> extends true
-? B extends 0
-    ? Err<
-        "mod/division-by-zero",
+    : number extends B
+        ? number
+        : And<[
+            IsInteger<A>,
+            IsInteger<B>
+        ]> extends true
+            ? B extends 0
+                ? Err<
+                    "mod/division-by-zero",
         `The Mod<${A},${B}> type utility can not receive 0 as the divisor.`,
-        { a: A, b: B }
-    >
-: Modulus<
-    FixedLengthArray<number, Abs<A>>,
-    FixedLengthArray<number, Abs<B>>
-> extends infer M extends unknown[]
-    ? M['length']
-    : never
-: Err<
-    `mod/non-integer`,
+        { a: A; b: B }
+                >
+                : Modulus<
+                    FixedLengthArray<number, Abs<A>>,
+                    FixedLengthArray<number, Abs<B>>
+                > extends infer M extends unknown[]
+                    ? M["length"]
+                    : never
+            : Err<
+                `mod/non-integer`,
     `The Divide<${A},${B}> can only be used with integer values!`,
-    { a: A, b: B }
->;
-
+    { a: A; b: B }
+            >;
