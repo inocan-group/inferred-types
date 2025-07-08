@@ -1,5 +1,5 @@
 import type { Suggest } from "inferred-types/types";
-import type { Opt, OptPercent } from "../Optional";
+import type { Opt, OptPercent } from "inferred-types/types";
 import type { CssGlobal } from "./global";
 import type { CssSizing, CssSizingLight } from "./sizing";
 import type { CssTextWrap } from "./text";

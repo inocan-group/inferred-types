@@ -1,4 +1,4 @@
-import type { Dictionary } from "../base-types";
+import type { Dictionary } from "inferred-types/types";
 
 export type AsDictionary<T> = T extends Dictionary
     ? T

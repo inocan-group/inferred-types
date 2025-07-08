@@ -1,8 +1,12 @@
-import type { Container, TypedFunction } from "../base-types";
-import type { If, IsUnset } from "../boolean-logic";
-import type { Unset } from "../literals";
-import type { FnFrom } from "./FnFrom";
-import type { AsNarrowingFn } from "./NarrowingFn";
+import type {
+    Container,
+    TypedFunction,
+    Unset,
+    If, IsUnset,
+    FnFrom,
+    AsNarrowingFn
+} from "inferred-types/types";
+
 
 /**
  * **WrapperFn**`<TFn,TTransform,[TState]>`

@@ -12,10 +12,9 @@ import {
     TwoDigitSecond,
     TwoDigitMonth,
     TwoDigitDate,
-    TakeYear,
-    TakeMonth
+    ThreeDigitMillisecond,
+    TimezoneOffset
 } from "inferred-types/types";
-import { ThreeDigitMillisecond, TimezoneOffset } from "../../modules/types/dist";
 
 
 describe("ParseDate<T>", () => {
@@ -126,7 +125,7 @@ describe("ParseDate<T>", () => {
                 [
                     FourDigitYear<"2024">,
                     TwoDigitMonth<"06">,
-                    woDigitDate<"15">,
+                    TwoDigitDate<"15">,
                     [
                         TwoDigitHour<"23">,
                         TwoDigitMinute<"59">,

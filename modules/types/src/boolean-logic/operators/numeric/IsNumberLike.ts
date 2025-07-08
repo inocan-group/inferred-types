@@ -1,7 +1,4 @@
-import type { DoesExtend } from "../DoesExtend";
-
-import type { IsNever } from "../IsNever";
-import type { IsNumber } from "./IsNumber";
+import type { DoesExtend, IsNever, IsNumber } from "inferred-types/types";
 
 /**
  * **IsNumberLike**`<T>`

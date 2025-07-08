@@ -1,7 +1,6 @@
 import type { CSS_NAMED_COLORS } from "inferred-types/constants";
-import type { HexadecimalChar } from "../Hexadecimal";
-import type { OptionalSpace } from "../OptionalSpace";
-import type { TwColorWithLuminosity } from "../tw";
+import type { OptionalSpace, HexadecimalChar, TwColorWithLuminosity } from "inferred-types/types";
+
 
 export type CssNamedColors = typeof CSS_NAMED_COLORS[number];
 

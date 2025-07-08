@@ -1,5 +1,5 @@
-import { MomentLike } from "@inferred-types/types";
-import { isDictionary } from "runtime/type-guards";
+import { MomentLike } from "inferred-types/types";
+import { isDictionary } from "inferred-types/runtime";
 
 /**
  * Type guard which validates that the passed in `val` is a

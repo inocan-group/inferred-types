@@ -1,5 +1,4 @@
-import type { And } from "../combinators/And";
-import type { IsStringLiteral } from "./IsStringLiteral";
+import type { And, IsStringLiteral } from "inferred-types/types";
 
 /**
  * **AllStringLiterals**`<T>`

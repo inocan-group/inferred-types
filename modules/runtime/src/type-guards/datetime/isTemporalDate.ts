@@ -1,5 +1,5 @@
 import type { TemporalLike } from "inferred-types/types";
-import { isDictionary } from "inferred-types/runtime";
+import { isDictionary } from "runtime/type-guards";
 
 export function isTemporalDate(val: unknown): val is TemporalLike {
     return typeof isDictionary(val) &&

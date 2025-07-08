@@ -1,4 +1,4 @@
-import type { AnyFunction, ObjectKey } from "../base-types";
+import type { AnyFunction, ObjectKey } from "inferred-types/types";
 
 export type FnDefn = [fn: AnyFunction ]
     | [fn: AnyFunction, desc: string]

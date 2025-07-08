@@ -1,7 +1,4 @@
-import type { ObjectKey } from "../base-types/ObjectKey";
-import type { AfterFirst, First } from "../lists";
-import type { ExpandRecursively } from "../literals/ExpandRecursively";
-import type { AsString } from "../type-conversion/AsString";
+import type { ObjectKey, AfterFirst, First, ExpandRecursively,AsString } from "inferred-types/types";
 
 type Process<
     TPayload extends readonly Record<ObjectKey, unknown>[],

@@ -1,4 +1,4 @@
-import type { ExpandRecursively } from "../literals/ExpandRecursively";
+import type { ExpandRecursively } from "inferred-types/types";
 import type { ErrorCondition } from "./ErrorCondition";
 
 export interface PartialErrorDefn {

@@ -1,4 +1,4 @@
-import { isDictionary } from "inferred-types/runtime";
+import { isDictionary } from "runtime/type-guards";
 import { LuxonLikeDateTime } from "inferred-types/types";
 
 /**

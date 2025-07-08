@@ -54,30 +54,6 @@ THours extends TwoDigitHour<"strong">
 >;
 
 
-/**
- * If a timezone exists, it is always at the END, this
- * utility will try to find it with what remains and
- * return either a branded type or an Error.
- */
-type GetTimezone<T extends string> = As<
-    TakeTimezone<T> extends {
-        take: infer TZ extends string
-        rest: infer Rest extends string
-    }
-        ? TZ extends TimezoneOffset<"strong">
-            ? As<TZ & TimezoneOffset<"branded">, TimezoneOffset<"branded">>
-        : Err<
-            `parse-time/tz`,
-            `The timezone format is invalid: ${TZ}`,
-            { tz: TZ, rest: Rest }
-        >
-    : Err<
-        `parse-time/tz`,
-        `The remaining content could not be parsed as a timezone: ${T}`,
-        { rest: T }
-    >,
-    Error | TimezoneOffset<"branded">
->;
 
 type GetHoursMinutes<T extends string> = As<
 TakeHours<T> extends {

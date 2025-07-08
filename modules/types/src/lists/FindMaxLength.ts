@@ -1,6 +1,6 @@
-import type { IsGreaterThan } from "../boolean-logic";
-import type { If } from "../boolean-logic/branching/If";
-import type { StrLen } from "../string-literals";
+import type { IsGreaterThan } from "inferred-types/types";
+import type { If } from "inferred-types/types";
+import type { StrLen } from "inferred-types/types";
 import type { AfterFirst } from "./AfterFirst";
 import type { First } from "./First";
 

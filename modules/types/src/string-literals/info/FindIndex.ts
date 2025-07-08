@@ -2,10 +2,9 @@ import type {
     Compare,
     ComparisonLookup,
     ComparisonOperation
-} from "../boolean-logic";
-import type { AfterFirst, First, Last } from "../lists";
-import type { Increment } from "../numeric-literals";
-import type { Chars } from "./Chars";
+} from "inferred-types/types";
+import type { AfterFirst, First, Last } from "types/lists";
+import type { Increment, Chars } from "inferred-types/types";
 
 type _FindIndexes<
     TContent extends readonly unknown[],

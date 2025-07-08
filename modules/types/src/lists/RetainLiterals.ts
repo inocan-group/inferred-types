@@ -1,7 +1,7 @@
 import type { Constant } from "inferred-types/constants";
-import type { IsLiteral } from "../boolean-logic";
-import type { If } from "../boolean-logic/branching/If";
-import type { RemoveMarked } from "../containers";
+import type { IsLiteral } from "inferred-types/types";
+import type { If } from "inferred-types/types";
+import type { RemoveMarked } from "inferred-types/types";
 
 type Process<
     T extends readonly unknown[],

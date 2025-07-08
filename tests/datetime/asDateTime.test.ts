@@ -4,7 +4,7 @@ import { DatePlus, Expect, Test } from "inferred-types/types"
 import moment from "moment";
 import { Temporal } from "@js-temporal/polyfill";
 import { DateTime } from "luxon";
-import { Dayjs } from "dayjs"
+import dayjs from "dayjs"
 
 const today = Temporal.Now.plainDateISO();
 
@@ -83,7 +83,7 @@ describe("asDateTime()", () => {
 
 
     it("DayJS date with offset", () => {
-        const d = new Dayjs("2024-01-15T15:30:45.123+01:00");
+        const d = dayjs("2024-01-15T15:30:45.123+01:00");
         const result = asDateTime(d);
 
 

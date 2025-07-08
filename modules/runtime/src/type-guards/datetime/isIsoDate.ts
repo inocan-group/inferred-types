@@ -1,5 +1,5 @@
 import type { IsoDate } from "inferred-types/types";
-import { isNumberLike, isString } from "inferred-types/runtime";
+import { isNumberLike, isString } from "runtime/type-guards";
 import { isIsoYear } from "runtime/type-guards/datetime";
 
 /**

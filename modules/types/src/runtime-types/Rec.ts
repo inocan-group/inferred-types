@@ -1,4 +1,4 @@
-import type { Dictionary } from "../base-types";
+import type { Dictionary } from "inferred-types/types";
 
 const s = Symbol("Rec");
 

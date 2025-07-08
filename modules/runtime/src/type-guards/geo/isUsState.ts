@@ -1,6 +1,6 @@
 import type { UsStateAbbrev, UsStateName } from "inferred-types/types";
 import { US_STATE_LOOKUP } from "inferred-types/constants";
-import { isString } from "../isString";
+import { isString } from "runtime/type-guards";
 
 const ABBREV = US_STATE_LOOKUP.map(i => i.abbrev);
 const NAME = US_STATE_LOOKUP.map(i => i.name);

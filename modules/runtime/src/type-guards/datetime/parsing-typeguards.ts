@@ -9,7 +9,7 @@ import type {
     TwoDigitMonth,
     TwoDigitSecond
 } from "inferred-types/types";
-import { isString } from "inferred-types/runtime";
+import { isString } from "runtime/type-guards";
 
 /**
  * type-guard based on whether `str` is a `FourDigitYear`

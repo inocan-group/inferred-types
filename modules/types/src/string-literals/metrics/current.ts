@@ -1,5 +1,5 @@
 import type { CURRENT_METRICS_LOOKUP } from "inferred-types/constants";
-import type { OptSpace } from "../character-sets/OptionalSpace";
+import type { OptSpace } from "inferred-types/types";
 
 type CurrentMetricsLookup = typeof CURRENT_METRICS_LOOKUP;
 

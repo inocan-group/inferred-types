@@ -1,6 +1,6 @@
 import type { Iso3166_1_Alpha2, Iso3166_1_Alpha3, Iso3166_1_CountryCode, Iso3166_1_CountryName } from "inferred-types/types";
 import { ISO3166_1 } from "inferred-types/constants";
-import { isString } from "../isString";
+import { isString } from "runtime/type-guards";
 
 /**
  * Type guard which checks whether `val` is a 2 character country

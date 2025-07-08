@@ -31,7 +31,6 @@ import {
     isAlpha,
     isArray,
     isBoolean,
-    isDateLike,
     isDictionary,
     isError,
     isFalse,
@@ -50,6 +49,7 @@ import {
     startsWith,
     unset
 } from "inferred-types/runtime";
+import { isDateLike } from "runtime/type-guards/datetime";
 
 function handle_string<
     TOp extends ComparisonOperation,

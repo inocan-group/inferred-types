@@ -38,7 +38,7 @@ import {
     VOLUME_METRICS_LOOKUP,
 } from "inferred-types/constants";
 import { createFnWithProps, isNumberLike, stripWhile } from "inferred-types/runtime";
-import { isString } from "../isString";
+import { isString } from "runtime/type-guards";
 
 function separate(s: string) {
     return stripWhile(s.toLowerCase(), ...NUMERIC_CHAR).trim();

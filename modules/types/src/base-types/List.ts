@@ -4,9 +4,9 @@ import type {
     Dictionary,
     Fail,
     Flatten,
+    BCP47,
     IsInteger,
 } from "inferred-types/types";
-import type { BCP47 } from "../string-literals/character-sets/BCP";
 
 type ShallowCopy<T> = T;
 type New<T> = T;

@@ -1,6 +1,5 @@
-import type { AlphaChar } from "../AlphaChar";
-import type { HtmlBodyElement } from "./html-element";
-import type { CssPseudoClass, CssPseudoClassDefn } from "./pseudo-classes";
+import type { AlphaChar, HtmlBodyElement, CssPseudoClass, CssPseudoClassDefn  } from "types/string-literals";
+
 
 export type CssIdSelector = `#${AlphaChar}${string}`;
 export type CssClassSelector = `.${AlphaChar}${string}`;

@@ -1,6 +1,6 @@
-import type { RemoveNever } from "../containers";
-import type { NumberLike } from "../numeric-literals";
-import type { AsNumber } from "../type-conversion";
+import type { RemoveNever } from "inferred-types/types";
+import type { NumberLike } from "inferred-types/types";
+import type { AsNumber } from "inferred-types/types";
 
 /**
  * **AsNumericArray**`<T>`

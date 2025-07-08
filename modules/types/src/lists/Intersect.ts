@@ -1,4 +1,4 @@
-import type { Tuple } from "../base-types";
+import type { Tuple } from "inferred-types/types";
 import type { AfterFirst } from "./AfterFirst";
 import type { First } from "./First";
 

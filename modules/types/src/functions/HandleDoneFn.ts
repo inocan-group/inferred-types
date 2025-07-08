@@ -1,4 +1,4 @@
-import type { TypedFunction } from "../base-types";
+import type { TypedFunction } from "inferred-types/types";
 
 /**
  * **HandleDoneFn**`<T>`

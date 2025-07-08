@@ -1,5 +1,5 @@
 import type { DayJsLike } from "inferred-types/types";
-import { isDictionary } from "inferred-types/runtime";
+import { isDictionary } from "runtime/type-guards";
 
 /**
  * Type guard to detect whether the `val` passed in is a `Day.js` date

@@ -1,8 +1,13 @@
-import type { If, IsEqual, IsUnion } from "../boolean-logic";
-import type { Throw } from "../errors";
-import type { NotFilter } from "../lists/NotFilter";
-import type { TupleToUnion } from "./TupleToUnion";
-import type { UnionToTuple } from "./UnionToTuple";
+import type {
+    If,
+    IsEqual,
+    IsUnion,
+    Throw,
+    NotFilter,
+    TupleToUnion,
+    UnionToTuple
+} from "inferred-types/types";
+
 
 type InvalidCast<T> = Throw<
     "invalid-cast",

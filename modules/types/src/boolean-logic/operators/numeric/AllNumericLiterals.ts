@@ -1,4 +1,4 @@
-import type { And } from "../../combinators/And";
+import type { And } from "inferred-types/types";
 import type { IsNumericLiteral } from "./IsNumericLiteral";
 
 /**

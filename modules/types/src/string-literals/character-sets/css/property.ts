@@ -1,4 +1,4 @@
-import type { OptSpace } from "../OptionalSpace";
+import type { OptSpace } from "inferred-types/types";
 
 type PropertyFormat =
     | "*"

@@ -1,12 +1,21 @@
-import type { And, As, If, IsNegativeNumber, IsString, IsWideType, Or } from "../boolean-logic";
-import type { AfterFirst } from "../lists/AfterFirst";
-import type { NumericChar } from "../string-literals/character-sets/NumericChar";
-import type { FixedLengthArray } from "../tuples/FixedLengthArray";
-import type { AsNumber } from "../type-conversion/AsNumber";
-import type { AsString } from "../type-conversion/AsString";
-import type { Abs } from "./Abs";
-import type { Decrement } from "./Decrement";
-import type { NumberLike } from "./NumberLike";
+import type {
+    And,
+    As,
+    If,
+    IsNegativeNumber,
+    IsString,
+    IsWideType,
+    Or,
+    AfterFirst,
+    NumericChar,
+    FixedLengthArray,
+    AsNumber,
+    AsString,
+    Abs,
+    Decrement,
+    NumberLike
+} from "inferred-types/types";
+
 
 type Either<left extends boolean, right extends boolean> =
   left extends true ? true : right extends true ? true : false;

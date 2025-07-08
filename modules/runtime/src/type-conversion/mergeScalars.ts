@@ -1,5 +1,5 @@
 import type { MergeScalars, Scalar } from "inferred-types/types";
-import { isUndefined } from "../type-guards/isUndefined";
+import { isUndefined } from "runtime/type-guards";
 
 /**
  * **mergeScalars**(a,b)

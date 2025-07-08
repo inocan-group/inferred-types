@@ -1,4 +1,4 @@
-import type { Suggest } from "../Suggest";
+import type { Suggest } from "inferred-types/types";
 
 /**
  * The [BCP47 standard](https://en.wikipedia.org/wiki/IETF_language_tag) is

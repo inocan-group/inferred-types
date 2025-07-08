@@ -1,7 +1,4 @@
-import type { Dictionary, EmptyObject } from "../base-types";
-import type { AfterFirst } from "../lists/AfterFirst";
-import type { First } from "../lists/First";
-import type { ExpandRecursively } from "../literals/ExpandRecursively";
+import type { Dictionary, EmptyObject,AfterFirst, ExpandRecursively, First } from "inferred-types/types";
 
 type Process<
     TInput extends readonly { [key: string]: unknown }[],

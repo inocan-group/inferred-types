@@ -2,13 +2,13 @@ import { describe, it, expect } from "vitest";
 import {
     isFourDigitYear,
     isThreeDigitMillisecond,
-    isTimeZone,
     isTwoDigitHour,
     isTwoDigitMinute,
     isTwoDigitSecond,
     isTwoDigitMonth,
     isTwoDigitDate,
     isMinimalDigitDate,
+    isTimezoneOffset,
 } from "inferred-types/runtime";
 
 describe("ISO type guards", () => {
@@ -83,17 +83,17 @@ describe("ISO type guards", () => {
 
 
     it("isTimeZone()", () => {
-        const t1 = isTimeZone("Z");
-        const t2 = isTimeZone("+7");
-        const t3 = isTimeZone("-7:30");
+        const t1 = isTimezoneOffset("Z");
+        const t2 = isTimezoneOffset("+7");
+        const t3 = isTimezoneOffset("-7:30");
 
         expect(t1).toBe(true);
         expect(t2).toBe(true);
         expect(t3).toBe(true);
 
-        const f1 = isTimeZone("Z+1");
-        const f2 = isTimeZone("+7.1");
-        const f3 = isTimeZone("-7:306");
+        const f1 = isTimezoneOffset("Z+1");
+        const f2 = isTimezoneOffset("+7.1");
+        const f3 = isTimezoneOffset("-7:306");
 
         expect(f1).toBe(false);
         expect(f2).toBe(false);

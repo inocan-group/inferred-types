@@ -60,8 +60,8 @@ export function asDate<T extends number | string | Record<string, any> | Date>(i
         return toUtcMidnight(input.toJSDate());
     }
 
-    if (isDateFnsDate(input)) {
-        return toUtcMidnight(new Date(input.toISOString()));
+    if (isDate(input)) {
+        return toUtcMidnight(input);
     }
 
     if (isTemporalDate(input)) {

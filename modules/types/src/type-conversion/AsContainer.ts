@@ -1,4 +1,4 @@
-import type { Dictionary } from "../base-types/Dictionary";
+import type { Dictionary } from "inferred-types/types";
 
 /**
  * **AsContainer**`<T, [TError]>`

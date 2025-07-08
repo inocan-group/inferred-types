@@ -1,4 +1,4 @@
-import type { Opt } from "../Optional";
+import type { Opt } from "inferred-types/types";
 import type { CssGlobal } from "./global";
 import type { CssRotation } from "./props";
 import type { CssSizing, CssSizingLight } from "./sizing";

@@ -56,7 +56,7 @@ function offsetMinutesToString(mins: number): TimezoneOffset {
  ****************************************************************/
 
 type Returns<T extends DateLike> = T extends IsoYear
-    ? DatePlus<"iso-year", "Z", `${T}-${number}-${number}T${string}` & IsoDateTime>
+    ? DatePlus<"iso-year", TimezoneOffset<"Z">, `${T}-${number}-${number}T${string}` & IsoDateTime>
     : T extends IsoYearMonth
     ? DateMeta extends Error
     ? DateMeta
@@ -175,7 +175,7 @@ export function asDateTime<T extends DateLike>(input: T) {
     if (isIsoYear(input)) {
         const d = new Date(`${input}-01-01T00:00:00.000Z`) as DatePlus<"iso-year">;
 
-        d.offset = "Z";
+        d.offset = "Z" as TimezoneOffset<"Z">;
         d.tz = null;
         d.source = "iso-year";
         d.sourceIso = `${input}-01-01T00:00:00.000Z` as IsoDateTime;
@@ -186,7 +186,7 @@ export function asDateTime<T extends DateLike>(input: T) {
         const meta = parseIsoDate(input) as unknown as DateMeta;
         const d = new Date(`${meta.year}-${meta.month}-${meta.date}T00:00:00.000Z`) as DatePlus;
 
-        d.offset = "Z";
+        d.offset = "Z" as TimezoneOffset<"Z">;
         d.tz = null;
         d.source = `iso-${meta.dateType}`;
         d.sourceIso = `${input}T00:00:00.000Z` as IsoDateTime;
