@@ -2,8 +2,6 @@ import type {
     As,
     Err,
     FourDigitYear,
-    IsFourDigitYear,
-    IsTwoDigitMonth,
     ParsedTime,
     ParseTime,
     Split,
@@ -47,21 +45,21 @@ type ParseMonthDate<
                     IsoDate & TwoDigitDate<"branded">,
                     null
                 ], ParsedDate>
-            : Err<
-                `parse-date/leftover`,
+                : Err<
+                    `parse-date/leftover`,
                 `A string which appeared to be a IsoMonthDate string had trailing content which was unparsable [${Rest}]!`,
                 { parse: T; month: Month; date: IsoDate; rest: Rest }
+                >
+            : Err<
+                `parse-date/date`,
+                `Unable to parse the month of what appeared to be an IsoMonthDate string`,
+                { parse: T; month: Month; rest: Rest }
             >
         : Err<
-            `parse-date/date`,
-            `Unable to parse the month of what appeared to be an IsoMonthDate string`,
-            { parse: T, month: Month, rest: Rest }
-        >
-    : Err<
-        `parse-date/month`,
-        `A string which appeared to be a IsoMonthDate string with leading '--' presented an invalid month`,
-        {parse:T}
-    >;
+            `parse-date/month`,
+            `A string which appeared to be a IsoMonthDate string with leading '--' presented an invalid month`,
+            { parse: T }
+        >;
 
 type ParseYearMonth<T extends string> = TakeYear<T> extends {
     take: infer Year extends FourDigitYear<"branded">;
@@ -82,7 +80,7 @@ type ParseYearMonth<T extends string> = TakeYear<T> extends {
             : Err<
                 `parse-date/leftover`,
                 `The year and month were parsed and validated but there is remaining text which can't be parsed: ${Rest}`,
-                { year: Year, minute: Month, rest: Rest }
+                { year: Year; minute: Month; rest: Rest }
             >
 
         : Err<

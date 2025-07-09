@@ -17,14 +17,14 @@ type Take<T extends string> = string extends T
                     ? C3 extends NumericChar
                         ? C4 extends NumericChar
                             ? {
-                                take: `${C1}${C2}${C3}${C4}` & FourDigitYear<"branded">,
-                                rest: Rest
+                                take: `${C1}${C2}${C3}${C4}` & FourDigitYear<"branded">;
+                                rest: Rest;
                             }
-                            : Err<'year'>
-                        : Err<'year'>
-                    : Err<'year'>
-                : Err<'year'>
-            : Err<'year'>;
+                            : Err<"year">
+                        : Err<"year">
+                    : Err<"year">
+                : Err<"year">
+            : Err<"year">;
 
 /**
  * **TakeYear**`<T, TIgnoreLeading>`

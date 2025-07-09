@@ -9,9 +9,9 @@ import type {
 
 type Take<T extends string> = As<
     string extends T
-        ? Err<'milliseconds'> | { take: ThreeDigitMillisecond<"branded">; rest: string }
+        ? Err<"milliseconds"> | { take: ThreeDigitMillisecond<"branded">; rest: string }
         : HasLeadingTemplateLiteral<T> extends true
-            ? Err<'milliseconds'> | { take: ThreeDigitMillisecond<"branded">; rest: string }
+            ? Err<"milliseconds"> | { take: ThreeDigitMillisecond<"branded">; rest: string }
             : T extends `${infer C1}${infer C2}${infer C3}${infer Rest}`
                 ? C1 extends NumericChar
                     ? C2 extends NumericChar
@@ -20,11 +20,11 @@ type Take<T extends string> = As<
                                 take: `${C1}${C2}${C3}` & ThreeDigitMillisecond<"branded">;
                                 rest: Rest;
                             }
-                            : Err<'milliseconds'>
-                        : Err<'milliseconds'>
-                    : Err<'milliseconds'>
-                : Err<'milliseconds'>,
-    Err<'milliseconds'> | { take: ThreeDigitMillisecond<"branded">; rest: string }
+                            : Err<"milliseconds">
+                        : Err<"milliseconds">
+                    : Err<"milliseconds">
+                : Err<"milliseconds">,
+    Err<"milliseconds"> | { take: ThreeDigitMillisecond<"branded">; rest: string }
 >;
 
 /**
@@ -51,7 +51,7 @@ export type TakeMilliseconds<
             Take<
                 As<StripLeading<T, TIgnoreLeading>, string>
             >,
-            Err<'milliseconds'> | { take: ThreeDigitMillisecond<"branded">; rest: string }
+            Err<"milliseconds"> | { take: ThreeDigitMillisecond<"branded">; rest: string }
         >
     : As<
         Take<T>,

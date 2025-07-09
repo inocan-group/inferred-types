@@ -1,11 +1,11 @@
 import type {
     DefineObject,
     GetUrlDynamics,
+    HttpHeaders,
+    RestMethod,
     TypeSubtype,
     Uri,
-    UrlPathChars,
-    HttpHeaders,
-    RestMethod
+    UrlPathChars
 } from "inferred-types/types";
 
 /**

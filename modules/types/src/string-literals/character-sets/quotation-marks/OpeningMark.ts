@@ -1,11 +1,12 @@
 import type {
+    DoubleQuote,
     FullWidthQuotation,
     LeftDoubleMark,
     LeftHeavyDoubleTurned,
     LeftHeavySingleTurned,
     LeftReversedDoublePrime,
     LeftSingleMark,
-    DoubleQuote, SingleQuote
+    SingleQuote
 } from "types/string-literals/character-sets/quotation-marks";
 
 /**

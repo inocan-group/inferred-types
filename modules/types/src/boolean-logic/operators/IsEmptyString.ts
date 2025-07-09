@@ -1,6 +1,5 @@
 import type { IsEqual, IsStringLiteral } from "inferred-types/types";
 
-
 /**
  * **IsEmptyString**`<T>`
  *

@@ -16,13 +16,13 @@ type Take<T extends string> = string extends T
                 ? C2 extends NumericChar
                     ? `${C1}${C2}` extends TwoDigitMonth<"normal">
                         ? {
-                            take: TwoDigitMonth<"branded"> &  `${C1}${C2}`;
-                            rest: Rest
+                            take: TwoDigitMonth<"branded"> & `${C1}${C2}`;
+                            rest: Rest;
                         }
-                        : Err<'month'>
-                    : Err<'month'>
-                : Err<'month'>
-            : Err<'month'>;
+                        : Err<"month">
+                    : Err<"month">
+                : Err<"month">
+            : Err<"month">;
 
 /**
  * **TakeMonth**`<T, TIgnoreLeading>`

@@ -5,6 +5,7 @@ export * from "./aria";
 export * from "./background";
 export * from "./border";
 export * from "./box";
+export * from "./break";
 export * from "./color";
 export * from "./definition";
 export * from "./display-position";
@@ -29,6 +30,5 @@ export * from "./selector";
 export * from "./sizing";
 export * from "./stroke";
 export * from "./text";
-export * from "./break";
 
 export * from "./transform";

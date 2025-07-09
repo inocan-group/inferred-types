@@ -3,7 +3,9 @@ import type {
     CssAlignItems,
     CssAlignSelf,
     CssGlobal,
-    CssJustifyContent, CssJustifyItems, CssJustifySelf
+    CssJustifyContent,
+    CssJustifyItems,
+    CssJustifySelf
 } from "types/string-literals/character-sets/css";
 
 export type CssPlaceContent = `${CssAlignContent} ${CssJustifyContent}`

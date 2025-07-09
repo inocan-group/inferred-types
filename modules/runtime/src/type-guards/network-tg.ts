@@ -14,9 +14,11 @@ import {
     getUrlQueryParams,
     isAlpha,
     isNumberLike,
-    removeUrlProtocol,
-    isString
-} from "inferred-types/runtime";s
+    isString,
+    removeUrlProtocol
+} from "inferred-types/runtime";
+
+s;
 
 /**
  * **isIp4Address**`(val)`

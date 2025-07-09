@@ -18,6 +18,7 @@ import { parseIsoDate } from "runtime/datetime/parseIsoDate";
 import { isNumber } from "runtime/type-guards";
 import {
     isDate,
+    isDayJs,
     isEpochInMilliseconds,
     isEpochInSeconds,
     isIanaTimezone,
@@ -28,8 +29,7 @@ import {
     isLuxonDate,
     isMoment,
     isTemporalDate,
-    isTimezoneOffset,
-    isDayJs
+    isTimezoneOffset
 } from "runtime/type-guards/datetime";
 
 const getLocalIanaZone = (() => {

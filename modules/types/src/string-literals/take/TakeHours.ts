@@ -25,13 +25,13 @@ type Take<T extends string> = string extends T
                             take: TwoDigitHour<"branded"> & `${C1}${C2}`;
                             rest: Rest;
                         }
-                        : Err<'hours'>
+                        : Err<"hours">
                     : C1 extends "2"
                         ? C2 extends "0" | "1" | "2" | "3"
                             ? { take: TwoDigitHour<"branded"> & `${C1}${C2}`; rest: Rest }
-                            : Err<'hours'>
-                        : Err<'hours'>
-            : Err<'hours'>;
+                            : Err<"hours">
+                        : Err<"hours">
+            : Err<"hours">;
 
 /**
  * **TakeHours**`<T, TIgnoreLeading>`
@@ -55,6 +55,6 @@ export type TakeHours<
             Take<
                 As<StripLeading<T, TIgnoreLeading>, string>
             >,
-                Err<'hours'> | { take: TwoDigitHour<"branded">; rest: string }
+                Err<"hours"> | { take: TwoDigitHour<"branded">; rest: string }
         >
     : Take<T>;

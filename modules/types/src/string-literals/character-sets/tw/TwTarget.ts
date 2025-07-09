@@ -1,10 +1,4 @@
-import type { Opt } from "inferred-types/types";
-import type {
-    TwColor,
-    TwColorTarget,
-    TwColorWithLuminosity,
-    TwColorWithLuminosityOpacity,
-} from "inferred-types/types";
+import type { Opt, TwColor, TwColorTarget, TwColorWithLuminosity, TwColorWithLuminosityOpacity } from "inferred-types/types";
 
 /**
  * All of the `TwColorTarget`'s combined with a color (e.g, `bg-slate`, `border-blue`)

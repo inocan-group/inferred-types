@@ -1,6 +1,5 @@
 import type { AnyFunction, IsEqual } from "inferred-types/types";
 
-
 type RegularFn<Fn> = Fn extends ((...args: any[]) => any)
     ? (...args: Parameters<Fn>) => ReturnType<Fn>
     : false;

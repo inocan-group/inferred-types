@@ -5,7 +5,6 @@ import type {
     CssSizingLight
 } from "types/string-literals/character-sets/css";
 
-
 export type CssTransform =
     | `matrix(${number}${Opt<`, ${number}${string}`>})`
     | `matrix3d(${number}${Opt<`, ${number}${string}`>})`

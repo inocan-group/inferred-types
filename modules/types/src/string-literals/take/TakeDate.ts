@@ -16,28 +16,28 @@ type Take<T extends string> = string extends T
                 ? C1 extends "0"
                     ? C2 extends "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
                         ? { take: TwoDigitDate<"branded"> & `${C1}${C2}`; rest: Rest }
-                        : Err<'date'>
+                        : Err<"date">
                     : C1 extends "1"
                         ? C2 extends NumericChar
                             ? {
                                 take: TwoDigitDate<"branded"> & `${C1}${C2}`;
-                                rest: Rest
+                                rest: Rest;
                             }
-                            : Err<'date'>
+                            : Err<"date">
                         : C1 extends "2"
                             ? C2 extends NumericChar
                                 ? { take: TwoDigitDate<"branded"> & `${C1}${C2}`; rest: Rest }
-                                : Err<'date'>
+                                : Err<"date">
                             : C1 extends "3"
                                 ? C2 extends "0" | "1"
                                     ? {
                                         take: TwoDigitDate<"branded"> & `${C1}${C2}`;
-                                        rest: Rest
+                                        rest: Rest;
                                     }
-                                    : Err<'date'>
-                                : Err<'date'>
-                : Err<'date'>
-            : Err<'date'>;
+                                    : Err<"date">
+                                : Err<"date">
+                : Err<"date">
+            : Err<"date">;
 
 /**
  * **TakeDate**`<T, TIgnoreLeading>`

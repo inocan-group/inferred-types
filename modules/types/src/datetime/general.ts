@@ -256,15 +256,15 @@ export type FourDigitYear<
         ? (`${"1" | "2"}${NumericChar}${number}`
         | `${"0" | "3" | "4" | "5" | "6" | "7" | "8" | "9"}${number}`
     ) & `${number}`
-    : T extends "weak"
-        ? `${NumericChar}${number}` & `${number}`
-    : T extends "branded"
-        ? `${number}` & { kind: "FourDigitYear" }
-    : T extends `${number}`
-        ? IsFourDigitYear<T> extends true
-            ? T & { kind: "FourDigitYear" }
-            : never
-    : never;
+        : T extends "weak"
+            ? `${NumericChar}${number}` & `${number}`
+            : T extends "branded"
+                ? `${number}` & { kind: "FourDigitYear" }
+                : T extends `${number}`
+                    ? IsFourDigitYear<T> extends true
+                        ? T & { kind: "FourDigitYear" }
+                        : never
+                    : never;
 
 export type TimeZoneExplicit = | `Z`
     | `${"+" | "-"}${TwoDigitHour}`

@@ -10,14 +10,14 @@ import type { IsUnion, UnionFilter } from "inferred-types/types";
  * otherwise it just proxies `T` through.
  */
 export type IsOk<T> = T extends { take: null | string; rest: string }
-? T["take"] extends null
-    ? never
-    : {
-        take: T["take"],
-        rest: T["rest"]
-    }
-: IsUnion<T> extends true
-    ? UnionFilter<T, Error>
-    : T extends Error
+    ? T["take"] extends null
         ? never
-        : T;
+        : {
+            take: T["take"];
+            rest: T["rest"];
+        }
+    : IsUnion<T> extends true
+        ? UnionFilter<T, Error>
+        : T extends Error
+            ? never
+            : T;
