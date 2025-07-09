@@ -1,6 +1,7 @@
 import type {
     As,
     Err,
+    ErrContext,
     FourDigitYear,
     ParsedTime,
     ParseTime,
@@ -34,7 +35,7 @@ type ParseMonthDate<
         take: infer Month extends TwoDigitMonth<"branded">;
         rest: infer Rest extends string;
     }
-        ? TakeDate<Rest, "-"> extends {
+        ? TakeDate<Rest, "-", null, Month> extends {
             take: infer IsoDate extends TwoDigitDate<"branded">;
             rest: infer Rest extends string;
         }
@@ -47,8 +48,8 @@ type ParseMonthDate<
                 ], ParsedDate>
                 : Err<
                     `parse-date/leftover`,
-                `A string which appeared to be a IsoMonthDate string had trailing content which was unparsable [${Rest}]!`,
-                { parse: T; month: Month; date: IsoDate; rest: Rest }
+                    `A string which appeared to be a IsoMonthDate string had trailing content which was unparsable [${Rest}]!`,
+                    { parse: T; month: Month; date: IsoDate; rest: Rest }
                 >
             : Err<
                 `parse-date/date`,
@@ -102,7 +103,7 @@ type ParseFullDate<T extends string> = TakeYear<T> extends {
         take: infer Month extends TwoDigitMonth<"branded">;
         rest: infer Rest extends string;
     }
-        ? TakeDate<Rest, "-"> extends {
+        ? TakeDate<Rest, "-", Year, Month> extends {
             take: infer Date extends TwoDigitDate<"branded">;
             rest: infer Rest extends string;
         }
@@ -115,21 +116,19 @@ type ParseFullDate<T extends string> = TakeYear<T> extends {
                 ],
                 ParsedDate
             >
-            : Err<
-                "parse-date/date",
-                "Was unable to parse the date component",
-                { year: Year; month: Month; rest: Rest }
+            : ErrContext<
+                As<TakeDate<Rest, "-", Year, Month>, Error>,
+                { year: Year, month: Month, rest: Rest }
             >
-        : Err<
-            "parse-date/month",
-            `Unable to parse the month!`,
+        : ErrContext<
+            As<TakeMonth<Rest, "-">,Error>,
             { year: Year; rest: Rest }
         >
-    : Err<
-        "parse-date/year",
-        `Unable to parse the year!`,
+    : ErrContext<
+        As<TakeYear<T>, Error>,
         { parse: T }
-    >;
+    >
+    ;
 
 type ParseDateTime<T extends `${string}T${string}`> = Split<T, "T"> extends [
     infer DatePart extends string,

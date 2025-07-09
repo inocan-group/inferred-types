@@ -4,7 +4,6 @@ import { isError } from "inferred-types/runtime";
 import moment from "moment";
 import { DateTime } from "luxon";
 import { parseISO } from "date-fns";
-import { DateMeta } from 'inferred-types/types';
 
 describe("parseDateObject()", () => {
 
@@ -33,7 +32,7 @@ describe("parseDateObject()", () => {
         const date = new Date("2024-01-15T12:34:56.789+01:00");
         console.log({ js: date.toISOString(), offset: date.getTimezoneOffset() })
         const result = parseDateObject(date);
-        const expected: = {
+        const expected = {
             dateType: "datetime",
             hasTime: true,
             year: "2024",
@@ -184,8 +183,6 @@ describe("parseDateObject()", () => {
         const iso = m.toISOString();
         const abc = m.toDate().toISOString();
 
-        console.log({ iso, abc })
-
         const result = parseDateObject(m);
         const expected = {
             dateType: "datetime",
@@ -199,6 +196,7 @@ describe("parseDateObject()", () => {
             ms: "789",
             timezone: "-05:00"
         };
+
         for (const key of keysOf(expected)) {
             expect(expected[key], `'${key}' should be: '${expected[key]}' but was '${result[key]}'\n\t`).toBe(result[key]);
         }

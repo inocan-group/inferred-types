@@ -7,6 +7,12 @@ import type {
     TwoDigitMonth,
 } from "inferred-types/types";
 
+type InvalidMonth<T extends string> = Err<
+    `parse-date/month`,
+    `The value '${T}' can not be parsed into a valid TwoDigitMonth!`,
+    { month: T }
+>
+
 type Take<T extends string> = string extends T
     ? Error | { take: TwoDigitMonth<"branded">; rest: string }
     : HasLeadingTemplateLiteral<T> extends true
@@ -19,10 +25,10 @@ type Take<T extends string> = string extends T
                             take: TwoDigitMonth<"branded"> & `${C1}${C2}`;
                             rest: Rest;
                         }
-                        : Err<"month">
-                    : Err<"month">
-                : Err<"month">
-            : Err<"month">;
+                        : InvalidMonth<T>
+                    : InvalidMonth<T>
+                : InvalidMonth<T>
+            : InvalidMonth<T>;
 
 /**
  * **TakeMonth**`<T, TIgnoreLeading>`

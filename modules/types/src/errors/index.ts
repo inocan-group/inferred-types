@@ -9,3 +9,4 @@ export * from "./PartialError";
 export * from "./ProxyError";
 export * from "./StackTrace";
 export * from "./Throw";
+export * from "./ProxyError";

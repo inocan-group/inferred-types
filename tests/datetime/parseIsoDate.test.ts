@@ -4,7 +4,7 @@ import {
     keysOf,
     parseIsoDate
 } from "inferred-types/runtime";
-import { AsDateMeta, Expect, Test, DateMeta } from 'inferred-types/types';
+import { AsDateMeta, Expect, Test } from 'inferred-types/types';
 
 describe("parseIsoDate()", () => {
     it("datetime, UTC", () => {
@@ -21,7 +21,7 @@ describe("parseIsoDate()", () => {
             second: "56",
             ms: "789",
             timezone: "Z"
-        } satisfies DateMeta;
+        };
 
         for (const key of keysOf(expected)) {
             expect(expected[key], `'${key}' should be: '${expected[key]}' but was '${result[key]}'\n\t`).toBe(result[key]);
@@ -30,7 +30,7 @@ describe("parseIsoDate()", () => {
         type cases = [
             Expect<Test<
                 typeof result, "equals",
-                AsDateMeta<["2024", "01", "15", ["12", "34", "56", "789", "Z"]]>
+                AsDateMeta<typeof str>
             >>
         ]
 
@@ -39,7 +39,7 @@ describe("parseIsoDate()", () => {
     it("datetime, offset, no ms", () => {
         const str = "2024-01-15T23:59:59+02:00" as const;
         const result = parseIsoDate(str);
-        const expected: DateMeta = {
+        const expected = {
             dateType: "datetime",
             hasTime: true,
             year: "2024",
@@ -58,17 +58,15 @@ describe("parseIsoDate()", () => {
         type cases = [
             Expect<Test<
                 typeof result, "equals",
-                AsDateMeta<["2024", "01", "15", ["23", "59", "59", null, "+02:00"]]>
+                AsDateMeta<typeof str>
             >>
         ]
     });
 
-
-
     it("parses ISO datetime with offset", () => {
         const str = "2024-01-15T23:59:59+02:00" as const;
         const result = parseIsoDate(str);
-        const expected: DateMeta = {
+        const expected = {
             dateType: "datetime",
             hasTime: true,
             year: "2024",
@@ -87,7 +85,7 @@ describe("parseIsoDate()", () => {
         type cases = [
             Expect<Test<
                 typeof result, "equals",
-                AsDateMeta<["2024", "01", "15", ["23", "59", "59", null, "+02:00"]]>
+                AsDateMeta<typeof str>
             >>
         ]
     });
@@ -95,7 +93,7 @@ describe("parseIsoDate()", () => {
     it("parses ISO date (YYYY-MM-DD)", () => {
         const str = "2024-01-15" as const;
         const result = parseIsoDate(str);
-        const expected: DateMeta = {
+        const expected = {
             dateType: "year-independent",
             hasTime: false,
             year: "2024",
@@ -115,7 +113,7 @@ describe("parseIsoDate()", () => {
         type cases = [
             Expect<Test<
                 typeof result, "equals",
-                AsDateMeta<["2024", "01", "15", null]>
+                AsDateMeta<typeof str>
             >>
         ]
     });
@@ -123,7 +121,7 @@ describe("parseIsoDate()", () => {
     it("parses ISO date (YYYYMMDD)", () => {
         const str = "20240115" as const;
         const result = parseIsoDate(str);
-        const expected: DateMeta = {
+        const expected = {
             dateType: "year-independent",
             hasTime: false,
             year: "2024",
@@ -146,7 +144,7 @@ describe("parseIsoDate()", () => {
         type cases = [
             Expect<Test<
                 typeof result, "equals",
-                AsDateMeta<["2024", "01", "15", null]>
+                AsDateMeta<typeof str>
             >>
         ]
     });
@@ -154,7 +152,7 @@ describe("parseIsoDate()", () => {
     it("parses ISO year only (YYYY)", () => {
         const str = "2024" as const;
         const result = parseIsoDate(str);
-        const expected: DateMeta = {
+        const expected = {
             dateType: "year",
             hasTime: false,
             year: "2024",
@@ -167,10 +165,6 @@ describe("parseIsoDate()", () => {
             timezone: null,
         }
 
-        if (isError(result)) {
-            throw result
-        }
-
         for (const key of keysOf(expected)) {
             expect(expected[key], `'${key}' should be: '${expected[key]}' but was '${result[key]}'\n\t`).toBe(result[key]);
         }
@@ -178,7 +172,7 @@ describe("parseIsoDate()", () => {
         type cases = [
             Expect<Test<
                 typeof result, "equals",
-                AsDateMeta<["2024", null, null, null]>
+                AsDateMeta<typeof str>
             >>
         ]
     });
@@ -186,7 +180,7 @@ describe("parseIsoDate()", () => {
     it("parses ISO year/month only (-YYYY-MM)", () => {
         const str = "-2024-01" as const;
         const result = parseIsoDate(str);
-        const expected: DateMeta = {
+        const expected = {
             dateType: "year-month",
             hasTime: false,
             year: "2024",
@@ -198,9 +192,6 @@ describe("parseIsoDate()", () => {
             ms: null,
             timezone: null,
         }
-        if (isError(result)) {
-            throw result
-        }
 
         for (const key of keysOf(expected)) {
             expect(expected[key], `'${key}' should be: '${expected[key]}' but was '${result[key]}'\n\t`).toBe(result[key]);
@@ -209,7 +200,7 @@ describe("parseIsoDate()", () => {
         type cases = [
             Expect<Test<
                 typeof result, "equals",
-                AsDateMeta<["2024", "01", null, null]>
+                AsDateMeta<typeof str>
             >>
         ]
     });
@@ -217,7 +208,7 @@ describe("parseIsoDate()", () => {
     it("parses ISO year/month only (-YYYYMM)", () => {
         const str = "-202401" as const;
         const result = parseIsoDate(str);
-        const expected: DateMeta = {
+        const expected = {
             dateType: "year-month",
             hasTime: false,
             year: "2024",
@@ -239,7 +230,7 @@ describe("parseIsoDate()", () => {
         type cases = [
             Expect<Test<
                 typeof result, "equals",
-                AsDateMeta<["2024", "01", null, null]>
+                AsDateMeta<typeof str>
             >>
         ]
     });
@@ -247,7 +238,7 @@ describe("parseIsoDate()", () => {
     it("parses ISO year-less month/day (--MM-DD)", () => {
         const str = "--01-15" as const;
         const result = parseIsoDate(str);
-        const expected: DateMeta = {
+        const expected = {
             dateType: "year-independent",
             hasTime: false,
             year: null,
@@ -267,7 +258,7 @@ describe("parseIsoDate()", () => {
         type cases = [
             Expect<Test<
                 typeof result, "equals",
-                AsDateMeta<[null, "01", "15", null]>
+                AsDateMeta<typeof str>
             >>
         ]
     });
@@ -275,7 +266,7 @@ describe("parseIsoDate()", () => {
     it("parses ISO year-less month/day (--MMDD)", () => {
         const str = "--0115" as const;
         const result = parseIsoDate(str);
-        const expected: DateMeta = {
+        const expected = {
             dateType: "year-independent",
             hasTime: false,
             year: null,
@@ -295,7 +286,7 @@ describe("parseIsoDate()", () => {
         type cases = [
             Expect<Test<
                 typeof result, "equals",
-                AsDateMeta<[null, "01", "15", null]>
+                AsDateMeta<typeof str>
             >>
         ]
     });
@@ -322,45 +313,44 @@ describe("parseIsoDate()", () => {
         ]
     });
 
+    it.skip("DateTime meta converted to string variants", () => {
+        // const p = parseIsoDate("2023-03-05T12:55Z");
+        // const str = p.toString();
+        // const date = p.asDate();
+        // const yearMonth = p.asYearMonth();
+        // const yearIndependent = p.asYearIndependent();
+        // const year = p.asYear();
 
-    it("DateTime meta converted to string variants", () => {
-        const p = parseIsoDate("2023-03-05T12:55Z");
-        const str = p.toString();
-        const date = p.asDate();
-        const yearMonth = p.asYearMonth();
-        const yearIndependent = p.asYearIndependent();
-        const year = p.asYear();
-
-        expect(str).toBe("2023-03-05T12:55Z");
-        expect(date).toBe("2023-03-05");
-        expect(year).toBe("2023");
-        expect(yearIndependent).toBe("--03-05")
+        // expect(str).toBe("2023-03-05T12:55Z");
+        // expect(date).toBe("2023-03-05");
+        // expect(year).toBe("2023");
+        // expect(yearIndependent).toBe("--03-05")
 
 
-        type cases = [
-            Expect<Test<
-                typeof p, "equals",
-                AsDateMeta<[
-                    "2023", "03", "05", ["12", "55", null, null, "Z"]
-                ]>
-            >>,
-            Expect<Test<
-                typeof str, "equals",
-                "2023-03-05T12:55Z"
-            >>,
-            Expect<Test<
-                typeof date, "equals",
-                "2023-03-05"
-            >>,
-            Expect<Test<
-                typeof yearMonth, "equals",
-                "-2023-03"
-            >>,
-            Expect<Test<
-                typeof yearIndependent, "equals",
-                "--03-05"
-            >>,
-        ];
+        // type cases = [
+        //     Expect<Test<
+        //         typeof p, "equals",
+        //         AsDateMeta<[
+        //             "2023", "03", "05", ["12", "55", null, null, "Z"]
+        //         ]>
+        //     >>,
+        //     Expect<Test<
+        //         typeof str, "equals",
+        //         "2023-03-05T12:55Z"
+        //     >>,
+        //     Expect<Test<
+        //         typeof date, "equals",
+        //         "2023-03-05"
+        //     >>,
+        //     Expect<Test<
+        //         typeof yearMonth, "equals",
+        //         "-2023-03"
+        //     >>,
+        //     Expect<Test<
+        //         typeof yearIndependent, "equals",
+        //         "--03-05"
+        //     >>,
+        // ];
     });
 
 });

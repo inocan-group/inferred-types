@@ -86,8 +86,8 @@ type SetParsed<T extends ParsedDate> = As<{
     minute: Minute<T[3]>;
     second: Second<T[3]>;
     ms: Millisecond<T[3]>;
-    offset: Offset<T[3]>;
-}, DateMeta>;
+    timezone: Offset<T[3]>;
+}, DateMeta>
 
 /**
  * **AsDateMeta**`<T>`
@@ -107,7 +107,9 @@ export type AsDateMeta<
     ? SetParsed<T>
     : ParseDate<T> extends Error
         ? As<ParseDate<T>, Error>
-        : SetParsed<As<ParseDate<T>, ParsedDate>>;
+        : ParseDate<T> extends ParsedDate
+            ? SetParsed<ParseDate<T>>
+            : never;
 
 // {
 //     dateType: ParsedDateType<T>,

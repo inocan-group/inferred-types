@@ -79,7 +79,7 @@ type MonthAbbrevLookup = typeof MONTH_ABBREV_LOOKUP;
  * an `IsoYear`) then an error will be returned
  */
 export type GetMonthNumber<
-    T extends DateLike | MonthName | MonthAbbrev
+    T extends DateLike
 > = T extends object
     ? MonthNumber
     : IsWideType<T> extends true

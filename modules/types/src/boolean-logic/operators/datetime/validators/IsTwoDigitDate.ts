@@ -35,8 +35,8 @@ type TestFeb<
  */
 export type IsTwoDigitDate<
     T,
-    TMonth extends `${number}` | null = null,
-    TYear extends `${number}` | null = null
+    TYear extends `${number}` | null = null,
+    TMonth extends `${number}` | null = null
 > = T extends string
     ? string extends T
         ? boolean
@@ -54,3 +54,4 @@ export type IsTwoDigitDate<
                         ? true
                         : false
     : false;
+

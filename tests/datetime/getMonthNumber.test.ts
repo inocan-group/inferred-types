@@ -6,8 +6,7 @@ import {
     Test,
 } from "inferred-types/types";
 import moment from "moment";
-import { getMonthNumber, parseDate, parseIsoDate } from "runtime/datetime";
-import { log } from "console";
+import { getMonthNumber, parseIsoDate } from "runtime/datetime";
 
 describe("GetMonthNumber<T>", () => {
 

@@ -18,8 +18,6 @@ import {
     removeUrlProtocol
 } from "inferred-types/runtime";
 
-s;
-
 /**
  * **isIp4Address**`(val)`
  *

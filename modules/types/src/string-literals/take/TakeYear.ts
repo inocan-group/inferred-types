@@ -7,6 +7,12 @@ import type {
     StripLeading,
 } from "inferred-types/types";
 
+type InvalidYear<T extends string> = Err<
+    `parse-date/year`,
+    `The year [${T}] passed in is not a valid ISO four digit year!`,
+    { year: T }
+>;
+
 type Take<T extends string> = string extends T
     ? Error | { take: FourDigitYear<"branded">; rest: string }
     : HasLeadingTemplateLiteral<T> extends true
@@ -20,11 +26,11 @@ type Take<T extends string> = string extends T
                                 take: `${C1}${C2}${C3}${C4}` & FourDigitYear<"branded">;
                                 rest: Rest;
                             }
-                            : Err<"year">
-                        : Err<"year">
-                    : Err<"year">
-                : Err<"year">
-            : Err<"year">;
+                            : InvalidYear<T>
+                        : InvalidYear<T>
+                    : InvalidYear<T>
+                : InvalidYear<T>
+            : InvalidYear<T>;
 
 /**
  * **TakeYear**`<T, TIgnoreLeading>`

@@ -5,10 +5,8 @@ import {
     IsIsoDateTime,
     IsIsoDate,
     IsLuxonDateTime,
-    LuxonJs,
     Test,
-    IsoDateTimeLike,
-    IsoDateLike
+    LuxonLikeDateTime,
 } from "inferred-types/types";
 import { DateTime } from "luxon";
 import moment from "moment";
@@ -47,7 +45,7 @@ describe("isTomorrow()", () => {
     });
 
     it("should correctly validate Luxon DateTime objects", () => {
-        const tomorrow = DateTime.fromISO("2024-01-16") as unknown as LuxonJs["DateTime"];
+        const tomorrow = DateTime.fromISO("2024-01-16") as unknown as LuxonLikeDateTime;
         const today = DateTime.fromISO("2024-01-15");
         const dayAfterTomorrow = DateTime.fromISO("2024-01-17");
         type Luxon = IsLuxonDateTime<typeof tomorrow>;
