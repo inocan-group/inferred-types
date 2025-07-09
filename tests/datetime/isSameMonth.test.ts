@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { Test, Expect } from "inferred-types/types";
 import { isSameMonth } from "inferred-types/runtime";
-import { DateLike } from "../../modules/inferred-types/dist";
+import { DateLike } from "inferred-types/types";
 
 describe("isSameMonth(comparator) -> (date) -> boolean", () => {
 

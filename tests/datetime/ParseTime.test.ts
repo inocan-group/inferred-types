@@ -164,15 +164,15 @@ describe("ParseTime<T>", () => {
         type Invalid8 = ParseTime<"12:55:55.555Zb">; // timezone
 
         type cases = [
-            // These should all return Error types - current implementation returns leftover for improved error detection
-            Expect<Test<Invalid1, "isError", "parse-time/leftover">>, // Invalid hour: 25 > 23  
-            Expect<Test<Invalid2, "isError", "parse-time/leftover">>, // Invalid minute: 60 > 59
+            // These should all return Error types with specific error subtypes for better debugging
+            Expect<Test<Invalid1, "isError", "parse-time/invalid">>, // Invalid hour: 25 > 23  
+            Expect<Test<Invalid2, "isError", "parse-time/minute">>, // Invalid minute: 60 > 59
             // Invalid3 ("12") currently returns partial parse, needs investigation
-            Expect<Test<Invalid4, "isError", "parse-time/leftover">>, // Invalid second: 60 > 59
-            Expect<Test<Invalid4b, "isError", "parse-time/leftover">>, // Invalid second with ms: 60 > 59  
-            Expect<Test<Invalid5, "isError", "parse-time/leftover">>, // Invalid structure: not-a-time
-            Expect<Test<Invalid6, "isError", "parse-time/leftover">>, // Invalid milliseconds: abc
-            Expect<Test<Invalid7, "isError", "parse-time/leftover">>, // Invalid milliseconds: wrong length
+            Expect<Test<Invalid4, "isError", "parse-time/sec">>, // Invalid second: 60 > 59
+            Expect<Test<Invalid4b, "isError", "parse-time/sec">>, // Invalid second with ms: 60 > 59  
+            Expect<Test<Invalid5, "isError", "parse-time/invalid">>, // Invalid structure: not-a-time
+            Expect<Test<Invalid6, "isError", "parse-time/ms">>, // Invalid milliseconds: abc
+            Expect<Test<Invalid7, "isError", "parse-time/ms">>, // Invalid milliseconds: wrong length
             Expect<Test<Invalid8, "isError", "parse-time/leftover">>, // Valid time + leftover content
         ];
     });

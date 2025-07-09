@@ -1,23 +1,5 @@
 # Date, Time, and DateTime Functionality
 
-This repo contains a lot of utilities which work with dates, times, etc.
-
-- the `asDate()` and `asDateTime()` functions are important to know and understand. They can be found at:
-
-    - /modules/runtime/src/datetime/asDate.ts
-    - /modules/runtime/src/datetime/asDateTime.ts
-
-- The `asDateTime()` is a bit more involved as it's function is to convert any `DateLike` variant to a Javascript Date object (which has no concept of the origination timezone).
-- To give it some view into this we've added the `DatePlus` interface which allows a few additional properties to be set which describe the originating environment.
-- If the originating environment has a way to capture the Timezone offset or IANA timezone name then we try to keep this context
-
-## Plan
-
-Please look at the current implementation along with the `asDateTime.test.ts` test file. From there let's:
-
-- build out a more complete set of tests for the test file
-- run the runtime tests (`pnpm test asDateTime`) and type tests `typed test asDateTime` to see what is working and what needs attention
-- 
 
 
 ## Timezone Awareness

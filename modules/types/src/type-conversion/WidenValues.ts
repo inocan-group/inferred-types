@@ -1,5 +1,4 @@
-import type { AfterFirst, Container, Dictionary, EmptyObject, First, Keys } from "inferred-types/types";
-import type { Widen } from "./Widen";
+import type { AfterFirst, Container, Dictionary, EmptyObject, First, Keys, Widen } from "inferred-types/types";
 
 type ProcessArr<
     T extends readonly unknown[],

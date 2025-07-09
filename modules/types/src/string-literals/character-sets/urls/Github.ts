@@ -1,6 +1,6 @@
 import type { GITHUB_INSIGHT_CATEGORY_LOOKUP } from "inferred-types/constants";
 import type { As, IsTrue, IsUnion, Keys, TupleToUnion, UnionToTuple } from "inferred-types/types";
-import type { AddUrlPathSegment, OptUrlQueryParameters, UrlsFrom } from "./Url";
+import type { AddUrlPathSegment, OptUrlQueryParameters, UrlsFrom } from "inferred-types/types";
 
 export type GithubUrl = UrlsFrom<[
     "https://github.com",

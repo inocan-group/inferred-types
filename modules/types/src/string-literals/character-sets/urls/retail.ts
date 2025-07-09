@@ -22,7 +22,7 @@ import type {
     WHOLE_FOODS_DNS,
     ZARA_DNS,
 } from "inferred-types/constants";
-import type { UrlsFrom } from "./Url";
+import type { UrlsFrom } from "inferred-types/types";
 
 export type AmazonUrl = UrlsFrom<typeof AMAZON_DNS>;
 export type WalmartUrl = UrlsFrom<typeof WALMART_DNS>;

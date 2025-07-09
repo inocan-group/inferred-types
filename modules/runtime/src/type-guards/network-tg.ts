@@ -15,8 +15,8 @@ import {
     isAlpha,
     isNumberLike,
     removeUrlProtocol,
-} from "inferred-types/runtime";
-import { isString } from "./isString";
+    isString
+} from "inferred-types/runtime";s
 
 /**
  * **isIp4Address**`(val)`

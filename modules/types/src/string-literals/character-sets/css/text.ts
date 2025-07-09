@@ -1,7 +1,8 @@
 import type { Suggest } from "inferred-types/types";
-import type { CssColorLight } from "./color";
-import type { CssGlobal } from "./global";
-import type { CssSizingLight } from "./sizing";
+import type { CssColorLight,
+    CssGlobal,
+    CssSizingLight
+ } from "types/string-literals/character-sets/css";
 
 export type CssTextAlign =
     | "start"

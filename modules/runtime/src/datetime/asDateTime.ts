@@ -28,7 +28,8 @@ import {
     isLuxonDate,
     isMoment,
     isTemporalDate,
-    isTimezoneOffset
+    isTimezoneOffset,
+    isDayJs
 } from "runtime/type-guards/datetime";
 
 const getLocalIanaZone = (() => {
@@ -42,7 +43,7 @@ const getLocalIanaZone = (() => {
 })();
 
 function offsetMinutesToString(mins: number): TimezoneOffset {
-    const sign = mins <= 0 ? "+" : "-";
+    const sign = mins >= 0 ? "+" : "-";
     const abs = Math.abs(mins);
     const hh = String(Math.floor(abs / 60)).padStart(2, "0");
     const mm = String(abs % 60).padStart(2, "0");
@@ -104,8 +105,8 @@ export function asDateTime<T extends DateLike>(input: T) {
     // ——— Moment ————————————————————————————————————————————————
     if (isMoment(input)) {
         const d = new Date(input.toISOString()) as DatePlus;
-        const tz: TimezoneOffset<"branded"> | null = isTimezoneOffset(input.format("Z"))
-            ? input.format("Z") as TimezoneOffset<"branded">
+        const tz: TimezoneOffset<"branded"> | null = isTimezoneOffset(offsetMinutesToString(input.parseZone().utcOffset()))
+            ? offsetMinutesToString(input.parseZone().utcOffset()) as TimezoneOffset<"branded">
             : null;
 
         d.offset = tz;
@@ -142,6 +143,16 @@ export function asDateTime<T extends DateLike>(input: T) {
         d.tz = isIanaTimezone(zdt.timeZone.id) ? zdt.timeZone.id : null;
         d.source = "temporal";
         d.sourceIso = zdt.toString() as IsoDateTime; // keeps both offset + tz
+        return d as Returns<T>;
+    }
+
+    // ——— Day.js ————————————————————————————————————————————————
+    if (isDayJs(input)) {
+        const d = input.toDate() as DatePlus;
+        d.offset = null;
+        d.tz = null;
+        d.source = "day.js";
+        d.sourceIso = input.toISOString() as IsoDateTime;
         return d as Returns<T>;
     }
 

@@ -1,10 +1,9 @@
 import { describe, it } from "vitest";
-import { ParseTime } from 'inferred-types/types';
 import {
     Expect,
     ParseDate,
+    ParseTime,
     Test,
-    IsError,
     IsLeapYear,
     FourDigitYear,
     TwoDigitHour,
@@ -15,7 +14,6 @@ import {
     ThreeDigitMillisecond,
     TimezoneOffset
 } from "inferred-types/types";
-
 
 describe("ParseDate<T>", () => {
 
@@ -36,7 +34,7 @@ describe("ParseDate<T>", () => {
             >>,
             Expect<Test<
                 T3, "equals",
-                [ FourDigitYear<"1999">, TwoDigitMonth<"12">, TwoDigitDate<"31">, null ]
+                [ FourDigitYear<"1999">, TwoDigitMonth<"12">,TwoDigitDate<"31">, null ]
             >>,
             Expect<Test<
                 T4, "equals",
@@ -71,7 +69,7 @@ describe("ParseDate<T>", () => {
         ];
     });
 
-    it("Year-independent: --MM-DD and --MMDD", () => {
+    it("Valid --MM-DD and --MMDD", () => {
         type T1 = ParseDate<"--06-15">;
         type T2 = ParseDate<"--0615">;
         type T3 = ParseDate<"--12-31">;
@@ -94,6 +92,20 @@ describe("ParseDate<T>", () => {
                 T4, "equals",
                 [ null, TwoDigitMonth<"12">, TwoDigitDate<"31">, null ]
             >>
+        ];
+    });
+
+     it("Invalid --MM-DD and --MMDD", () => {
+        type T1 = ParseDate<"--13-15">;
+        type T2 = ParseDate<"--1233">;
+        type T3 = ParseDate<"--12-33">;
+        type T4 = ParseDate<"--1331">;
+
+        type cases = [
+            Expect<Test<T1, "isError","parse-date/month">>,
+            Expect<Test<T2, "isError", "parse-date/date">>,
+            Expect<Test<T3, "isError", "parse-date/date">>,
+            Expect<Test<T4, "isError","parse-date/month">>,
         ];
     });
 
@@ -135,14 +147,8 @@ describe("ParseDate<T>", () => {
                     ]
                 ]
             >>,
-            Expect<Test<
-                T3, "equals",
-                [ FourDigitYear<"2024">, TwoDigitMonth<"06">, null, [ TwoDigitHour<"00">, TwoDigitMinute<"00">, TwoDigitSecond<"00">, undefined, undefined ] ]
-            >>,
-            Expect<Test<
-                T4, "isError",
-                "parse-date/leftover"
-            >>
+            Expect<Test<T3, "isError","parse-date/leftover">>,
+            Expect<Test<T4, "isError","parse-date/leftover">>
         ];
     });
 
@@ -152,9 +158,9 @@ describe("ParseDate<T>", () => {
         type T3 = ParseDate<"--06-15T12:30:60">; // Invalid second
 
         type cases = [
-            Expect<Test<T1, "isError", "parse-date/time">>,
-            Expect<Test<T2, "isError", "parse-date/time">>,
-            Expect<Test<T3, "isError", "parse-date/time">>
+            Expect<Test<T1, "isError", "parse-date/datetime">>,
+            Expect<Test<T2, "isError", "parse-date/leftover">>,
+            Expect<Test<T3, "isError", "parse-date/leftover">>
         ];
     });
 
@@ -168,7 +174,7 @@ describe("ParseDate<T>", () => {
             Expect<Test<Invalid1, "isError", "parse-date/month">>,
             Expect<Test<Invalid2, "isError", "parse-date/date">>,
             Expect<Test<Invalid4, "isError", "parse-date/year">>,
-            Expect<Test<Invalid5, "isError", "parse-date/time">>
+            Expect<Test<Invalid5, "isError", "parse-date/datetime">>
         ];
     });
 
@@ -176,7 +182,10 @@ describe("ParseDate<T>", () => {
         type WideString = ParseDate<string>;
 
         type cases = [
-            Expect<IsError<WideString>>
+            Expect<Test<
+                WideString, "equals",
+                Error | ParsedDate
+            >>
         ];
     });
 

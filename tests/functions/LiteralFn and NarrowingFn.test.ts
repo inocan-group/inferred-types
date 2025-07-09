@@ -9,7 +9,7 @@ import {
     NarrowingFn,
     Test
 } from "inferred-types/types";
-import { IsEqual } from "transpiled/types";
+import { IsEqual } from "inferred-types/types";
 
 
 

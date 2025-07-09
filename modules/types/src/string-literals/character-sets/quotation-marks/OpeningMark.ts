@@ -1,5 +1,12 @@
-import type { FullWidthQuotation, LeftDoubleMark, LeftHeavyDoubleTurned, LeftHeavySingleTurned, LeftReversedDoublePrime, LeftSingleMark } from "./individual-smart-marks";
-import type { DoubleQuote, SingleQuote } from "./StandardMark";
+import type {
+    FullWidthQuotation,
+    LeftDoubleMark,
+    LeftHeavyDoubleTurned,
+    LeftHeavySingleTurned,
+    LeftReversedDoublePrime,
+    LeftSingleMark,
+    DoubleQuote, SingleQuote
+} from "types/string-literals/character-sets/quotation-marks";
 
 /**
  * **OpeningMark**

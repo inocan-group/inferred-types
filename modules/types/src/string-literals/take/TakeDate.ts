@@ -1,35 +1,43 @@
 import type {
     As,
+    Err,
     HasLeadingTemplateLiteral,
     NumericChar,
     StripLeading,
+    TwoDigitDate,
 } from "inferred-types/types";
 
 type Take<T extends string> = string extends T
-    ? { take: string | null; rest: string }
+    ? Error | { take: TwoDigitDate<"branded">; rest: string }
     : HasLeadingTemplateLiteral<T> extends true
-        ? { take: string | null; rest: string }
+        ? Error | { take: TwoDigitDate<"branded">; rest: string }
         : T extends `${infer C1}${infer C2}${infer Rest}`
             ? C1 extends NumericChar
                 ? C1 extends "0"
                     ? C2 extends "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
-                        ? { take: `${C1}${C2}`; rest: Rest }
-                        : { take: null; rest: T }
+                        ? { take: TwoDigitDate<"branded"> & `${C1}${C2}`; rest: Rest }
+                        : Err<'date'>
                     : C1 extends "1"
                         ? C2 extends NumericChar
-                            ? { take: `${C1}${C2}`; rest: Rest }
-                            : { take: null; rest: T }
+                            ? {
+                                take: TwoDigitDate<"branded"> & `${C1}${C2}`;
+                                rest: Rest
+                            }
+                            : Err<'date'>
                         : C1 extends "2"
                             ? C2 extends NumericChar
-                                ? { take: `${C1}${C2}`; rest: Rest }
-                                : { take: null; rest: T }
+                                ? { take: TwoDigitDate<"branded"> & `${C1}${C2}`; rest: Rest }
+                                : Err<'date'>
                             : C1 extends "3"
                                 ? C2 extends "0" | "1"
-                                    ? { take: `${C1}${C2}`; rest: Rest }
-                                    : { take: null; rest: T }
-                                : { take: null; rest: T }
-                : { take: null; rest: T }
-            : { take: null; rest: T };
+                                    ? {
+                                        take: TwoDigitDate<"branded"> & `${C1}${C2}`;
+                                        rest: Rest
+                                    }
+                                    : Err<'date'>
+                                : Err<'date'>
+                : Err<'date'>
+            : Err<'date'>;
 
 /**
  * **TakeDate**`<T, TIgnoreLeading>`
@@ -41,7 +49,7 @@ type Take<T extends string> = string extends T
  *
  * If there is no match:
  *
- * - `{ take: null, rest: T }`
+ * - `Err<'date'>`
  *
  * @param TIgnoreLeading - Optional character to ignore if found at the beginning of the string
  */
@@ -53,8 +61,9 @@ export type TakeDate<
         ? string extends TIgnoreLeading
             ? never
             : Take<
-                As<StripLeading<T, TIgnoreLeading>, string>
+                StripLeading<T, TIgnoreLeading>
             >
         : Take<T>,
-    { take: null; rest: string } | { take: `${number}`; rest: string }
+    Error |
+    { take: TwoDigitDate<"branded">; rest: string }
 >;

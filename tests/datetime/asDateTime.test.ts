@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { asDateTime } from "inferred-types/runtime";
-import { DatePlus, Expect, Test } from "inferred-types/types"
+import { DatePlus, Expect, Test, IsoDateTime } from "inferred-types/types"
 import moment from "moment";
 import { Temporal } from "@js-temporal/polyfill";
 import { DateTime } from "luxon";
@@ -32,7 +32,7 @@ describe("asDateTime()", () => {
         expect(typeof result.sourceIso).toBe("string");
         expect(result.sourceIso).toBe("2024-01-15T15:30:45.123+01:00");
 
-        expect(result.toISOString()).toBe("2024-01-15T15:30:45.123Z");
+        expect(result.toISOString()).toBe("2024-01-15T14:30:45.123Z");
     });
 
 
@@ -40,7 +40,7 @@ describe("asDateTime()", () => {
         const result = asDateTime("2024");
 
         type cases = [
-            /** type tests */
+            Expect<Test<typeof result, "extends", DatePlus<"iso-year", "Z">>>
         ];
     });
 
@@ -50,7 +50,7 @@ describe("asDateTime()", () => {
         type cases = [
             Expect<Test<
                 typeof result, "extends",
-                DatePlus<"iso-year-month", "Z">
+                DatePlus<"iso-year-month", "Z", IsoDateTime>
             >>,
 
         ];
@@ -63,7 +63,8 @@ describe("asDateTime()", () => {
         const result = asDateTime(d);
 
         expect(result.source).toBe("moment");
-        expect(result.offset).toBe(null);
+        expect(result.offset).toBe("+01:00");
+        expect(result.toISOString()).toBe("2024-01-15T14:30:45.123Z");
 
         type cases = [
             /** type tests */
@@ -72,8 +73,12 @@ describe("asDateTime()", () => {
 
 
     it("luxon date with offset", () => {
-        const d = DateTime.fromISO("2024-01-15T15:30:45.123+01:00");
+        const d = DateTime.fromISO("2024-01-15T15:30:45.123+01:00", { setZone: true });
         const result = asDateTime(d);
+
+        expect(result.source).toBe("luxon");
+        expect(result.offset).toBe("+01:00");
+        expect(result.toISOString()).toBe("2024-01-15T14:30:45.123Z");
 
         type cases = [
             /** type tests */
@@ -165,8 +170,11 @@ describe("asDateTime()", () => {
         try {
             const { parseISO } = require("date-fns");
             const d = parseISO("2024-01-15T12:34:56Z");
-            const result = asDateTime(d);
-            expect(iso(result)).toBe("2024-01-15T12:34:56.000Z");
+        const result = asDateTime(d);
+
+        expect(result.source).toBe("day.js");
+        expect(result.offset).toBe(null);
+        expect(result.toISOString()).toBe("2024-01-15T14:30:45.123Z");            expect(iso(result)).toBe("2024-01-15T12:34:56.000Z");
         } catch {
             // skip if not available
         }

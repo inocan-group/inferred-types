@@ -1,4 +1,4 @@
-import type { IsNever } from "./IsNever";
+import type { IsNever } from "inferred-types/types";
 
 type Process<T> = [IsNever<T>] extends [true]
     ? false

@@ -4,9 +4,9 @@ import type {
     TypeSubtype,
     Uri,
     UrlPathChars,
+    HttpHeaders,
+    RestMethod
 } from "inferred-types/types";
-import type { HttpHeaders } from "./http";
-import type { RestMethod } from "./Rest";
 
 /**
  * Represents an API endpoint in a convenient fashion.

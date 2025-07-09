@@ -1,5 +1,5 @@
 import { Expect, Err, FailFast, Test } from "inferred-types/types";
-import { Extends } from "transpiled/types";
+import { Extends } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("FailFast<[]>", () => {

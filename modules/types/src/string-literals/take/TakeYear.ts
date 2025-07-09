@@ -1,25 +1,30 @@
 import type {
     As,
+    Err,
+    FourDigitYear,
     HasLeadingTemplateLiteral,
     NumericChar,
     StripLeading,
 } from "inferred-types/types";
 
 type Take<T extends string> = string extends T
-    ? { take: `${number}` | null; rest: string }
+    ? Error | { take: FourDigitYear<"branded">; rest: string }
     : HasLeadingTemplateLiteral<T> extends true
-        ? { take: string | null; rest: string }
+        ? Error | { take: FourDigitYear<"branded">; rest: string }
         : T extends `${infer C1}${infer C2}${infer C3}${infer C4}${infer Rest}`
             ? C1 extends NumericChar
                 ? C2 extends NumericChar
                     ? C3 extends NumericChar
                         ? C4 extends NumericChar
-                            ? { take: As<`${C1}${C2}${C3}${C4}`, `${number}`>; rest: Rest }
-                            : { take: null; rest: T }
-                        : { take: null; rest: T }
-                    : { take: null; rest: T }
-                : { take: null; rest: T }
-            : { take: null; rest: T };
+                            ? {
+                                take: `${C1}${C2}${C3}${C4}` & FourDigitYear<"branded">,
+                                rest: Rest
+                            }
+                            : Err<'year'>
+                        : Err<'year'>
+                    : Err<'year'>
+                : Err<'year'>
+            : Err<'year'>;
 
 /**
  * **TakeYear**`<T, TIgnoreLeading>`
@@ -31,7 +36,7 @@ type Take<T extends string> = string extends T
  *
  * If there is no match:
  *
- * - `{ take: null, rest: Rest }`
+ * - `Err<'year'>`
  *
  * @param TIgnoreLeading - Optional character to ignore if found at the beginning of the string
  */
@@ -46,6 +51,6 @@ export type TakeYear<
                 As<StripLeading<T, TIgnoreLeading>, string>
             >
         : Take<T>,
-    { take: null; rest: string } | { take: `${number}`; rest: string }
+    Error | { take: FourDigitYear<"branded">; rest: string }
 >
 ;

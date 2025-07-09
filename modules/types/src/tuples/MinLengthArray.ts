@@ -1,4 +1,4 @@
-import type { FixedLengthArray } from "./FixedLengthArray";
+import type { FixedLengthArray } from "inferred-types/types";
 
 /**
  * **MinLengthArray**`<T,N>`

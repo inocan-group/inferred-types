@@ -1,6 +1,6 @@
 import { describe, it } from "vitest";
 import { Expect, Test } from "inferred-types/types";
-import { IsTwoDigitMonth } from "../../../../modules/types/src/boolean-logic/operators/datetime/validators/IsTwoDigitMonth";
+import { IsTwoDigitMonth } from "inferred-types/types";
 
 describe("IsTwoDigitMonth<T>", () => {
 

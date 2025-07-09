@@ -1,4 +1,4 @@
-import type { IsUnion } from "./IsUnion";
+import type { IsUnion } from "inferred-types/types";
 
 /**
  * **IsNull**`<T>`

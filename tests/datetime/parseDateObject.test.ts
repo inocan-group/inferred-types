@@ -12,7 +12,7 @@ describe("parseDateObject()", () => {
     it("parses JS Date instance (UTC)", () => {
         const date = new Date("2024-01-15T12:34:56.789Z");
         const result = parseDateObject(date);
-        const expected: DateMeta = {
+        const expected = {
             dateType: "datetime",
             hasTime: true,
             year: "2024",
@@ -33,7 +33,7 @@ describe("parseDateObject()", () => {
         const date = new Date("2024-01-15T12:34:56.789+01:00");
         console.log({ js: date.toISOString(), offset: date.getTimezoneOffset() })
         const result = parseDateObject(date);
-        const expected: DateMeta = {
+        const expected: = {
             dateType: "datetime",
             hasTime: true,
             year: "2024",
@@ -54,7 +54,7 @@ describe("parseDateObject()", () => {
         const date = asDateTime("2024-01-15T12:34:56.789+01:00");
         console.log({ js: date.toISOString(), offset: date.getTimezoneOffset() })
         const result = parseDateObject(date);
-        const expected: DateMeta = {
+        const expected = {
             dateType: "datetime",
             hasTime: true,
             year: "2024",
@@ -74,7 +74,7 @@ describe("parseDateObject()", () => {
     it("parses ISO date string (UTC)", () => {
         const isoString = "2024-01-15T12:34:56.789Z";
         const result = parseDateObject(isoString as any);
-        const expected: DateMeta = {
+        const expected = {
             dateType: "datetime",
             hasTime: true,
             year: "2024",
@@ -95,7 +95,7 @@ describe("parseDateObject()", () => {
         const m = moment("2024-01-15T12:34:56.789Z");
 
         const result = parseDateObject(m);
-        const expected: DateMeta = {
+        const expected = {
             dateType: "datetime",
             hasTime: true,
             year: "2024",
@@ -115,7 +115,7 @@ describe("parseDateObject()", () => {
     it("parses Luxon DateTime object in UTC", () => {
         const l = DateTime.fromISO("2024-01-15T12:34:56.789Z");
         const result = parseDateObject(l);
-        const expected: DateMeta = {
+        const expected = {
             dateType: "datetime",
             hasTime: true,
             year: "2024",
@@ -135,7 +135,7 @@ describe("parseDateObject()", () => {
     it("parses DateFns date object in UTC", () => {
         const d = parseISO("2024-01-15T12:34:56.789Z");
         const result = parseDateObject(d);
-        const expected: DateMeta = {
+        const expected = {
             dateType: "datetime",
             hasTime: true,
             year: "2024",
@@ -157,7 +157,7 @@ describe("parseDateObject()", () => {
         if (Temporal && Temporal.PlainDateTime) {
             const t = Temporal.PlainDateTime.from("2024-01-15T12:34:56.789");
             const result = parseDateObject(t);
-            const expected: DateMeta = {
+            const expected = {
                 dateType: "datetime",
                 hasTime: true,
                 year: "2024",
@@ -187,7 +187,7 @@ describe("parseDateObject()", () => {
         console.log({ iso, abc })
 
         const result = parseDateObject(m);
-        const expected: DateMeta = {
+        const expected = {
             dateType: "datetime",
             hasTime: true,
             year: "2024",
@@ -206,7 +206,7 @@ describe("parseDateObject()", () => {
     it("parses non-UTC DateFns date object", () => {
         const d = parseISO("2024-01-15T12:34:56.789Z");
         const result = parseDateObject(d);
-        const expected: DateMeta = {
+        const expected = {
             dateType: "datetime",
             hasTime: true,
             year: "2024",

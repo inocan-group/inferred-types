@@ -1,5 +1,6 @@
 import type {
     As,
+    Err,
     HasLeadingTemplateLiteral,
     NumericChar,
     StripLeading,
@@ -7,9 +8,9 @@ import type {
 } from "inferred-types/types";
 
 type Take<T extends string> = string extends T
-    ? { take: null; rest: string } | { take: TimezoneOffset<"branded">; rest: string }
+    ? Err<'timezone'> | { take: TimezoneOffset<"branded">; rest: string }
     : HasLeadingTemplateLiteral<T> extends true
-        ? { take: null; rest: string } | { take: TimezoneOffset<"branded">; rest: string }
+        ? Err<'timezone'> | { take: TimezoneOffset<"branded">; rest: string }
         : T extends `Z${infer Rest}`
             ? { take: "Z" & TimezoneOffset<"branded">; rest: Rest }
             : T extends `${infer Sign}${infer H1}${infer H2}${infer Rest}`
@@ -39,7 +40,7 @@ type Take<T extends string> = string extends T
                                                         : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`; rest: Rest }
                                                     : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`; rest: Rest }
                                                 : { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}`; rest: Rest }
-                                        : { take: null; rest: T }
+                                        : Err<'timezone'>
                                     : Rest extends `:${infer M1}${infer M2}${infer Rest2}`
                                         ? M1 extends NumericChar
                                             ? M2 extends NumericChar
@@ -63,7 +64,7 @@ type Take<T extends string> = string extends T
                             : { take: null; rest: T }
                         : { take: null; rest: T }
                     : { take: null; rest: T }
-                : { take: null; rest: T };
+                : Err<'timezone'>;
 
 /**
  * **TakeTimezone**`<T, TIgnoreLeading>`
@@ -96,7 +97,7 @@ export type TakeTimezone<
             Take<
                 As<StripLeading<T, TIgnoreLeading>, string>
             >,
-                { take: null; rest: string } | { take: TimezoneOffset<"branded">; rest: string }
+                Err<'timezone'> | { take: TimezoneOffset<"branded">; rest: string }
         >
     : As<
         Take<T>,

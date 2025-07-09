@@ -1,4 +1,4 @@
-import type { IsEqual } from "./IsEqual";
+import type { IsEqual } from "inferred-types/types";
 
 /**
  * **IsWideNumber**`<T>`

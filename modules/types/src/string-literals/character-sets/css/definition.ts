@@ -1,23 +1,22 @@
-import type { CssFontProperties, Suggest } from "inferred-types/types";
-import type { CssAbsolutionPositioningProperties } from "./absolute";
-import type { CssAlignProperties } from "./align";
-import type { CssAnimationProperties } from "./animation";
-import type { CssBackgroundProperties } from "./background";
-import type { CssBorderProperties } from "./border";
-import type { CssBoxProperties } from "./box";
-import type { CssBreakProperties } from "./break";
-import type { CssColor, CssColorLight } from "./color";
-import type { CssAspectRatio, CssDisplay, CssPosition } from "./display-position";
-import type { CssGlobal } from "./global";
-import type { CssJustifyProperties } from "./justify";
-import type { CssMarginProperties } from "./margin";
-import type { CssObjectFit, CssObjectPosition } from "./object";
-import type { CssOffsetProperties } from "./offset";
-import type { CssOutlineProperties } from "./outline";
-import type { CssOverflowProperties } from "./overflow";
-import type { CssPaddingProperties } from "./padding";
-import type { CssPlaceProperties } from "./place";
+import {Suggest} from 'inferred-types/types';
 import type {
+    CssFontProperties,
+    CssAbsolutionPositioningProperties,
+    CssAlignProperties,
+    CssAnimationProperties,
+    CssBackgroundProperties,
+    CssBorderProperties,
+    CssBoxProperties,
+    CssBreakProperties,
+    CssColor, CssColorLight,
+    CssAspectRatio, CssDisplay, CssPosition,
+    CssGlobal, CssJustifyProperties, CssMarginProperties,
+    CssObjectFit, CssObjectPosition,
+    CssOffsetProperties,
+    CssOutlineProperties,
+    CssOverflowProperties,
+    CssPaddingProperties,
+    CssPlaceProperties,
     CssAppearance,
     CssBackdropFilter,
     CssContent,
@@ -45,11 +44,12 @@ import type {
     CssWhiteSpaceCollapse,
     CssWordBreak,
     CssWritingMode,
-} from "./props";
-import type { CssSizing, CssSizingLight } from "./sizing";
-import type { CssStrokeProperties } from "./stroke";
-import type { CssTextProperties } from "./text";
-import type { CssTransformProperties } from "./transform";
+    CssSizing, CssSizingLight,
+    CssStrokeProperties,
+    CssTextProperties,
+    CssTransformProperties
+} from "types/string-literals/character-sets/css";
+
 
 /**
  * **CssDefinition**

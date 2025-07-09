@@ -1,4 +1,4 @@
-import type { ExplicitlyEmptyObject } from "./EmptyObject";
+import type { ExplicitlyEmptyObject } from "inferred-types/types";
 
 /**
  * **Empty**

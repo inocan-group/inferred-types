@@ -4,9 +4,9 @@ import type {
     IsWideContainer,
     Join,
     KeyValue,
-    ToKv
+    ToKv,
+    AsString
 } from "inferred-types/types";
-import type { AsString } from "./AsString";
 
 type Prefix<T extends boolean> = T extends true
     ? "\n  "

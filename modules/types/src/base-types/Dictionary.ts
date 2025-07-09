@@ -1,4 +1,4 @@
-import type { ObjectKey } from "./ObjectKey";
+import type { ObjectKey } from "inferred-types/types";
 
 /**
  * **Dictionary**`<[K],[V]>`

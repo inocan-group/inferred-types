@@ -1,5 +1,5 @@
 import type { LikeRegExp } from "inferred-types/types";
-import { isString } from "./isString";
+import { isString } from "inferred-types/runtime";
 
 /**
  * Type guard that validates the the value passed in is

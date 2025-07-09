@@ -1,5 +1,5 @@
 import type { CssAspectRatio } from "inferred-types/types";
-import { isString } from "./isString";
+import { isString } from "inferred-types/runtime";
 
 const tokens = [
     "1",

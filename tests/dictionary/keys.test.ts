@@ -11,7 +11,7 @@ import type {
     Test,
 } from "inferred-types/types";
 import { keysOf } from "inferred-types/runtime";
-import { ExplicitlyEmptyObject } from "transpiled/types";
+import { ExplicitlyEmptyObject } from "inferred-types/types";
 
 describe("NumericKeys<T>", () => {
 

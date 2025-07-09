@@ -1,32 +1,32 @@
-import type { TakeMonth, Equals, Expect } from "inferred-types/types";
+import type { TakeMonth, Equals, Expect, TwoDigitMonth } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("TakeMonth", () => {
     it("valid months (01-12)", () => {
         // Valid months from 01 to 12
         type T01 = TakeMonth<"01abc">;
-        type C01 = Expect<Equals<T01, { take: "01", rest: "abc" }>>;
+        type C01 = Expect<Equals<T01, { take: TwoDigitMonth<"01">, rest: "abc" }>>;
 
         type T02 = TakeMonth<"02xyz">;
-        type C02 = Expect<Equals<T02, { take: "02", rest: "xyz" }>>;
+        type C02 = Expect<Equals<T02, { take: TwoDigitMonth<"02">, rest: "xyz" }>>;
 
         type T03 = TakeMonth<"03">;
-        type C03 = Expect<Equals<T03, { take: "03", rest: "" }>>;
+        type C03 = Expect<Equals<T03, { take: TwoDigitMonth<"03">, rest: "" }>>;
 
         type T06 = TakeMonth<"06-15">;
-        type C06 = Expect<Equals<T06, { take: "06", rest: "-15" }>>;
+        type C06 = Expect<Equals<T06, { take: TwoDigitMonth<"06">, rest: "-15" }>>;
 
         type T09 = TakeMonth<"09">;
-        type C09 = Expect<Equals<T09, { take: "09", rest: "" }>>;
+        type C09 = Expect<Equals<T09, { take: TwoDigitMonth<"09">, rest: "" }>>;
 
         type T10 = TakeMonth<"10">;
-        type C10 = Expect<Equals<T10, { take: "10", rest: "" }>>;
+        type C10 = Expect<Equals<T10, { take: TwoDigitMonth<"10">, rest: "" }>>;
 
         type T11 = TakeMonth<"11abc">;
-        type C11 = Expect<Equals<T11, { take: "11", rest: "abc" }>>;
+        type C11 = Expect<Equals<T11, { take: TwoDigitMonth<"11">, rest: "abc" }>>;
 
         type T12 = TakeMonth<"12-31">;
-        type C12 = Expect<Equals<T12, { take: "12", rest: "-31" }>>;
+        type C12 = Expect<Equals<T12, { take: TwoDigitMonth<"12">, rest: "-31" }>>;
     });
 
     it("invalid months (00, 13-99)", () => {
@@ -96,7 +96,7 @@ describe("TakeMonth", () => {
         type IgnoreDash2 = TakeMonth<"-12-31", "-">;
         type CIgnoreDash2 = Expect<Equals<IgnoreDash2, { take: "12", rest: "-31" }>>;
 
-        // Ignore leading slash  
+        // Ignore leading slash
         type IgnoreSlash = TakeMonth<"/06xyz", "/">;
         type CIgnoreSlash = Expect<Equals<IgnoreSlash, { take: "06", rest: "xyz" }>>;
 

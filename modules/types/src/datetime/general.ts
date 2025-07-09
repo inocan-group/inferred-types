@@ -1,5 +1,6 @@
 import type { ISO_DATE_30, ISO_DATE_31, ISO_MONTH_WITH_30 } from "inferred-types/constants";
 import type {
+    IsFourDigitYear,
     NumericChar,
     NumericChar__NonZero,
     NumericChar__ZeroToFive
@@ -222,7 +223,7 @@ export type MonthDateDigit<
 > = TwoDigitDate<T> | NumericChar__NonZero;
 
 /**
- * **FourDigitYear**`<["weak"|"NORMAL","strong"]>`
+ * **FourDigitYear**`<["weak"|"NORMAL"|"strong"|"branded"]>`
  *
  * Represents a four digit year in the type system.
  *
@@ -255,13 +256,15 @@ export type FourDigitYear<
         ? (`${"1" | "2"}${NumericChar}${number}`
         | `${"0" | "3" | "4" | "5" | "6" | "7" | "8" | "9"}${number}`
     ) & `${number}`
-        : T extends "weak"
-            ? `${NumericChar}${number}` & `${number}`
-            : T extends "branded"
-                ? `${number}` & { kind: "FourDigitYear" }
-                : T extends `${number}`
-                    ? T & { kind: "FourDigitYear" }
-                    : never;
+    : T extends "weak"
+        ? `${NumericChar}${number}` & `${number}`
+    : T extends "branded"
+        ? `${number}` & { kind: "FourDigitYear" }
+    : T extends `${number}`
+        ? IsFourDigitYear<T> extends true
+            ? T & { kind: "FourDigitYear" }
+            : never
+    : never;
 
 export type TimeZoneExplicit = | `Z`
     | `${"+" | "-"}${TwoDigitHour}`

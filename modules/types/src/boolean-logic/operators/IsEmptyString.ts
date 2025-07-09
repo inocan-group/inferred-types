@@ -1,5 +1,5 @@
-import type { IsEqual } from "./IsEqual";
-import type { IsStringLiteral } from "./IsStringLiteral";
+import type { IsEqual, IsStringLiteral } from "inferred-types/types";
+
 
 /**
  * **IsEmptyString**`<T>`

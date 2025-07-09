@@ -1,5 +1,6 @@
 import type {
     As,
+    Err,
     HasLeadingTemplateLiteral,
     NumericChar,
     NumericChar__ZeroToFive,
@@ -8,16 +9,16 @@ import type {
 } from "inferred-types/types";
 
 type Take<T extends string> = string extends T
-    ? { take: null; rest: string } | { take: TwoDigitMinute<"branded">; rest: string }
+    ? Err<'minutes'> | { take: TwoDigitMinute<"branded">; rest: string }
     : HasLeadingTemplateLiteral<T> extends true
-        ? { take: null; rest: string } | { take: TwoDigitMinute<"branded">; rest: string }
+        ? Err<'minutes'> | { take: TwoDigitMinute<"branded">; rest: string }
         : T extends `${infer C1}${infer C2}${infer Rest}`
             ? C1 extends NumericChar__ZeroToFive
                 ? C2 extends NumericChar
                     ? { take: TwoDigitMinute<"branded"> & `${C1}${C2}`; rest: Rest }
-                    : { take: null; rest: T }
-                : { take: null; rest: T }
-            : { take: null; rest: T };
+                    : Err<'minutes'>
+                : Err<'minutes'>
+            : Err<'minutes'>;
 
 /**
  * **TakeMinutes**`<T, TIgnoreLeading>`
@@ -43,7 +44,7 @@ export type TakeMinutes<
             Take<
                 As<StripLeading<T, TIgnoreLeading>, string>
             >,
-                { take: null; rest: string } | { take: TwoDigitMinute<"branded">; rest: string }
+                Err<'minutes'> | { take: TwoDigitMinute<"branded">; rest: string }
         >
     : As<
         Take<T>,

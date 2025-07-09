@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { Test, Expect } from "inferred-types/types";
-import { getYesterday } from "../../modules/runtime/src/datetime/getYesterday";
+import { getYesterday } from "inferred-types/runtime";
 
 describe("getYesterday() -> Iso8601Date", () => {
 

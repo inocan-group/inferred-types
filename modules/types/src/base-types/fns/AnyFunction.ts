@@ -1,4 +1,4 @@
-import type { TypedFunction } from "./TypedFunction";
+import type { TypedFunction } from "inferred-types/types";
 
 /**
  * **AnyFunction**

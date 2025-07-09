@@ -8,7 +8,7 @@ import {
     IsWideObject,
     IsNever
 } from "inferred-types/types"
-import { ExplicitlyEmptyObject, IsWideContainer } from "transpiled/types";
+import { ExplicitlyEmptyObject, IsWideContainer } from "inferred-types/types";
 
 describe("ObjectObjectKeys<T> with object targets", () => {
     type OBJ = { foo: 1; bar: 2 };

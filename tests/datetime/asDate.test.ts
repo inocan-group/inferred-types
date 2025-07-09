@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { asDate } from "../../modules/runtime/src/datetime/asDate";
+import { asDate } from "inferred-types/runtime";
 
 // Helper to check if a Date is at midnight UTC
 const isMidnightUTC = (d: Date) =>

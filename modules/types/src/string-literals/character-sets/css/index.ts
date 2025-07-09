@@ -29,5 +29,6 @@ export * from "./selector";
 export * from "./sizing";
 export * from "./stroke";
 export * from "./text";
+export * from "./break";
 
 export * from "./transform";
