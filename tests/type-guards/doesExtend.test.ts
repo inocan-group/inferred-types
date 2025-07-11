@@ -28,7 +28,7 @@ describe("doesExtend(type)(val)", () => {
 
         expect(t1).toBe(true);
         expect(t2).toBe(true);
-        expect(f1).toBe(true);
+        expect(f1).toBe(false);
 
         type cases = [
             /** type tests */

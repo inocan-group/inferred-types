@@ -113,7 +113,12 @@ export function asDateTime<T extends DateLike>(input: T) {
         d.tz = isIanaTimezone((input as any)._z?.name) ? (input as any)._z.name : null;
 
         d.source = "moment";
-        d.sourceIso = input.toISOString() as IsoDateTime;
+        // Use parseZone().toISOString(true) to preserve the original timezone from input
+        // But if it's UTC, use the standard Z format
+        const sourceIso = input.parseZone().toISOString(true);
+        d.sourceIso = sourceIso.endsWith('+00:00') 
+            ? sourceIso.replace('+00:00', 'Z') as IsoDateTime
+            : sourceIso as IsoDateTime;
         return d as Returns<T>;
     }
 
@@ -126,7 +131,10 @@ export function asDateTime<T extends DateLike>(input: T) {
         d.tz = isIanaTimezone(input.zoneName) ? input.zoneName : null;
 
         d.source = "luxon";
-        d.sourceIso = input.toISO() as IsoDateTime; // already has zone/offset
+        // For UTC Luxon objects, preserve the Z format
+        d.sourceIso = input.zoneName === 'UTC' 
+            ? input.toUTC().toISO() as IsoDateTime
+            : input.toISO() as IsoDateTime;
         return d as Returns<T>;
     }
 

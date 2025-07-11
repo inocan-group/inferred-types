@@ -21,7 +21,7 @@ function filterFn<
     return <const TList extends readonly ComparisonAccept<TOp>[]>(list: TList) => {
         return (
             list.filter((item) => {
-                const result = compare(op, params)(item as any) as unknown as boolean;
+                const result = compare(op, ...(params as any[]))(item as any) as unknown as boolean;
 
                 return result === true;
             })

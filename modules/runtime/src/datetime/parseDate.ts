@@ -1,6 +1,6 @@
 import type { DateLike } from "inferred-types/types";
 import {
-    asDate,
+    asDateTime,
     parseIsoDate
 } from "runtime/datetime";
 
@@ -25,9 +25,17 @@ import {
 export function parseDate<
     T extends DateLike
 >(d: T) {
-    const iso = isString(d)
-        ? d
-        : asDate(d).toISOString();
+    let iso: string;
+    
+    if (isString(d)) {
+        iso = d;
+    } else {
+        try {
+            iso = asDateTime(d).toISOString();
+        } catch (error) {
+            return error instanceof Error ? error : err(`parse/invalid`, `Unable to parse date-like value`);
+        }
+    }
 
     if (isError(iso)) {
         return iso;

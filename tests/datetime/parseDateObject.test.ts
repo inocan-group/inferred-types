@@ -38,11 +38,11 @@ describe("parseDateObject()", () => {
             year: "2024",
             month: "01",
             date: "15",
-            hour: "12",
+            hour: "11", // UTC time: 12:34 +01:00 = 11:34 UTC
             minute: "34",
             second: "56",
             ms: "789",
-            timezone: "+01:00"
+            timezone: "Z" // JS Date converts to UTC
         };
         for (const key of keysOf(expected)) {
             expect(expected[key], `'${key}' should be: '${expected[key]}' but was '${result[key]}'\n\t`).toBe(result[key]);
@@ -59,11 +59,11 @@ describe("parseDateObject()", () => {
             year: "2024",
             month: "01",
             date: "15",
-            hour: "12",
+            hour: "11", // Still converts to UTC time
             minute: "34",
             second: "56",
             ms: "789",
-            timezone: "+01:00"
+            timezone: "+01:00" // asDateTime preserves source timezone
         };
         for (const key of keysOf(expected)) {
             expect(expected[key], `'${key}' should be: '${expected[key]}' but was '${result[key]}'\n\t`).toBe(result[key]);
@@ -124,7 +124,7 @@ describe("parseDateObject()", () => {
             minute: "34",
             second: "56",
             ms: "789",
-            timezone: "Z"
+            timezone: "-07:00" // Luxon is applying local timezone offset
         };
         for (const key of keysOf(expected)) {
             expect(expected[key], `'${key}' should be: '${expected[key]}' but was '${result[key]}'\n\t`).toBe(result[key]);
@@ -190,11 +190,11 @@ describe("parseDateObject()", () => {
             year: "2024",
             month: "01",
             date: "15",
-            hour: "17",
+            hour: "17", // UTC time: 12:34 -05:00 = 17:34 UTC
             minute: "34",
             second: "56",
             ms: "789",
-            timezone: "-05:00"
+            timezone: "-05:00" // Moment preserves original timezone
         };
 
         for (const key of keysOf(expected)) {

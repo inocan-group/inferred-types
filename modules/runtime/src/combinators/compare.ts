@@ -23,6 +23,7 @@ import {
     asDateTime,
     asNumber,
     contains,
+    doesExtend,
     endsWith,
     equalsSome,
     err,
@@ -135,11 +136,7 @@ function handle_general<
                     `A filter operation based on the 'extends' operation passed in a parameter which was not an InputToken so we are not able to convert this into a type!`,
                 );
             }
-            return err(
-                `not-ready/doesExtend`,
-                `The "extends" comparison operation depends on doesExtend() and that is not completed yet!`,
-                { val: isNarrowable(val) ? val : typeof val, params }
-            );
+            return doesExtend(params[0])(val);
 
         case "equals":
             return (val === params[0]) as IsEqual<TVal, TParams[0]>;
@@ -203,15 +200,43 @@ function handle_numeric<
 ) {
     switch (op) {
         case "greaterThan":
+            if (!isNumberLike(params[0])) {
+                return err(
+                    `invalid-params/greaterThan`,
+                    `The 'greaterThan' operation requires a numeric parameter`,
+                    { params }
+                );
+            }
             return Number(val) > Number(params[0]);
 
         case "greaterThanOrEqual":
+            if (!isNumberLike(params[0])) {
+                return err(
+                    `invalid-params/greaterThanOrEqual`,
+                    `The 'greaterThanOrEqual' operation requires a numeric parameter`,
+                    { params }
+                );
+            }
             return Number(val) >= Number(params[0]);
 
         case "lessThan":
+            if (!isNumberLike(params[0])) {
+                return err(
+                    `invalid-params/lessThan`,
+                    `The 'lessThan' operation requires a numeric parameter`,
+                    { params }
+                );
+            }
             return Number(val) < Number(params[0]);
 
         case "lessThanOrEqual":
+            if (!isNumberLike(params[0])) {
+                return err(
+                    `invalid-params/lessThanOrEqual`,
+                    `The 'lessThanOrEqual' operation requires a numeric parameter`,
+                    { params }
+                );
+            }
             return Number(val) <= Number(params[0]);
 
         case "betweenExclusively":
@@ -460,37 +485,46 @@ function compareFn<
     return <const TVal extends Narrowable>(val: TVal) => {
         let result: unknown = unset;
 
+        // Check general operations first (equals, true, false, truthy, falsy, etc.)
+        result = handle_general(val, op, params);
+
+        if (isBoolean(result) || isError(result)) {
+            return result as Compare<TVal, TOp, TParams>;
+        }
+
+        // String-specific operations
         result = handle_string(val, op, params);
 
         if (isBoolean(result) || isError(result)) {
             return result as Compare<TVal, TOp, TParams>;
         }
 
-        result = handle_datetime(val, op, params);
+        // Only check datetime operations for date-specific ops
+        const dateOps: ComparisonOperation[] = ["sameDay", "sameMonth", "sameMonthYear", "sameYear", "after", "before"];
+        if (dateOps.includes(op)) {
+            result = handle_datetime(val, op, params);
 
-        if (isBoolean(result) || isError(result)) {
-            return result as Compare<TVal, TOp, TParams>;
+            if (isBoolean(result) || isError(result)) {
+                return result as Compare<TVal, TOp, TParams>;
+            }
         }
 
+        // Numeric operations
         result = handle_numeric(val, op, params);
 
         if (isBoolean(result) || isError(result)) {
             return result as Compare<TVal, TOp, TParams>;
         }
 
+        // Object operations
         result = handle_object(val, op, params);
 
         if (isBoolean(result) || isError(result)) {
             return result as Compare<TVal, TOp, TParams>;
         }
 
+        // Other operations (errors, errorsOfType, etc.)
         result = handle_other(val, op, params);
-
-        if (isBoolean(result) || isError(result)) {
-            return result as Compare<TVal, TOp, TParams>;
-        }
-
-        result = handle_general(val, op, params);
 
         if (isBoolean(result) || isError(result)) {
             return result as Compare<TVal, TOp, TParams>;

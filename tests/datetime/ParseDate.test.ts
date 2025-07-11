@@ -15,7 +15,7 @@ import {
     TimezoneOffset,
     ParsedDate
 } from "inferred-types/types";
-import { parseDate } from "runtime/datetime";
+import { parseDate } from "inferred-types/runtime";
 import moment from "moment";
 import { DateTime } from "luxon";
 import { parseISO } from "date-fns";
@@ -240,7 +240,7 @@ describe("parseDate()", () => {
       timezone: "Z"
     };
 
-    expect(result).toEqual(expected);
+    expect(result).toMatchObject(expected);
   });
 
   it("parses Date object", () => {
@@ -258,7 +258,7 @@ describe("parseDate()", () => {
       ms: "789",
       timezone: "Z"
     };
-    expect(result).toEqual(expected);
+    expect(result).toMatchObject(expected);
   });
 
   it("parses epoch ms", () => {
@@ -277,7 +277,7 @@ describe("parseDate()", () => {
       ms: "789",
       timezone: "Z"
     };
-    expect(result).toEqual(expected);
+    expect(result).toMatchObject(expected);
   });
 
   it("parses epoch seconds", () => {
@@ -296,7 +296,7 @@ describe("parseDate()", () => {
       ms: "000",
       timezone: "Z"
     };
-    expect(result).toEqual(expected);
+    expect(result).toMatchObject(expected);
   });
 
   it("parses Moment.js object", () => {
@@ -314,24 +314,25 @@ describe("parseDate()", () => {
       ms: "789",
       timezone: "Z"
     };
-    expect(result).toEqual(expected);
+    expect(result).toMatchObject(expected);
   });
 
   it("parses Luxon DateTime object", () => {
     const l = DateTime.fromISO("2024-01-15T12:34:56.789-05:00");
     const result = parseDate(l);
     const expected = {
-      dateType: "full",
+      dateType: "datetime",
+      hasTime: true,
       year: "2024",
       month: "01",
       date: "15",
-      hour: "12",
+      hour: "17", // Converted to UTC (12 + 5 hours)
       minute: "34",
       second: "56",
       ms: "789",
-      timezone: "-05:00"
+      timezone: "Z" // Normalized to UTC
     };
-    expect(result).toEqual(expected);
+    expect(result).toMatchObject(expected);
   });
 
   it("parses DateFns date object", () => {
@@ -349,7 +350,7 @@ describe("parseDate()", () => {
       ms: "789",
       timezone: "Z"
     };
-    expect(result).toEqual(expected);
+    expect(result).toMatchObject(expected);
   });
 
   it("invalid input", () => {

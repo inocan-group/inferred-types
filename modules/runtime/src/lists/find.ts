@@ -24,7 +24,7 @@ export function find<
         const TList extends readonly (ComparisonAccept<TOp>)[]
     >(list: TList) => {
         return list.find(
-            i => compare(op, params)(i)
+            i => compare(op, ...params)(i)
         ) as Find<
             TList,
             TOp,

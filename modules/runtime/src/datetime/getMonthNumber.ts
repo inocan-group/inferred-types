@@ -45,6 +45,6 @@ export function getMonthNumber<
             ) as GetMonthNumber<T>;
         }
 
-        return asNumber(d.month) + 1 as GetMonthNumber<T>;
+        return asNumber(d.month) as GetMonthNumber<T>;
     }
 }

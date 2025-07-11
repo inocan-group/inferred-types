@@ -3,7 +3,7 @@ import {
     Expect,
     Test,
 } from "inferred-types/types";
-import { asIsoDate } from "runtime/datetime";
+import { asIsoDate } from "inferred-types/runtime";
 
 describe("asIsoDate(d)", () => {
 
