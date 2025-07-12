@@ -28,6 +28,7 @@ export * from "./HasProp";
 export * from "./HasRequiredProps";
 export * from "./HasSameKeys";
 export * from "./HasSameValues";
+export * from "./AreIncompatible";
 export * from "./HasUnionType";
 export * from "./HasWideValues";
 export * from "./IsAllCaps";

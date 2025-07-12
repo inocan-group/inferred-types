@@ -2,6 +2,7 @@ import type {
     AlphaChar,
     AlphaNumericChar,
     And,
+    AreIncompatible,
     As,
     ComparisonAccept,
     ComparisonLookup,
@@ -43,6 +44,8 @@ import type {
     IsTrue,
     IsTruthy,
     IsWideScalar,
+    IsWideType,
+    HasWideValues,
     Narrowable,
     NumberLike,
     NumericChar,
@@ -382,7 +385,11 @@ type Process__Object<
                             infer Val
                         ]
                             ? IsStringLiteral<Key> extends true
-                                ? IsEqual<TVal[As<Key, keyof TVal>], Val>
+                                ? Key extends keyof TVal
+                                    ? AreIncompatible<TVal[Key], Val> extends true
+                                        ? false
+                                        : IsEqual<TVal[Key], Val>
+                                    : false
                                 : boolean
                             : false
                         : IsObject<TVal> extends true ? boolean : false
@@ -455,7 +462,7 @@ type Process__Numeric<
 
                 : TOp extends "betweenExclusively"
                     ? TVal extends NumberLike
-                        ? TParams extends [
+                        ? TParams extends readonly [
                             infer Min extends NumberLike,
                             infer Max extends NumberLike
                         ]
@@ -469,7 +476,7 @@ type Process__Numeric<
 
                     : TOp extends "betweenInclusively"
                         ? TVal extends NumberLike
-                            ? TParams extends [
+                            ? TParams extends readonly [
                                 infer Min extends NumberLike,
                                 infer Max extends NumberLike
                             ]
@@ -563,13 +570,41 @@ type Comparison<
  *
  * Compares the value `TVal` with `TComparator` using
  * the `TOp` _operator_.
+ *
+ * When either TVal or any parameter is a wide type (like `string`, `number`),
+ * returns `boolean` instead of a definitive `true`/`false`.
  */
 export type Compare<
-    TVal extends ComparisonAccept<TOp>,
+    TVal,
     TOp extends ComparisonOperation,
     TParams extends readonly unknown[] = readonly unknown[]
-> = Comparison<
-    TVal,
-    TOp,
-    TParams
->;
+> =
+    // Check if TVal is acceptable for this operation
+    TVal extends ComparisonAccept<TOp>
+        ? // Special handling for objectKeyEquals with wide types
+          TOp extends "objectKeyEquals"
+            ? TParams extends Base<"objectKeyEquals">
+                ? C<"objectKeyEquals", TParams> extends [
+                    infer Key extends string,
+                    infer Val
+                ]
+                    ? IsStringLiteral<Key> extends true
+                        ? Key extends keyof TVal
+                            ? AreIncompatible<TVal[Key], Val> extends true
+                                ? false  // Types are incompatible, so they can't be equal
+                                : Or<[IsWideType<TVal>, HasWideValues<TParams>]> extends true
+                                    ? boolean
+                                    : Comparison<TVal, TOp, TParams>
+                            : false  // Key doesn't exist
+                        : boolean  // Key is not a string literal
+                    : false  // Invalid parameters
+                : boolean  // Invalid parameters
+            : // For other operations, check if we have wide types that make the result uncertain
+              Or<[IsWideType<TVal>, HasWideValues<TParams>]> extends true
+                ? boolean
+                : Comparison<TVal, TOp, TParams>
+        : // TVal is not acceptable for this operation
+          Err<
+            "invalid-value",
+            `Value is not acceptable for operation`
+          >;

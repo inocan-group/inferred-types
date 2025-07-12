@@ -1,5 +1,6 @@
 import type {
     Container,
+    EmptyObject,
     ExplicitlyEmptyObject,
     IsEqual,
     IsNever,
@@ -36,16 +37,15 @@ export type IsWideScalar<T> = [T] extends [Scalar]
         : true
     : false;
 
-type _Keys<
-    T extends object,
-> = UnionToTuple<keyof RemoveIndexKeys<T>>;
 
 /**
  * **IsWideObject**`<T>`
  *
  * Tests whether `T` is a _wide_ variant of an object.
  */
-export type IsWideObject<T> = Record<ObjectKey, any> extends T
+export type IsWideObject<T> = IsEqual<T,EmptyObject> extends true
+? false
+: Record<ObjectKey, any> extends T
     ? true
     : T extends object
         ? [IsEqual<T, ExplicitlyEmptyObject>] extends [true]
@@ -92,6 +92,8 @@ export type IsWideType<
     TNever = never
 > = IsNever<T> extends true
     ? TNever
+    : IsEqual<T, EmptyObject> extends true
+        ? false
     : IsUnion<T> extends true
         ? IsWideUnion<T>
         : [T] extends [Scalar]

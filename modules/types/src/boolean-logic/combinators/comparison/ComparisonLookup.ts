@@ -286,11 +286,13 @@ export type ComparisonLookup = {
     returnEquals: {
         params: [ validReturnTypes: unknown, ...unknown[] ];
         take: "*";
+        accept: (...args: any[]) => any;
     };
 
     returnExtends: {
         params: [ validReturnTypes: unknown, ...unknown[] ];
         take: "1";
         convert: "union";
+        accept: (...args: any[]) => any;
     };
 };

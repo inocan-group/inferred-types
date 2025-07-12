@@ -51,6 +51,7 @@ import {
     unset
 } from "inferred-types/runtime";
 import { isDateLike } from "runtime/type-guards/datetime";
+import { unknown } from '../runtime-types/shape-helpers/atomics';
 
 function handle_string<
     TOp extends ComparisonOperation,
@@ -293,7 +294,7 @@ function handle_object<
                 );
 
         case "objectKeyGreaterThanOrEqual": {
-            const [key, compare] = params as [ObjectKey, number];
+            const [key, compare] = params as unknown as [ObjectKey, number];
             return isDictionary(val)
                 ? hasIndexOf(val, key)
                     ? isNumberLike(val[key])
@@ -307,7 +308,7 @@ function handle_object<
                 );
         }
         case "objectKeyLessThan": {
-            const [key, compare] = params as [ObjectKey, number];
+            const [key, compare] = params as unknown as [ObjectKey, number];
             return isDictionary(val)
                 ? hasIndexOf(val, key)
                     ? isNumberLike(val[key])
@@ -321,7 +322,7 @@ function handle_object<
                 );
         }
         case "objectKeyLessThanOrEqual": {
-            const [key, compare] = params as [ObjectKey, number];
+            const [key, compare] = params as unknown as [ObjectKey, number];
             return isDictionary(val)
                 ? hasIndexOf(val, key)
                     ? isNumberLike(val[key])
@@ -335,7 +336,7 @@ function handle_object<
                 );
         }
         case "objectKeyEquals": {
-            const [key, compare] = params as [ObjectKey, unknown];
+            const [key, compare] = params as unknown as [ObjectKey, unknown];
             return isDictionary(val)
                 ? hasIndexOf(val, key)
                     ? val[key] === compare
