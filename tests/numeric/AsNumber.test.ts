@@ -73,6 +73,16 @@ describe("AsNumber<T>", () => {
     });
 
 
+    it("decimal with trailing 0", () => {
+        type Trailing = AsNumber<"0.10">;
+
+        type cases = [
+            Expect<Test<Trailing, "equals", 0.1>>
+        ];
+    });
+
+
+
 
 });
 

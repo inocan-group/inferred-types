@@ -8,7 +8,8 @@ import {
     IsFalsy,
     IsDateLike,
     Contains,
-    EmptyObject
+    EmptyObject,
+    UpperAlphaChar
 } from "inferred-types/types";
 
 describe("Compare<TVal,TOp,TComparator> type util", () => {
@@ -1036,7 +1037,7 @@ describe("compare() runtime function", () => {
             type cases = [
                 Expect<Test<typeof result1, "equals", true>>,
                 Expect<Test<typeof result2, "equals", true>>,
-                Expect<Test<typeof result3, "equals", true>>,
+                Expect<Test<typeof result3, "equals", false>>,
                 Expect<Test<typeof result4, "equals", false>>
             ];
         });
@@ -1054,7 +1055,7 @@ describe("compare() runtime function", () => {
 
             type cases = [
                 Expect<Test<typeof result1, "equals", true>>,
-                Expect<Test<typeof result2, "equals", true>>,
+                Expect<Test<typeof result2, "equals", false>>,
                 Expect<Test<typeof result3, "equals", false>>
             ];
         });

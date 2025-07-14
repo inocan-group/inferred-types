@@ -78,6 +78,9 @@ type Process<
 export type Subtract<
     A extends NumberLike,
     B extends NumberLike,
-> = Or<[IsWideType<A>, IsWideType<B>]> extends true
+> = As<
+Or<[IsWideType<A>, IsWideType<B>]> extends true
     ? A extends number ? number : `${number}`
-    : Process<A, B>;
+    : Process<A, B>,
+    number
+>;

@@ -1,4 +1,4 @@
-import type { As, Contains, RetainAfter, StartsWith, StripAfter, StripLeading, StripWhile } from "inferred-types/types";
+import type { As, Contains, RetainAfter, StartsWith, StripAfter, StripLeading, StripWhile, TrimCharEnd } from "inferred-types/types";
 
 /**
  * **ParseInt**`<T>`
@@ -6,7 +6,11 @@ import type { As, Contains, RetainAfter, StartsWith, StripAfter, StripLeading, S
  * Converts a known string literal representation of a number
  * to an actual number.
  */
-export type ParseInt<T> = T extends `${infer N extends number}`
+export type ParseInt<T> = T extends `${infer Int}.${infer Dec}`
+? `${Int}.${TrimCharEnd<Dec,"0">}` extends `${infer N extends number}`
+    ? N
+: never
+: T extends `${infer N extends number}`
     ? N
     : never;
 

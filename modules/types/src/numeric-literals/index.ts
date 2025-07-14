@@ -29,8 +29,11 @@ export * from "./Negative";
 export * from "./NextDigit";
 export * from "./NumberLike";
 export * from "./NumericRange";
+export * from "./Precision";
 export * from "./PriorDigit";
+export * from "./ShiftDecimalPlace";
 export * from "./Subtract";
 export * from "./ToInteger";
 export * from "./ToNumericArray";
 export * from "./Zero";
+

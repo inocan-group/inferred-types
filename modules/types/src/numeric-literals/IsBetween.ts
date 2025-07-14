@@ -4,7 +4,9 @@ import type {
     IsGreaterThanOrEqual,
     IsLessThan,
     IsLessThanOrEqual,
-    NumberLike
+    IsWideType,
+    NumberLike,
+    Or
 } from "inferred-types/types";
 
 /**
@@ -21,7 +23,11 @@ export type IsBetweenExclusively<
     TVal extends NumberLike,
     TMin extends NumberLike,
     TMax extends NumberLike,
-> = And<[
+> = Or<[
+    IsWideType<TVal>, IsWideType<TMin>, IsWideType<TMax>
+]> extends true
+? boolean
+: And<[
     IsGreaterThan<TVal, TMin>,
     IsLessThan<TVal, TMax>
 ]>;
@@ -40,7 +46,11 @@ export type IsBetweenInclusively<
     TVal extends NumberLike,
     TMin extends NumberLike,
     TMax extends NumberLike,
-> = And<[
+> = Or<[
+    IsWideType<TVal>, IsWideType<TMin>, IsWideType<TMax>
+]> extends true
+? boolean
+: And<[
     IsGreaterThanOrEqual<TVal, TMin>,
     IsLessThanOrEqual<TVal, TMax>
 ]>;
