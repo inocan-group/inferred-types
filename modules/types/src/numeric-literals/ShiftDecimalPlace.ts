@@ -1,4 +1,10 @@
-import type { As, Contains, IsGreaterThan, IsNegativeNumber, IsNumericLiteral } from "types/boolean-logic";
+import type {
+    As,
+    Contains,
+    IsGreaterThan,
+    IsNegativeNumber,
+    IsNumericLiteral
+} from "types/boolean-logic";
 import type { Slice } from "types/lists";
 import type { Abs, Decrement, NumberLike, Subtract } from "types/numeric-literals";
 import type { Repeat, Split, StrLen } from "types/string-literals";
@@ -36,7 +42,7 @@ type ShiftLeft<
 > = number extends U
     ? `${number}`
     : Contains<T, "."> extends true
-    // T is a decimal number
+        // T is a decimal number
         ? Split<T, "."> extends [
             infer Left extends string,
             infer Right extends string
@@ -46,12 +52,12 @@ type ShiftLeft<
                 : IsGreaterThan<StrLen<Left>, U> extends true
                     ? Subtract<StrLen<Left>, U> extends infer Num extends number
                         ? `${Slice<Left, 0, Num>}.${Slice<Left, Num>}${Right}`
-                        : never
+                        : "baz"
                     : Subtract<StrLen<Left>, U> extends infer Num extends number
                         ? `.${Repeat<"0", Num>}${Left}${Right}`
-                        : never
-            : never
-    // T is an integer
+                        : "foo"
+            : "bar"
+        // T is an integer
         : IsGreaterThan<StrLen<T>, U> extends true
             ? Subtract<StrLen<T>, U> extends infer Delta extends number
                 ? `${Slice<T, 0, Delta>}.${Slice<T, Delta>}`
@@ -60,9 +66,7 @@ type ShiftLeft<
                 ? `0.${T}`
                 : Subtract<U, StrLen<T>> extends infer Delta extends number
                     ? `0.${Repeat<"0", Delta>}${T}`
-                    : `0.${Repeat<"0", Decrement<U>>}${T}`
-
-    ;
+                    : `0.${Repeat<"0", Decrement<U>>}${T}`;
 
 /**
  * **ShiftDecimalPlace**`<T,U>`
@@ -104,3 +108,16 @@ export type ShiftDecimalPlace<
                     ? AsNumber<ShiftRight<`${T}`, U>>
                     : number
                 : ShiftRight<As<T, `${number}`>, U>;
+
+
+// Test if TypeScript can parse "1.23" as 1.23
+type SimpleTest = "1.23" extends `${infer N extends number}` ? N : never; // Should be 1.23
+
+type X = ShiftDecimalPlace<`123`, -2>;
+//   ^?
+
+type A = Abs<-2>;
+
+type X2 = ShiftLeft<`123`, 2>;
+//   ^?
+

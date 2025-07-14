@@ -1,4 +1,5 @@
-import type { As, Contains, RetainAfter, StartsWith, StripAfter, StripChars, StripLeading, StripWhile, TrimCharEnd } from "inferred-types/types";
+import type { As, Contains, RetainAfter, StartsWith, StripAfter, StripChars, StripLeading, StripWhile } from "inferred-types/types";
+import type { TrimCharEnd } from "types/string-literals/sub-strings/trim/TrimCharEnd";
 
 /**
  * **ParseInt**`<T>`
@@ -12,7 +13,7 @@ export type ParseInt<T> = T extends `${infer Int}.${infer Dec}`
         ? Int extends `${infer N extends number}`
             ? N
             : never
-        : `${Int}.${TrimCharEnd<Dec, "0">}` extends `${infer N extends number}`
+        : `${Int}.${Dec}` extends `${infer N extends number}`
             ? N
             : never
     // T is an integer
