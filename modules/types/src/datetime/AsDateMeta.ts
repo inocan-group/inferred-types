@@ -87,7 +87,7 @@ type SetParsed<T extends ParsedDate> = As<{
     second: Second<T[3]>;
     ms: Millisecond<T[3]>;
     timezone: Offset<T[3]>;
-}, DateMeta>
+}, DateMeta>;
 
 /**
  * **AsDateMeta**`<T>`

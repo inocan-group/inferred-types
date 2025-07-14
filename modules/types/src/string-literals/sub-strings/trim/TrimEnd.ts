@@ -28,5 +28,3 @@ export type TrimRight<S extends string> = string extends S ? string :
 export type TrimEnd<S extends string> = string extends S ? string :
     S extends `${infer Right}${Whitespace}` ?
         TrimEnd<Right> : S;
-
-

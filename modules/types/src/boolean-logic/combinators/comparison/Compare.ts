@@ -20,7 +20,7 @@ import type {
     FirstChar,
     GetComparator,
     GetOpConfig,
-    IsAfter,
+    HasWideValues,
     IsBefore,
     IsBetweenExclusively,
     IsBetweenInclusively,
@@ -45,7 +45,6 @@ import type {
     IsTruthy,
     IsWideScalar,
     IsWideType,
-    HasWideValues,
     Narrowable,
     NumberLike,
     NumericChar,
@@ -96,7 +95,7 @@ type Process__DateTime<
     TParams extends readonly unknown[],
 > = TOp extends "after"
     ? // Simplified after operation to prevent type instantiation depth issues
-      TVal extends DateLike
+    TVal extends DateLike
         ? TParams extends readonly [DateLike]
             ? boolean // Return boolean for now to avoid complex type operations
             : false
@@ -179,7 +178,7 @@ type Process__General<
 
         : TOp extends "false"
             ? // Use AreIncompatible to determine if we can make specific determinations
-              AreIncompatible<TVal, false> extends true
+            AreIncompatible<TVal, false> extends true
                 ? false // If TVal is incompatible with false, it definitely isn't false
                 : IsFalse<TVal>
 
@@ -188,7 +187,7 @@ type Process__General<
 
                 : TOp extends "true"
                     ? // Use AreIncompatible to determine if we can make specific determinations
-                      AreIncompatible<TVal, true> extends true
+                    AreIncompatible<TVal, true> extends true
                         ? false // If TVal is incompatible with true, it definitely isn't true
                         : IsTrue<TVal>
 
@@ -383,7 +382,7 @@ type Process__Object<
 
                 : TOp extends "objectKeyEquals"
                     ? // Simplified objectKeyEquals to prevent type instantiation depth issues
-                      TParams extends readonly [string, unknown]
+                    TParams extends readonly [string, unknown]
                         ? TParams[0] extends keyof TVal
                             ? IsEqual<TVal[TParams[0]], TParams[1]>
                             : false
@@ -584,7 +583,7 @@ type ValidateParams<
             ? TParams extends readonly [unknown]
                 ? true
                 : Err<"invalid-parameters", "extends operation requires exactly 1 parameter">
-        : true; // Other operations have flexible parameter requirements
+            : true; // Other operations have flexible parameter requirements
 
 export type Compare<
     TVal,
@@ -594,64 +593,64 @@ export type Compare<
     // First validate parameters
     ValidateParams<TOp, TParams> extends Err<infer ErrorType, infer Message>
         ? Err<ErrorType, Message>
-        : // Check if TVal is 'any' type specifically, but allow object operations to handle errors  
-          0 extends (1 & TVal) // This detects 'any' type specifically
+        : // Check if TVal is 'any' type specifically, but allow object operations to handle errors
+        0 extends (1 & TVal) // This detects 'any' type specifically
             ? TOp extends "objectKeyGreaterThan" | "objectKeyGreaterThanOrEqual" | "objectKeyLessThan" | "objectKeyLessThanOrEqual" | "objectKeyEquals" | "objectKeyExtends"
                 ? // For object operations with 'any', still process to handle object validation errors
-                  TVal extends ComparisonAccept<TOp>
-                    ? Comparison<TVal, TOp, TParams>  
+                TVal extends ComparisonAccept<TOp>
+                    ? Comparison<TVal, TOp, TParams>
                     : Err<"invalid-value", `Value is not acceptable for operation`>
                 : boolean // For other operations with 'any' types, return boolean since result is uncertain
             : // Check if TVal is acceptable for this operation
-              TVal extends ComparisonAccept<TOp>
+            TVal extends ComparisonAccept<TOp>
                 ? // Special handling for objectKey operations with wide types
-              TOp extends "objectKeyEquals"
-                ? TParams extends Base<"objectKeyEquals">
-                    ? C<"objectKeyEquals", TParams> extends [
-                        infer Key extends string,
-                        infer Val
-                    ]
-                        ? IsStringLiteral<Key> extends true
-                            ? Key extends keyof TVal
-                                ? AreIncompatible<TVal[Key], Val> extends true
-                                    ? false  // Types are incompatible, so they can't be equal
-                                    : Or<[IsWideType<TVal>, HasWideValues<TParams>]> extends true
-                                        ? boolean
-                                        : Comparison<TVal, TOp, TParams>
-                                : false  // Key doesn't exist
-                            : boolean  // Key is not a string literal
-                        : false  // Invalid parameters
-                    : boolean  // Invalid parameters
-              : TOp extends "objectKeyExtends"
-                ? TParams extends Base<"objectKeyExtends">
-                    ? C<"objectKeyExtends", TParams> extends [
-                        infer Key extends string,
-                        infer Type
-                    ]
-                        ? IsStringLiteral<Key> extends true
-                            ? Key extends keyof TVal
-                                ? // For extends, we can determine the result even with wide types
-                                  Comparison<TVal, TOp, TParams>
-                                : false  // Key doesn't exist
-                            : boolean  // Key is not a string literal
-                        : false  // Invalid parameters
-                    : boolean  // Invalid parameters
-                : // For other operations, check if we have wide types that make the result uncertain
-                  // Only return boolean for wide types when the result is genuinely uncertain
-                  TOp extends "true" | "false" | "truthy" | "falsy"
-                    ? // Boolean operations should always use Comparison logic for proper narrowing, never return generic boolean
-                      Comparison<TVal, TOp, TParams>
-                    : TOp extends "extends" | "contains" | "containsSome" | "containsAll" | "sameDay" | "sameMonth" | "sameMonthYear" | "sameYear" | "after" | "before"
-                      ? // For these operations, wide parameters are often valid and don't make result uncertain
-                        IsWideType<TVal> extends true
-                          ? boolean
-                          : Comparison<TVal, TOp, TParams>
-                    : // For other operations, check both value and parameters
-                      Or<[IsWideType<TVal>, HasWideValues<TParams>]> extends true
-                        ? boolean
-                        : Comparison<TVal, TOp, TParams>
+                TOp extends "objectKeyEquals"
+                    ? TParams extends Base<"objectKeyEquals">
+                        ? C<"objectKeyEquals", TParams> extends [
+                            infer Key extends string,
+                            infer Val
+                        ]
+                            ? IsStringLiteral<Key> extends true
+                                ? Key extends keyof TVal
+                                    ? AreIncompatible<TVal[Key], Val> extends true
+                                        ? false // Types are incompatible, so they can't be equal
+                                        : Or<[IsWideType<TVal>, HasWideValues<TParams>]> extends true
+                                            ? boolean
+                                            : Comparison<TVal, TOp, TParams>
+                                    : false // Key doesn't exist
+                                : boolean // Key is not a string literal
+                            : false // Invalid parameters
+                        : boolean // Invalid parameters
+                    : TOp extends "objectKeyExtends"
+                        ? TParams extends Base<"objectKeyExtends">
+                            ? C<"objectKeyExtends", TParams> extends [
+                                infer Key extends string,
+                                infer Type
+                            ]
+                                ? IsStringLiteral<Key> extends true
+                                    ? Key extends keyof TVal
+                                        ? // For extends, we can determine the result even with wide types
+                                        Comparison<TVal, TOp, TParams>
+                                        : false // Key doesn't exist
+                                    : boolean // Key is not a string literal
+                                : false // Invalid parameters
+                            : boolean // Invalid parameters
+                        : // For other operations, check if we have wide types that make the result uncertain
+                    // Only return boolean for wide types when the result is genuinely uncertain
+                        TOp extends "true" | "false" | "truthy" | "falsy"
+                            ? // Boolean operations should always use Comparison logic for proper narrowing, never return generic boolean
+                            Comparison<TVal, TOp, TParams>
+                            : TOp extends "extends" | "contains" | "containsSome" | "containsAll" | "sameDay" | "sameMonth" | "sameMonthYear" | "sameYear" | "after" | "before"
+                                ? // For these operations, wide parameters are often valid and don't make result uncertain
+                                IsWideType<TVal> extends true
+                                    ? boolean
+                                    : Comparison<TVal, TOp, TParams>
+                                : // For other operations, check both value and parameters
+                                Or<[IsWideType<TVal>, HasWideValues<TParams>]> extends true
+                                    ? boolean
+                                    : Comparison<TVal, TOp, TParams>
                 : // TVal is not acceptable for this operation
-                  Err<
+                Err<
                     "invalid-value",
                     `Value is not acceptable for operation`
-                  >;
+                >;

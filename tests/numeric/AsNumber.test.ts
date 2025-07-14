@@ -56,6 +56,16 @@ describe("AsNumber<T>", () => {
     });
 
 
+    it("can handle number with closing decimal marker (e.g., 1.)", () => {
+        type T = AsNumber<"1.">;
+
+        type cases = [
+            Expect<Test<T, "equals", 1>>
+        ];
+    });
+
+
+
     it("can handle a decimal value", () => {
         type PointOne = AsNumber<"0.1">;
         type NegPointOne = AsNumber<"-0.1">;

@@ -46,14 +46,15 @@ describe("ShiftDecimalPlace<T,U>", () => {
         // This is a bug: negative shifts should divide, but they multiply
         type T1 = ShiftDecimalPlace<1, -1>;
         type T2 = ShiftDecimalPlace<1, -2>;
-        type T3 = ShiftDecimalPlace<123, -2>;
+        type T3 = ShiftDecimalPlace<10, -1>;
+        type T4 = ShiftDecimalPlace<123, -2>;
 
-        // ACTUAL: They multiply (bug)
-        // EXPECTED: T1 = 0.1, T2 = 0.01, T3 = 1.23
+        // After AsNumber fix, negative shifts now work correctly
         type cases = [
-            Expect<Test<T1, "equals", 0.1>>,    // Should be 0.1
-            Expect<Test<T2, "equals", 0.01>>,   // Should be 0.01
-            Expect<Test<T3, "equals", 1.23>>, // Should be 1.23
+            Expect<Test<T1, "equals", 0.1>>,
+            Expect<Test<T2, "equals", 0.01>>,
+            Expect<Test<T3, "equals", 1>>,
+            Expect<Test<T4, "equals", 1.23>>,
         ];
     });
 

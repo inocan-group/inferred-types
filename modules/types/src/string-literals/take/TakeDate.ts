@@ -12,7 +12,7 @@ import type {
 type InvalidDate<T extends string> = Err<
     "parse-date/date",
     `unable to parse the date component [${T}] of this ISO string`,
-    {date: T}
+    { date: T }
 >;
 
 type Take<T extends string> = string extends T
@@ -52,19 +52,19 @@ type WithContext<
     TYear extends `${number}` | null,
     TMonth extends `${number}` | null
 > = Take<T> extends Error
-? Take<T>
-: Take<T> extends {
-    take: infer Date extends `${number}`,
-    rest: infer Rest extends string
-}
-    ? IsTwoDigitDate<Date, TYear, TMonth> extends true
-        ? Take<T>
-        : Err<
-            `parse-date/date`,
-            `Validation against the ISO date failed. This is likely due to the date being too large for the month of the date (leap and double leap is considered when both year and month were provided to TakeDate<T>)`,
-            { year: TYear, month: TMonth, date: T, leap: IsLeapYear<TYear> }
-        >
-    : never;
+    ? Take<T>
+    : Take<T> extends {
+        take: infer Date extends `${number}`;
+        rest: infer Rest extends string;
+    }
+        ? IsTwoDigitDate<Date, TYear, TMonth> extends true
+            ? Take<T>
+            : Err<
+                `parse-date/date`,
+                `Validation against the ISO date failed. This is likely due to the date being too large for the month of the date (leap and double leap is considered when both year and month were provided to TakeDate<T>)`,
+                { year: TYear; month: TMonth; date: T; leap: IsLeapYear<TYear> }
+            >
+        : never;
 
 /**
  * **TakeDate**`<T, TIgnoreLeading, [TYear], [TMonth]>`
@@ -89,7 +89,7 @@ export type TakeDate<
     TIgnoreLeading extends string
         ? string extends TIgnoreLeading
             ? never
-            :  WithContext<StripLeading<T, TIgnoreLeading>, TYear, TMonth>
+            : WithContext<StripLeading<T, TIgnoreLeading>, TYear, TMonth>
         : WithContext<T, TYear, TMonth>,
     Error |
     { take: TwoDigitDate<"branded">; rest: string }

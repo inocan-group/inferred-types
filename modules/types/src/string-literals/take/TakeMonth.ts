@@ -11,7 +11,7 @@ type InvalidMonth<T extends string> = Err<
     `parse-date/month`,
     `The value '${T}' can not be parsed into a valid TwoDigitMonth!`,
     { month: T }
->
+>;
 
 type Take<T extends string> = string extends T
     ? Error | { take: TwoDigitMonth<"branded">; rest: string }

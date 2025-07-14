@@ -18,5 +18,5 @@ type RevAcc<
 export type Reverse<T> = T extends readonly unknown[]
     ? RevAcc<T>
     : T extends string
-    ? Join<RevAcc<Chars<T>>>
-    : never;
+        ? Join<RevAcc<Chars<T>>>
+        : never;

@@ -1,4 +1,4 @@
-import type { As, Contains, RetainAfter, StartsWith, StripAfter, StripLeading, StripWhile, TrimCharEnd } from "inferred-types/types";
+import type { As, Contains, RetainAfter, StartsWith, StripAfter, StripChars, StripLeading, StripWhile, TrimCharEnd } from "inferred-types/types";
 
 /**
  * **ParseInt**`<T>`
@@ -7,12 +7,18 @@ import type { As, Contains, RetainAfter, StartsWith, StripAfter, StripLeading, S
  * to an actual number.
  */
 export type ParseInt<T> = T extends `${infer Int}.${infer Dec}`
-? `${Int}.${TrimCharEnd<Dec,"0">}` extends `${infer N extends number}`
-    ? N
-: never
-: T extends `${infer N extends number}`
-    ? N
-    : never;
+    // T is a decimal number
+    ? StripChars<Dec, "0"> extends ""
+        ? Int extends `${infer N extends number}`
+            ? N
+            : never
+        : `${Int}.${TrimCharEnd<Dec, "0">}` extends `${infer N extends number}`
+            ? N
+            : never
+    // T is an integer
+    : T extends `${infer N extends number}`
+        ? N
+        : never;
 
 type JustZeros<T extends string> = T extends `${infer HEAD extends string}${infer REST extends string}`
     ? HEAD extends "0"
@@ -26,15 +32,15 @@ type JustZeros<T extends string> = T extends `${infer HEAD extends string}${infe
  */
 type Handler<T extends `${number}`> = StartsWith<T, "0"> extends true
     ? Contains<T, "."> extends true
-        ? JustZeros<StripAfter<T,".">> extends true
-            ? As<`0.${RetainAfter<T,".">}`, `${number}`>
-        : As<StripWhile<T, "0">, `${number}`>
-    : JustZeros<T> extends true
-        ? "0"
-        : StripWhile<T, "0">
-: StartsWith<T, "."> extends true
-    ? As<`0${T}`, `${number}`>
-    : T;
+        ? JustZeros<StripAfter<T, ".">> extends true
+            ? As<`0.${RetainAfter<T, ".">}`, `${number}`>
+            : As<StripWhile<T, "0">, `${number}`>
+        : JustZeros<T> extends true
+            ? "0"
+            : StripWhile<T, "0">
+    : StartsWith<T, "."> extends true
+        ? As<`0${T}`, `${number}`>
+        : T;
 
 /**
  * **AsNumber**`<T>`
@@ -54,10 +60,9 @@ export type AsNumber<T> = T extends number
     : T extends `${number}`
         ? StartsWith<T, "-"> extends true
             ? ParseInt<
-                `-${Handler<StripLeading<T,"-">>}`
+                `-${Handler<StripLeading<T, "-">>}`
             >
             : ParseInt<
                 Handler<T>
             >
         : never;
-

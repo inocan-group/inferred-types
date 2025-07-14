@@ -1,7 +1,6 @@
-import { And, IsInteger } from "types/boolean-logic";
-import { Precision } from "types/numeric-literals/Precision";
-import { IsGreaterThan } from 'types/boolean-logic';
-import { Multiply } from "types/numeric-literals";
+import type { And, IsGreaterThan, IsInteger } from "types/boolean-logic";
+import type { Multiply } from "types/numeric-literals";
+import type { Precision } from "types/numeric-literals/Precision";
 
 type _Compare<
     A extends number,
@@ -23,7 +22,6 @@ type PrecisionMultiplier<A extends number, B extends number> = And<[
     : IsGreaterThan<Precision<A>, Precision<B>> extends true
         ? Multiply<Precision<A>, 10>
         : Multiply<Precision<B>, 10>;
-
 
 /**
  * **Compare**`<A,B>`
@@ -49,8 +47,8 @@ export type CompareNumbers<
     IsInteger<A>,
     IsInteger<B>
 ]> extends true
-? _Compare<A, B>
-: _Compare<
-    A,
-    B
->;
+    ? _Compare<A, B>
+    : _Compare<
+        A,
+        B
+    >;

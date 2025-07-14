@@ -1,4 +1,4 @@
-import type { IsEqual, IsNever, Or } from "inferred-types/types";
+import type { IsNever, Or } from "inferred-types/types";
 
 /**
  * **AreIncompatible**`<T, U>`
@@ -12,45 +12,45 @@ export type AreIncompatible<T, U> =
     Or<[IsNever<T>, IsNever<U>]> extends true
         ? false
     // Check if there's no overlap between the types
-    : [T] extends [U]
-        ? false
-        : [U] extends [T]
+        : [T] extends [U]
             ? false
+            : [U] extends [T]
+                ? false
             // Special cases for primitives that are incompatible
-            : [T, U] extends [string, number]
-                ? true
-                : [T, U] extends [number, string]
+                : [T, U] extends [string, number]
                     ? true
-                    : [T, U] extends [string, boolean]
+                    : [T, U] extends [number, string]
                         ? true
-                        : [T, U] extends [boolean, string]
+                        : [T, U] extends [string, boolean]
                             ? true
-                            : [T, U] extends [number, boolean]
+                            : [T, U] extends [boolean, string]
                                 ? true
-                                : [T, U] extends [boolean, number]
+                                : [T, U] extends [number, boolean]
                                     ? true
-                                    : [T, U] extends [string, null]
+                                    : [T, U] extends [boolean, number]
                                         ? true
-                                        : [T, U] extends [null, string]
+                                        : [T, U] extends [string, null]
                                             ? true
-                                            : [T, U] extends [number, null]
+                                            : [T, U] extends [null, string]
                                                 ? true
-                                                : [T, U] extends [null, number]
+                                                : [T, U] extends [number, null]
                                                     ? true
-                                                    : [T, U] extends [boolean, null]
+                                                    : [T, U] extends [null, number]
                                                         ? true
-                                                        : [T, U] extends [null, boolean]
+                                                        : [T, U] extends [boolean, null]
                                                             ? true
-                                                            : [T, U] extends [string, undefined]
+                                                            : [T, U] extends [null, boolean]
                                                                 ? true
-                                                                : [T, U] extends [undefined, string]
+                                                                : [T, U] extends [string, undefined]
                                                                     ? true
-                                                                    : [T, U] extends [number, undefined]
+                                                                    : [T, U] extends [undefined, string]
                                                                         ? true
-                                                                        : [T, U] extends [undefined, number]
+                                                                        : [T, U] extends [number, undefined]
                                                                             ? true
-                                                                            : [T, U] extends [boolean, undefined]
+                                                                            : [T, U] extends [undefined, number]
                                                                                 ? true
-                                                                                : [T, U] extends [undefined, boolean]
+                                                                                : [T, U] extends [boolean, undefined]
                                                                                     ? true
-                                                                                    : false;
+                                                                                    : [T, U] extends [undefined, boolean]
+                                                                                        ? true
+                                                                                        : false;

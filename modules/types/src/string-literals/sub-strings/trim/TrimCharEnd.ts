@@ -1,12 +1,11 @@
-import {  Reverse } from "types/lists";
+import type { Reverse } from "types/lists";
 
 type Strip<
     TChars extends string,
     TWhile extends string
 > = TChars extends `${TWhile}${infer Rest}`
-? Strip<Rest, TWhile>
-: Reverse<TChars>;
-
+    ? Strip<Rest, TWhile>
+    : Reverse<TChars>;
 
 /**
  * **TrimCharEnd**`<T,U>`
@@ -21,9 +20,9 @@ export type TrimCharEnd<
     U extends string
 > = string extends T
     ? string
-: string extends U
-    ? string
-: Strip<
-    Reverse<T>,
-    U
->;
+    : string extends U
+        ? string
+        : Strip<
+            Reverse<T>,
+            U
+        >;

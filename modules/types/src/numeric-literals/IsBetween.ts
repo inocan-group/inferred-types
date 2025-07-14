@@ -24,13 +24,15 @@ export type IsBetweenExclusively<
     TMin extends NumberLike,
     TMax extends NumberLike,
 > = Or<[
-    IsWideType<TVal>, IsWideType<TMin>, IsWideType<TMax>
+    IsWideType<TVal>,
+    IsWideType<TMin>,
+    IsWideType<TMax>
 ]> extends true
-? boolean
-: And<[
-    IsGreaterThan<TVal, TMin>,
-    IsLessThan<TVal, TMax>
-]>;
+    ? boolean
+    : And<[
+        IsGreaterThan<TVal, TMin>,
+        IsLessThan<TVal, TMax>
+    ]>;
 
 /**
  * **IsBetweenInclusively**`<TVal, TMin, TMax>`
@@ -47,10 +49,12 @@ export type IsBetweenInclusively<
     TMin extends NumberLike,
     TMax extends NumberLike,
 > = Or<[
-    IsWideType<TVal>, IsWideType<TMin>, IsWideType<TMax>
+    IsWideType<TVal>,
+    IsWideType<TMin>,
+    IsWideType<TMax>
 ]> extends true
-? boolean
-: And<[
-    IsGreaterThanOrEqual<TVal, TMin>,
-    IsLessThanOrEqual<TVal, TMax>
-]>;
+    ? boolean
+    : And<[
+        IsGreaterThanOrEqual<TVal, TMin>,
+        IsLessThanOrEqual<TVal, TMax>
+    ]>;

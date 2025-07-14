@@ -1,8 +1,6 @@
-import { TypedError } from "types/errors/Err";
-import { As } from 'types/boolean-logic';
-import {  ExpandDictionary, MergeObjects } from 'inferred-types/types';
-
-
+import type { ExpandDictionary, MergeObjects } from "inferred-types/types";
+import type { As } from "types/boolean-logic";
+import type { TypedError } from "types/errors/Err";
 
 /**
  * **ErrMerge**`<TError,TUtility,[TGeneric]>`
@@ -17,9 +15,7 @@ export type ErrMerge<
     // the type to pass through if the
     TElse extends TypedError
 > = TError extends Error
-? As<ExpandDictionary<
-    MergeObjects<TElse, TError>
- >, TypedError>
-: TElse;
-
-
+    ? As<ExpandDictionary<
+        MergeObjects<TElse, TError>
+    >, TypedError>
+    : TElse;

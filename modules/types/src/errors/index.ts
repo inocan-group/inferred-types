@@ -7,6 +7,6 @@ export * from "./ErrorConditionHandler";
 export * from "./MapError";
 export * from "./PartialError";
 export * from "./ProxyError";
+export * from "./ProxyError";
 export * from "./StackTrace";
 export * from "./Throw";
-export * from "./ProxyError";

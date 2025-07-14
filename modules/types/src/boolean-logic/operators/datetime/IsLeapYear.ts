@@ -34,21 +34,21 @@ type Detect<Y extends string> =
 export type IsLeapYear<
     T
 > = T extends string
-? string extends T
-    ? boolean
-: T extends IsoYear | FourDigitYear
-    ? Detect<T>
+    ? string extends T
+        ? boolean
+        : T extends IsoYear | FourDigitYear
+            ? Detect<T>
 
-    : T extends string
-        ? string extends T
-            ? boolean
-            : ParseDate<T> extends Error
-                ? false
-                : ParseDate<T> extends [
-                    infer Year extends FourDigitYear,
-                    ...unknown[]
-                ]
-                    ? Detect<Year>
-                    : boolean
-        : boolean
-: false;
+            : T extends string
+                ? string extends T
+                    ? boolean
+                    : ParseDate<T> extends Error
+                        ? false
+                        : ParseDate<T> extends [
+                            infer Year extends FourDigitYear,
+                            ...unknown[]
+                        ]
+                            ? Detect<Year>
+                            : boolean
+                : boolean
+    : false;

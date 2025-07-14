@@ -8,9 +8,7 @@ import type {
     IsWideUnion,
     Keys,
     ObjectKey,
-    RemoveIndexKeys,
     Scalar,
-    UnionToTuple,
 } from "inferred-types/types";
 
 /**
@@ -37,25 +35,24 @@ export type IsWideScalar<T> = [T] extends [Scalar]
         : true
     : false;
 
-
 /**
  * **IsWideObject**`<T>`
  *
  * Tests whether `T` is a _wide_ variant of an object.
  */
-export type IsWideObject<T> = IsEqual<T,EmptyObject> extends true
-? false
-: Record<ObjectKey, any> extends T
-    ? true
-    : T extends object
-        ? [IsEqual<T, ExplicitlyEmptyObject>] extends [true]
-            ? false
-            : [IsNever<keyof T>] extends [true]
-                ? true
-                : number extends Keys<T>["length"]
+export type IsWideObject<T> = IsEqual<T, EmptyObject> extends true
+    ? false
+    : Record<ObjectKey, any> extends T
+        ? true
+        : T extends object
+            ? [IsEqual<T, ExplicitlyEmptyObject>] extends [true]
+                ? false
+                : [IsNever<keyof T>] extends [true]
                     ? true
-                    : false
-        : true;
+                    : number extends Keys<T>["length"]
+                        ? true
+                        : false
+            : true;
 
 /**
  * **IsWideContainer**`<T>`
@@ -94,14 +91,14 @@ export type IsWideType<
     ? TNever
     : IsEqual<T, EmptyObject> extends true
         ? false
-    : IsUnion<T> extends true
-        ? IsWideUnion<T>
-        : [T] extends [Scalar]
-            ? [IsWideScalar<T>] extends [true]
-                ? true
-                : false
-            : [T] extends Container
-                ? IsWideContainer<T> extends true
+        : IsUnion<T> extends true
+            ? IsWideUnion<T>
+            : [T] extends [Scalar]
+                ? [IsWideScalar<T>] extends [true]
                     ? true
                     : false
-                : never;
+                : [T] extends Container
+                    ? IsWideContainer<T> extends true
+                        ? true
+                        : false
+                    : never;

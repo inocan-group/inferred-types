@@ -118,10 +118,10 @@ type ParseFullDate<T extends string> = TakeYear<T> extends {
             >
             : ErrContext<
                 As<TakeDate<Rest, "-", Year, Month>, Error>,
-                { year: Year, month: Month, rest: Rest }
+                { year: Year; month: Month; rest: Rest }
             >
         : ErrContext<
-            As<TakeMonth<Rest, "-">,Error>,
+            As<TakeMonth<Rest, "-">, Error>,
             { year: Year; rest: Rest }
         >
     : ErrContext<
