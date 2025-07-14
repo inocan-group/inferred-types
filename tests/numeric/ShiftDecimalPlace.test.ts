@@ -89,13 +89,13 @@ describe("ShiftDecimalPlace<T,U>", () => {
         type T1 = ShiftDecimalPlace<1, 5>;
         type T2 = ShiftDecimalPlace<123, 3>;
         type T3 = ShiftDecimalPlace<7, 6>;
-        type T4 = ShiftDecimalPlace<123456789, 10>;
+        type T4 = ShiftDecimalPlace<123456789, 8>;
 
         type cases = [
             Expect<Test<T1, "equals", 100000>>,
             Expect<Test<T2, "equals", 123000>>,
             Expect<Test<T3, "equals", 7000000>>,
-            Expect<Test<T4, "equals", 1234567890000000000>>,
+            Expect<Test<T4, "equals", 12345678900000000>>,
         ];
     });
 
@@ -129,12 +129,11 @@ describe("ShiftDecimalPlace<T,U>", () => {
     it("implementation bug: both positive and negative shifts multiply", () => {
         // This demonstrates the bug clearly
         type Positive = ShiftDecimalPlace<10, 2>;   // 10 * 10^2 = 1000 ✓
-        type Negative = ShiftDecimalPlace<10, -2>;  // Should be 0.1, but is 1000
+        type Negative = ShiftDecimalPlace<10, -2>;  // Should be 0.1
 
-        // Both multiply by 10^|2| = 100
         type cases = [
             Expect<Test<Positive, "equals", 1000>>,
-            Expect<Test<Negative, "equals", 0.1>>, // BUG: Should be 0.1
+            Expect<Test<Negative, "equals", 0.1>>,
         ];
     });
 

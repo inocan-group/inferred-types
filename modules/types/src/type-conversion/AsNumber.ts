@@ -13,7 +13,7 @@ export type ParseInt<T> = T extends `${infer Int}.${infer Dec}`
         ? Int extends `${infer N extends number}`
             ? N
             : never
-        : `${Int}.${Dec}` extends `${infer N extends number}`
+        : `${Int}.${TrimCharEnd<Dec, "0">}` extends `${infer N extends number}`
             ? N
             : never
     // T is an integer

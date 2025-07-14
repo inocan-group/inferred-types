@@ -35,14 +35,3 @@ export type Repeat<
                 FixedLengthArray<".", TCount>
             >;
 
-// As<
-// number extends TCount
-// ? string
-
-// : IsNegativeNumber<TCount> extends true
-//     ? Repeat<TStr, Abs<TCount>>
-//     : Join<
-//         FixedLengthArray<TStr,TCount>
-//     >,
-//     string
-// >;

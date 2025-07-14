@@ -175,3 +175,52 @@ describe("filter()", () => {
         - this shows two key strategies:
           - the wrapping `As<..., \`--${number}${string}\` | \`-${number}${string}\` | Error>` allows consumers of this utility to see simple union type while maintaining literals
           - the inspect of the string in _parts_ rather than as one single comparison reduces the union complexity in favor of conditional complexity (a benefit 99% of the time).
+
+- When type testing runtime functions:
+
+  - A common mistake is to create tests like this:
+
+       ```ts
+       it("basic integer comparisons", () => {
+         const gt5 = isGreaterThan(5); // partial application
+
+         expect(gt5(10)).toBe(true);
+         expect(gt5(6)).toBe(true);
+         expect(gt5(5)).toBe(false);
+         expect(gt5(4)).toBe(false);
+         expect(gt5(0)).toBe(false);
+
+         // Type testing
+         type TestGt5_10 = ReturnType<typeof gt5<10>>;
+         type TestGt5_5 = ReturnType<typeof gt5<5>>;
+
+         type cases = [
+             Expect<Test<TestGt5_10, "equals", true>>,
+             Expect<Test<TestGt5_5, "equals", false>>,
+         ];
+     });
+     ```
+
+     The critical mistake is that the types `TestGt5_10` and `TestGt5_5` have made **assumptions** about the runtime which they should not!
+     Specifically they have assumed that the function is able to extract the literal value passed in as a parameter. This should not be assumed.
+
+     Here is how this type of test SHOULD be written:
+
+     ```ts
+     it("basic integer comparisons", () => {
+         const gt5 = isGreaterThan(5); // partial application
+
+         const ten = gt5(10);
+         const five = gt5(5);
+
+         expect(ten).toBe(true);
+         expect(five).toBe(false);
+
+         type cases = [
+             Expect<typeof ten, "equals", true>>,
+             Expect<typeof five, "equals", false>>,
+         ];
+     });
+     ```
+
+

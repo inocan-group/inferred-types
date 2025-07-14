@@ -5,3 +5,5 @@ export * from "./decrement";
 export * from "./increment";
 export * from "./isNegativeNumber";
 export * from "./toInteger";
+export * from "./isGreaterThan";
+export * from "./isGreaterThanOrEqual";

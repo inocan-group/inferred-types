@@ -71,7 +71,7 @@ describe("IsAfter<A, B>", () => {
       // Equal dates should return false (not after)
       Expect<Test<IsAfter<"2023-01-01", "2023-01-01">, "equals", false>>,
       Expect<Test<IsAfter<"2023-12-25", "2023-12-25">, "equals", false>>,
-      Expect<Test<IsAfter<"2023-02-29", "2023-02-29">, "equals", false>>,
+      Expect<Test<IsAfter<"2023-02-28", "2023-02-28">, "equals", false>>,
     ];
   });
 

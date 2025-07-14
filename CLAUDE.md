@@ -185,3 +185,35 @@ This runs: lint → install latest → test CI → audit fix → version bump
 - All new utilities require both runtime and type tests
 - Type performance benchmarks should be added for new type utilities when feasible
 - The project uses ESLint with `@antfu/eslint-config` and custom overrides
+
+## TypeScript Limitations and Cross-Module Issues
+
+This codebase has experienced TypeScript limitations where complex types behave differently when evaluated across module boundaries:
+
+- **Cross-module type resolution**: Some type utilities (like `Slice<T, Delta>`) may resolve to empty string when called from external modules but work correctly within the same file
+- **Workaround strategy**: When encountering cross-module type resolution issues, implement local versions of problematic utilities within the same file
+- **This is a TypeScript limitation**, not a logic error in the code
+- **Testing approach**: Both `pnpm test` (runtime) and `pnpm test:types` (type-level) should pass for all utilities
+
+## Type Testing Execution Details
+
+Type tests use a custom CLI tool separate from npm scripts:
+
+```bash
+# NOT npm commands - use directly:
+typed test                    # Test all type files
+typed test --filter datetime  # Test filtered files
+```
+
+The type testing framework uses `Test` and `Expect` utilities with these comparison operators:
+- `equals` - exact type equality (most common)
+- `extends` - type extension relationship  
+- `hasSameKeys` - dictionary key comparison
+- `hasSameValues` - container value comparison (order-independent)
+- `isError<T>` - error type testing
+
+# important-instruction-reminders
+Do what has been asked; nothing more, nothing less.
+NEVER create files unless they're absolutely necessary for achieving your goal.
+ALWAYS prefer editing an existing file to creating a new one.
+NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User.

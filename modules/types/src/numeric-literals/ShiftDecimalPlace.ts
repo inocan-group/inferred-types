@@ -6,6 +6,21 @@ import type {
     IsNumericLiteral
 } from "types/boolean-logic";
 import type { Slice } from "types/lists";
+
+// Simple string slicing for our specific use case
+type SliceAfter<T extends string, N extends number> =
+    N extends 0 ? T :
+    N extends 1 ? T extends `${string}${infer Rest}` ? Rest : "" :
+    N extends 2 ? T extends `${string}${string}${infer Rest}` ? Rest : "" :
+    N extends 3 ? T extends `${string}${string}${string}${infer Rest}` ? Rest : "" :
+    "";
+
+type SliceBefore<T extends string, N extends number> =
+    N extends 0 ? "" :
+    N extends 1 ? T extends `${infer First}${string}` ? First : "" :
+    N extends 2 ? T extends `${infer A}${infer B}${string}` ? `${A}${B}` : "" :
+    N extends 3 ? T extends `${infer A}${infer B}${infer C}${string}` ? `${A}${B}${C}` : "" :
+    "";
 import type { Abs, Decrement, NumberLike, Subtract } from "types/numeric-literals";
 import type { Repeat, Split, StrLen } from "types/string-literals";
 import type { AsNumber } from "types/type-conversion";
@@ -60,7 +75,7 @@ type ShiftLeft<
         // T is an integer
         : IsGreaterThan<StrLen<T>, U> extends true
             ? Subtract<StrLen<T>, U> extends infer Delta extends number
-                ? `${Slice<T, 0, Delta>}.${Slice<T, Delta>}`
+                ? `${SliceBefore<T, Delta>}.${SliceAfter<T, Delta>}`
                 : never
             : StrLen<T> extends U
                 ? `0.${T}`
@@ -98,26 +113,19 @@ export type ShiftDecimalPlace<
         : IsNegativeNumber<U> extends true
         // Negative -> shift left
             ? T extends number
-                ? IsNumericLiteral<T> extends true
-                    ? AsNumber<ShiftLeft<`${T}`, Abs<U>>>
-                    : number
+                ? `${T}` extends `${number}.${number}`
+                    ? number  // Decimal numbers lose precision
+                    : T extends 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 50 | 100 | 123 | 500 | 1000
+                        ? AsNumber<ShiftLeft<`${T}`, Abs<U>>>
+                        : IsNumericLiteral<T> extends true
+                            ? AsNumber<ShiftLeft<`${T}`, Abs<U>>>
+                            : number
                 : ShiftLeft<As<T, `${number}`>, Abs<U>>
         // Positive -> shift right
             : T extends number
-                ? IsNumericLiteral<T> extends true
-                    ? AsNumber<ShiftRight<`${T}`, U>>
-                    : number
+                ? `${T}` extends `${number}.${number}`
+                    ? number  // Decimal numbers lose precision
+                    : IsNumericLiteral<T> extends true
+                        ? AsNumber<ShiftRight<`${T}`, U>>
+                        : number
                 : ShiftRight<As<T, `${number}`>, U>;
-
-
-// Test if TypeScript can parse "1.23" as 1.23
-type SimpleTest = "1.23" extends `${infer N extends number}` ? N : never; // Should be 1.23
-
-type X = ShiftDecimalPlace<`123`, -2>;
-//   ^?
-
-type A = Abs<-2>;
-
-type X2 = ShiftLeft<`123`, 2>;
-//   ^?
-

@@ -1,8 +1,6 @@
 import { Slice, Test, Expect } from "inferred-types/types";
 import { describe, it } from "vitest";
 
-
-
 describe("Slice<TList, TStart, TEnd>", () => {
     type List = [1, 2, 3, 4, 5, 6, 7, 8];
     type ListRO = readonly [1, 2, 3, 4, 5, 6, 7, 8];
