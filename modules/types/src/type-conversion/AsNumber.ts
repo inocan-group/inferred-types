@@ -1,4 +1,4 @@
-import type { StripWhile } from "inferred-types/types";
+import type { As, Contains, RetainAfter, StartsWith, StripAfter, StripLeading, StripWhile } from "inferred-types/types";
 
 /**
  * **ParseInt**`<T>`
@@ -17,10 +17,27 @@ type JustZeros<T extends string> = T extends `${infer HEAD extends string}${infe
     : true;
 
 /**
+ * Addresses the possibility of leading zeros for both integer values
+ * and decimal values, positive and negative values
+ */
+type Handler<T extends `${number}`> = StartsWith<T, "0"> extends true
+    ? Contains<T, "."> extends true
+        ? JustZeros<StripAfter<T,".">> extends true
+            ? As<`0.${RetainAfter<T,".">}`, `${number}`>
+        : As<StripWhile<T, "0">, `${number}`>
+    : JustZeros<T> extends true
+        ? "0"
+        : StripWhile<T, "0">
+: StartsWith<T, "."> extends true
+    ? As<`0${T}`, `${number}`>
+    : T;
+
+/**
  * **AsNumber**`<T>`
  *
- * Returns a _number_ for `T` where `T` extends a _number_ or `${number}` type; otherwise
- * return _never_. Literal types are preserved.
+ * Returns a _number_ for `T` where `T` extends a _number_ or
+ * `${number}` type; otherwise return _never_. Literal types are
+ * preserved.
  *
  * ```ts
  * // 4
@@ -31,15 +48,12 @@ type JustZeros<T extends string> = T extends `${infer HEAD extends string}${infe
 export type AsNumber<T> = T extends number
     ? T
     : T extends `${number}`
-        ? T extends `-${infer Numeric}`
-            ? JustZeros<T> extends true
-                ? 0
-                : ParseInt<
-                    `-${StripWhile<Numeric, "0">}`
-                >
-            : JustZeros<T> extends true
-                ? 0
-                : ParseInt<
-                    StripWhile<T, "0">
-                >
+        ? StartsWith<T, "-"> extends true
+            ? ParseInt<
+                `-${Handler<StripLeading<T,"-">>}`
+            >
+            : ParseInt<
+                Handler<T>
+            >
         : never;
+

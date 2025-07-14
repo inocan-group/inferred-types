@@ -34,6 +34,16 @@ describe("AsNumber<T>", () => {
     });
 
 
+    it("negative numbers", () => {
+        type NegOne = AsNumber<"-1">;
+        type NegTwelve = AsNumber<"-12">;
+
+        type cases = [
+            Expect<Test<NegOne, "equals", -1>>,
+            Expect<Test<NegTwelve, "equals", -12>>,
+        ];
+    });
+
 
     it("can handle leading zeros", () => {
         type Five = AsNumber<"005">;
@@ -44,6 +54,24 @@ describe("AsNumber<T>", () => {
             Expect<Test<NegFive, "equals", -5>>,
         ];
     });
+
+
+    it("can handle a decimal value", () => {
+        type PointOne = AsNumber<"0.1">;
+        type NegPointOne = AsNumber<"-0.1">;
+
+        type RawPointOne = AsNumber<".1">;
+        type RawNegPointOne = AsNumber<"-.1">;
+
+        type cases = [
+            Expect<Test<PointOne, "equals", 0.1>>,
+            Expect<Test<NegPointOne, "equals", -0.1>>,
+
+            Expect<Test<RawPointOne, "equals", 0.1>>,
+            Expect<Test<RawNegPointOne, "equals", -0.1>>,
+        ];
+    });
+
 
 
 });
