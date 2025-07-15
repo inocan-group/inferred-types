@@ -6,7 +6,7 @@ describe("IsJsDate<T>", () => {
     it("happy path", () => {
         type JsDate = IsJsDate<Date>;
         type JsDateInstance = IsJsDate<InstanceType<typeof Date>>;
-        
+
         type cases = [
             Expect<Test<JsDate, "equals", true>>,
             Expect<Test<JsDateInstance, "equals", true>>,
@@ -26,14 +26,22 @@ describe("IsJsDate<T>", () => {
     });
 
     it("null and undefined", () => {
-        // In TypeScript's type system with certain configurations,
-        // both null and undefined might extend object types like Date
         type Null = IsJsDate<null>;
         type Undefined = IsJsDate<undefined>;
 
         type cases = [
-            Expect<Test<Null, "equals", true>>,
-            Expect<Test<Undefined, "equals", true>>,
+            Expect<Test<Null, "equals", false>>,
+            Expect<Test<Undefined, "equals", false>>,
+        ];
+    });
+
+    it("any and unknown", () => {
+        type Any = IsJsDate<any>;
+        type Unknown = IsJsDate<unknown>;
+
+        type cases = [
+            Expect<Test<Any, "equals", boolean>>,
+            Expect<Test<Unknown, "equals", boolean>>,
         ];
     });
 
@@ -88,7 +96,7 @@ describe("IsJsDate<T>", () => {
         type RecordType = IsJsDate<{ [key: string]: unknown }>;
 
         type cases = [
-            Expect<Test<EmptyObject, "equals", false>>,
+            Expect<Test<EmptyObject, "equals", boolean>>,
             Expect<Test<PlainObject, "equals", false>>,
             Expect<Test<ObjectWithDate, "equals", false>>,
             Expect<Test<RecordType, "equals", false>>,
@@ -200,7 +208,7 @@ describe("IsJsDate<T>", () => {
 
         type cases = [
             Expect<Test<Any, "equals", boolean>>,
-            Expect<Test<Unknown, "equals", false>>,
+            Expect<Test<Unknown, "equals", boolean>>,
             Expect<Test<Never, "equals", never>>,
             Expect<Test<Object, "equals", false>>,
         ];

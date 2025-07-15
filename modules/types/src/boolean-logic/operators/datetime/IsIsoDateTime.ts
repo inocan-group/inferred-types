@@ -1,9 +1,18 @@
 import type {
+    And,
+    AsDateMeta,
+    DateMeta,
     IsIsoFullDateTime,
     IsIsoMonthDateTime,
     IsIsoYearMonthTime,
-    IsoDateTime
+    IsoDateTime,
+    IsUnion,
+    UnionToTuple
 } from "inferred-types/types";
+
+type TupleMap<T extends readonly any[]> = {
+  [K in keyof T]: IsIsoDateTime<T[K]>
+};
 
 /**
  * **IsIsoDateTime**`<T>`
@@ -18,18 +27,21 @@ import type {
  * branded type of `IsoDateTime` but if your runtime uses the
  * `isIsoDateTime()` type guard it will pass and be upgraded.
  */
-export type IsIsoDateTime<T> = T extends string
+export type IsIsoDateTime<T> = IsUnion<T> extends true
+    ? TupleMap<UnionToTuple<T>>
+: null extends T
+? false
+: T extends string
     ? string extends T
         ? boolean
         : T extends IsoDateTime<"branded">
             ? true
-            : T extends IsoDateTime<"normal">
-                ? IsIsoFullDateTime<T> extends true
-                    ? true
-                    : IsIsoMonthDateTime<T> extends true
+            : AsDateMeta<T> extends Error
+                ? false
+                : AsDateMeta<T> extends DateMeta
+                    ? AsDateMeta<T>["dateType"] extends "datetime"
                         ? true
-                        : IsIsoYearMonthTime<T> extends true
-                            ? true
-                            : false
+                        : false
                 : false
     : false;
+

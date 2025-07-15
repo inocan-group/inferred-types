@@ -146,15 +146,17 @@ type ParseDateTime<T extends `${string}T${string}`> = Split<T, "T"> extends [
                 `The time component of a DateTime string was invalid: ${ParseTime<TimePart>["message"]}`,
                 { parse: T; date: DatePart; time: TimePart }
             >
-            : As<
-                [
-                    As<ParseDate<DatePart>, ParsedDate>[0],
-                    As<ParseDate<DatePart>, ParsedDate>[1],
-                    As<ParseDate<DatePart>, ParsedDate>[2],
-                    As<ParseTime<TimePart>, ParsedTime>
-                ],
-                ParsedDate
-            >
+            : ParseFullDate<DatePart> extends ParsedDate
+                ? As<
+                    [
+                        As<ParseFullDate<DatePart>, ParsedDate>[0],
+                        As<ParseFullDate<DatePart>, ParsedDate>[1],
+                        As<ParseFullDate<DatePart>, ParsedDate>[2],
+                        As<ParseTime<TimePart>, ParsedTime>
+                    ],
+                    ParsedDate
+                >
+                : never
 
     : Err<`parse-date/datetime`, `Invalid structure`, { parse: T }>;
 

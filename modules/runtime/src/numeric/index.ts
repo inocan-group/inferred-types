@@ -7,3 +7,5 @@ export * from "./isNegativeNumber";
 export * from "./toInteger";
 export * from "./isGreaterThan";
 export * from "./isGreaterThanOrEqual";
+export * from "./lessThan";
+export * from "./lessThanOrEqual";

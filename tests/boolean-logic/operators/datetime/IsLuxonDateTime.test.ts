@@ -1,23 +1,14 @@
-import { IsLuxonDateTime } from "inferred-types/types";
-import { Expect, Test } from "inferred-types/types";
+import { IsLuxonDateTime, Expect, Test, LuxonLikeDateTime } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("IsLuxonDateTime<T>", () => {
-  
+
   it("Valid Luxon DateTime Objects", () => {
-    type MockLuxonDateTime = {
-      isValid: boolean;
-      toISODate: () => string;
-      toFormat: (format: string) => string;
-      toMillis: () => number;
-      year: number;
-      month: number;
-      day: number;
-    };
+
 
     type cases = [
       // Complete Luxon DateTime-like object should return true
-      Expect<Test<IsLuxonDateTime<MockLuxonDateTime>, "equals", true>>,
+      Expect<Test<IsLuxonDateTime<LuxonLikeDateTime>, "equals", true>>,
     ];
   });
 

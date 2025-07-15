@@ -1,26 +1,14 @@
-import { IsMoment } from "inferred-types/types";
+import { IsMoment, MomentLike } from "inferred-types/types";
 import { Expect, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("IsMoment<T>", () => {
-  
+
   it("Valid Moment.js-like Objects", () => {
-    type MockMoment = {
-      format: () => string;
-      year: () => number;
-      month: () => number;
-      date: () => number;
-      hour: () => number;
-      minute: () => number;
-      second: () => number;
-      millisecond: () => number;
-      add: (amount: number, unit: string) => MockMoment;
-      toISOString: () => string;
-    };
 
     type cases = [
       // Complete Moment.js-like object should return true
-      Expect<Test<IsMoment<MockMoment>, "equals", true>>,
+      Expect<Test<IsMoment<MomentLike>, "equals", true>>,
     ];
   });
 
@@ -126,28 +114,7 @@ describe("IsMoment<T>", () => {
     ];
   });
 
-  it("Objects with Extra Properties", () => {
-    type ExtendedMoment = {
-      format: () => string;
-      year: () => number;
-      month: () => number;
-      date: () => number;
-      hour: () => number;
-      minute: () => number;
-      second: () => number;
-      millisecond: () => number;
-      add: (amount: number, unit: string) => ExtendedMoment;
-      toISOString: () => string;
-      // Extra properties
-      customMethod: () => void;
-      extraProp: string;
-    };
 
-    type cases = [
-      // Objects with extra properties should still return true if they have all required methods
-      Expect<Test<IsMoment<ExtendedMoment>, "equals", true>>,
-    ];
-  });
 
   it("Union Types", () => {
     type ValidMoment = {

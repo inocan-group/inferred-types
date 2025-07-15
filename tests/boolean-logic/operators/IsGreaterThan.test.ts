@@ -1,5 +1,10 @@
 import { describe, it, expect } from "vitest";
-import { Expect, IsGreaterThan, IsGreaterThanOrEqual, Test } from "inferred-types/types";
+import {
+    Expect,
+    IsGreaterThan,
+    IsGreaterThanOrEqual,
+    Test
+} from "inferred-types/types";
 import { isGreaterThan, isGreaterThanOrEqual } from "inferred-types/runtime";
 
 describe("IsGreaterThan<A,B> Type Utility", () => {

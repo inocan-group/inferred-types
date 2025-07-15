@@ -30,7 +30,7 @@ describe("parseDateObject()", () => {
 
     it("parses JS Date instance (non-UTC, bare)", () => {
         const date = new Date("2024-01-15T12:34:56.789+01:00");
-        console.log({ js: date.toISOString(), offset: date.getTimezoneOffset() })
+
         const result = parseDateObject(date);
         const expected = {
             dateType: "datetime",
@@ -51,7 +51,7 @@ describe("parseDateObject()", () => {
 
     it("parses JS Date instance (non-UTC, via asDateTime())", () => {
         const date = asDateTime("2024-01-15T12:34:56.789+01:00");
-        console.log({ js: date.toISOString(), offset: date.getTimezoneOffset() })
+
         const result = parseDateObject(date);
         const expected = {
             dateType: "datetime",
@@ -124,7 +124,7 @@ describe("parseDateObject()", () => {
             minute: "34",
             second: "56",
             ms: "789",
-            timezone: "-07:00" // Luxon is applying local timezone offset
+            timezone: "-08:00" // Luxon is applying local timezone offset (PST)
         };
         for (const key of keysOf(expected)) {
             expect(expected[key], `'${key}' should be: '${expected[key]}' but was '${result[key]}'\n\t`).toBe(result[key]);

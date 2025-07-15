@@ -15,8 +15,6 @@ export function parseNumericDate<T extends number>(d: T) {
             ? new Date(d * 1000)
             : new Date(d);
 
-        log({ iso: date.toISOString() });
-
         return parseIsoDate(date.toISOString());
     }
     catch {

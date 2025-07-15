@@ -1,9 +1,9 @@
-import { IsIsoDateTime } from "inferred-types/types";
+import { AsDateMeta, IsIsoDateTime } from "inferred-types/types";
 import { Expect, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("IsIsoDateTime<T>", () => {
-  
+
   it("Full ISO DateTime Strings", () => {
     type cases = [
       // Standard full ISO datetime formats
@@ -17,23 +17,7 @@ describe("IsIsoDateTime<T>", () => {
     ];
   });
 
-  it("Month DateTime Format", () => {
-    type cases = [
-      // Month-based datetime - actual behavior shows these work
-      Expect<Test<IsIsoDateTime<"--01-01T00:00:00Z">, "equals", true>>,
-      Expect<Test<IsIsoDateTime<"--12-31T23:59:59Z">, "equals", true>>,
-      Expect<Test<IsIsoDateTime<"--06-15T12:30:45Z">, "equals", true>>,
-    ];
-  });
 
-  it("Year-Month-Time Format", () => {
-    type cases = [
-      // Year-month with time components
-      Expect<Test<IsIsoDateTime<"2023-01T12:00:00Z">, "equals", false>>, // Based on actual behavior
-      Expect<Test<IsIsoDateTime<"2023-12T23:59:59Z">, "equals", false>>,
-      Expect<Test<IsIsoDateTime<"2024-02T06:30:15Z">, "equals", false>>,
-    ];
-  });
 
   it("Invalid DateTime Formats", () => {
     type cases = [
@@ -69,13 +53,16 @@ describe("IsIsoDateTime<T>", () => {
   });
 
   it("Non-String Types", () => {
+    type Null = IsIsoDateTime<null>;
+    type Undef = IsIsoDateTime<undefined>;
+
     type cases = [
       // Non-string types should return false
       Expect<Test<IsIsoDateTime<number>, "equals", false>>,
       Expect<Test<IsIsoDateTime<Date>, "equals", false>>,
       Expect<Test<IsIsoDateTime<boolean>, "equals", false>>,
-      Expect<Test<IsIsoDateTime<null>, "equals", false>>,
-      Expect<Test<IsIsoDateTime<undefined>, "equals", false>>,
+      Expect<Test<Null, "equals", false>>,
+      Expect<Test<Undef, "equals", false>>,
       Expect<Test<IsIsoDateTime<{}>, "equals", false>>,
       Expect<Test<IsIsoDateTime<[]>, "equals", false>>,
     ];
@@ -89,12 +76,18 @@ describe("IsIsoDateTime<T>", () => {
   });
 
   it("Union Types", () => {
+    type T1 = IsIsoDateTime<"2023-01-01T00:00Z">;
+    type P1 = AsDateMeta<"2023-01-01T00:00:00Z">;
+    type U1 = IsIsoDateTime<"2023-01-01T00:00:00Z" | "2023-12-31T23:59:59Z">;
+    type U2 = IsIsoDateTime<"2023-01-01T00:00:00Z" | "hello">;
+    type U3 = IsIsoDateTime<"2023-01-01T00:00:00Z" | number>;
+
     type cases = [
       // Pure ISO datetime unions
-      Expect<Test<IsIsoDateTime<"2023-01-01T00:00:00Z" | "2023-12-31T23:59:59Z">, "equals", true>>,
+      Expect<Test<U1, "equals", true>>,
       // Mixed unions
-      Expect<Test<IsIsoDateTime<"2023-01-01T00:00:00Z" | "hello">, "equals", boolean>>,
-      Expect<Test<IsIsoDateTime<"2023-01-01T00:00:00Z" | number>, "equals", boolean>>,
+      Expect<Test<U2, "equals", boolean>>,
+      Expect<Test<U3, "equals", boolean>>,
     ];
   });
 

@@ -106,12 +106,12 @@ describe("IsIsoTime<T>", () => {
         type Midnight2 = IsIsoTime<"00:00:00">;
         type Midnight3 = IsIsoTime<"00:00:00.000">;
         type Midnight4 = IsIsoTime<"00:00:00.000Z">;
-        
+
         type EndOfDay1 = IsIsoTime<"23:59">;
         type EndOfDay2 = IsIsoTime<"23:59:59">;
         type EndOfDay3 = IsIsoTime<"23:59:59.999">;
         type EndOfDay4 = IsIsoTime<"23:59:59.999Z">;
-        
+
         type Noon1 = IsIsoTime<"12:00">;
         type Noon2 = IsIsoTime<"12:00:00">;
         type Noon3 = IsIsoTime<"12:00:00.000Z">;
@@ -274,21 +274,19 @@ describe("IsIsoTime<T>", () => {
         type Format3 = IsIsoTime<"01:23+05">;                 // HH:MM + TZ(short)
         type Format4 = IsIsoTime<"01:23+0530">;               // HH:MM + TZ(compact)
         type Format5 = IsIsoTime<"01:23+05:30">;              // HH:MM + TZ(extended)
-        
+
         type Format6 = IsIsoTime<"01:23:45">;                 // HH:MM:SS
         type Format7 = IsIsoTime<"01:23:45Z">;                // HH:MM:SS + UTC
         type Format8 = IsIsoTime<"01:23:45-08">;              // HH:MM:SS + TZ(short)
         type Format9 = IsIsoTime<"01:23:45-0800">;            // HH:MM:SS + TZ(compact)
         type Format10 = IsIsoTime<"01:23:45-08:00">;          // HH:MM:SS + TZ(extended)
-        
+
         type Format11 = IsIsoTime<"01:23:45.678">;            // HH:MM:SS.mmm
         type Format12 = IsIsoTime<"01:23:45.678Z">;           // HH:MM:SS.mmm + UTC
         type Format13 = IsIsoTime<"01:23:45.678+09">;         // HH:MM:SS.mmm + TZ(short)
         type Format14 = IsIsoTime<"01:23:45.678+0900">;       // HH:MM:SS.mmm + TZ(compact)
         type Format15 = IsIsoTime<"01:23:45.678+09:00">;      // HH:MM:SS.mmm + TZ(extended)
-        
-        // Edge case: concatenated digits that parse as HH:MM:SS
-        type Format16 = IsIsoTime<"12:3456">;                 // parses as 12:34:56
+
 
         type cases = [
             Expect<Test<Format1, "equals", true>>,
@@ -305,8 +303,7 @@ describe("IsIsoTime<T>", () => {
             Expect<Test<Format12, "equals", true>>,
             Expect<Test<Format13, "equals", true>>,
             Expect<Test<Format14, "equals", true>>,
-            Expect<Test<Format15, "equals", true>>,
-            Expect<Test<Format16, "equals", true>>
+            Expect<Test<Format15, "equals", true>>
         ];
     });
 

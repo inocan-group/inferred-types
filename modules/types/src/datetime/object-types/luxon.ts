@@ -106,6 +106,7 @@ export interface LuxonLikeDateTime {
      */
     toISODate: () => string;
 
+
     /**
      * Convert the DateTime to an ISO 8601 time-only string.
      * @param opts - Options to suppress milliseconds, seconds, or include the offset.
@@ -188,6 +189,10 @@ export interface LuxonLikeDateTime {
      * @param opts - Options like `conversionAccuracy`.
      */
     diff: TypedFunction;
+
+    diffNow: TypedFunction;
+    hasSome: TypedFunction;
+    getPossibleOffsets: TypedFunction;
 
     // Properties
     /** The year represented by this DateTime instance */
