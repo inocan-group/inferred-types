@@ -1,5 +1,6 @@
 import { DateLike } from "@inferred-types/types";
 import {
+    asString,
     err,
     isError,
     isNumber
@@ -33,6 +34,8 @@ import {
 export function asDate<
     T extends DateLike
 >(input: T): Date {
+    try {
+
     // DEBUG: Log input and all type guard results for string inputs
     // Debug code removed
     // Always return a Date at 00:00:00.000 UTC
@@ -74,7 +77,7 @@ export function asDate<
 
     if (isIsoDateTime(input)) {
         // e.g. 2023-06-16T12:34:56Z or 2023-06-16T12:34:56+02:00
-        const parsed = parseIsoDate(input as string);
+        const parsed = parseIsoDate(input);
         if (isError(parsed)) {
             throw parsed;
         }
@@ -95,7 +98,7 @@ export function asDate<
 
     if (isIsoYear(input)) {
         // e.g. 2023
-        const parsed = parseIsoDate(input as string);
+        const parsed = parseIsoDate(input);
         if (isError(parsed)) {
             throw parsed;
         }
@@ -105,7 +108,7 @@ export function asDate<
 
     if (isIsoExplicitDate(input)) {
         // e.g. 2023-06-16
-        const parsed = parseIsoDate(input as string);
+        const parsed = parseIsoDate(input);
         if (isError(parsed)) {
             throw parsed;
         }
@@ -117,7 +120,7 @@ export function asDate<
 
     if (isIsoImplicitDate(input)) {
         // e.g. 20230616
-        const parsed = parseIsoDate(input as string);
+        const parsed = parseIsoDate(input);
         if (isError(parsed)) {
             throw parsed;
         }
@@ -130,7 +133,7 @@ export function asDate<
 
     if (isIsoDate(input)) {
         // e.g. This might be for other ISO date formats
-        const parsed = parseIsoDate(input as string);
+        const parsed = parseIsoDate(input);
         if (isError(parsed)) {
             throw parsed;
         }
@@ -140,5 +143,19 @@ export function asDate<
         return new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0));
     }
 
-    throw err(`invalid/date`, `The date-like value you passed to 'asDate(${String(input)})' function was unable to be converted to a Javascript Date object!`, { date: input });
+    } catch (e) {
+        if(isError(e)) {
+            throw err(
+                `parse-date/as-date`,
+                `The input passed to asDate(${asString(input)}) function ran into an error while trying to convert this input into a Javascript date object. Underlying error message was: ${e.message}`
+            )
+        } else {
+            throw err(
+                `parse-date/as-date`,
+                `The input passed to asDate(${asString(input)}) function ran into an error while trying to convert this input into a Javascript date object. Underlying error message was: ${asString(e)}`
+            )
+        }
+    }
+
+    throw err(`invalid/date`, `The date-like value you passed to 'asDate(${asString(input)})' function was unable to be converted to a Javascript Date object!`, { date: input });
 }

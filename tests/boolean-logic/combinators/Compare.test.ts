@@ -54,7 +54,6 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
         ];
     });
 
-
     it("extends", () => {
         type T1 = Compare<42, "extends", [number]>;
         type T1x = Compare<42, "extends">;

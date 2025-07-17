@@ -16,3 +16,4 @@ export * from "./isMonthAbbrev";
 export * from "./isMonthName";
 export * from "./isTemporalDate";
 export * from "./parsing-typeguards";
+export * from "./isParsedDate";
