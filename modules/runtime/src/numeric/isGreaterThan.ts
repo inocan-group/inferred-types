@@ -1,4 +1,4 @@
-import { IsGreaterThan } from "inferred-types/types";
+import type { IsGreaterThan } from "inferred-types/types";
 
 /**
  * **isGreaterThan**`(comparator) -> (val) -> boolean`
@@ -8,6 +8,6 @@ import { IsGreaterThan } from "inferred-types/types";
  */
 export function isGreaterThan<T extends number>(comparator: T) {
     return <TVal extends number>(val: TVal) => {
-        return val > comparator as IsGreaterThan<TVal,T>;
-    }
+        return val > comparator as IsGreaterThan<TVal, T>;
+    };
 }

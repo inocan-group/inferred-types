@@ -1,2 +1,3 @@
 export * from "./takeAtomicToken";
-export * from "./takeStringToken";
+export * from "./takeNumericLiteral";
+export * from "./takeStringLiteral";

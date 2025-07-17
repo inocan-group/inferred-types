@@ -1,5 +1,11 @@
-import type { AsHtmlComponentTag } from "inferred-types/types";
-import { toKebabCase, toPascalCase, validHtmlAttributes } from "inferred-types/runtime";
+import type {
+    AsHtmlComponentTag
+} from "inferred-types/types";
+import {
+    toKebabCase,
+    toPascalCase,
+    validHtmlAttributes
+} from "inferred-types/runtime";
 
 /**
  * **isHtmlComponentTag**`(...names)`

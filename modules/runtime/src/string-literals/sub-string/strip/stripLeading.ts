@@ -1,13 +1,13 @@
 import type { Err, StripLeading, TupleToUnion } from "inferred-types/types";
 import { err } from "runtime/errors";
-import { isNumber, isString, isUndefined } from "runtime/type-guards";
+import { isNumber, isString } from "runtime/type-guards";
 
 type Returns<
     T extends string | number,
     U extends readonly (string | number)[],
 > = T extends string | number
-        ? StripLeading<T, TupleToUnion<U>>
-        : Err<"invalid-type/strip-leading">;
+    ? StripLeading<T, TupleToUnion<U>>
+    : Err<"invalid-type/strip-leading">;
 
 /**
  * **stripLeading**(content, ...strip)

@@ -260,7 +260,7 @@ export function nestedSplit<
                 : Never
         : nesting as Nesting;
 
-    if (isNestingKeyValue(config) != true && isNestingTuple(config)) {
+    if (isNestingKeyValue(config) !== true && isNestingTuple(config)) {
         return err(`invalid-nesting/nested-split`) as NestedSplit<
             TContent,
             TSplit,

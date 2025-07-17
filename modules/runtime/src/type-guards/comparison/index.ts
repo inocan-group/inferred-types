@@ -1,1 +1,1 @@
-export * from "./isComparisonOperation"
+export * from "./isComparisonOperation";

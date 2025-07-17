@@ -7,5 +7,7 @@ import { isDictionary } from "inferred-types/runtime";
  * **Related:** `hasOnlySymbolKeys()`, `hasOnlyStringKeys()`
  */
 export function hasOnlySymbolKeys(val: unknown): val is Record<symbol, unknown> {
-    return isDictionary(val) && Object.getOwnPropertySymbols(val).length > 0 && Object.keys(val).length == 0;
+    return isDictionary(val)
+    && Object.getOwnPropertySymbols(val).length > 0
+    && Object.keys(val).length === 0;
 }

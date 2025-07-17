@@ -1,12 +1,12 @@
-import { EmptyObject } from "types/base-types";
-import { IsEqual } from "types/boolean-logic";
+import type { EmptyObject } from "types/base-types";
+import type { IsEqual } from "types/boolean-logic";
 import type {
     IsIsoFullDate,
     IsIsoMonthDate,
     IsIsoYear,
     IsIsoYearMonth
 } from "types/boolean-logic/operators/datetime";
-import { IsNull } from "types/boolean-logic/operators/IsNull";
+import type { IsNull } from "types/boolean-logic/operators/IsNull";
 import type { IsoDate } from "types/datetime";
 
 /**
@@ -23,21 +23,21 @@ import type { IsoDate } from "types/datetime";
  * for that.
  */
 export type IsIsoDate<T> = IsNull<T> extends true
-? false
-: IsEqual<T,EmptyObject> extends true
     ? false
-: string extends T
-    ? boolean
-    : T extends IsoDate<"branded">
-        ? true
-        : T extends IsoDate<"normal">
-            ? IsIsoFullDate<T> extends true //
+    : IsEqual<T, EmptyObject> extends true
+        ? false
+        : string extends T
+            ? boolean
+            : T extends IsoDate<"branded">
                 ? true
-                : IsIsoYearMonth<T> extends true
-                    ? true
-                    : IsIsoMonthDate<T> extends true
+                : T extends IsoDate<"normal">
+                    ? IsIsoFullDate<T> extends true //
                         ? true
-                        : IsIsoYear<T> extends true
+                        : IsIsoYearMonth<T> extends true
                             ? true
-                            : false
-            : false;
+                            : IsIsoMonthDate<T> extends true
+                                ? true
+                                : IsIsoYear<T> extends true
+                                    ? true
+                                    : false
+                    : false;

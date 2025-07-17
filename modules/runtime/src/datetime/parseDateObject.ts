@@ -7,14 +7,14 @@ import { asDateTime, isError, parseIsoDate } from "inferred-types/runtime";
  */
 export function parseDateObject<T extends DateLike & object>(d: T) {
     const date = d instanceof Date ? d : asDateTime(d);
-    
+
     // For the time components, always use UTC (the actual time stored in the Date object)
     const utcIso = date.toISOString();
     const utcParsed = parseIsoDate(utcIso);
     if (isError(utcParsed)) {
         throw utcParsed;
     }
-    
+
     // If sourceIso exists, extract timezone from it to preserve original offset
     const sourceIso = (date as any).sourceIso;
     if (sourceIso) {
@@ -27,6 +27,6 @@ export function parseDateObject<T extends DateLike & object>(d: T) {
             };
         }
     }
-    
+
     return utcParsed;
 }

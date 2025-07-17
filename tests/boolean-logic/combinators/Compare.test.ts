@@ -831,7 +831,7 @@ describe("compare() runtime function", () => {
                 Expect<Test<typeof f3, "equals", false>>,
                 Expect<Test<typeof t2, "equals", true>>,
                 Expect<Test<typeof result6, "equals", false>>,
-                Expect<Test<typeof result7, "equals", Error>>
+                Expect<Test<typeof result7, "isError", "invalid-value">>
             ];
         });
 
@@ -929,7 +929,7 @@ describe("compare() runtime function", () => {
                 Expect<Test<typeof t1, "equals", true>>,
                 Expect<Test<typeof t2, "equals", true>>,
                 Expect<Test<typeof f1, "equals", false>>,
-                Expect<Test<typeof result4, "equals", Error>>
+                Expect<Test<typeof result4, "isError", true>>
             ];
         });
 

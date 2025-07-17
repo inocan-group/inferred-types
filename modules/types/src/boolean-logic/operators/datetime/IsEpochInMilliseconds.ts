@@ -1,11 +1,9 @@
-import { IsGreaterThanOrEqual, IsInteger } from "types/boolean-logic/operators";
-
+import type { IsGreaterThanOrEqual, IsInteger } from "types/boolean-logic/operators";
 
 /** the epoch timestamp (in seconds) for the date 2500-01-01 */
 type _Epoch_2500 = 16725225600;
 /** the epoch timestamp (in milliseconds) for July 14th */
-type Epoch_1979_07_14 = 16761600000
-
+type Epoch_1979_07_14 = 16761600000;
 
 /**
  * **IsEpochInMilliseconds**`<T>`
@@ -22,7 +20,7 @@ type Epoch_1979_07_14 = 16761600000
 export type IsEpochInMilliseconds<T> = T extends number
     ? number extends T
         ? boolean
-    : IsInteger<T> extends true
-        ? IsGreaterThanOrEqual<T, Epoch_1979_07_14>
-    : false
-: false;
+        : IsInteger<T> extends true
+            ? IsGreaterThanOrEqual<T, Epoch_1979_07_14>
+            : false
+    : false;

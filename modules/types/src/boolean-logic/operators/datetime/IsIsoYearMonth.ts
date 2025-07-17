@@ -19,13 +19,13 @@ import type {
  * `isIsoDate()` type guard it will pass and be upgraded.
  */
 export type IsIsoYearMonth<T> = T extends string
-? string extends T
-    ? boolean
-    : AsDateMeta<T> extends Error
-        ? false
-        : AsDateMeta<T> extends DateMeta
-            ? AsDateMeta<T>["dateType"] extends "year-month"
-                ? true
+    ? string extends T
+        ? boolean
+        : AsDateMeta<T> extends Error
+            ? false
+            : AsDateMeta<T> extends DateMeta
+                ? AsDateMeta<T>["dateType"] extends "year-month"
+                    ? true
+                    : false
                 : false
-            : false
-: false;
+    : false;

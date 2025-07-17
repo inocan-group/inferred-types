@@ -44,7 +44,7 @@ export type CompareNumbers<
 
 // For negative numbers, we reverse the comparison
 type CompareNegative<A extends string, B extends string> =
-    A extends `-${infer A_abs}` 
+    A extends `-${infer A_abs}`
         ? B extends `-${infer B_abs}`
             ? ComparePositive<B_abs, A_abs> // reversed
             : never
@@ -52,7 +52,7 @@ type CompareNegative<A extends string, B extends string> =
 
 // For positive numbers
 type ComparePositive<A extends string, B extends string> =
-    A extends "0" 
+    A extends "0"
         ? B extends "0" ? "equal" : "less"
         : B extends "0"
             ? "greater"
@@ -112,7 +112,7 @@ type CompareDecimalParts<A extends string, B extends string> =
                 : A extends `${string}${string}${string}${string}${string}${string}`
                     ? "greater" // A is much longer
                     : CompareDecimalParts<A, `${B}0`>
-            // A is shorter, pad with zeros  
+            // A is shorter, pad with zeros
             : B extends `${string}${string}${string}${string}${string}${string}`
                 ? "less" // B is much longer
                 : CompareDecimalParts<`${A}0`, B>;
@@ -120,18 +120,18 @@ type CompareDecimalParts<A extends string, B extends string> =
 // Compare single digits
 type CompareDigit<A extends string, B extends string> =
     A extends "0" ? B extends "0" ? "equal" : "less" :
-    A extends "1" ? B extends "0" ? "greater" : B extends "1" ? "equal" : "less" :
-    A extends "2" ? B extends "0" | "1" ? "greater" : B extends "2" ? "equal" : "less" :
-    A extends "3" ? B extends "0" | "1" | "2" ? "greater" : B extends "3" ? "equal" : "less" :
-    A extends "4" ? B extends "0" | "1" | "2" | "3" ? "greater" : B extends "4" ? "equal" : "less" :
-    A extends "5" ? B extends "0" | "1" | "2" | "3" | "4" ? "greater" : B extends "5" ? "equal" : "less" :
-    A extends "6" ? B extends "0" | "1" | "2" | "3" | "4" | "5" ? "greater" : B extends "6" ? "equal" : "less" :
-    A extends "7" ? B extends "0" | "1" | "2" | "3" | "4" | "5" | "6" ? "greater" : B extends "7" ? "equal" : "less" :
-    A extends "8" ? B extends "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" ? "greater" : B extends "8" ? "equal" : "less" :
-    A extends "9" ? B extends "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" ? "greater" : "equal" :
-    never;
+        A extends "1" ? B extends "0" ? "greater" : B extends "1" ? "equal" : "less" :
+            A extends "2" ? B extends "0" | "1" ? "greater" : B extends "2" ? "equal" : "less" :
+                A extends "3" ? B extends "0" | "1" | "2" ? "greater" : B extends "3" ? "equal" : "less" :
+                    A extends "4" ? B extends "0" | "1" | "2" | "3" ? "greater" : B extends "4" ? "equal" : "less" :
+                        A extends "5" ? B extends "0" | "1" | "2" | "3" | "4" ? "greater" : B extends "5" ? "equal" : "less" :
+                            A extends "6" ? B extends "0" | "1" | "2" | "3" | "4" | "5" ? "greater" : B extends "6" ? "equal" : "less" :
+                                A extends "7" ? B extends "0" | "1" | "2" | "3" | "4" | "5" | "6" ? "greater" : B extends "7" ? "equal" : "less" :
+                                    A extends "8" ? B extends "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" ? "greater" : B extends "8" ? "equal" : "less" :
+                                        A extends "9" ? B extends "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" ? "greater" : "equal" :
+                                            never;
 
-// Simple integer comparison with length patterns  
+// Simple integer comparison with length patterns
 type CompareIntegers<A extends string, B extends string> =
     A extends B
         ? "equal"
@@ -150,44 +150,31 @@ type LengthBasedCompare<A extends string, B extends string> =
                 : never
             : never;
 
-type GetStringLength<T extends string> = 
+type GetStringLength<T extends string> =
     T extends `${any}${any}${any}${any}${any}${any}${any}${any}${any}${any}` ? 10 :
-    T extends `${any}${any}${any}${any}${any}${any}${any}${any}${any}` ? 9 :
-    T extends `${any}${any}${any}${any}${any}${any}${any}${any}` ? 8 :
-    T extends `${any}${any}${any}${any}${any}${any}${any}` ? 7 :
-    T extends `${any}${any}${any}${any}${any}${any}` ? 6 :
-    T extends `${any}${any}${any}${any}${any}` ? 5 :
-    T extends `${any}${any}${any}${any}` ? 4 :
-    T extends `${any}${any}${any}` ? 3 :
-    T extends `${any}${any}` ? 2 :
-    1;
+        T extends `${any}${any}${any}${any}${any}${any}${any}${any}${any}` ? 9 :
+            T extends `${any}${any}${any}${any}${any}${any}${any}${any}` ? 8 :
+                T extends `${any}${any}${any}${any}${any}${any}${any}` ? 7 :
+                    T extends `${any}${any}${any}${any}${any}${any}` ? 6 :
+                        T extends `${any}${any}${any}${any}${any}` ? 5 :
+                            T extends `${any}${any}${any}${any}` ? 4 :
+                                T extends `${any}${any}${any}` ? 3 :
+                                    T extends `${any}${any}` ? 2 :
+                                        1;
 
-// Get string length (basic implementation)
-type GetLength<T extends string> = 
-    T extends `${string}${string}${string}${string}${string}${string}${string}${string}${string}${string}` ? 10 :
-    T extends `${string}${string}${string}${string}${string}${string}${string}${string}${string}` ? 9 :
-    T extends `${string}${string}${string}${string}${string}${string}${string}${string}` ? 8 :
-    T extends `${string}${string}${string}${string}${string}${string}${string}` ? 7 :
-    T extends `${string}${string}${string}${string}${string}${string}` ? 6 :
-    T extends `${string}${string}${string}${string}${string}` ? 5 :
-    T extends `${string}${string}${string}${string}` ? 4 :
-    T extends `${string}${string}${string}` ? 3 :
-    T extends `${string}${string}` ? 2 :
-    T extends string ? 1 : 0;
-
-// Simple comparison of single digit numbers 
-type SimpleNumberCompare<A, B> = 
+// Simple comparison of single digit numbers
+type SimpleNumberCompare<A, B> =
     A extends 1 ? B extends 1 ? "equal" : "less" :
-    A extends 2 ? B extends 1 ? "greater" : B extends 2 ? "equal" : "less" :
-    A extends 3 ? B extends 1 | 2 ? "greater" : B extends 3 ? "equal" : "less" :
-    A extends 4 ? B extends 1 | 2 | 3 ? "greater" : B extends 4 ? "equal" : "less" :
-    A extends 5 ? B extends 1 | 2 | 3 | 4 ? "greater" : B extends 5 ? "equal" : "less" :
-    A extends 6 ? B extends 1 | 2 | 3 | 4 | 5 ? "greater" : B extends 6 ? "equal" : "less" :
-    A extends 7 ? B extends 1 | 2 | 3 | 4 | 5 | 6 ? "greater" : B extends 7 ? "equal" : "less" :
-    A extends 8 ? B extends 1 | 2 | 3 | 4 | 5 | 6 | 7 ? "greater" : B extends 8 ? "equal" : "less" :
-    A extends 9 ? B extends 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 ? "greater" : B extends 9 ? "equal" : "less" :
-    A extends 10 ? B extends 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 ? "greater" : B extends 10 ? "equal" : "less" :
-    "equal";
+        A extends 2 ? B extends 1 ? "greater" : B extends 2 ? "equal" : "less" :
+            A extends 3 ? B extends 1 | 2 ? "greater" : B extends 3 ? "equal" : "less" :
+                A extends 4 ? B extends 1 | 2 | 3 ? "greater" : B extends 4 ? "equal" : "less" :
+                    A extends 5 ? B extends 1 | 2 | 3 | 4 ? "greater" : B extends 5 ? "equal" : "less" :
+                        A extends 6 ? B extends 1 | 2 | 3 | 4 | 5 ? "greater" : B extends 6 ? "equal" : "less" :
+                            A extends 7 ? B extends 1 | 2 | 3 | 4 | 5 | 6 ? "greater" : B extends 7 ? "equal" : "less" :
+                                A extends 8 ? B extends 1 | 2 | 3 | 4 | 5 | 6 | 7 ? "greater" : B extends 8 ? "equal" : "less" :
+                                    A extends 9 ? B extends 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 ? "greater" : B extends 9 ? "equal" : "less" :
+                                        A extends 10 ? B extends 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 ? "greater" : B extends 10 ? "equal" : "less" :
+                                            "equal";
 
 // Compare strings of same length
 type CompareSameLength<A extends string, B extends string> =

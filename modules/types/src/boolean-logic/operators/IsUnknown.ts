@@ -1,4 +1,4 @@
-import { IsEqual, IsNever } from "types/boolean-logic";
+import type { IsEqual, IsNever } from "types/boolean-logic";
 
 /**
  * **IsUnknown**`<T>`
@@ -7,4 +7,4 @@ import { IsEqual, IsNever } from "types/boolean-logic";
  */
 export type IsUnknown<T> = IsNever<T> extends true
     ? false
-    : IsEqual<T, unknown> extends true  ? true : false;
+    : IsEqual<T, unknown> extends true ? true : false;

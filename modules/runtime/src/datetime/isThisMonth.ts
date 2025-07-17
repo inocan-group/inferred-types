@@ -1,4 +1,6 @@
 import { asDate } from "runtime/datetime";
+import { err } from "runtime/errors";
+import { isDateLike } from "runtime/type-guards";
 
 /**
  * **isThisMonth**`(input, now?)`
@@ -13,7 +15,7 @@ export function isThisMonth(
     input: string | number | Record<string, any> | Date,
     now: Date = new Date()
 ): boolean {
-    try {
+    if (isDateLike(input)) {
         const date = asDate(input);
 
         // Compare year and month using UTC methods since asDate returns UTC dates
@@ -27,8 +29,7 @@ export function isThisMonth(
 
         return inputYear === nowYear && inputMonth === nowMonth;
     }
-    catch (e) {
-        // asDate throws for invalid input, rethrow for consistency
-        throw e;
+    else {
+        throw err("invalid-date", `The isThisMonth(input) function received a value which could not be converted to a date!`, { input, now });
     }
 }

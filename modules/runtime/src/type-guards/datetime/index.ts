@@ -14,6 +14,6 @@ export * from "./isLuxonDateTime";
 export * from "./isMoment";
 export * from "./isMonthAbbrev";
 export * from "./isMonthName";
+export * from "./isParsedDate";
 export * from "./isTemporalDate";
 export * from "./parsing-typeguards";
-export * from "./isParsedDate";

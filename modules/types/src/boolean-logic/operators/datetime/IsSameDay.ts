@@ -49,77 +49,81 @@ export type IsSameDay<
     A,
     B
 > = Or<[
-    Not<Extends<A,DateLike>>,
-    Not<Extends<B,DateLike>>,
+    Not<Extends<A, DateLike>>,
+    Not<Extends<B, DateLike>>,
 ]> extends true
-? Err<
-    `invalid-date`,
-    `The IsSameDay<A,B> type utility expects both A and B to be a DateLike value but at least one was not!`,
-    { a: A, b: B }
->
-: And<[
-    IsString<A>,
-    IsString<B>
-]> extends true
-    ? Or<[
-        string extends A ? true : false,
-        string extends B ? true : false,
+    ? Err<
+        `invalid-date`,
+        `The IsSameDay<A,B> type utility expects both A and B to be a DateLike value but at least one was not!`,
+        { a: A; b: B }
+    >
+    : And<[
+        IsString<A>,
+        IsString<B>
     ]> extends true
-        ? boolean
-        : AsDateMeta<A> extends Error
-            ? Err<
-                "invalid-date",
-                `The string passed into the first parameter of IsSameDay -- ${As<A,string>} -- is not a valid ISO date!`,
-                { a: A, b: B }
-            >
-            : AsDateMeta<B> extends Error
+        ? Or<[
+            string extends A ? true : false,
+            string extends B ? true : false,
+        ]> extends true
+            ? boolean
+            : AsDateMeta<A> extends Error
                 ? Err<
                     "invalid-date",
-                    `The string passed into the second parameter of IsSameDay -- ${As<B,string>} -- is not a valid ISO date!`,
-                    { a: A, b: B }
+                `The string passed into the first parameter of IsSameDay -- ${As<A, string>} -- is not a valid ISO date!`,
+                { a: A; b: B }
                 >
-        : AsDateMeta<A> extends DateMeta
-            ? AsDateMeta<B> extends DateMeta
-                ? And<[
-                    IsEqual<AsDateMeta<A>["year"], AsDateMeta<B>["year"]>,
-                    IsEqual<AsDateMeta<A>["month"], AsDateMeta<B>["month"]>,
-                    IsEqual<AsDateMeta<A>["date"], AsDateMeta<B>["date"]>,
-                    IsNotEqual<AsDateMeta<A>["date"], null>,
-                    IsNotEqual<AsDateMeta<A>["year"], null>,
-                ]>
-            : never
-        : never
-: And<[
-    IsNumericLiteral<A>,IsNumericLiteral<B>,IsEqual<A,B>,IsInteger<A>
-]> extends true
-    ? true
-
-: And<[
-    IsEpochInMilliseconds<A>, IsEpochInMilliseconds<B>,
-    A extends number
-        ? B extends number
-            ?  Delta<A,B> extends infer D extends number
-                ? IsGreaterThan<Abs<D>, MS_IN_DAY>
-                : false
-            : false
-        : false
-]> extends true
-    ? false
-    : And<[
-        IsEpochInSeconds<A>, IsEpochInSeconds<B>,
-        A extends number
-            ? B extends number
-                ? Delta<A,B> extends infer D extends number
-                    ? IsGreaterThan<Abs<D>, SEC_IN_DAY>
-                    : false
-                : false
-            : false
-    ]> extends true
-        ? false
-        : Or<[
-            And<[IsNumber<A>, Not<IsInteger<A>>]>,
-            And<[IsNumber<B>, Not<IsInteger<B>>]>,
+                : AsDateMeta<B> extends Error
+                    ? Err<
+                        "invalid-date",
+                    `The string passed into the second parameter of IsSameDay -- ${As<B, string>} -- is not a valid ISO date!`,
+                    { a: A; b: B }
+                    >
+                    : AsDateMeta<A> extends DateMeta
+                        ? AsDateMeta<B> extends DateMeta
+                            ? And<[
+                                IsEqual<AsDateMeta<A>["year"], AsDateMeta<B>["year"]>,
+                                IsEqual<AsDateMeta<A>["month"], AsDateMeta<B>["month"]>,
+                                IsEqual<AsDateMeta<A>["date"], AsDateMeta<B>["date"]>,
+                                IsNotEqual<AsDateMeta<A>["date"], null>,
+                                IsNotEqual<AsDateMeta<A>["year"], null>,
+                            ]>
+                            : never
+                        : never
+        : And<[
+            IsNumericLiteral<A>,
+            IsNumericLiteral<B>,
+            IsEqual<A, B>,
+            IsInteger<A>
         ]> extends true
-            ? Err<`invalid-date`, `The numeric values passed into IsSameDay were not integers which makes them unable to be treated as a date!`, { a: A, b: B }>
-            : boolean;
+            ? true
 
+            : And<[
+                IsEpochInMilliseconds<A>,
+                IsEpochInMilliseconds<B>,
+                A extends number
+                    ? B extends number
+                        ? Delta<A, B> extends infer D extends number
+                            ? IsGreaterThan<Abs<D>, MS_IN_DAY>
+                            : false
+                        : false
+                    : false
+            ]> extends true
+                ? false
+                : And<[
+                    IsEpochInSeconds<A>,
+                    IsEpochInSeconds<B>,
+                    A extends number
+                        ? B extends number
+                            ? Delta<A, B> extends infer D extends number
+                                ? IsGreaterThan<Abs<D>, SEC_IN_DAY>
+                                : false
+                            : false
+                        : false
+                ]> extends true
+                    ? false
+                    : Or<[
+                        And<[IsNumber<A>, Not<IsInteger<A>>]>,
+                        And<[IsNumber<B>, Not<IsInteger<B>>]>,
+                    ]> extends true
+                        ? Err<`invalid-date`, `The numeric values passed into IsSameDay were not integers which makes them unable to be treated as a date!`, { a: A; b: B }>
+                        : boolean;

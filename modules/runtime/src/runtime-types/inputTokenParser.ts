@@ -1,9 +1,16 @@
 import type { LexerState } from "inferred-types/types";
 import {
     err,
-    takeAtomicToken
 } from "inferred-types/runtime";
-import { createLexer, isLexerState } from "runtime/runtime-types/createLexer";
+
+import {
+    createLexer,
+    isLexerState
+} from "runtime/runtime-types/createLexer";
+
+import {
+    takeAtomicToken
+} from "runtime/take";
 
 function hasUnionToken<T extends LexerState>(state: T) {
     return false; // TODO

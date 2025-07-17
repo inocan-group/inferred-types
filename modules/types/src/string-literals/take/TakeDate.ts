@@ -55,7 +55,7 @@ type WithContext<
     ? Take<T>
     : Take<T> extends {
         take: infer Date extends `${number}`;
-        rest: infer Rest extends string;
+        rest: infer _Rest extends string;
     }
         ? IsTwoDigitDate<Date, TYear, TMonth> extends true
             ? Take<T>

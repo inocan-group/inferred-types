@@ -1,3 +1,5 @@
+/* eslint-disable ts/no-empty-object-type */
+
 /**
  * **Something**
  *
@@ -5,4 +7,4 @@
  *
  * **Note:** _this is equivalent to the `{}` type (which is often a surprise to many)_
  */
-export type Something =  {}
+export type Something = {};

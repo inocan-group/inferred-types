@@ -1,6 +1,6 @@
-export * from "./Fallback";
 export * from "./Fail";
 export * from "./FailFast";
+export * from "./Fallback";
 export * from "./Handle";
 export * from "./If";
 export * from "./IfAllExtend";

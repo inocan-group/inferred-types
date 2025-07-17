@@ -1,16 +1,27 @@
 import type { Nesting } from "inferred-types/types";
-import { isNestingEnd, isNestingKeyValue, isNestingTuple, isUndefined, last, reverseLookup, valuesOf } from "inferred-types/runtime";
+import {
+    isNestingEnd,
+    isNestingKeyValue,
+    isNestingTuple,
+    isUndefined,
+    last,
+    reverseLookup
+} from "inferred-types/runtime";
 
 export function isNestingEndMatch<
     TChar extends string,
     TStack extends readonly string[],
     TNesting extends Nesting
->(char: TChar, stack: TStack, nesting: TNesting) {
+>(
+    char: TChar,
+    stack: TStack,
+    nesting: TNesting
+) {
     if (isNestingEnd(char, nesting) !== true) {
         return false;
     }
     else if (isNestingKeyValue(nesting)) {
-        const match = valuesOf(nesting) as string[];
+        // const match = valuesOf(nesting) as string[];
         const lookup = reverseLookup(nesting);
         if (last(stack) === lookup[char]) {
             return true;

@@ -1,10 +1,8 @@
-import type { Something } from "inferred-types/types";
-
 type Process<TVal, TFallback> = [TVal] extends [undefined]
     ? TFallback
     : [TVal] extends [null]
-    ? TFallback
-    : TVal;
+        ? TFallback
+        : TVal;
 
 /**
  * **Fallback**`<TVal,TFallback>`

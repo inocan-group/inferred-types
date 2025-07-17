@@ -1,6 +1,6 @@
 import type {
-    Fallback,
     EmptyObject,
+    Fallback,
     IndexOf,
     NonZeroNumericChar,
     NumericChar,

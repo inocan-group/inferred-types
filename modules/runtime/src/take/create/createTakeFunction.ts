@@ -9,7 +9,7 @@ import {
 
 type TakeFunctionKind = "static" | "start-end" | "while";
 
-type StaticBuilder<O extends TakeFunction__Options> = {
+type StaticBuilder<_O extends TakeFunction__Options> = {
     /**
      * enumerate all the static elements which this function
      * will handle.

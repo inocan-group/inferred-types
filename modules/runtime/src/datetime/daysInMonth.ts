@@ -4,9 +4,11 @@ import type {
     MonthName,
     TwoDigitMonth
 } from "inferred-types/types";
-import { getMonthNumber } from "runtime/datetime/getMonthNumber";
-import { isLeapYear } from "runtime/datetime/isLeapYear";
-import { isTwoDigitMonth } from "runtime/datetime/parseIsoDate";
+import {
+    getMonthNumber,
+    isLeapYear
+} from "runtime/datetime";
+import { isTwoDigitMonth } from "runtime/type-guards";
 
 export function daysInMonth(
     month: TwoDigitMonth | MonthName | MonthAbbrev,

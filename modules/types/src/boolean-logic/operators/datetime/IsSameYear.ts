@@ -55,56 +55,60 @@ export type IsSameYear<
     ]> extends true
         ? boolean
         : AsDateMeta<A> extends Error
-                    ? Err<
-                        "invalid-date",
-                        `The string passed into the first parameter of IsSameYear -- ${As<A,string>} -- is not a valid ISO date! ${AsDateMeta<A>["message"]}`,
-                        { a: A, b: B }
-                    >
-                    : AsDateMeta<B> extends Error
-                        ? Err<
-                            "invalid-date",
-                            `The string passed into the second parameter of IsSameYear -- ${As<B,string>} -- is not a valid ISO date!`,
-                            { a: A, b: B }
-                        >
+            ? Err<
+                "invalid-date",
+                        `The string passed into the first parameter of IsSameYear -- ${As<A, string>} -- is not a valid ISO date! ${AsDateMeta<A>["message"]}`,
+                        { a: A; b: B }
+            >
+            : AsDateMeta<B> extends Error
+                ? Err<
+                    "invalid-date",
+                            `The string passed into the second parameter of IsSameYear -- ${As<B, string>} -- is not a valid ISO date!`,
+                            { a: A; b: B }
+                >
                 : AsDateMeta<A> extends DateMeta
                     ? AsDateMeta<B> extends DateMeta
                         ? And<[
                             IsEqual<AsDateMeta<A>["year"], AsDateMeta<B>["year"]>,
                             IsNotEqual<AsDateMeta<A>["year"], null>,
                         ]>
+                        : never
                     : never
-                : never
     : And<[
-        IsNumericLiteral<A>,IsNumericLiteral<B>,IsEqual<A,B>,IsInteger<A>
+        IsNumericLiteral<A>,
+        IsNumericLiteral<B>,
+        IsEqual<A, B>,
+        IsInteger<A>
     ]> extends true
         ? true
 
-    : And<[
-        IsEpochInMilliseconds<A>, IsEpochInMilliseconds<B>,
-        A extends number
-            ? B extends number
-                ?  Delta<A,B> extends infer D extends number
-                    ? IsGreaterThan<Abs<D>, MS_IN_YEAR>
-                    : false
-                : false
-            : false
-    ]> extends true
-        ? false
         : And<[
-            IsEpochInSeconds<A>, IsEpochInSeconds<B>,
+            IsEpochInMilliseconds<A>,
+            IsEpochInMilliseconds<B>,
             A extends number
                 ? B extends number
-                    ? Delta<A,B> extends infer D extends number
-                        ? IsGreaterThan<Abs<D>, SEC_IN_YEAR>
+                    ? Delta<A, B> extends infer D extends number
+                        ? IsGreaterThan<Abs<D>, MS_IN_YEAR>
                         : false
                     : false
                 : false
         ]> extends true
             ? false
-            : Or<[
-                And<[IsNumber<A>, Not<IsInteger<A>>]>,
-                And<[IsNumber<B>, Not<IsInteger<B>>]>,
+            : And<[
+                IsEpochInSeconds<A>,
+                IsEpochInSeconds<B>,
+                A extends number
+                    ? B extends number
+                        ? Delta<A, B> extends infer D extends number
+                            ? IsGreaterThan<Abs<D>, SEC_IN_YEAR>
+                            : false
+                        : false
+                    : false
             ]> extends true
-                ? Err<`invalid-date`, `The numeric values passed into IsSameYear were not integers which makes them unable to be treated as a date!`, { a: A, b: B }>
-                : boolean;
-
+                ? false
+                : Or<[
+                    And<[IsNumber<A>, Not<IsInteger<A>>]>,
+                    And<[IsNumber<B>, Not<IsInteger<B>>]>,
+                ]> extends true
+                    ? Err<`invalid-date`, `The numeric values passed into IsSameYear were not integers which makes them unable to be treated as a date!`, { a: A; b: B }>
+                    : boolean;

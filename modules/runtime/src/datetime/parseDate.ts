@@ -26,13 +26,15 @@ export function parseDate<
     T extends DateLike
 >(d: T) {
     let iso: string;
-    
+
     if (isString(d)) {
         iso = d;
-    } else {
+    }
+    else {
         try {
             iso = asDateTime(d).toISOString();
-        } catch (error) {
+        }
+        catch (error) {
             return error instanceof Error ? error : err(`parse/invalid`, `Unable to parse date-like value`);
         }
     }

@@ -1,4 +1,7 @@
-import { HTML_ATOMIC_TAGS, HTML_BLOCK_TAGS } from "inferred-types/constants";
+import {
+    HTML_ATOMIC_TAGS,
+    HTML_BLOCK_TAGS
+} from "inferred-types/constants";
 
 /**
  * **isHtml**`(val)`

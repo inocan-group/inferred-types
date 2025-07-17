@@ -1,9 +1,9 @@
-/* eslint-disable ts/ban-ts-comment */
 import type {
     Expect,
     EmptyObject,
     HasRequiredProps,
-    Test
+    Test,
+    RequiredKeysTuple
 } from "inferred-types/types";
 import { describe, it } from "vitest";
 

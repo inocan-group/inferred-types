@@ -1,10 +1,6 @@
 import type {
-    And,
     AsDateMeta,
     DateMeta,
-    IsIsoFullDateTime,
-    IsIsoMonthDateTime,
-    IsIsoYearMonthTime,
     IsNull,
     IsoDateTime,
     IsUnion,
@@ -12,11 +8,11 @@ import type {
 } from "inferred-types/types";
 
 type TupleMap<T extends readonly any[]> = {
-  [K in keyof T]: IsIsoDateTime<T[K]>
+    [K in keyof T]: IsIsoDateTime<T[K]>
 };
 
 // Helper to handle union results
-type HandleUnionResult<T extends readonly boolean[]> = 
+type HandleUnionResult<T extends readonly boolean[]> =
     T extends readonly [infer First, ...infer Rest]
         ? First extends true
             ? Rest extends readonly boolean[]
@@ -48,19 +44,18 @@ type HandleUnionResult<T extends readonly boolean[]> =
  */
 export type IsIsoDateTime<T> = IsUnion<T> extends true
     ? HandleUnionResult<TupleMap<UnionToTuple<T>>>
-: IsNull<T> extends true
-? false
-: T extends string
-    ? string extends T
-        ? boolean
-        : T extends IsoDateTime<"branded">
-            ? true
-            : AsDateMeta<T> extends Error
-                ? false
-                : AsDateMeta<T> extends DateMeta
-                    ? AsDateMeta<T>["dateType"] extends "datetime"
-                        ? true
-                        : false
-                : false
-    : false;
-
+    : IsNull<T> extends true
+        ? false
+        : T extends string
+            ? string extends T
+                ? boolean
+                : T extends IsoDateTime<"branded">
+                    ? true
+                    : AsDateMeta<T> extends Error
+                        ? false
+                        : AsDateMeta<T> extends DateMeta
+                            ? AsDateMeta<T>["dateType"] extends "datetime"
+                                ? true
+                                : false
+                            : false
+            : false;

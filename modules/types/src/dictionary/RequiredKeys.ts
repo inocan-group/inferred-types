@@ -1,13 +1,10 @@
 import type {
-    AfterFirst,
-    AnyObject,
     As,
     Dictionary,
     EmptyObject,
-    First,
     IfUnset,
-    Keys,
     ObjectKey,
+    UnionToTuple,
     Unset,
 } from "inferred-types/types";
 
@@ -38,20 +35,6 @@ export type RequiredKeys<
         >;
 }[keyof T], ObjectKey>;
 
-type KeyList<
-    TObj extends AnyObject,
-    TKeys extends readonly (keyof TObj & ObjectKey)[],
-    TResult extends ObjectKey[] = [],
-> = [] extends TKeys
-    ? TResult
-    : undefined extends TObj[First<TKeys>]
-        ? KeyList<TObj, AfterFirst<TKeys>, TResult>
-        : KeyList<
-            TObj,
-            AfterFirst<TKeys>,
-            [...TResult, First<TKeys>]
-        >;
-
 /**
  * **RequiredKeysTuple**`<T>`
  *
@@ -62,6 +45,4 @@ type KeyList<
  */
 export type RequiredKeysTuple<
     T extends Dictionary,
-> = As<Keys<T> extends readonly (ObjectKey & keyof T)[]
-    ? KeyList<T, Keys<T>>
-    : never, readonly ObjectKey[]>;
+> = UnionToTuple<RequiredKeys<T>>;

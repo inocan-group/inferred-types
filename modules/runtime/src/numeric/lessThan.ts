@@ -1,4 +1,4 @@
-import { LessThan } from "inferred-types/types";
+import type { LessThan } from "inferred-types/types";
 
 /**
  * **lessThan**`(comparator) -> (val) -> boolean`
@@ -8,6 +8,6 @@ import { LessThan } from "inferred-types/types";
  */
 export function lessThan<T extends number>(comparator: T) {
     return <TVal extends number>(val: TVal) => {
-        return val < comparator as LessThan<TVal,T>;
-    }
+        return val < comparator as LessThan<TVal, T>;
+    };
 }

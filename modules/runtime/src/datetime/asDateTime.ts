@@ -61,11 +61,11 @@ type Returns<T extends DateLike> = T extends IsoYear
             ? DateMeta
             : DatePlus<
                 "iso-year-month",
-                "Z",
+                TimezoneOffset <"Z">,
                 IsoDateTime
             >
         : T extends IsoMonthDate
-            ? DatePlus<"iso-year-independent", "Z", `${number}`>
+            ? DatePlus<"iso-year-independent", TimezoneOffset <"Z">, `${number}`>
             : T extends IsoDateTime
                 ? DatePlus<"iso-datetime">
                 : T extends IsoDate<"normal">
@@ -79,7 +79,7 @@ type Returns<T extends DateLike> = T extends IsoYear
                                     "moment",
                                     "offset" extends keyof T
                                         ? T["offset"] extends TimezoneOffset
-                                            ? T["offset"]
+                                            ? TimezoneOffset<T["offset"]>
                                             : null
                                         : null
                                 >
@@ -116,8 +116,8 @@ export function asDateTime<T extends DateLike>(input: T) {
         // Use parseZone().toISOString(true) to preserve the original timezone from input
         // But if it's UTC, use the standard Z format
         const sourceIso = input.parseZone().toISOString(true);
-        d.sourceIso = sourceIso.endsWith('+00:00') 
-            ? sourceIso.replace('+00:00', 'Z') as IsoDateTime
+        d.sourceIso = sourceIso.endsWith("+00:00")
+            ? sourceIso.replace("+00:00", "Z") as IsoDateTime
             : sourceIso as IsoDateTime;
         return d as Returns<T>;
     }
@@ -132,7 +132,7 @@ export function asDateTime<T extends DateLike>(input: T) {
 
         d.source = "luxon";
         // For UTC Luxon objects, preserve the Z format
-        d.sourceIso = input.zoneName === 'UTC' 
+        d.sourceIso = input.zoneName === "UTC"
             ? input.toUTC().toISO() as IsoDateTime
             : input.toISO() as IsoDateTime;
         return d as Returns<T>;

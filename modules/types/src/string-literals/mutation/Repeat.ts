@@ -34,4 +34,3 @@ export type Repeat<
                 TStr,
                 FixedLengthArray<".", TCount>
             >;
-

@@ -593,7 +593,7 @@ export type Compare<
 > = TOp extends ComparisonOperation
 
     // First validate parameters
-? ValidateParams<TOp, TParams> extends Err<infer ErrorType, infer Message>
+    ? ValidateParams<TOp, TParams> extends Err<infer ErrorType, infer Message>
         ? Err<ErrorType, Message>
         : // Check if TVal is 'any' type specifically, but allow object operations to handle errors
         0 extends (1 & TVal) // This detects 'any' type specifically
@@ -627,7 +627,7 @@ export type Compare<
                         ? TParams extends Base<"objectKeyExtends">
                             ? C<"objectKeyExtends", TParams> extends [
                                 infer Key extends string,
-                                infer Type
+                                infer _Type
                             ]
                                 ? IsStringLiteral<Key> extends true
                                     ? Key extends keyof TVal
@@ -656,8 +656,8 @@ export type Compare<
                     "invalid-value",
                     `Value is not acceptable for operation`
                 >
-: Err<
+    : Err<
     `invalid-operation/${TOp}`,
     `The operation '${TOp}' is not a valid operation for the Compare utility!`,
-    { op: TOp, params: TParams }
->;
+    { op: TOp; params: TParams }
+    >;

@@ -1,9 +1,9 @@
-import { IsInteger, IsLessThanOrEqual, IsNegativeNumber } from "types/boolean-logic";
+import type { IsInteger, IsLessThanOrEqual, IsNegativeNumber } from "types/boolean-logic";
 
 /** the epoch timestamp (in seconds) for the date 2500-01-01 */
 type Epoch_2500 = 16725225600;
 /** the epoch timestamp (in milliseconds) for July 14th */
-type _Epoch_1979_07_14 = 16761600000
+type _Epoch_1979_07_14 = 16761600000;
 
 /**
  * **IsEpochInSeconds**`<T>`
@@ -20,11 +20,11 @@ type _Epoch_1979_07_14 = 16761600000
 export type IsEpochInSeconds<T> = T extends number
     ? number extends T
         ? boolean
-    : IsInteger<T> extends true
-        ? IsLessThanOrEqual<T, Epoch_2500> extends true
-            ? IsNegativeNumber<T> extends true
-                ? false
-                : true
-        : false
-    : false
-: false;
+        : IsInteger<T> extends true
+            ? IsLessThanOrEqual<T, Epoch_2500> extends true
+                ? IsNegativeNumber<T> extends true
+                    ? false
+                    : true
+                : false
+            : false
+    : false;

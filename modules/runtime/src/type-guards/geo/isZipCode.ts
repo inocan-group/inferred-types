@@ -1,5 +1,5 @@
-import { NUMERIC_CHAR } from "inferred-types/constants";
 import type { Zip5, ZipCode, ZipPlus4 } from "inferred-types/types";
+import { NUMERIC_CHAR } from "inferred-types/constants";
 import { retainWhile, stripChars } from "inferred-types/runtime";
 import { isNumber, isNumberLike, isString } from "runtime/type-guards";
 

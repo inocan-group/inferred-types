@@ -6,24 +6,24 @@ import type {
     IsNumericLiteral
 } from "types/boolean-logic";
 import type { Slice } from "types/lists";
+import type { Abs, Decrement, NumberLike, Subtract } from "types/numeric-literals";
+import type { Repeat, Split, StrLen } from "types/string-literals";
+import type { AsNumber } from "types/type-conversion";
 
 // Simple string slicing for our specific use case
 type SliceAfter<T extends string, N extends number> =
     N extends 0 ? T :
-    N extends 1 ? T extends `${string}${infer Rest}` ? Rest : "" :
-    N extends 2 ? T extends `${string}${string}${infer Rest}` ? Rest : "" :
-    N extends 3 ? T extends `${string}${string}${string}${infer Rest}` ? Rest : "" :
-    "";
+        N extends 1 ? T extends `${string}${infer Rest}` ? Rest : "" :
+            N extends 2 ? T extends `${string}${string}${infer Rest}` ? Rest : "" :
+                N extends 3 ? T extends `${string}${string}${string}${infer Rest}` ? Rest : "" :
+                    "";
 
 type SliceBefore<T extends string, N extends number> =
     N extends 0 ? "" :
-    N extends 1 ? T extends `${infer First}${string}` ? First : "" :
-    N extends 2 ? T extends `${infer A}${infer B}${string}` ? `${A}${B}` : "" :
-    N extends 3 ? T extends `${infer A}${infer B}${infer C}${string}` ? `${A}${B}${C}` : "" :
-    "";
-import type { Abs, Decrement, NumberLike, Subtract } from "types/numeric-literals";
-import type { Repeat, Split, StrLen } from "types/string-literals";
-import type { AsNumber } from "types/type-conversion";
+        N extends 1 ? T extends `${infer First}${string}` ? First : "" :
+            N extends 2 ? T extends `${infer A}${infer B}${string}` ? `${A}${B}` : "" :
+                N extends 3 ? T extends `${infer A}${infer B}${infer C}${string}` ? `${A}${B}${C}` : "" :
+                    "";
 
 /**
  * in effect this divides by multiples of 10
@@ -114,7 +114,7 @@ export type ShiftDecimalPlace<
         // Negative -> shift left
             ? T extends number
                 ? `${T}` extends `${number}.${number}`
-                    ? number  // Decimal numbers lose precision
+                    ? number // Decimal numbers lose precision
                     : T extends 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 50 | 100 | 123 | 500 | 1000
                         ? AsNumber<ShiftLeft<`${T}`, Abs<U>>>
                         : IsNumericLiteral<T> extends true
@@ -124,7 +124,7 @@ export type ShiftDecimalPlace<
         // Positive -> shift right
             : T extends number
                 ? `${T}` extends `${number}.${number}`
-                    ? number  // Decimal numbers lose precision
+                    ? number // Decimal numbers lose precision
                     : IsNumericLiteral<T> extends true
                         ? AsNumber<ShiftRight<`${T}`, U>>
                         : number
