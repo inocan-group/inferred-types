@@ -1,3 +1,4 @@
+import { DateLike } from "@inferred-types/types";
 import {
     err,
     isError,
@@ -29,7 +30,9 @@ import {
  * - all time information -- if present when passed in -- should be set to
  * the stroke of midnight and be in UTC timezone
  */
-export function asDate<T extends number | string | Record<string, any> | Date>(input: T): Date {
+export function asDate<
+    T extends DateLike
+>(input: T): Date {
     // DEBUG: Log input and all type guard results for string inputs
     // Debug code removed
     // Always return a Date at 00:00:00.000 UTC
@@ -121,6 +124,7 @@ export function asDate<T extends number | string | Record<string, any> | Date>(i
         const year = Number(parsed.year);
         const month = Number(parsed.month);
         const day = Number(parsed.date);
+
         return new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0));
     }
 
@@ -136,5 +140,5 @@ export function asDate<T extends number | string | Record<string, any> | Date>(i
         return new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0));
     }
 
-    throw err(`invalid/date`, `The date-like value you passed to 'asDate()' function was unable to be converted to a Javascript Date object!`, { date: input });
+    throw err(`invalid/date`, `The date-like value you passed to 'asDate(${String(input)})' function was unable to be converted to a Javascript Date object!`, { date: input });
 }

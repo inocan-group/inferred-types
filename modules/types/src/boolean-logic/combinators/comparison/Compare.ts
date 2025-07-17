@@ -53,6 +53,7 @@ import type {
     Second,
     SomeEqual,
     StartsWith,
+    Suggest,
     Unset,
 } from "inferred-types/types";
 
@@ -587,11 +588,12 @@ type ValidateParams<
 
 export type Compare<
     TVal,
-    TOp extends ComparisonOperation,
+    TOp extends Suggest<ComparisonOperation>,
     TParams extends readonly unknown[] = readonly unknown[]
-> =
+> = TOp extends ComparisonOperation
+
     // First validate parameters
-    ValidateParams<TOp, TParams> extends Err<infer ErrorType, infer Message>
+? ValidateParams<TOp, TParams> extends Err<infer ErrorType, infer Message>
         ? Err<ErrorType, Message>
         : // Check if TVal is 'any' type specifically, but allow object operations to handle errors
         0 extends (1 & TVal) // This detects 'any' type specifically
@@ -653,4 +655,9 @@ export type Compare<
                 Err<
                     "invalid-value",
                     `Value is not acceptable for operation`
-                >;
+                >
+: Err<
+    `invalid-operation/${TOp}`,
+    `The operation '${TOp}' is not a valid operation for the Compare utility!`,
+    { op: TOp, params: TParams }
+>;

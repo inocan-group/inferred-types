@@ -53,7 +53,7 @@ export type ComparisonInputToTuple<
 
 /**
  * To allow people using a comparison operation which
- * take NO parameters, we must have a "default value" assigned
+ * takes NO parameters, we must have a "default value" assigned
  * and this utility will provide a default empty tuple `[]` as
  * a default if the comparison operation does not require
  * any parameters.

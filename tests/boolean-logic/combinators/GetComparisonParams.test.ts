@@ -74,7 +74,7 @@ describe("GetComparisonParamInput<TOp,TInput>", () => {
             Expect<Test<C1["convert"], "equals", "stringUnion">>,
             Expect<Test<
                 I1, "equals",
-                string | number | [string | number, ...(string | number)[]]
+                readonly (string | number)[] | []
             >>,
             Expect<Test<D1, "extends", Error>>,
         ];
@@ -100,7 +100,9 @@ describe("GetComparisonParamInput<TOp,TInput>", () => {
 
         type cases = [
             Expect<Test<C1["params"], "equals", [key: string, type: unknown]>>,
-            Expect<Test<I1, "equals", [key: string, type: unknown]>>,
+            Expect<Test<I1, "equals",
+                [val1: string | number, val2: string | number, ...(string | number)[]]
+            >>,
             Expect<Test<D1, "extends", Error>>,
         ];
     });

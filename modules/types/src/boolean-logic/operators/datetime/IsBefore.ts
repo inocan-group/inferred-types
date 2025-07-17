@@ -2,6 +2,8 @@ import type {
     And,
     As,
     DateLike,
+    Err,
+    Extends,
     IsEqual,
     IsIsoDate,
     IsIsoDateTime,
@@ -20,7 +22,16 @@ import type {
 export type IsBefore<
     A extends DateLike,
     B extends DateLike,
-> = IsWideType<A> extends true
+> = Or<[
+    Not<Extends<A,DateLike>>,
+    Not<Extends<B,DateLike>>,
+]> extends true
+    ? Err<
+        `invalid-date/is-before`,
+        `The IsBefore<A,B> utility expects both parameters to extend the DateLike type but at least one did not!`,
+        { a: A, b: B }
+    >
+:IsWideType<A> extends true
     ? boolean
     : IsWideType<B> extends true
         ? boolean

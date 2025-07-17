@@ -7,6 +7,7 @@ import type {
     DateMeta,
     Delta,
     Err,
+    Extends,
     IsEpochInMilliseconds,
     IsEpochInSeconds,
     IsEqual,
@@ -45,9 +46,18 @@ type SEC_IN_DAY = 86400;
  * a `InvalidDate` error because the date has no concept of a concrete calendar date.
  */
 export type IsSameDay<
-    A extends DateLike,
-    B extends DateLike
-> = And<[
+    A,
+    B
+> = Or<[
+    Not<Extends<A,DateLike>>,
+    Not<Extends<B,DateLike>>,
+]> extends true
+? Err<
+    `invalid-date`,
+    `The IsSameDay<A,B> type utility expects both A and B to be a DateLike value but at least one was not!`,
+    { a: A, b: B }
+>
+: And<[
     IsString<A>,
     IsString<B>
 ]> extends true

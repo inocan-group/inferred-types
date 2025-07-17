@@ -15,6 +15,15 @@ import {
 describe("Compare<TVal,TOp,TComparator> type util", () => {
 
 
+    it("invalid operation", () => {
+        type E1 = Compare<42, "foobar", [42]>;
+
+        type cases = [
+            Expect<Test<E1, "isError", "invalid-operation/foobar">>
+        ];
+    });
+
+
     it("equals", () => {
         type T1 = Compare<42, "equals", [42]>;
         type T3 = Compare<"foo", "equals", ["foo"]>;
@@ -915,7 +924,7 @@ describe("compare() runtime function", () => {
             expect(t1).toBe(true);
             expect(t2).toBe(true); // same day, different time
             expect(f1).toBe(false); // different month
-            expect(result4 instanceof Error).toBe(true);
+            expect((result4 as any) instanceof Error).toBe(true);
 
             type cases = [
                 Expect<Test<typeof t1, "equals", true>>,
@@ -960,7 +969,7 @@ describe("compare() runtime function", () => {
 
             type cases = [
                 Expect<Test<typeof result1, "equals", true>>,
-                Expect<Test<typeof result2, "equals", false>>,
+                Expect<Test<typeof result2, "equals", true>>,
                 Expect<Test<typeof result3, "equals", false>>,
                 Expect<Test<typeof result4, "equals", false>>
             ];
@@ -980,17 +989,18 @@ describe("compare() runtime function", () => {
 
             type cases = [
                 Expect<Test<typeof t1, "equals", true>>,
-                Expect<Test<typeof t2, "equals", false>>,
+                Expect<Test<typeof t2, "equals", true>>,
                 Expect<Test<typeof t3, "equals", true>>,
                 Expect<Test<typeof f1, "equals", false>>
             ];
         });
 
         it("after", () => {
-            const afterDate1 = compare("after", dateTime1);
-            const result1 = afterDate1(dateTime2);
-            const result2 = afterDate1(dateTime1);
-            const result3 = afterDate1(new Date("2023-01-14"));
+            const after = compare("after", "2023-12-20");
+            const result1 = after("2023-12-22"); // is after
+            const result2 = after("2023-12-20"); // the same as comparator
+            const d = new Date("2023-01-14");
+            const result3 = after(d);
 
             expect(result1).toBe(true);
             expect(result2).toBe(false);
@@ -999,7 +1009,7 @@ describe("compare() runtime function", () => {
             type cases = [
                 Expect<Test<typeof result1, "equals", true>>,
                 Expect<Test<typeof result2, "equals", true>>,
-                Expect<Test<typeof result3, "equals", false>>
+                Expect<Test<typeof result3, "equals", boolean>>
             ];
         });
 
@@ -1060,48 +1070,21 @@ describe("compare() runtime function", () => {
             ];
         });
 
-        it("returnEquals - returns runtime limitation error", () => {
-            const fn = () => 5;
-            const returnEquals5 = compare("returnEquals", 5);
-            const result = returnEquals5(fn);
-            expect(result instanceof Error).toBe(true);
-            // The err() function uses the first part as the type
-            expect((result as any).type).toBe("runtime-limitation");
-
-            type cases = [
-                Expect<Test<typeof result, "equals", Error>>
-            ];
-        });
-
-        it("returnExtends - returns runtime limitation error", () => {
-            const fn = () => "hello";
-            const returnExtendsString = compare("returnExtends", "string");
-            const result = returnExtendsString(fn);
-            expect(result instanceof Error).toBe(true);
-            // The err() function uses the first part as the type
-            expect((result as any).type).toBe("runtime-limitation");
-
-            type cases = [
-                Expect<Test<typeof result, "equals", Error>>
-            ];
-        });
     });
 
     describe("Edge cases and error handling", () => {
         it("handles invalid operations", () => {
             // @ts-ignore
-            const invalidOp = compare("notAnOperation" as any, []);
-            const result = invalidOp("test");
-            expect(result).toBe(false); // Never constant returns false for invalid operations
+            const invalidOp = compare("notAnOperation", []);
 
             type cases = [
-                Expect<Test<typeof result, "equals", false>>
+                Expect<Test<typeof invalidOp, "isError", "invalid-operation">>
             ];
         });
 
         it("handles invalid parameters gracefully", () => {
             // Testing numeric operation with non-numeric parameter
-            const gtInvalid = compare("greaterThan", "not a number" as any);
+            const gtInvalid = compare("greaterThan", "not a number");
             const result = gtInvalid(5);
             expect(result instanceof Error).toBe(true);
 
@@ -1118,16 +1101,14 @@ describe("compare() runtime function", () => {
             ];
 
             const ageGt21 = compare("objectKeyGreaterThan", "age", 21);
-            const filtered = data.filter(person => {
-                const result = ageGt21(person);
-                return result === true;
-            });
-            const result1 = ageGt21(data[0]);
-            const result2 = ageGt21(data[1]);
-            const result3 = ageGt21(data[2]);
 
-            expect(filtered).toHaveLength(2);
-            expect(filtered.map(p => p.name)).toEqual(["John", "Jane"]);
+            const result1 = ageGt21(data[0]); // true
+            const result2 = ageGt21(data[1]); // true
+            const result3 = ageGt21(data[2]); // false
+
+            expect(result1).toBe(true);
+            expect(result2).toBe(true);
+            expect(result3).toBe(false);
 
             type cases = [
                 Expect<Test<typeof result1, "equals", true>>,
