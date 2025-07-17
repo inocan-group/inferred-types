@@ -1,14 +1,25 @@
 import type {
+    Abs,
     And,
     As,
+    AsDateMeta,
     DateLike,
-    Extends,
+    DateMeta,
+    Delta,
+    Err,
+    IsEpochInMilliseconds,
+    IsEpochInSeconds,
     IsEqual,
-    IsStringLiteral,
-    NotEqual,
-    ParseDate,
-    ParsedDate,
+    IsGreaterThan,
+    IsInteger,
+    IsNotEqual,
+    IsNumber,
+    IsNumericLiteral,
+    IsString,
+    Not,
+    Or,
 } from "inferred-types/types";
+
 
 /**
  * **IsSameMonth**`<A,B>`
@@ -18,33 +29,55 @@ import type {
  * possible other wise you'll just `boolean` for things which
  * can only be validated at runtime.
  *
- * **Note:** there aren't that many cases where we can discern this
- * at _design time_.
+ * **Note:** literal types are available at design time when:
+ * - ISO Date/DateTime string are used
+ * - returns `true` when epoch timestamps are the same
+ * - otherwise we fallback to `boolean` for valid `DateLike` types
  *
  * **Related:**
  * - `IsSameMonthYear`, `IsSameDay`, `IsSameYear`,
- * - `isSameMonthYear()`, `isSameDay()`, `isSameYear()`
+ * - `isSameMonthYear()`, `isSameDay()`, `IsSameMonth()`
  */
 export type IsSameMonth<
     A extends DateLike,
     B extends DateLike
-> = And<[IsStringLiteral<A>, IsStringLiteral<B>]> extends true
-    ? And<[
-        Extends<ParseDate<As<A, string>>, ParsedDate>,
-        Extends<ParseDate<As<B, string>>, ParsedDate>,
+> = And<[
+    IsString<A>,
+    IsString<B>
+]> extends true
+    ? Or<[
+        string extends A ? true : false,
+        string extends B ? true : false,
     ]> extends true
-        ? And<[
-            IsEqual<
-                As<ParseDate<As<A, string>>, ParsedDate>["1"],
-                As<ParseDate<As<B, string>>, ParsedDate>["1"]
-            >,
-            NotEqual<
-                As<ParseDate<As<A, string>>, ParsedDate>["1"],
-                null
+        ? boolean
+        : AsDateMeta<A> extends Error
+            ? Err<
+                "invalid-date",
+                `The string passed into the first parameter of IsSameMonth -- ${As<A,string>} -- is not a valid ISO date! ${AsDateMeta<A>["message"]}`,
+                { a: A, b: B }
             >
+            : AsDateMeta<B> extends Error
+                ? Err<
+                    "invalid-date",
+                    `The string passed into the second parameter of IsSameMonth -- ${As<B,string>} -- is not a valid ISO date!`,
+                    { a: A, b: B }
+                >
+        : AsDateMeta<A> extends DateMeta
+            ? AsDateMeta<B> extends DateMeta
+                ? And<[
+                    IsEqual<AsDateMeta<A>["month"], AsDateMeta<B>["month"]>,
+                    IsNotEqual<AsDateMeta<A>["month"], null>,
+                ]>
+            : never
+        : never
+    : And<[
+        IsNumericLiteral<A>,IsNumericLiteral<B>,IsEqual<A,B>,IsInteger<A>
+    ]> extends true
+        ? true
+        : Or<[
+            And<[IsNumber<A>, Not<IsInteger<A>>]>,
+            And<[IsNumber<B>, Not<IsInteger<B>>]>,
         ]> extends true
-            ? true
-            : false
-        : boolean
+            ? Err<`invalid-date`, `The numeric values passed into IsSameMonth were not integers which makes them unable to be treated as a date!`, { a: A, b: B }>
+            : boolean;
 
-    : boolean;

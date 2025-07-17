@@ -1,12 +1,12 @@
-import { Expect, Default, Test } from "inferred-types/types";
+import { Expect, Fallback, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("Default<TVal,TDefault,[TProtect]>", () => {
 
     it("happy path", () => {
-        type NoChange = Default<"foo", "bar">;
-        type Undef = Default<undefined, "foo">;
-        type Null = Default<null, "foo">;
+        type NoChange = Fallback<"foo", "bar">;
+        type Undef = Fallback<undefined, "foo">;
+        type Null = Fallback<null, "foo">;
 
         type cases = [
             Expect<Test<NoChange, "equals",  "foo">>,

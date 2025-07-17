@@ -1,9 +1,8 @@
-import { IsDateLike } from "inferred-types/types";
-import { Expect, Test } from "inferred-types/types";
+import { Expect, Test, IsDateLike, EmptyObject } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("IsDateLike<T>", () => {
-  
+
   it("JavaScript Date Objects", () => {
     type cases = [
       // JS Date objects should be DateLike
@@ -30,6 +29,7 @@ describe("IsDateLike<T>", () => {
       // Valid ISO date formats
       Expect<Test<IsDateLike<"2023-01-01">, "equals", true>>,
       Expect<Test<IsDateLike<"2023-12-31">, "equals", true>>,
+      // valid because 2024 is a leap year
       Expect<Test<IsDateLike<"2024-02-29">, "equals", true>>,
       Expect<Test<IsDateLike<"2023-06-15">, "equals", true>>,
       // Invalid date formats
@@ -81,13 +81,15 @@ describe("IsDateLike<T>", () => {
   });
 
   it("Non-DateLike Types", () => {
+    type Bool = IsDateLike<boolean>;
+    type EmptyObj = IsDateLike<EmptyObject>;
+    type Obj = IsDateLike<{date:string}>;
+
     type cases = [
       // Primitive non-DateLike types
-      Expect<Test<IsDateLike<boolean>, "equals", false>>,
-      // Skip problematic literal types that extend DateLike in some configs
-      // Object types
-      Expect<Test<IsDateLike<{}>, "equals", false>>,
-      Expect<Test<IsDateLike<{ date: string }>, "equals", false>>,
+      Expect<Test<Bool, "equals", false>>,
+      Expect<Test<EmptyObj, "equals", false>>,
+      Expect<Test<Obj, "equals", false>>,
       Expect<Test<IsDateLike<Array<any>>, "equals", false>>,
       // Function types
       Expect<Test<IsDateLike<() => void>, "equals", false>>,

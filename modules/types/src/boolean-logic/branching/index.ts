@@ -1,4 +1,4 @@
-export * from "./Default";
+export * from "./Fallback";
 export * from "./Fail";
 export * from "./FailFast";
 export * from "./Handle";

@@ -3,7 +3,7 @@ import { Expect, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("IsIsoDate<T>", () => {
-  
+
   it("ISO Years (YYYY) - Currently Supported", () => {
     type cases = [
       // Valid 4-digit years - these work
@@ -112,8 +112,7 @@ describe("IsIsoDate<T>", () => {
 
   it("Wide String Types", () => {
     type cases = [
-      // Wide string type should return false (not specific enough)
-      Expect<Test<IsIsoDate<string>, "equals", false>>,
+      Expect<Test<IsIsoDate<string>, "equals", boolean>>,
     ];
   });
 

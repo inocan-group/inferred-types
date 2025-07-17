@@ -3,6 +3,8 @@ export * from "./IsBefore";
 export * from "./IsDateLike";
 export * from "./IsDayJs";
 export * from "./IsDoubleLeap";
+export * from "./IsEpochInMilliseconds";
+export * from "./IsEpochInSeconds";
 export * from "./IsIsoDate";
 export * from "./IsIsoDateTime";
 export * from "./IsIsoFullDate";

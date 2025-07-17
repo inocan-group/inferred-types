@@ -1,14 +1,27 @@
 import type {
+    Abs,
     And,
     As,
+    AsDateMeta,
     DateLike,
-    Extends,
-    First,
+    DateMeta,
+    Delta,
+    Err,
+    IsEpochInMilliseconds,
+    IsEpochInSeconds,
     IsEqual,
-    IsStringLiteral,
-    ParseDate,
-    ParsedDate,
+    IsGreaterThan,
+    IsInteger,
+    IsNotEqual,
+    IsNumber,
+    IsNumericLiteral,
+    IsString,
+    Not,
+    Or,
 } from "inferred-types/types";
+
+type MS_IN_YEAR = 31536000000;
+type SEC_IN_YEAR = 31536000;
 
 /**
  * **IsSameYear**`<A,B>`
@@ -18,27 +31,80 @@ import type {
  * possible other wise you'll just `boolean` for things which
  * can only be validated at runtime.
  *
- * **Note:** there aren't that many cases where we can discern this
- * at _design time_.
+ * **Note:** literal types are available at design time when:
+ * - ISO Date/DateTime string are used
+ * - returns `true` when epoch timestamps are the same
+ * - returns `false` when epoch timestamps are more than a year
+ * different
+ * - otherwise we fallback to `boolean` for valid `DateLike` types
  *
  * **Related:**
  * - `IsSameMonthYear`, `IsSameDay`, `IsSameMonth`,
- * - `isSameMonthYear()`, `isSameDay()`, `isSameMonth()`
+ * - `isSameMonthYear()`, `isSameYear()`, `isSameMonth()`
  */
 export type IsSameYear<
     A extends DateLike,
     B extends DateLike
-> = And<[IsStringLiteral<A>, IsStringLiteral<B>]> extends true
-    ? And<[
-        Extends<ParseDate<As<A, string>>, ParsedDate>,
-        Extends<ParseDate<As<B, string>>, ParsedDate>,
+> = And<[
+    IsString<A>,
+    IsString<B>
+]> extends true
+    ? Or<[
+        string extends A ? true : false,
+        string extends B ? true : false,
     ]> extends true
-        ? IsEqual<
-            First<As<ParseDate<As<A, string>>, ParsedDate>>,
-            First<As<ParseDate<As<B, string>>, ParsedDate>>
-        > extends true
-            ? true
-            : false
-        : boolean
+        ? boolean
+        : AsDateMeta<A> extends Error
+                    ? Err<
+                        "invalid-date",
+                        `The string passed into the first parameter of IsSameYear -- ${As<A,string>} -- is not a valid ISO date! ${AsDateMeta<A>["message"]}`,
+                        { a: A, b: B }
+                    >
+                    : AsDateMeta<B> extends Error
+                        ? Err<
+                            "invalid-date",
+                            `The string passed into the second parameter of IsSameYear -- ${As<B,string>} -- is not a valid ISO date!`,
+                            { a: A, b: B }
+                        >
+                : AsDateMeta<A> extends DateMeta
+                    ? AsDateMeta<B> extends DateMeta
+                        ? And<[
+                            IsEqual<AsDateMeta<A>["year"], AsDateMeta<B>["year"]>,
+                            IsNotEqual<AsDateMeta<A>["year"], null>,
+                        ]>
+                    : never
+                : never
+    : And<[
+        IsNumericLiteral<A>,IsNumericLiteral<B>,IsEqual<A,B>,IsInteger<A>
+    ]> extends true
+        ? true
 
-    : boolean;
+    : And<[
+        IsEpochInMilliseconds<A>, IsEpochInMilliseconds<B>,
+        A extends number
+            ? B extends number
+                ?  Delta<A,B> extends infer D extends number
+                    ? IsGreaterThan<Abs<D>, MS_IN_YEAR>
+                    : false
+                : false
+            : false
+    ]> extends true
+        ? false
+        : And<[
+            IsEpochInSeconds<A>, IsEpochInSeconds<B>,
+            A extends number
+                ? B extends number
+                    ? Delta<A,B> extends infer D extends number
+                        ? IsGreaterThan<Abs<D>, SEC_IN_YEAR>
+                        : false
+                    : false
+                : false
+        ]> extends true
+            ? false
+            : Or<[
+                And<[IsNumber<A>, Not<IsInteger<A>>]>,
+                And<[IsNumber<B>, Not<IsInteger<B>>]>,
+            ]> extends true
+                ? Err<`invalid-date`, `The numeric values passed into IsSameYear were not integers which makes them unable to be treated as a date!`, { a: A, b: B }>
+                : boolean;
+

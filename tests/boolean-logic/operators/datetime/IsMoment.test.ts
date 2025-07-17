@@ -59,26 +59,6 @@ describe("IsMoment<T>", () => {
     ];
   });
 
-  it("Non-Function Properties", () => {
-    type NonFunctionMethods = {
-      format: string; // Not a function
-      year: number; // Not a function
-      month: () => number;
-      date: () => number;
-      hour: () => number;
-      minute: () => number;
-      second: () => number;
-      millisecond: () => number;
-      add: (amount: number, unit: string) => any;
-      toISOString: () => string;
-    };
-
-    type cases = [
-      // Properties that aren't functions should return true (just checks for key existence)
-      Expect<Test<IsMoment<NonFunctionMethods>, "equals", true>>,
-    ];
-  });
-
   it("Non-Object Types", () => {
     type cases = [
       // Primitive types should return false

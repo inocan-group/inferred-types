@@ -5,6 +5,7 @@ import type {
     IsIsoFullDateTime,
     IsIsoMonthDateTime,
     IsIsoYearMonthTime,
+    IsNull,
     IsoDateTime,
     IsUnion,
     UnionToTuple
@@ -13,6 +14,24 @@ import type {
 type TupleMap<T extends readonly any[]> = {
   [K in keyof T]: IsIsoDateTime<T[K]>
 };
+
+// Helper to handle union results
+type HandleUnionResult<T extends readonly boolean[]> = 
+    T extends readonly [infer First, ...infer Rest]
+        ? First extends true
+            ? Rest extends readonly boolean[]
+                ? HandleUnionResult<Rest> extends true
+                    ? true
+                    : boolean
+                : boolean
+            : First extends false
+                ? Rest extends readonly boolean[]
+                    ? HandleUnionResult<Rest> extends false
+                        ? false
+                        : boolean
+                    : boolean
+                : boolean
+        : true;
 
 /**
  * **IsIsoDateTime**`<T>`
@@ -28,8 +47,8 @@ type TupleMap<T extends readonly any[]> = {
  * `isIsoDateTime()` type guard it will pass and be upgraded.
  */
 export type IsIsoDateTime<T> = IsUnion<T> extends true
-    ? TupleMap<UnionToTuple<T>>
-: null extends T
+    ? HandleUnionResult<TupleMap<UnionToTuple<T>>>
+: IsNull<T> extends true
 ? false
 : T extends string
     ? string extends T

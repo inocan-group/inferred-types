@@ -1,9 +1,12 @@
+import { EmptyObject } from "types/base-types";
+import { IsEqual } from "types/boolean-logic";
 import type {
     IsIsoFullDate,
     IsIsoMonthDate,
     IsIsoYear,
     IsIsoYearMonth
 } from "types/boolean-logic/operators/datetime";
+import { IsNull } from "types/boolean-logic/operators/IsNull";
 import type { IsoDate } from "types/datetime";
 
 /**
@@ -19,7 +22,11 @@ import type { IsoDate } from "types/datetime";
  * **Note:** this _does not_ match on DateTime combinations; use `IsIsoDateTime`
  * for that.
  */
-export type IsIsoDate<T> = string extends T
+export type IsIsoDate<T> = IsNull<T> extends true
+? false
+: IsEqual<T,EmptyObject> extends true
+    ? false
+: string extends T
     ? boolean
     : T extends IsoDate<"branded">
         ? true

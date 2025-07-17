@@ -3,6 +3,7 @@ import type {
     Err,
     ErrContext,
     FourDigitYear,
+    IsFourDigitYear,
     ParsedTime,
     ParseTime,
     Split,
@@ -127,8 +128,23 @@ type ParseFullDate<T extends string> = TakeYear<T> extends {
     : ErrContext<
         As<TakeYear<T>, Error>,
         { parse: T }
-    >
-    ;
+    >;
+
+type ParseYear<T extends string> = IsFourDigitYear<T> extends true
+? As<
+    [
+        As<T & FourDigitYear<"branded">, ParsedDate[0]>,
+        null,
+        null,
+        null
+    ],
+    ParsedDate
+>
+: Err<
+    `parse-date/year`,
+    `A string which looked like an ISO year string was unable to be parsed!`,
+    { parse: T }
+>;
 
 type ParseDateTime<T extends `${string}T${string}`> = Split<T, "T"> extends [
     infer DatePart extends string,
@@ -184,7 +200,9 @@ export type ParseDate<
             // ----
                 : T extends `${string}T${string}`
                     ? ParseDateTime<T>
-                    : ParseFullDate<T>
+                    : T extends `${string}-${string}`
+                        ? ParseFullDate<T>
+                        : ParseYear<T>
     : Err<
         `parse-date/wrong-type`,
         `A non-string type was passed into ParseDate<T>!`

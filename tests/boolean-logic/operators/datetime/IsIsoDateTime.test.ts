@@ -17,8 +17,6 @@ describe("IsIsoDateTime<T>", () => {
     ];
   });
 
-
-
   it("Invalid DateTime Formats", () => {
     type cases = [
       // Non-ISO formats
@@ -70,8 +68,8 @@ describe("IsIsoDateTime<T>", () => {
 
   it("Wide String Types", () => {
     type cases = [
-      // Wide string type should return false
-      Expect<Test<IsIsoDateTime<string>, "equals", false>>,
+      // Wide string type should return boolean
+      Expect<Test<IsIsoDateTime<string>, "equals", boolean>>,
     ];
   });
 

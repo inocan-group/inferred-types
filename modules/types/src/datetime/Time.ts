@@ -1,5 +1,5 @@
 import type {
-    Default,
+    Fallback,
     EmptyObject,
     IndexOf,
     NonZeroNumericChar,
@@ -49,10 +49,10 @@ export type MilitaryTimeOptions = Omit<CivilianTimeOptions, "amPmCase">;
  * The user's options merged with default values
  */
 interface Opt<T extends MilitaryTimeOptions | CivilianTimeOptions> {
-    strength: Default<IndexOf<T, "strength", undefined>, "strong">;
-    fixedLengthHours: Default<IndexOf<T, "fixedLengthHours", undefined>, false>;
-    timezone: Default<IndexOf<T, "timezone", undefined>, "exclude">;
-    amPmCase: Default<IndexOf<T, "amPmCase", undefined>, "lower">;
+    strength: Fallback<IndexOf<T, "strength", undefined>, "strong">;
+    fixedLengthHours: Fallback<IndexOf<T, "fixedLengthHours", undefined>, false>;
+    timezone: Fallback<IndexOf<T, "timezone", undefined>, "exclude">;
+    amPmCase: Fallback<IndexOf<T, "amPmCase", undefined>, "lower">;
 }
 
 /**

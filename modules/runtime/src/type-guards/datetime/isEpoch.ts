@@ -15,8 +15,14 @@ const EPOCH_1970_07_14 = 16761600000;
 /**
  * **isEpochInSeconds**(timestamp)
  *
- * Type guard which converts a numeric timestamp to the
- * type `EpochInSeconds` based on the fact that:
+ * Epoch timestamps represent times after January 1st, 1970 but up to July 14th,
+ * 1970 there is no completely valid what of distinguishing an **epoch** based
+ * on _seconds_ versus _milliseconds. After July 14th, no additional context/data
+ * is necessary as long as we're willing to "cap" the **epoch** timestamps in seconds
+ * to the year 2500.
+ *
+ * This type-guard attempts to use the constraints above to test whether the value
+ * passed in is an epoch timestamp measured in _seconds_.
  *
  * **Related:** `isEpochInSeconds`
  */

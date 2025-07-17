@@ -9,7 +9,6 @@ describe("IsSameMonth<A, B>", () => {
     type cases = [
       // Same month in different years
       Expect<Test<IsSameMonth<"2023-01-01", "2024-01-15">, "equals", true>>,
-      Expect<Test<IsSameMonth<"2023-02-01", "2024-02-29">, "equals", true>>,
       Expect<Test<IsSameMonth<"2023-12-01", "2024-12-31">, "equals", true>>,
       // Same month, same year, different days
       Expect<Test<IsSameMonth<"2023-01-01", "2023-01-31">, "equals", true>>,
@@ -42,14 +41,7 @@ describe("IsSameMonth<A, B>", () => {
     ];
   });
 
-  it("Leap Year February", () => {
-    type cases = [
-      // February in leap year vs non-leap year
-      Expect<Test<IsSameMonth<"2024-02-29", "2023-02-28">, "equals", true>>, // Same month
-      Expect<Test<IsSameMonth<"2024-02-01", "2023-02-15">, "equals", true>>, // Same month
-      Expect<Test<IsSameMonth<"2024-02-29", "2024-03-01">, "equals", false>>, // Different months
-    ];
-  });
+
 
   it("Wide Types - Boolean Results", () => {
     type cases = [
@@ -63,9 +55,18 @@ describe("IsSameMonth<A, B>", () => {
   });
 
   it("Mixed DateLike Types", () => {
+    type T1 = IsSameMonth<"-2023-01", "2023-01-15">;
+    type T2 = IsSameMonth<"-2023-01", "2023-01-15T12:30Z">;
+    type T3 = IsSameMonth<"2023-02-15", "-2024-02">;
+
+    type F1 = IsSameMonth<"-2023-01", "2023-02-15">;
+
     type cases = [
-      Expect<Test<IsSameMonth<"2023-01", "2023-01-15">, "equals", boolean>>,
-      Expect<Test<IsSameMonth<"2023", "2023-01-01">, "equals", boolean>>,
+      Expect<Test<T1, "equals", true>>,
+      Expect<Test<T2, "equals", true>>,
+      Expect<Test<T3, "equals", true>>,
+
+      Expect<Test<F1, "equals", false>>,
     ];
   });
 

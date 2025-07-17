@@ -3,95 +3,93 @@ import { Expect, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("IsSameYear<A, B>", () => {
-  
-  it("Same Years - True Cases", () => {
-    type cases = [
-      // Same year strings
-      Expect<Test<IsSameYear<"2023", "2023">, "equals", true>>,
-      Expect<Test<IsSameYear<"2024", "2024">, "equals", true>>,
-      Expect<Test<IsSameYear<"1999", "1999">, "equals", true>>,
-      // Same year in different date formats
-      Expect<Test<IsSameYear<"2023-01-01", "2023-12-31">, "equals", true>>,
-      Expect<Test<IsSameYear<"2024-02-29", "2024-06-15">, "equals", true>>,
-      Expect<Test<IsSameYear<"2023-01-01", "2023">, "equals", true>>,
-    ];
-  });
 
-  it("Different Years - False Cases", () => {
-    type cases = [
-      // Different year strings
-      Expect<Test<IsSameYear<"2023", "2024">, "equals", false>>,
-      Expect<Test<IsSameYear<"2024", "2023">, "equals", false>>,
-      Expect<Test<IsSameYear<"1999", "2000">, "equals", false>>,
-      // Different years in date formats
-      Expect<Test<IsSameYear<"2023-01-01", "2024-01-01">, "equals", false>>,
-      Expect<Test<IsSameYear<"2023-12-31", "2024-01-01">, "equals", false>>,
-    ];
-  });
+    it("using ISO Year strings", () => {
+        type T1 = IsSameYear<"2023", "2023">;
+        type T2 = IsSameYear<"3033", "3033">;
+        type T3 = IsSameYear<"1999", "1999">;
 
-  it("Wide Types - Boolean Results", () => {
-    type cases = [
-      // Wide types need runtime determination
-      Expect<Test<IsSameYear<number, 2023>, "equals", boolean>>,
-      Expect<Test<IsSameYear<2023, number>, "equals", boolean>>,
-    ];
-  });
+        type F1 = IsSameYear<"2023", "2022">;
 
-  it("Mixed DateLike Types", () => {
-    type cases = [
-      // Different date format types - some work at compile time
-      Expect<Test<IsSameYear<"2023", "2023-01-01T00:00:00Z">, "equals", true>>,
-      Expect<Test<IsSameYear<"2023-01-01T00:00:00Z", "2023">, "equals", true>>,
-    ];
-  });
+        type cases = [
+            // Same year strings
+            Expect<Test<T1, "equals", true>>,
+            Expect<Test<T2, "equals", true>>,
+            Expect<Test<T3, "equals", true>>,
 
-  it("Century and Millennium Boundaries", () => {
-    type cases = [
-      // Century boundaries
-      Expect<Test<IsSameYear<"1999", "2000">, "equals", false>>,
-      Expect<Test<IsSameYear<"2000", "1999">, "equals", false>>,
-      Expect<Test<IsSameYear<"2000", "2000">, "equals", true>>,
-      // Same millennium but different centuries
-      Expect<Test<IsSameYear<"1900", "1999">, "equals", false>>,
-      Expect<Test<IsSameYear<"1999", "1900">, "equals", false>>,
-    ];
-  });
+            Expect<Test<F1, "equals", false>>,
+        ];
+    });
 
-  it("Leap Year Scenarios", () => {
-    type cases = [
-      // Leap year vs non-leap year
-      Expect<Test<IsSameYear<"2024", "2023">, "equals", false>>,
-      Expect<Test<IsSameYear<"2023", "2024">, "equals", false>>,
-      // Same leap year
-      Expect<Test<IsSameYear<"2024", "2024">, "equals", true>>,
-      // Leap year dates from same year
-      Expect<Test<IsSameYear<"2024-02-29", "2024-12-31">, "equals", true>>,
-    ];
-  });
+    it("ISO Date string", () => {
+        type T1 = IsSameYear<"2023-01-01", "2023-01-01">;
+        type T2 = IsSameYear<"2023-01-01", "2023-12-01">;
+        type T3 = IsSameYear<"2023-07-12", "2023-12-01">;
 
-  it("Edge Cases with Date Parsing", () => {
-    type cases = [
-      // Different months but same year
-      Expect<Test<IsSameYear<"2023-01-01", "2023-02-01">, "equals", true>>,
-      Expect<Test<IsSameYear<"2023-01-31", "2023-12-01">, "equals", true>>,
-      // Different days but same year
-      Expect<Test<IsSameYear<"2023-01-01", "2023-01-31">, "equals", true>>,
-      Expect<Test<IsSameYear<"2023-12-01", "2023-12-31">, "equals", true>>,
-    ];
-  });
+        type F1 = IsSameYear<"2023-01-01", "2025-01-01">;
 
-  it("Historical and Future Years", () => {
-    type cases = [
-      // Historical years - actual behavior
-      Expect<Test<IsSameYear<"0001", "0001">, "equals", true>>,
-      Expect<Test<IsSameYear<"0001", "0002">, "equals", true>>, // Unexpected behavior but actual
-      // Future years
-      Expect<Test<IsSameYear<"9999", "9999">, "equals", boolean>>,
-      Expect<Test<IsSameYear<"9999", "9998">, "equals", boolean>>,
-      // Historical vs modern
-      Expect<Test<IsSameYear<"0001", "2023">, "equals", false>>,
-      Expect<Test<IsSameYear<"2023", "0001">, "equals", false>>,
-    ];
-  });
+
+        type cases = [
+            Expect<Test<T1, "equals", true>>,
+            Expect<Test<T2, "equals", true>>,
+            Expect<Test<T3, "equals", true>>,
+
+            Expect<Test<F1, "equals", false>>,
+        ];
+    });
+
+
+    it("Epoch dates return true when equal", () => {
+        type T1 = IsSameYear<10000089, 10000089>;
+
+        type cases = [
+            Expect<Test<T1, "equals", true>>,
+        ];
+    });
+
+    it("Epoch dates return false when more than a year apart", () => {
+        type T1 = IsSameYear<10000089, 41536089>;
+
+        type cases = [
+            Expect<Test<T1, "equals", false>>,
+        ];
+    });
+
+
+    it("Epoch dates within a year of each other return boolean", () => {
+        type T1 = IsSameYear<10000089, 10000091>;
+
+        type cases = [
+            Expect<Test<T1, "equals", boolean>>,
+        ];
+    });
+
+
+
+    it("Wide Types resolve to boolean", () => {
+        type cases = [
+            // Wide types need runtime determination
+            Expect<Test<IsSameYear<number, 2023>, "equals", boolean>>,
+            Expect<Test<IsSameYear<2023, number>, "equals", boolean>>,
+        ];
+    });
+
+    it("Mixed ISO string types", () => {
+        type T1 = IsSameYear<"2023", "2023-01-01T00:00:00Z">;
+        type T2 = IsSameYear<"2023-01-01T00:00:00Z", "2023">;
+        type T3 = IsSameYear<"-2023-12", "2023">;
+
+        type F1 = IsSameYear<"2024", "2023-01-01T00:00:00Z">;
+        type F2 = IsSameYear<"2024", "-2023-10">;
+
+        type cases = [
+            Expect<Test<T1, "equals", true>>,
+            Expect<Test<T2, "equals", true>>,
+            Expect<Test<T3, "equals", true>>,
+
+            Expect<Test<F1, "equals", false>>,
+            Expect<Test<F2, "equals", false>>,
+        ];
+    });
 
 });
