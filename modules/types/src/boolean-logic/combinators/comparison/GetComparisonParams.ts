@@ -1,9 +1,9 @@
 import type {
+    As,
     AsArray,
     ComparisonLookup,
     ComparisonOperation,
     Err,
-    IsGreaterThan,
     ToStringLiteral,
     TupleMeta
 } from "inferred-types/types";
@@ -15,17 +15,15 @@ import type {
  * that aren't required.
  */
 export type GetComparisonParamInput<
-    TOp extends ComparisonOperation,
-    TParams extends readonly unknown[] = ComparisonLookup[TOp]["params"],
-> = IsGreaterThan<TupleMeta<TParams>["minLength"], 1> extends true
-    ? TParams
-    : TupleMeta<TParams>["minLength"] extends 1
-        ? TParams | TParams[0]
-        : TupleMeta<TParams>["minLength"] extends 0
-            ? TupleMeta<TParams>["maxLength"] extends 0
-                ? []
-                : [] | TParams
-            : TParams;
+    TOp extends string
+> = TOp extends ComparisonOperation
+? As<
+    "params" extends keyof ComparisonLookup[TOp]
+        ? ComparisonLookup[TOp]["params"]
+        : readonly unknown[],
+    readonly unknown[]
+>
+: readonly unknown[]
 
 /**
  * the parameters associated with a comparison can be
@@ -44,11 +42,11 @@ export type ComparisonInputToTuple<
         ? AsArray<TInput>
         : Err<
             `invalid-parameters`,
-    `The parameters added to the ${TUsedIn}<Val,'${TOp}',Params> operation were invalid!`,
-    {
-        expected: ComparisonLookup[TOp]["params"];
-        got: ToStringLiteral<AsArray<TInput>>;
-    }
+            `The parameters added to the ${TUsedIn}<Val,'${TOp}',Params> operation were invalid!`,
+            {
+                expected: ComparisonLookup[TOp]["params"];
+                got: ToStringLiteral<AsArray<TInput>>;
+            }
         >;
 
 /**

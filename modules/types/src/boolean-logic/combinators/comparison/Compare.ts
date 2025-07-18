@@ -1,3 +1,4 @@
+
 import type {
     AlphaChar,
     AlphaNumericChar,
@@ -19,6 +20,7 @@ import type {
     First,
     FirstChar,
     GetComparator,
+    GetComparisonParamInput,
     GetOpConfig,
     HasWideValues,
     IsBefore,
@@ -54,23 +56,28 @@ import type {
     SomeEqual,
     StartsWith,
     Suggest,
+    ToJsValueOptions,
     Unset,
 } from "inferred-types/types";
 
 /**
  * **Comparator**
  *
- * A _comparator_ is a tuple that consists of a `ComparisonOperation`
- * in the 0-index position, and any parameters which that comparison
- * operation requires to make the comparison.
+ * A _comparator_ is a runtime function which is created when calling
+ * the `compare(op, params) utility.
+ *
+ * - a _comparator_ also has `op`, and `params` properties
  */
 export type Comparator<
-    T extends ComparisonOperation = ComparisonOperation,
-    P extends ComparisonLookup[T]["params"] = ComparisonLookup[T]["params"]
-> = [
-        op: T,
-        ...P
-];
+    TOp extends ComparisonOperation,
+    P extends GetComparisonParamInput<TOp> = GetComparisonParamInput<TOp>
+> = {
+    kind: "comparator",
+    op: TOp,
+    params: P
+} & (
+    <TVal extends ComparisonAccept<TOp>>(val: TVal) => Compare<TVal,TOp,P>
+)
 
 type Base<
     TOp extends ComparisonOperation,
@@ -587,9 +594,9 @@ type ValidateParams<
             : true; // Other operations have flexible parameter requirements
 
 export type Compare<
-    TVal,
+    TVal extends ComparisonAccept<TOp>,
     TOp extends Suggest<ComparisonOperation>,
-    TParams extends readonly unknown[] = readonly unknown[]
+    TParams extends readonly unknown[] = TOp extends ComparisonOperation ?  GetComparisonParamInput<TOp> & readonly unknown[] : readonly unknown[]
 > = TOp extends ComparisonOperation
 
     // First validate parameters

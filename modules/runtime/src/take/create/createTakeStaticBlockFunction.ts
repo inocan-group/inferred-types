@@ -1,17 +1,25 @@
+import { NO_MATCH } from '../../constants/NO_MATCH';
 import type {
     Find,
     LexerState,
+    NoMatch,
     Or,
     StartsWith,
     StripLeading,
-    Unset
+    TakeFunction,
+    TakeWrapper,
 } from "inferred-types/types";
 
 import {
+    capitalize,
     find,
-    stripLeading,
-    unset
+    isError
 } from "inferred-types/runtime";
+
+import {
+    isDeltaReturn
+} from "runtime/type-guards"
+import { Never } from 'constants/Never';
 
 export type StaticTakeFunction__CallBack<
     TItems extends readonly string[],
@@ -26,7 +34,10 @@ export type StaticTakeFunction__CallBack<
     /** the parse string and tokens (updated with latest token) */
     state: TState;
 }
-) => unknown;
+) => Error | NoMatch | LexerState<
+    StripLeading<TState["parse"], T>,
+    [...TTokens, unknown]
+>;
 
 export type StaticTakeFunction__Rtn<
     TState extends LexerState,
@@ -48,49 +59,67 @@ export type StaticTakeFunction__Rtn<
         >;
         tokens: [...TTokens, TRtn];
     }
-    : Unset;
+    : NoMatch;
 
 /**
- * **createStaticTakeFunction**`(cb, ...items)`
+ * **createStaticTakeFunction**`(items[], cb) -> take(lex) -> Error | LexerState`
  *
- * Builder which creates a take function which is interested
- * in an enumerated set of
+ * a "builder" which _takes_:
+ *
+ * 1. a static set of variants to match on
+ * 2. a _callback_ called when a match is found;
+ *      - the callback is responsible for mapping the matched static token
+ *      into a Lexer token or an Error
+ *
+ * ```ts
+ * const fooBar = createStaticTakeFunction(
+ *     [ "foo", "bar" ],
+ *     (match, tokens) => {
+ *         // ...
+ *     }
+ * ) -> (
+ *   state: LexerState
+ * ) -> LexerState | Error
+ * ```
  */
 export function createStaticTakeFunction<
+    const TItems extends readonly string[],
     const TCb extends StaticTakeFunction__CallBack<
         TItems,
         Required<LexerState>
     >,
-    TItems extends readonly string[]
 >(
     items: TItems,
     cb: TCb,
-) {
-    return <
-        const TState extends Required<LexerState<TParse, TTokens>>,
-        const TParse extends string,
-        const TTokens extends readonly unknown[]
-    >(
-        state: TState
-    ) => {
-        const found = find("startsWith", state.parse)(items);
+): TakeWrapper<
+    Exclude<ReturnType<TCb>, Error | NoMatch>,
+    TItems
+> {
+    return (state) => {
+        const found = find("startsWith", state["parse"])(items);
 
         if (found) {
             const rtn = cb({ found, state });
-            return {
-                parse: stripLeading(state.parse, found),
-                tokens: [...(state.tokens || []), rtn]
-            } satisfies LexerState as StaticTakeFunction__Rtn<
-                TState,
-                TItems,
-                ReturnType<TCb>
-            >;
+            return isError(rtn)
+                ? rtn
+                : isDeltaReturn(rtn)
+                    ? {
+                        parse: rtn[0],
+                        tokens: [...(state.tokens), rtn[1]]
+                    }
+                    : Never;
         }
 
-        return unset as StaticTakeFunction__Rtn<
-            TState,
-            TItems,
-            ReturnType<TCb>
-        >;
+        // no match
+        return NO_MATCH;
     };
 }
+
+const a = createStaticTakeFunction(
+    ["foo",'bar'],
+    (payload) => {
+        return [ payload.found, capitalize(payload.found) ]
+    }
+)
+
+const b = a({parse: "foobar", tokens: []});

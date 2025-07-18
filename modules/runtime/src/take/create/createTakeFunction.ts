@@ -1,10 +1,12 @@
-import type { StaticTakeFunction__CallBack, StaticTakeFunction__Rtn } from "inferred-types/runtime";
+import type {
+    StaticTakeFunction__CallBack,
+    StaticTakeFunction__Rtn
+} from "inferred-types/runtime";
 import type { LexerState } from "inferred-types/types";
 import {
     createStaticTakeFunction,
     createTakeWhileFunction,
     err
-
 } from "inferred-types/runtime";
 
 type TakeFunctionKind = "static" | "start-end" | "while";
@@ -55,7 +57,6 @@ export type TakeFunction__Options = {
      * - the _values_ are the `nesting` exit
      */
     nesting?: Record<string, string>;
-
 };
 
 type Returns<K extends TakeFunctionKind, O extends TakeFunction__Options> = K extends "start-end"
@@ -91,7 +92,19 @@ function staticBuilder<O extends TakeFunction__Options>(opt: O) {
  * of take function from the following:
  *
  * - Static Block
+ *
+ *      - configure a static set of variants to match on
+ *      - provide a callback to map a match to a Lexer token
+ *      - wrapper will automatically return `Unset` if no match
+ *      is found
+ *      - callback fn for mapping a match to a Lexer token (or return
+ *      an Error as an outlet)
+ *
  * - Start/End Block
+ *
+ *      - provide `start` and `end` characters which will be used
+ *      for matching
+ *
  * - While Block
  */
 export function createTakeFunction<

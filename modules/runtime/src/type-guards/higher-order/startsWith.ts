@@ -30,7 +30,7 @@ export function startsWithTypeguard<
         : TValue => {
         return (
             isString(val) || isNumber(val)
-                ? startingWith.some(i => String(val).startsWith(String(i)))
+                ? startingWith.some(i => String(i) !== "" && String(val).startsWith(String(i)))
                 : false
         ) as StartsWith<TValue, TStartsWith[number]>;
     };
@@ -55,7 +55,7 @@ export function startsWith<
     >(val: TValue) => {
         return (
             isString(val) || isNumber(val)
-                ? startingWith.some(i => String(val).startsWith(String(i)))
+                ? startingWith.some(i => String(i) !== "" && String(val).startsWith(String(i)))
                 : false
         ) as StartsWith<TValue, TStartsWith>;
     };

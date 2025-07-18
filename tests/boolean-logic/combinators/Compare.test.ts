@@ -35,7 +35,7 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
         type F1 = Compare<"foo", "equals", ["bar"]>;
         type F2 = Compare<"foo", "equals", [42]>;
 
-        type E1 = Compare<"foo", "equals">;
+        type E1 = Compare<"foo", "equals">; // TODO: this is not being picked up!
         type E2 = Compare<"foo", "equals", ["foo", "bar"]>;
 
         type cases = [

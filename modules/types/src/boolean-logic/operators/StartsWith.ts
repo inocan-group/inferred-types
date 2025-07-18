@@ -9,9 +9,11 @@ import type {
 type Check<
     TValue extends string,
     TComparator extends string | number,
-> = [TValue] extends [`${TComparator}${string}`]
-    ? true
-    : false;
+> = TComparator extends ""
+    ? false
+    : [TValue] extends [`${TComparator}${string}`]
+        ? true
+        : false;
 
 type Process<
     TValue extends string,

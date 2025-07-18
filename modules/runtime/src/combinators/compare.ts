@@ -1,12 +1,15 @@
-import type { ToStringLiteral__Tuple } from "@inferred-types/types";
+import type { ComparisonAccept, ToStringLiteral__Tuple } from "@inferred-types/types";
 import type {
     As,
+    Comparator,
     Compare,
     ComparisonOperation,
     Contains,
     DateLike,
     EndsWith,
     Err,
+    Find,
+    GetComparisonParamInput,
     IndexOf,
     IsEqual,
     IsFalse,
@@ -27,6 +30,7 @@ import {
     asDate,
     asNumber,
     contains,
+    createFnWithProps,
     doesExtend,
     endsWith,
     equalsSome,
@@ -88,8 +92,8 @@ function handle_string<
                     : false
             ) as TVal extends string | number
                 ? ToStringArray<TParams> extends readonly string[]
-                    ? EndsWith<TVal, ToStringArray<TParams>>
-                    : false
+                ? EndsWith<TVal, ToStringArray<TParams>>
+                : false
                 : false;
         }
 
@@ -401,9 +405,8 @@ function handle_object<
 
 function handle_datetime<
     const TOp extends ComparisonOperation,
-    const TParams extends readonly N[],
+    const TParams extends GetComparisonParamInput<TOp>,
     const TVal extends Narrowable,
-    N extends Narrowable
 >(
     val: TVal,
     op: TOp,
@@ -542,76 +545,83 @@ function handle_other<
 
 type Returns<
     TVal extends Narrowable,
-    TOp extends Suggest<ComparisonOperation>,
-    TParams extends readonly Narrowable[]
+    TOp extends ComparisonOperation,
+    TParams extends GetComparisonParamInput<TOp>
 > = TOp extends ComparisonOperation
     ? Compare<TVal, TOp, TParams>
     : Err<`invalid-operation/${TOp}`, `The operation '${TOp}' is not a valid operation for the compare utility!`, { op: TOp; params: ToStringLiteral__Tuple<TParams> }>;
 
 export type CompareFn<
-    TOp extends Suggest<ComparisonOperation>,
-    TParams extends readonly Narrowable[]
+    TOp extends ComparisonOperation,
+    TParams extends GetComparisonParamInput<TOp>
 > = TOp extends ComparisonOperation
     ? <const TVal extends Narrowable>(val: TVal) => Returns<TVal, TOp, TParams>
     : Returns<Narrowable, TOp, TParams>;
 
 function compareFn<
-    const TOp extends Suggest<ComparisonOperation>,
-    const TParams extends readonly Narrowable[]
+    const TOp extends ComparisonOperation,
+    const TParams extends GetComparisonParamInput<TOp>
 >(
     op: TOp,
-    ...params: TParams
-): TOp extends ComparisonOperation
-        ? <const TVal extends Narrowable>(val: TVal) => Returns<TVal, TOp, TParams>
-        : Returns<Narrowable, TOp, TParams> {
-    if (isComparisonOperation(op)) {
-        const fn = <const TVal extends Narrowable>(val: TVal): Returns<TVal, TOp, TParams> => {
+    params: TParams
+): Comparator<TOp, TParams> {
+
+    const fn = <const TVal extends ComparisonAccept<TOp>>(
+        val: TVal
+    ): Compare<TVal,TOp,TParams> => {
+        if (isComparisonOperation(op)) {
             let result: unknown = unset;
 
             result = handle_string(val, op, params);
             if (isBoolean(result) || isError(result)) {
-                return result as Returns<TVal, TOp, TParams>;
+                return result as Compare<TVal,TOp,TParams>;
             }
 
             // Object operations
             result = handle_object(val, op, params);
             if (isBoolean(result) || isError(result)) {
-                return result as Returns<TVal, TOp, TParams>;
+                return result as Compare<TVal,TOp,TParams>;
             }
 
             // Numeric operations
             result = handle_numeric(val, op, params);
             if (isBoolean(result) || isError(result)) {
-                return result as Returns<TVal, TOp, TParams>;
+                return result as Compare<TVal,TOp,TParams>;
             }
 
             // Other operations (errors, errorsOfType, etc.)
             result = handle_other(val, op, params);
             if (isBoolean(result) || isError(result)) {
-                return result as Returns<TVal, TOp, TParams>;
+                return result as Compare<TVal,TOp,TParams>;
             }
 
             result = handle_general(val, op, params);
             if (isBoolean(result) || isError(result)) {
-                return result as Returns<TVal, TOp, TParams>;
+                return result as Compare<TVal,TOp,TParams>;
             }
 
             result = handle_datetime(val, op, params);
             if (isBoolean(result) || isError(result)) {
-                return result as Returns<TVal, TOp, TParams>;
+                return result as Compare<TVal,TOp,TParams>;
             }
 
-            return false as Returns<TVal, TOp, TParams>;
-        };
-        return fn as any;
+            return false as Compare<TVal,TOp,TParams>;
+        } else {
+            return err(
+                `invalid-operation`,
+                `The operation '${String(op)}' is not a valid operation for the compare utility!`,
+                { op, params }
+            ) as unknown as Compare<TVal, TOp, TParams>;
+        }
     }
-    else {
-        return err(
-            `invalid-operation`,
-            `The operation '${op}' is not a valid operation for the compare utility!`,
-            { op, params }
-        ) as any;
-    }
+    return createFnWithProps(
+        fn ,
+        {
+            kind: "comparator",
+            op,
+            params
+        }
+    ) as unknown as Comparator<TOp, TParams>;
 }
 
 /**
@@ -622,11 +632,15 @@ function compareFn<
  */
 export function compare<
     const TOp extends Suggest<ComparisonOperation>,
-    const TParams extends readonly N[],
-    N extends Narrowable
+    const TParams extends GetComparisonParamInput<TOp>
 >(
     op: TOp,
     ...params: TParams
 ) {
-    return compareFn(op, ...params);
+    if(isComparisonOperation(op)) {
+        return compareFn(op, params) as Comparator<TOp,TParams>;
+    } else {
+        throw err("invalid-operation")
+    }
 }
+

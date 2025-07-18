@@ -21,6 +21,9 @@ type Detect<Y extends string> =
             ? false
             : DivBy4<Y>;
 
+// Helper to extract string from branded types
+type ExtractYear<T> = T extends `${infer Year}` ? Year : never;
+
 /**
  * **IsLeapYear**`<T>`
  *
@@ -48,7 +51,7 @@ export type IsLeapYear<
                             infer Year extends FourDigitYear,
                             ...unknown[]
                         ]
-                            ? Detect<Year>
+                            ? Detect<ExtractYear<Year>>
                             : boolean
                 : boolean
     : false;

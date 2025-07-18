@@ -11,5 +11,6 @@ export * from "./isInputTokenLike__Object";
 // export * from "./isOutputToken";
 export * from "./isShapeCallback";
 export * from "./isSimpleToken";
+export * from "./isDeltaReturn";
 // export * from "./set-tokens";
 // export * from "./singletons";

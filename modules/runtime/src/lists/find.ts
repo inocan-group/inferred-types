@@ -1,11 +1,13 @@
 import type {
+    As,
     ComparisonAccept,
-    ComparisonLookup,
     ComparisonOperation,
     Find,
-    FindFunction
+    GetComparisonParamInput,
+    Suggest
 } from "inferred-types/types";
-import { compare } from "inferred-types/runtime";
+import { compare, err } from "inferred-types/runtime";
+import { isComparisonOperation } from "runtime/type-guards/comparison";
 
 /**
  * **find**(op, ...params) => (value) => el | undefined
@@ -14,21 +16,35 @@ import { compare } from "inferred-types/runtime";
  * while preserving any available type information.
  */
 export function find<
-    const TOp extends ComparisonOperation,
-    const TParams extends ComparisonLookup[TOp]["params"]
+    const TOp extends Suggest<ComparisonOperation>,
+    const TParams extends GetComparisonParamInput<As<TOp, ComparisonOperation>>
 >(
     op: TOp,
     ...params: TParams
-): FindFunction<TOp, TParams> {
-    return <
-        const TList extends readonly (ComparisonAccept<TOp>)[]
-    >(list: TList) => {
-        return list.find(
-            i => compare(op, ...params)(i)
-        ) as Find<
-            TList,
-            TOp,
-            TParams
-        >;
-    };
+) {
+    if(isComparisonOperation(op)) {
+        return <const TList extends readonly ComparisonAccept<As<TOp, ComparisonOperation>>[]>(list: TList): Find<
+                    TList,
+                    As<TOp, ComparisonOperation>,
+                    TParams
+                > => {
+                    return list.find(
+                    i => {
+                        const comparator = compare(op, ...params);
+
+                        return comparator(i);
+                    }
+                ) as Find<
+                    TList,
+                    As<TOp, ComparisonOperation>,
+                    TParams
+                >
+            }
+    }
+
+    throw err("invalid-operation")
 }
+
+const a = find("startsWith", "foo")(["bar", "foobar", 42]);
+
+

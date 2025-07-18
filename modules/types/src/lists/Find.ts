@@ -4,13 +4,14 @@ import type {
     ComparisonAccept,
     ComparisonLookup,
     ComparisonOperation,
-    First
+    First,
+    GetComparisonParamInput
 } from "inferred-types/types";
 
 type FindAcc<
     TList extends readonly (ComparisonAccept<TOp>)[],
     TOp extends ComparisonOperation,
-    TParams extends ComparisonLookup[TOp]["params"]
+    TParams extends GetComparisonParamInput<TOp>
 > = [] extends TList
     ? undefined
     : First<TList> extends ComparisonAccept<TOp>
@@ -38,7 +39,7 @@ type FindAcc<
 export type Find<
     TList extends readonly (ComparisonAccept<TOp>)[],
     TOp extends ComparisonOperation,
-    TParams extends ComparisonLookup[TOp]["params"]
+    TParams extends GetComparisonParamInput<TOp>
 > = FindAcc<TList, TOp, TParams>;
 
 /**
@@ -49,7 +50,7 @@ export type Find<
  */
 export type FindFunction<
     TOp extends ComparisonOperation,
-    TParams extends ComparisonLookup[TOp]["params"]
+    TParams extends GetComparisonParamInput<TOp>
 > = <
     const TList extends readonly (ComparisonAccept<TOp>)[]
 >(list: TList) => Find<

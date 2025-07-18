@@ -1,4 +1,5 @@
-import { isNumber, isString } from "inferred-types/runtime";
+import { isNumber } from "runtime/type-guards/numeric/isNumber";
+import { isString } from "runtime/type-guards/isString";
 
 /**
  * Type guard which validates that the passed in `val` is an array of
