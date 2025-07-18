@@ -71,28 +71,28 @@ export type ComparisonLookup = {
     };
 
     onlyLetters: {
-        params: [];
+        params: readonly [];
         desc: "tests whether a string literal contains only letter characters";
         accept: string;
         take: 0;
     };
 
     contains: {
-        params: [substring: string | number];
+        params: readonly [substring: string | number];
         convert: ["stringLiteral"];
         accept: string | number | readonly (string | number)[];
         take: 1;
     };
 
     containsAll: {
-        params: [substrings: string | number, ...readonly (string | number)[]];
+        params: readonly [substrings: string | number, ...readonly (string | number)[]];
         accept: string | number | readonly (string | number)[];
         convert: "stringArray";
         take: "*";
     };
 
     containsSome: {
-        params: [
+        params: readonly [
             val1: string | number,
             val2: string | number,
             ...(string | number)[]
@@ -103,31 +103,31 @@ export type ComparisonLookup = {
     };
 
     greaterThan: {
-        params: [value: NumberLike];
+        params: readonly [value: NumberLike];
         accept: NumberLike;
         take: 1;
     };
 
     greaterThanOrEqual: {
-        params: [value: NumberLike];
+        params: readonly [value: NumberLike];
         accept: NumberLike;
         take: 1;
     };
 
     lessThan: {
-        params: [value: NumberLike];
+        params: readonly [value: NumberLike];
         accept: NumberLike;
         take: 1;
     };
 
     lessThanOrEqual: {
-        params: [value: NumberLike];
+        params: readonly [value: NumberLike];
         accept: NumberLike;
         take: 1;
     };
 
     objectKeyGreaterThan: {
-        params: [
+        params: readonly [
             key: string,
             type: NumberLike
         ];
@@ -136,7 +136,7 @@ export type ComparisonLookup = {
     };
 
     objectKeyGreaterThanOrEqual: {
-        params: [
+        params: readonly [
             key: string,
             type: NumberLike
         ];
@@ -145,7 +145,7 @@ export type ComparisonLookup = {
     };
 
     objectKeyLessThan: {
-        params: [
+        params: readonly [
             key: string,
             type: NumberLike
         ];
@@ -154,7 +154,7 @@ export type ComparisonLookup = {
     };
 
     objectKeyLessThanOrEqual: {
-        params: [
+        params: readonly [
             key: string,
             type: NumberLike
         ];
@@ -163,13 +163,13 @@ export type ComparisonLookup = {
     };
 
     betweenInclusively: {
-        params: [greaterThan: NumberLike, lessThan: NumberLike];
+        params: readonly [greaterThan: NumberLike, lessThan: NumberLike];
         accept: NumberLike;
         take: 2;
     };
 
     betweenExclusively: {
-        params: [greaterThan: NumberLike, lessThan: NumberLike];
+        params: readonly [greaterThan: NumberLike, lessThan: NumberLike];
         accept: NumberLike;
         take: 2;
     };
@@ -195,37 +195,37 @@ export type ComparisonLookup = {
     };
 
     before: {
-        params: [date: DateLike];
+        params: readonly [date: DateLike];
         accept: DateLike;
         take: 1;
     };
 
     after: {
-        params: [date: DateLike];
+        params: readonly [date: DateLike];
         accept: DateLike;
         take: 1;
     };
 
     sameDay: {
-        params: [date: DateLike];
+        params: readonly [date: DateLike];
         accept: DateLike;
         take: 1;
     };
 
     sameMonth: {
-        params: [date: DateLike];
+        params: readonly [date: DateLike];
         accept: DateLike;
         take: 1;
     };
 
     sameMonthYear: {
-        params: [date: DateLike];
+        params: readonly [date: DateLike];
         accept: DateLike;
         take: 1;
     };
 
     sameYear: {
-        params: [date: DateLike];
+        params: readonly [date: DateLike];
         accept: DateLike;
         take: 1;
     };
@@ -251,7 +251,7 @@ export type ComparisonLookup = {
     };
 
     objectKeyEquals: {
-        params: [
+        params: readonly [
             key: string,
             value: unknown
         ];
@@ -260,7 +260,7 @@ export type ComparisonLookup = {
     };
 
     objectKeyExtends: {
-        params: [
+        params: readonly [
             key: string,
             type: unknown
         ];
@@ -269,19 +269,19 @@ export type ComparisonLookup = {
     };
 
     objectExtends: {
-        params: [type: unknown];
+        params: readonly [type: unknown];
         take: 1;
         accept: Dictionary;
     };
 
     returnEquals: {
-        params: [ validReturnTypes: unknown, ...unknown[] ];
+        params: readonly [ validReturnTypes: unknown, ...unknown[] ];
         take: "*";
         accept: (...args: any[]) => any;
     };
 
     returnExtends: {
-        params: [ validReturnTypes: unknown, ...unknown[] ];
+        params: readonly [ validReturnTypes: unknown, ...unknown[] ];
         take: "1";
         convert: "union";
         accept: (...args: any[]) => any;

@@ -3,10 +3,12 @@ import type {
     ComparisonAccept,
     ComparisonOperation,
     Find,
+    FindFunction,
     GetComparisonParamInput,
     Suggest
 } from "inferred-types/types";
-import { compare, err } from "inferred-types/runtime";
+import { compare } from "runtime/combinators";
+import { err } from "runtime/errors";
 import { isComparisonOperation } from "runtime/type-guards/comparison";
 
 /**
@@ -18,10 +20,11 @@ import { isComparisonOperation } from "runtime/type-guards/comparison";
 export function find<
     const TOp extends Suggest<ComparisonOperation>,
     const TParams extends GetComparisonParamInput<TOp>
+    const TParams extends GetComparisonParamInput<TOp>
 >(
     op: TOp,
     ...params: TParams
-) {
+): FindFunction<TOp,TParams> {
     if(isComparisonOperation(op)) {
         return <const TList extends readonly ComparisonAccept<As<TOp, string>>[]>(
             list: TList
@@ -39,6 +42,6 @@ export function find<
             }
     }
 
-    throw err("invalid-operation")
+    return err("invalid-operation") as unknown as FindFunction<TOp,TParams>;
 }
 

@@ -1,8 +1,6 @@
 import type {
     Compare,
     ComparisonAccept,
-    ComparisonInputDefault,
-    ComparisonInputToTuple,
     ComparisonLookup,
     ComparisonOperation,
     Err,
@@ -38,7 +36,7 @@ type Process<
 export type NotFilter<
     TList extends readonly ComparisonAccept<TOp>[],
     TOp extends ComparisonOperation,
-    TParams extends GetComparisonParamInput<TOp> | Error = ComparisonInputDefault<TOp>
+    TParams extends GetComparisonParamInput<TOp> = GetComparisonParamInput<TOp>
 > = [TParams] extends [Error]
     ? TParams
     : [ComparisonInputToTuple<TOp, TParams>] extends [ComparisonLookup[TOp]["params"]]

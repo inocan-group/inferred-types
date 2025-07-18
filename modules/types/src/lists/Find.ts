@@ -2,10 +2,11 @@ import type {
     AfterFirst,
     Compare,
     ComparisonAccept,
-    ComparisonLookup,
     ComparisonOperation,
+    Err,
     First,
-    GetComparisonParamInput
+    GetComparisonParamInput,
+    IsUnion
 } from "inferred-types/types";
 
 type FindAcc<
@@ -45,16 +46,25 @@ export type Find<
 /**
  * **FindFunction**`<TOp, TParams>`
  *
- * a partially applied type resulting from a call to the
- * runtime's `find()` utility.
+ * A partially applied type resulting from a call to the
+ * runtime's `find()` utility. This function has a fully
+ * configured `Comparator` (aka, an comparison _operation_
+ * and one or more parameters to allow valid comparisons
+ * to be made).
  */
 export type FindFunction<
-    TOp extends ComparisonOperation,
+    /** should be a valid comparison operation */
+    TOp extends string,
     TParams extends GetComparisonParamInput<TOp>
-> = <
-    const TList extends readonly (ComparisonAccept<TOp>)[]
->(list: TList) => Find<
+> = TOp extends ComparisonOperation
+? IsUnion<TOp> extends true
+    ? <TVal extends readonly ComparisonAccept<TOp>[]>(val: TVal) => readonly unknown[]
+
+: <const TList extends readonly ComparisonAccept<TOp>[]>(
+    list: TList
+) => Find<
     TList,
     TOp,
     TParams
->;
+>
+: Err<"invalid-operation">;

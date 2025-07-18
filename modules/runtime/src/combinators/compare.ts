@@ -1,3 +1,4 @@
+import { NUMERIC_CHAR } from "inferred-types/constants";
 import type {
     As,
     Comparator,
@@ -16,7 +17,6 @@ import type {
     Suggest,
     Unset,
 } from "inferred-types/types";
-import { NUMERIC_CHAR } from "inferred-types/constants";
 
 import {
     asChars,
@@ -35,6 +35,7 @@ import {
 } from "inferred-types/runtime";
 import { endsWith, startsWith } from "runtime/type-guards/higher-order";
 import {
+    hasIndexOf,
     isAlpha,
     isArray,
     isBoolean,
@@ -48,13 +49,12 @@ import {
     isNarrowable,
     isNarrowableTuple,
     isNumber,
-    isNumberLike,
     isObjectKey,
     isParsedDate,
     isString,
     isStringOrNumericArray,
     isTrue,
-    hasIndexOf
+    isNumberLike,
 } from "runtime/type-guards";
 import { isComparisonOperation } from "runtime/type-guards/comparison";
 import { not } from "runtime/boolean-logic/not";
