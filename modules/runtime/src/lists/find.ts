@@ -17,28 +17,22 @@ import { isComparisonOperation } from "runtime/type-guards/comparison";
  */
 export function find<
     const TOp extends Suggest<ComparisonOperation>,
-    const TParams extends GetComparisonParamInput<As<TOp, ComparisonOperation>>
+    const TParams extends GetComparisonParamInput<TOp>
 >(
     op: TOp,
     ...params: TParams
 ) {
     if(isComparisonOperation(op)) {
-        return <const TList extends readonly ComparisonAccept<As<TOp, ComparisonOperation>>[]>(list: TList): Find<
-                    TList,
-                    As<TOp, ComparisonOperation>,
-                    TParams
-                > => {
+        return <const TList extends readonly ComparisonAccept<As<TOp, string>>[]>(
+            list: TList
+        ): Find<TList,TOp,TParams> => {
                     return list.find(
                     i => {
                         const comparator = compare(op, ...params);
 
                         return comparator(i);
                     }
-                ) as Find<
-                    TList,
-                    As<TOp, ComparisonOperation>,
-                    TParams
-                >
+                ) as unknown as Find<TList,As<TOp, string>,TParams>
             }
     }
 
