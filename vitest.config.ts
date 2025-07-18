@@ -43,6 +43,11 @@ export default defineConfig({
         // typecheck: {
         //   include: ["tests/**/*.{test,spec}.ts"]
         // },
+        benchmark: {
+            include: ['**/*.{bench,benchmark}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+            exclude: ['node_modules/**', 'dist/**'],
+            reporters: ['default'],
+        }
     },
     assetsInclude: [
         "app"

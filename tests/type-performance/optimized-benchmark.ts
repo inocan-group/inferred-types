@@ -5,7 +5,12 @@
  * performance improvements compared to baseline measurements.
  */
 
-import type { TwoDigitHour, TwoDigitMinute, TwoDigitSecond, RenderTime } from "inferred-types/types";
+import type {
+    TwoDigitHour,
+    TwoDigitMinute,
+    TwoDigitSecond,
+    RenderTime
+} from "inferred-types/types";
 
 // =============================================================================
 // UNION SIZE MEASUREMENT UTILITIES
