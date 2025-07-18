@@ -1,26 +1,19 @@
-import type { ComparisonAccept, ToStringLiteral__Tuple } from "@inferred-types/types";
 import type {
     As,
     Comparator,
     Compare,
     ComparisonOperation,
+    ComparisonAccept,
     Contains,
     DateLike,
-    EndsWith,
-    Err,
-    Find,
     GetComparisonParamInput,
     IndexOf,
     IsEqual,
     IsFalse,
-    IsFalsy,
-    IsTruthy,
     Narrowable,
     ObjectKey,
     SomeEqual,
-    StartsWithNumber,
     Suggest,
-    ToStringArray,
     Unset,
 } from "inferred-types/types";
 import { NUMERIC_CHAR } from "inferred-types/constants";
@@ -36,7 +29,6 @@ import {
     equalsSome,
     err,
     firstChar,
-    hasIndexOf,
     indexOf,
     last,
     parseDate,
@@ -63,14 +55,15 @@ import {
     isString,
     isStringOrNumericArray,
     isTrue,
-    isTruthy,
+    hasIndexOf
 } from "runtime/type-guards";
 import { isComparisonOperation } from "runtime/type-guards/comparison";
+import { not } from "runtime/boolean-logic/not";
 
 function handle_string<
-    TOp extends ComparisonOperation,
+    TVal extends Narrowable,
+    TOp extends string,
     TParams extends readonly unknown[],
-    TVal extends Narrowable
 >(
     val: TVal,
     op: TOp,
@@ -90,11 +83,7 @@ function handle_string<
                 (isString(val) || isNumber(val)) && isStringOrNumericArray(params)
                     ? endsWith(...params as readonly (string | number)[])(val)
                     : false
-            ) as TVal extends string | number
-                ? ToStringArray<TParams> extends readonly string[]
-                ? EndsWith<TVal, ToStringArray<TParams>>
-                : false
-                : false;
+            )
         }
 
         case "endsWithNumber":
@@ -113,7 +102,7 @@ function handle_string<
                 isString(val)
                     ? NUMERIC_CHAR.includes(firstChar(String(val)) as any)
                     : false
-            ) as StartsWithNumber<TVal>;
+            ) ;
 
         case "onlyNumbers":
             return isString(val)
@@ -138,9 +127,9 @@ function handle_string<
 }
 
 function handle_general<
-    TOp extends ComparisonOperation,
-    TParams extends readonly unknown[],
-    TVal extends Narrowable
+    const TVal extends Narrowable,
+    const TOp extends string,
+    const TParams extends readonly unknown[],
 >(
     val: TVal,
     op: TOp,
@@ -154,26 +143,28 @@ function handle_general<
                     `A filter operation based on the 'extends' operation passed in a parameter which was not an InputToken so we are not able to convert this into a type!`,
                 );
             }
-            return doesExtend(params[0])(val);
+            return isNarrowable(val) && doesExtend(params[0])(val);
         }
 
         case "equals": {
             return (val === params[0]) as IsEqual<TVal, TParams[0]>;
         }
 
-        case "false":
+        case "false": {
             return (isFalse(val)) as IsFalse<TVal>;
+        }
 
-        case "true":
+        case "true": {
             return isTrue(val);
+        }
 
-        case "truthy":
-            return isTruthy(val) as IsTruthy<TVal>;
+        case "truthy": {
+            return not(isFalsy(val));
+        }
 
-        case "falsy":
-            return (
-                isNarrowable(val) && isFalsy(val)
-            ) as IsFalsy<TVal>;
+        case "falsy": {
+            return isFalsy(val);
+        }
 
         case "equalsSome":
             return (
@@ -210,9 +201,9 @@ function handle_general<
 }
 
 function handle_numeric<
+    TVal extends Narrowable,
     TOp extends ComparisonOperation,
     TParams extends readonly unknown[],
-    TVal extends Narrowable
 >(
     val: TVal,
     op: TOp,
@@ -295,9 +286,9 @@ function handle_numeric<
 }
 
 function handle_object<
+    TVal extends Narrowable,
     TOp extends ComparisonOperation,
     TParams extends readonly unknown[],
-    TVal extends Narrowable
 >(
     val: TVal,
     op: TOp,
@@ -404,9 +395,9 @@ function handle_object<
 }
 
 function handle_datetime<
-    const TOp extends ComparisonOperation,
-    const TParams extends GetComparisonParamInput<TOp>,
     const TVal extends Narrowable,
+    const TOp extends ComparisonOperation,
+    const TParams extends readonly unknown[],
 >(
     val: TVal,
     op: TOp,
@@ -493,9 +484,9 @@ function handle_datetime<
 }
 
 function handle_other<
+    const TVal extends Narrowable,
     const TOp extends ComparisonOperation,
     const TParams extends readonly unknown[],
-    const TVal extends Narrowable
 >(
     val: TVal,
     op: TOp,
@@ -543,24 +534,10 @@ function handle_other<
     return unset;
 }
 
-type Returns<
-    TVal extends Narrowable,
-    TOp extends ComparisonOperation,
-    TParams extends GetComparisonParamInput<TOp>
-> = TOp extends ComparisonOperation
-    ? Compare<TVal, TOp, TParams>
-    : Err<`invalid-operation/${TOp}`, `The operation '${TOp}' is not a valid operation for the compare utility!`, { op: TOp; params: ToStringLiteral__Tuple<TParams> }>;
-
-export type CompareFn<
-    TOp extends ComparisonOperation,
-    TParams extends GetComparisonParamInput<TOp>
-> = TOp extends ComparisonOperation
-    ? <const TVal extends Narrowable>(val: TVal) => Returns<TVal, TOp, TParams>
-    : Returns<Narrowable, TOp, TParams>;
 
 function compareFn<
-    const TOp extends ComparisonOperation,
-    const TParams extends GetComparisonParamInput<TOp>
+    const TOp extends string,
+    const TParams extends readonly unknown[]
 >(
     op: TOp,
     params: TParams
@@ -613,15 +590,18 @@ function compareFn<
                 { op, params }
             ) as unknown as Compare<TVal, TOp, TParams>;
         }
-    }
-    return createFnWithProps(
-        fn ,
+    };
+
+    const comparator: any = createFnWithProps<any[],any,any,any,any,any>(
+        fn,
         {
             kind: "comparator",
             op,
             params
         }
-    ) as unknown as Comparator<TOp, TParams>;
+    );
+
+    return comparator as Comparator<TOp,TParams>
 }
 
 /**
@@ -638,7 +618,7 @@ export function compare<
     ...params: TParams
 ) {
     if(isComparisonOperation(op)) {
-        return compareFn(op, params) as Comparator<TOp,TParams>;
+        return compareFn(op, params);
     } else {
         throw err("invalid-operation")
     }

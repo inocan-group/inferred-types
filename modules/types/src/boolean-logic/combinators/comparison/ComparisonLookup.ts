@@ -24,9 +24,8 @@ export type ComparisonOperation = typeof COMPARISON_OPERATIONS[number];
  */
 export type ComparisonLookup = {
     extends: {
-        params: [types: unknown, ...unknown[]];
+        params: readonly [types: unknown, ...unknown[]];
 
-        accept: unknown;
     };
 
     startsWith: {
@@ -176,26 +175,22 @@ export type ComparisonLookup = {
     };
 
     equals: {
-        params: [ value: unknown ];
-        accept: unknown;
+        params: readonly [ value: unknown ];
         take: 1;
     };
 
     equalsSome: {
         params: [ potentialValues: unknown, unknown, ...unknown[] ];
-        accept: unknown;
         take: "*";
     };
 
     errors: {
-        params: [];
-        accept: unknown;
+        params: readonly [];
         take: 0;
     };
 
     errorsOfType: {
-        params: [type: string | Error];
-        accept: unknown;
+        params: readonly [type: string | Error];
         take: 1;
     };
 
@@ -237,25 +232,21 @@ export type ComparisonLookup = {
 
     truthy: {
         params: [];
-        accept: unknown;
         take: 0;
     };
 
     falsy: {
         params: [];
-        accept: unknown;
         take: 0;
     };
 
     true: {
         params: [];
-        accept: unknown;
         take: 0;
     };
 
     false: {
         params: [];
-        accept: unknown;
         take: 0;
     };
 

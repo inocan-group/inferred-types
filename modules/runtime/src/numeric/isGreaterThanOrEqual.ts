@@ -1,4 +1,4 @@
-import type { IsGreaterThanOrEqual } from "@inferred-types/types";
+import type { IsGreaterThanOrEqual } from "inferred-types/types";
 
 /**
  * **isGreaterThanOrEqual**`(comparator) -> (val) -> boolean`

@@ -1,12 +1,15 @@
-import type { FalsyValue, Narrowable } from "inferred-types/types";
 import { FALSY_VALUES } from "inferred-types/constants";
+import type { FalsyValue } from "inferred-types/types";
+import { isNumber } from "runtime/type-guards/numeric";
 
 /**
  * **isFalsy**()
  *
- * Creates a TypeGuard which checks whether a value is considered _falsy_ in
+ * a TypeGuard which checks whether a value is considered _falsy_ in
  * Javascript.
  */
-export function isFalsy<V extends Narrowable>(val: V): val is V & FalsyValue {
-    return FALSY_VALUES.includes(val as any);
+export function isFalsy<V>(val: V): val is V & FalsyValue {
+    return FALSY_VALUES.includes(val as any) || (
+        isNumber(val) && Number.isNaN(val)
+    );
 }

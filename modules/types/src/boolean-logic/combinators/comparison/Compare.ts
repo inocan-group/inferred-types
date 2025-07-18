@@ -56,8 +56,7 @@ import type {
     SomeEqual,
     StartsWith,
     Suggest,
-    ToJsValueOptions,
-    Unset,
+    Unset
 } from "inferred-types/types";
 
 /**
@@ -69,15 +68,15 @@ import type {
  * - a _comparator_ also has `op`, and `params` properties
  */
 export type Comparator<
-    TOp extends ComparisonOperation,
-    P extends GetComparisonParamInput<TOp> = GetComparisonParamInput<TOp>
-> = {
+    TOp extends string,
+    TParams extends readonly unknown[]
+> ={
     kind: "comparator",
     op: TOp,
-    params: P
-} & (
-    <TVal extends ComparisonAccept<TOp>>(val: TVal) => Compare<TVal,TOp,P>
-)
+    params: TParams
+} &  (
+    <TVal extends ComparisonAccept<TOp>>(val: TVal) => Compare<TVal,TOp,TParams>
+);
 
 type Base<
     TOp extends ComparisonOperation,
@@ -660,11 +659,12 @@ export type Compare<
                                     : Comparison<TVal, TOp, TParams>
                 : // TVal is not acceptable for this operation
                 Err<
-                    "invalid-value",
-                    `Value is not acceptable for operation`
+                    `invalid-value/${TOp}`,
+                    `a value was passed into Compare which does not meet the 'accept' criteria for the '${TOp}' operation.`,
+                    { val: TVal }
                 >
     : Err<
-    `invalid-operation/${TOp}`,
-    `The operation '${TOp}' is not a valid operation for the Compare utility!`,
-    { op: TOp; params: TParams }
+        `invalid-operation/${TOp}`,
+        `The operation '${TOp}' is not a valid operation for the Compare utility!`,
+        { op: TOp; params: TParams }
     >;

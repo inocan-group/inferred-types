@@ -1,4 +1,4 @@
-import type { DateLike } from "@inferred-types/types";
+import type { DateLike } from "inferred-types/types";
 import {
     asString,
     err,
