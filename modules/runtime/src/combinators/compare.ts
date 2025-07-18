@@ -25,16 +25,15 @@ import {
     contains,
     createFnWithProps,
     doesExtend,
-    endsWith,
     equalsSome,
     err,
     firstChar,
     indexOf,
     last,
     parseDate,
-    startsWith,
     unset
 } from "inferred-types/runtime";
+import { endsWith, startsWith } from "runtime/type-guards/higher-order";
 import {
     isAlpha,
     isArray,

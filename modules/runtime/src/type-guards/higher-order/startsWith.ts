@@ -1,5 +1,6 @@
 import type { Narrowable, StartsWith } from "inferred-types/types";
-import { isNumber, isString } from "inferred-types/runtime";
+import { isNumber } from "runtime/type-guards/numeric";
+import { isString } from "runtime/type-guards";
 
 /**
  * **StartingWithTypeGuard**`<literal>`
