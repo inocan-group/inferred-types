@@ -28,9 +28,12 @@ export function find<
         ): Find<TList,TOp,TParams> => {
                     return list.find(
                     i => {
-                        const comparator = compare(op, ...params);
+                        const comparator = compare(
+                            op,
+                            ...params
+                        );
 
-                        return comparator(i);
+                        return comparator(i) as any;
                     }
                 ) as unknown as Find<TList,As<TOp, string>,TParams>
             }
@@ -38,7 +41,4 @@ export function find<
 
     throw err("invalid-operation")
 }
-
-const a = find("startsWith", "foo")(["bar", "foobar", 42]);
-
 

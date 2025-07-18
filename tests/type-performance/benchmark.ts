@@ -1,6 +1,6 @@
 /**
  * Type Performance Benchmarking Suite
- * 
+ *
  * This file tests the performance characteristics of critical type utilities
  * by exercising them with unions of different sizes to identify performance
  * bottlenecks and measure optimization impact.
@@ -8,7 +8,7 @@
 
 import type {
     TwoDigitHour,
-    TwoDigitMinute, 
+    TwoDigitMinute,
     TwoDigitSecond,
     ThreeDigitMillisecond,
     TimezoneOffset,
@@ -18,7 +18,7 @@ import type {
     ParseTime,
     AsDateMeta,
     ParseDate
-} from "../../modules/types/src/index";
+} from "inferred-types/types";
 
 // =============================================================================
 // UNION SIZE ANALYSIS
@@ -30,16 +30,16 @@ import type {
 
 // Small unions for baseline testing
 type SmallHour = "08" | "12" | "18";
-type SmallMinute = "00" | "15" | "30" | "45"; 
+type SmallMinute = "00" | "15" | "30" | "45";
 type SmallSecond = "00" | "30";
 
-// Medium unions 
+// Medium unions
 type MediumHour = "00" | "06" | "08" | "10" | "12" | "14" | "16" | "18" | "20" | "22";
 type MediumMinute = "00" | "05" | "10" | "15" | "20" | "25" | "30" | "35" | "40" | "45" | "50" | "55";
 
 // Full unions (the actual types)
 type FullHour = TwoDigitHour;     // 24 members
-type FullMinute = TwoDigitMinute; // 60 members  
+type FullMinute = TwoDigitMinute; // 60 members
 type FullSecond = TwoDigitSecond; // 60 members
 
 // =============================================================================
@@ -57,13 +57,13 @@ type SimpleTimeMedium = `${MediumHour}:${MediumMinute}`; // 10 × 12 = 120 membe
 type SimpleTimeFull = `${FullHour}:${FullMinute}`;     // 24 × 60 = 1,440 members
 
 /**
- * Test 2: Complex Time Format Distribution  
+ * Test 2: Complex Time Format Distribution
  * Measures: Multi-level template literal distribution
  */
 
 // With seconds
 type ComplexTimeSmall = `${SmallHour}:${SmallMinute}:${SmallSecond}`;   // 3 × 4 × 2 = 24 members
-type ComplexTimeMedium = `${MediumHour}:${MediumMinute}:${SmallSecond}`; // 10 × 12 × 2 = 240 members  
+type ComplexTimeMedium = `${MediumHour}:${MediumMinute}:${SmallSecond}`; // 10 × 12 × 2 = 240 members
 type ComplexTimeFull = `${FullHour}:${FullMinute}:${FullSecond}`;       // 24 × 60 × 60 = 86,400 members
 
 /**
@@ -74,14 +74,14 @@ type ComplexTimeFull = `${FullHour}:${FullMinute}:${FullSecond}`;       // 24 ×
 // Small scale RenderTime
 type RenderTimeSmall = RenderTime<SmallHour, SmallMinute, SmallSecond, null, "Z">;
 
-// Medium scale RenderTime  
+// Medium scale RenderTime
 type RenderTimeMedium = RenderTime<MediumHour, MediumMinute, SmallSecond, null, "Z">;
 
 // Full scale RenderTime (this is likely the problem!)
 type RenderTimeFull = RenderTime<FullHour, FullMinute, FullSecond, null, "Z">;
 
 // =============================================================================
-// PARSING COMPLEXITY TESTS  
+// PARSING COMPLEXITY TESTS
 // =============================================================================
 
 /**
@@ -104,7 +104,7 @@ type ParseComplexDate = ParseDate<"2023-12-25T12:30:45.123Z">;
 type ParsePartialDate = ParseDate<"--12-25">;
 
 /**
- * Test 6: AsDateMeta Performance  
+ * Test 6: AsDateMeta Performance
  * Measures: DateMeta construction from ParsedDate
  */
 
@@ -126,7 +126,7 @@ type TimezoneFull = TimezoneOffset<"strong">;
 
 // Test timezone distribution through template literals
 type TimeWithTimezoneSmall = `12:30${TimezoneSmall}`;
-type TimeWithTimezoneMedium = `12:30${TimezoneMedium}`;  
+type TimeWithTimezoneMedium = `12:30${TimezoneMedium}`;
 type TimeWithTimezoneFull = `12:30${TimezoneFull}`;
 
 /**
@@ -137,7 +137,7 @@ type TimeWithTimezoneFull = `12:30${TimezoneFull}`;
 // This simulates what happens in real usage
 type WorstCaseTime = RenderTime<
     TwoDigitHour,
-    TwoDigitMinute, 
+    TwoDigitMinute,
     TwoDigitSecond,
     ThreeDigitMillisecond,
     TimezoneOffset<"strong">
@@ -161,7 +161,7 @@ type CurrentParseTime = ParseTime<"12:30:45.123Z">;
 // type OptimizedParseTime = /* new implementation */;
 
 // =============================================================================
-// TYPE UTILITY VALIDATION  
+// TYPE UTILITY VALIDATION
 // =============================================================================
 
 /**
@@ -180,33 +180,33 @@ type _TestDateMetaSimple = DateMetaSimple extends object ? true : false;
 
 // Export test results for analysis
 export type BenchmarkResults = {
-    // Union size progression  
+    // Union size progression
     simpleTimeSmall: SimpleTimeSmall;
     simpleTimeMedium: SimpleTimeMedium;
     simpleTimeFull: SimpleTimeFull;
-    
+
     // Complex combinations
     complexTimeSmall: ComplexTimeSmall;
     complexTimeMedium: ComplexTimeMedium;
     complexTimeFull: ComplexTimeFull;
-    
+
     // Utility performance
     renderTimeSmall: RenderTimeSmall;
     renderTimeMedium: RenderTimeMedium;
     renderTimeFull: RenderTimeFull;
-    
+
     // Parsing performance
     parseSimpleTime: ParseSimpleTime;
     parseComplexTime: ParseComplexTime;
-    
+
     // Date meta performance
     dateMetaSimple: DateMetaSimple;
     dateMetaComplex: DateMetaComplex;
-    
+
     // Timezone impact
     timeWithTimezoneSmall: TimeWithTimezoneSmall;
     timeWithTimezoneFull: TimeWithTimezoneFull;
-    
+
     // Worst case scenario
     worstCaseTime: WorstCaseTime;
 };

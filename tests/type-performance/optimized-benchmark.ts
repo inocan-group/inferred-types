@@ -1,11 +1,11 @@
 /**
  * Optimized Type Performance Benchmark
- * 
+ *
  * Tests the optimized datetime types with complexity levels to verify
  * performance improvements compared to baseline measurements.
  */
 
-import type { TwoDigitHour, TwoDigitMinute, TwoDigitSecond, RenderTime } from "../../modules/types/src/index";
+import type { TwoDigitHour, TwoDigitMinute, TwoDigitSecond, RenderTime } from "inferred-types/types";
 
 // =============================================================================
 // UNION SIZE MEASUREMENT UTILITIES
@@ -125,7 +125,7 @@ export type OptimizedBenchmarkResults = {
         renderTimeSize: WeakRenderTimeSize;
         renderTimeComplexSize: WeakRenderTimeComplexSize;
     };
-    
+
     normal: {
         hourSize: NormalHourSize;
         minuteSize: NormalMinuteSize;
@@ -135,7 +135,7 @@ export type OptimizedBenchmarkResults = {
         renderTimeSize: NormalRenderTimeSize;
         renderTimeComplexSize: NormalRenderTimeComplexSize;
     };
-    
+
     strong: {
         hourSize: StrongHourSize;
         minuteSize: StrongMinuteSize;
@@ -163,7 +163,7 @@ type SmallNormalRender = RenderTime<SmallHour, SmallMinute, null, null, "Z", "no
 type SmallStrongRender = RenderTime<SmallHour, SmallMinute, null, null, "Z", "strong">;
 
 type SmallWeakRenderSize = UnionSize<SmallWeakRender>;     // 3 × 2 = 6
-type SmallNormalRenderSize = UnionSize<SmallNormalRender>; // 3 × 2 = 6  
+type SmallNormalRenderSize = UnionSize<SmallNormalRender>; // 3 × 2 = 6
 type SmallStrongRenderSize = UnionSize<SmallStrongRender>; // 3 × 2 = 6
 
 export type SafetyTestResults = {
@@ -179,11 +179,11 @@ export type SafetyTestResults = {
 /**
  * Calculate the optimization impact by comparing union sizes
  */
-type OptimizationImpact<TBefore extends number, TAfter extends number> = 
+type OptimizationImpact<TBefore extends number, TAfter extends number> =
     TBefore extends TAfter
     ? "no-change"
     : TBefore extends number
-    ? TAfter extends number  
+    ? TAfter extends number
         ? TBefore extends infer B extends number
             ? TAfter extends infer A extends number
                 ? B extends 86400  // Complex time original
@@ -196,7 +196,7 @@ type OptimizationImpact<TBefore extends number, TAfter extends number> =
                     ? A extends 6
                         ? "major-improvement"   // 1,440 → 6
                         : "improvement"
-                    : B extends 60 
+                    : B extends 60
                     ? A extends 6
                         ? "significant-improvement" // 60 → 6
                         : "improvement"
@@ -215,7 +215,7 @@ export type ImpactAnalysis = {
     hourImpact: OptimizationImpact<StrongHourSize, NormalHourSize>;
     minuteImpact: OptimizationImpact<StrongMinuteSize, NormalMinuteSize>;
     simpleTimeImpact: OptimizationImpact<StrongSimpleTimeSize, NormalSimpleTimeSize>;
-    
+
     // Compare weak complexity to strong (baseline)
     weakHourImpact: OptimizationImpact<StrongHourSize, WeakHourSize>;
     weakMinuteImpact: OptimizationImpact<StrongMinuteSize, WeakMinuteSize>;

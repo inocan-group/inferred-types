@@ -19,7 +19,7 @@ Under the `src/` folder you'll find the the following subdirectories:
 
 ## Runtime synchronization with Types
 
-You will find many runtime functions like `ensureleading(str, substring)` which have a similarly named type (in this case `EnsureLeading<TStr, TSubstring>`). This is no accident and at some future point there may even be something approximating 1:1 parity.
+You will find many runtime functions like `ensureLeading(str, substring)` which have a similarly named type (in this case `EnsureLeading<TStr, TSubstring>`). This is no accident and at some future point there may even be something approximating 1:1 parity.
 
 This connection between the type system and the runtime environment allows both a harmonization of variables across both environments and helps to ensure their consistency but it the runtime environment also often really needs strong type utilities to extract out narrow type definitions in the runtime environment.
 
@@ -49,7 +49,7 @@ const people = pluralize("person");
 
 #### Consistency with Ensure/Strip utilities
 
-- it's often desireable to _ensure_ that a string _starts with_ or _ends with_ a given string
+- it's often desirable to _ensure_ that a string _starts with_ or _ends with_ a given string
 - the inverse can also be useful (aka, to _ensure_ a string _does not_ start or end with a given string literal)
 - this library provides `EnsureLeading`, `EnsureTrailing`, `StripLeading`, and `StripTrailing` utilities to meet these type needs
 

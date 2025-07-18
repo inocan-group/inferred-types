@@ -18,7 +18,7 @@ export default defineConfig({
             "constants/": join(root, "/modules/constants/src/"),
         },
         conditions: ["import", "module", "node", "default"],
-        mainFields: ["module", "jsnext", "jsnext:main", "main"],
+        mainFields: ["module", "main"],
         extensions: [".ts", ".tsx", ".js", ".jsx", ".json"],
         // Prevent circular dependency issues
         dedupe: ["inferred-types"],

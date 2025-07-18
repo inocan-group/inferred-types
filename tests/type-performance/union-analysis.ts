@@ -1,6 +1,6 @@
 /**
  * Union Size Analysis Tool
- * 
+ *
  * This file provides utilities to analyze and measure union type sizes
  * to identify performance bottlenecks caused by union explosion.
  */
@@ -14,7 +14,7 @@ import type {
     TwoDigitMonth,
     TwoDigitDate,
     FourDigitYear
-} from "../../modules/types/src/index";
+} from "inferred-types/types";
 
 // =============================================================================
 // UNION SIZE MEASUREMENT UTILITIES
@@ -57,7 +57,7 @@ type TimezoneOffsetStrongSize = UnionSize<TimezoneOffset<"strong">>;  // Much la
 type HourMinuteCombination = `${TwoDigitHour}:${TwoDigitMinute}`;
 type HourMinuteCombinationSize = UnionSize<HourMinuteCombination>; // 24 × 60 = 1,440
 
-// Complex combinations  
+// Complex combinations
 type HourMinuteSecondCombination = `${TwoDigitHour}:${TwoDigitMinute}:${TwoDigitSecond}`;
 type HourMinuteSecondCombinationSize = UnionSize<HourMinuteSecondCombination>; // 24 × 60 × 60 = 86,400
 
@@ -84,12 +84,12 @@ type Time_HM_Size = UnionSize<Time_HM>;
 type Time_HMS_Size = UnionSize<Time_HMS>;
 
 // Date combinations
-type Date_Y = FourDigitYear<"strong">;                                           
-type Date_YM = `-${FourDigitYear<"strong">}-${TwoDigitMonth}`;                  
-type Date_YMD = `${FourDigitYear<"strong">}-${TwoDigitMonth}-${TwoDigitDate}`;  
+type Date_Y = FourDigitYear<"strong">;
+type Date_YM = `-${FourDigitYear<"strong">}-${TwoDigitMonth}`;
+type Date_YMD = `${FourDigitYear<"strong">}-${TwoDigitMonth}-${TwoDigitDate}`;
 
 type Date_Y_Size = UnionSize<Date_Y>;
-type Date_YM_Size = UnionSize<Date_YM>;  
+type Date_YM_Size = UnionSize<Date_YM>;
 type Date_YMD_Size = UnionSize<Date_YMD>;
 
 // =============================================================================
@@ -147,28 +147,28 @@ export type UnionAnalysisResults = {
     twoDigitSecondSize: TwoDigitSecondSize;
     twoDigitMonthSize: TwoDigitMonthSize;
     twoDigitDateSize: TwoDigitDateSize;
-    
+
     // Timezone sizes
     timezoneOffsetNormalSize: TimezoneOffsetNormalSize;
     timezoneOffsetStrongSize: TimezoneOffsetStrongSize;
-    
+
     // Template literal combinations
     hourMinuteCombinationSize: HourMinuteCombinationSize;
     hourMinuteSecondCombinationSize: HourMinuteSecondCombinationSize;
     timeWithTimezoneCombinationSize: TimeWithTimezoneCombinationSize;
-    
+
     // Complexity progression
     time_H_Size: Time_H_Size;
     time_HM_Size: Time_HM_Size;
     time_HMS_Size: Time_HMS_Size;
-    
+
     date_Y_Size: Date_Y_Size;
     date_YM_Size: Date_YM_Size;
     date_YMD_Size: Date_YMD_Size;
-    
-    // Small test sizes  
+
+    // Small test sizes
     smallFullTimeSize: SmallFullTimeSize;
-    
+
     // Optimization potential
     constrainedTimeSize: ConstrainedTimeSize;
     constrainedTimezoneSize: ConstrainedTimezoneSize;
@@ -181,7 +181,7 @@ export type UnionAnalysisResults = {
 /**
  * Calculate theoretical performance impact based on union sizes
  */
-type PerformanceImpact<T extends number> = 
+type PerformanceImpact<T extends number> =
     T extends infer N extends number
     ? N extends 1
         ? "minimal"

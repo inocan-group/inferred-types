@@ -66,9 +66,9 @@ The signature, operations, and everything else is the same between `Compare` and
 
 ```ts
 // [2,3]
-type T1 = Filter<[1,2,3], "greaterThan", 1>;
+type T1 = Filter<[1,2,3], "greaterThan", [1]>;
 // [1,2]
-type T2 = Filter<[1,2,"foo","bar"], "extends", number>;
+type T2 = Filter<[1,2,"foo","bar"], "extends", [number]>;
 ```
 
 ### `NotFilter<TVal, TOp, TParams>`
@@ -79,9 +79,9 @@ Ok hopefully the _name_ of `NotFilter` gives away the functionality but in case 
 
 ```ts
 // [1]
-type T1 = NotFilter<[1,2,3], "greaterThan", 1>;
+type T1 = NotFilter<[1,2,3], "greaterThan", [1]>;
 // ["foo","bar"]
-type T2 = NotFilter<[1,2,"foo","bar"], "extends", number>;
+type T2 = NotFilter<[1,2,"foo","bar"], "extends", [number]>;
 ```
 
 ### `Find<TVal, TOp, TParams`

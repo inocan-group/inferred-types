@@ -47,14 +47,20 @@
         "editor.defaultFormatter": "vscode.typescript-language-features"
     },
     "cSpell.words": [
+        "barbar",
         "barfoo",
         "baztest",
+        "dotenv",
+        "eslintcache",
+        "jspm",
         "midfoobar",
         "MMDD",
         "postformat",
         "preparse",
+        "presite",
         "testfoo",
         "typeguards",
+        "wscript",
         "YYYYDD",
         "YYYYMMDDT"
     ]
