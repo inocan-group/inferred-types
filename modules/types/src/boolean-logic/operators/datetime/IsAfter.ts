@@ -1,19 +1,13 @@
 import type {
-    And,
-    As,
+    AsEpoch,
     DateLike,
     Err,
     Extends,
-    IsEqual,
-    IsIsoDate,
-    IsIsoDateTime,
-    IsIsoYear,
-    IsObject,
-    IsWideNumber,
-    IsWideString,
+    IsGreaterThan,
     Not,
     Or,
-    StringIsAfter
+    ParseDate,
+    ParsedDate,
 } from "inferred-types/types";
 
 /**
@@ -37,25 +31,20 @@ export type IsAfter<
         ? boolean
     : B extends object
         ? boolean
-    : Or<[
-        IsObject<A>,
-        IsObject<B>,
-        IsWideString<A>,
-        IsWideString<B>,
-        IsWideNumber<A>,
-        IsWideNumber<B>
-    ]> extends true
+    : string extends A
         ? boolean
-        : [Or<[
-            And<[IsIsoYear<A>, IsIsoYear<B>]>,
-            And<[IsIsoDate<A>, IsIsoDate<B>]>,
-            And<[IsIsoDateTime<A>, IsIsoDateTime<B>]>,
-        ]>] extends [true]
-            ? IsEqual<A, B> extends true
-                ? false
-                : StringIsAfter<
-                    As<A, string>,
-                    As<B, string>
-                >
+    : string extends B
+        ? boolean
+        : ParseDate<A> extends ParsedDate
+            ? ParseDate<B> extends ParsedDate
+                ? AsEpoch<A> extends number
+                    ? AsEpoch<B> extends number
+                        ? IsGreaterThan<
+                            AsEpoch<A>,
+                            AsEpoch<B>
+                        >
+            : Err<`invalid-date`>
+        : Err<`invalid-date`>
+    : Err<"uh oh">
+: Err<"shit">;
 
-            : never;

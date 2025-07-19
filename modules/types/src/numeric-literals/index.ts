@@ -33,6 +33,8 @@ export * from "./Precision";
 export * from "./PriorDigit";
 export * from "./ShiftDecimalPlace";
 export * from "./Subtract";
+export * from "./Sum";
 export * from "./ToInteger";
 export * from "./ToNumericArray";
 export * from "./Zero";
+

@@ -203,16 +203,14 @@ describe("IsIsoYear<T>", () => {
         type Symbol = IsIsoYear<symbol>;
 
         type cases = [
-            // Non-string literals return boolean (fallback case)
-            Expect<Test<Numeric, "equals", boolean>>,
-            Expect<Test<NumericString, "equals", boolean>>,
-            Expect<Test<Boolean, "equals", boolean>>,
-            Expect<Test<Array, "equals", boolean>>,
-            Expect<Test<Object, "equals", boolean>>,
-            // null and undefined don't extend string, so they get false directly
+            Expect<Test<Numeric, "equals", false>>,
+            Expect<Test<NumericString, "equals", false>>,
+            Expect<Test<Boolean, "equals", false>>,
+            Expect<Test<Array, "equals", false>>,
+            Expect<Test<Object, "equals", false>>,
             Expect<Test<Null, "equals", false>>,
             Expect<Test<Undefined, "equals", false>>,
-            Expect<Test<Symbol, "equals", boolean>>
+            Expect<Test<Symbol, "equals", false>>
         ];
     });
 
@@ -286,7 +284,7 @@ describe("IsIsoYear<T>", () => {
         // Testing that the type works correctly with literal types vs computed types
         type DirectLiteral = IsIsoYear<"2023">;
         type TemplateLiteral = IsIsoYear<`2023`>;
-        
+
         // These should behave the same for literal strings
         type cases = [
             Expect<Test<DirectLiteral, "equals", true>>,

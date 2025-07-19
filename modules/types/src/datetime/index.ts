@@ -1,4 +1,5 @@
 export * from "./AsDateMeta";
+export * from "./AsEpoch";
 export * from "./DateLike";
 export * from "./DateMeta";
 export * from "./DatePlus";
@@ -16,5 +17,5 @@ export * from "./ParseDate";
 export * from "./ParseTime";
 export * from "./RenderTime";
 export * from "./seasonality";
-
 export * from "./Time";
+

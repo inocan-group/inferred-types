@@ -1,18 +1,16 @@
 import type {
     Abs,
-    AfterFirst,
     And,
     As,
     AsNumber,
     AsString,
-    Decrement,
-    FixedLengthArray,
     If,
     IsNegativeNumber,
     IsString,
     IsWideType,
     NumberLike,
     NumericChar,
+    Subtract,
     Or
 } from "inferred-types/types";
 
@@ -108,33 +106,25 @@ type SumStrings<
                   : never
               : never;
 
-type _Subtract<
-    TValue extends `${number}`,
-    TCountArr extends readonly unknown[],
-> = [] extends TCountArr
-    ? TValue
-    : _Subtract<Decrement<TValue>, AfterFirst<TCountArr>>;
 
-type AddNegatives<
-    A extends `${number}`,
-    B extends `${number}`,
-> = SumStrings<A, B>;
+
+
 
 type Process<
     A extends `${number}`,
     B extends `${number}`,
-> = And<[ IsNegativeNumber<A>, IsNegativeNumber<B> ]> extends true
-// Both operands are negative
-    ? `-${AddNegatives<Abs<A>, Abs<B>>}`
+> =
+    // Both operands are negative: sum their absolutes, then apply negative sign
+    And<[ IsNegativeNumber<A>, IsNegativeNumber<B> ]> extends true
+        ? `-${SumStrings<Abs<A>, Abs<B>>}`
+    // A is negative, B is positive: subtract |A| from B
+    : IsNegativeNumber<A> extends true
+        ? Subtract<B, Abs<A>>
+    // B is negative, A is positive: subtract |B| from A
     : IsNegativeNumber<B> extends true
-        ? FixedLengthArray<unknown, AsNumber<Abs<B>>> extends readonly unknown[]
-            ? _Subtract<A, FixedLengthArray<unknown, AsNumber<Abs<B>>>>
-            : never
-        : IsNegativeNumber<A> extends true
-            ? FixedLengthArray<unknown, AsNumber<Abs<A>>> extends readonly unknown[]
-                ? _Subtract<B, FixedLengthArray<unknown, AsNumber<Abs<A>>>>
-                : never
-            : SumStrings<A, B>;
+        ? Subtract<A, Abs<B>>
+    // Both positive: use digit-wise addition
+    : SumStrings<A, B>;
 
 type CheckWide<
     A extends NumberLike,

@@ -21,7 +21,9 @@ type Process<T extends `${number}`> = If<
  * - you can pass in a numeric string literal and it perform ABS func while
  * preserving string literal type
  */
-export type Abs<T extends NumberLike> = T extends number
+export type Abs<
+    T extends NumberLike>
+ = T extends number
     ? number extends T
         ? number
         : number extends 0

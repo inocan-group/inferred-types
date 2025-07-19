@@ -1,3 +1,6 @@
+import { AsNumber } from "inferred-types/types";
+import { NumberLike } from "types/numeric-literals";
+
 type Shift<A extends Array<any>> =
   ((...args: A) => void) extends ((...args: [A[0], ...infer R]) => void) ? R : never;
 
@@ -26,12 +29,12 @@ type Process<
  */
 export type FixedLengthArray<
     TType,
-    TLen extends number,
+    TLen extends NumberLike,
     TExtends extends boolean = false,
 > = TExtends extends true
-    ? Process<TType, TLen> extends readonly unknown[]
-        ? [...Process<TType, TLen>, ...TType[]]
+    ? Process<TType, AsNumber<TLen>> extends readonly unknown[]
+        ? [...Process<TType, AsNumber<TLen>>, ...TType[]]
         : never
-    : Process<TType, TLen> extends readonly unknown[]
-        ? Process<TType, TLen>
+    : Process<TType, AsNumber<TLen>> extends readonly unknown[]
+        ? Process<TType, AsNumber<TLen>>
         : never;

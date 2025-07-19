@@ -1,28 +1,36 @@
 // ---------------------------------------------------------
 
-import type { FourDigitYear, IsoYear, ParseDate } from "inferred-types/types";
+import type {
+    And,
+    DateLike,
+    Err,
+    Mod,
+    Not,
+    Or,
+    ParseDate,
+    ParsedDate
+} from "inferred-types/types";
 
 type EndDiv4 =
     | "00" | "04" | "08" | "12" | "16" | "20" | "24" | "28"
     | "32" | "36" | "40" | "44" | "48" | "52" | "56" | "60"
     | "64" | "68" | "72" | "76" | "80" | "84" | "88" | "92" | "96";
 
-type DivBy4<Y extends string> = Y extends `${string}${EndDiv4}` ? true : false;
-type DivBy100<Y extends string> = Y extends `${string}00` ? true : false;
-type DivBy400<Y extends string> =
-    Y extends `${infer Pre}00`
-        ? Pre extends `${string}${EndDiv4}` ? true : false
+type DivBy4<Y extends `${number}`> = Y extends `${number}${EndDiv4}`
+    ? true
+    : false;
+
+type DivBy100<Y extends `${number}`> = Y extends `${number}00` ? true : false;
+
+
+type DivBy400<Y extends `${number}`> = Y extends `${EndDiv4}00`
+        ? true
         : false;
 
-type Detect<Y extends string> =
-    DivBy400<Y> extends true
-        ? true
-        : DivBy100<Y> extends true
-            ? false
-            : DivBy4<Y>;
-
-// Helper to extract string from branded types
-type ExtractYear<T> = T extends `${infer Year}` ? Year : never;
+type Detect<Y extends `${number}`> = Or<[
+    And<[DivBy400<Y>]>,
+    And<[DivBy4<Y>, Not<DivBy100<Y>>]>
+]>;
 
 /**
  * **IsLeapYear**`<T>`
@@ -36,22 +44,20 @@ type ExtractYear<T> = T extends `${infer Year}` ? Year : never;
  */
 export type IsLeapYear<
     T
-> = T extends string
-    ? string extends T
-        ? boolean
-        : T extends IsoYear | FourDigitYear
-            ? Detect<T>
-
-            : T extends string
-                ? string extends T
-                    ? boolean
-                    : ParseDate<T> extends Error
-                        ? false
-                        : ParseDate<T> extends [
-                            infer Year extends FourDigitYear,
-                            ...unknown[]
-                        ]
-                            ? Detect<ExtractYear<Year>>
-                            : boolean
-                : boolean
-    : false;
+> = T extends DateLike
+? string extends T
+    ? boolean
+: T extends string
+    ? ParseDate<T> extends Error
+        ? ParseDate<T>
+    : ParseDate<T> extends ParsedDate
+        ? ParseDate<T>[0] extends `${number}`
+            ? Detect<ParseDate<T>[0]>
+            : false
+        : boolean
+    : boolean
+: Err<
+    `parse-date/invalid-type`,
+    `The value passed into IsLeapYear<T> does not extend DateLike!`,
+    { val: T }
+>;

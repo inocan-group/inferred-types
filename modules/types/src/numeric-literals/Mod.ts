@@ -1,4 +1,4 @@
-import type { Abs, And, Err, FixedLengthArray, IsInteger } from "inferred-types/types";
+import type { Abs, And, AsNumber, Err, FixedLengthArray, IsInteger, NumberLike, Or } from "inferred-types/types";
 
 type Gte<
     A extends unknown[],
@@ -36,11 +36,17 @@ type Modulus<
 /**
  * **Mod**`<A,B>`
  *
- * A type utility which provides the _remainder_ (aka., modulus) of
+ * A type utility which provides the _remainder_ (aka., **modulus**) of
  * a division of two integers.
  */
-export type Mod<A extends number, B extends number> =
-number extends A
+export type Mod<
+    A extends NumberLike,
+    B extends NumberLike
+> = A extends `${number}`
+? Mod<AsNumber<A>,AsNumber<B>>
+:  B extends `${number}`
+? Mod<A,AsNumber<B>>
+: number extends A
     ? number
     : number extends B
         ? number
@@ -62,6 +68,6 @@ number extends A
                     : never
             : Err<
                 `mod/non-integer`,
-    `The Divide<${A},${B}> can only be used with integer values!`,
-    { a: A; b: B }
+                `The Divide<${A},${B}> can only be used with integer values!`,
+                { a: A; b: B }
             >;

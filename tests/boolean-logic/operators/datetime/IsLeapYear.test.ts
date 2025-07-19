@@ -53,8 +53,10 @@ describe("IsLeapYear type utility", () => {
         type T2 = IsLeapYear<"2020-12-31">;
         type T3 = IsLeapYear<"2004-12-31">;
         type T4 = IsLeapYear<"2000-12-31">;
+        type T4b = IsLeapYear<"2000">;
 
         type F1 = IsLeapYear<"1999-01-01">;
+        type F2 = IsLeapYear<"1999">;
 
         type cases = [
             // ISO date format tests
@@ -62,6 +64,7 @@ describe("IsLeapYear type utility", () => {
             Expect<Test<T2, "equals", true>>,
             Expect<Test<T3, "equals", true>>,
             Expect<Test<T4, "equals", true>>,
+            Expect<Test<T4b, "equals", true>>,
 
             Expect<Test<F1, "equals", false>>,
         ];
@@ -75,11 +78,11 @@ describe("IsLeapYear type utility", () => {
         type E5 = IsLeapYear<"">;
 
         type cases = [
-            Expect<Test<E1, "isError", "parse-date">>,
-            Expect<Test<E2, "isError", "parse-date">>,
-            Expect<Test<E3, "isError", "parse-date">>,
-            Expect<Test<E4, "isError", "parse-date">>,
-            Expect<Test<E5, "isError", "parse-date">>,
+            Expect<Test<E1, "isError", "parse-date/invalid-type">>,
+            Expect<Test<E2, "isError", "parse-date/invalid-type">>,
+            Expect<Test<E3, "isError", "parse-date/year">>,
+            Expect<Test<E4, "isError", "parse-date/year">>,
+            Expect<Test<E5, "isError", "parse-date/invalid-type">>,
         ];
     });
 
