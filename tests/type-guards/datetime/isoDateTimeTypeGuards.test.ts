@@ -9,7 +9,7 @@ import {
     isTwoDigitDate,
     isMinimalDigitDate,
     isTimezoneOffset,
-} from "runtime/type-guards/datetime";
+} from "runtime/type-guards";
 
 describe("ISO type guards", () => {
 

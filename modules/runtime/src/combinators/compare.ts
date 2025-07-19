@@ -20,6 +20,7 @@ import type {
     First,
     IsError,
 } from "inferred-types/types";
+import { isString } from "runtime/type-guards/isString"
 
 import {
     asChars,
@@ -37,12 +38,10 @@ import {
     parseDate,
     unset
 } from "inferred-types/runtime";
-import { endsWith, startsWith } from "runtime/type-guards/higher-order";
 import {
     hasIndexOf,
     isAlpha,
     isArray,
-    isBoolean,
     isDateLike,
     isDictionary,
     isError,
@@ -55,13 +54,19 @@ import {
     isNumber,
     isObjectKey,
     isParsedDate,
-    isString,
-    isStringOrNumericArray,
     isTrue,
-    isComparisonOperation,
     isNumberLike,
 } from "runtime/type-guards";
+import { isBoolean } from "runtime/type-guards/isBoolean"
+
+import {
+    endsWith,
+    startsWith
+} from "runtime/type-guards/higher-order"
+
+import { isStringOrNumericArray } from "runtime/type-guards/arrays/isStringOrNumericArray"
 import { not } from "runtime/boolean-logic/not";
+import { isComparisonOperation } from 'runtime/type-guards/comparison';
 
 function handle_string<
     TVal extends Narrowable,
