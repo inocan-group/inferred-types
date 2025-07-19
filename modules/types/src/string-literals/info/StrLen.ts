@@ -1,4 +1,4 @@
-import type { Tuple } from "inferred-types/types";
+import type { IsBranded, Tuple, Unbrand } from "inferred-types/types";
 
 type Compute<
     TStr extends string,
@@ -13,4 +13,6 @@ type Compute<
  * Provides the length of a string if T is a string literal,
  * otherwise just returns `number` type.
  */
-export type StrLen<T extends string> = Compute<T>;
+export type StrLen<T extends string> = IsBranded<T> extends true
+? Compute<Unbrand<T>>
+: Compute<T>;

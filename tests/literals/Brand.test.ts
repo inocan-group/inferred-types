@@ -39,8 +39,6 @@ describe("Brand & Unbrand", () => {
     });
 
 
-
-
 });
 
 
@@ -112,7 +110,7 @@ describe("Branded Types", () => {
 
 
     it("TakeDate -> TwoDigitDate", () => {
-        type T1 = TakeDate<"20", undefined, "2024">["take"];
+        type T1 = TakeDate<"20">["take"];
         type U1 = Unbrand<T1>;
 
         type cases = [

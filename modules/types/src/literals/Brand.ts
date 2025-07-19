@@ -1,10 +1,11 @@
+import { Scalar } from "types/base-types";
 import { IsEqual, Not } from "types/boolean-logic";
 import { IndexOf } from "types/lists";
 
 export declare const BrandSymbol: unique symbol;
 
 export type Brand<
-    Base,
+    Base extends Scalar,
     Kind
 > = Base & { [BrandSymbol]: Kind };
 
@@ -12,14 +13,14 @@ export type Brand<
 
 /**
  * **Unbrand**`<T>`
- * 
+ *
  * Removes branding from a branded type, returning the original base type.
- * 
+ *
  * Note: This utility has a known limitation with intersection types.
  * When a branded type is intersected with a literal (e.g., `Brand<string, "Kind"> & "literal"`),
  * TypeScript creates a composite type that cannot be decomposed to extract just the literal.
  * This is a fundamental TypeScript limitation.
- * 
+ *
  * @example
  * ```ts
  * type Branded = Brand<string, "UserId">;

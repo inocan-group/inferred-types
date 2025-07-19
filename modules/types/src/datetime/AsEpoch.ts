@@ -91,10 +91,4 @@ type ParsedChristmas2024 = ParseDate<"2024-12-24">;
 type ChristmasEpochComponents = AsEpoch<ParsedChristmas2024>;
 
 
-type Year = FourDigitYear<"2024">;
-type U = Unbrand<Year>;
-type N = AsNumber<Year>;
 
-type Y2 = FourDigitYear<"branded"> & "2024";
-type U2 = Unbrand<Y2>;
-type N2 = AsNumber<Y2>;

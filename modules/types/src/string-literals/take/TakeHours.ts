@@ -7,6 +7,15 @@ import type {
     TwoDigitHour
 } from "inferred-types/types";
 
+type HoursErr<
+    TParse extends string
+> = Err<
+    `parse-time/hours`,
+    `Could not find or parse out the TwoDigitHour string from the head of: '${TParse}'`,
+    { parse: TParse }
+>;
+
+
 type Take<T extends string> = string extends T
     ? { take: string | null; rest: string }
     : HasLeadingTemplateLiteral<T> extends true
@@ -25,13 +34,13 @@ type Take<T extends string> = string extends T
                             take: TwoDigitHour<`${C1}${C2}`>;
                             rest: Rest;
                         }
-                        : Err<"hours">
+                        : HoursErr<T>
                     : C1 extends "2"
                         ? C2 extends "0" | "1" | "2" | "3"
                             ? { take: TwoDigitHour<`${C1}${C2}`>; rest: Rest }
-                            : Err<"hours">
-                        : Err<"hours">
-            : Err<"hours">;
+                            : HoursErr<T>
+                        : HoursErr<T>
+            : HoursErr<T>;
 
 /**
  * **TakeHours**`<T, TIgnoreLeading>`
@@ -55,6 +64,6 @@ export type TakeHours<
             Take<
                 As<StripLeading<T, TIgnoreLeading>, string>
             >,
-                Err<"hours"> | { take: TwoDigitHour<"branded">; rest: string }
+                Err<"parse-time/hours"> | { take: TwoDigitHour<"branded">; rest: string }
         >
     : Take<T>;

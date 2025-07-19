@@ -3,10 +3,12 @@ import type {
     Err,
     ErrContext,
     FourDigitYear,
+    IsBranded,
     IsFourDigitYear,
     ParsedTime,
     ParseTime,
     Split,
+    StrLen,
     TakeDate,
     TakeMonth,
     TakeYear,
@@ -110,9 +112,9 @@ type ParseFullDate<T extends string> = TakeYear<T> extends {
         }
             ? As<
                 [
-                    FourDigitYear<Year>,
-                    TwoDigitMonth<Month>,
-                    TwoDigitDate<D>,
+                    Year,
+                    Month,
+                    D,
                     null
                 ],
                 ParsedDate
@@ -133,7 +135,7 @@ type ParseFullDate<T extends string> = TakeYear<T> extends {
 type ParseYear<T extends string> = IsFourDigitYear<T> extends true
     ? As<
         [
-            As<FourDigitYear<As<T, `${number}`>>, ParsedDate[0]>,
+            FourDigitYear<As<T,`${number}`>>,
             null,
             null,
             null
@@ -200,10 +202,13 @@ export type ParseDate<
             // ----
                 : T extends `${string}T${string}`
                     ? ParseDateTime<T>
-                    : T extends `${string}-${string}`
-                        ? ParseFullDate<T>
-                        : ParseYear<T>
+                    : StrLen<T> extends 4
+                        ? ParseYear<T>
+                        : ParseFullDate<T>
     : Err<
         `parse-date/wrong-type`,
         `A non-string type was passed into ParseDate<T>!`
     >;
+
+
+
