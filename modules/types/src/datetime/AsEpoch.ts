@@ -1,20 +1,16 @@
-import {
-    FourDigitYear,
-    TwoDigitDate,
-    TwoDigitMonth
-} from "types/datetime/general";
-import { ParseDate, ParsedDate } from "types/datetime/ParseDate";
 import { Err, TypedError } from "types/errors";
-import { Multiply } from "types/numeric-literals";
+import {
+    AddPositive,
+    Multiply,
+    ShiftDecimalPlace,
+    Sum
+} from "types/numeric-literals";
 import { AsNumber } from "types/type-conversion";
 import { IsLeapYear } from "types/boolean-logic/operators/datetime";
-import { Dictionary } from "types/base-types";
-import { GetBrand, IsBranded, Unbrand } from "types/literals";
-import { AsDateMeta } from "types/datetime/AsDateMeta";
-import { DateMeta } from "types/datetime/DateMeta";
+import { DateMeta, AsDateMeta, ParseDate, ParsedDate } from "types/datetime";
+import { As } from "types/boolean-logic";
+import { ToNumericArray } from '../numeric-literals/ToNumericArray';
 
-type SEC_IN_YEAR = 31536000;
-type SEC_IN_DAY = 86400;
 
 /**
  * Lookup the number of days in the year prior to a given month
@@ -51,31 +47,48 @@ type Lookup<Y extends number> = IsLeapYear<`${Y}`> extends true
         12: 334,   // December (304 + 30 days)
     } & Record<number, number>;
 
+
 /**
- * Returns the components needed to calculate epoch time.
- * Since Multiply cannot handle large numbers, we return the factors
- * that would need to be multiplied at runtime.
+ * Returns the components needed to calculate a relative time.
+ *
+ * - the year is multiplied by 1000
+ * - the month is passed into a lookup to arrive at the number
+ * of _days_ of the given year which have passed at the start
+ * of that month
+ * - the date is just an integer value of the number _days_ which
+ * have expired on the current month
+ *
+ * ### Formula
+ *
+ * ```ts
+ * Relative = (Year * 1000) + (Lookup<Month> + Date)
+ * ```
  */
-type ToEpoch<
-    Y extends unknown,
-    M extends unknown,
-    D extends unknown
-> = {
-    year: Y,
-    month: M,
-    date: D
-};
+type ToRelativeDate<
+    Y extends number,
+    M extends number,
+    D extends number
+> = [
+    As<ShiftDecimalPlace<Y, 3>, number>,
+    As<Lookup<Y>[M], number>,
+    D
+];
 
 
-
-export type AsEpoch<T> = T extends ParsedDate
+/**
+ * **AsRelativeTime**`<T>`
+ *
+ * Reduces a Date to a number which can be used
+ * as an informal means of comparing dates relatively
+ */
+export type AsRelativeDate<T> = T extends ParsedDate
 ? AsDateMeta<T> extends DateMeta
-        ? ToEpoch<
-            AsDateMeta<T>["year"],
-            AsDateMeta<T>["month"],
-            AsDateMeta<T>["date"]
-        >
-        : never
+    ? ToRelativeDate<
+        AsNumber<AsDateMeta<T>["year"]>,
+        AsNumber<AsDateMeta<T>["month"]>,
+        AsNumber<AsDateMeta<T>["date"]>
+    >
+    : never
 
 : T extends TypedError
     ? T
@@ -88,7 +101,7 @@ export type AsEpoch<T> = T extends ParsedDate
 
 // Example usage:
 type ParsedChristmas2024 = ParseDate<"2024-12-24">;
-type ChristmasEpochComponents = AsEpoch<ParsedChristmas2024>;
+type ChristmasEpochComponents = AsRelativeDate<ParsedChristmas2024>;
 
 
 

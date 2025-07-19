@@ -1,9 +1,9 @@
-import type { As } from "types/boolean-logic";
+import type { As, StartsWith } from "types/boolean-logic";
 import type { EmptyObject } from "types/base-types";
 import type { Err } from "types/errors";
 import type { HasLeadingTemplateLiteral } from "types/interpolation";
 import type { IsTrue, IsWideType } from "types/boolean-logic";
-import type { NumericChar, StartsWith, StripLeading } from "types/string-literals";
+import type { NumericChar,  StripLeading } from "types/string-literals";
 
 export type TakeNumericOptions = {
     /**

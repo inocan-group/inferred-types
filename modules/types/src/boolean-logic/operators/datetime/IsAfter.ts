@@ -1,5 +1,5 @@
 import type {
-    AsEpoch,
+    AsRelativeDate,
     DateLike,
     Err,
     Extends,
@@ -37,11 +37,11 @@ export type IsAfter<
         ? boolean
         : ParseDate<A> extends ParsedDate
             ? ParseDate<B> extends ParsedDate
-                ? AsEpoch<A> extends number
-                    ? AsEpoch<B> extends number
+                ? AsRelativeDate<A> extends number
+                    ? AsRelativeDate<B> extends number
                         ? IsGreaterThan<
-                            AsEpoch<A>,
-                            AsEpoch<B>
+                            AsRelativeDate<A>,
+                            AsRelativeDate<B>
                         >
             : Err<`invalid-date`>
         : Err<`invalid-date`>

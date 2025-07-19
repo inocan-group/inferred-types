@@ -19,6 +19,7 @@ import type {
     IsAfter,
     First,
     IsError,
+    Err,
 } from "inferred-types/types";
 import { isString } from "runtime/type-guards/isString"
 
@@ -626,7 +627,12 @@ export function compare<
 >(
     op: TOp,
     ...params: TParams
-): TOp extends ComparisonOperation ? Comparator<TOp,TParams> : Error {
+): TOp extends ComparisonOperation
+    ? Comparator<TOp,TParams>
+    : Err<
+        `invalid-operation/${TOp}`,
+        `The operation '${TOp}' is not a recognized or valid comparison operation!`, { op: TOp, params: TParams }
+    > {
     let response: any;
 
     if(isComparisonOperation(op)) {
@@ -635,6 +641,9 @@ export function compare<
         response = err("invalid-operation", `The operation '${op}' is not a recognized or valid comparison operation!`, { op, params })
     }
 
-    return response as TOp extends ComparisonOperation ? Comparator<TOp,TParams> : Error;
+    return response as TOp extends ComparisonOperation ? Comparator<TOp,TParams> : Err<
+        `invalid-operation/${TOp}`,
+        `The operation '${TOp}' is not a recognized or valid comparison operation!`, { op: TOp, params: TParams }
+    >;
 }
 

@@ -1,5 +1,5 @@
-import type { As } from "types/boolean-logic";
-import type { Err, IsOk } from "types/errors";
+import type { As, IsOk } from "types/boolean-logic";
+import type { Err } from "types/errors";
 import type {
     TakeHours,
     TakeMilliseconds,
@@ -8,6 +8,7 @@ import type {
     TakeTimezone
 } from "types/string-literals";
 import type {
+    HoursMinutes,
     ThreeDigitMillisecond,
     TimezoneOffset,
     TwoDigitHour,
@@ -16,14 +17,16 @@ import type {
 } from "types/datetime";
 
 /**
- * a successfully parsed **ISO Time** string.
+ * **ParsedTime**
+ *
+ * a successfully parsed **ISO Time** string into a structured tuple.
  */
 export type ParsedTime = [
     hour: TwoDigitHour<"branded">,
     minute: TwoDigitMinute<"branded">,
     second: TwoDigitSecond<"branded"> | null,
     millisecond: ThreeDigitMillisecond<"branded"> | null,
-    tz: TimezoneOffset<"branded" extends "strong" ? "strong" : "normal"> | null
+    tz: TimezoneOffset<"branded"> | null
 ];
 
 type GetHoursMinutes<T extends string> = As<
@@ -36,21 +39,15 @@ type GetHoursMinutes<T extends string> = As<
             rest: infer Rest extends string;
         }
             ? {
-                hour: As<
-                Hour & TwoDigitHour<"branded">,
-                    TwoDigitHour<"branded">
-                >;
-                minute: As<
-                Minute & TwoDigitMinute<"branded">,
-                    TwoDigitMinute<"branded">
-                >;
+                hour: TwoDigitHour<Hour>;
+                minute: TwoDigitMinute<Minute>;
                 rest: Rest;
             }
 
             : Err<
                 `parse-time/minute`,
-            `could not parse out the minute component of this string: ${Rest}`,
-            { parse: T; hour: Hour; rest: Rest }
+                `could not parse out the minute component of this string: ${Rest}`,
+                { parse: T; hour: Hour; rest: Rest }
             >
         : Err<
             `parse-time/invalid`,
@@ -63,6 +60,13 @@ type GetHoursMinutes<T extends string> = As<
         rest: string;
     }
 >;
+
+/** a successful result from `GetHoursMinutes` */
+type HHMM = {
+    hour: TwoDigitHour<"branded">;
+    minute: TwoDigitMinute<"branded">;
+    rest: string;
+};
 
 /**
  * complete parsing of a time with Hour:Minute but not
@@ -102,13 +106,13 @@ type ParseTimeWithMinutes<
                 >
                 : Err<
                     `parse-time/leftover`,
-            `Were able to parse out hours, minutes, and timezone but content still remains: ${Rest}`,
-            { hours: THours; minute: TMinutes; tz: TZ; rest: Rest }
+                    `Were able to parse out hours, minutes, and timezone but content still remains: ${Rest}`,
+                    { hours: THours; minute: TMinutes; tz: TZ; rest: Rest }
                 >
             : Err<
                 `parse-time/tz`,
-        `Could not parse remaining content as timezone: ${TRest}`,
-        { hours: THours; minutes: TMinutes; rest: TRest }
+                `Could not parse remaining content as timezone: ${TRest}`,
+                { hours: THours; minutes: TMinutes; rest: TRest }
             >;
 
 type ParseTimeWithSeconds<
@@ -149,14 +153,14 @@ type ParseTimeWithSeconds<
                     >
                     : Err<
                         `parse-time/leftover`,
-                `Was able to parse hours, minutes, seconds, and timezone but content still remains: ${TZRest}`,
-                {
-                    hour: THours;
-                    minute: TMinutes;
-                    second: Second;
-                    tz: TZ;
-                    rest: TZRest;
-                }
+                        `Was able to parse hours, minutes, seconds, and timezone but content still remains: ${TZRest}`,
+                        {
+                            hour: THours;
+                            minute: TMinutes;
+                            second: Second;
+                            tz: TZ;
+                            rest: TZRest;
+                        }
                     >
 
                 : Err<
@@ -171,8 +175,8 @@ type ParseTimeWithSeconds<
                 >
     : Err<
         `parse-time/sec`,
-    `Invalid second in ISO Time string: ${TRest}`,
-    { hour: THours; minute: TMinutes; rest: TRest }
+        `Invalid second in ISO Time string: ${TRest}`,
+        { hour: THours; minute: TMinutes; rest: TRest }
     >;
 
 type ParseTimeWithMilliseconds<
@@ -212,13 +216,13 @@ type ParseTimeWithMilliseconds<
                 >
                 : Err<
                     "parse-time/leftover",
-                `Parsed out hours, minutes, seconds, milliseconds, and timezone but content still remains: ${TZRest}`,
-                { hour: THours; minute: TMinutes; second: TSeconds; ms: MS; tz: TZ; rest: TZRest }
+                    `Parsed out hours, minutes, seconds, milliseconds, and timezone but content still remains: ${TZRest}`,
+                    { hour: THours; minute: TMinutes; second: TSeconds; ms: MS; tz: TZ; rest: TZRest }
                 >
             : Err<
                 "parse-time/tz",
-            `Parsed out hours, minutes, seconds, and milliseconds, but the Timezone was invalid: ${Rest}`,
-            { hour: THours; minute: TMinutes; second: TSeconds; ms: MS; rest: Rest }
+                `Parsed out hours, minutes, seconds, and milliseconds, but the Timezone was invalid: ${Rest}`,
+                { hour: THours; minute: TMinutes; second: TSeconds; ms: MS; rest: Rest }
             >
     : Err<
         `parse-time/ms`,
@@ -248,8 +252,10 @@ export type ParseTime<
     ? ParsedTime | Error
     : GetHoursMinutes<T> extends Error
         ? As<GetHoursMinutes<T>, Error>
-        : ParseTimeWithMinutes<
-            IsOk<GetHoursMinutes<T>>["hour"],
-            IsOk<GetHoursMinutes<T>>["minute"],
-            IsOk<GetHoursMinutes<T>>["rest"]
-        >;
+        : GetHoursMinutes<T> extends HHMM
+            ? ParseTimeWithMinutes<
+                GetHoursMinutes<T>["hour"],
+                GetHoursMinutes<T>["minute"],
+                GetHoursMinutes<T>["rest"]
+            >
+            : never;

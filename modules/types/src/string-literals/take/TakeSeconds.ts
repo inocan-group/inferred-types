@@ -1,8 +1,12 @@
 import type { As } from "types/boolean-logic";
 import type { Err } from "types/errors";
-import type {  NumericChar, NumericChar__ZeroToFive, StripLeading } from "types/string-literals";
+import type {
+    NumericChar,
+    NumericChar__ZeroToFive,
+    StripLeading
+} from "types/string-literals";
 import type { TwoDigitSecond } from "types/datetime";
-import { HasLeadingTemplateLiteral } from "types/interpolation";
+import type { HasLeadingTemplateLiteral } from "types/interpolation";
 
 type E<T extends string> = Err<
     `parse-time/seconds`,
