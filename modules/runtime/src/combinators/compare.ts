@@ -16,6 +16,10 @@ import type {
     SomeEqual,
     Suggest,
     Unset,
+    IsAfter,
+    Second,
+    First,
+    IsError,
 } from "inferred-types/types";
 
 import {
@@ -29,6 +33,7 @@ import {
     err,
     firstChar,
     indexOf,
+    isAfter,
     last,
     parseDate,
     unset
@@ -58,6 +63,7 @@ import {
 } from "runtime/type-guards";
 import { isComparisonOperation } from "runtime/type-guards/comparison";
 import { not } from "runtime/boolean-logic/not";
+import { NumberLike } from "@inferred-types/types";
 
 function handle_string<
     TVal extends Narrowable,
@@ -285,9 +291,9 @@ function handle_numeric<
 }
 
 function handle_object<
-    TVal extends Narrowable,
-    TOp extends ComparisonOperation,
-    TParams extends readonly unknown[],
+    const TVal extends Narrowable,
+    const TOp extends ComparisonOperation,
+    const TParams extends readonly unknown[],
 >(
     val: TVal,
     op: TOp,
@@ -406,10 +412,10 @@ function handle_datetime<
 
     if (["sameDay", "sameMonth", "sameMonthYear", "sameYear", "after", "before"].includes(op)) {
         if (!isDateLike(params[1])) {
-            outcome = err("invalid-params", `The '${op}' operation expects the second parameter to be a DateLike value but it was not!`);
+            outcome = err("invalid-params/not-date-like", `The '${op}' operation expects the second parameter to be a DateLike value but it was not!`);
         }
         if (!isDateLike(val)) {
-            outcome = err("invalid-date", ``);
+            outcome = err("invalid-value/not-date-like", ``);
             return outcome;
         }
 
@@ -461,14 +467,9 @@ function handle_datetime<
             }
 
             case "after": {
-                const value = asDate(val as DateLike);
-                const comparator = asDate(params[0] as TParams[0] & DateLike);
-                const v = parseDate(val as DateLike);
-                const c = parseDate(params[0] as DateLike);
-                outcome = (
-                    value.getTime() < comparator.getTime()
-                );
-                return outcome;
+                return isNumberLike(params[0])
+                    ? isAfter(val)(params[0]) as unknown as IsAfter<TVal,First<TParams>>
+                    : err('invalid-params/not-date-like') as unknown as IsAfter<TVal,First<TParams>>;
             }
 
             case "before": {
@@ -492,8 +493,15 @@ function handle_other<
     params: TParams
 ) {
     switch (op) {
-        case "errors":
-            return val instanceof Error;
+        case "errors": {
+            return (
+                val === null
+                ? false
+                : val === undefined
+                ? false
+                : val instanceof Error
+            ) as IsError<TVal>;
+        }
 
         case "errorsOfType":
             if (!(val instanceof Error))

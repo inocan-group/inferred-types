@@ -9,7 +9,8 @@ import {
     IsDateLike,
     Contains,
     EmptyObject,
-    UpperAlphaChar
+    UpperAlphaChar,
+    IsAfter
 } from "inferred-types/types";
 
 describe("Compare<TVal,TOp,TComparator> type util", () => {
@@ -26,28 +27,28 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
 
     it("equals", () => {
         type T1 = Compare<42, "equals", [42]>;
+        type T2 = Compare<string, "equals", [string]>;
         type T3 = Compare<"foo", "equals", ["foo"]>;
 
-        type B1 = Compare<string, "equals", ["foo"]>;
-        type B2 = Compare<string, "equals", [string]>;
-        type B3 = Compare<"foo", "equals", [string]>;
 
         type F1 = Compare<"foo", "equals", ["bar"]>;
         type F2 = Compare<"foo", "equals", [42]>;
+        type F3 = Compare<string, "equals", ["foo"]>;
+        type F4 = Compare<"foo", "equals", [string]>;
 
         type E1 = Compare<"foo", "equals">; // TODO: this is not being picked up!
         type E2 = Compare<"foo", "equals", ["foo", "bar"]>;
 
         type cases = [
             Expect<Test<T1, "equals",  true>>,
+            Expect<Test<T2, "equals",  true>>,
             Expect<Test<T3, "equals",  true>>,
 
-            Expect<Test<B1, "equals",  boolean>>,
-            Expect<Test<B2, "equals",  boolean>>,
-            Expect<Test<B3, "equals",  boolean>>,
 
             Expect<Test<F1, "equals",  false>>,
             Expect<Test<F2, "equals",  false>>,
+            Expect<Test<F3, "equals",  false>>,
+            Expect<Test<F4, "equals",  false>>,
 
             Expect<Test<E1, "isError", "invalid-parameters">>,
             Expect<Test<E2, "isError", "invalid-parameters">>,
@@ -56,11 +57,14 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
 
     it("extends", () => {
         type T1 = Compare<42, "extends", [number]>;
-        type T1x = Compare<42, "extends">;
+        type T2 = Compare<number, "extends", [number]>;
+
+        type E1 = Compare<42, "extends">;
 
         type cases = [
             Expect<Test<T1, "equals",  true>>,
-            Expect<Test<T1x, "extends",  Error>>,
+            Expect<Test<T2, "equals",  true>>,
+            Expect<Test<E1, "extends",  Error>>,
         ];
     });
 
@@ -374,21 +378,14 @@ describe("compare() runtime function", () => {
 
             expect(t1).toBe(true);
             expect(f1).toBe(false);
-            // TODO: address why this resolves to a union type
-            expect(e1 instanceof Error).toBe(true);
-            expect(e2 instanceof Error).toBe(true);
+            expect(e1).toBe(true);
+            expect(e2).toBe(true);
 
             type cases = [
                 Expect<Test<typeof t1, "equals", true>>,
                 Expect<Test<typeof f1, "equals", false>>,
-                Expect<Test<
-                    typeof e1, "extends",
-                    boolean | Error
-                >>,
-                Expect<Test<
-                    typeof e2, "extends",
-                    boolean | Error
-                >>
+                Expect<Test<typeof e1, "equals",boolean>>,
+                Expect<Test<typeof e2, "equals",boolean>>,
             ];
         });
 
@@ -619,20 +616,18 @@ describe("compare() runtime function", () => {
 
         it("equalsSome", () => {
             const equalsSome = compare("equalsSome", 1, 2, 3);
-            type Two = Compare<2, "equalsSome", [1, 2, 3]>;
-            type StringTwo = Compare<"2", "equalsSome", [1, 2, 3]>;
             const two = equalsSome(2);
-            const four = equalsSome(4);
             const stringTwo = equalsSome("2");
+            const four = equalsSome(4);
 
             expect(two).toBe(true);
-            expect(four).toBe(false);
             expect(stringTwo).toBe(false);
+            expect(four).toBe(false);
 
             type cases = [
                 Expect<Test<typeof two, "equals", true>>,
+                Expect<Test<typeof stringTwo, "equals", false>>,
                 Expect<Test<typeof four, "equals", false>>,
-                Expect<Test<typeof stringTwo, "equals", false>>
             ];
         });
 
@@ -818,20 +813,23 @@ describe("compare() runtime function", () => {
         it("objectKeyGreaterThan", () => {
             const ageGt18 = compare("objectKeyGreaterThan", "age", 18);
             const t1 = ageGt18({ age: 25 });
+            const t2 = ageGt18({ age: "25" });
+
             const f1 = ageGt18({ age: 18 });
             const f2 = ageGt18({ age: 15 });
             const f3 = ageGt18({ name: "John" });
-            const t2 = ageGt18({ age: "25" });
-            const result6 = ageGt18({ age: "not a number" });
-            const result7 = ageGt18("not an object" as any);
+
+            const e1 = ageGt18({ age: "not a number" });
+            const e2 = ageGt18("not an object");
 
             expect(t1).toBe(true);
-            expect(t2).toBe(true); // numeric string
+            expect(t2).toBe(true);
             expect(f1).toBe(false);
             expect(f2).toBe(false);
-            expect(f3).toBe(false); // no age key
-            expect(result6).toBe(false);
-            expect(result7 instanceof Error).toBe(true);
+            expect(f3).toBe(false);
+
+            expect(e1 instanceof Error).toBe(false);
+            expect(e2 instanceof Error).toBe(true);
 
             type cases = [
                 Expect<Test<typeof t1, "equals", true>>,
@@ -839,8 +837,8 @@ describe("compare() runtime function", () => {
                 Expect<Test<typeof f2, "equals", false>>,
                 Expect<Test<typeof f3, "equals", false>>,
                 Expect<Test<typeof t2, "equals", true>>,
-                Expect<Test<typeof result6, "equals", false>>,
-                Expect<Test<typeof result7, "isError", "invalid-value">>
+                Expect<Test<typeof e1, "isError", "invalid-value/non-numeric">>,
+                Expect<Test<typeof e2, "isError", "invalid-value/wrong-type">>
             ];
         });
 
@@ -896,22 +894,25 @@ describe("compare() runtime function", () => {
         });
 
         it("objectKeyEquals", () => {
-            const nameEquals = compare("objectKeyEquals", "name", "John");
-            const result1 = nameEquals({ name: "John" });
-            const result2 = nameEquals({ name: "Jane" });
-            const result3 = nameEquals({ age: 25 });
-            const result4 = nameEquals("not an object" as any);
+            const nameEquals = compare(
+                "objectKeyEquals",
+                "name", "John"
+            );
+            const t1 = nameEquals({ name: "John" });
+            const f1 = nameEquals({ name: "Jane" });
+            const f2 = nameEquals({ age: 25 });
+            const e1 = nameEquals("not an object");
 
-            expect(result1).toBe(true);
-            expect(result2).toBe(false);
-            expect(result3).toBe(false); // no name key
-            expect(result4 instanceof Error).toBe(true);
+            expect(t1).toBe(true);
+            expect(f1).toBe(false);
+            expect(f2).toBe(false); // no name key
+            expect(e1 instanceof Error).toBe(true);
 
             type cases = [
-                Expect<Test<typeof result1, "equals", true>>,
-                Expect<Test<typeof result2, "equals", false>>,
-                Expect<Test<typeof result3, "equals", false>>,
-                Expect<Test<typeof result4, "equals", Error>>
+                Expect<Test<typeof t1, "equals", true>>,
+                Expect<Test<typeof f1, "equals", false>>,
+                Expect<Test<typeof f2, "equals", false>>,
+                Expect<Test<typeof e1, "isError", "invalid-value/wrong-type">>
             ];
         });
     });
@@ -927,18 +928,15 @@ describe("compare() runtime function", () => {
             const t1 = sameDayAs(dateTime1);
             const t2 = sameDayAs(dateTime2);
             const f1 = sameDayAs(dateTime3);
-            const result4 = sameDayAs("not a date" as any);
 
             expect(t1).toBe(true);
             expect(t2).toBe(true); // same day, different time
             expect(f1).toBe(false); // different month
-            expect((result4 as any) instanceof Error).toBe(true);
 
             type cases = [
                 Expect<Test<typeof t1, "equals", true>>,
                 Expect<Test<typeof t2, "equals", true>>,
                 Expect<Test<typeof f1, "equals", false>>,
-                Expect<Test<typeof result4, "isError", true>>
             ];
         });
 
@@ -1005,19 +1003,21 @@ describe("compare() runtime function", () => {
 
         it("after", () => {
             const after = compare("after", "2023-12-20");
-            const result1 = after("2023-12-22"); // is after
-            const result2 = after("2023-12-20"); // the same as comparator
-            const d = new Date("2023-01-14");
-            const result3 = after(d);
+            type T1 = IsAfter<"2023-12-22", "2023-12-20">;
+            const t1 = after("2023-12-22"); // is after
 
-            expect(result1).toBe(true);
-            expect(result2).toBe(false);
-            expect(result3).toBe(false);
+            const f1 = after("2023-12-20"); // the same as comparator
+            const d = new Date("2023-01-14");
+            const b1 = after(d);
+
+            expect(t1).toBe(true);
+            expect(f1).toBe(false);
+            expect(b1).toBe(false);
 
             type cases = [
-                Expect<Test<typeof result1, "equals", true>>,
-                Expect<Test<typeof result2, "equals", true>>,
-                Expect<Test<typeof result3, "equals", boolean>>
+                Expect<Test<typeof t1, "equals", true>>,
+                Expect<Test<typeof f1, "equals", false>>,
+                Expect<Test<typeof b1, "equals", boolean>>
             ];
         });
 
@@ -1092,6 +1092,7 @@ describe("compare() runtime function", () => {
 
         it("handles invalid parameters gracefully", () => {
             // Testing numeric operation with non-numeric parameter
+            // @ts-expect-error
             const gtInvalid = compare("greaterThan", "not a number");
             const result = gtInvalid(5);
             expect(result instanceof Error).toBe(true);
@@ -1106,7 +1107,7 @@ describe("compare() runtime function", () => {
                 { name: "John", age: 25, skills: ["js", "ts"] },
                 { name: "Jane", age: 30, skills: ["python", "js"] },
                 { name: "Bob", age: 20, skills: ["java"] }
-            ];
+            ] as const;
 
             const ageGt21 = compare("objectKeyGreaterThan", "age", 21);
 

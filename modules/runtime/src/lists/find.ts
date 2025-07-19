@@ -20,7 +20,6 @@ import { isComparisonOperation } from "runtime/type-guards/comparison";
 export function find<
     const TOp extends Suggest<ComparisonOperation>,
     const TParams extends GetComparisonParamInput<TOp>
-    const TParams extends GetComparisonParamInput<TOp>
 >(
     op: TOp,
     ...params: TParams

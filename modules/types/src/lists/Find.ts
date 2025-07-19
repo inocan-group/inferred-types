@@ -16,7 +16,7 @@ type FindAcc<
 > = [] extends TList
     ? undefined
     : First<TList> extends ComparisonAccept<TOp>
-        ? Compare<First<TList>, TOp, TParams> extends true
+        ? [Compare<First<TList>, TOp, TParams>] extends [true]
             ? First<TList>
             : FindAcc<AfterFirst<TList>, TOp, TParams>
         : never;
@@ -42,6 +42,7 @@ export type Find<
     TOp extends ComparisonOperation,
     TParams extends GetComparisonParamInput<TOp>
 > = FindAcc<TList, TOp, TParams>;
+
 
 /**
  * **FindFunction**`<TOp, TParams>`

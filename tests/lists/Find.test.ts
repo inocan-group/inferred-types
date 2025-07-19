@@ -1,5 +1,4 @@
 import { describe, expect, it } from "vitest";
-
 import { Expect, Find, Test } from "inferred-types/types";
 import { find, narrow } from "inferred-types/runtime";
 

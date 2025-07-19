@@ -2,6 +2,7 @@ import type { COMPARISON_OPERATIONS } from "inferred-types/constants";
 import type {
     DateLike,
     Dictionary,
+    Narrowable,
     NumberLike,
 } from "inferred-types/types";
 
@@ -85,7 +86,10 @@ export type ComparisonLookup = {
     };
 
     containsAll: {
-        params: readonly [substrings: string | number, ...readonly (string | number)[]];
+        params: readonly [
+            substrings: string | number,
+            ...readonly (string | number)[]
+        ];
         accept: string | number | readonly (string | number)[];
         convert: "stringArray";
         take: "*";
@@ -131,7 +135,7 @@ export type ComparisonLookup = {
             key: string,
             type: NumberLike
         ];
-        accept: Dictionary;
+        // accept: Dictionary<string|symbol, Narrowable>;
         take: 2;
     };
 
@@ -140,7 +144,7 @@ export type ComparisonLookup = {
             key: string,
             type: NumberLike
         ];
-        accept: Dictionary;
+        // accept: Record<string, Narrowable>;
         take: 2;
     };
 
@@ -150,7 +154,7 @@ export type ComparisonLookup = {
             type: NumberLike
         ];
         take: 2;
-        accept: Dictionary;
+        // accept: Dictionary<string|symbol, Narrowable>;
     };
 
     objectKeyLessThanOrEqual: {
@@ -159,7 +163,7 @@ export type ComparisonLookup = {
             type: NumberLike
         ];
         take: 2;
-        accept: Dictionary;
+        // accept: Dictionary;
     };
 
     betweenInclusively: {
@@ -180,12 +184,12 @@ export type ComparisonLookup = {
     };
 
     equalsSome: {
-        params: [ potentialValues: unknown, unknown, ...unknown[] ];
+        params: readonly [ potentialValues: unknown, unknown, ...unknown[] ];
         take: "*";
     };
 
     errors: {
-        params: readonly [];
+        params: readonly[];
         take: 0;
     };
 
@@ -231,22 +235,24 @@ export type ComparisonLookup = {
     };
 
     truthy: {
-        params: [];
+        params: readonly[];
         take: 0;
+        accept: Narrowable ;
     };
 
     falsy: {
-        params: [];
+        params: readonly[];
+        accept: Narrowable ;
         take: 0;
     };
 
     true: {
-        params: [];
+        params: readonly[];
         take: 0;
     };
 
     false: {
-        params: [];
+        params: readonly[];
         take: 0;
     };
 
@@ -255,7 +261,6 @@ export type ComparisonLookup = {
             key: string,
             value: unknown
         ];
-        accept: Dictionary;
         take: 2;
     };
 
@@ -264,14 +269,14 @@ export type ComparisonLookup = {
             key: string,
             type: unknown
         ];
-        accept: Dictionary;
+        accept: Dictionary<string|symbol, Narrowable>;
         take: 2;
     };
 
     objectExtends: {
         params: readonly [type: unknown];
         take: 1;
-        accept: Dictionary;
+        accept: Dictionary<string|symbol, Narrowable>;
     };
 
     returnEquals: {

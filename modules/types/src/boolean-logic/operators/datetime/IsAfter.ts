@@ -30,9 +30,13 @@ export type IsAfter<
 ]> extends true
     ? Err<
         `invalid-date/is-after`,
-        `The IsAfter<A,B> utility expects both parameters to extend the DateLike type but at least one did not!`,
+        `The IsAfter<A,B> utility expects both parameters to extend the DateLike type but at least one s not!`,
         { a: A; b: B }
     >
+    : A extends object
+        ? boolean
+    : B extends object
+        ? boolean
     : Or<[
         IsObject<A>,
         IsObject<B>,
