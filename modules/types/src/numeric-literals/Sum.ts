@@ -1,37 +1,45 @@
-import { Add } from "types/numeric-literals/Add";
+import { IsNegativeNumber } from "types/boolean-logic";
+import { Err } from "types/errors";
+import {  First } from "types/lists";
+import { AddPositive } from "types/numeric-literals/AddPositive";
+import { NumberLike } from "types/numeric-literals/NumberLike";
+import { AsNumber } from "types/type-conversion";
+
+
+
+export type Count<
+    T extends readonly NumberLike[],
+    U extends number = 0
+> = [] extends T
+? U
+: IsNegativeNumber<First<T>> extends true
+        ? Err<
+            `invalid-number/negative`,
+            `the Sum<T> utility encountered a negative number; these are not support currently!`,
+            { negative: First<T>, remaining: T, count: U }
+            >
+    : T extends [
+        infer Head extends NumberLike,
+        ...(infer Rest extends NumberLike[])
+    ]
+        ? Count<
+            Rest,
+            AsNumber<
+                AddPositive<
+                    U,
+                    Head
+                >
+            >
+        >
+    : U
+    ;
 
 /**
  * **Sum**`<T>`
  *
- * Sums all the numbers in the passed in tuple `T`.
+ * Sums a tuple of positive numbers
  *
- * This implementation uses a direct reduction approach
- * to sum all numbers in the array efficiently.
  */
-/**
- * **Sum**`<T>`
- *
- * Sums all the non-negative numbers in the passed in tuple `T`.
- * Any negative numbers will cause a type error.
- */
-type IsNegative<N extends number> = `${N}` extends `-${number}` ? true : false;
-
 export type Sum<
-    T extends readonly number[]
-> = T extends readonly []
-    ? 0
-    : T extends readonly [infer H extends number]
-        ? IsNegative<H> extends true
-            ? never
-            : H
-        : T extends readonly [
-            infer H1 extends number,
-            infer H2 extends number,
-            ...infer Rest extends readonly number[]
-        ]
-            ? IsNegative<H1> extends true
-                ? never
-                : IsNegative<H2> extends true
-                    ? never
-                    : Sum<[Add<H1, H2>, ...Rest]>
-            : never;
+    T extends readonly NumberLike[]
+> = Count<T>;

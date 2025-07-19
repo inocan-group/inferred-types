@@ -1,6 +1,7 @@
 export * from "./Abs";
 export * from "./AbsMaybe";
 export * from "./Add";
+export * from "./AddPositive";
 export * from "./AsNegativeNumber";
 export * from "./AsNumberWhenPossible";
 export * from "./CharCount";

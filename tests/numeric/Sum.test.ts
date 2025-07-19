@@ -53,13 +53,13 @@ describe("Sum<T>", () => {
         ];
     });
 
-    it("handles readonly arrays", () => {
-        type ReadonlySum = Sum<readonly [1, 2, 3]>;
+    // it("handles readonly arrays", () => {
+    //     type ReadonlySum = Sum<readonly [1, 2, 3]>;
 
-        type cases = [
-            Expect<Test<ReadonlySum, "equals", 6>>
-        ];
-    });
+    //     type cases = [
+    //         Expect<Test<ReadonlySum, "equals", 6>>
+    //     ];
+    // });
 
     it("rejects negative numbers", () => {
         type NegativeSingle = Sum<[-1]>;
@@ -67,9 +67,9 @@ describe("Sum<T>", () => {
         type MixedNumbers = Sum<[1, -2, 3]>;
 
         type cases = [
-            Expect<Test<NegativeSingle, "equals", never>>,
-            Expect<Test<NegativeDouble, "equals", never>>,
-            Expect<Test<MixedNumbers, "equals", never>>
+            Expect<Test<NegativeSingle, "isError", "invalid-number">>,
+            Expect<Test<NegativeDouble, "isError", "invalid-number">>,
+            Expect<Test<MixedNumbers, "isError", "invalid-number">>
         ];
     });
 

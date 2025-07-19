@@ -149,7 +149,7 @@ type PreProcess<
         : A extends `${number}`
             ? B extends `${number}`
                 ? As<Process<A, B>, `${number}`>
-                : As<Process<A, AsString<B>>, `${number}`>
+                : As<Process<A, `${As<B, number>}`>, `${number}`>
             : A extends number
                 ? B extends number
                     ? AsNumber<Process<`${A}`, `${B}`>>
@@ -163,6 +163,9 @@ type PreProcess<
  *
  * - if either or both `A` and `B` are a `${number}` then a `${number}` type is returned
  * - if both are numeric values than the type is `number`.
+ *
+ * **Related:**
+ * - `AddPositive` - a simpler utility that only handles positive numbers
  */
 export type Add<
     A extends NumberLike,
