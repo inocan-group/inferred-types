@@ -1,20 +1,9 @@
-import type {
-    As,
-    Err,
-    ErrContext,
-    FourDigitYear,
-    IsBranded,
-    IsFourDigitYear,
-    ParsedTime,
-    ParseTime,
-    Split,
-    StrLen,
-    TakeDate,
-    TakeMonth,
-    TakeYear,
-    TwoDigitDate,
-    TwoDigitMonth
-} from "inferred-types/types";
+import type { As } from "types/boolean-logic";
+import type { Err, ErrContext } from "types/errors";
+import type { FourDigitYear, TwoDigitDate, TwoDigitMonth } from "types/datetime";
+import type { IsFourDigitYear } from "types/boolean-logic";
+import type { ParsedTime, ParseTime } from "types/datetime";
+import type { Split, StrLen, TakeDate, TakeMonth, TakeYear } from "types/string-literals";
 
 export type ParsedDate = [
     year: FourDigitYear<"branded"> | null,
@@ -45,8 +34,8 @@ type ParseMonthDate<
             ? Rest extends ""
                 ? As<[
                     null,
-                     TwoDigitMonth<Month>,
-                     TwoDigitDate<IsoDate>,
+                     Month,
+                     IsoDate,
                     null
                 ], ParsedDate>
                 : Err<
@@ -65,38 +54,7 @@ type ParseMonthDate<
             { parse: T }
         >;
 
-type ParseYearMonth<T extends string> = TakeYear<T> extends {
-    take: infer Year extends FourDigitYear<"branded">;
-    rest: infer Rest extends string;
-}
-    ? TakeMonth<Rest, "-"> extends {
-        take: infer Month extends TwoDigitMonth<"branded">;
-        rest: infer Rest extends string;
-    }
-        ? Rest extends ""
 
-            ? [
-                FourDigitYear<Year>,
-                TwoDigitMonth<Month>,
-                null,
-                null
-            ]
-            : Err<
-                `parse-date/leftover`,
-                `The year and month were parsed and validated but there is remaining text which can't be parsed: ${Rest}`,
-                { year: Year; minute: Month; rest: Rest }
-            >
-
-        : Err<
-            `parse-date/month`,
-            `The month in what appeared to be a IsoYearMonth string was unable to be parsed`,
-            { parse: T; year: Year; rest: Rest }
-        >
-    : Err<
-        `parse-date/year`,
-        `The year in what started out as a IsoYearMonth string was unable to be parsed`,
-        { parse: T }
-    >;
 
 type ParseFullDate<T extends string> = TakeYear<T> extends {
     take: infer Year extends FourDigitYear<"branded">;
@@ -211,4 +169,42 @@ export type ParseDate<
     >;
 
 
+
+type ParseYearMonth<T extends string> = TakeYear<T> extends {
+    take: infer Year extends FourDigitYear<"branded">;
+    rest: infer Rest extends string;
+}
+    ? TakeMonth<Rest, "-"> extends {
+        take: infer Month extends TwoDigitMonth<"branded">;
+        rest: infer Rest extends string;
+    }
+        ? Rest extends ""
+
+            ? [
+                Year,
+                Month,
+                null,
+                null
+            ]
+            : Err<
+                `parse-date/leftover`,
+                `The year and month were parsed and validated but there is remaining text which can't be parsed: ${Rest}`,
+                { year: Year; minute: Month; rest: Rest }
+            >
+
+        : Err<
+            `parse-date/month`,
+            `The month in what appeared to be a IsoYearMonth string was unable to be parsed`,
+            { parse: T; year: Year; rest: Rest }
+        >
+    : Err<
+        `parse-date/year`,
+        `The year in what started out as a IsoYearMonth string was unable to be parsed`,
+        { parse: T }
+    >;
+
+type T1 = ParseYearMonth<"-2024-06">;
+type T2 = ParseYearMonth<"-202406">;
+type T3 = ParseYearMonth<"-1999-12">;
+type T4 = ParseYearMonth<"-199912">;
 

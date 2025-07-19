@@ -1,17 +1,19 @@
-import type {
-    As,
-    Err,
-    HasLeadingTemplateLiteral,
-    NumericChar,
-    NumericChar__ZeroToFive,
-    StripLeading,
-    TwoDigitSecond,
-} from "inferred-types/types";
+import type { As } from "types/boolean-logic";
+import type { Err } from "types/errors";
+import type {  NumericChar, NumericChar__ZeroToFive, StripLeading } from "types/string-literals";
+import type { TwoDigitSecond } from "types/datetime";
+import { HasLeadingTemplateLiteral } from "types/interpolation";
+
+type E<T extends string> = Err<
+    `parse-time/seconds`,
+    `TakeSeconds<${T}> was unable to find seconds at the head of the parse string.`,
+    { parse: T }
+>
 
 type Take<T extends string> = string extends T
-    ? Err<"seconds"> | { take: TwoDigitSecond<"branded">; rest: string }
+    ? Error | { take: TwoDigitSecond<"branded">; rest: string }
     : HasLeadingTemplateLiteral<T> extends true
-        ? Err<"seconds"> | { take: TwoDigitSecond<"branded">; rest: string }
+        ? Error | { take: TwoDigitSecond<"branded">; rest: string }
         : T extends `${infer C1}${infer C2}${infer Rest}`
             ? C1 extends NumericChar__ZeroToFive
                 ? C2 extends NumericChar
@@ -19,9 +21,9 @@ type Take<T extends string> = string extends T
                         take: TwoDigitSecond<`${C1}${C2}`>;
                         rest: Rest;
                     }
-                    : Err<"seconds">
-                : Err<"seconds">
-            : Err<"seconds">;
+                    : E<T>
+                : E<T>
+            : E<T>;
 
 /**
  * **TakeSeconds**`<T, TIgnoreLeading>`
@@ -47,10 +49,10 @@ export type TakeSeconds<
             Take<
                 As<StripLeading<T, TIgnoreLeading>, string>
             >,
-                Err<"seconds"> | { take: TwoDigitSecond<"branded">; rest: string }
+            Error | { take: TwoDigitSecond<"branded">; rest: string }
         >
 
     : As<
         Take<T>,
-        { take: null; rest: string } | { take: TwoDigitSecond<"branded">; rest: string }
+        Error | { take: TwoDigitSecond<"branded">; rest: string }
     >;

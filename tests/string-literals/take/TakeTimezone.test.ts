@@ -37,13 +37,11 @@ describe("TakeTimezone", () => {
             type T1 = TakeTimezone<"Z">;
             type T2 = TakeTimezone<"Z anything">;
 
-            // ^?
             type cases = [
                 Expect<Equal<T1, { take: TimezoneOffset<"Z">, rest: "" }>>,
                 Expect<Equal<T2, { take: TimezoneOffset<"Z">, rest: " anything" }>>,
             ];
             const cases: cases = [true, true];
-            expect(cases).toEqual([true, true]);
         });
 
         it("accepts positive timezone offsets with hours only", () => {
@@ -53,7 +51,6 @@ describe("TakeTimezone", () => {
             type T4 = TakeTimezone<"+14">;
             type T5 = TakeTimezone<"+07 something">;
 
-            // ^?
             type cases = [
                 Expect<Equal<T1, { take: TimezoneOffset<"+00">, rest: "" }>>,
                 Expect<Equal<T2, { take: TimezoneOffset<"+05">, rest: "" }>>,
@@ -62,7 +59,6 @@ describe("TakeTimezone", () => {
                 Expect<Equal<T5, { take: TimezoneOffset<"+07">, rest: " something" }>>,
             ];
             const cases: cases = [true, true, true, true, true];
-            expect(cases).toEqual([true, true, true, true, true]);
         });
 
         it("accepts negative timezone offsets with hours only", () => {
@@ -72,7 +68,6 @@ describe("TakeTimezone", () => {
             type T4 = TakeTimezone<"-14">;
             type T5 = TakeTimezone<"-08 something">;
 
-            // ^?
             type cases = [
                 Expect<Equal<T1, { take: TimezoneOffset<"-00">, rest: "" }>>,
                 Expect<Equal<T2, { take: TimezoneOffset<"-05">, rest: "" }>>,
@@ -81,7 +76,6 @@ describe("TakeTimezone", () => {
                 Expect<Equal<T5, { take: TimezoneOffset<"-08">, rest: " something" }>>,
             ];
             const cases: cases = [true, true, true, true, true];
-            expect(cases).toEqual([true, true, true, true, true]);
         });
 
         it("accepts timezone offsets with hours and minutes (colon format)", () => {
@@ -92,7 +86,7 @@ describe("TakeTimezone", () => {
             type T5 = TakeTimezone<"-14:00">;
             type T6 = TakeTimezone<"+09:30 something">;
 
-            // ^?
+
             type cases = [
                 Expect<Equal<T1, { take: TimezoneOffset<"+00:00">, rest: "" }>>,
                 Expect<Equal<T2, { take: TimezoneOffset<"+05:30">, rest: "" }>>,
@@ -102,7 +96,6 @@ describe("TakeTimezone", () => {
                 Expect<Equal<T6, { take: TimezoneOffset<"+09:30">, rest: " something" }>>,
             ];
             const cases: cases = [true, true, true, true, true, true];
-            expect(cases).toEqual([true, true, true, true, true, true]);
         });
 
         it("accepts timezone offsets with hours and minutes (no colon format)", () => {
@@ -123,7 +116,6 @@ describe("TakeTimezone", () => {
                 Expect<Equal<T6, { take: TimezoneOffset<"+0930">, rest: " something" }>>,
             ];
             const cases: cases = [true, true, true, true, true, true];
-            expect(cases).toEqual([true, true, true, true, true, true]);
         });
 
         it("handles remaining content after timezone", () => {
@@ -140,7 +132,6 @@ describe("TakeTimezone", () => {
                 Expect<Equal<T4, { take: TimezoneOffset<"+0530">, rest: "IST" }>>,
             ];
             const cases: cases = [true, true, true, true];
-            expect(cases).toEqual([true, true, true, true]);
         });
     });
 
@@ -151,15 +142,12 @@ describe("TakeTimezone", () => {
             type T3 = TakeTimezone<"-15">;  // Hour too high
             type T4 = TakeTimezone<"-99">;  // Invalid hour
 
-            // ^?
             type cases = [
-                Expect<Equal<T1, { take: null, rest: "+15" }>>,
-                Expect<Equal<T2, { take: null, rest: "+20" }>>,
-                Expect<Equal<T3, { take: null, rest: "-15" }>>,
-                Expect<Equal<T4, { take: null, rest: "-99" }>>,
+                Expect<Test<T1, "isError","parse-time">>,
+                Expect<Test<T2, "isError","parse-time">>,
+                Expect<Test<T3, "isError","parse-time">>,
+                Expect<Test<T4, "isError","parse-time">>,
             ];
-            const cases: cases = [true, true, true, true];
-            expect(cases).toEqual([true, true, true, true]);
         });
 
         it("returns null for invalid formats", () => {
@@ -170,17 +158,14 @@ describe("TakeTimezone", () => {
             type T5 = TakeTimezone<"+5">;  // Single digit hour
             type T6 = TakeTimezone<"+0">;  // Single digit hour
 
-            // ^?
             type cases = [
-                Expect<Equal<T1, { take: null, rest: "GMT" }>>,
-                Expect<Equal<T2, { take: null, rest: "UTC" }>>,
-                Expect<Equal<T3, { take: null, rest: "5:30" }>>,
-                Expect<Equal<T4, { take: null, rest: "++05" }>>,
-                Expect<Equal<T5, { take: null, rest: "+5" }>>,
-                Expect<Equal<T6, { take: null, rest: "+0" }>>,
+                Expect<Test<T1, "isError","parse-time">>,
+                Expect<Test<T2, "isError","parse-time">>,
+                Expect<Test<T3, "isError","parse-time">>,
+                Expect<Test<T4, "isError","parse-time">>,
+                Expect<Test<T5, "isError","parse-time">>,
+                Expect<Test<T6, "isError","parse-time">>,
             ];
-            const cases: cases = [true, true, true, true, true, true];
-            expect(cases).toEqual([true, true, true, true, true, true]);
         });
 
         it("stops at invalid minutes when present", () => {
@@ -197,8 +182,7 @@ describe("TakeTimezone", () => {
                 Expect<Equal<T3, { take: TimezoneOffset<"+05">, rest: "60" }>>,
                 Expect<Equal<T4, { take: TimezoneOffset<"+05">, rest: "99" }>>,
             ];
-            const cases: cases = [true, true, true, true];
-            expect(cases).toEqual([true, true, true, true]);
+
         });
 
         it("returns null for empty string", () => {
@@ -206,10 +190,9 @@ describe("TakeTimezone", () => {
             //   ^?
 
             type cases = [
-                Expect<Equal<T1, { take: null, rest: "" }>>,
+                Expect<Test<T1, "isError", "parse-time">>,
             ];
-            const cases: cases = [true];
-            expect(cases).toEqual([true]);
+
         });
     });
 
@@ -233,22 +216,18 @@ describe("TakeTimezone", () => {
 
             type cases = [
                 Expect<Equal<T1,
-                    { take: null; rest: string }
-                    | { take: TimezoneOffset<"branded">; rest: string }
+                    Error | { take: TimezoneOffset<"branded">; rest: string }
                 >>,
             ];
         });
 
         it("handles template literal strings", () => {
             type T1 = TakeTimezone<`${string}`>;
-            // Template literals are handled by HasLeadingTemplateLiteral check
 
-            // ^?
             type cases = [
                 Expect<Equal<
                     T1,
-                    { take: null; rest: string }
-                    | { take: TimezoneOffset<"branded">; rest: string }
+                    Error | { take: TimezoneOffset<"branded">; rest: string }
                 >>,
             ];
         });
@@ -260,7 +239,6 @@ describe("TakeTimezone", () => {
             type T4 = TakeTimezone<"+05:45">;
             type T5 = TakeTimezone<"+05:59">;
 
-            // ^?
             type cases = [
                 Expect<Equal<T1, { take: TimezoneOffset<"+05:00">, rest: "" }>>,
                 Expect<Equal<T2, { take: TimezoneOffset<"+05:15">, rest: "" }>>,
@@ -277,7 +255,6 @@ describe("TakeTimezone", () => {
             type TestMinus = TakeTimezone<"-08:00">;
             type TestNoColon = TakeTimezone<"+0530">;
 
-            // ^?
             type cases = [
                 Expect<Equal<TestZ, { take: TimezoneOffset<"Z">, rest: "" }>>,
                 Expect<Equal<TestPlus, { take: TimezoneOffset<"+05:30">, rest: "" }>>,

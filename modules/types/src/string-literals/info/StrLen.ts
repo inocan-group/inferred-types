@@ -1,4 +1,5 @@
-import type { IsBranded, Tuple, Unbrand } from "inferred-types/types";
+import type { IsBranded, Unbrand } from "types/literals";
+import type { Tuple } from "types/base-types";
 
 type Compute<
     TStr extends string,

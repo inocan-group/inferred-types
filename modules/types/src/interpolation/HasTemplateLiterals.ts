@@ -1,4 +1,5 @@
-import type { And, IsEqual, IsUnion, IsWideString, Or, StartsWith, UnionToTuple } from "inferred-types/types";
+import type { And, IsEqual, IsUnion, IsWideString, Or, StartsWith } from "types/boolean-logic";
+import type { UnionToTuple } from "types/type-conversion";
 
 /**
  * **HasTemplateLiterals**`<T>`

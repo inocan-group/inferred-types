@@ -1,17 +1,15 @@
-import type {
-    As,
-    Err,
-    HasLeadingTemplateLiteral,
-    NumericChar,
-    NumericChar__ZeroToFive,
-    StripLeading,
-    TwoDigitMinute,
-} from "inferred-types/types";
+import type { As } from "types/boolean-logic";
+import type { Err } from "types/errors";
+import type { NumericChar, NumericChar__ZeroToFive, StripLeading } from "types/string-literals";
+import type { TwoDigitMinute } from "types/datetime";
+import { HasLeadingTemplateLiteral } from "types/interpolation";
+
+type E<T extends string> = Err<`parse-time/min`, `Unable to take minutes from '${T}'!`>
 
 type Take<T extends string> = string extends T
-    ? Err<"minutes"> | { take: TwoDigitMinute<"branded">; rest: string }
+    ? E<T> | { take: TwoDigitMinute<"branded">; rest: string }
     : HasLeadingTemplateLiteral<T> extends true
-        ? Err<"minutes"> | { take: TwoDigitMinute<"branded">; rest: string }
+        ? E<T> | { take: TwoDigitMinute<"branded">; rest: string }
         : T extends `${infer C1}${infer C2}${infer Rest}`
             ? C1 extends NumericChar__ZeroToFive
                 ? C2 extends NumericChar
@@ -19,9 +17,9 @@ type Take<T extends string> = string extends T
                         take: TwoDigitMinute<`${C1}${C2}`>;
                         rest: Rest
                     }
-                    : Err<"minutes">
-                : Err<"minutes">
-            : Err<"minutes">;
+                    : E<T>
+                : E<T>
+            : E<T>;
 
 /**
  * **TakeMinutes**`<T, TIgnoreLeading>`
@@ -42,14 +40,14 @@ export type TakeMinutes<
     TIgnoreLeading extends string | null = null
 > = TIgnoreLeading extends string
     ? string extends TIgnoreLeading
-        ? never
+        ? Err<`parse-time/min`> | { take: TwoDigitMinute<"branded">; rest: string }
         : As<
             Take<
                 As<StripLeading<T, TIgnoreLeading>, string>
             >,
-                Err<"minutes"> | { take: TwoDigitMinute<"branded">; rest: string }
+                Err<`parse-time/min`> | { take: TwoDigitMinute<"branded">; rest: string }
         >
     : As<
         Take<T>,
-        { take: null; rest: string } | { take: TwoDigitMinute<"branded">; rest: string }
+        Err<`parse-time/min`> | { take: TwoDigitMinute<"branded">; rest: string }
     >;

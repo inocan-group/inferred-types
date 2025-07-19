@@ -2,7 +2,8 @@ import { describe, it } from "vitest";
 import {
     Expect,
     Test,
-    TakeHours
+    TakeHours,
+    TwoDigitHour
 } from "inferred-types/types";
 
 describe("TakeHours<T>", () => {
@@ -18,27 +19,27 @@ describe("TakeHours<T>", () => {
         type cases = [
             Expect<Test<
                 T1, "equals",
-                { take: "00", rest: ":00:00" }
+                { take: TwoDigitHour<"00">, rest: ":00:00" }
             >>,
             Expect<Test<
                 T2, "equals",
-                { take: "12", rest: ":30:45" }
+                { take: TwoDigitHour<"12">, rest: ":30:45" }
             >>,
             Expect<Test<
                 T3, "equals",
-                { take: "23", rest: ":59:59" }
+                { take: TwoDigitHour<"23">, rest: ":59:59" }
             >>,
             Expect<Test<
                 T4, "equals",
-                { take: "09", rest: "AM" }
+                { take: TwoDigitHour<"09">, rest: "AM" }
             >>,
             Expect<Test<
                 T5, "equals",
-                { take: "18", rest: ":00" }
+                { take: TwoDigitHour<"18">, rest: ":00" }
             >>,
             Expect<Test<
                 T6, "equals",
-                { take: "01", rest: " hour past midnight" }
+                { take: TwoDigitHour<"01">, rest: " hour past midnight" }
             >>,
         ];
     });
@@ -52,30 +53,12 @@ describe("TakeHours<T>", () => {
         type T6 = TakeHours<"hello world">;
 
         type cases = [
-            Expect<Test<
-                T1, "equals",
-                { take: null, rest: "abc12" }
-            >>,
-            Expect<Test<
-                T2, "equals",
-                { take: null, rest: "The hour 12" }
-            >>,
-            Expect<Test<
-                T3, "equals",
-                { take: null, rest: " 12 has leading space" }
-            >>,
-            Expect<Test<
-                T4, "equals",
-                { take: null, rest: "Hour: 12" }
-            >>,
-            Expect<Test<
-                T5, "equals",
-                { take: null, rest: "-12 is negative" }
-            >>,
-            Expect<Test<
-                T6, "equals",
-                { take: null, rest: "hello world" }
-            >>,
+            Expect<Test<T1, "isError","parse-time">>,
+            Expect<Test<T2, "isError","parse-time">>,
+            Expect<Test<T3, "isError","parse-time">>,
+            Expect<Test<T4, "isError","parse-time">>,
+            Expect<Test<T5, "isError","parse-time">>,
+            Expect<Test<T6, "isError","parse-time">>,
         ];
     });
 
@@ -88,30 +71,12 @@ describe("TakeHours<T>", () => {
         type T6 = TakeHours<"29 o'clock">;
 
         type cases = [
-            Expect<Test<
-                T1, "equals",
-                { take: null, rest: "24:00:00" }
-            >>,
-            Expect<Test<
-                T2, "equals",
-                { take: null, rest: "25:30:00" }
-            >>,
-            Expect<Test<
-                T3, "equals",
-                { take: null, rest: "30:00:00" }
-            >>,
-            Expect<Test<
-                T4, "equals",
-                { take: null, rest: "99:99:99" }
-            >>,
-            Expect<Test<
-                T5, "equals",
-                { take: null, rest: "24 hours" }
-            >>,
-            Expect<Test<
-                T6, "equals",
-                { take: null, rest: "29 o'clock" }
-            >>,
+            Expect<Test<T1, "isError","parse-time">>,
+            Expect<Test<T2, "isError","parse-time">>,
+            Expect<Test<T3, "isError","parse-time">>,
+            Expect<Test<T4, "isError","parse-time">>,
+            Expect<Test<T5, "isError","parse-time">>,
+            Expect<Test<T6, "isError","parse-time">>,
         ];
     });
 
@@ -123,26 +88,11 @@ describe("TakeHours<T>", () => {
         type T5 = TakeHours<"8AM">;
 
         type cases = [
-            Expect<Test<
-                T1, "equals",
-                { take: null, rest: "0" }
-            >>,
-            Expect<Test<
-                T2, "equals",
-                { take: null, rest: "1" }
-            >>,
-            Expect<Test<
-                T3, "equals",
-                { take: null, rest: "9" }
-            >>,
-            Expect<Test<
-                T4, "equals",
-                { take: null, rest: "5:30" }
-            >>,
-            Expect<Test<
-                T5, "equals",
-                { take: null, rest: "8AM" }
-            >>,
+            Expect<Test<T1, "isError","parse-time">>,
+            Expect<Test<T2, "isError","parse-time">>,
+            Expect<Test<T3, "isError","parse-time">>,
+            Expect<Test<T4, "isError","parse-time">>,
+            Expect<Test<T5, "isError","parse-time">>,
         ];
     });
 
@@ -157,27 +107,27 @@ describe("TakeHours<T>", () => {
         type cases = [
             Expect<Test<
                 T1, "equals",
-                { take: "00", rest: "" }
+                { take: TwoDigitHour<"00">, rest: "" }
             >>,
             Expect<Test<
                 T2, "equals",
-                { take: "12", rest: "" }
+                { take: TwoDigitHour<"12">, rest: "" }
             >>,
             Expect<Test<
                 T3, "equals",
-                { take: "23", rest: "" }
+                { take: TwoDigitHour<"23">, rest: "" }
             >>,
             Expect<Test<
                 T4, "equals",
-                { take: "01", rest: "" }
+                { take: TwoDigitHour<"01">, rest: "" }
             >>,
             Expect<Test<
                 T5, "equals",
-                { take: "09", rest: "" }
+                { take: TwoDigitHour<"09">, rest: "" }
             >>,
             Expect<Test<
                 T6, "equals",
-                { take: "15", rest: "" }
+                { take: TwoDigitHour<"15">, rest: "" }
             >>,
         ];
     });
@@ -193,27 +143,27 @@ describe("TakeHours<T>", () => {
         type cases = [
             Expect<Test<
                 T1, "equals",
-                { take: "00", rest: ":00:00" }
+                { take: TwoDigitHour<"00">, rest: ":00:00" }
             >>,
             Expect<Test<
                 T2, "equals",
-                { take: "23", rest: ":59:59" }
+                { take: TwoDigitHour<"23">, rest: ":59:59" }
             >>,
             Expect<Test<
                 T3, "equals",
-                { take: "12", rest: ":00:00" }
+                { take: TwoDigitHour<"12">, rest: ":00:00" }
             >>,
             Expect<Test<
                 T4, "equals",
-                { take: "20", rest: ":00:00" }
+                { take: TwoDigitHour<"20">, rest: ":00:00" }
             >>,
             Expect<Test<
                 T5, "equals",
-                { take: "19", rest: ":59:59" }
+                { take: TwoDigitHour<"19">, rest: ":59:59" }
             >>,
             Expect<Test<
                 T6, "equals",
-                { take: "10", rest: ":00:00" }
+                { take: TwoDigitHour<"10">, rest: ":00:00" }
             >>,
         ];
     });
@@ -226,26 +176,11 @@ describe("TakeHours<T>", () => {
         type T5 = TakeHours<"a1">;
 
         type cases = [
-            Expect<Test<
-                T1, "equals",
-                { take: null, rest: "1a" }
-            >>,
-            Expect<Test<
-                T2, "equals",
-                { take: null, rest: "2x:00" }
-            >>,
-            Expect<Test<
-                T3, "equals",
-                { take: null, rest: "0.5" }
-            >>,
-            Expect<Test<
-                T4, "equals",
-                { take: null, rest: "1-2" }
-            >>,
-            Expect<Test<
-                T5, "equals",
-                { take: null, rest: "a1" }
-            >>,
+            Expect<Test<T1, "isError","parse-time">>,
+            Expect<Test<T2, "isError","parse-time">>,
+            Expect<Test<T3, "isError","parse-time">>,
+            Expect<Test<T4, "isError","parse-time">>,
+            Expect<Test<T5, "isError","parse-time">>,
         ];
     });
 
@@ -255,18 +190,9 @@ describe("TakeHours<T>", () => {
         type T3 = TakeHours<"  ">;  // Spaces
 
         type cases = [
-            Expect<Test<
-                T1, "equals",
-                { take: null, rest: "" }
-            >>,
-            Expect<Test<
-                T2, "equals",
-                { take: null, rest: ":" }
-            >>,
-            Expect<Test<
-                T3, "equals",
-                { take: null, rest: "  " }
-            >>,
+            Expect<Test<T1, "isError","parse-time">>,
+            Expect<Test<T2, "isError","parse-time">>,
+            Expect<Test<T3, "isError","parse-time">>,
         ];
     });
 
@@ -279,19 +205,19 @@ describe("TakeHours<T>", () => {
         type cases = [
             Expect<Test<
                 T1, "equals",
-                { take: string | null, rest: string }
+                Error | { take: TwoDigitHour<"branded">; rest: string }
             >>,
             Expect<Test<
                 T2, "equals",
-                { take: string | null, rest: string }
+                Error | { take: TwoDigitHour<"branded">; rest: string }
             >>,
             Expect<Test<
                 T3, "equals",
-                { take: "12", rest: string }
+                { take: TwoDigitHour<"12">; rest: string }
             >>,
             Expect<Test<
                 T4, "equals",
-                { take: string | null, rest: string }
+                Error | { take: TwoDigitHour<"branded">; rest: string }
             >>,
         ];
     });
@@ -306,23 +232,23 @@ describe("TakeHours<T>", () => {
         type cases = [
             Expect<Test<
                 T1, "equals",
-                { take: "12", rest: ":30:45.123Z" }
+                { take: TwoDigitHour<"12">, rest: ":30:45.123Z" }
             >>,
             Expect<Test<
                 T2, "equals",
-                { take: "09", rest: ":15AM EST" }
+                { take: TwoDigitHour<"09">, rest: ":15AM EST" }
             >>,
             Expect<Test<
                 T3, "equals",
-                { take: "23", rest: ":59:59+01:00" }
+                { take: TwoDigitHour<"23">, rest: ":59:59+01:00" }
             >>,
             Expect<Test<
                 T4, "equals",
-                { take: "00", rest: ":00:00.000" }
+                { take: TwoDigitHour<"00">, rest: ":00:00.000" }
             >>,
             Expect<Test<
                 T5, "equals",
-                { take: "17", rest: ":45" }
+                { take: TwoDigitHour<"17">, rest: ":45" }
             >>,
         ];
     });
@@ -336,42 +262,40 @@ describe("TakeHours<T>", () => {
         type T23 = TakeHours<"23">;
 
         type cases = [
-            Expect<Test<T00, "equals", { take: "00", rest: "" }>>,
-            Expect<Test<T05, "equals", { take: "05", rest: "" }>>,
-            Expect<Test<T10, "equals", { take: "10", rest: "" }>>,
-            Expect<Test<T15, "equals", { take: "15", rest: "" }>>,
-            Expect<Test<T20, "equals", { take: "20", rest: "" }>>,
-            Expect<Test<T23, "equals", { take: "23", rest: "" }>>,
+            Expect<Test<T00, "equals", { take: TwoDigitHour<"00">, rest: "" }>>,
+            Expect<Test<T05, "equals", { take: TwoDigitHour<"05">, rest: "" }>>,
+            Expect<Test<T10, "equals", { take: TwoDigitHour<"10">, rest: "" }>>,
+            Expect<Test<T15, "equals", { take: TwoDigitHour<"15">, rest: "" }>>,
+            Expect<Test<T20, "equals", { take: TwoDigitHour<"20">, rest: "" }>>,
+            Expect<Test<T23, "equals", { take: TwoDigitHour<"23">, rest: "" }>>,
         ];
     });
 
     it("TIgnoreLeading functionality", () => {
         // Ignore leading colon in time formats
         type IgnoreColon1 = TakeHours<":12:30:45", ":">;
-        type CIgnoreColon1 = Expect<Test<IgnoreColon1, "equals", { take: "12", rest: ":30:45" }>>;
-
         type IgnoreColon2 = TakeHours<":09AM", ":">;
-        type CIgnoreColon2 = Expect<Test<IgnoreColon2, "equals", { take: "09", rest: "AM" }>>;
-
         // Ignore leading T in ISO datetime format
         type IgnoreT = TakeHours<"T14:30:00", "T">;
-        type CIgnoreT = Expect<Test<IgnoreT, "equals", { take: "14", rest: ":30:00" }>>;
-
         // Ignore leading space
         type IgnoreSpace = TakeHours<" 08:00", " ">;
-        type CIgnoreSpace = Expect<Test<IgnoreSpace, "equals", { take: "08", rest: ":00" }>>;
-
         // Ignore leading dash
         type IgnoreDash = TakeHours<"-23:59", "-">;
-        type CIgnoreDash = Expect<Test<IgnoreDash, "equals", { take: "23", rest: ":59" }>>;
-
         // No leading character to ignore - should work normally
         type NoLeading = TakeHours<"15:30", ":">;
-        type CNoLeading = Expect<Test<NoLeading, "equals", { take: "15", rest: ":30" }>>;
-
         // Invalid hour after ignoring leading character
         type InvalidAfterIgnore = TakeHours<":24:00", ":">;
-        type CInvalidAfterIgnore = Expect<Test<InvalidAfterIgnore, "equals", { take: null, rest: "24:00" }>>;
+
+        type cases = [
+            Expect<Test<IgnoreColon1, "equals", { take: TwoDigitHour<"12">, rest: ":30:45" }>>,
+            Expect<Test<IgnoreColon2, "equals", { take: TwoDigitHour<"09">, rest: "AM" }>>,
+            Expect<Test<IgnoreT, "equals", { take: TwoDigitHour<"14">, rest: ":30:00" }>>,
+            Expect<Test<IgnoreSpace, "equals", { take: TwoDigitHour<"08">, rest: ":00" }>>,
+            Expect<Test<IgnoreDash, "equals", { take: TwoDigitHour<"23">, rest: ":59" }>>,
+            Expect<Test<NoLeading, "equals", { take: TwoDigitHour<"15">, rest: ":30" }>>,
+            Expect<Test<InvalidAfterIgnore, "isError", "parse-time">>
+        ]
+
     });
 
 });

@@ -1,14 +1,9 @@
-import type {
-    As,
-    EmptyObject,
-    Err,
-    HasLeadingTemplateLiteral,
-    IsTrue,
-    IsWideType,
-    NumericChar,
-    StartsWith,
-    StripLeading
-} from "inferred-types/types";
+import type { As } from "types/boolean-logic";
+import type { EmptyObject } from "types/base-types";
+import type { Err } from "types/errors";
+import type { HasLeadingTemplateLiteral } from "types/interpolation";
+import type { IsTrue, IsWideType } from "types/boolean-logic";
+import type { NumericChar, StartsWith, StripLeading } from "types/string-literals";
 
 export type TakeNumericOptions = {
     /**

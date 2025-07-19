@@ -1,5 +1,5 @@
-import { describe, expect, it } from "vitest";
-import { TakeDate, Expect, Test } from "inferred-types/types";
+import { describe,  it } from "vitest";
+import { TakeDate, Expect, Test, TwoDigitDate, Unbrand } from "inferred-types/types";
 
 describe("TakeDate<T>", () => {
 
@@ -7,20 +7,23 @@ describe("TakeDate<T>", () => {
         type T1 = TakeDate<"01">;
         type T2 = TakeDate<"05rest">;
         type T3 = TakeDate<"09-2024">;
+        type U = Unbrand<T1["take"]>;
 
         type cases = [
             Expect<Test<
                 T1, "equals",
-                { take: "01", rest: "" }
+                { take: TwoDigitDate<"01">, rest: "" }
             >>,
             Expect<Test<
                 T2, "equals",
-                { take: "05", rest: "rest" }
+                { take: TwoDigitDate<"05">, rest: "rest" }
             >>,
             Expect<Test<
                 T3, "equals",
-                { take: "09", rest: "-2024" }
+                { take: TwoDigitDate<"09">, rest: "-2024" }
             >>,
+
+            Expect<Test<U, "equals", "01">>
         ];
     });
 
@@ -32,15 +35,15 @@ describe("TakeDate<T>", () => {
         type cases = [
             Expect<Test<
                 T1, "equals",
-                { take: "10", rest: "" }
+                { take: TwoDigitDate<"10">, rest: "" }
             >>,
             Expect<Test<
                 T2, "equals",
-                { take: "15", rest: "rest" }
+                { take: TwoDigitDate<"15">, rest: "rest" }
             >>,
             Expect<Test<
                 T3, "equals",
-                { take: "19", rest: "-2024" }
+                { take: TwoDigitDate<"19">, rest: "-2024" }
             >>,
         ];
     });
@@ -53,15 +56,15 @@ describe("TakeDate<T>", () => {
         type cases = [
             Expect<Test<
                 T1, "equals",
-                { take: "20", rest: "" }
+                { take: TwoDigitDate<"20">, rest: "" }
             >>,
             Expect<Test<
                 T2, "equals",
-                { take: "25", rest: "rest" }
+                { take: TwoDigitDate<"25">, rest: "rest" }
             >>,
             Expect<Test<
                 T3, "equals",
-                { take: "29", rest: "-2024" }
+                { take: TwoDigitDate<"29">, rest: "-2024" }
             >>,
         ];
     });
@@ -73,11 +76,11 @@ describe("TakeDate<T>", () => {
         type cases = [
             Expect<Test<
                 T1, "equals",
-                { take: "30", rest: "" }
+                { take: TwoDigitDate<"30">, rest: "" }
             >>,
             Expect<Test<
                 T2, "equals",
-                { take: "31", rest: "rest" }
+                { take: TwoDigitDate<"31">, rest: "rest" }
             >>,
         ];
     });
@@ -95,26 +98,11 @@ describe("TakeDate<T>", () => {
         type T5 = TakeDate<"5">;
 
         type cases = [
-            Expect<Test<
-                T1, "equals",
-                { take: null, rest: "00" }
-            >>,
-            Expect<Test<
-                T2, "equals",
-                { take: null, rest: "32" }
-            >>,
-            Expect<Test<
-                T3, "equals",
-                { take: null, rest: "40" }
-            >>,
-            Expect<Test<
-                T4, "equals",
-                { take: null, rest: "abc" }
-            >>,
-            Expect<Test<
-                T5, "equals",
-                { take: null, rest: "5" }
-            >>,
+            Expect<Test<T1, "isError","parse-date">>,
+            Expect<Test<T2, "isError","parse-date">>,
+            Expect<Test<T3, "isError","parse-date">>,
+            Expect<Test<T4, "isError","parse-date">>,
+            Expect<Test<T5, "isError","parse-date">>,
         ];
     });
 
@@ -125,11 +113,11 @@ describe("TakeDate<T>", () => {
         type cases = [
             Expect<Test<
                 T1, "equals",
-                { take: string | null, rest: string }
+                Error | { take: TwoDigitDate<"branded">; rest: string }
             >>,
             Expect<Test<
                 T2, "equals",
-                { take: string | null, rest: string }
+                Error | { take: TwoDigitDate<"branded">; rest: string }
             >>,
         ];
     });
@@ -139,8 +127,8 @@ describe("TakeDate<T>", () => {
 
         type cases = [
             Expect<Test<
-                T1, "equals",
-                { take: null, rest: "" }
+                T1, "isError",
+                "parse-date"
             >>,
         ];
     });
@@ -152,12 +140,12 @@ describe("TakeDate<T>", () => {
 
         type cases = [
             Expect<Test<
-                T1, "equals",
-                { take: null, rest: "0" }
+                T1, "isError",
+                "parse-date"
             >>,
             Expect<Test<
-                T2, "equals",
-                { take: null, rest: "3" }
+                T2, "isError",
+                "parse-date"
             >>,
         ];
     });
@@ -170,15 +158,15 @@ describe("TakeDate<T>", () => {
         type cases = [
             Expect<Test<
                 T1, "equals",
-                { take: "15", rest: "-12-2024" }
+                { take: TwoDigitDate<"15">, rest: "-12-2024" }
             >>,
             Expect<Test<
                 T2, "equals",
-                { take: "01", rest: "T12:34:56Z" }
+                { take: TwoDigitDate<"01">, rest: "T12:34:56Z" }
             >>,
             Expect<Test<
                 T3, "equals",
-                { take: "31", rest: "December" }
+                { take: TwoDigitDate<"31">, rest: "December" }
             >>,
         ];
     });
@@ -191,18 +179,9 @@ describe("TakeDate<T>", () => {
         type T3 = TakeDate<"0a">;
 
         type cases = [
-            Expect<Test<
-                T1, "equals",
-                { take: null, rest: "39" }
-            >>,
-            Expect<Test<
-                T2, "equals",
-                { take: null, rest: "99" }
-            >>,
-            Expect<Test<
-                T3, "equals",
-                { take: null, rest: "0a" }
-            >>,
+            Expect<Test<T1, "isError", "parse-date">>,
+            Expect<Test<T2, "isError", "parse-date">>,
+            Expect<Test<T3, "isError", "parse-date">>,
         ];
     });
 
@@ -219,16 +198,16 @@ describe("TakeDate<T>", () => {
         type T31 = TakeDate<"31">;
 
         type cases = [
-            Expect<Test<T01, "equals", { take: "01", rest: "" }>>,
-            Expect<Test<T05, "equals", { take: "05", rest: "" }>>,
-            Expect<Test<T10, "equals", { take: "10", rest: "" }>>,
-            Expect<Test<T15, "equals", { take: "15", rest: "" }>>,
-            Expect<Test<T20, "equals", { take: "20", rest: "" }>>,
-            Expect<Test<T25, "equals", { take: "25", rest: "" }>>,
-            Expect<Test<T28, "equals", { take: "28", rest: "" }>>,
-            Expect<Test<T29, "equals", { take: "29", rest: "" }>>,
-            Expect<Test<T30, "equals", { take: "30", rest: "" }>>,
-            Expect<Test<T31, "equals", { take: "31", rest: "" }>>,
+            Expect<Test<T01, "equals", { take: TwoDigitDate<"01">, rest: "" }>>,
+            Expect<Test<T05, "equals", { take: TwoDigitDate<"05">, rest: "" }>>,
+            Expect<Test<T10, "equals", { take: TwoDigitDate<"10">, rest: "" }>>,
+            Expect<Test<T15, "equals", { take: TwoDigitDate<"15">, rest: "" }>>,
+            Expect<Test<T20, "equals", { take: TwoDigitDate<"20">, rest: "" }>>,
+            Expect<Test<T25, "equals", { take: TwoDigitDate<"25">, rest: "" }>>,
+            Expect<Test<T28, "equals", { take: TwoDigitDate<"28">, rest: "" }>>,
+            Expect<Test<T29, "equals", { take: TwoDigitDate<"29">, rest: "" }>>,
+            Expect<Test<T30, "equals", { take: TwoDigitDate<"30">, rest: "" }>>,
+            Expect<Test<T31, "equals", { take: TwoDigitDate<"31">, rest: "" }>>,
         ];
     });
 
@@ -242,36 +221,26 @@ describe("TakeDate<T>", () => {
         type cases = [
             Expect<Test<
                 T1, "equals",
-                { take: "15", rest: "/12/2024" }
+                { take: TwoDigitDate<"15">, rest: "/12/2024" }
             >>,
             Expect<Test<
                 T2, "equals",
-                { take: "01", rest: ".12.2024" }
+                { take: TwoDigitDate<"01">, rest: ".12.2024" }
             >>,
             Expect<Test<
                 T3, "equals",
-                { take: "31", rest: "-Dec-2024" }
+                { take: TwoDigitDate<"31">, rest: "-Dec-2024" }
             >>,
             Expect<Test<
                 T4, "equals",
-                { take: "28", rest: "th February" }
+                { take: TwoDigitDate<"28">, rest: "th February" }
             >>,
             Expect<Test<
                 T5, "equals",
-                { take: "05", rest: "-" }
+                { take: TwoDigitDate<"05">, rest: "-" }
             >>,
         ];
     });
 
-    describe("runtime tests", () => {
-        it("should match compile-time behavior", () => {
-            // This is a compile-time only type, so we just verify the types compile
-            const validDate: TakeDate<"15"> = { take: "15", rest: "" };
-            const invalidDate: TakeDate<"99"> = { take: null, rest: "99" };
-            const wideString: TakeDate<string> = { take: "15", rest: "rest" };
-            const wideStringNull: TakeDate<string> = { take: null, rest: "string" };
 
-            expect(true).toBe(true);
-        });
-    });
 });

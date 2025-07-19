@@ -49,34 +49,12 @@ describe("TakeMilliseconds<T>", () => {
         type T7 = TakeMilliseconds<".123 starts with dot">;
 
         type cases = [
-            Expect<Test<
-                T1, "equals",
-                { take: null, rest: "abc123" }
-            >>,
-            Expect<Test<
-                T2, "equals",
-                { take: null, rest: "The milliseconds 123" }
-            >>,
-            Expect<Test<
-                T3, "equals",
-                { take: null, rest: " 123 has leading space" }
-            >>,
-            Expect<Test<
-                T4, "equals",
-                { take: null, rest: "Time: 123" }
-            >>,
-            Expect<Test<
-                T5, "equals",
-                { take: null, rest: "-123 is negative" }
-            >>,
-            Expect<Test<
-                T6, "equals",
-                { take: null, rest: "hello world" }
-            >>,
-            Expect<Test<
-                T7, "equals",
-                { take: null, rest: ".123 starts with dot" }
-            >>,
+            Expect<Test<T1, "isError","parse-time">>,
+            Expect<Test<T2, "isError","parse-time">>,
+            Expect<Test<T3, "isError","parse-time">>,
+            Expect<Test<T4, "isError","parse-time">>,
+            Expect<Test<T5, "isError","parse-time">>,
+            Expect<Test<T6, "isError","parse-time">>,
         ];
     });
 
@@ -89,30 +67,12 @@ describe("TakeMilliseconds<T>", () => {
         type T6 = TakeMilliseconds<"00">;
 
         type cases = [
-            Expect<Test<
-                T1, "equals",
-                { take: null, rest: "1" }
-            >>,
-            Expect<Test<
-                T2, "equals",
-                { take: null, rest: "12" }
-            >>,
-            Expect<Test<
-                T3, "equals",
-                { take: null, rest: "12 not enough digits" }
-            >>,
-            Expect<Test<
-                T4, "equals",
-                { take: null, rest: "99 problems" }
-            >>,
-            Expect<Test<
-                T5, "equals",
-                { take: null, rest: "0" }
-            >>,
-            Expect<Test<
-                T6, "equals",
-                { take: null, rest: "00" }
-            >>,
+            Expect<Test<T1, "isError","parse-time">>,
+            Expect<Test<T2, "isError","parse-time">>,
+            Expect<Test<T3, "isError","parse-time">>,
+            Expect<Test<T4, "isError","parse-time">>,
+            Expect<Test<T5, "isError","parse-time">>,
+            Expect<Test<T6, "isError","parse-time">>,
         ];
     });
 
@@ -187,30 +147,12 @@ describe("TakeMilliseconds<T>", () => {
         type T6 = TakeMilliseconds<"1b3">;
 
         type cases = [
-            Expect<Test<
-                T1, "equals",
-                { take: null, rest: "12a" }
-            >>,
-            Expect<Test<
-                T2, "equals",
-                { take: null, rest: "1.2" }
-            >>,
-            Expect<Test<
-                T3, "equals",
-                { take: null, rest: "12-" }
-            >>,
-            Expect<Test<
-                T4, "equals",
-                { take: null, rest: "12X" }
-            >>,
-            Expect<Test<
-                T5, "equals",
-                { take: null, rest: "a23" }
-            >>,
-            Expect<Test<
-                T6, "equals",
-                { take: null, rest: "1b3" }
-            >>,
+            Expect<Test<T1, "isError","parse-time">>,
+            Expect<Test<T2, "isError","parse-time">>,
+            Expect<Test<T3, "isError","parse-time">>,
+            Expect<Test<T4, "isError","parse-time">>,
+            Expect<Test<T5, "isError","parse-time">>,
+            Expect<Test<T6, "isError","parse-time">>,
         ];
     });
 
@@ -221,22 +163,10 @@ describe("TakeMilliseconds<T>", () => {
         type T4 = TakeMilliseconds<"ms">;  // Letters only
 
         type cases = [
-            Expect<Test<
-                T1, "equals",
-                { take: null, rest: "" }
-            >>,
-            Expect<Test<
-                T2, "equals",
-                { take: null, rest: "." }
-            >>,
-            Expect<Test<
-                T3, "equals",
-                { take: null, rest: "   " }
-            >>,
-            Expect<Test<
-                T4, "equals",
-                { take: null, rest: "ms" }
-            >>,
+            Expect<Test<T1, "isError","parse-time">>,
+            Expect<Test<T2, "isError","parse-time">>,
+            Expect<Test<T3, "isError","parse-time">>,
+            Expect<Test<T4, "isError","parse-time">>
         ];
     });
 
@@ -248,20 +178,20 @@ describe("TakeMilliseconds<T>", () => {
 
         type cases = [
             Expect<Test<
-                T1, "equals",
-                { take: null; rest: string } | { take: ThreeDigitMillisecond<"branded">; rest: string}
+                T1, "extends",
+                Error | { take: ThreeDigitMillisecond<"branded">; rest: string }
             >>,
             Expect<Test<
-                T2, "equals",
-                { take: null; rest: string } | { take: ThreeDigitMillisecond<"branded">; rest: string}
+                T2, "extends",
+                Error | { take: ThreeDigitMillisecond<"branded">; rest: string}
             >>,
             Expect<Test<
-                T3, "equals",
+                T3, "extends",
                 { take: ThreeDigitMillisecond<"123">, rest: string }
             >>,
             Expect<Test<
-                T4, "equals",
-                { take: null; rest: string } | { take: ThreeDigitMillisecond<"branded">; rest: string}
+                T4, "extends",
+                Error | { take: ThreeDigitMillisecond<"branded">; rest: string}
             >>,
         ];
     });

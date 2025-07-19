@@ -1,18 +1,19 @@
+import type { As } from "types/boolean-logic";
+import type { Err, IsOk } from "types/errors";
 import type {
-    As,
-    Err,
-    IsOk,
     TakeHours,
     TakeMilliseconds,
     TakeMinutes,
     TakeSeconds,
-    TakeTimezone,
+    TakeTimezone
+} from "types/string-literals";
+import type {
     ThreeDigitMillisecond,
     TimezoneOffset,
     TwoDigitHour,
     TwoDigitMinute,
     TwoDigitSecond
-} from "inferred-types/types";
+} from "types/datetime";
 
 /**
  * a successfully parsed **ISO Time** string.

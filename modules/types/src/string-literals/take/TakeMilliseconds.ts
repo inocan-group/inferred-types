@@ -1,17 +1,20 @@
-import type {
-    As,
-    Err,
-    HasLeadingTemplateLiteral,
-    NumericChar,
-    StripLeading,
-    ThreeDigitMillisecond,
-} from "inferred-types/types";
+import type { As } from "types/boolean-logic";
+import type { Err } from "types/errors";
+import type {  NumericChar, StripLeading } from "types/string-literals";
+import type { ThreeDigitMillisecond } from "types/datetime";
+import { HasLeadingTemplateLiteral } from "types/interpolation";
+
+type E<T extends string> = Err<
+    "parse-time/ms",
+    `Unable to take the milliseconds at head of the parse string: ${T}`,
+    { parse: T }
+>
 
 type Take<T extends string> = As<
     string extends T
-        ? Err<"milliseconds"> | { take: ThreeDigitMillisecond<"branded">; rest: string }
+        ? Err<"parse-time/ms"> | { take: ThreeDigitMillisecond<"branded">; rest: string }
         : HasLeadingTemplateLiteral<T> extends true
-            ? Err<"milliseconds"> | { take: ThreeDigitMillisecond<"branded">; rest: string }
+            ? Err<"parse-time/ms"> | { take: ThreeDigitMillisecond<"branded">; rest: string }
             : T extends `${infer C1}${infer C2}${infer C3}${infer Rest}`
                 ? C1 extends NumericChar
                     ? C2 extends NumericChar
@@ -20,11 +23,11 @@ type Take<T extends string> = As<
                                 take: ThreeDigitMillisecond<`${C1}${C2}${C3}`>;
                                 rest: Rest;
                             }
-                            : Err<"milliseconds">
-                        : Err<"milliseconds">
-                    : Err<"milliseconds">
-                : Err<"milliseconds">,
-    Err<"milliseconds"> | { take: ThreeDigitMillisecond<"branded">; rest: string }
+                            : E<T>
+                        : E<T>
+                    : E<T>
+                : E<T>,
+    Err<"parse-time/ms"> | { take: ThreeDigitMillisecond<"branded">; rest: string }
 >;
 
 /**
@@ -46,14 +49,14 @@ export type TakeMilliseconds<
     TIgnoreLeading extends string | null = null
 > = TIgnoreLeading extends string
     ? string extends TIgnoreLeading
-        ? never
+        ? Err<"parse-time/ms"> | { take: ThreeDigitMillisecond<"branded">; rest: string }
         : As<
             Take<
                 As<StripLeading<T, TIgnoreLeading>, string>
             >,
-            Err<"milliseconds"> | { take: ThreeDigitMillisecond<"branded">; rest: string }
+            Err<"parse-time/ms"> | { take: ThreeDigitMillisecond<"branded">; rest: string }
         >
     : As<
         Take<T>,
-    { take: null; rest: string } | { take: ThreeDigitMillisecond<"branded">; rest: string }
+        Err<"parse-time/ms"> | { take: ThreeDigitMillisecond<"branded">; rest: string }
     >;

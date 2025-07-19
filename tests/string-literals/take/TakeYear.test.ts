@@ -2,7 +2,8 @@ import { describe, it } from "vitest";
 import {
     Expect,
     Test,
-    TakeYear
+    TakeYear,
+    FourDigitYear
 } from "inferred-types/types";
 
 describe("TakeYear<T>", () => {
@@ -19,23 +20,23 @@ describe("TakeYear<T>", () => {
         type cases = [
             Expect<Test<
                 T1, "equals",
-                { take: "2024", rest: " is the current year" }
+                { take: FourDigitYear<"2024">, rest: " is the current year" }
             >>,
             Expect<Test<
                 T2, "equals",
-                { take: "1999", rest: " was the last year of the millennium" }
+                { take: FourDigitYear<"1999">, rest: " was the last year of the millennium" }
             >>,
             Expect<Test<
                 T3, "equals",
-                { take: "2000", rest: "-01-01" }
+                { take: FourDigitYear<"2000">, rest: "-01-01" }
             >>,
             Expect<Test<
                 T4, "equals",
-                { take: "1776", rest: " Declaration of Independence" }
+                { take: FourDigitYear<"1776">, rest: " Declaration of Independence" }
             >>,
             Expect<Test<
                 T5, "equals",
-                { take: "9999", rest: " is far in the future" }
+                { take: FourDigitYear<"9999">, rest: " is far in the future" }
             >>,
         ];
     });
@@ -49,30 +50,12 @@ describe("TakeYear<T>", () => {
         type T6 = TakeYear<"hello world">;
 
         type cases = [
-            Expect<Test<
-                T1, "equals",
-                { take: null, rest: "abc2024" }
-            >>,
-            Expect<Test<
-                T2, "equals",
-                { take: null, rest: "The year 2024" }
-            >>,
-            Expect<Test<
-                T3, "equals",
-                { take: null, rest: " 2024 has leading space" }
-            >>,
-            Expect<Test<
-                T4, "equals",
-                { take: null, rest: "Year: 2024" }
-            >>,
-            Expect<Test<
-                T5, "equals",
-                { take: null, rest: "-2024 is negative" }
-            >>,
-            Expect<Test<
-                T6, "equals",
-                { take: null, rest: "hello world" }
-            >>,
+            Expect<Test<T1, "isError","parse-date">>,
+            Expect<Test<T2, "isError","parse-date">>,
+            Expect<Test<T3, "isError","parse-date">>,
+            Expect<Test<T4, "isError","parse-date">>,
+            Expect<Test<T5, "isError","parse-date">>,
+            Expect<Test<T6, "isError","parse-date">>,
         ];
     });
 
@@ -85,30 +68,12 @@ describe("TakeYear<T>", () => {
         type T6 = TakeYear<"0">;
 
         type cases = [
-            Expect<Test<
-                T1, "equals",
-                { take: null, rest: "1" }
-            >>,
-            Expect<Test<
-                T2, "equals",
-                { take: null, rest: "12" }
-            >>,
-            Expect<Test<
-                T3, "equals",
-                { take: null, rest: "123" }
-            >>,
-            Expect<Test<
-                T4, "equals",
-                { take: null, rest: "123 not enough digits" }
-            >>,
-            Expect<Test<
-                T5, "equals",
-                { take: null, rest: "99 problems" }
-            >>,
-            Expect<Test<
-                T6, "equals",
-                { take: null, rest: "0" }
-            >>,
+            Expect<Test<T1, "isError","parse-date">>,
+            Expect<Test<T2, "isError","parse-date">>,
+            Expect<Test<T3, "isError","parse-date">>,
+            Expect<Test<T4, "isError","parse-date">>,
+            Expect<Test<T5, "isError","parse-date">>,
+            Expect<Test<T6, "isError","parse-date">>,
         ];
     });
 
@@ -122,23 +87,23 @@ describe("TakeYear<T>", () => {
         type cases = [
             Expect<Test<
                 T1, "equals",
-                { take: "2024", rest: "" }
+                { take: FourDigitYear<"2024">, rest: "" }
             >>,
             Expect<Test<
                 T2, "equals",
-                { take: "1999", rest: "" }
+                { take: FourDigitYear<"1999">, rest: "" }
             >>,
             Expect<Test<
                 T3, "equals",
-                { take: "0000", rest: "" }
+                { take: FourDigitYear<"0000">, rest: "" }
             >>,
             Expect<Test<
                 T4, "equals",
-                { take: "5555", rest: "" }
+                { take: FourDigitYear<"5555">, rest: "" }
             >>,
             Expect<Test<
                 T5, "equals",
-                { take: "0001", rest: "" }
+                { take: FourDigitYear<"0001">, rest: "" }
             >>,
         ];
     });
@@ -152,19 +117,19 @@ describe("TakeYear<T>", () => {
         type cases = [
             Expect<Test<
                 T1, "equals",
-                { take: "2024", rest: "0101" }
+                { take: FourDigitYear<"2024">, rest: "0101" }
             >>,
             Expect<Test<
                 T2, "equals",
-                { take: "1999", rest: "1231235959" }
+                { take: FourDigitYear<"1999">, rest: "1231235959" }
             >>,
             Expect<Test<
                 T3, "equals",
-                { take: "1234", rest: "5 has 5 digits" }
+                { take: FourDigitYear<"1234">, rest: "5 has 5 digits" }
             >>,
             Expect<Test<
                 T4, "equals",
-                { take: "9999", rest: "99999" }
+                { take: FourDigitYear<"9999">, rest: "99999" }
             >>,
         ];
     });
@@ -176,22 +141,10 @@ describe("TakeYear<T>", () => {
         type T4 = TakeYear<"202X">;
 
         type cases = [
-            Expect<Test<
-                T1, "equals",
-                { take: null, rest: "20a4" }
-            >>,
-            Expect<Test<
-                T2, "equals",
-                { take: null, rest: "1.99" }
-            >>,
-            Expect<Test<
-                T3, "equals",
-                { take: null, rest: "12-3" }
-            >>,
-            Expect<Test<
-                T4, "equals",
-                { take: null, rest: "202X" }
-            >>,
+            Expect<Test<T1, "isError","parse-date">>,
+            Expect<Test<T2, "isError","parse-date">>,
+            Expect<Test<T3, "isError","parse-date">>,
+            Expect<Test<T4, "isError","parse-date">>,
         ];
     });
 
@@ -201,18 +154,9 @@ describe("TakeYear<T>", () => {
         type T3 = TakeYear<"    ">;  // Spaces
 
         type cases = [
-            Expect<Test<
-                T1, "equals",
-                { take: null, rest: "" }
-            >>,
-            Expect<Test<
-                T2, "equals",
-                { take: null, rest: "." }
-            >>,
-            Expect<Test<
-                T3, "equals",
-                { take: null, rest: "    " }
-            >>,
+            Expect<Test<T1, "isError","parse-date">>,
+            Expect<Test<T2, "isError","parse-date">>,
+            Expect<Test<T3, "isError","parse-date">>,
         ];
     });
 
@@ -224,15 +168,15 @@ describe("TakeYear<T>", () => {
         type cases = [
             Expect<Test<
                 T1, "equals",
-                { take: string | null, rest: string }
+                { take: FourDigitYear<"branded">, rest: string } | Error
             >>,
             Expect<Test<
                 T2, "equals",
-                { take: string | null, rest: string }
+                { take: FourDigitYear<"branded">, rest: string } | Error
             >>,
             Expect<Test<
                 T3, "equals",
-                { take: "2024", rest: string }
+                { take: FourDigitYear<"2024">, rest: string }
             >>,
         ];
     });
@@ -247,23 +191,23 @@ describe("TakeYear<T>", () => {
         type cases = [
             Expect<Test<
                 T1, "equals",
-                { take: "2024", rest: "-12-25T10:30:00Z" }
+                { take: FourDigitYear<"2024">, rest: "-12-25T10:30:00Z" }
             >>,
             Expect<Test<
                 T2, "equals",
-                { take: "2024", rest: "/12/25" }
+                { take: FourDigitYear<"2024">, rest: "/12/25" }
             >>,
             Expect<Test<
                 T3, "equals",
-                { take: "2024", rest: ".12.25" }
+                { take: FourDigitYear<"2024">, rest: ".12.25" }
             >>,
             Expect<Test<
                 T4, "equals",
-                { take: "2024", rest: "Q1" }
+                { take: FourDigitYear<"2024">, rest: "Q1" }
             >>,
             Expect<Test<
                 T5, "equals",
-                { take: "2024", rest: "W52" }
+                { take: FourDigitYear<"2024">, rest: "W52" }
             >>,
         ];
     });
@@ -278,23 +222,23 @@ describe("TakeYear<T>", () => {
         type cases = [
             Expect<Test<
                 T1, "equals",
-                { take: "0000", rest: " BC/AD boundary" }
+                { take: FourDigitYear<"0000">, rest: " BC/AD boundary" }
             >>,
             Expect<Test<
                 T2, "equals",
-                { take: "1000", rest: " millennium" }
+                { take: FourDigitYear<"1000">, rest: " millennium" }
             >>,
             Expect<Test<
                 T3, "equals",
-                { take: "1492", rest: " Columbus" }
+                { take: FourDigitYear<"1492">, rest: " Columbus" }
             >>,
             Expect<Test<
                 T4, "equals",
-                { take: "3000", rest: " future" }
+                { take: FourDigitYear<"3000">, rest: " future" }
             >>,
             Expect<Test<
                 T5, "equals",
-                { take: "9999", rest: " max 4-digit year" }
+                { take: FourDigitYear<"9999">, rest: " max 4-digit year" }
             >>,
         ];
     });

@@ -1,11 +1,8 @@
-import type {
-    As,
-    Err,
-    HasLeadingTemplateLiteral,
-    NumericChar,
-    StripLeading,
-    TwoDigitHour
-} from "inferred-types/types";
+import type { As } from "types/boolean-logic";
+import type { Err } from "types/errors";
+import type {  NumericChar, StripLeading } from "types/string-literals";
+import type { TwoDigitHour } from "types/datetime";
+import { HasLeadingTemplateLiteral } from "types/interpolation";
 
 type HoursErr<
     TParse extends string
@@ -17,9 +14,9 @@ type HoursErr<
 
 
 type Take<T extends string> = string extends T
-    ? { take: string | null; rest: string }
+    ? Error | { take: TwoDigitHour<"branded">; rest: string }
     : HasLeadingTemplateLiteral<T> extends true
-        ? { take: string | null; rest: string }
+        ? Error | { take: TwoDigitHour<"branded">; rest: string }
         : T extends `${infer C1}${infer C2}${infer Rest}`
             ? C1 extends "0"
                 ? C2 extends NumericChar
@@ -27,7 +24,7 @@ type Take<T extends string> = string extends T
                         take: TwoDigitHour<`${C1}${C2}`>;
                         rest: Rest;
                     }
-                    : { take: null; rest: T }
+                    : HoursErr<T>
                 : C1 extends "1"
                     ? C2 extends NumericChar
                         ? {
@@ -37,7 +34,10 @@ type Take<T extends string> = string extends T
                         : HoursErr<T>
                     : C1 extends "2"
                         ? C2 extends "0" | "1" | "2" | "3"
-                            ? { take: TwoDigitHour<`${C1}${C2}`>; rest: Rest }
+                            ? {
+                                take: TwoDigitHour<`${C1}${C2}`>;
+                                rest: Rest
+                            }
                             : HoursErr<T>
                         : HoursErr<T>
             : HoursErr<T>;
@@ -64,6 +64,6 @@ export type TakeHours<
             Take<
                 As<StripLeading<T, TIgnoreLeading>, string>
             >,
-                Err<"parse-time/hours"> | { take: TwoDigitHour<"branded">; rest: string }
+            Error | { take: TwoDigitHour<"branded">; rest: string }
         >
     : Take<T>;

@@ -37,8 +37,6 @@ describe("Brand & Unbrand", () => {
             Expect<Test<Revert2, "equals", "2024">>,
         ];
     });
-
-
 });
 
 

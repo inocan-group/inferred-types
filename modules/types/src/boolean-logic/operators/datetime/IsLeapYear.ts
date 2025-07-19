@@ -1,15 +1,9 @@
 // ---------------------------------------------------------
 
-import type {
-    And,
-    DateLike,
-    Err,
-    Mod,
-    Not,
-    Or,
-    ParseDate,
-    ParsedDate
-} from "inferred-types/types";
+import type { And, Not, Or } from "types/boolean-logic";
+import type { DateLike, ParseDate, ParsedDate } from "types/datetime";
+import type { Err } from "types/errors";
+import type { Mod } from "types/numeric-literals";
 
 type EndDiv4 =
     | "00" | "04" | "08" | "12" | "16" | "20" | "24" | "28"

@@ -3,15 +3,14 @@ import type {
     ISO_DATE_31,
     ISO_MONTH_WITH_30
 } from "inferred-types/constants";
+import type { Brand } from "types/literals";
+import type { Err } from "types/errors";
+import type { IsFourDigitYear, IsTwoDigitMonth } from "types/boolean-logic";
 import type {
-    Brand,
-    Err,
-    IsFourDigitYear,
-    IsTwoDigitMonth,
     NumericChar,
     NumericChar__NonZero,
     NumericChar__ZeroToFive,
-} from "inferred-types/types";
+} from "types/string-literals";
 
 /**
  * common characters used to separate date representations

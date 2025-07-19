@@ -1,18 +1,22 @@
-import type {
-    As,
-    Err,
-    HasLeadingTemplateLiteral,
-    NumericChar,
-    StripLeading,
-    TimezoneOffset,
-} from "inferred-types/types";
+import type { As } from "types/boolean-logic";
+import type { Err } from "types/errors";
+import type {  NumericChar, StripLeading } from "types/string-literals";
+import type { TimezoneOffset } from "types/datetime";
+import { HasLeadingTemplateLiteral } from "types/interpolation";
+
+type TZ<T extends string> = Err<
+    `parse-time/tz`,
+    `The string '${T}' was unable to be parsed into a Timezone offset`,
+    { parse: T }
+>;
+
 
 type Take<T extends string> = string extends T
-    ? Err<"timezone"> | { take: TimezoneOffset<"branded">; rest: string }
+    ? Error | { take: TimezoneOffset<"branded">; rest: string }
     : HasLeadingTemplateLiteral<T> extends true
-        ? Err<"timezone"> | { take: TimezoneOffset<"branded">; rest: string }
+        ? Error | { take: TimezoneOffset<"branded">; rest: string }
         : T extends `Z${infer Rest}`
-            ? { take: "Z" & TimezoneOffset<"branded">; rest: Rest }
+            ? { take: TimezoneOffset<"Z">; rest: Rest }
             : T extends `${infer Sign}${infer H1}${infer H2}${infer Rest}`
                 ? Sign extends "+" | "-"
                     ? H1 extends NumericChar
@@ -26,45 +30,98 @@ type Take<T extends string> = string extends T
                                                 ? M2 extends NumericChar
                                                     // Check if valid minutes (00-59)
                                                     ? M1 extends "0" | "1" | "2" | "3" | "4" | "5"
-                                                        ? { take: TimezoneOffset<`${Sign}${H1}${H2}:${M1}${M2}`> ; rest: Rest2 }
-                                                        : { take: TimezoneOffset<`${Sign}${H1}${H2}`>; rest: Rest }
-                                                    : { take: TimezoneOffset<`${Sign}${H1}${H2}`>; rest: Rest }
-                                                : { take: TimezoneOffset<`${Sign}${H1}${H2}`>; rest: Rest }
+                                                        ? {
+                                                            take: TimezoneOffset<`${Sign}${H1}${H2}:${M1}${M2}`> ;
+                                                            rest: Rest2
+                                                        }
+                                                        : {
+                                                            take: TimezoneOffset<`${Sign}${H1}${H2}`>;
+                                                            rest: Rest
+                                                        }
+                                                    : {
+                                                        take: TimezoneOffset<`${Sign}${H1}${H2}`>; rest: Rest
+                                                    }
+                                                : {
+                                                    take: TimezoneOffset<`${Sign}${H1}${H2}`>;
+                                                    rest: Rest
+                                                }
                                             : Rest extends `${infer M1}${infer M2}${infer Rest2}`
                                                 ? M1 extends NumericChar
                                                     ? M2 extends NumericChar
                                                         // Check if valid minutes (00-59)
                                                         ? M1 extends "0" | "1" | "2" | "3" | "4" | "5"
-                                                            ? { take: TimezoneOffset<`${Sign}${H1}${H2}${M1}${M2}`>; rest: Rest2 }
-                                                            : { take: TimezoneOffset<`${Sign}${H1}${H2}`>; rest: Rest }
-                                                        : { take: TimezoneOffset<`${Sign}${H1}${H2}`>; rest: Rest }
-                                                    : { take: TimezoneOffset<`${Sign}${H1}${H2}`>; rest: Rest }
-                                                : { take: TimezoneOffset<`${Sign}${H1}${H2}`>; rest: Rest }
-                                        : Err<"timezone">
+                                                            ? {
+                                                                take: TimezoneOffset<`${Sign}${H1}${H2}${M1}${M2}`>;
+                                                                rest: Rest2
+                                                            }
+                                                            : {
+                                                                take: TimezoneOffset<`${Sign}${H1}${H2}`>;
+                                                                rest: Rest
+                                                            }
+                                                        : {
+                                                            take: TimezoneOffset<`${Sign}${H1}${H2}`>;
+                                                            rest: Rest
+                                                        }
+                                                    : {
+                                                        take: TimezoneOffset<`${Sign}${H1}${H2}`>;
+                                                        rest: Rest
+                                                    }
+                                                : {
+                                                    take: TimezoneOffset<`${Sign}${H1}${H2}`>;
+                                                    rest: Rest
+                                                }
+                                        : TZ<T>
                                     : Rest extends `:${infer M1}${infer M2}${infer Rest2}`
                                         ? M1 extends NumericChar
                                             ? M2 extends NumericChar
                                                 // Check if valid minutes (00-59)
                                                 ? M1 extends "0" | "1" | "2" | "3" | "4" | "5"
-                                                    ? { take: TimezoneOffset<"branded"> & `${Sign}${H1}${H2}:${M1}${M2}`; rest: Rest2 }
-                                                    : { take: TimezoneOffset<`${Sign}${H1}${H2}`>; rest: Rest }
-                                                : { take: TimezoneOffset<`${Sign}${H1}${H2}`>; rest: Rest }
-                                            : { take: TimezoneOffset<`${Sign}${H1}${H2}`>; rest: Rest }
+                                                    ? {
+                                                        take: TimezoneOffset<`${Sign}${H1}${H2}:${M1}${M2}`>;
+                                                        rest: Rest2
+                                                    }
+                                                    : {
+                                                        take: TimezoneOffset<`${Sign}${H1}${H2}`>;
+                                                        rest: Rest
+                                                    }
+                                                : {
+                                                    take: TimezoneOffset<`${Sign}${H1}${H2}`>;
+                                                    rest: Rest
+                                                }
+                                            : {
+                                                take: TimezoneOffset<`${Sign}${H1}${H2}`>;
+                                                rest: Rest
+                                            }
                                         : Rest extends `${infer M1}${infer M2}${infer Rest2}`
                                             ? M1 extends NumericChar
                                                 ? M2 extends NumericChar
                                                     // Check if valid minutes (00-59)
                                                     ? M1 extends "0" | "1" | "2" | "3" | "4" | "5"
-                                                        ? { take: TimezoneOffset<`${Sign}${H1}${H2}${M1}${M2}`>; rest: Rest2 }
-                                                        : { take: TimezoneOffset<`${Sign}${H1}${H2}`>; rest: Rest }
-                                                    : { take: TimezoneOffset<`${Sign}${H1}${H2}`>; rest: Rest }
-                                                : { take: TimezoneOffset<`${Sign}${H1}${H2}`>; rest: Rest }
-                                            : { take: TimezoneOffset<`${Sign}${H1}${H2}`>; rest: Rest }
-                                : { take: null; rest: T }
-                            : { take: null; rest: T }
-                        : { take: null; rest: T }
-                    : { take: null; rest: T }
-                : Err<"timezone">;
+                                                        ? {
+                                                            take: TimezoneOffset<`${Sign}${H1}${H2}${M1}${M2}`>;
+                                                            rest: Rest2
+                                                        }
+                                                        : {
+                                                            take: TimezoneOffset<`${Sign}${H1}${H2}`>;
+                                                            rest: Rest
+                                                        }
+                                                    : {
+                                                        take: TimezoneOffset<`${Sign}${H1}${H2}`>;
+                                                        rest: Rest
+                                                    }
+                                                : {
+                                                    take: TimezoneOffset<`${Sign}${H1}${H2}`>;
+                                                    rest: Rest
+                                                }
+                                            : {
+                                                take: TimezoneOffset<`${Sign}${H1}${H2}`>;
+                                                rest: Rest
+                                            }
+                                : TZ<T>
+                            : TZ<T>
+                        : TZ<T>
+                    : TZ<T>
+                : TZ<T>;
 
 /**
  * **TakeTimezone**`<T, TIgnoreLeading>`
@@ -74,9 +131,7 @@ type Take<T extends string> = string extends T
  *
  * - `{ take: TimezoneOffset, rest: Rest }`
  *
- * If there is no match:
- *
- * - `{ take: null, rest: T }`
+ * If there is no match an Error is returned.
  *
  * Valid timezone formats:
  * - "Z" for UTC
@@ -97,9 +152,9 @@ export type TakeTimezone<
             Take<
                 As<StripLeading<T, TIgnoreLeading>, string>
             >,
-                Err<"timezone"> | { take: TimezoneOffset<"branded">; rest: string }
+                Error | { take: TimezoneOffset<"branded">; rest: string }
         >
     : As<
         Take<T>,
-        { take: null; rest: string } | { take: TimezoneOffset<"branded">; rest: string }
+        Error | { take: TimezoneOffset<"branded">; rest: string }
     >;

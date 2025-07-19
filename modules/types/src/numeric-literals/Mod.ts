@@ -1,4 +1,9 @@
-import type { Abs, And, AsNumber, Err, FixedLengthArray, IsInteger, NumberLike, Or } from "inferred-types/types";
+import type { Abs } from "types/numeric-literals";
+import type { And, IsInteger, Or } from "types/boolean-logic";
+import type { AsNumber } from "types/type-conversion";
+import type { Err } from "types/errors";
+import type { FixedLengthArray } from "types/tuples";
+import type { NumberLike } from "types/numeric-literals";
 
 type Gte<
     A extends unknown[],

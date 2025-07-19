@@ -1,4 +1,7 @@
-import type { IsDoubleLeap, IsLeapYear } from "types/boolean-logic/operators";
+import type {
+    IsDoubleLeap,
+    IsLeapYear
+} from "types/boolean-logic/operators";
 import type {
     IsoDate30,
     IsoDate31,

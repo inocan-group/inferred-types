@@ -1,9 +1,6 @@
-import type {
-    And,
-    AsNumber,
-    AsStringUnion,
-    IsStringLiteral,
-} from "inferred-types/types";
+import type { And } from "types/boolean-logic";
+import type { AsNumber, AsStringUnion } from "types/type-conversion";
+import type { IsStringLiteral } from "types/boolean-logic";
 
 type Process<
     TContent extends string,

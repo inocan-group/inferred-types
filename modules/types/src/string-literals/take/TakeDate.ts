@@ -1,15 +1,10 @@
-import type {
-    As,
-    Err,
-    FourDigitYear,
-    HasLeadingTemplateLiteral,
-    IsLeapYear,
-    IsTwoDigitDate,
-    NumericChar,
-    StripLeading,
-    TwoDigitDate,
-    TwoDigitMonth,
-} from "inferred-types/types";
+import type { As } from "types/boolean-logic";
+import type { Err } from "types/errors";
+import type {  TwoDigitDate } from "types/datetime";
+import type {  NumericChar, StripLeading } from "types/string-literals";
+import type { IsLeapYear, IsTwoDigitDate } from "types/boolean-logic";
+import type { HasLeadingTemplateLiteral } from "types/interpolation";
+import { Unbrand } from "types/literals";
 
 type InvalidDate<T extends string> = Err<
     "parse-date/date",
@@ -17,7 +12,12 @@ type InvalidDate<T extends string> = Err<
     { date: T }
 >;
 
-type Take<T extends string> = string extends T
+/**
+ *
+ */
+type Take<
+    T extends string
+> = string extends T
     ? Error | { take: TwoDigitDate<"branded">; rest: string }
     : HasLeadingTemplateLiteral<T> extends true
         ? Error | { take: TwoDigitDate<"branded">; rest: string }
@@ -52,6 +52,10 @@ type Take<T extends string> = string extends T
                 : InvalidDate<T>
             : InvalidDate<T>;
 
+/**
+ * works with the year/month info to refine what a valid date is
+ * (when these are provided)
+ */
 type WithContext<
     T extends string,
     TYear extends `${number}` | null,
@@ -59,17 +63,15 @@ type WithContext<
 > = Take<T> extends Error
     ? Take<T>
     : Take<T> extends {
-        take: infer Date extends `${number}`;
+        take: infer Date extends TwoDigitDate<"branded">;
         rest: infer _Rest extends string;
     }
-        ? IsTwoDigitDate<Date, TYear, TMonth> extends true
             ? Take<T>
             : Err<
                 `parse-date/date`,
                 `Validation against the ISO date failed. This is likely due to the date being too large for the month of the date (leap and double leap is considered when both year and month were provided to TakeDate<T>)`,
                 { year: TYear; month: TMonth; date: T; leap: IsLeapYear<TYear> }
-            >
-        : never;
+            >;
 
 /**
  * **TakeDate**`<T, TIgnoreLeading, [TYear], [TMonth]>`
@@ -90,14 +92,19 @@ export type TakeDate<
     TIgnoreLeading extends string | null = null,
     TYear extends `${number}` | null = null,
     TMonth extends `${number}` | null = null
-> = As<
-    TIgnoreLeading extends string
-        ? string extends TIgnoreLeading
-            ? never
-            : WithContext<StripLeading<T, TIgnoreLeading>, TYear, TMonth>
-        : WithContext<T, TYear, TMonth>,
-    Error |
-    { take: TwoDigitDate<"branded">; rest: string }
->;
+> = TIgnoreLeading extends string
+    ? string extends TIgnoreLeading
+        ? Error | { take: TwoDigitDate<"branded">; rest: string }
+        : string extends T
+            ? Error | { take: TwoDigitDate<"branded">; rest: string }
+            : WithContext<
+                StripLeading<T, TIgnoreLeading>,
+                Unbrand<TYear>,
+                Unbrand<TMonth>
+            >
+    : string extends T
+        ? Error | { take: TwoDigitDate<"branded">; rest: string }
+        : WithContext<T, Unbrand<TYear>, Unbrand<TMonth>>;
 
-type X = FourDigitYear<"branded"> extends `${number}` ? true : false;
+
+

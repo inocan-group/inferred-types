@@ -16,7 +16,7 @@ describe("TakeSeconds<T>", () => {
 
         type cases = [
             Expect<Test<Valid, "equals", TwoDigitSecond<"branded"> & "42">>,
-            Expect<Test<Invalid, "equals", never>>
+            Expect<Test<Invalid, "isError", "invalid-type">>
         ];
     });
 
@@ -43,11 +43,11 @@ describe("TakeSeconds<T>", () => {
         type T5 = TakeSeconds<"">;            // empty string
 
         type cases = [
-            Expect<Test< T1, "equals", { take: null, rest: "60 seconds" }>>,
-            Expect<Test< T2, "equals", { take: null, rest: "99 seconds" }>>,
-            Expect<Test< T3, "equals", { take: null, rest: "a5 seconds" }>>,
-            Expect<Test< T4, "equals", { take: null, rest: "5 seconds" }>>,
-            Expect<Test< T5, "equals", { take: null, rest: "" }>>,
+            Expect<Test< T1, "isError", "parse-time">>,
+            Expect<Test< T2, "isError", "parse-time">>,
+            Expect<Test< T3, "isError", "parse-time">>,
+            Expect<Test< T4, "isError", "parse-time">>,
+            Expect<Test< T5, "isError", "parse-time">>,
         ];
     });
 
@@ -60,16 +60,15 @@ describe("TakeSeconds<T>", () => {
         type cases = [
             Expect<Test<
                 T1, "equals",
-                { take: null; rest: string } |
-                { take: TwoDigitSecond<"branded">; rest: string }
+                Error | { take: TwoDigitSecond<"branded">; rest: string }
             >>,
             Expect<Test<
                 T2, "equals",
-                { take: null; rest: string } | { take: TwoDigitSecond<"branded">; rest: string }
+                Error | { take: TwoDigitSecond<"branded">; rest: string }
             >>,
             Expect<Test<
                 T3, "equals",
-                { take: null; rest: string } | { take: TwoDigitSecond<"branded">; rest: string }
+                Error | { take: TwoDigitSecond<"branded">; rest: string }
             >>,
         ];
     });

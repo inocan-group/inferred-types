@@ -1,13 +1,7 @@
-import type {
-    AsUnion,
-    BeforeLast,
-    IsSubstring,
-    IsWideString,
-    Last,
-    Length,
-    RetainAfter,
-    StripAfter,
-} from "inferred-types/types";
+import type { AsUnion } from "types/type-conversion";
+import type { IsSubstring, IsWideString } from "types/boolean-logic";
+import type { BeforeLast, Last, RetainAfter, StripAfter } from "types/string-literals";
+import type { Length } from "types/lists";
 
 type Policy = "omit" | "before" | "after" | "inline";
 

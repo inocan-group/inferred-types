@@ -1,11 +1,7 @@
-import type {
-    AsNumber,
-    If,
-    IsNegativeNumber,
-    IsStringLiteral,
-    NumberLike,
-    StripLeading,
-} from "inferred-types/types";
+import type { AsNumber } from "types/type-conversion";
+import type { If, IsNegativeNumber, IsStringLiteral } from "types/boolean-logic";
+import type { NumberLike } from "types/numeric-literals";
+import type { StripLeading } from "types/string-literals";
 
 type Process<T extends `${number}`> = If<
     IsStringLiteral<T>,
