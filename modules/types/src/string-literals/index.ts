@@ -1,6 +1,5 @@
 export * from "./AsTypeSubtype";
 export * from "./BackTick";
-export * from "./Brand";
 export * from "./Cardinality";
 export * from "./casing/index";
 export * from "./character-sets/index";

@@ -22,7 +22,7 @@ type Take<T extends string> = string extends T
                 ? C2 extends NumericChar
                     ? `${C1}${C2}` extends TwoDigitMonth<"normal">
                         ? {
-                            take: TwoDigitMonth<"branded"> & `${C1}${C2}`;
+                            take: TwoDigitMonth<`${C1}${C2}`>;
                             rest: Rest;
                         }
                         : InvalidMonth<T>

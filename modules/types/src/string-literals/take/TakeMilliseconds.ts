@@ -17,7 +17,7 @@ type Take<T extends string> = As<
                     ? C2 extends NumericChar
                         ? C3 extends NumericChar
                             ? {
-                                take: `${C1}${C2}${C3}` & ThreeDigitMillisecond<"branded">;
+                                take: ThreeDigitMillisecond<`${C1}${C2}${C3}`>;
                                 rest: Rest;
                             }
                             : Err<"milliseconds">

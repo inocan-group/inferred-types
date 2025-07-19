@@ -1,6 +1,6 @@
 import { Expect, Test } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
-import { isInUnion } from "inferred-types/runtime";
+import { isInUnion } from "runtime/type-guards";
 
 describe("isInUnion(elements) => TypeGuard", () => {
 

@@ -72,7 +72,7 @@
         "@js-temporal/polyfill": "^0.5.1",
         "@type-challenges/utils": "~0.1.1",
         "@types/luxon": "^3.6.2",
-        "@types/node": "^22.16.4",
+        "@types/node": "^22.16.5",
         "@typescript-eslint/eslint-plugin": "^8.37.0",
         "@typescript-eslint/parser": "^8.37.0",
         "@typescript/analyze-trace": "^0.10.1",

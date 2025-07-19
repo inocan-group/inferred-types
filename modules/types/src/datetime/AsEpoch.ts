@@ -9,7 +9,9 @@ import { Multiply } from "types/numeric-literals";
 import { AsNumber } from "types/type-conversion";
 import { IsLeapYear } from "types/boolean-logic/operators/datetime";
 import { Dictionary } from "types/base-types";
-import { IsBranded, Unbrand } from "types/literals";
+import { GetBrand, IsBranded, Unbrand } from "types/literals";
+import { AsDateMeta } from "types/datetime/AsDateMeta";
+import { DateMeta } from "types/datetime/DateMeta";
 
 type SEC_IN_YEAR = 31536000;
 type SEC_IN_DAY = 86400;
@@ -55,57 +57,33 @@ type Lookup<Y extends number> = IsLeapYear<`${Y}`> extends true
  * that would need to be multiplied at runtime.
  */
 type ToEpoch<
-    Y extends number,
-    M extends number,
-    D extends number
+    Y extends unknown,
+    M extends unknown,
+    D extends unknown
 > = {
     year: Y,
-    yearMultiplier: SEC_IN_YEAR,
-    daysBeforeMonth: Lookup<Y>[M],
-    date: D,
-    dayMultiplier: SEC_IN_DAY
+    month: M,
+    date: D
 };
 
 
-/**
- * **AsEpoch**`<T>`
- *
- * Returns the components needed to calculate an Epoch timestamp (in seconds).
- * Due to TypeScript limitations with large number multiplication, this returns
- * an object with the factors that need to be multiplied at runtime:
- *
- * epoch = (year * yearMultiplier) + (daysBeforeMonth * dayMultiplier) + (date * dayMultiplier)
- *
- * - valid dates which do not define year, month and date return an Error
- * - if `T` is not a valid `ParsedDate` it will return an error;
- * and if `T` _was_ an error it will be proxied
- */
-// Helper to extract number from branded type
-type ExtractNumber<T> = T extends `${infer N extends number}` ? N : never;
 
 export type AsEpoch<T> = T extends ParsedDate
-? T extends [
-    infer Year extends FourDigitYear<"branded">,
-    infer Month extends TwoDigitMonth<"branded">,
-    infer Date extends TwoDigitDate<"branded">,
-    ...unknown[]
-]
-    ? ExtractNumber<Year> extends never
-        ? Err<"invalid-date/year-extraction", "Could not extract year number", { year: Year }>
-        : ExtractNumber<Month> extends never
-            ? Err<"invalid-date/month-extraction", "Could not extract month number", { month: Month }>
-            : ExtractNumber<Date> extends never
-                ? Err<"invalid-date/date-extraction", "Could not extract date number", { date: Date }>
-                : ToEpoch<ExtractNumber<Year>, ExtractNumber<Month>, ExtractNumber<Date>>
+? AsDateMeta<T> extends DateMeta
+        ? ToEpoch<
+            AsDateMeta<T>["year"],
+            AsDateMeta<T>["month"],
+            AsDateMeta<T>["date"]
+        >
+        : never
+
+: T extends TypedError
+    ? T
     : Err<
         "invalid-date/missing",
         `The AsEpoch type requires a ParsedDate with year, month, and date components, but one or more are missing.`,
         { parsed: T }
-    >
-
-: T extends TypedError
-    ? T
-    : Err<`invalid-type/not-parsed-date`>;
+    >;
 
 
 // Example usage:
@@ -113,10 +91,10 @@ type ParsedChristmas2024 = ParseDate<"2024-12-24">;
 type ChristmasEpochComponents = AsEpoch<ParsedChristmas2024>;
 
 
-
 type Year = FourDigitYear<"2024">;
-type Raw = AsNumber<Year>; // "2024"
+type U = Unbrand<Year>;
+type N = AsNumber<Year>;
 
-
-type Y = IsBranded<Year>;
-type Y2 = IsBranded<"2025">;
+type Y2 = FourDigitYear<"branded"> & "2024";
+type U2 = Unbrand<Y2>;
+type N2 = AsNumber<Y2>;

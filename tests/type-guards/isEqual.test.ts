@@ -1,6 +1,6 @@
 import { Expect, Test } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
-import { isEqual } from "inferred-types/runtime";
+import { isEqual } from "runtime/type-guards";
 
 
 describe("isEqual(a)(b) type guard", () => {

@@ -1,7 +1,9 @@
 import type { ISO_DATE_30, ISO_DATE_31, ISO_MONTH_WITH_30 } from "inferred-types/constants";
 import type {
     Brand,
+    Err,
     IsFourDigitYear,
+    IsTwoDigitMonth,
     NumericChar,
     NumericChar__NonZero,
     NumericChar__ZeroToFive
@@ -94,19 +96,23 @@ export type TwoDigitSecond<
 export type ThreeDigitMillisecond<
     T extends "weak" | "normal" | "strong" | "branded" | `${number}` = "normal"
 > =
-    T extends "weak"
-        ? `${number}`
-        : T extends "normal"
-            ? `${NumericChar}${number}`
-            : T extends "strong"
-                ? `${NumericChar}${NumericChar}${NumericChar}`
-                : T extends "branded"
-                    ? Brand<`${number}`, "ThreeDigitMillisecond">
-                    : T extends `${number}`
-                        ? T extends ThreeDigitMillisecond<"strong">
-                            ? Brand<T,"ThreeDigitMillisecond">
-                            : never
-                        : never;
+T extends "weak"
+    ? `${number}`
+: T extends "normal"
+    ? `${NumericChar}${number}`
+: T extends "strong"
+    ? `${NumericChar}${NumericChar}${NumericChar}`
+: T extends "branded"
+    ? Brand<`${number}`, "ThreeDigitMillisecond">
+: T extends `${number}`
+? T extends ThreeDigitMillisecond<"strong">
+    ? Brand<T,"ThreeDigitMillisecond">
+    : Err<
+        `invalid-type/ms`,
+        `The type passed into 'ThreeDigitMillisecond<${T}>' is not valid!`,
+        { ms: T }
+    >
+: never;
 
 /**
  * **TwoDigitMonth**`<normal|weak|branded>`
@@ -122,13 +128,19 @@ export type TwoDigitMonth<
 > =
     T extends "normal"
         ? (`0${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}` | `1${0 | 1 | 2}`) & `${number}`
-        : T extends "weak"
-            ? `${"0" | "1"}${number}` & `${number}`
-            : T extends "branded"
-                ? Brand<`${number}`, "TwoDigitMonth">
-                : T extends `${number}`
-                    ? Brand<T, "TwoDigitMonth">
-                    : never;
+    : T extends "weak"
+        ? `${"0" | "1"}${number}` & `${number}`
+    : T extends "branded"
+        ? Brand<`${number}`, "TwoDigitMonth">
+    : T extends `${number}`
+        ? [IsTwoDigitMonth<T>] extends [true]
+            ? Brand<T, "TwoDigitMonth">
+            : Err<
+                `invalid-type/month`,
+                `The type passed into 'TwoDigitMonth<${T}>' is not a valid two digit month!`,
+                { month: T }
+            >
+        : never;
 
 /**
  * a union of valid month numbers
@@ -151,30 +163,33 @@ export type MonthNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
  * - Note: the _branded_ variant is intentionally not super strong on "type" because
  * it's brand ensures other utilities will know it's validated.
  */
-export type TwoDigitDate<T extends "weak" | "normal" | "branded" | `${number}` = "normal"> =
-    T extends "normal"
+export type TwoDigitDate<
+    T extends "weak" | "normal" | "branded" | `${number}` = "normal"
+> =
+T extends "normal"
         ?
     | `0${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     | `1${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     | `2${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     | `3${0 | 1}`
 
-        : T extends "weak"
-            ?
+: T extends "weak"
+    ?
     | `0${number}`
     | `1${number}`
     | `2${number}`
     | `3${number}`
-            : T extends "branded"
-                ? Brand<(
-        | `0${number}`
-        | `1${number}`
-        | `2${number}`
-        | `3${number}`
-    ), "TwoDigitDate">
-                : T extends `${number}`
-                    ? Brand<T, "TwoDigitDate">
-                    : never;
+: T extends "branded"
+    ? Brand<`${number}`, "TwoDigitDate">
+: T extends `${number}`
+    ? T extends TwoDigitDate<"normal">
+        ? Brand<T, "TwoDigitDate">
+        : Err<
+            `invalid-type/date`,
+            `The type passed into TwoDigitDate<${T}> is not valid!`,
+            { dte: T }
+        >
+    : never;
 
 /**
  * **MinimalDigitDate**
@@ -264,7 +279,11 @@ export type FourDigitYear<
                 : T extends `${number}`
                     ? IsFourDigitYear<T> extends true
                         ? Brand<T, "FourDigitYear">
-                        : never
+                        : Err<
+                            `invalid-type/four-digit-year`,
+                            `The type passed into 'FourDigitYear<${T}>' is not a valid four digit year so a Branded type can not be produced!`,
+                            { year: T }
+                        >
                     : never;
 
 export type TimeZoneExplicit = | `Z`

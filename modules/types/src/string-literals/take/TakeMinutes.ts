@@ -15,7 +15,10 @@ type Take<T extends string> = string extends T
         : T extends `${infer C1}${infer C2}${infer Rest}`
             ? C1 extends NumericChar__ZeroToFive
                 ? C2 extends NumericChar
-                    ? { take: TwoDigitMinute<"branded"> & `${C1}${C2}`; rest: Rest }
+                    ? {
+                        take: TwoDigitMinute<`${C1}${C2}`>;
+                        rest: Rest
+                    }
                     : Err<"minutes">
                 : Err<"minutes">
             : Err<"minutes">;

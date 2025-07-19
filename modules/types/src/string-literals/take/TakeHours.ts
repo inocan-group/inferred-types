@@ -15,20 +15,20 @@ type Take<T extends string> = string extends T
             ? C1 extends "0"
                 ? C2 extends NumericChar
                     ? {
-                        take: TwoDigitHour<"branded"> & `${C1}${C2}`;
+                        take: TwoDigitHour<`${C1}${C2}`>;
                         rest: Rest;
                     }
                     : { take: null; rest: T }
                 : C1 extends "1"
                     ? C2 extends NumericChar
                         ? {
-                            take: TwoDigitHour<"branded"> & `${C1}${C2}`;
+                            take: TwoDigitHour<`${C1}${C2}`>;
                             rest: Rest;
                         }
                         : Err<"hours">
                     : C1 extends "2"
                         ? C2 extends "0" | "1" | "2" | "3"
-                            ? { take: TwoDigitHour<"branded"> & `${C1}${C2}`; rest: Rest }
+                            ? { take: TwoDigitHour<`${C1}${C2}`>; rest: Rest }
                             : Err<"hours">
                         : Err<"hours">
             : Err<"hours">;

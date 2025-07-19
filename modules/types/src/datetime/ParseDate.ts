@@ -43,8 +43,8 @@ type ParseMonthDate<
             ? Rest extends ""
                 ? As<[
                     null,
-                    Month & TwoDigitMonth<"branded">,
-                    IsoDate & TwoDigitDate<"branded">,
+                     TwoDigitMonth<Month>,
+                     TwoDigitDate<IsoDate>,
                     null
                 ], ParsedDate>
                 : Err<
@@ -74,8 +74,8 @@ type ParseYearMonth<T extends string> = TakeYear<T> extends {
         ? Rest extends ""
 
             ? [
-                Year & FourDigitYear<"branded">,
-                Month & TwoDigitMonth<"branded">,
+                FourDigitYear<Year>,
+                TwoDigitMonth<Month>,
                 null,
                 null
             ]
@@ -105,14 +105,14 @@ type ParseFullDate<T extends string> = TakeYear<T> extends {
         rest: infer Rest extends string;
     }
         ? TakeDate<Rest, "-", Year, Month> extends {
-            take: infer Date extends TwoDigitDate<"branded">;
+            take: infer D extends TwoDigitDate<"branded">;
             rest: infer Rest extends string;
         }
             ? As<
                 [
-                    Year & FourDigitYear<"branded">,
-                    Month & TwoDigitMonth<"branded">,
-                    Date & TwoDigitDate<"branded">,
+                    FourDigitYear<Year>,
+                    TwoDigitMonth<Month>,
+                    TwoDigitDate<D>,
                     null
                 ],
                 ParsedDate
@@ -133,7 +133,7 @@ type ParseFullDate<T extends string> = TakeYear<T> extends {
 type ParseYear<T extends string> = IsFourDigitYear<T> extends true
     ? As<
         [
-            As<T & FourDigitYear<"branded">, ParsedDate[0]>,
+            As<FourDigitYear<As<T, `${number}`>>, ParsedDate[0]>,
             null,
             null,
             null

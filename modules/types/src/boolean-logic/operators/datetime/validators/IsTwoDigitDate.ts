@@ -9,7 +9,9 @@ type TestFeb<
     T,
     TYear extends string | null
 > = TYear extends null
-    ? boolean
+    ? T extends Exclude<IsoDate30, "30">
+        ? true
+        : false
     : IsLeapYear<TYear> extends true
         ? IsDoubleLeap<T> extends true
             ? T extends IsoDate30
@@ -42,15 +44,15 @@ export type IsTwoDigitDate<
         ? boolean
         : TMonth extends "02"
             ? TestFeb<T, TYear>
-            : TMonth extends null
-                ? T extends IsoDate31
+        : TMonth extends null | undefined
+            ? T extends IsoDate31
+                ? true
+                : false
+            : TMonth extends IsoMonthsWith30Days
+                ? T extends IsoDate30
                     ? true
                     : false
-                : TMonth extends IsoMonthsWith30Days
-                    ? T extends IsoDate30
-                        ? true
-                        : false
-                    : T extends IsoDate31
-                        ? true
-                        : false
+                : T extends IsoDate31
+                    ? true
+                    : false
     : false;

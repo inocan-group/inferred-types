@@ -17,7 +17,6 @@ import type {
     Suggest,
     Unset,
     IsAfter,
-    Second,
     First,
     IsError,
 } from "inferred-types/types";
@@ -33,8 +32,8 @@ import {
     err,
     firstChar,
     indexOf,
-    isAfter,
     last,
+    isAfter,
     parseDate,
     unset
 } from "inferred-types/runtime";
@@ -59,11 +58,10 @@ import {
     isString,
     isStringOrNumericArray,
     isTrue,
+    isComparisonOperation,
     isNumberLike,
 } from "runtime/type-guards";
-import { isComparisonOperation } from "runtime/type-guards/comparison";
 import { not } from "runtime/boolean-logic/not";
-import { NumberLike } from "@inferred-types/types";
 
 function handle_string<
     TVal extends Narrowable,
@@ -623,11 +621,15 @@ export function compare<
 >(
     op: TOp,
     ...params: TParams
-) {
+): TOp extends ComparisonOperation ? Comparator<TOp,TParams> : Error {
+    let response: any;
+
     if(isComparisonOperation(op)) {
-        return compareFn(op, params);
+        response =  compareFn(op, params);
     } else {
-        throw err("invalid-operation")
+        response = err("invalid-operation", `The operation '${op}' is not a recognized or valid comparison operation!`, { op, params })
     }
+
+    return response as TOp extends ComparisonOperation ? Comparator<TOp,TParams> : Error;
 }
 

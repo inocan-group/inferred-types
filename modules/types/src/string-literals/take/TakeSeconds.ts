@@ -16,7 +16,7 @@ type Take<T extends string> = string extends T
             ? C1 extends NumericChar__ZeroToFive
                 ? C2 extends NumericChar
                     ? {
-                        take: TwoDigitSecond<"branded"> & `${C1}${C2}`;
+                        take: TwoDigitSecond<`${C1}${C2}`>;
                         rest: Rest;
                     }
                     : Err<"seconds">

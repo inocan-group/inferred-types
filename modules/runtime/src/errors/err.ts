@@ -5,6 +5,7 @@ import type {
     TypedError
 } from "inferred-types/types";
 import { toKebabCase } from "inferred-types/runtime";
+import { dropFirstStackFrame } from './dropFirstStackFrame';
 
 /**
  * **typedError**(type, message, [ctx])
@@ -53,5 +54,5 @@ export function err<
         }
     }
 
-    return err as Err<TType, TMsg, IsNever<TCtx> extends true ? EmptyObject : TCtx>;
+    return dropFirstStackFrame(err) as Err<TType, TMsg, IsNever<TCtx> extends true ? EmptyObject : TCtx>;
 }

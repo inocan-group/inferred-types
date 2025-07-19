@@ -1,12 +1,14 @@
 import type {
     As,
     Err,
+    FourDigitYear,
     HasLeadingTemplateLiteral,
     IsLeapYear,
     IsTwoDigitDate,
     NumericChar,
     StripLeading,
     TwoDigitDate,
+    TwoDigitMonth,
 } from "inferred-types/types";
 
 type InvalidDate<T extends string> = Err<
@@ -23,23 +25,26 @@ type Take<T extends string> = string extends T
             ? C1 extends NumericChar
                 ? C1 extends "0"
                     ? C2 extends "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
-                        ? { take: TwoDigitDate<"branded"> & `${C1}${C2}`; rest: Rest }
+                        ? { take: TwoDigitDate<`${C1}${C2}`> ; rest: Rest }
                         : InvalidDate<T>
                     : C1 extends "1"
                         ? C2 extends NumericChar
                             ? {
-                                take: TwoDigitDate<"branded"> & `${C1}${C2}`;
+                                take: TwoDigitDate<`${C1}${C2}`>;
                                 rest: Rest;
                             }
                             : InvalidDate<T>
                         : C1 extends "2"
                             ? C2 extends NumericChar
-                                ? { take: TwoDigitDate<"branded"> & `${C1}${C2}`; rest: Rest }
+                                ? {
+                                    take: TwoDigitDate<`${C1}${C2}`>;
+                                    rest: Rest
+                                }
                                 : InvalidDate<T>
                             : C1 extends "3"
                                 ? C2 extends "0" | "1"
                                     ? {
-                                        take: TwoDigitDate<"branded"> & `${C1}${C2}`;
+                                        take: TwoDigitDate<`${C1}${C2}`>;
                                         rest: Rest;
                                     }
                                     : InvalidDate<T>
@@ -94,3 +99,5 @@ export type TakeDate<
     Error |
     { take: TwoDigitDate<"branded">; rest: string }
 >;
+
+type X = FourDigitYear<"branded"> extends `${number}` ? true : false;
