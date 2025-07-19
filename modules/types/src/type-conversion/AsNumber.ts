@@ -1,4 +1,4 @@
-import type { As, Contains, RetainAfter, StartsWith, StripAfter, StripChars, StripLeading, StripWhile } from "inferred-types/types";
+import type { As, Contains, IsBranded, RetainAfter, StartsWith, StripAfter, StripChars, StripLeading, StripWhile, Unbrand } from "inferred-types/types";
 import type { TrimCharEnd } from "types/string-literals/sub-strings/trim/TrimCharEnd";
 
 /**
@@ -43,6 +43,7 @@ type Handler<T extends `${number}`> = StartsWith<T, "0"> extends true
         ? As<`0${T}`, `${number}`>
         : T;
 
+
 /**
  * **AsNumber**`<T>`
  *
@@ -56,7 +57,9 @@ type Handler<T extends `${number}`> = StartsWith<T, "0"> extends true
  * ```
  * **Related:** `ToNumber`
  */
-export type AsNumber<T> = T extends number
+export type AsNumber<T> = IsBranded<T> extends true
+? AsNumber<Unbrand<T>>
+: T extends number
     ? T
     : T extends `${number}`
         ? StartsWith<T, "-"> extends true
