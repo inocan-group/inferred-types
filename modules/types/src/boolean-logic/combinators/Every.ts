@@ -1,3 +1,4 @@
+import { IsObjectKeyRequiringQuotes } from '../../type-conversion/ToStringLiteral';
 import type {
     AfterFirst,
     Compare,
@@ -10,7 +11,9 @@ import type {
     ComparisonAccept,
     AsArray,
     Err,
-    IsWideContainer
+    IsWideContainer,
+    IsTuple,
+    IsObjectLiteral
 } from "inferred-types/types";
 
 type Process<
@@ -52,15 +55,16 @@ export type Every<
     TContainer extends Container,
     TOp extends ComparisonOperation,
     TComparator extends GetComparisonParamInput<TOp> | First<GetComparisonParamInput<TOp>>,
-> = IsWideContainer<TContainer> extends true
-? boolean
-
-: AsArray<TComparator> extends GetComparisonParamInput<TOp>
+> = AsArray<TComparator> extends GetComparisonParamInput<TOp>
 ? TContainer extends readonly unknown[]
-    ? Process<TContainer, TOp, AsArray<TComparator>>
+    ? IsWideContainer<TContainer> extends true
+        ? boolean
+        : Process<TContainer, TOp, AsArray<TComparator>>
 : TContainer extends Dictionary
-    ? Process<Values<TContainer>, TOp, AsArray<TComparator>>
-    : never
+    ? IsObjectLiteral<TContainer> extends true
+        ? Process<Values<TContainer>, TOp, AsArray<TComparator>>
+        : boolean
+: never
 : Err<
     `invalid-type/comparator`,
     `the Every<TContainer,TOp,TComparator> utility requires that the comparator be an array of values which meet the criteria for the specified operation. In many cases, operations only require a single parameter so for convenience we allow a non-array syntax when calling Some which we then convert to a single element tuple. In both cases, we compare the resultant comparator tuple to the requirements and in this case the comparator does not meet the minimum requirements for the operation '${TOp}'.`,

@@ -62,10 +62,10 @@ describe("Every<TContainer,TOp,TComparator>", () => {
 
     it("testing KV Object", () => {
         type T1 = Every<{foo: 1, bar: 42}, "extends", [number]>;
-        type T2 = Every<{foo: 1, bar: 42}, "equals", [42]>;
+        type T2 = Every<{foo: 42, bar: 42}, "equals", [42]>;
 
-        type F1 = Every<{foo: "hi", bar: "bye"}, "extends", [number]>;
-        type F2 = Every<{foo: "hi", bar: 42}, "equals", [number]>;
+        type F1 = Every<{foo: 1, bar: 99}, "equals", [number]>;
+        type F2 = Every<{foo: 12, bar: 42}, "equals", [42]>;
 
         type cases = [
             Expect<Test<T1, "equals", true>>,
