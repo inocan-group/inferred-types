@@ -60,6 +60,9 @@ type ProcessObject<
  *
  * Provides the _explicit keys_ of a container `TContainer` as an array of values.
  *
+ * - if the container is wide then the keys will be a wide array type
+ * - if the container is a narrow type then a tuple of literal keys will be returned
+ *
  * ```ts
  * type Obj = { foo: 1, bar: 2, [key: string]: unknown };
  * type Arr = [1,2,3];
@@ -67,9 +70,13 @@ type ProcessObject<
  * type K1 = Keys<Obj>;
  * // readonly [0,1,2]
  * type K2 = Keys<Arr>;
+ * // number[]
+ * type Arr = Keys<string[]>;
+ * // string[]
+ * type Obj = Record<string,unknown>;
  * ```
  *
- * **Related:** `ValidKey`, `PublicKeys`
+ * **Related:** `ValidKey`, `PublicKeys`, `PrivateKeys`
  */
 export type Keys<
     TContainer extends readonly unknown[] | Dictionary,

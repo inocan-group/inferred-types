@@ -1,3 +1,6 @@
+import { NumberLike } from "types/numeric-literals/NumberLike";
+import { AsNumber } from "types/type-conversion";
+
 /**
  * **CompareNumbers**`<A,B>`
  *
@@ -19,9 +22,14 @@
  * ```
  */
 export type CompareNumbers<
-    A extends number,
-    B extends number
-> = number extends A
+    A extends NumberLike,
+    B extends NumberLike
+> = A extends `${number}`
+? CompareNumbers<AsNumber<A>,AsNumber<B>>
+: B extends `${number}`
+? CompareNumbers<AsNumber<A>,AsNumber<B>>
+
+: number extends A
     ? "equal" | "greater" | "less"
     : number extends B
         ? "equal" | "greater" | "less"

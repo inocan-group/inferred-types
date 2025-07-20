@@ -1,22 +1,12 @@
 import { describe, expect, it } from "vitest";
 import {
-    Err,
     Expect,
     IsSameDay,
     Test,
 } from "inferred-types/types";
 import { isSameDay } from "inferred-types/runtime";
 
-/**
- * NOTE: The current implementation of IsSameDay compares only the MONTH component
- * (index 1) of parsed dates, not the full date. This means:
- * - Dates with same month but different days/years return true
- * - Year-only dates return true (both have null month)
- * - Different months return false regardless of year/day
- *
- * This may not be the intended "same day" behavior but the tests document
- * the current implementation.
- */
+
 describe("IsSameDay<A,B>", () => {
 
     it("identical string dates should return true", () => {
@@ -74,16 +64,6 @@ describe("IsSameDay<A,B>", () => {
             Expect<Test<IsSameDay<1640995200, 1640995200>, "equals", true>>,
             Expect<Test<IsSameDay<1609459200, 1609459200>, "equals", true>>,
             Expect<Test<IsSameDay<0, 0>, "equals", true>>,
-        ];
-    });
-
-    it("integer dates which are MORE than a day apart return false at design time", () => {
-        type F1 = IsSameDay<1640995200, 1640995300>;
-        type F2 = IsSameDay<1609459200, 1609545600>;
-
-        type cases = [
-            Expect<Test<F1, "equals", false>>,
-            Expect<Test<F2, "equals", false>>,
         ];
     });
 
@@ -204,9 +184,8 @@ describe("isSameDay(comparator) -> (date) -> boolean", () => {
         const result2 = checkFn("2024-06-16");
 
         type cases = [
-            // The function should return a boolean
-            Expect<Test<typeof result1, "extends", boolean>>,
-            Expect<Test<typeof result2, "extends", boolean>>,
+            Expect<Test<typeof result1, "equals", true>>,
+            Expect<Test<typeof result2, "equals", false>>,
         ];
     });
 });

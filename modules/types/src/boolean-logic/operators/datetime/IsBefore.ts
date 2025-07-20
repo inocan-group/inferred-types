@@ -1,18 +1,37 @@
 import type {
-    And,
+    AfterFirst,
     As,
+    AsDateMeta,
     DateLike,
+    DateMeta,
     Err,
     Extends,
+    First,
     IsEqual,
-    IsIsoDate,
-    IsIsoDateTime,
-    IsIsoYear,
-    IsWideType,
+    IsLessThan,
     Not,
     Or,
-    StringIsAfter,
+    Unbrand,
 } from "inferred-types/types";
+
+type Check<
+    A extends readonly (`${number}` | null)[],
+    B extends readonly (`${number}` | null)[]
+> = [] extends A
+? false
+: IsEqual<First<A>, First<B>> extends true
+    ? Check<AfterFirst<A>,AfterFirst<B>>
+: First<A> extends `${number}`
+    ? First<B> extends `${number}`
+        ? IsLessThan<First<A>,First<B>>
+    : true
+: First<B> extends `${number}`
+    ? false
+: Check<
+    AfterFirst<A>,
+    AfterFirst<B>
+>;
+
 
 /**
  * **IsAfter**`<A,B>`
@@ -22,7 +41,19 @@ import type {
 export type IsBefore<
     A extends DateLike,
     B extends DateLike,
-> = Or<[
+> = A extends object
+    ? boolean
+: B extends object
+    ? boolean
+: string extends A
+    ? boolean
+: `${number}` extends A
+    ? boolean
+: string extends B
+    ? boolean
+: `${number}` extends B
+    ? boolean
+: Or<[
     Not<Extends<A, DateLike>>,
     Not<Extends<B, DateLike>>,
 ]> extends true
@@ -31,21 +62,37 @@ export type IsBefore<
         `The IsBefore<A,B> utility expects both parameters to extend the DateLike type but at least one did not!`,
         { a: A; b: B }
     >
-    : IsWideType<A> extends true
-        ? boolean
-        : IsWideType<B> extends true
-            ? boolean
-            : [Or<[
-                And<[IsIsoYear<A>, IsIsoYear<B>]>,
-                And<[IsIsoDate<A>, IsIsoDate<B>]>,
-                And<[IsIsoDateTime<A>, IsIsoDateTime<B>]>,
-            ]>] extends [true]
-                ? IsEqual<A, B> extends true
-                    ? false
-                    : Not<
-                        StringIsAfter<
-                            As<A, string>,
-                            As<B, string>
-                        >
-                    >
-                : boolean;
+
+        : AsDateMeta<A> extends DateMeta
+            ? AsDateMeta<B> extends DateMeta
+                ? Check<
+                    [
+                        As<Unbrand<AsDateMeta<A>["year"]>, `${number}` | null>,
+                        As<Unbrand<AsDateMeta<A>["month"]>, `${number}` | null>,
+                        As<Unbrand<AsDateMeta<A>["date"]>, `${number}` | null>,
+                        As<Unbrand<AsDateMeta<A>["hour"]>, `${number}` | null>,
+                        As<Unbrand<AsDateMeta<A>["minute"]>, `${number}` | null>,
+                        As<Unbrand<AsDateMeta<A>["second"]>, `${number}` | null>,
+                        As<Unbrand<AsDateMeta<A>["ms"]>, `${number}` | null>
+                    ],
+                    [
+                        As<Unbrand<AsDateMeta<B>["year"]>, `${number}` | null>,
+                        As<Unbrand<AsDateMeta<B>["month"]>, `${number}` | null>,
+                        As<Unbrand<AsDateMeta<B>["date"]>, `${number}` | null>,
+                        As<Unbrand<AsDateMeta<B>["hour"]>, `${number}` | null>,
+                        As<Unbrand<AsDateMeta<B>["minute"]>, `${number}` | null>,
+                        As<Unbrand<AsDateMeta<B>["second"]>, `${number}` | null>,
+                        As<Unbrand<AsDateMeta<B>["ms"]>, `${number}` | null>
+                    ]
+                >
+            : Err<
+                `invalid-date/B`,
+                `The second parameter 'B' was not a valid date!`,
+                { a: A, b: B }
+            >
+        : Err<
+            `invalid-date/A`,
+            `The first parameter 'A' was not a valid date!`,
+            { a: A, b: B }
+        >;
+

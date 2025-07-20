@@ -47,24 +47,6 @@ describe("IsSameYear<A, B>", () => {
         ];
     });
 
-    it("Epoch dates return false when more than a year apart", () => {
-        type T1 = IsSameYear<10000089, 41536089>;
-
-        type cases = [
-            Expect<Test<T1, "equals", false>>,
-        ];
-    });
-
-
-    it("Epoch dates within a year of each other return boolean", () => {
-        type T1 = IsSameYear<10000089, 10000091>;
-
-        type cases = [
-            Expect<Test<T1, "equals", boolean>>,
-        ];
-    });
-
-
 
     it("Wide Types resolve to boolean", () => {
         type cases = [

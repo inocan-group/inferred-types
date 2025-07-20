@@ -3,7 +3,7 @@ import { Expect, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("IsBefore<A, B>", () => {
-  
+
   describe("ISO Year Comparisons", () => {
     it("returns true when first year is before second year", () => {
       type cases = [
@@ -77,7 +77,7 @@ describe("IsBefore<A, B>", () => {
       ];
     });
 
-    it("returns false when datetimes are equal", () => {
+    it("returns false when DateTimes are equal", () => {
       type cases = [
         Expect<Test<IsBefore<"2023-01-01T00:00:00Z", "2023-01-01T00:00:00Z">, "equals", false>>,
         Expect<Test<IsBefore<"2023-01-01T12:30:45Z", "2023-01-01T12:30:45Z">, "equals", false>>,
@@ -90,9 +90,9 @@ describe("IsBefore<A, B>", () => {
     it("returns boolean for wide DateLike types", () => {
       type cases = [
         // Number type (DateLike but wide) should return boolean due to IsWideType check
-        Expect<Test<IsBefore<number, "2023">, "equals", boolean>>,
-        Expect<Test<IsBefore<"2023", number>, "equals", boolean>>,
-        Expect<Test<IsBefore<number, number>, "equals", boolean>>,
+        Expect<Test<IsBefore<`${number}`, "2023">, "equals", boolean>>,
+        Expect<Test<IsBefore<"2023", `${number}`>, "equals", boolean>>,
+        Expect<Test<IsBefore<`${number}`, `${number}`>, "equals", boolean>>,
       ];
     });
   });
@@ -113,7 +113,7 @@ describe("IsBefore<A, B>", () => {
         // New Year's Eve to New Year's Day
         Expect<Test<IsBefore<"2022-12-31", "2023-01-01">, "equals", true>>,
         Expect<Test<IsBefore<"2023-01-01", "2022-12-31">, "equals", false>>,
-        // Century boundaries  
+        // Century boundaries
         Expect<Test<IsBefore<"1999", "2000">, "equals", true>>,
         Expect<Test<IsBefore<"2000", "1999">, "equals", false>>,
       ];

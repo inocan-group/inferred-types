@@ -203,8 +203,5 @@ type ParseYearMonth<T extends string> = TakeYear<T> extends {
         { parse: T }
     >;
 
-type T1 = ParseYearMonth<"-2024-06">;
-type T2 = ParseYearMonth<"-202406">;
-type T3 = ParseYearMonth<"-1999-12">;
-type T4 = ParseYearMonth<"-199912">;
+
 

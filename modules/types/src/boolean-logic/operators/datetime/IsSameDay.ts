@@ -3,9 +3,11 @@ import type {
     And,
     As,
     AsDateMeta,
+    CompareNumbers,
     DateLike,
     DateMeta,
     Delta,
+    DeltaLight,
     Err,
     Extends,
     IsEpochInMilliseconds,
@@ -13,12 +15,14 @@ import type {
     IsEqual,
     IsGreaterThan,
     IsInteger,
+    IsNegativeNumber,
     IsNotEqual,
     IsNumber,
     IsNumericLiteral,
     IsString,
     Not,
     Or,
+    Subtract,
 } from "inferred-types/types";
 
 type MS_IN_DAY = 86400000;
@@ -49,6 +53,23 @@ export type IsSameDay<
     A,
     B
 > = Or<[
+    And<[IsNumericLiteral<A>, Not<IsInteger<A>>]>,
+    And<[IsNumericLiteral<B>, Not<IsInteger<B>>]>
+]> extends true
+? Err<
+    `invalid-date/non-integer`,
+    `The IsSameDay<A,B> utility was passed at least one non-integer number which is not allowed!`,
+    { a: A, b: B }
+>
+: And<[
+    IsNumericLiteral<A>,
+    IsNumericLiteral<B>,
+    IsEqual<A, B>,
+    IsInteger<A>
+]> extends true
+    ? true
+
+: Or<[
     Not<Extends<A, DateLike>>,
     Not<Extends<B, DateLike>>,
 ]> extends true
@@ -69,8 +90,8 @@ export type IsSameDay<
             : AsDateMeta<A> extends Error
                 ? Err<
                     "invalid-date",
-                `The string passed into the first parameter of IsSameDay -- ${As<A, string>} -- is not a valid ISO date!`,
-                { a: A; b: B }
+                    `The string passed into the first parameter of IsSameDay -- ${As<A, string>} -- is not a valid ISO date!`,
+                    { a: A; b: B }
                 >
                 : AsDateMeta<B> extends Error
                     ? Err<
@@ -89,41 +110,6 @@ export type IsSameDay<
                             ]>
                             : never
                         : never
-        : And<[
-            IsNumericLiteral<A>,
-            IsNumericLiteral<B>,
-            IsEqual<A, B>,
-            IsInteger<A>
-        ]> extends true
-            ? true
 
-            : And<[
-                IsEpochInMilliseconds<A>,
-                IsEpochInMilliseconds<B>,
-                A extends number
-                    ? B extends number
-                        ? Delta<A, B> extends infer D extends number
-                            ? IsGreaterThan<Abs<D>, MS_IN_DAY>
-                            : false
-                        : false
-                    : false
-            ]> extends true
-                ? false
-                : And<[
-                    IsEpochInSeconds<A>,
-                    IsEpochInSeconds<B>,
-                    A extends number
-                        ? B extends number
-                            ? Delta<A, B> extends infer D extends number
-                                ? IsGreaterThan<Abs<D>, SEC_IN_DAY>
-                                : false
-                            : false
-                        : false
-                ]> extends true
-                    ? false
-                    : Or<[
-                        And<[IsNumber<A>, Not<IsInteger<A>>]>,
-                        And<[IsNumber<B>, Not<IsInteger<B>>]>,
-                    ]> extends true
-                        ? Err<`invalid-date`, `The numeric values passed into IsSameDay were not integers which makes them unable to be treated as a date!`, { a: A; b: B }>
+
                         : boolean;

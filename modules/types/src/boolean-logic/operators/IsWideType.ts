@@ -2,12 +2,17 @@ import type {
     Container,
     EmptyObject,
     ExplicitlyEmptyObject,
+    IsContainer,
     IsEqual,
+    IsLiteralUnion,
     IsNever,
+    IsNumericLiteral,
+    IsStringLiteral,
     IsUnion,
     IsWideUnion,
     Keys,
     ObjectKey,
+    Or,
     Scalar,
 } from "inferred-types/types";
 
@@ -38,9 +43,30 @@ export type IsWideScalar<T> = [T] extends [Scalar]
 /**
  * **IsWideObject**`<T>`
  *
- * Tests whether `T` is a _wide_ variant of an object.
+ * Tests whether `T` is a _wide_ variant of an object. Wide variants
+ * include:
+ *
+ * - `object`
+ * - `Dictionary`
+ * - `Record`, `Map`, and `WeakMap` are considered **wide** in cases
+ * where the _keys_ of the type are a union type rather than a discrete type
+ * - Set is considered wide when the type it's holding is wide
  */
-export type IsWideObject<T> = IsEqual<T, EmptyObject> extends true
+export type IsWideObject<T> = object extends T
+? true
+: T extends Map<infer Key, infer _Val>
+    ? IsContainer<Key> extends true
+        ? false
+    : IsLiteralUnion<Key> extends true
+        ? false
+        : true
+: T extends Record<infer Key extends PropertyKey, infer _Val>
+    ? IsLiteralUnion<Key> extends true
+        ? true
+        : number extends Keys<T>["length"]
+            ? true
+            : false
+: IsEqual<T, EmptyObject> extends true
     ? false
     : Record<ObjectKey, any> extends T
         ? true

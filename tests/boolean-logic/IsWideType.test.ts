@@ -5,7 +5,8 @@ import {
     IsWideType,
     Dictionary,
     Test,
-    Expect
+    Expect,
+    Keys
 } from "inferred-types/types";
 import { describe, it } from "vitest";
 
@@ -48,9 +49,14 @@ describe("IsWideContainer<T>", () => {
         type T4 = IsWideContainer<string[]>;
         type T5 = IsWideContainer<readonly string[]>;
         type T6 = IsWideContainer<readonly unknown[]>;
+        type T7 = IsWideContainer<Map<string, string>>;
 
         type F1 = IsWideContainer<{ foo: 1 }>;
         type F2 = IsWideContainer<[1, 2]>;
+        type F3 = IsWideContainer<{ foo: 1, bar: 2 }>;
+        type F4 = IsWideContainer<{ foo: string, bar: number }>;
+
+        type K = Keys<{ foo: 1, bar: 2 }>;
 
         type cases = [
             Expect<Test<T1, "equals", true>>,
@@ -59,9 +65,12 @@ describe("IsWideContainer<T>", () => {
             Expect<Test<T4, "equals", true>>,
             Expect<Test<T5, "equals", true>>,
             Expect<Test<T6, "equals", true>>,
+            Expect<Test<T7, "equals", true>>,
 
             Expect<Test<F1, "equals", false>>,
             Expect<Test<F2, "equals", false>>,
+            Expect<Test<F3, "equals", false>>,
+            Expect<Test<F4, "equals", false>>,
         ];
 
     });

@@ -1,5 +1,5 @@
 export * from "./AsDateMeta";
-export * from "./AsEpoch";
+export * from "./AsRelativeDate";
 export * from "./DateLike";
 export * from "./DateMeta";
 export * from "./DatePlus";

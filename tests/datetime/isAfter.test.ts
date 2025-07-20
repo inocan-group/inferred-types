@@ -3,7 +3,6 @@ import { isAfter, asDate } from "inferred-types/runtime";
 import {
     Test,
     Expect,
-    IsAfter,
     DateLike
 } from "inferred-types/types";
 
@@ -182,7 +181,7 @@ describe("isAfter()", () => {
     describe("functional composition", () => {
 
         it("should work with array filtering", () => {
-            const dates = [
+            const dates: DateLike[] = [
                 "2024-01-01",
                 "2024-01-15",
                 "2024-02-01",
@@ -215,7 +214,7 @@ describe("isAfter()", () => {
 
         it("should be chainable with other date operations", () => {
             const baseDate = "2024-01-01";
-            const testDates = [
+            const testDates: DateLike[] = [
                 "2023-12-31",
                 "2024-01-01",
                 "2024-01-02",

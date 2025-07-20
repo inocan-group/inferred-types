@@ -1,15 +1,12 @@
 import { Err, TypedError } from "types/errors";
 import {
     AddPositive,
-    Multiply,
-    ShiftDecimalPlace,
-    Sum
+    NumberLike,
 } from "types/numeric-literals";
 import { AsNumber } from "types/type-conversion";
 import { IsLeapYear } from "types/boolean-logic/operators/datetime";
-import { DateMeta, AsDateMeta, ParseDate, ParsedDate } from "types/datetime";
-import { As } from "types/boolean-logic";
-import { ToNumericArray } from '../numeric-literals/ToNumericArray';
+import { DateMeta, AsDateMeta, ParsedDate, ParseDate } from "types/datetime";
+import { Concat } from "types/string-literals";
 
 
 /**
@@ -51,7 +48,7 @@ type Lookup<Y extends number> = IsLeapYear<`${Y}`> extends true
 /**
  * Returns the components needed to calculate a relative time.
  *
- * - the year is multiplied by 1000
+ * - the year is multiplied by 1000 (using decimal shift for efficiency)
  * - the month is passed into a lookup to arrive at the number
  * of _days_ of the given year which have passed at the start
  * of that month
@@ -61,47 +58,56 @@ type Lookup<Y extends number> = IsLeapYear<`${Y}`> extends true
  * ### Formula
  *
  * ```ts
- * Relative = (Year * 1000) + (Lookup<Month> + Date)
+ * Relative = (Year * 1000) + Lookup<Month> + Date
  * ```
  */
-type ToRelativeDate<
+type Days<
     Y extends number,
     M extends number,
     D extends number
-> = [
-    As<ShiftDecimalPlace<Y, 3>, number>,
-    As<Lookup<Y>[M], number>,
+> = AddPositive<
+    Lookup<Y>[M],
     D
-];
+> extends number
+? Concat<[
+    Y,
+    AddPositive<Lookup<Y>[M],D>
+]> extends NumberLike
+    ? Concat<[
+        Y,
+        AddPositive<Lookup<Y>[M],D>
+    ]>
+    : never
+: never;
 
 
 /**
- * **AsRelativeTime**`<T>`
+ * **AsRelativeDate**`<T>`
  *
  * Reduces a Date to a number which can be used
  * as an informal means of comparing dates relatively
  */
-export type AsRelativeDate<T> = T extends ParsedDate
-? AsDateMeta<T> extends DateMeta
-    ? ToRelativeDate<
-        AsNumber<AsDateMeta<T>["year"]>,
-        AsNumber<AsDateMeta<T>["month"]>,
-        AsNumber<AsDateMeta<T>["date"]>
+export type AsRelativeDate<
+    T,
+    P extends ParsedDate | Error = T extends ParsedDate
+        ? T
+        : ParseDate<T> extends ParsedDate
+            ? ParseDate<T>
+            : Err<"invalid-date">
+> = P extends ParsedDate
+? AsDateMeta<P> extends DateMeta
+    ? Days<
+        AsNumber<AsDateMeta<P>["year"]>,
+        AsNumber<AsDateMeta<P>["month"]>,
+        AsNumber<AsDateMeta<P>["date"]>
     >
     : never
 
-: T extends TypedError
-    ? T
+: P extends TypedError
+    ? P
     : Err<
         "invalid-date/missing",
-        `The AsEpoch type requires a ParsedDate with year, month, and date components, but one or more are missing.`,
+        `The AsRelativeDate type requires a ParsedDate with year, month, and date components, but one or more are missing.`,
         { parsed: T }
     >;
-
-
-// Example usage:
-type ParsedChristmas2024 = ParseDate<"2024-12-24">;
-type ChristmasEpochComponents = AsRelativeDate<ParsedChristmas2024>;
-
-
 
