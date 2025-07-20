@@ -1,22 +1,35 @@
 import type {
     AfterFirst,
+    And,
+    AnyMap,
+    AnySet,
+    AnyWeakMap,
     As,
     Container,
     Dictionary,
     ExplicitlyEmptyObject,
+    Extends,
     First,
+    HasTemplateLiterals,
     IsEqual,
+    IsLiteralUnion,
     IsNever,
+    IsNumericLiteral,
     IsObjectLiteral,
+    IsStringLiteral,
+    IsSymbol,
+    IsUnion,
     IsWideContainer,
     IsWideType,
     IsWideUnion,
+    Length,
     NumericKeys,
     ObjectKey,
     Or,
     RemoveIndexKeys,
     TupleToUnion,
     UnionToTuple,
+    Values,
 } from "inferred-types/types";
 
 type _Keys<
@@ -103,17 +116,56 @@ export type Keys<
  */
 export type ObjectKeys<
     TObj extends object
-> = IsWideContainer<TObj> extends true
-    ? IsEqual<TObj, object> extends true
-        ? ObjectKey[]
-        : TObj extends Record<infer Key, any>
-            ? Or<[IsWideUnion<Key>, IsWideType<Key>]> extends true
-                ? IsNever<Key> extends true
-                    ? []
-                    : Key[]
-                : UnionToTuple<Key>
-            : ObjectKey[]
-    : ProcessObject<TObj>;
+> = [IsNever<keyof TObj>] extends [true]
+? [TObj] extends [AnyMap]
+    ? any[]
+: [TObj] extends [AnyWeakMap]
+    ? any[]
+: [TObj] extends [AnySet]
+    ? any[]
+    : PropertyKey[]
+: [IsLiteralUnion<keyof TObj>] extends [true]
+    ? UnionToTuple<keyof TObj>
+
+    : [IsUnion<keyof TObj>] extends [true]
+        ? [IsEqual<keyof TObj, string | symbol>] extends [true]
+            ? ObjectKey[]
+        : [IsEqual<keyof TObj, symbol | string | symbol>] extends [true]
+            ? PropertyKey[]
+        : [And<[
+            Extends<TObj, Dictionary>,
+            IsEqual<Values<TObj>,[]>
+        ]>] extends [true]
+            ? []
+        : "union"
+
+    : [IsStringLiteral<keyof TObj>] extends [true]
+        ? [HasTemplateLiterals<keyof TObj>] extends [true]
+            ? (keyof TObj)[]
+            : [keyof TObj]
+    : [IsNumericLiteral<keyof TObj>] extends [true]
+        ? [keyof TObj]
+    // : [IsSymbol<keyof TObj>] extends [true]
+    //     ? [keyof TObj]
+    : (keyof TObj)[]
+    ;
+
+type X = HasTemplateLiterals<`_${string}`>;
+
+// IsWideContainer<TObj> extends true
+//     ? IsEqual<TObj, object> extends true
+//         ? ObjectKey[]
+//         : TObj extends Record<infer Key, any>
+//             ? Or<[IsWideUnion<Key>, IsWideType<Key>]> extends true
+//                 ? IsNever<Key> extends true
+//                     ? []
+//                     : Key[]
+//                 : UnionToTuple<Key>
+//             : ObjectKey[]
+//     : ProcessObject<TObj>;
+
+
+
 
 type _Public<
     TInput extends readonly PropertyKey[],

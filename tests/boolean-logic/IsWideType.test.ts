@@ -56,7 +56,7 @@ describe("IsWideContainer<T>", () => {
         type F3 = IsWideContainer<{ foo: 1, bar: 2 }>;
         type F4 = IsWideContainer<{ foo: string, bar: number }>;
 
-        type K = Keys<{ foo: 1, bar: 2 }>;
+        type K = Keys<Record<string, string>>;
 
         type cases = [
             Expect<Test<T1, "equals", true>>,

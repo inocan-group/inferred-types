@@ -8,7 +8,9 @@ import type { UnionToTuple } from "types/type-conversion";
  * like `${string}`, `${number}`, or `${boolean}` included in
  * it.
  */
-export type HasTemplateLiterals<T extends string> = IsWideString<T> extends true
+export type HasTemplateLiterals<T> = T extends string
+
+? IsWideString<T> extends true
     ? false
     : [T] extends [`${infer First}${infer Rest}`]
         ? [Or<[
@@ -26,7 +28,8 @@ export type HasTemplateLiterals<T extends string> = IsWideString<T> extends true
             IsEqual<T, boolean>,
         ]>] extends [true]
             ? true
-            : false;
+            : false
+: false;
 
 type UnionStartsBoolean<T extends readonly string[]> = And<{
     [K in keyof T]: T[K] extends string
@@ -40,7 +43,9 @@ type UnionStartsBoolean<T extends readonly string[]> = And<{
  * tests whether `T` _starts with_ a leading template literal
  * such as `${string}`, `${number}`, or `${boolean}`
  */
-export type HasLeadingTemplateLiteral<T extends string> = [IsUnion<T>] extends [true]
+export type HasLeadingTemplateLiteral<T> = T extends string
+
+? [IsUnion<T>] extends [true]
     ? [UnionToTuple<T>] extends [readonly string[]]
         ? UnionStartsBoolean<UnionToTuple<T>>
         : never
@@ -50,4 +55,5 @@ export type HasLeadingTemplateLiteral<T extends string> = [IsUnion<T>] extends [
             : IsEqual<`${number}`, First> extends true
                 ? true
                 : false
-        : false;
+        : false
+: false;

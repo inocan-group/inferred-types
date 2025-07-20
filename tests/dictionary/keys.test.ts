@@ -9,6 +9,8 @@ import type {
     HasSameValues,
     HasSameKeys,
     Test,
+    ObjectKeys,
+    Values,
 } from "inferred-types/types";
 import { keysOf } from "inferred-types/runtime";
 import { ExplicitlyEmptyObject } from "inferred-types/types";
@@ -38,51 +40,105 @@ describe("NumericKeys<T>", () => {
 });
 
 
-describe("Keys<T> with object targets", () => {
-    type OBJ = { foo: 1; bar: 2 };
+describe("Keys<T>", () => {
+
+    describe("objects (using ObjectKeys)", () => {
+        it("narrow/discrete", () => {
+            type Foobar = ObjectKeys<{ foo: 1; bar: 2 }>;
+            type FoobarWideVal = ObjectKeys<{ foo: number; bar: string }>;
+            type FooBar_RO = ObjectKeys<Readonly<{ foo: 1; bar: 2 }>>;
+
+            type ExplicitlyEmpty = ObjectKeys<ExplicitlyEmptyObject>;
+
+            type Uno = ObjectKeys<{ baz: 3 }>;
+            type UnionRec = ObjectKeys<Record<"foo" | "bar", number>>;
 
 
-    type Foobar = Keys<OBJ>;
-    type FooBar_RO = Keys<Readonly<OBJ>>;
-    type FooBar_EXT = Keys<{ foo: 1; bar: 2;[x: string]: unknown }>;
-    type EmptyObj = Keys<EmptyObject>;
-    type VeryEmpty = Keys<ExplicitlyEmptyObject>;
-    type Uno = Keys<{ baz: 3 }>;
-    type StrRec = Keys<Record<string, string>>;
-    type UnionRec = Keys<Record<"foo" | "bar", number>>;
-    type KeyVal = Keys<Dictionary>;
+            type cases = [
+                Expect<HasSameValues<Foobar, ["foo", "bar"]>>,
+                Expect<HasSameValues<FoobarWideVal, ["foo", "bar"]>>,
+                Expect<Test<ExplicitlyEmpty, "equals", []>>,
 
-    type Curly = Keys<EmptyObject>;
+                Expect<HasSameValues<FooBar_RO, ["foo", "bar"]>>,
+                Expect<HasSameValues<Uno, ["baz"]>>,
 
-    it("object resolution", () => {
-        type cases = [
-            Expect<Test<EmptyObj, "equals", []>>,
-            Expect<Test<Curly, "equals", []>>,
-            Expect<HasSameValues<Foobar, ["foo", "bar"]>>,
-            Expect<HasSameValues<FooBar_RO, ["foo", "bar"]>>,
-            Expect<HasSameValues<FooBar_EXT, ["foo", "bar"]>>,
-            Expect<HasSameValues<Uno, ["baz"]>>,
+                Expect<Test<UnionRec, "equals", ["foo", "bar"]>>,
 
-            Expect<Test<StrRec, "equals", string[]>>,
-            Expect<Test<UnionRec, "equals", ["foo", "bar"]>>,
-            Expect<Test<KeyVal, "equals", ObjectKey[]>>,
-        ];
-    });
+            ];
+        });
+
+        it("narrow/expandable", () => {
+            // must have foo and bar, optionally can have keys leading with `_`
+            type Expandable = ObjectKeys<Record<"foo" | "bar" | `_${string}`, number>>;
+            type FooBar_EXT = ObjectKeys<{ foo: 1; bar: 2; [x: string]: unknown }>;
+            //   ^?
+
+            type cases = [
+                Expect<Test<Expandable, "equals", ["foo", "bar", ...(`_${string})[]`)]>>,
+            ];
+        });
 
 
-    it("array resolution", () => {
+        it("wide", () => {
+            type Obj = ObjectKeys<object>;
+            type EmptyObj = ObjectKeys<EmptyObject>;
+            type VeryEmpty = ObjectKeys<ExplicitlyEmptyObject>;
+            type KV = ObjectKeys<Dictionary>;
 
-        type cases = [
-            Expect<Test<Keys<[]>, "equals", number[]>>,
-            Expect<Test<Keys<string[]>, "equals", number[]>>,
-            Expect<HasSameKeys<Keys<[1, 2, 3]>, [0, 1, 2]>>,
-            Expect<Test<Keys<[1, 2, 3]>, "equals", [0, 1, 2]>>,
-        ];
-    });
+            type X1 = keyof ExplicitlyEmptyObject;
+            type X1a = Values<ExplicitlyEmptyObject>;
+            type X2 = keyof EmptyObject;
+            type X3 = keyof Dictionary;
+            type X4 = keyof `_${string}`;
+
+            type StrStr = ObjectKeys<Record<string, string>>;
+            type StrAny = ObjectKeys<Record<string, any>>;
+
+            type PatternKey = ObjectKeys<Record<`_${string}`, string>>;
+            //   ^?
+            type L = Record<`_${string}`, string> extends Record<infer Key, any> ? Key : false;
+            type PatternUnion = ObjectKeys<Record<`pub_${string}` | `priv_${string}`, string>>;
+
+            type cases = [
+                Expect<Test<Obj, "equals", PropertyKey[]>>,
+                Expect<Test<EmptyObj, "equals", PropertyKey[]>>,
+                Expect<Test<VeryEmpty, "equals", []>>,
+                Expect<Test<KV, "equals", ObjectKey[]>>,
+
+
+                Expect<Test<StrStr, "equals", string[]>>,
+                Expect<Test<StrAny, "equals", string[]>>,
+
+                Expect<Test<PatternKey, "equals", `_${string}`[]>>,
+                Expect<Test<PatternUnion, "equals", (`priv_${string}` | `pub_${string}`)[]>>,
+
+            ];
+
+        });
+
+
+    })
+
+    describe("arrays", () => {
+
+        it("array resolution", () => {
+
+            type cases = [
+                Expect<Test<Keys<[]>, "equals", number[]>>,
+                Expect<Test<Keys<string[]>, "equals", number[]>>,
+                Expect<HasSameKeys<Keys<[1, 2, 3]>, [0, 1, 2]>>,
+                Expect<Test<Keys<[1, 2, 3]>, "equals", [0, 1, 2]>>,
+            ];
+        });
+    })
+
+
 
 });
 
-describe("runtime keysOf() utility on object", () => {
+
+// RUNTIME
+describe("keysOf()", () => {
     it("with just object passed in, keys are extracted as expected", () => {
         const obj = {
             id: 123,
