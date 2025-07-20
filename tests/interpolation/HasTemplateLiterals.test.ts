@@ -18,7 +18,7 @@ describe("HasTemplateLiterals<T>", () => {
     type Wide = HasTemplateLiterals<string>;
     type PrefixSuffix = HasTemplateLiterals<`foo${number}bar`>;
     type EndingStrTemplate = HasTemplateLiterals<`Hi${string}`>;
-
+    type Bool = HasTemplateLiterals<`Hi${boolean}!`>;
 
     it("should detect template literals in various positions", () => {
         type cases = [
@@ -27,13 +27,15 @@ describe("HasTemplateLiterals<T>", () => {
             Expect<Equal<Mid1, true>>,
             Expect<Equal<Mid, true>>,
             Expect<Equal<None, false>>,
-            Expect<Equal<Only, true>>,
+            Expect<Equal<Only, false>>,
             Expect<Equal<Multi, true>>,
             Expect<Equal<Punctuation, true>>,
             Expect<Equal<Empty, false>>,
             Expect<Equal<Wide, false>>,
             Expect<Equal<PrefixSuffix, true>>,
             Expect<Equal<EndingStrTemplate, true>>,
+            Expect<Equal<Bool, true>>,
         ];
     });
 });
+

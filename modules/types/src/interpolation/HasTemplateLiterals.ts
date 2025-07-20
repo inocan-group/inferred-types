@@ -1,5 +1,25 @@
-import type { And, IsEqual, IsUnion, IsWideString, Or, StartsWith } from "types/boolean-logic";
+import type { And, Contains, Every, IsEqual, IsUnion, IsWideString, Or, StartsWith } from "types/boolean-logic";
+import {  Increment } from "types/numeric-literals";
 import type { UnionToTuple } from "types/type-conversion";
+
+
+type CountTemplates<
+        T extends string,
+        C extends number = 0
+> = string extends T
+? 1
+: T extends `${infer First}${infer Rest}`
+    ? Or<[
+        string extends First ? true : false,
+        `${number}` extends First ? true : false,
+    ]> extends true
+        ? CountTemplates<
+            Rest,
+            Increment<C>
+        >
+    : CountTemplates<Rest, C>
+: C;
+
 
 /**
  * **HasTemplateLiterals**`<T>`
@@ -7,29 +27,22 @@ import type { UnionToTuple } from "types/type-conversion";
  * A boolean operator which evaluates if `T` has dynamic types
  * like `${string}`, `${number}`, or `${boolean}` included in
  * it.
+ *
+ * - Note a wide `string` and a `${string}` type will result in `false` as they
+ * are both equivalent to a wide string in the type system.
  */
-export type HasTemplateLiterals<T> = T extends string
+export type HasTemplateLiterals<T> = IsUnion<T> extends true
+? Every<UnionToTuple<T>, "containsSome",  ["true","false"]>
 
-? IsWideString<T> extends true
-    ? false
-    : [T] extends [`${infer First}${infer Rest}`]
-        ? [Or<[
-            IsEqual<First, string>,
-            IsEqual<First, number>,
-            IsEqual<First, boolean>
-        ]>] extends [true]
-            ? true
-            : Rest extends ""
+: T extends string
+    ? string extends T
+        ? false
+        : T extends ""
+            ? false
+            : [CountTemplates<`|${T}|`>] extends [0]
                 ? false
-                : HasTemplateLiterals<Rest>
-        : [Or<[
-            IsEqual<T, string>,
-            IsEqual<T, number>,
-            IsEqual<T, boolean>,
-        ]>] extends [true]
-            ? true
-            : false
-: false;
+                : true
+    : false;
 
 type UnionStartsBoolean<T extends readonly string[]> = And<{
     [K in keyof T]: T[K] extends string

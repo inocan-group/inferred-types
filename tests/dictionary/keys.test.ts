@@ -11,9 +11,14 @@ import type {
     Test,
     ObjectKeys,
     Values,
+    IsWideString,
+    Or,
+    IsEqual,
+    StrLen,
 } from "inferred-types/types";
 import { keysOf } from "inferred-types/runtime";
 import { ExplicitlyEmptyObject } from "inferred-types/types";
+import { Equal } from "@type-challenges/utils";
 
 describe("NumericKeys<T>", () => {
 
@@ -166,3 +171,4 @@ describe("keysOf()", () => {
         expect(cases).toBe(cases);
     });
 });
+
