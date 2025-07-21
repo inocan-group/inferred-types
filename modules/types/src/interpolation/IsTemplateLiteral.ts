@@ -1,4 +1,4 @@
-import type { And, Contains, Every, IsEqual, IsUnion, IsWideString, Or, StartsWith } from "types/boolean-logic";
+import type { Every,IsUnion,  Or } from "types/boolean-logic";
 import {  Increment } from "types/numeric-literals";
 import type { UnionToTuple } from "types/type-conversion";
 
@@ -45,30 +45,3 @@ export type IsTemplateLiteral<T> = IsUnion<T> extends true
 : false;
 
 
-
-type UnionStartsBoolean<T extends readonly string[]> = And<{
-    [K in keyof T]: T[K] extends string
-        ? StartsWith<T[K], "true" | "false">
-        : never
-}>;
-
-/**
- * **HasLeadingTemplateLiteral**`<T>`
- *
- * tests whether `T` _starts with_ a leading template literal
- * such as `${string}`, `${number}`, or `${boolean}`
- */
-export type StartsWithTemplateLiteral<T> = T extends string
-
-? [IsUnion<T>] extends [true]
-    ? [UnionToTuple<T>] extends [readonly string[]]
-        ? UnionStartsBoolean<UnionToTuple<T>>
-        : never
-    : T extends `${infer First}${infer _Rest}`
-        ? IsEqual<`${string}`, First> extends true
-            ? true
-            : IsEqual<`${number}`, First> extends true
-                ? true
-                : false
-        : false
-: false;
