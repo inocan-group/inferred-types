@@ -1,24 +1,24 @@
 import { describe, it } from "vitest";
 import {
     Expect,
-    HasTemplateLiterals,
+    IsTemplateLiteral,
 } from "inferred-types/types";
 import { Equal } from "@type-challenges/utils";
 
 describe("HasTemplateLiterals<T>", () => {
-    type Start = HasTemplateLiterals<`${number} is a number`>;
-    type End = HasTemplateLiterals<`you age is ${number}`>;
-    type Mid1 = HasTemplateLiterals<`what up ${string}?`>;
-    type Mid = HasTemplateLiterals<`you age is ${number}, and your name is ${string}.`>;
-    type None = HasTemplateLiterals<"just a string">;
-    type Only = HasTemplateLiterals<`${string}`>;
-    type Multi = HasTemplateLiterals<`${number}-${string}-${boolean}`>;
-    type Punctuation = HasTemplateLiterals<`foo-${string}.bar`>;
-    type Empty = HasTemplateLiterals<"">;
-    type Wide = HasTemplateLiterals<string>;
-    type PrefixSuffix = HasTemplateLiterals<`foo${number}bar`>;
-    type EndingStrTemplate = HasTemplateLiterals<`Hi${string}`>;
-    type Bool = HasTemplateLiterals<`Hi${boolean}!`>;
+    type Start = IsTemplateLiteral<`${number} is a number`>;
+    type End = IsTemplateLiteral<`you age is ${number}`>;
+    type Mid1 = IsTemplateLiteral<`what up ${string}?`>;
+    type Mid = IsTemplateLiteral<`you age is ${number}, and your name is ${string}.`>;
+    type None = IsTemplateLiteral<"just a string">;
+    type Only = IsTemplateLiteral<`${string}`>;
+    type Multi = IsTemplateLiteral<`${number}-${string}-${boolean}`>;
+    type Punctuation = IsTemplateLiteral<`foo-${string}.bar`>;
+    type Empty = IsTemplateLiteral<"">;
+    type Wide = IsTemplateLiteral<string>;
+    type PrefixSuffix = IsTemplateLiteral<`foo${number}bar`>;
+    type EndingStrTemplate = IsTemplateLiteral<`Hi${string}`>;
+    type Bool = IsTemplateLiteral<`Hi${boolean}!`>;
 
     it("should detect template literals in various positions", () => {
         type cases = [

@@ -22,7 +22,7 @@ type CountTemplates<
 
 
 /**
- * **HasTemplateLiterals**`<T>`
+ * **isTemplateLiteral**`<T>`
  *
  * A boolean operator which evaluates if `T` has dynamic types
  * like `${string}`, `${number}`, or `${boolean}` included in
@@ -31,7 +31,7 @@ type CountTemplates<
  * - Note a wide `string` and a `${string}` type will result in `false` as they
  * are both equivalent to a wide string in the type system.
  */
-export type HasTemplateLiterals<T> = IsUnion<T> extends true
+export type IsTemplateLiteral<T> = IsUnion<T> extends true
 ? Every<UnionToTuple<T>, "containsSome",  ["true","false"]>
 
 : T extends string

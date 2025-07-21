@@ -10,7 +10,7 @@ import type {
     ExplicitlyEmptyObject,
     Extends,
     First,
-    HasTemplateLiterals,
+    IsTemplateLiteral,
     IsEqual,
     IsLiteralUnion,
     IsNever,
@@ -170,7 +170,7 @@ export type ObjectKeys<
             : "union"
 
     : [IsStringLiteral<keyof TObj>] extends [true]
-        ? [HasTemplateLiterals<keyof TObj>] extends [true]
+        ? [IsTemplateLiteral<keyof TObj>] extends [true]
             ? (keyof TObj)[]
             : [keyof TObj]
     : [IsNumericLiteral<keyof TObj>] extends [true]
