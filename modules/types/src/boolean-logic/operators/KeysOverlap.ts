@@ -1,8 +1,12 @@
 import type {
     AfterFirst,
+    And,
     Dictionary,
+    EmptyObject,
     First,
+    IsObjectLiteral,
     IsWideContainer,
+    IsWideObject,
     ObjectKey,
     ObjectKeys,
     Or,
@@ -26,12 +30,20 @@ type Process<
 export type KeysOverlap<
     A extends Dictionary,
     B extends Dictionary
-> = Or<[
-    IsWideContainer<A>,
-    IsWideContainer<B>,
+> = EmptyObject extends A
+? boolean
+: EmptyObject extends B
+? boolean
+
+: And<[
+    IsObjectLiteral<A>,
+    IsObjectLiteral<B>,
 ]> extends true
-    ? boolean
-    : Process<
-        ObjectKeys<A>,
-        B
-    >;
+
+    ? ObjectKeys<A> extends readonly ObjectKey[]
+        ? Process<
+            ObjectKeys<A>,
+            B
+        >
+        : never
+    : boolean;

@@ -1,4 +1,5 @@
 import type {
+    Expand,
     Narrowable,
     NarrowObject,
     StringKeys,
@@ -17,16 +18,16 @@ import type {
  * **Related**: `omit`, `createOmission`
  */
 export function withoutKeys<
-    TObj extends NarrowObject<N>,
+    const TObj extends NarrowObject<N>,
     N extends Narrowable,
-    TKeys extends readonly StringKeys<TObj>[],
->(dict: TObj, ...exclude: Suggest<TKeys[number]>[]) {
+    const TKeys extends readonly Suggest<StringKeys<TObj>[number]>[],
+>(dict: TObj, ...exclude: TKeys) {
     const obj: any = {};
     for (const [_, key] of Object.keys(dict).entries()) {
-        if (!(exclude as string[]).includes(key)) {
+        if (!(exclude).includes(key as any)) {
             obj[key] = dict[key];
         }
     }
 
-    return obj as WithoutKeys<TObj, TKeys[number]>;
+    return obj as Expand<WithoutKeys<TObj, TKeys>>;
 }

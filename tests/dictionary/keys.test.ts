@@ -11,14 +11,9 @@ import type {
     Test,
     ObjectKeys,
     Values,
-    IsWideString,
-    Or,
-    IsEqual,
-    StrLen,
 } from "inferred-types/types";
 import { keysOf } from "inferred-types/runtime";
 import { ExplicitlyEmptyObject } from "inferred-types/types";
-import { Equal } from "@type-challenges/utils";
 
 describe("NumericKeys<T>", () => {
 
@@ -47,7 +42,10 @@ describe("NumericKeys<T>", () => {
 
 describe("Keys<T>", () => {
 
-    describe("objects (using ObjectKeys)", () => {
+    // `ObjectKeys` is a more direct way of getting keys for Objects
+    // we will test this first and then move up to the more abstracted `Keys<T>`
+    // which works on both objects and arrays
+    describe("objects (using ObjectKeys<T>)", () => {
         it("narrow/discrete", () => {
             type Foobar = ObjectKeys<{ foo: 1; bar: 2 }>;
             type FoobarWideVal = ObjectKeys<{ foo: number; bar: string }>;
@@ -68,15 +66,30 @@ describe("Keys<T>", () => {
                 Expect<HasSameValues<Uno, ["baz"]>>,
 
                 Expect<Test<UnionRec, "equals", ["foo", "bar"]>>,
-
             ];
         });
 
         it("narrow/expandable", () => {
             // must have foo and bar, optionally can have keys leading with `_`
             type Expandable = ObjectKeys<Record<"foo" | "bar" | `_${string}`, number>>;
-            type FooBar_EXT = ObjectKeys<{ foo: 1; bar: 2; [x: string]: unknown }>;
+            //    ^?
+
+            // this is a different nomenclature for the same type as above
+            type FooBarIndex = ObjectKeys<{ foo: 1; bar: 2; [x: `_${string}`]: unknown }>;
             //   ^?
+
+            // here we discretely define `foo` and `bar` but then provide an index
+            // which overlaps with them
+            type FooBarOverlap = ObjectKeys<{ foo: 1; bar: 2; [x: string]: unknown }>;
+            //   ^?
+
+            // what's interesting is that when we overlap we:
+            // 1. loose all type information about "foo" and "bar"
+            // 2. it seems as though we actually loose the perspective that this is
+            //    an object as the keys allowed now is any string or number which
+            //    make this type less distinguishable from an array
+            type KeyOf = keyof { foo: 1; bar: 2; [x: string]: unknown };
+            //    ^?
 
             type cases = [
                 Expect<Test<Expandable, "equals", ["foo", "bar", ...(`_${string})[]`)]>>,
@@ -86,6 +99,7 @@ describe("Keys<T>", () => {
 
         it("wide", () => {
             type Obj = ObjectKeys<object>;
+            //   ^?
             type EmptyObj = ObjectKeys<EmptyObject>;
             type VeryEmpty = ObjectKeys<ExplicitlyEmptyObject>;
             type KV = ObjectKeys<Dictionary>;
@@ -93,7 +107,7 @@ describe("Keys<T>", () => {
             type X1 = keyof ExplicitlyEmptyObject;
             type X1a = Values<ExplicitlyEmptyObject>;
             type X2 = keyof EmptyObject;
-            type X3 = keyof Dictionary;
+            type X3 = keyof object;
             type X4 = keyof `_${string}`;
 
             type StrStr = ObjectKeys<Record<string, string>>;
@@ -110,19 +124,14 @@ describe("Keys<T>", () => {
                 Expect<Test<VeryEmpty, "equals", []>>,
                 Expect<Test<KV, "equals", ObjectKey[]>>,
 
-
                 Expect<Test<StrStr, "equals", string[]>>,
                 Expect<Test<StrAny, "equals", string[]>>,
 
                 Expect<Test<PatternKey, "equals", `_${string}`[]>>,
                 Expect<Test<PatternUnion, "equals", (`priv_${string}` | `pub_${string}`)[]>>,
-
             ];
-
         });
-
-
-    })
+    });
 
     describe("arrays", () => {
 
@@ -136,8 +145,6 @@ describe("Keys<T>", () => {
             ];
         });
     })
-
-
 
 });
 

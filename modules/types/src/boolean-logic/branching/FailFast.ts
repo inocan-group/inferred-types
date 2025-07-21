@@ -1,54 +1,70 @@
+import { unset } from 'inferred-types/runtime';
 import type {
     AfterFirst,
     And,
-    Extends,
+    Contains,
     First,
-    If,
     IsError,
     IsFalse,
     IsNever,
-    IsTrue,
-    IsUnset,
-    MergeObjects,
+    Last,
     Or,
     Unset
 } from "inferred-types/types";
 
-type Rtn<
-    T,
-    TErr extends Unset | Error
-> = IsNever<T> extends true
-    ? If<IsUnset<TErr>, never, TErr>
-    : IsFalse<T> extends true
-        ? If<IsUnset<TErr>, false, TErr>
-        : IsError<T> extends true
-            ? T
-            : never;
+
 
 type IsFail<
     T,
-    TErr extends Record<string, boolean>
-> = Or<[
-    And<[IsNever<T>, IsTrue<TErr["never"]>]>,
-    And<[IsFalse<T>, IsTrue<TErr["false"]>]>,
-    And<[Extends<T, Error>, IsTrue<TErr["error"]>]>
-]>;
+    O extends Required<FailFastOptions>
+> = And<[
+    [IsNever<T>] extends [true] ? true : false,
+    Contains<O["failureConditions"], "never">
+]> extends true
+? true
+: And<[
+    IsFalse<T>,
+    Contains<O["failureConditions"], "false">
+]> extends true
+    ? true
+: And<[
+    IsError<T>,
+    Contains<O["failureConditions"], "error">
+]> extends true
+    ? true
+: false;
+
+
+type FailureCondition = "error" | "false" | "never";
 
 export interface FailFastOptions {
     err?: Unset | Error;
-    failureConditions?: Record<string, boolean>;
+    failureConditions?: FailureCondition[];
 }
 
-interface DefaultOption extends Required<FailFastOptions> {
-    err: Unset;
-    failureConditions: {
-        error: true;
-        never: true;
-        false: true;
-    };
+
+type DEFAULT = {
+    err: Unset,
+    failureConditions: ["error","false","never"]
 }
 
-type Opt<T extends FailFastOptions> = MergeObjects<DefaultOption, T> extends Required<FailFastOptions> ? MergeObjects<DefaultOption, T> : never;
+type Opt<
+    T extends FailFastOptions
+> = {
+    err: T["err"] extends Error ? T["err"] : DEFAULT["err"],
+    failureConditions: T["failureConditions"] extends [FailureCondition, ...FailureCondition[]]
+        ? T["failureConditions"]
+        : DEFAULT["failureConditions"]
+}
+
+
+type RtnErr<
+    T,
+    O extends Required<FailFastOptions>
+> = O["err"] extends Error
+? O["err"]
+: T;
+
 
 /**
  * **FailFast**`<TTests, TSuccess, [TErr]>`
@@ -57,27 +73,23 @@ type Opt<T extends FailFastOptions> = MergeObjects<DefaultOption, T> extends Req
  * _failure_ condition as soon as one is encountered in `TTest`.
  *
  * Tests which _do not_ fail are passed over until the last test is processed
- * and if that is processed successfully then
+ * and if that is processed successfully then it's type is returned.
  *
- * - a "failure" is a `never` value, a `false` value, or any type which extends the
- * `Error` class.
- * - if an Error is the failure state then this is always returned, however,
- * if a `never` or `false` value is the failure state you can specify an
- * error you'd like to be generated.
+ * - a "failure" is a `never`, `false`, or any `Error` type
+ * - if you want to adjust this you can change the `failureConditions` in options
  */
 export type FailFast<
     TTests extends readonly unknown[],
-    TOpt extends FailFastOptions = DefaultOption
+    TOpt extends FailFastOptions = DEFAULT,
+    TLast  = Last<TTests>
 > = [] extends TTests
-    ? undefined
-    : [any] extends TTests
-        ? IsFail<TTests[0], Opt<TOpt>["failureConditions"]> extends true
-            ? Rtn<TTests[0], Opt<TOpt>["err"]>
-            : TTests[0] // success
-        : IsFail<First<TTests>, Opt<TOpt>["failureConditions"]> extends true
-            ? Rtn<First<TTests>, Opt<TOpt>["err"]>
+    ? TLast
+    : IsFail<First<TTests>, Opt<TOpt>> extends true
+        ? RtnErr<First<TTests>, Opt<TOpt>>
+        : FailFast<
+            AfterFirst<TTests>,
+            TOpt,
+            TLast
+        >;
 
-            : FailFast<
-                AfterFirst<TTests>,
-                TOpt
-            >;
+

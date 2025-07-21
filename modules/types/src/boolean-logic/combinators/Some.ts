@@ -10,7 +10,8 @@ import type {
     ComparisonAccept,
     AsArray,
     Err,
-    IsWideContainer
+    IsWideContainer,
+    IsObjectLiteral
 } from "inferred-types/types";
 
 type Process<
@@ -49,14 +50,15 @@ export type Some<
     TContainer extends Container,
     TOp extends "extends" | "equals" | "startsWith" | "endsWith" | "lessThan" | "greaterThan",
     TComparator extends GetComparisonParamInput<TOp> | First<GetComparisonParamInput<TOp>>,
-> = IsWideContainer<TContainer> extends true
-? boolean
-
-: AsArray<TComparator> extends GetComparisonParamInput<TOp>
+> = AsArray<TComparator> extends GetComparisonParamInput<TOp>
 ? TContainer extends readonly unknown[]
-    ? Process<TContainer, TOp, AsArray<TComparator>>
+    ? IsWideContainer<TContainer> extends true
+        ? boolean
+        : Process<TContainer, TOp, AsArray<TComparator>>
 : TContainer extends Dictionary
-    ? Process<Values<TContainer>, TOp, AsArray<TComparator>>
+    ? IsObjectLiteral<TContainer> extends true
+        ? Process<Values<TContainer>, TOp, AsArray<TComparator>>
+        : boolean
     : never
 : Err<
     `invalid-type/comparator`,

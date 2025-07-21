@@ -42,7 +42,9 @@ export type HasTemplateLiterals<T> = IsUnion<T> extends true
             : [CountTemplates<`|${T}|`>] extends [0]
                 ? false
                 : true
-    : false;
+: false;
+
+
 
 type UnionStartsBoolean<T extends readonly string[]> = And<{
     [K in keyof T]: T[K] extends string

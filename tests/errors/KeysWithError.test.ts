@@ -1,5 +1,5 @@
 import { keysWithError } from "inferred-types/runtime";
-import { Expect, KeysWithError, Test } from "inferred-types/types";
+import { Expect, KeysWithError, Test, Err } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("KeysWithError", () => {
@@ -7,20 +7,13 @@ describe("KeysWithError", () => {
     it("happy path", () => {
         type Obj = {
             foo: number;
-            bar: {
-                name: "InvalidToken";
-                message: "An array token is missing the terminating '>' character: Array<number";
-                stack?: string | undefined;
-                cause?: unknown;
-                type: "invalid-token";
-                subType: "array";
-            };
+            bar: Err<"oops">;
         }
 
-        type Err = KeysWithError<Obj>;
+        type K = KeysWithError<Obj>;
 
         type cases = [
-            Expect<Test<Err, "equals",  ["bar"]>>
+            Expect<Test<K, "equals",  ["bar"]>>
         ];
     });
 

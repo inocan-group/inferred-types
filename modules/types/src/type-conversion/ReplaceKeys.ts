@@ -22,6 +22,9 @@ export interface ReplaceKeysOptions {
      */
     replaceAll: boolean;
 
+    /**
+     * switch the _casing_ standard of all keys (camelCase, PascalCase, etc.)
+     */
     casing: CaseOptions;
 }
 
@@ -31,18 +34,18 @@ interface DEFAULT extends ReplaceKeysOptions {
 }
 
 type Process<
-    TObj extends AnyObject,
-    TConfig extends (readonly FromTo[]) | Dictionary<string, string>,
+    TObj extends Dictionary,
+    TConfig extends (readonly FromTo[]),
     TOpt extends Partial<ReplaceKeysOptions> = DEFAULT,
 > = TConfig extends readonly FromTo[]
     ? TOpt["replaceAll"] extends false
         ? {
-            [K in keyof TObj as ReplaceFromTo<K, TConfig>]: TObj[K] extends AnyObject
+            [K in keyof TObj as ReplaceFromTo<K, TConfig>]: TObj[K] extends Dictionary
                 ? Process<TObj[K], TConfig, TOpt>
                 : TObj[K];
         }
         : {
-            [K in keyof TObj as ReplaceAllFromTo<K, TConfig>]: TObj[K] extends AnyObject
+            [K in keyof TObj as ReplaceAllFromTo<K, TConfig>]: TObj[K] extends Dictionary
                 ? Process<TObj[K], TConfig, TOpt>
                 : TObj[K];
         }
@@ -53,10 +56,23 @@ type Process<
             ? TObj
             : never;
 
+type Go<T extends Dictionary<string,string> | readonly FromTo[]> = T extends readonly FromTo[]
+? T
+: T extends Dictionary<string,string>
+    ? AsFromTo<T>
+    : never;
+
+
+
 /**
- * **ReplaceKeys**`<TObj,TFromTo,[TOpt]>`
+ * **MapKeys**`<TObj,TFromTo,[TOpt]>`
  *
- * Replaces the keys in an object with a tuple of `FromTo` instructions.
+ * Maps a given `TObj`'s keys to a variant set of keys.
+ *
+ * - keys are mapped with `TMap`
+ *     - `TMap` can either be a dictionary config or a tuple of `FromTo` instructions
+ *     - the TMap transforms are done _before_ any "case-based" transforms from
+ *     the options hash.
  *
  * - `TOpt` allows you to express:
  *    - `deep` - whether the traversal should be deep or not (default is **true**)
@@ -72,17 +88,17 @@ type Process<
  * ]>
  * ```
  */
-export type ReplaceKeys<
-    TObj extends AnyObject,
+export type MapKeys<
+    TObj extends Dictionary,
     TConfig extends (readonly FromTo[]) | Dictionary<string, string>,
     TOpt extends Partial<ReplaceKeysOptions> = DEFAULT,
 > =
   TOpt["casing"] extends "CamelCase"
-      ? CamelKeys<Process<TObj, TConfig, TOpt>>
-      : TOpt["casing"] extends "PascalCase"
-          ? PascalKeys<Process<TObj, TConfig, TOpt>>
-          : TOpt["casing"] extends "KebabCase"
-              ? KebabKeys<Process<TObj, TConfig, TOpt>>
-              : TOpt["casing"] extends "SnakeCase"
-                  ? SnakeKeys<Process<TObj, TConfig, TOpt>>
-                  : Process<TObj, TConfig, TOpt>;
+      ? CamelKeys<Process<TObj, Go<TConfig>, TOpt>>
+    : TOpt["casing"] extends "PascalCase"
+        ? PascalKeys<Process<TObj, Go<TConfig>, TOpt>>
+    : TOpt["casing"] extends "KebabCase"
+        ? KebabKeys<Process<TObj, Go<TConfig>, TOpt>>
+    : TOpt["casing"] extends "SnakeCase"
+        ? SnakeKeys<Process<TObj, Go<TConfig>, TOpt>>
+    : Process<TObj, Go<TConfig>, TOpt>;

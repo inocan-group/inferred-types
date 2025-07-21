@@ -9,4 +9,7 @@
 export interface FromTo<
     TFrom = string,
     TTo = string,
-> { from: TFrom; to: TTo }
+> {
+    from: TFrom;
+    to: TTo;
+}

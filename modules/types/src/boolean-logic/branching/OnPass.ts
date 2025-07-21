@@ -79,7 +79,7 @@ type Iterate<
  * **OnPass**`<TTest, TPass,[TRemap],[TFalse]>`
  *
  * Branching utility which evaluates `TTest` for being
- * `never`, `false`, and `Error` class and
+ * `never`, `false`, or an `Error` class and
  * passes that through when it occurs.
  *
  * In all other cases, the type of `TPass` is proxied through

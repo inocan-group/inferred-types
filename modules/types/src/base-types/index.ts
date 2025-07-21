@@ -11,8 +11,6 @@ export * from "./Digital";
 export * from "./Empty";
 export * from "./EmptyObject";
 export * from "./FalsyValue";
-export * from "./fns/index";
-export * from "./functional/index";
 export * from "./Indexable";
 export * from "./IndexableObject";
 export * from "./LikeRegExp";
@@ -31,4 +29,8 @@ export * from "./TakeUtility";
 export * from "./Thenable";
 export * from "./Tuple";
 export * from "./Variable";
+
+export * from "./fns/index";
+export * from "./functional/index";
+export * from "./objects/index";
 

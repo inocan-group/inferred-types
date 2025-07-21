@@ -1,7 +1,6 @@
 import {
     Expect,
     Test,
-    ErrorCondition,
     OnPass,
     Err,
 } from "inferred-types/types";

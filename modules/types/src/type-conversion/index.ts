@@ -19,7 +19,6 @@ export * from "./Awaited";
 export * from "./Break";
 export * from "./encoding/index";
 export * from "./form-fields";
-export * from "./FromTo";
 export * from "./Immutable";
 export * from "./IntersectionToTuple";
 export * from "./LeftWhitespace";

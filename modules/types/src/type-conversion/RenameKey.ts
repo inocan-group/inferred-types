@@ -1,4 +1,4 @@
-import type { AnyObject, ReplaceKeys } from "inferred-types/types";
+import type { AnyObject, MapKeys } from "inferred-types/types";
 
 /**
  * **RenameKey**`<T, TFrom, TTo>`
@@ -9,4 +9,4 @@ export type RenameKey<
     T extends AnyObject,
     TFrom extends string,
     TTo extends string,
-> = ReplaceKeys<T, [{ from: TFrom; to: TTo }]>;
+> = MapKeys<T, [{ from: TFrom; to: TTo }]>;

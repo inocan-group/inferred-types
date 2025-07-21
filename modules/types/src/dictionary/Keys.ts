@@ -19,14 +19,11 @@ import type {
     IsStringLiteral,
     IsSymbol,
     IsUnion,
-    IsWideContainer,
-    IsWideType,
     IsWideUnion,
-    Length,
     NumericKeys,
     ObjectKey,
-    Or,
     RemoveIndexKeys,
+    Some,
     TupleToUnion,
     UnionToTuple,
     Values,
@@ -106,6 +103,37 @@ export type Keys<
     >;
 
 /**
+ * **WithTemplateKeys**`<TLiteral,TTemplate>`
+ *
+ * Produces a tuple of keys where there a combination of
+ * literal keys and then one or more _template_ keys
+ */
+export type WithTemplateKeys<
+    TLiteral extends readonly unknown[],
+    TTemplate extends readonly string[]
+> =;
+
+
+/**
+ * handle union types which are not literal unions
+ *
+ * 1. if the keyof has 1 or more template keys then
+ *      - extract the template keys and create a union of them
+ *      - make them be of type `...U[]`
+ * 2. if the keyof is `string | number` then we're dealing with
+ * with an index key and we can only return ObjectKey[]
+ */
+type HandleUnion<
+    T extends object
+> = IsEqual<keyof T, string | number> extends true
+? ObjectKey[]
+: Some<UnionToTuple<keyof T>, "isTemplateLiteral", []> extends true
+    ? WithTemplateKeys<
+
+    >
+    : ObjectKey[];
+
+/**
  * **ObjectKeys**`<TObj>`
  *
  * Provides the keys of a given object. If a _wide_ representation of
@@ -119,10 +147,10 @@ export type ObjectKeys<
 > = [IsNever<keyof TObj>] extends [true]
 ? [TObj] extends [AnyMap]
     ? any[]
-: [TObj] extends [AnyWeakMap]
-    ? any[]
-: [TObj] extends [AnySet]
-    ? any[]
+    : [TObj] extends [AnyWeakMap]
+        ? any[]
+    : [TObj] extends [AnySet]
+        ? any[]
     : PropertyKey[]
 : [IsLiteralUnion<keyof TObj>] extends [true]
     ? UnionToTuple<keyof TObj>
@@ -137,7 +165,9 @@ export type ObjectKeys<
             IsEqual<Values<TObj>,[]>
         ]>] extends [true]
             ? []
-        : "union"
+        : TObj extends Dictionary
+            ? HandleUnion<TObj>
+            : "union"
 
     : [IsStringLiteral<keyof TObj>] extends [true]
         ? [HasTemplateLiterals<keyof TObj>] extends [true]
@@ -145,25 +175,9 @@ export type ObjectKeys<
             : [keyof TObj]
     : [IsNumericLiteral<keyof TObj>] extends [true]
         ? [keyof TObj]
-    // : [IsSymbol<keyof TObj>] extends [true]
-    //     ? [keyof TObj]
-    : (keyof TObj)[]
-    ;
-
-type X = HasTemplateLiterals<`_${string}`>;
-
-// IsWideContainer<TObj> extends true
-//     ? IsEqual<TObj, object> extends true
-//         ? ObjectKey[]
-//         : TObj extends Record<infer Key, any>
-//             ? Or<[IsWideUnion<Key>, IsWideType<Key>]> extends true
-//                 ? IsNever<Key> extends true
-//                     ? []
-//                     : Key[]
-//                 : UnionToTuple<Key>
-//             : ObjectKey[]
-//     : ProcessObject<TObj>;
-
+    : [IsSymbol<keyof TObj>] extends [true]
+        ? [keyof TObj]
+    : (keyof TObj)[];
 
 
 

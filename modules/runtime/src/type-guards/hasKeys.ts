@@ -1,6 +1,7 @@
 import type { EmptyObject, EnsureKeys } from "inferred-types/types";
 import { Never } from "inferred-types/constants";
 import { isDictionary, isFunction } from "inferred-types/runtime";
+import { Container, Dictionary, ObjectKey } from "@inferred-types/types";
 
 /**
  * **hasKeys**(props) => (obj) => `HasKeys<O,P>`
@@ -15,18 +16,13 @@ import { isDictionary, isFunction } from "inferred-types/runtime";
  * ```
  */
 export function hasKeys<
-    P extends readonly N[],
-    N extends PropertyKey,
+    const P extends (readonly string[]) | readonly [Dictionary],
 >(...keys: P) {
     if (keys.length === 0) {
         return Never;
     }
 
-  type Props = P extends readonly string[]
-      ? P
-      : never;
-
-  return (val: unknown): val is EnsureKeys<EmptyObject, Props> => {
+  return <T extends Dictionary>(val: T): val is T & EnsureKeys<T, P> => {
       return !!((
           isFunction(val) || isDictionary(val)
       ) && keys.every(k => k in (val as object)));

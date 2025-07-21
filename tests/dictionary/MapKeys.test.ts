@@ -1,11 +1,10 @@
-import { Equal, Expect } from "@type-challenges/utils";
-import { ReplaceKeys, Test } from "inferred-types/types";
+import { Expect, MapKeys, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("ReplaceKeys<TText,TFromTo>", () => {
   it("Using ToFrom[] to replace multiple things", () => {
     type Obj = { _foo: 1; _bar: 2; _baz: 3 }
-    type FooBarBaz = ReplaceKeys<Obj, [
+    type FooBarBaz = MapKeys<Obj, [
       { from: "_"; to: "" },
       { from: "b"; to: "B" },
       { from: "f"; to: "F" }
@@ -17,8 +16,9 @@ describe("ReplaceKeys<TText,TFromTo>", () => {
   });
 
   it("Using Dictionary definition to replace multiple keys", () => {
-    type Obj = { _foo: 1; _bar: 2; _baz: 3 }
-    type FooBarBaz = ReplaceKeys<Obj, {
+    type Obj = { _foo: 1; _bar: 2; _baz: 3 };
+
+    type FooBarBaz = MapKeys<Obj, {
       "_": "",
       "b": "B",
       "f": "F"
@@ -32,12 +32,12 @@ describe("ReplaceKeys<TText,TFromTo>", () => {
 
   it("testing deep replacement", () => {
     type Obj = { _foo: { _bar_: 2; _baz: 3 } }
-    type FooBarBaz = ReplaceKeys<Obj, [
+    type FooBarBaz = MapKeys<Obj, [
       { from: "_"; to: "" },
       { from: "b"; to: "B" },
       { from: "f"; to: "F" }
     ]>
-    type Explicit = ReplaceKeys<Obj, [
+    type Explicit = MapKeys<Obj, [
       { from: "_"; to: "" },
       { from: "b"; to: "B" },
       { from: "f"; to: "F" }
@@ -52,7 +52,7 @@ describe("ReplaceKeys<TText,TFromTo>", () => {
 
   it("testing with replacing only first instance", () => {
     type Obj = { _foo_: { _bar_: 2; _baz: 3 } }
-    type FooBarBaz = ReplaceKeys<Obj, [
+    type FooBarBaz = MapKeys<Obj, [
       { from: "_"; to: "" },
       { from: "b"; to: "B" },
       { from: "f"; to: "F" }
@@ -67,10 +67,11 @@ describe("ReplaceKeys<TText,TFromTo>", () => {
 
   it("convert to specific casing", () => {
     type Obj = { foo_bar: { "bar-baz": 2; } }
-    type Camel = ReplaceKeys<Obj, { foo: "foey" }, { casing: "CamelCase" }>;
-    type Pascal = ReplaceKeys<Obj, { foo: "foey" }, { casing: "PascalCase" }>;
-    type Kebab = ReplaceKeys<Obj, { foo: "foey" }, { casing: "KebabCase" }>;
-    type Snake = ReplaceKeys<Obj, { foo: "foey" }, { casing: "SnakeCase" }>;
+
+    type Camel = MapKeys<Obj, { foo: "foey" }, { casing: "CamelCase" }>;
+    type Pascal = MapKeys<Obj, { foo: "foey" }, { casing: "PascalCase" }>;
+    type Kebab = MapKeys<Obj, { foo: "foey" }, { casing: "KebabCase" }>;
+    type Snake = MapKeys<Obj, { foo: "foey" }, { casing: "SnakeCase" }>;
 
     type cases = [
       Expect<Test<Camel, "equals",  { foeyBar: { barBaz: 2 } }>>,
