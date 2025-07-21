@@ -6,7 +6,7 @@ import type {
     StripLeading
 } from "types/string-literals";
 import type { TwoDigitSecond } from "types/datetime";
-import type { HasLeadingTemplateLiteral } from "types/interpolation";
+import type { StartsWithTemplateLiteral } from "types/interpolation";
 
 type E<T extends string> = Err<
     `parse-time/seconds`,
@@ -16,7 +16,7 @@ type E<T extends string> = Err<
 
 type Take<T extends string> = string extends T
     ? Error | { take: TwoDigitSecond<"branded">; rest: string }
-    : HasLeadingTemplateLiteral<T> extends true
+    : StartsWithTemplateLiteral<T> extends true
         ? Error | { take: TwoDigitSecond<"branded">; rest: string }
         : T extends `${infer C1}${infer C2}${infer Rest}`
             ? C1 extends NumericChar__ZeroToFive

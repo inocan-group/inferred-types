@@ -1,7 +1,7 @@
 import type { As, StartsWith } from "types/boolean-logic";
 import type { EmptyObject } from "types/base-types";
 import type { Err } from "types/errors";
-import type { HasLeadingTemplateLiteral } from "types/interpolation";
+import type { StartsWithTemplateLiteral } from "types/interpolation";
 import type { IsTrue, IsWideType } from "types/boolean-logic";
 import type { NumericChar,  StripLeading } from "types/string-literals";
 
@@ -101,7 +101,7 @@ export type TakeNumeric<
 > = As<
     IsWideType<T> extends true
         ? [`${number}` | undefined, string]
-        : HasLeadingTemplateLiteral<T> extends true
+        : StartsWithTemplateLiteral<T> extends true
             ? [`${number}` | undefined, string]
             : StartsWith<T, `-.${Chars<true>}`> extends true
                 ? Take<StripLeading<T, "-.">, TOpt, "-.", true>

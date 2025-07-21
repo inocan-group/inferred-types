@@ -58,7 +58,7 @@ type UnionStartsBoolean<T extends readonly string[]> = And<{
  * tests whether `T` _starts with_ a leading template literal
  * such as `${string}`, `${number}`, or `${boolean}`
  */
-export type HasLeadingTemplateLiteral<T> = T extends string
+export type StartsWithTemplateLiteral<T> = T extends string
 
 ? [IsUnion<T>] extends [true]
     ? [UnionToTuple<T>] extends [readonly string[]]

@@ -2,7 +2,7 @@ import type { As } from "types/boolean-logic";
 import type { Err } from "types/errors";
 import type {  NumericChar, StripLeading } from "types/string-literals";
 import type { TwoDigitHour } from "types/datetime";
-import { HasLeadingTemplateLiteral } from "types/interpolation";
+import { StartsWithTemplateLiteral } from "types/interpolation";
 
 type HoursErr<
     TParse extends string
@@ -15,7 +15,7 @@ type HoursErr<
 
 type Take<T extends string> = string extends T
     ? Error | { take: TwoDigitHour<"branded">; rest: string }
-    : HasLeadingTemplateLiteral<T> extends true
+    : StartsWithTemplateLiteral<T> extends true
         ? Error | { take: TwoDigitHour<"branded">; rest: string }
         : T extends `${infer C1}${infer C2}${infer Rest}`
             ? C1 extends "0"

@@ -1,4 +1,4 @@
-import type { As, Err, HasLeadingTemplateLiteral, NumericChar, StripLeading, TwoDigitMonth } from "inferred-types/types";
+import type { As, Err, StartsWithTemplateLiteral, NumericChar, StripLeading, TwoDigitMonth } from "inferred-types/types";
 
 type InvalidMonth<T extends string> = Err<
     `parse-date/month`,
@@ -8,7 +8,7 @@ type InvalidMonth<T extends string> = Err<
 
 type Take<T extends string> = string extends T
     ? Error | { take: TwoDigitMonth<"branded">; rest: string }
-    : HasLeadingTemplateLiteral<T> extends true
+    : StartsWithTemplateLiteral<T> extends true
         ? Error | { take: [TwoDigitMonth<"branded">]; rest: string }
         : T extends `${infer C1}${infer C2}${infer Rest}`
             ? C1 extends NumericChar

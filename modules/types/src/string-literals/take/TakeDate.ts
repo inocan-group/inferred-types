@@ -3,7 +3,7 @@ import type { Err } from "types/errors";
 import type {  TwoDigitDate } from "types/datetime";
 import type {  NumericChar, StripLeading } from "types/string-literals";
 import type { IsLeapYear, IsTwoDigitDate } from "types/boolean-logic";
-import type { HasLeadingTemplateLiteral } from "types/interpolation";
+import type { StartsWithTemplateLiteral } from "types/interpolation";
 import { Unbrand } from "types/literals";
 
 type InvalidDate<T extends string> = Err<
@@ -19,7 +19,7 @@ type Take<
     T extends string
 > = string extends T
     ? Error | { take: TwoDigitDate<"branded">; rest: string }
-    : HasLeadingTemplateLiteral<T> extends true
+    : StartsWithTemplateLiteral<T> extends true
         ? Error | { take: TwoDigitDate<"branded">; rest: string }
         : T extends `${infer C1}${infer C2}${infer Rest}`
             ? C1 extends NumericChar

@@ -2,7 +2,7 @@ import type { As } from "types/boolean-logic";
 import type { Err } from "types/errors";
 import type {  NumericChar, StripLeading } from "types/string-literals";
 import type { ThreeDigitMillisecond } from "types/datetime";
-import { HasLeadingTemplateLiteral } from "types/interpolation";
+import { StartsWithTemplateLiteral } from "types/interpolation";
 
 type E<T extends string> = Err<
     "parse-time/ms",
@@ -13,7 +13,7 @@ type E<T extends string> = Err<
 type Take<T extends string> = As<
     string extends T
         ? Err<"parse-time/ms"> | { take: ThreeDigitMillisecond<"branded">; rest: string }
-        : HasLeadingTemplateLiteral<T> extends true
+        : StartsWithTemplateLiteral<T> extends true
             ? Err<"parse-time/ms"> | { take: ThreeDigitMillisecond<"branded">; rest: string }
             : T extends `${infer C1}${infer C2}${infer C3}${infer Rest}`
                 ? C1 extends NumericChar

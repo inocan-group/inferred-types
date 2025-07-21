@@ -2,7 +2,7 @@ import type { As } from "types/boolean-logic";
 import type { Err } from "types/errors";
 import type {  NumericChar, StripLeading } from "types/string-literals";
 import type { TimezoneOffset } from "types/datetime";
-import { HasLeadingTemplateLiteral } from "types/interpolation";
+import { StartsWithTemplateLiteral } from "types/interpolation";
 
 type TZ<T extends string> = Err<
     `parse-time/tz`,
@@ -13,7 +13,7 @@ type TZ<T extends string> = Err<
 
 type Take<T extends string> = string extends T
     ? Error | { take: TimezoneOffset<"branded">; rest: string }
-    : HasLeadingTemplateLiteral<T> extends true
+    : StartsWithTemplateLiteral<T> extends true
         ? Error | { take: TimezoneOffset<"branded">; rest: string }
         : T extends `Z${infer Rest}`
             ? { take: TimezoneOffset<"Z">; rest: Rest }

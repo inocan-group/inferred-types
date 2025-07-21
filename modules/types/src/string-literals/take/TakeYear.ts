@@ -2,7 +2,7 @@ import type { As } from "types/boolean-logic";
 import type { Err } from "types/errors";
 import type { FourDigitYear } from "types/datetime";
 import type {  NumericChar, StripLeading } from "types/string-literals";
-import { HasLeadingTemplateLiteral } from "types/interpolation";
+import { StartsWithTemplateLiteral } from "types/interpolation";
 
 type InvalidYear<T extends string> = Err<
     `parse-date/year`,
@@ -12,7 +12,7 @@ type InvalidYear<T extends string> = Err<
 
 type Take<T extends string> = string extends T
     ? Err<`parse-date/year`> | { take: FourDigitYear<"branded">; rest: string }
-    : HasLeadingTemplateLiteral<T> extends true
+    : StartsWithTemplateLiteral<T> extends true
         ? Err<`parse-date/year`> | { take: FourDigitYear<"branded">; rest: string }
         : T extends `${infer C1}${infer C2}${infer C3}${infer C4}${infer Rest}`
             ? C1 extends NumericChar
