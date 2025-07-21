@@ -48,7 +48,7 @@ type Process<
  */
 export type Some<
     TContainer extends Container,
-    TOp extends "extends" | "equals" | "startsWith" | "endsWith" | "lessThan" | "greaterThan",
+    TOp extends ComparisonOperation,
     TComparator extends GetComparisonParamInput<TOp> | First<GetComparisonParamInput<TOp>>,
 > = AsArray<TComparator> extends GetComparisonParamInput<TOp>
 ? TContainer extends readonly unknown[]

@@ -37,6 +37,16 @@ describe("Filter", () => {
         ];
     });
 
+
+    it("isTemplateLiteral", () => {
+        type One = Filter<[1,2,"foo", `Hi ${string}`], "isTemplateLiteral", []>;
+
+        type cases = [
+            Expect<Test<One, "equals", [`Hi ${string}`]>>
+        ];
+    });
+
+
     it("extends, read-write Tuple, OR/SOME filter", () => {
         type T1 = Filter<[1, 2, "foo", "bar"], "extends", ["foo", 1, 7]>;
         type T2 = Filter<[1, 2, "foo", "bar", false], "extends", [number, string]>;

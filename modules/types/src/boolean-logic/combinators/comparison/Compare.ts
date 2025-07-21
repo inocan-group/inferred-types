@@ -1,4 +1,3 @@
-
 import type {
     AlphaChar,
     AlphaNumericChar,
@@ -53,6 +52,7 @@ import type {
     NumberLike,
     NumericChar,
     Or,
+    TupleToUnion,
     RetainChars,
     Second,
     SomeEqual,
@@ -191,7 +191,7 @@ type Process__General<
     TOp extends ComparisonOperation,
     TParams extends readonly unknown[],
 > = TOp extends "extends"
-    ? DoesExtend<TVal, TParams[0]>
+    ? DoesExtend<TVal,  TupleToUnion<TParams>>
 
     : TOp extends "equals"
         ? IsEqual<TVal, TParams[0]>
@@ -640,11 +640,11 @@ type ValidateParams<
         ? TParams extends readonly [unknown, unknown, ...unknown[]]
             ? true
             : Err<"invalid-parameters", "equalsSome operation requires at least 2 parameters">
-        : TOp extends "extends"
-            ? TParams extends readonly [unknown]
-                ? true
-                : Err<"invalid-parameters", "extends operation requires exactly 1 parameter">
-            : true;
+    : TOp extends "extends"
+        ? TParams extends readonly [unknown, ...unknown[]]
+            ? true
+            : Err<"invalid-parameters", "extends operation requires exactly 1 parameter">
+        : true;
 
 export type Compare<
     TVal extends ComparisonAccept<TOp>,

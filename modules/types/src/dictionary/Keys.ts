@@ -27,6 +27,9 @@ import type {
     TupleToUnion,
     UnionToTuple,
     Values,
+    Filter,
+    NotFilter,
+    Narrowable,
 } from "inferred-types/types";
 
 type _Keys<
@@ -128,9 +131,12 @@ type HandleUnion<
 > = IsEqual<keyof T, string | number> extends true
 ? ObjectKey[]
 : Some<UnionToTuple<keyof T>, "isTemplateLiteral", []> extends true
-    ? WithTemplateKeys<
-
-    >
+    ? UnionToTuple<keyof T> extends readonly Narrowable[]
+        ? WithTemplateKeys<
+            NotFilter<UnionToTuple<keyof T>, "isTemplateLiteral", []>,
+            Filter<UnionToTuple<keyof T>, "isTemplateLiteral", []>
+        >
+        : never
     : ObjectKey[];
 
 /**
