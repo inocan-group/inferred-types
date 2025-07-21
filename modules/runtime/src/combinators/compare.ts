@@ -37,7 +37,8 @@ import {
     last,
     isAfter,
     parseDate,
-    unset
+    unset,
+    isTemplateLiteral
 } from "inferred-types/runtime";
 import {
     hasIndexOf,
@@ -95,7 +96,7 @@ function handle_string<
             )
         }
 
-        case "endsWithNumber":
+        case "endsWithNumber": {
             return (
                 isString(val)
                     ? val === ""
@@ -105,29 +106,43 @@ function handle_string<
                             : false
                     : false
             );
+        }
 
-        case "startsWithNumber":
+        case "startsWithNumber": {
             return (
                 isString(val)
                     ? NUMERIC_CHAR.includes(firstChar(String(val)) as any)
                     : false
             ) ;
+        }
 
-        case "onlyNumbers":
+        case "onlyNumbers": {
             return isString(val)
                 ? val === ""
                     ? false
                     : asChars(val).every(c => isNumberLike(c))
                 : false;
+        }
 
-        case "onlyLetters":
+        case "onlyLetters": {
             return isString(val)
                 ? isAlpha(val)
                 : false;
+        }
 
         case "alphaNumeric": {
             return isString(val)
                 ? asChars(val).every(c => isNumberLike(c) || isAlpha(c))
+                : false;
+        }
+
+        case "isTemplateLiteral": {
+            return isTemplateLiteral(val) === "maybe"
+                ? err(
+                    `unknown-at-runtime`,
+                    `isTemplateLiteral(val) can not know at runtime whether the passed in string value was a TemplateLiteral at design time!`,
+                    { value: val }
+                )
                 : false;
         }
     }

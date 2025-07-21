@@ -45,6 +45,7 @@ import type {
     IsSameYear,
     IsString,
     IsStringLiteral,
+    IsTemplateLiteral,
     IsTrue,
     IsTruthy,
     IsWideScalar,
@@ -304,44 +305,49 @@ type Process__String<
         : TOp extends "endsWithNumber"
             ? EndsWithNumber<TVal>
 
-            : TOp extends "startsWithNumber"
-                ? IsStringLiteral<TVal> extends true
-                    ? FirstChar<As<TVal, string>> extends NumericChar
-                        ? true
-                        : false
-                    : IsString<TVal> extends true ? boolean : false
+        : TOp extends "startsWithNumber"
+            ? IsStringLiteral<TVal> extends true
+                ? FirstChar<As<TVal, string>> extends NumericChar
+                    ? true
+                    : false
+                : IsString<TVal> extends true ? boolean : false
 
-                : TOp extends "onlyNumbers"
-                    ? IsStringLiteral<TVal> extends true
-                        ? TVal extends ""
-                            ? false
-                            : IsEqual<
-                                RetainChars<As<TVal, string>, NumericChar>,
-                                TVal
-                            >
-                        : IsString<TVal> extends true ? boolean : false
+        : TOp extends "onlyNumbers"
+            ? IsStringLiteral<TVal> extends true
+                ? TVal extends ""
+                    ? false
+                    : IsEqual<
+                        RetainChars<As<TVal, string>, NumericChar>,
+                        TVal
+                    >
+                : IsString<TVal> extends true ? boolean : false
 
-                    : TOp extends "onlyLetters"
-                        ? IsStringLiteral<TVal> extends true
-                            ? TVal extends ""
-                                ? false
-                                : IsEqual<
-                                    RetainChars<As<TVal, string>, AlphaChar>,
-                                    TVal
-                                >
-                            : IsString<TVal> extends true ? boolean : false
+        : TOp extends "onlyLetters"
+            ? IsStringLiteral<TVal> extends true
+                ? TVal extends ""
+                    ? false
+                    : IsEqual<
+                        RetainChars<As<TVal, string>, AlphaChar>,
+                        TVal
+                    >
+                : IsString<TVal> extends true ? boolean : false
 
-                        : TOp extends "alphaNumeric"
-                            ? IsStringLiteral<TVal> extends true
-                                ? TVal extends ""
-                                    ? false
-                                    : IsEqual<
-                                        RetainChars<As<TVal, string>, AlphaNumericChar>,
-                                        TVal
-                                    >
-                                : IsString<TVal> extends true ? boolean : false
+        : TOp extends "alphaNumeric"
+            ? IsStringLiteral<TVal> extends true
+                ? TVal extends ""
+                    ? false
+                    : IsEqual<
+                        RetainChars<As<TVal, string>, AlphaNumericChar>,
+                        TVal
+                    >
+                : IsString<TVal> extends true ? boolean : false
 
-                            : Unset;
+        : TOp extends "isTemplateLiteral"
+            ? IsStringLiteral<TVal> extends true
+                ? IsTemplateLiteral<TVal>
+                : false
+
+        : Unset;
 
 type Process__Object<
     TVal,

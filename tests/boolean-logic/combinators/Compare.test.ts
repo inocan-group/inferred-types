@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { compare } from "inferred-types/runtime";
+import { compare, isTemplateLiteral } from "inferred-types/runtime";
 import {
     Compare,
     Expect,
@@ -100,6 +100,21 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
             Expect<Test<F1, "equals",  false>>,
         ];
     });
+
+
+    it("isTemplateLiteral", () => {
+        type T1 = Compare<`hi${string}`, "isTemplateLiteral", []>;
+        type T2 = Compare<`${string} is${number} years old`, "isTemplateLiteral", []>;
+
+        type F1 = Compare<"hi", "isTemplateLiteral", []>
+
+        type cases = [
+            Expect<Test<T1, "equals", true>>,
+            Expect<Test<T2, "equals", true>>,
+            Expect<Test<F1, "equals", false>>,
+        ];
+    });
+
 
     it("greaterThan", () => {
         type T1 = Compare<42, "greaterThan", [30]>;
@@ -466,6 +481,41 @@ describe("compare() runtime function", () => {
                 >>
             ]
         });
+
+
+        it("isTemplateLiteral", () => {
+            const str = "hi Mike" as `hi ${string}`;
+            const t1 = isTemplateLiteral(str);
+            const t2 = compare("isTemplateLiteral")(str);
+
+            expect(t1).toBe("maybe");
+            expect((t2 as any) instanceof Error).toBe(true);
+
+            // in these case both runtime and type system know it's false
+            const f1 = isTemplateLiteral(42);
+            const f2 = compare("isTemplateLiteral")(42);
+
+            // in these cases only the type system knows it's false
+            const f3 = isTemplateLiteral("Hi");
+            const f4 = compare("isTemplateLiteral")("Hi");
+
+            expect(f1).toBe(false);
+            expect(f2).toBe(false);
+            expect(f3).toBe("maybe");
+            expect((f4 as any) instanceof Error).toBe(true);
+
+            type cases = [
+                Expect<Test<typeof t1, "equals", true>>,
+                Expect<Test<typeof t2, "equals", true>>,
+
+                Expect<Test<typeof f1, "equals", false>>,
+                Expect<Test<typeof f2, "equals", false>>,
+
+                Expect<Test<typeof f3, "equals", false>>,
+                Expect<Test<typeof f4, "equals", false>>,
+            ];
+        });
+
     });
 
     describe("General operations", () => {

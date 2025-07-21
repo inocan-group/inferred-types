@@ -24,9 +24,13 @@ export type ComparisonOperation = typeof COMPARISON_OPERATIONS[number];
  * A type which provides a lookup table for standard conversion types.
  */
 export type ComparisonLookup = {
+    isTemplateLiteral: {
+        params: readonly[];
+        take: 1;
+    }
+
     extends: {
         params: readonly [types: unknown, ...unknown[]];
-
     };
 
     startsWith: {
