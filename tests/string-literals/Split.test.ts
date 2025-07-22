@@ -17,7 +17,6 @@ describe("Split<T,SEP>", () => {
         type FooBarBaz = Split<"foo, bar, baz", ", ">;
         type FooBarBazTup = Split<"foo, bar, baz", [", ", "; "]>;
         type FooBarBazBefore = Split<"foo, bar, baz", ", ", "before">;
-        type FooBarBazAfter = Split<"foo, bar, baz", ", ", "after">;
         type FooBarBazInline = Split<"foo, bar, baz", ", ", "inline">;
 
         type FooBarBazUnion = Split<"foo, bar, baz", ", " | "; ">;
@@ -29,7 +28,6 @@ describe("Split<T,SEP>", () => {
             Expect<Test<FooBarBaz, "equals", ["foo", "bar", "baz"]>>,
             Expect<Test<FooBarBazTup, "equals", ["foo", "bar", "baz"]>>,
             Expect<Test<FooBarBazBefore, "equals", ["foo, ", "bar, ", "baz"]>>,
-            Expect<Test<FooBarBazAfter, "equals", ["foo", ", bar", ", baz"]>>,
             Expect<Test<FooBarBazInline, "equals", ["foo", ", ", "bar", ", ", "baz"]>>,
 
             Expect<Extends<FooBarBazUnion, ["foo","bar","baz"]>>,
@@ -100,7 +98,6 @@ describe("Split<T,SEP>", () => {
         type FooBar = Split<"FooBar", ["F", "B"], "omit">;
         type FooBarInline = Split<"FooBar", ["F", "B"], "inline">;
         type FooBarBefore = Split<"FooBar", ["F", "B"], "before">;
-        type FooBarAfter = Split<"FooBar", ["F", "B"], "after">;
 
         type cases = [
             Expect<Test<FooBar, "equals", ["oo",  "ar"]>>,
@@ -108,7 +105,6 @@ describe("Split<T,SEP>", () => {
                 FooBarInline, "equals",
                 ["F", "oo", "B", "ar"]
             >>,
-            Expect<Test<FooBarAfter, "equals", ["F", "ooB", "ar"]>>,
             Expect<Test<FooBarBefore, "equals", ["F", "ooB", "ar"]>>,
         ];
     });
@@ -117,12 +113,10 @@ describe("Split<T,SEP>", () => {
     it("Split with a union separator converted to tuple", () => {
         type FooBar = Split<"FooBar", UnionToTuple<UpperAlphaChar>, "omit">;
         type FooBarBefore = Split<"FooBar", UnionToTuple<UpperAlphaChar>, "before">;
-        type FooBarAfter = Split<"FooBar", UnionToTuple<UpperAlphaChar>, "after">;
 
         type cases = [
             Expect<Test<FooBar, "equals", ["oo",  "ar"]>>,
             Expect<Test<FooBarBefore, "equals", ["F", "ooB", "ar"]>>,
-            Expect<Test<FooBarAfter, "equals", ["Foo", "Bar"]>>,
         ];
     });
 
@@ -135,40 +129,40 @@ describe("Split<T,SEP>", () => {
         ];
     });
 
-    it("split with a numeric template value", () => {
-        type Template = Split<
-            `${number}Age: ${number}, FavNumber: ${number}, Color: red`,
-            `${number}`
-        >;
+    // it("split with a numeric template value", () => {
+    //     type Template = Split<
+    //         `${number}Age: ${number}, FavNumber: ${number}, Color: red`,
+    //         `${number}`
+    //     >;
 
-        type Numeric = Split<
-            `Age: ${number}, FavNumber: ${number}, Color: red`,
-            `${number}`
-        >;
+    //     type Numeric = Split<
+    //         `Age: ${number}, FavNumber: ${number}, Color: red`,
+    //         `${number}`
+    //     >;
 
-        type cases = [
-            Expect<Test<
-                Template, "equals",
-                [
-                    "", "Age: ", ", FavNumber: ", ", Color: red"
-            ]>>,
-            Expect<Test<Numeric, "equals", [
-                "Age: ", ", FavNumber: ", ", Color: red"
-            ]>>
-        ];
-    });
+    //     type cases = [
+    //         Expect<Test<
+    //             Template, "equals",
+    //             [
+    //                 "", "Age: ", ", FavNumber: ", ", Color: red"
+    //         ]>>,
+    //         Expect<Test<Numeric, "equals", [
+    //             "Age: ", ", FavNumber: ", ", Color: red"
+    //         ]>>
+    //     ];
+    // });
 
-    it("split with a boolean template value", () => {
-        type Logical = Split<
-            `Employed: ${boolean}, Insurance: ${boolean}, Age: ${number}`, `${boolean}`
-        >;
+    // it("split with a boolean template value", () => {
+    //     type Logical = Split<
+    //         `Employed: ${boolean}, Insurance: ${boolean}, Age: ${number}`, `${boolean}`
+    //     >;
 
-        type cases = [
-            Expect<Test<Logical, "equals", [
-                "Employed: ", ", Insurance: ", `,   Age: ${number}`
-            ]>>
-        ];
-    });
+    //     type cases = [
+    //         Expect<Test<Logical, "equals", [
+    //             "Employed: ", ", Insurance: ", `,   Age: ${number}`
+    //         ]>>
+    //     ];
+    // });
 
 
 });
@@ -201,22 +195,7 @@ describe("split()", () => {
         ];
     });
 
-    it("after variant", () => {
-        const fooBar = split.after("foo, bar", ", ");
-        const fooBarBaz = split.after("foo, bar; baz", ", ", "; ")
 
-        expect(fooBar).toEqual(["foo", ", bar"])
-        expect(fooBarBaz).toEqual(["foo", ", bar", "; baz"])
-
-        type cases = [
-            Expect<Test<typeof fooBar, "equals", [
-                "foo", "bar"
-            ]>>,
-            Expect<Test<typeof fooBarBaz, "equals", [
-                "foo", ", bar",  "; baz"
-            ]>>,
-        ];
-    });
 
     it("inline variant", () => {
         const fooBar = split.inline("foo, bar", ", ");

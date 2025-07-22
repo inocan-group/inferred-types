@@ -7,11 +7,11 @@ import { isString } from "runtime/type-guards/isString";
  *
  * A type guard built using the `startsWith` utility.
  */
-export type StartingWithTypeGuard<TStartsWith extends string> = <
-    TValue extends Narrowable,
+export type StartingWithTypeGuard<TStartsWith extends readonly (string|number)[]> = <
+    const TValue extends string | number,
 >(
     val: TValue
-) => val is TValue & `${TStartsWith}${string}`;
+) => val is TValue & StartsWith<TValue, TStartsWith>;
 
 /**
  * **startsWithTypeguard**(startingWith) => (val)
@@ -23,17 +23,13 @@ export type StartingWithTypeGuard<TStartsWith extends string> = <
  */
 export function startsWithTypeguard<
     const TStartsWith extends readonly (string | number)[],
->(...startingWith: TStartsWith) {
-    return <
-        const TValue extends string | number,
-    >(val: TValue): val is TValue extends string
-        ? TValue & `${TStartsWith[number]}${string}`
-        : TValue => {
+>(...startingWith: TStartsWith): StartingWithTypeGuard<TStartsWith> {
+    return <const TValue extends string | number>(val: TValue): val is TValue & StartsWith<TValue,TStartsWith> => {
         return (
             isString(val) || isNumber(val)
                 ? startingWith.some(i => String(i) !== "" && String(val).startsWith(String(i)))
                 : false
-        ) as StartsWith<TValue, TStartsWith[number]>;
+        );
     };
 }
 

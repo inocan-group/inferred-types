@@ -1,10 +1,9 @@
 import type { IsSubstring, IsWideString } from "types/boolean-logic";
 import type { BeforeLast, Last } from "types/lists";
-import type { Length } from "types/numeric-literals";
 import type { RetainAfter, StripAfter } from "types/string-literals";
 import type { AsUnion } from "types/type-conversion";
 
-type Policy = "omit" | "before" | "after" | "inline";
+type Policy = "omit" | "before" | "inline";
 
 type Get<
     TContent extends string,
@@ -38,19 +37,14 @@ type Process<
                 : TPolicy extends "before"
                     ? [
                         ...TParts,
-        `${Get<TContent, TSep>["before"]}${Get<TContent, TSep>["sep"]}`
+                        `${Get<TContent, TSep>["before"]}${Get<TContent, TSep>["sep"]}`
                     ]
-                    : TPolicy extends "after"
-                        ? Length<TParts> extends 0
-                            ? [
-                                Get<TContent, TSep>["before"]
-                            ]
-                            : [
-                                ...BeforeLast<TParts>,
-            `${Get<TContent, TSep>["sep"]}${Last<TParts>}`,
-            Get<TContent, TSep>["before"]
-                            ]
-                        : never
+
+                    : [
+                        ...BeforeLast<TParts>,
+                        `${Get<TContent, TSep>["sep"]}${Last<TParts>}`,
+                        Get<TContent, TSep>["before"]
+                    ]
     >
     : TContent extends ""
         ? TParts

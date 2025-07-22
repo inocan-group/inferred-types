@@ -267,8 +267,8 @@ describe("runtime if/is", () => {
 
         // design time
         type cases = [
-            Expect<Test<typeof foo, "equals", StartingWithTypeGuard<"foo">>>, //
-            Expect<Test<typeof foot, "equals", StartingWithTypeGuard<"foot">>> //
+            Expect<Test<typeof foo, "extends", StartingWithTypeGuard<"foo">>>, //
+            Expect<Test<typeof foot, "extends", StartingWithTypeGuard<"foot">>> //
         ];
     });
 

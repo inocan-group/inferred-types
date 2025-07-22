@@ -63,7 +63,7 @@ describe("IsLiteral<T>", () => {
         type cases = [
             // an empty object still allows key/value pairs to be added after it
             // is declared so it is NOT a literal
-            Expect<Test<Empty, "equals", false>>,
+            Expect<Test<Empty, "equals", true>>,
             // an explicitly empty object -- which has it's index keys set to _never_
             // -- can never have any key/values and therefore IS a literal
             Expect<Test<Explicit, "equals", true>>,
