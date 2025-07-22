@@ -78,6 +78,7 @@
         "@typescript/analyze-trace": "^0.10.1",
         "@vitest/ui": "^3.2.4",
         "@yankeeinlondon/ask": "^0.4.0",
+        "@yankeeinlondon/typed-tester": "^0.7.3",
         "bumpp": "^10.2.0",
         "chalk": "^5.4.1",
         "cross-env": "^7.0.3",
