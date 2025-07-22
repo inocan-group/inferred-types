@@ -1,4 +1,5 @@
-import type { DateLike } from "inferred-types/types";
+import { IsJsDate, IsLuxonDateTime, IsMoment } from "@inferred-types/types";
+import type { AsDateMeta, DateLike, DateMeta, Err, IsDayJs, IsInteger, Or, ParseDate, ParsedDate } from "inferred-types/types";
 import {
     asDateTime,
     parseIsoDate
@@ -6,49 +7,60 @@ import {
 
 import { err } from "runtime/errors";
 import {
-    isError,
-    isIsoDateTime,
     isString
 } from "runtime/type-guards";
 
-// type Returns<T> = T extends string
-//     ? ParseDate<T> extends Error
-//         ? ParseDate<T>
-//     : ParseDate<T> extends ParsedDate
-//         ? AsParsedDate<ParseDate<T>>
-//         : never
-// : T extends object
-//     ? ParseDateObject<T> extends Error
-//         ? ParseDateObject<T>
-//         : Parse
+
+type Returns<T extends DateLike>  = T extends string
+    ? ParseDate<T> extends Error
+        ? ParseDate<T>
+    : ParseDate<T> extends ParsedDate
+        ? AsDateMeta<ParseDate<T>>
+    : Err<`parse-date/string`, `unable to parse the string '${T}' as a a date!`>
+: T extends object
+    ? Or<[
+        IsMoment<T>,
+        IsLuxonDateTime<T>,
+        IsDayJs<T>,
+        IsJsDate<T>,
+    ]> extends true
+        ? DateMeta
+        : Err<
+            "parse-date/object",
+            `An object was passed into parseDate() but it was not recognized as a known Date type!`,
+            { date: T }
+        >
+: T extends number
+    ? IsInteger<T> extends true
+        ? DateMeta
+        : Err<
+            `parse-date/number`,
+            `When a number is passed into parseDate() it is assumed to be an epoch timestamp but the number passed in was a floating point number which indicates it is NOT an epoch timestamp!`,
+            { date: T }
+        >
+: Err<
+    `parse-date/invalid-type`,
+    `The type passed into parseDate() can not be parsed into a date!`,
+    { parse: T }
+>;
+
 
 export function parseDate<
     T extends DateLike
->(d: T) {
+>(d: T): Returns<T> {
     let iso: string;
 
     if (isString(d)) {
-        iso = d;
-    }
-    else {
+        return parseIsoDate(d) as unknown as Returns<T>;
+    } else {
         try {
             iso = asDateTime(d).toISOString();
         }
         catch (error) {
-            return error instanceof Error ? error : err(`parse/invalid`, `Unable to parse date-like value`);
+            return error instanceof Error
+                ? error as Returns<T>
+                : err(`parse/invalid`, `Unable to parse date-like value`) as unknown as Returns<T>;
         }
+        return parseIsoDate(iso) as Returns<T>
     }
-
-    if (isError(iso)) {
-        return iso;
-    }
-
-    if (isString(iso)) {
-        return parseIsoDate(iso);
-    }
-    else if (isIsoDateTime(iso)) {
-        return parseIsoDate(iso);
-    }
-
-    return err(`parse/structure`);
 }

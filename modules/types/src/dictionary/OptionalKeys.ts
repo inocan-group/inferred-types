@@ -1,4 +1,5 @@
 import type {
+    As,
     Dictionary,
     EmptyObject,
     If,
@@ -30,7 +31,8 @@ import type {
 export type OptionalKeys<
     T,
     V = Unset,
-> = T extends Dictionary
+> =
+T extends Dictionary
 
     ? {
         [K in keyof T]-?: EmptyObject extends { [P in K]: T[K] }

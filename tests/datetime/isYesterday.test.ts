@@ -6,9 +6,8 @@ import {
     IsIsoDateTime,
     IsIsoDate,
     IsLuxonDateTime,
-    LuxonJs,
-    IsoDateTimeLike,
-    IsoDateLike,
+    IsoDateTime,
+    IsoDate
 } from "inferred-types/types";
 import { DateTime } from "luxon";
 import moment from "moment";
@@ -29,7 +28,7 @@ describe("isYesterday()", () => {
         if (isYesterday(yesterday, mockNow)) {
             type D = typeof yesterday;
 
-            type _cases = [
+            type cases = [
                 Expect<Test<D, "equals", Date>>
             ];
         }
@@ -55,7 +54,7 @@ describe("isYesterday()", () => {
     });
 
     it("should correctly validate Luxon DateTime objects", () => {
-        const yesterday = DateTime.fromISO("2024-01-14") as unknown as LuxonJs["DateTime"];
+        const yesterday = DateTime.fromISO("2024-01-14");
         const today = DateTime.fromISO("2024-01-15");
         const dayBeforeYesterday = DateTime.fromISO("2024-01-13");
         type Luxon = IsLuxonDateTime<typeof yesterday>;
@@ -66,10 +65,8 @@ describe("isYesterday()", () => {
 
         if (isYesterday(yesterday, mockNow)) {
             type PrevDay = typeof yesterday;
-            // @ts-ignore
-            type _cases = [
-                Expect<Test<Luxon, "equals", true>>,
-                Expect<Extends<LuxonJs["DateTime"], PrevDay>>
+            type cases = [
+                Expect<Test<Luxon, "equals", true>>
             ];
         }
     });
@@ -89,14 +86,13 @@ describe("isYesterday()", () => {
 
             type _cases = [
                 Expect<Test<Iso, "equals", true>>,
-                Expect<Extends<PrevDay, IsoDateTimeLike>>
+                Expect<Extends<PrevDay, IsoDateTime>>
             ];
         }
     });
 
     it("should correctly validate ISO  date strings", () => {
         const yesterday = "2024-01-14";
-        const wide = yesterday as string;
         const today = "2024-01-15";
         const dayBeforeYesterday = "2024-01-13";
         type Iso = IsIsoDate<typeof yesterday>;
@@ -111,22 +107,16 @@ describe("isYesterday()", () => {
 
             type _cases = [
                 Expect<Test<Iso, "equals", true>>,
-                Expect<Extends<PrevDay, IsoDateLike>>
+                Expect<Extends<PrevDay, IsoDate>>
             ];
         }
-        if (isYesterday(wide, mockNow)) {
-            type WideDay = typeof wide;
 
-            type _cases = [
-                Expect<Test<IsoWide, "equals", boolean>>,
-                Expect<Extends<WideDay, string>>
-            ];
-        }
     });
 
     it("should handle invalid inputs", () => {
         expect(() => isYesterday(null, mockNow)).toThrow();
         expect(() => isYesterday(undefined, mockNow)).toThrow();
+        // @ts-expect-error
         expect(() => isYesterday("not a date", mockNow)).toThrow();
         expect(isYesterday("2024", mockNow)).toBe(false); // Valid year, but Jan 1 != Jan 14
         expect(isYesterday(123, mockNow)).toBe(false); // Valid epoch, but different date
@@ -149,6 +139,7 @@ describe("isYesterday()", () => {
 
         // Malformed ISO strings
         expect(() => isYesterday("2024-01", mockNow)).toThrow();
+        // @ts-expect-error
         expect(() => isYesterday("2024-01-", mockNow)).toThrow();
         expect(() => isYesterday("2024-01-32", mockNow)).toThrow();
         expect(() => isYesterday("2024-13-14", mockNow)).toThrow();

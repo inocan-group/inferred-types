@@ -22,6 +22,7 @@ export function typedError<
 ) {
     const err = new Error(message) as TypedError<string, string | undefined>;
     const [t, subType] = type.split("/");
+    err.__kind = "Error";
     err.type = toKebabCase(t);
     err.subType = toKebabCase(subType);
     if (message) {

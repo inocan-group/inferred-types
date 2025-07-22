@@ -26,6 +26,7 @@ export type ComparisonOperation = typeof COMPARISON_OPERATIONS[number];
 export type ComparisonLookup = {
     isTemplateLiteral: {
         params: readonly[];
+        accept: unknown;
         take: 1;
     }
 

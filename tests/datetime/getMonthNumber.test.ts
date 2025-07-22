@@ -33,7 +33,7 @@ describe("GetMonthNumber<T>", () => {
     it("ISO DateTime", () => {
         type Feb = GetMonthNumber<"2022-02-15T12:00">;
         type Oct = GetMonthNumber<"2022-10-15T12:45Z">;
-        type Dec = GetMonthNumber<"2022-12-01T23:59.999+01:30">;
+        type Dec = GetMonthNumber<"2022-12-01T23:59:01.999+01:30">;
 
         type cases = [
             Expect<Test<Feb, "equals", 2>>,

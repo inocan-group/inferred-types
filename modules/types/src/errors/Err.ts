@@ -16,6 +16,7 @@ export type TypedError<
 > = Expand<
     Error &
     {
+        __kind: "Error";
         type: T;
         subType: S;
         [key: string]: any;
@@ -30,6 +31,7 @@ export type Err<
     ? As<
         Expand<
         {
+            __kind: "Error";
             name: PascalCase<TCtx["name"] extends string ? TCtx["name"] : RetainUntil<TType, "/">>;
             type: KebabCase<Type>;
             subType: Subtype extends string ? KebabCase<Subtype> : undefined;

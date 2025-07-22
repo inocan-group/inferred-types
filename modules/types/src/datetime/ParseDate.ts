@@ -1,4 +1,4 @@
-import type { As } from "types/boolean-logic";
+import type { As, IsLeapYear, IsTwoDigitDate } from "types/boolean-logic";
 import type { Err, ErrContext } from "types/errors";
 import type { FourDigitYear, TwoDigitDate, TwoDigitMonth } from "types/datetime";
 import type { IsFourDigitYear } from "types/boolean-logic";
@@ -68,15 +68,22 @@ type ParseFullDate<T extends string> = TakeYear<T> extends {
             take: infer D extends TwoDigitDate<"branded">;
             rest: infer Rest extends string;
         }
-            ? As<
-                [
-                    Year,
-                    Month,
-                    D,
-                    null
-                ],
-                ParsedDate
+            ? IsTwoDigitDate<D,Year,Month> extends true
+                ? As<
+                    [
+                        Year,
+                        Month,
+                        D,
+                        null
+                    ],
+                    ParsedDate
+                >
+            : Err<
+                `parse-date/date`,
+                `This date [${D}] initially appeared valid but when considering both year and month it is clear that the date is incorrect. This could be due to the length of the month in general or could also be related to whether the given year is a leap year or not.`,
+                { year: Year; month: Month; date: D; rest: Rest; leap: IsLeapYear<Year>}
             >
+
             : ErrContext<
                 As<TakeDate<Rest, "-", Year, Month>, Error>,
                 { year: Year; month: Month; rest: Rest }
@@ -93,7 +100,7 @@ type ParseFullDate<T extends string> = TakeYear<T> extends {
 type ParseYear<T extends string> = IsFourDigitYear<T> extends true
     ? As<
         [
-            FourDigitYear<As<T,`${number}`>>,
+            FourDigitYear<As<T, `${number}`>>,
             null,
             null,
             null
@@ -136,38 +143,6 @@ type ParseDateTime<T extends `${string}T${string}`> = Split<T, "T"> extends [
 
     : Err<`parse-date/datetime`, `Invalid structure`, { parse: T }>;
 
-/**
- * **ParseDate**`<T, [TSep]>`
- *
- * Parses an ISO Date string to extract the core data.
- *
- * ISO Dates come in the following flavors:
- *
- * - `YYYY-MM-DD` _or_ `YYYYMMDD`
- * - `-YYYY-MM` _or_ `-YYYYMM` (_for year/month resolution and no date_)
- * - `--MM-DD` _or_ `--MMDD` (_for year independent dates_)
- */
-export type ParseDate<
-    T,
-> = T extends string
-    ? string extends T
-        ? ParsedDate | Error // wide string
-        : T extends `--${infer Rest extends string}`
-            ? ParseMonthDate<Rest>
-        // ----
-            : T extends `-${infer Rest extends string}`
-                ? ParseYearMonth<Rest>
-            // ----
-                : T extends `${string}T${string}`
-                    ? ParseDateTime<T>
-                    : StrLen<T> extends 4
-                        ? ParseYear<T>
-                        : ParseFullDate<T>
-    : Err<
-        `parse-date/wrong-type`,
-        `A non-string type was passed into ParseDate<T>!`
-    >;
-
 
 
 type ParseYearMonth<T extends string> = TakeYear<T> extends {
@@ -204,4 +179,38 @@ type ParseYearMonth<T extends string> = TakeYear<T> extends {
     >;
 
 
+
+
+
+/**
+ * **ParseDate**`<T, [TSep]>`
+ *
+ * Parses an ISO Date string to extract the core data.
+ *
+ * ISO Dates come in the following flavors:
+ *
+ * - `YYYY-MM-DD` _or_ `YYYYMMDD`
+ * - `-YYYY-MM` _or_ `-YYYYMM` (_for year/month resolution and no date_)
+ * - `--MM-DD` _or_ `--MMDD` (_for year independent dates_)
+ */
+export type ParseDate<
+    T,
+> = T extends string
+    ? string extends T
+        ? ParsedDate | Error // wide string
+        : T extends `--${infer Rest extends string}`
+            ? ParseMonthDate<Rest>
+        // ----
+            : T extends `-${infer Rest extends string}`
+                ? ParseYearMonth<Rest>
+            // ----
+                : T extends `${string}T${string}`
+                    ? ParseDateTime<T>
+                    : StrLen<T> extends 4
+                        ? ParseYear<T>
+                        : ParseFullDate<T>
+    : Err<
+        `parse-date/wrong-type`,
+        `A non-string type was passed into ParseDate<T>!`
+    >;
 

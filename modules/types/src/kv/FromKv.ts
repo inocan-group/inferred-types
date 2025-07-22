@@ -6,41 +6,31 @@ import type {
     First,
     IsWideContainer,
     KeyValue,
-    MakeKeysOptional,
-    ObjectKey,
+    OptRecord,
 } from "inferred-types/types";
 
-type AddRequiredKey<
-    TObj extends Dictionary,
-    TKey extends ObjectKey,
-    TVal
-> = TObj & Record<TKey, TVal>;
+type Convert<
+    T extends readonly KeyValue[],
+    O extends Dictionary = EmptyObject
+> = [] extends T
+? Expand<O>
+: Convert<
+    AfterFirst<T>,
+    First<T>["required"] extends true
 
-type AddOptionalKey<
-    TObj extends Dictionary,
-    TKey extends ObjectKey,
-    TVal,
-    TKeys extends readonly ObjectKey[] = readonly [TKey]
-> = MakeKeysOptional<
-    Expand<TObj & Record<TKey, TVal>> extends Dictionary
-        ? Expand<TObj & Record<TKey, TVal>>
-        : never,
-    TKeys
+    ? O & Record<
+        First<T>["key"],
+        First<T>["value"] extends KeyValue[]
+            ? Convert<First<T>["value"]>
+            : First<T>["value"]
+    >
+    : O & OptRecord<
+        First<T>["key"],
+        First<T>["value"]
+    >
 >;
 
-type Process<
-    TIn extends readonly KeyValue[],
-    TOut extends Dictionary = EmptyObject
-> = [] extends TIn
-    ? Expand<TOut>
-    : Process<
-        AfterFirst<TIn>,
-        "required" extends keyof First<TIn>
-            ? First<TIn>["required"] extends false
-                ? AddOptionalKey<TOut, First<TIn>["key"], First<TIn>["value"]>
-                : AddRequiredKey<TOut, First<TIn>["key"], First<TIn>["value"]>
-            : AddRequiredKey<TOut, First<TIn>["key"], First<TIn>["value"]>
-    >;
+
 
 /**
  * **FromKv**`<T>`
@@ -59,4 +49,4 @@ type Process<
  */
 export type FromKv<T extends readonly KeyValue[]> = IsWideContainer<T> extends true
     ? Dictionary
-    : Process<T>;
+    : Convert<T>;

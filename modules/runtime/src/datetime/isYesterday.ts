@@ -1,3 +1,4 @@
+import { DateLike } from "inferred-types/types";
 import { asDate, getYesterday } from "runtime/datetime";
 
 /**
@@ -10,7 +11,7 @@ import { asDate, getYesterday } from "runtime/datetime";
  * - Optional `now` parameter for testing purposes
  */
 export function isYesterday(
-    input: string | number | Record<string, any> | Date,
+    input: DateLike,
     now: Date = new Date()
 ): boolean {
     try {

@@ -13,12 +13,14 @@ import {
     TwoDigitDate,
     ThreeDigitMillisecond,
     TimezoneOffset,
-    ParsedDate
+    ParsedDate,
+    DateMeta
 } from "inferred-types/types";
 import { parseDate } from "inferred-types/runtime";
 import moment from "moment";
 import { DateTime } from "luxon";
 import { parseISO } from "date-fns";
+import { IsTwoDigitDate } from "../../modules/types/dist";
 
 describe("ParseDate<T>", () => {
 
@@ -31,19 +33,19 @@ describe("ParseDate<T>", () => {
         type cases = [
             Expect<Test<
                 T1, "equals",
-                [ FourDigitYear<"2024">, TwoDigitMonth<"06">, TwoDigitDate<"15">, null ]
+                [FourDigitYear<"2024">, TwoDigitMonth<"06">, TwoDigitDate<"15">, null]
             >>,
             Expect<Test<
                 T2, "equals",
-                [ FourDigitYear<"2024">, TwoDigitMonth<"06">, TwoDigitDate<"15">, null ]
+                [FourDigitYear<"2024">, TwoDigitMonth<"06">, TwoDigitDate<"15">, null]
             >>,
             Expect<Test<
                 T3, "equals",
-                [ FourDigitYear<"1999">, TwoDigitMonth<"12">,TwoDigitDate<"31">, null ]
+                [FourDigitYear<"1999">, TwoDigitMonth<"12">, TwoDigitDate<"31">, null]
             >>,
             Expect<Test<
                 T4, "equals",
-                [ FourDigitYear<"1999">, TwoDigitMonth<"12">, TwoDigitDate<"31">, null ]
+                [FourDigitYear<"1999">, TwoDigitMonth<"12">, TwoDigitDate<"31">, null]
             >>
         ];
     });
@@ -57,19 +59,19 @@ describe("ParseDate<T>", () => {
         type cases = [
             Expect<Test<
                 T1, "equals",
-                [ FourDigitYear<"2024">, TwoDigitMonth<"06">, null, null ]
+                [FourDigitYear<"2024">, TwoDigitMonth<"06">, null, null]
             >>,
             Expect<Test<
                 T2, "equals",
-                [ FourDigitYear<"2024">, TwoDigitMonth<"06">, null, null ]
+                [FourDigitYear<"2024">, TwoDigitMonth<"06">, null, null]
             >>,
             Expect<Test<
                 T3, "equals",
-                [ FourDigitYear<"1999">, TwoDigitMonth<"12">, null, null ]
+                [FourDigitYear<"1999">, TwoDigitMonth<"12">, null, null]
             >>,
             Expect<Test<
                 T4, "equals",
-                [ FourDigitYear<"1999">, TwoDigitMonth<"12">, null, null ]
+                [FourDigitYear<"1999">, TwoDigitMonth<"12">, null, null]
             >>
         ];
     });
@@ -83,34 +85,34 @@ describe("ParseDate<T>", () => {
         type cases = [
             Expect<Test<
                 T1, "equals",
-                [ null, TwoDigitMonth<"06">, TwoDigitDate<"15">, null ]
+                [null, TwoDigitMonth<"06">, TwoDigitDate<"15">, null]
             >>,
             Expect<Test<
                 T2, "equals",
-                [ null, TwoDigitMonth<"06">, TwoDigitDate<"15">, null ]
+                [null, TwoDigitMonth<"06">, TwoDigitDate<"15">, null]
             >>,
             Expect<Test<
                 T3, "equals",
-                [ null, TwoDigitMonth<"12">, TwoDigitDate<"31">, null ]
+                [null, TwoDigitMonth<"12">, TwoDigitDate<"31">, null]
             >>,
             Expect<Test<
                 T4, "equals",
-                [ null, TwoDigitMonth<"12">, TwoDigitDate<"31">, null ]
+                [null, TwoDigitMonth<"12">, TwoDigitDate<"31">, null]
             >>
         ];
     });
 
-     it("Invalid --MM-DD and --MMDD", () => {
+    it("Invalid --MM-DD and --MMDD", () => {
         type T1 = ParseDate<"--13-15">;
         type T2 = ParseDate<"--1233">;
         type T3 = ParseDate<"--12-33">;
         type T4 = ParseDate<"--1331">;
 
         type cases = [
-            Expect<Test<T1, "isError","parse-date/month">>,
+            Expect<Test<T1, "isError", "parse-date/month">>,
             Expect<Test<T2, "isError", "parse-date/date">>,
             Expect<Test<T3, "isError", "parse-date/date">>,
-            Expect<Test<T4, "isError","parse-date/month">>,
+            Expect<Test<T4, "isError", "parse-date/month">>,
         ];
     });
 
@@ -152,8 +154,8 @@ describe("ParseDate<T>", () => {
                     ]
                 ]
             >>,
-            Expect<Test<T3, "isError","parse-date/leftover">>,
-            Expect<Test<T4, "isError","parse-date/leftover">>
+            Expect<Test<T3, "isError", "parse-date/leftover">>,
+            Expect<Test<T4, "isError", "parse-date/leftover">>
         ];
     });
 
@@ -197,6 +199,7 @@ describe("ParseDate<T>", () => {
     it("edge cases", () => {
         type LeapYear = ParseDate<"2020-02-29">;
         type L = IsLeapYear<"2020">;
+        type L2 = IsTwoDigitDate<"29",FourDigitYear<"2020">,"02">;
         type NonLeapYear = ParseDate<"2021-02-29">;
         type ThirtyDayMonth = ParseDate<"2020-04-31">;
         type ThirtyOneDayMonth = ParseDate<"2020-05-31">;
@@ -204,7 +207,7 @@ describe("ParseDate<T>", () => {
         type cases = [
             Expect<Test<
                 LeapYear, "equals",
-                [ FourDigitYear<"2020">, TwoDigitMonth<"02">, TwoDigitDate<"29">, null ]
+                [FourDigitYear<"2020">, TwoDigitMonth<"02">, TwoDigitDate<"29">, null]
             >>,
             Expect<Test<
                 NonLeapYear, "isError",
@@ -225,137 +228,188 @@ describe("ParseDate<T>", () => {
 
 
 describe("parseDate()", () => {
-  it("parses ISO string", () => {
-    const result = parseDate("2024-01-15T12:34:56.789Z");
-    const expected = {
-      dateType: "datetime",
-      hasTime: true,
-      year: "2024",
-      month: "01",
-      date: "15",
-      hour: "12",
-      minute: "34",
-      second: "56",
-      ms: "789",
-      timezone: "Z"
-    };
+    it("parses ISO string", () => {
+        const result = parseDate("2024-01-15T12:34:56.789Z");
+        const expected = {
+            dateType: "datetime",
+            hasTime: true,
+            year: "2024",
+            month: "01",
+            date: "15",
+            hour: "12",
+            minute: "34",
+            second: "56",
+            ms: "789",
+            timezone: "Z"
+        };
 
-    expect(result).toMatchObject(expected);
-  });
+        expect(result).toMatchObject(expected);
+        type cases = [
+            Expect<Test<typeof result, "extends", DateMeta>>
+        ];
+    });
 
-  it("parses Date object", () => {
-    const date = new Date("2024-01-15T12:34:56.789Z");
-    const result = parseDate(date);
-    const expected = {
-      dateType: "datetime",
-      hasTime: true,
-      year: "2024",
-      month: "01",
-      date: "15",
-      hour: "12",
-      minute: "34",
-      second: "56",
-      ms: "789",
-      timezone: "Z"
-    };
-    expect(result).toMatchObject(expected);
-  });
+    it("parses Date object", () => {
+        const date = new Date("2024-01-15T12:34:56.789Z");
+        const result = parseDate(date);
+        const expected = {
+            dateType: "datetime",
+            hasTime: true,
+            year: "2024",
+            month: "01",
+            date: "15",
+            hour: "12",
+            minute: "34",
+            second: "56",
+            ms: "789",
+            timezone: "Z"
+        };
+        expect(result).toMatchObject(expected);
+        type cases = [
+            Expect<Test<typeof result, "extends", DateMeta>>
+        ];
+    });
 
-  it("parses epoch ms", () => {
-    const date = new Date("2024-01-15T12:34:56.789Z");
-    const ms = date.getTime();
-    const result = parseDate(ms);
-    const expected = {
-      dateType: "datetime",
-      hasTime: true,
-      year: "2024",
-      month: "01",
-      date: "15",
-      hour: "12",
-      minute: "34",
-      second: "56",
-      ms: "789",
-      timezone: "Z"
-    };
-    expect(result).toMatchObject(expected);
-  });
+    it("parses epoch ms", () => {
+        const date = new Date("2024-01-15T12:34:56.789Z");
+        const ms = date.getTime();
+        const result = parseDate(ms);
+        const expected = {
+            dateType: "datetime",
+            hasTime: true,
+            year: "2024",
+            month: "01",
+            date: "15",
+            hour: "12",
+            minute: "34",
+            second: "56",
+            ms: "789",
+            timezone: "Z"
+        };
+        expect(result).toMatchObject(expected);
+        type cases = [
+            Expect<Test<typeof result, "extends", DateMeta>>
+        ];
 
-  it("parses epoch seconds", () => {
-    const date = new Date("2024-01-15T12:34:56.000Z");
-    const seconds = Math.floor(date.getTime() / 1000);
-    const result = parseDate(seconds);
-    const expected = {
-      dateType: "datetime",
-      hasTime: true,
-      year: "2024",
-      month: "01",
-      date: "15",
-      hour: "12",
-      minute: "34",
-      second: "56",
-      ms: "000",
-      timezone: "Z"
-    };
-    expect(result).toMatchObject(expected);
-  });
+    });
 
-  it("parses Moment.js object", () => {
-    const m = moment("2024-01-15T12:34:56.789Z");
-    const result = parseDate(m);
-    const expected = {
-      dateType: "datetime",
-      hasTime: true,
-      year: "2024",
-      month: "01",
-      date: "15",
-      hour: "12",
-      minute: "34",
-      second: "56",
-      ms: "789",
-      timezone: "Z"
-    };
-    expect(result).toMatchObject(expected);
-  });
+    it("parses epoch seconds", () => {
+        const date = new Date("2024-01-15T12:34:56.000Z");
+        const seconds = Math.floor(date.getTime() / 1000);
+        const result = parseDate(seconds);
+        const expected = {
+            dateType: "datetime",
+            hasTime: true,
+            year: "2024",
+            month: "01",
+            date: "15",
+            hour: "12",
+            minute: "34",
+            second: "56",
+            ms: "000",
+            timezone: "Z"
+        };
+        expect(result).toMatchObject(expected);
+        type cases = [
+            Expect<Test<typeof result, "extends", DateMeta>>
+        ];
+    });
 
-  it("parses Luxon DateTime object", () => {
-    const l = DateTime.fromISO("2024-01-15T12:34:56.789-05:00");
-    const result = parseDate(l);
-    const expected = {
-      dateType: "datetime",
-      hasTime: true,
-      year: "2024",
-      month: "01",
-      date: "15",
-      hour: "17", // Converted to UTC (12 + 5 hours)
-      minute: "34",
-      second: "56",
-      ms: "789",
-      timezone: "Z" // Normalized to UTC
-    };
-    expect(result).toMatchObject(expected);
-  });
 
-  it("parses DateFns date object", () => {
-    const d = parseISO("2024-01-15T12:34:56.789Z");
-    const result = parseDate(d);
-    const expected = {
-      dateType: "datetime",
-      hasTime: true,
-      year: "2024",
-      month: "01",
-      date: "15",
-      hour: "12",
-      minute: "34",
-      second: "56",
-      ms: "789",
-      timezone: "Z"
-    };
-    expect(result).toMatchObject(expected);
-  });
+    it("fully qualified datetime", () => {
+        const date = "2022-12-01T23:59:59.999+01:30";
+        const result = parseDate(date);
+        type Result = typeof result;
 
-  it("invalid input", () => {
-    expect(parseDate("not-a-date" as any) instanceof Error).toBe(true);
-    expect(parseDate({} as any) instanceof Error).toBe(true);
-    expect(parseDate(NaN as any) instanceof Error).toBe(true);
-  });
+        const expected = {
+            dateType: "datetime",
+            hasTime: true,
+            year: "2022",
+            month: "12",
+            date: "01",
+            hour: "23",
+            minute: "59",
+            second: "59",
+            ms: "999",
+            timezone: "+01:30"
+        };
+        expect(result).toMatchObject(expected);
+
+        type cases = [
+            Expect<Test<typeof result, "extends", DateMeta>>
+        ];
+    });
+
+
+    it("parses Moment.js object", () => {
+        const m = moment("2024-01-15T12:34:56.789Z");
+        const result = parseDate(m);
+        const expected = {
+            dateType: "datetime",
+            hasTime: true,
+            year: "2024",
+            month: "01",
+            date: "15",
+            hour: "12",
+            minute: "34",
+            second: "56",
+            ms: "789",
+            timezone: "Z"
+        };
+        expect(result).toMatchObject(expected);
+
+        type cases = [
+            Expect<Test<typeof result, "extends", DateMeta>>
+        ];
+    });
+
+    it("parses Luxon DateTime object", () => {
+        const l = DateTime.fromISO("2024-01-15T12:34:56.789-05:00");
+        const result = parseDate(l);
+        const expected = {
+            dateType: "datetime",
+            hasTime: true,
+            year: "2024",
+            month: "01",
+            date: "15",
+            hour: "17", // Converted to UTC (12 + 5 hours)
+            minute: "34",
+            second: "56",
+            ms: "789",
+            timezone: "Z" // Normalized to UTC
+        };
+        expect(result).toMatchObject(expected);
+
+        type cases = [
+            Expect<Test<typeof result, "extends", DateMeta>>
+        ];
+    });
+
+    it("parses DateFns date object", () => {
+        const d = parseISO("2024-01-15T12:34:56.789Z");
+        const result = parseDate(d);
+        const expected = {
+            dateType: "datetime",
+            hasTime: true,
+            year: "2024",
+            month: "01",
+            date: "15",
+            hour: "12",
+            minute: "34",
+            second: "56",
+            ms: "789",
+            timezone: "Z"
+        };
+        expect(result).toMatchObject(expected);
+
+        type cases = [
+            Expect<Test<typeof result, "extends", DateMeta>>
+        ];
+    });
+
+    it("invalid input", () => {
+        expect(parseDate("not-a-date" as any) instanceof Error).toBe(true);
+        expect(parseDate({} as any) instanceof Error).toBe(true);
+        expect(parseDate(NaN as any) instanceof Error).toBe(true);
+    });
 });

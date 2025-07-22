@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { asDateTime } from "inferred-types/runtime";
-import { DatePlus, Expect, Test, IsoDateTime } from "inferred-types/types"
+import { DatePlus, Expect, Test, IsoDateTime, TimezoneOffset } from "inferred-types/types"
 import moment from "moment";
 import { Temporal } from "@js-temporal/polyfill";
 import { DateTime } from "luxon";
@@ -40,7 +40,7 @@ describe("asDateTime()", () => {
         const result = asDateTime("2024");
 
         type cases = [
-            Expect<Test<typeof result, "extends", DatePlus<"iso-year", "Z">>>
+            Expect<Test<typeof result, "extends", DatePlus<"iso-year", TimezoneOffset<"Z">>>>
         ];
     });
 
@@ -50,7 +50,7 @@ describe("asDateTime()", () => {
         type cases = [
             Expect<Test<
                 typeof result, "extends",
-                DatePlus<"iso-year-month", "Z", IsoDateTime>
+                DatePlus<"iso-year-month", TimezoneOffset<"Z">, IsoDateTime>
             >>,
 
         ];
@@ -174,7 +174,8 @@ describe("asDateTime()", () => {
 
         expect(result.source).toBe("day.js");
         expect(result.offset).toBe(null);
-        expect(result.toISOString()).toBe("2024-01-15T14:30:45.123Z");            expect(iso(result)).toBe("2024-01-15T12:34:56.000Z");
+        expect(result.toISOString()).toBe("2024-01-15T14:30:45.123Z");
+        expect(iso(result)).toBe("2024-01-15T12:34:56.000Z");
         } catch {
             // skip if not available
         }

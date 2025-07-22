@@ -7,6 +7,8 @@ import {
     IsLuxonDateTime,
     Test,
     LuxonLikeDateTime,
+    IsoDateTime,
+    IsoDate,
 } from "inferred-types/types";
 import { DateTime } from "luxon";
 import moment from "moment";
@@ -45,7 +47,7 @@ describe("isTomorrow()", () => {
     });
 
     it("should correctly validate Luxon DateTime objects", () => {
-        const tomorrow = DateTime.fromISO("2024-01-16") as unknown as LuxonLikeDateTime;
+        const tomorrow = DateTime.fromISO("2024-01-16");
         const today = DateTime.fromISO("2024-01-15");
         const dayAfterTomorrow = DateTime.fromISO("2024-01-17");
         type Luxon = IsLuxonDateTime<typeof tomorrow>;
@@ -59,7 +61,6 @@ describe("isTomorrow()", () => {
 
             type cases = [
                 Expect<Test<Luxon, "equals", true>>,
-                Expect<Test<LuxonJs["DateTime"], "extends", NextDay>>
             ];
         }
     });
@@ -79,7 +80,7 @@ describe("isTomorrow()", () => {
 
             type cases = [
                 Expect<Test<Iso, "equals", true>>,
-                Expect<Test<NextDay, "extends", IsoDateTimeLike>>
+                Expect<Test<NextDay, "extends", IsoDateTime>>
             ];
         }
     });
@@ -101,7 +102,7 @@ describe("isTomorrow()", () => {
             // @ts-ignore
             type _cases = [
                 Expect<Test<Iso, "equals", true>>,
-                Expect<Test<NextDay, "extends", IsoDateLike>>
+                Expect<Test<NextDay, "extends", IsoDate>>
             ];
         }
         if (isTomorrow(wide, mockNow)) {

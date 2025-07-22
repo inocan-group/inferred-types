@@ -58,7 +58,9 @@ import type {
     SomeEqual,
     StartsWith,
     Suggest,
-    Unset
+    Unset,
+    TypedFunction,
+    AnyFunction
 } from "inferred-types/types";
 
 
@@ -107,84 +109,84 @@ type Process__DateTime<
     TOp extends ComparisonOperation,
     TParams extends readonly unknown[],
 > = TOp extends "after"
-    ? TVal extends DateLike
-        ? Second<TParams> extends DateLike
-            ? IsAfter<TVal,Second<TParams>>
-            : false
-        : Err<`invalid-value/not-date-like`>
+? TVal extends DateLike
+    ? Second<TParams> extends DateLike
+        ? IsAfter<TVal,Second<TParams>>
+        : false
+    : Err<`invalid-value/not-date-like`>
 
-    : TOp extends "before"
-        ? IsDateLike<TVal> extends false
+: TOp extends "before"
+    ? IsDateLike<TVal> extends false
+        ? Err<
+            `invalid-value/not-date-like`,
+            `The '${TOp}' operation expects the value passed in to be a valid representation of a date but it was not!`,
+            { val: TVal }
+        >
+        : TParams extends Base<TOp>
+            ? IsLiteral<C<"before", TParams>> extends true
+                ? IsBefore<As<TVal, DateLike>, C<"before", TParams>>
+                : boolean
+            : IsBoolean<IsDateLike<TVal>> extends true
+                ? boolean
+                : false
+
+    : TOp extends "sameDay"
+        ? [IsDateLike<TVal>] extends [false]
             ? Err<
                 `invalid-value/not-date-like`,
                 `The '${TOp}' operation expects the value passed in to be a valid representation of a date but it was not!`,
                 { val: TVal }
             >
             : TParams extends Base<TOp>
-                ? IsLiteral<C<"before", TParams>> extends true
-                    ? IsBefore<As<TVal, DateLike>, C<"before", TParams>>
+                ? IsLiteral<C<"sameDay", TParams>> extends true
+                    ? IsSameDay<As<TVal, DateLike>, C<"sameDay", TParams>>
                     : boolean
                 : IsBoolean<IsDateLike<TVal>> extends true
                     ? boolean
                     : false
 
-        : TOp extends "sameDay"
-            ? [IsDateLike<TVal>] extends [false]
-                ? Err<
-                    `invalid-value/not-date-like`,
-                    `The '${TOp}' operation expects the value passed in to be a valid representation of a date but it was not!`,
-                    { val: TVal }
-                >
-                : TParams extends Base<TOp>
-                    ? IsLiteral<C<"sameDay", TParams>> extends true
-                        ? IsSameDay<As<TVal, DateLike>, C<"sameDay", TParams>>
-                        : boolean
-                    : IsBoolean<IsDateLike<TVal>> extends true
-                        ? boolean
-                        : false
+    : TOp extends "sameMonthYear"
+        ? IsFalse<IsDateLike<TVal>> extends true
+            ? false
+            : TParams extends Base<TOp>
+                ? IsLiteral<C<"sameMonthYear", TParams>> extends true
+                    ? IsSameMonthYear<
+                        As<TVal, DateLike>,
+                        C<"sameMonthYear", TParams>
+                    >
+                    : boolean
+                : IsBoolean<IsDateLike<TVal>> extends true
+                    ? boolean
+                    : false
 
-            : TOp extends "sameMonthYear"
-                ? IsFalse<IsDateLike<TVal>> extends true
-                    ? false
-                    : TParams extends Base<TOp>
-                        ? IsLiteral<C<"sameMonthYear", TParams>> extends true
-                            ? IsSameMonthYear<
-                                As<TVal, DateLike>,
-                                C<"sameMonthYear", TParams>
-                            >
-                            : boolean
-                        : IsBoolean<IsDateLike<TVal>> extends true
-                            ? boolean
-                            : false
+    : TOp extends "sameMonth"
+        ? IsFalse<IsDateLike<TVal>> extends true
+            ? false
+            : TParams extends Base<TOp>
+                ? IsLiteral<C<"sameMonth", TParams>> extends true
+                    ? IsSameMonth<
+                        As<TVal, DateLike>,
+                        C<"sameMonth", TParams>
+                    >
+                    : boolean
+                : IsBoolean<IsDateLike<TVal>> extends true
+                    ? boolean
+                    : false
 
-                : TOp extends "sameMonth"
-                    ? IsFalse<IsDateLike<TVal>> extends true
-                        ? false
-                        : TParams extends Base<TOp>
-                            ? IsLiteral<C<"sameMonth", TParams>> extends true
-                                ? IsSameMonth<
-                                    As<TVal, DateLike>,
-                                    C<"sameMonth", TParams>
-                                >
-                                : boolean
-                            : IsBoolean<IsDateLike<TVal>> extends true
-                                ? boolean
-                                : false
-
-                    : TOp extends "sameYear"
-                        ? IsFalse<IsDateLike<TVal>> extends true
-                            ? false
-                            : TParams extends Base<TOp>
-                                ? IsLiteral<C<"sameYear", TParams>> extends true
-                                    ? IsSameYear<
-                                        As<TVal, DateLike>,
-                                        C<"sameYear", TParams>
-                                    >
-                                    : boolean
-                                : IsBoolean<IsDateLike<TVal>> extends true
-                                    ? boolean
-                                    : false
-                        : Unset;
+    : TOp extends "sameYear"
+        ? IsFalse<IsDateLike<TVal>> extends true
+            ? false
+            : TParams extends Base<TOp>
+                ? IsLiteral<C<"sameYear", TParams>> extends true
+                    ? IsSameYear<
+                        As<TVal, DateLike>,
+                        C<"sameYear", TParams>
+                    >
+                    : boolean
+                : IsBoolean<IsDateLike<TVal>> extends true
+                    ? boolean
+                    : false
+: Unset;
 
 type Process__General<
     TVal,
@@ -573,28 +575,28 @@ type Process__Other<
                 : false
             : false
 
-        : TOp extends "returnEquals"
-            ? TVal extends ((...args: any[]) => any)
-                ? IsEqual<ReturnType<TVal>, TParams>
+    : TOp extends "returnEquals"
+        ? TVal extends TypedFunction
+            ? IsEqual<ReturnType<TVal>, TParams>
+            : TVal extends AnyFunction
+                ? boolean
                 : false
 
-            : TOp extends "returnExtends"
-                ? TVal extends ((...args: any[]) => any)
-                    ? Extends<ReturnType<TVal>, TParams>
-                    : false
+    : TOp extends "returnExtends"
+        ? TVal extends ((...args: any[]) => any)
+            ? Extends<ReturnType<TVal>, TParams>
+            : false
 
+    : TOp extends "returnEquals"
+        ? TVal extends TypedFunction
+            ? IsEqual<ReturnType<TVal>, TParams[0]>
+            : false
 
-
-                        : TOp extends "returnEquals"
-                            ? TVal extends ((...args: any[]) => any)
-                                ? IsEqual<ReturnType<TVal>, TParams>
-                                : false
-
-                            : TOp extends "returnExtends"
-                                ? TVal extends ((...args: any[]) => any)
-                                    ? Extends<ReturnType<TVal>, TParams>
-                                    : false
-                                : Unset;
+    : TOp extends "returnExtends"
+        ? TVal extends ((...args: any[]) => any)
+            ? Extends<ReturnType<TVal>, TParams>
+            : false
+        : Unset;
 
 /**
  * process the type for the comparison

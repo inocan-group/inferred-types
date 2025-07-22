@@ -120,7 +120,6 @@ describe("getWeekNumber()", () => {
 
 
   it("should handle invalid inputs gracefully", () => {
-      // @ts-expect-error - Invalid input type
       expect(() => getWeekNumber(null)).toThrow();
       expect(() => getWeekNumber("invalid date")).toThrow();
   });

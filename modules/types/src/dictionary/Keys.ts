@@ -114,7 +114,7 @@ export type Keys<
 export type WithTemplateKeys<
     TLiteral extends readonly unknown[],
     TTemplate extends readonly string[]
-> =;
+> = true;
 
 
 /**
@@ -131,13 +131,11 @@ type HandleUnion<
 > = IsEqual<keyof T, string | number> extends true
 ? ObjectKey[]
 : Some<UnionToTuple<keyof T>, "isTemplateLiteral", []> extends true
-    ? UnionToTuple<keyof T> extends readonly Narrowable[]
         ? WithTemplateKeys<
             NotFilter<UnionToTuple<keyof T>, "isTemplateLiteral", []>,
             Filter<UnionToTuple<keyof T>, "isTemplateLiteral", []>
         >
-        : never
-    : ObjectKey[];
+        : never;
 
 /**
  * **ObjectKeys**`<TObj>`
@@ -159,7 +157,7 @@ export type ObjectKeys<
         ? any[]
     : PropertyKey[]
 : [IsLiteralUnion<keyof TObj>] extends [true]
-    ? UnionToTuple<keyof TObj>
+    ? As<UnionToTuple<keyof TObj>, readonly ObjectKey[]>
 
     : [IsUnion<keyof TObj>] extends [true]
         ? [IsEqual<keyof TObj, string | symbol>] extends [true]
@@ -170,20 +168,20 @@ export type ObjectKeys<
             Extends<TObj, Dictionary>,
             IsEqual<Values<TObj>,[]>
         ]>] extends [true]
-            ? []
+            ? As<[], readonly ObjectKey[]>
         : TObj extends Dictionary
             ? HandleUnion<TObj>
             : "union"
 
     : [IsStringLiteral<keyof TObj>] extends [true]
         ? [IsTemplateLiteral<keyof TObj>] extends [true]
-            ? (keyof TObj)[]
-            : [keyof TObj]
+            ? As<(keyof TObj)[], readonly ObjectKey[]>
+            : As<[keyof TObj], readonly ObjectKey[]>
     : [IsNumericLiteral<keyof TObj>] extends [true]
-        ? [keyof TObj]
+        ? As<[keyof TObj], readonly ObjectKey[]>
     : [IsSymbol<keyof TObj>] extends [true]
-        ? [keyof TObj]
-    : (keyof TObj)[];
+        ? As<[keyof TObj], readonly ObjectKey[]>
+    : As<(keyof TObj)[], readonly ObjectKey[]>;
 
 
 

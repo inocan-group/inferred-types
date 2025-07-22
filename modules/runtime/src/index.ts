@@ -1,5 +1,6 @@
 export * from "./api/index";
 export * from "./boolean-logic/index";
+export * from "./branding/index";
 export * from "./combinators/index";
 export * from "./constants/index";
 export * from "./containers/index";

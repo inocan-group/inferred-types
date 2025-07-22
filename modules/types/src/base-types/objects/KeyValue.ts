@@ -9,7 +9,7 @@ import type { ObjectKey } from "inferred-types/types";
 export type KeyValue<
     K = ObjectKey,
     V = any,
-    R = true
+    R = boolean
 > = {
     /** the _key_ of an object */
     key: K;

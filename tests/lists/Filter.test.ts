@@ -6,7 +6,8 @@ import {
     UnionToTuple,
     UpperAlphaChar,
     EndsWith,
-    NumberLike
+    NumberLike,
+    Compare
 } from "inferred-types/types";
 import { filter } from "inferred-types/runtime";
 
@@ -411,6 +412,7 @@ describe("Filter", () => {
             () => boolean,
             () => string
         ];
+        type C1 = Compare<() => string, "returnEquals", [string]>;
         type T1 = Filter<Fns, "returnEquals", [string]>;
 
         type cases = [

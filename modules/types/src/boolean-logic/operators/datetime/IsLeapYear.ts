@@ -1,5 +1,6 @@
 // ---------------------------------------------------------
 
+import { Unbrand } from "inferred-types/types";
 import type { And, Not, Or } from "types/boolean-logic";
 import type { DateLike, ParseDate, ParsedDate } from "types/datetime";
 import type { Err } from "types/errors";
@@ -38,20 +39,20 @@ type Detect<Y extends `${number}`> = Or<[
  */
 export type IsLeapYear<
     T
-> = T extends DateLike
-? string extends T
+> = Unbrand<T> extends DateLike
+? string extends Unbrand<T>
     ? boolean
-: T extends string
-    ? ParseDate<T> extends Error
-        ? ParseDate<T>
-    : ParseDate<T> extends ParsedDate
-        ? ParseDate<T>[0] extends `${number}`
-            ? Detect<ParseDate<T>[0]>
+: Unbrand<T> extends string
+    ? ParseDate<Unbrand<T>> extends Error
+        ? ParseDate<Unbrand<T>>
+    : ParseDate<Unbrand<T>> extends ParsedDate
+        ? ParseDate<Unbrand<T>>[0] extends `${number}`
+            ? Detect<ParseDate<Unbrand<T>>[0]>
             : false
         : boolean
     : boolean
 : Err<
     `parse-date/invalid-type`,
     `The value passed into IsLeapYear<T> does not extend DateLike!`,
-    { val: T }
+    { val: Unbrand<T> }
 >;

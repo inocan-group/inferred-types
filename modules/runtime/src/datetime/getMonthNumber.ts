@@ -8,10 +8,10 @@ import { MONTH_ABBREV_LOOKUP, MONTH_NAME_LOOKUP } from "constants/DateTime";
 import { parseDate } from "runtime/datetime/parseDate";
 import { err } from "runtime/errors/err";
 import { asNumber } from "runtime/numeric/asNumber";
-import { isError } from "runtime/type-guards";
 import {
     isMonthAbbrev,
-    isMonthName
+    isMonthName,
+    isParsedDate
 } from "runtime/type-guards/datetime/index";
 
 /**
@@ -33,18 +33,19 @@ export function getMonthNumber<
     }
     else {
         const d = parseDate(date);
-        if (isError(d)) {
-            return d as GetMonthNumber<T>;
+
+        if(isParsedDate(d)) {
+
+            if (!d.month) {
+                return err(
+                    `month-number/missing`,
+                    `The type passed into GetMonthNumber<T> was successfully parsed but there is no month information. This typically means that an IsoYear was passed in.`,
+
+                ) as GetMonthNumber<T>;
+            }
+            return asNumber(d.month) as GetMonthNumber<T>;
         }
 
-        if (!d.month) {
-            return err(
-                `month-number/missing`,
-                `The type passed into GetMonthNumber<T> was successfully parsed but there is no month information. This typically means that an IsoYear was passed in.`,
-
-            ) as GetMonthNumber<T>;
-        }
-
-        return asNumber(d.month) as GetMonthNumber<T>;
+        return err(`invalid-date`, `Unable to parse the date when calling getMonthNumber()`) as unknown as GetMonthNumber<T>
     }
 }

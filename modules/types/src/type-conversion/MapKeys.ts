@@ -14,7 +14,7 @@ import type {
 
 type CaseOptions = "none" | "PascalCase" | "CamelCase" | "SnakeCase" | "KebabCase";
 
-export interface ReplaceKeysOptions {
+export interface MapKeysOptions {
 
     /**
      * Indicates whether to replace _all_ `from` instances in the key or
@@ -28,7 +28,7 @@ export interface ReplaceKeysOptions {
     casing: CaseOptions;
 }
 
-interface DEFAULT extends ReplaceKeysOptions {
+interface DEFAULT extends MapKeysOptions {
     replaceAll: true;
     casing: "none";
 }
@@ -36,7 +36,7 @@ interface DEFAULT extends ReplaceKeysOptions {
 type Process<
     TObj extends Dictionary,
     TConfig extends (readonly FromTo[]),
-    TOpt extends Partial<ReplaceKeysOptions> = DEFAULT,
+    TOpt extends Partial<MapKeysOptions> = DEFAULT,
 > = TConfig extends readonly FromTo[]
     ? TOpt["replaceAll"] extends false
         ? {
@@ -81,7 +81,7 @@ type Go<T extends Dictionary<string,string> | readonly FromTo[]> = T extends rea
  *
  * ```ts
  * // { Foo: { Bar: 2 }}
- * type Obj = ReplaceKeys<{ _foo_: { _bar_: 2 }}, [
+ * type Obj = MapKeys<{ _foo_: { _bar_: 2 }}, [
  *    { from: "f"; to: "F" },
  *    { from: "b"; to: "B" },
  *    { from: "_"; to: "" }
@@ -91,7 +91,7 @@ type Go<T extends Dictionary<string,string> | readonly FromTo[]> = T extends rea
 export type MapKeys<
     TObj extends Dictionary,
     TConfig extends (readonly FromTo[]) | Dictionary<string, string>,
-    TOpt extends Partial<ReplaceKeysOptions> = DEFAULT,
+    TOpt extends Partial<MapKeysOptions> = DEFAULT,
 > =
   TOpt["casing"] extends "CamelCase"
       ? CamelKeys<Process<TObj, Go<TConfig>, TOpt>>

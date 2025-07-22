@@ -12,6 +12,7 @@ import {
     UpperAlphaChar,
     IsAfter
 } from "inferred-types/types";
+import { AnyFunction } from "inferred-types";
 
 describe("Compare<TVal,TOp,TComparator> type util", () => {
 
@@ -337,6 +338,16 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
             Expect<Test<F4, "equals",  false>>,
         ];
     });
+
+
+    it("returnEquals", () => {
+        type T1 = Compare<(() => string), "returnEquals", [string]>;
+
+        type cases = [
+            Expect<Test<T1, "equals", true>>
+        ];
+    });
+
 
 });
 

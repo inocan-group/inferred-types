@@ -6,6 +6,10 @@ import type {
     ParseDate,
     ParsedDate,
 } from "inferred-types/types";
+import { twoDigitHour } from "runtime/branding";
+import { threeDigitMillisecond } from "runtime/branding/threeDigitMillisecond";
+import { twoDigitMinute } from "runtime/branding/twoDigitMinute";
+import { twoDigitSecond } from "runtime/branding/twoDigitSecond";
 import { err } from "runtime/errors";
 import { isEmpty, isString } from "runtime/type-guards";
 import {
@@ -215,7 +219,15 @@ export function parseIsoDate<
 
             const val: DateMeta = {
                 dateType: "datetime",
-                hasTime: !(timezone === "Z" && hour === "00" && minute === "00" && (second === "00" || second === null) && (ms === "000" || ms === null)),
+                hasTime: !(
+                    isTimezoneOffset(timezone) && timezone === "Z" &&
+                    hour === twoDigitHour("00") &&
+                    minute === twoDigitMinute("00") &&
+                    (
+                        second === twoDigitSecond("00") || second === null
+                    ) && (
+                        ms === threeDigitMillisecond("000") || ms === null
+                    )),
                 year,
                 month,
                 date,
@@ -228,12 +240,12 @@ export function parseIsoDate<
 
             return {
                 ...val,
-                toString: toString(val),
-                asYear: asYear(val),
-                asYearIndependent: asYearIndependent(val),
-                asDate: asDate(val),
-                asDateTime: asDateTime(val),
-                asYearMonth: asYearMonth(val)
+                // toString: toString(val),
+                // asYear: asYear(val),
+                // asYearIndependent: asYearIndependent(val),
+                // asDate: asDate(val),
+                // asDateTime: asDateTime(val),
+                // asYearMonth: asYearMonth(val)
             } as Returns<T>;
         }
     }
@@ -258,12 +270,12 @@ export function parseIsoDate<
 
                 return {
                     ...val,
-                    toString: toString(val),
-                    asYear: asYear(val),
-                    asYearIndependent: asYearIndependent(val),
-                    asDate: asDate(val),
-                    asDateTime: asDateTime(val),
-                    asYearMonth: asYearMonth(val)
+                    // toString: toString(val),
+                    // asYear: asYear(val),
+                    // asYearIndependent: asYearIndependent(val),
+                    // asDate: asDate(val),
+                    // asDateTime: asDateTime(val),
+                    // asYearMonth: asYearMonth(val)
                 } as Returns<T>;
             }
             else {
@@ -302,12 +314,6 @@ export function parseIsoDate<
 
                 return {
                     ...val,
-                    toString: toString(val),
-                    asYear: asYear(val),
-                    asYearIndependent: asYearIndependent(val),
-                    asDate: asDate(val),
-                    asDateTime: asDateTime(val),
-                    asYearMonth: asYearMonth(val)
                 } as Returns<T>;
             }
             else {
@@ -345,12 +351,7 @@ export function parseIsoDate<
 
                 return {
                     ...val,
-                    toString: toString(val),
-                    asYear: asYear(val),
-                    asYearIndependent: asYearIndependent(val),
-                    asDate: asDate(val),
-                    asDateTime: asDateTime(val),
-                    asYearMonth: asYearMonth(val)
+
                 } as Returns<T>;
             }
             else {
@@ -386,12 +387,12 @@ export function parseIsoDate<
 
                 return {
                     ...val,
-                    toString: toString(val),
-                    asYear: asYear(val),
-                    asYearIndependent: asYearIndependent(val),
-                    asDate: asDate(val),
-                    asDateTime: asDateTime(val),
-                    asYearMonth: asYearMonth(val)
+                    // toString: toString(val),
+                    // asYear: asYear(val),
+                    // asYearIndependent: asYearIndependent(val),
+                    // asDate: asDate(val),
+                    // asDateTime: asDateTime(val),
+                    // asYearMonth: asYearMonth(val)
                 } as Returns<T>;
             }
             return err(

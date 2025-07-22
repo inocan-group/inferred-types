@@ -40,7 +40,7 @@ export * from "./ReplaceAll";
 export * from "./ReplaceAllFromTo";
 export * from "./ReplaceAllToFrom";
 export * from "./ReplaceFromTo";
-export * from "./ReplaceKeys";
+export * from "./MapKeys";
 export * from "./ReplaceType";
 export * from "./RetainChars";
 export * from "./ReturnValues";

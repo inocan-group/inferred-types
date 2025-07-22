@@ -59,6 +59,7 @@ describe("asDate() - UTC midnight, date-only conversion", () => {
   });
 
   it("throws on invalid input", () => {
+    // @ts-expect-error
     expect(() => asDate("not-a-date")).toThrow();
     expect(() => asDate({})).toThrow();
   });

@@ -9,7 +9,6 @@ describe("PascalKeys<T>", () => {
         type In = { foo_bar: 42; BarBaz: 55; Opt?: "maybe" };
         type T = PascalKeys<In>;
 
-        // @ts-ignore
         type cases = [
             Expect<Test<
                 T,
