@@ -3,8 +3,6 @@ import type {
     ComparisonAccept,
     ComparisonLookup,
     ComparisonOperation,
-    Err,
-    GetComparisonParamInput,
     RemoveNever
 } from "inferred-types/types";
 
@@ -13,9 +11,9 @@ type Process<
     TOp extends ComparisonOperation,
     TParams extends ComparisonLookup[TOp]["params"]
 > = RemoveNever<{
-    [K in keyof TList]: Compare<TList[K], TOp, TParams> extends true
-        ? never
-        : TList[K]
+    [K in keyof TList]: Compare<TList[K], TOp, TParams> extends false
+        ? TList[K]
+        : never
 }>;
 
 /**
@@ -35,21 +33,10 @@ type Process<
  */
 export type NotFilter<
     TList extends readonly ComparisonAccept<TOp>[],
-    TOp extends ComparisonOperation,
-    TParams extends GetComparisonParamInput<TOp> = GetComparisonParamInput<TOp>
-> = [TParams] extends [Error]
-    ? TParams
-    : [ComparisonInputToTuple<TOp, TParams>] extends [ComparisonLookup[TOp]["params"]]
-
-        ? Process<
-            TList,
-            TOp,
-            ComparisonInputToTuple<TOp, TParams>
-        >
-
-        : [ComparisonInputToTuple<TOp, TParams>] extends [Error]
-            ? ComparisonInputToTuple<TOp, TParams>
-            : Err<
-                `invalid-filter`,
-        `The filter operation '${TOp}' received invalid parameters!`
-            >;
+        TOp extends ComparisonOperation,
+        TParams extends ComparisonLookup[TOp]["params"]
+> = Process<
+    TList,
+    TOp,
+    TParams
+>;
