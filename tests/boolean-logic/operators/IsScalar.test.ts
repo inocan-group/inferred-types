@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { Expect, IsScalar, Scalar, Test } from "inferred-types/types";
 import { isScalar } from "inferred-types/runtime"
+import { TupleToUnion } from "inferred-types";
 
 
 
@@ -12,8 +13,8 @@ describe("IsScalar<T>", () => {
     type T2 = IsScalar<"foo">;
     type T3 = IsScalar<string>;
     type T4 = IsScalar<null>;
+    type T5 = IsScalar<undefined>;
 
-    type F1 = IsScalar<undefined>;
     type F2 = IsScalar<{}>;
     type F3 = IsScalar<string[]>;
     type F4 = IsScalar<{ foo: 1 }>;
@@ -25,8 +26,8 @@ describe("IsScalar<T>", () => {
       Expect<Test<T2, "equals",  true>>,
       Expect<Test<T3, "equals",  true>>,
       Expect<Test<T4, "equals",  true>>,
+      Expect<Test<T5, "equals",  true>>,
 
-      Expect<Test<F1, "equals",  false>>,
       Expect<Test<F2, "equals",  false>>,
       Expect<Test<F3, "equals",  false>>,
       Expect<Test<F4, "equals",  false>>,
@@ -36,13 +37,14 @@ describe("IsScalar<T>", () => {
   });
 
 
-  it("dealing with unions", () => {
-    type MixedUnion = IsScalar<number | number[]>;
+  it("addressing union types", () => {
+    type SomeScalar = IsScalar<number | number[]>;
+    type T = TupleToUnion<string[] | number[]>;
     type AllScalarUnion = IsScalar<44 | 55>;
     type None = IsScalar<string[] | number[]>;
 
     type cases = [
-      Expect<Test<MixedUnion, "equals",  boolean>>,
+      Expect<Test<SomeScalar, "equals",  boolean>>,
       Expect<Test<AllScalarUnion, "equals",  true>>,
       Expect<Test<None, "equals",  false>>,
     ];

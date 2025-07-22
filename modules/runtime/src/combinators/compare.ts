@@ -175,7 +175,7 @@ function handle_general<
         }
 
         case "false": {
-            return (isFalse(val)) as IsFalse<TVal>;
+            return isFalse(val);
         }
 
         case "true": {
@@ -537,23 +537,19 @@ function handle_other<
         case "returnEquals":
             if (!isFunction(val))
                 return false;
-            // Note: We cannot check return type equality at runtime without executing the function
-            // This would require runtime type information that JavaScript doesn't provide
+
             return err(
-                `runtime-limitation/returnEquals`,
-                `The 'returnEquals' operation cannot be fully implemented at runtime as it requires static type information`,
-                { op, params }
+                `compare/runtime`,
+                `The comparison type "returnEquals" can not be evaluated in the runtime system!`
             );
 
         case "returnExtends":
             if (!isFunction(val))
                 return false;
-            // Note: We cannot check return type extension at runtime without executing the function
-            // This would require runtime type information that JavaScript doesn't provide
+
             return err(
-                `runtime-limitation/returnExtends`,
-                `The 'returnExtends' operation cannot be fully implemented at runtime as it requires static type information`,
-                { op, params }
+                `compare/runtime`,
+                `The comparison type "returnExtends" can not be evaluated in the runtime system!`
             );
     }
 
@@ -630,6 +626,16 @@ function compareFn<
     return comparator as Comparator<TOp,TParams>
 }
 
+type Returns<TOp extends string,TParams> = TOp extends ComparisonOperation
+? TParams extends GetComparisonParamInput<TOp>
+    ? Comparator<TOp,TParams>
+    : Err<`invalid-params/${TOp}`>
+: Err<
+        `invalid-operation/${TOp}`,
+        `The operation '${TOp}' is not a recognized or valid comparison operation!`, { op: TOp, params: TParams }
+    >
+;
+
 /**
  * **compare**`(op, ...params) -> (val) -> boolean`
  *
@@ -642,23 +648,15 @@ export function compare<
 >(
     op: TOp,
     ...params: TParams
-): TOp extends ComparisonOperation
-    ? Comparator<TOp,TParams>
-    : Err<
-        `invalid-operation/${TOp}`,
-        `The operation '${TOp}' is not a recognized or valid comparison operation!`, { op: TOp, params: TParams }
-    > {
+): Returns<TOp,TParams> {
     let response: any;
 
     if(isComparisonOperation(op)) {
-        response =  compareFn(op, params);
+        response = compareFn(op, params);
     } else {
         response = err("invalid-operation", `The operation '${op}' is not a recognized or valid comparison operation!`, { op, params })
     }
 
-    return response as TOp extends ComparisonOperation ? Comparator<TOp,TParams> : Err<
-        `invalid-operation/${TOp}`,
-        `The operation '${TOp}' is not a recognized or valid comparison operation!`, { op: TOp, params: TParams }
-    >;
+    return response as Returns<TOp,TParams>
 }
 

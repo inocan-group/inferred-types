@@ -32,6 +32,7 @@ export type ComparisonLookup = {
 
     extends: {
         params: readonly [types: unknown, ...unknown[]];
+        accept: unknown;
     };
 
     startsWith: {
@@ -186,6 +187,7 @@ export type ComparisonLookup = {
     equals: {
         params: readonly [ value: unknown ];
         take: 1;
+        accept: unknown;
     };
 
     equalsSome: {

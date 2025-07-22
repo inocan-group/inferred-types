@@ -16,10 +16,10 @@ export type GetComparisonParamInput<
     TOp extends string
 > = TOp extends ComparisonOperation
 ? IsUnion<TOp> extends true
-    ? readonly Narrowable[]
+    ? readonly unknown[]
 : "params" extends keyof ComparisonLookup[TOp]
         ? ComparisonLookup[TOp]["params"] extends readonly unknown[]
             ? ComparisonLookup[TOp]["params"]
             : never
-        : readonly Narrowable[]
-: readonly Narrowable[]
+        : readonly unknown[]
+: readonly unknown[]

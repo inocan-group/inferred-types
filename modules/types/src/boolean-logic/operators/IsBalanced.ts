@@ -20,24 +20,29 @@ import type {
 type Check<
     TInput extends readonly string[],
     TNesting extends Nesting,
+    TErr extends boolean = false,
     TStack extends readonly string[] = [],
 > = [] extends TInput
     ? [TStack["length"]] extends [0]
         ? true
-        : Err<
-            `unbalanced/is-balanced`,
-            `The characters passed to 'IsBalanced<T,U>' are not balanced for the given nesting configuration. On completing a full pass the stack still has items on it: ${Join<TStack, ", ">}`
-        >
+        : TErr extends true
+            ? Err<
+                `unbalanced/is-balanced`,
+                `The characters passed to 'IsBalanced<T,U>' are not balanced for the given nesting configuration. On completing a full pass the stack still has items on it: ${Join<TStack, ", ">}`
+            >
+            : false
     : [IsNestingStart<First<TInput>, TNesting>] extends [true]
         ? Check<
             AfterFirst<TInput>,
             TNesting,
+            TErr,
             [...TStack, First<TInput>]
         >
         : [IsNestingMatchEnd<First<TInput>, TStack, TNesting>] extends [true]
             ? Check<
                 AfterFirst<TInput>,
                 TNesting,
+                TErr,
                 Pop<TStack>
             >
             : And<[
@@ -45,14 +50,17 @@ type Check<
                 TStack["length"] extends 0 ? true : false
             ]
             > extends true
-                ? Err<
-                    "unbalanced/is-balanced",
-            `The stack moved into negative territory when the character '${First<TInput>}' -- an END character -- while the stack was already empty!`,
-            { char: First<TInput>; stack: ToStringLiteral__Tuple<TStack> }
-                >
+                ? TErr extends true
+                    ? Err<
+                        "unbalanced/is-balanced",
+                        `The stack moved into negative territory when the character '${First<TInput>}' -- an END character -- while the stack was already empty!`,
+                        { char: First<TInput>; stack: ToStringLiteral__Tuple<TStack> }
+                    >
+                    : false
                 : Check<
                     AfterFirst<TInput>,
                     TNesting,
+                    TErr,
                     TStack
                 >;
 
@@ -67,16 +75,21 @@ type Check<
  * tracker ever goes below zero for any reason) the returned value will be `false`.
  * - the generic `U` is a dictionary where the _keys_ represent the starting
  * character and the values are the ending character.
+ * - if you prefer to get Error messages instead of `false` values you can set `TErr`
+ * to true
  */
 export type IsBalanced<
     T extends string,
-    U extends Nesting | NestingConfig__Named = "default"
+    U extends Nesting | NestingConfig__Named = "default",
+    TErr extends boolean = false
 > = IsNestingConfig<FromNamedNestingConfig<U>> extends true
-    ? Check<Chars<T>, FromNamedNestingConfig<U>>
+    ? Check<Chars<T>, FromNamedNestingConfig<U>, TErr>
     : IsNestingConfig<FromNamedNestingConfig<U>> extends Error
         ? IsNestingConfig<FromNamedNestingConfig<U>>
-        : Err<
-            "invalid-key-value/is-balanced",
-            `The IsBalanced<T,U> utility expects U to be a key/value dictionary where both keys and values are one character strings.`,
-            { kv: ToStringLiteral<U> }
-        >;
+        : TErr extends true
+            ? Err<
+                "invalid-key-value/is-balanced",
+                `The IsBalanced<T,U> utility expects U to be a key/value dictionary where both keys and values are one character strings.`,
+                { kv: ToStringLiteral<U> }
+            >
+            : false;

@@ -44,7 +44,7 @@ type Process<
     TRemap extends OnPassRemap<unknown, unknown, unknown>,
 > = [IsNever<TTest>] extends [true]
     ? TRemap["never"]
-    : [IsErrorCondition<TTest>] extends [true]
+    : [TTest] extends [Error]
         ? TRemap["error"] extends Constant<"not-set"> ? TTest : TRemap["error"]
         : [IsFalse<TTest>] extends [true]
             ? TRemap["false"]

@@ -1,7 +1,6 @@
 import type {
     Dictionary,
     IsNumericLiteral,
-    IsWideObject,
     Keys,
     ObjectKey,
     RequiredKeysTuple,
@@ -15,9 +14,7 @@ import type {
  */
 export type HasRequiredProps<
     T extends Dictionary,
-> = [IsWideObject<T>] extends [true]
-    ? boolean
-    : [Keys<T>] extends [never]
+> = [Keys<T>] extends [never]
         ? boolean
 
         : [IsNumericLiteral<Keys<T>["length"]>] extends [true]

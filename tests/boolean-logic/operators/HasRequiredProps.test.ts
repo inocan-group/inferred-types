@@ -18,8 +18,7 @@ describe("HasRequiredProps<T>", () => {
 
         type Wide = HasRequiredProps<Record<string, unknown>>;
 
-        // @ts-ignore
-        type _cases = [
+        type cases = [
             Expect<Test<T1, "equals", true>>,
             Expect<Test<T2, "equals", true>>,
 

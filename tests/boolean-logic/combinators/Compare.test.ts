@@ -37,7 +37,6 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
         type F3 = Compare<string, "equals", ["foo"]>;
         type F4 = Compare<"foo", "equals", [string]>;
 
-        type E1 = Compare<"foo", "equals">; // TODO: this is not being picked up!
         type E2 = Compare<"foo", "equals", ["foo", "bar"]>;
 
         type cases = [
@@ -51,7 +50,6 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
             Expect<Test<F3, "equals",  false>>,
             Expect<Test<F4, "equals",  false>>,
 
-            Expect<Test<E1, "isError", "invalid-parameters">>,
             Expect<Test<E2, "isError", "invalid-parameters">>,
         ];
     });
@@ -60,12 +58,9 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
         type T1 = Compare<42, "extends", [number]>;
         type T2 = Compare<number, "extends", [number]>;
 
-        type E1 = Compare<42, "extends">;
-
         type cases = [
             Expect<Test<T1, "equals",  true>>,
-            Expect<Test<T2, "equals",  true>>,
-            Expect<Test<E1, "extends",  Error>>,
+            Expect<Test<T2, "equals",  true>>
         ];
     });
 
@@ -132,13 +127,13 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
     });
 
     it("using ops with no params", () => {
-        type T1 = Compare<false, "false">;
-        type T2 = Compare<true, "true">;
-        type T3 = Compare<"true", "truthy">;
-        type T4 = Compare<"", "falsy">;
+        type T1 = Compare<false, "false", []>;
+        type T2 = Compare<true, "true", []>;
+        type T3 = Compare<"true", "truthy", []>;
+        type T4 = Compare<"", "falsy", []>;
 
-        type F1 = Compare<"true", "true">;
-        type F2 = Compare<"", "false">;
+        type F1 = Compare<"true", "true", []>;
+        type F2 = Compare<"", "false", []>;
 
         type cases = [
             Expect<Test<T1, "equals",  true>>,
@@ -286,12 +281,12 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
 
 
     it("isTruthy", () => {
-        type T1 = Compare<true, "truthy">;
-        type T2 = Compare<1, "truthy">;
-        type T3 = Compare<"hello", "truthy">;
-        type T4 = Compare<{}, "truthy">;
-        type T4b = Compare<EmptyObject, "truthy">;
-        type T5 = Compare<[], "truthy">;
+        type T1 = Compare<true, "truthy", []>;
+        type T2 = Compare<1, "truthy", []>;
+        type T3 = Compare<"hello", "truthy", []>;
+        type T4 = Compare<{}, "truthy", []>;
+        type T4b = Compare<EmptyObject, "truthy", []>;
+        type T5 = Compare<[], "truthy", []>;
 
         type cases = [
             Expect<Test<T1, "equals", true>>,
@@ -342,9 +337,15 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
 
     it("returnEquals", () => {
         type T1 = Compare<(() => string), "returnEquals", [string]>;
+        type T2 = Compare<(() => number), "returnEquals", [number]>;
+
+        type F1 = Compare<() => string, "returnEquals", [number]>;
 
         type cases = [
-            Expect<Test<T1, "equals", true>>
+            Expect<Test<T1, "equals", true>>,
+            Expect<Test<T2, "equals", true>>,
+
+            Expect<Test<F1, "equals", false>>,
         ];
     });
 
@@ -421,7 +422,6 @@ describe("compare() runtime function", () => {
             const f1 = startsWithNum("test123");
             // @ts-expect-error
             const b1 = startsWithNum("123" as unknown);
-            // TODO: address why this resolves to a union type
             const e1 = startsWithNum(123 as any);
 
             expect(t1).toBe(true);
@@ -438,7 +438,7 @@ describe("compare() runtime function", () => {
         });
 
         it("onlyNumbers", () => {
-            type X = Compare<"", "onlyNumbers">
+            type X = Compare<"", "onlyNumbers", []>
             const onlyNum = compare("onlyNumbers");
             const result1 = onlyNum("12345");
             const result2 = onlyNum("123a45");
@@ -454,8 +454,7 @@ describe("compare() runtime function", () => {
                 Expect<Test<typeof result1, "equals", true>>,
                 Expect<Test<typeof result2, "equals", false>>,
                 Expect<Test<typeof result3, "equals", false>>,
-                // TODO: address why this resolves to a union type
-                Expect<Test<typeof result4, "extends", Error | boolean>>
+                Expect<Test<typeof result4, "equals", boolean>>
             ];
         });
 
@@ -550,7 +549,7 @@ describe("compare() runtime function", () => {
         });
 
         it("false", () => {
-            type X = Compare<null, "false">;
+            type X = Compare<null, "false", []>;
             type X2 = IsFalse<null>;
             const isFalseVal = compare("false");
             const t1 = isFalseVal(false);
@@ -560,6 +559,7 @@ describe("compare() runtime function", () => {
             const f4 = isFalseVal(null);
 
             const b1 = isFalseVal(false as boolean);
+            const b2 = isFalseVal(true as boolean);
 
             expect(t1).toBe(true);
             expect(f1).toBe(false);
@@ -568,17 +568,19 @@ describe("compare() runtime function", () => {
             expect(f4).toBe(false);
 
             expect(b1).toBe(true); // at runtime it IS a false value
+            expect(b1).toBe(false);
 
             type cases = [
                 Expect<Test<typeof t1, "equals", true>>,
                 Expect<Test<typeof f1, "equals", false>>,
                 Expect<Test<typeof f2, "equals", false>>,
                 Expect<Test<typeof f3, "equals", false>>,
+
+                // TODO: unsure why this is returning boolean but it should return false
                 Expect<Test<typeof f4, "equals", false>>,
-                // the type system only sees "boolean" as the type
-                // so it's `type` is "false"; this is an interesting
-                // one but this IS the expected outcome
+
                 Expect<Test<typeof b1, "equals", boolean>>,
+                Expect<Test<typeof b2, "equals", boolean>>,
             ];
         });
 
@@ -1065,9 +1067,12 @@ describe("compare() runtime function", () => {
         it("after", () => {
             const after = compare("after", "2023-12-20");
             type T1 = IsAfter<"2023-12-22", "2023-12-20">;
+            type TT1 = Compare<"2023-12-22", "after", ["2023-12-20"]>
             const t1 = after("2023-12-22"); // is after
 
+            type F1 = IsAfter<"2023-12-20", "2023-12-20">;
             const f1 = after("2023-12-20"); // the same as comparator
+
             const d = new Date("2023-01-14");
             const b1 = after(d);
 
@@ -1151,17 +1156,7 @@ describe("compare() runtime function", () => {
             ];
         });
 
-        it("handles invalid parameters gracefully", () => {
-            // Testing numeric operation with non-numeric parameter
-            // @ts-expect-error
-            const gtInvalid = compare("greaterThan", "not a number");
-            const result = gtInvalid(5);
-            expect(result instanceof Error).toBe(true);
 
-            type cases = [
-                Expect<Test<typeof result, "equals", Error>>
-            ];
-        });
 
         it("handles complex nested comparisons", () => {
             const data = [

@@ -110,8 +110,8 @@ type Process__DateTime<
     TParams extends readonly unknown[],
 > = TOp extends "after"
 ? TVal extends DateLike
-    ? Second<TParams> extends DateLike
-        ? IsAfter<TVal,Second<TParams>>
+    ? First<TParams> extends DateLike
+        ? IsAfter<TVal,First<TParams>>
         : false
     : Err<`invalid-value/not-date-like`>
 
@@ -199,10 +199,24 @@ type Process__General<
         ? IsEqual<TVal, TParams[0]>
 
     : TOp extends "false"
-        ? // Use AreIncompatible to determine if we can make specific determinations
-        AreIncompatible<TVal, false> extends true
-            ? false // If TVal is incompatible with false, it definitely isn't false
-            : IsFalse<TVal>
+        ? [TVal] extends [boolean]
+            ? [boolean] extends [TVal]
+                ? boolean  // TVal is exactly boolean
+                : IsFalse<TVal>  // TVal is a literal boolean (true or false)
+            : // Handle specific cases that might have cross-module issues
+            [TVal] extends [null]
+                ? false
+                : [TVal] extends [undefined]
+                    ? false
+                    : [TVal] extends [0]
+                        ? false
+                        : [TVal] extends [""]
+                            ? false
+                            : [TVal] extends [true]
+                                ? false
+                                : [TVal] extends [false]
+                                    ? true
+                                    : IsFalse<TVal>
 
     : TOp extends "falsy"
         ? IsFalsy<TVal>
@@ -577,24 +591,14 @@ type Process__Other<
 
     : TOp extends "returnEquals"
         ? TVal extends TypedFunction
-            ? IsEqual<ReturnType<TVal>, TParams>
+            ? IsEqual<ReturnType<TVal>, TParams[0]>
             : TVal extends AnyFunction
                 ? boolean
                 : false
 
     : TOp extends "returnExtends"
         ? TVal extends ((...args: any[]) => any)
-            ? Extends<ReturnType<TVal>, TParams>
-            : false
-
-    : TOp extends "returnEquals"
-        ? TVal extends TypedFunction
-            ? IsEqual<ReturnType<TVal>, TParams[0]>
-            : false
-
-    : TOp extends "returnExtends"
-        ? TVal extends ((...args: any[]) => any)
-            ? Extends<ReturnType<TVal>, TParams>
+            ? Extends<ReturnType<TVal>, TParams[0]>
             : false
         : Unset;
 
@@ -651,7 +655,7 @@ type ValidateParams<
 export type Compare<
     TVal extends ComparisonAccept<TOp>,
     TOp extends Suggest<ComparisonOperation>,
-    TParams extends readonly unknown[] = TOp extends ComparisonOperation ?  GetComparisonParamInput<TOp> & readonly unknown[] : readonly unknown[]
+    TParams extends readonly unknown[]
 > = TOp extends ComparisonOperation
     ? ValidateParams<TOp, TParams> extends Error
         ? ValidateParams<TOp, TParams>
