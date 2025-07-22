@@ -1,4 +1,4 @@
-import type { AfterFirst, First, Something } from "inferred-types/types";
+import type { AfterFirst, First, IsDefined } from "inferred-types/types";
 
 /**
  * **FirstValue**`<T>`
@@ -13,6 +13,6 @@ export type FirstValue<
     U = undefined
 > = [] extends T
     ? U
-    : First<T> extends Something
+    : IsDefined<First<T>> extends true
         ? First<T>
         : FirstValue<AfterFirst<T>, U>;

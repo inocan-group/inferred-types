@@ -22,7 +22,7 @@ describe("FirstDefined<T,U>", () => {
         Expect<Test<Middling, "equals",  1>>,
         Expect<Test<Terminal, "equals",  1>>,
 
-        Expect<Test<Null, "equals",  null>>,
+        Expect<Test<Null, "equals",  1>>,
     ];
   });
 

@@ -11,8 +11,8 @@ import type {
     RemoveNever
 } from "inferred-types/types";
 
-type Seperation = {
-    /** keys which were seperated by `Separate` utility */
+type Separation = {
+    /** keys which were separated by `Separate` utility */
     sep: readonly number[];
     /** remaining keys not impacted by `Separate` utility */
     rest: readonly number[];
@@ -81,7 +81,7 @@ type Start<
             sep: [];
             rest: NumericKeys<TList>;
         },
-    Seperation
+    Separation
 >;
 
 type End<
@@ -95,7 +95,7 @@ type End<
             sep: [];
             rest: NumericKeys<TList>;
         },
-    Seperation
+    Separation
 >;
 
 /**
@@ -150,23 +150,23 @@ export type SortByKey<
 >;
 
 // DEBUG
-// type KV = [
-//     { key: "company"; value: "[[Anthropic]]" },
-//     { key: "kind"; value: "[[AI Model]]" },
-//     { key: "category"; value: "[[LLM]]" },
-//     { key: "aliases"; value: ["Haiku"] },
-//     { key: "desc"; value: "The fast and lightweight sibling in the Claude family (Anthropic)" },
-//     { key: "subcategory"; value: "[[Lightweight Model]]" },
-//     { key: "type"; value: "[[kind/types/AI.md|AI]]" },
-// ];
+type KV = [
+    { key: "company"; value: "[[Anthropic]]" },
+    { key: "kind"; value: "[[AI Model]]" },
+    { key: "category"; value: "[[LLM]]" },
+    { key: "aliases"; value: ["Haiku"] },
+    { key: "desc"; value: "The fast and lightweight sibling in the Claude family (Anthropic)" },
+    { key: "subcategory"; value: "[[Lightweight Model]]" },
+    { key: "type"; value: "[[kind/types/AI.md|AI]]" },
+];
 
-// type TConfig = {
-//     start: ["type", "kind", "category", "subcategory"];
-//     end: "desc";
-// };
+type TConfig = {
+    start: ["type", "kind", "category", "subcategory"];
+    end: "desc";
+};
 
-// type TStart = Start<KV, "key", TConfig>;
-// type TOrdering = Ordering<KV, "key", TConfig["start"]>;
-// type TEnd = End<KV, "key", TConfig>;
-// type TRemaining = Remaining<KV, "key", TConfig>;
-// type TOrder = Order<KV, "key", TConfig>;
+type TStart = Start<KV, "key", TConfig>;
+type TOrdering = Ordering<KV, "key", TConfig["start"]>;
+type TEnd = End<KV, "key", TConfig>;
+type TRemaining = Remaining<KV, "key", TConfig>;
+type TOrder = Order<KV, "key", TConfig>;

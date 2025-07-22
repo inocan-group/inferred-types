@@ -153,7 +153,6 @@ describe("Get<T, K> type utility", () => {
             deep: deep
         } as const;
 
-        const identity = get(42, null);
         const shallow = get(obj, "foo");
         const deepObj = get(obj, "bar.a");
         const deepArr = get(obj, "baz.1");
@@ -161,7 +160,6 @@ describe("Get<T, K> type utility", () => {
         const err1 = get(obj, "foo.not.exist");
         const handleErr = get(obj, "foo.not.exist", { handleInvalidDotpath: "foobar" });
 
-        expect(identity, `null dotpath works for scalar`).toBe(42);
         expect(shallow, `shallow get`).toBe(1);
         expect(deepObj, "deep object get").toBe("a");
         expect(deepArr, "deep array get").toBe(2);

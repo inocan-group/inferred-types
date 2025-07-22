@@ -79,7 +79,7 @@ describe("withValue(wo) => (obj) => obj", () => {
       Expect<Test<typeof wide, "equals",  DictionaryWithValueFilter<string>>>,
       Expect<Test<typeof narrow, "equals",  DictionaryWithValueFilter<"hi" | "hello">>>,
 
-      Expect<Test<typeof wideObj, { foo: "hi", "equals",  bax: "bye" }>>,
+      Expect<Test<typeof wideObj, "equals", { foo: "hi",  bax: "bye" }>>,
       Expect<Test<typeof narrowObj, "equals",  { foo: "hi" }>>,
     ];
   });

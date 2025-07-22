@@ -3,6 +3,7 @@ import type {
     AsNumber,
     Container,
     Dictionary,
+    EmptyObject,
     ExplicitlyEmptyObject,
     IsEqual,
     IsNegativeNumber,
@@ -55,3 +56,4 @@ export type IsValidIndex<
                         : false
                 : boolean
         : false;
+

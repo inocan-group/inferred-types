@@ -57,12 +57,20 @@ type Check<
                         { char: First<TInput>; stack: ToStringLiteral__Tuple<TStack> }
                     >
                     : false
-                : Check<
-                    AfterFirst<TInput>,
-                    TNesting,
-                    TErr,
-                    TStack
-                >;
+                : [IsNestingEnd<First<TInput>, TNesting>] extends [true]
+                    ? TErr extends true
+                        ? Err<
+                            "unbalanced/is-balanced",
+                            `Found an end character '${First<TInput>}' that doesn't match the expected end character for the top of the stack`,
+                            { char: First<TInput>; stack: ToStringLiteral__Tuple<TStack> }
+                        >
+                        : false
+                    : Check<
+                        AfterFirst<TInput>,
+                        TNesting,
+                        TErr,
+                        TStack
+                    >;
 
 /**
  * **IsBalanced**`<T,U>`

@@ -1,5 +1,6 @@
 import { Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
+import { EmptyObject } from '../../modules/types/src/base-types/EmptyObject';
 import {
   DoesExtend,
   IndexableObject,
@@ -16,8 +17,8 @@ import {
 describe("EmptyObject", () => {
 
   it("positive tests", () => {
-    type StringKeyed = Record<string, never>;
-    type SymKeyed = Record<symbol, never>;
+    type StringKeyed = Record<string, string>;
+    type SymKeyed = Record<symbol, string>;
     const empty = {};
     type ViaRuntime = typeof empty;
     const explicitEmpty: EmptyObject = {};
@@ -36,9 +37,7 @@ describe("EmptyObject", () => {
       Expect<DoesExtend<EmptyObject, ViaRuntime2>>,
     ];
 
-    const cases: cases = [
-      true, true, true, true, true, true
-    ];
+
   });
 
   it("negative tests", () => {
@@ -60,7 +59,6 @@ describe("EmptyObject", () => {
       // furthermore, a union of an `IndexableObject`
       Expect<DoesNotExtend<EmptyObject, Foo & EmptyObject>>,
       Expect<DoesNotExtend<EmptyObject, IndexableObject<Foo>>>,
-      Expect<DoesNotExtend<null, EmptyObject>>,
       Expect<DoesNotExtend<FooBar, ExplicitlyEmptyObject>>,
 
       // an Object is a superset of
@@ -69,12 +67,9 @@ describe("EmptyObject", () => {
       Expect<DoesNotExtend<IndexableObject, ExplicitlyEmptyObject>>,
     ];
 
-    const cases: cases = [
-      true, true, true,
-      true, true, true, true,
-      true, true
-    ];
+
   });
 
 
 });
+

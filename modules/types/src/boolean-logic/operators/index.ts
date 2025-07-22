@@ -43,6 +43,7 @@ export * from "./IsContainer";
 export * from "./IsCssHexadecimal";
 export * from "./IsCsv";
 export * from "./IsDefined";
+export * from "./DistinguishEmptyTypes";
 export * from "./IsDotPath";
 export * from "./IsEmpty";
 export * from "./IsEmptyArray";
