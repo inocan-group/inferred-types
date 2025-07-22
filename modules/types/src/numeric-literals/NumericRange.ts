@@ -1,5 +1,5 @@
-type Process<L, C extends unknown[] = [], R = L> =
-  C["length"] extends L
+type Process<L, C extends unknown[] = [], R = L>
+  = C["length"] extends L
       ? R
       : Process<L, [...C, 0], C["length"] | R>;
 

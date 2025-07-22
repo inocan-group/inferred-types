@@ -64,7 +64,7 @@ type _GetEndElements<
         ..._FilterByValue<TList, TKey, First>,
         ..._GetEndElements<TList, TKey, Rest>
     ]
-    :  [];
+    : [];
 
 // Get middle elements (not in start or end)
 type _GetMiddleElements<
@@ -72,7 +72,7 @@ type _GetMiddleElements<
     TKey extends ObjectKey,
     TStart extends readonly unknown[],
     TEnd extends readonly unknown[]
-> = _FilterByValues<TList, TKey,  [...TStart, ...TEnd]>;
+> = _FilterByValues<TList, TKey, [...TStart, ...TEnd]>;
 
 // Filter elements by value
 type _FilterByValue<
@@ -99,7 +99,7 @@ type _FilterByValues<
         ? TKey extends keyof First
             ? First[TKey] extends TValues[number]
                 ? _FilterByValues<Rest, TKey, TValues>
-                :  [First, ..._FilterByValues<Rest, TKey, TValues>]
-            :  [First, ..._FilterByValues<Rest, TKey, TValues>]
-        :  [First, ..._FilterByValues<Rest, TKey, TValues>]
-    :  [];
+                : [First, ..._FilterByValues<Rest, TKey, TValues>]
+            : [First, ..._FilterByValues<Rest, TKey, TValues>]
+        : [First, ..._FilterByValues<Rest, TKey, TValues>]
+    : [];

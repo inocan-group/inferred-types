@@ -1,7 +1,7 @@
 import type { IanaZone, IsoDateTime, TimezoneOffset } from "inferred-types/types";
 
-export type DateSource =
-    | "date"
+export type DateSource
+    = | "date"
     | "temporal"
     | "luxon"
     | "date-fns"

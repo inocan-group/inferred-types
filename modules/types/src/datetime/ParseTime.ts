@@ -1,4 +1,11 @@
-import type { As, IsOk } from "types/boolean-logic";
+import type { As } from "types/boolean-logic";
+import type {
+    ThreeDigitMillisecond,
+    TimezoneOffset,
+    TwoDigitHour,
+    TwoDigitMinute,
+    TwoDigitSecond
+} from "types/datetime";
 import type { Err } from "types/errors";
 import type {
     TakeHours,
@@ -7,14 +14,6 @@ import type {
     TakeSeconds,
     TakeTimezone
 } from "types/string-literals";
-import type {
-    HoursMinutes,
-    ThreeDigitMillisecond,
-    TimezoneOffset,
-    TwoDigitHour,
-    TwoDigitMinute,
-    TwoDigitSecond
-} from "types/datetime";
 
 /**
  * **ParsedTime**

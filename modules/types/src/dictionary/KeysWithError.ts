@@ -11,13 +11,12 @@ type Process<
     K extends readonly ObjectKey[] = ObjectKeys<T>,
     R extends readonly ObjectKey[] = []
 > = [] extends K
-? R
-: First<K> extends keyof T
-    ? T[First<K>] extends Error
-        ? Process<T,AfterFirst<K>,[...R,First<K>]>
-        : Process<T,AfterFirst<K>,R>
-: never;
-
+    ? R
+    : First<K> extends keyof T
+        ? T[First<K>] extends Error
+            ? Process<T, AfterFirst<K>, [...R, First<K>]>
+            : Process<T, AfterFirst<K>, R>
+        : never;
 
 /**
  * **KeysWithError**`<T>`

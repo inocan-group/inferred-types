@@ -9,8 +9,8 @@ import type {
     Dictionary,
     ExplicitlyEmptyObject,
     Extends,
+    Filter,
     First,
-    IsTemplateLiteral,
     IsEqual,
     IsLiteralUnion,
     IsNever,
@@ -18,8 +18,10 @@ import type {
     IsObjectLiteral,
     IsStringLiteral,
     IsSymbol,
+    IsTemplateLiteral,
     IsUnion,
     IsWideUnion,
+    NotFilter,
     NumericKeys,
     ObjectKey,
     RemoveIndexKeys,
@@ -27,9 +29,6 @@ import type {
     TupleToUnion,
     UnionToTuple,
     Values,
-    Filter,
-    NotFilter,
-    Narrowable,
 } from "inferred-types/types";
 
 type _Keys<
@@ -97,8 +96,7 @@ export type Keys<
     ? ProcessTuple<TContainer>
     : As<
         TContainer extends Dictionary
-            ?
-            ProcessObject<TContainer> extends readonly (ObjectKey & keyof TContainer)[]
+            ? ProcessObject<TContainer> extends readonly (ObjectKey & keyof TContainer)[]
                 ? ProcessObject<TContainer>
                 : never
             : never,
@@ -116,7 +114,6 @@ export type WithTemplateKeys<
     TTemplate extends readonly string[]
 > = true;
 
-
 /**
  * handle union types which are not literal unions
  *
@@ -129,8 +126,8 @@ export type WithTemplateKeys<
 type HandleUnion<
     T extends object
 > = IsEqual<keyof T, string | number> extends true
-? ObjectKey[]
-: Some<UnionToTuple<keyof T>, "isTemplateLiteral", []> extends true
+    ? ObjectKey[]
+    : Some<UnionToTuple<keyof T>, "isTemplateLiteral", []> extends true
         ? WithTemplateKeys<
             NotFilter<UnionToTuple<keyof T>, "isTemplateLiteral", []>,
             Filter<UnionToTuple<keyof T>, "isTemplateLiteral", []>
@@ -149,41 +146,39 @@ type HandleUnion<
 export type ObjectKeys<
     TObj extends object
 > = [IsNever<keyof TObj>] extends [true]
-? [TObj] extends [AnyMap]
-    ? any[]
-    : [TObj] extends [AnyWeakMap]
+    ? [TObj] extends [AnyMap]
         ? any[]
-    : [TObj] extends [AnySet]
-        ? any[]
-    : PropertyKey[]
-: [IsLiteralUnion<keyof TObj>] extends [true]
-    ? As<UnionToTuple<keyof TObj>, readonly ObjectKey[]>
+        : [TObj] extends [AnyWeakMap]
+            ? any[]
+            : [TObj] extends [AnySet]
+                ? any[]
+                : PropertyKey[]
+    : [IsLiteralUnion<keyof TObj>] extends [true]
+        ? As<UnionToTuple<keyof TObj>, readonly ObjectKey[]>
 
-    : [IsUnion<keyof TObj>] extends [true]
-        ? [IsEqual<keyof TObj, string | symbol>] extends [true]
-            ? ObjectKey[]
-        : [IsEqual<keyof TObj, symbol | string | symbol>] extends [true]
-            ? PropertyKey[]
-        : [And<[
-            Extends<TObj, Dictionary>,
-            IsEqual<Values<TObj>,[]>
-        ]>] extends [true]
-            ? As<[], readonly ObjectKey[]>
-        : TObj extends Dictionary
-            ? HandleUnion<TObj>
-            : "union"
+        : [IsUnion<keyof TObj>] extends [true]
+            ? [IsEqual<keyof TObj, string | symbol>] extends [true]
+                ? ObjectKey[]
+                : [IsEqual<keyof TObj, symbol | string | symbol>] extends [true]
+                    ? PropertyKey[]
+                    : [And<[
+                        Extends<TObj, Dictionary>,
+                        IsEqual<Values<TObj>, []>
+                    ]>] extends [true]
+                        ? As<[], readonly ObjectKey[]>
+                        : TObj extends Dictionary
+                            ? HandleUnion<TObj>
+                            : "union"
 
-    : [IsStringLiteral<keyof TObj>] extends [true]
-        ? [IsTemplateLiteral<keyof TObj>] extends [true]
-            ? As<(keyof TObj)[], readonly ObjectKey[]>
-            : As<[keyof TObj], readonly ObjectKey[]>
-    : [IsNumericLiteral<keyof TObj>] extends [true]
-        ? As<[keyof TObj], readonly ObjectKey[]>
-    : [IsSymbol<keyof TObj>] extends [true]
-        ? As<[keyof TObj], readonly ObjectKey[]>
-    : As<(keyof TObj)[], readonly ObjectKey[]>;
-
-
+            : [IsStringLiteral<keyof TObj>] extends [true]
+                ? [IsTemplateLiteral<keyof TObj>] extends [true]
+                    ? As<(keyof TObj)[], readonly ObjectKey[]>
+                    : As<[keyof TObj], readonly ObjectKey[]>
+                : [IsNumericLiteral<keyof TObj>] extends [true]
+                    ? As<[keyof TObj], readonly ObjectKey[]>
+                    : [IsSymbol<keyof TObj>] extends [true]
+                        ? As<[keyof TObj], readonly ObjectKey[]>
+                        : As<(keyof TObj)[], readonly ObjectKey[]>;
 
 type _Public<
     TInput extends readonly PropertyKey[],
@@ -226,8 +221,8 @@ export type PrivateKeys<T extends Dictionary> = {
     [K in keyof T]: K extends `_${string}` ? K : never;
 }[keyof T];
 
-type _KeyOf<TContainer extends Container> =
-  TupleToUnion<Keys<TContainer>> extends PropertyKey
+type _KeyOf<TContainer extends Container>
+  = TupleToUnion<Keys<TContainer>> extends PropertyKey
       ? TupleToUnion<Keys<TContainer>> extends keyof TContainer
           ? TupleToUnion<Keys<TContainer>>
           : never

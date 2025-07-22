@@ -26,7 +26,7 @@ type TestFeb<
         : T extends Exclude<IsoDate30, "30" | "29">
             ? true
             : false
-            ;
+    ;
 
 /**
  * validates that `T` is a **valid** ISO date string for the
@@ -47,15 +47,15 @@ export type IsTwoDigitDate<
         ? boolean
         : TMonth extends "02"
             ? TestFeb<T, TYear>
-        : TMonth extends null | undefined
-            ? T extends IsoDate31
-                ? true
-                : false
-            : TMonth extends IsoMonthsWith30Days
-                ? T extends IsoDate30
+            : TMonth extends null | undefined
+                ? T extends IsoDate31
                     ? true
                     : false
-                : T extends IsoDate31
-                    ? true
-                    : false
+                : TMonth extends IsoMonthsWith30Days
+                    ? T extends IsoDate30
+                        ? true
+                        : false
+                    : T extends IsoDate31
+                        ? true
+                        : false
     : false;

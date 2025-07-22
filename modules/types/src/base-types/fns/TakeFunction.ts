@@ -20,8 +20,8 @@ export type TakeFunction<
     TToken
 > = <
     const TPayload extends {
-        found: TFound,
-        state: LexerState<TParseString, TLexerTokens>
+        found: TFound;
+        state: LexerState<TParseString, TLexerTokens>;
     },
     TFound extends string,
     TParseString extends string,
@@ -33,7 +33,6 @@ export type TakeFunction<
     StripLeading<TPayload["state"]["parse"], TFound>,
     [...TLexerTokens, TToken]
 >;
-
 
 /**
  * **TakeWrapper**
@@ -53,5 +52,3 @@ export type TakeWrapper<
         [...TLexerTokens, TToken]
     > | Error
     : NoMatch;
-
-

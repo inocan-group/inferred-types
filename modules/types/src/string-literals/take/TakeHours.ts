@@ -1,8 +1,8 @@
 import type { As } from "types/boolean-logic";
-import type { Err } from "types/errors";
-import type {  NumericChar, StripLeading } from "types/string-literals";
 import type { TwoDigitHour } from "types/datetime";
-import { StartsWithTemplateLiteral } from "types/interpolation";
+import type { Err } from "types/errors";
+import type { StartsWithTemplateLiteral } from "types/interpolation";
+import type { NumericChar, StripLeading } from "types/string-literals";
 
 type HoursErr<
     TParse extends string
@@ -11,7 +11,6 @@ type HoursErr<
     `Could not find or parse out the TwoDigitHour string from the head of: '${TParse}'`,
     { parse: TParse }
 >;
-
 
 type Take<T extends string> = string extends T
     ? Error | { take: TwoDigitHour<"branded">; rest: string }
@@ -36,7 +35,7 @@ type Take<T extends string> = string extends T
                         ? C2 extends "0" | "1" | "2" | "3"
                             ? {
                                 take: TwoDigitHour<`${C1}${C2}`>;
-                                rest: Rest
+                                rest: Rest;
                             }
                             : HoursErr<T>
                         : HoursErr<T>

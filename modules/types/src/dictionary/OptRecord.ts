@@ -1,6 +1,5 @@
-import { ObjectKey } from "types/base-types"
-import { MakeKeysOptional } from "types/dictionary/MakeKeysOptional"
-
+import type { ObjectKey } from "types/base-types";
+import type { MakeKeysOptional } from "types/dictionary/MakeKeysOptional";
 
 /**
  * **OptRecord**`<T,U>`
@@ -10,4 +9,4 @@ import { MakeKeysOptional } from "types/dictionary/MakeKeysOptional"
 export type OptRecord<
     T extends ObjectKey,
     U
-> = MakeKeysOptional<Record<T,U>,[T]>
+> = MakeKeysOptional<Record<T, U>, [T]>;

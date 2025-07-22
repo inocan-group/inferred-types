@@ -11,19 +11,19 @@ import type { Repeat, Split, StrLen } from "types/string-literals";
 import type { AsNumber } from "types/type-conversion";
 
 // Simple string slicing for our specific use case
-type SliceAfter<T extends string, N extends number> =
-    N extends 0 ? T :
-        N extends 1 ? T extends `${string}${infer Rest}` ? Rest : "" :
-            N extends 2 ? T extends `${string}${string}${infer Rest}` ? Rest : "" :
-                N extends 3 ? T extends `${string}${string}${string}${infer Rest}` ? Rest : "" :
-                    "";
+type SliceAfter<T extends string, N extends number>
+    = N extends 0 ? T
+        : N extends 1 ? T extends `${string}${infer Rest}` ? Rest : ""
+            : N extends 2 ? T extends `${string}${string}${infer Rest}` ? Rest : ""
+                : N extends 3 ? T extends `${string}${string}${string}${infer Rest}` ? Rest : ""
+                    : "";
 
-type SliceBefore<T extends string, N extends number> =
-    N extends 0 ? "" :
-        N extends 1 ? T extends `${infer First}${string}` ? First : "" :
-            N extends 2 ? T extends `${infer A}${infer B}${string}` ? `${A}${B}` : "" :
-                N extends 3 ? T extends `${infer A}${infer B}${infer C}${string}` ? `${A}${B}${C}` : "" :
-                    "";
+type SliceBefore<T extends string, N extends number>
+    = N extends 0 ? ""
+        : N extends 1 ? T extends `${infer First}${string}` ? First : ""
+            : N extends 2 ? T extends `${infer A}${infer B}${string}` ? `${A}${B}` : ""
+                : N extends 3 ? T extends `${infer A}${infer B}${infer C}${string}` ? `${A}${B}${C}` : ""
+                    : "";
 
 /**
  * in effect this divides by multiples of 10

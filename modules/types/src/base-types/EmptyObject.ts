@@ -1,4 +1,3 @@
-
 /**
  * **EmptyObject**
  *
@@ -13,4 +12,3 @@ export type EmptyObject = NonNullable<unknown>;
  * key from being added)
  */
 export type ExplicitlyEmptyObject = NonNullable<{ [x: string]: never; [x: symbol]: never }>;
-

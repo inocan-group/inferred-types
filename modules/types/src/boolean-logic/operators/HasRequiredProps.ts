@@ -15,12 +15,12 @@ import type {
 export type HasRequiredProps<
     T extends Dictionary,
 > = [Keys<T>] extends [never]
-        ? boolean
+    ? boolean
 
-        : [IsNumericLiteral<Keys<T>["length"]>] extends [true]
-            ? [RequiredKeysTuple<T>] extends [readonly ObjectKey[]]
-                ? [RequiredKeysTuple<T>["length"]] extends [0]
-                    ? false
-                    : true
-                : boolean
-            : never;
+    : [IsNumericLiteral<Keys<T>["length"]>] extends [true]
+        ? [RequiredKeysTuple<T>] extends [readonly ObjectKey[]]
+            ? [RequiredKeysTuple<T>["length"]] extends [0]
+                ? false
+                : true
+            : boolean
+        : never;

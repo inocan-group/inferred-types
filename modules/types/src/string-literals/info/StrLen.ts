@@ -1,5 +1,5 @@
-import type { IsBranded, Unbrand } from "types/literals";
 import type { Tuple } from "types/base-types";
+import type { IsBranded, Unbrand } from "types/literals";
 
 type Compute<
     TStr extends string,
@@ -15,5 +15,5 @@ type Compute<
  * otherwise just returns `number` type.
  */
 export type StrLen<T extends string> = IsBranded<T> extends true
-? Compute<Unbrand<T>>
-: Compute<T>;
+    ? Compute<Unbrand<T>>
+    : Compute<T>;

@@ -48,8 +48,8 @@ export type CssFlexDirection = "row" | "row-reverse" | "column" | "column-revers
  * The flex-flow CSS shorthand property specifies the direction of a flex container,
  * as well as its wrapping behavior.
  */
-export type CssFlexFlow =
-    | "row" | "row-reverse" | "column" | "column-reverse"
+export type CssFlexFlow
+    = | "row" | "row-reverse" | "column" | "column-reverse"
     | "nowrap" | "wrap" | "wrap-reverse"
     | "row nowrap" | "column wrap" | "column-reverse wrap-reverse"
     | CssGlobal;
@@ -62,8 +62,8 @@ export type CssFlexFlow =
  * The flex CSS shorthand property sets how a flex item will grow or shrink to fit
  * the space available in its flex container.
  */
-export type CssFlex =
-    | "none"
+export type CssFlex
+    = | "none"
     | "min-content"
     | "auto"
     | `${CssSizing}`
@@ -79,8 +79,8 @@ export type CssFlex =
  * The flex-basis CSS property sets the initial main size of a flex item. It sets the size
  * of the content box unless otherwise set with box-sizing.
  */
-export type CssFlexBasis =
-    | "none"
+export type CssFlexBasis
+    = | "none"
     | "min-content"
     | "auto"
     | `${CssSizing}`
@@ -96,8 +96,8 @@ export type CssFlexBasis =
  * The list-style CSS shorthand property allows you to set all the list style properties
  * at once.
  */
-export type CssListStyle =
-    | "square"
+export type CssListStyle
+    = | "square"
     | "inside"
     | `url('${string}')`
     | "none"
@@ -137,15 +137,15 @@ export type CssImageRendering = "auto" | "crisp-edges" | "pixelated" | CssGlobal
  *
  * **NOTE:** this is an **experimental** browser feature
  */
-export type CssImageResolution =
-    | "from-image"
+export type CssImageResolution
+    = | "from-image"
     | `${number}dpi`
     | `${number}dpi snap`
     | `from-image ${number}dpi`
     | `from-image ${number}dpi snap`;
 
-type Punctuation =
-    | "none"
+type Punctuation
+    = | "none"
     | "first"
     | "last"
     | "allow-end";
@@ -155,8 +155,8 @@ export type CssHangingPunctuation = Punctuation
     | `${Punctuation} ${Punctuation} ${Punctuation}`
     | CssGlobal;
 
-export type CssFloat =
-    | "none"
+export type CssFloat
+    = | "none"
     | "left"
     | "right"
     | "inline-start"
@@ -178,8 +178,8 @@ export type CssBackdropFilter = "none"
     | `saturate(${number}%)`;
 
 /** [Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/content) */
-export type CssContent =
-    | "normal"
+export type CssContent
+    = | "normal"
     | "none"
     | "open-quote"
     | "close-quote"
@@ -193,8 +193,8 @@ export type CssContent =
     | `attr(${string})`
     | `"${string}"`;
 
-export type CssMixBlendMode =
-    | "normal"
+export type CssMixBlendMode
+    = | "normal"
     | "multiply"
     | "screen"
     | "overlay"
@@ -214,50 +214,50 @@ export type CssMixBlendMode =
     | "plus-lighter"
     | CssGlobal;
 
-export type CssPerspectiveOrigin =
-    | `${"left" | "center" | "right" | "top" | "bottom" | `${number}%`}`
+export type CssPerspectiveOrigin
+    = | `${"left" | "center" | "right" | "top" | "bottom" | `${number}%`}`
     | `${"left" | "center" | "right"} ${"top" | "center" | "bottom"}`
     | `${"left" | "right"} ${number}% ${"top" | "bottom"} ${number}%`;
 
 type Direction = "tb" | "lr" | "rl";
 
-export type CssWritingMode =
-    | `horizontal-${Direction}`
+export type CssWritingMode
+    = | `horizontal-${Direction}`
     | `vertical-${Direction}`
     | CssGlobal;
 
-export type CssWordBreak =
-    | "normal"
+export type CssWordBreak
+    = | "normal"
     | "break-all"
     | "keep-all"
     | "auto-phrase"
     | "break-word"
     | CssGlobal;
 
-export type CssWhiteSpaceCollapse =
-    | "collapse"
+export type CssWhiteSpaceCollapse
+    = | "collapse"
     | "preserve"
     | "preserve-breaks"
     | "preserve-spaces"
     | "break-spaces"
     | CssGlobal;
 
-type _CssWhiteSpace =
-    | "normal"
+type _CssWhiteSpace
+    = | "normal"
     | "nowrap"
     | "pre"
     | "pre-wrap"
     | "pre-line"
     | "break-spaces";
 
-export type CssWhiteSpace =
-    | _CssWhiteSpace
+export type CssWhiteSpace
+    = | _CssWhiteSpace
     | `${_CssWhiteSpace} ${CssTextWrap}`;
 
 export type CssTiming = `${number}${"ms" | "s"}`;
 
-export type CssPointerEvent =
-    | "auto"
+export type CssPointerEvent
+    = | "auto"
     | "none"
     | "visiblePainted"
     | "visibleFill"
@@ -269,6 +269,6 @@ export type CssPointerEvent =
     | "bounding-box"
     | "all";
 
-export type CssTranslate =
-    | "none"
+export type CssTranslate
+    = | "none"
     | `${CssSizingLight}${Opt<` ${CssSizingLight}`>}${string}`;

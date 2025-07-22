@@ -1,4 +1,4 @@
-import type { As, Err, StartsWithTemplateLiteral, NumericChar, StripLeading, TwoDigitMonth } from "inferred-types/types";
+import type { As, Err, NumericChar, StartsWithTemplateLiteral, StripLeading, TwoDigitMonth } from "inferred-types/types";
 
 type InvalidMonth<T extends string> = Err<
     `parse-date/month`,

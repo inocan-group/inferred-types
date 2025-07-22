@@ -72,7 +72,6 @@ export type NegDelta<
         AsLit<B>
     >;
 
-
 export type DeltaLight<
     A extends NumberLike,
     B extends NumberLike
@@ -81,17 +80,17 @@ export type DeltaLight<
     IsWideType<B>
 ]> extends true
     ? number
-: Or<[
-    IsNegativeNumber<A>,
-    IsNegativeNumber<B>
-]> extends true
-    ? Err<
-        `invalid-type/negative`,
-        `The DeltaLight<A,B> utility does not work with negative numbers! Use Delta<A,B> if you need that`,
-        { a: A, b: B }
-    >
-: CompareNumbers<A,B> extends "greater"
-    ? Subtract<A,B>
-    : CompareNumbers<A,B> extends "less"
-    ? Subtract<B,A>
-    : 0;
+    : Or<[
+        IsNegativeNumber<A>,
+        IsNegativeNumber<B>
+    ]> extends true
+        ? Err<
+            `invalid-type/negative`,
+            `The DeltaLight<A,B> utility does not work with negative numbers! Use Delta<A,B> if you need that`,
+            { a: A; b: B }
+        >
+        : CompareNumbers<A, B> extends "greater"
+            ? Subtract<A, B>
+            : CompareNumbers<A, B> extends "less"
+                ? Subtract<B, A>
+                : 0;

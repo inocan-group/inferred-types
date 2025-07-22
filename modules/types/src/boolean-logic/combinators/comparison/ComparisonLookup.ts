@@ -28,7 +28,7 @@ export type ComparisonLookup = {
         params: readonly[];
         accept: unknown;
         take: 1;
-    }
+    };
 
     extends: {
         params: readonly [types: unknown, ...unknown[]];
@@ -244,12 +244,12 @@ export type ComparisonLookup = {
     truthy: {
         params: readonly[];
         take: 0;
-        accept: Narrowable ;
+        accept: Narrowable;
     };
 
     falsy: {
         params: readonly[];
-        accept: Narrowable ;
+        accept: Narrowable;
         take: 0;
     };
 
@@ -276,14 +276,14 @@ export type ComparisonLookup = {
             key: string,
             type: unknown
         ];
-        accept: Dictionary<string|symbol, Narrowable>;
+        accept: Dictionary<string | symbol, Narrowable>;
         take: 2;
     };
 
     objectExtends: {
         params: readonly [type: unknown];
         take: 1;
-        accept: Dictionary<string|symbol, Narrowable>;
+        accept: Dictionary<string | symbol, Narrowable>;
     };
 
     returnEquals: {

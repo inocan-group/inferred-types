@@ -28,8 +28,8 @@ type Convert<
           TObj[First<TKeys>] extends Dictionary
               ? CamelKeys<TObj[First<TKeys>]>
               : TObj[First<TKeys>]
-      > &
-      TResult
+      >
+      & TResult
             )
             : Record<First<TKeys>, TObj[First<TKeys>]> & TResult
     >;

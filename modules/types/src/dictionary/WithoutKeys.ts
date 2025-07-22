@@ -26,4 +26,4 @@ export type WithoutKeys<
         ? ExpandDictionary<
             Omit<TObj, TKeys>
         >
-    : never;
+        : never;

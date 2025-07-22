@@ -1,8 +1,7 @@
-import type { As } from "types/boolean-logic";
 import type { Dictionary, EmptyObject } from "types/base-types";
+import type { As } from "types/boolean-logic";
 import type { Expand } from "types/literals";
-import type { KebabCase, PascalCase } from "types/string-literals";
-import type { RetainUntil } from "types/string-literals";
+import type { KebabCase, PascalCase, RetainUntil } from "types/string-literals";
 
 /**
  * **TypedError**
@@ -14,8 +13,8 @@ export type TypedError<
     T extends string = string,
     S extends string | undefined = string | undefined
 > = Expand<
-    Error &
-    {
+    Error
+    & {
         __kind: "Error";
         type: T;
         subType: S;

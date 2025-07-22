@@ -57,12 +57,10 @@ export type IsoYear<
 export type IsoMonthDate<
     T extends "explicit" | "implicit" | "normal" | "weak" | "branded" = "normal"
 > = T extends "normal"
-    ?
-    | `--${TwoDigitMonth}-${number}`
+    ? | `--${TwoDigitMonth}-${number}`
     | `--${TwoDigitMonth}${number}`
     : T extends "weak"
-        ?
-    | `--${number}-${number}`
+        ? | `--${number}-${number}`
     | `--${number}`
         : T extends "branded"
             ? (
@@ -95,21 +93,17 @@ export type IsoMonthDate<
  * for one of the two structural variants above (note: these are complex unions
  * so be care with use)
  */
-export type IsoYearMonth<T extends "normal" | "weak" | "explicit" | "implicit" = "normal"> =
-    T extends "normal"
-        ?
-    | `-${number}-${TwoDigitMonth}`
+export type IsoYearMonth<T extends "normal" | "weak" | "explicit" | "implicit" = "normal">
+    = T extends "normal"
+        ? | `-${number}-${TwoDigitMonth}`
     | `-${number}${TwoDigitMonth}`
         : T extends "weak"
-            ?
-    | `-${number}-${number}`
+            ? | `-${number}-${number}`
     | `-${number}`
             : T extends "explicit"
-                ?
-    | `-${FourDigitYear<"strong">}-${TwoDigitDate}`
+                ? | `-${FourDigitYear<"strong">}-${TwoDigitDate}`
                 : T extends "implicit"
-                    ?
-    | `-${FourDigitYear<"strong">}${TwoDigitDate}`
+                    ? | `-${FourDigitYear<"strong">}${TwoDigitDate}`
                     : never;
 
 /**
@@ -124,14 +118,12 @@ export type IsoYearMonth<T extends "normal" | "weak" | "explicit" | "implicit" =
  */
 export type IsoFullDate<
     T extends "normal" | "weak" | "branded" = "normal"
-> =
-    T extends "normal"
-        ?
-    | `${number}${TwoDigitMonth}${number}`
+>
+    = T extends "normal"
+        ? | `${number}${TwoDigitMonth}${number}`
     | `${number}-${TwoDigitMonth}-${number}`
         : T extends "weak"
-            ?
-    | `${number}${TwoDigitMonth<"weak">}`
+            ? | `${number}${TwoDigitMonth<"weak">}`
     | `${number}-${TwoDigitMonth<"weak">}-${number}`
             : never;
 
@@ -145,8 +137,8 @@ export type IsoFullDate<
  * - `IsoFullDate`
  * - `IsoDateTime`, `IsoMonthDateTimeLike`, `IsoYearMonthTimeLike`
  */
-export type IsoFullDateTimeLike =
-    | `${number}${TwoDigitMonth}${number}T${string}`
+export type IsoFullDateTimeLike
+    = | `${number}${TwoDigitMonth}${number}T${string}`
     | `${number}-${TwoDigitMonth}-${number}T${string}`;
 
 /**
@@ -247,8 +239,8 @@ export type IsoTimeLike<
     THour extends number = number,
     TMin extends number = number,
     TZ extends TimezoneOffset | "" = TimezoneOffset | ""
-> =
-    | `${THour}:${TMin}${TZ}`
+>
+    = | `${THour}:${TMin}${TZ}`
     | `${THour}:${TMin}:${number}${TZ}`
     | `${THour}:${TMin}:${number}.${number}${TZ}`;
 

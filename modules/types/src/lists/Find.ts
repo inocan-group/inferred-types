@@ -40,4 +40,3 @@ export type Find<
     TOp extends ComparisonOperation,
     TParams extends GetComparisonParamInput<TOp>
 > = FindAcc<TList, TOp, TParams>;
-

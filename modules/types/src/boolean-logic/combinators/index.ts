@@ -11,4 +11,3 @@ export * from "./Not";
 export * from "./Or";
 export * from "./Some";
 export * from "./Xor";
-

@@ -51,8 +51,8 @@ export type SimpleSetToken = typeof SIMPLE_SET_TOKENS[number];
  * A subset of `SimpleToken` which provides shortcut's for expressing
  * _container_ types via a simple token.
  */
-export type SimpleContainerToken =
-    | SimpleDictToken
+export type SimpleContainerToken
+    = | SimpleDictToken
     | SimpleArrayToken
     | SimpleMapToken
     | SimpleArrayToken;
@@ -65,8 +65,8 @@ export type SimpleContainerToken =
  *
  * **Note:** this includes both `RequiredSimpleScalarTokens` and `OptionalSimpleScalarTokens`.
  */
-export type SimpleScalarToken =
-    | RequiredSimpleScalarTokens
+export type SimpleScalarToken
+    = | RequiredSimpleScalarTokens
     | OptionalSimpleScalarTokens;
 
 /**
@@ -80,8 +80,8 @@ export type SimpleScalarToken =
  * - `FromSimpleToken`, `FromDefn`
  * - `TypeToken`
  */
-export type SimpleToken =
-    | SimpleScalarToken
+export type SimpleToken
+    = | SimpleScalarToken
     | SimpleArrayToken
     | SimpleDictToken
     | SimpleMapToken

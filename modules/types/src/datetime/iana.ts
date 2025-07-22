@@ -11,8 +11,8 @@ import type {
 /**
  * The first _continent_-like component of an IANA Zone.
  */
-export type IanaZoneArea =
-    | `Africa`
+export type IanaZoneArea
+    = | `Africa`
     | `America`
     | `Antarctica`
     | `Asia`

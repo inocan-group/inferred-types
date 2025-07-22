@@ -13,24 +13,22 @@ type Convert<
     T extends readonly KeyValue[],
     O extends Dictionary = EmptyObject
 > = [] extends T
-? Expand<O>
-: Convert<
-    AfterFirst<T>,
-    First<T>["required"] extends true
+    ? Expand<O>
+    : Convert<
+        AfterFirst<T>,
+        First<T>["required"] extends true
 
-    ? O & Record<
-        First<T>["key"],
-        First<T>["value"] extends KeyValue[]
-            ? Convert<First<T>["value"]>
-            : First<T>["value"]
-    >
-    : O & OptRecord<
-        First<T>["key"],
-        First<T>["value"]
-    >
->;
-
-
+            ? O & Record<
+                First<T>["key"],
+                First<T>["value"] extends KeyValue[]
+                    ? Convert<First<T>["value"]>
+                    : First<T>["value"]
+            >
+            : O & OptRecord<
+                First<T>["key"],
+                First<T>["value"]
+            >
+    >;
 
 /**
  * **FromKv**`<T>`

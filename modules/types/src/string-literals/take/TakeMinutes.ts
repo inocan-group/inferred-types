@@ -1,10 +1,10 @@
 import type { As } from "types/boolean-logic";
-import type { Err } from "types/errors";
-import type { NumericChar, NumericChar__ZeroToFive, StripLeading } from "types/string-literals";
 import type { TwoDigitMinute } from "types/datetime";
-import { StartsWithTemplateLiteral } from "types/interpolation";
+import type { Err } from "types/errors";
+import type { StartsWithTemplateLiteral } from "types/interpolation";
+import type { NumericChar, NumericChar__ZeroToFive, StripLeading } from "types/string-literals";
 
-type E<T extends string> = Err<`parse-time/min`, `Unable to take minutes from '${T}'!`>
+type E<T extends string> = Err<`parse-time/min`, `Unable to take minutes from '${T}'!`>;
 
 type Take<T extends string> = string extends T
     ? E<T> | { take: TwoDigitMinute<"branded">; rest: string }
@@ -15,7 +15,7 @@ type Take<T extends string> = string extends T
                 ? C2 extends NumericChar
                     ? {
                         take: TwoDigitMinute<`${C1}${C2}`>;
-                        rest: Rest
+                        rest: Rest;
                     }
                     : E<T>
                 : E<T>

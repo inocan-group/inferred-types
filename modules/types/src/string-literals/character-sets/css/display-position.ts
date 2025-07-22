@@ -25,8 +25,8 @@ export type CssPosition = "static" | "relative" | "absolute" | "fixed" | "sticky
  * The valid values for the [**display**](https://developer.mozilla.org/en-US/docs/Web/CSS/display)
  * property in CSS.
  */
-export type CssDisplay =
-    | "block"
+export type CssDisplay
+    = | "block"
     | "flex"
     | "inline" | "inline-block" | "inline-flex" | "inline-grid"
     | "grid"

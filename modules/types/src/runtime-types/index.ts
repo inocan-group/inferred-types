@@ -1,6 +1,8 @@
 export * from "./AsSimpleType";
+export * from "./comparison/index";
 export * from "./Dict";
 export * from "./FromLiteralTokens";
+export * from "./runtime-parser/index";
 export * from "./RuntimeTakeFunction";
 export * from "./Shape";
 export * from "./SimpleToken";
@@ -12,9 +14,6 @@ export * from "./Type";
 export * from "./type-defn/index";
 export * from "./TypeOf";
 export * from "./TypeToken";
+
 export * from "./TypeToken-variants";
 export * from "./TypeTuple";
-
-export * from "./comparison/index";
-export * from "./runtime-parser/index";
-

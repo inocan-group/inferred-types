@@ -1,14 +1,14 @@
-import { AsNumber } from "inferred-types/types";
-import { NumberLike } from "types/numeric-literals";
+import type { AsNumber } from "inferred-types/types";
+import type { NumberLike } from "types/numeric-literals";
 
-type Shift<A extends Array<any>> =
-  ((...args: A) => void) extends ((...args: [A[0], ...infer R]) => void) ? R : never;
+type Shift<A extends Array<any>>
+  = ((...args: A) => void) extends ((...args: [A[0], ...infer R]) => void) ? R : never;
 
-type GrowExpRev<A extends any[], N extends number, P extends any[][]> =
-  A["length"] extends N ? A : [...A, ...P[0]][N] extends undefined ? GrowExpRev<[...A, ...P[0]], N, P> : GrowExpRev<A, N, Shift<P>>;
+type GrowExpRev<A extends any[], N extends number, P extends any[][]>
+  = A["length"] extends N ? A : [...A, ...P[0]][N] extends undefined ? GrowExpRev<[...A, ...P[0]], N, P> : GrowExpRev<A, N, Shift<P>>;
 
-type GrowExp<A extends any[], N extends number, P extends any[][], L extends number = A["length"]> =
-  L extends N ? A : L extends 8192 ? any[] : [...A, ...A][N] extends undefined ? GrowExp<[...A, ...A], N, [A, ...P]> : GrowExpRev<A, N, P>;
+type GrowExp<A extends any[], N extends number, P extends any[][], L extends number = A["length"]>
+  = L extends N ? A : L extends 8192 ? any[] : [...A, ...A][N] extends undefined ? GrowExp<[...A, ...A], N, [A, ...P]> : GrowExpRev<A, N, P>;
 
 type MapItemType<T, I> = { [K in keyof T]: I };
 

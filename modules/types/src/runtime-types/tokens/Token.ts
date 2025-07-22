@@ -11,8 +11,8 @@ export type TokenName = `${AlphaChar}${string}`;
  * variants. The parameters, if they exist, represent the args
  * which the
  */
-export type TokenParamsConstraint =
-    | "none"
+export type TokenParamsConstraint
+    = | "none"
     | readonly unknown[];
 
 export type TokenType = "static" | "dynamic";

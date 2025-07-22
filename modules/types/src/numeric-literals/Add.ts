@@ -3,22 +3,21 @@ import type {
     And,
     As,
     AsNumber,
-    AsString,
     If,
     IsNegativeNumber,
     IsString,
     IsWideType,
     NumberLike,
     NumericChar,
-    Subtract,
-    Or
+    Or,
+    Subtract
 } from "inferred-types/types";
 
-type Either<left extends boolean, right extends boolean> =
-  left extends true ? true : right extends true ? true : false;
+type Either<left extends boolean, right extends boolean>
+  = left extends true ? true : right extends true ? true : false;
 
-type DecrementDigit<digit extends NumericChar> =
-  digit extends "1" ? "0"
+type DecrementDigit<digit extends NumericChar>
+  = digit extends "1" ? "0"
       : digit extends "2" ? "1"
           : digit extends "3" ? "2"
               : digit extends "4" ? "3"
@@ -30,8 +29,8 @@ type DecrementDigit<digit extends NumericChar> =
                                       : digit extends "10" ? "9"
                                           : never;
 
-type IncrementDigit<digit extends NumericChar> =
-  digit extends "0" ? { result: "1"; carry: false }
+type IncrementDigit<digit extends NumericChar>
+  = digit extends "0" ? { result: "1"; carry: false }
       : digit extends "1" ? { result: "2"; carry: false }
           : digit extends "2" ? { result: "3"; carry: false }
               : digit extends "3" ? { result: "4"; carry: false }
@@ -65,8 +64,8 @@ type SumSingleDigits<
 
 interface RightMostDigitResult<rest extends string, digit extends NumericChar> { rest: rest; digit: digit }
 
-type RightMostDigit<s extends string> =
-  s extends `${infer rest}${NumericChar}`
+type RightMostDigit<s extends string>
+  = s extends `${infer rest}${NumericChar}`
       ? s extends `${rest}${infer digit}`
           ? { rest: rest; digit: digit }
           : never
@@ -77,8 +76,8 @@ type SumStrings<
     right extends string,
     accumulatedResultDigits extends string = "",
     carry extends boolean = false,
-> =
-  "" extends left
+>
+  = "" extends left
   // Left is empty
       ? "" extends right
       // Right is empty
@@ -106,25 +105,21 @@ type SumStrings<
                   : never
               : never;
 
-
-
-
-
 type Process<
     A extends `${number}`,
     B extends `${number}`,
-> =
+>
     // Both operands are negative: sum their absolutes, then apply negative sign
-    And<[ IsNegativeNumber<A>, IsNegativeNumber<B> ]> extends true
+    = And<[ IsNegativeNumber<A>, IsNegativeNumber<B> ]> extends true
         ? `-${SumStrings<Abs<A>, Abs<B>>}`
     // A is negative, B is positive: subtract |A| from B
-    : IsNegativeNumber<A> extends true
-        ? Subtract<B, Abs<A>>
-    // B is negative, A is positive: subtract |B| from A
-    : IsNegativeNumber<B> extends true
-        ? Subtract<A, Abs<B>>
-    // Both positive: use digit-wise addition
-    : SumStrings<A, B>;
+        : IsNegativeNumber<A> extends true
+            ? Subtract<B, Abs<A>>
+        // B is negative, A is positive: subtract |B| from A
+            : IsNegativeNumber<B> extends true
+                ? Subtract<A, Abs<B>>
+            // Both positive: use digit-wise addition
+                : SumStrings<A, B>;
 
 type CheckWide<
     A extends NumberLike,

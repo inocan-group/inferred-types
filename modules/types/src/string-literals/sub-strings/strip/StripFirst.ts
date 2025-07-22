@@ -1,6 +1,6 @@
-import { StartsWith } from "types/boolean-logic";
-import { AfterFirst, First } from "types/lists";
-import { StripLeading } from "types/string-literals/sub-strings";
+import type { StartsWith } from "types/boolean-logic";
+import type { AfterFirst, First } from "types/lists";
+import type { StripLeading } from "types/string-literals/sub-strings";
 
 /**
  * **StripFirst**`<T,U>`
@@ -17,10 +17,9 @@ export type StripFirst<
     T extends string,
     U extends readonly string[]
 > = [] extends U
-? T
-: First<U> extends ""
-    ? StripFirst<T,AfterFirst<U>>
-    : StartsWith<T, First<U>> extends true
-    ? StripLeading<T,First<U>>
-    : StripFirst<T,AfterFirst<U>>;
-
+    ? T
+    : First<U> extends ""
+        ? StripFirst<T, AfterFirst<U>>
+        : StartsWith<T, First<U>> extends true
+            ? StripLeading<T, First<U>>
+            : StripFirst<T, AfterFirst<U>>;

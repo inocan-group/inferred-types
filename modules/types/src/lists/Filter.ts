@@ -1,4 +1,4 @@
-import { Marked } from "inferred-types/constants";
+import type { Marked } from "inferred-types/constants";
 import type {
     Compare,
     ComparisonAccept,
@@ -14,7 +14,7 @@ type ProcessFalsyRecursive<
 > = TList extends readonly [infer THead, ...infer TTail]
     ? [THead] extends [null]
         ? ProcessFalsyRecursive<TTail, [...TResult, THead]>
-        : [THead] extends [undefined] 
+        : [THead] extends [undefined]
             ? ProcessFalsyRecursive<TTail, [...TResult, THead]>
             : [THead] extends [false]
                 ? ProcessFalsyRecursive<TTail, [...TResult, THead]>
@@ -64,5 +64,3 @@ export type Filter<
     TOp,
     TParams
 >;
-
-

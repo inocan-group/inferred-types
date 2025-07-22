@@ -4,8 +4,8 @@ import type { CssTiming } from "./props";
 
 export type CssAnimationDelay = CssTiming;
 
-type Direction =
-    | "normal"
+type Direction
+    = | "normal"
     | "reverse"
     | "alternate"
     | "alternate-reverse";
@@ -16,36 +16,36 @@ export type CssAnimationDirection = Direction
 
 export type CssAnimationDuration = CssTiming;
 
-type FillMode =
-    | "none"
+type FillMode
+    = | "none"
     | "forwards"
     | "backwards"
     | "both";
 
-export type CssAnimationFillMode =
-    | FillMode
+export type CssAnimationFillMode
+    = | FillMode
     | `${FillMode}${Opt<`, ${FillMode}`>}`
     | `${FillMode}${Opt<`, ${FillMode}`>}${Opt<`, ${FillMode}`>}${string}`;
 
 type Count = `${number}` | "infinite";
 
-export type CssAnimationIterationCount =
-    | Count
+export type CssAnimationIterationCount
+    = | Count
     | `${Count}${Opt<`, ${Count}`>}`
     | `${Count}${Opt<`, ${Count}`>}${Opt<`, ${Count}`>}${string}`;
 
-type Composition =
-    | "replace"
+type Composition
+    = | "replace"
     | "add"
     | "accumulate";
 
-export type CssAnimationComposition =
-    | Composition
+export type CssAnimationComposition
+    = | Composition
     | `${Composition}${Opt<`, ${Composition}`>}`
     | `${Composition}${Opt<`, ${Composition}`>}${Opt<`, ${Composition}`>}${string}`;
 
-type TimingFunction =
-    | "ease"
+type TimingFunction
+    = | "ease"
     | "ease-in"
     | "ease-out"
     | "ease-in-out"
@@ -56,14 +56,14 @@ type TimingFunction =
     | `linear(${string})`
     | `steps(${string})`;
 
-export type CssAnimationTimingFunction =
-    | TimingFunction
+export type CssAnimationTimingFunction
+    = | TimingFunction
     | `${TimingFunction}${Opt<`, ${TimingFunction}`>}${string}`;
 
 type PlayState = "paused" | "running";
 
-export type CssAnimationPlayState =
-    | PlayState
+export type CssAnimationPlayState
+    = | PlayState
     | `${PlayState}${Opt<`, ${PlayState}`>}`
     | `${PlayState}${Opt<`, ${PlayState}`>}${Opt<`, ${PlayState}`>}${string}`;
 

@@ -1,15 +1,14 @@
 import type { As } from "types/boolean-logic";
-import type { Err } from "types/errors";
-import type {  NumericChar, StripLeading } from "types/string-literals";
 import type { TimezoneOffset } from "types/datetime";
-import { StartsWithTemplateLiteral } from "types/interpolation";
+import type { Err } from "types/errors";
+import type { StartsWithTemplateLiteral } from "types/interpolation";
+import type { NumericChar, StripLeading } from "types/string-literals";
 
 type TZ<T extends string> = Err<
     `parse-time/tz`,
     `The string '${T}' was unable to be parsed into a Timezone offset`,
     { parse: T }
 >;
-
 
 type Take<T extends string> = string extends T
     ? Error | { take: TimezoneOffset<"branded">; rest: string }
@@ -31,19 +30,20 @@ type Take<T extends string> = string extends T
                                                     // Check if valid minutes (00-59)
                                                     ? M1 extends "0" | "1" | "2" | "3" | "4" | "5"
                                                         ? {
-                                                            take: TimezoneOffset<`${Sign}${H1}${H2}:${M1}${M2}`> ;
-                                                            rest: Rest2
+                                                            take: TimezoneOffset<`${Sign}${H1}${H2}:${M1}${M2}`>;
+                                                            rest: Rest2;
                                                         }
                                                         : {
                                                             take: TimezoneOffset<`${Sign}${H1}${H2}`>;
-                                                            rest: Rest
+                                                            rest: Rest;
                                                         }
                                                     : {
-                                                        take: TimezoneOffset<`${Sign}${H1}${H2}`>; rest: Rest
+                                                        take: TimezoneOffset<`${Sign}${H1}${H2}`>;
+                                                        rest: Rest;
                                                     }
                                                 : {
                                                     take: TimezoneOffset<`${Sign}${H1}${H2}`>;
-                                                    rest: Rest
+                                                    rest: Rest;
                                                 }
                                             : Rest extends `${infer M1}${infer M2}${infer Rest2}`
                                                 ? M1 extends NumericChar
@@ -52,23 +52,23 @@ type Take<T extends string> = string extends T
                                                         ? M1 extends "0" | "1" | "2" | "3" | "4" | "5"
                                                             ? {
                                                                 take: TimezoneOffset<`${Sign}${H1}${H2}${M1}${M2}`>;
-                                                                rest: Rest2
+                                                                rest: Rest2;
                                                             }
                                                             : {
                                                                 take: TimezoneOffset<`${Sign}${H1}${H2}`>;
-                                                                rest: Rest
+                                                                rest: Rest;
                                                             }
                                                         : {
                                                             take: TimezoneOffset<`${Sign}${H1}${H2}`>;
-                                                            rest: Rest
+                                                            rest: Rest;
                                                         }
                                                     : {
                                                         take: TimezoneOffset<`${Sign}${H1}${H2}`>;
-                                                        rest: Rest
+                                                        rest: Rest;
                                                     }
                                                 : {
                                                     take: TimezoneOffset<`${Sign}${H1}${H2}`>;
-                                                    rest: Rest
+                                                    rest: Rest;
                                                 }
                                         : TZ<T>
                                     : Rest extends `:${infer M1}${infer M2}${infer Rest2}`
@@ -78,19 +78,19 @@ type Take<T extends string> = string extends T
                                                 ? M1 extends "0" | "1" | "2" | "3" | "4" | "5"
                                                     ? {
                                                         take: TimezoneOffset<`${Sign}${H1}${H2}:${M1}${M2}`>;
-                                                        rest: Rest2
+                                                        rest: Rest2;
                                                     }
                                                     : {
                                                         take: TimezoneOffset<`${Sign}${H1}${H2}`>;
-                                                        rest: Rest
+                                                        rest: Rest;
                                                     }
                                                 : {
                                                     take: TimezoneOffset<`${Sign}${H1}${H2}`>;
-                                                    rest: Rest
+                                                    rest: Rest;
                                                 }
                                             : {
                                                 take: TimezoneOffset<`${Sign}${H1}${H2}`>;
-                                                rest: Rest
+                                                rest: Rest;
                                             }
                                         : Rest extends `${infer M1}${infer M2}${infer Rest2}`
                                             ? M1 extends NumericChar
@@ -99,23 +99,23 @@ type Take<T extends string> = string extends T
                                                     ? M1 extends "0" | "1" | "2" | "3" | "4" | "5"
                                                         ? {
                                                             take: TimezoneOffset<`${Sign}${H1}${H2}${M1}${M2}`>;
-                                                            rest: Rest2
+                                                            rest: Rest2;
                                                         }
                                                         : {
                                                             take: TimezoneOffset<`${Sign}${H1}${H2}`>;
-                                                            rest: Rest
+                                                            rest: Rest;
                                                         }
                                                     : {
                                                         take: TimezoneOffset<`${Sign}${H1}${H2}`>;
-                                                        rest: Rest
+                                                        rest: Rest;
                                                     }
                                                 : {
                                                     take: TimezoneOffset<`${Sign}${H1}${H2}`>;
-                                                    rest: Rest
+                                                    rest: Rest;
                                                 }
                                             : {
                                                 take: TimezoneOffset<`${Sign}${H1}${H2}`>;
-                                                rest: Rest
+                                                rest: Rest;
                                             }
                                 : TZ<T>
                             : TZ<T>

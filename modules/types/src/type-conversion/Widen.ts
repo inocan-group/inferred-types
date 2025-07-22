@@ -77,8 +77,8 @@ type WidenObj<
     : WidenObj<
         T,
         AfterFirst<TKeys>,
-        TResults &
-        Record<
+        TResults
+        & Record<
             First<TKeys>,
             T[First<TKeys>] extends TypedFunction
                 ? WidenFn<
@@ -141,8 +141,8 @@ type WidenFnProps<
         AfterFirst<TKeys>,
         First<TKeys> extends keyof TObj
             ? (
-      TResult &
-      Record<
+      TResult
+      & Record<
           First<TKeys>,
           TObj[First<TKeys>] extends Scalar
               ? WidenScalar<TObj[First<TKeys>]>
@@ -178,8 +178,8 @@ type WidenFn<
 export type WidenContainer<
     T extends Container,
     TForce extends boolean = false,
-> =
-  [TForce] extends [true]
+>
+  = [TForce] extends [true]
       ? T extends readonly unknown[] ? readonly unknown[]
           : T extends Map<unknown, unknown> ? Map<unknown, unknown>
               : T extends Set<unknown> ? Set<unknown>

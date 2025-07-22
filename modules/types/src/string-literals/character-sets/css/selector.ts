@@ -41,8 +41,8 @@ export type CssSelector<
     TClass extends CssClassSelector = CssClassSelector,
     TTag extends CssTagSelector = CssTagSelector,
     TPseudo extends CssPseudoClass = CssPseudoClass,
-> =
-    | TId | TClass | TTag
+>
+    = | TId | TClass | TTag
     | `${TId}${CssPseudoClassDefn<TPseudo>}`
     | `${TClass}${CssPseudoClassDefn<TPseudo>}`
     | `${TTag}${CssPseudoClassDefn<TPseudo>}`;

@@ -1,6 +1,5 @@
-import type { And } from "types/boolean-logic";
+import type { And, IsStringLiteral } from "types/boolean-logic";
 import type { AsNumber, AsStringUnion } from "types/type-conversion";
-import type { IsStringLiteral } from "types/boolean-logic";
 
 type Process<
     TContent extends string,
@@ -34,7 +33,7 @@ export type StripLeading<
     ? AsNumber<
         Process<
       `${TContent}`,
-            AsStringUnion<TStrip>
+      AsStringUnion<TStrip>
         >
     >
     : TContent extends string

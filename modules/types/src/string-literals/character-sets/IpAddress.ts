@@ -18,8 +18,8 @@ import type {
  *
  * A high resolution typing for a single octet of an **IP version 4** IP address.
  */
-export type Ip4Octet =
-    | `25${NumericChar__ZeroToFive}`
+export type Ip4Octet
+    = | `25${NumericChar__ZeroToFive}`
     | `24${NumericChar}`
     | `23${NumericChar}`
     | `22${NumericChar}`

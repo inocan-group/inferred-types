@@ -32,8 +32,8 @@ type DictValues = typeof SIMPLE_DICT_VALUES[number];
  *
  * Converts a `SimpleScalarToken` into the _type_ it represents.
  */
-export type SimpleTypeScalar<T extends SimpleScalarToken> =
-T extends "string"
+export type SimpleTypeScalar<T extends SimpleScalarToken>
+= T extends "string"
     ? string
     : T extends `string(${infer Literal})`
         ? Literal extends `${string},${string}`
@@ -68,8 +68,8 @@ T extends "string"
  *
  * Converts a `SimpleUnionToken` into the _type_ it represents.
  */
-export type SimpleTypeUnion<T extends SimpleUnionToken> =
-T extends "opt(string)"
+export type SimpleTypeUnion<T extends SimpleUnionToken>
+= T extends "opt(string)"
     ? string | undefined
     : T extends "opt(number)"
         ? number | undefined
@@ -87,8 +87,8 @@ T extends "opt(string)"
                             : Literal
                         : never;
 
-export type SimpleTypeDict<T extends SimpleDictToken> =
-T extends `Dict`
+export type SimpleTypeDict<T extends SimpleDictToken>
+= T extends `Dict`
     ? Dictionary
     : T extends `Dict<string, ${infer Value extends DictValues & SimpleScalarToken}>`
         ? Dictionary<string, SimpleTypeScalar<Value>>

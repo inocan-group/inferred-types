@@ -7,9 +7,9 @@ import type { IsNever, Or } from "inferred-types/types";
  * For example, string and number are incompatible, but string and string | number
  * are not incompatible because they could overlap.
  */
-export type AreIncompatible<T, U> =
+export type AreIncompatible<T, U>
     // If either is never, they're not incompatible (never is bottom type)
-    Or<[IsNever<T>, IsNever<U>]> extends true
+    = Or<[IsNever<T>, IsNever<U>]> extends true
         ? false
     // Check if there's no overlap between the types
         : [T] extends [U]

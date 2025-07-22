@@ -3,9 +3,9 @@ import type {
     ISO_DATE_31,
     ISO_MONTH_WITH_30
 } from "inferred-types/constants";
-import type { Brand } from "types/literals";
-import type { Err } from "types/errors";
 import type { IsFourDigitYear, IsTwoDigitMonth } from "types/boolean-logic";
+import type { Err } from "types/errors";
+import type { Brand } from "types/literals";
 import type {
     NumericChar,
     NumericChar__NonZero,
@@ -31,48 +31,45 @@ export type IsoMonthsWith30Days = typeof ISO_MONTH_WITH_30[number];
 
 export type TwoDigitHour<
     T extends "weak" | "normal" | "strong" | "branded" | `${number}` = "normal"
-> =
-    T extends "weak"
+>
+    = T extends "weak"
         ? `${number}`
         : T extends "normal"
             ? `0${number}` | `1${number}` | `2${0 | 1 | 2 | 3}`
             : T extends "strong"
-                ?
-    | `0${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
+                ? | `0${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     | `1${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     | `2${0 | 1 | 2 | 3}`
-    : T extends "branded"
-        ? Brand<`${number}`, "TwoDigitHour">
-    : T extends `${number}`
-        ? T extends TwoDigitHour<"strong">
-            ? Brand<T, "TwoDigitHour">
-            : never
-        : never;
+                : T extends "branded"
+                    ? Brand<`${number}`, "TwoDigitHour">
+                    : T extends `${number}`
+                        ? T extends TwoDigitHour<"strong">
+                            ? Brand<T, "TwoDigitHour">
+                            : never
+                        : never;
 
 export type TwoDigitMinute<
     T extends "weak" | "normal" | "strong" | "branded" | `${number}` = "normal"
-> =
-    T extends "weak"
+>
+    = T extends "weak"
         ? `${number}`
-    : T extends "normal"
+        : T extends "normal"
             ? `${0 | 1 | 2 | 3 | 4 | 5}${number}`
-    : T extends "strong"
-        ?
-        | `0${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
+            : T extends "strong"
+                ? | `0${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
         | `1${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
         | `2${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
         | `3${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
         | `4${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
         | `5${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
-    : T extends "branded"
-        ? Brand<`${number}`, "TwoDigitMinute">
-        : T extends `${number}`
-            ? T extends TwoDigitMinute<"strong">
-                ? Brand<T, "TwoDigitMinute">
-                : never
+                : T extends "branded"
+                    ? Brand<`${number}`, "TwoDigitMinute">
+                    : T extends `${number}`
+                        ? T extends TwoDigitMinute<"strong">
+                            ? Brand<T, "TwoDigitMinute">
+                            : never
 
-    : never;
-
+                        : never;
 
 export type TwoDigitSecond<
     T extends "normal" | "strong" | "branded" | `${number}` = "normal"
@@ -80,17 +77,17 @@ export type TwoDigitSecond<
     ? Brand<`${number}`, "TwoDigitSecond">
     : T extends "normal"
         ? `${NumericChar__ZeroToFive}${number}` & `${number}`
-    : T extends "strong"
+        : T extends "strong"
             ? `${NumericChar__ZeroToFive}${NumericChar}` & `${number}`
-    : T extends `${number}`
-        ? T extends TwoDigitSecond<"strong">
-            ? Brand<T, "TwoDigitSecond">
-            : Err<
-                `invalid-type/second`,
+            : T extends `${number}`
+                ? T extends TwoDigitSecond<"strong">
+                    ? Brand<T, "TwoDigitSecond">
+                    : Err<
+                        `invalid-type/second`,
                 `The type passed into 'TwoDigitSecond<${T}>' is not a valid two digit month!`,
                 { second: T }
-            >
-    : never;
+                    >
+                : never;
 
 /**
  * **ThreeDigitMillisecond**`<NORMAL|strong|branded>`
@@ -108,24 +105,24 @@ export type TwoDigitSecond<
  */
 export type ThreeDigitMillisecond<
     T extends "weak" | "normal" | "strong" | "branded" | `${number}` = "normal"
-> =
-T extends "weak"
+>
+= T extends "weak"
     ? `${number}`
-: T extends "normal"
-    ? `${NumericChar}${number}`
-: T extends "strong"
-    ? `${NumericChar}${NumericChar}${NumericChar}`
-: T extends "branded"
-    ? Brand<`${number}`, "ThreeDigitMillisecond">
-: T extends `${number}`
-    ? T extends ThreeDigitMillisecond<"strong">
-        ? Brand<T,"ThreeDigitMillisecond">
-        : Err<
-            `invalid-type/ms`,
+    : T extends "normal"
+        ? `${NumericChar}${number}`
+        : T extends "strong"
+            ? `${NumericChar}${NumericChar}${NumericChar}`
+            : T extends "branded"
+                ? Brand<`${number}`, "ThreeDigitMillisecond">
+                : T extends `${number}`
+                    ? T extends ThreeDigitMillisecond<"strong">
+                        ? Brand<T, "ThreeDigitMillisecond">
+                        : Err<
+                            `invalid-type/ms`,
             `The type passed into 'ThreeDigitMillisecond<${T}>' is not valid!`,
             { ms: T }
-        >
-: never;
+                        >
+                    : never;
 
 /**
  * **TwoDigitMonth**`<normal|weak|branded>`
@@ -138,22 +135,22 @@ T extends "weak"
  */
 export type TwoDigitMonth<
     T extends "normal" | "weak" | "branded" | `${number}` = "normal"
-> =
-    T extends "normal"
+>
+    = T extends "normal"
         ? (`0${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}` | `1${0 | 1 | 2}`) & `${number}`
-    : T extends "weak"
-        ? `${"0" | "1"}${number}` & `${number}`
-    : T extends "branded"
-        ? Brand<`${number}`, "TwoDigitMonth">
-    : T extends `${number}`
-        ? [IsTwoDigitMonth<T>] extends [true]
-            ? Brand<T, "TwoDigitMonth">
-            : Err<
-                `invalid-type/month`,
+        : T extends "weak"
+            ? `${"0" | "1"}${number}` & `${number}`
+            : T extends "branded"
+                ? Brand<`${number}`, "TwoDigitMonth">
+                : T extends `${number}`
+                    ? [IsTwoDigitMonth<T>] extends [true]
+                        ? Brand<T, "TwoDigitMonth">
+                        : Err<
+                            `invalid-type/month`,
                 `The type passed into 'TwoDigitMonth<${T}>' is not a valid two digit month!`,
                 { month: T }
-            >
-        : never;
+                        >
+                    : never;
 
 /**
  * a union of valid month numbers
@@ -178,31 +175,29 @@ export type MonthNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
  */
 export type TwoDigitDate<
     T extends "weak" | "normal" | "branded" | `${number}` = "normal"
-> =
-T extends "normal"
-        ?
-    | `0${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
+>
+= T extends "normal"
+    ? | `0${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     | `1${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     | `2${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     | `3${0 | 1}`
 
-: T extends "weak"
-    ?
-    | `0${number}`
+    : T extends "weak"
+        ? | `0${number}`
     | `1${number}`
     | `2${number}`
     | `3${number}`
-: T extends "branded"
-    ? Brand<`${number}`, "TwoDigitDate">
-: T extends `${number}`
-    ? T extends TwoDigitDate<"normal">
-        ? Brand<T, "TwoDigitDate">
-        : Err<
-            `invalid-type/date`,
+        : T extends "branded"
+            ? Brand<`${number}`, "TwoDigitDate">
+            : T extends `${number}`
+                ? T extends TwoDigitDate<"normal">
+                    ? Brand<T, "TwoDigitDate">
+                    : Err<
+                        `invalid-type/date`,
             `The type passed into TwoDigitDate<${T}> is not valid!`,
             { dte: T }
-        >
-    : never;
+                    >
+                : never;
 
 /**
  * **MinimalDigitDate**
@@ -216,13 +211,11 @@ T extends "normal"
 export type MinimalDigitDate<
     T extends "weak" | "normal" = "normal"
 > = T extends "normal"
-    ?
-    | NumericChar__NonZero
+    ? | NumericChar__NonZero
     | `1${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     | `2${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`
     | `3${0 | 1}`
-    :
-    | `0${number}`
+    : | `0${number}`
     | `1${number}`
     | `2${number}`
     | `3${number}`;
@@ -233,8 +226,8 @@ type RdDays = "3" | "23";
 
 type ThDays<T extends "weak" | "normal" = "normal"> = Exclude<MinimalDigitDate<T>, StDays | NdDays | RdDays>;
 
-export type MinimalDigitDate__Suffixed<T extends "weak" | "normal" = "normal"> =
-    | `${StDays}st`
+export type MinimalDigitDate__Suffixed<T extends "weak" | "normal" = "normal">
+    = | `${StDays}st`
     | `${NdDays}nd`
     | `${RdDays}rd`
     | `${ThDays<T>}th`;
@@ -289,14 +282,14 @@ export type FourDigitYear<
             ? `${NumericChar}${number}` & `${number}`
             : T extends "branded"
                 ? Brand<`${number}`, "FourDigitYear">
-            : T extends `${number}`
-                ? IsFourDigitYear<T> extends true
-                    ? Brand<T, "FourDigitYear">
-                    : Err<
-                        `invalid-type/four-digit-year`,
+                : T extends `${number}`
+                    ? IsFourDigitYear<T> extends true
+                        ? Brand<T, "FourDigitYear">
+                        : Err<
+                            `invalid-type/four-digit-year`,
                         `The type passed into 'FourDigitYear<${T}>' is not a valid four digit year so a Branded type can not be produced!`,
                         { year: T }
-                    >
+                        >
                     : never;
 
 export type TimeZoneExplicit = | `Z`
@@ -328,26 +321,23 @@ export type TimeZoneExplicit = | `Z`
  */
 export type TimezoneOffset<
     T extends "strong" | "normal" | "explicit" | "implicit" | "branded" | `${"Z" | "+" | "-"}${string}` = "normal"
-> =
-    T extends "normal"
+>
+    = T extends "normal"
         ? | `Z`
     | `${"+" | "-"}${number}`
     | `${"+" | "-"}${number}${number}`
     | `${"+" | "-"}${number}:${number}`
         : T extends "strong"
-            ?
-    | `Z`
+            ? | `Z`
     | `${"+" | "-"}${TwoDigitHour}`
     | `${"+" | "-"}${TwoDigitHour}${TwoDigitMinute}`
     | `${"+" | "-"}${TwoDigitHour}:${TwoDigitMinute}`
             : T extends "explicit"
-                ?
-    | `Z`
+                ? | `Z`
     | `${"+" | "-"}${TwoDigitHour}`
     | `${"+" | "-"}${TwoDigitHour}:${TwoDigitMinute}`
                 : T extends "implicit"
-                    ?
-    | `Z`
+                    ? | `Z`
     | `${"+" | "-"}${TwoDigitHour}`
     | `${"+" | "-"}${TwoDigitHour}${TwoDigitMinute}`
                     : T extends "branded"
@@ -356,10 +346,11 @@ export type TimezoneOffset<
         | `${"+" | "-"}${number}`
         | `${"+" | "-"}${number}${number}`
         | `${"+" | "-"}${number}:${number}`
-    ), "TimezoneOffset">
-    : T extends `${"Z" | "+" | "-"}${string}`
-        ? T extends TimezoneOffset<"strong">
-            ? Brand<T, "TimezoneOffset">
-            : never
-        : never
-    ;
+                        ), "TimezoneOffset"
+                        >
+                        : T extends `${"Z" | "+" | "-"}${string}`
+                            ? T extends TimezoneOffset<"strong">
+                                ? Brand<T, "TimezoneOffset">
+                                : never
+                            : never
+        ;

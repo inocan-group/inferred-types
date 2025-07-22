@@ -1,4 +1,3 @@
-import { unset } from 'inferred-types/runtime';
 import type {
     AfterFirst,
     And,
@@ -8,11 +7,8 @@ import type {
     IsFalse,
     IsNever,
     Last,
-    Or,
     Unset
 } from "inferred-types/types";
-
-
 
 type IsFail<
     T,
@@ -21,19 +17,18 @@ type IsFail<
     [IsNever<T>] extends [true] ? true : false,
     Contains<O["failureConditions"], "never">
 ]> extends true
-? true
-: And<[
-    IsFalse<T>,
-    Contains<O["failureConditions"], "false">
-]> extends true
     ? true
-: And<[
-    IsError<T>,
-    Contains<O["failureConditions"], "error">
-]> extends true
-    ? true
-: false;
-
+    : And<[
+        IsFalse<T>,
+        Contains<O["failureConditions"], "false">
+    ]> extends true
+        ? true
+        : And<[
+            IsError<T>,
+            Contains<O["failureConditions"], "error">
+        ]> extends true
+            ? true
+            : false;
 
 type FailureCondition = "error" | "false" | "never";
 
@@ -42,29 +37,26 @@ export interface FailFastOptions {
     failureConditions?: FailureCondition[];
 }
 
-
 type DEFAULT = {
-    err: Unset,
-    failureConditions: ["error","false","never"]
-}
+    err: Unset;
+    failureConditions: ["error", "false", "never"];
+};
 
 type Opt<
     T extends FailFastOptions
 > = {
-    err: T["err"] extends Error ? T["err"] : DEFAULT["err"],
+    err: T["err"] extends Error ? T["err"] : DEFAULT["err"];
     failureConditions: T["failureConditions"] extends [FailureCondition, ...FailureCondition[]]
         ? T["failureConditions"]
-        : DEFAULT["failureConditions"]
-}
-
+        : DEFAULT["failureConditions"];
+};
 
 type RtnErr<
     T,
     O extends Required<FailFastOptions>
 > = O["err"] extends Error
-? O["err"]
-: T;
-
+    ? O["err"]
+    : T;
 
 /**
  * **FailFast**`<TTests, TSuccess, [TErr]>`
@@ -81,7 +73,7 @@ type RtnErr<
 export type FailFast<
     TTests extends readonly unknown[],
     TOpt extends FailFastOptions = DEFAULT,
-    TLast  = Last<TTests>
+    TLast = Last<TTests>
 > = [] extends TTests
     ? TLast
     : IsFail<First<TTests>, Opt<TOpt>> extends true
@@ -91,5 +83,3 @@ export type FailFast<
             TOpt,
             TLast
         >;
-
-

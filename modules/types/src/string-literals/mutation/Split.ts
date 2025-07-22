@@ -1,8 +1,8 @@
-import type { AsUnion } from "types/type-conversion";
 import type { IsSubstring, IsWideString } from "types/boolean-logic";
+import type { BeforeLast, Last } from "types/lists";
+import type { Length } from "types/numeric-literals";
 import type { RetainAfter, StripAfter } from "types/string-literals";
-import { Length } from "types/numeric-literals";
-import { BeforeLast, Last } from "types/lists";
+import type { AsUnion } from "types/type-conversion";
 
 type Policy = "omit" | "before" | "after" | "inline";
 

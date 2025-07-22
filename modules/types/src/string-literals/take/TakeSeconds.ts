@@ -1,18 +1,18 @@
 import type { As } from "types/boolean-logic";
+import type { TwoDigitSecond } from "types/datetime";
 import type { Err } from "types/errors";
+import type { StartsWithTemplateLiteral } from "types/interpolation";
 import type {
     NumericChar,
     NumericChar__ZeroToFive,
     StripLeading
 } from "types/string-literals";
-import type { TwoDigitSecond } from "types/datetime";
-import type { StartsWithTemplateLiteral } from "types/interpolation";
 
 type E<T extends string> = Err<
     `parse-time/seconds`,
     `TakeSeconds<${T}> was unable to find seconds at the head of the parse string.`,
     { parse: T }
->
+>;
 
 type Take<T extends string> = string extends T
     ? Error | { take: TwoDigitSecond<"branded">; rest: string }

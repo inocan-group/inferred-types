@@ -36,8 +36,8 @@ export type Optional<
  * - if you send in an array of strings they will build a
  * string literal up left-to-right.
  */
-export type Opt<T extends string | readonly string[]> =
-Optional<T>;
+export type Opt<T extends string | readonly string[]>
+= Optional<T>;
 
 /**
  * an _optional_ percentage symbol

@@ -1,9 +1,7 @@
 import type {
-    As,
     ComparisonLookup,
     ComparisonOperation,
     IsUnion,
-    Narrowable,
 } from "inferred-types/types";
 
 /**
@@ -15,11 +13,11 @@ import type {
 export type GetComparisonParamInput<
     TOp extends string
 > = TOp extends ComparisonOperation
-? IsUnion<TOp> extends true
-    ? readonly unknown[]
-: "params" extends keyof ComparisonLookup[TOp]
-        ? ComparisonLookup[TOp]["params"] extends readonly unknown[]
-            ? ComparisonLookup[TOp]["params"]
-            : never
-        : readonly unknown[]
-: readonly unknown[]
+    ? IsUnion<TOp> extends true
+        ? readonly unknown[]
+        : "params" extends keyof ComparisonLookup[TOp]
+            ? ComparisonLookup[TOp]["params"] extends readonly unknown[]
+                ? ComparisonLookup[TOp]["params"]
+                : never
+            : readonly unknown[]
+    : readonly unknown[];

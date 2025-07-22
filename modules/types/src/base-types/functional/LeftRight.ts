@@ -199,8 +199,8 @@ export type RightContains<
         : NarrowlyContains<TLeftRight[left], TEval>
     : false;
 
-export type LeftRight__Operations =
-    | "extends"
+export type LeftRight__Operations
+    = | "extends"
     | "equals"
     | "includes"
     | "contains";
@@ -234,8 +234,8 @@ export type WhereLeft<
         ]>,
         { library: "inferred-types/constants"; utility: "IfLeft" },
     ]>,
-> =
-TOp extends "extends"
+>
+= TOp extends "extends"
     ? LeftExtends<TEval, TLeftRight> extends true ? IF : ELSE
     : TOp extends "equals"
         ? LeftEquals<TEval, TLeftRight> extends true ? IF : ELSE

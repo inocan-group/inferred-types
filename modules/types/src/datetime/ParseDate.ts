@@ -1,8 +1,6 @@
-import type { As, IsLeapYear, IsTwoDigitDate } from "types/boolean-logic";
+import type { As, IsFourDigitYear, IsLeapYear, IsTwoDigitDate } from "types/boolean-logic";
+import type { FourDigitYear, ParsedTime, ParseTime, TwoDigitDate, TwoDigitMonth } from "types/datetime";
 import type { Err, ErrContext } from "types/errors";
-import type { FourDigitYear, TwoDigitDate, TwoDigitMonth } from "types/datetime";
-import type { IsFourDigitYear } from "types/boolean-logic";
-import type { ParsedTime, ParseTime } from "types/datetime";
 import type { Split, StrLen, TakeDate, TakeMonth, TakeYear } from "types/string-literals";
 
 export type ParsedDate = [
@@ -34,8 +32,8 @@ type ParseMonthDate<
             ? Rest extends ""
                 ? As<[
                     null,
-                     Month,
-                     IsoDate,
+                    Month,
+                    IsoDate,
                     null
                 ], ParsedDate>
                 : Err<
@@ -54,8 +52,6 @@ type ParseMonthDate<
             { parse: T }
         >;
 
-
-
 type ParseFullDate<T extends string> = TakeYear<T> extends {
     take: infer Year extends FourDigitYear<"branded">;
     rest: infer Rest extends string;
@@ -68,7 +64,7 @@ type ParseFullDate<T extends string> = TakeYear<T> extends {
             take: infer D extends TwoDigitDate<"branded">;
             rest: infer Rest extends string;
         }
-            ? IsTwoDigitDate<D,Year,Month> extends true
+            ? IsTwoDigitDate<D, Year, Month> extends true
                 ? As<
                     [
                         Year,
@@ -78,11 +74,11 @@ type ParseFullDate<T extends string> = TakeYear<T> extends {
                     ],
                     ParsedDate
                 >
-            : Err<
-                `parse-date/date`,
+                : Err<
+                    `parse-date/date`,
                 `This date [${D}] initially appeared valid but when considering both year and month it is clear that the date is incorrect. This could be due to the length of the month in general or could also be related to whether the given year is a leap year or not.`,
-                { year: Year; month: Month; date: D; rest: Rest; leap: IsLeapYear<Year>}
-            >
+                { year: Year; month: Month; date: D; rest: Rest; leap: IsLeapYear<Year> }
+                >
 
             : ErrContext<
                 As<TakeDate<Rest, "-", Year, Month>, Error>,
@@ -143,8 +139,6 @@ type ParseDateTime<T extends `${string}T${string}`> = Split<T, "T"> extends [
 
     : Err<`parse-date/datetime`, `Invalid structure`, { parse: T }>;
 
-
-
 type ParseYearMonth<T extends string> = TakeYear<T> extends {
     take: infer Year extends FourDigitYear<"branded">;
     rest: infer Rest extends string;
@@ -178,10 +172,6 @@ type ParseYearMonth<T extends string> = TakeYear<T> extends {
         { parse: T }
     >;
 
-
-
-
-
 /**
  * **ParseDate**`<T, [TSep]>`
  *
@@ -213,4 +203,3 @@ export type ParseDate<
         `parse-date/wrong-type`,
         `A non-string type was passed into ParseDate<T>!`
     >;
-

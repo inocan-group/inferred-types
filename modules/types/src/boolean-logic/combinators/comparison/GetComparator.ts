@@ -55,7 +55,7 @@ type ConvertUnit<
         : [TConvert] extends ["none"]
             ? TParam
             : TParam
-;
+    ;
 
 /**
  * Called when the "convert" rule is a tuple of rules.
@@ -79,7 +79,7 @@ type GetTupleComparator<
             >
         ]
     >
-;
+    ;
 /**
  * **GetComparator**`<TConfig, TParams, [TMode]>`
  *

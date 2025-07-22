@@ -23,8 +23,8 @@ type Optional<
         library: T["library"] extends string ? never : string;
         utility: T["utility"] extends string ? never : string;
         underlying: T["utility"] extends ErrorCondition ? never : ErrorCondition;
-    }> &
-    Omit<TypeErrorInfo, "kind" | "message" | "utility" | "library" | "underlying">
+    }>
+    & Omit<TypeErrorInfo, "kind" | "message" | "utility" | "library" | "underlying">
 >>;
 
 /**

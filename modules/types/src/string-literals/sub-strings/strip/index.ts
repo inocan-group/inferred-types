@@ -6,4 +6,3 @@ export * from "./StripLeading";
 export * from "./StripSurround";
 export * from "./StripTrailing";
 export * from "./StripUntil";
-

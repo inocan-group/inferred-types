@@ -93,8 +93,8 @@ type AsUnionArrayString<
 export type ToStringLiteral__Tuple<
     T extends readonly unknown[],
     O extends Required<ToJsValueOptions> = { quote: "\""; encode: false }
-> =
-[TupleMeta<T>["isWide"]] extends [true]
+>
+= [TupleMeta<T>["isWide"]] extends [true]
     ? [T] extends [readonly (infer Type)[]]
         ? [IsUnion<Type>] extends [true]
             ? [UnionToTuple<Type>] extends [readonly unknown[]]

@@ -98,8 +98,8 @@ export type GithubRepoProjectUrl = `${GithubRepoUrl}/projects/${number}${OptUrlQ
  * - by default it will show any actions related page but set `TOnlySummary` to false
  * if you're only wanting to match the summary page.
  */
-export type GithubActionsUrl<TOnlySummary extends boolean = false> =
-IsTrue<TOnlySummary> extends true
+export type GithubActionsUrl<TOnlySummary extends boolean = false>
+= IsTrue<TOnlySummary> extends true
     ? `https://github.com/${string}/${string}/actions`
     : `https://github.com/${string}/${string}/actions` | `https://github.com/${string}/${string}/actions/${string}`;
 
@@ -108,7 +108,7 @@ type GhLookup = {
     [K in keyof GithubLookup]: GithubLookup[K] extends string
         ? AddUrlPathSegment<
         `https://github.com/${string}`,
-            GithubLookup[K]
+        GithubLookup[K]
         >
         : never;
 };

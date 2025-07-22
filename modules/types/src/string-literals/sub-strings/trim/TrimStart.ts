@@ -11,9 +11,9 @@ import type { Whitespace } from "inferred-types/types";
  *
  * @deprecated use `TrimStart<T>` instead
  */
-export type TrimLeft<S extends string> = string extends S ? string :
-    S extends `${Whitespace}${infer Right}` ?
-        TrimLeft<Right> : S;
+export type TrimLeft<S extends string> = string extends S ? string
+    : S extends `${Whitespace}${infer Right}`
+        ? TrimLeft<Right> : S;
 
 /**
  * **TrimStart**`<T>`
@@ -27,6 +27,6 @@ export type TrimLeft<S extends string> = string extends S ? string :
  * type T = TrimStart<string>;
  * ```
  */
-export type TrimStart<T extends string> = string extends T ? string :
-    T extends `${Whitespace}${infer Right}` ?
-        TrimStart<Right> : T;
+export type TrimStart<T extends string> = string extends T ? string
+    : T extends `${Whitespace}${infer Right}`
+        ? TrimStart<Right> : T;

@@ -1,4 +1,4 @@
-import { ComparisonAccept, ComparisonOperation, Err, Find, GetComparisonParamInput, IsUnion } from "inferred-types/types";
+import type { ComparisonAccept, ComparisonOperation, Find, GetComparisonParamInput } from "inferred-types/types";
 
 /**
  * **FindFunction**`<TOp, TParams>`

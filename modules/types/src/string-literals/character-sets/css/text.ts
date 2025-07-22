@@ -1,8 +1,8 @@
 import type { Suggest } from "inferred-types/types";
 import type { CssColorLight, CssGlobal, CssSizingLight } from "types/string-literals/character-sets/css";
 
-export type CssTextAlign =
-    | "start"
+export type CssTextAlign
+    = | "start"
     | "end"
     | "center"
     | "left"
@@ -10,22 +10,22 @@ export type CssTextAlign =
     | "justify"
     | "match-parent";
 
-export type CssTextDecorationStyle =
-    | "solid"
+export type CssTextDecorationStyle
+    = | "solid"
     | "double"
     | "dotted"
     | "dashed"
     | "wavy"
     | CssGlobal;
 
-export type CssTextDecorationLine =
-    | "none"
+export type CssTextDecorationLine
+    = | "none"
     | "underline"
     | "overline"
     | "line-through";
 
-export type CssTextWrap =
-    | "wrap"
+export type CssTextWrap
+    = | "wrap"
     | "nowrap"
     | "balance"
     | "pretty"
@@ -43,8 +43,8 @@ export type CssTextIndent = CssSizingLight
     | `${CssSizingLight} ${Indent} ${Indent}`
     | CssGlobal;
 
-export type CssTextJustify =
-    | "none"
+export type CssTextJustify
+    = | "none"
     | "auto"
     | "inter-word"
     | "inter-character"
@@ -53,16 +53,16 @@ export type CssTextJustify =
 
 export type CssTextOrientation = "mixed" | "upright" | "sideways" | "sideways-right" | "use-glyph-orientation" | CssGlobal;
 
-export type CssTextOverflow =
-    | "clip"
+export type CssTextOverflow
+    = | "clip"
     | "ellipsis"
     | `"${string}"`
     | CssGlobal;
 
 export type CssTextRendering = "auto" | "optimizeSpeed" | "optimizeLegility" | "geometricPrecision" | CssGlobal;
 
-export type CssTextTransform =
-    | "none"
+export type CssTextTransform
+    = | "none"
     | "capitalize"
     | "uppercase"
     | "lowercase"
@@ -71,8 +71,8 @@ export type CssTextTransform =
     | "math-auto"
     | CssGlobal;
 
-export type CssTextPosition =
-    | "auto"
+export type CssTextPosition
+    = | "auto"
     | "from-font"
     | "under"
     | "left"

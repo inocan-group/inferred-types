@@ -11,9 +11,9 @@ import type { Whitespace } from "inferred-types/types";
  *
  * @deprecated use `TrimEnd<T>` instead
  */
-export type TrimRight<S extends string> = string extends S ? string :
-    S extends `${infer Right}${Whitespace}` ?
-        TrimRight<Right> : S;
+export type TrimRight<S extends string> = string extends S ? string
+    : S extends `${infer Right}${Whitespace}`
+        ? TrimRight<Right> : S;
 
 /**
  * Trims off whitespace on end of the string
@@ -25,6 +25,6 @@ export type TrimRight<S extends string> = string extends S ? string :
  * type T = TrimEnd<string>;
  * ```
  */
-export type TrimEnd<S extends string> = string extends S ? string :
-    S extends `${infer Right}${Whitespace}` ?
-        TrimEnd<Right> : S;
+export type TrimEnd<S extends string> = string extends S ? string
+    : S extends `${infer Right}${Whitespace}`
+        ? TrimEnd<Right> : S;

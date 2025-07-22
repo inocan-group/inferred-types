@@ -16,8 +16,8 @@ import type { FourDigitYear, MinimalDigitDate__Suffixed, MonthAbbrev, MonthDateD
  * valid representation of the type without need for any runtime
  * validation.
  */
-export type DateMonthAbbrev =
-    | `${MonthDateDigit} ${MonthAbbrev}`;
+export type DateMonthAbbrev
+    = | `${MonthDateDigit} ${MonthAbbrev}`;
 
 /**
  * **DateMonthAbbrevYearLike**
@@ -28,8 +28,8 @@ export type DateMonthAbbrev =
  * - `1 Jul, 2020`
  * - `04 Jul, 2025`
  */
-export type DateMonthAbbrevYearLike =
-    | `${MonthDateDigit} ${MonthAbbrev}, ${FourDigitYear<"weak">}`;
+export type DateMonthAbbrevYearLike
+    = | `${MonthDateDigit} ${MonthAbbrev}, ${FourDigitYear<"weak">}`;
 
 /**
  * **DateMonth**
@@ -47,8 +47,8 @@ export type DateMonthAbbrevYearLike =
  * valid representation of the type without need for any runtime
  * validation.
  */
-export type DateMonth =
-    | `${MonthDateDigit} ${MonthName}`;
+export type DateMonth
+    = | `${MonthDateDigit} ${MonthName}`;
 
 /**
  * **DateMonthYearLike**`<{T}>`
@@ -73,8 +73,8 @@ export type DateMonth =
  * type (versus a logic problem requiring the runtime) you can actually
  * validate in the type system with `IsDateMonthNameYearLike` utility.
  */
-export type DateMonthYearLike<T extends "weak" | "normal" = "weak"> =
-    | `${MonthDateDigit<T>} ${MonthAbbrev}, ${FourDigitYear<"weak">}`;
+export type DateMonthYearLike<T extends "weak" | "normal" = "weak">
+    = | `${MonthDateDigit<T>} ${MonthAbbrev}, ${FourDigitYear<"weak">}`;
 
 /**
  * **DateMonthYear**
@@ -109,8 +109,8 @@ export type DateMonthYear = DateMonthAbbrevYearLike & {
  * valid representation of the type without need for any runtime
  * validation.
  */
-export type MonthAbbrevDate =
-    | `${MonthName} ${MonthDateDigit | MinimalDigitDate__Suffixed}`;
+export type MonthAbbrevDate
+    = | `${MonthName} ${MonthDateDigit | MinimalDigitDate__Suffixed}`;
 
 /**
  * **MonthDate**
@@ -129,8 +129,8 @@ export type MonthAbbrevDate =
  * valid representation of the type without need for any runtime
  * validation.
  */
-export type MonthDate =
-    | `${MonthName} ${MonthDateDigit | MinimalDigitDate__Suffixed}`;
+export type MonthDate
+    = | `${MonthName} ${MonthDateDigit | MinimalDigitDate__Suffixed}`;
 
 /**
  * **MonthDateYearLike**
@@ -149,8 +149,8 @@ export type MonthDate =
  * or the `IsMonthDateYear` type checker to validate and convert it to
  * the branded type `MonthDateYear`
  */
-export type MonthDateYearLike =
-    | `${MonthName} ${MonthDateDigit<"weak">
+export type MonthDateYearLike
+    = | `${MonthName} ${MonthDateDigit<"weak">
     | MinimalDigitDate__Suffixed<"normal">}`;
 
 /**
@@ -170,8 +170,8 @@ export type MonthDateYear = MonthDateYearLike & {
     kind: "MonthDateYear";
 };
 
-export type MonthAbbrevDateYearLike =
-    | `${MonthAbbrev} ${MonthDateDigit<"weak">}`
+export type MonthAbbrevDateYearLike
+    = | `${MonthAbbrev} ${MonthDateDigit<"weak">}`
     | `${MonthAbbrev} ${MinimalDigitDate__Suffixed<"normal">}`;
 
 export type MonthAbbrevDateYear = MonthAbbrevDateYearLike & {

@@ -3,8 +3,8 @@ import type { AfterFirst, Dictionary, First, TypedFunction, Values } from "infer
 type ProcessTuple<
     TArray extends readonly unknown[] | unknown[],
     TResults extends readonly unknown[] = [],
-> = //
-  [] extends TArray
+> //
+  = [] extends TArray
       ? TResults
       : First<TArray> extends TypedFunction
           ? ProcessTuple<AfterFirst<TArray>, [...TResults, ReturnType<First<TArray>>]>

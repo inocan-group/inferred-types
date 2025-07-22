@@ -1,6 +1,6 @@
-import { Scalar } from "types/base-types";
-import { IsEqual, Not } from "types/boolean-logic";
-import { IndexOf } from "types/lists";
+import type { Scalar } from "types/base-types";
+import type { IsEqual, Not } from "types/boolean-logic";
+import type { IndexOf } from "types/lists";
 
 export declare const BrandSymbol: unique symbol;
 
@@ -8,8 +8,6 @@ export type Brand<
     Base extends Scalar,
     Kind
 > = Base & { [BrandSymbol]: Kind };
-
-
 
 /**
  * **Unbrand**`<T>`
@@ -31,10 +29,8 @@ export type Unbrand<T> = T extends Brand<infer B, any>
     ? B
     : T;
 
-
 export type IsBranded<T> = Not<IsEqual<T, Unbrand<T>>>;
 
-
 export type GetBrand<T> = IsBranded<T> extends true
-? IndexOf<T, typeof BrandSymbol>
-: undefined;
+    ? IndexOf<T, typeof BrandSymbol>
+    : undefined;

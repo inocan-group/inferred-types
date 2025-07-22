@@ -13,8 +13,8 @@ type _DU<T extends string> = T extends Lowercase<T> ? T : `-${Lowercase<T>}`;
  * _Intended to be used as a lower level utility; prefer `Dasherize<T>` for more full-fledged
  * dash solution_.
  */
-export type DashUppercase<T extends string> =
-HasUppercase<T> extends false
+export type DashUppercase<T extends string>
+= HasUppercase<T> extends false
     ? T
     : T extends `${infer C0}${infer C1}${infer R}`
         ? `${_DU<C0>}${_DU<C1>}${DashUppercase<R>}`

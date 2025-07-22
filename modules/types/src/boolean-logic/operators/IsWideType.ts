@@ -6,13 +6,10 @@ import type {
     IsEqual,
     IsLiteralUnion,
     IsNever,
-    IsNumericLiteral,
-    IsStringLiteral,
     IsUnion,
     IsWideUnion,
     Keys,
     ObjectKey,
-    Or,
     Scalar,
 } from "inferred-types/types";
 
@@ -53,32 +50,32 @@ export type IsWideScalar<T> = [T] extends [Scalar]
  * - Set is considered wide when the type it's holding is wide
  */
 export type IsWideObject<T> = object extends T
-? true
-: T extends Map<infer Key, infer _Val>
-    ? IsContainer<Key> extends true
-        ? false
-    : IsLiteralUnion<Key> extends true
-        ? false
-        : true
-: T extends Record<infer Key extends PropertyKey, infer _Val>
-    ? IsLiteralUnion<Key> extends true
-        ? true
-        : number extends Keys<T>["length"]
-            ? true
-            : false
-: IsEqual<T, EmptyObject> extends true
-    ? false
-    : Record<ObjectKey, any> extends T
-        ? true
-        : T extends object
-            ? [IsEqual<T, ExplicitlyEmptyObject>] extends [true]
+    ? true
+    : T extends Map<infer Key, infer _Val>
+        ? IsContainer<Key> extends true
+            ? false
+            : IsLiteralUnion<Key> extends true
                 ? false
-                : [IsNever<keyof T>] extends [true]
+                : true
+        : T extends Record<infer Key extends PropertyKey, infer _Val>
+            ? IsLiteralUnion<Key> extends true
+                ? true
+                : number extends Keys<T>["length"]
                     ? true
-                    : number extends Keys<T>["length"]
-                        ? true
-                        : false
-            : true;
+                    : false
+            : IsEqual<T, EmptyObject> extends true
+                ? false
+                : Record<ObjectKey, any> extends T
+                    ? true
+                    : T extends object
+                        ? [IsEqual<T, ExplicitlyEmptyObject>] extends [true]
+                            ? false
+                            : [IsNever<keyof T>] extends [true]
+                                ? true
+                                : number extends Keys<T>["length"]
+                                    ? true
+                                    : false
+                        : true;
 
 /**
  * **IsWideContainer**`<T>`

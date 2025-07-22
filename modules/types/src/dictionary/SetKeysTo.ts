@@ -19,6 +19,6 @@ export type SetKeysTo<
     ? ExpandDictionary<TObj>
     : SetKeysTo<
     TObj & Record<First<TKeys>, TValue>,
-        AfterFirst<TKeys>,
-        TValue
+    AfterFirst<TKeys>,
+    TValue
     >;

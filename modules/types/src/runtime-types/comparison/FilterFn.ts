@@ -1,4 +1,4 @@
-import { ComparisonAccept, ComparisonOperation, Filter, GetComparisonParamInput } from "inferred-types/types";
+import type { ComparisonAccept, ComparisonOperation, Filter, GetComparisonParamInput } from "inferred-types/types";
 
 /**
  * **FilterFn**`<TOp, TParams>`

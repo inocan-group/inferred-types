@@ -55,8 +55,8 @@ export type ObjectMap<
     I extends AnyObject,
     O extends AnyObject,
 > = (i: I) => ExpandDictionary<
-    ReqKeys<RequiredKeys<O>, I, O> &
-    OptKeys<RequiredKeys<O>, I, O>
+    ReqKeys<RequiredKeys<O>, I, O>
+    & OptKeys<RequiredKeys<O>, I, O>
 >;
 
 export type ObjectMapConversion<

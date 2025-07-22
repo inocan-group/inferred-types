@@ -48,8 +48,8 @@ type _Keys<T extends object> = UnionToTuple<keyof RemoveIndexKeys<T>> extends re
 export type HasSameKeys<
     A extends Container,
     B extends Container,
-> =
-IsTuple<A> extends true
+>
+= IsTuple<A> extends true
     ? IsTuple<B> extends true
         ? AsTuple<A>["length"] extends AsTuple<B>["length"]
             ? Process<AsTuple<A>, AsTuple<B>>

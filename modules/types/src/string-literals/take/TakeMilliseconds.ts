@@ -1,14 +1,14 @@
 import type { As } from "types/boolean-logic";
-import type { Err } from "types/errors";
-import type {  NumericChar, StripLeading } from "types/string-literals";
 import type { ThreeDigitMillisecond } from "types/datetime";
-import { StartsWithTemplateLiteral } from "types/interpolation";
+import type { Err } from "types/errors";
+import type { StartsWithTemplateLiteral } from "types/interpolation";
+import type { NumericChar, StripLeading } from "types/string-literals";
 
 type E<T extends string> = Err<
     "parse-time/ms",
     `Unable to take the milliseconds at head of the parse string: ${T}`,
     { parse: T }
->
+>;
 
 type Take<T extends string> = As<
     string extends T

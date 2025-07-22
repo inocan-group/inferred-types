@@ -40,7 +40,7 @@ export type ExpandUnion<T> = IsUnion<T> extends true
         ExpandTuple<UnionToTuple<T>>
     >
     : T
-  ;
+    ;
 
 /**
  * Recursively goes over an object based structure and tries to reduce

@@ -58,15 +58,15 @@ type _RegexArray<
     TValue extends string,
 > = RemoveIndexKeys<
     Expand<
-            Groups<TValue, TTemplate, TStrat> &
-            Record<"kind", "RegexArray"> &
-            (TStrat extends "subset"
+            Groups<TValue, TTemplate, TStrat>
+            & Record<"kind", "RegexArray">
+            & (TStrat extends "subset"
                 ? Record<"template", StripSurroundingStringTemplate<TTemplate>>
                 : Record<"template", TTemplate>
-            ) &
-            Record<"matchStrategy", TStrat> &
-            RegExpExecArray &
-            Record<"input", TValue>
+            )
+            & Record<"matchStrategy", TStrat>
+            & RegExpExecArray
+            & Record<"input", TValue>
     >
 >;
 

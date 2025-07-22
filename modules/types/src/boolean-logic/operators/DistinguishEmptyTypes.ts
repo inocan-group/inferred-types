@@ -1,4 +1,4 @@
-import type { EmptyObject, ExplicitlyEmptyObject } from "inferred-types/types";
+import type { EmptyObject } from "inferred-types/types";
 
 /**
  * **IsStrictEmptyObject**`<T>`
@@ -12,12 +12,12 @@ import type { EmptyObject, ExplicitlyEmptyObject } from "inferred-types/types";
  * - `"other"` for any other type
  */
 export type IsStrictEmptyObject<T> = T extends object
-  ? T extends { [K in keyof T]: never }
-    ? "explicit"
-    : T extends EmptyObject
-      ? "empty"
-      : "other"
-  : "other";
+    ? T extends { [K in keyof T]: never }
+        ? "explicit"
+        : T extends EmptyObject
+            ? "empty"
+            : "other"
+    : "other";
 
 /**
  * **CanHaveProperties**`<T>`
@@ -29,10 +29,10 @@ export type IsStrictEmptyObject<T> = T extends object
  * - `ExplicitlyEmptyObject` → `false` (no properties allowed)
  */
 export type CanHaveProperties<T> = T extends object
-  ? T & { __test: unknown } extends never
-    ? false
-    : true
-  : false;
+    ? T & { __test: unknown } extends never
+        ? false
+        : true
+    : false;
 
 /**
  * **IsExplicitlyEmptyObject**`<T>`
@@ -41,12 +41,12 @@ export type CanHaveProperties<T> = T extends object
  * This works by checking for never index signatures.
  */
 export type IsExplicitlyEmptyObject<T> = T extends object
-  ? T extends { [x: string]: never; [x: symbol]: never }
-    ? keyof T extends never
-      ? true
-      : false
-    : false
-  : false;
+    ? T extends { [x: string]: never; [x: symbol]: never }
+        ? keyof T extends never
+            ? true
+            : false
+        : false
+    : false;
 
 /**
  * **IsWideEmptyObject**`<T>`
@@ -55,10 +55,10 @@ export type IsExplicitlyEmptyObject<T> = T extends object
  * Distinguishes it from `ExplicitlyEmptyObject`.
  */
 export type IsWideEmptyObject<T> = T extends EmptyObject
-  ? IsExplicitlyEmptyObject<T> extends true
-    ? false
-    : true
-  : false;
+    ? IsExplicitlyEmptyObject<T> extends true
+        ? false
+        : true
+    : false;
 
 /**
  * **EmptyObjectKind**`<T>`
@@ -72,14 +72,14 @@ export type IsWideEmptyObject<T> = T extends EmptyObject
  * - `"not-empty"` for other types
  */
 export type EmptyObjectKind<T> = T extends object
-  ? keyof T extends never
-    ? T extends { [x: string]: never; [x: symbol]: never }
-      ? "explicit"
-      : T extends EmptyObject
-        ? "wide"
-        : "literal"
-    : "not-empty"
-  : "not-empty";
+    ? keyof T extends never
+        ? T extends { [x: string]: never; [x: symbol]: never }
+            ? "explicit"
+            : T extends EmptyObject
+                ? "wide"
+                : "literal"
+        : "not-empty"
+    : "not-empty";
 
 /**
  * **AcceptsProperties**`<T>`
@@ -88,12 +88,12 @@ export type EmptyObjectKind<T> = T extends object
  * Uses index signature compatibility.
  */
 export type AcceptsProperties<T> = T extends { [x: string]: any }
-  ? true
-  : T extends object
-    ? {} extends T
-      ? true
-      : false
-    : false;
+    ? true
+    : T extends object
+        ? {} extends T
+            ? true
+            : false
+        : false;
 
 /**
  * **IsNeverIndexed**`<T>`
@@ -101,10 +101,10 @@ export type AcceptsProperties<T> = T extends { [x: string]: any }
  * Checks if a type has never index signatures (like ExplicitlyEmptyObject).
  */
 export type IsNeverIndexed<T> = T extends { [x: string]: never }
-  ? T extends { [x: symbol]: never }
-    ? true
-    : false
-  : false;
+    ? T extends { [x: symbol]: never }
+        ? true
+        : false
+    : false;
 
 /**
  * **DistinguishEmpty**`<T>`
@@ -113,19 +113,19 @@ export type IsNeverIndexed<T> = T extends { [x: string]: never }
  * Provides a detailed classification even when IsEqual returns true.
  */
 export type DistinguishEmpty<T> = T extends object
-  ? {
-      kind: EmptyObjectKind<T>;
-      canHaveProperties: CanHaveProperties<T>;
-      isNeverIndexed: IsNeverIndexed<T>;
-      acceptsProperties: AcceptsProperties<T>;
-      isExplicitlyEmpty: IsExplicitlyEmptyObject<T>;
-      isWideEmpty: IsWideEmptyObject<T>;
+    ? {
+        kind: EmptyObjectKind<T>;
+        canHaveProperties: CanHaveProperties<T>;
+        isNeverIndexed: IsNeverIndexed<T>;
+        acceptsProperties: AcceptsProperties<T>;
+        isExplicitlyEmpty: IsExplicitlyEmptyObject<T>;
+        isWideEmpty: IsWideEmptyObject<T>;
     }
-  : {
-      kind: "not-object";
-      canHaveProperties: false;
-      isNeverIndexed: false;
-      acceptsProperties: false;
-      isExplicitlyEmpty: false;
-      isWideEmpty: false;
+    : {
+        kind: "not-object";
+        canHaveProperties: false;
+        isNeverIndexed: false;
+        acceptsProperties: false;
+        isExplicitlyEmpty: false;
+        isWideEmpty: false;
     };

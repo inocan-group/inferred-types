@@ -1,8 +1,8 @@
 import type { As } from "types/boolean-logic";
-import type { Err } from "types/errors";
 import type { FourDigitYear } from "types/datetime";
-import type {  NumericChar, StripLeading } from "types/string-literals";
-import { StartsWithTemplateLiteral } from "types/interpolation";
+import type { Err } from "types/errors";
+import type { StartsWithTemplateLiteral } from "types/interpolation";
+import type { NumericChar, StripLeading } from "types/string-literals";
 
 type InvalidYear<T extends string> = Err<
     `parse-date/year`,
@@ -20,7 +20,7 @@ type Take<T extends string> = string extends T
                     ? C3 extends NumericChar
                         ? C4 extends NumericChar
                             ? {
-                                take:  FourDigitYear<`${C1}${C2}${C3}${C4}`>;
+                                take: FourDigitYear<`${C1}${C2}${C3}${C4}`>;
                                 rest: Rest;
                             }
                             : InvalidYear<T>
@@ -47,15 +47,15 @@ export type TakeYear<
     T extends string,
     TIgnoreLeading extends string | null = null
 > = string extends T
-? Error | { take: FourDigitYear<"branded">; rest: string }
+    ? Error | { take: FourDigitYear<"branded">; rest: string }
 
-: As<
-    TIgnoreLeading extends string
-        ? string extends TIgnoreLeading
-            ? never
-            : Take<
-                As<StripLeading<T, TIgnoreLeading>, string>
-            >
-        : Take<T>,
+    : As<
+        TIgnoreLeading extends string
+            ? string extends TIgnoreLeading
+                ? never
+                : Take<
+                    As<StripLeading<T, TIgnoreLeading>, string>
+                >
+            : Take<T>,
     Error | { take: FourDigitYear<"branded">; rest: string }
->;
+    >;

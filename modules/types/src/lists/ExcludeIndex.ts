@@ -5,8 +5,8 @@ type _ExcludeIndexHelper<
     TIdx extends readonly number[],
     Count extends readonly unknown[],
     Output extends readonly unknown[]
-> =
-  TList extends readonly [infer First, ...infer Rest]
+>
+  = TList extends readonly [infer First, ...infer Rest]
       ? /* if current index (Count['length']) is in the TIdx union, skip First */
       Count["length"] extends TIdx[number]
           ? _ExcludeIndexHelper<Rest, TIdx, [...Count, unknown], Output>

@@ -11,6 +11,8 @@ export * from "./Digital";
 export * from "./Empty";
 export * from "./EmptyObject";
 export * from "./FalsyValue";
+export * from "./fns/index";
+export * from "./functional/index";
 export * from "./Indexable";
 export * from "./IndexableObject";
 export * from "./LikeRegExp";
@@ -22,15 +24,12 @@ export * from "./NotNull";
 export * from "./NumericSign";
 export * from "./ObjectKey";
 export * from "./ObjectMap";
+export * from "./objects/index";
 export * from "./Scalar";
 export * from "./ScalarNotSymbol";
 export * from "./Something";
 export * from "./TakeUtility";
+
 export * from "./Thenable";
 export * from "./Tuple";
 export * from "./Variable";
-
-export * from "./fns/index";
-export * from "./functional/index";
-export * from "./objects/index";
-

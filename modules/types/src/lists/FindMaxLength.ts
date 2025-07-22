@@ -32,8 +32,8 @@ type Reduce<
  * Utility which reduces a tuple of strings to only the
  * string which is longest.
  */
-export type FindMaxLength<T> =
-T extends readonly string[]
+export type FindMaxLength<T>
+= T extends readonly string[]
     ? Reduce<{
         [K in keyof T]: T[K] extends string
             ? [T[K], StrLen<T[K]>]

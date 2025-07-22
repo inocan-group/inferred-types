@@ -82,8 +82,8 @@ type HandleDeref<
     B extends readonly unknown[],
     TDeref extends string,
     TReport extends boolean = false,
-> =
-A extends readonly Container[]
+>
+= A extends readonly Container[]
     ? B extends readonly Container[]
         ? GetEach<A, TDeref> extends readonly unknown[]
             ? GetEach<B, TDeref> extends readonly unknown[]

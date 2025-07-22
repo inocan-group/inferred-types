@@ -17,14 +17,14 @@ type Iterator<
     ? iterator
     : Iterator<N, [any, ...iterator]>;
 
-type Drop1<xs extends any[]> =
-  xs extends [any, ...infer tail] ? tail : [];
+type Drop1<xs extends any[]>
+  = xs extends [any, ...infer tail] ? tail : [];
 
 type LessThanOrEqual<
     a extends number[],
     b extends number[],
-> =
-  [a, b] extends [[], [any, ...any]]
+>
+  = [a, b] extends [[], [any, ...any]]
       ? true
       : [a, b] extends [[any, ...any], []]
           ? false
@@ -35,8 +35,8 @@ type LessThanOrEqual<
 type GreaterThan<
     a extends number[],
     b extends number[],
-> =
-  [a, b] extends [[], [any, ...any]]
+>
+  = [a, b] extends [[], [any, ...any]]
       ? false
       : [a, b] extends [[any, ...any], []]
           ? true
@@ -48,8 +48,8 @@ type FilterLessThanOrEqual<
     TVal,
     TValues extends number[],
     TOut extends number[] = [],
-> =
-  TValues extends [infer head, ...infer tail extends number[]]
+>
+  = TValues extends [infer head, ...infer tail extends number[]]
       ? LessThanOrEqual<Iterator<TVal>, Iterator<head>> extends true
           ? [...TOut, head, ...FilterLessThanOrEqual<TVal, tail, TOut>]
           : [...TOut, ...FilterLessThanOrEqual<TVal, tail, TOut>]
@@ -59,8 +59,8 @@ type FilterGreaterThan<
     TVal,
     TValues extends number[],
     TOut extends number[] = [],
-> =
-  TValues extends [infer head, ...infer tail extends number[]]
+>
+  = TValues extends [infer head, ...infer tail extends number[]]
       ? GreaterThan<Iterator<TVal>, Iterator<head>> extends true
           ? [...TOut, head, ...FilterGreaterThan<TVal, tail, TOut>]
           : [...TOut, ...FilterGreaterThan<TVal, tail, TOut>]

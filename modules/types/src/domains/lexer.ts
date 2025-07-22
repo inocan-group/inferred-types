@@ -1,4 +1,3 @@
-
 /**
  * **LexerState**
  *
@@ -39,4 +38,3 @@ export type LexerDelta<
     T extends string,
     U
 > = [ T, U ];
-

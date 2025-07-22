@@ -23,7 +23,7 @@ type Process<U, Last = LastInUnion<U>> = [U] extends [never]
  * - when calling `ShiftUnion`<U>` where `U` is _not_ a union you will
  * get the tuple `[never, U]`
  */
-export type UnionShift<U, Last = LastInUnion<U>> =
-  Process<U, Last> extends readonly unknown[]
+export type UnionShift<U, Last = LastInUnion<U>>
+  = Process<U, Last> extends readonly unknown[]
       ? IsUnion<U> extends true ? [Last, Exclude<U, Last>] : U
       : [never, IsUnion<U> extends true ? [Last, Exclude<U, Last>] : U];

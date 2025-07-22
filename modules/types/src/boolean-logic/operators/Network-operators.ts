@@ -90,8 +90,8 @@ type DeepOctetCheck<
  * - making sure the basic `${number}.${number}.${number}.${number}`
  * - and then that each octet is a valid number between 0 and 255
  */
-export type IsIp4Address<T> =
-T extends string
+export type IsIp4Address<T>
+= T extends string
     ? IsStringLiteral<T> extends true
         ? T extends Ip4AddressLike
             ? Split<T, ".">["length"] extends 4

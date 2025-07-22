@@ -20,8 +20,8 @@ import type {
  *    - **Luxon**'s DateTime object
  *    - **Javascript**'s Date object
  */
-export type DateLike =
-    | number
+export type DateLike
+    = | number
     | IsoYear<"weak">
     | IsoYearMonth<"weak">
     | IsoDate

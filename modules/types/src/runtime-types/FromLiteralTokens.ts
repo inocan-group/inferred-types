@@ -14,8 +14,8 @@ import type {
     UpperAlphaChar,
 } from "inferred-types/types";
 
-type _Tokenize<T extends StringLiteralToken> = //
-  If<
+type _Tokenize<T extends StringLiteralToken> //
+  = If<
       StartsWith<T, "literal:">,
       StripLeading<T, "literal:">,
       T extends "<string>" ? `${string}`

@@ -1,13 +1,12 @@
 // ---------------------------------------------------------
 
-import { Unbrand } from "inferred-types/types";
+import type { Unbrand } from "inferred-types/types";
 import type { And, Not, Or } from "types/boolean-logic";
 import type { DateLike, ParseDate, ParsedDate } from "types/datetime";
 import type { Err } from "types/errors";
-import type { Mod } from "types/numeric-literals";
 
-type EndDiv4 =
-    | "00" | "04" | "08" | "12" | "16" | "20" | "24" | "28"
+type EndDiv4
+    = | "00" | "04" | "08" | "12" | "16" | "20" | "24" | "28"
     | "32" | "36" | "40" | "44" | "48" | "52" | "56" | "60"
     | "64" | "68" | "72" | "76" | "80" | "84" | "88" | "92" | "96";
 
@@ -17,10 +16,9 @@ type DivBy4<Y extends `${number}`> = Y extends `${number}${EndDiv4}`
 
 type DivBy100<Y extends `${number}`> = Y extends `${number}00` ? true : false;
 
-
 type DivBy400<Y extends `${number}`> = Y extends `${EndDiv4}00`
-        ? true
-        : false;
+    ? true
+    : false;
 
 type Detect<Y extends `${number}`> = Or<[
     And<[DivBy400<Y>]>,
@@ -40,19 +38,19 @@ type Detect<Y extends `${number}`> = Or<[
 export type IsLeapYear<
     T
 > = Unbrand<T> extends DateLike
-? string extends Unbrand<T>
-    ? boolean
-: Unbrand<T> extends string
-    ? ParseDate<Unbrand<T>> extends Error
-        ? ParseDate<Unbrand<T>>
-    : ParseDate<Unbrand<T>> extends ParsedDate
-        ? ParseDate<Unbrand<T>>[0] extends `${number}`
-            ? Detect<ParseDate<Unbrand<T>>[0]>
-            : false
-        : boolean
-    : boolean
-: Err<
-    `parse-date/invalid-type`,
-    `The value passed into IsLeapYear<T> does not extend DateLike!`,
-    { val: Unbrand<T> }
->;
+    ? string extends Unbrand<T>
+        ? boolean
+        : Unbrand<T> extends string
+            ? ParseDate<Unbrand<T>> extends Error
+                ? ParseDate<Unbrand<T>>
+                : ParseDate<Unbrand<T>> extends ParsedDate
+                    ? ParseDate<Unbrand<T>>[0] extends `${number}`
+                        ? Detect<ParseDate<Unbrand<T>>[0]>
+                        : false
+                    : boolean
+            : boolean
+    : Err<
+        `parse-date/invalid-type`,
+        `The value passed into IsLeapYear<T> does not extend DateLike!`,
+        { val: Unbrand<T> }
+    >;

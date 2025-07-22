@@ -1,7 +1,9 @@
 import type {
     AfterFirst,
-    And, First, IsUnion, Length, Or, UnionToTuple,
-    Xor
+    First,
+    IsUnion,
+    Length,
+    UnionToTuple
 } from "inferred-types/types";
 
 type HandleUnion<
@@ -13,10 +15,10 @@ type HandleUnion<
         ? TNonIso extends true
             ? boolean
             : true
-    : false
-: IsIsoYear<First<T>> extends true
-    ? HandleUnion<AfterFirst<T>, true, TNonIso>
-    : HandleUnion<AfterFirst<T>, THasIso, true>;
+        : false
+    : IsIsoYear<First<T>> extends true
+        ? HandleUnion<AfterFirst<T>, true, TNonIso>
+        : HandleUnion<AfterFirst<T>, THasIso, true>;
 
 /**
  * **IsIsoYear**`<T>`
@@ -24,8 +26,8 @@ type HandleUnion<
  * Boolean operator which tests whether `T` is a ISO Year (
  * a four digit year)
  */
-export type IsIsoYear<T> =
-[IsUnion<T>] extends [true]
+export type IsIsoYear<T>
+= [IsUnion<T>] extends [true]
     ? HandleUnion<UnionToTuple<T>>
     : [T] extends [string]
         ? [string] extends [T]
@@ -36,4 +38,3 @@ export type IsIsoYear<T> =
                     : false
                 : false
         : false;
-

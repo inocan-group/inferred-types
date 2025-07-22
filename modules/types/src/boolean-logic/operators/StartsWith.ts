@@ -49,9 +49,7 @@ export type StartsWith<
     ? boolean
     : [IsWideType<TComparator>] extends [true]
         ? boolean
-        :
-
-        IsEqual<
+        : IsEqual<
             Process<AsString<TValue>, AsArray<TComparator>[number]>,
             boolean
         > extends true

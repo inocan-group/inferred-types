@@ -76,7 +76,7 @@ type ValidKey<
 
         >
 
-;
+    ;
 type Value<
     T extends string,
     S extends InnerRest | Error = Segment<T>

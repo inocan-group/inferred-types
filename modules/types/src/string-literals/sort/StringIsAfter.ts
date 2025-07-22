@@ -8,9 +8,9 @@ import type { IsGreaterThan } from "inferred-types/types";
 export type StringIsAfter<
     A extends string,
     B extends string
-> =
-  A extends B ? false :
-      A extends `${infer AHead}${infer ATail}`
+>
+  = A extends B ? false
+      : A extends `${infer AHead}${infer ATail}`
           ? B extends `${infer BHead}${infer BTail}`
               ? AHead extends BHead
                   ? StringIsAfter<ATail, BTail>

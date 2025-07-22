@@ -3,9 +3,9 @@
  *
  * Boolean type utility which detects whether `T` is a readonly array.
  */
-export type IsReadonlyArray<T> =
+export type IsReadonlyArray<T>
 
-T extends unknown[]
+= T extends unknown[]
     ? false
     : T extends readonly unknown[]
         ? true

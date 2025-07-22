@@ -43,7 +43,6 @@ type Handler<T extends `${number}`> = StartsWith<T, "0"> extends true
         ? As<`0${T}`, `${number}`>
         : T;
 
-
 /**
  * **AsNumber**`<T>`
  *
@@ -58,15 +57,15 @@ type Handler<T extends `${number}`> = StartsWith<T, "0"> extends true
  * **Related:** `ToNumber`
  */
 export type AsNumber<T> = IsBranded<T> extends true
-? AsNumber<Unbrand<T>>
-: T extends number
-    ? T
-    : T extends `${number}`
-        ? StartsWith<T, "-"> extends true
-            ? ParseInt<
+    ? AsNumber<Unbrand<T>>
+    : T extends number
+        ? T
+        : T extends `${number}`
+            ? StartsWith<T, "-"> extends true
+                ? ParseInt<
                 `-${Handler<StripLeading<T, "-">>}`
-            >
-            : ParseInt<
-                Handler<T>
-            >
-        : never;
+                >
+                : ParseInt<
+                    Handler<T>
+                >
+            : never;

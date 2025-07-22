@@ -15,4 +15,3 @@ export type IsContainer<T> = [IsNever<T>] extends [true]
             : [T] extends [readonly any[]]
                 ? true
                 : false;
-

@@ -1,17 +1,17 @@
 import { describe, it } from "vitest";
-import { Expect, Inbetween, Test } from "inferred-types/types";
+import { Expect, InBetween, Test } from "inferred-types/types";
 
-describe("Inbetween<T,S,E>", () => {
+describe("InBetween<T,S,E>", () => {
 
   it("happy path", () => {
-    type Bar = Inbetween<"FooBarBaz", "Foo", "Baz">;
-    type Bar2 = Inbetween<"  dfdFooBarBaz ,dfsdf", "Foo", "Baz">;
+    type Bar = InBetween<"FooBarBaz", "Foo", "Baz">;
+    type Bar2 = InBetween<"  dfdFooBarBaz ,dfsdf", "Foo", "Baz">;
 
-    type FirstMatch = Inbetween<"FooFooBarBazBaz", "Foo", "Baz">;
-    type Inclusive = Inbetween<"  [foobar]  adfsd", "[", "]", { policy: "inclusive"}>;
+    type FirstMatch = InBetween<"FooFooBarBazBaz", "Foo", "Baz">;
+    type Inclusive = InBetween<"  [foobar]  adfsd", "[", "]", { policy: "inclusive"}>;
 
-    type NoMatch = Inbetween<"FooBar", "Baz", "Foo">;
-    type NoMatchExplicit = Inbetween<"FooBar", "Baz", "Foo", { noMatch: "no"}>;
+    type NoMatch = InBetween<"FooBar", "Baz", "Foo">;
+    type NoMatchExplicit = InBetween<"FooBar", "Baz", "Foo", { noMatch: "no"}>;
 
     type cases = [
         Expect<Test<Bar, "equals",  "Bar">>,

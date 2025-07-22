@@ -1,4 +1,2 @@
 export * from "./FilterFn";
-export * from './FindFunction';
-
-
+export * from "./FindFunction";

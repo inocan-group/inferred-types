@@ -40,8 +40,8 @@ export type Length<
                 ? _Length<T>
                 : never;
 
-type RequiredPrefixLength<T extends readonly unknown[], Count extends unknown[] = []> =
-    T extends readonly [infer _First, ...infer Rest]
+type RequiredPrefixLength<T extends readonly unknown[], Count extends unknown[] = []>
+    = T extends readonly [infer _First, ...infer Rest]
         ? RequiredPrefixLength<Rest, [...Count, 1]>
         : Count["length"];
 

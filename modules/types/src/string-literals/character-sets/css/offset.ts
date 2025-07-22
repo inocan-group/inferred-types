@@ -4,13 +4,13 @@ import type { CssSizing } from "./sizing";
 
 type NamedPosition = "bottom" | "top" | "left" | "right" | "center" | "auto" | "normal";
 
-export type CssOffsetPosition =
-    | `${NamedPosition} ${CssSizing | NamedPosition}${string}`
+export type CssOffsetPosition
+    = | `${NamedPosition} ${CssSizing | NamedPosition}${string}`
     | `${CssSizing}${string}`
     | CssGlobal;
 
-export type CssOffsetPath =
-    | `ray(${string})`
+export type CssOffsetPath
+    = | `ray(${string})`
     | `url(${string})`
     | `circle(${string})`
     | `ellipse(${string})`

@@ -4,7 +4,6 @@ import type {
     As,
     ExpandDictionary,
     First,
-    IsErrorCondition,
     IsFalse,
     IsNever,
     Keys,
@@ -73,7 +72,7 @@ type Iterate<
             TRemap
         >
 
-;
+    ;
 
 /**
  * **OnPass**`<TTest, TPass,[TRemap],[TFalse]>`

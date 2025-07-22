@@ -18,5 +18,5 @@ export type KeyValue<
     /**
      * whether this key/value pair is _required_ in the object definitions
      */
-    required: R
+    required: R;
 };

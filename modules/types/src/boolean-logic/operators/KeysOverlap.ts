@@ -5,11 +5,8 @@ import type {
     EmptyObject,
     First,
     IsObjectLiteral,
-    IsWideContainer,
-    IsWideObject,
     ObjectKey,
     ObjectKeys,
-    Or,
 } from "inferred-types/types";
 
 type Process<
@@ -31,19 +28,19 @@ export type KeysOverlap<
     A extends Dictionary,
     B extends Dictionary
 > = EmptyObject extends A
-? boolean
-: EmptyObject extends B
-? boolean
+    ? boolean
+    : EmptyObject extends B
+        ? boolean
 
-: And<[
-    IsObjectLiteral<A>,
-    IsObjectLiteral<B>,
-]> extends true
+        : And<[
+            IsObjectLiteral<A>,
+            IsObjectLiteral<B>,
+        ]> extends true
 
-    ? ObjectKeys<A> extends readonly ObjectKey[]
-        ? Process<
-            ObjectKeys<A>,
-            B
-        >
-        : never
-    : boolean;
+            ? ObjectKeys<A> extends readonly ObjectKey[]
+                ? Process<
+                    ObjectKeys<A>,
+                    B
+                >
+                : never
+            : boolean;

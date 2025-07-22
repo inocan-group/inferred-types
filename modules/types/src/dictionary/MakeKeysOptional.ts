@@ -1,17 +1,17 @@
 import type {
     AfterFirst,
-    First,
+    Contains,
     Dictionary,
     EmptyObject,
     Expand,
+    First,
+    If,
     IsWideObject,
     Keys,
     ObjectKey,
     OptionalKeysTuple,
     WithKeys,
     WithoutKeys,
-    Contains,
-    If,
 } from "inferred-types/types";
 
 type ProcessTupleKeys<
@@ -28,12 +28,9 @@ type ProcessTupleKeys<
 type AddOpt<
     TKey extends ObjectKey,
     TVal
-> = ProcessTupleKeys<Record<TKey,TVal>, [TKey]>;
+> = ProcessTupleKeys<Record<TKey, TVal>, [TKey]>;
 
-type X = AddOpt<"foo",1>;
-
-
-
+type X = AddOpt<"foo", 1>;
 
 type Iterate<
     TObj extends Dictionary,
@@ -42,22 +39,22 @@ type Iterate<
     TKeys extends readonly ObjectKey[],
     TResult extends Dictionary = EmptyObject
 > = [] extends TKeys
-? Expand<TResult>
-: First<TKeys> extends keyof TObj
-? Iterate<
-    TObj,
-    TMake,
-    TWas,
-    AfterFirst<TKeys>,
-    If<
-        Contains<TMake, First<TKeys>>,
-        TResult & AddOpt<First<TKeys>,TObj[First<TKeys>]>,
+    ? Expand<TResult>
+    : First<TKeys> extends keyof TObj
+        ? Iterate<
+            TObj,
+            TMake,
+            TWas,
+            AfterFirst<TKeys>,
+            If<
+                Contains<TMake, First<TKeys>>,
+        TResult & AddOpt<First<TKeys>, TObj[First<TKeys>]>,
         Contains<TWas, First<TKeys>> extends true
-            ? TResult & AddOpt<First<TKeys>, TObj[First<TKeys>] >
-            : TResult & Record<First<TKeys>, TObj[First<TKeys>] >
-    >
->
-: never;
+            ? TResult & AddOpt<First<TKeys>, TObj[First<TKeys>]>
+            : TResult & Record<First<TKeys>, TObj[First<TKeys>]>
+            >
+        >
+        : never;
 
 /**
  * **MakeKeysOptional**`<TObj, TKeys>`
@@ -73,7 +70,6 @@ export type MakeKeysOptional<
     TKeys extends IsWideObject<TObj> extends true ? readonly ObjectKey[] : readonly (keyof TObj & ObjectKey)[]
 > = OptionalKeysTuple<TObj> extends readonly ObjectKey[]
     ? Keys<TObj> extends readonly ObjectKey[]
-        ? Iterate<TObj,TKeys,OptionalKeysTuple<TObj>,Keys<TObj>>
+        ? Iterate<TObj, TKeys, OptionalKeysTuple<TObj>, Keys<TObj>>
         : never
     : never;
-

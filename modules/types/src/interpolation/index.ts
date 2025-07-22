@@ -10,4 +10,3 @@ export * from "./StripLeadingTemplate";
 export * from "./StripSurroundingStringTemplate";
 export * from "./TemplateBlocks";
 export * from "./TemplateParams";
-

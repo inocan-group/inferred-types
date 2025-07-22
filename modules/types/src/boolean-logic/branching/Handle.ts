@@ -35,8 +35,8 @@ export type Handle<
     THandle,
     TMapTo,
     TSpecificity extends "extends" | "equals" = "extends",
-> =
-[THandle] extends [never[]]
+>
+= [THandle] extends [never[]]
     ? [TContent] extends never[]
         ? TMapTo
         : TContent

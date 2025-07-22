@@ -267,7 +267,7 @@ export type FnPropertiesDefn = DictionaryTypeDefn;
 //     });
 // }
 type ShapeApi__Functions = {
-    fn: <TArgs extends readonly FnArgsDefn[]>(...args: TArgs) =>({
+    fn: <TArgs extends readonly FnArgsDefn[]>(...args: TArgs) => ({
         returns: <TReturn extends FnReturnTypeDefn>(rtn: TReturn) => ({
             addProperties: <
                 TProps extends FnPropertiesDefn,
@@ -392,12 +392,12 @@ interface ShapeApi__LiteralContainers {
  * -- with the `ShapeCallback` type which simply gives this API to the caller of
  * the function.
  */
-export type ShapeApi = { kind: "shape" } &
-    ShapeApi__Scalars &
-    ShapeApi__Union &
-    ShapeApi__Functions &
-    ShapeApi__WideContainers &
-    ShapeApi__LiteralContainers;
+export type ShapeApi = { kind: "shape" }
+    & ShapeApi__Scalars
+    & ShapeApi__Union
+    & ShapeApi__Functions
+    & ShapeApi__WideContainers
+    & ShapeApi__LiteralContainers;
 
 /**
  * **ShapeCallback**

@@ -1,5 +1,4 @@
-import type { Container, ComparisonOperation, GetComparisonParamInput,  Every, Not } from 'inferred-types/types';
-
+import type { ComparisonOperation, Container, Every, GetComparisonParamInput, Not } from "inferred-types/types";
 
 /**
  * **None**`<TContainer, TOp, TComparator>`
@@ -21,4 +20,4 @@ export type None<
     TContainer extends Container,
     TOp extends ComparisonOperation,
     TComparator extends GetComparisonParamInput<TOp>,
-> = Not<Every<TContainer,TOp,TComparator>>
+> = Not<Every<TContainer, TOp, TComparator>>;

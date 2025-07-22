@@ -15,7 +15,7 @@ import type {
 export type ComparisonAccept<
     TOp extends string
 > = TOp extends ComparisonOperation
-? "accept" extends keyof ComparisonLookup[TOp]
+    ? "accept" extends keyof ComparisonLookup[TOp]
         ? ComparisonLookup[TOp]["accept"]
         : Narrowable
-: Narrowable;
+    : Narrowable;

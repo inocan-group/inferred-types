@@ -3,6 +3,7 @@ export * from "./base-types/index";
 export * from "./boolean-logic/index";
 export * from "./brands/index";
 export * from "./classes/index";
+export * from "./constants/index";
 export * from "./containers/index";
 export * from "./crdt/index";
 export * from "./datetime/index";
@@ -25,4 +26,3 @@ export * from "./tuples/index";
 export * from "./type-conversion/index";
 export * from "./unions/index";
 export * from "./validation/index";
-export * from "./constants/index"

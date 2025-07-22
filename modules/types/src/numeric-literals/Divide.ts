@@ -46,8 +46,8 @@ type Div<
  *
  * A type utility that will divide two integers.
  */
-export type Divide<A extends number, B extends number> =
-number extends A
+export type Divide<A extends number, B extends number>
+= number extends A
     ? number
     : number extends B
         ? number

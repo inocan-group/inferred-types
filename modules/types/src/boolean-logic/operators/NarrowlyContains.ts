@@ -11,9 +11,9 @@ import type { AfterFirst, First, IsEqual } from "inferred-types/types";
 export type NarrowlyContains<
     TList extends readonly unknown[],
     TContains,
-> =
+>
 
-  IsEqual<
+  = IsEqual<
       First<TList>,
       TContains
   > extends true

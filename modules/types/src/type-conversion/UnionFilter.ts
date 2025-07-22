@@ -57,8 +57,8 @@ export type UnionFilter<
             : Exclude<U, E>
         : U; // not union
 
-export type UnionMutationOp =
-    | "Capitalize"
+export type UnionMutationOp
+    = | "Capitalize"
     | "Lowercase"
     | "CamelCase"
     | "PascalCase"

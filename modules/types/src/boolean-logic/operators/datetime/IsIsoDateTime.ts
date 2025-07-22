@@ -12,8 +12,8 @@ type TupleMap<T extends readonly any[]> = {
 };
 
 // Helper to handle union results
-type HandleUnionResult<T extends readonly boolean[]> =
-    T extends readonly [infer First, ...infer Rest]
+type HandleUnionResult<T extends readonly boolean[]>
+    = T extends readonly [infer First, ...infer Rest]
         ? First extends true
             ? Rest extends readonly boolean[]
                 ? HandleUnionResult<Rest> extends true
