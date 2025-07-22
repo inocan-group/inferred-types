@@ -11,9 +11,9 @@ type InvalidYear<T extends string> = Err<
 >;
 
 type Take<T extends string> = string extends T
-    ? Err<`parse-date/year`> | { take: FourDigitYear<"branded">; rest: string }
+    ? Error | { take: FourDigitYear<"branded">; rest: string }
     : StartsWithTemplateLiteral<T> extends true
-        ? Err<`parse-date/year`> | { take: FourDigitYear<"branded">; rest: string }
+        ? Error | { take: FourDigitYear<"branded">; rest: string }
         : T extends `${infer C1}${infer C2}${infer C3}${infer C4}${infer Rest}`
             ? C1 extends NumericChar
                 ? C2 extends NumericChar
@@ -46,7 +46,10 @@ type Take<T extends string> = string extends T
 export type TakeYear<
     T extends string,
     TIgnoreLeading extends string | null = null
-> = As<
+> = string extends T
+? Error | { take: FourDigitYear<"branded">; rest: string }
+
+: As<
     TIgnoreLeading extends string
         ? string extends TIgnoreLeading
             ? never
@@ -54,5 +57,5 @@ export type TakeYear<
                 As<StripLeading<T, TIgnoreLeading>, string>
             >
         : Take<T>,
-    Err<`parse-date/year`> | { take: FourDigitYear<"branded">; rest: string }
+    Error | { take: FourDigitYear<"branded">; rest: string }
 >;

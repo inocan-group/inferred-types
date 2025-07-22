@@ -1,20 +1,41 @@
+import { Marked } from "inferred-types/constants";
 import type {
     Compare,
     ComparisonAccept,
     ComparisonLookup,
     ComparisonOperation,
-    RemoveNever,
+    GetComparisonParamInput,
+    RemoveMarked,
 } from "inferred-types/types";
+
+type ProcessFalsyRecursive<
+    TList extends readonly unknown[],
+    TResult extends readonly unknown[] = []
+> = TList extends readonly [infer THead, ...infer TTail]
+    ? [THead] extends [null]
+        ? ProcessFalsyRecursive<TTail, [...TResult, THead]>
+        : [THead] extends [undefined] 
+            ? ProcessFalsyRecursive<TTail, [...TResult, THead]>
+            : [THead] extends [false]
+                ? ProcessFalsyRecursive<TTail, [...TResult, THead]>
+                : [THead] extends [0]
+                    ? ProcessFalsyRecursive<TTail, [...TResult, THead]>
+                    : [THead] extends [""]
+                        ? ProcessFalsyRecursive<TTail, [...TResult, THead]>
+                        : ProcessFalsyRecursive<TTail, TResult>
+    : TResult;
 
 type Process<
     TList extends readonly ComparisonAccept<TOp>[],
     TOp extends ComparisonOperation,
     TParams extends ComparisonLookup[TOp]["params"]
-> = RemoveNever<{
-    [K in keyof TList]: Compare<TList[K], TOp, TParams> extends true
-        ? TList[K]
-        : never
-}>;
+> = TOp extends "falsy"
+    ? ProcessFalsyRecursive<TList>
+    : RemoveMarked<{
+        [K in keyof TList]: Compare<TList[K], TOp, TParams> extends true
+            ? TList[K]
+            : Marked
+    }>;
 
 /**
  * **Filter**`<TList, TOp, TFilter>`
@@ -37,25 +58,11 @@ type Process<
 export type Filter<
     TList extends readonly ComparisonAccept<TOp>[],
     TOp extends ComparisonOperation,
-    TParams extends ComparisonLookup[TOp]["params"] = ComparisonLookup[TOp]["params"]
+    TParams extends GetComparisonParamInput<TOp>
 > = Process<
     TList,
     TOp,
     TParams
 >;
 
-/**
- * **FilterFn**`<TOp, TParams>`
- *
- * A type realized when partially applying the runtime's `filter()`
- * utility. This partially-applied type can be reused as a comparator
- * function which
- */
-export type FilterFn<
-    TOp extends ComparisonOperation,
-    TParams extends ComparisonLookup[TOp]["params"]
-> = <TList extends readonly ComparisonAccept<TOp>[]>(list: TList) => Filter<
-    TList,
-    TOp,
-    TParams
->;
+

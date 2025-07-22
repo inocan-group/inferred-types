@@ -643,7 +643,7 @@ type Returns<TOp extends string,TParams> = TOp extends ComparisonOperation
  * operations.
  */
 export function compare<
-    const TOp extends Suggest<ComparisonOperation>,
+    const TOp extends ComparisonOperation,
     const TParams extends GetComparisonParamInput<TOp>
 >(
     op: TOp,
@@ -654,7 +654,11 @@ export function compare<
     if(isComparisonOperation(op)) {
         response = compareFn(op, params);
     } else {
-        response = err("invalid-operation", `The operation '${op}' is not a recognized or valid comparison operation!`, { op, params })
+        response = err(
+            "invalid-operation",
+            `The operation is not a recognized or valid comparison operation!`,
+            { op, params }
+        )
     }
 
     return response as Returns<TOp,TParams>

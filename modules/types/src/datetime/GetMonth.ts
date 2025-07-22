@@ -104,6 +104,7 @@ export type GetMonthNumber<
                 ParseDate<T>,
                 { fn: "GetMonthNumber"}
             >
+            : never
     : T extends number
         ? IsInteger<T> extends true
             ? MonthNumber
@@ -112,5 +113,4 @@ export type GetMonthNumber<
         `month-number/invalid-type`,
         `The type passed into GetMonthNumber<T> is invalid!`,
         { parse: T }
-    >
-        ;
+    >;

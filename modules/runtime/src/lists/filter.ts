@@ -1,35 +1,32 @@
 import type {
+    Comparator,
     ComparisonAccept,
-    ComparisonLookup,
     ComparisonOperation,
-    Filter,
     FilterFn,
+    GetComparisonParamInput,
 } from "inferred-types/types";
 import {
     compare,
+    isError,
 } from "inferred-types/runtime";
 
-type Lookup = ComparisonLookup;
 
 function filterFn<
     const TOp extends ComparisonOperation,
-    const TParams extends Lookup[TOp]["params"]
+    const TParams extends GetComparisonParamInput<TOp>
 >(
     op: TOp,
     params: TParams
-): FilterFn<TOp, TParams> {
-    return <const TList extends readonly ComparisonAccept<TOp>[]>(list: TList) => {
+): FilterFn<TOp,TParams> {
+    return <const TList extends ComparisonAccept<TOp>[]>(...list: TList) => {
         return (
             list.filter((item) => {
-                const result = compare(op, ...(params as any[]))(item as any) as unknown as boolean;
+                const comparator = compare(op, ...params) as Comparator<TOp,TParams>;
+                const result = comparator(item) as unknown as boolean;
 
-                return result === true;
+                return result;
             })
-        ) as Filter<
-            TList,
-            TOp,
-            TParams
-        >;
+        ) as unknown as Filter<TList,TOp,TParams>;
     };
 }
 
@@ -52,10 +49,10 @@ function filterFn<
  */
 export function filter<
     const TOp extends ComparisonOperation,
-    const TParams extends Lookup[TOp]["params"]
+    const TParams extends GetComparisonParamInput<TOp>
 >(
     op: TOp,
     ...params: TParams
 ) {
-    return filterFn(op, params);
+    return filterFn(op, params) as FilterFn<TOp,TParams>;
 }

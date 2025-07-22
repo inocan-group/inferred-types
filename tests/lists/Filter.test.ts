@@ -1,14 +1,17 @@
-import { Equal, Expect } from "@type-challenges/utils";
+import { Equal  } from "@type-challenges/utils";
 import { describe, expect, it } from "vitest";
 import {
+    Expect,
     Filter,
     Test,
     UnionToTuple,
     UpperAlphaChar,
     EndsWith,
     NumberLike,
-    Compare
+    Compare,
+    Narrowable
 } from "inferred-types/types";
+import { Marked } from "inferred-types/constants";
 import { filter } from "inferred-types/runtime";
 
 
@@ -127,8 +130,8 @@ describe("Filter", () => {
     });
 
     it("endsWithNumber", () => {
-        type T1 = Filter<["hello1", "world", "test42"], "endsWithNumber">;
-        type T2 = Filter<["foo", "bar", "baz"], "endsWithNumber">;
+        type T1 = Filter<["hello1", "world", "test42"], "endsWithNumber", []>;
+        type T2 = Filter<["foo", "bar", "baz"], "endsWithNumber", []>;
 
         type cases = [
             Expect<Test<T1, "equals", ["hello1", "test42"]>>,
@@ -137,8 +140,8 @@ describe("Filter", () => {
     });
 
     it("startsWithNumber", () => {
-        type T1 = Filter<["1hello", "world", "42test"], "startsWithNumber">;
-        type T2 = Filter<["foo", "bar", "baz"], "startsWithNumber">;
+        type T1 = Filter<["1hello", "world", "42test"], "startsWithNumber", []>;
+        type T2 = Filter<["foo", "bar", "baz"], "startsWithNumber", []>;
 
         type cases = [
             Expect<Test<T1, "equals", ["1hello", "42test"]>>,
@@ -147,8 +150,8 @@ describe("Filter", () => {
     });
 
     it("onlyNumbers", () => {
-        type T1 = Filter<["123", "abc", "456"], "onlyNumbers">;
-        type T2 = Filter<["12a", "789", "b45"], "onlyNumbers">;
+        type T1 = Filter<["123", "abc", "456"], "onlyNumbers", []>;
+        type T2 = Filter<["12a", "789", "b45"], "onlyNumbers", []>;
 
         type cases = [
             Expect<Test<T1, "equals", ["123", "456"]>>,
@@ -157,8 +160,8 @@ describe("Filter", () => {
     });
 
     it("alphaNumeric", () => {
-        type T1 = Filter<["abc123", "def!", "ghi456"], "alphaNumeric">;
-        type T2 = Filter<["hello@", "world123", "test"], "alphaNumeric">;
+        type T1 = Filter<["abc123", "def!", "ghi456"], "alphaNumeric", []>;
+        type T2 = Filter<["hello@", "world123", "test"], "alphaNumeric", []>;
 
         type cases = [
             Expect<Test<T1, "equals", ["abc123", "ghi456"]>>,
@@ -167,8 +170,8 @@ describe("Filter", () => {
     });
 
     it("onlyLetters", () => {
-        type T1 = Filter<["abc", "def1", "ghi"], "onlyLetters">;
-        type T2 = Filter<["hello", "world!", "test"], "onlyLetters">;
+        type T1 = Filter<["abc", "def1", "ghi"], "onlyLetters", []>;
+        type T2 = Filter<["hello", "world!", "test"], "onlyLetters", []>;
 
         type cases = [
             Expect<Test<T1, "equals", ["abc", "ghi"]>>,
@@ -289,8 +292,8 @@ describe("Filter", () => {
     });
 
     it("truthy", () => {
-        type T1 = Filter<[1, 0, "hello", "", true, false], "truthy">;
-        type T2 = Filter<[null, undefined, "test", 42], "truthy">;
+        type T1 = Filter<[1, 0, "hello", "", true, false], "truthy",[]>;
+        type T2 = Filter<[null, undefined, "test", 42], "truthy", []>;
 
         type cases = [
             Expect<Test<T1, "equals", [1, "hello", true]>>,
@@ -299,8 +302,8 @@ describe("Filter", () => {
     });
 
     it("falsy", () => {
-        type T1 = Filter<[1, 0, "hello", "", true, false], "falsy">;
-        type T2 = Filter<[null, undefined, "test", 42], "falsy">;
+        type T1 = Filter<[1, 0, "hello", "", true, false], "falsy", []>;
+        type T2 = Filter<[null, undefined, "test", 42], "falsy", []>;
 
         type cases = [
             Expect<Test<T1, "equals", [0, "", false]>>,
@@ -309,8 +312,8 @@ describe("Filter", () => {
     });
 
     it("true", () => {
-        type T1 = Filter<[true, false, 1, 0], "true">;
-        type T2 = Filter<[false, "true", true], "true">;
+        type T1 = Filter<[true, false, 1, 0], "true", []>;
+        type T2 = Filter<[false, "true", true], "true", []>;
 
         type cases = [
             Expect<Test<T1, "equals", [true]>>,
@@ -319,8 +322,8 @@ describe("Filter", () => {
     });
 
     it("false", () => {
-        type T1 = Filter<[true, false, 1, 0], "false">;
-        type T2 = Filter<[false, "false", true], "false">;
+        type T1 = Filter<[true, false, 1, 0], "false", []>;
+        type T2 = Filter<[false, "false", true], "false", []>;
 
         type cases = [
             Expect<Test<T1, "equals", [false]>>,
@@ -396,8 +399,8 @@ describe("Filter", () => {
     });
 
     it("errors", () => {
-        type T1 = Filter<[Error, "string", 42, Error], "errors">;
-        type T2 = Filter<["no", "errors", "here"], "errors">;
+        type T1 = Filter<[Error, "string", 42, Error], "errors", []>;
+        type T2 = Filter<["no", "errors", "here"], "errors", []>;
 
         type cases = [
             Expect<Test<T1, "equals", [Error, Error]>>,
@@ -451,7 +454,7 @@ describe("filter()", () => {
         type cases = [
             Expect<Test<
                 TruthyParams, "equals",
-                [ val: readonly unknown[] ]
+                [ val: readonly Narrowable[] ]
             >>,
             Expect<Test<
                 GtParams, "equals",

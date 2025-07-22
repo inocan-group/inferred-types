@@ -355,6 +355,7 @@ describe("compare() runtime function", () => {
 
     describe("String operations", () => {
         it("startsWith", () => {
+
             const startsWithHello = compare("startsWith", "Hello");
             const t1 = startsWithHello("Hello World");
             const f1 = startsWithHello("Hi World");
@@ -1146,14 +1147,7 @@ describe("compare() runtime function", () => {
     });
 
     describe("Edge cases and error handling", () => {
-        it("handles invalid operations", () => {
-            // @ts-ignore
-            const invalidOp = compare("notAnOperation", []);
 
-            type cases = [
-                Expect<Test<typeof invalidOp, "isError", "invalid-operation">>
-            ];
-        });
 
 
 

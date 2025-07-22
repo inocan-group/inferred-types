@@ -1,8 +1,10 @@
+import { Marked } from "inferred-types/constants";
 import type {
     Compare,
     ComparisonAccept,
     ComparisonLookup,
     ComparisonOperation,
+    RemoveMarked,
     RemoveNever
 } from "inferred-types/types";
 
@@ -10,10 +12,10 @@ type Process<
     TList extends readonly ComparisonAccept<TOp>[],
     TOp extends ComparisonOperation,
     TParams extends ComparisonLookup[TOp]["params"]
-> = RemoveNever<{
-    [K in keyof TList]: Compare<TList[K], TOp, TParams> extends false
-        ? TList[K]
-        : never
+> = RemoveMarked<{
+    [K in keyof TList]: [Compare<TList[K], TOp, TParams>] extends [false]
+            ? TList[K]
+            : Marked
 }>;
 
 /**
@@ -40,3 +42,5 @@ export type NotFilter<
     TOp,
     TParams
 >;
+
+
