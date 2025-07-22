@@ -223,4 +223,6 @@ describe("filter()", () => {
      });
      ```
 
-
+- The `cases` test block
+  - You do not need to (nor should you) add an instruction such as `@ts-ignore` etc above this block
+  - You also do not need to use the `case` type anywhere in the file as this is an exception made for this variable name in the

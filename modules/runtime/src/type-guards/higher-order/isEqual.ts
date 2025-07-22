@@ -27,10 +27,10 @@ type Returns<
 function compare<
     TBase extends readonly Narrowable[],
 >(base: TBase) {
-    return <TVal extends Narrowable>(
-        value: TVal,
-    ): value is Returns<TVal, TBase> => {
-        return base.includes(value);
+    return (
+        value: unknown,
+    ): value is TBase[number] => {
+        return base.includes(value as any);
     };
 }
 

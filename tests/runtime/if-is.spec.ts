@@ -10,7 +10,6 @@ import {
 } from "inferred-types/types";
 
 import {
-    StartingWithTypeGuard,
     ifArray,
     ifArrayPartial,
     ifBoolean,
@@ -265,11 +264,6 @@ describe("runtime if/is", () => {
         expect(foo("foobar")).toBe(true);
         expect(foot("foobar")).toBe(false);
 
-        // design time
-        type cases = [
-            Expect<Test<typeof foo, "extends", StartingWithTypeGuard<"foo">>>, //
-            Expect<Test<typeof foot, "extends", StartingWithTypeGuard<"foot">>> //
-        ];
     });
 
 

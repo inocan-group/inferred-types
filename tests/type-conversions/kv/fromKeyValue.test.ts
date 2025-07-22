@@ -7,8 +7,8 @@ describe("fromKeyValue()", () => {
 
     it("happy path", () => {
         const kv = [
-            { key: "foo", value: "hi" },
-            { key: "bar", value: 42 },
+            { key: "foo", value: "hi", required: true },
+            { key: "bar", value: 42, required: true },
         ] as const;
         const obj = fromKeyValue(kv);
 

@@ -1,14 +1,31 @@
 import type {
     AfterFirst,
-    As,
     Err,
     First,
-    IsBoolean,
-    IsFalse,
+    IsEqual,
     IsNever,
     IsTrue,
     TypedFunction,
 } from "inferred-types/types";
+
+type Process<
+    T extends readonly unknown[],
+    B extends boolean = false
+> = [] extends T
+? [B] extends [true]
+    ? boolean
+    : false
+: [First<T>] extends [true]
+    ? true
+    : [First<T>] extends [TypedFunction]
+        ? [IsTrue<ReturnType<First<T>>] extends [true]
+            ? true
+            : [IsEqual<ReturnType<First<T>>, boolean>] extends [true]
+                ? Process<AfterFirst<T>, true>
+                : Process<AfterFirst<T>, B>
+    : [IsEqual<First<T>, boolean>] extends [true]
+        ? Process<AfterFirst<T>, true>
+        : Process<AfterFirst<T>, B>;
 
 /**
  * **Or**`<TConditions, [TEmpty]>`
@@ -31,16 +48,4 @@ export type Or<
             `The Or<...> logical combinator was passed never as a value! Or is expecting a tuple of boolean values.`,
             { library: "inferred-types" }
         >
-        : [IsBoolean<First<T>>] extends [true]
-            ? [IsTrue<First<T>>] extends [true]
-                ? true
-                : [IsFalse<First<T>>] extends [true]
-                    ? Or<AfterFirst<T>>
-                    : boolean
-            : [First<T> extends TypedFunction ? true : false] extends [true]
-                ? [IsTrue<ReturnType<As<First<T>, TypedFunction>>>] extends [true]
-                    ? true
-                    : [IsFalse<ReturnType<As<First<T>, TypedFunction>>>] extends [true]
-                        ? Or<AfterFirst<T>>
-                        : boolean
-                : Or<AfterFirst<T>>;
+        : Process<T>;

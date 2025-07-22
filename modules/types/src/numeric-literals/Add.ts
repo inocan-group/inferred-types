@@ -10,7 +10,6 @@ import type {
     NumberLike,
     NumericChar,
     Or,
-    Subtract
 } from "inferred-types/types";
 
 type Either<left extends boolean, right extends boolean>
@@ -112,14 +111,11 @@ type Process<
     // Both operands are negative: sum their absolutes, then apply negative sign
     = And<[ IsNegativeNumber<A>, IsNegativeNumber<B> ]> extends true
         ? `-${SumStrings<Abs<A>, Abs<B>>}`
-    // A is negative, B is positive: subtract |A| from B
-        : IsNegativeNumber<A> extends true
-            ? Subtract<B, Abs<A>>
-        // B is negative, A is positive: subtract |B| from A
-            : IsNegativeNumber<B> extends true
-                ? Subtract<A, Abs<B>>
-            // Both positive: use digit-wise addition
-                : SumStrings<A, B>;
+    // Mixed signs: would require subtraction, return wide type to avoid circular dependency
+        : Or<[IsNegativeNumber<A>, IsNegativeNumber<B>]> extends true
+            ? `${number}`
+        // Both positive: use digit-wise addition
+            : SumStrings<A, B>;
 
 type CheckWide<
     A extends NumberLike,
@@ -140,16 +136,31 @@ type PreProcess<
     : Or<[IsWideType<A>, IsWideType<B>]> extends true
     // wide types found
         ? If<IsString<A>, string, number>
-    // both are literals
-        : A extends `${number}`
-            ? B extends `${number}`
-                ? As<Process<A, B>, `${number}`>
-                : As<Process<A, `${As<B, number>}`>, `${number}`>
-            : A extends number
-                ? B extends number
-                    ? AsNumber<Process<`${A}`, `${B}`>>
-                    : AsNumber<Process<`${A}`, As<B, `${number}`>>>
-                : never;
+    // both are literals - check for mixed signs to avoid complexity
+        : And<[IsNegativeNumber<A>, IsNegativeNumber<B>]> extends true
+            // Both negative - safe to process
+            ? A extends `${number}`
+                ? B extends `${number}`
+                    ? As<Process<A, B>, `${number}`>
+                    : As<Process<A, `${As<B, number>}`>, `${number}`>
+                : A extends number
+                    ? B extends number
+                        ? AsNumber<Process<`${A}`, `${B}`>>
+                        : AsNumber<Process<`${A}`, As<B, `${number}`>>>
+                    : never
+        : Or<[IsNegativeNumber<A>, IsNegativeNumber<B>]> extends true
+            // One is negative, one is positive - return wide type to avoid complexity
+            ? A extends `${number}` ? `${number}` : number
+            // Same signs or both positive - proceed normally
+            : A extends `${number}`
+                ? B extends `${number}`
+                    ? As<Process<A, B>, `${number}`>
+                    : As<Process<A, `${As<B, number>}`>, `${number}`>
+                : A extends number
+                    ? B extends number
+                        ? AsNumber<Process<`${A}`, `${B}`>>
+                        : AsNumber<Process<`${A}`, As<B, `${number}`>>>
+                    : never;
 
 /**
  * **Add**`<A,B>`

@@ -25,15 +25,8 @@ type Process<
         [
             ...TKv,
             Contains<TOptional, First<TKeys>> extends true
-                ? {
-                    key: First<TKeys>;
-                    value: TObj[First<TKeys>];
-                    required: false;
-                }
-                : {
-                    key: First<TKeys>;
-                    value: TObj[First<TKeys>];
-                }
+                ? KeyValue<First<TKeys>, TObj[First<TKeys>] | undefined, false>
+                : KeyValue<First<TKeys>, TObj[First<TKeys>], true>
         ]
     >;
 
@@ -53,5 +46,5 @@ type Process<
 export type ToKv<
     TObj extends Dictionary
 > = IsObjectLiteral<TObj> extends true
-    ? As<Process<TObj>, readonly KeyValue[]>
+    ? Process<TObj>
     : KeyValue[];

@@ -17,8 +17,8 @@ describe("toKeyValue(obj)", () => {
         const fooBar = toKeyValue({ foo: 1, bar: "hi" });
 
         expect(fooBar).toEqual([
-            { key: "foo", value: 1 },
-            { key: "bar", value: "hi" }
+            { key: "foo", value: 1, required: true },
+            { key: "bar", value: "hi", required: true }
         ])
 
         type cases = [
@@ -26,8 +26,8 @@ describe("toKeyValue(obj)", () => {
                 typeof fooBar,
                 "equals",
                 [
-                    { key: "foo", value: 1 },
-                    { key: "bar", value: "hi" }
+                    { key: "foo", value: 1, required: true },
+                    { key: "bar", value: "hi", required: true }
                 ]
             >>
         ];
@@ -38,9 +38,9 @@ describe("toKeyValue(obj)", () => {
         const kv = toKeyValue({ foo: 1, bar: "hi", id: 123 });
 
         expect(fooBar, JSON.stringify(fooBar)).toEqual([
-            { key: "id", value: 123 },
-            { key: "foo", value: 1 },
-            { key: "bar", value: "hi" },
+            { key: "id", value: 123, required: true },
+            { key: "foo", value: 1, required: true },
+            { key: "bar", value: "hi", required: true },
         ])
 
         type cases = [
@@ -48,9 +48,9 @@ describe("toKeyValue(obj)", () => {
                 typeof fooBar,
                 "equals",
                 [
-                    { key: "id", value: 123 },
-                    { key: "foo", value: 1 },
-                    { key: "bar", value: "hi" }
+                    { key: "id", value: 123, required: true },
+                    { key: "foo", value: 1, required: true },
+                    { key: "bar", value: "hi", required: true }
                 ]
             >>
         ];
@@ -62,9 +62,9 @@ describe("toKeyValue(obj)", () => {
         type L = Last<GetEach<typeof fooBar, "key">>;
 
         expect(fooBar, `End key should be "bar": ${Object.keys(fooBar)}`).toEqual([
-            { key: "foo", value: 1 },
-            { key: "id", value: 123 },
-            { key: "bar", value: "hi" },
+            { key: "foo", value: 1, required: true },
+            { key: "id", value: 123, required: true },
+            { key: "bar", value: "hi", required: true },
         ])
 
         type cases = [
@@ -73,9 +73,9 @@ describe("toKeyValue(obj)", () => {
                 typeof fooBar,
                 "hasSameValues",
                 [
-                    { key: "foo", value: 1 },
-                    { key: "id", value: 123 },
-                    { key: "bar", value: "hi" }
+                    { key: "foo", value: 1, required: true },
+                    { key: "id", value: 123, required: true },
+                    { key: "bar", value: "hi", required: true }
                 ]
             >>
         ];
@@ -101,13 +101,13 @@ describe("toKeyValue(obj)", () => {
         });
 
         const kv = tuple(
-            { key: "type", value: "[[kind/types/AI.md|AI]]" },
-            { key: "kind", value: "[[AI Model]]" },
-            { key: "category", value: "[[LLM]]" },
-            { key: "subcategory", value: "[[Lightweight Model]]" },
-            { key: "company", value: "[[Anthropic]]" },
-            { key: "aliases", value: ["Haiku"] },
-            { key: "desc", value: "The fast and lightweight sibling in the Claude family (Anthropic)" },
+            { key: "type", value: "[[kind/types/AI.md|AI]]", required: true },
+            { key: "kind", value: "[[AI Model]]", required: true },
+            { key: "category", value: "[[LLM]]", required: true },
+            { key: "subcategory", value: "[[Lightweight Model]]", required: true },
+            { key: "company", value: "[[Anthropic]]", required: true },
+            { key: "aliases", value: ["Haiku"], required: true },
+            { key: "desc", value: "The fast and lightweight sibling in the Claude family (Anthropic)", required: true },
         );
 
         expect(fromObj).toEqual(kv);
