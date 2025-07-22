@@ -18,7 +18,7 @@ type Process<
 : [First<T>] extends [true]
     ? true
     : [First<T>] extends [TypedFunction]
-        ? [IsTrue<ReturnType<First<T>>] extends [true]
+        ? [IsTrue<ReturnType<First<T>>>] extends [true]
             ? true
             : [IsEqual<ReturnType<First<T>>, boolean>] extends [true]
                 ? Process<AfterFirst<T>, true>

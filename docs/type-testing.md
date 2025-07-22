@@ -21,7 +21,7 @@ typed test
 But you'll often want to scope down testing to just a single file or some subset by using glob patterns like so:
 
 ```ts
-typed test --filter datetime
+typed test datetime
 ```
 
 **NOTE**: this is NOT an `npm` command so do not try running it via **npm**.

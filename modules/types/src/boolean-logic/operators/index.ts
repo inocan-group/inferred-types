@@ -112,9 +112,10 @@ export * from "./ReturnsFalse";
 export * from "./ReturnsTrue";
 export * from "./SomeEqual";
 export * from "./SomeExtend";
-
 export * from "./StartsWith";
+
 export * from "./string/index";
 export * from "./tuples/index";
 export * from "./UnionHasArray";
 export * from "./Validate";
+

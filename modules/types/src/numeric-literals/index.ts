@@ -2,6 +2,7 @@ export * from "./Abs";
 export * from "./AbsMaybe";
 export * from "./Add";
 export * from "./AddPositive";
+// export * from "./Arithmetic"; // Too complex, causes recursion issues
 export * from "./AsNegativeNumber";
 export * from "./AsNumberWhenPossible";
 export * from "./CharCount";
