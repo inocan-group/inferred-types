@@ -17,11 +17,7 @@ type InvalidDate<T extends string> = Err<
  */
 type Take<
     T extends string
-> = string extends T
-    ? Error | { take: TwoDigitDate<"branded">; rest: string }
-    : StartsWithTemplateLiteral<T> extends true
-        ? Error | { take: TwoDigitDate<"branded">; rest: string }
-        : T extends `${infer C1}${infer C2}${infer Rest}`
+> = T extends `${infer C1}${infer C2}${infer Rest}`
             ? C1 extends NumericChar
                 ? C1 extends "0"
                     ? C2 extends "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
@@ -70,7 +66,7 @@ type WithContext<
             : Err<
                 `parse-date/date`,
                 `Validation against the ISO date failed. This is likely due to the date being too large for the month of the date (leap and double leap is considered when both year and month were provided to TakeDate<T>)`,
-                { year: TYear; month: TMonth; date: T; leap: IsLeapYear<TYear> }
+                { year: TYear; month: TMonth; date: Date; leap: IsLeapYear<TYear> }
             >;
 
 /**
@@ -92,19 +88,23 @@ export type TakeDate<
     TIgnoreLeading extends string | null = null,
     TYear extends `${number}` | null = null,
     TMonth extends `${number}` | null = null
-> = TIgnoreLeading extends string
-    ? string extends TIgnoreLeading
+> = string extends T
+    ? Error | { take: TwoDigitDate<"branded">; rest: string }
+    : StartsWithTemplateLiteral<T> extends true
         ? Error | { take: TwoDigitDate<"branded">; rest: string }
+    : TIgnoreLeading extends string
+        ? string extends TIgnoreLeading
+            ? Error | { take: TwoDigitDate<"branded">; rest: string }
+            : string extends T
+                ? Error | { take: TwoDigitDate<"branded">; rest: string }
+                : WithContext<
+                    StripLeading<T, TIgnoreLeading>,
+                    Unbrand<TYear>,
+                    Unbrand<TMonth>
+                >
         : string extends T
             ? Error | { take: TwoDigitDate<"branded">; rest: string }
-            : WithContext<
-                StripLeading<T, TIgnoreLeading>,
-                Unbrand<TYear>,
-                Unbrand<TMonth>
-            >
-    : string extends T
-        ? Error | { take: TwoDigitDate<"branded">; rest: string }
-        : WithContext<T, Unbrand<TYear>, Unbrand<TMonth>>;
+            : WithContext<T, Unbrand<TYear>, Unbrand<TMonth>>;
 
 
 

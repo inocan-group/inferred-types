@@ -51,21 +51,20 @@ function api<
     };
 }
 
-type FrameToCSS<
-    T extends readonly [CssKeyframeTimestamp, CssDefinition][],
-    R extends Dictionary = EmptyObject,
-> = [] extends T
-    ? ObjectToKeyframeString<
-        ExpandDictionary<R>,
-        true
-    >
-    : FrameToCSS<
-        AfterFirst<T>,
-        R & Record<
-            First<T>[0],
-            ObjectToCssString<First<T>[1]>
-        >
-    >;
+// Simple local CSS conversion to avoid complex type recursion
+type SimpleCssProps<T> = T extends { opacity: infer O; transform: infer Tr }
+    ? `opacity: ${O extends string ? O : never}; transform: ${Tr extends string ? Tr : never}`
+    : T extends Record<string, string>
+    ? string
+    : never;
+
+type FrameToCSSString<T extends readonly [CssKeyframeTimestamp, CssDefinition][], TName extends string> = 
+    T extends readonly [
+        [infer Stage1 extends CssKeyframeTimestamp, infer Defn1 extends CssDefinition],
+        [infer Stage2 extends CssKeyframeTimestamp, infer Defn2 extends CssDefinition]
+    ]
+    ? `@keyframes ${TName} {\n  ${Stage1} { ${SimpleCssProps<Defn1>} }\n  ${Stage2} { ${SimpleCssProps<Defn2>} }\n}`
+    : string;
 
 export type CssKeyframeCallback = (cb: KeyframeApi<[]>) => unknown;
 
@@ -111,6 +110,10 @@ export function createCssKeyframe<
   return {
       name,
       keyframes: frames,
-      css: `@keyframes ${name} {\n${frameToCss(frames)}\n}` as string,
-  } as unknown as FrameToCSS<Frames>;
+      css: `@keyframes ${name} {\n${frameToCss(frames)}\n}`,
+  } as {
+      name: TName;
+      keyframes: typeof frames;
+      css: FrameToCSSString<typeof frames, TName>;
+  };
 }
