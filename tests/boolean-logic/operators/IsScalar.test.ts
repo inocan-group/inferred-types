@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 
 import { Expect, IsScalar, Scalar, Test } from "inferred-types/types";
 import { isScalar } from "inferred-types/runtime"
-import { TupleToUnion } from "inferred-types";
 
 
 
@@ -39,7 +38,6 @@ describe("IsScalar<T>", () => {
 
   it("addressing union types", () => {
     type SomeScalar = IsScalar<number | number[]>;
-    type T = TupleToUnion<string[] | number[]>;
     type AllScalarUnion = IsScalar<44 | 55>;
     type None = IsScalar<string[] | number[]>;
 

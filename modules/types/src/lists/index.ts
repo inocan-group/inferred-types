@@ -9,8 +9,6 @@ export * from "./EachAsString";
 export * from "./ElementOf";
 export * from "./ExcludeIndex";
 export * from "./Filter";
-export * from "./FilterLiterals";
-export * from "./FilterWideTypes";
 export * from "./Find";
 export * from "./FindMaxLength";
 export * from "./First";

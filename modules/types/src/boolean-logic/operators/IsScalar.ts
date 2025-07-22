@@ -1,14 +1,10 @@
 import type {
-    As,
     Every,
-    IfNever,
-    IsEqual,
     IsNever,
     IsUnion,
-    None,
     Scalar,
-    Tuple,
-    TupleToUnion,
+    Some,
+    UnionToTuple,
 } from "inferred-types/types";
 
 /**
@@ -28,16 +24,10 @@ import type {
 export type IsScalar<T> = [IsNever<T>] extends [true]
 ? false
 : [IsUnion<T>] extends [true]
-    ? [Every<As<TupleToUnion<T>, Tuple>, "extends", [Scalar]>] extends [true]
+    ? [Every<UnionToTuple<T>, "extends", [Scalar]>] extends [true]
         ? true
-        : [None<As<TupleToUnion<T>, Tuple>, "extends", [Scalar]>] extends [true]
-        ? false
-        : boolean
-: [IsEqual<T,null>] extends [true]
-? true
-: [IsEqual<T,undefined>] extends [true]
-? true
+        : [Some<UnionToTuple<T>, "extends", [Scalar]>] extends [true]
+        ? boolean
+        : false
 : [T] extends [Scalar] ? true : false;
-
-
 

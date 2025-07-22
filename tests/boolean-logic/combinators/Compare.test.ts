@@ -12,7 +12,6 @@ import {
     UpperAlphaChar,
     IsAfter
 } from "inferred-types/types";
-import { AnyFunction } from "inferred-types";
 
 describe("Compare<TVal,TOp,TComparator> type util", () => {
 
