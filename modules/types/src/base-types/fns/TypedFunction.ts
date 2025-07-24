@@ -13,6 +13,8 @@ export type TypedFunction<
     R = any
 > = ((...args: P) => R);
 
+
+
 export type TypedFunctionWithDictionary<
     P extends readonly any[] = readonly any[],
     R = any,

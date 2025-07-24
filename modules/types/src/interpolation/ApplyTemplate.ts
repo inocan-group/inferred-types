@@ -11,6 +11,7 @@ import type {
     Second,
     StaticTemplateSections,
     StripAfter,
+    TemplateParams,
 } from "inferred-types/types";
 
 type ToBaseType<
@@ -90,3 +91,6 @@ export type ApplyTemplate<
         TOnlyStringLit
     >
     : string;
+
+
+

@@ -18,34 +18,34 @@ import { ExplicitlyEmptyObject } from "inferred-types/types";
 describe("NumericKeys<T>", () => {
 
     it("happy path", () => {
-        type StringArr = ["foo", "bar", "baz"];
-        type StrArr_RO = readonly ["foo", "bar", "baz"];
-        type NumArr = [1, 2, 3];
-
-        type Numeric = NumericKeys<NumArr>;
-        type Str = NumericKeys<StringArr>;
-        type Str_RO = NumericKeys<StrArr_RO>;
+        type Numeric = NumericKeys<[1, 2, 3]>;
+        type Str = NumericKeys<["foo", "bar", "baz"]>;
+        type Str_RO = NumericKeys<readonly ["foo", "bar", "baz"]>;
         type Empty = NumericKeys<[]>;
         type Empty_RO = NumericKeys<readonly []>;
+        type Wide = NumericKeys<string[]>;
+
+        type Variadic = NumericKeys<["foo","bar", ...string[]]>;
 
         type cases = [
             Expect<Test<Numeric, "equals", [0, 1, 2]>>,
             Expect<Test<Str, "equals", [0, 1, 2]>>,
-            Expect<Test<Str_RO, "equals", readonly [0, 1, 2]>>,
-            Expect<Test<Empty, "equals", number[]>>,
-            Expect<Test<Empty_RO, "equals", number[]>>,
+            Expect<Test<Str_RO, "equals",  [0, 1, 2]>>,
+            Expect<Test<Empty, "equals", []>>,
+            Expect<Test<Empty_RO, "equals", []>>,
+            Expect<Test<Wide, "equals", number[]>>,
         ];
 
     });
 });
 
 
-describe("Keys<T>", () => {
+describe("ObjectKeys<T>", () => {
 
     // `ObjectKeys` is a more direct way of getting keys for Objects
     // we will test this first and then move up to the more abstracted `Keys<T>`
     // which works on both objects and arrays
-    describe("objects (using ObjectKeys<T>)", () => {
+    describe("objects", () => {
         it("narrow/discrete", () => {
             type Foobar = ObjectKeys<{ foo: 1; bar: 2 }>;
             type FoobarWideVal = ObjectKeys<{ foo: number; bar: string }>;

@@ -1,3 +1,4 @@
+export * from "./ArgUnion";
 export * from "./AsFnMeta";
 export * from "./AsyncFunction";
 export * from "./ExplicitFunction";
@@ -19,3 +20,4 @@ export * from "./ToFn";
 export * from "./TypedParameter";
 export * from "./TypeGuard";
 export * from "./WrapperFn";
+

@@ -1,4 +1,4 @@
-import type { Narrowable, StartsWith } from "inferred-types/types";
+import type { Narrowable, StartsWith, ToStringArray } from "inferred-types/types";
 import { isNumber } from "runtime/type-guards/numeric";
 import { isString } from "runtime/type-guards/isString";
 
@@ -7,11 +7,9 @@ import { isString } from "runtime/type-guards/isString";
  *
  * A type guard built using the `startsWith` utility.
  */
-export type StartingWithTypeGuard<TStartsWith extends readonly (string|number)[]> = <
-    const TValue extends string | number,
->(
-    val: TValue
-) => val is TValue & StartsWith<TValue, TStartsWith>;
+export type StartingWithTypeGuard<TStartsWith extends readonly (string|number)[]> = (
+    val: unknown
+) => val is `${ToStringArray<TStartsWith>[number]}${string}`;
 
 /**
  * **startsWithTypeguard**(startingWith) => (val)
@@ -24,7 +22,7 @@ export type StartingWithTypeGuard<TStartsWith extends readonly (string|number)[]
 export function startsWithTypeguard<
     const TStartsWith extends readonly (string | number)[],
 >(...startingWith: TStartsWith): StartingWithTypeGuard<TStartsWith> {
-    return <const TValue extends string | number>(val: TValue): val is TValue & StartsWith<TValue,TStartsWith> => {
+    return (val: unknown): val is `${ToStringArray<TStartsWith>[number]}${string}` => {
         return (
             isString(val) || isNumber(val)
                 ? startingWith.some(i => String(i) !== "" && String(val).startsWith(String(i)))

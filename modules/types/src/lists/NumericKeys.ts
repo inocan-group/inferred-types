@@ -1,43 +1,25 @@
-import type { AfterFirst, First, If, IsReadonlyArray, Length, ToNumber, Tuple } from "inferred-types/types";
+import { HasVariadicTail } from "types/lists/Variadic";
+import { ExcludeVariadicTail } from './Variadic';
 
-type Recurse<
-    TList extends Tuple,
-    TResults extends Tuple = [],
-> = [] extends TList
-    ? [] extends TResults
-        ? number[]
-        : TResults
-    : Recurse<
-        AfterFirst<TList>,
-        [
-            ...TResults,
-            ToNumber<First<TList>>,
-        ]
-    >;
 
-type Convert<
-    TList extends Tuple,
-> = Length<TList> extends 0
-    ? number[]
-    : Recurse<{
-        [K in keyof TList]: K
-    }>;
 
-type Process<
-    TList extends Tuple,
-> = If<
-    IsReadonlyArray<TList>,
-    TList["length"] extends 0
-        ? number[]
-        : Readonly<Convert<TList>>,
-    Convert<TList>
->;
+type IndicesTuple<
+  T extends readonly unknown[],
+  Acc extends number[] = []
+> = number extends T['length']
+? number[]
+: T extends readonly [any, ...infer R]
+    ? IndicesTuple<R, [...Acc, Acc['length']]>
+    : Acc;
+
+
+
 
 /**
  * **NumericKeys**<`TList`>
  *
- * Will provide a readonly tuple of numeric keys for
- * a given literal array and an empty array otherwise.
+ * Will provide a tuple of numeric keys for
+ * a literal array and `number[]` for a wide array.
  *
  * ```ts
  * type Arr = ["foo", "bar", "baz"];
@@ -45,10 +27,20 @@ type Process<
  * type T = NumericKeys<Arr>;
  * ```
  *
- * **Related:** `Keys`
+ * **Related:** `NumericKeys__Union`, `Keys`, `ObjectKeys`
  */
 export type NumericKeys<
-    TList extends Tuple,
-> = Process<TList> extends readonly number[]
-    ? Process<TList>
-    : never;
+    TList extends readonly unknown[],
+> = HasVariadicTail<TList> extends true
+? IndicesTuple<ExcludeVariadicTail<TList>>
+: IndicesTuple<TList>
+
+
+type X = HasVariadicTail<[]>;
+
+type A = HasVariadicTail<[]>;                        // false
+type B = HasVariadicTail<[1, 2, 3]>;                 // false
+type C = HasVariadicTail<[1, ...string[]]>;          // true
+type D = HasVariadicTail<readonly [1, ...string[]]>; // true
+type E = HasVariadicTail<string[]>;                  // false
+type F = HasVariadicTail<readonly number[]>;         // false

@@ -1,4 +1,5 @@
 import type {
+    As,
     If,
     IsEqual,
     IsStringLiteral,
@@ -47,5 +48,5 @@ export type Replace<
     TFind extends string,
     TReplace extends string,
 > = IsStringLiteral<TText> extends true
-    ? Process<TText, TFind, TReplace>
+    ? As<Process<TText, TFind, TReplace>, string>
     : string;

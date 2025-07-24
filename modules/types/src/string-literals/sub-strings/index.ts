@@ -2,6 +2,7 @@ export * from "./after/index";
 export * from "./FirstChar";
 export * from "./InBetween";
 export * from "./LastChar";
+export * from "./FillStringHole";
 
 export * from "./retain/index";
 export * from "./strip/index";

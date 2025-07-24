@@ -1,5 +1,4 @@
 import { Expect, EnsureMaxLength, Test } from "inferred-types/types";
-import { Extends, TypedError } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("MaxLength", () => {
@@ -27,8 +26,8 @@ describe("MaxLength", () => {
             Expect<Test<F2, "equals", never>>,
             Expect<Test<F3, "equals", never>>,
 
-            Expect<Extends<W, TypedError<"invalid-verifier">>>,
-            Expect<Extends<W2, TypedError<"invalid-verifier">>>,
+            Expect<Test<W, "isError", "invalid-verifier">>,
+            Expect<Test<W2,"isError",  "invalid-verifier">>,
         ];
     });
 

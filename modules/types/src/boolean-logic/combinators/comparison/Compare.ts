@@ -6,8 +6,6 @@ import type {
     As,
     AsString,
     ComparisonAccept,
-    ComparisonLookup,
-    ComparisonOpConfig,
     ComparisonOperation,
     Contains,
     ContainsAll,
@@ -19,8 +17,6 @@ import type {
     Extends,
     First,
     FirstChar,
-    GetComparator,
-    GetOpConfig,
     IsAfter,
     IsBefore,
     IsBetweenExclusively,
@@ -83,24 +79,6 @@ export type Comparator<
     <const TVal extends ComparisonAccept<TOp>>(val: TVal) => Compare<TVal, TOp, TParams>
 );
 
-type Base<
-    TOp extends ComparisonOperation,
-    TConfig extends ComparisonLookup[TOp] = ComparisonLookup[TOp]
-> = TConfig["params"];
-
-type Accept<
-    TOp extends ComparisonOperation
-> = "accept" extends keyof ComparisonLookup[TOp]
-    ? ComparisonLookup[TOp]["accept"]
-    : unknown;
-
-type C<
-    TOp extends ComparisonOperation,
-    TParams extends ComparisonLookup[TOp]["params"]
-> = GetOpConfig<TOp> extends ComparisonOpConfig
-    ? GetComparator<GetOpConfig<TOp>, TParams>
-    : never;
-
 type Process__DateTime<
     TVal,
     TOp extends ComparisonOperation,
@@ -116,8 +94,8 @@ type Process__DateTime<
         ? IsDateLike<TVal> extends false
             ? Err<
                 `invalid-value/not-date-like`,
-            `The '${TOp}' operation expects the value passed in to be a valid representation of a date but it was not!`,
-            { val: TVal }
+                `The '${TOp}' operation expects the value passed in to be a valid representation of a date but it was not!`,
+                { val: TVal }
             >
             : TParams extends Base<TOp>
                 ? IsLiteral<C<"before", TParams>> extends true
@@ -192,33 +170,34 @@ type Process__General<
 > = TOp extends "extends"
     ? DoesExtend<TVal, TupleToUnion<TParams>>
 
+
     : TOp extends "equals"
         ? IsEqual<TVal, TParams[0]>
 
-        : TOp extends "false"
-            ? [TVal] extends [boolean]
-                ? [boolean] extends [TVal]
-                    ? boolean // TVal is exactly boolean
-                    : IsFalse<TVal> // TVal is a literal boolean (true or false)
-                : // Handle specific cases that might have cross-module issues
-                [TVal] extends [null]
+    : TOp extends "false"
+        ? [TVal] extends [boolean]
+            ? [boolean] extends [TVal]
+                ? boolean // TVal is exactly boolean
+                : IsFalse<TVal> // TVal is a literal boolean (true or false)
+        : // Handle specific cases that might have cross-module issues
+        [TVal] extends [null]
+            ? false
+            : [TVal] extends [undefined]
+                ? false
+                : [TVal] extends [0]
                     ? false
-                    : [TVal] extends [undefined]
+                    : [TVal] extends [""]
                         ? false
-                        : [TVal] extends [0]
+                        : [TVal] extends [true]
                             ? false
-                            : [TVal] extends [""]
-                                ? false
-                                : [TVal] extends [true]
-                                    ? false
-                                    : [TVal] extends [false]
-                                        ? true
-                                        : IsFalse<TVal>
+                            : [TVal] extends [false]
+                                ? true
+                                : IsFalse<TVal>
 
-            : TOp extends "falsy"
+    : TOp extends "falsy"
                 ? IsFalsy<TVal>
 
-                : TOp extends "true"
+    : TOp extends "true"
                     ? // Use AreIncompatible to determine if we can make specific determinations
                     AreIncompatible<TVal, true> extends true
                         ? false // If TVal is incompatible with true, it definitely isn't true
@@ -241,7 +220,7 @@ type Process__General<
                                 : TOp extends "containsSome"
                                     ? TVal extends string | number | readonly unknown[]
                                         ? Contains<
-                                            As<TVal, Accept<"containsSome">>,
+                                            As<TVal, ComparisonAccept<"containsSome">>,
                                             TParams
                                         >
                                         : false
@@ -249,7 +228,7 @@ type Process__General<
                                     : TOp extends "containsAll"
                                         ? TVal extends string | number | readonly unknown[]
                                             ? ContainsAll<
-                                                As<TVal, Accept<"containsAll">>,
+                                                As<TVal, ComparisonAccept<"containsAll">>,
                                                 TParams
                                             >
                                             : false
@@ -261,7 +240,7 @@ type Process__String<
     TParams extends readonly unknown[],
 > = TOp extends "startsWith"
     ? [TParams] extends [Base<"startsWith">]
-        ? [TVal] extends [Accept<"startsWith">]
+        ? [TVal] extends [ComparisonAccept<"startsWith">]
             ? [TVal] extends [readonly (string | number | boolean)[]]
                 ? {
                     [K in keyof TVal]: StartsWith<
@@ -289,7 +268,7 @@ type Process__String<
 
     : TOp extends "endsWith"
         ? [TParams] extends [Base<"endsWith">]
-            ? [TVal] extends [Accept<"endsWith">]
+            ? [TVal] extends [ComparisonAccept<"endsWith">]
                 ? [TVal] extends [readonly (string | number | boolean)[]]
                     ? {
                         [K in keyof TVal]: EndsWith<

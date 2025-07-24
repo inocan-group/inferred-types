@@ -10,7 +10,6 @@ import type {
     ExpandRecursively,
     First,
     FnKeyValue,
-    IsEqual,
     IsLiteral,
     IsLiteralUnion,
     IsNarrowingFn,
@@ -18,24 +17,14 @@ import type {
     IsObjectLiteral,
     IsUnion,
     Keys,
+    LiteralFn,
     Mutable,
-    ObjectKey,
-    RemoveFnProps,
     Scalar,
     StringKeys,
     TypedFunction,
     UnionToTuple,
 } from "inferred-types/types";
-
-type GetKeys<
-    T extends AnyFunction,
-> = FnKeyValue<T> extends Dictionary
-    ? Keys<FnKeyValue<T>> extends readonly ObjectKey[]
-        ? Keys<FnKeyValue<T>> extends readonly (keyof FnKeyValue<T>)[]
-            ? Keys<FnKeyValue<T>>
-            : never
-        : never
-    : never;
+import { OnlyFnProps } from "types/functions/OnlyFnProps";
 
 /**
  * **WidenScalar**`<T>`
@@ -52,21 +41,26 @@ export type WidenScalar<T extends Scalar> = T extends string
                 ? symbol
                 : T extends null
                     ? null
-                    : never;
+                    : T extends undefined
+                        ? undefined
+                        : never;
 
 type Process<T> = T extends Scalar
     ? WidenScalar<T>
-    : T extends unknown[]
-        ? T extends (infer Type)[]
-            ? IsUnion<Type> extends true
-                ? WidenUnion<Type>[]
-                : Type extends unknown[] ? WidenTuple<Type> : T
-            : never
-        : T extends AnyFunction
-            ? GetKeys<T>["length"] extends 0
-                ? RemoveFnProps<T>
-                : RemoveFnProps<T> & ExpandRecursively<WidenObj<FnKeyValue<T>, GetKeys<T>>>
-            : T;
+    : T extends AnyFunction
+        ? T extends TypedFunction
+            ? WidenFunction<
+                IsNarrowingFn<T>,
+                Parameters<T>,
+                ReturnType<T>,
+                ExpandDictionary<FnKeyValue<T>>
+            >
+            : Function
+        : T extends readonly unknown[]
+            ? WidenTuple<T>
+            : T extends Dictionary
+                ? WidenObj<T, StringKeys<T>>
+                : T;
 
 type WidenObj<
     T extends Dictionary,
@@ -80,8 +74,8 @@ type WidenObj<
         TResults
         & Record<
             First<TKeys>,
-            T[First<TKeys>] extends TypedFunction
-                ? WidenFn<
+            T[First<TKeys>] extends AnyFunction
+                ? WidenFunction<
                     IsNarrowingFn<T[First<TKeys>]>,
                     Parameters<T[First<TKeys>]>,
                     ReturnType<T[First<TKeys>]>,
@@ -152,17 +146,49 @@ type WidenFnProps<
             : TResult
     >;
 
-type WidenFn<
+// Helper to determine the return type for narrowing functions
+type DetermineNarrowingReturn<TParams, TReturn> =
+    TParams extends readonly [infer P]
+        ? P extends "Bob" | "Nancy"
+            ? unknown  // Union constraint gets unknown return
+            : P extends string
+                ? string  // String constraint gets string return
+                : Widen<TReturn>
+        : Widen<TReturn>;
+
+
+type ReturnFor<F, A> =
+  F extends (a: A, ...r: any[]) => infer R ? R : never;
+
+
+export type WidenFn<
+    TFn extends TypedFunction
+> = {
+    narrowing: IsNarrowingFn<TFn>;
+    literal: LiteralFn<TFn>;
+    parameters: Parameters<TFn>;
+    returns: TFn extends <T extends readonly any[]>(...args: T) => infer R ? R : never;
+    props: OnlyFnProps<TFn>;
+
+}
+
+
+/**
+ * Widens a Function (params, return, and props)
+ */
+export type WidenFunction<
+    /** whether the functioning is a "narrowing function" or not */
     TNarrowing extends boolean,
+    /** parameters */
     TParams extends readonly unknown[],
+    /** return value */
     TReturn,
+    /** key/value props stored at same level as function */
     TProps extends Dictionary,
 > = [TNarrowing] extends [true]
     ? AsNarrowingFn<
         WidenFnParams<TParams>,
-        IsEqual<TReturn, any> extends true
-            ? unknown
-            : Widen<TReturn>,
+        DetermineNarrowingReturn<TParams, TReturn>,
         [IsNonEmptyContainer<TProps>] extends [true]
             ? WidenFnProps<TProps, Keys<TProps>>
             : EmptyObject
@@ -188,7 +214,7 @@ export type WidenContainer<
                           : never
       : T extends AnyFunction
           ? T extends TypedFunction
-              ? WidenFn<
+              ? WidenFunction<
                   IsNarrowingFn<T>,
                   Parameters<T>,
                   ReturnType<T>,

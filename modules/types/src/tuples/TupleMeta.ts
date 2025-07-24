@@ -1,13 +1,16 @@
 import type {
     And,
     As,
+    GetNonVariadicLength,
+    HasVariadicTail,
     If,
     IsEqual,
     IsWideContainer,
     Length,
     MaxLength,
     MaxSafeInteger,
-    MinLength
+    MinLength,
+    NotEqual
 } from "inferred-types/types";
 
 /**
@@ -23,7 +26,7 @@ import type {
  * - `isOptional`
  * - `isEmpty`
  */
-export type TupleMeta<T extends readonly unknown[] = any> = {
+export type TupleMeta<T extends readonly unknown[] = readonly unknown[]> = {
     /** textual description of the range of lengths available */
     range: And<[
         IsEqual<MinLength<T>, 0>,
@@ -36,7 +39,7 @@ export type TupleMeta<T extends readonly unknown[] = any> = {
      * The maximum allowable length which this Tuple can take on.
      *
      * - If the tuple is unbounded because the last element is typed
-     * as a _variatic_ type then this value will be set to the `MaxSafeInteger`
+     * as a _variadic_ type then this value will be set to the `MaxSafeInteger`
      * value as this is the largest value that can be represented by **number**.
      */
     maxLength: As<
@@ -46,15 +49,28 @@ export type TupleMeta<T extends readonly unknown[] = any> = {
         number
     >;
     length: Length<T>;
-    isUnbounded: IsEqual<MaxLength<T>, number>;
+    nonVariadicLength: GetNonVariadicLength<T>;
+    /**
+     * whether or not `T` has a _variadic_ tail
+     */
+    isVariadic: IsEqual<MaxLength<T>, number>;
     /**
      * whether the tuple/array is consider to be "wide"
      * which means that the number of elements is **not** fixed
      */
     isWide: IsWideContainer<T>;
+    /**
+     * if the minimum length of `T` is 0 then this
+     * property will be `true`.
+     */
     isOptional: IsEqual<MinLength<T>, 0>;
+    /**
+     * if both **min** and **max** length are 0 then this is
+     * set as `true`.
+     */
     isEmpty: And<[
         IsEqual<MinLength<T>, 0>,
         IsEqual<MaxLength<T>, 0>,
     ]>;
-};
+    hasOptionalElements: NotEqual<Required<T>, T>
+}

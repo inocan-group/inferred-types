@@ -9,6 +9,7 @@ export * from "./crdt/index";
 export * from "./datetime/index";
 export * from "./dictionary/index";
 export * from "./domains/index";
+export * from "./each/index";
 export * from "./errors/index";
 export * from "./functional/index";
 export * from "./functions/index";
@@ -26,3 +27,4 @@ export * from "./tuples/index";
 export * from "./type-conversion/index";
 export * from "./unions/index";
 export * from "./validation/index";
+

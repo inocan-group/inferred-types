@@ -32,7 +32,7 @@ export type TemplateParams<
                 "inline"
             >,
             "extends",
-            TemplateBlock
+            [TemplateBlock]
         >,
         readonly TemplateBlock[]
     >
