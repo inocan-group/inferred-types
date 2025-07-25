@@ -21,6 +21,7 @@ export * from "./IntersectAll";
 export * from "./Last";
 export * from "./LogicalReturns";
 export * from "./Longest";
+export * from "./MakeOptional";
 export * from "./NotFilter";
 export * from "./NumericKeys";
 export * from "./NumericSort";
@@ -46,3 +47,4 @@ export * from "./TruthyReturns";
 export * from "./TypeOfArray";
 export * from "./UnionFromProp";
 export * from "./Variadic";
+

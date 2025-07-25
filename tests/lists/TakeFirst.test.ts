@@ -50,6 +50,4 @@ describe("TakeFirst<TContent,TLen,[THandle]>", () => {
             Expect<Test<T4, "equals", [1, 2?, 3?, string?]>>,
         ];
     });
-
-
 });
