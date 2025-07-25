@@ -7,7 +7,7 @@ import type {
     IsEqual,
     IsUnion,
     Last,
-    Optional,
+    Opt,
     Split,
     TupleToUnion,
     UnionToTuple,
@@ -86,7 +86,7 @@ export type YouTubeVideoUrl
 export type YouTubeCreatorUrl = UrlsFrom<[
   `www.youtube.com/channel/${string}`,
   `youtube.com/channel/${string}`,
-]> | `https://www.youtube.com/@${string}${Optional<"/featured" | "/videos" | "/playlists">}`;
+]> | `https://www.youtube.com/@${string}${Opt<"/featured" | "/videos" | "/playlists">}`;
 
 export type YouTubeEmbedUrl<TVideo extends string = string> = UrlsFrom<[
   `www.youtube.com/embed/${TVideo}`,

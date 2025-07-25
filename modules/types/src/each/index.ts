@@ -1,1 +1,1 @@
-export * from "./Each"
+export * from "./Each";

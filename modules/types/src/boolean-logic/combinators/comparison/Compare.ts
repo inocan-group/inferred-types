@@ -170,34 +170,33 @@ type Process__General<
 > = TOp extends "extends"
     ? DoesExtend<TVal, TupleToUnion<TParams>>
 
-
     : TOp extends "equals"
         ? IsEqual<TVal, TParams[0]>
 
-    : TOp extends "false"
-        ? [TVal] extends [boolean]
-            ? [boolean] extends [TVal]
-                ? boolean // TVal is exactly boolean
-                : IsFalse<TVal> // TVal is a literal boolean (true or false)
-        : // Handle specific cases that might have cross-module issues
-        [TVal] extends [null]
-            ? false
-            : [TVal] extends [undefined]
-                ? false
-                : [TVal] extends [0]
+        : TOp extends "false"
+            ? [TVal] extends [boolean]
+                ? [boolean] extends [TVal]
+                    ? boolean // TVal is exactly boolean
+                    : IsFalse<TVal> // TVal is a literal boolean (true or false)
+                : // Handle specific cases that might have cross-module issues
+                [TVal] extends [null]
                     ? false
-                    : [TVal] extends [""]
+                    : [TVal] extends [undefined]
                         ? false
-                        : [TVal] extends [true]
+                        : [TVal] extends [0]
                             ? false
-                            : [TVal] extends [false]
-                                ? true
-                                : IsFalse<TVal>
+                            : [TVal] extends [""]
+                                ? false
+                                : [TVal] extends [true]
+                                    ? false
+                                    : [TVal] extends [false]
+                                        ? true
+                                        : IsFalse<TVal>
 
-    : TOp extends "falsy"
+            : TOp extends "falsy"
                 ? IsFalsy<TVal>
 
-    : TOp extends "true"
+                : TOp extends "true"
                     ? // Use AreIncompatible to determine if we can make specific determinations
                     AreIncompatible<TVal, true> extends true
                         ? false // If TVal is incompatible with true, it definitely isn't true

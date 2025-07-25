@@ -24,31 +24,31 @@ type _Pluralize<T extends string>
                     ? `${Head}ves`
                 // Pattern: ends with consonant + "y" → replace "y" with "ies"
                     : T extends `${infer Head}by` ? `${Head}bies`
-                    : T extends `${infer Head}cy` ? `${Head}cies`
-                    : T extends `${infer Head}dy` ? `${Head}dies`
-                    : T extends `${infer Head}fy` ? `${Head}fies`
-                    : T extends `${infer Head}gy` ? `${Head}gies`
-                    : T extends `${infer Head}hy` ? `${Head}hies`
-                    : T extends `${infer Head}jy` ? `${Head}jies`
-                    : T extends `${infer Head}ky` ? `${Head}kies`
-                    : T extends `${infer Head}ly` ? `${Head}lies`
-                    : T extends `${infer Head}my` ? `${Head}mies`
-                    : T extends `${infer Head}ny` ? `${Head}nies`
-                    : T extends `${infer Head}py` ? `${Head}pies`
-                    : T extends `${infer Head}qy` ? `${Head}qies`
-                    : T extends `${infer Head}ry` ? `${Head}ries`
-                    : T extends `${infer Head}sy` ? `${Head}sies`
-                    : T extends `${infer Head}ty` ? `${Head}ties`
-                    : T extends `${infer Head}vy` ? `${Head}vies`
-                    : T extends `${infer Head}wy` ? `${Head}wies`
-                    : T extends `${infer Head}xy` ? `${Head}xies`
-                    : T extends `${infer Head}yy` ? `${Head}yies`
-                    : T extends `${infer Head}zy` ? `${Head}zies`
-                    // Pattern: ends with singular noun endings → add "es"
-                        : T extends `${string}${"s" | "sh" | "ch" | "x" | "z" | "o"}`
-                            ? `${T}es`
-                        // Default: add "s"
-                            : `${T}s`;
+                        : T extends `${infer Head}cy` ? `${Head}cies`
+                            : T extends `${infer Head}dy` ? `${Head}dies`
+                                : T extends `${infer Head}fy` ? `${Head}fies`
+                                    : T extends `${infer Head}gy` ? `${Head}gies`
+                                        : T extends `${infer Head}hy` ? `${Head}hies`
+                                            : T extends `${infer Head}jy` ? `${Head}jies`
+                                                : T extends `${infer Head}ky` ? `${Head}kies`
+                                                    : T extends `${infer Head}ly` ? `${Head}lies`
+                                                        : T extends `${infer Head}my` ? `${Head}mies`
+                                                            : T extends `${infer Head}ny` ? `${Head}nies`
+                                                                : T extends `${infer Head}py` ? `${Head}pies`
+                                                                    : T extends `${infer Head}qy` ? `${Head}qies`
+                                                                        : T extends `${infer Head}ry` ? `${Head}ries`
+                                                                            : T extends `${infer Head}sy` ? `${Head}sies`
+                                                                                : T extends `${infer Head}ty` ? `${Head}ties`
+                                                                                    : T extends `${infer Head}vy` ? `${Head}vies`
+                                                                                        : T extends `${infer Head}wy` ? `${Head}wies`
+                                                                                            : T extends `${infer Head}xy` ? `${Head}xies`
+                                                                                                : T extends `${infer Head}yy` ? `${Head}yies`
+                                                                                                    : T extends `${infer Head}zy` ? `${Head}zies`
+                                                                                                    // Pattern: ends with singular noun endings → add "es"
+                                                                                                        : T extends `${string}${"s" | "sh" | "ch" | "x" | "z" | "o"}`
+                                                                                                            ? `${T}es`
+                                                                                                        // Default: add "s"
+                                                                                                            : `${T}s`;
 
 /**
  * **Pluralize**`<T>`

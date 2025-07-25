@@ -1,4 +1,4 @@
-import { AfterFirst, First, FromLiteralTemplate, Replace, TemplateParams } from "inferred-types/types";
+import type { AfterFirst, First, FromLiteralTemplate, Replace, TemplateParams } from "inferred-types/types";
 
 type Iterate<
     /**
@@ -9,33 +9,32 @@ type Iterate<
     /**
      * the explicit value/types which the caller has passed in
      */
-    TArgs extends readonly (string|number|boolean)[],
+    TArgs extends readonly (string | number | boolean)[],
     /**
      * the template "holes" which exist in `TTpl` along with
      * their base type.
      */
-    TParams extends readonly (string|number|boolean)[]
+    TParams extends readonly (string | number | boolean)[]
 > = [] extends TParams
-? TTpl
-: Iterate<
-    Replace<
+    ? TTpl
+    : Iterate<
+        Replace<
         // content
-        TTpl,
-        // find
-        First<TParams> extends string
-        ? "{{string}}"
-        : First<TParams> extends number
-        ? "{{number}}"
-        : First<TParams> extends boolean
-        ? "{{boolean}}"
-        : never,
+            TTpl,
+            // find
+            First<TParams> extends string
+                ? "{{string}}"
+                : First<TParams> extends number
+                    ? "{{number}}"
+                    : First<TParams> extends boolean
+                        ? "{{boolean}}"
+                        : never,
         // replace
         `${First<TArgs>}`
-    >,
-    AfterFirst<TArgs>,
-    AfterFirst<TParams>
->;
-
+        >,
+        AfterFirst<TArgs>,
+        AfterFirst<TParams>
+    >;
 
 /**
  * **IntoTemplate**`<TTpl, TArgs>`

@@ -1,15 +1,15 @@
-import {
-    ArgUnion,
-    FillStringHole,
-    FnFrom,
-    IsTemplateLiteral,
-    IsAny,
+import type {
     AnyMap,
     AnySet,
     AnyWeakMap,
+    ArgUnion,
     Dictionary,
-    TypedFunction,
-    TemplateParams
+    FillStringHole,
+    FnFrom,
+    IsAny,
+    IsTemplateLiteral,
+    TemplateParams,
+    TypedFunction
 } from "inferred-types/types";
 
 type Comparators<T extends readonly unknown[]> = [
@@ -27,19 +27,17 @@ type Comparators<T extends readonly unknown[]> = [
 ];
 
 type Similar<
-  TFn extends TypedFunction,
-  TParam extends readonly unknown[],
-  /** comparable functions based on parameter signature and static enum of return types */
-  TComp extends readonly TypedFunction[] = Comparators<TParam>
+    TFn extends TypedFunction,
+    TParam extends readonly unknown[],
+    /** comparable functions based on parameter signature and static enum of return types */
+    TComp extends readonly TypedFunction[] = Comparators<TParam>
 > = TComp[number] extends infer C
-? C extends TypedFunction
-    ? TFn extends C
-    ? ReturnType<C>           // keep it
-    : never                   // drop it
-    : never
-: never;
-
-
+    ? C extends TypedFunction
+        ? TFn extends C
+            ? ReturnType<C> // keep it
+            : never // drop it
+        : never
+    : never;
 
 ;
 
@@ -90,16 +88,13 @@ export type FnReturn<TFn extends TypedFunction> = [IsAny<ReturnType<TFn>>] exten
         ? Parameters<TFn>["length"] extends 1
             ? FillStringHole<ReturnType<TFn>, ArgUnion<TFn>[0]>
             : ReturnType<TFn>
-    : ReturnType<TFn>;
-
+        : ReturnType<TFn>;
 
 // DEBUG
 
 type F1 = <A extends number>(age: A) => `${A} years old`;
 type F2 = (age: number) => `${typeof age} years old`;
 type F3 = <T extends readonly [age: number]>(...args: T) => `${T[0]} years old`;
-
-
 
 type A2 = ArgUnion<F1>; // =>
 
@@ -109,7 +104,6 @@ type RT3 = ReturnType<F3>; // =>
 
 type TP1 = TemplateParams<ReturnType<F1>>; // =>
 
-
 type P1 = Parameters<F1>; // =>
 type P2 = Parameters<F2>; // =>
 type P3 = Parameters<F3>; // =>
@@ -118,9 +112,9 @@ type C1 = Comparators<P1>; // =>
 type C2 = Comparators<P2>; // =>
 type C3 = Comparators<P2>; // =>
 
-type Similar1 = Similar<F1,P1>; // =>
-type Similar2 = Similar<F2,P2>; // =>
-type Similar3 = Similar<F3,P2>; // =>
+type Similar1 = Similar<F1, P1>; // =>
+type Similar2 = Similar<F2, P2>; // =>
+type Similar3 = Similar<F3, P2>; // =>
 
 type R1 = FnReturn<F1>; // =>
 type R2 = FnReturn<F2>; // =>

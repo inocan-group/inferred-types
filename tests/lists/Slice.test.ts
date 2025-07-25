@@ -145,6 +145,24 @@ describe("Slice<TList, TStart, TEnd>", () => {
         ];
     });
 
+
+    it("with optional types", () => {
+        type SomeOpt = ["foo","bar", string?, number?];
+
+        type ReqSlice = Slice<SomeOpt, 0,2>;
+        type DipInto = Slice<SomeOpt, 0,3>;
+        type TakeAll = Slice<SomeOpt, 0,4>;
+        type JustOpt = Slice<SomeOpt, -2>;
+
+        type cases = [
+            Expect<Test<ReqSlice, "equals", ["foo","bar"]>>,
+            Expect<Test<DipInto, "equals", [ "foo","bar", string?]>>,
+            Expect<Test<TakeAll, "equals", [ "foo","bar", string?, number?]>>,
+            Expect<Test<JustOpt, "equals", [ string?, number? ]>>
+        ];
+    });
+
+
     it("out of bounds scenarios", () => {
         type ShortList = [1, 2, 3];
 

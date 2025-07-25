@@ -21,7 +21,7 @@ export * from "./LowerAlphaChar";
 export * from "./NBSP";
 export * from "./NonAlpha";
 export * from "./NumericChar";
-export * from "./Optional";
+export * from "./Opt";
 export * from "./OptionalSpace";
 export * from "./phone/index";
 export * from "./PlusMinus";

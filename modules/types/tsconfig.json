@@ -39,7 +39,7 @@
     ],
     "include": [
         "src/**/*.ts"
-    ],
+, "src/string-literals/character-sets/Opt"    ],
     "exclude": [
         "node_modules",
         "tests",

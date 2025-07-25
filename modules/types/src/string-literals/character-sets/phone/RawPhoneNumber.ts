@@ -9,7 +9,7 @@ import type {
     IsStringLiteral,
     NumericChar,
     OnPass,
-    Optional,
+    Opt,
     Or,
     StartsWith,
     StripChars,
@@ -72,7 +72,7 @@ type _RightChars<T extends string> = StripChars<T, NumericChar | "+" | "-"> exte
 export type RawPhoneNumber<
     T extends string | Unset = Unset,
 > = T extends Unset
-    ? `${Optional<"+">}${number}${NumericChar}${NumericChar}`
+    ? `${Opt<"+">}${number}${NumericChar}${NumericChar}`
     : T extends string
         ? IsStringLiteral<T> extends true
             ? OnPass<

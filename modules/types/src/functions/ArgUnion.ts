@@ -1,4 +1,4 @@
-import { TypedFunction } from "inferred-types/types";
+import type { TypedFunction } from "inferred-types/types";
 
 /**
  * **ArgUnion**`<T>`

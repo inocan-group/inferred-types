@@ -148,19 +148,19 @@ type PreProcess<
                         ? AsNumber<Process<`${A}`, `${B}`>>
                         : AsNumber<Process<`${A}`, As<B, `${number}`>>>
                     : never
-        : Or<[IsNegativeNumber<A>, IsNegativeNumber<B>]> extends true
+            : Or<[IsNegativeNumber<A>, IsNegativeNumber<B>]> extends true
             // One is negative, one is positive - return wide type to avoid complexity
-            ? A extends `${number}` ? `${number}` : number
+                ? A extends `${number}` ? `${number}` : number
             // Same signs or both positive - proceed normally
-            : A extends `${number}`
-                ? B extends `${number}`
-                    ? As<Process<A, B>, `${number}`>
-                    : As<Process<A, `${As<B, number>}`>, `${number}`>
-                : A extends number
-                    ? B extends number
-                        ? AsNumber<Process<`${A}`, `${B}`>>
-                        : AsNumber<Process<`${A}`, As<B, `${number}`>>>
-                    : never;
+                : A extends `${number}`
+                    ? B extends `${number}`
+                        ? As<Process<A, B>, `${number}`>
+                        : As<Process<A, `${As<B, number>}`>, `${number}`>
+                    : A extends number
+                        ? B extends number
+                            ? AsNumber<Process<`${A}`, `${B}`>>
+                            : AsNumber<Process<`${A}`, As<B, `${number}`>>>
+                        : never;
 
 /**
  * **Add**`<A,B>`

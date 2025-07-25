@@ -24,7 +24,7 @@ import type {
     TypedFunction,
     UnionToTuple,
 } from "inferred-types/types";
-import { OnlyFnProps } from "types/functions/OnlyFnProps";
+import type { OnlyFnProps } from "types/functions/OnlyFnProps";
 
 /**
  * **WidenScalar**`<T>`
@@ -147,19 +147,17 @@ type WidenFnProps<
     >;
 
 // Helper to determine the return type for narrowing functions
-type DetermineNarrowingReturn<TParams, TReturn> =
-    TParams extends readonly [infer P]
+type DetermineNarrowingReturn<TParams, TReturn>
+    = TParams extends readonly [infer P]
         ? P extends "Bob" | "Nancy"
-            ? unknown  // Union constraint gets unknown return
+            ? unknown // Union constraint gets unknown return
             : P extends string
-                ? string  // String constraint gets string return
+                ? string // String constraint gets string return
                 : Widen<TReturn>
         : Widen<TReturn>;
 
-
-type ReturnFor<F, A> =
-  F extends (a: A, ...r: any[]) => infer R ? R : never;
-
+type ReturnFor<F, A>
+  = F extends (a: A, ...r: any[]) => infer R ? R : never;
 
 export type WidenFn<
     TFn extends TypedFunction
@@ -170,8 +168,7 @@ export type WidenFn<
     returns: TFn extends <T extends readonly any[]>(...args: T) => infer R ? R : never;
     props: OnlyFnProps<TFn>;
 
-}
-
+};
 
 /**
  * Widens a Function (params, return, and props)

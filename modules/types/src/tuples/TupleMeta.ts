@@ -2,7 +2,8 @@ import type {
     And,
     As,
     GetNonVariadicLength,
-    HasVariadicTail,
+    GetOptionalElementCount,
+    GetRequiredElementCount,
     If,
     IsEqual,
     IsWideContainer,
@@ -72,5 +73,7 @@ export type TupleMeta<T extends readonly unknown[] = readonly unknown[]> = {
         IsEqual<MinLength<T>, 0>,
         IsEqual<MaxLength<T>, 0>,
     ]>;
-    hasOptionalElements: NotEqual<Required<T>, T>
-}
+    hasOptionalElements: NotEqual<Required<T>, T>;
+    requiredElementCount: GetRequiredElementCount<T>;
+    optionalElementCount: GetOptionalElementCount<T>;
+};

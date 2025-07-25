@@ -1,4 +1,4 @@
-import { FromLiteralTemplate } from "types/interpolation";
+import type { FromLiteralTemplate } from "types/interpolation";
 
 /**
  * **FillStringHole**`<TTpl, U>`
@@ -11,9 +11,8 @@ import { FromLiteralTemplate } from "types/interpolation";
  * ```
  */
 export type FillStringHole<
-  TTpl extends string,
-  U extends string
+    TTpl extends string,
+    U extends string
 > = FromLiteralTemplate<TTpl> extends `${infer Pre extends string}{{string}}${infer Post extends string}`
-      ? `${Pre}${U}${Post}`
-      : never;
-
+    ? `${Pre}${U}${Post}`
+    : never;

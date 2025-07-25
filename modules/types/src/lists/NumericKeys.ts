@@ -1,19 +1,14 @@
-import { HasVariadicTail } from "types/lists/Variadic";
-import { ExcludeVariadicTail } from './Variadic';
-
-
+import type { HasVariadicTail } from "types/lists/Variadic";
+import type { ExcludeVariadicTail } from "./Variadic";
 
 type IndicesTuple<
-  T extends readonly unknown[],
-  Acc extends number[] = []
-> = number extends T['length']
-? number[]
-: T extends readonly [any, ...infer R]
-    ? IndicesTuple<R, [...Acc, Acc['length']]>
-    : Acc;
-
-
-
+    T extends readonly unknown[],
+    Acc extends number[] = []
+> = number extends T["length"]
+    ? number[]
+    : T extends readonly [any, ...infer R]
+        ? IndicesTuple<R, [...Acc, Acc["length"]]>
+        : Acc;
 
 /**
  * **NumericKeys**<`TList`>
@@ -32,15 +27,14 @@ type IndicesTuple<
 export type NumericKeys<
     TList extends readonly unknown[],
 > = HasVariadicTail<TList> extends true
-? IndicesTuple<ExcludeVariadicTail<TList>>
-: IndicesTuple<TList>
-
+    ? IndicesTuple<ExcludeVariadicTail<TList>>
+    : IndicesTuple<TList>;
 
 type X = HasVariadicTail<[]>;
 
-type A = HasVariadicTail<[]>;                        // false
-type B = HasVariadicTail<[1, 2, 3]>;                 // false
-type C = HasVariadicTail<[1, ...string[]]>;          // true
+type A = HasVariadicTail<[]>; // false
+type B = HasVariadicTail<[1, 2, 3]>; // false
+type C = HasVariadicTail<[1, ...string[]]>; // true
 type D = HasVariadicTail<readonly [1, ...string[]]>; // true
-type E = HasVariadicTail<string[]>;                  // false
-type F = HasVariadicTail<readonly number[]>;         // false
+type E = HasVariadicTail<string[]>; // false
+type F = HasVariadicTail<readonly number[]>; // false

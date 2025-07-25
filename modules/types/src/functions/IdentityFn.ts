@@ -15,6 +15,3 @@ export type IdentityFn<
             : Throw<"invalid-literal", `A narrowing identity function must be based off a wide type or a union of literals!`, "IdentityFn", { value: TValue }>
         : <T extends TValue>(v: T) => T
     : () => TValue;
-
-
-

@@ -12,20 +12,20 @@ type Process<
     T extends readonly unknown[],
     B extends boolean = false
 > = [] extends T
-? [B] extends [true]
-    ? boolean
-    : false
-: [First<T>] extends [true]
-    ? true
-    : [First<T>] extends [TypedFunction]
-        ? [IsTrue<ReturnType<First<T>>>] extends [true]
-            ? true
-            : [IsEqual<ReturnType<First<T>>, boolean>] extends [true]
+    ? [B] extends [true]
+        ? boolean
+        : false
+    : [First<T>] extends [true]
+        ? true
+        : [First<T>] extends [TypedFunction]
+            ? [IsTrue<ReturnType<First<T>>>] extends [true]
+                ? true
+                : [IsEqual<ReturnType<First<T>>, boolean>] extends [true]
+                    ? Process<AfterFirst<T>, true>
+                    : Process<AfterFirst<T>, B>
+            : [IsEqual<First<T>, boolean>] extends [true]
                 ? Process<AfterFirst<T>, true>
-                : Process<AfterFirst<T>, B>
-    : [IsEqual<First<T>, boolean>] extends [true]
-        ? Process<AfterFirst<T>, true>
-        : Process<AfterFirst<T>, B>;
+                : Process<AfterFirst<T>, B>;
 
 /**
  * **Or**`<TConditions, [TEmpty]>`
