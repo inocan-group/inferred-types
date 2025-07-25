@@ -28,7 +28,6 @@ export * from "./NumericSort";
 export * from "./Pop";
 export * from "./Push";
 export * from "./ReplaceLast";
-export * from "./Require";
 export * from "./RetainByProp";
 export * from "./RetainLiterals";
 export * from "./RetainWideTypes";
