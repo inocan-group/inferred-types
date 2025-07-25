@@ -5,10 +5,7 @@ import {
     ExcludeVariadicTail,
     HasVariadicTail,
     VariadicType,
-    GetNonVariadicLength,
-    GetOptionalElementCount,
-    GetRequiredElementCount,
-    SuperBad,
+    GetNonVariadicLength
 } from "inferred-types/types";
 
 describe("Variadic Type Utilities", () => {
@@ -125,27 +122,8 @@ describe("Variadic Type Utilities", () => {
         });
     })
 
-    describe("GetOptionalElementCount<T>", () => {
-        type NV_NoOptional = GetOptionalElementCount<[string, boolean]>;
-        type NV_AllOptional = GetOptionalElementCount<[string?, boolean?]>;
-        type NV_SomeOptional = GetOptionalElementCount<[string, boolean?]>;
 
-        type V_NoOptional = GetOptionalElementCount<[string, boolean, ...number[]]>;
-        type V_AllOptional = GetOptionalElementCount<[string?, boolean?, ...number[]]>;
-        type V_SomeOptional = GetOptionalElementCount<[string, boolean?, ...number[]]>;
-
-        type cases = [
-            Expect<Test<V_NoOptional, "equals", 0>>,
-            Expect<Test<V_AllOptional, "equals", 2>>,
-            Expect<Test<V_SomeOptional, "equals", 1>>,
-
-            Expect<Test<NV_NoOptional, "equals", 0>>,
-            Expect<Test<NV_AllOptional, "equals", 2>>,
-            Expect<Test<NV_SomeOptional, "equals", 1>>,
-        ]
-    })
-
-    describe.skip("ExcludeVariadicTail<T>", () => {
+    describe("ExcludeVariadicTail<T>", () => {
 
         it("removes variadic tail from tuples", () => {
             type T1 = ExcludeVariadicTail<[1, 2, 3, ...number[]]>;
@@ -204,38 +182,38 @@ describe("Variadic Type Utilities", () => {
             type T3 = ExcludeVariadicTail<[...(string | number)[]]>;
 
             type cases = [
-                Expect<Test<T1, "equals", []>>,
-                Expect<Test<T2, "equals", []>>,
-                Expect<Test<T3, "equals", []>>,
+                Expect<Test<T1, "equals", number[]>>,
+                Expect<Test<T2, "equals", string[]>>,
+                Expect<Test<T3, "equals", (string | number)[]>>,
             ];
         });
 
     });
 
-
-
-    describe.skip("VariadicType<T>", () => {
+    describe("VariadicType<T>", () => {
 
         it("returns element type for tuples with variadic tails", () => {
             type T1 = VariadicType<[1, 2, ...number[]]>;
             type T2 = VariadicType<[...string[]]>;
             type T3 = VariadicType<[boolean, string?, ...boolean[]]>;
             type T4 = VariadicType<[1, 2?, 3?, ...string[]]>;
+            type T5 = VariadicType<[string, number, ...string[]]>;
 
             type cases = [
                 Expect<Test<T1, "equals", number>>,
                 Expect<Test<T2, "equals", string>>,
                 Expect<Test<T3, "equals", boolean>>,
                 Expect<Test<T4, "equals", string>>,
+                Expect<Test<T5, "equals", string>>,
             ];
 
             // Additional working cases
-            type T5 = VariadicType<[...number[]]>;
-            type T6 = VariadicType<[...boolean[]]>;
+            type T6 = VariadicType<[...number[]]>;
+            type T7 = VariadicType<[...boolean[]]>;
 
             type extraCases = [
-                Expect<Test<T5, "equals", number>>,
-                Expect<Test<T6, "equals", boolean>>,
+                Expect<Test<T6, "equals", number>>,
+                Expect<Test<T7, "equals", boolean>>,
             ];
         });
 

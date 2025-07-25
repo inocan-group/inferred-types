@@ -26,6 +26,8 @@ import type {
  * - `length`
  * - `isOptional`
  * - `isEmpty`
+ * - `isVariadic`
+ * - `hasOptionalElements`
  */
 export type TupleMeta<T extends readonly unknown[] = readonly unknown[]> = {
     /** textual description of the range of lengths available */
@@ -50,6 +52,11 @@ export type TupleMeta<T extends readonly unknown[] = readonly unknown[]> = {
         number
     >;
     length: Length<T>;
+    /**
+     * The length of `T` after stripping off the _variadic_ tail.
+     *
+     * - if there is no variadic tail on `T` then this number will match `length`
+     */
     nonVariadicLength: GetNonVariadicLength<T>;
     /**
      * whether or not `T` has a _variadic_ tail
@@ -73,7 +80,19 @@ export type TupleMeta<T extends readonly unknown[] = readonly unknown[]> = {
         IsEqual<MinLength<T>, 0>,
         IsEqual<MaxLength<T>, 0>,
     ]>;
+    /**
+     * has one or more _optional_ elements defined (e.g., defined with
+     * the `?` modifier)
+     */
     hasOptionalElements: NotEqual<Required<T>, T>;
+    /**
+     * a numeric count of the elements which are of the required type
+     * (e.g., do not have a `?` modifier)
+     */
     requiredElementCount: GetRequiredElementCount<T>;
+    /**
+     * a numeric count of the elements which are of the optional type
+     * (e.g., marked with the `?` modifier)
+     */
     optionalElementCount: GetOptionalElementCount<T>;
 };
