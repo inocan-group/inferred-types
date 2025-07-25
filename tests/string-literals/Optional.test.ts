@@ -1,4 +1,4 @@
-import { Expect, Optional, Test } from "inferred-types/types";
+import { Expect, Opt, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 
@@ -6,12 +6,12 @@ import { describe, it } from "vitest";
 describe("Optional<T>", () => {
 
     it("happy path", () => {
-        type FooMaybeBar = `foo${Optional<"bar">}`;
-        type Nested = `foo${Optional<`bar${Optional<"baz">}`>}`
-        type FooUnion = `foo${Optional<"bar" | "baz">}`;
+        type FooMaybeBar = `foo${Opt<"bar">}`;
+        type Nested = `foo${Opt<`bar${Opt<"baz">}`>}`
+        type FooUnion = `foo${Opt<"bar" | "baz">}`;
 
-        type Multi = Optional<["foo", "bar"]>;
-        type MultiUnion = Optional<["foo" | "bar", "foo" | "bar"]>;
+        type Multi = Opt<["foo", "bar"]>;
+        type MultiUnion = Opt<["foo" | "bar", "foo" | "bar"]>;
 
 
         type cases = [

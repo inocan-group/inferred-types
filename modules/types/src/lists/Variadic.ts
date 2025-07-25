@@ -1,46 +1,8 @@
-import { TupleMeta, Slice, FixedLengthArray, Mutable } from "inferred-types/types";
-
-export type GetNonVariadicLength<
-    T extends readonly unknown[],
-    F extends readonly unknown[] = [],
-> = [] extends Required<T>
-    ? F["length"]
-    : Required<Mutable<T>> extends [infer Explicit, ...infer REST]
-        ? GetNonVariadicLength<
-            REST,
-            [...F, Explicit]
-        >
-        : F["length"];
-
-
-export type GetOptionalElementCount<T extends readonly unknown[]> = Required<{
-        [K in keyof T]: {} extends Pick<T,K>
-            ? true
-            : false
-}>;
-
-type IsOptionalIndex<
-  T extends readonly unknown[],
-  I extends NumericKeys<T>
-> = {} extends Pick<T, I> ? true : false;
-
-/**
- * **ExcludeVariadicTail**`<T>`
- *
- *
- */
-export type ExcludeVariadicTail<
-    T extends readonly unknown[]
-> = T extends [...FixedLengthArray<unknown, GetNonVariadicLength<T>>, ...infer Rest]
-    ? [GetNonVariadicLength<T>, ...Rest]
-    : [];
-
-
+import type { FixedLengthArray, IsEqual, IsNotEqual, Mutable,  Slice, Subtract } from "inferred-types/types";
 
 /** Does T have at least one fixed (non-variadic) element? */
-type HasFixedHead<T extends readonly unknown[]> =
-  Exclude<keyof T, keyof any[]> extends never ? false : true;
-
+type HasFixedHead<T extends readonly unknown[]>
+  = Exclude<keyof T, keyof any[]> extends never ? false : true;
 
 /**
  * **HasVariadicTail**`<T>`
@@ -56,18 +18,126 @@ type HasFixedHead<T extends readonly unknown[]> =
  * - `GetNonVariadicLength`, `NonVariadic`, `VariadicType`
  * - `IsWideArray`, `IsLiteralArray`
  */
-export type HasVariadicTail<T extends readonly unknown[]> =
-  number extends T['length']                                   // tuple-with-rest OR wide array
-    ? HasFixedHead<T> extends true                              // exclude wide arrays (no fixed head)
-      ? (T extends readonly [...infer _H, ...infer R]
-          ? number extends R['length']                          // the tail is variadic
-            ? true
-            : false
-          : false)
-      : false
-    : false;
+export type HasVariadicTail<T extends readonly unknown[]>
+  = number extends T["length"] // tuple-with-rest OR wide array
+      ? HasFixedHead<T> extends true // exclude wide arrays (no fixed head)
+          ? (T extends readonly [...infer _H, ...infer R]
+              ? number extends R["length"] // the tail is variadic
+                  ? true
+                  : false
+              : false)
+          : false
+      : false;
 
+/**
+ * **HasOptionalElements**
+ *
+ * Boolean operator which detects whether `T` has optional elements (e.g., marked with the
+ * `?` modifier) within it's set of elements.
+ *
+ * **Related:** `AllOptionalElements`
+ */
+export type HasOptionalElements<T extends readonly unknown[]> = IsNotEqual<Required<T>, T>;
 
+/**
+ * **AllOptionalElements**
+ *
+ * Boolean operator which detects whether `T`'s elements are ALL designed as optional (e.g., marked with the
+ * `?` modifier).
+ *
+ * **Related:** `HasOptionalElements`
+ */
+export type AllOptionalElements<T extends readonly unknown[]> = IsEqual<Partial<T>, T>
+
+/**
+ * **GetNonVariadicLength**`<T>`
+ *
+ * Determines the length of the tuple when the variadic tail has been stripped off.
+ *
+ * - if `T` is not variadic then this will simply report the length of the tuple`
+ * - _optional_ elements (e.g., marked with the `?` modifier) are always included in the length
+ */
+export type GetNonVariadicLength<
+    T extends readonly unknown[],
+    F extends readonly unknown[] = [],
+> = [] extends Required<T>
+    ? F["length"]
+    : Required<Mutable<T>> extends [infer Explicit, ...infer REST]
+        ? GetNonVariadicLength<
+            REST,
+            [...F, Explicit]
+        >
+        : F["length"];
+
+type GTA<
+    T extends readonly unknown[],
+    F extends readonly unknown[] = [],
+> = [] extends T
+    ? F["length"]
+    : Mutable<T> extends [infer Explicit, ...infer REST]
+        ? GTA<
+            REST,
+            [...F, Explicit]
+        >
+        : F["length"];
+
+/** Split `T` into its fixed prefix; for wide arrays it’s `[]`. */
+type FixedPrefix<T extends readonly unknown[]>
+  = T extends readonly [...infer F, ...infer R]
+      ? number extends R["length"] ? F : T
+      : T;
+
+/** Count the optional (`undefined`-including) elements in a tuple `F`. */
+type _CountOptional<
+    T extends readonly unknown[],
+    Acc extends unknown[] = []
+> = T extends readonly [infer H, ...infer R]
+    ? _CountOptional<
+        R,
+        undefined extends H ? [...Acc, 1] : Acc
+    >
+    : Acc["length"];
+
+export type GetRequiredElementCount<T extends readonly unknown[]> = GTA<T>;
+
+export type SuperBad<T extends readonly unknown[]> = Required<{
+    [K in keyof T]: {} extends Pick<T, K>
+        ? true
+        : false
+}>;
+
+/**
+ * **GetOptionalElementCount**`<T>`
+ *
+ * Counts how many elements in the **fixed (non-variadic) prefix** of `T`
+ * are marked optional (`?`). Variadic tails (`...X[]`) are ignored.
+ * Wide arrays (`string[]`, `[...T[]]`, etc.) return `0`.
+ */
+export type GetOptionalElementCount<T extends readonly unknown[]>
+  = Subtract<
+      GetNonVariadicLength<T>,
+      GetRequiredElementCount<T>
+  >;
+
+export type ExtractOptionalElements<T extends readonly unknown[]> = Slice<Required<T>,3>
+
+/**
+ * **ExcludeVariadicTail**`<T>`
+ */
+export type ExcludeVariadicTail<
+    T extends readonly unknown[]
+> = T extends [
+    ...FixedLengthArray<
+        unknown,
+        GetRequiredElementCount<T>
+    >,
+    ...infer Rest
+]
+    ? [GetNonVariadicLength<T>, ...Rest]
+    : [];
+
+type X = GTA<[string, boolean?, ...number[]]>;
+//   ^?
 
 /**
  * **VariadicType**`<T>`
@@ -83,47 +153,10 @@ export type HasVariadicTail<T extends readonly unknown[]> =
 export type VariadicType<
     T extends readonly unknown[],
     R extends readonly unknown[] = Required<T>
-> =
-    HasVariadicTail<Required<T>> extends true
+>
+    = HasVariadicTail<Required<T>> extends true
         ? Slice<
             T,
             ExcludeVariadicTail<R>["length"]
         >
         : never;
-
-type TupleIndices<T extends readonly unknown[]> =
-  Exclude<keyof T, keyof any[]> extends infer K
-    ? K extends `${infer N extends number}` // parse the string literal back to a number literal
-      ? N
-      : never
-    : never;
-
-type NumericKeys<T> = Extract<keyof T, number>;
-type NK = TupleIndices<[1,2,3,4]>; // =>
-
-
-
-
-
-type A = [1, 2, 3];
-type B = [1, 2, 3, number?];
-type BLen = B["length"];
-type BFix = GetNonVariadicLength<Required<B>>; // =>
-type BSlice = Slice<B, 0, 3> //
-type C = [1, 2, 3, ...number[]];
-type CFix = GetNonVariadicLength<C>; // =>
-type X = Required<[1, 2, 3?, 4?, ...number[]]>; // =>
-type XFix = GetNonVariadicLength<X>; // =>
-type NV = ExcludeVariadicTail<X>; // =>
-type D = [number?, number?];
-type DFix = GetNonVariadicLength<D>;
-type DLen = D["length"]
-type M = TupleMeta<[1,2,number?,string?,...number[]]>; // =>
-type R = [1,2,number?,string?,...number[]]; // =>
-
-type V1 = VariadicType<[]>; // =>
-type V2 = VariadicType<[string,number,string?, ...string[]]>; // =>
-type R2 = Required<[string,number,string?, ...string[]]>; // =>
-type S2 = ExcludeVariadicTail<Required<[string,number,string?, ...string[]]>>; // =>
-type L2 = ExcludeVariadicTail<Required<[string,number,string?, ...string[]]>>["length"]; // =>
-
