@@ -1,47 +1,27 @@
 import type { MARKED } from "inferred-types/constants";
 import type {
-    AfterFirst,
     Container,
     Dictionary,
-    DoesExtend,
-    EmptyObject,
-    First,
-    NumericKeys,
-    ObjectKey,
-    RemoveIndexKeys,
-    Tuple,
-    UnionToTuple,
 } from "inferred-types/types";
 
 type Marked = typeof MARKED;
 
-type _Keys<T extends object> = UnionToTuple<keyof RemoveIndexKeys<T>> extends
-readonly ObjectKey[]
-    ? UnionToTuple<keyof RemoveIndexKeys<T>>
-    : never;
+/**
+ * Efficiently filters tuples by removing never values using direct tail recursion
+ */
+type FilterTuple<T extends readonly unknown[], Result extends readonly unknown[] = []> =
+    T extends readonly [infer Head, ...infer Tail]
+        ? [Head] extends [Marked]
+            ? FilterTuple<Tail, Result>
+            : FilterTuple<Tail, [...Result, Head]>
+        : Result;
 
-type Process<
-    T extends Container,
-    TKeys extends readonly PropertyKey[],
-    TResults extends Container = T extends readonly unknown[] ? [] : EmptyObject,
-> = [] extends TKeys
-    ? TResults
-    : First<TKeys> extends keyof T
-        ? DoesExtend<T[First<TKeys>], Marked> extends true
-            ? Process<T, AfterFirst<TKeys>, TResults>
-            : Process<
-                T,
-                AfterFirst<TKeys>,
-                First<TKeys> extends keyof T
-                    ? TResults extends readonly unknown[]
-                        ? [...TResults, T[First<TKeys>]]
-                        : TResults extends Dictionary
-                            ? TResults & Record<First<TKeys>, T[First<TKeys>]>
-                            : never
-                    : never
-            >
-
-        : never;
+/**
+ * Efficiently filters objects by removing never values using mapped types
+ */
+type FilterObject<T> = {
+    [K in keyof T as [T[K]] extends [Marked] ? never : K]: T[K]
+};
 
 /**
  * **RemoveMarked**`<T>`
@@ -50,7 +30,8 @@ type Process<
  */
 export type RemoveMarked<
     T extends Container,
-> = Process<
-    T,
-    T extends Tuple ? NumericKeys<T> : _Keys<T>
->;
+> = T extends readonly unknown[]
+    ? FilterTuple<T>
+    : T extends Dictionary
+        ? FilterObject<T>
+        : never;
