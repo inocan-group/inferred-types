@@ -1,15 +1,15 @@
 import type {
     Container,
+    Dictionary,
     EmptyObject,
-    ExplicitlyEmptyObject,
     IsContainer,
     IsEqual,
     IsLiteralUnion,
     IsNever,
+    IsObjectLiteral,
     IsUnion,
     IsWideUnion,
-    Keys,
-    ObjectKey,
+    Not,
     Scalar,
 } from "inferred-types/types";
 
@@ -57,25 +57,9 @@ export type IsWideObject<T> = object extends T
             : IsLiteralUnion<Key> extends true
                 ? false
                 : true
-        : T extends Record<infer Key extends PropertyKey, infer _Val>
-            ? IsLiteralUnion<Key> extends true
-                ? true
-                : number extends Keys<T>["length"]
-                    ? true
-                    : false
-            : IsEqual<T, EmptyObject> extends true
-                ? false
-                : Record<ObjectKey, any> extends T
-                    ? true
-                    : T extends object
-                        ? [IsEqual<T, ExplicitlyEmptyObject>] extends [true]
-                            ? false
-                            : [IsNever<keyof T>] extends [true]
-                                ? true
-                                : number extends Keys<T>["length"]
-                                    ? true
-                                    : false
-                        : true;
+        : T extends Dictionary
+            ? Not<IsObjectLiteral<T>>
+    : false;
 
 /**
  * **IsWideContainer**`<T>`

@@ -2,7 +2,6 @@ import { describe, it } from "vitest";
 import { Expect, IntersectingKeys, Test } from "inferred-types/types";
 
 
-
 describe("IntersectingKeys<L,R>", () => {
 
     it("happy path (with objects)", () => {
@@ -14,5 +13,15 @@ describe("IntersectingKeys<L,R>", () => {
             Expect<Test<None, "equals",  []>>,
         ];
     });
+
+
+    it("with tuples", () => {
+        type T = IntersectingKeys<[1,2,3], ["foo","bar"]>;
+
+        type cases = [
+            Expect<Test<T, "equals", [0,1]>>
+        ];
+    });
+
 
 });
