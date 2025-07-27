@@ -20,3 +20,4 @@ export * from "./ToFn";
 export * from "./TypedParameter";
 export * from "./TypeGuard";
 export * from "./WrapperFn";
+export * from "./FnReturn";

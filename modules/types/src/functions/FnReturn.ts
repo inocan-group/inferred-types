@@ -82,7 +82,9 @@ type Similar<
  *     [ "Bob", 45 ]
  * ```
  */
-export type FnReturn<TFn extends TypedFunction> = [IsAny<ReturnType<TFn>>] extends [true]
+export type FnReturn<
+    TFn extends TypedFunction
+> = [IsAny<ReturnType<TFn>>] extends [true]
     ? Similar<TFn, Parameters<TFn>>
     : IsTemplateLiteral<ReturnType<TFn>> extends true
         ? Parameters<TFn>["length"] extends 1

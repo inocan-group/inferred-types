@@ -1,51 +1,81 @@
-import type { AfterFirst, First, FromLiteralTemplate, Replace, TemplateParams } from "inferred-types/types";
+import type { IsEqual, TemplateParams } from "inferred-types/types";
 
-type Iterate<
-    /**
-     * the template which has already been converted from
-     * literal template to a static template
-     */
-    TTpl extends string,
-    /**
-     * the explicit value/types which the caller has passed in
-     */
-    TArgs extends readonly (string | number | boolean)[],
-    /**
-     * the template "holes" which exist in `TTpl` along with
-     * their base type.
-     */
-    TParams extends readonly (string | number | boolean)[]
-> = [] extends TParams
-    ? TTpl
-    : Iterate<
-        Replace<
-        // content
-            TTpl,
-            // find
-            First<TParams> extends string
-                ? "{{string}}"
-                : First<TParams> extends number
-                    ? "{{number}}"
-                    : First<TParams> extends boolean
-                        ? "{{boolean}}"
-                        : never,
-        // replace
-        `${First<TArgs>}`
-        >,
-        AfterFirst<TArgs>,
-        AfterFirst<TParams>
-    >;
+/**
+ * Process args array helper
+ */
+type NextArg<T extends readonly unknown[]> = T extends readonly [unknown, ...infer Rest] ? Rest : T;
+type FirstArg<T extends readonly unknown[]> = T extends readonly [infer First, ...unknown[]] ? First : never;
+
+/**
+ * Process template character by character, replacing placeholders in order
+ */
+type ProcessTemplate<
+    TContent extends string,
+    TArgs extends readonly unknown[],
+    TResult extends string = ""
+> = TContent extends `${infer First}${infer Rest}`
+    ? [IsEqual<First, `${string}`>] extends [true]
+        ? TArgs extends readonly [unknown, ...unknown[]]
+            ? ProcessTemplate<
+                Rest,
+                NextArg<TArgs>,
+                `${TResult}${FirstArg<TArgs> & (string | number | boolean)}`
+            >
+            : ProcessTemplate<Rest, TArgs, `${TResult}${First}`>
+        : [IsEqual<First, `${number}`>] extends [true]
+            ? TArgs extends readonly [unknown, ...unknown[]]
+                ? ProcessTemplate<
+                    Rest,
+                    NextArg<TArgs>,
+                    `${TResult}${FirstArg<TArgs> & (string | number | boolean)}`
+                >
+                : ProcessTemplate<Rest, TArgs, `${TResult}${First}`>
+            : [IsEqual<First, `${boolean}`>] extends [true]
+                ? TArgs extends readonly [unknown, ...unknown[]]
+                    ? ProcessTemplate<
+                        Rest,
+                        NextArg<TArgs>,
+                        `${TResult}${FirstArg<TArgs> & (string | number | boolean)}`
+                    >
+                    : ProcessTemplate<Rest, TArgs, `${TResult}${First}`>
+                : ProcessTemplate<Rest, TArgs, `${TResult}${First}`>
+    : [TContent] extends [""]
+        ? TResult
+        : [IsEqual<TContent, `${string}`>] extends [true]
+            ? TArgs extends readonly [unknown, ...unknown[]]
+                ? `${TResult}${FirstArg<TArgs> & (string | number | boolean)}`
+                : `${TResult}${TContent}`
+            : [IsEqual<TContent, `${number}`>] extends [true]
+                ? TArgs extends readonly [unknown, ...unknown[]]
+                    ? `${TResult}${FirstArg<TArgs> & (string | number | boolean)}`
+                    : `${TResult}${TContent}`
+                : [IsEqual<TContent, `${boolean}`>] extends [true]
+                    ? TArgs extends readonly [unknown, ...unknown[]]
+                        ? `${TResult}${FirstArg<TArgs> & (string | number | boolean)}`
+                        : `${TResult}${TContent}`
+                    : `${TResult}${TContent}`;
 
 /**
  * **IntoTemplate**`<TTpl, TArgs>`
  *
+ * Takes a template literal type and a tuple of values, and returns the
+ * interpolated string literal type.
  *
+ * This implementation processes template literals in left-to-right order,
+ * correctly matching template placeholders to arguments sequentially.
+ *
+ * @example
+ *
+ * ```ts
+ * // "Hello World!"
+ * type Result = IntoTemplate<`Hello ${string}!`, ["World"]>;
+ * // "Age: 42"
+ * type Age = IntoTemplate<`Age: ${number}`, [42]>;
+ * // "Bob is 45 years old and his favorite color is blue."
+ * type Complex = IntoTemplate<`${string} is ${number} years old and his favorite color is ${string}.`, ["Bob", 45, "blue"]>;
+ * ```
  */
 export type IntoTemplate<
     TTpl extends string,
-    TArgs extends TemplateParams<TTpl>
-> = Iterate<
-    FromLiteralTemplate<TTpl>,
-    TArgs,
-    TemplateParams<TTpl>
->;
+    TArgs extends TemplateParams<TTpl> extends readonly (string|number|boolean)[] ? TemplateParams<TTpl> : []
+> = ProcessTemplate<TTpl, TArgs>;

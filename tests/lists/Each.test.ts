@@ -35,5 +35,4 @@ describe("Each<T,Op,Param>", () => {
         ];
     });
 
-
 });
