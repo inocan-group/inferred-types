@@ -42,14 +42,14 @@ export type ToLiteralOptions = {
 
 type Enc<
     T extends string,
-    TOpt extends Required<ToJsValueOptions>
+    TOpt extends { quote: QuoteCharacter; encode: boolean }
 > = TOpt["encode"] extends true
     ? SafeEncode<T>
     : T;
 
 type InnerArray<
     T extends readonly any[],
-    O extends Required<ToJsValueOptions> = { quote: "\""; encode: false }
+    O extends { quote: QuoteCharacter; encode: boolean } = { quote: "\""; encode: false }
 > = As<{
     [K in keyof T]: T[K] extends string
         ? `${O["quote"]}${T[K]}${O["quote"]}`
@@ -92,7 +92,7 @@ type AsUnionArrayString<
  */
 export type ToStringLiteral__Tuple<
     T extends readonly unknown[],
-    O extends Required<ToJsValueOptions> = { quote: "\""; encode: false }
+    O extends { quote: QuoteCharacter; encode: boolean } = { quote: "\""; encode: false }
 >
 = [TupleMeta<T>["isWide"]] extends [true]
     ? [T] extends [readonly (infer Type)[]]
@@ -131,7 +131,7 @@ export type IsObjectKeyRequiringQuotes<
  */
 type Prop<
     TProp extends string,
-    TOpt extends Required<ToJsValueOptions>
+    TOpt extends { quote: QuoteCharacter; encode: boolean }
 > = [IsObjectKeyRequiringQuotes<TProp>] extends [true]
     ? `${TOpt["quote"]}${TProp}${TOpt["quote"]}`
     : TProp;
@@ -143,7 +143,7 @@ type Prop<
 type InnerObject<
     T extends Dictionary,
     K extends readonly (keyof T & string)[],
-    O extends Required<ToJsValueOptions> = { quote: "\""; encode: false },
+    O extends { quote: QuoteCharacter; encode: boolean } = { quote: "\""; encode: false },
     R extends readonly string[] = [],
 > = [] extends K
     ? Join<R, ", ">
@@ -186,7 +186,7 @@ type InnerObject<
  */
 export type ToStringLiteral__Object<
     T extends Dictionary,
-    O extends Required<ToJsValueOptions> = { quote: "\""; encode: false }
+    O extends { quote: QuoteCharacter; encode: boolean } = { quote: "\""; encode: false }
 > = `{ ${InnerObject<T, StringKeys<T>, O>} }`;
 
 /**
@@ -198,7 +198,7 @@ export type ToStringLiteral__Object<
  */
 export type ToStringLiteral__Scalar<
     T extends Scalar,
-    O extends Required<ToJsValueOptions> = { quote: "\""; encode: false }
+    O extends { quote: QuoteCharacter; encode: boolean } = { quote: "\""; encode: false }
 > = [T] extends [string]
     ? [string] extends [T]
         ? "string"
@@ -248,24 +248,40 @@ export type ToJsValueOptions = {
 
 type O<
     T extends ToJsValueOptions
-> = MergeObjects<{ quote: "\""; encode: false }, T> extends Required<ToJsValueOptions>
-    ? MergeObjects<{ quote: "\""; encode: false }, T>
-    : never;
+> = {
+    quote: T["quote"] extends QuoteCharacter ? T["quote"] : "\"";
+    encode: T["encode"] extends boolean ? T["encode"] : false;
+};
 
 type _ToStringLiteral<
     T,
     Opt extends ToJsValueOptions = { quote: "\""; encode: false },
-> = [undefined] extends [T]
+> = T extends undefined
     ? "undefined"
-    : [IsUnion<T>] extends [true]
-        ? ToStringLiteral__Union<UnionToTuple<T>>
-        : [T] extends [readonly unknown[]]
-            ? ToStringLiteral__Tuple<T, As<O<Opt>, Required<ToJsValueOptions>>>
-            : [T] extends [Scalar]
-                ? ToStringLiteral__Scalar<T, As<O<Opt>, Required<ToJsValueOptions>>>
-                : [T] extends [Dictionary]
-                    ? ToStringLiteral__Object<T, As<O<Opt>, Required<ToJsValueOptions>>>
-                    : never;
+    : T extends number
+        ? number extends T
+            ? "number"
+            : `${T}`
+        : T extends string
+            ? string extends T
+                ? "string"
+                : `"${T}"`
+            : T extends boolean
+                ? [T] extends [true]
+                    ? "true"
+                    : [T] extends [false]
+                        ? "false"
+                        : "boolean"
+                : T extends null
+                    ? "null"
+                    : [IsUnion<T>] extends [true]
+                        ? ToStringLiteral__Union<UnionToTuple<T>>
+                        : T extends readonly unknown[]
+                            ? ToStringLiteral__Tuple<T, O<Opt>>
+                            : T extends Record<string, any>
+                                ? ToStringLiteral__Object<T, O<Opt>>
+                                : never;
+
 
 /**
  * Converts any Typescript variable to a string literal
@@ -276,6 +292,4 @@ type _ToStringLiteral<
 export type ToStringLiteral<
     T,
     Opt extends ToJsValueOptions = { quote: "\""; encode: false },
-> = [_ToStringLiteral<T>] extends [string]
-    ? _ToStringLiteral<T, Opt>
-    : never;
+> = _ToStringLiteral<T, Opt>;

@@ -9,7 +9,6 @@ import { toStringLiteral, split, stripChars } from "inferred-types/runtime";
 
 describe("ToStringLiteral<T>", () => {
 
-
     it("undefined value", () => {
         type Undef = ToStringLiteral<undefined>;
 
@@ -138,8 +137,7 @@ describe("ToStringLiteral<T>", () => {
         type cases = [
             Expect<Test<
                 StrNum, "extends",
-                "string | number" |
-                "number | string"
+                "string | number" | "number | string"
             >>,
             /** the ordering of a union type can vary */
             Expect<Test<
