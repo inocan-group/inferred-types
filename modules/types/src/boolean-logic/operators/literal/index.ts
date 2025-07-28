@@ -12,5 +12,8 @@ export * from "./IsStringLiteral";
 export * from "./IsTuple";
 export * from "./IsUnitPrimitive";
 export * from "./IsWideUnion";
+export * from "./IsEmptyObject";
+export * from "./IsStrictlyEmptyObject";
+
 
 

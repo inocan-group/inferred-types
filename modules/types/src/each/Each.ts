@@ -1,7 +1,7 @@
 import type { And, Err, Get, GetTypeOf, IsLiteralLike, IsWideType } from "inferred-types/types";
 import type { TypedFunction } from "types/base-types";
 
-export type EachOperation = "returnType" | "get" | "isLiteral" | "isWide";
+export type EachOperation = "returnType" | "get" | "isLiteral" | "isLiteralLike" | "isWide";
 
 type FirstParam<T extends EachOperation> = T extends "returnType"
     ? null
@@ -50,6 +50,11 @@ export type Each<
     // TSecond extends SecondParam<TOp> | null = null,
     // TThird extends ThirdParam<TOp> | null = null
 > = TOp extends "isLiteral"
+    ? And<{
+        [K in keyof T]: IsLiteral<T[K]>
+    }>
+
+    : TOp extends "isLiteralLike"
     ? And<{
         [K in keyof T]: IsLiteralLike<T[K]>
     }>
