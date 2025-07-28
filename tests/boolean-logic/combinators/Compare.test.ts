@@ -568,7 +568,7 @@ describe("compare() runtime function", () => {
             expect(f4).toBe(false);
 
             expect(b1).toBe(true); // at runtime it IS a false value
-            expect(b1).toBe(false);
+            expect(b2).toBe(false);
 
             type cases = [
                 Expect<Test<typeof t1, "equals", true>>,

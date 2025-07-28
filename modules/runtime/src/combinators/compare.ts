@@ -430,18 +430,17 @@ function handle_datetime<
     let outcome = null;
 
     if (["sameDay", "sameMonth", "sameMonthYear", "sameYear", "after", "before"].includes(op)) {
-        if (!isDateLike(params[1])) {
-            outcome = err("invalid-params/not-date-like", `The '${op}' operation expects the second parameter to be a DateLike value but it was not!`);
+        if (!isDateLike(params[0])) {
+            return err("invalid-params/not-date-like", `The '${op}' operation expects the first parameter to be a DateLike value but it was not!`);
         }
         if (!isDateLike(val)) {
-            outcome = err("invalid-value/not-date-like", ``);
-            return outcome;
+            return err("invalid-value/not-date-like", `The '${op}' operation expects the value to be a DateLike value but it was not!`);
         }
 
         switch (op) {
             case "sameDay": {
                 const value = parseDate(val as DateLike);
-                const comparator = parseDate(params[1] as TParams[1] & DateLike);
+                const comparator = parseDate(params[0] as TParams[0] & DateLike);
                 if (isParsedDate(comparator) && isParsedDate(value)) {
                     outcome = value.year === comparator.year
                         && value.month === comparator.month
@@ -584,6 +583,12 @@ function compareFn<
 
             // Numeric operations
             result = handle_numeric(val, op, params);
+            if (isBoolean(result) || isError(result)) {
+                return result as Compare<TVal,TOp,TParams>;
+            }
+
+            // DateTime operations
+            result = handle_datetime(val, op, params);
             if (isBoolean(result) || isError(result)) {
                 return result as Compare<TVal,TOp,TParams>;
             }

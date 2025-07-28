@@ -2,6 +2,7 @@ import type {
     Comparator,
     ComparisonAccept,
     ComparisonOperation,
+    Filter,
     FilterFn,
     GetComparisonParamInput,
 } from "inferred-types/types";
@@ -18,7 +19,7 @@ function filterFn<
     op: TOp,
     params: TParams
 ): FilterFn<TOp,TParams> {
-    return <const TList extends ComparisonAccept<TOp>[]>(...list: TList) => {
+    return <const TList extends ComparisonAccept<TOp>[]>(list: TList) => {
         return (
             list.filter((item) => {
                 const comparator = compare(op, ...params) as Comparator<TOp,TParams>;

@@ -1,5 +1,5 @@
 import type { And } from "inferred-types/types";
-import type { IsNumericLiteral } from "./IsNumericLiteral";
+import type { IsNumericLiteral } from "../literal/IsNumericLiteral";
 
 /**
  * **AllNumericLiterals**`<T>`

@@ -1,6 +1,6 @@
 import { Each, First, UnionFrom, Values, Widen } from "inferred-types/types";
 import { Container, Dictionary } from "types/base-types";
-import { As, Contains, If, IsDictionary, IsEqual, IsLiteral, IsNever, IsSameContainerType, IsWideContainer, Or, Xor } from "types/boolean-logic";
+import { As, Contains, If, IsDictionary, IsEqual, IsLiteralLike, IsNever, IsSameContainerType, IsWideContainer, Or, Xor } from "types/boolean-logic";
 import { Err } from "types/errors";
 
 // Helper to get type intersection
@@ -89,11 +89,11 @@ type DetectValues<
     B extends readonly unknown[],
 > = A extends (infer AT)[]
 ? B extends (infer BT)[]
-    ? IsLiteral<A> extends true
+    ? IsLiteralLike<A> extends true
         ? Each<Values<A>, "isLiteral"> extends true
             ? UnionFrom<A>[]
             : A[number][]
-        : IsLiteral<B> extends true
+        : IsLiteralLike<B> extends true
         ? Each<Values<B>, "isLiteral"> extends true
             ? UnionFrom<B>[]
             : B[number][]

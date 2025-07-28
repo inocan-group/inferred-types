@@ -1,7 +1,7 @@
 import type {
     AfterFirst,
     First,
-    IsLiteral,
+    IsLiteralLike,
     IsStringLiteral,
     IsUnion,
     UnionToTuple,
@@ -69,7 +69,7 @@ export type ReplaceAll<
     TFind extends string,
     TReplace extends string,
 > = TText extends readonly string[]
-    ? IsLiteral<TText> extends true
+    ? IsLiteralLike<TText> extends true
         ? EachTupleElement<TText, TFind, TReplace>
         : string[]
     : TText extends string

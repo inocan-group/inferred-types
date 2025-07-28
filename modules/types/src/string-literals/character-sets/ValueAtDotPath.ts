@@ -3,7 +3,7 @@ import type {
     AsRef,
     Container,
     First,
-    IsLiteral,
+    IsLiteralLike,
     IsStringLiteral,
     IsValidDotPath,
     IsVueRef,
@@ -43,7 +43,7 @@ export type ValueAtDotPath<
     TValue extends Container,
     TPath extends string,
 > = [IsValidDotPath<TValue, TPath>] extends [true]
-    ? IsLiteral<TValue> extends true
+    ? IsLiteralLike<TValue> extends true
         ? IsStringLiteral<TPath> extends true
             ? Split<TPath, "."> extends readonly string[]
                 ? Process<

@@ -1,4 +1,4 @@
-import { Expect, IsLiteral, Test } from "inferred-types/types";
+import { Expect, IsLiteralLike, Test } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 
@@ -6,10 +6,10 @@ import { describe, it } from "vitest";
 describe("IsLiteral<T>", () => {
 
     it("Happy Path", () => {
-        type T1 = IsLiteral<"foo">;
-        type T2 = IsLiteral<42>;
-        type T3 = IsLiteral<true>;
-        type T4 = IsLiteral<{ foo: 1; bar: 2 }>;
+        type T1 = IsLiteralLike<"foo">;
+        type T2 = IsLiteralLike<42>;
+        type T3 = IsLiteralLike<true>;
+        type T4 = IsLiteralLike<{ foo: 1; bar: 2 }>;
 
 
         type cases = [

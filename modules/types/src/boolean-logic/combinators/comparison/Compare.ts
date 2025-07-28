@@ -31,7 +31,7 @@ import type {
     IsGreaterThanOrEqual,
     IsLessThan,
     IsLessThanOrEqual,
-    IsLiteral,
+    IsLiteralLike,
     IsNever,
     IsObject,
     IsSameDay,
@@ -98,7 +98,7 @@ type Process__DateTime<
                 { val: TVal }
             >
             : TParams extends Base<TOp>
-                ? IsLiteral<C<"before", TParams>> extends true
+                ? IsLiteralLike<C<"before", TParams>> extends true
                     ? IsBefore<As<TVal, DateLike>, C<"before", TParams>>
                     : boolean
                 : IsBoolean<IsDateLike<TVal>> extends true
@@ -113,7 +113,7 @@ type Process__DateTime<
                 { val: TVal }
                 >
                 : TParams extends Base<TOp>
-                    ? IsLiteral<C<"sameDay", TParams>> extends true
+                    ? IsLiteralLike<C<"sameDay", TParams>> extends true
                         ? IsSameDay<As<TVal, DateLike>, C<"sameDay", TParams>>
                         : boolean
                     : IsBoolean<IsDateLike<TVal>> extends true
@@ -124,7 +124,7 @@ type Process__DateTime<
                 ? IsFalse<IsDateLike<TVal>> extends true
                     ? false
                     : TParams extends Base<TOp>
-                        ? IsLiteral<C<"sameMonthYear", TParams>> extends true
+                        ? IsLiteralLike<C<"sameMonthYear", TParams>> extends true
                             ? IsSameMonthYear<
                                 As<TVal, DateLike>,
                                 C<"sameMonthYear", TParams>
@@ -138,7 +138,7 @@ type Process__DateTime<
                     ? IsFalse<IsDateLike<TVal>> extends true
                         ? false
                         : TParams extends Base<TOp>
-                            ? IsLiteral<C<"sameMonth", TParams>> extends true
+                            ? IsLiteralLike<C<"sameMonth", TParams>> extends true
                                 ? IsSameMonth<
                                     As<TVal, DateLike>,
                                     C<"sameMonth", TParams>
@@ -152,7 +152,7 @@ type Process__DateTime<
                         ? IsFalse<IsDateLike<TVal>> extends true
                             ? false
                             : TParams extends Base<TOp>
-                                ? IsLiteral<C<"sameYear", TParams>> extends true
+                                ? IsLiteralLike<C<"sameYear", TParams>> extends true
                                     ? IsSameYear<
                                         As<TVal, DateLike>,
                                         C<"sameYear", TParams>

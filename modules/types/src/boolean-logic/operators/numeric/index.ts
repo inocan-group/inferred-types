@@ -6,5 +6,4 @@ export * from "./IsLessThan";
 export * from "./IsNegativeNumber";
 export * from "./IsNumber";
 export * from "./IsNumberLike";
-export * from "./IsNumericLiteral";
 export * from "./IsPositiveNumber";

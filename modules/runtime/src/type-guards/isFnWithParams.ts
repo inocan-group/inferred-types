@@ -2,7 +2,7 @@ import type {
     AsNarrowingFn,
     FromInputToken__String,
     InputTokenSuggestions,
-    IsLiteral,
+    IsLiteralLike,
     Tuple,
     TypedFunction,
 } from "inferred-types/types";
@@ -25,7 +25,7 @@ export function isFnWithParams<T, P extends (readonly InputTokenSuggestions[]) |
 ): input is T & AsNarrowingFn<
     "length" extends keyof T
         ? T["length"] extends 0
-            ? IsLiteral<P["length"]> extends true
+            ? IsLiteralLike<P["length"]> extends true
                 ? Tuple<any, P["length"]>
                 : [any, ...any[]]
             : [any, ...any[]]

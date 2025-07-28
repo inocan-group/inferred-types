@@ -52,7 +52,7 @@ export function toKeyValue<
      * an unsorted tuple of `KeyValue`'s
      */
     const kv = keysOf(obj).map(
-        k => ({ key: k, value: obj[k] })
+        k => ({ key: k, value: obj[k], required: true })
     );
 
     return sortByKey(kv, "key", sort || {}) as unknown as TSorted;

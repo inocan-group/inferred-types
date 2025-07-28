@@ -10,7 +10,7 @@ import type {
     ExpandRecursively,
     First,
     FnKeyValue,
-    IsLiteral,
+    IsLiteralLike,
     IsLiteralUnion,
     IsNarrowingFn,
     IsNonEmptyContainer,
@@ -81,7 +81,7 @@ type WidenObj<
                     ReturnType<T[First<TKeys>]>,
                     ExpandDictionary<FnKeyValue<T[First<TKeys>]>>
                 >
-                : IsLiteral<T[First<TKeys>]> extends true
+                : IsLiteralLike<T[First<TKeys>]> extends true
                     ? WidenLiteral<T[First<TKeys>]>
                     : Process<T[First<TKeys>]>
         >
@@ -90,7 +90,7 @@ type WidenObj<
 export type WidenTuple<
     T extends readonly unknown[],
 > = {
-    [K in keyof T]: IsLiteral<T[K]> extends true
+    [K in keyof T]: IsLiteralLike<T[K]> extends true
         ? WidenLiteral<T[K]>
         : Process<T[K]>
 };
@@ -98,7 +98,7 @@ export type WidenTuple<
 type WidenFnParams<
     T extends readonly unknown[],
 > = {
-    [K in keyof T]: IsLiteral<T[K]> extends true
+    [K in keyof T]: IsLiteralLike<T[K]> extends true
         ? WidenLiteral<T[K]>
         : IsLiteralUnion<T[K]> extends true
             ? WidenUnion<T[K]>

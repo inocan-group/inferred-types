@@ -1,11 +1,11 @@
 import type { Constant } from "inferred-types/constants";
-import type { If, IsLiteral, RemoveMarked } from "inferred-types/types";
+import type { If, IsLiteralLike, RemoveMarked } from "inferred-types/types";
 
 type Process<
     T extends readonly unknown[],
 > = RemoveMarked<{
     [K in keyof T]: If<
-        IsLiteral<T[K]>,
+        IsLiteralLike<T[K]>,
         T[K],
         Constant<"Marked">
     >
