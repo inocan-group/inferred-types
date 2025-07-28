@@ -19,14 +19,14 @@ type CheckIt<T extends Dictionary> = IsNever<keyof T> extends true
         : true;
 
 /**
- * **IsObjectLiteral**`<T>`
+ * **IsLiteralLikeObject**`<T>`
  *
  * Tests whether an object is a literal. An object literal is any of the following:
  *
  * - any KV-like type which has an **explicit** number of keys
  * - if `Keys<T>["length"]` translates to `number` than this is **not** a literal.
  */
-export type IsObjectLiteral<T> = [IsNever<T>] extends [true]
+export type IsLiteralLikeObject<T> = [IsNever<T>] extends [true]
     ? false
     : [T] extends [readonly any[]]
         ? false

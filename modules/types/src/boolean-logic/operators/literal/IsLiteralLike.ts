@@ -1,24 +1,9 @@
 import type {
-    IsBooleanLiteral,
-    IsEmptyObject,
-    IsLiteralUnion,
-    IsNumericLiteral,
-    IsObjectLiteral,
-    IsStringLiteral,
-    IsTuple,
-    IsUnion,
     DefineModifiers,
-    Or,
+    IsAny,
+    IsNever,
 } from "inferred-types/types";
 
-type Validations<T> = Or<[
-    IsStringLiteral<T>,
-    IsNumericLiteral<T>,
-    IsTuple<T>,
-    IsBooleanLiteral<T>,
-    IsObjectLiteral<T>,
-    IsEmptyObject<T>
-]>;
 
 export type LiteralLikeModifiers = DefineModifiers<["allow-variadic-tail","exclude-unions"]>;
 
@@ -56,8 +41,12 @@ export type LiteralLikeModifiers = DefineModifiers<["allow-variadic-tail","exclu
  * - `IsLiteral`, `IsWideType`
  * - `IsLiteralUnion`, `IsWideUnion`, `IsMixedUnion`
  */
-export type IsLiteralLike<T, U extends null | LiteralLikeModifiers = null> =
-
+export type IsLiteralLike<T, U extends null | LiteralLikeModifiers = null> = [IsAny<T>] extends [true]
+? false
+: [IsNever<T>] extends [true]
+? false
+: // TODO
+  unknown;
 
 
 
