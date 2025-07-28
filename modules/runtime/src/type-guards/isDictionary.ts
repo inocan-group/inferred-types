@@ -14,7 +14,7 @@ import { isMap, isSet, isWeakMap } from "inferred-types/runtime";
  * - `isObject()`, `isMap()`, `isSet()`, `isWeakMap()`
  */
 export function isDictionary(value: unknown): value is Dictionary {
-    return typeof value === "object" && value !== null && Array.isArray(value) === false && !isMap(value) && !isSet(value) && !isWeakMap(value);
+    return typeof value === "object" && value !== null && !Array.isArray(value) && !isMap(value) && !isSet(value) && !isWeakMap(value);
 }
 
 /**

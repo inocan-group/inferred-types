@@ -1,6 +1,7 @@
 import type {
     IfEqual,
     IsBooleanLiteral,
+    IsEmptyObject,
     IsLiteralUnion,
     IsNumericLiteral,
     IsObjectLiteral,
@@ -15,7 +16,8 @@ type Validations<T> = Or<[
     IsNumericLiteral<T>,
     IsTuple<T>,
     IsBooleanLiteral<T>,
-    IsObjectLiteral<T>
+    IsObjectLiteral<T>,
+    IsEmptyObject<T>
 ]>;
 
 /**

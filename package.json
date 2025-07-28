@@ -98,7 +98,7 @@
         "tsdown": "^0.13.0",
         "typecheck": "^0.1.2",
         "typed-tester": "^0.6.3",
-        "typescript": "5.9.0-beta",
+        "typescript": "5.9.1-rc",
         "typescript-eslint": "^8.38.0",
         "vite": "^7.0.5",
         "vite-node": "^3.2.4",

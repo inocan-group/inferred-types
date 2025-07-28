@@ -1,5 +1,6 @@
 import type {
     Dictionary,
+    EmptyObject,
     ExplicitlyEmptyObject,
     IsEqual,
     IsNever,
@@ -32,5 +33,7 @@ export type IsObjectLiteral<T> = [IsNever<T>] extends [true]
         : T extends Dictionary
             ? IsEqual<T, ExplicitlyEmptyObject> extends true
                 ? true
-                : CheckIt<T>
+                : IsEqual<T, EmptyObject> extends true
+                    ? true
+                    : CheckIt<T>
             : false;

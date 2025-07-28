@@ -9,11 +9,13 @@ import { toStringLiteral, split, stripChars } from "inferred-types/runtime";
 
 describe("ToStringLiteral<T>", () => {
 
-    it("undefined value", () => {
+    it("undefined and null values", () => {
         type Undef = ToStringLiteral<undefined>;
+        type Null = ToStringLiteral<null>;
 
         type cases = [
-            Expect<Test<Undef, "equals", "undefined">>
+            Expect<Test<Undef, "equals", "undefined">>,
+            Expect<Test<Null, "equals", "null">>
         ];
     });
 
@@ -68,7 +70,7 @@ describe("ToStringLiteral<T>", () => {
 
 
     it("tuple (literal types)", () => {
-        type Nums = ToStringLiteral<[1,2,3]>;
+        type Numeric = ToStringLiteral<[1,2,3]>;
         type Obj = ToStringLiteral<[
             { id: 1},
             { id: 2}
@@ -86,7 +88,7 @@ describe("ToStringLiteral<T>", () => {
 
 
         type cases = [
-            Expect<Test<Nums, "equals", `[ 1, 2, 3 ]`>>,
+            Expect<Test<Numeric, "equals", `[ 1, 2, 3 ]`>>,
             Expect<Test<Obj, "equals", `[ { id: 1 }, { id: 2 } ]`>>,
             Expect<Test<MultiDim, "equals", `[ [ 1, 2 ], [ 3, 4 ] ]`>>,
             Expect<Test<Mixed, "equals", `[ 1, "foo", 3 ]`>>,
@@ -129,7 +131,7 @@ describe("ToStringLiteral<T>", () => {
 
     it("Union type", () => {
         type StrNum = ToStringLiteral<string | number>;
-        type Nums = ToStringLiteral<1 | 2 | 3 | 4>;
+        type Numeric = ToStringLiteral<1 | 2 | 3 | 4>;
         type Obj = ToStringLiteral<
             { id: 1 } | { id: 2 }
         >;
@@ -141,7 +143,7 @@ describe("ToStringLiteral<T>", () => {
             >>,
             /** the ordering of a union type can vary */
             Expect<Test<
-                Nums, "containsAll",
+                Numeric, "containsAll",
                 ["1","2","3","4","|"]
             >>,
             Expect<Test<

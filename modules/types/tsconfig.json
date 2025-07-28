@@ -25,6 +25,7 @@
         "declarationMap": true,
         "outDir": "dist",
         "preserveConstEnums": true,
+        "strictNullChecks": true,
         "sourceMap": true,
         "stripInternal": false,
         "forceConsistentCasingInFileNames": true,

@@ -15,10 +15,10 @@ import type {
     IsString,
     IsSymbol,
     IsTrue,
+    IsUndefined,
     IsUnion,
     IsWideScalar,
     Join,
-    MergeObjects,
     Or,
     QuoteCharacter,
     SafeEncode,
@@ -253,34 +253,38 @@ type O<
     encode: T["encode"] extends boolean ? T["encode"] : false;
 };
 
+
 type _ToStringLiteral<
     T,
     Opt extends ToJsValueOptions = { quote: "\""; encode: false },
-> = T extends undefined
-    ? "undefined"
-    : T extends number
-        ? number extends T
-            ? "number"
-            : `${T}`
-        : T extends string
-            ? string extends T
-                ? "string"
-                : `"${T}"`
-            : T extends boolean
-                ? [T] extends [true]
-                    ? "true"
-                    : [T] extends [false]
-                        ? "false"
-                        : "boolean"
-                : T extends null
-                    ? "null"
-                    : [IsUnion<T>] extends [true]
-                        ? ToStringLiteral__Union<UnionToTuple<T>>
-                        : T extends readonly unknown[]
-                            ? ToStringLiteral__Tuple<T, O<Opt>>
-                            : T extends Record<string, any>
-                                ? ToStringLiteral__Object<T, O<Opt>>
-                                : never;
+> = [IsUndefined<T>] extends [true]
+        ? "undefined"
+: [IsNull<T>] extends [true]
+    ? "null"
+
+    : [IsUnion<T>] extends [true]
+        ? ToStringLiteral__Union<UnionToTuple<T>>
+    : [string] extends [T]
+        ? "string"
+    : [number] extends [T]
+        ? "number"
+    : [boolean] extends [T]
+        ? "boolean"
+    : [T] extends [number]
+        ? `${T}`
+    : [T] extends [string]
+        ? `"${T}"`
+    : [T] extends [true]
+        ? "true"
+    : [T] extends [false]
+        ? "false"
+    : T extends readonly unknown[]
+        ? ToStringLiteral__Tuple<T, O<Opt>>
+    : T extends Record<string, any>
+        ? ToStringLiteral__Object<T, O<Opt>>
+    : never;
+
+
 
 
 /**
