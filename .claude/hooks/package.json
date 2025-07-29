@@ -1,0 +1,14 @@
+{
+  "name": "hooks",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@yankeeinlondon/claudine": "^0.4.0"
+  }
+}

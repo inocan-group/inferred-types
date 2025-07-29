@@ -15,6 +15,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **`modules/runtime/`** - Runtime functions with strong type information
 - **`modules/inferred-types/`** - Main package that exports everything
 
+Any directory inside any of the modules's `src` subdirectories which has a `README.md` file provides additional context about the source code which resides in that subdirectory (and below).
+
 ### Key Design Principle
 
 Many runtime functions have corresponding types (e.g., `ensureLeading()` ↔ `EnsureLeading<T>`). This synchronization between design-time types and runtime values is fundamental to the library's architecture.
@@ -207,7 +209,7 @@ typed test --filter datetime  # Test filtered files
 
 The type testing framework uses `Test` and `Expect` utilities with these comparison operators:
 - `equals` - exact type equality (most common)
-- `extends` - type extension relationship  
+- `extends` - type extension relationship
 - `hasSameKeys` - dictionary key comparison
 - `hasSameValues` - container value comparison (order-independent)
 - `isError<T>` - error type testing
