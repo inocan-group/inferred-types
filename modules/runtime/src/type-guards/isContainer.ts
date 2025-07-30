@@ -1,9 +1,9 @@
-import type { Dictionary, IsObject } from "inferred-types/types";
+import type { Dictionary, IsDictionary } from "inferred-types/types";
 import { isDictionary } from "inferred-types/runtime";
 
 type ContainerType<T> = T extends any[]
     ? any[]
-    : IsObject<T> extends true
+    : IsDictionary<T> extends true
         ? Dictionary
         : T extends Map<any, any>
             ? Map<any, any>

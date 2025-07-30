@@ -35,12 +35,25 @@ describe("IsContainer<T>", () => {
     });
 
 
-    it("non-containers return false", () => {
+    it("functions are not containers", () => {
+        type F1 = IsContainer<() => "hi">;
+        type F2 = IsContainer<Function>;
+        type F3 = IsContainer<(() => "hi") & { foo: 1 }>;
+
+        type cases = [
+            Expect<Test<F1, "equals", false>>,
+            Expect<Test<F2, "equals", false>>,
+            Expect<Test<F3, "equals", false>>,
+        ];
+    });
+
+    it("scalars are not containers", () => {
         type Num = IsContainer<42>;
         type Str = IsContainer<"foo">;
         type Nada = IsContainer<null>;
         type Nada2 = IsContainer<undefined>;
         type Never = IsContainer<never>;
+        type Always = IsContainer<any>;
 
 
         type cases = [
@@ -49,6 +62,7 @@ describe("IsContainer<T>", () => {
             Expect<Test<Nada, "equals",  false>>,
             Expect<Test<Nada2, "equals",  false>>,
             Expect<Test<Never, "equals",  false>>,
+            Expect<Test<Always, "equals",  false>>,
         ];
     });
 });

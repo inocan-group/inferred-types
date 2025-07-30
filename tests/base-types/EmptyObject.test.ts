@@ -1,6 +1,6 @@
 import { Expect } from "@type-challenges/utils";
 import { describe, it } from "vitest";
-import { EmptyObject } from '../../modules/types/src/base-types/EmptyObject';
+
 import {
   DoesExtend,
   IndexableObject,

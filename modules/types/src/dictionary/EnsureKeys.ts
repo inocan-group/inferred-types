@@ -1,4 +1,4 @@
-import { IsDictionary } from '../boolean-logic/operators/kv/IsDictionary';
+import { IsDictionary } from '../boolean-logic/operators/containers/IsDictionary';
 import type {
     AfterFirst,
     As,

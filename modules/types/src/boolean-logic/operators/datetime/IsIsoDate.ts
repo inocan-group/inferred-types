@@ -6,7 +6,7 @@ import type {
     IsIsoYear,
     IsIsoYearMonth
 } from "types/boolean-logic/operators/datetime";
-import type { IsNull } from "types/boolean-logic/operators/IsNull";
+import type { IsNull } from "types/boolean-logic/operators/scalar/IsNull";
 import type { IsoDate } from "types/datetime";
 
 /**

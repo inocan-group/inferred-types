@@ -1,4 +1,4 @@
-import { asString, isError, pipeline } from "inferred-types/runtime";
+import { asString, err, isError, pipeline } from "inferred-types/runtime";
 import { Equals, Expect, Test } from "inferred-types/types";
 import { describe, expect, it } from "vitest";
 import { typedError } from "inferred-types/runtime";
@@ -32,7 +32,7 @@ describe("pipeline()", () => {
     const p2 = pipeline(
         "foo",
         "bar",
-        typedError("oops"),
+        err("oops"),
         "baz"
     );
 
@@ -46,7 +46,7 @@ describe("pipeline()", () => {
   });
 
 
-  it("concatinate results", () => {
+  it("concatenate results", () => {
     const p1 = pipeline(
         "foo",
         (v) => `${asString(v)}-bar`,

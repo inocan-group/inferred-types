@@ -2,6 +2,7 @@ import type {
     AfterFirst,
     Dictionary,
     EmptyObject,
+    Err,
     ErrorCondition,
     ExpandRecursively,
     Extends,
@@ -51,7 +52,7 @@ type _GetEscapeFunction<
             >
         }>
     >,
-    Throw<"no-escape-function">
+    Err<"no-escape-function">
 >;
 
 /**

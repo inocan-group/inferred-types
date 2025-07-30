@@ -11,6 +11,7 @@ import type {
     If,
     IsEqual,
     IsLiteralLikeArray,
+    IsNotEqual,
     IsVariadicArray,
     IsWideContainer,
     Length,
@@ -78,7 +79,7 @@ export type TupleMeta<T extends readonly unknown[] = readonly unknown[]> = {
      */
     isVariadic: And<[
         IsVariadicArray<T>,
-        DoesNotExtend<GetNonVariadicLength<T>, 0>
+        IsLiteralLikeArray<T>
     ]>;
 
     /**

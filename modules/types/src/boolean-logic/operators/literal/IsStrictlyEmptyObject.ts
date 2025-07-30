@@ -1,4 +1,4 @@
-import { Dictionary, IsEmptyObject } from "inferred-types/types";
+import {  IsEmptyObject } from "inferred-types/types";
 
 /** Exclude `{}` and `object` from counting as empty */
 export type IsStrictEmptyObject<T> =
@@ -7,4 +7,3 @@ export type IsStrictEmptyObject<T> =
     : false;
 
 
-type X = unknown extends Dictionary ? true : false;

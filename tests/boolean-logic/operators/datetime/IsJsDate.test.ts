@@ -96,7 +96,7 @@ describe("IsJsDate<T>", () => {
         type RecordType = IsJsDate<{ [key: string]: unknown }>;
 
         type cases = [
-            Expect<Test<EmptyObject, "equals", boolean>>,
+            Expect<Test<EmptyObject, "equals", false>>,
             Expect<Test<PlainObject, "equals", false>>,
             Expect<Test<ObjectWithDate, "equals", false>>,
             Expect<Test<RecordType, "equals", false>>,

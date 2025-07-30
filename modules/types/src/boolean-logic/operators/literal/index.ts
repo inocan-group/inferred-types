@@ -6,12 +6,12 @@ export * from "./IsEmptyObject";
 export * from "./IsLiteral";
 export * from "./IsLiteralLike";
 export * from "./IsLiteralLikeArray";
-export * from "./IsLiteralLikeTuple";
-export * from "./IsLiteralObject";
 export * from "./IsLiteralLikeObject";
+export * from "./IsLiteralLikeTuple";
+export * from "./IsLiteralNumber";
+export * from "./IsLiteralObject";
 export * from "./IsLiteralScalar";
 export * from "./IsLiteralString";
-export * from "./IsLiteralNumber";
 export * from "./IsLiteralTuple";
 export * from "./IsLiteralUnion";
 export * from "./IsMixedUnion";
@@ -24,7 +24,9 @@ export * from "./IsTuple";
 export * from "./IsUnitPrimitive";
 export * from "./IsWideArray";
 export * from "./IsWideBoolean";
+export * from "./IsWideNumber";
 export * from "./IsWideObject";
+export * from "./IsWideString";
 export * from "./IsWideUnion";
 
 

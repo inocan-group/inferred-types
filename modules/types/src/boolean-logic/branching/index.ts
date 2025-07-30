@@ -14,3 +14,4 @@ export * from "./OnPass";
 export * from "./Passthrough";
 export * from "./When";
 export * from "./WhenNever";
+export * from "./Validate";

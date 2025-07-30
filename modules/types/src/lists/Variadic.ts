@@ -4,21 +4,16 @@ import type {
     IsEqual,
     IsNever,
     IsNotEqual,
-    IsWideArray,
     Mutable,
     Not,
     Or,
     Slice,
     Subtract,
-    TupleMeta
 } from "inferred-types/types";
 
 /** Does T have at least one fixed (non-variadic) element? */
 type HasFixedHead<T extends readonly unknown[]>
   = Exclude<keyof T, keyof any[]> extends never ? false : true;
-
-
-
 
 
 /**

@@ -9,7 +9,7 @@ import type {
     Err,
     First,
     GetComparisonParamInput,
-    IsObjectLiteral,
+    IsLiteralLikeObject,
     IsWideContainer,
     Values
 } from "inferred-types/types";
@@ -55,7 +55,7 @@ export type Some<
             ? boolean
             : Process<TContainer, TOp, AsArray<TComparator>>
         : TContainer extends Dictionary
-            ? IsObjectLiteral<TContainer> extends true
+            ? IsLiteralLikeObject<TContainer> extends true
                 ? Process<Values<TContainer>, TOp, AsArray<TComparator>>
                 : boolean
             : never

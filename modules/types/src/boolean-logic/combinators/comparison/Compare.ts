@@ -33,7 +33,7 @@ import type {
     IsLessThanOrEqual,
     IsLiteralLike,
     IsNever,
-    IsObject,
+    IsDictionary,
     IsSameDay,
     IsSameMonth,
     IsSameMonthYear,
@@ -345,7 +345,7 @@ type Process__Object<
     TOp extends ComparisonOperation,
     TParams extends readonly unknown[],
 > = TOp extends "objectKeyGreaterThan"
-    ? IsObject<TVal> extends false
+    ? IsDictionary<TVal> extends false
         ? Err<
             `invalid-value/wrong-type`,
             `The '${TOp}' operation expects the value passed in to be a dictionary object but it wasn't!`
@@ -370,7 +370,7 @@ type Process__Object<
             >
 
     : TOp extends "objectKeyGreaterThanOrEqual"
-        ? IsObject<TVal> extends false
+        ? IsDictionary<TVal> extends false
             ? Err<
                 `invalid-value/wrong-type`,
                 `The '${TOp}' operation expects the value passed in to be a dictionary object but it wasn't!`
@@ -395,7 +395,7 @@ type Process__Object<
                 >
 
         : TOp extends "objectKeyLessThan"
-            ? IsObject<TVal> extends false
+            ? IsDictionary<TVal> extends false
                 ? Err<
                     `invalid-value/wrong-type`,
                 `The '${TOp}' operation expects the value passed in to be a dictionary object but it wasn't!`
@@ -419,7 +419,7 @@ type Process__Object<
             { val: TVal; params: TParams; invalid: TParams[1] }
                     >
             : TOp extends "objectKeyLessThanOrEqual"
-                ? IsObject<TVal> extends false
+                ? IsDictionary<TVal> extends false
                     ? Err<
                         `invalid-value/wrong-type`,
                 `The '${TOp}' operation expects the value passed in to be a dictionary object but it wasn't!`
@@ -444,7 +444,7 @@ type Process__Object<
                         >
 
                 : TOp extends "objectKeyEquals"
-                    ? IsObject<TVal> extends false
+                    ? IsDictionary<TVal> extends false
                         ? Err<
                             `invalid-value/wrong-type`,
                 `The '${TOp}' operation expects the value passed in to be a dictionary object but it wasn't!`
@@ -463,7 +463,7 @@ type Process__Object<
                                     ? Extends<TVal[As<Key, keyof TVal>], Val>
                                     : boolean
                                 : false
-                            : IsObject<TVal> extends true ? boolean : false
+                            : IsDictionary<TVal> extends true ? boolean : false
 
                         : Unset;
 

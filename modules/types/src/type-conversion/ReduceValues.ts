@@ -1,4 +1,4 @@
-import type { AfterFirst, Dictionary, First, TypedFunction, Values } from "inferred-types/types";
+import type { AfterFirst, Dictionary, First, IsDictionary, TypedFunction, Values } from "inferred-types/types";
 
 type ProcessTuple<
     TArray extends readonly unknown[] | unknown[],
@@ -13,7 +13,7 @@ type ProcessTuple<
  * **ReduceValues**`<TContainer>`
  *
  * Reduces a container to it's _values_ where if it's a function then the
- *  ReturnType` is returned, if not a function than just it's normal value.
+ * `ReturnType` is returned, if not a function than just it's normal value.
  *
  * ```ts
  * // [true, "blue"]
@@ -26,6 +26,6 @@ export type ReduceValues<
     TContainer extends readonly unknown[] | Dictionary,
 > = TContainer extends readonly unknown[]
     ? ProcessTuple<TContainer>
-    : TContainer extends Dictionary
+    : IsDictionary<TContainer> extends true
         ? ProcessTuple<Values<TContainer>>
         : never;

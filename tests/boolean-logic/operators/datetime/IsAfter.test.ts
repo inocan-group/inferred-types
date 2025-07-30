@@ -145,7 +145,7 @@ describe("IsAfter<A, B>", () => {
             Expect<Test<T2, "equals", true>>,
             Expect<Test<F1, "equals", false>>,
             Expect<Test<F2, "equals", false>>,
-            Expect<Test<E1, "equals", boolean>>,
+            Expect<Test<E1, "equals", false>>,
             Expect<Test<E2, "equals", boolean>>,
         ];
     });

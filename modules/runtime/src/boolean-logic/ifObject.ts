@@ -1,4 +1,4 @@
-import type { If, IsObject, Narrowable } from "inferred-types/types";
+import type { If, IsDictionary, Narrowable } from "inferred-types/types";
 import { isDictionary } from "inferred-types/runtime";
 
 export function ifObject<
@@ -9,6 +9,6 @@ export function ifObject<
     val: T,
     ifObj: IF,
     notObj: ELSE,
-): If<IsObject<T>, IF, ELSE> {
-    return (isDictionary(val) ? ifObj : notObj) as If<IsObject<T>, IF, ELSE>;
+): If<IsDictionary<T>, IF, ELSE> {
+    return (isDictionary(val) ? ifObj : notObj) as If<IsDictionary<T>, IF, ELSE>;
 }

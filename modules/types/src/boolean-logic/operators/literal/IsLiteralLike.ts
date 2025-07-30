@@ -9,7 +9,7 @@ import type {
     IsUnion,
 } from "inferred-types/types";
 import { IsLiteralTuple } from "./IsLiteralTuple";
-import { IsFalse } from '../IsFalse';
+import { IsFalse } from '../scalar/boolean/IsFalse';
 
 export type LiteralLikeModifiers = DefineModifiers<["allow-variadic-tail","exclude-unions"]>;
 

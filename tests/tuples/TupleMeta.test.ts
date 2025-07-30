@@ -1,5 +1,5 @@
 import { Length } from "inferred-types";
-import { DropVariadic, DropVariadicTail, Expect, MaxSafeInteger, Test, TupleMeta, VariadicType } from "inferred-types/types";
+import {  DropVariadicTail, Expect, MaxSafeInteger, Test, TupleMeta } from "inferred-types/types";
 import { describe, it } from "vitest";
 
 describe("TupleMeta<T>", () => {
