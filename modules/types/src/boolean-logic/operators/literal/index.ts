@@ -5,6 +5,8 @@ export * from "./IsBooleanLiteral";
 export * from "./IsEmptyObject";
 export * from "./IsLiteral";
 export * from "./IsLiteralLike";
+export * from "./IsLiteralLikeArray";
+export * from "./IsLiteralLikeTuple";
 export * from "./IsLiteralObject";
 export * from "./IsLiteralLikeObject";
 export * from "./IsLiteralScalar";

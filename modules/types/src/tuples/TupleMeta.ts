@@ -1,17 +1,24 @@
 import type {
     And,
     As,
+    DoesNotExtend,
+    DropVariadic,
     GetNonVariadicLength,
     GetOptionalElementCount,
     GetRequiredElementCount,
+    HasVariadicHead,
+    HasVariadicTail,
     If,
     IsEqual,
+    IsVariadicArray,
     IsWideContainer,
     Length,
     MaxLength,
     MaxSafeInteger,
     MinLength,
-    NotEqual
+    NotEqual,
+    Or,
+    VariadicType
 } from "inferred-types/types";
 
 /**
@@ -52,6 +59,11 @@ export type TupleMeta<T extends readonly unknown[] = readonly unknown[]> = {
         number
     >;
     length: Length<T>;
+
+    /**
+     * whether the number of elements in the array is _unconstrained_
+     */
+    isUnconstrained: IsEqual<TupleMeta<T>["maxLength"], MaxSafeInteger>;
     /**
      * The length of `T` after stripping off the _variadic_ tail.
      *
@@ -59,9 +71,17 @@ export type TupleMeta<T extends readonly unknown[] = readonly unknown[]> = {
      */
     nonVariadicLength: GetNonVariadicLength<T>;
     /**
-     * whether or not `T` has a _variadic_ tail
+     * whether or not `T` has a _variadic_ signature (but is NOT
+     * a wide type)
      */
-    isVariadic: IsEqual<MaxLength<T>, number>;
+    isVariadic: And<[
+        IsVariadicArray<T>,
+        DoesNotExtend<GetNonVariadicLength<T>, 0>
+    ]>;
+
+    hasVariadicHead: HasVariadicHead<T>;
+    hasVariadicTail: HasVariadicTail<T>;
+
     /**
      * whether the tuple/array is consider to be "wide"
      * which means that the number of elements is **not** fixed
@@ -80,6 +100,10 @@ export type TupleMeta<T extends readonly unknown[] = readonly unknown[]> = {
         IsEqual<MinLength<T>, 0>,
         IsEqual<MaxLength<T>, 0>,
     ]>;
+
+    excludingVariadicElement: DropVariadic<T>;
+
+    variadicType: VariadicType<T>;
     /**
      * has one or more _optional_ elements defined (e.g., defined with
      * the `?` modifier)

@@ -1,5 +1,5 @@
 import type { HasVariadicTail } from "types/lists/Variadic";
-import type { ExcludeVariadicTail } from "./Variadic";
+import type { DropVariadicTail } from "./Variadic";
 
 type IndicesTuple<
     T extends readonly unknown[],
@@ -27,7 +27,7 @@ type IndicesTuple<
 export type NumericKeys<
     TList extends readonly unknown[],
 > = HasVariadicTail<TList> extends true
-    ? IndicesTuple<ExcludeVariadicTail<TList>>
+    ? IndicesTuple<DropVariadicTail<TList>>
     : IndicesTuple<TList>;
 
 type X = HasVariadicTail<[]>;

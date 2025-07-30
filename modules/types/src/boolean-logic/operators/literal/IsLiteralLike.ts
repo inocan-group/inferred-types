@@ -32,6 +32,7 @@ export type LiteralLikeModifiers = DefineModifiers<["allow-variadic-tail","exclu
  *
  * **Related:**
  * - `IsLiteral`, `IsWideType`
+ * - `IsLiteralLikeTuple`, `IsLiteralLikeObject`
  * - `IsLiteralUnion`, `IsWideUnion`, `IsMixedUnion`
  */
 export type IsLiteralLike<T, U extends null | LiteralLikeModifiers = null> = [IsAny<T>] extends [true]
