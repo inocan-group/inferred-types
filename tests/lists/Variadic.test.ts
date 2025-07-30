@@ -3,6 +3,7 @@ import {
     Expect,
     Test,
     ExcludeVariadicTail,
+    HasVariadicHead,
     HasVariadicTail,
     VariadicType,
     GetNonVariadicLength
@@ -292,5 +293,63 @@ describe("Variadic Type Utilities", () => {
     });
 
 
-});
+    describe("HasVariadicHead<T>", () => {
 
+        it("returns true for tuples with variadic heads", () => {
+            // Basic cases with variadic head and fixed tail
+            type T1 = HasVariadicHead<[...number[], string]>;
+            type T2 = HasVariadicHead<[...string[], number]>;
+            type T3 = HasVariadicHead<[...(string | number)[], boolean]>;
+            type T4 = HasVariadicHead<[...unknown[], string]>;
+
+            // With optional elements in the variadic part
+            type T5 = HasVariadicHead<[...number[], string?]>;
+            type T6 = HasVariadicHead<[...string[], number?]>;
+
+            type cases = [
+                Expect<Test<T1, "equals", true>>,
+                Expect<Test<T2, "equals", true>>,
+                Expect<Test<T3, "equals", true>>,
+                Expect<Test<T4, "equals", true>>,
+                Expect<Test<T5, "equals", true>>,
+                Expect<Test<T6, "equals", true>>,
+            ];
+        });
+
+        it("returns false for tuples without variadic heads", () => {
+            // No variadic head pattern
+            type F1 = HasVariadicHead<[string, number]>;
+            type F2 = HasVariadicHead<[string, number, ...number[]]>;
+            type F3 = HasVariadicHead<[]>;
+            type F4 = HasVariadicHead<[string]>;
+            type F5 = HasVariadicHead<[string, number, boolean]>;
+            type F6 = HasVariadicHead<string[]>;
+            type F7 = HasVariadicHead<[...string[]]>; // This is just string[], not variadic head
+
+            type cases = [
+                Expect<Test<F1, "equals", false>>,
+                Expect<Test<F2, "equals", false>>,
+                Expect<Test<F3, "equals", false>>,
+                Expect<Test<F4, "equals", false>>,
+                Expect<Test<F5, "equals", false>>,
+                Expect<Test<F6, "equals", false>>,
+                Expect<Test<F7, "equals", false>>,
+            ];
+        });
+
+        it("handles edge cases", () => {
+            // Complex cases
+            type E1 = HasVariadicHead<[...number[], string, number]>; // This doesn't match the pattern
+            type E2 = HasVariadicHead<[...number[], ...string[]]>; // This doesn't match the pattern
+            type E3 = HasVariadicHead<[...(string | number)[], boolean?]>;
+
+            type cases = [
+                Expect<Test<E1, "equals", false>>, // Multiple fixed elements at end don't match pattern
+                Expect<Test<E2, "equals", false>>, // Multiple variadic parts don't match pattern
+                Expect<Test<E3, "equals", true>>,
+            ];
+        });
+    });
+
+
+});

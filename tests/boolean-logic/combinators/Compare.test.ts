@@ -79,7 +79,6 @@ describe("Compare<TVal,TOp,TComparator> type util", () => {
     });
 
 
-
     it("startsWith", () => {
         type T1 = Compare<420, "startsWith", [42]>;
         type T2 = Compare<"foobar", "startsWith", ["foo"]>;

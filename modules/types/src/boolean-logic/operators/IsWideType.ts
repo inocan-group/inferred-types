@@ -6,7 +6,6 @@ import type {
     IsEqual,
     IsLiteralUnion,
     IsNever,
-    IsObjectLiteral,
     IsUnion,
     IsWideUnion,
     Not,
@@ -37,29 +36,7 @@ export type IsWideScalar<T> = [T] extends [Scalar]
         : true
     : false;
 
-/**
- * **IsWideObject**`<T>`
- *
- * Tests whether `T` is a _wide_ variant of an object. Wide variants
- * include:
- *
- * - `object`
- * - `Dictionary`
- * - `Record`, `Map`, and `WeakMap` are considered **wide** in cases
- * where the _keys_ of the type are a union type rather than a discrete type
- * - Set is considered wide when the type it's holding is wide
- */
-export type IsWideObject<T> = object extends T
-    ? true
-    : T extends Map<infer Key, infer _Val>
-        ? IsContainer<Key> extends true
-            ? false
-            : IsLiteralUnion<Key> extends true
-                ? false
-                : true
-        : T extends Dictionary
-            ? Not<IsObjectLiteral<T>>
-    : false;
+
 
 /**
  * **IsWideContainer**`<T>`

@@ -1,6 +1,12 @@
-import { And, DefineModifiers, HasModifier, IsAny, IsNever, IsUnion, UnionToTuple } from "inferred-types/types";
+import { DefineModifiers, HasModifier, IsAny, IsNever, IsUnion } from "inferred-types/types";
 
 export type LiteralNumberModifiers = DefineModifiers<["allow-union"]>;
+
+type IsEveryUnionMemberLiteralNumber<T> = T extends number
+    ? number extends T
+        ? false
+        : true
+    : false;
 
 /**
  * **IsLiteralNumber**`<T>`
@@ -8,7 +14,7 @@ export type LiteralNumberModifiers = DefineModifiers<["allow-union"]>;
  * Boolean operator which validates that `T` is a **literal** `number` type.
  *
  * - if you add the `"allow-union"` modifier to `U`
- *      - it will match on unions where every element of the union is a string literal
+ *      - it will match on unions where every element of the union is a number literal
  *      - by default no union types will match
  */
 export type IsLiteralNumber<
@@ -20,13 +26,7 @@ export type IsLiteralNumber<
 ? false
 : [IsUnion<T>] extends [true]
     ? [HasModifier<"allow-union", U, LiteralNumberModifiers>] extends [true]
-        ? And<{
-            [K in keyof UnionToTuple<T>]: UnionToTuple<T>[K] extends number
-                ? number extends UnionToTuple<T>[K]
-                    ? false
-                    : true
-                : false
-        }>
+        ? IsEveryUnionMemberLiteralNumber<T>
         : false
 : T extends number
     ? number extends T

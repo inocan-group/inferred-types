@@ -1,12 +1,16 @@
 export * from "./HasIndexSignature";
+export * from "./HasWideValues";
 export * from "./IsAny";
 export * from "./IsBooleanLiteral";
 export * from "./IsEmptyObject";
 export * from "./IsLiteral";
 export * from "./IsLiteralLike";
+export * from "./IsLiteralObject";
+export * from "./IsLiteralLikeObject";
 export * from "./IsLiteralScalar";
 export * from "./IsLiteralString";
 export * from "./IsLiteralNumber";
+export * from "./IsLiteralTuple";
 export * from "./IsLiteralUnion";
 export * from "./IsMixedUnion";
 export * from "./IsNarrower";
@@ -16,6 +20,9 @@ export * from "./IsStrictlyEmptyObject";
 export * from "./IsStringLiteral";
 export * from "./IsTuple";
 export * from "./IsUnitPrimitive";
+export * from "./IsWideArray";
+export * from "./IsWideBoolean";
+export * from "./IsWideObject";
 export * from "./IsWideUnion";
 
 

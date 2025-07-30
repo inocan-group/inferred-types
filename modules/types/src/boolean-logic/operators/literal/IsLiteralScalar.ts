@@ -1,16 +1,19 @@
-import { IsAny, IsBooleanLiteral, IsNever } from "inferred-types/types";
-import { Scalar } from "types/base-types";
+import { IsAny,  IsNever } from "inferred-types/types";
 
 export type IsLiteralScalar<T> = [IsAny<T>] extends [true]
 ? false
 : [IsNever<T>] extends [true]
 ? false
-: [T] extends [Scalar]
-    ? [string] extends [T]
-        ? false
-    : [number] extends [T]
-        ? false
-    : [IsBooleanLiteral<T>] extends [true]
-        ? false
-    : true
+: string extends T
+    ? false
+: number extends T
+    ? false
+: bigint extends T
+    ? false
+: boolean extends T
+    ? false
+: symbol extends T
+    ? false
+: T extends string | number | bigint | boolean | symbol | null | undefined
+    ? true
 : false;

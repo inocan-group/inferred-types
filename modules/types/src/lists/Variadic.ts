@@ -1,8 +1,17 @@
-import type { FixedLengthArray, IsEqual, IsNotEqual, Mutable,  Slice, Subtract } from "inferred-types/types";
+import type {
+    FixedLengthArray,
+    IsEqual,
+    IsLiteralLike,
+    IsNotEqual,
+    Mutable,
+    Slice,
+    Subtract
+} from "inferred-types/types";
 
 /** Does T have at least one fixed (non-variadic) element? */
 type HasFixedHead<T extends readonly unknown[]>
   = Exclude<keyof T, keyof any[]> extends never ? false : true;
+
 
 /**
  * **HasVariadicTail**`<T>`
@@ -28,6 +37,22 @@ export type HasVariadicTail<T extends readonly unknown[]>
               : false)
           : false
       : false;
+
+/**
+ * **HasVariadicHead**`<T>`
+ *
+ * Tests whether if `T` starts with a variadic type with a fixed
+ * type at the end.
+ *
+ * **Related:**
+ * - `HasVariadicTail`
+ * - `VariadicType`, `GetNonVariadicLength`
+ */
+export type HasVariadicHead<T extends readonly unknown[]> =
+T extends [...infer Head extends any[], infer _Tail]
+? IsLiteralLike<Head>
+: false;
+
 
 /**
  * **HasOptionalElements**

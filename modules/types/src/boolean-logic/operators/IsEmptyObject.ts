@@ -1,4 +1,13 @@
-import type { AnyObject, AsRecord, ExplicitlyEmptyObject, IsEqual, IsNumericLiteral, Keys } from "inferred-types/types";
+import type {
+    AnyObject,
+    As,
+    AsRecord,
+    ExplicitlyEmptyObject,
+    IsEqual,
+    IsNumericLiteral,
+    IsObject,
+    Keys
+} from "inferred-types/types";
 
 /**
  * **IsEmptyObject**`<T>`
@@ -12,10 +21,10 @@ import type { AnyObject, AsRecord, ExplicitlyEmptyObject, IsEqual, IsNumericLite
  *
  * **Related:** `IsNonEmptyObject`
  */
-export type IsEmptyObject<T> = T extends AnyObject
+export type IsEmptyObject<T> = [IsObject<T>] extends [true]
     ? IsEqual<T, ExplicitlyEmptyObject> extends true
         ? true
-        : Keys<T>["length"] extends 0 ? true : false
+        : Keys<As<T, object>>["length"] extends 0 ? true : false
     : false;
 
 /**

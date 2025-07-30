@@ -25,7 +25,6 @@ describe("IsLiteralString<T>", () => {
             Expect<Test<F2, "equals", false>>,
             Expect<Test<F3, "equals", false>>,
             Expect<Test<F4, "equals", false>>,
-
         ];
     });
 
