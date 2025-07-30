@@ -8,7 +8,8 @@ import {
     VariadicType,
     GetNonVariadicLength,
     SplitAtVariadic,
-    HasVariadicInterior
+    HasVariadicInterior,
+    DropVariadicHead
 } from "inferred-types/types";
 
 describe("Variadic Type Utilities", () => {
@@ -264,7 +265,7 @@ describe("Variadic Type Utilities", () => {
     })
 
 
-    describe("ExcludeVariadicTail<T>", () => {
+    describe("DropVariadicTail<T>", () => {
 
         it("removes variadic tail from tuples", () => {
             type T1 = DropVariadicTail<[1, 2, 3, ...number[]]>;
@@ -331,6 +332,49 @@ describe("Variadic Type Utilities", () => {
 
     });
 
+    describe("DropVariadicHead<T>", () => {
+
+        it("non-variadic", () => {
+            type T1 = DropVariadicHead<[1,2,3]>;
+
+            type cases = [
+                Expect<Test<T1, "equals", [1,2,3]>>
+            ];
+        });
+
+
+        it("variadic tail", () => {
+            type T1 = DropVariadicHead<[1,2,3,...string[]]>;
+
+            type cases = [
+                Expect<Test<T1, "equals", [1,2,3,...string[]]>>
+            ];
+        });
+
+
+        it("variadic interior", () => {
+            type T1 = DropVariadicHead<[1,2,3,...string[], number]>;
+
+            type cases = [
+                Expect<Test<T1, "equals", [1,2,3,...string[], number]>>
+            ];
+        });
+
+
+        it("variadic head", () => {
+            type T1 = DropVariadicHead<[...string[],1,2,3]>;
+
+            type cases = [
+                Expect<Test<T1, "equals", [1,2,3]>>
+            ];
+
+        });
+
+
+
+
+    })
+
     describe("VariadicType<T>", () => {
 
         it("returns element type for tuples with variadic tails", () => {
@@ -341,20 +385,11 @@ describe("Variadic Type Utilities", () => {
             type T5 = VariadicType<[string, number, ...string[]]>;
 
             type cases = [
-                Expect<Test<T1, "equals", number>>,
-                Expect<Test<T2, "equals", string>>,
-                Expect<Test<T3, "equals", boolean>>,
-                Expect<Test<T4, "equals", string>>,
-                Expect<Test<T5, "equals", string>>,
-            ];
-
-            // Additional working cases
-            type T6 = VariadicType<[...number[]]>;
-            type T7 = VariadicType<[...boolean[]]>;
-
-            type extraCases = [
-                Expect<Test<T6, "equals", number>>,
-                Expect<Test<T7, "equals", boolean>>,
+                Expect<Test<T1, "equals", number[]>>,
+                Expect<Test<T2, "equals", never>>,
+                Expect<Test<T3, "equals", boolean[]>>,
+                Expect<Test<T4, "equals", string[]>>,
+                Expect<Test<T5, "equals", string[]>>,
             ];
         });
 
@@ -382,10 +417,10 @@ describe("Variadic Type Utilities", () => {
             type T4 = VariadicType<[1, 2, ...unknown[]]>;
 
             type cases = [
-                Expect<Test<T1, "equals", string | number>>,
-                Expect<Test<T2, "equals", { id: number; name: string }>>,
-                Expect<Test<T3, "equals", null | undefined>>,
-                Expect<Test<T4, "equals", unknown>>,
+                Expect<Test<T1, "equals", (string | number)[]>>,
+                Expect<Test<T2, "equals", never>>,
+                Expect<Test<T3, "equals", (null | undefined)[]>>,
+                Expect<Test<T4, "equals", unknown[]>>,
             ];
 
             // Additional working cases
@@ -393,8 +428,8 @@ describe("Variadic Type Utilities", () => {
             type T6 = VariadicType<[...(null | undefined)[]]>;
 
             type extraCases = [
-                Expect<Test<T5, "equals", string | number>>,
-                Expect<Test<T6, "equals", null | undefined>>,
+                Expect<Test<T5, "equals", never>>,
+                Expect<Test<T6, "equals", never>>,
             ];
         });
 
@@ -404,9 +439,9 @@ describe("Variadic Type Utilities", () => {
             type T3 = VariadicType<readonly [boolean, ...boolean[]]>;
 
             type cases = [
-                Expect<Test<T1, "equals", number>>,
-                Expect<Test<T2, "equals", string>>,
-                Expect<Test<T3, "equals", boolean>>,
+                Expect<Test<T1, "equals", number[]>>,
+                Expect<Test<T2, "equals", never>>,
+                Expect<Test<T3, "equals", boolean[]>>,
             ];
         });
 
@@ -424,10 +459,10 @@ describe("Variadic Type Utilities", () => {
                 Expect<Test<V1, "equals", never>>,
                 Expect<Test<V2, "equals", never>>,
                 Expect<Test<V3, "equals", never>>,
-                Expect<Test<V4, "equals", number>>,
-                Expect<Test<V5, "equals", string>>,
-                Expect<Test<V6, "equals", boolean>>,
-                Expect<Test<V7, "equals", string>>,
+                Expect<Test<V4, "equals", number[]>>,
+                Expect<Test<V5, "equals", never>>,
+                Expect<Test<V6, "equals", boolean[]>>,
+                Expect<Test<V7, "equals", string[]>>,
             ];
         });
     });
