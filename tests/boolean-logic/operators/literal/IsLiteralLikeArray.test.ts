@@ -1,5 +1,6 @@
 import { describe, it } from "vitest";
 import {
+    DropVariadic,
     Expect,
     IsLiteralLikeArray,
     Test,
@@ -10,6 +11,7 @@ describe("IsLiteralLikeArray<T>", () => {
     it("should return true for literal-like arrays", () => {
         // Arrays with variadic tails but fixed start
         type T1 = IsLiteralLikeArray<[...string[], number]>;
+        type V = keyof DropVariadic<[...string[], number]>;
         type T2 = IsLiteralLikeArray<[string, ...number[]]>;
         type T3 = IsLiteralLikeArray<[string, number, ...boolean[]]>;
         type T4 = IsLiteralLikeArray<[...boolean[], string, number]>;
