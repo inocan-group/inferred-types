@@ -1,7 +1,9 @@
 import type {
     As,
+    IsAny,
     IsBoolean,
     IsFalse,
+    IsNever,
     IsTrue,
     Logic,
     LogicHandler,
@@ -25,8 +27,11 @@ import type {
 export type Not<
     TVal,
     TNotBoolean extends LogicHandler = "false",
-> = As<
-    [TVal] extends [readonly unknown[]]
+> = [IsAny<TVal>] extends [true]
+? false
+: [IsNever<TVal>] extends [true]
+? false
+: [TVal] extends [readonly unknown[]]
         ? {
             [K in keyof TVal]: Logic<TVal, TNotBoolean>
         }
@@ -36,7 +41,4 @@ export type Not<
                 ? true
                 : [IsBoolean<Logic<TVal, TNotBoolean>>] extends [true]
                     ? boolean
-                    : never,
-
-    boolean
->;
+                    : never;

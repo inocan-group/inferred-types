@@ -10,12 +10,14 @@ import type {
     HasVariadicTail,
     If,
     IsEqual,
+    IsLiteralLikeArray,
     IsVariadicArray,
     IsWideContainer,
     Length,
     MaxLength,
     MaxSafeInteger,
     MinLength,
+    Not,
     NotEqual,
     Or,
     VariadicType
@@ -79,14 +81,20 @@ export type TupleMeta<T extends readonly unknown[] = readonly unknown[]> = {
         DoesNotExtend<GetNonVariadicLength<T>, 0>
     ]>;
 
+    /**
+     * the _head_ position of the array is a _variadic_ type
+     */
     hasVariadicHead: HasVariadicHead<T>;
+    /**
+     * the _tail_ position of the array is a _variadic_ type
+     */
     hasVariadicTail: HasVariadicTail<T>;
 
     /**
      * whether the tuple/array is consider to be "wide"
      * which means that the number of elements is **not** fixed
      */
-    isWide: IsWideContainer<T>;
+    isWide: Not<IsLiteralLikeArray<T>>;
     /**
      * if the minimum length of `T` is 0 then this
      * property will be `true`.
