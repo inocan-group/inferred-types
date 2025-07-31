@@ -1,5 +1,4 @@
 export * from "./IsBoolean";
-export * from "./IsBooleanExactly";
 export * from "./IsFalse";
 export * from "./IsFalsy";
 export * from "./IsTrue";

@@ -6,3 +6,4 @@ export * from "./IsUndefined";
 export * from "./string/index"
 export * from "./boolean/index"
 export * from "./numeric/index"
+export * from "./symbol/index"

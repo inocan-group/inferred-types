@@ -29,45 +29,6 @@ export type IsWideType<T> = [IsAny<T>] extends [true]
 
 
 
-/**
- * **IsWideScalar**`<T>`
- *
- * Boolean operator which validates whether or not `T`
- * is considered a "wide type" which extends `Scalar`
- */
-export type IsWideScalar<T> = [T] extends [Scalar]
-    ? [
-        IsEqual<T, string, true, false>,
-        IsEqual<T, number, true, false>,
-        IsEqual<T, boolean, true, false>,
-        IsEqual<T, null, true, false>,
-        IsEqual<T, symbol, true, false>,
-    ] extends [
-        false,
-        false,
-        false,
-        false,
-        false,
-    ]
-        ? false
-        : true
-    : false;
-
-
-
-/**
- * **IsWideContainer**`<T>`
- *
- * Boolean operator which tests wether `T` is a `Container` and
- * also a `wide type` (aka, not a literal).
- */
-export type IsWideContainer<T> = T extends Container
-    ? T extends readonly unknown[]
-        ? IsEqual<T["length"], number> extends true
-            ? true
-            : false
-        : IsWideObject<T>
-    : false;
 
 /**
  * **IsWideType**`<T, [TNever]>`

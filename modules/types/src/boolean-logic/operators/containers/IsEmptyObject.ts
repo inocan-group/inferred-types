@@ -1,49 +1,19 @@
-import type {
-    AnyObject,
-    As,
-    AsRecord,
-    ExplicitlyEmptyObject,
-    IsEqual,
-    IsNumericLiteral,
-    IsDictionary,
-    Keys
-} from "inferred-types/types";
+import { IsAny, IsNever } from "inferred-types/types";
 
 /**
  * **IsEmptyObject**`<T>`
  *
- * Boolean type util which detects whether `T` _is_ an object
- * but _has no properties_.
- *
- * **Note:** this will report **true** for `ExplicitlyEmptyObject`
- * but not `EmptyObject` -- which like `Dictionary` is a wide type
- * with an _unknown_ number of keys.
- *
- * **Related:** `IsNonEmptyObject`
+ * - T must be an object (but not a function and not an array/tuple)
+ * - T must expose **no known keys** (`keyof T` is `never`)
+ * - No index signatures (implied by the previous point)
+ * - `any`, `unknown`, and `never` are rejected
  */
-export type IsEmptyObject<T> = [IsDictionary<T>] extends [true]
-    ? IsEqual<T, ExplicitlyEmptyObject> extends true
-        ? true
-        : Keys<As<T, object>>["length"] extends 0 ? true : false
-    : false;
-
-/**
- * **IsNonEmptyObject**`<T>`
- *
- * Boolean type util which detects whether `T` _is_ an object
- * and _has at least one property_.
- *
- * **Note:** this will report **false** for`ExplicitlyEmptyObject` but
- * not `EmptyObject`
- *
- * **Related:** `IsEmptyObject`
- */
-export type IsNonEmptyObject<T> = T extends AnyObject
-    ? IsEqual<T, ExplicitlyEmptyObject> extends true
-        ? false
-        : Keys<AsRecord<T>>["length"] extends 0
-            ? false
-            : IsNumericLiteral<Keys<AsRecord<T>>["length"]> extends true
-                ? true
-                : false
+export type IsEmptyObject<T> =
+  IsAny<T> extends true ? false :
+  IsNever<T> extends true ? false :
+  // `unknown` is not assignable to object; this branch will be false
+  T extends object
+    ? T extends (...args: any) => any ? false
+      : T extends readonly any[] ? false
+        : [keyof T] extends [never] ? true : false
     : false;

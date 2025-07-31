@@ -1,32 +1,19 @@
-import type {
-    IsNull,
-    IsUndefined,
-    IsUnion,
-    IsWideType,
-    Or,
-    UnionToTuple,
-} from "inferred-types/types";
+import { And, IsUnion, UnionToTuple } from "inferred-types/types";
+import { IsWideType } from "types/boolean-logic/operators/literal/IsWideType";
 
-type Process<
-    T extends readonly unknown[],
-> = {
-    [K in keyof T]: IsWideType<T[K]> extends true
-        ? true
-        : Or<[IsUndefined<T[K]>, IsNull<T[K]>]> extends true
-            ? true
-            : false
-};
+type Check<
+    T extends readonly unknown[]
+> = And<{
+    [K in keyof T]: IsWideType<T[K]>
+}>;
 
 /**
  * **IsWideUnion**`<T>`
  *
- * Boolean utility which checks whether `T` is both a _union type_
- * and that it's elements are all considered _wide types_.
+ * Checks whether `T` is a union whose elements are all considered "wide" types.
  *
- * **Related:** `IsNonLiteralUnion`, `IsLiteralUnion`
+ * **Related:** `IsLiteralUnion`, `IsMixedUnion`
  */
-export type IsWideUnion<T> = [IsUnion<T>] extends [true]
-    ? [Process<UnionToTuple<T>>] extends [readonly true[]]
-        ? true
-        : false
-    : false;
+export type IsWideUnion<T> = IsUnion<T> extends true
+? Check<UnionToTuple<T>>
+: false;

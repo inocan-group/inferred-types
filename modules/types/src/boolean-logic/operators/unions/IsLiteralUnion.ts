@@ -1,47 +1,27 @@
-import type {
-    And,
-    IsFalse,
-    IsLiteralObject,
-    IsNull,
-    IsNumericLiteral,
-    IsStringLiteral,
-    IsTrue,
-    IsTuple,
-    IsUndefined,
-    IsUnion,
-    UnionToTuple
-} from "inferred-types/types";
+import { IsUnion, UnionToTuple, And } from "inferred-types/types";
 
-type Process<
-    T extends readonly unknown[]
-> = And<{
-    [K in keyof T]: IsStringLiteral<T[K]> extends true
-        ? true
-        : IsNumericLiteral<T[K]> extends true
-            ? true
-            : IsNull<T[K]> extends true
-                ? true
-                : IsUndefined<T[K]> extends true
-                    ? true
-                    : IsLiteralObject<T[K]> extends true
-                        ? true
-                        : IsTuple<T[K]> extends true
-                            ? true
-                            : IsTrue<T[K]> extends true
-                                ? true
-                                : IsFalse<T[K]> extends true
-                                    ? true
-                                    : false
+// Helper to check if a single type is literal
+type IsLiteralType<T> = T extends string
+    ? string extends T ? false : true
+    : T extends number
+    ? number extends T ? false : true
+    : T extends bigint
+    ? bigint extends T ? false : true
+    : T extends boolean
+    ? boolean extends T ? false : true
+    : T extends symbol
+    ? symbol extends T ? false : true
+    : T extends null | undefined
+    ? true
+    : false;
+
+// Check if all elements in a tuple are literal types
+type AllElementsAreLiteral<T extends readonly unknown[]> = And<{
+    [K in keyof T]: IsLiteralType<T[K]>
 }>;
 
-/**
- * **IsLiteralUnion**`<T>`
- *
- * Boolean utility which checks whether `T` is both a _union type_
- * and that it's elements are all considered a _literal type_.
- *
- * **Related:** `IsLiteralUnion`, `IsWideUnion`
- */
-export type IsLiteralUnion<T> = [IsUnion<T>] extends [true]
-    ? Process<UnionToTuple<T>>
+export type IsLiteralUnion<T> = IsUnion<T> extends true
+    ? [T] extends [boolean]
+        ? true  // boolean union (true | false) is literal-like
+        : AllElementsAreLiteral<UnionToTuple<T>>
     : false;

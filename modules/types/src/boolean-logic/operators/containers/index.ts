@@ -1,4 +1,5 @@
 export * from "./AllStringLiterals";
+export * from './DistinguishEmptyTypes';
 export * from "./HasArray";
 export * from "./HasFunctionKeys";
 export * from "./HasIndex";
@@ -11,10 +12,11 @@ export * from "./IsContainer";
 export * from "./IsEmptyArray";
 export * from "./IsEmptyObject";
 export * from './IsIterable';
+export * from "./IsNonEmptyObject";
 export * from "./IsObject";
 export * from "./IsReadonlyArray";
 export * from "./IsReadonlyObject";
 export * from "./IsSameContainerType";
 export * from './IsValidIndex';
 export * from "./KeysOverlap";
-export * from './DistinguishEmptyTypes'
+
