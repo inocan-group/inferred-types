@@ -17,7 +17,7 @@ import type {
     IsObjectLiteral,
     IsUnion,
     Keys,
-    LiteralFn,
+    StaticFn,
     Mutable,
     Scalar,
     StringKeys,
@@ -163,7 +163,7 @@ export type WidenFn<
     TFn extends TypedFunction
 > = {
     narrowing: IsNarrowingFn<TFn>;
-    literal: LiteralFn<TFn>;
+    literal: StaticFn<TFn>;
     parameters: Parameters<TFn>;
     returns: TFn extends <T extends readonly any[]>(...args: T) => infer R ? R : never;
     props: OnlyFnProps<TFn>;

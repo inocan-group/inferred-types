@@ -5,7 +5,7 @@ import type {
     Dictionary,
     IsAny,
     IsNever,
-    IsDictionary,
+    IsObject,
     Or,
     Values
 } from "inferred-types/types";
@@ -72,14 +72,4 @@ export type HasSameValues<
     ? TException
 : [IsAny<TComparator>] extends [true]
     ? TException
-: IsDictionary<TContainer> extends true
-    ? HasSameValues<Values<TContainer>, TComparator>
-: IsDictionary<TComparator> extends true
-    ? HasSameValues<TContainer, Values<TComparator>>
-
-:  _HasSameValues<
-        As<TContainer, readonly unknown[]>,
-        As<TComparator, readonly unknown[]>
-    >;
-
-
+: _HasSameValues<Values<TContainer>, Values<TComparator>>

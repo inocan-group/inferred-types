@@ -5,7 +5,7 @@ import {
     AsLiteralFn,
     AsNarrowingFn,
     IsNarrowingFn,
-    LiteralFn,
+    StaticFn,
     NarrowingFn,
     Test
 } from "inferred-types/types";
@@ -84,10 +84,10 @@ describe("LiteralFn<T>", () => {
 
   it("happy path", () => {
     type Base = (name: string) => string;
-    type Fn1 = LiteralFn<Base>;
-    type Idempotent = LiteralFn<Fn1>;
-    type FromNarrowing = LiteralFn<NarrowingFn<Base>>;
-    type MyNarrow = LiteralFn<<TName extends string, TAge extends number>(name: TName, age: TAge) => `${TName} is ${TAge} years old`>;
+    type Fn1 = StaticFn<Base>;
+    type Idempotent = StaticFn<Fn1>;
+    type FromNarrowing = StaticFn<NarrowingFn<Base>>;
+    type MyNarrow = StaticFn<<TName extends string, TAge extends number>(name: TName, age: TAge) => `${TName} is ${TAge} years old`>;
 
     type Meta = AsFnMeta<MyNarrow>;
 

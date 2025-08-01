@@ -12,14 +12,14 @@ import type {
  * **IsFnWithParams**`<TFn, [TParamMatch]>`
  *
  * Checks whether `T` is a function which also includes
- * dictionary props sitting alongside the function.
+ * key/value dictionary sitting alongside the function.
  *
  * - the optional `TParamMatch` will ensure that this generic _extends_
  * the params included in the function.
  */
-export type IsFnWithParams<
+export type IsFnWithDictionary<
     TFn,
-    TParamMatch extends AnyObject | undefined = undefined,
+    TParamMatch extends object | undefined = undefined,
 > = TFn extends AnyFunction
     ? IsEmptyObject<TFn> extends true
         ? false

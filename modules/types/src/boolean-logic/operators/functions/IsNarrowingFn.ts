@@ -1,6 +1,6 @@
-import type { IsEqual, LiteralFn, TypedFunction } from "inferred-types/types";
+import type { IsEqual, Not, StaticFn, TypedFunction } from "inferred-types/types";
 
-type Not<B extends boolean> = B extends true ? false : true;
+
 
 /**
  * **IsNarrowingFn**`<TFn>`
@@ -9,11 +9,13 @@ type Not<B extends boolean> = B extends true ? false : true;
  * to narrow the input parameters. This is in contrast to a function
  * which takes literal types rather than _extending_ them.
  *
- * **Related:** `NarrowingFn`, `IsLiteralFn`
+ * **Related:**
+ * - `IsStaticFn`
+ * - `NarrowingFn`, `StaticFn`
  */
 export type IsNarrowingFn<TFn> = TFn extends TypedFunction
     ? Not<IsEqual<
-        LiteralFn<TFn>,
+        StaticFn<TFn>,
         TFn
     >>
     : false;

@@ -9,7 +9,7 @@ export * from "./FnWithDescription";
 export * from "./FnWithProps";
 export * from "./HandleDoneFn";
 export * from "./IdentityFn";
-export * from "./LiteralFn";
+export * from "./StaticFn";
 export * from "./LogicFunction";
 export * from "./NarrowingFn";
 export * from "./PromiseAll";

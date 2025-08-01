@@ -3,6 +3,7 @@ export * from "./HasWideValues";
 export * from "./IsAny";
 export * from "./IsBooleanLiteral";
 export * from "./IsLiteral";
+export * from "./IsLiteralContainer";
 export * from "./IsLiteralLike";
 export * from "./IsLiteralLikeArray";
 export * from "./IsLiteralLikeObject";
@@ -23,6 +24,6 @@ export * from "./IsWideArray";
 export * from "./IsWideBoolean";
 export * from "./IsWideNumber";
 export * from "./IsWideObject";
+export * from "./IsWideScalar";
 export * from "./IsWideString";
-
 

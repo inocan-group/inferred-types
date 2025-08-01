@@ -7,23 +7,28 @@ import {
 import { EmptyObject } from "inferred-types";
 
 describe("IsLiteralObject<T>", () => {
-  it("should return true for literal objects", () => {
-    type T1 = IsLiteralObject<{ foo: "bar"; baz: 42 }>;
+    it("should return true for literal objects", () => {
+        type T1 = IsLiteralObject<{ foo: "bar"; baz: 42 }>;
+        type T2 = IsLiteralObject<{ foo: "bar"; baz: 42 }>;
 
-    type T2 = IsLiteralObject<EmptyObject>;
+        type F1 = IsLiteralObject<EmptyObject>;
 
-    type cases = [
-      Expect<Test<T1, "equals", true>>,
-      Expect<Test<T2, "equals", true>>,
-    ];
-  });
+        type cases = [
+            Expect<Test<T1, "equals", true>>,
+            Expect<Test<T2, "equals", true>>,
 
-  it("should return false for non-literal objects", () => {
-    type RegularObj = { foo: string; bar: number };
-    type T1 = IsLiteralObject<RegularObj>;
+            Expect<Test<F1, "equals", false>>,
+        ];
+    });
 
-    type cases = [
-      Expect<Test<T1, "equals", false>>,
-    ];
-  });
+    it("wide values with literal keys is true when 'accept-wide-values' set", () => {
+        type WideValues = { foo: string; bar: number };
+        type T1 = IsLiteralObject<WideValues, "allow-wide-values">;
+        type F1 = IsLiteralObject<WideValues>;
+
+        type cases = [
+            Expect<Test<T1, "equals", true>>,
+            Expect<Test<F1, "equals", false>>,
+        ];
+    });
 });
