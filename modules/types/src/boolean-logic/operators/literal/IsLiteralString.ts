@@ -1,4 +1,4 @@
-import { DefineModifiers, HasModifier, IsAny, IsNever, IsUnion } from "inferred-types/types";
+import type { DefineModifiers, HasModifier, IsAny, IsNever, IsUnion } from "inferred-types/types";
 
 export type LiteralStringModifiers = DefineModifiers<["allow-union"]>;
 
@@ -21,15 +21,15 @@ export type IsLiteralString<
     T,
     U extends LiteralStringModifiers = null
 > = [IsAny<T>] extends [true]
-? false
-: [IsNever<T>] extends [true]
-? false
-: [IsUnion<T>] extends [true]
-    ? [HasModifier<"allow-union", U, LiteralStringModifiers>] extends [true]
-        ? IsEveryUnionMemberLiteralString<T>
-        : false
-: T extends string
-    ? string extends T
+    ? false
+    : [IsNever<T>] extends [true]
         ? false
-        : true
-: false;
+        : [IsUnion<T>] extends [true]
+            ? [HasModifier<"allow-union", U, LiteralStringModifiers>] extends [true]
+                ? IsEveryUnionMemberLiteralString<T>
+                : false
+            : T extends string
+                ? string extends T
+                    ? false
+                    : true
+                : false;

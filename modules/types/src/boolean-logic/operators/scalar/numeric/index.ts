@@ -8,4 +8,3 @@ export * from "./IsNegativeNumber";
 export * from "./IsNumber";
 export * from "./IsNumberLike";
 export * from "./IsPositiveNumber";
-

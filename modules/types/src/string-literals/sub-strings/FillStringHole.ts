@@ -1,4 +1,4 @@
-import { ReplaceAll } from "inferred-types/types";
+import type { ReplaceAll } from "inferred-types/types";
 import type { FromLiteralTemplate } from "types/interpolation";
 
 /**
@@ -21,4 +21,4 @@ import type { FromLiteralTemplate } from "types/interpolation";
 export type FillStringHole<
     TTpl extends string,
     U extends string
-> = ReplaceAll<FromLiteralTemplate<TTpl>, "{{string}}", U>
+> = ReplaceAll<FromLiteralTemplate<TTpl>, "{{string}}", U>;

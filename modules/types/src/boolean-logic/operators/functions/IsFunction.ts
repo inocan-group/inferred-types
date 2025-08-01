@@ -10,11 +10,11 @@ import type { AnyFunction, IsAny, IsNever } from "inferred-types/types";
  * - `IsNarrowingFn`, `IsStaticFn`
  * - `IsLiteralFunction`, `IsLiteralLikeFunction`, `IsWideFn`
  */
-export type IsFunction<T> =
-[IsAny<T>] extends [true] ? false
-: [IsNever<T>] extends [true] ? false
-: T extends undefined
-    ? false
-    : [T] extends [AnyFunction]
-        ? true
-        : false;
+export type IsFunction<T>
+= [IsAny<T>] extends [true] ? false
+    : [IsNever<T>] extends [true] ? false
+        : T extends undefined
+            ? false
+            : [T] extends [AnyFunction]
+                ? true
+                : false;

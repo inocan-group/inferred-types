@@ -1,32 +1,29 @@
-import { Slice, FixedLengthArray, Subtract } from "inferred-types/types";
-
+import type { FixedLengthArray, Slice, Subtract } from "inferred-types/types";
 
 type Process<
     T extends readonly unknown[],
     U extends number,
     R extends number = Subtract<T["length"], U>
 > = R extends 0
-? Partial<T>
-: T extends readonly [...FixedLengthArray<unknown, R>, ...infer Rest]
-    ? [
-        ...(
-            Slice<T,0,R> extends readonly unknown[]
-                ? Slice<T,0,R>
-                : []
-        ),
-        ...(
-            T extends readonly [
-                    ...FixedLengthArray<unknown,R>,
+    ? Partial<T>
+    : T extends readonly [...FixedLengthArray<unknown, R>, ...infer Rest]
+        ? [
+            ...(
+                Slice<T, 0, R> extends readonly unknown[]
+                    ? Slice<T, 0, R>
+                    : []
+            ),
+            ...(
+                T extends readonly [
+                    ...FixedLengthArray<unknown, R>,
                     ...infer Rest
-            ]
-                ? Partial<Rest>
-                : []
-        )
+                ]
+                    ? Partial<Rest>
+                    : []
+            )
 
-    ]
-    : T;
-
-
+        ]
+        : T;
 
 /**
  * **MakeOptional**`<T>`
@@ -46,4 +43,4 @@ type Process<
 export type MakeOptional<
     T extends readonly unknown[],
     U extends number
-> = Process<Required<T>,U>
+> = Process<Required<T>, U>;

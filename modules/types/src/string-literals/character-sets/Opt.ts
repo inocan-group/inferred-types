@@ -10,8 +10,6 @@ type Cascade<
     `${TResult}${First<T> | ""}`
     >;
 
-
-
 /**
  * **Opt**`<T>`
  *

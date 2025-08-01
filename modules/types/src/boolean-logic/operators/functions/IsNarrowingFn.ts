@@ -1,7 +1,5 @@
 import type { IsEqual, Not, StaticFn, TypedFunction } from "inferred-types/types";
 
-
-
 /**
  * **IsNarrowingFn**`<TFn>`
  *

@@ -1,4 +1,4 @@
-import { DefineModifiers, HasModifier, IsAny, IsNever, IsUnion } from "inferred-types/types";
+import type { DefineModifiers, HasModifier, IsAny, IsNever, IsUnion } from "inferred-types/types";
 
 export type LiteralNumberModifiers = DefineModifiers<["allow-union"]>;
 
@@ -21,15 +21,15 @@ export type IsLiteralNumber<
     T,
     U extends LiteralNumberModifiers = null
 > = [IsAny<T>] extends [true]
-? false
-: [IsNever<T>] extends [true]
-? false
-: [IsUnion<T>] extends [true]
-    ? [HasModifier<"allow-union", U, LiteralNumberModifiers>] extends [true]
-        ? IsEveryUnionMemberLiteralNumber<T>
-        : false
-: T extends number
-    ? number extends T
+    ? false
+    : [IsNever<T>] extends [true]
         ? false
-        : true
-: false;
+        : [IsUnion<T>] extends [true]
+            ? [HasModifier<"allow-union", U, LiteralNumberModifiers>] extends [true]
+                ? IsEveryUnionMemberLiteralNumber<T>
+                : false
+            : T extends number
+                ? number extends T
+                    ? false
+                    : true
+                : false;

@@ -1,5 +1,4 @@
-import { Scalar } from 'types/base-types';
-import {
+import type {
     DefineModifiers,
     HasModifier,
     IsAny,
@@ -8,10 +7,10 @@ import {
     IsUndefined,
     IsWideBoolean,
     IsWideSymbol
-} from 'inferred-types/types';
+} from "inferred-types/types";
+import type { Scalar } from "types/base-types";
 
-
-export type WideScalarModifiers = DefineModifiers<["allow-null","allow-undefined"]>;
+export type WideScalarModifiers = DefineModifiers<["allow-null", "allow-undefined"]>;
 
 /**
  * **IsWideScalar**`<T>`
@@ -33,25 +32,25 @@ export type IsWideScalar<
     T,
     U extends WideScalarModifiers = null
 > = [IsAny<T>] extends [true]
-? false
-: [IsNever<T>] extends [true]
-? false
-: [T] extends [Scalar]
-    ? [IsNull<T>] extends [true]
-        ? [HasModifier<"allow-null", U, WideScalarModifiers>] extends [true]
-            ? true
-            : false
-    : [IsUndefined<T>] extends [true]
-        ? [HasModifier<"allow-undefined", U, WideScalarModifiers>] extends [true]
-            ? true
-            : false
-    : [string] extends [T]
-        ? true
-    : [number] extends [T]
-        ? true
-    : [IsWideSymbol<T>] extends [true]
-        ? true
-    : [IsWideBoolean<T>] extends [true]
-        ? true
-    : false
-: false;
+    ? false
+    : [IsNever<T>] extends [true]
+        ? false
+        : [T] extends [Scalar]
+            ? [IsNull<T>] extends [true]
+                ? [HasModifier<"allow-null", U, WideScalarModifiers>] extends [true]
+                    ? true
+                    : false
+                : [IsUndefined<T>] extends [true]
+                    ? [HasModifier<"allow-undefined", U, WideScalarModifiers>] extends [true]
+                        ? true
+                        : false
+                    : [string] extends [T]
+                        ? true
+                        : [number] extends [T]
+                            ? true
+                            : [IsWideSymbol<T>] extends [true]
+                                ? true
+                                : [IsWideBoolean<T>] extends [true]
+                                    ? true
+                                    : false
+            : false;

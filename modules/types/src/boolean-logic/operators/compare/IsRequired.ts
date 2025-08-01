@@ -1,4 +1,4 @@
-import { IsOptional, Not } from "inferred-types/types";
+import type { IsOptional, Not } from "inferred-types/types";
 
 /**
  * Tests to see if `T` is a union type and if it is, it validates that

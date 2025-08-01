@@ -6,4 +6,3 @@ export * from "./IsUnion";
 export * from "./IsUnionArray";
 export * from "./IsWideUnion";
 export * from "./UnionHasArray";
-

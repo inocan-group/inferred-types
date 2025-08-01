@@ -5,15 +5,15 @@ export type EachOperation = "returnType" | "get" | "isLiteral" | "isLiteralLike"
 
 type FirstParam<T extends EachOperation> = T extends "returnType"
     ? null
-: T extends "get"
-    ? string | null
-: T extends "offset"
-    ? PropertyKey | null
-: T extends "isLiteral"
-    ? null
-: T extends "isWide"
-    ? null
-: null;
+    : T extends "get"
+        ? string | null
+        : T extends "offset"
+            ? PropertyKey | null
+            : T extends "isLiteral"
+                ? null
+                : T extends "isWide"
+                    ? null
+                    : null;
 
 // type SecondParam<T extends EachOperation> = T extends "returnType"
 //     ? null
@@ -55,29 +55,29 @@ export type Each<
     }>
 
     : TOp extends "isLiteralLike"
-    ? And<{
-        [K in keyof T]: IsLiteralLike<T[K]>
-    }>
-    : TOp extends "isWide"
-    ? And<{
-        [K in keyof T]: IsWideType<T[K]>
-    }>
-    : {
-        [K in keyof T]: TOp extends "returnType"
-            ? T[K] extends TypedFunction
-                ? ReturnType<T[K]>
-                : Err<
-                    `not-function/return-type`,
+        ? And<{
+            [K in keyof T]: IsLiteralLike<T[K]>
+        }>
+        : TOp extends "isWide"
+            ? And<{
+                [K in keyof T]: IsWideType<T[K]>
+            }>
+            : {
+                [K in keyof T]: TOp extends "returnType"
+                    ? T[K] extends TypedFunction
+                        ? ReturnType<T[K]>
+                        : Err<
+                            `not-function/return-type`,
                     `The Each operation 'returnType' expected to see a functions in T but item was '${GetTypeOf<T[K]>}' instead!`,
                     { element: T[K] }
-                >
-            : TOp extends "get"
-                ? TParam extends string
-                    ? Get<T[K], TParam>
-                    : Err<
-                        `no-index`,
-                        `The Each operation 'get' requires that a parameter representing a 'DotPath' be present but no such parameter was found!`,
-                        { element: T[K]; param: TParam }
-                    >
-            : never
-    };
+                        >
+                    : TOp extends "get"
+                        ? TParam extends string
+                            ? Get<T[K], TParam>
+                            : Err<
+                                `no-index`,
+                                `The Each operation 'get' requires that a parameter representing a 'DotPath' be present but no such parameter was found!`,
+                                { element: T[K]; param: TParam }
+                            >
+                        : never
+            };

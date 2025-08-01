@@ -10,12 +10,12 @@ Let's review the groups this repo defines from _most_ exclusive to _least_.
 
 The `IsUnitPrimitive<T>` utility provides us a way to test for the most exclusive subset of what we'll later call "literal". It includes:
 
- - null, undefined
- - literal string (not union)
- - literal number (not union)
- - literal bigint (not union)
- - true, false
- - unique symbols (not regular symbols)
+- null, undefined
+- literal string (not union)
+- literal number (not union)
+- literal bigint (not union)
+- true, false
+- unique symbols (not regular symbols)
 
 ### Tuple Literals
 
@@ -41,13 +41,11 @@ Beyond the `IsLiteralObject<T>` type we include a few boolean operators which te
 - `IsLiteralWeakMap<T>` - same as `IsLiteralObject<T>` but `T` must extend `WeakMap<any,any>`
 - `IsLiteralSet<T>` - same as `IsLiteralObject<T>` but `T` must extend `Set<any>`
 
-
 ### Boundary Literals
 
 - a boundary literal includes the types `any` and `never`.
 - the `IsBoundaryLiteral<T>` is a boolean operator which tests for this.
 - because these boundary literals are often reflective of a problem more than a type there may be times you want to treat them different than other literal subcategories.
-
 
 ### Literal Types
 
@@ -62,10 +60,9 @@ You can use the `IsLiteral<T,[U]>` boolean operator to test for whether any give
 
 - by default the boundary types are **not** included
 - if you want to include them you may set the `U` generic to:
-  - `include-boundary` - includes both `never` and `any`
-  - `include-any` - include `any` but avoid `never`
-  - `include-never` - include `never` but avoid `any
-
+    - `include-boundary` - includes both `never` and `any`
+    - `include-any` - include `any` but avoid `never`
+    - `include-never` - include `never` but avoid `any
 
 ## `LiteralLike` types
 
@@ -102,7 +99,7 @@ type T2 = IsLiteralLikeTuple<TupLike>;
 - there is a more permissive utility called `IsLiteralLikeArray<T>` which extends the set of types which `IsLiteralLikeTuple<T>` accept.
 - it's main variation is that it _does_ allow variadic types so long as there are at least one (or more) fixed types defined and if that variadic tail is removed that the remaining elements are `LiteralLike`.
 - it _does not allow_ any "optional" parameters to be defined
-  - because of this, this type is NOT included in the broader `IsLiteralLike<T>` definition
+    - because of this, this type is NOT included in the broader `IsLiteralLike<T>` definition
 
 For instance:
 
@@ -142,25 +139,25 @@ type T3 = IsLiteralLikeArray<[ ...string[] ], true>;
     // true
     type T2 = IsLiteralLikeObject<{ foo: number; bar: string }>;
     // true
-    type T3 = IsLiteralLikeObject<Record<"foo"|"bar"|"baz", string>>;
+    type T3 = IsLiteralLikeObject<Record<"foo" | "bar" | "baz", string>>;
     // false
     type T4 = IsLiteralLikeObject<object>;
     // false
-    type T5 = IsLiteralLikeObject<Record<string,string>>;
+    type T5 = IsLiteralLikeObject<Record<string, string>>;
     ```
 
 - the big question is how to handle "optional" keys
-  - it's not all that common to have optional parameters in an array but it is _very_ common to have that in an object
-  - because of this we typically _do_ want to group up object's with or without optional keys.
-  - for that reason we provide an optional generic `U` which let's you explicitly switch between allowing or disallowing but the default is to allow optional keys:
+    - it's not all that common to have optional parameters in an array but it is _very_ common to have that in an object
+    - because of this we typically _do_ want to group up object's with or without optional keys.
+    - for that reason we provide an optional generic `U` which let's you explicitly switch between allowing or disallowing but the default is to allow optional keys:
 
-    ```ts
-    // true
-    type T1 = IsLiteralLikeObject<{ foo: 1; bar?: string }>;
-    type T2 = IsLiteralLikeObject<{ foo: 1; bar?: string }, true>;
-    // false
-    type T3 = IsLiteralLikeObject<{ foo: 1; bar?: string }, false>;
-    ```
+        ```ts
+        // true
+        type T1 = IsLiteralLikeObject<{ foo: 1; bar?: string }>;
+        type T2 = IsLiteralLikeObject<{ foo: 1; bar?: string }, true>;
+        // false
+        type T3 = IsLiteralLikeObject<{ foo: 1; bar?: string }, false>;
+        ```
 
 ### Literal Unions
 
@@ -181,7 +178,7 @@ The main question here is around _containers_ and whether their literal type or 
 This means that:
 
 ```ts
-type Obj = `{ foo: 1; bar: string }`
+type Obj = `{ foo: 1; bar: string }`;
 
 // false
 type T1 = IsLiteralUnion<Obj>;
@@ -191,8 +188,6 @@ type T2 = IsLiteralUnion<Obj, "literal-like-containers">;
 
 > **Note:** the availability of "optional" value types is set to `true` for objects but `false` for tuples. If you want both container categories to be set to `true` or `false` you will need to set `U` as `[ "literal-like-containers", "allow-optional" ]` or `[ "literal-like-containers", "no-optional" ]` respectfully.
 
-
-
 ### `IsLiteralLike<T>` operator
 
 This boolean operator `IsLiteralLike<T>` results in `true` when any of the following are `true`:
@@ -201,7 +196,6 @@ This boolean operator `IsLiteralLike<T>` results in `true` when any of the follo
 - `IsLiteralLikeObject<T>` _is_ **true**
 - `IsLiteralLikeTuple<T>` _is_ **true**
 - `IsLiteralUnion<T>` _is_ **true**
-
 
 ## Widening the Net
 
@@ -213,18 +207,15 @@ For now the only _mixed_ type we will have are a `MixedUnion` type which has a b
 
 - this utility will result in `true` if _some_ of the elements in the union are literal values but others are others are wide.
 - there is one _variant_ of this utility which is defined by the `U` generic:
-  - by default, or when `U` is set to `null`, this utility will only consider _container_ types which are truly literal types as `true` but reject component types which are _literal-like_.
-  - if `U` is set to `literal-like-containers`, then contains only need to match the _literal like_ bar to qualify
+    - by default, or when `U` is set to `null`, this utility will only consider _container_ types which are truly literal types as `true` but reject component types which are _literal-like_.
+    - if `U` is set to `literal-like-containers`, then contains only need to match the _literal like_ bar to qualify
 
 ### Wide Types
 
 - the primary utility for determining is a "wide type" is the `IsWideType<T>` utility
 - we also have utilities which isolate to a particular type category:
-  - `IsWideObject<T>`
-  - `IsWideArray<T>`
-  - `IsWideString<T>`
-  - `IsWideNumber<T>`
-  - `IsWideBoolean<T>`
-
-
-
+    - `IsWideObject<T>`
+    - `IsWideArray<T>`
+    - `IsWideString<T>`
+    - `IsWideNumber<T>`
+    - `IsWideBoolean<T>`

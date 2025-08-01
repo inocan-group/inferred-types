@@ -4,14 +4,14 @@ import type {
     Container,
     Dictionary,
     ExplicitlyEmptyObject,
+    IsEqual,
+    IsLiteralLikeObject,
     IsNegativeNumber,
     IsStringLiteral,
     IsTuple,
-    IsEqual,
     NumericKeys,
     Tuple,
     TupleToUnion,
-    IsLiteralLikeObject,
 } from "inferred-types/types";
 
 /**

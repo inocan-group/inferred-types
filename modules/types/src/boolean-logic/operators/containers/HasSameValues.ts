@@ -68,8 +68,8 @@ export type HasSameValues<
     TException = false
 > = [IsAny<TContainer>] extends [true]
     ? TException
-: [IsNever<TContainer>] extends [true]
-    ? TException
-: [IsAny<TComparator>] extends [true]
-    ? TException
-: _HasSameValues<Values<TContainer>, Values<TComparator>>
+    : [IsNever<TContainer>] extends [true]
+        ? TException
+        : [IsAny<TComparator>] extends [true]
+            ? TException
+            : _HasSameValues<Values<TContainer>, Values<TComparator>>;

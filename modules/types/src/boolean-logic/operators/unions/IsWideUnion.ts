@@ -1,5 +1,5 @@
-import { And, IsUnion, UnionToTuple } from "inferred-types/types";
-import { IsWideType } from "types/boolean-logic/operators/literal/IsWideType";
+import type { And, IsUnion, UnionToTuple } from "inferred-types/types";
+import type { IsWideType } from "types/boolean-logic/operators/literal/IsWideType";
 
 type Check<
     T extends readonly unknown[]
@@ -15,5 +15,5 @@ type Check<
  * **Related:** `IsLiteralUnion`, `IsMixedUnion`
  */
 export type IsWideUnion<T> = IsUnion<T> extends true
-? Check<UnionToTuple<T>>
-: false;
+    ? Check<UnionToTuple<T>>
+    : false;

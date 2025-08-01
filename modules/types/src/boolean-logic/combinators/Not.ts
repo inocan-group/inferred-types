@@ -28,17 +28,17 @@ export type Not<
     TVal,
     TNotBoolean extends LogicHandler = "false",
 > = [IsAny<TVal>] extends [true]
-? false
-: [IsNever<TVal>] extends [true]
-? false
-: [TVal] extends [readonly unknown[]]
-        ? {
-            [K in keyof TVal]: Logic<TVal, TNotBoolean>
-        }
-        : [IsTrue<Logic<TVal, TNotBoolean>>] extends [true]
-            ? false
-            : [IsFalse<Logic<TVal, TNotBoolean>>] extends [true]
-                ? true
-                : [IsBoolean<Logic<TVal, TNotBoolean>>] extends [true]
-                    ? boolean
-                    : never;
+    ? false
+    : [IsNever<TVal>] extends [true]
+        ? false
+        : [TVal] extends [readonly unknown[]]
+            ? {
+                [K in keyof TVal]: Logic<TVal, TNotBoolean>
+            }
+            : [IsTrue<Logic<TVal, TNotBoolean>>] extends [true]
+                ? false
+                : [IsFalse<Logic<TVal, TNotBoolean>>] extends [true]
+                    ? true
+                    : [IsBoolean<Logic<TVal, TNotBoolean>>] extends [true]
+                        ? boolean
+                        : never;

@@ -21,25 +21,23 @@ export type TakeLast<
     TLen extends number,
     TReq extends readonly unknown[] = Required<TContent>
 > = HasOptionalElements<TContent> extends true
-? MakeOptional<
-    Reverse<TakeFirst<
-        Reverse<TReq>,
-        TLen
-    >> extends readonly unknown[]
-    ? Reverse<TakeFirst<
-        Reverse<TReq>,
-        TLen
-    >>
-    : [],
-    Min<[
-        GetOptionalElementCount<TContent>,
-        TLen
-    ]>
->
+    ? MakeOptional<
+        Reverse<TakeFirst<
+            Reverse<TReq>,
+            TLen
+        >> extends readonly unknown[]
+            ? Reverse<TakeFirst<
+                Reverse<TReq>,
+                TLen
+            >>
+            : [],
+        Min<[
+            GetOptionalElementCount<TContent>,
+            TLen
+        ]>
+    >
 
-: Reverse<TakeFirst<
-    Reverse<TContent>,
-    TLen
->>;
-
-
+    : Reverse<TakeFirst<
+        Reverse<TContent>,
+        TLen
+    >>;

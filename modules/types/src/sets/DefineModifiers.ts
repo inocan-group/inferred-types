@@ -1,6 +1,3 @@
-
-
-
 /**
  * **DefineModifiers**`<T>`
  *
@@ -9,4 +6,3 @@
  * part of a tuple array of modifiers.
  */
 export type DefineModifiers<T extends readonly string[]> = null | T[number] | readonly (T[number])[];
-

@@ -14,10 +14,10 @@ export type IsBooleanLiteral<
     T,
 > = [IsAny<T>] extends [true]
     ? false
-: [IsNever<T>] extends [true]
-    ? false
-: [IsTrue<T>] extends [true]
-    ? true
-: [IsFalse<T>] extends [true]
-    ? true
-: false;
+    : [IsNever<T>] extends [true]
+        ? false
+        : [IsTrue<T>] extends [true]
+            ? true
+            : [IsFalse<T>] extends [true]
+                ? true
+                : false;

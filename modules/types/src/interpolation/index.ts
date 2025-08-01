@@ -13,4 +13,3 @@ export * from "./StripSurroundingStringTemplate";
 export * from "./TemplateBlock";
 export * from "./TemplateBlocks";
 export * from "./TemplateParams";
-

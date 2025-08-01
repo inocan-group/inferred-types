@@ -7,7 +7,6 @@ import type {
     Keys
 } from "inferred-types/types";
 
-
 /**
  * **IsNonEmptyObject**`<T>`
  *

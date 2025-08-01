@@ -9,8 +9,8 @@ type Marked = typeof MARKED;
 /**
  * Efficiently filters tuples by removing never values using direct tail recursion
  */
-type FilterTuple<T extends readonly unknown[], Result extends readonly unknown[] = []> =
-    T extends readonly [infer Head, ...infer Tail]
+type FilterTuple<T extends readonly unknown[], Result extends readonly unknown[] = []>
+    = T extends readonly [infer Head, ...infer Tail]
         ? [Head] extends [Marked]
             ? FilterTuple<Tail, Result>
             : FilterTuple<Tail, [...Result, Head]>

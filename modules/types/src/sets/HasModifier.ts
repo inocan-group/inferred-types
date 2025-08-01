@@ -1,4 +1,4 @@
-import { As, AsArray, Contains, IsNull } from "inferred-types/types";
+import type { As, AsArray, Contains, IsNull } from "inferred-types/types";
 
 /**
  * **HasModifier**`<TTest, TConfig, [TDefn]>`
@@ -13,12 +13,12 @@ export type HasModifier<
     TConfig extends readonly string[] | string | null,
     TDefn extends readonly string[] | string | null = TConfig
 > = string extends TTest
-? boolean
-: string extends TConfig
-? boolean
-: IsNull<TConfig> extends true
-? false
-: Contains<
-    As<AsArray<TConfig>, readonly string[]>,
-    TTest
->;
+    ? boolean
+    : string extends TConfig
+        ? boolean
+        : IsNull<TConfig> extends true
+            ? false
+            : Contains<
+                As<AsArray<TConfig>, readonly string[]>,
+                TTest
+            >;

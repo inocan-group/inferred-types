@@ -11,20 +11,20 @@ import type {
 /**
  * Detect if a type is the wide boolean type rather than a boolean literal
  */
-type IsWideBool<T> = boolean extends T 
-    ? true extends T 
-        ? false extends T 
-            ? true 
+type IsWideBool<T> = boolean extends T
+    ? true extends T
+        ? false extends T
+            ? true
             : false
         : false
     : false;
 
 /**
  * Boolean comparison for ASC order - returns true if A should come before B
- * ASC order: true comes before false 
+ * ASC order: true comes before false
  */
-type BoolLessThan<A extends boolean, B extends boolean> =
-    A extends true
+type BoolLessThan<A extends boolean, B extends boolean>
+    = A extends true
         ? B extends false
             ? true // true comes before false in ASC
             : false // true = true
@@ -34,8 +34,8 @@ type BoolLessThan<A extends boolean, B extends boolean> =
                 : false // false = false
             : false; // A is wide boolean
 
-type BoolGreaterThan<A extends boolean, B extends boolean> =
-    BoolLessThan<A, B> extends true
+type BoolGreaterThan<A extends boolean, B extends boolean>
+    = BoolLessThan<A, B> extends true
         ? false
         : A extends B
             ? false
@@ -113,7 +113,7 @@ type FilterContainersBoolLessThanOrEqual<
     ? BoolLessThan<
         As<Get<Head, TOffset>, boolean>,
         As<Get<TVal, TOffset>, boolean>
-      > extends true
+    > extends true
         ? FilterContainersBoolLessThanOrEqual<TVal, TOffset, Tail, [...TOut, Head]>
         : As<Get<Head, TOffset>, boolean> extends As<Get<TVal, TOffset>, boolean>
             ? FilterContainersBoolLessThanOrEqual<TVal, TOffset, Tail, [...TOut, Head]>
@@ -129,7 +129,7 @@ type FilterContainersBoolGreaterThan<
     ? BoolGreaterThan<
         As<Get<Head, TOffset>, boolean>,
         As<Get<TVal, TOffset>, boolean>
-      > extends true
+    > extends true
         ? FilterContainersBoolGreaterThan<TVal, TOffset, Tail, [...TOut, Head]>
         : FilterContainersBoolGreaterThan<TVal, TOffset, Tail, TOut>
     : TOut;
@@ -174,8 +174,8 @@ type _SortBooleanOffset<
 /**
  * Filter narrow boolean types (true | false literals)
  */
-type FilterNarrowBooleans<T extends readonly boolean[], Result extends readonly boolean[] = []> =
-    T extends readonly [infer Head extends boolean, ...infer Tail extends readonly boolean[]]
+type FilterNarrowBooleans<T extends readonly boolean[], Result extends readonly boolean[] = []>
+    = T extends readonly [infer Head extends boolean, ...infer Tail extends readonly boolean[]]
         ? IsWideBool<Head> extends true
             ? FilterNarrowBooleans<Tail, Result>
             : FilterNarrowBooleans<Tail, [...Result, Head]>
@@ -184,8 +184,8 @@ type FilterNarrowBooleans<T extends readonly boolean[], Result extends readonly 
 /**
  * Filter wide boolean types (boolean type)
  */
-type FilterWideBooleans<T extends readonly boolean[], Result extends readonly boolean[] = []> =
-    T extends readonly [infer Head extends boolean, ...infer Tail extends readonly boolean[]]
+type FilterWideBooleans<T extends readonly boolean[], Result extends readonly boolean[] = []>
+    = T extends readonly [infer Head extends boolean, ...infer Tail extends readonly boolean[]]
         ? IsWideBool<Head> extends true
             ? FilterWideBooleans<Tail, [...Result, Head]>
             : FilterWideBooleans<Tail, Result>
@@ -199,12 +199,11 @@ type SeparateWideBooleans<T extends readonly boolean[]> = {
     wide: FilterWideBooleans<T>;
 };
 
-
 export interface BooleanSortOptions {
     /**
      * by default this is set to sort by _ascending_ order but this can be
      * reversed by changing order to `DESC`.
-     * 
+     *
      * ASC: true, false, boolean
      * DESC: false, true, boolean
      */
@@ -234,7 +233,6 @@ type _BooleanSortMain<
         [IsEqual<O["order"], "DESC">] extends [true] ? true : false
     >
 > = [...TSorted, ...TWide];
-
 
 /**
  * **BooleanSort**`<T, [O]>`

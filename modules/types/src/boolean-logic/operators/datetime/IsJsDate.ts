@@ -1,7 +1,7 @@
 import type { Dictionary } from "types/base-types";
 import type { IsUnknown } from "types/boolean-logic";
-import type { IsAny } from "types/boolean-logic/operators/literal/IsAny";
 import type { HasFunctionKeys } from "types/boolean-logic/operators/kv";
+import type { IsAny } from "types/boolean-logic/operators/literal/IsAny";
 
 /**
  * **IsJsDate**`<T>`

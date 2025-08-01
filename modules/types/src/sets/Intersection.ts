@@ -1,7 +1,9 @@
-import { Each, First, UnionFrom, Values, Widen } from "inferred-types/types";
-import { Container, Dictionary } from "types/base-types";
-import { As, Contains, If, IsDictionary, IsEqual, IsLiteralLike, IsNever, IsSameContainerType, IsWideContainer, Or, Xor } from "types/boolean-logic";
-import { Err } from "types/errors";
+import type { Each, UnionFrom, Values } from "inferred-types/types";
+import type { Container, Dictionary } from "types/base-types";
+import type { As, Contains, If, IsDictionary, IsEqual, IsLiteralLike, IsNever, IsSameContainerType, IsWideContainer, Or } from "types/boolean-logic";
+import type { Err } from "types/errors";
+import { First, Widen } from "inferred-types/types";
+import { Xor } from "types/boolean-logic";
 
 // Helper to get type intersection
 type TypeIntersection<A, B> = A & B extends never ? never : A & B;
@@ -15,13 +17,13 @@ type ExistsInArray<
         ? true
         : [Value] extends [BHead]
             ? [BHead] extends [Value]
-                ? true  // Found exact match (handles edge cases)
+                ? true // Found exact match (handles edge cases)
                 : IsNever<TypeIntersection<Value, BHead>> extends true
                     ? ExistsInArray<Value, BTail>
-                    : true  // Found intersection
+                    : true // Found intersection
             : IsNever<TypeIntersection<Value, BHead>> extends true
                 ? ExistsInArray<Value, BTail>
-                : true  // Found intersection
+                : true // Found intersection
     : false;
 
 // Get the intersection value when comparing with B (returns exact match if found, otherwise intersection)
@@ -31,19 +33,19 @@ type GetIntersectionValue<
     Found extends boolean = false
 > = B extends readonly [infer BHead, ...infer BTail]
     ? IsEqual<Value, BHead> extends true
-        ? Value  // Exact match found, return original value
+        ? Value // Exact match found, return original value
         : IsNever<TypeIntersection<Value, BHead>> extends true
-            ? GetIntersectionValue<Value, BTail, false>  // No intersection, continue searching
+            ? GetIntersectionValue<Value, BTail, false> // No intersection, continue searching
             : Found extends true
-                ? GetIntersectionValue<Value, BTail, true>  // Already found intersection, keep searching for exact match
-                : TypeIntersection<Value, BHead>  // Return first intersection found
+                ? GetIntersectionValue<Value, BTail, true> // Already found intersection, keep searching for exact match
+                : TypeIntersection<Value, BHead> // Return first intersection found
     : never;
 
 // Check if value already exists in result to prevent duplicates
 type AlreadyInResult<
     Value,
     Result extends readonly unknown[]
-> = Contains<Result,Value>;
+> = Contains<Result, Value>;
 
 // Main comparison function for narrow containers
 type Compare<
@@ -52,16 +54,16 @@ type Compare<
     O extends null | PropertyKey,
     Result extends readonly unknown[] = []
 > = A extends readonly [infer Head, ...infer Tail]
-        ? O extends null
-            ? ExistsInArray<Head, B> extends true
-                ? AlreadyInResult<GetIntersectionValue<Head, B>, Result> extends true
-                    ? Compare<Tail, B, O, Result>  // Skip duplicates
-                    : Compare<Tail, B, O, [...Result, GetIntersectionValue<Head, B>]>
-                : Compare<Tail, B, O, Result>
-            : O extends keyof Head
-                ? CompareWithOffset<Head, B, O, Result, Tail, B>
-                : Compare<Tail, B, O, Result>
-        : Result;
+    ? O extends null
+        ? ExistsInArray<Head, B> extends true
+            ? AlreadyInResult<GetIntersectionValue<Head, B>, Result> extends true
+                ? Compare<Tail, B, O, Result> // Skip duplicates
+                : Compare<Tail, B, O, [...Result, GetIntersectionValue<Head, B>]>
+            : Compare<Tail, B, O, Result>
+        : O extends keyof Head
+            ? CompareWithOffset<Head, B, O, Result, Tail, B>
+            : Compare<Tail, B, O, Result>
+    : Result;
 
 // Helper type to compare objects with offset property across all elements in B
 type CompareWithOffset<
@@ -88,22 +90,22 @@ type DetectValues<
     A extends readonly unknown[],
     B extends readonly unknown[],
 > = A extends (infer AT)[]
-? B extends (infer BT)[]
-    ? IsLiteralLike<A> extends true
-        ? Each<Values<A>, "isLiteral"> extends true
-            ? UnionFrom<A>[]
-            : A[number][]
-        : IsLiteralLike<B> extends true
-        ? Each<Values<B>, "isLiteral"> extends true
-            ? UnionFrom<B>[]
-            : B[number][]
-        : If<
-            IsNever<AT&BT>,
-            [],
-            (AT&BT)[]
-        >
-    : unknown[]
-: unknown[];
+    ? B extends (infer BT)[]
+        ? IsLiteralLike<A> extends true
+            ? Each<Values<A>, "isLiteral"> extends true
+                ? UnionFrom<A>[]
+                : A[number][]
+            : IsLiteralLike<B> extends true
+                ? Each<Values<B>, "isLiteral"> extends true
+                    ? UnionFrom<B>[]
+                    : B[number][]
+                : If<
+                    IsNever<AT & BT>,
+                    [],
+                    (AT & BT)[]
+                >
+        : unknown[]
+    : unknown[];
 
 // Compare values for dictionaries/objects - only check for exact matches
 type CompareObjectValues<
@@ -144,29 +146,29 @@ export type Intersection<
     A extends Container,
     B extends Container,
     O extends null | PropertyKey = null
-> = IsSameContainerType<A,B> extends true
-? Or<[IsWideContainer<A>, IsWideContainer<B>]> extends true
-    ? IsDictionary<A> extends true
-        ? DetectValues<
-            Values<A>,
-            Values<As<B,Dictionary>>
-        >
-        : DetectValues<
-            [...As<A, readonly unknown[]>],
-            [...As<B, readonly unknown[]>]
-        >
-    : A extends readonly unknown[]
-        ? Compare<
-            A,
-            As<B, readonly unknown[]>,
-            O
-        >
-        : CompareObjectValues<
-            Values<A>,
-            Values<B>
-        >
-: Err<
-    `invalid-comparison/keys`,
-    `The Intersection<A,B> utility works when both A and B are the same type of container but that was not the case!`,
-    { a: A, b: B }
->
+> = IsSameContainerType<A, B> extends true
+    ? Or<[IsWideContainer<A>, IsWideContainer<B>]> extends true
+        ? IsDictionary<A> extends true
+            ? DetectValues<
+                Values<A>,
+                Values<As<B, Dictionary>>
+            >
+            : DetectValues<
+                [...As<A, readonly unknown[]>],
+                [...As<B, readonly unknown[]>]
+            >
+        : A extends readonly unknown[]
+            ? Compare<
+                A,
+                As<B, readonly unknown[]>,
+                O
+            >
+            : CompareObjectValues<
+                Values<A>,
+                Values<B>
+            >
+    : Err<
+        `invalid-comparison/keys`,
+        `The Intersection<A,B> utility works when both A and B are the same type of container but that was not the case!`,
+        { a: A; b: B }
+    >;

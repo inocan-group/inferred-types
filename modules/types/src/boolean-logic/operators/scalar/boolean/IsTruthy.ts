@@ -1,10 +1,10 @@
 import type {
     If,
     IsArray,
+    IsDictionary,
     IsFalse,
     IsNull,
     IsNumericLiteral,
-    IsDictionary,
     IsStringLiteral,
     IsTrue,
     IsUndefined,

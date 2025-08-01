@@ -1,4 +1,5 @@
-import { IsAny, IsNever, TupleMeta, And, Not, IsUnion } from 'inferred-types/types';
+import type { IsAny, IsNever, IsUnion } from "inferred-types/types";
+import { And, Not, TupleMeta } from "inferred-types/types";
 
 /**
  * **IsLiteralLikeTuple**`<T>`
@@ -19,18 +20,15 @@ import { IsAny, IsNever, TupleMeta, And, Not, IsUnion } from 'inferred-types/typ
  *
  * **Related:** `IsLiteralLikeArray`
  */
-export type IsLiteralLikeTuple<T> =
-[IsAny<T>] extends [true]
+export type IsLiteralLikeTuple<T>
+= [IsAny<T>] extends [true]
     ? false
-: [IsNever<T>] extends [true]
-    ? false
-: [T] extends [readonly unknown[]]
-    ? [number] extends [T["length"]]
+    : [IsNever<T>] extends [true]
         ? false
-        : IsUnion<T["length"]> extends true
-            ? false
-            : true
-: false;
-
-
-
+        : [T] extends [readonly unknown[]]
+            ? [number] extends [T["length"]]
+                ? false
+                : IsUnion<T["length"]> extends true
+                    ? false
+                    : true
+            : false;

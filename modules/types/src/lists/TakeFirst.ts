@@ -36,7 +36,7 @@ export type TakeFirst<
     TLen extends number,
 > = HasOptionalElements<TContent> extends true
     ? AllOptionalElements<TContent> extends true
-        ? Partial<Take<Required<TContent>,TLen>>
+        ? Partial<Take<Required<TContent>, TLen>>
         : [
             // required props
             ...Take<TContent, TLen>,

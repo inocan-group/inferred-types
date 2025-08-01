@@ -11,5 +11,3 @@ export type IsOptional<T> = IsUnion<T> extends true
         ? true
         : false
     : false;
-
-

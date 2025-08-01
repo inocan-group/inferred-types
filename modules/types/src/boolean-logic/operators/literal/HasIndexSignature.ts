@@ -1,4 +1,4 @@
-import { IsAny, IsNever } from "inferred-types/types";
+import type { IsAny, IsNever } from "inferred-types/types";
 
 /**
  * **HasIndexSignature**`<T>`
@@ -7,9 +7,9 @@ import { IsAny, IsNever } from "inferred-types/types";
  * it's type definition.
  */
 export type HasIndexSignature<T> = [IsAny<T>] extends [true]
-? false
-: [IsNever<T>] extends [true]
-? false
-:   string extends keyof T ? true :
-  number extends keyof T ? true :
-  symbol extends keyof T ? true : false;
+    ? false
+    : [IsNever<T>] extends [true]
+        ? false
+        : string extends keyof T ? true
+            : number extends keyof T ? true
+                : symbol extends keyof T ? true : false;

@@ -1,4 +1,4 @@
-import { Values, Container, IsDictionary } from "inferred-types/types";
+import type { Container, IsDictionary, Values } from "inferred-types/types";
 
 /**
  * **UnionFrom**`<T,[U]>`
@@ -17,4 +17,4 @@ export type UnionFrom<
     ? T[number]
     : IsDictionary<T> extends true
         ? Values<T>[number]
-    : never;
+        : never;

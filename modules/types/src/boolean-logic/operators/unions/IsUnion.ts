@@ -7,14 +7,14 @@ import type { IsAny, IsNever, UnionToTuple } from "inferred-types/types";
  * given `T` is typed as a _union_ type.
  */
 export type IsUnion<T> = [IsNever<T>] extends [true]
-? false
-: [IsAny<T>] extends [true]
-? false
-
-: [IsNever<UnionToTuple<T>>] extends [true]
     ? false
-    : UnionToTuple<T> extends readonly unknown[]
-        ? [UnionToTuple<T>["length"]] extends [1]
+    : [IsAny<T>] extends [true]
+        ? false
+
+        : [IsNever<UnionToTuple<T>>] extends [true]
             ? false
-            : true
-        : false;
+            : UnionToTuple<T> extends readonly unknown[]
+                ? [UnionToTuple<T>["length"]] extends [1]
+                    ? false
+                    : true
+                : false;

@@ -16,8 +16,8 @@ import type {
  * Optimized comparison using string representation to avoid Iterator recursion
  * This is more efficient than creating tuple arrays for comparison
  */
-type NumLessThanOrEqual<A extends number, B extends number> =
-    `${A}` extends `-${string}`
+type NumLessThanOrEqual<A extends number, B extends number>
+    = `${A}` extends `-${string}`
         ? `${B}` extends `-${string}`
             ? StringNumCompare<`${A}`, `${B}`> extends true | "equal" ? true : false
             : true // A is negative, B is positive, so A <= B
@@ -25,27 +25,27 @@ type NumLessThanOrEqual<A extends number, B extends number> =
             ? false // A is positive, B is negative, so A > B
             : StringNumCompare<`${A}`, `${B}`> extends true | "equal" ? true : false;
 
-type NumGreaterThan<A extends number, B extends number> =
-    NumLessThanOrEqual<A, B> extends true
+type NumGreaterThan<A extends number, B extends number>
+    = NumLessThanOrEqual<A, B> extends true
         ? false
         : true;
 
 /**
  * String-based numeric comparison that's more efficient than Iterator approach
  */
-type StringNumCompare<A extends string, B extends string> =
-    A extends B ? "equal" :
-    A extends `-${infer ANeg}`
-        ? B extends `-${infer BNeg}`
-            ? StringNumCompare<BNeg, ANeg> // Reverse comparison for negatives
-            : true // A negative, B positive
-        : B extends `-${string}`
-            ? false // A positive, B negative
-            : ComparePositive<A, B>;
+type StringNumCompare<A extends string, B extends string>
+    = A extends B ? "equal"
+        : A extends `-${infer ANeg}`
+            ? B extends `-${infer BNeg}`
+                ? StringNumCompare<BNeg, ANeg> // Reverse comparison for negatives
+                : true // A negative, B positive
+            : B extends `-${string}`
+                ? false // A positive, B negative
+                : ComparePositive<A, B>;
 
-type ComparePositive<A extends string, B extends string> =
+type ComparePositive<A extends string, B extends string>
     // First check if they have the same length by pattern matching
-    A extends `${infer A1}${infer A2}${infer A3}${infer A4}${infer ARest}`
+    = A extends `${infer A1}${infer A2}${infer A3}${infer A4}${infer ARest}`
         ? B extends `${infer B1}${infer B2}${infer B3}${infer B4}${infer BRest}`
             ? ComparePositive<ARest, BRest> // Continue comparing rest
             : false // A is longer, so A > B
@@ -65,28 +65,28 @@ type ComparePositive<A extends string, B extends string> =
                             ? true // B is longer
                             : CompareByDigits<A, B>; // Both single digit
 
-type CompareByDigits<A extends string, B extends string> =
-    A extends B ? "equal" :
-    A extends `${infer AH}${infer AT}`
-        ? B extends `${infer BH}${infer BT}`
-            ? AH extends BH
-                ? CompareByDigits<AT, BT>
-                : CompareDigit<AH, BH>
-            : false
-        : true;
+type CompareByDigits<A extends string, B extends string>
+    = A extends B ? "equal"
+        : A extends `${infer AH}${infer AT}`
+            ? B extends `${infer BH}${infer BT}`
+                ? AH extends BH
+                    ? CompareByDigits<AT, BT>
+                    : CompareDigit<AH, BH>
+                : false
+            : true;
 
-type CompareDigit<A extends string, B extends string> =
-    A extends "0" ? true :
-    A extends "1" ? B extends "0" ? false : true :
-    A extends "2" ? B extends "0" | "1" ? false : true :
-    A extends "3" ? B extends "0" | "1" | "2" ? false : true :
-    A extends "4" ? B extends "0" | "1" | "2" | "3" ? false : true :
-    A extends "5" ? B extends "0" | "1" | "2" | "3" | "4" ? false : true :
-    A extends "6" ? B extends "0" | "1" | "2" | "3" | "4" | "5" ? false : true :
-    A extends "7" ? B extends "0" | "1" | "2" | "3" | "4" | "5" | "6" ? false : true :
-    A extends "8" ? B extends "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" ? false : true :
-    A extends "9" ? B extends "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" ? false : true :
-    false;
+type CompareDigit<A extends string, B extends string>
+    = A extends "0" ? true
+        : A extends "1" ? B extends "0" ? false : true
+            : A extends "2" ? B extends "0" | "1" ? false : true
+                : A extends "3" ? B extends "0" | "1" | "2" ? false : true
+                    : A extends "4" ? B extends "0" | "1" | "2" | "3" ? false : true
+                        : A extends "5" ? B extends "0" | "1" | "2" | "3" | "4" ? false : true
+                            : A extends "6" ? B extends "0" | "1" | "2" | "3" | "4" | "5" ? false : true
+                                : A extends "7" ? B extends "0" | "1" | "2" | "3" | "4" | "5" | "6" ? false : true
+                                    : A extends "8" ? B extends "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" ? false : true
+                                        : A extends "9" ? B extends "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" ? false : true
+                                            : false;
 
 /**
  * Optimized filter that uses simpler comparison
@@ -157,7 +157,7 @@ type FilterContainersLessThanOrEqual<
     ? NumLessThanOrEqual<
         As<Get<Head, TOffset>, number>,
         As<Get<TVal, TOffset>, number>
-      > extends true
+    > extends true
         ? FilterContainersLessThanOrEqual<TVal, TOffset, Tail, [...TOut, Head]>
         : FilterContainersLessThanOrEqual<TVal, TOffset, Tail, TOut>
     : TOut;
@@ -171,7 +171,7 @@ type FilterContainersGreaterThan<
     ? NumGreaterThan<
         As<Get<Head, TOffset>, number>,
         As<Get<TVal, TOffset>, number>
-      > extends true
+    > extends true
         ? FilterContainersGreaterThan<TVal, TOffset, Tail, [...TOut, Head]>
         : FilterContainersGreaterThan<TVal, TOffset, Tail, TOut>
     : TOut;
@@ -212,7 +212,7 @@ type ExtractFirstNumeric<
             ? [
                 ...ExtractAllMatching<T, FirstHead>,
                 ...ExtractFirstNumeric<T, FirstTail, TOut>
-              ]
+            ]
             : ExtractFirstNumeric<T, FirstTail, TOut>
         : TOut
     : T extends readonly [infer Head extends number, ...infer Tail extends readonly number[]]
@@ -305,8 +305,8 @@ type _NumericSortWithFirst<
     TValues extends any[],
     TOpt extends NumericSortOptions,
     TNumericArray extends readonly number[] = AsNumericArray<TValues>,
-    TNumericFirst = TOpt["first"] extends readonly any[] 
-        ? AsNumericArray<TOpt["first"]> 
+    TNumericFirst = TOpt["first"] extends readonly any[]
+        ? AsNumericArray<TOpt["first"]>
         : AsNumericArray<[TOpt["first"]]> extends readonly [infer N]
             ? N
             : TOpt["first"],

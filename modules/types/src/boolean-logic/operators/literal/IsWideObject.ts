@@ -22,36 +22,34 @@ import type {
  */
 export type IsWideObject<
     T
-> =
-[IsAny<T>] extends [true]
-? false
-: [IsNever<T>] extends [true]
-? false
-: [T] extends [AnyFunction]
-? false
-: [T] extends [object]
-    ? [IsEqual<T,object>] extends [true]
-        ? true
-    : [T] extends [Map<infer Key, any>]
-        ? IsLiteral<Key> extends true
-            ? false
-            : true
-    : [T] extends [WeakMap<infer Key, any>]
-        ? IsLiteral<Key> extends true
-            ? false
-            : true
-    : [T] extends [Set<infer Type>]
-        ? IsLiteral<Type> extends true
-            ? false
-            : true
-
-    : [IsLiteralObject<T>] extends [true]
+>
+= [IsAny<T>] extends [true]
+    ? false
+    : [IsNever<T>] extends [true]
         ? false
-    : [IsUnion<keyof T>] extends [true]
-        ? false
-    : [keyof T] extends [never]
-        ? false
-    : true
-: false;
+        : [T] extends [AnyFunction]
+            ? false
+            : [T] extends [object]
+                ? [IsEqual<T, object>] extends [true]
+                    ? true
+                    : [T] extends [Map<infer Key, any>]
+                        ? IsLiteral<Key> extends true
+                            ? false
+                            : true
+                        : [T] extends [WeakMap<infer Key, any>]
+                            ? IsLiteral<Key> extends true
+                                ? false
+                                : true
+                            : [T] extends [Set<infer Type>]
+                                ? IsLiteral<Type> extends true
+                                    ? false
+                                    : true
 
-
+                                : [IsLiteralObject<T>] extends [true]
+                                    ? false
+                                    : [IsUnion<keyof T>] extends [true]
+                                        ? false
+                                        : [keyof T] extends [never]
+                                            ? false
+                                            : true
+                : false;

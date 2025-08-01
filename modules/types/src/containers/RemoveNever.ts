@@ -6,8 +6,8 @@ import type {
 /**
  * Efficiently filters tuples by removing never values using direct tail recursion
  */
-type FilterTuple<T extends readonly unknown[], Result extends readonly unknown[] = []> = 
-    T extends readonly [infer Head, ...infer Tail]
+type FilterTuple<T extends readonly unknown[], Result extends readonly unknown[] = []>
+    = T extends readonly [infer Head, ...infer Tail]
         ? [Head] extends [never]
             ? FilterTuple<Tail, Result>
             : FilterTuple<Tail, [...Result, Head]>
@@ -24,7 +24,7 @@ type FilterObject<T> = {
  * **RemoveNever**`<T>`
  *
  * Removes all of the elements from `T` which are typed as _never_.
- * 
+ *
  * Optimized implementation that avoids expensive UnionToTuple and NumericKeys operations.
  */
 export type RemoveNever<

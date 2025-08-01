@@ -253,39 +253,35 @@ type O<
     encode: T["encode"] extends boolean ? T["encode"] : false;
 };
 
-
 type _ToStringLiteral<
     T,
     Opt extends ToJsValueOptions = { quote: "\""; encode: false },
 > = [IsUndefined<T>] extends [true]
-        ? "undefined"
-: [IsNull<T>] extends [true]
-    ? "null"
+    ? "undefined"
+    : [IsNull<T>] extends [true]
+        ? "null"
 
-    : [IsUnion<T>] extends [true]
-        ? ToStringLiteral__Union<UnionToTuple<T>>
-    : [string] extends [T]
-        ? "string"
-    : [number] extends [T]
-        ? "number"
-    : [boolean] extends [T]
-        ? "boolean"
-    : [T] extends [number]
-        ? `${T}`
-    : [T] extends [string]
-        ? `"${T}"`
-    : [T] extends [true]
-        ? "true"
-    : [T] extends [false]
-        ? "false"
-    : T extends readonly unknown[]
-        ? ToStringLiteral__Tuple<T, O<Opt>>
-    : T extends Record<string, any>
-        ? ToStringLiteral__Object<T, O<Opt>>
-    : never;
-
-
-
+        : [IsUnion<T>] extends [true]
+            ? ToStringLiteral__Union<UnionToTuple<T>>
+            : [string] extends [T]
+                ? "string"
+                : [number] extends [T]
+                    ? "number"
+                    : [boolean] extends [T]
+                        ? "boolean"
+                        : [T] extends [number]
+                            ? `${T}`
+                            : [T] extends [string]
+                                ? `"${T}"`
+                                : [T] extends [true]
+                                    ? "true"
+                                    : [T] extends [false]
+                                        ? "false"
+                                        : T extends readonly unknown[]
+                                            ? ToStringLiteral__Tuple<T, O<Opt>>
+                                            : T extends Record<string, any>
+                                                ? ToStringLiteral__Object<T, O<Opt>>
+                                                : never;
 
 /**
  * Converts any Typescript variable to a string literal

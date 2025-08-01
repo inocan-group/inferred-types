@@ -1,4 +1,4 @@
-import { IsAny, IsNarrower, IsNever, IsUnion } from "inferred-types/types";
+import type { IsAny, IsNarrower, IsNever, IsUnion } from "inferred-types/types";
 
 /**
  * **IsUnitPrimitive**`<T>`
@@ -14,18 +14,18 @@ import { IsAny, IsNarrower, IsNever, IsUnion } from "inferred-types/types";
  *
  * **Related:** `IsNarrower`, `IsLiteral`, `IsLiteralLike`, `IsLiteralUnion`
  */
-export type IsUnitPrimitive<T> =
-[IsAny<T>] extends [true]
-? false
-: [IsNever<T>] extends [true]
-? false
-: [IsUnion<T>] extends [true]
-? false
-: [T] extends [null | undefined] ? true
-: IsNarrower<T, string> extends true ? true
-: IsNarrower<T, number> extends true ? true
-: IsNarrower<T, boolean> extends true ? true
-: IsNarrower<T, bigint> extends true ? true
-// unique symbol is narrower than symbol; plain `symbol` is not
-: IsNarrower<T, symbol> extends true ? true
-: false;
+export type IsUnitPrimitive<T>
+= [IsAny<T>] extends [true]
+    ? false
+    : [IsNever<T>] extends [true]
+        ? false
+        : [IsUnion<T>] extends [true]
+            ? false
+            : [T] extends [null | undefined] ? true
+                : IsNarrower<T, string> extends true ? true
+                    : IsNarrower<T, number> extends true ? true
+                        : IsNarrower<T, boolean> extends true ? true
+                            : IsNarrower<T, bigint> extends true ? true
+                            // unique symbol is narrower than symbol; plain `symbol` is not
+                                : IsNarrower<T, symbol> extends true ? true
+                                    : false;

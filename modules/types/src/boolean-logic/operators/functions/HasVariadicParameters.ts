@@ -1,4 +1,4 @@
-import {
+import type {
     And,
     As,
     DefineModifiers,
@@ -12,7 +12,7 @@ import {
     IsWideArray,
     Or,
     TypedFunction
-} from "inferred-types/types"
+} from "inferred-types/types";
 
 export type VariadicParameterModifiers = DefineModifiers<[
     "match-variadic-tail",
@@ -24,9 +24,9 @@ type ProcessModified<
     T extends TypedFunction,
     U extends VariadicParameterModifiers
 > = Or<[
-        And<[HasModifier<"match-variadic-tail", U, VariadicParameterModifiers>, HasVariadicTail<Parameters<T>>]>,
-        And<[HasModifier<"match-variadic-head", U, VariadicParameterModifiers>, HasVariadicHead<Parameters<T>>]>,
-        And<[HasModifier<"match-variadic-interior", U, VariadicParameterModifiers>, HasVariadicInterior<Parameters<T>>]>
+    And<[HasModifier<"match-variadic-tail", U, VariadicParameterModifiers>, HasVariadicTail<Parameters<T>>]>,
+    And<[HasModifier<"match-variadic-head", U, VariadicParameterModifiers>, HasVariadicHead<Parameters<T>>]>,
+    And<[HasModifier<"match-variadic-interior", U, VariadicParameterModifiers>, HasVariadicInterior<Parameters<T>>]>
 ]>;
 
 /**
@@ -47,11 +47,11 @@ type ProcessModified<
  * variadic patterns you want to match on.
  */
 export type HasVariadicParameters<T, U extends VariadicParameterModifiers = null> = IsFunction<T> extends true
-? IsNull<U> extends true
-    ? IsVariadicArray<Parameters<As<T, TypedFunction>>> extends true
-        ? IsWideArray<Parameters<As<T, TypedFunction>>> extends true
-            ? false
-            : true
-    : false
-: ProcessModified<As<T, TypedFunction>,U>
-: false;
+    ? IsNull<U> extends true
+        ? IsVariadicArray<Parameters<As<T, TypedFunction>>> extends true
+            ? IsWideArray<Parameters<As<T, TypedFunction>>> extends true
+                ? false
+                : true
+            : false
+        : ProcessModified<As<T, TypedFunction>, U>
+    : false;

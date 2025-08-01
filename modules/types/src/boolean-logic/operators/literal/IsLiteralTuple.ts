@@ -1,4 +1,4 @@
-import { IsAny, IsNever, IsTuple } from "inferred-types/types";
+import type { IsAny, IsNever, IsTuple } from "inferred-types/types";
 
 // Forward declaration to avoid circular dependency
 type IsLiteralScalar<T> = T extends string | number | bigint | boolean | symbol | null | undefined
@@ -11,25 +11,25 @@ type IsLiteralObject<T> = T extends object
     ? [IsAny<T>] extends [true]
         ? false
         : [IsNever<T>] extends [true]
-        ? false
-        : T extends readonly unknown[]
-        ? false
-        : T extends (...args: any[]) => any
-        ? false
-        : number extends keyof T
-        ? false
-        : true
+            ? false
+            : T extends readonly unknown[]
+                ? false
+                : T extends (...args: any[]) => any
+                    ? false
+                    : number extends keyof T
+                        ? false
+                        : true
     : false;
 
 type IsLiteralValue<T> = [IsAny<T>] extends [true]
     ? false
     : [IsNever<T>] extends [true]
-    ? false
-    : T extends readonly unknown[]
-    ? IsLiteralTuple<T>
-    : T extends object
-    ? IsLiteralObject<T>
-    : IsLiteralScalar<T>;
+        ? false
+        : T extends readonly unknown[]
+            ? IsLiteralTuple<T>
+            : T extends object
+                ? IsLiteralObject<T>
+                : IsLiteralScalar<T>;
 
 /**
  * **IsLiteralTuple**`<T>`
@@ -40,15 +40,15 @@ type IsLiteralValue<T> = [IsAny<T>] extends [true]
 export type IsLiteralTuple<T> = [IsAny<T>] extends [true]
     ? false
     : [IsNever<T>] extends [true]
-    ? false
-    : T extends readonly unknown[]
-    ? [IsTuple<T>] extends [true]
-        ? T extends readonly []
-            ? true
-            : T extends readonly [infer First, ...infer Rest]
-            ? [IsLiteralValue<First>] extends [true]
-                ? IsLiteralTuple<Rest>
+        ? false
+        : T extends readonly unknown[]
+            ? [IsTuple<T>] extends [true]
+                ? T extends readonly []
+                    ? true
+                    : T extends readonly [infer First, ...infer Rest]
+                        ? [IsLiteralValue<First>] extends [true]
+                            ? IsLiteralTuple<Rest>
+                            : false
+                        : false
                 : false
-            : false
-        : false
-    : false;
+            : false;

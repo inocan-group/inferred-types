@@ -15,7 +15,6 @@ import type {
 type HasFixedHead<T extends readonly unknown[]>
   = Exclude<keyof T, keyof any[]> extends never ? false : true;
 
-
 /**
  * **SplitAtVariadic**`<T>`
  *
@@ -30,12 +29,12 @@ type HasFixedHead<T extends readonly unknown[]>
  *  - SplitAtVariadic<string[]>             ->  [string[], []]
  */
 export type SplitAtVariadic<
-  T extends readonly unknown[],
-  Acc extends readonly unknown[] = []
-> =
-  T extends readonly [...infer P, infer L]
-    ? SplitAtVariadic<P, [L, ...Acc]>
-    : [T, Acc];
+    T extends readonly unknown[],
+    Acc extends readonly unknown[] = []
+>
+  = T extends readonly [...infer P, infer L]
+      ? SplitAtVariadic<P, [L, ...Acc]>
+      : [T, Acc];
 
 /**
  * **HasVariadicTail**`<T>`
@@ -57,15 +56,15 @@ export type HasVariadicTail<
     R extends readonly unknown[] = [...T]
 > = [IsAny<T>] extends [true]
     ? false
-: [IsNever<T>] extends [true]
-    ? false
-: IsVariadicArray<R> extends true
-    ? HasFixedHead<R> extends true
-        ? SplitAtVariadic<R> extends [...any[], []]
-            ? true
-            : false
-        : false
-: false;
+    : [IsNever<T>] extends [true]
+        ? false
+        : IsVariadicArray<R> extends true
+            ? HasFixedHead<R> extends true
+                ? SplitAtVariadic<R> extends [...any[], []]
+                    ? true
+                    : false
+                : false
+            : false;
 
 /**
  * **HasVariadicHead**`<T>`
@@ -86,16 +85,16 @@ export type HasVariadicHead<
     T extends readonly unknown[],
     R extends readonly unknown[] = [...T]
 > = [IsAny<T>] extends [true]
-? false
-: [IsNever<T>] extends [true]
-? false
-: IsVariadicArray<R> extends true
-    ? HasFixedHead<R> extends true
+    ? false
+    : [IsNever<T>] extends [true]
         ? false
-        : SplitAtVariadic<R> extends [...unknown[], []]
-            ? false
-            : true
-: false;
+        : IsVariadicArray<R> extends true
+            ? HasFixedHead<R> extends true
+                ? false
+                : SplitAtVariadic<R> extends [...unknown[], []]
+                    ? false
+                    : true
+            : false;
 
 /**
  * **HasVariadicInterior**`<T>`
@@ -110,21 +109,18 @@ export type HasVariadicInterior<
     R extends readonly unknown[] = [...T]
 > = [IsAny<T>] extends [true]
     ? false
-: [IsNever<T>] extends [true]
-    ? false
-: IsVariadicArray<R> extends true
-    ? Not<Or<[
-        HasVariadicHead<R>,
-        HasVariadicTail<R>
-    ]>> extends true
-        ? SplitAtVariadic<R> extends [...unknown[], []]
-            ? false
-            : true
-        : false
-: false;
-
-
-
+    : [IsNever<T>] extends [true]
+        ? false
+        : IsVariadicArray<R> extends true
+            ? Not<Or<[
+                HasVariadicHead<R>,
+                HasVariadicTail<R>
+            ]>> extends true
+                ? SplitAtVariadic<R> extends [...unknown[], []]
+                    ? false
+                    : true
+                : false
+            : false;
 
 /**
  * **HasOptionalElements**
@@ -144,7 +140,7 @@ export type HasOptionalElements<T extends readonly unknown[]> = IsNotEqual<Requi
  *
  * **Related:** `HasOptionalElements`
  */
-export type AllOptionalElements<T extends readonly unknown[]> = IsEqual<Partial<T>, T>
+export type AllOptionalElements<T extends readonly unknown[]> = IsEqual<Partial<T>, T>;
 
 /**
  * **GetNonVariadicLength**`<T>`
@@ -179,7 +175,6 @@ type NonVariadicRequired<
         >
         : F["length"];
 
-
 /**
  * **GetRequiredElementCount**`<T>`
  *
@@ -188,8 +183,6 @@ type NonVariadicRequired<
  * **Related:** `GetOptionalElementCount`, `TupleMeta`
  */
 export type GetRequiredElementCount<T extends readonly unknown[]> = NonVariadicRequired<T>;
-
-
 
 /**
  * **GetOptionalElementCount**`<T>`
@@ -203,7 +196,6 @@ export type GetOptionalElementCount<T extends readonly unknown[]>
       GetNonVariadicLength<T>,
       GetRequiredElementCount<T>
   >;
-
 
 /**
  * **ExtractOptionalElements**`<T>`
@@ -226,7 +218,6 @@ export type ExtractOptionalElements<
 ]
     ? Partial<Rest>
     : [];
-
 
 export type ExtractRequiredElements<
     T extends readonly unknown[],
@@ -254,8 +245,8 @@ export type ExtractRequiredElements<
 export type DropVariadicTail<
     T extends readonly unknown[]
 > = HasVariadicTail<T> extends true
-? Slice<T, 0, GetNonVariadicLength<T>>
-: T;
+    ? Slice<T, 0, GetNonVariadicLength<T>>
+    : T;
 
 /**
  * **IsVariadicArray**`<T>`
@@ -266,11 +257,10 @@ export type DropVariadicTail<
  * variadic arrays with fixed type elements versus **wide** array types;
  * both will return `true`
  */
-export type IsVariadicArray<T extends readonly unknown[]> =
-  number extends T['length']
-    ? true
-    : false;
-
+export type IsVariadicArray<T extends readonly unknown[]>
+  = number extends T["length"]
+      ? true
+      : false;
 
 /**
  * **DropVariadicHead**`<T>`
@@ -284,15 +274,14 @@ export type IsVariadicArray<T extends readonly unknown[]> =
  * type Test = ExcludeVariadicHead<[...string[], string, number?]>;
  * ```
  */
-export type DropVariadicHead<T extends readonly unknown[]> =
-SplitAtVariadic<T> extends [infer Prefix extends readonly unknown[], infer Suffix extends readonly unknown[]]
+export type DropVariadicHead<T extends readonly unknown[]>
+= SplitAtVariadic<T> extends [infer Prefix extends readonly unknown[], infer Suffix extends readonly unknown[]]
     ? IsVariadicArray<Prefix> extends true
-      ? HasFixedHead<Prefix> extends false
-        ? Suffix
+        ? HasFixedHead<Prefix> extends false
+            ? Suffix
+            : T
         : T
-      : T
     : never;
-
 
 /**
  * **DropVariadic**`<T>`
@@ -309,28 +298,28 @@ SplitAtVariadic<T> extends [infer Prefix extends readonly unknown[], infer Suffi
  *
  * **Related:** `DropVariadicHead`, `DropVariadicTail`, `IsVariadicArray`
  */
-export type DropVariadic<T extends readonly unknown[]> =
-HasVariadicHead<T> extends true
+export type DropVariadic<T extends readonly unknown[]>
+= HasVariadicHead<T> extends true
     ? DropVariadicHead<T>
-: HasVariadicTail<T> extends true
-    ? DropVariadicTail<T>
-: HasVariadicInterior<T> extends true
-    ? SplitAtVariadic<T> extends [ ...infer Head, ...infer Tail ]
-        ? IsVariadicArray<Head> extends true
-            ? HasVariadicHead<Head> extends true
-                ? [ ...DropVariadicHead<Head>, ...Tail ]
-            : HasVariadicTail<Head> extends true
-                ? [ ...DropVariadicTail<Head>, ...Tail ]
-            : never
-        : IsVariadicArray<Tail> extends true
-            ? HasVariadicHead<Tail> extends true
-                ? [ ...Head, ...DropVariadicHead<Tail> ]
-            : HasVariadicTail<Tail> extends true
-                ? [ ...Head, ...DropVariadicTail<Tail> ]
-            : never
-        : T
-    : T
-: T;
+    : HasVariadicTail<T> extends true
+        ? DropVariadicTail<T>
+        : HasVariadicInterior<T> extends true
+            ? SplitAtVariadic<T> extends [ ...infer Head, ...infer Tail ]
+                ? IsVariadicArray<Head> extends true
+                    ? HasVariadicHead<Head> extends true
+                        ? [ ...DropVariadicHead<Head>, ...Tail ]
+                        : HasVariadicTail<Head> extends true
+                            ? [ ...DropVariadicTail<Head>, ...Tail ]
+                            : never
+                    : IsVariadicArray<Tail> extends true
+                        ? HasVariadicHead<Tail> extends true
+                            ? [ ...Head, ...DropVariadicHead<Tail> ]
+                            : HasVariadicTail<Tail> extends true
+                                ? [ ...Head, ...DropVariadicTail<Tail> ]
+                                : never
+                        : T
+                : T
+            : T;
 
 /**
  * **VariadicType**`<T>`
@@ -349,15 +338,13 @@ export type VariadicType<
     T extends readonly unknown[],
     R extends readonly unknown[] = [...T]
 > = IsVariadicArray<R> extends true
-? HasVariadicHead<R> extends true
-    ? R extends [...infer Head, ...DropVariadicHead<R>]
-        ? Head
-        : never
-: HasVariadicTail<R> extends true
-    ? R extends [...DropVariadicTail<R>, ...infer Tail]
-        ? Tail
-        : never
-    : never
-: never;
-
-
+    ? HasVariadicHead<R> extends true
+        ? R extends [...infer Head, ...DropVariadicHead<R>]
+            ? Head
+            : never
+        : HasVariadicTail<R> extends true
+            ? R extends [...DropVariadicTail<R>, ...infer Tail]
+                ? Tail
+                : never
+            : never
+    : never;

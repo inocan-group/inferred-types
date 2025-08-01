@@ -8,7 +8,7 @@ import type {
 type Process<
     TText extends string,
     TFind extends string,
-    TReplace extends (string|number|boolean),
+    TReplace extends (string | number | boolean),
 > = TText extends ""
     ? If<IsEqual<TFind, "">, TReplace, "">
     : TFind extends ""

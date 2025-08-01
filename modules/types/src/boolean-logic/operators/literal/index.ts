@@ -26,4 +26,3 @@ export * from "./IsWideNumber";
 export * from "./IsWideObject";
 export * from "./IsWideScalar";
 export * from "./IsWideString";
-

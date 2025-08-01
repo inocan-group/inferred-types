@@ -13,24 +13,24 @@ We call this form of templating as literal templating and you'll find several ty
 Beyond static templating, this repo introduces what we're calling **static templating**. Static templating attempts to address a few shortcomings found in literal templates:
 
 - **Runtime**
-  - A static template can be defined and used in the _runtime system_ rather than only living in the _type system_ and being invisible at runtime.
+    - A static template can be defined and used in the _runtime system_ rather than only living in the _type system_ and being invisible at runtime.
 - **Boolean Unions**
-  - Unions are a powerful feature of Typescript but they can be deadly too in terms of blowing up type complexity
-  - unfortunately the `${boolean}` literal is a sneaky bastard and is immediately converted to a union type
-  - sometimes this is fine, possibly desirable, but often it is the beginning of a messy union problem
+    - Unions are a powerful feature of Typescript but they can be deadly too in terms of blowing up type complexity
+    - unfortunately the `${boolean}` literal is a sneaky bastard and is immediately converted to a union type
+    - sometimes this is fine, possibly desirable, but often it is the beginning of a messy union problem
 - **Advanced Features**
-  - by avoiding unwanted unions and providing a shared awareness of template semantics to both runtime and design/type systems we can do more interesting and useful things
-  - more on this later
+    - by avoiding unwanted unions and providing a shared awareness of template semantics to both runtime and design/type systems we can do more interesting and useful things
+    - more on this later
 
 ### What is a Static Template?
 
 Let's start with an easy to understand mapping between literal and static templates:
 
-| Literal     | Static       |
-| ---         | ---          |
-| `${string}` | `{{string}}` |
-| `${number}` | `{{number}}` |
-| `${boolean}`| `{{boolean}}`|
+| Literal      | Static        |
+| ------------ | ------------- |
+| `${string}`  | `{{string}}`  |
+| `${number}`  | `{{number}}`  |
+| `${boolean}` | `{{boolean}}` |
 
 Now it's true that the **static** equivalents initially mean _nothing_ to the type or runtime systems:
 
@@ -141,11 +141,6 @@ To start understanding what is being unlocked, let move onto the next section wh
     When given a string that _extends_ the template, we return a tuple of the dynamic values found in the template.
 
     > In many ways, the `infer` function is the inverse of the base function:
+    >
     > - in the base you provide only the data needed to _complete_ the template,
     > - with `infer` you provide a completed template string and _extract_ the dynamic parts.
-
-
-
-
-
-

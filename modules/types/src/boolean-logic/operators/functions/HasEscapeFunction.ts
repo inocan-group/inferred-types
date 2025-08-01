@@ -1,6 +1,4 @@
-import { Api, Dictionary, GetEscapeFunction, TypedFunction } from "inferred-types/types";
-
-
+import type { Api, Dictionary, GetEscapeFunction, TypedFunction } from "inferred-types/types";
 
 /**
  * **HasEscapeFunction**`<T>`

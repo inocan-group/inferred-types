@@ -26,16 +26,16 @@ type CompareTuple<
             ? [TContent[K]] extends [TComparator]
                 ? true
                 : false
-        : Or<[
-            IsNull<TComparator>,
-            IsNull<TContent[K]>,
-            IsUndefined<TComparator>,
-            IsUndefined<TContent[K]>
-        ]> extends true
-            ? IsEqual<TContent[K],TComparator>
-            : [TContent[K]] extends [TComparator]
-                ? true
-                : false
+            : Or<[
+                IsNull<TComparator>,
+                IsNull<TContent[K]>,
+                IsUndefined<TComparator>,
+                IsUndefined<TContent[K]>
+            ]> extends true
+                ? IsEqual<TContent[K], TComparator>
+                : [TContent[K]] extends [TComparator]
+                    ? true
+                    : false
 }>;
 
 /**

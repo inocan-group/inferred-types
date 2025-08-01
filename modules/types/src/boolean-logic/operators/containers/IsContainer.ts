@@ -8,13 +8,13 @@ import type { AnyFunction, IsNever } from "inferred-types/types";
  */
 export type IsContainer<T> = [IsNever<T>] extends [true]
     ? false
-: [T] extends [null | undefined]
-    ? false
-: [T] extends [AnyFunction]
-    ? false
-: [T] extends [readonly any[]]
-    ? true
-: [T] extends [object]
-    ? true
+    : [T] extends [null | undefined]
+        ? false
+        : [T] extends [AnyFunction]
+            ? false
+            : [T] extends [readonly any[]]
+                ? true
+                : [T] extends [object]
+                    ? true
 
-: false;
+                    : false;

@@ -1,17 +1,14 @@
 import type {
+    DefineModifiers,
+    DropVariadic,
+    HasModifier,
+    HasVariadicTail,
     IsAny,
     IsNever,
-    And,
-    DefineModifiers,
-    IsLiteral,
-    TypedFunction,
-    HasModifier,
-    DropVariadic,
-    HasVariadicTail,
+    IsUnknown,
     TupleMeta,
-    IsUnknown
+    TypedFunction
 } from "inferred-types/types";
-
 
 export type LiteralFnModifiers = DefineModifiers<["allow-variadic-tail"]>;
 
@@ -20,8 +17,8 @@ type Params<T extends TypedFunction, U extends LiteralFnModifiers> = HasModifier
         ? HasVariadicTail<Parameters<T>> extends true
             ? DropVariadic<Parameters<T>>
             : Parameters<T>
-    : Parameters<T>
-: Parameters<T>;
+        : Parameters<T>
+    : Parameters<T>;
 
 /**
  * **IsLiteralFn**`<T>`
@@ -41,18 +38,17 @@ type Params<T extends TypedFunction, U extends LiteralFnModifiers> = HasModifier
  * - `IsStaticFn`, `IsNarrowingFn`
  */
 export type IsLiteralFn<T, U extends LiteralFnModifiers = null> = [IsAny<T>] extends [true]
-  ? false
-  : [IsNever<T>] extends [true]
-  ? false
-  : T extends TypedFunction
-    ? TupleMeta<Params<T,U>>["isVariadic"] extends true
+    ? false
+    : [IsNever<T>] extends [true]
         ? false
-        : IsUnknown<ReturnType<T>> extends true
-            ? false
-        : IsAny<ReturnType<T>> extends true
-            ? false
-        : IsNever<ReturnType<T>> extends true
-            ? false
-        : true
-    : false;
-
+        : T extends TypedFunction
+            ? TupleMeta<Params<T, U>>["isVariadic"] extends true
+                ? false
+                : IsUnknown<ReturnType<T>> extends true
+                    ? false
+                    : IsAny<ReturnType<T>> extends true
+                        ? false
+                        : IsNever<ReturnType<T>> extends true
+                            ? false
+                            : true
+            : false;

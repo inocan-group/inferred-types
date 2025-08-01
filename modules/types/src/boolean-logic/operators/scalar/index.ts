@@ -1,9 +1,9 @@
+export * from "./boolean/index";
 export * from "./IsNull";
 export * from "./IsScalar";
 export * from "./IsSymbol";
-export * from "./IsUndefined";
 
-export * from "./string/index"
-export * from "./boolean/index"
-export * from "./numeric/index"
-export * from "./symbol/index"
+export * from "./IsUndefined";
+export * from "./numeric/index";
+export * from "./string/index";
+export * from "./symbol/index";

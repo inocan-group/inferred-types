@@ -8,15 +8,14 @@ import type { HasVariadicTail, IsAny, IsEqual, IsNever, TupleMeta } from "inferr
  * `string[]`, `number[]`, `(string | number)[]`).
  */
 export type IsWideArray<T> = [IsAny<T>] extends [true]
-? false
-: [IsNever<T>] extends [true]
-? false
+    ? false
+    : [IsNever<T>] extends [true]
+        ? false
 
-: T extends readonly unknown[]
-    ? IsEqual<T["length"], number> extends true
-        ? HasVariadicTail<T> extends true
-            ? false
-            : true
-        : false
-    : false;
-
+        : T extends readonly unknown[]
+            ? IsEqual<T["length"], number> extends true
+                ? HasVariadicTail<T> extends true
+                    ? false
+                    : true
+                : false
+            : false;

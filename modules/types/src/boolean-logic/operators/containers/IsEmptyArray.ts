@@ -1,4 +1,4 @@
-import { GetNonVariadicLength } from "types/lists";
+import type { GetNonVariadicLength } from "types/lists";
 
 /**
  * Boolean operator which tests `T` for whether it is an array
@@ -15,5 +15,3 @@ export type IsEmptyArray<T> = T extends any[]
             ? true
             : false
     : false;
-
-

@@ -11,16 +11,16 @@ type GetValues<
     TObj extends object,
     TKeys extends readonly PropertyKey[],
     TResult extends readonly unknown[] = []
->= [] extends TKeys
-? TResult
-: GetValues<
-    TObj,
-    AfterFirst<TKeys>,
-    First<TKeys> extends keyof TObj
-    ? [ ...TResult, TObj[First<TKeys>] ]
-    : never
+> = [] extends TKeys
+    ? TResult
+    : GetValues<
+        TObj,
+        AfterFirst<TKeys>,
+        First<TKeys> extends keyof TObj
+            ? [ ...TResult, TObj[First<TKeys>] ]
+            : never
 
->;
+    >;
 
 /**
  * **Values**`<T>`
@@ -37,4 +37,3 @@ export type Values<
     : IsObject<T> extends true
         ? GetValues<T, As<ObjectKeys<T>, readonly PropertyKey[]>>
         : never;
-

@@ -1,5 +1,4 @@
-import { IsUnion } from "inferred-types/types";
-
+import type { IsUnion } from "inferred-types/types";
 
 /**
  * **IsMixedUnion**`<T>`
@@ -12,6 +11,6 @@ import { IsUnion } from "inferred-types/types";
  * **Related:** `IsLiteralUnion`, `IsNonLiteralUnion`, `IsWideUnion`
  */
 export type IsMixedUnion<T> = IsUnion<T> extends true
-? // TODO
-false
-: false;
+    ? // TODO
+    false
+    : false;

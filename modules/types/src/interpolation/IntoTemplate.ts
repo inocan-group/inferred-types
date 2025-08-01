@@ -77,5 +77,5 @@ type ProcessTemplate<
  */
 export type IntoTemplate<
     TTpl extends string,
-    TArgs extends TemplateParams<TTpl> extends readonly (string|number|boolean)[] ? TemplateParams<TTpl> : []
+    TArgs extends TemplateParams<TTpl> extends readonly (string | number | boolean)[] ? TemplateParams<TTpl> : []
 > = ProcessTemplate<TTpl, TArgs>;

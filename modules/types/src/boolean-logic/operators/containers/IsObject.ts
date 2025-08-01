@@ -1,4 +1,4 @@
-import { IsAny, IsNever, IsUndefined, IsNull } from "inferred-types/types";
+import type { IsAny, IsNever, IsNull, IsUndefined } from "inferred-types/types";
 
 /**
  * **IsObject**`<T>`
@@ -7,12 +7,12 @@ import { IsAny, IsNever, IsUndefined, IsNull } from "inferred-types/types";
  */
 export type IsObject<T> = [IsAny<T>] extends [true]
     ? false
-: [IsNever<T>] extends [true]
-    ? false
-: [IsNull<T>] extends [true]
-    ? false
-: [IsUndefined<T>] extends [true]
-    ? false
-: T extends object
-    ? true
-: false;
+    : [IsNever<T>] extends [true]
+        ? false
+        : [IsNull<T>] extends [true]
+            ? false
+            : [IsUndefined<T>] extends [true]
+                ? false
+                : T extends object
+                    ? true
+                    : false;

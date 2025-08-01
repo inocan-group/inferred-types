@@ -12,6 +12,6 @@ import type {
  */
 export type AllLiteral<T extends readonly unknown[]> = And<{
     [K in keyof T]: IsLiteralLike<T[K]> extends true
-            ? true
-            : false
+        ? true
+        : false
 }>;

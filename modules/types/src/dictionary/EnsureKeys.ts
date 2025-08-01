@@ -1,4 +1,3 @@
-import { IsDictionary } from '../boolean-logic/operators/containers/IsDictionary';
 import type {
     AfterFirst,
     As,
@@ -11,6 +10,7 @@ import type {
     Keys,
     ObjectKey
 } from "inferred-types/types";
+import type { IsDictionary } from "../boolean-logic/operators/containers/IsDictionary";
 
 type BuildObj<
     TObj extends Dictionary,
@@ -104,23 +104,23 @@ export type EnsureKeys<
     TEnsure extends readonly string[] | Dictionary,
     TType = unknown,
 > = [IsWideObject<TObj>] extends [true]
-? IsDictionary<TEnsure> extends true
-    ? TEnsure
+    ? IsDictionary<TEnsure> extends true
+        ? TEnsure
+        : TEnsure extends readonly string[]
+            ? Record<TEnsure[number], unknown>
+            : never
+
     : TEnsure extends readonly string[]
-        ? Record<TEnsure[number], unknown>
-        : never
+        ? BuildObj<
+            TObj,
+            TEnsure,
+            TType,
+            TEnsure
+        >
 
-: TEnsure extends readonly string[]
-    ? BuildObj<
-        TObj,
-        TEnsure,
-        TType,
-        TEnsure
-    >
-
-    : BuildObj<
-        TObj,
-        TEnsure,
-        TType,
-        As<Keys<TEnsure>, readonly ObjectKey[]>
-    >;
+        : BuildObj<
+            TObj,
+            TEnsure,
+            TType,
+            As<Keys<TEnsure>, readonly ObjectKey[]>
+        >;

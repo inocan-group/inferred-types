@@ -8,5 +8,5 @@ import type { IsAny, IsEqual, IsNever } from "types/boolean-logic";
 export type IsUnknown<T> = [IsNever<T>] extends [true]
     ? false
     : [IsAny<T>] extends [true]
-    ? false
-    : IsEqual<T, unknown> extends true ? true : false;
+        ? false
+        : IsEqual<T, unknown> extends true ? true : false;

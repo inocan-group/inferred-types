@@ -22,7 +22,7 @@ export * from "./IsEqual";
 export * from "./IsLength";
 export * from "./IsNotEqual";
 export * from "./IsNothing";
-export * from './IsOptional';
+export * from "./IsOptional";
 export * from "./IsRequired";
 export * from "./IsUnknown";
 export * from "./IsUnset";
@@ -32,4 +32,3 @@ export * from "./NotEqual";
 export * from "./NotLength";
 export * from "./SomeEqual";
 export * from "./SomeExtend";
-
